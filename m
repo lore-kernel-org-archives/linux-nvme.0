@@ -4,123 +4,109 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3013CC77B7F
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 May 2023 10:03:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4254C77B7F
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 May 2023 10:06:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OKhd9yhd0Kzyd/2edlBmu79oNc0LJJaxjWsUcWASZWQ=; b=roYWwCbX/phNwuQU0bXxJDdBcb
-	8FP+A1rVnp+z3V9GgoSHFCBqH0vMKzMZKmA3S3pRnbAeLc4Sdb7hqB/HOQj6nubHEI5R2pHpChcOW
-	1tw4mi+FN6oKf+fqCdYau8RZCwWPpM1/8Rt2Q8jWMMSmjayL5zqx1AJ3bi2yfl99rhobiwPEdlFl6
-	WqsJQC6+XYiAoVU2geuv4/ujx+ygsO1dGeouiltcTlyYSPYHUhQyuJ5PMEg+HzNhpkos9wN3coTl4
-	MGjg0/osviDc8QX5nYPPegSIhUj4/zbJwZAsxmg0QUEvtPLxGeZnma/uPosUWnBFgVfQBYjHOYN7Z
-	APk3Ajcw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=kI0/HvN8bWzzOa7OKU2SXhVPp7OGzQLe1pbDbxD2SEI=; b=cE90xrWbdtg47NDo41QAEscfKs
+	tMNYz+WumcycZMDIghAIx+lDvZWNdyhXQImxcPBmpAH+eRx8dMK2RHivDOnNiPrbRuDeaoQyltqyO
+	YVz6mYoYrg0KwFI/d5PLU7wvrNoxbUEFuD30qptUVHhFvgq1X7kx75bJWGljvNWLdLFSODQCGLQrP
+	hmNs41sJBTlAac/+uhrpJA9aTMQneczy+hbzh4YTDeci4VjEDnisNkHunI7IjFWTuyTweHAPpohQ6
+	CwVy+LHIEJ2WY4xLDCBvLcAaPGrQZkIBVI9HljldUJtAGDVuMuImD/WUHMRfDnfdOWGdRn022uQKs
+	Xp7ygzNA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pyrWm-005BGY-0Z;
-	Tue, 16 May 2023 10:03:32 +0000
-Received: from mailout3.samsung.com ([203.254.224.33])
+	id 1pyrZi-005BrW-06;
+	Tue, 16 May 2023 10:06:34 +0000
+Received: from mail-dm3nam02on20626.outbound.protection.outlook.com ([2a01:111:f400:7e83::626] helo=NAM02-DM3-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pyrWg-005BE8-02
+	id 1pyrZe-005BqV-2C
 	for linux-nvme@lists.infradead.org;
-	Tue, 16 May 2023 10:03:30 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20230516100316epoutp03cbb92824408dc1d68c679bfd19dfa1a2~fl4g4q8oI0547105471epoutp03V
-	for <linux-nvme@lists.infradead.org>; Tue, 16 May 2023 10:03:16 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20230516100316epoutp03cbb92824408dc1d68c679bfd19dfa1a2~fl4g4q8oI0547105471epoutp03V
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1684231397;
-	bh=OKhd9yhd0Kzyd/2edlBmu79oNc0LJJaxjWsUcWASZWQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=fDGu8NqRoW3JEaP9XBCtEWzO+us4zwPo4gl+CtcLjDnFPVuR7k8jJ3imxuKbniDKS
-	 LCBw1oCgY+++kLqvzsJLglrI5AII3FjrgWq3EInkOt0trvFS+jwmZmIoDceTXN+Dqn
-	 ruWKmF6Zc2UxV0wxLRU+TDo31LLlH88OhaHg7Zc8=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20230516100315epcas5p40cffefaf5d5210380d7553ddffb6a46f~fl4f9gLQ10916609166epcas5p4-;
-	Tue, 16 May 2023 10:03:15 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.177]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4QLBdG5RX2z4x9Pt; Tue, 16 May
-	2023 10:03:14 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	1F.18.57769.1E453646; Tue, 16 May 2023 19:03:13 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20230516100312epcas5p15a8ff75ad757f14f327efb816e92adb4~fl4cpkpYZ1510915109epcas5p1x;
-	Tue, 16 May 2023 10:03:12 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20230516100312epsmtrp2d9382f57c861cf88d3af9ce6e402a2aa~fl4co2wwt0326403264epsmtrp2Y;
-	Tue, 16 May 2023 10:03:12 +0000 (GMT)
-X-AuditID: b6c32a4a-f3bfd7000001e1a9-a1-646354e15cd5
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	AE.80.27706.0E453646; Tue, 16 May 2023 19:03:12 +0900 (KST)
-Received: from green245 (unknown [107.99.41.245]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20230516100311epsmtip28c9dca6cafca342d700265ce9b52b519~fl4bYJKao3194931949epsmtip2d;
-	Tue, 16 May 2023 10:03:10 +0000 (GMT)
-Date: Tue, 16 May 2023 15:30:11 +0530
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	io-uring@vger.kernel.org, axboe@kernel.dk, kbusch@kernel.org, hch@lst.de,
-	sagi@grimberg.me
-Subject: Re: [PATCH for-next 1/2] io_uring/cmd: add cmd lazy tw wake helper
-Message-ID: <20230516100000.GA26860@green245>
+	Tue, 16 May 2023 10:06:32 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JhtNhZpVhQZ4KiXlWJT3Ek4lec/pY8kioykGl4sWQvoFuL2gxA4VXsdTonAF/7BfQ/8dskMNX9q+Pky8zxXfjXGN2bKetjsBNbSaq02vojJkAydJ9ejk7MQVlzjCdVTGUjwkhl6gLzlEATnW7iDN0dMoLGOc21kKFQfK5d4gM/5TUueTTkPwshESXyCPrGvZp0cwYvZjWlAK/UGwmuPxofJ/gqQjI2vUgBpWBvEIFgwt9OCCOI2WQvIRfBNGTYOy6JnPW/WAnzcnndwMRFSJs0D0/m57+D0GZvEHacwRjFNZmqMyz7nkwAl2F6P4D2RhbHM/sIMB2v55PAbd6HJHiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kI0/HvN8bWzzOa7OKU2SXhVPp7OGzQLe1pbDbxD2SEI=;
+ b=ZThOlet/DPeQyFl3n/EYKqGEAkrporJ95yIWIs2zKHRLmpMSpuGhlka5gWcg0/JGLMMywQScyI/20D4ca/lrqKGaF7yc207lJlLiiLdNmrhYHu+LufzgDq++7H1m6+vV99+dxp0LguGhV3iEmQpS5ol/LgZmFnltREienOmu/YgurensptR3vkN74gzQgy5oQfq7xSs4LjDSbkTwA/KAfYZcXJHoGlIoQrJF6nw0Gda0eNJefCxbcV/bo/NI/Tmr0FDpl563hqZoVVO+5O+JvkWGZC0GOrFA1AZIptdcxr4WmDNIx0/J2kIOvuv3P1UhlZk5kXOypYOD2ONb/mLVxg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=suse.de smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kI0/HvN8bWzzOa7OKU2SXhVPp7OGzQLe1pbDbxD2SEI=;
+ b=If8WJnFemKLBBJsphOiQ+fCRDAelcRfsDqvjZJL0L7WiHDCQf5iHy+vNei2jbR3Ox/4G56tXy3g5a6pLq5lzznRzv/s1qkiaBRNoK2RtRM92SENwuUUcX6ndptK1O8GnZEBdLajywNCqWu+YAIe9mKQY08Ip9AEZ2R8nNJIVyLMwC/lJgv93L6WnpD9EzKHklAAmhNJVi0l4xPn9iRx8mDQgiq9v05M618ZeyuNKIeLUgRdbUryiMIgtN7677e64AeMDV1mcuCZi1zOfVfgpBkHPZLdbFUEN3W5b7JgpLSK6mldfnAkawtVlHrW3SbzUdFqP8QmgjJs+HycytCwV/A==
+Received: from BYAPR07CA0030.namprd07.prod.outlook.com (2603:10b6:a02:bc::43)
+ by SA1PR12MB8887.namprd12.prod.outlook.com (2603:10b6:806:386::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.30; Tue, 16 May
+ 2023 10:06:26 +0000
+Received: from DM6NAM11FT115.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:a02:bc:cafe::6) by BYAPR07CA0030.outlook.office365.com
+ (2603:10b6:a02:bc::43) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.30 via Frontend
+ Transport; Tue, 16 May 2023 10:06:25 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ DM6NAM11FT115.mail.protection.outlook.com (10.13.173.33) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6411.15 via Frontend Transport; Tue, 16 May 2023 10:06:25 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Tue, 16 May 2023
+ 03:06:14 -0700
+Received: from dev.nvidia.com (10.126.231.37) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.37; Tue, 16 May
+ 2023 03:06:13 -0700
+From: Chaitanya Kulkarni <kch@nvidia.com>
+To: <hare@suse.de>
+CC: <kbusch@kernel.org>, <hch@lst.de>, <sagi@grimberg.me>,
+	<linux-nvme@lists.infradead.org>, Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH 0/3] nvme-core: dhchap_secret code cleanup
+Date: Tue, 16 May 2023 03:06:02 -0700
+Message-ID: <20230516100605.53712-1-kch@nvidia.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-In-Reply-To: <5b9f6716006df7e817f18bd555aee2f8f9c8b0c3.1684154817.git.asml.silence@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBJsWRmVeSWpSXmKPExsWy7bCmlu7DkOQUg9PfNC3mrNrGaLH6bj+b
-	xcrVR5ks3rWeY7GYdOgao8XeW9oW85c9ZbdY9/o9iwOHx85Zd9k9zt/byOJx+Wypx6ZVnWwe
-	m5fUe+y+2cDm8XmTXAB7VLZNRmpiSmqRQmpecn5KZl66rZJ3cLxzvKmZgaGuoaWFuZJCXmJu
-	qq2Si0+ArltmDtBJSgpliTmlQKGAxOJiJX07m6L80pJUhYz84hJbpdSClJwCkwK94sTc4tK8
-	dL281BIrQwMDI1OgwoTsjAtHHzIWPFGqeLL5JWMDY6NcFyMnh4SAicSB2zdYQGwhgd2MEo8a
-	/LoYuYDsT4wSLVvWMkE43xglpt6fwQrT8bZlKRtEYi+jxKIHE6HanzFKnH5VCWKzCKhKXJn3
-	AqiIg4NNQFPiwuRSkLCIgLbE6+uH2EFsZoH5QOWPuUFsYQFviUeXXzCD2LwCuhL792xihLAF
-	JU7OfAI2nlMgVuLatx9gvaICyhIHth0HO05CYCqHxO4129ggjnORWDh7BTuELSzx6vgWKFtK
-	4vO7vVA1yRKXZp5jgrBLJB7vOQhl20u0nupnhjguQ2LbjT2MEDafRO/vJ0wgv0gI8Ep0tAlB
-	lCtK3Jv0FBom4hIPZyxhhSjxkNi1kg8SPA8YJVov3GGfwCg3C8k7s5BsgLCtJDo/NLHOAmpn
-	FpCWWP6PA8LUlFi/S38BI+sqRsnUguLc9NRi0wKjvNRyeAwn5+duYgQnUS2vHYwPH3zQO8TI
-	xMF4iFGCg1lJhLd9ZnyKEG9KYmVValF+fFFpTmrxIUZTYOxMZJYSTc4HpvG8knhDE0sDEzMz
-	MxNLYzNDJXFedduTyUIC6YklqdmpqQWpRTB9TBycUg1MsRe62z/8qwpX17JPlfQ5psrW8HFG
-	7gIugxjT85tNQydvnld0S908yHitvph2xuQfq2LWbhNyOHTZ7+SCMBNbkdu1hjt37bh13bhF
-	73yPtZ212vKvMfVJjwSU1h02WdwpL1ObIKPwMLlsTaH8ZzPLU4ps3zslcqyUkzj2JIR55Kt5
-	h5tuS9ljdyUt0Dq9NP7UBXb+9u+LzDlzr5w+pukS1PrQKEFoi++Snyk9LHGlxoHxKtlNvpcd
-	v2m462ZdVgm5vfjn8nWNR4/Fvo3ybM1dKrn61sLeE6XnrTZsstu3fWaG/U7l9WcmruIJmKPf
-	cXDutHiXJPcPutZTXuZ01letdbgezbvm3Mn0mWc+XVJiKc5INNRiLipOBAC8r5w3KwQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrJLMWRmVeSWpSXmKPExsWy7bCSvO6DkOQUg5OfxCzmrNrGaLH6bj+b
-	xcrVR5ks3rWeY7GYdOgao8XeW9oW85c9ZbdY9/o9iwOHx85Zd9k9zt/byOJx+Wypx6ZVnWwe
-	m5fUe+y+2cDm8XmTXAB7FJdNSmpOZllqkb5dAlfGxRuLWAqmKVRM6HnA3sB4VrqLkZNDQsBE
-	4m3LUrYuRi4OIYHdjBLXWjcyQyTEJZqv/WCHsIUlVv57zg5R9IRRYsb9f4wgCRYBVYkr814A
-	dXNwsAloSlyYXAoSFhHQlnh9/RBYPbPAfEaJl19us4IkhAW8JR5dfgG2gFdAV2L/nk1gc4QE
-	HjBKnPkgDREXlDg58wkLiM0sYCYxb/NDZpD5zALSEsv/cYCEOQViJa59g7hNVEBZ4sC240wT
-	GAVnIemehaR7FkL3AkbmVYySqQXFuem5xYYFhnmp5XrFibnFpXnpesn5uZsYwbGhpbmDcfuq
-	D3qHGJk4GA8xSnAwK4nwts+MTxHiTUmsrEotyo8vKs1JLT7EKM3BoiTOe6HrZLyQQHpiSWp2
-	ampBahFMlomDU6qBKalu7q1tvFKHn384IHPaKud4nUvE+3OmPTIBD7d2X838FjBz+cZlc2ob
-	Vv++FOrb/su0Ian0rfBh5qaNTf+3CXY9X8U992zmv4D79mZ6+dZMIbkRb9quffL//uJByelX
-	hWETt1XeMBNe6nEsr3zR84cqzFnMW6OC7/v9eJSZuXmF8ILkHf90pPhTZV4/Wy/rr2a1qq76
-	568LH5k+J0dkXDBbcWjznP9Tf/xq2vn8+ZbUj4ZTagMyUrzeV4ZvrKjk/F/uqrds380pptsW
-	/TC3e3bugMLpKy5zty+6H/SnxzuNQ5lLlH/dJtWu43PONRSycMUlvKy7FKmzIPxbAZdylPZH
-	oS8fj5v8Y9pr/bRTvUGJpTgj0VCLuag4EQAb3Iu7/AIAAA==
-X-CMS-MailID: 20230516100312epcas5p15a8ff75ad757f14f327efb816e92adb4
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----w2jaHPLYrpKrCfQkcJ8LedpAWTKxgBVMFdZj2Hgt3-WHfK.r=_96701_"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230515125841epcas5p3e3cba6545755e95739e1561222b00b4a
-References: <cover.1684154817.git.asml.silence@gmail.com>
-	<CGME20230515125841epcas5p3e3cba6545755e95739e1561222b00b4a@epcas5p3.samsung.com>
-	<5b9f6716006df7e817f18bd555aee2f8f9c8b0c3.1684154817.git.asml.silence@gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.126.231.37]
+X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT115:EE_|SA1PR12MB8887:EE_
+X-MS-Office365-Filtering-Correlation-Id: a6fe889d-cdb9-4331-32cf-08db55f5359b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	O64iLBYqMvnrzrnSEf8iYL77yhdNOvK4BmqLYCsawJ3pPbxAuVwxlnY0k0Jxj2VVCrvSnyMvjadv8CAjiWCagE55sH5wSsIhTTGoohkjUL7ncpBzIGbBYWdct+5AJxU7kkEUsJFv4+Zsx2/PR6hsC4uI+P2QCOpndCsJfX8dePv52gj/mAbajMzAnYo2fDvA58Um0b9x13cIHGtfntPIreCGNzNXCYT1MdlQpFqpringw07EOAO7DKlpoFWGq/3MMa2S78tdmz+wfKKI3lwc48vT0XQQbgiIt/mkD8SxHnenlUqLmkuASKeGaPgxb3neBu8bQO/0KNq+WPktiTTGRnBegnZEvd9TvHwRBsG/UzIwGyhmPE/C0MHVrbidjyJxwmi856r1ZpYsN0onKgR47Ea/Mg0qhKb4qzYzrQMIfGUNFsac0ZWAK6If2Euy11NYpIALO1S5UZYanIuVtMWaJbm99WwZrn1YuGatGAKQoZlOwRzkH3kgdNgOK3h9WifXWDL0j43NOlbHuGb7G1i4aZ7BwVq03NkKOLHLGUqEDFOcaYQCRIGkfF6dRNleDZXMw0+5iAWSb4ybRu3rF8PDRTbacA36P1wsxaN5e54yqYAztCkGsWsiXSTtx7KzzmFpSoYBXtqciuDYshhj4h1JyWJmrDXJeeHApGkA/LWkK+NcPszw1waA80sY3+xCSkTNv2rfiHRFJk8S5BKKbwmhuVp8VwM8te2DLhC4UIKTMpxHJvleTx+ed+IdnPuaT3yeBq7zScID4gg4sIf0f70QFA==
+X-Forefront-Antispam-Report: 	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230028)(4636009)(376002)(39860400002)(136003)(396003)(346002)(451199021)(46966006)(36840700001)(40470700004)(356005)(2616005)(26005)(107886003)(36860700001)(82740400003)(7636003)(336012)(426003)(47076005)(186003)(1076003)(83380400001)(16526019)(40480700001)(2906002)(8676002)(41300700001)(5660300002)(8936002)(36756003)(478600001)(7696005)(70586007)(70206006)(6666004)(6916009)(316002)(82310400005)(40460700003)(54906003)(4326008)(219293001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2023 10:06:25.6206
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a6fe889d-cdb9-4331-32cf-08db55f5359b
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: 	DM6NAM11FT115.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8887
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230516_030326_708232_ACF591E3 
-X-CRM114-Status: GOOD (  17.54  )
+X-CRM114-CacheID: sfid-20230516_030630_766684_50F121DC 
+X-CRM114-Status: GOOD (  11.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,109 +121,210 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------w2jaHPLYrpKrCfQkcJ8LedpAWTKxgBVMFdZj2Hgt3-WHfK.r=_96701_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+Hi,
 
-On Mon, May 15, 2023 at 01:54:42PM +0100, Pavel Begunkov wrote:
->We want to use IOU_F_TWQ_LAZY_WAKE in commands. First, introduce a new
->cmd tw helper accepting TWQ flags, and then add
->io_uring_cmd_do_in_task_laz() that will pass IOU_F_TWQ_LAZY_WAKE and
->imply the "lazy" semantics, i.e. it posts no more than 1 CQE and
->delaying execution of this tw should not prevent forward progress.
->
->Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
->---
-> include/linux/io_uring.h | 18 ++++++++++++++++--
-> io_uring/uring_cmd.c     | 16 ++++++++++++----
-> 2 files changed, 28 insertions(+), 6 deletions(-)
->
->diff --git a/include/linux/io_uring.h b/include/linux/io_uring.h
->index 7fe31b2cd02f..bb9c666bd584 100644
->--- a/include/linux/io_uring.h
->+++ b/include/linux/io_uring.h
->@@ -46,13 +46,23 @@ int io_uring_cmd_import_fixed(u64 ubuf, unsigned long len, int rw,
-> 			      struct iov_iter *iter, void *ioucmd);
-> void io_uring_cmd_done(struct io_uring_cmd *cmd, ssize_t ret, ssize_t res2,
-> 			unsigned issue_flags);
->-void io_uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
->-			void (*task_work_cb)(struct io_uring_cmd *, unsigned));
-> struct sock *io_uring_get_socket(struct file *file);
-> void __io_uring_cancel(bool cancel_all);
-> void __io_uring_free(struct task_struct *tsk);
-> void io_uring_unreg_ringfd(void);
-> const char *io_uring_get_opcode(u8 opcode);
->+void __io_uring_cmd_do_in_task(struct io_uring_cmd *ioucmd,
->+			    void (*task_work_cb)(struct io_uring_cmd *, unsigned),
->+			    unsigned flags);
->+/* users should follow semantics of IOU_F_TWQ_LAZY_WAKE */
+Refactor code to avoid duplication and improve maintainability:
 
-Should this also translate to some warn_on anywhere?
->+void io_uring_cmd_do_in_task_lazy(struct io_uring_cmd *ioucmd,
->+			void (*task_work_cb)(struct io_uring_cmd *, unsigned));
->+
->+static inline void io_uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
->+			void (*task_work_cb)(struct io_uring_cmd *, unsigned))
->+{
->+	__io_uring_cmd_do_in_task(ioucmd, task_work_cb, 0);
->+}
->
-> static inline void io_uring_files_cancel(void)
-> {
->@@ -85,6 +95,10 @@ static inline void io_uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
-> 			void (*task_work_cb)(struct io_uring_cmd *, unsigned))
-> {
-> }
->+static inline void io_uring_cmd_do_in_task_lazy(struct io_uring_cmd *ioucmd,
->+			void (*task_work_cb)(struct io_uring_cmd *, unsigned))
->+{
->+}
-> static inline struct sock *io_uring_get_socket(struct file *file)
-> {
-> 	return NULL;
->diff --git a/io_uring/uring_cmd.c b/io_uring/uring_cmd.c
->index 5e32db48696d..476c7877ce58 100644
->--- a/io_uring/uring_cmd.c
->+++ b/io_uring/uring_cmd.c
->@@ -20,16 +20,24 @@ static void io_uring_cmd_work(struct io_kiocb *req, struct io_tw_state *ts)
-> 	ioucmd->task_work_cb(ioucmd, issue_flags);
-> }
->
->-void io_uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
->-			void (*task_work_cb)(struct io_uring_cmd *, unsigned))
->+void __io_uring_cmd_do_in_task(struct io_uring_cmd *ioucmd,
->+			void (*task_work_cb)(struct io_uring_cmd *, unsigned),
->+			unsigned flags)
-> {
-> 	struct io_kiocb *req = cmd_to_io_kiocb(ioucmd);
->
-> 	ioucmd->task_work_cb = task_work_cb;
-> 	req->io_task_work.func = io_uring_cmd_work;
->-	io_req_task_work_add(req);
->+	__io_req_task_work_add(req, flags);
->+}
->+EXPORT_SYMBOL_GPL(__io_uring_cmd_do_in_task);
+Consolidate the shared code between the functions
+nvme_ctrl_dhchap_secret_store() and
+nvme_ctrl_dhchap_ctrl_secret_store(). This duplication not only
+increases the likelihood of bugs but also requires additional effort for 
+maintenance and testing.
 
-Any reason to export this? No one is using this at the moment.
->+void io_uring_cmd_do_in_task_lazy(struct io_uring_cmd *ioucmd,
->+			void (*task_work_cb)(struct io_uring_cmd *, unsigned))
->+{
->+	__io_uring_cmd_do_in_task(ioucmd, task_work_cb, IOU_F_TWQ_LAZY_WAKE);
-> }
->-EXPORT_SYMBOL_GPL(io_uring_cmd_complete_in_task);
->+EXPORT_SYMBOL_GPL(io_uring_cmd_do_in_task_lazy);
+Introduce a new generic helper function called
+nvme_dhchap_secret_store_common() to handle the storage of the
+dhchap secret. This helper function will be used by both
+nvme_ctrl_dhchap_secret_store() and
+nvme_ctrl_dhchap_ctrl_secret_store().
 
-Seems you did not want callers to pass the the new flag (LAZY_WAKE) and
-therefore this helper.
-And if you did not want callers to know about this flag (internal
-details of io_uring), it would be better to have two exported helpers
-io_uring_cmd_do_in_task_lazy() and io_uring_cmd_complete_in_task().
-Both will use the internal helper __io_uring_cmd_do_in_task with
-different flag.
+Lastly create a macro to define dhchap attr to remove attribute code
+duplication altogether for dhchap secret and dhchap ctrl secret.
 
-------w2jaHPLYrpKrCfQkcJ8LedpAWTKxgBVMFdZj2Hgt3-WHfK.r=_96701_
-Content-Type: text/plain; charset="utf-8"
+Below are the blktests results.
 
+Full disclosure checkpatch has following warning :-
 
-------w2jaHPLYrpKrCfQkcJ8LedpAWTKxgBVMFdZj2Hgt3-WHfK.r=_96701_--
+WARNING: Symbolic permissions 'S_IRUGO | S_IWUSR' are not preferred. Consider using octal permissions '0644'.
+#62: FILE: drivers/nvme/host/sysfs.c:485:
+
+I purposly did not fix it in this series, I'll send out a separate
+fix for that if there is no objection.
+
+-ck
+
+RFC->V1:
+1. don't use double pointer based approach use bool instead. (Hannes)
+
+Chaitanya Kulkarni (3):
+  nvme: add generic helper to store secret
+  nvme: use generic helper to store ctrl secret
+  nvme-core: use macro defination to define dev attr
+
+ drivers/nvme/host/sysfs.c | 145 +++++++++++++++-----------------------
+ 1 file changed, 55 insertions(+), 90 deletions(-)
+
+Following are the blktests results for nvme-loop and nvme-tcp :-
+blktests (master) # ./check nvme
+nvme/002 (create many subsystems and test discovery)         [passed]
+    runtime  18.996s  ...  19.272s
+nvme/003 (test if we're sending keep-alives to a discovery controller) [passed]
+    runtime  10.085s  ...  10.107s
+nvme/004 (test nvme and nvmet UUID NS descriptors)           [passed]
+    runtime  1.453s  ...  1.440s
+nvme/005 (reset local loopback target)                       [passed]
+    runtime  1.803s  ...  1.773s
+nvme/006 (create an NVMeOF target with a block device-backed ns) [passed]
+    runtime  0.056s  ...  0.060s
+nvme/007 (create an NVMeOF target with a file-backed ns)     [passed]
+    runtime  0.034s  ...  0.032s
+nvme/008 (create an NVMeOF host with a block device-backed ns) [passed]
+    runtime  1.452s  ...  1.464s
+nvme/009 (create an NVMeOF host with a file-backed ns)       [passed]
+    runtime  1.425s  ...  1.461s
+nvme/010 (run data verification fio job on NVMeOF block device-backed ns) [passed]
+    runtime  88.076s  ...  87.321s
+nvme/011 (run data verification fio job on NVMeOF file-backed ns) [passed]
+    runtime  71.957s  ...  63.395s
+nvme/012 (run mkfs and data verification fio job on NVMeOF block device-backed ns) [passed]
+    runtime  74.016s  ...  82.918s
+nvme/013 (run mkfs and data verification fio job on NVMeOF file-backed ns) [passed]
+    runtime  74.105s  ...  63.881s
+nvme/014 (flush a NVMeOF block device-backed ns)             [passed]
+    runtime  4.089s  ...  4.088s
+nvme/015 (unit test for NVMe flush for file backed ns)       [passed]
+    runtime  3.703s  ...  3.725s
+nvme/016 (create/delete many NVMeOF block device-backed ns and test discovery) [passed]
+    runtime  12.407s  ...  12.628s
+nvme/017 (create/delete many file-ns and test discovery)     [passed]
+    runtime  12.318s  ...  12.614s
+nvme/018 (unit test NVMe-oF out of range access on a file backend) [passed]
+    runtime  1.411s  ...  1.429s
+nvme/019 (test NVMe DSM Discard command on NVMeOF block-device ns) [passed]
+    runtime  1.434s  ...  1.449s
+nvme/020 (test NVMe DSM Discard command on NVMeOF file-backed ns) [passed]
+    runtime  1.435s  ...  1.424s
+nvme/021 (test NVMe list command on NVMeOF file-backed ns)   [passed]
+    runtime    ...  1.421s
+nvme/022 (test NVMe reset command on NVMeOF file-backed ns)  [passed]
+    runtime  1.351s  ...  1.748s
+nvme/023 (test NVMe smart-log command on NVMeOF block-device ns) [passed]
+    runtime  1.314s  ...  1.440s
+nvme/024 (test NVMe smart-log command on NVMeOF file-backed ns) [passed]
+    runtime  1.284s  ...  1.425s
+nvme/025 (test NVMe effects-log command on NVMeOF file-backed ns) [passed]
+    runtime  1.281s  ...  1.422s
+nvme/026 (test NVMe ns-descs command on NVMeOF file-backed ns) [passed]
+    runtime  1.282s  ...  1.426s
+nvme/027 (test NVMe ns-rescan command on NVMeOF file-backed ns) [passed]
+    runtime  1.284s  ...  1.439s
+nvme/028 (test NVMe list-subsys command on NVMeOF file-backed ns) [passed]
+    runtime  1.278s  ...  1.445s
+nvme/029 (test userspace IO via nvme-cli read/write interface) [passed]
+    runtime  1.605s  ...  1.558s
+nvme/030 (ensure the discovery generation counter is updated appropriately) [passed]
+    runtime  0.287s  ...  0.216s
+nvme/031 (test deletion of NVMeOF controllers immediately after setup) [passed]
+    runtime  1.458s  ...  4.031s
+nvme/038 (test deletion of NVMeOF subsystem without enabling) [passed]
+    runtime  0.050s  ...  0.013s
+nvme/040 (test nvme fabrics controller reset/disconnect operation during I/O) [passed]
+    runtime  7.402s  ...  7.902s
+nvme/041 (Create authenticated connections)                  [passed]
+    runtime  1.148s  ...  0.747s
+nvme/042 (Test dhchap key types for authenticated connections) [passed]
+    runtime  7.215s  ...  4.824s
+nvme/043 (Test hash and DH group variations for authenticated connections) [passed]
+    runtime  1.338s  ...  7.028s
+nvme/044 (Test bi-directional authentication)                [passed]
+    runtime  1.513s  ...  1.858s
+nvme/045 (Test re-authentication)                            [passed]
+    runtime  5.721s  ...  4.062s
+nvme/047 (test different queue types for fabric transports)  [not run]
+    runtime  2.288s  ...  
+    nvme_trtype=loop is not supported in this test
+nvme/048 (Test queue count changes on reconnect)             [not run]
+    runtime  5.590s  ...  
+    nvme_trtype=loop is not supported in this test
+blktests (master) # nvme_trtype=tcp; ./check nvme
+nvme/002 (create many subsystems and test discovery)         [passed]
+    runtime  19.272s  ...  19.055s
+nvme/003 (test if we're sending keep-alives to a discovery controller) [passed]
+    runtime  10.107s  ...  10.115s
+nvme/004 (test nvme and nvmet UUID NS descriptors)           [passed]
+    runtime  1.440s  ...  1.430s
+nvme/005 (reset local loopback target)                       [passed]
+    runtime  1.773s  ...  1.790s
+nvme/006 (create an NVMeOF target with a block device-backed ns) [passed]
+    runtime  0.060s  ...  0.052s
+nvme/007 (create an NVMeOF target with a file-backed ns)     [passed]
+    runtime  0.032s  ...  0.028s
+nvme/008 (create an NVMeOF host with a block device-backed ns) [passed]
+    runtime  1.464s  ...  1.460s
+nvme/009 (create an NVMeOF host with a file-backed ns)       [passed]
+    runtime  1.461s  ...  1.426s
+nvme/010 (run data verification fio job on NVMeOF block device-backed ns) [passed]
+    runtime  87.321s  ...  84.286s
+nvme/011 (run data verification fio job on NVMeOF file-backed ns) [passed]
+    runtime  63.395s  ...  66.071s
+nvme/012 (run mkfs and data verification fio job on NVMeOF block device-backed ns) [passed]
+    runtime  82.918s  ...  76.218s
+nvme/013 (run mkfs and data verification fio job on NVMeOF file-backed ns) [passed]
+    runtime  63.881s  ...  71.368s
+nvme/014 (flush a NVMeOF block device-backed ns)             [passed]
+    runtime  4.088s  ...  4.205s
+nvme/015 (unit test for NVMe flush for file backed ns)       [passed]
+    runtime  3.725s  ...  3.734s
+nvme/016 (create/delete many NVMeOF block device-backed ns and test discovery) [passed]
+    runtime  12.628s  ...  12.542s
+nvme/017 (create/delete many file-ns and test discovery)     [passed]
+    runtime  12.614s  ...  12.699s
+nvme/018 (unit test NVMe-oF out of range access on a file backend) [passed]
+    runtime  1.429s  ...  1.444s
+nvme/019 (test NVMe DSM Discard command on NVMeOF block-device ns) [passed]
+    runtime  1.449s  ...  1.439s
+nvme/020 (test NVMe DSM Discard command on NVMeOF file-backed ns) [passed]
+    runtime  1.424s  ...  1.427s
+nvme/021 (test NVMe list command on NVMeOF file-backed ns)   [passed]
+    runtime  1.421s  ...  1.420s
+nvme/022 (test NVMe reset command on NVMeOF file-backed ns)  [passed]
+    runtime  1.748s  ...  1.774s
+nvme/023 (test NVMe smart-log command on NVMeOF block-device ns) [passed]
+    runtime  1.440s  ...  1.442s
+nvme/024 (test NVMe smart-log command on NVMeOF file-backed ns) [passed]
+    runtime  1.425s  ...  1.424s
+nvme/025 (test NVMe effects-log command on NVMeOF file-backed ns) [passed]
+    runtime  1.422s  ...  1.436s
+nvme/026 (test NVMe ns-descs command on NVMeOF file-backed ns) [passed]
+    runtime  1.426s  ...  1.416s
+nvme/027 (test NVMe ns-rescan command on NVMeOF file-backed ns) [passed]
+    runtime  1.439s  ...  1.429s
+nvme/028 (test NVMe list-subsys command on NVMeOF file-backed ns) [passed]
+    runtime  1.445s  ...  1.421s
+nvme/029 (test userspace IO via nvme-cli read/write interface) [passed]
+    runtime  1.558s  ...  1.552s
+nvme/030 (ensure the discovery generation counter is updated appropriately) [passed]
+    runtime  0.216s  ...  0.226s
+nvme/031 (test deletion of NVMeOF controllers immediately after setup) [passed]
+    runtime  4.031s  ...  3.913s
+nvme/038 (test deletion of NVMeOF subsystem without enabling) [passed]
+    runtime  0.013s  ...  0.013s
+nvme/040 (test nvme fabrics controller reset/disconnect operation during I/O) [passed]
+    runtime  7.902s  ...  7.893s
+nvme/041 (Create authenticated connections)                  [passed]
+    runtime  0.747s  ...  0.748s
+nvme/042 (Test dhchap key types for authenticated connections) [passed]
+    runtime  4.824s  ...  4.817s
+nvme/043 (Test hash and DH group variations for authenticated connections) [passed]
+    runtime  7.028s  ...  3.180s
+nvme/044 (Test bi-directional authentication)                [passed]
+    runtime  1.858s  ...  1.850s
+nvme/045 (Test re-authentication)                            [passed]
+    runtime  4.062s  ...  4.039s
+nvme/047 (test different queue types for fabric transports)  [not run]
+    nvme_trtype=loop is not supported in this test
+nvme/048 (Test queue count changes on reconnect)             [not run]
+    nvme_trtype=loop is not supported in this test
+-- 
+2.40.0
+
 
