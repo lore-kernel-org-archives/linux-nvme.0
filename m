@@ -4,71 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 66CC8C77B7A
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 May 2023 09:34:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A573C77B75
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 May 2023 09:36:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=BrtCcuzsDQn6Kmk7cSTd5UgKFr
-	p6Bs6eZVmGJ4Z9S9khO9unk0MgnPKSyhrR9HEZkLgXaJ6+kg5foO4+N+sK5LTcsiGdIN9Cg6hrGqz
-	GGfiAVBe6SeQ7JSmfkmtJ0MAYP2OwhAV8cJ6fFipqu4aicHJliHdSaKILsmYicSC9n5jUDFkqQKGI
-	pekF7yd5C7W3hTeSEAysvPcibw0PmQr3PzkSRWKO1GbxecZFm5icC0Wu9jEWrztaDY1TAsAmsHvSQ
-	Y2l9VmmD8fZlXnCl1N+cyltrjyCEqoKdZj0NANwQI8ZWP5CfrPUuZenKKCfuNiXNuD0YsgIy/ZB68
-	kbGJ9s+A==;
+	bh=urglFtLe5OfH8uHGc0CuJYPv61AT6Sa7CBlPp/2sj1M=; b=M4i6e5apwf/CNI5kj/VX2QVyiX
+	CMuEJrUn4NCYRn+ZLoOLVE23cdUZpY5GdI6oAXI2WA9bT/wubsu2CG+3/s07ddKAQiV1ifVY5oshL
+	eBF4vK2mjjbm33cgfNiMJM4Otr1dHBPJIBBK6dOMGS9hU1x9IfThUwfefeQIXdYiE7gZXTnvU6+3o
+	RfstVsmVV89J/4ITCktplMdPGSSPdPR9/iFiflsFlaZuh3V7JdcoPAblhMGbGYdvf26PL9BZLH4JM
+	Jpt1XA9427P6SvYEApF0DNqq3WCFOKdsm7TnN9tGEJUZB7g8z66e/xOq0GO86qSMCY58Dpd6hoPCx
+	1KKvVI7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pzDY3-0094go-1N;
-	Wed, 17 May 2023 09:34:19 +0000
-Received: from mail-wr1-f45.google.com ([209.85.221.45])
+	id 1pzDZs-0095BW-1w;
+	Wed, 17 May 2023 09:36:12 +0000
+Received: from mail-wr1-f51.google.com ([209.85.221.51])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pzDY1-0094fT-0m
+	id 1pzDZp-00959S-0h
 	for linux-nvme@lists.infradead.org;
-	Wed, 17 May 2023 09:34:18 +0000
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3093aa2f2a5so69038f8f.0
-        for <linux-nvme@lists.infradead.org>; Wed, 17 May 2023 02:34:15 -0700 (PDT)
+	Wed, 17 May 2023 09:36:10 +0000
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3063b921c7eso38179f8f.0
+        for <linux-nvme@lists.infradead.org>; Wed, 17 May 2023 02:36:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684316054; x=1686908054;
+        d=1e100.net; s=20221208; t=1684316166; x=1686908166;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=LXotqU/kMlB/H3DTQQNu9XHg+SSHEHSZu/hdhENnYUiyu2QuiPrHSfbMFDofODkORc
-         z3PiCUldZQLnr626r6tUEGYseG/dglxDTk4s6T4pQQ2rMWqoScZJZ1ceOL/yO2OgKRiP
-         YwfqGGQ+t5OqmJ3hMcGjD4qoE8LYTLGUftBQ6zELu58R5cJZ++LXwPa/EfzuYYqtVG+H
-         I/4t6qm5JBHytKBAawoTv7Dy6E281jbr3Yq5RHF592cTHoFnZUT8pRHZpjCFVCH6k0lh
-         +oIrFZoiAR8oIPdQZJ8xZbpKM8VhIFAxLPYe40FDKVhq5rl4aT4xmI0u7pm89NtSVYCq
-         y84A==
-X-Gm-Message-State: AC+VfDy0G4cS2Zo+Hi41hcWa7AnrdSPM4xm8zViCuGRKesFDgE0tgH2T
-	ywMahCdO2lOleMvPImj4p6s=
-X-Google-Smtp-Source: ACHHUZ6r48J7O9f73rYJfdrJLkgLt7glW9ptzE3v4nCKD+wyNcsvK4L6HBV10fz6q7FDJ26r6Kuouw==
-X-Received: by 2002:a5d:6509:0:b0:2f8:28e7:13e8 with SMTP id x9-20020a5d6509000000b002f828e713e8mr1155009wru.6.1684316053733;
-        Wed, 17 May 2023 02:34:13 -0700 (PDT)
+        bh=urglFtLe5OfH8uHGc0CuJYPv61AT6Sa7CBlPp/2sj1M=;
+        b=gscTKoVVCTNp6be2yV6HvSQUdddGShMiJTUsfjapugzuLNkBpW+BN4cUMp6Hx2Uyal
+         MtAq+hHr49Ujf31dx2TiCXruMSyNgwna7DMAyxeHP0h8uDrKNAoYVMWmJBg5NbwIIaJq
+         UctVdlI+BDnWczBOm1kE3m+DTaSUpU8E5FBjEoZ1QMm3rpbYyNGz4HgE+n4V0J725lWt
+         NvbCQO8MaUWyQBe0dgBmcL2elSNFKPJVxzKwN3OAjYfJt5RzONQcnxMRWHwHmKhocwv7
+         BbjGn3jgsKGDCGCjbVgApO7N5EUcdZ2OlPHrlTuuRNlJPhcZ1x8dOHnQvqkGdnSBOzFL
+         gwvA==
+X-Gm-Message-State: AC+VfDzyyc7ndp7sbJ9Co6oiVbeHealFub7OeNWSlgj62I+9RLf1ukZA
+	I6FOocjc6ZsLDxGTjfaKWSs=
+X-Google-Smtp-Source: ACHHUZ6Tz7t6ZiitYv5qDlOTnkdZKR2btl4wh4kcoAZgwhBaKa7+q3p1tZRO6BPRL8LUnudcUTmJUQ==
+X-Received: by 2002:adf:eb4a:0:b0:306:2720:b00d with SMTP id u10-20020adfeb4a000000b003062720b00dmr1321474wrn.7.1684316165973;
+        Wed, 17 May 2023 02:36:05 -0700 (PDT)
 Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id z21-20020a1c4c15000000b003f42d2f4531sm1571986wmf.48.2023.05.17.02.34.13
+        by smtp.gmail.com with ESMTPSA id d18-20020a5d5392000000b002feea065cc9sm2120975wrv.111.2023.05.17.02.36.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 May 2023 02:34:13 -0700 (PDT)
-Message-ID: <dd1b440c-2ba3-e12c-e7d1-f3e941ea0c45@grimberg.me>
-Date: Wed, 17 May 2023 12:34:12 +0300
+        Wed, 17 May 2023 02:36:05 -0700 (PDT)
+Message-ID: <70f0e567-95f1-4c88-a4ca-3357524a5c6a@grimberg.me>
+Date: Wed, 17 May 2023 12:36:04 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH] nvme-multipath: don't call blk_mark_disk_dead in
- nvme_mpath_remove_disk
+Subject: Re: [PATCH 06/17] net/tls: implement ->read_sock()
 Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, kbusch@kernel.org
-Cc: linux-nvme@lists.infradead.org
-References: <20230517075345.246138-1-hch@lst.de>
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Jakub Kicinski <kuba@kernel.org>, Keith Busch <kbusch@kernel.org>,
+ linux-nvme@lists.infradead.org, Chuck Lever <chuck.lever@oracle.com>,
+ kernel-tls-handshake@lists.linux.dev,
+ Boris Pismenny <boris.pismenny@gmail.com>,
+ David Howells <dhowells@redhat.com>
+References: <20230419065714.52076-1-hare@suse.de>
+ <20230419065714.52076-7-hare@suse.de>
+ <da7135cf-c96e-f79f-9d49-87ee269871cf@grimberg.me>
+ <20230509174724.4a198306@kernel.org>
+ <0097e7c0-351a-b922-dd77-ab414b53170b@grimberg.me>
+ <c711fc3b-08c4-6673-0f22-f73bf377a072@suse.de>
+ <20230517075444.GA30685@lst.de>
+ <4d1f5afe-628c-ee5b-c6b9-59d59c184f42@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230517075345.246138-1-hch@lst.de>
+In-Reply-To: <4d1f5afe-628c-ee5b-c6b9-59d59c184f42@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230517_023417_276812_8A3CFA4E 
-X-CRM114-Status: UNSURE (   6.40  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230517_023609_254292_89B3AFD9 
+X-CRM114-Status: GOOD (  13.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,5 +92,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+
+> On 5/17/23 09:54, Christoph Hellwig wrote:
+>> On Wed, May 17, 2023 at 09:53:10AM +0200, Hannes Reinecke wrote:
+>>> Problem is the MSG_SPLIC patchset from David Howells; that 
+>>> essentially does
+>>> away with ->sendpage().
+>>> So I'm not sure how to go from here; wait for the patchset to land, and
+>>> rebase my patches on top of that, or proactively switch away from
+>>> ->sendpage() and resubmit directly.
+>>
+>> I'd wait for it.  It should make life a lot simpler.
+>>
+> Same thought here.
+> Let's see.
+
+Did you test that you don't need to change anything with nvme-tcp
+on top of the SPLICE_PAGES series from David?
 
