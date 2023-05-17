@@ -4,88 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 72494C77B7F
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 May 2023 12:04:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3CE2CC77B7A
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 May 2023 12:36:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BslyW3azVhFwrIBuIQLLzrL1OeXsP0P9DJsf/sU+6uQ=; b=t9HZhQ1YbVMuHnMaAEzf2sdLFb
-	AYCOibwijlsG7lvkcedK+rX+s580pf+KyEOzlA88odJLIF5qv1VYrfZeIObq62bO1Zn2lI2gPBSMO
-	dSK01omVqL2IPx7++R8N21dAGHOS6kmWjNMpyEDYSLxk9vJ5mkZJLX3LCdHPl7Tdlyzyh0ulwK981
-	yIgCiupconZ7eVGqPnFLNNghHxsmf2H6u0gMQGNjyseZ8ZN/2913tslell1QlqWB+/hEFcgNqQO+F
-	La+m3d/uczPVZ25XvN1swfEkPLlIj+0vRjMvTN0Z4aPfoB4wPvJo3YBcZOQmXANjwHa/fILEQDXyj
-	zLth/uxA==;
+	bh=mVXu+rteQS86iCuxXHVAWwBavTrAQEhvXfNGezw5HXE=; b=NI0ZmDBPnzGdObBnVIF9jYFEY7
+	rYcMuxx7zPMKvZtXKRG4Cc2BZLaW6soJ+5A8DNooRx93u67lI0lvHM834Ot/2cAXgDZ0kpdUjE1jO
+	kVDlzxnlJRvDMEabfEqZXxWP2+eyxBQuvUd4Jv/h/FxK5eLMSFR79cIAWx8idx6DiQQveM9IGEoVF
+	cf4tWKG2R+4F6TEPE3lE10e+t0KKqXe61M2+ftvphNdZVeBWKldS48RRrDG9G6HyENervkcdHa/xY
+	6XhwxljB+CYiIpIDnMM5c5GG1oTkD044bSKYlaIoWRKnzNOmBUljLNDoxUPGhtTUfI5wP8Y71l7cr
+	hkCH8PWA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pzFtQ-009jYx-3D;
-	Wed, 17 May 2023 12:04:33 +0000
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630])
+	id 1pzGOl-009p0H-0g;
+	Wed, 17 May 2023 12:36:55 +0000
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pzFtM-009jXS-2Z
+	id 1pzGOh-009ozl-2y
 	for linux-nvme@lists.infradead.org;
-	Wed, 17 May 2023 12:04:31 +0000
-Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-96652cb7673so102432566b.0
-        for <linux-nvme@lists.infradead.org>; Wed, 17 May 2023 05:04:27 -0700 (PDT)
+	Wed, 17 May 2023 12:36:53 +0000
+Received: by mail-ed1-x533.google.com with SMTP id 4fb4d7f45d1cf-50b9ef67f35so1302930a12.2
+        for <linux-nvme@lists.infradead.org>; Wed, 17 May 2023 05:36:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684325066; x=1686917066;
+        d=gmail.com; s=20221208; t=1684327009; x=1686919009;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=BslyW3azVhFwrIBuIQLLzrL1OeXsP0P9DJsf/sU+6uQ=;
-        b=rm9OHmiDVP1QJk6J16mO59QPy9fwerd3FG/UjBtTvV8Y9sdYIhnq9N2CI1BCx70AZh
-         F66IVqO8tfC/HOZzx6rSZCNTkGfNd8quQN9h+s7j9ZVvECjFZty7yl8Kw6GIRagCNeXq
-         lsSzB7WeAKkM8HiPZBsXFS8vJ5A/sTUMnkmA3J5IlWjWAggc38+NZSZHPQDVSShJ/0Mz
-         pdvbJ2voqH6ARSmbGa8p9bbnf0k4ITB1tjmB1uyJq6SYVqvLRb7fXnQcUyRqzt5MmMkz
-         jxOcUeE7k5OwGRn9GxTHZGTYKaZT0/utHYUB1WU27wJDzh+k+Xvypv7WbTeBZH48aUqh
-         wKmA==
+        bh=mVXu+rteQS86iCuxXHVAWwBavTrAQEhvXfNGezw5HXE=;
+        b=F47xH5ZwNk8KAKA4b6HSwJfCK0OF4/0yd4/WBQUHBWc/lfY1sqINI3ZndhSJVrxny7
+         Sn5+wHfXOE3XjKyHrgcshVe95+sZ/5rdAJ7cHRBofV729JviZkuQUBEqlADfk8rZMgXu
+         TyPDQWaG2eySuRGGDyIy/3glhTyB9iffTU0SHtyuEALraXn8qk4G1b0PoWdFFfYvJ2ri
+         n36/1xu9yGZ8iJk6FaaQvBknPlWPqSM0uHg27zbuJ5nwnZbWuX+TgI5+0yIpWh1+c/Fs
+         36v+/0PbK7YwviMN8G6/9lf6yfWDbhMEgSZJhAXWVP4I2QNxvw7rY0QM0GJhBKt8HB79
+         Tg6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684325066; x=1686917066;
+        d=1e100.net; s=20221208; t=1684327009; x=1686919009;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BslyW3azVhFwrIBuIQLLzrL1OeXsP0P9DJsf/sU+6uQ=;
-        b=fvF71PqpLZ7+bcu6efFsjIidjJpIwneiUHgiO4QA9WC6beBt/qhnkcjWeaJViLD4mX
-         QC4/wNajNJWV8321WgVJ7gg+ST7Ci3wg9mrqbcSqgfRpZgs11B0+pUPH4XjW/Jc0K6hT
-         82lQn/r6JUK6CYEskvrVmyJJ8fT8xHi/J77D/jxtcx57rkHlP1NECaQV3hGIeH7oLNnn
-         HNaYOWtGXIafS7arM5zfsLWN7lnD3BFdDhlWdxLAVYNdO3Jg2ifipqOK6axEMtGxiZtv
-         ffl6J0cdYnC+biMEHldjyQLQvnWIi6ijIsV+LCwDOUhTiGJy7OEN7/GOVTv3pBP6QkKz
-         s3UQ==
-X-Gm-Message-State: AC+VfDzxuljjTmGLio+QAVlKnYpzseWrol14LJGK32fx/6kxc0YMTm6N
-	0cJgjzrdCjG8LD53EgCg1mM=
-X-Google-Smtp-Source: ACHHUZ6Vb8Mndz18ScrfOcEhBtCq6lhLmFWGPF8kO8nmUDoS7Cc3+QJYqS1VQjZxgnv2mj0vn4FpjQ==
-X-Received: by 2002:a17:906:6a25:b0:966:6316:683e with SMTP id qw37-20020a1709066a2500b009666316683emr33626205ejc.5.1684325065623;
-        Wed, 17 May 2023 05:04:25 -0700 (PDT)
+        bh=mVXu+rteQS86iCuxXHVAWwBavTrAQEhvXfNGezw5HXE=;
+        b=HRz0mx3tOxPmHFr7Tmj7BRXmbSdDI53dMnmZmO0SXReibQ+gytujcrL8fs/YSJwwmi
+         8cMAXByLWUhRWInsT7gV4XPrZrt6l2qBlhfiHAde/MdOoiofcHLfPuUXhU77dezNYLHu
+         QqqT1OGyJ2+3WUldfZTNg79HdpNrSv1ukzGC8OIr11fjttrsPemdmHAJPZGRAt7QG9Tb
+         ICm3BDwUSkRq9EViYGNuC6gM6/9cCHTy7IqOBpuVVS7GjGee1lbc1g3QNF33unWTWgKx
+         1v4lflbcDKHzmQREobqlBy8lJC8k7drnerEGGKAhY0bKl9LXnfo0S5vuzUpgx3lUp3Os
+         zWHg==
+X-Gm-Message-State: AC+VfDzPY/AgZq2s0nsSNWGpdWnIDjIeIc8/rWmXBQ0ow2FGAePJnv68
+	WnVoKwB91DVQqCfFKP1lCpI=
+X-Google-Smtp-Source: ACHHUZ44IAGSpe4GtBP3SUuJx9YtVd77SXRA1VqkKSXfBkBmXTLZU6+r97naLc7ftpDGJHgB/enaoA==
+X-Received: by 2002:a17:907:26c6:b0:91f:b13f:a028 with SMTP id bp6-20020a17090726c600b0091fb13fa028mr32696622ejc.34.1684327008360;
+        Wed, 17 May 2023 05:36:48 -0700 (PDT)
 Received: from ?IPV6:2620:10d:c096:310::2eef? ([2620:10d:c092:600::2:46a1])
-        by smtp.gmail.com with ESMTPSA id l17-20020a170907915100b0095004c87676sm12236116ejs.199.2023.05.17.05.04.25
+        by smtp.gmail.com with ESMTPSA id e26-20020a170906845a00b00965cd15c9bbsm12244107ejy.62.2023.05.17.05.36.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 May 2023 05:04:25 -0700 (PDT)
-Message-ID: <fa9e5708-73b0-2fc4-9477-316185900d6c@gmail.com>
-Date: Wed, 17 May 2023 13:00:34 +0100
+        Wed, 17 May 2023 05:36:48 -0700 (PDT)
+Message-ID: <9367cc09-c8b4-a56c-a61a-d2c776c05a1c@gmail.com>
+Date: Wed, 17 May 2023 13:32:53 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH for-next 1/2] io_uring/cmd: add cmd lazy tw wake helper
+Subject: Re: [PATCH for-next 2/2] nvme: optimise io_uring passthrough
+ completion
 Content-Language: en-US
-To: Kanchan Joshi <joshi.k@samsung.com>
+To: Christoph Hellwig <hch@lst.de>
 Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- io-uring@vger.kernel.org, axboe@kernel.dk, kbusch@kernel.org, hch@lst.de,
- sagi@grimberg.me
+ io-uring@vger.kernel.org, axboe@kernel.dk, kbusch@kernel.org,
+ sagi@grimberg.me, joshi.k@samsung.com
 References: <cover.1684154817.git.asml.silence@gmail.com>
- <CGME20230515125841epcas5p3e3cba6545755e95739e1561222b00b4a@epcas5p3.samsung.com>
- <5b9f6716006df7e817f18bd555aee2f8f9c8b0c3.1684154817.git.asml.silence@gmail.com>
- <20230516100000.GA26860@green245>
- <65514f94-ac70-08df-a866-fe73f95037fd@gmail.com>
- <20230517103346.GA15743@green245>
+ <ecdfacd0967a22d88b7779e2efd09e040825d0f8.1684154817.git.asml.silence@gmail.com>
+ <20230517072314.GC27026@lst.de>
 From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20230517103346.GA15743@green245>
+In-Reply-To: <20230517072314.GC27026@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230517_050429_948260_8B63F17A 
-X-CRM114-Status: GOOD (  24.89  )
+X-CRM114-CacheID: sfid-20230517_053651_959808_D3AA13B6 
+X-CRM114-Status: GOOD (  15.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,145 +98,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/17/23 11:33, Kanchan Joshi wrote:
-> On Tue, May 16, 2023 at 07:52:23PM +0100, Pavel Begunkov wrote:
->> On 5/16/23 11:00, Kanchan Joshi wrote:
->>> On Mon, May 15, 2023 at 01:54:42PM +0100, Pavel Begunkov wrote:
->>>> We want to use IOU_F_TWQ_LAZY_WAKE in commands. First, introduce a new
->>>> cmd tw helper accepting TWQ flags, and then add
->>>> io_uring_cmd_do_in_task_laz() that will pass IOU_F_TWQ_LAZY_WAKE and
->>>> imply the "lazy" semantics, i.e. it posts no more than 1 CQE and
->>>> delaying execution of this tw should not prevent forward progress.
->>>>
->>>> Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
->>>> ---
->>>> include/linux/io_uring.h | 18 ++++++++++++++++--
->>>> io_uring/uring_cmd.c     | 16 ++++++++++++----
->>>> 2 files changed, 28 insertions(+), 6 deletions(-)
->>>>
->>>> diff --git a/include/linux/io_uring.h b/include/linux/io_uring.h
->>>> index 7fe31b2cd02f..bb9c666bd584 100644
->>>> --- a/include/linux/io_uring.h
->>>> +++ b/include/linux/io_uring.h
->>>> @@ -46,13 +46,23 @@ int io_uring_cmd_import_fixed(u64 ubuf, unsigned long len, int rw,
->>>>                   struct iov_iter *iter, void *ioucmd);
->>>> void io_uring_cmd_done(struct io_uring_cmd *cmd, ssize_t ret, ssize_t res2,
->>>>             unsigned issue_flags);
->>>> -void io_uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
->>>> -            void (*task_work_cb)(struct io_uring_cmd *, unsigned));
->>>> struct sock *io_uring_get_socket(struct file *file);
->>>> void __io_uring_cancel(bool cancel_all);
->>>> void __io_uring_free(struct task_struct *tsk);
->>>> void io_uring_unreg_ringfd(void);
->>>> const char *io_uring_get_opcode(u8 opcode);
->>>> +void __io_uring_cmd_do_in_task(struct io_uring_cmd *ioucmd,
->>>> +                void (*task_work_cb)(struct io_uring_cmd *, unsigned),
->>>> +                unsigned flags);
->>>> +/* users should follow semantics of IOU_F_TWQ_LAZY_WAKE */
->>>
->>> Should this also translate to some warn_on anywhere?
->>
->> Would love to but don't see how. We can only check it doesn't
->> produce more than 1 CQE, but that would need
->>
->> nr_cqes_before = cqes_ready();
->> tw_item->run();
->> WARN_ON(cqes_ready() >= nr_cqes_before + 1);
->>
->> but that's just too ugly
->>
->>
->>>> +void io_uring_cmd_do_in_task_lazy(struct io_uring_cmd *ioucmd,
->>>> +            void (*task_work_cb)(struct io_uring_cmd *, unsigned));
->>>> +
->>>> +static inline void io_uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
->>>> +            void (*task_work_cb)(struct io_uring_cmd *, unsigned))
->>>> +{
->>>> +    __io_uring_cmd_do_in_task(ioucmd, task_work_cb, 0);
->>>> +}
->>>>
->>>> static inline void io_uring_files_cancel(void)
->>>> {
->>>> @@ -85,6 +95,10 @@ static inline void io_uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
->>>>             void (*task_work_cb)(struct io_uring_cmd *, unsigned))
->>>> {
->>>> }
->>>> +static inline void io_uring_cmd_do_in_task_lazy(struct io_uring_cmd *ioucmd,
->>>> +            void (*task_work_cb)(struct io_uring_cmd *, unsigned))
->>>> +{
->>>> +}
->>>> static inline struct sock *io_uring_get_socket(struct file *file)
->>>> {
->>>>     return NULL;
->>>> diff --git a/io_uring/uring_cmd.c b/io_uring/uring_cmd.c
->>>> index 5e32db48696d..476c7877ce58 100644
->>>> --- a/io_uring/uring_cmd.c
->>>> +++ b/io_uring/uring_cmd.c
->>>> @@ -20,16 +20,24 @@ static void io_uring_cmd_work(struct io_kiocb *req, struct io_tw_state *ts)
->>>>     ioucmd->task_work_cb(ioucmd, issue_flags);
->>>> }
->>>>
->>>> -void io_uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
->>>> -            void (*task_work_cb)(struct io_uring_cmd *, unsigned))
->>>> +void __io_uring_cmd_do_in_task(struct io_uring_cmd *ioucmd,
->>>> +            void (*task_work_cb)(struct io_uring_cmd *, unsigned),
->>>> +            unsigned flags)
->>>> {
->>>>     struct io_kiocb *req = cmd_to_io_kiocb(ioucmd);
->>>>
->>>>     ioucmd->task_work_cb = task_work_cb;
->>>>     req->io_task_work.func = io_uring_cmd_work;
->>>> -    io_req_task_work_add(req);
->>>> +    __io_req_task_work_add(req, flags);
->>>> +}
->>>> +EXPORT_SYMBOL_GPL(__io_uring_cmd_do_in_task);
->>
->> --- a/include/linux/io_uring.h
->> +++ b/include/linux/io_uring.h
->>
->> +static inline void io_uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
->> +            void (*task_work_cb)(struct io_uring_cmd *, unsigned))
->> +{
->> +    __io_uring_cmd_do_in_task(ioucmd, task_work_cb, 0);
->> +}
->>
->> That should fail for nvme unless exported.
+On 5/17/23 08:23, Christoph Hellwig wrote:
+> On Mon, May 15, 2023 at 01:54:43PM +0100, Pavel Begunkov wrote:
+>> Use IOU_F_TWQ_LAZY_WAKE via iou_cmd_exec_in_task_lazy() for passthrough
+>> commands completion. It further delays the execution of task_work for
+>> DEFER_TASKRUN until there are enough of task_work items queued to meet
+>> the waiting criteria, which reduces the number of wake ups we issue.
 > 
-> But it does not. Give it a try.
-> 
->>> Any reason to export this? No one is using this at the moment.
->>>> +void io_uring_cmd_do_in_task_lazy(struct io_uring_cmd *ioucmd,
->>>> +            void (*task_work_cb)(struct io_uring_cmd *, unsigned))
->>>> +{
->>>> +    __io_uring_cmd_do_in_task(ioucmd, task_work_cb, IOU_F_TWQ_LAZY_WAKE);
->>>> }
->>>> -EXPORT_SYMBOL_GPL(io_uring_cmd_complete_in_task);
->>>> +EXPORT_SYMBOL_GPL(io_uring_cmd_do_in_task_lazy);
->>>
->>> Seems you did not want callers to pass the the new flag (LAZY_WAKE) and
->>> therefore this helper.
->>
->> Yep, I wouldn't mind exposing just *LAZY_WAKE but don't want
->> to let it use whatever flags there might be in the future.
->>
->> Initially I wanted to just make io_uring_cmd_complete_in_task and
->> io_uring_cmd_do_in_task_lazy static inline, but that would need
->> some code shuffling to make it clean.
->>
->>> And if you did not want callers to know about this flag (internal
->>> details of io_uring), it would be better to have two exported helpers
->>> io_uring_cmd_do_in_task_lazy() and io_uring_cmd_complete_in_task().
->>> Both will use the internal helper __io_uring_cmd_do_in_task with
->>> different flag.
->>
->> That's how it should be in this patch
-> 
-> Nah, in this patch __io_uring_cmd_do_in_task is exported helper. And
-> io_uring_cmd_complete_in_task has been changed too (explicit export to
-> header based one). Seems like bit more shuffling than what is necessary
+> Why wouldn't you just do that unconditionally for
+> io_uring_cmd_complete_in_task?
 
-Ok, I'll check, thanks
+1) ublk does secondary batching and so may produce multiple cqes,
+that's not supported. I believe Ming sent patches removing it,
+but I'd rather not deal with conflicts for now.
 
+2) Some users may have dependencies b/w requests, i.e. a request
+will only complete when another request's task_work is executed.
+
+3) There might be use cases when you don't wont it to be delayed,
+IO retries would be a good example. I wouldn't also use it for
+control paths like ublk_ctrl_uring_cmd.
+
+Let's better keep io_uring_cmd_complete_in_task() as the default
+option for the interface.
 
 -- 
 Pavel Begunkov
