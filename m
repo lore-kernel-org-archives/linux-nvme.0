@@ -4,59 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CE2D0C7EE22
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 May 2023 08:45:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 304F7C77B7A
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 May 2023 08:52:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=hDaqlr2/CoHEDFsPBrpJplPS1R
-	ZRHSxSRlzBU/Y9eCwdfy88ZhqceLEoZKJSeuMBXg0txoNTDEydxnhc0TP5vcu0LeOajIbDdyj57pE
-	HAuqc6uHNdBLKToloVAWWLwvxdYk+ntQ1Nww0B6htWkyl6AsBsvdB4HC3JrPqXSo/XUm6gkKMckvq
-	V+BtMLYcUu9ZAvUadDeQUyLfAC69uldbd3K7szpdrhXCyQZUskQEsfcVzJuXaLRY5/uNbFKsAP2QO
-	RlXKVr9SkGmt+9/nEtpAtFw9voydKzu1GNhAUzxAMX+MZsrGO68WrDvqnjUAe+def3iejE00ykoz2
-	wqDnc52g==;
+	bh=rVptRixy6L9P37vVq6OCzJyhOYl45tI50f6hMUioApE=; b=VQsJ758lKBYovg/J25vcOuH+5g
+	OJ1c/VRQv2PqG4/nWS9KDRWKbX2IfvHNsFtTRrTQdwbxYRgUtCordUtOyOLa3uqbGUcNbI0GXY3HC
+	xituV/w3/64Mt/sml+qaR3QcTuC0mFglqRB+xD9tF7gG0DPKuAAEW7GOhbgpIGvuSK/gKKioYtk5f
+	hANlPIW9HtL77sixBvVQbgietWgIfrq0VsotfBmrOyhO8sEaQ4iJYsSeGX46PFQf5nqelYPccWvBU
+	KCV52JzbFh3s08XA4GE/rya810jykocYtUbPaC1PXEnoKAOX3YStXKB/exG5vlgwpJCmixJlYMKSy
+	XV+L5lBg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pzZGW-00CNTA-2H;
-	Thu, 18 May 2023 08:45:40 +0000
-Received: from mail-ej1-f43.google.com ([209.85.218.43])
+	id 1pzZNV-00COT2-29;
+	Thu, 18 May 2023 08:52:53 +0000
+Received: from mail-wm1-f48.google.com ([209.85.128.48])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pzZGU-00CNSc-1g
+	id 1pzZNS-00CORp-2b
 	for linux-nvme@lists.infradead.org;
-	Thu, 18 May 2023 08:45:39 +0000
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-96a2b6d698cso44951666b.1
-        for <linux-nvme@lists.infradead.org>; Thu, 18 May 2023 01:45:35 -0700 (PDT)
+	Thu, 18 May 2023 08:52:52 +0000
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3f42b429290so2318555e9.0
+        for <linux-nvme@lists.infradead.org>; Thu, 18 May 2023 01:52:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684399534; x=1686991534;
+        d=1e100.net; s=20221208; t=1684399968; x=1686991968;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=f2f/V5SPND0fR5TrNzHivuxPB9sNOI9VO+dpvEkDefw3lrqanlzdkfyq4va126Kz9z
-         EA92ya6YqwaMo2onfM/ZWoK0TLKosb6F6yX6dBcEB4avs3mZsh7UtHqxf6BcFadkE3LB
-         s+1FF0/GJJ8t54hT84BYfqIYoYjD4JGKIgEpcmV7fhCLGQYiMFWVlZ0VglZBixnXYK1+
-         Y9nZx/kmapdQD178LMku92cQKh1VfuUYQ6+nqRirwRRrJXUSO424ghj63Es0Ks1Rpv1W
-         FP3UsXpX2PNJQ6CzXw1ouCkc8+OuIM+LC+s0HRTlHYbzYVqGIxUehuEmpntXnB/+XLDb
-         IxxA==
-X-Gm-Message-State: AC+VfDwj/ay6GqvlfDibS8hvO5w3fdpKGU5S+dg79Mzp7jKwRIMKNNcl
-	/Vko4nKzLzFTac1YBufzIG0=
-X-Google-Smtp-Source: ACHHUZ5a5f7L6HRHfpxpcfvhk1QbUKKdGsBN4bRU620kbOl+2xKKaFj68X5XkLM2zqB/Pf0v01vMLA==
-X-Received: by 2002:a17:906:20c3:b0:959:37cc:190e with SMTP id c3-20020a17090620c300b0095937cc190emr4900413ejc.3.1684399533692;
-        Thu, 18 May 2023 01:45:33 -0700 (PDT)
+        bh=rVptRixy6L9P37vVq6OCzJyhOYl45tI50f6hMUioApE=;
+        b=YcsbA12MNjlBcekiig7oIvmn3ikjbxx6IN9I8Z9PE73ZL95hgdxsoqm6zZBOTLxWIv
+         a/0wH1A4oTzDRG5qSqxLnJayCqOY3dQAXMnOiB8Fe2Jip9WGyR9gpYO0e7gbv4gMY8Po
+         mR38O0fxLQB2rRHzLkd0ptcH7yii4ZJx8kVrU4jzUIHeNalrwsKbpQZLtdohiouu33eG
+         DhulZu0mMHlwzmRbYr2FrWEqBAepRGFulUN7xkgPzUVdpkg0OwWF4CJ0LuteBpXJwNqS
+         2G4BpScc06K/nxKo296zjDV0OFJwHkUSmjFJOWVwLxWXhIlTLPnmtHx3Zf7F1G7wTu+t
+         4z3g==
+X-Gm-Message-State: AC+VfDxn2vfcNGQBAcEhi8WkpWR0iFY4LiRmF3nVAucK+bydWXNkr/aD
+	Eza0fQYf6vsO3SOJCsr6ylw=
+X-Google-Smtp-Source: ACHHUZ7mwKo4PPHyk0BYmII5AOGceWDTpSY5iYGWVfwXfD0Zm+btIBXQD79J6LvihGF/69UHEvIz5w==
+X-Received: by 2002:a05:600c:3b0e:b0:3f4:26ce:e7be with SMTP id m14-20020a05600c3b0e00b003f426cee7bemr4751364wms.3.1684399967943;
+        Thu, 18 May 2023 01:52:47 -0700 (PDT)
 Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id kf13-20020a17090776cd00b0096a5d341b50sm673184ejc.111.2023.05.18.01.45.32
+        by smtp.gmail.com with ESMTPSA id y20-20020a05600c365400b003f42bb3a5adsm4737999wmq.4.2023.05.18.01.52.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 May 2023 01:45:33 -0700 (PDT)
-Message-ID: <50450efe-8928-2565-08e1-ebe3589872fd@grimberg.me>
-Date: Thu, 18 May 2023 11:45:31 +0300
+        Thu, 18 May 2023 01:52:47 -0700 (PDT)
+Message-ID: <d8eb1af6-9845-2520-48cc-9c70a7d23689@grimberg.me>
+Date: Thu, 18 May 2023 11:52:45 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH v2 1/3] nvme: double KA polling frequency to avoid KATO
- with TBKAS on
+Subject: Re: [PATCH v2 2/3] nvme: check IO start time when deciding to defer
+ KA
 Content-Language: en-US
 To: Uday Shankar <ushankar@purestorage.com>,
  Costa Sapuntzakis <costa@purestorage.com>,
@@ -65,14 +65,14 @@ To: Uday Shankar <ushankar@purestorage.com>,
  Jens Axboe <axboe@fb.com>
 Cc: linux-nvme@lists.infradead.org
 References: <20230424232225.1975793-1-ushankar@purestorage.com>
- <20230424232225.1975793-2-ushankar@purestorage.com>
+ <20230424232225.1975793-3-ushankar@purestorage.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230424232225.1975793-2-ushankar@purestorage.com>
+In-Reply-To: <20230424232225.1975793-3-ushankar@purestorage.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230518_014538_563701_3F3F88AE 
-X-CRM114-Status: UNSURE (   6.73  )
+X-CRM114-CacheID: sfid-20230518_015250_846424_E9445CE2 
+X-CRM114-Status: UNSURE (   6.57  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -87,6 +87,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
+
+This makes sense to me.
 
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
