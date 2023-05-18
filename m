@@ -4,74 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8E6D3C7EE22
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 May 2023 09:01:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 171AAC77B7A
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 May 2023 09:07:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uBIUJy5gb3NA9HYbU6/qFHH1rjHl9BUgBoCMeFBvQug=; b=rtIGrvttY+dv4zaGFfR+4gMJ9j
-	x3vyJP/Ex6E24y38zlKJqhfFXHBXQrGlwBcBLWd9wSyvGQVyqzxJMQ8E1XodRF0XZpSvuZ9Won1XZ
-	E9nGL+vIJqMuS05/m6y2sQqs1RDjisCS4QFgZgr/WSH7D8TEp6QxDM4iQ7TWKbO1XlsegTCX0AhMc
-	SwM5KvZw95ofISiImOgT32T2FccsOHjsFaXR887WvePWtqQ78lJRtdE7guaC5xqr+zqLQlKWljAhD
-	v8T2ZG1n62l7Ymk2wiDIala1AuNP3/c8e81lFEXgLiXqwHXy6stfTGh65qa30UIiySUrzcrKFK+DV
-	JjmnMvZA==;
+	bh=4CE7SgB9eyt5DCErf+5OrHRvw6LcUlxEq6wa8t3tTKI=; b=haYW1Kj2vVp2hfODSLWHxfUT1h
+	LooagPztrdfMDKNdGvHaOsw1Gcj4WHudm5DeqGJ0gGDQspRWlJ0l6PVGn2Uk1Q/EQN3sNKj/1d6Fj
+	4h/MTxLXvxljPKDdMCAE/yZI6zmvpdVCNhmmuvLOPtNQclu3gz3e/+cUpcPWYbvKKfGMd41gSiQKc
+	gp0uGEPYcSo3IvoDN5WtGnQ28PPZu/PDbW6ssyZSjjrOSCVXbOZ4w6x1avMxUW3VkAk/Fp0qxQ+TY
+	T5v6wMnRUMecNJbzd7VlewiLIOsMvDEP1ebP2hYWnrmrJk8o5Iv0NKEaKToOYfJl5dpHd1OvBFvFy
+	8nX2oDPQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pzZW1-00CPKR-2Z;
-	Thu, 18 May 2023 09:01:41 +0000
-Received: from mail-wr1-f53.google.com ([209.85.221.53])
+	id 1pzZbF-00CPsN-1p;
+	Thu, 18 May 2023 09:07:05 +0000
+Received: from mail-wm1-f50.google.com ([209.85.128.50])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pzZVz-00CPK1-0Z
+	id 1pzZbD-00CPr2-09
 	for linux-nvme@lists.infradead.org;
-	Thu, 18 May 2023 09:01:40 +0000
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3093aa2f2a5so295643f8f.0
-        for <linux-nvme@lists.infradead.org>; Thu, 18 May 2023 02:01:37 -0700 (PDT)
+	Thu, 18 May 2023 09:07:04 +0000
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-3f475364065so3652595e9.1
+        for <linux-nvme@lists.infradead.org>; Thu, 18 May 2023 02:06:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684400496; x=1686992496;
+        d=1e100.net; s=20221208; t=1684400816; x=1686992816;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uBIUJy5gb3NA9HYbU6/qFHH1rjHl9BUgBoCMeFBvQug=;
-        b=jwOcCIZYRpg8LzlHd527czhFiTDE4zrmyhj21FZoyMLwES/9I7jafvIxgLk0COeeA9
-         dgXaY6dgmS4DTZb7tbekg+r7uv/UP2fRDtxmTt9INfFhyrVn+7U1FC1Xgaeu1fapKt2y
-         2eCH8NbY9lMnHKtsQ3zxQKXyLcMiRTEAFByAHDtj1fRKYcTDTdKtFPQ2ht7ozQmLK6FB
-         yo0ngiZx5fQOgFg1TO09O82GHqAP4mfct28cMFI2siCD5pue5m5pZTlXur9Wlen4Rh38
-         gjCI1Bzire0XzpFGPixOoLB+RwXhCqjwwQ2wV+GLgkIIoFDhM7lfNJSh2Vnw0Mpdwrlc
-         76PQ==
-X-Gm-Message-State: AC+VfDyPFv7RhISX6O//HYD+kgGkXBz1OdNIUhLrwF8ZaVKDSKkc779E
-	lirVNoJzurjfGB+pPqO5f10=
-X-Google-Smtp-Source: ACHHUZ4OJ07+a4jZ9LPfeo2JLjqY+vR+7mqcjS65pohJQlxjyPEEHe07qnxW118T8F1KOmiLQYSs8g==
-X-Received: by 2002:a05:6000:1812:b0:2fa:b265:a010 with SMTP id m18-20020a056000181200b002fab265a010mr3748649wrh.7.1684400495148;
-        Thu, 18 May 2023 02:01:35 -0700 (PDT)
+        bh=4CE7SgB9eyt5DCErf+5OrHRvw6LcUlxEq6wa8t3tTKI=;
+        b=k7s4rFaQOAyYyfv17BQYqv5nDj1I+Gp3XXTs3qbf8k5AAskDn5k+MbIfdZp2rbCrsL
+         FICax68qwRgk0tuFyRMKG4iKDtz0qIpn4nquOUCfQKsMgbWJlM148kv4sm3ZbYOWzter
+         K/oOxqBrbwmEB11iiCz0L1FI8uoIAaA3Top7YRMAYRneUSHJFQ1Z3nWqQ6qlBKcx4Scc
+         bmTHLeDHCWgtgsfVcYIhErg7rusR6lrMJc5JUf6kH7rW+qGnr+lgj1YsI+QpocG4K60H
+         wiE+4uTerhy5NBBcmExtfZGJpfS6Qu4UKrpwiyjqy6tXugDxJg9/kWXmapBqMPTK7/0F
+         4kuQ==
+X-Gm-Message-State: AC+VfDz8gURnPkpJzPlcOwNMDFnFPvJ936bPm8jLdY1UV4BhS9SjSSPb
+	bPYBei9tT1GblBdef/RrwFp0LaE+PYI=
+X-Google-Smtp-Source: ACHHUZ5pJ38Fj3huhRmAG8JrIqCZQV4S/Lp9YUEBP+ai/b3wonawoEnJbWWdU5S3WVBGbQg6sGaoKw==
+X-Received: by 2002:a05:600c:3486:b0:3f4:e86b:798 with SMTP id a6-20020a05600c348600b003f4e86b0798mr4794852wmq.1.1684400815493;
+        Thu, 18 May 2023 02:06:55 -0700 (PDT)
 Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id l2-20020adfe582000000b0030632833e74sm1521984wrm.11.2023.05.18.02.01.34
+        by smtp.gmail.com with ESMTPSA id 13-20020a05600c024d00b003f42813b315sm4607684wmj.32.2023.05.18.02.06.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 May 2023 02:01:34 -0700 (PDT)
-Message-ID: <4fcc801e-b680-a60b-f7e1-99a59edc5109@grimberg.me>
-Date: Thu, 18 May 2023 12:01:33 +0300
+        Thu, 18 May 2023 02:06:55 -0700 (PDT)
+Message-ID: <76a74d3a-5a52-7ce5-460d-04c1bc613435@grimberg.me>
+Date: Thu, 18 May 2023 12:06:53 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH v2 3/3] nvme: improve handling of long keep alives
+Subject: Re: [PATCH 1/1] nvme-core : remove redundant check from
+ nvme_init_ns_head
 Content-Language: en-US
-To: Uday Shankar <ushankar@purestorage.com>,
- Costa Sapuntzakis <costa@purestorage.com>,
- Randy Jennings <randyj@purestorage.com>, Hannes Reinecke <hare@suse.de>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Jens Axboe <axboe@fb.com>
-Cc: linux-nvme@lists.infradead.org
-References: <20230424232225.1975793-1-ushankar@purestorage.com>
- <20230424232225.1975793-4-ushankar@purestorage.com>
+To: Irvin Cote <irvincoteg@gmail.com>, hch@lst.de
+Cc: kbusch@kernel.org, axboe@kernel.dk, linux-nvme@lists.infradead.org
+References: <20230517220915.7244-1-irvincoteg@gmail.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230424232225.1975793-4-ushankar@purestorage.com>
+In-Reply-To: <20230517220915.7244-1-irvincoteg@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230518_020139_212821_AF397BA5 
-X-CRM114-Status: GOOD (  24.26  )
+X-CRM114-CacheID: sfid-20230518_020703_082693_E9119E9F 
+X-CRM114-Status: GOOD (  15.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,68 +83,27 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-> Upon keep alive completion, nvme_keep_alive_work is scheduled with the
-> same delay every time. If keep alive commands are completing slowly,
-> this may cause a keep alive timeout. The following trace illustrates the
-> issue, taking KATO = 8 and TBKAS off for simplicity:
+> nvme_find_ns_head already checks that the list of namescpaces
+> in an already existing namespace head is not empty
 > 
-> 1. t = 0: run nvme_keep_alive_work, send keep alive
-> 2. t = ε: keep alive reaches controller, controller restarts its keep
->            alive timer
-> 3. t = 4: host receives keep alive completion, schedules
->            nvme_keep_alive_work with delay 4
-> 4. t = 8: run nvme_keep_alive_work, send keep alive
-> 
-> Here, a keep alive having RTT of 4 causes a delay of at least 8 - ε
-> between the controller receiving successive keep alives. With ε small,
-> the controller is likely to detect a keep alive timeout.
-> 
-> Fix this by calculating the RTT of the keep alive command, and adjusting
-> the scheduling delay of the next keep alive work accordingly.
-> 
-> Reported-by: Costa Sapuntzakis <costa@purestorage.com>
-> Reported-by: Randy Jennings <randyj@purestorage.com>
-> Signed-off-by: Uday Shankar <ushankar@purestorage.com>
-> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Signed-off-by: Irvin Cote <irvincoteg@gmail.com>
 > ---
->   drivers/nvme/host/core.c | 20 +++++++++++++++++---
->   1 file changed, 17 insertions(+), 3 deletions(-)
+>   drivers/nvme/host/core.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 0215dcf643ef..2028fa050bcf 100644
+> index ccb6eb1282f8..54a8eadd9876 100644
 > --- a/drivers/nvme/host/core.c
 > +++ b/drivers/nvme/host/core.c
-> @@ -1162,10 +1162,15 @@ EXPORT_SYMBOL_NS_GPL(nvme_passthru_end, NVME_TARGET_PASSTHRU);
->    * frequency, as one command completion can postpone sending a keep alive
->    * command by up to twice the delay between runs.
->    */
-> +static unsigned long nvme_keep_alive_work_period(struct nvme_ctrl *ctrl)
-> +{
-> +	return (ctrl->ctratt & NVME_CTRL_ATTR_TBKAS) ?
-> +		(ctrl->kato * HZ / 4) : (ctrl->kato * HZ / 2);
-> +}
-> +
->   static void nvme_queue_keep_alive_work(struct nvme_ctrl *ctrl)
->   {
-> -	unsigned long delay = (ctrl->ctratt & NVME_CTRL_ATTR_TBKAS) ?
-> -		ctrl->kato * HZ / 4 : ctrl->kato * HZ / 2;
-> +	unsigned long delay = nvme_keep_alive_work_period(ctrl);
->   	queue_delayed_work(nvme_wq, &ctrl->ka_work, delay);
->   }
+> @@ -4209,7 +4209,7 @@ static int nvme_init_ns_head(struct nvme_ns *ns, struct nvme_ns_info *info)
+>   			goto out_put_ns_head;
+>   		}
 >   
-> @@ -1175,6 +1180,15 @@ static enum rq_end_io_ret nvme_keep_alive_end_io(struct request *rq,
->   	struct nvme_ctrl *ctrl = rq->end_io_data;
->   	unsigned long flags;
->   	bool startka = false;
-> +	unsigned long rtt = jiffies - nvme_req(rq)->start_time;
-> +	unsigned long delay = nvme_keep_alive_work_period(ctrl);
-> +
-> +	/* Subtract off the keepalive RTT so nvme_keep_alive_work runs
-> +	 * at the desired frequency. */
-> +	if (rtt <= delay)
-> +		delay -= rtt;
-> +	else
-> +		delay = 0;
-This should probably log a warning or something... The controller has
-such a slow response time to keep-alive that it exceeds the delay...
+> -		if (!multipath && !list_empty(&head->list)) {
+> +		if (!multipath) {
+>   			dev_warn(ctrl->device,
+>   				"Found shared namespace %d, but multipathing not supported.\n",
+>   				info->nsid);
+
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
