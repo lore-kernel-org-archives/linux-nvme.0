@@ -4,76 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EB640C77B7A
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 May 2023 02:16:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87221C77B7D
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 May 2023 07:52:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=K4DhnB/Mb2qNxRJ3dsE4nmeKE6kddWJ9OIHGaovDSrY=; b=n29Nj59kvE+YKkJH0OL+hLKatj
-	ZidJ4RWTVZa6YLAnlBeit3r4ggMAgrCAIlWJD0+IfxOZXtioAMJwkIesz5CrggPmOX2KDk+drFwaf
-	wBTvrx2mkrdnzzKNcUfdMBkh/kRfXcAYaljdEIzqNo42ciIzRFt8yqZMEP9n6+r5Dq/fwmJ8Tl9Nc
-	s96PCtY/Afwx5SK1JGTJ5CkOjFvRypT/DQP0kjK4xLuLHS/6wtY6FlJeGkxSO+dyvLkY2E99/RLAe
-	lYYWid1ZexS7vG8WJSUyup0i4XO+35NkipIv1JSv+B8gF1TN7JyN4u7m21tU+bpn7KTcQXsQ26pQ7
-	ZolmtRUA==;
+	bh=35wFhivmcYCWnVrRWAiYgC66ZHYrppThfjDiaL7jSDs=; b=JDvZPvb+BySMY+mCfrbuQz9z1r
+	Wiru9vPEaMZGqnkJsd5k5dp1IbSFIhuQ55FSh3H8+Ocil63Bz6rFDmMhpvmi2efEPOtT2SjEM7Sqn
+	5HT2zXS7unIMGNkuyEQipqwF2AueI6E7A0UpnhQ1ookEhGBDGEiOdkoqg7tjFMNiYMBRkym4Xcp9A
+	ZOGMgVx9OOPuqBzjRETte0A58ZQEdWHf/srqRpqRmL+oQxYSYUW9GzSuQ4+kWeajh9VP545a2GxqE
+	1vJz8dSzPYnVcGQ7jqgUZl0lf9aBU1QxlN8deiaQkL3KQ136cjk3yiq5JCo77KuBSvqMNx+6HJ2yX
+	KbH+A+sg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pzTBU-00BgTA-0t;
-	Thu, 18 May 2023 02:16:04 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1pzYQv-00CG5S-0e;
+	Thu, 18 May 2023 07:52:21 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pzTBQ-00BgSE-2p
+	id 1pzYQs-00CG3c-0r
 	for linux-nvme@lists.infradead.org;
-	Thu, 18 May 2023 02:16:02 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1684376158;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=K4DhnB/Mb2qNxRJ3dsE4nmeKE6kddWJ9OIHGaovDSrY=;
-	b=bECWHKc7YTJqE+AVF19f0j5CA0bjz1WAlSlrMmxKDs6+K9+KCdoAIbV1oIisKUBcjTZJGF
-	bTDRXJOgN1I7OY/McQU6+K1jqQjK3YkskFqth2MUTUOQHeOVo9qp59qeNcGbwU/sz6Qjyi
-	MfPcTQgGkG+PmONOkF5lAU17w2/hNdk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-260-iKt4YJhNO2qHogQuhPRxig-1; Wed, 17 May 2023 22:15:54 -0400
-X-MC-Unique: iKt4YJhNO2qHogQuhPRxig-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	Thu, 18 May 2023 07:52:19 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D2D2E185A79C;
-	Thu, 18 May 2023 02:15:53 +0000 (UTC)
-Received: from ovpn-8-16.pek2.redhat.com (ovpn-8-25.pek2.redhat.com [10.72.8.25])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1EDDEC16024;
-	Thu, 18 May 2023 02:15:47 +0000 (UTC)
-Date: Thu, 18 May 2023 10:15:42 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Pavel Begunkov <asml.silence@gmail.com>, Christoph Hellwig <hch@lst.de>,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	io-uring@vger.kernel.org, kbusch@kernel.org, sagi@grimberg.me,
-	joshi.k@samsung.com, ming.lei@redhat.com
-Subject: Re: [PATCH for-next 2/2] nvme: optimise io_uring passthrough
- completion
-Message-ID: <ZGWKTpRLIJ0NBPIt@ovpn-8-16.pek2.redhat.com>
-References: <cover.1684154817.git.asml.silence@gmail.com>
- <ecdfacd0967a22d88b7779e2efd09e040825d0f8.1684154817.git.asml.silence@gmail.com>
- <20230517072314.GC27026@lst.de>
- <9367cc09-c8b4-a56c-a61a-d2c776c05a1c@gmail.com>
- <84e1ce69-d6d5-5509-4665-2d153e294fc8@kernel.dk>
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 199CF22618;
+	Thu, 18 May 2023 07:52:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1684396332; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=35wFhivmcYCWnVrRWAiYgC66ZHYrppThfjDiaL7jSDs=;
+	b=gNaF4FEF4sCEAoxMytxwRr24GdjT8ysJtK4mZVMdB6U7mOAaNy9+e/8ROl4bTWmVE5p2kl
+	ooY4Tybp8d+N0Zie0mPzgBkdlsvfONKgCMPjMyzpz1gUj3RknDCfNKrjI3JTVeS6zUHnpB
+	4yVehVoifvGbZDr8er2poJBS5RZ3/HI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1684396332;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=35wFhivmcYCWnVrRWAiYgC66ZHYrppThfjDiaL7jSDs=;
+	b=mMuwCITDzTnnCtb0M9rvVEUBnsoij5qy+Bez40xgUbr1ldcfQWzVPwim0FVUDQ2efW9cQO
+	V0qP84RymdNjyrBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 08CAE1390B;
+	Thu, 18 May 2023 07:52:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id iU/FASzZZWRpKQAAMHmgww
+	(envelope-from <dwagner@suse.de>); Thu, 18 May 2023 07:52:12 +0000
+Date: Thu, 18 May 2023 09:52:11 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
+	Shin'ichiro Kawasaki <shinichiro@fastmail.com>, Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH blktests v4 05/11] nvme{032,040}: Use runtime fio
+ background jobs
+Message-ID: <eykbvi7lzhnbd6ft6cva6qu4lp5ryn3ha2fgigmao2553qm4bu@227ey5mv5ls5>
+References: <20230511140953.17609-1-dwagner@suse.de>
+ <20230511140953.17609-6-dwagner@suse.de>
+ <50c50cda-23f5-b55d-a902-ce34de8498e1@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <84e1ce69-d6d5-5509-4665-2d153e294fc8@kernel.dk>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+In-Reply-To: <50c50cda-23f5-b55d-a902-ce34de8498e1@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230517_191601_006790_D0866EA7 
-X-CRM114-Status: GOOD (  21.75  )
+X-CRM114-CacheID: sfid-20230518_005218_472414_BA53271E 
+X-CRM114-Status: GOOD (  12.65  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,49 +92,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, May 17, 2023 at 01:31:00PM -0600, Jens Axboe wrote:
-> On 5/17/23 6:32 AM, Pavel Begunkov wrote:
-> > On 5/17/23 08:23, Christoph Hellwig wrote:
-> >> On Mon, May 15, 2023 at 01:54:43PM +0100, Pavel Begunkov wrote:
-> >>> Use IOU_F_TWQ_LAZY_WAKE via iou_cmd_exec_in_task_lazy() for passthrough
-> >>> commands completion. It further delays the execution of task_work for
-> >>> DEFER_TASKRUN until there are enough of task_work items queued to meet
-> >>> the waiting criteria, which reduces the number of wake ups we issue.
-> >>
-> >> Why wouldn't you just do that unconditionally for
-> >> io_uring_cmd_complete_in_task?
-> > 
-> > 1) ublk does secondary batching and so may produce multiple cqes,
-> > that's not supported. I believe Ming sent patches removing it,
-> > but I'd rather not deal with conflicts for now.
+On Wed, May 17, 2023 at 04:40:52AM +0000, Chaitanya Kulkarni wrote:
+> On 5/11/23 07:09, Daniel Wagner wrote:
+> > The fio jobs are supposed to run long in background during the test.
+> > Instead relying on a job size use explicit runtime for this.
+> >
+> > Signed-off-by: Daniel Wagner <dwagner@suse.de>
 > 
-> Ming, what's the status of those patches? Looks like we'll end up
-> with a dependency regardless of the ordering of these. Since these
-> patches are here now, sanest approach seems to move forward with
-> this series and defer the conflict resolving to the ublk side.
+> Is there any issue with the exiting approach for this change ?
 
-I didn't send patch to remove the batch in ublk, such as, the following
-line code:
-
-ublk_queue_cmd():
-	...
-	if (!llist_add(&data->node, &ubq->io_cmds))
-		return;
-	...
-
-But I did want to kill it given __io_req_task_work_add() can do batching
-process, but we have to re-order request in this list, so can't remove it
-now simply, see commit:
-
-	7d4a93176e01 ("ublk_drv: don't forward io commands in reserve order")
-
-Pavel must have misunderstood the following one as the batch removal:
-
-https://lore.kernel.org/linux-block/20230427124414.319945-2-ming.lei@redhat.com/
-
-	
-
-thanks,
-Ming
-
+The expectation of the test here is that there is a background job running.
+Depending on the job size is an indirect way to express run at least for x
+seconds. This gives a variable runtime as it depends the how fast fio jobs gets
+executed. Explicitly telling the runtime is my opinion more robust and documents
+the indention better.
 
