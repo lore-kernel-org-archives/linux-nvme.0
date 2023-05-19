@@ -4,58 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2CC52C77B7D
-	for <linux-nvme@archiver.kernel.org>; Fri, 19 May 2023 01:46:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B7958C77B73
+	for <linux-nvme@archiver.kernel.org>; Fri, 19 May 2023 02:12:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=NLPAOYG4bGqul1+Gne/Us6ESA5u0/gy5uqLx4/G2k3E=; b=3Au91YeCOG5k14PR5e6HC4q60I
-	CKb1BB24+djpsQKoxZEgZyI1dHpdyZr+8cke8J7RN0FMeTR0qq/MXBvxS1EodkPgwo0W956bGyhmr
-	F4HuR5aIoQ2D7sdEIvQttQ7/2pltmlt0+tgJ+61c7Jdpc5J5vrVFN6ohgfkaPwmuS+4E3984dzFO8
-	jmIzcQqqu1MvRUE+VJ1qNsexBLE7Kkk3Bb+cttwovaltsKMKhWYjg49TTB/qj9MyHY8RrOMHU2o1h
-	cpTErfrG+dFf+MRKQ4YP/KIs7WCS9tb8QWZwHQK5GihzF8n0qH72oiPwOVCoIVwrAe0qDMFHq2cTO
-	FrzfGixA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9gsigpjsY2ElnjSnXipR3QZI6+oyWrlwMu8uqxjNqhM=; b=mtXNAEeMXLNNSxYrjOkTOJz6hx
+	zwOq923cDFzphVTdGbh9gmGEATUxgcq0NB7KDSuaSF7mGx4IDTW0n+4QOV1i0gxABWTSqunkPy+iG
+	wUeSjHSew6xCRw9q022jMm/ChZBp8G8mLnh4ZFEDE0XKodzApRRvILi7d07snC9aShNEwvufF7pxJ
+	L1VQqQHDhKjF4LTIrAUMaifGUH8VPNo9go2f701o5N3PprIM5aPKM+9PE9++KdnrZCrzsEPYdq2dC
+	/7rkzNoquBs27PxihWSWElEGgjO7m7dGBOnMiA1WZbxb2I604L+HYNiScw8yjqSD3m+zOMB7/jfeL
+	LGBTSbag==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1pzpBy-00EikB-04;
-	Fri, 19 May 2023 01:46:02 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1pzpba-00Emxb-1U;
+	Fri, 19 May 2023 02:12:30 +0000
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1pzpBu-00Eij2-37
+	id 1pzpbX-00Emws-1Q
 	for linux-nvme@lists.infradead.org;
-	Fri, 19 May 2023 01:46:00 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id B98206117F;
-	Fri, 19 May 2023 01:45:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0C15C433EF;
-	Fri, 19 May 2023 01:45:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1684460755;
-	bh=tnRSZTl/yrkbF79rZBYPvr06BV+ayl21I44AVvN/UXg=;
-	h=Date:From:To:Cc:Subject:From;
-	b=YIno5kqBvHH+fMwac+VoneCntDOBJWSKdZ9hVCmhs3ViiMtHde1g/i6WLoIy7FXLb
-	 CUklFYUhDPqMKE2A6K3s5DrTo9SCdHCNz3E9g3jo21wx+f/Y3Dfa0fTySoseDDuIJu
-	 cfr8B1s8F3JrjbRmbZuHdZCYYl4AJGcu6NISTWUyZXrtXgqZky9W5SS6yBVHZMwEef
-	 +TXptbYJgcWeoF62uwgIckgJ/Dsp7GoEXbOpcmpGtfCdhAhfFuSusbyFbHG0+s4y0C
-	 dkIofjK7eEScOQNtRhYoPkzvM5Z6AYI9Cs+fJGyQvoTUWqYOeQzcon5EBsO+P84ZCt
-	 w4GYYqwniXy0g==
-Date: Thu, 18 May 2023 19:45:52 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: axboe@kernel.dk
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
-Subject: [GIT PULL] nvme fixes for Linux 6.4
-Message-ID: <ZGbU0OOVRGRBeL+I@kbusch-mbp.dhcp.thefacebook.com>
+	Fri, 19 May 2023 02:12:28 +0000
+Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1ae65e44536so2897115ad.0
+        for <linux-nvme@lists.infradead.org>; Thu, 18 May 2023 19:12:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1684462345; x=1687054345;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9gsigpjsY2ElnjSnXipR3QZI6+oyWrlwMu8uqxjNqhM=;
+        b=qtbtG+qO1WSSFmqEm2atI2OB530U/3+qDvSztsAaKKvYhIaJwYYIQShAEpwDYrKeJi
+         9weuRpuoDObbjtloUB9aZ7nQALRr/tCvREpvNTQ9qmmcHrepTMkxmkGKTLx0DC3nLlhl
+         ad8P1JIv5EoXlYizOZ3nrYk4LJ9KYvl7An0XOdr1Zpq7YLsGgUVsiPXvhLp5c8TB6lnd
+         i23Iwje8QJU0xS98T3+rDOZgF3DIJnXhNVxJKkCGsYEtl/B5vwxZw60vIBbNIys5r8eM
+         sBLhNrl93Z5ewvt1L7svXnV+AYxsf8z59lRi8Lv0ucAzY6e0wOy9VPDPTBTlJuvEvbFs
+         kGwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684462345; x=1687054345;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9gsigpjsY2ElnjSnXipR3QZI6+oyWrlwMu8uqxjNqhM=;
+        b=Ymo0Z5SlytpDUpepPZ/Frm6KQnw/shBvVxLqK/CTLkCJyM0ibS4DeWCQgkWSGYM2+m
+         Meinwlw/s3qUAZgq/bJkNS5VOSs+v6DE9cbbjm2moMnkijiwUoPWBU311w62OiAADBbZ
+         7QM+n32J99mRLMAdzKAD9qLDB0N66s2h5j+RK0VhfjmxUDFi8YOIanQA/GNvfDpHMkHJ
+         aMxs8NDNEJ0qpvf30wqZcEx0qhSmB1SgNNiijIZmW0WHKZkub4eNi40eHsF0oFNGW8Jj
+         ckZijWeeVTC+rBJykp6vCKPS+h+vKB1m4HQTHjYNl6qVozM4GokMsvKREpQGkSxknIrI
+         cAsg==
+X-Gm-Message-State: AC+VfDzULQ0lKOt45RpoAZ40cX0gfo4O850BIpXvHiS/5VkOApQ00B1Z
+	RikH3twcJTPy8r01wf1Zgm84Yg==
+X-Google-Smtp-Source: ACHHUZ7D++qOb3lqkeFZGJC2fZXq3dl4S682iSWww75hVNXl0I+IXQ3mY+jvJshdRMbEK7O5bBk30A==
+X-Received: by 2002:a17:902:dac3:b0:1ac:775b:3e0a with SMTP id q3-20020a170902dac300b001ac775b3e0amr1189572plx.5.1684462345672;
+        Thu, 18 May 2023 19:12:25 -0700 (PDT)
+Received: from [192.168.1.136] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id h13-20020a170902680d00b001ac8218ddb7sm2178877plk.84.2023.05.18.19.12.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 May 2023 19:12:24 -0700 (PDT)
+Message-ID: <147b8893-10cd-27dd-eb48-3a5128de8f5d@kernel.dk>
+Date: Thu, 18 May 2023 20:12:23 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 1/2] nvme-core: remove redundant condition in
+ nvme_ns_head_multipath
+Content-Language: en-US
+To: Irvin Cote <irvincoteg@gmail.com>, hch@lst.de
+Cc: kbusch@kernel.org, sagi@grimberg.me, linux-nvme@lists.infradead.org
+References: <20230518221054.56378-1-irvincoteg@gmail.com>
+ <20230518221054.56378-2-irvincoteg@gmail.com>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20230518221054.56378-2-irvincoteg@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230518_184559_068937_9FDF39D6 
-X-CRM114-Status: GOOD (  10.44  )
+X-CRM114-CacheID: sfid-20230518_191227_503186_6EF34D7F 
+X-CRM114-Status: GOOD (  15.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,48 +95,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The following changes since commit 7949aa46bb4b5c5e43ba3ba8298ffcb48bebf0ff:
+On 5/18/23 4:10?PM, Irvin Cote wrote:
+> head->disk implies IS_ENABLED(CONFIG_NVME_MULTIPATH) (c.f
+> nvme_mpath_alloc_disk) hence the condition is redundant.
+> 
+> Signed-off-by: Irvin Cote <irvincoteg@gmail.com>
+> ---
+>  drivers/nvme/host/nvme.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index bf46f122e9e1..7820e40cdce4 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -453,7 +453,7 @@ struct nvme_ns_head {
+>  
+>  static inline bool nvme_ns_head_multipath(struct nvme_ns_head *head)
+>  {
+> -	return IS_ENABLED(CONFIG_NVME_MULTIPATH) && head->disk;
+> +	return head->disk;
+>  }
 
-  mailmap: add mailmap entries for Jens Axboe (2023-04-30 16:16:45 -0600)
+Might not matter for this case, but this changes something that'd
+compile away for !CONFIG_NVME_MULTIPATH to now needing to read
+disk->head instead. That doesn't seem like a good change.
 
-are available in the Git repository at:
+-- 
+Jens Axboe
 
-  git://git.infradead.org/nvme.git tags/nvme-6.4-2023-05-18
-
-for you to fetch changes up to 0649728123cf6a5518e154b4e1735fc85ea4f55c:
-
-  nvme-pci: Add quirk for Teamgroup MP33 SSD (2023-05-18 17:53:55 -0700)
-
-----------------------------------------------------------------
-nvme fixes for Linux 6.4
-
- - More device quirks (Sagi, Hristo, Adrian, Daniel)
- - Controller delete race (Maurizo)
- - Multipath cleanup fix (Christoph)
-
-----------------------------------------------------------------
-Adrian Huang (1):
-      nvme-pci: clamp max_hw_sectors based on DMA optimized limitation
-
-Christoph Hellwig (1):
-      nvme-multipath: don't call blk_mark_disk_dead in nvme_mpath_remove_disk
-
-Daniel Smith (1):
-      nvme-pci: Add quirk for Teamgroup MP33 SSD
-
-Hristo Venev (1):
-      nvme-pci: add quirk for missing secondary temperature thresholds
-
-Maurizio Lombardi (1):
-      nvme: do not let the user delete a ctrl before a complete initialization
-
-Sagi Grimberg (1):
-      nvme-pci: add NVME_QUIRK_BOGUS_NID for HS-SSD-FUTURE 2048G
-
- drivers/nvme/host/core.c      | 6 +++++-
- drivers/nvme/host/hwmon.c     | 4 +++-
- drivers/nvme/host/multipath.c | 1 -
- drivers/nvme/host/nvme.h      | 5 +++++
- drivers/nvme/host/pci.c       | 8 +++++++-
- 5 files changed, 20 insertions(+), 4 deletions(-)
 
