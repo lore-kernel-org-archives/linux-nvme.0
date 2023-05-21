@@ -4,80 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5634EC77B7A
-	for <linux-nvme@archiver.kernel.org>; Sun, 21 May 2023 00:03:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F61AC7EE23
+	for <linux-nvme@archiver.kernel.org>; Sun, 21 May 2023 01:48:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=45/c1qQCKk2Cy3X+PldH528dFASP04vJ5ovp/9rK6aE=; b=LkmUW5YuP7uJdZuXvZ+gzDn/5r
-	5YX2ujm3GhfDZGDP5uer4n1QMZ5UmQSfp+kFbp47A9bEdwX3O0wLBsx4gfzvcMkclLB4Ew7/2SBLm
-	5rIU+nElV2xuZkzrW4paIkt6U545t/v+hIiJfp82dMBUdUakLAAr+zcyA0bM672nUb7FUuWhqBZI0
-	tmYla2MNgBSjMM+PXcKO72wRi+nJZT735PXPocq3CwEPug3D3yFNrRF84JPv0mzyEeebUegrTsBbQ
-	sCounp2Or5XSEV/jfRsZ7sWUmfiO45/ZtlCVcAjwwR5xLLLcaRVW7qiRW+eBYM6lHzl4LKp1VeSyY
-	henmgThQ==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=L2w83OsVlpFn7pAPig0LxFv1PaaAzp2pM0zfdrQQzs0=; b=R4z+NP+ZYJSSvra6QYDCCfbpBS
+	5liGFliwSEcFF3CbXSyTG8e187jFLR25WBUi9Q2b9yQ70+SF0z9XCsxTxdIygCuYwNNxmCu0Pb7OY
+	9NZKcbBVfYhkpS27d8GP/QX11NPWfzOO0HflyWe+KQgwvGnFZqoG6ex6mdONoWTyPlHL8tj5wfcQ3
+	AUtJEBDOOW6Ha99fSAhi+1gS7lcyC+eeTEqYL5iyK+Q/JGxaeAKvuiN6Z0u9NYSI00bpm8Bn8gkgb
+	9OakJzFjTzkMmqfwuv8ESYd1vf7XhQf29wwsDECe92zpceIwTK3KQ48usuoWMrkDK1eBCHc2NgR20
+	KZOnmzcg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q0WXJ-002ana-2C;
-	Sun, 21 May 2023 00:02:57 +0000
-Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e])
+	id 1q0YBE-002lxz-0l;
+	Sun, 21 May 2023 01:48:16 +0000
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q0WXH-002amk-0f
+	id 1q0YBA-002lx5-1W
 	for linux-nvme@lists.infradead.org;
-	Sun, 21 May 2023 00:02:56 +0000
-Received: by mail-ot1-x32e.google.com with SMTP id 46e09a7af769-6af6b5cf489so313710a34.3
-        for <linux-nvme@lists.infradead.org>; Sat, 20 May 2023 17:02:53 -0700 (PDT)
+	Sun, 21 May 2023 01:48:14 +0000
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-6439bf89cb7so345821b3a.0
+        for <linux-nvme@lists.infradead.org>; Sat, 20 May 2023 18:48:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684627371; x=1687219371;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=45/c1qQCKk2Cy3X+PldH528dFASP04vJ5ovp/9rK6aE=;
-        b=p1Q4VImQfVnzvGXAbVH5kH0r7AglNu4X99POK8G8zFeLaz4pJrIp4mvh1LmxywwFBw
-         za3QO1ZnFiFjQd/OylvvDv9aI9OEcLw9jg5zz1kmFxp4wOP3f3il0JwvgxeWapEtZM8l
-         ZPHPuDSs8WaTSQ8BFbpEH/ZL5M8BgLA27PsnHzgFaGgaR8p42xsRne4n4ggU5p/wbrRk
-         4HucNEYU7xTgmwHrkp89K+HE4kW/WsB8NLy55L4kCv4g8tuYFRDr4RsL9WOK/6P3cknq
-         px8jOuYIeHyE8zGLN59erNDHqU7/5HAKklw4NfhGYDtODzmqYrP7jpyiWRnTOn8alQE+
-         dgzg==
+        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1684633690; x=1687225690;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=L2w83OsVlpFn7pAPig0LxFv1PaaAzp2pM0zfdrQQzs0=;
+        b=OTUT5iVs6ET7InyC7VkbAVJir1+jgJ9NfRBC4CmVQLVjgsB5T1WWFjy0zih/pawcq1
+         0DmgTPHtXTTrmZoIOeSnX5uC1B2pWoWFheDgEQ9BkYhgcntJmTB3RLVLkadA3WtW8xai
+         /jA1vaDVgNEtXv5zz0CiK+E+5/Ic1pJ3E0EjrPNrdoZJNIEJgrfC7h+RlQ/8fam61GIj
+         Zf7d3rD3/+QP6NTuxGO4iP7OhtQLO8ildWjYjUi1/KIfio4sV5Y1YypdYM0oZlv3N4wA
+         dqFNwZQozQ71eARXJr4efHJ+PJAwrmoIXsLJQkANXjgXeby98MCB/nYsj1fmc2f86t7v
+         oYGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684627371; x=1687219371;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=45/c1qQCKk2Cy3X+PldH528dFASP04vJ5ovp/9rK6aE=;
-        b=Osdwfm0DMBiQisa6AJuMG56zVmOu+Zkf9/VJoKzpC3BFfsu7sO2vkAfqkKJ1wneRBg
-         2kUj5PrZUa2+XOwqX+a3oZ+7T8xn1n952TkyzwB8fNG6OzhPQiGr48XiOVq6GhQC6n6G
-         A698KdN8C1B2UZM1rLauoR/bDDcc1ENC4/gSGiCTNYJ9/Xb6+3OoeBHHvYgN2W8Jda8s
-         +uVW/sJRj7eiPY/Cg1tld2G5D9gLt4/gyX77FGoIBcskuvIN180B+QRjq4aAku1tF/mT
-         RKPjNpDPyAuDXLbccm6+LzQDK5A5XvN3QQ5GR6JUsHlJw9XCFYIWh0ef+kMQQr/eVVBq
-         m7GQ==
-X-Gm-Message-State: AC+VfDxyI1yvGMJiqKH/yz2gp7ZdelbWXOFws9PGUL7TofDJdBIAmQ3d
-	y8Whzrrznd85TTBhf+cQvRk=
-X-Google-Smtp-Source: ACHHUZ5ssKZNcaeorGkzC8ygHfhWyhYlYLeTVE0ybOg9ofy2Fn1HklzkpBbwOzTzTx1re9dbR8RzVA==
-X-Received: by 2002:a05:6870:9510:b0:178:9bb0:4c8e with SMTP id u16-20020a056870951000b001789bb04c8emr3595370oal.48.1684627369600;
-        Sat, 20 May 2023 17:02:49 -0700 (PDT)
-Received: from localhost.localdomain ([2802:8010:1228:a600:7834:92bf:f8db:3e67])
-        by smtp.gmail.com with ESMTPSA id ak4-20020a056871918400b00187e500e7b3sm982578oac.49.2023.05.20.17.02.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 May 2023 17:02:49 -0700 (PDT)
-From: Irvin Cote <irvincoteg@gmail.com>
-To: hch@lst.de
-Cc: kbusch@kernel.org,
-	axboe@kernel.dk,
-	sagi@grimberg.me,
-	linux-nvme@lists.infradead.org,
-	Irvin Cote <irvincoteg@gmail.com>
-Subject: [PATCH] nvme-pci : redundancies in nvme_alloc_queue and nvme_init_queue 
-Date: Sat, 20 May 2023 21:02:36 -0300
-Message-Id: <20230521000236.100402-1-irvincoteg@gmail.com>
-X-Mailer: git-send-email 2.39.2
+        d=1e100.net; s=20221208; t=1684633690; x=1687225690;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=L2w83OsVlpFn7pAPig0LxFv1PaaAzp2pM0zfdrQQzs0=;
+        b=ZKwQwvsVscmO3SJJB1aRaHAMy5G5/srnDaSDeXjfsQfidaDgzIQoTNiFpYkIBbcvap
+         jsY5eGvIieeS/opM55TPPsbpz5W8Ix/ivJCP6OVcVvsCtXS5B/qfFbqkuFTy9/S1tIBm
+         q3AMR1q1Qt0yoJcM/E9jrV6KgUS+/VEaVQv9Rq77iIb6cobo5OBgzDMazbmS0TeSE/JG
+         sr2zndyWevNhP4H7y1VsiFrdBsjkoM6OKp2iL22NXC6nPLsPi2tOnxFlo2aW4VhPpivN
+         XgA7StMPGbJTmUgbTo0f27wva3OsgCxJpr2HpNNOSSK/pXgu0eMh76B6ubH0qM1TLznQ
+         +1QA==
+X-Gm-Message-State: AC+VfDyiepyL+nTGNinq4BwARM1ix2s+OOsvQVGoYbgJQIOYML4HauMT
+	rgKlS5094c6A01CwdZVPhTb17w==
+X-Google-Smtp-Source: ACHHUZ5nJy9g0E565U96ldJavYaYzc95fUuByR1uor3i+1o1wg/Sizi2Ummi3WvL4nOUVtsM/VIBnw==
+X-Received: by 2002:a17:902:c948:b0:1ae:7ba2:1a7e with SMTP id i8-20020a170902c94800b001ae7ba21a7emr7761691pla.6.1684633690173;
+        Sat, 20 May 2023 18:48:10 -0700 (PDT)
+Received: from [192.168.1.136] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id g8-20020a1709029f8800b001aaf6353736sm2152428plq.80.2023.05.20.18.48.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 20 May 2023 18:48:09 -0700 (PDT)
+Message-ID: <d49afbae-4ce9-5c6f-a1ad-d07f14f2f2b7@kernel.dk>
+Date: Sat, 20 May 2023 19:48:08 -0600
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] nvme-pci : redundancies in nvme_alloc_queue and
+ nvme_init_queue
+Content-Language: en-US
+To: Irvin Cote <irvincoteg@gmail.com>, hch@lst.de
+Cc: kbusch@kernel.org, sagi@grimberg.me, linux-nvme@lists.infradead.org
+References: <20230521000236.100402-1-irvincoteg@gmail.com>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20230521000236.100402-1-irvincoteg@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230520_170255_285562_2AB4317B 
-X-CRM114-Status: UNSURE (   7.51  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230520_184812_729236_EED14CAA 
+X-CRM114-Status: GOOD (  15.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,26 +94,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Signed-off-by: Irvin Cote <irvincoteg@gmail.com>
----
- drivers/nvme/host/pci.c | 3 ---
- 1 file changed, 3 deletions(-)
+On 5/20/23 6:02 PM, Irvin Cote wrote:
+> Signed-off-by: Irvin Cote <irvincoteg@gmail.com>
+> ---
+>  drivers/nvme/host/pci.c | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 32244582fdb0..49ae26980a0f 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1533,9 +1533,6 @@ static int nvme_alloc_queue(struct nvme_dev *dev, int qid, int depth)
+>  	nvmeq->dev = dev;
+>  	spin_lock_init(&nvmeq->sq_lock);
+>  	spin_lock_init(&nvmeq->cq_poll_lock);
+> -	nvmeq->cq_head = 0;
+> -	nvmeq->cq_phase = 1;
+> -	nvmeq->q_db = &dev->dbs[qid * 2 * dev->db_stride];
+>  	nvmeq->qid = qid;
+>  	dev->ctrl.queue_count++;
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 32244582fdb0..49ae26980a0f 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1533,9 +1533,6 @@ static int nvme_alloc_queue(struct nvme_dev *dev, int qid, int depth)
- 	nvmeq->dev = dev;
- 	spin_lock_init(&nvmeq->sq_lock);
- 	spin_lock_init(&nvmeq->cq_poll_lock);
--	nvmeq->cq_head = 0;
--	nvmeq->cq_phase = 1;
--	nvmeq->q_db = &dev->dbs[qid * 2 * dev->db_stride];
- 	nvmeq->qid = qid;
- 	dev->ctrl.queue_count++;
- 
+Please put an actual commit message in here, any commit should have
+an explanation of WHY the change is being made. Your subject line
+is NOT enough, detail exactly why this is redundant.
+
+From a quick look the patch does look fine, but I'm not going to
+ack a patch that doesn't have a good commit message.
+
 -- 
-2.39.2
+Jens Axboe
+
 
 
