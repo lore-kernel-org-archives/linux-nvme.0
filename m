@@ -4,155 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DBA71C7EE30
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 May 2023 05:19:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4E6F7C7EE2D
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 May 2023 05:19:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KwICTTElyy2GV/L0ha5pErdJKJEIbobgZ8uRqAtM6V0=; b=CLGq3wAHP0X663ivOzW484IXh7
-	iBvFxn0sb5xv0E3FCC+9frD2J6NmFmna/Ka7zogo95JPeDtSu8V0HFNtGd4oQ7f7jpivl/KzUkmJM
-	ALqaKVCOfsBsphIdQLBLWDrTfvdcmXDi4MvmS9a+qh5hznxGVbPQ2Yxv+N1vd9XAwkIQjyHCAJTuB
-	NfmN4CRhBQsMG/fp2mssgu6OIji5EPxt/XZo3mLKR0Tyny/v4wvO7OKV3ipv38sdNPfHoZWf/xmh+
-	kv4CiwsCpA/1ULnb5/RZZisnB8wOZqLS6cPbY0/+DD3BmwAmcUqyIPh0qiVim5j8R9a3tDIn8mpH8
-	SX3WUdTw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=SxIT0e1OKJ0N2BAYXV8odGe0V7h09WhXXqy6g3hoO70=; b=RmET1XU+m09bhkTfy/60+LF73T
+	JoLqmOkS7BoNwLmss1A9lzKb4COcRoHA4P5XN9SDEsaTqnCM+i8NPuTR0gntWc4lhMkp11fGXPiTv
+	CHzVPb13DUuUxbK5NpgcuDdXzrnvlR5fPXfGLApdJOI3Km+HDS9BOezZZ5jkTVSdpIQPxyZ7hMsaJ
+	3i/2c8SABKZahHmMWlpQL+Am0/T3suBJTal4zRNmVzA3KYhBHt5nBHbX/cGhA4EGtXoLKiVmbrfVw
+	j290RpKE6Qj2DrheX2kOCAOpGl3WFbNrTr1euYsNComqAm49ow5frFzSiMJAlk4Couc5x7FlZw311
+	EVFgHjlQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q1KQr-008wQV-2K;
-	Tue, 23 May 2023 05:19:37 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1q1KQt-008wRi-0z;
+	Tue, 23 May 2023 05:19:39 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q13tb-006IEG-1r
-	for linux-nvme@bombadil.infradead.org;
-	Mon, 22 May 2023 11:40:12 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Sender:Reply-To:Content-ID:Content-Description;
-	bh=KwICTTElyy2GV/L0ha5pErdJKJEIbobgZ8uRqAtM6V0=; b=f5Bdhu6U++/5xjd/cAzydTCQRW
-	/yMUeGTF/6hXRnRl9b3+ePtRUnfnk+D8qQ10xHrRhwC2KcYBN44AQWDWVt9gSzk5U+4OV1B5rBiht
-	qlOuM5Sj1jaxWa5GWQjygMdH2lYkSlLv0Kka7A4KU0WHVubGepWDoNRKsiJaYKwbG+eRqCt+hcXR7
-	pRqti3N/Y/PTeGacd5/4w/utgkkQ/GmfYOLGcye3IaQ2cHE6xkRGuGRnm7+SJx8AoqTZuD7lKQ5NS
-	J7uKWAhnrDxSK8A/c0CJDAZ6Cqn4PidcbTE8UI2PY1XFrGSijrfU3CieATF6mn2JsIF8FuoSq/kLJ
-	MrtTCOqw==;
-Received: from mailout1.samsung.com ([203.254.224.24])
-	by desiato.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q13R5-0020ws-0b
+	id 1q1D92-0086Uz-0S
 	for linux-nvme@lists.infradead.org;
-	Mon, 22 May 2023 11:10:47 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20230522111037epoutp01671ac79606b4c6157efd9e773dc32902~hcrBNpoIu3150931509epoutp01Z
-	for <linux-nvme@lists.infradead.org>; Mon, 22 May 2023 11:10:37 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20230522111037epoutp01671ac79606b4c6157efd9e773dc32902~hcrBNpoIu3150931509epoutp01Z
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1684753837;
-	bh=KwICTTElyy2GV/L0ha5pErdJKJEIbobgZ8uRqAtM6V0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DM9RHfDGjuVPRUYF2Ez5+EGwimEhezmeD7lELqmk9A3KwCqZSqvTJ/UtdP4lDvWIF
-	 h0xLYDmxN4nl6U3SCQp7m1uznvoXN//0Q3OBGfJIVqBt+2Rdmg0skWvDBjpHZx5BdZ
-	 wJTp2X64TcL/9ZJBBf+RWCgSGEV0Z4O2qfMha7tE=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20230522111036epcas5p31976ea6f82d59aff10da72023e4f959e~hcrAu4Lxa1165311653epcas5p3u;
-	Mon, 22 May 2023 11:10:36 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.175]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4QPvrB4ymmz4x9Pv; Mon, 22 May
-	2023 11:10:34 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
-	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	BE.29.16380.AAD4B646; Mon, 22 May 2023 20:10:34 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20230522104607epcas5p11b718b8ed5006e92eca0e628b8196f08~hcVowuHWW1779017790epcas5p1I;
-	Mon, 22 May 2023 10:46:07 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20230522104607epsmtrp228a1c1b0e7d220836a3c8ca6c072bc51~hcVoqAutM0041200412epsmtrp2Y;
-	Mon, 22 May 2023 10:46:07 +0000 (GMT)
-X-AuditID: b6c32a4b-56fff70000013ffc-df-646b4daa3a6c
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-	95.EF.28392.FE74B646; Mon, 22 May 2023 19:46:07 +0900 (KST)
-Received: from green245.sa.corp.samsungelectronics.net (unknown
-	[107.99.41.245]) by epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20230522104603epsmtip2c628a826770c4b1d5efde2819688ccea~hcVkviBrY1645716457epsmtip2s;
-	Mon, 22 May 2023 10:46:03 +0000 (GMT)
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Jens Axboe <axboe@kernel.dk>, Alasdair Kergon <agk@redhat.com>, Mike
-	Snitzer <snitzer@kernel.org>, dm-devel@redhat.com, Keith Busch
-	<kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
-	<sagi@grimberg.me>, James Smart <james.smart@broadcom.com>, Chaitanya
-	Kulkarni <kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, "Matthew Wilcox (Oracle)"
-	<willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>
-Cc: martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
-	James.Bottomley@HansenPartnership.com, bvanassche@acm.org, hare@suse.de,
-	ming.lei@redhat.com, dlemoal@kernel.org, anuj20.g@samsung.com,
-	joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com, Nitesh
-	Shetty <nj.shetty@samsung.com>, Vincent Fu <vincent.fu@samsung.com>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH v11 3/9] block: add emulation for copy
-Date: Mon, 22 May 2023 16:11:34 +0530
-Message-Id: <20230522104146.2856-4-nj.shetty@samsung.com>
-X-Mailer: git-send-email 2.35.1.500.gb896f729e2
-In-Reply-To: <20230522104146.2856-1-nj.shetty@samsung.com>
+	Mon, 22 May 2023 21:32:46 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id F2D5E62B1F;
+	Mon, 22 May 2023 21:32:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55575C433EF;
+	Mon, 22 May 2023 21:32:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1684791161;
+	bh=DWjXZJSNUstF1LBdGh07RwUMWlyiWMi87JbY1HvUz4U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Q1ZYN2fh8JKRZfhfqxZuh1DLsByiKtSlZQ7S/5AsJZqLRDetDzf0mOnmi2fm4gF/h
+	 nLHRz9nvxy5GTYkLKhDs8mZaJX/bO2aTXbP835An+gogPVBNDpNbeMrsg5Qhupm8Vt
+	 yo/vUxJSHRaLzhFtVG+d5lZk8uoRHy6A4lWWxQg+Jj3aUyPLxaWizr4AYq8nDVA+Nu
+	 rMK9lYRQan+MvEGoyl60UTbGD1NsVQ/oHvdd+9QQwGUzJckZzGNqF3WNOq1cQXp5mX
+	 YjodXI1x/VIchQ4Zf2XpU/Pp46DA8vbAjFnHZ3v2qbczey3MecDnsYR0Lno5NsxHE6
+	 OtG3MzC8+pu7g==
+Date: Mon, 22 May 2023 14:32:40 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Kees Cook <keescook@chromium.org>
+Cc: Jesse Brandeburg <jesse.brandeburg@intel.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	James Smart <james.smart@broadcom.com>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	HighPoint Linux Team <linux@highpoint-tech.com>,
+	"James E.J. Bottomley" <jejb@linux.ibm.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Kashyap Desai <kashyap.desai@broadcom.com>,
+	Sumit Saxena <sumit.saxena@broadcom.com>,
+	Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+	Don Brace <don.brace@microchip.com>,
+	Dave Chinner <dchinner@redhat.com>,
+	Guo Xuenan <guoxuenan@huawei.com>,
+	Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Daniel Latypov <dlatypov@google.com>,
+	kernel test robot <lkp@intel.com>, intel-wired-lan@lists.osuosl.org,
+	netdev@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org, megaraidlinux.pdl@broadcom.com,
+	storagedev@microchip.com, linux-xfs@vger.kernel.org,
+	linux-hardening@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+	Tales Aparecida <tales.aparecida@gmail.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] overflow: Add struct_size_t() helper
+Message-ID: <20230522213240.GE11642@frogsfrogsfrogs>
+References: <20230522211810.never.421-kees@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Ta0xbZRjed045LTPgAYZ8gIRaMWQQKHUFvi4gRgYexSnO+yB2tT0WArRN
-	W7ZpdDIum9zGRQR3ioVtRC5jEC5DVkAmC+O+ZeE6DIOwkimVcpvZlAyktOj+Pc/zvu/zXr58
-	HNzZwPbgJCq0tFohSeYRe1ltN/b7BtQdTpIFbT32QY2DN3FU3lhPoPTCJzi6PFNAINONNYBK
-	V/7G0Vx3BOoy6+zQ3evXMNR5sRhDtZd7MdRUwEEdF1Yx1Lu1RKDingmAFsYZDHVN+6POrgEW
-	GjWUE+he/ZYdqvhpgY1yJ9sJVN23iaGe7zIw1G48DVDbRgWOGkzLLNQ/7Ynu534L0O0nfXZo
-	43E58ao3NToWQzGzIwR1jZlhU7fvNbGo0uJBgmqp8aNGR1Kp5rpsgmpeK2ZT/T9ssKiWqm+o
-	jrtpBJWfYSao1YVpFrX8yzhBnWutA7EuR5PCEmiJjFZzaYVUKUtUyMN5Me+JI8XBIUGCAIEI
-	hfK4CkkKHc479FZsQHRi8va5eNzjkuTUbSlWotHw+K+EqZWpWpqboNRow3m0SpasEqoCNZIU
-	TapCHqigtQcFQUEvB28nHktKuKVLt1O1RZwsq3lApIEzwhxgz4GkED4aqGLlgL0cZ7IDQFNn
-	i42sAZg28cBG1gHU/XwT2y1pma0mrAEDgFPNOsxKsjB4ZXRlm3A4BOkPh7Y4Fn0facThkuFP
-	3EJw0ozD9E0TsFi5kCGwKj93B7PIl2BZ7uwOdiBF8FIdg1uMIMmHBbNOFtmePAh/v2ORLSlO
-	cOC8kWXBOOkNM67qdvwhOW8Pl/tr2dZRD0FTUbdtbBe42Ndq0z3gurmLsOITsLakhrAWZwLI
-	TDLAGoiAWYMFO0Pg5H7YaOBbZS/4/WADZm3sCPM3jDZ/B9iu38UvwvrGSpu/O5x4dNqGKVja
-	XoJbr5UP4NjgP3gh4DJPLcQ8tRDzf+tKgNcBd1qlSZHTmmDVAQV94r93lipTmsHOJ/KLaQfz
-	cyuBPQDjgB4AOThvn8O756QyZweZ5IsvabVSrE5NpjU9IHj74EW4h6tUuf0LFVqxQCgKEoaE
-	hAhFB0IEPDcH3/ABqTMpl2jpJJpW0erdOoxj75GG+YBxz89bGK83xvOy71QsLT4f85nYVObo
-	OyJLkGb2Rcqj9ay6+DxXQ9aY65TKy/3qdGikvl4iZ0dxf5vLLHwGlzt+IFwret/rOdYLBa4f
-	5r99Bn1VyXx6YaQzXe+27pVXnOcpuBRwPj3Ge/VUVNPZzaHI1xrMYv7wvOiPqabjboxPYeeV
-	OP/EYUNmvC78lrJsz0O+cdxvTz2KbzUWOWnctzy1gQkdWpHRg2dSZptzfnwY+vrUqTljoJIn
-	PXpxoCEmak6ZFx0c13tf+fUxrd1M7skxZuidT6ozPp4sWecX+B6ZG/21IcsXnA07olx8Nvgj
-	fa7e9XDHsFtOdbd88fpfb8bxWJoEicAPV2sk/wL30b77zQQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTZxzFfe69vb0wOi+FxAd1I9QtJpW3GrI8bMtcosZnc0s0JsL4IHT0
-	phpKqb2AoglD0ImQUlYMSGFDsfJSHATQpkCBWV4EDCKiIGQFoxDMGC2QmLRj0FmaJX475/zO
-	/3z6M6TYSe1kzqgzOa1arpLQgZSlTxIe5TqSpoidvx2BWkYGSVTdcpdG+aUbJGpy6Gm01LcG
-	UPmKh0Qvew+gbmeVAE3/0UEgW62BQI1NAwRq1TOo69YqgQa8yzQy2CcBWnhuJFD3zD5k6x6m
-	0ERnNY1m73oFqKZuQYiKp6w0qn+4SSB7WQGBrPOXALKs15CoeclFoaGZXeh1cSFAYxsPBWjd
-	XU1/HY4nnh3FxrlRGncYHUI8NttK4XLDCI3bG6R4YjQLt5mv0bhtzSDEQzfWKdxu+gl3TefR
-	WFfgpPHqwgyFXT3PaVxyzwyOhSQFfqngVGeyOW3MVymBpx9X5Qs0lgPnKxoW6Tzwc1wRCGAg
-	Gwfb5+rpIhDIiFkrgHV95YQfhMG6jX7Sr0Ng4+ai0F8qIODVzWfvDMPQ7D74yMv48lB2hYQt
-	92qBz5BsPgULLz+gfNch7GfQpCsGPk2xn8KK4rktLWLj4W2zkfQNQTYG6ueCfXEA+zl8M+6P
-	xe8qpXX7/e1gOFw5v7VIsuGw4H4VWQpY43vI+B66CQgzCOM0fLoynZdp9qu5c9G8PJ3PUiuj
-	UzPS28DWS0ilVmAzr0TbAcEAO4AMKQkVHS9JVYhFCnnOBU6bkazNUnG8HexiKMkO0ZOi4WQx
-	q5Rncmkcp+G0/1OCCdiZR9T3VSm8H51dPPqJPGRH2cidKw4mvqf14rLXddC7959s4yNnTO21
-	fyUnXwW9yn3TpjWlgFG98xcLGRWU67qemIAqKt0541Nq/Jdue9jQYc/1yfLB7w5/HHnsbcpA
-	eCLnjsjoL31sVeHsVOGPe5XVb52V7iPJexoPWdAyH6ytOS9N9ET92Tyc0Gz/bSoiyGYSXc5W
-	fB+kTOLHJLrQtHHT0oUbUbIrOoP796beUyWNzTX9gy93f9Pe6qj0ZCmXar/9Iu3Dbdvm18dd
-	sjtlJ88mqDYaOq++iLfIYp+O5PzaFXwp+cTuxfjOlExN7sWknLW/HcuTsXGF+g8if7AJSBas
-	JnkkFH9aLpOSWl7+H6pWFG2BAwAA
-X-CMS-MailID: 20230522104607epcas5p11b718b8ed5006e92eca0e628b8196f08
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230522104607epcas5p11b718b8ed5006e92eca0e628b8196f08
-References: <20230522104146.2856-1-nj.shetty@samsung.com>
-	<CGME20230522104607epcas5p11b718b8ed5006e92eca0e628b8196f08@epcas5p1.samsung.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230522211810.never.421-kees@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230522_121043_954269_A80D766E 
-X-CRM114-Status: GOOD (  30.94  )
+X-CRM114-CacheID: sfid-20230522_143244_257428_9703EF1D 
+X-CRM114-Status: GOOD (  38.00  )
 X-Mailman-Approved-At: Mon, 22 May 2023 22:19:29 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -168,254 +100,303 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-For the devices which does not support copy, copy emulation is added.
-It is required for in-kernel users like fabrics, where file descriptor is
-not available and hence they can't use copy_file_range.
-Copy-emulation is implemented by reading from source into memory and
-writing to the corresponding destination asynchronously.
-Also emulation is used, if copy offload fails or partially completes.
+On Mon, May 22, 2023 at 02:18:13PM -0700, Kees Cook wrote:
+> While struct_size() is normally used in situations where the structure
+> type already has a pointer instance, there are places where no variable
+> is available. In the past, this has been worked around by using a typed
+> NULL first argument, but this is a bit ugly. Add a helper to do this,
+> and replace the handful of instances of the code pattern with it.
+> 
+> Instances were found with this Coccinelle script:
+> 
+> @struct_size_t@
+> identifier STRUCT, MEMBER;
+> expression COUNT;
+> @@
+> 
+> -       struct_size((struct STRUCT *)\(0\|NULL\),
+> +       struct_size_t(struct STRUCT,
+>                 MEMBER, COUNT)
+> 
+> Suggested-by: Christoph Hellwig <hch@infradead.org>
+> Cc: Jesse Brandeburg <jesse.brandeburg@intel.com>
+> Cc: Tony Nguyen <anthony.l.nguyen@intel.com>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Eric Dumazet <edumazet@google.com>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: Paolo Abeni <pabeni@redhat.com>
+> Cc: James Smart <james.smart@broadcom.com>
+> Cc: Keith Busch <kbusch@kernel.org>
+> Cc: Jens Axboe <axboe@kernel.dk>
+> Cc: Sagi Grimberg <sagi@grimberg.me>
+> Cc: HighPoint Linux Team <linux@highpoint-tech.com>
+> Cc: "James E.J. Bottomley" <jejb@linux.ibm.com>
+> Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
+> Cc: Kashyap Desai <kashyap.desai@broadcom.com>
+> Cc: Sumit Saxena <sumit.saxena@broadcom.com>
+> Cc: Shivasharan S <shivasharan.srikanteshwara@broadcom.com>
+> Cc: Don Brace <don.brace@microchip.com>
+> Cc: "Darrick J. Wong" <djwong@kernel.org>
+> Cc: Dave Chinner <dchinner@redhat.com>
+> Cc: Guo Xuenan <guoxuenan@huawei.com>
+> Cc: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+> Cc: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: Daniel Latypov <dlatypov@google.com>
+> Cc: kernel test robot <lkp@intel.com>
+> Cc: intel-wired-lan@lists.osuosl.org
+> Cc: netdev@vger.kernel.org
+> Cc: linux-nvme@lists.infradead.org
+> Cc: linux-scsi@vger.kernel.org
+> Cc: megaraidlinux.pdl@broadcom.com
+> Cc: storagedev@microchip.com
+> Cc: linux-xfs@vger.kernel.org
+> Cc: linux-hardening@vger.kernel.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+> Unless there are objections, I'll just take this via my tree...
+> ---
+>  drivers/net/ethernet/intel/ice/ice_ddp.h  |  9 ++++-----
+>  drivers/nvme/host/fc.c                    |  8 ++++----
+>  drivers/scsi/hptiop.c                     |  4 ++--
+>  drivers/scsi/megaraid/megaraid_sas_base.c | 12 ++++++------
+>  drivers/scsi/megaraid/megaraid_sas_fp.c   |  6 +++---
+>  drivers/scsi/smartpqi/smartpqi_init.c     |  2 +-
+>  fs/xfs/libxfs/xfs_btree.h                 |  2 +-
+>  fs/xfs/scrub/btree.h                      |  2 +-
+>  include/linux/overflow.h                  | 18 +++++++++++++++++-
+>  lib/overflow_kunit.c                      |  2 +-
+>  10 files changed, 40 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/intel/ice/ice_ddp.h b/drivers/net/ethernet/intel/ice/ice_ddp.h
+> index 37eadb3d27a8..41acfe26df1c 100644
+> --- a/drivers/net/ethernet/intel/ice/ice_ddp.h
+> +++ b/drivers/net/ethernet/intel/ice/ice_ddp.h
+> @@ -185,7 +185,7 @@ struct ice_buf_hdr {
+>  
+>  #define ICE_MAX_ENTRIES_IN_BUF(hd_sz, ent_sz)                                 \
+>  	((ICE_PKG_BUF_SIZE -                                                  \
+> -	  struct_size((struct ice_buf_hdr *)0, section_entry, 1) - (hd_sz)) / \
+> +	  struct_size_t(struct ice_buf_hdr,  section_entry, 1) - (hd_sz)) / \
+>  	 (ent_sz))
+>  
+>  /* ice package section IDs */
+> @@ -297,7 +297,7 @@ struct ice_label_section {
+>  };
+>  
+>  #define ICE_MAX_LABELS_IN_BUF                                             \
+> -	ICE_MAX_ENTRIES_IN_BUF(struct_size((struct ice_label_section *)0, \
+> +	ICE_MAX_ENTRIES_IN_BUF(struct_size_t(struct ice_label_section,  \
+>  					   label, 1) -                    \
+>  				       sizeof(struct ice_label),          \
+>  			       sizeof(struct ice_label))
+> @@ -352,7 +352,7 @@ struct ice_boost_tcam_section {
+>  };
+>  
+>  #define ICE_MAX_BST_TCAMS_IN_BUF                                               \
+> -	ICE_MAX_ENTRIES_IN_BUF(struct_size((struct ice_boost_tcam_section *)0, \
+> +	ICE_MAX_ENTRIES_IN_BUF(struct_size_t(struct ice_boost_tcam_section,  \
+>  					   tcam, 1) -                          \
+>  				       sizeof(struct ice_boost_tcam_entry),    \
+>  			       sizeof(struct ice_boost_tcam_entry))
+> @@ -372,8 +372,7 @@ struct ice_marker_ptype_tcam_section {
+>  };
+>  
+>  #define ICE_MAX_MARKER_PTYPE_TCAMS_IN_BUF                                    \
+> -	ICE_MAX_ENTRIES_IN_BUF(                                              \
+> -		struct_size((struct ice_marker_ptype_tcam_section *)0, tcam, \
+> +	ICE_MAX_ENTRIES_IN_BUF(struct_size_t(struct ice_marker_ptype_tcam_section,  tcam, \
+>  			    1) -                                             \
+>  			sizeof(struct ice_marker_ptype_tcam_entry),          \
+>  		sizeof(struct ice_marker_ptype_tcam_entry))
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index 2ed75923507d..691f2df574ce 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -2917,8 +2917,8 @@ nvme_fc_create_io_queues(struct nvme_fc_ctrl *ctrl)
+>  
+>  	ret = nvme_alloc_io_tag_set(&ctrl->ctrl, &ctrl->tag_set,
+>  			&nvme_fc_mq_ops, 1,
+> -			struct_size((struct nvme_fcp_op_w_sgl *)NULL, priv,
+> -				    ctrl->lport->ops->fcprqst_priv_sz));
+> +			struct_size_t(struct nvme_fcp_op_w_sgl, priv,
+> +				      ctrl->lport->ops->fcprqst_priv_sz));
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -3536,8 +3536,8 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+>  
+>  	ret = nvme_alloc_admin_tag_set(&ctrl->ctrl, &ctrl->admin_tag_set,
+>  			&nvme_fc_admin_mq_ops,
+> -			struct_size((struct nvme_fcp_op_w_sgl *)NULL, priv,
+> -				    ctrl->lport->ops->fcprqst_priv_sz));
+> +			struct_size_t(struct nvme_fcp_op_w_sgl, priv,
+> +				      ctrl->lport->ops->fcprqst_priv_sz));
+>  	if (ret)
+>  		goto fail_ctrl;
+>  
+> diff --git a/drivers/scsi/hptiop.c b/drivers/scsi/hptiop.c
+> index 06ccb51bf6a9..f5334ccbf2ca 100644
+> --- a/drivers/scsi/hptiop.c
+> +++ b/drivers/scsi/hptiop.c
+> @@ -1394,8 +1394,8 @@ static int hptiop_probe(struct pci_dev *pcidev, const struct pci_device_id *id)
+>  	host->cmd_per_lun = le32_to_cpu(iop_config.max_requests);
+>  	host->max_cmd_len = 16;
+>  
+> -	req_size = struct_size((struct hpt_iop_request_scsi_command *)0,
+> -			       sg_list, hba->max_sg_descriptors);
+> +	req_size = struct_size_t(struct hpt_iop_request_scsi_command,
+> +				 sg_list, hba->max_sg_descriptors);
+>  	if ((req_size & 0x1f) != 0)
+>  		req_size = (req_size + 0x1f) & ~0x1f;
+>  
+> diff --git a/drivers/scsi/megaraid/megaraid_sas_base.c b/drivers/scsi/megaraid/megaraid_sas_base.c
+> index 317c944c68e3..050eed8e2684 100644
+> --- a/drivers/scsi/megaraid/megaraid_sas_base.c
+> +++ b/drivers/scsi/megaraid/megaraid_sas_base.c
+> @@ -5153,8 +5153,8 @@ static void megasas_update_ext_vd_details(struct megasas_instance *instance)
+>  		fusion->max_map_sz = ventura_map_sz;
+>  	} else {
+>  		fusion->old_map_sz =
+> -			struct_size((struct MR_FW_RAID_MAP *)0, ldSpanMap,
+> -				    instance->fw_supported_vd_count);
+> +			struct_size_t(struct MR_FW_RAID_MAP, ldSpanMap,
+> +				      instance->fw_supported_vd_count);
+>  		fusion->new_map_sz =  sizeof(struct MR_FW_RAID_MAP_EXT);
+>  
+>  		fusion->max_map_sz =
+> @@ -5789,8 +5789,8 @@ megasas_setup_jbod_map(struct megasas_instance *instance)
+>  	struct fusion_context *fusion = instance->ctrl_context;
+>  	size_t pd_seq_map_sz;
+>  
+> -	pd_seq_map_sz = struct_size((struct MR_PD_CFG_SEQ_NUM_SYNC *)0, seq,
+> -				    MAX_PHYSICAL_DEVICES);
+> +	pd_seq_map_sz = struct_size_t(struct MR_PD_CFG_SEQ_NUM_SYNC, seq,
+> +				      MAX_PHYSICAL_DEVICES);
+>  
+>  	instance->use_seqnum_jbod_fp =
+>  		instance->support_seqnum_jbod_fp;
+> @@ -8033,8 +8033,8 @@ static void megasas_detach_one(struct pci_dev *pdev)
+>  	if (instance->adapter_type != MFI_SERIES) {
+>  		megasas_release_fusion(instance);
+>  		pd_seq_map_sz =
+> -			struct_size((struct MR_PD_CFG_SEQ_NUM_SYNC *)0,
+> -				    seq, MAX_PHYSICAL_DEVICES);
+> +			struct_size_t(struct MR_PD_CFG_SEQ_NUM_SYNC,
+> +				      seq, MAX_PHYSICAL_DEVICES);
+>  		for (i = 0; i < 2 ; i++) {
+>  			if (fusion->ld_map[i])
+>  				dma_free_coherent(&instance->pdev->dev,
+> diff --git a/drivers/scsi/megaraid/megaraid_sas_fp.c b/drivers/scsi/megaraid/megaraid_sas_fp.c
+> index 4463a538102a..b8b388a4e28f 100644
+> --- a/drivers/scsi/megaraid/megaraid_sas_fp.c
+> +++ b/drivers/scsi/megaraid/megaraid_sas_fp.c
+> @@ -326,9 +326,9 @@ u8 MR_ValidateMapInfo(struct megasas_instance *instance, u64 map_id)
+>  	else if (instance->supportmax256vd)
+>  		expected_size = sizeof(struct MR_FW_RAID_MAP_EXT);
+>  	else
+> -		expected_size = struct_size((struct MR_FW_RAID_MAP *)0,
+> -					    ldSpanMap,
+> -					    le16_to_cpu(pDrvRaidMap->ldCount));
+> +		expected_size = struct_size_t(struct MR_FW_RAID_MAP,
+> +					      ldSpanMap,
+> +					      le16_to_cpu(pDrvRaidMap->ldCount));
+>  
+>  	if (le32_to_cpu(pDrvRaidMap->totalSize) != expected_size) {
+>  		dev_dbg(&instance->pdev->dev, "megasas: map info structure size 0x%x",
+> diff --git a/drivers/scsi/smartpqi/smartpqi_init.c b/drivers/scsi/smartpqi/smartpqi_init.c
+> index 03de97cd72c2..f4e0aa262164 100644
+> --- a/drivers/scsi/smartpqi/smartpqi_init.c
+> +++ b/drivers/scsi/smartpqi/smartpqi_init.c
+> @@ -5015,7 +5015,7 @@ static int pqi_create_queues(struct pqi_ctrl_info *ctrl_info)
+>  }
+>  
+>  #define PQI_REPORT_EVENT_CONFIG_BUFFER_LENGTH	\
+> -	struct_size((struct pqi_event_config *)0, descriptors, PQI_MAX_EVENT_DESCRIPTORS)
+> +	struct_size_t(struct pqi_event_config,  descriptors, PQI_MAX_EVENT_DESCRIPTORS)
+>  
+>  static int pqi_configure_events(struct pqi_ctrl_info *ctrl_info,
+>  	bool enable_events)
+> diff --git a/fs/xfs/libxfs/xfs_btree.h b/fs/xfs/libxfs/xfs_btree.h
+> index a2aa36b23e25..4d68a58be160 100644
+> --- a/fs/xfs/libxfs/xfs_btree.h
+> +++ b/fs/xfs/libxfs/xfs_btree.h
+> @@ -301,7 +301,7 @@ struct xfs_btree_cur
+>  static inline size_t
+>  xfs_btree_cur_sizeof(unsigned int nlevels)
+>  {
+> -	return struct_size((struct xfs_btree_cur *)NULL, bc_levels, nlevels);
+> +	return struct_size_t(struct xfs_btree_cur, bc_levels, nlevels);
 
-Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
-Signed-off-by: Vincent Fu <vincent.fu@samsung.com>
-Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
----
- block/blk-lib.c        | 175 ++++++++++++++++++++++++++++++++++++++++-
- block/blk-map.c        |   4 +-
- include/linux/blkdev.h |   3 +
- 3 files changed, 179 insertions(+), 3 deletions(-)
+Oh, hey, this thing ^^^^^^^^ again.  I'm excited!
 
-diff --git a/block/blk-lib.c b/block/blk-lib.c
-index ed089e703cb1..ba32545eb8d5 100644
---- a/block/blk-lib.c
-+++ b/block/blk-lib.c
-@@ -295,6 +295,172 @@ static int __blkdev_copy_offload(struct block_device *bdev_in, loff_t pos_in,
- 	return blkdev_copy_wait_completion(cio);
- }
- 
-+static void *blkdev_copy_alloc_buf(sector_t req_size, sector_t *alloc_size,
-+		gfp_t gfp_mask)
-+{
-+	int min_size = PAGE_SIZE;
-+	void *buf;
-+
-+	while (req_size >= min_size) {
-+		buf = kvmalloc(req_size, gfp_mask);
-+		if (buf) {
-+			*alloc_size = req_size;
-+			return buf;
-+		}
-+		/* retry half the requested size */
-+		req_size >>= 1;
-+	}
-+
-+	return NULL;
-+}
-+
-+static void blkdev_copy_emulate_write_endio(struct bio *bio)
-+{
-+	struct copy_ctx *ctx = bio->bi_private;
-+	struct cio *cio = ctx->cio;
-+	sector_t clen;
-+
-+	if (bio->bi_status) {
-+		clen = (bio->bi_iter.bi_sector << SECTOR_SHIFT) - cio->pos_out;
-+		cio->comp_len = min_t(sector_t, clen, cio->comp_len);
-+	}
-+	kvfree(page_address(bio->bi_io_vec[0].bv_page));
-+	bio_map_kern_endio(bio);
-+	kfree(ctx);
-+	if (atomic_dec_and_test(&cio->refcount)) {
-+		if (cio->endio) {
-+			cio->endio(cio->private, cio->comp_len);
-+			kfree(cio);
-+		} else
-+			blk_wake_io_task(cio->waiter);
-+	}
-+}
-+
-+static void blkdev_copy_emulate_read_endio(struct bio *read_bio)
-+{
-+	struct copy_ctx *ctx = read_bio->bi_private;
-+	struct cio *cio = ctx->cio;
-+	sector_t clen;
-+
-+	if (read_bio->bi_status) {
-+		clen = (read_bio->bi_iter.bi_sector << SECTOR_SHIFT) -
-+						cio->pos_in;
-+		cio->comp_len = min_t(sector_t, clen, cio->comp_len);
-+		__free_page(read_bio->bi_io_vec[0].bv_page);
-+		bio_map_kern_endio(read_bio);
-+		kfree(ctx);
-+
-+		if (atomic_dec_and_test(&cio->refcount)) {
-+			if (cio->endio) {
-+				cio->endio(cio->private, cio->comp_len);
-+				kfree(cio);
-+			} else
-+				blk_wake_io_task(cio->waiter);
-+		}
-+	}
-+	schedule_work(&ctx->dispatch_work);
-+	kfree(read_bio);
-+}
-+
-+/*
-+ * If native copy offload feature is absent, this function tries to emulate,
-+ * by copying data from source to a temporary buffer and from buffer to
-+ * destination device.
-+ * Returns the length of bytes copied or error if encountered
-+ */
-+static int __blkdev_copy_emulate(struct block_device *bdev_in, loff_t pos_in,
-+		      struct block_device *bdev_out, loff_t pos_out, size_t len,
-+		      cio_iodone_t endio, void *private, gfp_t gfp_mask)
-+{
-+	struct request_queue *in = bdev_get_queue(bdev_in);
-+	struct request_queue *out = bdev_get_queue(bdev_out);
-+	struct bio *read_bio, *write_bio;
-+	void *buf = NULL;
-+	struct copy_ctx *ctx;
-+	struct cio *cio;
-+	sector_t buf_len, req_len, rem = 0;
-+	sector_t max_src_hw_len = min_t(unsigned int,
-+			queue_max_hw_sectors(in),
-+			queue_max_segments(in) << (PAGE_SHIFT - SECTOR_SHIFT))
-+			<< SECTOR_SHIFT;
-+	sector_t max_dst_hw_len = min_t(unsigned int,
-+		queue_max_hw_sectors(out),
-+			queue_max_segments(out) << (PAGE_SHIFT - SECTOR_SHIFT))
-+			<< SECTOR_SHIFT;
-+	sector_t max_hw_len = min_t(unsigned int,
-+			max_src_hw_len, max_dst_hw_len);
-+
-+	cio = kzalloc(sizeof(struct cio), GFP_KERNEL);
-+	if (!cio)
-+		return -ENOMEM;
-+	atomic_set(&cio->refcount, 0);
-+	cio->pos_in = pos_in;
-+	cio->pos_out = pos_out;
-+	cio->waiter = current;
-+	cio->endio = endio;
-+	cio->private = private;
-+
-+	for (rem = len; rem > 0; rem -= buf_len) {
-+		req_len = min_t(int, max_hw_len, rem);
-+
-+		buf = blkdev_copy_alloc_buf(req_len, &buf_len, gfp_mask);
-+		if (!buf)
-+			goto err_alloc_buf;
-+
-+		ctx = kzalloc(sizeof(struct copy_ctx), gfp_mask);
-+		if (!ctx)
-+			goto err_ctx;
-+
-+		read_bio = bio_map_kern(in, buf, buf_len, gfp_mask);
-+		if (IS_ERR(read_bio))
-+			goto err_read_bio;
-+
-+		write_bio = bio_map_kern(out, buf, buf_len, gfp_mask);
-+		if (IS_ERR(write_bio))
-+			goto err_write_bio;
-+
-+		ctx->cio = cio;
-+		ctx->write_bio = write_bio;
-+		INIT_WORK(&ctx->dispatch_work, blkdev_copy_dispatch_work);
-+
-+		read_bio->bi_iter.bi_sector = pos_in >> SECTOR_SHIFT;
-+		read_bio->bi_iter.bi_size = buf_len;
-+		read_bio->bi_opf = REQ_OP_READ | REQ_SYNC;
-+		bio_set_dev(read_bio, bdev_in);
-+		read_bio->bi_end_io = blkdev_copy_emulate_read_endio;
-+		read_bio->bi_private = ctx;
-+
-+		write_bio->bi_iter.bi_size = buf_len;
-+		write_bio->bi_opf = REQ_OP_WRITE | REQ_SYNC;
-+		bio_set_dev(write_bio, bdev_out);
-+		write_bio->bi_end_io = blkdev_copy_emulate_write_endio;
-+		write_bio->bi_iter.bi_sector = pos_out >> SECTOR_SHIFT;
-+		write_bio->bi_private = ctx;
-+
-+		atomic_inc(&cio->refcount);
-+		submit_bio(read_bio);
-+
-+		pos_in += buf_len;
-+		pos_out += buf_len;
-+	}
-+
-+	/* Wait for completion of all IO's*/
-+	return blkdev_copy_wait_completion(cio);
-+
-+err_write_bio:
-+	bio_put(read_bio);
-+err_read_bio:
-+	kfree(ctx);
-+err_ctx:
-+	kvfree(buf);
-+err_alloc_buf:
-+	cio->comp_len -= min_t(sector_t, cio->comp_len, len - rem);
-+	if (!atomic_read(&cio->refcount))
-+		return -ENOMEM;
-+	/* Wait for submitted IOs to complete */
-+	return blkdev_copy_wait_completion(cio);
-+}
-+
- static inline int blkdev_copy_sanity_check(struct block_device *bdev_in,
- 	loff_t pos_in, struct block_device *bdev_out, loff_t pos_out,
- 	size_t len)
-@@ -342,9 +508,16 @@ int blkdev_issue_copy(struct block_device *bdev_in, loff_t pos_in,
- 	if (ret)
- 		return ret;
- 
--	if (blk_queue_copy(q_in) && blk_queue_copy(q_out))
-+	if (blk_queue_copy(q_in) && blk_queue_copy(q_out)) {
- 		ret = __blkdev_copy_offload(bdev_in, pos_in, bdev_out, pos_out,
- 			   len, endio, private, gfp_mask);
-+		if (ret < 0)
-+			ret = 0;
-+	}
-+
-+	if (ret != len)
-+		ret = __blkdev_copy_emulate(bdev_in, pos_in + ret, bdev_out,
-+			 pos_out + ret, len - ret, endio, private, gfp_mask);
- 
- 	return ret;
- }
-diff --git a/block/blk-map.c b/block/blk-map.c
-index 04c55f1c492e..e79eb4d2e545 100644
---- a/block/blk-map.c
-+++ b/block/blk-map.c
-@@ -363,7 +363,7 @@ static void bio_invalidate_vmalloc_pages(struct bio *bio)
- #endif
- }
- 
--static void bio_map_kern_endio(struct bio *bio)
-+void bio_map_kern_endio(struct bio *bio)
- {
- 	bio_invalidate_vmalloc_pages(bio);
- 	bio_uninit(bio);
-@@ -380,7 +380,7 @@ static void bio_map_kern_endio(struct bio *bio)
-  *	Map the kernel address into a bio suitable for io to a block
-  *	device. Returns an error pointer in case of error.
-  */
--static struct bio *bio_map_kern(struct request_queue *q, void *data,
-+struct bio *bio_map_kern(struct request_queue *q, void *data,
- 		unsigned int len, gfp_t gfp_mask)
- {
- 	unsigned long kaddr = (unsigned long)data;
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 6f2814ab4741..a95c26faa8b6 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -1054,6 +1054,9 @@ int blkdev_issue_secure_erase(struct block_device *bdev, sector_t sector,
- int blkdev_issue_copy(struct block_device *bdev_in, loff_t pos_in,
- 		      struct block_device *bdev_out, loff_t pos_out, size_t len,
- 		      cio_iodone_t end_io, void *private, gfp_t gfp_mask);
-+struct bio *bio_map_kern(struct request_queue *q, void *data, unsigned int len,
-+		gfp_t gfp_mask);
-+void bio_map_kern_endio(struct bio *bio);
- 
- #define BLKDEV_ZERO_NOUNMAP	(1 << 0)  /* do not free blocks */
- #define BLKDEV_ZERO_NOFALLBACK	(1 << 1)  /* don't write explicit zeroes */
--- 
-2.35.1.500.gb896f729e2
+Reviewed-by: Darrick J. Wong <djwong@kernel.org>
 
+--D
+
+>  }
+>  
+>  /* cursor flags */
+> diff --git a/fs/xfs/scrub/btree.h b/fs/xfs/scrub/btree.h
+> index 9d7b9ee8bef4..c32b5fad6174 100644
+> --- a/fs/xfs/scrub/btree.h
+> +++ b/fs/xfs/scrub/btree.h
+> @@ -60,7 +60,7 @@ struct xchk_btree {
+>  static inline size_t
+>  xchk_btree_sizeof(unsigned int nlevels)
+>  {
+> -	return struct_size((struct xchk_btree *)NULL, lastkey, nlevels - 1);
+> +	return struct_size_t(struct xchk_btree, lastkey, nlevels - 1);
+>  }
+>  
+>  int xchk_btree(struct xfs_scrub *sc, struct xfs_btree_cur *cur,
+> diff --git a/include/linux/overflow.h b/include/linux/overflow.h
+> index 0e33b5cbdb9f..f9b60313eaea 100644
+> --- a/include/linux/overflow.h
+> +++ b/include/linux/overflow.h
+> @@ -283,7 +283,7 @@ static inline size_t __must_check size_sub(size_t minuend, size_t subtrahend)
+>   * @member: Name of the array member.
+>   * @count: Number of elements in the array.
+>   *
+> - * Calculates size of memory needed for structure @p followed by an
+> + * Calculates size of memory needed for structure of @p followed by an
+>   * array of @count number of @member elements.
+>   *
+>   * Return: number of bytes needed or SIZE_MAX on overflow.
+> @@ -293,4 +293,20 @@ static inline size_t __must_check size_sub(size_t minuend, size_t subtrahend)
+>  		sizeof(*(p)) + flex_array_size(p, member, count),	\
+>  		size_add(sizeof(*(p)), flex_array_size(p, member, count)))
+>  
+> +/**
+> + * struct_size_t() - Calculate size of structure with trailing flexible array
+> + * @type: structure type name.
+> + * @member: Name of the array member.
+> + * @count: Number of elements in the array.
+> + *
+> + * Calculates size of memory needed for structure @type followed by an
+> + * array of @count number of @member elements. Prefer using struct_size()
+> + * when possible instead, to keep calculations associated with a specific
+> + * instance variable of type @type.
+> + *
+> + * Return: number of bytes needed or SIZE_MAX on overflow.
+> + */
+> +#define struct_size_t(type, member, count)					\
+> +	struct_size((type *)NULL, member, count)
+> +
+>  #endif /* __LINUX_OVERFLOW_H */
+> diff --git a/lib/overflow_kunit.c b/lib/overflow_kunit.c
+> index dcd3ba102db6..34db0b3aa502 100644
+> --- a/lib/overflow_kunit.c
+> +++ b/lib/overflow_kunit.c
+> @@ -649,7 +649,7 @@ struct __test_flex_array {
+>  static void overflow_size_helpers_test(struct kunit *test)
+>  {
+>  	/* Make sure struct_size() can be used in a constant expression. */
+> -	u8 ce_array[struct_size((struct __test_flex_array *)0, data, 55)];
+> +	u8 ce_array[struct_size_t(struct __test_flex_array, data, 55)];
+>  	struct __test_flex_array *obj;
+>  	int count = 0;
+>  	int var;
+> -- 
+> 2.34.1
+> 
 
