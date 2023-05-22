@@ -4,217 +4,140 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E6136C7EE30
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 May 2023 05:19:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55728C77B7A
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 May 2023 05:19:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	In-Reply-To:Date:References:Message-ID:From:Subject:Cc:To:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+x4LjIcpcS+34wzkY+sZHYRICli0sHAdsECdUliq7zQ=; b=ENHLGd1iOHjTwW0Jmte2C6iWT+
-	99dEPt7+Pby4kduZTC4VJM+tZibKirhAlqMLRrXXsb3nfYls2PA/x+kdW+5JAzBCt5FvxqSujnm8U
-	21V1uIyRblO8FyDdOtm1G4VOoadFUQ6rHYNJj6FIbObZc8HMkDFkhfyPcAS5UB2PAuAPYFZtg1Bn/
-	3P5d4ZUHzmXVefV1v5vxTW06KCH0fiPAQAcy9/pUvtIAKi70qGNUbI4zn186EZpC0qUFpGgDoPt7A
-	yuwK+McpPFjxwuVk8t3fc7GqF50lBkGuprHbN5Y/uXNQxf7iGxjRVqrwFtd5R5rsnXPdRh8niGRyy
-	gd/7OwUQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=3AnFoe+19/5j5GvwnjpyvmPBq9a3SDPvQ6hFuEAN/NY=; b=OoUL6u+GfJbKf4JiBCt0yZQaTK
+	IZ689v2Wzca/4sXBp6e6pLNcwGfaj8ID2eC054GqlnDsaMMv70jy+NzQkuJhiR/8qSyf+Vt8ZPkPf
+	OIWiId+oLxA6jsqPrrDlLEFrj/HY2aIsrkZijmndkDCbCEemrdooCbHJZcst/O5M9hlOvKgPUyIac
+	9uHfL5HuwGl0IKqVDALfLOAhQKoVfH9mWK9G9EFjBURTkzSr+vT4gbCDhx89KbqUqcT7Xc4iZylVV
+	0j9Kb2E/K9Ri8TBfg563E7+BmnG3ux94P2NgRr+Dw+8UdXYcw3tgxmcPYCuVoHcbtUEyBg2Ky+9Zl
+	v1L3ESvQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q1KQv-008wSu-12;
-	Tue, 23 May 2023 05:19:41 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1q1KQn-008wNb-0p;
+	Tue, 23 May 2023 05:19:33 +0000
+Received: from mailout1.samsung.com ([203.254.224.24])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q1EFO-008GUD-0A
+	id 1q13R6-006DND-0O
 	for linux-nvme@lists.infradead.org;
-	Mon, 22 May 2023 22:43:23 +0000
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34MKNrl2021957;
-	Mon, 22 May 2023 22:42:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
- from : message-id : references : date : in-reply-to : content-type :
- mime-version; s=corp-2023-03-30;
- bh=+x4LjIcpcS+34wzkY+sZHYRICli0sHAdsECdUliq7zQ=;
- b=PEwLARzPucK4z1Z8NEFOorwyDLD12bLzvD4S1UZku19+nSgHK9AEDYAPaiNRhEhdZ8yV
- TIxWcgFf2iBb9mvnzUUvLps2yf4kfNCFDIWtcOrfTf7VfwB98XVxlxzl/1y63TjokNwz
- DwAxgFEVgkYKw4am0peumj3CXnQ+fnHz1MMK80IcM3sZw8hVMOjnkwvxd2aDH6z4B8MT
- OwArv5HVQ/G1ecZtYI/NQhTAGWcx8guZObPMGgLWp4T3VtKz7ObqIugoQ84SeMOu3s5d
- GwOFAi/BkYUrxhbnXc+QSGJ0dnzyeB2gPc89frPP73GotUfjUMWR6oWxqhiU6hFx6xDx nQ== 
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3qpp3qktkk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 22 May 2023 22:42:58 +0000
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 34MM6f7s028913;
-	Mon, 22 May 2023 22:42:57 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2175.outbound.protection.outlook.com [104.47.57.175])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3qqk2a2chu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 22 May 2023 22:42:57 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AhJs5JUNBZdbFRThdMLnIGGZbwbAZkkrpQzAyhTHISKVCq9HpS+n4BUtr5tEx8qi7xkouzo9wZ1P5uXtQotYgBPXVestYcaVN1201vFAvpDuwSCYS4SP3SUS4YksRIy9cjYuu8f2w67zVr688I+qd676ThOkPRoOJWU+zEAjSwxjA0+kuz0sDo6et6dib2K7Rp4qHrrKBtD5Y6pwUI5Q+A5gvzsk1mWwG9AijVE5FL9Iq5NpCUG3TM3OaQ+Aet+EcoTmNb8+CsmfL2MkjolyFY+ByVan0Ls2TXTd2+46MmAoqT6vHiLAp6NQX/2mP8pZLZGo4rvXq5mSJCjxypVaMg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+x4LjIcpcS+34wzkY+sZHYRICli0sHAdsECdUliq7zQ=;
- b=TIpHKisSUzBp6VYJqt0RX8QlNKQQC5kidliFP4QNdgOaSPqm+bS7SEGoDLFqXBtwoWbLNK/9iafQgIOEEDU2CHN4BWzDLR+bW0HKdgpUCYt7BJ67jNFrNauBfTCDfP1JBxLNH8FT4VOV1qrLy2y0TgUkSvsRUCZ0PdpXq5jbCmXQuba2mLermQyrAdjSzw510ekOg1R4/a+CY0m3UiqWF5GPjFb1lmIcUqdbnzEYl0Ud/VyNUSVBAaAUcvHAQ9ZPsSeYft5v04Xeza+Jh2tixcHWU7T6YfvE/DXPLKmT4UIWGRY2maD/+Ob79+9BcgHbQ8chYq+Q0T0w9ed5RodyCg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+x4LjIcpcS+34wzkY+sZHYRICli0sHAdsECdUliq7zQ=;
- b=CgkA2bzMt4QFymTpNUPd7eAwI+yM0AUSeU1HKj0lBEYvG8jfxfh8cCyXVu3qEOypp235vHy2C783VSqCfx+L8ZdkJigUW/0QXEBgLLSZvsROogUOHVehoEAXvh/2gBdMW/Somx8B7QnrjABdyJljCnWhC9gjG7X61trFmT+mvDU=
-Received: from CO1PR10MB4754.namprd10.prod.outlook.com (2603:10b6:303:91::24)
- by DS7PR10MB5149.namprd10.prod.outlook.com (2603:10b6:5:3a7::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.28; Mon, 22 May
- 2023 22:42:54 +0000
-Received: from CO1PR10MB4754.namprd10.prod.outlook.com
- ([fe80::b846:21bf:b5cf:67a4]) by CO1PR10MB4754.namprd10.prod.outlook.com
- ([fe80::b846:21bf:b5cf:67a4%5]) with mapi id 15.20.6411.028; Mon, 22 May 2023
- 22:42:54 +0000
-To: Kees Cook <keescook@chromium.org>
-Cc: Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Christoph Hellwig
- <hch@infradead.org>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        "David S.
- Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        James Smart
- <james.smart@broadcom.com>,
-        Keith Busch <kbusch@kernel.org>, Jens Axboe
- <axboe@kernel.dk>,
-        Sagi Grimberg <sagi@grimberg.me>,
-        HighPoint Linux
- Team <linux@highpoint-tech.com>,
-        "James E.J. Bottomley"
- <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Kashyap Desai <kashyap.desai@broadcom.com>,
-        Sumit Saxena
- <sumit.saxena@broadcom.com>,
-        Shivasharan S
- <shivasharan.srikanteshwara@broadcom.com>,
-        Don Brace
- <don.brace@microchip.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Dave
- Chinner <dchinner@redhat.com>, Guo Xuenan <guoxuenan@huawei.com>,
-        Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
-        Nick Desaulniers
- <ndesaulniers@google.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        kernel
- test robot <lkp@intel.com>, intel-wired-lan@lists.osuosl.org,
-        netdev@vger.kernel.org, linux-nvme@lists.infradead.org,
-        linux-scsi@vger.kernel.org, megaraidlinux.pdl@broadcom.com,
-        storagedev@microchip.com, linux-xfs@vger.kernel.org,
-        linux-hardening@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
-        Tales
- Aparecida <tales.aparecida@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] overflow: Add struct_size_t() helper
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <yq1353om1ie.fsf@ca-mkp.ca.oracle.com>
-References: <20230522211810.never.421-kees@kernel.org>
-Date: Mon, 22 May 2023 18:42:51 -0400
-In-Reply-To: <20230522211810.never.421-kees@kernel.org> (Kees Cook's message
-	of "Mon, 22 May 2023 14:18:13 -0700")
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR03CA0346.namprd03.prod.outlook.com
- (2603:10b6:a03:39c::21) To CO1PR10MB4754.namprd10.prod.outlook.com
- (2603:10b6:303:91::24)
+	Mon, 22 May 2023 11:10:47 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20230522111041epoutp01615312f9408e302e887ce6c22ab282d1~hcrFER8Rg2983329833epoutp01M
+	for <linux-nvme@lists.infradead.org>; Mon, 22 May 2023 11:10:41 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20230522111041epoutp01615312f9408e302e887ce6c22ab282d1~hcrFER8Rg2983329833epoutp01M
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1684753841;
+	bh=3AnFoe+19/5j5GvwnjpyvmPBq9a3SDPvQ6hFuEAN/NY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=LtxlWUvQ9JArfMu+krSp/qiXigCH914uBLHZe1Ak/IiTSIdyjy6Hj07esZatJyPzL
+	 rnmfdNXae2zawxNN+DtUdvIpGpGFGexnLD11a5OwxqTUXh9JzGekNtqEthrq6iz8Qq
+	 BKXgYRu0ihPPsF6igEXyM7YLNsklFuYjh8psdw2k=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+	20230522111040epcas5p398b8e98bf0206ff5cd5e529783610c34~hcrEbIqZc1165311653epcas5p35;
+	Mon, 22 May 2023 11:10:40 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.183]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4QPvrG2BVwz4x9Px; Mon, 22 May
+	2023 11:10:38 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	E3.39.16380.EAD4B646; Mon, 22 May 2023 20:10:38 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20230522104617epcas5p25ef0cfacfb4e2d4e8d7a0661f7181e7d~hcVyGEL0Q0438604386epcas5p2d;
+	Mon, 22 May 2023 10:46:17 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20230522104617epsmtrp28412315ea425dc05b2486615125c4a03~hcVyE4GGj3249732497epsmtrp2G;
+	Mon, 22 May 2023 10:46:17 +0000 (GMT)
+X-AuditID: b6c32a4b-56fff70000013ffc-f1-646b4daeecd1
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+	F9.EF.28392.9F74B646; Mon, 22 May 2023 19:46:17 +0900 (KST)
+Received: from green245.sa.corp.samsungelectronics.net (unknown
+	[107.99.41.245]) by epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20230522104613epsmtip2850c4d13d3f6f140a1f07f20cf27405b~hcVuSFeXT1863318633epsmtip2D;
+	Mon, 22 May 2023 10:46:13 +0000 (GMT)
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Jens Axboe <axboe@kernel.dk>, Alasdair Kergon <agk@redhat.com>, Mike
+	Snitzer <snitzer@kernel.org>, dm-devel@redhat.com, Keith Busch
+	<kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
+	<sagi@grimberg.me>, James Smart <james.smart@broadcom.com>, Chaitanya
+	Kulkarni <kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, "Matthew Wilcox (Oracle)"
+	<willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>
+Cc: martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
+	James.Bottomley@HansenPartnership.com, bvanassche@acm.org, hare@suse.de,
+	ming.lei@redhat.com, dlemoal@kernel.org, anuj20.g@samsung.com,
+	joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com, Nitesh
+	Shetty <nj.shetty@samsung.com>, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+Subject: [PATCH v11 4/9] fs, block: copy_file_range for def_blk_ops for
+ direct block device
+Date: Mon, 22 May 2023 16:11:35 +0530
+Message-Id: <20230522104146.2856-5-nj.shetty@samsung.com>
+X-Mailer: git-send-email 2.35.1.500.gb896f729e2
+In-Reply-To: <20230522104146.2856-1-nj.shetty@samsung.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PR10MB4754:EE_|DS7PR10MB5149:EE_
-X-MS-Office365-Filtering-Correlation-Id: 207475fe-0e3e-4c7f-93e8-08db5b15e190
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sxTdtmSg9GxVdtoFnRbly6PoL/+brjCwwmpu6BRKo3g6//ARATxswJqynFXvVbQ7bLW9MZ/n+rHIDRC47Q/VCFJ0obUpz5UkCQ7gea66K1HqvNYIjX8dNW9IXC6D+kJbp5DCohb7Gtj9rfCsXEofBSt3xGhK3OGWoGLB87t05N/Z23HkhxzIcQMxtlL0ZwcueWfEAa+3qsTlhSfpgqFDINkFWTPS6D7lpnT/2ENRB8/XXA2SqvtLhmzetWKwtKpZSuK3bT5+DAhBetmulLnYZpswizsn+d1LtLN9nIFhiukiEBzRVzlyCZPgb3FujVkpoUYNiv5vPiCgpi+eQ9zRr1j0SPNO7Lzp5tMLR1D0xVhNM1Z25u2jF5bhtbkeEgGfN2rCxsRrGmD90Psp6HrQ8CAOGXhhAVZQAvG+P07oMiCfPmLmk55WkEpjcH9myr/zOfz6heL2zwNE35Y272C8Oz88lG4a/kdnYZBKVUv71eFlaGJbLYLKM205+9Oq2MvOtKpfh9SOVf3pWoLYSj17I1PWhGfJH5kmcSZP0ctL/2Iyxf4z7vdj9SV4H4Xi4CP9
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR10MB4754.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(136003)(39860400002)(366004)(346002)(396003)(451199021)(8676002)(8936002)(7406005)(7416002)(5660300002)(6512007)(186003)(6506007)(26005)(86362001)(38100700002)(6666004)(478600001)(36916002)(41300700001)(4326008)(6916009)(66476007)(6486002)(66946007)(66556008)(316002)(54906003)(4744005)(2906002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?E6nNiW6sqY6jgg8Z6lcNAS5+45Z6dz6KM6etTwp4EFYGHe0ojZTHPm0DgAKS?=
- =?us-ascii?Q?C+FKFxfPQp5eRk74JfFXWrNt4PXaU9ByUbV2l0CUsixAsrEvrtpEpiVwlk0/?=
- =?us-ascii?Q?hDKZnIN1ql8nQELwjF+PLI1PcePa8H1ZmXj9Q49WNjli3/RMIowvGtd6avC5?=
- =?us-ascii?Q?urguITbjzqqNZ1vTlEZhhC14wyT8pFjeCqOPfSvg9dADAyvC58CAaVgHfJHF?=
- =?us-ascii?Q?FQ4ArfkR3r4z+dLqZ/ZjtDj6zyVtv1xUtVN/5a3txg/9M9ExCBkp37Dgc/rf?=
- =?us-ascii?Q?DOq6vI3vIQnJvrkGmMa5u+lvXpk9oTxZ/M9MA2r+bDIMrMsCnLO7fuREefTp?=
- =?us-ascii?Q?TlRtvesfm94IH9/pboM+hiBkBvamHpKYDmyVm9nnb0+2oM97v0PufTXDhOMH?=
- =?us-ascii?Q?ax8hkB7g18tzDHqf8PCEt20izk6JNzYdWd59yLj+uRYCi1/g13XShDBkZZMS?=
- =?us-ascii?Q?E1XCtedb7zAJsk4JbNg4ZUw8W/yYfHCke+ydAla4goyWfsZfVWtBGhKhw5cA?=
- =?us-ascii?Q?DtdEgViZJEbfvEjA6gwtgMxfkOOw5H5FPlVHO6+06wUX0BaKIn6ELviaTsBr?=
- =?us-ascii?Q?bfojByYcaPb0Kfpq6Q86Ykvpt5EAlDHzDapkgAktlSfcs1R/u+/etiRFdQKb?=
- =?us-ascii?Q?ODDkm4fAib54eZLyaE/OFN+zstT0mL6LDqAbxDAOh5DwBoV3LNbxDQVRTv3o?=
- =?us-ascii?Q?Bc8lyAOviEA7ekaFnNhOwIbFe83tj/tnYIPdwFHLnMIzpAUCGjc6ekhoACOI?=
- =?us-ascii?Q?FvfSWnxe3jkEqBXWd2iFRUQqdXxJCuM7AdA9I7j8MkYmB2kw5dn2rhXszOhc?=
- =?us-ascii?Q?AEAGXN7Ftrxj0k+2pCassuTtnVgr23MNYZuMiZVr4cHLgtvmq2jBafibEJLM?=
- =?us-ascii?Q?XBhNj9I1k/VdPJDj9Co/V0MxDSmzosW5xKC4W+jNrodhSb2WbLq9V7YHfjuB?=
- =?us-ascii?Q?CGv9xZJiduAXJGxBmS2Kmm+BCR9RcIe50DfAl9RrvLjl2MVjDPega9FFe/uB?=
- =?us-ascii?Q?z1tpqI8EZft4zNJnzvxIXdTFISiEHg3kSt0L7YXJ/REQpL+zg3GHaxc9Wne7?=
- =?us-ascii?Q?olcZzozwnqKhx+PsuBDKe7d3ioTVzgPjp3yK15sbLDnIY5P7jfJO49k7HCfz?=
- =?us-ascii?Q?qjq+rusoG1iaWfKhzmuOU3hGbQquT5/Hjwi/yvQICdj/nhLSBu2FizpGX+cc?=
- =?us-ascii?Q?tDjXTtOw5RC90DSx5uAmALugvMJugT4Cm53Qw4gILjVuDBmZekH0L6aMUxHT?=
- =?us-ascii?Q?BB3gcODxlBhFThwSOTt2mBNL/T2HGh2JzwLrYcwmIU25b7IREIITNsFGrmWr?=
- =?us-ascii?Q?o42Mo9u4+2aNJvvDp4bbXfhDj3klUL6WXi6B/xQ2WyT8BkY7IuVgVh7h0k89?=
- =?us-ascii?Q?zEKPYYk/aQ5EotVvQIsb3Kmj5Bho9PDF/lOoOt4Gw60ifbl+bOlmRXA7xiwh?=
- =?us-ascii?Q?7OUGr349Wd/UlqG0LmaxD2h8invpvbFcZzziB13gF+hTfB4MHb/s5/UXsGyc?=
- =?us-ascii?Q?NqkyoJlVme6OUfPtoE2+WgXGCBnURaIPjzbqi+Al1Wu7tbw8Wga4mAP70kk9?=
- =?us-ascii?Q?qGODydxFLY2sZ7eA6PTUiTbbtRT6JOcANuwvV7sZj9nAUIYBtnDagR7RoEf6?=
- =?us-ascii?Q?8A=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?us-ascii?Q?faJnXqNaKaXpkA8BIlgIMJ9ZUVq02Ozvavw+vcaJQVJ6qDikC1xN6pajSIUJ?=
- =?us-ascii?Q?2kNfltjXN8d6W6wpdqJWJp8keWI2yR08nPlD71VgO7M1+wIuOERpya9EOup2?=
- =?us-ascii?Q?7SQ33xxrTAuTtlZZ1u42TI0UxgQksdvZ32r0GuFPH4OyWTgJ4UaCJnMK0p+O?=
- =?us-ascii?Q?Y7rKucy6+IqguAaGWA1WFI3QC8H09++Ox/XKEqP5fRu5cJFQYvOaBTuGAlxG?=
- =?us-ascii?Q?syP5+HgLN+EO2XtU9zbxu+HpqPH8el+VsvWPxBviM0VRkpIa/jXdF+HCrj38?=
- =?us-ascii?Q?nTrI6hLfwBR/m2egVoiZZwIGHeS6itx+EwCE56IzEQYoBDRZT3/SQXzeYU2u?=
- =?us-ascii?Q?nho6hZ8ypUIG9Wlk3KXDDguPmkmjFYwt6JhM1DTVLZ9EBNASS5raE+VfbopK?=
- =?us-ascii?Q?oU2e24yslthxvqW/V+y4A1Vby5r9zG3qIpcbQaiYPHUFCmh0wDli3iPJJMbK?=
- =?us-ascii?Q?FE2nhsWOIjX8h/iKNxy9V1WcW5T3LMcZdlu5BZsLFS50CGnCWn0a0mflhqsv?=
- =?us-ascii?Q?pXapadu+NzVn/Vqtsg8Zt9YX6Fpq9yG2f+Ertdtr2ltcfLA/P/Mq/FD7ZmdA?=
- =?us-ascii?Q?lWheG0hOq5dJSxDxyomGWYM6+I6VIzfwqbVcnUtXRzhBPXPvnm8zwSLxNDcL?=
- =?us-ascii?Q?8h99NHtiVRsCZBk9jZQ7+mL/nBP3Vx4cwktSvJdkzgCAZZndFKrBFHe5X/a/?=
- =?us-ascii?Q?CXP0MMW655kg0ZBIXxswMpDB2r5Ve8huM7/a/FEH95SmTGFnUgAOqyRsydpD?=
- =?us-ascii?Q?JKXOGGYfRD3zr/13Q24EK2mQ1PuSazFQ/NGurDmyaDGmEYHKCGqx0XSl5UnA?=
- =?us-ascii?Q?D5waEptxeWAAa10an3p94xdCpCsc6dTpC9TMc/LsP+ZpFfROVa+92GUq6A/Y?=
- =?us-ascii?Q?UtIUGPBdnP5xJOVcHG6cQat/9WDm8U5WaTIeX1Zv2Tia6qeVtBON5tIPoZvD?=
- =?us-ascii?Q?CWd6espg3ENMXjwkVOAva+sgb3W5TdRlNtWOLLCOx2mpLb8LeMYM1r2a8SwH?=
- =?us-ascii?Q?PwRXlx/j2sAMCil5kEIzDCNkwDPDxX7pPWZCny+xtthJHUuHd0Bm9f7IkJDx?=
- =?us-ascii?Q?RmXODtsjeJBHy6GZuBGeA6elw+9D6JaPh2k678tt2Lo1U9QFD2R5Xa7u+b6J?=
- =?us-ascii?Q?iJz22OX/jxBt2cIzDn48b1i1afrXHvRf51GMxBKpD0qqNnb7TBnbVuVaH+Yb?=
- =?us-ascii?Q?OwqTSMl6Etfo9lLfPB/1Jd/sRqw392b1px6fm6HINqz7MzCvCYk7A4kZf1dZ?=
- =?us-ascii?Q?1JkhCOQT15YZeEODtycUYyg10IG9RqxnA7KAUj5iCWAburhAos1vmD7le5mH?=
- =?us-ascii?Q?2ItIiRDAh/gTV+b8zP44SXaoSxITTOyQVqwEGNdU+JdRDPl98HOriFgXnkms?=
- =?us-ascii?Q?MxQEp/unkIJdsH25Weo7ruDr2Z2p?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 207475fe-0e3e-4c7f-93e8-08db5b15e190
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4754.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2023 22:42:54.1404
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PDJlcBToFUiKpyJYb34Umo5IEtcS82eWgCKS5OJsWEX5hJsrU5EXubqHU9j3UPyyoTLYyDEaYLXlWdeapYtYvJLqQJDpEt8roz/df8NwZKY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB5149
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-22_16,2023-05-22_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxscore=0
- mlxlogscore=999 phishscore=0 bulkscore=0 suspectscore=0 adultscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305220192
-X-Proofpoint-GUID: P96rqLQ6kuLkvhmtqln9NQvIEINhzvn-
-X-Proofpoint-ORIG-GUID: P96rqLQ6kuLkvhmtqln9NQvIEINhzvn-
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA01TazBcZxj2nbN7dtFNT5Dx0SjZjCbu1q2f1CaUdk5HTbWZTttMRLe7Jyh2
+	t7skojONS9WILLopE8tI0mTcVlyWqttiFnWpUJQ0Oi7NrE41LGEiySiKpc2/53ne933eyzcf
+	G7doYNmyY8QJtEwsiOMSZozGLqdjbtVhsSJPVRsH1Qz8hKPimioCpeVt4Eg9lUugR10rABUs
+	P8fRbMcppDUUMdGDzmYMtX2vxFCFugdDdbls1HrrMYZ6thYJpNRNADQ3rsKQdtIFtWn7GWis
+	pZhA01VbTHSjdI6Fsu83EaisdxNDumvpGGrSpwLUuH4DR9WPlhiob/IVNLzRy0Trz4qJwFep
+	sV9DKdXMPYJqVk2xqOHpOgZVoBwgqPpyZ2rsXiKlqcwiKM2KkkX1XV9nUPV3LlOtD1IISpFu
+	IKjHc5MMaql9nKByGipBuOWZ2IBoWiCiZQ60WCgRxYij+NzQ05HBkb5+njw3nj96nesgFsTT
+	fG7Iu+Fub8fEbV+K63BBEJe4LYUL5HKux8kAmSQxgXaIlsgT+FxaKoqT+kjd5YJ4eaI4yl1M
+	J5zgeXp6+W4nfhobPZBazJCO+yZ1tv/BTAGFrleAKRuSPvC3glvYFWDGtiBbAczZULKMZAVA
+	/WYZYSSrABanrDP2S9b+adsLtACouXp3j2RgcEnRuJ3FZhOkC/x5i72jW5F6HC62LOA7BCd7
+	cZhX2o/vWFmSEXB0MQPsYAbpCHsKZnd1DukPR7uXdo0g6QFzZw7uyKbkCfjXiGov5SDsL9Tv
+	ToST9jD9h6Jdf0hOmsLV9hVgrA2BPfX2xqkt4d+9DSwjtoWrBi1hxBdhxXflhLH2awBV91XA
+	GDgFMwZy8R0fnHSCNS0eRtkO5g9UY8a+B6BiXY8ZdQ5sKtnHR2FVzc09fxs48TR1D1OwTzPN
+	MB5LAWDmjIKVBxxUL+yjemEf1f+tbwK8EtjQUnl8FC33lXqL6Yv/PbNQEq8Bu9/HObQJPJxd
+	dtcBjA10ALJxrhXn/RyhyIIjElxKpmWSSFliHC3XAd/te3+L2x4SSrb/nzghkufj7+nj5+fn
+	4+/tx+Nac47x+4UWZJQggY6laSkt26/D2Ka2KRj/rWtpa3/KDGan1UFDJ5M2ztt6lj//+ID2
+	sy8GDWGtgxqt48JHfKVJ/ptrNszjrz1VWrdwYq1yz3RFdGd/MzIhPJxp/mH32epu8fKqfd0H
+	591DM1wM0meKhyUhwUcj3nC+/V6R6fGFvPzmzaagQr5W+KTWrjl0mDZYumbVmphYfJVcMmdt
+	opkPTlo59wkl+GXmrvmR4frBw+pDPXfsGlwvq/svRKQVgMyRso4jT8TNl9S+AV63O+xTVySu
+	Q0Ffcjp/f6eDFzhvEzrkbXK2OXmxvyT25XSPWn2gpc6cee76tNZJ2RT2+UulNd1TPwZ7F2Uj
+	x9EsnrVSh+b9wr0q7LwFRJs5lyGPFvCccZlc8C8ddNtQxwQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0xTZxjG951zOD00NjmWJv2QRJI6JVblUjv3bXGyJUv2kc0pJsuILtMG
+	joBQLqeA1ynSZJcSC2sjWUsN0jhWi4EA2oCUyiqlhYZ0rAPXouAWGF5iCy4ZGARmYUv875ff
+	87zPXy9DimepTUxhSQXHl6iKZbSQctyVJe968VFRXvrjv+SofXiQRJb2GzSqqV8mUeuDOho9
+	vfscoIa5FyR6eCcT9UUa41Cov4dATquBQNdbPQTqqGNQb/M8gTyrz2hkcI8DNDNmJlBfeAdy
+	9g1RKHjbQqPJG6txqKllRoBq73XT6CfvCoHcRi2BuqcvAuRYaiJR29MohXzhJBRY9sahpUUL
+	/f5mHPztY2yeGqFxj/mBAAcmOyjcYBimcZdNjoMjlbjT/h2NO58bBNj3wxKFu65dwL2hahpf
+	0kZoPD8TpnDUNUZj/U07OJhwWLg3jysurOL4tH3HhAXDFy1U2dhbp/pdf8RVA9NOHYhnIKuE
+	/7x00jEWs90ADujIdZ8IW5YH/uMEeH1lVqADwlcdLQGtrUFKBxiGZndA/yoT8xJ2joTtN60g
+	dkCyEyR03MuJcQJ7BPrDfwtiTLFboafh4dqoiH0H/joQXduBbBqsm9oY0/Hsu/DRqJmMafGr
+	Sn2LYr29EQ6Zpqn19WSovdVI1gPW/Fpkfi26Cgg7SOTKNOp8tSajTFHCnUzVqNSaypL81NxS
+	dSdY+wW5vBs47XOpbkAwwA0gQ8okomx9bp5YlKc6fYbjS4/ylcWcxg2SGEomFf2iGzoqZvNV
+	FVwRx5Vx/P8pwcRvqiYO9Ewabf4N58vn+dqklS3SmjesjjOskl7I6mFMRc2PqJlGsVZ+bdW1
+	+6uXad+/Nz34pPCT1IqmrqWOzy7nBEb3R7K+JU9OLIo+lIx+uWhDy3p+5EQmilwgoumB8wJT
+	RnRXq14ycdVn2/NnVQ7l+kD0xW1925vjxwz54UsCn10sDVUVKL2GbYla3jvuwSm9Fn63Ybz6
+	5wXhlrZtpb+n79++/f6ROhuQHDgVUO/NjViFYt/btSltidIhqbffmZVdvi+4efbxNyfOGkPN
+	5c8yj2fbHIOmK6WKz5PNY4WXPSn+Q17FcWWoyMhOuYyKuXOOGl/gx4KvN3y6oJT7t6bJKE2B
+	KkNO8hrVv4+iC4d6AwAA
+X-CMS-MailID: 20230522104617epcas5p25ef0cfacfb4e2d4e8d7a0661f7181e7d
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230522104617epcas5p25ef0cfacfb4e2d4e8d7a0661f7181e7d
+References: <20230522104146.2856-1-nj.shetty@samsung.com>
+	<CGME20230522104617epcas5p25ef0cfacfb4e2d4e8d7a0661f7181e7d@epcas5p2.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230522_154322_211484_1161F989 
-X-CRM114-Status: GOOD (  16.31  )
+X-CRM114-CacheID: sfid-20230522_041044_482255_CFE8D338 
+X-CRM114-Status: GOOD (  30.02  )
 X-Mailman-Approved-At: Mon, 22 May 2023 22:19:29 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -230,19 +153,195 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+For direct block device opened with O_DIRECT, use copy_file_range to
+issue device copy offload, and fallback to generic_copy_file_range incase
+device copy offload capability is absent.
+Modify checks to allow bdevs to use copy_file_range.
 
-Kees,
+Suggested-by: Ming Lei <ming.lei@redhat.com>
+Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+---
+ block/blk-lib.c        | 23 +++++++++++++++++++++++
+ block/fops.c           | 20 ++++++++++++++++++++
+ fs/read_write.c        | 11 +++++++++--
+ include/linux/blkdev.h |  3 +++
+ mm/filemap.c           | 11 ++++++++---
+ 5 files changed, 63 insertions(+), 5 deletions(-)
 
-> While struct_size() is normally used in situations where the structure
-> type already has a pointer instance, there are places where no variable
-> is available. In the past, this has been worked around by using a typed
-> NULL first argument, but this is a bit ugly. Add a helper to do this,
-> and replace the handful of instances of the code pattern with it.
-
-SCSI bits look fine to me.
-
-Acked-by: Martin K. Petersen <martin.petersen@oracle.com>
-
+diff --git a/block/blk-lib.c b/block/blk-lib.c
+index ba32545eb8d5..7d6ef85692a6 100644
+--- a/block/blk-lib.c
++++ b/block/blk-lib.c
+@@ -523,6 +523,29 @@ int blkdev_issue_copy(struct block_device *bdev_in, loff_t pos_in,
+ }
+ EXPORT_SYMBOL_GPL(blkdev_issue_copy);
+ 
++/* Returns the length of bytes copied */
++int blkdev_copy_offload(struct block_device *bdev_in, loff_t pos_in,
++		      struct block_device *bdev_out, loff_t pos_out, size_t len,
++		      gfp_t gfp_mask)
++{
++	struct request_queue *in_q = bdev_get_queue(bdev_in);
++	struct request_queue *out_q = bdev_get_queue(bdev_out);
++	int ret = 0;
++
++	if (blkdev_copy_sanity_check(bdev_in, pos_in, bdev_out, pos_out, len))
++		return 0;
++
++	if (blk_queue_copy(in_q) && blk_queue_copy(out_q)) {
++		ret = __blkdev_copy_offload(bdev_in, pos_in, bdev_out, pos_out,
++				len, NULL, NULL, gfp_mask);
++		if (ret < 0)
++			return 0;
++	}
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(blkdev_copy_offload);
++
+ static int __blkdev_issue_write_zeroes(struct block_device *bdev,
+ 		sector_t sector, sector_t nr_sects, gfp_t gfp_mask,
+ 		struct bio **biop, unsigned flags)
+diff --git a/block/fops.c b/block/fops.c
+index ab750e8a040f..df8985675ed1 100644
+--- a/block/fops.c
++++ b/block/fops.c
+@@ -614,6 +614,25 @@ static ssize_t blkdev_read_iter(struct kiocb *iocb, struct iov_iter *to)
+ 	return ret;
+ }
+ 
++static ssize_t blkdev_copy_file_range(struct file *file_in, loff_t pos_in,
++				struct file *file_out, loff_t pos_out,
++				size_t len, unsigned int flags)
++{
++	struct block_device *in_bdev = I_BDEV(bdev_file_inode(file_in));
++	struct block_device *out_bdev = I_BDEV(bdev_file_inode(file_out));
++	int comp_len = 0;
++
++	if ((file_in->f_iocb_flags & IOCB_DIRECT) &&
++		(file_out->f_iocb_flags & IOCB_DIRECT))
++		comp_len = blkdev_copy_offload(in_bdev, pos_in, out_bdev,
++				 pos_out, len, GFP_KERNEL);
++	if (comp_len != len)
++		comp_len = generic_copy_file_range(file_in, pos_in + comp_len,
++			file_out, pos_out + comp_len, len - comp_len, flags);
++
++	return comp_len;
++}
++
+ #define	BLKDEV_FALLOC_FL_SUPPORTED					\
+ 		(FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE |		\
+ 		 FALLOC_FL_ZERO_RANGE | FALLOC_FL_NO_HIDE_STALE)
+@@ -697,6 +716,7 @@ const struct file_operations def_blk_fops = {
+ 	.splice_read	= generic_file_splice_read,
+ 	.splice_write	= iter_file_splice_write,
+ 	.fallocate	= blkdev_fallocate,
++	.copy_file_range = blkdev_copy_file_range,
+ };
+ 
+ static __init int blkdev_init(void)
+diff --git a/fs/read_write.c b/fs/read_write.c
+index a21ba3be7dbe..47e848fcfd42 100644
+--- a/fs/read_write.c
++++ b/fs/read_write.c
+@@ -20,6 +20,7 @@
+ #include <linux/compat.h>
+ #include <linux/mount.h>
+ #include <linux/fs.h>
++#include <linux/blkdev.h>
+ #include "internal.h"
+ 
+ #include <linux/uaccess.h>
+@@ -1447,7 +1448,11 @@ static int generic_copy_file_checks(struct file *file_in, loff_t pos_in,
+ 		return -EOVERFLOW;
+ 
+ 	/* Shorten the copy to EOF */
+-	size_in = i_size_read(inode_in);
++	if (S_ISBLK(inode_in->i_mode))
++		size_in = bdev_nr_bytes(I_BDEV(file_in->f_mapping->host));
++	else
++		size_in = i_size_read(inode_in);
++
+ 	if (pos_in >= size_in)
+ 		count = 0;
+ 	else
+@@ -1708,7 +1713,9 @@ int generic_file_rw_checks(struct file *file_in, struct file *file_out)
+ 	/* Don't copy dirs, pipes, sockets... */
+ 	if (S_ISDIR(inode_in->i_mode) || S_ISDIR(inode_out->i_mode))
+ 		return -EISDIR;
+-	if (!S_ISREG(inode_in->i_mode) || !S_ISREG(inode_out->i_mode))
++
++	if ((!S_ISREG(inode_in->i_mode) || !S_ISREG(inode_out->i_mode)) &&
++		(!S_ISBLK(inode_in->i_mode) || !S_ISBLK(inode_out->i_mode)))
+ 		return -EINVAL;
+ 
+ 	if (!(file_in->f_mode & FMODE_READ) ||
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index a95c26faa8b6..a9bb7e3a8c79 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -1054,6 +1054,9 @@ int blkdev_issue_secure_erase(struct block_device *bdev, sector_t sector,
+ int blkdev_issue_copy(struct block_device *bdev_in, loff_t pos_in,
+ 		      struct block_device *bdev_out, loff_t pos_out, size_t len,
+ 		      cio_iodone_t end_io, void *private, gfp_t gfp_mask);
++int blkdev_copy_offload(struct block_device *bdev_in, loff_t pos_in,
++		      struct block_device *bdev_out, loff_t pos_out, size_t len,
++		      gfp_t gfp_mask);
+ struct bio *bio_map_kern(struct request_queue *q, void *data, unsigned int len,
+ 		gfp_t gfp_mask);
+ void bio_map_kern_endio(struct bio *bio);
+diff --git a/mm/filemap.c b/mm/filemap.c
+index 570bc8c3db87..289f0c8229ec 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -48,6 +48,7 @@
+ #include <asm/pgalloc.h>
+ #include <asm/tlbflush.h>
+ #include "internal.h"
++#include <linux/blkdev.h>
+ 
+ #define CREATE_TRACE_POINTS
+ #include <trace/events/filemap.h>
+@@ -2855,7 +2856,7 @@ ssize_t filemap_splice_read(struct file *in, loff_t *ppos,
+ {
+ 	struct folio_batch fbatch;
+ 	struct kiocb iocb;
+-	size_t total_spliced = 0, used, npages;
++	size_t total_spliced = 0, used, npages, size_in;
+ 	loff_t isize, end_offset;
+ 	bool writably_mapped;
+ 	int i, error = 0;
+@@ -2863,6 +2864,10 @@ ssize_t filemap_splice_read(struct file *in, loff_t *ppos,
+ 	init_sync_kiocb(&iocb, in);
+ 	iocb.ki_pos = *ppos;
+ 
++	if (S_ISBLK(file_inode(in)->i_mode))
++		size_in = bdev_nr_bytes(I_BDEV(in->f_mapping->host));
++	else
++		size_in = i_size_read(file_inode(in));
+ 	/* Work out how much data we can actually add into the pipe */
+ 	used = pipe_occupancy(pipe->head, pipe->tail);
+ 	npages = max_t(ssize_t, pipe->max_usage - used, 0);
+@@ -2873,7 +2878,7 @@ ssize_t filemap_splice_read(struct file *in, loff_t *ppos,
+ 	do {
+ 		cond_resched();
+ 
+-		if (*ppos >= i_size_read(file_inode(in)))
++		if (*ppos >= size_in)
+ 			break;
+ 
+ 		iocb.ki_pos = *ppos;
+@@ -2889,7 +2894,7 @@ ssize_t filemap_splice_read(struct file *in, loff_t *ppos,
+ 		 * part of the page is not copied back to userspace (unless
+ 		 * another truncate extends the file - this is desired though).
+ 		 */
+-		isize = i_size_read(file_inode(in));
++		isize = size_in;
+ 		if (unlikely(*ppos >= isize))
+ 			break;
+ 		end_offset = min_t(loff_t, isize, *ppos + len);
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+2.35.1.500.gb896f729e2
+
 
