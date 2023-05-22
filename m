@@ -4,66 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2EB94C7EE23
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 May 2023 05:19:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E32A2C77B7A
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 May 2023 05:19:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
 	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=R+AbMKu00GBkKoqkZeg+RhLivR8lcxL0S6iien9dIBg=; b=qjAobie+XTIGq6huCw1vJk7k+j
-	gaaSafuN7EE1xWYKhIF3YYdERh2azpAPzSxK0xu2P5IBrY5ZKLlurCUVy3ybpXxdLWjlST/uDviXD
-	GivuVV2THr6t2bPvLKmoOVvpIr5YAqu+xm4bTPqmQOjMI8AjIJFzvWhkbwfU+ld4kFe6+95O3C2/O
-	SzQtFLq8bGpuQMs/pBO3wnWWKJQdZs3+Je6wjLjMIAOEGndVQ+1R9aC+B4iS8C9Mnko7II1yNzBkV
-	17VBGUm3Mv9cFqIbhI7Cm1LUMu5ru+o/h8TmtKOquzzdjwM5AO+EBX3vEKhf06eFym9KWcfjOvBPv
-	XphYdhLw==;
+	bh=1WJtwnO5PvXiBgPu8IyPQ8G/PqQ97PZnyPYo9MnZUQA=; b=h6Muv5XOJuhEHkiIGMgF0S9Mur
+	LgWx2nxpEGqoapZdoD9lOmJYl/EVkJybPC0D6wy97LQseuMhJG/DvdKGV0bQ1OtZrUpfYtK5Qupfi
+	NP9hGmXNmxuP9ZHQO/xd6zmu7WT8+KZZJ1crvttlvi3rz21YBIdZK6OlXFSjnODX8CqdU4ITFTahJ
+	MbNSERADOVjfsiL7BhGvGBPDgBTdRC3ruX0U7XiNQLLns14r0Fw3h9wkRNjDbFIuOgGstgibnh3Oi
+	9Ifw/f448VZoMYPnKx5KRJkrcxRkth1CAc2aWpv8UT8DCR+NnPuu1C/PB6ZNm5hXoVRXNdkKxRQRO
+	9N3z/Tlg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q1KQm-008wNU-1l;
-	Tue, 23 May 2023 05:19:32 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1q1KQn-008wOJ-39;
+	Tue, 23 May 2023 05:19:33 +0000
+Received: from mailout1.samsung.com ([203.254.224.24])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q13Qy-006DJv-0p
+	id 1q13R7-006DOt-2b
 	for linux-nvme@lists.infradead.org;
-	Mon, 22 May 2023 11:10:39 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20230522111033epoutp02bb69e68b8683c7c4ff70076a3846cfe9~hcq97FwsT1102211022epoutp02a
-	for <linux-nvme@lists.infradead.org>; Mon, 22 May 2023 11:10:33 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20230522111033epoutp02bb69e68b8683c7c4ff70076a3846cfe9~hcq97FwsT1102211022epoutp02a
+	Mon, 22 May 2023 11:10:48 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20230522111043epoutp01d6ef452d333e7f7bf02ed289e14e73c5~hcrHSwsB-3011430114epoutp01F
+	for <linux-nvme@lists.infradead.org>; Mon, 22 May 2023 11:10:43 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20230522111043epoutp01d6ef452d333e7f7bf02ed289e14e73c5~hcrHSwsB-3011430114epoutp01F
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1684753833;
-	bh=R+AbMKu00GBkKoqkZeg+RhLivR8lcxL0S6iien9dIBg=;
+	s=mail20170921; t=1684753843;
+	bh=1WJtwnO5PvXiBgPu8IyPQ8G/PqQ97PZnyPYo9MnZUQA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LEmKCvd1cgj5c75DiMYsFDzom5XvLhNda7eBLEuw0GBKNx+D2qYCE2XDo0qwzjMij
-	 9/KGYfwXKCp9GcMbrK2nUI+qdCxV/Xu0k1IeWHZbiCSUsVJs/Q/v+4GS4SLzAu6CVp
-	 7JThgSewAU0rPDL73Vj756l8vhgW0C9QxgDkr6BY=
+	b=vdX184PH29jsk/QU5gEcZK9qXnVnTNVNtw5k97kemp3ylnZdC5VQBH4aHNX6Dd071
+	 P/lsge+6rzb+8S1WwXJKhmL+/MH/nahPfHIPdmKfv+w+jfVa6Dy9S7TD+javEo6uUV
+	 06UaMvJ6Z07kHFl6shcOLTsWqi9uhOA5CtN9koiw=
 Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20230522111032epcas5p316964144d58f4375f55a2da2a8222391~hcq9VsDLX2983029830epcas5p3I;
-	Mon, 22 May 2023 11:10:32 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.180]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4QPvr71LKzz4x9Pt; Mon, 22 May
-	2023 11:10:31 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	92.9E.44881.6AD4B646; Mon, 22 May 2023 20:10:31 +0900 (KST)
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20230522111043epcas5p4a30dfec100c198ec352c5e3869dd178d~hcrGv25-s2858928589epcas5p4r;
+	Mon, 22 May 2023 11:10:43 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.176]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4QPvrK5q8Kz4x9Pr; Mon, 22 May
+	2023 11:10:41 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	58.39.16380.1BD4B646; Mon, 22 May 2023 20:10:41 +0900 (KST)
 Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20230522104536epcas5p23dd8108dd267ec588e5c36e8f9eb9fe8~hcVLq1bVn0618606186epcas5p2K;
-	Mon, 22 May 2023 10:45:36 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20230522104628epcas5p4f5b3f3d7b080950955a127733d554753~hcV76Yjto0301703017epcas5p4p;
+	Mon, 22 May 2023 10:46:28 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
 	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20230522104536epsmtrp191a88594e0902b23cc508ff2e23402c8~hcVLoljLz1351813518epsmtrp1h;
-	Mon, 22 May 2023 10:45:36 +0000 (GMT)
-X-AuditID: b6c32a4a-ea9fa7000001af51-90-646b4da60e8d
+	20230522104628epsmtrp1c83ba865935ea43a74a0b42ad6ab0156~hcV73yLeM1451014510epsmtrp15;
+	Mon, 22 May 2023 10:46:28 +0000 (GMT)
+X-AuditID: b6c32a4b-7dffd70000013ffc-00-646b4db1d7a6
 Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-	AE.DF.28392.0D74B646; Mon, 22 May 2023 19:45:36 +0900 (KST)
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	19.23.27706.4084B646; Mon, 22 May 2023 19:46:28 +0900 (KST)
 Received: from green245.sa.corp.samsungelectronics.net (unknown
 	[107.99.41.245]) by epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20230522104532epsmtip2839b424711300915eee77a57ffa0f158~hcVH0JBQe1645416454epsmtip22;
-	Mon, 22 May 2023 10:45:32 +0000 (GMT)
+	20230522104624epsmtip29890dc3f754a2a79816cc006038bc28e~hcV38iRUA1590015900epsmtip24;
+	Mon, 22 May 2023 10:46:23 +0000 (GMT)
 From: Nitesh Shetty <nj.shetty@samsung.com>
 To: Jens Axboe <axboe@kernel.dk>, Alasdair Kergon <agk@redhat.com>, Mike
 	Snitzer <snitzer@kernel.org>, dm-devel@redhat.com, Keith Busch
@@ -76,67 +76,68 @@ Cc: martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
 	James.Bottomley@HansenPartnership.com, bvanassche@acm.org, hare@suse.de,
 	ming.lei@redhat.com, dlemoal@kernel.org, anuj20.g@samsung.com,
 	joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com, Nitesh
-	Shetty <nj.shetty@samsung.com>, linux-block@vger.kernel.org,
+	Shetty <nj.shetty@samsung.com>, =?UTF-8?q?Javier=20Gonz=C3=A1lez?=
+	<javier.gonz@samsung.com>, linux-block@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH v11 2/9] block: Add copy offload support infrastructure
-Date: Mon, 22 May 2023 16:11:33 +0530
-Message-Id: <20230522104146.2856-3-nj.shetty@samsung.com>
+Subject: [PATCH v11 5/9] nvme: add copy offload support
+Date: Mon, 22 May 2023 16:11:36 +0530
+Message-Id: <20230522104146.2856-6-nj.shetty@samsung.com>
 X-Mailer: git-send-email 2.35.1.500.gb896f729e2
 In-Reply-To: <20230522104146.2856-1-nj.shetty@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01TaUxUVxjlvje8GdCxD9B4WVTyxLAJzCBMLyJihZZX1BRD05D+oSM8GYRZ
-	OosUEsOmtEW2ohAciCJt2URGAQlrWxbLVjJStjANS1NoZMeBWpFQyjDY+u98555zz/2+m4+D
-	W9aybTjREiUjlwhjKcKcVd/h7OxWdiEmkjdehSFN7884KtJUESglZxNHD8azCTTfoQcof2Ud
-	R1M/+qPWpUJTNPZTI4ZaSnIxVPHgKYYeZ3NQ8/0XGHq6tUig3PYRgGaG1Rhq1bmiltYeFhps
-	KiLQRNWWKbpXOsNGN0cbCFTW9Q+G2m+lYqhhOhmg+o17OKqeX2ahbp0t0m52maKNV0XEmcP0
-	4NA5Wj3ZT9CN6nE2rZ14zKLzc3sJurbchR7sV9E1lV8TdI0+l013F2yw6NrvEunmsSSCzkxd
-	IugXMzoWvfzDMEFn1VWCEKtPY06JGGEkI7dnJBHSyGhJlB91LjQ8INxbwOO78X3Qu5S9RChm
-	/KjA8yFuH0THbk+Ksr8qjFVtUyFChYLyOH1KLlUpGXuRVKH0oxhZZKzMS+auEIoVKkmUu4RR
-	nuTzeJ7e28LPYkRPFtowWW7YF5OVnawksB6UDsw4kPSCw1+WsdKBOceSbAZwQf/XbqEHUPMq
-	jTAWqwAWaPrZ6YCzY7n9+qiRbwKwo3wWNxY3MFhYXs8yiAjSFfZtcQz8fnIah4tNCzsinOzC
-	YU5pD24ItyKD4K/aR8CAWeQxuKYb3Engkj6woemYMcwDZk9aGBRm5En4fEC94+SSFrDnzjTL
-	gHHyCEx9UrhzPSQnzODi/U3M2FsgbHy5xDZiKzjXVbeLbeBsdtoujoMVt8sJo/k6gOpRNTAe
-	+MMbvdm44RE46Qw1TR5G+hDM663GjMH7YObG9G4WFzbcfYOPwipNMWHE1nDk7+RdTMO1tBa2
-	cViZAM7lz5jmAHv1Ww2p32pI/X90McArgTUjU4ijGIW3zFPCxP33yxFScQ3Y2R6X4Abw+9SK
-	ezvAOKAdQA5O7edezIqItORGCuMTGLk0XK6KZRTtwHt73t/gNgcipNvrJ1GG8718eF4CgcDL
-	54SATx3kOvr1RFiSUUIlE8MwMkb+xodxzGySMKlrD+blOevY8nLkj7IPf9sz5Hk+rOBbdsys
-	dC/zidjHMnqqd/N4vcrSNsW8Ku90zjMuUnVWUctrRz63ZXyvVCtT3z/4UNuX6HTNmr6Cd2sP
-	e7+XoI+/k+wQsq/7KqcgMOjycMbYqtOmxbNUrEBgM7Ua2/lOtl3cgctYnR2ZuMfBNSGg4oxE
-	bFLef7FPccFbP+HcVohNfl8PQgdQ29CjRbPy8Yx0342g4i3HoI98F+4WHTf5ZU0XcC3jrF+3
-	z+uvSp/H7OWm8LUm1y9t+U6ulxzh1eU5rPBDu0o+zim5dUIUHP/noTp/Ox09IhI6bS1fujka
-	nkVFDwjmgh+GxdfwRS3zFEshEvJdcLlC+C8EdyfRxgQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrKIsWRmVeSWpSXmKPExsWy7bCSvO4F9+wUg0n3RS3WnzrGbDFn/Ro2
-	i6YJf5ktVt/tZ7N4ffgTo8W0Dz+ZLR7st7fY+242q8XNAzuZLPYsmsRksXL1USaLjf0cFrsX
-	fmSyOPr/LZvFpEPXGC2eXp3FZLH3lrbFnr0nWSwu75rDZnFvzX9Wi/nLnrJbdF/fwWax/Pg/
-	JotDk5uZLHY8aWS02PZ7PrPFutfvWSxO3JK2OP/3OKvF7x9z2BzkPC5f8faYdf8sm8fOWXfZ
-	Pc7f28jiMW3SKTaPzSu0PC6fLfXYtKqTzWPTp0nsHidm/Gbx2Lyk3mP3zQY2j97md2weH5/e
-	YvF4v+8qm0ffllWMAcJRXDYpqTmZZalF+nYJXBlb3xxkKpgUUXF/1RGWBsaf7l2MHBwSAiYS
-	U34pdzFycggJ7GCU+HFCHcSWEJCUWPb3CDOELSyx8t9z9i5GLqCaZiaJjZ+nsoD0sgloS5z+
-	zwESFxH4wCyxfssiRpAGZoHbzBLbrkeA2MIC7hKXzm8Ai7MIqEp8uXWZHaSXV8BSYscuVYgT
-	9CX67wuCVHAKWEm8uDiLGSQsBFQxYZkRSJhXQFDi5MwnLBDD5SWat85mnsAoMAtJahaS1AJG
-	plWMkqkFxbnpucWGBUZ5qeV6xYm5xaV56XrJ+bmbGMEpQUtrB+OeVR/0DjEycTAeYpTgYFYS
-	4Q3sS04R4k1JrKxKLcqPLyrNSS0+xCjNwaIkznuh62S8kEB6YklqdmpqQWoRTJaJg1OqgUlL
-	1n/6yXROxbMh/j2P3k/ecs00P2tFpz/rhuaIGQ17r84pP79hn0x1RQfP4aolz/aYtlruWDXz
-	eG1v8s7IM9sNYpLMnk7csljGKvm0+PfL4lqrfu9Yc3fdN6Gt0vLWf4PckwTTKwtdFsZsn1De
-	Nm3rv5gmQznGCVfkjKJ2i6mHpOzsZriYpfs6m3eiZXYX74/Vf2vb0zOmeloelZ522V73xadg
-	VVvn1KWRdy4lHc9ILPjk0XzLtaGuNsXQqORnoby4lt35j198L+byKMtzJ4c+5on5Y9fwcu7t
-	rOVz1muZJaR/jHpxL/gAc0+QZaPkjK8pG7my/lef0jyfbBEnUDpX01+uQcBvjeOc65N0lFiK
-	MxINtZiLihMB06tcTXgDAAA=
-X-CMS-MailID: 20230522104536epcas5p23dd8108dd267ec588e5c36e8f9eb9fe8
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te1BUVRzHO/de7i5Mi1fAOouRdNUcQB6LPM6agIyOcwMNgoZpnBzYYW9A
+	wLLtspLlFAsoBQGCCbkwPIohXkI8WnktEIi8YigRSIxHAqEhz0pTAmK5UP73+X1/33N+jzOH
+	j5vU8cz5YbJoViGTRNCkEaFttzpgW3UqXOqQqbZClT03cZRTWU6iuEurOCobTSPRbPsyQJmL
+	T3A00eKBdPPZBuhOaz2Gmr7KwFBJWQeGqtL4qLFgCUOTv/zBQx3rcyTKaBsCaHpQgyHdiA1q
+	0nUTaKAhh0Rj5esGKK9omoeSh+tI9E3nGobaLsdjqG5KDZB2JQ9HFbMLBOoa2Y36VzsN0Mrf
+	OeTRPczAbW9GM95HMvWaUR7TP1ZFMJkZPSRTU2zNDPSpmOrSz0imejmDx3R9uUIwNYWfMI13
+	YkkmJX6eZJamRwhmoXmQZFJrS4Gv6enwI6GsRMoqLFlZcJQ0TBbiRnv7Bx4LdHZxENmKxMiV
+	tpRJIlk3+vhJX9sTYREb66Itz0oiVBuSr0SppO3djyiiVNGsZWiUMtqNZuXSCLmT3E4piVSq
+	ZCF2Mjb6sMjBwdF5wxgUHrrU/wOQj539YGV6xCAWJAQlAUM+pJzguq4IJAEjvgnVCODVijke
+	FywDOBFbjHPBIwDX1PkG20cqbnURXEIH4OerWVuuCxi8npW9cRmfT1I2sHedr9fNqCkczjU8
+	3DThVCIBtQNqQm8ypVzh18lm+lsJaj/smPwT6FlAieHgg7FNC6TsYdr4Tr1sSB2G93/S4Jxl
+	J+y+OkXoGaf2wPjvsnGuuUeGMPOKEcfHYdPlNR7HpvD3ztotNocP0i5ucQws+aKY1LcGqQQA
+	NcMawCU84IWeNFzfA05ZwcoGe062gFd6KjCurjFMWZnCOF0A63K3eS8sr8wnORbCocfqLWag
+	dlRNcrtKAfDnwlGDS8BS88w8mmfm0fxfOh/gpUDIypWRIazSWX5Ixsb898rBUZHVYPMLWXvX
+	gXsTi3ZtAOODNgD5OG0meDM1WGoikErOfcgqogIVqghW2QacN/adjpvvCo7a+IOy6ECRk9jB
+	ycXFxUl8yEVEvyg44NYdbEKFSKLZcJaVs4rtcxjf0DwWo0sG199+6rjQV2sUGSpszfvntdHc
+	Ne9YTdwNZZzmr/n3TeXFrRb7dzz/8H5Zfor7gqOcvE5nL73u5+k58UJzblmhT/n3p56zCHjZ
+	YvHYRwNkVvWsn0AkTrzbLjdm5gp/FRamis/9xtzS2brv4Hn1xLy1VyD41qfP40RiT5LwncVr
+	M+FP7VPwV1+iD0pqyALxzdrOizPO9z6e8x9/r/m0F5vidU2dbr1LhQekZrieGRavmh/1O2O8
+	b8gtU0vlT9qY345lVOf3LZwUlxBDxkHvTh3sfQUE1Pe2PJF6ztwIEvarZ1vOJ9tma3d3Cj9N
+	VrfKkrzjQx8XvZF+t7AguTHwRx//hEaaUIZKRNa4Qin5F88i9NXLBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpileLIzCtJLcpLzFFi42LZdlhJXpfFIzvFYONUTov1p44xW8xZv4bN
+	omnCX2aL1Xf72SxeH/7EaDHtw09miwf77S32vpvNanHzwE4miz2LJjFZrFx9lMliYz+Hxe6F
+	H5ksHt/5zG5x9P9bNotJh64xWjy9OovJYu8tbYs9e0+yWFzeNYfN4t6a/6wW85c9Zbfovr6D
+	zWL58X9MFocmNzNZ7HjSyGix7fd8Zot1r9+zWJy4JW1x/u9xVovfP+awOch7XL7i7THr/lk2
+	j52z7rJ7nL+3kcVj2qRTbB6bV2h5XD5b6rFpVSebx6ZPk9g9Tsz4zeKxeUm9x+6bDWwevc3v
+	2Dw+Pr3F4vF+31U2j74tqxgDhKO4bFJSczLLUov07RK4Mj6eP8NYcK+s4vfTW6wNjC0JXYyc
+	HBICJhLrLp1g6WLk4hAS2M0ocWvlPDaIhKTEsr9HmCFsYYmV/56zQxQ1M0kcnvCQsYuRg4NN
+	QFvi9H8OkLiIwAdmifVbFjGCNDALzGaR6O93A6kRFjCXWNwtAhJmEVCVOPr4C1gJr4ClxNWX
+	91hASiQE9CX67wuChDkFrCReXJzFDBIWAiqZsMwIolpQ4uTMJ2DVzALqEuvnCUHskZdo3jqb
+	eQKj4CwkVbMQqmYhqVrAyLyKUTK1oDg3PbfYsMAwL7Vcrzgxt7g0L10vOT93EyM4mWhp7mDc
+	vuqD3iFGJg7GQ4wSHMxKIryBfckpQrwpiZVVqUX58UWlOanFhxilOViUxHkvdJ2MFxJITyxJ
+	zU5NLUgtgskycXBKNTB5Fm9WuTPN5sbU4htZN6es/rzd/EPOh31HflaWhNlt+clSGudbYleS
+	OttE2cORfe2b7xPKNCpnKyzWuv0n9mCOzxOv+WXcrzd28EpsTWo1rHn9sle5oWBFntvLyS/m
+	zbuo9CjzOKdQV8Mvj3tb5BMcu47dvxosOjPCZHlx6lP7+1ZbA28HiehfVS/cMPWkbUKh7Npj
+	s/my9nrWVga5PXmi/ZKxImR59b21UnnhGZZr9l0UkfO4Umk/99FRk66nt6SOy0mnrVZOv31t
+	XX6FxZTb01/dtWyLc7FhcLttnONyTu74724doamfNrpwiHhrWf345bzyd9yjVQtuqU9pYlEU
+	rf9/Ra3t/MdD8XqneU4osRRnJBpqMRcVJwIAXAt8NJUDAAA=
+X-CMS-MailID: 20230522104628epcas5p4f5b3f3d7b080950955a127733d554753
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 X-Sendblock-Type: REQ_APPROVE
 CMS-TYPE: 105P
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230522104536epcas5p23dd8108dd267ec588e5c36e8f9eb9fe8
+X-CMS-RootMailID: 20230522104628epcas5p4f5b3f3d7b080950955a127733d554753
 References: <20230522104146.2856-1-nj.shetty@samsung.com>
-	<CGME20230522104536epcas5p23dd8108dd267ec588e5c36e8f9eb9fe8@epcas5p2.samsung.com>
+	<CGME20230522104628epcas5p4f5b3f3d7b080950955a127733d554753@epcas5p4.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230522_041036_638776_80BDBFFE 
-X-CRM114-Status: GOOD (  29.29  )
+X-CRM114-CacheID: sfid-20230522_041046_172586_9E5A8781 
+X-CRM114-Status: GOOD (  29.36  )
 X-Mailman-Approved-At: Mon, 22 May 2023 22:19:29 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -152,353 +153,468 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Introduce blkdev_issue_copy which takes similar arguments as
-copy_file_range and performs copy offload between two bdevs.
-Introduce REQ_COPY copy offload operation flag. Create a read-write
-bio pair with a token as payload and submitted to the device in order.
-Read request populates token with source specific information which
-is then passed with write request.
+For device supporting native copy, nvme driver receives read and
+write request with BLK_COPY op flags.
+For read request the nvme driver populates the payload with source
+information.
+For write request the driver converts it to nvme copy command using the
+source information in the payload and submits to the device.
+current design only supports single source range.
 This design is courtesy Mikulas Patocka's token based copy
 
-Larger copy will be divided, based on max_copy_sectors limit.
+trace event support for nvme_copy_cmd.
+Set the device copy limits to queue limits.
 
+Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
 Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+Signed-off-by: Javier González <javier.gonz@samsung.com>
 Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
 ---
- block/blk-lib.c           | 235 ++++++++++++++++++++++++++++++++++++++
- block/blk.h               |   2 +
- include/linux/blk_types.h |  25 ++++
- include/linux/blkdev.h    |   3 +
- 4 files changed, 265 insertions(+)
+ drivers/nvme/host/constants.c |   1 +
+ drivers/nvme/host/core.c      | 103 +++++++++++++++++++++++++++++++++-
+ drivers/nvme/host/fc.c        |   5 ++
+ drivers/nvme/host/nvme.h      |   7 +++
+ drivers/nvme/host/pci.c       |  27 ++++++++-
+ drivers/nvme/host/rdma.c      |   7 +++
+ drivers/nvme/host/tcp.c       |  16 ++++++
+ drivers/nvme/host/trace.c     |  19 +++++++
+ include/linux/nvme.h          |  43 +++++++++++++-
+ 9 files changed, 220 insertions(+), 8 deletions(-)
 
-diff --git a/block/blk-lib.c b/block/blk-lib.c
-index e59c3069e835..ed089e703cb1 100644
---- a/block/blk-lib.c
-+++ b/block/blk-lib.c
-@@ -115,6 +115,241 @@ int blkdev_issue_discard(struct block_device *bdev, sector_t sector,
+diff --git a/drivers/nvme/host/constants.c b/drivers/nvme/host/constants.c
+index bc523ca02254..01be882b726f 100644
+--- a/drivers/nvme/host/constants.c
++++ b/drivers/nvme/host/constants.c
+@@ -19,6 +19,7 @@ static const char * const nvme_ops[] = {
+ 	[nvme_cmd_resv_report] = "Reservation Report",
+ 	[nvme_cmd_resv_acquire] = "Reservation Acquire",
+ 	[nvme_cmd_resv_release] = "Reservation Release",
++	[nvme_cmd_copy] = "Copy Offload",
+ 	[nvme_cmd_zone_mgmt_send] = "Zone Management Send",
+ 	[nvme_cmd_zone_mgmt_recv] = "Zone Management Receive",
+ 	[nvme_cmd_zone_append] = "Zone Management Append",
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index ccb6eb1282f8..aef7b59dbd61 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -754,6 +754,77 @@ static inline void nvme_setup_flush(struct nvme_ns *ns,
+ 	cmnd->common.nsid = cpu_to_le32(ns->head->ns_id);
  }
- EXPORT_SYMBOL(blkdev_issue_discard);
  
-+/*
-+ * For synchronous copy offload/emulation, wait and process all in-flight BIOs.
-+ * This must only be called once all bios have been issued so that the refcount
-+ * can only decrease. This just waits for all bios to make it through
-+ * blkdev_copy_write_endio.
-+ */
-+static int blkdev_copy_wait_completion(struct cio *cio)
++static inline void nvme_setup_copy_read(struct nvme_ns *ns, struct request *req)
 +{
-+	int ret;
++	struct bio *bio = req->bio;
++	struct nvme_copy_token *token = bvec_kmap_local(&bio->bi_io_vec[0]);
 +
-+	if (cio->endio)
-+		return 0;
-+
-+	if (atomic_read(&cio->refcount)) {
-+		__set_current_state(TASK_UNINTERRUPTIBLE);
-+		blk_io_schedule();
-+	}
-+
-+	ret = cio->comp_len;
-+	kfree(cio);
-+
-+	return ret;
++	token->subsys = "nvme";
++	token->ns = ns;
++	token->src_sector = bio->bi_iter.bi_sector;
++	token->sectors = bio->bi_iter.bi_size >> 9;
 +}
 +
-+static void blkdev_copy_offload_write_endio(struct bio *bio)
++static inline blk_status_t nvme_setup_copy_write(struct nvme_ns *ns,
++	       struct request *req, struct nvme_command *cmnd)
 +{
-+	struct copy_ctx *ctx = bio->bi_private;
-+	struct cio *cio = ctx->cio;
-+	sector_t clen;
++	struct nvme_copy_range *range = NULL;
++	struct bio *bio = req->bio;
++	struct nvme_copy_token *token = bvec_kmap_local(&bio->bi_io_vec[0]);
++	sector_t src_sector, dst_sector, n_sectors;
++	u64 src_lba, dst_lba, n_lba;
++	unsigned short nr_range = 1;
++	u16 control = 0;
 +
-+	if (bio->bi_status) {
-+		clen = (bio->bi_iter.bi_sector << SECTOR_SHIFT) - cio->pos_out;
-+		cio->comp_len = min_t(sector_t, clen, cio->comp_len);
-+	}
-+	__free_page(bio->bi_io_vec[0].bv_page);
-+	bio_put(bio);
++	if (unlikely(memcmp(token->subsys, "nvme", 4)))
++		return BLK_STS_NOTSUPP;
++	if (unlikely(token->ns != ns))
++		return BLK_STS_NOTSUPP;
 +
-+	kfree(ctx);
-+	if (!atomic_dec_and_test(&cio->refcount))
-+		return;
-+	if (cio->endio) {
-+		cio->endio(cio->private, cio->comp_len);
-+		kfree(cio);
-+	} else
-+		blk_wake_io_task(cio->waiter);
++	src_sector = token->src_sector;
++	dst_sector = bio->bi_iter.bi_sector;
++	n_sectors = token->sectors;
++	if (WARN_ON(n_sectors != bio->bi_iter.bi_size >> 9))
++		return BLK_STS_NOTSUPP;
++
++	src_lba = nvme_sect_to_lba(ns, src_sector);
++	dst_lba = nvme_sect_to_lba(ns, dst_sector);
++	n_lba = nvme_sect_to_lba(ns, n_sectors);
++
++	if (WARN_ON(!n_lba))
++		return BLK_STS_NOTSUPP;
++
++	if (req->cmd_flags & REQ_FUA)
++		control |= NVME_RW_FUA;
++
++	if (req->cmd_flags & REQ_FAILFAST_DEV)
++		control |= NVME_RW_LR;
++
++	memset(cmnd, 0, sizeof(*cmnd));
++	cmnd->copy.opcode = nvme_cmd_copy;
++	cmnd->copy.nsid = cpu_to_le32(ns->head->ns_id);
++	cmnd->copy.sdlba = cpu_to_le64(dst_lba);
++
++	range = kmalloc_array(nr_range, sizeof(*range),
++			GFP_ATOMIC | __GFP_NOWARN);
++	if (!range)
++		return BLK_STS_RESOURCE;
++
++	range[0].slba = cpu_to_le64(src_lba);
++	range[0].nlb = cpu_to_le16(n_lba - 1);
++
++	cmnd->copy.nr_range = 0;
++
++	req->special_vec.bv_page = virt_to_page(range);
++	req->special_vec.bv_offset = offset_in_page(range);
++	req->special_vec.bv_len = sizeof(*range) * nr_range;
++	req->rq_flags |= RQF_SPECIAL_PAYLOAD;
++
++	cmnd->copy.control = cpu_to_le16(control);
++
++	return BLK_STS_OK;
 +}
 +
-+static void blkdev_copy_offload_read_endio(struct bio *read_bio)
-+{
-+	struct copy_ctx *ctx = read_bio->bi_private;
-+	struct cio *cio = ctx->cio;
-+	sector_t clen;
-+
-+	if (read_bio->bi_status) {
-+		clen = (read_bio->bi_iter.bi_sector << SECTOR_SHIFT)
-+				- cio->pos_in;
-+		cio->comp_len = min_t(sector_t, clen, cio->comp_len);
-+		__free_page(read_bio->bi_io_vec[0].bv_page);
-+		bio_put(ctx->write_bio);
-+		bio_put(read_bio);
-+		kfree(ctx);
-+		if (atomic_dec_and_test(&cio->refcount)) {
-+			if (cio->endio) {
-+				cio->endio(cio->private, cio->comp_len);
-+				kfree(cio);
-+			} else
-+				blk_wake_io_task(cio->waiter);
-+		}
-+		return;
-+	}
-+
-+	schedule_work(&ctx->dispatch_work);
-+	bio_put(read_bio);
-+}
-+
-+static void blkdev_copy_dispatch_work(struct work_struct *work)
-+{
-+	struct copy_ctx *ctx = container_of(work, struct copy_ctx,
-+			dispatch_work);
-+
-+	submit_bio(ctx->write_bio);
-+}
-+
-+/*
-+ * __blkdev_copy_offload	- Use device's native copy offload feature.
-+ * we perform copy operation by sending 2 bio.
-+ * 1. First we send a read bio with REQ_COPY flag along with a token and source
-+ * and length. Once read bio reaches driver layer, device driver adds all the
-+ * source info to token and does a fake completion.
-+ * 2. Once read operation completes, we issue write with REQ_COPY flag with same
-+ * token. In driver layer, token info is used to form a copy offload command.
-+ *
-+ * Returns the length of bytes copied or error if encountered
-+ */
-+static int __blkdev_copy_offload(struct block_device *bdev_in, loff_t pos_in,
-+		struct block_device *bdev_out, loff_t pos_out, size_t len,
-+		cio_iodone_t endio, void *private, gfp_t gfp_mask)
-+{
-+	struct cio *cio;
-+	struct copy_ctx *ctx;
-+	struct bio *read_bio, *write_bio;
-+	struct page *token;
-+	sector_t copy_len;
-+	sector_t rem, max_copy_len;
-+
-+	cio = kzalloc(sizeof(struct cio), GFP_KERNEL);
-+	if (!cio)
-+		return -ENOMEM;
-+	atomic_set(&cio->refcount, 0);
-+	cio->waiter = current;
-+	cio->endio = endio;
-+	cio->private = private;
-+
-+	max_copy_len = min(bdev_max_copy_sectors(bdev_in),
-+			bdev_max_copy_sectors(bdev_out)) << SECTOR_SHIFT;
-+
-+	cio->pos_in = pos_in;
-+	cio->pos_out = pos_out;
-+	/* If there is a error, comp_len will be set to least successfully
-+	 * completed copied length
-+	 */
-+	cio->comp_len = len;
-+	for (rem = len; rem > 0; rem -= copy_len) {
-+		copy_len = min(rem, max_copy_len);
-+
-+		token = alloc_page(gfp_mask);
-+		if (unlikely(!token))
-+			goto err_token;
-+
-+		ctx = kzalloc(sizeof(struct copy_ctx), gfp_mask);
-+		if (!ctx)
-+			goto err_ctx;
-+		read_bio = bio_alloc(bdev_in, 1, REQ_OP_READ | REQ_COPY
-+			| REQ_SYNC | REQ_NOMERGE, gfp_mask);
-+		if (!read_bio)
-+			goto err_read_bio;
-+		write_bio = bio_alloc(bdev_out, 1, REQ_OP_WRITE
-+			| REQ_COPY | REQ_SYNC | REQ_NOMERGE, gfp_mask);
-+		if (!write_bio)
-+			goto err_write_bio;
-+
-+		ctx->cio = cio;
-+		ctx->write_bio = write_bio;
-+		INIT_WORK(&ctx->dispatch_work, blkdev_copy_dispatch_work);
-+
-+		__bio_add_page(read_bio, token, PAGE_SIZE, 0);
-+		read_bio->bi_iter.bi_size = copy_len;
-+		read_bio->bi_iter.bi_sector = pos_in >> SECTOR_SHIFT;
-+		read_bio->bi_end_io = blkdev_copy_offload_read_endio;
-+		read_bio->bi_private = ctx;
-+
-+		__bio_add_page(write_bio, token, PAGE_SIZE, 0);
-+		write_bio->bi_iter.bi_size = copy_len;
-+		write_bio->bi_end_io = blkdev_copy_offload_write_endio;
-+		write_bio->bi_iter.bi_sector = pos_out >> SECTOR_SHIFT;
-+		write_bio->bi_private = ctx;
-+
-+		atomic_inc(&cio->refcount);
-+		submit_bio(read_bio);
-+		pos_in += copy_len;
-+		pos_out += copy_len;
-+	}
-+
-+	/* Wait for completion of all IO's*/
-+	return blkdev_copy_wait_completion(cio);
-+
-+err_write_bio:
-+	bio_put(read_bio);
-+err_read_bio:
-+	kfree(ctx);
-+err_ctx:
-+	__free_page(token);
-+err_token:
-+	cio->comp_len = min_t(sector_t, cio->comp_len, (len - rem));
-+	if (!atomic_read(&cio->refcount))
-+		return -ENOMEM;
-+	/* Wait for submitted IOs to complete */
-+	return blkdev_copy_wait_completion(cio);
-+}
-+
-+static inline int blkdev_copy_sanity_check(struct block_device *bdev_in,
-+	loff_t pos_in, struct block_device *bdev_out, loff_t pos_out,
-+	size_t len)
-+{
-+	unsigned int align = max(bdev_logical_block_size(bdev_out),
-+					bdev_logical_block_size(bdev_in)) - 1;
-+
-+	if (bdev_read_only(bdev_out))
-+		return -EPERM;
-+
-+	if ((pos_in & align) || (pos_out & align) || (len & align) || !len ||
-+		len >= COPY_MAX_BYTES)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+/*
-+ * @bdev_in:	source block device
-+ * @pos_in:	source offset
-+ * @bdev_out:	destination block device
-+ * @pos_out:	destination offset
-+ * @len:	length in bytes to be copied
-+ * @endio:	endio function to be called on completion of copy operation,
-+ *		for synchronous operation this should be NULL
-+ * @private:	endio function will be called with this private data, should be
-+ *		NULL, if operation is synchronous in nature
-+ * @gfp_mask:   memory allocation flags (for bio_alloc)
-+ *
-+ * Returns the length of bytes copied or error if encountered
-+ *
-+ * Description:
-+ *	Copy source offset from source block device to destination block
-+ *	device. Max total length of copy is limited to MAX_COPY_TOTAL_LENGTH
-+ */
-+int blkdev_issue_copy(struct block_device *bdev_in, loff_t pos_in,
-+		      struct block_device *bdev_out, loff_t pos_out, size_t len,
-+		      cio_iodone_t endio, void *private, gfp_t gfp_mask)
-+{
-+	struct request_queue *q_in = bdev_get_queue(bdev_in);
-+	struct request_queue *q_out = bdev_get_queue(bdev_out);
-+	int ret;
-+
-+	ret = blkdev_copy_sanity_check(bdev_in, pos_in, bdev_out, pos_out, len);
-+	if (ret)
-+		return ret;
-+
-+	if (blk_queue_copy(q_in) && blk_queue_copy(q_out))
-+		ret = __blkdev_copy_offload(bdev_in, pos_in, bdev_out, pos_out,
-+			   len, endio, private, gfp_mask);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(blkdev_issue_copy);
-+
- static int __blkdev_issue_write_zeroes(struct block_device *bdev,
- 		sector_t sector, sector_t nr_sects, gfp_t gfp_mask,
- 		struct bio **biop, unsigned flags)
-diff --git a/block/blk.h b/block/blk.h
-index 45547bcf1119..ec48a237fe12 100644
---- a/block/blk.h
-+++ b/block/blk.h
-@@ -303,6 +303,8 @@ static inline bool bio_may_exceed_limits(struct bio *bio,
+ static blk_status_t nvme_setup_discard(struct nvme_ns *ns, struct request *req,
+ 		struct nvme_command *cmnd)
+ {
+@@ -988,10 +1059,16 @@ blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req)
+ 		ret = nvme_setup_discard(ns, req, cmd);
  		break;
- 	}
- 
-+	if (unlikely(op_is_copy(bio->bi_opf)))
-+		return false;
- 	/*
- 	 * All drivers must accept single-segments bios that are <= PAGE_SIZE.
- 	 * This is a quick and dirty check that relies on the fact that
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index 740afe80f297..0117e33087e1 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -420,6 +420,7 @@ enum req_flag_bits {
- 	 */
- 	/* for REQ_OP_WRITE_ZEROES: */
- 	__REQ_NOUNMAP,		/* do not free blocks when zeroing */
-+	__REQ_COPY,		/* copy request */
- 
- 	__REQ_NR_BITS,		/* stops here */
- };
-@@ -444,6 +445,7 @@ enum req_flag_bits {
- #define REQ_POLLED	(__force blk_opf_t)(1ULL << __REQ_POLLED)
- #define REQ_ALLOC_CACHE	(__force blk_opf_t)(1ULL << __REQ_ALLOC_CACHE)
- #define REQ_SWAP	(__force blk_opf_t)(1ULL << __REQ_SWAP)
-+#define REQ_COPY	((__force blk_opf_t)(1ULL << __REQ_COPY))
- #define REQ_DRV		(__force blk_opf_t)(1ULL << __REQ_DRV)
- #define REQ_FS_PRIVATE	(__force blk_opf_t)(1ULL << __REQ_FS_PRIVATE)
- 
-@@ -474,6 +476,11 @@ static inline bool op_is_write(blk_opf_t op)
- 	return !!(op & (__force blk_opf_t)1);
+ 	case REQ_OP_READ:
+-		ret = nvme_setup_rw(ns, req, cmd, nvme_cmd_read);
++		if (unlikely(req->cmd_flags & REQ_COPY))
++			nvme_setup_copy_read(ns, req);
++		else
++			ret = nvme_setup_rw(ns, req, cmd, nvme_cmd_read);
+ 		break;
+ 	case REQ_OP_WRITE:
+-		ret = nvme_setup_rw(ns, req, cmd, nvme_cmd_write);
++		if (unlikely(req->cmd_flags & REQ_COPY))
++			ret = nvme_setup_copy_write(ns, req, cmd);
++		else
++			ret = nvme_setup_rw(ns, req, cmd, nvme_cmd_write);
+ 		break;
+ 	case REQ_OP_ZONE_APPEND:
+ 		ret = nvme_setup_rw(ns, req, cmd, nvme_cmd_zone_append);
+@@ -1698,6 +1775,26 @@ static void nvme_config_discard(struct gendisk *disk, struct nvme_ns *ns)
+ 		blk_queue_max_write_zeroes_sectors(queue, UINT_MAX);
  }
  
-+static inline bool op_is_copy(blk_opf_t op)
++static void nvme_config_copy(struct gendisk *disk, struct nvme_ns *ns,
++				       struct nvme_id_ns *id)
 +{
-+	return op & REQ_COPY;
++	struct nvme_ctrl *ctrl = ns->ctrl;
++	struct request_queue *q = disk->queue;
++
++	if (!(ctrl->oncs & NVME_CTRL_ONCS_COPY)) {
++		blk_queue_max_copy_sectors_hw(q, 0);
++		blk_queue_flag_clear(QUEUE_FLAG_COPY, q);
++		return;
++	}
++
++	/* setting copy limits */
++	if (blk_queue_flag_test_and_set(QUEUE_FLAG_COPY, q))
++		return;
++
++	blk_queue_max_copy_sectors_hw(q,
++		nvme_lba_to_sect(ns, le16_to_cpu(id->mssrl)));
 +}
 +
- /*
-  * Check if the bio or request is one that needs special treatment in the
-  * flush state machine.
-@@ -533,4 +540,22 @@ struct blk_rq_stat {
- 	u64 batch;
+ static bool nvme_ns_ids_equal(struct nvme_ns_ids *a, struct nvme_ns_ids *b)
+ {
+ 	return uuid_equal(&a->uuid, &b->uuid) &&
+@@ -1897,6 +1994,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
+ 	set_capacity_and_notify(disk, capacity);
+ 
+ 	nvme_config_discard(disk, ns);
++	nvme_config_copy(disk, ns, id);
+ 	blk_queue_max_write_zeroes_sectors(disk->queue,
+ 					   ns->ctrl->max_zeroes_sectors);
+ }
+@@ -5343,6 +5441,7 @@ static inline void _nvme_check_size(void)
+ 	BUILD_BUG_ON(sizeof(struct nvme_download_firmware) != 64);
+ 	BUILD_BUG_ON(sizeof(struct nvme_format_cmd) != 64);
+ 	BUILD_BUG_ON(sizeof(struct nvme_dsm_cmd) != 64);
++	BUILD_BUG_ON(sizeof(struct nvme_copy_command) != 64);
+ 	BUILD_BUG_ON(sizeof(struct nvme_write_zeroes_cmd) != 64);
+ 	BUILD_BUG_ON(sizeof(struct nvme_abort_cmd) != 64);
+ 	BUILD_BUG_ON(sizeof(struct nvme_get_log_page_command) != 64);
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 2ed75923507d..db2e22b4ca7f 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2807,6 +2807,11 @@ nvme_fc_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	if (ret)
+ 		return ret;
+ 
++	if (unlikely((rq->cmd_flags & REQ_COPY) &&
++				(req_op(rq) == REQ_OP_READ))) {
++		blk_mq_end_request(rq, BLK_STS_OK);
++		return BLK_STS_OK;
++	}
+ 	/*
+ 	 * nvme core doesn't quite treat the rq opaquely. Commands such
+ 	 * as WRITE ZEROES will return a non-zero rq payload_bytes yet
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index bf46f122e9e1..66af37170bff 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -500,6 +500,13 @@ struct nvme_ns {
+ 
  };
  
-+typedef void (cio_iodone_t)(void *private, int comp_len);
-+
-+struct cio {
-+	struct task_struct *waiter;     /* waiting task (NULL if none) */
-+	atomic_t refcount;
-+	loff_t pos_in;
-+	loff_t pos_out;
-+	size_t comp_len;
-+	cio_iodone_t *endio;		/* applicable for async operation */
-+	void *private;			/* applicable for async operation */
++struct nvme_copy_token {
++	char *subsys;
++	struct nvme_ns *ns;
++	sector_t src_sector;
++	sector_t sectors;
 +};
 +
-+struct copy_ctx {
-+	struct cio *cio;
-+	struct work_struct dispatch_work;
-+	struct bio *write_bio;
-+};
-+
- #endif /* __LINUX_BLK_TYPES_H */
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index c9bf11adccb3..6f2814ab4741 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -1051,6 +1051,9 @@ int __blkdev_issue_discard(struct block_device *bdev, sector_t sector,
- 		sector_t nr_sects, gfp_t gfp_mask, struct bio **biop);
- int blkdev_issue_secure_erase(struct block_device *bdev, sector_t sector,
- 		sector_t nr_sects, gfp_t gfp);
-+int blkdev_issue_copy(struct block_device *bdev_in, loff_t pos_in,
-+		      struct block_device *bdev_out, loff_t pos_out, size_t len,
-+		      cio_iodone_t end_io, void *private, gfp_t gfp_mask);
+ /* NVMe ns supports metadata actions by the controller (generate/strip) */
+ static inline bool nvme_ns_has_pi(struct nvme_ns *ns)
+ {
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 7f25c0fe3a0b..d5d094fa2fd1 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -495,16 +495,19 @@ static inline void nvme_sq_copy_cmd(struct nvme_queue *nvmeq,
+ 		nvmeq->sq_tail = 0;
+ }
  
- #define BLKDEV_ZERO_NOUNMAP	(1 << 0)  /* do not free blocks */
- #define BLKDEV_ZERO_NOFALLBACK	(1 << 1)  /* don't write explicit zeroes */
+-static void nvme_commit_rqs(struct blk_mq_hw_ctx *hctx)
++static inline void nvme_commit_sq_db(struct nvme_queue *nvmeq)
+ {
+-	struct nvme_queue *nvmeq = hctx->driver_data;
+-
+ 	spin_lock(&nvmeq->sq_lock);
+ 	if (nvmeq->sq_tail != nvmeq->last_sq_tail)
+ 		nvme_write_sq_db(nvmeq, true);
+ 	spin_unlock(&nvmeq->sq_lock);
+ }
+ 
++static void nvme_commit_rqs(struct blk_mq_hw_ctx *hctx)
++{
++	nvme_commit_sq_db(hctx->driver_data);
++}
++
+ static inline bool nvme_pci_use_sgls(struct nvme_dev *dev, struct request *req,
+ 				     int nseg)
+ {
+@@ -848,6 +851,12 @@ static blk_status_t nvme_prep_rq(struct nvme_dev *dev, struct request *req)
+ 	if (ret)
+ 		return ret;
+ 
++	if (unlikely((req->cmd_flags & REQ_COPY) &&
++				(req_op(req) == REQ_OP_READ))) {
++		blk_mq_start_request(req);
++		return BLK_STS_OK;
++	}
++
+ 	if (blk_rq_nr_phys_segments(req)) {
+ 		ret = nvme_map_data(dev, req, &iod->cmd);
+ 		if (ret)
+@@ -894,6 +903,18 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	ret = nvme_prep_rq(dev, req);
+ 	if (unlikely(ret))
+ 		return ret;
++	if (unlikely((req->cmd_flags & REQ_COPY) &&
++				(req_op(req) == REQ_OP_READ))) {
++		blk_mq_set_request_complete(req);
++		blk_mq_end_request(req, BLK_STS_OK);
++		/* Commit the sq if copy read was the last req in the list,
++		 * as copy read deoesn't update sq db
++		 */
++		if (bd->last)
++			nvme_commit_sq_db(nvmeq);
++		return ret;
++	}
++
+ 	spin_lock(&nvmeq->sq_lock);
+ 	nvme_sq_copy_cmd(nvmeq, &iod->cmd);
+ 	nvme_write_sq_db(nvmeq, bd->last);
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 0eb79696fb73..be1d20ac8bb0 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -2038,6 +2038,13 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 
+ 	nvme_start_request(rq);
+ 
++	if (unlikely((rq->cmd_flags & REQ_COPY) &&
++				(req_op(rq) == REQ_OP_READ))) {
++		blk_mq_end_request(rq, BLK_STS_OK);
++		ret = BLK_STS_OK;
++		goto unmap_qe;
++	}
++
+ 	if (IS_ENABLED(CONFIG_BLK_DEV_INTEGRITY) &&
+ 	    queue->pi_support &&
+ 	    (c->common.opcode == nvme_cmd_write ||
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index bf0230442d57..5ba1bb35c557 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -2373,6 +2373,11 @@ static blk_status_t nvme_tcp_setup_cmd_pdu(struct nvme_ns *ns,
+ 	if (ret)
+ 		return ret;
+ 
++	if (unlikely((rq->cmd_flags & REQ_COPY) &&
++				(req_op(rq) == REQ_OP_READ))) {
++		return BLK_STS_OK;
++	}
++
+ 	req->state = NVME_TCP_SEND_CMD_PDU;
+ 	req->status = cpu_to_le16(NVME_SC_SUCCESS);
+ 	req->offset = 0;
+@@ -2441,6 +2446,17 @@ static blk_status_t nvme_tcp_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 
+ 	nvme_start_request(rq);
+ 
++	if (unlikely((rq->cmd_flags & REQ_COPY) &&
++				(req_op(rq) == REQ_OP_READ))) {
++		blk_mq_set_request_complete(rq);
++		blk_mq_end_request(rq, BLK_STS_OK);
++		/* if copy read is the last req queue tcp reqs */
++		if (bd->last && nvme_tcp_queue_more(queue))
++			queue_work_on(queue->io_cpu, nvme_tcp_wq,
++					&queue->io_work);
++		return ret;
++	}
++
+ 	nvme_tcp_queue_request(req, true, bd->last);
+ 
+ 	return BLK_STS_OK;
+diff --git a/drivers/nvme/host/trace.c b/drivers/nvme/host/trace.c
+index 1c36fcedea20..da4a7494e5a7 100644
+--- a/drivers/nvme/host/trace.c
++++ b/drivers/nvme/host/trace.c
+@@ -150,6 +150,23 @@ static const char *nvme_trace_read_write(struct trace_seq *p, u8 *cdw10)
+ 	return ret;
+ }
+ 
++static const char *nvme_trace_copy(struct trace_seq *p, u8 *cdw10)
++{
++	const char *ret = trace_seq_buffer_ptr(p);
++	u64 slba = get_unaligned_le64(cdw10);
++	u8 nr_range = get_unaligned_le16(cdw10 + 8);
++	u16 control = get_unaligned_le16(cdw10 + 10);
++	u32 dsmgmt = get_unaligned_le32(cdw10 + 12);
++	u32 reftag = get_unaligned_le32(cdw10 +  16);
++
++	trace_seq_printf(p,
++			 "slba=%llu, nr_range=%u, ctrl=0x%x, dsmgmt=%u, reftag=%u",
++			 slba, nr_range, control, dsmgmt, reftag);
++	trace_seq_putc(p, 0);
++
++	return ret;
++}
++
+ static const char *nvme_trace_dsm(struct trace_seq *p, u8 *cdw10)
+ {
+ 	const char *ret = trace_seq_buffer_ptr(p);
+@@ -243,6 +260,8 @@ const char *nvme_trace_parse_nvm_cmd(struct trace_seq *p,
+ 		return nvme_trace_zone_mgmt_send(p, cdw10);
+ 	case nvme_cmd_zone_mgmt_recv:
+ 		return nvme_trace_zone_mgmt_recv(p, cdw10);
++	case nvme_cmd_copy:
++		return nvme_trace_copy(p, cdw10);
+ 	default:
+ 		return nvme_trace_common(p, cdw10);
+ 	}
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 779507ac750b..6582b26e532c 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -337,7 +337,7 @@ struct nvme_id_ctrl {
+ 	__u8			nvscc;
+ 	__u8			nwpc;
+ 	__le16			acwu;
+-	__u8			rsvd534[2];
++	__le16			ocfs;
+ 	__le32			sgls;
+ 	__le32			mnan;
+ 	__u8			rsvd544[224];
+@@ -365,6 +365,7 @@ enum {
+ 	NVME_CTRL_ONCS_WRITE_ZEROES		= 1 << 3,
+ 	NVME_CTRL_ONCS_RESERVATIONS		= 1 << 5,
+ 	NVME_CTRL_ONCS_TIMESTAMP		= 1 << 6,
++	NVME_CTRL_ONCS_COPY			= 1 << 8,
+ 	NVME_CTRL_VWC_PRESENT			= 1 << 0,
+ 	NVME_CTRL_OACS_SEC_SUPP                 = 1 << 0,
+ 	NVME_CTRL_OACS_NS_MNGT_SUPP		= 1 << 3,
+@@ -414,7 +415,10 @@ struct nvme_id_ns {
+ 	__le16			npdg;
+ 	__le16			npda;
+ 	__le16			nows;
+-	__u8			rsvd74[18];
++	__le16			mssrl;
++	__le32			mcl;
++	__u8			msrc;
++	__u8			rsvd91[11];
+ 	__le32			anagrpid;
+ 	__u8			rsvd96[3];
+ 	__u8			nsattr;
+@@ -796,6 +800,7 @@ enum nvme_opcode {
+ 	nvme_cmd_resv_report	= 0x0e,
+ 	nvme_cmd_resv_acquire	= 0x11,
+ 	nvme_cmd_resv_release	= 0x15,
++	nvme_cmd_copy		= 0x19,
+ 	nvme_cmd_zone_mgmt_send	= 0x79,
+ 	nvme_cmd_zone_mgmt_recv	= 0x7a,
+ 	nvme_cmd_zone_append	= 0x7d,
+@@ -819,7 +824,8 @@ enum nvme_opcode {
+ 		nvme_opcode_name(nvme_cmd_resv_release),	\
+ 		nvme_opcode_name(nvme_cmd_zone_mgmt_send),	\
+ 		nvme_opcode_name(nvme_cmd_zone_mgmt_recv),	\
+-		nvme_opcode_name(nvme_cmd_zone_append))
++		nvme_opcode_name(nvme_cmd_zone_append),		\
++		nvme_opcode_name(nvme_cmd_copy))
+ 
+ 
+ 
+@@ -996,6 +1002,36 @@ struct nvme_dsm_range {
+ 	__le64			slba;
+ };
+ 
++struct nvme_copy_command {
++	__u8                    opcode;
++	__u8                    flags;
++	__u16                   command_id;
++	__le32                  nsid;
++	__u64                   rsvd2;
++	__le64                  metadata;
++	union nvme_data_ptr     dptr;
++	__le64                  sdlba;
++	__u8			nr_range;
++	__u8			rsvd12;
++	__le16                  control;
++	__le16                  rsvd13;
++	__le16			dspec;
++	__le32                  ilbrt;
++	__le16                  lbat;
++	__le16                  lbatm;
++};
++
++struct nvme_copy_range {
++	__le64			rsvd0;
++	__le64			slba;
++	__le16			nlb;
++	__le16			rsvd18;
++	__le32			rsvd20;
++	__le32			eilbrt;
++	__le16			elbat;
++	__le16			elbatm;
++};
++
+ struct nvme_write_zeroes_cmd {
+ 	__u8			opcode;
+ 	__u8			flags;
+@@ -1757,6 +1793,7 @@ struct nvme_command {
+ 		struct nvme_download_firmware dlfw;
+ 		struct nvme_format_cmd format;
+ 		struct nvme_dsm_cmd dsm;
++		struct nvme_copy_command copy;
+ 		struct nvme_write_zeroes_cmd write_zeroes;
+ 		struct nvme_zone_mgmt_send_cmd zms;
+ 		struct nvme_zone_mgmt_recv_cmd zmr;
 -- 
 2.35.1.500.gb896f729e2
 
