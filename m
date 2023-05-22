@@ -4,108 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ACA78C7EE26
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 May 2023 09:09:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A708DC77B75
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 May 2023 11:46:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=KlDQAEteoGQTD45MGfC6RJaETeChWP0SKeUNYKs38FQ=; b=co3rgrnZmzznXz4wfbm64rSli1
-	JXuFILuKKfzqktW4lbnLVv3bvFAI+NexzmYLkCCVwqRBTYtezp7JJRPhpY+/qRr8YTRLKJYqYFmlL
-	EmpTb90C9VYmTHsU6i0yq7UtHmfb2OBLC5RuBA6fCpxQka2hq94pyEwuvfrJ0F9KFxW4dgnjXXGrY
-	TVVnWkIy8VaGFmXWED9J/IZwpUwORsjDSsffPpyCNdgEBzCyngqVH3gJEoBMHHPPH426mjj/nPdLE
-	hBx/Ei8vCqQLtaLoUBU8RzFKM5wEftHuZc9kRA1DdajmPJS1Mq+nP4t39pR0BO5CklxLdVnmWf1ap
-	UZdFBRow==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=w8yZtAEfwLXF41rLJNL1DHS/pnSO6JCiNOJy5wjiN5Q=; b=qe6dn0gcLUvl8jtWz9wELNIPQG
+	fCNEz8qY2Tz8gqa+/8Pnr9HyTZV6TDPruvHYVQxrS9r9EuDWZ5mitJ9V5pVkBggouWjNCIOdHEzsq
+	+z0XpgqwnugeDUC8GsHpH/X/qMjFTctISGWdlK6//DEKnZ5ZUAbp+3NniRx8/POYV42O4EqVI/AHN
+	F9UZuPzgci1klhXidW0m0k8vqVVh7GdvxKOmIt6+g4I7zo1llXKbncLahw/LvUowQOeZzzgr2Aj0o
+	1eK7uTdM6pP169GVc2+apGLoL+J8NT2HJlQVkOaCRBnDsQKxS3fSudi/u/Yfa4n62dZp/sxILXFk6
+	YvVAFERQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q11XM-005pzw-1Y;
-	Mon, 22 May 2023 09:09:04 +0000
-Received: from mail-mw2nam04on2061f.outbound.protection.outlook.com ([2a01:111:f400:7e8c::61f] helo=NAM04-MW2-obe.outbound.protection.outlook.com)
+	id 1q13z9-006J1U-2l;
+	Mon, 22 May 2023 11:45:55 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q11XI-005pzE-1H
+	id 1q13z4-006J0f-0B
 	for linux-nvme@lists.infradead.org;
-	Mon, 22 May 2023 09:09:02 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e68rvYppnRHqRUSqyA29XeMQr9ip4ENStKFWYTGFEBpf4uxHfaXvUCsF6pv9fIhtlRhvugEgk6OiRD2ZzW4FdgzgUqHOFYHILp+ErMn8PHUKOccdSK4X9MdIQq4JYYzz2BwuyBd2FdtMOdfVC81VMq+akPpmuDOrNGZ0cKGUg3rz4uzchbOeH+nEzN15XtTR0MS+YKcx0i00wQG9fZIrQ5gYMzayr2V53P9VcOS0z4uCP6XsymHl3tLO6c2apgFlyw7+aJyu1mxJeM/TQzFKhdy45cLoKmvzDaUHZqFQvECRwas2DvDXwQ4n46POPertYFFxIO640e6234Hfq/Q4NQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KlDQAEteoGQTD45MGfC6RJaETeChWP0SKeUNYKs38FQ=;
- b=KEwZFkGkf6yANogxXvw9CsrQ3dZfmciyosZ4DzoViKy4K9T0jqls1NhnWTsAuKBtVQndNFfhyFbFjN2bNNoEa5OQ0aVYCf8UXpZJrPjrX/kmyiFjCYLnq6yK1Qdd+YXauMT9fwSsPWhRLVlU0/inv/ForYBDYyn3EXE1yhqNC+8JF+sjCH9J5gSrW83/TM5vIWsnrVjqrxsYyD2azCzVZUT708lusI8N3dFLBQbrnM/yiGbuncTi1Cwb2E07huj5Na37A4AoW5qV7NtAA2Ne7I3sIdEQRpikwJzIx2JAn/G+24U1VRnukjSv+1iy54qvxaIk+BI8NlX4qHVf3nI/Cw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=suse.de smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KlDQAEteoGQTD45MGfC6RJaETeChWP0SKeUNYKs38FQ=;
- b=HJqTzpM2stv3V6fEchpf/ld5aaKMhG8t959+GD0TOcIU6kJdnYnCL4n6jKFLslFC76aX4qT0Xw413zGY5ppPrUCfSaVC1leXG3MzqhCUJzkBut78TJHXql2+XEIe4HjvYumd1dUi8uEuWIpJ1B6kGYo8YBakIr4VTcuLyTTjHFnQ1yLozfZpyc3GIKUjvUiDYjOtrh2Sw9LzwLX6E7yCd1Yrr3RmXoGQUT1nQyKHUj3RmPXx8cOhnA74dZeA/oYXnsoJyPBmkuofmw9zTk1/M+9NgRhrStSHvuU0E1+4sdR1GfNcmyf9FmqD7+I2aZ0HcKQTjuHCzMjksoGBkJ9UGw==
-Received: from BN9PR03CA0251.namprd03.prod.outlook.com (2603:10b6:408:ff::16)
- by DS7PR12MB8372.namprd12.prod.outlook.com (2603:10b6:8:eb::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6411.28; Mon, 22 May 2023 09:08:36 +0000
-Received: from BN8NAM11FT111.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:ff:cafe::54) by BN9PR03CA0251.outlook.office365.com
- (2603:10b6:408:ff::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.28 via Frontend
- Transport; Mon, 22 May 2023 09:08:36 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- BN8NAM11FT111.mail.protection.outlook.com (10.13.177.54) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6411.28 via Frontend Transport; Mon, 22 May 2023 09:08:36 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Mon, 22 May 2023
- 02:08:23 -0700
-Received: from dev.nvidia.com (10.126.231.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.37; Mon, 22 May
- 2023 02:08:22 -0700
-From: Chaitanya Kulkarni <kch@nvidia.com>
-To: <hare@suse.de>
-CC: <linux-nvme@lists.infradead.org>, <hch@lst.de>, <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH] nvme-core: init auth ctrl early
-Date: Mon, 22 May 2023 02:08:13 -0700
-Message-ID: <20230522090813.135540-1-kch@nvidia.com>
-X-Mailer: git-send-email 2.40.0
+	Mon, 22 May 2023 11:45:52 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 8F02862153;
+	Mon, 22 May 2023 11:45:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C02E1C433EF;
+	Mon, 22 May 2023 11:45:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1684755949;
+	bh=6osBNc+1R96qPdGszLby/qLWSiSW+HNIAW5t2+muLK0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=hITQNh8Diaxm9RR24RVQSvxeHhiRgUbTJ8IGEUgJGgtSRlN/wvFeB+74H73y2HCyy
+	 go1/q7oGYPRlG7kILoT2EKoDgIl4EW2I/SFkwPOB3jM/YEC00iuEbcV4kEYeRPJrGn
+	 b3uy2qZ3l6BRklyiehU8tX14HM/AK7KU70yagqZnumul086n5LluEPenOJsK4uqBey
+	 KDMBs9VkDUSIoRcFQYgxQAPNG+IzF8iPaJkGQb/ipqgU0Z5aDW5dQtA90eI+EfIBoY
+	 i0FgKdblyDK0llVliLrXNXEcp87R195+PvifWqlTBvm/u6wcULkjaYnkCsPX53RrPv
+	 FmFs6uWrwtcXw==
+Message-ID: <dba0bdea-4f64-8b3c-d366-1046860ccf07@kernel.org>
+Date: Mon, 22 May 2023 20:45:44 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.126.231.35]
-X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT111:EE_|DS7PR12MB8372:EE_
-X-MS-Office365-Filtering-Correlation-Id: 81eca8c4-d51a-471e-b900-08db5aa42019
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	+usPDYX3gwq6gOEFPbejirt+Lgqq97vrHEKWRV6z5v+QRk9lVQg4sURsGJvjgjsPPGHuKt210fXh5sXek0mw4jGrD5Op8ikx3iZW1HiQsXF80NX/l2hTD5vsrcYTx128sCvYDklZEo4w7bhLDamKgVWJmnEaaoGc8V0TJP1m7RwyjFIsS06zk6LiuZkCwqqWMiZn+4Chxv+HAKCx2vuAUqd5wRA0tCer1+8Y98ak4DSZOG6DtmPn+CtdECseVHYm5z9ClXzLjHAnJat6JU4CSzKjJUcj9DEP20nOFq7lvVlpwKOTu9eFM7P88P0ZB537peRNArbhcqKF0j9oREIFyvk05A8x7JIvZz/tUxnoIcfokdw1VTA2+qM5QnhxGJgvNLlciXxdak+F8/Vgy+u1HYH9tj8Tgvd71LB2FlryzI8Z6CkhlZZnJkaxrL1J+Wy0j4s5UYEjzaVzDfhMvpBq+meaBB51/BBRJzECgfNOOP0V/q8PUpADOkkiubiHEVgsHGVcRMkA4OBduIIeotIQOSy1iok5oauWAc2BxoTfCPWImmEFST+a5vxlc1ped4j7iRKaxbbcDsjm0sKy/wquzE8p88aimmCwf+nQ5IUdGT1xrpcFXsGh2GnLRpBUu75kqn2UR0hHaibhzpD3zrxURCFZ4ylh3sOEKiXWSLhhvWAMjebd9qRVEWbjgwt/LtbiUlvuMDDpdJZgQB0Xzt7oHtqqwPX5MXMGmvg/P+NG8svoT9imjiv4Q5aNpbMORQkg
-X-Forefront-Antispam-Report: 	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230028)(4636009)(396003)(39860400002)(136003)(346002)(376002)(451199021)(36840700001)(46966006)(40470700004)(8676002)(8936002)(5660300002)(36860700001)(47076005)(82310400005)(83380400001)(186003)(16526019)(26005)(1076003)(336012)(426003)(2616005)(107886003)(7636003)(356005)(82740400003)(40460700003)(41300700001)(6666004)(7696005)(40480700001)(70206006)(70586007)(316002)(6916009)(4326008)(36756003)(478600001)(54906003)(2906002)(66899021);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2023 09:08:36.0875
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 81eca8c4-d51a-471e-b900-08db5aa42019
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: 	BN8NAM11FT111.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8372
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v11 1/9] block: Introduce queue limits for copy-offload
+ support
+Content-Language: en-US
+To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
+ Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+ dm-devel@redhat.com, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ James Smart <james.smart@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
+ James.Bottomley@HansenPartnership.com, bvanassche@acm.org, hare@suse.de,
+ ming.lei@redhat.com, anuj20.g@samsung.com, joshi.k@samsung.com,
+ nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+References: <20230522104146.2856-1-nj.shetty@samsung.com>
+ <CGME20230522104526epcas5p30d6cb07abadb068a95ab1f90dea42d4e@epcas5p3.samsung.com>
+ <20230522104146.2856-2-nj.shetty@samsung.com>
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20230522104146.2856-2-nj.shetty@samsung.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230522_020900_498023_53FC5FD3 
-X-CRM114-Status: GOOD (  16.12  )
+X-CRM114-CacheID: sfid-20230522_044550_195930_DB75B051 
+X-CRM114-Status: GOOD (  41.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -120,165 +92,332 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Currently, nvme_auth_init_ctrl() is called at the end of the
-nvme_init_ctrl(). Prior to that call, we allocate the discard page,
-allocate ida get the controller reference, and add cdev(). None of these
-steps are required for the successful initialization of 
-nvme_auth_init_ctrl().
+On 5/22/23 19:41, Nitesh Shetty wrote:
+> Add device limits as sysfs entries,
+>         - copy_offload (RW)
+>         - copy_max_bytes (RW)
+>         - copy_max_bytes_hw (RO)
+> 
+> Above limits help to split the copy payload in block layer.
+> copy_offload: used for setting copy offload(1) or emulation(0).
+> copy_max_bytes: maximum total length of copy in single payload.
+> copy_max_bytes_hw: Reflects the device supported maximum limit.
+> 
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+> Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+> ---
+>  Documentation/ABI/stable/sysfs-block | 33 ++++++++++++++
+>  block/blk-settings.c                 | 24 +++++++++++
+>  block/blk-sysfs.c                    | 64 ++++++++++++++++++++++++++++
+>  include/linux/blkdev.h               | 12 ++++++
+>  include/uapi/linux/fs.h              |  3 ++
+>  5 files changed, 136 insertions(+)
+> 
+> diff --git a/Documentation/ABI/stable/sysfs-block b/Documentation/ABI/stable/sysfs-block
+> index c57e5b7cb532..e4d31132f77c 100644
+> --- a/Documentation/ABI/stable/sysfs-block
+> +++ b/Documentation/ABI/stable/sysfs-block
+> @@ -155,6 +155,39 @@ Description:
+>  		last zone of the device which may be smaller.
+>  
+>  
+> +What:		/sys/block/<disk>/queue/copy_offload
+> +Date:		April 2023
+> +Contact:	linux-block@vger.kernel.org
+> +Description:
+> +		[RW] When read, this file shows whether offloading copy to a
+> +		device is enabled (1) or disabled (0). Writing '0' to this
+> +		file will disable offloading copies for this device.
+> +		Writing any '1' value will enable this feature. If the device
+> +		does not support offloading, then writing 1, will result in
+> +		error.
 
-The only non-nvme-auth properties accessed by nvme_auth_init_ctrl()
-in ctrl_max_dhchaps() are ctrl->opts->nr_io_queues,
-ctrl->opts->nr_write_queues, and ctrl->opts->nr_poll_queues that are
-set by transports.
+will result is an error.
 
-Ideally, we should avoid adding anything after device's addition to the
-the system that could result in failure, since current position of the
-nvme_auth_init_ctrl() adds more code in the error unwind path that can
-lead to potential bugs which can be avoided.
+> +
+> +
+> +What:		/sys/block/<disk>/queue/copy_max_bytes
+> +Date:		April 2023
+> +Contact:	linux-block@vger.kernel.org
+> +Description:
+> +		[RW] This is the maximum number of bytes, that the block layer
 
-Move nvme_auth_init_ctrl() call to the top of the function in the
-nvme_init_ctrl() since it allows us to make the error unwind path
-smaller that requires less debugging and maintenance.
+Please drop the comma after block.
 
-Note that the addition of the whiteline after return 0 is intentional.
+> +		will allow for copy request. This will be smaller or equal to
 
-Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
----
+will allow for a copy request. This value is always smaller...
 
-Hi,
+> +		the maximum size allowed by the hardware, indicated by
+> +		'copy_max_bytes_hw'. Attempt to set value higher than
 
-Please note that this is not masking of the exiting problem that has
-been discussed earlier, but it is completely different idea to error
-out early before even allocating any resources to remove chunk of error
-unwind code path.
+An attempt to set a value higher than...
 
-blktests is passing with nvme-loop/nvme-tcp with this patch :-
-blktests (master) # sh test-nvme-memleack.sh
-################nvme_trtype=loop############
-nvme/002 (create many subsystems and test discovery)         [passed]
-nvme/003 (test if we're sending keep-alives to a discovery controller) [passed]
-nvme/004 (test nvme and nvmet UUID NS descriptors)           [passed]
-nvme/005 (reset local loopback target)                       [passed]
-nvme/006 (create an NVMeOF target with a block device-backed ns) [passed]
-nvme/007 (create an NVMeOF target with a file-backed ns)     [passed]
-nvme/008 (create an NVMeOF host with a block device-backed ns) [passed]
-nvme/009 (create an NVMeOF host with a file-backed ns)       [passed]
-nvme/010 (run data verification fio job on NVMeOF block device-backed ns) [passed]
-nvme/011 (run data verification fio job on NVMeOF file-backed ns) [passed]
-nvme/012 (run mkfs and data verification fio job on NVMeOF block device-backed ns) [passed]
-nvme/013 (run mkfs and data verification fio job on NVMeOF file-backed ns) [passed]
-nvme/014 (flush a NVMeOF block device-backed ns)             [passed]
-nvme/015 (unit test for NVMe flush for file backed ns)       [passed]
-nvme/016 (create/delete many NVMeOF block device-backed ns and test discovery) [passed]
-nvme/017 (create/delete many file-ns and test discovery)     [passed]
-nvme/018 (unit test NVMe-oF out of range access on a file backend) [passed]
-nvme/019 (test NVMe DSM Discard command on NVMeOF block-device ns) [passed]
-nvme/020 (test NVMe DSM Discard command on NVMeOF file-backed ns) [passed]
-nvme/021 (test NVMe list command on NVMeOF file-backed ns)   [passed]
-nvme/022 (test NVMe reset command on NVMeOF file-backed ns)  [passed]
-nvme/023 (test NVMe smart-log command on NVMeOF block-device ns) [passed]
-nvme/024 (test NVMe smart-log command on NVMeOF file-backed ns) [passed]
-nvme/025 (test NVMe effects-log command on NVMeOF file-backed ns) [passed]
-nvme/026 (test NVMe ns-descs command on NVMeOF file-backed ns) [passed]
-nvme/027 (test NVMe ns-rescan command on NVMeOF file-backed ns) [passed]
-nvme/028 (test NVMe list-subsys command on NVMeOF file-backed ns) [passed]
-nvme/029 (test userspace IO via nvme-cli read/write interface) [passed]
-nvme/030 (ensure the discovery generation counter is updated appropriately) [passed]
-nvme/031 (test deletion of NVMeOF controllers immediately after setup) [passed]
-nvme/038 (test deletion of NVMeOF subsystem without enabling) [passed]
-nvme/040 (test nvme fabrics controller reset/disconnect operation during I/O) [passed]
-nvme/041 (Create authenticated connections)                  [passed]
-nvme/042 (Test dhchap key types for authenticated connections) [passed]
-nvme/043 (Test hash and DH group variations for authenticated connections) [passed]
-nvme/044 (Test bi-directional authentication)                [passed]
-nvme/045 (Test re-authentication)                            [passed]
-nvme/047 (test different queue types for fabric transports)  [not run]
-    nvme_trtype=loop is not supported in this test
-nvme/048 (Test queue count changes on reconnect)             [not run]
-    nvme_trtype=loop is not supported in this test
+> +		'copy_max_bytes_hw' will truncate this to 'copy_max_bytes_hw'.
+> +
+> +
+> +What:		/sys/block/<disk>/queue/copy_max_bytes_hw
+> +Date:		April 2023
+> +Contact:	linux-block@vger.kernel.org
+> +Description:
+> +		[RO] This is the maximum number of bytes, that the hardware
 
-################nvme_trtype=tcp############
-nvme/002 (create many subsystems and test discovery)         [not run]
-    nvme_trtype=tcp is not supported in this test
-nvme/003 (test if we're sending keep-alives to a discovery controller) [passed]
-nvme/004 (test nvme and nvmet UUID NS descriptors)           [passed]
-nvme/005 (reset local loopback target)                       [passed]
-nvme/006 (create an NVMeOF target with a block device-backed ns) [passed]
-nvme/007 (create an NVMeOF target with a file-backed ns)     [passed]
-nvme/008 (create an NVMeOF host with a block device-backed ns) [passed]
-nvme/009 (create an NVMeOF host with a file-backed ns)       [passed]
-nvme/010 (run data verification fio job on NVMeOF block device-backed ns) [passed]
-nvme/011 (run data verification fio job on NVMeOF file-backed ns) [passed]
-nvme/012 (run mkfs and data verification fio job on NVMeOF block device-backed ns) [passed]
-nvme/013 (run mkfs and data verification fio job on NVMeOF file-backed ns) [passed]
-nvme/014 (flush a NVMeOF block device-backed ns)             [passed]
-nvme/015 (unit test for NVMe flush for file backed ns)       [passed]
-nvme/016 (create/delete many NVMeOF block device-backed ns and test discovery) [not run]
-    nvme_trtype=tcp is not supported in this test
-nvme/017 (create/delete many file-ns and test discovery)     [not run]
-    nvme_trtype=tcp is not supported in this test
-nvme/018 (unit test NVMe-oF out of range access on a file backend) [passed]
-nvme/019 (test NVMe DSM Discard command on NVMeOF block-device ns) [passed]
-nvme/020 (test NVMe DSM Discard command on NVMeOF file-backed ns) [passed]
-nvme/021 (test NVMe list command on NVMeOF file-backed ns)   [passed]
-nvme/022 (test NVMe reset command on NVMeOF file-backed ns)  [passed]
-nvme/023 (test NVMe smart-log command on NVMeOF block-device ns) [passed]
-nvme/024 (test NVMe smart-log command on NVMeOF file-backed ns) [passed]
-nvme/025 (test NVMe effects-log command on NVMeOF file-backed ns) [passed]
-nvme/026 (test NVMe ns-descs command on NVMeOF file-backed ns) [passed]
-nvme/027 (test NVMe ns-rescan command on NVMeOF file-backed ns) [passed]
-nvme/028 (test NVMe list-subsys command on NVMeOF file-backed ns) [passed]
-nvme/029 (test userspace IO via nvme-cli read/write interface) [passed]
-nvme/030 (ensure the discovery generation counter is updated appropriately) [passed]
-nvme/031 (test deletion of NVMeOF controllers immediately after setup) [passed]
-nvme/038 (test deletion of NVMeOF subsystem without enabling) [passed]
-nvme/040 (test nvme fabrics controller reset/disconnect operation during I/O) [passed]
-nvme/041 (Create authenticated connections)                  [passed]
-nvme/042 (Test dhchap key types for authenticated connections) [passed]
-nvme/043 (Test hash and DH group variations for authenticated connections) [passed]
-nvme/044 (Test bi-directional authentication)                [passed]
-nvme/045 (Test re-authentication)                            [passed]
-nvme/047 (test different queue types for fabric transports)  [passed]
-nvme/048 (Test queue count changes on reconnect)             [passed]
+drop the comma after bytes
 
--ck
+> +		will allow in a single data copy request.
 
- drivers/nvme/host/core.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+will allow for
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f586a4808e6e..a6487d67d2ac 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4475,6 +4475,10 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- {
- 	int ret;
- 
-+	ret = nvme_auth_init_ctrl(ctrl);
-+	if (ret)
-+		return ret;
-+
- 	ctrl->state = NVME_CTRL_NEW;
- 	clear_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
- 	spin_lock_init(&ctrl->lock);
-@@ -4543,15 +4547,8 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 
- 	nvme_fault_inject_init(&ctrl->fault_inject, dev_name(ctrl->device));
- 	nvme_mpath_init_ctrl(ctrl);
--	ret = nvme_auth_init_ctrl(ctrl);
--	if (ret)
--		goto out_free_cdev;
--
- 	return 0;
--out_free_cdev:
--	nvme_fault_inject_fini(&ctrl->fault_inject);
--	dev_pm_qos_hide_latency_tolerance(ctrl->device);
--	cdev_device_del(&ctrl->cdev, ctrl->device);
-+
- out_free_name:
- 	nvme_put_ctrl(ctrl);
- 	kfree_const(ctrl->device->kobj.name);
+> +		A value of 0 means that the device does not support
+> +		copy offload.
+
+Given that you do have copy emulation for devices that do not support hw
+offload, how is the user supposed to know the maximum size of a copy request
+when it is emulated ? This is not obvious from looking at these parameters.
+
+> +
+> +
+>  What:		/sys/block/<disk>/queue/crypto/
+>  Date:		February 2022
+>  Contact:	linux-block@vger.kernel.org
+> diff --git a/block/blk-settings.c b/block/blk-settings.c
+> index 896b4654ab00..23aff2d4dcba 100644
+> --- a/block/blk-settings.c
+> +++ b/block/blk-settings.c
+> @@ -59,6 +59,8 @@ void blk_set_default_limits(struct queue_limits *lim)
+>  	lim->zoned = BLK_ZONED_NONE;
+>  	lim->zone_write_granularity = 0;
+>  	lim->dma_alignment = 511;
+> +	lim->max_copy_sectors_hw = 0;
+> +	lim->max_copy_sectors = 0;
+>  }
+>  
+>  /**
+> @@ -82,6 +84,8 @@ void blk_set_stacking_limits(struct queue_limits *lim)
+>  	lim->max_dev_sectors = UINT_MAX;
+>  	lim->max_write_zeroes_sectors = UINT_MAX;
+>  	lim->max_zone_append_sectors = UINT_MAX;
+> +	lim->max_copy_sectors_hw = ULONG_MAX;
+> +	lim->max_copy_sectors = ULONG_MAX;
+
+UINT_MAX is not enough ?
+
+>  }
+>  EXPORT_SYMBOL(blk_set_stacking_limits);
+>  
+> @@ -183,6 +187,22 @@ void blk_queue_max_discard_sectors(struct request_queue *q,
+>  }
+>  EXPORT_SYMBOL(blk_queue_max_discard_sectors);
+>  
+> +/**
+> + * blk_queue_max_copy_sectors_hw - set max sectors for a single copy payload
+> + * @q:  the request queue for the device
+> + * @max_copy_sectors: maximum number of sectors to copy
+> + **/
+> +void blk_queue_max_copy_sectors_hw(struct request_queue *q,
+> +		unsigned int max_copy_sectors)
+> +{
+> +	if (max_copy_sectors > (COPY_MAX_BYTES >> SECTOR_SHIFT))
+> +		max_copy_sectors = COPY_MAX_BYTES >> SECTOR_SHIFT;
+> +
+> +	q->limits.max_copy_sectors_hw = max_copy_sectors;
+> +	q->limits.max_copy_sectors = max_copy_sectors;
+> +}
+> +EXPORT_SYMBOL_GPL(blk_queue_max_copy_sectors_hw);
+> +
+>  /**
+>   * blk_queue_max_secure_erase_sectors - set max sectors for a secure erase
+>   * @q:  the request queue for the device
+> @@ -578,6 +598,10 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
+>  	t->max_segment_size = min_not_zero(t->max_segment_size,
+>  					   b->max_segment_size);
+>  
+> +	t->max_copy_sectors = min(t->max_copy_sectors, b->max_copy_sectors);
+> +	t->max_copy_sectors_hw = min(t->max_copy_sectors_hw,
+> +						b->max_copy_sectors_hw);
+> +
+>  	t->misaligned |= b->misaligned;
+>  
+>  	alignment = queue_limit_alignment_offset(b, start);
+> diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
+> index a64208583853..826ab29beba3 100644
+> --- a/block/blk-sysfs.c
+> +++ b/block/blk-sysfs.c
+> @@ -212,6 +212,63 @@ static ssize_t queue_discard_zeroes_data_show(struct request_queue *q, char *pag
+>  	return queue_var_show(0, page);
+>  }
+>  
+> +static ssize_t queue_copy_offload_show(struct request_queue *q, char *page)
+> +{
+> +	return queue_var_show(blk_queue_copy(q), page);
+> +}
+> +
+> +static ssize_t queue_copy_offload_store(struct request_queue *q,
+> +				       const char *page, size_t count)
+> +{
+> +	s64 copy_offload;
+> +	ssize_t ret = queue_var_store64(&copy_offload, page);
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	if (copy_offload && !q->limits.max_copy_sectors_hw)
+> +		return -EINVAL;
+> +
+> +	if (copy_offload)
+> +		blk_queue_flag_set(QUEUE_FLAG_COPY, q);
+> +	else
+> +		blk_queue_flag_clear(QUEUE_FLAG_COPY, q);
+> +
+> +	return count;
+> +}
+> +
+> +static ssize_t queue_copy_max_hw_show(struct request_queue *q, char *page)
+> +{
+> +	return sprintf(page, "%llu\n", (unsigned long long)
+> +			q->limits.max_copy_sectors_hw << SECTOR_SHIFT);
+> +}
+> +
+> +static ssize_t queue_copy_max_show(struct request_queue *q, char *page)
+> +{
+> +	return sprintf(page, "%llu\n", (unsigned long long)
+> +			q->limits.max_copy_sectors << SECTOR_SHIFT);
+> +}
+> +
+> +static ssize_t queue_copy_max_store(struct request_queue *q,
+> +				       const char *page, size_t count)
+> +{
+> +	s64 max_copy;
+> +	ssize_t ret = queue_var_store64(&max_copy, page);
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	if (max_copy & (queue_logical_block_size(q) - 1))
+> +		return -EINVAL;
+> +
+> +	max_copy >>= SECTOR_SHIFT;
+> +	if (max_copy > q->limits.max_copy_sectors_hw)
+> +		max_copy = q->limits.max_copy_sectors_hw;
+> +
+> +	q->limits.max_copy_sectors = max_copy;
+
+	q->limits.max_copy_sectors =
+		min(max_copy, q->limits.max_copy_sectors_hw);
+
+To remove the if above.
+
+> +	return count;
+> +}
+> +
+>  static ssize_t queue_write_same_max_show(struct request_queue *q, char *page)
+>  {
+>  	return queue_var_show(0, page);
+> @@ -590,6 +647,10 @@ QUEUE_RO_ENTRY(queue_nr_zones, "nr_zones");
+>  QUEUE_RO_ENTRY(queue_max_open_zones, "max_open_zones");
+>  QUEUE_RO_ENTRY(queue_max_active_zones, "max_active_zones");
+>  
+> +QUEUE_RW_ENTRY(queue_copy_offload, "copy_offload");
+> +QUEUE_RO_ENTRY(queue_copy_max_hw, "copy_max_bytes_hw");
+> +QUEUE_RW_ENTRY(queue_copy_max, "copy_max_bytes");
+> +
+>  QUEUE_RW_ENTRY(queue_nomerges, "nomerges");
+>  QUEUE_RW_ENTRY(queue_rq_affinity, "rq_affinity");
+>  QUEUE_RW_ENTRY(queue_poll, "io_poll");
+> @@ -637,6 +698,9 @@ static struct attribute *queue_attrs[] = {
+>  	&queue_discard_max_entry.attr,
+>  	&queue_discard_max_hw_entry.attr,
+>  	&queue_discard_zeroes_data_entry.attr,
+> +	&queue_copy_offload_entry.attr,
+> +	&queue_copy_max_hw_entry.attr,
+> +	&queue_copy_max_entry.attr,
+>  	&queue_write_same_max_entry.attr,
+>  	&queue_write_zeroes_max_entry.attr,
+>  	&queue_zone_append_max_entry.attr,
+> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> index b441e633f4dd..c9bf11adccb3 100644
+> --- a/include/linux/blkdev.h
+> +++ b/include/linux/blkdev.h
+> @@ -295,6 +295,9 @@ struct queue_limits {
+>  	unsigned int		discard_alignment;
+>  	unsigned int		zone_write_granularity;
+>  
+> +	unsigned long		max_copy_sectors_hw;
+> +	unsigned long		max_copy_sectors;
+
+Why unsigned long ? unsigned int gives you 4G * 512 = 2TB max copy. Isn't that a
+large enough max limit ?
+
+> +
+>  	unsigned short		max_segments;
+>  	unsigned short		max_integrity_segments;
+>  	unsigned short		max_discard_segments;
+> @@ -561,6 +564,7 @@ struct request_queue {
+>  #define QUEUE_FLAG_NOWAIT       29	/* device supports NOWAIT */
+>  #define QUEUE_FLAG_SQ_SCHED     30	/* single queue style io dispatch */
+>  #define QUEUE_FLAG_SKIP_TAGSET_QUIESCE	31 /* quiesce_tagset skip the queue*/
+> +#define QUEUE_FLAG_COPY		32	/* supports copy offload */
+
+Nope. That is misleading. This flag is cleared in queue_copy_offload_store() if
+the user writes 0. So this flag indicates that copy offload is enabled or
+disabled, not that the device supports it. For the device support, one has to
+look at max copy sectors hw being != 0.
+
+>  
+>  #define QUEUE_FLAG_MQ_DEFAULT	((1UL << QUEUE_FLAG_IO_STAT) |		\
+>  				 (1UL << QUEUE_FLAG_SAME_COMP) |	\
+> @@ -581,6 +585,7 @@ bool blk_queue_flag_test_and_set(unsigned int flag, struct request_queue *q);
+>  	test_bit(QUEUE_FLAG_STABLE_WRITES, &(q)->queue_flags)
+>  #define blk_queue_io_stat(q)	test_bit(QUEUE_FLAG_IO_STAT, &(q)->queue_flags)
+>  #define blk_queue_add_random(q)	test_bit(QUEUE_FLAG_ADD_RANDOM, &(q)->queue_flags)
+> +#define blk_queue_copy(q)	test_bit(QUEUE_FLAG_COPY, &(q)->queue_flags)
+>  #define blk_queue_zone_resetall(q)	\
+>  	test_bit(QUEUE_FLAG_ZONE_RESETALL, &(q)->queue_flags)
+>  #define blk_queue_dax(q)	test_bit(QUEUE_FLAG_DAX, &(q)->queue_flags)
+> @@ -899,6 +904,8 @@ extern void blk_queue_chunk_sectors(struct request_queue *, unsigned int);
+>  extern void blk_queue_max_segments(struct request_queue *, unsigned short);
+>  extern void blk_queue_max_discard_segments(struct request_queue *,
+>  		unsigned short);
+> +extern void blk_queue_max_copy_sectors_hw(struct request_queue *q,
+> +		unsigned int max_copy_sectors);
+>  void blk_queue_max_secure_erase_sectors(struct request_queue *q,
+>  		unsigned int max_sectors);
+>  extern void blk_queue_max_segment_size(struct request_queue *, unsigned int);
+> @@ -1218,6 +1225,11 @@ static inline unsigned int bdev_discard_granularity(struct block_device *bdev)
+>  	return bdev_get_queue(bdev)->limits.discard_granularity;
+>  }
+>  
+> +static inline unsigned int bdev_max_copy_sectors(struct block_device *bdev)
+> +{
+> +	return bdev_get_queue(bdev)->limits.max_copy_sectors;
+> +}
+> +
+>  static inline unsigned int
+>  bdev_max_secure_erase_sectors(struct block_device *bdev)
+>  {
+> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+> index b7b56871029c..8879567791fa 100644
+> --- a/include/uapi/linux/fs.h
+> +++ b/include/uapi/linux/fs.h
+> @@ -64,6 +64,9 @@ struct fstrim_range {
+>  	__u64 minlen;
+>  };
+>  
+> +/* maximum total copy length */
+> +#define COPY_MAX_BYTES	(1 << 27)
+
+My brain bit shifter is not as good as a CPU one :) So it would be nice to
+mention what value that is in MB and also explain where this magic value comes from.
+
+> +
+>  /* extent-same (dedupe) ioctls; these MUST match the btrfs ioctl definitions */
+>  #define FILE_DEDUPE_RANGE_SAME		0
+>  #define FILE_DEDUPE_RANGE_DIFFERS	1
+
 -- 
-2.40.0
+Damien Le Moal
+Western Digital Research
 
 
