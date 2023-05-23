@@ -4,48 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 176F7C7EE23
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 May 2023 06:15:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D6E8C77B7A
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 May 2023 06:56:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=FoIH90YrsJqmLdNcFJnZhP/eiH
-	feErwtCJaisdu5x2wanYaTBeNNCLW68ra46keC2S1a9L1w2M3vCFsJzGjOMHb4tOLpFvPo2jm5Cgq
-	r1ZLUfWrM6WAlFq7vJE4xVZbTkhF+KgK2QXO94HKVUn09J73S0ubPOEpV6teKnZ91jEnm9i38McAN
-	fwdiiK4hyvSnNfQ68Rwoy3D+xxlP0vtNXfQyrHLF42DtQz4mP7N/hSCk3ye03xvk7AkUVlE48Lnao
-	xX9FeVLIv8OF6aPR4+K11FMqOvThnF/mbcPQNx9lZHEYg26tps4GRN+dqMIh/D2Lqmdrx6WAHXhk/
-	u9lzNu+w==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=cSoyXijvIKbovY0ekxeIBGLd/B
+	s6xCu3L4LOBmi/XInw+WG3V77ACvMby/XiR35A75PEU0CdS/xPr6+fGZTSV/22F94dWGpPaDY4dNu
+	1tgp+lQLkCKnMyhdtr1KBl4brBnUC3HQ3o/Luh5Rfv3fEgPEZAI9RpQchRyGdu5ZDFVZtxYJ//IPo
+	Vwjq7HYjgo9up6m0b0lPUsMzFnx46KQuU7ofpL36GkOOLVs8DoyOG2JixsgzDOp2QFwgXIKUES600
+	tj98JNFVMjQBg4iWGWoebcS9Xu/Q5QmwyOZ0OR59yunlP0c1iKtatDn13/1bNW1hsU2rTkB+Nw59L
+	mgaTwfmA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q1LIT-0093E1-1Q;
-	Tue, 23 May 2023 06:15:01 +0000
+	id 1q1Lw7-0098Fr-1N;
+	Tue, 23 May 2023 06:55:59 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q1LIP-0093Cq-2r
+	id 1q1Lw5-0098FH-03
 	for linux-nvme@lists.infradead.org;
-	Tue, 23 May 2023 06:14:59 +0000
+	Tue, 23 May 2023 06:55:58 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 9EF4A67373; Tue, 23 May 2023 08:14:50 +0200 (CEST)
-Date: Tue, 23 May 2023 08:14:50 +0200
+	id C904267373; Tue, 23 May 2023 08:55:51 +0200 (CEST)
+Date: Tue, 23 May 2023 08:55:51 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Tatsuki Sugiura <sugi@nemui.org>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] NVMe: Add MAXIO 1602 to bogus nid list.
-Message-ID: <20230523061450.GA6334@lst.de>
-References: <87ttw7i6p7.wl-sugi@nemui.org> <20230520122350.2232956-1-sugi@nemui.org>
+To: Chaitanya Kulkarni <kch@nvidia.com>
+Cc: hare@suse.de, linux-nvme@lists.infradead.org, hch@lst.de,
+	sagi@grimberg.me
+Subject: Re: [PATCH 1/3] nvmet-auth: use common helper to check secp/spsp
+Message-ID: <20230523065551.GA8224@lst.de>
+References: <20230522083713.107001-1-kch@nvidia.com> <20230522083713.107001-2-kch@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230520122350.2232956-1-sugi@nemui.org>
+In-Reply-To: <20230522083713.107001-2-kch@nvidia.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230522_231458_096123_1C4E99C1 
-X-CRM114-Status: GOOD (  10.38  )
+X-CRM114-CacheID: sfid-20230522_235557_202865_C5B13DC7 
+X-CRM114-Status: UNSURE (   8.86  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
