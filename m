@@ -4,66 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 088B5C7EE23
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 May 2023 15:54:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 334F9C7EE26
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 May 2023 18:28:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=G6+SidhthmUWW0pWZsLmfPzXnfIJfQ1i+Vck8waSr4c=; b=vdS+WfkFjrIaM1GgGYhY4j0WJ/
-	oOyXxOI4WX6HB/yINU7F1j1xAR+JxwAad5LFKixxvzqenpNHUmS8YvAP+u/yHGA6jaaUeRa57WWYm
-	rdBpTeJZ5Jf5OgypbsrqEc9O08aQxTZeYp4SzC3e8c762WkwpHNeb6wxXrb6kzRZwYnrvv4+qYOmX
-	ipn7XT/c+M8+STaMc8MkwrV6fnmC6W/L2asqBbch0WvZ863NPK4kaBH1kJAX7kpR6Sis+L3UyotPV
-	liNpPNmGS6/t5KI7V4Y/jPU6BmwIZ0tCauMmvd4JWVlYAdP1l88ytooGuI5Y+j9oUaT+K8iXWSoOc
-	QdZt431A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=TB3IaHojI0kiFfUCF8lOY9Oc2AGPx+Cs1Qczy+ZI024=; b=WssoIkRKy9FeDTu5qyNXRFR0jy
+	xKVP0GTVUJREXVK+vTXVwAQ15UkWfoJwqUWnrlgRX5zmUxCilkfO/3x5srIQJ8pRdN0dOKT83fV6i
+	KNAGTLz10Qpr6Twx/mhAKPi+Lr3M9G5RvG1uZZhG9ttzoQ2OaHKalZ0VVjn5dV3/SY/3Xx6sSf/fy
+	GI1s5eqVtV/4hUnu7tlFLpAdKwCWA1YX530iMALYtnk53kY11oo73zDDOJIm+4geVASGZi/WsMcaU
+	K7/cREOPNVm2HnAvThycpXrLvHXnxBiCBqdkZbm/FVA64oXgYHsaHC/uaAS/MrrStpaXsNaNcZrgq
+	Uv3YunHQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q1ULB-00AhfL-1D;
-	Tue, 23 May 2023 15:54:25 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1q1WkB-00B6oe-1O;
+	Tue, 23 May 2023 18:28:23 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q1UL7-00Ahdk-2g
+	id 1q1Wk9-00B6nv-0a
 	for linux-nvme@lists.infradead.org;
-	Tue, 23 May 2023 15:54:23 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1684857258;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=G6+SidhthmUWW0pWZsLmfPzXnfIJfQ1i+Vck8waSr4c=;
-	b=QvfAUjITibqG2V4EEqrqmWCJI9GzHGm5jMjb9AimHlcICaASop4+B+ongbQyenko+iJB0x
-	v11KBbBdm+0mjg+KA8i1vKOgvew3PFCCncXcqLu4/L7tcnYhCI9/zgaNSF+F0jONwEEcrK
-	Pdb6hGNUgItlmJFN7U4WMfHU2uT5oCg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-572-3qNpfRQMMqyGilhX4A6y_g-1; Tue, 23 May 2023 11:54:13 -0400
-X-MC-Unique: 3qNpfRQMMqyGilhX4A6y_g-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	Tue, 23 May 2023 18:28:22 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 417A61C0A58B;
-	Tue, 23 May 2023 15:54:11 +0000 (UTC)
-Received: from kalibr.redhat.com (unknown [10.35.206.37])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 6D6B6492B00;
-	Tue, 23 May 2023 15:54:09 +0000 (UTC)
-From: Maurizio Lombardi <mlombard@redhat.com>
-To: jgg@ziepe.ca
-Cc: leon@kernel.org,
-	linux-rdma@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	parav@mellanox.com
-Subject: [PATCH] Revert "IB/core: Fix use workqueue without WQ_MEM_RECLAIM"
-Date: Tue, 23 May 2023 17:54:08 +0200
-Message-Id: <20230523155408.48594-1-mlombard@redhat.com>
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 0EEB761172;
+	Tue, 23 May 2023 18:28:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4D9BC4339B;
+	Tue, 23 May 2023 18:28:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1684866499;
+	bh=whVz3CRsD3wwwzUZWpPeMCHSk27FLUf7aoxGz/4IABE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YOll17MhgP6cz5AQPKcFmni9DHNr8S6ngjHpITn2CVequbxcJ5y2B8pIX6t4vbmca
+	 W7u4KdhZOUCgbzcJ7l3gJ6Q5WkwgID5dpFw239z+pAdwMY/RbSMmDLJ1ZDKZHXBhN3
+	 udHtDmuAVjYX8QAG4MzMgbP8BjwsktA8Y4HNGtpxl7jl5FljBahS76JtrVPEz3Z+uc
+	 GCEmTDNvTYnwBahDGAkegTwizSaczNJVqtRUZMDeIWILKghdzy9cY7SmUqwTaSH5FZ
+	 nlVsY5mdmwjlSPVeAA+ptA0KPlm48ERCL0vIrFK9qkOnGQrk9C4qVmQk2E+bDCTPQC
+	 tLvBepmwDz0ow==
+Date: Tue, 23 May 2023 21:28:15 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Maurizio Lombardi <mlombard@redhat.com>
+Cc: jgg@ziepe.ca, linux-rdma@vger.kernel.org,
+	linux-nvme@lists.infradead.org, parav@mellanox.com
+Subject: Re: [PATCH] Revert "IB/core: Fix use workqueue without
+ WQ_MEM_RECLAIM"
+Message-ID: <20230523182815.GA2384059@unreal>
+References: <20230523155408.48594-1-mlombard@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230523155408.48594-1-mlombard@redhat.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230523_085422_117954_BF997765 
-X-CRM114-Status: GOOD (  13.69  )
+X-CRM114-CacheID: sfid-20230523_112821_276910_A764B9C6 
+X-CRM114-Status: UNSURE (   9.82  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,52 +75,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-when nvme_rdma_reconnect_ctrl_work() fails, it flushes
-the ib_addr:process_one_req() work but the latter is enqueued
-on addr_wq which has been marked as "!WQ_MEM_RECLAIM".
+On Tue, May 23, 2023 at 05:54:08PM +0200, Maurizio Lombardi wrote:
+> when nvme_rdma_reconnect_ctrl_work() fails, it flushes
+> the ib_addr:process_one_req() work but the latter is enqueued
+> on addr_wq which has been marked as "!WQ_MEM_RECLAIM".
+> 
+> workqueue: WQ_MEM_RECLAIM nvme-wq:nvme_rdma_reconnect_ctrl_work
+> [nvme_rdma] is flushing !WQ_MEM_RECLAIM ib_addr:process_one_req [ib_core]
 
-workqueue: WQ_MEM_RECLAIM nvme-wq:nvme_rdma_reconnect_ctrl_work
-[nvme_rdma] is flushing !WQ_MEM_RECLAIM ib_addr:process_one_req [ib_core]
+And why does nvme-wq need WQ_MEM_RECLAIM flag? I wonder if it is really
+needed.
 
-Call Trace:
-__flush_work.isra.0+0xbf/0x230
-__cancel_work_timer+0x103/0x190
-? rdma_resolve_ip+0x257/0x2f0 [ib_core]
-? __dev_printk+0x2d/0x69
-rdma_addr_cancel+0x8e/0xc0 [ib_core]
-_destroy_id+0x1b/0x270 [rdma_cm]
-nvme_rdma_alloc_queue.cold+0x4b/0x5c [nvme_rdma]
-nvme_rdma_configure_admin_queue+0x1e/0x2f0 [nvme_rdma]
-nvme_rdma_setup_ctrl+0x1e/0x220 [nvme_rdma]
-nvme_rdma_reconnect_ctrl_work+0x22/0x30 [nvme_rdma]
-
-This has been introduced by
-commit 39baf10310e6 ("IB/core: Fix use workqueue without WQ_MEM_RECLAIM")
-
-Since nvme_rdma_reconnect_work() needs to flush process_one_req(), we
-have to restore the WQ_MEM_RECLAIM flag on the addr_wq workqueue.
-
-This reverts commit 39baf10310e6669564a485b55267fae70a4e44ae.
-
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
----
- drivers/infiniband/core/addr.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/infiniband/core/addr.c b/drivers/infiniband/core/addr.c
-index f253295795f0..5c36d01ebf0b 100644
---- a/drivers/infiniband/core/addr.c
-+++ b/drivers/infiniband/core/addr.c
-@@ -872,7 +872,7 @@ static struct notifier_block nb = {
- 
- int addr_init(void)
- {
--	addr_wq = alloc_ordered_workqueue("ib_addr", 0);
-+	addr_wq = alloc_ordered_workqueue("ib_addr", WQ_MEM_RECLAIM);
- 	if (!addr_wq)
- 		return -ENOMEM;
- 
--- 
-2.39.1
-
+Thanks
 
