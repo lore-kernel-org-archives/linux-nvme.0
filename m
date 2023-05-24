@@ -4,79 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8488BC7EE23
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 May 2023 15:41:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DEB7CC77B73
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 May 2023 19:38:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RXrM5tKSmAYR3y4EmIziZSFrpCIYmjpLhA+FsBqGPrA=; b=iLgMzXdE/4XvFwe46CK6Rm/Enn
-	5Eil8LQvXooeseaC2q1RlkgpQckCQinb7NWMm6RiPqGogZ5uSDrvi7xqMPULmMu8XVVjDrGAX09GH
-	yRc5ekj7RjOuQO2Yv/Vd+UJCMYu+ExFbKu0ZAV/uYAoDqud/3U0rlcSQzgc7etDMNICqq6zHm1QWX
-	djGxGzoz2T+mxazjKQppuoZL025DbngFxQBZz2uC/B2SCVV/Kl/bblMPePb7eCj3cZpIfKEm5Nn1G
-	F9aW3pwVdR9oKC4gY/hfYANAegC6+oMZj/7GTxANfPjHgnjUvMby5Sc1OPZ0QiZb2UOLLA5RF0xoL
-	C34aBf2w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=iUIluI5EdjiIXBL2cAAmN+giF52m6yvSga9oyARzkZk=; b=uKG1x78evs/1MYlLVlS4C5sfkL
+	22IU07Gui96NWUP3C0B0MXKUYJYOLyZjGmbUK0hL85Qx0B+8zm3AFuyxAeuM30oG4uYB6kxJFYdCK
+	0cpOaoSdhNo7gZ02P/zpaaGcnWGm2+SxQsgN7rREDQj7pDlIMvXpI6/v3SnSsEBn5avgX362A7Loo
+	imuSq3FpQiFyo7agHJ//l6JPP05VRsPduphCZqCs+kU+sTHKLAKPcMVhQD1YIa/ewhKHq+lMfOlSa
+	PVVVysqg3YM3d0SPAZXGBhhSTwTxCPmikk+FOZi7NYuFRO7PdTjm4Cx3MTE8lpOraHwUSQFe94j9j
+	+5z6l1jw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q1qbi-00DsRy-1r;
-	Wed, 24 May 2023 15:40:58 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1q1uJn-00EUZk-0q;
+	Wed, 24 May 2023 19:38:43 +0000
+Received: from mail-io1-xd62.google.com ([2607:f8b0:4864:20::d62])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q1qba-00DsRE-2g
+	id 1q1uJi-00EUY4-1V
 	for linux-nvme@lists.infradead.org;
-	Wed, 24 May 2023 15:40:53 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 3B60863EAC;
-	Wed, 24 May 2023 15:40:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86682C433EF;
-	Wed, 24 May 2023 15:40:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1684942849;
-	bh=GnBtoU8AMWYWI0jmSKm6MAQYcMfd9WMfCQJci24HSso=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iumgZOlwMMVHnX3saoIbtTHjUshN63+XBubTBJi17C6veAJPuwlOHoFz6mD+N+CfC
-	 DsRlkO8WESZ/IZ0psjH3pWnzMN80Oqa8umBBZXTH2orLwWEq7YdUz5N3CCN9HHmvK1
-	 fuvB4Omj594/ClEQivNwooSDO1gQQO/aD6EcAiSqIhDHqiEGOI96j83oZK959IrrLa
-	 cZedGhsGZ+NvTax50h/VT/us59Rc9YvONq7m662wirC1aQ6Lt+jKQvE0/hN9sw5FP6
-	 iz0ApmoVCgbJDSp/Z541KCZSTqunVAUYL+Grd4H5txwgdTGNj+2Vr7IFjiSKdmVSmA
-	 rRvccFrd1ygSw==
-Date: Wed, 24 May 2023 08:40:49 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Nitesh Shetty <nj.shetty@samsung.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Alasdair Kergon <agk@redhat.com>,
-	Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Wed, 24 May 2023 19:38:40 +0000
+Received: by mail-io1-xd62.google.com with SMTP id ca18e2360f4ac-76c75d32005so36241939f.1
+        for <linux-nvme@lists.infradead.org>; Wed, 24 May 2023 12:38:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1684957116; x=1687549116;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iUIluI5EdjiIXBL2cAAmN+giF52m6yvSga9oyARzkZk=;
+        b=K1Z9inbU83U80kuflevtu7pKme72TUYr7zrlsvCUx4iKDEomodaB8465of953McYoF
+         JRGHrpFtaUoZwljNlUB90MAoc3J3cuSw05LBhlPeK+wAwrw2C3YjRN9ehEdRNhVVkyr1
+         7daBy2hNRKPBAzJ/nVQeL8efYw08NUpSTo93EUYfqeyTXkwjoTFYYcxxipzCH5roJxFh
+         jBw5KGwrNCfze779Cr/OmzyoAPt4qn55F6lshmjrIvxNtRU4ZpB1KCNCrB9zlTgiAiQ1
+         KZzaODLdtSsBDo10q0HLKSnaOhkWx8A9LzMz7zHkjpOJOJMhSVdnZPpdn2rFpRegAd+u
+         1bbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684957116; x=1687549116;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iUIluI5EdjiIXBL2cAAmN+giF52m6yvSga9oyARzkZk=;
+        b=YAPyE6Cc64GupuFFYVYlZOSBF8cIxk3Mz7X2ZMpEW5uRXD0LvvGe7kpg1CiAm4OqpL
+         ddFE+bjeky0GWS9JxcTfJdzgu/HjPCqjbpOJgc0jvbIdWLn6OtyuUyuPnSTE9BgexxLJ
+         BCBB0YkhxH/nfCmYAXcjy9sTxKBtg6twOUty3EZi1Ca3QXOGJNbdqtY7us7m+CX8rK6x
+         YCEAkQ8HLPfZC3ImjFy41QgVFuRfi0Ouq7zA2Yx12bqXgWZutkTmWd56kb1/MCTK2ocX
+         naHm/Qb8f235pJnp8pdDNQnXpCb/C5Pzw3FrcZ6ou/W1SiYca29hl5cK8LkJTjE9elzu
+         7QBA==
+X-Gm-Message-State: AC+VfDwt7j3qvU4+FGOYhGZ1MhCH8nXLI/1HqofcfUx2mCKgSywZv/0m
+	jwAN/JmaTRgX7ZfQ9jlarl/Si6oUl+bO69385LcrVePQsEsXzAwWIBWtc/dvWL44LA==
+X-Google-Smtp-Source: ACHHUZ6G1tvbS5xOKGKR1urmeJWFV8Ty9fDiKBhW3RNoVQl+KrBUf8g2d9DuzgrKJXpZLIsEnnKtNLYidIsO
+X-Received: by 2002:a05:6e02:54b:b0:338:a4ce:30dc with SMTP id i11-20020a056e02054b00b00338a4ce30dcmr11858970ils.5.1684957116198;
+        Wed, 24 May 2023 12:38:36 -0700 (PDT)
+Received: from c7-smtp.dev.purestorage.com ([2620:125:9007:320:7:32:106:0])
+        by smtp-relay.gmail.com with ESMTPS id v10-20020a92c6ca000000b003353568dc6bsm878632ilm.74.2023.05.24.12.38.35
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 24 May 2023 12:38:36 -0700 (PDT)
+X-Relaying-Domain: purestorage.com
+Received: from dev-ushankar.dev.purestorage.com (dev-ushankar.dev.purestorage.com [10.7.70.36])
+	by c7-smtp.dev.purestorage.com (Postfix) with ESMTP id 33F0722278;
+	Wed, 24 May 2023 13:38:35 -0600 (MDT)
+Received: by dev-ushankar.dev.purestorage.com (Postfix, from userid 1557716368)
+	id 324D6E42CC3; Wed, 24 May 2023 13:38:35 -0600 (MDT)
+From: Uday Shankar <ushankar@purestorage.com>
+To: Costa Sapuntzakis <costa@purestorage.com>,
+	Randy Jennings <randyj@purestorage.com>,
+	Hannes Reinecke <hare@suse.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
-	James Smart <james.smart@broadcom.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-block@vger.kernel.org, martin.petersen@oracle.com,
-	linux-scsi@vger.kernel.org, linux-mm@kvack.org,
-	gost.dev@samsung.com, anuj20.g@samsung.com,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	ming.lei@redhat.com, James.Bottomley@hansenpartnership.com,
-	linux-fsdevel@vger.kernel.org, dlemoal@kernel.org,
-	joshi.k@samsung.com, nitheshshetty@gmail.com, bvanassche@acm.org
-Subject: Re: [dm-devel] [PATCH v11 2/9] block: Add copy offload support
- infrastructure
-Message-ID: <20230524154049.GD11607@frogsfrogsfrogs>
-References: <20230522104146.2856-1-nj.shetty@samsung.com>
- <CGME20230522104536epcas5p23dd8108dd267ec588e5c36e8f9eb9fe8@epcas5p2.samsung.com>
- <20230522104146.2856-3-nj.shetty@samsung.com>
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Jens Axboe <axboe@fb.com>
+Cc: Uday Shankar <ushankar@purestorage.com>,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH v4 3/3] nvme: improve handling of long keep alives
+Date: Wed, 24 May 2023 13:38:09 -0600
+Message-Id: <20230524193809.1360269-4-ushankar@purestorage.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230524193809.1360269-1-ushankar@purestorage.com>
+References: <20230524193809.1360269-1-ushankar@purestorage.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230522104146.2856-3-nj.shetty@samsung.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230524_084050_955422_5C79D825 
-X-CRM114-Status: GOOD (  41.95  )
+X-CRM114-CacheID: sfid-20230524_123838_843941_654404EF 
+X-CRM114-Status: GOOD (  16.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,367 +104,68 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, May 22, 2023 at 04:11:33PM +0530, Nitesh Shetty wrote:
-> Introduce blkdev_issue_copy which takes similar arguments as
-> copy_file_range and performs copy offload between two bdevs.
-> Introduce REQ_COPY copy offload operation flag. Create a read-write
-> bio pair with a token as payload and submitted to the device in order.
-> Read request populates token with source specific information which
-> is then passed with write request.
-> This design is courtesy Mikulas Patocka's token based copy
-> 
-> Larger copy will be divided, based on max_copy_sectors limit.
-> 
-> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
-> Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
-> ---
->  block/blk-lib.c           | 235 ++++++++++++++++++++++++++++++++++++++
->  block/blk.h               |   2 +
->  include/linux/blk_types.h |  25 ++++
->  include/linux/blkdev.h    |   3 +
->  4 files changed, 265 insertions(+)
-> 
-> diff --git a/block/blk-lib.c b/block/blk-lib.c
-> index e59c3069e835..ed089e703cb1 100644
-> --- a/block/blk-lib.c
-> +++ b/block/blk-lib.c
-> @@ -115,6 +115,241 @@ int blkdev_issue_discard(struct block_device *bdev, sector_t sector,
->  }
->  EXPORT_SYMBOL(blkdev_issue_discard);
->  
-> +/*
-> + * For synchronous copy offload/emulation, wait and process all in-flight BIOs.
-> + * This must only be called once all bios have been issued so that the refcount
-> + * can only decrease. This just waits for all bios to make it through
-> + * blkdev_copy_write_endio.
-> + */
-> +static int blkdev_copy_wait_completion(struct cio *cio)
-> +{
-> +	int ret;
-> +
-> +	if (cio->endio)
-> +		return 0;
-> +
-> +	if (atomic_read(&cio->refcount)) {
-> +		__set_current_state(TASK_UNINTERRUPTIBLE);
-> +		blk_io_schedule();
-> +	}
-> +
-> +	ret = cio->comp_len;
-> +	kfree(cio);
-> +
-> +	return ret;
-> +}
-> +
-> +static void blkdev_copy_offload_write_endio(struct bio *bio)
-> +{
-> +	struct copy_ctx *ctx = bio->bi_private;
-> +	struct cio *cio = ctx->cio;
-> +	sector_t clen;
-> +
-> +	if (bio->bi_status) {
-> +		clen = (bio->bi_iter.bi_sector << SECTOR_SHIFT) - cio->pos_out;
-> +		cio->comp_len = min_t(sector_t, clen, cio->comp_len);
-> +	}
-> +	__free_page(bio->bi_io_vec[0].bv_page);
-> +	bio_put(bio);
-> +
-> +	kfree(ctx);
-> +	if (!atomic_dec_and_test(&cio->refcount))
-> +		return;
-> +	if (cio->endio) {
-> +		cio->endio(cio->private, cio->comp_len);
-> +		kfree(cio);
-> +	} else
-> +		blk_wake_io_task(cio->waiter);
-> +}
-> +
-> +static void blkdev_copy_offload_read_endio(struct bio *read_bio)
-> +{
-> +	struct copy_ctx *ctx = read_bio->bi_private;
-> +	struct cio *cio = ctx->cio;
-> +	sector_t clen;
-> +
-> +	if (read_bio->bi_status) {
-> +		clen = (read_bio->bi_iter.bi_sector << SECTOR_SHIFT)
-> +				- cio->pos_in;
-> +		cio->comp_len = min_t(sector_t, clen, cio->comp_len);
-> +		__free_page(read_bio->bi_io_vec[0].bv_page);
-> +		bio_put(ctx->write_bio);
-> +		bio_put(read_bio);
-> +		kfree(ctx);
-> +		if (atomic_dec_and_test(&cio->refcount)) {
-> +			if (cio->endio) {
-> +				cio->endio(cio->private, cio->comp_len);
-> +				kfree(cio);
-> +			} else
-> +				blk_wake_io_task(cio->waiter);
-> +		}
-> +		return;
-> +	}
-> +
-> +	schedule_work(&ctx->dispatch_work);
-> +	bio_put(read_bio);
-> +}
-> +
-> +static void blkdev_copy_dispatch_work(struct work_struct *work)
-> +{
-> +	struct copy_ctx *ctx = container_of(work, struct copy_ctx,
-> +			dispatch_work);
-> +
-> +	submit_bio(ctx->write_bio);
-> +}
-> +
-> +/*
-> + * __blkdev_copy_offload	- Use device's native copy offload feature.
-> + * we perform copy operation by sending 2 bio.
-> + * 1. First we send a read bio with REQ_COPY flag along with a token and source
-> + * and length. Once read bio reaches driver layer, device driver adds all the
-> + * source info to token and does a fake completion.
-> + * 2. Once read operation completes, we issue write with REQ_COPY flag with same
-> + * token. In driver layer, token info is used to form a copy offload command.
-> + *
-> + * Returns the length of bytes copied or error if encountered
-> + */
-> +static int __blkdev_copy_offload(struct block_device *bdev_in, loff_t pos_in,
-> +		struct block_device *bdev_out, loff_t pos_out, size_t len,
-> +		cio_iodone_t endio, void *private, gfp_t gfp_mask)
-> +{
-> +	struct cio *cio;
-> +	struct copy_ctx *ctx;
-> +	struct bio *read_bio, *write_bio;
-> +	struct page *token;
-> +	sector_t copy_len;
-> +	sector_t rem, max_copy_len;
-> +
-> +	cio = kzalloc(sizeof(struct cio), GFP_KERNEL);
-> +	if (!cio)
-> +		return -ENOMEM;
-> +	atomic_set(&cio->refcount, 0);
-> +	cio->waiter = current;
-> +	cio->endio = endio;
-> +	cio->private = private;
-> +
-> +	max_copy_len = min(bdev_max_copy_sectors(bdev_in),
-> +			bdev_max_copy_sectors(bdev_out)) << SECTOR_SHIFT;
-> +
-> +	cio->pos_in = pos_in;
-> +	cio->pos_out = pos_out;
-> +	/* If there is a error, comp_len will be set to least successfully
-> +	 * completed copied length
-> +	 */
-> +	cio->comp_len = len;
-> +	for (rem = len; rem > 0; rem -= copy_len) {
-> +		copy_len = min(rem, max_copy_len);
-> +
-> +		token = alloc_page(gfp_mask);
-> +		if (unlikely(!token))
-> +			goto err_token;
-> +
-> +		ctx = kzalloc(sizeof(struct copy_ctx), gfp_mask);
-> +		if (!ctx)
-> +			goto err_ctx;
-> +		read_bio = bio_alloc(bdev_in, 1, REQ_OP_READ | REQ_COPY
-> +			| REQ_SYNC | REQ_NOMERGE, gfp_mask);
-> +		if (!read_bio)
-> +			goto err_read_bio;
-> +		write_bio = bio_alloc(bdev_out, 1, REQ_OP_WRITE
-> +			| REQ_COPY | REQ_SYNC | REQ_NOMERGE, gfp_mask);
-> +		if (!write_bio)
-> +			goto err_write_bio;
-> +
-> +		ctx->cio = cio;
-> +		ctx->write_bio = write_bio;
-> +		INIT_WORK(&ctx->dispatch_work, blkdev_copy_dispatch_work);
-> +
-> +		__bio_add_page(read_bio, token, PAGE_SIZE, 0);
-> +		read_bio->bi_iter.bi_size = copy_len;
-> +		read_bio->bi_iter.bi_sector = pos_in >> SECTOR_SHIFT;
-> +		read_bio->bi_end_io = blkdev_copy_offload_read_endio;
-> +		read_bio->bi_private = ctx;
-> +
-> +		__bio_add_page(write_bio, token, PAGE_SIZE, 0);
-> +		write_bio->bi_iter.bi_size = copy_len;
-> +		write_bio->bi_end_io = blkdev_copy_offload_write_endio;
-> +		write_bio->bi_iter.bi_sector = pos_out >> SECTOR_SHIFT;
-> +		write_bio->bi_private = ctx;
-> +
-> +		atomic_inc(&cio->refcount);
-> +		submit_bio(read_bio);
-> +		pos_in += copy_len;
-> +		pos_out += copy_len;
-> +	}
-> +
-> +	/* Wait for completion of all IO's*/
-> +	return blkdev_copy_wait_completion(cio);
-> +
-> +err_write_bio:
-> +	bio_put(read_bio);
-> +err_read_bio:
-> +	kfree(ctx);
-> +err_ctx:
-> +	__free_page(token);
-> +err_token:
-> +	cio->comp_len = min_t(sector_t, cio->comp_len, (len - rem));
-> +	if (!atomic_read(&cio->refcount))
-> +		return -ENOMEM;
-> +	/* Wait for submitted IOs to complete */
-> +	return blkdev_copy_wait_completion(cio);
-> +}
-> +
-> +static inline int blkdev_copy_sanity_check(struct block_device *bdev_in,
-> +	loff_t pos_in, struct block_device *bdev_out, loff_t pos_out,
-> +	size_t len)
-> +{
-> +	unsigned int align = max(bdev_logical_block_size(bdev_out),
-> +					bdev_logical_block_size(bdev_in)) - 1;
-> +
-> +	if (bdev_read_only(bdev_out))
-> +		return -EPERM;
-> +
-> +	if ((pos_in & align) || (pos_out & align) || (len & align) || !len ||
-> +		len >= COPY_MAX_BYTES)
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
-> +/*
-> + * @bdev_in:	source block device
-> + * @pos_in:	source offset
-> + * @bdev_out:	destination block device
-> + * @pos_out:	destination offset
-> + * @len:	length in bytes to be copied
-> + * @endio:	endio function to be called on completion of copy operation,
-> + *		for synchronous operation this should be NULL
-> + * @private:	endio function will be called with this private data, should be
-> + *		NULL, if operation is synchronous in nature
-> + * @gfp_mask:   memory allocation flags (for bio_alloc)
-> + *
-> + * Returns the length of bytes copied or error if encountered
-> + *
-> + * Description:
-> + *	Copy source offset from source block device to destination block
-> + *	device. Max total length of copy is limited to MAX_COPY_TOTAL_LENGTH
-> + */
-> +int blkdev_issue_copy(struct block_device *bdev_in, loff_t pos_in,
+Upon keep alive completion, nvme_keep_alive_work is scheduled with the
+same delay every time. If keep alive commands are completing slowly,
+this may cause a keep alive timeout. The following trace illustrates the
+issue, taking KATO = 8 and TBKAS off for simplicity:
 
-I'd have thought you'd return ssize_t here.  If the two block devices
-are loopmounted xfs files, we can certainly reflink "copy" more than 2GB
-at a time.
+1. t = 0: run nvme_keep_alive_work, send keep alive
+2. t = ε: keep alive reaches controller, controller restarts its keep
+          alive timer
+3. t = 4: host receives keep alive completion, schedules
+          nvme_keep_alive_work with delay 4
+4. t = 8: run nvme_keep_alive_work, send keep alive
 
---D
+Here, a keep alive having RTT of 4 causes a delay of at least 8 - ε
+between the controller receiving successive keep alives. With ε small,
+the controller is likely to detect a keep alive timeout.
 
-> +		      struct block_device *bdev_out, loff_t pos_out, size_t len,
-> +		      cio_iodone_t endio, void *private, gfp_t gfp_mask)
-> +{
-> +	struct request_queue *q_in = bdev_get_queue(bdev_in);
-> +	struct request_queue *q_out = bdev_get_queue(bdev_out);
-> +	int ret;
-> +
-> +	ret = blkdev_copy_sanity_check(bdev_in, pos_in, bdev_out, pos_out, len);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (blk_queue_copy(q_in) && blk_queue_copy(q_out))
-> +		ret = __blkdev_copy_offload(bdev_in, pos_in, bdev_out, pos_out,
-> +			   len, endio, private, gfp_mask);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(blkdev_issue_copy);
-> +
->  static int __blkdev_issue_write_zeroes(struct block_device *bdev,
->  		sector_t sector, sector_t nr_sects, gfp_t gfp_mask,
->  		struct bio **biop, unsigned flags)
-> diff --git a/block/blk.h b/block/blk.h
-> index 45547bcf1119..ec48a237fe12 100644
-> --- a/block/blk.h
-> +++ b/block/blk.h
-> @@ -303,6 +303,8 @@ static inline bool bio_may_exceed_limits(struct bio *bio,
->  		break;
->  	}
->  
-> +	if (unlikely(op_is_copy(bio->bi_opf)))
-> +		return false;
->  	/*
->  	 * All drivers must accept single-segments bios that are <= PAGE_SIZE.
->  	 * This is a quick and dirty check that relies on the fact that
-> diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-> index 740afe80f297..0117e33087e1 100644
-> --- a/include/linux/blk_types.h
-> +++ b/include/linux/blk_types.h
-> @@ -420,6 +420,7 @@ enum req_flag_bits {
->  	 */
->  	/* for REQ_OP_WRITE_ZEROES: */
->  	__REQ_NOUNMAP,		/* do not free blocks when zeroing */
-> +	__REQ_COPY,		/* copy request */
->  
->  	__REQ_NR_BITS,		/* stops here */
->  };
-> @@ -444,6 +445,7 @@ enum req_flag_bits {
->  #define REQ_POLLED	(__force blk_opf_t)(1ULL << __REQ_POLLED)
->  #define REQ_ALLOC_CACHE	(__force blk_opf_t)(1ULL << __REQ_ALLOC_CACHE)
->  #define REQ_SWAP	(__force blk_opf_t)(1ULL << __REQ_SWAP)
-> +#define REQ_COPY	((__force blk_opf_t)(1ULL << __REQ_COPY))
->  #define REQ_DRV		(__force blk_opf_t)(1ULL << __REQ_DRV)
->  #define REQ_FS_PRIVATE	(__force blk_opf_t)(1ULL << __REQ_FS_PRIVATE)
->  
-> @@ -474,6 +476,11 @@ static inline bool op_is_write(blk_opf_t op)
->  	return !!(op & (__force blk_opf_t)1);
->  }
->  
-> +static inline bool op_is_copy(blk_opf_t op)
-> +{
-> +	return op & REQ_COPY;
-> +}
-> +
->  /*
->   * Check if the bio or request is one that needs special treatment in the
->   * flush state machine.
-> @@ -533,4 +540,22 @@ struct blk_rq_stat {
->  	u64 batch;
->  };
->  
-> +typedef void (cio_iodone_t)(void *private, int comp_len);
-> +
-> +struct cio {
-> +	struct task_struct *waiter;     /* waiting task (NULL if none) */
-> +	atomic_t refcount;
-> +	loff_t pos_in;
-> +	loff_t pos_out;
-> +	size_t comp_len;
-> +	cio_iodone_t *endio;		/* applicable for async operation */
-> +	void *private;			/* applicable for async operation */
-> +};
-> +
-> +struct copy_ctx {
-> +	struct cio *cio;
-> +	struct work_struct dispatch_work;
-> +	struct bio *write_bio;
-> +};
-> +
->  #endif /* __LINUX_BLK_TYPES_H */
-> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-> index c9bf11adccb3..6f2814ab4741 100644
-> --- a/include/linux/blkdev.h
-> +++ b/include/linux/blkdev.h
-> @@ -1051,6 +1051,9 @@ int __blkdev_issue_discard(struct block_device *bdev, sector_t sector,
->  		sector_t nr_sects, gfp_t gfp_mask, struct bio **biop);
->  int blkdev_issue_secure_erase(struct block_device *bdev, sector_t sector,
->  		sector_t nr_sects, gfp_t gfp);
-> +int blkdev_issue_copy(struct block_device *bdev_in, loff_t pos_in,
-> +		      struct block_device *bdev_out, loff_t pos_out, size_t len,
-> +		      cio_iodone_t end_io, void *private, gfp_t gfp_mask);
->  
->  #define BLKDEV_ZERO_NOUNMAP	(1 << 0)  /* do not free blocks */
->  #define BLKDEV_ZERO_NOFALLBACK	(1 << 1)  /* don't write explicit zeroes */
-> -- 
-> 2.35.1.500.gb896f729e2
-> 
-> --
-> dm-devel mailing list
-> dm-devel@redhat.com
-> https://listman.redhat.com/mailman/listinfo/dm-devel
-> 
+Fix this by calculating the RTT of the keep alive command, and adjusting
+the scheduling delay of the next keep alive work accordingly.
+
+Reported-by: Costa Sapuntzakis <costa@purestorage.com>
+Reported-by: Randy Jennings <randyj@purestorage.com>
+Signed-off-by: Uday Shankar <ushankar@purestorage.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+---
+ drivers/nvme/host/core.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 54f5440a0b83..a4287ae967b2 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1195,6 +1195,20 @@ static enum rq_end_io_ret nvme_keep_alive_end_io(struct request *rq,
+ 	struct nvme_ctrl *ctrl = rq->end_io_data;
+ 	unsigned long flags;
+ 	bool startka = false;
++	unsigned long rtt = jiffies - nvme_req(rq)->start_time;
++	unsigned long delay = nvme_keep_alive_work_period(ctrl);
++
++	/*
++	 * Subtract off the keepalive RTT so nvme_keep_alive_work runs
++	 * at the desired frequency.
++	 */
++	if (rtt <= delay) {
++		delay -= rtt;
++	} else {
++		dev_warn(ctrl->device, "long keepalive RTT (%u ms)\n",
++			 jiffies_to_msecs(rtt));
++		delay = 0;
++	}
+ 
+ 	blk_mq_free_request(rq);
+ 
+@@ -1213,7 +1227,7 @@ static enum rq_end_io_ret nvme_keep_alive_end_io(struct request *rq,
+ 		startka = true;
+ 	spin_unlock_irqrestore(&ctrl->lock, flags);
+ 	if (startka)
+-		nvme_queue_keep_alive_work(ctrl);
++		queue_delayed_work(nvme_wq, &ctrl->ka_work, delay);
+ 	return RQ_END_IO_NONE;
+ }
+ 
+-- 
+2.25.1
+
 
