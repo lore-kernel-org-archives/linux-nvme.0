@@ -4,184 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 111D2C77B7E
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 May 2023 17:42:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ED508C7EE2E
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 May 2023 17:42:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:CC:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qfBUquu6djuZnnZt++wWPKx+Y8uNw+IPX/EWzUAcyPM=; b=ua5Xb2D9qix+30MyXjTXzjSZin
-	VM/Q9D099p0IgYv982VU8ufYNM06yKNhihtBP+67veEGO2f45KCOslFjEaD/UK6hRssif2ionThUv
-	pEIzHdbzAGbCjgIOZvOSEd1FKHbg3tK17ma4wAiurtuN4j2+pwXnQM922wsw6JuD8ZKd3OZI8x3+z
-	bKtlU9QdjtUZpQF0x42lynTQTlQ1PisDz6OreP3keehAo2HMt1updoHug93ZvuKftVwhaYkHpX37G
-	H9JW+nWRAyuMEhwf2rVxHObRwwh67Cgjcnf+jc/7fBWEZplhLDI+e1XnuawqkT+TijPU6Y1l1Baz+
-	J/cVWnIg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=E/mkzJ+c6qr7yPOsPF9NXbENxWjJthPNWT3mBurv3yc=; b=ms9TLmjGV2gQlrRRNBDO7cDaUF
+	cg7p+LYlb1WAEXModuJSMVb+kdNMIdbk4WQp2d8pvpG6qHioN7SOaocvYmLQ9yRjL6PcHkCb0/GGU
+	J9+nWJTjI40I1weL4lny9dDFtGTwaWPUKsieOoUxKf+ZgjA4YT4dwoTui0+SjhOT4+X0dmLfu9cXR
+	siQLnWa3ndtEa8PzmA/7jbeU445qpuWKtm8f69zUyyesLqy+AfPmuEjyU8jW+Eh3iS4dBqW2tUi6n
+	n/BB1S6CocRZukVCPYgzvuoumbHnlprxoTPBEnlggmUsDhcxCTcOiV48fxmEhw1ZrbY80H6nV+Oqp
+	rdBQk1Eg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q3gtK-00BHhV-07;
-	Mon, 29 May 2023 17:42:46 +0000
-Received: from mga06b.intel.com ([134.134.136.31] helo=mga06.intel.com)
+	id 1q3gtH-00BHg6-22;
+	Mon, 29 May 2023 17:42:43 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q1qhw-00DtP7-0j
+	id 1q1qUc-00Dqg5-1e
 	for linux-nvme@lists.infradead.org;
-	Wed, 24 May 2023 15:47:25 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684943244; x=1716479244;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=L/bOoFoKtGT8JBHUjEWHEV8g5oyvjGsAUUBoSRfqY20=;
-  b=Q/reDm7dI8Ewr3QofRt07HB5dX/Gi/Uwdh9Btdo0PlrZ69FAROD32u8V
-   LxyJUrDRisw4WDQ9R+EQTD4dA6+OWp74h7ebg6jYxB/YiLIbXlqk0xamV
-   CERAGp67AMIxO48dg/5IIBVprt8p2riJL8ChUYoO9K/0RnjNeX7K2gHJT
-   4FArv3tb5pcXrKz5AOd82NrartCrL/QDIUj09WqpQRUuu7QB9Bjbd2Hwk
-   d3npKE1IPtbI1CdaQGNu5iFdTQyAXhuj+18j4XlS+cMsfQ7IVsdJgiUvH
-   Z+bFxiyBqHAmb+WpXrzFUpZ1Dd2kjDZvkPsSpmRnXIr0FDealzmY7bg/6
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="417066939"
-X-IronPort-AV: E=Sophos;i="6.00,189,1681196400"; 
-   d="scan'208";a="417066939"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2023 08:46:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="735234913"
-X-IronPort-AV: E=Sophos;i="6.00,189,1681196400"; 
-   d="scan'208";a="735234913"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orsmga008.jf.intel.com with ESMTP; 24 May 2023 08:46:38 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Wed, 24 May 2023 08:46:37 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Wed, 24 May 2023 08:46:37 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.170)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Wed, 24 May 2023 08:46:37 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GPZ4djoUYDcx0H8PuhbboSuHhQatJ9EWs+oBTwWvzKKW646chZP8sTL2o/G61YZs1RS3lJzu3cZnNrbDGRD1b4CyXeJ+xiGENzufLzZxPRT84qSqAiK09OlHPCa38rzP7H0fB65UK3JHmerlThHBu3U/xGmmxcqlrFvVCaTWNbJj2ap8+6HQwepNI3zZt5Pemy3bUqKXvy7L39Elh+buPyvkdKSEPB1ZkyclM7y4ypSvqS/zEiEim2GGpoLYRTh3YsyphC2icfkQIOPBvR1N7icqwB4AOXCpGPrPdOMQGM36nMeh7Uwi50ZalhfOpPnEIrm1Uxib/sjCwXS2NbIaSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qfBUquu6djuZnnZt++wWPKx+Y8uNw+IPX/EWzUAcyPM=;
- b=d1SMxj+aRjT5ZK8cBnbufSbK7sbfIt2/UCpKERsT5eLdT5D4o1XU83Uui5ZdgpPJrSWpGa/YtgYoHn9/JzxTin/Vue9qhQAz9LltTx6cbpMfdtO1V7hTox/XWP3+7dy2oDxghKLOy2KgA+vz3ClhDY1+cTnr3jk+yercfdT450SOJ9U1a/FagJp60Jpw9DjnSP4QeKgmB8mlCHXWwzmU2DuLNaJHuwRaxPj6Tds6DmTbbU0kDrKKoa0LWH5Q1Nye16Fq1lhCUQvARoSFH31Axn05TxBt/N2s0p0xapPaoXVSaGjn3AnXJJcrdJnGb2F+vQaJVBvcG3AYJ51/084X0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SN6PR11MB3229.namprd11.prod.outlook.com (2603:10b6:805:ba::28)
- by PH7PR11MB8122.namprd11.prod.outlook.com (2603:10b6:510:235::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.15; Wed, 24 May
- 2023 15:46:36 +0000
-Received: from SN6PR11MB3229.namprd11.prod.outlook.com
- ([fe80::bdec:3ca4:b5e1:2b84]) by SN6PR11MB3229.namprd11.prod.outlook.com
- ([fe80::bdec:3ca4:b5e1:2b84%7]) with mapi id 15.20.6411.029; Wed, 24 May 2023
- 15:46:36 +0000
-Message-ID: <dc30f485-8a91-74e7-0ad8-0388269cfee6@intel.com>
-Date: Wed, 24 May 2023 08:46:30 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [Intel-wired-lan] [PATCH] overflow: Add struct_size_t() helper
-To: Alexander Lobakin <aleksander.lobakin@intel.com>, Jakub Kicinski
-	<kuba@kernel.org>, Kees Cook <keescook@chromium.org>
-CC: "Darrick J. Wong" <djwong@kernel.org>, Daniel Latypov
-	<dlatypov@google.com>, <storagedev@microchip.com>,
-	<linux-nvme@lists.infradead.org>, James Smart <james.smart@broadcom.com>,
-	"Guo Xuenan" <guoxuenan@huawei.com>, Eric Dumazet <edumazet@google.com>,
-	<linux-hardening@vger.kernel.org>, Christoph Hellwig <hch@lst.de>, "Sagi
- Grimberg" <sagi@grimberg.me>, <linux-scsi@vger.kernel.org>, Jesse Brandeburg
-	<jesse.brandeburg@intel.com>, Kashyap Desai <kashyap.desai@broadcom.com>,
-	Christoph Hellwig <hch@infradead.org>, <intel-wired-lan@lists.osuosl.org>,
-	Paolo Abeni <pabeni@redhat.com>, "James E.J. Bottomley" <jejb@linux.ibm.com>,
-	Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>, Dave Chinner
-	<dchinner@redhat.com>, Keith Busch <kbusch@kernel.org>, HighPoint Linux Team
-	<linux@highpoint-tech.com>, <megaraidlinux.pdl@broadcom.com>, Jens Axboe
-	<axboe@kernel.dk>, "Martin K. Petersen" <martin.petersen@oracle.com>,
-	Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
-	<netdev@vger.kernel.org>, Nick Desaulniers <ndesaulniers@google.com>,
-	<linux-kernel@vger.kernel.org>, <linux-xfs@vger.kernel.org>, Sumit Saxena
-	<sumit.saxena@broadcom.com>, Tales Aparecida <tales.aparecida@gmail.com>,
-	"Don Brace" <don.brace@microchip.com>, "David S. Miller"
-	<davem@davemloft.net>
-References: <20230522211810.never.421-kees@kernel.org>
- <20230523205354.06b147c6@kernel.org>
- <1d909989-5418-17ca-f161-67b4c05c6fb2@intel.com>
-Content-Language: en-US
-From: Tony Nguyen <anthony.l.nguyen@intel.com>
-In-Reply-To: <1d909989-5418-17ca-f161-67b4c05c6fb2@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY5PR17CA0009.namprd17.prod.outlook.com
- (2603:10b6:a03:1b8::22) To SN6PR11MB3229.namprd11.prod.outlook.com
- (2603:10b6:805:ba::28)
+	Wed, 24 May 2023 15:33:40 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1684942417;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E/mkzJ+c6qr7yPOsPF9NXbENxWjJthPNWT3mBurv3yc=;
+	b=YU17SoimJeaVMmjn4WbeB6eYlRg64/q4aCupsLcbSH1NLBTbuzggITX7TDD6Cifb0j/fRb
+	MP7QoGzKpElZ5ZozApBTgYtaN+0dLLiAt+sQ7webiTobGkg3h1cI4zSqnch5ab/dyBywjI
+	9hXmDUtFJ+UBbbvhFp3FBqhCIuVJl/s=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-617-ozOdLk_aN02TMJY6p7EiVg-1; Wed, 24 May 2023 11:33:33 -0400
+X-MC-Unique: ozOdLk_aN02TMJY6p7EiVg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B040C280BC80;
+	Wed, 24 May 2023 15:33:31 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.39.192.68])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id C783840CFD45;
+	Wed, 24 May 2023 15:33:27 +0000 (UTC)
+From: David Howells <dhowells@redhat.com>
+To: netdev@vger.kernel.org
+Cc: David Howells <dhowells@redhat.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	David Ahern <dsahern@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Jeroen de Borst <jeroendb@google.com>,
+	Catherine Sullivan <csully@google.com>,
+	Shailend Chand <shailend@google.com>,
+	Felix Fietkau <nbd@nbd.name>,
+	John Crispin <john@phrozen.org>,
+	Sean Wang <sean.wang@mediatek.com>,
+	Mark Lee <Mark-MC.Lee@mediatek.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@fb.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH net-next 04/12] mm: Make the page_frag_cache allocator use multipage folios
+Date: Wed, 24 May 2023 16:33:03 +0100
+Message-Id: <20230524153311.3625329-5-dhowells@redhat.com>
+In-Reply-To: <20230524153311.3625329-1-dhowells@redhat.com>
+References: <20230524153311.3625329-1-dhowells@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR11MB3229:EE_|PH7PR11MB8122:EE_
-X-MS-Office365-Filtering-Correlation-Id: 58ecc161-4c40-49be-74b2-08db5c6e0df4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ana+CSSfTzo8LDZ2xhGD9lmxxZDgAI7FAevcSEO5bkNrsHJ4bK4h5JVUdUzX/2Jn3fNXpKQe19OTIvwo1k5djwzPvn6NrTUE9BYYsqd0ygqIkFSLENBl/d3gNGspUYqQx1hFkJ5GPwVpLCSOyEdfXoeVEAlyiFASkOueuwAS0qY8OvkTBxXFiqoZ9phG3XW7FG2H5ig1QKFnJNLfzz1xOoemoTyUnpsi8JF21rH+/Gj7V95TZ8TzVT7xNK1hD2fMtW3auvr4PxBFT3t48svlbUGiD/qxiU/HXL356c5lGdfOGIgvU0GdcDEv6soUt0CE+FlfNCwHcXUkfsgujP3njUXSwYm2EAzahn1OIpiCwMj+pjkwFfI9AFhl/QNrOzv8klCN9mpKHdLdsMGqEoS8yOvqzHa3xZ3miNN4428WiOeL2Ozn7GnNfCSoDjJOyyWiRvZEOX4vF3CU/ltZfPuQ8PiufBcFMOzMAsPedoRpCtdJ7YvwLnj5MlXabs9+UYGQtDZy365Ys8dsrSe0Wo/zaU/yxJVf24UROsTyKmg7JV7Nf5gYEeJlXfBcF8VL6kyYvEDadX0ebzLL8pLJHJ144N93k4rUYO2i0+rkei+v6tTMEcBG5xIYoJOPxhejbca6VxeY1G6mJQjkXfQ7oWOqeA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB3229.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(346002)(376002)(366004)(136003)(396003)(39860400002)(451199021)(6666004)(41300700001)(6486002)(6506007)(186003)(2906002)(53546011)(6512007)(26005)(86362001)(31696002)(2616005)(82960400001)(38100700002)(5660300002)(7406005)(7416002)(36756003)(8676002)(8936002)(66946007)(66556008)(66476007)(4326008)(31686004)(110136005)(54906003)(478600001)(316002)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OHBhdlhUSGhGZE02VjN6L1F4NHI3OUFjS1VVbUZtT0Q2MEU4UFBJU004Q3B6?=
- =?utf-8?B?ak9EeG85bVAzVVVxV2xHbzlYUGNobXdndTVlWnRRaXJtaHNiY1FhbVVqd2Zw?=
- =?utf-8?B?WE5nRVdCUVcrY0FJMXlRS29XTkdvMDgxclFlenRIbzl2a1lBUytncEYzeTJr?=
- =?utf-8?B?RVdzczBwVWVxTnlKdGZ5SkRNbDhMTFFBL2ZMdE9sb1BPSEYwaXZvMjZBVjQ1?=
- =?utf-8?B?NTdodVYxN21YcVh4ZytRWUtycTg3RUFMa1lWdWhLYXBTN0dHTEoxZzJDdDVi?=
- =?utf-8?B?ODdCcGMySkVUaDB0RytLeXliZXZvUndXWW5zL1E1YUorYWRBT2RONXN1cUZ1?=
- =?utf-8?B?cHhFZEpBMUltb21sOTZzdkFtWVFSNHFLN2pRUjNnWWtuQXA0NDR6WlZSRi81?=
- =?utf-8?B?SStLL1BTSVRvT3BXS3ZUenFJTnlPaDhOVkYxbWZlUEN2VXVpVUhhbmdjQnkx?=
- =?utf-8?B?clBtYXR6UFRocE9QSXZxRk9VUHJYaEZEZVVsVDc0TnVCQjFNeHhEN1BFWk0y?=
- =?utf-8?B?Z3piYUhpTWVpTUtoVFhPNnJDYzlDSTB5T3JYZTFWY3FNNkpJaG8zV3BJZWFF?=
- =?utf-8?B?bXBaMFhTYzcybXhEeUY4WnJkaEJDMmNFSitiS2hsV0IrNlFTRnBSeG5jOWhO?=
- =?utf-8?B?S1RiWnRaZ2FGVVJPVVFQenFBeTNMVVB1QUVCSENLUHM0MVp3cXhoNkxQWnNB?=
- =?utf-8?B?SUF5OGxKMC9SeUNHTzdQTmNHL3pkSjljZ1drQ2ppemxFTnZTZlVZZHJscGI1?=
- =?utf-8?B?WDk1MkVLMzJjT0JrTE8xbks0L3FHU1pobTBHNjkzaytscWFETStzRmJUcU15?=
- =?utf-8?B?ZDJQYVd3REhyL29rdnBHYWRKK2hqUGYwMnZSb3VQVm44UDJSYS8zTGNzdThh?=
- =?utf-8?B?ZC9DcU5JY0hnM1lRM0k0Rm84SVdqb3dwcnhEeHphZjJLbmZZVjEvNjZ6YXdz?=
- =?utf-8?B?UURiYnBaeE0xa3lZUzN4VGk5ZFdPeXE0QVVMNDYzM1NEOWN0ZFMwOS8vUDFt?=
- =?utf-8?B?WWM1MWNHbU9rMUhSVllhMzZORnBqVVd0cGwvM0lqZ0h2bjJDRU1IYUl6dEFw?=
- =?utf-8?B?WE5NdXhNa3ovRTNNVWlwVVp2U25Jd0NadjZrMk9BVGtoR3lwK0QvWHFoN0NH?=
- =?utf-8?B?eGw2MUEyRjVWSGxDK1VwQk84SUxKUlYvWnVaU3JINUxBUTc1V3c5dTFEQTRB?=
- =?utf-8?B?S1dqVkFoa0xRZVRIZERoeThSNWNmVzhuTytPdGlVRGpIRTUvUzdkL2lvWkRR?=
- =?utf-8?B?alA0RkE4WC80SzBFdUZ0T2FQRGdxaEdoQ3d4NEdJdDdTbjE2NHNFa3IvMThW?=
- =?utf-8?B?bTc3MjdNanFsdURmdjlHSkpzdVJVVzJZTzNuUk1KZzNQNnlwekt1NnJ0SEpt?=
- =?utf-8?B?RVd2Q1JSQ24rdnY0UjJLTWM5TXpBTXdMakpZUDZhNG84WEtwMnMvdTVXc0Ro?=
- =?utf-8?B?V05pRHI4UGs2bnJkS2J0RHZrdVNjS050V0ttYmRsOTR6blJyV1hDVmIzU2J6?=
- =?utf-8?B?ek05VGlNdU9meU4zRXloNWFHSytKWVd0VzQ4SFhFM2hrYVExbnlBamNDR2l5?=
- =?utf-8?B?cDVTc2ZaaWUvaXVqL3FMdkJ5cEg1WDZDRXhHblprZ0xoamY4YzJjcDBSdk1D?=
- =?utf-8?B?MyszK3FPajFyQjFlSy92bGk2aGkraFNnNFVmQzNuRjNEbmJlQnQ0cXdocW5E?=
- =?utf-8?B?WGdiSmdpdjVyRWJGMkEzT1ZOOEtKZ0oyVWdsZXFjclhRRStYKzg0ZGNGQ0tq?=
- =?utf-8?B?a25BVVJUeFdiL3NTY3g2OEtMcHBCdlp0UXVWMm9NTENHMVlSYm1SbjREQUJT?=
- =?utf-8?B?Y25RZnhXWE9tMHk4S28xMGJwMzhCL0FjR0RhcDYwOUhmamJ2NEdRajZIcEdY?=
- =?utf-8?B?YmkrQithQ2g3TllPNEVCZzJHUy84c0dpRVV1aVVWQWxNc2FSN2FmZEZSNU5Q?=
- =?utf-8?B?YzBvaW5WRSs5dXhPKysvV0xiMTlzS2F1U0NaVklUVnEvRUZvYzhBbElhOSti?=
- =?utf-8?B?dDJxdUNsS095NGlWZEFnT1BadW9SNXdBYkZOOEVuUmppc0JiZ3paSFR5QTUz?=
- =?utf-8?B?WWJZVEd5Wm9KdmtpeFNibjNlT0NQTnJ4dytSclpNWTNteHdLNmRCZDBlN3RJ?=
- =?utf-8?B?cDVVblpSRmMrYzF4TkFRUzNPeC9WaEFnbUJHSkd1OWV2amZoaVA4b3FTOUEr?=
- =?utf-8?B?bVE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 58ecc161-4c40-49be-74b2-08db5c6e0df4
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB3229.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2023 15:46:35.6834
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: J/wMjDSB2ujJ5Smy4ysa73KD8Uw/sc6FEXfRX86dC2O8aIrrNDOq87SP94c/L6t39dbIOp00UbXDdCXGf3QD1m/0N5NaNB97IH6GidZKTCQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB8122
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230524_084724_346489_7ACE1B81 
-X-CRM114-Status: GOOD (  13.51  )
+X-CRM114-CacheID: sfid-20230524_083338_629601_7F6EA833 
+X-CRM114-Status: GOOD (  28.69  )
 X-Mailman-Approved-At: Mon, 29 May 2023 10:42:39 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -197,63 +108,249 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/24/2023 7:17 AM, Alexander Lobakin wrote:
-> From: Jakub Kicinski <kuba@kernel.org>
-> Date: Tue, 23 May 2023 20:53:54 -0700
-> 
->> On Mon, 22 May 2023 14:18:13 -0700 Kees Cook wrote:
->>> diff --git a/drivers/net/ethernet/intel/ice/ice_ddp.h b/drivers/net/ethernet/intel/ice/ice_ddp.h
->>> index 37eadb3d27a8..41acfe26df1c 100644
->>> --- a/drivers/net/ethernet/intel/ice/ice_ddp.h
->>> +++ b/drivers/net/ethernet/intel/ice/ice_ddp.h
->>> @@ -185,7 +185,7 @@ struct ice_buf_hdr {
->>>   
->>>   #define ICE_MAX_ENTRIES_IN_BUF(hd_sz, ent_sz)                                 \
->>>   	((ICE_PKG_BUF_SIZE -                                                  \
->>> -	  struct_size((struct ice_buf_hdr *)0, section_entry, 1) - (hd_sz)) / \
->>> +	  struct_size_t(struct ice_buf_hdr,  section_entry, 1) - (hd_sz)) / \
->>>   	 (ent_sz))
->>>   
->>>   /* ice package section IDs */
->>> @@ -297,7 +297,7 @@ struct ice_label_section {
->>>   };
->>>   
->>>   #define ICE_MAX_LABELS_IN_BUF                                             \
->>> -	ICE_MAX_ENTRIES_IN_BUF(struct_size((struct ice_label_section *)0, \
->>> +	ICE_MAX_ENTRIES_IN_BUF(struct_size_t(struct ice_label_section,  \
->>>   					   label, 1) -                    \
->>>   				       sizeof(struct ice_label),          \
->>>   			       sizeof(struct ice_label))
->>> @@ -352,7 +352,7 @@ struct ice_boost_tcam_section {
->>>   };
->>>   
->>>   #define ICE_MAX_BST_TCAMS_IN_BUF                                               \
->>> -	ICE_MAX_ENTRIES_IN_BUF(struct_size((struct ice_boost_tcam_section *)0, \
->>> +	ICE_MAX_ENTRIES_IN_BUF(struct_size_t(struct ice_boost_tcam_section,  \
->>>   					   tcam, 1) -                          \
->>>   				       sizeof(struct ice_boost_tcam_entry),    \
->>>   			       sizeof(struct ice_boost_tcam_entry))
->>> @@ -372,8 +372,7 @@ struct ice_marker_ptype_tcam_section {
->>>   };
->>>   
->>>   #define ICE_MAX_MARKER_PTYPE_TCAMS_IN_BUF                                    \
->>> -	ICE_MAX_ENTRIES_IN_BUF(                                              \
->>> -		struct_size((struct ice_marker_ptype_tcam_section *)0, tcam, \
->>> +	ICE_MAX_ENTRIES_IN_BUF(struct_size_t(struct ice_marker_ptype_tcam_section,  tcam, \
->>>   			    1) -                                             \
->>>   			sizeof(struct ice_marker_ptype_tcam_entry),          \
->>>   		sizeof(struct ice_marker_ptype_tcam_entry))
->>
->> Acked-by: Jakub Kicinski <kuba@kernel.org>
->>
->> but Intel ICE folks please speak up if this has a high chance of
->> conflicts, I think I've seen some ICE DDP patches flying around :(
-> 
-> I haven't found anything that would conflict with this, esp. since it
-> implies no functional changes.
+Change the page_frag_cache allocator to use multipage folios rather than
+groups of pages.  This reduces page_frag_free to just a folio_put() or
+put_page().
 
-Same here. I'm not seeing any conflicts with the patches I'm aware of.
+Signed-off-by: David Howells <dhowells@redhat.com>
+cc: "David S. Miller" <davem@davemloft.net>
+cc: Eric Dumazet <edumazet@google.com>
+cc: Jakub Kicinski <kuba@kernel.org>
+cc: Paolo Abeni <pabeni@redhat.com>
+cc: Jens Axboe <axboe@kernel.dk>
+cc: Jeroen de Borst <jeroendb@google.com>
+cc: Catherine Sullivan <csully@google.com>
+cc: Shailend Chand <shailend@google.com>
+cc: Felix Fietkau <nbd@nbd.name>
+cc: John Crispin <john@phrozen.org>
+cc: Sean Wang <sean.wang@mediatek.com>
+cc: Mark Lee <Mark-MC.Lee@mediatek.com>
+cc: Lorenzo Bianconi <lorenzo@kernel.org>
+cc: Matthias Brugger <matthias.bgg@gmail.com>
+cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+cc: Keith Busch <kbusch@kernel.org>
+cc: Jens Axboe <axboe@fb.com>
+cc: Christoph Hellwig <hch@lst.de>
+cc: Sagi Grimberg <sagi@grimberg.me>
+cc: Chaitanya Kulkarni <kch@nvidia.com>
+cc: Andrew Morton <akpm@linux-foundation.org>
+cc: Matthew Wilcox <willy@infradead.org>
+cc: netdev@vger.kernel.org
+cc: linux-arm-kernel@lists.infradead.org
+cc: linux-mediatek@lists.infradead.org
+cc: linux-nvme@lists.infradead.org
+cc: linux-mm@kvack.org
+---
+ include/linux/mm_types.h | 13 ++----
+ mm/page_frag_alloc.c     | 99 +++++++++++++++++++---------------------
+ 2 files changed, 52 insertions(+), 60 deletions(-)
 
-Thanks,
-Tony
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index 306a3d1a0fa6..d7c52a5979cc 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -420,18 +420,13 @@ static inline void *folio_get_private(struct folio *folio)
+ }
+ 
+ struct page_frag_cache {
+-	void * va;
+-#if (PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE)
+-	__u16 offset;
+-	__u16 size;
+-#else
+-	__u32 offset;
+-#endif
++	struct folio	*folio;
++	unsigned int	offset;
+ 	/* we maintain a pagecount bias, so that we dont dirty cache line
+ 	 * containing page->_refcount every time we allocate a fragment.
+ 	 */
+-	unsigned int		pagecnt_bias;
+-	bool pfmemalloc;
++	unsigned int	pagecnt_bias;
++	bool		pfmemalloc;
+ };
+ 
+ typedef unsigned long vm_flags_t;
+diff --git a/mm/page_frag_alloc.c b/mm/page_frag_alloc.c
+index 9d3f6fbd9a07..ffd68bfb677d 100644
+--- a/mm/page_frag_alloc.c
++++ b/mm/page_frag_alloc.c
+@@ -16,33 +16,34 @@
+ #include <linux/init.h>
+ #include <linux/mm.h>
+ 
+-static struct page *__page_frag_cache_refill(struct page_frag_cache *nc,
+-					     gfp_t gfp_mask)
++/*
++ * Allocate a new folio for the frag cache.
++ */
++static struct folio *page_frag_cache_refill(struct page_frag_cache *nc,
++					    gfp_t gfp_mask)
+ {
+-	struct page *page = NULL;
++	struct folio *folio = NULL;
+ 	gfp_t gfp = gfp_mask;
+ 
+ #if (PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE)
+-	gfp_mask |= __GFP_COMP | __GFP_NOWARN | __GFP_NORETRY |
+-		    __GFP_NOMEMALLOC;
+-	page = alloc_pages_node(NUMA_NO_NODE, gfp_mask,
+-				PAGE_FRAG_CACHE_MAX_ORDER);
+-	nc->size = page ? PAGE_FRAG_CACHE_MAX_SIZE : PAGE_SIZE;
++	gfp_mask |= __GFP_NOWARN | __GFP_NORETRY | __GFP_NOMEMALLOC;
++	folio = folio_alloc(gfp_mask, PAGE_FRAG_CACHE_MAX_ORDER);
+ #endif
+-	if (unlikely(!page))
+-		page = alloc_pages_node(NUMA_NO_NODE, gfp, 0);
++	if (unlikely(!folio))
++		folio = folio_alloc(gfp, 0);
+ 
+-	nc->va = page ? page_address(page) : NULL;
+-
+-	return page;
++	if (folio)
++		nc->folio = folio;
++	return folio;
+ }
+ 
+ void __page_frag_cache_drain(struct page *page, unsigned int count)
+ {
+-	VM_BUG_ON_PAGE(page_ref_count(page) == 0, page);
++	struct folio *folio = page_folio(page);
++
++	VM_BUG_ON_FOLIO(folio_ref_count(folio) == 0, folio);
+ 
+-	if (page_ref_sub_and_test(page, count - 1))
+-		__free_pages(page, compound_order(page));
++	folio_put_refs(folio, count);
+ }
+ EXPORT_SYMBOL(__page_frag_cache_drain);
+ 
+@@ -54,11 +55,12 @@ EXPORT_SYMBOL(__page_frag_cache_drain);
+  */
+ void page_frag_cache_clear(struct page_frag_cache *nc)
+ {
+-	if (nc->va) {
+-		struct page *page = virt_to_head_page(nc->va);
++	struct folio *folio = nc->folio;
+ 
+-		__page_frag_cache_drain(page, nc->pagecnt_bias);
+-		nc->va = NULL;
++	if (folio) {
++		VM_BUG_ON_FOLIO(folio_ref_count(folio) == 0, folio);
++		folio_put_refs(folio, nc->pagecnt_bias);
++		nc->folio = NULL;
+ 	}
+ }
+ EXPORT_SYMBOL(page_frag_cache_clear);
+@@ -67,56 +69,51 @@ void *page_frag_alloc_align(struct page_frag_cache *nc,
+ 			    unsigned int fragsz, gfp_t gfp_mask,
+ 			    unsigned int align)
+ {
+-	unsigned int size = PAGE_SIZE;
+-	struct page *page;
+-	int offset;
++	struct folio *folio = nc->folio;
++	size_t offset;
+ 
+ 	WARN_ON_ONCE(!is_power_of_2(align));
+ 
+-	if (unlikely(!nc->va)) {
++	if (unlikely(!folio)) {
+ refill:
+-		page = __page_frag_cache_refill(nc, gfp_mask);
+-		if (!page)
++		folio = page_frag_cache_refill(nc, gfp_mask);
++		if (!folio)
+ 			return NULL;
+ 
+-#if (PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE)
+-		/* if size can vary use size else just use PAGE_SIZE */
+-		size = nc->size;
+-#endif
+ 		/* Even if we own the page, we do not use atomic_set().
+ 		 * This would break get_page_unless_zero() users.
+ 		 */
+-		page_ref_add(page, PAGE_FRAG_CACHE_MAX_SIZE);
++		folio_ref_add(folio, PAGE_FRAG_CACHE_MAX_SIZE);
+ 
+ 		/* reset page count bias and offset to start of new frag */
+-		nc->pfmemalloc = page_is_pfmemalloc(page);
++		nc->pfmemalloc = folio_is_pfmemalloc(folio);
+ 		nc->pagecnt_bias = PAGE_FRAG_CACHE_MAX_SIZE + 1;
+-		nc->offset = size;
++		nc->offset = folio_size(folio);
+ 	}
+ 
+-	offset = nc->offset - fragsz;
+-	if (unlikely(offset < 0)) {
+-		page = virt_to_page(nc->va);
+-
+-		if (page_ref_count(page) != nc->pagecnt_bias)
++	offset = nc->offset;
++	if (unlikely(fragsz > offset)) {
++		/* Reuse the folio if everyone we gave it to has finished with
++		 * it.
++		 */
++		if (!folio_ref_sub_and_test(folio, nc->pagecnt_bias)) {
++			nc->folio = NULL;
+ 			goto refill;
++		}
++
+ 		if (unlikely(nc->pfmemalloc)) {
+-			page_ref_sub(page, nc->pagecnt_bias - 1);
+-			__free_pages(page, compound_order(page));
++			__folio_put(folio);
++			nc->folio = NULL;
+ 			goto refill;
+ 		}
+ 
+-#if (PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE)
+-		/* if size can vary use size else just use PAGE_SIZE */
+-		size = nc->size;
+-#endif
+ 		/* OK, page count is 0, we can safely set it */
+-		set_page_count(page, PAGE_FRAG_CACHE_MAX_SIZE + 1);
++		folio_set_count(folio, PAGE_FRAG_CACHE_MAX_SIZE + 1);
+ 
+ 		/* reset page count bias and offset to start of new frag */
+ 		nc->pagecnt_bias = PAGE_FRAG_CACHE_MAX_SIZE + 1;
+-		offset = size - fragsz;
+-		if (unlikely(offset < 0)) {
++		offset = folio_size(folio);
++		if (unlikely(fragsz > offset)) {
+ 			/*
+ 			 * The caller is trying to allocate a fragment
+ 			 * with fragsz > PAGE_SIZE but the cache isn't big
+@@ -126,15 +123,17 @@ void *page_frag_alloc_align(struct page_frag_cache *nc,
+ 			 * it could make memory pressure worse
+ 			 * so we simply return NULL here.
+ 			 */
++			nc->offset = offset;
+ 			return NULL;
+ 		}
+ 	}
+ 
+ 	nc->pagecnt_bias--;
++	offset -= fragsz;
+ 	offset &= ~(align - 1);
+ 	nc->offset = offset;
+ 
+-	return nc->va + offset;
++	return folio_address(folio) + offset;
+ }
+ EXPORT_SYMBOL(page_frag_alloc_align);
+ 
+@@ -143,8 +142,6 @@ EXPORT_SYMBOL(page_frag_alloc_align);
+  */
+ void page_frag_free(void *addr)
+ {
+-	struct page *page = virt_to_head_page(addr);
+-
+-	__free_pages(page, compound_order(page));
++	folio_put(virt_to_folio(addr));
+ }
+ EXPORT_SYMBOL(page_frag_free);
+
 
