@@ -4,70 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 09AC6C7EE2D
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 May 2023 19:38:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79F8CC7EE31
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 May 2023 19:38:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/vkoZnjEiFEiaLxKlTRXPlr7NRnuoQjbavXFFmh9F3Q=; b=2gNPnAKgMS/C2u4kRXKvETDlMx
-	zj+QDvy8FV3MD9epZ65dRUPKPxXJgmupfdsaaLYfU/UgXn4GpTsznybZ25PYsi3L06em2f/Xad8Q+
-	6w5fMAkGyd4J89lspUxF8TcBXtNJRsOkv5aUCoJzOCGeTA6PwwfA+tw/6hetXFtwkR6mJlhMBWkik
-	dUanqBVFw/Cj/Wcz4PZCEBLW1Cj9zw65Hp1gL5MCPsKVouYQLmu/7WkQYC9ZQHngxO45/77JrztS8
-	3ZKkKsgJvJ67S2jahHFX6N03oRVEQFKcOzVbRQpDpKNTdxYRUBo4uWtVbzEvY+dtL+jJPMHQKXvVu
-	Xbq5E1qQ==;
+	bh=lsOUxnE1u5JbMpcR2JkNgI63LoZPnIXj7YxT/oWSNb0=; b=BeX/c0EJ/YWalGhtRsSWElQdKm
+	/KiGANClPSCDuHiFIrNDhJYjVOmH+jeqpoMHiiitO2BLXMBTSBqhoPiztRPdGQVU3uWI+1ZtjLC06
+	2u0mZ/aQaPqrwbO/pUpcihtxATRBHH4jpdGcsZLIsKfZSS6LDEXGjmAMK4+IE0mpss0YaPEKwVEXR
+	UF2DzRTrbOH+GPoyKXO3VQkohF8v4VI/sX75gdSvhXT7Q6kTsXqvgeokmBSH29DkHQPtRFJgwakQv
+	TnBMCPxE4hxRTXKakGMQpnqYAqoYCS/BOnWPRPIRspCNNQ7BKpBNZE6mM8sknlFc5MNDn2w5xALny
+	2j1J+jhQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q1uJn-00EUZw-34;
-	Wed, 24 May 2023 19:38:43 +0000
-Received: from mail-pg1-x561.google.com ([2607:f8b0:4864:20::561])
+	id 1q1uJo-00EUa3-23;
+	Wed, 24 May 2023 19:38:44 +0000
+Received: from mail-yw1-x1163.google.com ([2607:f8b0:4864:20::1163])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q1uJj-00EUY1-1J
+	id 1q1uJi-00EUY3-1m
 	for linux-nvme@lists.infradead.org;
 	Wed, 24 May 2023 19:38:42 +0000
-Received: by mail-pg1-x561.google.com with SMTP id 41be03b00d2f7-53eee18a192so652291a12.3
+Received: by mail-yw1-x1163.google.com with SMTP id 00721157ae682-561afe72a73so20771737b3.0
         for <linux-nvme@lists.infradead.org>; Wed, 24 May 2023 12:38:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=purestorage.com; s=google2022; t=1684957116; x=1687549116;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/vkoZnjEiFEiaLxKlTRXPlr7NRnuoQjbavXFFmh9F3Q=;
-        b=H7En2AQwirw01gBOdgqkJwvaDSnZtlkcI9a696WMC2G+eyd9qV3GY9GngL1qr4T79W
-         Oa9O/W/WajLBVQtlmyPSKLbxl9E0dJbwkPKeNYg+angMcqdEY38Gc7rP/3UY5f+UpStH
-         cBSxVbUxTAlN4oPvUCKTPaCt0OcNDEvO/lxc3V2DJzdZjUJ/7OvRPWCONhd18GP1y+GW
-         mI0IDLCj8bJQxu/dNISDiL3ll063GlbtW+UwfsYH/pSKZfA4Ifcf/vWz671NgSRkBH1V
-         Y4hciZsHX6iBWgsjHm43GQeWFkna8ULFLhcNqIw+iTLFMJJOzN/t5e59G/dO79grDMYb
-         +kcQ==
+        bh=lsOUxnE1u5JbMpcR2JkNgI63LoZPnIXj7YxT/oWSNb0=;
+        b=M3AlS3EF+jlW0EJVziFyO25p+h2hUaqa+m5cIHoLc4aqXKT+DvgBXJw7hFa03VqU3B
+         NZ2FLwKYkoMy9HdomT7Nw5xx+icFq58pDJazzX3b3qTnkIuxIM/7nC93glvibIUJ5KS1
+         0RrDGiMOWkJArIVpu+J0TDOZAIvcZQduY2qvQTg//1F9rsLrQ2L22oAj1GrZuME1xM+X
+         +V6WtjPRoIBxvqWOPkBnbOjKoUxOjG7xf/z6O8CTb6rSh7aWgKUKTOiYa7kud57NQGEu
+         69rpHRqw9mu7iV1jatl8I/Y3Tg810JHJ8U9LYNIsQskcvXWr89RP4w4QuxOx83vSr4Sl
+         lN5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20221208; t=1684957116; x=1687549116;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/vkoZnjEiFEiaLxKlTRXPlr7NRnuoQjbavXFFmh9F3Q=;
-        b=iqoJhQ4kHrx5lnEc9Cv26Hy2u5LSSHBCi3Soo/fhIEAOksN+RJZBymKhS87U+EVyRK
-         vMv1dcrBdfAQSNe/awTNCSH4U3eLnhTKozrQkvlJjRl2eI1ItrFygiYikKuODvbImwNF
-         cjgVUd5dWsgbzBKXuMLJwbUvFEL83ZwN0rg8fwL6XmggOR07UjK9TnvLYKolcouxgIhJ
-         oBbYwO+0VUjm5VILdcXi21C0FfIPmg5KGvmSbc3k9xhC5Dp9U9SxQ2iA3bJpRg88Ku6q
-         dSXQpmtTw0pQG78VxPB4C3INCLGb4G4NtLSHMC2mQNrW77QXD0s+OIwt7AEW3IaxhwGF
-         BDOQ==
-X-Gm-Message-State: AC+VfDwKO5Gs9SPa+zRLLawqxoRuH6/VjR2fjQL0jzg3/rC275JY6lWv
-	xFq4/wT/CUV36LUhQ0trpo8UVimNhDAAQVsN3EVD/mkULwzzgQ==
-X-Google-Smtp-Source: ACHHUZ6CaBMWo2dA+3Glk23gJU4YgNFhNEd0a4ZEg0DFdq8BkHZerz5PPMYjO+dR5R8E12uBCzEgBdiyjZdQ
-X-Received: by 2002:a17:903:1d2:b0:1af:d812:d16 with SMTP id e18-20020a17090301d200b001afd8120d16mr4958258plh.21.1684957115942;
-        Wed, 24 May 2023 12:38:35 -0700 (PDT)
-Received: from c7-smtp.dev.purestorage.com ([208.88.159.128])
-        by smtp-relay.gmail.com with ESMTPS id ja17-20020a170902efd100b001ab01cf5a52sm961581plb.8.2023.05.24.12.38.35
+        bh=lsOUxnE1u5JbMpcR2JkNgI63LoZPnIXj7YxT/oWSNb0=;
+        b=Q1OwK6jD5JS0UJRUjBQ0udxxnNewa5gAZojLL4FPlkCcJ9iA9wIFW88niW8V/AC3bm
+         rvXPxM7DEcgwNAQSEYWWE1ceAbNhLWwMA4GuzMLtf0aMwjplW//QEpcmo2l5cBGkHEa6
+         iAq7CO1OccWRPTPHSUIFdVRjBT7G7tZSPfpVfP9owJTkaKEvDU4bzBAZIzZwitdwJyB0
+         n6LcDOCP0kSxiFqNKldjQ9iD3Zx5uqt1n9PIJSEy+TabtaySm9HFRsDW5zVOtO57gFVZ
+         alAkT2/XdQvN1G/s44SmkZp4MsWeU90t1DvUW2VbRJzTgO5pzzn+BrtAPWAr9drDDyHb
+         G21w==
+X-Gm-Message-State: AC+VfDxGPc23GNuSKhKk8tEQWtcHRUcUXAUgNE+kphrV+emTrde8ZD25
+	72lyEpoY422XQ+BcJWPgsNTgh8DYky8G7IgkVtuUuLy1J0DKEqhJ+9WQFkxPfXwy9Q==
+X-Google-Smtp-Source: ACHHUZ6m/FVECvFn3ceLHlq6Dtixj2EipV7xUg3D+AjH+KgpkjmuzlUuHS8Vtxax0o+4jKWXdb72Lt/bKVNj
+X-Received: by 2002:a0d:db57:0:b0:55a:f410:4ffe with SMTP id d84-20020a0ddb57000000b0055af4104ffemr20012571ywe.19.1684957116003;
+        Wed, 24 May 2023 12:38:36 -0700 (PDT)
+Received: from c7-smtp.dev.purestorage.com ([2620:125:9007:320:7:32:106:0])
+        by smtp-relay.gmail.com with ESMTPS id n187-20020a8172c4000000b0055df581d44bsm1895209ywc.18.2023.05.24.12.38.35
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
         Wed, 24 May 2023 12:38:35 -0700 (PDT)
 X-Relaying-Domain: purestorage.com
-Received: from dev-ushankar.dev.purestorage.com (dev-ushankar.dev.purestorage.com [10.7.70.36])
-	by c7-smtp.dev.purestorage.com (Postfix) with ESMTP id 318EC221D6;
+Received: from dev-ushankar.dev.purestorage.com (dev-ushankar.dev.purestorage.com [IPv6:2620:125:9007:640:7:70:36:0])
+	by c7-smtp.dev.purestorage.com (Postfix) with ESMTP id 32596221E3;
 	Wed, 24 May 2023 13:38:35 -0600 (MDT)
 Received: by dev-ushankar.dev.purestorage.com (Postfix, from userid 1557716368)
-	id 2BFBEE42EBF; Wed, 24 May 2023 13:38:35 -0600 (MDT)
+	id 2F6A1E42EE4; Wed, 24 May 2023 13:38:35 -0600 (MDT)
 From: Uday Shankar <ushankar@purestorage.com>
 To: Costa Sapuntzakis <costa@purestorage.com>,
 	Randy Jennings <randyj@purestorage.com>,
@@ -78,18 +78,17 @@ To: Costa Sapuntzakis <costa@purestorage.com>,
 	Jens Axboe <axboe@fb.com>
 Cc: Uday Shankar <ushankar@purestorage.com>,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH v4 1/3] nvme: double KA polling frequency to avoid KATO with TBKAS on
-Date: Wed, 24 May 2023 13:38:07 -0600
-Message-Id: <20230524193809.1360269-2-ushankar@purestorage.com>
+Subject: [PATCH v4 2/3] nvme: check IO start time when deciding to defer KA
+Date: Wed, 24 May 2023 13:38:08 -0600
+Message-Id: <20230524193809.1360269-3-ushankar@purestorage.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230524193809.1360269-1-ushankar@purestorage.com>
 References: <20230524193809.1360269-1-ushankar@purestorage.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230524_123839_447111_EA79C9DC 
-X-CRM114-Status: GOOD (  15.71  )
+X-CRM114-CacheID: sfid-20230524_123838_844193_A01FCF57 
+X-CRM114-Status: GOOD (  19.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,28 +103,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-With TBKAS on, the completion of one command can defer sending a
-keep alive for up to twice the delay between successive runs of
-nvme_keep_alive_work. The current delay of KATO / 2 thus makes it
-possible for one command to defer sending a keep alive for up to
-KATO, which can result in the controller detecting a KATO. The following
-trace demonstrates the issue, taking KATO = 8 for simplicity:
+When a command completes, we set a flag which will skip sending a
+keep alive at the next run of nvme_keep_alive_work when TBKAS is on.
+However, if the command was submitted long ago, it's possible that
+the controller may have also restarted its keep alive timer (as a
+result of receiving the command) long ago. The following trace
+demonstrates the issue, assuming TBKAS is on and KATO = 8 for
+simplicity:
 
-1. t = 0: run nvme_keep_alive_work, no keep-alive sent
-2. t = ε: I/O completion seen, set comp_seen = true
-3. t = 4: run nvme_keep_alive_work, see comp_seen == true,
-          skip sending keep-alive, set comp_seen = false
-4. t = 8: run nvme_keep_alive_work, see comp_seen == false,
-          send a keep-alive command.
+1. t = 0: submit I/O commands A, B, C, D, E
+2. t = 0.5: commands A, B, C, D, E reach controller, restart its keep
+            alive timer
+3. t = 1: A completes
+4. t = 2: run nvme_keep_alive_work, see recent completion, do nothing
+5. t = 3: B completes
+6. t = 4: run nvme_keep_alive_work, see recent completion, do nothing
+7. t = 5: C completes
+8. t = 6: run nvme_keep_alive_work, see recent completion, do nothing
+9. t = 7: D completes
+10. t = 8: run nvme_keep_alive_work, see recent completion, do nothing
+11. t = 9: E completes
 
-Here, there is a delay of 8 - ε between receiving a command completion
-and sending the next command. With ε small, the controller is likely to
-detect a keep alive timeout.
+At this point, 8.5 seconds have passed without restarting the
+controller's keep alive timer, so the controller will detect a keep
+alive timeout.
 
-Fix this by running nvme_keep_alive_work with a delay of KATO / 4
-whenever TBKAS is on. Going through the above trace now gives us a
-worst-case delay of 4 - ε, which is in line with the recommendation of
-sending a command every KATO / 2 in the NVMe specification.
+Fix this by checking the IO start time when deciding to defer sending a
+keep alive command. Only set comp_seen if the command started after the
+most recent run of nvme_keep_alive_work. With this change, the
+completions of B, C, and D will not set comp_seen and the run of
+nvme_keep_alive_work at t = 4 will send a keep alive.
 
 Reported-by: Costa Sapuntzakis <costa@purestorage.com>
 Reported-by: Randy Jennings <randyj@purestorage.com>
@@ -133,40 +140,84 @@ Signed-off-by: Uday Shankar <ushankar@purestorage.com>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/core.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 12 +++++++++++-
+ drivers/nvme/host/nvme.h |  4 ++--
+ 2 files changed, 13 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f586a4808e6e..5ad2b9b0d3b9 100644
+index 5ad2b9b0d3b9..54f5440a0b83 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1161,9 +1161,25 @@ EXPORT_SYMBOL_NS_GPL(nvme_passthru_end, NVME_TARGET_PASSTHRU);
-  *   The host should send Keep Alive commands at half of the Keep Alive Timeout
-  *   accounting for transport roundtrip times [..].
-  */
-+static unsigned long nvme_keep_alive_work_period(struct nvme_ctrl *ctrl)
-+{
-+	unsigned long delay = ctrl->kato * HZ / 2;
-+
+@@ -397,7 +397,13 @@ void nvme_complete_rq(struct request *req)
+ 	trace_nvme_complete_rq(req);
+ 	nvme_cleanup_cmd(req);
+ 
+-	if (ctrl->kas)
 +	/*
-+	 * When using Traffic Based Keep Alive, we need to run
-+	 * nvme_keep_alive_work at twice the normal frequency, as one
-+	 * command completion can postpone sending a keep alive command
-+	 * by up to twice the delay between runs.
++	 * Completions of long-running commands should not be able to
++	 * defer sending of periodic keep alives, since the controller
++	 * may have completed processing such commands a long time ago
++	 * (arbitrarily close to command submission time).
 +	 */
-+	if (ctrl->ctratt & NVME_CTRL_ATTR_TBKAS)
-+		delay /= 2;
-+	return delay;
-+}
++	if (ctrl->kas && nvme_req(req)->start_time >= ctrl->ka_last_check_time)
+ 		ctrl->comp_seen = true;
+ 
+ 	switch (nvme_decide_disposition(req)) {
+@@ -1173,6 +1179,7 @@ static unsigned long nvme_keep_alive_work_period(struct nvme_ctrl *ctrl)
+ 	 */
+ 	if (ctrl->ctratt & NVME_CTRL_ATTR_TBKAS)
+ 		delay /= 2;
 +
- static void nvme_queue_keep_alive_work(struct nvme_ctrl *ctrl)
- {
--	queue_delayed_work(nvme_wq, &ctrl->ka_work, ctrl->kato * HZ / 2);
-+	queue_delayed_work(nvme_wq, &ctrl->ka_work,
-+			   nvme_keep_alive_work_period(ctrl));
+ 	return delay;
  }
  
- static enum rq_end_io_ret nvme_keep_alive_end_io(struct request *rq,
+@@ -1198,6 +1205,7 @@ static enum rq_end_io_ret nvme_keep_alive_end_io(struct request *rq,
+ 		return RQ_END_IO_NONE;
+ 	}
+ 
++	ctrl->ka_last_check_time = jiffies;
+ 	ctrl->comp_seen = false;
+ 	spin_lock_irqsave(&ctrl->lock, flags);
+ 	if (ctrl->state == NVME_CTRL_LIVE ||
+@@ -1216,6 +1224,8 @@ static void nvme_keep_alive_work(struct work_struct *work)
+ 	bool comp_seen = ctrl->comp_seen;
+ 	struct request *rq;
+ 
++	ctrl->ka_last_check_time = jiffies;
++
+ 	if ((ctrl->ctratt & NVME_CTRL_ATTR_TBKAS) && comp_seen) {
+ 		dev_dbg(ctrl->device,
+ 			"reschedule traffic based keep-alive timer\n");
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index f0a84e390a55..07ed39ea43e3 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -162,9 +162,7 @@ struct nvme_request {
+ 	u8			retries;
+ 	u8			flags;
+ 	u16			status;
+-#ifdef CONFIG_NVME_MULTIPATH
+ 	unsigned long		start_time;
+-#endif
+ 	struct nvme_ctrl	*ctrl;
+ };
+ 
+@@ -323,6 +321,7 @@ struct nvme_ctrl {
+ 	struct delayed_work ka_work;
+ 	struct delayed_work failfast_work;
+ 	struct nvme_command ka_cmd;
++	unsigned long ka_last_check_time;
+ 	struct work_struct fw_act_work;
+ 	unsigned long events;
+ 
+@@ -1032,6 +1031,7 @@ static inline void nvme_start_request(struct request *rq)
+ {
+ 	if (rq->cmd_flags & REQ_NVME_MPATH)
+ 		nvme_mpath_start_request(rq);
++	nvme_req(rq)->start_time = jiffies;
+ 	blk_mq_start_request(rq);
+ }
+ 
 -- 
 2.25.1
 
