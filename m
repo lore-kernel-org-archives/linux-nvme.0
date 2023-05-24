@@ -4,85 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 01247C77B7E
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 May 2023 16:36:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 311FDC77B7E
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 May 2023 17:42:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XGlmlfpGRhYW8HjfyI5EG9tKXwTbZGzHl2Gw/X6ax14=; b=cvJUe7TzdYoHuNxce4M81+/SRY
-	fWadN9DJGUqtMLunkY8GUWTEXC2V1h08I5kj+ERHzFgouF0r7Z43pOqUWWcxt9xd3CvIiLYSruUBO
-	5s4Zq3PTIr9Jhk23gGq7irpExQmBSGBc1OiALgsRi5+s+IVEHJQvKPHkvkLMI3RgXtV4wN7wo36mh
-	DXvw6csCkeeVjR+u1uiHXJfcq6WpXpdniwYgMk9KzfL1rTBXRijo8cudBirgEzwAgLTtN3g2+1T3e
-	dwkHSwduftc12q58M3+aZFQDNQqB8+AMKzSgqQqmPKSRvIloszalQpkv5MAuByTdzfZ5g/G+Ji47y
-	Aae+LPOA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=uN3mSK+PjIP6JAbZhfDAmtnx0lnfpAA82MAUedDHiDA=; b=AeY1ORwJtYdn+xXbbqJioKkz5q
+	fIQ1Z5ARoU0r3fdezpuENaPCPNGhmI2ktojugUXaLXBdQdhjDkJEJNjhpm2kLz6wHJTU1tBFDzdYJ
+	hZQfm1U37TJRVPDMlI12YoWPJn8Zipg+cz3ZFWS1JENgnlM0XTKHea6Smyj4XLpwePgFPWWfwWt6A
+	5EPIFik5GgpId+vi6L3eiZKEU0S/sdLZWnNQNqKjgJolnswEF7VlQSaDhTWmKx3Boq+m56bcT+AX9
+	w9FyuEhJnhR64z8zYhY1qpZ7fxF4s3LTE18Dgvztla/IGXl+kPCfmRyu+sdv5MOyNCtvPw23nUcJC
+	YQs9UW0A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q3frB-00B8ZD-1C;
-	Mon, 29 May 2023 16:36:29 +0000
-Received: from mail-yw1-x1132.google.com ([2607:f8b0:4864:20::1132])
+	id 1q3gtG-00BHfJ-2w;
+	Mon, 29 May 2023 17:42:42 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q3fr8-00B8Y9-0f
+	id 1q1qUX-00Dqci-0j
 	for linux-nvme@lists.infradead.org;
-	Mon, 29 May 2023 16:36:27 +0000
-Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-565eb83efe4so24202557b3.0
-        for <linux-nvme@lists.infradead.org>; Mon, 29 May 2023 09:36:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685378184; x=1687970184;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=XGlmlfpGRhYW8HjfyI5EG9tKXwTbZGzHl2Gw/X6ax14=;
-        b=gD4kPaLLf9pJV0lpw2cIWttEo9EVBn7x8f+92LW12OXCCFANe21Fg01PjDXO0UtxY2
-         Ub5I5H1SdDWAoWmUFNeFLAYHmxDq8YTSmOaqguooZLFZobRrzvTxGbtaD72knDH23eOR
-         MY6ARUPzlKzmyW1m+BBJysdYOhoJdDqFYBuSUXe+0EMClHkTcg4RjJwjoiWhoOTKM3Dt
-         9K997gDZQsyxazGzIDcLguDZimyccw5IT7vyORCRBHtiqJDhUH/qSIl0d7GezyQg513/
-         VW7HwcNry8jcfbS5LOs9BUzeIfyV4CP5ISfkACbfC7ABZjMV3VQHFd1Zf4JXCiU+XtDx
-         EW2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685378184; x=1687970184;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XGlmlfpGRhYW8HjfyI5EG9tKXwTbZGzHl2Gw/X6ax14=;
-        b=I1WKYo0WjlQg31BoXoTFJGTjenJ2LO/xlvn4Ws9RxXYzx2Lrj6G7ix0mO3l5x5gzKj
-         unvSdypgaoMrtWnW0EnZhso0cEGpcHcWuWl1RD5+1CrxOxY7MJKDvjVdCN/Jsot/Z9+F
-         mdTNuCGGIlOxInfExmjMl7yqs4j6+4ckawGjg7rKzQdmA7UfWKoUx5fZIUUFORrci9yi
-         upxTaDKWBXI7ptLAPsEX4tRF/VhLwP09LcS7ABNIz6clGNx+mroyp2vlhQ3dx69eME4W
-         SNvOqgEMxnFfGoOgu+nSSAJk8PW51p5GOH96agQy4FRICshXqKXVOiJxvsUggiN1FKQJ
-         ixpw==
-X-Gm-Message-State: AC+VfDwmZx26vjnMFVYCZ3YhUn5KP4CjJ59klV6Gtily3JqYZCxbxngz
-	Muumy2biIChFAase5iU6FhejeaaKb1Ak4FE9KjM=
-X-Google-Smtp-Source: ACHHUZ7InCRLGF330bSJ+LMuRh4g/NfzTfd2m8OEywQty5+b+eU+JLZRKLHh0ktsR3qbMPwu4QSHwqAz7Ha/ifAXWSw=
-X-Received: by 2002:a0d:d88b:0:b0:565:bb04:53fa with SMTP id
- a133-20020a0dd88b000000b00565bb0453famr11663162ywe.10.1685378184319; Mon, 29
- May 2023 09:36:24 -0700 (PDT)
+	Wed, 24 May 2023 15:33:35 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1684942412;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uN3mSK+PjIP6JAbZhfDAmtnx0lnfpAA82MAUedDHiDA=;
+	b=bP62N1dupkuCW43Pb7TDZG9ocoOp2S5lyB2lhWFEX+jJLTNZkk+WbXl29K0T1G1+F9i6UI
+	vBX/k5DkEWqhFn0X7rTLNFnjO5mOSp1v6TzfcnDvNxks2VDFGTiCAihCsPqn0BvbKAARKI
+	RJwAFG32pMR6uzYvS9Nqto2XMnkDxz8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-649-Arb27wHhPVquoWD2zvAqmw-1; Wed, 24 May 2023 11:33:28 -0400
+X-MC-Unique: Arb27wHhPVquoWD2zvAqmw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EB53C3C0D185;
+	Wed, 24 May 2023 15:33:26 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.39.192.68])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 12905492B0B;
+	Wed, 24 May 2023 15:33:22 +0000 (UTC)
+From: David Howells <dhowells@redhat.com>
+To: netdev@vger.kernel.org
+Cc: David Howells <dhowells@redhat.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	David Ahern <dsahern@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Jeroen de Borst <jeroendb@google.com>,
+	Catherine Sullivan <csully@google.com>,
+	Shailend Chand <shailend@google.com>,
+	Felix Fietkau <nbd@nbd.name>,
+	John Crispin <john@phrozen.org>,
+	Sean Wang <sean.wang@mediatek.com>,
+	Mark Lee <Mark-MC.Lee@mediatek.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@fb.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH net-next 03/12] mm: Make the page_frag_cache allocator alignment param a pow-of-2
+Date: Wed, 24 May 2023 16:33:02 +0100
+Message-Id: <20230524153311.3625329-4-dhowells@redhat.com>
+In-Reply-To: <20230524153311.3625329-1-dhowells@redhat.com>
+References: <20230524153311.3625329-1-dhowells@redhat.com>
 MIME-Version: 1.0
-References: <20230522104146.2856-1-nj.shetty@samsung.com> <CGME20230522104536epcas5p23dd8108dd267ec588e5c36e8f9eb9fe8@epcas5p2.samsung.com>
- <20230522104146.2856-3-nj.shetty@samsung.com> <20230524154049.GD11607@frogsfrogsfrogs>
-In-Reply-To: <20230524154049.GD11607@frogsfrogsfrogs>
-From: Nitesh Shetty <nitheshshetty@gmail.com>
-Date: Mon, 29 May 2023 22:06:13 +0530
-Message-ID: <CAOSviJ2-=U+Y2vFOq6=8n=uHqXgoud3=7gaH7H7sw2jiPXtNPA@mail.gmail.com>
-Subject: Re: [dm-devel] [PATCH v11 2/9] block: Add copy offload support infrastructure
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>, 
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com, 
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	James Smart <james.smart@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	linux-block@vger.kernel.org, martin.petersen@oracle.com, 
-	linux-scsi@vger.kernel.org, linux-mm@kvack.org, gost.dev@samsung.com, 
-	anuj20.g@samsung.com, linux-kernel@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, ming.lei@redhat.com, 
-	James.Bottomley@hansenpartnership.com, linux-fsdevel@vger.kernel.org, 
-	dlemoal@kernel.org, joshi.k@samsung.com, bvanassche@acm.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230529_093626_249157_0FD04BFC 
-X-CRM114-Status: GOOD (  17.26  )
+X-CRM114-CacheID: sfid-20230524_083333_363275_5BAEBE56 
+X-CRM114-Status: GOOD (  19.45  )
+X-Mailman-Approved-At: Mon, 29 May 2023 10:42:39 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,38 +108,194 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> > +/*
-> > + * @bdev_in: source block device
-> > + * @pos_in:  source offset
-> > + * @bdev_out:        destination block device
-> > + * @pos_out: destination offset
-> > + * @len:     length in bytes to be copied
-> > + * @endio:   endio function to be called on completion of copy operation,
-> > + *           for synchronous operation this should be NULL
-> > + * @private: endio function will be called with this private data, should be
-> > + *           NULL, if operation is synchronous in nature
-> > + * @gfp_mask:   memory allocation flags (for bio_alloc)
-> > + *
-> > + * Returns the length of bytes copied or error if encountered
-> > + *
-> > + * Description:
-> > + *   Copy source offset from source block device to destination block
-> > + *   device. Max total length of copy is limited to MAX_COPY_TOTAL_LENGTH
-> > + */
-> > +int blkdev_issue_copy(struct block_device *bdev_in, loff_t pos_in,
->
-> I'd have thought you'd return ssize_t here.  If the two block devices
-> are loopmounted xfs files, we can certainly reflink "copy" more than 2GB
-> at a time.
->
-> --D
->
+Make the page_frag_cache allocator's alignment parameter a power of 2
+rather than a mask and give a warning if it isn't.
 
-Sure we will add this to make API future proof, but at present we do have
-a limit for copy. COPY_MAX_BYTES(=128MB) at present. This limit is based
-on our internal testing, we have plans to increase/remove with this
-limit in future phases.
+This means that it's consistent with {napi,netdec}_alloc_frag_align() and
+allows __{napi,netdev}_alloc_frag_align() to be removed.
 
-Thank you,
-Nitesh Shetty
+Signed-off-by: David Howells <dhowells@redhat.com>
+cc: "David S. Miller" <davem@davemloft.net>
+cc: Eric Dumazet <edumazet@google.com>
+cc: Jakub Kicinski <kuba@kernel.org>
+cc: Paolo Abeni <pabeni@redhat.com>
+cc: Jens Axboe <axboe@kernel.dk>
+cc: Jeroen de Borst <jeroendb@google.com>
+cc: Catherine Sullivan <csully@google.com>
+cc: Shailend Chand <shailend@google.com>
+cc: Felix Fietkau <nbd@nbd.name>
+cc: John Crispin <john@phrozen.org>
+cc: Sean Wang <sean.wang@mediatek.com>
+cc: Mark Lee <Mark-MC.Lee@mediatek.com>
+cc: Lorenzo Bianconi <lorenzo@kernel.org>
+cc: Matthias Brugger <matthias.bgg@gmail.com>
+cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+cc: Keith Busch <kbusch@kernel.org>
+cc: Jens Axboe <axboe@fb.com>
+cc: Christoph Hellwig <hch@lst.de>
+cc: Sagi Grimberg <sagi@grimberg.me>
+cc: Chaitanya Kulkarni <kch@nvidia.com>
+cc: Andrew Morton <akpm@linux-foundation.org>
+cc: Matthew Wilcox <willy@infradead.org>
+cc: netdev@vger.kernel.org
+cc: linux-arm-kernel@lists.infradead.org
+cc: linux-mediatek@lists.infradead.org
+cc: linux-nvme@lists.infradead.org
+cc: linux-mm@kvack.org
+---
+ include/linux/gfp.h    |  4 ++--
+ include/linux/skbuff.h | 22 ++++------------------
+ mm/page_frag_alloc.c   |  8 +++++---
+ net/core/skbuff.c      | 14 +++++++-------
+ 4 files changed, 18 insertions(+), 30 deletions(-)
+
+diff --git a/include/linux/gfp.h b/include/linux/gfp.h
+index 03504beb51e4..fa30100f46ad 100644
+--- a/include/linux/gfp.h
++++ b/include/linux/gfp.h
+@@ -306,12 +306,12 @@ struct page_frag_cache;
+ extern void __page_frag_cache_drain(struct page *page, unsigned int count);
+ extern void *page_frag_alloc_align(struct page_frag_cache *nc,
+ 				   unsigned int fragsz, gfp_t gfp_mask,
+-				   unsigned int align_mask);
++				   unsigned int align);
+ 
+ static inline void *page_frag_alloc(struct page_frag_cache *nc,
+ 			     unsigned int fragsz, gfp_t gfp_mask)
+ {
+-	return page_frag_alloc_align(nc, fragsz, gfp_mask, ~0u);
++	return page_frag_alloc_align(nc, fragsz, gfp_mask, 1);
+ }
+ 
+ void page_frag_cache_clear(struct page_frag_cache *nc);
+diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
+index 1b2ebf6113e0..41b63e72c6c3 100644
+--- a/include/linux/skbuff.h
++++ b/include/linux/skbuff.h
+@@ -3158,7 +3158,7 @@ void skb_queue_purge(struct sk_buff_head *list);
+ 
+ unsigned int skb_rbtree_purge(struct rb_root *root);
+ 
+-void *__netdev_alloc_frag_align(unsigned int fragsz, unsigned int align_mask);
++void *netdev_alloc_frag_align(unsigned int fragsz, unsigned int align);
+ 
+ /**
+  * netdev_alloc_frag - allocate a page fragment
+@@ -3169,14 +3169,7 @@ void *__netdev_alloc_frag_align(unsigned int fragsz, unsigned int align_mask);
+  */
+ static inline void *netdev_alloc_frag(unsigned int fragsz)
+ {
+-	return __netdev_alloc_frag_align(fragsz, ~0u);
+-}
+-
+-static inline void *netdev_alloc_frag_align(unsigned int fragsz,
+-					    unsigned int align)
+-{
+-	WARN_ON_ONCE(!is_power_of_2(align));
+-	return __netdev_alloc_frag_align(fragsz, -align);
++	return netdev_alloc_frag_align(fragsz, 1);
+ }
+ 
+ struct sk_buff *__netdev_alloc_skb(struct net_device *dev, unsigned int length,
+@@ -3236,18 +3229,11 @@ static inline void skb_free_frag(void *addr)
+ 	page_frag_free(addr);
+ }
+ 
+-void *__napi_alloc_frag_align(unsigned int fragsz, unsigned int align_mask);
++void *napi_alloc_frag_align(unsigned int fragsz, unsigned int align);
+ 
+ static inline void *napi_alloc_frag(unsigned int fragsz)
+ {
+-	return __napi_alloc_frag_align(fragsz, ~0u);
+-}
+-
+-static inline void *napi_alloc_frag_align(unsigned int fragsz,
+-					  unsigned int align)
+-{
+-	WARN_ON_ONCE(!is_power_of_2(align));
+-	return __napi_alloc_frag_align(fragsz, -align);
++	return napi_alloc_frag_align(fragsz, 1);
+ }
+ 
+ struct sk_buff *__napi_alloc_skb(struct napi_struct *napi,
+diff --git a/mm/page_frag_alloc.c b/mm/page_frag_alloc.c
+index e02b81d68dc4..9d3f6fbd9a07 100644
+--- a/mm/page_frag_alloc.c
++++ b/mm/page_frag_alloc.c
+@@ -64,13 +64,15 @@ void page_frag_cache_clear(struct page_frag_cache *nc)
+ EXPORT_SYMBOL(page_frag_cache_clear);
+ 
+ void *page_frag_alloc_align(struct page_frag_cache *nc,
+-		      unsigned int fragsz, gfp_t gfp_mask,
+-		      unsigned int align_mask)
++			    unsigned int fragsz, gfp_t gfp_mask,
++			    unsigned int align)
+ {
+ 	unsigned int size = PAGE_SIZE;
+ 	struct page *page;
+ 	int offset;
+ 
++	WARN_ON_ONCE(!is_power_of_2(align));
++
+ 	if (unlikely(!nc->va)) {
+ refill:
+ 		page = __page_frag_cache_refill(nc, gfp_mask);
+@@ -129,7 +131,7 @@ void *page_frag_alloc_align(struct page_frag_cache *nc,
+ 	}
+ 
+ 	nc->pagecnt_bias--;
+-	offset &= align_mask;
++	offset &= ~(align - 1);
+ 	nc->offset = offset;
+ 
+ 	return nc->va + offset;
+diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+index f4a5b51aed22..cc507433b357 100644
+--- a/net/core/skbuff.c
++++ b/net/core/skbuff.c
+@@ -289,17 +289,17 @@ void napi_get_frags_check(struct napi_struct *napi)
+ 	local_bh_enable();
+ }
+ 
+-void *__napi_alloc_frag_align(unsigned int fragsz, unsigned int align_mask)
++void *napi_alloc_frag_align(unsigned int fragsz, unsigned int align)
+ {
+ 	struct napi_alloc_cache *nc = this_cpu_ptr(&napi_alloc_cache);
+ 
+ 	fragsz = SKB_DATA_ALIGN(fragsz);
+ 
+-	return page_frag_alloc_align(&nc->page, fragsz, GFP_ATOMIC, align_mask);
++	return page_frag_alloc_align(&nc->page, fragsz, GFP_ATOMIC, align);
+ }
+-EXPORT_SYMBOL(__napi_alloc_frag_align);
++EXPORT_SYMBOL(napi_alloc_frag_align);
+ 
+-void *__netdev_alloc_frag_align(unsigned int fragsz, unsigned int align_mask)
++void *netdev_alloc_frag_align(unsigned int fragsz, unsigned int align)
+ {
+ 	void *data;
+ 
+@@ -307,18 +307,18 @@ void *__netdev_alloc_frag_align(unsigned int fragsz, unsigned int align_mask)
+ 	if (in_hardirq() || irqs_disabled()) {
+ 		struct page_frag_cache *nc = this_cpu_ptr(&netdev_alloc_cache);
+ 
+-		data = page_frag_alloc_align(nc, fragsz, GFP_ATOMIC, align_mask);
++		data = page_frag_alloc_align(nc, fragsz, GFP_ATOMIC, align);
+ 	} else {
+ 		struct napi_alloc_cache *nc;
+ 
+ 		local_bh_disable();
+ 		nc = this_cpu_ptr(&napi_alloc_cache);
+-		data = page_frag_alloc_align(&nc->page, fragsz, GFP_ATOMIC, align_mask);
++		data = page_frag_alloc_align(&nc->page, fragsz, GFP_ATOMIC, align);
+ 		local_bh_enable();
+ 	}
+ 	return data;
+ }
+-EXPORT_SYMBOL(__netdev_alloc_frag_align);
++EXPORT_SYMBOL(netdev_alloc_frag_align);
+ 
+ static struct sk_buff *napi_skb_cache_get(void)
+ {
+
 
