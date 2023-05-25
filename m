@@ -4,64 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 44AE4C7EE31
-	for <linux-nvme@archiver.kernel.org>; Thu, 25 May 2023 15:31:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4E6A4C7EE29
+	for <linux-nvme@archiver.kernel.org>; Thu, 25 May 2023 15:36:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yCDzj21CfLVCh4y4uoYZaN75mx/cS0V7OtJmKLAFe+k=; b=xo6p42E8DG2gGVun3mWok8O5sy
-	byGb1CEv4biTcbvtLpyWmdqsEjTad1aiDxXHirIN81XbTqM+N5sOQGiTfVuToo0ZVyyqDgk0xXZzQ
-	MVRb+vEuqgJKpZ7Ydjaak5VLZRKbq9IsG47Hr3Ti/QmiBEwattzl/2/HdjDYDIP+Tdn1IQuOrah8e
-	nc22JxWt/VwsSMw0mJ5k25XhldyEickTgzhoF942RazfxZ/cL7P7SiJm5bAEAJSxdrQ0KaWEhSOdp
-	h4Zbr0RGAUW5Lt8fMnlcySffq7dthIfl00SU8PFequWL8BSj6xfOeX/3GB/hLtOi81p8WMnP8HZqf
-	vjjf8gvw==;
+	bh=sc9/A1ISF0HUM7/3YE2Bc4dABEzMpIo0TnaeyXm8SqM=; b=xGvEQdnbSBpbYfjDDKLDNaLKvH
+	mbDBkpWRlqhEPPRFexZ4f4smc1yVC2u8gcGskDAPxdmPQLzm1AgjGO4+79u9fTr2QeTKflLVwD/jL
+	oXSRvnlVxKXndF4VS3YJIncbyjUxdO/NMcSB4jNUim9BUMJopvNy6Y4iN7lT4c6Tk32rsbpTQEA7F
+	OWo6jH1scd5SmO8MaKPkmvvxTKmnMUmblnFb7oH8lojOk6mKpKiqtQxaMbXnTkStEmPhKWVKgW2QU
+	7i7cmRIxxfSW4bY3YSgVs50O1KkJ2RUcU2NrwOMl1IeQ9f6WMPS8pzlefTwd+KLsM0zTA5tc34ADM
+	/qERMWrA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q2CwU-00GyYK-10;
-	Thu, 25 May 2023 15:31:54 +0000
+	id 1q2D0a-00Gz0n-2A;
+	Thu, 25 May 2023 15:36:08 +0000
 Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q2CwS-00GyXr-26
+	id 1q2D0Y-00Gz08-1s
 	for linux-nvme@lists.infradead.org;
-	Thu, 25 May 2023 15:31:53 +0000
+	Thu, 25 May 2023 15:36:07 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 399E6646E9;
-	Thu, 25 May 2023 15:31:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29969C433EF;
-	Thu, 25 May 2023 15:31:51 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id EEE80646F0;
+	Thu, 25 May 2023 15:36:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 060ACC433EF;
+	Thu, 25 May 2023 15:36:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1685028711;
-	bh=yCDzj21CfLVCh4y4uoYZaN75mx/cS0V7OtJmKLAFe+k=;
+	s=k20201202; t=1685028965;
+	bh=sc9/A1ISF0HUM7/3YE2Bc4dABEzMpIo0TnaeyXm8SqM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dGXtVpXzlOCqqsAzus6F/Ke2NghEfqzHn95D75eJJ2Ye31WVcfuieAA5JoY7IbDkh
-	 nk9JvJ8KPWu8chtLYEL+VFmpT9O2CjDfS716XtS4zB84ssHnYiBu8oaW3d+QeY0bCQ
-	 RBWQaAs9EPCopB5dBwPvC4Ys1qhtmT2FO1WYzivdRXWcWVKZFB7VHKUuXBdVc6s807
-	 XLkhRPKoKGKwaZ0v6DStmGZQpcTC18yWSJ1n8FpINNhTvTP8OKZd2x+2HlghfBqqf4
-	 63LstyLRxpgI3c9ylUA4aKQjrNDyqToDA+xQ2tx8fv2nKw6Orvg1aGDo/3lPOgge0E
-	 Yd/tvxhTqIt3g==
-Date: Thu, 25 May 2023 09:31:48 -0600
+	b=thrbzE/PYiSRU6Z8aTdxtFZDkRhN2fi4gcxaQ+I8zmrjx4DqdEZ2jRa01m7NJjXZZ
+	 q/CqSg4uCMIuTi2A1FnE7Di7KRJGYF8cEQOY+R5ismtHMAcFp4lS0RMN5QDs0fTXls
+	 wp1I4sgqGd0ufqdCUXY3GR1ABzUBU04W+7zApRJeSc3k47lsHs3r5zKd3u4mNGOoiX
+	 4VTovlmBzXqir2nvUgfWEyQDP8yA6fH3QOSMtllFjZnyxtvlPnH/tMZq0zd0JL1yzk
+	 zOEjWpwWCZa6JGrbyUpZxHhylZqZHOufW1u60y8QxKCXc50BYTnLHtyOmwPmkfanUM
+	 op4nPvyUqrU/w==
+Date: Thu, 25 May 2023 09:36:03 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Tatsuki Sugiura <sugi@nemui.org>, Jens Axboe <axboe@kernel.dk>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] NVMe: Add MAXIO 1602 to bogus nid list.
-Message-ID: <ZG9/ZF/dlyv8CsxK@kbusch-mbp.dhcp.thefacebook.com>
-References: <87ttw7i6p7.wl-sugi@nemui.org>
- <20230520122350.2232956-1-sugi@nemui.org>
- <20230523061450.GA6334@lst.de>
+To: irvin cote <irvincoteg@gmail.com>
+Cc: hch@lst.de, axboe@kernel.dk, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvme-pci : redundancies in nvme_alloc_queue and
+ nvme_init_queue
+Message-ID: <ZG+AY7/lheC7Hsbn@kbusch-mbp.dhcp.thefacebook.com>
+References: <20230521024618.103138-1-irvincoteg@gmail.com>
+ <CALL+9ehvM3GxGS9Y-KVyyK+HyO14yRmGZFEPjD6pmEUMX3VNzw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230523061450.GA6334@lst.de>
+In-Reply-To: <CALL+9ehvM3GxGS9Y-KVyyK+HyO14yRmGZFEPjD6pmEUMX3VNzw@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230525_083152_727960_0AF2E417 
-X-CRM114-Status: UNSURE (   8.62  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230525_083606_657457_70EA1871 
+X-CRM114-Status: GOOD (  10.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,5 +75,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks, applied for nvme-6.4.
+On Sat, May 20, 2023 at 11:47:37PM -0300, irvin cote wrote:
+> I'm trying to resend the patch but somehow all the new attempts seem
+> to bind to this thread...
+
+It's not really a big deal to me that it's continuing the previous
+thread, but how are you sending your patches? If you just use 'git
+send-email' without specifying any reply identifier, that should start a
+new thread.
 
