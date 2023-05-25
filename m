@@ -4,91 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BC95EC7EE29
-	for <linux-nvme@archiver.kernel.org>; Thu, 25 May 2023 18:22:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 22481C7EE31
+	for <linux-nvme@archiver.kernel.org>; Thu, 25 May 2023 18:31:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=abY5k5Fw/onHLxtJvX5F9dyv3JrqPa4Rkd5D8rHKPeM=; b=Z9poYjhmHoKmadAcTLKPWQaZs3
-	4ROo7XxjZk/Ts7GWq9O42ti9tbSAKlRKgNYhZFAw4OdYaDTMBo/wMC7cYCRiZogwH0KWSErcKheOf
-	veXS1oUyHTrHkosVFUVIknArOrUr6kF8D8Wf5uOf+MKH0KJyyYzo3O4rQsmYk1grF1wGQamLYU5Q6
-	5kbAswkEE+Mfeb64HaDzsj6ReE97LeQ5WjWZ17gS35Fc1sW3/hfRaHRFPpZRTYI8kAzZpcozzbbpu
-	FoHuj/nYOBghLFY7w4/Ed0eA6J1CMrXv49Ewj3bynToNE0aZzJucE/1ASoxXpKr8JjOtCZv2BaP8E
-	4d/7Jnjw==;
+	bh=wNfDJUqDFRPUpXWcBNMbiqmjWPqXoeLCZQXlJJ/XwnY=; b=0LhWNc/fKpB8OpiyytIHQIJMdC
+	rB0KQYrpUqNz43iN9h79edKp7rV1AJ9MQf+LLDYLoApKv7JQTXlMLV/uJiHTU/jdjgqlfy7yajObp
+	OrDZoF8bTicFFgFRtlh22GYVxyAL8IxipNcMDlAprJXYVFmJGYYpD+o8un+33CRq9Pb6ipme6EWG4
+	yLiA0gsSOGqqgtn3y8j9uazn85YpBuCSQ+ktiJTEofxsCmUKweI8zUMthnknoThEMNXyZjWa5LCF5
+	rgNngcA+8JDvwvYqpgyDN4L+x2g1lIdXSaUiX3/9BhiT9X2udT6ax2ftbx9zD1saMsOodmPd7LURx
+	h1hM6OFQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q2FbW-00HNTz-2h;
-	Thu, 25 May 2023 18:22:26 +0000
-Received: from mail-pl1-x662.google.com ([2607:f8b0:4864:20::662])
+	id 1q2Fki-00HOz1-0d;
+	Thu, 25 May 2023 18:31:56 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q2FbP-00HNQb-02
+	id 1q2Fke-00HOx6-1V
 	for linux-nvme@lists.infradead.org;
-	Thu, 25 May 2023 18:22:22 +0000
-Received: by mail-pl1-x662.google.com with SMTP id d9443c01a7336-1ae6dce19f7so13222795ad.3
-        for <linux-nvme@lists.infradead.org>; Thu, 25 May 2023 11:22:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1685038937; x=1687630937;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=abY5k5Fw/onHLxtJvX5F9dyv3JrqPa4Rkd5D8rHKPeM=;
-        b=FieO1tVxfPwbg3S4uXo1py9c3NEGWEktTjt2Y/vXIOpsXOpGZeJL96lTs7T9lVuQab
-         qM5dKr6K+7NF1VemyK8uDwYYi0nfLTCXkW1SILImesRfEUUKqdxrO52CnU0pUhjAH1Kl
-         1Nq6tKIxyxWZhiHNd0y9aiAO5cf7ZbN6IuXLmCRGTEiKmmUv3R1PRkfqircsKt6WYFLO
-         Du1F+mNh2NfFoaQv1fZE1a2StG+g1/7Ru0H1BVZId7WIBPzjadImVoCAZ5C8/P4SnPAz
-         3B85JTOFw9dJNKtMBxy+xVne2qZ6NWbcURcdkKNeUMwsR5GcP6vXv6MAl2CFuoWsRbHf
-         NXiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685038937; x=1687630937;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=abY5k5Fw/onHLxtJvX5F9dyv3JrqPa4Rkd5D8rHKPeM=;
-        b=WcqEpfo7CGTu5dc1dCLHN2SQlrqUEal2GXKmkq3JnsD/w1zTjr/BGrOgKDfAGMAk5V
-         KZXguTCs26MednOYxNSKfL6hmFalP72aEZKJkobpjEc2FIBY4QIAewiakocmWXRK0mD6
-         tPjHXFMM0ucFlDqmqgqwXz3dm6fUnHlA4cJkvI56D1QHJhkq7I/KRELXtpRTgnIIOeeD
-         m0BQmAKWldSr5yRYan5K6GYx/ZGpT4ExoysckV3c3FcO2spFN8aVNLdE0Dbrfahj2aDg
-         FKzCOTA1TIIi/u54IlkkYSdQdRhzDVKksxVAOBjqb+HU6J9gH0DFE/8OOrCyYGp94PKV
-         diVA==
-X-Gm-Message-State: AC+VfDyMxLAGBFlIQA1mVIj7pVqHwEqrDQqcvsx7z8unfHGkqnpwwtbd
-	ZpzRU4GnGoBwqggPbN/HQ/aseJgnWLmEX/R/VxGhpkP2/zSL6Bu0EfwaKpUZhmLrog==
-X-Google-Smtp-Source: ACHHUZ5lchCTtnRJ6eVN5qDdKzOkdNsF3S10Sj7105GusQ9zQjEcDno5o8ONPYDYYyC0yQ83PPwl6ONbdU0/
-X-Received: by 2002:a17:902:7e42:b0:1a9:20d6:3c3f with SMTP id a2-20020a1709027e4200b001a920d63c3fmr2324418pln.55.1685038937035;
-        Thu, 25 May 2023 11:22:17 -0700 (PDT)
-Received: from c7-smtp.dev.purestorage.com ([2620:125:9007:320:7:32:106:0])
-        by smtp-relay.gmail.com with ESMTPS id e12-20020a170902ed8c00b001ac3f74f49esm125637plj.4.2023.05.25.11.22.16
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 25 May 2023 11:22:17 -0700 (PDT)
-X-Relaying-Domain: purestorage.com
-Received: from dev-ushankar.dev.purestorage.com (dev-ushankar.dev.purestorage.com [IPv6:2620:125:9007:640:7:70:36:0])
-	by c7-smtp.dev.purestorage.com (Postfix) with ESMTP id D0567222A9;
-	Thu, 25 May 2023 12:22:15 -0600 (MDT)
-Received: by dev-ushankar.dev.purestorage.com (Postfix, from userid 1557716368)
-	id CB013E44A3D; Thu, 25 May 2023 12:22:15 -0600 (MDT)
-From: Uday Shankar <ushankar@purestorage.com>
-To: Costa Sapuntzakis <costa@purestorage.com>,
-	Randy Jennings <randyj@purestorage.com>,
-	Hannes Reinecke <hare@suse.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
+	Thu, 25 May 2023 18:31:54 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 185E86488D;
+	Thu, 25 May 2023 18:31:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52AA1C4339B;
+	Thu, 25 May 2023 18:31:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1685039511;
+	bh=qtzyEzDQ4ttmkO3L/rqrL/ykfQSxPIOGbQRfRH8HjBM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=KFv9kKLxs/FEkk1WiEiW2xN+3rcPVw7bta/m7RifJb2BkZhFimbYuEw9cA4QBOzR2
+	 VulORgXUvIAmIXgdQbKkfcGpFNSy7aIvzGvxHvNah+5fA74eozL4QRjhCuMb5Kgame
+	 Puz8bghC/R7kKfKueJh/BwXG8YPqlFBd3VWrI4fX/SurI0fHl69/BVJE9vZxNObaBD
+	 hYQUEuyqkoLvhyAxPdJiS+3bqjJPvCtXeur1VHbRSTIzNe18RmO/mbLjjAkykuzrOy
+	 1KU/As+6qWLNOrWs8j8yxvVV9lzXwqbptT0EzuJ+puWt+0MLxwTw2rN7YOpzWDJdr5
+	 MKZ6d2Jf1lbAA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Adrian Huang <ahuang12@lenovo.com>,
 	Keith Busch <kbusch@kernel.org>,
+	Jiwei Sun <sunjw10@lenovo.com>,
 	Christoph Hellwig <hch@lst.de>,
-	Jens Axboe <axboe@fb.com>
-Cc: Uday Shankar <ushankar@purestorage.com>,
+	Sasha Levin <sashal@kernel.org>,
+	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH v6 2/3] nvme: check IO start time when deciding to defer KA
-Date: Thu, 25 May 2023 12:22:03 -0600
-Message-Id: <20230525182204.1954429-3-ushankar@purestorage.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230525182204.1954429-1-ushankar@purestorage.com>
-References: <20230525182204.1954429-1-ushankar@purestorage.com>
+Subject: [PATCH AUTOSEL 6.3 03/67] nvme-pci: clamp max_hw_sectors based on DMA optimized limitation
+Date: Thu, 25 May 2023 14:30:40 -0400
+Message-Id: <20230525183144.1717540-3-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230525183144.1717540-1-sashal@kernel.org>
+References: <20230525183144.1717540-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230525_112219_276442_5415D486 
-X-CRM114-Status: GOOD (  19.53  )
+X-CRM114-CacheID: sfid-20230525_113152_580786_DF393515 
+X-CRM114-Status: GOOD (  16.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,99 +81,130 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When a command completes, we set a flag which will skip sending a
-keep alive at the next run of nvme_keep_alive_work when TBKAS is on.
-However, if the command was submitted long ago, it's possible that
-the controller may have also restarted its keep alive timer (as a
-result of receiving the command) long ago. The following trace
-demonstrates the issue, assuming TBKAS is on and KATO = 8 for
-simplicity:
+From: Adrian Huang <ahuang12@lenovo.com>
 
-1. t = 0: submit I/O commands A, B, C, D, E
-2. t = 0.5: commands A, B, C, D, E reach controller, restart its keep
-            alive timer
-3. t = 1: A completes
-4. t = 2: run nvme_keep_alive_work, see recent completion, do nothing
-5. t = 3: B completes
-6. t = 4: run nvme_keep_alive_work, see recent completion, do nothing
-7. t = 5: C completes
-8. t = 6: run nvme_keep_alive_work, see recent completion, do nothing
-9. t = 7: D completes
-10. t = 8: run nvme_keep_alive_work, see recent completion, do nothing
-11. t = 9: E completes
+[ Upstream commit 3710e2b056cb92ad816e4d79fa54a6a5b6ad8cbd ]
 
-At this point, 8.5 seconds have passed without restarting the
-controller's keep alive timer, so the controller will detect a keep
-alive timeout.
+When running the fio test on a 448-core AMD server + a NVME disk,
+a soft lockup or a hard lockup call trace is shown:
 
-Fix this by checking the IO start time when deciding to defer sending a
-keep alive command. Only set comp_seen if the command started after the
-most recent run of nvme_keep_alive_work. With this change, the
-completions of B, C, and D will not set comp_seen and the run of
-nvme_keep_alive_work at t = 4 will send a keep alive.
+[soft lockup]
+watchdog: BUG: soft lockup - CPU#126 stuck for 23s! [swapper/126:0]
+RIP: 0010:_raw_spin_unlock_irqrestore+0x21/0x50
+...
+Call Trace:
+ <IRQ>
+ fq_flush_timeout+0x7d/0xd0
+ ? __pfx_fq_flush_timeout+0x10/0x10
+ call_timer_fn+0x2e/0x150
+ run_timer_softirq+0x48a/0x560
+ ? __pfx_fq_flush_timeout+0x10/0x10
+ ? clockevents_program_event+0xaf/0x130
+ __do_softirq+0xf1/0x335
+ irq_exit_rcu+0x9f/0xd0
+ sysvec_apic_timer_interrupt+0xb4/0xd0
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30
+...
 
-Reported-by: Costa Sapuntzakis <costa@purestorage.com>
-Reported-by: Randy Jennings <randyj@purestorage.com>
-Signed-off-by: Uday Shankar <ushankar@purestorage.com>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Obvisouly, fq_flush_timeout spends over 20 seconds. Here is ftrace log:
+
+               |  fq_flush_timeout() {
+               |    fq_ring_free() {
+               |      put_pages_list() {
+   0.170 us    |        free_unref_page_list();
+   0.810 us    |      }
+               |      free_iova_fast() {
+               |        free_iova() {
+ * 85622.66 us |          _raw_spin_lock_irqsave();
+   2.860 us    |          remove_iova();
+   0.600 us    |          _raw_spin_unlock_irqrestore();
+   0.470 us    |          lock_info_report();
+   2.420 us    |          free_iova_mem.part.0();
+ * 85638.27 us |        }
+ * 85638.84 us |      }
+               |      put_pages_list() {
+   0.230 us    |        free_unref_page_list();
+   0.470 us    |      }
+   ...            ...
+ $ 31017069 us |  }
+
+Most of cores are under lock contention for acquiring iova_rbtree_lock due
+to the iova flush queue mechanism.
+
+[hard lockup]
+NMI watchdog: Watchdog detected hard LOCKUP on cpu 351
+RIP: 0010:native_queued_spin_lock_slowpath+0x2d8/0x330
+
+Call Trace:
+ <IRQ>
+ _raw_spin_lock_irqsave+0x4f/0x60
+ free_iova+0x27/0xd0
+ free_iova_fast+0x4d/0x1d0
+ fq_ring_free+0x9b/0x150
+ iommu_dma_free_iova+0xb4/0x2e0
+ __iommu_dma_unmap+0x10b/0x140
+ iommu_dma_unmap_sg+0x90/0x110
+ dma_unmap_sg_attrs+0x4a/0x50
+ nvme_unmap_data+0x5d/0x120 [nvme]
+ nvme_pci_complete_batch+0x77/0xc0 [nvme]
+ nvme_irq+0x2ee/0x350 [nvme]
+ ? __pfx_nvme_pci_complete_batch+0x10/0x10 [nvme]
+ __handle_irq_event_percpu+0x53/0x1a0
+ handle_irq_event_percpu+0x19/0x60
+ handle_irq_event+0x3d/0x60
+ handle_edge_irq+0xb3/0x210
+ __common_interrupt+0x7f/0x150
+ common_interrupt+0xc5/0xf0
+ </IRQ>
+ <TASK>
+ asm_common_interrupt+0x2b/0x40
+...
+
+ftrace shows fq_ring_free spends over 10 seconds [1]. Again, most of
+cores are under lock contention for acquiring iova_rbtree_lock due
+to the iova flush queue mechanism.
+
+[Root Cause]
+The root cause is that the max_hw_sectors_kb of nvme disk (mdts=10)
+is 4096kb, which streaming DMA mappings cannot benefit from the
+scalable IOVA mechanism introduced by the commit 9257b4a206fc
+("iommu/iova: introduce per-cpu caching to iova allocation") if
+the length is greater than 128kb.
+
+To fix the lock contention issue, clamp max_hw_sectors based on
+DMA optimized limitation in order to leverage scalable IOVA mechanism.
+
+Note: The issue does not happen with another NVME disk (mdts = 5
+and max_hw_sectors_kb = 128)
+
+[1] https://gist.github.com/AdrianHuang/bf8ec7338204837631fbdaed25d19cc4
+
+Suggested-by: Keith Busch <kbusch@kernel.org>
+Reported-and-tested-by: Jiwei Sun <sunjw10@lenovo.com>
+Signed-off-by: Adrian Huang <ahuang12@lenovo.com>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/core.c | 14 +++++++++++++-
- drivers/nvme/host/nvme.h |  1 +
- 2 files changed, 14 insertions(+), 1 deletion(-)
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 5ad2b9b0d3b9..1c86780342fe 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -397,7 +397,16 @@ void nvme_complete_rq(struct request *req)
- 	trace_nvme_complete_rq(req);
- 	nvme_cleanup_cmd(req);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index a7772c0194d5a..a389f1ea0b151 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2960,7 +2960,7 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
+ 	 * over a single page.
+ 	 */
+ 	dev->ctrl.max_hw_sectors = min_t(u32,
+-		NVME_MAX_KB_SZ << 1, dma_max_mapping_size(&pdev->dev) >> 9);
++		NVME_MAX_KB_SZ << 1, dma_opt_mapping_size(&pdev->dev) >> 9);
+ 	dev->ctrl.max_segments = NVME_MAX_SEGS;
  
--	if (ctrl->kas)
-+	/*
-+	 * Completions of long-running commands should not be able to
-+	 * defer sending of periodic keep alives, since the controller
-+	 * may have completed processing such commands a long time ago
-+	 * (arbitrarily close to command submission time).
-+	 * req->deadline - req->timeout is the command submission time
-+	 * in jiffies.
-+	 */
-+	if (ctrl->kas &&
-+	    req->deadline - req->timeout >= ctrl->ka_last_check_time)
- 		ctrl->comp_seen = true;
- 
- 	switch (nvme_decide_disposition(req)) {
-@@ -1198,6 +1207,7 @@ static enum rq_end_io_ret nvme_keep_alive_end_io(struct request *rq,
- 		return RQ_END_IO_NONE;
- 	}
- 
-+	ctrl->ka_last_check_time = jiffies;
- 	ctrl->comp_seen = false;
- 	spin_lock_irqsave(&ctrl->lock, flags);
- 	if (ctrl->state == NVME_CTRL_LIVE ||
-@@ -1216,6 +1226,8 @@ static void nvme_keep_alive_work(struct work_struct *work)
- 	bool comp_seen = ctrl->comp_seen;
- 	struct request *rq;
- 
-+	ctrl->ka_last_check_time = jiffies;
-+
- 	if ((ctrl->ctratt & NVME_CTRL_ATTR_TBKAS) && comp_seen) {
- 		dev_dbg(ctrl->device,
- 			"reschedule traffic based keep-alive timer\n");
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index f0a84e390a55..2953400e5590 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -323,6 +323,7 @@ struct nvme_ctrl {
- 	struct delayed_work ka_work;
- 	struct delayed_work failfast_work;
- 	struct nvme_command ka_cmd;
-+	unsigned long ka_last_check_time;
- 	struct work_struct fw_act_work;
- 	unsigned long events;
- 
+ 	/*
 -- 
-2.25.1
+2.39.2
 
 
