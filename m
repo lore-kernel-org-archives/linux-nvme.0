@@ -4,69 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 22481C7EE31
-	for <linux-nvme@archiver.kernel.org>; Thu, 25 May 2023 18:31:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8ADA8C77B7A
+	for <linux-nvme@archiver.kernel.org>; Thu, 25 May 2023 18:31:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wNfDJUqDFRPUpXWcBNMbiqmjWPqXoeLCZQXlJJ/XwnY=; b=0LhWNc/fKpB8OpiyytIHQIJMdC
-	rB0KQYrpUqNz43iN9h79edKp7rV1AJ9MQf+LLDYLoApKv7JQTXlMLV/uJiHTU/jdjgqlfy7yajObp
-	OrDZoF8bTicFFgFRtlh22GYVxyAL8IxipNcMDlAprJXYVFmJGYYpD+o8un+33CRq9Pb6ipme6EWG4
-	yLiA0gsSOGqqgtn3y8j9uazn85YpBuCSQ+ktiJTEofxsCmUKweI8zUMthnknoThEMNXyZjWa5LCF5
-	rgNngcA+8JDvwvYqpgyDN4L+x2g1lIdXSaUiX3/9BhiT9X2udT6ax2ftbx9zD1saMsOodmPd7LURx
-	h1hM6OFQ==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=iHB6VTUcqNeB0TeRLNt0Td7PJVizyqaOkRVm3TGb2Mc=; b=nbIQsEYrQ7/COOLzftTIPHjm5G
+	2aiQc4f3NFcupYXKGfWUYiXWtNPEh7Qoswzr8NxZQbFquG0To33OpH3fPERCvqEmCAuGfGIWROeKK
+	U0Ayk85TMFgaaWzV2Y5BazEFJocY6pU9SJU4G9AhBB7wDXYY30g0UKE9sh0YNxPeZILuHLsrONHjT
+	c8AOUwRKzQvQlO8B3zMLdURPayBBcYrlWsl1Tkqm8y2cNfB+KmYP0GeG5opPdzLYo/nZR2X5VWEjG
+	PVdYkbjdGOmjDup1GzlZH7yclluR4AzMGyT2C7tj6ip2pHieFlY3vcCt3gU3wL+wEfRTM2oZAtKsM
+	sXknzALA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q2Fki-00HOz1-0d;
-	Thu, 25 May 2023 18:31:56 +0000
+	id 1q2Fkf-00HOxe-2y;
+	Thu, 25 May 2023 18:31:53 +0000
 Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q2Fke-00HOx6-1V
+	id 1q2Fkc-00HOwF-1F
 	for linux-nvme@lists.infradead.org;
-	Thu, 25 May 2023 18:31:54 +0000
+	Thu, 25 May 2023 18:31:51 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 185E86488D;
-	Thu, 25 May 2023 18:31:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52AA1C4339B;
-	Thu, 25 May 2023 18:31:50 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 54D07619E5;
+	Thu, 25 May 2023 18:31:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5C4DC433EF;
+	Thu, 25 May 2023 18:31:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1685039511;
-	bh=qtzyEzDQ4ttmkO3L/rqrL/ykfQSxPIOGbQRfRH8HjBM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KFv9kKLxs/FEkk1WiEiW2xN+3rcPVw7bta/m7RifJb2BkZhFimbYuEw9cA4QBOzR2
-	 VulORgXUvIAmIXgdQbKkfcGpFNSy7aIvzGvxHvNah+5fA74eozL4QRjhCuMb5Kgame
-	 Puz8bghC/R7kKfKueJh/BwXG8YPqlFBd3VWrI4fX/SurI0fHl69/BVJE9vZxNObaBD
-	 hYQUEuyqkoLvhyAxPdJiS+3bqjJPvCtXeur1VHbRSTIzNe18RmO/mbLjjAkykuzrOy
-	 1KU/As+6qWLNOrWs8j8yxvVV9lzXwqbptT0EzuJ+puWt+0MLxwTw2rN7YOpzWDJdr5
-	 MKZ6d2Jf1lbAA==
+	s=k20201202; t=1685039507;
+	bh=VFjO42l3luArZ4psdOiK4HwyLgEcsNzr91BCbnzwSXI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=WWDqDeQxEIkw+zhSJXSG3t9VTEDmZCqsmxGW39Nf4hCDCCWQo530dRPnkGMv0nS4b
+	 RtKxeRtBEV1jfeoU1GgZdqXueUo7LgStSIWFCCMsASCTxP/LbA62RwHD/oLq2tkQ7t
+	 R/1b7n7ge3IZBP9EAjhWzldeG1+5mfqc/Qd66wGyRLslw4jwux/LTK/TFVu8pWQplu
+	 nTI1Wmt3G/hi5ZE9KgqzSJ2fYNA8xYr83784/elAoISGjlKOUjrrR5aA6YK+RlTiyX
+	 6pZb1TEsvrNHy9tkuhn/wxGKcDRkHTr1OMRw0v1f1sjVAoHofZsJfb03t8AySI0T6X
+	 bodb7uN01uy2w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Adrian Huang <ahuang12@lenovo.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Jiwei Sun <sunjw10@lenovo.com>,
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Andrey God <andreygod83@protonmail.com>,
 	Christoph Hellwig <hch@lst.de>,
 	Sasha Levin <sashal@kernel.org>,
-	sagi@grimberg.me,
+	kbusch@kernel.org,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.3 03/67] nvme-pci: clamp max_hw_sectors based on DMA optimized limitation
-Date: Thu, 25 May 2023 14:30:40 -0400
-Message-Id: <20230525183144.1717540-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.3 01/67] nvme-pci: add NVME_QUIRK_BOGUS_NID for HS-SSD-FUTURE 2048G
+Date: Thu, 25 May 2023 14:30:38 -0400
+Message-Id: <20230525183144.1717540-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230525183144.1717540-1-sashal@kernel.org>
-References: <20230525183144.1717540-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230525_113152_580786_DF393515 
-X-CRM114-Status: GOOD (  16.34  )
+X-CRM114-CacheID: sfid-20230525_113150_481751_140168DA 
+X-CRM114-Status: GOOD (  12.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,129 +78,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Adrian Huang <ahuang12@lenovo.com>
+From: Sagi Grimberg <sagi@grimberg.me>
 
-[ Upstream commit 3710e2b056cb92ad816e4d79fa54a6a5b6ad8cbd ]
+[ Upstream commit 1616d6c3717bae9041a4240d381ec56ccdaafedc ]
 
-When running the fio test on a 448-core AMD server + a NVME disk,
-a soft lockup or a hard lockup call trace is shown:
+Add a quirk to fix HS-SSD-FUTURE 2048G SSD drives reporting duplicate
+nsids.
 
-[soft lockup]
-watchdog: BUG: soft lockup - CPU#126 stuck for 23s! [swapper/126:0]
-RIP: 0010:_raw_spin_unlock_irqrestore+0x21/0x50
-...
-Call Trace:
- <IRQ>
- fq_flush_timeout+0x7d/0xd0
- ? __pfx_fq_flush_timeout+0x10/0x10
- call_timer_fn+0x2e/0x150
- run_timer_softirq+0x48a/0x560
- ? __pfx_fq_flush_timeout+0x10/0x10
- ? clockevents_program_event+0xaf/0x130
- __do_softirq+0xf1/0x335
- irq_exit_rcu+0x9f/0xd0
- sysvec_apic_timer_interrupt+0xb4/0xd0
- </IRQ>
- <TASK>
- asm_sysvec_apic_timer_interrupt+0x1f/0x30
-...
-
-Obvisouly, fq_flush_timeout spends over 20 seconds. Here is ftrace log:
-
-               |  fq_flush_timeout() {
-               |    fq_ring_free() {
-               |      put_pages_list() {
-   0.170 us    |        free_unref_page_list();
-   0.810 us    |      }
-               |      free_iova_fast() {
-               |        free_iova() {
- * 85622.66 us |          _raw_spin_lock_irqsave();
-   2.860 us    |          remove_iova();
-   0.600 us    |          _raw_spin_unlock_irqrestore();
-   0.470 us    |          lock_info_report();
-   2.420 us    |          free_iova_mem.part.0();
- * 85638.27 us |        }
- * 85638.84 us |      }
-               |      put_pages_list() {
-   0.230 us    |        free_unref_page_list();
-   0.470 us    |      }
-   ...            ...
- $ 31017069 us |  }
-
-Most of cores are under lock contention for acquiring iova_rbtree_lock due
-to the iova flush queue mechanism.
-
-[hard lockup]
-NMI watchdog: Watchdog detected hard LOCKUP on cpu 351
-RIP: 0010:native_queued_spin_lock_slowpath+0x2d8/0x330
-
-Call Trace:
- <IRQ>
- _raw_spin_lock_irqsave+0x4f/0x60
- free_iova+0x27/0xd0
- free_iova_fast+0x4d/0x1d0
- fq_ring_free+0x9b/0x150
- iommu_dma_free_iova+0xb4/0x2e0
- __iommu_dma_unmap+0x10b/0x140
- iommu_dma_unmap_sg+0x90/0x110
- dma_unmap_sg_attrs+0x4a/0x50
- nvme_unmap_data+0x5d/0x120 [nvme]
- nvme_pci_complete_batch+0x77/0xc0 [nvme]
- nvme_irq+0x2ee/0x350 [nvme]
- ? __pfx_nvme_pci_complete_batch+0x10/0x10 [nvme]
- __handle_irq_event_percpu+0x53/0x1a0
- handle_irq_event_percpu+0x19/0x60
- handle_irq_event+0x3d/0x60
- handle_edge_irq+0xb3/0x210
- __common_interrupt+0x7f/0x150
- common_interrupt+0xc5/0xf0
- </IRQ>
- <TASK>
- asm_common_interrupt+0x2b/0x40
-...
-
-ftrace shows fq_ring_free spends over 10 seconds [1]. Again, most of
-cores are under lock contention for acquiring iova_rbtree_lock due
-to the iova flush queue mechanism.
-
-[Root Cause]
-The root cause is that the max_hw_sectors_kb of nvme disk (mdts=10)
-is 4096kb, which streaming DMA mappings cannot benefit from the
-scalable IOVA mechanism introduced by the commit 9257b4a206fc
-("iommu/iova: introduce per-cpu caching to iova allocation") if
-the length is greater than 128kb.
-
-To fix the lock contention issue, clamp max_hw_sectors based on
-DMA optimized limitation in order to leverage scalable IOVA mechanism.
-
-Note: The issue does not happen with another NVME disk (mdts = 5
-and max_hw_sectors_kb = 128)
-
-[1] https://gist.github.com/AdrianHuang/bf8ec7338204837631fbdaed25d19cc4
-
-Suggested-by: Keith Busch <kbusch@kernel.org>
-Reported-and-tested-by: Jiwei Sun <sunjw10@lenovo.com>
-Signed-off-by: Adrian Huang <ahuang12@lenovo.com>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=217384
+Reported-by: Andrey God <andreygod83@protonmail.com>
+Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/pci.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a7772c0194d5a..a389f1ea0b151 100644
+index cd7873de31215..bbf96567365cd 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -2960,7 +2960,7 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
- 	 * over a single page.
- 	 */
- 	dev->ctrl.max_hw_sectors = min_t(u32,
--		NVME_MAX_KB_SZ << 1, dma_max_mapping_size(&pdev->dev) >> 9);
-+		NVME_MAX_KB_SZ << 1, dma_opt_mapping_size(&pdev->dev) >> 9);
- 	dev->ctrl.max_segments = NVME_MAX_SEGS;
- 
- 	/*
+@@ -3445,6 +3445,8 @@ static const struct pci_device_id nvme_id_table[] = {
+ 				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
+ 	{ PCI_DEVICE(0x10ec, 0x5763), /* TEAMGROUP T-FORCE CARDEA ZERO Z330 SSD */
+ 		.driver_data = NVME_QUIRK_BOGUS_NID, },
++	{ PCI_DEVICE(0x1e4b, 0x1602), /* HS-SSD-FUTURE 2048G  */
++		.driver_data = NVME_QUIRK_BOGUS_NID, },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_AMAZON, 0x0061),
+ 		.driver_data = NVME_QUIRK_DMA_ADDRESS_BITS_48, },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_AMAZON, 0x0065),
 -- 
 2.39.2
 
