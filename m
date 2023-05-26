@@ -4,48 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 240D3C77B7A
-	for <linux-nvme@archiver.kernel.org>; Fri, 26 May 2023 09:22:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4FF09C77B73
+	for <linux-nvme@archiver.kernel.org>; Fri, 26 May 2023 14:32:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=Sr/gOOVCPXuR/T9hrp+akC2xS9
-	0y3kr4sIjUPci3L9ZeGLmxpgJY5BfMV4e/nvVudSQsWM3R3YRqbeuYIFNElRccQITeBIz+xF5nikC
-	WURyK2icD/zsl7lzLrcwEkCTy1aa6YJCsrklXU4Ew9UqMxsAvg91QdXgydPcKPf/nVo4sUu2ivjsZ
-	74PQ9DfQceRqcDzAfPLIbHypbm7+OBrWMjbl/gnTqGl7eEIntphl6caTc40ynZkNliZLvT4FOYooP
-	xjwaazCKSmxB7FYFFYOBWQsZO28Iys/Jw7YR8FHGR/jQfi270c0Tt26Y2JUTq9XbJ33tgCG6WTyrC
-	4iRgV1Wg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=UB5GBQFweZUWjgDcOnDYdTqCiqD9xyzydwjoRdzZYzw=; b=RpOZSKYlehQ9VUYQHs4nbDSQq5
+	l57y8KEgN17rcWs1zO6v5j60udFWbwdXVBsIqFDwxiXayy2Z3EdooD71pWMahuaCjfO36qFfWOu2a
+	1s/5AqPrJmIih7QKTCpr6t/YSZV/SzVimd2tMjrFpD7aqQZkl6lu82JfH22A0QP0bkN13Th52EwEx
+	+/c5HoTC7DUJFNX88ZyqdQr/skKvC6ZGXgiNOq7liS22MtydEG0hPTF8Uq5lN5qDkFXhh6U8UZ536
+	eorazvPfuN71aP7XtE64Az6jm3qUkTgQdGX8VY74c/FfxcLbTLhzSMy/WKnSHe6hKA3urpnw7VUwd
+	Nx+Ufg2Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q2Tea-001mCr-1G;
-	Fri, 26 May 2023 09:22:32 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1q2YUC-002nnc-09;
+	Fri, 26 May 2023 14:32:08 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q2TeY-001mAp-0j
+	id 1q2YU8-002nld-23
 	for linux-nvme@lists.infradead.org;
-	Fri, 26 May 2023 09:22:31 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id EF00068D09; Fri, 26 May 2023 11:22:16 +0200 (CEST)
-Date: Fri, 26 May 2023 11:22:16 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: "min15.li" <min15.li@samsung.com>
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] nvme: fix miss command type check
-Message-ID: <20230526092216.GA22450@lst.de>
-References: <CGME20230526090834epcas5p197a90228102b26759f9b957c50d3bb6b@epcas5p1.samsung.com> <20230526170656.55303-1-min15.li@samsung.com>
+	Fri, 26 May 2023 14:32:06 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out2.suse.de (Postfix) with ESMTP id E9BC61FD83;
+	Fri, 26 May 2023 14:31:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1685111519; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UB5GBQFweZUWjgDcOnDYdTqCiqD9xyzydwjoRdzZYzw=;
+	b=DpMmZsj5zdIs8rrJ/s/SbB4Rzh8g54S8Lv7obVO+ySkKC904jCo1rpwbGWjysW+5WTYX78
+	jGcQeVAfIM08sSUGJJf/7e8+RG59SAPDLxD8d3SfhxhY07VWvNrQp1ZiwPBEp1SCYIAZO/
+	6VUDnh1JjqlhIdhBXOMtkCMR5ACuyzc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1685111519;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UB5GBQFweZUWjgDcOnDYdTqCiqD9xyzydwjoRdzZYzw=;
+	b=h2IIeg6H1qdXRibjQPJQwx8uoYScGloE1/jabmR7p3AF4cv6CLNc8KiyAOz/KVkBDMnWu9
+	OZPdiwslO8S69IDQ==
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+	by relay2.suse.de (Postfix) with ESMTP id C7B932C145;
+	Fri, 26 May 2023 14:31:59 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 16045)
+	id BD51951C3F44; Fri, 26 May 2023 16:31:58 +0200 (CEST)
+From: Hannes Reinecke <hare@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@suse.de>,
+	Boris Pismenny <boris.pismenny@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	netdev@vger.kernel.org
+Subject: [PATCH 3/3] net/tls: implement ->read_sock()
+Date: Fri, 26 May 2023 16:31:52 +0200
+Message-Id: <20230526143152.53954-4-hare@suse.de>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20230526143152.53954-1-hare@suse.de>
+References: <20230526143152.53954-1-hare@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230526170656.55303-1-min15.li@samsung.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230526_022230_429258_A6F78AC7 
-X-CRM114-Status: UNSURE (   8.71  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230526_073204_843809_ADFBE2F2 
+X-CRM114-Status: GOOD (  15.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,7 +87,130 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good:
+Implement ->read_sock() function for use with nvme-tcp.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+Cc: Boris Pismenny <boris.pismenny@gmail.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org
+---
+ net/tls/tls.h      |  2 ++
+ net/tls/tls_main.c |  2 ++
+ net/tls/tls_sw.c   | 71 ++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 75 insertions(+)
+
+diff --git a/net/tls/tls.h b/net/tls/tls.h
+index 804c3880d028..a5bf3a9ce142 100644
+--- a/net/tls/tls.h
++++ b/net/tls/tls.h
+@@ -113,6 +113,8 @@ bool tls_sw_sock_is_readable(struct sock *sk);
+ ssize_t tls_sw_splice_read(struct socket *sock, loff_t *ppos,
+ 			   struct pipe_inode_info *pipe,
+ 			   size_t len, unsigned int flags);
++int tls_sw_read_sock(struct sock *sk, read_descriptor_t *desc,
++		     sk_read_actor_t read_actor);
+ 
+ int tls_device_sendmsg(struct sock *sk, struct msghdr *msg, size_t size);
+ int tls_device_sendpage(struct sock *sk, struct page *page,
+diff --git a/net/tls/tls_main.c b/net/tls/tls_main.c
+index f2e7302a4d96..767297a029b9 100644
+--- a/net/tls/tls_main.c
++++ b/net/tls/tls_main.c
+@@ -922,9 +922,11 @@ static void build_proto_ops(struct proto_ops ops[TLS_NUM_CONFIG][TLS_NUM_CONFIG]
+ 
+ 	ops[TLS_BASE][TLS_SW  ] = ops[TLS_BASE][TLS_BASE];
+ 	ops[TLS_BASE][TLS_SW  ].splice_read	= tls_sw_splice_read;
++	ops[TLS_BASE][TLS_SW  ].read_sock	= tls_sw_read_sock;
+ 
+ 	ops[TLS_SW  ][TLS_SW  ] = ops[TLS_SW  ][TLS_BASE];
+ 	ops[TLS_SW  ][TLS_SW  ].splice_read	= tls_sw_splice_read;
++	ops[TLS_SW  ][TLS_SW  ].read_sock	= tls_sw_read_sock;
+ 
+ #ifdef CONFIG_TLS_DEVICE
+ 	ops[TLS_HW  ][TLS_BASE] = ops[TLS_BASE][TLS_BASE];
+diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
+index be8e0459d403..9bee2dcd55bf 100644
+--- a/net/tls/tls_sw.c
++++ b/net/tls/tls_sw.c
+@@ -2219,6 +2219,77 @@ ssize_t tls_sw_splice_read(struct socket *sock,  loff_t *ppos,
+ 	goto splice_read_end;
+ }
+ 
++int tls_sw_read_sock(struct sock *sk, read_descriptor_t *desc,
++		     sk_read_actor_t read_actor)
++{
++	struct tls_context *tls_ctx = tls_get_ctx(sk);
++	struct tls_sw_context_rx *ctx = tls_sw_ctx_rx(tls_ctx);
++	struct strp_msg *rxm = NULL;
++	struct tls_msg *tlm;
++	struct sk_buff *skb;
++	ssize_t copied = 0;
++	int err, used;
++
++	if (!skb_queue_empty(&ctx->rx_list)) {
++		skb = __skb_dequeue(&ctx->rx_list);
++	} else {
++		struct tls_decrypt_arg darg;
++
++		err = tls_rx_rec_wait(sk, NULL, true, true);
++		if (err <= 0)
++			return err;
++
++		memset(&darg.inargs, 0, sizeof(darg.inargs));
++
++		err = tls_rx_one_record(sk, NULL, &darg);
++		if (err < 0) {
++			tls_err_abort(sk, -EBADMSG);
++			return err;
++		}
++
++		tls_rx_rec_done(ctx);
++		skb = darg.skb;
++	}
++
++	do {
++		rxm = strp_msg(skb);
++		tlm = tls_msg(skb);
++
++		/* read_sock does not support reading control messages */
++		if (tlm->control != TLS_RECORD_TYPE_DATA) {
++			err = -EINVAL;
++			goto read_sock_requeue;
++		}
++
++		used = read_actor(desc, skb, rxm->offset, rxm->full_len);
++		if (used <= 0) {
++			err = used;
++			goto read_sock_end;
++		}
++
++		copied += used;
++		if (used < rxm->full_len) {
++			rxm->offset += used;
++			rxm->full_len -= used;
++			if (!desc->count)
++				goto read_sock_requeue;
++		} else {
++			consume_skb(skb);
++			if (desc->count && !skb_queue_empty(&ctx->rx_list))
++				skb = __skb_dequeue(&ctx->rx_list);
++			else
++				skb = NULL;
++		}
++	} while (skb);
++
++read_sock_end:
++	return copied ? : err;
++
++read_sock_requeue:
++	__skb_queue_head(&ctx->rx_list, skb);
++	goto read_sock_end;
++}
++
+ bool tls_sw_sock_is_readable(struct sock *sk)
+ {
+ 	struct tls_context *tls_ctx = tls_get_ctx(sk);
+-- 
+2.35.3
+
 
