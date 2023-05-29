@@ -4,63 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D951BC7EE2E
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 May 2023 10:59:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 74BE2C77B7A
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 May 2023 10:59:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=5QRkls60EmwfQ094Jr/DUlSJC+fZUUu7sTN4HHKuK4E=; b=J+4p1cuVaplBtbnyfnkxXihDXO
-	IPs0y6fs1SdG0aGr8qjnwddcC5Zd/GFsT1WFzFDoYIwOrDqD0a+Nt/q57YSpxMcLmpmm/x1byoh7D
-	kXLcgh88cMy6pZwyyhhIIq4TLtaqCJp6tS3wksHhErHheCNebf49Hlt0m7PRmbXG/qtEIFIviRRTs
-	G7udQ8w0aS1BVgG4PZgQpbqapmAb4RW8guJ3NwZ91wDNIa99hXwlRvsgAFMWgXue2YYOJ3DUZ5bQZ
-	GonFXB9H3HugmL6CDVaOM67t+xH7m5athXtfbaRQfqvDhtgDnTZViyMQAR3KrzQxzbuawyasdq0VS
-	hc4VpWKg==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=63KAqVVdXGOoTrSylFFLhnHQleDcSgfdSMcTbn9SMvM=; b=Nwoyf1NM0BbJqFL0HEZpBLG8VW
+	8HsvfL4lgz66+aaYft4+JPxvLaqIYH2ux02beaCZ5qFvezlLKouEuLw559PIsKxoxgQVm/X9rZyVR
+	5/4Z91eOpuON7qUDNaWiqB5YljKWRt1TtogAI03YrqAw9JjiiR+fQC0cbsM+f7cZ5eW3SpAgTbqrt
+	ZcjX1zaZwy5KBbojnzlMo7/PRNhAMYiRiinLmQrGE48VUyz9j+DgbbrDHyGjhPYuqbHJTbdxO2VP/
+	fiqMj3lHhnU8wkmo/RlcZmYkzFLNx9OxgmK3gqGRezKDtiLy/RmygXZIQKYg6fZALgaI/+BNoTCCg
+	Q6WqmKJw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q3ab8-00ACxp-2g;
-	Mon, 29 May 2023 10:59:34 +0000
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
+	id 1q3abB-00ACyr-13;
+	Mon, 29 May 2023 10:59:37 +0000
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q3ab5-00ACwJ-2n
+	id 1q3ab9-00ACxq-1d
 	for linux-nvme@lists.infradead.org;
-	Mon, 29 May 2023 10:59:33 +0000
-Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-64d5f65a2f7so2329177b3a.1
-        for <linux-nvme@lists.infradead.org>; Mon, 29 May 2023 03:59:30 -0700 (PDT)
+	Mon, 29 May 2023 10:59:36 +0000
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-64d341bdedcso2299016b3a.3
+        for <linux-nvme@lists.infradead.org>; Mon, 29 May 2023 03:59:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685357970; x=1687949970;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5QRkls60EmwfQ094Jr/DUlSJC+fZUUu7sTN4HHKuK4E=;
-        b=hLPEdmjEn3Le+3iayfK0IFFeTrXuMhiSMq7EnaISokJmJIgx05EZOqn3PJsdmZ4DWJ
-         hLydpDmyTtF0McFS/B+inVIQa6oNItzj9uzg/mGq7mnYp2CwuNB4aAmWNHrUyFugWn1s
-         ENbAU7SLz9Oze6cyNXuYAsyqnk3IHwlUdFkbQqgfUKHcRciGQM4wNo7bvZn11Cz6SgqH
-         vcUHGn53MHErUGiSd6WlMq2p/gNKegUrZQhi3ES7XOZUIV5uZCuStijNcl3/KekbqYfr
-         TitfVnnNPtwkffVfWc0gLlFSpYlYSey7pCcDRvLgCGKM4pWXDg95IPyx8j52bALZy8JT
-         Sdaw==
+        d=gmail.com; s=20221208; t=1685357974; x=1687949974;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=63KAqVVdXGOoTrSylFFLhnHQleDcSgfdSMcTbn9SMvM=;
+        b=oiRjRhuNdihyDtRj+itgk5qVaD+34X0RfxNTyBxmlm4vY8ELsjSxUz0O1elP8t9f0S
+         yl3FEaNNR3nohNXCGbFai7uzra7YrPJWEy8wft+1ozLwGRaK8tgIGyq7mBG7Dxm/qi1P
+         P+gTHnb9AaarJWzOpYCrYC7Az8hBU8y14pKdc/YuH/3DL9AUNmqaJZYNUOa6W0EQ69n3
+         u67bXvHhHso46v+9DH55bCwp3UA7FDUsOyAe3Vs66Mt4VqH6e6aO7ZHsLZaCSN+UnLqp
+         ruOyNwYAcwzLPgF49it5/8CDzSqj3yt77nHPZxLaH4ZSOGG2i4lGlgW0vPNt/AKPgwBk
+         /4gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685357970; x=1687949970;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5QRkls60EmwfQ094Jr/DUlSJC+fZUUu7sTN4HHKuK4E=;
-        b=e9u+PXwOjjMN42xjXZ1rBM0ug9y43TOAUpOHVyvfvxpQ+vRcOE32JklIIyUoQ8Wxvm
-         5nZ721Sj/dVajgv250BJAhnMHvHWuV0UpGkpfNcfWqAlNtnWOM0OIjebVEPlj7eeo5EW
-         GLY4CXznk/R1i8kJceCOH2DbT/NFGdzTe/j8Z+W4k8Za6RdIxwbdzRyoDroL2k1GoDru
-         66clK1ITMtuy1zL9DVLXZo4Ys4/nx19VqNI9WbgubRCNpPLKmSz25+EhTEn0Z6hY4DxX
-         7mk2DZuIf3d1cdcmJl9MwprPHfGyQlnWamXqqKYaMzxNaduFN3Yr4lTYLUmiyV2/d65w
-         Vg3Q==
-X-Gm-Message-State: AC+VfDxx5vWXrh0GbtaQBuxV+zAWd1wZOdL+80I5aSEO/Uvqzzs0v2da
-	nVG6Sa7155/guJ5agte9NPE=
-X-Google-Smtp-Source: ACHHUZ5GkpLFkPZpDSKTHi7pxwqcMH5Rk8T6rfmGorTWoXyzCcO47wWG6G7+wwUTgJPV3Sb2UVVPQg==
-X-Received: by 2002:a05:6a20:12d2:b0:10e:a8e6:35d1 with SMTP id v18-20020a056a2012d200b0010ea8e635d1mr8777665pzg.40.1685357969989;
-        Mon, 29 May 2023 03:59:29 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1685357974; x=1687949974;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=63KAqVVdXGOoTrSylFFLhnHQleDcSgfdSMcTbn9SMvM=;
+        b=RoJl18z9tFI0PGvl9J51LvKrOtS1SzqdhlP5Yxm6eJ09ZNJ1aw/3tK8oMwbGE/JM43
+         gNqALdRX+aRn4PIYGsgsgK26aAJvbkqX+3iCsZNI87qSQ2dRcIZ0X1HLwmq/HPbM//D+
+         ZoA519F1vm68emgaiHVmGxqeR7v1FnGCjEOkRQJ16Yhqqq9b7v4BfJgu7BU1wrm1N9YW
+         XLUddqZIVnZT3sy/wgiXxcrXNoDKhBRTV9WcJpcX0Db1kGJK6jiufUx+rAgKanbFth+l
+         PhBKeh36zrupkafRHkoC5aZPTDvLTcb+EdFhIRO3pcYNmYjxbnwHNG1m++PZpgpVDqZt
+         rs/Q==
+X-Gm-Message-State: AC+VfDzqxxK3eioumQIfXtWxj0jlIxT3LI2jjp9YvI1mhi0TIRHhHOMV
+	ohJD68yrrgHqFCzL4nd/g+s=
+X-Google-Smtp-Source: ACHHUZ4h0oIv5BoInIChTF6doTA25m5LmNP6412qwvIAH1L0J0bj9+NiqrJQcu5Qd3qNfQLeOGhhQg==
+X-Received: by 2002:a05:6a21:32a2:b0:10f:96aa:9e4a with SMTP id yt34-20020a056a2132a200b0010f96aa9e4amr9774800pzb.2.1685357974245;
+        Mon, 29 May 2023 03:59:34 -0700 (PDT)
 Received: from localhost.localdomain ([143.92.64.20])
-        by smtp.gmail.com with ESMTPSA id v7-20020a63d547000000b0053f22b76cdcsm6863110pgi.82.2023.05.29.03.59.28
+        by smtp.gmail.com with ESMTPSA id v7-20020a63d547000000b0053f22b76cdcsm6863110pgi.82.2023.05.29.03.59.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 May 2023 03:59:29 -0700 (PDT)
+        Mon, 29 May 2023 03:59:33 -0700 (PDT)
 From: "brookxu.cn" <brookxu.cn@gmail.com>
 To: kbusch@kernel.org,
 	axboe@kernel.dk,
@@ -68,15 +69,17 @@ To: kbusch@kernel.org,
 	sagi@grimberg.me
 Cc: linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 0/4] nvme-tcp: fix hung issues for deleting
-Date: Mon, 29 May 2023 18:59:22 +0800
-Message-Id: <cover.1685350577.git.chunguang.xu@shopee.com>
+Subject: [RFC PATCH 2/4] nvme: donot retry request for NVME_CTRL_DELETING_NOIO
+Date: Mon, 29 May 2023 18:59:24 +0800
+Message-Id: <41041f049985675f95a38bdd8bb998c5a4ab140c.1685350577.git.chunguang.xu@shopee.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1685350577.git.chunguang.xu@shopee.com>
+References: <cover.1685350577.git.chunguang.xu@shopee.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230529_035931_926125_016C1503 
-X-CRM114-Status: GOOD (  10.00  )
+X-CRM114-CacheID: sfid-20230529_035935_542063_CE0555C5 
+X-CRM114-Status: GOOD (  12.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,97 +96,37 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Chunguang Xu <chunguang.xu@shopee.com>
 
-We found that nvme_remove_namespaces() may hang in flush_work(&ctrl->scan_work)
-while removing ctrl. The root cause may due to the state of ctrl changed to
-NVME_CTRL_DELETING while removing ctrl , which intterupt nvme_tcp_error_recovery_work()/
-nvme_reset_ctrl_work()/nvme_tcp_reconnect_or_remove().  At this time, ctrl is
-freezed and queue is quiescing . Since scan_work may continue to issue IOs to
-load partition table, make it blocked, and lead to nvme_tcp_error_recovery_work()
-hang in flush_work(&ctrl->scan_work).
+According to NVME_CTRL_DELETING_NOIO definition, we should
+not requeue any request while controller at this state.
 
-After analyzation, we found that there are mainly two case: 
-1. Since ctrl is freeze, scan_work hang in __bio_queue_enter() while it issue
-   new IO to load partition table.
-2. Since queus is quiescing, requeue timeouted IO may hang in hctx->dispatch
-   queue, leading scan_work waiting for IO completion.
+Signed-off-by: Chunguang Xu <chunguang.xu@shopee.com>
+---
+ drivers/nvme/host/core.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-CallTrace:
-Removing nvme_ctrl
-[<0>] __flush_work+0x14c/0x280
-[<0>] flush_work+0x14/0x20
-[<0>] nvme_remove_namespaces+0x45/0x100
-[<0>] nvme_do_delete_ctrl+0x79/0xa0
-[<0>] nvme_sysfs_delete+0x6b/0x80
-[<0>] dev_attr_store+0x18/0x30
-[<0>] sysfs_kf_write+0x3f/0x50
-[<0>] kernfs_fop_write_iter+0x141/0x1d0
-[<0>] vfs_write+0x25b/0x3d0
-[<0>] ksys_write+0x6b/0xf0
-[<0>] __x64_sys_write+0x1e/0x30
-[<0>] do_syscall_64+0x5d/0x90
-[<0>] entry_SYSCALL_64_after_hwframe+0x72/0xdc
-
-Scan_work:
-Stack 0
-[<0>] __bio_queue_enter+0x15a/0x210
-[<0>] blk_mq_submit_bio+0x260/0x5e0
-[<0>] __submit_bio+0xa6/0x1a0
-[<0>] submit_bio_noacct_nocheck+0x2e5/0x390
-[<0>] submit_bio_noacct+0x1cd/0x560
-[<0>] submit_bio+0x3b/0x60
-[<0>] submit_bh_wbc+0x137/0x160
-[<0>] block_read_full_folio+0x24d/0x470
-[<0>] blkdev_read_folio+0x1c/0x30
-[<0>] filemap_read_folio+0x44/0x2a0
-[<0>] do_read_cache_folio+0x135/0x390
-[<0>] read_cache_folio+0x16/0x20
-[<0>] read_part_sector+0x3e/0xd0
-[<0>] sgi_partition+0x35/0x1d0
-[<0>] bdev_disk_changed+0x1f6/0x650
-[<0>] blkdev_get_whole+0x7e/0x90
-[<0>] blkdev_get_by_dev+0x19c/0x2e0
-[<0>] disk_scan_partitions+0x72/0x100
-[<0>] device_add_disk+0x415/0x420
-[<0>] nvme_scan_ns+0x636/0xcd0
-[<0>] nvme_scan_work+0x26f/0x450
-[<0>] process_one_work+0x21c/0x430
-[<0>] worker_thread+0x4e/0x3c0
-[<0>] kthread+0xfb/0x130
-[<0>] ret_from_fork+0x29/0x50
-
-Stack 1
-[<0>] filemap_read_folio+0x195/0x2a0
-[<0>] do_read_cache_folio+0x135/0x390
-[<0>] read_cache_folio+0x16/0x20
-[<0>] read_part_sector+0x3e/0xd0
-[<0>] read_lba+0xcc/0x1b0
-[<0>] efi_partition+0xec/0x7f0
-[<0>] bdev_disk_changed+0x1f6/0x650
-[<0>] blkdev_get_whole+0x7e/0x90
-[<0>] blkdev_get_by_dev+0x19c/0x2e0
-[<0>] disk_scan_partitions+0x72/0x100
-[<0>] device_add_disk+0x433/0x440
-[<0>] nvme_scan_ns+0x636/0xcd0
-[<0>] nvme_scan_work+0x26f/0x450
-[<0>] process_one_work+0x21c/0x430
-[<0>] worker_thread+0x4e/0x3c0
-[<0>] kthread+0xfb/0x130
-[<0>] ret_from_fork+0x29/0x50
-
-Here try to fix this issue by make sure ctrl is unfreezed and queue is quiescing
-while exit from error recovery or reset.
-
-Chunguang Xu (4):
-  nvme: unfreeze while exit from recovery or resetting
-  nvme: donot retry request for NVME_CTRL_DELETING_NOIO
-  nvme: optimize nvme_check_ready() for NVME_CTRL_DELETING_NOIO
-  nvme-tcp: remove admin_q quiescing from nvme_tcp_teardown_io_queues
-
- drivers/nvme/host/core.c |  5 ++++-
- drivers/nvme/host/nvme.h |  3 ++-
- drivers/nvme/host/tcp.c  | 25 ++++++++++++++++---------
- 3 files changed, 22 insertions(+), 11 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 1f0cbb77b249..304eb4eda6c4 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -346,6 +346,8 @@ enum nvme_disposition {
+ 
+ static inline enum nvme_disposition nvme_decide_disposition(struct request *req)
+ {
++	struct nvme_ctrl *ctrl = nvme_req(req)->ctrl;
++
+ 	if (likely(nvme_req(req)->status == 0))
+ 		return COMPLETE;
+ 
+@@ -362,7 +364,8 @@ static inline enum nvme_disposition nvme_decide_disposition(struct request *req)
+ 		    blk_queue_dying(req->q))
+ 			return FAILOVER;
+ 	} else {
+-		if (blk_queue_dying(req->q))
++		if (ctrl->state == NVME_CTRL_DELETING_NOIO ||
++		    blk_queue_dying(req->q))
+ 			return COMPLETE;
+ 	}
+ 
 -- 
 2.25.1
 
