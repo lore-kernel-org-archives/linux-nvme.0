@@ -4,63 +4,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 565EEC77B73
-	for <linux-nvme@archiver.kernel.org>; Sat, 27 May 2023 04:14:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78219C7EE23
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 May 2023 06:17:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LSe+94f5mYxECiCE2aA8YQ+7DT5mkjJ22Pim9NQqr4g=; b=Zh/9+S3JhJAo5TfzbhAEfYm8AJ
-	eJY+CrrHiG3y5I570kxqBNObaYA/3oKpl4Crl9KK5pwoe71Upc0j9zjPN7CQ4as7H75AHBNSvQWTw
-	8lTU4psm51jCSxR7veRsNyuEpoJSyswZp7vO3jR6mZGeaGpoqFtfplMHxhohqMGicZVKaOOzM8XX6
-	Tm6y7ifuSKva6KSx5pTBvcU4fvObyeFOyzfM/p5WoW626e35dSEDvj4B/Ibm/U2VHhE9CZ2+RWZ4G
-	U/RGq9FrAuTg8SnHQ3GAwk4RIQ5x5nIaDXCcx+UR0gAoUPnYmbXGsalnfQULkfPFpL192SGGqHxYJ
-	4JCMnCGA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=m9xm23Wp2kQOMHbgCRHdO14RiDhZu+JxzizlMdAOtQ8=; b=FQSxga4D1iivJ24CEjyCU4eDVy
+	qbsDGhQ+oT76XPDukP4ggqS7/wGFtS/nO5dXjBFEk0ZU+tRBwH8NWggacq2LFJXtfmEy7Gz8/uOLI
+	aD1RbAQc4UwULyq+oUkv61jRmhiKqJPuILQPb3ODQvJjWJpE6RlkElsSqrAE5WFJmU4K5AEzG0bGI
+	4koBt1A9VQf9PGBsttAtPxRMffoPSQexALz515XrTw8wZy6uurH9ARjJzGEyL+UnfQQeCfhqVjhLi
+	IT2g2FQ9Bm97arMiQ+exmrwGE14REOIyB2ZtTptn5nf1kFvFDPaZhiKxfCXt9haS2CjEeohCF1I9q
+	hds0j4Cg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q2lJZ-004p79-09;
-	Sat, 27 May 2023 04:14:01 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1q3WBi-009L9S-0v;
+	Mon, 29 May 2023 06:17:02 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q2lJU-004p6d-0w
+	id 1q3WBb-009L6v-1r
 	for linux-nvme@lists.infradead.org;
-	Sat, 27 May 2023 04:13:57 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 7DB6E60E05;
-	Sat, 27 May 2023 04:13:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C040C433EF;
-	Sat, 27 May 2023 04:13:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1685160834;
-	bh=LSe+94f5mYxECiCE2aA8YQ+7DT5mkjJ22Pim9NQqr4g=;
+	Mon, 29 May 2023 06:16:58 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20230529061647epoutp03044f743ede96241cf36346ccf6fd7ea4~jiLeXRl7c2540025400epoutp03P
+	for <linux-nvme@lists.infradead.org>; Mon, 29 May 2023 06:16:47 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20230529061647epoutp03044f743ede96241cf36346ccf6fd7ea4~jiLeXRl7c2540025400epoutp03P
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1685341007;
+	bh=m9xm23Wp2kQOMHbgCRHdO14RiDhZu+JxzizlMdAOtQ8=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=FwesSK6dBFUw3++zyfMs3xY8lMp0BmWl9j4hANvH5L58Ua9fqWOvfo23Q7zrDsoAB
-	 ndsK3OTTubRtEeaO1GIJo5Jpwh4yaWaQN3jOEmQf+6nZTFKj8c+8i4uyInMBBADsgp
-	 HgUTLluigyGtYyr5twrIlNE+1ueWU2jpyfsof0ccclfdDVSbQ9kL/qbOnbAGTU4VYw
-	 1+AafksBwSe+Dz9s6benGEUI1YczTMvPf/4D11Lj7Q5aT4yH/XJ3+dJC3Q9yGIBUqU
-	 A2sCpKwchnGNT20PKAbLq02laTX1CojZjfjKqeo2vR4hdwEiG6FWMNee0s5sLZoyK8
-	 T2CDELvWZcBEw==
-Date: Fri, 26 May 2023 21:13:53 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Keith
- Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- netdev@vger.kernel.org
-Subject: Re: [PATCH 1/3] net/tls: handle MSG_EOR for tls_sw TX flow
-Message-ID: <20230526211353.33df9ca0@kernel.org>
-In-Reply-To: <20230526143152.53954-2-hare@suse.de>
-References: <20230526143152.53954-1-hare@suse.de>
-	<20230526143152.53954-2-hare@suse.de>
+	b=IxEN0twxctauISsm+AhWBfCy29Ay6tPARNcM3Q+RGdirvyVLcSa8HJS8I5s/LAH4/
+	 XxAFtLcVySQMx0GVPZIwM3tMZtlW71nlZft4u88e+0DDmK1FSwVL4kEcOjy+hlFTfJ
+	 nBF0UM6gcC4zNaCnJuq6zWwW9FL9Dx5gCf0ea7Pg=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+	20230529061647epcas5p16d9da11f78a3f5f932f1e614131b214b~jiLeDlbsC1342113421epcas5p1j;
+	Mon, 29 May 2023 06:16:47 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.182]) by
+	epsnrtp2.localdomain (Postfix) with ESMTP id 4QV4zw24pmz4x9Q0; Mon, 29 May
+	2023 06:16:44 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	1B.08.16380.B4344746; Mon, 29 May 2023 15:16:43 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20230529061643epcas5p47e20ec98a9eb8325bbe7e553af5776ea~jiLaCvpr73133831338epcas5p4b;
+	Mon, 29 May 2023 06:16:43 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20230529061643epsmtrp2da734ed323dc32503efaff9613c9aeda~jiLaCBjsh1312013120epsmtrp2V;
+	Mon, 29 May 2023 06:16:43 +0000 (GMT)
+X-AuditID: b6c32a4b-7dffd70000013ffc-55-6474434b1cf2
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	FD.EA.27706.A4344746; Mon, 29 May 2023 15:16:42 +0900 (KST)
+Received: from green245 (unknown [107.99.41.245]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20230529061639epsmtip2c2be8ccb0cc7d6d062e6a4d4c5752158~jiLXItMeV0600706007epsmtip2a;
+	Mon, 29 May 2023 06:16:39 +0000 (GMT)
+Date: Mon, 29 May 2023 11:43:28 +0530
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: "min15.li" <min15.li@samsung.com>
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] nvme: fix miss command type check
+Message-ID: <20230529061328.GA11198@green245>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20230526170656.55303-1-min15.li@samsung.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprOJsWRmVeSWpSXmKPExsWy7bCmuq63c0mKwarp/Bar7/azWaxcfZTJ
+	YtKha4wWl3fNYbOYv+wpu8XyVR1MFutev2dxYPc4f28ji8fls6Uem1Z1snlsXlLvsftmA5tH
+	35ZVjB6fN8kFsEdl22SkJqakFimk5iXnp2TmpdsqeQfHO8ebmhkY6hpaWpgrKeQl5qbaKrn4
+	BOi6ZeYAnaOkUJaYUwoUCkgsLlbSt7Mpyi8tSVXIyC8usVVKLUjJKTAp0CtOzC0uzUvXy0st
+	sTI0MDAyBSpMyM5Y/fwfe8FU9ore1k6mBsbZbF2MnBwSAiYSP7+1sYDYQgK7GSUWNgZ2MXIB
+	2Z8YJZbvO8UM4XwDcmbtZ4HpuPP1ABtEYi+jxM2+y0wQzjNGiV29R8CqWARUJVpPPwdKcHCw
+	CWhKXJhcChIWAQrvvX2MHaSeWaCFUeLlhH/MIAlhAUuJ5ps7WEFsXgFdiRtzZzND2IISJ2c+
+	AZvJKWAlsWHeZHYQW1RAWeLAtuNgiyUEOjkkZlw6ygpxnotE7/f17BC2sMSr41ugbCmJz+/2
+	Qj2dLHFp5jkmCLtE4vGeg1C2vUTrqX6wxcwCGRKnHkyEsvkken8/AXtGQoBXoqNNCKJcUeLe
+	pKdQa8UlHs5YAmV7SOyasYAVEii9jBJHp19jncAoNwvJP7OQrICwrSQ6PzSxzgJawSwgLbH8
+	HweEqSmxfpf+AkbWVYySqQXFuempxaYFxnmp5fBITs7P3cQITqFa3jsYHz34oHeIkYmD8RCj
+	BAezkgivbWJxihBvSmJlVWpRfnxRaU5q8SFGU2D8TGSWEk3OBybxvJJ4QxNLAxMzMzMTS2Mz
+	QyVxXnXbk8lCAumJJanZqakFqUUwfUwcnFINTGq+j7ZbX8l/7MVw2f5L/T1bl3uPWDZHOTYa
+	yJnsbdyU+GRP3j9LVfOVm41sZ+yudZZe7Lx8vb6CRelhg1lSlz+9V+GbtVTvY/8FvoknFmdI
+	Rz7+ckMpvkZtp4/MxD312nMEc2P101Tv7Uq/ddibO1tuolW3U07+3kUZcSfa+7pvnYtc9JSj
+	82Nk1uG9BQ2vQrN4LsrbB55Vjl3KEn4hpExx9SLTRHetWRX7C8J5vc+dmlp8c7uyZ/TlVq+/
+	CX3v+idEsu15pK/Ft3htzoW01KLby1e53FJbc7DP8WqiVMjzRo0Wn4lOpfWvZ+nFqt44kTdN
+	Uubi36hPL1+kvevxfjDfem3J77gjB+/829QwUYmlOCPRUIu5qDgRAAnUDuYqBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrGLMWRmVeSWpSXmKPExsWy7bCSvK6Xc0mKwf37lhar7/azWaxcfZTJ
+	YtKha4wWl3fNYbOYv+wpu8XyVR1MFutev2dxYPc4f28ji8fls6Uem1Z1snlsXlLvsftmA5tH
+	35ZVjB6fN8kFsEdx2aSk5mSWpRbp2yVwZTzd+IGl4DhLxaE/3SwNjM+Zuxg5OSQETCTufD3A
+	1sXIxSEksJtR4tSeE6wQCXGJ5ms/2CFsYYmV/56zQxQ9YZT4vrGdCSTBIqAq0Xr6OZDNwcEm
+	oClxYXIpSFgEKLz39jGwemaBFkaJlxP+gW0TFrCUaL65A2wBr4CuxI25s5khhvYySvxadIMZ
+	IiEocXLmExYQm1nATGLe5ofMIAuYBaQllv/jAAlzClhJbJg3Gew4UQFliQPbjjNNYBSchaR7
+	FpLuWQjdCxiZVzFKphYU56bnFhsWGOallusVJ+YWl+al6yXn525iBEeFluYOxu2rPugdYmTi
+	YDzEKMHBrCTCa5tYnCLEm5JYWZValB9fVJqTWnyIUZqDRUmc90LXyXghgfTEktTs1NSC1CKY
+	LBMHp1QDk+nZo0eWep5qmcuee42DL0d7jc5jn81FfTV2TMySTWtCq213bk3dL/6Ki+PTsg0i
+	k+wvtL6YFrhe6P+KCacKJIrvyt5yXm47m29W9AvLbNZ1r+qYjMqXugi0L/gUGRW79bBSjOrZ
+	R3cn1zvd68rzu8Ud9JRZp/ygwHuP0gamrKarjaEHFZYtP/nwd7hFt1Pn/MtT+c3c757R/CP3
+	+4qiotwqRUY3LeFW6SVXFJL96n6sfPl1k+HbrV4Lr0+ZdJ3P2fb2wY8iuY9jhfZbn/g4/bPm
+	J7PO1Bkz37VkcduqMnyuqLNbcFt3jYtW39SDt20bXvVYCEvsmvxJf03YAZ+XM3wThTNeaE86
+	UekxJah5qhJLcUaioRZzUXEiAGNS9W/5AgAA
+X-CMS-MailID: 20230529061643epcas5p47e20ec98a9eb8325bbe7e553af5776ea
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----kPHV7voJGfjLavpOfz2TLZSfqzzSedGz1kraSQUx2cheHG0X=_2b02d_"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230526090834epcas5p197a90228102b26759f9b957c50d3bb6b
+References: <CGME20230526090834epcas5p197a90228102b26759f9b957c50d3bb6b@epcas5p1.samsung.com>
+	<20230526170656.55303-1-min15.li@samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230526_211356_372512_F397367A 
-X-CRM114-Status: GOOD (  10.20  )
+X-CRM114-CacheID: sfid-20230528_231656_091688_AAA94D96 
+X-CRM114-Status: GOOD (  12.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,16 +133,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, 26 May 2023 16:31:50 +0200 Hannes Reinecke wrote:
-> tls_sw_sendmsg() / tls_do_sw_sendpage() already handles
-> MSG_MORE / MSG_SENDPAGE_NOTLAST, but bails out on MSG_EOR.
-> But seeing that MSG_EOR is basically the opposite of
-> MSG_MORE / MSG_SENDPAGE_NOTLAST this patch adds handling
-> MSG_EOR by treating it as the negation of MSG_MORE.
+------kPHV7voJGfjLavpOfz2TLZSfqzzSedGz1kraSQUx2cheHG0X=_2b02d_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-The cover letter didn't make it to netdev so replying here -
-please add test cases for EOR to tools/testing/selftests/net/tls.c
-(FWIW selftests now take command line arguments allowing you to narrow
-down the set of test cases run, it's pretty useful here, waiting for
-all crypto algos to finish is annoying)
+On Fri, May 26, 2023 at 05:06:56PM +0000, min15.li wrote:
+>In the function nvme_passthru_end(),only the value of the command opcode is
+>checked, without checking the command type (IO command or Admin command).
+>When we send a Dataset Management command (The opcode of the Dataset
+>Management command is the same as the Set Feature command),kernel
+>thinks it is a set feature command, then sets the controller's keep
+> alive interval, and calls nvme_keep_alive_work().
+>
+>Signed-off-by: min15.li <min15.li@samsung.com>
+
+Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
+
+
+
+------kPHV7voJGfjLavpOfz2TLZSfqzzSedGz1kraSQUx2cheHG0X=_2b02d_
+Content-Type: text/plain; charset="utf-8"
+
+
+------kPHV7voJGfjLavpOfz2TLZSfqzzSedGz1kraSQUx2cheHG0X=_2b02d_--
 
