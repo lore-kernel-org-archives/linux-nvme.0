@@ -4,65 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8965CC7EE23
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 May 2023 16:21:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3D79C77B7A
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 May 2023 16:24:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yCDzj21CfLVCh4y4uoYZaN75mx/cS0V7OtJmKLAFe+k=; b=gVAwmP/QHwDeI7/RzooBYIsrCG
-	szrvDUYgxJgGYcurhpI5S2juSFQhrOMNpr8fI8yvQjtusCLUQel3YQGJs21mWofnrwuEKdLkBdz6l
-	NsJT2DrnyeSeCzErgGida2EJQVwEUb/xVwpPBId/2J9bPTwko//pIl37rSQlcpq5ahVbevxmQExjM
-	fGWTQ3dNnj6yzBTnzrstVIT3IVO9cwzO2nU2gH4LVIMW3jAWEqiAiPlQV9dICXkrpHemZAX3Q0v4L
-	WnvyiQyNt/nxglqksiLDEQ2MxqBpzBrx26uQCiPSXJ+XGov2UOI2Ogk6IjswrTiqPyqKMATvm/OEf
-	7hyIraQA==;
+	bh=pWWdPmiGz+I1qZLHvpqK5zN+jIL1btM5goMCaUaSM3Y=; b=xoRuBt6ZN5zu6CXw+Infm/2t30
+	W1R+h+6OEVw30RhIzYUfOovnRT+51Ily22LhZJWHKxfRCCdY/+Bhanwb0KYxv2mZc75H+1T0tv4ZW
+	xdTzfwYN/P8ucpL/GGLuu87Rapb9ZjHQpqaeJBky93l0Fri4sltY6boQtvGMq4He6OmH8SaRB+NHX
+	438F+8fCnaE904hM38PECHjobBpCXpSaF2pOLUGYXM1fStQY+4z9cb3t1T9xgS/CGzmhrfsgjpqAt
+	jZZqumYYFgH7bd4VZlPwaqWJIjmTzvZqmarUnOjRInfAEwxRjvAwKOU9IbUVTAqpzcfQGEAyApO2a
+	afhJ+v6w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q426c-00EYIy-1c;
-	Tue, 30 May 2023 16:21:54 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
-	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q426Z-00EYIK-2i
-	for linux-nvme@lists.infradead.org;
-	Tue, 30 May 2023 16:21:52 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 09B6361136;
-	Tue, 30 May 2023 16:21:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C879CC433EF;
-	Tue, 30 May 2023 16:21:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1685463710;
-	bh=yCDzj21CfLVCh4y4uoYZaN75mx/cS0V7OtJmKLAFe+k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rCNVVzKn0I6Gobf86vMwPUnwk2qMLtcAp67EAUIh4r6t/JYCNC5n8GVsNcbjua7Mk
-	 Ari+6UhyjwfQ0n+4j1QcV9xY2e6257T/DTfT9kcFhckZxpON0IvwiI9cRXkDmaBeDY
-	 uqB4n+WX6Hn26ekCdRoLrNZUmg3OE85Xxw7b6R53BM8fcZwEeBE1wt6XohDFNYAsd+
-	 r5NVFOibtiKGenfWKAnUDTw7Drpi5t39twOiHIBnt2BxFsSnGd3ZnYVrpEohyq0oDb
-	 JR1mtPK+4d4477ErYPKlNEXbPiPCC2b68Xf/orlIGhVSMtpTuloZtcZ+4nlpnkiofw
-	 aS9W4JIMXVwzQ==
-Date: Tue, 30 May 2023 10:21:47 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Uday Shankar <ushankar@purestorage.com>
-Cc: Costa Sapuntzakis <costa@purestorage.com>,
-	Randy Jennings <randyj@purestorage.com>,
-	Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@fb.com>,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v6 0/3] keepalive bugfixes
-Message-ID: <ZHYim1LGb5qAXdaN@kbusch-mbp.dhcp.thefacebook.com>
-References: <20230525182204.1954429-1-ushankar@purestorage.com>
+	id 1q4294-00EYn1-23;
+	Tue, 30 May 2023 16:24:26 +0000
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+	id 1q4292-00EYmV-1p;
+	Tue, 30 May 2023 16:24:24 +0000
+Date: Tue, 30 May 2023 09:24:24 -0700
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Daniel Gomez <da.gomez@samsung.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Pankaj Raghav <p.raghav@samsung.com>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] nvme: Increase block size variable size to 32-bit
+Message-ID: <ZHYjOFNo0eV+VeCL@bombadil.infradead.org>
+References: <CGME20230530154254eucas1p241e57af99e4d4ee0e1a677904c3db68c@eucas1p2.samsung.com>
+ <20230530154231.8313-1-da.gomez@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230525182204.1954429-1-ushankar@purestorage.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230530_092151_917155_C5446AE3 
-X-CRM114-Status: UNSURE (   7.97  )
-X-CRM114-Notice: Please train this message.
+In-Reply-To: <20230530154231.8313-1-da.gomez@samsung.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,5 +55,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks, applied for nvme-6.4.
+On Tue, May 30, 2023 at 03:42:53PM +0000, Daniel Gomez wrote:
+> Increase block size variable size to 32-bit unsigned to be able to
+> support block devices larger than 32k (starting from 64 KiB).
+> 
+> Physical and logical block size already support unsigned 32-bit.
+> 
+> Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
+
+Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+
+  Luis
 
