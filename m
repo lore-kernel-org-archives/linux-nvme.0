@@ -4,82 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2A1BFC7EE23
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 May 2023 02:50:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65A60C77B7A
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 May 2023 09:44:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OvM0y6VNRliRPDVUSeg1QBMWNmNUv7Ud9dd+nfoUaE0=; b=K4aMtYIIj+plyY6O5FnnPx59S5
-	BgmYZOeZhNuyyoUGW0S3iWc7ilGGU8UyESaR0UmP26jCPfgE2jjlTYx61+PltdVc8uOdNVia0+o5P
-	t4kzsAxOXj2wuLZ1QR+v0KrxGyPXBYfsin6PqUTgugi/d71NGaBKoZ2DgVy6goHABm/i4JJPsvxnd
-	ZGpBtRN2kGKZybTRpOf0OZMrsUhK6WVUFhYjvZ8yYU3ACH/ray8Z4sIfj5rRf/ScLl4C/v4injui5
-	8nO2IkOU+2/nzzfr/kCI+iQ1hfjDHjWF45CAZS8zj5YVL7NZVmfhbQ9mjn1aDrkD+4TB66I3AI3fr
-	bzhUs3ug==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=pe8varXcsYJct+7Kt2+peE/f+2D7cGSjb5CW31FfVK4=; b=KZEICWTNCyVPuwePGy6l43/eSf
+	oGOUPvEAOAFtCAM0/GM9r5lHvzx40Q1H+XHlT+f5NFvYu6zqj0Gc8aEXigbLDGPh73XeF9Z4SZkAz
+	a18N6BE/qEOKBWX6EDzn38651+QW7McOyvqgdxDy/ujpP4ZAeIokPE2cvEyAqLo+Zx+WgGrKmgVjl
+	+ORkCNVJSk9nUMyb0wLMNEuG5HlHS2u3CKc8fRbRvQOxMSQ4HZF822WmPXThiM9gR6zSJOQhf8luM
+	TI94nu0K7jcpxOjESWRx9v8oBMc5v+6M4KKlCIBGPdGF+iAbJP8OSeBZFZbYq8ZfJz5oqUY6Nn407
+	UHcOEqYw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q3pQq-00CEjK-1m;
-	Tue, 30 May 2023 02:49:56 +0000
-Received: from mail-lf1-x129.google.com ([2a00:1450:4864:20::129])
+	id 1q3vtX-00DDz1-0i;
+	Tue, 30 May 2023 09:43:59 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q3pQm-00CEhX-2I;
-	Tue, 30 May 2023 02:49:54 +0000
-Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-4f3a873476bso4200069e87.1;
-        Mon, 29 May 2023 19:49:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685414987; x=1688006987;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OvM0y6VNRliRPDVUSeg1QBMWNmNUv7Ud9dd+nfoUaE0=;
-        b=le0n9U0jpxczpwLhNAv68Y5WyqHzPFG3wGDw8gjr4YE57gf+MFqLu3KTSw+f9WtUu8
-         7gCG/Tt7xKBtR+tq7O1qPk/TMukJVB/d+SRBNOvVR8Bi4RWk0gdFn5jhmvXaLdJzJQll
-         mnXAKnVT4CnR080xsmKIhIDnKQ/reksgrLVqW//TvnrKIufM7vEh0d/HFDB1S2q2zGrr
-         CTfGglXERMTtsrmtdbn27K7bFX8zgaLJV5kG0doVdaJt2B7o5ydm0L7K0E5e/mkLZeXQ
-         hoxeA/B26ayOz0ZRyxlK4OrYJdnfbM6ZACj+z10HcJ0HGMWU4rUHpWwUUcKcRIUFL6q/
-         1z/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685414987; x=1688006987;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OvM0y6VNRliRPDVUSeg1QBMWNmNUv7Ud9dd+nfoUaE0=;
-        b=WpDUSOyCk0zALDqy33wDwjBjVe6vwu2+3TJt8aNk/4XpJKSH+uHVS7ZPxbJhUZvNUb
-         1wQAoKPpv7dqA9wIaqvVYox7z9X7PO431MPU+B1rEOesNAupigAw/Z8ZmhGs+hn7CI+X
-         +RQ0oe/DiznDK8Kmx6opA/7LOQEsn/UOJ4MyXIYRzKuEbgfMW/4m+318j0LV0EgUnhsf
-         5xqawxburRPT2ftlJJeNcAKgxNAcs5p6gyWYOFZ7q+Px1aG6QeLHpJ3xDE/ART532JNK
-         3iynSVKkxlQoNvT90IJd8f5XBgDvUEFOGD9FzlQK8+GBMhM2Sr7a/kOnnEqJdJnw0Xrt
-         goXg==
-X-Gm-Message-State: AC+VfDzkHuaYlnAXj20YjrsO17ZikId8tdyTfhMaO0yTatSxBR2ELTpf
-	ETJqxUUTBJ8zFNJjjvs/fkJ4MjLAVpO2mIoKjQ==
-X-Google-Smtp-Source: ACHHUZ739/CeovCvPIhXrs4sB9knbUj4d0Hm3xMKoD6o96twxdpW9VkpLbxZyztTvA5/HFvlFuSiGvEXKZWks+gvsoI=
-X-Received: by 2002:ac2:4c09:0:b0:4f3:a51f:54fb with SMTP id
- t9-20020ac24c09000000b004f3a51f54fbmr159241lfq.59.1685414987189; Mon, 29 May
- 2023 19:49:47 -0700 (PDT)
+	id 1q3vtS-00DDy3-27
+	for linux-nvme@lists.infradead.org;
+	Tue, 30 May 2023 09:43:55 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1685439832;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=pe8varXcsYJct+7Kt2+peE/f+2D7cGSjb5CW31FfVK4=;
+	b=i4kxihhlAD5wh39o4Au++6FsKWpEAtBVpgvIGDqdlGrM0wTWdCNM3nFpRRhXwJvEiXJleH
+	vSvIdmtDeld/rSziicuo3gkeMuyGfxuqUEg3EHISW34t6wU5QfwxDdeElIoVmz/AC893/t
+	ymEsE15h2EQaQdQFv6BgZgLNVe+T0Ec=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-99-WnO3XKQtNHCTffxVNnokPw-1; Tue, 30 May 2023 05:43:50 -0400
+X-MC-Unique: WnO3XKQtNHCTffxVNnokPw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6E96E2A59566;
+	Tue, 30 May 2023 09:43:50 +0000 (UTC)
+Received: from localhost (ovpn-8-30.pek2.redhat.com [10.72.8.30])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 3DBA740CFD08;
+	Tue, 30 May 2023 09:43:48 +0000 (UTC)
+From: Ming Lei <ming.lei@redhat.com>
+To: Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org
+Cc: Yi Zhang <yi.zhang@redhat.com>,
+	linux-block@vger.kernel.org,
+	Ming Lei <ming.lei@redhat.com>
+Subject: [PATCH 0/2] nvme: add nvme_delete_dead_ctrl for avoiding io deadlock
+Date: Tue, 30 May 2023 17:43:20 +0800
+Message-Id: <20230530094322.258090-1-ming.lei@redhat.com>
 MIME-Version: 1.0
-References: <20230530024120.17196-1-powen.kao@mediatek.com>
-In-Reply-To: <20230530024120.17196-1-powen.kao@mediatek.com>
-From: Stanley Chu <chu.stanley@gmail.com>
-Date: Tue, 30 May 2023 10:49:35 +0800
-Message-ID: <CAGaU9a85dmzuvozHMWj4n93gfwt4Xj1qoYi2oyY_3Tcc+bFg7g@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] nvme: complete directly for hctx with only one ctx mapping
-To: Po-Wen Kao <powen.kao@mediatek.com>
-Cc: linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, wsd_upstream@mediatek.com, 
-	peter.wang@mediatek.com, stanley.chu@mediatek.com, alice.chao@mediatek.com, 
-	naomi.chu@mediatek.com, chun-hung.wu@mediatek.com, cc.chou@mediatek.com, 
-	eddie.huang@mediatek.com, Ed Tsai <ed.tsai@mediatek.com>, 
-	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230529_194952_752804_6B81F92A 
-X-CRM114-Status: GOOD (  12.40  )
+X-CRM114-CacheID: sfid-20230530_024354_787765_C6001EB5 
+X-CRM114-Status: GOOD (  11.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,25 +80,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, May 30, 2023 at 10:45=E2=80=AFAM Po-Wen Kao <powen.kao@mediatek.com=
-> wrote:
->
-> From: Ed Tsai <ed.tsai@mediatek.com>
->
-> Refer to
-> commit f168420c62e7
-> ("blk-mq: don't redirect completion for hctx withs only one ctx mapping")
-> When nvme applies a 1:1 mapping of hctx and ctx, there will be no remote
-> request.
->
-> But for ufs, the submission and completion queue could be asymmetric.
-> (e.g. Multiple SQs share one CQ) Therefore, 1:1 mapping of hctx and
-> ctx won't complete request on the submission cpu. In this situation,
-> put this condition in block layer could violate the
-> QUEUE_FLAG_SAME_FORCE, as a result, move this back to nvme.
->
-> Signed-off-by: Ed Tsai <ed.tsai@mediatek.com>
-> Signed-off-by: Po-Wen Kao <powen.kao@mediatek.com>
+Hello,
 
-Reviewed-by: Stanley Chu <stanley.chu@mediatek.com>
+The 1st patch adds nvme_delete_dead_ctrl().
+
+The 2nd patch calls it after reconnection fails in tcp/rdma driver, and
+fixes one io dead lock.
+
+Ming Lei (2):
+  nvme: add API of nvme_delete_dead_ctrl
+  nvme: rdma/tcp: call nvme_delete_dead_ctrl for handling reconnect
+    failure
+
+ drivers/nvme/host/core.c | 24 +++++++++++++++++++++++-
+ drivers/nvme/host/nvme.h |  1 +
+ drivers/nvme/host/rdma.c |  2 +-
+ drivers/nvme/host/tcp.c  |  2 +-
+ 4 files changed, 26 insertions(+), 3 deletions(-)
+
+-- 
+2.40.1
+
 
