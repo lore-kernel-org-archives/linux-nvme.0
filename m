@@ -4,46 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B0CA1C77B7A
-	for <linux-nvme@archiver.kernel.org>; Wed, 31 May 2023 13:42:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7DAFEC7EE23
+	for <linux-nvme@archiver.kernel.org>; Wed, 31 May 2023 13:43:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jfIHrREuv4E3hxFFXbHRv9Vgk2d2aLIhMRWQDdSWmUA=; b=3LeOvGYQLE3e98pWkzihWzT+mU
-	C8bqr8vuWI8dmUmzL4x5DeRCDkl7227xQ6OA6W+B/qWmW1oXtJaUw55DHzRBocoxgEte5/ApT9Vk3
-	zoTK17Px7nTMLpRDO/ajqrjUagHFcBgSC0bQIq1HHA4GVMUhm9qqO8SkvRJCGpE3AGlgIkdZFXCh/
-	5QEJJCR/Je6KFeN16IY3rxJh7dqp73BFFEjWAkRex9ThE/Dq+DdAlg6ycrT22HIiO8a2e/kAJcVEh
-	CIbhW13BNQg0KCdzOzRSjQfHoKPmEOZO3Ymyc5lEoIoQFhaBCm/xejJFxQO9o0/cjmTyRAdHrZC6z
-	mI2hMHNQ==;
+	bh=Kfxc1mV9lLHeGjjnzU47dlOiU+dbJhsczLFSCzW5ht4=; b=oJqKmGH7+6khBACFLxwOTKl6Ov
+	6mREo74Il8V7epvbOG1I8zUG4Nf1X6PAUc4ebi6kSPY0yXqTA2MRGZ6F1quF4r+cvsocrALankph+
+	rUQL5xwKtExpkL4XJ0FkHA78wLg2HLH1zix3XVfQOe3tlt3agx+9xMQLgpHrqzflh1aNDUrZpBHEB
+	IuCp1Ad19xmraFJ8mM7pj6V6G1mW+qkJNRlNvsU8CUzPng960nlcnhX3OJ4oXuvL0ahk8BOjOxhQr
+	iIT/GzVFIF5zpHryBh7PW9aMJpZjWC6UfD/tlhafzeEJxC8Ey7QpTEEt5Wa90aW9eZMC1tiqoWvUz
+	rEmlcWeg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q4M5Q-00HaGX-1S;
-	Wed, 31 May 2023 13:42:00 +0000
+	id 1q4M6j-00HamA-2B;
+	Wed, 31 May 2023 13:43:21 +0000
 Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q4M5O-00HaFO-14
+	id 1q4M6h-00Hal4-0R
 	for linux-nvme@lists.infradead.org;
-	Wed, 31 May 2023 13:41:59 +0000
+	Wed, 31 May 2023 13:43:20 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id E2E2863B44;
-	Wed, 31 May 2023 13:41:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B859C433A0;
-	Wed, 31 May 2023 13:41:56 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id A4E7C636C2;
+	Wed, 31 May 2023 13:43:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3998EC4339B;
+	Wed, 31 May 2023 13:43:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1685540517;
-	bh=iqBWxnu70WDuEwIu6RTmWDRYvqErlfqDT4PW4rvcLf0=;
+	s=k20201202; t=1685540598;
+	bh=rVl5YN8HctLHpwt+2MAsfaiN1Pxb5g4t7xVXbVmESsQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=s1NPW9TIXBzk2am6NexPp5YJqKj4QfiDXqGE4oxktpHBz9mhfNhA41xsnmV1UxdQM
-	 h+d9ReCZLLA48+yOrmZ494PfV/XjKOFrj3PRUCm46E0qm0LUYyltPDrWdJO6ddiTxF
-	 gEnyre7N4E1zmLK3ZxjM8OZwmHTP+7gG/ssvJhRjyzAji3A98Zof+FU3DvL9aPhKSh
-	 Fz6AG37yznKTpOUQMrtUXY9HX7ywwlQ85z224R1Zsu/YLz3e1oxzHO9r2UQTGnc9LM
-	 /QlHaLiUzMe5lrWYesOH2bDH5jfYsikuGnVlA1f14WzKcD6vrsiNT5Sidh16rU++EU
-	 W7CJE0Zje1/mw==
+	b=pOpciVO6hX0geLqTx0/uz2HrJCweTBQCBkg/8KyFwNgYor3NAYnkoX0IQYx0XS43N
+	 ohwMS+VHe7x50jEE6iFRSYm4/dNuiBYVqknPKty/pY2q/2cKpU0CDstvbBTtpjz+u0
+	 dGazEGxpL/3SxLKOr7S5cvQgyRlmFncyfYWHdhHTYUHOPARiPjJ0AOigFX+5n9dUDB
+	 hAeGIscfZp2gNXUkipocz0MZOvHuZQmWIHVQpr60SU56r27iCaqU/HlLUpCSqWQcmQ
+	 6k29vNMoZGrLXcc+JfXQ1LFy9D/iyV9OEYZ2kabLrnF2joBMtJWLKrs7ZcKDbqwh0i
+	 WpfmNQDaSmhhQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -53,18 +53,18 @@ Cc: Tatsuki Sugiura <sugi@nemui.org>,
 	Sasha Levin <sashal@kernel.org>,
 	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.3 37/37] NVMe: Add MAXIO 1602 to bogus nid list.
-Date: Wed, 31 May 2023 09:40:19 -0400
-Message-Id: <20230531134020.3383253-37-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 33/33] NVMe: Add MAXIO 1602 to bogus nid list.
+Date: Wed, 31 May 2023 09:41:59 -0400
+Message-Id: <20230531134159.3383703-33-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230531134020.3383253-1-sashal@kernel.org>
-References: <20230531134020.3383253-1-sashal@kernel.org>
+In-Reply-To: <20230531134159.3383703-1-sashal@kernel.org>
+References: <20230531134159.3383703-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230531_064158_409575_CEBED102 
+X-CRM114-CacheID: sfid-20230531_064319_213809_AB8E8670 
 X-CRM114-Status: GOOD (  13.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -131,10 +131,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index cd7873de31215..f66fe70fde5a9 100644
+index 581bf94416e6d..30b5362e3b26f 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -3426,6 +3426,8 @@ static const struct pci_device_id nvme_id_table[] = {
+@@ -3535,6 +3535,8 @@ static const struct pci_device_id nvme_id_table[] = {
  		.driver_data = NVME_QUIRK_BOGUS_NID, },
  	{ PCI_DEVICE(0x1e4B, 0x1202),   /* MAXIO MAP1202 */
  		.driver_data = NVME_QUIRK_BOGUS_NID, },
