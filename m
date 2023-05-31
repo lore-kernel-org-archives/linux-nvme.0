@@ -4,46 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7DAFEC7EE23
-	for <linux-nvme@archiver.kernel.org>; Wed, 31 May 2023 13:43:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DBE6DC7EE2F
+	for <linux-nvme@archiver.kernel.org>; Wed, 31 May 2023 13:44:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Kfxc1mV9lLHeGjjnzU47dlOiU+dbJhsczLFSCzW5ht4=; b=oJqKmGH7+6khBACFLxwOTKl6Ov
-	6mREo74Il8V7epvbOG1I8zUG4Nf1X6PAUc4ebi6kSPY0yXqTA2MRGZ6F1quF4r+cvsocrALankph+
-	rUQL5xwKtExpkL4XJ0FkHA78wLg2HLH1zix3XVfQOe3tlt3agx+9xMQLgpHrqzflh1aNDUrZpBHEB
-	IuCp1Ad19xmraFJ8mM7pj6V6G1mW+qkJNRlNvsU8CUzPng960nlcnhX3OJ4oXuvL0ahk8BOjOxhQr
-	iIT/GzVFIF5zpHryBh7PW9aMJpZjWC6UfD/tlhafzeEJxC8Ey7QpTEEt5Wa90aW9eZMC1tiqoWvUz
-	rEmlcWeg==;
+	bh=8S8xVsqwUwA7NRbnivlDSnPAvgWVADLXrKn8Dy3X0hc=; b=y1BEOS7PKp42LU2FgRIb1PH31H
+	Eg49NlQDUf/VNI5DH2D/cx49VQAWDzHv3DX/rBReA1qmNlTKXo1+DoDRPsG0FtYbWVZc0yusL1Y+O
+	D/Pyso8rfrTMonooqSM/VVEY1nRs9PCKGH2qS0oLR/j7Gf2aIf97SeDSjDE9Gj/encXq1c4Bm3mOm
+	XDKARGEOpgNXJGU8JDGjVoFDpm2DXa5MddLICV/ElvNxPzYacoyGuW963AXIZX7bGw3EHNu7H2t5+
+	lyK+AY2L9TsyoMK83whWXdfIEdcZ9ktzAsD7fa5O2n5/I+oe1XARZzRR1RJhuJd6prWiyhpRBMcg0
+	FzADaChQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q4M6j-00HamA-2B;
-	Wed, 31 May 2023 13:43:21 +0000
+	id 1q4M7c-000060-0B;
+	Wed, 31 May 2023 13:44:16 +0000
 Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q4M6h-00Hal4-0R
+	id 1q4M7a-00004u-0s
 	for linux-nvme@lists.infradead.org;
-	Wed, 31 May 2023 13:43:20 +0000
+	Wed, 31 May 2023 13:44:15 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id A4E7C636C2;
-	Wed, 31 May 2023 13:43:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3998EC4339B;
-	Wed, 31 May 2023 13:43:17 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id D039D636E2;
+	Wed, 31 May 2023 13:44:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DA71C433EF;
+	Wed, 31 May 2023 13:44:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1685540598;
-	bh=rVl5YN8HctLHpwt+2MAsfaiN1Pxb5g4t7xVXbVmESsQ=;
+	s=k20201202; t=1685540653;
+	bh=/JOOxuMTlDCRlc++y4DfjkT+ifoXix3oLh6NG6iiCjg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pOpciVO6hX0geLqTx0/uz2HrJCweTBQCBkg/8KyFwNgYor3NAYnkoX0IQYx0XS43N
-	 ohwMS+VHe7x50jEE6iFRSYm4/dNuiBYVqknPKty/pY2q/2cKpU0CDstvbBTtpjz+u0
-	 dGazEGxpL/3SxLKOr7S5cvQgyRlmFncyfYWHdhHTYUHOPARiPjJ0AOigFX+5n9dUDB
-	 hAeGIscfZp2gNXUkipocz0MZOvHuZQmWIHVQpr60SU56r27iCaqU/HlLUpCSqWQcmQ
-	 6k29vNMoZGrLXcc+JfXQ1LFy9D/iyV9OEYZ2kabLrnF2joBMtJWLKrs7ZcKDbqwh0i
-	 WpfmNQDaSmhhQ==
+	b=cD/t5nJqD59evdK0BOgVNUpM9nE9KArUlbMPeWGjOs07iDU5UCzl45oWHn3wKXhsZ
+	 uaCCjvr3ANs+mSyd7v+CbkolLAfIh/rCX0HUpnSwDgWqWIXWIYfw25Z0aNEiSwKJao
+	 GCLLI7/SzTo6S3qJI8uHsdoCckagO7VAcc63YzWdDGcbP5CBqDMSYsEGfXixRdPew0
+	 poAcOnxRdgaisLXGI6gb6XfhL/V4CQxf6jd4KM368wxgkmbEzRkJg4qHinyUZslvhB
+	 WNPDneG8c8jVBaaIX4rQCCC6S+eYrqN6b5Yntq8PFJo6kDlWWbMwqsvBfu6kC5JJfd
+	 6Wz66Xh49T1zA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -53,18 +53,18 @@ Cc: Tatsuki Sugiura <sugi@nemui.org>,
 	Sasha Levin <sashal@kernel.org>,
 	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.1 33/33] NVMe: Add MAXIO 1602 to bogus nid list.
-Date: Wed, 31 May 2023 09:41:59 -0400
-Message-Id: <20230531134159.3383703-33-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 24/24] NVMe: Add MAXIO 1602 to bogus nid list.
+Date: Wed, 31 May 2023 09:43:20 -0400
+Message-Id: <20230531134320.3384102-24-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230531134159.3383703-1-sashal@kernel.org>
-References: <20230531134159.3383703-1-sashal@kernel.org>
+In-Reply-To: <20230531134320.3384102-1-sashal@kernel.org>
+References: <20230531134320.3384102-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230531_064319_213809_AB8E8670 
+X-CRM114-CacheID: sfid-20230531_064414_344764_103B48DB 
 X-CRM114-Status: GOOD (  13.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -131,10 +131,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 581bf94416e6d..30b5362e3b26f 100644
+index c3acef6c32917..3b59c897fdcfa 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -3535,6 +3535,8 @@ static const struct pci_device_id nvme_id_table[] = {
+@@ -3388,6 +3388,8 @@ static const struct pci_device_id nvme_id_table[] = {
  		.driver_data = NVME_QUIRK_BOGUS_NID, },
  	{ PCI_DEVICE(0x1e4B, 0x1202),   /* MAXIO MAP1202 */
  		.driver_data = NVME_QUIRK_BOGUS_NID, },
@@ -142,7 +142,7 @@ index 581bf94416e6d..30b5362e3b26f 100644
 +		.driver_data = NVME_QUIRK_BOGUS_NID, },
  	{ PCI_DEVICE(0x1cc1, 0x5350),   /* ADATA XPG GAMMIX S50 */
  		.driver_data = NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_DEVICE(0x1dbe, 0x5236),   /* ADATA XPG GAMMIX S70 */
+ 	{ PCI_DEVICE(0x1e49, 0x0021),   /* ZHITAI TiPro5000 NVMe SSD */
 -- 
 2.39.2
 
