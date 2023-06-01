@@ -4,143 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3AB1DC7EE2A
-	for <linux-nvme@archiver.kernel.org>; Thu,  1 Jun 2023 15:02:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 15BE2C77B7E
+	for <linux-nvme@archiver.kernel.org>; Thu,  1 Jun 2023 16:07:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iQHQHNsByexlloqhkgYnt5iCj3YMH2bRf9GJ2+IFCqo=; b=JpRbCx16MA5dwTU8MF6lXUy45j
-	Xb/wfDiRnBih1UUU4N/2jtV77FkNxbyuV+GXAUDN+/EHbWZWwhnNDsfQ43C45JvPJ8WF0NcsoqGQE
-	SjLF34d8BHgybAhzHBmZBQ6ht2A47iRdGeD49YfsWnhKe2EzWSlcfpe3gMEpExkaKTZLmrNyrS7hS
-	UgJSB3EZxeqanX2ZYU8Zl8+6KztIjVWCB4+Gl6mrVcLImw6mXq9canlgRgwRawus4J0cZKNqRgVsy
-	2TakvBxQ3hDgzitPnpuQBp2yL//g4K2ftmxOpMBKbcfikAVCzqvaHCPopkWc5Aczm3+KuuTTgcdLe
-	rg9eIx/Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:To:From:Date:Reply-To:Cc:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=DKXLASX7Adve5R5oWaomuvlghI9dU93bUWGHOCtRkL8=; b=MUjj8GCRU0sabAhRvpVnOfwTHg
+	XAtj++qVDamkntell1pdfTsq3lG9H4MfvO/KloEBBcsoJAMJxfI9K2//AKu4NhkZaHtuYj+gDxeMx
+	VHjAkv7HUrjrJOUuTVS3LH5rZ77/YzCtR26pdxTNANwu5gp8Gu8f9mEnhHsHvsMQjJLFw1Q7X/adB
+	VrcK6x06Gg6TwC6Pgfr1jivuAzlQ3n9xYYVWlWUTRgdt686Pf5kNErkSj1QVeWRnmBXARgZqWqD5X
+	MUGFIlMOIUxr+CGLEzNhnlbmebS7xl32oZX6MdacHp+oyfssyxkG4i0j5m6HZ7jlslETKZy4h5UpG
+	yx/UxziA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q4joh-003x2p-2Q;
-	Thu, 01 Jun 2023 15:02:19 +0000
-Received: from mailout3.samsung.com ([203.254.224.33])
+	id 1q4kpj-0049ws-0N;
+	Thu, 01 Jun 2023 16:07:27 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q427X-00EYTF-21
+	id 1q4kpf-0049vn-2r
 	for linux-nvme@lists.infradead.org;
-	Tue, 30 May 2023 16:22:54 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20230530162247epoutp035b8352b2f3083e838d5ba8b69ed2835e~j_F3MsIyy0238702387epoutp03G
-	for <linux-nvme@lists.infradead.org>; Tue, 30 May 2023 16:22:47 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20230530162247epoutp035b8352b2f3083e838d5ba8b69ed2835e~j_F3MsIyy0238702387epoutp03G
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1685463767;
-	bh=iQHQHNsByexlloqhkgYnt5iCj3YMH2bRf9GJ2+IFCqo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=mj9Kp246tFJsvk49BzWLL8WrQrzlQlRGeWp84cPM2FN+4hmYdEjPTDdftj1sdpK4N
-	 kPbt3ynZUNGge8cf2RttYaaqgWdPbnyjQH9nFQOfCYHSzbBqhJoKc+SrE6EWA5YFeP
-	 9dsjRqvLAPoEyOfoEZY4Ouo2kinX1FtgaUMIzXe4=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20230530162245epcas5p13dd525f833dbe394e5e0edaa652cdb0c~j_F1911Nb0345803458epcas5p1-;
-	Tue, 30 May 2023 16:22:45 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.175]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4QVyNh1y9wz4x9Pp; Tue, 30 May
-	2023 16:22:44 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	77.3F.04567.4D226746; Wed, 31 May 2023 01:22:44 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20230530121351epcas5p2b18d46d6be650a7b830690b845ec22c8~j6sgq_Mda2862728627epcas5p2h;
-	Tue, 30 May 2023 12:13:51 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20230530121350epsmtrp2a219b3672da915ce319a0c25d4204123~j6sgpTLJG0347103471epsmtrp2-;
-	Tue, 30 May 2023 12:13:50 +0000 (GMT)
-X-AuditID: b6c32a49-943ff700000011d7-4a-647622d46e21
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-	51.D5.28392.E78E5746; Tue, 30 May 2023 21:13:50 +0900 (KST)
-Received: from green245 (unknown [107.99.41.245]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20230530121346epsmtip2a090cc3928ef845f7729023ca25e9244~j6sc4LK2o1829318293epsmtip2a;
-	Tue, 30 May 2023 12:13:46 +0000 (GMT)
-Date: Tue, 30 May 2023 17:40:43 +0530
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Maurizio Lombardi <mlombard@redhat.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Alasdair Kergon <agk@redhat.com>, Mike
-	Snitzer <snitzer@kernel.org>, dm-devel@redhat.com, Keith Busch
-	<kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
-	<sagi@grimberg.me>, James Smart <james.smart@broadcom.com>, Chaitanya
-	Kulkarni <kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, "Matthew Wilcox (Oracle)"
-	<willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>,
-	martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
-	James.Bottomley@hansenpartnership.com, bvanassche@acm.org, hare@suse.de,
-	ming.lei@redhat.com, dlemoal@kernel.org, anuj20.g@samsung.com,
-	joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH v11 2/9] block: Add copy offload support infrastructure
-Message-ID: <20230530121043.psdxyk7z3rk7sjtm@green245>
+	Thu, 01 Jun 2023 16:07:25 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 6902264726;
+	Thu,  1 Jun 2023 16:07:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0F9BC4339B;
+	Thu,  1 Jun 2023 16:07:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1685635642;
+	bh=csrGq1MCdzeO4XqDnori/pzDTursbu7HdNsbYmg88js=;
+	h=Date:From:To:Subject:From;
+	b=k5NBAdhPeGyB13fYfa7Ay92iaIejy920V4sUDe5MKsvUo/T0RpA2pZxuOC5tavs9k
+	 MBlkoLLwaso1gpsb8Tm4VG1Z2Sn2ktpCXBBGPuklqBcVgliznvvmCGkYZJSbaYHNPv
+	 YF9cRNVXShwDw95Z9ZIin16OE2IUOlZG089O/maWSz/uGXtBEoouYRhIp7/n68kILO
+	 JyN2EDoV4c+Mvb4yMikMYsHHRK6dqv4EVejOSEA1jj3WeGQ9In6FLQjDGWOvmy9rcx
+	 +IvGaAbQhHwge0WpfIy44IGSXjtgAyXmrmjeRya0g/30+kk+cSanibpIJya1rpDGgC
+	 V3fVvejMNCyow==
+Date: Thu, 1 Jun 2023 10:07:20 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: axboe@kernel.dk, linux-nvme@lists.infradead.org
+Subject: [GIT PULL] nvme fixes for 6.4
+Message-ID: <ZHjCOA0gUfIiYOLy@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFL455nMtKbDt1HeN6D2WPB2JjOYq2z1=RagmmuhmQ33eL2Bfw@mail.gmail.com>
-User-Agent: NeoMutt/20171215
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xbdRTHc+9tby+QYsdj/oBNoLoQmDy6lfpjAbfoipfgA0I0c8qwg2sh
-	lLbpg83FOFYYOibykCErhIGylZc8t/EoMMJDXjIkPIfCGCmYQGQ8s2mF2nKL+t/nfM85v3N+
-	5+QQmMMgy5VIkKoohVQk4eK2jPvd3l6+49zkuIC0vwlYO/gTBotqq3Goyd7BYNVsFg5XujcQ
-	mL/2JwbnH5yE7auFTPioswWFbd/norCiqheF9VkE1Jeuo7DX9AcOc7smEbg4oUVh+8xR2NY+
-	wIBjrUU4nKs2MeGtO4sseH2qGYe6vl0Udn2bisKh/EYMNhuuILBm5SkD9s+4wZGdPiY0Pi/C
-	T71Ejo2Hk9rHwzjZop1lkSNz9QwyP3cQJxvLfcixYTXZUHkNJxs2cllkf4GRQTaWXSb1j1Jw
-	MjN1FSfXF2cY5NOOCZz85m4lEuF4NjE4nhLFUQoPShori0uQikO44VExb8YECgJ4vrwg+BrX
-	QypKokK4p9+O8A1NkJgnxfVIFknUZilCpFRy/V8PVsjUKsojXqZUhXApeZxEzpf7KUVJSrVU
-	7CelVCd4AQHHAs2BnyTG/1A/i8oNDhcXbg6jKcg0OwOxIQCHD7Y1W0gGYks4cPQIuFo0YTU2
-	EDD1y3cM2thEwEhBJ3M/ZTFn2OpoRUDHzxtM2lhCQF1NNWaJYnCOgL6tNfNbBIFzjoIhE2GR
-	ncy4nlbGsDDGSWOBjQx7CztywoHhYR1qYTZHAMaH5q18AAzcNOzF23AiQX1T2Z7uzDkECm5v
-	Y5a6gKOxBabSTYzu7jTQ/XoDp9kRLPfdZdHsCjZX2636BVCRV47TyWkI0E5pEdpxElwdzMIs
-	TWOceFDVq6blw+DGYA1KN20PMo0GlNbZoLl4n18G1bUl1vddwOSzK1YmwVZ6G4seUBoKlgzr
-	eDbirv3f57T/ldPulTgBrq1pmDS7g9R7hRgd4gZ0uwSN3qC21b8EwSsRF0quTBJTykA5T0pd
-	+Hf5sbKkBmTvqHzCmpHZ+TW/LgQlkC4EEBjXiR0iUsY5sONEn12iFLIYhVpCKbuQQPPacjBX
-	51iZ+SqlqhgePyiALxAI+EHHBTzui2yvkIFYB45YpKISKUpOKfbzUMLGNQXN9HkyJn7f7uF5
-	k4tAevYDmHf/UiTOsMtV5f2O8/Idfc586fup5qMt/U66hrwcZWg6/mGXp8dbXxxiSZK1hg79
-	6jusNx7f8fxK1iocp1ZqqstSEyblbZ/XhW8/UBl54gNzoV6FMcLxsKgefc+p4sbF5KFg/XtL
-	57AfvXZ3FuQfCycSBzwuionb765HZ77yF+a1YM+OzM7v5mY3j/LugfqFEP/D10uHmMrypuU5
-	d/clItlOfMzpt2jhmeet3s78Ql1SQYmb0HnxySgalnPwhVFdusvwrazpmSFjTyqrk1iaNp0L
-	ZIUe+TrofOZytL9DcX+MseVV1x7dQf4zz3Gn0xVyIZehjBfxfDCFUvQPC7mUe90EAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBKsWRmVeSWpSXmKPExsWy7bCSvG7di9IUgzm7jC3WnzrGbDFn/Ro2
-	i6YJf5ktVt/tZ7N4ffgTo8W0Dz+ZLR7st7fY+242q8XNAzuZLPYsmsRksXL1USaLjf0cFrsX
-	fmSyOPr/LZvFpEPXGC2eXp3FZLH3lrbFnr0nWSwu75rDZnFvzX9Wi/nLnrJbdF/fwWax/Pg/
-	JotDk5uZLE5P28xsseNJI6PFutfvWSxO3JK2OP/3OKvF7x9z2BzkPC5f8faYdf8sm8fOWXfZ
-	Pc7f28jiMW3SKTaPzSu0PC6fLfXYtKqTzWPTp0nsHidm/Gbx2Lyk3mP3zQY2j97md2weH5/e
-	YvF4v+8qm0ffllWMAcJRXDYpqTmZZalF+nYJXBkHXvawF3zlr+g7v5i1gbGNu4uRk0NCwETi
-	6cSzLCC2kMAORokF11Ug4pISy/4eYYawhSVW/nvO3sXIBVTzhFHi1bJl7CAJFgFVieNfPjB2
-	MXJwsAloS5z+zwESFgEyP7YsYQGpZxboYpeY9X4hG0hCWMBb4sm5DUwgNq+AmcSV0w+YIIa2
-	MElMmPOEFSIhKHFy5hOwi5iBiuZtfsgMsoBZQFpi+T8OiLC8RPPW2WDHcQoESmzcvgRspqiA
-	jMSMpV+ZJzAKzUIyaRaSSbMQJs1CMmkBI8sqRsnUguLc9NxiwwKjvNRyveLE3OLSvHS95Pzc
-	TYzgxKOltYNxz6oPeocYmTgYDzFKcDArifDaJhanCPGmJFZWpRblxxeV5qQWH2KU5mBREue9
-	0HUyXkggPbEkNTs1tSC1CCbLxMEp1cB00eRwQ+60icv0dNaHB2b/mqtT6ZofcXTB86ivtc0q
-	+33nB/beCQ0xWOpTrB6oFy3xmXu2832rDfHXyj5fuTzRU45nYtyTAw2G++VOBbBN5vLcNGvp
-	366/JX63a9pD3ybwZgh/V3m+uezBn3il+L/b+C7f81JVEtxyU6yWbeeiyISD72cna1R9TZE0
-	nbvGXP7m3+T9hoqRBhyzZpQvUpmy3G6Wx5/FP/YcNPUqdfseq3Bp27TYMJnU3361dSkvNNdI
-	sR++UqG782aTeLrWxEP57jvmnJ4oHJZ2ICPg04fpzhH3P0d3vTw8yf2kywoDnav5c457LrKe
-	dOHe+22RH+o3ezW8rwlx/bFi7WMeVbWXSizFGYmGWsxFxYkAu5aSqKsDAAA=
-X-CMS-MailID: 20230530121351epcas5p2b18d46d6be650a7b830690b845ec22c8
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----dpMjS_Krfo.HeTa1.nqRY6lfIY-msh.FGO-xMH_14-IlSSmS=_319e1_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230522104536epcas5p23dd8108dd267ec588e5c36e8f9eb9fe8
-References: <CGME20230522104536epcas5p23dd8108dd267ec588e5c36e8f9eb9fe8@epcas5p2.samsung.com>
-	<20230522104146.2856-1-nj.shetty@samsung.com>
-	<20230522104146.2856-3-nj.shetty@samsung.com>
-	<CAFL455nMtKbDt1HeN6D2WPB2JjOYq2z1=RagmmuhmQ33eL2Bfw@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230530_092252_039968_D0EA6432 
-X-CRM114-Status: GOOD (  17.79  )
-X-Mailman-Approved-At: Thu, 01 Jun 2023 08:02:17 -0700
+X-CRM114-CacheID: sfid-20230601_090723_981700_13FB67D1 
+X-CRM114-Status: GOOD (  10.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -155,73 +69,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------dpMjS_Krfo.HeTa1.nqRY6lfIY-msh.FGO-xMH_14-IlSSmS=_319e1_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
+The following changes since commit a3a9d63dcd15535e7fdf4c7c1b32bfaed762973a:
 
-On 23/05/30 01:29PM, Maurizio Lombardi wrote:
->po 22. 5. 2023 v 13:17 odesílatel Nitesh Shetty <nj.shetty@samsung.com> napsal:
->>
->> +static int __blkdev_copy_offload(struct block_device *bdev_in, loff_t pos_in,
->> +               struct block_device *bdev_out, loff_t pos_out, size_t len,
->> +               cio_iodone_t endio, void *private, gfp_t gfp_mask)
->> +{
->> +       struct cio *cio;
->> +       struct copy_ctx *ctx;
->> +       struct bio *read_bio, *write_bio;
->> +       struct page *token;
->> +       sector_t copy_len;
->> +       sector_t rem, max_copy_len;
->> +
->> +       cio = kzalloc(sizeof(struct cio), GFP_KERNEL);
->> +       if (!cio)
->> +               return -ENOMEM;
->> +       atomic_set(&cio->refcount, 0);
->> +       cio->waiter = current;
->> +       cio->endio = endio;
->> +       cio->private = private;
->> +
->> +       max_copy_len = min(bdev_max_copy_sectors(bdev_in),
->> +                       bdev_max_copy_sectors(bdev_out)) << SECTOR_SHIFT;
->> +
->> +       cio->pos_in = pos_in;
->> +       cio->pos_out = pos_out;
->> +       /* If there is a error, comp_len will be set to least successfully
->> +        * completed copied length
->> +        */
->> +       cio->comp_len = len;
->> +       for (rem = len; rem > 0; rem -= copy_len) {
->> +               copy_len = min(rem, max_copy_len);
->> +
->> +               token = alloc_page(gfp_mask);
->> +               if (unlikely(!token))
->> +                       goto err_token;
->
->[...]
->
->> +err_token:
->> +       cio->comp_len = min_t(sector_t, cio->comp_len, (len - rem));
->> +       if (!atomic_read(&cio->refcount))
->> +               return -ENOMEM;
->> +       /* Wait for submitted IOs to complete */
->> +       return blkdev_copy_wait_completion(cio);
->> +}
->
->Suppose the first call to "token = alloc_page()" fails (and
->cio->refcount == 0), isn't "cio" going to be leaked here?
->
->Maurizio
->
+  NVMe: Add MAXIO 1602 to bogus nid list. (2023-05-26 08:21:50 -0700)
 
-Agreed, will free it in "err_token", and will update next version.
+are available in the Git repository at:
 
-Thank you,
-Nitesh Shetty
+  git://git.infradead.org/nvme.git tags/nvme-6.4-2023-06-01
 
-------dpMjS_Krfo.HeTa1.nqRY6lfIY-msh.FGO-xMH_14-IlSSmS=_319e1_
-Content-Type: text/plain; charset="utf-8"
+for you to fetch changes up to 856303797724d28f1d65b702f0eadcee1ea7abf5:
 
+  nvme: fix the name of Zone Append for verbose logging (2023-05-31 09:21:26 -0700)
 
-------dpMjS_Krfo.HeTa1.nqRY6lfIY-msh.FGO-xMH_14-IlSSmS=_319e1_--
+----------------------------------------------------------------
+nvme fixes for Linux 6.4
+
+ - Fixes for spurious Keep Alive timeouts (Uday)
+ - Fix command type check for passthrough actions (Min)
+ - Fix nvme command name for error logging (Christoph)
+
+----------------------------------------------------------------
+Christoph Hellwig (1):
+      nvme: fix the name of Zone Append for verbose logging
+
+Uday Shankar (3):
+      nvme: double KA polling frequency to avoid KATO with TBKAS on
+      nvme: check IO start time when deciding to defer KA
+      nvme: improve handling of long keep alives
+
+min15.li (1):
+      nvme: fix miss command type check
+
+ drivers/nvme/host/constants.c  |  2 +-
+ drivers/nvme/host/core.c       | 52 ++++++++++++++++++++++++++++++++++++++++++++++++----
+ drivers/nvme/host/ioctl.c      |  2 +-
+ drivers/nvme/host/nvme.h       |  3 ++-
+ drivers/nvme/target/passthru.c |  2 +-
+ 5 files changed, 53 insertions(+), 8 deletions(-)
 
