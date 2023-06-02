@@ -4,80 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05862C7EE23
-	for <linux-nvme@archiver.kernel.org>; Thu,  1 Jun 2023 17:13:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 10BDBC77B7A
+	for <linux-nvme@archiver.kernel.org>; Fri,  2 Jun 2023 04:56:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bDgdTuu4WDZ3DDFEWqi23tuC20GeCZLnVJvc19YGZr0=; b=A/nuT9GKHpPRXXRF7KBUhDAK1d
-	utguaecw8cpKlu/pwSGrHERFSF31At0FkwFXePUtsjlcgGj4iFkIk6nIFjpIBTfOjEnr39jSLLLsx
-	wvbCxJSLZ7fUCGRymJyOjlbf3R+p9cd25uqFe077WHidRsdI4jNqhQNLogfF7fpd7CtQ/3NkPe2tT
-	Ml8dGJY9q5UwmyEjvlGN9QOKcStmh/B3c1Js5PZjSHA1E8aRsnHUIGoaIdGnlhrAo6mhuxqpO14bA
-	urKNlHTowGhzdmmcWsxLIup+S4FFdWZQWjLFSrGvzAbJB/sI0Zc0J/7YBtIsISB0NwmzMjrWymPvT
-	zO+81sMg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=iLxRvZ+7lUNZWojUx0sDac6+8i+ApwSrWoB4Zu7LMnE=; b=QgcKzoX62pA5e6SF3BBHNqQJd8
+	UN01nSdUvDTUrYqNGJY4hVDGtVnD8BLL2kKR+j6Zjml0mKuV1iw+zXc55Tz0v6leSlfNbFux2q38H
+	s8uPwGBjgdtcEDc/DQIgig93jvMOFsPS1NrZXkT2aExRp4qba3iCBMHfz9DeYEbqza8Z/p+bR4nQM
+	bnwZ7JdqGnRqipAp7qbM6HoODNoyqAC51JM2tYg0qIiYvz/4zo99ahlUaKxgDBuVm4Fkf564XdhAG
+	MTrMyGBD/1110sTErC2iBJh/ydSqJISl3FbDLKTGawm68Tovvc6XIDmPFNXMEBJAsHdIW9xMqbMj7
+	kvzQ/GNg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q4lrh-004NQj-0o;
-	Thu, 01 Jun 2023 17:13:33 +0000
-Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c])
+	id 1q4wpO-005jHp-1Z;
+	Fri, 02 Jun 2023 04:55:54 +0000
+Received: from mail2-relais-roc.national.inria.fr ([192.134.164.83])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q4lrd-004NPF-2j
+	id 1q4wpL-005jG1-1r
 	for linux-nvme@lists.infradead.org;
-	Thu, 01 Jun 2023 17:13:32 +0000
-Received: by mail-io1-xd2c.google.com with SMTP id ca18e2360f4ac-7748ca56133so659139f.0
-        for <linux-nvme@lists.infradead.org>; Thu, 01 Jun 2023 10:13:28 -0700 (PDT)
+	Fri, 02 Jun 2023 04:55:53 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1685639608; x=1688231608;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bDgdTuu4WDZ3DDFEWqi23tuC20GeCZLnVJvc19YGZr0=;
-        b=JljusotaPzV0ppgarLnaxdpyFWMXnVzXIO3D05E6Gb8csTwgZOUJkzkX1i81GQtSD5
-         7Gzu9m8OKA4gjegYWf1LMDlihaDbkyEKOOP4oGWYu2S8BNnN01ZDi+vF4r81EA9C0vW6
-         4mSulnLe6+QKte9oEy5hzb1oXuFjXmGkJrA4/bB3+qyhLvMVV8qeXugkF8R+JJcMizl2
-         jaKGL/HHEzvPxU1jmRRf5S4Ur2EYbAlnypXj40l1CANEkoyj5bNetS1c7RHBBgUsIepF
-         nXxi+jCBG8uuJYOs8m6tY78mm7i/ekLqdIg1RO91ls4f3NAKYWYgTJdAd2Pg0Wqq6ngf
-         OW3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685639608; x=1688231608;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bDgdTuu4WDZ3DDFEWqi23tuC20GeCZLnVJvc19YGZr0=;
-        b=c0wnkfoeAp8QibHOeBPiYBJXcSX/D8V7uWDIdDWtW/cOgVF1e0n42xftWXACKaw4sV
-         IQB35LqiVeiIXhRzC+WezZhl7iE9ArlXNfS6Y0yodEPDbfsSCZ1MN9W1tZMAx/ygVqSn
-         F5vdkgBHTkxpl2C77DPu7e3K/po8/1ndjXU6NKSmXOSm1xwfLLf0WkD+cdN6E27Hm7GV
-         oz6uCpNXNatljO+OIFTQAMvhD5IAxt6d2eiSQ9wsXJqRBPbJOCdDWINzvxLHt1QtPjjg
-         wwK5oANFQ0zr6UA/7RZnq/NeLn1+VLXgOcw1IWMy8aEg6PWiJFBVxNlYgBzfd12Sze7x
-         WMnA==
-X-Gm-Message-State: AC+VfDxQfJvi5LhfvFYIgHSowAq5ug+sFAEAPF6Wdel4QZWbFQXUmI0U
-	hhWR1djflc2vj6cWigdUwsWZ/cYZePsrVhugWeg=
-X-Google-Smtp-Source: ACHHUZ4Yrxq2vIRcdW//fNfgXD/CnAw5L+VXgVfnwCYFB5jkb598xAtNtlOnLmX9OSBfQiDmztAlEg==
-X-Received: by 2002:a6b:5f1d:0:b0:774:9499:6590 with SMTP id t29-20020a6b5f1d000000b0077494996590mr4497102iob.2.1685639608040;
-        Thu, 01 Jun 2023 10:13:28 -0700 (PDT)
-Received: from [192.168.1.94] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id bg6-20020a0566383c4600b004167a9e0ff3sm2385047jab.61.2023.06.01.10.13.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Jun 2023 10:13:27 -0700 (PDT)
-Message-ID: <b0721f7f-2b70-6fd1-18b8-587c32397d88@kernel.dk>
-Date: Thu, 1 Jun 2023 11:13:26 -0600
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iLxRvZ+7lUNZWojUx0sDac6+8i+ApwSrWoB4Zu7LMnE=;
+  b=XPqqeWHT6ewjok2C9KYzUURSb3I6VWOaOZ07IZ6oGl91XvCRX/xPCPUC
+   /CydWsimcui6X2ZOTkOU8lXQPbIox6JMpX3rKADs2eRMR9gYTJxHjWJe7
+   e4gKRLCsHKsF2uh85ai5H9IYxOXaH8XUfD06aCelmQSuHW8VhR5MXdXYZ
+   k=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.00,211,1681164000"; 
+   d="scan'208";a="110830311"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 06:55:44 +0200
+Date: Fri, 2 Jun 2023 06:55:44 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Max Gurtovoy <mgurtovoy@nvidia.com>
+cc: oe-kbuild-all@lists.linux.dev, linux-nvme@lists.infradead.org, 
+    Keith Busch <kbusch@kernel.org>, Israel Rukshin <israelr@nvidia.com>, 
+    Christoph Hellwig <hch@lst.de>
+Subject: [linux-nvme:nvme-6.5 15/21] drivers/nvme/host/fabrics.c:96:2-8:
+ preceding lock on line 85 (fwd)
+Message-ID: <alpine.DEB.2.22.394.2306020654430.2925@hadrien>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [GIT PULL] nvme fixes for 6.4
-Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <ZHjCOA0gUfIiYOLy@kbusch-mbp.dhcp.thefacebook.com>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <ZHjCOA0gUfIiYOLy@kbusch-mbp.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230601_101330_102964_4E36E3FD 
-X-CRM114-Status: GOOD (  11.53  )
+X-CRM114-CacheID: sfid-20230601_215552_095323_1C590F0B 
+X-CRM114-Status: UNSURE (   8.79  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,30 +71,70 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/1/23 10:07 AM, Keith Busch wrote:
-> The following changes since commit a3a9d63dcd15535e7fdf4c7c1b32bfaed762973a:
-> 
->   NVMe: Add MAXIO 1602 to bogus nid list. (2023-05-26 08:21:50 -0700)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-6.4-2023-06-01
-> 
-> for you to fetch changes up to 856303797724d28f1d65b702f0eadcee1ea7abf5:
-> 
->   nvme: fix the name of Zone Append for verbose logging (2023-05-31 09:21:26 -0700)
-> 
-> ----------------------------------------------------------------
-> nvme fixes for Linux 6.4
-> 
->  - Fixes for spurious Keep Alive timeouts (Uday)
->  - Fix command type check for passthrough actions (Min)
->  - Fix nvme command name for error logging (Christoph)
+An unlock appears to be missing on line 96.
 
-Pulled, thanks.
+julia
+
+---------- Forwarded message ----------
+Date: Fri, 2 Jun 2023 09:57:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [linux-nvme:nvme-6.5 15/21] drivers/nvme/host/fabrics.c:96:2-8:
+    preceding lock on line 85
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-nvme@lists.infradead.org
+TO: Max Gurtovoy <mgurtovoy@nvidia.com>
+CC: Keith Busch <kbusch@kernel.org>
+CC: Israel Rukshin <israelr@nvidia.com>
+CC: Christoph Hellwig <hch@lst.de>
+
+tree:   git://git.infradead.org/nvme.git nvme-6.5
+head:   14ad91f7a9a29562f23bedd205ef209255d8b8d1
+commit: f0cebf82004d610be3ef47abf315ddf95aa2dcd1 [15/21] nvme-fabrics: prevent overriding of existing host
+:::::: branch date: 9 hours ago
+:::::: commit date: 3 weeks ago
+config: riscv-randconfig-c032-20230531 (https://download.01.org/0day-ci/archive/20230602/202306020909.MTUEBeIa-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.3.0
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202306020909.MTUEBeIa-lkp@intel.com/
+
+cocci warnings: (new ones prefixed by >>)
+>> drivers/nvme/host/fabrics.c:96:2-8: preceding lock on line 85
+
+vim +96 drivers/nvme/host/fabrics.c
+
+f0cebf82004d61 Max Gurtovoy      2023-05-12   80
+f0cebf82004d61 Max Gurtovoy      2023-05-12   81  static struct nvmf_host *nvmf_host_add(const char *hostnqn, uuid_t *id)
+07bfcd09a28855 Christoph Hellwig 2016-06-13   82  {
+07bfcd09a28855 Christoph Hellwig 2016-06-13   83  	struct nvmf_host *host;
+07bfcd09a28855 Christoph Hellwig 2016-06-13   84
+07bfcd09a28855 Christoph Hellwig 2016-06-13  @85  	mutex_lock(&nvmf_hosts_mutex);
+f0cebf82004d61 Max Gurtovoy      2023-05-12   86  	host = __nvmf_host_find(hostnqn, id);
+f0cebf82004d61 Max Gurtovoy      2023-05-12   87  	if (IS_ERR(host)) {
+f0cebf82004d61 Max Gurtovoy      2023-05-12   88  		goto out_unlock;
+f0cebf82004d61 Max Gurtovoy      2023-05-12   89  	} else if (host) {
+98096d8a787f05 Christoph Hellwig 2016-08-18   90  		kref_get(&host->ref);
+07bfcd09a28855 Christoph Hellwig 2016-06-13   91  		goto out_unlock;
+98096d8a787f05 Christoph Hellwig 2016-08-18   92  	}
+07bfcd09a28855 Christoph Hellwig 2016-06-13   93
+f0cebf82004d61 Max Gurtovoy      2023-05-12   94  	host = nvmf_host_alloc(hostnqn, id);
+07bfcd09a28855 Christoph Hellwig 2016-06-13   95  	if (!host)
+f0cebf82004d61 Max Gurtovoy      2023-05-12  @96  		return ERR_PTR(-ENOMEM);
+07bfcd09a28855 Christoph Hellwig 2016-06-13   97
+07bfcd09a28855 Christoph Hellwig 2016-06-13   98  	list_add_tail(&host->list, &nvmf_hosts);
+07bfcd09a28855 Christoph Hellwig 2016-06-13   99  out_unlock:
+07bfcd09a28855 Christoph Hellwig 2016-06-13  100  	mutex_unlock(&nvmf_hosts_mutex);
+07bfcd09a28855 Christoph Hellwig 2016-06-13  101  	return host;
+07bfcd09a28855 Christoph Hellwig 2016-06-13  102  }
+07bfcd09a28855 Christoph Hellwig 2016-06-13  103
 
 -- 
-Jens Axboe
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
