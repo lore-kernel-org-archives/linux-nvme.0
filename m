@@ -4,135 +4,109 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B917AC77B73
-	for <linux-nvme@archiver.kernel.org>; Sun,  4 Jun 2023 06:42:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 03C9EC7EE24
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jun 2023 06:45:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nGrWZElKo+I6afcMcFed5w5WfZnZh5S2ttCWLucUw8c=; b=iOFYqwq3QPtBn31e92C5tZbck6
-	L5uddFeHq6AkFsu1YmXReeisJPo9uq8eEzyA+GpO9Qh+E6pWOTV5t+GuSNiWM8OGlcx80/OeOeciX
-	CWZ2Cozx4nuVvICFDQjiO65+lWZjvPt53CR3b28bCjenMmkca+ZUp2zlpQZ9yGb10Y93MhhdEi1wK
-	lgb110GH3rp2WT4LQ+dKzCA2J0YsXPIs2b/6ZDMZw6vK4KMfY6eFz1DDHPNBbU/CpihCH9a/YJ2dt
-	ceC6GKXH7S4A0s6mEYOlQDIB/zsyfJWJP0O73A1EXXWNAaAYYBdPtXEURSm+g8qfLsqttqpZ65LAa
-	3l52AHlQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=FrVFzLf3p+AsNjRTh70R2U+rUWhfDGT5BCoOW2oHAX0=; b=GXqkSIHAKAi9n7otLaF3D1cx58
+	oe+s5AXZltfspMpSam+Ye4JfWrHofrRWpJ5pS/sd7a67+Hw55El+Sf0NZ/ox2YWXWWsD7DhSFo7tp
+	BT2SJWU9OzYgTyBho3StPTs/AfLIDj8ICHwIu5exu/MPOOADkDz0257v36VoUn9J1zqCQv708ptWw
+	j4yqLeoAVbyaMVENCj24M0TY8VBpuOUQjRaqz40uEM59F+3xFgLx3u8CeY2pAx/cAeAECqYLjPy2R
+	5M0GLTQ4epFYTAR2h0XH0LNAno4meJI38F0GN87KrkN78gKTW06uND9ViPDbRwlISg4dMTyvt/dja
+	p2lwblUA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q5hRq-00BTeS-33;
-	Sun, 04 Jun 2023 06:42:42 +0000
-Received: from mail-bn8nam11on20601.outbound.protection.outlook.com ([2a01:111:f400:7eae::601] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+	id 1q63xr-00EQ3q-1T;
+	Mon, 05 Jun 2023 06:45:15 +0000
+Received: from mail-bn7nam10on20605.outbound.protection.outlook.com ([2a01:111:f400:7e8a::605] helo=NAM10-BN7-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q5hRo-00BTdx-1O
+	id 1q63xk-00EQ1A-23
 	for linux-nvme@lists.infradead.org;
-	Sun, 04 Jun 2023 06:42:41 +0000
+	Mon, 05 Jun 2023 06:45:10 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VjET4vOofvNsGbvNcmSGUPmMgI9gzvQ9q2i7cki9tefVQDgx32AcWoI/VhHBAlNxQj9KpS8z723Xt6pZaLriJgN61bxB36NQm+teccczdIFj006do5v3SPayiDg9RtEv6W2HGjCzmS3O/Q+idTB2KzjgA9oOL9AFICxJ3QYfShBtMyTPrJZ/bxArqEgq/JNVXRRUa4hyWyUylvjUWSurg3LcZ9qK0P+85JpjXG612Vwu4xBZneng7z3eJ9BBWczrpo1CiZ5eBR9xx1VQVf2HyImJME8aI4Pc08bM2B6xK6S2avEah3WovaPq+aG22lVdr3DEZOmjyQaD2zFFHDBeXA==
+ b=Ux91HmvM+21EQw3Fxm4UKsfymD8FPsZn4Sri0BPA7ruPIeaJAUTMxFbRDhNrMZFj+NlAkBZ326R+kwFH7Dflpf1at3ENG5ztyk3c6WDfvArIK1mtnXf1Lrj75+vw0jxolwRoPzj1979kcn+c4dTuLu3gj+fps1lqRduRKMfJlKv7HkHNbPsxZktr9e2oaNQMVQuCfGVMm6nxkPYcxKQpXE+200iqTAykvNC82xQxx/t9pzftkVelYt4m7LgRlqvdNlw+z87DKGzaJsXi1a+MoYtu235mcq7f1InVHc4rEoUVOu0arhE+cvAvXPQx30d3ild70Q+zwI0Muoq193diKA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nGrWZElKo+I6afcMcFed5w5WfZnZh5S2ttCWLucUw8c=;
- b=BjgVXT01V8Clt41xoOnexcR/mU4MaPohNm04AEP/BIqC0+hu+Ar6WITI0aqgAkXcjHufUNNw0HvzChnLXpkoY6wuzwpPwHKzwiBlYGtHn/Pplmf/BYH8RIuZ6bcxF6Pttc3t3zYSSYL9F6EgDxaajTeVOnuwR2lOHr0sJthk0DwE348JsAQ7HaHlvrMyIppbPEm6MFEwRefMghPONlarufl7W4evDX3QdIE10XkCYLlqMJ6ez+6Iq5T/CYnD/0v/7kqBRsVoBpR5KUCjEKHd4aJP3U18Pq4+Be0qDa5fDu9W6A4hUqQHyYbM8Et9iXUfeZhXzPosXGZzPvHB79Ff+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
+ bh=FrVFzLf3p+AsNjRTh70R2U+rUWhfDGT5BCoOW2oHAX0=;
+ b=UVP8ExrE9pKug5sLMyvePXnS8sn+7V7g8tj6DmrzmwuEB6rD1QyuItpjf2YpQEry3rT2oVAT0iuHQpJgemBW4GJkFMYRHbkkRtqR1m+s8G/1xiVOVUDRfppb5StdbiP+ghZFnoCuaY9aKl8qcVAbNAwms15jW7OS8IOWvq58xLwfyJRg9w/Exbd4hlzwGZh8rk4IsyplDQifA7kxSWFfN9FRUGuM9veAqqfaiaVeFCrd5/aroGg4wPkkIu6B6eOz4oW1crxuu9OoOVQxIoLtmlTsPFevmccCb9iodN+6MwJaMWHlZN/EuoNtyQeb1fXrU6SujR1nqhUVv1CWH/+KCA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=suse.de smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nGrWZElKo+I6afcMcFed5w5WfZnZh5S2ttCWLucUw8c=;
- b=ko03IHQQtSK6kbdFrMCMT91dgJmPkfOkuR+fEl21S3kOyM1MR4+/1WyYevzQNvJRnJ5FU4tX3GH5/O9F0WgZFImAZ1TCcCuET4rkXwoZ6lFgZM7asMWHZ49OyLBC5z3/KzFH5R0enaFQL+Jt7Y91Z9eNBTvZugAtlPVjbnKRlDW3LWOmAu+u89S/j2S1u/73FXAHa/iOBUbX9l+jAqXTKc78N4K6WkrlKD2w+wMkcAY70+jRiGsBjouWCPOb/Nma8f+yjOVCqcNGlyXB85h5yOhUOFj19g7s2Y7eX4xStlYwH/HsoNxWAuvg+MA6PFxWB2Y7dSqZiwQPqqcobFT4cA==
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
- by CH2PR12MB4134.namprd12.prod.outlook.com (2603:10b6:610:a7::15) with
+ bh=FrVFzLf3p+AsNjRTh70R2U+rUWhfDGT5BCoOW2oHAX0=;
+ b=PzxtxKL+rglvUcRFkASaUjtZSLB2GkDIvQrTUthnVIPjDOvK82DzxVQ+ViEvurp/FU6sEvyciL/yeoAPqmBcWCgOJzeeRSK00xNjfYFSclU/qCPsyq4zzfhoOOqCiCx40A+1lIZ0co7ChNlA2LLvx73UxrWuBOzWdjFJjXv5iE402PZyteo+SQxF4QQUHG1OxyAKchcJl3+goiv+lZuiDyROsjnXvs/YlWLN6G7nR5CBFVqY9hZQjPhIruK+BrSwQtMtljavzhlq2lv9SMBYZpBsHkRQOs1AiHjIaMLaHfaayefUFhA6bliVUWn9CMrFvLmJDaBCaLs17rco8I+48g==
+Received: from MW4P221CA0022.NAMP221.PROD.OUTLOOK.COM (2603:10b6:303:8b::27)
+ by PH7PR12MB5927.namprd12.prod.outlook.com (2603:10b6:510:1da::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.31; Sun, 4 Jun
- 2023 06:42:36 +0000
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::92c6:4b21:586d:dabc]) by MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::92c6:4b21:586d:dabc%4]) with mapi id 15.20.6455.028; Sun, 4 Jun 2023
- 06:42:36 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: Kmemleak on nvme-6.5
-Thread-Topic: Kmemleak on nvme-6.5
-Thread-Index: AQHZiIFVFfUBMZMSrEydo+0HkKqpwK96TVsAgAABIIA=
-Date: Sun, 4 Jun 2023 06:42:36 +0000
-Message-ID: <de01e3d8-f3c2-e4c5-1227-d7635b904030@nvidia.com>
-References: <6344f121-f3a8-1a13-1024-c43fac23a9d8@nvidia.com>
- <bcc3382a-9e28-f6a0-8bd1-76646872c4a7@nvidia.com>
-In-Reply-To: <bcc3382a-9e28-f6a0-8bd1-76646872c4a7@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW2PR12MB4667:EE_|CH2PR12MB4134:EE_
-x-ms-office365-filtering-correlation-id: 4a746a4b-b456-4b1d-c96f-08db64c6e20a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: /9MBlBoD/p073bM83dt9Xq6l49VfxoqbL5ko6nB3SJ0imBjV8tILBH7wUhicY+Ug6Sp/9dGYnEluGehlgv9oeNFXbHLhfwDVgxcEyHnitdSedjpeeAuhVFun1HexVAzkUEfvc+QXCcfGzW89+r1ceryOxk1gPHwy383y7nFinq5atDF5bLUJtHl3uf0aKHsRIAWP+hzPYDnHrT9VvGJqXeMRz/6OoYWTvULnMOJccFm3ixZ49VGPVRig1+1nHczOOXBzgeZX1mGwPormlQFam1Riyj+kSm3MfjAM9/s9gmEvOhE7Wk7Gb11bm0KCnfLqC88R20hDlF9QCOlb3yHIU7gff7BiRPKsLm3GUEfE9JpoI/r723Jz6SSuySB9IFRhdTyFrzR8eQMfLuTlcDtS7Ws3cogfVHQVrjzaf++QYaSdyjOSbQeO0wyfQvmYBpNbHZRUsW4h8YV6MlV34o3d/Am90a/PdIUHwYo3g+mkl8HX5uwy5C2EDFUd9rgI+pq9jVwkDkSRVdHRlzkEMuFGrz/U0kkKcBQiWG9p0uPglA8Lkd+nR3Iidzj5i/+qhHDnti8UWKJNrng9tKQ0reXnKKHTJRRufjZv9ioluOMlEuJE2HUOSzt0E8PEDvrVo3YgwxSvzdaP6k47w0poUXYC89lEtgw2w5PSwJNKk8mr5GuGfUgeuuk+o452XA9FjLmRCToItl2rPFyGdeYFYguoLA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(346002)(136003)(376002)(366004)(396003)(451199021)(8936002)(8676002)(64756008)(66476007)(66946007)(76116006)(66556008)(91956017)(66446008)(31686004)(316002)(4326008)(5660300002)(41300700001)(6916009)(2906002)(478600001)(122000001)(38100700002)(53546011)(186003)(6506007)(26005)(6512007)(86362001)(71200400001)(6486002)(36756003)(2616005)(38070700005)(31696002)(45980500001)(43740500002)(505234007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WFZ1UE5DSy9YdXIyMjlaUEMxRXdqMndrN2pNQ3JRVkR5Nm5UeVltZDQ4Zkpw?=
- =?utf-8?B?VkxlbysxN1NDOTFScXcvMFRPajRXVkhXOEEwQlh2RVptcG5xZWVMOHJwT3R1?=
- =?utf-8?B?ZjhONnBod2RLSjVxcDlzYktGM2lHdzRBbFVFbmk4TkFUMFVHRFdBNm9Gd0Ji?=
- =?utf-8?B?WTExNVJFZktzYkJkOEwzMGZ0Wmtpd2VLSnY2MlgwQS9sZUVxN3VkZGZPUEh1?=
- =?utf-8?B?RlhSU05ENkJuVGxKck16bDRJbHpXZEJPTm4zZWJTWmpLeXZ3R1Brb2xqWU54?=
- =?utf-8?B?ZU5CVktaY1hHc3VRZUVFaVdYQjRYRUhCMkRFN05xZGxGalFPaDdBRzdYTTdQ?=
- =?utf-8?B?Qk5WTjZ5eDRQRWxhR0ZVMk0wLzVyODh4MzQ0S1VQcWFBZk9YSitXZ0tyaFla?=
- =?utf-8?B?N2Q0M0F5My9wRnJ3MWNoZ3oxTnZkclNSQkpEZlRCekg4SVhJUGY5Z0ZKL2Ra?=
- =?utf-8?B?VGpwUEw2aUc1RTZVTmtQNnNiekFjdU9yMjVSdm9iMkl1aGpCbU1WRG5DUkFI?=
- =?utf-8?B?U3FtQjNxcHhGdXNaVk1PMWpESlBza0lhWHhVRDd3aUMxa2pMaDRvbkdQQzhR?=
- =?utf-8?B?bFdHZEFKQ09MeHdSVFExZ2l1cThjNndVZkFIUWdLRFplYWVxSnVoU1Q2U0xi?=
- =?utf-8?B?Z2hmMXhZcUw5L2NJY0ZKYTVWcUdEdWp2SCtKWmU1TmhzWGxXWDBzZUZiaDB2?=
- =?utf-8?B?cDgzajlGOXhsUFpTQW40SzE4SWFmQXhxWmpMOUFQZHhWWVBUNTdLVzhiYXRQ?=
- =?utf-8?B?VnY1YVI0RGVoZlh4K0svc29IWm1meU5SVE8rbG80UHEvUDBZeCtlZjF5YzZY?=
- =?utf-8?B?WTRsK2toeitGV1hON0FuM1I4WFZyQU1xQXd5bUZ0RkY4MVhMOWRvN1l2MzdV?=
- =?utf-8?B?RW1qbW8vUlFseDVHa2xhOTFXNXVoZytsR2JNVG5GeFg5cUJReVgyWTdHYXA4?=
- =?utf-8?B?OG11b2JvWWlET3p3a3A2QjZUR2cyeG9HY1hyREI4ay90Y0tqSVVBdnM2VE1X?=
- =?utf-8?B?Z3VXVllONUpJc3JERlIvcjVQeUJkbjJiTDltdmxiOHAybndCUVpIdk1lRXNG?=
- =?utf-8?B?S3V5ZWI0VXlUV0xML1lIZ1ZHVlpFYUZMeXBqd2dIa2thMTl4RW1vZnQwWkhu?=
- =?utf-8?B?dGVoUGl0S1czUHNtWkREK3J5YVB3RFpvekRkQnpWMUU2aFlIUlNabWVSY29D?=
- =?utf-8?B?dG5Rb1UzMkZ4M09KaUNrRFJyeUIrNlNMRTdqeFBqVllDd1l5bmo4WjU5SStI?=
- =?utf-8?B?bXByekRvckVqUVdOaWo0S1F6SXZKbHFVTnlGODJ0ZW44bXhEdHZqVTNJYjQv?=
- =?utf-8?B?N2prdXlYRUdER25tWUZsSmhzRHlTSDY3STdhdTRZcjVWSVhMOVBmWHVpMTRS?=
- =?utf-8?B?aWF0NlhiVkxLdU9MYVk1U1p0WENrbmF5dmQ2WDIxMW14blRKd1BROGp5M3ZU?=
- =?utf-8?B?aU9JT1hMNG9xbllGbTRVOFV5NGw3NXpLSXpud0JkZE5zODh1eGFQd2ZrSGFj?=
- =?utf-8?B?TC9wZEhzRWxmRDJJQnlWUDA2d09McUdMWGlPZDNTWmxreGpnZkpoMWhuSHdJ?=
- =?utf-8?B?UWtoMmRCaVJmakhxR0daSmpwQk5JVnd1ZGExVzhaUThFV1lGcGNYV3hYS3pM?=
- =?utf-8?B?T0Z0TytRS2NwMy9CWkFDQkVROHpvOUZBc1k4WGVmMnlTZGgra01zcTdoN2Z1?=
- =?utf-8?B?djkyYTZOWm1Bb1pPZkdnRlQ2OEVNVVZKMzQ0RkRJbmx4a0VZVXdDZlhjclVP?=
- =?utf-8?B?dHF3Zjl0OXdzTFQ0UkVYMWxHYzFyL0FkWmJlckdsNHkyWXRtWXVWZy9wTEJi?=
- =?utf-8?B?aUVxanF4L3RBcVVFQXZ3QjVHcUNpVGNNMUFnazZ3eHU1N1JQelZQTjNWYi9y?=
- =?utf-8?B?aThkeU5SZzhoQ3g5MTkzbmFISWs5L09Mc0ZCRXhNdUVzMFBiM3gvcnZYZnNU?=
- =?utf-8?B?VWJoVXJLMjVWWlJjQzhsN253MWtnV1NscmtwZWxFd1BjS1NxU2ZnNXFYMkpX?=
- =?utf-8?B?OGM4dVRvYVFwVFl4SUxMNHZaOHBMRHhCWm9GVWtvZHdCaG5ER0hkTXlEa1BW?=
- =?utf-8?B?eFk1ODhYL3Q4UjZlZW9MU0J0MGF5OXRyQU9XckZ5aXpUYVhaY1duZVZtMjI3?=
- =?utf-8?Q?kj7aFhfJqaLS6WEgpaFbCQ44u?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <DB9E491D6EB25341B1335A0D8CE49AFE@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.32; Mon, 5 Jun
+ 2023 06:44:59 +0000
+Received: from CO1NAM11FT018.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:8b:cafe::15) by MW4P221CA0022.outlook.office365.com
+ (2603:10b6:303:8b::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.32 via Frontend
+ Transport; Mon, 5 Jun 2023 06:44:59 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ CO1NAM11FT018.mail.protection.outlook.com (10.13.175.16) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6455.32 via Frontend Transport; Mon, 5 Jun 2023 06:44:59 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Sun, 4 Jun 2023
+ 23:44:44 -0700
+Received: from dev.nvidia.com (10.126.230.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.37; Sun, 4 Jun 2023
+ 23:44:44 -0700
+From: Chaitanya Kulkarni <kch@nvidia.com>
+To: <hare@suse.de>
+CC: <hch@lst.de>, <sagi@grimberg.me>, <linux-nvme@lists.infradead.org>,
+	<kbusch@kernel.org>, Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH V2 0/4] nvmet-auth: auth send / receive cleanup
+Date: Sun, 4 Jun 2023 23:44:30 -0700
+Message-ID: <20230605064434.45233-1-kch@nvidia.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.126.230.35]
+X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT018:EE_|PH7PR12MB5927:EE_
+X-MS-Office365-Filtering-Correlation-Id: 94e77e1f-7109-4fd2-531d-08db659061ca
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: LwPp/nw0G38iVxwYKq2q/KH/sn3ZP+f9AslqAKwBRs8/t4ST3kPW1B38WXxTFD4GczfJa+xWvfRoXucjQwxWtLFmyEeRNyXUuWJA88dGGNiTqnz1VvBe8Lx6M0OM9hk2MZPDhLwDUaGsPBc1DcB2nCQ3orV/15rH3ZKwkpQEPkB+ybWcF4fiIdWPlPbzKOBq6b0wpWklwTPmGXDdizPhWkEufsbtRrLjquqDQF+0C+oKMaGC2ajyyejLje0OgIB72KTO89cQeeyx6wqmyXNOUxFNWu+kBMEu3oiuYXnQ22MgJ/HFtRX+bTNbPnvEWF8Tn/blbyzoJ7x9Ul7/9U1NneKJi+dNABNVkquqiCeighsCm23DIa1bGSPZkFWOOjqmA6TyBqKd/OHWrrpQPGJ5iyEWaTuEYXbRmj4ukLvo8s07q43ynAbMjvqmLQy6lSEiq59oVLPSTnLcq8QnD6EXfeoGy0X6D9MA6Gz71CQNaZ/NGamwzDFykpF7otHgd/F9VL5Hp1/SFG4ZU2zUzxrwUojXkJCTQOyeUqB0xjSQu/NrEQgfxUs7G4qpHDL6vPHm8WbreTZ56YQk096H1kj/vdmVXHZclMMDKwKD0Zy2p31V7LfqCg6Ox8nBW42tm8QIv3n3O0txB46VsvSvjKr/oPkGbc7jaGoxR7XGiGXMOk/2yoIzXOel1Yj2Tp6WTuDSy/WcNqeaw5xuFOaj0H0FenLxEg+eOh5VRL183pfoNaFUs7hGYmghf4xx9P2ie0Xb
+X-Forefront-Antispam-Report: CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(376002)(346002)(136003)(396003)(451199021)(40470700004)(36840700001)(46966006)(478600001)(356005)(7636003)(82740400003)(6916009)(4326008)(70586007)(70206006)(36756003)(54906003)(8936002)(8676002)(40480700001)(5660300002)(2906002)(41300700001)(30864003)(316002)(40460700003)(83380400001)(2616005)(426003)(336012)(47076005)(26005)(1076003)(107886003)(16526019)(186003)(6666004)(7696005)(36860700001)(82310400005);DIR:OUT;SFP:1101;
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a746a4b-b456-4b1d-c96f-08db64c6e20a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Jun 2023 06:42:36.1093
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2023 06:44:59.1840
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Vr2AmPGx4IdDjyqsiLd/wBHZm0KSgy0dkDwGFzqMDHMMc8v9jeDP+5uxfDhHxmk88UBDmVSDOjA4JGVIRiNk3w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4134
+X-MS-Exchange-CrossTenant-Network-Message-Id: 94e77e1f-7109-4fd2-531d-08db659061ca
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT018.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5927
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230603_234240_476946_39C8336C 
-X-CRM114-Status: GOOD (  17.41  )
+X-CRM114-CacheID: sfid-20230604_234508_802216_E3E0ED5E 
+X-CRM114-Status: GOOD (  12.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -147,76 +121,307 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gNi8zLzIzIDIzOjM4LCBDaGFpdGFueWEgS3Vsa2Fybmkgd3JvdGU6DQo+IFNhZ2ksDQo+DQo+
-IE9uIDUvMTYvMjMgMjI6MzUsIENoYWl0YW55YSBLdWxrYXJuaSB3cm90ZToNCj4+IEhpLA0KPj4N
-Cj4+IEkndmUgb2JzZXJ2ZWQgZm9sbG93aW5nIGttZW1sZWFrIG9uIG52bWUtNi41IHdpdGggYmxr
-dGVzdHMNCj4+IG52bWUvMDAzIEhFQUQ6LQ0KPj4NCj4+IG52bWUgKG52bWUtNi41KSAjIGdpdCBs
-b2cNCj4+IGNvbW1pdCA4NTFjMjNiZTZmYzk1YTQ4ZGJkYWM4NjRmMThiZTYzZjlhNDFlOGE4IChI
-RUFEIC0+IG52bWUtNi41LA0KPj4gb3JpZ2luL252bWUtNi41KQ0KPj4gQXV0aG9yOiBNYXggR3Vy
-dG92b3kgPG1ndXJ0b3ZveUBudmlkaWEuY29tPg0KPj4gRGF0ZTrCoMKgIFR1ZSBBcHIgMjUgMDA6
-MTI6NDIgMjAyMyArMDMwMA0KPj4NCj4+ICDCoMKgwqAgbnZtZTogbW92ZSBzeXNmcyBjb2RlIHRv
-IGEgZGVkaWNhdGVkIHN5c2ZzLmMgZmlsZQ0KPj4NCj4+DQo+PiArIGNhdCAvc3lzL2tlcm5lbC9k
-ZWJ1Zy9rbWVtbGVhaw0KPj4gdW5yZWZlcmVuY2VkIG9iamVjdCAweGZmZmY4ODgxMTRjNjEwYzAg
-KHNpemUgOTYpOg0KPj4gIMKgIGNvbW0gImluc21vZCIsIHBpZCAyNTgyLCBqaWZmaWVzIDQyOTQ5
-ODA3NDEgKGFnZSA0OC4yNjBzKQ0KPj4gIMKgIGhleCBkdW1wIChmaXJzdCAzMiBieXRlcyk6DQo+
-PiAgwqDCoMKgIGMwIGU2IGEwIGMwIGZmIGZmIGZmIGZmIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAw
-IC4uLi4uLi4uLi4uLi4uLi4NCj4+ICDCoMKgwqAgMDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAg
-MDAgMDAgMDAgMDAgMDAgMDAgMDAgLi4uLi4uLi4uLi4uLi4uLg0KPj4gIMKgIGJhY2t0cmFjZToN
-Cj4+ICDCoMKgwqAgWzwwMDAwMDAwMDQzMGU3MTEyPl0ga21hbGxvY190cmFjZSsweDI1LzB4OTAN
-Cj4+ICDCoMKgwqAgWzwwMDAwMDAwMDIzYWZiYmUzPl0gY2xhc3NfY3JlYXRlKzB4MjEvMHg3MA0K
-Pj4gIMKgwqDCoCBbPDAwMDAwMDAwMTg1NjkyOTI+XSAweGZmZmZmZmZmYzBhMTEwMzkNCj4+ICDC
-oMKgwqAgWzwwMDAwMDAwMGNhNGQ0MWFhPl0gZG9fb25lX2luaXRjYWxsKzB4NDQvMHgyMjANCj4+
-ICDCoMKgwqAgWzwwMDAwMDAwMGNiODA4MmJlPl0gZG9faW5pdF9tb2R1bGUrMHg2NC8weDI0MA0K
-Pj4gIMKgwqDCoCBbPDAwMDAwMDAwMWIxOThlNTE+XSBfX2RvX3N5c19maW5pdF9tb2R1bGUrMHhi
-NC8weDEzMA0KPj4gIMKgwqDCoCBbPDAwMDAwMDAwMzczNGE2ZTg+XSBkb19zeXNjYWxsXzY0KzB4
-M2IvMHg5MA0KPj4gIMKgwqDCoCBbPDAwMDAwMDAwN2UzMGE4ZjU+XSBlbnRyeV9TWVNDQUxMXzY0
-X2FmdGVyX2h3ZnJhbWUrMHg3Mi8weGRjDQo+PiB1bnJlZmVyZW5jZWQgb2JqZWN0IDB4ZmZmZjg4
-ODEwYTM5MmEwMCAoc2l6ZSA1MTIpOg0KPj4gIMKgIGNvbW0gImluc21vZCIsIHBpZCAyNTgyLCBq
-aWZmaWVzIDQyOTQ5ODA3NDEgKGFnZSA0OC4yNjBzKQ0KPj4gIMKgIGhleCBkdW1wIChmaXJzdCAz
-MiBieXRlcyk6DQo+PiAgwqDCoMKgIDAwIDJhIDM5IDBhIDgxIDg4IGZmIGZmIDAwIDJhIDM5IDBh
-IDgxIDg4IGZmIGZmIC4qOS4uLi4uLio5Li4uLi4NCj4+ICDCoMKgwqAgMDAgMDAgMDAgMDAgMDAg
-MDAgMDAgMDAgYTAgYjMgMzcgMDcgODEgODggZmYgZmYgLi4uLi4uLi4uLjcuLi4uLg0KPj4gIMKg
-IGJhY2t0cmFjZToNCj4+ICDCoMKgwqAgWzwwMDAwMDAwMDQzMGU3MTEyPl0ga21hbGxvY190cmFj
-ZSsweDI1LzB4OTANCj4+ICDCoMKgwqAgWzwwMDAwMDAwMGFlMTcyZGU3Pl0gY2xhc3NfcmVnaXN0
-ZXIrMHgyOS8weDEzMA0KPj4gIMKgwqDCoCBbPDAwMDAwMDAwMzVmODYxNjQ+XSBjbGFzc19jcmVh
-dGUrMHgzYy8weDcwDQo+PiAgwqDCoMKgIFs8MDAwMDAwMDAxODU2OTI5Mj5dIDB4ZmZmZmZmZmZj
-MGExMTAzOQ0KPj4gIMKgwqDCoCBbPDAwMDAwMDAwY2E0ZDQxYWE+XSBkb19vbmVfaW5pdGNhbGwr
-MHg0NC8weDIyMA0KPj4gIMKgwqDCoCBbPDAwMDAwMDAwY2I4MDgyYmU+XSBkb19pbml0X21vZHVs
-ZSsweDY0LzB4MjQwDQo+PiAgwqDCoMKgIFs8MDAwMDAwMDAxYjE5OGU1MT5dIF9fZG9fc3lzX2Zp
-bml0X21vZHVsZSsweGI0LzB4MTMwDQo+PiAgwqDCoMKgIFs8MDAwMDAwMDAzNzM0YTZlOD5dIGRv
-X3N5c2NhbGxfNjQrMHgzYi8weDkwDQo+PiAgwqDCoMKgIFs8MDAwMDAwMDA3ZTMwYThmNT5dIGVu
-dHJ5X1NZU0NBTExfNjRfYWZ0ZXJfaHdmcmFtZSsweDcyLzB4ZGMNCj4+IHVucmVmZXJlbmNlZCBv
-YmplY3QgMHhmZmZmODg4MTA3MzdiM2EwIChzaXplIDE2KToNCj4+ICDCoCBjb21tICJpbnNtb2Qi
-LCBwaWQgMjU4MiwgamlmZmllcyA0Mjk0OTgwNzQxIChhZ2UgNDguMjYwcykNCj4+ICDCoCBoZXgg
-ZHVtcCAoZmlyc3QgMTYgYnl0ZXMpOg0KPj4gIMKgwqDCoCA2ZSA3NiA2ZCA2NSAyZCA2NiA2MSA2
-MiA3MiA2OSA2MyA3MyAwMCA4OCBmZiBmZiBudm1lLWZhYnJpY3MuLi4uDQo+PiAgwqAgYmFja3Ry
-YWNlOg0KPj4gIMKgwqDCoCBbPDAwMDAwMDAwZTg0ZTRiNjM+XSBfX2ttYWxsb2Nfbm9kZV90cmFj
-a19jYWxsZXIrMHg0Yy8weDEzMA0KPj4gIMKgwqDCoCBbPDAwMDAwMDAwMDE5OGNlMjA+XSBrc3Ry
-ZHVwKzB4MzMvMHg2MA0KPj4gIMKgwqDCoCBbPDAwMDAwMDAwNjFmY2Y2NjE+XSBrb2JqZWN0X3Nl
-dF9uYW1lX3ZhcmdzKzB4MWUvMHg5MA0KPj4gIMKgwqDCoCBbPDAwMDAwMDAwOGMzNGUwZGQ+XSBr
-b2JqZWN0X3NldF9uYW1lKzB4NGUvMHg3MA0KPj4gIMKgwqDCoCBbPDAwMDAwMDAwYWU3ZjMwNDI+
-XSBjbGFzc19yZWdpc3RlcisweDk0LzB4MTMwDQo+PiAgwqDCoMKgIFs8MDAwMDAwMDAzNWY4NjE2
-ND5dIGNsYXNzX2NyZWF0ZSsweDNjLzB4NzANCj4+ICDCoMKgwqAgWzwwMDAwMDAwMDE4NTY5Mjky
-Pl0gMHhmZmZmZmZmZmMwYTExMDM5DQo+PiAgwqDCoMKgIFs8MDAwMDAwMDBjYTRkNDFhYT5dIGRv
-X29uZV9pbml0Y2FsbCsweDQ0LzB4MjIwDQo+PiAgwqDCoMKgIFs8MDAwMDAwMDBjYjgwODJiZT5d
-IGRvX2luaXRfbW9kdWxlKzB4NjQvMHgyNDANCj4+ICDCoMKgwqAgWzwwMDAwMDAwMDFiMTk4ZTUx
-Pl0gX19kb19zeXNfZmluaXRfbW9kdWxlKzB4YjQvMHgxMzANCj4+ICDCoMKgwqAgWzwwMDAwMDAw
-MDM3MzRhNmU4Pl0gZG9fc3lzY2FsbF82NCsweDNiLzB4OTANCj4+ICDCoMKgwqAgWzwwMDAwMDAw
-MDdlMzBhOGY1Pl0gZW50cnlfU1lTQ0FMTF82NF9hZnRlcl9od2ZyYW1lKzB4NzIvMHhkYw0KPj4N
-Cj4+DQo+PiBGb3IgbWUgaXQgaXMgbm90IHRoYXQgc3RyYWlnaHQgZm9yd2FyZCB0byByZXByb2R1
-Y2UgdGhhdC4NCj4+DQo+PiBUaG91Z2h0IEkgc2hvdWxkIGRvY3VtZW50IGl0Lg0KPj4NCj4+IC1j
-aw0KPg0KPiBwb3RlbnRpYWwgZml4IGNvdWxkIGJlIHB1cmVseSBiYXNlZCBvbiBjb2RlIGluc3Bl
-Y3Rpb24gOi0NCj4NCj4gbnZtZSAobnZtZS02LjUpICMgZ2l0IGRpZmYNCj4gZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvbnZtZS9ob3N0L2ZhYnJpY3MuYyBiL2RyaXZlcnMvbnZtZS9ob3N0L2ZhYnJpY3Mu
-Yw0KPiBpbmRleCBiMWZhMjdiNjA5MTcuLmI4ZGYyM2IzY2JhMCAxMDA2NDQNCj4gLS0tIGEvZHJp
-dmVycy9udm1lL2hvc3QvZmFicmljcy5jDQo+ICsrKyBiL2RyaXZlcnMvbnZtZS9ob3N0L2ZhYnJp
-Y3MuYw0KPiBAQCAtMTQxMCw3ICsxNDEwLDcgQEAgc3RhdGljIGludCBfX2luaXQgbnZtZl9pbml0
-KHZvaWQpDQo+ICAgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIDA7DQo+DQo+ICAgwqBvdXRfZGVzdHJv
-eV9kZXZpY2U6DQo+IC3CoMKgwqDCoMKgwqAgZGV2aWNlX2Rlc3Ryb3kobnZtZl9jbGFzcywgTUtE
-RVYoMCwgMCkpOw0KPiArwqDCoMKgwqDCoMKgIGRldmljZV9kZXN0cm95KG52bWZfZGV2aWNlLCBN
-S0RFVigwLCAwKSk7DQo+ICAgwqBvdXRfZGVzdHJveV9jbGFzczoNCj4gICDCoMKgwqDCoMKgwqDC
-oCBjbGFzc19kZXN0cm95KG52bWZfY2xhc3MpOw0KPiAgIMKgb3V0X2ZyZWVfaG9zdDoNCj4NCj4N
-Cj4gV2lsbCB0ZXN0IGFib3ZlLCBpZiBpdCBmaXhlcyBtZW1sZWFrIHRoZSBjb2RlIHdpbGwgc2Vu
-ZCBhIHBhdGNoIHNvb24gLi4uDQo+DQo+IC1jaw0KPg0KPg0KDQp1Z2doaCB0aGlzIGlzIHdyb25n
-LCBkaXNyZWdhcmQgLi4uDQoNCi1jaw0KDQoNCg==
+Hi,
+
+nvmet_execute_auth_send() and nvmet_exeucte_auth_receive() share a lot
+of common functionality such as :-
+
+1. Checking secp/spsp values and its error handling.
+2. Initializing transfer buffer len and its error handling.
+2. Allocating transfer buffer and its error handling.
+
+This code is repeated in both the functions.
+
+Add common helpers with very small restructring of code to remove
+duplication of above functionality in the nvmet_exeucte_auth_receive()
+and nvmet_execute_auth_send(), it also makes code easy to read as both
+the functions are doing substantial work.
+
+Please note that this series is generated on the top of this :-
+
+commit 01cff945c026f1e245ba6401f7df2336ddbae11d (origin/nvme-6.5)
+Author: Chaitanya Kulkarni <kch@nvidia.com>
+Date:   Fri May 19 02:40:52 2023 -0700
+
+    nvme-fcloop: no need to return from void function
+    
+    Remove return at the end of void function.
+
+-ck
+
+- Changes in V2:-
+
+* add reviewe tags
+* remove use of conditional operators in 3rd patch
+* add a patch to fix the nvmet_sq->dhchap_step type fix from int -> u16
+
+Chaitanya Kulkarni (4):
+  nvmet-auth: use common helper to check secp/spsp
+  nvmet_auth: use common helper for buffer alloc
+  nvmet-auth: use helper for auth send/recv cmd prep
+  nvmet-auth: use correct type for status variable
+
+ drivers/nvme/target/fabrics-cmd-auth.c | 108 +++++++++++--------------
+ drivers/nvme/target/nvmet.h            |   2 +-
+ 2 files changed, 48 insertions(+), 62 deletions(-)
+
+nvme (nvme-6.5) # gitlog -4
+6692f4da1048 (HEAD -> nvme-6.5) nvmet-auth: use correct type for status variable
+16cb863ed3b1 nvmet-auth: use helper for auth send/recv cmd prep
+d980c9183a99 nvmet_auth: use common helper for buffer alloc
+104b23f8d911 nvmet-auth: use common helper to check secp/spsp
+nvme (nvme-6.5) # git reset HEAD~4 --hard
+HEAD is now at 01cff945c026 nvme-fcloop: no need to return from void function
+nvme (nvme-6.5) # git am p/nvmet-auth-code-cleanup/*patch; git am --skip
+Patch is empty.
+When you have resolved this problem, run "git am --continue".
+If you prefer to skip this patch, run "git am --skip" instead.
+To record the empty patch as an empty commit, run "git am --allow-empty".
+To restore the original branch and stop patching, run "git am --abort".
+Applying: nvmet-auth: use common helper to check secp/spsp
+Applying: nvmet_auth: use common helper for buffer alloc
+Applying: nvmet-auth: use helper for auth send/recv cmd prep
+Applying: nvmet-auth: use correct type for status variable
+nvme (nvme-6.5) # ./compile_nvme.sh 
++ modprobe -r nvme-fabrics
++ modprobe -r nvme_loop
++ modprobe -r nvmet
++ modprobe -r nvme
++ sleep 1
++ modprobe -r nvme-core
++ lsmod
++ grep nvme
++ sleep 1
++ git diff
+++ nproc
++ make -j 48 M=drivers/nvme/ modules
+  CC [M]  drivers/nvme/target/core.o
+  CC [M]  drivers/nvme/target/configfs.o
+  CC [M]  drivers/nvme/target/admin-cmd.o
+  CC [M]  drivers/nvme/target/fabrics-cmd.o
+  CC [M]  drivers/nvme/target/discovery.o
+  CC [M]  drivers/nvme/target/io-cmd-file.o
+  CC [M]  drivers/nvme/target/io-cmd-bdev.o
+  CC [M]  drivers/nvme/target/passthru.o
+  CC [M]  drivers/nvme/target/zns.o
+  CC [M]  drivers/nvme/target/fabrics-cmd-auth.o
+  CC [M]  drivers/nvme/target/auth.o
+  CC [M]  drivers/nvme/target/trace.o
+  CC [M]  drivers/nvme/target/loop.o
+  CC [M]  drivers/nvme/target/rdma.o
+  CC [M]  drivers/nvme/target/fc.o
+  CC [M]  drivers/nvme/target/fcloop.o
+  CC [M]  drivers/nvme/target/tcp.o
+  LD [M]  drivers/nvme/target/nvme-loop.o
+  LD [M]  drivers/nvme/target/nvme-fcloop.o
+  LD [M]  drivers/nvme/target/nvmet.o
+  LD [M]  drivers/nvme/target/nvmet-fc.o
+  LD [M]  drivers/nvme/target/nvmet-tcp.o
+  LD [M]  drivers/nvme/target/nvmet-rdma.o
+  MODPOST drivers/nvme/Module.symvers
+  LD [M]  drivers/nvme/target/nvmet.ko
+  LD [M]  drivers/nvme/target/nvme-loop.ko
+  LD [M]  drivers/nvme/target/nvmet-rdma.ko
+  LD [M]  drivers/nvme/target/nvmet-fc.ko
+  LD [M]  drivers/nvme/target/nvme-fcloop.ko
+  LD [M]  drivers/nvme/target/nvmet-tcp.ko
++ HOST=drivers/nvme/host
++ TARGET=drivers/nvme/target
+++ uname -r
++ HOST_DEST=/lib/modules/6.4.0-rc2nvme+/kernel/drivers/nvme/host/
+++ uname -r
++ TARGET_DEST=/lib/modules/6.4.0-rc2nvme+/kernel/drivers/nvme/target/
++ cp drivers/nvme/host/nvme-core.ko drivers/nvme/host/nvme-fabrics.ko drivers/nvme/host/nvme-fc.ko drivers/nvme/host/nvme.ko drivers/nvme/host/nvme-rdma.ko drivers/nvme/host/nvme-tcp.ko /lib/modules/6.4.0-rc2nvme+/kernel/drivers/nvme/host//
++ cp drivers/nvme/target/nvme-fcloop.ko drivers/nvme/target/nvme-loop.ko drivers/nvme/target/nvmet-fc.ko drivers/nvme/target/nvmet.ko drivers/nvme/target/nvmet-rdma.ko drivers/nvme/target/nvmet-tcp.ko /lib/modules/6.4.0-rc2nvme+/kernel/drivers/nvme/target//
++ ls -lrth /lib/modules/6.4.0-rc2nvme+/kernel/drivers/nvme/host/ /lib/modules/6.4.0-rc2nvme+/kernel/drivers/nvme/target//
+/lib/modules/6.4.0-rc2nvme+/kernel/drivers/nvme/host/:
+total 7.8M
+-rw-r--r--. 1 root root 3.8M Jun  4 23:21 nvme-core.ko
+-rw-r--r--. 1 root root 493K Jun  4 23:21 nvme-fabrics.ko
+-rw-r--r--. 1 root root 981K Jun  4 23:21 nvme-fc.ko
+-rw-r--r--. 1 root root 785K Jun  4 23:21 nvme.ko
+-rw-r--r--. 1 root root 929K Jun  4 23:21 nvme-rdma.ko
+-rw-r--r--. 1 root root 906K Jun  4 23:21 nvme-tcp.ko
+
+/lib/modules/6.4.0-rc2nvme+/kernel/drivers/nvme/target//:
+total 7.4M
+-rw-r--r--. 1 root root 537K Jun  4 23:21 nvme-fcloop.ko
+-rw-r--r--. 1 root root 476K Jun  4 23:21 nvme-loop.ko
+-rw-r--r--. 1 root root 805K Jun  4 23:21 nvmet-fc.ko
+-rw-r--r--. 1 root root 4.0M Jun  4 23:21 nvmet.ko
+-rw-r--r--. 1 root root 899K Jun  4 23:21 nvmet-rdma.ko
+-rw-r--r--. 1 root root 761K Jun  4 23:21 nvmet-tcp.ko
++ sync
++ sync
++ sync
++ modprobe nvme
++ echo 'Press enter to continue ...'
+Press enter to continue ...
+################nvme_trtype=loop############
+nvme/002 (create many subsystems and test discovery)         [passed]
+    runtime  20.311s  ...  20.535s
+nvme/003 (test if we're sending keep-alives to a discovery controller) [passed]
+    runtime  10.080s  ...  10.080s
+nvme/004 (test nvme and nvmet UUID NS descriptors)           [passed]
+    runtime  1.465s  ...  1.470s
+nvme/005 (reset local loopback target)                       [passed]
+    runtime  1.797s  ...  1.784s
+nvme/006 (create an NVMeOF target with a block device-backed ns) [passed]
+    runtime  0.060s  ...  0.061s
+nvme/007 (create an NVMeOF target with a file-backed ns)     [passed]
+    runtime  0.034s  ...  0.035s
+nvme/008 (create an NVMeOF host with a block device-backed ns) [passed]
+    runtime  1.468s  ...  1.468s
+nvme/009 (create an NVMeOF host with a file-backed ns)       [passed]
+    runtime  1.441s  ...  1.436s
+nvme/010 (run data verification fio job on NVMeOF block device-backed ns) [passed]
+    runtime  94.861s  ...  86.838s
+nvme/011 (run data verification fio job on NVMeOF file-backed ns) [passed]
+    runtime  81.316s  ...  71.517s
+nvme/012 (run mkfs and data verification fio job on NVMeOF block device-backed ns) [passed]
+    runtime    ...  77.886s
+nvme/013 (run mkfs and data verification fio job on NVMeOF file-backed ns) [passed]
+    runtime  70.922s  ...  77.348s
+nvme/014 (flush a NVMeOF block device-backed ns)             [passed]
+    runtime  4.239s  ...  4.570s
+nvme/015 (unit test for NVMe flush for file backed ns)       [passed]
+    runtime  3.763s  ...  3.792s
+nvme/016 (create/delete many NVMeOF block device-backed ns and test discovery) [passed]
+    runtime  12.382s  ...  12.757s
+nvme/017 (create/delete many file-ns and test discovery)     [passed]
+    runtime  12.338s  ...  12.283s
+nvme/018 (unit test NVMe-oF out of range access on a file backend) [passed]
+    runtime  1.440s  ...  1.434s
+nvme/019 (test NVMe DSM Discard command on NVMeOF block-device ns) [passed]
+    runtime  1.451s  ...  1.445s
+nvme/020 (test NVMe DSM Discard command on NVMeOF file-backed ns) [passed]
+    runtime  1.430s  ...  1.421s
+nvme/021 (test NVMe list command on NVMeOF file-backed ns)   [passed]
+    runtime  1.434s  ...  1.434s
+nvme/022 (test NVMe reset command on NVMeOF file-backed ns)  [passed]
+    runtime  1.756s  ...  1.756s
+nvme/023 (test NVMe smart-log command on NVMeOF block-device ns) [passed]
+    runtime  1.449s  ...  1.453s
+nvme/024 (test NVMe smart-log command on NVMeOF file-backed ns) [passed]
+    runtime  1.414s  ...  1.435s
+nvme/025 (test NVMe effects-log command on NVMeOF file-backed ns) [passed]
+    runtime  1.431s  ...  1.426s
+nvme/026 (test NVMe ns-descs command on NVMeOF file-backed ns) [passed]
+    runtime  1.435s  ...  1.417s
+nvme/027 (test NVMe ns-rescan command on NVMeOF file-backed ns) [passed]
+    runtime  1.438s  ...  1.438s
+nvme/028 (test NVMe list-subsys command on NVMeOF file-backed ns) [passed]
+    runtime  1.433s  ...  1.429s
+nvme/029 (test userspace IO via nvme-cli read/write interface) [passed]
+    runtime  1.579s  ...  1.561s
+nvme/030 (ensure the discovery generation counter is updated appropriately) [passed]
+    runtime  0.211s  ...  0.209s
+nvme/031 (test deletion of NVMeOF controllers immediately after setup) [passed]
+    runtime  3.968s  ...  3.925s
+nvme/038 (test deletion of NVMeOF subsystem without enabling) [passed]
+    runtime  0.013s  ...  0.013s
+nvme/040 (test nvme fabrics controller reset/disconnect operation during I/O) [passed]
+    runtime  7.909s  ...  7.858s
+nvme/041 (Create authenticated connections)                  [passed]
+    runtime  0.741s  ...  0.766s
+nvme/042 (Test dhchap key types for authenticated connections) [passed]
+    runtime  4.897s  ...  4.920s
+nvme/043 (Test hash and DH group variations for authenticated connections) [passed]
+    runtime  3.126s  ...  6.955s
+nvme/044 (Test bi-directional authentication)                [passed]
+    runtime  1.854s  ...  1.797s
+nvme/045 (Test re-authentication)                            [passed]
+    runtime  4.087s  ...  4.039s
+nvme/047 (test different queue types for fabric transports)  [not run]
+    nvme_trtype=loop is not supported in this test
+nvme/048 (Test queue count changes on reconnect)             [not run]
+    nvme_trtype=loop is not supported in this test
+################nvme_trtype=tcp############
+nvme/002 (create many subsystems and test discovery)         [not run]
+    runtime  20.535s  ...  
+    nvme_trtype=tcp is not supported in this test
+nvme/003 (test if we're sending keep-alives to a discovery controller) [passed]
+    runtime  10.080s  ...  10.096s
+nvme/004 (test nvme and nvmet UUID NS descriptors)           [passed]
+    runtime  1.470s  ...  1.150s
+nvme/005 (reset local loopback target)                       [passed]
+    runtime  1.784s  ...  1.193s
+nvme/006 (create an NVMeOF target with a block device-backed ns) [passed]
+    runtime  0.061s  ...  0.060s
+nvme/007 (create an NVMeOF target with a file-backed ns)     [passed]
+    runtime  0.035s  ...  0.035s
+nvme/008 (create an NVMeOF host with a block device-backed ns) [passed]
+    runtime  1.468s  ...  1.153s
+nvme/009 (create an NVMeOF host with a file-backed ns)       [passed]
+    runtime  1.436s  ...  1.133s
+nvme/010 (run data verification fio job on NVMeOF block device-backed ns) [passed]
+    runtime  86.838s  ...  94.475s
+nvme/011 (run data verification fio job on NVMeOF file-backed ns) [passed]
+    runtime  71.517s  ...  65.550s
+nvme/012 (run mkfs and data verification fio job on NVMeOF block device-backed ns) [passed]
+    runtime  77.886s  ...  88.897s
+nvme/013 (run mkfs and data verification fio job on NVMeOF file-backed ns) [passed]
+    runtime  77.348s  ...  62.977s
+nvme/014 (flush a NVMeOF block device-backed ns)             [passed]
+    runtime  4.570s  ...  4.069s
+nvme/015 (unit test for NVMe flush for file backed ns)       [passed]
+    runtime  3.792s  ...  3.540s
+nvme/016 (create/delete many NVMeOF block device-backed ns and test discovery) [not run]
+    runtime  12.757s  ...  
+    nvme_trtype=tcp is not supported in this test
+nvme/017 (create/delete many file-ns and test discovery)     [not run]
+    runtime  12.283s  ...  
+    nvme_trtype=tcp is not supported in this test
+nvme/018 (unit test NVMe-oF out of range access on a file backend) [passed]
+    runtime  1.434s  ...  1.134s
+nvme/019 (test NVMe DSM Discard command on NVMeOF block-device ns) [passed]
+    runtime  1.445s  ...  1.158s
+nvme/020 (test NVMe DSM Discard command on NVMeOF file-backed ns) [passed]
+    runtime  1.421s  ...  1.116s
+nvme/021 (test NVMe list command on NVMeOF file-backed ns)   [passed]
+    runtime  1.434s  ...  1.136s
+nvme/022 (test NVMe reset command on NVMeOF file-backed ns)  [passed]
+    runtime  1.756s  ...  1.171s
+nvme/023 (test NVMe smart-log command on NVMeOF block-device ns) [passed]
+    runtime  1.453s  ...  1.142s
+nvme/024 (test NVMe smart-log command on NVMeOF file-backed ns) [passed]
+    runtime  1.435s  ...  1.138s
+nvme/025 (test NVMe effects-log command on NVMeOF file-backed ns) [passed]
+    runtime  1.426s  ...  1.123s
+nvme/026 (test NVMe ns-descs command on NVMeOF file-backed ns) [passed]
+    runtime  1.417s  ...  1.117s
+nvme/027 (test NVMe ns-rescan command on NVMeOF file-backed ns) [passed]
+    runtime  1.438s  ...  1.147s
+nvme/028 (test NVMe list-subsys command on NVMeOF file-backed ns) [passed]
+    runtime  1.429s  ...  1.121s
+nvme/029 (test userspace IO via nvme-cli read/write interface) [passed]
+    runtime  1.561s  ...  1.259s
+nvme/030 (ensure the discovery generation counter is updated appropriately) [passed]
+    runtime  0.209s  ...  0.121s
+nvme/031 (test deletion of NVMeOF controllers immediately after setup) [passed]
+    runtime  3.925s  ...  0.815s
+nvme/038 (test deletion of NVMeOF subsystem without enabling) [passed]
+    runtime  0.013s  ...  0.017s
+nvme/040 (test nvme fabrics controller reset/disconnect operation during I/O) [passed]
+    runtime  7.858s  ...  7.171s
+nvme/041 (Create authenticated connections)                  [passed]
+    runtime  0.766s  ...  0.452s
+nvme/042 (Test dhchap key types for authenticated connections) [passed]
+    runtime  4.920s  ...  2.822s
+nvme/043 (Test hash and DH group variations for authenticated connections) [passed]
+    runtime  6.955s  ...  0.691s
+nvme/044 (Test bi-directional authentication)                [passed]
+    runtime  1.797s  ...  1.216s
+nvme/045 (Test re-authentication)                            [passed]
+    runtime  4.039s  ...  3.810s
+nvme/047 (test different queue types for fabric transports)  [passed]
+    runtime    ...  1.832s
+nvme/048 (Test queue count changes on reconnect)             [passed]
+    runtime    ...  5.251s
+blktests (master) # 
+
+
+-- 
+2.40.0
+
 
