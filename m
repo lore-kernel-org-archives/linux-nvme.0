@@ -4,136 +4,135 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA6F2C7EE2A
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jun 2023 10:52:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 44E4DC7EE39
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jun 2023 12:29:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TggMb4+Ta43SwSbo9aIHcr3o3GY9aA5+Q2o21hyGEUc=; b=Lck2gG9kKr00yHHwlk/LVfAkaf
-	AWNFw2mQeoksWts7+gLcyj8gINiYxVv8twrVbBfR8agHtLAkjotPuhT35MP+YkV8znevgFcsZWLJv
-	E8idLkCvy36PJUbh5xi/WsM8GiDIy9RlnBOIgExNtbf0GZMIo+YBm7iV7HgadNmmhW4y2OS57y8P2
-	MvbXPOZqFGxrSc9XdZH4htbM8othpwNiKvlevytgdyF6eHjgXPYfIpF5GQky03mnjH7deYizluvpW
-	azRpZZhRHzu6If5m4WI7Ec9/csnig494HJOW2GStPo/W9zuV8txzjaPG9jYRCbO1K7doPRuoc5HpH
-	wAcq4Iow==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=DoUEAqe1yQ36nUN40RVM794Z0eUVw76yl9n5nHXcc/s=; b=2qSKwpAqGK2fTOSaCAv3z3Szje
+	JavGjAS4DhgvFTBRtSY3E7x6+MMgsCpiEJWl65IGsbYM4pFb3H7eRmfFfU/xCXkMD3xMTN4wWXrnW
+	fYrB2A4RWk5Wc0eN/MzC4xyAffva2D7eR8M8d4+43221DObbYb/LQsW1E5Rjglzt2SjWbK3+2oKfN
+	pyDEBaiynhI25A2daZ6XcV9XDxRRbu7dd+MMVw8II7iEAMON5ze45wPaZxXQQxtF7J4pEd64pRBe3
+	HPNviVPP+q9DXDNuZyTyEVdsLk5I6KtOEGYGB5SQLqn7JwYcdGoByFL0WqXbVTlT5+BD17aSeUVn0
+	AiUAnKGg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q67oj-00F5Jv-2J;
-	Mon, 05 Jun 2023 10:52:05 +0000
-Received: from mail-bn8nam12on20618.outbound.protection.outlook.com ([2a01:111:f400:fe5b::618] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+	id 1q69LA-00FQza-0Z;
+	Mon, 05 Jun 2023 12:29:40 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q67oh-00F59k-2W
+	id 1q69L4-00FQvC-2O
 	for linux-nvme@lists.infradead.org;
-	Mon, 05 Jun 2023 10:52:05 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Tg4oU39rpV0unqKddofblPHsVqdt9YBWG7kGPXYeES7jDjr5S4+ZDrmH9hx8CUHZ+V3x7HWRnjkZjMXVXQ9lo/iOOSI/lfERP3nnLmCuQ0k5rJrj1TSuRwweH/XH8D74JkgvunoRmJRMzEUPvdbcwK56uVxI67dfGue2IMY+N+tep5Z8q/lmv7eMVOmDEaTFrwPoaWiaCjAqgw35IAFueGaMMtanh3SujPpeU6hhgVe9mKO8LnkIWEdydNIMFIbmODPEVkuX5V86kuFILopdpTn1Q9rmIWbARUzuRI74JmZoxjaai/aplb7hx3nNVwIq1MdfkF0wNU4knnsgg18wJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TggMb4+Ta43SwSbo9aIHcr3o3GY9aA5+Q2o21hyGEUc=;
- b=gxyiLx72Xar8Wh06jheP6JITdD8LdwaALDxq0a99Yd740KQkXCn8XuI4g2wMC0r0z51qlMyUe3/ffTlq9HWC+t45QaMa21dEyt6a3e8bb0tf0l8vM1EpDRRgaU00eYYA9t47H+sO3h28Zt42kkBqdwvqlEp+Q8IRzKe+fHD0tO+lh/VROW9G4ZilSR0KVgS452T1QqPEtwDbaQcZ69JIwY2BHbALlmzLZA3REW1D6OMxvYuDKbEhEvacH5I4Ph4bjTGhESK/32RIZrElb/Y3pXgRxijasQxtFLmbsH0vnrVPkhWX//bkRSdrVph646LcWpzSp2doFZJeDI0IKgSyyA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TggMb4+Ta43SwSbo9aIHcr3o3GY9aA5+Q2o21hyGEUc=;
- b=DmPvToa9bSfMC4vzHuZgoKkr2yXyadNfMoHJmz6Rd3715/6UD9x7YefVWCVUBItyiY2O8v+3G6sHesTd6kIoBANjNzp+TpXqSme5Fvqlovxfzz/wqV8X12qX6njk3JfkLta3duZRxSmV9bEf6sRc6D4S6qlnrO8n6YoLbw7laVZPIDawPCQlJeU/T514UZ2GWb8raUT9KN7sUREWDn9OBrHBnihb2rZoJaTZmehGdNW5bj1cshD4PufR/HDLuWlOll15ZCuOoZMxJKHOalQttAuleOJvVlefHtcHion/DLSK8X5gZIST1lz1PwpMkVbNMm7d2trJztw0MizO8Y8tPQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
- by SA1PR12MB7296.namprd12.prod.outlook.com (2603:10b6:806:2ba::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.32; Mon, 5 Jun
- 2023 10:51:43 +0000
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::cb7e:86d1:886b:3d0c]) by DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::cb7e:86d1:886b:3d0c%6]) with mapi id 15.20.6455.030; Mon, 5 Jun 2023
- 10:51:43 +0000
-Message-ID: <da92cc34-e327-d324-0ff8-5db2d5c2b707@nvidia.com>
-Date: Mon, 5 Jun 2023 13:51:36 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH] nvme-fabrics: open code __nvmf_host_find()
-Content-Language: en-US
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Cc: "kbusch@kernel.org" <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>,
- "sagi@grimberg.me" <sagi@grimberg.me>
-References: <20230602064742.56298-1-kch@nvidia.com>
- <f03639ad-18b7-a051-c83c-7bca5ef1ec0b@nvidia.com>
- <4b0ddae0-bc01-34ad-9ab4-4d63e262ae3f@nvidia.com>
-From: Max Gurtovoy <mgurtovoy@nvidia.com>
-In-Reply-To: <4b0ddae0-bc01-34ad-9ab4-4d63e262ae3f@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0107.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9c::10) To DM4PR12MB5040.namprd12.prod.outlook.com
- (2603:10b6:5:38b::19)
+	Mon, 05 Jun 2023 12:29:38 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20230605122926epoutp0329192e41596d11e56eb8c873e8a89f84~lwx1Ukw360540905409epoutp03g
+	for <linux-nvme@lists.infradead.org>; Mon,  5 Jun 2023 12:29:26 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20230605122926epoutp0329192e41596d11e56eb8c873e8a89f84~lwx1Ukw360540905409epoutp03g
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1685968166;
+	bh=DoUEAqe1yQ36nUN40RVM794Z0eUVw76yl9n5nHXcc/s=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=ox1lzTSkJz2i+4eqf8ygM+iI13GOhg9szjqLdBadEomKvRdFNa1wiwdKIMHvIgCUE
+	 FaH3L87g295BXrTSDVk60alvIk2bNnzyoBnItxKZ5TKEv+rCYarQio9Fd4iQJoNIvX
+	 a7v+bhBGuI6V5i/PEfQ7rl1QhWhm9ORo0nPDzBws=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20230605122924epcas5p4e0706c5693c0428bba8fe46ad5d3ca07~lwxziZGZ10962809628epcas5p4L;
+	Mon,  5 Jun 2023 12:29:24 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.183]) by
+	epsnrtp2.localdomain (Postfix) with ESMTP id 4QZXwg1FLjz4x9Pt; Mon,  5 Jun
+	2023 12:29:23 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	2F.39.04567.225DD746; Mon,  5 Jun 2023 21:29:23 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20230605122104epcas5p4ef1775cd4a218faa7b2459d58f63c275~lwqiBvTQO0129301293epcas5p4J;
+	Mon,  5 Jun 2023 12:21:04 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20230605122104epsmtrp252e8901f56c30f032f62022cc55327fd~lwqh-pRnh0879508795epsmtrp2m;
+	Mon,  5 Jun 2023 12:21:04 +0000 (GMT)
+X-AuditID: b6c32a49-db3fe700000011d7-41-647dd5221551
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+	A6.A5.28392.033DD746; Mon,  5 Jun 2023 21:21:04 +0900 (KST)
+Received: from green245.sa.corp.samsungelectronics.net (unknown
+	[107.99.41.245]) by epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20230605122053epsmtip2de69ac47f6ed3893c374220d0bc0a308~lwqYGS53D2526625266epsmtip2T;
+	Mon,  5 Jun 2023 12:20:52 +0000 (GMT)
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
+	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	dm-devel@redhat.com, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
+	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, James Smart
+	<james.smart@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>, Alexander
+	Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>
+Cc: martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
+	willy@infradead.org, hare@suse.de, djwong@kernel.org, bvanassche@acm.org,
+	ming.lei@redhat.com, dlemoal@kernel.org, nitheshshetty@gmail.com,
+	gost.dev@samsung.com, Nitesh Shetty <nj.shetty@samsung.com>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH v12 0/9] Implement copy offload support
+Date: Mon,  5 Jun 2023 17:47:16 +0530
+Message-Id: <20230605121732.28468-1-nj.shetty@samsung.com>
+X-Mailer: git-send-email 2.35.1.500.gb896f729e2
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5040:EE_|SA1PR12MB7296:EE_
-X-MS-Office365-Filtering-Correlation-Id: cce69aba-7106-4a1d-2384-08db65b2d97a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: z6SNyKx276jao/Jk7FIXshjlfBk87ArTDyxEfg/U/cZvfa+SVPg1wxdIETrMq65kwLei18MSI8WacP8r6iKqziiV3RWheX62kISVW6+50P2e95+YqamVBYZX4pM1p39Y/Qr7Q2B9pmMvTA4S1Lg47z8jcfis1A+Cd79U70mKKKIC1NbunHVvLJQvkHTum+A6usbnNWGfq0T/i+UYMDXU6WYcBwnAXLtKjnNreSSIhpA7aCxXE0MkfnN4614c08hlTeTXyWRAWejST8keFMCXLLSeDvvXkL9ih76ncHBWq5KdWheMjUB5TU7MWbYjObF3he4+bIYRyWHuNQ07uHTOo88Uyw5Xvbjrogp61ZZStcXBilAXR9PR0dH6SWRinuk6lia876SFAU4dK2FAuiik26apr++fDnElYZ8cY3xzi0B6Of39XNX6NICZUPgwWg4qjirwIZECr3KxXudS/Ea4mn8join1NV2flj+WbYOloCo4V1gPUwW4fizeXzGVd1SSafdwQUoHFE1CwMAPBylkFfkU+mtTmcmhVZ06dDZWNDOkxI+4XItrFgdI7wBvcfsCnjdKWpyJxDU34DfJYYPtB0FOto5Nh0RFgshl87+xTvaXVfhLAOTi1qrqqLpYV3Ys+hlHJpKlLmQfX1fKHX6C0A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(376002)(396003)(366004)(39860400002)(346002)(451199021)(36756003)(2906002)(86362001)(31696002)(5660300002)(31686004)(83380400001)(6666004)(6486002)(186003)(26005)(6506007)(6512007)(53546011)(478600001)(110136005)(54906003)(66556008)(316002)(38100700002)(66476007)(66946007)(4326008)(2616005)(41300700001)(8936002)(8676002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VE0xYVRFZ1RGTE1DbXdCSkhRenFaTEx1R0ZGeUNHWXZUR2RuVzVjVXAvcFBk?=
- =?utf-8?B?VnlnRXgzK25YR2N6NDE5RFBjRkx1Ukd0YmNDbDlibSs5djZ4MXo1U1RyNHFj?=
- =?utf-8?B?UkI3SGgzUXByNlNoYWJzUGZLa0xwRU9zSEExQlR4czZNTTBzMmVjTE14bjk3?=
- =?utf-8?B?TFpjNVRyeGs1RDdTTnZyVW1sSjQyU1QycTUrcHAzMVVmaGZSMUtzR3JtR2du?=
- =?utf-8?B?SHJPSlZNcnpGUjkxeUtNOXhBNVlSNU0zeG0zUTgwUjlvVnJlY3lRcW5hZVpw?=
- =?utf-8?B?cXREbzRETnI1RWsvZWIvWDV4U05MOVo5TjByTSsrVXdZcmlQZmRnMWY1MkRX?=
- =?utf-8?B?d3cvMEJUTXNFQUhLRzhGSndnVlVheW1tTzUvcnpYWUpjVmttVFpGS2Fyc3FN?=
- =?utf-8?B?bEc5VlFmdzQ1Tnh3SS85QVpEWUNPOHc1cDFmKzFLeTVHc3dOYVN1WWQvQUlT?=
- =?utf-8?B?RFdsODVBei8zSzZzcEZzQWkwNWgzQTVoZjJMWENaZjRsYlp4S05hNlpKd3lN?=
- =?utf-8?B?c0orSU1kQjk0SG5VMkRoZWZibW5KRE05YllUMXNNc1J1NzFmdDhRb2tMQ2ky?=
- =?utf-8?B?c3BGK25CaURxRGI1N0xkR0JMVnoremVUOU5HSW4zU1E4TFdIU1FydElIZGM2?=
- =?utf-8?B?cm5KZTlDNXdKSFpqSllxZXVaWmpjNDY5TVRlM011bWJmcjVQTzk1bDJWZGVj?=
- =?utf-8?B?d25ib3V3TUFrY0NDVU15TSsydkU2S2xndGdYOTdDaWVaaGdNM2M1U29BL0tQ?=
- =?utf-8?B?Q1A2Wlg5M3lNdGg4cWdMQzhrUjVVVmc4dHg5MSs3RjdrRmx6dHptOFRhS2Vv?=
- =?utf-8?B?YjZDblBvM0UrRUlvVW9GUFh3eHdvdVpIMjNZTVNRYkl6VmJSbWVRTTFjZHJT?=
- =?utf-8?B?SFF4TlBmYVVoQmZrMmJFZjB6VWFLc2cvRkxXQkN2cllnWWpIWmJyYUhiS0lz?=
- =?utf-8?B?Y01sVVRMU0gxbWpWRGdHbVdmUnR6WTFlOG1hRUFoVjVpY01KLzFJRTFqTWtl?=
- =?utf-8?B?bnI1bS9aZEFDNU1ncDdZcHBZdWNkd2lNQnA4Ym5WSnZrRWFkTFNyeUZLUU52?=
- =?utf-8?B?WU9OWXRsOTUxTW9IZHdVTmtYbFdqVzhnR0JTSGxpa2RNMHlUSHU2TWtnenlZ?=
- =?utf-8?B?QUVxQnFESHRpZWJYVmZ4U1p2MFZWOXp6TFJlSjcrZ0lGVXFFellhVVIrdFhV?=
- =?utf-8?B?YXVzd1lvOFF0NXgrdy9hOVR0b3ZlSVlOZWJRYWhmUVh0UEJqa05yMURmcGI4?=
- =?utf-8?B?M1ExV1NVdytxQUY2aVhraFJobmtjQ3g0eWRrNW5sREt0M2RuS3dzcDJmZFoz?=
- =?utf-8?B?ZmJDT1VQOWxiWUN4Z0h1dUtPS0RZbnpXNHJzRUhFY1dsbzNZVHpWYnBqQkUx?=
- =?utf-8?B?Slp0L2s4V0x0N1d1SGRBN0UvazhMemt1RE81RUJjMUtVekxPWTFrVXNacEdy?=
- =?utf-8?B?MmQxbFJRQUNUZDh5TjZHMHVwL0FwSzY3RmFMWkdXbUN0YWo3NFllRFJzbWdk?=
- =?utf-8?B?b2g0OXJzUG5zVGl5ek13M2ptM0RYM0NmV01qaUxwT2Fia1pranVJbWhKaHRT?=
- =?utf-8?B?YVZ3cStwTFZzOWNZTjlSbnNHS0pQYjF5b1Zha1BnMnUvTDJGTEJSV2p0NGUx?=
- =?utf-8?B?VUFjU0xJbzN3Qnh6N3lxMkpkakVraUxqWWF3Zm5ZU0JYTWFJYkRGb3JKczlY?=
- =?utf-8?B?TTJqS1JFdDRsOXpia3hiK2NndWFvdXRZbVQvZDk2SUZEQXJJdmtSdE9KS2xq?=
- =?utf-8?B?R0N6LzRYYXUxRUhkM2czeXI0Yk4rY1BIUnZRNWhwZEpPQnlXUzJaeXFCUGEy?=
- =?utf-8?B?VUwycGFSWFF2cWtRNjlrUjdQS3pvV1pzbkFnRXZUMk9GYzR3cXlLQ1gyYWVC?=
- =?utf-8?B?REVWc2ZWcUhTb3g1UHo3WkpXZ2JUMzdHMFdrR2c1WDFnRWo0UlRLeC82ZkRI?=
- =?utf-8?B?THI2WGx1WlBOTTc0RWdxS2ZZVUJXZ3dSR0l5SDZDRytoVFpFbDhtSnJHdkwz?=
- =?utf-8?B?YjI0bXJYUTcyNUs0eXVmTS9uTW5DeWVvYTZxMUZsYkczWTY0Y3JiTlhmUEp1?=
- =?utf-8?B?R2piS1Z5SSttSk5nb1ZOUWZKWi80YWZFeTU2UjJBcVY5dktHS1FoVnJvMVRT?=
- =?utf-8?B?VDhpLzZPQmhhNUxNeDVOOUpIREJIeTM0SU1XVXFsQXJqSzIyNEJtM20xSXQx?=
- =?utf-8?B?WFE9PQ==?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cce69aba-7106-4a1d-2384-08db65b2d97a
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2023 10:51:43.2481
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qAQUY5dtlPqidHt7F0ZLAyk5OHXCCHLcI5PV4X9zSZ2+Yraz7KBfjS9r+mI//MF2RYOBVRfZACpCfIWH7+130w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7296
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xTdxTH/d3b3hal5rbI/FFlYAnZwPDoVsoPAlMnkKuAYZsxm9OxSu+A
+	UErXB0zJEMYYAaWAL2YhKo/Ia5HJ+yEP242nhAUsBBamg6LbdDwkG2I3N8rFzf++53PO+X1z
+	zi+Hiwu+5gi58UotrVbKFCJiM6vZ5OHp5Wb+XO7b9xigusFeHNVO5xPokekJQJcWV3Fk6ckG
+	aMyyFd3v3oM654vZaLKnDUO3ys5hqLr2ewx1lC5h6JxxHKA5swFDnVO7UelXFSx0q3OAhcba
+	Swh09focB52ZaCVQZd9zDBnPZ2Ko1ZIBULP1Ko5uPFpgof6pHWjk7z42sj4tIfbupMbuhlOG
+	e8ME1WaY5lAjP91kUQ1VntTYsI6qr8khqIaK01THZDpBlevPs6m8zHmCWpqbYlELXWaC0jfW
+	AKphKJVarn81in80ISiOlslptSutjEmSxytjg0Xh70Xvj/aT+oq9xAHIX+SqlCXSwaKQiCiv
+	sHjF2nZErskyhW4NRck0GpHPW0HqJJ2Wdo1L0miDRbRKrlBJVN4aWaJGp4z1VtLaQLGv7xt+
+	a4UfJ8TNVloIlfngZ99+F5AOZqS5wI4LSQlsHtJzcsFmroDsADC3r5BtSwjIJwAuVToziWUA
+	/5isI3IBd72jqyGS4e0Alv5lZjNBFgYLS60cWxFB7oZD/3BtfBtZhcOMlTssW4CTFTisfry4
+	buFA+sPVhzPA1sAi3WFO9gc2zCMDYd9gE4cx84H59/gM5sOByxaWTeOkC8xsKsZtT0LSZAeH
+	L6WzmXFCYLHpOsFoB/hbXyOH0UK4PN+5wVNg9YUqgmn+EkDDhAEwiT0wazAftxnjpAesa/dh
+	sDO8OHgDY4y3wjyrBWM4D7ZeeaHd4Dd11zbed4LjKxkbmoIm4wWC2ehxqL8yRRQAF8NL8xhe
+	msfwv/M1gNcAJ1qlSYylNX4qsZJO+e9bY5IS68H6iXgeaAXT9xe9jQDjAiOAXFy0jdd+MFUu
+	4MllJ0/R6qRotU5Ba4zAb23FhbjQMSZp7caU2mixJMBXIpVKJQFvSsWi7bzXggdiBGSsTEsn
+	0LSKVr/ow7h2wnQsfJe0dSm6Vx/hrjo+k9LzrMTSuyhUn/Vv/qEn4vVl1/Aif+lsd7ni5HPH
+	s/ItSqch502j4/mCoJaWtLyJMacc+ukpv37deERmb53BQgV6jgpzrZSMn53JfjebPR95UZ8S
+	un9LdXoTryxs6UNpyG37I2mrOnLuxOHYxmeVIx6T3fWR/GOCm2lfSLYPJz8MO/R7fOg+n4Kf
+	/9xxOfmByORQK977406FdWnTr5/kxO1r/uXIg7Ku04cCglvoGmvFnFOPe/FK1tFh5R2fhdCA
+	d1o7Gj5yLv+0eEoiDRw90BYJ3ALzHI/ZuzgWpd4tD337/dkivn3/oMkc9srh5QLixG2QWqXc
+	JWJp4mRiT1ytkf0LW7rOTKsEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrBIsWRmVeSWpSXmKPExsWy7bCSvK7B5doUg20dghbrTx1jtlh9t5/N
+	4vXhT4wW0z78ZLZ4cqCd0eLyEz6LB/vtLfa+m81qcfPATiaLPYsmMVmsXH2UyWL3wo9MFpMO
+	XWO0eHp1FpPF3lvaFgvblrBY7Nl7ksXi8q45bBbzlz1lt+i+voPNYvnxf0wWhyY3M1nseNLI
+	aLHt93xmi3Wv37NYnLglbXH+73FWi98/5rA5yHhcvuLtMev+WTaPnbPusnucv7eRxWPzCi2P
+	y2dLPTat6mTz2Lyk3mP3zQY2j8V9k1k9epvfsXl8fHqLxeP9vqtsHn1bVjF6bD5d7fF5k1yA
+	YBSXTUpqTmZZapG+XQJXxuPlT9gKrnpVbDhi2cD4yKyLkYNDQsBEYt9m3y5GTg4hgR2MEu/O
+	RIDYEgKSEsv+HmGGsIUlVv57zt7FyAVU08wksePmXCaQXjYBbYnT/zlA4iICW5glzv6azAri
+	MAtsY5b48OELO0i3sIC5xM/njxhBGlgEVCU62yNBwrwCVhLHT21lh7hBX6L/viBEWFDi5Mwn
+	LCBhZgF1ifXzhEDCzALyEs1bZzNPYOSfhaRqFkLVLCRVCxiZVzFKphYU56bnFhsWGOWllusV
+	J+YWl+al6yXn525iBEe+ltYOxj2rPugdYmTiYDzEKMHBrCTCu8urOkWINyWxsiq1KD++qDQn
+	tfgQozQHi5I474Wuk/FCAumJJanZqakFqUUwWSYOTqkGpvguiZK4GbO0Gg6u/buu8nSiZEND
+	82S1iXuiVk/gyHzdWWLvmb/z2PYmfcM9Lq5mkw/fW6F5riVy4tGWw1nT3/ocm3220pDvvtMD
+	m786tQceTnv2KrZHJqGE8Z/sW9Hs/4f3+X+1vh73KKZEn936Q2YvK9/hlRF6erM60t+pehae
+	nrVFIznzjvsazfXznF2O/1r+6z4H5wm5bfLRQkbHnvzUO+I1bYLn+5+/bL2ZdnxJ6matymE/
+	ONXUc9bEsq07H61oOebrcZSJJ+qsWsv7D5PlJ25fa++dyTJB/ZSomXXYgXftP1w/lvOlCMtJ
+	PJgu7fLbSMksZ8c1V6YV7k9Ul8QYMCw1yv/x54V4mPWeMiWW4oxEQy3mouJEAPt5DixrAwAA
+X-CMS-MailID: 20230605122104epcas5p4ef1775cd4a218faa7b2459d58f63c275
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230605122104epcas5p4ef1775cd4a218faa7b2459d58f63c275
+References: <CGME20230605122104epcas5p4ef1775cd4a218faa7b2459d58f63c275@epcas5p4.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230605_035203_843495_3ED9AEF9 
-X-CRM114-Status: GOOD (  17.55  )
+X-CRM114-CacheID: sfid-20230605_052935_173996_DF44E7B3 
+X-CRM114-Status: GOOD (  26.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -148,74 +147,244 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+The patch series covers the points discussed in past and most recently
+in LSFMM'23[0].
+We have covered the initial agreed requirements in this patchset and
+further additional features suggested by community.
+Patchset borrows Mikulas's token based approach for 2 bdev implementation.
+
+This is next iteration of our previous patchset v11[1].
+
+Overall series supports:
+========================
+	1. Driver
+		- NVMe Copy command (single NS, TP 4065), including support
+		in nvme-target (for block and file backend).
+
+	2. Block layer
+		- Block-generic copy (REQ_COPY flag), with interface
+		accommodating two block-devs
+		- Emulation, for in-kernel user when offload is natively 
+                absent
+		- dm-linear support (for cases not requiring split)
+
+	3. User-interface
+		- copy_file_range
+
+Testing
+=======
+	Copy offload can be tested on:
+	a. QEMU: NVME simple copy (TP 4065). By setting nvme-ns
+		parameters mssrl,mcl, msrc. For more info [2].
+	b. Null block device
+        c. NVMe Fabrics loopback.
+	d. blktests[3] (tests block/034-037, nvme/050-053)
+
+	Emulation can be tested on any device.
+
+	fio[4].
+
+Infra and plumbing:
+===================
+        We populate copy_file_range callback in def_blk_fops. 
+        For devices that support copy-offload, use blkdev_copy_offload to
+        achieve in-device copy.
+        However for cases, where device doesn't support offload,
+        fallback to generic_copy_file_range.
+        For in-kernel users (like NVMe fabrics), we use blkdev_issue_copy
+        which implements its own emulation, as fd is not available.
+        Modify checks in generic_copy_file_range to support block-device.
+
+Performance:
+============
+        The major benefit of this copy-offload/emulation framework is
+        observed in fabrics setup, for copy workloads across the network.
+        The host will send offload command over the network and actual copy
+        can be achieved using emulation on the target.
+        This results in higher performance and lower network consumption,
+        as compared to read and write travelling across the network.
+        With async-design of copy-offload/emulation we are able to see the
+        following improvements as compared to userspace read + write on a
+        NVMeOF TCP setup:
+
+        Setup1: Network Speed: 1000Mb/s
+        Host PC: Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz
+        Target PC: AMD Ryzen 9 5900X 12-Core Processor
+        block size 8k:
+        710% improvement in IO BW (108 MiB/s to 876 MiB/s).
+        Network utilisation drops from  97% to 15%.
+        block-size 1M:
+        2532% improvement in IO BW (101 MiB/s to 2659 MiB/s).
+        Network utilisation drops from 89% to 0.62%.
+
+        Setup2: Network Speed: 100Gb/s
+        Server: Intel(R) Xeon(R) Gold 6240 CPU @ 2.60GHz, 72 cores
+        (host and target have the same configuration)
+        block-size 8k:
+        17.5% improvement in IO BW (794 MiB/s to 933 MiB/s).
+        Network utilisation drops from  6.75% to 0.16%.
+
+Blktests[3]
+======================
+	tests/block/034,035: Runs copy offload and emulation on block
+                              device.
+	tests/block/035,036: Runs copy offload and emulation on null
+                              block device.
+        tests/nvme/050-053: Create a loop backed fabrics device and
+                              run copy offload and emulation.
+
+Future Work
+===========
+	- loopback device copy offload support
+	- upstream fio to use copy offload
+	- upstream blktest to test copy offload
+
+	These are to be taken up after this minimal series is agreed upon.
+
+Additional links:
+=================
+	[0] https://lore.kernel.org/linux-nvme/CA+1E3rJ7BZ7LjQXXTdX+-0Edz=zT14mmPGMiVCzUgB33C60tbQ@mail.gmail.com/
+            https://lore.kernel.org/linux-nvme/f0e19ae4-b37a-e9a3-2be7-a5afb334a5c3@nvidia.com/
+            https://lore.kernel.org/linux-nvme/20230113094648.15614-1-nj.shetty@samsung.com/
+	[1] https://lore.kernel.org/all/20230522104146.2856-1-nj.shetty@samsung.com/
+	[2] https://qemu-project.gitlab.io/qemu/system/devices/nvme.html#simple-copy
+	[3] https://github.com/nitesh-shetty/blktests/tree/feat/copy_offload/v12
+	[4] https://github.com/vincentkfu/fio/tree/copyoffload-3.35-v12
+
+Changes since v11:
+=================
+        - Documentation: Improved documentation (Damien Le Moal)
+        - block,nvme: ssize_t return values (Darrick J. Wong)
+        - block: token is allocated to SECTOR_SIZE (Matthew Wilcox)
+        - block: mem leak fix (Maurizio Lombardi)
+
+Changes since v10:
+=================
+        - NVMeOF: optimization in NVMe fabrics (Chaitanya Kulkarni)
+        - NVMeOF: sparse warnings (kernel test robot)
+
+Changes since v9:
+=================
+        - null_blk, improved documentation, minor fixes(Chaitanya Kulkarni)
+        - fio, expanded testing and minor fixes (Vincent Fu)
+
+Changes since v8:
+=================
+        - null_blk, copy_max_bytes_hw is made config fs parameter
+          (Damien Le Moal)
+        - Negative error handling in copy_file_range (Christian Brauner)
+        - minor fixes, better documentation (Damien Le Moal)
+        - fio upgraded to 3.34 (Vincent Fu)
+
+Changes since v7:
+=================
+        - null block copy offload support for testing (Damien Le Moal)
+        - adding direct flag check for copy offload to block device,
+	  as we are using generic_copy_file_range for cached cases.
+        - Minor fixes
+
+Changes since v6:
+=================
+        - copy_file_range instead of ioctl for direct block device
+        - Remove support for multi range (vectored) copy
+        - Remove ioctl interface for copy.
+        - Remove offload support in dm kcopyd.
+
+Changes since v5:
+=================
+	- Addition of blktests (Chaitanya Kulkarni)
+        - Minor fix for fabrics file backed path
+        - Remove buggy zonefs copy file range implementation.
+
+Changes since v4:
+=================
+	- make the offload and emulation design asynchronous (Hannes
+	  Reinecke)
+	- fabrics loopback support
+	- sysfs naming improvements (Damien Le Moal)
+	- use kfree() instead of kvfree() in cio_await_completion
+	  (Damien Le Moal)
+	- use ranges instead of rlist to represent range_entry (Damien
+	  Le Moal)
+	- change argument ordering in blk_copy_offload suggested (Damien
+	  Le Moal)
+	- removed multiple copy limit and merged into only one limit
+	  (Damien Le Moal)
+	- wrap overly long lines (Damien Le Moal)
+	- other naming improvements and cleanups (Damien Le Moal)
+	- correctly format the code example in description (Damien Le
+	  Moal)
+	- mark blk_copy_offload as static (kernel test robot)
+	
+Changes since v3:
+=================
+	- added copy_file_range support for zonefs
+	- added documentation about new sysfs entries
+	- incorporated review comments on v3
+	- minor fixes
+
+Changes since v2:
+=================
+	- fixed possible race condition reported by Damien Le Moal
+	- new sysfs controls as suggested by Damien Le Moal
+	- fixed possible memory leak reported by Dan Carpenter, lkp
+	- minor fixes
+
+Changes since v1:
+=================
+	- sysfs documentation (Greg KH)
+        - 2 bios for copy operation (Bart Van Assche, Mikulas Patocka,
+          Martin K. Petersen, Douglas Gilbert)
+        - better payload design (Darrick J. Wong)
+
+Nitesh Shetty (9):
+  block: Introduce queue limits for copy-offload support
+  block: Add copy offload support infrastructure
+  block: add emulation for copy
+  fs, block: copy_file_range for def_blk_ops for direct block device
+  nvme: add copy offload support
+  nvmet: add copy command support for bdev and file ns
+  dm: Add support for copy offload
+  dm: Enable copy offload for dm-linear target
+  null_blk: add support for copy offload
+
+ Documentation/ABI/stable/sysfs-block |  33 ++
+ Documentation/block/null_blk.rst     |   5 +
+ block/blk-lib.c                      | 445 +++++++++++++++++++++++++++
+ block/blk-map.c                      |   4 +-
+ block/blk-settings.c                 |  24 ++
+ block/blk-sysfs.c                    |  63 ++++
+ block/blk.h                          |   2 +
+ block/fops.c                         |  20 ++
+ drivers/block/null_blk/main.c        | 108 ++++++-
+ drivers/block/null_blk/null_blk.h    |   8 +
+ drivers/md/dm-linear.c               |   1 +
+ drivers/md/dm-table.c                |  41 +++
+ drivers/md/dm.c                      |   7 +
+ drivers/nvme/host/constants.c        |   1 +
+ drivers/nvme/host/core.c             | 103 ++++++-
+ drivers/nvme/host/fc.c               |   5 +
+ drivers/nvme/host/nvme.h             |   7 +
+ drivers/nvme/host/pci.c              |  27 +-
+ drivers/nvme/host/rdma.c             |   7 +
+ drivers/nvme/host/tcp.c              |  16 +
+ drivers/nvme/host/trace.c            |  19 ++
+ drivers/nvme/target/admin-cmd.c      |   9 +-
+ drivers/nvme/target/io-cmd-bdev.c    |  62 ++++
+ drivers/nvme/target/io-cmd-file.c    |  52 ++++
+ drivers/nvme/target/loop.c           |   6 +
+ drivers/nvme/target/nvmet.h          |   1 +
+ fs/read_write.c                      |   7 +-
+ include/linux/blk_types.h            |  25 ++
+ include/linux/blkdev.h               |  23 ++
+ include/linux/device-mapper.h        |   5 +
+ include/linux/nvme.h                 |  43 ++-
+ include/uapi/linux/fs.h              |   6 +
+ 32 files changed, 1166 insertions(+), 19 deletions(-)
 
 
-On 05/06/2023 12:13, Chaitanya Kulkarni wrote:
-> On 6/3/23 17:35, Max Gurtovoy wrote:
->> Hi,
->>
->> On 02/06/2023 9:47, Chaitanya Kulkarni wrote:
->>> There is no point in maintaining a separate funciton __nvmf_host_find()
->>
->> typo *function
->>
->>> that has only one caller nvmf_host_add() especially when caller and
->>> callee both are small enough to merge.
->>>
->>> Due to this we are actually repeating the error handling code in both
->>> callee and caller for no reason that can be avoided, but instead we have
->>> to read both function to establish the correctness along with additional
->>> lockdep warning check due to involved locking.
->>>
->>> Just open code __nvmf_host_find() in nvme_host_alloc() with appropriate
->>> comment that removes repeated error checks in the callee/caller and
->>> lockdep check that is needed for the nvmf_hosts_mutex involvement,
->>> diffstats :-
->>
->> The above 2 sentences are redundant IMO.
->> There is no error handling in the callee so it can't be repeated. We
->> just return error in the callee.
-> 
-> and that is error handling, without error conditions we would
-> only returning either valid host (that is non NULL) or NULL in
-> absence of host in the list. That -EINVAL return is the reason
-> we need separate check with IS_ERR in the caller ...
-> 
-> -    if (IS_ERR(host)) {
-> -        goto out_unlock;
-> -    } else if (host) {
-> -        kref_get(&host->ref);
-> -        goto out_unlock;
+base-commit: 9ca10bfb8aa8fbf19ee22e702c8cf9b66ea73a54
+-- 
+2.35.1.500.gb896f729e2
 
-this check happens in the caller. No duplication.
-
-> 
->> The first sentence is good enough to justify this patch.
->>
->> Lets have instead:
->>
->> "Merge its code with the only caller nvmf_host_add() since both are
->> small enough.
->> The lockdep check in __nvmf_host_find() after the merge becomes
->> redundant so we can remove it too."
->>
->>
-> 
-> I don't understand what you are saying, provide a complete commit
-> log that can be applied verbatim to this patch.
-
-just say something like:
-
-"
-Open code __nvmf_host_find() since there is only one caller for it and 
-both are small enough to merge.
-As a result, the lockdep check in __nvmf_host_find() after the merge 
-becomes redundant so we can remove it too.
-"
-
-
-> 
-> -ck
-> 
-> 
 
