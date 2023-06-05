@@ -4,36 +4,36 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96C08C7EE2A
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jun 2023 06:52:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7452C7EE24
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Jun 2023 07:01:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=l0C3MBnu3YzyxEJagq3unubbVCFU7DzFbpYYQj1Oz5I=; b=B/st6bHNIUxqz3pbUd3r5ryYxL
-	H7GvLXz58rjUFGswxE3h0CSE9jGWbepR5ESqQSrOAdrw5D4XkODAwvGgKE3rngLcs7STYSdfGfkHh
-	GgD03QxdJg+bTNy7vJdIBKq3xnDmXgXVnLXTl5ocA01gm8/WKHSo4nW5eW5Nbk89bDsb8kHcafFP9
-	bl3dmjLrSB30aK+JH7TMnGe5hD0WR5JP0PLFqv0S8G3XPZdpYBHZzNz5AYcnX4N1T40BWVc7CpQpb
-	41zeZT5qBQrMz2zHoKekUYh3SYT1uk/IfWTUcYBun4G19q04zyZxhGv7N7XV17gHhebim99WZtFXZ
-	uGs4ARSg==;
+	bh=uHlwcUoVghZY+A+hlQT1MVF9SPGCfhGhmgmgdv1OjYQ=; b=gJq60AoRTUUXlZIZELd+vkB4wW
+	XCWKXI/gkN62vrV+u/3Kc/LrRFZ+JSd5HP03iMYDJ30u2Kc6oNF9fE2YatR7/Ol7vy9LGbLzNI/ew
+	jK5eSM07IF5YbSBdWO/Gcc2InWR9mbJAigg+elZ10/wJgSusA/a+Pndau9/Cp4GlgcFTZqhFq9E2T
+	WNzNDgcrc7DzMgxNlvKBMpmgLGmLnFCHBSS3X38jEXFwmzMAF5tmZV1+SqDSFScR/pFDI/ZeyFqFt
+	GXEEIIbxW5yDR34BBaVIX/4d9mx40nN5pOIfDX1hN+dpgGCxPSUDXoC1BjcfqoDOJVdKE6gd5ABVg
+	cOsip0ng==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q644c-00ERo4-2T;
-	Mon, 05 Jun 2023 06:52:14 +0000
-Received: from mail-bn1nam02on20612.outbound.protection.outlook.com ([2a01:111:f400:7eb2::612] helo=NAM02-BN1-obe.outbound.protection.outlook.com)
+	id 1q64DE-00ETWv-1o;
+	Mon, 05 Jun 2023 07:01:08 +0000
+Received: from mail-bn8nam11on20600.outbound.protection.outlook.com ([2a01:111:f400:7eae::600] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q644Z-00ERmC-2L
+	id 1q64DB-00ETVh-17
 	for linux-nvme@lists.infradead.org;
-	Mon, 05 Jun 2023 06:52:13 +0000
+	Mon, 05 Jun 2023 07:01:06 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RdrWbPAvcjWvay3KFk1skF5yIA2j+ZYt1DzAR9qVyEja4ojX+6DppIyKP9ipDJFCnNyveCZj5kubrcO0Eqvv5erbgRXLoC67ZO5u/WmtojJGbyRK/46pE/dpLYP4cUHGs/KlSqJOISiYZTlGdpntbtt0vPCBPXkdEvHd51cCIfLOKBgnRG/nBaQCgU53KW1m0lrSiEAyjTip6FMuejjl9qQ2gellWP1DJaKbKeyw56itzeNRHJy2wxXmZpjy+Cx7QYv63kLZlHT7CvvlZdBwFGnOx9UFRRxiQCvh3Gb/Mv7MCyB8KMswX6af8FUrTnJLlswrIhidPs1odddxBvrPNQ==
+ b=THLGIAXFFxb2cNUAflZyVsaRs0ImMsYbE6O6mQMD0xWIK4kv4bD5/sticXycPhpGM3XwKrIJZi8zmupdB+XICsIBWYzHtqVXEDEFmkdXuOO7pIGdPH+k6z3M5yQz3R1uCaS1zb5RsOm8zfWsDPHsgDiuFsq9oGVQSiEP6XkOKIn3+mKDaDCa71Fh58TA/2EmREmKZh1KB7TdUx0oXaMBb+wGMK/Gpgvc5/GL5UjgkBe5w49fEfVV3J9OyR5LyS7oDYWRezPUhzdjWFvIGuIC66Dj6iIg/ha+K4fRuQkDnHk2is2qheyLR9feWhx1BEhRkH3oQZdB6bR0MaxeuvCtTg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=l0C3MBnu3YzyxEJagq3unubbVCFU7DzFbpYYQj1Oz5I=;
- b=PDlX7SgjI74Bu09/gG6PTvtjV8TUPU9sPLTK0TR2MBH4myTZTCxjYjCKUZUUcTTTWMzjsC6Cd7AJ87PrI3JNA5cAYRMoRlfcMCG4NGqyAQjMNGodIaP3tKqN0JNhVQZHNllZu0ZAkvVODYRxEgfU2SN1KipRDqO5rCy5oKrNqXPbt+BJ3B7lZk3soV+e2oZcav7VwRghjEkhu2YgoudH6CmwnObdPzKeD83Rn7cbsKcrmFpJafhD/wYuBOXLzZOpznwKBg5pOXy3KkTAnN82oJnGWG8WqdBGgiVKwwVtl96OR24EAsXt53v2ayiUz896h6IVj0WGWU4cl9OHOYyhMg==
+ bh=uHlwcUoVghZY+A+hlQT1MVF9SPGCfhGhmgmgdv1OjYQ=;
+ b=A8S8UFfQvo98RTjKn4w8fRve6g/S4egPB29uN0Tif8IU5BwtMePqO97e0UuL+n7BZq/r2jVslqtc0kUPm/uNw02J/5k84oRii8bkfNrc6HuxtlCUQJQgcgKqFQ0T1oVk0OuiFavcLY7no4FgsgVqcinsUohc31pru9sKoErVMaLk1r5+GhdsoGCALMQeToTEjqVgCqD5UEgGQSFTfJY54unM7Am5YwhR39g8PbUCZQ09/ckFHbncSkizDYru78RiEE4n0ADLwkpgVLm7X+xaWPZvYwxGoTuZqkS30S+z0iI8a21AslhVlH7cff0OYZyoggXR1ighaNVKggZPHJUP1w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  216.228.117.160) smtp.rcpttodomain=suse.de smtp.mailfrom=nvidia.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
@@ -41,18 +41,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l0C3MBnu3YzyxEJagq3unubbVCFU7DzFbpYYQj1Oz5I=;
- b=GvGYxCaVFBJGuODwbQmRIvEnOo8vRJJrOEd3Ux8D15EwsBXLYQ8yzBXXisPc7cwtffeul/skH22f32nWthjlLp0cK56qnZK9OjZdcPQE8rceK0elmtu5NI1zn/ogn+y1EonOG1nlxF24dEz+FNne2S07RyrQ8arnErH8E5g0NdH0eOkwF9PHN34dQ5uID9KM+ruHemALhQs+x/KkFtQJCt0uz8tZ2XbDYnP3YdG0ncerCMMkw6HJyXZC9f8DuYxjwxgtzlwjkx9j9AlzD35mzsm8Mbe1KPMcIwjVvwiuhZxpqF7gmGm3rHTN0ZoP2Fawjtocv0Bcva9YAMMYGg6gOg==
-Received: from MW4PR03CA0266.namprd03.prod.outlook.com (2603:10b6:303:b4::31)
- by IA1PR12MB6019.namprd12.prod.outlook.com (2603:10b6:208:3d5::16) with
+ bh=uHlwcUoVghZY+A+hlQT1MVF9SPGCfhGhmgmgdv1OjYQ=;
+ b=q64Ln3AoqR+JmSXKWSzmh5yCmfvE74nDNKxuesp+3jR85PUuHbGOUG3mAIlNqY4SlsdfLA5vYlovmOFFNQLpIp0IWZMixKdwvRibf9tYmxR+BBLmH+NWLBCcK1xnE/qNFyh01NnTdt2WRPjTrHqEPvT8Z0hamMB+hu8b1y2yfftpqOOwbewcB8X2tNvdYVXAlA+yAW2+FLwS1G+1CQw9iSMCTJF7F6cFBnJUValQ9Sj0wlscuWNNkHxu1+LL3vYo5pzO45txBwrJhOPWFcyU2mdVq0rrXOHrB+OE9rC8t8rrRZe2l3wNj75mcVCSmaEwdt9gOi4gvY4rnTTRv2uo6Q==
+Received: from BN9PR03CA0089.namprd03.prod.outlook.com (2603:10b6:408:fc::34)
+ by CY8PR12MB7729.namprd12.prod.outlook.com (2603:10b6:930:84::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.32; Mon, 5 Jun
- 2023 06:52:05 +0000
-Received: from CO1NAM11FT076.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:b4:cafe::12) by MW4PR03CA0266.outlook.office365.com
- (2603:10b6:303:b4::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.33; Mon, 5 Jun
+ 2023 06:45:43 +0000
+Received: from BN8NAM11FT106.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:fc:cafe::b2) by BN9PR03CA0089.outlook.office365.com
+ (2603:10b6:408:fc::34) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.32 via Frontend
- Transport; Mon, 5 Jun 2023 06:52:05 +0000
+ Transport; Mon, 5 Jun 2023 06:45:43 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
  smtp.mailfrom=nvidia.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=nvidia.com;
@@ -60,27 +60,27 @@ Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
  216.228.117.160 as permitted sender) receiver=protection.outlook.com;
  client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
 Received: from mail.nvidia.com (216.228.117.160) by
- CO1NAM11FT076.mail.protection.outlook.com (10.13.174.152) with Microsoft SMTP
+ BN8NAM11FT106.mail.protection.outlook.com (10.13.177.7) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6455.23 via Frontend Transport; Mon, 5 Jun 2023 06:52:04 +0000
+ 15.20.6455.32 via Frontend Transport; Mon, 5 Jun 2023 06:45:43 +0000
 Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
  (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Sun, 4 Jun 2023
- 23:51:56 -0700
+ 23:45:29 -0700
 Received: from dev.nvidia.com (10.126.230.35) by rnnvmail201.nvidia.com
  (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.37; Sun, 4 Jun 2023
- 23:51:55 -0700
+ 23:45:28 -0700
 From: Chaitanya Kulkarni <kch@nvidia.com>
 To: <hare@suse.de>
-CC: <kbusch@kernel.org>, <hch@lst.de>, <sagi@grimberg.me>,
-	<linux-nvme@lists.infradead.org>, Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH V2 2/2] nvme-core: use macro defination to define dev attr
-Date: Sun, 4 Jun 2023 23:51:25 -0700
-Message-ID: <20230605065125.47563-3-kch@nvidia.com>
+CC: <hch@lst.de>, <sagi@grimberg.me>, <linux-nvme@lists.infradead.org>,
+	<kbusch@kernel.org>, Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH V2 4/4] nvmet-auth: use correct type for status variable
+Date: Sun, 4 Jun 2023 23:44:34 -0700
+Message-ID: <20230605064434.45233-5-kch@nvidia.com>
 X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230605065125.47563-1-kch@nvidia.com>
-References: <20230605065125.47563-1-kch@nvidia.com>
+In-Reply-To: <20230605064434.45233-1-kch@nvidia.com>
+References: <20230605064434.45233-1-kch@nvidia.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -89,26 +89,27 @@ X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
  rnnvmail201.nvidia.com (10.129.68.8)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT076:EE_|IA1PR12MB6019:EE_
-X-MS-Office365-Filtering-Correlation-Id: 38022126-9842-414a-fd4b-08db65915f8b
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT106:EE_|CY8PR12MB7729:EE_
+X-MS-Office365-Filtering-Correlation-Id: be421370-702f-476e-c037-08db65907c0b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: weNGLwuGGVKOm3YComJv9m8lkEvQG8Tx2w+u/O/+Kprs/amj43VoOVrsfOdzL9ZYMPZZ27ci1mQirZN1luW9Ag804H7Uh7yP92eVV+FllqT9RnuQuesiPuJfJrnmrThfC4Gi3/7ufoacD6LXckzV0HReX1WGVKiTfR2u/n60zUv3IoSn9Sns4e/GfK1KesznZ1rH8KfqRD7O+bhzLG7RxwXmcY9jh44MTrhdm+QhosYkAHtX37WS9GhED0iV3vlwCxKEGuFQCA5vdrEgcdJBgeqdF6Hm7xvHsUEeJAvwu4W/6gCua4SNQ2SVYtusIkRKIgACEpQ8+pq/ueqPWQujBkuZYI/MyYFBXxv5fSW9ToREidlSQDAHcb/b2OHD1/QIJ3LudHreXUMLGENPhSieOz0Q4tHbmlkl/gvveM4ok0gD/50nj9Fv824D0+QGjxlGhICWLzQNC1K3Qehy4ub4+tjS4kZivTS6gxsozQ1PQJ7yvMcu6WiBrTrjuNPSrjTG8c6Os+UoWTR7yABXcd2falaK2PgRktHorWTpZpaN/m1gTwyohRgcybMHdT3qZzz1i9yajZwvgqdJOeaaDxWEcDXxO+kXuD5p/YKqLgFjNWTjIP9yV2k952gZ2hT5zNPPU3KOSSG7oljfXZrdoo17m6/Oa5uau/o5qZqkn3AKqZO5yk1YTH25v2Lh38EggT5Zm/96oOTMRyoebaf5ZTvMBufQvsdD8EOJWDHdlOlhfmfPWoU4L6ed+fCQ5kv1TDaP
-X-Forefront-Antispam-Report: CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(376002)(346002)(396003)(136003)(451199021)(40470700004)(46966006)(36840700001)(40460700003)(83380400001)(47076005)(336012)(426003)(2906002)(2616005)(36756003)(82310400005)(356005)(82740400003)(7636003)(36860700001)(40480700001)(7696005)(316002)(41300700001)(6666004)(5660300002)(107886003)(8936002)(8676002)(54906003)(478600001)(6916009)(4326008)(70206006)(70586007)(26005)(1076003)(16526019)(186003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: UYFXxZ3yFVabTAlbkY9xTvU/28Rv76/JwCdZ1N8H8QcswwgIyNps82VlEVyiRNjCayDPzLZwuSHRonTpNJi98Gu9Xs0HjSANKUIo6RZb7JKhsCEqXv6zvHxI8dG4J9jzTWmpXu9pAuRZfoyhGAnVz9ciqfkky6R0mH0U28s7Pz4oxTlFf9/9aKOZ/MHXHaH3TK2hT+TpUqgKuX0AclHNO97bxxIRn9qW3slvbQapoaXU1/0uL+2dkKIgGjQlOcbsk1xV5g5CW8IWc6snPaOb9fZ2mm1/KodZi42QwyFqBE1ScCQb8EpMrPP9jTil8tQyekwEb2eCsu5TczSXQcjiwP3VrmwZSxhPOHL8USHeF2Zi14NfLQXEdm7Yab3E4JnlsAyNyRlQ2dJMvoPj0WSzWLRNl3h06FLWqodeIFSjrXTSy2SaIFSLU9RCyiv4it4udjYT/QN78Uwn0YokUHVMh9PxbRJQQ/oZ093+fHHFrXkR10DuOXhFTClw1w1Q5+mk/HcGui0g9CWtu0NXX76w7BCVv3wteAFTKUZKZVGF+jwUngA5O8mNE87MSAg87iOlsUDuk9XRIMoVw8mYV8UzJSIPLj/t+zqjleEj+XF7SNJV1VmdTGWJSueMeTsOJc4NUZ0cyN2Sx+2aNUgvNxLpnjXGoKqwcgVwL+SIJlPvTuVYPnWfYqYMNpmmPEGRlHi7dSC8TKuJ5WGO7T6PQFkkYgxoRHSBNnNCiLWoN09IlnEPRcdsOxZlCLpIt56oENkv
+X-Forefront-Antispam-Report: CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(136003)(396003)(39860400002)(451199021)(36840700001)(46966006)(40470700004)(1076003)(107886003)(2616005)(41300700001)(7696005)(426003)(336012)(6666004)(47076005)(36860700001)(26005)(186003)(16526019)(83380400001)(40460700003)(478600001)(40480700001)(54906003)(4326008)(6916009)(82310400005)(82740400003)(7636003)(356005)(70206006)(70586007)(316002)(8936002)(8676002)(5660300002)(2906002)(36756003);DIR:OUT;SFP:1101;
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2023 06:52:04.9792
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2023 06:45:43.2023
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 38022126-9842-414a-fd4b-08db65915f8b
+X-MS-Exchange-CrossTenant-Network-Message-Id: be421370-702f-476e-c037-08db65907c0b
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT076.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT106.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6019
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7729
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230604_235211_766507_5622E663 
-X-CRM114-Status: GOOD (  10.23  )
+X-CRM114-CacheID: sfid-20230605_000105_386956_F57A41D0 
+X-CRM114-Status: UNSURE (   9.15  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,107 +124,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Insated of duplicating the code for dhchap_secret & dhchap_ctrl_secret,
-define a macro to register device attribute to create device attribute
-that will also define store and show helpers.
+In structructure nvmet_sq dhchap_step member is responsible to hold
+following values :-
 
-Note that this is not newly invented but followed the same format
-preasent in block layer and nvme source code.
-nvme_show_str_function/nvme_show_int_function/
-nvme_subsys_show_str_function/ nullb_device_##NAME##_show/
-nullb_device_##NAME##_store/LOOP_ATTR_RO
+        NVME_AUTH_DHCHAP_FAILURE_FAILED                 = 0x01,
+        NVME_AUTH_DHCHAP_FAILURE_NOT_USABLE             = 0x02,
+        NVME_AUTH_DHCHAP_FAILURE_CONCAT_MISMATCH        = 0x03,
+        NVME_AUTH_DHCHAP_FAILURE_HASH_UNUSABLE          = 0x04,
+        NVME_AUTH_DHCHAP_FAILURE_DHGROUP_UNUSABLE       = 0x05,
+        NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD      = 0x06,
+        NVME_AUTH_DHCHAP_FAILURE_INCORRECT_MESSAGE      = 0x07,
+
+These values can never be negative, hence change int type of
+dhchap_step to u16 in the nvmet_sq declaration.
 
 Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
 ---
- drivers/nvme/host/sysfs.c | 67 +++++++++++++++------------------------
- 1 file changed, 25 insertions(+), 42 deletions(-)
+ drivers/nvme/target/nvmet.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index 98becb7a7453..ff72bcfb0ff8 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -407,17 +407,6 @@ static ssize_t dctype_show(struct device *dev,
- static DEVICE_ATTR_RO(dctype);
- 
- #ifdef CONFIG_NVME_AUTH
--static ssize_t nvme_ctrl_dhchap_secret_show(struct device *dev,
--		struct device_attribute *attr, char *buf)
--{
--	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
--	struct nvmf_ctrl_options *opts = ctrl->opts;
--
--	if (!opts->dhchap_secret)
--		return sysfs_emit(buf, "none\n");
--	return sysfs_emit(buf, "%s\n", opts->dhchap_secret);
--}
--
- static ssize_t nvme_dhchap_secret_store_common(struct nvme_ctrl *ctrl,
- 		const char *buf, size_t count, bool ctrl_secret)
- {
-@@ -472,38 +461,32 @@ static ssize_t nvme_dhchap_secret_store_common(struct nvme_ctrl *ctrl,
- 	return count;
- }
- 
--static ssize_t nvme_ctrl_dhchap_secret_store(struct device *dev,
--		struct device_attribute *attr, const char *buf, size_t count)
--{
--	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
--
--	return nvme_dhchap_secret_store_common(ctrl, buf, count, false);
--}
--
--static DEVICE_ATTR(dhchap_secret, S_IRUGO | S_IWUSR,
--	nvme_ctrl_dhchap_secret_show, nvme_ctrl_dhchap_secret_store);
--
--static ssize_t nvme_ctrl_dhchap_ctrl_secret_show(struct device *dev,
--		struct device_attribute *attr, char *buf)
--{
--	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
--	struct nvmf_ctrl_options *opts = ctrl->opts;
--
--	if (!opts->dhchap_ctrl_secret)
--		return sysfs_emit(buf, "none\n");
--	return sysfs_emit(buf, "%s\n", opts->dhchap_ctrl_secret);
--}
--
--static ssize_t nvme_ctrl_dhchap_ctrl_secret_store(struct device *dev,
--		struct device_attribute *attr, const char *buf, size_t count)
--{
--	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
--
--	return nvme_dhchap_secret_store_common(ctrl, buf, count, false);
--}
-+#define NVME_AUTH_DEVICE_ATTR(NAME, cs)					\
-+static ssize_t nvme_ctrl_##NAME##_show(struct device *dev,		\
-+		struct device_attribute *attr, char *buf)		\
-+{									\
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);			\
-+	struct nvmf_ctrl_options *opts = ctrl->opts;			\
-+									\
-+	if (!opts->NAME)						\
-+		return sysfs_emit(buf, "none\n");			\
-+	return sysfs_emit(buf, "%s\n", opts->NAME);			\
-+}									\
-+									\
-+static ssize_t nvme_ctrl_##NAME##_store(struct device *dev,		\
-+		struct device_attribute *attr, const char *buf,		\
-+		size_t count)						\
-+{									\
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);			\
-+									\
-+	return nvme_dhchap_secret_store_common(ctrl, buf, count, cs);	\
-+}									\
-+									\
-+static DEVICE_ATTR(NAME, S_IRUGO | S_IWUSR,				\
-+	nvme_ctrl_##NAME##_show, nvme_ctrl_##NAME##_store);		\
- 
--static DEVICE_ATTR(dhchap_ctrl_secret, S_IRUGO | S_IWUSR,
--	nvme_ctrl_dhchap_ctrl_secret_show, nvme_ctrl_dhchap_ctrl_secret_store);
-+NVME_AUTH_DEVICE_ATTR(dhchap_secret, false);
-+NVME_AUTH_DEVICE_ATTR(dhchap_ctrl_secret, true);
- #endif
- 
- static struct attribute *nvme_dev_attrs[] = {
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 6cf723bc664e..66d8673c3ebf 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -113,7 +113,7 @@ struct nvmet_sq {
+ 	struct delayed_work	auth_expired_work;
+ 	u16			dhchap_tid;
+ 	u16			dhchap_status;
+-	int			dhchap_step;
++	u16			dhchap_step;
+ 	u8			*dhchap_c1;
+ 	u8			*dhchap_c2;
+ 	u32			dhchap_s1;
 -- 
 2.40.0
 
