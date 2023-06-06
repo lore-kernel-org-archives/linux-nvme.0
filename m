@@ -4,72 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 67EE6C7EE24
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Jun 2023 17:45:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6DB67C7EE24
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Jun 2023 17:45:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nmi/PPknLe5NcPV5GoTVPuKYHIzmi3+CPOd87Hhbxx8=; b=4qK7/8LTN6upUciWNejDuqpSjh
-	CIfYFMqcrRQW6jCblV4n2my6AXlQ4taX9jDNT9eHQKJydKcj2wGNFAscVULzXzO2iRwthUP1Or6yt
-	Qt16kP0g67/K8Lcj7kMYBRDTp6W92YhB5rcL8GeUqjBzwEn7q4A2G4nhjXUPR806Ne3GNSmG80JGv
-	fCiNmfBLoPgGPsVm64tk5XtxZmQM1Ng+9nHTz3j6k0C80zsTsGM4QnNoqn4RVW3DtaWqoliJvrP4Z
-	qn4vZvjkst6ponC8GitGMqwzb+imL3YWI9nuiG7XGXlb9fkV/em2q/UFeVKUCSWfq63me9P2g+AgE
-	BiKw3/Fw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=fHwd4xj0DNhVRRocAAv9zxeTNWtRFM6WDQM6iXc8IWg=; b=PHUjc4wVojRa9IeQDHg/OROZyd
+	G0/ZPZd0Ix4vPGNScFHns0GM09/OJcPne/q61NtXXNQrPPpORbgmzUlpBNR0R+6uMu6pvVPfxh33h
+	cTcHNnZ/vjK4ROW0uZmWeXaxIz+UjH/f2tcKFm52AVN0jCEo7GmHSqkNShS10SZ3lGs99lG51S3Yp
+	gK2BGpKCEzPLajpdIxd1P4MHvt6I5Wx66oiuHzHIclzgVTaReakRaEhN8gLLU4z7adZgTDKYKb/9e
+	VjLcxvF4j74FVWfyxrQrhS1TR9/o93DpMdl9GflCDWxGDmThSdrbJes2g8v6OCrrR4D0D0zBc8FbQ
+	J4hvyvcQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6ajx-002dTm-2Y;
-	Tue, 06 Jun 2023 17:45:05 +0000
-Received: from mail-pg1-f171.google.com ([209.85.215.171])
+	id 1q6akY-002da2-1G;
+	Tue, 06 Jun 2023 17:45:42 +0000
+Received: from mail-qt1-x830.google.com ([2607:f8b0:4864:20::830])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6ajv-002dRv-04
+	id 1q6akV-002dZA-0b
 	for linux-nvme@lists.infradead.org;
-	Tue, 06 Jun 2023 17:45:04 +0000
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-543cc9541feso1224033a12.2
-        for <linux-nvme@lists.infradead.org>; Tue, 06 Jun 2023 10:45:01 -0700 (PDT)
+	Tue, 06 Jun 2023 17:45:40 +0000
+Received: by mail-qt1-x830.google.com with SMTP id d75a77b69052e-3f9baa69682so14851cf.3
+        for <linux-nvme@lists.infradead.org>; Tue, 06 Jun 2023 10:45:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1686073536; x=1688665536;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fHwd4xj0DNhVRRocAAv9zxeTNWtRFM6WDQM6iXc8IWg=;
+        b=eam6jhbQpY2JX8xLLkhv0yaMSMoLq31rBUfLkoZslsOiJRJkYcnUnvE95zvRBgiLS+
+         7yyAitFM+fBVRJRMSziVoj+YSRV7nL9KfAb4jv4askxWgGt/54svqVeb1esLiHnL6nW9
+         OGQ+JnnhznHN9rLPs9omFQ1pI+eUDZEZKQONbYUKhrZPD+9F3ZpvQsW2qxD3IYLdOgvD
+         3E+JUVU2eMrcF0z6QmfuwC82NsXNcUC1DChPuQfVaEBaA7EiX+wuT+zJtewD4guLv+Xa
+         2yk7nxZHgx/VKXUQ4MoGcyijrEUIwPvdNE2cohCzJD952ODv/I1RGLQAKX0y01xxsFlk
+         m8Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686073501; x=1688665501;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nmi/PPknLe5NcPV5GoTVPuKYHIzmi3+CPOd87Hhbxx8=;
-        b=LXhSRXibiLk7znKr/D3FjODhdvZxzuNETTVSld2gdwFOmDWTJs+L8fLojNNj+G0nhJ
-         UX/j8ik6sg9FiOK/yz+N3tW8hH4n8y6tnkf9adRfKxUNLuwRx3/BXapnCvaFRmEIs7cN
-         dlxIIHAemIRXTHCt9VjejtRdd+/9EnPltGfiymqlRwc0ncK2Y3tkFnDXNjAp7p+WOTuF
-         KD0YKmKNPs+LjcWy4d3lsbJu7N62RFZcKJndAT8BI61J3fj4vXxBg+lteXvnasV/rQBN
-         NZrC+N8NciAoeRrYbx+Gmehaa7UB0bfgUoZuAsHR6V+1ZS+A/3BTGQD8O37Hb0eIZe/9
-         tDSA==
-X-Gm-Message-State: AC+VfDwOteL2yYHxH3HuFypvPcWdozuzhDK8vh0kpZnnnHcN8jFHZEmK
-	dpu+cEIkW3HzVU6gYwqIcMY=
-X-Google-Smtp-Source: ACHHUZ5fAcNgcADCkYRu+xZLEJI/xVmrRhz62JDO1XlAcIckIgnvK0ZOSG42WS2yq3aifD/6GR1Uqg==
-X-Received: by 2002:a17:902:c949:b0:1b2:499f:674f with SMTP id i9-20020a170902c94900b001b2499f674fmr335469pla.25.1686073500922;
-        Tue, 06 Jun 2023 10:45:00 -0700 (PDT)
-Received: from [192.168.51.14] ([98.51.102.78])
-        by smtp.gmail.com with ESMTPSA id r19-20020a170902be1300b001ab12ccc2a7sm8784309pls.98.2023.06.06.10.44.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Jun 2023 10:45:00 -0700 (PDT)
-Message-ID: <bb8c8d9b-0fcb-4ba2-eea7-6954d8723d1d@acm.org>
-Date: Tue, 6 Jun 2023 10:44:59 -0700
+        d=1e100.net; s=20221208; t=1686073536; x=1688665536;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fHwd4xj0DNhVRRocAAv9zxeTNWtRFM6WDQM6iXc8IWg=;
+        b=MnfOyz+GyJ1pUtzkENkzPlMm3+0IWR7/D+IE4XTTo4lsxzv27XMoEybloBT6wn/dP0
+         3MwTzzHOscgmoUQOMfqrNS9gL5DrDDtJNKLdjGHsc/ieVou8FRthlzHpLkA9X1OAK+8G
+         z8FInTz7wR085dTTlj5SIqTvXbx6PKn7D6QbHp/xvSdrzx7fi6ZRhMlwtfG/j2hzalJN
+         Rgs8VLSuxjJI0JMAiEC6MEtjcCYmkOI1TeiBt1VBs4PEP6UdtRBGpt+kTRKal5KNeJa1
+         Qz0DTZB1oEZMYFS78OcqllvwG35A9xMWGp6AU+98Fd8Zbr+T7C8f8fBPvl6ERvy8srXE
+         oMkg==
+X-Gm-Message-State: AC+VfDw/f3jQruu0d6vuwFpdRpjVB/qK3CL9D83cdvXjVQBGYCgeQIVj
+	aMag2EXT5HlU7Ns1N0xBkRz3ow==
+X-Google-Smtp-Source: ACHHUZ4l8qvSLj+eigvYITUt4VH//gpwEqDw4vbb6W9i1DMdlyt2QosDSesRuk9286OHGFRVOruivQ==
+X-Received: by 2002:a05:622a:1a1f:b0:3f6:6aae:a0a2 with SMTP id f31-20020a05622a1a1f00b003f66aaea0a2mr321894qtb.55.1686073536576;
+        Tue, 06 Jun 2023 10:45:36 -0700 (PDT)
+Received: from ziepe.ca ([206.223.160.26])
+        by smtp.gmail.com with ESMTPSA id u3-20020a05622a17c300b003f9a77d1ba9sm1884198qtk.43.2023.06.06.10.45.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Jun 2023 10:45:35 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1q6akR-00306g-2b;
+	Tue, 06 Jun 2023 14:45:35 -0300
+Date: Tue, 6 Jun 2023 14:45:35 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Maurizio Lombardi <mlombard@redhat.com>,
+	Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+	linux-nvme@lists.infradead.org, parav@mellanox.com
+Subject: Re: [PATCH] Revert "IB/core: Fix use workqueue without
+ WQ_MEM_RECLAIM"
+Message-ID: <ZH9wv6UNZtxhxrfw@ziepe.ca>
+References: <20230523155408.48594-1-mlombard@redhat.com>
+ <20230523182815.GA2384059@unreal>
+ <CAFL455m3T4qrk0Uf5qK7-57Oh6L6AKionfs0mF-imUMYpbqBOg@mail.gmail.com>
+ <ZHebeWlpn68Xa1Hd@ziepe.ca>
+ <09504ea7-186d-9ede-e01f-87849673b9b2@grimberg.me>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH blktests v1] nvmeof-mp: Remove nvmeof-mp tests
-Content-Language: en-US
-To: Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- Chaitanya Kulkarni <kch@nvidia.com>,
- Shin'ichiro Kawasaki <shinichiro@fastmail.com>,
- Hannes Reinecke <hare@suse.de>, John Meneghini <jmeneghi@redhat.com>
-References: <20230606075443.17437-1-dwagner@suse.de>
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20230606075443.17437-1-dwagner@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <09504ea7-186d-9ede-e01f-87849673b9b2@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230606_104503_064693_81CCF826 
-X-CRM114-Status: GOOD (  13.04  )
+X-CRM114-CacheID: sfid-20230606_104539_430348_5E9948BF 
+X-CRM114-Status: GOOD (  17.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,24 +100,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/6/23 00:54, Daniel Wagner wrote:
-> The nvmeof-mp are designed to test a NVMe multipathing setup using
-> dm_multipath, which was a configuration RHEL shipped. In the meantime,
-> RHEL switched also to NVMe native multipathing which is tested with the
-> nvme tests.
+On Tue, Jun 06, 2023 at 02:01:04AM +0300, Sagi Grimberg wrote:
 > 
-> The nvme tests cover all the use cases which are testes by nvmeof-mp
-> including the transport failure, see nvme/040.
+> > > > > workqueue: WQ_MEM_RECLAIM nvme-wq:nvme_rdma_reconnect_ctrl_work
+> > > > > [nvme_rdma] is flushing !WQ_MEM_RECLAIM ib_addr:process_one_req [ib_core]
+> > > > 
+> > > > And why does nvme-wq need WQ_MEM_RECLAIM flag? I wonder if it is really
+> > > > needed.
+> > > 
+> > > Adding Sagi Grimberg to cc, he probably knows and can explain it better than me.
+> > 
+> > We already allocate so much memory on these paths it is pretty
+> > nonsense to claim they are a reclaim context. One allocation on the WQ
+> > is not going to be the problem.
+> > 
+> > Probably this nvme stuff should not be re-using a reclaim marke dWQ
+> > for memory allocating work like this, it is kind of nonsensical.
 > 
-> During LSFMM 2023 conference it was decided it is better to drop these
-> tests and reduce the maintenance burden on blktests.
-> 
-> Cc: John Meneghini <jmeneghi@redhat.com>
-> Signed-off-by: Daniel Wagner <dwagner@suse.de>
+> A controller reset runs on this workqueue, which should succeed to allow
+> for pages to be flushed to the nvme disk. So I'd say its kind of
+> essential that this sequence has a rescuer thread.
 
-How about Cc-ing the person that wrote the code when removing code? 
-Anyway, this patch looks good to me.
+So don't run the CM stuff on the same WQ, go to another one without
+the reclaim mark?
 
-Bart.
-
+Jason
 
