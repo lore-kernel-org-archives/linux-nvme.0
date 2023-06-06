@@ -4,68 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 76A96C77B73
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Jun 2023 15:15:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 67EE6C7EE24
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Jun 2023 17:45:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vszHrUEa6kS3DS/AWxcqvH/bpU4PkRBR+P9B7StFeyw=; b=oaSv5geVCFj76OfA3yHv0x2kjS
-	VIMyNZoxf5W9pdwVZfvZSuvW1MISrCWc0sE7uNRJbpbT4GfnHCCAjUl/puj/HIsha29MOIqJMY1q/
-	44IKRXr8XsBMpmOiyrqr3W2StUuA4wfXiGfP8zR1w/5YY5EW5hwA6jCHr4wegIh2TG4q4g/KyJJSQ
-	X1pL9+m/aZhsQNMDg2xqjvJnqKoBV663nX460Dcd0BH5NtIHVIkX2qlLlIL5qzakLeoE5A8sES3jz
-	d9g5Fp1/VU8hXHsSB7Ug4OEGsER/juSjuXJvZ56dViRfzdRg3/B/i+KkHg5XTz33YZlS5/hTIq8r7
-	VFOamMew==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nmi/PPknLe5NcPV5GoTVPuKYHIzmi3+CPOd87Hhbxx8=; b=4qK7/8LTN6upUciWNejDuqpSjh
+	CIfYFMqcrRQW6jCblV4n2my6AXlQ4taX9jDNT9eHQKJydKcj2wGNFAscVULzXzO2iRwthUP1Or6yt
+	Qt16kP0g67/K8Lcj7kMYBRDTp6W92YhB5rcL8GeUqjBzwEn7q4A2G4nhjXUPR806Ne3GNSmG80JGv
+	fCiNmfBLoPgGPsVm64tk5XtxZmQM1Ng+9nHTz3j6k0C80zsTsGM4QnNoqn4RVW3DtaWqoliJvrP4Z
+	qn4vZvjkst6ponC8GitGMqwzb+imL3YWI9nuiG7XGXlb9fkV/em2q/UFeVKUCSWfq63me9P2g+AgE
+	BiKw3/Fw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6YOz-002CmW-3A;
-	Tue, 06 Jun 2023 15:15:18 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1q6ajx-002dTm-2Y;
+	Tue, 06 Jun 2023 17:45:05 +0000
+Received: from mail-pg1-f171.google.com ([209.85.215.171])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6YOu-002Cl4-0F
+	id 1q6ajv-002dRv-04
 	for linux-nvme@lists.infradead.org;
-	Tue, 06 Jun 2023 15:15:16 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1686064510;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vszHrUEa6kS3DS/AWxcqvH/bpU4PkRBR+P9B7StFeyw=;
-	b=edgtqbU7TnAKUK+gWXuCrDdVLAe/jYgmYsZH5CNyOP6nfoAEip2Qkxp69j+f1HCGglzm7h
-	4qdiAnjsXVctgKrg5Tqe83+TSdLg+5r4cSHWz+hbhyEEw/8baSnT0Gz8HkG7y0UTLkyfiP
-	nAwpBts/uMt7Sh03yQbYkUB70MlD+2k=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-60-xcj-UP3hNYenCiC9fyN2_g-1; Tue, 06 Jun 2023 11:15:06 -0400
-X-MC-Unique: xcj-UP3hNYenCiC9fyN2_g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3411C803C84;
-	Tue,  6 Jun 2023 15:15:06 +0000 (UTC)
-Received: from ovpn-8-17.pek2.redhat.com (ovpn-8-17.pek2.redhat.com [10.72.8.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 422072026D49;
-	Tue,  6 Jun 2023 15:15:00 +0000 (UTC)
-Date: Tue, 6 Jun 2023 23:14:56 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: "brookxu.cn" <brookxu.cn@gmail.com>
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	ming.lei@redhat.com
-Subject: Re: [RFC PATCH 0/4] nvme-tcp: fix hung issues for deleting
-Message-ID: <ZH9NcBtrDxwq5xRU@ovpn-8-17.pek2.redhat.com>
-References: <cover.1685350577.git.chunguang.xu@shopee.com>
+	Tue, 06 Jun 2023 17:45:04 +0000
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-543cc9541feso1224033a12.2
+        for <linux-nvme@lists.infradead.org>; Tue, 06 Jun 2023 10:45:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686073501; x=1688665501;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nmi/PPknLe5NcPV5GoTVPuKYHIzmi3+CPOd87Hhbxx8=;
+        b=LXhSRXibiLk7znKr/D3FjODhdvZxzuNETTVSld2gdwFOmDWTJs+L8fLojNNj+G0nhJ
+         UX/j8ik6sg9FiOK/yz+N3tW8hH4n8y6tnkf9adRfKxUNLuwRx3/BXapnCvaFRmEIs7cN
+         dlxIIHAemIRXTHCt9VjejtRdd+/9EnPltGfiymqlRwc0ncK2Y3tkFnDXNjAp7p+WOTuF
+         KD0YKmKNPs+LjcWy4d3lsbJu7N62RFZcKJndAT8BI61J3fj4vXxBg+lteXvnasV/rQBN
+         NZrC+N8NciAoeRrYbx+Gmehaa7UB0bfgUoZuAsHR6V+1ZS+A/3BTGQD8O37Hb0eIZe/9
+         tDSA==
+X-Gm-Message-State: AC+VfDwOteL2yYHxH3HuFypvPcWdozuzhDK8vh0kpZnnnHcN8jFHZEmK
+	dpu+cEIkW3HzVU6gYwqIcMY=
+X-Google-Smtp-Source: ACHHUZ5fAcNgcADCkYRu+xZLEJI/xVmrRhz62JDO1XlAcIckIgnvK0ZOSG42WS2yq3aifD/6GR1Uqg==
+X-Received: by 2002:a17:902:c949:b0:1b2:499f:674f with SMTP id i9-20020a170902c94900b001b2499f674fmr335469pla.25.1686073500922;
+        Tue, 06 Jun 2023 10:45:00 -0700 (PDT)
+Received: from [192.168.51.14] ([98.51.102.78])
+        by smtp.gmail.com with ESMTPSA id r19-20020a170902be1300b001ab12ccc2a7sm8784309pls.98.2023.06.06.10.44.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Jun 2023 10:45:00 -0700 (PDT)
+Message-ID: <bb8c8d9b-0fcb-4ba2-eea7-6954d8723d1d@acm.org>
+Date: Tue, 6 Jun 2023 10:44:59 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1685350577.git.chunguang.xu@shopee.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH blktests v1] nvmeof-mp: Remove nvmeof-mp tests
+Content-Language: en-US
+To: Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+ Chaitanya Kulkarni <kch@nvidia.com>,
+ Shin'ichiro Kawasaki <shinichiro@fastmail.com>,
+ Hannes Reinecke <hare@suse.de>, John Meneghini <jmeneghi@redhat.com>
+References: <20230606075443.17437-1-dwagner@suse.de>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20230606075443.17437-1-dwagner@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230606_081512_185312_14B1A7E4 
-X-CRM114-Status: GOOD (  16.33  )
+X-CRM114-CacheID: sfid-20230606_104503_064693_81CCF826 
+X-CRM114-Status: GOOD (  13.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,44 +84,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello Chunguang,
-
-On Mon, May 29, 2023 at 06:59:22PM +0800, brookxu.cn wrote:
-> From: Chunguang Xu <chunguang.xu@shopee.com>
+On 6/6/23 00:54, Daniel Wagner wrote:
+> The nvmeof-mp are designed to test a NVMe multipathing setup using
+> dm_multipath, which was a configuration RHEL shipped. In the meantime,
+> RHEL switched also to NVMe native multipathing which is tested with the
+> nvme tests.
 > 
-> We found that nvme_remove_namespaces() may hang in flush_work(&ctrl->scan_work)
-> while removing ctrl. The root cause may due to the state of ctrl changed to
-> NVME_CTRL_DELETING while removing ctrl , which intterupt nvme_tcp_error_recovery_work()/
-> nvme_reset_ctrl_work()/nvme_tcp_reconnect_or_remove().  At this time, ctrl is
-
-I didn't dig into ctrl state check in these error handler yet, but error
-handling is supposed to provide forward progress for any controller state.
-
-Can you explain a bit how switching to DELETING interrupts the above
-error handling and breaks the forward progress guarantee?
-
-> freezed and queue is quiescing . Since scan_work may continue to issue IOs to
-> load partition table, make it blocked, and lead to nvme_tcp_error_recovery_work()
-> hang in flush_work(&ctrl->scan_work).
+> The nvme tests cover all the use cases which are testes by nvmeof-mp
+> including the transport failure, see nvme/040.
 > 
-> After analyzation, we found that there are mainly two case: 
-> 1. Since ctrl is freeze, scan_work hang in __bio_queue_enter() while it issue
->    new IO to load partition table.
+> During LSFMM 2023 conference it was decided it is better to drop these
+> tests and reduce the maintenance burden on blktests.
+> 
+> Cc: John Meneghini <jmeneghi@redhat.com>
+> Signed-off-by: Daniel Wagner <dwagner@suse.de>
 
-Yeah, nvme freeze usage is fragile, and I suggested to move
-nvme_start_freeze() from nvme_tcp_teardown_io_queues to
-nvme_tcp_configure_io_queues(), such as the posted change on rdma:
+How about Cc-ing the person that wrote the code when removing code? 
+Anyway, this patch looks good to me.
 
-https://lore.kernel.org/linux-block/CAHj4cs-4gQHnp5aiekvJmb6o8qAcb6nLV61uOGFiisCzM49_dg@mail.gmail.com/T/#ma0d6bbfaa0c8c1be79738ff86a2fdcf7582e06b0
-
-> 2. Since queus is quiescing, requeue timeouted IO may hang in hctx->dispatch
->    queue, leading scan_work waiting for IO completion.
-
-That still looks one problem in related error handling code, which is
-supposed to recover and unquiesce queue finally.
-
-
-Thanks, 
-Ming
+Bart.
 
 
