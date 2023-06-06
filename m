@@ -4,76 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 25A3CC77B7A
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jun 2023 04:09:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 69F78C7EE23
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jun 2023 04:49:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cTLqOAtTyMXFuGGrm+2NknWfH2oQLCgaA0ayHism+pI=; b=Z/wrYrGEO5LQodOhPFv5pXr3to
-	qfFJQ1cV06hK8ogZhwu+1JHDjkpGImqOFM+9hqbLnzo74GTO3vDJcY4ucr4YndPCtQrpdHIcTXF1p
-	hCk1CTdPjc90wjn4kMZJy8oyyEejd+IUWeQfzlc8erHMxpnIxtYFkIQclE+Dz1zjWVzHh5OgrkxFc
-	gu9PT53KrK3bc4uFcsaN2YH8jra1q5CfPiWFD1qH20mH7/rtuURz19/M2zu5+4Tm4t5Rg5weZL4+/
-	OVTvH5rSoUAy5Wyv5AWBNdxozIla7tVpxdInZqZ2zgi0A0sN51k9J3EaRqzA2sl/f8ITQyT7zxNyy
-	fIh9g/4w==;
+	bh=Wqe+EMfTqwgCzibqmrP4x167w3kg6AGKeWhHsuYgmqo=; b=rVf/UGHvM+IKsPNLrHDO2OI5bC
+	boo0y6MU39rJ9ehVX986eabvBtEG1UGy1xVGOFsvSI4S/BCqoRVvM1QJBP24gTplmGavGx8r6LFgZ
+	WDF2FQUJXpwxDzDkoaYICtmcVxajq5XohGgNA+pglCa7dMVaKQZlCcOzWjmHJcjofPNh767OVklhZ
+	UDUodC6tl31zchRFht32t9OzkKYQc8X1KydeFckI8t/x23CfvMeRqIxiZUTSQKzPkHyAHuAWVadam
+	zKq1BJ49iQEUxO1OZjVn75R+tO+/nCGF3oyai6wRDjy2/zqSIdGRWrYAkRYezOhDSDgHupAv+2LnA
+	tZWMR5RQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6kUS-004G2U-2q;
-	Wed, 07 Jun 2023 04:09:44 +0000
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
+	id 1q6l6u-004KVk-1M;
+	Wed, 07 Jun 2023 04:49:28 +0000
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6kUP-004G00-2u
-	for linux-nvme@lists.infradead.org;
-	Wed, 07 Jun 2023 04:09:43 +0000
-Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-9745baf7c13so870709466b.1
-        for <linux-nvme@lists.infradead.org>; Tue, 06 Jun 2023 21:09:30 -0700 (PDT)
+	id 1q6Y9u-0028lK-1g;
+	Tue, 06 Jun 2023 14:59:45 +0000
+Received: by mail-pg1-x533.google.com with SMTP id 41be03b00d2f7-53f70f7c2d2so3337453a12.3;
+        Tue, 06 Jun 2023 07:59:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686110969; x=1688702969;
+        d=gmail.com; s=20221208; t=1686063580; x=1688655580;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cTLqOAtTyMXFuGGrm+2NknWfH2oQLCgaA0ayHism+pI=;
-        b=mzVP8+inwt5KjgNmamFzI+zx93ehVJtCgfO5vQrg3VpQUFHVpzWHUXn9b3s7yHaJVD
-         Si44j26k57IC5MvopnD8eshr1seAITXYiE6e+25eHeEf5qHyPVIhmSkylWYPDIpZb7sl
-         adv4rOS5l4kGo7B0Fr9hxxF+/eaV6wv6V5d/+S79W4S5/VkEIW793Yu6szEoW6jDK+4K
-         VTL/cgkU5eILx8cHcl/INoFKdHroIx4QpFUL937SJr9/2B8IfP10vsAv2G+uN/YxBKAo
-         dOvNpUUlptYF/cZwsc3I+V3TApq2B/IrnRj+qFLuVKvKow1wEYrSmAdHUzwUr5uZDFwB
-         MAoA==
+        bh=Wqe+EMfTqwgCzibqmrP4x167w3kg6AGKeWhHsuYgmqo=;
+        b=c89hhqFN81vIg5IN2rpZKauKAqHYf+KMSB7oh1dAt0i49A3ucUMkyTzxUCrj2WWs+g
+         /LU3Xr/oSOgiCs+CzGUU8pWhEpDacm5mxkJpE/5clGHyANc/lNkJmfLq/aJVfdcjT8UL
+         eBL06dgnIyAp6shIXHNvUuno3W6Sk3jssjkHEmrtsXS0ehGnvMz9fE+mUbSyT7V/DtJ8
+         YEYyGAmkm7jdPB+ETVRV6oGB43zryHGlxwY1MiyEjreIcHwBO4xpm30cOGoi+5sxuVuw
+         QGY0ItDFmMr8lVYp12VI5cDd1e62KrSFDl9FQbjPsohnlfnzU1oGnGODof+74Twn0KQQ
+         vCow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686110969; x=1688702969;
+        d=1e100.net; s=20221208; t=1686063580; x=1688655580;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cTLqOAtTyMXFuGGrm+2NknWfH2oQLCgaA0ayHism+pI=;
-        b=I0Dlot6RwNND3NZJUa0ZHQLSt0+nM+8hJK/Zvsp61YlZmG6qbebITyf1rer6l1Rpr5
-         H5igfzbpfPo4ZP2SNVbr2WDUXvYK6WnDjv0oR1PckEWgcz2bUjt5RHxFDRO0E4pLbJwN
-         3t7PROVCE2ooxk3HxK71fBCVoeJT44+VObOV4o5qB2AjM+JToQYVAI+tjzzmCHez4e+8
-         KHIdnSpOkGpA0tuBwt414ZYPoG80sLT0mQy+TvxfSyVXmnRgS+pN7KGLouYYiyX+jHNP
-         mkttzqCheiBn3rR2pcPnpiypsQGXjMM7biJNhCy8G1jvmirQzzX+MEsB84Mxvc5OA9Zz
-         V9gw==
-X-Gm-Message-State: AC+VfDxccfsl1n/U5zFWPiXUCQmNo8AoP+Dq501jcQ6glE1jBgliErd4
-	xk83d5O/bcgK7ASyN9C9tNumYW0xDDmr9TbbzE4=
-X-Google-Smtp-Source: ACHHUZ4ckeQmi5O2OoWT3LP3pgwIjwZ/HCOtXPfkpP8BBHj1ayd1p3rwi7GC+cagHQ3Ua591PPiSFLYqTr7qNvgnsCE=
-X-Received: by 2002:a17:907:7e84:b0:978:6489:f9f with SMTP id
- qb4-20020a1709077e8400b0097864890f9fmr4359074ejc.52.1686110969440; Tue, 06
- Jun 2023 21:09:29 -0700 (PDT)
+        bh=Wqe+EMfTqwgCzibqmrP4x167w3kg6AGKeWhHsuYgmqo=;
+        b=M4hOEcknLxRSL60y1Z+v3ayXj9IMQPfeKkc2/P59A8VMr3topVrDiT3tePU6vz+3Y6
+         0GNAqUP8/PRvRIPUaPAwLy+AoLc1csVRMUJqlmvSN30YLLYZylydcixxVJVnqaCZEWzR
+         UPYkOKLp025ZgqRwir18yTX3mrThH8Zafhsa+3erhExDXFT2wquUMkO9/JeCfXQF1cPg
+         xtx6qcuOBOFLWfxREO+yQUggZxf32mJDsTadElaObOGd7Lb9UWOvEaFgxAZ52/P2pYzQ
+         KkP8BtgfO+ovGqBuhvQYmd8hjRS75R0Wvcuge6ioSO7NMnyHeIGScipo4c8t6Whp2zHR
+         CpSg==
+X-Gm-Message-State: AC+VfDwlSQtSUSAcy5QopSpE58BYPdUvlA+V4tMzqVRaVoSQlTMcY7it
+	FWho6N5GrxfZZeQlcNCygE7reAOmXrR7t0ieFwQ=
+X-Google-Smtp-Source: ACHHUZ7R3wIBiwS3qmIDAIVJhRLmDVW+rENmgn5tSeT1A0bMQm4kGe5M15s7kly86oJcM/F8JJJXG4R4/1qAqmUxppw=
+X-Received: by 2002:a05:6a20:3d83:b0:117:a2f3:3c93 with SMTP id
+ s3-20020a056a203d8300b00117a2f33c93mr14207pzi.2.1686063579863; Tue, 06 Jun
+ 2023 07:59:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1685350577.git.chunguang.xu@shopee.com> <ZH9NcBtrDxwq5xRU@ovpn-8-17.pek2.redhat.com>
-In-Reply-To: <ZH9NcBtrDxwq5xRU@ovpn-8-17.pek2.redhat.com>
-From: =?UTF-8?B?6K645pil5YWJ?= <brookxu.cn@gmail.com>
-Date: Wed, 7 Jun 2023 12:09:17 +0800
-Message-ID: <CADtkEeeVWZ_b9mDWzwaq_5hdfZ53-RX2rd1SDDem=YsSBQ_g8A@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/4] nvme-tcp: fix hung issues for deleting
-To: Ming Lei <ming.lei@redhat.com>
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, 
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20230524153311.3625329-1-dhowells@redhat.com> <20230524153311.3625329-5-dhowells@redhat.com>
+ <a819dd80-54cc-695f-f142-e3d42ce815a7@huawei.com> <f7919c2c9e1cb6218a0b0f55ddaa9a34f7d2b9a7.camel@gmail.com>
+ <1841913.1686039913@warthog.procyon.org.uk>
+In-Reply-To: <1841913.1686039913@warthog.procyon.org.uk>
+From: Alexander Duyck <alexander.duyck@gmail.com>
+Date: Tue, 6 Jun 2023 07:59:02 -0700
+Message-ID: <CAKgT0Ud=ZWVnpwqbLqGovjPM2VR_V1-Ak=meveqnG01tGWTTeA@mail.gmail.com>
+Subject: Re: [PATCH net-next 04/12] mm: Make the page_frag_cache allocator use
+ multipage folios
+To: David Howells <dhowells@redhat.com>
+Cc: Yunsheng Lin <linyunsheng@huawei.com>, netdev@vger.kernel.org, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, David Ahern <dsahern@kernel.org>, 
+	Matthew Wilcox <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, Jeroen de Borst <jeroendb@google.com>, 
+	Catherine Sullivan <csully@google.com>, Shailend Chand <shailend@google.com>, Felix Fietkau <nbd@nbd.name>, 
+	John Crispin <john@phrozen.org>, Sean Wang <sean.wang@mediatek.com>, 
+	Mark Lee <Mark-MC.Lee@mediatek.com>, Lorenzo Bianconi <lorenzo@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Keith Busch <kbusch@kernel.org>, 
+	Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230606_210941_962890_39DEE750 
-X-CRM114-Status: GOOD (  23.70  )
+X-CRM114-CacheID: sfid-20230606_075942_604663_806EE3A4 
+X-CRM114-Status: GOOD (  33.29  )
+X-Mailman-Approved-At: Tue, 06 Jun 2023 21:49:27 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,102 +104,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Ming:
-
-Ming Lei <ming.lei@redhat.com> =E4=BA=8E2023=E5=B9=B46=E6=9C=886=E6=97=A5=
-=E5=91=A8=E4=BA=8C 23:15=E5=86=99=E9=81=93=EF=BC=9A
+On Tue, Jun 6, 2023 at 1:25=E2=80=AFAM David Howells <dhowells@redhat.com> =
+wrote:
 >
-> Hello Chunguang,
+> Alexander H Duyck <alexander.duyck@gmail.com> wrote:
 >
-> On Mon, May 29, 2023 at 06:59:22PM +0800, brookxu.cn wrote:
-> > From: Chunguang Xu <chunguang.xu@shopee.com>
-> >
-> > We found that nvme_remove_namespaces() may hang in flush_work(&ctrl->sc=
-an_work)
-> > while removing ctrl. The root cause may due to the state of ctrl change=
-d to
-> > NVME_CTRL_DELETING while removing ctrl , which intterupt nvme_tcp_error=
-_recovery_work()/
-> > nvme_reset_ctrl_work()/nvme_tcp_reconnect_or_remove().  At this time, c=
-trl is
+> > Also I have some concerns about going from page to folio as it seems
+> > like the folio_alloc setups the transparent hugepage destructor instead
+> > of using the compound page destructor. I would think that would slow
+> > down most users as it looks like there is a spinlock that is taken in
+> > the hugepage destructor that isn't there in the compound page
+> > destructor.
 >
-> I didn't dig into ctrl state check in these error handler yet, but error
-> handling is supposed to provide forward progress for any controller state=
-.
+> Note that this code is going to have to move to folios[*] at some point.
+> "Old-style" compound pages are going to go away, I believe.  Matthew Wilc=
+ox
+> and the mm folks are on a drive towards simplifying memory management,
+> formalising chunks larger than a single page - with the ultimate aim of
+> reducing the page struct to a single, typed pointer.
+
+I'm not against making the move, but as others have pointed out this
+is getting into unrelated things. One of those being the fact that to
+transition to using folios we don't need to get rid of the use of the
+virtual address. The idea behind using the virtual address here is
+that we can avoid a bunch of address translation overhead since we
+only need to use the folio if we are going to allocate, retire, or
+recycle a page/folio. If we are using an order 3 page that shouldn't
+be very often.
+
+> So, take, for example, a folio: As I understand it, this will no longer
+> overlay struct page, but rather will become a single, dynamically-allocat=
+ed
+> struct that covers a pow-of-2 number of pages.  A contiguous subset of pa=
+ge
+> structs will point at it.
 >
-> Can you explain a bit how switching to DELETING interrupts the above
-> error handling and breaks the forward progress guarantee?
+> However, rather than using a folio, we could define a "page fragment" mem=
+ory
+> type.  Rather than having all the flags and fields to be found in struct
+> folio, it could have just the set to be found in page_frag_cache.
 
-Here we freezed ctrl, if ctrl state has changed to DELETING or
-DELETING_NIO(by nvme disconnect),  we will break up and lease ctrl
-freeze, so nvme_remove_namespaces() hang.
+I don't think we need a new memory type. For the most part the page
+fragment code is really more a subset of something like a
+__get_free_pages where the requester provides the size, is just given
+a virtual address, and we shouldn't need to be allocating a new page
+as often as ideally the allocations are 2K or less in size.
 
-static void nvme_tcp_error_recovery_work(struct work_struct *work)
-{
-        ...
-        if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_CONNECTING)) {
-                /* state change failure is ok if we started ctrl delete */
-                WARN_ON_ONCE(ctrl->state !=3D NVME_CTRL_DELETING &&
-                             ctrl->state !=3D NVME_CTRL_DELETING_NOIO);
-                return;
-        }
+Also one thing I would want to avoid is adding complexity to the
+freeing path. The general idea with page frags is that they are meant
+to be lightweight in terms of freeing as well. So just as they are
+similar to __get_free_pages in terms of allocation the freeing is
+meant to be similar to free_pages.
 
-        nvme_tcp_reconnect_or_remove(ctrl);
-}
-
-
-Another path, we will check ctrl state while reconnecting, if it changes to
-DELETING or DELETING_NIO, we will break up and lease ctrl freeze and
-queue quiescing (through reset path), as a result Hang occurs.
-
-static void nvme_tcp_reconnect_or_remove(struct nvme_ctrl *ctrl)
-{
-        /* If we are resetting/deleting then do nothing */
-        if (ctrl->state !=3D NVME_CTRL_CONNECTING) {
-                WARN_ON_ONCE(ctrl->state =3D=3D NVME_CTRL_NEW ||
-                        ctrl->state =3D=3D NVME_CTRL_LIVE);
-                return;
-        }
-        ...
-}
-
-> > freezed and queue is quiescing . Since scan_work may continue to issue =
-IOs to
-> > load partition table, make it blocked, and lead to nvme_tcp_error_recov=
-ery_work()
-> > hang in flush_work(&ctrl->scan_work).
-> >
-> > After analyzation, we found that there are mainly two case:
-> > 1. Since ctrl is freeze, scan_work hang in __bio_queue_enter() while it=
- issue
-> >    new IO to load partition table.
+> David
 >
-> Yeah, nvme freeze usage is fragile, and I suggested to move
-> nvme_start_freeze() from nvme_tcp_teardown_io_queues to
-> nvme_tcp_configure_io_queues(), such as the posted change on rdma:
->
-> https://lore.kernel.org/linux-block/CAHj4cs-4gQHnp5aiekvJmb6o8qAcb6nLV61u=
-OGFiisCzM49_dg@mail.gmail.com/T/#ma0d6bbfaa0c8c1be79738ff86a2fdcf7582e06b0
+> [*] It will be possible to have some other type than "folio".  See "struc=
+t
+> slab" in mm/slab.h for example.  struct slab corresponds to a set of page=
+s
+> and, in the future, a number of struct pages will point at it.
 
-While drive reconnecting, I think we should freeze ctrl or quiescing queue,
-otherwise nvme_fail_nonready_command()may return BLK_STS_RESOURCE,
-and the IOs may retry frequently. So I think we may better freeze ctrl
-while entering
-error_recovery/reconnect, but need to unfreeze it while exit.
-
-
-> > 2. Since queus is quiescing, requeue timeouted IO may hang in hctx->dis=
-patch
-> >    queue, leading scan_work waiting for IO completion.
->
-> That still looks one problem in related error handling code, which is
-> supposed to recover and unquiesce queue finally.
-
-If I have not misunderstood that is what this patchset does.
-
-Thanks.
->
-> Thanks,
-> Ming
->
+I want to avoid getting anywhere near the complexity of a slab
+allocator. The whole point of this was to keep it simple so that
+drivers could use it and get decent performance. When I had
+implemented it in the Intel drivers back in the day this approach was
+essentially just a reference count/page offset hack that allowed us to
+split a page in 2 and use the pages as a sort of mobius strip within
+the ring buffer.
 
