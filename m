@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B2B9C77B7A
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Jun 2023 08:45:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7D14DC7EE2C
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Jun 2023 08:45:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RkaoGw7hxnY7p2Aj4jgl8vVIBxmKSkWEmvUol6CzrBM=; b=j6fIoj2gj5ECYjLSHj/byHMMv/
-	fthqyDU8AFYd+2JS32n3awmt4GuQsR0rJ+u+tDnedpn/ZwXz/AcqSi8PCU7d1dBI7siJf0frs8SKv
-	TtT6SYy3XMU8Du8SEpPDH8PpZxzA9py8l9DadnwUG3Mi/y/cOXzCrH49Ft62bdxwayj/afTzsw6T0
-	Hewxy4vDNYIfs7VISzqwF/WvhVAdxoEr1F90w4+yhOHdUKp2AfFO5pXnlv67vn6Mws393e6QdhfZP
-	wepbgRQvW58PZYwIsWVN66XZVtzv8E74CArylNik/APDUCGy0vEc+HYeNatKaAPfwMkqmM/k34s7P
-	EH3lg7cQ==;
+	bh=rEj4t4RByNCnEGoVckpjuOqOSqkYA0bI6jBzshMrCBQ=; b=s8TKS13DMVX3EeNd+H0fWs0lYV
+	4GWu3uc/z7XMXg6bkHAdDC6gXDDloiSphdg8TwZ3gzv2Ef1SHyfGHlUWHyWKAzeMW5KrcTA9pOTcS
+	aVPw3t437SfLlzfw05Eoa0OnMMJUPCAdm7yNrG4729PIdvvDupfTDQQKN9u20VASWZ+FoVhqJ9xA8
+	7xZENek0x03c1WhRYmoDDiMaKu7qZmX3o4lR8C2QmVowfl5cM7BrvOCYQV5zAIiaTxytdoC9i5zU7
+	/RWL2A1tHY7hgJvE+TuWQQvUwCvj2/xUU0DhugeAJJTcfX9K1uH2PPx+J/wAr11OYwM8RNKCLmP+A
+	xXj922zw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6SK4-000rIP-2X;
-	Tue, 06 Jun 2023 08:45:48 +0000
+	id 1q6SK5-000rJZ-2a;
+	Tue, 06 Jun 2023 08:45:49 +0000
 Received: from 2a02-8389-2341-5b80-39d3-4735-9a3c-88d8.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:39d3:4735:9a3c:88d8] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6RJr-000aA8-0F;
-	Tue, 06 Jun 2023 07:41:33 +0000
+	id 1q6RJx-000aH6-0p;
+	Tue, 06 Jun 2023 07:41:37 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Richard Weinberger <richard@nod.at>,
@@ -55,9 +55,9 @@ Cc: Richard Weinberger <richard@nod.at>,
 	linux-nilfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-pm@vger.kernel.org
-Subject: [PATCH 30/31] block: store the holder in file->private_data
-Date: Tue,  6 Jun 2023 09:39:49 +0200
-Message-Id: <20230606073950.225178-31-hch@lst.de>
+Subject: [PATCH 31/31] fs: remove the now unused FMODE_* flags
+Date: Tue,  6 Jun 2023 09:39:50 +0200
+Message-Id: <20230606073950.225178-32-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230606073950.225178-1-hch@lst.de>
 References: <20230606073950.225178-1-hch@lst.de>
@@ -77,57 +77,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Store the file struct used as the holder in file->private_data as an
-indicator that this file descriptor was opened exclusively to  remove
-the last use of FMODE_EXCL.
+FMODE_NDELAY, FMODE_EXCL and FMODE_WRITE_IOCTL were only used for
+block internal purposed and are now entirely unused, so remove them.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- block/fops.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ include/linux/fs.h | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/block/fops.c b/block/fops.c
-index c40b9f978e3bc7..915e0ef7560993 100644
---- a/block/fops.c
-+++ b/block/fops.c
-@@ -478,7 +478,7 @@ blk_mode_t file_to_blk_mode(struct file *file)
- 		mode |= BLK_OPEN_READ;
- 	if (file->f_mode & FMODE_WRITE)
- 		mode |= BLK_OPEN_WRITE;
--	if (file->f_mode & FMODE_EXCL)
-+	if (file->private_data)
- 		mode |= BLK_OPEN_EXCL;
- 	if ((file->f_flags & O_ACCMODE) == 3)
- 		mode |= BLK_OPEN_WRITE_IOCTL;
-@@ -501,12 +501,15 @@ static int blkdev_open(struct inode *inode, struct file *filp)
- 	filp->f_flags |= O_LARGEFILE;
- 	filp->f_mode |= FMODE_NOWAIT | FMODE_BUF_RASYNC;
- 
-+	/*
-+	 * Use the file private data to store the holder, file_to_blk_mode
-+	 * relies on this.
-+	 */
- 	if (filp->f_flags & O_EXCL)
--		filp->f_mode |= FMODE_EXCL;
-+		filp->private_data = filp;
- 
- 	bdev = blkdev_get_by_dev(inode->i_rdev, file_to_blk_mode(filp),
--				 (filp->f_mode & FMODE_EXCL) ? filp : NULL,
--				 NULL);
-+				 filp->private_data, NULL);
- 	if (IS_ERR(bdev))
- 		return PTR_ERR(bdev);
- 
-@@ -517,8 +520,7 @@ static int blkdev_open(struct inode *inode, struct file *filp)
- 
- static int blkdev_release(struct inode *inode, struct file *filp)
- {
--	blkdev_put(I_BDEV(filp->f_mapping->host),
--		   (filp->f_mode & FMODE_EXCL) ? filp : NULL);
-+	blkdev_put(I_BDEV(filp->f_mapping->host), filp->private_data);
- 	return 0;
- }
- 
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index ad1d2c9afb3fa4..8045c7ef4000c2 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -119,13 +119,6 @@ typedef int (dio_iodone_t)(struct kiocb *iocb, loff_t offset,
+ #define FMODE_PWRITE		((__force fmode_t)0x10)
+ /* File is opened for execution with sys_execve / sys_uselib */
+ #define FMODE_EXEC		((__force fmode_t)0x20)
+-/* File is opened with O_NDELAY (only set for block devices) */
+-#define FMODE_NDELAY		((__force fmode_t)0x40)
+-/* File is opened with O_EXCL (only set for block devices) */
+-#define FMODE_EXCL		((__force fmode_t)0x80)
+-/* File is opened using open(.., 3, ..) and is writeable only for ioctls
+-   (specialy hack for floppy.c) */
+-#define FMODE_WRITE_IOCTL	((__force fmode_t)0x100)
+ /* 32bit hashes as llseek() offset (for directories) */
+ #define FMODE_32BITHASH         ((__force fmode_t)0x200)
+ /* 64bit hashes as llseek() offset (for directories) */
 -- 
 2.39.2
 
