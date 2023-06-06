@@ -4,76 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 91755C77B7A
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Jun 2023 06:45:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3CC9EC7EE2A
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Jun 2023 07:40:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6ykdUDEsPsbdvXzXMVfKKjWXS0D8trIGOxCsakNyee0=; b=F2YdI9aDp6T2yDvMw9tpPkH4Oa
-	Gds8nKLcB30Q1EvyvXajCeGbcDZL1Epvom7fLhKmRkbPPnI9677UpdcE3EFAolByeOKjUN3E6bwlZ
-	XZwzOD9kEaZ/WthAcUTG2kJpGMvVraVM54ZuXa5UgJhWKHEEm4YgboX6NG8HIIb11WM32XkJ7fw8a
-	8xJro81i0js3flGCHCH4tKyWq9246WJMcY/I7ASipWXipvlyLpl+COKv23qpZT4FVH2EFlUgD7CZB
-	bSjWa087QBRSkrF8BLL77MSrzXcXp/bM98Bwvaz3n4dzqwjuXx7f1z1JrM95m5q7FOfc0ffJNMCOW
-	JAzvtOiA==;
+	bh=4vTkM88Q4vOnIk7RWnBk9kClYM+gvOSK7rFbMW2koP8=; b=K66aIRbL3VtFEB6IprhiRgJsPY
+	cCUQCTDMm846i/9WjybjK9TfRKPHDRyAcw/LJIkxDu2okidGfILPBQd8Dbl3WhqI26zOHX0S6GuV/
+	eliP9wjBjFHNnN7met3wtMTRnUdOX4Tl+B3V9l1LYIXGTmIXrhHNuD3F7b/bpPUoOR0q5LSJ4NEOB
+	wWNaEKR1UrwUv771TlmPYfPZ8sJzwO9ktNlVekyBEQz/zsVvKFwRiZP1Pdy4MJfenXg5ooFIOuMY0
+	pk/cpOgHpUYUBz5CtzVy4Q2aHqvtab+dof057kAnKMbdIsRNrFIA0EZ1adRjR3t54A45crvz2GZlF
+	Ii7NVVsQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6QRp-000Pvp-1D;
-	Tue, 06 Jun 2023 06:45:41 +0000
-Received: from mail-wm1-f45.google.com ([209.85.128.45])
-	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6QRk-000PuR-23
-	for linux-nvme@lists.infradead.org;
-	Tue, 06 Jun 2023 06:45:37 +0000
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3f7364c2ed8so5489485e9.0
-        for <linux-nvme@lists.infradead.org>; Mon, 05 Jun 2023 23:45:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686033934; x=1688625934;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6ykdUDEsPsbdvXzXMVfKKjWXS0D8trIGOxCsakNyee0=;
-        b=goz64qBw95Sjgf+HmMEsDNkoI6sDt3Gi4ZKwjGhBbZAFriovnm1GDTVtWP41sKdMeX
-         xxzlGiZl89Cp/vnfzHUXFLvKrDxlZnyTTizpmc2+T1rp9iMgX9qC7JUjIW8rPVsIzL0n
-         Ju0anu0V3cNpE/iwuoOWxCwfDaDu62uJ+yb+Pqbx+FAWU3WRyClq+4VkjhvO+1TFuKe+
-         tibTOlV5NMp5fi1GM9sZW1WWi+tCAQub5IAmGw6J+uzUTAVTVvzGVjjgHvjx9uHUVa0E
-         3q3Elz59af/7bZpvjzaV1q8CWuQ5lH0FWA+eABKb0RA0WL8niPKY7qtiCS+Lb2A81+5E
-         aneA==
-X-Gm-Message-State: AC+VfDz5UAnkqpBsSLy8ZyL6eZNXbZQy5hbST7ceLq7ic5mEGGQLNNw/
-	1Tf2LRh3/UnEESWjGbmtVIq+IcN5Kec=
-X-Google-Smtp-Source: ACHHUZ4AIZ31+XwAvtHDKg/howeFqJ8dJ8R9XuUcJjYvbLutbnBHTWtN3eteTsrZ19vYo8IJPG/mcQ==
-X-Received: by 2002:a05:600c:1c89:b0:3f6:335:d8e1 with SMTP id k9-20020a05600c1c8900b003f60335d8e1mr1296776wms.2.1686033934420;
-        Mon, 05 Jun 2023 23:45:34 -0700 (PDT)
-Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id u12-20020a05600c00cc00b003f7678a07c4sm6195601wmm.29.2023.06.05.23.45.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Jun 2023 23:45:34 -0700 (PDT)
-Message-ID: <18855542-e07b-70c0-ccd9-2fa0f0d2df86@grimberg.me>
-Date: Tue, 6 Jun 2023 09:45:32 +0300
+	id 1q6RIP-000Ych-0k;
+	Tue, 06 Jun 2023 07:40:01 +0000
+Received: from 2a02-8389-2341-5b80-39d3-4735-9a3c-88d8.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:39d3:4735:9a3c:88d8] helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1q6RIK-000YaI-16;
+	Tue, 06 Jun 2023 07:39:56 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Richard Weinberger <richard@nod.at>,
+	Josef Bacik <josef@toxicpanda.com>,
+	"Md. Haris Iqbal" <haris.iqbal@ionos.com>,
+	Jack Wang <jinpu.wang@ionos.com>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Coly Li <colyli@suse.de>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Chris Mason <clm@fb.com>,
+	David Sterba <dsterba@suse.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@ucw.cz>,
+	dm-devel@redhat.com,
+	linux-block@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	linux-scsi@vger.kernel.org,
+	linux-bcache@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	linux-nvme@lists.infradead.org,
+	linux-btrfs@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-nilfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Subject: [PATCH 01/31] block: also call ->open for incremental partition opens
+Date: Tue,  6 Jun 2023 09:39:20 +0200
+Message-Id: <20230606073950.225178-2-hch@lst.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230606073950.225178-1-hch@lst.de>
+References: <20230606073950.225178-1-hch@lst.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH blktests] nvme/{016,017}: use _check_genctr instead of
- _filter_discovery
-Content-Language: en-US
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- Yang Xu <xuyang2018.jy@fujitsu.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <1685495221-4598-1-git-send-email-xuyang2018.jy@fujitsu.com>
- <6fbgjc5ykve3jyko4vlzudrnwueou4ehgn6n2dtihjko3qv7ww@sqlyuxx4ijt5>
- <446c46d8-fbc7-ecd2-8efa-1c9497e16851@grimberg.me>
- <eadb2514-f06d-7cb2-2cdb-04a6226edac8@nvidia.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <eadb2514-f06d-7cb2-2cdb-04a6226edac8@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230605_234536_680392_D0234B22 
-X-CRM114-Status: GOOD (  13.53  )
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,36 +77,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+For whole devices ->open is called for each open, but for partitions it
+is only called on the first open of a partition.  This is problematic
+as various block drivers look at open flags and might not do all setup
+for ioctl only or NDELAY opens.
 
->>> On May 31, 2023 / 09:07, Yang Xu wrote:
->>>> Since commit 328943e3 ("Update tests for discovery log page changes"),
->>>> blktests also include the discovery subsystem itself. But it
->>>> will lead these cases fails on older nvme-cli system.
->>>
->>> Thanks for this report. What is the nvme-cli version with the issue?
->>>
->>>>
->>>> To avoid this, like nvme/002, use _check_genctr to check instead of
->>>> comparing many discovery Log Entry output.
->>>>
->>>> Signed-off-by: Yang Xu <xuyang2018.jy@fujitsu.com>
->>>
->>> The change looks fine to me, but I'd wait for comments by nvme
->>> developers.
->>
->> I'm ok with this change, but IIRC Chaitanya wanted that we keep checking
->> the full log-page output...
-> 
-> the original testcase was designed to validate the log page internals
-> and  that correctness cannot be established without looking into the log
-> page.
-> 
-> but given that how much churn this is generating eveytime something
-> changes in nvme-cli or in kernel implementation I'm really wondering is
-> that worth everyone's time ?
-> 
-> Sagi/Shinichiro any thoughts ?
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ block/bdev.c | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
-Also back then I thought it'd create churn because the log page output
-is not an interface.
+diff --git a/block/bdev.c b/block/bdev.c
+index 5c46ff10770638..981f6135795138 100644
+--- a/block/bdev.c
++++ b/block/bdev.c
+@@ -683,9 +683,6 @@ static int blkdev_get_part(struct block_device *part, fmode_t mode)
+ 	struct gendisk *disk = part->bd_disk;
+ 	int ret;
+ 
+-	if (atomic_read(&part->bd_openers))
+-		goto done;
+-
+ 	ret = blkdev_get_whole(bdev_whole(part), mode);
+ 	if (ret)
+ 		return ret;
+@@ -694,9 +691,10 @@ static int blkdev_get_part(struct block_device *part, fmode_t mode)
+ 	if (!bdev_nr_sectors(part))
+ 		goto out_blkdev_put;
+ 
+-	disk->open_partitions++;
+-	set_init_blocksize(part);
+-done:
++	if (!atomic_read(&part->bd_openers)) {
++		disk->open_partitions++;
++		set_init_blocksize(part);
++	}
+ 	atomic_inc(&part->bd_openers);
+ 	return 0;
+ 
+@@ -709,10 +707,10 @@ static void blkdev_put_part(struct block_device *part, fmode_t mode)
+ {
+ 	struct block_device *whole = bdev_whole(part);
+ 
+-	if (!atomic_dec_and_test(&part->bd_openers))
+-		return;
+-	blkdev_flush_mapping(part);
+-	whole->bd_disk->open_partitions--;
++	if (atomic_dec_and_test(&part->bd_openers)) {
++		blkdev_flush_mapping(part);
++		whole->bd_disk->open_partitions--;
++	}
+ 	blkdev_put_whole(whole, mode);
+ }
+ 
+-- 
+2.39.2
+
 
