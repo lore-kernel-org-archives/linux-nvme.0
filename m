@@ -4,64 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7C33C7EE2F
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Jun 2023 22:50:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5EC0FC7EE37
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Jun 2023 22:54:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZsgUvAUYrCnrR/1XiT9juxzkogVY5Vs72GapwMni78s=; b=2gBbXfL9EztVFv2v9XlLGMZi1q
-	zyYl65i+4eEWSVmcERPHCrLDVhNwGwEXOSmmQNRtIeVDJ4MNhRdPX5SuqIw47GQ3pjLWf2sLt1MTp
-	nbpmty169ohDhA0L958gvvFC9px/fxZWZ03LMbluKODcr7BEguqIz1H3sxhU0InLuJ4SNZ4e11Wq1
-	/A4k+XYMXcLhU1R4QXSPdkm9hiXgYujEGPW7r1pXHd18wjcfgiii9NgI6GRZASZ39IMgUNBXt/TCR
-	QFP907XybVveJAcADvay7EeHaTotErFDxz8QXWuRVs15oOIGkfxqShtV7UvpqrMfKSAzoGhnqN3Ho
-	1B4RjJ3Q==;
+	bh=WXBt7JZzXPFqym4cCnJPiy0FfIw5Z8TRQSIrowmnJ2I=; b=MVoJhWP0jB/8prBLlgFOaPvEgF
+	ZfVuEAxbhhfClFzpDr8bsa+vAV5ZZftP3NFJ7jis5o3CHoZXkK4lLK+W0kKAxh/SNKifSe54JDMOb
+	Dnx2IsQAGBrzkZ7NI3R4A3A0qcOR/6paA2KdaxFGB3d7l9BFVTLNTBwilanJA4xqViApQWmvOckNf
+	O6+zyteJu1JGtmqRWQNFxCVbQ5SW2KPXy1xuTFtCAQGP2WI+I8ITpx8bJ4pqbYdnG3fbvU7nf4Vso
+	214gXE/T5KlRF6lOhALJszrP4WCOfqDia7hju30VfweYIbXmwVEC9+Z9AyR4bOM8rGzY6zPXCY9jM
+	/2uQDWgw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6fVt-003VEO-0J;
-	Tue, 06 Jun 2023 22:50:53 +0000
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+	id 1q6fZF-003WaI-31;
+	Tue, 06 Jun 2023 22:54:21 +0000
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6fVq-003VBV-1D
+	id 1q6fZB-003WXS-2i
 	for linux-nvme@lists.infradead.org;
-	Tue, 06 Jun 2023 22:50:51 +0000
-Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-30e5289105cso7779f8f.1
-        for <linux-nvme@lists.infradead.org>; Tue, 06 Jun 2023 15:50:47 -0700 (PDT)
+	Tue, 06 Jun 2023 22:54:20 +0000
+Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-3f6e4554453so57234135e9.3
+        for <linux-nvme@lists.infradead.org>; Tue, 06 Jun 2023 15:54:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20221208.gappssmtp.com; s=20221208; t=1686091846; x=1688683846;
+        d=philpotter-co-uk.20221208.gappssmtp.com; s=20221208; t=1686092054; x=1688684054;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZsgUvAUYrCnrR/1XiT9juxzkogVY5Vs72GapwMni78s=;
-        b=VmbPZldWPYAwRsYyMwk8A03rXJyrpTvXOEYSvwFSEfXYGQ9f0DibZgbOcZv9ahaGKf
-         PI5+OxAdMYvbZGfbUvFF/CsIWyPYoUJBv4adaCgbsLoKZ4qUcAWsIa6Ri3jpTK/bHQrT
-         Ohep93vPQ7ryyJQWAyfDBFxol1ij/mZJMW0A0iwqiwl36LvAZOLX1aeY9L0SpoZCLnJz
-         wVbN864mtnWORoS661vBrZSXNRIiY6AXoBUlqUh/rkIvLh2gwYqiK+WaVFKW8of/Br1s
-         OKeXsZtVkiiCWR6CHlkqhjfmhnyDAQPTMoZhbcUNAf6eh7p56c8hqiOZ1oxWgdRViFlH
-         o2mg==
+        bh=WXBt7JZzXPFqym4cCnJPiy0FfIw5Z8TRQSIrowmnJ2I=;
+        b=y/DPog6+x5wGemOO9REl8wWYWJzD4iMG9s0P4L75NF501qmTUKPPbjSmSWL8hk0aIH
+         AReatV0VgQpuPEy6beyF6HQkDPhvz8Py1F5RgMVT0C0THCFzB5taD4RxBSZDph6MVAXv
+         zq8qdbifmeoev+y+EMmyAhIWBhOh2u6DiEV1dl9i3upSb4XjHzWkpz+fQyiyAoqhOt72
+         zBtDkRdlyEuvWSdP4/fWJTHUJreUQHAAXh+CUY+GkEkt/DXnJH0oIMni7ZM5hQbCL6t/
+         vr1JxaS/c8scaopC4pHtcsjEmJADUTWY/pzY58wjFip8DTTkk41ATmdEOAV6RcEEIrIx
+         yFqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686091846; x=1688683846;
+        d=1e100.net; s=20221208; t=1686092054; x=1688684054;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZsgUvAUYrCnrR/1XiT9juxzkogVY5Vs72GapwMni78s=;
-        b=XbSZRdUvlWdbWtmnfjF/qXgQO7v8l/AnpZHRzSF0oBbvUSrbjzVPhNG5hZxXqC9Exx
-         7NBHnrOnnSlbZ4A42qETlkpQYFmm9CAE+wf5G2newOAInUT3HuXHup/VE3h90VxXFL6r
-         r9H/VdAY3unvJEcyen53PlDjPXzib+4idgFHRsYBsREFZGL9hqGQufkszRvwrJi8+j77
-         5Ra5UHfFpoCWGOCILnWI5zu2OvK54CIGvyGYk02DJoKvBrybeYRjHEXP8jLC2+iLDep8
-         qQOc5wOFYR60o2BtVB/UzdlpUNUYaGv4iVZEsTqYoWVTKrE0qrF5VClblTjST8qk8T+1
-         p4Gg==
-X-Gm-Message-State: AC+VfDxZc8A5Oj4+IQcyZ43Xj+KBP6VgkOIvHVQCazZSuf0en8k6pydl
-	zwL5s/n8+ZfxVSgToaSFyiM80A==
-X-Google-Smtp-Source: ACHHUZ6DIZ/PhyT9JV3FzdchvbYZ3qIwLNNEqf/pmfFBTRfAYv0aDDapWKAK27qD8k0ew1wS3jRAUg==
-X-Received: by 2002:a5d:6b82:0:b0:30e:47e2:7eca with SMTP id n2-20020a5d6b82000000b0030e47e27ecamr4524731wrx.3.1686091845858;
-        Tue, 06 Jun 2023 15:50:45 -0700 (PDT)
+        bh=WXBt7JZzXPFqym4cCnJPiy0FfIw5Z8TRQSIrowmnJ2I=;
+        b=D8Z3C6tl1MZwbHhe4YHWTgnrsyAU64RCvW2uLS0rsnCe0chy4bJAJaSdXqqToDpojY
+         lPHPAOZcZmtxpprkwrdeZPu3izKBGH5o+wrshhNRnFUZStId3tZcpk/NGUaP6JTrK1BX
+         3fQwEXKlrUQ5Xqgrb3kCvnIN5EjrOY89DlPSCUW+Dt920xvF16rmV2xAZYTZx1heqAnb
+         ikkOSMzSKWl3nPz1qr5m+T4SDip9XoL9S2ma0sjius3GZQg6nStgeAa6zDbBNJkdjLdZ
+         SW0K5v8rU/Zu3Dnuey7so/GAibXeir80D6AisoYv7cNzMGMDiKRvkknMs5J2sAZBYzFO
+         p5Vw==
+X-Gm-Message-State: AC+VfDweuyvzI5hWLre7Re/ZHqmavL/eRFsfUoJjaeqaiSbhUp4Yy7ug
+	e9JavWEoDyvF8L0xZ5G9xN/xOQ==
+X-Google-Smtp-Source: ACHHUZ5EAPVlS/dXZUIlff9U6cMvQ7qyxaaebNKkscChr1x36A65KZewdQ5EyNlkJSg7wU45zOpv+A==
+X-Received: by 2002:a5d:458c:0:b0:309:4e85:897e with SMTP id p12-20020a5d458c000000b003094e85897emr2751249wrq.17.1686092054063;
+        Tue, 06 Jun 2023 15:54:14 -0700 (PDT)
 Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
-        by smtp.gmail.com with ESMTPSA id l6-20020a5d4bc6000000b0030ae3a6be5bsm13760443wrt.78.2023.06.06.15.50.44
+        by smtp.gmail.com with ESMTPSA id y6-20020a5d4ac6000000b002c70ce264bfsm13877769wrs.76.2023.06.06.15.54.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jun 2023 15:50:45 -0700 (PDT)
-Date: Tue, 6 Jun 2023 23:50:43 +0100
+        Tue, 06 Jun 2023 15:54:13 -0700 (PDT)
+Date: Tue, 6 Jun 2023 23:54:11 +0100
 From: Phillip Potter <phil@philpotter.co.uk>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Jens Axboe <axboe@kernel.dk>, Richard Weinberger <richard@nod.at>,
@@ -83,18 +83,18 @@ Cc: Jens Axboe <axboe@kernel.dk>, Richard Weinberger <richard@nod.at>,
 	linux-btrfs@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
 	linux-nilfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
 	linux-pm@vger.kernel.org
-Subject: Re: [PATCH 02/31] cdrom: remove the unused bdev argument to
- cdrom_open
-Message-ID: <ZH+4QyeJ2WCOaPGO@equinox>
+Subject: Re: [PATCH 03/31] cdrom: remove the unused mode argument to
+ cdrom_ioctl
+Message-ID: <ZH+5E5OUUBcE1URG@equinox>
 References: <20230606073950.225178-1-hch@lst.de>
- <20230606073950.225178-3-hch@lst.de>
+ <20230606073950.225178-4-hch@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230606073950.225178-3-hch@lst.de>
+In-Reply-To: <20230606073950.225178-4-hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230606_155050_435067_2493BE26 
-X-CRM114-Status: GOOD (  21.04  )
+X-CRM114-CacheID: sfid-20230606_155417_882311_0642155B 
+X-CRM114-Status: GOOD (  20.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,74 +109,74 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jun 06, 2023 at 09:39:21AM +0200, Christoph Hellwig wrote:
+On Tue, Jun 06, 2023 at 09:39:22AM +0200, Christoph Hellwig wrote:
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->  drivers/cdrom/cdrom.c | 3 +--
+>  drivers/cdrom/cdrom.c | 2 +-
 >  drivers/cdrom/gdrom.c | 2 +-
 >  drivers/scsi/sr.c     | 2 +-
->  include/linux/cdrom.h | 3 +--
->  4 files changed, 4 insertions(+), 6 deletions(-)
+>  include/linux/cdrom.h | 4 ++--
+>  4 files changed, 5 insertions(+), 5 deletions(-)
 > 
 > diff --git a/drivers/cdrom/cdrom.c b/drivers/cdrom/cdrom.c
-> index 416f723a2dbb33..e3eab319cb0474 100644
+> index e3eab319cb0474..245e5bbb05d41c 100644
 > --- a/drivers/cdrom/cdrom.c
 > +++ b/drivers/cdrom/cdrom.c
-> @@ -1155,8 +1155,7 @@ int open_for_data(struct cdrom_device_info *cdi)
->   * is in their own interest: device control becomes a lot easier
->   * this way.
+> @@ -3336,7 +3336,7 @@ static int mmc_ioctl(struct cdrom_device_info *cdi, unsigned int cmd,
+>   * ATAPI / SCSI specific code now mainly resides in mmc_ioctl().
 >   */
-> -int cdrom_open(struct cdrom_device_info *cdi, struct block_device *bdev,
-> -	       fmode_t mode)
-> +int cdrom_open(struct cdrom_device_info *cdi, fmode_t mode)
+>  int cdrom_ioctl(struct cdrom_device_info *cdi, struct block_device *bdev,
+> -		fmode_t mode, unsigned int cmd, unsigned long arg)
+> +		unsigned int cmd, unsigned long arg)
 >  {
+>  	void __user *argp = (void __user *)arg;
 >  	int ret;
->  
 > diff --git a/drivers/cdrom/gdrom.c b/drivers/cdrom/gdrom.c
-> index ceded5772aac6d..eaa2d5a90bc82f 100644
+> index eaa2d5a90bc82f..14922403983e9e 100644
 > --- a/drivers/cdrom/gdrom.c
 > +++ b/drivers/cdrom/gdrom.c
-> @@ -481,7 +481,7 @@ static int gdrom_bdops_open(struct block_device *bdev, fmode_t mode)
->  	bdev_check_media_change(bdev);
+> @@ -505,7 +505,7 @@ static int gdrom_bdops_ioctl(struct block_device *bdev, fmode_t mode,
+>  	int ret;
 >  
 >  	mutex_lock(&gdrom_mutex);
-> -	ret = cdrom_open(gd.cd_info, bdev, mode);
-> +	ret = cdrom_open(gd.cd_info, mode);
+> -	ret = cdrom_ioctl(gd.cd_info, bdev, mode, cmd, arg);
+> +	ret = cdrom_ioctl(gd.cd_info, bdev, cmd, arg);
 >  	mutex_unlock(&gdrom_mutex);
+>  
 >  	return ret;
->  }
 > diff --git a/drivers/scsi/sr.c b/drivers/scsi/sr.c
-> index 12869e6d4ebda8..61b83880e395a4 100644
+> index 61b83880e395a4..444c7efc14cba7 100644
 > --- a/drivers/scsi/sr.c
 > +++ b/drivers/scsi/sr.c
-> @@ -498,7 +498,7 @@ static int sr_block_open(struct block_device *bdev, fmode_t mode)
->  		sr_revalidate_disk(cd);
+> @@ -539,7 +539,7 @@ static int sr_block_ioctl(struct block_device *bdev, fmode_t mode, unsigned cmd,
+>  	scsi_autopm_get_device(sdev);
 >  
->  	mutex_lock(&cd->lock);
-> -	ret = cdrom_open(&cd->cdi, bdev, mode);
-> +	ret = cdrom_open(&cd->cdi, mode);
->  	mutex_unlock(&cd->lock);
->  
->  	scsi_autopm_put_device(sdev);
+>  	if (cmd != CDROMCLOSETRAY && cmd != CDROMEJECT) {
+> -		ret = cdrom_ioctl(&cd->cdi, bdev, mode, cmd, arg);
+> +		ret = cdrom_ioctl(&cd->cdi, bdev, cmd, arg);
+>  		if (ret != -ENOSYS)
+>  			goto put;
+>  	}
 > diff --git a/include/linux/cdrom.h b/include/linux/cdrom.h
-> index 67caa909e3e615..cc5717cb0fa8a8 100644
+> index cc5717cb0fa8a8..4aea8c82d16971 100644
 > --- a/include/linux/cdrom.h
 > +++ b/include/linux/cdrom.h
-> @@ -101,8 +101,7 @@ int cdrom_read_tocentry(struct cdrom_device_info *cdi,
->  		struct cdrom_tocentry *entry);
->  
+> @@ -103,8 +103,8 @@ int cdrom_read_tocentry(struct cdrom_device_info *cdi,
 >  /* the general block_device operations structure: */
-> -extern int cdrom_open(struct cdrom_device_info *cdi, struct block_device *bdev,
-> -			fmode_t mode);
-> +int cdrom_open(struct cdrom_device_info *cdi, fmode_t mode);
+>  int cdrom_open(struct cdrom_device_info *cdi, fmode_t mode);
 >  extern void cdrom_release(struct cdrom_device_info *cdi, fmode_t mode);
->  extern int cdrom_ioctl(struct cdrom_device_info *cdi, struct block_device *bdev,
->  		       fmode_t mode, unsigned int cmd, unsigned long arg);
+> -extern int cdrom_ioctl(struct cdrom_device_info *cdi, struct block_device *bdev,
+> -		       fmode_t mode, unsigned int cmd, unsigned long arg);
+> +int cdrom_ioctl(struct cdrom_device_info *cdi, struct block_device *bdev,
+> +		unsigned int cmd, unsigned long arg);
+>  extern unsigned int cdrom_check_events(struct cdrom_device_info *cdi,
+>  				       unsigned int clearing);
+>  
 > -- 
 > 2.39.2
 > 
 
-Thanks for the patch, looks good to me.
+Thanks, looks good.
 
 Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
 
