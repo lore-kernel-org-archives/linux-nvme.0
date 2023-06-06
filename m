@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD46DC7EE24
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Jun 2023 07:43:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BBA5AC77B7A
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Jun 2023 07:43:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FfyUyS9WbjVTL2aLZXa9Y1rln0H/+/QigckVAbNE3A0=; b=1Ky1ll2qSQHIno3l/a6RVohnqU
-	VefoJtXrODYgxMsRPsQ/YzFFQtW+3r27qHPEhNzKD5l8gHulbZHIDW6RANC9rAJE3r19gw4ntOTEa
-	DCY702zzBiL0jAaJtAcLPEnRgz+jY2Lb52HrI2dtuwzzXPAnTCoBx4dDFhTN1mxPDaGIOqp3gd53V
-	S815owOhJVDlcCi1flywvGkRoTruLZ1gaOrdQxj6blLiHE3/kdaZrI01GwpuQE1Zk154uACq9UNTs
-	G+cT/dbVnqCdHGwrX5VXWTgKjwSDDgAUn48GvMnJJ66ToJvLDCImg/eMqnBBLjgUqrw/lQ+abX55C
-	msXQWDrw==;
+	bh=898bG3yB0h/4R6DBTCYmRThE64ZfC658omyA+boEEQA=; b=2pc8wwIevPHBSgmj7+FG07LxG1
+	iuU1RREHIRBzylCX59tTTWLoXdrdeIsi1tME8TbO9jj+gt+aUGTLzcF3JTllhbJ0R4UD7byjSxOfl
+	4Aq89+orVrnjZDZvuhqKJdGG9iEGXOtwbkJNjig0ENQRCBdaRE7hJ5ZcPpOgeeySvgNfj/WdkaaLr
+	7fu+wHz6fwAQCXiR0otVRdYLSUm5CmaaBjq6yPbbZQpZ1xfPTAyAI34xNZX2MI0TNGNJdtWtxowz/
+	zdSMLn5bo/1cB+/z518IdZtyiCR5fA3KK8slCTP5fyrIuBlyim+7qfvgtjx5klfn5HRJCBeE9gG+V
+	QV682zqg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6RLY-000c2C-16;
-	Tue, 06 Jun 2023 07:43:16 +0000
+	id 1q6RLv-000cTO-34;
+	Tue, 06 Jun 2023 07:43:39 +0000
 Received: from 2a02-8389-2341-5b80-39d3-4735-9a3c-88d8.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:39d3:4735:9a3c:88d8] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6RJU-000ZoJ-0B;
-	Tue, 06 Jun 2023 07:41:08 +0000
+	id 1q6RJa-000Ztj-1C;
+	Tue, 06 Jun 2023 07:41:14 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Richard Weinberger <richard@nod.at>,
@@ -55,9 +55,9 @@ Cc: Richard Weinberger <richard@nod.at>,
 	linux-nilfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-pm@vger.kernel.org
-Subject: [PATCH 23/31] mtd: block: use a simple bool to track open for write
-Date: Tue,  6 Jun 2023 09:39:42 +0200
-Message-Id: <20230606073950.225178-24-hch@lst.de>
+Subject: [PATCH 25/31] ubd: remove commented out code in ubd_open
+Date: Tue,  6 Jun 2023 09:39:44 +0200
+Message-Id: <20230606073950.225178-26-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230606073950.225178-1-hch@lst.de>
 References: <20230606073950.225178-1-hch@lst.de>
@@ -77,55 +77,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Instead of propagating the fmode_t, just use a bool to track if a mtd
-block device was opened for writing.
+This code has been dead forever, make sure it doesn't show up in code
+searches.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/mtd/mtd_blkdevs.c    | 2 +-
- drivers/mtd/mtdblock.c       | 2 +-
- include/linux/mtd/blktrans.h | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ arch/um/drivers/ubd_kern.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/drivers/mtd/mtd_blkdevs.c b/drivers/mtd/mtd_blkdevs.c
-index f0bb09fde95e3a..bd0b7545364349 100644
---- a/drivers/mtd/mtd_blkdevs.c
-+++ b/drivers/mtd/mtd_blkdevs.c
-@@ -208,7 +208,7 @@ static int blktrans_open(struct gendisk *disk, fmode_t mode)
- 	ret = __get_mtd_device(dev->mtd);
- 	if (ret)
- 		goto error_release;
--	dev->file_mode = mode;
-+	dev->writable = mode & FMODE_WRITE;
- 
- unlock:
- 	dev->open++;
-diff --git a/drivers/mtd/mtdblock.c b/drivers/mtd/mtdblock.c
-index a0a1194dc1d902..fa476fb4dffb6c 100644
---- a/drivers/mtd/mtdblock.c
-+++ b/drivers/mtd/mtdblock.c
-@@ -294,7 +294,7 @@ static void mtdblock_release(struct mtd_blktrans_dev *mbd)
- 		 * It was the last usage. Free the cache, but only sync if
- 		 * opened for writing.
- 		 */
--		if (mbd->file_mode & FMODE_WRITE)
-+		if (mbd->writable)
- 			mtd_sync(mbd->mtd);
- 		vfree(mtdblk->cache_data);
+diff --git a/arch/um/drivers/ubd_kern.c b/arch/um/drivers/ubd_kern.c
+index 8b79554968addb..20c1a16199c503 100644
+--- a/arch/um/drivers/ubd_kern.c
++++ b/arch/um/drivers/ubd_kern.c
+@@ -1170,13 +1170,6 @@ static int ubd_open(struct gendisk *disk, fmode_t mode)
  	}
-diff --git a/include/linux/mtd/blktrans.h b/include/linux/mtd/blktrans.h
-index 15cc9b95e32b52..6e471436bba556 100644
---- a/include/linux/mtd/blktrans.h
-+++ b/include/linux/mtd/blktrans.h
-@@ -34,7 +34,7 @@ struct mtd_blktrans_dev {
- 	struct blk_mq_tag_set *tag_set;
- 	spinlock_t queue_lock;
- 	void *priv;
--	fmode_t file_mode;
-+	bool writable;
- };
- 
- struct mtd_blktrans_ops {
+ 	ubd_dev->count++;
+ 	set_disk_ro(disk, !ubd_dev->openflags.w);
+-
+-	/* This should no more be needed. And it didn't work anyway to exclude
+-	 * read-write remounting of filesystems.*/
+-	/*if((mode & FMODE_WRITE) && !ubd_dev->openflags.w){
+-	        if(--ubd_dev->count == 0) ubd_close_dev(ubd_dev);
+-	        err = -EROFS;
+-	}*/
+ out:
+ 	mutex_unlock(&ubd_mutex);
+ 	return err;
 -- 
 2.39.2
 
