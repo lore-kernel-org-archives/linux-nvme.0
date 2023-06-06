@@ -4,92 +4,142 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2BCA7C77B73
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Jun 2023 14:30:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1BC23C7EE24
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Jun 2023 14:30:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Date:From:
-	Content-ID:Content-Type:MIME-Version:Subject:Cc:To:References:In-Reply-To:
-	Reply-To:Content-Transfer-Encoding:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tl5oPK3uVnMf7j5Be8wyxIVYpd+Z0ksF6FBEMTvD5A0=; b=LBdUmq+Dmb51IbTxft+KWKKKGW
-	AewR3OKuLEwZE/2r6FoUEY0lzFJPL2a7OvovqscCHEb/jUi2RtnUUez7NNuQB23j/TCZJoeH/glmT
-	MbS0VR+tHIOYIMJRvUAiviGuWc+9+pOgg4GtRKEEpOwsF0iHZIp7y3WzWHRqWgRHKwe/9iqELQ+7X
-	D7ZFVsfxzdFqhDDxF4c5+VNUCHoMurm1rxeLtSZKH/GIMe+MJOdy25izFcaQs81PlWtNbkgSgGKMn
-	LYvRH0fNG1cwEPhgyuQUyieayCXi1asebgVigMdEt7J2uIy5yUb0vpnxzV9F0aeCTxXknVJaxb2ck
-	Gj8J7+mw==;
+	bh=UOxM1GwH4N78/5VcZmRi0SOFUE4InTqlB4yboWdBops=; b=Xx1fS8FSYexEfrOzn9yiuBUVFd
+	ZS+trdyVh7f9/vXGLbcFwRvR/u4vJlxUELnfhquiOT1QGbk6vCBrfMpmRRziACt2d+BEHlZz3atPw
+	R1OwGbtg+5nl8kpwTZ7ThUzgFFsP3Wscl/DVvaii7IDeSzS8g7JmcatlTljxlFiZXVvp4VtG74fZG
+	dvgX3m9aMl985fjgH5TnEbufItvefFAsSsEB/yYvdGWDF60BGjZhwhjcyZ7rwrl9FIl7p2MBBZvAn
+	3kUoK8ASF73sRdX2DkA5d6wy0Y8MGnOb/NbOVWlmOenCAksKc+gv6GjU2SWwvqvipA7O1yUX/RB+A
+	97v+J0qA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6Xh7-0021MP-23;
-	Tue, 06 Jun 2023 14:29:57 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1q6Xh8-0021Mr-29;
+	Tue, 06 Jun 2023 14:29:58 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6S0L-000nLT-1I
+	id 1q6XWq-001zEM-0l
 	for linux-nvme@lists.infradead.org;
-	Tue, 06 Jun 2023 08:25:26 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1686039924;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tl5oPK3uVnMf7j5Be8wyxIVYpd+Z0ksF6FBEMTvD5A0=;
-	b=d3auV/G9P/M/ZVw8e2c29Jm92pfobuvt8ORePZyfjlA5hsOFtPw5V0RF1mYniu0e6F4a9Z
-	Nmy6ln+3cZek/MPle+5MYxCu5s4GJWWzJU0Ith6qo4qYXEkP2EKuNVnPCEcBCo71GGAQz1
-	f9Ge+sxe6F0+fUclMGS057yNgyS+RqQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-481-WVBBMtVdOw6x8tgl-6tseQ-1; Tue, 06 Jun 2023 04:25:22 -0400
-X-MC-Unique: WVBBMtVdOw6x8tgl-6tseQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 52E34811E78;
-	Tue,  6 Jun 2023 08:25:20 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.42.28.182])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 38D27492B00;
-	Tue,  6 Jun 2023 08:25:14 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-In-Reply-To: <f7919c2c9e1cb6218a0b0f55ddaa9a34f7d2b9a7.camel@gmail.com>
-References: <f7919c2c9e1cb6218a0b0f55ddaa9a34f7d2b9a7.camel@gmail.com> <20230524153311.3625329-1-dhowells@redhat.com> <20230524153311.3625329-5-dhowells@redhat.com> <a819dd80-54cc-695f-f142-e3d42ce815a7@huawei.com>
-To: Alexander H Duyck <alexander.duyck@gmail.com>
-Cc: Yunsheng Lin <linyunsheng@huawei.com>,
-    David Howells <dhowells@redhat.com>, netdev@vger.kernel.org,
-    "David S. Miller" <davem@davemloft.net>,
-    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-    Paolo Abeni <pabeni@redhat.com>,
-    Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-    David Ahern <dsahern@kernel.org>,
-    Matthew Wilcox <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>,
-    linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-    Jeroen de Borst <jeroendb@google.com>,
-    Catherine Sullivan <csully@google.com>,
-    Shailend Chand <shailend@google.com>, Felix Fietkau <nbd@nbd.name>,
-    John Crispin <john@phrozen.org>, Sean Wang <sean.wang@mediatek.com>,
-    Mark Lee <Mark-MC.Lee@mediatek.com>,
-    Lorenzo Bianconi <lorenzo@kernel.org>,
-    Matthias Brugger <matthias.bgg@gmail.com>,
-    AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-    Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
-    Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-    Chaitanya Kulkarni <kch@nvidia.com>,
-    Andrew Morton <akpm@linux-foundation.org>,
-    linux-arm-kernel@lists.infradead.org,
-    linux-mediatek@lists.infradead.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH net-next 04/12] mm: Make the page_frag_cache allocator use multipage folios
+	Tue, 06 Jun 2023 14:19:22 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20230606141912epoutp0267f872dafc882fb579cdd7a615077cb6~mF69pEioo3214332143epoutp027
+	for <linux-nvme@lists.infradead.org>; Tue,  6 Jun 2023 14:19:12 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20230606141912epoutp0267f872dafc882fb579cdd7a615077cb6~mF69pEioo3214332143epoutp027
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1686061152;
+	bh=UOxM1GwH4N78/5VcZmRi0SOFUE4InTqlB4yboWdBops=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=PZw1PRsP3Vrqe4rBgl2Q+llmA+X/Y64Mgt62j0rqVIiINQHQz37xv9cTHbe78woTb
+	 5BxEesBBycF+gggWT9A5ORabSDHqm0HgkJVRO6OoIW9+f+7OZdJFEDgW6HO58kUDBK
+	 ZFYVIHdSenb57diO3bEYFPfETDlbB5mJcxWAs+jM=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+	20230606141911epcas5p3feaf4868278ede2a218037055402778a~mF68ppvKo0226602266epcas5p3G;
+	Tue,  6 Jun 2023 14:19:11 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.181]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4QbCJt3gbnz4x9Pp; Tue,  6 Jun
+	2023 14:19:10 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	ED.0D.04567.E504F746; Tue,  6 Jun 2023 23:19:10 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20230606113849epcas5p20436fd9c3a47354fc4f5264540cd9887~mDu7kpk5C1243112431epcas5p2V;
+	Tue,  6 Jun 2023 11:38:49 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20230606113849epsmtrp1037164b0d5a6cfbe44a01819ba98ed2b~mDu7i-Kls0420604206epsmtrp1I;
+	Tue,  6 Jun 2023 11:38:49 +0000 (GMT)
+X-AuditID: b6c32a49-943ff700000011d7-f9-647f405ec85f
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+	B7.47.28392.9CA1F746; Tue,  6 Jun 2023 20:38:49 +0900 (KST)
+Received: from green245 (unknown [107.99.41.245]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20230606113842epsmtip230b93d2fae8d0d35d5b4cfcfbf869ead~mDu1DVgJ-2435324353epsmtip29;
+	Tue,  6 Jun 2023 11:38:42 +0000 (GMT)
+Date: Tue, 6 Jun 2023 17:05:35 +0530
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
+	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	dm-devel@redhat.com, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
+	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, James Smart
+	<james.smart@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>, Alexander
+	Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+	martin.petersen@oracle.com, linux-scsi@vger.kernel.org, willy@infradead.org,
+	hare@suse.de, djwong@kernel.org, bvanassche@acm.org, ming.lei@redhat.com,
+	dlemoal@kernel.org, nitheshshetty@gmail.com, gost.dev@samsung.com, Kanchan
+	Joshi <joshi.k@samsung.com>, Javier =?utf-8?B?R29uesOhbGV6?=
+	<javier.gonz@samsung.com>, Anuj Gupta <anuj20.g@samsung.com>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v12 5/9] nvme: add copy offload support
+Message-ID: <20230606113535.rjbhe6eqlyqk4pqq@green245>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <1841893.1686039890.1@warthog.procyon.org.uk>
-From: David Howells <dhowells@redhat.com>
-Date: Tue, 06 Jun 2023 09:25:13 +0100
-Message-ID: <1841913.1686039913@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+In-Reply-To: <ZH3mjUb+yqI11XD8@infradead.org>
+User-Agent: NeoMutt/20171215
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te1STZRzHz/O+493QZq9c6nGUcN44JtiAGeADSKChvQEVzTpd/gB2tvcw
+	AradjYlmHW4KAnJRWycWxEUuAiUIZBNEcURDkYAQCPJCBmgQ90MoKLS50fG/z/P9/b7P7/n9
+	fufh4DZX2TxOtCyeUcpEsRSxgXWhzWU7PzwwUeJRnmmHaq//gqOUvCc4qrmdS6DJtnmAvp59
+	hKPR1nSA+kY3oZErAahl+lsrNNR6EUOXSk9hqDOvFENVNe0Yai6Zw9BftxbYqH1tikCn9AMA
+	jfVrMdQyvAOVpJWx0KWWayzU11RAoKKKMTbKGtQRqNKwiiH96VQM6UaTATo3OcNCHcMOqPuJ
+	wQqtPCwgAh3pvpshtPZuF0Ff1N5m0913zrPohrOudF+Xmq6vziDohrJEunkoiaDP5Jy2orNT
+	pwl6bmyYRc9c7ifonMZqQDd0HqEX6reGbf40ZreUEUkYpRMjE8sl0bIofyrkQMSbEV7eHgK+
+	wAftopxkojjGnwoKDePvj441DotyOiiKVRulMJFKRbm/sVspV8czTlK5Kt6fYhSSWIWnwk0l
+	ilOpZVFuMibeV+DhsdPLmBgZIzUMlrIVDQ6HBpYfWiWBKy9kAmsOJD1hT2EFy8Q2ZDOAustv
+	ZYINRp4HMD9LA8yHBQCLu/uxdcdEVwZhDjQB2N8+ZMkaB3B5rR2YslikM2w7M2d0cDgEuQN2
+	rnFMsh3pAocr03ET42Q1G7auUia2Jf3gyODkU51LesM/0qosvBleyx9lma6xJvlwOPsjk2xP
+	vgS/KV/ETWUh+a81LO4xtwDJIFjSfhI3sy2cMDSyzcyDf+emWTgBVn11ljCbjwKoHdQCcyAA
+	Hruea3mcFJb0j1v0l6Hm+jnMrG+C2Sujlklwoe67dX4Ffl9bTJh5CxxYSrYwDc/3PLZM6x6A
+	bSl6LA84ap9pTvtMPTP7wozZFCutsWmcdICVqxwzusDaJvdiYFUNtjAKVVwUo/JSCGRMwv8L
+	F8vj6sHTv+T6tg7cHpl10wOMA/QAcnDKjvtZQKLEhisRHf6cUcojlOpYRqUHXsZdncR59mK5
+	8TPK4iMEnj4ent7e3p4+r3sLqBe5r/pfE9uQUaJ4JoZhFIxy3YdxrHlJGHK4eKFWfMc2fJnn
+	5yzgCJMNB/bZP256b3DJdwCbC+w3iBxDHgiXeoM9uxf9Auq8KiUYN0WhGj9xaT6O3Lq2Udgb
+	Tsn5edJmeye+5uO6LKFPTfmhB7d0E9s60MC+XceL7FM06SNTWWq334lk/s8rFUKe+7bUHu6j
+	9B9GkjUn6HcTZB/8s1odmX/0tRs81nxP4dXf9nwZoqZCe9N6/YV2+p2FU6HHfrxboJvR7V3I
+	HZ2ua5wUf7gH3P9kY2pZuziHf397/g2NRurc4WbI/fMWCH4nKPL9sKidrUXJVZ0d+MzzB8ti
+	vgheFFXcvGc35PTcfuGuw4yj8CdSefwI8WtE3VoYxVJJRQJXXKkS/Qe0f8wY1AQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpileLIzCtJLcpLzFFi42LZdlhJXvekVH2KwYpt8hbrTx1jtmia8JfZ
+	YvXdfjaL14c/MVpM+/CT2eLJgXZGi8tP+Cwe7Le32PtuNqvFzQM7mSz2LJrEZHF6wiImi5Wr
+	jzJZ7F74kcni8Z3P7BZH/79ls5h06BqjxdOrs5gs9t7StljYtoTFYs/ekywWl3fNYbOYv+wp
+	u0X39R1sFsuP/2OyODS5mclix5NGRot1r9+zWJy4JW1x/u9xVovfP+awOch7XL7i7THr/lk2
+	j52z7rJ7nL+3kcVj8wotj8tnSz02repk89i8pN5j980GNo/FfZNZPXqb37F5fHx6i8Xj/b6r
+	bB59W1Yxemw+Xe3xeZNcgGAUl01Kak5mWWqRvl0CV8afTztYC55KVBx5vZi5gbFbpIuRk0NC
+	wETi1dlONhBbSGAHo8SvmxYQcUmJZX+PMEPYwhIr/z1n72LkAqp5wihx9vpeFpAEi4CKxOHF
+	H5m6GDk42AS0JU7/5wAJiwhoStxa3s4MUs8ssI5d4uvWa2CDhAWsJR5cfw1m8wqYSdxuW8kM
+	MfQRo8T/I8ugEoISJ2c+AVvADFQ0b/NDZpAFzALSEsv/cYCYnAK6Erd6w0EqRAVkJGYs/co8
+	gVFwFpLmWUiaZyE0L2BkXsUomVpQnJueW2xYYJSXWq5XnJhbXJqXrpecn7uJEZxMtLR2MO5Z
+	9UHvECMTB+MhRgkOZiUR3l1e1SlCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeS90nYwXEkhPLEnN
+	Tk0tSC2CyTJxcEo1MLU+OaWufuTyRoVPCv08vlE7nq07MuF4bcMm/o60vvMlbcm7Pl/1mLd9
+	ztH9l+72c6ee+DXFKzvLa+ZxCT/JZIblbzofX2vVkWUO0L/6SClK5h6Xs/ilnIlPQ9XXn3vq
+	az1NPSqi7N2O30XznC8Hlk7YfTvg9nRR5xtOV+4Giql2/vgsmRWz+OOxyODJgvZWjS8c5py8
+	fTj96Y+iY/HVKw/4199n3rhRdOf3isRqnWVybZllKaqa1/bfevKp3m99aAznpTviSy66L308
+	TyX0j4DyhcYmmVbBc4zz9NRN+5Z379TodNuh9HDxt9N7zy5+5bJ37v2m09OYj1kk+FwXNmN1
+	bHg75X/8fTv5DyZ9PSFKLMUZiYZazEXFiQAmhJ86lQMAAA==
+X-CMS-MailID: 20230606113849epcas5p20436fd9c3a47354fc4f5264540cd9887
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----JBF_njb0NWiSS48ThI00c_Y9Zxz.JAos93qymBy6wSZnW6dc=_4db83_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230605122310epcas5p4aaebfc26fe5377613a36fe50423cf494
+References: <20230605121732.28468-1-nj.shetty@samsung.com>
+	<CGME20230605122310epcas5p4aaebfc26fe5377613a36fe50423cf494@epcas5p4.samsung.com>
+	<20230605121732.28468-6-nj.shetty@samsung.com>
+	<ZH3mjUb+yqI11XD8@infradead.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230606_012525_512703_18B61FD0 
-X-CRM114-Status: GOOD (  26.38  )
+X-CRM114-CacheID: sfid-20230606_071920_866420_DDF27F2D 
+X-CRM114-Status: GOOD (  23.91  )
 X-Mailman-Approved-At: Tue, 06 Jun 2023 07:29:56 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -105,34 +155,94 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Alexander H Duyck <alexander.duyck@gmail.com> wrote:
+------JBF_njb0NWiSS48ThI00c_Y9Zxz.JAos93qymBy6wSZnW6dc=_4db83_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-> Also I have some concerns about going from page to folio as it seems
-> like the folio_alloc setups the transparent hugepage destructor instead
-> of using the compound page destructor. I would think that would slow
-> down most users as it looks like there is a spinlock that is taken in
-> the hugepage destructor that isn't there in the compound page
-> destructor.
+On 23/06/05 06:43AM, Christoph Hellwig wrote:
+>>  		break;
+>>  	case REQ_OP_READ:
+>> -		ret = nvme_setup_rw(ns, req, cmd, nvme_cmd_read);
+>> +		if (unlikely(req->cmd_flags & REQ_COPY))
+>> +			nvme_setup_copy_read(ns, req);
+>> +		else
+>> +			ret = nvme_setup_rw(ns, req, cmd, nvme_cmd_read);
+>>  		break;
+>>  	case REQ_OP_WRITE:
+>> -		ret = nvme_setup_rw(ns, req, cmd, nvme_cmd_write);
+>> +		if (unlikely(req->cmd_flags & REQ_COPY))
+>> +			ret = nvme_setup_copy_write(ns, req, cmd);
+>> +		else
+>> +			ret = nvme_setup_rw(ns, req, cmd, nvme_cmd_write);
+>
+>Yikes.  Overloading REQ_OP_READ and REQ_OP_WRITE with something entirely
+>different brings us back the horrors of the block layer 15 years ago.
+>Don't do that.  Please add separate REQ_COPY_IN/OUT (or maybe
+>SEND/RECEIVE or whatever) methods.
+>
 
-Note that this code is going to have to move to folios[*] at some point.
-"Old-style" compound pages are going to go away, I believe.  Matthew Wilcox
-and the mm folks are on a drive towards simplifying memory management,
-formalising chunks larger than a single page - with the ultimate aim of
-reducing the page struct to a single, typed pointer.
+Downside will be duplicating checks which are present for read, write in
+block layer, device-mapper and zoned devices.
+But we can do this, shouldn't be an issue.
 
-So, take, for example, a folio: As I understand it, this will no longer
-overlay struct page, but rather will become a single, dynamically-allocated
-struct that covers a pow-of-2 number of pages.  A contiguous subset of page
-structs will point at it.
+>> +	/* setting copy limits */
+>> +	if (blk_queue_flag_test_and_set(QUEUE_FLAG_COPY, q))
+>
+>I don't understand this comment.
+>
 
-However, rather than using a folio, we could define a "page fragment" memory
-type.  Rather than having all the flags and fields to be found in struct
-folio, it could have just the set to be found in page_frag_cache.
+It was a mistake. Comment is misplaced and it should have been
+"setting copy flag" instead of "setting copy limits".
+Anyway now we feel this comment is redundant, will remove it.
+Also, we should have used blk_queue_flag_set to enable copy offload.
 
-David
+>> +struct nvme_copy_token {
+>> +	char *subsys;
+>> +	struct nvme_ns *ns;
+>> +	sector_t src_sector;
+>> +	sector_t sectors;
+>> +};
+>
+>Why do we need a subsys token?  Inter-namespace copy is pretty crazy,
+>and not really anything we should aim for.  But this whole token design
+>is pretty odd anyway.  The only thing we'd need is a sequence number /
+>idr / etc to find an input and output side match up, as long as we
+>stick to the proper namespace scope.
+>
 
-[*] It will be possible to have some other type than "folio".  See "struct
-slab" in mm/slab.h for example.  struct slab corresponds to a set of pages
-and, in the future, a number of struct pages will point at it.
+The idea behind subsys is to prevent copy across different subsystem.
+For example, copy across nvme subsystem and the scsi subsystem. [1]
+At present, we don't support inter-namespace(copy across NVMe namespace),
+but after community feedback for previous series we left scope for it.
+About idr per namespace, it will be similar to namespace check that
+we are doing to prevent copy across namespace.
+We went with current structure for token, as it was solving above
+issues as well as provides a placeholder for storing source LBA and
+number of sectors.
+Do have any suggestions on how we can store source info, if we go with
+idr based approach ?
 
+[1] https://lore.kernel.org/all/alpine.LRH.2.02.2202011327350.22481@file01.intranet.prod.int.rdu2.redhat.com/T/#m407f24fb4454d35c3283a5e51fdb04f1600463af
+
+>> +	if (unlikely((req->cmd_flags & REQ_COPY) &&
+>> +				(req_op(req) == REQ_OP_READ))) {
+>> +		blk_mq_start_request(req);
+>> +		return BLK_STS_OK;
+>> +	}
+>
+>This really needs to be hiden inside of nvme_setup_cmd.  And given
+>that other drivers might need similar handling the best way is probably
+>to have a new magic BLK_STS_* value for request started but we're
+>not actually sending it to hardware.
+
+Sure we will add new BLK_STS_* for completion and move the snippet.
+
+Thank you,
+Nitesh Shetty
+
+------JBF_njb0NWiSS48ThI00c_Y9Zxz.JAos93qymBy6wSZnW6dc=_4db83_
+Content-Type: text/plain; charset="utf-8"
+
+
+------JBF_njb0NWiSS48ThI00c_Y9Zxz.JAos93qymBy6wSZnW6dc=_4db83_--
 
