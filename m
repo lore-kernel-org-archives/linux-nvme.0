@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52431C77B7A
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Jun 2023 07:40:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 09477C7EE2A
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Jun 2023 07:40:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OEf7M/Vr64TKUOY7uvYGnwiNQuWBOjBTi91fh+Kn+kM=; b=4uwXMhUwVT7znCVyZbkLfqReM0
-	c2a4e7PHgJ+BPIWPb/pZ7KSreVOEd98fTq1G7xrygm89F7lacT/ZaVxUDqTrO7Nh6gIiC685VyZbe
-	A2xny6A2WBj2kxp1dmng5awf3jindDMp3F2EZR5uYTbWKiTkSQeI4RHdswp35+85Da3uKIa5+GCFm
-	efjRh5AxTziLtgeO2elr4ootfHnFgc7lRBVlXFNKZs84sKZE+6gobO9oc38scGQcPiX7s5qjaeK6e
-	1jtCX4Oy1MFbP0GxTdjq9wAXIu3PXGNZvM3jKmQG+LDLiOlk2ODznMCbPfGsX0LyxOoIhlnp6Upu/
-	ohtqB9lg==;
+	bh=2SPWfmGJUwFbC3copUvvHjLo5uqBbUzEMBJnYk3hl0s=; b=roFWENwN0yZlJor4CT2Wn5OgFP
+	213dHdWRv8uGxsjTr7TMHwdzzH+23aDAtnyORaw7zg/bDA+CmnK0wnWzjLU21M6GSson+9bDlGAhI
+	WNlrixrY1/6n/zxlyY7e8k7tUrRDqlR9n9jSGrPiijJR3bjCRlVyk9mhUTfweg18usjg029c3s2Fx
+	3j0OnDS//XayNg1O+tB4CT0OiFxrR3oEjwnMrQIWeWm30xI0q83ufTpsiv6cW8d/2h0NLMKh6gygx
+	zvwCniShB5apwKNlZaG6XG9qLHu8LHWok1vE3tHNc8xbziMImJHRAPr/09Pe8JUrS0xCnrsOZPMrj
+	VGkJ9cnw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6RIW-000Yjo-35;
-	Tue, 06 Jun 2023 07:40:08 +0000
+	id 1q6RIa-000Yno-1b;
+	Tue, 06 Jun 2023 07:40:12 +0000
 Received: from 2a02-8389-2341-5b80-39d3-4735-9a3c-88d8.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:39d3:4735:9a3c:88d8] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6RIQ-000YcF-1K;
-	Tue, 06 Jun 2023 07:40:02 +0000
+	id 1q6RIT-000YeY-1a;
+	Tue, 06 Jun 2023 07:40:06 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Richard Weinberger <richard@nod.at>,
@@ -55,9 +55,9 @@ Cc: Richard Weinberger <richard@nod.at>,
 	linux-nilfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-pm@vger.kernel.org
-Subject: [PATCH 03/31] cdrom: remove the unused mode argument to cdrom_ioctl
-Date: Tue,  6 Jun 2023 09:39:22 +0200
-Message-Id: <20230606073950.225178-4-hch@lst.de>
+Subject: [PATCH 04/31] cdrom: remove the unused cdrom_close_write release code
+Date: Tue,  6 Jun 2023 09:39:23 +0200
+Message-Id: <20230606073950.225178-5-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230606073950.225178-1-hch@lst.de>
 References: <20230606073950.225178-1-hch@lst.de>
@@ -77,68 +77,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+cdrom_close_write is empty, and the for_data flag it is keyed off is
+never set.  Remove all this clutter.
+
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/cdrom/cdrom.c | 2 +-
- drivers/cdrom/gdrom.c | 2 +-
- drivers/scsi/sr.c     | 2 +-
- include/linux/cdrom.h | 4 ++--
- 4 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/cdrom/cdrom.c | 15 ---------------
+ include/linux/cdrom.h |  1 -
+ 2 files changed, 16 deletions(-)
 
 diff --git a/drivers/cdrom/cdrom.c b/drivers/cdrom/cdrom.c
-index e3eab319cb0474..245e5bbb05d41c 100644
+index 245e5bbb05d41c..08abf1ffede002 100644
 --- a/drivers/cdrom/cdrom.c
 +++ b/drivers/cdrom/cdrom.c
-@@ -3336,7 +3336,7 @@ static int mmc_ioctl(struct cdrom_device_info *cdi, unsigned int cmd,
-  * ATAPI / SCSI specific code now mainly resides in mmc_ioctl().
-  */
- int cdrom_ioctl(struct cdrom_device_info *cdi, struct block_device *bdev,
--		fmode_t mode, unsigned int cmd, unsigned long arg)
-+		unsigned int cmd, unsigned long arg)
+@@ -978,15 +978,6 @@ static void cdrom_dvd_rw_close_write(struct cdrom_device_info *cdi)
+ 	cdi->media_written = 0;
+ }
+ 
+-static int cdrom_close_write(struct cdrom_device_info *cdi)
+-{
+-#if 0
+-	return cdrom_flush_cache(cdi);
+-#else
+-	return 0;
+-#endif
+-}
+-
+ /* badly broken, I know. Is due for a fixup anytime. */
+ static void cdrom_count_tracks(struct cdrom_device_info *cdi, tracktype *tracks)
  {
- 	void __user *argp = (void __user *)arg;
- 	int ret;
-diff --git a/drivers/cdrom/gdrom.c b/drivers/cdrom/gdrom.c
-index eaa2d5a90bc82f..14922403983e9e 100644
---- a/drivers/cdrom/gdrom.c
-+++ b/drivers/cdrom/gdrom.c
-@@ -505,7 +505,7 @@ static int gdrom_bdops_ioctl(struct block_device *bdev, fmode_t mode,
- 	int ret;
+@@ -1282,12 +1273,6 @@ void cdrom_release(struct cdrom_device_info *cdi, fmode_t mode)
+ 	opened_for_data = !(cdi->options & CDO_USE_FFLAGS) ||
+ 		!(mode & FMODE_NDELAY);
  
- 	mutex_lock(&gdrom_mutex);
--	ret = cdrom_ioctl(gd.cd_info, bdev, mode, cmd, arg);
-+	ret = cdrom_ioctl(gd.cd_info, bdev, cmd, arg);
- 	mutex_unlock(&gdrom_mutex);
- 
- 	return ret;
-diff --git a/drivers/scsi/sr.c b/drivers/scsi/sr.c
-index 61b83880e395a4..444c7efc14cba7 100644
---- a/drivers/scsi/sr.c
-+++ b/drivers/scsi/sr.c
-@@ -539,7 +539,7 @@ static int sr_block_ioctl(struct block_device *bdev, fmode_t mode, unsigned cmd,
- 	scsi_autopm_get_device(sdev);
- 
- 	if (cmd != CDROMCLOSETRAY && cmd != CDROMEJECT) {
--		ret = cdrom_ioctl(&cd->cdi, bdev, mode, cmd, arg);
-+		ret = cdrom_ioctl(&cd->cdi, bdev, cmd, arg);
- 		if (ret != -ENOSYS)
- 			goto put;
- 	}
+-	/*
+-	 * flush cache on last write release
+-	 */
+-	if (CDROM_CAN(CDC_RAM) && !cdi->use_count && cdi->for_data)
+-		cdrom_close_write(cdi);
+-
+ 	cdo->release(cdi);
+ 	if (cdi->use_count == 0) {      /* last process that closes dev*/
+ 		if (opened_for_data &&
 diff --git a/include/linux/cdrom.h b/include/linux/cdrom.h
-index cc5717cb0fa8a8..4aea8c82d16971 100644
+index 4aea8c82d16971..0a5db0b0c958a1 100644
 --- a/include/linux/cdrom.h
 +++ b/include/linux/cdrom.h
-@@ -103,8 +103,8 @@ int cdrom_read_tocentry(struct cdrom_device_info *cdi,
- /* the general block_device operations structure: */
- int cdrom_open(struct cdrom_device_info *cdi, fmode_t mode);
- extern void cdrom_release(struct cdrom_device_info *cdi, fmode_t mode);
--extern int cdrom_ioctl(struct cdrom_device_info *cdi, struct block_device *bdev,
--		       fmode_t mode, unsigned int cmd, unsigned long arg);
-+int cdrom_ioctl(struct cdrom_device_info *cdi, struct block_device *bdev,
-+		unsigned int cmd, unsigned long arg);
- extern unsigned int cdrom_check_events(struct cdrom_device_info *cdi,
- 				       unsigned int clearing);
- 
+@@ -61,7 +61,6 @@ struct cdrom_device_info {
+ 	__u8 last_sense;
+ 	__u8 media_written;		/* dirty flag, DVD+RW bookkeeping */
+ 	unsigned short mmc3_profile;	/* current MMC3 profile */
+-	int for_data;
+ 	int (*exit)(struct cdrom_device_info *);
+ 	int mrw_mode_page;
+ 	__s64 last_media_change_ms;
 -- 
 2.39.2
 
