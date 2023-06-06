@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7094CC7EE24
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Jun 2023 07:41:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C16A1C7EE2F
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Jun 2023 07:41:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FfW9DuqWcqftCK2V6shZmYbcTRlwjUtw9gvZaCo9uwY=; b=llLUEu9Lzey3fn+j/4VOMBToTP
-	kHEFRdlC/NMSSHuY0YisGxgtCc3wTgqhxo4Wp0S8ZIKlJXz+SzNP1X/NuQlxwyKzQUcf4Z75Xx23s
-	HxUNR4WpStSFsJ7TG/zcs4FJ6vqETbEX0JvspDYZEiPg5r6kZqfXXFkE2Wfg9WyRIso8e1OUu5AjK
-	LQRJzqFqHQnbM0UfrvD6n7UFOeb8uG1pQXX5F2ipAM1nLVwzGSwRr7tpnmn++mGnYtXkBrCdgmN+F
-	ASJmPUTD0D+Y3a8qQlXfF6t9bQJqVKKkkcWSZ05LMOtH/aM8RXe/r+QqPoVaOyC0Q+Go85iOy/sqK
-	jfeXZwqQ==;
+	bh=vuH0cWPL8qHtuuqoY6Ow8SnHOfsHuYxiebFIU5Vf46Y=; b=UkIDc1Yyq4q6Y9spkT383o+Yzm
+	QMuCgLNKz6mhXcPYvUYwTnwF73tZmMZDoLvn0Lvd6teVVW8+ro+S3CIhs/JLKwsHKfE1wdvUMr7gp
+	b/aGqLL3uE4ft2Qq1f5JHFW5V+htZDmQM/LpAzdiEEvwhbBYiP8UUgT1awVPXV/wEXXi4nTQgkYAV
+	fOkoN3qLi5DZ68HARkN7HBeni9RiK+XMAk6PGtXWRJlIjC33McF/AUFODupPxrzblqCUaE9sB7ZAG
+	4GkG/sdBY5iojqK0vFPaQRgGSEj/TAIef+nlv7Q19K0od5B/bk4rvNVyEGc0nAoWLADRXfN3YBCej
+	n0Dxj0Ag==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6RJp-000a9z-2w;
-	Tue, 06 Jun 2023 07:41:30 +0000
+	id 1q6RK0-000aKV-17;
+	Tue, 06 Jun 2023 07:41:40 +0000
 Received: from 2a02-8389-2341-5b80-39d3-4735-9a3c-88d8.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:39d3:4735:9a3c:88d8] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6RIt-000Z8r-0R;
-	Tue, 06 Jun 2023 07:40:31 +0000
+	id 1q6RIv-000ZBa-3D;
+	Tue, 06 Jun 2023 07:40:34 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Richard Weinberger <richard@nod.at>,
@@ -55,9 +55,9 @@ Cc: Richard Weinberger <richard@nod.at>,
 	linux-nilfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-pm@vger.kernel.org
-Subject: [PATCH 11/31] block: rename blkdev_close to blkdev_release
-Date: Tue,  6 Jun 2023 09:39:30 +0200
-Message-Id: <20230606073950.225178-12-hch@lst.de>
+Subject: [PATCH 12/31] swsusp: don't pass a stack address to blkdev_get_by_path
+Date: Tue,  6 Jun 2023 09:39:31 +0200
+Message-Id: <20230606073950.225178-13-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230606073950.225178-1-hch@lst.de>
 References: <20230606073950.225178-1-hch@lst.de>
@@ -77,35 +77,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Make the function name match the method name.
+holder is just an on-stack pointer that can easily be reused by other calls,
+replace it with a static variable that doesn't change.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- block/fops.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ kernel/power/swap.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/block/fops.c b/block/fops.c
-index 6a3087b750a6cd..26af2b39c758e1 100644
---- a/block/fops.c
-+++ b/block/fops.c
-@@ -500,7 +500,7 @@ static int blkdev_open(struct inode *inode, struct file *filp)
- 	return 0;
+diff --git a/kernel/power/swap.c b/kernel/power/swap.c
+index 81aec3b2c60510..b03ff1a33c7f68 100644
+--- a/kernel/power/swap.c
++++ b/kernel/power/swap.c
+@@ -1510,6 +1510,8 @@ int swsusp_read(unsigned int *flags_p)
+ 	return error;
  }
  
--static int blkdev_close(struct inode *inode, struct file *filp)
-+static int blkdev_release(struct inode *inode, struct file *filp)
++static void *swsusp_holder;
++
+ /**
+  *      swsusp_check - Check for swsusp signature in the resume device
+  */
+@@ -1517,14 +1519,13 @@ int swsusp_read(unsigned int *flags_p)
+ int swsusp_check(bool snapshot_test)
  {
- 	struct block_device *bdev = filp->private_data;
+ 	int error;
+-	void *holder;
+ 	fmode_t mode = FMODE_READ;
  
-@@ -677,7 +677,7 @@ static long blkdev_fallocate(struct file *file, int mode, loff_t start,
+ 	if (snapshot_test)
+ 		mode |= FMODE_EXCL;
  
- const struct file_operations def_blk_fops = {
- 	.open		= blkdev_open,
--	.release	= blkdev_close,
-+	.release	= blkdev_release,
- 	.llseek		= blkdev_llseek,
- 	.read_iter	= blkdev_read_iter,
- 	.write_iter	= blkdev_write_iter,
+ 	hib_resume_bdev = blkdev_get_by_dev(swsusp_resume_device,
+-					    mode, &holder, NULL);
++					    mode, &swsusp_holder, NULL);
+ 	if (!IS_ERR(hib_resume_bdev)) {
+ 		set_blocksize(hib_resume_bdev, PAGE_SIZE);
+ 		clear_page(swsusp_header);
 -- 
 2.39.2
 
