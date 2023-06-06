@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0A906C7EE2A
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Jun 2023 07:43:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD46DC7EE24
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Jun 2023 07:43:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vHcX3S2sl+pGbOZrjHP9HcCBLAMHPQWl4gmV2z7KfHE=; b=lVZijPy/EF6n4Oc4NAVIHqZQCX
-	RxmKouNc9iUv1H/+xNPmz+GYTQ/J5Lji0ht5xE1qTpjaBiVZU69xcFpAqmcIxs7NSoI0B4nmVC42U
-	9C6ynyRF/qTgJ8NBsaraBRu7A/K70Yiap92+8SPF/dp8HFGC/H0/nGyj9w2cFTv1XNnxV8ioTPexf
-	8/8KZcqbu6wxiXW3x139zHZ59LwThl76g+MntgDcwVA24kGXML4eaLf6ypttlp1gMDO6w+yTedq6z
-	l8LfxYnObZZw7qK0sdfK9td2UM+/IjSJjOLMy8khvZSIbJjqoqvRf0GoT8tC8ZEQz5KrvdBU1IX9l
-	fuBSIV4w==;
+	bh=FfyUyS9WbjVTL2aLZXa9Y1rln0H/+/QigckVAbNE3A0=; b=1Ky1ll2qSQHIno3l/a6RVohnqU
+	VefoJtXrODYgxMsRPsQ/YzFFQtW+3r27qHPEhNzKD5l8gHulbZHIDW6RANC9rAJE3r19gw4ntOTEa
+	DCY702zzBiL0jAaJtAcLPEnRgz+jY2Lb52HrI2dtuwzzXPAnTCoBx4dDFhTN1mxPDaGIOqp3gd53V
+	S815owOhJVDlcCi1flywvGkRoTruLZ1gaOrdQxj6blLiHE3/kdaZrI01GwpuQE1Zk154uACq9UNTs
+	G+cT/dbVnqCdHGwrX5VXWTgKjwSDDgAUn48GvMnJJ66ToJvLDCImg/eMqnBBLjgUqrw/lQ+abX55C
+	msXQWDrw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6RLT-000bxM-2P;
-	Tue, 06 Jun 2023 07:43:11 +0000
+	id 1q6RLY-000c2C-16;
+	Tue, 06 Jun 2023 07:43:16 +0000
 Received: from 2a02-8389-2341-5b80-39d3-4735-9a3c-88d8.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:39d3:4735:9a3c:88d8] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6RJR-000Zlq-1O;
-	Tue, 06 Jun 2023 07:41:05 +0000
+	id 1q6RJU-000ZoJ-0B;
+	Tue, 06 Jun 2023 07:41:08 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Richard Weinberger <richard@nod.at>,
@@ -55,9 +55,9 @@ Cc: Richard Weinberger <richard@nod.at>,
 	linux-nilfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-pm@vger.kernel.org
-Subject: [PATCH 22/31] nvme: replace the fmode_t argument to the nvme ioctl handlers with a simple bool
-Date: Tue,  6 Jun 2023 09:39:41 +0200
-Message-Id: <20230606073950.225178-23-hch@lst.de>
+Subject: [PATCH 23/31] mtd: block: use a simple bool to track open for write
+Date: Tue,  6 Jun 2023 09:39:42 +0200
+Message-Id: <20230606073950.225178-24-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230606073950.225178-1-hch@lst.de>
 References: <20230606073950.225178-1-hch@lst.de>
@@ -77,255 +77,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Instead of passing a fmode_t and only checking it fo0r FMODE_WRITE, pass
-a bool open_for_write to prepare for callers that won't have the fmode_t.
+Instead of propagating the fmode_t, just use a bool to track if a mtd
+block device was opened for writing.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/ioctl.c | 62 +++++++++++++++++++++------------------
- 1 file changed, 34 insertions(+), 28 deletions(-)
+ drivers/mtd/mtd_blkdevs.c    | 2 +-
+ drivers/mtd/mtdblock.c       | 2 +-
+ include/linux/mtd/blktrans.h | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 81c5c9e3847747..8bf09047348ee9 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -14,7 +14,7 @@ enum {
+diff --git a/drivers/mtd/mtd_blkdevs.c b/drivers/mtd/mtd_blkdevs.c
+index f0bb09fde95e3a..bd0b7545364349 100644
+--- a/drivers/mtd/mtd_blkdevs.c
++++ b/drivers/mtd/mtd_blkdevs.c
+@@ -208,7 +208,7 @@ static int blktrans_open(struct gendisk *disk, fmode_t mode)
+ 	ret = __get_mtd_device(dev->mtd);
+ 	if (ret)
+ 		goto error_release;
+-	dev->file_mode = mode;
++	dev->writable = mode & FMODE_WRITE;
+ 
+ unlock:
+ 	dev->open++;
+diff --git a/drivers/mtd/mtdblock.c b/drivers/mtd/mtdblock.c
+index a0a1194dc1d902..fa476fb4dffb6c 100644
+--- a/drivers/mtd/mtdblock.c
++++ b/drivers/mtd/mtdblock.c
+@@ -294,7 +294,7 @@ static void mtdblock_release(struct mtd_blktrans_dev *mbd)
+ 		 * It was the last usage. Free the cache, but only sync if
+ 		 * opened for writing.
+ 		 */
+-		if (mbd->file_mode & FMODE_WRITE)
++		if (mbd->writable)
+ 			mtd_sync(mbd->mtd);
+ 		vfree(mtdblk->cache_data);
+ 	}
+diff --git a/include/linux/mtd/blktrans.h b/include/linux/mtd/blktrans.h
+index 15cc9b95e32b52..6e471436bba556 100644
+--- a/include/linux/mtd/blktrans.h
++++ b/include/linux/mtd/blktrans.h
+@@ -34,7 +34,7 @@ struct mtd_blktrans_dev {
+ 	struct blk_mq_tag_set *tag_set;
+ 	spinlock_t queue_lock;
+ 	void *priv;
+-	fmode_t file_mode;
++	bool writable;
  };
  
- static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
--		unsigned int flags, fmode_t mode)
-+		unsigned int flags, bool open_for_write)
- {
- 	u32 effects;
- 
-@@ -80,7 +80,7 @@ static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
- 	 * writing.
- 	 */
- 	if (nvme_is_write(c) || (effects & NVME_CMD_EFFECTS_LBCC))
--		return mode & FMODE_WRITE;
-+		return open_for_write;
- 	return true;
- }
- 
-@@ -337,7 +337,7 @@ static bool nvme_validate_passthru_nsid(struct nvme_ctrl *ctrl,
- 
- static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 		struct nvme_passthru_cmd __user *ucmd, unsigned int flags,
--		fmode_t mode)
-+		bool open_for_write)
- {
- 	struct nvme_passthru_cmd cmd;
- 	struct nvme_command c;
-@@ -365,7 +365,7 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	c.common.cdw14 = cpu_to_le32(cmd.cdw14);
- 	c.common.cdw15 = cpu_to_le32(cmd.cdw15);
- 
--	if (!nvme_cmd_allowed(ns, &c, 0, mode))
-+	if (!nvme_cmd_allowed(ns, &c, 0, open_for_write))
- 		return -EACCES;
- 
- 	if (cmd.timeout_ms)
-@@ -385,7 +385,7 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 
- static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 		struct nvme_passthru_cmd64 __user *ucmd, unsigned int flags,
--		fmode_t mode)
-+		bool open_for_write)
- {
- 	struct nvme_passthru_cmd64 cmd;
- 	struct nvme_command c;
-@@ -412,7 +412,7 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	c.common.cdw14 = cpu_to_le32(cmd.cdw14);
- 	c.common.cdw15 = cpu_to_le32(cmd.cdw15);
- 
--	if (!nvme_cmd_allowed(ns, &c, flags, mode))
-+	if (!nvme_cmd_allowed(ns, &c, flags, open_for_write))
- 		return -EACCES;
- 
- 	if (cmd.timeout_ms)
-@@ -583,7 +583,7 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	c.common.cdw14 = cpu_to_le32(READ_ONCE(cmd->cdw14));
- 	c.common.cdw15 = cpu_to_le32(READ_ONCE(cmd->cdw15));
- 
--	if (!nvme_cmd_allowed(ns, &c, 0, ioucmd->file->f_mode))
-+	if (!nvme_cmd_allowed(ns, &c, 0, ioucmd->file->f_mode & FMODE_WRITE))
- 		return -EACCES;
- 
- 	d.metadata = READ_ONCE(cmd->metadata);
-@@ -649,13 +649,13 @@ static bool is_ctrl_ioctl(unsigned int cmd)
- }
- 
- static int nvme_ctrl_ioctl(struct nvme_ctrl *ctrl, unsigned int cmd,
--		void __user *argp, fmode_t mode)
-+		void __user *argp, bool open_for_write)
- {
- 	switch (cmd) {
- 	case NVME_IOCTL_ADMIN_CMD:
--		return nvme_user_cmd(ctrl, NULL, argp, 0, mode);
-+		return nvme_user_cmd(ctrl, NULL, argp, 0, open_for_write);
- 	case NVME_IOCTL_ADMIN64_CMD:
--		return nvme_user_cmd64(ctrl, NULL, argp, 0, mode);
-+		return nvme_user_cmd64(ctrl, NULL, argp, 0, open_for_write);
- 	default:
- 		return sed_ioctl(ctrl->opal_dev, cmd, argp);
- 	}
-@@ -680,14 +680,14 @@ struct nvme_user_io32 {
- #endif /* COMPAT_FOR_U64_ALIGNMENT */
- 
- static int nvme_ns_ioctl(struct nvme_ns *ns, unsigned int cmd,
--		void __user *argp, unsigned int flags, fmode_t mode)
-+		void __user *argp, unsigned int flags, bool open_for_write)
- {
- 	switch (cmd) {
- 	case NVME_IOCTL_ID:
- 		force_successful_syscall_return();
- 		return ns->head->ns_id;
- 	case NVME_IOCTL_IO_CMD:
--		return nvme_user_cmd(ns->ctrl, ns, argp, flags, mode);
-+		return nvme_user_cmd(ns->ctrl, ns, argp, flags, open_for_write);
- 	/*
- 	 * struct nvme_user_io can have different padding on some 32-bit ABIs.
- 	 * Just accept the compat version as all fields that are used are the
-@@ -702,7 +702,8 @@ static int nvme_ns_ioctl(struct nvme_ns *ns, unsigned int cmd,
- 		flags |= NVME_IOCTL_VEC;
- 		fallthrough;
- 	case NVME_IOCTL_IO64_CMD:
--		return nvme_user_cmd64(ns->ctrl, ns, argp, flags, mode);
-+		return nvme_user_cmd64(ns->ctrl, ns, argp, flags,
-+				       open_for_write);
- 	default:
- 		return -ENOTTY;
- 	}
-@@ -712,6 +713,7 @@ int nvme_ioctl(struct block_device *bdev, fmode_t mode,
- 		unsigned int cmd, unsigned long arg)
- {
- 	struct nvme_ns *ns = bdev->bd_disk->private_data;
-+	bool open_for_write = mode & FMODE_WRITE;
- 	void __user *argp = (void __user *)arg;
- 	unsigned int flags = 0;
- 
-@@ -719,19 +721,20 @@ int nvme_ioctl(struct block_device *bdev, fmode_t mode,
- 		flags |= NVME_IOCTL_PARTITION;
- 
- 	if (is_ctrl_ioctl(cmd))
--		return nvme_ctrl_ioctl(ns->ctrl, cmd, argp, mode);
--	return nvme_ns_ioctl(ns, cmd, argp, flags, mode);
-+		return nvme_ctrl_ioctl(ns->ctrl, cmd, argp, open_for_write);
-+	return nvme_ns_ioctl(ns, cmd, argp, flags, open_for_write);
- }
- 
- long nvme_ns_chr_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
- {
- 	struct nvme_ns *ns =
- 		container_of(file_inode(file)->i_cdev, struct nvme_ns, cdev);
-+	bool open_for_write = file->f_mode & FMODE_WRITE;
- 	void __user *argp = (void __user *)arg;
- 
- 	if (is_ctrl_ioctl(cmd))
--		return nvme_ctrl_ioctl(ns->ctrl, cmd, argp, file->f_mode);
--	return nvme_ns_ioctl(ns, cmd, argp, 0, file->f_mode);
-+		return nvme_ctrl_ioctl(ns->ctrl, cmd, argp, open_for_write);
-+	return nvme_ns_ioctl(ns, cmd, argp, 0, open_for_write);
- }
- 
- static int nvme_uring_cmd_checks(unsigned int issue_flags)
-@@ -800,7 +803,7 @@ int nvme_ns_chr_uring_cmd_iopoll(struct io_uring_cmd *ioucmd,
- #ifdef CONFIG_NVME_MULTIPATH
- static int nvme_ns_head_ctrl_ioctl(struct nvme_ns *ns, unsigned int cmd,
- 		void __user *argp, struct nvme_ns_head *head, int srcu_idx,
--		fmode_t mode)
-+		bool open_for_write)
- 	__releases(&head->srcu)
- {
- 	struct nvme_ctrl *ctrl = ns->ctrl;
-@@ -808,7 +811,7 @@ static int nvme_ns_head_ctrl_ioctl(struct nvme_ns *ns, unsigned int cmd,
- 
- 	nvme_get_ctrl(ns->ctrl);
- 	srcu_read_unlock(&head->srcu, srcu_idx);
--	ret = nvme_ctrl_ioctl(ns->ctrl, cmd, argp, mode);
-+	ret = nvme_ctrl_ioctl(ns->ctrl, cmd, argp, open_for_write);
- 
- 	nvme_put_ctrl(ctrl);
- 	return ret;
-@@ -818,6 +821,7 @@ int nvme_ns_head_ioctl(struct block_device *bdev, fmode_t mode,
- 		unsigned int cmd, unsigned long arg)
- {
- 	struct nvme_ns_head *head = bdev->bd_disk->private_data;
-+	bool open_for_write = mode & FMODE_WRITE;
- 	void __user *argp = (void __user *)arg;
- 	struct nvme_ns *ns;
- 	int srcu_idx, ret = -EWOULDBLOCK;
-@@ -838,9 +842,9 @@ int nvme_ns_head_ioctl(struct block_device *bdev, fmode_t mode,
- 	 */
- 	if (is_ctrl_ioctl(cmd))
- 		return nvme_ns_head_ctrl_ioctl(ns, cmd, argp, head, srcu_idx,
--					mode);
-+					       open_for_write);
- 
--	ret = nvme_ns_ioctl(ns, cmd, argp, flags, mode);
-+	ret = nvme_ns_ioctl(ns, cmd, argp, flags, open_for_write);
- out_unlock:
- 	srcu_read_unlock(&head->srcu, srcu_idx);
- 	return ret;
-@@ -849,6 +853,7 @@ int nvme_ns_head_ioctl(struct block_device *bdev, fmode_t mode,
- long nvme_ns_head_chr_ioctl(struct file *file, unsigned int cmd,
- 		unsigned long arg)
- {
-+	bool open_for_write = file->f_mode & FMODE_WRITE;
- 	struct cdev *cdev = file_inode(file)->i_cdev;
- 	struct nvme_ns_head *head =
- 		container_of(cdev, struct nvme_ns_head, cdev);
-@@ -863,9 +868,9 @@ long nvme_ns_head_chr_ioctl(struct file *file, unsigned int cmd,
- 
- 	if (is_ctrl_ioctl(cmd))
- 		return nvme_ns_head_ctrl_ioctl(ns, cmd, argp, head, srcu_idx,
--				file->f_mode);
-+				open_for_write);
- 
--	ret = nvme_ns_ioctl(ns, cmd, argp, 0, file->f_mode);
-+	ret = nvme_ns_ioctl(ns, cmd, argp, 0, open_for_write);
- out_unlock:
- 	srcu_read_unlock(&head->srcu, srcu_idx);
- 	return ret;
-@@ -940,7 +945,7 @@ int nvme_dev_uring_cmd(struct io_uring_cmd *ioucmd, unsigned int issue_flags)
- }
- 
- static int nvme_dev_user_cmd(struct nvme_ctrl *ctrl, void __user *argp,
--		fmode_t mode)
-+		bool open_for_write)
- {
- 	struct nvme_ns *ns;
- 	int ret;
-@@ -964,7 +969,7 @@ static int nvme_dev_user_cmd(struct nvme_ctrl *ctrl, void __user *argp,
- 	kref_get(&ns->kref);
- 	up_read(&ctrl->namespaces_rwsem);
- 
--	ret = nvme_user_cmd(ctrl, ns, argp, 0, mode);
-+	ret = nvme_user_cmd(ctrl, ns, argp, 0, open_for_write);
- 	nvme_put_ns(ns);
- 	return ret;
- 
-@@ -976,16 +981,17 @@ static int nvme_dev_user_cmd(struct nvme_ctrl *ctrl, void __user *argp,
- long nvme_dev_ioctl(struct file *file, unsigned int cmd,
- 		unsigned long arg)
- {
-+	bool open_for_write = file->f_mode & FMODE_WRITE;
- 	struct nvme_ctrl *ctrl = file->private_data;
- 	void __user *argp = (void __user *)arg;
- 
- 	switch (cmd) {
- 	case NVME_IOCTL_ADMIN_CMD:
--		return nvme_user_cmd(ctrl, NULL, argp, 0, file->f_mode);
-+		return nvme_user_cmd(ctrl, NULL, argp, 0, open_for_write);
- 	case NVME_IOCTL_ADMIN64_CMD:
--		return nvme_user_cmd64(ctrl, NULL, argp, 0, file->f_mode);
-+		return nvme_user_cmd64(ctrl, NULL, argp, 0, open_for_write);
- 	case NVME_IOCTL_IO_CMD:
--		return nvme_dev_user_cmd(ctrl, argp, file->f_mode);
-+		return nvme_dev_user_cmd(ctrl, argp, open_for_write);
- 	case NVME_IOCTL_RESET:
- 		if (!capable(CAP_SYS_ADMIN))
- 			return -EACCES;
+ struct mtd_blktrans_ops {
 -- 
 2.39.2
 
