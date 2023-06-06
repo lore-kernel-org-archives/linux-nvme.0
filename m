@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 964D9C7EE2E
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Jun 2023 07:40:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0A47C7EE33
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Jun 2023 07:40:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=SQswGPGJjSOolqgUFSYGX1AabMy5/DP2Tw/s3/r3yqg=; b=trTdghvc1SpmH+hi/slUS59L30
-	+9VDMwxWEZGc4yhvgpzBSzKFIHjf9bmhNhdAhdOgoi2Bbtp7W6fZj06QNLeQZrfQzLOP2qvfGmra+
-	VKyxU2w+xj6khzRUeNXb+9pnkbXXrFzAkCUUhFCytm5bdCR3jv/eRAUrH9u7k4nvhOKey9ReVm9Dd
-	HODg+fJ+G1/5Npr/2gURw5jPiCph6bOmVkxeBWnn3bzefM8VczvknRH4U0Rl08My9zfPKVooJuH5V
-	E44zrneNG6TR9bDnuurecMrJ1ZtLSURDSD0d+D9FniNUpgrUxbfvg5k4loFOGQOpfp/FtyFBM6CRd
-	4uHJv6dg==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=XLL3NGfKVto3FR8wVmNdWNmxdpB7Oznh1ziGiVhF5Xc=; b=Mv1gUjo9tG9Mfqe1fQBlybb4p+
+	RvoIThtZkbDptX59cZTkydYXPoe7JINuiCS8z54bYiU1HiT4j2Ky1EgqIdOT1x3xXHzMKLih5wbFA
+	gdyMO831xstY815khxj96l+BDHQGYAV1yLjDp3HRZexuRJ3KuSOePAEyjz/LkRVaPyl9HQPYcoMT3
+	66kvjJFktlUQrj7XHhl1u1npuX67+K8RQ5/gqrhgnsU+S9Gs1hSy6Ou5bITJnCUlt5DrlWyjLbxwq
+	XUfW7rpR0pNWhulDFH/DXqWN3ya1VMqP0QKsgrLqUQdtmcVyOrA0E1olAKvjBr7s/Srm2gtq/7ENc
+	S1mngMFQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6RIQ-000YdL-0j;
-	Tue, 06 Jun 2023 07:40:02 +0000
+	id 1q6RIU-000Ygp-0c;
+	Tue, 06 Jun 2023 07:40:06 +0000
 Received: from 2a02-8389-2341-5b80-39d3-4735-9a3c-88d8.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:39d3:4735:9a3c:88d8] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6RIH-000Ya3-0f;
-	Tue, 06 Jun 2023 07:39:53 +0000
+	id 1q6RIN-000Yal-0r;
+	Tue, 06 Jun 2023 07:39:59 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Richard Weinberger <richard@nod.at>,
@@ -55,10 +55,12 @@ Cc: Richard Weinberger <richard@nod.at>,
 	linux-nilfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-pm@vger.kernel.org
-Subject: decouple block open flags from fmode_t
-Date: Tue,  6 Jun 2023 09:39:19 +0200
-Message-Id: <20230606073950.225178-1-hch@lst.de>
+Subject: [PATCH 02/31] cdrom: remove the unused bdev argument to cdrom_open
+Date: Tue,  6 Jun 2023 09:39:21 +0200
+Message-Id: <20230606073950.225178-3-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230606073950.225178-1-hch@lst.de>
+References: <20230606073950.225178-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -75,121 +77,69 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/cdrom/cdrom.c | 3 +--
+ drivers/cdrom/gdrom.c | 2 +-
+ drivers/scsi/sr.c     | 2 +-
+ include/linux/cdrom.h | 3 +--
+ 4 files changed, 4 insertions(+), 6 deletions(-)
 
-this series adds a new blk_mode_t for block open flags instead of abusing
-fmode_t.  The block open flags work very different from the normal use of
-fmode_t and only share the basic READ/WRITE flags with it.  None of the
-other normal FMODE_* flags is used, but instead there are three
-block-specific ones not used by anyone else, which can now be removed.
+diff --git a/drivers/cdrom/cdrom.c b/drivers/cdrom/cdrom.c
+index 416f723a2dbb33..e3eab319cb0474 100644
+--- a/drivers/cdrom/cdrom.c
++++ b/drivers/cdrom/cdrom.c
+@@ -1155,8 +1155,7 @@ int open_for_data(struct cdrom_device_info *cdi)
+  * is in their own interest: device control becomes a lot easier
+  * this way.
+  */
+-int cdrom_open(struct cdrom_device_info *cdi, struct block_device *bdev,
+-	       fmode_t mode)
++int cdrom_open(struct cdrom_device_info *cdi, fmode_t mode)
+ {
+ 	int ret;
+ 
+diff --git a/drivers/cdrom/gdrom.c b/drivers/cdrom/gdrom.c
+index ceded5772aac6d..eaa2d5a90bc82f 100644
+--- a/drivers/cdrom/gdrom.c
++++ b/drivers/cdrom/gdrom.c
+@@ -481,7 +481,7 @@ static int gdrom_bdops_open(struct block_device *bdev, fmode_t mode)
+ 	bdev_check_media_change(bdev);
+ 
+ 	mutex_lock(&gdrom_mutex);
+-	ret = cdrom_open(gd.cd_info, bdev, mode);
++	ret = cdrom_open(gd.cd_info, mode);
+ 	mutex_unlock(&gdrom_mutex);
+ 	return ret;
+ }
+diff --git a/drivers/scsi/sr.c b/drivers/scsi/sr.c
+index 12869e6d4ebda8..61b83880e395a4 100644
+--- a/drivers/scsi/sr.c
++++ b/drivers/scsi/sr.c
+@@ -498,7 +498,7 @@ static int sr_block_open(struct block_device *bdev, fmode_t mode)
+ 		sr_revalidate_disk(cd);
+ 
+ 	mutex_lock(&cd->lock);
+-	ret = cdrom_open(&cd->cdi, bdev, mode);
++	ret = cdrom_open(&cd->cdi, mode);
+ 	mutex_unlock(&cd->lock);
+ 
+ 	scsi_autopm_put_device(sdev);
+diff --git a/include/linux/cdrom.h b/include/linux/cdrom.h
+index 67caa909e3e615..cc5717cb0fa8a8 100644
+--- a/include/linux/cdrom.h
++++ b/include/linux/cdrom.h
+@@ -101,8 +101,7 @@ int cdrom_read_tocentry(struct cdrom_device_info *cdi,
+ 		struct cdrom_tocentry *entry);
+ 
+ /* the general block_device operations structure: */
+-extern int cdrom_open(struct cdrom_device_info *cdi, struct block_device *bdev,
+-			fmode_t mode);
++int cdrom_open(struct cdrom_device_info *cdi, fmode_t mode);
+ extern void cdrom_release(struct cdrom_device_info *cdi, fmode_t mode);
+ extern int cdrom_ioctl(struct cdrom_device_info *cdi, struct block_device *bdev,
+ 		       fmode_t mode, unsigned int cmd, unsigned long arg);
+-- 
+2.39.2
 
-Note that I've only CCed maintainers and lists for drivers and file systems
-that have non-trivial changes, as otherwise the series would spam literally
-everyone in the block and file system world.
-
-Diffstat:
- arch/um/drivers/ubd_kern.c          |   20 ++-----
- arch/xtensa/platforms/iss/simdisk.c |    6 +-
- block/bdev.c                        |   99 ++++++++++++++++++------------------
- block/blk-zoned.c                   |   12 ++--
- block/blk.h                         |   26 ++++++++-
- block/bsg-lib.c                     |    2 
- block/bsg.c                         |    8 +-
- block/disk-events.c                 |   47 +++++++----------
- block/fops.c                        |   54 ++++++++++++-------
- block/genhd.c                       |   13 ++--
- block/ioctl.c                       |   61 +++++++---------------
- drivers/block/amiflop.c             |   20 +++----
- drivers/block/aoe/aoeblk.c          |    8 +-
- drivers/block/ataflop.c             |   43 +++++++--------
- drivers/block/drbd/drbd_main.c      |   13 ++--
- drivers/block/drbd/drbd_nl.c        |   23 +++++---
- drivers/block/floppy.c              |   72 +++++++++++++-------------
- drivers/block/loop.c                |   24 ++++----
- drivers/block/mtip32xx/mtip32xx.c   |    4 -
- drivers/block/nbd.c                 |   12 ++--
- drivers/block/pktcdvd.c             |   36 ++++++-------
- drivers/block/rbd.c                 |    6 +-
- drivers/block/rnbd/rnbd-clt.c       |    8 +-
- drivers/block/rnbd/rnbd-srv-sysfs.c |    3 -
- drivers/block/rnbd/rnbd-srv.c       |   23 ++++----
- drivers/block/rnbd/rnbd-srv.h       |    2 
- drivers/block/sunvdc.c              |    2 
- drivers/block/swim.c                |   24 ++++----
- drivers/block/swim3.c               |   33 +++++-------
- drivers/block/ublk_drv.c            |    4 -
- drivers/block/xen-blkback/xenbus.c  |    4 -
- drivers/block/xen-blkfront.c        |    2 
- drivers/block/z2ram.c               |    8 +-
- drivers/block/zram/zram_drv.c       |   21 +++----
- drivers/cdrom/cdrom.c               |   36 +++----------
- drivers/cdrom/gdrom.c               |   12 ++--
- drivers/md/bcache/bcache.h          |    2 
- drivers/md/bcache/request.c         |    4 -
- drivers/md/bcache/super.c           |   25 ++++-----
- drivers/md/dm-cache-target.c        |   12 ++--
- drivers/md/dm-clone-target.c        |   10 +--
- drivers/md/dm-core.h                |    7 +-
- drivers/md/dm-era-target.c          |    6 +-
- drivers/md/dm-ioctl.c               |   10 +--
- drivers/md/dm-snap.c                |    4 -
- drivers/md/dm-table.c               |   11 ++--
- drivers/md/dm-thin.c                |    9 +--
- drivers/md/dm-verity-fec.c          |    2 
- drivers/md/dm-verity-target.c       |    6 +-
- drivers/md/dm.c                     |   20 +++----
- drivers/md/dm.h                     |    2 
- drivers/md/md.c                     |   50 +++++++++---------
- drivers/mmc/core/block.c            |   12 ++--
- drivers/mtd/devices/block2mtd.c     |    6 +-
- drivers/mtd/mtd_blkdevs.c           |    8 +-
- drivers/mtd/mtdblock.c              |    2 
- drivers/mtd/ubi/block.c             |    9 +--
- drivers/nvme/host/core.c            |    6 +-
- drivers/nvme/host/ioctl.c           |   66 +++++++++++++-----------
- drivers/nvme/host/multipath.c       |    6 +-
- drivers/nvme/host/nvme.h            |    4 -
- drivers/nvme/target/io-cmd-bdev.c   |    4 -
- drivers/s390/block/dasd.c           |   10 +--
- drivers/s390/block/dasd_genhd.c     |    5 +
- drivers/s390/block/dasd_int.h       |    3 -
- drivers/s390/block/dasd_ioctl.c     |    2 
- drivers/s390/block/dcssblk.c        |   11 +---
- drivers/scsi/ch.c                   |    3 -
- drivers/scsi/scsi_bsg.c             |    4 -
- drivers/scsi/scsi_ioctl.c           |   38 ++++++-------
- drivers/scsi/sd.c                   |   39 ++++++--------
- drivers/scsi/sg.c                   |    7 +-
- drivers/scsi/sr.c                   |   22 ++++----
- drivers/scsi/st.c                   |    2 
- drivers/target/target_core_iblock.c |    9 +--
- drivers/target/target_core_pscsi.c  |   10 +--
- fs/btrfs/dev-replace.c              |    6 +-
- fs/btrfs/ioctl.c                    |   12 ++--
- fs/btrfs/super.c                    |   21 ++-----
- fs/btrfs/volumes.c                  |   55 +++++++++-----------
- fs/btrfs/volumes.h                  |   11 +---
- fs/erofs/super.c                    |    7 +-
- fs/ext4/super.c                     |   11 +---
- fs/f2fs/super.c                     |   12 ++--
- fs/jfs/jfs_logmgr.c                 |    6 +-
- fs/nfs/blocklayout/dev.c            |    9 +--
- fs/nilfs2/super.c                   |   12 +---
- fs/ocfs2/cluster/heartbeat.c        |    7 +-
- fs/reiserfs/journal.c               |   19 +++---
- fs/reiserfs/reiserfs.h              |    1 
- fs/super.c                          |   33 ++++--------
- fs/xfs/xfs_super.c                  |   15 ++---
- include/linux/blkdev.h              |   68 +++++++++++-------------
- include/linux/bsg.h                 |    2 
- include/linux/cdrom.h               |   12 ++--
- include/linux/device-mapper.h       |    8 +-
- include/linux/fs.h                  |    8 --
- include/linux/mtd/blktrans.h        |    2 
- include/scsi/scsi_ioctl.h           |    4 -
- kernel/power/hibernate.c            |   12 +---
- kernel/power/power.h                |    2 
- kernel/power/swap.c                 |   28 ++++------
- mm/swapfile.c                       |    7 +-
- 103 files changed, 796 insertions(+), 853 deletions(-)
 
