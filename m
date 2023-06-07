@@ -4,46 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B121C7EE29
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jun 2023 09:26:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48AFEC87FDD
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jun 2023 09:28:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LMnonrKCZA/qpueVfhb3C/EDIUeDgTq1QZklI5lA3hE=; b=Ds0yYzzf80pA82COxgcGYIQQKf
-	dVXJK9Y8U8rdQpo7aLpaK4sZqOHkPzkJ+oPLXAp1fZIRSowGMZw715dKbWz570ADugKdVVANo397s
-	3Lx4Y69dUMgfI6MYtu12Nm/HqEk45sQ8oSnD3rmW/wRkON8TusRGT4SuoqnVVnDQpKD22OZ3WLFid
-	00Dz0OsKyRp9n9zLqS1ZISa+oAGhMN3l5Pt5c9kgCtS7F9BRxBbhAVsEUTk00qmn56i1JP49z2+bN
-	GlxTIwqDJ8F1Ex9WNX/lpC+uK9vD4FF78XulbaUKyLug4seKvInl3i4sT0PVAR9GcXbuCXBrLkYFx
-	qGv0e2xg==;
+	bh=O+hcUcDfgstfOiV+FTBV2u5q1ErUaRIB5WUQos9T42I=; b=X56LxTz1N5gtQmKB86VmoOXUBx
+	kCFgsvKI8i8NWWvMvWbjZBPt4q1URsonhHsyy9bAI3SESmzrRMA3TTxNN1zuagBETcWgCX/4D9/pV
+	wgf8Ck6ck4gtJaQE8L3tQJBnbfZNWFEZBFOx9GDPuzJLhLZPs/bZU68Mc5rUr3wSXL641sEw8RsW8
+	XDPjJkGYWcSIcr6b8HvgAflsv2WCEalnXGdlfMvMZ2wQhk0MJFO0mWAzIA55XJYU2DL7PHK8AJ2Hw
+	wA/u7oZJbm+G0mQsLPDcTRGs30yx+eD2yBCeqRedCq0Q1VuOyFP86nIbjDWXicGaNHFqupB0Il8R7
+	B0jPcDrw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6pQh-005Ejz-1E;
-	Wed, 07 Jun 2023 09:26:11 +0000
+	id 1q6pSQ-005FH8-1l;
+	Wed, 07 Jun 2023 09:27:58 +0000
 Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6pQf-005EjA-0O;
-	Wed, 07 Jun 2023 09:26:10 +0000
+	id 1q6pSM-005FG9-2P;
+	Wed, 07 Jun 2023 09:27:56 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id ABC166339D;
-	Wed,  7 Jun 2023 09:26:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74033C433D2;
-	Wed,  7 Jun 2023 09:26:02 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id F296A6242E;
+	Wed,  7 Jun 2023 09:27:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB5FAC433EF;
+	Wed,  7 Jun 2023 09:27:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1686129968;
-	bh=90WN1yUXLJUe3ExTCrm+9/jICeRfh1xqidoess9eZgI=;
+	s=k20201202; t=1686130073;
+	bh=I2UkqvXe3LAhxUZQ23TbbFjrzI8zVg3feJWvj1ZjawE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=G11EvijrXOft/4fKmPbcLsj96l6rzLAMnuaIxMBioke+aBkOZjX0wCH/9fvhIEjex
-	 bWiAASMid1pQ95ExZeH4vBW5SM8ilf/NZQVWxNMB0WOYPM9glBZMCr5Ac+of7EpC67
-	 IUolHFn7wPq/SIHTgNke/TvkzfU5n52aulKZAQmc9SU6wqZjH3wTf5zcRlPc+Be0ZI
-	 tjYNjFG0WWy5oyTijsqkj/wvHS1IkYB4WeHa/KebFhUJ8MLJna0IALZB24dyM/p5Fl
-	 3AtWIIUlxdg9dCBor+iOy3BYRPzpRSoLmgc+mM3rrS6ylvh7XsRdf+ZYu3eLpchVoc
-	 BEZRzrMhzDVIg==
-Date: Wed, 7 Jun 2023 11:25:59 +0200
+	b=qIF5MQgVjaCU+MRlpJX9bdU66RYDnkWRk2lKrDnWx9ucpiPnToEUkd1U5Dy/rjQz1
+	 7gmmu48tc7U+A8VzancF/0gAQHUGbi9FiTSsROsD+o+QHAjwmUEZjswQ+A1sXf6nhR
+	 kfHjaFtOQj0xe1Ze/9BQpoq3Ja0IFOmMU6VIlaGRCOhubKRfuSMlKvTIwpFcJXDmH+
+	 bMvjKaPX/w+ioU6o6Gr+Ofh5QFO4aw7AuFHZ7RCL6ScePZutaskI4egsGT7OJ0DEfH
+	 pHBrWWb1KgIkb5itNtMApDVemlwylJZE6KoRZTn9hEkupDRw+s4gfju/aamXpLLVvL
+	 mKtoh9S4m7YzQ==
+Date: Wed, 7 Jun 2023 11:27:45 +0200
 From: Christian Brauner <brauner@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Jens Axboe <axboe@kernel.dk>, Richard Weinberger <richard@nod.at>,
@@ -64,17 +64,18 @@ Cc: Jens Axboe <axboe@kernel.dk>, Richard Weinberger <richard@nod.at>,
 	linux-btrfs@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
 	linux-nilfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
 	linux-pm@vger.kernel.org
-Subject: Re: [PATCH 31/31] fs: remove the now unused FMODE_* flags
-Message-ID: <20230607-lehne-marken-17b031dd9165@brauner>
+Subject: Re: decouple block open flags from fmode_t
+Message-ID: <20230607-erwandern-posen-d5d15c9c2444@brauner>
 References: <20230606073950.225178-1-hch@lst.de>
- <20230606073950.225178-32-hch@lst.de>
+ <20230606-raumtemperatur-languste-045c5472f6a0@brauner>
+ <20230606084042.GA30379@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230606073950.225178-32-hch@lst.de>
+In-Reply-To: <20230606084042.GA30379@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230607_022609_197930_16C7FD21 
-X-CRM114-Status: GOOD (  11.89  )
+X-CRM114-CacheID: sfid-20230607_022754_823913_E6C0C830 
+X-CRM114-Status: GOOD (  16.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,13 +90,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jun 06, 2023 at 09:39:50AM +0200, Christoph Hellwig wrote:
-> FMODE_NDELAY, FMODE_EXCL and FMODE_WRITE_IOCTL were only used for
-> block internal purposed and are now entirely unused, so remove them.
+On Tue, Jun 06, 2023 at 10:40:42AM +0200, Christoph Hellwig wrote:
+> On Tue, Jun 06, 2023 at 10:27:14AM +0200, Christian Brauner wrote:
+> > On Tue, Jun 06, 2023 at 09:39:19AM +0200, Christoph Hellwig wrote:
+> > > Hi all,
+> > > 
+> > > this series adds a new blk_mode_t for block open flags instead of abusing
+> > 
+> > Trying to look at this series applied but doesn't apply cleanly for
+> > anything v6.4-rc* related. What tree is this on?
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
+> Jens' for-6.5/block tree.
+> 
+> I also have a git tree here:
+> 
+>     git://git.infradead.org/users/hch/block.git blk-open-release
+> 
+> Gitweb:
+> 
+>     http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/blk-open-release
 
-Love it,
-Reviewed-by: Christian Brauner <brauner@kernel.org>
+
+Thanks! I pulled from your tree.
 
