@@ -4,94 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E02B8C7EE23
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jun 2023 12:15:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B5E3C7EE25
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jun 2023 12:17:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TCf1JgyrYBVXKyreePtxys/QiUi87JN83HRlMRb2lYE=; b=ze1hm8O8H6lbi8+rbq6gT2iGbg
-	bsAaEysIccRvJJ6P8xwhf2DYhk59l66PUAmRU9DEc02c43qU1uvD4XoqfS04A3SV9cbYmZGMWuGkG
-	Y1IZLysA/t5LLsJqneYgkRqRdwhBUT1zyaAzwFNuQFlMfKOamWgLXyzPk7tskvidfn1QbKnQ6dB03
-	7iFqyBHfVzOXJayPkKvctxBVqtxodzBR8gffRMJx9Xocc6EQR9bk0h34v+g/B4n32rPG1eU2ctcaL
-	YX13im4LZR6SA87tTyDdDqA4UfSo9kFnPuxpgjOYBfqhFpTnQ57fxNvrh1svBSWEGXeBjR5F3ZaJC
-	u4t7d7mg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=E9faakThGtCW+0bU4cgq1GBsW1Ng9dSqZFBHRCf6MfU=; b=pKrZb+pVScVhdLKswBhWS8qs6Z
+	J2zjJ3/NR2wC+MXDvFQYNbL+4yKPz8A3RrBBKvKVl4bPk/2J4mtY0XoSz/NzIwJgSxicbu8QkSDN+
+	JlZV5jn6r3AleRKDLnZZgCAhXQ0pxzpPivNbpTRbpvOJ0nxa7ZEvQTzvMp4hje1womt1anUyJ9enQ
+	p8+tr3PAXQ4rlyfNpC9wFOTpAk6ERIJ6Fn4FqJLgegrV6qVNpu501LsVfPyoK+sLtllD37es7HURH
+	NPxqm/98ZKOaGIAqyPvH4PwOWbpIlCWpBCuMusB/T4ganL+bXypIyzoRTTMjfwD0X2cAdnXhyy3V0
+	3wqNFdqA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6s4F-005odT-2t;
-	Wed, 07 Jun 2023 12:15:11 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1q6s6A-005pFZ-0r;
+	Wed, 07 Jun 2023 12:17:10 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6s4B-005obw-2B;
-	Wed, 07 Jun 2023 12:15:09 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6E490219FA;
-	Wed,  7 Jun 2023 12:15:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1686140106; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TCf1JgyrYBVXKyreePtxys/QiUi87JN83HRlMRb2lYE=;
-	b=CRDzZNeTguzVV10MP0Cz5mjZfwsyQGQRMvccEpkjxWr6pSG/xzALuvyRhI1wD2mh48HhAY
-	65ExpR0IOIaw9C+DUYtbqHHrUH6NcON5dQBfQeEvRNslIYmedAR1Bqhfpw8oom/MiT3gFY
-	nXlAz/paj0eO5VYqifRjRAxjliakFbI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1686140106;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TCf1JgyrYBVXKyreePtxys/QiUi87JN83HRlMRb2lYE=;
-	b=OtqJFtTN6bvGkX0HHZPsY0QQ3cDJ9AcCdim3RmTqYjZmzFRMxXuf8vsckjvqb94lWEJnay
-	LXsic/Ff7fLJ9eDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3BD8013776;
-	Wed,  7 Jun 2023 12:15:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id biNSDsp0gGSBPgAAMHmgww
-	(envelope-from <hare@suse.de>); Wed, 07 Jun 2023 12:15:06 +0000
-Message-ID: <3db66acd-112a-906b-5e2f-25ab843253cc@suse.de>
-Date: Wed, 7 Jun 2023 14:15:05 +0200
+	id 1q6s66-005pCh-2Y;
+	Wed, 07 Jun 2023 12:17:08 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 52B4E6732D; Wed,  7 Jun 2023 14:16:58 +0200 (CEST)
+Date: Wed, 7 Jun 2023 14:16:58 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Richard Weinberger <richard@nod.at>,
+	Josef Bacik <josef@toxicpanda.com>,
+	"Md. Haris Iqbal" <haris.iqbal@ionos.com>,
+	Jack Wang <jinpu.wang@ionos.com>,
+	Phillip Potter <phil@philpotter.co.uk>, Coly Li <colyli@suse.de>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@ucw.cz>, dm-devel@redhat.com,
+	linux-block@vger.kernel.org, linux-um@lists.infradead.org,
+	linux-scsi@vger.kernel.org, linux-bcache@vger.kernel.org,
+	linux-mtd@lists.infradead.org, linux-nvme@lists.infradead.org,
+	linux-btrfs@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-nilfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Subject: Re: [PATCH 28/31] block: replace fmode_t with a block-specific
+ type for block open flags
+Message-ID: <20230607121658.GA13632@lst.de>
+References: <20230606073950.225178-1-hch@lst.de> <20230606073950.225178-29-hch@lst.de> <20230607-kocht-kornfeld-a249c6740e38@brauner>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 07/31] block: pass a gendisk on bdev_check_media_change
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-Cc: Richard Weinberger <richard@nod.at>, Josef Bacik <josef@toxicpanda.com>,
- "Md. Haris Iqbal" <haris.iqbal@ionos.com>, Jack Wang <jinpu.wang@ionos.com>,
- Phillip Potter <phil@philpotter.co.uk>, Coly Li <colyli@suse.de>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Vignesh Raghavendra <vigneshr@ti.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>, Chris Mason <clm@fb.com>,
- David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Pavel Machek <pavel@ucw.cz>, dm-devel@redhat.com,
- linux-block@vger.kernel.org, linux-um@lists.infradead.org,
- linux-scsi@vger.kernel.org, linux-bcache@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-nvme@lists.infradead.org,
- linux-btrfs@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
- linux-nilfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-pm@vger.kernel.org
-References: <20230606073950.225178-1-hch@lst.de>
- <20230606073950.225178-8-hch@lst.de>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20230606073950.225178-8-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230607-kocht-kornfeld-a249c6740e38@brauner>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230607_051507_857203_F5EBA471 
-X-CRM114-Status: GOOD (  12.11  )
+X-CRM114-CacheID: sfid-20230607_051706_969516_A3D4937D 
+X-CRM114-Status: GOOD (  23.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,30 +77,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/6/23 09:39, Christoph Hellwig wrote:
-> bdev_check_media_change should only ever be called for the whole device.
-> Pass a gendisk to make that explicit and rename the function to
-> disk_check_media_change.
+On Wed, Jun 07, 2023 at 11:21:14AM +0200, Christian Brauner wrote:
+> On Tue, Jun 06, 2023 at 09:39:47AM +0200, Christoph Hellwig wrote:
+> > The only overlap between the block open flags mapped into the fmode_t and
+> > other uses of fmode_t are FMODE_READ and FMODE_WRITE.  Define a new
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->   block/disk-events.c     | 18 +++++++++---------
->   drivers/block/amiflop.c |  2 +-
->   drivers/block/ataflop.c |  6 +++---
->   drivers/block/floppy.c  | 16 ++++++++--------
->   drivers/block/swim.c    |  2 +-
->   drivers/block/swim3.c   |  2 +-
->   drivers/cdrom/gdrom.c   |  2 +-
->   drivers/md/md.c         |  2 +-
->   drivers/scsi/sd.c       |  9 ++++-----
->   drivers/scsi/sr.c       |  2 +-
->   include/linux/blkdev.h  |  2 +-
->   11 files changed, 31 insertions(+), 32 deletions(-)
+> and FMODE_EXCL afaict
+
+FMODE_EXCL isn't used outside the block layer and removed in the last
+patch.
+
+> > +blk_mode_t file_to_blk_mode(struct file *file)
+> > +{
+> > +	blk_mode_t mode = 0;
+> > +
+> > +	if (file->f_mode & FMODE_READ)
+> > +		mode |= BLK_OPEN_READ;
+> > +	if (file->f_mode & FMODE_WRITE)
+> > +		mode |= BLK_OPEN_WRITE;
+> > +	if (file->f_mode & FMODE_EXCL)
+> > +		mode |= BLK_OPEN_EXCL;
+> > +	if ((file->f_flags & O_ACCMODE) == 3)
 > 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+> I really don't like magic numbers like this.
 
-Cheers,
+I don't like them either, but this is just moved around and not new.
 
-Hannes
+> Groan, O_RDONLY being defined as 0 strikes again...
+> Becuase of this quirk we internally map
+> 
+> O_RDONLY(0) -> FMODE_READ(1)
+> O_WRONLY(1) -> FMODE_WRITE(2)
+> O_RDWR(3)   -> (FMODE_READ | FMODE_WRITE)
 
+O_RDWR is 2.
+
+> so checking for the raw 3 here is confusing in addition to being a magic
+> number as it could give the impression that what's checked here is
+> (O_WRONLY | O_RDWR) which doesn't make sense...
+
+Well, that is exactly what we check for.  This is a 30-ish year old
+quirk only used in the floppy driver.
+
+> So my perference would be in descending order of preference:
+> 
+> (file->f_flags & O_ACCMODE) == (FMODE_READ | FMODE_WRITE)
+> 
+> or while a little less clear but informative enough for people familiar
+> with the O_RDONLY quirk:
+> 
+> if ((file->f_flags & O_ACCMODE) == O_ACCMODE)
+
+I don't understand this part.  Especially the above doesn't make
+any sense as FMODE_READ and FMODE_WRITE are in a completely different
+symbol space to O_*, and not a UAPІ but a kernel internal thing that
+could be renumbered any time.
 
