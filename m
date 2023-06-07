@@ -4,39 +4,152 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F41BDC7EE37
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jun 2023 00:40:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51620C77B7A
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jun 2023 02:15:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qfMCkjt0JTJUh5EuBlJ4Ljxu9PPOJ7nUi/IUJ6GsWQM=; b=EE5TI40zpOUuT0WnCVK0HOSx3C
-	UET1twzv8imQ0wnojNekW5r0KuZa9T9Vj2gf3FFCKuUoxn6mHX2IfEB/FZkaZPzi//17Zb0L/AGN3
-	RBZ+WhDxVK4cIaoqeaBmAo4P+rdi1iSPzUzMWPqWyQ8HWAA/BAI2t51IYMa81NNaNB9X9cHbHW6n7
-	+mc7FJKO/7znd3b7m3FVy5jBBmCisWJ+3/1ctCBpQkmYHu1kDznZbBVCj5vUtP7n86w2aLA+Tys2k
-	QVMYy0Fvq0iJmNbNgd/ULJiH1EfX8kNS2u9Eh2BmO1Gl0Z5e3O1JbRoCUdmNknI4V7GBU4vjlcSq0
-	TSQufNmw==;
+	bh=VM0JERZO3ES07e+gv0Mvnt4cwvWGgX1UGMDBkhWZSP4=; b=V1uDEdZeOSbVopHtDy1BKu89P8
+	u5fhJUicDFqAR8K8MCq7AIpQ5M3cBPqESMU0b5xemvCRr3OLvye1YcOA73/TWRXMEi6x4GSyE3R3U
+	y5p64mtFohfDktV0pOAITjw8UCf1FmeV/jDLTsWt7KLaak0dB9tx3jzFkMqB0du+fO8Zhc851Sf27
+	7N06Xmo4p1dj3Fk7XukV8z7A8CnzsGvjVrgM44u/dhT+RbKddZKatQ4tYC47mFtPtH8gHasa7C4ed
+	tobz8u7INu7de6zK4Jww/vOz4IxMOXAmR7GhAzT1olBe33KLGxB5ghmU5TLBuursjlSvpM9Fch4Ex
+	hb5RgwpQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6hDU-003nP8-2V;
-	Wed, 07 Jun 2023 00:40:00 +0000
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6hDS-003nOv-2z;
-	Wed, 07 Jun 2023 00:39:58 +0000
-Date: Tue, 6 Jun 2023 17:39:58 -0700
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: module-autoload: duplicate request for module nvme-tcp
-Message-ID: <ZH/R3pl+8kY7MefU@bombadil.infradead.org>
-References: <tom6xspqarrxx6c5ilqu7c7nhysgt3ua26yu52l2zaj7mr2qlp@vqr7y355ohzf>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+	id 1q6ihU-003zhW-18;
+	Wed, 07 Jun 2023 02:15:04 +0000
+Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
+	id 1q6ihR-003zg1-0d
+	for linux-nvme@lists.infradead.org;
+	Wed, 07 Jun 2023 02:15:02 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1686104100; x=1717640100;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=9AdQSZ/kIkRyJIKZZWWrNYsguM/iwGeOv0IvcUwDa78=;
+  b=Z2HTEUWV6C1JtrNuwGz1hy4zLD7lK3OdUtmEn8buABmGijlauJAAe1pC
+   d9GZHF7DjQ6tc9mM4FmFHHeRvJRD2pA4LYHPjgJ9AEgU1bCHZfMA1bNh3
+   tOf6CkoYPDbpNp3m7Ax3ELdf3JhEkdZqp9HJ6uIAU8ZM+wJAOMW59EHuT
+   XyXI6+KayZscxCjXESf+1u1NXe7losMAhjw/MOSbL3fZWTD1w3ZHH1RSY
+   KX0O5RYa/a31INAkmKjbATS8tPpsLrCIF8bUoIhKaUxoMMNa03ouzt4no
+   VovAR+jipgImwJmgbwO9Aq8jtZiMnvGghkmQFSXCMKLg6H/tplX21faPq
+   g==;
+X-IronPort-AV: E=Sophos;i="6.00,222,1681142400"; 
+   d="scan'208";a="231073696"
+Received: from mail-dm6nam10lp2108.outbound.protection.outlook.com (HELO NAM10-DM6-obe.outbound.protection.outlook.com) ([104.47.58.108])
+  by ob1.hgst.iphmx.com with ESMTP; 07 Jun 2023 10:14:57 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YcXYaB12tTlXgWWfJGaKmwb/Hia597S14U4izvyWx5pA1vI0mbv8bichUKdeJNxrWsv5/tg9WLexA6aDiDS115emfIjFpQ6uIuyAkY/+bpu9ze3dVlpu9fx97oiVcE5A6l2+4NjvZYLWRrI8mH5fb9wj/rz4utMANRj6XNARq9N+D1sdGp5GX7MCLxn9P11singqVR+f6CL41CR3mdY8K8CKQT9VqAwk7ouPOIiYjuajfA4b0a9V3RBDF/byx7hz3Nn2MaTb2sfZ3DVdagqH8HY6ecUOorwn03GDeag6+uUgZo9jmadHnQmzWyeYgmwAqsHdkpIhGp4u69KViDg+hQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VM0JERZO3ES07e+gv0Mvnt4cwvWGgX1UGMDBkhWZSP4=;
+ b=OesTCO5aNSxcNCMD1dlBCbavlKX6buQDrINDvdlefmupuE8bSqk0ZMR4xkiZHe9n1Fp3zdo7XTl5pPJgCwIaIMIUA3IsWsVqqnOpM+LOVmPijmHDp4Lg6X+7SaMOJrokrY212cw+/G9kUqAPbXRKvBkZRZe+dxCaiI+nxKqFXQZwFLvMxwlTNayyBEIHUSqCZGWWGbiFxSrYG11njBzOeQHd82Juo1br8YGkMalmx3MlUlvhNwUCiDCigazKBZ8625RolKU+dL3Wq06qkfBDZgGBzWrHsmTILV6WLxGGaxYcgUbTI9my7aKOUOS37sTWo9IZvkpwURKJ5MFQfOMJaQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VM0JERZO3ES07e+gv0Mvnt4cwvWGgX1UGMDBkhWZSP4=;
+ b=zJjacl0ESFs4Dmg5ONK3d7yQg/KSpDlFMQz8ZWsmYT4bjJYpvLrgFgswxZ5zqT7Md+XJr+71HURlgD6y1gWdlse/j7vgi04mcLKuZzzYPhX9ASAlRvYQ9AE9mLaE8nirkLYyonOA3FpjXzIfai4zRmPFhLPiB/jjx82fitVovb4=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ BL3PR04MB8155.namprd04.prod.outlook.com (2603:10b6:208:34a::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6455.33; Wed, 7 Jun 2023 02:14:55 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::eb0e:1bef:f266:eceb]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::eb0e:1bef:f266:eceb%3]) with mapi id 15.20.6455.028; Wed, 7 Jun 2023
+ 02:14:55 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+CC: Chaitanya Kulkarni <chaitanyak@nvidia.com>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>, Yang Xu <xuyang2018.jy@fujitsu.com>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH blktests] nvme/{016,017}: use _check_genctr instead of
+ _filter_discovery
+Thread-Topic: [PATCH blktests] nvme/{016,017}: use _check_genctr instead of
+ _filter_discovery
+Thread-Index: AQHZk1w9J1fvV9jcWESv88AeU5E84q9z3PqAgAkERoCAAEOxAIAAOVAAgAFGoAA=
+Date: Wed, 7 Jun 2023 02:14:55 +0000
+Message-ID: <zcko3ff67h3tilz6smfqhy6cxwihzzl74kdap52aoo3pm6an6v@4fxn2ymekely>
+References: <1685495221-4598-1-git-send-email-xuyang2018.jy@fujitsu.com>
+ <6fbgjc5ykve3jyko4vlzudrnwueou4ehgn6n2dtihjko3qv7ww@sqlyuxx4ijt5>
+ <446c46d8-fbc7-ecd2-8efa-1c9497e16851@grimberg.me>
+ <eadb2514-f06d-7cb2-2cdb-04a6226edac8@nvidia.com>
+ <18855542-e07b-70c0-ccd9-2fa0f0d2df86@grimberg.me>
+In-Reply-To: <18855542-e07b-70c0-ccd9-2fa0f0d2df86@grimberg.me>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|BL3PR04MB8155:EE_
+x-ms-office365-filtering-correlation-id: e80e9490-3f91-4909-e9d4-08db66fcfc2a
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: JqP0wCYvLHex0qSdxA97URlDiIxs+q42SZMKsM++yUkbFRGZXtutmfIsOFVoewK8T2BWv+Vo5m3vFlsQtxZB3gulAEgh779dvP56gOqDNudtBBHyEt6snaPktcmvjAfPBSk+tZvuAp3polqniUUJJipYmt5JPughn/na3A58Fgi4hOB+RjSvpa2u5d8/z/DbNB9mhCxYhdhC5IU2d3r+8EIGR/zd+FTftelUL4bJjbDh5T0UpnDL8e5mkDqeN/SnpgK+gAqg/cUsHka4Z2AFyWD3bz0d5O18Jpj7P7B4n6A6C20s3TCiwzMXJntw6MQf1xvCwMY5ivmaqfHV49odAZ1ta7oJOHEwRfQC1VzmQb2KKg1N1vhNxMEsaHatbf+RouML1lSISc3piIr+nykDWSzNm3qVTPnGzFNP5Jley9BFgATRbtABIECvHuJDv+RBQ38ytgtUM1YqnUCK+RVs+/BLSqvwZsj1tsIDer3O5ZZvrMB9hSTkb7Bx12vNNs/X6iyhaPIj0nEP2W+6VBPYcXLneJGRMsl8uxPw7NoRviSX9yXEuxGsyeCGS5CmjT2KC37wsku2YFhriIVhu4dPo+wfzKNVUyWN2KiMJNcQGMA=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(4636009)(39860400002)(136003)(396003)(346002)(366004)(376002)(451199021)(86362001)(83380400001)(478600001)(44832011)(54906003)(82960400001)(5660300002)(8936002)(8676002)(316002)(122000001)(38070700005)(66446008)(66946007)(66476007)(76116006)(66556008)(91956017)(4326008)(38100700002)(6916009)(41300700001)(64756008)(6486002)(71200400001)(2906002)(6506007)(6512007)(26005)(9686003)(33716001)(186003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?zSwDqoJ6V7t/a4eVl1nyqDtQZuW6zgmXC+BsMNBFeoELLBGD+p03aD+bwXxc?=
+ =?us-ascii?Q?B2bGkzRccOcFyPpLpPm21vVoExiJ5vigorGPLpMbxNABWWtWeUS8BQoBbwGd?=
+ =?us-ascii?Q?jB+XwU2If5aUbrz/pgvRD7qOFBdn0WBhdf70hPMki21h07gjUttAoPZDrK7R?=
+ =?us-ascii?Q?zS2iQmm1pbCo3vMFWQqawBcHL+23v8box5sPXR9H5eQGMGzRkd+HCxot9nji?=
+ =?us-ascii?Q?UDD3Ug4U3dLB1Q/XtumfGsYWJ1yKWk9ulVm1A/3Xy8yUPojdG6W77Jh0gmuE?=
+ =?us-ascii?Q?I4vKHbi+uz/xqLzNXSGOLzQyRtL86kt7J6Ko0raAOFjOr9aAFF8BdLdTTwwz?=
+ =?us-ascii?Q?slXKrTyU+8dFCm9num3Dd4xsjT+na+Sq79BVQFlEAsc4M/bd3Z/7K/0LBHYV?=
+ =?us-ascii?Q?y6phO42CMyuuhsxdWjFpSULcRdNm/0EzT+sVW3qGvISW3yqyosRawgE6JVyy?=
+ =?us-ascii?Q?1SAi8oGJDLmVB8HAV2TrolbL3D+cvFcW4KkQZwA9NQVKC75A7fPjXhANygTu?=
+ =?us-ascii?Q?6StKZ0zCBNJOGzdLPIehgOCQm/+lWynClCuOroY8J5IC4wuge/MVvrSnyxeQ?=
+ =?us-ascii?Q?szz5AW+GQn9K2UjZndyK6gNzYxOSMxbFELIuq1R0+CUXaWRPZpcrDvakf1ir?=
+ =?us-ascii?Q?vzD6MN1jiEh7Kb3lj7o6+NdTU88BfW076KjXSslUqnL5bF5/qlLFwdW+C25Z?=
+ =?us-ascii?Q?x9hgHbV1EUXCyR0sIcP3roHw8zv4KgyN1U8gkohuGR5Jd3dyp2jmnICF66kT?=
+ =?us-ascii?Q?a3tQ8VZX/WBDJ3BP+HfIikB8pn+P2VE0Hdf+Ln4xlVRm/Hdeoeq7q3mKQZyA?=
+ =?us-ascii?Q?ABrZ8e1l+fl39+rWrKgs24lEz2iQh7JceR98vLHEmvt+Gp+ta5RHylsMH7ls?=
+ =?us-ascii?Q?rdTg0yJqiToydXyo4vmT/ou/XU1z80CoAXm/qzYC9fgmKQ+WJT66UYo6Cm4x?=
+ =?us-ascii?Q?dyDjtgsEBKA2avJAbN7z+e1unhDUzP+E1DaAvlYtaixLl+W4IRsROEaN2e51?=
+ =?us-ascii?Q?7u6/gf7Y6/b1Sei1LixgCTq+QQHqvdTDJDdbxLm/Q8rEpsCdD2tZeOVF65i8?=
+ =?us-ascii?Q?UO8zzNczXqhrUGz5b3sdFf/dV1SZGqOT8Oo69Amm43jJP3fxVMAE8PU5t1O7?=
+ =?us-ascii?Q?u4uaHadW6mpJZX0JAqqPxiGMpje6kh12pC8sj5O+Spd7dB7AJI9hDxfplLv7?=
+ =?us-ascii?Q?Zprp81jbqVus369Bj5TwzGVBcAu8VwofpLJ2/1oSfLddgRbmJq4jI9YfF8w6?=
+ =?us-ascii?Q?2aFv4gvSjewNlXYNDjmJCzVPILstAOut1NN/SOFeXXzw985DMwuHVNnO8lVV?=
+ =?us-ascii?Q?bI/3M9nIhAh0IkUt/h1RaguNSwrRWxq+cluaLQYyz7k/cjyy6H151+Bh5+0E?=
+ =?us-ascii?Q?RMWC1M2nzjJz8PT6yx04SkBLLo3SM3GJihsSS2znLN+4TWsT8H+b+d6E8N53?=
+ =?us-ascii?Q?cBHnW+ZK9gZa69zamwFOTQ4HzolTQlZQU4CHQp5V7MHR2yPh5vKPkmGic80D?=
+ =?us-ascii?Q?ua9BLCTMuKGS/XLI2BqtNqENpl5foFpDuTu2i8A3GKM1JpJ12oNn0YVIH45Z?=
+ =?us-ascii?Q?84f1ff/DZ24UYKcQ1oq96ZYHwv09FJW1MR2gtjoh3PdtWX1SBE//FFt/q9CT?=
+ =?us-ascii?Q?pc95pK1QScjSuHZGrylIQQ0=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <38289B5CE886D342865409E3778C21AE@namprd04.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <tom6xspqarrxx6c5ilqu7c7nhysgt3ua26yu52l2zaj7mr2qlp@vqr7y355ohzf>
+MIME-Version: 1.0
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: jCctYoPx3acKMPRFYl0+2wDD+UqOrIa4QTMGOUQW8Ab4UXkltptu4aNwxTrxi4v8LRRr9T5GA/GAlEMOk587jCUWQJ39zVmNdaaCsK0V5rPUDR8aduIicpysMychAlY792mvm/8QFHbncgtMiSAvy98nhcVgiA1cexhTTznAj6kTUeO0dsQ429B+eCpt1Vh9GS8gT9iL4YOSS641taCHgXIWgB0yrSEky7iY56X9JtS6csNB7vga1tHkHn3vJUlpjpN0rOJGi5l1iNtrc+4LVPaWKL2qnRWLmZAaix0TGZU1+rav4bor0DpF6MgyZPqOA/VlGFcI7gEAMKrQTLzF0VxNnRuMuIv0n8hkusu+DjosZol8EsMRh5HJE/ZDfqkZDPv4WrB0WuMJ7d2swX621wvhSbJG2syb6oPng4Pesr2zwSphikjJhesoWa6JI+JnBRBHIcaqgEl6QCc4hChXngoXS+MaAgnDTyNMD6Q4qeQ/Go/6SROHoWmnzEkc+qNXZ50In79cp42PrxbU6fGYJkU51oNN3/udnWXCagd+hWhVDjVupK4j5XAqJQd4CNEx198IZCwP6nCO0XCixauB9rRbNPo2HB4DRLNR4wkKDqo46Do2khN9ZKye+O7dLYzCL6ugd6uNc/TMvGGEHXtHRf5rQdaQzXIj9tAXSfCugKhECk0jrJUGRBAb8ijTRCSZx6YRelMqCJfnH4B8Yaj5xvqjExSZRdRkPJlInOSmbS1GtqBJWG3wINxzEtXdlp29y37Gr/cnwK6AkjhAddrE5nmd58Lb+bwiPUlnS48OCq2CEIGmFfsmG9HLp5+9j5XHx4SbtSN4UrwIG0F7lHYcc8WCf2a21YN5ihwwynvdoKXxNEaEFOBICAtxTbfYPKedP3By3xIRt3lTVpSDaL3RTbQegN7F/8FPJvNi/FWujYg=
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e80e9490-3f91-4909-e9d4-08db66fcfc2a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jun 2023 02:14:55.1502
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: L6DxoYen2OoeZiHrGROwWq5QNQEMmbFZieYiJplBO2Ej76uOb8JAt8lm2eZtU/YFqmUrwi6wbCi8qCHZMGw1AjVwHIQZlBsqqZP/upcCM1I=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR04MB8155
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20230606_191501_383907_E59FFB62 
+X-CRM114-Status: GOOD (  24.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -51,100 +164,53 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jun 06, 2023 at 12:56:58PM +0200, Daniel Wagner wrote:
-> Hi Luis,
+On Jun 06, 2023 / 09:45, Sagi Grimberg wrote:
 >=20
-> I've enabled the module debug options and got some traces when running bl=
-ktests
-> (nvme_trtype=3Dtcp ./check nvme). I read the commit message 8660484ed1cf =
-("module:
-> add debugging auto-load duplicate module support") I cannot really decide=
- what
-> to do with the report. I disable the debug options for now (trying to wor=
-k on
-> something else). So this just to let you know, that the debug code seems =
-to do
-> something :)
+> > > > On May 31, 2023 / 09:07, Yang Xu wrote:
+> > > > > Since commit 328943e3 ("Update tests for discovery log page chang=
+es"),
+> > > > > blktests also include the discovery subsystem itself. But it
+> > > > > will lead these cases fails on older nvme-cli system.
+> > > >=20
+> > > > Thanks for this report. What is the nvme-cli version with the issue=
+?
+> > > >=20
+> > > > >=20
+> > > > > To avoid this, like nvme/002, use _check_genctr to check instead =
+of
+> > > > > comparing many discovery Log Entry output.
+> > > > >=20
+> > > > > Signed-off-by: Yang Xu <xuyang2018.jy@fujitsu.com>
+> > > >=20
+> > > > The change looks fine to me, but I'd wait for comments by nvme
+> > > > developers.
+> > >=20
+> > > I'm ok with this change, but IIRC Chaitanya wanted that we keep check=
+ing
+> > > the full log-page output...
+> >=20
+> > the original testcase was designed to validate the log page internals
+> > and  that correctness cannot be established without looking into the lo=
+g
+> > page.
+
+I think nvme/016 and 017 still have value even without the log-page output
+checks. They exercise namespace creations and deletions which other test
+cases don't.
+
+> >=20
+> > but given that how much churn this is generating eveytime something
+> > changes in nvme-cli or in kernel implementation I'm really wondering is
+> > that worth everyone's time ?
+> >=20
+> > Sagi/Shinichiro any thoughts ?
 >=20
-> Thanks,
-> Daniel
->=20
->  ------------[ cut here ]------------
->  module-autoload: duplicate request for module nvme-tcp
->  WARNING: CPU: 2 PID: 1725 at kernel/module/dups.c:185 kmod_dup_request_e=
-xists_wait+0x2bd/0x520
->  Modules linked in: loop nvmet_tcp nvmet nvme_tcp nvme_fabrics nfsv3 nfs_=
-acl rpcsec_gss_krb5 auth_rpcgss nfsv4 dns_resolver nfs lockd grace sunrpc f=
-scache netfs af_packet rfkill qrtr snd_hda_codec_generic intel_rapl_msr int=
-el_rapl_common intel_pmc_core kvm_intel nls_iso8859_1 nls_cp437 vfat snd_hd=
-a_intel snd_intel_dspcfg fat snd_hda_codec kvm snd_hwdep iTCO_wdt intel_pmc=
-_bxt snd_hda_core iTCO_vendor_support snd_pcm i2c_i801 irqbypass i2c_smbus =
-pcspkr snd_timer virtio_net snd virtio_balloon soundcore lpc_ich net_failov=
-er failover tiny_power_button joydev button fuse efi_pstore configfs ip_tab=
-les x_tables hid_generic usbhid crct10dif_pclmul crc32_pclmul ghash_clmulni=
-_intel xhci_pci xhci_pci_renesas xhci_hcd sr_mod aesni_intel cdrom crypto_s=
-imd cryptd virtio_blk virtio_rng usbcore nvme virtio_gpu virtio_dma_buf nvm=
-e_core nvme_common serio_raw btrfs libcrc32c crc32c_intel xor zlib_deflate =
-raid6_pq sg dm_multipath dm_mod scsi_dh_rdac scsi_dh_emc scsi_dh_alua efiva=
-rfs qemu_fw_cfg [last unloaded: loop]
->  CPU: 2 PID: 1725 Comm: nvme Tainted: G        W          6.4.0-rc2+ #2 1=
-daf2dc6ddfbfdba6b9ddd3bcf1253da050c6a9f
->  Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS unknown unknown
->  RIP: 0010:kmod_dup_request_exists_wait+0x2bd/0x520
->  Code: a4 e8 77 6f 28 02 4c 89 ff e8 3f 58 4c 00 80 3d 68 6d b5 03 00 0f =
-84 24 01 00 00 48 c7 c7 80 60 70 a3 48 89 de e8 03 5e d9 ff <0f> 0b 40 84 e=
-d 0f 84 22 01 00 00 49 8d 7c 24 48 be 02 01 00 00 e8
->  RSP: 0018:ffff8881086ff720 EFLAGS: 00010246
->  RAX: 2c07e0659ca46000 RBX: ffff8881086ff820 RCX: 0000000000000027
->  RDX: 0000000000000001 RSI: 0000000000000004 RDI: ffff88815abf07c8
->  RBP: 0000000000000001 R08: dffffc0000000000 R09: ffffed102b57e0fa
->  R10: 0000000000000000 R11: dffffc0000000001 R12: ffff888108fa8400
->  R13: 0000000fffffffe0 R14: dffffc0000000000 R15: ffff88810af38c00
->  FS:  00007fb64187e740(0000) GS:ffff88815aa00000(0000) knlGS:000000000000=
-0000
->  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->  CR2: 00007fb6419db28e CR3: 0000000130390005 CR4: 0000000000370ee0
->  Call Trace:
->   <TASK>
->   __request_module+0x1ce/0x4e0
->   ? trace_contention_end+0x38/0xf0
->   ? kasan_unpoison+0x64/0x90
->   ? __cfi___request_module+0x10/0x10
->   ? __mutex_unlock_slowpath+0x21f/0x770
->   ? kasan_quarantine_put+0xb4/0x1c0
->   ? __kmem_cache_free+0x21f/0x3d0
->   ? __asan_memcpy+0x3c/0x70
->   ? nvmf_dev_write+0x1956/0x2430 [nvme_fabrics 08f7b8c3317d458ea9e1722c19=
-d051cbfd8a49c3]
->   nvmf_dev_write+0x1a2c/0x2430 [nvme_fabrics 08f7b8c3317d458ea9e1722c19d0=
-51cbfd8a49c3]
+> Also back then I thought it'd create churn because the log page output
+> is not an interface.
 
-nvmf_dev_write() seems to implicate a request_module() call, try to
-answer this question: how many times do you want to be calling
-request_module() for something ?
+So, we should drop the log page output check, and it means that Yang's patc=
+h is
+the choice.
 
-The warning comes up to tell developers they should try to see if they
-can instead just issue a request *once*. A simple bool would do it.
-
-Why is this good? Well prior to me convincing folks that this could
-incur high virtual memory allocations I didn't have proof such abuse
-existed. My patch showed the abuse came not from kernel request_module()
-users but instead for userspace through udev.
-
-To give you some perspective, the issue scales linearly per number of
-cpus you have, vcpus or real, does not matter. over 200 cores for
-instance will have about 18 GiB of virtual memory allocation wasted
-on duplicate module loads because of udev. Although now have convinced
-folks this is an issue, because I have the proof, a fix for this is
-still pending upstream. For upstream we'll be going with a simple
-solution by Linus to converge duplicates, however that convergence
-will only last whlie we kernel_read() the module and duplicates enter
-the system during that time. That still seems to fix most of the
-virtual memory abuse on bootup.
-
-On the request_module() side of things -- this is a minor issue, but
-it is something for developers to consider seeing if they can just
-request a module once. But it's not a big deal.
-
-  Luis
+Chaitanya, is it ok for you?=
 
