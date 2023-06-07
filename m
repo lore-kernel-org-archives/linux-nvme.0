@@ -4,68 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E5393C7EE2F
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jun 2023 13:08:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 462D0C7EE29
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jun 2023 13:10:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=U7c7WodeDtNpjUczv8+eIXLuhq9h/8jtLxSsWcXS9gw=; b=Tanwgb7fMMqHQL87cddVa9yptU
-	0TlTN5Xbk6Y+caatOxzuWiGtp11kXEq2klYV19zQ5vALuNuA9884nmghzhwfC0EaFDBbaOAbHchL7
-	yfVI2QKPCCDUhkvnrbXkx5ApggIbV4c2B56YG32czdm45PRCVA9l4aLv1A441S5tKtxCHj7cMj9lp
-	wZK+MFASnaGNccKoSiCsFgo3rmSHp3xQAMBPRVYnOAmE5l83tag1VlDu9APrLhKKAMbAODYW8UU57
-	v4uv9UQqcd6JHczZK/9nzEMUEgzkcnmyaO/MW504gKppfQweGbUA1Ei5ULrQDIjqhOuc56D7yVQBV
-	JGuLNZMQ==;
+	bh=Gj4N9CQn2kqn2JPIKiZwsmIeXGaklK+rdXMsutYdAuA=; b=rInsEaDRKn4IYL45Xq4sHkX1Fe
+	PMt57/vpaY/yZN9awrL44EHEQ0sD4vGrancAmCd1jySQ1J8Q1w81dXGN/kFU0y3XnZnFcAo6+VNWl
+	F8Yf4/DPscQd0PVn5Wmq/tTyeCCuhOYCtRE/Pd3d+BguNu1zkPCWezgpN42bolmcPimaVUzWf0Oqw
+	uOYyDhgGuw94vzcOWK9rom/QFCbXVdKfz/RbTJ+GgFF2vit3KtE6/j6obBnnW5dYhckOem5EVJMCM
+	h8Cei0ebTjQ7dYQEvaCdEb1PbPtIVaNF9QhBJ1CMZFCsvJpZA0zfQhL0XmG01s/EfAGdZN/8dI9TY
+	JRZHdy4Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6stt-0061dZ-0I;
-	Wed, 07 Jun 2023 13:08:33 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1q6svF-0062Le-34;
+	Wed, 07 Jun 2023 13:09:57 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q6stq-0061bW-0O;
-	Wed, 07 Jun 2023 13:08:31 +0000
+	id 1q6svC-0062I2-0E;
+	Wed, 07 Jun 2023 13:09:55 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8A6B921A00;
-	Wed,  7 Jun 2023 13:08:28 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 787811FDAB;
+	Wed,  7 Jun 2023 13:09:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1686143308; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1686143392; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=U7c7WodeDtNpjUczv8+eIXLuhq9h/8jtLxSsWcXS9gw=;
-	b=D/C4L04h1rP5J6hr6cun6vBK1odWkxm4oiZ3+bCIB7YS8rxty7MHJVgSr5cBIKVyaVc6/j
-	V0wu45NO4rPRln1DVSrmcF2j9Xl9WQIoXFic5XkOpuGmPgiadhgaVNlNLy3EtOWtfwwsjK
-	uhbIcWet01WVarqPebK8GrhUkjxtklM=
+	bh=Gj4N9CQn2kqn2JPIKiZwsmIeXGaklK+rdXMsutYdAuA=;
+	b=wY8TW9M3hOxC0sX6KA/+DWt9SMykbXIqiZlrdcx2tvfOiOCVXIL24h38aVUc0suf5qttPl
+	1FTfU4we5wCLvY9Df6lcARgamtkc9JynOFzMh5TzTLdmhZ86eok77yuBW+rH+0nH5NyBLG
+	5HRcsV3/Bg4E18QmFF8s5oIf00fo2rs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1686143308;
+	s=susede2_ed25519; t=1686143392;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=U7c7WodeDtNpjUczv8+eIXLuhq9h/8jtLxSsWcXS9gw=;
-	b=+m+dsjXNA1CdOA3mnKYfSUl/F0sOFe+7d2pbdstHXWNJuYW/QJaxyTdqFGeyeFk1FL9aSU
-	R2uX+N06szza/bDQ==
+	bh=Gj4N9CQn2kqn2JPIKiZwsmIeXGaklK+rdXMsutYdAuA=;
+	b=F0iBRPfNOGf1w++pMIdJAfHDayMjAi2FNNzGmsfh0S0h9ixVHgQbj/eD9WIu1ncW3s8L7w
+	wmt6qi4jG7IJQ7DQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 572561346D;
-	Wed,  7 Jun 2023 13:08:28 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 174331346D;
+	Wed,  7 Jun 2023 13:09:52 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id JQx/FEyBgGT6XAAAMHmgww
-	(envelope-from <hare@suse.de>); Wed, 07 Jun 2023 13:08:28 +0000
-Message-ID: <3e04efc2-f9dd-0675-1fac-fc3903b1fbcb@suse.de>
-Date: Wed, 7 Jun 2023 15:08:27 +0200
+	id SL5IBaCBgGTuXQAAMHmgww
+	(envelope-from <hare@suse.de>); Wed, 07 Jun 2023 13:09:52 +0000
+Message-ID: <7814a706-3f16-42c7-75ce-c926e274fe98@suse.de>
+Date: Wed, 7 Jun 2023 15:09:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH 25/31] ubd: remove commented out code in ubd_open
+Subject: Re: [PATCH 26/31] block: move a few internal definitions out of
+ blkdev.h
 Content-Language: en-US
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 Cc: Richard Weinberger <richard@nod.at>, Josef Bacik <josef@toxicpanda.com>,
@@ -84,14 +85,14 @@ Cc: Richard Weinberger <richard@nod.at>, Josef Bacik <josef@toxicpanda.com>,
  linux-nilfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  linux-pm@vger.kernel.org
 References: <20230606073950.225178-1-hch@lst.de>
- <20230606073950.225178-26-hch@lst.de>
+ <20230606073950.225178-27-hch@lst.de>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20230606073950.225178-26-hch@lst.de>
+In-Reply-To: <20230606073950.225178-27-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230607_060830_301366_8A2088E0 
-X-CRM114-Status: GOOD (  11.83  )
+X-CRM114-CacheID: sfid-20230607_060954_261569_3AB0FCBD 
+X-CRM114-Status: GOOD (  10.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,13 +108,14 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 6/6/23 09:39, Christoph Hellwig wrote:
-> This code has been dead forever, make sure it doesn't show up in code
-> searches.
+> All these helpers are only used in core block code, so move them out of
+> the public header.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->   arch/um/drivers/ubd_kern.c | 7 -------
->   1 file changed, 7 deletions(-)
+>   block/blk.h            | 23 +++++++++++++++++++++--
+>   include/linux/blkdev.h | 27 ---------------------------
+>   2 files changed, 21 insertions(+), 29 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 
