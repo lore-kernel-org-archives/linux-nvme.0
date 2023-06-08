@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9989EC7EE43
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Jun 2023 12:15:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0ADB6C7EE25
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Jun 2023 12:16:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OYUHh+4M0utRLFunGOJAUcyyaBU5s2THoZb+BQl7GUE=; b=e6NFqgz5GI2EVjDzCaITnZVPg6
-	0wEtocseiplPCr0MJsVDuArNmJHmRWPuFJEoghwEm1VKPuSboxCBif1gz+tbxdBObmtAhEilsuRN0
-	5mtvL84v62aoMFibisLZPGg5vITciNIfZdWd8lMMISKjthfn0+5/p2fbCSm80kqEx5JBr/VTvZzye
-	UfFW0BT9Hj6NT+tzLd3dHfnH/F1xDXPFuZN5tQIhcQnx49yvdYtTCOEmX5LJVxEFoo2B80dt7VYu9
-	Tb5cqah/d0RrjfGlVyOyn9dS0cah+/28zVgljmviSOHUHnKisJdbpXkGzrURiK8ES03ixpi06sJ6v
-	nyHocS3g==;
+	bh=p3NBH2d+BZbJRo9MySTDpcirZPYXEQPs5kc/V4dN6kM=; b=QjqYJa2q2bspwZUJIHi7G7aELU
+	u60ITkH1ytS9cSgs46QoXTFwsBNaDnJmWU/LE+dS4pnLM3eGLQgQioHqvGauIXRfeyaC/mrCv2Kge
+	SBplR6awDzQ6oODFQ2oIryf4WITKFUVJ2qsbJU+lzqPN4J10IgOzkXY5PHaT2trqha3h9rZCwRq/W
+	YbSL+VrGkVuxxEjkFrFYeKE9wV8gAdJQ8hCWJ+OCPDoEn5ocFTYkfrExirMPQErtz5VzD8y81LYLM
+	EmcZsRCDNBF3+bt00LhejdC6cujVohdUQypMcyzaAYCEDxFO7N4VZBCdrKC9mYGNyigUanAQaIFlN
+	L1HGo9Kw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q7EYW-009HU2-0C;
-	Thu, 08 Jun 2023 12:15:56 +0000
+	id 1q7EYb-009HYr-1G;
+	Thu, 08 Jun 2023 12:16:01 +0000
 Received: from 2a02-8389-2341-5b80-39d3-4735-9a3c-88d8.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:39d3:4735:9a3c:88d8] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1q7DQq-0092W2-2a;
-	Thu, 08 Jun 2023 11:03:57 +0000
+	id 1q7DRA-0092pp-0o;
+	Thu, 08 Jun 2023 11:04:16 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Richard Weinberger <richard@nod.at>,
@@ -56,9 +56,9 @@ Cc: Richard Weinberger <richard@nod.at>,
 	linux-fsdevel@vger.kernel.org,
 	linux-pm@vger.kernel.org,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 20/30] scsi: replace the fmode_t argument to ->sg_io_fn with a simple bool
-Date: Thu,  8 Jun 2023 13:02:48 +0200
-Message-Id: <20230608110258.189493-21-hch@lst.de>
+Subject: [PATCH 26/30] block: remove unused fmode_t arguments from ioctl handlers
+Date: Thu,  8 Jun 2023 13:02:54 +0200
+Message-Id: <20230608110258.189493-27-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230608110258.189493-1-hch@lst.de>
 References: <20230608110258.189493-1-hch@lst.de>
@@ -78,101 +78,103 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Instead of passing a fmode_t and only checking it for FMODE_WRITE, pass
-a bool open_for_write to prepare for callers that won't have the fmode_t.
+A few ioctl handlers have fmode_t arguments that are entirely unused,
+remove them.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
 Acked-by: Christian Brauner <brauner@kernel.org>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 ---
- block/bsg-lib.c         | 2 +-
- block/bsg.c             | 8 +++++---
- drivers/scsi/scsi_bsg.c | 4 ++--
- include/linux/bsg.h     | 2 +-
- 4 files changed, 9 insertions(+), 7 deletions(-)
+ block/blk-zoned.c |  4 ++--
+ block/blk.h       |  6 +++---
+ block/ioctl.c     | 14 +++++++-------
+ 3 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/block/bsg-lib.c b/block/bsg-lib.c
-index 435c32373cd68f..b3acdbdb6e7ea8 100644
---- a/block/bsg-lib.c
-+++ b/block/bsg-lib.c
-@@ -26,7 +26,7 @@ struct bsg_set {
- };
- 
- static int bsg_transport_sg_io_fn(struct request_queue *q, struct sg_io_v4 *hdr,
--		fmode_t mode, unsigned int timeout)
-+		bool open_for_write, unsigned int timeout)
+diff --git a/block/blk-zoned.c b/block/blk-zoned.c
+index 096b6b47561f83..02cc2c629ac9be 100644
+--- a/block/blk-zoned.c
++++ b/block/blk-zoned.c
+@@ -323,8 +323,8 @@ static int blkdev_copy_zone_to_user(struct blk_zone *zone, unsigned int idx,
+  * BLKREPORTZONE ioctl processing.
+  * Called from blkdev_ioctl.
+  */
+-int blkdev_report_zones_ioctl(struct block_device *bdev, fmode_t mode,
+-			      unsigned int cmd, unsigned long arg)
++int blkdev_report_zones_ioctl(struct block_device *bdev, unsigned int cmd,
++		unsigned long arg)
  {
- 	struct bsg_job *job;
- 	struct request *rq;
-diff --git a/block/bsg.c b/block/bsg.c
-index 7eca43f33d7ff8..bec4027842b31e 100644
---- a/block/bsg.c
-+++ b/block/bsg.c
-@@ -54,7 +54,8 @@ static unsigned int bsg_timeout(struct bsg_device *bd, struct sg_io_v4 *hdr)
- 	return max_t(unsigned int, timeout, BLK_MIN_SG_TIMEOUT);
+ 	void __user *argp = (void __user *)arg;
+ 	struct zone_report_args args;
+diff --git a/block/blk.h b/block/blk.h
+index 6910220aa030f1..e28d5d67d31a28 100644
+--- a/block/blk.h
++++ b/block/blk.h
+@@ -394,15 +394,15 @@ static inline struct bio *blk_queue_bounce(struct bio *bio,
+ #ifdef CONFIG_BLK_DEV_ZONED
+ void disk_free_zone_bitmaps(struct gendisk *disk);
+ void disk_clear_zone_settings(struct gendisk *disk);
+-int blkdev_report_zones_ioctl(struct block_device *bdev, fmode_t mode,
+-		unsigned int cmd, unsigned long arg);
++int blkdev_report_zones_ioctl(struct block_device *bdev, unsigned int cmd,
++		unsigned long arg);
+ int blkdev_zone_mgmt_ioctl(struct block_device *bdev, fmode_t mode,
+ 		unsigned int cmd, unsigned long arg);
+ #else /* CONFIG_BLK_DEV_ZONED */
+ static inline void disk_free_zone_bitmaps(struct gendisk *disk) {}
+ static inline void disk_clear_zone_settings(struct gendisk *disk) {}
+ static inline int blkdev_report_zones_ioctl(struct block_device *bdev,
+-		fmode_t mode, unsigned int cmd, unsigned long arg)
++		unsigned int cmd, unsigned long arg)
+ {
+ 	return -ENOTTY;
+ }
+diff --git a/block/ioctl.c b/block/ioctl.c
+index b39bd5b41ee492..3a10c34b8ef6d3 100644
+--- a/block/ioctl.c
++++ b/block/ioctl.c
+@@ -344,8 +344,8 @@ static int blkdev_pr_clear(struct block_device *bdev,
+ 	return ops->pr_clear(bdev, c.key);
  }
  
--static int bsg_sg_io(struct bsg_device *bd, fmode_t mode, void __user *uarg)
-+static int bsg_sg_io(struct bsg_device *bd, bool open_for_write,
-+		     void __user *uarg)
+-static int blkdev_flushbuf(struct block_device *bdev, fmode_t mode,
+-		unsigned cmd, unsigned long arg)
++static int blkdev_flushbuf(struct block_device *bdev, unsigned cmd,
++		unsigned long arg)
  {
- 	struct sg_io_v4 hdr;
- 	int ret;
-@@ -63,7 +64,8 @@ static int bsg_sg_io(struct bsg_device *bd, fmode_t mode, void __user *uarg)
- 		return -EFAULT;
- 	if (hdr.guard != 'Q')
- 		return -EINVAL;
--	ret = bd->sg_io_fn(bd->queue, &hdr, mode, bsg_timeout(bd, &hdr));
-+	ret = bd->sg_io_fn(bd->queue, &hdr, open_for_write,
-+			   bsg_timeout(bd, &hdr));
- 	if (!ret && copy_to_user(uarg, &hdr, sizeof(hdr)))
- 		return -EFAULT;
- 	return ret;
-@@ -146,7 +148,7 @@ static long bsg_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
- 	case SG_EMULATED_HOST:
- 		return put_user(1, intp);
- 	case SG_IO:
--		return bsg_sg_io(bd, file->f_mode, uarg);
-+		return bsg_sg_io(bd, file->f_mode & FMODE_WRITE, uarg);
- 	case SCSI_IOCTL_SEND_COMMAND:
- 		pr_warn_ratelimited("%s: calling unsupported SCSI_IOCTL_SEND_COMMAND\n",
- 				current->comm);
-diff --git a/drivers/scsi/scsi_bsg.c b/drivers/scsi/scsi_bsg.c
-index 12431f35f861e1..a9a9ec086a7e3f 100644
---- a/drivers/scsi/scsi_bsg.c
-+++ b/drivers/scsi/scsi_bsg.c
-@@ -10,7 +10,7 @@
- #define uptr64(val) ((void __user *)(uintptr_t)(val))
+ 	if (!capable(CAP_SYS_ADMIN))
+ 		return -EACCES;
+@@ -354,8 +354,8 @@ static int blkdev_flushbuf(struct block_device *bdev, fmode_t mode,
+ 	return 0;
+ }
  
- static int scsi_bsg_sg_io_fn(struct request_queue *q, struct sg_io_v4 *hdr,
--		fmode_t mode, unsigned int timeout)
-+		bool open_for_write, unsigned int timeout)
+-static int blkdev_roset(struct block_device *bdev, fmode_t mode,
+-		unsigned cmd, unsigned long arg)
++static int blkdev_roset(struct block_device *bdev, unsigned cmd,
++		unsigned long arg)
  {
- 	struct scsi_cmnd *scmd;
- 	struct request *rq;
-@@ -42,7 +42,7 @@ static int scsi_bsg_sg_io_fn(struct request_queue *q, struct sg_io_v4 *hdr,
- 	if (copy_from_user(scmd->cmnd, uptr64(hdr->request), scmd->cmd_len))
- 		goto out_put_request;
- 	ret = -EPERM;
--	if (!scsi_cmd_allowed(scmd->cmnd, mode & FMODE_WRITE))
-+	if (!scsi_cmd_allowed(scmd->cmnd, open_for_write))
- 		goto out_put_request;
+ 	int ret, n;
  
- 	ret = 0;
-diff --git a/include/linux/bsg.h b/include/linux/bsg.h
-index 1ac81c809da9b3..ee2df73edf83f8 100644
---- a/include/linux/bsg.h
-+++ b/include/linux/bsg.h
-@@ -9,7 +9,7 @@ struct device;
- struct request_queue;
+@@ -475,9 +475,9 @@ static int blkdev_common_ioctl(struct block_device *bdev, fmode_t mode,
  
- typedef int (bsg_sg_io_fn)(struct request_queue *, struct sg_io_v4 *hdr,
--		fmode_t mode, unsigned int timeout);
-+		bool open_for_write, unsigned int timeout);
- 
- struct bsg_device *bsg_register_queue(struct request_queue *q,
- 		struct device *parent, const char *name,
+ 	switch (cmd) {
+ 	case BLKFLSBUF:
+-		return blkdev_flushbuf(bdev, mode, cmd, arg);
++		return blkdev_flushbuf(bdev, cmd, arg);
+ 	case BLKROSET:
+-		return blkdev_roset(bdev, mode, cmd, arg);
++		return blkdev_roset(bdev, cmd, arg);
+ 	case BLKDISCARD:
+ 		return blk_ioctl_discard(bdev, mode, arg);
+ 	case BLKSECDISCARD:
+@@ -487,7 +487,7 @@ static int blkdev_common_ioctl(struct block_device *bdev, fmode_t mode,
+ 	case BLKGETDISKSEQ:
+ 		return put_u64(argp, bdev->bd_disk->diskseq);
+ 	case BLKREPORTZONE:
+-		return blkdev_report_zones_ioctl(bdev, mode, cmd, arg);
++		return blkdev_report_zones_ioctl(bdev, cmd, arg);
+ 	case BLKRESETZONE:
+ 	case BLKOPENZONE:
+ 	case BLKCLOSEZONE:
 -- 
 2.39.2
 
