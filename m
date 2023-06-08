@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 90853C7EE43
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Jun 2023 11:04:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9B80C7EE29
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Jun 2023 11:04:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BWc5z9HT4dUA9mjQNGkIg08JFiqviKFgFc2kwBdnmvA=; b=yAM8EQXuT0Siaqigt6jWXctSjQ
-	bvsVzzQ6sJR+/vunzIYvw8zntxaW7upq8p/o505vqxxmDjlGpjh8W4Nf+fTskhJjzD6lTybgMd1+c
-	phTs8zNw/cqLqdIynBO2+2reTtCMyInuWCc8LUaLupOIjA0HMVF0y073LZ4ICX8TNBNHk1A7zjWJ2
-	Q/CyaEeUhATGFaAhBoD7rxQwJ/D/uIHDk1CQyAmfOaDCBR26fWd8BVnc2a5WjSd/Y59NHGUcAycPa
-	mImiOwjiD5YaiG399sk01CW0C5/Tndm6MUmuyvzGsIOZyQZOYyBrfENE/M6Js1Lhwnvn2SOZTbaqL
-	08qdK0iw==;
+	bh=HfQKDcXIxVfpxDhJoYVU8U+lxQr2DjI7c93KYK31huo=; b=DmdAurUWo2v29Ja78ad/66iPJA
+	zCnimbk6J+3i859IdbJb2UllhuxRLdKGdYrdZagVI4UnoknI9go9Z7BIkINjVBiEtc02ygA5620pb
+	UuZ5Mt2JJHh+kjly/rTn6DeruK5A8rKgjAQU02yIwjcfagmJiMvZDUbn2ryXBDgQjgXo+i+MxBbVz
+	Fa8lEEtAT9aqB31IIk5eBkv0+zDSbgj2g+CttkGU3SLjsIH0JVNrwCzymRw76nfacqtUJQe+gUaao
+	QECMj2UUb8pj7/QXPPktSnXy4Kz/Rk+YaCRQ3JgiaPiuIoyUTjnBsTgR+LKD+rMM42QUtP2LqPgqb
+	jB339dTg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q7DRR-009371-2C;
-	Thu, 08 Jun 2023 11:04:33 +0000
+	id 1q7DRX-0093CE-2Z;
+	Thu, 08 Jun 2023 11:04:39 +0000
 Received: from 2a02-8389-2341-5b80-39d3-4735-9a3c-88d8.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:39d3:4735:9a3c:88d8] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1q7DQR-00921s-1m;
-	Thu, 08 Jun 2023 11:03:31 +0000
+	id 1q7DQU-00925z-04;
+	Thu, 08 Jun 2023 11:03:34 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: Richard Weinberger <richard@nod.at>,
@@ -56,9 +56,9 @@ Cc: Richard Weinberger <richard@nod.at>,
 	linux-fsdevel@vger.kernel.org,
 	linux-pm@vger.kernel.org,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 11/30] swsusp: don't pass a stack address to blkdev_get_by_path
-Date: Thu,  8 Jun 2023 13:02:39 +0200
-Message-Id: <20230608110258.189493-12-hch@lst.de>
+Subject: [PATCH 12/30] bcache: don't pass a stack address to blkdev_get_by_path
+Date: Thu,  8 Jun 2023 13:02:40 +0200
+Message-Id: <20230608110258.189493-13-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230608110258.189493-1-hch@lst.de>
 References: <20230608110258.189493-1-hch@lst.de>
@@ -78,44 +78,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-holder is just an on-stack pointer that can easily be reused by other calls,
-replace it with a static variable that doesn't change.
+sb is just an on-stack pointer that can easily be reused by other calls.
+Switch to use the bcache-wide bcache_kobj instead as there is no need to
+claim per-bcache device anyway.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 ---
- kernel/power/swap.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/md/bcache/super.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/kernel/power/swap.c b/kernel/power/swap.c
-index 81aec3b2c60510..b03ff1a33c7f68 100644
---- a/kernel/power/swap.c
-+++ b/kernel/power/swap.c
-@@ -1510,6 +1510,8 @@ int swsusp_read(unsigned int *flags_p)
- 	return error;
- }
- 
-+static void *swsusp_holder;
-+
- /**
-  *      swsusp_check - Check for swsusp signature in the resume device
-  */
-@@ -1517,14 +1519,13 @@ int swsusp_read(unsigned int *flags_p)
- int swsusp_check(bool snapshot_test)
- {
- 	int error;
--	void *holder;
- 	fmode_t mode = FMODE_READ;
- 
- 	if (snapshot_test)
- 		mode |= FMODE_EXCL;
- 
- 	hib_resume_bdev = blkdev_get_by_dev(swsusp_resume_device,
--					    mode, &holder, NULL);
-+					    mode, &swsusp_holder, NULL);
- 	if (!IS_ERR(hib_resume_bdev)) {
- 		set_blocksize(hib_resume_bdev, PAGE_SIZE);
- 		clear_page(swsusp_header);
+diff --git a/drivers/md/bcache/super.c b/drivers/md/bcache/super.c
+index 94b91c45c9e2a9..4a2aed047aec12 100644
+--- a/drivers/md/bcache/super.c
++++ b/drivers/md/bcache/super.c
+@@ -2560,7 +2560,7 @@ static ssize_t register_bcache(struct kobject *k, struct kobj_attribute *attr,
+ 	err = "failed to open device";
+ 	bdev = blkdev_get_by_path(strim(path),
+ 				  FMODE_READ|FMODE_WRITE|FMODE_EXCL,
+-				  sb, NULL);
++				  bcache_kobj, NULL);
+ 	if (IS_ERR(bdev)) {
+ 		if (bdev == ERR_PTR(-EBUSY)) {
+ 			dev_t dev;
 -- 
 2.39.2
 
