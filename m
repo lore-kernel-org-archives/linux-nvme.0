@@ -4,66 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 01DC1C7EE29
-	for <linux-nvme@archiver.kernel.org>; Fri,  9 Jun 2023 15:48:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B9C4C7EE2E
+	for <linux-nvme@archiver.kernel.org>; Fri,  9 Jun 2023 16:40:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WX6Q3krLeXnyU1ErGKnaGEj0J5rvRDqnfROl5WFYUIc=; b=LbZn+v2zkzXlCB4IbpsEAFYhka
-	WDWaPmELtWqO5b/3jPWv/Kx8q2BBSGai8pLuXMexUIVj1ZSIdCPhoIaK2l9pj4QCgvEjj4zHLspPl
-	sLPHkMBMY9J1q1kG99yO4y0cNH8HMO8FUHvJi9aZaLPeaJ8WD4IMnXuuJYgUsHd7nPuwqUgH1AW9L
-	mqIsYoWs1fqWUpUAzA0VRF+DqyCSlodeU1uSbw+9Q7S60HUYGQO1aqVhgjt0yapKmMWegIaCP7p08
-	v+I9v0W9E5cb+zDpFWUoNwKK30RUTf0BvNA5FIcMtu3m9ZvG5zLQerxTsFmRSIWlhUQLq0+brygHQ
-	IM4EjaRQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:MIME-Version:References:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ZLwQXcM7KrEQFWBQJ2/FK4P3db7LWlCxoLRI8M6uOGc=; b=RoPGqGBfYW+KQ5sj0m8f0wAhxR
+	EwHkBot+5jSkbGia0AFxVd25iHzSZuqs6L9i2nkV3aCFYszvkflPoN7yX0TW576qaXs6zMQULtZ3N
+	uYUlrhpG2t9i7Bh+HoBMQhQHlpNVDA+XasYgz83GqXwdDr6Sb/Sf6ElWKbg/Qpc7JQ2odcAElC2H9
+	oTuVtrkR0rXV3DHtnWygMdn9sTQiSPccLZoxMoLxxb5xs9+wsjQ8WShN9JrKI4mXW+l2TOGhsW+xB
+	CJfX+qvEnhsqqu789lrvSwVFiSi0EaUrf11Yk7/Hg7sFzGkpJHcrusgIhN9F1R3ToLpySaeonewOm
+	1PWUkt0w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q7eLx-00DVSD-0x;
-	Fri, 09 Jun 2023 15:48:41 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1q7fA4-00Dd1I-29;
+	Fri, 09 Jun 2023 16:40:28 +0000
+Received: from [207.211.30.44] (helo=us-smtp-delivery-44.mimecast.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q7eLv-00DVRe-0x
+	id 1q7f9q-00Dcu6-2u
 	for linux-nvme@lists.infradead.org;
-	Fri, 09 Jun 2023 15:48:40 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	Fri, 09 Jun 2023 16:40:26 +0000
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-17-o6MR5zBrNdeppXYYwN4WJQ-1; Fri, 09 Jun 2023 12:37:48 -0400
+X-MC-Unique: o6MR5zBrNdeppXYYwN4WJQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id CFA9A6588C;
-	Fri,  9 Jun 2023 15:48:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC1C2C433EF;
-	Fri,  9 Jun 2023 15:48:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1686325718;
-	bh=WX6Q3krLeXnyU1ErGKnaGEj0J5rvRDqnfROl5WFYUIc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rXToGuuBjfpmadxzXsA3qNSs9Uctw/JjB3k4BOeQ1ePcRbZDIZrMFXgjk0FLI5+6N
-	 xLXzs+TlhVRxgpXkok6zOvszXWTi0iZ0XajKxqnuPlijuRWuziKlezMR4q+yRTdiMM
-	 88F1Pd2w/QBnYigXElc7Kb66IzSEfjEuCdozLtmQJkGWqzI3dqU2+k/KBBUOjuNL1n
-	 Lv5h0GyXn81iJlVnAcDq2ikylVnzy3lzrvCXOXZYhrZP+1696l/tXwV9hf0QA9QwWK
-	 CwLAWydyCUDVB0CmGTq0PzfggYlK9h4uf+myx0dm9X+kd1JQLURB8QpTYOTl6FYYQQ
-	 wehKAaEZ+oLbA==
-Date: Fri, 9 Jun 2023 09:48:35 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, Chaitanya Kulkarni <kch@nvidia.com>,
-	Shin'ichiro Kawasaki <shinichiro@fastmail.com>,
-	Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH v4 1/1] nvmet-fcloop: Do not wait on completion when
- unregister fails
-Message-ID: <ZINJ03uCTFyRItpw@kbusch-mbp>
-References: <20230606122411.7972-1-dwagner@suse.de>
- <20230606122411.7972-2-dwagner@suse.de>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DDA923C13516;
+	Fri,  9 Jun 2023 16:37:31 +0000 (UTC)
+Received: from hog (unknown [10.45.224.200])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F31A40CFD00;
+	Fri,  9 Jun 2023 16:37:29 +0000 (UTC)
+Date: Fri, 9 Jun 2023 18:37:28 +0200
+From: Sabrina Dubroca <sd@queasysnail.net>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+	Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org
+Subject: Re: [PATCH 1/4] net/tls: handle MSG_EOR for tls_sw TX flow
+Message-ID: <ZINVSBkUyBMW_ZeB@hog>
+References: <20230609125153.3919-1-hare@suse.de>
+ <20230609125153.3919-2-hare@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <20230609125153.3919-2-hare@suse.de>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: queasysnail.net
+Content-Type: text/plain; charset=UTF-8
 Content-Disposition: inline
-In-Reply-To: <20230606122411.7972-2-dwagner@suse.de>
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230609_084839_379200_2913DE78 
-X-CRM114-Status: UNSURE (   7.41  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230609_094015_404975_7B3C6BCA 
+X-CRM114-Status: GOOD (  17.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,5 +75,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks, applied for nvme-6.5.
+Hi Hannes,
+
+2023-06-09, 14:51:50 +0200, Hannes Reinecke wrote:
+> tls_sw_sendmsg() / tls_do_sw_sendpage() already handles
+> MSG_MORE / MSG_SENDPAGE_NOTLAST, but bails out on MSG_EOR.
+> But seeing that MSG_EOR is basically the opposite of
+> MSG_MORE / MSG_SENDPAGE_NOTLAST this patch adds handling
+> MSG_EOR by treating it as the negation of MSG_MORE.
+>=20
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: netdev@vger.kernel.org
+> Signed-off-by: Hannes Reinecke <hare@suse.de>
+> ---
+>  net/tls/tls_sw.c | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
+> index 635b8bf6b937..be8e0459d403 100644
+> --- a/net/tls/tls_sw.c
+> +++ b/net/tls/tls_sw.c
+> @@ -953,9 +953,12 @@ int tls_sw_sendmsg(struct sock *sk, struct msghdr *m=
+sg, size_t size)
+>  =09int pending;
+> =20
+>  =09if (msg->msg_flags & ~(MSG_MORE | MSG_DONTWAIT | MSG_NOSIGNAL |
+> -=09=09=09       MSG_CMSG_COMPAT))
+> +=09=09=09       MSG_EOR | MSG_CMSG_COMPAT))
+>  =09=09return -EOPNOTSUPP;
+> =20
+> +=09if (msg->msg_flags & MSG_EOR)
+> +=09=09eor =3D true;
+
+Is MSG_EOR supposed to be incompatible with MSG_MORE, or is it
+supposed to cancel it? (ie: MSG_MORE | MSG_EOR is invalid, or
+MSG_MORE | MSG_EOR behaves like MSG_EOR) The current code already
+behaves as if _EOR was passed as long as MSG_MORE isn't passed, so
+_EOR is only needed to cancel out _MORE (or in your case, because
+NVMe-over-TLS sets it).
+
+If _EOR and _MORE (or MSG_SENDPAGE_NOTLAST below) are supposed to be
+incompatible, we should return an error when they're both set. If we
+accept both flags being set at the same time, I think we should
+document the expected behavior ("_EOR overrides _MORE/_NOTLAST") and
+add specific selftests to avoid regressions.
+
+--=20
+Sabrina
+
 
