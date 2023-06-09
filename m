@@ -4,73 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 94274C7EE45
-	for <linux-nvme@archiver.kernel.org>; Fri,  9 Jun 2023 20:45:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11227C7EE25
+	for <linux-nvme@archiver.kernel.org>; Fri,  9 Jun 2023 23:17:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zTgmawKXlZLqbO9qk02nenZbeuA4dRP64zsoMrkzonA=; b=lu0ss6WSemhhdwZsAmzw/YYbdj
-	E4CFUgDNK7a7PKGcFqRTVCYaJENHBugQhKYZDSn/Dc+LU+fKEtwJ9OP7JujuOw3Zo8vy7k827fjW+
-	NyrHb0gAGZAvPloA+fPLpWsQJ0QCMUvNxNlOuV35x089J0FuDniA0NI3fVNslggtHfYNYK5QcNnyA
-	Zbj5fNZLEjQnMTPPT+AFfUjWtvlD/owKYoYKiroUpy/ZmmsHd3B3KDtZQT9JOVQ5poPoipd/crO7U
-	WbAX0rerqaZgLcTxQ14QxbDW4H1r9osHFxVrc41ueLbp7INRCNMlVaQi9k4xOHxsJdYjsOuSb0i9F
-	BD4zaSBQ==;
+	bh=5VDgKD7wqsrUdqaCY0ab+nPhzUrTfAt7amtiSwf+BRM=; b=TJdkYxqR3LjOivm4VPvx9VMzcF
+	Vc3MbMHwOROHT/HGmfLNccWk56m3qagil1wXNaqk2a3fYx2JbGmbpROUfN4Uxv8p7c3XbWuTfscey
+	HkVQsFM8Yzb9nQbO0w8QFdI9tHsKg/tOsrvZlAKAS7uRcqebqr0KfvU5ncja+e9nhMZKeoco51cw+
+	j/wW3adU5KGOR/1CUdveYsizcI0bdbvcTmkUuCHgfv1Nx+aiONhpIyMBDeCVO/j+TTynRvyRqReqc
+	UrFwpcCs2/KHheO5x/BtFcq3isa8is61g8dH8f/dKnpYoFcWKhRxEoKnQi6uGBPMn94sbsA/l802J
+	gQ/1AQ1w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q7izH-00EDqr-1q;
-	Fri, 09 Jun 2023 20:45:35 +0000
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	id 1q7lLs-00EXDZ-1z;
+	Fri, 09 Jun 2023 23:17:04 +0000
+Received: from mga14.intel.com ([192.55.52.115])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q7izE-00EDpg-0J
+	id 1q7lLp-00EXCP-1R
 	for linux-nvme@lists.infradead.org;
-	Fri, 09 Jun 2023 20:45:33 +0000
-Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 359Fks7x030945
-	for <linux-nvme@lists.infradead.org>; Fri, 9 Jun 2023 13:45:30 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=s2048-2021-q4;
- bh=zTgmawKXlZLqbO9qk02nenZbeuA4dRP64zsoMrkzonA=;
- b=TRzXYv/W+UJmPF9hbCQbqHUfI5LvChTzI/4L52aByVtPZ/FVnbHbhF8/069W60BfFi0r
- TPwPRCfSAmhHpuy6Pdp76DnDx7tejgQ2fwFnpsYPqdA+oEca2tGtsg/zD2TUq+Qruqw0
- 6bOVc7kOnyN8bl62ur0LiYubTKZLpSlInbYUPrB5AoEyNZq8PxiwOysm243mtiZXHh+T
- SFTgc9zKAMqAtta7PjAcKuvNrhkZIsSKoBo/sPHc3NwlkQh1FAQsSpV1X8qL9jAx9bVP
- 7yaUJzt2rwsOri/LLfRPMpksvHvAqbaUBGg4znN731Lyn905Gr2l4f/jAYCQ0ztWNLkU nw== 
-Received: from mail.thefacebook.com ([163.114.132.120])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3r3us9xk6r-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Fri, 09 Jun 2023 13:45:30 -0700
-Received: from twshared25760.37.frc1.facebook.com (2620:10d:c085:108::4) by
- mail.thefacebook.com (2620:10d:c085:11d::6) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Fri, 9 Jun 2023 13:45:29 -0700
-Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
-	id 4523C19D4CC4D; Fri,  9 Jun 2023 13:45:19 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-block@vger.kernel.org>, <io-uring@vger.kernel.org>,
-        <linux-nvme@lists.infradead.org>, <hch@lst.de>, <axboe@kernel.dk>
-CC: <sagi@grimberg.me>, <joshi.k@samsung.com>, Keith Busch <kbusch@kernel.org>
-Subject: [PATCHv2 1/2] block: add request polling helper
-Date: Fri, 9 Jun 2023 13:45:16 -0700
-Message-ID: <20230609204517.493889-2-kbusch@meta.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230609204517.493889-1-kbusch@meta.com>
-References: <20230609204517.493889-1-kbusch@meta.com>
+	Fri, 09 Jun 2023 23:17:03 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686352621; x=1717888621;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NKoOHaX6l6x0SCS24r79Bw/KIMVdA/0NvICFzPRQVdI=;
+  b=oDUNBFNgoWSeaKm0+0AoAnBrtdw530YDKZ94KlzVP6Eaz67kZpfwDTaQ
+   JcXhEu7kFFhOvxcK6EEy7VxN7VG7TZjGPm1OQ+IueMP/2EUz6vxMC6zFe
+   OWJuPMC/fs0UhggJv0x/17HzCyF4w27M4nxxxFDEfRyh3tBf1vJcdYI5k
+   e45FJ6q/Evc1Tviwl733bY+rn6LWLETODDC6Ygsa6lktegomnpRfw5Htg
+   5YB48Mr0ff9JN01aYkeIV3vaApn+f7io5AlX5LQ6mWHQrAlnV2KzAHWjX
+   KpuFBAh9MoyfbmGEWOXRRm186nKWdu75yadHuSJZm9Ug0HDh1jiFP02UI
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="357704653"
+X-IronPort-AV: E=Sophos;i="6.00,230,1681196400"; 
+   d="scan'208";a="357704653"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 16:16:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="800374545"
+X-IronPort-AV: E=Sophos;i="6.00,230,1681196400"; 
+   d="scan'208";a="800374545"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 09 Jun 2023 16:16:53 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q7lLg-0009UJ-2q;
+	Fri, 09 Jun 2023 23:16:52 +0000
+Date: Sat, 10 Jun 2023 07:16:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	hch@lst.de, axboe@kernel.dk
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, sagi@grimberg.me,
+	joshi.k@samsung.com, Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCHv2 2/2] nvme: improved uring polling
+Message-ID: <202306100746.D72gucag-lkp@intel.com>
+References: <20230609204517.493889-3-kbusch@meta.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: XbdazyDQl_msTvh8MLzSU8MvZEE0yVoJ
-X-Proofpoint-GUID: XbdazyDQl_msTvh8MLzSU8MvZEE0yVoJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-09_16,2023-06-09_01,2023-05-22_02
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230609204517.493889-3-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230609_134532_214905_EADC8581 
-X-CRM114-Status: GOOD (  18.92  )
+X-CRM114-CacheID: sfid-20230609_161701_492884_F0C3C5C2 
+X-CRM114-Status: GOOD (  16.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,134 +86,208 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+Hi Keith,
 
-Provide a direct request polling will for drivers. The interface does
-not require a bio, and can skip the overhead associated with polling
-those. The biggest gain from skipping the relatively expensive xarray
-lookup unnecessary when you already have the request.
+kernel test robot noticed the following build errors:
 
-With this, the simple rq/qc conversion functions have only one caller
-each, so open code this and remove the helpers.
+[auto build test ERROR on axboe-block/for-next]
+[also build test ERROR on next-20230609]
+[cannot apply to linus/master v6.4-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
----
- block/blk-mq.c         | 48 ++++++++++++++++++++++++++++--------------
- include/linux/blk-mq.h |  2 ++
- 2 files changed, 34 insertions(+), 16 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/block-add-request-polling-helper/20230610-044707
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20230609204517.493889-3-kbusch%40meta.com
+patch subject: [PATCHv2 2/2] nvme: improved uring polling
+config: riscv-randconfig-r015-20230608 (https://download.01.org/0day-ci/archive/20230610/202306100746.D72gucag-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        git remote add axboe-block https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git
+        git fetch axboe-block for-next
+        git checkout axboe-block/for-next
+        b4 shazam https://lore.kernel.org/r/20230609204517.493889-3-kbusch@meta.com
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/nvme/host/
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 1749f5890606b..b82b5b3324108 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -49,17 +49,8 @@ static void blk_mq_request_bypass_insert(struct reques=
-t *rq,
- 		blk_insert_t flags);
- static void blk_mq_try_issue_list_directly(struct blk_mq_hw_ctx *hctx,
- 		struct list_head *list);
--
--static inline struct blk_mq_hw_ctx *blk_qc_to_hctx(struct request_queue =
-*q,
--		blk_qc_t qc)
--{
--	return xa_load(&q->hctx_table, qc);
--}
--
--static inline blk_qc_t blk_rq_to_qc(struct request *rq)
--{
--	return rq->mq_hctx->queue_num;
--}
-+static int blk_hctx_poll(struct request_queue *q, struct blk_mq_hw_ctx *=
-hctx,
-+			 struct io_comp_batch *iob, unsigned int flags);
-=20
- /*
-  * Check if any of the ctx, dispatch list or elevator
-@@ -1247,7 +1238,7 @@ void blk_mq_start_request(struct request *rq)
- 		q->integrity.profile->prepare_fn(rq);
- #endif
- 	if (rq->bio && rq->bio->bi_opf & REQ_POLLED)
--	        WRITE_ONCE(rq->bio->bi_cookie, blk_rq_to_qc(rq));
-+	        WRITE_ONCE(rq->bio->bi_cookie, rq->mq_hctx->queue_num);
- }
- EXPORT_SYMBOL(blk_mq_start_request);
-=20
-@@ -1349,7 +1340,7 @@ EXPORT_SYMBOL_GPL(blk_rq_is_poll);
- static void blk_rq_poll_completion(struct request *rq, struct completion=
- *wait)
- {
- 	do {
--		blk_mq_poll(rq->q, blk_rq_to_qc(rq), NULL, 0);
-+		blk_hctx_poll(rq->q, rq->mq_hctx, NULL, 0);
- 		cond_resched();
- 	} while (!completion_done(wait));
- }
-@@ -4735,10 +4726,9 @@ void blk_mq_update_nr_hw_queues(struct blk_mq_tag_=
-set *set, int nr_hw_queues)
- }
- EXPORT_SYMBOL_GPL(blk_mq_update_nr_hw_queues);
-=20
--int blk_mq_poll(struct request_queue *q, blk_qc_t cookie, struct io_comp=
-_batch *iob,
--		unsigned int flags)
-+static int blk_hctx_poll(struct request_queue *q, struct blk_mq_hw_ctx *=
-hctx,
-+			 struct io_comp_batch *iob, unsigned int flags)
- {
--	struct blk_mq_hw_ctx *hctx =3D blk_qc_to_hctx(q, cookie);
- 	long state =3D get_current_state();
- 	int ret;
-=20
-@@ -4763,6 +4753,32 @@ int blk_mq_poll(struct request_queue *q, blk_qc_t =
-cookie, struct io_comp_batch *
- 	return 0;
- }
-=20
-+int blk_mq_poll(struct request_queue *q, blk_qc_t cookie,
-+		struct io_comp_batch *iob, unsigned int flags)
-+{
-+	struct blk_mq_hw_ctx *hctx =3D xa_load(&q->hctx_table, cookie);
-+
-+	return blk_hctx_poll(q, hctx, iob, flags);
-+}
-+
-+int blk_rq_poll(struct request *rq, struct io_comp_batch *iob,
-+		unsigned int poll_flags)
-+{
-+	struct request_queue *q =3D rq->q;
-+	int ret;
-+
-+	if (!blk_rq_is_poll(rq))
-+		return 0;
-+	if (!percpu_ref_tryget(&q->q_usage_counter))
-+		return 0;
-+
-+	ret =3D blk_hctx_poll(q, rq->mq_hctx, iob, poll_flags);
-+	blk_queue_exit(q);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(blk_rq_poll);
-+
- unsigned int blk_mq_rq_cpu(struct request *rq)
- {
- 	return rq->mq_ctx->cpu;
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 59b52ec155b1b..9f4d285b52b93 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -715,6 +715,8 @@ int blk_mq_alloc_sq_tag_set(struct blk_mq_tag_set *se=
-t,
- void blk_mq_free_tag_set(struct blk_mq_tag_set *set);
-=20
- void blk_mq_free_request(struct request *rq);
-+int blk_rq_poll(struct request *rq, struct io_comp_batch *iob,
-+		unsigned int poll_flags);
-=20
- bool blk_mq_queue_inflight(struct request_queue *q);
-=20
---=20
-2.34.1
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306100746.D72gucag-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
+
+>> drivers/nvme/host/ioctl.c:546:2: error: expected expression
+           else {
+           ^
+>> drivers/nvme/host/ioctl.c:555:1: error: function definition is not allowed here
+   {
+   ^
+   drivers/nvme/host/ioctl.c:638:1: error: function definition is not allowed here
+   {
+   ^
+   drivers/nvme/host/ioctl.c:648:1: error: function definition is not allowed here
+   {
+   ^
+   drivers/nvme/host/ioctl.c:679:1: error: function definition is not allowed here
+   {
+   ^
+   drivers/nvme/host/ioctl.c:708:1: error: function definition is not allowed here
+   {
+   ^
+   drivers/nvme/host/ioctl.c:722:1: error: function definition is not allowed here
+   {
+   ^
+   drivers/nvme/host/ioctl.c:733:1: error: function definition is not allowed here
+   {
+   ^
+   drivers/nvme/host/ioctl.c:744:1: error: function definition is not allowed here
+   {
+   ^
+   drivers/nvme/host/ioctl.c:769:1: error: function definition is not allowed here
+   {
+   ^
+   drivers/nvme/host/ioctl.c:779:1: error: function definition is not allowed here
+   {
+   ^
+   drivers/nvme/host/ioctl.c:884:1: error: function definition is not allowed here
+   {
+   ^
+   drivers/nvme/host/ioctl.c:912:1: error: function definition is not allowed here
+   {
+   ^
+   drivers/nvme/host/ioctl.c:946:1: error: function definition is not allowed here
+   {
+   ^
+>> drivers/nvme/host/ioctl.c:974:2: error: expected '}'
+   }
+    ^
+   drivers/nvme/host/ioctl.c:532:1: note: to match this '{'
+   {
+   ^
+   15 errors generated.
+
+
+vim +546 drivers/nvme/host/ioctl.c
+
+   529	
+   530	static enum rq_end_io_ret nvme_uring_cmd_end_io_meta(struct request *req,
+   531							     blk_status_t err)
+   532	{
+   533		struct io_uring_cmd *ioucmd = req->end_io_data;
+   534		struct nvme_uring_cmd_pdu *pdu = nvme_uring_cmd_pdu(ioucmd);
+   535	
+   536		req->bio = pdu->bio;
+   537		pdu->req = req;
+   538	
+   539		/*
+   540		 * For iopoll, complete it directly.
+   541		 * Otherwise, move the completion to task work.
+   542		 */
+   543		if (blk_rq_is_poll(req)) {
+   544			WRITE_ONCE(ioucmd->cookie, NULL);
+   545			nvme_uring_task_meta_cb(ioucmd, IO_URING_F_UNLOCKED);
+ > 546		else {
+   547			io_uring_cmd_do_in_task_lazy(ioucmd, nvme_uring_task_meta_cb);
+   548		}
+   549	
+   550		return RQ_END_IO_NONE;
+   551	}
+   552	
+   553	static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+   554			struct io_uring_cmd *ioucmd, unsigned int issue_flags, bool vec)
+ > 555	{
+   556		struct nvme_uring_cmd_pdu *pdu = nvme_uring_cmd_pdu(ioucmd);
+   557		const struct nvme_uring_cmd *cmd = io_uring_sqe_cmd(ioucmd->sqe);
+   558		struct request_queue *q = ns ? ns->queue : ctrl->admin_q;
+   559		struct nvme_uring_data d;
+   560		struct nvme_command c;
+   561		struct request *req;
+   562		blk_opf_t rq_flags = REQ_ALLOC_CACHE;
+   563		blk_mq_req_flags_t blk_flags = 0;
+   564		void *meta = NULL;
+   565		int ret;
+   566	
+   567		c.common.opcode = READ_ONCE(cmd->opcode);
+   568		c.common.flags = READ_ONCE(cmd->flags);
+   569		if (c.common.flags)
+   570			return -EINVAL;
+   571	
+   572		c.common.command_id = 0;
+   573		c.common.nsid = cpu_to_le32(cmd->nsid);
+   574		if (!nvme_validate_passthru_nsid(ctrl, ns, le32_to_cpu(c.common.nsid)))
+   575			return -EINVAL;
+   576	
+   577		c.common.cdw2[0] = cpu_to_le32(READ_ONCE(cmd->cdw2));
+   578		c.common.cdw2[1] = cpu_to_le32(READ_ONCE(cmd->cdw3));
+   579		c.common.metadata = 0;
+   580		c.common.dptr.prp1 = c.common.dptr.prp2 = 0;
+   581		c.common.cdw10 = cpu_to_le32(READ_ONCE(cmd->cdw10));
+   582		c.common.cdw11 = cpu_to_le32(READ_ONCE(cmd->cdw11));
+   583		c.common.cdw12 = cpu_to_le32(READ_ONCE(cmd->cdw12));
+   584		c.common.cdw13 = cpu_to_le32(READ_ONCE(cmd->cdw13));
+   585		c.common.cdw14 = cpu_to_le32(READ_ONCE(cmd->cdw14));
+   586		c.common.cdw15 = cpu_to_le32(READ_ONCE(cmd->cdw15));
+   587	
+   588		if (!nvme_cmd_allowed(ns, &c, 0, ioucmd->file->f_mode))
+   589			return -EACCES;
+   590	
+   591		d.metadata = READ_ONCE(cmd->metadata);
+   592		d.addr = READ_ONCE(cmd->addr);
+   593		d.data_len = READ_ONCE(cmd->data_len);
+   594		d.metadata_len = READ_ONCE(cmd->metadata_len);
+   595		d.timeout_ms = READ_ONCE(cmd->timeout_ms);
+   596	
+   597		if (issue_flags & IO_URING_F_NONBLOCK) {
+   598			rq_flags |= REQ_NOWAIT;
+   599			blk_flags = BLK_MQ_REQ_NOWAIT;
+   600		}
+   601		if (issue_flags & IO_URING_F_IOPOLL)
+   602			rq_flags |= REQ_POLLED;
+   603	
+   604		req = nvme_alloc_user_request(q, &c, rq_flags, blk_flags);
+   605		if (IS_ERR(req))
+   606			return PTR_ERR(req);
+   607		req->timeout = d.timeout_ms ? msecs_to_jiffies(d.timeout_ms) : 0;
+   608	
+   609		if (d.addr && d.data_len) {
+   610			ret = nvme_map_user_request(req, d.addr,
+   611				d.data_len, nvme_to_user_ptr(d.metadata),
+   612				d.metadata_len, 0, &meta, ioucmd, vec);
+   613			if (ret)
+   614				return ret;
+   615		}
+   616	
+   617		if (blk_rq_is_poll(req)) {
+   618			ioucmd->flags |= IORING_URING_CMD_POLLED;
+   619			WRITE_ONCE(ioucmd->cookie, req);
+   620		}
+   621	
+   622		/* to free bio on completion, as req->bio will be null at that time */
+   623		pdu->bio = req->bio;
+   624		pdu->meta_len = d.metadata_len;
+   625		req->end_io_data = ioucmd;
+   626		if (pdu->meta_len) {
+   627			pdu->u.meta = meta;
+   628			pdu->u.meta_buffer = nvme_to_user_ptr(d.metadata);
+   629			req->end_io = nvme_uring_cmd_end_io_meta;
+   630		} else {
+   631			req->end_io = nvme_uring_cmd_end_io;
+   632		}
+   633		blk_execute_rq_nowait(req, false);
+   634		return -EIOCBQUEUED;
+   635	}
+   636	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
