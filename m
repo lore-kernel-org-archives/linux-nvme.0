@@ -4,73 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3ABC2C77B7A
-	for <linux-nvme@archiver.kernel.org>; Sun, 11 Jun 2023 08:07:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 207D6C7EE2E
+	for <linux-nvme@archiver.kernel.org>; Sun, 11 Jun 2023 08:11:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zwAMUW0PhmG/Mx33KpzPcJUlj9gTVZAYE46MPI1uLyo=; b=CZQ5ppQjmxzvJGzDB0m1D8qj7h
-	CoqwJPBOUuxiIMRXODRye8h31b/1eN9y3sG/AldGc8oGUI1IqojL+gUICe4jRhfAc4VjpL7vucMpy
-	QtzUiinZoWspsf6BkBrE96yNgKXq+ShoSuapdtCVNuTU2VEbiOEwMJLcEzuCiE81HCEB1DcKo10uq
-	cFClqEFhu3d4eEWcshnlKVskc6V+wHsAW/icsrUXT+xTvVQz0wAdIK4pF2PdvRuGVDf9ZQdLGU3g8
-	JJwOlDHpThNLgWNdeKWt+jRTepmA7LmbAlaD/6ep/l9oJ59G1VlEalKMQkRvgSSPxjF48MNk67Ar7
-	YHEpBKJQ==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=xs4T/L24Rh/WBJkxbXf4Jq3vNE1qD2C4yuQExuAw3qk=; b=vTqSw1EFwsA+52ToKsQLFhX8IH
+	tnUAHkhPGUjNKjfOEYL2BhESXtCTkqIiNdTYi43GWQFR1gTE4MtoUkyTciNkilbxe5aLYsqa+nzuz
+	5csm8kqY5DgLOP6Ku3JH5VpbakjOyhf2uW3lBgDoSTcxeQskgGqVUXxayF2C1NYKkqtBPL8PHJTUM
+	Gm2w02ngn11XdpmuN+mTGqM4HxNMZrg9Si+lqVR7YQPJvqtCbV4XgyC28SYPInA8KgoYqXdiNiDve
+	YGXTPQByI7NYCBk213gFPI3iq8LsBwbY7EQyZ2OgfOqoufB/G2s9rspvqfToChwmKVv3tB6U140jp
+	+2aiffBw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q8G6X-000JXA-04;
-	Sun, 11 Jun 2023 08:07:17 +0000
-Received: from mail-wm1-f46.google.com ([209.85.128.46])
+	id 1q8GAM-000JzL-0A;
+	Sun, 11 Jun 2023 08:11:14 +0000
+Received: from mail-wm1-f45.google.com ([209.85.128.45])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q8G6R-000JWD-0x
+	id 1q8GAI-000Jyn-1m
 	for linux-nvme@lists.infradead.org;
-	Sun, 11 Jun 2023 08:07:13 +0000
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-3f7364c2ed8so7853095e9.0
-        for <linux-nvme@lists.infradead.org>; Sun, 11 Jun 2023 01:07:01 -0700 (PDT)
+	Sun, 11 Jun 2023 08:11:12 +0000
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3f7e7a5aaacso6326325e9.0
+        for <linux-nvme@lists.infradead.org>; Sun, 11 Jun 2023 01:11:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686470820; x=1689062820;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        d=1e100.net; s=20221208; t=1686471069; x=1689063069;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zwAMUW0PhmG/Mx33KpzPcJUlj9gTVZAYE46MPI1uLyo=;
-        b=JJMPQhzxLKIhcBXbjTXNQ5MyY2CjprzJH9EFUMEfazY62WnploT8k9JR1Kdb9rMNdi
-         wZcAw9J88OlZi4n6ulPiY8YOPb5BUi9hEFNGmcEcbove8EaabPeQdYe4HYwOrYpA1UzA
-         XkTCdwrln1CcqOm3QVRjQnhh/Juow1ctk1BkWngyQ0kGKcKeKZ/TkAjaMf2pXkXW4XIc
-         ydJ4H/C/8TyHOX4qQ8myiK8zS6HalmbArzBVP86dpoXqMNJ6tDafiBVBf+4Upsscyurf
-         bXTNL6mhvZs2Chf5XdYBWWzZGhvhvswPSbOSsk9ReiNMbI7xKf2ynIyO655fhO3y/aYv
-         ExSg==
-X-Gm-Message-State: AC+VfDxAoSqEPKbC77R3b6bSHx/4YvxZSn/mbez0Ey3TT7FDBbI1jk6l
-	lwkE8p1N/JUcV3myk7R99hk=
-X-Google-Smtp-Source: ACHHUZ6He6ZR4mEfxwlgVoSWp3XIPktU70PSRIIFMosnPaiQPnrqRQRb//dIo5PkTC4J98knQEzQJg==
-X-Received: by 2002:a05:600c:5190:b0:3f6:8a3:8e59 with SMTP id fa16-20020a05600c519000b003f608a38e59mr4955482wmb.1.1686470819965;
-        Sun, 11 Jun 2023 01:06:59 -0700 (PDT)
+        bh=xs4T/L24Rh/WBJkxbXf4Jq3vNE1qD2C4yuQExuAw3qk=;
+        b=lsINohlWEt6ZOKZMfc20buGNS1hd7vL77cNiQBB8K8B6DLF3HSC0QoW6fATpmE2Q1M
+         OozDdQ4oo2TicT/tTZCCIySI2SmFYxBD69UEWokjEfuJb55qlMgfo4MnFPK+HAD03f6i
+         DK7R6JTlnzT6tDiC9n8ESx7kvPfI8dqEpQ4mCFJNuSjFsDoXtXaAhJ52pACd5kO/PtZd
+         z9PYdnix/cY7hwaoaN46ZpUIGWm/anq7gb1wikCP1k+Apk0XbSdD3gbxK2q4DHxLu8kC
+         ap3Z2b6AJzJvumsFhxXD+A7x5Lv+W9N0rrnW/nkF8IKzTtvSSssTp6K6PxKiOHTjei8Y
+         CQyg==
+X-Gm-Message-State: AC+VfDz+pgKsOoUmPSydYVKpAxSSPJFzDcFYDRAMIyQAziN72kKTMYm6
+	oLclJZZctxIrejlpzXN6uwg=
+X-Google-Smtp-Source: ACHHUZ5fBrunO5DFyGfb4JYeNv/NPuGaBC+afHT8m5xxKngrInZAGA1n+5CiAdpA/DcIYQd11UmuWQ==
+X-Received: by 2002:a05:6000:12c1:b0:309:4a41:9eb5 with SMTP id l1-20020a05600012c100b003094a419eb5mr3777192wrx.5.1686471068594;
+        Sun, 11 Jun 2023 01:11:08 -0700 (PDT)
 Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id v18-20020a5d43d2000000b0030ae93bd196sm8936690wrr.21.2023.06.11.01.06.58
+        by smtp.gmail.com with ESMTPSA id a4-20020a056000050400b0030ae3a6be4asm9057553wrf.72.2023.06.11.01.11.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 11 Jun 2023 01:06:59 -0700 (PDT)
-Message-ID: <02406ace-be8d-d350-c59a-f83fbf5fde5d@grimberg.me>
-Date: Sun, 11 Jun 2023 11:06:57 +0300
+        Sun, 11 Jun 2023 01:11:08 -0700 (PDT)
+Message-ID: <febff498-63e6-efe2-2f5a-9a9fa7e767c0@grimberg.me>
+Date: Sun, 11 Jun 2023 11:11:06 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: nvme-cli/libnvme: Controller reuse policy
+Subject: Re: [RFC PATCH 0/4] nvme-tcp: fix hung issues for deleting
 Content-Language: en-US
-To: "Belanger, Martin" <Martin.Belanger@dell.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Daniel Wagner <dwagner@suse.de>, Hannes Reinecke <hare@suse.de>,
- "Rose, Charles" <Charles.Rose@dell.com>, "smith, erik"
- <Erik.Smith@dell.com>, "Farley, Douglas" <Douglas.Farley@dell.com>,
- Keith Busch <kbusch@kernel.org>
-References: <SJ0PR19MB45449814FDC4D1279E8FB0BDF252A@SJ0PR19MB4544.namprd19.prod.outlook.com>
+To: Ming Lei <ming.lei@redhat.com>, =?UTF-8?B?6K645pil5YWJ?=
+ <brookxu.cn@gmail.com>
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <cover.1685350577.git.chunguang.xu@shopee.com>
+ <ZH9NcBtrDxwq5xRU@ovpn-8-17.pek2.redhat.com>
+ <CADtkEeeVWZ_b9mDWzwaq_5hdfZ53-RX2rd1SDDem=YsSBQ_g8A@mail.gmail.com>
+ <ZIEnQpAgeqm0xcQP@ovpn-8-23.pek2.redhat.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <SJ0PR19MB45449814FDC4D1279E8FB0BDF252A@SJ0PR19MB4544.namprd19.prod.outlook.com>
+In-Reply-To: <ZIEnQpAgeqm0xcQP@ovpn-8-23.pek2.redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230611_010711_360959_6965FF75 
-X-CRM114-Status: GOOD (  36.22  )
+X-CRM114-CacheID: sfid-20230611_011110_608591_0997CD6D 
+X-CRM114-Status: GOOD (  34.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,107 +86,217 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-PiBJIGNhbWUgYWNyb3NzIGFuIGlzc3VlIHVzaW5nIG52bWUtY2xpL2xpYm52bWUuIEl0IHdh
-cyBzdWdnZXN0ZWQgdGhhdCBJIG1vdmUgcGFydHMgb2YgdGhlIGRpc2N1c3Npb24gdG8gdGhp
-cyBtYWlsaW5nIGxpc3QuDQo+IA0KPiBUaGUgcmVsZXZhbnQgaW5mbyBjYW4gYmUgZm91bmQg
-aW4gdGhlIGxpYm52bWUgcmVwbyBoZXJlOg0KPiBodHRwczovL2dpdGh1Yi5jb20vbGludXgt
-bnZtZS9saWJudm1lL3B1bGwvNjQ3DQo+IGh0dHBzOi8vZ2l0aHViLmNvbS9saW51eC1udm1l
-L2xpYm52bWUvaXNzdWVzLzY0OA0KPiANCj4gTXkgcXVlc3Rpb24gaXMgcmVsYXRlZCB0byBu
-dm1lLW9GLVRDUCwgYnV0IG1heSBhcHBseSB0byBvdGhlciB0cmFuc3BvcnRzIGFzIHdlbGwg
-KEknbSBqdXN0IG5vdCBhbiBleHBlcnQgZm9yIHRob3NlIG90aGVyIHRyYW5zcG9ydHMpLg0K
-PiANCj4gVGhlIHF1ZXN0aW9uIGlzOiBIb3cgc2hvdWxkIG52bWUtY2xpL2xpYm52bWUgY29t
-cGFyZSBleGlzdGluZyBjb250cm9sbGVycyAoaW4gc3lzZnMpIHRvIGEgY2FuZGlkYXRlIGNv
-bmZpZ3VyYXRpb24gdG8gZGV0ZXJtaW5lIHdoZXRoZXIgdG8gY3JlYXRlIGEgbmV3IGNvbnRy
-b2xsZXIgb3IgdG8gcmV1c2UgYW4gZXhpc3Rpbmcgb25lPw0KPiANCj4gQmFja2dyb3VuZDoN
-Cj4gDQo+IFRoZSBjb25maWd1cmF0aW9uIHBhcmFtZXRlcnMgdG8gY3JlYXRlIGEgY29udHJv
-bGxlciBhcmU6DQo+IDEuIC0tdHJhbnNwb3J0DQo+IDIuIC0tdHJhZGRyDQo+IDMuIC0tdHJz
-dmNpZA0KPiA0LiAtLW5xbg0KPiA1LiAtLWhvc3QtdHJhZGRyDQo+IDYuIC0taG9zdC1pZmFj
-ZSAoVENQIG9ubHkpDQo+IA0KPiBXaGVuIHRyeWluZyB0byBjb25maWd1cmUgYSBjb250cm9s
-bGVyLCBudm1lLWNsaS9saWJudm1lIHNjYW5zIHRoZSBzeXNmcyBsb29raW5nIGZvciBhbiBl
-eGlzdGluZyBjb250cm9sbGVyIHRoYXQgbWF0Y2hlcyB0aGUgY2FuZGlkYXRlIGNvbmZpZy4g
-SWYgYSBtYXRjaCBpcyBmb3VuZCwgbnZtZS1jbGkvbGlibnZtZSByZXVzZXMgdGhlIGV4aXN0
-aW5nIGNvbnRyb2xsZXIgaW5zdGVhZCBvZiBjcmVhdGluZyBhIG5ldyBvbmUuIG52bWUtY2xp
-L2xpYm52bWUgY29tcGFyZXMgdGhlIDYgY29uZmlndXJhdGlvbiBwYXJhbWV0ZXJzIGxpc3Rl
-ZCBhYm92ZSBvbmUtYnktb25lIHRvIGRldGVybWluZSBpZiBhbiBleGlzdGluZyBjb250cm9s
-bGVyIG1hdGNoZXMgYSBjYW5kaWRhdGUgY29uZmlnLiBTb21lIG9mIHRoZXNlIHBhcmFtZXRl
-cnMgbGlrZSAidHJhbnNwb3J0IiBhbmQgInRyYWRkciIgY2FuIG5ldmVyIGJlIE5VTEwuIE90
-aGVycywgc3VjaCBhcyAiaG9zdC10cmFkZHIiIGFuZCAiaG9zdC1pZmFjZSIgKGFuZCBtYXli
-ZSBvdGhlcnMpLCBtYXkgYmUgTlVMTCB3aGVuIG5vdCBuZWVkZWQuDQo+IA0KPiBDdXJyZW50
-bHksIG52bWUtY2xpL2xpYm52bWUgZG9lcyBhICJzb2Z0IiBjb21wYXJpc29uIGZvciAiaG9z
-dC10cmFkZHIiIGFuZCAiaG9zdC1pZmFjZSIuIFRoYXQgaXMgdG8gc2F5IHRoYXQgaWYgYW4g
-ZXhpc3RpbmcgY29udHJvbGxlciB3YXMgY3JlYXRlZCB3aXRob3V0IHNwZWNpZnlpbmcgb25l
-IG9yIGJvdGggcGFyYW1ldGVycyAoaS5lLiBzZXQgdG8gTlVMTCksIHRoZW4gdGhlIE5VTEwg
-cGFyYW1ldGVyIHdpbGwgYmUgaWdub3JlZCB3aGVuIGNvbXBhcmluZyBhZ2FpbnN0IHRoZSBj
-YW5kaWRhdGUgY29uZmlnLiBUaGlzIG1heSByZXN1bHQgaW4gbnZtZS1jbGkvbGlibnZtZSBy
-ZXVzaW5nIGFuIGV4aXN0aW5nIGNvbnRyb2xsZXIgdGhhdCBkb2VzIG5vdCBtYXRjaCB0aGUg
-Y2FuZGlkYXRlICJob3N0LXRyYWRkciIgYW5kL29yICJob3N0LWlmYWNlIi4NCj4gDQo+IFdo
-eSBpcyB0aGlzIGltcG9ydGFudD8NCj4gDQo+IFdlIG5vdyBoYXZlIHN1cHBvcnQgZm9yIGJv
-b3Rpbmcgc3lzdGVtcyBvdmVyIG52bWUtb0YtVENQLiBXaGF0IHR5cGljYWxseSBoYXBwZW5z
-IGR1cmluZyBlYXJseSBib290IGlzIHRoYXQgYSBjb250cm9sbGVyIG1heSBiZSBjcmVhdGVk
-IG92ZXIgdGhlIHN5c3RlbSdzIG1hbmFnZW1lbnQgaW50ZXJmYWNlIChpLmUuIHRoZSBkZWZh
-dWx0IHJvdXRlKS4gVGhlIG1hbmFnZW1lbnQgaW50ZXJmYWNlIGlzIHR5cGljYWxseSBhIHNs
-b3dlciBpbnRlcmZhY2UgKGUuZy4gMUcpLCB3aGljaCBpcyBmaW5lIGZvciBib290aW5nIGEg
-c3lzdGVtLiBIb3dldmVyLCBvbmNlIHRoZSBzeXN0ZW0gaXMgZnVsbHkgYm9vdGVkIHdlIG1h
-eSB3YW50IHRvIHVzZSBhIGRpZmZlcmVudCAoZmFzdGVyKSBpbnRlcmZhY2UgKGUuZy4gMTBH
-KSB0byBjb25uZWN0IHRvIHRoYXQgc2FtZSBzdWJzeXN0ZW0uIFdlIGNhbiBmb3JjZSB0aGUg
-bmV3IGNvbm5lY3Rpb24gb24gYSBkaWZmZXJlbnQgaW50ZXJmYWNlIHVzaW5nIHRoZSAiaG9z
-dC1pZmFjZSIgcGFyYW1ldGVyLiBIb3dldmVyLCBiZWNhdXNlIG52bWUtY2xpL2xpYm52bWUg
-cGVyZm9ybXMgYSAic29mdCIgY29tcGFyZSwgaXQgd2lsbCBjb25jbHVkZSB0aGF0IHRoZSBl
-eGlzdGluZyAoc2xvd2VyKSBjb250cm9sbGVyIGlzICJnb29kIGVub3VnaCIgYW5kIHJldXNl
-IGl0IGluc3RlYWQgb2YgY3JlYXRpbmcgYSBuZXcgY29ubmVjdGlvbi4NCj4gDQo+IE9uZSBt
-b3JlIHBpZWNlIG9mIGluZm8gKHRvIG1ha2UgdGhpbmdzIG1vcmUgaW50ZXJlc3RpbmcpOg0K
-PiANCj4gV2hlbiBhIGNvbnRyb2xsZXIgaXMgY3JlYXRlZCB3aXRob3V0IHNwZWNpZnlpbmcg
-Imhvc3QtdHJhZGRyIiBhbmQgImhvc3QtaWZhY2UiLCB0aGUga2VybmVsIHdpbGwgZGVjaWRl
-IHdoaWNoIHNvdXJjZS1hZGRyZXNzIGFuZCBpbnRlcmZhY2UgdG8gdXNlIGZvciB0aGF0IGNv
-bm5lY3Rpb24uIFRoZSBpbnRlcmZhY2UgaXMgc2VsZWN0ZWQgYnkgbG9va2luZyB1cCB0aGUg
-ZGVzdGluYXRpb24gYWRkcmVzcyAodHJhZGRyKSBpbiB0aGUgcm91dGluZyB0YWJsZS4gVGhl
-IHNvdXJjZSBhZGRyZXNzIGlzIHNlbGVjdGVkIGJ5IHJldHJpZXZpbmcgdGhlIHByaW1hcnkg
-YWRkcmVzcyBhc3NpZ25lZCB0byB0aGF0IGludGVyZmFjZS4gSXQgaXMgcG9zc2libGUgdGhh
-dCB0aGUgdmFsdWVzIHBpY2tlZCBieSB0aGUga2VybmVsIHdpbGwgbWF0Y2ggdGhlIGhvc3Qt
-aWZhY2UvaG9zdC10cmFkZHIgb2YgYSBjYW5kaWRhdGUgY29uZmlnLiBIb3dldmVyLCBiZWNh
-dXNlIHRoZXkgYXJlIG5vdCBleHBvc2VkIGluIHRoZSBzeXNmcywgdGhlIGNvbXBhcmlzb24g
-d2lsbCBjb25jbHVkZSB0aGF0IG5vbmUgb2YgdGhlIGV4aXN0aW5nIGNvbnRyb2xsZXJzIG1h
-dGNoIHRoZSBjYW5kaWRhdGUgY29uZmlnICh3aGVuIGluIGZhY3QgdGhlcmUgaXMgYSBtYXRj
-aCkuIFRoaXMgaXMgb25lIG9mIHRoZSByZWFzb25zIHdoeSBJIGFkZGVkIHRoZSAic3JjX2Fk
-ZHIiIHBhcmFtZXRlciB0byB0aGUgc3lzZnMgKGtlcm5lbCA2LjEpLiBGb3IgVENQIGNvbm5l
-Y3Rpb25zLCB0aGUga2VybmVsIG5vdyBkaXNwbGF5cyB0aGUgYWN0dWFsIHNvdXJjZSBhZGRy
-ZXNzIG9mIHRoZSBjb25uZWN0aW9uIHRocm91Z2ggdGhlICJzcmNfYWRkciIgYXR0cmlidXRl
-LiBUaGlzIGNhbiBiZSB1c2VkIHRvIGlkZW50aWZ5IG5vdCBvbmx5IHRoZSBzb3VyY2UgYWRk
-cmVzcywgYnV0IGFsc28gb24gd2hpY2ggaW50ZXJmYWNlIHRoZSBjb25uZWN0aW9uIHdhcyBt
-YWRlIChieSBkb2luZyBhbiBpbnRlcmZhY2UgbG9va3VwIHRvIGZpbmQgb3V0IHdoaWNoIG9u
-ZSBtYXRjaGVzIHRoZSBzb3VyY2UgYWRkcmVzcykuDQo+IA0KPiBJbiBjb25jbHVzaW9uLCB3
-ZSBoYXZlIDMgY2hvaWNlcyB0byBzb2x2ZSB0aGUgaXNzdWUgb2YgbWF0Y2hpbmcgYW4gZXhp
-c3RpbmcgY29udHJvbGxlciB0byBhIGNhbmRpZGF0ZSBjb25maWd1cmF0aW9uOg0KPiANCj4g
-MSkgV2UgY2FuIGxlYXZlIGV2ZXJ5dGhpbmcgdGhlIHdheSBpdCBpcyBub3cuIEluIHNvbWUg
-Y2FzZXMsIG52bWUtY2xpL2xpYm52bWUgbWF5IGVycm9uZW91c2x5IGNvbmNsdWRlIHRoYXQg
-YW4gZXhpc3RpbmcgY29udHJvbGxlciBpcyAiZ29vZCBlbm91Z2giIGFuZCBub3QgYWxsb3cg
-c29tZW9uZSB0byBtYWtlIGEgZGlmZmVyZW50IGNvbm5lY3Rpb24gdXNpbmcgYSBkaWZmZXJl
-bnQgImhvc3QtdHJhZGRyIiBhbmQvb3IgImhvc3QtaWZhY2UiLiBXZSBtYXkgd2FudCB0byBk
-b2N1bWVudCB0aGF0IGJlaGF2aW9yIHNvIHRoYXQgcGVvcGxlIGtub3cgd2hhdCB0byBleHBl
-Y3QuDQoNCkkgdGhpbmsgdGhhdCBpZiBzb21lb25lIGNhcmVzIGVub3VnaCBhYm91dCB0aGUg
-aG9zdCBpZmFjZSwgaXQgd291bGQgaGF2ZQ0KcGFzc2VkIGl0IGluIHRoZSBpbml0aWFsIGNv
-bm5lY3Rpb24/IE5vdCBmYW1pbGlhciB3aXRoIHRoZSBib290IGNvZGUgdG8NCndoeSB0aGlz
-IGlzIG5vdCB0aGUgY2FzZS4NCg0KSW4gZ2VuZXJhbCBpZiB0aGVyZSBhcmUgdGhpbmdzIHRo
-YXQgeW91IG5lZWQgdG8ga25vdyB0aGVyZSBzaG91bGRuJ3QgYmUNCmEgcHJvYmxlbSBhZGRp
-bmcgaXQgdG8gc3lzZnMuDQoNCj4gMikgV2UgY2FuIGNoYW5nZSB0aGUgY29kZSBzbyB0aGF0
-IG52bWUtY2xpL2xpYm52bWUgZG9lcyBhICJzdHJvbmciIGNvbXBhcmlzb24gb24gdGhlICJo
-b3N0LXRyYWRkciIgYW5kL29yICJob3N0LWlmYWNlIi4gVGhpcyBtYXkgcmVzdWx0IGluIGR1
-cGxpY2F0ZSBjb25uZWN0aW9ucyBiZWNhdXNlIGFuIGV4aXN0aW5nIGNvbnRyb2xsZXIgdGhh
-dCB3YXMgY29uZmlndXJlZCB3aXRob3V0IHNwZWNpZnlpbmcgdGhlICJob3N0LXRyYWRkciIg
-YW5kL29yICJob3N0LWlmYWNlIiBtYXkgaW4gZmFjdCBiZSBhc3NpZ25lZCBpbnRlcm5hbGx5
-ICB0aGUgc2FtZSAiaG9zdC10cmFkZHIiIGFuZC9vciAiaG9zdC1pZmFjZSIgb2YgdGhlIGNh
-bmRpZGF0ZSBjb25maWd1cmF0aW9uIGFuZCB0aGVyZWZvcmUgY291bGQgaGF2ZSBiZWVuIHJl
-dXNlZC4NCj4gMykgRm9yIHRoZSBjYXNlIHdoZXJlIGFuIGV4aXN0aW5nIGNvbnRyb2xsZXIg
-d2FzIGNyZWF0ZWQgd2l0aG91dCBzcGVjaWZ5aW5nIHRoZSAiaG9zdC10cmFkZHIiIGFuZC9v
-ciAiaG9zdC1pZmFjZSIgKGFuZCB0aGVyZWZvcmUgdGhlIGtlcm5lbCBwaWNrZWQgdGhvc2Ug
-YXV0b21hdGljYWxseSksIHdlIGNhbiBsb29rIGF0IHRoZSBleGlzdGluZyBjb250cm9sbGVy
-J3MgInNyY19hZGRyIiBhdHRyaWJ1dGUgdG8gZGV0ZXJtaW5lIGlmIHRoZXJlIGlzIGEgbWF0
-Y2ggd2l0aCB0aGUgY2FuZGlkYXRlIGNvbmZpZydzICJob3N0LXRyYWRkciIgYW5kL29yICJo
-b3N0LWlmYWNlIi4gV2l0aCB0aGlzLCB3ZSBhcmUgZ3VhcmFudGVlZCB0byBuZXZlciBoYXZl
-IGR1cGxpY2F0ZSBjb25uZWN0aW9ucyBhbmQgd2Ugd2lsbCBhbHdheXMga25vdyB3aGVuIGFu
-IGV4aXN0aW5nIGNvbm5lY3Rpb24gY2FuIGJlIHJldXNlZCBmb3IgYSBjYW5kaWRhdGUgY29u
-ZmlndXJhdGlvbi4gSG93ZXZlciwgdGhpcyByZXF1aXJlcyBkb2luZyBhIGxvb2t1cCBvZiBh
-bGwgdGhlIGludGVyZmFjZXMgdG8gZmluZCBvdXQgd2hpY2ggb25lIG1hdGNoZXMgdGhlICJz
-cmNfYWRkciIgKHRoZSBsb29rdXAgY2FuIGJlIGRvbmUgdGhyb3VnaCB0aGUgbmV0bGluayBp
-bnRlcmZhY2UpLg0KDQpzb3VuZHMgbGlrZSBhIGxvdCBvZiBlZmZvcnQuDQo=
+
+>> Hi Ming:
+>>
+>> Ming Lei <ming.lei@redhat.com> 于2023年6月6日周二 23:15写道：
+>>>
+>>> Hello Chunguang,
+>>>
+>>> On Mon, May 29, 2023 at 06:59:22PM +0800, brookxu.cn wrote:
+>>>> From: Chunguang Xu <chunguang.xu@shopee.com>
+>>>>
+>>>> We found that nvme_remove_namespaces() may hang in flush_work(&ctrl->scan_work)
+>>>> while removing ctrl. The root cause may due to the state of ctrl changed to
+>>>> NVME_CTRL_DELETING while removing ctrl , which intterupt nvme_tcp_error_recovery_work()/
+>>>> nvme_reset_ctrl_work()/nvme_tcp_reconnect_or_remove().  At this time, ctrl is
+>>>
+>>> I didn't dig into ctrl state check in these error handler yet, but error
+>>> handling is supposed to provide forward progress for any controller state.
+>>>
+>>> Can you explain a bit how switching to DELETING interrupts the above
+>>> error handling and breaks the forward progress guarantee?
+>>
+>> Here we freezed ctrl, if ctrl state has changed to DELETING or
+>> DELETING_NIO(by nvme disconnect),  we will break up and lease ctrl
+>> freeze, so nvme_remove_namespaces() hang.
+>>
+>> static void nvme_tcp_error_recovery_work(struct work_struct *work)
+>> {
+>>          ...
+>>          if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_CONNECTING)) {
+>>                  /* state change failure is ok if we started ctrl delete */
+>>                  WARN_ON_ONCE(ctrl->state != NVME_CTRL_DELETING &&
+>>                               ctrl->state != NVME_CTRL_DELETING_NOIO);
+>>                  return;
+>>          }
+>>
+>>          nvme_tcp_reconnect_or_remove(ctrl);
+>> }
+>>
+>>
+>> Another path, we will check ctrl state while reconnecting, if it changes to
+>> DELETING or DELETING_NIO, we will break up and lease ctrl freeze and
+>> queue quiescing (through reset path), as a result Hang occurs.
+>>
+>> static void nvme_tcp_reconnect_or_remove(struct nvme_ctrl *ctrl)
+>> {
+>>          /* If we are resetting/deleting then do nothing */
+>>          if (ctrl->state != NVME_CTRL_CONNECTING) {
+>>                  WARN_ON_ONCE(ctrl->state == NVME_CTRL_NEW ||
+>>                          ctrl->state == NVME_CTRL_LIVE);
+>>                  return;
+>>          }
+>>          ...
+>> }
+>>
+>>>> freezed and queue is quiescing . Since scan_work may continue to issue IOs to
+>>>> load partition table, make it blocked, and lead to nvme_tcp_error_recovery_work()
+>>>> hang in flush_work(&ctrl->scan_work).
+>>>>
+>>>> After analyzation, we found that there are mainly two case:
+>>>> 1. Since ctrl is freeze, scan_work hang in __bio_queue_enter() while it issue
+>>>>     new IO to load partition table.
+>>>
+>>> Yeah, nvme freeze usage is fragile, and I suggested to move
+>>> nvme_start_freeze() from nvme_tcp_teardown_io_queues to
+>>> nvme_tcp_configure_io_queues(), such as the posted change on rdma:
+>>>
+>>> https://lore.kernel.org/linux-block/CAHj4cs-4gQHnp5aiekvJmb6o8qAcb6nLV61uOGFiisCzM49_dg@mail.gmail.com/T/#ma0d6bbfaa0c8c1be79738ff86a2fdcf7582e06b0
+>>
+>> While drive reconnecting, I think we should freeze ctrl or quiescing queue,
+>> otherwise nvme_fail_nonready_command()may return BLK_STS_RESOURCE,
+>> and the IOs may retry frequently. So I think we may better freeze ctrl
+>> while entering
+>> error_recovery/reconnect, but need to unfreeze it while exit.
+> 
+> quiescing is always done in error handling, and freeze is actually
+> not a must, and it is easier to cause race by calling freeze & unfreeze
+> from different contexts.
+> 
+> But yes, unquiesce should have been done after exiting error handling, or
+> simply do it in nvme_unquiesce_io_queues().
+> 
+> And the following patch should cover all these hangs:
+> 
+
+Ming, are you sending a formal patchset for this?
+
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 3ec38e2b9173..83d3818fc60b 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -4692,6 +4692,9 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+>   	 */
+>   	nvme_mpath_clear_ctrl_paths(ctrl);
+>   
+> +	/* unquiesce io queues so scan work won't hang */
+> +	nvme_unquiesce_io_queues(ctrl);
+
+What guarantees that the queues won't be quiesced right after this
+by the transport?
+
+I'm still unclear why this affects the scan_work?
+
+> +
+>   	/* prevent racing with ns scanning */
+>   	flush_work(&ctrl->scan_work);
+>   
+> @@ -4701,10 +4704,8 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+>   	 * removing the namespaces' disks; fail all the queues now to avoid
+>   	 * potentially having to clean up the failed sync later.
+>   	 */
+> -	if (ctrl->state == NVME_CTRL_DEAD) {
+> +	if (ctrl->state == NVME_CTRL_DEAD)
+>   		nvme_mark_namespaces_dead(ctrl);
+> -		nvme_unquiesce_io_queues(ctrl);
+> -	}
+>   
+>   	/* this is a no-op when called from the controller reset handler */
+>   	nvme_change_ctrl_state(ctrl, NVME_CTRL_DELETING_NOIO);
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 492f319ebdf3..5d775b76baca 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2578,14 +2578,15 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+>   	dead = nvme_pci_ctrl_is_dead(dev);
+>   	if (dev->ctrl.state == NVME_CTRL_LIVE ||
+>   	    dev->ctrl.state == NVME_CTRL_RESETTING) {
+> -		if (pci_is_enabled(pdev))
+> -			nvme_start_freeze(&dev->ctrl);
+>   		/*
+>   		 * Give the controller a chance to complete all entered requests
+>   		 * if doing a safe shutdown.
+>   		 */
+> -		if (!dead && shutdown)
+> +		if (!dead && shutdown & pci_is_enabled(pdev)) {
+> +			nvme_start_freeze(&dev->ctrl);
+>   			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
+> +			nvme_unfreeze(&dev->ctrl);
+> +		}
+>   	}
+>   
+>   	nvme_quiesce_io_queues(&dev->ctrl);
+> @@ -2740,6 +2741,7 @@ static void nvme_reset_work(struct work_struct *work)
+>   	 * controller around but remove all namespaces.
+>   	 */
+>   	if (dev->online_queues > 1) {
+> +		nvme_start_freeze(&dev->ctrl);
+>   		nvme_unquiesce_io_queues(&dev->ctrl);
+>   		nvme_wait_freeze(&dev->ctrl);
+>   		nvme_pci_update_nr_queues(dev);
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 0eb79696fb73..354cce8853c1 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -918,6 +918,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
+>   		goto out_cleanup_tagset;
+>   
+>   	if (!new) {
+> +		nvme_start_freeze(&ctrl->ctrl);
+>   		nvme_unquiesce_io_queues(&ctrl->ctrl);
+>   		if (!nvme_wait_freeze_timeout(&ctrl->ctrl, NVME_IO_TIMEOUT)) {
+>   			/*
+> @@ -926,6 +927,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
+>   			 * to be safe.
+>   			 */
+>   			ret = -ENODEV;
+> +			nvme_unfreeze(&ctrl->ctrl);
+>   			goto out_wait_freeze_timed_out;
+>   		}
+>   		blk_mq_update_nr_hw_queues(ctrl->ctrl.tagset,
+> @@ -975,7 +977,6 @@ static void nvme_rdma_teardown_io_queues(struct nvme_rdma_ctrl *ctrl,
+>   		bool remove)
+>   {
+>   	if (ctrl->ctrl.queue_count > 1) {
+> -		nvme_start_freeze(&ctrl->ctrl);
+>   		nvme_quiesce_io_queues(&ctrl->ctrl);
+>   		nvme_sync_io_queues(&ctrl->ctrl);
+>   		nvme_rdma_stop_io_queues(ctrl);
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index bf0230442d57..5ae08e9cb16d 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -1909,6 +1909,7 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+>   		goto out_cleanup_connect_q;
+>   
+>   	if (!new) {
+> +		nvme_start_freeze(ctrl);
+>   		nvme_unquiesce_io_queues(ctrl);
+>   		if (!nvme_wait_freeze_timeout(ctrl, NVME_IO_TIMEOUT)) {
+>   			/*
+> @@ -1917,6 +1918,7 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+>   			 * to be safe.
+>   			 */
+>   			ret = -ENODEV;
+> +			nvme_unfreeze(ctrl);
+>   			goto out_wait_freeze_timed_out;
+>   		}
+>   		blk_mq_update_nr_hw_queues(ctrl->tagset,
+> @@ -2021,7 +2023,6 @@ static void nvme_tcp_teardown_io_queues(struct nvme_ctrl *ctrl,
+>   	if (ctrl->queue_count <= 1)
+>   		return;
+>   	nvme_quiesce_admin_queue(ctrl);
+> -	nvme_start_freeze(ctrl);
+>   	nvme_quiesce_io_queues(ctrl);
+>   	nvme_sync_io_queues(ctrl);
+>   	nvme_tcp_stop_io_queues(ctrl);
+> 
+> 
+> 
+> 
+> Thanks
+> Ming
+> 
 
