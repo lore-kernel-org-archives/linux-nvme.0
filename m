@@ -4,74 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 207D6C7EE2E
-	for <linux-nvme@archiver.kernel.org>; Sun, 11 Jun 2023 08:11:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1038EC83005
+	for <linux-nvme@archiver.kernel.org>; Sun, 11 Jun 2023 08:12:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xs4T/L24Rh/WBJkxbXf4Jq3vNE1qD2C4yuQExuAw3qk=; b=vTqSw1EFwsA+52ToKsQLFhX8IH
-	tnUAHkhPGUjNKjfOEYL2BhESXtCTkqIiNdTYi43GWQFR1gTE4MtoUkyTciNkilbxe5aLYsqa+nzuz
-	5csm8kqY5DgLOP6Ku3JH5VpbakjOyhf2uW3lBgDoSTcxeQskgGqVUXxayF2C1NYKkqtBPL8PHJTUM
-	Gm2w02ngn11XdpmuN+mTGqM4HxNMZrg9Si+lqVR7YQPJvqtCbV4XgyC28SYPInA8KgoYqXdiNiDve
-	YGXTPQByI7NYCBk213gFPI3iq8LsBwbY7EQyZ2OgfOqoufB/G2s9rspvqfToChwmKVv3tB6U140jp
-	+2aiffBw==;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=R1NmXtyjzkGuUAWBDr5LeKwGfx
+	1sX46jwK1JZqN9neORYD6e4uzKu6ZHfuBVbLoqVH5ifoKElLZTfTQ8Nbwsmv4WpgUJQJnHmpSFO1J
+	cYtBfrHplVCcKp9pZwToIDVBRDsQMpWRWWtVGbP/We/XG5UI16HLyXd0UKQn21ct2X1hSkGY2aaKf
+	IXfo+6Yk44e+jEipQ1Z55QLit9mh4AEzl2heJLxYrDx8l7TrCsOUmowowfksSkZFomDYvPV3K3FUz
+	hFFfPPfd+EwZVGazM2P0galSAQMzj/c+XoF/NoLL/06Sm2wCDFf18II6h7umls0TTy03u8tAjDD6s
+	Q2iFexRA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q8GAM-000JzL-0A;
-	Sun, 11 Jun 2023 08:11:14 +0000
-Received: from mail-wm1-f45.google.com ([209.85.128.45])
+	id 1q8GBA-000K5e-0H;
+	Sun, 11 Jun 2023 08:12:04 +0000
+Received: from mail-wm1-f41.google.com ([209.85.128.41])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q8GAI-000Jyn-1m
+	id 1q8GB7-000K54-2P
 	for linux-nvme@lists.infradead.org;
-	Sun, 11 Jun 2023 08:11:12 +0000
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3f7e7a5aaacso6326325e9.0
-        for <linux-nvme@lists.infradead.org>; Sun, 11 Jun 2023 01:11:10 -0700 (PDT)
+	Sun, 11 Jun 2023 08:12:02 +0000
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-3f7f67e8f1dso7802135e9.1
+        for <linux-nvme@lists.infradead.org>; Sun, 11 Jun 2023 01:12:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686471069; x=1689063069;
+        d=1e100.net; s=20221208; t=1686471119; x=1689063119;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xs4T/L24Rh/WBJkxbXf4Jq3vNE1qD2C4yuQExuAw3qk=;
-        b=lsINohlWEt6ZOKZMfc20buGNS1hd7vL77cNiQBB8K8B6DLF3HSC0QoW6fATpmE2Q1M
-         OozDdQ4oo2TicT/tTZCCIySI2SmFYxBD69UEWokjEfuJb55qlMgfo4MnFPK+HAD03f6i
-         DK7R6JTlnzT6tDiC9n8ESx7kvPfI8dqEpQ4mCFJNuSjFsDoXtXaAhJ52pACd5kO/PtZd
-         z9PYdnix/cY7hwaoaN46ZpUIGWm/anq7gb1wikCP1k+Apk0XbSdD3gbxK2q4DHxLu8kC
-         ap3Z2b6AJzJvumsFhxXD+A7x5Lv+W9N0rrnW/nkF8IKzTtvSSssTp6K6PxKiOHTjei8Y
-         CQyg==
-X-Gm-Message-State: AC+VfDz+pgKsOoUmPSydYVKpAxSSPJFzDcFYDRAMIyQAziN72kKTMYm6
-	oLclJZZctxIrejlpzXN6uwg=
-X-Google-Smtp-Source: ACHHUZ5fBrunO5DFyGfb4JYeNv/NPuGaBC+afHT8m5xxKngrInZAGA1n+5CiAdpA/DcIYQd11UmuWQ==
-X-Received: by 2002:a05:6000:12c1:b0:309:4a41:9eb5 with SMTP id l1-20020a05600012c100b003094a419eb5mr3777192wrx.5.1686471068594;
-        Sun, 11 Jun 2023 01:11:08 -0700 (PDT)
+        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+        b=QB7LWddkjVS1xLov+eZvWLrv8VgmYMrQvPn6rrzCapKG0L+KCvg6sdBhpjHOcuF2Dg
+         udwkRJFdHMysWxPpkNCIuksrhjcK30RWcX7ZCefWeYJM227L5Pv7rwerLP3zzFk3smFW
+         giGfFRsdScZOVitrdilg0n+Vllh6XQpytg2zsChjMu1sFVji5q+tWU+S2JLhmVfB3vc7
+         Ev4Mfi9C2+SG+V1KNvQoz/J1AgCZF1OAjlob+m01TDsk/PWEZkJlfzmByE4z+QRGYdXF
+         AZSTZRQ6ngZzbcC49DBbLkQeSjVZr2Mn05AZ/Y1a8J9gwwk2kp3jkZBY288I8CnNKeLE
+         7cfw==
+X-Gm-Message-State: AC+VfDzF5LeAYg/qYJJ7DTpHRnuHXmwQ1pJqbVzuEL+sHYOA5q0VNTVC
+	f8mErgQcpaCDDkm7LJroMHw=
+X-Google-Smtp-Source: ACHHUZ64frQa+gMpcjF6rcObCQafPY4X/Q7kQS32yU1aAfWzdv9vipvatKYvGhgIIc8uqziiaG7ZjQ==
+X-Received: by 2002:a05:600c:468a:b0:3f7:f519:355f with SMTP id p10-20020a05600c468a00b003f7f519355fmr4980461wmo.0.1686471118935;
+        Sun, 11 Jun 2023 01:11:58 -0700 (PDT)
 Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id a4-20020a056000050400b0030ae3a6be4asm9057553wrf.72.2023.06.11.01.11.07
+        by smtp.gmail.com with ESMTPSA id 14-20020a05600c024e00b003f8044b3448sm7366451wmj.9.2023.06.11.01.11.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 11 Jun 2023 01:11:08 -0700 (PDT)
-Message-ID: <febff498-63e6-efe2-2f5a-9a9fa7e767c0@grimberg.me>
-Date: Sun, 11 Jun 2023 11:11:06 +0300
+        Sun, 11 Jun 2023 01:11:58 -0700 (PDT)
+Message-ID: <9a43577d-5e69-88ee-62ab-e92524b1ed87@grimberg.me>
+Date: Sun, 11 Jun 2023 11:11:57 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [RFC PATCH 0/4] nvme-tcp: fix hung issues for deleting
+Subject: Re: [PATCHv2 1/2] block: add request polling helper
 Content-Language: en-US
-To: Ming Lei <ming.lei@redhat.com>, =?UTF-8?B?6K645pil5YWJ?=
- <brookxu.cn@gmail.com>
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <cover.1685350577.git.chunguang.xu@shopee.com>
- <ZH9NcBtrDxwq5xRU@ovpn-8-17.pek2.redhat.com>
- <CADtkEeeVWZ_b9mDWzwaq_5hdfZ53-RX2rd1SDDem=YsSBQ_g8A@mail.gmail.com>
- <ZIEnQpAgeqm0xcQP@ovpn-8-23.pek2.redhat.com>
+To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+ io-uring@vger.kernel.org, linux-nvme@lists.infradead.org, hch@lst.de,
+ axboe@kernel.dk
+Cc: joshi.k@samsung.com, Keith Busch <kbusch@kernel.org>
+References: <20230609204517.493889-1-kbusch@meta.com>
+ <20230609204517.493889-2-kbusch@meta.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <ZIEnQpAgeqm0xcQP@ovpn-8-23.pek2.redhat.com>
+In-Reply-To: <20230609204517.493889-2-kbusch@meta.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230611_011110_608591_0997CD6D 
-X-CRM114-Status: GOOD (  34.87  )
+X-CRM114-CacheID: sfid-20230611_011201_781203_5D4A3940 
+X-CRM114-Status: UNSURE (   4.94  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,217 +85,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->> Hi Ming:
->>
->> Ming Lei <ming.lei@redhat.com> 于2023年6月6日周二 23:15写道：
->>>
->>> Hello Chunguang,
->>>
->>> On Mon, May 29, 2023 at 06:59:22PM +0800, brookxu.cn wrote:
->>>> From: Chunguang Xu <chunguang.xu@shopee.com>
->>>>
->>>> We found that nvme_remove_namespaces() may hang in flush_work(&ctrl->scan_work)
->>>> while removing ctrl. The root cause may due to the state of ctrl changed to
->>>> NVME_CTRL_DELETING while removing ctrl , which intterupt nvme_tcp_error_recovery_work()/
->>>> nvme_reset_ctrl_work()/nvme_tcp_reconnect_or_remove().  At this time, ctrl is
->>>
->>> I didn't dig into ctrl state check in these error handler yet, but error
->>> handling is supposed to provide forward progress for any controller state.
->>>
->>> Can you explain a bit how switching to DELETING interrupts the above
->>> error handling and breaks the forward progress guarantee?
->>
->> Here we freezed ctrl, if ctrl state has changed to DELETING or
->> DELETING_NIO(by nvme disconnect),  we will break up and lease ctrl
->> freeze, so nvme_remove_namespaces() hang.
->>
->> static void nvme_tcp_error_recovery_work(struct work_struct *work)
->> {
->>          ...
->>          if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_CONNECTING)) {
->>                  /* state change failure is ok if we started ctrl delete */
->>                  WARN_ON_ONCE(ctrl->state != NVME_CTRL_DELETING &&
->>                               ctrl->state != NVME_CTRL_DELETING_NOIO);
->>                  return;
->>          }
->>
->>          nvme_tcp_reconnect_or_remove(ctrl);
->> }
->>
->>
->> Another path, we will check ctrl state while reconnecting, if it changes to
->> DELETING or DELETING_NIO, we will break up and lease ctrl freeze and
->> queue quiescing (through reset path), as a result Hang occurs.
->>
->> static void nvme_tcp_reconnect_or_remove(struct nvme_ctrl *ctrl)
->> {
->>          /* If we are resetting/deleting then do nothing */
->>          if (ctrl->state != NVME_CTRL_CONNECTING) {
->>                  WARN_ON_ONCE(ctrl->state == NVME_CTRL_NEW ||
->>                          ctrl->state == NVME_CTRL_LIVE);
->>                  return;
->>          }
->>          ...
->> }
->>
->>>> freezed and queue is quiescing . Since scan_work may continue to issue IOs to
->>>> load partition table, make it blocked, and lead to nvme_tcp_error_recovery_work()
->>>> hang in flush_work(&ctrl->scan_work).
->>>>
->>>> After analyzation, we found that there are mainly two case:
->>>> 1. Since ctrl is freeze, scan_work hang in __bio_queue_enter() while it issue
->>>>     new IO to load partition table.
->>>
->>> Yeah, nvme freeze usage is fragile, and I suggested to move
->>> nvme_start_freeze() from nvme_tcp_teardown_io_queues to
->>> nvme_tcp_configure_io_queues(), such as the posted change on rdma:
->>>
->>> https://lore.kernel.org/linux-block/CAHj4cs-4gQHnp5aiekvJmb6o8qAcb6nLV61uOGFiisCzM49_dg@mail.gmail.com/T/#ma0d6bbfaa0c8c1be79738ff86a2fdcf7582e06b0
->>
->> While drive reconnecting, I think we should freeze ctrl or quiescing queue,
->> otherwise nvme_fail_nonready_command()may return BLK_STS_RESOURCE,
->> and the IOs may retry frequently. So I think we may better freeze ctrl
->> while entering
->> error_recovery/reconnect, but need to unfreeze it while exit.
-> 
-> quiescing is always done in error handling, and freeze is actually
-> not a must, and it is easier to cause race by calling freeze & unfreeze
-> from different contexts.
-> 
-> But yes, unquiesce should have been done after exiting error handling, or
-> simply do it in nvme_unquiesce_io_queues().
-> 
-> And the following patch should cover all these hangs:
-> 
-
-Ming, are you sending a formal patchset for this?
-
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 3ec38e2b9173..83d3818fc60b 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -4692,6 +4692,9 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
->   	 */
->   	nvme_mpath_clear_ctrl_paths(ctrl);
->   
-> +	/* unquiesce io queues so scan work won't hang */
-> +	nvme_unquiesce_io_queues(ctrl);
-
-What guarantees that the queues won't be quiesced right after this
-by the transport?
-
-I'm still unclear why this affects the scan_work?
-
-> +
->   	/* prevent racing with ns scanning */
->   	flush_work(&ctrl->scan_work);
->   
-> @@ -4701,10 +4704,8 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
->   	 * removing the namespaces' disks; fail all the queues now to avoid
->   	 * potentially having to clean up the failed sync later.
->   	 */
-> -	if (ctrl->state == NVME_CTRL_DEAD) {
-> +	if (ctrl->state == NVME_CTRL_DEAD)
->   		nvme_mark_namespaces_dead(ctrl);
-> -		nvme_unquiesce_io_queues(ctrl);
-> -	}
->   
->   	/* this is a no-op when called from the controller reset handler */
->   	nvme_change_ctrl_state(ctrl, NVME_CTRL_DELETING_NOIO);
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 492f319ebdf3..5d775b76baca 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -2578,14 +2578,15 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
->   	dead = nvme_pci_ctrl_is_dead(dev);
->   	if (dev->ctrl.state == NVME_CTRL_LIVE ||
->   	    dev->ctrl.state == NVME_CTRL_RESETTING) {
-> -		if (pci_is_enabled(pdev))
-> -			nvme_start_freeze(&dev->ctrl);
->   		/*
->   		 * Give the controller a chance to complete all entered requests
->   		 * if doing a safe shutdown.
->   		 */
-> -		if (!dead && shutdown)
-> +		if (!dead && shutdown & pci_is_enabled(pdev)) {
-> +			nvme_start_freeze(&dev->ctrl);
->   			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
-> +			nvme_unfreeze(&dev->ctrl);
-> +		}
->   	}
->   
->   	nvme_quiesce_io_queues(&dev->ctrl);
-> @@ -2740,6 +2741,7 @@ static void nvme_reset_work(struct work_struct *work)
->   	 * controller around but remove all namespaces.
->   	 */
->   	if (dev->online_queues > 1) {
-> +		nvme_start_freeze(&dev->ctrl);
->   		nvme_unquiesce_io_queues(&dev->ctrl);
->   		nvme_wait_freeze(&dev->ctrl);
->   		nvme_pci_update_nr_queues(dev);
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 0eb79696fb73..354cce8853c1 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -918,6 +918,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
->   		goto out_cleanup_tagset;
->   
->   	if (!new) {
-> +		nvme_start_freeze(&ctrl->ctrl);
->   		nvme_unquiesce_io_queues(&ctrl->ctrl);
->   		if (!nvme_wait_freeze_timeout(&ctrl->ctrl, NVME_IO_TIMEOUT)) {
->   			/*
-> @@ -926,6 +927,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
->   			 * to be safe.
->   			 */
->   			ret = -ENODEV;
-> +			nvme_unfreeze(&ctrl->ctrl);
->   			goto out_wait_freeze_timed_out;
->   		}
->   		blk_mq_update_nr_hw_queues(ctrl->ctrl.tagset,
-> @@ -975,7 +977,6 @@ static void nvme_rdma_teardown_io_queues(struct nvme_rdma_ctrl *ctrl,
->   		bool remove)
->   {
->   	if (ctrl->ctrl.queue_count > 1) {
-> -		nvme_start_freeze(&ctrl->ctrl);
->   		nvme_quiesce_io_queues(&ctrl->ctrl);
->   		nvme_sync_io_queues(&ctrl->ctrl);
->   		nvme_rdma_stop_io_queues(ctrl);
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index bf0230442d57..5ae08e9cb16d 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -1909,6 +1909,7 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
->   		goto out_cleanup_connect_q;
->   
->   	if (!new) {
-> +		nvme_start_freeze(ctrl);
->   		nvme_unquiesce_io_queues(ctrl);
->   		if (!nvme_wait_freeze_timeout(ctrl, NVME_IO_TIMEOUT)) {
->   			/*
-> @@ -1917,6 +1918,7 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
->   			 * to be safe.
->   			 */
->   			ret = -ENODEV;
-> +			nvme_unfreeze(ctrl);
->   			goto out_wait_freeze_timed_out;
->   		}
->   		blk_mq_update_nr_hw_queues(ctrl->tagset,
-> @@ -2021,7 +2023,6 @@ static void nvme_tcp_teardown_io_queues(struct nvme_ctrl *ctrl,
->   	if (ctrl->queue_count <= 1)
->   		return;
->   	nvme_quiesce_admin_queue(ctrl);
-> -	nvme_start_freeze(ctrl);
->   	nvme_quiesce_io_queues(ctrl);
->   	nvme_sync_io_queues(ctrl);
->   	nvme_tcp_stop_io_queues(ctrl);
-> 
-> 
-> 
-> 
-> Thanks
-> Ming
-> 
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
