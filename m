@@ -4,77 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 01916C7EE25
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Jun 2023 05:42:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87D5CC7EE2E
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Jun 2023 06:37:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=fDohN0X6uwyv/HVrfBJ5QiGTQ6nxpO+Gd08SkVlMi1k=; b=HUBhU8hbLYcCU036GX0ycs+seS
-	Dkr+oO+ANEPSB4gxAPWDVy05eJ5kQeEl4GI5fIU0JolfeqdB2638R1y+gxoZVfrQ1XlZVJ7/TesBe
-	E/CLEH52YxVbFbR0bcyh/KCMT/9pBKL94cSPWxO3I1xQTOnX6bgVretS2VbWfJ6pdkp+whdzYDQLD
-	i2DNWhtat2GQ9wKzfJyUF+Va3nRj9lkaxOQ42RV1ods/WeEkEbyHesWXOwZn5u7cPJWiJWcLVZEFM
-	L056tE6X/sr3fwgXVLf3r9Ue19GMrV+1IBawZBxnHMvSAtgpZBkq6jZ2zHK7x2qEr8xtRjL8Y+jjJ
-	Bp+LcPTQ==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=8atXZoT1043zoF0AV+s/iPvTpj1b62bruyUjnsB0cvs=; b=BHG0sxYRIOJJu73Y2nfVBWQiLn
+	hzDQ5+ROC2eMbz6abXeDRMDNvhnFfPbwqkcDfg9nQrhgMEdJgw/dZAwh/LliPywOiEiJ8Rts/h30E
+	A0Bb2AP+QvhoSxBLFuiWJ/FqoQL1noaG3rerGMCX/3iCMYtUcZ0wFlTfpnfy+Y5MLZA1SK4lsdqJ6
+	LziXJR8xC7rFCMvvgk9bfzna9yKTqGpWO2uVB72kMcnT43ZYhUq3sG8cYaGY28jfmXi4MklW4EP5W
+	gnN9RV1sdwynIEGk+J7kytS2w5QK6bodwdGOhO31NJ+qGdrR76Nc1s7YY8XRVqgBVgaE54Ro2dOBI
+	zhmFBolA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q8aKF-002gjF-2g;
-	Mon, 12 Jun 2023 05:42:47 +0000
-Received: from esa3.hgst.iphmx.com ([216.71.153.141])
+	id 1q8bB0-002n1Q-2f;
+	Mon, 12 Jun 2023 06:37:18 +0000
+Received: from mail-wm1-f47.google.com ([209.85.128.47])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q8aKC-002ghK-16
+	id 1q8bAw-002my4-1u
 	for linux-nvme@lists.infradead.org;
-	Mon, 12 Jun 2023 05:42:46 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1686548564; x=1718084564;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=bcQ9MAb6Kml0F+jmJRbrMByxY0+us5vRd5ZBKaPi0Q4=;
-  b=KXAgFpqZSy+MBYoj7unTjI/ML9kPtAsAFcj5sYQFr5VuSK/4YSK+lmN+
-   47w0N/rTsHB8PzngZGNgeCHSvd8qnypzDtUOxWMBqJR0v5Am00hIuF4Nk
-   laIPESYYQg1K/uhQ/zHMd23QJ9uWJ5wcpWP/3RIg20MUhEAwrnVL1GeNP
-   T27QeiAcqOkIPMTY3SP8hdlsvrc4WC+ZJJNlKHhXsFN+4/O5NKwSGMHic
-   7sl7USROk0J20rPL6isCCnQXluQwEJB78kt5Z0TETHl268ZiHzfZIfquG
-   kIMzhm1aE21G3JCqj6R83HH0R1faaf9visbdkArBdrW95HHLkvyx0rSTY
-   Q==;
-X-IronPort-AV: E=Sophos;i="6.00,236,1681142400"; 
-   d="scan'208";a="239802326"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 12 Jun 2023 13:42:39 +0800
-IronPort-SDR: GCPwS7qLD9JT6skccOPwBhAEH+P/lgysN8cVegKSYU3T3vZJ3qKv8P98y3XfqxH2cBxLvBrDFY
- nTKC3FufsBxFPsmdKN5IHB2hGVZzBcnXk9LLn9g/A6rqEPwNw3Qmz6KSOr6jY+ZPR5ijZlqetY
- 3gPjpFH1g7Y7+DeL5adnzxPNVfFb42GJ9GPq/ZjVagv/tm+KZCXsDj4kfd3sM18p+RxCXlV7Zv
- qFwP2ffHQT7XEYPynUYSWAHgZFOKwnxth+flLdg1+yCAbObboA2reeLw/GJO3/2pydhQnJvn9w
- kTc=
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 11 Jun 2023 21:57:16 -0700
-IronPort-SDR: fQ1Xj7+ryZDGrYQITJqXcvKcl3qBuRoq+aUwL/uwwqZjVKrSlbNNdkrl28GGCun4GIovLyDkTh
- kLCNklyLjGZ+fJq9tAUCfwwo4BPZDykXDiAz4crKpWfz/iGC5HJ2zlpk5C1++XrPr49tb8wD5Z
- hDYcTazhaKOrlDKSAP0WP13zeRkQvPKXCOB6ho1UbsHxYrorvs0yfTCnkR6614Hl3wefqGGDpM
- Nb/ieHFl2TOF9yxGLVthj/+UizkwzLtR0kH/5ZfWPh7a4JuvJPM/g/e+iFYkvh3Kn7QceOzznV
- WIc=
-WDCIronportException: Internal
-Received: from shindev.dhcp.fujisawa.hgst.com (HELO shindev.fujisawa.hgst.com) ([10.149.53.55])
-  by uls-op-cesaip01.wdc.com with ESMTP; 11 Jun 2023 22:42:38 -0700
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: linux-rdma@vger.kernel.org,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Leon Romanovsky <leon@kernel.org>
-Cc: linux-nvme@lists.infradead.org,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Subject: [PATCH v2] RDMA/cma: prevent rdma id destroy during cma_iw_handler
-Date: Mon, 12 Jun 2023 14:42:37 +0900
-Message-Id: <20230612054237.1855292-1-shinichiro.kawasaki@wdc.com>
-X-Mailer: git-send-email 2.40.1
+	Mon, 12 Jun 2023 06:37:17 +0000
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-3f7f67e8f1dso9957105e9.1
+        for <linux-nvme@lists.infradead.org>; Sun, 11 Jun 2023 23:36:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686551815; x=1689143815;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8atXZoT1043zoF0AV+s/iPvTpj1b62bruyUjnsB0cvs=;
+        b=dSxG7vtkOrI9RASiULElix5ygTb5MmXB1d1xNBe897+wbJXF+hIqySYYM8ps9gpseq
+         5SB2OffiLPZfT8eBaMyoM7e9m7rgkm5rAY7KOJEfL1BIH0k8qHc4p11Y/Bc3XhK7rnXl
+         fM3+LJS6gxUirNm/8pvrLDJdjeMQSeGQxTIUvCHx2QRlRK/cTzrcG2hX1Uf2cLgF6gEL
+         maHtzTEKctIzpT+1z/mdrrReHGOQD82n9IhDpRd0a+HjOaP8g2pa7GOaPuF2NHwvO3KN
+         773Nyq5ki5PDZ4ZaIpWI3Pimv7rhHFvNZKlOsqPGPbPPEOdlbqa451Ng7Q5v6A4WaMN8
+         eHZw==
+X-Gm-Message-State: AC+VfDyRZ+nz0VbK0ZLxT6qoYkBzVR1cuwXc0n4weP1zRzU8fjOd47qA
+	/jKXQBmkEMdOmBZQAwernww=
+X-Google-Smtp-Source: ACHHUZ7maAbmSth6MfGoaJGsA2c1PpprEyO0wMcPcFlkjZp1P6ViPI3nHS+BLQDEuXbQr9VIBU1b7Q==
+X-Received: by 2002:a05:600c:3843:b0:3f7:1483:b229 with SMTP id s3-20020a05600c384300b003f71483b229mr6538633wmr.3.1686551814910;
+        Sun, 11 Jun 2023 23:36:54 -0700 (PDT)
+Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id y24-20020a05600c365800b003f735ba7736sm10268780wmq.46.2023.06.11.23.36.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 11 Jun 2023 23:36:54 -0700 (PDT)
+Message-ID: <7a17d0f9-c624-2b30-476e-1a039f978c4e@grimberg.me>
+Date: Mon, 12 Jun 2023 09:36:53 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [RFC PATCH 0/4] nvme-tcp: fix hung issues for deleting
+Content-Language: en-US
+To: Ming Lei <ming.lei@redhat.com>
+Cc: =?UTF-8?B?6K645pil5YWJ?= <brookxu.cn@gmail.com>, kbusch@kernel.org,
+ axboe@kernel.dk, hch@lst.de, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1685350577.git.chunguang.xu@shopee.com>
+ <ZH9NcBtrDxwq5xRU@ovpn-8-17.pek2.redhat.com>
+ <CADtkEeeVWZ_b9mDWzwaq_5hdfZ53-RX2rd1SDDem=YsSBQ_g8A@mail.gmail.com>
+ <ZIEnQpAgeqm0xcQP@ovpn-8-23.pek2.redhat.com>
+ <febff498-63e6-efe2-2f5a-9a9fa7e767c0@grimberg.me>
+ <ZIZ10UGQOJCWgjkX@ovpn-8-23.pek2.redhat.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <ZIZ10UGQOJCWgjkX@ovpn-8-23.pek2.redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230611_224244_421450_E1673CF3 
-X-CRM114-Status: GOOD (  13.36  )
+X-CRM114-CacheID: sfid-20230611_233714_631269_66064201 
+X-CRM114-Status: GOOD (  25.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,163 +88,123 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When rdma_destroy_id() and cma_iw_handler() race, struct rdma_id_private
-*id_priv can be destroyed during cma_iw_handler call. This causes "BUG:
-KASAN: slab-use-after-free" at mutex_lock() in cma_iw_handler() [1].
-To prevent the destroy of id_priv, keep its reference count by calling
-cma_id_get() and cma_id_put() at start and end of cma_iw_handler().
 
-[1]
+>>>> Hi Ming:
+>>>>
+>>>> Ming Lei <ming.lei@redhat.com> 于2023年6月6日周二 23:15写道：
+>>>>>
+>>>>> Hello Chunguang,
+>>>>>
+>>>>> On Mon, May 29, 2023 at 06:59:22PM +0800, brookxu.cn wrote:
+>>>>>> From: Chunguang Xu <chunguang.xu@shopee.com>
+>>>>>>
+>>>>>> We found that nvme_remove_namespaces() may hang in flush_work(&ctrl->scan_work)
+>>>>>> while removing ctrl. The root cause may due to the state of ctrl changed to
+>>>>>> NVME_CTRL_DELETING while removing ctrl , which intterupt nvme_tcp_error_recovery_work()/
+>>>>>> nvme_reset_ctrl_work()/nvme_tcp_reconnect_or_remove().  At this time, ctrl is
+>>>>>
+>>>>> I didn't dig into ctrl state check in these error handler yet, but error
+>>>>> handling is supposed to provide forward progress for any controller state.
+>>>>>
+>>>>> Can you explain a bit how switching to DELETING interrupts the above
+>>>>> error handling and breaks the forward progress guarantee?
+>>>>
+>>>> Here we freezed ctrl, if ctrl state has changed to DELETING or
+>>>> DELETING_NIO(by nvme disconnect),  we will break up and lease ctrl
+>>>> freeze, so nvme_remove_namespaces() hang.
+>>>>
+>>>> static void nvme_tcp_error_recovery_work(struct work_struct *work)
+>>>> {
+>>>>           ...
+>>>>           if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_CONNECTING)) {
+>>>>                   /* state change failure is ok if we started ctrl delete */
+>>>>                   WARN_ON_ONCE(ctrl->state != NVME_CTRL_DELETING &&
+>>>>                                ctrl->state != NVME_CTRL_DELETING_NOIO);
+>>>>                   return;
+>>>>           }
+>>>>
+>>>>           nvme_tcp_reconnect_or_remove(ctrl);
+>>>> }
+>>>>
+>>>>
+>>>> Another path, we will check ctrl state while reconnecting, if it changes to
+>>>> DELETING or DELETING_NIO, we will break up and lease ctrl freeze and
+>>>> queue quiescing (through reset path), as a result Hang occurs.
+>>>>
+>>>> static void nvme_tcp_reconnect_or_remove(struct nvme_ctrl *ctrl)
+>>>> {
+>>>>           /* If we are resetting/deleting then do nothing */
+>>>>           if (ctrl->state != NVME_CTRL_CONNECTING) {
+>>>>                   WARN_ON_ONCE(ctrl->state == NVME_CTRL_NEW ||
+>>>>                           ctrl->state == NVME_CTRL_LIVE);
+>>>>                   return;
+>>>>           }
+>>>>           ...
+>>>> }
+>>>>
+>>>>>> freezed and queue is quiescing . Since scan_work may continue to issue IOs to
+>>>>>> load partition table, make it blocked, and lead to nvme_tcp_error_recovery_work()
+>>>>>> hang in flush_work(&ctrl->scan_work).
+>>>>>>
+>>>>>> After analyzation, we found that there are mainly two case:
+>>>>>> 1. Since ctrl is freeze, scan_work hang in __bio_queue_enter() while it issue
+>>>>>>      new IO to load partition table.
+>>>>>
+>>>>> Yeah, nvme freeze usage is fragile, and I suggested to move
+>>>>> nvme_start_freeze() from nvme_tcp_teardown_io_queues to
+>>>>> nvme_tcp_configure_io_queues(), such as the posted change on rdma:
+>>>>>
+>>>>> https://lore.kernel.org/linux-block/CAHj4cs-4gQHnp5aiekvJmb6o8qAcb6nLV61uOGFiisCzM49_dg@mail.gmail.com/T/#ma0d6bbfaa0c8c1be79738ff86a2fdcf7582e06b0
+>>>>
+>>>> While drive reconnecting, I think we should freeze ctrl or quiescing queue,
+>>>> otherwise nvme_fail_nonready_command()may return BLK_STS_RESOURCE,
+>>>> and the IOs may retry frequently. So I think we may better freeze ctrl
+>>>> while entering
+>>>> error_recovery/reconnect, but need to unfreeze it while exit.
+>>>
+>>> quiescing is always done in error handling, and freeze is actually
+>>> not a must, and it is easier to cause race by calling freeze & unfreeze
+>>> from different contexts.
+>>>
+>>> But yes, unquiesce should have been done after exiting error handling, or
+>>> simply do it in nvme_unquiesce_io_queues().
+>>>
+>>> And the following patch should cover all these hangs:
+>>>
+>>
+>> Ming, are you sending a formal patchset for this?
+> 
+> Not yet, will do it.
 
-==================================================================
-BUG: KASAN: slab-use-after-free in __mutex_lock+0x1324/0x18f0
-Read of size 8 at addr ffff888197b37418 by task kworker/u8:0/9
+Would like it to get to the next pull request going out this week...
 
-CPU: 0 PID: 9 Comm: kworker/u8:0 Not tainted 6.3.0 #62
-Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-1.fc38 04/01/2014
-Workqueue: iw_cm_wq cm_work_handler [iw_cm]
-Call Trace:
- <TASK>
- dump_stack_lvl+0x57/0x90
- print_report+0xcf/0x660
- ? __mutex_lock+0x1324/0x18f0
- kasan_report+0xa4/0xe0
- ? __mutex_lock+0x1324/0x18f0
- __mutex_lock+0x1324/0x18f0
- ? cma_iw_handler+0xac/0x4f0 [rdma_cm]
- ? _raw_spin_unlock_irqrestore+0x30/0x60
- ? rcu_is_watching+0x11/0xb0
- ? _raw_spin_unlock_irqrestore+0x30/0x60
- ? trace_hardirqs_on+0x12/0x100
- ? __pfx___mutex_lock+0x10/0x10
- ? __percpu_counter_sum+0x147/0x1e0
- ? domain_dirty_limits+0x246/0x390
- ? wb_over_bg_thresh+0x4d5/0x610
- ? rcu_is_watching+0x11/0xb0
- ? cma_iw_handler+0xac/0x4f0 [rdma_cm]
- cma_iw_handler+0xac/0x4f0 [rdma_cm]
- ? rcu_is_watching+0x11/0xb0
- ? __pfx_cma_iw_handler+0x10/0x10 [rdma_cm]
- ? attach_entity_load_avg+0x4e2/0x920
- ? _raw_spin_unlock_irqrestore+0x30/0x60
- ? rcu_is_watching+0x11/0xb0
- cm_work_handler+0x139e/0x1c50 [iw_cm]
- ? __pfx_cm_work_handler+0x10/0x10 [iw_cm]
- ? rcu_is_watching+0x11/0xb0
- ? __pfx_try_to_wake_up+0x10/0x10
- ? __pfx_do_raw_spin_lock+0x10/0x10
- ? __pfx___might_resched+0x10/0x10
- ? _raw_spin_unlock_irq+0x24/0x50
- process_one_work+0x843/0x1350
- ? __pfx_lock_acquire+0x10/0x10
- ? __pfx_process_one_work+0x10/0x10
- ? __pfx_do_raw_spin_lock+0x10/0x10
- worker_thread+0xfc/0x1260
- ? __pfx_worker_thread+0x10/0x10
- kthread+0x29e/0x340
- ? __pfx_kthread+0x10/0x10
- ret_from_fork+0x2c/0x50
- </TASK>
+>>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>>> index 3ec38e2b9173..83d3818fc60b 100644
+>>> --- a/drivers/nvme/host/core.c
+>>> +++ b/drivers/nvme/host/core.c
+>>> @@ -4692,6 +4692,9 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+>>>    	 */
+>>>    	nvme_mpath_clear_ctrl_paths(ctrl);
+>>> +	/* unquiesce io queues so scan work won't hang */
+>>> +	nvme_unquiesce_io_queues(ctrl);
+>>
+>> What guarantees that the queues won't be quiesced right after this
+>> by the transport?
+> 
+> Please see nvme_change_ctrl_state(), if controller state is in
+> DELETING, new NVME_CTRL_RESETTING/NVME_CTRL_CONNECTING can be entered
+> any more.
 
-Allocated by task 4225:
- kasan_save_stack+0x2f/0x50
- kasan_set_track+0x21/0x30
- __kasan_kmalloc+0xa6/0xb0
- __rdma_create_id+0x5b/0x5d0 [rdma_cm]
- __rdma_create_kernel_id+0x12/0x40 [rdma_cm]
- nvme_rdma_alloc_queue+0x26a/0x5f0 [nvme_rdma]
- nvme_rdma_setup_ctrl+0xb84/0x1d90 [nvme_rdma]
- nvme_rdma_create_ctrl+0x7b5/0xd20 [nvme_rdma]
- nvmf_dev_write+0xddd/0x22b0 [nvme_fabrics]
- vfs_write+0x211/0xd50
- ksys_write+0x100/0x1e0
- do_syscall_64+0x5b/0x80
- entry_SYSCALL_64_after_hwframe+0x72/0xdc
+Yes, this relies on the fact that nvme_remove_namespaces is only called
+after DELETING state was set. ok.
 
-Freed by task 4227:
- kasan_save_stack+0x2f/0x50
- kasan_set_track+0x21/0x30
- kasan_save_free_info+0x2a/0x50
- ____kasan_slab_free+0x169/0x1c0
- slab_free_freelist_hook+0xdb/0x1b0
- __kmem_cache_free+0xb8/0x2e0
- nvme_rdma_free_queue+0x4a/0x70 [nvme_rdma]
- nvme_rdma_teardown_io_queues.part.0+0x14a/0x1e0 [nvme_rdma]
- nvme_rdma_delete_ctrl+0x4f/0x100 [nvme_rdma]
- nvme_do_delete_ctrl+0x14e/0x240 [nvme_core]
- nvme_sysfs_delete+0xcb/0x100 [nvme_core]
- kernfs_fop_write_iter+0x359/0x530
- vfs_write+0x58f/0xd50
- ksys_write+0x100/0x1e0
- do_syscall_64+0x5b/0x80
- entry_SYSCALL_64_after_hwframe+0x72/0xdc
+>> I'm still unclear why this affects the scan_work?
+> 
+> As Chunguang mentioned, if error recover is terminated by nvme deletion,
+> the controller can be kept in quiesced state, then in-queue IOs can'tu
+> move on, meantime new error recovery can't be started successfully because
+> controller state is NVME_CTRL_DELETING, so any pending IOs(include those
+> from scan context) can't be completed.
 
-The buggy address belongs to the object at ffff888197b37000
-        which belongs to the cache kmalloc-2k of size 2048
-The buggy address is located 1048 bytes inside of
-        freed 2048-byte region [ffff888197b37000, ffff888197b37800)
-
-The buggy address belongs to the physical page:
-page:00000000fbe33a6e refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x197b30
-head:00000000fbe33a6e order:3 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-anon flags: 0x17ffffc0010200(slab|head|node=0|zone=2|lastcpupid=0x1fffff)
-raw: 0017ffffc0010200 ffff888100042f00 0000000000000000 dead000000000001
-raw: 0000000000000000 0000000000080008 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
- ffff888197b37300: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff888197b37380: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->ffff888197b37400: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                            ^
- ffff888197b37480: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff888197b37500: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
-
-Fixes: de910bd92137 ("RDMA/cma: Simplify locking needed for serialization of callbacks")
-Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: stable@vger.kernel.org
----
-The BUG KASAN was observed with blktests at test cases nvme/030 or nvme/031,
-using SIW transport [*]. To reproduce it, it is required to repeat the test
-cases from 30 to 50 times on my test system.
-
-[*] https://lore.kernel.org/linux-block/rsmmxrchy6voi5qhl4irss5sprna3f5owkqtvybxglcv2pnylm@xmrnpfu3tfpe/
-
-Changes from v1:
-* Improved the commit message per comments on the list
-
- drivers/infiniband/core/cma.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/infiniband/core/cma.c b/drivers/infiniband/core/cma.c
-index 93a1c48d0c32..c5267d9bb184 100644
---- a/drivers/infiniband/core/cma.c
-+++ b/drivers/infiniband/core/cma.c
-@@ -2477,6 +2477,7 @@ static int cma_iw_handler(struct iw_cm_id *iw_id, struct iw_cm_event *iw_event)
- 	struct sockaddr *laddr = (struct sockaddr *)&iw_event->local_addr;
- 	struct sockaddr *raddr = (struct sockaddr *)&iw_event->remote_addr;
- 
-+	cma_id_get(id_priv);
- 	mutex_lock(&id_priv->handler_mutex);
- 	if (READ_ONCE(id_priv->state) != RDMA_CM_CONNECT)
- 		goto out;
-@@ -2524,12 +2525,14 @@ static int cma_iw_handler(struct iw_cm_id *iw_id, struct iw_cm_event *iw_event)
- 	if (ret) {
- 		/* Destroy the CM ID by returning a non-zero value. */
- 		id_priv->cm_id.iw = NULL;
-+		cma_id_put(id_priv);
- 		destroy_id_handler_unlock(id_priv);
- 		return ret;
- 	}
- 
- out:
- 	mutex_unlock(&id_priv->handler_mutex);
-+	cma_id_put(id_priv);
- 	return ret;
- }
- 
--- 
-2.40.1
-
+Yes. please separate to individual patches when submitting though.
 
