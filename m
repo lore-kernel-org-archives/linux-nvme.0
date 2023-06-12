@@ -4,83 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BDDD0C7EE2F
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Jun 2023 14:18:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 203DAC7EE2F
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Jun 2023 14:30:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4Hx6JaA1VFMYuuPRejPTqH+/kHaaNNp+8XTwPIciGZk=; b=VDpxWw1laz0wbkE8F9sJ35k4OE
-	NLHMdbhZPpeGeiwaMzPocFnl4fsXf96RnZivPto5N5cQFLq+tQBXX3zd8UiZRmEROtpIgRXZ/CMJr
-	W6cvVXfEGdkffShAd/Ht0oxw1kZDrnGFk54bCDc6IjtU7FxWOfcMPBs8JiKg9UgCI3AQe9fjPWut4
-	g+l+Y5hEXJLD5JBK4Ab3Bns0xL0JpnE8ATQIjyfl8vLcT9t1aI2kcKeQA1KHgUaJ/XQ0yTmiynfm4
-	BuIfMepBfJ4IBvuK+tsSEetiBw1XKDu34c4uJcn0K/OTQCa6Juq/p1VxemHjE8zmLB/7XFs9goHum
-	kGolLAvw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ez66F1snArM9P0uDmhUnqyiFlGNOsdEpoDZ1RavyOTI=; b=XGXl+2YzaxBfci0Sswhi37MTMM
+	oPTlccpZVJe/lZd2054QBnHseX4s+/ypyiQ2NCPiCijNRs3hUtJbVMUOqc/6RqYzxHI68MCBdoE2S
+	ytz3T/6vA2pH1uVR04f4wa2PIy66q469MkUquLGcwXX8z57cFkNUtXTi4UTn3ukMZP9aBnsRfY0WW
+	VDzib7AuM8UpSJ0r/58IuE8ugLY+Ov3zrPVxrhbGn+EN7EoYZ07bx8RriPSUrAxomIYz71o5FXrdT
+	ylWvMSVmx44XrDjvOvK1ouQ6AUdy7jyThSbQfbtJwIUusWStJ3iMVuns79LxS52uQbv2qv21XIFZH
+	J/mIUsrA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q8iN6-004H67-0e;
-	Mon, 12 Jun 2023 14:18:16 +0000
-Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e])
+	id 1q8iYo-004Irz-0z;
+	Mon, 12 Jun 2023 14:30:22 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q8iN3-004H4l-0y
+	id 1q8iYl-004Iqx-1H
 	for linux-nvme@lists.infradead.org;
-	Mon, 12 Jun 2023 14:18:14 +0000
-Received: by mail-qt1-x82e.google.com with SMTP id d75a77b69052e-3f9eea9d0a1so18152951cf.1
-        for <linux-nvme@lists.infradead.org>; Mon, 12 Jun 2023 07:18:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1686579487; x=1689171487;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4Hx6JaA1VFMYuuPRejPTqH+/kHaaNNp+8XTwPIciGZk=;
-        b=D7eGkhPav+Iw9SGA7aEVSTNfKwuRTKm5G+sl0JlstlReKmUBBQSK9e9wUhNmXP7o4z
-         UHHeAM+A2oaPorjylRyHzR1iSgcK/mmUP9WjLwZRc1d+m+Spb8WGKRyGZIX+V+acrk++
-         JB5MzpxRKQWZDWtmNfGyRNJyNUdzAUJaUAPlRtxGAFPXh0N2WGU/JOryeICEZ3On+zyN
-         BG+4CAxzqY0LnXhAwObkeEBDjnbZWUqMiFYpwlPOIspCciA61nSDFC+nd2HUKExpdgvK
-         ELky1u1iZLU3Yc9cjXm+ee1Aa0ofQ05s6A3ZejB5iyxqlMulXKXOca85JG5D9vaN/bWI
-         xOVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686579487; x=1689171487;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4Hx6JaA1VFMYuuPRejPTqH+/kHaaNNp+8XTwPIciGZk=;
-        b=WYKGu8qLII8S2TgyCD10VMBiDKt0nvn7dY4vPRoTRK3GB7Dz3m38TVCQPfuoS8tAP5
-         AS1V6hxYGU3UuD1tlFVeOJ1wLHiz727qHHOcrh1CZ6tNto4iYPPmsth1k/CLihc/mqwU
-         NAxctCbHDl0nuuvqvKI/wLzccKMNdqQzYKBZhNEzXda7Kyu9NoMwHzgYaCS/ikjRRJ4F
-         HCMDTiDbiNjmHVRXYKE5FpJj2B2Mjy5Sbabm4M6FAMnj37n7H/88GQQnIFfYSORn9Fgz
-         Ag+l2HngMrmE2zxTKuQELNtVEMtIpmHBTpzQi8dZGN5doM4sDQjApGT07lqxAFOupqwu
-         Nazw==
-X-Gm-Message-State: AC+VfDyU3IpQeHdr5q7734FVQfVEoJun+vBz/r3vekwnlbgg9rZSa4lS
-	gbowXmVjOx4hvBFSlX2wlkalhg==
-X-Google-Smtp-Source: ACHHUZ5uXYK3k9fARcVs12zkAlloXFgFswgLnTGTsduaqOQC0Q2Jq7lsI3SuS0aFpOUsHwK9sN4gjA==
-X-Received: by 2002:ac8:57cc:0:b0:3f9:7251:30f4 with SMTP id w12-20020ac857cc000000b003f9725130f4mr12276118qta.4.1686579487027;
-        Mon, 12 Jun 2023 07:18:07 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-68-25-194.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.25.194])
-        by smtp.gmail.com with ESMTPSA id bs17-20020ac86f11000000b003e3860f12f7sm3412801qtb.56.2023.06.12.07.18.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jun 2023 07:18:06 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1q8iMv-004amy-JE;
-	Mon, 12 Jun 2023 11:18:05 -0300
-Date: Mon, 12 Jun 2023 11:18:05 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: linux-rdma@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
-	linux-nvme@lists.infradead.org, Damien Le Moal <dlemoal@kernel.org>
-Subject: Re: [PATCH v2] RDMA/cma: prevent rdma id destroy during
- cma_iw_handler
-Message-ID: <ZIcpHbV3oqsjuwfz@ziepe.ca>
-References: <20230612054237.1855292-1-shinichiro.kawasaki@wdc.com>
+	Mon, 12 Jun 2023 14:30:20 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 089F72030A;
+	Mon, 12 Jun 2023 14:30:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1686580216; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=ez66F1snArM9P0uDmhUnqyiFlGNOsdEpoDZ1RavyOTI=;
+	b=uMCG4NIphRz5S9uoYRnrCKvCoLcECjXLKwv/y+2qRIDSRCUEZB/s3XnMysKHqh1rorDplR
+	o6uoD5y4crk/iS3qWSpk0cohTfUEv5zH2L6lm+KHby8xOeA3LwnkK6QJFg2MAl6Z4RmZON
+	gBo5wTc0XPDLbeO0n4SFCKd/6r71Dv0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1686580216;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=ez66F1snArM9P0uDmhUnqyiFlGNOsdEpoDZ1RavyOTI=;
+	b=JiMidvkXJ3mEhkDjsK2YlVtA/LX5S4jU+WNFUTcO6nJnPx0/wh8pvt9y4ZKBHQUU+dsZ7r
+	N301rxdG4Tsiw9Bw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id ED40B1357F;
+	Mon, 12 Jun 2023 14:30:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id p6GzOfcrh2RrIQAAMHmgww
+	(envelope-from <dwagner@suse.de>); Mon, 12 Jun 2023 14:30:15 +0000
+From: Daniel Wagner <dwagner@suse.de>
+To: linux-nvme@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Shin'ichiro Kawasaki <shinichiro@fastmail.com>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Hannes Reinecke <hare@suse.de>,
+	Daniel Wagner <dwagner@suse.de>
+Subject: [PATCH blktests v1] nvme/040: Free loop back resources
+Date: Mon, 12 Jun 2023 16:29:45 +0200
+Message-Id: <20230612142945.10969-1-dwagner@suse.de>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230612054237.1855292-1-shinichiro.kawasaki@wdc.com>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230612_071813_441729_F94475BD 
-X-CRM114-Status: GOOD (  20.80  )
+X-CRM114-CacheID: sfid-20230612_073019_589532_FAF5C1BC 
+X-CRM114-Status: GOOD (  10.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,81 +89,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jun 12, 2023 at 02:42:37PM +0900, Shin'ichiro Kawasaki wrote:
-> When rdma_destroy_id() and cma_iw_handler() race, struct rdma_id_private
-> *id_priv can be destroyed during cma_iw_handler call. This causes "BUG:
-> KASAN: slab-use-after-free" at mutex_lock() in cma_iw_handler() [1].
-> To prevent the destroy of id_priv, keep its reference count by calling
-> cma_id_get() and cma_id_put() at start and end of cma_iw_handler().
-> 
-> [1]
-> 
-> ==================================================================
-> BUG: KASAN: slab-use-after-free in __mutex_lock+0x1324/0x18f0
-> Read of size 8 at addr ffff888197b37418 by task kworker/u8:0/9
-> 
-> CPU: 0 PID: 9 Comm: kworker/u8:0 Not tainted 6.3.0 #62
-> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-1.fc38 04/01/2014
-> Workqueue: iw_cm_wq cm_work_handler [iw_cm]
-> Call Trace:
->  <TASK>
->  dump_stack_lvl+0x57/0x90
->  print_report+0xcf/0x660
->  ? __mutex_lock+0x1324/0x18f0
->  kasan_report+0xa4/0xe0
->  ? __mutex_lock+0x1324/0x18f0
->  __mutex_lock+0x1324/0x18f0
->  ? cma_iw_handler+0xac/0x4f0 [rdma_cm]
->  ? _raw_spin_unlock_irqrestore+0x30/0x60
->  ? rcu_is_watching+0x11/0xb0
->  ? _raw_spin_unlock_irqrestore+0x30/0x60
->  ? trace_hardirqs_on+0x12/0x100
->  ? __pfx___mutex_lock+0x10/0x10
->  ? __percpu_counter_sum+0x147/0x1e0
->  ? domain_dirty_limits+0x246/0x390
->  ? wb_over_bg_thresh+0x4d5/0x610
->  ? rcu_is_watching+0x11/0xb0
->  ? cma_iw_handler+0xac/0x4f0 [rdma_cm]
->  cma_iw_handler+0xac/0x4f0 [rdma_cm]
+The tests does not cleanup all resources after it has finished. This
+leads to rm not being able to remove the TMPDIR cleanly:
 
-What is the full call chain here, eg with the static functions
-un-inlined?
-> 
->  drivers/infiniband/core/cma.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/infiniband/core/cma.c b/drivers/infiniband/core/cma.c
-> index 93a1c48d0c32..c5267d9bb184 100644
-> --- a/drivers/infiniband/core/cma.c
-> +++ b/drivers/infiniband/core/cma.c
-> @@ -2477,6 +2477,7 @@ static int cma_iw_handler(struct iw_cm_id *iw_id, struct iw_cm_event *iw_event)
->  	struct sockaddr *laddr = (struct sockaddr *)&iw_event->local_addr;
->  	struct sockaddr *raddr = (struct sockaddr *)&iw_event->remote_addr;
->  
-> +	cma_id_get(id_priv);
->  	mutex_lock(&id_priv->handler_mutex);
->  	if (READ_ONCE(id_priv->state) != RDMA_CM_CONNECT)
->  		goto out;
-> @@ -2524,12 +2525,14 @@ static int cma_iw_handler(struct iw_cm_id *iw_id, struct iw_cm_event *iw_event)
->  	if (ret) {
->  		/* Destroy the CM ID by returning a non-zero value. */
->  		id_priv->cm_id.iw = NULL;
-> +		cma_id_put(id_priv);
->  		destroy_id_handler_unlock(id_priv);
->  		return ret;
->  	}
->  
->  out:
->  	mutex_unlock(&id_priv->handler_mutex);
-> +	cma_id_put(id_priv);
->  	return ret;
->  }
+  + rm -rf blktests/results/tmpdir.nvme.040.m2J
+  rm: cannot remove 'blktests/results/tmpdir.nvme.040.m2J': Directory not empty
 
-cm_work_handler already has a ref on the iwcm_id_private
+Signed-off-by: Daniel Wagner <dwagner@suse.de>
+---
+ tests/nvme/040 | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-I think there is likely some much larger issue with the IW CM if the
-cm_id can be destroyed while the iwcm_id is in use? It is weird that
-there are two id memories for this :\
+diff --git a/tests/nvme/040 b/tests/nvme/040
+index b6ab34d611ba..688a0939a376 100755
+--- a/tests/nvme/040
++++ b/tests/nvme/040
+@@ -18,6 +18,7 @@ requires() {
+ 
+ test() {
+ 	local subsys="blktests-subsystem-1"
++	local file_path="${TMPDIR}/img"
+ 	local port
+ 	local loop_dev
+ 	local nvmedev
+@@ -26,8 +27,8 @@ test() {
+ 	echo "Running ${TEST_NAME}"
+ 
+ 	_setup_nvmet
+-	truncate -s "${nvme_img_size}" "$TMPDIR/img"
+-	loop_dev="$(losetup -f --show "$TMPDIR/img")"
++	truncate -s "${nvme_img_size}" "${file_path}"
++	loop_dev="$(losetup -f --show "${file_path}")"
+ 
+ 	port="$(_create_nvmet_port "${nvme_trtype}")"
+ 	_create_nvmet_subsystem "${subsys}" "${loop_dev}"
+@@ -57,5 +58,9 @@ test() {
+ 	_remove_nvmet_subsystem "${subsys}"
+ 	_remove_nvmet_port "${port}"
+ 
++	losetup -d "${loop_dev}"
++
++	rm -f "${file_path}"
++
+ 	echo "Test complete"
+ }
+-- 
+2.40.1
 
-Jason
 
