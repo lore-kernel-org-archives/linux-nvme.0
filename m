@@ -4,93 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F377C88CB4
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Jun 2023 14:12:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BDDD0C7EE2F
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Jun 2023 14:18:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4muTChvfXbyFleywXuJztp663UoDJyd/b1njxzLhqy8=; b=4lWZuq7imAqnT1LLalM6QHkwVB
-	QY6yp2K5cn5HPlljJW862MaKhJnb40ZofAGN/Lql5zOtsCjzOshfNarKIpX42GweEbt8ak23+0OZy
-	Zkm9Z7uosPLeAgyc9K3SbMBpIziUU6faYoEy3HltMklKD/d7lJS1/uORIRB9LZ26oQuawFGqzrmBH
-	vUmqX888f0YVGl9NXBl/L9GYv+9Z/Q2ncV1cxe5mTmpwaUFRLpJFDFnkMw86qRVMjddmxceIWx57j
-	j7mpxYwbJbmtxj+lMmkBn16+YHLjkQeQJVRt3kJtk0aIesuoYNBfPdoZz1bqnvDd3cVppc8Np/ToL
-	kjan/pGQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=4Hx6JaA1VFMYuuPRejPTqH+/kHaaNNp+8XTwPIciGZk=; b=VDpxWw1laz0wbkE8F9sJ35k4OE
+	NLHMdbhZPpeGeiwaMzPocFnl4fsXf96RnZivPto5N5cQFLq+tQBXX3zd8UiZRmEROtpIgRXZ/CMJr
+	W6cvVXfEGdkffShAd/Ht0oxw1kZDrnGFk54bCDc6IjtU7FxWOfcMPBs8JiKg9UgCI3AQe9fjPWut4
+	g+l+Y5hEXJLD5JBK4Ab3Bns0xL0JpnE8ATQIjyfl8vLcT9t1aI2kcKeQA1KHgUaJ/XQ0yTmiynfm4
+	BuIfMepBfJ4IBvuK+tsSEetiBw1XKDu34c4uJcn0K/OTQCa6Juq/p1VxemHjE8zmLB/7XFs9goHum
+	kGolLAvw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q8iGz-004FV4-1P;
-	Mon, 12 Jun 2023 14:11:57 +0000
-Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36])
+	id 1q8iN6-004H67-0e;
+	Mon, 12 Jun 2023 14:18:16 +0000
+Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q8iGt-004FSz-2Z
+	id 1q8iN3-004H4l-0y
 	for linux-nvme@lists.infradead.org;
-	Mon, 12 Jun 2023 14:11:56 +0000
-Received: by mail-io1-xd36.google.com with SMTP id ca18e2360f4ac-7748ca56133so36786039f.0
-        for <linux-nvme@lists.infradead.org>; Mon, 12 Jun 2023 07:11:50 -0700 (PDT)
+	Mon, 12 Jun 2023 14:18:14 +0000
+Received: by mail-qt1-x82e.google.com with SMTP id d75a77b69052e-3f9eea9d0a1so18152951cf.1
+        for <linux-nvme@lists.infradead.org>; Mon, 12 Jun 2023 07:18:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1686579108; x=1689171108;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4muTChvfXbyFleywXuJztp663UoDJyd/b1njxzLhqy8=;
-        b=sLZGHozVNiyKe7ZdVW/Izn1P7sgaQShCFq8nFxDEUw2HPGtUJB2+ZAyPMlipviAeTp
-         k3uQ8FI/e0eQenGUZnHNrzUL6Ik3G0IXm+GRBayvvLbMzgaY+UXyhfCpD4GOrVPEdTJv
-         IcIkIA09lG9xzyFYUO5JzJkmOBfAprST6Rp9IHrO/jxkuWSRx8pvHMOooqILGwgI/Lo6
-         1VEW0UpTP7V9T32ew0hLYFEC4JqpDUjaCB9j68pNjawpUBhqZ7JS8ocpEabGbvX3LMxh
-         84vjMA0Z3WUKqubPW8wvoXypai5o3n5GNzihnbK3f7nqUGYlTvpK/lKsx4hWnhA+HiQE
-         ZgZQ==
+        d=ziepe.ca; s=google; t=1686579487; x=1689171487;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4Hx6JaA1VFMYuuPRejPTqH+/kHaaNNp+8XTwPIciGZk=;
+        b=D7eGkhPav+Iw9SGA7aEVSTNfKwuRTKm5G+sl0JlstlReKmUBBQSK9e9wUhNmXP7o4z
+         UHHeAM+A2oaPorjylRyHzR1iSgcK/mmUP9WjLwZRc1d+m+Spb8WGKRyGZIX+V+acrk++
+         JB5MzpxRKQWZDWtmNfGyRNJyNUdzAUJaUAPlRtxGAFPXh0N2WGU/JOryeICEZ3On+zyN
+         BG+4CAxzqY0LnXhAwObkeEBDjnbZWUqMiFYpwlPOIspCciA61nSDFC+nd2HUKExpdgvK
+         ELky1u1iZLU3Yc9cjXm+ee1Aa0ofQ05s6A3ZejB5iyxqlMulXKXOca85JG5D9vaN/bWI
+         xOVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686579108; x=1689171108;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4muTChvfXbyFleywXuJztp663UoDJyd/b1njxzLhqy8=;
-        b=dDaYjpd3Uyso38ytRWqBdzvHfvmtmHTR+3q47bEBw4gRolKjkkULVQmG+KOaK2bZkD
-         8wSvB+QGpbZ7hPTgT0dwksI3Xu/LWX718EbTazWD258dQQK/nd7RO0IUTJs9w1tciF0G
-         x4SGH7YlYbCe93M7Rb6XNH2ONw+8UsdVoRuflDpoKhA/lDIs8+m+xe5scgnPaIjvM7C+
-         v+ILqIR6pIAsbaIYeHefbDUo8n3WfGxJAY3dNaT3f3lybwX5sx+0fzMIkyzmKpd7ivVV
-         VuM9b2jmb7xcD3wVh6U679pwR/mhur/1gCdDzM9YjiTXJ/LYON/OXFvh7sXDb+sQpgoz
-         aUug==
-X-Gm-Message-State: AC+VfDxnd9T6how2K6z83St/P21fGf1JXbY3sqGcNfTrKFSjA89LB0u1
-	6OezNTr/z6utnWXmKpBswAjsgg==
-X-Google-Smtp-Source: ACHHUZ7oss5Q4qEAESR1LIaLJkD7ZwONVfsRpFehVo9Ss1V9OTMOTrOh14yI7Krm7Ivy+/EbDcrm4g==
-X-Received: by 2002:a6b:690a:0:b0:77a:ee79:652 with SMTP id e10-20020a6b690a000000b0077aee790652mr4231482ioc.1.1686579107952;
-        Mon, 12 Jun 2023 07:11:47 -0700 (PDT)
-Received: from [127.0.0.1] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id i19-20020a02cc53000000b0041408b79f1esm2793007jaq.111.2023.06.12.07.11.46
+        d=1e100.net; s=20221208; t=1686579487; x=1689171487;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4Hx6JaA1VFMYuuPRejPTqH+/kHaaNNp+8XTwPIciGZk=;
+        b=WYKGu8qLII8S2TgyCD10VMBiDKt0nvn7dY4vPRoTRK3GB7Dz3m38TVCQPfuoS8tAP5
+         AS1V6hxYGU3UuD1tlFVeOJ1wLHiz727qHHOcrh1CZ6tNto4iYPPmsth1k/CLihc/mqwU
+         NAxctCbHDl0nuuvqvKI/wLzccKMNdqQzYKBZhNEzXda7Kyu9NoMwHzgYaCS/ikjRRJ4F
+         HCMDTiDbiNjmHVRXYKE5FpJj2B2Mjy5Sbabm4M6FAMnj37n7H/88GQQnIFfYSORn9Fgz
+         Ag+l2HngMrmE2zxTKuQELNtVEMtIpmHBTpzQi8dZGN5doM4sDQjApGT07lqxAFOupqwu
+         Nazw==
+X-Gm-Message-State: AC+VfDyU3IpQeHdr5q7734FVQfVEoJun+vBz/r3vekwnlbgg9rZSa4lS
+	gbowXmVjOx4hvBFSlX2wlkalhg==
+X-Google-Smtp-Source: ACHHUZ5uXYK3k9fARcVs12zkAlloXFgFswgLnTGTsduaqOQC0Q2Jq7lsI3SuS0aFpOUsHwK9sN4gjA==
+X-Received: by 2002:ac8:57cc:0:b0:3f9:7251:30f4 with SMTP id w12-20020ac857cc000000b003f9725130f4mr12276118qta.4.1686579487027;
+        Mon, 12 Jun 2023 07:18:07 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-25-194.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.25.194])
+        by smtp.gmail.com with ESMTPSA id bs17-20020ac86f11000000b003e3860f12f7sm3412801qtb.56.2023.06.12.07.18.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jun 2023 07:11:47 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Richard Weinberger <richard@nod.at>, Josef Bacik <josef@toxicpanda.com>, 
- "Md. Haris Iqbal" <haris.iqbal@ionos.com>, Jack Wang <jinpu.wang@ionos.com>, 
- Phillip Potter <phil@philpotter.co.uk>, Coly Li <colyli@suse.de>, 
- Miquel Raynal <miquel.raynal@bootlin.com>, 
- Vignesh Raghavendra <vigneshr@ti.com>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>, Chris Mason <clm@fb.com>, 
- David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
- dm-devel@redhat.com, linux-block@vger.kernel.org, 
- linux-um@lists.infradead.org, linux-scsi@vger.kernel.org, 
- linux-bcache@vger.kernel.org, linux-mtd@lists.infradead.org, 
- linux-nvme@lists.infradead.org, linux-btrfs@vger.kernel.org, 
- linux-f2fs-devel@lists.sourceforge.net, linux-nilfs@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-pm@vger.kernel.org
-In-Reply-To: <20230608110258.189493-1-hch@lst.de>
-References: <20230608110258.189493-1-hch@lst.de>
-Subject: Re: decouple block open flags from fmode_t v2
-Message-Id: <168657910650.933808.4041515037046679285.b4-ty@kernel.dk>
-Date: Mon, 12 Jun 2023 08:11:46 -0600
+        Mon, 12 Jun 2023 07:18:06 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1q8iMv-004amy-JE;
+	Mon, 12 Jun 2023 11:18:05 -0300
+Date: Mon, 12 Jun 2023 11:18:05 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: linux-rdma@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
+	linux-nvme@lists.infradead.org, Damien Le Moal <dlemoal@kernel.org>
+Subject: Re: [PATCH v2] RDMA/cma: prevent rdma id destroy during
+ cma_iw_handler
+Message-ID: <ZIcpHbV3oqsjuwfz@ziepe.ca>
+References: <20230612054237.1855292-1-shinichiro.kawasaki@wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-c6835
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230612054237.1855292-1-shinichiro.kawasaki@wdc.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230612_071151_833793_615A6001 
-X-CRM114-Status: GOOD (  15.71  )
+X-CRM114-CacheID: sfid-20230612_071813_441729_F94475BD 
+X-CRM114-Status: GOOD (  20.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,87 +95,81 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-On Thu, 08 Jun 2023 13:02:28 +0200, Christoph Hellwig wrote:
-> this series adds a new blk_mode_t for block open flags instead of abusing
-> fmode_t.  The block open flags work very different from the normal use of
-> fmode_t and only share the basic READ/WRITE flags with it.  None of the
-> other normal FMODE_* flags is used, but instead there are three
-> block-specific ones not used by anyone else, which can now be removed.
+On Mon, Jun 12, 2023 at 02:42:37PM +0900, Shin'ichiro Kawasaki wrote:
+> When rdma_destroy_id() and cma_iw_handler() race, struct rdma_id_private
+> *id_priv can be destroyed during cma_iw_handler call. This causes "BUG:
+> KASAN: slab-use-after-free" at mutex_lock() in cma_iw_handler() [1].
+> To prevent the destroy of id_priv, keep its reference count by calling
+> cma_id_get() and cma_id_put() at start and end of cma_iw_handler().
 > 
-> Note that I've only CCed maintainers and lists for drivers and file systems
-> that have non-trivial changes, as otherwise the series would spam literally
-> everyone in the block and file system world.
+> [1]
 > 
-> [...]
+> ==================================================================
+> BUG: KASAN: slab-use-after-free in __mutex_lock+0x1324/0x18f0
+> Read of size 8 at addr ffff888197b37418 by task kworker/u8:0/9
+> 
+> CPU: 0 PID: 9 Comm: kworker/u8:0 Not tainted 6.3.0 #62
+> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-1.fc38 04/01/2014
+> Workqueue: iw_cm_wq cm_work_handler [iw_cm]
+> Call Trace:
+>  <TASK>
+>  dump_stack_lvl+0x57/0x90
+>  print_report+0xcf/0x660
+>  ? __mutex_lock+0x1324/0x18f0
+>  kasan_report+0xa4/0xe0
+>  ? __mutex_lock+0x1324/0x18f0
+>  __mutex_lock+0x1324/0x18f0
+>  ? cma_iw_handler+0xac/0x4f0 [rdma_cm]
+>  ? _raw_spin_unlock_irqrestore+0x30/0x60
+>  ? rcu_is_watching+0x11/0xb0
+>  ? _raw_spin_unlock_irqrestore+0x30/0x60
+>  ? trace_hardirqs_on+0x12/0x100
+>  ? __pfx___mutex_lock+0x10/0x10
+>  ? __percpu_counter_sum+0x147/0x1e0
+>  ? domain_dirty_limits+0x246/0x390
+>  ? wb_over_bg_thresh+0x4d5/0x610
+>  ? rcu_is_watching+0x11/0xb0
+>  ? cma_iw_handler+0xac/0x4f0 [rdma_cm]
+>  cma_iw_handler+0xac/0x4f0 [rdma_cm]
 
-Applied, thanks!
+What is the full call chain here, eg with the static functions
+un-inlined?
+> 
+>  drivers/infiniband/core/cma.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/infiniband/core/cma.c b/drivers/infiniband/core/cma.c
+> index 93a1c48d0c32..c5267d9bb184 100644
+> --- a/drivers/infiniband/core/cma.c
+> +++ b/drivers/infiniband/core/cma.c
+> @@ -2477,6 +2477,7 @@ static int cma_iw_handler(struct iw_cm_id *iw_id, struct iw_cm_event *iw_event)
+>  	struct sockaddr *laddr = (struct sockaddr *)&iw_event->local_addr;
+>  	struct sockaddr *raddr = (struct sockaddr *)&iw_event->remote_addr;
+>  
+> +	cma_id_get(id_priv);
+>  	mutex_lock(&id_priv->handler_mutex);
+>  	if (READ_ONCE(id_priv->state) != RDMA_CM_CONNECT)
+>  		goto out;
+> @@ -2524,12 +2525,14 @@ static int cma_iw_handler(struct iw_cm_id *iw_id, struct iw_cm_event *iw_event)
+>  	if (ret) {
+>  		/* Destroy the CM ID by returning a non-zero value. */
+>  		id_priv->cm_id.iw = NULL;
+> +		cma_id_put(id_priv);
+>  		destroy_id_handler_unlock(id_priv);
+>  		return ret;
+>  	}
+>  
+>  out:
+>  	mutex_unlock(&id_priv->handler_mutex);
+> +	cma_id_put(id_priv);
+>  	return ret;
+>  }
 
-[01/30] block: also call ->open for incremental partition opens
-        commit: 9d1c92872e7082f100f629a58b32fa0214aa1aec
-[02/30] cdrom: remove the unused bdev argument to cdrom_open
-        commit: 764b83100b9aff52f950e408539c22a37cdedae8
-[03/30] cdrom: remove the unused mode argument to cdrom_ioctl
-        commit: 473399b50de1fdc12606254351273c71d1786251
-[04/30] cdrom: remove the unused cdrom_close_write release code
-        commit: a4cec8bc14c02e15006a71f02b0e1bbc72b9f796
-[05/30] cdrom: track if a cdrom_device_info was opened for data
-        commit: 8cdf433e2b8e4fc6c7b4393deb93fb258175d537
-[06/30] cdrom: remove the unused mode argument to cdrom_release
-        commit: 7ae24fcee9929f9002b84d8121144b2b3590b58c
-[07/30] block: pass a gendisk on bdev_check_media_change
-        commit: 444aa2c58cb3b6cfe3b7cc7db6c294d73393a894
-[08/30] block: pass a gendisk to ->open
-        commit: d32e2bf83791727a84ad5d3e3d713e82f9adbe30
-[09/30] block: remove the unused mode argument to ->release
-        commit: ae220766d87cd6799dbf918fea10613ae14c0654
-[10/30] block: rename blkdev_close to blkdev_release
-        commit: 7ee34cbc291a28134b60683b246ba58b4b676ec3
-[11/30] swsusp: don't pass a stack address to blkdev_get_by_path
-        commit: c889d0793d9dc07e94a5fddcc05356157fab00b7
-[12/30] bcache: don't pass a stack address to blkdev_get_by_path
-        commit: 29499ab060fec044161be73fb0e448eab97b4813
-[13/30] rnbd-srv: don't pass a holder for non-exclusive blkdev_get_by_path
-        commit: 5ee607675debef509946f8a251d4c30a21493ec2
-[14/30] btrfs: don't pass a holder for non-exclusive blkdev_get_by_path
-        commit: 2ef789288afd365f4245ba97e56189062de5148e
-[15/30] block: use the holder as indication for exclusive opens
-        commit: 2736e8eeb0ccdc71d1f4256c9c9a28f58cc43307
-[16/30] block: add a sb_open_mode helper
-        commit: 3f0b3e785e8b54a40c530fa77b7ab37bec925c57
-[17/30] fs: remove sb->s_mode
-        commit: 81b1fb7d17c0110df839e13468ada9e99bb6e5f4
-[18/30] scsi: replace the fmode_t argument to scsi_cmd_allowed with a simple bool
-        commit: 5f4eb9d5413fdfc779c099fdaf0ff417eb163145
-[19/30] scsi: replace the fmode_t argument to scsi_ioctl with a simple bool
-        commit: 2e80089c18241699c41d0af0669cb93844ff0dc1
-[20/30] scsi: replace the fmode_t argument to ->sg_io_fn with a simple bool
-        commit: 1991299e49fa58c3ba7e91599932f84bf537d592
-[21/30] nvme: replace the fmode_t argument to the nvme ioctl handlers with a simple bool
-        commit: 7d9d7d59d44b7e9236d168472aa222b6543fae25
-[22/30] mtd: block: use a simple bool to track open for write
-        commit: 658afed19ceed54a52b9e9e69c0791c8868ff55d
-[23/30] rnbd-srv: replace sess->open_flags with a "bool readonly"
-        commit: 99b07780814e89f16bec2773c237eb25121f8502
-[24/30] ubd: remove commented out code in ubd_open
-        commit: bd6abfc8e7898ce2163a1ffdbb9ec71a0a081267
-[25/30] block: move a few internal definitions out of blkdev.h
-        commit: cfb425761c79b6056ae5bb73f8d400f03b513959
-[26/30] block: remove unused fmode_t arguments from ioctl handlers
-        commit: 5e4ea834676e3b8965344ca61d36e1ae236249eb
-[27/30] block: replace fmode_t with a block-specific type for block open flags
-        commit: 05bdb9965305bbfdae79b31d22df03d1e2cfcb22
-[28/30] block: always use I_BDEV on file->f_mapping->host to find the bdev
-        commit: 4e762d8623448bb9d32711832ce977a65ff7636a
-[29/30] block: store the holder in file->private_data
-        commit: ee3249a8ce78ef014a71b05157a43fba8dc764e3
-[30/30] fs: remove the now unused FMODE_* flags
-        commit: 0733ad8002916b9dbbbcfe6e92ad44d2657de1c1
+cm_work_handler already has a ref on the iwcm_id_private
 
-Best regards,
--- 
-Jens Axboe
+I think there is likely some much larger issue with the IW CM if the
+cm_id can be destroyed while the iwcm_id is in use? It is weird that
+there are two id memories for this :\
 
-
-
+Jason
 
