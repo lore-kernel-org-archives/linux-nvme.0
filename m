@@ -4,74 +4,148 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 88C2EC7EE23
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Jun 2023 01:33:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4A660C7EE23
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Jun 2023 03:05:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1IFwnr85HXMtMD3jr2c81AHgBqxYZ1qxXvI6oQ4So6Q=; b=E65HThNP8wNMiBL9WGb0ZouFra
-	3wCeIGOyK+VttZ8yr2AG80uizAP0T36jhZpw+j5V089+zHzBxIziWOp+eouqmhKU8XojhlwaC8lgV
-	JjTQHhgLIE9d0wcMc6VVLMnYMkmE0QcjEf7tYyEOo8prtOvOIDEA4N+bu+k6jDj8hQZJAUhsKyDpG
-	qAtSc33U1kOJVD9pfWWkRqk/fh0DnOm5XsrbyoFhIE4CBdyIh/deWFQqptUVGxaph6k4YJ0TWdFfU
-	76KwETYKinR0l2PoSV4YGehdVetShJZBSnssY99bpOezdfage2kEsR+P7hGO7q1vLnWJcoqPEoLFD
-	A+dwUcpg==;
+	bh=gxK8t9YHyr5w73KeO+oRMERjnJi5amlyXAH/i8e+HEU=; b=StzTyQKfPqt/9PNIoVyKaWlcqa
+	V6eRqOv7PjRAz4p4nthGe3f0Qt9U/aPRdSHJyXTD4JlaOM7F1b3hSdpghytHUrH4gx/2Ol5UrjXuD
+	xs1Hx/mTxAJwpOEwaTcLjRVE1VFwML66UNiVIffgc2IPTrZAuGuMsfwY9LGfDztYtli7pJiudF5Yc
+	arLcG29aS23Eb4eNMr7KrNghpRZghvy9SFuZMie/dz/l2M7lSQVTlECSafv0yXdtaw3yYRA9T9yju
+	4+lEHkGH8p79Eja74xzFJFokg79Ai1AVuB4qwtSjaF3tHA95uSHUmetIWutQzB7ETFxJApVGLjgbk
+	KO63npuw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q8WR5-002Gio-2H;
-	Mon, 12 Jun 2023 01:33:35 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1q8Xrc-002OkA-23;
+	Mon, 12 Jun 2023 03:05:04 +0000
+Received: from esa2.hgst.iphmx.com ([68.232.143.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q8WR2-002Ggw-1P
+	id 1q8XrZ-002OjG-2Y
 	for linux-nvme@lists.infradead.org;
-	Mon, 12 Jun 2023 01:33:34 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1686533606;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1IFwnr85HXMtMD3jr2c81AHgBqxYZ1qxXvI6oQ4So6Q=;
-	b=LNfOLPEfWJB/Zu8hNTriRyW3kTEUqn6wGvzxGos79ceGwm8Ip3IhfJc5rTxwhyKuUYkTJa
-	xBOGIebs6P0upKczRkhutj3yI2SxNte0QzHkbKzp322T5JzBX3LyluCPCV54PqHpac0I1x
-	bjpSCl6l5N3DCkoW1T1g/cxjawD3A3g=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-634--T04_8m2PwCShCoeZ5tIjw-1; Sun, 11 Jun 2023 21:33:17 -0400
-X-MC-Unique: -T04_8m2PwCShCoeZ5tIjw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EA7F68002BF;
-	Mon, 12 Jun 2023 01:33:16 +0000 (UTC)
-Received: from ovpn-8-23.pek2.redhat.com (ovpn-8-20.pek2.redhat.com [10.72.8.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B32C515540;
-	Mon, 12 Jun 2023 01:33:10 +0000 (UTC)
-Date: Mon, 12 Jun 2023 09:33:05 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: =?utf-8?B?6K645pil5YWJ?= <brookxu.cn@gmail.com>, kbusch@kernel.org,
-	axboe@kernel.dk, hch@lst.de, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, ming.lei@redhat.com
-Subject: Re: [RFC PATCH 0/4] nvme-tcp: fix hung issues for deleting
-Message-ID: <ZIZ10UGQOJCWgjkX@ovpn-8-23.pek2.redhat.com>
-References: <cover.1685350577.git.chunguang.xu@shopee.com>
- <ZH9NcBtrDxwq5xRU@ovpn-8-17.pek2.redhat.com>
- <CADtkEeeVWZ_b9mDWzwaq_5hdfZ53-RX2rd1SDDem=YsSBQ_g8A@mail.gmail.com>
- <ZIEnQpAgeqm0xcQP@ovpn-8-23.pek2.redhat.com>
- <febff498-63e6-efe2-2f5a-9a9fa7e767c0@grimberg.me>
+	Mon, 12 Jun 2023 03:05:03 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1686539101; x=1718075101;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=HfP4vFiZS9tAVwqTwGnGOCYXdZPQ/z7QNlpoHyE/27g=;
+  b=NUM1pZeQOuvOgAhcCwq2o3X9tpqvu/yHHVMc8cAAkwDmOlZOcygHc1/R
+   SYjPGJgiynard/CEE9HJbctN3UEI+IGfvM4y3PdA5QOltDVSk0a6L8XwA
+   udyOOKRK2xjK0mgYD97nzxl7EXeJgPf39unDdE5l/tQmCtfGWkrcsMcls
+   cpieLa3xZG/3DHx/4enje0IBE5EAcQYjjOTTcjCkB18MkJrDOg3wuy+FA
+   D9fYpdZdLT+oEl/eyWJ9r/wK7EAXcZ8vaV+3YJRlfuvJ06lmpioJSGW48
+   10OnHipZLNtflr8IxuQX1L9gcwUX3/Z9E2AlvCTI+E4AFJbRi+CzC24gA
+   w==;
+X-IronPort-AV: E=Sophos;i="6.00,235,1681142400"; 
+   d="scan'208";a="340032123"
+Received: from mail-dm6nam12lp2170.outbound.protection.outlook.com (HELO NAM12-DM6-obe.outbound.protection.outlook.com) ([104.47.59.170])
+  by ob1.hgst.iphmx.com with ESMTP; 12 Jun 2023 11:04:55 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RX34v6jSoI0gmZSr759wLJaiiqJiXPiqCISkvlFSZ5ZMdQFxJInimYD8UtmWpp611cAfcLrK+efQUxgZPxnb2HBXd58LDK6HbRvS/DVuugR+DUpqh6Ru0xPcm06OQ4yhPNkcal8zqaVbiJofnEVI85eyKG5HOpuFBKYvSBXGRPNTe/XnnvM04+R2ZdGDhjD7drkmzfHbWinFY0YsCIhMwQJleGM+wYHyi3uX2WQpsOMSM20JmJVYANwkvyojonaufXn9P/g7kFKC3fwJhTxeWxGeP6cdg+wMOlI7n0kUcFh7G9NkGlho1AlYNouS5PdRPlW3I5ge9JEAg1yfYNZV5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gxK8t9YHyr5w73KeO+oRMERjnJi5amlyXAH/i8e+HEU=;
+ b=cWVLVw03fTzjEkJU433pBZlbjIeHSVVotcCqlPjBPsrRPm2y51E4GBlhOe3Rb+JAvn/w1eyW55Xgr2V+fYGuZcKmeJsKQlDQGG3ySV19QF5MPeNAMkR9p/rARs0TCdLZ4QPa1OclEHgoyYir/RYaK+cDyTJggQtBWqmVPq9dr16Xo7L+aiSjlN3Lv4Wf0lbMsLlyvltvZON97b0Vo0TWXV79Kv/mleOlpHdQgg7fhqRcovoNrvBIloUEOruMObuP/IC9va+0S8UraiMPbsUxK9Z+U1rtFOLkGCY0pa+MlNq5NK3QnUpjdyz48GQ16Ndt/eSWY1kQDxk+k+CgFkBXRw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gxK8t9YHyr5w73KeO+oRMERjnJi5amlyXAH/i8e+HEU=;
+ b=YbdtlkfqEb42+reZ03JfD0OxExJ3fwcJlc60gscO6nnY9jqJrAQzJSZIbb1OPnxjZTTBqMFV4W4xuGZ8oWIcA1UM10qlGg+if2AFOhkzl3L47pKM2HpbiVHOSKQ27XByKDo5co/46FvCgWrr0AmklQ7UyHMN5niC6IIgEP9fTBc=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ DM6PR04MB6332.namprd04.prod.outlook.com (2603:10b6:5:1e7::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6477.29; Mon, 12 Jun 2023 03:04:52 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::bfa:d453:e7e9:8f98]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::bfa:d453:e7e9:8f98%6]) with mapi id 15.20.6477.028; Mon, 12 Jun 2023
+ 03:04:51 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Leon Romanovsky <leon@kernel.org>
+CC: "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>, Jason Gunthorpe
+	<jgg@ziepe.ca>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, Damien Le Moal
+	<damien.lemoal@opensource.wdc.com>
+Subject: Re: [PATCH] RDMA/cma: prevent rdma id destroy during cma_iw_handler
+Thread-Topic: [PATCH] RDMA/cma: prevent rdma id destroy during cma_iw_handler
+Thread-Index: AQHZlbTSAgxx2jnCnE2SRIGXfjrpbq+FqDeAgADhk4A=
+Date: Mon, 12 Jun 2023 03:04:51 +0000
+Message-ID: <gwd7gnvufcdq2ybzs2tazdncgp4dzyppmvfrxnre4khwzbuhf6@wdlct3ilzqrj>
+References: <20230603004620.906089-1-shinichiro.kawasaki@wdc.com>
+ <20230611133707.GE12152@unreal>
+In-Reply-To: <20230611133707.GE12152@unreal>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|DM6PR04MB6332:EE_
+x-ms-office365-filtering-correlation-id: 1c4a5613-977d-41f0-dde2-08db6af1ca4b
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: P52A7Ewch3fgGbSXFGg3JrnG1myv07EFEnAr0fqLLKjDRVTgng+7TDDmTyYYMGmmX2hjgmLZf++TBXxqYTXXA3ZGJJ/2fRZ/PEI/Pt9knx6Uy5yLobhD6hPy0GPWqvCc2rw7pkhvGHaaByTxnFfLIMOm5nrXbyv7IpwW311fvwrfZ4iwpIvpFqjIIJHNV8ZmBfcVg7HMvDb1jui2cAD/M6nF41WYYqLK3NjK6W5RDGTKn7njhCml+/NX+5V/2RaqQtJoid31zeu3529poftKYktjLMkPFqf39iWgZ9tnGn/yMgAEKS1KcIYECAOQ0A2s/pRAuPoQMuyIWR9rTeyKsaveRhQ8Gp0glkVQ8LqPmY7elsPj/mekWLooCHpnY6zGy4jo07T7gcwgDcAnfAQ+jAYDv7EZdKTI3Z7RULZuKYZnFhGR06PEaIppEBLGQsYqjDtU/ll9dxMxBKTjqpq9a+jvjVkFp7jfsDnCL/R+7ChokLSn/5efCgWAgURssduKHmA/fX6Gq3avMENtFM/nA8fyasktRVvK+QrQN04BgAvClYkOk8SwPW9TwpXu6nWNOBw8y3X/K5Yj4CHZIHa4BJonUrI2BgRBgyh9NKioVAc=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(7916004)(396003)(366004)(39860400002)(136003)(376002)(346002)(451199021)(76116006)(4326008)(66946007)(91956017)(64756008)(66556008)(66446008)(66476007)(186003)(6916009)(478600001)(2906002)(54906003)(33716001)(8676002)(316002)(966005)(41300700001)(86362001)(6486002)(6506007)(9686003)(44832011)(38070700005)(71200400001)(122000001)(8936002)(82960400001)(83380400001)(5660300002)(26005)(38100700002)(6512007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?reYdASLDiMzDK3+lY2q+3BuEa8dMKJStqDvIO3zB55JIpRqgWFPzmMtQSZ4w?=
+ =?us-ascii?Q?pcscO+beH4Av4DwuvvR+HrTColSMPPIHBTY8Go4xQWv4XYt7OMDEm5KnhWO2?=
+ =?us-ascii?Q?K6cVHwYHILL5GldIPc/isHySwCLv704c/C2kISwP2jBvklfAmZ5a7p8NGyfQ?=
+ =?us-ascii?Q?et/zOt93NJnEAMR4cCP8Ma0PW6YwAcFGQ7y5Stv9RahURi+S+lfZvvM4Urx2?=
+ =?us-ascii?Q?iuLzXg1PGRFpEmuY52DplRuP/hSVAeFWaa0lIBoNwdTsClZ0maB6cA94obzW?=
+ =?us-ascii?Q?cOIC3K666m8L2Igr54G1wwi+J3ZzMW4RVQJSwL04z1LOe9553Y5+ugHLgfqd?=
+ =?us-ascii?Q?IDS/MC8V6PM+srcbbpEOL96o30dtBQ1Xcmq+m4Ye/zhQPHiD7pnmqyRZoKdv?=
+ =?us-ascii?Q?4g7leIcu9BNhPbFq7WmpPa+bnf+d0PH2P1rbJKkhv94v21OBq1ZAXzdPvBWL?=
+ =?us-ascii?Q?4zATQtGh3fbfF5kp+fchLn9vn8G752csYi3MBJvEYYaJVMQq9g0DrGVXh06l?=
+ =?us-ascii?Q?M5jP2QB8sUTF1ZHLppr7CfclQjVrisZt9ohBP60r8/PxNJAmxhQmywDdy/b9?=
+ =?us-ascii?Q?UlMYsOaRzmfG+aYRt0+vdmJqxvpPcEIMYKKjBSCE+BBQvuFXxrFBe5z34WQ5?=
+ =?us-ascii?Q?Whyz3MbYn4YNoXaXVn9dNhwrEA0fIg7CwdwNykotK2ryX07+qKD+Wpu2tl7j?=
+ =?us-ascii?Q?W1O8126tpCp99Hav5tpdub8CIYaS6Y2nkgRb7rA7lQl1FwGd3RKbWVJbD9ur?=
+ =?us-ascii?Q?6FKpLN7zMwqSsXHqOy2gAm9oy22bFmV9QFCAmbh3GOF6ph5LLWcojG4dPy22?=
+ =?us-ascii?Q?ZfmD+YylvUewkoqXPZGMYZMs9e5jmNu5UOx1On5BGhg4GvGQMLfWkFo1HhQ9?=
+ =?us-ascii?Q?WCxqOveMG5mPSyzL0XW9hlyQr81HpUxacSJq7xmTdc6XQ8Ot80U26d5N7drA?=
+ =?us-ascii?Q?LfRpXsKPARanV0nwwOPgmWEjeIUeZEmGNu7tK9yhmrfNZnH4JyDDeF5xD96p?=
+ =?us-ascii?Q?NdAq4QKoonjZouDj88BUJlSQtKm7lP3wcu6yIJz06qk98anBEw3V2MOZKi63?=
+ =?us-ascii?Q?j3HwLk161g1lP/tNDL0IVac47utctBalTrteMBVb4701oeWyS1SsFsr/4n16?=
+ =?us-ascii?Q?60VVsZ3qO+P4LF3V4/LpDb9rxE5/3kM6FXW/yZqWvnmpZdRdcfpt8Su6vJBl?=
+ =?us-ascii?Q?sfNaglc1PTtcvwYigF/qtA1YolMKCYlKzvoe+Eo74OMbDPn0oQSocSoYSh3I?=
+ =?us-ascii?Q?M8Q1hy3VQFzbKNJa1g2dU9/5/0bMbYJUsewYPnNUHl8rEdj7pjaKdFhVCplO?=
+ =?us-ascii?Q?/o1gVxPhDK+rf5bTkppqbpBeKKqQxYaBa0fqdyo404fhsgYcLGTN13EaXX6f?=
+ =?us-ascii?Q?0+3fMdMyMnQT5xEWUljzSdsjqEN/l3sgb5d7ePZT6fJEFMTqwz87VGtrNtcg?=
+ =?us-ascii?Q?ioaZ9MGtz0/EsEej0E9Z+zvcLnlreRnXPdUr/FQcRJTCBfuOCyMn3uwqdRu1?=
+ =?us-ascii?Q?kDznMKkdhhuvRTkTEnOj1I3qseHHl3S29olrThy4yyibcMg8AK2l3wdoMKOC?=
+ =?us-ascii?Q?I8ioQJ92qylcEPf5AyMVwyXoZBJ1G/s0JLGudMYrrB80fyobNa4p0yqqxNKY?=
+ =?us-ascii?Q?KqUGziT77VL/NptdAOVvEgA=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <0173E42FF2EBEB4AA63CB31C9921435B@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <febff498-63e6-efe2-2f5a-9a9fa7e767c0@grimberg.me>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: uJacDpxEOmuIk38T95BrBfOq76UXORwcihR+I26qECupRdFPj5WGHMLi1H8sg/5SjXagQ9riH5CAHNkblKslqMG5xiL2qA8bWh+4EBa8EvHto4yLI/JSgr5WpIfKAzy4IvogLpxfV3UdOeDguckJT5ZRSVB4hM+7rV8i51GU46momiquQcD7uZn68oKmXDqZwJtdgJsnaOBALUXKSNYK5KvTmZUcEMa5B5cENoB+cXcREpeTSCWhhGoZ3uqKOYH74FwBTSpRDsPnTM58eplRbxW8qEz6K7aeN6xnWhCmTLYQvN6YJlrqheauWyqQGQYcr6YIg06J3EVTFnQg6EfGPDwO33uQwi2El8W9/W907n/bZSyGn/3nvPdkUgHPO9m69k1aXoCuKh6sR1ulvtWkAFMa/3JtTIMMRntyuNrdH6yDm4H3Jg4Jt5pXc/pz1iJv8/eylhwBQRXnrEpnbxMYypEu5Im/k5+6MDmcKl3wWAeTCzjgs5slEsbbtV81bzOyKKcElp+QSSF2j1lbri5oVV37MbezfSwUV5lFHfBzS731R2qJ8hm5AQ0wuM8KXli2q+gUDPwJzypYrV0FfJO8TDDa+Ug15j7R/fp9BlOR7nHYks0L6iYaBAufpo/mif+HHBW67EffCwJeOHhAkxVBk/yK0Bt59xfveqXIrKdoQDBYWuR+w2n9HKSIkXFEAg19mJwNFPlhJzWVYVSNvCYeAE3v4c/dwSbOddfYAxtxRYWXcUafBOhxUBFtOxGqLMOQE5y3s0UotZNZxv2zizM5wXiJNcgLSypWW/DoVlaCvJ2iWHCJhY4LfK7mEg8bc9MhANUlXtbBfc+FyQzz/sd4017FDdObVsWQNjWglaGi0OTtDomV6Ccpy+UxznASV+ZR
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1c4a5613-977d-41f0-dde2-08db6af1ca4b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jun 2023 03:04:51.6302
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: SmmfTkYwYUvYudN7tdWWDWZSHJTQQLqSXp44K536FiFkk2OXrbRC0WolgzxUFFmDAWpaR+iE77Sef82mvDpDigWCdBchG1eeoFUWDr6CJfI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB6332
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230611_183332_575693_7D3CC0D3 
-X-CRM114-Status: GOOD (  42.98  )
+X-CRM114-CacheID: sfid-20230611_200501_972217_595656FF 
+X-CRM114-Status: GOOD (  19.65  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,127 +160,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Jun 11, 2023 at 11:11:06AM +0300, Sagi Grimberg wrote:
-> 
-> > > Hi Ming:
-> > > 
-> > > Ming Lei <ming.lei@redhat.com> 于2023年6月6日周二 23:15写道：
-> > > > 
-> > > > Hello Chunguang,
-> > > > 
-> > > > On Mon, May 29, 2023 at 06:59:22PM +0800, brookxu.cn wrote:
-> > > > > From: Chunguang Xu <chunguang.xu@shopee.com>
-> > > > > 
-> > > > > We found that nvme_remove_namespaces() may hang in flush_work(&ctrl->scan_work)
-> > > > > while removing ctrl. The root cause may due to the state of ctrl changed to
-> > > > > NVME_CTRL_DELETING while removing ctrl , which intterupt nvme_tcp_error_recovery_work()/
-> > > > > nvme_reset_ctrl_work()/nvme_tcp_reconnect_or_remove().  At this time, ctrl is
-> > > > 
-> > > > I didn't dig into ctrl state check in these error handler yet, but error
-> > > > handling is supposed to provide forward progress for any controller state.
-> > > > 
-> > > > Can you explain a bit how switching to DELETING interrupts the above
-> > > > error handling and breaks the forward progress guarantee?
-> > > 
-> > > Here we freezed ctrl, if ctrl state has changed to DELETING or
-> > > DELETING_NIO(by nvme disconnect),  we will break up and lease ctrl
-> > > freeze, so nvme_remove_namespaces() hang.
-> > > 
-> > > static void nvme_tcp_error_recovery_work(struct work_struct *work)
-> > > {
-> > >          ...
-> > >          if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_CONNECTING)) {
-> > >                  /* state change failure is ok if we started ctrl delete */
-> > >                  WARN_ON_ONCE(ctrl->state != NVME_CTRL_DELETING &&
-> > >                               ctrl->state != NVME_CTRL_DELETING_NOIO);
-> > >                  return;
-> > >          }
-> > > 
-> > >          nvme_tcp_reconnect_or_remove(ctrl);
-> > > }
-> > > 
-> > > 
-> > > Another path, we will check ctrl state while reconnecting, if it changes to
-> > > DELETING or DELETING_NIO, we will break up and lease ctrl freeze and
-> > > queue quiescing (through reset path), as a result Hang occurs.
-> > > 
-> > > static void nvme_tcp_reconnect_or_remove(struct nvme_ctrl *ctrl)
-> > > {
-> > >          /* If we are resetting/deleting then do nothing */
-> > >          if (ctrl->state != NVME_CTRL_CONNECTING) {
-> > >                  WARN_ON_ONCE(ctrl->state == NVME_CTRL_NEW ||
-> > >                          ctrl->state == NVME_CTRL_LIVE);
-> > >                  return;
-> > >          }
-> > >          ...
-> > > }
-> > > 
-> > > > > freezed and queue is quiescing . Since scan_work may continue to issue IOs to
-> > > > > load partition table, make it blocked, and lead to nvme_tcp_error_recovery_work()
-> > > > > hang in flush_work(&ctrl->scan_work).
-> > > > > 
-> > > > > After analyzation, we found that there are mainly two case:
-> > > > > 1. Since ctrl is freeze, scan_work hang in __bio_queue_enter() while it issue
-> > > > >     new IO to load partition table.
-> > > > 
-> > > > Yeah, nvme freeze usage is fragile, and I suggested to move
-> > > > nvme_start_freeze() from nvme_tcp_teardown_io_queues to
-> > > > nvme_tcp_configure_io_queues(), such as the posted change on rdma:
-> > > > 
-> > > > https://lore.kernel.org/linux-block/CAHj4cs-4gQHnp5aiekvJmb6o8qAcb6nLV61uOGFiisCzM49_dg@mail.gmail.com/T/#ma0d6bbfaa0c8c1be79738ff86a2fdcf7582e06b0
-> > > 
-> > > While drive reconnecting, I think we should freeze ctrl or quiescing queue,
-> > > otherwise nvme_fail_nonready_command()may return BLK_STS_RESOURCE,
-> > > and the IOs may retry frequently. So I think we may better freeze ctrl
-> > > while entering
-> > > error_recovery/reconnect, but need to unfreeze it while exit.
-> > 
-> > quiescing is always done in error handling, and freeze is actually
-> > not a must, and it is easier to cause race by calling freeze & unfreeze
-> > from different contexts.
-> > 
-> > But yes, unquiesce should have been done after exiting error handling, or
-> > simply do it in nvme_unquiesce_io_queues().
-> > 
-> > And the following patch should cover all these hangs:
-> > 
-> 
-> Ming, are you sending a formal patchset for this?
+Thanks for the comments.
 
-Not yet, will do it.
+On Jun 11, 2023 / 16:37, Leon Romanovsky wrote:
+> On Sat, Jun 03, 2023 at 09:46:20AM +0900, Shin'ichiro Kawasaki wrote:
+> > When rdma_destroy_id() and cma_iw_handler() race, struct rdma_id_privat=
+e
+> > *id_priv can be destroyed during cma_iw_handler call. This causes "BUG:
+> > KASAN: slab-use-after-free" at mutex_lock() in cma_iw_handler().
+> > To prevent the destroy of id_priv, keep its reference count by calling
+> > cma_id_get() and cma_id_put() at start and end of cma_iw_handler().
+>=20
+> Please add relevant kernel panic to commit message.
 
-> 
-> > 
-> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > index 3ec38e2b9173..83d3818fc60b 100644
-> > --- a/drivers/nvme/host/core.c
-> > +++ b/drivers/nvme/host/core.c
-> > @@ -4692,6 +4692,9 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
-> >   	 */
-> >   	nvme_mpath_clear_ctrl_paths(ctrl);
-> > +	/* unquiesce io queues so scan work won't hang */
-> > +	nvme_unquiesce_io_queues(ctrl);
-> 
-> What guarantees that the queues won't be quiesced right after this
-> by the transport?
+Sure, will do in v2.
 
-Please see nvme_change_ctrl_state(), if controller state is in
-DELETING, new NVME_CTRL_RESETTING/NVME_CTRL_CONNECTING can be entered
-any more.
+>=20
+> >=20
+> > Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+> > Cc: stable@vger.kernel.org
+>=20
+> Add Fixes line when you are fixing bug.
 
-> 
-> I'm still unclear why this affects the scan_work?
+I see. I checked commit logs of drivers/infinibad/core/cma.c. It looks the =
+issue
+has been existing since the commit de910bd92137 ("RDMA/cma: Simplify lockin=
+g
+needed for serialization of callbacks") in 2008, which modified the method =
+to
+guard id_priv. I'll add the Fixes tag with this commit.
 
-As Chunguang mentioned, if error recover is terminated by nvme deletion,
-the controller can be kept in quiesced state, then in-queue IOs can'tu
-move on, meantime new error recovery can't be started successfully because
-controller state is NVME_CTRL_DELETING, so any pending IOs(include those
-from scan context) can't be completed.
-
-
-
-
-Thanks, 
-Ming
-
+>=20
+> > ---
+> > The BUG KASAN was observed with blktests at test cases nvme/030 or nvme=
+/031,
+> > using SIW transport [1]. To reproduce it, it is required to repeat the =
+test
+> > cases from 30 to 50 times on my test system.
+> >=20
+> > [1] https://lore.kernel.org/linux-block/rsmmxrchy6voi5qhl4irss5sprna3f5=
+owkqtvybxglcv2pnylm@xmrnpfu3tfpe/
+> >=20
+> >  drivers/infiniband/core/cma.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+>=20
+> The fix looks correct to me.
+>=20
+> Thanks=
 
