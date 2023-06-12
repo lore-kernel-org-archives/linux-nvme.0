@@ -4,79 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9E678C7EE25
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Jun 2023 11:22:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F377C88CB4
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Jun 2023 14:12:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=c9DUToNqA5cOonn9Hc6jEEDYVPpV2MwNxZt+p+/Ax6w=; b=VkX8q3fi9qvu/P/7P86LaWLr7n
-	fMn+w7649KPQPfSfIZbGCQQUgLWdLR5mjA4b5kUNcbSxTKwy1fIaH4f4UC3YNayPDkS8JM4A83BZ3
-	Gy2fjMoQaDQoqKlbsRpWwEuZF1oAIGz9IPe1eiTK/KXJCkjcxc3Plg0mgKHZow29CunYKhvv4HIS7
-	qT/gLG0bxR65RRv77yUIzcHRJAjLlFvzC/9a7snEQFYEV0gFQGs+q19FOHII2sPAmTjqHwEp9wX7y
-	sb+jaXMHp8ogdHVbIaxUFT65Uhhrc6R98XVxsUNmNMzKWrVwrMHgMtpp9vYmGQOPwXppQs6+femWJ
-	yUupxt/Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=4muTChvfXbyFleywXuJztp663UoDJyd/b1njxzLhqy8=; b=4lWZuq7imAqnT1LLalM6QHkwVB
+	QY6yp2K5cn5HPlljJW862MaKhJnb40ZofAGN/Lql5zOtsCjzOshfNarKIpX42GweEbt8ak23+0OZy
+	Zkm9Z7uosPLeAgyc9K3SbMBpIziUU6faYoEy3HltMklKD/d7lJS1/uORIRB9LZ26oQuawFGqzrmBH
+	vUmqX888f0YVGl9NXBl/L9GYv+9Z/Q2ncV1cxe5mTmpwaUFRLpJFDFnkMw86qRVMjddmxceIWx57j
+	j7mpxYwbJbmtxj+lMmkBn16+YHLjkQeQJVRt3kJtk0aIesuoYNBfPdoZz1bqnvDd3cVppc8Np/ToL
+	kjan/pGQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q8fcf-003kYB-1i;
-	Mon, 12 Jun 2023 11:22:09 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1q8iGz-004FV4-1P;
+	Mon, 12 Jun 2023 14:11:57 +0000
+Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q8fcb-003kXD-2j
+	id 1q8iGt-004FSz-2Z
 	for linux-nvme@lists.infradead.org;
-	Mon, 12 Jun 2023 11:22:07 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E24AE2019C;
-	Mon, 12 Jun 2023 11:22:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1686568922; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c9DUToNqA5cOonn9Hc6jEEDYVPpV2MwNxZt+p+/Ax6w=;
-	b=tMG1/7jZZwUKG+D//4j4U4+9KeFvzglRXt+9ge/w41DjW9jKkp2B5YOux7A6l+xal4WSqG
-	IDq2bxmDi13hvlqiyDtHTR5d73J18cPrYxyud6LvOx1UZaJd/ttzYga7tcRfn5sUlgYl/q
-	IT75zt7IlU3RbnJ1yC1fwxuEsthZp4w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1686568922;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c9DUToNqA5cOonn9Hc6jEEDYVPpV2MwNxZt+p+/Ax6w=;
-	b=Ol1nrwBMJCNDFfjgJ+Wm67kM1w55qWa5ao/CkHmUcrOay7jxNJhPlevpdxAouSSoUr3xtN
-	G1yT1A7k0k5m6ZCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D4822138EC;
-	Mon, 12 Jun 2023 11:22:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id cSTbM9r/hmRuRAAAMHmgww
-	(envelope-from <dwagner@suse.de>); Mon, 12 Jun 2023 11:22:02 +0000
-Date: Mon, 12 Jun 2023 13:22:02 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: module-autoload: duplicate request for module nvme-tcp
-Message-ID: <dexdhjpxglogizzxg5nrydgz357oyriwi5x2igale7iaf2xsjn@haw6w2qrtbpd>
-References: <tom6xspqarrxx6c5ilqu7c7nhysgt3ua26yu52l2zaj7mr2qlp@vqr7y355ohzf>
- <ZH/R3pl+8kY7MefU@bombadil.infradead.org>
+	Mon, 12 Jun 2023 14:11:56 +0000
+Received: by mail-io1-xd36.google.com with SMTP id ca18e2360f4ac-7748ca56133so36786039f.0
+        for <linux-nvme@lists.infradead.org>; Mon, 12 Jun 2023 07:11:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1686579108; x=1689171108;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4muTChvfXbyFleywXuJztp663UoDJyd/b1njxzLhqy8=;
+        b=sLZGHozVNiyKe7ZdVW/Izn1P7sgaQShCFq8nFxDEUw2HPGtUJB2+ZAyPMlipviAeTp
+         k3uQ8FI/e0eQenGUZnHNrzUL6Ik3G0IXm+GRBayvvLbMzgaY+UXyhfCpD4GOrVPEdTJv
+         IcIkIA09lG9xzyFYUO5JzJkmOBfAprST6Rp9IHrO/jxkuWSRx8pvHMOooqILGwgI/Lo6
+         1VEW0UpTP7V9T32ew0hLYFEC4JqpDUjaCB9j68pNjawpUBhqZ7JS8ocpEabGbvX3LMxh
+         84vjMA0Z3WUKqubPW8wvoXypai5o3n5GNzihnbK3f7nqUGYlTvpK/lKsx4hWnhA+HiQE
+         ZgZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686579108; x=1689171108;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4muTChvfXbyFleywXuJztp663UoDJyd/b1njxzLhqy8=;
+        b=dDaYjpd3Uyso38ytRWqBdzvHfvmtmHTR+3q47bEBw4gRolKjkkULVQmG+KOaK2bZkD
+         8wSvB+QGpbZ7hPTgT0dwksI3Xu/LWX718EbTazWD258dQQK/nd7RO0IUTJs9w1tciF0G
+         x4SGH7YlYbCe93M7Rb6XNH2ONw+8UsdVoRuflDpoKhA/lDIs8+m+xe5scgnPaIjvM7C+
+         v+ILqIR6pIAsbaIYeHefbDUo8n3WfGxJAY3dNaT3f3lybwX5sx+0fzMIkyzmKpd7ivVV
+         VuM9b2jmb7xcD3wVh6U679pwR/mhur/1gCdDzM9YjiTXJ/LYON/OXFvh7sXDb+sQpgoz
+         aUug==
+X-Gm-Message-State: AC+VfDxnd9T6how2K6z83St/P21fGf1JXbY3sqGcNfTrKFSjA89LB0u1
+	6OezNTr/z6utnWXmKpBswAjsgg==
+X-Google-Smtp-Source: ACHHUZ7oss5Q4qEAESR1LIaLJkD7ZwONVfsRpFehVo9Ss1V9OTMOTrOh14yI7Krm7Ivy+/EbDcrm4g==
+X-Received: by 2002:a6b:690a:0:b0:77a:ee79:652 with SMTP id e10-20020a6b690a000000b0077aee790652mr4231482ioc.1.1686579107952;
+        Mon, 12 Jun 2023 07:11:47 -0700 (PDT)
+Received: from [127.0.0.1] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id i19-20020a02cc53000000b0041408b79f1esm2793007jaq.111.2023.06.12.07.11.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jun 2023 07:11:47 -0700 (PDT)
+From: Jens Axboe <axboe@kernel.dk>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Richard Weinberger <richard@nod.at>, Josef Bacik <josef@toxicpanda.com>, 
+ "Md. Haris Iqbal" <haris.iqbal@ionos.com>, Jack Wang <jinpu.wang@ionos.com>, 
+ Phillip Potter <phil@philpotter.co.uk>, Coly Li <colyli@suse.de>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, 
+ Vignesh Raghavendra <vigneshr@ti.com>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>, Chris Mason <clm@fb.com>, 
+ David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
+ dm-devel@redhat.com, linux-block@vger.kernel.org, 
+ linux-um@lists.infradead.org, linux-scsi@vger.kernel.org, 
+ linux-bcache@vger.kernel.org, linux-mtd@lists.infradead.org, 
+ linux-nvme@lists.infradead.org, linux-btrfs@vger.kernel.org, 
+ linux-f2fs-devel@lists.sourceforge.net, linux-nilfs@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-pm@vger.kernel.org
+In-Reply-To: <20230608110258.189493-1-hch@lst.de>
+References: <20230608110258.189493-1-hch@lst.de>
+Subject: Re: decouple block open flags from fmode_t v2
+Message-Id: <168657910650.933808.4041515037046679285.b4-ty@kernel.dk>
+Date: Mon, 12 Jun 2023 08:11:46 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <ZH/R3pl+8kY7MefU@bombadil.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-c6835
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230612_042206_051408_646D8B56 
-X-CRM114-Status: GOOD (  25.91  )
+X-CRM114-CacheID: sfid-20230612_071151_833793_615A6001 
+X-CRM114-Status: GOOD (  15.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,108 +105,87 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Luis,
 
-On Tue, Jun 06, 2023 at 05:39:58PM -0700, Luis Chamberlain wrote:
- >  ------------[ cut here ]------------
-> >  module-autoload: duplicate request for module nvme-tcp
-> >  WARNING: CPU: 2 PID: 1725 at kernel/module/dups.c:185 kmod_dup_request=
-_exists_wait+0x2bd/0x520
-> >  Modules linked in: loop nvmet_tcp nvmet nvme_tcp nvme_fabrics nfsv3 nf=
-s_acl rpcsec_gss_krb5 auth_rpcgss nfsv4 dns_resolver nfs lockd grace sunrpc=
- fscache netfs af_packet rfkill qrtr snd_hda_codec_generic intel_rapl_msr i=
-ntel_rapl_common intel_pmc_core kvm_intel nls_iso8859_1 nls_cp437 vfat snd_=
-hda_intel snd_intel_dspcfg fat snd_hda_codec kvm snd_hwdep iTCO_wdt intel_p=
-mc_bxt snd_hda_core iTCO_vendor_support snd_pcm i2c_i801 irqbypass i2c_smbu=
-s pcspkr snd_timer virtio_net snd virtio_balloon soundcore lpc_ich net_fail=
-over failover tiny_power_button joydev button fuse efi_pstore configfs ip_t=
-ables x_tables hid_generic usbhid crct10dif_pclmul crc32_pclmul ghash_clmul=
-ni_intel xhci_pci xhci_pci_renesas xhci_hcd sr_mod aesni_intel cdrom crypto=
-_simd cryptd virtio_blk virtio_rng usbcore nvme virtio_gpu virtio_dma_buf n=
-vme_core nvme_common serio_raw btrfs libcrc32c crc32c_intel xor zlib_deflat=
-e raid6_pq sg dm_multipath dm_mod scsi_dh_rdac scsi_dh_emc scsi_dh_alua efi=
-varfs qemu_fw_cfg [last unloaded: loop]
-> >  CPU: 2 PID: 1725 Comm: nvme Tainted: G        W          6.4.0-rc2+ #2=
- 1daf2dc6ddfbfdba6b9ddd3bcf1253da050c6a9f
-> >  Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS unknown unkno=
-wn
-> >  RIP: 0010:kmod_dup_request_exists_wait+0x2bd/0x520
-> >  Code: a4 e8 77 6f 28 02 4c 89 ff e8 3f 58 4c 00 80 3d 68 6d b5 03 00 0=
-f 84 24 01 00 00 48 c7 c7 80 60 70 a3 48 89 de e8 03 5e d9 ff <0f> 0b 40 84=
- ed 0f 84 22 01 00 00 49 8d 7c 24 48 be 02 01 00 00 e8
-> >  RSP: 0018:ffff8881086ff720 EFLAGS: 00010246
-> >  RAX: 2c07e0659ca46000 RBX: ffff8881086ff820 RCX: 0000000000000027
-> >  RDX: 0000000000000001 RSI: 0000000000000004 RDI: ffff88815abf07c8
-> >  RBP: 0000000000000001 R08: dffffc0000000000 R09: ffffed102b57e0fa
-> >  R10: 0000000000000000 R11: dffffc0000000001 R12: ffff888108fa8400
-> >  R13: 0000000fffffffe0 R14: dffffc0000000000 R15: ffff88810af38c00
-> >  FS:  00007fb64187e740(0000) GS:ffff88815aa00000(0000) knlGS:0000000000=
-000000
-> >  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> >  CR2: 00007fb6419db28e CR3: 0000000130390005 CR4: 0000000000370ee0
-> >  Call Trace:
-> >   <TASK>
-> >   __request_module+0x1ce/0x4e0
-> >   ? trace_contention_end+0x38/0xf0
-> >   ? kasan_unpoison+0x64/0x90
-> >   ? __cfi___request_module+0x10/0x10
-> >   ? __mutex_unlock_slowpath+0x21f/0x770
-> >   ? kasan_quarantine_put+0xb4/0x1c0
-> >   ? __kmem_cache_free+0x21f/0x3d0
-> >   ? __asan_memcpy+0x3c/0x70
-> >   ? nvmf_dev_write+0x1956/0x2430 [nvme_fabrics 08f7b8c3317d458ea9e1722c=
-19d051cbfd8a49c3]
-> >   nvmf_dev_write+0x1a2c/0x2430 [nvme_fabrics 08f7b8c3317d458ea9e1722c19=
-d051cbfd8a49c3]
->=20
-> nvmf_dev_write() seems to implicate a request_module() call, try to
-> answer this question: how many times do you want to be calling
-> request_module() for something ?
+On Thu, 08 Jun 2023 13:02:28 +0200, Christoph Hellwig wrote:
+> this series adds a new blk_mode_t for block open flags instead of abusing
+> fmode_t.  The block open flags work very different from the normal use of
+> fmode_t and only share the basic READ/WRITE flags with it.  None of the
+> other normal FMODE_* flags is used, but instead there are three
+> block-specific ones not used by anyone else, which can now be removed.
+> 
+> Note that I've only CCed maintainers and lists for drivers and file systems
+> that have non-trivial changes, as otherwise the series would spam literally
+> everyone in the block and file system world.
+> 
+> [...]
 
-In nvmf_create_ctrl() we always call undconditionally
+Applied, thanks!
 
-	request_module("nvme-%s", opts->transport)
+[01/30] block: also call ->open for incremental partition opens
+        commit: 9d1c92872e7082f100f629a58b32fa0214aa1aec
+[02/30] cdrom: remove the unused bdev argument to cdrom_open
+        commit: 764b83100b9aff52f950e408539c22a37cdedae8
+[03/30] cdrom: remove the unused mode argument to cdrom_ioctl
+        commit: 473399b50de1fdc12606254351273c71d1786251
+[04/30] cdrom: remove the unused cdrom_close_write release code
+        commit: a4cec8bc14c02e15006a71f02b0e1bbc72b9f796
+[05/30] cdrom: track if a cdrom_device_info was opened for data
+        commit: 8cdf433e2b8e4fc6c7b4393deb93fb258175d537
+[06/30] cdrom: remove the unused mode argument to cdrom_release
+        commit: 7ae24fcee9929f9002b84d8121144b2b3590b58c
+[07/30] block: pass a gendisk on bdev_check_media_change
+        commit: 444aa2c58cb3b6cfe3b7cc7db6c294d73393a894
+[08/30] block: pass a gendisk to ->open
+        commit: d32e2bf83791727a84ad5d3e3d713e82f9adbe30
+[09/30] block: remove the unused mode argument to ->release
+        commit: ae220766d87cd6799dbf918fea10613ae14c0654
+[10/30] block: rename blkdev_close to blkdev_release
+        commit: 7ee34cbc291a28134b60683b246ba58b4b676ec3
+[11/30] swsusp: don't pass a stack address to blkdev_get_by_path
+        commit: c889d0793d9dc07e94a5fddcc05356157fab00b7
+[12/30] bcache: don't pass a stack address to blkdev_get_by_path
+        commit: 29499ab060fec044161be73fb0e448eab97b4813
+[13/30] rnbd-srv: don't pass a holder for non-exclusive blkdev_get_by_path
+        commit: 5ee607675debef509946f8a251d4c30a21493ec2
+[14/30] btrfs: don't pass a holder for non-exclusive blkdev_get_by_path
+        commit: 2ef789288afd365f4245ba97e56189062de5148e
+[15/30] block: use the holder as indication for exclusive opens
+        commit: 2736e8eeb0ccdc71d1f4256c9c9a28f58cc43307
+[16/30] block: add a sb_open_mode helper
+        commit: 3f0b3e785e8b54a40c530fa77b7ab37bec925c57
+[17/30] fs: remove sb->s_mode
+        commit: 81b1fb7d17c0110df839e13468ada9e99bb6e5f4
+[18/30] scsi: replace the fmode_t argument to scsi_cmd_allowed with a simple bool
+        commit: 5f4eb9d5413fdfc779c099fdaf0ff417eb163145
+[19/30] scsi: replace the fmode_t argument to scsi_ioctl with a simple bool
+        commit: 2e80089c18241699c41d0af0669cb93844ff0dc1
+[20/30] scsi: replace the fmode_t argument to ->sg_io_fn with a simple bool
+        commit: 1991299e49fa58c3ba7e91599932f84bf537d592
+[21/30] nvme: replace the fmode_t argument to the nvme ioctl handlers with a simple bool
+        commit: 7d9d7d59d44b7e9236d168472aa222b6543fae25
+[22/30] mtd: block: use a simple bool to track open for write
+        commit: 658afed19ceed54a52b9e9e69c0791c8868ff55d
+[23/30] rnbd-srv: replace sess->open_flags with a "bool readonly"
+        commit: 99b07780814e89f16bec2773c237eb25121f8502
+[24/30] ubd: remove commented out code in ubd_open
+        commit: bd6abfc8e7898ce2163a1ffdbb9ec71a0a081267
+[25/30] block: move a few internal definitions out of blkdev.h
+        commit: cfb425761c79b6056ae5bb73f8d400f03b513959
+[26/30] block: remove unused fmode_t arguments from ioctl handlers
+        commit: 5e4ea834676e3b8965344ca61d36e1ae236249eb
+[27/30] block: replace fmode_t with a block-specific type for block open flags
+        commit: 05bdb9965305bbfdae79b31d22df03d1e2cfcb22
+[28/30] block: always use I_BDEV on file->f_mapping->host to find the bdev
+        commit: 4e762d8623448bb9d32711832ce977a65ff7636a
+[29/30] block: store the holder in file->private_data
+        commit: ee3249a8ce78ef014a71b05157a43fba8dc764e3
+[30/30] fs: remove the now unused FMODE_* flags
+        commit: 0733ad8002916b9dbbbcfe6e92ad44d2657de1c1
 
-> The warning comes up to tell developers they should try to see if they
-> can instead just issue a request *once*. A simple bool would do it.
+Best regards,
+-- 
+Jens Axboe
 
-Sure, but that means the caller starts to track the 'livetime' of a module,=
- no?
-Isn't this something we should do in a central place? Having
 
-	if (!module_loaded)
-		request_module()
 
-sprinkled everywhere seems a bit silly, but I might just miss something in =
-this
-discussion. BTW, is there a specific reason there is no way to ask if
-module is loaded (looking at kmod.h)?
-
-> Why is this good? Well prior to me convincing folks that this could
-> incur high virtual memory allocations I didn't have proof such abuse
-> existed. My patch showed the abuse came not from kernel request_module()
-> users but instead for userspace through udev.
-
-I see.
-
-> To give you some perspective, the issue scales linearly per number of
-> cpus you have, vcpus or real, does not matter. over 200 cores for
-> instance will have about 18 GiB of virtual memory allocation wasted
-> on duplicate module loads because of udev. Although now have convinced
-> folks this is an issue, because I have the proof, a fix for this is
-> still pending upstream. For upstream we'll be going with a simple
-> solution by Linus to converge duplicates, however that convergence
-> will only last whlie we kernel_read() the module and duplicates enter
-> the system during that time. That still seems to fix most of the
-> virtual memory abuse on bootup.
->=20
-> On the request_module() side of things -- this is a minor issue, but
-> it is something for developers to consider seeing if they can just
-> request a module once. But it's not a big deal.
-
-Understood. Given that it's unlikly someone is running blktests on a
-production server we should be fine for the time.
-
-Thanks,
-Daniel
 
