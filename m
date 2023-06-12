@@ -4,148 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4A660C7EE23
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Jun 2023 03:05:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 01916C7EE25
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Jun 2023 05:42:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gxK8t9YHyr5w73KeO+oRMERjnJi5amlyXAH/i8e+HEU=; b=StzTyQKfPqt/9PNIoVyKaWlcqa
-	V6eRqOv7PjRAz4p4nthGe3f0Qt9U/aPRdSHJyXTD4JlaOM7F1b3hSdpghytHUrH4gx/2Ol5UrjXuD
-	xs1Hx/mTxAJwpOEwaTcLjRVE1VFwML66UNiVIffgc2IPTrZAuGuMsfwY9LGfDztYtli7pJiudF5Yc
-	arLcG29aS23Eb4eNMr7KrNghpRZghvy9SFuZMie/dz/l2M7lSQVTlECSafv0yXdtaw3yYRA9T9yju
-	4+lEHkGH8p79Eja74xzFJFokg79Ai1AVuB4qwtSjaF3tHA95uSHUmetIWutQzB7ETFxJApVGLjgbk
-	KO63npuw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=fDohN0X6uwyv/HVrfBJ5QiGTQ6nxpO+Gd08SkVlMi1k=; b=HUBhU8hbLYcCU036GX0ycs+seS
+	Dkr+oO+ANEPSB4gxAPWDVy05eJ5kQeEl4GI5fIU0JolfeqdB2638R1y+gxoZVfrQ1XlZVJ7/TesBe
+	E/CLEH52YxVbFbR0bcyh/KCMT/9pBKL94cSPWxO3I1xQTOnX6bgVretS2VbWfJ6pdkp+whdzYDQLD
+	i2DNWhtat2GQ9wKzfJyUF+Va3nRj9lkaxOQ42RV1ods/WeEkEbyHesWXOwZn5u7cPJWiJWcLVZEFM
+	L056tE6X/sr3fwgXVLf3r9Ue19GMrV+1IBawZBxnHMvSAtgpZBkq6jZ2zHK7x2qEr8xtRjL8Y+jjJ
+	Bp+LcPTQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q8Xrc-002OkA-23;
-	Mon, 12 Jun 2023 03:05:04 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1q8aKF-002gjF-2g;
+	Mon, 12 Jun 2023 05:42:47 +0000
+Received: from esa3.hgst.iphmx.com ([216.71.153.141])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q8XrZ-002OjG-2Y
+	id 1q8aKC-002ghK-16
 	for linux-nvme@lists.infradead.org;
-	Mon, 12 Jun 2023 03:05:03 +0000
+	Mon, 12 Jun 2023 05:42:46 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1686539101; x=1718075101;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=HfP4vFiZS9tAVwqTwGnGOCYXdZPQ/z7QNlpoHyE/27g=;
-  b=NUM1pZeQOuvOgAhcCwq2o3X9tpqvu/yHHVMc8cAAkwDmOlZOcygHc1/R
-   SYjPGJgiynard/CEE9HJbctN3UEI+IGfvM4y3PdA5QOltDVSk0a6L8XwA
-   udyOOKRK2xjK0mgYD97nzxl7EXeJgPf39unDdE5l/tQmCtfGWkrcsMcls
-   cpieLa3xZG/3DHx/4enje0IBE5EAcQYjjOTTcjCkB18MkJrDOg3wuy+FA
-   D9fYpdZdLT+oEl/eyWJ9r/wK7EAXcZ8vaV+3YJRlfuvJ06lmpioJSGW48
-   10OnHipZLNtflr8IxuQX1L9gcwUX3/Z9E2AlvCTI+E4AFJbRi+CzC24gA
-   w==;
-X-IronPort-AV: E=Sophos;i="6.00,235,1681142400"; 
-   d="scan'208";a="340032123"
-Received: from mail-dm6nam12lp2170.outbound.protection.outlook.com (HELO NAM12-DM6-obe.outbound.protection.outlook.com) ([104.47.59.170])
-  by ob1.hgst.iphmx.com with ESMTP; 12 Jun 2023 11:04:55 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RX34v6jSoI0gmZSr759wLJaiiqJiXPiqCISkvlFSZ5ZMdQFxJInimYD8UtmWpp611cAfcLrK+efQUxgZPxnb2HBXd58LDK6HbRvS/DVuugR+DUpqh6Ru0xPcm06OQ4yhPNkcal8zqaVbiJofnEVI85eyKG5HOpuFBKYvSBXGRPNTe/XnnvM04+R2ZdGDhjD7drkmzfHbWinFY0YsCIhMwQJleGM+wYHyi3uX2WQpsOMSM20JmJVYANwkvyojonaufXn9P/g7kFKC3fwJhTxeWxGeP6cdg+wMOlI7n0kUcFh7G9NkGlho1AlYNouS5PdRPlW3I5ge9JEAg1yfYNZV5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gxK8t9YHyr5w73KeO+oRMERjnJi5amlyXAH/i8e+HEU=;
- b=cWVLVw03fTzjEkJU433pBZlbjIeHSVVotcCqlPjBPsrRPm2y51E4GBlhOe3Rb+JAvn/w1eyW55Xgr2V+fYGuZcKmeJsKQlDQGG3ySV19QF5MPeNAMkR9p/rARs0TCdLZ4QPa1OclEHgoyYir/RYaK+cDyTJggQtBWqmVPq9dr16Xo7L+aiSjlN3Lv4Wf0lbMsLlyvltvZON97b0Vo0TWXV79Kv/mleOlpHdQgg7fhqRcovoNrvBIloUEOruMObuP/IC9va+0S8UraiMPbsUxK9Z+U1rtFOLkGCY0pa+MlNq5NK3QnUpjdyz48GQ16Ndt/eSWY1kQDxk+k+CgFkBXRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gxK8t9YHyr5w73KeO+oRMERjnJi5amlyXAH/i8e+HEU=;
- b=YbdtlkfqEb42+reZ03JfD0OxExJ3fwcJlc60gscO6nnY9jqJrAQzJSZIbb1OPnxjZTTBqMFV4W4xuGZ8oWIcA1UM10qlGg+if2AFOhkzl3L47pKM2HpbiVHOSKQ27XByKDo5co/46FvCgWrr0AmklQ7UyHMN5niC6IIgEP9fTBc=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- DM6PR04MB6332.namprd04.prod.outlook.com (2603:10b6:5:1e7::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6477.29; Mon, 12 Jun 2023 03:04:52 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::bfa:d453:e7e9:8f98]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::bfa:d453:e7e9:8f98%6]) with mapi id 15.20.6477.028; Mon, 12 Jun 2023
- 03:04:51 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Leon Romanovsky <leon@kernel.org>
-CC: "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>, Jason Gunthorpe
-	<jgg@ziepe.ca>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, Damien Le Moal
-	<damien.lemoal@opensource.wdc.com>
-Subject: Re: [PATCH] RDMA/cma: prevent rdma id destroy during cma_iw_handler
-Thread-Topic: [PATCH] RDMA/cma: prevent rdma id destroy during cma_iw_handler
-Thread-Index: AQHZlbTSAgxx2jnCnE2SRIGXfjrpbq+FqDeAgADhk4A=
-Date: Mon, 12 Jun 2023 03:04:51 +0000
-Message-ID: <gwd7gnvufcdq2ybzs2tazdncgp4dzyppmvfrxnre4khwzbuhf6@wdlct3ilzqrj>
-References: <20230603004620.906089-1-shinichiro.kawasaki@wdc.com>
- <20230611133707.GE12152@unreal>
-In-Reply-To: <20230611133707.GE12152@unreal>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|DM6PR04MB6332:EE_
-x-ms-office365-filtering-correlation-id: 1c4a5613-977d-41f0-dde2-08db6af1ca4b
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: P52A7Ewch3fgGbSXFGg3JrnG1myv07EFEnAr0fqLLKjDRVTgng+7TDDmTyYYMGmmX2hjgmLZf++TBXxqYTXXA3ZGJJ/2fRZ/PEI/Pt9knx6Uy5yLobhD6hPy0GPWqvCc2rw7pkhvGHaaByTxnFfLIMOm5nrXbyv7IpwW311fvwrfZ4iwpIvpFqjIIJHNV8ZmBfcVg7HMvDb1jui2cAD/M6nF41WYYqLK3NjK6W5RDGTKn7njhCml+/NX+5V/2RaqQtJoid31zeu3529poftKYktjLMkPFqf39iWgZ9tnGn/yMgAEKS1KcIYECAOQ0A2s/pRAuPoQMuyIWR9rTeyKsaveRhQ8Gp0glkVQ8LqPmY7elsPj/mekWLooCHpnY6zGy4jo07T7gcwgDcAnfAQ+jAYDv7EZdKTI3Z7RULZuKYZnFhGR06PEaIppEBLGQsYqjDtU/ll9dxMxBKTjqpq9a+jvjVkFp7jfsDnCL/R+7ChokLSn/5efCgWAgURssduKHmA/fX6Gq3avMENtFM/nA8fyasktRVvK+QrQN04BgAvClYkOk8SwPW9TwpXu6nWNOBw8y3X/K5Yj4CHZIHa4BJonUrI2BgRBgyh9NKioVAc=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(7916004)(396003)(366004)(39860400002)(136003)(376002)(346002)(451199021)(76116006)(4326008)(66946007)(91956017)(64756008)(66556008)(66446008)(66476007)(186003)(6916009)(478600001)(2906002)(54906003)(33716001)(8676002)(316002)(966005)(41300700001)(86362001)(6486002)(6506007)(9686003)(44832011)(38070700005)(71200400001)(122000001)(8936002)(82960400001)(83380400001)(5660300002)(26005)(38100700002)(6512007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?reYdASLDiMzDK3+lY2q+3BuEa8dMKJStqDvIO3zB55JIpRqgWFPzmMtQSZ4w?=
- =?us-ascii?Q?pcscO+beH4Av4DwuvvR+HrTColSMPPIHBTY8Go4xQWv4XYt7OMDEm5KnhWO2?=
- =?us-ascii?Q?K6cVHwYHILL5GldIPc/isHySwCLv704c/C2kISwP2jBvklfAmZ5a7p8NGyfQ?=
- =?us-ascii?Q?et/zOt93NJnEAMR4cCP8Ma0PW6YwAcFGQ7y5Stv9RahURi+S+lfZvvM4Urx2?=
- =?us-ascii?Q?iuLzXg1PGRFpEmuY52DplRuP/hSVAeFWaa0lIBoNwdTsClZ0maB6cA94obzW?=
- =?us-ascii?Q?cOIC3K666m8L2Igr54G1wwi+J3ZzMW4RVQJSwL04z1LOe9553Y5+ugHLgfqd?=
- =?us-ascii?Q?IDS/MC8V6PM+srcbbpEOL96o30dtBQ1Xcmq+m4Ye/zhQPHiD7pnmqyRZoKdv?=
- =?us-ascii?Q?4g7leIcu9BNhPbFq7WmpPa+bnf+d0PH2P1rbJKkhv94v21OBq1ZAXzdPvBWL?=
- =?us-ascii?Q?4zATQtGh3fbfF5kp+fchLn9vn8G752csYi3MBJvEYYaJVMQq9g0DrGVXh06l?=
- =?us-ascii?Q?M5jP2QB8sUTF1ZHLppr7CfclQjVrisZt9ohBP60r8/PxNJAmxhQmywDdy/b9?=
- =?us-ascii?Q?UlMYsOaRzmfG+aYRt0+vdmJqxvpPcEIMYKKjBSCE+BBQvuFXxrFBe5z34WQ5?=
- =?us-ascii?Q?Whyz3MbYn4YNoXaXVn9dNhwrEA0fIg7CwdwNykotK2ryX07+qKD+Wpu2tl7j?=
- =?us-ascii?Q?W1O8126tpCp99Hav5tpdub8CIYaS6Y2nkgRb7rA7lQl1FwGd3RKbWVJbD9ur?=
- =?us-ascii?Q?6FKpLN7zMwqSsXHqOy2gAm9oy22bFmV9QFCAmbh3GOF6ph5LLWcojG4dPy22?=
- =?us-ascii?Q?ZfmD+YylvUewkoqXPZGMYZMs9e5jmNu5UOx1On5BGhg4GvGQMLfWkFo1HhQ9?=
- =?us-ascii?Q?WCxqOveMG5mPSyzL0XW9hlyQr81HpUxacSJq7xmTdc6XQ8Ot80U26d5N7drA?=
- =?us-ascii?Q?LfRpXsKPARanV0nwwOPgmWEjeIUeZEmGNu7tK9yhmrfNZnH4JyDDeF5xD96p?=
- =?us-ascii?Q?NdAq4QKoonjZouDj88BUJlSQtKm7lP3wcu6yIJz06qk98anBEw3V2MOZKi63?=
- =?us-ascii?Q?j3HwLk161g1lP/tNDL0IVac47utctBalTrteMBVb4701oeWyS1SsFsr/4n16?=
- =?us-ascii?Q?60VVsZ3qO+P4LF3V4/LpDb9rxE5/3kM6FXW/yZqWvnmpZdRdcfpt8Su6vJBl?=
- =?us-ascii?Q?sfNaglc1PTtcvwYigF/qtA1YolMKCYlKzvoe+Eo74OMbDPn0oQSocSoYSh3I?=
- =?us-ascii?Q?M8Q1hy3VQFzbKNJa1g2dU9/5/0bMbYJUsewYPnNUHl8rEdj7pjaKdFhVCplO?=
- =?us-ascii?Q?/o1gVxPhDK+rf5bTkppqbpBeKKqQxYaBa0fqdyo404fhsgYcLGTN13EaXX6f?=
- =?us-ascii?Q?0+3fMdMyMnQT5xEWUljzSdsjqEN/l3sgb5d7ePZT6fJEFMTqwz87VGtrNtcg?=
- =?us-ascii?Q?ioaZ9MGtz0/EsEej0E9Z+zvcLnlreRnXPdUr/FQcRJTCBfuOCyMn3uwqdRu1?=
- =?us-ascii?Q?kDznMKkdhhuvRTkTEnOj1I3qseHHl3S29olrThy4yyibcMg8AK2l3wdoMKOC?=
- =?us-ascii?Q?I8ioQJ92qylcEPf5AyMVwyXoZBJ1G/s0JLGudMYrrB80fyobNa4p0yqqxNKY?=
- =?us-ascii?Q?KqUGziT77VL/NptdAOVvEgA=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <0173E42FF2EBEB4AA63CB31C9921435B@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+  t=1686548564; x=1718084564;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=bcQ9MAb6Kml0F+jmJRbrMByxY0+us5vRd5ZBKaPi0Q4=;
+  b=KXAgFpqZSy+MBYoj7unTjI/ML9kPtAsAFcj5sYQFr5VuSK/4YSK+lmN+
+   47w0N/rTsHB8PzngZGNgeCHSvd8qnypzDtUOxWMBqJR0v5Am00hIuF4Nk
+   laIPESYYQg1K/uhQ/zHMd23QJ9uWJ5wcpWP/3RIg20MUhEAwrnVL1GeNP
+   T27QeiAcqOkIPMTY3SP8hdlsvrc4WC+ZJJNlKHhXsFN+4/O5NKwSGMHic
+   7sl7USROk0J20rPL6isCCnQXluQwEJB78kt5Z0TETHl268ZiHzfZIfquG
+   kIMzhm1aE21G3JCqj6R83HH0R1faaf9visbdkArBdrW95HHLkvyx0rSTY
+   Q==;
+X-IronPort-AV: E=Sophos;i="6.00,236,1681142400"; 
+   d="scan'208";a="239802326"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 12 Jun 2023 13:42:39 +0800
+IronPort-SDR: GCPwS7qLD9JT6skccOPwBhAEH+P/lgysN8cVegKSYU3T3vZJ3qKv8P98y3XfqxH2cBxLvBrDFY
+ nTKC3FufsBxFPsmdKN5IHB2hGVZzBcnXk9LLn9g/A6rqEPwNw3Qmz6KSOr6jY+ZPR5ijZlqetY
+ 3gPjpFH1g7Y7+DeL5adnzxPNVfFb42GJ9GPq/ZjVagv/tm+KZCXsDj4kfd3sM18p+RxCXlV7Zv
+ qFwP2ffHQT7XEYPynUYSWAHgZFOKwnxth+flLdg1+yCAbObboA2reeLw/GJO3/2pydhQnJvn9w
+ kTc=
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 11 Jun 2023 21:57:16 -0700
+IronPort-SDR: fQ1Xj7+ryZDGrYQITJqXcvKcl3qBuRoq+aUwL/uwwqZjVKrSlbNNdkrl28GGCun4GIovLyDkTh
+ kLCNklyLjGZ+fJq9tAUCfwwo4BPZDykXDiAz4crKpWfz/iGC5HJ2zlpk5C1++XrPr49tb8wD5Z
+ hDYcTazhaKOrlDKSAP0WP13zeRkQvPKXCOB6ho1UbsHxYrorvs0yfTCnkR6614Hl3wefqGGDpM
+ Nb/ieHFl2TOF9yxGLVthj/+UizkwzLtR0kH/5ZfWPh7a4JuvJPM/g/e+iFYkvh3Kn7QceOzznV
+ WIc=
+WDCIronportException: Internal
+Received: from shindev.dhcp.fujisawa.hgst.com (HELO shindev.fujisawa.hgst.com) ([10.149.53.55])
+  by uls-op-cesaip01.wdc.com with ESMTP; 11 Jun 2023 22:42:38 -0700
+From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: linux-rdma@vger.kernel.org,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Leon Romanovsky <leon@kernel.org>
+Cc: linux-nvme@lists.infradead.org,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: [PATCH v2] RDMA/cma: prevent rdma id destroy during cma_iw_handler
+Date: Mon, 12 Jun 2023 14:42:37 +0900
+Message-Id: <20230612054237.1855292-1-shinichiro.kawasaki@wdc.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: uJacDpxEOmuIk38T95BrBfOq76UXORwcihR+I26qECupRdFPj5WGHMLi1H8sg/5SjXagQ9riH5CAHNkblKslqMG5xiL2qA8bWh+4EBa8EvHto4yLI/JSgr5WpIfKAzy4IvogLpxfV3UdOeDguckJT5ZRSVB4hM+7rV8i51GU46momiquQcD7uZn68oKmXDqZwJtdgJsnaOBALUXKSNYK5KvTmZUcEMa5B5cENoB+cXcREpeTSCWhhGoZ3uqKOYH74FwBTSpRDsPnTM58eplRbxW8qEz6K7aeN6xnWhCmTLYQvN6YJlrqheauWyqQGQYcr6YIg06J3EVTFnQg6EfGPDwO33uQwi2El8W9/W907n/bZSyGn/3nvPdkUgHPO9m69k1aXoCuKh6sR1ulvtWkAFMa/3JtTIMMRntyuNrdH6yDm4H3Jg4Jt5pXc/pz1iJv8/eylhwBQRXnrEpnbxMYypEu5Im/k5+6MDmcKl3wWAeTCzjgs5slEsbbtV81bzOyKKcElp+QSSF2j1lbri5oVV37MbezfSwUV5lFHfBzS731R2qJ8hm5AQ0wuM8KXli2q+gUDPwJzypYrV0FfJO8TDDa+Ug15j7R/fp9BlOR7nHYks0L6iYaBAufpo/mif+HHBW67EffCwJeOHhAkxVBk/yK0Bt59xfveqXIrKdoQDBYWuR+w2n9HKSIkXFEAg19mJwNFPlhJzWVYVSNvCYeAE3v4c/dwSbOddfYAxtxRYWXcUafBOhxUBFtOxGqLMOQE5y3s0UotZNZxv2zizM5wXiJNcgLSypWW/DoVlaCvJ2iWHCJhY4LfK7mEg8bc9MhANUlXtbBfc+FyQzz/sd4017FDdObVsWQNjWglaGi0OTtDomV6Ccpy+UxznASV+ZR
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c4a5613-977d-41f0-dde2-08db6af1ca4b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jun 2023 03:04:51.6302
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: SmmfTkYwYUvYudN7tdWWDWZSHJTQQLqSXp44K536FiFkk2OXrbRC0WolgzxUFFmDAWpaR+iE77Sef82mvDpDigWCdBchG1eeoFUWDr6CJfI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB6332
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230611_200501_972217_595656FF 
-X-CRM114-Status: GOOD (  19.65  )
+X-CRM114-CacheID: sfid-20230611_224244_421450_E1673CF3 
+X-CRM114-Status: GOOD (  13.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -160,51 +89,163 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks for the comments.
+When rdma_destroy_id() and cma_iw_handler() race, struct rdma_id_private
+*id_priv can be destroyed during cma_iw_handler call. This causes "BUG:
+KASAN: slab-use-after-free" at mutex_lock() in cma_iw_handler() [1].
+To prevent the destroy of id_priv, keep its reference count by calling
+cma_id_get() and cma_id_put() at start and end of cma_iw_handler().
 
-On Jun 11, 2023 / 16:37, Leon Romanovsky wrote:
-> On Sat, Jun 03, 2023 at 09:46:20AM +0900, Shin'ichiro Kawasaki wrote:
-> > When rdma_destroy_id() and cma_iw_handler() race, struct rdma_id_privat=
-e
-> > *id_priv can be destroyed during cma_iw_handler call. This causes "BUG:
-> > KASAN: slab-use-after-free" at mutex_lock() in cma_iw_handler().
-> > To prevent the destroy of id_priv, keep its reference count by calling
-> > cma_id_get() and cma_id_put() at start and end of cma_iw_handler().
->=20
-> Please add relevant kernel panic to commit message.
+[1]
 
-Sure, will do in v2.
+==================================================================
+BUG: KASAN: slab-use-after-free in __mutex_lock+0x1324/0x18f0
+Read of size 8 at addr ffff888197b37418 by task kworker/u8:0/9
 
->=20
-> >=20
-> > Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-> > Cc: stable@vger.kernel.org
->=20
-> Add Fixes line when you are fixing bug.
+CPU: 0 PID: 9 Comm: kworker/u8:0 Not tainted 6.3.0 #62
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-1.fc38 04/01/2014
+Workqueue: iw_cm_wq cm_work_handler [iw_cm]
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0x57/0x90
+ print_report+0xcf/0x660
+ ? __mutex_lock+0x1324/0x18f0
+ kasan_report+0xa4/0xe0
+ ? __mutex_lock+0x1324/0x18f0
+ __mutex_lock+0x1324/0x18f0
+ ? cma_iw_handler+0xac/0x4f0 [rdma_cm]
+ ? _raw_spin_unlock_irqrestore+0x30/0x60
+ ? rcu_is_watching+0x11/0xb0
+ ? _raw_spin_unlock_irqrestore+0x30/0x60
+ ? trace_hardirqs_on+0x12/0x100
+ ? __pfx___mutex_lock+0x10/0x10
+ ? __percpu_counter_sum+0x147/0x1e0
+ ? domain_dirty_limits+0x246/0x390
+ ? wb_over_bg_thresh+0x4d5/0x610
+ ? rcu_is_watching+0x11/0xb0
+ ? cma_iw_handler+0xac/0x4f0 [rdma_cm]
+ cma_iw_handler+0xac/0x4f0 [rdma_cm]
+ ? rcu_is_watching+0x11/0xb0
+ ? __pfx_cma_iw_handler+0x10/0x10 [rdma_cm]
+ ? attach_entity_load_avg+0x4e2/0x920
+ ? _raw_spin_unlock_irqrestore+0x30/0x60
+ ? rcu_is_watching+0x11/0xb0
+ cm_work_handler+0x139e/0x1c50 [iw_cm]
+ ? __pfx_cm_work_handler+0x10/0x10 [iw_cm]
+ ? rcu_is_watching+0x11/0xb0
+ ? __pfx_try_to_wake_up+0x10/0x10
+ ? __pfx_do_raw_spin_lock+0x10/0x10
+ ? __pfx___might_resched+0x10/0x10
+ ? _raw_spin_unlock_irq+0x24/0x50
+ process_one_work+0x843/0x1350
+ ? __pfx_lock_acquire+0x10/0x10
+ ? __pfx_process_one_work+0x10/0x10
+ ? __pfx_do_raw_spin_lock+0x10/0x10
+ worker_thread+0xfc/0x1260
+ ? __pfx_worker_thread+0x10/0x10
+ kthread+0x29e/0x340
+ ? __pfx_kthread+0x10/0x10
+ ret_from_fork+0x2c/0x50
+ </TASK>
 
-I see. I checked commit logs of drivers/infinibad/core/cma.c. It looks the =
-issue
-has been existing since the commit de910bd92137 ("RDMA/cma: Simplify lockin=
-g
-needed for serialization of callbacks") in 2008, which modified the method =
-to
-guard id_priv. I'll add the Fixes tag with this commit.
+Allocated by task 4225:
+ kasan_save_stack+0x2f/0x50
+ kasan_set_track+0x21/0x30
+ __kasan_kmalloc+0xa6/0xb0
+ __rdma_create_id+0x5b/0x5d0 [rdma_cm]
+ __rdma_create_kernel_id+0x12/0x40 [rdma_cm]
+ nvme_rdma_alloc_queue+0x26a/0x5f0 [nvme_rdma]
+ nvme_rdma_setup_ctrl+0xb84/0x1d90 [nvme_rdma]
+ nvme_rdma_create_ctrl+0x7b5/0xd20 [nvme_rdma]
+ nvmf_dev_write+0xddd/0x22b0 [nvme_fabrics]
+ vfs_write+0x211/0xd50
+ ksys_write+0x100/0x1e0
+ do_syscall_64+0x5b/0x80
+ entry_SYSCALL_64_after_hwframe+0x72/0xdc
 
->=20
-> > ---
-> > The BUG KASAN was observed with blktests at test cases nvme/030 or nvme=
-/031,
-> > using SIW transport [1]. To reproduce it, it is required to repeat the =
-test
-> > cases from 30 to 50 times on my test system.
-> >=20
-> > [1] https://lore.kernel.org/linux-block/rsmmxrchy6voi5qhl4irss5sprna3f5=
-owkqtvybxglcv2pnylm@xmrnpfu3tfpe/
-> >=20
-> >  drivers/infiniband/core/cma.c | 3 +++
-> >  1 file changed, 3 insertions(+)
->=20
-> The fix looks correct to me.
->=20
-> Thanks=
+Freed by task 4227:
+ kasan_save_stack+0x2f/0x50
+ kasan_set_track+0x21/0x30
+ kasan_save_free_info+0x2a/0x50
+ ____kasan_slab_free+0x169/0x1c0
+ slab_free_freelist_hook+0xdb/0x1b0
+ __kmem_cache_free+0xb8/0x2e0
+ nvme_rdma_free_queue+0x4a/0x70 [nvme_rdma]
+ nvme_rdma_teardown_io_queues.part.0+0x14a/0x1e0 [nvme_rdma]
+ nvme_rdma_delete_ctrl+0x4f/0x100 [nvme_rdma]
+ nvme_do_delete_ctrl+0x14e/0x240 [nvme_core]
+ nvme_sysfs_delete+0xcb/0x100 [nvme_core]
+ kernfs_fop_write_iter+0x359/0x530
+ vfs_write+0x58f/0xd50
+ ksys_write+0x100/0x1e0
+ do_syscall_64+0x5b/0x80
+ entry_SYSCALL_64_after_hwframe+0x72/0xdc
+
+The buggy address belongs to the object at ffff888197b37000
+        which belongs to the cache kmalloc-2k of size 2048
+The buggy address is located 1048 bytes inside of
+        freed 2048-byte region [ffff888197b37000, ffff888197b37800)
+
+The buggy address belongs to the physical page:
+page:00000000fbe33a6e refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x197b30
+head:00000000fbe33a6e order:3 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+anon flags: 0x17ffffc0010200(slab|head|node=0|zone=2|lastcpupid=0x1fffff)
+raw: 0017ffffc0010200 ffff888100042f00 0000000000000000 dead000000000001
+raw: 0000000000000000 0000000000080008 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+ ffff888197b37300: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff888197b37380: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>ffff888197b37400: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                            ^
+ ffff888197b37480: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff888197b37500: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
+
+Fixes: de910bd92137 ("RDMA/cma: Simplify locking needed for serialization of callbacks")
+Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: stable@vger.kernel.org
+---
+The BUG KASAN was observed with blktests at test cases nvme/030 or nvme/031,
+using SIW transport [*]. To reproduce it, it is required to repeat the test
+cases from 30 to 50 times on my test system.
+
+[*] https://lore.kernel.org/linux-block/rsmmxrchy6voi5qhl4irss5sprna3f5owkqtvybxglcv2pnylm@xmrnpfu3tfpe/
+
+Changes from v1:
+* Improved the commit message per comments on the list
+
+ drivers/infiniband/core/cma.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/infiniband/core/cma.c b/drivers/infiniband/core/cma.c
+index 93a1c48d0c32..c5267d9bb184 100644
+--- a/drivers/infiniband/core/cma.c
++++ b/drivers/infiniband/core/cma.c
+@@ -2477,6 +2477,7 @@ static int cma_iw_handler(struct iw_cm_id *iw_id, struct iw_cm_event *iw_event)
+ 	struct sockaddr *laddr = (struct sockaddr *)&iw_event->local_addr;
+ 	struct sockaddr *raddr = (struct sockaddr *)&iw_event->remote_addr;
+ 
++	cma_id_get(id_priv);
+ 	mutex_lock(&id_priv->handler_mutex);
+ 	if (READ_ONCE(id_priv->state) != RDMA_CM_CONNECT)
+ 		goto out;
+@@ -2524,12 +2525,14 @@ static int cma_iw_handler(struct iw_cm_id *iw_id, struct iw_cm_event *iw_event)
+ 	if (ret) {
+ 		/* Destroy the CM ID by returning a non-zero value. */
+ 		id_priv->cm_id.iw = NULL;
++		cma_id_put(id_priv);
+ 		destroy_id_handler_unlock(id_priv);
+ 		return ret;
+ 	}
+ 
+ out:
+ 	mutex_unlock(&id_priv->handler_mutex);
++	cma_id_put(id_priv);
+ 	return ret;
+ }
+ 
+-- 
+2.40.1
+
 
