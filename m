@@ -4,72 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7ACCDC7EE29
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Jun 2023 13:26:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8AC98EB64D7
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Jun 2023 13:30:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rTZxN5m13ruXfj1B8m/Bn5YhWNHFY++7NFGSmz/Butk=; b=F8hTPBIgTdbRfrJrjWA+6ULB6m
-	U7ieDAQ5E/DmnxtYRB/5Uhu6wuPXN4wktkMbSTs1DPTR31AliTRyQ5Tar16d+EdXx2fDfp2ZFkwEK
-	dj1MTpRMAswAPAEBP1j/hIgrxJNWIuGe1Iyv5qecRmA7FI8V2FI7bXjj+ShvqLQV5cY0nXyrJnwlW
-	qvi9uhHwwt9mD34PRV+d7kD8+KcjlIELSGdUT4F65gyTqowJCThk7gzhBIiPVEPN6XX6Et5+yaNmc
-	g3qx2Bs40Fo2Na0848eSW/h1gWbxs5/NcRAhfoJ5IYHKRyeNz40EZabSKa7EhlH+YLgBqEEwyrGYz
-	nhQI/P2A==;
+	bh=y1wWr1tMbudbOK4z/i9FCl7+zcdXRR+g7ms2GZ5RIas=; b=DRhgM5EZoy586+mvA17ZCUKk3k
+	RwKuzecdold0Vwl8+n8lKsLVCx2HtACRaE87m9h2pxGBPG5xTPGIaGWZ3E8J9DtWiRCnhBJGP3VS3
+	S4pNnN0WkdrjXrh9GcNhZBu5YPiKB0do8AGIu65Ln2QrBvnmlxCb5JlDr0pvssjsV7fZSBORKNLF1
+	LytNjv9b/2ZWtQgEKoAaOl33ybq/rz7yPhLliAV4wVibwhAHjBSdwpEFFRhP5Kr/cdB5ebm1kBmq4
+	rTEgysASkzLKIPZ+fhyWQPAXAV22CF85wO0q4UeUbDnOlS2YXGDJRW3Eeyk0xbJd7ABux9Ckxyml1
+	TF5KnzZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q942d-008Ay9-2H;
-	Tue, 13 Jun 2023 13:26:35 +0000
-Received: from mail-wm1-f43.google.com ([209.85.128.43])
+	id 1q946i-008Bfd-2c;
+	Tue, 13 Jun 2023 13:30:48 +0000
+Received: from mail-qv1-xf2e.google.com ([2607:f8b0:4864:20::f2e])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q942a-008AxY-1i
+	id 1q946f-008Bdj-0g
 	for linux-nvme@lists.infradead.org;
-	Tue, 13 Jun 2023 13:26:34 +0000
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-3f7373b5499so9289525e9.1
-        for <linux-nvme@lists.infradead.org>; Tue, 13 Jun 2023 06:26:30 -0700 (PDT)
+	Tue, 13 Jun 2023 13:30:47 +0000
+Received: by mail-qv1-xf2e.google.com with SMTP id 6a1803df08f44-62de5392c7bso7091176d6.2
+        for <linux-nvme@lists.infradead.org>; Tue, 13 Jun 2023 06:30:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1686663039; x=1689255039;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=y1wWr1tMbudbOK4z/i9FCl7+zcdXRR+g7ms2GZ5RIas=;
+        b=gFdKAzdsC4Km23ekn6ACrWo5EYSNsh2vy5ZkHcAK7IVtBMlaYRrYIVVlhxpfZSmMg7
+         WYpvSKLd+daLU69dYdZTnTZwY8a3cmpIHKv0ThNZnJ6fy8fnDSuBy/U9xfvo5q6YcOBR
+         IbQp2aY1QmzuFR8osKO90LaK49Pp3V82j9Y6OCpRjFey5CkcH2d3FMqFkUDQ2jEKSofN
+         KtwlkG48oBUAOAnP40DTZRYICSL5npHro95D4voyG+gM2QVGgRzdctKeBVmLql56Ev6D
+         n8hQoPRtiE3QruGuT+BRpyUxWzpgIpAN4gBNLFmDtHmBUhJG12ZW7gmICwI+AcnllmkN
+         l3oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686662790; x=1689254790;
+        d=1e100.net; s=20221208; t=1686663039; x=1689255039;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rTZxN5m13ruXfj1B8m/Bn5YhWNHFY++7NFGSmz/Butk=;
-        b=NW340WYgNT6gh2In+Sin+rmTPMXDefi3MSOPg/yt591toQvSb3/5msdFMK6BEM0LCd
-         Dm3iKjiQSB/Xf/QuyHGuiqLrINqAUb9x4AZOQ9ApLOr5MXu6Ir22mZo2AXGl1OSh/Wkh
-         vDhNx3IGBL68RMi1BY9qGXbbuWAfUpGVpkFgUkTPyWQ2wfOI6qB62I4l+bNw1s47EvZz
-         r9+h5FBIw623jnuo3YJwjf7h19UBYNNFiuip3m3T+qdsNksBY8LQKZZuZ5DQDDagB8Yz
-         eynPROf+lLIY7tYoqhV+DINeGRIQ2ZQkwrNPfH3AzZ2dDmIy5FV4m8HChqcSY6bD6fms
-         bdSw==
-X-Gm-Message-State: AC+VfDxeaUUK4JMuTa6sbdI1HezSbF8xQF2kPbiIBA1EYOAO7mWuoa09
-	f7NjzgYVMEBddzwLMGyj/7U=
-X-Google-Smtp-Source: ACHHUZ4YWQOvQmvc9An+icPA01JC1DVn5JfT/ZQJz9hAkUTqkSdi8LV739uDhC8WEloaUqseYBzVcg==
-X-Received: by 2002:a05:600c:4e01:b0:3f6:c88:c318 with SMTP id b1-20020a05600c4e0100b003f60c88c318mr10343960wmq.4.1686662789691;
-        Tue, 13 Jun 2023 06:26:29 -0700 (PDT)
-Received: from sagi-Latitude-7490 (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id x19-20020a1c7c13000000b003f7aad8c160sm14423161wmc.11.2023.06.13.06.26.28
+        bh=y1wWr1tMbudbOK4z/i9FCl7+zcdXRR+g7ms2GZ5RIas=;
+        b=XGLh0EP+UzCzQHvX5GplbNwEEUT4u7e0C2COwI1WA2OKAcZeymSqDVnn8YUQxwtSPM
+         7eSOQOM/hD3yHxq3WrG3urUM3eWCaBvtXgC9bKPjy39v/nLMqEC9zIH860lLpIkmWd4X
+         I14UJE1zaD6WmmV2ZOe4XugpFGF447VNb00DFEiYbEsA83QwrJhYkXXQcsqvWicUe0p1
+         /1wmHrKYvF6vdqyxkYMQBAKG8DimOHV6oQbtGAt7flAwu3zWe2Bzhc601GaWNcaa03kg
+         9U2jw4cCUbz1ntxcEUPnZkglyr79rplFcUcanFuuv6qRYpz/pdc5B99nGr3nLykgldtk
+         cPcg==
+X-Gm-Message-State: AC+VfDx+mqSLKvfK/P8S00qCiFGsuNTdBBszH2JiFCYCzf9D87OKMAnL
+	zhsO/duCaR1N8zaYRk7pOVVETA==
+X-Google-Smtp-Source: ACHHUZ4IcAn5/udys+q00pDgo61L01aeH7U8dVDPeDSvd4nHc0VSAtwZb+HE9DprrPHS4pGK0tojOA==
+X-Received: by 2002:ad4:5fc5:0:b0:62d:f6f1:10bf with SMTP id jq5-20020ad45fc5000000b0062df6f110bfmr2155854qvb.51.1686663038949;
+        Tue, 13 Jun 2023 06:30:38 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-25-194.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.25.194])
+        by smtp.gmail.com with ESMTPSA id y16-20020a0ce050000000b006210e0365f7sm3876191qvk.69.2023.06.13.06.30.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jun 2023 06:26:29 -0700 (PDT)
-Date: Tue, 13 Jun 2023 16:26:27 +0300
-From: Sagi Grimberg <sagi@grimberg.me>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org, Yi Zhang <yi.zhang@redhat.com>,
-	linux-block@vger.kernel.org, Chunguang Xu <brookxu.cn@gmail.com>
-Subject: Re: [PATCH 2/2] nvme: don't freeze/unfreeze queues from different
- contexts
-Message-ID: <ZIhugyimdWoW7bU+@sagi-Latitude-7490>
-References: <20230613005847.1762378-1-ming.lei@redhat.com>
- <20230613005847.1762378-3-ming.lei@redhat.com>
- <c850f479-36b9-3478-6400-95faea095467@grimberg.me>
- <ZIhtJ3PjJYMWXS04@ovpn-8-16.pek2.redhat.com>
+        Tue, 13 Jun 2023 06:30:38 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1q946X-004wZr-Kz;
+	Tue, 13 Jun 2023 10:30:37 -0300
+Date: Tue, 13 Jun 2023 10:30:37 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+	Leon Romanovsky <leon@kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	Damien Le Moal <dlemoal@kernel.org>
+Subject: Re: [PATCH v2] RDMA/cma: prevent rdma id destroy during
+ cma_iw_handler
+Message-ID: <ZIhvfdVOMsN2cXEX@ziepe.ca>
+References: <20230612054237.1855292-1-shinichiro.kawasaki@wdc.com>
+ <ZIcpHbV3oqsjuwfz@ziepe.ca>
+ <3x4kcccwy5s2yhni5t26brhgejj24kxyk7bnlabp5zw2js26eb@kjwyilm5d4wc>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZIhtJ3PjJYMWXS04@ovpn-8-16.pek2.redhat.com>
+In-Reply-To: <3x4kcccwy5s2yhni5t26brhgejj24kxyk7bnlabp5zw2js26eb@kjwyilm5d4wc>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230613_062632_565434_53E85CD4 
-X-CRM114-Status: GOOD (  15.53  )
+X-CRM114-CacheID: sfid-20230613_063045_388005_62740046 
+X-CRM114-Status: GOOD (  17.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,26 +99,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> > > diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> > > index 0eb79696fb73..354cce8853c1 100644
-> > > --- a/drivers/nvme/host/rdma.c
-> > > +++ b/drivers/nvme/host/rdma.c
-> > > @@ -918,6 +918,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
-> > >   		goto out_cleanup_tagset;
-> > >   	if (!new) {
-> > > +		nvme_start_freeze(&ctrl->ctrl);
-> > >   		nvme_unquiesce_io_queues(&ctrl->ctrl);
-> > >   		if (!nvme_wait_freeze_timeout(&ctrl->ctrl, NVME_IO_TIMEOUT)) {
-> > >   			/*
-> > > @@ -926,6 +927,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
-> > >   			 * to be safe.
-> > >   			 */
-> > >   			ret = -ENODEV;
-> > > +			nvme_unfreeze(&ctrl->ctrl);
-> > 
-> > What does this unfreeze designed to do?
+On Tue, Jun 13, 2023 at 01:43:43AM +0000, Shinichiro Kawasaki wrote:
+> > I think there is likely some much larger issue with the IW CM if the
+> > cm_id can be destroyed while the iwcm_id is in use? It is weird that
+> > there are two id memories for this :\
 > 
-> It is for undoing the previous nvme_start_freeze.
+> My understanding about the call chain to rdma id destroy is as follows. I guess
+> _destory_id calls iw_destory_cm_id before destroying the rdma id, but not sure
+> why it does not wait for cm_id deref by cm_work_handler.
+> 
+> nvme_rdma_teardown_io_queueus
+>  nvme_rdma_stop_io_queues -> chained to cma_iw_handler
+>  nvme_rdma_free_io_queues
+>   nvme_rdma_free_queue
+>    rdma_destroy_id
+>     mutex_lock(&id_priv->handler_mutex)
+>     destroy_id_handler_unlock
+>      mutex_unlock(&id_priv->handler_mutex)
+>      _destory_id
+>        iw_destroy_cm_id
+>        wait_for_completiion(&id_priv->comp)
+>        kfree(id_priv)
 
-ok.
+Once a destroy_cm_id() has returned that layer is no longer
+permitted to run or be running in its handlers. The iw cm is broken if
+it allows this, and that is the cause of the bug.
+
+Taking more refs within handlers that are already not allowed to be
+running is just racy.
+
+Jason
 
