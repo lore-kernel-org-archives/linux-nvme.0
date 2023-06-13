@@ -4,67 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B519EB64D0
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Jun 2023 18:08:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C8C5EB64D0
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Jun 2023 19:07:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=oUttxPFr5axqv3puqoD2/8iu9sRLk+RMpE/RzmfX2qU=; b=FDifmvsySr3PstaUFXvi9rKp7Q
-	sR+LCh+H9I2P386m5ZrcRtRKOaLbKAzxxiWbhvnYG26FZKIKHJjIWaxtQREVeVCQK3K8uldPM6dp4
-	bq+AGY4EtPhtPZXXx0gg5o7Yy2/IgWhCDh5z6jhP63oeIemkcDezL31IZbz4ZM5iHPQMSJEq1YaiE
-	7plOM1uBbns92xrywWzk/4C5L2j2XBcQ+vmnjA9Igq/dYlfz8lN8li4I9xRpIED2RAaRj/jinRNpF
-	rWQM2xlQn0cTwHatE0O0b/KWlFmrDyin7J1y48slPZd8XL9+AUXAGUFI/YuEoIuhk8hlWPEUvqIey
-	9m9xYgEA==;
+	bh=6Tpur26Y/ARKY6+TM990Wsu3ePZMrhp4qlhZt3XSVxw=; b=iBeNk6p7CN30FlfeNC/JVFdJOY
+	FDCyRMUmy4SQTA0wQ7u7BVrZPRrlMjpaLit4GCdegKJgCx/aqMJefsjBO5PwBtWIxa/DvLH5Ufujl
+	1MyZM0lBZap/ZIe0iz2YkXQP6jBKvAWLMYCK3J/C7wGPrLI4ryEw90V1wNH+u5lonrM5N6oP+mZ8d
+	eYvtW0/37jZ66myZjWXr3NjkybOHpqVvCgdcGrP1aJ4NcxOpg3D9jnW8alNhHih9mFxIxaLpaMjO0
+	pW5t6ta1A+Rj6BmZA1eVxeqdExs65wdVbEEh0n4tWd9s67tcLK3jOhopsgqEZ2Cx+KmlpIBQ552XY
+	NVlwQtKQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q98Qz-008nqu-0A;
-	Tue, 13 Jun 2023 18:08:01 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1q99Mw-008w4q-1P;
+	Tue, 13 Jun 2023 19:07:54 +0000
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q98Qs-008np6-1J
+	id 1q99Mr-008w3a-23
 	for linux-nvme@lists.infradead.org;
-	Tue, 13 Jun 2023 18:07:59 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id BC11961ED8;
-	Tue, 13 Jun 2023 18:07:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A650EC433F0;
-	Tue, 13 Jun 2023 18:07:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1686679672;
-	bh=bStpZzGOwnNjgB7buL3AsENNwCNpQ59qPTJrDmTXhMY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OYmmxkOPcLl/S5RBi3m56MtconN9iSMRL9SFJzzuIQWtQYQDeOWzWHM189VfXnQaG
-	 uUVBMDL5GNwuopc/Pb8MvCLGIepqRPlAhE8fa12iplkZ/FKBolzallBEaZ+2zVrTGj
-	 XLK4s73Sxwgg/mTfPwhNjHldzOuVSfye2buISCZCnaEuGRtximGLWzQGid/jMF0ziw
-	 I8nsJFkSzxcK7Qv20LDikTZ2IGYdVaQqmpoaMgOpCEhgnOvNcYDAjwz6CrIxVkHprE
-	 Rdbuot3bD1yQEj9TDqjloqlHVAW3wKuM7b2bkvRW/3bH/4HPGtjbef7D0Xi8ktBUML
-	 8Wzf0zctEqBwg==
-Date: Tue, 13 Jun 2023 21:07:47 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
-	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	Damien Le Moal <dlemoal@kernel.org>
-Subject: Re: [PATCH v2] RDMA/cma: prevent rdma id destroy during
- cma_iw_handler
-Message-ID: <20230613180747.GB12152@unreal>
-References: <20230612054237.1855292-1-shinichiro.kawasaki@wdc.com>
- <ZIcpHbV3oqsjuwfz@ziepe.ca>
- <3x4kcccwy5s2yhni5t26brhgejj24kxyk7bnlabp5zw2js26eb@kjwyilm5d4wc>
- <ZIhvfdVOMsN2cXEX@ziepe.ca>
+	Tue, 13 Jun 2023 19:07:52 +0000
+Received: by mail-pg1-x52d.google.com with SMTP id 41be03b00d2f7-543d90cc675so3158357a12.3
+        for <linux-nvme@lists.infradead.org>; Tue, 13 Jun 2023 12:07:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686683267; x=1689275267;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=6Tpur26Y/ARKY6+TM990Wsu3ePZMrhp4qlhZt3XSVxw=;
+        b=MtRY8UJsJzilzMV+eKvM7yoTEjT4E/SOmMa7J0vLAx7zrI+O5dRQVu++Keg0Coo0q4
+         oYs9P0M6XH3CMrkdeQdcbw1tI29FbX89GGiP7wRwci9HF8/HEe3tzc54u8yRUNDrZhGb
+         95RFY2P3ngSotuFPy5nbMJNGbzVZDMUWWiRgu8Jy1FpzKsOyDggQEnq0XjiP1bUEejeg
+         35WVEed9eKUJIMX80q0uWUP8Zn2As02fN/qJu6J688LLQwwyH7SJFK+exZoQScKVLrCE
+         ozb++1q+1xJi27UWat4WZjDaFgXEBrVbu676erf5m9CMrQpykadpGtEG/YPMKpCO7zun
+         Icxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686683267; x=1689275267;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6Tpur26Y/ARKY6+TM990Wsu3ePZMrhp4qlhZt3XSVxw=;
+        b=fK7gVEjGsOwc/3q9s+0pBtxAw0DcsRxJrR1vxDYVe3oAMQWADe8AHbB3zeI4cRUatl
+         IgPC4wxyE8dyw0DNZiJilHPWFpalUzuxxrM1zdJQ3X2i69cItQGQntKxO/yJRk+piqgW
+         geqrpeuHHeh5KfEgTbqpsQHD8bDZZmgEcgP8gSjcKGfsXu4abvUKvujHSJjx8ssDyuT0
+         Uam3qzKTpCe3/cWoeXgzvSqRJA2Vh4QuYcaVdO/L+EQQXucXGhx8PfXFMRuPyOEDnT3E
+         f6jnIcsrEvl3QhLlxdvmtPTx/f8Quz1KYhSeNYvKCHZ7vgMslyzqhjZwrkd0fyLcRTm1
+         3iaw==
+X-Gm-Message-State: AC+VfDy74BlHxrdkKJl9JLwTYfuYicXRseM1h3XoWUph+Ttao1qaCKDC
+	dWXfR+UEYFP5eBVlzgkLgUDjVfzCbfrVFERBUWU=
+X-Google-Smtp-Source: ACHHUZ4EjW1rgRX6mG45pd8+FsnN266Mr3BstYTy7GWcAG7FART14K4zglsaFzZ3hRGmwnlMjs03h5vUoO3AwfjX4SQ=
+X-Received: by 2002:a17:90a:1b22:b0:25b:d3f9:af01 with SMTP id
+ q31-20020a17090a1b2200b0025bd3f9af01mr6062724pjq.35.1686683266965; Tue, 13
+ Jun 2023 12:07:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZIhvfdVOMsN2cXEX@ziepe.ca>
+References: <20230606082134.20623-1-irvincoteg@gmail.com> <ZH9y9j2KBHRW+Olj@kbusch-mbp.dhcp.thefacebook.com>
+ <CALL+9eipeO-pt1pyHpEq30R+2gq4YrKAUy=XsFCZZzJsK318bA@mail.gmail.com>
+In-Reply-To: <CALL+9eipeO-pt1pyHpEq30R+2gq4YrKAUy=XsFCZZzJsK318bA@mail.gmail.com>
+From: irvin cote <irvincoteg@gmail.com>
+Date: Tue, 13 Jun 2023 21:07:35 +0200
+Message-ID: <CALL+9ehxXYZ-gq69Oq-FW4bFFoFteP8te0EBvrR=vSaUd9EaMA@mail.gmail.com>
+Subject: Re: [PATCH] nvme-core: warn and abort if shared ns with empty list
+To: Keith Busch <kbusch@kernel.org>
+Cc: hch@lst.de, axboe@kernel.dk, sagi@grimberg.me, 
+	linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230613_110754_509694_D55F2FB7 
-X-CRM114-Status: GOOD (  22.87  )
+X-CRM114-CacheID: sfid-20230613_120749_673809_29F5035D 
+X-CRM114-Status: GOOD (  35.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,40 +87,87 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jun 13, 2023 at 10:30:37AM -0300, Jason Gunthorpe wrote:
-> On Tue, Jun 13, 2023 at 01:43:43AM +0000, Shinichiro Kawasaki wrote:
-> > > I think there is likely some much larger issue with the IW CM if the
-> > > cm_id can be destroyed while the iwcm_id is in use? It is weird that
-> > > there are two id memories for this :\
-> > 
-> > My understanding about the call chain to rdma id destroy is as follows. I guess
-> > _destory_id calls iw_destory_cm_id before destroying the rdma id, but not sure
-> > why it does not wait for cm_id deref by cm_work_handler.
-> > 
-> > nvme_rdma_teardown_io_queueus
-> >  nvme_rdma_stop_io_queues -> chained to cma_iw_handler
-> >  nvme_rdma_free_io_queues
-> >   nvme_rdma_free_queue
-> >    rdma_destroy_id
-> >     mutex_lock(&id_priv->handler_mutex)
-> >     destroy_id_handler_unlock
-> >      mutex_unlock(&id_priv->handler_mutex)
-> >      _destory_id
-> >        iw_destroy_cm_id
-> >        wait_for_completiion(&id_priv->comp)
-> >        kfree(id_priv)
-> 
-> Once a destroy_cm_id() has returned that layer is no longer
-> permitted to run or be running in its handlers. The iw cm is broken if
-> it allows this, and that is the cause of the bug.
-> 
-> Taking more refs within handlers that are already not allowed to be
-> running is just racy.
+I have investigate the question a bit more and I have come to make
+these three observations:
 
-So we need to revert that patch from our rdma-rc.
+In case of a hot unplug :
 
-Thanks
+It looks like in the case of a hot unplug the ns heads that have an
+empty list are removed from the subsystem's list of nsheads regardless
+of the head's refcount; as per nvme_ns_remove. Therefore after a
+hot-unplug then replug we should not see stale ns heads from before.
+Even if we did see stale ns heads from before the unplug then the new
+head might not be added because of nvme_subsys_check_duplicate_ids
+failing
 
-> 
-> Jason
+
+Why I think we only have shared namespaces when reaching this location:
+
+In nvme_find_ns_head, when we check for the emptiness of the head's
+list (meaning we've asserted (h->ns_id == nsid &&
+nvme_is_unique_nsid(ctrl, h)) we should only have shared namespaces
+because otherwise we would have two private namespace with the same
+nsid while asserting nvme_is_unique_nsid.
+
+
+The refcount problem:
+
+If the list is empty and the refcount is not 0 we will take a
+reference on the head that we will never put back.
+
+Hence I think we should either erase the check for the head's list
+emptiness if the condition never occurs or if it does, warn and exit.
+
+On Wed, 7 Jun 2023 at 11:40, irvin cote <irvincoteg@gmail.com> wrote:
+>
+> But in the case you are describing, wouldn't it fail at
+> nvme_subsys_check_duplicate_ids?
+>
+> On Tue, 6 Jun 2023 at 19:55, Keith Busch <kbusch@kernel.org> wrote:
+> >
+> > On Tue, Jun 06, 2023 at 10:21:34AM +0200, Irvin Cote wrote:
+> > > In nvme_find_ns_head if we find a shared ns but it has an empty
+> > > list or its refcount is 0 we gloss over it and go to the next.
+> > > Ignoring when such a case happens means that when nvme_find_ns_head
+> > > returns NULL, we could create a new nshead with the same nsid. Hence
+> > > we could find ourselves with two shared nsheads having the same nsid.
+> > > Instead warn the user through dev_err and exit.
+> >
+> > Let's say you're holding a reference on the old "head" and then hot
+> > remove the drive. The kernel will tear down the device and its
+> > namespace, but the subsystem and empty head will remain due to that
+> > held reference.
+> >
+> > Now plug the drive back in. Today, the controller will attach to the
+> > previous subsystem, and make a new "head" for its namespace (because the
+> > old one is empty), and you can continue from there, though the new
+> > handle names may look a bit odd.
+> >
+> > This change won't make the re-added namespace visible to the user, which
+> > doesn't sound right.
+> >
+> > > Signed-off-by: Irvin Cote <irvincoteg@gmail.com>
+> > > ---
+> > >  drivers/nvme/host/core.c | 11 +++++++++++
+> > >  1 file changed, 11 insertions(+)
+> > >
+> > > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> > > index c8a471482421..175f1516083f 100644
+> > > --- a/drivers/nvme/host/core.c
+> > > +++ b/drivers/nvme/host/core.c
+> > > @@ -3341,6 +3341,11 @@ static struct nvme_ns_head *nvme_find_ns_head(struct nvme_ctrl *ctrl,
+> > >                       continue;
+> > >               if (!list_empty(&h->list) && nvme_tryget_ns_head(h))
+> > >                       return h;
+> > > +             else {
+> > > +                     dev_err(ctrl->device,
+> > > +                             "Found shared namespace with empty list or 0 refcount\n");
+> >
+> > I don't think we're guaranteed this path is using a "shared" namespace.
+> >
+> > > +                     return ERR_PTR(-ENOENT);
+> > > +             }
+> > >       }
+> > >
+> > >       return NULL;
 
