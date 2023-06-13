@@ -4,144 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9ED54C7EE29
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Jun 2023 11:36:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12C79C77B7A
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Jun 2023 13:13:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XFZi8uGaluOh+24LP8UtDUqjz9tliiCMH9ENAncqaeI=; b=3vTTMgjPQDQ3whfebRf9QN6Zyo
-	VepMweZrMSLUzLjs2bivgE4BZOeDM3VRWD/vudAURzIr1O3DrcvAfF4WYSjnSq4NA/5BHvWgaxf9G
-	nhiZ5uv/bQPiloeKAYecXn11U4mVegvgQMLv39+qinCR4LSggEexIv6GzTTd51Vg7yr8bvzBFohOQ
-	a2QOSKjlO4zoEmcd71qA0sIkjhEXocCpCFjHgW8v0QFwb9Ull4GCyjaKtITyjPWj5Z7FeJZOBCm2+
-	hTvJMMGXkM0SAWYx+dsB4sQ6lUJIA5Dw2BqSc7MwDohur6AVYdyXkJFnxz3dOpUiCcElHtBC8t+TH
-	WjGwOWmw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nRRH/7qrI/7OWN7DpTOtqhA0hU7prBpMWIgwS0148uI=; b=c1tcnW64DXarlJwGiB+gPdvv4B
+	FGBG/7qWsW6xN51dUclzdTqEXPPI2JzxUk8kWeLvzOUXSbo/93rtxFO1HHNGXUmGRkPYWTb7bCCYL
+	MdKqTd9066VJ4pQtTKFSxkvOS5Fz7bfX4F9ig9GYkHh7AbhlNcafECtCzwrMR2zQXL+7jcR2rPbEy
+	ZDC30gfhbRwJNlxw51cuOgpEfe5zEmGoFVCOIwauCG5FD7/9N4WemOA4IpM3d4l7YcdUMhrZW0rql
+	hObljx0dzAW+uDe79al23TGeNxfiyR4Fn7VtPcqq9cOB7KGJcVy4Bgx2mKo+Z9hfHOjYDSI+0ZY/F
+	CVjoIQbw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q92Jb-007vv6-1Z;
-	Tue, 13 Jun 2023 11:35:59 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1q93qK-00894z-2r;
+	Tue, 13 Jun 2023 13:13:52 +0000
+Received: from mail-wr1-f46.google.com ([209.85.221.46])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q92JY-007vuL-1r
+	id 1q93qG-00893y-24
 	for linux-nvme@lists.infradead.org;
-	Tue, 13 Jun 2023 11:35:58 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1686656156; x=1718192156;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-id:content-transfer-encoding:mime-version;
-  bh=XFZi8uGaluOh+24LP8UtDUqjz9tliiCMH9ENAncqaeI=;
-  b=ov9/wfHmgWOU3M+vneK9w9ueLUydqyYzZjJVsXYnxdvHBxKSqLM7aAuI
-   expvkLJUS1B2CjZm/w7bNpzahi6ec0bIiaQiluSwyhVApFHqXBOjkaidL
-   O5oXVAq/4eBX6Epe+eV8K7nLVD3iBVxIyenAvFRaG6pEd5rjfUgh2DD6T
-   yui5jsoiO4vNwDBBX5mtVjU1DoCO1KH0VbST10s0LytTkn7I7ac9NCM1c
-   A+k3oHlIMiawSno7mQ7v8DyyveP9aZbEWHTy2fKf0z9Fy2iUO+i/RMY6Q
-   eKEoVz3FvHK+kV+DKRM1wYGeJhpnMR9LAoo6AF+EVoIPdfN5WScG2WOAd
-   w==;
-X-IronPort-AV: E=Sophos;i="6.00,239,1681142400"; 
-   d="scan'208";a="340212834"
-Received: from mail-bn7nam10lp2109.outbound.protection.outlook.com (HELO NAM10-BN7-obe.outbound.protection.outlook.com) ([104.47.70.109])
-  by ob1.hgst.iphmx.com with ESMTP; 13 Jun 2023 19:35:48 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=H9VT12T/XY/vduPxDu0hfTYtG13/FRmcep8k3Nyf9UZpcS5OzHF0MGe2Tri/DVstaqndMjVCgP6w+6TcThwblo8uOjSB6zAI0N036ywbzHAb0imog6MHFvjeP8Ih16b5SfVefi4c66cUEVbbrpyDlE+YtUmwqGrMu9emt9Fp5jxn/t193juCiCiPSyvl3oF0KtPGdmvbfZ64esytDr5mDybyaqUj25Szt5gALOaDJU+rxQqF/CerIhZGlfvXlF//Gv9JXDCjmwuNS47iGWgYakF1rpuXV+qduw/i/xbcgypL/uCV/NiXGSW1p3JF+bUYu7KJVUfblxCctQgtVZdT5Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XFZi8uGaluOh+24LP8UtDUqjz9tliiCMH9ENAncqaeI=;
- b=E8j+ENu9odSb+DNzjGt0QJquk2cvlTD7y3Vl8OnTPnLgry4hFiaJc4uxIDYklnAMz28FyzGkvJuiWq4XhWAYTiQ+2wWNz+mQXsx0WyUagF/JMxsO9dav3hQj0+sXUqO7jCTasgNZ5SrqXTP8NVoxCaivQ1VuSiumix2mafq0arUZqI9TnB256sYcMtTgw2kBqGtEQoCfloODJGD1aRIHiFB0dWIvtGK+NHpvphdJcEG/oJcMht1au8Mns3NJMPENL4G+nobdwYv8yQQLmLYwt+jn6OVIBVXQS0xUwxxPbwiG1z7KSRLh0RvxP9HKIR6onvcM1eW9gAwKAbLds5X2wA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XFZi8uGaluOh+24LP8UtDUqjz9tliiCMH9ENAncqaeI=;
- b=udTHACm9vb/Uw8OicmSYssbQsIVP9ihd4FhRXUr6oSaDwEWberIFkzTct1AfXkwHAYNG5RHBry3k2qfwzGlC0i4sikV/nOOJ6CkF67JPifqtfK5aVPbYVRhLTXqUiHk8eP2LRxLDv0h2Ppl4bOkhr/MgNlaLy+Ce96Cqmgslod8=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- SJ0PR04MB7200.namprd04.prod.outlook.com (2603:10b6:a03:29d::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.46; Tue, 13 Jun
- 2023 11:35:45 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::bfa:d453:e7e9:8f98]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::bfa:d453:e7e9:8f98%6]) with mapi id 15.20.6477.028; Tue, 13 Jun 2023
- 11:35:45 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH blktests 0/3] improve block/011
-Thread-Topic: [PATCH blktests 0/3] improve block/011
-Thread-Index: AQHZj47Bw2i4uO1+JUKjXyuKdgFjUq+Ity+A
-Date: Tue, 13 Jun 2023 11:35:45 +0000
-Message-ID: <yje2wbbavmx7yeoh3tfduz3fsuck4pz5tljtalst26iwpvi25g@7gjs3zfua7ol>
-References: <20230526045843.168739-1-shinichiro.kawasaki@wdc.com>
-In-Reply-To: <20230526045843.168739-1-shinichiro.kawasaki@wdc.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|SJ0PR04MB7200:EE_
-x-ms-office365-filtering-correlation-id: 46721733-79ba-4c1f-ec14-08db6c0253d3
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: e1xdfaFtJD7JKZ8P+l9lsjnCy000YjG6mtYlAPjkJjJqmqRBeRKXphxGyj8npHOaspURYnpcfKcyopase4xFACaBUB9CXWGM6Na8IAk0rY303YaOJK9oKvsrWsCU/ipt8AStFIpHCpHj9p6VTN1FBV3ZsMUf+GeNFKEwOhp+QQqI3QK3bUqSmCyp3ztiRc1sshkGISMY0tvgvMHT7tg+L1YmO0uOdJFX10sb4HrORhC1Hwgr+pbUdM6Xdg+3ps7uYglNnSEyeSu3Tgl5zIR3nQV7P7/Sh0t8jiJjfxm989BSvDRqgYVWW4x9dtdBW76RLFRkcF+gRBdywUSqP7JQvn3hsjyLnZpZMUJgf8nfSIGDvvpObgGRpNuAYk7WoLO1RSTaTCQe+zJREB8O0ov3wDWt1h4M+46PL+1xkGd63XDBDlf9e/zyNFunLNVBx0ku3kZAswcpY33n1QvPDLYjnfah68uXMR0sB5xp+PS3K1ejxpdQvv44jBBTc5X5yisnsEUZvXN4pYnht8yPcIuHysaLKU3jl/m/mMaWYzKQqQsR3O5pSeShl+ItFor9v4FOxHt5tRZf57sQYi26Jsd4SY6k9PKt8xmgzaM6DcFzCrc=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(4636009)(366004)(376002)(346002)(136003)(39860400002)(396003)(451199021)(64756008)(33716001)(83380400001)(122000001)(91956017)(66946007)(76116006)(6512007)(26005)(71200400001)(6486002)(966005)(9686003)(6506007)(478600001)(4744005)(110136005)(186003)(2906002)(8936002)(8676002)(66556008)(86362001)(5660300002)(44832011)(82960400001)(41300700001)(38100700002)(38070700005)(316002)(66476007)(66446008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?K6WdV2H2AlnQBwxvF8gGYk9jPS8WAtBvLkGOBi5lClarqsUuncHor+wNRSfh?=
- =?us-ascii?Q?O2qyF/olaxmer9ZKQVwIXbw0Bj3kaT14kypYlrGP4e4J4TK0ipAdDATL85F5?=
- =?us-ascii?Q?0aYkbhThx3y3u/UxKEgpM7JSWsNmXUEQ9SGhlxX7fhq3Ty96vLMYE0ug5v4D?=
- =?us-ascii?Q?Imu32lfGi3kW7mD9obqeKfbVL1llKn6RXYEwMADjqtoXZmWcI0tbnQTiZkzl?=
- =?us-ascii?Q?+kW7N8NYPinKjMayZaZCu9K+OQgBUqmIYf5XrRnqYVdEN/TUuKgkK97rJSgO?=
- =?us-ascii?Q?5Jnaw93VW9UU5sq/3eXPql3//GhjQ5QS9tVqCuayV9FMX+C4WMxA9FAkjX/v?=
- =?us-ascii?Q?ID8uuOmcL9n2VBI2S0mXp82PkTr3x6eFY/lrlhHCQiHa1JcaaPlKgUUpEutl?=
- =?us-ascii?Q?kU7/z9tD6j5nlzAwI5FkhjuDVKg5d2P9b9x2ZAkZRjoCwtDskWUt13gTwCjF?=
- =?us-ascii?Q?2UpMPx93PfidQ1cTERt9moaFYIN7ixPL674BK40GlxZ6IwFMWT8hELtLUuv5?=
- =?us-ascii?Q?t+UWmw6V8SC4eIsh312l0SOT/nTlBFfsyvbROV1H16WUgFBIWqjygeR57boy?=
- =?us-ascii?Q?UAtzN3HLeG6z8sv3+UrIEXVRaIg81VyCO8B4qVr7bfczbkZNRSKvRwaTSNR5?=
- =?us-ascii?Q?dmQ6W3RxAlguwEMjpRI8zcAKEXNmErdxiidJc9ybqxy581sEKp8/TYafS0iy?=
- =?us-ascii?Q?SChjDDzjLYkrQJO5aH51jL7tWcqrLE6l9PGoyGm+Su0HVNvkz2K9YaqepQAS?=
- =?us-ascii?Q?Z96vJi8YwsUTzXwFvtp0PLNRCRhIwikYuNuVnlGy3uzpBxq+hrtMQtB5qyDM?=
- =?us-ascii?Q?U+uqiE7IhRzIyRP1Cy7olrB/vxCymRbWajUY15UwSrqOexnsyr1Vo00lpo++?=
- =?us-ascii?Q?QL0Uj1Ogapoizx1Bnqo9wMEFe3nJ4KF1z8wkCllwkMXtXhYfZEjVP3AaAXOF?=
- =?us-ascii?Q?wfbLPhQi+i9UH1p+YkyXL7ZQ0tS/kGdhShUf/dxKEcAiyZ7O11hBnmk1TIOu?=
- =?us-ascii?Q?PbANLghyL/3zSpMpS9261nY2p+TwDmZ8nIOZ3XdAV9F8HxVNNDIj+1XOepuT?=
- =?us-ascii?Q?JTuHtHcuHTF4zXPqThRyBsxk9RTLbV8nYYqblaV33NlzOjh+g8HlDeVSrS0M?=
- =?us-ascii?Q?caI5XhHQC2xuFVPLMI38X6imm+0Yb/TXECY0+o9PfFQl5rpTlRjv5AyC4Spe?=
- =?us-ascii?Q?Dh5gfqyfslEWHcxhF4l+GIzlgYB5qaSVzCqGcHoIzUlj6YYMSMCiyL5KnAb/?=
- =?us-ascii?Q?IkaWmtB4+SfvzJvD1LkSY1e20EaRs1KUiO5OLjXgvzbT1Si9j0bK2qL64Y4R?=
- =?us-ascii?Q?Ab4BJDOZdEdAhJgSred64IzhRt2MYvweh2F9RYCIJAZH8BMc/2W/dQpt0GTw?=
- =?us-ascii?Q?MOA8S/lHbx1d97EJcgO0Yrk+C2Iv+rsNK2SDxB8A2iRmoFKoLlgJvSZVg+D9?=
- =?us-ascii?Q?aK/U9wb0bCmdC/wqUbvcL7xDuAr3nm4SMCSg1ziV6TH9kLltEVmwtWapi2Pm?=
- =?us-ascii?Q?4zGBA851LPCrYBnnBgapCRqx4zP0zymYZwg1nLVW9LJMd1WnPLb5Kn9BBsKo?=
- =?us-ascii?Q?aS3L3Wi1ABIW/9euyStRi2SOJ6ENWZ+rCucaHNdL3qS0FYKzUgMnPshhYJ8G?=
- =?us-ascii?Q?I0ZjTNgGyRTF/vouRxNKyLI=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <9E21DDBE0F4C94439074248D03397F32@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	Tue, 13 Jun 2023 13:13:50 +0000
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-30a9df84328so600272f8f.0
+        for <linux-nvme@lists.infradead.org>; Tue, 13 Jun 2023 06:13:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686662026; x=1689254026;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nRRH/7qrI/7OWN7DpTOtqhA0hU7prBpMWIgwS0148uI=;
+        b=caJYcdPIWgNNvnwlpVHmy90r5+ao19fNuE5mjJCyClUbgtZFJ2rEd3J97luZgWoJ4x
+         dT4TkUf8GxR0ZKFWxMbhEH48k9e3nSGNOgQKtaf2v199f2fEPYqFP7yFex0PuCX1XAup
+         7qTFpiVmRe+bhYogRY18DnXL2y+nbRfWqbB2A1TSjW+CGD4Fa6ByqJTYcxuXduA5Lxob
+         Fp5sRhdOkV3q5MA18Cf7t9YgJAlK4PHbbvzdBBVBjwV6USoxkddy4cHZvccoHdc2+h/8
+         fxo+8Y+0ns/wOoemPYaMTV307On8489vYriJNwW04Mk4EhLd7gufhaLhMkifNYsYmABO
+         bZNQ==
+X-Gm-Message-State: AC+VfDz5xs9OYxewD7jJRn+KKW+R5OPV26IR4+tq2CKDJatfmqWs45Lp
+	iSTRoUktL2l+wUdkWpVKvnQ=
+X-Google-Smtp-Source: ACHHUZ4WW8RLcs2lEf3XEC2buKDAOUJz0NPjJNQcqOASRUn/sdaHy3S6nhmBhDbYlpgPh9SoTrWvMQ==
+X-Received: by 2002:a5d:4e07:0:b0:30e:4af6:87fb with SMTP id p7-20020a5d4e07000000b0030e4af687fbmr9081799wrt.3.1686662025568;
+        Tue, 13 Jun 2023 06:13:45 -0700 (PDT)
+Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id c3-20020adffb03000000b0030ab5ebefa8sm15262032wrr.46.2023.06.13.06.13.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Jun 2023 06:13:44 -0700 (PDT)
+Message-ID: <c850f479-36b9-3478-6400-95faea095467@grimberg.me>
+Date: Tue, 13 Jun 2023 16:13:42 +0300
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 60btleEg5hEILQp1988kDy4Wsjsk0dZ4wX/jl6bsO2aGlUBtqR/73264ZdYt0tjPmssTtOqDzlS7jpnn6CY1SAI1YsAF+S9zKQbAwLPR+1r7KXzO3iJM2A5WuSFx9AOpc8gbUNHhdoYXHsw2LqQkhHREaSGp4RVJAOWrm/Nx4BgzfPMak6dvQsj2GiH1uRNybuCFBeqBL1j9xG8TnQFH2Z/9SBH9hX4R5oGK7Brt5fWBzNdtCo6ox9hN4IslY76KSoEDP7e0IF2voZTQoJ2SBt6711I6D9D43TDLYBPIRReO8z9tOQehht6ImCdjdtoepmCFVKavzTzuvTNNjUknSNGaCeLBqzOtXV3HXe2McV0pWRaUFtEa5jzAY/GTLLpV/uPBc46nXsY0Luz+Q/m52emtvSrMcTOAg8BJ/Q3vIIfI3puY6tnVMVL1eYzT3Ce4BzZIhX/2IwoCteD1EeiypcN/YgKqKCriu5I1/6uSbanp8Cj9TJjsq9cLWvc1HbUZTVHbx+co0IDpNtZen+wGZJT+8E+Dr5kzmQcNPsfBGqUVmnj2GOb1U74LhsBVsdOgO9RtHwcaLFzvCkzAIxLAcLqA79Hk2R5fHDLXRVZa/GduCZ5JEds1sOqpC5sCYIfvKad1bygUm66kOkEEeMNAOHSoJCE75fX8u425Ngg2e/Qd796BzodNB63GBSblfFiwv/hfiIl9VQvUr0AqaeiS5a5ZDosLhj6FoLxKrE87cslFVIjeTSsdFxuJnCmDzVmtp9rA0EDJcmFgt5A0smke8R+gAHEDePQCJUc9ekFsr54gd6QAvzTueUX4sJUUsyZoC4ZJBwRlRt1wKxuQPWTjUg==
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 46721733-79ba-4c1f-ec14-08db6c0253d3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jun 2023 11:35:45.5003
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: HeNVpiAFpSYt1ZkqKlmRFzv57xvdxu0nQ5QfDXF02E+74QEDtOFwAdPQYjePuyWp0VuBJCyX8KY7RoaH8FolRvVLjMirsCTZAqMM8nzuQKA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR04MB7200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 2/2] nvme: don't freeze/unfreeze queues from different
+ contexts
+Content-Language: en-US
+To: Ming Lei <ming.lei@redhat.com>, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+Cc: Yi Zhang <yi.zhang@redhat.com>, linux-block@vger.kernel.org,
+ Chunguang Xu <brookxu.cn@gmail.com>
+References: <20230613005847.1762378-1-ming.lei@redhat.com>
+ <20230613005847.1762378-3-ming.lei@redhat.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20230613005847.1762378-3-ming.lei@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230613_043556_682941_E3454A2B 
-X-CRM114-Status: GOOD (  10.06  )
+X-CRM114-CacheID: sfid-20230613_061348_703195_B9ADA2DB 
+X-CRM114-Status: GOOD (  32.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -156,16 +85,121 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On May 26, 2023 / 13:58, Shin'ichiro Kawasaki wrote:
-> As of today, three failure symptoms are observed with block/011 [1]. This=
- series
-> addresses two of them. The first two patches address the disappearing sys=
-tem
-> disk (Symptom C in [1]). The third patch addresses the zero capacity NVME
-> devices. (Symptom B in [1]).
->=20
-> [1] https://lore.kernel.org/linux-block/rsmmxrchy6voi5qhl4irss5sprna3f5ow=
-kqtvybxglcv2pnylm@xmrnpfu3tfpe/
 
-FYI, I've applied the patches.=
+> For block layer freeze/unfreeze APIs, the caller is required to call the
+> two in strict pair, so most of users simply call them from same context,
+> and everything works just fine.
+> 
+> For NVMe, the two are done from different contexts, this way has caused
+> all kinds of IO hang issue, such as:
+> 
+> 1) When io queue connect fails, this controller is deleted without being
+> marked as DEAD. Upper layer may wait forever in __bio_queue_enter(), because
+> in del_gendisk(), disk won't be marked as DEAD unless bdev sync & invalidate
+> returns. If any writeback IO waits in __bio_queue_enter(), IO deadlock is
+> caused. Reported from Yi Zhang.
+> 
+> 2) error recovering vs. namespace deletiong, if any IO originated from
+> scan work is waited in __bio_queue_enter(), flushing scan work hangs for
+> ever in nvme_remove_namespaces() because controller is left as frozen
+> when error recovery is interrupted by controller removal. Reported from
+> Chunguang.
+> 
+> Fix the issue by calling the two in same context just when reset is done
+> and not starting freeze from beginning of error recovery. Not only IO hang
+> is solved, correctness of freeze & unfreeze is respected.
+> 
+> And this way is correct because quiesce is enough for driver to handle
+> error recovery. The only difference is where to wait during error recovery.
+> With this way, IO is just queued in block layer queue instead of
+> __bio_queue_enter(), finally waiting for completion is done in upper
+> layer. Either way, IO can't move on during error recovery.
+> 
+> Reported-by: Chunguang Xu <brookxu.cn@gmail.com>
+> Closes: https://lore.kernel.org/linux-nvme/cover.1685350577.git.chunguang.xu@shopee.com/
+> Reported-by: Yi Zhang <yi.zhang@redhat.com>
+> Signed-off-by: Ming Lei <ming.lei@redhat.com>
+> ---
+>   drivers/nvme/host/core.c | 4 +---
+>   drivers/nvme/host/pci.c  | 8 +++++---
+>   drivers/nvme/host/rdma.c | 3 ++-
+>   drivers/nvme/host/tcp.c  | 3 ++-
+>   4 files changed, 10 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 4ef5eaecaa75..d5d9b6f6ec74 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -4707,10 +4707,8 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+>   	 * removing the namespaces' disks; fail all the queues now to avoid
+>   	 * potentially having to clean up the failed sync later.
+>   	 */
+> -	if (ctrl->state == NVME_CTRL_DEAD) {
+> +	if (ctrl->state == NVME_CTRL_DEAD)
+>   		nvme_mark_namespaces_dead(ctrl);
+> -		nvme_unquiesce_io_queues(ctrl);
+> -	}
+
+Shouldn't this be in the next patch? Not sure what
+this helps in this patch? It is not clearly documented
+in the commit msg.
+
+>   
+>   	/* this is a no-op when called from the controller reset handler */
+>   	nvme_change_ctrl_state(ctrl, NVME_CTRL_DELETING_NOIO);
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 492f319ebdf3..5d775b76baca 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2578,14 +2578,15 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+>   	dead = nvme_pci_ctrl_is_dead(dev);
+>   	if (dev->ctrl.state == NVME_CTRL_LIVE ||
+>   	    dev->ctrl.state == NVME_CTRL_RESETTING) {
+> -		if (pci_is_enabled(pdev))
+> -			nvme_start_freeze(&dev->ctrl);
+>   		/*
+>   		 * Give the controller a chance to complete all entered requests
+>   		 * if doing a safe shutdown.
+>   		 */
+> -		if (!dead && shutdown)
+> +		if (!dead && shutdown & pci_is_enabled(pdev)) {
+> +			nvme_start_freeze(&dev->ctrl);
+>   			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
+> +			nvme_unfreeze(&dev->ctrl);
+> +		}
+
+I'd split out the pci portion, it is not related to the reported issue,
+and it is structured differently than the fabrics transports (as for now
+at least).
+
+>   	}
+>   
+>   	nvme_quiesce_io_queues(&dev->ctrl);
+> @@ -2740,6 +2741,7 @@ static void nvme_reset_work(struct work_struct *work)
+>   	 * controller around but remove all namespaces.
+>   	 */
+>   	if (dev->online_queues > 1) {
+> +		nvme_start_freeze(&dev->ctrl);
+>   		nvme_unquiesce_io_queues(&dev->ctrl);
+>   		nvme_wait_freeze(&dev->ctrl);
+>   		nvme_pci_update_nr_queues(dev);
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 0eb79696fb73..354cce8853c1 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -918,6 +918,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
+>   		goto out_cleanup_tagset;
+>   
+>   	if (!new) {
+> +		nvme_start_freeze(&ctrl->ctrl);
+>   		nvme_unquiesce_io_queues(&ctrl->ctrl);
+>   		if (!nvme_wait_freeze_timeout(&ctrl->ctrl, NVME_IO_TIMEOUT)) {
+>   			/*
+> @@ -926,6 +927,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
+>   			 * to be safe.
+>   			 */
+>   			ret = -ENODEV;
+> +			nvme_unfreeze(&ctrl->ctrl);
+
+What does this unfreeze designed to do?
 
