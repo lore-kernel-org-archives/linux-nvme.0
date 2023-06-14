@@ -4,78 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A0CFEB64DB
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 Jun 2023 11:47:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 90458EB64DB
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Jun 2023 17:37:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CPmywtVfCaP5g//aLurOUr0aMUZKEepqKZINmxw4yWU=; b=XVuXYdKbxHpwCEO2HXPrWS8ApM
-	OQANjcMCG83YMqeXzQLg7oVEq5j8ittpBddCjNZ/5VmIvQSkek2d2Uo6IpC6/35L41SPvyAMpAaQ2
-	wBRz5Yd2+lRpErTA0Y7RQostyilx1KQlw2KZnKTn2x9uqVm4bdlQqurYvcZY/H1hLBgyiJd/AEXNK
-	qNOpOGqRcWZBVfS6avBa0JMplRGugU9wgMQGcpLSzJJRPdj+fSX58y75drv4tboVW7nWA+g0r2A+2
-	W6T4UpH/oBsDhwSn+jK9OXIbdvmGqjkfGhCnRoOdyq8A52eOendjG5clsiEEZR7fW3YXZtDYU1vAa
-	Wg3tKpFA==;
+	bh=6xKYAVP07Oz5iNqFwrvChWX0x9KqNqzcHfZ87gRJIy0=; b=UQ6RqSbwsdbxYZPXR0E/Vg1xHg
+	N7NNWv0HrYa/a20PX0Fq0lQqIx5c1YalcB8qv/hzmyQHaUC6Opt7LAQ47hxVbRToLZ7Z1fFJTRzlI
+	rZf1O4zTVDR0aJoUdM0XGsqeYt7dDGlovoamMqDD8ScZ2LhnxDwuY3dKZTHXN7i8mHU/YCeNQ9z/Z
+	FnlraXhMIRbgjQ6qxnfp2Tlm1QIuN1RkefTjWGs8h0Q4LZ2x3cMvw1KZrj4/xgOGSYHo/lwLO6AJb
+	7KwwKW94Wz/QZpITX6n6Td5GL6PHAzZDQUsFRC4494vkDc+yxreU9/apNP09UYBxZ9e+oVgI5FxsE
+	aTFSmRQA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q9Oyg-00BX7e-3C;
-	Wed, 14 Jun 2023 11:47:54 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1q9UQb-00CMLj-0s;
+	Wed, 14 Jun 2023 17:37:05 +0000
+Received: from mail-qt1-x82d.google.com ([2607:f8b0:4864:20::82d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q9Oyd-00BX77-2q
+	id 1q9UQX-00CML4-2A
 	for linux-nvme@lists.infradead.org;
-	Wed, 14 Jun 2023 11:47:53 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A56E91FDE9;
-	Wed, 14 Jun 2023 11:47:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1686743270; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CPmywtVfCaP5g//aLurOUr0aMUZKEepqKZINmxw4yWU=;
-	b=gJCgcYRCsbYLOOCss2DXkxx43B72JjsrQqUS/URMVbP6P9wdfTz3BV/3C/aEj4EeCAd1/2
-	6Me/fIV7MKZcUOJu1a4R6Y1vpByaChL6AZ7vr3KbpIR+Wo1ZjdgjHqpdxckY5aD58b5T18
-	fYqQ1AEgaNCs70hRYWoI9hpKrOyftok=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1686743270;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CPmywtVfCaP5g//aLurOUr0aMUZKEepqKZINmxw4yWU=;
-	b=5jr93SbhLCCdJysZmq3QHaa6qUlfX0i32CRUkycu5aiQTkGoRUYBE/NY7a/WQRx9LHiI1B
-	RTsP9atBn53Z1WBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 919901391E;
-	Wed, 14 Jun 2023 11:47:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id rtIlI+aoiWQsJQAAMHmgww
-	(envelope-from <dwagner@suse.de>); Wed, 14 Jun 2023 11:47:50 +0000
-Date: Wed, 14 Jun 2023 13:47:49 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>, 
-	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>, Christoph Hellwig <hch@lst.de>, Hannes Reinecke <hare@suse.de>, 
-	Martin Belanger <martin.belanger@dell.com>
-Subject: Re: [PATCH nvme-cli] nvme-print: fix wrong list-subsys output when
- ns are attached to different ctrls
-Message-ID: <y2ld73bmdla7xfkllfv76oeuivo7kl2hg2cv2z3ikf2tyouhzh@airejsqrcrvj>
-References: <20230612153406.663147-1-sagi@grimberg.me>
+	Wed, 14 Jun 2023 17:37:02 +0000
+Received: by mail-qt1-x82d.google.com with SMTP id d75a77b69052e-3f9eea9d0a1so22122791cf.1
+        for <linux-nvme@lists.infradead.org>; Wed, 14 Jun 2023 10:37:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1686764220; x=1689356220;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6xKYAVP07Oz5iNqFwrvChWX0x9KqNqzcHfZ87gRJIy0=;
+        b=EFJht9OKXXkYEP6jiolKvTqooMqXGCXLo2fud/j7t1KIVuTyPnStmr1KED9EgWmWDu
+         5TNM4dAgaxemVJmvTgb/fSLe04YSu+Uw4KvrqgFW7JsqiJ/YZQKNvP7QNSClxsX2gVyT
+         18EYvRlEDOmKgqS8eB4k4H2B2KwdAdGUshuesOcaXOPGiZY4qeIxaakwOZx8MlT/9ovr
+         KUXO+6zQ8HL3UH3VRGxwZukBv89hX6eHr5FWqg0vj277BcnAUrajdhIcO2pDT2M8hbkp
+         vTkKy4EOlIf6D/CgtV4GCO9oGSkxtegvcHUWJB9nS0EMFQrnVx5JLFftktUNutU6GT8H
+         mz5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686764220; x=1689356220;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6xKYAVP07Oz5iNqFwrvChWX0x9KqNqzcHfZ87gRJIy0=;
+        b=YoneAfrR+/vjOO/iSwcTf6VksKV/+zUTjQIXlUDKEb9M71Jr6nMUbNNoA+Xic2BlXz
+         buiIQPGj2dJ7cafWqrQREQUe7RJWvnt8b6OyE6tmlI3Sb2mgJ4YR+aGFAAK7xZZQR662
+         xw/v3A7rmDyZATq33FrL/REsyKiB1GwW6oTmAIOYtMWz/ozLLPYfbH+jrgyThCpvZkKX
+         TU/URRfDCCeMh6HBen6ivFiY9pnNvllneRrTr6YFzroOexCbN/gFO2zxoKmGT69x1Fvu
+         QmgPmwIpqgZczXfimjJI/jb+3hB2ipIHwJnCR7rQhy5MxzDt5athBqu6erL2HntLryd/
+         77Sw==
+X-Gm-Message-State: AC+VfDzV4OrN5/5/iy2DYrlO85qdXTe1YYQyibE8LxMVzQdOH5C9GUGe
+	pPhSYnj3gh4MtI0kXMQOwXwfag==
+X-Google-Smtp-Source: ACHHUZ7E6ew2spjGbbhhB2SkcgvtaRZpjTLV4B/7F4iM53sx/zHT6e4DdwZyxrhamPyQRgQ53AZ7tA==
+X-Received: by 2002:ac8:4e44:0:b0:3f4:cfed:96b5 with SMTP id e4-20020ac84e44000000b003f4cfed96b5mr2497106qtw.59.1686764220144;
+        Wed, 14 Jun 2023 10:37:00 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-25-194.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.25.194])
+        by smtp.gmail.com with ESMTPSA id k14-20020ac8478e000000b003f543cbb698sm5187921qtq.23.2023.06.14.10.36.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Jun 2023 10:36:59 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1q9UQU-005AyX-Vk;
+	Wed, 14 Jun 2023 14:36:58 -0300
+Date: Wed, 14 Jun 2023 14:36:58 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: Leon Romanovsky <leon@kernel.org>,
+	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	Damien Le Moal <dlemoal@kernel.org>
+Subject: Re: [PATCH v2] RDMA/cma: prevent rdma id destroy during
+ cma_iw_handler
+Message-ID: <ZIn6ul5jPuxC+uIG@ziepe.ca>
+References: <20230612054237.1855292-1-shinichiro.kawasaki@wdc.com>
+ <ZIcpHbV3oqsjuwfz@ziepe.ca>
+ <3x4kcccwy5s2yhni5t26brhgejj24kxyk7bnlabp5zw2js26eb@kjwyilm5d4wc>
+ <ZIhvfdVOMsN2cXEX@ziepe.ca>
+ <20230613180747.GB12152@unreal>
+ <iclshorg6eyrorloix2bkfsezzbnkwdepschcn5vhk3m2ionxc@oti3l4kvv4ds>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230612153406.663147-1-sagi@grimberg.me>
+In-Reply-To: <iclshorg6eyrorloix2bkfsezzbnkwdepschcn5vhk3m2ionxc@oti3l4kvv4ds>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230614_044752_091437_3889B64F 
-X-CRM114-Status: GOOD (  13.57  )
+X-CRM114-CacheID: sfid-20230614_103701_705037_86CCD9FA 
+X-CRM114-Status: GOOD (  31.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,21 +102,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jun 12, 2023 at 06:34:06PM +0300, Sagi Grimberg wrote:
-> If we list subsystem controllers not for a specific ns (user did not pass
-> a namespace device node), we cannot look at the first ns in the subsystem
-> to list because it may not be attached to all subsystem controllers.
+On Wed, Jun 14, 2023 at 07:53:49AM +0000, Shinichiro Kawasaki wrote:
+> On Jun 13, 2023 / 21:07, Leon Romanovsky wrote:
+> > On Tue, Jun 13, 2023 at 10:30:37AM -0300, Jason Gunthorpe wrote:
+> > > On Tue, Jun 13, 2023 at 01:43:43AM +0000, Shinichiro Kawasaki wrote:
+> > > > > I think there is likely some much larger issue with the IW CM if the
+> > > > > cm_id can be destroyed while the iwcm_id is in use? It is weird that
+> > > > > there are two id memories for this :\
+> > > > 
+> > > > My understanding about the call chain to rdma id destroy is as follows. I guess
+> > > > _destory_id calls iw_destory_cm_id before destroying the rdma id, but not sure
+> > > > why it does not wait for cm_id deref by cm_work_handler.
+> > > > 
+> > > > nvme_rdma_teardown_io_queueus
+> > > >  nvme_rdma_stop_io_queues -> chained to cma_iw_handler
+> > > >  nvme_rdma_free_io_queues
+> > > >   nvme_rdma_free_queue
+> > > >    rdma_destroy_id
+> > > >     mutex_lock(&id_priv->handler_mutex)
+> > > >     destroy_id_handler_unlock
+> > > >      mutex_unlock(&id_priv->handler_mutex)
+> > > >      _destory_id
+> > > >        iw_destroy_cm_id
+> > > >        wait_for_completiion(&id_priv->comp)
+> > > >        kfree(id_priv)
+> > > 
+> > > Once a destroy_cm_id() has returned that layer is no longer
+> > > permitted to run or be running in its handlers. The iw cm is broken if
+> > > it allows this, and that is the cause of the bug.
+> > > 
+> > > Taking more refs within handlers that are already not allowed to be
+> > > running is just racy.
+> > 
+> > So we need to revert that patch from our rdma-rc.
 > 
-> We incorrectly assumes that subsystem namespaces (or at least the first of
-> them) are attached to all subsystem controllers.
+> I see, thanks for the clarifications.
 > 
-> Fix that by showing the multipath subsystem-list flavor only when the user
-> passed a specific namespace, and fallback to a simple controller list otherwise.
-> 
-> Fixes: cdeaab8fca6e ("nvme-print: Show ANA state only for one namespace")
-> Fixes: 7435ed9ae6a6 ("nvme-print: Show paths from the first namespace only")
-> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+> As another fix approach, I reverted the commit 59c68ac31e15 ("iw_cm: free cm_id
+> resources on the last deref") so that iw_destroy_cm_id() waits for deref of
+> cm_id. With that revert, the KASAN slab-use-after-free disappeared. Is this
+> the right fix approach?
 
-Patch applied. Thanks!
-Daniel
+That seems like it would bring back the bug it was fixing, though it
+isn't totally clear what that is
+
+There is something wrong with the iwarp cm if it is destroying IDs in
+handlers, IB cm avoids doing that to avoid the deadlock, the same
+solution will be needed for iwarp too.
+
+Also the code this patch removed is quite ugly, if we are going back
+to waiting it should be written in a more modern way without the test
+bit and so on.
+
+Jason
+
 
