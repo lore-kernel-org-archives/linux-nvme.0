@@ -4,59 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 179BEEB64DC
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Jun 2023 09:44:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2A6F1EB64DB
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Jun 2023 09:44:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=n5pjg/fCgnrgGrdkPSR3HbmaWlbjpvDa5iaWKn4LzO4=; b=tAiY9gf4go74Ccz2PQoSCLf1y/
-	uL7jB8yE8cUwXzBl0NGd+b4u2yI4Hpg30lDxPpErg/lF9EzFW/6Q/AtuUbEc8GRBXmJU9vsy/m74T
-	cAskFMi5IKxYXLKB1y5JB+yRN51yOfFv1flJrhYdLA58/dZ3r+v3bc2m6uYehrX8kWcxb482qblMj
-	SQnf59i9dbtdhDofbr4J959DQOOqz75Vy1jQkjfulBgWfHPMdLxQyg0ndtArCshhpcViIlyB9QBCY
-	baUw5BhGIaezsURq9kJ+lwY2DArfIkhjZ/BP2d/+T8McJ02ZzO87HSqPpwQndIWAJx0psg6YEEDcQ
-	9htGF2Lg==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=8mZXGVDy7NrN3aij1vIxeuv9Sp9HUIfolXkpk9DhWX4=; b=o2S+GtdfDMA+Vk7zUSqPYRhyYM
+	yt5ow4XAdpXjPDs+pxmPSryRxCoAXMBOL52BJhzJzXQH2qvt9d3SP+ONLCdAVLBSxWYSHqaBXrsqJ
+	QXSur1gprPsgXTgsC+JoQ+L/hQKPecadkH1MUzDfBPQnRgtsHzriavZiAesOQ/pphRk0Fp6+hPwa4
+	46UFo7Vs6azHdX/6geAOYaECBTsxDq9ai+mydAzXtJA6YU+i5K1/+HjcPX/hOEmeeQHyQnZmRtNDB
+	5YyIh38YzAfdK3JfvSf0GUEDiRzEbl7AjYEvti0gGL204bO5tJAImRT5gpNW+fqRRmg+sXCswyTf/
+	wfeN+FmA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q9jWR-00ELP5-12;
+	id 1q9jWR-00ELPL-3D;
 	Thu, 15 Jun 2023 09:44:07 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q9jWO-00ELO0-1S
+	id 1q9jWP-00ELO3-0K
 	for linux-nvme@lists.infradead.org;
 	Thu, 15 Jun 2023 09:44:06 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 880B4223BA;
-	Thu, 15 Jun 2023 09:44:02 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 35DD11FDDA;
+	Thu, 15 Jun 2023 09:44:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1686822242; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=n5pjg/fCgnrgGrdkPSR3HbmaWlbjpvDa5iaWKn4LzO4=;
-	b=m+5VYLOA/bkv8Q28cuJEpr4tIX0dgZO4DJEtdEskOguTneqJzV8aqT0l11AV1sQwX2RSeL
-	gSI0jCIE96L5GSPZ4NYHjoCXqE+lwcQzdDHq2p0evSDP9qbCdckyNdXSUZUMYrLmxNs4eZ
-	N4571dOSZjzhEsRpQ1wcSDifHkFENAs=
+	t=1686822243; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8mZXGVDy7NrN3aij1vIxeuv9Sp9HUIfolXkpk9DhWX4=;
+	b=b+y5foYoqvXUdSjUpwU93sTqKASFJKgL8m8K2JndWDSYrBrpRpxf0esMpGfhwZJiWXEV6s
+	1TCDb9t9oo+027hsMgblTh4yOAI0uQVO1BprFm7EswnODB4XnVtHFnNy8qaEJeM1JA6RVh
+	/w7atwZqnFnHDTvYpS+Li5b458i7GE4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1686822242;
+	s=susede2_ed25519; t=1686822243;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=n5pjg/fCgnrgGrdkPSR3HbmaWlbjpvDa5iaWKn4LzO4=;
-	b=xUpI62rR/HvggSEP+Y1L5tDmyXpKRBHq5Ufx9Mz4We0XDj9PSecClkKZvX1LvycrNDl1+8
-	8cjrTon/dtUAuRAg==
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8mZXGVDy7NrN3aij1vIxeuv9Sp9HUIfolXkpk9DhWX4=;
+	b=VucCVkAf0fAnXI367JMpxwO4xeWpbXQ/dSxLfHOAG7WKuqvY0O2rdLikm7yo9kQth/XZTH
+	Q6pVV8g4iFeNFBDg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 79C5113A47;
-	Thu, 15 Jun 2023 09:44:02 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 281B313A47;
+	Thu, 15 Jun 2023 09:44:03 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 17a1HWLdimRLWgAAMHmgww
-	(envelope-from <dwagner@suse.de>); Thu, 15 Jun 2023 09:44:02 +0000
+	id EFiZCWPdimRQWgAAMHmgww
+	(envelope-from <dwagner@suse.de>); Thu, 15 Jun 2023 09:44:03 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org,
@@ -67,15 +71,17 @@ Cc: linux-kernel@vger.kernel.org,
 	Hannes Reinecke <hare@suse.de>,
 	James Smart <jsmart2021@gmail.com>,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH v1 0/2] nvme-fc: Fix blktests hangers
-Date: Thu, 15 Jun 2023 11:43:54 +0200
-Message-Id: <20230615094356.14878-1-dwagner@suse.de>
+Subject: [PATCH v1 1/2] nvme-fc: Do not wait in vain when unloading module
+Date: Thu, 15 Jun 2023 11:43:55 +0200
+Message-Id: <20230615094356.14878-2-dwagner@suse.de>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230615094356.14878-1-dwagner@suse.de>
+References: <20230615094356.14878-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230615_024404_652797_6DB9F3A7 
-X-CRM114-Status: GOOD (  14.03  )
+X-CRM114-CacheID: sfid-20230615_024405_281391_6E66E39A 
+X-CRM114-Status: GOOD (  13.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,219 +96,77 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-A couple more fixes to enable blktests for the fc transport.
+The module unload code will wait for a controller to be delete even when
+there is no controller and we wait for completion forever to happen.
+Thus only wait for the completion when there is a controller which
+needs to be removed.
 
-1) Another module unloading hanger which can be triggered with
-   the nvme/048 tests:
+Signed-off-by: Daniel Wagner <dwagner@suse.de>
+---
+ drivers/nvme/host/fc.c | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
-   run blktests nvme/048 at 2023-06-06 13:04:49
-   nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-   nvme nvme2: NVME-FC{0}: create association : host wwpn 0x20001100aa000002  rport wwpn 0x20001100aa000001: NQN "blktests-subsystem-1"
-   (NULL device *): {0:0} Association created
-   [478] nvmet: ctrl 1 start keep-alive timer for 1 secs
-   [478] nvmet: check nqn.2014-08.org.nvmexpress:uuid:3d0c3f5d-cb37-4bc4-af29-2168953bfc0a
-   [478] nvmet: nvmet_setup_dhgroup: ctrl 1 selecting dhgroup 0
-   [478] nvmet: No authentication provided
-   nvmet: creating nvm controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:3d0c3f5d-cb37-4bc4-af29-2168953bfc0a.
-   [478] nvmet: adding queue 1 to ctrl 1.
-   [407] nvmet: adding queue 2 to ctrl 1.
-   [6549] nvmet: adding queue 3 to ctrl 1.
-   [1760] nvmet: adding queue 4 to ctrl 1.
-   nvme nvme2: NVME-FC{0}: controller connect complete
-   nvme nvme2: NVME-FC{0}: new ctrl: NQN "blktests-subsystem-1"
-   [478] nvmet: ctrl 1 reschedule traffic based keep-alive timer
-   [407] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   nvme nvme2: NVME-FC{0}: io failed due to lldd error 6
-   nvme nvme2: NVME-FC{0}: transport association event: transport detected io error
-   nvme nvme2: NVME-FC{0}: resetting controller
-   [478] nvmet: ctrl 1 stop keep-alive
-   (NULL device *): {0:0} Association deleted
-   nvme nvme2: NVME-FC{0}: create association : host wwpn 0x20001100aa000002  rport wwpn 0x20001100aa000001: NQN "blktests-subsystem-1"
-   (NULL device *): {0:0} Association freed
-   (NULL device *): {0:0} Association created
-   (NULL device *): Disconnect LS failed: No Association
-   [407] nvmet: ctrl 1 start keep-alive timer for 1 secs
-   [407] nvmet: check nqn.2014-08.org.nvmexpress:uuid:3d0c3f5d-cb37-4bc4-af29-2168953bfc0a
-   [407] nvmet: nvmet_setup_dhgroup: ctrl 1 selecting dhgroup 0
-   [407] nvmet: No authentication provided
-   nvmet: creating nvm controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:3d0c3f5d-cb37-4bc4-af29-2168953bfc0a.
-   nvme nvme2: reconnect: revising io queue count from 4 to 1
-   [478] nvmet: adding queue 1 to ctrl 1.
-   nvme nvme2: NVME-FC{0}: controller connect complete
-   [478] nvmet: ctrl 1 reschedule traffic based keep-alive timer
-   [478] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   [478] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   [6549] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   [6549] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   [6549] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   [6549] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   [1760] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   [1760] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   [1760] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   [1760] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   [1760] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   [1760] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   [407] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   nvme nvme2: NVME-FC{0}: io failed due to lldd error 6
-   nvme nvme2: NVME-FC{0}: transport association event: transport detected io error
-   nvme nvme2: NVME-FC{0}: resetting controller
-   [478] nvmet: ctrl 1 stop keep-alive
-   (NULL device *): {0:0} Association deleted
-   (NULL device *): {0:0} Association freed
-   (NULL device *): Disconnect LS failed: No Association
-   nvme nvme2: NVME-FC{0}: create association : host wwpn 0x20001100aa000002  rport wwpn 0x20001100aa000001: NQN "blktests-subsystem-1"
-   (NULL device *): {0:0} Association created
-   [1760] nvmet: ctrl 1 start keep-alive timer for 1 secs
-   [1760] nvmet: check nqn.2014-08.org.nvmexpress:uuid:3d0c3f5d-cb37-4bc4-af29-2168953bfc0a
-   [1760] nvmet: nvmet_setup_dhgroup: ctrl 1 selecting dhgroup 0
-   [1760] nvmet: No authentication provided
-   nvmet: creating nvm controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:3d0c3f5d-cb37-4bc4-af29-2168953bfc0a.
-   nvme nvme2: reconnect: revising io queue count from 1 to 4
-   [478] nvmet: adding queue 1 to ctrl 1.
-   [407] nvmet: adding queue 2 to ctrl 1.
-   [6549] nvmet: adding queue 3 to ctrl 1.
-   [1760] nvmet: adding queue 4 to ctrl 1.
-   nvme nvme2: NVME-FC{0}: controller connect complete
-   [1760] nvmet: ctrl 1 reschedule traffic based keep-alive timer
-   [478] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   [478] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   [478] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   [478] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   [1760] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   [6549] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   [1760] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   [6549] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   [1760] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   [1760] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   [6549] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   [1760] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   [6549] nvmet: ctrl 1 update keep-alive timer for 1 secs
-   nvme nvme2: Removing ctrl: NQN "blktests-subsystem-1"
-   [407] nvmet: ctrl 1 stop keep-alive
-   (NULL device *): {0:0} Association deleted
-   (NULL device *): {0:0} Association freed
-   (NULL device *): Disconnect LS failed: No Association
-   nvme_fc: nvme_fc_exit_module: waiting for ctlr deletes
-   BTRFS info (device vda2): qgroup scan completed (inconsistency flag cleared)
-   INFO: task modprobe:11758 blocked for more than 491 seconds.
-         Tainted: G        W          6.4.0-rc2+ #3
-   "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-   task:modprobe        state:D stack:0     pid:11758 ppid:11585  flags:0x00004002
-   Call Trace:
-    <TASK>
-    __schedule+0x17b5/0x4870
-    ? finish_lock_switch+0x8f/0x120
-    ? finish_task_switch+0x17f/0x5c0
-    ? __sched_text_start+0x10/0x10
-    ? __schedule+0x17bd/0x4870
-    ? do_raw_spin_trylock+0xc9/0x1f0
-    schedule+0xe6/0x1e0
-    schedule_timeout+0x7e/0x1e0
-    ? __cfi_schedule_timeout+0x10/0x10
-    ? do_raw_spin_trylock+0xc9/0x1f0
-    ? __cfi_lock_release+0x10/0x10
-    ? do_raw_spin_unlock+0x116/0x8a0
-    wait_for_common+0x377/0x600
-    ? wait_for_completion+0x30/0x30
-    cleanup_module+0x222/0x240 [nvme_fc bda1ef6f83d00208ba257c5d0ac34dd6bdb58bf9]
-    __se_sys_delete_module+0x388/0x550
-    ? __x64_sys_delete_module+0x50/0x50
-    ? task_work_run+0x236/0x290
-    ? syscall_enter_from_user_mode+0x2e/0x210
-    do_syscall_64+0x6e/0xa0
-    ? syscall_exit_to_user_mode+0x5e/0x220
-    ? do_syscall_64+0x7d/0xa0
-    ? syscall_exit_to_user_mode+0x5e/0x220
-    ? do_syscall_64+0x7d/0xa0
-    ? syscall_exit_to_user_mode+0x5e/0x220
-    ? do_syscall_64+0x7d/0xa0
-    entry_SYSCALL_64_after_hwframe+0x72/0xdc
-   RIP: 0033:0x7fa80811aebb
-   RSP: 002b:00007fff80ea0a88 EFLAGS: 00000206 ORIG_RAX: 00000000000000b0
-   RAX: ffffffffffffffda RBX: 000055a0b5acf1f0 RCX: 00007fa80811aebb
-   RDX: 0000000000000000 RSI: 0000000000000800 RDI: 000055a0b5acf258
-   RBP: 0000000000000000 R08: 1999999999999999 R09: 0000000000000000
-   R10: 00007fa808193ac0 R11: 0000000000000206 R12: 00007fff80ea0ad0
-   R13: 000055a0b5acf1f0 R14: 0000000000000000 R15: 0000000000000000
-    </TASK>
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 2ed75923507d..472ed285fd45 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -3932,10 +3932,11 @@ static int __init nvme_fc_init_module(void)
+ 	return ret;
+ }
  
-
-2) When executing blktests nvme/030 in a tight loop, I was able to
-   reproduce a different hanger. In this case the ->done() function
-   was never executed on the host fc side. It turns out we didn't
-   enqueue work items correctly and thus would only process one
-   work item.
-
-   run blktests nvme/030 at 2023-06-13 14:03:52
-   nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-   nvme nvme2: NVME-FC{0}: create association : host wwpn 0x20001100aa000002  rport wwpn 0x20001100aa000001: NQN "nqn.2014-08.org.nvmexpress.discovery"
-   (NULL device *): {0:0} Association created
-   [23733] nvmet: ctrl 1 start keep-alive timer for 120 secs
-   nvmet: creating discovery controller 1 for subsystem nqn.2014-08.org.nvmexpress.discovery for NQN nqn.2014-08.org.nvmexpress:uuid:242d4a24-2484-4a80-8234-d0169409c5e8.
-   nvme nvme2: NVME-FC{0}: controller connect complete
-   nvme nvme2: NVME-FC{0}: new ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery"
-   nvme nvme2: Removing ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery"
-   [23771] nvmet: ctrl 1 stop keep-alive
-   nvmet: adding nsid 1 to subsystem blktests-subsystem-2
-   (NULL device *): {0:0} Association deleted
-   (NULL device *): {0:0} Association freed
-   (NULL device *): Disconnect LS failed: No Association
-   nvme nvme2: NVME-FC{0}: create association : host wwpn 0x20001100aa000002  rport wwpn 0x20001100aa000001: NQN "nqn.2014-08.org.nvmexpress.discovery"
-   (NULL device *): {0:0} Association created
-   [27320] nvmet: ctrl 1 start keep-alive timer for 120 secs
-   nvmet: creating discovery controller 1 for subsystem nqn.2014-08.org.nvmexpress.discovery for NQN nqn.2014-08.org.nvmexpress:uuid:242d4a24-2484-4a80-8234-d0169409c5e8.
-   nvme nvme2: NVME-FC{0}: controller connect complete
-   nvme nvme2: NVME-FC{0}: new ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery"
-   nvme nvme2: Removing ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery"
-   [27320] nvmet: ctrl 1 stop keep-alive
-   nvme nvme2: NVME-FC{0}: create association : host wwpn 0x20001100aa000002  rport wwpn 0x20001100aa000001: NQN "nqn.2014-08.org.nvmexpress.discovery"
-   (NULL device *): {0:1} Association created
-   (NULL device *): {0:0} Association deleted
-   (NULL device *): {0:0} Association freed
-   (NULL device *): Disconnect LS failed: No Association
-   INFO: task kworker/u8:4:102 blocked for more than 491 seconds.
-         Tainted: G        W          6.4.0-rc2+ #3
-   "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-   task:kworker/u8:4    state:D stack:0     pid:102   ppid:2      flags:0x00004000
-   Workqueue: nvme-wq nvme_fc_connect_ctrl_work [nvme_fc]
-   Call Trace:
-    <TASK>
-    __schedule+0x17b5/0x4870
-    ? try_to_wake_up+0xb5/0xfc0
-    ? __cfi_lock_release+0x10/0x10
-    ? __sched_text_start+0x10/0x10
-    ? _raw_spin_unlock_irqrestore+0x24/0x50
-    ? lock_release+0x2aa/0xd10
-    ? wq_worker_sleeping+0x1e/0x200
-    schedule+0xe6/0x1e0
-    schedule_timeout+0x7e/0x1e0
-    ? __cfi_schedule_timeout+0x10/0x10
-    ? mark_lock+0x94/0x340
-    ? lockdep_hardirqs_on_prepare+0x2aa/0x5e0
-    wait_for_common+0x377/0x600
-    ? queue_work_on+0x57/0xa0
-    ? wait_for_completion+0x30/0x30
-    nvme_fc_connect_ctrl_work+0x7dc/0x1a80 [nvme_fc 39e2bf78272df3a610fb1f9884513e99038af746]
-    process_one_work+0x80f/0xfb0
-    ? rescuer_thread+0x1130/0x1130
-    ? do_raw_spin_trylock+0xc9/0x1f0
-    ? lock_acquired+0x310/0x9a0
-    ? worker_thread+0xd5e/0x1260
-    worker_thread+0xbde/0x1260
-    kthread+0x25d/0x2f0
-    ? __cfi_worker_thread+0x10/0x10
-    ? __cfi_kthread+0x10/0x10
-    ret_from_fork+0x29/0x50
-    </TASK>
+-static void
++static bool
+ nvme_fc_delete_controllers(struct nvme_fc_rport *rport)
+ {
+ 	struct nvme_fc_ctrl *ctrl;
++	bool cleanup = false;
  
-Daniel Wagner (2):
-  nvme-fc: Do not wait in vain when unloading module
-  nvme-fcloop: queue work items correctly
-
- drivers/nvme/host/fc.c       | 20 +++++++++++++-------
- drivers/nvme/target/fcloop.c |  8 ++++----
- 2 files changed, 17 insertions(+), 11 deletions(-)
-
+ 	spin_lock(&rport->lock);
+ 	list_for_each_entry(ctrl, &rport->ctrl_list, ctrl_list) {
+@@ -3943,21 +3944,28 @@ nvme_fc_delete_controllers(struct nvme_fc_rport *rport)
+ 			"NVME-FC{%d}: transport unloading: deleting ctrl\n",
+ 			ctrl->cnum);
+ 		nvme_delete_ctrl(&ctrl->ctrl);
++		cleanup = true;
+ 	}
+ 	spin_unlock(&rport->lock);
++
++	return cleanup;
+ }
+ 
+-static void
++static bool
+ nvme_fc_cleanup_for_unload(void)
+ {
+ 	struct nvme_fc_lport *lport;
+ 	struct nvme_fc_rport *rport;
++	bool cleanup = false;
+ 
+ 	list_for_each_entry(lport, &nvme_fc_lport_list, port_list) {
+ 		list_for_each_entry(rport, &lport->endp_list, endp_list) {
+-			nvme_fc_delete_controllers(rport);
++			if (nvme_fc_delete_controllers(rport))
++				cleanup = true;
+ 		}
+ 	}
++
++	return cleanup;
+ }
+ 
+ static void __exit nvme_fc_exit_module(void)
+@@ -3967,10 +3975,8 @@ static void __exit nvme_fc_exit_module(void)
+ 
+ 	spin_lock_irqsave(&nvme_fc_lock, flags);
+ 	nvme_fc_waiting_to_unload = true;
+-	if (!list_empty(&nvme_fc_lport_list)) {
+-		need_cleanup = true;
+-		nvme_fc_cleanup_for_unload();
+-	}
++	if (!list_empty(&nvme_fc_lport_list))
++		need_cleanup = nvme_fc_cleanup_for_unload();
+ 	spin_unlock_irqrestore(&nvme_fc_lock, flags);
+ 	if (need_cleanup) {
+ 		pr_info("%s: waiting for ctlr deletes\n", __func__);
 -- 
 2.40.1
 
