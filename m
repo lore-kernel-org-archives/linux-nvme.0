@@ -4,74 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4C6A6EB64DC
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Jun 2023 11:39:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F6C6EB64D9
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Jun 2023 14:33:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=39m/rji67x8U7Ur472GRShIkuF8vP3R2qcCqvPRlJ0M=; b=NtDtmoWx8+H9JSXcX1ZdFWTKtz
-	W5Zd9zCGD3IjJ2siA3MZ8MUXGVk/ZtBao48D4Pg8QoT1f/gEtqO7rprXiyCG5dApz6nb0JmgtMrrx
-	TD0F2ow3YuwKptN3lbc5SDN4YzqgUTepLTlj1ANjm+SVxfSEsdKxN4gFGij01G1UqWjamS1Ft4rTY
-	7wYo5E+lwdcktKl5IOVfViAd45MmF5YDsKTJiCvzobjbz1HaqKWOJdm5u4Kocqfnyg0Do8O9M32XQ
-	Mixuqkhvqa4Iaak1qV07hYh5Vq5kIyQHPoiiUxxKsCiXd2Nsdcm6QSjRAWJ1LYTYkbRLelvbJo4KV
-	0C3oJU5w==;
+	bh=NbT70Ripxefh/dyxSh5FIxBtVpQLdaJ3GeiltD+UFes=; b=jgX/95mDwepZcSxqvvBw4hDDGf
+	u1kC8Vjz4X0UO0Bxc4rrvbKJVJqf2TUVg2WNQpDsm3GyYrMHlFB+mf/ELJ0ZnD31IlxB+pE0CY6t0
+	d+VtspFHwHpqtnFRoB7Hf0/rV9tfHmi4veb49/MlX0XgMGaVv1KxIO36MwlH/iZRYgXrG7cXWC23i
+	iMTPjFocr1z0WFRc95G+dLLMDEqeGeYmzds3b6O5fpdda4ODyHC+b+xPrY/NR7psaniDSE+1lEbuK
+	JVkVRT5AxVOifhHIs3GxlBUJD4CZhhcdtkrgjrnb/0/Yh6wCLvzG5j0NLuYKhwsdl95tGP8HTEkDU
+	NGFtU/xA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q9lK1-00EjRD-0Z;
-	Thu, 15 Jun 2023 11:39:25 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1q9o2e-00F99l-1Y;
+	Thu, 15 Jun 2023 14:33:40 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q9lJs-00EjNU-24
+	id 1q9o2b-00F97O-0l
 	for linux-nvme@lists.infradead.org;
-	Thu, 15 Jun 2023 11:39:24 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	Thu, 15 Jun 2023 14:33:38 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1686839616;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NbT70Ripxefh/dyxSh5FIxBtVpQLdaJ3GeiltD+UFes=;
+	b=C3gvFGJtciEIsVp4RqbrESTDlwnTcAFX6MsL1FMbX9SDWjfN8QmkQw3U3nIdyvwSC9V4pM
+	qYHkWk06MBoctpL+zPd2Q4M/N6dfiDnAEQKWKEWCt8rcgxD4x8FWUDs2DWw28tj5yIMUz+
+	EIzgtDxgetMrG8o5DEoirKTAm3lJIxw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-298-Bt5IQZPHMPOxXczjz9gVRQ-1; Thu, 15 Jun 2023 10:33:24 -0400
+X-MC-Unique: Bt5IQZPHMPOxXczjz9gVRQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 141D1639CF;
-	Thu, 15 Jun 2023 11:39:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BA71C433C0;
-	Thu, 15 Jun 2023 11:39:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1686829155;
-	bh=OgHqwIY8rGq/HHn1hD0yYLlYuhNWRn90S1CNL2qy43w=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=BxhtFtL0wRywsVP2PVk1nAcbKLsxVIHHaboRYoCQFgN7TvnaF4kvUyv4k06wykd5A
-	 tU7MTMQkbb9YUx4QtmxbhJXa8eZxhapLM3s4Eizg/lufb5JOfanlNRexJKOHbKmuHc
-	 Fv7I1+bQLn6BSrOE601tjzBjKpBDK+EIHEpTUC/pVf4tR4QliUHFqq+lGTLNYozFEU
-	 oSyoIXrbLpwq9I0JvAFx28ACeSCqK4zpv/eYRvLYseCCJ1qiBnWlUNq4m0Io57f0iF
-	 UNa6AG32bKsn/FZFgYTRUsr6nw4+6aCsfpnpmEdxqMoKurMa9A6ZlPKwQ5o9U6yHxZ
-	 2J/9d43RhN2aw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Uday Shankar <ushankar@purestorage.com>,
-	Costa Sapuntzakis <costa@purestorage.com>,
-	Randy Jennings <randyj@purestorage.com>,
-	Hannes Reinecke <hare@suse.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E16A21C07846;
+	Thu, 15 Jun 2023 14:32:47 +0000 (UTC)
+Received: from localhost (ovpn-8-17.pek2.redhat.com [10.72.8.17])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 1119DC1603B;
+	Thu, 15 Jun 2023 14:32:46 +0000 (UTC)
+From: Ming Lei <ming.lei@redhat.com>
+To: Jens Axboe <axboe@kernel.dk>,
 	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
 	Keith Busch <kbusch@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.15 09/10] nvme: double KA polling frequency to avoid KATO with TBKAS on
-Date: Thu, 15 Jun 2023 07:38:53 -0400
-Message-Id: <20230615113854.649370-9-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230615113854.649370-1-sashal@kernel.org>
-References: <20230615113854.649370-1-sashal@kernel.org>
+Cc: Yi Zhang <yi.zhang@redhat.com>,
+	linux-block@vger.kernel.org,
+	Chunguang Xu <brookxu.cn@gmail.com>,
+	Ming Lei <ming.lei@redhat.com>
+Subject: [PATCH 1/4] blk-mq: add API of blk_mq_unfreeze_queue_force
+Date: Thu, 15 Jun 2023 22:32:33 +0800
+Message-Id: <20230615143236.297456-2-ming.lei@redhat.com>
+In-Reply-To: <20230615143236.297456-1-ming.lei@redhat.com>
+References: <20230615143236.297456-1-ming.lei@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.117
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230615_043916_795038_745E89E9 
-X-CRM114-Status: GOOD (  16.34  )
+X-CRM114-CacheID: sfid-20230615_073337_342291_E67F0914 
+X-CRM114-Status: GOOD (  21.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,77 +85,112 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Uday Shankar <ushankar@purestorage.com>
+NVMe calls freeze/unfreeze in different contexts, and controller removal
+may break in-progress error recovery, then leave queues in frozen state.
+So cause IO hang in del_gendisk() because pending writeback IOs are
+still waited in bio_queue_enter().
 
-[ Upstream commit ea4d453b9ec9ea279c39744cd0ecb47ef48ede35 ]
+Prepare for fixing this issue by calling the added
+blk_mq_unfreeze_queue_force when removing device.
 
-With TBKAS on, the completion of one command can defer sending a
-keep alive for up to twice the delay between successive runs of
-nvme_keep_alive_work. The current delay of KATO / 2 thus makes it
-possible for one command to defer sending a keep alive for up to
-KATO, which can result in the controller detecting a KATO. The following
-trace demonstrates the issue, taking KATO = 8 for simplicity:
-
-1. t = 0: run nvme_keep_alive_work, no keep-alive sent
-2. t = ε: I/O completion seen, set comp_seen = true
-3. t = 4: run nvme_keep_alive_work, see comp_seen == true,
-          skip sending keep-alive, set comp_seen = false
-4. t = 8: run nvme_keep_alive_work, see comp_seen == false,
-          send a keep-alive command.
-
-Here, there is a delay of 8 - ε between receiving a command completion
-and sending the next command. With ε small, the controller is likely to
-detect a keep alive timeout.
-
-Fix this by running nvme_keep_alive_work with a delay of KATO / 4
-whenever TBKAS is on. Going through the above trace now gives us a
-worst-case delay of 4 - ε, which is in line with the recommendation of
-sending a command every KATO / 2 in the NVMe specification.
-
-Reported-by: Costa Sapuntzakis <costa@purestorage.com>
-Reported-by: Randy Jennings <randyj@purestorage.com>
-Signed-off-by: Uday Shankar <ushankar@purestorage.com>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Ming Lei <ming.lei@redhat.com>
 ---
- drivers/nvme/host/core.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+ block/blk-mq.c         | 25 ++++++++++++++++++++++---
+ block/blk.h            |  3 ++-
+ block/genhd.c          |  2 +-
+ include/linux/blk-mq.h |  1 +
+ 4 files changed, 26 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index e5318b38c6624..98a7649a0f061 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1247,9 +1247,25 @@ EXPORT_SYMBOL_NS_GPL(nvme_execute_passthru_rq, NVME_TARGET_PASSTHRU);
-  *   The host should send Keep Alive commands at half of the Keep Alive Timeout
-  *   accounting for transport roundtrip times [..].
-  */
-+static unsigned long nvme_keep_alive_work_period(struct nvme_ctrl *ctrl)
-+{
-+	unsigned long delay = ctrl->kato * HZ / 2;
-+
-+	/*
-+	 * When using Traffic Based Keep Alive, we need to run
-+	 * nvme_keep_alive_work at twice the normal frequency, as one
-+	 * command completion can postpone sending a keep alive command
-+	 * by up to twice the delay between runs.
-+	 */
-+	if (ctrl->ctratt & NVME_CTRL_ATTR_TBKAS)
-+		delay /= 2;
-+	return delay;
-+}
-+
- static void nvme_queue_keep_alive_work(struct nvme_ctrl *ctrl)
- {
--	queue_delayed_work(nvme_wq, &ctrl->ka_work, ctrl->kato * HZ / 2);
-+	queue_delayed_work(nvme_wq, &ctrl->ka_work,
-+			   nvme_keep_alive_work_period(ctrl));
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 24dc8fe0a9d2..6ac58dc9e648 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -185,12 +185,16 @@ void blk_mq_freeze_queue(struct request_queue *q)
  }
+ EXPORT_SYMBOL_GPL(blk_mq_freeze_queue);
  
- static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
+-void __blk_mq_unfreeze_queue(struct request_queue *q, bool force_atomic)
++void __blk_mq_unfreeze_queue(struct request_queue *q, bool force_atomic,
++		bool force)
+ {
+ 	mutex_lock(&q->mq_freeze_lock);
+ 	if (force_atomic)
+ 		q->q_usage_counter.data->force_atomic = true;
+-	q->mq_freeze_depth--;
++	if (force)
++		q->mq_freeze_depth = 0;
++	else
++		q->mq_freeze_depth--;
+ 	WARN_ON_ONCE(q->mq_freeze_depth < 0);
+ 	if (!q->mq_freeze_depth) {
+ 		percpu_ref_resurrect(&q->q_usage_counter);
+@@ -201,10 +205,25 @@ void __blk_mq_unfreeze_queue(struct request_queue *q, bool force_atomic)
+ 
+ void blk_mq_unfreeze_queue(struct request_queue *q)
+ {
+-	__blk_mq_unfreeze_queue(q, false);
++	__blk_mq_unfreeze_queue(q, false, false);
+ }
+ EXPORT_SYMBOL_GPL(blk_mq_unfreeze_queue);
+ 
++/*
++ * Force to unfreeze queue
++ *
++ * Be careful: this API should only be used for avoiding IO hang in
++ * bio_queue_enter() when going to remove disk which needs to drain pending
++ * writeback IO.
++ *
++ * Please don't use it for other cases.
++ */
++void blk_mq_unfreeze_queue_force(struct request_queue *q)
++{
++	__blk_mq_unfreeze_queue(q, false, true);
++}
++EXPORT_SYMBOL_GPL(blk_mq_unfreeze_queue_force);
++
+ /*
+  * FIXME: replace the scsi_internal_device_*block_nowait() calls in the
+  * mpt3sas driver such that this function can be removed.
+diff --git a/block/blk.h b/block/blk.h
+index 768852a84fef..5c9f99051837 100644
+--- a/block/blk.h
++++ b/block/blk.h
+@@ -33,7 +33,8 @@ struct blk_flush_queue *blk_alloc_flush_queue(int node, int cmd_size,
+ void blk_free_flush_queue(struct blk_flush_queue *q);
+ 
+ void blk_freeze_queue(struct request_queue *q);
+-void __blk_mq_unfreeze_queue(struct request_queue *q, bool force_atomic);
++void __blk_mq_unfreeze_queue(struct request_queue *q, bool force_atomic, bool
++		force);
+ void blk_queue_start_drain(struct request_queue *q);
+ int __bio_queue_enter(struct request_queue *q, struct bio *bio);
+ void submit_bio_noacct_nocheck(struct bio *bio);
+diff --git a/block/genhd.c b/block/genhd.c
+index f71f82991434..184aa968b453 100644
+--- a/block/genhd.c
++++ b/block/genhd.c
+@@ -708,7 +708,7 @@ void del_gendisk(struct gendisk *disk)
+ 	 */
+ 	if (!test_bit(GD_OWNS_QUEUE, &disk->state)) {
+ 		blk_queue_flag_clear(QUEUE_FLAG_INIT_DONE, q);
+-		__blk_mq_unfreeze_queue(q, true);
++		__blk_mq_unfreeze_queue(q, true, false);
+ 	} else {
+ 		if (queue_is_mq(q))
+ 			blk_mq_exit_queue(q);
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index f401067ac03a..fa265e85d753 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -890,6 +890,7 @@ void blk_mq_tagset_busy_iter(struct blk_mq_tag_set *tagset,
+ void blk_mq_tagset_wait_completed_request(struct blk_mq_tag_set *tagset);
+ void blk_mq_freeze_queue(struct request_queue *q);
+ void blk_mq_unfreeze_queue(struct request_queue *q);
++void blk_mq_unfreeze_queue_force(struct request_queue *q);
+ void blk_freeze_queue_start(struct request_queue *q);
+ void blk_mq_freeze_queue_wait(struct request_queue *q);
+ int blk_mq_freeze_queue_wait_timeout(struct request_queue *q,
 -- 
-2.39.2
+2.40.1
 
 
