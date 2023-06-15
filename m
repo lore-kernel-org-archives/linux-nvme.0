@@ -4,47 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96170EB64D9
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Jun 2023 11:38:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8FC24EB64DC
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Jun 2023 11:38:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WQxaNTXTQ3IhQFkLOlRWarw51mUd3sVA+fVqyiO0nlo=; b=xHbnA0Ued+PLeIEZPMxKMyXRF4
-	+2XBVYUaRuK1pm8NkTXmVbhqcblOf9/ParH1vN2Pt5hGbi0s3ymuGEOInAQW9NUdDUaIHdAR1Dblr
-	lG77bcjDsIyJJaI+3j3RZ7dqeWHunl//qeV89vM5oa8wHvW21X6fI4ZHN+PeSSFp1+/nMh1VoQs/R
-	ao7sPioDwAyofT1hlKtXLEoS3QXZUWY1UKhPLj8cuu5dN2vC0RzOWz1fgbu6WNaLJMY3C7mHp726t
-	n7y6yzq/kmiXn3eNKfopx0y21J+r+xyEWD0zzBECt1wNMYNBcEv/G0T9sTJkoqj1yfbjpK4sScmvg
-	C/+t654Q==;
+	bh=OjNTlKy+g1XNkGDw9PTxr+JteH6QB2Dz0OjUBV6cuGQ=; b=dC6G7pyBaeNoVoua3v8geWLraM
+	6tQ1q5BFz2e8wrv2mj9oBmY0z53R+9b5G7pgUu1R0tSWVFpWKGris6Vc4KqDBL1hQNwsBwZHKL/N0
+	QRNEpSLWAMNvJEO36cZTphZ9zaiLbsXaqTriztDYGZKMlF1pLBNavEwZZ3Q024lL+KDq47yx46qbw
+	PPpS6aiCMwkIp18gMtIpY3etB2U5VtVwnJ8ifkczzg3K6Sjn12XYrnQfD/6MNCrL2zzsT5nxcNGMg
+	UTBXsQxOZbtwhdfq4wji7hizljEKduoUUyU4676+o4zcQel6d2nnSee/9rxII5Z2CVnH49UgWUHhW
+	tPDU6pAw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q9lIx-00EitE-1D;
-	Thu, 15 Jun 2023 11:38:19 +0000
+	id 1q9lIu-00Eir9-1c;
+	Thu, 15 Jun 2023 11:38:16 +0000
 Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q9lIu-00Eiqm-16
+	id 1q9lIr-00Eip4-1I
 	for linux-nvme@lists.infradead.org;
-	Thu, 15 Jun 2023 11:38:18 +0000
+	Thu, 15 Jun 2023 11:38:14 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id C5FF063997;
-	Thu, 15 Jun 2023 11:38:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DCCBC433CA;
-	Thu, 15 Jun 2023 11:38:13 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id F0EA662AD0;
+	Thu, 15 Jun 2023 11:38:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F75CC433CA;
+	Thu, 15 Jun 2023 11:38:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1686829095;
-	bh=XxmzxDZqACOJxTnnJBLfFBB1rRaXqRw7sseUDDnG8SU=;
+	s=k20201202; t=1686829092;
+	bh=+LV/SuGhfMlKXlRCwLr0GqdLGwC5ZnL+P8SlIHGu6js=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bj75w/ugFtV5GxEoskCDapb6zsbiqXYhPlcK7Jobk4KF6Ggciumm1TRqXL5smZGP5
-	 OoL9yZ/BCxItkM0vekJvxQR2N9suUGvIClMYblM6peoWh+4GrAwk3wv0tE7XPAwmW6
-	 w00zrSjYrISq6YPYVuPQsVIf5bpay7krrpQnSZtrccBCDv/u0jMk0dbLX8C+6VgieV
-	 QeZu+/Bu4lmH+SNuwVXrp3l+Hosu/qDmKMN7bgRhrVIdMIqHL71kXMr1w8emSM1tKh
-	 B9rdLm9whRDRSynO9T/cgjaoholCCMPI6f4rTaA8ZUm9NDCavLYxzexexTz0kkbaLG
-	 HHL9/OL8XYujw==
+	b=pGdPqocQEK5Gf6hU2JdSLzN+/Ctmuy0zl3d/5fUsy6msYimPVxfCfRsH/g8fyC09A
+	 7VldCvm8qYEjytZGTdWLaCo8DhiTECZ/xjOBGyB08FhudDR13Yxl1iBStOz0c8PF+o
+	 97CTK2FfnN+n54FecuLVl+XsFEQPVJrSbdvldqI2Cy2CrDBHQBYypsZtdxlej0zsWS
+	 4vTPf/8wvEuSwg+SDiSIqLPWysY62PasNeXv8HkQih/rizZSVtj54ocPzq96XodjC3
+	 C3SAB2qYfb+hZKv+13ylhNgw3IVMgRd5rNUOPxztCdHD3/qSQO6JqH+ZgHQd1Zy0Sn
+	 sN9H8TmMLVZMw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -52,26 +52,25 @@ Cc: Uday Shankar <ushankar@purestorage.com>,
 	Costa Sapuntzakis <costa@purestorage.com>,
 	Randy Jennings <randyj@purestorage.com>,
 	Hannes Reinecke <hare@suse.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
 	Christoph Hellwig <hch@lst.de>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.3 19/19] nvme: improve handling of long keep alives
-Date: Thu, 15 Jun 2023 07:37:19 -0400
-Message-Id: <20230615113719.648862-19-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.3 17/19] nvme: check IO start time when deciding to defer KA
+Date: Thu, 15 Jun 2023 07:37:17 -0400
+Message-Id: <20230615113719.648862-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230615113719.648862-1-sashal@kernel.org>
 References: <20230615113719.648862-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.3.8
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230615_043816_455213_569D3456 
-X-CRM114-Status: GOOD (  16.57  )
+X-CRM114-CacheID: sfid-20230615_043813_514125_B088D416 
+X-CRM114-Status: GOOD (  19.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,71 +87,102 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Uday Shankar <ushankar@purestorage.com>
 
-[ Upstream commit c7275ce6a5fd32ca9f5a6294ed89cf0523181af9 ]
+[ Upstream commit 774a9636514764ddc0d072ae0d1d1c01a47e6ddd ]
 
-Upon keep alive completion, nvme_keep_alive_work is scheduled with the
-same delay every time. If keep alive commands are completing slowly,
-this may cause a keep alive timeout. The following trace illustrates the
-issue, taking KATO = 8 and TBKAS off for simplicity:
+When a command completes, we set a flag which will skip sending a
+keep alive at the next run of nvme_keep_alive_work when TBKAS is on.
+However, if the command was submitted long ago, it's possible that
+the controller may have also restarted its keep alive timer (as a
+result of receiving the command) long ago. The following trace
+demonstrates the issue, assuming TBKAS is on and KATO = 8 for
+simplicity:
 
-1. t = 0: run nvme_keep_alive_work, send keep alive
-2. t = ε: keep alive reaches controller, controller restarts its keep
-          alive timer
-3. t = 4: host receives keep alive completion, schedules
-          nvme_keep_alive_work with delay 4
-4. t = 8: run nvme_keep_alive_work, send keep alive
+1. t = 0: submit I/O commands A, B, C, D, E
+2. t = 0.5: commands A, B, C, D, E reach controller, restart its keep
+            alive timer
+3. t = 1: A completes
+4. t = 2: run nvme_keep_alive_work, see recent completion, do nothing
+5. t = 3: B completes
+6. t = 4: run nvme_keep_alive_work, see recent completion, do nothing
+7. t = 5: C completes
+8. t = 6: run nvme_keep_alive_work, see recent completion, do nothing
+9. t = 7: D completes
+10. t = 8: run nvme_keep_alive_work, see recent completion, do nothing
+11. t = 9: E completes
 
-Here, a keep alive having RTT of 4 causes a delay of at least 8 - ε
-between the controller receiving successive keep alives. With ε small,
-the controller is likely to detect a keep alive timeout.
+At this point, 8.5 seconds have passed without restarting the
+controller's keep alive timer, so the controller will detect a keep
+alive timeout.
 
-Fix this by calculating the RTT of the keep alive command, and adjusting
-the scheduling delay of the next keep alive work accordingly.
+Fix this by checking the IO start time when deciding to defer sending a
+keep alive command. Only set comp_seen if the command started after the
+most recent run of nvme_keep_alive_work. With this change, the
+completions of B, C, and D will not set comp_seen and the run of
+nvme_keep_alive_work at t = 4 will send a keep alive.
 
 Reported-by: Costa Sapuntzakis <costa@purestorage.com>
 Reported-by: Randy Jennings <randyj@purestorage.com>
 Signed-off-by: Uday Shankar <ushankar@purestorage.com>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/core.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 14 +++++++++++++-
+ drivers/nvme/host/nvme.h |  1 +
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 1f66ba634e9c3..d3c3dbed30b37 100644
+index 28b6fd52f88cb..1f66ba634e9c3 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1199,6 +1199,20 @@ static enum rq_end_io_ret nvme_keep_alive_end_io(struct request *rq,
- 	struct nvme_ctrl *ctrl = rq->end_io_data;
- 	unsigned long flags;
- 	bool startka = false;
-+	unsigned long rtt = jiffies - (rq->deadline - rq->timeout);
-+	unsigned long delay = nvme_keep_alive_work_period(ctrl);
-+
+@@ -397,7 +397,16 @@ void nvme_complete_rq(struct request *req)
+ 	trace_nvme_complete_rq(req);
+ 	nvme_cleanup_cmd(req);
+ 
+-	if (ctrl->kas)
 +	/*
-+	 * Subtract off the keepalive RTT so nvme_keep_alive_work runs
-+	 * at the desired frequency.
++	 * Completions of long-running commands should not be able to
++	 * defer sending of periodic keep alives, since the controller
++	 * may have completed processing such commands a long time ago
++	 * (arbitrarily close to command submission time).
++	 * req->deadline - req->timeout is the command submission time
++	 * in jiffies.
 +	 */
-+	if (rtt <= delay) {
-+		delay -= rtt;
-+	} else {
-+		dev_warn(ctrl->device, "long keepalive RTT (%u ms)\n",
-+			 jiffies_to_msecs(rtt));
-+		delay = 0;
-+	}
++	if (ctrl->kas &&
++	    req->deadline - req->timeout >= ctrl->ka_last_check_time)
+ 		ctrl->comp_seen = true;
  
- 	blk_mq_free_request(rq);
+ 	switch (nvme_decide_disposition(req)) {
+@@ -1200,6 +1209,7 @@ static enum rq_end_io_ret nvme_keep_alive_end_io(struct request *rq,
+ 		return RQ_END_IO_NONE;
+ 	}
  
-@@ -1217,7 +1231,7 @@ static enum rq_end_io_ret nvme_keep_alive_end_io(struct request *rq,
- 		startka = true;
- 	spin_unlock_irqrestore(&ctrl->lock, flags);
- 	if (startka)
--		nvme_queue_keep_alive_work(ctrl);
-+		queue_delayed_work(nvme_wq, &ctrl->ka_work, delay);
- 	return RQ_END_IO_NONE;
- }
++	ctrl->ka_last_check_time = jiffies;
+ 	ctrl->comp_seen = false;
+ 	spin_lock_irqsave(&ctrl->lock, flags);
+ 	if (ctrl->state == NVME_CTRL_LIVE ||
+@@ -1218,6 +1228,8 @@ static void nvme_keep_alive_work(struct work_struct *work)
+ 	bool comp_seen = ctrl->comp_seen;
+ 	struct request *rq;
+ 
++	ctrl->ka_last_check_time = jiffies;
++
+ 	if ((ctrl->ctratt & NVME_CTRL_ATTR_TBKAS) && comp_seen) {
+ 		dev_dbg(ctrl->device,
+ 			"reschedule traffic based keep-alive timer\n");
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index fcf3af2d64509..3961b064499c0 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -323,6 +323,7 @@ struct nvme_ctrl {
+ 	struct delayed_work ka_work;
+ 	struct delayed_work failfast_work;
+ 	struct nvme_command ka_cmd;
++	unsigned long ka_last_check_time;
+ 	struct work_struct fw_act_work;
+ 	unsigned long events;
  
 -- 
 2.39.2
