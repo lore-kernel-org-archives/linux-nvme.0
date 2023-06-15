@@ -4,71 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97345EB64DA
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Jun 2023 15:23:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B612EEB64D9
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Jun 2023 15:44:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ddm0xE+SDsRgf1p/y+2H/LI+mWp7U7DSsZMuvzLz7YA=; b=Y+8ilC6rZ9vvUN5LFGvkpEXnXC
-	BW2YaFlKOOe5TRm2KS0uDZ/KnzOZloCtQ1GcEnMKdSe/BmMY2KVXVyQRfLgxFx4Gy0AENTr3vkmDU
-	WaClQiFJnESFYlzTnHIHG5fG5yzXl4OwbxTzhO/4iVMFaetjPMloZEYk55n4YK+7kGB805A5zmG8q
-	zfjiFf3fncbYbh2oI3FkHVyeNp7ytlOaCz+A5fG8Qm+KenfT5tOTpVDo3lxGQIrnNUTW9Mj202c/o
-	6a7ePSD/RIf6wKvSFJSwO6uYdKRnjHUbd3MI8ztccZsbwUbtThNZo03UBT0sLwlM2dnEyMuq1TGph
-	BQNRcsLg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=F60AvhA0FMiJNRtBO0yYLpZvFzJjensEGvAZvskekGI=; b=42i+7z9cbSiXIoI6hc0thX2gdT
+	AG96yg5Nn5/4T/Tp5KlREyUXqb6i7HCs35Wfld8ydikkZA4pPH8Y22a6CA8foH7WcfaPRzwiCYYgP
+	2PJMyYmKpd0SRzrnzBTYceuH2pOtNWMU2FpkWChr4LSmOwI8W5xQSBgMUFI5prQYtNwOFSq9QC4og
+	kmXwpnX/4gitgHGnIcDEkD7yBAH46DDck2W3/JXvSUXC0DSh2kIhbDSO27oW3u5iads9mUQR8q6Kr
+	Rtnyt+wedPVC+uOm3eSMwGFObsY2qBZbsgljGspM+imDva8onTvQFBGE1QhrLSDTFd3YcTKVGCvIf
+	z8UvjgVQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q9op3-00FHyu-01;
-	Thu, 15 Jun 2023 15:23:41 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30] helo=mx0a-00082601.pphosted.com)
+	id 1q9p98-00FKNs-00;
+	Thu, 15 Jun 2023 15:44:26 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q9ooz-00FHyJ-33
+	id 1q9p94-00FKNJ-13
 	for linux-nvme@lists.infradead.org;
-	Thu, 15 Jun 2023 15:23:39 +0000
-Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
-	by m0001303.ppops.net (8.17.1.19/8.17.1.19) with ESMTP id 35F2CmSF025381
-	for <linux-nvme@lists.infradead.org>; Thu, 15 Jun 2023 08:23:35 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=s2048-2021-q4;
- bh=ddm0xE+SDsRgf1p/y+2H/LI+mWp7U7DSsZMuvzLz7YA=;
- b=LzJWNyM9nfuW0D0oBshE6GEonZyE0Tf2Fx1Jd3llf8x5ThxOek7O1wjzkOxBCmmi3IcK
- D8H9O9rRuDG62v1g9jpRVHXXAPyvKx+U9OTgu+ISuldwAoY9xF6oSPquMHJi4lVMo3X6
- eQ38n5w3nmU9kwfDA96jZnJFxxVGywbTrUz6mhzSYRljdEYEUWZQywislhAwjgY5H4Vp
- EPcewTfhk5KU4TRyvR1+6gcZJGozBzCSZIXOf3A1IlgPSMa+E/wCCf1PkGxF1dffV/XX
- mb7XEWSCN8b6hZoC4IwGY6oz73Azjmvajs9s3fxuDCRi4IbFfcuCzIiNb6iUl8VoMZgr vQ== 
-Received: from maileast.thefacebook.com ([163.114.130.16])
-	by m0001303.ppops.net (PPS) with ESMTPS id 3r7sncmg90-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Thu, 15 Jun 2023 08:23:35 -0700
-Received: from twshared10457.08.ash9.facebook.com (2620:10d:c0a8:1c::11) by
- mail.thefacebook.com (2620:10d:c0a8:82::d) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 15 Jun 2023 08:23:34 -0700
-Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
-	id 243AA1A20C19C; Thu, 15 Jun 2023 08:23:19 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-nvme@lists.infradead.org>, <hch@lst.de>, <sagi@grimberg.me>
-CC: Keith Busch <kbusch@kernel.org>, Maurizio Lombardi <mlombard@redhat.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>
-Subject: [PATCH] nvme: forward port sysfs delete fix
-Date: Thu, 15 Jun 2023 08:23:18 -0700
-Message-ID: <20230615152318.3391960-1-kbusch@meta.com>
-X-Mailer: git-send-email 2.34.1
+	Thu, 15 Jun 2023 15:44:23 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1686843860;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F60AvhA0FMiJNRtBO0yYLpZvFzJjensEGvAZvskekGI=;
+	b=ZtlQBg2cJKBZWCYb3vAAjIF7z6nI47sQe9Kp6xyuqePmYa6Km04xx0GlBSvs+dtz6Cc3Nc
+	YwYiLzqo5Muqk+dUOfVCEHKcpOXHMoZecy53wZUT+aQjPIF8wkGkNb4nPraZKmdfGQIKZH
+	34r1NQolOLEbyIpdKZeJBRB5ObBln0k=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-452-HHAVvWZwMkKt4IOOcyr_Iw-1; Thu, 15 Jun 2023 11:44:15 -0400
+X-MC-Unique: HHAVvWZwMkKt4IOOcyr_Iw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AC0EE2999B53;
+	Thu, 15 Jun 2023 15:44:01 +0000 (UTC)
+Received: from ovpn-8-16.pek2.redhat.com (ovpn-8-17.pek2.redhat.com [10.72.8.17])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C2C71C558;
+	Thu, 15 Jun 2023 15:43:56 +0000 (UTC)
+Date: Thu, 15 Jun 2023 23:43:51 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+	Yi Zhang <yi.zhang@redhat.com>, linux-block@vger.kernel.org,
+	Chunguang Xu <brookxu.cn@gmail.com>
+Subject: Re: [PATCH 1/4] blk-mq: add API of blk_mq_unfreeze_queue_force
+Message-ID: <ZIsxt7Q2nmiLNTX2@ovpn-8-16.pek2.redhat.com>
+References: <20230615143236.297456-1-ming.lei@redhat.com>
+ <20230615143236.297456-2-ming.lei@redhat.com>
+ <ZIsrSyEqWMw8/ikq@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: fleeY3xB54rCdxH6St9An5NXwFIbpdEt
-X-Proofpoint-GUID: fleeY3xB54rCdxH6St9An5NXwFIbpdEt
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-15_11,2023-06-15_01,2023-05-22_02
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZIsrSyEqWMw8/ikq@kbusch-mbp.dhcp.thefacebook.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230615_082338_230355_27F2A524 
-X-CRM114-Status: GOOD (  16.10  )
+X-CRM114-CacheID: sfid-20230615_084422_797518_B50D76C0 
+X-CRM114-Status: GOOD (  14.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,36 +83,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+On Thu, Jun 15, 2023 at 09:16:27AM -0600, Keith Busch wrote:
+> On Thu, Jun 15, 2023 at 10:32:33PM +0800, Ming Lei wrote:
+> > NVMe calls freeze/unfreeze in different contexts, and controller removal
+> > may break in-progress error recovery, then leave queues in frozen state.
+> > So cause IO hang in del_gendisk() because pending writeback IOs are
+> > still waited in bio_queue_enter().
+> 
+> Shouldn't those writebacks be unblocked by the existing check in
+> bio_queue_enter, test_bit(GD_DEAD, &disk->state))? Or are we missing a
+> disk state update or wakeup on this condition?
 
-We had a late fix that modified nvme_sysfs_delete() after the staging
-branch for the next merge window relocated the function to a new file.
-Port commit 2eb94dd56a4a4 ("nvme: do not let the user delete a ctrl
-before a complete") to the latest to avoid a potentially confusing merge
-conflict.
+GD_DEAD is only set if the device is really dead, then all pending IO
+will be failed.
 
-Cc: Maurizio Lombardi <mlombard@redhat.com>
-Cc: Max Gurtovoy <mgurtovoy@nvidia.com>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/sysfs.c | 3 +++
- 1 file changed, 3 insertions(+)
+We need to try to handle these IOs first if device isn't set as dead by
+calling blk_mark_disk_dead().
 
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index 796e1d373b7c1..45e91811f905c 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -202,6 +202,9 @@ static ssize_t nvme_sysfs_delete(struct device *dev,
- {
- 	struct nvme_ctrl *ctrl =3D dev_get_drvdata(dev);
-=20
-+	if (!test_bit(NVME_CTRL_STARTED_ONCE, &ctrl->flags))
-+		return -EBUSY;
-+
- 	if (device_remove_file_self(dev, attr))
- 		nvme_delete_ctrl_sync(ctrl);
- 	return count;
---=20
-2.34.1
+Thanks,
+Ming
 
 
