@@ -4,82 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7B05EB64D7
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Jun 2023 16:08:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A8CBEB64DA
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Jun 2023 16:13:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=USMBdRT6x+ec25pHkFR/BKb0s+Tq00JvCoTRn4D4sGs=; b=xjjxJqpe6MbRiRG8Ff1NBvRCZm
-	33TRUcgfuPjxDq0UkW39PXMy9B/DfJ0mWMbI/EVP1E9Gc5uOAXkA58pN9XL6eKBpPVX+eCdtZNKnu
-	2nYc0wtafqDlmbuPK6FAi1mlcZZ0d9ZXQ8CKcOhSTVutGlqwDdok4rHI/utQuioVeenmA2x1haoIt
-	EdONfHW6DZvVcm1a83lFpm/whwLyDgowMafj8botI7w09rb+FhqjxjR/bO+iZw1Pn3KdhRo0N3WRe
-	V7U2zsv65mXfFWKrjnUVC/TYl70/SlcWWUyJ08FS4lcmL2Eo0BiKdelPrtSGciI75+9IZKXftPocf
-	/AgwHzJg==;
+	bh=LjLAMzNfvZhacy7TMP165gYQvQOU+UG7wgtZUHPODnQ=; b=cXuT3JdA0X0rQmN30uLOarUs8o
+	wwa8tGgp49ECxHzi2Ba4kLKLQgdmwR0dEviQ9VvCPK5wbE5Jm1m/d7nVHKG8g/+UaoHYdg0UiXT1x
+	a5bdhlX1QzRn/98Y9NUSrQIl0r5BBHet5jePr++6zTL3uXh1V3yrdosJX/BeXrcg7qfk/9CtGzVnV
+	FHefaGG6mJvnWBYya1bjVThFZ/S+Z056pM8ZS9yBawSkasMlZQhr3Nik46CEk9CnF6NxdUcAd0puK
+	YMbAxESphwDzSw5COIVyqTPlukogJAFR6HtIvtdzCBVdzBk2DTIIh57byLP4gHt+T8B8xlN1VF5mk
+	mFv1iWfQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qAC0N-0013Lf-30;
-	Fri, 16 Jun 2023 16:08:55 +0000
-Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135])
+	id 1qAC56-0014C4-2y;
+	Fri, 16 Jun 2023 16:13:48 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qAC0K-0013K6-0v
+	id 1qAC53-0014A3-2p
 	for linux-nvme@lists.infradead.org;
-	Fri, 16 Jun 2023 16:08:54 +0000
-Received: by mail-il1-x135.google.com with SMTP id e9e14a558f8ab-3420d8ad7feso235045ab.0
-        for <linux-nvme@lists.infradead.org>; Fri, 16 Jun 2023 09:08:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1686931729; x=1689523729;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=USMBdRT6x+ec25pHkFR/BKb0s+Tq00JvCoTRn4D4sGs=;
-        b=Qsrx+2F2Lfh0FRqcqUyX1hTOKKJ2LYvZynSG2elB+xwnJezHIRtLbslevJ9m0mpj4V
-         uC8nkpYDo1WXz+sotemCnhobADPENHdvFaIp7JJ7qRBLqtaGQYmOd86e0gseHqin4Jve
-         Sp/d9pg3fjUtkUmo+40c6Esx/oD41POSOeJghMZNq/5ciR7T60pj7aU81WobuDaLqzNY
-         C59FWR47Q2E3BF8eBizcrbsTDHXbLg58TW8ni5Gvsi6XUWlHOqUPe6IQ6SUUl0KPDiDY
-         fcTZTXxusKpVeEju8nyAIRH1ZM/nKqi2UhEwNMry8Q+jBtclwWsa1gVgeagCC8mKv6pB
-         h1hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686931729; x=1689523729;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=USMBdRT6x+ec25pHkFR/BKb0s+Tq00JvCoTRn4D4sGs=;
-        b=gdQofoXQqE0v71h5QmPHiF2nzWvc7rn7oJW1Tz2c7FF/VZcVBqPT5GuBspWSVXU07z
-         ckJAQk3F4eHlK3ErlZAPEtVQxVLBthcfPIinNQQvMQTTVphDzInniuUnuePCoEECcFbc
-         0ZbiYTBvZHvTQjNcsKLJn+uLYuo8k7hzq/aCyzF3DqnZ/QZGiEDDRSUDTl/MeWW8AIZN
-         p7X9VVrFKmU/5T7rCX2wBkzvcjGcMiLpae6NbJht4+ohsjikgHudXito8t76CU7debrz
-         XiPZGkobFdPVG77uidw6VwYU1aZPbIpkMh4aMOUiV0y5CYscS/jOzXwcZDZ1iRbLLHOg
-         IUBQ==
-X-Gm-Message-State: AC+VfDxk2kZEa4leGz9zcCNYp/fMUwSy/aG96f1dUu/GxqU8NJJwS+8U
-	eD744/NebOfXb6q6sRgwcO8g2UjdgMnjVb4ZdHU=
-X-Google-Smtp-Source: ACHHUZ6G9rbA+b6Wfz1DyaLA8ALfoKn3tApHKqZ+xhxHajFfj0WDJ0/PZzgZAgq7AAQiW5UXqjgapw==
-X-Received: by 2002:a05:6602:1508:b0:777:b51c:6058 with SMTP id g8-20020a056602150800b00777b51c6058mr3884896iow.2.1686931728948;
-        Fri, 16 Jun 2023 09:08:48 -0700 (PDT)
-Received: from [192.168.1.94] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id m1-20020a02c881000000b0041f5e495cfcsm6363675jao.88.2023.06.16.09.08.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Jun 2023 09:08:48 -0700 (PDT)
-Message-ID: <5ec7a2a4-9bc4-621f-3118-054e4d841d61@kernel.dk>
-Date: Fri, 16 Jun 2023 10:08:47 -0600
+	Fri, 16 Jun 2023 16:13:47 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1686932025;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LjLAMzNfvZhacy7TMP165gYQvQOU+UG7wgtZUHPODnQ=;
+	b=jQ2ts8xntIfIjfi6u2OJg+oNWHnfRr+sE1fnO59c/Zh+Q4EnttEAtGiq5179TWLF1qGrhX
+	Wt926tGNnSZTDDRPrMb2kLfkrRtdraeMt3TFlE1IT/wSkHnvsSHa/WdXNwqyp9z3C67Tnk
+	rAwy6I025+CKu5y48PS0RXZTcWW/+r8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-602-ZlJJyylbON2KeVO0CVHemQ-1; Fri, 16 Jun 2023 12:13:40 -0400
+X-MC-Unique: ZlJJyylbON2KeVO0CVHemQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E694338041D5;
+	Fri, 16 Jun 2023 16:13:39 +0000 (UTC)
+Received: from warthog.procyon.org.com (unknown [10.42.28.51])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id B3E0A40D1B60;
+	Fri, 16 Jun 2023 16:13:37 +0000 (UTC)
+From: David Howells <dhowells@redhat.com>
+To: netdev@vger.kernel.org
+Cc: David Howells <dhowells@redhat.com>,
+	Alexander Duyck <alexander.duyck@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	David Ahern <dsahern@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@fb.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH net-next 10/17] nvme: Use sendmsg(MSG_SPLICE_PAGES) rather then sendpage
+Date: Fri, 16 Jun 2023 17:12:53 +0100
+Message-ID: <20230616161301.622169-11-dhowells@redhat.com>
+In-Reply-To: <20230616161301.622169-1-dhowells@redhat.com>
+References: <20230616161301.622169-1-dhowells@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [GIT PULL] nvme-6.5 updates
-Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
- kch@nvidia.com
-References: <ZIyC1vvj9ZX7RkHq@kbusch-mbp.dhcp.thefacebook.com>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <ZIyC1vvj9ZX7RkHq@kbusch-mbp.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230616_090852_327699_D7C98DC0 
-X-CRM114-Status: GOOD (  12.82  )
+X-CRM114-CacheID: sfid-20230616_091345_986802_EFCC4144 
+X-CRM114-Status: GOOD (  18.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,35 +95,228 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/16/23 9:42?AM, Keith Busch wrote:
-> This is our first pull request for the 6.5 merge window. There will be a
-> minor conflict when merging to Linus' tree, and the resolution is to
-> simply delete the entire conflicting block.
-> 
-> The following changes since commit 4f1731df60f9033669f024d06ae26a6301260b55:
-> 
->   blk-mq: fix potential io hang by wrong 'wake_batch' (2023-06-12 09:55:53 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-6.5-2023-06-16
-> 
-> for you to fetch changes up to 1c606f7f056b266a84482d5522d35bbbbed062db:
-> 
->   nvme: forward port sysfs delete fix (2023-06-16 08:15:57 -0700)
-> 
-> ----------------------------------------------------------------
-> nvme updates for Linux 6.5
-> 
->  - Various cleanups all around (Irvin, Chaitanya, Christophe)
->  - Better struct packing (Christophe JAILLET)
->  - Reduce controller error logs for optional commands (Keith)
->  - Support for >=64KiB block sizes (Daniel Gomez)
->  - Fabrics fixes and code organization (Max, Chaitanya, Daniel Wagner)
+When transmitting data, call down into TCP using a single sendmsg with
+MSG_SPLICE_PAGES to indicate that content should be spliced rather than
+performing several sendmsg and sendpage calls to transmit header, data
+pages and trailer.
 
-Pulled, thanks.
+Signed-off-by: David Howells <dhowells@redhat.com>
+cc: Keith Busch <kbusch@kernel.org>
+cc: Jens Axboe <axboe@fb.com>
+cc: Christoph Hellwig <hch@lst.de>
+cc: Sagi Grimberg <sagi@grimberg.me>
+cc: Chaitanya Kulkarni <kch@nvidia.com>
+cc: "David S. Miller" <davem@davemloft.net>
+cc: Eric Dumazet <edumazet@google.com>
+cc: Jakub Kicinski <kuba@kernel.org>
+cc: Paolo Abeni <pabeni@redhat.com>
+cc: Jens Axboe <axboe@kernel.dk>
+cc: Matthew Wilcox <willy@infradead.org>
+cc: linux-nvme@lists.infradead.org
+cc: netdev@vger.kernel.org
+---
+ drivers/nvme/host/tcp.c   | 44 ++++++++++++++++++-------------------
+ drivers/nvme/target/tcp.c | 46 ++++++++++++++++++++++++---------------
+ 2 files changed, 51 insertions(+), 39 deletions(-)
 
--- 
-Jens Axboe
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index bf0230442d57..947868c66ef4 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -997,25 +997,23 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
+ 	u32 h2cdata_left = req->h2cdata_left;
+ 
+ 	while (true) {
++		struct bio_vec bvec;
++		struct msghdr msg = { .msg_flags = MSG_DONTWAIT | MSG_SPLICE_PAGES, };
+ 		struct page *page = nvme_tcp_req_cur_page(req);
+ 		size_t offset = nvme_tcp_req_cur_offset(req);
+ 		size_t len = nvme_tcp_req_cur_length(req);
+ 		bool last = nvme_tcp_pdu_last_send(req, len);
+ 		int req_data_sent = req->data_sent;
+-		int ret, flags = MSG_DONTWAIT;
++		int ret;
+ 
+ 		if (last && !queue->data_digest && !nvme_tcp_queue_more(queue))
+-			flags |= MSG_EOR;
++			msg.msg_flags |= MSG_EOR;
+ 		else
+-			flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
++			msg.msg_flags |= MSG_MORE;
+ 
+-		if (sendpage_ok(page)) {
+-			ret = kernel_sendpage(queue->sock, page, offset, len,
+-					flags);
+-		} else {
+-			ret = sock_no_sendpage(queue->sock, page, offset, len,
+-					flags);
+-		}
++		bvec_set_page(&bvec, page, len, offset);
++		iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, len);
++		ret = sock_sendmsg(queue->sock, &msg);
+ 		if (ret <= 0)
+ 			return ret;
+ 
+@@ -1054,22 +1052,24 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
+ {
+ 	struct nvme_tcp_queue *queue = req->queue;
+ 	struct nvme_tcp_cmd_pdu *pdu = nvme_tcp_req_cmd_pdu(req);
++	struct bio_vec bvec;
++	struct msghdr msg = { .msg_flags = MSG_DONTWAIT | MSG_SPLICE_PAGES, };
+ 	bool inline_data = nvme_tcp_has_inline_data(req);
+ 	u8 hdgst = nvme_tcp_hdgst_len(queue);
+ 	int len = sizeof(*pdu) + hdgst - req->offset;
+-	int flags = MSG_DONTWAIT;
+ 	int ret;
+ 
+ 	if (inline_data || nvme_tcp_queue_more(queue))
+-		flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
++		msg.msg_flags |= MSG_MORE;
+ 	else
+-		flags |= MSG_EOR;
++		msg.msg_flags |= MSG_EOR;
+ 
+ 	if (queue->hdr_digest && !req->offset)
+ 		nvme_tcp_hdgst(queue->snd_hash, pdu, sizeof(*pdu));
+ 
+-	ret = kernel_sendpage(queue->sock, virt_to_page(pdu),
+-			offset_in_page(pdu) + req->offset, len,  flags);
++	bvec_set_virt(&bvec, (void *)pdu + req->offset, len);
++	iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, len);
++	ret = sock_sendmsg(queue->sock, &msg);
+ 	if (unlikely(ret <= 0))
+ 		return ret;
+ 
+@@ -1093,6 +1093,8 @@ static int nvme_tcp_try_send_data_pdu(struct nvme_tcp_request *req)
+ {
+ 	struct nvme_tcp_queue *queue = req->queue;
+ 	struct nvme_tcp_data_pdu *pdu = nvme_tcp_req_data_pdu(req);
++	struct bio_vec bvec;
++	struct msghdr msg = { .msg_flags = MSG_DONTWAIT | MSG_MORE, };
+ 	u8 hdgst = nvme_tcp_hdgst_len(queue);
+ 	int len = sizeof(*pdu) - req->offset + hdgst;
+ 	int ret;
+@@ -1101,13 +1103,11 @@ static int nvme_tcp_try_send_data_pdu(struct nvme_tcp_request *req)
+ 		nvme_tcp_hdgst(queue->snd_hash, pdu, sizeof(*pdu));
+ 
+ 	if (!req->h2cdata_left)
+-		ret = kernel_sendpage(queue->sock, virt_to_page(pdu),
+-				offset_in_page(pdu) + req->offset, len,
+-				MSG_DONTWAIT | MSG_MORE | MSG_SENDPAGE_NOTLAST);
+-	else
+-		ret = sock_no_sendpage(queue->sock, virt_to_page(pdu),
+-				offset_in_page(pdu) + req->offset, len,
+-				MSG_DONTWAIT | MSG_MORE);
++		msg.msg_flags |= MSG_SPLICE_PAGES;
++
++	bvec_set_virt(&bvec, (void *)pdu + req->offset, len);
++	iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, len);
++	ret = sock_sendmsg(queue->sock, &msg);
+ 	if (unlikely(ret <= 0))
+ 		return ret;
+ 
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index ed98df72c76b..868aa4de2e4c 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -576,13 +576,17 @@ static void nvmet_tcp_execute_request(struct nvmet_tcp_cmd *cmd)
+ 
+ static int nvmet_try_send_data_pdu(struct nvmet_tcp_cmd *cmd)
+ {
++	struct msghdr msg = {
++		.msg_flags = MSG_DONTWAIT | MSG_MORE | MSG_SPLICE_PAGES,
++	};
++	struct bio_vec bvec;
+ 	u8 hdgst = nvmet_tcp_hdgst_len(cmd->queue);
+ 	int left = sizeof(*cmd->data_pdu) - cmd->offset + hdgst;
+ 	int ret;
+ 
+-	ret = kernel_sendpage(cmd->queue->sock, virt_to_page(cmd->data_pdu),
+-			offset_in_page(cmd->data_pdu) + cmd->offset,
+-			left, MSG_DONTWAIT | MSG_MORE | MSG_SENDPAGE_NOTLAST);
++	bvec_set_virt(&bvec, (void *)cmd->data_pdu + cmd->offset, left);
++	iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, left);
++	ret = sock_sendmsg(cmd->queue->sock, &msg);
+ 	if (ret <= 0)
+ 		return ret;
+ 
+@@ -603,17 +607,21 @@ static int nvmet_try_send_data(struct nvmet_tcp_cmd *cmd, bool last_in_batch)
+ 	int ret;
+ 
+ 	while (cmd->cur_sg) {
++		struct msghdr msg = {
++			.msg_flags = MSG_DONTWAIT | MSG_SPLICE_PAGES,
++		};
+ 		struct page *page = sg_page(cmd->cur_sg);
++		struct bio_vec bvec;
+ 		u32 left = cmd->cur_sg->length - cmd->offset;
+-		int flags = MSG_DONTWAIT;
+ 
+ 		if ((!last_in_batch && cmd->queue->send_list_len) ||
+ 		    cmd->wbytes_done + left < cmd->req.transfer_len ||
+ 		    queue->data_digest || !queue->nvme_sq.sqhd_disabled)
+-			flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
++			msg.msg_flags |= MSG_MORE;
+ 
+-		ret = kernel_sendpage(cmd->queue->sock, page, cmd->offset,
+-					left, flags);
++		bvec_set_page(&bvec, page, left, cmd->offset);
++		iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, left);
++		ret = sock_sendmsg(cmd->queue->sock, &msg);
+ 		if (ret <= 0)
+ 			return ret;
+ 
+@@ -649,18 +657,20 @@ static int nvmet_try_send_data(struct nvmet_tcp_cmd *cmd, bool last_in_batch)
+ static int nvmet_try_send_response(struct nvmet_tcp_cmd *cmd,
+ 		bool last_in_batch)
+ {
++	struct msghdr msg = { .msg_flags = MSG_DONTWAIT | MSG_SPLICE_PAGES, };
++	struct bio_vec bvec;
+ 	u8 hdgst = nvmet_tcp_hdgst_len(cmd->queue);
+ 	int left = sizeof(*cmd->rsp_pdu) - cmd->offset + hdgst;
+-	int flags = MSG_DONTWAIT;
+ 	int ret;
+ 
+ 	if (!last_in_batch && cmd->queue->send_list_len)
+-		flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
++		msg.msg_flags |= MSG_MORE;
+ 	else
+-		flags |= MSG_EOR;
++		msg.msg_flags |= MSG_EOR;
+ 
+-	ret = kernel_sendpage(cmd->queue->sock, virt_to_page(cmd->rsp_pdu),
+-		offset_in_page(cmd->rsp_pdu) + cmd->offset, left, flags);
++	bvec_set_virt(&bvec, (void *)cmd->rsp_pdu + cmd->offset, left);
++	iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, left);
++	ret = sock_sendmsg(cmd->queue->sock, &msg);
+ 	if (ret <= 0)
+ 		return ret;
+ 	cmd->offset += ret;
+@@ -677,18 +687,20 @@ static int nvmet_try_send_response(struct nvmet_tcp_cmd *cmd,
+ 
+ static int nvmet_try_send_r2t(struct nvmet_tcp_cmd *cmd, bool last_in_batch)
+ {
++	struct msghdr msg = { .msg_flags = MSG_DONTWAIT | MSG_SPLICE_PAGES, };
++	struct bio_vec bvec;
+ 	u8 hdgst = nvmet_tcp_hdgst_len(cmd->queue);
+ 	int left = sizeof(*cmd->r2t_pdu) - cmd->offset + hdgst;
+-	int flags = MSG_DONTWAIT;
+ 	int ret;
+ 
+ 	if (!last_in_batch && cmd->queue->send_list_len)
+-		flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
++		msg.msg_flags |= MSG_MORE;
+ 	else
+-		flags |= MSG_EOR;
++		msg.msg_flags |= MSG_EOR;
+ 
+-	ret = kernel_sendpage(cmd->queue->sock, virt_to_page(cmd->r2t_pdu),
+-		offset_in_page(cmd->r2t_pdu) + cmd->offset, left, flags);
++	bvec_set_virt(&bvec, (void *)cmd->r2t_pdu + cmd->offset, left);
++	iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, left);
++	ret = sock_sendmsg(cmd->queue->sock, &msg);
+ 	if (ret <= 0)
+ 		return ret;
+ 	cmd->offset += ret;
 
 
