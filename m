@@ -4,64 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C892EB64DA
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Jun 2023 18:30:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A38FEB64D7
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Jun 2023 05:48:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=oI5Ov5oLGA7KuyFwkEzDeO1r/Z1IJ+FGWr3qf0+vA/E=; b=vV8+vgbJOR4KeEzHrfDKrB3sF8
-	I9kSCJd4O2gYVdjILonduytdaNdF9OgRYyEKO0eSo+ZiIrQwbcVgVXaTy5aBePGTH/opxlZpGZDPW
-	3J50Lxtl5HfbfT+g4bbUMCAghuOlZrm5fCafoSVkbqsuKamBa661HGyMs9YwWpuDScQWk4tL4NtEC
-	ibBP4lYe07gwsk1Gk0yUZH8lHnogF67kPnb++D02QTTnsjAf8iBOykQ5N/GUdVYzWv1ZrzG8sHglD
-	sCsHOEsRqxm3MO3loNk0ydW5rKXVgr7+y86PKKlTxCKfS5/wnOcSzEq5e3HTsLIhKW///js7f7fbd
-	QylBC7oQ==;
+	bh=DEHAefYT42nW4IwQcu3PQ1uBcaQKIAv2dPimLUGt2xg=; b=qFpDg1c8FVepuDFF7OM21QojFI
+	YOSkAUNyEdLANfQzswH7KzktLeE4lZB/h6/wwLg8xuz1ZKg0LzHYKFteRYLIv2FVhFN2NEASUKcFg
+	yaBdeBFoeAGVm2STg7IqSpW8ZiF1+XRCfB6RGtoy5NCzASt0/gaQeWI5NqhimsRephf17fci2bSkc
+	8bo7ZpIluIAb9JFrb2MByYC1zVfUjZ1pcM9VaFQ5snFg7ZUkl0/LJzcJf5aVkvyyTzbR05HyOeo7M
+	VFmj6uCr+hLz4M8F4AZ562u26GLZ8X41aFtsy7WKknHrjoexclmdbmHu/ySoto93aQ+KqBFoIsSys
+	gL5BYuRQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1q9rjk-00Fkz2-0T;
-	Thu, 15 Jun 2023 18:30:24 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1qA2Je-00GvmI-2z;
+	Fri, 16 Jun 2023 05:48:10 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1q9rjh-00Fkx3-1i
+	id 1qA2Jb-00GvlY-1A
 	for linux-nvme@lists.infradead.org;
-	Thu, 15 Jun 2023 18:30:23 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 0409C60DE6;
-	Thu, 15 Jun 2023 18:30:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6CF9C433C8;
-	Thu, 15 Jun 2023 18:30:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1686853820;
-	bh=IWpeb4Kgm1UamkNtsT5+DO7vNDUGgUuD0Dyst6XKCz4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iTmnYVDX+9wbjvHsbaVRPyrv7MPXOPRDHzBhk9XOtcxMnlW9qUfRnHR6k5Wt3ToGj
-	 i0n8EumMCCHjTpq7p2c0CT33nIZnNnjJvinpRpaZEGtYA2OWoE1iFypxj+ksGr2jnh
-	 YsIvrP6/vk9xb2bPZ+XHmNmZvDCpWdpPBL8vHgNtZ5TUOAYja2UfEE8VsTnx6Dyvpy
-	 oeuxHmKCgDLYCAPP3PYqtrtlUO8hEexjRAu6Z3FJIH345Jw7DhXeuyl/i0yfnINOY7
-	 EgDX8QB9/b5KlWReXOCgYvYIBohwpl4MWc8evhDJAhAbZQcDCzUZwYctnAdQaRWn/D
-	 NOzgh+NknLiJw==
-Date: Thu, 15 Jun 2023 12:30:17 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Breno Leitao <leitao@debian.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, leit@fb.com,
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] nvme: Print capabilities changes just once
-Message-ID: <ZItYuVb1vKk9qfX/@kbusch-mbp.dhcp.thefacebook.com>
-References: <20230615094903.1341683-1-leitao@debian.org>
+	Fri, 16 Jun 2023 05:48:09 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id EBAB267373; Fri, 16 Jun 2023 07:48:00 +0200 (CEST)
+Date: Fri, 16 Jun 2023 07:48:00 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org, Yi Zhang <yi.zhang@redhat.com>,
+	linux-block@vger.kernel.org, Chunguang Xu <brookxu.cn@gmail.com>
+Subject: Re: [PATCH 1/4] blk-mq: add API of blk_mq_unfreeze_queue_force
+Message-ID: <20230616054800.GA28499@lst.de>
+References: <20230615143236.297456-1-ming.lei@redhat.com> <20230615143236.297456-2-ming.lei@redhat.com> <ZIsrSyEqWMw8/ikq@kbusch-mbp.dhcp.thefacebook.com> <ZIsxt7Q2nmiLNTX2@ovpn-8-16.pek2.redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230615094903.1341683-1-leitao@debian.org>
+In-Reply-To: <ZIsxt7Q2nmiLNTX2@ovpn-8-16.pek2.redhat.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230615_113021_617291_B29FC002 
-X-CRM114-Status: GOOD (  12.13  )
+X-CRM114-CacheID: sfid-20230615_224807_550862_23A5BA42 
+X-CRM114-Status: GOOD (  17.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,16 +61,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jun 15, 2023 at 02:49:03AM -0700, Breno Leitao wrote:
-> This current dev_info() could be very verbose and being printed very
-> frequently depending on some userspace application sending some specific
-> commands.
+On Thu, Jun 15, 2023 at 11:43:51PM +0800, Ming Lei wrote:
+> On Thu, Jun 15, 2023 at 09:16:27AM -0600, Keith Busch wrote:
+> > On Thu, Jun 15, 2023 at 10:32:33PM +0800, Ming Lei wrote:
+> > > NVMe calls freeze/unfreeze in different contexts, and controller removal
+> > > may break in-progress error recovery, then leave queues in frozen state.
+> > > So cause IO hang in del_gendisk() because pending writeback IOs are
+> > > still waited in bio_queue_enter().
+> > 
+> > Shouldn't those writebacks be unblocked by the existing check in
+> > bio_queue_enter, test_bit(GD_DEAD, &disk->state))? Or are we missing a
+> > disk state update or wakeup on this condition?
 > 
-> Just print this message once and skip it until the controller resets.
-> Use a controller flag (NVME_CTRL_DIRTY_CAPABILITY) to track if the
-> capability needs a reset.
+> GD_DEAD is only set if the device is really dead, then all pending IO
+> will be failed.
 
-Looks good. 
-
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+del_gendisk also sets GD_DEAD early on.
 
