@@ -4,85 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1562AC0015E
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Jun 2023 13:27:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A037EB64D7
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Jun 2023 13:31:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QGmZ/olQcis6+UwkuO2nwZxUQO0u8CCpdn9kXeK69lI=; b=Kq9CjlOCzd9O/ZhSxPBlmOo8Aw
-	ZwuYO6BRlIrNupPR5Bd+PHBbq/70CaJrQisS0DF71thHsnyRkJaEaWmEjbAxYO+XGhrnYk/zf4MZO
-	x1dTMa9o22Uu76PD2uDYjnrWUww/0qHgHCjooE2avvRDX5UCLP9YZbSTFgFpFSrr+dn7Ai3PyE5FV
-	qWH3zGLHu35TqpUVyg9nxO5GJfVAyqwyz2ReWdFwX5/9C19SLh5o2IT0YYE4uNAZP0o4vysJKl3Mi
-	GIxY9HyiLFsfm6Ig6E8RyuukXZMPH9qQhddBsLn6lqRVBHKmGw09F4K3SJE526MUrjpnu5i0RrWTj
-	DvhQa0xw==;
+	bh=i0G7Semk72J4t3p4kyn3yyN8DMzzZ6FPSFQ8xY4ugkA=; b=fZeXUFXppqnU4baK9KugSs/U24
+	ethjQLH+WErXupGUsHRO9MeMKcl2b0aavGJZ49thFem37DgT7OZpxLEgxMdmVrS1MdFwRt3uMg0tz
+	m2yGB18aL+d+8PppqgA8Gzf6w91GwZsaBEM4YfJgJyFiOH5pkW4Tz1hzcKxgUnnecI7MykW3cGkkH
+	x8Wg8YLXquGzlBJu0unlPgOBRFAZOPgSyBM0Sm2xPQkRW9Nah5XIaP6sdf3jiXzfIFcCJFdKWBwtO
+	dbmBSFP0/TFj181BeWnFMIn1W2uQhA94bM5BjhQmKC8AyLaxubYbRt4eEGGWFRzdOYVLqOHv+ty4g
+	KnukDNow==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qBbOJ-00BNtE-0x;
-	Tue, 20 Jun 2023 13:27:27 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1qBbSd-00BOoD-0J;
+	Tue, 20 Jun 2023 13:31:55 +0000
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qBbOF-00BNp7-15
-	for linux-nvme@lists.infradead.org;
-	Tue, 20 Jun 2023 13:27:24 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 165491F38A;
-	Tue, 20 Jun 2023 13:27:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1687267638; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QGmZ/olQcis6+UwkuO2nwZxUQO0u8CCpdn9kXeK69lI=;
-	b=p2LyCrwU9BVcEuKucE5EYfVVjhCTR2cBrL3CyOm3m11u09Fy+PSShBnRPWiN3oRvXtlnwv
-	yX2onXbW7xqn62c/pxQgXavz+u48Ni+7Vjkxcl8J+UaxwH9VITke98KJHpAVzSH2iPX/HU
-	LK9zJz7Z8WnBpNN1tIar+M/zlASJknM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1687267638;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QGmZ/olQcis6+UwkuO2nwZxUQO0u8CCpdn9kXeK69lI=;
-	b=ePCe6gPxYXv8wXkMXq1XXyCUnZhao+eGWj+8V9InX/BxhCBQqn1cRLqblGj/9ES/Rz1RPw
-	ceL6JMYchPVHO4CA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0658C1346D;
-	Tue, 20 Jun 2023 13:27:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id NVk8ATapkWSfOAAAMHmgww
-	(envelope-from <dwagner@suse.de>); Tue, 20 Jun 2023 13:27:18 +0000
-From: Daniel Wagner <dwagner@suse.de>
-To: linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Shin'ichiro Kawasaki <shinichiro@fastmail.com>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Hannes Reinecke <hare@suse.de>,
-	James Smart <jsmart2021@gmail.com>,
-	Martin Belanger <Martin.Belanger@dell.com>,
-	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH blktests v1 2/3] nvme/rc: Avoid triggering host nvme-cli autoconnect
-Date: Tue, 20 Jun 2023 15:27:02 +0200
-Message-ID: <20230620132703.20648-3-dwagner@suse.de>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230620132703.20648-1-dwagner@suse.de>
-References: <20230620132703.20648-1-dwagner@suse.de>
+	id 1qAByc-0012yE-2M;
+	Fri, 16 Jun 2023 16:07:08 +0000
+Received: by mail-pg1-x536.google.com with SMTP id 41be03b00d2f7-54fb1bbc3f2so700186a12.0;
+        Fri, 16 Jun 2023 09:06:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686931616; x=1689523616;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i0G7Semk72J4t3p4kyn3yyN8DMzzZ6FPSFQ8xY4ugkA=;
+        b=QJxa1vOcE8rQhWgizO0XuACCRpq0Uppp+jXsxnRuMncxkb5yrQAJI7qMt9LkqwDd7R
+         PV4tqzr1iPuNsJDpvBqlHB3nUCCP+5vPD4k/JFpxC6D2gIqRxggYDkFesv3ZaS0K5JWR
+         /wStYTXp5//TcktuJR64Fxd4pr2R0sEWY0m47BO9hDIuN63Ec8bwdE+rThvAM1ZuwIYB
+         T4D7AS/ndymzYcYgPRbSXFzXppRmJq+lUstVt85ocmqnAIrsGY2pYWGxCV5+ba5qqfVe
+         7asrMrMMPg+hNewml/KmL5O24wKjWcrKsI4SumLxsurmw4hkhn74w6QWTdZc48isQ1H9
+         oVbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686931616; x=1689523616;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=i0G7Semk72J4t3p4kyn3yyN8DMzzZ6FPSFQ8xY4ugkA=;
+        b=Zf4+ss64a0A01pqo5kbyRWkobKT+en32lYzn6GIdU2r01Olsl/U0dzS5XOxG19vyTO
+         Rrvgqhn/ORTmilsbNIitSXYTsePDd6dyWUBK7UOqdMCmIaaUXx8PRr+2yfzC8NqBznek
+         4GT/ctW4LSohYzhVfKXl/Ji4BMC2GO0cUdlWgs202xYiGON0l3zf9QALYJKLoU5Vr+X+
+         8z1fCPGWpbb5Yb8rwsHrktvel3JOAnu68CYI3QjUqaMCa3TlCL2T2DyvIturk6vgk77s
+         Oll9vUhjgd+rGK3pn5pnyi79lPdvy7atZDa3Z6Hqil5LllFjUo5wNBDILBiECm1mdFBe
+         wUtA==
+X-Gm-Message-State: AC+VfDxgKi/wt7X5nKtxGmKMFdoJ4yHKTCbFOAodUyyLUt84ohd9RS85
+	GHaR6Zl3xpSzb0pzyLSuSC0GwyFoUY2KvuJP/yY=
+X-Google-Smtp-Source: ACHHUZ4zyg1zxLBKfeGMzytzy/B6r1BRDnE5XaflvwrOKH/X5QyBu86XsC2LkWsG5g54K9PtAga9SKJKTFxIvXCStmo=
+X-Received: by 2002:a17:90a:6c63:b0:25b:fbdc:dd8 with SMTP id
+ x90-20020a17090a6c6300b0025bfbdc0dd8mr1991263pjj.24.1686931616191; Fri, 16
+ Jun 2023 09:06:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230524153311.3625329-1-dhowells@redhat.com> <20230524153311.3625329-4-dhowells@redhat.com>
+ <51161740e832334594960ed43430b868a6f892c3.camel@gmail.com> <617059.1686929309@warthog.procyon.org.uk>
+In-Reply-To: <617059.1686929309@warthog.procyon.org.uk>
+From: Alexander Duyck <alexander.duyck@gmail.com>
+Date: Fri, 16 Jun 2023 09:06:19 -0700
+Message-ID: <CAKgT0Udfud_wVKLiZbi4Okuzor7OKzRi_PwvvCwnsiOdw7ir7A@mail.gmail.com>
+Subject: Re: [PATCH net-next 03/12] mm: Make the page_frag_cache allocator
+ alignment param a pow-of-2
+To: David Howells <dhowells@redhat.com>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, David Ahern <dsahern@kernel.org>, 
+	Matthew Wilcox <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, Jeroen de Borst <jeroendb@google.com>, 
+	Catherine Sullivan <csully@google.com>, Shailend Chand <shailend@google.com>, Felix Fietkau <nbd@nbd.name>, 
+	John Crispin <john@phrozen.org>, Sean Wang <sean.wang@mediatek.com>, 
+	Mark Lee <Mark-MC.Lee@mediatek.com>, Lorenzo Bianconi <lorenzo@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Keith Busch <kbusch@kernel.org>, 
+	Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230620_062723_523632_0302AB7D 
-X-CRM114-Status: GOOD (  12.85  )
+X-CRM114-CacheID: sfid-20230616_090706_775690_80AE2086 
+X-CRM114-Status: GOOD (  16.47  )
+X-Mailman-Approved-At: Tue, 20 Jun 2023 06:31:53 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,144 +102,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When the host has enabled the udev/systemd autoconnect services for the
-fc transport it interacts with blktests and make tests break.
+On Fri, Jun 16, 2023 at 8:28=E2=80=AFAM David Howells <dhowells@redhat.com>=
+ wrote:
+>
+> Alexander H Duyck <alexander.duyck@gmail.com> wrote:
+>
+> > The requirement should only be cache alignment, not power of 2
+> > alignment.
+>
+> Sure, but, upstream, page_frag_alloc_align() allows the specification of =
+an
+> alignment and applies that alignment by:
+>
+>         offset &=3D align_mask;
+>
+> which doesn't really make sense unless the alignment boils down to being =
+a
+> power of two.  Now, it might make sense to kill off the align_mask parame=
+ter
+> and just go with SMP_CACHE_BYTES (which will be a power of two).
+>
+> Note, though, that most users seem to use an align_mask of ~0u which feel=
+s a
+> bit dodgy (it's not an unsigned long), but is probably fine.
 
-nvme-cli learned to ignore connects attemps when using the
---context command line option paired with a volatile configuration. Thus
-we can mark all the resources created by blktests and avoid any
-interaction with the systemd autoconnect scripts.
-
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
----
- tests/nvme/rc | 73 ++++++++++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 63 insertions(+), 10 deletions(-)
-
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index 191f3e2e0c43..00117d314a38 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -14,8 +14,8 @@ def_remote_wwnn="0x10001100aa000001"
- def_remote_wwpn="0x20001100aa000001"
- def_local_wwnn="0x10001100aa000002"
- def_local_wwpn="0x20001100aa000002"
--def_hostnqn="$(cat /etc/nvme/hostnqn 2> /dev/null)"
--def_hostid="$(cat /etc/nvme/hostid 2> /dev/null)"
-+def_hostnqn="nqn.2014-08.org.nvmexpress:uuid:242d4a24-2484-4a80-8234-d0169409c5e8"
-+def_hostid="242d4a24-2484-4a80-8234-d0169409c5e8"
- nvme_trtype=${nvme_trtype:-"loop"}
- nvme_img_size=${nvme_img_size:-"1G"}
- nvme_num_iter=${nvme_num_iter:-"1000"}
-@@ -161,6 +161,50 @@ _nvme_calc_rand_io_size() {
- 	echo "${io_size_kb}k"
- }
- 
-+_nvme_cli_supports_context() {
-+	if ! nvme connect --help 2>&1 | grep -q context > /dev/null; then
-+		    return 1
-+	fi
-+	return 0
-+}
-+
-+_setup_nvme_cli() {
-+	if ! _nvme_cli_supports_context; then
-+		return
-+	fi
-+
-+	mkdir -p /run/nvme
-+	cat >> /run/nvme/blktests.json <<-EOF
-+	[
-+	  {
-+	    "hostnqn": "${def_hostnqn}",
-+	    "hostid": "${def_hostid}",
-+	    "subsystems": [
-+	      {
-+	        "application": "blktests",
-+	        "nqn": "blktests-subsystem-1",
-+	        "ports": [
-+	          {
-+	            "transport": "fc",
-+	            "traddr": "nn-${def_remote_wwnn}:pn-${def_remote_wwpn}",
-+	            "host_traddr": "nn-${def_local_wwnn}:pn-${def_local_wwpn}"
-+	          }
-+	        ]
-+	      }
-+	    ]
-+	  }
-+	]
-+	EOF
-+}
-+
-+_cleanup_nvme_cli() {
-+	if ! _nvme_cli_supports_context; then
-+		return
-+	fi
-+
-+	rm -f /run/nvme/blktests.json
-+}
-+
- _nvme_fcloop_add_rport() {
- 	local local_wwnn="$1"
- 	local local_wwpn="$2"
-@@ -235,6 +279,8 @@ _cleanup_fcloop() {
- 	_nvme_fcloop_del_lport "${local_wwnn}" "${local_wwpn}"
- 	_nvme_fcloop_del_rport "${local_wwnn}" "${local_wwpn}" \
- 			       "${remote_wwnn}" "${remote_wwpn}"
-+
-+	_cleanup_nvme_cli
- }
- 
- _cleanup_nvmet() {
-@@ -337,6 +383,8 @@ _setup_nvmet() {
- 		def_host_traddr=$(printf "nn-%s:pn-%s" \
- 					 "${def_local_wwnn}" \
- 					 "${def_local_wwpn}")
-+
-+		_setup_nvme_cli
- 	fi
- }
- 
-@@ -436,18 +484,18 @@ _nvme_connect_subsys() {
- 	trtype="$1"
- 	subsysnqn="$2"
- 
--	ARGS=(-t "${trtype}" -n "${subsysnqn}")
-+	ARGS=(-t "${trtype}"
-+	      -n "${subsysnqn}"
-+	      --hostnqn="${hostnqn}"
-+	      --hostid="${hostid}")
-+	if _nvme_cli_supports_context; then
-+		ARGS+=(--context="blktests")
-+	fi
- 	if [[ "${trtype}" == "fc" ]] ; then
- 		ARGS+=(-a "${traddr}" -w "${host_traddr}")
- 	elif [[ "${trtype}" != "loop" ]]; then
- 		ARGS+=(-a "${traddr}" -s "${trsvcid}")
- 	fi
--	if [[ "${hostnqn}" != "$def_hostnqn" ]]; then
--		ARGS+=(--hostnqn="${hostnqn}")
--	fi
--	if [[ "${hostid}" != "$def_hostid" ]]; then
--		ARGS+=(--hostid="${hostid}")
--	fi
- 	if [[ -n "${hostkey}" ]]; then
- 		ARGS+=(--dhchap-secret="${hostkey}")
- 	fi
-@@ -482,7 +530,12 @@ _nvme_discover() {
- 	local host_traddr="${3:-$def_host_traddr}"
- 	local trsvcid="${3:-$def_trsvcid}"
- 
--	ARGS=(-t "${trtype}")
-+	ARGS=(-t "${trtype}"
-+	      --hostnqn="${def_hostnqn}"
-+	      --hostid="${def_hostid}")
-+	if _nvme_cli_supports_context; then
-+		ARGS+=(--context="blktests")
-+	fi
- 	if [[ "${trtype}" = "fc" ]]; then
- 		ARGS+=(-a "${traddr}" -w "${host_traddr}")
- 	elif [[ "${trtype}" != "loop" ]]; then
--- 
-2.41.0
-
+Yeah, now that I think about it this should be fine. I must have been
+responding to this without enough sleep. When I originally read it I
+saw it as limiting it to a power of 2 allocation, not limiting the
+alignment mask to a power of 2.
 
