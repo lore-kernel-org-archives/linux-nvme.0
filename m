@@ -4,72 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 286C8EB64D8
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Jun 2023 09:12:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0258EB64D7
+	for <linux-nvme@archiver.kernel.org>; Fri, 16 Jun 2023 15:42:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=vWIDDbn9JWbjBlzAwpy4GLqrJVgb2pbwwADT0+IZSY4=; b=NyLa2Rw3AVAJaxjV9T48OBF7tN
-	58BzOvcSVeLPi9SSzTgii/ZAwyAT23g7DTInj/3B8NrqZ/M0X1+W5UM8sLtdmv+VepVAifKrhOBLx
-	c613QLGio3i7xlCpui6CtQdB1MbhGR+5yRNXOn1PGrCvD13pu2TcF2lkFvQLBTRy9bmcZkjp2i/fF
-	xvorMBQqgV+IgHTY5pakE51GAa4v+heD8/CS/uJ/hdHcNRzpZUwGTymL6Wm6vTmJSFdlHIp+JcAdy
-	t2mOntAIxm5/fkyfdKtiuf7ms6tqNgJ9wfx5IfUSrhdc6QfW0UJOmFOQgr07udVgFvXbyhdBFRYNx
-	5IBt0xUQ==;
+	bh=ys6G0pTwp4aBI9CVuLkOfmcIUjHini73Gmj3fyYVl0E=; b=TkZW33hcNRJOT9b4RPplteEgdS
+	8JeTp8VXgZLsLdajlQ7RQFc3Znb0QJ6TKpAO/o9GbYkPV5TlGalEEDwkQxqq5vBLJppz5U85rsot6
+	CxawWd5CTR/5KYqvT/buxcvFboJy65pF/82RCNd/Hj/cAk4HGiKclz+mHsd+uSdr+UkEf+OZiwSHw
+	BLIByhtqHUoaWFpVeWqZvkDuDAq7r/yzQBQDi5sRfA8maTOlJQhRdPZm9vxSkp26l6uSMQ4Kw35KE
+	3QfOVK9I1SYaWslvTQjabNgTmXkgEflzjJsprSYIUQOh1a2Ua7yGLU7yAJn4tX90psG07+581NuG+
+	q+xiQyTw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qA5VO-00HQVd-1s;
-	Fri, 16 Jun 2023 09:12:30 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1qABai-000zOE-3C;
+	Fri, 16 Jun 2023 15:42:24 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qA5VM-00HQVD-0H
+	id 1qABad-000zNF-0U
 	for linux-nvme@lists.infradead.org;
-	Fri, 16 Jun 2023 09:12:29 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	Fri, 16 Jun 2023 15:42:20 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 65AD71FDEB;
-	Fri, 16 Jun 2023 09:12:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1686906744; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=vWIDDbn9JWbjBlzAwpy4GLqrJVgb2pbwwADT0+IZSY4=;
-	b=RvG0Dp4hDkAxbKK+KLXxUNxfqEfObEsqa81qsnbW4zCQ+Vdu1+6ezA0xK3e+794kf2Mj2J
-	mTLr78jDogyw4yotbnVeOjDB8Ym3Ky5t10jRlHpb1p++QcHlci8eHJvjckQc2g+5vLCzbs
-	Ict6YcOopZNEb+g1vzpaZpasNAAqfP4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1686906744;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=vWIDDbn9JWbjBlzAwpy4GLqrJVgb2pbwwADT0+IZSY4=;
-	b=Xj94gfjAsfPEicxkxjvTZWAByoiyt4G3j9ny6VpdVxuihgAsehUg36zIU6+VtQEInsLI1z
-	7PAF+GNaMnRl20CQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 56DA0138E8;
-	Fri, 16 Jun 2023 09:12:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id eEPsFHgnjGQ8RAAAMHmgww
-	(envelope-from <dwagner@suse.de>); Fri, 16 Jun 2023 09:12:24 +0000
-Date: Fri, 16 Jun 2023 11:12:23 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: James Smart <jsmart2021@gmail.com>
-Cc: linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>, 
-	Hannes Reinecke <hare@suse.de>, Shin'ichiro Kawasaki <shinichiro@fastmail.com>
-Subject: nvme-fc vs nvme-tcp: Initial connect behavior
-Message-ID: <j4w7724skjsapgtp6wtll5fgsb4adhpfdtrif52lhc7iql4inf@3mu2gbjrrtcs>
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 9D4E160DDA;
+	Fri, 16 Jun 2023 15:42:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89E52C433C9;
+	Fri, 16 Jun 2023 15:42:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1686930136;
+	bh=P11ngKNRhmZMFj7x+YlL9Erx/sRMBz3aL7vz8ORLxlk=;
+	h=Date:From:To:Cc:Subject:From;
+	b=l6yg6SsmB6yEfKQ8Nb9PawL//JBzEbeCN6Xre/Jy2Cy3QcAgd6+/HFHjRVW32ZWdv
+	 XVsCu7GER0bVsVoMdxmDUVYPrc/vHG/TYikFVEMtNQWfBv+Pz8oVZZlXVo0jxu3hWW
+	 U+rPaqyIcaQVpu/IfR9JkijLA9PXpm4lYdSpr716IaG5aoldl7zyre/mOvAwXUYemo
+	 pEumNn+DtgFCS8Oa058TDtx1wBVHz/GWvVr/pLZDCzkuARZX+3sHD6qc6U7FMNmZC0
+	 xCP4lfy9p1B9anCLMckz8o9MLPYLZknNChnYD2G8/OxSOQU3h2dLEcM4tH2jbYFyrb
+	 j+QscxpGPQHBA==
+Date: Fri, 16 Jun 2023 09:42:14 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: axboe@kernel.dk
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
+	kch@nvidia.com
+Subject: [GIT PULL] nvme-6.5 updates
+Message-ID: <ZIyC1vvj9ZX7RkHq@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230616_021228_298735_851CE6AA 
-X-CRM114-Status: GOOD (  12.13  )
+X-CRM114-CacheID: sfid-20230616_084219_285329_B5256C2F 
+X-CRM114-Status: GOOD (  13.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,59 +72,87 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+This is our first pull request for the 6.5 merge window. There will be a
+minor conflict when merging to Linus' tree, and the resolution is to
+simply delete the entire conflicting block.
 
-blktests' nvme/041 fails for the fc transport because it behaves differently for
-the initial connect. While tcp/rdma do the initial call directly in the context
-of write to the /dev/nvme-fabrics file, fc does defer it to a workqueue (for
-retries).
+The following changes since commit 4f1731df60f9033669f024d06ae26a6301260b55:
 
-The nvme/041 test case first tries to setup an authenticated connect with an
-invalid key, thus it is expected to fail. For tcp/rdma the invalid key is
-reported back to userspace and all allocated resources are freed.
+  blk-mq: fix potential io hang by wrong 'wake_batch' (2023-06-12 09:55:53 -0600)
 
-Though for fc, it will defer the connect and even retries with the invalid key.
+are available in the Git repository at:
 
-The test is then trying to cleanup the invalid configuration by issuing a 'nvme
-disconnect' but this fails too.
+  git://git.infradead.org/nvme.git tags/nvme-6.5-2023-06-16
 
-Aftrer this the test is trying to setup a connection with the correct key, but
-this fails for fc because there is already a connetion attempt (the real reason
-why the test will fail)
+for you to fetch changes up to 1c606f7f056b266a84482d5522d35bbbbed062db:
 
-   run blktests nvme/041 at 2023-06-15 14:19:06
-   nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-   nvme nvme2: NVME-FC{0}: create association : host wwpn 0x20001100aa000002  rport wwpn 0x20001100aa000001: NQN "blktests-subsystem-1"
-   (NULL device *): {0:0} Association created
-   [10505] nvmet: ctrl 1 start keep-alive timer for 5 secs
-   [10505] nvmet: check nqn.2014-08.org.nvmexpress:uuid:40931c1f-4bf3-4c23-b1af-deb3f65a73e0
-   [10505] nvmet: nvmet_setup_dhgroup: ctrl 1 selecting dhgroup 0
-   [10505] nvmet: nvmet_setup_auth: using hash none key d4 8b f7 36 75 34 db 1a a2 c5 75 9a 6b 05 de 3a 9e e8 68 61 c5 d6 cb 0b 1a f2 c4 f8 3b 24 a2 a5
-   nvmet: creating nvm controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:40931c1f-4bf3-4c23-b1af-deb3f65a73e0 with DH-HMAC-CHAP.
-   nvme nvme2: qid 0: no key
-   nvme nvme2: qid 0: authentication setup failed
-   nvme nvme2: NVME-FC{0}: reset: Reconnect attempt failed (401)
-   nvme nvme2: NVME-FC{0}: Reconnect attempt in 2 seconds
-   nvme nvme2: NVME-FC{0}: new ctrl: NQN "blktests-subsystem-1"
-   [10505] nvmet: ctrl 1 stop keep-alive
-   (NULL device *): {0:0} Association deleted
-   (NULL device *): {0:0} Association freed
-   (NULL device *): Disconnect LS failed: No Association
-   nvme nvme2: NVME-FC{0}: controller connectivity lost. Awaiting Reconnect
-   nvme nvme2: NVME-FC{0}: transport unloading: deleting ctrl
-   nvme_fc: nvme_fc_exit_module: waiting for ctlr deletes
-   nvme nvme2: Removing ctrl: NQN "blktests-subsystem-1"
-   nvme_fc: nvme_fc_exit_module: ctrl deletes complete
+  nvme: forward port sysfs delete fix (2023-06-16 08:15:57 -0700)
 
+----------------------------------------------------------------
+nvme updates for Linux 6.5
 
-I tickered a bit around to make the initial connect synchronous to see if I
-could get the test case working. But got hit by a KASAN report in
-nvmf_dev_show() but haven't figured out what's going on yet.
+ - Various cleanups all around (Irvin, Chaitanya, Christophe)
+ - Better struct packing (Christophe JAILLET)
+ - Reduce controller error logs for optional commands (Keith)
+ - Support for >=64KiB block sizes (Daniel Gomez)
+ - Fabrics fixes and code organization (Max, Chaitanya, Daniel Wagner)
 
-My question is what are we going to do about it? 4c984154efa1 ("nvme-fc: change
-controllers first connect to use reconnect path") eleborates why it was changed
-to do use workqueues and I suppose these reason still exists.
+----------------------------------------------------------------
+Chaitanya Kulkarni (8):
+      nvme-core: fix memory leak in dhchap_secret_store
+      nvme-core: fix memory leak in dhchap_ctrl_secret
+      nvme-core: add missing fault-injection cleanup
+      nvme-core: fix dev_pm_qos memleak
+      nvmet-auth: remove unnecessary break after goto
+      nvme-fcloop: no need to return from void function
+      nvme-fabrics: error out to unlock the mutex
+      nvme-fabrics: open code __nvmf_host_find()
 
-Thanks,
-Daniel
+Christophe JAILLET (6):
+      nvmet: reorder fields in 'struct nvmet_sq'
+      nvme: reorder fields in 'struct nvme_ctrl'
+      nvmet: reorder fields in 'struct nvmf_ctrl_options'
+      nvmet: reorder fields in 'struct nvme_dhchap_queue_context'
+      nvmet: reorder fields in 'struct nvmefc_fcp_req'
+      nvmet-auth: remove some dead code
+
+Daniel Gomez (1):
+      nvme: Increase block size variable size to 32-bit
+
+Daniel Wagner (1):
+      nvmet-fcloop: Do not wait on completion when unregister fails
+
+Irvin Cote (3):
+      nvme-pci: cleaning up nvme_pci_init_request
+      nvme-core: remove redundant check from nvme_init_ns_head
+      nvme-core: use nvme_ns_head_multipath instead of ns->head->disk
+
+Keith Busch (3):
+      nvme-fabrics: add queue setup helpers
+      nvme: skip optional id ctrl csi if it failed
+      nvme: forward port sysfs delete fix
+
+Max Gurtovoy (5):
+      nvme-rdma: fix typo in comment
+      nvme-fabrics: unify common code in admin and io queue connect
+      nvme-fabrics: check hostid using uuid_equal
+      nvme-fabrics: prevent overriding of existing host
+      nvme: move sysfs code to a dedicated sysfs.c file
+
+ drivers/nvme/host/Makefile             |   2 +-
+ drivers/nvme/host/auth.c               |   6 +--
+ drivers/nvme/host/core.c               | 663 ++++++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ drivers/nvme/host/fabrics.c            | 241 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-------------------------------
+ drivers/nvme/host/fabrics.h            |  21 +++++++---
+ drivers/nvme/host/nvme.h               |  11 ++++--
+ drivers/nvme/host/pci.c                |   3 +-
+ drivers/nvme/host/rdma.c               |  81 +++------------------------------------
+ drivers/nvme/host/sysfs.c              | 668 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/tcp.c                |  92 +++-----------------------------------------
+ drivers/nvme/target/fabrics-cmd-auth.c |  13 -------
+ drivers/nvme/target/fcloop.c           |   5 +--
+ drivers/nvme/target/nvmet.h            |   2 +-
+ include/linux/nvme-fc-driver.h         |  10 ++---
+ 14 files changed, 903 insertions(+), 915 deletions(-)
+ create mode 100644 drivers/nvme/host/sysfs.c
 
