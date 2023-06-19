@@ -4,79 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CDD30EB64D9
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Jun 2023 07:55:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55EFEEB64D9
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Jun 2023 08:17:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mzodxslVWR34FWKTezh8R+HCLqkf9hKJ6nwhZ2cYyW0=; b=f+q2rm+ZpM4FaVatCi6JpHvlsc
-	l220qhVxRyCu/GPIR9R6/Yqp0bq47nogbOkmbuA+d0Zhi9+e8YPHC7LOq3bFjtnY3Ntno0cMqg/9S
-	cNBMtUmJurCz0Zuwa2Bu2tyJRvvxf3sRUgGR4gmhUdS2hgqZTqBye2JUXvmd3Ap8SXX6xeEGTJtD9
-	4WSZxnFvnL/fKQtFG6mya10GVdvqr5N9D9ySBVrqAS9GfP8Zh94ZyCii4jZ+tJpKq5z6BIVnxtPOq
-	lORfx9Jryx7i4sSXG0cx3+1hOijoN4Drd6yzhWxjHaq09FdQtKNr+yvmqGtpZDfBdtOqdON/HPqmc
-	vOCJig4w==;
+	bh=isW3ro7VrnYReL/xeasva9RHi55m+3Ng9iiYsqlf/a8=; b=IwN+lNmB0w/wyDZMju/+InRIpU
+	MAwlaaJfj5RkXKWxVeVyEbFtbZTYarON8pdWQ40Mf8Lv/T9NDID1wEpzfX8LGrjPCrKtnsorGSMxS
+	TpgmnVGC7hOjGJYK+3gosaX01DroLhHRiWOU8EgRbNZYDmIkjW/2YfVzRLVDy9mRGxHwSPE9gqLAn
+	NHrFweBzm572vqDC32h8xk7rMsjsLj8wq+8bYL2vcTv0Gn1KYdKztq2rbX+UqIJfd8rwlc/32RXxU
+	h4Yp3F5E4k1R/DAevqs34UkZLULWDYODXyN7r5+2C2aelskNvlI7RTLkhOxqR2jEfSZ969+U0D5EI
+	4vQs896g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qB9jO-007krV-1M;
-	Mon, 19 Jun 2023 07:55:22 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1qBA4E-007nUS-1M;
+	Mon, 19 Jun 2023 08:16:54 +0000
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qB9jK-007kqW-2p
+	id 1qBA4B-007nTM-39
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Jun 2023 07:55:20 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B877B2188E;
-	Mon, 19 Jun 2023 07:55:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1687161314; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mzodxslVWR34FWKTezh8R+HCLqkf9hKJ6nwhZ2cYyW0=;
-	b=eNlw2lEdFwRO24qHwcZk6RTiyPfPkFK/qnznneFVO8rBVp3e+AZ/aqo7cxuiWUi7UZx3/u
-	vkV2Xoh4sMJjXcH5IJeusAnX5mWTuVn8oi5gpUC4jlQYE+YlD/QdEUarmKV36IYMkRGmVb
-	scGcJ9MfBs7nhXYSgMCL6L2HxVXQ96Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1687161314;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mzodxslVWR34FWKTezh8R+HCLqkf9hKJ6nwhZ2cYyW0=;
-	b=5dGQ0ErR9rr16jt9qdW7WZcepprWjTCTT6S4BuS9s9Siz9XZJXBmmJ4JbJ68RjM0Wj1Dsm
-	qnkil/Q7ipU84tCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A99C3139C2;
-	Mon, 19 Jun 2023 07:55:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 3PtfKeIJkGRQBgAAMHmgww
-	(envelope-from <dwagner@suse.de>); Mon, 19 Jun 2023 07:55:14 +0000
-Date: Mon, 19 Jun 2023 09:55:14 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
-	Chaitanya Kulkarni <kch@nvidia.com>, Shin'ichiro Kawasaki <shinichiro@fastmail.com>, 
-	Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>, 
-	James Smart <jsmart2021@gmail.com>
-Subject: Re: [PATCH v1 0/2] nvme-fc: Fix blktests hangers
-Message-ID: <iek6a3eegnjirapsuw2jtptxttgor2e4bvoljlr2swqwzagso5@b7k5kq6j2ab2>
-References: <20230615094356.14878-1-dwagner@suse.de>
+	Mon, 19 Jun 2023 08:16:53 +0000
+Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-3113da5260dso652965f8f.2
+        for <linux-nvme@lists.infradead.org>; Mon, 19 Jun 2023 01:16:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1687162608; x=1689754608;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=isW3ro7VrnYReL/xeasva9RHi55m+3Ng9iiYsqlf/a8=;
+        b=KazX0yNwB3GD0qMpqNeT8B+fVx8dSsh+RVEMQxLTiOHuNIvFUyQeyxpRx3Yy0F/lDB
+         iTsNhLrLZuuHpQchOMW4OtFPnuo015E457SqxkYiKNazt5XDygOCKUBJMn3RlRvE08AE
+         kA2UXPdlcFOhNaYXt7qNJZFN+E+ABsXrUJq1nEGXadlWSDXOyIe57cVNyYRxn4lEV0UB
+         kW/+kLw6v+mxDXcSRmYaPm4ZMd67OhVXu0A5xZq37PSh+L45hlgsHesiQqJvCRs5im5a
+         j0k2wQq6y5oRty8BWTPO/UWFpybYgV0yBSc1R4Tvo/NdpcHmfEEeYRfom/LMRew+bTau
+         nvrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687162608; x=1689754608;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=isW3ro7VrnYReL/xeasva9RHi55m+3Ng9iiYsqlf/a8=;
+        b=GX/lb/6//yQPtGd4ZS3OuyfoXBI5C+lGiSHcCArkEWh5usebm/kkQVEvgk1i2w+HEF
+         dLICKUu4jghAW66tdH0fuz8XTCgl3xrVqk0hQeRpeAZ5AYEj3SnpGCODjABdPwqswGwz
+         GqFZYmjCs4qR3YNDNzE5OuPKLGr60WqAQhu8I6bmsj5rbJBmiY/yRZXO1iLTc8RnEKTs
+         HZJKn036VOAavWI3LntHP1g7sKKPv3OhzVm4SstffmZcubDKA1Bi0zztUDBOI+vt1ppJ
+         /dE9gZf/TbNgxJZM1fM3FGIH52SD0L5IXIjMjYBwtRKuMMVCUsGajedHluSbSJnDvSah
+         7cdQ==
+X-Gm-Message-State: AC+VfDy+dmDDYdjQo9GnACcKd5ENWj46Hd++Bnh7MiYfOZNnOVPcBXvd
+	MO/IYjPIJT6Y8ZpRvS9QLi29yQ==
+X-Google-Smtp-Source: ACHHUZ7YdUPbrAC9vk9luum3Fiw2SRofBrawd9gnl7RQJA52PSeTUGT+mXUQecxLW0mDU/E7LRbnIA==
+X-Received: by 2002:a5d:63c5:0:b0:30a:efd2:c170 with SMTP id c5-20020a5d63c5000000b0030aefd2c170mr5312318wrw.37.1687162607724;
+        Mon, 19 Jun 2023 01:16:47 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id d6-20020adffd86000000b0030ae87bd3e3sm30749486wrr.18.2023.06.19.01.16.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Jun 2023 01:16:45 -0700 (PDT)
+Date: Mon, 19 Jun 2023 11:16:42 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Simon Horman <simon.horman@corigine.com>
+Cc: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org, Jakub Kicinski <kuba@kernel.org>,
+	netdev@vger.kernel.org, Boris Pismenny <boris.pismenny@gmail.com>
+Subject: Re: [PATCH 4/4] net/tls: implement ->read_sock()
+Message-ID: <635399d3-552f-460d-8bf3-19c039d03df2@kadam.mountain>
+References: <20230614062212.73288-1-hare@suse.de>
+ <20230614062212.73288-5-hare@suse.de>
+ <ZI2+SDzKwK7i8Nw6@corigine.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230615094356.14878-1-dwagner@suse.de>
+In-Reply-To: <ZI2+SDzKwK7i8Nw6@corigine.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230619_005519_077116_75493085 
-X-CRM114-Status: UNSURE (   9.60  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230619_011652_018526_33821435 
+X-CRM114-Status: GOOD (  24.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,17 +94,80 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jun 15, 2023 at 11:43:54AM +0200, Daniel Wagner wrote:
-> A couple more fixes to enable blktests for the fc transport.
+On Sat, Jun 17, 2023 at 04:08:08PM +0200, Simon Horman wrote:
+> + Dan Carpenter
+> 
+> On Wed, Jun 14, 2023 at 08:22:12AM +0200, Hannes Reinecke wrote:
+> 
+> ...
+> 
+> > +
+> > +read_sock_end:
+> > +	return copied ? : err;
+> 
+> Hi Hannes,
+> 
+> I'm of two minds about raising this or not, but in any case here I am
+> doing so.
+> 
+> Both gcc-12 [-Wmaybe-uninitialized] and Smatch warn that err may be
+> used uninitialised on the line above.
+> 
+> My own analysis is that it cannot occur: I think it is always the case
+> that either copied is non-zero or err is initialised.
 
-I let run blktests in a loop and eventually the unloading of the fs module
-blocked again with
+Hm...  Yeah.  This is a bug in how Smatch handles:
 
-      nvme_fcloop: fcloop_exit: Failed deleting remote port
-      nvme_fcloop: fcloop_exit: Failed deleting target port
+	return copied ? : err;
 
-So the reordering of the module unloades in blktets just made it a bit harder to
-hit but it's still possible to hit this. So we should also consider
+Smatch wants every return to have a simple literal or variable.  So if
+the return is complicated it gets changed into:
 
-https://lore.kernel.org/linux-nvme/20230418130159.11075-2-dwagner@suse.de/
+	fake_variable = copied ? : err;
+	return fake_variable;
+
+Smatch translates this to:
+
+	if (!(fake_variable = copied))
+		fake_variable = err;
+
+[ Here fake_variable doesn't have side effects but under other
+  circumstances this transformation could cause double evaluate side
+  effects bugs.  So that's another bug in Smatch. ]
+
+Then Smatch parses the fake_variable = copied condition as:
+
+	fake_variable = copied;
+	if (fake_variable) {
+
+The problem is that the type of fake_variable is based on the type of
+tls_sw_read_sock() so it is a 32bit while copied is a 64bit (of unknown
+value).  So Smatch says, "Just because copied is non-zero doesn't mean
+fake_variable is non-zero because the value might get truncated when
+we cast away the high 32 bits."
+
+This not a serious proposal but a just to demonstrate that this is
+what happens there are two ways to silence this warning.  Changing the
+type of tls_sw_read_sock() to long.  Or change the code to:
+
+	if (copied)
+		return copied;
+	return err;
+
+Probably the right thing is to create a second fake_copied variable
+based on typeof(copied).
+
+	fake_copied = copied;
+	if (fake_copied)
+		fake_return_variable = fake_copied;
+	else
+		fake_return_variable = err;
+
+It's a doable thing.  Plus now there are no double evaluate side effects
+bugs.  I have written this code and it silences the warning, but I'll
+test it out tonight to see what breaks.
+
+regards,
+dan carpenter
+
 
