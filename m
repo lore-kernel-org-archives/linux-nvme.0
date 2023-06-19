@@ -4,65 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 57DC9EB64D9
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Jun 2023 14:10:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F41E6EB64DA
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Jun 2023 18:09:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=06274/MKlEDOqu59DpYS0GkSe3aI8dxRiJv5kGl6QYk=; b=BRf4uMjornwlfykfUs0TwnnfCI
-	OXxznddhFyrtu+oonS2oN00NNFuwy3QqNRFnDB/cMGaUh8QhB+v5SekkLhNdPCqO3uwpHjS/BG3zU
-	0N4gx3vWinzACczfjgPNyU/5XVosVOVy3TjM5D99nT093KFLrAZADPhhR2oHXJptm4gzziMWJa0ZX
-	6RG1xBFGJTGeS/OugBWr+5GG6xrO/PBp5Kb3HiC1rvwR29Wje1reIERD1ZBz27bHH26WUJcQIrej3
-	phRtvalP0HmpgoUWsKpYRUaPy7J8xirrKhOO+ZBJIjrbzaXt9Az3NjKPky138tG0ntWkvANkLdDRO
-	hjunvokw==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Wx1ETBPrfZZVrxxt24FvjkAxC9Gt56NgyV700P1vzmk=; b=Systv9nc1SuYrJCanZ+/T/7h0b
+	2yy5PiymFfvVD8DxImBAZUtOVe+6fPtd3/tBo8949pik2+emRcXR+J3R98pJp8IT4/ncDc40xoN2w
+	Y1DxO5Wu2rnnIgeDCxFbcuXf86W55NPCfZ1jMUEGy4lHP1M+Xi97jgMs6F3/jpmTtrUp945tujigw
+	Ct1Ad7Jisvyxv9wkYNGmt1eoruHoy9kmU0cNSNYZpVrzsU3/aPyVHf5nV9Jfi48N0Gx1SQhWUah0n
+	bDJQlSfxmJsmuAfy5UysIfupJjITuBPamvb9mmMPVDqH4zFvI1nygKm+IJS1IN+hTup1SkoG9LLZO
+	BkYUyK6Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qBFae-008cPg-07;
-	Mon, 19 Jun 2023 14:10:44 +0000
-Received: from mail-lf1-f49.google.com ([209.85.167.49])
+	id 1qBJJB-009ACw-39;
+	Mon, 19 Jun 2023 18:08:57 +0000
+Received: from smtp-26.smtpout.orange.fr ([80.12.242.26] helo=smtp.smtpout.orange.fr)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qBFab-008cPA-1Z
+	id 1qBJJ5-009AB7-0K
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Jun 2023 14:10:43 +0000
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-4f14e14dc00so776158e87.1
-        for <linux-nvme@lists.infradead.org>; Mon, 19 Jun 2023 07:10:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687183838; x=1689775838;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=06274/MKlEDOqu59DpYS0GkSe3aI8dxRiJv5kGl6QYk=;
-        b=awbicdkaFrOjZBVed5RFG9sKbB6YgzDLAXYhv0q9NLkcWVigZnEwZnQkuwApbc7hBU
-         yjsL79VYSYlGouDJE3ptuy20uuKH7s+RB01pBtn5bZ70YPrTy6cdSQ/phbePKhhq2nob
-         TSz13bBGtoFN62/mA8+OFyUEKtkjCzJ8Mon99XcCWuH6k8Q10tOq4VSttRO1oIxmzpWX
-         bPejGqJEtRY0vCS1to0dQmAgabsGUj6k6XhAn9I9Kmmg7nJMOT7PZFHedit8p2JNZJ39
-         gIq98t4bozVbTzw0IswI+UtMiVhR7a0UtVh8FjxWoH6TrRf+2tlhW6MVeiPZySZs9QF9
-         D+4g==
-X-Gm-Message-State: AC+VfDwf1YhfTFkL/vD+ZiO2nFUIAVe4x6zjExBp5G0hVqjtxVvYOZt4
-	fPER7v8FVETS4+9okGQDe6/lwLo5J9A=
-X-Google-Smtp-Source: ACHHUZ4e6yViLoWaMnfDv8b2WJretrurgfHMjIkQTSn9EgXGU8Qah/7nRsBJXwF/yX0ptbjNnN99zw==
-X-Received: by 2002:a19:741a:0:b0:4f8:5293:be12 with SMTP id v26-20020a19741a000000b004f85293be12mr4052807lfe.1.1687183838352;
-        Mon, 19 Jun 2023 07:10:38 -0700 (PDT)
-Received: from localhost.localdomain (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id q19-20020a1cf313000000b003f7361ca753sm10699561wmq.24.2023.06.19.07.10.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jun 2023 07:10:37 -0700 (PDT)
-From: Sagi Grimberg <sagi@grimberg.me>
-To: linux-nvme@lists.infradead.org
-Cc: Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>
-Subject: [PATCH] nvme-mpath: fix I/O failure with EAGAIN when failing over I/O
-Date: Mon, 19 Jun 2023 17:10:36 +0300
-Message-Id: <20230619141036.1051673-1-sagi@grimberg.me>
-X-Mailer: git-send-email 2.40.1
+	Mon, 19 Jun 2023 18:08:53 +0000
+Received: from [192.168.1.18] ([86.243.2.178])
+	by smtp.orange.fr with ESMTPA
+	id BJIsqZyYl2I9nBJIsq55fS; Mon, 19 Jun 2023 20:08:40 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1687198120;
+	bh=Wx1ETBPrfZZVrxxt24FvjkAxC9Gt56NgyV700P1vzmk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=aJvD697bFSvOXhI7gVn7ySiizq9VhYJ8/bcvjQhj6M/j47SVwIfZsOvhrUiSZncHc
+	 lMPrrmczuoCUo4jKMIhrcB2MONWjI6lncvMK3TvohySRKeK9arszdNON0uH8fYIP0l
+	 zbbvXwCLosHjwETZzsiqUhz0LvW9iMFna6X/KluIUVFr5qHJoRr3UWVn0TXcpK6emU
+	 Wt3HMSaEF/1EL6bCU9X+hfMuuPhfbflNkfHUhZNyjBIl9hvd0KxUUZ8vKXQcmiYWaD
+	 fKUo4Y3uCp2AKhqv8dMSrh2cZxRvhbGJNHCPoOAwvMaVYTaDfGdzB9YZBPFHs9L2py
+	 8xIAA9TV9dxwA==
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Mon, 19 Jun 2023 20:08:40 +0200
+X-ME-IP: 86.243.2.178
+Message-ID: <e74dedeb-8fb0-8abf-5b14-1aae8e1462d2@wanadoo.fr>
+Date: Mon, 19 Jun 2023 20:08:38 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] nvmet: Reorder fields in 'struct nvmet_ns'
+Content-Language: fr, en-US
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>, Jens Axboe <axboe@kernel.dk>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
+ "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <aea924d31f2bd2f740b1ccc6f462905bd6cab763.1682624855.git.christophe.jaillet@wanadoo.fr>
+ <ba5df67e-534d-6f79-6277-80c755ca7e94@nvidia.com>
+ <3decbaf1-250b-9b73-70fd-4cb9a204c452@kernel.dk>
+ <00537d0c-159c-a802-6ed8-209109a69660@nvidia.com>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <00537d0c-159c-a802-6ed8-209109a69660@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230619_071041_525174_A897AE5C 
-X-CRM114-Status: GOOD (  12.93  )
+X-CRM114-CacheID: sfid-20230619_110851_703716_7AAF25E5 
+X-CRM114-Status: GOOD (  12.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,39 +81,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-It is possible that the next available path we failover to, happens to
-be frozen (for example if it is during connection establishment). If
-the original I/O was set with NOWAIT, this cause the I/O to unnecessarily
-fail because the request queue cannot be entered, hence the I/O fails with
-EAGAIN.
+Le 28/04/2023 à 01:07, Chaitanya Kulkarni a écrit :
+> On 4/27/23 16:01, Jens Axboe wrote:
+>> On 4/27/23 4:59?PM, Chaitanya Kulkarni wrote:
+>>> On 4/27/23 12:47, Christophe JAILLET wrote:
+>>>> Group some variables based on their sizes to reduce holes.
+>>>> On x86_64, this shrinks the size of 'struct nvmet_ns' from 520 to 512
+>>>> bytes.
+>>>>
+>>> Although this looks good, we at least need to document what
+>>> happens on other arch(s) which are not mentioned in the
+>>> commit log ? is there a possibility that someone might come
+>>> up with the contradictory data in future for the arch(s) which
+>>> arch that are not mentioned here ?
+>> The change is certainly not going to make things _worse_ for any arch,
+>> so I think that's somewhat of a pointless exercise and an unreasonable
+>> ask for something that makes sense on 64-bit arm/x86 and saves half the
+>> space.
+>>
+> 
+> disregard my comment, looks good...
+> 
+> Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+> 
+> -ck
+> 
+> 
 
-The NOWAIT restriction that was originally set for the I/O is no longer
-relevant or needed because this is the nvme requeue context. Hence we
-clear the REQ_NOWAIT flag when failing over I/O.
+Hi,
 
-This fix a simple test case of nvme controller reset during I/O when the
-multipath device that has only a single path and I/O fails with "Resource
-temporarily unavailable" errno. Note that this reproduces with io_uring
-which by default sets IOCB_NOWAIT by default.
 
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
----
- drivers/nvme/host/multipath.c | 1 +
- 1 file changed, 1 insertion(+)
+All my other nvmet patches have reached -next today, but this one seems 
+to be missing.
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 2bc159a318ff..6425e6ec3932 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -102,6 +102,7 @@ void nvme_failover_req(struct request *req)
- 	spin_lock_irqsave(&ns->head->requeue_lock, flags);
- 	for (bio = req->bio; bio; bio = bio->bi_next) {
- 		bio_set_dev(bio, ns->head->disk->part0);
-+		bio->bi_opf &= ~REQ_NOWAIT;
- 		if (bio->bi_opf & REQ_POLLED) {
- 			bio->bi_opf &= ~REQ_POLLED;
- 			bio->bi_cookie = BLK_QC_T_NONE;
--- 
-2.40.1
+So this is a gentle reminder, in case it got lost somewhere.
 
+CJ
 
