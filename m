@@ -4,65 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37919EB64D7
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Jun 2023 17:12:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BC613EB64D8
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Jun 2023 17:37:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:References:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ckPTi9x4BcZ72b51PKbAVCYPDmDkR4aQ7nI20QxxriU=; b=qxhpXcR6hN+ApGyA69CF35FBcm
-	E9k3L15Y0QqhPT02T71hbO0muzBNxucD2Z86nWYTQuOFZUrG05pAx/+Qzuof/v584aFo604BpxHo6
-	Yr3bbisVGtUzXhPf9cJpBEKdxTDteAUmrqedldJXWgSiv0fDOGMzoJCLBxpo5fB3eHtFvotMrVVQy
-	0oUGv500OttnGhcdDl+XxNcksq7O4Bz/SnLZ7wRlMAD/oWNzvrm0BxzSKp0qmccv5ZaJcTIl2Xf34
-	B1citvBhsCLWhsaT0PBXBy8M/QB9onlTaxr6Ql2ldEpGvl+yR1vMKXqKW4m6k7spXPrhIz207L9d7
-	H5G/y2lA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=gQMScDX/cvgFRjCGIqLHXDTtERLukXLjwnsLxfJ35pI=; b=PUCWfff5UWKplymCM3huu7OlHO
+	DT55+z/2vIrS7htWXA6367ryKD+mF+JygJk1Sz2xg2ik+cyxkOTbb5vMELIsGd5KP26UjqeVD/KlX
+	Sb4rBJ0WzzRScXKfU90blHwFT6kx8ZvSMKg1vsXnfGx6E2ak4xaSOV4iatdFyCEL/9Z2eEBPL2I8g
+	4Rjww4ru2Ydasm+2ExPRXh3qvB+ks3xf71DfZyGl05Wp6ELpyoNXhkdN24YcJbNRjBW6wZIwmbBHC
+	WLF/ExrY5BUrQmpCvZGa/wuSSeK6N4kEgCh6KrtrYVvkX3HG9G7baRQEpLzCsxxIvbO9SnMQ4oM8Q
+	1gf0aC3w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qBeuQ-00BtwI-0Q;
-	Tue, 20 Jun 2023 17:12:50 +0000
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44])
+	id 1qBfIb-00BxHT-0v;
+	Tue, 20 Jun 2023 17:37:49 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qBeuM-00Btuw-0L
+	id 1qBfIY-00BxGO-2e
 	for linux-nvme@lists.infradead.org;
-	Tue, 20 Jun 2023 17:12:47 +0000
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-178-Izxe4cpJMDmCWSuzrGaxAg-1; Tue, 20 Jun 2023 13:12:35 -0400
-X-MC-Unique: Izxe4cpJMDmCWSuzrGaxAg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	Tue, 20 Jun 2023 17:37:48 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 83DC190A904;
-	Tue, 20 Jun 2023 17:12:34 +0000 (UTC)
-Received: from hog (unknown [10.39.195.41])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3E3B714682F7;
-	Tue, 20 Jun 2023 17:12:33 +0000 (UTC)
-Date: Tue, 20 Jun 2023 19:12:31 +0200
-From: Sabrina Dubroca <sd@queasysnail.net>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH 2/4] net/tls: handle MSG_EOR for tls_device TX flow
-Message-ID: <ZJHd_2g-3-e8TNQU@hog>
-References: <20230620102856.56074-1-hare@suse.de>
- <20230620102856.56074-3-hare@suse.de>
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8D9611F390;
+	Tue, 20 Jun 2023 17:37:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1687282664; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gQMScDX/cvgFRjCGIqLHXDTtERLukXLjwnsLxfJ35pI=;
+	b=rXYzckEAd/l0kJ6YfTeJZg+wCkmRdBLJw+hsF38Y+EoKp8QkwqmTXIGeD2ViXZfzTOTdEq
+	8hTq2EbCpTiZB/mzgnd6hDcKITLPZ5Kifz6/BaILvMXYTFa+bIEBIw2Bb3e7fMXYWm7Cg7
+	OvNH7suvloGx3Cywr5diI5eRlzlwlJY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1687282664;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gQMScDX/cvgFRjCGIqLHXDTtERLukXLjwnsLxfJ35pI=;
+	b=ns9MlZGHKJUhM/aNne/k5Ws/X7/tyzNRTdXuOac/x2eUDnoTTbJ0BAEtPmUfqYluuO+4dx
+	8imqchkZwihWjsAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6C5E21346D;
+	Tue, 20 Jun 2023 17:37:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id TYX+GejjkWSAMAAAMHmgww
+	(envelope-from <dwagner@suse.de>); Tue, 20 Jun 2023 17:37:44 +0000
+Date: Tue, 20 Jun 2023 19:37:43 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-block@vger.kernel.org, Chaitanya Kulkarni <kch@nvidia.com>, 
+	Shin'ichiro Kawasaki <shinichiro@fastmail.com>, Hannes Reinecke <hare@suse.de>, 
+	James Smart <jsmart2021@gmail.com>, Martin Belanger <Martin.Belanger@dell.com>
+Subject: Re: [PATCH blktests v1 1/3] nvme/048: Check for queue count check
+ directly
+Message-ID: <f6rvvhgim4nk34onfgbwyfctgvgdbdigwbsugjvizgtli46p57@s7c4gkqrpjqy>
+References: <20230620132703.20648-1-dwagner@suse.de>
+ <20230620132703.20648-2-dwagner@suse.de>
+ <380cde65-8794-cfbc-237f-30a8d7e9330c@grimberg.me>
 MIME-Version: 1.0
-In-Reply-To: <20230620102856.56074-3-hare@suse.de>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: queasysnail.net
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <380cde65-8794-cfbc-237f-30a8d7e9330c@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230620_101246_304094_4A85FF8C 
-X-CRM114-Status: GOOD (  18.17  )
+X-CRM114-CacheID: sfid-20230620_103747_006304_C69F95D1 
+X-CRM114-Status: GOOD (  12.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,57 +93,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-2023-06-20, 12:28:54 +0200, Hannes Reinecke wrote:
-> tls_push_data() MSG_MORE / MSG_SENDPAGE_NOTLAST, but bails
-> out on MSG_EOR.
-> But seeing that MSG_EOR is basically the opposite of
-> MSG_MORE / MSG_SENDPAGE_NOTLAST this patch adds handling
-> MSG_EOR by treating it as the absence of MSG_MORE.
-> Consequently we should return an error when both are set.
->=20
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: netdev@vger.kernel.org
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> ---
->  net/tls/tls_device.c | 25 ++++++++++++++++++++-----
->  1 file changed, 20 insertions(+), 5 deletions(-)
->=20
-> diff --git a/net/tls/tls_device.c b/net/tls/tls_device.c
-> index b82770f68807..ebefd148ecf5 100644
-> --- a/net/tls/tls_device.c
-> +++ b/net/tls/tls_device.c
-> @@ -440,11 +440,6 @@ static int tls_push_data(struct sock *sk,
->  =09int copy, rc =3D 0;
->  =09long timeo;
-> =20
-> -=09if (flags &
-> -=09    ~(MSG_MORE | MSG_DONTWAIT | MSG_NOSIGNAL | MSG_SENDPAGE_NOTLAST |
-> -=09      MSG_SPLICE_PAGES))
-> -=09=09return -EOPNOTSUPP;
-> -
->  =09if (unlikely(sk->sk_err))
->  =09=09return -sk->sk_err;
-> =20
-> @@ -536,6 +531,10 @@ static int tls_push_data(struct sock *sk,
->  =09=09=09=09more =3D true;
->  =09=09=09=09break;
->  =09=09=09}
-> +=09=09=09if (flags & MSG_EOR) {
-> +=09=09=09=09more =3D false;
-> +=09=09=09=09break;
+On Tue, Jun 20, 2023 at 04:49:45PM +0300, Sagi Grimberg wrote:
+> > +nvmf_wait_for_queue_count() {
+> > +	local subsys_name="$1"
+> > +	local queue_count="$2"
+> > +	local nvmedev
+> > +
+> > +	nvmedev=$(_find_nvme_dev "${subsys_name}")
+> > +
+> > +	queue_count_file="/sys/class/nvme-fabrics/ctl/${nvmedev}/queue_count"
+> > +
+> > +	nvmf_wait_for_state "${subsys_name}" "live" || return 1
+> > +
+> > +	queue_count=$((queue_count + 1))
+> > +	if grep -q "${queue_count}" "${queue_count_file}"; then
+> > +		return 0
+> > +	fi
+> > +
+> > +	echo "expected queue count ${queue_count} not set"
+> > +	return 1
+> > +}
+> > +
+> >   set_nvmet_attr_qid_max() {
+> >   	local nvmet_subsystem="$1"
+> >   	local qid_max="$2"
+> > @@ -56,10 +76,7 @@ set_qid_max() {
+> >   	local qid_max="$3"
+> >   	set_nvmet_attr_qid_max "${subsys_name}" "${qid_max}"
+> > -
+> > -	# Setting qid_max forces a disconnect and the reconntect attempt starts
+> > -	nvmf_wait_for_state "${subsys_name}" "connecting" || return 1
+> > -	nvmf_wait_for_state "${subsys_name}" "live" || return 1
+> > +	nvmf_wait_for_queue_count "${subsys_name}" "${qid_max}" || return 1
+> 
+> Why not simply wait for live? The connecting is obviously racy...
 
-Why the break here? We don't want to close and push the record in that
-case? (the "if (done || ...)" block just below)
-
-
-> +=09=09=09}
-> =20
->  =09=09=09done =3D true;
->  =09=09}
-
-Thanks,
-
---=20
-Sabrina
-
+That is what the new version is doing. It's waiting for the live state and then
+checks the queue count.
 
