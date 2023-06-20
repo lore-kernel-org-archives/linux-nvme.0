@@ -4,59 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DEAACEB64D8
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Jun 2023 13:49:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 981D6EB64D7
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Jun 2023 14:08:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hlxEnYUT/GBNJ3ibxmMMF9Ie5mQ6Tr4qzFp00sesHFs=; b=vTseMNl3Z5PXs//2zQLL9d9f/U
-	MTd2X30RjBpBGwlN464YSqsP9QFerbrinFKTFMZR4vq8ersIzeu90sugVYulSrMcW1UivKx4/39JI
-	F9E6bH3myHUYfTNnGHR30UlTE5O7+mTM/pKMmJy2Ag23LUg0Osz9T4T7jbTOyNuHbuxMll29L98DP
-	J0bWPzcRwEhXNbOwdmY83tkavQOcw8DnGRKaXpAaDhi+vQ7MutQR8USuITBEGPqPsVY7VXDZQrpGB
-	KO24z6g3djWv6oQ5GDuhUT2hJfAthhC8O3Hj+Vk91FUnjJGOaWQBBY6O24Lo7oLHEE86PxkOb7SQP
-	yJ3XgifQ==;
+	bh=HHDvUdN+oRU2iMEgn1t7pRaNmxE6JGuZWiNo/5GWyY4=; b=kdOFGjFscBjY7N+9OSTXmd1Lm8
+	wGnMrqmrHphEJCetD/m3BymYAev4OppsmLLXR8mBY5uY/j7+jxgbsNKMfga2vRwfRsdmgVzHMyLHy
+	+nTCjEQWH17TNJOy+BaWoOnEXu+ScO4HovysFvzj5OOhB6+FLxf6F/A0bOo7glaLSSPbMoTpItDQS
+	9IijCzABBupzYNVyA1oa7a9O5ozJinQYvNJHVqmZzFnsvl/7sbLC6xdiki6xMNu0+WXszaLHuQkLB
+	JUE9k2X1Xvknc2tYpvWcHnoRZuPCa7+Z1Qy/3ID8FP9lBe7tdjNPg88fJLUWzvopTNdiqgETtH7cC
+	nOOTkYiQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qBbk1-00BSOv-01;
-	Tue, 20 Jun 2023 13:49:53 +0000
-Received: from mail-wr1-f43.google.com ([209.85.221.43])
+	id 1qBc1T-00BUkP-1I;
+	Tue, 20 Jun 2023 14:07:55 +0000
+Received: from mail-wm1-f44.google.com ([209.85.128.44])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qBbjz-00BSO8-0A
+	id 1qBc1P-00BUjT-2j
 	for linux-nvme@lists.infradead.org;
-	Tue, 20 Jun 2023 13:49:52 +0000
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3110e74bf3cso1034158f8f.1
-        for <linux-nvme@lists.infradead.org>; Tue, 20 Jun 2023 06:49:50 -0700 (PDT)
+	Tue, 20 Jun 2023 14:07:53 +0000
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-3f99aa36d18so6278355e9.1
+        for <linux-nvme@lists.infradead.org>; Tue, 20 Jun 2023 07:07:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687268989; x=1689860989;
+        d=1e100.net; s=20221208; t=1687270066; x=1689862066;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hlxEnYUT/GBNJ3ibxmMMF9Ie5mQ6Tr4qzFp00sesHFs=;
-        b=aGauMy7TYefAjhvfZ1uReMDqaqsVVLA5Wodbl1u4nBexGQa7I89cgFi9r03S9nYzDC
-         UJBZv5YeLsmYF738lLz3zAwfc8p0od13qUnKKsQd7w8j0FLb7G0+8AcgoiuFLr8P6mO3
-         7mMx6Rw1HRUzPK3+pPdRx2t9RxIo5YroROFM/S5iS5cf0QBjIuSzsq/ufXziZff66b/m
-         7Nq1u/PPMPBZ8AJJziyQem8XwO+2/CXKtiqKL1QPAf/E0yYuwcSck08+Ujr/UnRWWbjn
-         XdJXjBqndnNRhpfLbLkfuasxEUG7YUYhc9InpNLBAKqmv0VLPJ0QpetvmofYszInMzU/
-         lT1g==
-X-Gm-Message-State: AC+VfDwGxi1gkNu2M0700PiWZlThOPihUmhxGHMIRUngzR13q659YRTF
-	gC5DY/Lt2LyhRe1cR3fU+NQ=
-X-Google-Smtp-Source: ACHHUZ7dfSygVmSYoeR8bcP0LWtDsP3kSnE1m9tFQ7YhYMY1daxOcmdm5XHD3k6L8NIykPxUMXsgdg==
-X-Received: by 2002:a5d:66d0:0:b0:311:166b:b3b0 with SMTP id k16-20020a5d66d0000000b00311166bb3b0mr8870155wrw.7.1687268988999;
-        Tue, 20 Jun 2023 06:49:48 -0700 (PDT)
+        bh=HHDvUdN+oRU2iMEgn1t7pRaNmxE6JGuZWiNo/5GWyY4=;
+        b=GYP0tQnNnOQcBDuX2qkSnR5egYR77ucL59PJQiZP7y8asMrJBX5cuRXZGH/3wYoGOr
+         dobWPRRwwKIzlm9h89YYkdMFZ/kUA8F5/JVOyqScxDlx3C6zryC78Knfsm1czeZTNWv/
+         YfGwbkZCaq1S4UoP4Mxtmay9NBoDdpdK5rXbVKa894MQ9hWH/JCm2vyhfXkR2ZcW55/b
+         OGGjorGAmaaLnVB9CzFcpJIZTPf3Uj3mtKytQJl04CpImXg7vsLEaScpbu6iVL3hKB5E
+         Alx9J+NMyB/Dje9fyMGzFVX8+4PiC89ds3ue51YYYu2o0My1c3KD3jbiR4gaDwLmACTg
+         J5zw==
+X-Gm-Message-State: AC+VfDw1IwcHQnXCnU3xsa7WPBUiL/nBievyYgLm5sWvucFCJSC1wzVL
+	2jZaq26wYWUIDjbixgFJBL0=
+X-Google-Smtp-Source: ACHHUZ6piCilQNu/uvBXQjuiMjhYHBZ+tN2L+h9TcYR7FRPajQG6f85LOzKioBcz99YGAe6CKWcu1A==
+X-Received: by 2002:a05:600c:6349:b0:3f9:b3f9:fac4 with SMTP id du9-20020a05600c634900b003f9b3f9fac4mr3677814wmb.1.1687270066361;
+        Tue, 20 Jun 2023 07:07:46 -0700 (PDT)
 Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id m13-20020adff38d000000b003113ed02080sm2044736wro.95.2023.06.20.06.49.46
+        by smtp.gmail.com with ESMTPSA id n6-20020a7bcbc6000000b003f7e4d143cfsm2453909wmi.15.2023.06.20.07.07.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Jun 2023 06:49:48 -0700 (PDT)
-Message-ID: <380cde65-8794-cfbc-237f-30a8d7e9330c@grimberg.me>
-Date: Tue, 20 Jun 2023 16:49:45 +0300
+        Tue, 20 Jun 2023 07:07:45 -0700 (PDT)
+Message-ID: <af640019-b867-d488-0443-797a75ba4195@grimberg.me>
+Date: Tue, 20 Jun 2023 17:07:43 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH blktests v1 1/3] nvme/048: Check for queue count check
- directly
+Subject: Re: [PATCH blktests v1 2/3] nvme/rc: Avoid triggering host nvme-cli
+ autoconnect
 Content-Language: en-US
 To: Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
@@ -65,14 +65,14 @@ Cc: linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
  Hannes Reinecke <hare@suse.de>, James Smart <jsmart2021@gmail.com>,
  Martin Belanger <Martin.Belanger@dell.com>
 References: <20230620132703.20648-1-dwagner@suse.de>
- <20230620132703.20648-2-dwagner@suse.de>
+ <20230620132703.20648-3-dwagner@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230620132703.20648-2-dwagner@suse.de>
+In-Reply-To: <20230620132703.20648-3-dwagner@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230620_064951_085416_DC9C94A4 
-X-CRM114-Status: GOOD (  20.21  )
+X-CRM114-CacheID: sfid-20230620_070751_889953_EA7EFF17 
+X-CRM114-Status: GOOD (  20.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,92 +88,147 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-> The test monitored the state changes live -> resetting -> connecting ->
-> live, to figure out the queue count change was successful.
+> When the host has enabled the udev/systemd autoconnect services for the
+> fc transport it interacts with blktests and make tests break.
 > 
-> The fc transport is reconnecting very fast and the state transitions
-> are not observed by the current approach.
-> 
-> So instead trying to monitor the state changes, let's just wait for the
-> live state and the correct queue number.
-> 
-> As queue count is depending on the number of online CPUs we explicitly
-> use 1 and 2 for the max_queue count. This means the queue_count value
-> needs to reach either 2 or 3 (admin queue included).
+> nvme-cli learned to ignore connects attemps when using the
+> --context command line option paired with a volatile configuration. Thus
+> we can mark all the resources created by blktests and avoid any
+> interaction with the systemd autoconnect scripts.
+
+Hmm... is this hapenning with non-fc as well?
+
 > 
 > Signed-off-by: Daniel Wagner <dwagner@suse.de>
 > ---
->   tests/nvme/048 | 35 ++++++++++++++++++++++++-----------
->   1 file changed, 24 insertions(+), 11 deletions(-)
+>   tests/nvme/rc | 73 ++++++++++++++++++++++++++++++++++++++++++++-------
+>   1 file changed, 63 insertions(+), 10 deletions(-)
 > 
-> diff --git a/tests/nvme/048 b/tests/nvme/048
-> index 81084f0440c2..3dc5169132de 100755
-> --- a/tests/nvme/048
-> +++ b/tests/nvme/048
-> @@ -42,6 +42,26 @@ nvmf_wait_for_state() {
->   	return 0
+> diff --git a/tests/nvme/rc b/tests/nvme/rc
+> index 191f3e2e0c43..00117d314a38 100644
+> --- a/tests/nvme/rc
+> +++ b/tests/nvme/rc
+> @@ -14,8 +14,8 @@ def_remote_wwnn="0x10001100aa000001"
+>   def_remote_wwpn="0x20001100aa000001"
+>   def_local_wwnn="0x10001100aa000002"
+>   def_local_wwpn="0x20001100aa000002"
+> -def_hostnqn="$(cat /etc/nvme/hostnqn 2> /dev/null)"
+> -def_hostid="$(cat /etc/nvme/hostid 2> /dev/null)"
+> +def_hostnqn="nqn.2014-08.org.nvmexpress:uuid:242d4a24-2484-4a80-8234-d0169409c5e8"
+> +def_hostid="242d4a24-2484-4a80-8234-d0169409c5e8"
+>   nvme_trtype=${nvme_trtype:-"loop"}
+>   nvme_img_size=${nvme_img_size:-"1G"}
+>   nvme_num_iter=${nvme_num_iter:-"1000"}
+> @@ -161,6 +161,50 @@ _nvme_calc_rand_io_size() {
+>   	echo "${io_size_kb}k"
 >   }
 >   
-> +nvmf_wait_for_queue_count() {
-> +	local subsys_name="$1"
-> +	local queue_count="$2"
-> +	local nvmedev
+> +_nvme_cli_supports_context() {
+> +	if ! nvme connect --help 2>&1 | grep -q context > /dev/null; then
+> +		    return 1
+> +	fi
+> +	return 0
+> +}
+
+Not a great way to check support.
+
 > +
-> +	nvmedev=$(_find_nvme_dev "${subsys_name}")
-> +
-> +	queue_count_file="/sys/class/nvme-fabrics/ctl/${nvmedev}/queue_count"
-> +
-> +	nvmf_wait_for_state "${subsys_name}" "live" || return 1
-> +
-> +	queue_count=$((queue_count + 1))
-> +	if grep -q "${queue_count}" "${queue_count_file}"; then
-> +		return 0
+> +_setup_nvme_cli() {
+> +	if ! _nvme_cli_supports_context; then
+> +		return
 > +	fi
 > +
-> +	echo "expected queue count ${queue_count} not set"
-> +	return 1
+> +	mkdir -p /run/nvme
+> +	cat >> /run/nvme/blktests.json <<-EOF
+> +	[
+> +	  {
+> +	    "hostnqn": "${def_hostnqn}",
+> +	    "hostid": "${def_hostid}",
+> +	    "subsystems": [
+> +	      {
+> +	        "application": "blktests",
+> +	        "nqn": "blktests-subsystem-1",
+> +	        "ports": [
+> +	          {
+> +	            "transport": "fc",
+> +	            "traddr": "nn-${def_remote_wwnn}:pn-${def_remote_wwpn}",
+> +	            "host_traddr": "nn-${def_local_wwnn}:pn-${def_local_wwpn}"
+> +	          }
+> +	        ]
+> +	      }
+> +	    ]
+> +	  }
+> +	]
+> +	EOF
 > +}
 > +
->   set_nvmet_attr_qid_max() {
->   	local nvmet_subsystem="$1"
->   	local qid_max="$2"
-> @@ -56,10 +76,7 @@ set_qid_max() {
->   	local qid_max="$3"
->   
->   	set_nvmet_attr_qid_max "${subsys_name}" "${qid_max}"
-> -
-> -	# Setting qid_max forces a disconnect and the reconntect attempt starts
-> -	nvmf_wait_for_state "${subsys_name}" "connecting" || return 1
-> -	nvmf_wait_for_state "${subsys_name}" "live" || return 1
-> +	nvmf_wait_for_queue_count "${subsys_name}" "${qid_max}" || return 1
-
-Why not simply wait for live? The connecting is obviously racy...
-
->   
->   	return 0
+> +_cleanup_nvme_cli() {
+> +	if ! _nvme_cli_supports_context; then
+> +		return
+> +	fi
+> +
+> +	rm -f /run/nvme/blktests.json
+> +}
+> +
+>   _nvme_fcloop_add_rport() {
+>   	local local_wwnn="$1"
+>   	local local_wwpn="$2"
+> @@ -235,6 +279,8 @@ _cleanup_fcloop() {
+>   	_nvme_fcloop_del_lport "${local_wwnn}" "${local_wwpn}"
+>   	_nvme_fcloop_del_rport "${local_wwnn}" "${local_wwpn}" \
+>   			       "${remote_wwnn}" "${remote_wwpn}"
+> +
+> +	_cleanup_nvme_cli
 >   }
-> @@ -77,12 +94,8 @@ test() {
 >   
->   	_setup_nvmet
+>   _cleanup_nvmet() {
+> @@ -337,6 +383,8 @@ _setup_nvmet() {
+>   		def_host_traddr=$(printf "nn-%s:pn-%s" \
+>   					 "${def_local_wwnn}" \
+>   					 "${def_local_wwpn}")
+> +
+> +		_setup_nvme_cli
+>   	fi
+>   }
 >   
-> -	hostid="$(uuidgen)"
-> -	if [ -z "$hostid" ] ; then
-> -		echo "uuidgen failed"
-> -		return 1
+> @@ -436,18 +484,18 @@ _nvme_connect_subsys() {
+>   	trtype="$1"
+>   	subsysnqn="$2"
+>   
+> -	ARGS=(-t "${trtype}" -n "${subsysnqn}")
+> +	ARGS=(-t "${trtype}"
+> +	      -n "${subsysnqn}"
+> +	      --hostnqn="${hostnqn}"
+> +	      --hostid="${hostid}")
+> +	if _nvme_cli_supports_context; then
+> +		ARGS+=(--context="blktests")
+> +	fi
+>   	if [[ "${trtype}" == "fc" ]] ; then
+>   		ARGS+=(-a "${traddr}" -w "${host_traddr}")
+>   	elif [[ "${trtype}" != "loop" ]]; then
+>   		ARGS+=(-a "${traddr}" -s "${trsvcid}")
+>   	fi
+> -	if [[ "${hostnqn}" != "$def_hostnqn" ]]; then
+> -		ARGS+=(--hostnqn="${hostnqn}")
 > -	fi
-> -	hostnqn="nqn.2014-08.org.nvmexpress:uuid:${hostid}"
-> +	hostid="${def_hostid}"
-> +	hostnqn="${def_hostnqn}"
+> -	if [[ "${hostid}" != "$def_hostid" ]]; then
+> -		ARGS+=(--hostid="${hostid}")
+> -	fi
+>   	if [[ -n "${hostkey}" ]]; then
+>   		ARGS+=(--dhchap-secret="${hostkey}")
+>   	fi
+> @@ -482,7 +530,12 @@ _nvme_discover() {
+>   	local host_traddr="${3:-$def_host_traddr}"
+>   	local trsvcid="${3:-$def_trsvcid}"
 >   
->   	truncate -s "${nvme_img_size}" "${file_path}"
->   
-> @@ -103,7 +116,7 @@ test() {
->   			echo FAIL
->   		else
->   			set_qid_max "${port}" "${subsys_name}" 1 || echo FAIL
-> -			set_qid_max "${port}" "${subsys_name}" 128 || echo FAIL
-> +			set_qid_max "${port}" "${subsys_name}" 2 || echo FAIL
->   		fi
->   
->   		_nvme_disconnect_subsys "${subsys_name}"
+> -	ARGS=(-t "${trtype}")
+> +	ARGS=(-t "${trtype}"
+> +	      --hostnqn="${def_hostnqn}"
+> +	      --hostid="${def_hostid}")
+> +	if _nvme_cli_supports_context; then
+> +		ARGS+=(--context="blktests")
+> +	fi
+>   	if [[ "${trtype}" = "fc" ]]; then
+>   		ARGS+=(-a "${traddr}" -w "${host_traddr}")
+>   	elif [[ "${trtype}" != "loop" ]]; then
 
