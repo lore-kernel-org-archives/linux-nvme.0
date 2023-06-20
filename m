@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5A03EB64DA
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Jun 2023 01:34:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6FB97EB64DA
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Jun 2023 01:34:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4PYtlICsVrzWVWjpQCthAqGPDOKppaljQKPmtAELYlk=; b=SYuWKtvaApiw6kq4IMISW+ruXm
-	WS+vwsS8DndjzIBI48Gq5UFy9oG/xb9YiufP7kUj+cvXlqRSTvBqcW9eGqT6FQe/zI1LHeDv4k2hv
-	s/qmnrmX3Jp9WD3pINrmvJ+5gX6pgAvlbolrnLPEJ2kuihIKHIU36CeGsxKUDt3G1TACNldR0HBDg
-	nAVuhTYw7kNFCbpNpQdCCl5hRd54ZxttW0j4XBP7glNuwneUn59cFuVQjSaNjiCCA0rHUfVX2qjNY
-	k0NfrzfYMrdp5bFIunEZE5x30fjpg2G3hE51HfzN3wr5RWU7qWHHKUBlr3J9fF6XbEomxcgrXS1DH
-	ay4OGDHA==;
+	bh=uDCU23Tg71ixu26B1Q5DI34+DtwzuYkE4QTPUCZ8gbM=; b=If5Jx2J5IFN55Ex/F/GRlJAi/Q
+	HXSLh0Ipm3rlcOhcwTmkusevyA/MZLidSCiMJq3xqJyXw1RQjpIKAB1JcLFi4o2lR6mEH6o+boli2
+	wEWFHRMpRNQWxrcbNJy7HqCxy5gwUVhtEXGAbqqCKr9omA5K9fTxco/mX1k1+PnESm3r6inbLJAir
+	03VVrKXOpw0JdWiejQ7FMc6nYDpu5RTXCdD+1JBHkBSmbL28qvmHrJBymi7UHRnGZ/Ihcvh25oyE5
+	wh2JffE06MUfsBMUL3kT7mEcoAJJQCw3uhHYxvCiCJlFO3NegCoN7FcCJzLhBC/SiLpoR45B0AFbP
+	oL+Zaccw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qBQG5-009tBd-0C;
-	Tue, 20 Jun 2023 01:34:13 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1qBQGQ-009tFG-12;
+	Tue, 20 Jun 2023 01:34:34 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qBQG0-009tAN-0U
+	id 1qBQGN-009tDt-1F
 	for linux-nvme@lists.infradead.org;
-	Tue, 20 Jun 2023 01:34:09 +0000
+	Tue, 20 Jun 2023 01:34:32 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1687224847;
+	s=mimecast20190719; t=1687224870;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4PYtlICsVrzWVWjpQCthAqGPDOKppaljQKPmtAELYlk=;
-	b=MJHnCpBBB/6LCKMIlg9NKcMqFUFJ4j8KuP6dx3QGkH7sMNNi9tUWKSpEo1GhwDYxcXzehY
-	znFHA+PhDDzmwFHm2zIpk76g1k85Ut05azeCtO28AHXcrAfLmliGruZctj0jOcLvq9kOwJ
-	8ypdNKpHYuGY5o+CPsgIDf59bDKvCCM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=uDCU23Tg71ixu26B1Q5DI34+DtwzuYkE4QTPUCZ8gbM=;
+	b=D/o/5Wuifs9P1hbaocsYZplQzLeQzYkIqdPMEN9dSu8j2sJXeLakrDpH55uwDAIUS6WYu9
+	61rmLWGueLLTutWG0AjjH6gvn8Ni5Thj7pxwqpb8hKaY0a5PlmEKDJZjEXHpcTgHSfneUE
+	ND7m5zZcmzBvh/fvKhdsHOOltvwLWsg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-306-CBByPoeZMSeRTm0lcylh7w-1; Mon, 19 Jun 2023 21:34:03 -0400
-X-MC-Unique: CBByPoeZMSeRTm0lcylh7w-1
+ us-mta-297-sPBOnxV0Mv6z7FTqZz490Q-1; Mon, 19 Jun 2023 21:34:26 -0400
+X-MC-Unique: sPBOnxV0Mv6z7FTqZz490Q-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6ADC48002BF;
-	Tue, 20 Jun 2023 01:34:03 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 156CC1C08DB8;
+	Tue, 20 Jun 2023 01:34:26 +0000 (UTC)
 Received: from localhost (ovpn-8-18.pek2.redhat.com [10.72.8.18])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id D581F112132C;
-	Tue, 20 Jun 2023 01:34:00 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 7A402112132C;
+	Tue, 20 Jun 2023 01:34:06 +0000 (UTC)
 From: Ming Lei <ming.lei@redhat.com>
 To: Jens Axboe <axboe@kernel.dk>,
 	Christoph Hellwig <hch@lst.de>,
@@ -60,17 +60,17 @@ Cc: Yi Zhang <yi.zhang@redhat.com>,
 	linux-block@vger.kernel.org,
 	Chunguang Xu <brookxu.cn@gmail.com>,
 	Ming Lei <ming.lei@redhat.com>
-Subject: [PATCH V2 1/4] blk-mq: add API of blk_mq_unfreeze_queue_force
-Date: Tue, 20 Jun 2023 09:33:46 +0800
-Message-Id: <20230620013349.906601-2-ming.lei@redhat.com>
+Subject: [PATCH V2 2/4] nvme: add nvme_unfreeze_force()
+Date: Tue, 20 Jun 2023 09:33:47 +0800
+Message-Id: <20230620013349.906601-3-ming.lei@redhat.com>
 In-Reply-To: <20230620013349.906601-1-ming.lei@redhat.com>
 References: <20230620013349.906601-1-ming.lei@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230619_183408_278569_8C76F0D5 
-X-CRM114-Status: GOOD (  20.98  )
+X-CRM114-CacheID: sfid-20230619_183431_499041_CCC24834 
+X-CRM114-Status: GOOD (  14.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,117 +85,67 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-NVMe calls freeze/unfreeze in different contexts, and controller removal
-may break in-progress error recovery, then leave queues in frozen state.
-So cause IO hang in del_gendisk() because pending writeback IOs are
-still waited in bio_queue_enter().
-
-Prepare for fixing this issue by calling the added
-blk_mq_unfreeze_queue_force when removing device.
+Add nvme_unfreeze_force() for fixing IO hang during removing namespaces
+from error recovery.
 
 Signed-off-by: Ming Lei <ming.lei@redhat.com>
 ---
- block/blk-mq.c         | 28 +++++++++++++++++++++++++---
- block/blk.h            |  3 ++-
- block/genhd.c          |  2 +-
- include/linux/blk-mq.h |  1 +
- 4 files changed, 29 insertions(+), 5 deletions(-)
+ drivers/nvme/host/core.c | 21 ++++++++++++++++++---
+ drivers/nvme/host/nvme.h |  1 +
+ 2 files changed, 19 insertions(+), 3 deletions(-)
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 16c524e37123..4c02c28b4835 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -185,26 +185,48 @@ void blk_mq_freeze_queue(struct request_queue *q)
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 76e8f8b4098e..6b3f12368196 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4579,17 +4579,32 @@ void nvme_mark_namespaces_dead(struct nvme_ctrl *ctrl)
  }
- EXPORT_SYMBOL_GPL(blk_mq_freeze_queue);
+ EXPORT_SYMBOL_GPL(nvme_mark_namespaces_dead);
  
--void __blk_mq_unfreeze_queue(struct request_queue *q, bool force_atomic)
-+void __blk_mq_unfreeze_queue(struct request_queue *q, bool force_atomic,
-+		bool force)
+-void nvme_unfreeze(struct nvme_ctrl *ctrl)
++static void __nvme_unfreeze(struct nvme_ctrl *ctrl, bool force)
  {
- 	mutex_lock(&q->mq_freeze_lock);
- 	if (force_atomic)
- 		q->q_usage_counter.data->force_atomic = true;
--	q->mq_freeze_depth--;
-+	if (force) {
-+		if (!q->mq_freeze_depth)
-+			goto unlock;
-+		q->mq_freeze_depth = 0;
-+	} else
-+		q->mq_freeze_depth--;
- 	WARN_ON_ONCE(q->mq_freeze_depth < 0);
- 	if (!q->mq_freeze_depth) {
- 		percpu_ref_resurrect(&q->q_usage_counter);
- 		wake_up_all(&q->mq_freeze_wq);
- 	}
-+unlock:
- 	mutex_unlock(&q->mq_freeze_lock);
- }
+ 	struct nvme_ns *ns;
  
- void blk_mq_unfreeze_queue(struct request_queue *q)
- {
--	__blk_mq_unfreeze_queue(q, false);
-+	__blk_mq_unfreeze_queue(q, false, false);
+ 	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list)
+-		blk_mq_unfreeze_queue(ns->queue);
++	list_for_each_entry(ns, &ctrl->namespaces, list) {
++		if (force)
++			blk_mq_unfreeze_queue_force(ns->queue);
++		else
++			blk_mq_unfreeze_queue(ns->queue);
++	}
+ 	up_read(&ctrl->namespaces_rwsem);
  }
- EXPORT_SYMBOL_GPL(blk_mq_unfreeze_queue);
- 
-+/*
-+ * Force to unfreeze queue
-+ *
-+ * Be careful: this API should only be used for avoiding IO hang in
-+ * bio_queue_enter() when going to remove disk which needs to drain pending
-+ * writeback IO.
-+ *
-+ * Please don't use it for other cases.
-+ */
-+void blk_mq_unfreeze_queue_force(struct request_queue *q)
-+{
-+	__blk_mq_unfreeze_queue(q, false, true);
-+}
-+EXPORT_SYMBOL_GPL(blk_mq_unfreeze_queue_force);
 +
- /*
-  * FIXME: replace the scsi_internal_device_*block_nowait() calls in the
-  * mpt3sas driver such that this function can be removed.
-diff --git a/block/blk.h b/block/blk.h
-index 608c5dcc516b..6ecabd844e13 100644
---- a/block/blk.h
-+++ b/block/blk.h
-@@ -33,7 +33,8 @@ struct blk_flush_queue *blk_alloc_flush_queue(int node, int cmd_size,
- void blk_free_flush_queue(struct blk_flush_queue *q);
++void nvme_unfreeze(struct nvme_ctrl *ctrl)
++{
++	__nvme_unfreeze(ctrl, false);
++}
+ EXPORT_SYMBOL_GPL(nvme_unfreeze);
  
- void blk_freeze_queue(struct request_queue *q);
--void __blk_mq_unfreeze_queue(struct request_queue *q, bool force_atomic);
-+void __blk_mq_unfreeze_queue(struct request_queue *q, bool force_atomic, bool
-+		force);
- void blk_queue_start_drain(struct request_queue *q);
- int __bio_queue_enter(struct request_queue *q, struct bio *bio);
- void submit_bio_noacct_nocheck(struct bio *bio);
-diff --git a/block/genhd.c b/block/genhd.c
-index f71f82991434..184aa968b453 100644
---- a/block/genhd.c
-+++ b/block/genhd.c
-@@ -708,7 +708,7 @@ void del_gendisk(struct gendisk *disk)
- 	 */
- 	if (!test_bit(GD_OWNS_QUEUE, &disk->state)) {
- 		blk_queue_flag_clear(QUEUE_FLAG_INIT_DONE, q);
--		__blk_mq_unfreeze_queue(q, true);
-+		__blk_mq_unfreeze_queue(q, true, false);
- 	} else {
- 		if (queue_is_mq(q))
- 			blk_mq_exit_queue(q);
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index f401067ac03a..fa265e85d753 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -890,6 +890,7 @@ void blk_mq_tagset_busy_iter(struct blk_mq_tag_set *tagset,
- void blk_mq_tagset_wait_completed_request(struct blk_mq_tag_set *tagset);
- void blk_mq_freeze_queue(struct request_queue *q);
- void blk_mq_unfreeze_queue(struct request_queue *q);
-+void blk_mq_unfreeze_queue_force(struct request_queue *q);
- void blk_freeze_queue_start(struct request_queue *q);
- void blk_mq_freeze_queue_wait(struct request_queue *q);
- int blk_mq_freeze_queue_wait_timeout(struct request_queue *q,
++void nvme_unfreeze_force(struct nvme_ctrl *ctrl)
++{
++	__nvme_unfreeze(ctrl, true);
++}
++EXPORT_SYMBOL_GPL(nvme_unfreeze_force);
++
+ int nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl, long timeout)
+ {
+ 	struct nvme_ns *ns;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 78308f15e090..b583bab985c3 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -765,6 +765,7 @@ void nvme_mark_namespaces_dead(struct nvme_ctrl *ctrl);
+ void nvme_sync_queues(struct nvme_ctrl *ctrl);
+ void nvme_sync_io_queues(struct nvme_ctrl *ctrl);
+ void nvme_unfreeze(struct nvme_ctrl *ctrl);
++void nvme_unfreeze_force(struct nvme_ctrl *ctrl);
+ void nvme_wait_freeze(struct nvme_ctrl *ctrl);
+ int nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl, long timeout);
+ void nvme_start_freeze(struct nvme_ctrl *ctrl);
 -- 
 2.40.1
 
