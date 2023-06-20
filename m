@@ -4,84 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47AA4EB64D7
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Jun 2023 13:37:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C4DBEB64D8
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Jun 2023 13:41:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BjqQt4D7bz3ycKlBkDP6byX+9ncqyQX2u0PfjF3kOqU=; b=azrTxY6l/MiF1LeAUbxlCkpFC1
-	rJxHJzcsBasfLx5T79lSXzRYQhvscKTWoIUYiW2MWxRjqLZdELrI+lijJbhGwkAxCtBG6h6ZY+N96
-	Q14paj+aRBRPX7Q7+ZEk+xpKLfPHWyNzDZyN/YBZmXQAlWjA8mLgAkGN4gySRtyEtwlXEf/etbJ3c
-	pIbtoj9Z85RlhNo74i1g0RREs9r73dKs6Z0zwGE0/pmSYW1Lu9nmUz2xI1/WGSUz8qPHbKChpQZ1R
-	Fhow0ynS5Dp16QtL4dguflgeRoX+k1XS7doaE81F0VH4DzMUFyEVJmIAtYaSwMp4CJNL4nhrBRBCG
-	3TUENFbQ==;
+	bh=m1OGu2pUm28FpsvyFdHhbo2XJa+AfqIAoqGJyzvHHWk=; b=kSefuEJ8CfUSYbCMmg6ha1XS7X
+	f+S2fbMeeL8GgkTogU/U4z2S4yVTB3LhxQr4bbgF86xUXNHMzMat9/Ksp5wXcDAbnIemPyESZQqkq
+	1K5Os8SeeZMV2D8jurR4KfWLxQQXtDbp3u+BpBmMR/q7LBKFDTB4WMceW2tXmdhUf0lG6LrRShBsh
+	ps3fTbvo1fXa+/U9y8Bslvc96WsdcxkHnkky3eGCg3xW7Jcn5JD3Xq1cGfEWXH9RfCims1UyO/fgg
+	ez1+zSi8fJSaRPHHy1KhkigEKcfrgNPti8GhhLnh3+PVazA8BUg40Z2vwdDaveKleo+ZKc+hh+UI9
+	PTIFS4ZA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qBbY2-00BPOC-0t;
-	Tue, 20 Jun 2023 13:37:30 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1qBbbN-00BQVg-24;
+	Tue, 20 Jun 2023 13:40:57 +0000
+Received: from mail-wm1-f45.google.com ([209.85.128.45])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qBbXv-00BPHj-13
+	id 1qBbbK-00BQUb-2u
 	for linux-nvme@lists.infradead.org;
-	Tue, 20 Jun 2023 13:37:24 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3FEA71F88C;
-	Tue, 20 Jun 2023 13:37:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1687268241; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BjqQt4D7bz3ycKlBkDP6byX+9ncqyQX2u0PfjF3kOqU=;
-	b=bZPMqWQ/ZKEK1kFvUpeCocMqDCRGCEMfHUdlXWEljoX0XBPPiQTfZHTu7rI0SC1/EBEwj2
-	gN9CVEVtyIRqEoyUl4nGMsJqksYol1ZWE3vIuYLKVruYDL7x6TIH1+H5/aB0LHvGU/e9g+
-	8vvMP9014ek2uQBX14/TzdsvHJzNJdY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1687268241;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BjqQt4D7bz3ycKlBkDP6byX+9ncqyQX2u0PfjF3kOqU=;
-	b=ZdB051TkUH69jvTTCVTUawhCT/PK5HHoGCsBhqqe/FbwrYRR/hnE9PslGO38owzEBC8IYF
-	NDHs8foTLRHjZ3Ag==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 308AB133A9;
-	Tue, 20 Jun 2023 13:37:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id fnPKC5GrkWTGPQAAMHmgww
-	(envelope-from <dwagner@suse.de>); Tue, 20 Jun 2023 13:37:21 +0000
-From: Daniel Wagner <dwagner@suse.de>
-To: linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Shin'ichiro Kawasaki <shinichiro@fastmail.com>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Hannes Reinecke <hare@suse.de>,
-	James Smart <jsmart2021@gmail.com>,
-	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH v2 4/5] nvme-fc: Make initial connect attempt synchronous
-Date: Tue, 20 Jun 2023 15:37:10 +0200
-Message-ID: <20230620133711.22840-5-dwagner@suse.de>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230620133711.22840-1-dwagner@suse.de>
-References: <20230620133711.22840-1-dwagner@suse.de>
+	Tue, 20 Jun 2023 13:40:56 +0000
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3f3284dff6cso11358575e9.0
+        for <linux-nvme@lists.infradead.org>; Tue, 20 Jun 2023 06:40:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687268452; x=1689860452;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=m1OGu2pUm28FpsvyFdHhbo2XJa+AfqIAoqGJyzvHHWk=;
+        b=Vbj94odKE8bpjCGeOM9Uahafe7dIEBhKoSEhpX8l4sb0XwcTElO8MOu51xOcFWPP3L
+         IVDTg9CMC36Z6CBhXmbI7Kt3e6iA6euNPswxyxHX0DnPGlvKQEX3nCEPjgxoYINd+io9
+         XpiieiV8WuG5Zq+LCIm44N0MZYncSkzrHcTsdbqP6zGodARwiDxl/ENYi8DnM5yCtb79
+         78eK0X36W+hr/BnencKf0akzluusA9FdFN1Ug+/x1W1btAcM9csW966nbrRhvpSD6Jba
+         9AJP7lBFL9fXHLULIgsRKURjEkxhAkymuqyrY5Mpo5UjxakWDYtaaX4HazPlm1MUpjMw
+         MoUg==
+X-Gm-Message-State: AC+VfDy6C87ysbBkJBuJiaZMRJBQOoQ5nqe8bL+ptUxwMjAjakJn7bjV
+	DxG4sj+oZWkiWR8BS6FNOZk=
+X-Google-Smtp-Source: ACHHUZ44cJuwkesDtL/NECGnennY0w2wAzhofWrWomZyX6RfBqrcD+4K0hy3nY3ufEffsP7ax+cdDA==
+X-Received: by 2002:a1c:ed05:0:b0:3f5:927:2b35 with SMTP id l5-20020a1ced05000000b003f509272b35mr10919124wmh.1.1687268452542;
+        Tue, 20 Jun 2023 06:40:52 -0700 (PDT)
+Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id n6-20020a7bcbc6000000b003f7e4d143cfsm2399517wmi.15.2023.06.20.06.40.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Jun 2023 06:40:52 -0700 (PDT)
+Message-ID: <27ce75fc-f6c5-7bf3-8448-242ee3e65067@grimberg.me>
+Date: Tue, 20 Jun 2023 16:40:49 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH V2 0/4] nvme: fix two kinds of IO hang from removing NSs
+Content-Language: en-US
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Yi Zhang <yi.zhang@redhat.com>, linux-block@vger.kernel.org,
+ Chunguang Xu <brookxu.cn@gmail.com>
+References: <20230620013349.906601-1-ming.lei@redhat.com>
+ <86c10889-4d4a-1892-9779-a5f7b4e93392@grimberg.me>
+ <ZJGoWGJ5/fKfIhx+@ovpn-8-23.pek2.redhat.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <ZJGoWGJ5/fKfIhx+@ovpn-8-23.pek2.redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230620_063723_506090_626EA033 
-X-CRM114-Status: GOOD (  15.67  )
+X-CRM114-CacheID: sfid-20230620_064054_939739_E1109F74 
+X-CRM114-Status: GOOD (  14.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,83 +86,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Commit 4c984154efa1 ("nvme-fc: change controllers first connect to use
-reconnect path") made the connection attempt asynchronous in order to
-make the connection attempt from autoconnect/boot via udev/systemd up
-case a bit more reliable.
 
-Unfortunately, one side effect of this is that any wrong parameters
-provided from userspace will not be directly reported as invalid, e.g.
-auth keys.
+>>> Hello,
+>>>
+>>> The 1st three patch fixes io hang when controller removal interrupts error
+>>> recovery, then queue is left as frozen.
+>>>
+>>> The 4th patch fixes io hang when controller is left as unquiesce.
+>>
+>> Ming, what happened to nvme-tcp/rdma move of freeze/unfreeze to the
+>> connect patches?
+> 
+> I'd suggest to handle all drivers(include nvme-pci) in same logic for avoiding
+> extra maintain burden wrt. error handling, but looks Keith worries about the
+> delay freezing may cause too many requests queued during error handling, and
+> that might cause user report.
 
-So instead having the policy code inside the kernel it's better to
-address this in userspace, for example in nvme-cli or nvme-stas.
+For nvme-tcp/rdma your patch also addresses IO not failing over because
+they block on queue enter. So I definitely want this for fabrics.
 
-This aligns the fc transport with tcp and rdma.
-
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
----
- drivers/nvme/host/fc.c | 19 ++++++++-----------
- 1 file changed, 8 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 472ed285fd45..aa2911f07c6c 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2943,6 +2943,8 @@ nvme_fc_create_io_queues(struct nvme_fc_ctrl *ctrl)
- 	/* force put free routine to ignore io queues */
- 	ctrl->ctrl.tagset = NULL;
- 
-+	if (ret > 0)
-+		ret = -EIO;
- 	return ret;
- }
- 
-@@ -3545,21 +3547,15 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 	list_add_tail(&ctrl->ctrl_list, &rport->ctrl_list);
- 	spin_unlock_irqrestore(&rport->lock, flags);
- 
--	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESETTING) ||
--	    !nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING)) {
-+	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING)) {
- 		dev_err(ctrl->ctrl.device,
- 			"NVME-FC{%d}: failed to init ctrl state\n", ctrl->cnum);
- 		goto fail_ctrl;
- 	}
- 
--	if (!queue_delayed_work(nvme_wq, &ctrl->connect_work, 0)) {
--		dev_err(ctrl->ctrl.device,
--			"NVME-FC{%d}: failed to schedule initial connect\n",
--			ctrl->cnum);
-+	ret = nvme_fc_create_association(ctrl);
-+	if (ret)
- 		goto fail_ctrl;
--	}
--
--	flush_delayed_work(&ctrl->connect_work);
- 
- 	dev_info(ctrl->ctrl.device,
- 		"NVME-FC{%d}: new ctrl: NQN \"%s\"\n",
-@@ -3568,7 +3564,6 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 	return &ctrl->ctrl;
- 
- fail_ctrl:
--	nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING);
- 	cancel_work_sync(&ctrl->ioerr_work);
- 	cancel_work_sync(&ctrl->ctrl.reset_work);
- 	cancel_delayed_work_sync(&ctrl->connect_work);
-@@ -3590,7 +3585,9 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 	 */
- 	nvme_fc_rport_get(rport);
- 
--	return ERR_PTR(-EIO);
-+	if (ret > 0)
-+		ret = -EIO;
-+	return ERR_PTR(ret);
- 
- out_free_queues:
- 	kfree(ctrl->queues);
--- 
-2.41.0
-
+AFAICT nvme-pci would also want to failover asap for dual-ported
+multipathed devices, not sure if this is something that we are
+interested in optimizing though, as pci either succeeds the reset,
+or removes the gendisk. But the time-frame is different for fabrics
+for sure.
 
