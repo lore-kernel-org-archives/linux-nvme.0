@@ -4,63 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EFA5AEB64DB
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E59E9EB64DC
 	for <linux-nvme@archiver.kernel.org>; Tue, 20 Jun 2023 13:27:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mslHR0E96Ru1KBDgtfzc/TQeGRugMHwpdwx8xTSeZLI=; b=DhOiL9hlK58aHIP0L5+Ratm9tC
-	GDmSUtiadpL4XskH7jyeEq1qhR3xs026cK97Ghtb6CukiXojuvZZtCYVbVWhqtTA9AvljeXLaKKmQ
-	IKDkAmRPajXP91qDg0liFBbIo1VQ6xhbHqIbyM37rdggI8a/4bn6iPaWPL+LnnfRyIkyY4tu3mFNd
-	dfOhm1A5e9Ajg5F4859AFeOD4w3udmyZsyeOnk2VljhFYuzkiB3aY/4YUCu5M/QyGhm/PoeoxZqI5
-	eJAtxvNpUBxqNjikKJvTCfP05qki4ToyZARIMjytsp9jE18Y7pNBeAoVvm0jNXxVHt7eco++vi3Lm
-	y6pmtjhg==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=wKacNcJVLmesRp8TReg+QyYHTEChm9F06o8ZZWC2XNU=; b=Ls7fqvXrWoCkCDSz/mzn5vyDpM
+	ACB248Nlt9+0BWoJwle5MgGn3ZnOU5ouLEjGLd9ild0q0HD6UnXeYPzyEAXo6r87vTwmcCKC2u5g9
+	O50s4tpRIlTD51kFDkJzdXR9vbFZUarVgOueYhF4dFgRkml2LKw53zguZRymGephkON7a0uqJQK49
+	xeHd+fFeNPR5lYrCOlP4Mj4gYeZRO5cRd+oyTTF4khSG9r6vJMt/NGq3jZ7yp02nNEVg5JIRuG9Oq
+	TEPafXMgLG+Z4o95k+DDFkFxnrHiOgDFdBGLKqIzYj8wmf1qmqjb3x9a9vMEbPs19jfd9x8JcKBF7
+	NVwTLzTQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qBbOG-00BNrU-2D;
-	Tue, 20 Jun 2023 13:27:24 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
-	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qBbOD-00BNpB-2Y
-	for linux-nvme@lists.infradead.org;
+	id 1qBbOF-00BNrG-34;
 	Tue, 20 Jun 2023 13:27:23 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
+	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
+	id 1qBbOD-00BNol-1Z
+	for linux-nvme@lists.infradead.org;
+	Tue, 20 Jun 2023 13:27:22 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id AE1631F86B;
-	Tue, 20 Jun 2023 13:27:18 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DC88E21228;
+	Tue, 20 Jun 2023 13:27:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1687267638; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mslHR0E96Ru1KBDgtfzc/TQeGRugMHwpdwx8xTSeZLI=;
-	b=u1Y6gAvWfLwIMKwpqnUclWDht7+JiU/eaT0Gc6viAweQwelf9bVzxymRMXv/bQFD1z0Cw4
-	FzFbWcIsbqfRwn0TYr542AERzdcESF0h3IXlS3G4bww666VG8MyKpoFnPJFalctsup98q4
-	8Y9DPB+i+2w1ECg12BCt+MEp52PwjLQ=
+	t=1687267636; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=wKacNcJVLmesRp8TReg+QyYHTEChm9F06o8ZZWC2XNU=;
+	b=etp644gKfqe6QazNfpm5X5Ns1cefjHGkwJoHwV3juMcvziqq3FoPUXrBunj2J9rbFDsQjj
+	2bG3Pwvu1YURas3RYqwKj5YvUrJ4TSEWxSzB/HgAZeERpUSFJo2QjOaJ7S3mSZpuH5COqU
+	S8mh0cRjFzv2Y0u4FNLQul22WA85S3A=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1687267638;
+	s=susede2_ed25519; t=1687267636;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mslHR0E96Ru1KBDgtfzc/TQeGRugMHwpdwx8xTSeZLI=;
-	b=ZlzgfU+pWRMK1Uh0Apu/qRfRDHxbbpCdUKer/8PHL3tW8Pb0DmdhbvE3zcV2XAsd484RHq
-	mtnTeEr14c+Tt9Cg==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=wKacNcJVLmesRp8TReg+QyYHTEChm9F06o8ZZWC2XNU=;
+	b=BMBGRqQFIOvcvE3Oey9DaN31ZhziAS9EXA9VOjgFljUINLT5vyTbNAhOYPA/6ZBxCWvLO0
+	GXMDyHHavClkOwCg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9FC361346D;
-	Tue, 20 Jun 2023 13:27:18 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CE1751346D;
+	Tue, 20 Jun 2023 13:27:16 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id MS/oJjapkWSlOAAAMHmgww
-	(envelope-from <dwagner@suse.de>); Tue, 20 Jun 2023 13:27:18 +0000
+	id FnxKMjSpkWSaOAAAMHmgww
+	(envelope-from <dwagner@suse.de>); Tue, 20 Jun 2023 13:27:16 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org,
@@ -72,17 +68,15 @@ Cc: linux-kernel@vger.kernel.org,
 	James Smart <jsmart2021@gmail.com>,
 	Martin Belanger <Martin.Belanger@dell.com>,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH blktests v1 3/3] nvme/{041,042,043,044,045}: Use default hostnqn and hostid
-Date: Tue, 20 Jun 2023 15:27:03 +0200
-Message-ID: <20230620132703.20648-4-dwagner@suse.de>
+Subject: [PATCH blktests v1 0/3] More fixes for FC enabling
+Date: Tue, 20 Jun 2023 15:27:00 +0200
+Message-ID: <20230620132703.20648-1-dwagner@suse.de>
 X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230620132703.20648-1-dwagner@suse.de>
-References: <20230620132703.20648-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230620_062721_991884_71848AFF 
-X-CRM114-Status: GOOD (  11.67  )
+X-CRM114-CacheID: sfid-20230620_062721_668099_E7090C5F 
+X-CRM114-Status: GOOD (  14.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,117 +91,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The host might have enabled the udev/systemd auto connect feature.
-This disturbs the blktests for the fc transport. nvme-cli is able
-to distinguish between the different invocations via the --context
-option. In order to get this working we have to use the default
-hostnqn and hostid and not randon generated IDs for every single
-run.
+The first patch is addressing the problem, that the FC transport is way faster
+in reconnecting and the test didn't observe all the states from live ->
+resetting -> connecting -> live. Instead trying to see these transitions just
+test for the final state which is live and the correct number of queues. This
+makes this test also a little bit more robust. So this patch is necessary.
 
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
----
- tests/nvme/041 | 8 ++------
- tests/nvme/042 | 8 ++------
- tests/nvme/043 | 8 ++------
- tests/nvme/044 | 8 ++------
- tests/nvme/045 | 8 ++------
- 5 files changed, 10 insertions(+), 30 deletions(-)
+The next two patches are more in RFC state but I think it makes sense to post
+them along side the rest.
 
-diff --git a/tests/nvme/041 b/tests/nvme/041
-index 308655dd6090..5b04b99b128e 100755
---- a/tests/nvme/041
-+++ b/tests/nvme/041
-@@ -30,12 +30,8 @@ test() {
- 
- 	echo "Running ${TEST_NAME}"
- 
--	hostid="$(uuidgen)"
--	if [ -z "$hostid" ] ; then
--		echo "uuidgen failed"
--		return 1
--	fi
--	hostnqn="nqn.2014-08.org.nvmexpress:uuid:${hostid}"
-+	hostid="${def_hostid}"
-+	hostnqn="${def_hostnqn}"
- 	hostkey="$(nvme gen-dhchap-key -n ${subsys_name} 2> /dev/null)"
- 	if [ -z "$hostkey" ] ; then
- 		echo "nvme gen-dhchap-key failed"
-diff --git a/tests/nvme/042 b/tests/nvme/042
-index fed2efead013..8df5ed37aacc 100755
---- a/tests/nvme/042
-+++ b/tests/nvme/042
-@@ -32,12 +32,8 @@ test() {
- 
- 	echo "Running ${TEST_NAME}"
- 
--	hostid="$(uuidgen)"
--	if [ -z "$hostid" ] ; then
--		echo "uuidgen failed"
--		return 1
--	fi
--	hostnqn="nqn.2014-08.org.nvmexpress:uuid:${hostid}"
-+	hostid="${def_hostid}"
-+	hostnqn="${def_hostnqn}"
- 
- 	_setup_nvmet
- 
-diff --git a/tests/nvme/043 b/tests/nvme/043
-index a030884aa4ed..b591e39d0706 100755
---- a/tests/nvme/043
-+++ b/tests/nvme/043
-@@ -33,12 +33,8 @@ test() {
- 
- 	echo "Running ${TEST_NAME}"
- 
--	hostid="$(uuidgen)"
--	if [ -z "$hostid" ] ; then
--		echo "uuidgen failed"
--		return 1
--	fi
--	hostnqn="nqn.2014-08.org.nvmexpress:uuid:${hostid}"
-+	hostid="${def_hostid}"
-+	hostnqn="${def_hostnqn}"
- 
- 	_setup_nvmet
- 
-diff --git a/tests/nvme/044 b/tests/nvme/044
-index 9928bcc55397..fca0897af27b 100755
---- a/tests/nvme/044
-+++ b/tests/nvme/044
-@@ -32,12 +32,8 @@ test() {
- 
- 	echo "Running ${TEST_NAME}"
- 
--	hostid="$(uuidgen)"
--	if [ -z "$hostid" ] ; then
--		echo "uuidgen failed"
--		return 1
--	fi
--	hostnqn="nqn.2014-08.org.nvmexpress:uuid:${hostid}"
-+	hostid="${def_hostid}"
-+	hostnqn="${def_hostnqn}"
- 
- 	hostkey="$(nvme gen-dhchap-key -n ${subsys_name} 2> /dev/null)"
- 	if [ -z "$hostkey" ] ; then
-diff --git a/tests/nvme/045 b/tests/nvme/045
-index 26a55335a92c..eca629a18691 100755
---- a/tests/nvme/045
-+++ b/tests/nvme/045
-@@ -36,12 +36,8 @@ test() {
- 
- 	echo "Running ${TEST_NAME}"
- 
--	hostid="$(uuidgen)"
--	if [ -z "$hostid" ] ; then
--		echo "uuidgen failed"
--		return 1
--	fi
--	hostnqn="nqn.2014-08.org.nvmexpress:uuid:${hostid}"
-+	hostid="${def_hostid}"
-+	hostnqn="${def_hostnqn}"
- 
- 	hostkey="$(nvme gen-dhchap-key -n ${subsys_name} 2> /dev/null)"
- 	if [ -z "$hostkey" ] ; then
+The second and the third patch rely on the not yet released nvme-cli features
+'volatile configuration' and 'execution context awareness'. These two feature
+allow nvme-cli to figure out if a 'nvme connect' should actually be done or just
+ignored. If the FC autoconnect udev/systemd rules are enabled on a host, this is
+interfering with blktests. Note, this is also a way to get nvme-stas and
+nvme-cli play nicely with each other.
+
+In case anyone wants to run blktest with FC as transport needs either to disable
+the autoconnect feature or use the unreleased features of nvme-cli.
+
+Daniel Wagner (3):
+  nvme/048: Check for queue count check directly
+  nvme/rc: Avoid triggering host nvme-cli autoconnect
+  nvme/{041,042,043,044,045}: Use default hostnqn and hostid
+
+ tests/nvme/041 |  8 ++----
+ tests/nvme/042 |  8 ++----
+ tests/nvme/043 |  8 ++----
+ tests/nvme/044 |  8 ++----
+ tests/nvme/045 |  8 ++----
+ tests/nvme/048 | 35 ++++++++++++++++--------
+ tests/nvme/rc  | 73 +++++++++++++++++++++++++++++++++++++++++++-------
+ 7 files changed, 97 insertions(+), 51 deletions(-)
+
 -- 
 2.41.0
 
