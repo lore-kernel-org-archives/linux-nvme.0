@@ -4,69 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F41E6EB64DA
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Jun 2023 18:09:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2214EB64D9
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Jun 2023 01:34:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Wx1ETBPrfZZVrxxt24FvjkAxC9Gt56NgyV700P1vzmk=; b=Systv9nc1SuYrJCanZ+/T/7h0b
-	2yy5PiymFfvVD8DxImBAZUtOVe+6fPtd3/tBo8949pik2+emRcXR+J3R98pJp8IT4/ncDc40xoN2w
-	Y1DxO5Wu2rnnIgeDCxFbcuXf86W55NPCfZ1jMUEGy4lHP1M+Xi97jgMs6F3/jpmTtrUp945tujigw
-	Ct1Ad7Jisvyxv9wkYNGmt1eoruHoy9kmU0cNSNYZpVrzsU3/aPyVHf5nV9Jfi48N0Gx1SQhWUah0n
-	bDJQlSfxmJsmuAfy5UysIfupJjITuBPamvb9mmMPVDqH4zFvI1nygKm+IJS1IN+hTup1SkoG9LLZO
-	BkYUyK6Q==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=hnKE0nWEUjeGlqjsFGsu3Do4KMRWEFRQSaAwoffC8eg=; b=Nn4rSU+vZfE+LpbpnuombY4nXw
+	uZwhPT2z4HSPjqeeQjOs0MSLPK9hBfe/VVlSFHipm1Uii1abIMPyJtpe4ZUcBEYdCgHB6OHYPyd8c
+	ARePkOouncpHIS0i2uF2WJ8dJgrxDRj/ENqp8weTC+jOi/6c7kWU5Qe2Dgt6fdKkW/Q2xgXBtd40d
+	yz74eBQdDEeS2DanJNaZ315+FY8XTXpB+9rii3ETV9sOCV3Q+mw/UcyFikSvz1cTppRJdJ1EYL/ex
+	Dhzpqa7vfsO2OSpEn07CLIq0yOt5WsJFlGjlU3M1nSVsj2dYBEednypLDIjBqaQXbaW237nHr9/4Q
+	jTCeH5hA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qBJJB-009ACw-39;
-	Mon, 19 Jun 2023 18:08:57 +0000
-Received: from smtp-26.smtpout.orange.fr ([80.12.242.26] helo=smtp.smtpout.orange.fr)
+	id 1qBQG2-009tB0-0x;
+	Tue, 20 Jun 2023 01:34:10 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qBJJ5-009AB7-0K
+	id 1qBQFx-009t9s-2b
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Jun 2023 18:08:53 +0000
-Received: from [192.168.1.18] ([86.243.2.178])
-	by smtp.orange.fr with ESMTPA
-	id BJIsqZyYl2I9nBJIsq55fS; Mon, 19 Jun 2023 20:08:40 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1687198120;
-	bh=Wx1ETBPrfZZVrxxt24FvjkAxC9Gt56NgyV700P1vzmk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=aJvD697bFSvOXhI7gVn7ySiizq9VhYJ8/bcvjQhj6M/j47SVwIfZsOvhrUiSZncHc
-	 lMPrrmczuoCUo4jKMIhrcB2MONWjI6lncvMK3TvohySRKeK9arszdNON0uH8fYIP0l
-	 zbbvXwCLosHjwETZzsiqUhz0LvW9iMFna6X/KluIUVFr5qHJoRr3UWVn0TXcpK6emU
-	 Wt3HMSaEF/1EL6bCU9X+hfMuuPhfbflNkfHUhZNyjBIl9hvd0KxUUZ8vKXQcmiYWaD
-	 fKUo4Y3uCp2AKhqv8dMSrh2cZxRvhbGJNHCPoOAwvMaVYTaDfGdzB9YZBPFHs9L2py
-	 8xIAA9TV9dxwA==
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Mon, 19 Jun 2023 20:08:40 +0200
-X-ME-IP: 86.243.2.178
-Message-ID: <e74dedeb-8fb0-8abf-5b14-1aae8e1462d2@wanadoo.fr>
-Date: Mon, 19 Jun 2023 20:08:38 +0200
+	Tue, 20 Jun 2023 01:34:08 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1687224844;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=hnKE0nWEUjeGlqjsFGsu3Do4KMRWEFRQSaAwoffC8eg=;
+	b=G4k8RFtGd82f2l453d/PBHm2A1hwqcRHn9hkJyIKyI1amSPRzEQ1HFTfQ2IFpzTQNGb825
+	icyW00NjfVRx0vFuyM/M5DFxiVSgoue7ra+mCeqQXCf+CpRd/igt2n1byJbJmjOPW+j4IQ
+	drbAGVmsT42V0BiBvuo5wYtyvwf3dKo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-150-6Q6a6IjnMyGE37_4pFG2UA-1; Mon, 19 Jun 2023 21:33:58 -0400
+X-MC-Unique: 6Q6a6IjnMyGE37_4pFG2UA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E20F229ABA25;
+	Tue, 20 Jun 2023 01:33:57 +0000 (UTC)
+Received: from localhost (ovpn-8-18.pek2.redhat.com [10.72.8.18])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id A7704C1603B;
+	Tue, 20 Jun 2023 01:33:56 +0000 (UTC)
+From: Ming Lei <ming.lei@redhat.com>
+To: Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org
+Cc: Yi Zhang <yi.zhang@redhat.com>,
+	linux-block@vger.kernel.org,
+	Chunguang Xu <brookxu.cn@gmail.com>,
+	Ming Lei <ming.lei@redhat.com>
+Subject: [PATCH V2 0/4] nvme: fix two kinds of IO hang from removing NSs
+Date: Tue, 20 Jun 2023 09:33:45 +0800
+Message-Id: <20230620013349.906601-1-ming.lei@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] nvmet: Reorder fields in 'struct nvmet_ns'
-Content-Language: fr, en-US
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>, Jens Axboe <axboe@kernel.dk>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
- "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <aea924d31f2bd2f740b1ccc6f462905bd6cab763.1682624855.git.christophe.jaillet@wanadoo.fr>
- <ba5df67e-534d-6f79-6277-80c755ca7e94@nvidia.com>
- <3decbaf1-250b-9b73-70fd-4cb9a204c452@kernel.dk>
- <00537d0c-159c-a802-6ed8-209109a69660@nvidia.com>
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <00537d0c-159c-a802-6ed8-209109a69660@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230619_110851_703716_7AAF25E5 
-X-CRM114-Status: GOOD (  12.57  )
+X-CRM114-CacheID: sfid-20230619_183405_939873_35B03420 
+X-CRM114-Status: GOOD (  11.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,40 +82,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Le 28/04/2023 à 01:07, Chaitanya Kulkarni a écrit :
-> On 4/27/23 16:01, Jens Axboe wrote:
->> On 4/27/23 4:59?PM, Chaitanya Kulkarni wrote:
->>> On 4/27/23 12:47, Christophe JAILLET wrote:
->>>> Group some variables based on their sizes to reduce holes.
->>>> On x86_64, this shrinks the size of 'struct nvmet_ns' from 520 to 512
->>>> bytes.
->>>>
->>> Although this looks good, we at least need to document what
->>> happens on other arch(s) which are not mentioned in the
->>> commit log ? is there a possibility that someone might come
->>> up with the contradictory data in future for the arch(s) which
->>> arch that are not mentioned here ?
->> The change is certainly not going to make things _worse_ for any arch,
->> so I think that's somewhat of a pointless exercise and an unreasonable
->> ask for something that makes sense on 64-bit arm/x86 and saves half the
->> space.
->>
-> 
-> disregard my comment, looks good...
-> 
-> Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-> 
-> -ck
-> 
-> 
+Hello,
 
-Hi,
+The 1st three patch fixes io hang when controller removal interrupts error
+recovery, then queue is left as frozen.
 
+The 4th patch fixes io hang when controller is left as unquiesce.
 
-All my other nvmet patches have reached -next today, but this one seems 
-to be missing.
+V2:
+	- don't unfreeze queue which isn't frozen for avoiding warning from
+	percpu_ref_resurrect() 
 
-So this is a gentle reminder, in case it got lost somewhere.
+Ming Lei (4):
+  blk-mq: add API of blk_mq_unfreeze_queue_force
+  nvme: add nvme_unfreeze_force()
+  nvme: unfreeze queues before removing namespaces
+  nvme: unquiesce io queues when removing namespaces
 
-CJ
+ block/blk-mq.c           | 28 +++++++++++++++++++++++++---
+ block/blk.h              |  3 ++-
+ block/genhd.c            |  2 +-
+ drivers/nvme/host/core.c | 34 ++++++++++++++++++++++++++++------
+ drivers/nvme/host/nvme.h |  1 +
+ include/linux/blk-mq.h   |  1 +
+ 6 files changed, 58 insertions(+), 11 deletions(-)
+
+-- 
+2.40.1
+
 
