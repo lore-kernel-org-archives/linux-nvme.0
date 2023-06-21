@@ -4,64 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F1962EB64D7
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jun 2023 16:46:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1BF26EB64D8
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jun 2023 17:25:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=U7vXUOLSVCJhj58CJyiqvzWuHESa+8jb4RZd0RwY2ns=; b=KwxsVe+WvlFSyhGTsMKjubkoZh
-	dNkL5/TgviWGcEHQBcS2SqCbjs+2H8m1MjkP5WU5wTaaGgdvoaOHIGfMbNwkruwlNIErytEgHJDpD
-	bV2CEd98DmQ15+2th+69G5HbobQR9Ke4M0Gk6dMP8WBhQ7xkPKzY+X4cSwQ8GRtQijT8+ZKoMckgp
-	4D0egYfMOvI4LZD2C/uG6iqPFnrsaPKTPFAy4dsSan6YfadXC+IeutptsfmM32BEX2wU3N6ZUGYks
-	3QhjJEeqEClMCrFoGMV7sWU0TcQWaBgBI0evtVcJ6H6LOMPcY6AosoV+YJJxmzQGMiqtvQmrGNlFR
-	ZHgBhrmg==;
+	bh=qwexmAUOaJQk1xMPFBixAAVJIA7OieXLmr3MjP5KX58=; b=zOTT8E3f+kK27FaU2XoKcD2fQ/
+	iRyqNt/WG3SApNQJ19A/5mAn8LCVxp3bf9BnzxhI/XXUKp8cZrsCkyWZQJH6TE0Tyw9DZIhErmzp/
+	vcvNvHiS50rBJxrgLlcxPTikQfUXWGBXWi/m1HBKaSJ/GnMZhGrN+RhfnZMs7dwsFa0OaiX30jbkU
+	GQlqW+LBmMBlgLiObbphyfgKUgDla5jUpE5fo1w4rThv0fooQCUW+tGkz2T7PGI3Bdn3emOBKEU/m
+	qXNFSb6MTogjC3gmuArVs4fsMmKAaID8w1n/KDbSQ5ArL9iyaq0W/5w8nXUJY+T8GDHCG3c6jxcef
+	dkcdLEkg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qC0yN-00F7jh-2J;
-	Wed, 21 Jun 2023 16:46:23 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1qC1Zq-00FDat-2t;
+	Wed, 21 Jun 2023 17:25:06 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qC0yL-00F7hK-0G
+	id 1qC1Zo-00FDa9-0F
 	for linux-nvme@lists.infradead.org;
-	Wed, 21 Jun 2023 16:46:22 +0000
+	Wed, 21 Jun 2023 17:25:05 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 7DB7B6160B;
-	Wed, 21 Jun 2023 16:46:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F34DC433CB;
-	Wed, 21 Jun 2023 16:46:19 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 9B4DF6162F;
+	Wed, 21 Jun 2023 17:25:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E765C433C0;
+	Wed, 21 Jun 2023 17:25:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1687365979;
-	bh=u5z3ftv6BB076pT5euIJojw2xnPqDLGdMYKakdyytIY=;
+	s=k20201202; t=1687368303;
+	bh=qwexmAUOaJQk1xMPFBixAAVJIA7OieXLmr3MjP5KX58=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hj63S+ykIPE+j7FWCIXD97o63nTf17Gp0jFj++wXidUxhZ67umI9k+oGfZZpXlIJZ
-	 QnHEYWbweXL2c1RcZ3ZRcB8b1RZw7ZkpPnWC0jr4DE4sYbYBDLYvgzI7lOp0qeQn25
-	 9ZKRVIc56nsK7zOV2MRJEgYtLYwMrDQ0XiLbxVSPkixx1jp0lxtlEN31CzV3LTJczn
-	 IH5r6t4oAhwVLmAbdOKKKhZGXgogIHDdoO0wxEvauQdI4KMw6TpoTyrfgKGgvBaGjt
-	 Qf2Sdoeywzmk/rW7W2Rym5MMTuLE0cCucvxcTl6TH0ha6BgbjCbIL54MianYuXT/Nr
-	 VMUNaPFRkuykA==
-Date: Wed, 21 Jun 2023 10:46:17 -0600
+	b=fUEgtSKJKmuAWANAigfU1mSRB7nu2IOJkKdntxaObqwOMKqCVfE3bke8/VGGM6lsY
+	 E+N/PvtPxYMozJ67TMm354pi/IBHw2DCQMpD9AN70iDZApcRoCu4nC+M6T8bK2mDYY
+	 nIGqlK1CmwOAwiFJQMZgf7rAlZeoCZ1ke62Tv5bhLWlWb6QBaw2wMeH6P/3GGquwbx
+	 g1WuQWLvr9nxvD9v50OAm1wBrLLg+i9p0vdOPBKrvYkq8DmaMfgvvOHYCuM9ZUbzLI
+	 9UfJXqvieFRuvFKaX1VHvZIx/UBUQcpyTFVp6Gj6MHafuKVAKEKjdGddMMZ7ZCBIoV
+	 BhS2npbNHXRpQ==
+Date: Wed, 21 Jun 2023 11:25:00 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Breno Leitao <leitao@debian.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, leit@fb.com,
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] nvme: Print capabilities changes just once
-Message-ID: <ZJMpWaMxKMFE8hmK@kbusch-mbp.dhcp.thefacebook.com>
-References: <20230615094903.1341683-1-leitao@debian.org>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
+	"kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH] nvmet: Reorder fields in 'struct nvmet_ns'
+Message-ID: <ZJMybNvd/ENxSDBq@kbusch-mbp.dhcp.thefacebook.com>
+References: <aea924d31f2bd2f740b1ccc6f462905bd6cab763.1682624855.git.christophe.jaillet@wanadoo.fr>
+ <ba5df67e-534d-6f79-6277-80c755ca7e94@nvidia.com>
+ <3decbaf1-250b-9b73-70fd-4cb9a204c452@kernel.dk>
+ <00537d0c-159c-a802-6ed8-209109a69660@nvidia.com>
+ <e74dedeb-8fb0-8abf-5b14-1aae8e1462d2@wanadoo.fr>
+ <ZJHJlrfysHJUQvXC@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230615094903.1341683-1-leitao@debian.org>
+In-Reply-To: <ZJHJlrfysHJUQvXC@kbusch-mbp.dhcp.thefacebook.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230621_094621_151785_FC490A47 
-X-CRM114-Status: GOOD (  13.23  )
+X-CRM114-CacheID: sfid-20230621_102504_162674_1097E251 
+X-CRM114-Status: UNSURE (   6.32  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,21 +84,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jun 15, 2023 at 02:49:03AM -0700, Breno Leitao wrote:
->  	if (effects & NVME_CMD_EFFECTS_CCC) {
-> -		dev_info(ctrl->device,
-> +		if (!test_and_set_bit(NVME_CTRL_DIRTY_CAPABILITY,
-> +				      &ctrl->flags)) {
-> +			dev_info(ctrl->device,
->  "controller capabilities changed, reset may be required to take effect.\n");
-> +		}
->  	}
-
-Thanks, patch applied to nvme-6.5.
-
-A question for Christoph and future consideration: I *think* the
-complications that had the driver stop refreshing the controller
-attributes are largely mitigated by the fact we now handle effects
-after the request is freed. Perhaps I'm missing something. Is there
-a risk in just bringing that feature back into the driver?
+Queued up now for nvme-6.5.
 
