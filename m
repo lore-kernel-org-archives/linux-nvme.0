@@ -4,82 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79725EB64D8
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jun 2023 12:35:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 767B4EB64D7
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jun 2023 13:27:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Date:Content-ID:
-	Content-Type:MIME-Version:Subject:Cc:To:References:In-Reply-To:From:Reply-To:
-	Content-Transfer-Encoding:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mCx8PTMmZcxpFBZC7QtJlHTMWJ1OP5pNiL5E71UNtkQ=; b=uQ5oPpJ8tl3ZG1MCQhyG/5nXLR
-	LHubAj2juIolP+xJBerf2bVqSj11f78ENYjXyt2/aDFL1701f2APTgtyfWtiEZ0wOQI3ne5FRALN0
-	cv5mV1ibexU8r2odb4kIetZt8A1SWTpStrlrUTL2Q9iiu0k1ecwWlPn7vOX9qbf1YD9Eu9SH6/P4S
-	vovPFE+shBNRDmWd700GpkP4RN5to9SLzbzyZFbKdLasksXih1MGlGqCoYfypjQDDuzAzeaxDnWIe
-	tgj90UUJBUUGw10jV8atW1reg5dlF7LmKqzxB1VIQWxSgWQW1o9vK1ZmJWVGlt25WrRYGWDAyljqd
-	ps4QvP9Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ZDD02Z5+WJCX7fsOFHZfgS83xanLJ6GHVD5UFf+JeIA=; b=H7GPiZ/ksCng8bmaALQa6dAbFa
+	Kx8l9wdxaTPMm5MiTKgx6B7UVnd1m2QReU6MvQ0jEg/DESiQZzDQ8ALzm1ZAKaWQQz1GQAXYiPsKp
+	i3paK911brIrsUfIDX71alBApjHL6z9u1d1BI2zESsRCFA6J6arStNcJQjQGcS36VeXRUDZeuoHOi
+	Z/R7crtNkAsR4YI85RXeXzRgapnVlLJOZz2pmpzCiI7XY7QawIfbnrUvB6jH9f5tXtyxyN0BMSNfm
+	+1Ut54sF/OSZTBOjDzgHSQLSAjnArmoARwx0YJ1R324Umxhm4BezKnpZIxh7R9ZqOWINN/JQLdbKu
+	qSFU/7lw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qBx3k-00EZ1C-0q;
-	Wed, 21 Jun 2023 12:35:40 +0000
+	id 1qBxsD-00Efyv-1E;
+	Wed, 21 Jun 2023 13:27:49 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qBx3g-00EYzv-1m
+	id 1qBxs9-00Efxg-2q
 	for linux-nvme@lists.infradead.org;
-	Wed, 21 Jun 2023 12:35:37 +0000
+	Wed, 21 Jun 2023 13:27:47 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1687350932;
+	s=mimecast20190719; t=1687354063;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mCx8PTMmZcxpFBZC7QtJlHTMWJ1OP5pNiL5E71UNtkQ=;
-	b=OcOfbGCwVYTouRmWl90H8eWPh3xxePxkG/UNZ3FVitNiLffD+i9LRQvYAux4kwIPFqcYj3
-	C5NvITMcSkXld1oU0cyZ3GzZ6m3ynjWKE32PhTWfnLiIdzEfcLzQ4DbD2/E9KuczKHqcip
-	ggk7b7O1bxQ6+U9LXE9ECvlywcJhReQ=
+	bh=ZDD02Z5+WJCX7fsOFHZfgS83xanLJ6GHVD5UFf+JeIA=;
+	b=dQbv7o8XBj0tizkM7YH0/1xXBvfrh7CWZT6uULfhCIq/B57Kc/KEnScSTcCocCVt2eKeo1
+	KjBfwAjuBsf7ZmL8ZvGqwQytg1yYzDMwKtDsHGtRRPzw/V9KjnHapAbXE1LbsO43jXFD/z
+	neV1KY+ns8VepiNc81bTf45FASfhyQg=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-223-f6KGKq15OqmRtG5q1VsCLg-1; Wed, 21 Jun 2023 08:35:24 -0400
-X-MC-Unique: f6KGKq15OqmRtG5q1VsCLg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+ us-mta-155-dGzulW4LO0iSYEMlXJukhw-1; Wed, 21 Jun 2023 09:27:42 -0400
+X-MC-Unique: dGzulW4LO0iSYEMlXJukhw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AA7071C08784;
-	Wed, 21 Jun 2023 12:35:17 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.42.28.4])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 93FBC1121330;
-	Wed, 21 Jun 2023 12:35:15 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <87f547b0-7826-b232-cd01-c879b6829951@grimberg.me>
-References: <87f547b0-7826-b232-cd01-c879b6829951@grimberg.me> <20230620145338.1300897-1-dhowells@redhat.com> <20230620145338.1300897-11-dhowells@redhat.com>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 80B413815F61;
+	Wed, 21 Jun 2023 13:27:41 +0000 (UTC)
+Received: from ovpn-8-23.pek2.redhat.com (ovpn-8-18.pek2.redhat.com [10.72.8.18])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E6A3140EBB8;
+	Wed, 21 Jun 2023 13:27:36 +0000 (UTC)
+Date: Wed, 21 Jun 2023 21:27:31 +0800
+From: Ming Lei <ming.lei@redhat.com>
 To: Sagi Grimberg <sagi@grimberg.me>
-Cc: dhowells@redhat.com, netdev@vger.kernel.org,
-    Alexander Duyck <alexander.duyck@gmail.com>,
-    "David S. Miller" <davem@davemloft.net>,
-    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-    Paolo Abeni <pabeni@redhat.com>,
-    Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-    David Ahern <dsahern@kernel.org>,
-    Matthew Wilcox <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>,
-    linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-    Willem de Bruijn <willemb@google.com>,
-    Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
-    Christoph Hellwig <hch@lst.de>, Chaitanya Kulkarni <kch@nvidia.com>,
-    linux-nvme@lists.infradead.org
-Subject: Re: [PATCH net-next v3 10/18] nvme/host: Use sendmsg(MSG_SPLICE_PAGES) rather then sendpage
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+	Yi Zhang <yi.zhang@redhat.com>, linux-block@vger.kernel.org,
+	Chunguang Xu <brookxu.cn@gmail.com>
+Subject: Re: [PATCH V2 0/4] nvme: fix two kinds of IO hang from removing NSs
+Message-ID: <ZJL6w+K6e95WWJzV@ovpn-8-23.pek2.redhat.com>
+References: <20230620013349.906601-1-ming.lei@redhat.com>
+ <86c10889-4d4a-1892-9779-a5f7b4e93392@grimberg.me>
+ <ZJGoWGJ5/fKfIhx+@ovpn-8-23.pek2.redhat.com>
+ <27ce75fc-f6c5-7bf3-8448-242ee3e65067@grimberg.me>
+ <ZJI/1w8/9pLIyXZ2@ovpn-8-23.pek2.redhat.com>
+ <caa80682-3c3e-f709-804a-6ee913e4524f@grimberg.me>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <1733832.1687350914.1@warthog.procyon.org.uk>
-Date: Wed, 21 Jun 2023 13:35:15 +0100
-Message-ID: <1733833.1687350915@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <caa80682-3c3e-f709-804a-6ee913e4524f@grimberg.me>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230621_053536_690469_7472718C 
-X-CRM114-Status: GOOD (  16.40  )
+X-CRM114-CacheID: sfid-20230621_062746_011908_719D77FA 
+X-CRM114-Status: GOOD (  27.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,13 +86,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Sagi Grimberg <sagi@grimberg.me> wrote:
+On Wed, Jun 21, 2023 at 01:13:05PM +0300, Sagi Grimberg wrote:
+> 
+> > > > > > Hello,
+> > > > > > 
+> > > > > > The 1st three patch fixes io hang when controller removal interrupts error
+> > > > > > recovery, then queue is left as frozen.
+> > > > > > 
+> > > > > > The 4th patch fixes io hang when controller is left as unquiesce.
+> > > > > 
+> > > > > Ming, what happened to nvme-tcp/rdma move of freeze/unfreeze to the
+> > > > > connect patches?
+> > > > 
+> > > > I'd suggest to handle all drivers(include nvme-pci) in same logic for avoiding
+> > > > extra maintain burden wrt. error handling, but looks Keith worries about the
+> > > > delay freezing may cause too many requests queued during error handling, and
+> > > > that might cause user report.
+> > > 
+> > > For nvme-tcp/rdma your patch also addresses IO not failing over because
+> > > they block on queue enter. So I definitely want this for fabrics.
+> > 
+> > The patch in the following link should fix these issues too:
+> > 
+> > https://lore.kernel.org/linux-block/ZJGmW7lEaipT6saa@ovpn-8-23.pek2.redhat.com/T/#u
+> > 
+> > I guess you still want the paired freeze patch because it makes freeze &
+> > unfreeze more reliable in error handling. If yes, I can make one fabric
+> > only change for you.
+> 
+> Not sure exactly what reliability is referred here.
 
-> What tree will this be going from btw?
+freeze and unfreeze have to be called strictly in pair, but nvme calls
+the two from different contexts, so unfreeze may easily be missed, and
+causes mismatched freeze count. There has many such reports so far.
 
-It's aimed at net-next, as mentioned in the subject line.
+> I agree that there
+> is an issue with controller delete during error recovery. The patch
+> was a way to side-step it, great. But it addressed I/O blocked on enter
+> and not failing over.
+> 
+> So yes, for fabrics we should have it. I would argue that it would be
+> the right thing to do for pci as well. But I won't argue if Keith feels
+> otherwise.
+
+Keith, can you update with us if you are fine with moving
+nvme_start_freeze() into nvme_reset_work() for nvme pci driver?
+
 
 Thanks,
-David
+Ming
 
 
