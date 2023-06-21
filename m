@@ -4,71 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55490EB64D8
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jun 2023 06:45:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E1811EB64D8
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jun 2023 08:39:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qbhW/xtXawV8CcYB2r3wrfEJyjcnLGE2+cj2i7CdGr8=; b=L6c1BkDt944EO17uu0obBch08F
-	8aKBpkTmPKaWbKHTbQNIzQOgluexWNCuF7hc3TOo6eNZLHScYUnmmFaEZs8gIUREA0EMb5YVUKley
-	Wj+atFA1F49EdHmbv0Z4n+ATx62vF+Y4+nnI1VN1cVT46FrvmDx+9BntXPyoEz6b1ReIJzFy8vogY
-	Y/fLuMBaNFs+/+E369clsTh8E2fVlhUgKiacioexa8Z0kc9B5eBfmed0qC17riKxhtcI4en4uzHlu
-	het3uzEB/+TiACBIgfEkshgi18oqtOZMiBpWXwIM+iv6TuTE0HHR4mctY2jeTKPiOTgvU6kpusdZZ
-	I9WzEC/w==;
+	bh=CZrSwU7sZ+tq2ti3olTSASQ+zEZysx384vzrRtwJJcs=; b=Ab7lcsdyqTOC0gG+1diuaakH+f
+	zMPnEdqOxsnQ0vWKS/dWUFvvLP6r60MP9zWB9sDxOIjvFrOlbz04Su+5MXlG8Fe1OheIWpbtVShqH
+	9iywHegdXKGA4P/HnpYTodJvT9TFpoKAar40mxqhSwLPnoDE4Jz4eDS6J+MWhXdMW9ta+NdIu5BHt
+	94TwDHDUqSXplIwVDnaRLmBpOt6+F1+VMIYveaagRgbrc8pe49uzJwaNyqXYT1WNS8+YQiHPIdkQF
+	VGaVYOcUhuu8Yk6Wo3vQF7xFvXwlO+S/UGdw/R7Ael2uWS4imUEMRQLhFg2O37lQheKXO0yyGmc44
+	Wp1iSCLg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qBraP-00DSno-2M;
-	Wed, 21 Jun 2023 06:45:01 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1qBtNX-00DinW-1S;
+	Wed, 21 Jun 2023 08:39:51 +0000
+Received: from mail-wm1-f48.google.com ([209.85.128.48])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qBraM-00DSkJ-1M
+	id 1qBtNU-00DilM-2U
 	for linux-nvme@lists.infradead.org;
-	Wed, 21 Jun 2023 06:45:00 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5EB861F895;
-	Wed, 21 Jun 2023 06:44:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1687329896; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qbhW/xtXawV8CcYB2r3wrfEJyjcnLGE2+cj2i7CdGr8=;
-	b=oYcKbW9d4asRiUSaLI7GdaATkUtnxaY3xnpXcr/RV/O9mIYKt4PnLWuzMT3xjpcYxZu+ve
-	zfBbz//1xFBbZGD9xF+1F62O2Qv3hgRDAjyDETOwjcl9LkZTHZ+AwbUZi7+GN54jyrlPbW
-	wqs0kVAd/SOkiNC1B4sn1N0KFR/dH/c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1687329896;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qbhW/xtXawV8CcYB2r3wrfEJyjcnLGE2+cj2i7CdGr8=;
-	b=o0dhvQ653XkwtEuy5Ue/g1465bmo5k9uimtF/1EV7mcvN455BaUdNjZE1eh0W2DhzMlx5N
-	e2oz699jB+575/Dg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0EC76134B1;
-	Wed, 21 Jun 2023 06:44:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 092mAmickmRbJgAAMHmgww
-	(envelope-from <hare@suse.de>); Wed, 21 Jun 2023 06:44:56 +0000
-Message-ID: <bae9a22a-246f-525e-d9a9-72a074d457c5@suse.de>
-Date: Wed, 21 Jun 2023 08:44:56 +0200
+	Wed, 21 Jun 2023 08:39:50 +0000
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3f3284dff6cso13784345e9.0
+        for <linux-nvme@lists.infradead.org>; Wed, 21 Jun 2023 01:39:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687336787; x=1689928787;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CZrSwU7sZ+tq2ti3olTSASQ+zEZysx384vzrRtwJJcs=;
+        b=SAdkjltXXHpETFiQMA2+/yoFC3TWJXSezjutNRp7vWrGr9tvTId/a9UbXvC6SPQQeA
+         GfGGdb3vak8qZ/k7y44FasSopT/disP/mOnYQFiUyUNcQ31CZL/iPsqjUvbIpsAx/ksA
+         k2XG1MXNMwoXgpEFZ3panr5X7Crs6+ClJVI1ok1NEelh+WGarxrMhVCijwDR57awXxSq
+         yJBJKWgvH223PA+1CbhXrhR9UW2IPeP2Y3OvBnKIhBN/5sOAmhWvgKQzxd+ELF0QjQuY
+         0bFLuxFMzDZLNroIXF9PYVDLjelbgSPSQnDwNLZn1tfxK9JtbLvXq0sKUeL74tPB63Q9
+         A3aA==
+X-Gm-Message-State: AC+VfDzyhIUCzFBXDIQH4TIp974TmtBfNpqdn1250H3nYM9fwD3dVXo2
+	f4AjyF9Tj9iHQ2zflWc61F0=
+X-Google-Smtp-Source: ACHHUZ6qrwp92kCV1dS0R523NqQKTRce/Eo2cdDXsy6P5snKCi5r2n3MgMycr+M5VsIEzrtE0cyfzg==
+X-Received: by 2002:a1c:ed05:0:b0:3f5:927:2b35 with SMTP id l5-20020a1ced05000000b003f509272b35mr12990022wmh.1.1687336786700;
+        Wed, 21 Jun 2023 01:39:46 -0700 (PDT)
+Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id u12-20020a05600c210c00b003f9b0830107sm8036286wml.41.2023.06.21.01.39.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Jun 2023 01:39:46 -0700 (PDT)
+Message-ID: <35f5f82c-0a25-37aa-e017-99e6739fa307@grimberg.me>
+Date: Wed, 21 Jun 2023 11:39:43 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
+ Thunderbird/102.12.0
 Subject: Re: [PATCH 4/4] net/tls: implement ->read_sock()
 Content-Language: en-US
-To: Jakub Kicinski <kuba@kernel.org>, Sagi Grimberg <sagi@grimberg.me>
+To: Hannes Reinecke <hare@suse.de>, Jakub Kicinski <kuba@kernel.org>
 Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
  linux-nvme@lists.infradead.org, Eric Dumazet <edumazet@google.com>,
  Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
@@ -77,13 +66,14 @@ References: <20230620102856.56074-1-hare@suse.de>
  <20230620102856.56074-5-hare@suse.de>
  <5bbb6ce4-a251-a357-3efc-9e899e470b9c@grimberg.me>
  <20230620100843.19569d60@kernel.org>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20230620100843.19569d60@kernel.org>
+ <bae9a22a-246f-525e-d9a9-72a074d457c5@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <bae9a22a-246f-525e-d9a9-72a074d457c5@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230620_234458_613350_F46E8880 
-X-CRM114-Status: GOOD (  20.24  )
+X-CRM114-CacheID: sfid-20230621_013948_815534_6257B527 
+X-CRM114-Status: GOOD (  22.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,49 +88,127 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/20/23 19:08, Jakub Kicinski wrote:
-> On Tue, 20 Jun 2023 16:21:22 +0300 Sagi Grimberg wrote:
->>> +	err = tls_rx_reader_lock(sk, ctx, true);
->>> +	if (err < 0)
->>> +		return err;
+
+>> On Tue, 20 Jun 2023 16:21:22 +0300 Sagi Grimberg wrote:
+>>>> +    err = tls_rx_reader_lock(sk, ctx, true);
+>>>> +    if (err < 0)
+>>>> +        return err;
+>>>
+>>> Unlike recvmsg or splice_read, the caller of read_sock is assumed to
+>>> have the socket locked, and tls_rx_reader_lock also calls lock_sock,
+>>> how is this not a deadlock?
 >>
->> Unlike recvmsg or splice_read, the caller of read_sock is assumed to
->> have the socket locked, and tls_rx_reader_lock also calls lock_sock,
->> how is this not a deadlock?
+>> Yeah :|
+>>
+>>> I'm not exactly clear why the lock is needed here or what is the subtle
+>>> distinction between tls_rx_reader_lock and what lock_sock provides.
+>>
+>> It's a bit of a workaround for the consistency of the data stream.
+>> There's bunch of state in the TLS ULP and waiting for mem or data
+>> releases and re-takes the socket lock. So to stop the flow annoying
+>> corner case races I slapped a lock around all of the reader.
+>>
+>> IMHO depending on the socket lock for anything non-trivial and outside
+>> of the socket itself is a bad idea in general.
+>>
+>> The immediate need at the time was that if you did a read() and someone
+>> else did a peek() at the same time from a stream of A B C D you may read
+>> A D B C.
 > 
-> Yeah :|
+> Leaving me ever so confused.
 > 
->> I'm not exactly clear why the lock is needed here or what is the subtle
->> distinction between tls_rx_reader_lock and what lock_sock provides.
+> read_sock() is a generic interface; we cannot require a protocol 
+> specific lock before calling it.
 > 
-> It's a bit of a workaround for the consistency of the data stream.
-> There's bunch of state in the TLS ULP and waiting for mem or data
-> releases and re-takes the socket lock. So to stop the flow annoying
-> corner case races I slapped a lock around all of the reader.
-> 
-> IMHO depending on the socket lock for anything non-trivial and outside
-> of the socket itself is a bad idea in general.
-> 
-> The immediate need at the time was that if you did a read() and someone
-> else did a peek() at the same time from a stream of A B C D you may read
-> A D B C.
+> What to do now?
+> Drop the tls_rx_read_lock from read_sock() again?
 
-Leaving me ever so confused.
+Probably just need to synchronize the readers by splitting that from
+tls_rx_reader_lock:
+--
+diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
+index 53f944e6d8ef..53404c3fdcc6 100644
+--- a/net/tls/tls_sw.c
++++ b/net/tls/tls_sw.c
+@@ -1845,13 +1845,10 @@ tls_read_flush_backlog(struct sock *sk, struct 
+tls_prot_info *prot,
+         return sk_flush_backlog(sk);
+  }
 
-read_sock() is a generic interface; we cannot require a protocol 
-specific lock before calling it.
+-static int tls_rx_reader_lock(struct sock *sk, struct tls_sw_context_rx 
+*ctx,
+-                             bool nonblock)
++static int tls_rx_reader_acquire(struct sock *sk, struct 
+tls_sw_context_rx *ctx,
++                            bool nonblock)
+  {
+         long timeo;
+-       int err;
+-
+-       lock_sock(sk);
 
-What to do now?
-Drop the tls_rx_read_lock from read_sock() again?
+         timeo = sock_rcvtimeo(sk, nonblock);
 
-Cheers,
+@@ -1865,26 +1862,30 @@ static int tls_rx_reader_lock(struct sock *sk, 
+struct tls_sw_context_rx *ctx,
+                               !READ_ONCE(ctx->reader_present), &wait);
+                 remove_wait_queue(&ctx->wq, &wait);
 
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
+-               if (timeo <= 0) {
+-                       err = -EAGAIN;
+-                       goto err_unlock;
+-               }
+-               if (signal_pending(current)) {
+-                       err = sock_intr_errno(timeo);
+-                       goto err_unlock;
+-               }
++               if (timeo <= 0)
++                       return -EAGAIN;
++               if (signal_pending(current))
++                       return sock_intr_errno(timeo);
+         }
 
+         WRITE_ONCE(ctx->reader_present, 1);
+
+         return 0;
++}
+
+-err_unlock:
+-       release_sock(sk);
++static int tls_rx_reader_lock(struct sock *sk, struct tls_sw_context_rx 
+*ctx,
++                             bool nonblock)
++{
++       int err;
++
++       lock_sock(sk);
++       err = tls_rx_reader_acquire(sk, ctx, nonblock);
++       if (err)
++               release_sock(sk);
+         return err;
+  }
+
+-static void tls_rx_reader_unlock(struct sock *sk, struct 
+tls_sw_context_rx *ctx)
++static void tls_rx_reader_release(struct sock *sk, struct 
+tls_sw_context_rx *ctx)
+  {
+         if (unlikely(ctx->reader_contended)) {
+                 if (wq_has_sleeper(&ctx->wq))
+@@ -1896,6 +1897,11 @@ static void tls_rx_reader_unlock(struct sock *sk, 
+struct tls_sw_context_rx *ctx)
+         }
+
+         WRITE_ONCE(ctx->reader_present, 0);
++}
++
++static void tls_rx_reader_unlock(struct sock *sk, struct 
+tls_sw_context_rx *ctx)
++{
++       tls_rx_reader_release(sk, ctx);
+         release_sock(sk);
+  }
+--
+
+Then read_sock can just acquire/release.
 
