@@ -4,72 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B1819EB64D7
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jun 2023 00:10:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B84AEB64D7
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jun 2023 06:09:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iH25GN8X3LsVgQP0MS+L84U1GQXae5Y6ao4JIVTErZ4=; b=m3fteGwwvYm51e1aG6uiUzpxVA
-	pdivDxIvOWYlECNtw0h8hZ1BCgQ3v0apen3aCEL4c1tbkJxAvv72bRc8/sO3VywZCbcNw783BeDIM
-	/1mNt6Ojonu64DkqX7jlmQozHFX39b3IOyAyzVXguJwfjKYVw150/Q0GQgtAKxE279WlNlMU6KiUA
-	oVF9bpzoa9tM5uBEN0XkCBClIiy4t0IZXAjnd0DWpHSIPGfZelbeeFaUYqzWs0un23z/wvQEEdT0o
-	eC/wXlWltTzdwPpoRF7YGMVoNqAgDwL7uWWCkqGdWSJJkaC5oqOxz/Go0Y7ktaeA7zmHWu6+NpmFr
-	mRTeX+bQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=eZvXMWBa2bU8sXnxYwsv0mnYtatClMz2EqHHJ2F+ogw=; b=iqvtMlIHnD1AVDSqLuPxC4fuhH
+	VxphGpQwhqBHlIkZlPcKbPHYVz3ovSogHg7RJ0kwW+uNrsJijJf3E7sZFnwz10XLftpiwyN+L7hUp
+	SCNKaaQhA8EDz4PhrQjcaOE4achdYdIlEblWJVjkPdHzWjhrVkbviG0p0UJBRQwNYsOaOBUGcr55G
+	sfaIKS9uJY3UZxBy+lKlKad6RLsMtrOV15sMdyAommkKiGU4IwsH0sAALWtZRaLCktCc/68iwvV8L
+	/DQaNLt4EwsjeHC3ya5Po0Uem/lJPlayHHZh34zWvlJiMDBDOI5dhM2i2gN4IEal9uT4ybAI3gFYU
+	66X3Jf/A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qBlQU-00CfXR-12;
-	Wed, 21 Jun 2023 00:10:22 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1qBr2J-00DND1-0x;
+	Wed, 21 Jun 2023 06:09:47 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qBlQP-00CfWs-2T
+	id 1qBr2F-00DNBz-24
 	for linux-nvme@lists.infradead.org;
-	Wed, 21 Jun 2023 00:10:19 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1687306215;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iH25GN8X3LsVgQP0MS+L84U1GQXae5Y6ao4JIVTErZ4=;
-	b=WDO9UxlJ6VgD3OvFoREjx1M2LYHPQyOvvuH1raOoq5W7bEnOkzoBfurNApvPHDAMHpxUR/
-	dyTu2sNQsT11K3Sd7fyvZg04zhC/koU3UqrQ1XwPG4zBT716G9Vlw4cJFVMKy2dv+m81hq
-	CcF32Zt3YTUNv6RPwK69m5U3NkxEptU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-507-8Adca8xZP8ivkXME51V3PQ-1; Tue, 20 Jun 2023 20:10:10 -0400
-X-MC-Unique: 8Adca8xZP8ivkXME51V3PQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	Wed, 21 Jun 2023 06:09:45 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8B823809F8F;
-	Wed, 21 Jun 2023 00:10:09 +0000 (UTC)
-Received: from ovpn-8-23.pek2.redhat.com (ovpn-8-16.pek2.redhat.com [10.72.8.16])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id D5C7D492C13;
-	Wed, 21 Jun 2023 00:10:04 +0000 (UTC)
-Date: Wed, 21 Jun 2023 08:09:59 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
-	Yi Zhang <yi.zhang@redhat.com>, linux-block@vger.kernel.org,
-	Chunguang Xu <brookxu.cn@gmail.com>
-Subject: Re: [PATCH V2 0/4] nvme: fix two kinds of IO hang from removing NSs
-Message-ID: <ZJI/1w8/9pLIyXZ2@ovpn-8-23.pek2.redhat.com>
-References: <20230620013349.906601-1-ming.lei@redhat.com>
- <86c10889-4d4a-1892-9779-a5f7b4e93392@grimberg.me>
- <ZJGoWGJ5/fKfIhx+@ovpn-8-23.pek2.redhat.com>
- <27ce75fc-f6c5-7bf3-8448-242ee3e65067@grimberg.me>
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 37DFF218F3;
+	Wed, 21 Jun 2023 06:09:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1687327781; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eZvXMWBa2bU8sXnxYwsv0mnYtatClMz2EqHHJ2F+ogw=;
+	b=dDieefXhTmoXlmJJw2VzHMyjHuts3AK69z6Oyn0pHFqWlgOAzKIP+hON+cxOAjo9rvjQxb
+	0K/GvlNI4e3YuUI6RTrZLn5HJVkKDQCbQyt4+U/QkYwX+V5Z5swKOAHJjQFjZ/tRjpJmE8
+	qwtw/kBAoGIgu9wI3ZPQ5+NSTUjBoSM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1687327781;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eZvXMWBa2bU8sXnxYwsv0mnYtatClMz2EqHHJ2F+ogw=;
+	b=u2YY23+Y0HauK6Kq7q56Y+Hdy51TSCGapAKQr3p/rklMDNyzn1oBrK6acdgIecVbS9vsO5
+	kiEaYoHcAjXVBYDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 07891134B1;
+	Wed, 21 Jun 2023 06:09:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id /dezACWUkmTnGAAAMHmgww
+	(envelope-from <hare@suse.de>); Wed, 21 Jun 2023 06:09:41 +0000
+Message-ID: <f63ed759-7a56-bb8a-8712-55d2a0d33e80@suse.de>
+Date: Wed, 21 Jun 2023 08:09:42 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <27ce75fc-f6c5-7bf3-8448-242ee3e65067@grimberg.me>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 2/4] net/tls: handle MSG_EOR for tls_device TX flow
+Content-Language: en-US
+To: Sabrina Dubroca <sd@queasysnail.net>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Jakub Kicinski <kuba@kernel.org>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org
+References: <20230620102856.56074-1-hare@suse.de>
+ <20230620102856.56074-3-hare@suse.de> <ZJHd_2g-3-e8TNQU@hog>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <ZJHd_2g-3-e8TNQU@hog>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230620_171017_886140_D81EBC2A 
-X-CRM114-Status: GOOD (  18.93  )
+X-CRM114-CacheID: sfid-20230620_230943_823072_556464EF 
+X-CRM114-Status: GOOD (  16.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,36 +96,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jun 20, 2023 at 04:40:49PM +0300, Sagi Grimberg wrote:
+On 6/20/23 19:12, Sabrina Dubroca wrote:
+> 2023-06-20, 12:28:54 +0200, Hannes Reinecke wrote:
+>> tls_push_data() MSG_MORE / MSG_SENDPAGE_NOTLAST, but bails
+>> out on MSG_EOR.
+>> But seeing that MSG_EOR is basically the opposite of
+>> MSG_MORE / MSG_SENDPAGE_NOTLAST this patch adds handling
+>> MSG_EOR by treating it as the absence of MSG_MORE.
+>> Consequently we should return an error when both are set.
+>>
+>> Cc: Jakub Kicinski <kuba@kernel.org>
+>> Cc: netdev@vger.kernel.org
+>> Signed-off-by: Hannes Reinecke <hare@suse.de>
+>> ---
+>>   net/tls/tls_device.c | 25 ++++++++++++++++++++-----
+>>   1 file changed, 20 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/net/tls/tls_device.c b/net/tls/tls_device.c
+>> index b82770f68807..ebefd148ecf5 100644
+>> --- a/net/tls/tls_device.c
+>> +++ b/net/tls/tls_device.c
+>> @@ -440,11 +440,6 @@ static int tls_push_data(struct sock *sk,
+>>   	int copy, rc = 0;
+>>   	long timeo;
+>>   
+>> -	if (flags &
+>> -	    ~(MSG_MORE | MSG_DONTWAIT | MSG_NOSIGNAL | MSG_SENDPAGE_NOTLAST |
+>> -	      MSG_SPLICE_PAGES))
+>> -		return -EOPNOTSUPP;
+>> -
+>>   	if (unlikely(sk->sk_err))
+>>   		return -sk->sk_err;
+>>   
+>> @@ -536,6 +531,10 @@ static int tls_push_data(struct sock *sk,
+>>   				more = true;
+>>   				break;
+>>   			}
+>> +			if (flags & MSG_EOR) {
+>> +				more = false;
+>> +				break;
 > 
-> > > > Hello,
-> > > > 
-> > > > The 1st three patch fixes io hang when controller removal interrupts error
-> > > > recovery, then queue is left as frozen.
-> > > > 
-> > > > The 4th patch fixes io hang when controller is left as unquiesce.
-> > > 
-> > > Ming, what happened to nvme-tcp/rdma move of freeze/unfreeze to the
-> > > connect patches?
-> > 
-> > I'd suggest to handle all drivers(include nvme-pci) in same logic for avoiding
-> > extra maintain burden wrt. error handling, but looks Keith worries about the
-> > delay freezing may cause too many requests queued during error handling, and
-> > that might cause user report.
+> Why the break here? We don't want to close and push the record in that
+> case? (the "if (done || ...)" block just below)
 > 
-> For nvme-tcp/rdma your patch also addresses IO not failing over because
-> they block on queue enter. So I definitely want this for fabrics.
+Ah, yes, you are correct. Will be fixing it.
 
-The patch in the following link should fix these issues too:
+Cheers,
 
-https://lore.kernel.org/linux-block/ZJGmW7lEaipT6saa@ovpn-8-23.pek2.redhat.com/T/#u
-
-I guess you still want the paired freeze patch because it makes freeze &
-unfreeze more reliable in error handling. If yes, I can make one fabric
-only change for you.
-
-
-Thanks,
-Ming
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
+Myers, Andrew McDonald, Martje Boudien Moerman
 
 
