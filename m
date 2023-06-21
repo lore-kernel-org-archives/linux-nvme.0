@@ -4,84 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B84AEB64D7
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jun 2023 06:09:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55490EB64D8
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jun 2023 06:45:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=eZvXMWBa2bU8sXnxYwsv0mnYtatClMz2EqHHJ2F+ogw=; b=iqvtMlIHnD1AVDSqLuPxC4fuhH
-	VxphGpQwhqBHlIkZlPcKbPHYVz3ovSogHg7RJ0kwW+uNrsJijJf3E7sZFnwz10XLftpiwyN+L7hUp
-	SCNKaaQhA8EDz4PhrQjcaOE4achdYdIlEblWJVjkPdHzWjhrVkbviG0p0UJBRQwNYsOaOBUGcr55G
-	sfaIKS9uJY3UZxBy+lKlKad6RLsMtrOV15sMdyAommkKiGU4IwsH0sAALWtZRaLCktCc/68iwvV8L
-	/DQaNLt4EwsjeHC3ya5Po0Uem/lJPlayHHZh34zWvlJiMDBDOI5dhM2i2gN4IEal9uT4ybAI3gFYU
-	66X3Jf/A==;
+	bh=qbhW/xtXawV8CcYB2r3wrfEJyjcnLGE2+cj2i7CdGr8=; b=L6c1BkDt944EO17uu0obBch08F
+	8aKBpkTmPKaWbKHTbQNIzQOgluexWNCuF7hc3TOo6eNZLHScYUnmmFaEZs8gIUREA0EMb5YVUKley
+	Wj+atFA1F49EdHmbv0Z4n+ATx62vF+Y4+nnI1VN1cVT46FrvmDx+9BntXPyoEz6b1ReIJzFy8vogY
+	Y/fLuMBaNFs+/+E369clsTh8E2fVlhUgKiacioexa8Z0kc9B5eBfmed0qC17riKxhtcI4en4uzHlu
+	het3uzEB/+TiACBIgfEkshgi18oqtOZMiBpWXwIM+iv6TuTE0HHR4mctY2jeTKPiOTgvU6kpusdZZ
+	I9WzEC/w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qBr2J-00DND1-0x;
-	Wed, 21 Jun 2023 06:09:47 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1qBraP-00DSno-2M;
+	Wed, 21 Jun 2023 06:45:01 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qBr2F-00DNBz-24
+	id 1qBraM-00DSkJ-1M
 	for linux-nvme@lists.infradead.org;
-	Wed, 21 Jun 2023 06:09:45 +0000
+	Wed, 21 Jun 2023 06:45:00 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 37DFF218F3;
-	Wed, 21 Jun 2023 06:09:41 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5EB861F895;
+	Wed, 21 Jun 2023 06:44:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1687327781; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1687329896; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eZvXMWBa2bU8sXnxYwsv0mnYtatClMz2EqHHJ2F+ogw=;
-	b=dDieefXhTmoXlmJJw2VzHMyjHuts3AK69z6Oyn0pHFqWlgOAzKIP+hON+cxOAjo9rvjQxb
-	0K/GvlNI4e3YuUI6RTrZLn5HJVkKDQCbQyt4+U/QkYwX+V5Z5swKOAHJjQFjZ/tRjpJmE8
-	qwtw/kBAoGIgu9wI3ZPQ5+NSTUjBoSM=
+	bh=qbhW/xtXawV8CcYB2r3wrfEJyjcnLGE2+cj2i7CdGr8=;
+	b=oYcKbW9d4asRiUSaLI7GdaATkUtnxaY3xnpXcr/RV/O9mIYKt4PnLWuzMT3xjpcYxZu+ve
+	zfBbz//1xFBbZGD9xF+1F62O2Qv3hgRDAjyDETOwjcl9LkZTHZ+AwbUZi7+GN54jyrlPbW
+	wqs0kVAd/SOkiNC1B4sn1N0KFR/dH/c=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1687327781;
+	s=susede2_ed25519; t=1687329896;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eZvXMWBa2bU8sXnxYwsv0mnYtatClMz2EqHHJ2F+ogw=;
-	b=u2YY23+Y0HauK6Kq7q56Y+Hdy51TSCGapAKQr3p/rklMDNyzn1oBrK6acdgIecVbS9vsO5
-	kiEaYoHcAjXVBYDA==
+	bh=qbhW/xtXawV8CcYB2r3wrfEJyjcnLGE2+cj2i7CdGr8=;
+	b=o0dhvQ653XkwtEuy5Ue/g1465bmo5k9uimtF/1EV7mcvN455BaUdNjZE1eh0W2DhzMlx5N
+	e2oz699jB+575/Dg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 07891134B1;
-	Wed, 21 Jun 2023 06:09:41 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0EC76134B1;
+	Wed, 21 Jun 2023 06:44:56 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id /dezACWUkmTnGAAAMHmgww
-	(envelope-from <hare@suse.de>); Wed, 21 Jun 2023 06:09:41 +0000
-Message-ID: <f63ed759-7a56-bb8a-8712-55d2a0d33e80@suse.de>
-Date: Wed, 21 Jun 2023 08:09:42 +0200
+	id 092mAmickmRbJgAAMHmgww
+	(envelope-from <hare@suse.de>); Wed, 21 Jun 2023 06:44:56 +0000
+Message-ID: <bae9a22a-246f-525e-d9a9-72a074d457c5@suse.de>
+Date: Wed, 21 Jun 2023 08:44:56 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH 2/4] net/tls: handle MSG_EOR for tls_device TX flow
+Subject: Re: [PATCH 4/4] net/tls: implement ->read_sock()
 Content-Language: en-US
-To: Sabrina Dubroca <sd@queasysnail.net>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Jakub Kicinski <kuba@kernel.org>, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org
+To: Jakub Kicinski <kuba@kernel.org>, Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ linux-nvme@lists.infradead.org, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
+ Boris Pismenny <boris.pismenny@gmail.com>
 References: <20230620102856.56074-1-hare@suse.de>
- <20230620102856.56074-3-hare@suse.de> <ZJHd_2g-3-e8TNQU@hog>
+ <20230620102856.56074-5-hare@suse.de>
+ <5bbb6ce4-a251-a357-3efc-9e899e470b9c@grimberg.me>
+ <20230620100843.19569d60@kernel.org>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <ZJHd_2g-3-e8TNQU@hog>
+In-Reply-To: <20230620100843.19569d60@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230620_230943_823072_556464EF 
-X-CRM114-Status: GOOD (  16.27  )
+X-CRM114-CacheID: sfid-20230620_234458_613350_F46E8880 
+X-CRM114-Status: GOOD (  20.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,50 +98,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/20/23 19:12, Sabrina Dubroca wrote:
-> 2023-06-20, 12:28:54 +0200, Hannes Reinecke wrote:
->> tls_push_data() MSG_MORE / MSG_SENDPAGE_NOTLAST, but bails
->> out on MSG_EOR.
->> But seeing that MSG_EOR is basically the opposite of
->> MSG_MORE / MSG_SENDPAGE_NOTLAST this patch adds handling
->> MSG_EOR by treating it as the absence of MSG_MORE.
->> Consequently we should return an error when both are set.
+On 6/20/23 19:08, Jakub Kicinski wrote:
+> On Tue, 20 Jun 2023 16:21:22 +0300 Sagi Grimberg wrote:
+>>> +	err = tls_rx_reader_lock(sk, ctx, true);
+>>> +	if (err < 0)
+>>> +		return err;
 >>
->> Cc: Jakub Kicinski <kuba@kernel.org>
->> Cc: netdev@vger.kernel.org
->> Signed-off-by: Hannes Reinecke <hare@suse.de>
->> ---
->>   net/tls/tls_device.c | 25 ++++++++++++++++++++-----
->>   1 file changed, 20 insertions(+), 5 deletions(-)
->>
->> diff --git a/net/tls/tls_device.c b/net/tls/tls_device.c
->> index b82770f68807..ebefd148ecf5 100644
->> --- a/net/tls/tls_device.c
->> +++ b/net/tls/tls_device.c
->> @@ -440,11 +440,6 @@ static int tls_push_data(struct sock *sk,
->>   	int copy, rc = 0;
->>   	long timeo;
->>   
->> -	if (flags &
->> -	    ~(MSG_MORE | MSG_DONTWAIT | MSG_NOSIGNAL | MSG_SENDPAGE_NOTLAST |
->> -	      MSG_SPLICE_PAGES))
->> -		return -EOPNOTSUPP;
->> -
->>   	if (unlikely(sk->sk_err))
->>   		return -sk->sk_err;
->>   
->> @@ -536,6 +531,10 @@ static int tls_push_data(struct sock *sk,
->>   				more = true;
->>   				break;
->>   			}
->> +			if (flags & MSG_EOR) {
->> +				more = false;
->> +				break;
+>> Unlike recvmsg or splice_read, the caller of read_sock is assumed to
+>> have the socket locked, and tls_rx_reader_lock also calls lock_sock,
+>> how is this not a deadlock?
 > 
-> Why the break here? We don't want to close and push the record in that
-> case? (the "if (done || ...)" block just below)
+> Yeah :|
 > 
-Ah, yes, you are correct. Will be fixing it.
+>> I'm not exactly clear why the lock is needed here or what is the subtle
+>> distinction between tls_rx_reader_lock and what lock_sock provides.
+> 
+> It's a bit of a workaround for the consistency of the data stream.
+> There's bunch of state in the TLS ULP and waiting for mem or data
+> releases and re-takes the socket lock. So to stop the flow annoying
+> corner case races I slapped a lock around all of the reader.
+> 
+> IMHO depending on the socket lock for anything non-trivial and outside
+> of the socket itself is a bad idea in general.
+> 
+> The immediate need at the time was that if you did a read() and someone
+> else did a peek() at the same time from a stream of A B C D you may read
+> A D B C.
+
+Leaving me ever so confused.
+
+read_sock() is a generic interface; we cannot require a protocol 
+specific lock before calling it.
+
+What to do now?
+Drop the tls_rx_read_lock from read_sock() again?
 
 Cheers,
 
