@@ -4,84 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 134F3C0015E
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Jun 2023 11:45:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4EDD6EB64D7
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Jun 2023 15:48:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wPelxPY/D2Xo1HQrs/bARLsTqDBy+xx6UHdo64Xl3wM=; b=1+54crGO/wy6PU2ZdkHjRDxKDC
-	sHubITD/954EToCi9mVSn1nfJreTmsY3r+PLrv4Q+NDQT/atyxR8YVUhKAHRnTnmrBLHbRuQ9Xj0d
-	i/gGom5Fe1434G1rAe+zj1DBzoIEPy/phf2797wcAxbqbc8GBNVuE2v/4fh4AXeWgZlidn4/DdFuD
-	6tDg6NsH7pMlgrTpIS5g2MqZ35PeqhHd6wUzpsgSzOl3NYKrDdOCgo/oxSnS7T7XvPnNc8FHJPphN
-	jyFGT+UqzUsTIKtP9lctObdSohSL4RFbdfQPqW0OTgtg7H71hiUtOD3BQ3e+bpah4SrPsjsOQQsBB
-	b1b0gBcg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=+DoO2j6ppTVH/sLO0KR8iWARrKHt+dgeOh1uqfl/yb4=; b=mdJ8ugpvgEFJgeOz+0WN+4V/sE
+	PYB96UPRAARo4iq4n4yfgR/QyZpscOwuoflMDBGhc9byNELXgaJdX1ao0ywk4xOfjEuXRB14wD05R
+	AlHQ1atZDpqFMVM8Ur49YAYgkKn+IxCtkvuPdmvMRUdiv1rgj6ifAztONRa+N6lQIgep5iQhANqgA
+	KREv4YRUu7XP2uyiUJMPDXolhIITXLwVygzH9Hwx4htB3MbSK5Y9CLSjXAItdGW6NHkI2md7d8nEw
+	yRMzFZIV+Jb9t/Io9HwegBtU1q7dMeDvpy/3OzJpDxHQJHOQlGMLbiEvbAo3ohIyJ5Am6KoAI2gZN
+	U5Zs9nPQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qCfDo-003SHy-0G;
-	Fri, 23 Jun 2023 11:45:00 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1qCj1B-003zA3-1M;
+	Fri, 23 Jun 2023 15:48:13 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qCfDk-003SFS-1W
+	id 1qCj19-003z9d-0e
 	for linux-nvme@lists.infradead.org;
-	Fri, 23 Jun 2023 11:44:57 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1687520695;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wPelxPY/D2Xo1HQrs/bARLsTqDBy+xx6UHdo64Xl3wM=;
-	b=IgiH2cjnOtr08NT6UpmD2kD3sYb6armXrQrs1BvCAbG05oSeEA2FLaSxbByoB91HMZmhED
-	E7zeL0wjh9YsdRmT9FuXf7h4lyWt4YTFLurtYOWfpMGJ+e2gRPMHl9AQGmr3enwce/s2ku
-	nXIBvGuQIUo8VxLZbbGFuUODa2q0+Vk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-48-yfqi9PmCPaK-TAUzgrk0lA-1; Fri, 23 Jun 2023 07:44:51 -0400
-X-MC-Unique: yfqi9PmCPaK-TAUzgrk0lA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	Fri, 23 Jun 2023 15:48:12 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 38DD590ED25;
-	Fri, 23 Jun 2023 11:44:50 +0000 (UTC)
-Received: from warthog.procyon.org.com (unknown [10.42.28.4])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 229D6200B402;
-	Fri, 23 Jun 2023 11:44:48 +0000 (UTC)
-From: David Howells <dhowells@redhat.com>
-To: netdev@vger.kernel.org
-Cc: David Howells <dhowells@redhat.com>,
-	Alexander Duyck <alexander.duyck@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	David Ahern <dsahern@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Willem de Bruijn <willemb@google.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@fb.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH net-next v4 08/15] nvmet-tcp: Use sendmsg(MSG_SPLICE_PAGES) rather then sendpage
-Date: Fri, 23 Jun 2023 12:44:18 +0100
-Message-ID: <20230623114425.2150536-9-dhowells@redhat.com>
-In-Reply-To: <20230623114425.2150536-1-dhowells@redhat.com>
-References: <20230623114425.2150536-1-dhowells@redhat.com>
+	by dfw.source.kernel.org (Postfix) with ESMTPS id AA75161A71;
+	Fri, 23 Jun 2023 15:48:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1340C433C0;
+	Fri, 23 Jun 2023 15:48:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1687535289;
+	bh=+DoO2j6ppTVH/sLO0KR8iWARrKHt+dgeOh1uqfl/yb4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nSmfhtczoujVSlpnvZ2S1Yq0GJaZbfq6GyIdHQnODXGohELbsJ0W8TOlnfV7ZXVPl
+	 MmM3etdnGJkIxbzW9VI5QBnHUa7iPGzsmWFyBU2RBP3fVbyYbpC1qMiXlupgK7YXRw
+	 aBPML8IM+FTp0iSYqPmrnkEeUMRrr5veRfYw4hcgDRGBS6BRYGtwcAZMAS2ggcrmH3
+	 BaeRdelEGdJIOQsXyxN7a82YN2TmmsD23gMYXNOWlOVolHVdbGSyKJDLQMXVuKFB8m
+	 cwfpJ3eAbgGt/vNXToZ5VYBqJcHoZ75uo+vOKq5+wU62kB8ndTTQX+0bzqV5/1eyum
+	 vbyyctvep+qaw==
+Date: Fri, 23 Jun 2023 09:48:06 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: John Meneghini <jmeneghi@redhat.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	"smith, erik" <Erik.Smith@dell.com>,
+	"Rose, Charles" <Charles.Rose@dell.com>,
+	"Belanger, Martin" <Martin.Belanger@dell.com>,
+	Hannes Reinecke <hare@suse.de>, Martin Wilck <mwilck@suse.com>,
+	Daniel Wagner <dwagner@suse.de>
+Subject: Re: What's the upstream disposition with nvme-stas?
+Message-ID: <ZJW+toS0tyjMsJf+@kbusch-mbp.dhcp.thefacebook.com>
+References: <b7f6bba3-30b0-8d55-e285-b922101a04f4@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b7f6bba3-30b0-8d55-e285-b922101a04f4@redhat.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230623_044456_579980_06D33892 
-X-CRM114-Status: GOOD (  16.66  )
+X-CRM114-CacheID: sfid-20230623_084811_344325_DF23AC57 
+X-CRM114-Status: GOOD (  21.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,139 +79,53 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When transmitting data, call down into TCP using a single sendmsg with
-MSG_SPLICE_PAGES to indicate that content should be spliced rather than
-copied instead of calling sendpage.
+On Thu, Jun 22, 2023 at 01:41:30PM -0400, John Meneghini wrote:
+> At LSFMM this year I spoke with privately with Keith Bush and others about
+> the status of nvme-stas. When Keith and I spoke he told me that Dell had
+> talked with him privately about nvme-stas and asked if the nvme-stas
+> functionality can be merged into nvme-cli or otherwise accepted upstream.
+> Keith said that he told Dell, after looking at the nvme-stas implementation
+> (again), the answer was no.
 
-Signed-off-by: David Howells <dhowells@redhat.com>
-Tested-by: Sagi Grimberg <sagi@grimberg.me>
-Acked-by: Willem de Bruijn <willemb@google.com>
-cc: Keith Busch <kbusch@kernel.org>
-cc: Jens Axboe <axboe@fb.com>
-cc: Christoph Hellwig <hch@lst.de>
-cc: Chaitanya Kulkarni <kch@nvidia.com>
-cc: "David S. Miller" <davem@davemloft.net>
-cc: Eric Dumazet <edumazet@google.com>
-cc: Jakub Kicinski <kuba@kernel.org>
-cc: Paolo Abeni <pabeni@redhat.com>
-cc: Jens Axboe <axboe@kernel.dk>
-cc: Matthew Wilcox <willy@infradead.org>
-cc: linux-nvme@lists.infradead.org
-cc: netdev@vger.kernel.org
----
+It's not that I told anyone "no" on merging -stas with -cli, or that I
+was asked to do so. That was a mutual conclusion. The two projects are
+sufficiently unaligned for such a destiny. nvme-cli is a stateless,
+one-shot command based utility, just like it wanted to be. Not that it
+couldn't support the features; it'd just be done in a different way, but
+there isn't interest (that I know of) in developing a fully flushed out
+solution there.
 
-Notes:
-    ver #3)
-     - Split nvme/host from nvme/target changes.
-    
-    ver #2)
-     - Wrap lines at 80.
+While I personally don't like the tooling fragmentation or that -stas
+can break things that don't subscribe to their way of configuration,
+that's *their* problem to sort out with their users. I don't have such
+hardware, so I haven't got a horse in that race.
 
- drivers/nvme/target/tcp.c | 46 ++++++++++++++++++++++++---------------
- 1 file changed, 29 insertions(+), 17 deletions(-)
+> general purpose Linux utility used for discovering and managing nvme and
+> nvme-of devices. This is the nvme-cli utility. This is what's "supported
+> upstream" and I'd like to end any debate about whether or not the upstream
+> community supports nvme-stas. Nvme-stas is supported by the upstream
+> community to the extent that it uses the kernel and libnvme APIs to access
+> nvme devices; just as any other third party user space application that
+> exploits these kernel and user space APIs is supported. Other than this,
+> nvme-stas is not "supported upstream".
 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index ed98df72c76b..868aa4de2e4c 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -576,13 +576,17 @@ static void nvmet_tcp_execute_request(struct nvmet_tcp_cmd *cmd)
- 
- static int nvmet_try_send_data_pdu(struct nvmet_tcp_cmd *cmd)
- {
-+	struct msghdr msg = {
-+		.msg_flags = MSG_DONTWAIT | MSG_MORE | MSG_SPLICE_PAGES,
-+	};
-+	struct bio_vec bvec;
- 	u8 hdgst = nvmet_tcp_hdgst_len(cmd->queue);
- 	int left = sizeof(*cmd->data_pdu) - cmd->offset + hdgst;
- 	int ret;
- 
--	ret = kernel_sendpage(cmd->queue->sock, virt_to_page(cmd->data_pdu),
--			offset_in_page(cmd->data_pdu) + cmd->offset,
--			left, MSG_DONTWAIT | MSG_MORE | MSG_SENDPAGE_NOTLAST);
-+	bvec_set_virt(&bvec, (void *)cmd->data_pdu + cmd->offset, left);
-+	iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, left);
-+	ret = sock_sendmsg(cmd->queue->sock, &msg);
- 	if (ret <= 0)
- 		return ret;
- 
-@@ -603,17 +607,21 @@ static int nvmet_try_send_data(struct nvmet_tcp_cmd *cmd, bool last_in_batch)
- 	int ret;
- 
- 	while (cmd->cur_sg) {
-+		struct msghdr msg = {
-+			.msg_flags = MSG_DONTWAIT | MSG_SPLICE_PAGES,
-+		};
- 		struct page *page = sg_page(cmd->cur_sg);
-+		struct bio_vec bvec;
- 		u32 left = cmd->cur_sg->length - cmd->offset;
--		int flags = MSG_DONTWAIT;
- 
- 		if ((!last_in_batch && cmd->queue->send_list_len) ||
- 		    cmd->wbytes_done + left < cmd->req.transfer_len ||
- 		    queue->data_digest || !queue->nvme_sq.sqhd_disabled)
--			flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
-+			msg.msg_flags |= MSG_MORE;
- 
--		ret = kernel_sendpage(cmd->queue->sock, page, cmd->offset,
--					left, flags);
-+		bvec_set_page(&bvec, page, left, cmd->offset);
-+		iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, left);
-+		ret = sock_sendmsg(cmd->queue->sock, &msg);
- 		if (ret <= 0)
- 			return ret;
- 
-@@ -649,18 +657,20 @@ static int nvmet_try_send_data(struct nvmet_tcp_cmd *cmd, bool last_in_batch)
- static int nvmet_try_send_response(struct nvmet_tcp_cmd *cmd,
- 		bool last_in_batch)
- {
-+	struct msghdr msg = { .msg_flags = MSG_DONTWAIT | MSG_SPLICE_PAGES, };
-+	struct bio_vec bvec;
- 	u8 hdgst = nvmet_tcp_hdgst_len(cmd->queue);
- 	int left = sizeof(*cmd->rsp_pdu) - cmd->offset + hdgst;
--	int flags = MSG_DONTWAIT;
- 	int ret;
- 
- 	if (!last_in_batch && cmd->queue->send_list_len)
--		flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
-+		msg.msg_flags |= MSG_MORE;
- 	else
--		flags |= MSG_EOR;
-+		msg.msg_flags |= MSG_EOR;
- 
--	ret = kernel_sendpage(cmd->queue->sock, virt_to_page(cmd->rsp_pdu),
--		offset_in_page(cmd->rsp_pdu) + cmd->offset, left, flags);
-+	bvec_set_virt(&bvec, (void *)cmd->rsp_pdu + cmd->offset, left);
-+	iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, left);
-+	ret = sock_sendmsg(cmd->queue->sock, &msg);
- 	if (ret <= 0)
- 		return ret;
- 	cmd->offset += ret;
-@@ -677,18 +687,20 @@ static int nvmet_try_send_response(struct nvmet_tcp_cmd *cmd,
- 
- static int nvmet_try_send_r2t(struct nvmet_tcp_cmd *cmd, bool last_in_batch)
- {
-+	struct msghdr msg = { .msg_flags = MSG_DONTWAIT | MSG_SPLICE_PAGES, };
-+	struct bio_vec bvec;
- 	u8 hdgst = nvmet_tcp_hdgst_len(cmd->queue);
- 	int left = sizeof(*cmd->r2t_pdu) - cmd->offset + hdgst;
--	int flags = MSG_DONTWAIT;
- 	int ret;
- 
- 	if (!last_in_batch && cmd->queue->send_list_len)
--		flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
-+		msg.msg_flags |= MSG_MORE;
- 	else
--		flags |= MSG_EOR;
-+		msg.msg_flags |= MSG_EOR;
- 
--	ret = kernel_sendpage(cmd->queue->sock, virt_to_page(cmd->r2t_pdu),
--		offset_in_page(cmd->r2t_pdu) + cmd->offset, left, flags);
-+	bvec_set_virt(&bvec, (void *)cmd->r2t_pdu + cmd->offset, left);
-+	iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, left);
-+	ret = sock_sendmsg(cmd->queue->sock, &msg);
- 	if (ret <= 0)
- 		return ret;
- 	cmd->offset += ret;
+I'm not sure we're all aligned on what "supported upstream" means.
 
+The linux kernel has to support the interfaces it exposes to user space
+no matter who's using them.
+
+The tooling using these interfaces are independently developed, often
+loosely organized. There's not really an individual authority that makes
+decisions on what counts as "supported upstream". These things often
+happen organically as developers and users converge on solutions to
+common problems.
+
+Dell is free to call their repo the supported upstream "nvme-stas"
+utility if they want since they are apparently actively maintaining it.
+That doesn't mean any 3rd party entities or greater linux-nvme community
+are also backing the effort, though.
+
+An OEM/IHV also can't really force distros to support their products
+either. Usually those support decisions are based on some merits of
+mutual benefits, and it's perfectly normal to conclude either way.
 
