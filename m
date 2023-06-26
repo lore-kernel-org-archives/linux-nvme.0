@@ -4,81 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DEC06EB64DC
-	for <linux-nvme@archiver.kernel.org>; Sun, 25 Jun 2023 08:10:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD9BEEB64DC
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Jun 2023 01:16:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qwfLjyoUz3ZDqsKQEVoGFsXw4nHaaBvsnDikn6HJhJo=; b=BAeU5sL0k9TJeHfsHjLFokMBIu
-	MIWLohyIvESiOdqEboiloUt3/F93xM1vN4NjCwI3iGnhhIobxRH8XdoqbYL8iPTFC34NzR4AJzxd5
-	Y+hdcbphRh73SRKrCIHk9oW3lyYt8AwWXhyTsCAdsjtCSI5cZEZ8g8cggW6f4AocTl4EWY2S6srq2
-	KdPbkst427o5cUw+xKV1cwf/XzLqQI8L/M1XSM8uzt0052XBLUqkHbBw6VG0CEjW7d6DEtiEjnaRP
-	wldqnPkkqGyIxWdck3KDFXv74q6Zlw4v3Zh6V0ixkAIu7fRwVS6b4F5QBKvKf3w/A/U3X9GW0ig7i
-	O/4yMb/w==;
+	Content-Type:Subject:From:Cc:To:MIME-Version:Date:Message-ID:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=vAxpc4mOo9pLKmGhYj5zSZwN0dqRAYuo83a1IAsjD2Y=; b=GcIcO9P1poE26D1pQbzUX0vcCF
+	hJgG695KflGaIox57AFm643n9EDCzaaKuSn1o67CUjtm6o376uGJQR5Uq5xDfTM49qY2NJlXW17hj
+	2rx1UBQUBYu5APUpqcZEpxhpqHaBM8s4LEtg7mDIhwrw/aaAr85Zv0NDXB+ExwE9fRtOdqT/oxp2A
+	ZPkVME/vRM9OvOKkYS2vFjICJHdQJUFBm23CQgV2CU/rUn28Ra3v3VjLglJAMgnMY4Ozm1Yq4Dpn/
+	tcGCrbiFOhSbM7atyXvUuFK3yVTBgJNHlT0oEY4BYZEa/QyPTnrFuj/8Yl86m0Nw6WI0b/2sptZXM
+	7q38rq+A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qDKoo-007Rep-0c;
-	Sun, 25 Jun 2023 08:09:58 +0000
-Received: from mail-wr1-f52.google.com ([209.85.221.52])
+	id 1qDapt-0093aU-0E;
+	Mon, 26 Jun 2023 01:16:09 +0000
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qDKol-007Rdw-0H
+	id 1qDapo-0093ZG-0h
 	for linux-nvme@lists.infradead.org;
-	Sun, 25 Jun 2023 08:09:56 +0000
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-31114d47414so618498f8f.1
-        for <linux-nvme@lists.infradead.org>; Sun, 25 Jun 2023 01:09:49 -0700 (PDT)
+	Mon, 26 Jun 2023 01:16:05 +0000
+Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-666ecb21f86so2771640b3a.3
+        for <linux-nvme@lists.infradead.org>; Sun, 25 Jun 2023 18:15:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687742158; x=1690334158;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vAxpc4mOo9pLKmGhYj5zSZwN0dqRAYuo83a1IAsjD2Y=;
+        b=p0Q3kJsEYL5vGgthdOtN0O6KoO3WWKMPix1c5lFCgtGJwmRcMUQSpaV04R6L+6Iw2f
+         +3dqh4LVkORjKa5jQmkJYkoD3zcfiQlkVfmQolr6M74mDz5DPC0BiTJ/b2xj1sKXYkUl
+         UeKneu1GETjjOoWq1s0+O/v+qrazB1lEnL7cLjD7xU2qgjahu5Z309w1cBAxUQu/1n8G
+         TkaF/PEkFVRu0D7rYR9ya9c8r/ClPvPiPqVj98psKpSTQUk1034HPbXD5uvXXUrc2vOr
+         gpHmd7jczaTdC3gRmAqM2LQJa74w1iVoxxIX+6NJ6DhGf0b3sPZV/kiQoJLrJ46+jI9w
+         pOdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687680588; x=1690272588;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qwfLjyoUz3ZDqsKQEVoGFsXw4nHaaBvsnDikn6HJhJo=;
-        b=NHnAiJ/R5LidtupcLIaAmPFHGlxyObp+DvDAVlkf3baj/oga8BCI5jsnG1TfdtnqRP
-         8Kocc0VSShSJXzkUNGQjSzLp8WxgchKdsjuzsfMdVjbSo/uFuOtnNL9CCb7APlKP0QDi
-         uE+ZeM9iXwQXOV0zOAW2s/UdU49PhZl/Arb2eN3xNhlmBHVHqLRyT1QIkpfQ0JBRTU1b
-         aYq7IfHS1iDTzHkqaiOeRkTW2OawsHe3Exv5dDbcEKFmUY+roCHZ26AwrICgXhqtyRDH
-         YOX8ld1UMsau/leD2T1LwR+MmYbLYVwM329bSySeteMYcAG9bcam/hTPmNYO7gMGDIMX
-         lOSw==
-X-Gm-Message-State: AC+VfDz21OxOxc5+HF1egLpUvpf/I6pCDxF5dPkGdebmSSVsmDJgkT2E
-	ZS5hLjLz/dPxngVcDOiUzAk=
-X-Google-Smtp-Source: ACHHUZ5FjGgKnKoBXfpyo3JNxXwqBqUImEJ7SWTVZRMv+JkraYho9UCyjCeDUcSyrIuSt63wjnkAuA==
-X-Received: by 2002:a5d:468d:0:b0:30a:d0a0:266e with SMTP id u13-20020a5d468d000000b0030ad0a0266emr24109094wrq.2.1687680587578;
-        Sun, 25 Jun 2023 01:09:47 -0700 (PDT)
-Received: from [10.100.102.14] (46-116-229-137.bb.netvision.net.il. [46.116.229.137])
-        by smtp.gmail.com with ESMTPSA id f1-20020a5d5681000000b0030647449730sm3980931wrv.74.2023.06.25.01.09.45
+        d=1e100.net; s=20221208; t=1687742158; x=1690334158;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=vAxpc4mOo9pLKmGhYj5zSZwN0dqRAYuo83a1IAsjD2Y=;
+        b=eHVzqywoGsta8RD21AtNmP819CL5tfb4imemqDyuzg38nLUP+Ncg2ZM+GQtlraRtBA
+         veR6qFQ/eLJC3MptkHMQlMvQl5VUlD5SZ5fLoKDIo9bi/OEGEwiheMsR3443jKlx+G/z
+         EacXn6J1C/owZy/Onl1MnIG2mNL35JtjFobmvkFqCrhwqh9EG0xVWaqSrs+RWBHccx1W
+         5zBmLtVcXgcC7XLCZDYyCHvdtkxABQWK9DmUy1Lm2O3ZkOvDJ+MLSkA49ep5X8p8SHPN
+         MjyXFpiabkmN491/LyGbR2vmbElPOHH5YZqKXOFCk6VELsI11BbdNgFUZ61A0nNAZpKp
+         4s9g==
+X-Gm-Message-State: AC+VfDwY4GrEMvIXg/0RE+1rrLgH/ugu26PyzEp2PGQkSO/mSjCqMAcU
+	WUqyTnsYwlISS7UYIAy0aHI=
+X-Google-Smtp-Source: ACHHUZ5zUic1RIuJE0aEuxFw7H3zDO/jZUsTfmvRWLtZp89kOAmqBYhH7FVYTdPRFmz8PrhXDFmctw==
+X-Received: by 2002:a05:6a21:3292:b0:126:561c:9ebc with SMTP id yt18-20020a056a21329200b00126561c9ebcmr7748180pzb.31.1687742158234;
+        Sun, 25 Jun 2023 18:15:58 -0700 (PDT)
+Received: from [192.168.0.103] ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id j191-20020a6380c8000000b0053f5ff753e2sm2974759pgd.23.2023.06.25.18.15.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 25 Jun 2023 01:09:46 -0700 (PDT)
-Message-ID: <643f1f34-e88b-0e79-3834-62884b614008@grimberg.me>
-Date: Sun, 25 Jun 2023 11:09:45 +0300
+        Sun, 25 Jun 2023 18:15:57 -0700 (PDT)
+Message-ID: <d18d2a08-9d24-0209-c2cf-baf60bbf5048@gmail.com>
+Date: Mon, 26 Jun 2023 08:15:49 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH V2 0/4] nvme: fix two kinds of IO hang from removing NSs
 Content-Language: en-US
-To: Ming Lei <ming.lei@redhat.com>, Keith Busch <kbusch@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org, Yi Zhang <yi.zhang@redhat.com>,
- linux-block@vger.kernel.org, Chunguang Xu <brookxu.cn@gmail.com>
-References: <ZJGoWGJ5/fKfIhx+@ovpn-8-23.pek2.redhat.com>
- <27ce75fc-f6c5-7bf3-8448-242ee3e65067@grimberg.me>
- <ZJI/1w8/9pLIyXZ2@ovpn-8-23.pek2.redhat.com>
- <caa80682-3c3e-f709-804a-6ee913e4524f@grimberg.me>
- <ZJL6w+K6e95WWJzV@ovpn-8-23.pek2.redhat.com>
- <ZJMb4f0i9wm8y4pi@kbusch-mbp.dhcp.thefacebook.com>
- <ZJRR0C9sqLp7zhAv@ovpn-8-19.pek2.redhat.com>
- <ZJRcRWyn7o7lLEDM@kbusch-mbp.dhcp.thefacebook.com>
- <ZJRgUXfRuuOoIN1o@ovpn-8-19.pek2.redhat.com>
- <ZJRmd7bnclaNW3PL@kbusch-mbp.dhcp.thefacebook.com>
- <ZJeJyEnSpVBDd4vb@ovpn-8-16.pek2.redhat.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <ZJeJyEnSpVBDd4vb@ovpn-8-16.pek2.redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ "Clemens S." <cspringsguth@gmail.com>,
+ Martin Belanger <martin.belanger@dell.com>,
+ Chaitanya Kulkarni <kch@nvidia.com>, John Meneghini <jmeneghi@redhat.com>,
+ Hannes Reinecke <hare@suse.de>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Regressions <regressions@lists.linux.dev>,
+ Linux NVMe <linux-nvme@lists.infradead.org>
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Fwd: Need NVME QUIRK BOGUS for SAMSUNG MZ1WV480HCGL-000MV (Samsung
+ SM-953 Datacenter SSD)
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230625_010955_127262_31A691BA 
-X-CRM114-Status: GOOD (  23.66  )
+X-CRM114-CacheID: sfid-20230625_181604_258728_8032D5DE 
+X-CRM114-Status: GOOD (  14.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,71 +99,67 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi,
 
->>>>>> The point was to contain requests from entering while the hctx's are
->>>>>> being reconfigured. If you're going to pair up the freezes as you've
->>>>>> suggested, we might as well just not call freeze at all.
->>>>>
->>>>> blk_mq_update_nr_hw_queues() requires queue to be frozen.
->>>>
->>>> It's too late at that point. Let's work through a real example. You'll
->>>> need a system that has more CPU's than your nvme has IO queues.
->>>>
->>>> Boot without any special nvme parameters. Every possible nvme IO queue
->>>> will be assigned "default" hctx type. Now start IO to every queue, then
->>>> run:
->>>>
->>>>    # echo 8 > /sys/modules/nvme/parameters/poll_queues && echo 1 > /sys/class/nvme/nvme0/reset_controller
->>>>
->>>> Today, we freeze prior to tearing down the "default" IO queues, so
->>>> there's nothing entered into them while the driver reconfigures the
->>>> queues.
->>>
->>> nvme_start_freeze() just prevents new IO from being queued, and old ones
->>> may still be entering block layer queue, and what matters here is
->>> actually quiesce, which prevents new IO from being queued to
->>> driver/hardware.
->>>
->>>>
->>>> What you're suggesting will allow IO to queue up in a queisced "default"
->>>> queue, which will become "polled" without an interrupt hanlder on the
->>>> other side of the reset. The application doesn't know that, so the IO
->>>> you're allowing to queue up will time out.
->>>
->>> time out only happens after the request is queued to driver/hardware, or after
->>> blk_mq_start_request() is called in nvme_queue_rq(), but quiesce actually
->>> prevents new IOs from being dispatched to driver or be queued via .queue_rq(),
->>> meantime old requests have been canceled, so no any request can be
->>> timed out.
->>
->> Quiesce doesn't prevent requests from entering an hctx, and you can't
->> back it out to put on another hctx later. It doesn't matter that you
->> haven't dispatched it to hardware yet. The request's queue was set the
->> moment it was allocated, so after you unquiesce and freeze for the new
->> queue mapping, the requests previously blocked on quiesce will time out
->> in the scenario I've described.
->>
->> There are certainly gaps in the existing code where error'ed requests
->> can be requeued or stuck elsewhere and hit the exact same problem, but
->> the current way at least tries to contain it.
-> 
-> Yeah, but you can't remove the gap at all with start_freeze, that said
-> the current code has to live with the situation of new mapping change
-> and old request with old mapping.
-> 
-> Actually I considered to handle this kind of situation before, one approach
-> is to reuse the bio steal logic taken in nvme mpath:
-> 
-> 1) for FS IO, re-submit bios, meantime free request
-> 
-> 2) for PT request, simply fail it
-> 
-> It could be a bit violent for 2) even though REQ_FAILFAST_DRIVER is
-> always set for PT request, but not see any better approach for handling
-> PT request.
+I notice a regression report on Bugzilla [1]. Quoting from it:
 
-Ming,
+> Hello,
+> since upgrading one of my hosts to KErnel 6.2 i have a problem with 6 nvme disks (SAMSUNG MZ1WV480HCGL-000MV).
+> 
+> This problem didn't occur with Kernel 5.15.
+> 
+> Here is log from dmesg | grep nvme:
+> 
+> nvme nvme0: pci function 0000:04:00.0                                                                                                                                                                                                                                                                                         
+> nvme nvme1: pci function 0000:05:00.0                                                                                                                                                                                                                                                                                         
+> nvme nvme2: pci function 0000:06:00.0                                                                                                                                                                                                                                                                                         
+> nvme nvme3: pci function 0000:07:00.0                                                                                                                                                                                                                                                                                         
+> nvme nvme4: pci function 0000:0a:00.0                                                                                                                                                                                                                                                                                         
+> nvme nvme5: pci function 0000:0b:00.0                                                                                                                                                                                                                                                                                         
+> nvme nvme0: 8/0/0 default/read/poll queues                                                                                                                                                                                                                                                                                    
+> nvme nvme1: 8/0/0 default/read/poll queues                                                                                                                                                                                                                                                                                    
+> nvme nvme2: 8/0/0 default/read/poll queues                                                                                                                                                                                                                                                                                    
+> nvme nvme3: 8/0/0 default/read/poll queues                                                                                                                                                                                                                                                                                    
+> nvme nvme4: 8/0/0 default/read/poll queues                                                                                                                                                                                                                                                                                    
+> nvme nvme5: 8/0/0 default/read/poll queues                                                                                                                                                                                                                                                                                    
+> nvme nvme1: globally duplicate IDs for nsid 1                                                                                                                                                                                                                                                                                 
+> nvme nvme1: VID:DID 144d:a802 model:SAMSUNG MZ1WV480HCGL-000MV firmware:BXU87M9Q                                                                                                                                                                                                                                              
+> nvme nvme2: globally duplicate IDs for nsid 1                                                                                                                                                                                                                                                                                 
+> nvme nvme2: VID:DID 144d:a802 model:SAMSUNG MZ1WV480HCGL-000MV firmware:BXU87M9Q                                                                                                                                                                                                                                              
+> nvme nvme4: globally duplicate IDs for nsid 1                                                                                                                                                                                                                                                                                 
+> nvme nvme3: globally duplicate IDs for nsid 1                                                                                                                                                                                                                                                                                 
+> nvme nvme4: VID:DID 144d:a802 model:SAMSUNG MZ1WV480HCGL-000MV firmware:BXU87M9Q                                                                                                                                                                                                                                              
+> nvme nvme3: VID:DID 144d:a802 model:SAMSUNG MZ1WV480HCGL-000MV firmware:BXU87M9Q                                                                                                                                                                                                                                              
+> nvme nvme5: globally duplicate IDs for nsid 1                                                                                                                                                                                                                                                                                 
+> nvme nvme5: VID:DID 144d:a802 model:SAMSUNG MZ1WV480HCGL-000MV firmware:BXU87M9Q                                                                                                                                                                                                                                              
+> nvme0n1: p1 p9                           
+> 
+> Only one drive, out of 6 is usable.
+> 
+> These drives are rather common datacenter drives (Samsung SM-953).
+> 
+> From another Bug-Report (https://bugzilla.kernel.org/show_bug.cgi?id=217384):
+> 
+> To fix it, please add two strings in pci.c
+> 
+> { PCI_DEVICE(0x144d, 0xa802), /* SAMSUNG MZ1WV480HCGL-000MV  */
+> .driver_data = NVME_QUIRK_BOGUS_NID, },
+> 
+> Thanks in advance.
 
-I suggest to submit patches for tcp/rdma and continue the discussion on
-the pci driver.
+See Bugzilla for the full thread.
+
+The reporter had a quirk (see above) that fixed this regression,
+nevertheless I'm adding it to regzbot to make sure it doesn't fall
+through cracks unnoticed:
+
+#regzbot introduced: 86c2457a8e8112f https://bugzilla.kernel.org/show_bug.cgi?id=217593
+#regzbot title: NVME_QUIRK_BOGUS_NID is needed for SAMSUNG MZ1WV480HCGL-000MV
+
+Thanks.
+
+[1]: https://bugzilla.kernel.org/show_bug.cgi?id=217593
+
+-- 
+An old man doll... just what I always wanted! - Clara
 
