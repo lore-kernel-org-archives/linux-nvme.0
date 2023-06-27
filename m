@@ -4,88 +4,140 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 88F18EB64D7
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99E47EB64DD
 	for <linux-nvme@archiver.kernel.org>; Wed, 28 Jun 2023 15:22:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YwxxhZEJ37xbciJkcumawxBi5g0VT2iajiuvyzc4PvQ=; b=1wMk2KPmejXdmh+e0FJUNaUSag
-	jTHO7wd/sK8G1CiRCNiATXwWYGI7KIflhSWwJ9SfKWgaH7EJMkbwQjrjubD4RuszdzFaXvx3cgAbb
-	4LorozKRJb9sqcc7ZcrY198UnA2n8BELvGKqa3bom2zYmZezyj/gj5+HT3FuyOe//fCX1Uedvup+u
-	kR/Bj6CBQF90t9D9yKvI2EhN2WKIki4uWbIZv0RQL8y8LRypEFZAajXXhb46ALjGfcoiN63s1C+xD
-	fVUnLNfNyuOQhr1XFC8B2Q9md1F2tnbRqTVdqgLlYeAbwotyCCbVbp6rxCcCnMdL08YHRdqYziaPw
-	+eqfUyQg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=wSMlvdPvFwtAB8/e51uNbvN3bYNPRI0mv4QVH7XwV0g=; b=TkwNx3lkbWjktmfCBjrG6uzaZm
+	ZWhUXqxUeVuo1N4adTikBHOKStQo4nyROPIoCF4NqRsDJS1xt9juOC1TZaU2ScfaMFipIK8SNFdIX
+	xaTFVz6f1uPZqbWwNODnnQnrMKPLAyBBPagmt+q7d6CGCtE33esD/kJ//Cn0SGhWRMr+nj28HhUaV
+	q9xe0R1n+DBi4v88PEd8VNbfpuygvtZBVWhegB8xYfyWfSvPP6kRwMKyx2NXJQvMwrQMI7x1hXfzT
+	lu4uKv18yu9ngISGqoXfZYmr8DCRsawivcYQe47G3rshbx5Xt2OVsMROIe2wvJoRsAD3EodGcLIhx
+	DluudxHA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qEWzd-00FygB-2k;
+	id 1qEWzd-00Fyfb-0I;
 	Wed, 28 Jun 2023 15:22:05 +0000
-Received: from mga12.intel.com ([192.55.52.136])
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qEU1q-00Fct6-10
+	id 1qEPHs-00F1gV-0y
 	for linux-nvme@lists.infradead.org;
-	Wed, 28 Jun 2023 12:12:12 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687954330; x=1719490330;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SO2aJTQFDpvmS5VCVuSHy31Q+lMPYy3bSbWqJ1yROBw=;
-  b=nPumXR7ZS272qe2JWGp7PVdMl5EJDVjiZcJjKqOMcpDi09gAm4F68BMm
-   gB7j6rlJmxjlIWmEVchQJLdpvjubMyTM3DZDIE+r0eRg7tgnSmz4jEo51
-   m+1TUdsaeGpjjZ/K6oMS0WEFDaik80gxIPS9ShX5Y+M2oXCaiVF1ysdKo
-   6e/tbzfFi59HxufsoeC4JF5iUf9jWexbyDSbr88NzdXLYaoqFEifc6PU1
-   xH+D9XEUfBBtcipvzWebfUh0IbJ9yMLoq31WdLEW+1xwku8A4u/B/ADV/
-   mpoO0eM4ccbeUj5jzIMBIzia5UNikPixdrlcWufnX/Jtu4WQtA7MEyJuj
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="341413256"
-X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
-   d="scan'208";a="341413256"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2023 05:11:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="752230431"
-X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
-   d="scan'208";a="752230431"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 28 Jun 2023 05:11:40 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qEU1L-000DFB-2e;
-	Wed, 28 Jun 2023 12:11:39 +0000
-Date: Wed, 28 Jun 2023 20:11:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
-	Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
-	Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
-	willy@infradead.org, hare@suse.de, djwong@kernel.org,
-	bvanassche@acm.org, ming.lei@redhat.com, dlemoal@kernel.org,
-	nitheshshetty@gmail.com, gost.dev@samsung.com,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Anuj Gupta <anuj20.g@samsung.com>,
-	Vincent Fu <vincent.fu@samsung.com>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v13 9/9] null_blk: add support for copy offload
-Message-ID: <202306281909.TRNCf5eG-lkp@intel.com>
-References: <20230627183629.26571-10-nj.shetty@samsung.com>
+	Wed, 28 Jun 2023 07:08:26 +0000
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20230628070820epoutp04eafe1cc72144275a9f187b5cac94ac71~swPCxtdQj2169221692epoutp04K
+	for <linux-nvme@lists.infradead.org>; Wed, 28 Jun 2023 07:08:20 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20230628070820epoutp04eafe1cc72144275a9f187b5cac94ac71~swPCxtdQj2169221692epoutp04K
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1687936100;
+	bh=wSMlvdPvFwtAB8/e51uNbvN3bYNPRI0mv4QVH7XwV0g=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=GtUrjkbXFwZE2Iie3Wdv5x6ajsRUyMRVGm5vN49TnOn8xFEhX4pPy61EDHbclGc4K
+	 gth+TY02Cf8LqAWw5cBoILQUF70QH+VXP2KqnN94DASqqJUNmVcayMtCydvC9uNiyU
+	 eEzPyHEKJnLuJcmNLt5PxXZuvMMfm5VsoUP95JSQ=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+	20230628070819epcas5p3e7c2a0b2d01fb1574faeedbabeec20f4~swPCSJqi93258332583epcas5p3o;
+	Wed, 28 Jun 2023 07:08:19 +0000 (GMT)
+Received: from epsmgec5p1-new.samsung.com (unknown [182.195.38.181]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4QrXjZ4RSSz4x9Q9; Wed, 28 Jun
+	2023 07:08:18 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+	epsmgec5p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	47.8E.55173.26CDB946; Wed, 28 Jun 2023 16:08:18 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20230627184039epcas5p2decb92731d3e7dfdf9f2c05309a90bd7~smCPBuM882123321233epcas5p2J;
+	Tue, 27 Jun 2023 18:40:39 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20230627184039epsmtrp15d4f6e80f7ce7681f39f956a2f505b85~smCPAg96I1856518565epsmtrp1S;
+	Tue, 27 Jun 2023 18:40:39 +0000 (GMT)
+X-AuditID: b6c32a50-df1ff7000001d785-fa-649bdc628335
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	2E.08.30535.72D2B946; Wed, 28 Jun 2023 03:40:39 +0900 (KST)
+Received: from green245.sa.corp.samsungelectronics.net (unknown
+	[107.99.41.245]) by epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20230627184035epsmtip2cba789726f5463839dd350f251ac2be5~smCK8QnuT0383803838epsmtip2j;
+	Tue, 27 Jun 2023 18:40:35 +0000 (GMT)
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
+	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	dm-devel@redhat.com, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
+	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
+	<kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
+	Brauner <brauner@kernel.org>
+Cc: martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
+	willy@infradead.org, hare@suse.de, djwong@kernel.org, bvanassche@acm.org,
+	ming.lei@redhat.com, dlemoal@kernel.org, nitheshshetty@gmail.com,
+	gost.dev@samsung.com, Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi
+	<joshi.k@samsung.com>, =?UTF-8?q?Javier=20Gonz=C3=A1lez?=
+	<javier.gonz@samsung.com>, Anuj Gupta <anuj20.g@samsung.com>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH v13 5/9] nvme: add copy offload support
+Date: Wed, 28 Jun 2023 00:06:19 +0530
+Message-Id: <20230627183629.26571-6-nj.shetty@samsung.com>
+X-Mailer: git-send-email 2.35.1.500.gb896f729e2
+In-Reply-To: <20230627183629.26571-1-nj.shetty@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230627183629.26571-10-nj.shetty@samsung.com>
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02TfzBcVxTHc997+3alZZ4fTW90KmbTxqDsbli5hGqnIk+oajQ6zUyqG/uK
+	Lmtnd4n+mNhESUL8ioRaP7JK6mcQQrGkipQwGVUNZUQpIhiCJJpEVK2lzX+fc+753u85587l
+	4CbVbHNOqFTJyKWiMC65nahrs7ayOz6cLeb/NbILVXb9gqPTqas4KrubQqLZtiWAMhae4mii
+	5QxAfRNGaPQnd9Q8n81Cgy0NGGr6/gKGSspuYmh8+CEb3VybI9GF1n6AJu+oMdQ8ZIvy4wsJ
+	1NR8i0B9jTkkuvzDJBslDtSTqKjjHwy1psdiqH7iFEB1K5dxVDH7gECdQ6+hntUOFlp5kkO+
+	Y0H3/e5NN6jvsumekWsEXVNsQ/fdjqSrS8+RdE1hDK0dVJF0QXI6i06KnSfpxckhgn5w4w5J
+	J18vBXRN99f0w2oLunpiDvOjjkpcQxiRmJFbMtKgCHGoNNiN6+0f+F6g0IkvsBM4o31cS6ko
+	nHHjevj42XmGhq3viWsZJQqLXE/5iRQKLu9tV3lEpJKxDIlQKN24jEwcJnOU2StE4YpIabC9
+	lFG6CPj8vcL1ws8kIb8VP8JlsV7R57W/kirQ4pIADDiQcoTdnem4jk2oJgDnslgJYPs6LwGY
+	1TyJ64NlAEvO9mJbimtjiyy9ohnA2Yz9+qI4DCb3F7ATAIdDUrawe42jy5tRKhxWaQuALsCp
+	CgJeLHq+oTal9sGcpPENb4J6E9bUxZI6NqRc4FqulqW7CFI8mPKnsS5tQO2H2p52lr7EGN7K
+	miB0jFO7YGxt9kankJo3gGO1JaS+Uw/YPpO2yaZwpuM6W8/mcDolfpNPwJKLxaRe/C2A6gE1
+	0B+4w7iuFFzXBE5Zw8pGnj79OrzUVYHpjY1g0srE5lYMYX3eFu+G5ZWaTd+dsP/vU5tMw4GF
+	BUK/rWQAp6bS2KnAUv3CQOoXBlL/b60BeCkwZ2SK8GAmSCgT2EmZE/89c1BEeDXY+Dw2fvWg
+	rGrVvhVgHNAKIAfnmhnueJIpNjEUi778ipFHBMojwxhFKxCubzwNN38lKGL990mVgQJHZ76j
+	k5OTo7ODk4D7quHIwXNiEypYpGQkDCNj5Fs6jGNgrsKKCg0PDgdnTEe1HFINjy6xPrmSc6TF
+	/qznp85XfzxuobU//7hD4DyUf6gvuiAqKVFlPb7U9Ua+5L6NZU1lQRjjEcBjpM+ifFR7z4zZ
+	WsUcnmFHa/xP8z96KV5zZf5ds7fKA7x6rNzrAuLacwmN7x6np5d6s5/1EwlL5TbPc1zbMht2
+	GPtMelkfcBjkL3/3sgMYvD8d0yDUHqiSdHppMmfII0dPnhTm3ZNIMud9c298vjI7ReZqxOa9
+	H74/4HvM5IPYQfTF4cht3pKPPaMa79UyvAylacyjnx/zdm5bSWv74xthiSol0XgPg46N+iQO
+	pvKK8/yX7ayGdi+NLRqxb5ePXA114RKKEJHABpcrRP8CWoohbsUEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrLIsWRmVeSWpSXmKPExsWy7bCSvK667uwUg42X5SzWnzrGbNE04S+z
+	xeq7/WwWrw9/YrSY9uEns8WTA+2MFpef8Fk82G9vsffdbFaLmwd2MlnsWTSJyWLl6qNMFo/v
+	fGa3OPr/LZvFpEPXGC2eXp3FZLH3lrbFwrYlLBZ79p5ksbi8aw6bxfxlT9ktuq/vYLNYfvwf
+	k8Whyc1MFjueNDJabPs9n9li3ev3LBYnbklbnP97nNXi9485bA5yHpeveHvsnHWX3eP8vY0s
+	HptXaHlcPlvqsWlVJ5vH5iX1HrtvNrB5LO6bzOrR2/yOzePj01ssHu/3XWXz6NuyitFj8+lq
+	j8+b5Dw2PXnLFCAQxWWTkpqTWZZapG+XwJVxacUX5oJmz4qe3RfYGhgPWHUxcnJICJhIbHz4
+	kbWLkYtDSGA3o8TruRfYIBKSEsv+HmGGsIUlVv57zg5R1MwkcfXEO5YuRg4ONgFtidP/OUDi
+	IgJdzBKdO0HiXBzMAodYJO58XMgI0i0sYC4xp/cx2CQWAVWJzduawTbwClhJ/J+7mxVkkISA
+	vkT/fUGQMKeAtcTu80fAwkJAJe+PB0BUC0qcnPkEbC2zgLrE+nlCIGFmAXmJ5q2zmScwCs5C
+	UjULoWoWkqoFjMyrGCVTC4pz03OLDQuM8lLL9YoTc4tL89L1kvNzNzGCU4iW1g7GPas+6B1i
+	ZOJgPMQowcGsJMIr9mN6ihBvSmJlVWpRfnxRaU5q8SFGaQ4WJXHeb697U4QE0hNLUrNTUwtS
+	i2CyTBycUg1M9RHi0aySd9Sk777SuBQj8VBnM8M8od3fVZRaxKfl6mxxdimyNnn5arZN5781
+	TR83B6pOOLOTOzX339nIZzrFLw6sMFhQnNr+YN0Mqynlyq++B8W/yclXWyfwOPjNmgvHJvRx
+	vmzIuTiv9/E/lqXzl+qscZOyOVehu5tb85RelWl7oWCO4an/F1osLdV4kvcs//PY9tj/cjbZ
+	WZ9uTCxwfJLy62ueyddPDLGTO/JPJAR8CcvraVhRcjJw6W7L6g9ndXa3m1f6KKikK5/aM2XN
+	7gsPCmbPf7wmc7Ljg+OKVZk/2Jsv2t3P5+jZlrt3GvekzbW3Ja78zUy7tWbNJpErRX0nHp08
+	OCdup2hRY6zZDCWW4oxEQy3mouJEAD5H9IaQAwAA
+X-CMS-MailID: 20230627184039epcas5p2decb92731d3e7dfdf9f2c05309a90bd7
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230627184039epcas5p2decb92731d3e7dfdf9f2c05309a90bd7
+References: <20230627183629.26571-1-nj.shetty@samsung.com>
+	<CGME20230627184039epcas5p2decb92731d3e7dfdf9f2c05309a90bd7@epcas5p2.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230628_051210_383855_38EF39AC 
-X-CRM114-Status: GOOD (  15.18  )
+X-CRM114-CacheID: sfid-20230628_000824_686731_B8AA11B8 
+X-CRM114-Status: GOOD (  22.39  )
 X-Mailman-Approved-At: Wed, 28 Jun 2023 08:22:02 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -101,193 +153,289 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Nitesh,
+Current design only supports single source range.
+We receive a request with REQ_OP_COPY_DST.
+Parse this request which consists of dst(1st) and src(2nd) bios.
+Form a copy command (TP 4065)
 
-kernel test robot noticed the following build warnings:
+trace event support for nvme_copy_cmd.
+Set the device copy limits to queue limits.
 
-[auto build test WARNING on 53cdf865f90ba922a854c65ed05b519f9d728424]
+Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+Signed-off-by: Javier González <javier.gonz@samsung.com>
+Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+---
+ drivers/nvme/host/constants.c |  1 +
+ drivers/nvme/host/core.c      | 79 +++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/trace.c     | 19 +++++++++
+ include/linux/nvme.h          | 43 +++++++++++++++++--
+ 4 files changed, 139 insertions(+), 3 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nitesh-Shetty/block-Introduce-queue-limits-for-copy-offload-support/20230628-163126
-base:   53cdf865f90ba922a854c65ed05b519f9d728424
-patch link:    https://lore.kernel.org/r/20230627183629.26571-10-nj.shetty%40samsung.com
-patch subject: [PATCH v13 9/9] null_blk: add support for copy offload
-config: hexagon-randconfig-r045-20230628 (https://download.01.org/0day-ci/archive/20230628/202306281909.TRNCf5eG-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230628/202306281909.TRNCf5eG-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306281909.TRNCf5eG-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/block/null_blk/main.c:12:
-   In file included from drivers/block/null_blk/null_blk.h:8:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/block/null_blk/main.c:12:
-   In file included from drivers/block/null_blk/null_blk.h:8:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/block/null_blk/main.c:12:
-   In file included from drivers/block/null_blk/null_blk.h:8:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/block/null_blk/main.c:1295:2: warning: variable 'rem' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-    1295 |         __rq_for_each_bio(bio, req) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/blk-mq.h:1012:2: note: expanded from macro '__rq_for_each_bio'
-    1012 |         if ((rq->bio))                  \
-         |         ^~~~~~~~~~~~~~
-   include/linux/compiler.h:55:28: note: expanded from macro 'if'
-      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:57:30: note: expanded from macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/block/null_blk/main.c:1300:15: note: uninitialized use occurs here
-    1300 |         if (WARN_ON(!rem))
-         |                      ^~~
-   include/asm-generic/bug.h:123:25: note: expanded from macro 'WARN_ON'
-     123 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   include/linux/compiler.h:55:47: note: expanded from macro 'if'
-      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                                               ^~~~
-   include/linux/compiler.h:57:52: note: expanded from macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                    ^~~~
-   drivers/block/null_blk/main.c:1295:2: note: remove the 'if' if its condition is always true
-    1295 |         __rq_for_each_bio(bio, req) {
-         |         ^
-   include/linux/blk-mq.h:1012:2: note: expanded from macro '__rq_for_each_bio'
-    1012 |         if ((rq->bio))                  \
-         |         ^
-   include/linux/compiler.h:55:23: note: expanded from macro 'if'
-      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                       ^
-   drivers/block/null_blk/main.c:1287:12: note: initialize the variable 'rem' to silence this warning
-    1287 |         size_t rem, temp;
-         |                   ^
-         |                    = 0
-   7 warnings generated.
-
-
-vim +1295 drivers/block/null_blk/main.c
-
-  1281	
-  1282	static inline int nullb_setup_copy_write(struct nullb *nullb,
-  1283			struct request *req, bool is_fua)
-  1284	{
-  1285		sector_t sector_in, sector_out;
-  1286		void *in, *out;
-  1287		size_t rem, temp;
-  1288		struct bio *bio;
-  1289		unsigned long offset_in, offset_out;
-  1290		struct nullb_page *t_page_in, *t_page_out;
-  1291		int ret = -EIO;
-  1292	
-  1293		sector_out = blk_rq_pos(req);
-  1294	
-> 1295		__rq_for_each_bio(bio, req) {
-  1296			sector_in = bio->bi_iter.bi_sector;
-  1297			rem = bio->bi_iter.bi_size;
-  1298		}
-  1299	
-  1300		if (WARN_ON(!rem))
-  1301			return BLK_STS_NOTSUPP;
-  1302	
-  1303		spin_lock_irq(&nullb->lock);
-  1304		while (rem > 0) {
-  1305			temp = min_t(size_t, nullb->dev->blocksize, rem);
-  1306			offset_in = (sector_in & SECTOR_MASK) << SECTOR_SHIFT;
-  1307			offset_out = (sector_out & SECTOR_MASK) << SECTOR_SHIFT;
-  1308	
-  1309			if (null_cache_active(nullb) && !is_fua)
-  1310				null_make_cache_space(nullb, PAGE_SIZE);
-  1311	
-  1312			t_page_in = null_lookup_page(nullb, sector_in, false,
-  1313				!null_cache_active(nullb));
-  1314			if (!t_page_in)
-  1315				goto err;
-  1316			t_page_out = null_insert_page(nullb, sector_out,
-  1317				!null_cache_active(nullb) || is_fua);
-  1318			if (!t_page_out)
-  1319				goto err;
-  1320	
-  1321			in = kmap_local_page(t_page_in->page);
-  1322			out = kmap_local_page(t_page_out->page);
-  1323	
-  1324			memcpy(out + offset_out, in + offset_in, temp);
-  1325			kunmap_local(out);
-  1326			kunmap_local(in);
-  1327			__set_bit(sector_out & SECTOR_MASK, t_page_out->bitmap);
-  1328	
-  1329			if (is_fua)
-  1330				null_free_sector(nullb, sector_out, true);
-  1331	
-  1332			rem -= temp;
-  1333			sector_in += temp >> SECTOR_SHIFT;
-  1334			sector_out += temp >> SECTOR_SHIFT;
-  1335		}
-  1336	
-  1337		ret = 0;
-  1338	err:
-  1339		spin_unlock_irq(&nullb->lock);
-  1340		return ret;
-  1341	}
-  1342	
-
+diff --git a/drivers/nvme/host/constants.c b/drivers/nvme/host/constants.c
+index 5e4f8848dce0..311ad67e9cf3 100644
+--- a/drivers/nvme/host/constants.c
++++ b/drivers/nvme/host/constants.c
+@@ -19,6 +19,7 @@ static const char * const nvme_ops[] = {
+ 	[nvme_cmd_resv_report] = "Reservation Report",
+ 	[nvme_cmd_resv_acquire] = "Reservation Acquire",
+ 	[nvme_cmd_resv_release] = "Reservation Release",
++	[nvme_cmd_copy] = "Copy Offload",
+ 	[nvme_cmd_zone_mgmt_send] = "Zone Management Send",
+ 	[nvme_cmd_zone_mgmt_recv] = "Zone Management Receive",
+ 	[nvme_cmd_zone_append] = "Zone Append",
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 98bfb3d9c22a..d4063e981492 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -763,6 +763,60 @@ static inline void nvme_setup_flush(struct nvme_ns *ns,
+ 	cmnd->common.nsid = cpu_to_le32(ns->head->ns_id);
+ }
+ 
++static inline blk_status_t nvme_setup_copy_write(struct nvme_ns *ns,
++	       struct request *req, struct nvme_command *cmnd)
++{
++	struct nvme_copy_range *range = NULL;
++	struct bio *bio;
++	u64 dst_lba, src_lba, n_lba;
++	u16 nr_range = 1, control = 0;
++
++	if (blk_rq_nr_phys_segments(req) != 2)
++		return BLK_STS_IOERR;
++
++	/* +1 shift as dst+src length is added in request merging, we send copy
++	 * for half the length.
++	 */
++	n_lba = blk_rq_bytes(req) >> (ns->lba_shift + 1);
++	if (WARN_ON(!n_lba))
++		return BLK_STS_NOTSUPP;
++
++	dst_lba = nvme_sect_to_lba(ns, blk_rq_pos(req));
++	__rq_for_each_bio(bio, req) {
++		src_lba = nvme_sect_to_lba(ns, bio->bi_iter.bi_sector);
++		if (n_lba != bio->bi_iter.bi_size >> ns->lba_shift)
++			return BLK_STS_IOERR;
++	}
++
++	if (req->cmd_flags & REQ_FUA)
++		control |= NVME_RW_FUA;
++
++	if (req->cmd_flags & REQ_FAILFAST_DEV)
++		control |= NVME_RW_LR;
++
++	memset(cmnd, 0, sizeof(*cmnd));
++	cmnd->copy.opcode = nvme_cmd_copy;
++	cmnd->copy.nsid = cpu_to_le32(ns->head->ns_id);
++	cmnd->copy.control = cpu_to_le16(control);
++	cmnd->copy.sdlba = cpu_to_le64(dst_lba);
++	cmnd->copy.nr_range = 0;
++
++	range = kmalloc_array(nr_range, sizeof(*range),
++			GFP_ATOMIC | __GFP_NOWARN);
++	if (!range)
++		return BLK_STS_RESOURCE;
++
++	range[0].slba = cpu_to_le64(src_lba);
++	range[0].nlb = cpu_to_le16(n_lba - 1);
++
++	req->special_vec.bv_page = virt_to_page(range);
++	req->special_vec.bv_offset = offset_in_page(range);
++	req->special_vec.bv_len = sizeof(*range) * nr_range;
++	req->rq_flags |= RQF_SPECIAL_PAYLOAD;
++
++	return BLK_STS_OK;
++}
++
+ static blk_status_t nvme_setup_discard(struct nvme_ns *ns, struct request *req,
+ 		struct nvme_command *cmnd)
+ {
+@@ -1005,6 +1059,9 @@ blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req)
+ 	case REQ_OP_ZONE_APPEND:
+ 		ret = nvme_setup_rw(ns, req, cmd, nvme_cmd_zone_append);
+ 		break;
++	case REQ_OP_COPY_DST:
++		ret = nvme_setup_copy_write(ns, req, cmd);
++		break;
+ 	default:
+ 		WARN_ON_ONCE(1);
+ 		return BLK_STS_IOERR;
+@@ -1742,6 +1799,26 @@ static void nvme_config_discard(struct gendisk *disk, struct nvme_ns *ns)
+ 		blk_queue_max_write_zeroes_sectors(queue, UINT_MAX);
+ }
+ 
++static void nvme_config_copy(struct gendisk *disk, struct nvme_ns *ns,
++				       struct nvme_id_ns *id)
++{
++	struct nvme_ctrl *ctrl = ns->ctrl;
++	struct request_queue *q = disk->queue;
++
++	if (!(ctrl->oncs & NVME_CTRL_ONCS_COPY)) {
++		blk_queue_max_copy_sectors_hw(q, 0);
++		blk_queue_flag_clear(QUEUE_FLAG_COPY, q);
++		return;
++	}
++
++	/* setting copy limits */
++	if (blk_queue_flag_test_and_set(QUEUE_FLAG_COPY, q))
++		return;
++
++	blk_queue_max_copy_sectors_hw(q,
++		nvme_lba_to_sect(ns, le16_to_cpu(id->mssrl)));
++}
++
+ static bool nvme_ns_ids_equal(struct nvme_ns_ids *a, struct nvme_ns_ids *b)
+ {
+ 	return uuid_equal(&a->uuid, &b->uuid) &&
+@@ -1941,6 +2018,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
+ 	set_capacity_and_notify(disk, capacity);
+ 
+ 	nvme_config_discard(disk, ns);
++	nvme_config_copy(disk, ns, id);
+ 	blk_queue_max_write_zeroes_sectors(disk->queue,
+ 					   ns->ctrl->max_zeroes_sectors);
+ }
+@@ -4600,6 +4678,7 @@ static inline void _nvme_check_size(void)
+ 	BUILD_BUG_ON(sizeof(struct nvme_download_firmware) != 64);
+ 	BUILD_BUG_ON(sizeof(struct nvme_format_cmd) != 64);
+ 	BUILD_BUG_ON(sizeof(struct nvme_dsm_cmd) != 64);
++	BUILD_BUG_ON(sizeof(struct nvme_copy_command) != 64);
+ 	BUILD_BUG_ON(sizeof(struct nvme_write_zeroes_cmd) != 64);
+ 	BUILD_BUG_ON(sizeof(struct nvme_abort_cmd) != 64);
+ 	BUILD_BUG_ON(sizeof(struct nvme_get_log_page_command) != 64);
+diff --git a/drivers/nvme/host/trace.c b/drivers/nvme/host/trace.c
+index 1c36fcedea20..da4a7494e5a7 100644
+--- a/drivers/nvme/host/trace.c
++++ b/drivers/nvme/host/trace.c
+@@ -150,6 +150,23 @@ static const char *nvme_trace_read_write(struct trace_seq *p, u8 *cdw10)
+ 	return ret;
+ }
+ 
++static const char *nvme_trace_copy(struct trace_seq *p, u8 *cdw10)
++{
++	const char *ret = trace_seq_buffer_ptr(p);
++	u64 slba = get_unaligned_le64(cdw10);
++	u8 nr_range = get_unaligned_le16(cdw10 + 8);
++	u16 control = get_unaligned_le16(cdw10 + 10);
++	u32 dsmgmt = get_unaligned_le32(cdw10 + 12);
++	u32 reftag = get_unaligned_le32(cdw10 +  16);
++
++	trace_seq_printf(p,
++			 "slba=%llu, nr_range=%u, ctrl=0x%x, dsmgmt=%u, reftag=%u",
++			 slba, nr_range, control, dsmgmt, reftag);
++	trace_seq_putc(p, 0);
++
++	return ret;
++}
++
+ static const char *nvme_trace_dsm(struct trace_seq *p, u8 *cdw10)
+ {
+ 	const char *ret = trace_seq_buffer_ptr(p);
+@@ -243,6 +260,8 @@ const char *nvme_trace_parse_nvm_cmd(struct trace_seq *p,
+ 		return nvme_trace_zone_mgmt_send(p, cdw10);
+ 	case nvme_cmd_zone_mgmt_recv:
+ 		return nvme_trace_zone_mgmt_recv(p, cdw10);
++	case nvme_cmd_copy:
++		return nvme_trace_copy(p, cdw10);
+ 	default:
+ 		return nvme_trace_common(p, cdw10);
+ 	}
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 182b6d614eb1..bbd877111b57 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -337,7 +337,7 @@ struct nvme_id_ctrl {
+ 	__u8			nvscc;
+ 	__u8			nwpc;
+ 	__le16			acwu;
+-	__u8			rsvd534[2];
++	__le16			ocfs;
+ 	__le32			sgls;
+ 	__le32			mnan;
+ 	__u8			rsvd544[224];
+@@ -365,6 +365,7 @@ enum {
+ 	NVME_CTRL_ONCS_WRITE_ZEROES		= 1 << 3,
+ 	NVME_CTRL_ONCS_RESERVATIONS		= 1 << 5,
+ 	NVME_CTRL_ONCS_TIMESTAMP		= 1 << 6,
++	NVME_CTRL_ONCS_COPY			= 1 << 8,
+ 	NVME_CTRL_VWC_PRESENT			= 1 << 0,
+ 	NVME_CTRL_OACS_SEC_SUPP                 = 1 << 0,
+ 	NVME_CTRL_OACS_NS_MNGT_SUPP		= 1 << 3,
+@@ -414,7 +415,10 @@ struct nvme_id_ns {
+ 	__le16			npdg;
+ 	__le16			npda;
+ 	__le16			nows;
+-	__u8			rsvd74[18];
++	__le16			mssrl;
++	__le32			mcl;
++	__u8			msrc;
++	__u8			rsvd91[11];
+ 	__le32			anagrpid;
+ 	__u8			rsvd96[3];
+ 	__u8			nsattr;
+@@ -831,6 +835,7 @@ enum nvme_opcode {
+ 	nvme_cmd_resv_report	= 0x0e,
+ 	nvme_cmd_resv_acquire	= 0x11,
+ 	nvme_cmd_resv_release	= 0x15,
++	nvme_cmd_copy		= 0x19,
+ 	nvme_cmd_zone_mgmt_send	= 0x79,
+ 	nvme_cmd_zone_mgmt_recv	= 0x7a,
+ 	nvme_cmd_zone_append	= 0x7d,
+@@ -854,7 +859,8 @@ enum nvme_opcode {
+ 		nvme_opcode_name(nvme_cmd_resv_release),	\
+ 		nvme_opcode_name(nvme_cmd_zone_mgmt_send),	\
+ 		nvme_opcode_name(nvme_cmd_zone_mgmt_recv),	\
+-		nvme_opcode_name(nvme_cmd_zone_append))
++		nvme_opcode_name(nvme_cmd_zone_append),		\
++		nvme_opcode_name(nvme_cmd_copy))
+ 
+ 
+ 
+@@ -1031,6 +1037,36 @@ struct nvme_dsm_range {
+ 	__le64			slba;
+ };
+ 
++struct nvme_copy_command {
++	__u8                    opcode;
++	__u8                    flags;
++	__u16                   command_id;
++	__le32                  nsid;
++	__u64                   rsvd2;
++	__le64                  metadata;
++	union nvme_data_ptr     dptr;
++	__le64                  sdlba;
++	__u8			nr_range;
++	__u8			rsvd12;
++	__le16                  control;
++	__le16                  rsvd13;
++	__le16			dspec;
++	__le32                  ilbrt;
++	__le16                  lbat;
++	__le16                  lbatm;
++};
++
++struct nvme_copy_range {
++	__le64			rsvd0;
++	__le64			slba;
++	__le16			nlb;
++	__le16			rsvd18;
++	__le32			rsvd20;
++	__le32			eilbrt;
++	__le16			elbat;
++	__le16			elbatm;
++};
++
+ struct nvme_write_zeroes_cmd {
+ 	__u8			opcode;
+ 	__u8			flags;
+@@ -1792,6 +1828,7 @@ struct nvme_command {
+ 		struct nvme_download_firmware dlfw;
+ 		struct nvme_format_cmd format;
+ 		struct nvme_dsm_cmd dsm;
++		struct nvme_copy_command copy;
+ 		struct nvme_write_zeroes_cmd write_zeroes;
+ 		struct nvme_zone_mgmt_send_cmd zms;
+ 		struct nvme_zone_mgmt_recv_cmd zmr;
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.35.1.500.gb896f729e2
+
 
