@@ -4,71 +4,138 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A782EB64D7
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Jun 2023 06:44:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2470EB64D7
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Jun 2023 06:45:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1pZbFxIcZMSIDGAB65+74vd6qFZmRBObj/WnklXfrb8=; b=k4ZtAwe/LiWlYxA4/kPWsGMFDz
-	g5tqVBkOnum5FAcykqyLQct2gn9ZASvmxs5ejxSYfD0a3OvXlMQPnkHb+aAXANLteHfK1aCV03tP5
-	q1Tja0sa9/m8Gwc3YQfnGMQ/sP+5mS/bvKeNxLzvY1KsAmSIXieOKm1zHzQnVuRQDa3abjb+qX0HC
-	Rtm/hGP1557bxxYkp8BPEMheTRnoTmz+VyqRj2l4FYq3kGDFFUge8O9svQtBBNuk3Khnfbw8CmyeW
-	MNry1581ReM2b3Bs4QQiwHHOWtjUMX1SCKSWQZ04NGeHDEdUTBtayCzVnZk+p/gX0Umwg5o3ZIzTI
-	1V2dSkSw==;
+	bh=HaM5wl7d6XlAT/Tg8+7Uibwdp6IRklJIPzVlJl8O1BY=; b=mo6RiwKFiKsu3wq8B466HqqLlT
+	k0MKKNcV/TLZJSh4QaEvXpBw7cLU+OvwL0JMH6bX3aoCIn+PYjZ8k2NulFPD/OXjfakHcAsgbOHfy
+	IgJH1Xxz7dVu+oMwEFMjGc4PvZMsxOgdOcFEAELHRRoq1+KuqlNK2zV5bDoHzAEaxuCGGotIe2kwV
+	CbQJibR9M2EZ6DJ8kl2PqB4BNRudZk1URU6Y083C12InXBDvS4pH8xR80/wsb8onht9Joaj6Zgq4A
+	pDKjvPzsSOLjaqzVodGraxozTzn8fD70oZNfUBfUtSRSesZuOMqpdT1eTLAl4tJhRwRn16Z0vpD0I
+	QqLzO37g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qEOv4-00EyhY-0u;
-	Wed, 28 Jun 2023 06:44:50 +0000
-Received: from mail-ed1-f48.google.com ([209.85.208.48])
+	id 1qEOvC-00Eyiw-0R;
+	Wed, 28 Jun 2023 06:44:58 +0000
+Received: from mailout1.samsung.com ([203.254.224.24])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qEOv2-00EygH-0S
+	id 1qEOv8-00Eyi3-2v
 	for linux-nvme@lists.infradead.org;
-	Wed, 28 Jun 2023 06:44:49 +0000
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5183075a5ecso1190335a12.0
-        for <linux-nvme@lists.infradead.org>; Tue, 27 Jun 2023 23:44:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687934681; x=1690526681;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1pZbFxIcZMSIDGAB65+74vd6qFZmRBObj/WnklXfrb8=;
-        b=cCHoXTawZrs3rf5f5PRA7QeEKiTAxqhnsvL8s2PpCkCWMKnYIhmaj7X7RtKY84KahE
-         mqXItSppYNJZO34O7rlnxoHXHsFu7khPu2CGf1ca7kcOhEOO+q0E/WAFhX3bofowSlal
-         60DL3d1Sm0D14uohF32iT73J6T+z/oODZkrL5CzIryFzyKKdBBn9vf6/hMeaMnnECfT0
-         IdLl3VZfM20NjUkOCN6f7sBNMJ2IkZh92FT/VNgP7K8FEmrEaQKOWDSlOrb0kPqjKTcQ
-         tovEo0uGN7FkuiWU0M2aa3m5QGdQA4vECiZCt/EWUWkjW5YC6QGwoWJvlrUQASkIn/md
-         ToFg==
-X-Gm-Message-State: AC+VfDyVUyURVZbIulfczIxQqIa/V/G55wbVDaUxKjSJsMViYF+bQ3Iy
-	+ncUHWeHPX4ZcHS6sT+52iI=
-X-Google-Smtp-Source: ACHHUZ51mLFVptgVLuS8G/S4W7bTQGVCBD2vo+fQonFZNX7WnhyX548DdNPJEq1uJDaC2rQnv6Pq0w==
-X-Received: by 2002:a05:6402:520d:b0:516:463d:8a10 with SMTP id s13-20020a056402520d00b00516463d8a10mr3397057edd.3.1687934681205;
-        Tue, 27 Jun 2023 23:44:41 -0700 (PDT)
-Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id 25-20020a05600c029900b003f42158288dsm15773817wmk.20.2023.06.27.23.44.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Jun 2023 23:44:40 -0700 (PDT)
-Message-ID: <8dc6852e-ee90-ed64-1d3e-9ecdc9f4473b@grimberg.me>
-Date: Wed, 28 Jun 2023 09:44:38 +0300
+	Wed, 28 Jun 2023 06:44:56 +0000
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20230628064450epoutp01ab73417fba307be6a1424eb1e135a5db~sv6iFrLo00907709077epoutp01b
+	for <linux-nvme@lists.infradead.org>; Wed, 28 Jun 2023 06:44:50 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20230628064450epoutp01ab73417fba307be6a1424eb1e135a5db~sv6iFrLo00907709077epoutp01b
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1687934690;
+	bh=HaM5wl7d6XlAT/Tg8+7Uibwdp6IRklJIPzVlJl8O1BY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Xf3G33Gz/bgDrcnzIkDj2RoF811fsctIAiug1hNgufte7CWKFesrAg3s3RUAwOJK3
+	 ckcH3W5QJw0HqGWV/96lMkQ/6wHvJCVRvbwmrjCRulF7CncO8jWHNvqkcGM1qu5170
+	 mup3Zh3/ZvlJdWYUm6HmuyyTFtUfPnNs6l69pS20=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20230628064450epcas5p27072c59c3f70a29396a8ecdc75477e06~sv6hUlEmG1602616026epcas5p2A;
+	Wed, 28 Jun 2023 06:44:50 +0000 (GMT)
+Received: from epsmgec5p1-new.samsung.com (unknown [182.195.38.177]) by
+	epsnrtp2.localdomain (Postfix) with ESMTP id 4QrXBS6H7Lz4x9Q6; Wed, 28 Jun
+	2023 06:44:48 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmgec5p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	9E.28.55173.0E6DB946; Wed, 28 Jun 2023 15:44:48 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20230627184058epcas5p2226835b15381b856859b162e58572d63~smCgdzRC72124021240epcas5p2b;
+	Tue, 27 Jun 2023 18:40:58 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20230627184058epsmtrp1a67c7afb9091feee7c469eb5c89a9c8e~smCgcr4Fd1856518565epsmtrp1Y;
+	Tue, 27 Jun 2023 18:40:58 +0000 (GMT)
+X-AuditID: b6c32a50-df1ff7000001d785-66-649bd6e04566
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	73.18.30535.A3D2B946; Wed, 28 Jun 2023 03:40:58 +0900 (KST)
+Received: from green245.sa.corp.samsungelectronics.net (unknown
+	[107.99.41.245]) by epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20230627184054epsmtip2c141669cc20c09e0780a9f2f3970ed70~smCc5nDIq0374003740epsmtip2p;
+	Tue, 27 Jun 2023 18:40:54 +0000 (GMT)
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
+	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	dm-devel@redhat.com, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
+	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
+	<kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
+	Brauner <brauner@kernel.org>
+Cc: martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
+	willy@infradead.org, hare@suse.de, djwong@kernel.org, bvanassche@acm.org,
+	ming.lei@redhat.com, dlemoal@kernel.org, nitheshshetty@gmail.com,
+	gost.dev@samsung.com, Nitesh Shetty <nj.shetty@samsung.com>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH v13 7/9] dm: Add support for copy offload
+Date: Wed, 28 Jun 2023 00:06:21 +0530
+Message-Id: <20230627183629.26571-8-nj.shetty@samsung.com>
+X-Mailer: git-send-email 2.35.1.500.gb896f729e2
+In-Reply-To: <20230627183629.26571-1-nj.shetty@samsung.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] nvme: mark ctrl as DEAD if removing from error recovery
-Content-Language: en-US
-To: Ming Lei <ming.lei@redhat.com>, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-Cc: Yi Zhang <yi.zhang@redhat.com>, Chunguang Xu <brookxu.cn@gmail.com>,
- stable@vger.kernel.org
-References: <20230628031234.1916897-1-ming.lei@redhat.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230628031234.1916897-1-ming.lei@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Te0xTVxzeube9LWR116Lu2CprLi4RWKXVgqcoYjKid3HZyPyDzU1Zbe8A
+	oY/1gW5mG4g8rOExQBzVWBGC1KogD1MF1BQQKVMTQRhM0JAyM2WoOBFkwigXNv/7vu/3/k4O
+	HxdW8ET8JJ2ZMepUKRThz7nYEhwifdBzTCPrfyFD1Z7rOHIO5BPoccsYQCVPJ3HkvZYNUJd3
+	EXpwNRo1jx7jor5rlzDUdKoQQw5nG4YK3T0ADd+1Yai5PxSVZVVwUFNzBwd1XT5OIHvlMA8d
+	7nUR6HT7NIbcRRkYcnnTAbo4ZcfR+cdPOOhGvxjdft3ORVMTx4nNYrqrext9yTbAo28PXuDQ
+	dVUhdNdNC1175hBB11X8RDf2pRF0eV4Rl87NGCXoZ8P9HPrJlbsEnVd/BtB1nfvp57WBdK33
+	LyyW3JG8MZFRaRijhNGp9ZokXUIUtW17/Ifx4REyuVSuROspiU6lZaKomI9jpVuSUmaNoSSp
+	qhTLrBSrMpmosE0bjXqLmZEk6k3mKIoxaFIMCsMak0prsugS1ugYc6RcJlsbPpv4dXJi3vgw
+	MNSL9tlzCkEauLzUCvz4kFTAAvsgbgX+fCHZBOCrO93zZAzAUecRjCXjALpeTmILJZPTExw2
+	0Axg8VgrlyWZGOzwXABWwOcTZCjsnOH79CVkGg5rGsuBj+BkBQ4dI0+5vlYBpBKWdQ/NYQ75
+	PjzryCZ8WEBGwoLxwrlGkAyD+fcX+2Q/cgNsvN3KZVMWw45SL8eHcfI9mNFwbG5vSHr84K2G
+	AYytjYEPO35ktw6Aj9rreSwWwT/zs+bxXugoriLY2oMA2nptgA1Ew0xPPu7rg5PBsPpyGCuv
+	hEc85zF27iKYO+Wdd0UAXScWcBA8W32SYPFy2PMyfR7T8MnNXsCalQegx2rFC4DE9sY9tjfu
+	sf0/+iTAzwARYzBpExh1uEEu1TF7/3tntV5bC+a+S0isCzhrXq9xA4wP3ADycWqJYNnEUY1Q
+	oFF99z1j1McbLSmMyQ3CZw3/GRctVetn/5vOHC9XKGWKiIgIhXJdhJx6VzC49ZBGSCaozEwy
+	wxgY40IdxvcTpWFlDaKZ1GSeqrf8s9/Lb+TmnLBetZJnd9d9mXWuovYAlU2lcoIt4gdBXEvc
+	6j1xfs5Bc1GZI2PI9cGrd0bUzAmFfjpq/0frbKmXYtafcxxsFd9rJir7JaWSTx7+HSy4yg+q
+	2emMu8J7K1JbTFM5Vdc2D10PHabWtu9aFQjGxwQxhcoB93FhZTp52m7/avAbqee3pWFVkQ47
+	f98K5TKq1Foz1JpI/vC5MbbE8Kv0+Z57zz59++SqDRHRp3oOl9xq27rpn1/62r7wKAN45kqb
+	eKc4c4U6cnp3S8mLgEe77si224V1lUcD+7TqEXfJjpVZ/vdXf4sfQBKxcOiP5V3PvN2dM1EU
+	x5SokofgRpPqX9IKRJW3BAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrBIsWRmVeSWpSXmKPExsWy7bCSvK6V7uwUgyctghbrTx1jtlh9t5/N
+	4vXhT4wW0z78ZLZ4cqCd0eLyEz6LB/vtLfa+m81qcfPATiaLPYsmMVmsXH2UyWLSoWuMFk+v
+	zmKy2HtL22Jh2xIWiz17T7JYXN41h81i/rKn7Bbd13ewWSw//o/J4tDkZiaLHU8aGS22/Z7P
+	bLHu9XsWixO3pC3O/z3OavH7xxw2B2mPy1e8PXbOusvucf7eRhaPzSu0PC6fLfXYtKqTzWPz
+	knqP3Tcb2DwW901m9ehtfsfm8fHpLRaP9/uusnn0bVnF6LH5dLXH501yHpuevGUKEIjisklJ
+	zcksSy3St0vgyuj79pSxYItUxfyOSYwNjLtEuxg5OSQETCR+/vvB0sXIxSEksJtR4tq1S+wQ
+	CUmJZX+PMEPYwhIr/z1nhyhqZpK4e+sqkMPBwSagLXH6PwdIXESgi1mic+c7sEnMAtuYJT58
+	+AI2SVjAUmLhlUesIDaLgKrEmpXtbCA2r4CVxIRvkxhBBkkI6Ev03xcECXMKWEvsPn+EFSQs
+	BFTy/ngARLWgxMmZT1hAbGYBeYnmrbOZJzAKzEKSmoUktYCRaRWjZGpBcW56brFhgVFearle
+	cWJucWleul5yfu4mRnDka2ntYNyz6oPeIUYmDsZDjBIczEoivGI/pqcI8aYkVlalFuXHF5Xm
+	pBYfYpTmYFES5/32ujdFSCA9sSQ1OzW1ILUIJsvEwSnVwCT5bv3ug4VinW5rP7WddnaO0FBe
+	WHRx2bsrulfDX2w+q/XVqdpcz0YkxIJ/ibeZcND5iBrxvmfymkzmLeJz3yyYVJaYz6Zo3CNu
+	pSQ+f8OqhP87T0W2nPLU+7rpnu6N0trEhz+mFAcpVFvJmSp4hGXO//1R60XZoYfnNWsFXOS1
+	DieIFtz957U1bU+N5wzHA4XRjvfTT6zfd+T6n2m6kyJO2Tt+qHxiEjb3r+gKP6uk4oP13yWM
+	LiX1rTZPcIndaiw9oXWVl5Tkgbu81/OOqN65xNBR/i006xW3/qV95dXXJ5zz6g6f4nSb/dvP
+	Bwm/pr5adl3llvHvU49M3wfc2+G1p1O9xvLMTmfmK3b3bimxFGckGmoxFxUnAgD68nK/awMA
+	AA==
+X-CMS-MailID: 20230627184058epcas5p2226835b15381b856859b162e58572d63
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230627184058epcas5p2226835b15381b856859b162e58572d63
+References: <20230627183629.26571-1-nj.shetty@samsung.com>
+	<CGME20230627184058epcas5p2226835b15381b856859b162e58572d63@epcas5p2.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230627_234448_180399_83728CCC 
-X-CRM114-Status: GOOD (  11.79  )
+X-CRM114-CacheID: sfid-20230627_234455_277753_7BA05F5D 
+X-CRM114-Status: GOOD (  23.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,22 +150,112 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Before enabling copy for dm target, check if underlying devices and
+dm target support copy. Avoid split happening inside dm target.
+Fail early if the request needs split, currently splitting copy
+request is not supported.
 
-> namespace's request queue is frozen and quiesced during error recovering,
-> writeback IO is blocked in bio_queue_enter(), so fsync_bdev() <- del_gendisk()
-> can't move on, and causes IO hang. Removal could be from sysfs, hard
-> unplug or error handling.
-> 
-> Fix this kind of issue by marking controller as DEAD if removal breaks
-> error recovery.
-> 
-> This ways is reasonable too, because controller can't be recovered any
-> more after being removed.
+Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+---
+ drivers/md/dm-table.c         | 41 +++++++++++++++++++++++++++++++++++
+ drivers/md/dm.c               |  7 ++++++
+ include/linux/device-mapper.h |  5 +++++
+ 3 files changed, 53 insertions(+)
 
-This looks fine to me Ming,
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+diff --git a/drivers/md/dm-table.c b/drivers/md/dm-table.c
+index 7d208b2b1a19..2d08a890d7e1 100644
+--- a/drivers/md/dm-table.c
++++ b/drivers/md/dm-table.c
+@@ -1862,6 +1862,39 @@ static bool dm_table_supports_nowait(struct dm_table *t)
+ 	return true;
+ }
+ 
++static int device_not_copy_capable(struct dm_target *ti, struct dm_dev *dev,
++				      sector_t start, sector_t len, void *data)
++{
++	struct request_queue *q = bdev_get_queue(dev->bdev);
++
++	return !blk_queue_copy(q);
++}
++
++static bool dm_table_supports_copy(struct dm_table *t)
++{
++	struct dm_target *ti;
++	unsigned int i;
++
++	for (i = 0; i < t->num_targets; i++) {
++		ti = dm_table_get_target(t, i);
++
++		if (!ti->copy_offload_supported)
++			return false;
++
++		/*
++		 * target provides copy support (as implied by setting
++		 * 'copy_offload_supported')
++		 * and it relies on _all_ data devices having copy support.
++		 */
++		if (!ti->type->iterate_devices ||
++		     ti->type->iterate_devices(ti,
++			     device_not_copy_capable, NULL))
++			return false;
++	}
++
++	return true;
++}
++
+ static int device_not_discard_capable(struct dm_target *ti, struct dm_dev *dev,
+ 				      sector_t start, sector_t len, void *data)
+ {
+@@ -1944,6 +1977,14 @@ int dm_table_set_restrictions(struct dm_table *t, struct request_queue *q,
+ 		q->limits.discard_misaligned = 0;
+ 	}
+ 
++	if (!dm_table_supports_copy(t)) {
++		blk_queue_flag_clear(QUEUE_FLAG_COPY, q);
++		q->limits.max_copy_sectors = 0;
++		q->limits.max_copy_sectors_hw = 0;
++	} else {
++		blk_queue_flag_set(QUEUE_FLAG_COPY, q);
++	}
++
+ 	if (!dm_table_supports_secure_erase(t))
+ 		q->limits.max_secure_erase_sectors = 0;
+ 
+diff --git a/drivers/md/dm.c b/drivers/md/dm.c
+index f0f118ab20fa..6245e16bf066 100644
+--- a/drivers/md/dm.c
++++ b/drivers/md/dm.c
+@@ -1732,6 +1732,13 @@ static blk_status_t __split_and_process_bio(struct clone_info *ci)
+ 	if (unlikely(ci->is_abnormal_io))
+ 		return __process_abnormal_io(ci, ti);
+ 
++	if ((unlikely(op_is_copy(ci->bio->bi_opf)) &&
++			max_io_len(ti, ci->sector) < ci->sector_count)) {
++		DMERR("Error, IO size(%u) > max target size(%llu)\n",
++			ci->sector_count, max_io_len(ti, ci->sector));
++		return BLK_STS_IOERR;
++	}
++
+ 	/*
+ 	 * Only support bio polling for normal IO, and the target io is
+ 	 * exactly inside the dm_io instance (verified in dm_poll_dm_io)
+diff --git a/include/linux/device-mapper.h b/include/linux/device-mapper.h
+index 69d0435c7ebb..8ffee7e8cd06 100644
+--- a/include/linux/device-mapper.h
++++ b/include/linux/device-mapper.h
+@@ -396,6 +396,11 @@ struct dm_target {
+ 	 * bio_set_dev(). NOTE: ideally a target should _not_ need this.
+ 	 */
+ 	bool needs_bio_set_dev:1;
++
++	/*
++	 * copy offload is supported
++	 */
++	bool copy_offload_supported:1;
+ };
+ 
+ void *dm_per_bio_data(struct bio *bio, size_t data_size);
+-- 
+2.35.1.500.gb896f729e2
 
-
-I still want your patches for tcp/rdma that move the freeze.
-If you are not planning to send them, I swear I will :)
 
