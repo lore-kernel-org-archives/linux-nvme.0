@@ -4,82 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6AE2FEB64DC
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Jun 2023 06:10:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1ABD4EB64DA
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Jun 2023 06:40:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pb1MWnUMmUFEexxqK5EEY1JTSgmlRyHzP6MrqQFpEXU=; b=wN7HKm58szrKQb8fAK8lL7QZfP
-	mryHq/XpWilPPYF7sZav6Rc/JQ8DGxMcP5TSpwkS85FN2mBSVHF2co5P9kTOTsgMT6atZNWn/MvL2
-	9kUEu9dVmrEMC7Gx34LznEnF1cfTRbX2JhEQpheQRkOtAiDJpkpk8QeAXKI4Ab/jziuGxVlPIgM4w
-	haHlLXfNWPSw5LCx3NkwHxl+AYnBsLCdmRoBaRbzUs9KFYaImnIzgM7NvhFtCJ/XButwBZfTCIXMH
-	NmA/DrZZ56ClZ7C4+wf8+GZVrkB7a8khR+JYo9PXVQrKgxwA2bPe3vuSSk7xvwyUKZrc6CFiwL7rq
-	a1IYSPVg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=gVICQnrNZ16h+2f5XwDAmyBaM5aeOgagDxTc7HjZSTs=; b=3p0XrFo4d4PB8kTwUZhXbjnrWg
+	DXe1aZMIrinsJtQ185aT+F7J7LYj/oh4Bks8T/YqqSBvzs0SsvEy1XEdEsgfIBQMR5rZ86a9aJNUe
+	HltLypVXsx4mxtIUxAFihBk6WIVt1UH8/2lqgA6iQR5wpl/OkTZ/O/t7CU6Q7yEY2bUvQ/vj4Gfzh
+	QmJfufWUMtaWmhcKyzqJWtseRT58mU6pfHY9f1fZHTQ66B8jhMmtV1+Hr2+bMJS+KVjMOMQcVLPzD
+	X7sUfqPmdtKEH5kYo1E+NSYISmqNpLVOK3tUpeIimlk/FgLo+LE302vPL5aUmqeyqo3pUNa50hQUk
+	Dx92ZB9w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qEONL-00EwFA-2x;
-	Wed, 28 Jun 2023 06:09:59 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1qEOqi-00EyDP-0w;
+	Wed, 28 Jun 2023 06:40:20 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qEONJ-00EwEJ-0m
+	id 1qEOqe-00EyCk-2c
 	for linux-nvme@lists.infradead.org;
-	Wed, 28 Jun 2023 06:09:58 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	Wed, 28 Jun 2023 06:40:18 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D4FBA21864;
-	Wed, 28 Jun 2023 06:09:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1687932593; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pb1MWnUMmUFEexxqK5EEY1JTSgmlRyHzP6MrqQFpEXU=;
-	b=YaYej1+R30o+dQs1G1sudkf9gCXZ0aUOD8y7MDYkVUrM2fmAol6PYiPYlr8/urWhqNoxuv
-	pOz5DwJ0yjft0n+5PVkUBxNfVdphIqR89aw6bvhctKCYmYBx1HWz5ZSFE4h9FWIt2/1yzn
-	6TnSC/0XOK77BpGtD0iCczdutNkgAcI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1687932593;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pb1MWnUMmUFEexxqK5EEY1JTSgmlRyHzP6MrqQFpEXU=;
-	b=PUzBZ2/mZv5KJOFaiPsbNDAfkGGcOcY5hMmJO3e1mdDxJDKhWegvRSFRNcN6r6/SYK6dvQ
-	3EUUToqhETgvzJAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BF98B138E8;
-	Wed, 28 Jun 2023 06:09:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id c9RlLrHOm2QcEgAAMHmgww
-	(envelope-from <dwagner@suse.de>); Wed, 28 Jun 2023 06:09:53 +0000
-Date: Wed, 28 Jun 2023 08:09:53 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, Shin'ichiro Kawasaki <shinichiro@fastmail.com>, 
-	Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>, 
-	James Smart <jsmart2021@gmail.com>, Martin Belanger <Martin.Belanger@dell.com>
-Subject: Re: [PATCH blktests v1 2/3] nvme/rc: Avoid triggering host nvme-cli
- autoconnect
-Message-ID: <ygfgqglmntpqiopzq44aqegehnlroarteqjtmih7mulan4oukv@jmtupz2jnafv>
-References: <20230620132703.20648-1-dwagner@suse.de>
- <20230620132703.20648-3-dwagner@suse.de>
- <oyhlgbqq6pjwln5ly47rt5iyjtai4jeepkascfaskn2z7nu3ks@te7yrwbcpsmi>
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 3D555612FD;
+	Wed, 28 Jun 2023 06:40:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A55F8C433C8;
+	Wed, 28 Jun 2023 06:40:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1687934415;
+	bh=oLTq+iKrj17LlqKFqM7yyfd7btM7xW9Ms0g9sXkCcbY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=T5oKMrz5s4Lya00ey+pGe8W728mfu4d6JL3p5TJ4MwKMiW2nPVsQJ6sguljni0uzn
+	 s/KOWdJRgJ/9tuYTRItCUhbiuofr0Aevp8UK/HKAT/61ttug8954rIV4mWs4sEhTm9
+	 K+hmbdZFCOi3qdFznwL04rC9m75JzBavT1XHr4Rgw/tcbS8/0mqqxnVeqWPIXyA8M6
+	 WUDY8NmQcMY4NvocjCw3ik6Ey9HHLLAvYkcUHBOZIIB+QMAm41GGVkDzW2/GmDyfol
+	 cMO01CyDc+0Z6K4524H4t7MaSDBHmcZTCtXCnC8xzZotNTl1y1upDdbL+sQYAjO9Di
+	 REnD7LeklvfVg==
+Message-ID: <0d05d74e-48c5-2b99-dc28-482dc717e508@kernel.org>
+Date: Wed, 28 Jun 2023 15:40:11 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <oyhlgbqq6pjwln5ly47rt5iyjtai4jeepkascfaskn2z7nu3ks@te7yrwbcpsmi>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v13 1/9] block: Introduce queue limits for copy-offload
+ support
+Content-Language: en-US
+To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
+ Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
+ Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>
+Cc: martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
+ willy@infradead.org, hare@suse.de, djwong@kernel.org, bvanassche@acm.org,
+ ming.lei@redhat.com, nitheshshetty@gmail.com, gost.dev@samsung.com,
+ Kanchan Joshi <joshi.k@samsung.com>, Anuj Gupta <anuj20.g@samsung.com>,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org
+References: <20230627183629.26571-1-nj.shetty@samsung.com>
+ <CGME20230627184000epcas5p1c7cb01eb1c70bc5a19f76ce21f2ec3f8@epcas5p1.samsung.com>
+ <20230627183629.26571-2-nj.shetty@samsung.com>
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20230627183629.26571-2-nj.shetty@samsung.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230627_230957_425296_19A0B3C3 
-X-CRM114-Status: GOOD (  24.00  )
+X-CRM114-CacheID: sfid-20230627_234016_954275_3C8C8A1D 
+X-CRM114-Status: GOOD (  37.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,56 +92,301 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jun 27, 2023 at 10:22:53AM +0000, Shinichiro Kawasaki wrote:
-> On Jun 20, 2023 / 15:27, Daniel Wagner wrote:
-> > When the host has enabled the udev/systemd autoconnect services for the
-> > fc transport it interacts with blktests and make tests break.
-> > 
-> > nvme-cli learned to ignore connects attemps when using the
-> > --context command line option paired with a volatile configuration. Thus
-> > we can mark all the resources created by blktests and avoid any
-> > interaction with the systemd autoconnect scripts.
+On 6/28/23 03:36, Nitesh Shetty wrote:
+> Add device limits as sysfs entries,
+>         - copy_offload (RW)
+>         - copy_max_bytes (RW)
+>         - copy_max_bytes_hw (RO)
 > 
-> This sounds a good idea. Question, is "--context" option of the nvme command
-> mandatory to run nvme test with nvme_trtype=fc?
-
-If nvme-cli is called without the '--context' option, the command will be
-executed. Though if '--context' is provided as option and there is a
-configuration which matches the connect parameters but doesn't match the context
-it will ignore the operation.
-
-The blktests tests expects that nothing behind it's back is fiddling on the
-setup while it is running. So far udev didn't trigger for rdma/tcp but with fc
-it will.
-
-Thus, it's mandatory to use either the '--context' parameter or alternatively
-disable the rule with
-
-  ln -s /etc/udev/rules.d/70-nvmf-autoconnect.rules /dev/null
-
-BTW, when the udev rule is active I observed crashes when running blktests. So
-there is more to fix, though one thing at the time.
-
-> Or is it nice-to-have feature
-> depending on the test system OS? If it is mandatory, it's the better to check
-> in _nvme_requires.
-
-Well, I didn't want to make this a hard requirement for all tests. I guess we
-could make it for fc only if this is what you had in mind. The question should
-it only test for nvme-cli supporting --context or should it be really clever and
-test if the udev rule is also active (no idea how but I assume it is possible)?
-
-> >  _cleanup_nvmet() {
-> > @@ -337,6 +383,8 @@ _setup_nvmet() {
-> >  		def_host_traddr=$(printf "nn-%s:pn-%s" \
-> >  					 "${def_local_wwnn}" \
-> >  					 "${def_local_wwpn}")
-> > +
-> > +		_setup_nvme_cli
+> Above limits help to split the copy payload in block layer.
+> copy_offload: used for setting copy offload(1) or emulation(0).
+> copy_max_bytes: maximum total length of copy in single payload.
+> copy_max_bytes_hw: Reflects the device supported maximum limit.
 > 
-> Can we move this _setup_nvme_cli call from _setup_nvmet to _setup_fcloop?
-> _cleanup_nvme_cli is called in _cleanup_fcloop. I think it is a bit cleaner
-> since those setup/cleanup functions are called at at same level.
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+> Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+> ---
+>  Documentation/ABI/stable/sysfs-block | 33 +++++++++++++++
+>  block/blk-settings.c                 | 24 +++++++++++
+>  block/blk-sysfs.c                    | 63 ++++++++++++++++++++++++++++
+>  include/linux/blkdev.h               | 12 ++++++
+>  include/uapi/linux/fs.h              |  3 ++
+>  5 files changed, 135 insertions(+)
+> 
+> diff --git a/Documentation/ABI/stable/sysfs-block b/Documentation/ABI/stable/sysfs-block
+> index c57e5b7cb532..3c97303f658b 100644
+> --- a/Documentation/ABI/stable/sysfs-block
+> +++ b/Documentation/ABI/stable/sysfs-block
+> @@ -155,6 +155,39 @@ Description:
+>  		last zone of the device which may be smaller.
+>  
+>  
+> +What:		/sys/block/<disk>/queue/copy_offload
+> +Date:		June 2023
+> +Contact:	linux-block@vger.kernel.org
+> +Description:
+> +		[RW] When read, this file shows whether offloading copy to a
+> +		device is enabled (1) or disabled (0). Writing '0' to this
+> +		file will disable offloading copies for this device.
+> +		Writing any '1' value will enable this feature. If the device
+> +		does not support offloading, then writing 1, will result in an
+> +		error.
 
-Sure, no problem.
+I am still not convinced that this one is really necessary. copy_max_bytes_hw !=
+0 indicates that the devices supports copy offload. And setting copy_max_bytes
+to 0 can be used to disable copy offload (which probably should be the default
+for now).
+
+> +
+> +
+> +What:		/sys/block/<disk>/queue/copy_max_bytes
+> +Date:		June 2023
+> +Contact:	linux-block@vger.kernel.org
+> +Description:
+> +		[RW] This is the maximum number of bytes that the block layer
+> +		will allow for a copy request. This will is always smaller or
+
+will is -> is
+
+> +		equal to the maximum size allowed by the hardware, indicated by
+> +		'copy_max_bytes_hw'. An attempt to set a value higher than
+> +		'copy_max_bytes_hw' will truncate this to 'copy_max_bytes_hw'.
+> +
+> +
+> +What:		/sys/block/<disk>/queue/copy_max_bytes_hw
+
+Nit: In keeping with the spirit of attributes like
+max_hw_sectors_kb/max_sectors_kb, I would call this one copy_max_hw_bytes.
+
+> +Date:		June 2023
+> +Contact:	linux-block@vger.kernel.org
+> +Description:
+> +		[RO] This is the maximum number of bytes that the hardware
+> +		will allow for single data copy request.
+> +		A value of 0 means that the device does not support
+> +		copy offload.
+> +
+> +
+>  What:		/sys/block/<disk>/queue/crypto/
+>  Date:		February 2022
+>  Contact:	linux-block@vger.kernel.org
+> diff --git a/block/blk-settings.c b/block/blk-settings.c
+> index 4dd59059b788..738cd3f21259 100644
+> --- a/block/blk-settings.c
+> +++ b/block/blk-settings.c
+> @@ -59,6 +59,8 @@ void blk_set_default_limits(struct queue_limits *lim)
+>  	lim->zoned = BLK_ZONED_NONE;
+>  	lim->zone_write_granularity = 0;
+>  	lim->dma_alignment = 511;
+> +	lim->max_copy_sectors_hw = 0;
+> +	lim->max_copy_sectors = 0;
+>  }
+>  
+>  /**
+> @@ -82,6 +84,8 @@ void blk_set_stacking_limits(struct queue_limits *lim)
+>  	lim->max_dev_sectors = UINT_MAX;
+>  	lim->max_write_zeroes_sectors = UINT_MAX;
+>  	lim->max_zone_append_sectors = UINT_MAX;
+> +	lim->max_copy_sectors_hw = UINT_MAX;
+> +	lim->max_copy_sectors = UINT_MAX;
+>  }
+>  EXPORT_SYMBOL(blk_set_stacking_limits);
+>  
+> @@ -183,6 +187,22 @@ void blk_queue_max_discard_sectors(struct request_queue *q,
+>  }
+>  EXPORT_SYMBOL(blk_queue_max_discard_sectors);
+>  
+> +/**
+> + * blk_queue_max_copy_sectors_hw - set max sectors for a single copy payload
+> + * @q:  the request queue for the device
+> + * @max_copy_sectors: maximum number of sectors to copy
+> + **/
+> +void blk_queue_max_copy_sectors_hw(struct request_queue *q,
+> +		unsigned int max_copy_sectors)
+> +{
+> +	if (max_copy_sectors > (COPY_MAX_BYTES >> SECTOR_SHIFT))
+> +		max_copy_sectors = COPY_MAX_BYTES >> SECTOR_SHIFT;
+> +
+> +	q->limits.max_copy_sectors_hw = max_copy_sectors;
+> +	q->limits.max_copy_sectors = max_copy_sectors;
+> +}
+> +EXPORT_SYMBOL_GPL(blk_queue_max_copy_sectors_hw);
+> +
+>  /**
+>   * blk_queue_max_secure_erase_sectors - set max sectors for a secure erase
+>   * @q:  the request queue for the device
+> @@ -578,6 +598,10 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
+>  	t->max_segment_size = min_not_zero(t->max_segment_size,
+>  					   b->max_segment_size);
+>  
+> +	t->max_copy_sectors = min(t->max_copy_sectors, b->max_copy_sectors);
+> +	t->max_copy_sectors_hw = min(t->max_copy_sectors_hw,
+> +						b->max_copy_sectors_hw);
+> +
+>  	t->misaligned |= b->misaligned;
+>  
+>  	alignment = queue_limit_alignment_offset(b, start);
+> diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
+> index afc797fb0dfc..43551778d035 100644
+> --- a/block/blk-sysfs.c
+> +++ b/block/blk-sysfs.c
+> @@ -199,6 +199,62 @@ static ssize_t queue_discard_zeroes_data_show(struct request_queue *q, char *pag
+>  	return queue_var_show(0, page);
+>  }
+>  
+> +static ssize_t queue_copy_offload_show(struct request_queue *q, char *page)
+> +{
+> +	return queue_var_show(blk_queue_copy(q), page);
+> +}
+> +
+> +static ssize_t queue_copy_offload_store(struct request_queue *q,
+> +				       const char *page, size_t count)
+> +{
+> +	unsigned long copy_offload;
+> +	ssize_t ret = queue_var_store(&copy_offload, page, count);
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	if (copy_offload && !q->limits.max_copy_sectors_hw)
+> +		return -EINVAL;
+> +
+> +	if (copy_offload)
+> +		blk_queue_flag_set(QUEUE_FLAG_COPY, q);
+> +	else
+> +		blk_queue_flag_clear(QUEUE_FLAG_COPY, q);
+> +
+> +	return count;
+> +}
+
+See above. I think we can drop this attribute.
+
+> +
+> +static ssize_t queue_copy_max_hw_show(struct request_queue *q, char *page)
+> +{
+> +	return sprintf(page, "%llu\n", (unsigned long long)
+> +			q->limits.max_copy_sectors_hw << SECTOR_SHIFT);
+> +}
+> +
+> +static ssize_t queue_copy_max_show(struct request_queue *q, char *page)
+> +{
+> +	return sprintf(page, "%llu\n", (unsigned long long)
+> +			q->limits.max_copy_sectors << SECTOR_SHIFT);
+> +}
+> +
+> +static ssize_t queue_copy_max_store(struct request_queue *q,
+> +				       const char *page, size_t count)
+> +{
+> +	unsigned long max_copy;
+> +	ssize_t ret = queue_var_store(&max_copy, page, count);
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	if (max_copy & (queue_logical_block_size(q) - 1))
+> +		return -EINVAL;
+> +
+> +	max_copy >>= SECTOR_SHIFT;
+> +	q->limits.max_copy_sectors = min_t(unsigned int, max_copy,
+> +					q->limits.max_copy_sectors_hw);
+> +
+> +	return count;
+> +}
+> +
+>  static ssize_t queue_write_same_max_show(struct request_queue *q, char *page)
+>  {
+>  	return queue_var_show(0, page);
+> @@ -522,6 +578,10 @@ QUEUE_RO_ENTRY(queue_nr_zones, "nr_zones");
+>  QUEUE_RO_ENTRY(queue_max_open_zones, "max_open_zones");
+>  QUEUE_RO_ENTRY(queue_max_active_zones, "max_active_zones");
+>  
+> +QUEUE_RW_ENTRY(queue_copy_offload, "copy_offload");
+> +QUEUE_RO_ENTRY(queue_copy_max_hw, "copy_max_bytes_hw");
+> +QUEUE_RW_ENTRY(queue_copy_max, "copy_max_bytes");
+> +
+>  QUEUE_RW_ENTRY(queue_nomerges, "nomerges");
+>  QUEUE_RW_ENTRY(queue_rq_affinity, "rq_affinity");
+>  QUEUE_RW_ENTRY(queue_poll, "io_poll");
+> @@ -638,6 +698,9 @@ static struct attribute *queue_attrs[] = {
+>  	&queue_discard_max_entry.attr,
+>  	&queue_discard_max_hw_entry.attr,
+>  	&queue_discard_zeroes_data_entry.attr,
+> +	&queue_copy_offload_entry.attr,
+> +	&queue_copy_max_hw_entry.attr,
+> +	&queue_copy_max_entry.attr,
+>  	&queue_write_same_max_entry.attr,
+>  	&queue_write_zeroes_max_entry.attr,
+>  	&queue_zone_append_max_entry.attr,
+> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> index ed44a997f629..6098665953e6 100644
+> --- a/include/linux/blkdev.h
+> +++ b/include/linux/blkdev.h
+> @@ -309,6 +309,9 @@ struct queue_limits {
+>  	unsigned int		discard_alignment;
+>  	unsigned int		zone_write_granularity;
+>  
+> +	unsigned int		max_copy_sectors_hw;
+> +	unsigned int		max_copy_sectors;
+> +
+>  	unsigned short		max_segments;
+>  	unsigned short		max_integrity_segments;
+>  	unsigned short		max_discard_segments;
+> @@ -554,6 +557,7 @@ struct request_queue {
+>  #define QUEUE_FLAG_NOWAIT       29	/* device supports NOWAIT */
+>  #define QUEUE_FLAG_SQ_SCHED     30	/* single queue style io dispatch */
+>  #define QUEUE_FLAG_SKIP_TAGSET_QUIESCE	31 /* quiesce_tagset skip the queue*/
+> +#define QUEUE_FLAG_COPY		32	/* enable/disable device copy offload */
+>  
+>  #define QUEUE_FLAG_MQ_DEFAULT	((1UL << QUEUE_FLAG_IO_STAT) |		\
+>  				 (1UL << QUEUE_FLAG_SAME_COMP) |	\
+> @@ -574,6 +578,7 @@ bool blk_queue_flag_test_and_set(unsigned int flag, struct request_queue *q);
+>  	test_bit(QUEUE_FLAG_STABLE_WRITES, &(q)->queue_flags)
+>  #define blk_queue_io_stat(q)	test_bit(QUEUE_FLAG_IO_STAT, &(q)->queue_flags)
+>  #define blk_queue_add_random(q)	test_bit(QUEUE_FLAG_ADD_RANDOM, &(q)->queue_flags)
+> +#define blk_queue_copy(q)	test_bit(QUEUE_FLAG_COPY, &(q)->queue_flags)
+>  #define blk_queue_zone_resetall(q)	\
+>  	test_bit(QUEUE_FLAG_ZONE_RESETALL, &(q)->queue_flags)
+>  #define blk_queue_dax(q)	test_bit(QUEUE_FLAG_DAX, &(q)->queue_flags)
+> @@ -891,6 +896,8 @@ extern void blk_queue_chunk_sectors(struct request_queue *, unsigned int);
+>  extern void blk_queue_max_segments(struct request_queue *, unsigned short);
+>  extern void blk_queue_max_discard_segments(struct request_queue *,
+>  		unsigned short);
+> +extern void blk_queue_max_copy_sectors_hw(struct request_queue *q,
+> +		unsigned int max_copy_sectors);
+>  void blk_queue_max_secure_erase_sectors(struct request_queue *q,
+>  		unsigned int max_sectors);
+>  extern void blk_queue_max_segment_size(struct request_queue *, unsigned int);
+> @@ -1210,6 +1217,11 @@ static inline unsigned int bdev_discard_granularity(struct block_device *bdev)
+>  	return bdev_get_queue(bdev)->limits.discard_granularity;
+>  }
+>  
+> +static inline unsigned int bdev_max_copy_sectors(struct block_device *bdev)
+> +{
+> +	return bdev_get_queue(bdev)->limits.max_copy_sectors;
+> +}
+> +
+>  static inline unsigned int
+>  bdev_max_secure_erase_sectors(struct block_device *bdev)
+>  {
+> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+> index b7b56871029c..dff56813f95a 100644
+> --- a/include/uapi/linux/fs.h
+> +++ b/include/uapi/linux/fs.h
+> @@ -64,6 +64,9 @@ struct fstrim_range {
+>  	__u64 minlen;
+>  };
+>  
+> +/* maximum copy offload length, this is set to 128MB based on current testing */
+> +#define COPY_MAX_BYTES	(1 << 27)
+> +
+>  /* extent-same (dedupe) ioctls; these MUST match the btrfs ioctl definitions */
+>  #define FILE_DEDUPE_RANGE_SAME		0
+>  #define FILE_DEDUPE_RANGE_DIFFERS	1
+
+-- 
+Damien Le Moal
+Western Digital Research
+
 
