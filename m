@@ -4,69 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 81C87EB64DC
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Jun 2023 03:13:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A14ADEB64D9
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Jun 2023 03:35:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=DVsWegYjQWBK//10guVuuDzuiAXpy0fbkXve8qAAlEc=; b=RSZ3BN4YAiZzH0isVhRxDavK2a
-	IGFzKozydb7pSF9qEvlIgMQNnSXn4QEyIvUPcx3uqvoGjv6m0yhBEX+oBvlJLH+du78dhu6eQEQ6b
-	PhNpVoO1bIvBkEAAUyKWSnf5aSR3h4HzDWaJ8KVvh3Fk6j/kkW6i1EiyLDSPRNW/t7m60TrbBT/qj
-	ZG1lah/7UUhcLIYUrZPIVVH27mF1FSfxNqHAsV8MjrFKrmkN65VkT5iGMR8758bWLE4HkAFL7WxDX
-	71GcZqMA2oEr0DN61Ahl1TJrFhVj1aamJ9xgQLXC8a/jckJ0kT+LzY1OGZAVrSq8IGxYUsSjAILH9
-	CnVBPBUQ==;
+	bh=9PU/gmb/EjqPUkPS9zL4FhNEclcqZLJ27s8P/SotUGY=; b=P+5QwUWpwd6GNlIhtYgiYCV51w
+	aMU1qMYx/T/H49FgTlZNoRlFfMZbZYtY1DNeWigL62bck55COhmZpCa823aHm/BiPArR1cKnCxlLE
+	JDZ1WhLUhUYjUqcqI/J9geSJH5CEnk1yKhrfnSBJhUCPwI3qt1huC1JoHe/25ubzc8GLVIumS0gjh
+	ZbOOm4wkU2jUYNqELyHwCWE+pvG/3kvLjUpIcsE+pMJiZ83jtaNL3ASwaww7tb4+CCA/Ay+NiA8yc
+	EcN0C3/J6Am0QrJOhsJjm15RaHfJAU6cSLJnc7fWpAEafTzj79SjZBBPlD0tt5RG8I9YcBv0o8LwQ
+	eafw6isw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qELc1-00EftE-0Z;
-	Wed, 28 Jun 2023 03:12:57 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1qELyE-00Eho3-0R;
+	Wed, 28 Jun 2023 03:35:54 +0000
+Received: from mga09.intel.com ([134.134.136.24])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qELby-00EfsS-1W
+	id 1qELyA-00Ehmu-2w
 	for linux-nvme@lists.infradead.org;
-	Wed, 28 Jun 2023 03:12:56 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1687921972;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=DVsWegYjQWBK//10guVuuDzuiAXpy0fbkXve8qAAlEc=;
-	b=IuaNgkxPPonMBbG5mhxVz/n2PMptSdiNQgqLwvG3i7kc8LbkzSp3ggcTYgCQs3QdSypWWV
-	qDnxAMOdLcNUE6b5rBPr5rUlYLP9NgnezWYGkng4sMJL5ipCm0kJpCCaRaA2nE6/0td7M6
-	pXaHu5EukL8VioluHHOSHBrD4/O6eDQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-637-0H5x98pnMT2Xg8oz0TzGBg-1; Tue, 27 Jun 2023 23:12:48 -0400
-X-MC-Unique: 0H5x98pnMT2Xg8oz0TzGBg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 945161C05151;
-	Wed, 28 Jun 2023 03:12:45 +0000 (UTC)
-Received: from localhost (ovpn-8-21.pek2.redhat.com [10.72.8.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id AA840401061;
-	Wed, 28 Jun 2023 03:12:44 +0000 (UTC)
-From: Ming Lei <ming.lei@redhat.com>
-To: Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org
-Cc: Yi Zhang <yi.zhang@redhat.com>,
-	Chunguang Xu <brookxu.cn@gmail.com>,
-	Ming Lei <ming.lei@redhat.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] nvme: mark ctrl as DEAD if removing from error recovery
-Date: Wed, 28 Jun 2023 11:12:34 +0800
-Message-Id: <20230628031234.1916897-1-ming.lei@redhat.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+	Wed, 28 Jun 2023 03:35:52 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687923350; x=1719459350;
+  h=date:from:to:cc:subject:message-id;
+  bh=QifHdNpx2APUXO+ATcvUDYkznMBJIjY7A6derDhBxY0=;
+  b=n8VmK0s8Xt+3pXUwFlZYOOvFi8wQGvEc+UbjfyeNHdk0IhKrMxXgm9Ir
+   2Cna5Hj7H82GkrM7VrN30OHgNZlnY7WhGfSyHKwH728X/uajb4HE9e/QS
+   /SQ+d75DajdEaJzNcqW9IV0hZTvqqOC3zSHbiPQZsXu5ZtC+qkdrMSw2f
+   a5JslZdVMFCwHclOxxKjXtwBpQ233eKCKR3tpfkk1pi0QAXQDcNSy6VSk
+   MDiF4n8mrNBb+dNld/T8yabqaMYeeOZssyB35dRwi4MFW3Sa7A19CKEmj
+   prrTD29xGfMMbdihzoAJbT5nFDCFCLvAP3cWQvKNW8UH7xEsYFnN5BGZT
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="364287460"
+X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
+   d="scan'208";a="364287460"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 20:35:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="694125737"
+X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
+   d="scan'208";a="694125737"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 27 Jun 2023 20:35:39 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qELxy-000CeX-2z;
+	Wed, 28 Jun 2023 03:35:38 +0000
+Date: Wed, 28 Jun 2023 11:34:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.5] BUILD SUCCESS
+ 99160af413b4ff1c3b4741e8a7583f8e7197f201
+Message-ID: <202306281144.0n5aXTPc-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230627_201254_582399_6B66C517 
-X-CRM114-Status: GOOD (  15.55  )
+X-CRM114-CacheID: sfid-20230627_203550_994583_8F59B019 
+X-CRM114-Status: UNSURE (   6.14  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,62 +80,140 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-namespace's request queue is frozen and quiesced during error recovering,
-writeback IO is blocked in bio_queue_enter(), so fsync_bdev() <- del_gendisk()
-can't move on, and causes IO hang. Removal could be from sysfs, hard
-unplug or error handling.
+tree/branch: git://git.infradead.org/nvme.git nvme-6.5
+branch HEAD: 99160af413b4ff1c3b4741e8a7583f8e7197f201  nvme-mpath: fix I/O failure with EAGAIN when failing over I/O
 
-Fix this kind of issue by marking controller as DEAD if removal breaks
-error recovery.
+elapsed time: 721m
 
-This ways is reasonable too, because controller can't be recovered any
-more after being removed.
+configs tested: 120
+configs skipped: 5
 
-Cc: stable@vger.kernel.org
-Reported-by: Chunguang Xu <brookxu.cn@gmail.com>
-Closes: https://lore.kernel.org/linux-nvme/cover.1685350577.git.chunguang.xu@shopee.com/
-Reported-by: Yi Zhang <yi.zhang@redhat.com>
-Signed-off-by: Ming Lei <ming.lei@redhat.com>
----
- drivers/nvme/host/core.c | 4 +++-
- drivers/nvme/host/nvme.h | 1 +
- 2 files changed, 4 insertions(+), 1 deletion(-)
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index fdfcf2781c85..b4cebc01cc00 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -567,6 +567,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 	}
- 
- 	if (changed) {
-+		ctrl->old_state = ctrl->state;
- 		ctrl->state = new_state;
- 		wake_up_all(&ctrl->state_wq);
- 	}
-@@ -4055,7 +4056,8 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
- 	 * removing the namespaces' disks; fail all the queues now to avoid
- 	 * potentially having to clean up the failed sync later.
- 	 */
--	if (ctrl->state == NVME_CTRL_DEAD) {
-+	if (ctrl->state == NVME_CTRL_DEAD ||
-+			ctrl->old_state != NVME_CTRL_LIVE) {
- 		nvme_mark_namespaces_dead(ctrl);
- 		nvme_unquiesce_io_queues(ctrl);
- 	}
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 9a98c14c552a..ce67856d4d4f 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -254,6 +254,7 @@ struct nvme_ctrl {
- 	bool comp_seen;
- 	bool identified;
- 	enum nvme_ctrl_state state;
-+	enum nvme_ctrl_state old_state;
- 	spinlock_t lock;
- 	struct mutex scan_lock;
- 	const struct nvme_ctrl_ops *ops;
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r004-20230627   gcc  
+alpha                randconfig-r015-20230627   gcc  
+alpha                randconfig-r026-20230627   gcc  
+alpha                randconfig-r031-20230627   gcc  
+alpha                randconfig-r035-20230627   gcc  
+arc                              allyesconfig   gcc  
+arc                          axs103_defconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r043-20230627   gcc  
+arc                        vdk_hs38_defconfig   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                  randconfig-r016-20230627   gcc  
+arm                  randconfig-r046-20230627   gcc  
+arm                           u8500_defconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r014-20230627   gcc  
+csky                 randconfig-r023-20230627   gcc  
+csky                 randconfig-r024-20230627   gcc  
+hexagon              randconfig-r041-20230627   clang
+hexagon              randconfig-r045-20230627   clang
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-r004-20230627   gcc  
+i386         buildonly-randconfig-r005-20230627   gcc  
+i386         buildonly-randconfig-r006-20230627   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i001-20230627   gcc  
+i386                 randconfig-i002-20230627   gcc  
+i386                 randconfig-i003-20230627   gcc  
+i386                 randconfig-i004-20230627   gcc  
+i386                 randconfig-i005-20230627   gcc  
+i386                 randconfig-i006-20230627   gcc  
+i386                 randconfig-i011-20230627   clang
+i386                 randconfig-i012-20230627   clang
+i386                 randconfig-i013-20230627   clang
+i386                 randconfig-i014-20230627   clang
+i386                 randconfig-i015-20230627   clang
+i386                 randconfig-i016-20230627   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r005-20230627   gcc  
+loongarch            randconfig-r006-20230627   gcc  
+m68k                             allmodconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                        bcm47xx_defconfig   gcc  
+mips                     cu1830-neo_defconfig   clang
+mips                 randconfig-r033-20230627   clang
+mips                          rb532_defconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r034-20230627   gcc  
+openrisc                    or1ksim_defconfig   gcc  
+openrisc             randconfig-r025-20230627   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                generic-64bit_defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                       eiger_defconfig   gcc  
+powerpc                    gamecube_defconfig   clang
+powerpc              randconfig-r012-20230627   clang
+powerpc                      walnut_defconfig   clang
+powerpc                 xes_mpc85xx_defconfig   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r011-20230627   clang
+riscv                randconfig-r042-20230627   clang
+riscv                          rv32_defconfig   gcc  
+s390                             alldefconfig   clang
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r044-20230627   clang
+sh                               allmodconfig   gcc  
+sh                           se7705_defconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                   randconfig-r032-20230627   clang
+um                   randconfig-r036-20230627   clang
+um                           x86_64_defconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-r001-20230627   gcc  
+x86_64       buildonly-randconfig-r002-20230627   gcc  
+x86_64       buildonly-randconfig-r003-20230627   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-r022-20230627   clang
+x86_64               randconfig-x001-20230627   clang
+x86_64               randconfig-x002-20230627   clang
+x86_64               randconfig-x003-20230627   clang
+x86_64               randconfig-x004-20230627   clang
+x86_64               randconfig-x005-20230627   clang
+x86_64               randconfig-x006-20230627   clang
+x86_64               randconfig-x011-20230627   gcc  
+x86_64               randconfig-x012-20230627   gcc  
+x86_64               randconfig-x013-20230627   gcc  
+x86_64               randconfig-x014-20230627   gcc  
+x86_64               randconfig-x015-20230627   gcc  
+x86_64               randconfig-x016-20230627   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa               randconfig-r001-20230627   gcc  
+xtensa               randconfig-r013-20230627   gcc  
+
 -- 
-2.40.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
