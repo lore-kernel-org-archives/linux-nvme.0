@@ -4,79 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3402BEB64D7
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Jun 2023 06:51:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92760EB64D7
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Jun 2023 07:06:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=grXm9Lp+v9WhUWejldbnf0DkCnKXERdPEjbmQA7cRIU=; b=Z7Ju6Dojl3Ny3NT+RhGuIiPMnv
-	mlRwDOZHjBQ5gOFH4+QuTEDFpCKv7qr8FZGWC8bM42OvmXEsFtQzSxnQwn0U7tyIrjerE9kqFNRrU
-	rqFp2plBpVRnatoUVq+dVWl3EQJ2H3qikt2ZF4hOmOnQYel8sSiHCEx3KLpHZq0w6G+yuCHeIRXNu
-	0VzN6+FaKZJf553391T/DspURRabmBYQWFJsjyb8wsy9gNzrSq2LfAOgjkkfosQxg1BNhKTcgZpCA
-	PR4I9gtfqrVTqzdrXsUmhHxkXvznMKvDB1gti7zPvj1aOJfE+JrHQmViuP8jtQ4p5vxdQJ21F10Ma
-	s/Q3Vpig==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=kGytBMT/4D8N3PdlUpmb4evMLlTEamUTcj7Gwbg+z3A=; b=26k0GH9nq8SzdgffjzTehuQ3fE
+	hxiXrrljIH5aD0XquG9Irl8gfl2DbXW9EMU43czuzRpxZr5enJGsiN+fOcnyc+/9Q6wQj+xH0zJnz
+	7yR2kZx9ksKFVRkEmY8VWv6b90QWsSmn4O2aEJvmEIdWZObphUGhUZGD6NjWCNUFts8HdjsqXfNGZ
+	+28CVP71EwSs86wKugYBFBWXaiZqnlTgl+oxgCg5CyAcBLl4KVPXHQh4zMgD3n7oUKs+ySqdCJCtl
+	cIiR7Z2ixGH9gl3JATleabErt1AKkNoXl20yjE+Dl9VwRxUtJwd9fJE6/if9T1f4gGhoWgwwFl9QH
+	5f7nw0RA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qEP1J-00Ezoz-1y;
-	Wed, 28 Jun 2023 06:51:17 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1qEPGJ-00F18m-27;
+	Wed, 28 Jun 2023 07:06:47 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qEP1G-00Eznr-1P
+	id 1qEPGG-00F18I-2L
 	for linux-nvme@lists.infradead.org;
-	Wed, 28 Jun 2023 06:51:17 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	Wed, 28 Jun 2023 07:06:45 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1687936002;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kGytBMT/4D8N3PdlUpmb4evMLlTEamUTcj7Gwbg+z3A=;
+	b=KlNRKmgSfqLtm40XdVTEwrg5yD5ZgOKg1L4qIGy05ikCOl+Jdy/QEMMNDJVcH0kZ32kjDB
+	YaETpouhpu5towyFHTejIPtvlHMjXQNOCSI4dlAnrbyWuGrajzOyWc7Av7kXO6yIZcR+DP
+	MVNTyYm4Sqjdl/WyU8iYighsQziTqts=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-640-hCjEIBPSMzWGqhs1ltmbFw-1; Wed, 28 Jun 2023 03:06:38 -0400
+X-MC-Unique: hCjEIBPSMzWGqhs1ltmbFw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 9052C61315;
-	Wed, 28 Jun 2023 06:51:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B0FDC433C8;
-	Wed, 28 Jun 2023 06:51:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1687935073;
-	bh=kFdGBo6KtB8a4oZ+cEW87+zyKqsMbfQQzmLbCpziW2A=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=kla7NE7DMvYZIgfUZ+N8bsXWQJ2Oc/m2Js4i+rQGT9fpYXdLy6GxXEjWJ+zIzAfkB
-	 IHA+dC3ZfZvps7e9zAw2JenAv7FzJQqi6TTiQP+IPlyCk9pjlzjVkxKwaBs2gi95Mi
-	 zhxGn8q/BBi+wc3/JQZFnI2kbIr5n3K4eA3PRb1Jv+VQoNSU58TFRzQiytkOMHJ/mn
-	 TYxE7GsnKfzTSJUej8iljS/LmGmU4AH7oAyseW0nVEy4w/7QAbWGdJk8C8izw3yjMf
-	 LRKpLT8rO1+Kh8X8mE1O6o3z2qIvgYp7o6n7YFu3bZ7v+4piec/JNxgOecHYdcQ+go
-	 /rqZHDjb4CWIg==
-Message-ID: <365d5129-b65e-919a-3ceb-cc2ccf6b7a5a@kernel.org>
-Date: Wed, 28 Jun 2023 15:51:09 +0900
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4D60D185A793;
+	Wed, 28 Jun 2023 07:06:38 +0000 (UTC)
+Received: from ovpn-8-21.pek2.redhat.com (ovpn-8-21.pek2.redhat.com [10.72.8.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id D858E40BB4D;
+	Wed, 28 Jun 2023 07:06:32 +0000 (UTC)
+Date: Wed, 28 Jun 2023 15:06:27 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+	Yi Zhang <yi.zhang@redhat.com>, linux-block@vger.kernel.org,
+	Chunguang Xu <brookxu.cn@gmail.com>, ming.lei@redhat.com
+Subject: Re: [PATCH V2 0/4] nvme: fix two kinds of IO hang from removing NSs
+Message-ID: <ZJvb85ovMrZEbilc@ovpn-8-21.pek2.redhat.com>
+References: <ZJI/1w8/9pLIyXZ2@ovpn-8-23.pek2.redhat.com>
+ <caa80682-3c3e-f709-804a-6ee913e4524f@grimberg.me>
+ <ZJL6w+K6e95WWJzV@ovpn-8-23.pek2.redhat.com>
+ <ZJMb4f0i9wm8y4pi@kbusch-mbp.dhcp.thefacebook.com>
+ <ZJRR0C9sqLp7zhAv@ovpn-8-19.pek2.redhat.com>
+ <ZJRcRWyn7o7lLEDM@kbusch-mbp.dhcp.thefacebook.com>
+ <ZJRgUXfRuuOoIN1o@ovpn-8-19.pek2.redhat.com>
+ <ZJRmd7bnclaNW3PL@kbusch-mbp.dhcp.thefacebook.com>
+ <ZJeJyEnSpVBDd4vb@ovpn-8-16.pek2.redhat.com>
+ <ZJsaoFtqWIwshYD6@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v13 4/9] fs, block: copy_file_range for def_blk_ops for
- direct block device
-Content-Language: en-US
-To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
- Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
- Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>
-Cc: martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
- willy@infradead.org, hare@suse.de, djwong@kernel.org, bvanassche@acm.org,
- ming.lei@redhat.com, nitheshshetty@gmail.com, gost.dev@samsung.com,
- Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
-References: <20230627183629.26571-1-nj.shetty@samsung.com>
- <CGME20230627184029epcas5p49a29676fa6dff5f24ddfa5c64e525a51@epcas5p4.samsung.com>
- <20230627183629.26571-5-nj.shetty@samsung.com>
-From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <20230627183629.26571-5-nj.shetty@samsung.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZJsaoFtqWIwshYD6@kbusch-mbp.dhcp.thefacebook.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230627_235114_554216_088587EA 
-X-CRM114-Status: GOOD (  30.42  )
+X-CRM114-CacheID: sfid-20230628_000644_863568_C639131F 
+X-CRM114-Status: GOOD (  23.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,165 +90,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/28/23 03:36, Nitesh Shetty wrote:
-> For direct block device opened with O_DIRECT, use copy_file_range to
-> issue device copy offload, and fallback to generic_copy_file_range incase
-> device copy offload capability is absent.
-
-...if the device does not support copy offload or the device files are not open
-with O_DIRECT.
-
-No ?
-
-> Modify checks to allow bdevs to use copy_file_range.
+On Tue, Jun 27, 2023 at 11:21:36AM -0600, Keith Busch wrote:
+> On Sun, Jun 25, 2023 at 08:26:48AM +0800, Ming Lei wrote:
+> > Yeah, but you can't remove the gap at all with start_freeze, that said
+> > the current code has to live with the situation of new mapping change
+> > and old request with old mapping.
+> > 
+> > Actually I considered to handle this kind of situation before, one approach
+> > is to reuse the bio steal logic taken in nvme mpath:
+> > 
+> > 1) for FS IO, re-submit bios, meantime free request
+> > 
+> > 2) for PT request, simply fail it
+> > 
+> > It could be a bit violent for 2) even though REQ_FAILFAST_DRIVER is
+> > always set for PT request, but not see any better approach for handling
+> > PT request.
 > 
-> Suggested-by: Ming Lei <ming.lei@redhat.com>
-> Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
-> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
-> ---
->  block/blk-lib.c        | 26 ++++++++++++++++++++++++++
->  block/fops.c           | 20 ++++++++++++++++++++
->  fs/read_write.c        |  7 +++++--
->  include/linux/blkdev.h |  4 ++++
->  4 files changed, 55 insertions(+), 2 deletions(-)
-> 
-> diff --git a/block/blk-lib.c b/block/blk-lib.c
-> index 09e0d5d51d03..7d8e09a99254 100644
-> --- a/block/blk-lib.c
-> +++ b/block/blk-lib.c
-> @@ -473,6 +473,32 @@ ssize_t blkdev_copy_offload(
->  }
->  EXPORT_SYMBOL_GPL(blkdev_copy_offload);
->  
-> +/* Copy source offset from source block device to destination block
-> + * device. Returns the length of bytes copied.
-> + */
+> I think that's acceptable for PT requests, or any request that doesn't
+> have a bio. I tried something similiar a while back that was almost
+> working, but I neither never posted it, or it's in that window when
+> infradead lost all the emails. :(
 
-Multi-line comment style: start with a "/*" line please.
+If you are fine to fail PT request, I'd suggest to handle the
+problem in the following way:
 
-> +ssize_t blkdev_copy_offload_failfast(
+1) moving freeze into reset
 
-What is the "failfast" in the name for ?
+2) during resetting
 
-> +		struct block_device *bdev_in, loff_t pos_in,
-> +		struct block_device *bdev_out, loff_t pos_out,
-> +		size_t len, gfp_t gfp_mask)
-> +{
-> +	struct request_queue *in_q = bdev_get_queue(bdev_in);
-> +	struct request_queue *out_q = bdev_get_queue(bdev_out);
-> +	ssize_t ret = 0;
+- freeze NS queues
+- unquiesce NS queues
+- nvme_wait_freeze()
+- update_nr_hw_queues
+- unfreeze NS queues
 
-You do not need this initialization.
+3) meantime changes driver's ->queue_rq() in case that ctrl state is NVME_CTRL_CONNECTING,
 
-> +
-> +	if (blkdev_copy_sanity_check(bdev_in, pos_in, bdev_out, pos_out, len))
-> +		return 0;
-> +
-> +	if (blk_queue_copy(in_q) && blk_queue_copy(out_q)) {
+- if the request is FS IO with data, re-submit all bios of this request,
+  and free the request
 
-Given that I think we do not allow copies between different devices, in_q and
-out_q should always be the same, no ?
+- otherwise, fail the request  
 
-> +		ret = __blkdev_copy_offload(bdev_in, pos_in, bdev_out, pos_out,
-> +				len, NULL, NULL, gfp_mask);
+With this way, not only freeze is paired with unfreeze. More
+importantly, it becomes not possible to trigger new timeout during
+handling NVME_CTRL_CONNECTING, then fallback to ctrl removal can
+be avoided.
 
-Same here. Why pass 2 bdevs if we only allow copies within the same device ?
+Any comment on this approach?
 
-> +		if (ret < 0)
-> +			return 0;
-> +	}
-> +
-> +	return ret;
-
-return 0;
-
-> +}
-> +EXPORT_SYMBOL_GPL(blkdev_copy_offload_failfast);
-> +
->  static int __blkdev_issue_write_zeroes(struct block_device *bdev,
->  		sector_t sector, sector_t nr_sects, gfp_t gfp_mask,
->  		struct bio **biop, unsigned flags)
-> diff --git a/block/fops.c b/block/fops.c
-> index a286bf3325c5..a1576304f269 100644
-> --- a/block/fops.c
-> +++ b/block/fops.c
-> @@ -621,6 +621,25 @@ static ssize_t blkdev_read_iter(struct kiocb *iocb, struct iov_iter *to)
->  	return ret;
->  }
->  
-> +static ssize_t blkdev_copy_file_range(struct file *file_in, loff_t pos_in,
-> +				struct file *file_out, loff_t pos_out,
-> +				size_t len, unsigned int flags)
-> +{
-> +	struct block_device *in_bdev = I_BDEV(bdev_file_inode(file_in));
-> +	struct block_device *out_bdev = I_BDEV(bdev_file_inode(file_out));
-> +	ssize_t comp_len = 0;
-> +
-> +	if ((file_in->f_iocb_flags & IOCB_DIRECT) &&
-> +		(file_out->f_iocb_flags & IOCB_DIRECT))
-> +		comp_len = blkdev_copy_offload_failfast(in_bdev, pos_in,
-> +				out_bdev, pos_out, len, GFP_KERNEL);
-> +	if (comp_len != len)
-> +		comp_len = generic_copy_file_range(file_in, pos_in + comp_len,
-> +			file_out, pos_out + comp_len, len - comp_len, flags);
-> +
-> +	return comp_len;
-> +}
-> +
->  #define	BLKDEV_FALLOC_FL_SUPPORTED					\
->  		(FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE |		\
->  		 FALLOC_FL_ZERO_RANGE | FALLOC_FL_NO_HIDE_STALE)
-> @@ -714,6 +733,7 @@ const struct file_operations def_blk_fops = {
->  	.splice_read	= filemap_splice_read,
->  	.splice_write	= iter_file_splice_write,
->  	.fallocate	= blkdev_fallocate,
-> +	.copy_file_range = blkdev_copy_file_range,
->  };
->  
->  static __init int blkdev_init(void)
-> diff --git a/fs/read_write.c b/fs/read_write.c
-> index b07de77ef126..d27148a2543f 100644
-> --- a/fs/read_write.c
-> +++ b/fs/read_write.c
-> @@ -1447,7 +1447,8 @@ static int generic_copy_file_checks(struct file *file_in, loff_t pos_in,
->  		return -EOVERFLOW;
->  
->  	/* Shorten the copy to EOF */
-> -	size_in = i_size_read(inode_in);
-> +	size_in = i_size_read(file_in->f_mapping->host);
-> +
->  	if (pos_in >= size_in)
->  		count = 0;
->  	else
-> @@ -1708,7 +1709,9 @@ int generic_file_rw_checks(struct file *file_in, struct file *file_out)
->  	/* Don't copy dirs, pipes, sockets... */
->  	if (S_ISDIR(inode_in->i_mode) || S_ISDIR(inode_out->i_mode))
->  		return -EISDIR;
-> -	if (!S_ISREG(inode_in->i_mode) || !S_ISREG(inode_out->i_mode))
-> +
-> +	if ((!S_ISREG(inode_in->i_mode) || !S_ISREG(inode_out->i_mode)) &&
-> +		(!S_ISBLK(inode_in->i_mode) || !S_ISBLK(inode_out->i_mode)))
->  		return -EINVAL;
->  
->  	if (!(file_in->f_mode & FMODE_READ) ||
-> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-> index c176bf6173c5..850168cad080 100644
-> --- a/include/linux/blkdev.h
-> +++ b/include/linux/blkdev.h
-> @@ -1047,6 +1047,10 @@ ssize_t blkdev_copy_offload(
->  		struct block_device *bdev_in, loff_t pos_in,
->  		struct block_device *bdev_out, loff_t pos_out,
->  		size_t len, cio_iodone_t end_io, void *private, gfp_t gfp_mask);
-> +ssize_t blkdev_copy_offload_failfast(
-> +		struct block_device *bdev_in, loff_t pos_in,
-> +		struct block_device *bdev_out, loff_t pos_out,
-> +		size_t len, gfp_t gfp_mask);
->  struct bio *bio_map_kern(struct request_queue *q, void *data, unsigned int len,
->  		gfp_t gfp_mask);
->  void bio_map_kern_endio(struct bio *bio);
-
--- 
-Damien Le Moal
-Western Digital Research
+Thanks,
+Ming
 
 
