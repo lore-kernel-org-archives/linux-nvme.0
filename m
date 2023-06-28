@@ -4,67 +4,135 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A14ADEB64D9
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Jun 2023 03:35:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5275EB64D7
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Jun 2023 04:07:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:Message-ID:Date:Subject:CC:
+	To:From:Reply-To:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=9PU/gmb/EjqPUkPS9zL4FhNEclcqZLJ27s8P/SotUGY=; b=P+5QwUWpwd6GNlIhtYgiYCV51w
-	aMU1qMYx/T/H49FgTlZNoRlFfMZbZYtY1DNeWigL62bck55COhmZpCa823aHm/BiPArR1cKnCxlLE
-	JDZ1WhLUhUYjUqcqI/J9geSJH5CEnk1yKhrfnSBJhUCPwI3qt1huC1JoHe/25ubzc8GLVIumS0gjh
-	ZbOOm4wkU2jUYNqELyHwCWE+pvG/3kvLjUpIcsE+pMJiZ83jtaNL3ASwaww7tb4+CCA/Ay+NiA8yc
-	EcN0C3/J6Am0QrJOhsJjm15RaHfJAU6cSLJnc7fWpAEafTzj79SjZBBPlD0tt5RG8I9YcBv0o8LwQ
-	eafw6isw==;
+	bh=XVyIpNbIk9bDvKdm+J5mWGKsAKCHI2SMie0ZYpBiLTw=; b=OGsjnxJhN1jGzUheIhl+1lIPTZ
+	jkijErE6tjAwhqvsrtTH+eR4RiiPsKE1us6ImwKyW6bKv9dolkR73Ml6Tj5c5syHnu+6rPOs5DjL6
+	myNmkTkeKr3NOgQAPn+41OA1AWSCBO0Ewl0NPcxlQVTrkFU9NuihURC+6KfyYvzuW4Cem7uUtu1tq
+	4jLGeB7+1ZCIcawlBgaoDNzRPGXJpjMqbQG/DJVCpn1+IZ6fCuG/WRd9atEs0IGLwsIiJyD/AHU+2
+	Cj7LL+ypC7rDJLJg6my18nI3oWtaJ+6fiNzhewMJJxwEs2ZwWQ5FRcINUJM9FID4tMT4mk7YqBxr6
+	MW+syyWA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qELyE-00Eho3-0R;
-	Wed, 28 Jun 2023 03:35:54 +0000
-Received: from mga09.intel.com ([134.134.136.24])
+	id 1qEMT7-00EkWy-22;
+	Wed, 28 Jun 2023 04:07:49 +0000
+Received: from mail-mw2nam10on20605.outbound.protection.outlook.com ([2a01:111:f400:7e89::605] helo=NAM10-MW2-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qELyA-00Ehmu-2w
+	id 1qEMT4-00EkWH-1x
 	for linux-nvme@lists.infradead.org;
-	Wed, 28 Jun 2023 03:35:52 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687923350; x=1719459350;
-  h=date:from:to:cc:subject:message-id;
-  bh=QifHdNpx2APUXO+ATcvUDYkznMBJIjY7A6derDhBxY0=;
-  b=n8VmK0s8Xt+3pXUwFlZYOOvFi8wQGvEc+UbjfyeNHdk0IhKrMxXgm9Ir
-   2Cna5Hj7H82GkrM7VrN30OHgNZlnY7WhGfSyHKwH728X/uajb4HE9e/QS
-   /SQ+d75DajdEaJzNcqW9IV0hZTvqqOC3zSHbiPQZsXu5ZtC+qkdrMSw2f
-   a5JslZdVMFCwHclOxxKjXtwBpQ233eKCKR3tpfkk1pi0QAXQDcNSy6VSk
-   MDiF4n8mrNBb+dNld/T8yabqaMYeeOZssyB35dRwi4MFW3Sa7A19CKEmj
-   prrTD29xGfMMbdihzoAJbT5nFDCFCLvAP3cWQvKNW8UH7xEsYFnN5BGZT
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="364287460"
-X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
-   d="scan'208";a="364287460"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 20:35:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="694125737"
-X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
-   d="scan'208";a="694125737"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 27 Jun 2023 20:35:39 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qELxy-000CeX-2z;
-	Wed, 28 Jun 2023 03:35:38 +0000
-Date: Wed, 28 Jun 2023 11:34:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.5] BUILD SUCCESS
- 99160af413b4ff1c3b4741e8a7583f8e7197f201
-Message-ID: <202306281144.0n5aXTPc-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Wed, 28 Jun 2023 04:07:47 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RagH3zWjR00P1CTGmAbQyiBAM+cgMkVt+E9ejb5Plp2uWpTREd7ze0pN8KD2nhamoe+ObUCLW33VFLOkuHfrrNUGXLHw3EZnHctJJ5sUY2Fu5HqFy2sIWcNdfIutmFjpG1ZoklORDoz3e2QK2fzrYkH6D5wj3lvr1aiufERDSlqgVz5KEZwzGPYiiaVKR1oQUAtWfJPeNXNU0WsNiSZthdDL+hg7ID23DVAHC9tGwDhhjPqm4J0Z/einrfQootym0GZf49+KRuDAVk0iIZfaoWV+r6WCuOttBUGNC5bwYlB6NTeDbaoFJrjtWxWpt7AyIG3L9rtvR/zjMHcqESGZhA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XVyIpNbIk9bDvKdm+J5mWGKsAKCHI2SMie0ZYpBiLTw=;
+ b=QwJx2hY5AwHkBIJ1Dv/eTnXfXYV44tAFYNWsvIhW9UjrrPnWgSL612Lz7H10qwOF2aRYKjAvdhUQQWhD38aJ8ixL3TmSTanTu0cC35othxVTkBIcb8oDHFdnrbS4uskwjWYJizGMUDIhf6QRRLet26eLokufPNSdhHxNSztC4fjPUW/OGaR2m568jxTU0Y0P/tD6XlFze45daM5DbdibKwsjGag+q2jtA1YoHdcomSFFCLz/yWDDDHEluYNvQ61fIgsHiIpqnSJiSjgILbqNg16+i5bq6uCMYh2RfzfS7CoHjUocnINGIrlM+8ED7eEhIO0vsLQmSGwq6drb+kX/Lg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XVyIpNbIk9bDvKdm+J5mWGKsAKCHI2SMie0ZYpBiLTw=;
+ b=UARvC5F6PA6C4w0ryEtSldhtJSJeKBksqx31PXuav4NA0xcTyrOU/wrpCd1QVDSVkB6fVqOcdzft2XmiqaY4RJIdgq6pl8ytk9pHDHirJURSgo9wa1RUY1kz8bQTA5bzmyKQjdrMbEmfQgsrlN3sqVAFABkDJGTEmk5HyzB1RvSLUsI9w18mcHWr/0FZXAEZM7Xoz7ASLxm0mFtabENpdS9J/fbl1KW7MIJ/XdUzYIvFb267zCqVANENmGWxGqG4Ifj8soL0yDQBy5LPzeYkf9jJfz6XQdSV/GdIUJzVH9QPlkjPPGRkfjWH6kkXgQqPXxC1iGQm6SmsglyMoPU4GQ==
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
+ by CYYPR12MB8731.namprd12.prod.outlook.com (2603:10b6:930:ba::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.26; Wed, 28 Jun
+ 2023 04:07:35 +0000
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::92c6:4b21:586d:dabc]) by MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::92c6:4b21:586d:dabc%4]) with mapi id 15.20.6521.024; Wed, 28 Jun 2023
+ 04:07:22 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Hannes Reinecke <hare@suse.de>
+CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, Shin'ichiro
+ Kawasaki <shinichiro.kawasaki@wdc.com>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>
+Subject: blktests: nvme/auth testcae bug
+Thread-Topic: blktests: nvme/auth testcae bug
+Thread-Index: AQHZqXYKKv0icp4yukWU2n/X8YUTrg==
+Date: Wed, 28 Jun 2023 04:07:22 +0000
+Message-ID: <6dfe85b5-5415-7140-e377-c1448fd7fb8f@nvidia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MW2PR12MB4667:EE_|CYYPR12MB8731:EE_
+x-ms-office365-filtering-correlation-id: 6425f007-9817-44f6-e108-08db778d2cc6
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: MzaCrh8nqRv3OEbdnMf4kEStPuWv1bhqwzzulriiSiqO9HUXJ5m7tsY3olcS0S/qRUwxdK9L/kzwaqdgtW78YFxl1UUSlncK+dUR8s4T+dsJUEwIm/Fnz0TYvCplt7PfMinASoogDyWBVnQm61dJRRXO9F1qZcGFeqd4m0fPjh/jmJjDxW3LOYxUqcCRJmv5lXEBHIx8Bw9Z93kU4ql5Wdj5cyVYcLCupy7PoDfbnvPl/3Eh0mJ80q3hUrLNmMrG69I05TXa3qJck5EIdbJQxaSFMllXvNafNhqK+ZqIjOMbRczIa8gByojhwO0xrtOfVBnt58vGufidOp6B96VrBOHxEO/gqk7GipOiT7laVTxvuOvLGqTPMKeQVXDcRcx+TNiGIGOhJrMPAzJQHIPRrRv3HLr36RSHGfd0ar0BOjp5za8IWhTnp9m9yn2EF6AwNaKkibPM3jZX7eC7nzykwGHj+UWSqmNoVwsRlhCy9LS57fp8sqIZkLkG+sLPwzSNOq+sAomVvZIDmfQWYF9F1dnNJ4+NIoQtEMQmyc14lcIlXe85e6Q1q8ynKLzfE1LJ4UR76o9RS/RMzsa5nCD6Jr5yzmjZiT4L499arwmFx+a95xdM7Ol6uW1YtMCWtjrOCiq10SFsUS58fH3crPYLInk/klBRHAR0l7GkC7EN6mhd9kXQy8RkR/AGcXMGCgNj
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(39860400002)(346002)(366004)(136003)(376002)(451199021)(31686004)(36756003)(38100700002)(5660300002)(86362001)(41300700001)(66476007)(6916009)(8936002)(91956017)(38070700005)(66446008)(8676002)(64756008)(66556008)(316002)(4326008)(122000001)(66946007)(31696002)(76116006)(478600001)(6486002)(186003)(6506007)(71200400001)(6512007)(54906003)(2906002)(83380400001)(2616005)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?YjlDeWMzdExGaTFXNDE5eE9maTc0VEhIWnMybmhINWJNaElXaVlxVE5tTmI4?=
+ =?utf-8?B?VkxqUDk0OS9sT0RaTm5YUEdZL3NKa3NXeGxyTEx0MjdQc2FEcXVUMDRlanJE?=
+ =?utf-8?B?UGRyWDQzTFFDU1dFZlFmR3Jpb01tSTNtS2puQVY1ajYzbFpNaytJcmtSWjdo?=
+ =?utf-8?B?V1BrQTk1aEx4cXo3SVFZN1pVRDQ2bmkrVzM0Wkd2WGtKeHVTaXFncGR5eUVi?=
+ =?utf-8?B?YXFLdlByRTlXNXE2emhXeDBvMG1pcTkxdWNiK2FoQjh6YXk3UTBqZUxPYU04?=
+ =?utf-8?B?bGJyVURIU0xFN2U4Wno3ZkxaQWJRcXo1aVNKSjJCUE9RY2JrckxOajVCcHZG?=
+ =?utf-8?B?eHJTSjZCZWdnNFBHbXlXQjFyV1FlZ0VaNldPNkZneHZDR3c1K2RWSFB0ZWJF?=
+ =?utf-8?B?RXN5WFB6UVQ3Mm1FYXlZajZHbW9zSFBsTE1CVERGYzNWTUIwOXRFRnVVU05N?=
+ =?utf-8?B?akxzVGhIT2JpK3JaRVMzamxKa0QzYnpYTlpPT2tYeG5WZWNmcUFZc283VUZB?=
+ =?utf-8?B?ZDgzamdSdmM0ZE9RT1ROZ0xpdlBhUHVmUkRXQ3RaTWV1RktxNWJVRlJISVBx?=
+ =?utf-8?B?UWNpdXFsWGNwa2xYYzY2bHJlL2RRWmcwQVZ2TDN0NTRaV0pvWE9CQm5mdUFy?=
+ =?utf-8?B?SmVZMU9iRG42RnJyQVNEd2pqSFdaZ3lRcEFPTHczUVhPQzZQY1pudnlUWkF3?=
+ =?utf-8?B?SU1LSDRFZVc2SGE0WGNod0E3TzJNU00rV0RUeXNobHd2R3FMZFVmNDlJS3BF?=
+ =?utf-8?B?NWFTc1F0a2xTV2tDVUhtcS83V0VHNHBJaVl0a21qejF0S2hReDhCZHVUNXYv?=
+ =?utf-8?B?cENlY3h6NkFpdDZKZmhvZ01uM0hsMVpKNE5YWms4T1NpSjQrZXhheGFSQy9C?=
+ =?utf-8?B?dGRzM1pzdWNHMnVKMWVxeHpNcU5ya05Ybk1zdUZhMkFrU1poSnUvbUR6VS84?=
+ =?utf-8?B?SUVhQnlhQjlPWEhsL0lPRm5XcGczenJZOU5YSEg4K2pDbGc4WU10c2xJd3VZ?=
+ =?utf-8?B?dVlDcFNPNWpmOTRWQ0x5Y3BvenkwTzNTSVQ2R1ltdGdKaGRJN3NLQ3BoNTFm?=
+ =?utf-8?B?R1k4UnNWNUFaWStHd0NzZTVTbXZrNjlLYXJvWEwxUmMxV0pSYmE5TXNFVFM5?=
+ =?utf-8?B?RDk0RUdkUmRQemd5RUxpcHNlVWxPQ2VwZWh3M2FUL3VndHBjZ2dmM0NEQUhw?=
+ =?utf-8?B?Nko1c21BTDY2bkNYUzN1NkRrYW5tVjd5WThlMmhOTVRFbTkyMXIrMmZIUS9M?=
+ =?utf-8?B?OVR2QXVyYmRkM2t1aTlMdElzd0l3SjNQMHJrSkhRY1hjWUJKMjhWTlE5ZXNZ?=
+ =?utf-8?B?SHpOaHNFSzh3RVZXek8wS2ZSa2lra3JMTWVoMTczL0o4TmRZVWh4ekZpQWpE?=
+ =?utf-8?B?YURORE1JWDRzUldFMDFlSFNLd2gxbG83NWQ4TCtiWVUxNDYrV3lha29ZZkls?=
+ =?utf-8?B?L0JrVU5idW44OGZBTkZ2dEJuKy85WmIxSzRTRnRWKzN0OTgzVzVNMGpleUlP?=
+ =?utf-8?B?RWIwN1B4L2NFa043YzQzcHJxbTRKMTBsa0c2aW5IUGVNejBhdDhsdHpDTGZL?=
+ =?utf-8?B?RnE1RHZOOTMwZlRCcnY3V1FibFNObUx6alo5QXhNUEl4R3BGUTlUWm5TZkg2?=
+ =?utf-8?B?NStnQkhUOVljZkt5Q1pLSnJHd1oyYjZBS0paQUNFaDZLak9uNTdCMXFmV0ZI?=
+ =?utf-8?B?RnV0Q0RGcjlBS3pWK29zY0tUaWdNMmxySy9TT1BUVTZvalNEalFsMVVQblFv?=
+ =?utf-8?B?SDJWcGl6UE80VUw4WHRuVVE0LytiUloxcHNyVGJLL2FPOWlYYndSLzFTMGxP?=
+ =?utf-8?B?MmtZREt5b0hRRWY1YlBBYzhiUFBSWU1SNW85SzJxUkNUYWlRTFVnZXlUdWlZ?=
+ =?utf-8?B?dGNoVmdCZVJJclpNMWplVTZXeGVFN25RZWlDdk84ZWpBTi90bjhudDhxM1R6?=
+ =?utf-8?B?WUVObUFteTBOT25LeDFpSlR3RmpQY1U5M3J0aGtWcXNqUWNFMkpxRi8zWlVk?=
+ =?utf-8?B?dXNLYzNyampidm9iTnNmRHhDcVoxZlRLeHc4TDBrMkJkVkx5MlBFNVpaYkZD?=
+ =?utf-8?B?cDh1NG4xYURvMkg3MEpDTm52TWROb09PU1VTeDM1MDhwUFc2aVUrblFoaDdq?=
+ =?utf-8?B?WndudU5JeVlXWjBpam5vamFIeklXZGxjZVdpVXF5WjRleko5RlV3ZzFhQk8w?=
+ =?utf-8?Q?GR+BqWxz2RCjqoE10ZCChoKUmGjodmUnwG3KylljJ/lg?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <5DEEFD95C507D948A0F3215532769FE3@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6425f007-9817-44f6-e108-08db778d2cc6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jun 2023 04:07:22.8302
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: kApcJEJi677sb8FkZKYhfkZl9uK1cDH0DeCviguS2JDLK9GGraZTrmbal34TXlZ9F0d3leG0PxthlwAmikQcfg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8731
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230627_203550_994583_8F59B019 
-X-CRM114-Status: UNSURE (   6.14  )
+X-CRM114-CacheID: sfid-20230627_210746_650200_AF21EF07 
+X-CRM114-Status: UNSURE (   7.53  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -80,140 +148,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.5
-branch HEAD: 99160af413b4ff1c3b4741e8a7583f8e7197f201  nvme-mpath: fix I/O failure with EAGAIN when failing over I/O
-
-elapsed time: 721m
-
-configs tested: 120
-configs skipped: 5
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r004-20230627   gcc  
-alpha                randconfig-r015-20230627   gcc  
-alpha                randconfig-r026-20230627   gcc  
-alpha                randconfig-r031-20230627   gcc  
-alpha                randconfig-r035-20230627   gcc  
-arc                              allyesconfig   gcc  
-arc                          axs103_defconfig   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r043-20230627   gcc  
-arc                        vdk_hs38_defconfig   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                  randconfig-r016-20230627   gcc  
-arm                  randconfig-r046-20230627   gcc  
-arm                           u8500_defconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-csky                                defconfig   gcc  
-csky                 randconfig-r014-20230627   gcc  
-csky                 randconfig-r023-20230627   gcc  
-csky                 randconfig-r024-20230627   gcc  
-hexagon              randconfig-r041-20230627   clang
-hexagon              randconfig-r045-20230627   clang
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-r004-20230627   gcc  
-i386         buildonly-randconfig-r005-20230627   gcc  
-i386         buildonly-randconfig-r006-20230627   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-i001-20230627   gcc  
-i386                 randconfig-i002-20230627   gcc  
-i386                 randconfig-i003-20230627   gcc  
-i386                 randconfig-i004-20230627   gcc  
-i386                 randconfig-i005-20230627   gcc  
-i386                 randconfig-i006-20230627   gcc  
-i386                 randconfig-i011-20230627   clang
-i386                 randconfig-i012-20230627   clang
-i386                 randconfig-i013-20230627   clang
-i386                 randconfig-i014-20230627   clang
-i386                 randconfig-i015-20230627   clang
-i386                 randconfig-i016-20230627   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r005-20230627   gcc  
-loongarch            randconfig-r006-20230627   gcc  
-m68k                             allmodconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                        bcm47xx_defconfig   gcc  
-mips                     cu1830-neo_defconfig   clang
-mips                 randconfig-r033-20230627   clang
-mips                          rb532_defconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                randconfig-r034-20230627   gcc  
-openrisc                    or1ksim_defconfig   gcc  
-openrisc             randconfig-r025-20230627   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                generic-64bit_defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                       eiger_defconfig   gcc  
-powerpc                    gamecube_defconfig   clang
-powerpc              randconfig-r012-20230627   clang
-powerpc                      walnut_defconfig   clang
-powerpc                 xes_mpc85xx_defconfig   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r011-20230627   clang
-riscv                randconfig-r042-20230627   clang
-riscv                          rv32_defconfig   gcc  
-s390                             alldefconfig   clang
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r044-20230627   clang
-sh                               allmodconfig   gcc  
-sh                           se7705_defconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                   randconfig-r032-20230627   clang
-um                   randconfig-r036-20230627   clang
-um                           x86_64_defconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-r001-20230627   gcc  
-x86_64       buildonly-randconfig-r002-20230627   gcc  
-x86_64       buildonly-randconfig-r003-20230627   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-r022-20230627   clang
-x86_64               randconfig-x001-20230627   clang
-x86_64               randconfig-x002-20230627   clang
-x86_64               randconfig-x003-20230627   clang
-x86_64               randconfig-x004-20230627   clang
-x86_64               randconfig-x005-20230627   clang
-x86_64               randconfig-x006-20230627   clang
-x86_64               randconfig-x011-20230627   gcc  
-x86_64               randconfig-x012-20230627   gcc  
-x86_64               randconfig-x013-20230627   gcc  
-x86_64               randconfig-x014-20230627   gcc  
-x86_64               randconfig-x015-20230627   gcc  
-x86_64               randconfig-x016-20230627   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa               randconfig-r001-20230627   gcc  
-xtensa               randconfig-r013-20230627   gcc  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+SGkgSGFubmVzLA0KDQoqIE15IGNvbXBpbGVkIHRoZSBrZXJuZWwgaXMgd2l0aCBnaXQgaGFzaCA6
+LQ0KDQpsaW51eCAobWFzdGVyKSAjIHVuYW1lIC1yDQo2LjQuMGxpbnV4LTAxNjkxLWc5OGJlNjE4
+YWQwMzANCg0KKiBXaGVuIEkgdHJ5IHRvIHJhbiB0aGUgdGVzdGNhc2VzIG52bWUvYXV0aCB0ZXN0
+Y2FzZXMgYXJlIG5vdCBydW5uaW5nOi0NCg0KbnZtZS8wNDEgKENyZWF0ZSBhdXRoZW50aWNhdGVk
+IGNvbm5lY3Rpb25zKcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgW25vdCBydW5d
+DQogwqDCoMKgIHJ1bnRpbWXCoCAwLjQ0MHPCoCAuLi4NCiDCoMKgwqAga2VybmVsIDYuNC4wbGlu
+dXgtMDE2OTEtZzk4YmU2MThhZDAzMCBjb25maWcgbm90IGZvdW5kDQogwqDCoMKgIGtlcm5lbCA2
+LjQuMGxpbnV4LTAxNjkxLWc5OGJlNjE4YWQwMzAgY29uZmlnIG5vdCBmb3VuZA0KbnZtZS8wNDIg
+KFRlc3QgZGhjaGFwIGtleSB0eXBlcyBmb3IgYXV0aGVudGljYXRlZCBjb25uZWN0aW9ucykgW25v
+dCBydW5dDQogwqDCoMKgIHJ1bnRpbWXCoCAyLjcxMnPCoCAuLi4NCiDCoMKgwqAga2VybmVsIDYu
+NC4wbGludXgtMDE2OTEtZzk4YmU2MThhZDAzMCBjb25maWcgbm90IGZvdW5kDQogwqDCoMKgIGtl
+cm5lbCA2LjQuMGxpbnV4LTAxNjkxLWc5OGJlNjE4YWQwMzAgY29uZmlnIG5vdCBmb3VuZA0KbnZt
+ZS8wNDMgKFRlc3QgaGFzaCBhbmQgREggZ3JvdXAgdmFyaWF0aW9ucyBmb3IgYXV0aGVudGljYXRl
+ZCANCmNvbm5lY3Rpb25zKSBbbm90IHJ1bl0NCiDCoMKgwqAgcnVudGltZcKgIDAuNzMxc8KgIC4u
+Lg0KIMKgwqDCoCBrZXJuZWwgNi40LjBsaW51eC0wMTY5MS1nOThiZTYxOGFkMDMwIGNvbmZpZyBu
+b3QgZm91bmQNCiDCoMKgwqAga2VybmVsIDYuNC4wbGludXgtMDE2OTEtZzk4YmU2MThhZDAzMCBj
+b25maWcgbm90IGZvdW5kDQpudm1lLzA0NCAoVGVzdCBiaS1kaXJlY3Rpb25hbCBhdXRoZW50aWNh
+dGlvbinCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgW25vdCBydW5dDQogwqDCoMKgIHJ1
+bnRpbWXCoCAxLjI0MHPCoCAuLi4NCiDCoMKgwqAga2VybmVsIDYuNC4wbGludXgtMDE2OTEtZzk4
+YmU2MThhZDAzMCBjb25maWcgbm90IGZvdW5kDQogwqDCoMKgIGtlcm5lbCA2LjQuMGxpbnV4LTAx
+NjkxLWc5OGJlNjE4YWQwMzAgY29uZmlnIG5vdCBmb3VuZA0KbnZtZS8wNDUgKFRlc3QgcmUtYXV0
+aGVudGljYXRpb24pwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIFtub3QgcnVuXQ0KIMKgwqDCoCBydW50aW1lwqAgMy42MzBzwqAgLi4uDQogwqDC
+oMKgIGtlcm5lbCA2LjQuMGxpbnV4LTAxNjkxLWc5OGJlNjE4YWQwMzAgY29uZmlnIG5vdCBmb3Vu
+ZA0KIMKgwqDCoCBrZXJuZWwgNi40LjBsaW51eC0wMTY5MS1nOThiZTYxOGFkMDMwIGNvbmZpZyBu
+b3QgZm91bmQNCmNvbW1vbi9yYzogbGluZSAyMTI6IDBpbnV4OiB2YWx1ZSB0b28gZ3JlYXQgZm9y
+IGJhc2UgKGVycm9yIHRva2VuIGlzIA0KIjBpbnV4IikNCg0KSSB0aG91Z2h0cyBpdCBtaWdodCBi
+ZSB1c2VmdWwgdG8gc2hhcmUgdGhpcyAuLi4NCg0KLWNrDQoNCg0K
 
