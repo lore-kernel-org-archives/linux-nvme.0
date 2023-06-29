@@ -4,88 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99B13EB64D9
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Jun 2023 07:36:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95549EB64D9
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Jun 2023 07:40:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tX0OhCvnYEom9wQyUBB776472LobDXtBtt3bT5sVnDk=; b=bjCwuVvMekEwyKD4bYQc+1ReW+
-	Z7MMgr1uGrpAsr/p9GGRK/suaVhg31MWyazOTd3TQUX+0GqjKR5Bk/LXzFTQyeL6XdF60elslyaXC
-	uKiaZXShbRVOLUJCMlZHrcIDVshuJ9qWfdwqWVAjvgnppK4n4YoN7ByJcU5R4YivYlqVosMQ05jtA
-	wkG1TQmGIhEVelxnfMpZUP1rie6RcUhxZP/xZVpBuJ03v8abtiZkCNo3vCH1q/Ffe/bzfte7Zkb2C
-	X2jYwdbO+jk4fxyPj/MkEdFXdN67MMGIWpCC8xKT/2GIETOx0jIVsndIoeas0vyRnqJuhppdYSr6V
-	2+XCYVlA==;
+	bh=LwmfJfCWW+aPRMGHTIFX9CspErEDt1Wu6q7oGKDl6Gc=; b=qVRiZuMikm4pldIBRsdk7tdBTh
+	stOt5EYQ9DaXyHT5/TBl7gpUe5FLDpzbf6LmwzBph3hnswy60soIur+HBipjkqqP4JftjL8rfl1K/
+	YxbzXuavrk4D9fsrl8X3Cy664LR2a5STxHLB85jerkJrdA/EIakjZ2Feqxdvz9sKLUYz47J+e1rYT
+	AuaDjhzNIiCRbbiq0s93d1+9my6tKvW5GMszyMshoF7tBHAVvmFUew65hDm6gUYonSA7G/2llhF2J
+	yuHfCHeBkPzf85N3KSQj94ocCXroWjVpdgbBm7lQPJcLcZyOqZUVd/vRemnSjgqjLapPW3btIXCfV
+	vXENRAAQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qEmCp-000DpF-2N;
-	Thu, 29 Jun 2023 07:36:43 +0000
+	id 1qEmGD-000EC7-1V;
+	Thu, 29 Jun 2023 07:40:13 +0000
 Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qEmCl-000DnK-19
+	id 1qEmGA-000EBP-1W
 	for linux-nvme@lists.infradead.org;
-	Thu, 29 Jun 2023 07:36:42 +0000
+	Thu, 29 Jun 2023 07:40:11 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id BAA6521861;
-	Thu, 29 Jun 2023 07:36:33 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 15E002187E;
+	Thu, 29 Jun 2023 07:40:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1688024193; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1688024409; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tX0OhCvnYEom9wQyUBB776472LobDXtBtt3bT5sVnDk=;
-	b=AtkqT/ZvBJoU1ru8jku3GOZ/HOGFnyZ8j4vSIFwBYB4iZO3FEx5RWLrYKwngmXlK46N+el
-	ruMKbJfTw20/6IbbJsGS9NR1MxCl2lXmsWkbDo61tS+Z7ukqrYz5oTCxKKquqwlNC2FQQ+
-	EVRtMSPQMk3Mr/d4rHXyciQteXMxL9w=
+	bh=LwmfJfCWW+aPRMGHTIFX9CspErEDt1Wu6q7oGKDl6Gc=;
+	b=gd3ToJVQPGvQFdK9ZDy8cY80HS6vY40C52WUQsTS3CXDH4/Z6IX/pTDN2yMpWitmqiqm3W
+	PzTMVMf2uWAT2kHXJAmchh3PntA2vIPEK8VLNEKzRukcjEvqrYd0neih0GCi10mAVxCxEg
+	jxmH2paUzimWDEKMHZVoi/7flQ6C/ek=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1688024193;
+	s=susede2_ed25519; t=1688024409;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tX0OhCvnYEom9wQyUBB776472LobDXtBtt3bT5sVnDk=;
-	b=r0l2OTvVav/YVmGvHuM65jwliCcEd9QU30jsowNy8BC+uTL+yrATzbq7QF+7U8tcQ3ezQ1
-	HGz7AkxCNa6CGDBw==
+	bh=LwmfJfCWW+aPRMGHTIFX9CspErEDt1Wu6q7oGKDl6Gc=;
+	b=XkCFfbVDoHoTACV9h+MQel4lDZG+KlupnEY0y/6fYB9TFJqpeRgNg8WnioezO18LDNBZTJ
+	gpkCv8tdlxNFhEBA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AA92313905;
-	Thu, 29 Jun 2023 07:36:33 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0851F13905;
+	Thu, 29 Jun 2023 07:40:09 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id sUBxKYE0nWQERAAAMHmgww
-	(envelope-from <dwagner@suse.de>); Thu, 29 Jun 2023 07:36:33 +0000
-Date: Thu, 29 Jun 2023 09:36:33 +0200
+	id 5/bxAVk1nWS3RQAAMHmgww
+	(envelope-from <dwagner@suse.de>); Thu, 29 Jun 2023 07:40:09 +0000
+Date: Thu, 29 Jun 2023 09:40:08 +0200
 From: Daniel Wagner <dwagner@suse.de>
-To: Max Gurtovoy <mgurtovoy@nvidia.com>
-Cc: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>, 
-	Sagi Grimberg <sagi@grimberg.me>, Yi Zhang <yi.zhang@redhat.com>, 
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>, "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, 
-	linux-block <linux-block@vger.kernel.org>
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Yi Zhang <yi.zhang@redhat.com>, 
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>, Max Gurtovoy <mgurtovoy@nvidia.com>, 
+	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, linux-block <linux-block@vger.kernel.org>
 Subject: Re: [bug report] most of blktests nvme/ failed on the latest linux
  tree
-Message-ID: <yqwto3tm4wjgowmavc3unucq47hf5xeeqsp5baqggtzo75nmu2@4o5pbethrqcw>
-References: <CAHj4cs_+yBbs+MgrC8Z8J7X8cKYwwr6wcR5tLfUCcYkftL7N1Q@mail.gmail.com>
+Message-ID: <zftdt4pmjiwnbkje2zpl2kp5oraapsrawpbwf3l5qppmegpylj@so52n3f5zd6u>
+References: <4b8c1d77-b434-5970-fb1f-8a4059966095@grimberg.me>
+ <8a15d10e-f94b-54b7-b080-1887d9c0bdac@nvidia.com>
+ <0c4b16a5-17da-02d9-754a-3c7a158daa56@nvidia.com>
+ <CAHj4cs9ayQ8J+wDCWVKjmBTWTi7Bc3uqqTCDzL2ZY6JhpdDhsQ@mail.gmail.com>
+ <1fda4154-50f4-c09d-dbb1-3b53ed63d341@nvidia.com>
+ <CAHj4cs_+yBbs+MgrC8Z8J7X8cKYwwr6wcR5tLfUCcYkftL7N1Q@mail.gmail.com>
  <52df24f1-ebb7-cd24-3aaf-7b946acab3ee@grimberg.me>
  <CAHj4cs9=8fPRtXj4uyjN9MV1OMNNXwcVGte7CDnFxXYYbnnX0A@mail.gmail.com>
  <b3377b27-28de-c8ed-d45a-c3f241c24415@grimberg.me>
- <83ef44fb-fcef-4b61-9de1-bc24e3c0f4d2@nvidia.com>
- <000e3d0c-0022-c199-1f8d-97e191345197@grimberg.me>
- <d5d9bd87-1d5b-d66c-39c4-e35c0e5ddc48@nvidia.com>
- <94785130-4f40-aa29-9232-af8a8f1ca1c9@nvidia.com>
- <7d6m3ha3rqc73q22d4bsxtc4u2cqb4ryp6f4q7ajvazdpek2ko@nh6a6biyryxd>
- <0ad16fbf-6835-50ac-443b-46443c8656e8@nvidia.com>
+ <lfwwdbrtexufmsjbrw5j36jay2m56kdnuzwcrmcwnickzmgb4i@b5d32kl3oaps>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0ad16fbf-6835-50ac-443b-46443c8656e8@nvidia.com>
+In-Reply-To: <lfwwdbrtexufmsjbrw5j36jay2m56kdnuzwcrmcwnickzmgb4i@b5d32kl3oaps>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230629_003639_577100_81042265 
-X-CRM114-Status: GOOD (  11.05  )
+X-CRM114-CacheID: sfid-20230629_004010_681521_720DE06E 
+X-CRM114-Status: GOOD (  15.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,32 +99,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jun 28, 2023 at 02:00:57PM +0300, Max Gurtovoy wrote:
- > --- a/tests/nvme/rc
-> > +++ b/tests/nvme/rc
-> > @@ -14,8 +14,23 @@ def_remote_wwnn="0x10001100aa000001"
-> >   def_remote_wwpn="0x20001100aa000001"
-> >   def_local_wwnn="0x10001100aa000002"
-> >   def_local_wwpn="0x20001100aa000002"
-> > -def_hostnqn="$(cat /etc/nvme/hostnqn 2> /dev/null)"
-> > -def_hostid="$(cat /etc/nvme/hostid 2> /dev/null)"
-> > +
-> > +if [ -f "/etc/nvme/hostid" ]; then
-> > +	def_hostid="$(cat /etc/nvme/hostid 2> /dev/null)"
-> > +else
-> > +	def_hostid="$(uuidgen)"
-> > +fi
-> > +if [ -z "$def_hostid" ] ; then
-> > +	def_hostid="0f01fb42-9f7f-4856-b0b3-51e60b8de349"
-> > +fi
-> > +
-> > +if [ -f "/etc/nvme/hostnqn" ]; then
-> > +	def_hostnqn="$(cat /etc/nvme/hostnqn 2> /dev/null)"
-> > +fi
-> > +if [ -z "$def_hostnqn" ] ; then
-> > +	def_hostnqn="nqn.2014-08.org.nvmexpress:uuid:${def_hostid}"
-> > +fi
+On Wed, Jun 28, 2023 at 08:25:24AM +0000, Shinichiro Kawasaki wrote:
+> I looked in nvme-cli code. When it generates hostnqn, it does not set hostid.
+> A quick dirty patch below for nvme-cli avoided the failures for nvme_trtype=loop
+> condition. If this is the fix approach, the kernel commit will need
+> corresponding change in the nvme-cli side.
+> 
+> 
+> diff --git a/fabrics.c b/fabrics.c
+> index ac240cad..f1981206 100644
+> --- a/fabrics.c
+> +++ b/fabrics.c
+> @@ -753,8 +753,13 @@ int nvmf_discover(const char *desc, int argc, char **argv, bool connect)
+>  	hostid_arg = hostid;
+>  	if (!hostnqn)
+>  		hostnqn = hnqn = nvmf_hostnqn_from_file();
+> -	if (!hostnqn)
+> +	if (!hostnqn) {
+> +		char *uuid;
+>  		hostnqn = hnqn = nvmf_hostnqn_generate();
+> +		uuid = strstr(hostnqn, "uuid:");
+> +		if (uuid)
+> +			hostid = hid = strdup(uuid + strlen("uuid:"));
+> +	}
+>  	if (!hostid)
+>  		hostid = hid = nvmf_hostid_from_file();
+>  	h = nvme_lookup_host(r, hostnqn, hostid);
+> @@ -966,8 +971,13 @@ int nvmf_connect(const char *desc, int argc, char **argv)
+>  
+>  	if (!hostnqn)
+>  		hostnqn = hnqn = nvmf_hostnqn_from_file();
+> -	if (!hostnqn)
+> +	if (!hostnqn) {
+> +		char *uuid;
+>  		hostnqn = hnqn = nvmf_hostnqn_generate();
+> +		uuid = strstr(hostnqn, "uuid:");
+> +		if (uuid)
+> +			hostid = hid = strdup(uuid + strlen("uuid:"));
+> +	}
+>  	if (!hostid)
+>  		hostid = hid = nvmf_hostid_from_file();
+>  	h = nvme_lookup_host(r, hostnqn, hostid);
 
-Is there a specific reason why we want to read the /etc/nvme/hostnqn file at
-all? Can't we just use a fixes hostid/hostnqn?
+Looks reasonable. Though I would propably also add a warning iff
+nvmf_hostid_from_file() does return a not matching hostid.
 
