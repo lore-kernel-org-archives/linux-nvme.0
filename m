@@ -4,72 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF022EB64D7
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Jun 2023 17:47:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48225EB64DA
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Jun 2023 18:26:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=dxNCWw9/XGjhsUhYX46Bc5zT8+5Ld3Ad2FZ9z+dbogQ=; b=JVmrmidYtPmOwG0gpJ7wXbQBiS
-	byJbi1EdWa9rYeKbQCD7K+UAeEq2hTgxPII2OV5OlNIVznf0ESxZ3cjPHAACeLFtozEPQJxEbbDtu
-	82jjZ+xZSvWr5ESVJjL5GZnqD+Ik1roqr0/XsE9tokbFwiBKOvWeI1Rw57/rJjICXN8wiQ+xopyAg
-	isxoHJpPhVm5pFRHOCJ4OC4uhxQvgmgnwcENa/kffyaMkIv4HAR6PsGMkOPctVxpgalb/+jKkb4ep
-	S87kE84ywljqNcdOnK37ldI0q7GxOXZ5rp43FvcBCLAy7XZc0NMJZPBQTD6u7W4eY/BSvtCIznK8p
-	DnlgxZLw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=JjudmYc+t4AhUeg8M5MES9aRhblFwTPNdMxP3nSzsE4=; b=eGbRWfAViaVrDB4tX1AMt+9G6E
+	HyLXDFpJ79f7feUGEa+yacgQFXPu/QQJgURfKBi7ZtJI9ScRP4nLFIKR9RjUUD40C2aWtXIoB7uEU
+	gqAn5VcQuyHZ+0UsFJfS0/bkT6rvEa/I90rNVfBTEN+byKLHQZGze960rgAs962o+8qXgXDG7beqg
+	czSbRaRqZx1rj6uDB6zAh4txJ8zcPnzAZp2O/tDusLD9Fgj6Gn0Fdz10edtQbPTAHWlbJfazAlXIR
+	vP6q4e69kr3lQpRhhLwXlQ3yhBlPHfb8mAOWs1CF03XLHXW52/POItmuS7WCiLx/7DPJTomkVZ34k
+	wTu1dRhg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qFIDc-004DZf-2B;
-	Fri, 30 Jun 2023 17:47:40 +0000
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	id 1qFIpZ-004IhG-2e;
+	Fri, 30 Jun 2023 18:26:53 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qFIDZ-004DZA-2n
+	id 1qFIpW-004Ig4-0n
 	for linux-nvme@lists.infradead.org;
-	Fri, 30 Jun 2023 17:47:39 +0000
-Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35UHd75N010444
-	for <linux-nvme@lists.infradead.org>; Fri, 30 Jun 2023 10:47:35 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=s2048-2021-q4;
- bh=dxNCWw9/XGjhsUhYX46Bc5zT8+5Ld3Ad2FZ9z+dbogQ=;
- b=iK0ZJNQHoqNyhnhHRZoX69yxqr1Jk0ZGFavbYSbjl/+9icfQnwwiuz2sJxHSPPrbdIgC
- r1NM67Jm3rkOQZ2d5W5jF2ZFdfM7VzmkCHI6MblCuzvycAI7ZDfS/OVBEdglUj90/emm
- yFdz8lH7S/wlL7JHx52ZWbKdsvh/WtrRRIfIvyWyE/pBs0Yw5JR9K5LErt4uE2VMF7hf
- gCRxLLXE86nQMn3VU6pR8UNaYtH+32vqXIP0WAQh+Op+KbpOSONrsefjZ+u9fV3u6KDK
- YcFHIyLYOptwd+zMa1bNABjp6tq6qr1yeBxp4xkoO1QhMXv6p063Be/XLayup09LfQB3 3w== 
-Received: from maileast.thefacebook.com ([163.114.130.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3rhv0vv3tb-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Fri, 30 Jun 2023 10:47:35 -0700
-Received: from twshared37136.03.ash8.facebook.com (2620:10d:c0a8:1c::1b) by
- mail.thefacebook.com (2620:10d:c0a8:83::5) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Fri, 30 Jun 2023 10:47:33 -0700
-Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
-	id 94D011AE49CA2; Fri, 30 Jun 2023 10:47:23 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-nvme@lists.infradead.org>, <hch@lst.de>
-CC: <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
-        Ming Lei
-	<ming.lei@redhat.com>
-Subject: [PATCH] nvme: ensure disabling pairs with unquiesce
-Date: Fri, 30 Jun 2023 10:47:06 -0700
-Message-ID: <20230630174706.3807872-1-kbusch@meta.com>
-X-Mailer: git-send-email 2.34.1
+	Fri, 30 Jun 2023 18:26:51 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8B2F91F8C2;
+	Fri, 30 Jun 2023 18:26:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1688149606; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JjudmYc+t4AhUeg8M5MES9aRhblFwTPNdMxP3nSzsE4=;
+	b=jHBqhOoevdO4MK0tHEKrzcIFh/sNfQ/P1KGheod6Yvsqv2GYsCqzjwN0rRx9aS/Yol9wU2
+	fHkniBSsYGU5FLUKRiUpwOdL1eF0SMh5eb9MSZ4u7sL3NQUwhpWx7QJUP+CVHoHJQjQUIQ
+	zxwIDZ5XAnzUu7wL37HeFXtVz5eZUgs=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 65A85138F8;
+	Fri, 30 Jun 2023 18:26:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id pJDYF2Yen2TjaAAAMHmgww
+	(envelope-from <mkoutny@suse.com>); Fri, 30 Jun 2023 18:26:46 +0000
+Date: Fri, 30 Jun 2023 20:26:45 +0200
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: Ofir Gal <ofir.gal@volumez.com>
+Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>, "hch@lst.de" <hch@lst.de>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Sagi Grimberg <sagi@grimberg.me>, cgroups@vger.kernel.org, 
+	tj@kernel.org
+Subject: Re: [PATCH] nvmet: allow associating port to a cgroup via configfs
+Message-ID: <vjb27jezj3j45l4gwcgge54st32xfoduvam6lu2irdg7xligea@erxg5rhvklr3>
+References: <20230627100215.1206008-1-ofir.gal@volumez.com>
+ <30d03bba-c2e1-7847-f17e-403d4e648228@grimberg.me>
+ <90150ffd-ba2d-6528-21b7-7ea493cd2b9a@nvidia.com>
+ <79894bd9-03c7-8d27-eb6a-5e1336550449@volumez.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: ra0qCQcPbd2bDXpyaSBg_B75_YWOxSdQ
-X-Proofpoint-ORIG-GUID: ra0qCQcPbd2bDXpyaSBg_B75_YWOxSdQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-30_10,2023-06-30_01,2023-05-22_02
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="vsldarc2hw5fdqjn"
+Content-Disposition: inline
+In-Reply-To: <79894bd9-03c7-8d27-eb6a-5e1336550449@volumez.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230630_104738_019764_DC4FB8F1 
-X-CRM114-Status: GOOD (  17.18  )
+X-CRM114-CacheID: sfid-20230630_112650_451719_67790273 
+X-CRM114-Status: GOOD (  13.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,94 +85,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
 
-If any error handling that disables the controller fails to queue the
-reset work, like if the state changed to disconnected inbetween, then
-the failed teardown needs to unquiesce the queues since it's no longer
-paired with reset_work.
+--vsldarc2hw5fdqjn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reported-by: Ming Lei <ming.lei@redhat.com>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/pci.c | 22 +++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
+Hello.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index c9224d39195e5..bf21bd08ee7ed 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -108,6 +108,7 @@ MODULE_PARM_DESC(noacpi, "disable acpi bios quirks");
- struct nvme_dev;
- struct nvme_queue;
-=20
-+static int nvme_disable_prepare_reset(struct nvme_dev *dev, bool shutdow=
-n);
- static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown);
- static void nvme_delete_io_queues(struct nvme_dev *dev);
- static void nvme_update_attrs(struct nvme_dev *dev);
-@@ -1298,9 +1299,7 @@ static enum blk_eh_timer_return nvme_timeout(struct=
- request *req)
- 	 */
- 	if (nvme_should_reset(dev, csts)) {
- 		nvme_warn_reset(dev, csts);
--		nvme_dev_disable(dev, false);
--		nvme_reset_ctrl(&dev->ctrl);
--		return BLK_EH_DONE;
-+		goto disable;
- 	}
-=20
- 	/*
-@@ -1351,10 +1350,7 @@ static enum blk_eh_timer_return nvme_timeout(struc=
-t request *req)
- 			 "I/O %d QID %d timeout, reset controller\n",
- 			 req->tag, nvmeq->qid);
- 		nvme_req(req)->flags |=3D NVME_REQ_CANCELLED;
--		nvme_dev_disable(dev, false);
--		nvme_reset_ctrl(&dev->ctrl);
--
--		return BLK_EH_DONE;
-+		goto disable;
- 	}
-=20
- 	if (atomic_dec_return(&dev->ctrl.abort_limit) < 0) {
-@@ -1391,6 +1387,12 @@ static enum blk_eh_timer_return nvme_timeout(struc=
-t request *req)
- 	 * as the device then is in a faulty state.
- 	 */
- 	return BLK_EH_RESET_TIMER;
-+
-+disable:
-+	if (!nvme_disable_prepare_reset(dev, false) &&
-+	    nvme_try_sched_reset(&dev->ctrl))
-+		nvme_unquiesce_io_queues(&dev->ctrl);
-+	return BLK_EH_DONE;
- }
-=20
- static void nvme_free_queue(struct nvme_queue *nvmeq)
-@@ -3278,7 +3280,8 @@ static pci_ers_result_t nvme_error_detected(struct =
-pci_dev *pdev,
- 	case pci_channel_io_frozen:
- 		dev_warn(dev->ctrl.device,
- 			"frozen state error detected, reset controller\n");
--		nvme_dev_disable(dev, false);
-+		if (nvme_disable_prepare_reset(dev, false))
-+			return PCI_ERS_RESULT_DISCONNECT;
- 		return PCI_ERS_RESULT_NEED_RESET;
- 	case pci_channel_io_perm_failure:
- 		dev_warn(dev->ctrl.device,
-@@ -3294,7 +3297,8 @@ static pci_ers_result_t nvme_slot_reset(struct pci_=
-dev *pdev)
-=20
- 	dev_info(dev->ctrl.device, "restart after slot reset\n");
- 	pci_restore_state(pdev);
--	nvme_reset_ctrl(&dev->ctrl);
-+	if (!nvme_try_sched_reset(&dev->ctrl))
-+		nvme_unquiesce_io_queues(&dev->ctrl);
- 	return PCI_ERS_RESULT_RECOVERED;
- }
-=20
---=20
-2.34.1
+On Thu, Jun 29, 2023 at 06:21:34PM +0300, Ofir Gal <ofir.gal@volumez.com> w=
+rote:
+> >>> Currently there is no way to throttle nvme targets with cgroup v2.
+> >>
+> >> How do you do it with v1?
+> With v1 I would add a blkio rule at the cgroup root level. The bio's
+> that the nvme target submits aren't associated to a specific cgroup,
+> which makes them follow the rules of the cgroup root level.
+>=20
+> V2 doesn't allow to set rules at the root level by design.
 
+I think you want to add a per-nvme port (device?) throttled-bandwidth
+attribute (instead of param_associated_cgroup) to control this on the
+client (whole host) side -- even without cgroups.
+Associating ports with cgroups and then bios with cgroups looks
+superfluous.
+(But it is understandably tempting because then IO controller's
+throttling implementaion may be reused.)
+
+
+How are the nvmet_bdev_execute_rw() et al functions called? (Only via
+kthreads without (uspace) process context? Or can the reqs be traced to
+a user space process?)
+
+Thanks,
+Michal
+
+--vsldarc2hw5fdqjn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQQpEWyjXuwGT2dDBqAGvrMr/1gcjgUCZJ8eYwAKCRAGvrMr/1gc
+jhfgAP9NUZ0UHO1rcdmDFFxkaXaqqbBN5FcUsYD34VDU684djwD/RL9E71JMN1Fd
+E1uJRAC4up2kwbfgkuuCGPhA2jx5nAE=
+=+Y3/
+-----END PGP SIGNATURE-----
+
+--vsldarc2hw5fdqjn--
 
