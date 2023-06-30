@@ -4,80 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47452EB64DC
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Jun 2023 19:28:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5D9FEB64DA
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Jun 2023 20:05:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cSiCW/KaiQdJa3PcW0Gh5S6jFmVUK5U5vgrkY1SeBVY=; b=n2K8SoguGGsebPEQKHX2YIatz2
-	EPLfRHqEiiTXvHhfYdt7+ZhYC9csyDV3uMpKoz/b95P+o04+b5X4U5JUYDsygqWQtG0LykVZKr9jc
-	QfOVSkkYLhaqcBv+EbD31M+QfijUicnGHANLuRzAgCdk3jtm5E1+gk9QQbKtFOYsnwLwXF7JtrBJJ
-	wxiWQmufHDGwBnO0BEi0JXxSns33Eh7jfL2oJ8e8Yv4DpvOBamVjp5J+M5pkFU/xNHnl1M4O5t0LM
-	vV/risnejISpylWsl0GAneayFN4g9lijLpBvPq92BkJ4sk2nqMnPD+p2M0jEqBKvbGe1gb+6eluaN
-	Xf/dTQ6A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=w6joXddjHPCoQzy4/VLeowXcd9zCYbRo+Axvx24U/+U=; b=ZUdgWSr2G+DL8KmHjTXud3LQSo
+	1u8xrMYEVjY6eXJD3g9R7IZPv8YscdBKRwyW6gzqjpw8WUhtIHcuQvEfh7l8kzn2b6bIGuZUVbewF
+	csJ/LX8zdfeoruePmch6syRv4RFfCjF8YzulbxfyppE9uWWAjAATXctoswvW0YaOBvEmKQnG6foeN
+	VWN4lf02PQ4ZxZjQT4ctWBwLybK6Ck/J6FZyF05nXxZw8/AtjwgLkXUhJoNAL0yv5bISk91HBIPMn
+	Fz3LxYrc/h/jcM7uhkJdK8Xn9ie7OLJAEC5qAhCsxQY9ONt9dy/FGzLGqMtqY+teZ1smftGJ/cUzb
+	8UuDztfw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qFJnE-004PNe-1f;
-	Fri, 30 Jun 2023 19:28:32 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1qFKMS-004SWH-2e;
+	Fri, 30 Jun 2023 20:04:56 +0000
+Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qFJnB-004PMc-1L
+	id 1qFKMP-004SVm-07
 	for linux-nvme@lists.infradead.org;
-	Fri, 30 Jun 2023 19:28:30 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 9BC2F617F4;
-	Fri, 30 Jun 2023 19:28:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE726C433C0;
-	Fri, 30 Jun 2023 19:28:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1688153308;
-	bh=zX7DtgKaXqa8tSnrkMuQTXY6UheSPHRSG4DhhcbKq+g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ryup1iNS7cnCw2wiYI3YEs2N7PeCMaMxWV1gkQER97KVMF9lUTjIK9fzk3DQSkk6q
-	 M+MqgMxaw01mt5CQJkyVoO9FEbADys+v/GY8cYOOAo8cGz0mR5z1t2Z2jbWiWBHe3a
-	 2SUPqi1E9SO46ZJpEI6KSX8OMAPW2qgfncFFfHniX5QNV9jHuH2YBR0CH4Oe9KVhoC
-	 Mi4/QItY+2LBUukkmIeMd8s+nPBYMevX7Wwbj1GsdziHcoAtWeZDF/tFvAn8Ar88eI
-	 RjrS0eVk052IzxtszvnH8y3/MNlfF+v+hiJeG9qiwYwudNCWMxPTjEBAgyj6rmJdq9
-	 JLEUuTBhVG9vA==
-Date: Fri, 30 Jun 2023 12:28:25 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: David Howells <dhowells@redhat.com>, Aurelien Aptel <aaptel@nvidia.com>,
-	netdev@vger.kernel.org, Alexander Duyck <alexander.duyck@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	David Ahern <dsahern@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Willem de Bruijn <willemb@google.com>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
-	Christoph Hellwig <hch@lst.de>, Chaitanya Kulkarni <kch@nvidia.com>,
-	linux-nvme@lists.infradead.org, llvm@lists.linux.dev
-Subject: Re: [PATCH net-next v3 10/18] nvme/host: Use
- sendmsg(MSG_SPLICE_PAGES) rather then sendpage
-Message-ID: <20230630192825.GA2745548@dev-arch.thelio-3990X>
-References: <253mt0il43o.fsf@mtr-vdi-124.i-did-not-set--mail-host-address--so-tickle-me>
- <20230620145338.1300897-1-dhowells@redhat.com>
- <20230620145338.1300897-11-dhowells@redhat.com>
- <58466.1688074499@warthog.procyon.org.uk>
- <20230629164318.44f45caf@kernel.org>
- <20230630161043.GA2902645@dev-arch.thelio-3990X>
- <20230630091442.172ec67f@kernel.org>
+	Fri, 30 Jun 2023 20:04:55 +0000
+Received: by mail-il1-x135.google.com with SMTP id e9e14a558f8ab-345ac638074so3075395ab.1
+        for <linux-nvme@lists.infradead.org>; Fri, 30 Jun 2023 13:04:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1688155491; x=1690747491;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=w6joXddjHPCoQzy4/VLeowXcd9zCYbRo+Axvx24U/+U=;
+        b=RIqHdFNVUqtNcSm95ayuqA6eXd7pRX9Q5FI40C6NMfNznx6VFa/CZrCYkVIqZDePJ2
+         3N5rKf9hWZYQavY+hoUV9gQ3/e5OFkbkZV8gtNHu0acT5uQlG0Z8xOoAumsHw+HMwcpP
+         RyA6Z5YYjdiMs14hL9yNnaAlFq0A/J0wPrU6Bnm5/8haCMuNGVdeANacdx37SHtyR9IX
+         EEdx2JEeWwYJXB9T/qjDwjAiOcVuqzFsT/SKCKKDwgFz4SJz3GUmkYhzBb/hO645ZXwd
+         qNn4vOS/n8N8asMDa5AmO4fe3y3NXR/fXPNKUTuBJNvzaJCtq2tOgP0Q5XJbbLWfd0C8
+         Yw7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688155491; x=1690747491;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=w6joXddjHPCoQzy4/VLeowXcd9zCYbRo+Axvx24U/+U=;
+        b=lIWPKeGjyGXPRxRModDgGC7OBPBHk8wIfc+fuqxL3WSQGqS5XxTS80vD4lmRG54Z5I
+         AJYvUrMLsAvk+8HIGGElSPCztgM7cNCal20Y18x2LvkKJ0t1IpsI/s0fhRFydRsph32B
+         cIHyI4EQnML+TdK6pJFrGUQfZ8MkMmo/O9tGIsvdNVbbMHKHE0Dm3Vz1RdT7uNFvo5pl
+         ijhzczXpXIP1G4peOlx9BhlsSU0LmmQBDHtIgIZffZCaSgYnDckghn64whM6Zl4HDpf3
+         8HXTx/mGolG1T/9R74Vp9tlbMgwVDqMAuAxsPTdX62eU0mRM1JaFHEmqhe8CBsKwybGz
+         o9uw==
+X-Gm-Message-State: ABy/qLaSijeWBkh6NMIlCQdd6UMcycMFRfC5kfxT6gG34cSRZd13WF26
+	8Mcf30DIUeBLNobWEJqNXq7c4g==
+X-Google-Smtp-Source: APBJJlFumId8o4x1Ve0SIx8qeubRoJAchUCCPsQtX9ItUuFrTwTpztd64Cu8p9Gyil6puOTkkuWDjg==
+X-Received: by 2002:a92:760d:0:b0:33b:d741:5888 with SMTP id r13-20020a92760d000000b0033bd7415888mr4262630ilc.0.1688155491568;
+        Fri, 30 Jun 2023 13:04:51 -0700 (PDT)
+Received: from [192.168.1.94] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id h12-20020a92c08c000000b00345a98a2bacsm3783595ile.67.2023.06.30.13.04.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 30 Jun 2023 13:04:50 -0700 (PDT)
+Message-ID: <3b585536-dbb6-45b1-1c65-5fdc53cb3e2a@kernel.dk>
+Date: Fri, 30 Jun 2023 14:04:50 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230630091442.172ec67f@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [GIT PULL] nvme updates for Linux 6.5 (part 2)
+Content-Language: en-US
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+References: <ZJ8fhWv2CuF+o//Z@kbusch-mbp>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <ZJ8fhWv2CuF+o//Z@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230630_122829_533031_7DC9D39B 
-X-CRM114-Status: GOOD (  25.81  )
+X-CRM114-CacheID: sfid-20230630_130453_309863_44F29E5E 
+X-CRM114-Status: GOOD (  10.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,58 +93,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jun 30, 2023 at 09:14:42AM -0700, Jakub Kicinski wrote:
-> On Fri, 30 Jun 2023 09:10:43 -0700 Nathan Chancellor wrote:
-> > > Let me CC llvm@ in case someone's there is willing to make 
-> > > the compiler warn about this.
-> > 
-> > Turns out clang already has a warning for this, -Wcomma:
-> > 
-> >   drivers/nvme/host/tcp.c:1017:38: error: possible misuse of comma operator here [-Werror,-Wcomma]
-> >    1017 |                         msg.msg_flags &= ~MSG_SPLICE_PAGES,
-> >         |                                                           ^
-> >   drivers/nvme/host/tcp.c:1017:4: note: cast expression to void to silence warning
-> >    1017 |                         msg.msg_flags &= ~MSG_SPLICE_PAGES,
-> >         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >         |                         (void)(                           )
-> >   1 error generated.
-> > 
-> > Let me do some wider build testing to see if it is viable to turn this
-> > on for the whole kernel because it seems worth it, at least in this
-> > case. There are a lot of cases where a warning won't be emitted (see the
-> > original upstream review for a list: https://reviews.llvm.org/D3976) but
-> > something is better than nothing, right? :)
+On 6/30/23 12:31 PM, Keith Busch wrote:
+> The following changes since commit 2293cae703cda162684ae966db6b1b4a11b5e88f:
+> 
+>   blk-mq: don't insert passthrough request into sw queue (2023-06-21 07:48:34 -0600)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.infradead.org/nvme.git tags/nvme-6.5-2023-06-30
+> 
+> for you to fetch changes up to 4e69d4dabd2379af57b0b8fb9b0d62c23f9cd3b8:
+> 
+>   nvme: disable controller on reset state failure (2023-06-30 10:48:20 -0700)
+> 
+> ----------------------------------------------------------------
+> nvme fixes for Linux 6.5
+> 
+>  - Reduce spamming kernel logs on repeated controller updates (Breno)
+>  - Improved struct packing (Christophe JAILLET)
+>  - Misspelled command name in error logging (Damien)
+>  - Failover fix for temporary frozen queue (Sagi)
+>  - Reset error handling fixes (Keith)
 
-Well, that was a pipe dream :/ In ARCH=arm multi_v7_defconfig alone,
-there are 289 unique instances of the warning (although a good number
-have multiple instances per line, so it is not quite as bad as it seems,
-but still bad):
+Pulled, thanks.
 
-$ rg -- -Wcomma arm-multi_v7_defconfig.log | sort | uniq -c | wc -l
-289
+-- 
+Jens Axboe
 
-https://gist.github.com/nathanchance/907867e0a7adffc877fd39fd08853801
 
-Probably not a good sign of the signal to noise ratio, I looked through
-a good handful and all the cases I saw were not interesting... Perhaps
-the warning could be tuned further to become useful for the kernel but
-in its current form, it is definitely a no-go :/
-
-> Ah, neat. Misleading indentation is another possible angle, I reckon,
-> but not sure if that's enabled/possible to enable for the entire kernel
-
-Yeah, I was surprised there was no warning for misleading indentation...
-it is a part of -Wall for both clang and GCC, so it is on for the
-kernel, it just appears not to trigger in this case.
-
-> either :( We test-build with W=1 in networking, FWIW, so W=1 would be
-> enough for us.
-
-Unfortunately, even in its current form, it is way too noisy for W=1, as
-the qualifier for W=1 is "do not occur too often". Probably could be
-placed under W=2 but it still has the problem of wading through every
-instance and it is basically a no-op because nobody tests with W=2.
-
-Cheers,
-Nathan
 
