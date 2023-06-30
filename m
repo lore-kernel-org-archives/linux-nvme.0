@@ -4,81 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5D9FEB64DA
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Jun 2023 20:05:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5BE4BEB64DA
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Jun 2023 22:08:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=w6joXddjHPCoQzy4/VLeowXcd9zCYbRo+Axvx24U/+U=; b=ZUdgWSr2G+DL8KmHjTXud3LQSo
-	1u8xrMYEVjY6eXJD3g9R7IZPv8YscdBKRwyW6gzqjpw8WUhtIHcuQvEfh7l8kzn2b6bIGuZUVbewF
-	csJ/LX8zdfeoruePmch6syRv4RFfCjF8YzulbxfyppE9uWWAjAATXctoswvW0YaOBvEmKQnG6foeN
-	VWN4lf02PQ4ZxZjQT4ctWBwLybK6Ck/J6FZyF05nXxZw8/AtjwgLkXUhJoNAL0yv5bISk91HBIPMn
-	Fz3LxYrc/h/jcM7uhkJdK8Xn9ie7OLJAEC5qAhCsxQY9ONt9dy/FGzLGqMtqY+teZ1smftGJ/cUzb
-	8UuDztfw==;
+	Content-Type:From:Subject:To:MIME-Version:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=HH4/y2LSJHZ45tBS8eyMfxFly0jF8FdgN1u/o33Nak8=; b=aNaemoa5bJ0ZdYIiINcVI3nbh7
+	0ElQdhXg68BxdhtBW2Zm9YgwYNUXQi6VkDSlMWOobbr6odiZhnW/qu8zfeWJClcOwpvbik6pMBC0U
+	7SizHs8OcfzA9VFGnVwd6y2rAmSOC/piPcqubTGXb6z5NTRkEFSSw6nzJcBW9i1zDMqoWmkLa3ZYm
+	xktPMSlOpRZ7AVT2G3xM+WIgJhR3XDbR0ln0FlT2k88xiVYkxa3nSNnK/dYo33mCmIQtbGa6Udc+d
+	pldVYMf4WRKhNhoY9DYIxV+X4YCS4ei04y2hNO/tzWEkRI/Q5MknEihil1BUj9Xbc9j9n6p6rtlIa
+	FOmnKWJQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qFKMS-004SWH-2e;
-	Fri, 30 Jun 2023 20:04:56 +0000
-Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135])
+	id 1qFMIG-004eHO-29;
+	Fri, 30 Jun 2023 22:08:44 +0000
+Received: from mail-oa1-x30.google.com ([2001:4860:4864:20::30])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qFKMP-004SVm-07
+	id 1qFMIE-004eGt-0b
 	for linux-nvme@lists.infradead.org;
-	Fri, 30 Jun 2023 20:04:55 +0000
-Received: by mail-il1-x135.google.com with SMTP id e9e14a558f8ab-345ac638074so3075395ab.1
-        for <linux-nvme@lists.infradead.org>; Fri, 30 Jun 2023 13:04:52 -0700 (PDT)
+	Fri, 30 Jun 2023 22:08:43 +0000
+Received: by mail-oa1-x30.google.com with SMTP id 586e51a60fabf-1b0748bc78dso1486939fac.0
+        for <linux-nvme@lists.infradead.org>; Fri, 30 Jun 2023 15:08:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1688155491; x=1690747491;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=w6joXddjHPCoQzy4/VLeowXcd9zCYbRo+Axvx24U/+U=;
-        b=RIqHdFNVUqtNcSm95ayuqA6eXd7pRX9Q5FI40C6NMfNznx6VFa/CZrCYkVIqZDePJ2
-         3N5rKf9hWZYQavY+hoUV9gQ3/e5OFkbkZV8gtNHu0acT5uQlG0Z8xOoAumsHw+HMwcpP
-         RyA6Z5YYjdiMs14hL9yNnaAlFq0A/J0wPrU6Bnm5/8haCMuNGVdeANacdx37SHtyR9IX
-         EEdx2JEeWwYJXB9T/qjDwjAiOcVuqzFsT/SKCKKDwgFz4SJz3GUmkYhzBb/hO645ZXwd
-         qNn4vOS/n8N8asMDa5AmO4fe3y3NXR/fXPNKUTuBJNvzaJCtq2tOgP0Q5XJbbLWfd0C8
-         Yw7A==
+        d=gmail.com; s=20221208; t=1688162919; x=1690754919;
+        h=content-transfer-encoding:from:content-language:subject:to
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HH4/y2LSJHZ45tBS8eyMfxFly0jF8FdgN1u/o33Nak8=;
+        b=Ewsnw6GxPTbxhtHLANdVhrBGI4owst1kCPxhBwkngrHCHSOqkq7yUZBYl5ozU1M6gp
+         XKwrZq2Sm/2f8gxvF/NVPeAlOuw9usWeRJa4T1uRtVp3ezbgmQi8YdyxS8FdNqnyAHII
+         JxeLKaKeXJ4w1yEnHsWkRo5Hp+pjZAiegV9XSRmq/VL24BcqkfgZ+4zp0W35hTONSSQo
+         Qn+DTLm9EeHIw0yI2hmWMyXZEhi0aYWP+F2tNRPE1dkw+6Wt2qidnjEBphaRpwKMB+8A
+         Foeuipjwnpc/+u61pUpWdK1hOLCleCwA+CIlkX3I1+7JHoX+kiRePHkkbiDxQajjwmDg
+         oDZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688155491; x=1690747491;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=w6joXddjHPCoQzy4/VLeowXcd9zCYbRo+Axvx24U/+U=;
-        b=lIWPKeGjyGXPRxRModDgGC7OBPBHk8wIfc+fuqxL3WSQGqS5XxTS80vD4lmRG54Z5I
-         AJYvUrMLsAvk+8HIGGElSPCztgM7cNCal20Y18x2LvkKJ0t1IpsI/s0fhRFydRsph32B
-         cIHyI4EQnML+TdK6pJFrGUQfZ8MkMmo/O9tGIsvdNVbbMHKHE0Dm3Vz1RdT7uNFvo5pl
-         ijhzczXpXIP1G4peOlx9BhlsSU0LmmQBDHtIgIZffZCaSgYnDckghn64whM6Zl4HDpf3
-         8HXTx/mGolG1T/9R74Vp9tlbMgwVDqMAuAxsPTdX62eU0mRM1JaFHEmqhe8CBsKwybGz
-         o9uw==
-X-Gm-Message-State: ABy/qLaSijeWBkh6NMIlCQdd6UMcycMFRfC5kfxT6gG34cSRZd13WF26
-	8Mcf30DIUeBLNobWEJqNXq7c4g==
-X-Google-Smtp-Source: APBJJlFumId8o4x1Ve0SIx8qeubRoJAchUCCPsQtX9ItUuFrTwTpztd64Cu8p9Gyil6puOTkkuWDjg==
-X-Received: by 2002:a92:760d:0:b0:33b:d741:5888 with SMTP id r13-20020a92760d000000b0033bd7415888mr4262630ilc.0.1688155491568;
-        Fri, 30 Jun 2023 13:04:51 -0700 (PDT)
-Received: from [192.168.1.94] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id h12-20020a92c08c000000b00345a98a2bacsm3783595ile.67.2023.06.30.13.04.50
+        d=1e100.net; s=20221208; t=1688162919; x=1690754919;
+        h=content-transfer-encoding:from:content-language:subject:to
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=HH4/y2LSJHZ45tBS8eyMfxFly0jF8FdgN1u/o33Nak8=;
+        b=GyWp7eFrWj/1fR2ZJLjJtPizqWgqHfHMdGu/J6aJy0yNuVoUogLNm5xDDUGSj2PS/9
+         lw+AHpIv6I4Sx7iYcdYyY+VzM1VUG/pdMSMAWvZoZTkyg2kmd4CSsWF+d8Mq03T5uhue
+         IcTqcIEtB7HU60LUQnrH2FHj9kypfRsRN2WctlRufgIpcj71mOU2wdiToDeIX/6IE04u
+         WI3wB+4Yo+Lyclrn0Y06JEbIM7KrCUXn2Z5sxR/bXCtzrxlMqnd4Z9bpRbiPSD1Xl2DA
+         AlrLX4hSpcNFLJgxWeWSBXdNGZqAAFjqNLUsJVUnDX2jDIO2MyyeyIV9HeDHdrlj2oZO
+         E9Tw==
+X-Gm-Message-State: AC+VfDxTAUlsJ6A7/AdWwCfrgbCC2OmgFInsdjl3vzYdaBivGoTL0J0w
+	QRrG4VuWEvPB1oTg+HE83sflRkojpv/Yeg==
+X-Google-Smtp-Source: ACHHUZ4sGAwZj4LQUoSOdmwPTD8/o9U3njWSpb5/1+V5e80HcTndw4tq8Orltgyr5yNCXy+5Ikg8nQ==
+X-Received: by 2002:a05:6870:440a:b0:184:2b9d:2b12 with SMTP id u10-20020a056870440a00b001842b9d2b12mr3966503oah.13.1688162918490;
+        Fri, 30 Jun 2023 15:08:38 -0700 (PDT)
+Received: from ?IPV6:2600:1700:36d0:2460::1f? ([2600:1700:36d0:2460::1f])
+        by smtp.gmail.com with ESMTPSA id i12-20020a056830010c00b006b72515e20bsm6921532otp.54.2023.06.30.15.08.36
+        for <linux-nvme@lists.infradead.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Jun 2023 13:04:50 -0700 (PDT)
-Message-ID: <3b585536-dbb6-45b1-1c65-5fdc53cb3e2a@kernel.dk>
-Date: Fri, 30 Jun 2023 14:04:50 -0600
+        Fri, 30 Jun 2023 15:08:37 -0700 (PDT)
+Message-ID: <8635de3c-fdf1-a617-817f-2bc9e0f22d0f@gmail.com>
+Date: Fri, 30 Jun 2023 18:08:35 -0400
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [GIT PULL] nvme updates for Linux 6.5 (part 2)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+To: linux-nvme@lists.infradead.org
+Subject: [PATCH 1/1] Fix 2 Acer FA100 NVMe SSDs from interfering in one PC
 Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-References: <ZJ8fhWv2CuF+o//Z@kbusch-mbp>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <ZJ8fhWv2CuF+o//Z@kbusch-mbp>
+From: Christopher Lentocha <christopherericlentocha@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230630_130453_309863_44F29E5E 
-X-CRM114-Status: GOOD (  10.62  )
+X-CRM114-CacheID: sfid-20230630_150842_231295_2F3BE444 
+X-CRM114-Status: GOOD (  14.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,32 +91,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/30/23 12:31 PM, Keith Busch wrote:
-> The following changes since commit 2293cae703cda162684ae966db6b1b4a11b5e88f:
-> 
->   blk-mq: don't insert passthrough request into sw queue (2023-06-21 07:48:34 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-6.5-2023-06-30
-> 
-> for you to fetch changes up to 4e69d4dabd2379af57b0b8fb9b0d62c23f9cd3b8:
-> 
->   nvme: disable controller on reset state failure (2023-06-30 10:48:20 -0700)
-> 
-> ----------------------------------------------------------------
-> nvme fixes for Linux 6.5
-> 
->  - Reduce spamming kernel logs on repeated controller updates (Breno)
->  - Improved struct packing (Christophe JAILLET)
->  - Misspelled command name in error logging (Damien)
->  - Failover fix for temporary frozen queue (Sagi)
->  - Reset error handling fixes (Keith)
 
-Pulled, thanks.
+In order for 2 Acer FA100s to work in one PC (in the case of myself, a
+Lenovo Legion T5 28IMB05), and not show one drive and not the other, and
+sometimes mix up what drive shows up, these two lines of code need to be
+added, and then both of the SSDs will show up and not conflict when
+booting off of one of them, since if you boot off of one of the SSDs
+without this patch, you may randomly get into a kernel panic or
+initramfs if set up, else if you do merge this patch, there should
+never be problems with booting or really anything at all.
 
+Signed-off-by: Christopher Lentocha <christopherericlentocha@gmail.com>
+---
+ drivers/nvme/host/pci.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 48c60f7fda0b..4bb521a6b68f 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3427,6 +3427,8 @@ static const struct pci_device_id nvme_id_table[] = {
+ 		.driver_data = NVME_QUIRK_BOGUS_NID, },
+ 	{ PCI_DEVICE(0x1cc1, 0x5350),   /* ADATA XPG GAMMIX S50 */
+ 		.driver_data = NVME_QUIRK_BOGUS_NID, },
++	{ PCI_DEVICE(0x1dbe, 0x5216),   /* Acer/INNOGRIT FA100/5216 NVMe SSD */
++		.driver_data = NVME_QUIRK_BOGUS_NID, },
+ 	{ PCI_DEVICE(0x1dbe, 0x5236),   /* ADATA XPG GAMMIX S70 */
+ 		.driver_data = NVME_QUIRK_BOGUS_NID, },
+ 	{ PCI_DEVICE(0x1e49, 0x0021),   /* ZHITAI TiPro5000 NVMe SSD */
 -- 
-Jens Axboe
-
+2.38.1
 
 
