@@ -4,141 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8D7F4EB64D7
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Jun 2023 12:03:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C057CEB64D7
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Jun 2023 13:36:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zZubjPAKe4tJnP79rh7RaaQDYvtmoDCtXsGDKlJ0uFY=; b=eOLE59XJ7GxzClZMEw9xtN+qiS
-	wASODvrTjvVQpP2kjD6g0yLffunG6InGx+LdudU6WMyBqHZytGh2hPRialqxmKxi9aJoBzooNHQdB
-	gwKAE3/Q6IQ7VwhYuN+lM+bENWO46u0dzWHkAaOXAhVb81T3xqv41caRv5IbK3mH3Rflfb0WlHYEl
-	f1hjOvT5fr6Gzpm931Os4HNSh6ekX/naS0QGJuFW5syo0eWqSVYGqj6NGRf7Znl1XhHt4S9M8Hz27
-	z5d4445ckPiSuIsbHlrM8NOiQvljSadfeJ+mjHFdqJNrwNQTOWqmSfLXtj0malk/RCMTYjWLtmN8y
-	f4ntuTJQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9qwS/nJZGMP8Lt21UZh5+1uA66f33YQA7IfXtY5NVNY=; b=39nUg2nU5oQJ2NrfdI4hCRKPLz
+	X8cYu9Cj3i6i8SdgRaqEMrtU2jh1kDzkItA6kW58DB6dRRvc9KtUXFbiKO+3xFeRVnTxQh80EhaWD
+	GRaRnp1hWl51ekrG82sOXegrGpM2tz+fKzggL7ueG4y7EZmpxTzuiwIran4eagRcqbnUDU/2NJdnm
+	t9O/+fX61UR36oOaMuwTnAFooDUvyjXEXzfx/UKm0FHYI6zhBN6GIqgr9fEAH0EG2d/QWtSNF2DDh
+	HgAeGssGW9mJ+iXZlWKEQo5umaG8aAkoh0OoUYipmktO9RC8lKvREvQ3KqdV2wrmeU8ZuTBFI+zOb
+	kr6pMcrw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qFCq2-003e2x-0V;
-	Fri, 30 Jun 2023 12:02:58 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1qFEID-003mXs-2X;
+	Fri, 30 Jun 2023 13:36:09 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qFCpw-003e1x-2O
+	id 1qFEIA-003mWu-18
 	for linux-nvme@lists.infradead.org;
-	Fri, 30 Jun 2023 12:02:54 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20230630120241epoutp0415192b7ce82ba49e700ad3c455762030~tbinuNjeJ2119721197epoutp04O
-	for <linux-nvme@lists.infradead.org>; Fri, 30 Jun 2023 12:02:41 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20230630120241epoutp0415192b7ce82ba49e700ad3c455762030~tbinuNjeJ2119721197epoutp04O
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1688126561;
-	bh=zZubjPAKe4tJnP79rh7RaaQDYvtmoDCtXsGDKlJ0uFY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=mfshBycpvotrExq2m0BfCgxTNRVu78AGdZbgkTTKze+GZKQOwRURXGW1hTGfKUrZe
-	 zm2oJZqdd/yTj4QLaCbp+j7ZDivfd3I/TcqCAcRAxDI2Pqkk069kLOF0ncu3zjqEXA
-	 4hfB2hIz4tFIAr7mfvYYzrMWKwanER58x5e+432M=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20230630120240epcas5p3d08ca980d5065aa551daa2fd10006566~tbim_nHMD0126501265epcas5p3B;
-	Fri, 30 Jun 2023 12:02:40 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.181]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4Qsv8H1L2xz4x9Pt; Fri, 30 Jun
-	2023 12:02:39 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	4F.E6.06099.F54CE946; Fri, 30 Jun 2023 21:02:39 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20230630112545epcas5p1746ef2fc966c04b3a8163e0dff21fb4b~tbCXgpz0S0278302783epcas5p18;
-	Fri, 30 Jun 2023 11:25:45 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20230630112545epsmtrp100ac18072070bde82f83c688a8d35218~tbCXeO08n3247532475epsmtrp1R;
-	Fri, 30 Jun 2023 11:25:45 +0000 (GMT)
-X-AuditID: b6c32a4b-cafff700000017d3-cb-649ec45f75e7
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	01.DC.34491.9BBBE946; Fri, 30 Jun 2023 20:25:45 +0900 (KST)
-Received: from green245 (unknown [107.99.41.245]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20230630112540epsmtip25264414e861bfa35bbcaec8407f2f7ff~tbCTNRWsE1020410204epsmtip2Y;
-	Fri, 30 Jun 2023 11:25:40 +0000 (GMT)
-Date: Fri, 30 Jun 2023 16:52:27 +0530
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
-	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	dm-devel@redhat.com, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
-	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
-	<kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
-	Brauner <brauner@kernel.org>, martin.petersen@oracle.com,
-	linux-scsi@vger.kernel.org, willy@infradead.org, hare@suse.de,
-	djwong@kernel.org, bvanassche@acm.org, dlemoal@kernel.org,
-	nitheshshetty@gmail.com, gost.dev@samsung.com, Vincent Fu
-	<vincent.fu@samsung.com>, Anuj Gupta <anuj20.g@samsung.com>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v13 3/9] block: add emulation for copy
-Message-ID: <20230630112227.6ctls2vt4cy7vbxo@green245>
+	Fri, 30 Jun 2023 13:36:08 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1688132161;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9qwS/nJZGMP8Lt21UZh5+1uA66f33YQA7IfXtY5NVNY=;
+	b=A9v19JHc9tkuh6uAn4TO99pOtRPlGN8MUqt5wyfmfUllyKMcs/0eS3dWEspBHt9hw6h3Iv
+	/SwYYn2Ei1DXjSLOvBg9/glKPuCnmA7HMXm71HJCW6MwBjPIo6JV/XaDKieZiygHUvmAQ4
+	6+o/frGlaccn7oQINThb3Vp+n5UXDRE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-490-ZvsvicDxNyelIhmZS0Cjig-1; Fri, 30 Jun 2023 09:33:41 -0400
+X-MC-Unique: ZvsvicDxNyelIhmZS0Cjig-1
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-31273e0507dso1047694f8f.3
+        for <linux-nvme@lists.infradead.org>; Fri, 30 Jun 2023 06:33:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688132020; x=1690724020;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9qwS/nJZGMP8Lt21UZh5+1uA66f33YQA7IfXtY5NVNY=;
+        b=iqduaQ7ADeI54IddWcXJkt1o43lW3MRDgwVk4D1POQD3+Nf+p7U5tYpKcazjsNd1aq
+         OsvyWWgP3FcfXKSUYhl1qLGU6jPRtIVLDYz4BovspNS+Kq6ePFp3Nt6+Py3zxYa3cBBG
+         IDOwCd4ChHL8s4wkcX36LAmpvgkTBTfP/A0TDkE1hQGi87sr/m4X998GeljGiOtP4U5P
+         oy5mo7cC7HJ8VjhCaJej4iZ3PptF0v+J2ncOgghiLhbozj8jgLMsOQxSfUvpQz0lmhEy
+         BNA1m/RCeBvSeMg/nZ25YtNEJDGUK9izlR4k2sdnJyPdH2ymW0I6mxrFSUCyDV2NwuAc
+         bJUQ==
+X-Gm-Message-State: ABy/qLbyvJr7VGBseYEX2JZlcRcz/CHcdLA5TEjtbtLaoWVovxigKbDo
+	+4HGcB2ZSHQYM37cX5yw5urHreL6UZkre30FIZmH+xl4ylyKu7fceu7NNwWPLsmhJCuk5XZ9JE+
+	VgtEng4T34Aapo3xX4YFcjjo5FhT6ppzllh5jTGcvMZg=
+X-Received: by 2002:adf:fe8f:0:b0:314:fe8:4df3 with SMTP id l15-20020adffe8f000000b003140fe84df3mr2160778wrr.43.1688132019787;
+        Fri, 30 Jun 2023 06:33:39 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlEaKUBlb5wTtfacwxkRc4ZUr+ITlXMNS77Pfa0rZbzyg0YadUwPlxHmE6tWU15Qi3guX4SNTH+ClCldzyd0Foc=
+X-Received: by 2002:adf:fe8f:0:b0:314:fe8:4df3 with SMTP id
+ l15-20020adffe8f000000b003140fe84df3mr2160762wrr.43.1688132019432; Fri, 30
+ Jun 2023 06:33:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <ZJ1B1k0KifZrGRIp@ovpn-8-26.pek2.redhat.com>
-User-Agent: NeoMutt/20171215
-X-Brightmail-Tracker: H4sIAAAAAAAAA02TbUxTZxTHee69vS3EumuR+PCikOKyAQGpQPdAYAo6d5fuAwl+GQnild5R
-	BNqmLbJhIqDAFAaoDDIrVFQcbwoIbOF1smIFMYwZBgisDLWgkw0QAnbjZWspLH77nZf/eZ5z
-	Tg4PFzRxXXgJcg2rkjNJQtKB+KHby8s39r5O6n+nioPq+x7g6OzFNRzVGgtJNNO9AFDJ/N84
-	MnV9BdCgaTuavHcAdc5e5aDRrlYMddy4jKHqWgOGLuuHAZoa0mKoc8wHXc+pIFBH50MCDbaV
-	kujad1NclDfSQqLKnnUM6YvOYajFlAlQ3cwcgXrHXNHzvPMADaz1cNCKuZQ86EYP/iqhW7VG
-	Lj0wcZegm6q86cH+FLqx5gJJN1Wk0+2jGSR9s6CIQ+efmyXp11NjBD334xBJFzTXALrp0Wl6
-	sXEP3Wj6C4ukohNDZSwjZVUerDxOIU2Qx4cJJVGxh2KDxP4iX1Ew+kDoIWeS2TDh4U8jfY8k
-	JFmmI/Q4xSSlWFyRjFot3PdhqEqRomE9ZAq1JkzIKqVJykCln5pJVqfI4/3krCZE5O+/P8iS
-	eDxRtpRXzlW2v/NF5YtpbgaY3pYL7HmQCoTmxwOcXODAE1DtAPYuPN40FgBcLMzg2oxlAK/U
-	FHC2JOONGYQt0AngvZf6jYCAmgbQ3MO3MkG9CyuHG7BcwOORlA989C/P6t5JCaHRWLtRFKca
-	SGhu1QFrwJEKgf0tTzeYT4mh4Y6JtPEO+PCKibCyPRUMl1oLNnKcKDf47a0l3FoIUhP2cNE4
-	RNp+dxhWzHUDGzvCVz3NXBu7wD8KczY5FVZ/U0XaxFkAake0m4IDMLuvELcyTslgaVfOZtHd
-	sLivDrP5t8P8FRNm8/Nhi26LPeHt+vLNfGc4/CaTtHYPKRr+PHjINq1ZAMuyzOAicNe+1Zz2
-	redsHAIvzJ/laC1ynHKFles8G3rB+rZ95YBTA5xZpTo5nlUHKQPkbOr/G49TJDeCjevxlrSA
-	Z5PzfnqA8YAeQB4u3Mkf//OqVMCXMl+msSpFrColiVXrQZBlWZdwF6c4heX85JpYUWCwf6BY
-	LA4MDhCLhLv4M9llUgEVz2jYRJZVsqotHcazd8nANA4nRj0V2n9eP2HuS4fpQ8y17OcnigPS
-	QrcB2ctaQ0Xd57WrU8fOdBuIVrl+Ojy8Yeyzto71sdB6CbM3Ji0r3e6ozAeMjTwZdwrnJEDt
-	s5xbxE9NveHQdfrosEi3WMyPaCgZmpw9VimOOZ3/0asju93PVHut+N3NNK7Z0+k6Ea7LFGZH
-	/fbidqFZEfsLmHVE73F6eKsRhvdvzpRN1msT4DixMEDWudn9nvwxJ0CSejI6Ke+kU9GNXMpw
-	3TPMrrtr//n2Zuc9gqf9S4IYgelg+C6qaHnCveT74xE7HpDmiYBTfsuhzXtDRJ9wJZdWdctz
-	jYOi6PT5KMPMG8HXzgNCQi1jRN64Ss38B0n6FerGBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrKIsWRmVeSWpSXmKPExsWy7bCSvO7O3fNSDC7d4bBYf+oYs0XThL/M
-	Fqvv9rNZvD78idFi2oefzBZPDrQzWlx+wmfxYL+9xd53s1ktbh7YyWSxZ9EkJouVq48yWUw6
-	dI3R4unVWUwWe29pWyxsW8JisWfvSRaLy7vmsFnMX/aU3aL7+g42i+XH/zFZHJrczGSx40kj
-	o8W61+9ZLE7ckrZ43N3BaHH+73FWi98/5rA5yHhcvuLtsXPWXXaP8/c2snhsXqHlcflsqcem
-	VZ1sHpuX1HvsvtnA5rG4bzKrR2/zOzaPj09vsXi833eVzaNvyypGj82nqz0+b5Lz2PTkLVOA
-	QBSXTUpqTmZZapG+XQJXxvr+e2wFb3kqZu16ztrAuImri5GTQ0LAROL2pgaWLkYuDiGB3YwS
-	Ddu+skEkJCWW/T3CDGELS6z895wdougJo0THuTlgRSwCqhLLr21g6mLk4GAT0JY4/Z8DJCwi
-	oCRx9+5qsHpmgU1sEn/PvWQESQgLWEmc3fEQzOYVMJM4uvYJG8TQd4wSVy41MEEkBCVOznzC
-	AmIzAxXN2/yQGWQBs4C0xPJ/YAs4BSwlvu7sA5sjKiAjMWPpV+YJjIKzkHTPQtI9C6F7ASPz
-	KkbJ1ILi3PTcYsMCw7zUcr3ixNzi0rx0veT83E2M4JShpbmDcfuqD3qHGJk4GA8xSnAwK4nw
-	3n4zO0WINyWxsiq1KD++qDQntfgQozQHi5I4r/iL3hQhgfTEktTs1NSC1CKYLBMHp1QDk7rf
-	o41LXDk7Q6xd7wi3M/Qv4tP0F2fSWcqmyn15Q7P23BkLLn7RWj5p447Ne5/fudDZ+Oxcy8wO
-	g9WNRcznxJeKHvFuuJj113Ll+tIviwL8Vdv3h2+6Wx4S3tAQt/Oq9GUR48nXfjy7sU/deMNN
-	NiWXGl+uqTIT4v5vW8QcrTaxJ4UvvLL5+i1+PqWNhkEzlXfdE/T98ohLVHaGx+xzpnOb5Mv4
-	1Bh2q1YdUgv6/+bXxJPHuW9PE3j/QfKft/JjbW3Fh4G8TtyPFgT1KX4SdJHuEGvhMhLT0/l0
-	ZydPvNA1tetW96z8Z6jUa6fmH3Sc/mcpy+ntC1xqvR7t+Op+1Obws8wE1luBaq//lU6yV2Ip
-	zkg01GIuKk4EAIi1iPiIAwAA
-X-CMS-MailID: 20230630112545epcas5p1746ef2fc966c04b3a8163e0dff21fb4b
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----zUAFM1k0MeHfMyR4CoO9aTysOnQiUYGsRe6BfqD0GhfqR3ws=_26e0b_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230627184020epcas5p13fdcea52edead5ffa3fae444f923439e
-References: <20230627183629.26571-1-nj.shetty@samsung.com>
-	<CGME20230627184020epcas5p13fdcea52edead5ffa3fae444f923439e@epcas5p1.samsung.com>
-	<20230627183629.26571-4-nj.shetty@samsung.com>
-	<ZJ1B1k0KifZrGRIp@ovpn-8-26.pek2.redhat.com>
+References: <20230620133711.22840-1-dwagner@suse.de>
+In-Reply-To: <20230620133711.22840-1-dwagner@suse.de>
+From: Ewan Milne <emilne@redhat.com>
+Date: Fri, 30 Jun 2023 09:33:28 -0400
+Message-ID: <CAGtn9r=cNbNta2iJSianW2aK9r04oSFb3T1KUgufwgX60AqzHA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] nvme-fc: Fix blktests hangers
+To: Daniel Wagner <dwagner@suse.de>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-block@vger.kernel.org, Chaitanya Kulkarni <kch@nvidia.com>, 
+	"Shin'ichiro Kawasaki" <shinichiro@fastmail.com>, Sagi Grimberg <sagi@grimberg.me>, 
+	Hannes Reinecke <hare@suse.de>, James Smart <jsmart2021@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230630_050253_439220_7A2B73D3 
-X-CRM114-Status: GOOD (  19.17  )
+X-CRM114-CacheID: sfid-20230630_063606_559688_756F7DB6 
+X-CRM114-Status: GOOD (  25.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -153,52 +98,308 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------zUAFM1k0MeHfMyR4CoO9aTysOnQiUYGsRe6BfqD0GhfqR3ws=_26e0b_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+We ran this patch series through our regression and NVMe/FC boot from SAN t=
+ests.
+(I think 4/5 will also resolve some instability / race condition with
+kickstart, since the connect
+is now synchronous, but we may need some more time to full validate
+that.  I was going
+to pursue a userspace solution but this may be good enough.)
 
-On 23/06/29 04:33PM, Ming Lei wrote:
->Hi Nitesh,
+Notwithstanding the other comments re: error codes, etc. feel free to add:
+
+Reviewed-by: Ewan D. Milne <emilne@redhat.com>
+Tested-by: Marco Patalano (mpatalan@redhat.com>
+
+On Tue, Jun 20, 2023 at 9:39=E2=80=AFAM Daniel Wagner <dwagner@suse.de> wro=
+te:
 >
->On Wed, Jun 28, 2023 at 12:06:17AM +0530, Nitesh Shetty wrote:
->> For the devices which does not support copy, copy emulation is added.
->> It is required for in-kernel users like fabrics, where file descriptor is
+> With the additinal 3 patches and the blktests changes [1] I am able to ru=
+n the
+> tests in a loop for a while without failures. I expect there are more pro=
+blems
+> hidden but with these changes the first milesone is reached.
 >
->I can understand copy command does help for FS GC and fabrics storages,
->but still not very clear why copy emulation is needed for kernel users,
->is it just for covering both copy command and emulation in single
->interface? Or other purposes?
+> The first new patch is actually one from a previous attempt. It addresses=
+ the
+> problem in unloading path where we dont make any progress more [2].
 >
->I'd suggest to add more words about in-kernel users of copy emulation.
+> The next two patches change the existing initial connection attempt of FC=
+ to
+> a synchronous one. Without this the auth test fail [3].
+>
+> Daniel
+>
+>
+> [1] https://lore.kernel.org/linux-nvme/20230620132703.20648-1-dwagner@sus=
+e.de/
+> [2] https://lore.kernel.org/linux-nvme/20230418130159.11075-1-dwagner@sus=
+e.de/
+> [3] https://lore.kernel.org/linux-nvme/j4w7724skjsapgtp6wtll5fgsb4adhpfdt=
+rif52lhc7iql4inf@3mu2gbjrrtcs/
+>
+> changes:
+>
+> v2:
+>   - added RBs
+>   - added new patches
+>
+> v1:
+>   - https://lore.kernel.org/linux-nvme/20230615094356.14878-1-dwagner@sus=
+e.de/
+>
+>
+> Initial cover letter:
+>
+> A couple more fixes to enable blktests for the fc transport.
+>
+> 1) Another module unloading hanger which can be triggered with
+>    the nvme/048 tests:
+>
+>    run blktests nvme/048 at 2023-06-06 13:04:49
+>    nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+>    nvme nvme2: NVME-FC{0}: create association : host wwpn 0x20001100aa000=
+002  rport wwpn 0x20001100aa000001: NQN "blktests-subsystem-1"
+>    (NULL device *): {0:0} Association created
+>    [478] nvmet: ctrl 1 start keep-alive timer for 1 secs
+>    [478] nvmet: check nqn.2014-08.org.nvmexpress:uuid:3d0c3f5d-cb37-4bc4-=
+af29-2168953bfc0a
+>    [478] nvmet: nvmet_setup_dhgroup: ctrl 1 selecting dhgroup 0
+>    [478] nvmet: No authentication provided
+>    nvmet: creating nvm controller 1 for subsystem blktests-subsystem-1 fo=
+r NQN nqn.2014-08.org.nvmexpress:uuid:3d0c3f5d-cb37-4bc4-af29-2168953bfc0a.
+>    [478] nvmet: adding queue 1 to ctrl 1.
+>    [407] nvmet: adding queue 2 to ctrl 1.
+>    [6549] nvmet: adding queue 3 to ctrl 1.
+>    [1760] nvmet: adding queue 4 to ctrl 1.
+>    nvme nvme2: NVME-FC{0}: controller connect complete
+>    nvme nvme2: NVME-FC{0}: new ctrl: NQN "blktests-subsystem-1"
+>    [478] nvmet: ctrl 1 reschedule traffic based keep-alive timer
+>    [407] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    nvme nvme2: NVME-FC{0}: io failed due to lldd error 6
+>    nvme nvme2: NVME-FC{0}: transport association event: transport detecte=
+d io error
+>    nvme nvme2: NVME-FC{0}: resetting controller
+>    [478] nvmet: ctrl 1 stop keep-alive
+>    (NULL device *): {0:0} Association deleted
+>    nvme nvme2: NVME-FC{0}: create association : host wwpn 0x20001100aa000=
+002  rport wwpn 0x20001100aa000001: NQN "blktests-subsystem-1"
+>    (NULL device *): {0:0} Association freed
+>    (NULL device *): {0:0} Association created
+>    (NULL device *): Disconnect LS failed: No Association
+>    [407] nvmet: ctrl 1 start keep-alive timer for 1 secs
+>    [407] nvmet: check nqn.2014-08.org.nvmexpress:uuid:3d0c3f5d-cb37-4bc4-=
+af29-2168953bfc0a
+>    [407] nvmet: nvmet_setup_dhgroup: ctrl 1 selecting dhgroup 0
+>    [407] nvmet: No authentication provided
+>    nvmet: creating nvm controller 1 for subsystem blktests-subsystem-1 fo=
+r NQN nqn.2014-08.org.nvmexpress:uuid:3d0c3f5d-cb37-4bc4-af29-2168953bfc0a.
+>    nvme nvme2: reconnect: revising io queue count from 4 to 1
+>    [478] nvmet: adding queue 1 to ctrl 1.
+>    nvme nvme2: NVME-FC{0}: controller connect complete
+>    [478] nvmet: ctrl 1 reschedule traffic based keep-alive timer
+>    [478] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    [478] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    [6549] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    [6549] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    [6549] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    [6549] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    [1760] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    [1760] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    [1760] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    [1760] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    [1760] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    [1760] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    [407] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    nvme nvme2: NVME-FC{0}: io failed due to lldd error 6
+>    nvme nvme2: NVME-FC{0}: transport association event: transport detecte=
+d io error
+>    nvme nvme2: NVME-FC{0}: resetting controller
+>    [478] nvmet: ctrl 1 stop keep-alive
+>    (NULL device *): {0:0} Association deleted
+>    (NULL device *): {0:0} Association freed
+>    (NULL device *): Disconnect LS failed: No Association
+>    nvme nvme2: NVME-FC{0}: create association : host wwpn 0x20001100aa000=
+002  rport wwpn 0x20001100aa000001: NQN "blktests-subsystem-1"
+>    (NULL device *): {0:0} Association created
+>    [1760] nvmet: ctrl 1 start keep-alive timer for 1 secs
+>    [1760] nvmet: check nqn.2014-08.org.nvmexpress:uuid:3d0c3f5d-cb37-4bc4=
+-af29-2168953bfc0a
+>    [1760] nvmet: nvmet_setup_dhgroup: ctrl 1 selecting dhgroup 0
+>    [1760] nvmet: No authentication provided
+>    nvmet: creating nvm controller 1 for subsystem blktests-subsystem-1 fo=
+r NQN nqn.2014-08.org.nvmexpress:uuid:3d0c3f5d-cb37-4bc4-af29-2168953bfc0a.
+>    nvme nvme2: reconnect: revising io queue count from 1 to 4
+>    [478] nvmet: adding queue 1 to ctrl 1.
+>    [407] nvmet: adding queue 2 to ctrl 1.
+>    [6549] nvmet: adding queue 3 to ctrl 1.
+>    [1760] nvmet: adding queue 4 to ctrl 1.
+>    nvme nvme2: NVME-FC{0}: controller connect complete
+>    [1760] nvmet: ctrl 1 reschedule traffic based keep-alive timer
+>    [478] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    [478] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    [478] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    [478] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    [1760] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    [6549] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    [1760] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    [6549] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    [1760] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    [1760] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    [6549] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    [1760] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    [6549] nvmet: ctrl 1 update keep-alive timer for 1 secs
+>    nvme nvme2: Removing ctrl: NQN "blktests-subsystem-1"
+>    [407] nvmet: ctrl 1 stop keep-alive
+>    (NULL device *): {0:0} Association deleted
+>    (NULL device *): {0:0} Association freed
+>    (NULL device *): Disconnect LS failed: No Association
+>    nvme_fc: nvme_fc_exit_module: waiting for ctlr deletes
+>    BTRFS info (device vda2): qgroup scan completed (inconsistency flag cl=
+eared)
+>    INFO: task modprobe:11758 blocked for more than 491 seconds.
+>          Tainted: G        W          6.4.0-rc2+ #3
+>    "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this messa=
+ge.
+>    task:modprobe        state:D stack:0     pid:11758 ppid:11585  flags:0=
+x00004002
+>    Call Trace:
+>     <TASK>
+>     __schedule+0x17b5/0x4870
+>     ? finish_lock_switch+0x8f/0x120
+>     ? finish_task_switch+0x17f/0x5c0
+>     ? __sched_text_start+0x10/0x10
+>     ? __schedule+0x17bd/0x4870
+>     ? do_raw_spin_trylock+0xc9/0x1f0
+>     schedule+0xe6/0x1e0
+>     schedule_timeout+0x7e/0x1e0
+>     ? __cfi_schedule_timeout+0x10/0x10
+>     ? do_raw_spin_trylock+0xc9/0x1f0
+>     ? __cfi_lock_release+0x10/0x10
+>     ? do_raw_spin_unlock+0x116/0x8a0
+>     wait_for_common+0x377/0x600
+>     ? wait_for_completion+0x30/0x30
+>     cleanup_module+0x222/0x240 [nvme_fc bda1ef6f83d00208ba257c5d0ac34dd6b=
+db58bf9]
+>     __se_sys_delete_module+0x388/0x550
+>     ? __x64_sys_delete_module+0x50/0x50
+>     ? task_work_run+0x236/0x290
+>     ? syscall_enter_from_user_mode+0x2e/0x210
+>     do_syscall_64+0x6e/0xa0
+>     ? syscall_exit_to_user_mode+0x5e/0x220
+>     ? do_syscall_64+0x7d/0xa0
+>     ? syscall_exit_to_user_mode+0x5e/0x220
+>     ? do_syscall_64+0x7d/0xa0
+>     ? syscall_exit_to_user_mode+0x5e/0x220
+>     ? do_syscall_64+0x7d/0xa0
+>     entry_SYSCALL_64_after_hwframe+0x72/0xdc
+>    RIP: 0033:0x7fa80811aebb
+>    RSP: 002b:00007fff80ea0a88 EFLAGS: 00000206 ORIG_RAX: 00000000000000b0
+>    RAX: ffffffffffffffda RBX: 000055a0b5acf1f0 RCX: 00007fa80811aebb
+>    RDX: 0000000000000000 RSI: 0000000000000800 RDI: 000055a0b5acf258
+>    RBP: 0000000000000000 R08: 1999999999999999 R09: 0000000000000000
+>    R10: 00007fa808193ac0 R11: 0000000000000206 R12: 00007fff80ea0ad0
+>    R13: 000055a0b5acf1f0 R14: 0000000000000000 R15: 0000000000000000
+>     </TASK>
+>
+>
+> 2) When executing blktests nvme/030 in a tight loop, I was able to
+>    reproduce a different hanger. In this case the ->done() function
+>    was never executed on the host fc side. It turns out we didn't
+>    enqueue work items correctly and thus would only process one
+>    work item.
+>
+>    run blktests nvme/030 at 2023-06-13 14:03:52
+>    nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+>    nvme nvme2: NVME-FC{0}: create association : host wwpn 0x20001100aa000=
+002  rport wwpn 0x20001100aa000001: NQN "nqn.2014-08.org.nvmexpress.discove=
+ry"
+>    (NULL device *): {0:0} Association created
+>    [23733] nvmet: ctrl 1 start keep-alive timer for 120 secs
+>    nvmet: creating discovery controller 1 for subsystem nqn.2014-08.org.n=
+vmexpress.discovery for NQN nqn.2014-08.org.nvmexpress:uuid:242d4a24-2484-4=
+a80-8234-d0169409c5e8.
+>    nvme nvme2: NVME-FC{0}: controller connect complete
+>    nvme nvme2: NVME-FC{0}: new ctrl: NQN "nqn.2014-08.org.nvmexpress.disc=
+overy"
+>    nvme nvme2: Removing ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery"
+>    [23771] nvmet: ctrl 1 stop keep-alive
+>    nvmet: adding nsid 1 to subsystem blktests-subsystem-2
+>    (NULL device *): {0:0} Association deleted
+>    (NULL device *): {0:0} Association freed
+>    (NULL device *): Disconnect LS failed: No Association
+>    nvme nvme2: NVME-FC{0}: create association : host wwpn 0x20001100aa000=
+002  rport wwpn 0x20001100aa000001: NQN "nqn.2014-08.org.nvmexpress.discove=
+ry"
+>    (NULL device *): {0:0} Association created
+>    [27320] nvmet: ctrl 1 start keep-alive timer for 120 secs
+>    nvmet: creating discovery controller 1 for subsystem nqn.2014-08.org.n=
+vmexpress.discovery for NQN nqn.2014-08.org.nvmexpress:uuid:242d4a24-2484-4=
+a80-8234-d0169409c5e8.
+>    nvme nvme2: NVME-FC{0}: controller connect complete
+>    nvme nvme2: NVME-FC{0}: new ctrl: NQN "nqn.2014-08.org.nvmexpress.disc=
+overy"
+>    nvme nvme2: Removing ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery"
+>    [27320] nvmet: ctrl 1 stop keep-alive
+>    nvme nvme2: NVME-FC{0}: create association : host wwpn 0x20001100aa000=
+002  rport wwpn 0x20001100aa000001: NQN "nqn.2014-08.org.nvmexpress.discove=
+ry"
+>    (NULL device *): {0:1} Association created
+>    (NULL device *): {0:0} Association deleted
+>    (NULL device *): {0:0} Association freed
+>    (NULL device *): Disconnect LS failed: No Association
+>    INFO: task kworker/u8:4:102 blocked for more than 491 seconds.
+>          Tainted: G        W          6.4.0-rc2+ #3
+>    "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this messa=
+ge.
+>    task:kworker/u8:4    state:D stack:0     pid:102   ppid:2      flags:0=
+x00004000
+>    Workqueue: nvme-wq nvme_fc_connect_ctrl_work [nvme_fc]
+>    Call Trace:
+>     <TASK>
+>     __schedule+0x17b5/0x4870
+>     ? try_to_wake_up+0xb5/0xfc0
+>     ? __cfi_lock_release+0x10/0x10
+>     ? __sched_text_start+0x10/0x10
+>     ? _raw_spin_unlock_irqrestore+0x24/0x50
+>     ? lock_release+0x2aa/0xd10
+>     ? wq_worker_sleeping+0x1e/0x200
+>     schedule+0xe6/0x1e0
+>     schedule_timeout+0x7e/0x1e0
+>     ? __cfi_schedule_timeout+0x10/0x10
+>     ? mark_lock+0x94/0x340
+>     ? lockdep_hardirqs_on_prepare+0x2aa/0x5e0
+>     wait_for_common+0x377/0x600
+>     ? queue_work_on+0x57/0xa0
+>     ? wait_for_completion+0x30/0x30
+>     nvme_fc_connect_ctrl_work+0x7dc/0x1a80 [nvme_fc 39e2bf78272df3a610fb1=
+f9884513e99038af746]
+>     process_one_work+0x80f/0xfb0
+>     ? rescuer_thread+0x1130/0x1130
+>     ? do_raw_spin_trylock+0xc9/0x1f0
+>     ? lock_acquired+0x310/0x9a0
+>     ? worker_thread+0xd5e/0x1260
+>     worker_thread+0xbde/0x1260
+>     kthread+0x25d/0x2f0
+>     ? __cfi_worker_thread+0x10/0x10
+>     ? __cfi_kthread+0x10/0x10
+>     ret_from_fork+0x29/0x50
+>     </TASK>
+>
+> Daniel Wagner (5):
+>   nvme-fc: Do not wait in vain when unloading module
+>   nvme-fcloop: queue work items correctly
+>   nvmet-fcloop: Remove remote port from list when unlinking
+>   nvme-fc: Make initial connect attempt synchronous
+>   nvme-fc: do no free ctrl opts
+>
+>  drivers/nvme/host/fc.c       | 43 ++++++++++++++++++------------------
+>  drivers/nvme/target/fcloop.c | 15 +++++--------
+>  2 files changed, 27 insertions(+), 31 deletions(-)
+>
+> --
+> 2.41.0
+>
 >
 
-As you mentioned above, we need a single interface for covering both
-copy command and emulation.
-This is needed in fabrics cases, as we expose any non copy command
-supported target device also as copy capable, so we fallback to emulation
-once we recieve copy from host/initator.
-Agreed, we will add more description to covey the same info.
-
->> not available and hence they can't use copy_file_range.
->> Copy-emulation is implemented by reading from source into memory and
->> writing to the corresponding destination asynchronously.
->> Also emulation is used, if copy offload fails or partially completes.
->
->Per my understanding, this kind of emulation may not be as efficient
->as doing it in userspace(two linked io_uring SQEs, read & write with
->shared buffer). But it is fine if there are real in-kernel such users.
->
-
-We do have plans for uring based copy interface in next phase,
-once curent series is merged.
-With current design we really see the advantage of emulation in fabrics case.
-
-Thank you,
-Nitesh Shetty
-
-------zUAFM1k0MeHfMyR4CoO9aTysOnQiUYGsRe6BfqD0GhfqR3ws=_26e0b_
-Content-Type: text/plain; charset="utf-8"
-
-
-------zUAFM1k0MeHfMyR4CoO9aTysOnQiUYGsRe6BfqD0GhfqR3ws=_26e0b_--
 
