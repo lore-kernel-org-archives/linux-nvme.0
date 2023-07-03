@@ -4,47 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96308C3DA40
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jul 2023 02:48:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2CC98EB64D9
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jul 2023 02:48:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=r1wq6dF/wwfmdpx1vM1YuRcJ86WXk25W0kl8jltAJ/o=; b=VxsX5AH8cCDty2eN3N6pPkjnkT
-	FGfDTA1eoSxUL/rHGVAu0QqjQwRSzZ6OW8omDhqC+LbQ/vdxCXAK/iRloMDx9GfduZ08OJqwYTgcP
-	fc0ptOa0/p7pcHexsbIGr6WLaqw08cOypH2XlNOWOpSM5ef2MI/TWgBZF3e1QZmHoTfrG5axixI88
-	Xktu9j5LA/WPXd4GgTTU57kpnIqe8L6Ewx/uMJwVaiGb9RQEWhsEXaw7iI0dY5xbVdzJgnnVCltL0
-	TT3R9B4lVym5REXRt7++wWTKFzEaOMgYuzUvH2dYc45Su0KkkO9znLhKPcxJ4JvFp36oQLaeGpXKY
-	yqIWaIkg==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
+	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=AKWShZ6RHxkItoA3qmoEHvjYzSGW49Wf6bNZ/qJ4XWM=; b=CgF/tMmIQiR3CtPeV08d+vma2v
+	/uDiFpwHGHxhAiqXKKPH49OZ+MqMAyi4W+3VA37z3xTboflgRInLM6RKx0694Ru1hVk5qn3Cj3KfJ
+	AJtht3exPNaC1kAWYhlUDtDKwKPP9A2W8qh5MZPjt/ICMOiddT/QVppQEW0Xu76no2oTi+m/AU9pR
+	kRmF+oU3LTdLZJARJMhSN1tbDxWOi54QWJOD2CFUBeKP7gV/0fi7y0WOkrXr6n9hdQBwYJEw3QGXq
+	+VcrCxEr7FCBCtxO4mUxPBFcl1me01OGYSi0BigWNXrrD9Qu1y95l8T1yMKCsmZKDOCdEJt8j8aMC
+	j/2R9kpg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qG9bu-009603-15;
-	Mon, 03 Jul 2023 02:48:18 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1qG9bz-00964t-3B;
+	Mon, 03 Jul 2023 02:48:23 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qG9br-0095ys-0y
+	id 1qG9bw-009609-2B
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Jul 2023 02:48:16 +0000
+	Mon, 03 Jul 2023 02:48:22 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id C855760DB5;
-	Mon,  3 Jul 2023 02:48:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CE18C433B9;
-	Mon,  3 Jul 2023 02:48:13 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 7926960D32;
+	Mon,  3 Jul 2023 02:48:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24117C433CA;
+	Mon,  3 Jul 2023 02:48:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1688352494;
-	bh=6GZto+pVfutjvCNVgn2qE0kch1Ur5YkjwUQsX8M0fiQ=;
-	h=From:To:Subject:Date:From;
-	b=o/bZ+5ajQ0S9AB6W9WltMAv1GPT2ZfildaSo1qNlDgAwCcrr9FbGZJQyuGPrrbRUj
-	 QjgU5revdnbPUPuu9yrkPh1LB4KEVHqGzRS2+bb7DSF0S+10tpt5oBLHvisaPPkvWI
-	 DeWntvEljzSkMO3kNp6ujdpLAg63EXtJ3ASJ6jiTVCsomyJ3XnRSXEFmZTPS7uw54x
-	 iwMlhx+Usz7rkhWRW8BdckBi+w3rPzcAp3n1ox/wtX53G1QfOmKLMi1ah3fRzSJQMj
-	 8ZwTw1Z22iUyr6Ftp/BvHi6JecnUr1bpdWrTsFV89wuZ5G/LSdGU6z/BlXg0U+G7MF
-	 krAKEUY6F9Mtw==
+	s=k20201202; t=1688352499;
+	bh=tLJIqSPJUTcqyxyXGtRe5U/70rNE11gE3HKT2ZVkLfA=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=L0ek2HEJkTgQOmFh0z/9zLaS9+RemGZvlOcekmb2zzS8aQaePAWBnhEY25mYCIeDP
+	 qQqcNh53mAs5YBDoLfJe6Dc6x/im1z0C+/IujFoiYXjXtsW7cFBWX5cI46WNxSQ8od
+	 Go2GGStm2Rb9gxVp9yN1Cz9zPsM8Vb8H8UBPALG48MwamAJkKxGLZorhbAizbufakq
+	 wKi9MaMfQbMdh0Ezu5/HcVaMDLVV+JRfryURLWx/dFvbBWAe/gwlAztkTnxTm6XNOK
+	 PoUDUuWz42j3YfQ60cuDl6aEQLltLyhi50NbWel5ljkovl36zsrv+sKLF9MpkXaPeh
+	 8e+G1bAc0djYw==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-block@vger.kernel.org,
 	Jens Axboe <axboe@kernel.dk>,
@@ -53,15 +53,17 @@ To: linux-block@vger.kernel.org,
 	Keith Busch <kbusch@kernel.org>,
 	linux-scsi@vger.kernel.org,
 	"Martin K . Petersen" <martin.petersen@oracle.com>
-Subject: [PATCH v3 0/5] Improve checks in blk_revalidate_disk_zones()
-Date: Mon,  3 Jul 2023 11:48:07 +0900
-Message-ID: <20230703024812.76778-1-dlemoal@kernel.org>
+Subject: [PATCH v3 5/5] block: improve checks in blk_revalidate_disk_zones()
+Date: Mon,  3 Jul 2023 11:48:12 +0900
+Message-ID: <20230703024812.76778-6-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230703024812.76778-1-dlemoal@kernel.org>
+References: <20230703024812.76778-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230702_194815_380454_3B44E047 
-X-CRM114-Status: GOOD (  15.29  )
+X-CRM114-CacheID: sfid-20230702_194820_812141_EE42AF32 
+X-CRM114-Status: GOOD (  27.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,48 +85,193 @@ size and that zones cover the entire addressing space of the device.
 
 While these checks are appropriate to verify that well tested hardware
 devices have an adequate zone configurations, they lack in certain areas
-which may result in issues with potentially buggy emulated devices
-implemented with user drivers such as ublk or tcmu. Specifically, this
-function does not check if the device driver indicated support for the
-mandatory zone append writes, that is, if the device
-max_zone_append_sectors queue limit is set to a non-zero value.
-Additionally, invalid zones such as a zero length zone with a start
-sector equal to the device capacity will not be detected and result in
-out of bounds use of the zone bitmaps prepared with the callback
-function blk_revalidate_zone_cb().
+which may result in issues with emulated devices implemented with user
+drivers such as ublk or tcmu. Specifically, this function does not
+check if the device driver indicated support for the mandatory zone
+append writes, that is, if the device max_zone_append_sectors queue
+limit is set to a non-zero value. Additionally, invalid zones such as
+a zero length zone with a start sector equal to the device capacity will
+not be detected and result in out of bounds use of the zone bitmaps
+prepared with the callback function blk_revalidate_zone_cb().
 
-This series address these issues by modifying the 4 block device drivers
-that currently support zoned block devices to ensure that they all set a
-zoned device zone size and max zone append sectors limit before
-executing blk_revalidate_disk_zones(). With these changes in place, 
-patch 5 improves blk_revalidate_disk_zones() to address the missing
-checks, relying on the fact that the zone size and zone append limit are
-normally set when this function is called.
+Improve blk_revalidate_disk_zones() to address these inadequate checks,
+relying on the fact that all device drivers supporting zoned block
+devices must set the device zone size (chunk_sectors queue limit) and
+the max_zone_append_sectors queue limit before executing this function.
 
-Changes from v2:
- - Rebased on current Linus tree to fix a conflict with scsi changes in
-   patch 1.
- - Added Reviewed-by tags.
+The check for a non-zero max_zone_append_sectors value is done in
+blk_revalidate_disk_zones() before executing the zone report. The zone
+report callback function blk_revalidate_zone_cb() is also modified to
+add a check that a zone start is below the device capacity.
 
-Changes from v1:
- - Updated this cover letter and commit messages to include better
-   explain for these patches
- - Reworked patch 5 to simplify the checks
-  
-Damien Le Moal (5):
-  scsi: sd_zbc: Set zone limits before revalidating zones
-  nvme: zns: Set zone limits before revalidating zones
-  block: nullblk: Set zone limits before revalidating zones
-  block: virtio_blk: Set zone limits before revalidating zones
-  block: improve checks in blk_revalidate_disk_zones()
+The check that the zone size is a power of 2 number of sectors is moved
+to blk_revalidate_disk_zones() as the zone size is already known.
+Similarly, the number of zones of the device can be calculated in
+blk_revalidate_disk_zones() before executing the zone report.
 
- block/blk-zoned.c              | 86 ++++++++++++++++++++--------------
- drivers/block/null_blk/zoned.c | 16 ++-----
- drivers/block/virtio_blk.c     | 34 ++++++--------
- drivers/nvme/host/zns.c        |  9 ++--
- drivers/scsi/sd_zbc.c          | 12 ++---
- 5 files changed, 79 insertions(+), 78 deletions(-)
+The kdoc comment for blk_revalidate_disk_zones() is also updated to
+mention that device drivers must set the device zone size and the
+max_zone_append_sectors queue limit before calling this function.
 
+Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+---
+ block/blk-zoned.c | 86 +++++++++++++++++++++++++++--------------------
+ 1 file changed, 50 insertions(+), 36 deletions(-)
+
+diff --git a/block/blk-zoned.c b/block/blk-zoned.c
+index 0f9f97cdddd9..619ee41a51cc 100644
+--- a/block/blk-zoned.c
++++ b/block/blk-zoned.c
+@@ -442,7 +442,6 @@ struct blk_revalidate_zone_args {
+ 	unsigned long	*conv_zones_bitmap;
+ 	unsigned long	*seq_zones_wlock;
+ 	unsigned int	nr_zones;
+-	sector_t	zone_sectors;
+ 	sector_t	sector;
+ };
+ 
+@@ -456,38 +455,34 @@ static int blk_revalidate_zone_cb(struct blk_zone *zone, unsigned int idx,
+ 	struct gendisk *disk = args->disk;
+ 	struct request_queue *q = disk->queue;
+ 	sector_t capacity = get_capacity(disk);
++	sector_t zone_sectors = q->limits.chunk_sectors;
++
++	/* Check for bad zones and holes in the zone report */
++	if (zone->start != args->sector) {
++		pr_warn("%s: Zone gap at sectors %llu..%llu\n",
++			disk->disk_name, args->sector, zone->start);
++		return -ENODEV;
++	}
++
++	if (zone->start >= capacity || !zone->len) {
++		pr_warn("%s: Invalid zone start %llu, length %llu\n",
++			disk->disk_name, zone->start, zone->len);
++		return -ENODEV;
++	}
+ 
+ 	/*
+ 	 * All zones must have the same size, with the exception on an eventual
+ 	 * smaller last zone.
+ 	 */
+-	if (zone->start == 0) {
+-		if (zone->len == 0 || !is_power_of_2(zone->len)) {
+-			pr_warn("%s: Invalid zoned device with non power of two zone size (%llu)\n",
+-				disk->disk_name, zone->len);
+-			return -ENODEV;
+-		}
+-
+-		args->zone_sectors = zone->len;
+-		args->nr_zones = (capacity + zone->len - 1) >> ilog2(zone->len);
+-	} else if (zone->start + args->zone_sectors < capacity) {
+-		if (zone->len != args->zone_sectors) {
++	if (zone->start + zone->len < capacity) {
++		if (zone->len != zone_sectors) {
+ 			pr_warn("%s: Invalid zoned device with non constant zone size\n",
+ 				disk->disk_name);
+ 			return -ENODEV;
+ 		}
+-	} else {
+-		if (zone->len > args->zone_sectors) {
+-			pr_warn("%s: Invalid zoned device with larger last zone size\n",
+-				disk->disk_name);
+-			return -ENODEV;
+-		}
+-	}
+-
+-	/* Check for holes in the zone report */
+-	if (zone->start != args->sector) {
+-		pr_warn("%s: Zone gap at sectors %llu..%llu\n",
+-			disk->disk_name, args->sector, zone->start);
++	} else if (zone->len > zone_sectors) {
++		pr_warn("%s: Invalid zoned device with larger last zone size\n",
++			disk->disk_name);
+ 		return -ENODEV;
+ 	}
+ 
+@@ -526,11 +521,13 @@ static int blk_revalidate_zone_cb(struct blk_zone *zone, unsigned int idx,
+  * @disk:	Target disk
+  * @update_driver_data:	Callback to update driver data on the frozen disk
+  *
+- * Helper function for low-level device drivers to (re) allocate and initialize
+- * a disk request queue zone bitmaps. This functions should normally be called
+- * within the disk ->revalidate method for blk-mq based drivers.  For BIO based
+- * drivers only q->nr_zones needs to be updated so that the sysfs exposed value
+- * is correct.
++ * Helper function for low-level device drivers to check and (re) allocate and
++ * initialize a disk request queue zone bitmaps. This functions should normally
++ * be called within the disk ->revalidate method for blk-mq based drivers.
++ * Before calling this function, the device driver must already have set the
++ * device zone size (chunk_sector limit) and the max zone append limit.
++ * For BIO based drivers, this function cannot be used. BIO based device drivers
++ * only need to set disk->nr_zones so that the sysfs exposed value is correct.
+  * If the @update_driver_data callback function is not NULL, the callback is
+  * executed with the device request queue frozen after all zones have been
+  * checked.
+@@ -539,9 +536,9 @@ int blk_revalidate_disk_zones(struct gendisk *disk,
+ 			      void (*update_driver_data)(struct gendisk *disk))
+ {
+ 	struct request_queue *q = disk->queue;
+-	struct blk_revalidate_zone_args args = {
+-		.disk		= disk,
+-	};
++	sector_t zone_sectors = q->limits.chunk_sectors;
++	sector_t capacity = get_capacity(disk);
++	struct blk_revalidate_zone_args args = { };
+ 	unsigned int noio_flag;
+ 	int ret;
+ 
+@@ -550,13 +547,31 @@ int blk_revalidate_disk_zones(struct gendisk *disk,
+ 	if (WARN_ON_ONCE(!queue_is_mq(q)))
+ 		return -EIO;
+ 
+-	if (!get_capacity(disk))
+-		return -EIO;
++	if (!capacity)
++		return -ENODEV;
++
++	/*
++	 * Checks that the device driver indicated a valid zone size and that
++	 * the max zone append limit is set.
++	 */
++	if (!zone_sectors || !is_power_of_2(zone_sectors)) {
++		pr_warn("%s: Invalid non power of two zone size (%llu)\n",
++			disk->disk_name, zone_sectors);
++		return -ENODEV;
++	}
++
++	if (!q->limits.max_zone_append_sectors) {
++		pr_warn("%s: Invalid 0 maximum zone append limit\n",
++			disk->disk_name);
++		return -ENODEV;
++	}
+ 
+ 	/*
+ 	 * Ensure that all memory allocations in this context are done as if
+ 	 * GFP_NOIO was specified.
+ 	 */
++	args.disk = disk;
++	args.nr_zones = (capacity + zone_sectors - 1) >> ilog2(zone_sectors);
+ 	noio_flag = memalloc_noio_save();
+ 	ret = disk->fops->report_zones(disk, 0, UINT_MAX,
+ 				       blk_revalidate_zone_cb, &args);
+@@ -570,7 +585,7 @@ int blk_revalidate_disk_zones(struct gendisk *disk,
+ 	 * If zones where reported, make sure that the entire disk capacity
+ 	 * has been checked.
+ 	 */
+-	if (ret > 0 && args.sector != get_capacity(disk)) {
++	if (ret > 0 && args.sector != capacity) {
+ 		pr_warn("%s: Missing zones from sector %llu\n",
+ 			disk->disk_name, args.sector);
+ 		ret = -ENODEV;
+@@ -583,7 +598,6 @@ int blk_revalidate_disk_zones(struct gendisk *disk,
+ 	 */
+ 	blk_mq_freeze_queue(q);
+ 	if (ret > 0) {
+-		blk_queue_chunk_sectors(q, args.zone_sectors);
+ 		disk->nr_zones = args.nr_zones;
+ 		swap(disk->seq_zones_wlock, args.seq_zones_wlock);
+ 		swap(disk->conv_zones_bitmap, args.conv_zones_bitmap);
 -- 
 2.41.0
 
