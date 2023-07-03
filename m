@@ -4,81 +4,169 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0A81EEB64DC
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jul 2023 14:10:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B875AC30654
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jul 2023 17:09:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ehUXf2LNnInGH0Vqogp/lrUNeW1dVzwZ4KWyqlQvQjw=; b=GJ6k2mzExuCcmCRLAep1/qX4k2
-	W7rHqkyDHbCiV3Kwc/NDS13QRPSqHWJ6pnahybfEJ+dh/6GhDp+gmSZVqoy4wUZRyILL7v+/5atQu
-	srHC5xCm25X2WgtPqVTTEvMexr3DnroRjO/dzx2KqURj8chdONPzw6E7dqEkQ6XkiDc6hDKWxwG97
-	zvtn7mxYTTTIbOwIwf1+3Ue7TmggEegy7xRm/OWXXHMzR42R3BN7NjH3Yaixlv7iobBIQAas83D11
-	i7St3FYMfqioKCtC7aEhBu28/wu31UdSFyfrkiIX4ODR9Qby943W9MsUkuIjhTStdTQ2wrXXKY79A
-	YILG4RCw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=GX5gd8L8SrETX74cuEyRS5DEs89ins2dp7LqLQWtKP4=; b=dQ5DoSCEiiXYlq/z8wDfVRgPtC
+	YhKXDtxz1MK7a1xK9rhyeAQ2K5zpS3mcP5+WxclsTPKIaRV/dEtZWn4RUTYSD7VI3rVqJdXLGNOdd
+	P1xy+oB3I8vzQjz5qEJ5PAcAHyOxfk+zNZSxcZvewNa9QxSAcuskd/WDxZ/5On8iHbquTv1ld4Jwm
+	Ld1qKedcdeHOLwLb3lw3ylrsWth5klYqpNy27OjgATD6nklteU1yvvuiGp4gPlrMANtdroa+eS6do
+	XTHCW6I3Eq8ahSyboN4ZdntNqPas4VvfyXrrROc40xAwVn5fa0FrFmanuZgj9XjPCUmW1leWQXuPL
+	AMqvOPBA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qGKFo-00Aj20-34;
-	Mon, 03 Jul 2023 14:10:12 +0000
-Received: from mail-wm1-f43.google.com ([209.85.128.43])
+	id 1qGN3I-00B4MP-15;
+	Mon, 03 Jul 2023 17:09:28 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qGKFk-00Aj0x-0Q
+	id 1qGN3F-00B4LA-2Y
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Jul 2023 14:10:09 +0000
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-3fa99b4f71fso13033685e9.1
-        for <linux-nvme@lists.infradead.org>; Mon, 03 Jul 2023 07:10:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688393405; x=1690985405;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ehUXf2LNnInGH0Vqogp/lrUNeW1dVzwZ4KWyqlQvQjw=;
-        b=SQIIOxhH2a+cJlAzwKsi0X/XCNbU5HbP+20AEZeTA1WQyjLt4i+kuMjS1Brk1E9NV8
-         iFasPgKStoLfKP6kP/8ujmpWR+pMnj/3YWX9r9J0th8aQQWpXsZTu9Ah0fTo4QZFnz/N
-         zZRwp0eWYFaTnrLDOIdCzzhhvNSjnISuV3cmUglxM4jRXmriNfgunSwJgPzzBShWqO1W
-         AJ81S+v7ygLt8u1KLvWYeLmY0nupIOV0R5obkOu9UyyL0hFketfpP4HpW/CJtjoORn9g
-         1AECZvb82gcp1Ph+eNgkYYE9kv8EhOr6xbufKUIuSlIUYpQdkGEOD4nqb4NDCCL6mleK
-         4Mdg==
-X-Gm-Message-State: ABy/qLZwxsjMwzLmMYth1YpLXhk9GthYf8UmUCwxKB/JP+V5R3rb1uFD
-	0QF/qMMSiLJ4ySlg01SQUDg=
-X-Google-Smtp-Source: APBJJlEbzcp+DsLfYrf5pTIlP/GB3g8HY7MTBgbpx9cZ7Hoofv7LOlgy5ET3UYJql70nVsK3BwaBPg==
-X-Received: by 2002:a05:600c:1c0a:b0:3fb:a982:8f41 with SMTP id j10-20020a05600c1c0a00b003fba9828f41mr6654288wms.3.1688393405189;
-        Mon, 03 Jul 2023 07:10:05 -0700 (PDT)
-Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id r3-20020a056000014300b00314398e4dd4sm1812292wrx.54.2023.07.03.07.10.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Jul 2023 07:10:04 -0700 (PDT)
-Message-ID: <40509bb4-3ca4-3bb1-3c28-1b0e90aa92be@grimberg.me>
-Date: Mon, 3 Jul 2023 17:10:02 +0300
-MIME-Version: 1.0
+	Mon, 03 Jul 2023 17:09:27 +0000
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 363G8QJP006055;
+	Mon, 3 Jul 2023 17:09:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2023-03-30;
+ bh=GX5gd8L8SrETX74cuEyRS5DEs89ins2dp7LqLQWtKP4=;
+ b=LJlWGIL3aU9Va2PKdiGcTbS+xG5jBHfaV7Sd7ucmBr8KXu220xRNfshpvI40oOvEh4bP
+ 0daPne/XJbptb0lcWAnjOVBZz1xT6L5w+BRp01CME2T2sVr96e+OcciINEDxfShO3t3P
+ 7JL9m/3JhMB8DeFonHbwIe2+PazBh0lTMuX4yO/YAEvpmY3zybTMhiyiMLA/T5KAVfWN
+ f0LXC5SvPToFNRNjXTr1JND+NrgrFvoX3PlilQshwinHjbDzpNezAxv7wawAids1ZLsQ
+ +s9UjtRzYaLGDMfRTOCuclcJTzRcNpXSTURXbgsogemvKEmiP6i6EkWs5ZEnqN6qb/J7 HA== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3rjc1ak1s4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 03 Jul 2023 17:09:17 +0000
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 363FGoaI009032;
+	Mon, 3 Jul 2023 17:09:16 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3rjak9b451-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 03 Jul 2023 17:09:16 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=knKMnvSg47qIbEfG1lPZweHiIoRK6+TZDvZ7SWh/j+KjFiTlpLu16WsvcGS05hpFLv2RpMpE7JxToNFl8bbd8KiTwiJ6YrhyoExjmaapEp6iRZNmrN7G3FlwrfdRmFfpqeUiM7WFhvduc50AiDkKUEgD/nMwWUrE4CGWh+KUAUzLBWn09Fa9BGeUDfXAvyfb6wV9sNyrAKw2V5LBNXvM0FpheKzWKtcN2nBinWI8cErFAcq7170bamrwjq6Os0K3M8ShbiXxRUhfmuDPrFJeXDvk4/CueJPmyOPVGN5iehxDIOnAiVk7oNCb3Z/yXYm45wXQDklzI7Klz5tVi6fkNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GX5gd8L8SrETX74cuEyRS5DEs89ins2dp7LqLQWtKP4=;
+ b=WT0KILlHoCX4RkkUN0J5Sd2wSnF5R6OUcQTqGzCBCLj1dkpavdmEZzgFJ9poAPLchamSIavMfT1GDZ/p5scMtJAiNStgja+rSZvLMts5yvK/z938NIjhG29wYOPXyBr2LX8cfvwwNOKvuPHNwNfPb/N/PnaCWkYc0Y1281yL9PCwyRaQ+txZdIZayjoWVeIUrUlPndhGQbjV15aPUShj/O+CKa1ANEwYP1B2T3Kqh1Djzc537tCRaQlP5I5h+Fc8hJGO5iOMzPB48WdfrlURIbUqlXpLjiUSnf3Df3DWmovOL90muavVhGDlNoLXi3dvuEIzSkvGf+romwo0JZjccg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GX5gd8L8SrETX74cuEyRS5DEs89ins2dp7LqLQWtKP4=;
+ b=joLSV7y/1BhSiPoNWAU9foFWOOjEysSzTjU4nRkqsNG3j5P5+PiSKGoyMI+kQra3QvZ7eUwy1lKFMomIXgl3H5MQgIBVcdCOtHbWif2y+J8mghRaM+olp6wSvn/AI4z4HOS/I1xOpf2WaHwf5FPhDojfSsLnCCcHdnto97oxcTg=
+Received: from CY8PR10MB7243.namprd10.prod.outlook.com (2603:10b6:930:7c::10)
+ by CYYPR10MB7605.namprd10.prod.outlook.com (2603:10b6:930:c8::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.24; Mon, 3 Jul
+ 2023 17:09:14 +0000
+Received: from CY8PR10MB7243.namprd10.prod.outlook.com
+ ([fe80::f5ac:d576:d989:34fa]) by CY8PR10MB7243.namprd10.prod.outlook.com
+ ([fe80::f5ac:d576:d989:34fa%4]) with mapi id 15.20.6544.024; Mon, 3 Jul 2023
+ 17:09:14 +0000
+Message-ID: <69eeacda-d59c-bec8-d115-4bf7c97d7690@oracle.com>
+Date: Mon, 3 Jul 2023 12:09:12 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCHv6 0/5] net/tls: fixes for NVMe-over-TLS
+Subject: Re: [GIT PULL] first round of SCSI updates for the 6.4+ merge window
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, David Howells <dhowells@redhat.com>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org, Jakub Kicinski <kuba@kernel.org>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- netdev@vger.kernel.org
-References: <03dd8a0d-84b9-c925-9547-99f708e88997@suse.de>
- <20230703090444.38734-1-hare@suse.de>
- <8fbfa483-caed-870f-68ed-40855feb601f@grimberg.me>
- <e1165086-fd99-ff43-4bca-d39dd1e46cf1@suse.de>
- <bf72459d-c2e0-27d2-ad96-89a010f64408@suse.de>
- <873545.1688387166@warthog.procyon.org.uk>
- <12a716d5-d493-bea9-8c16-961291451e3d@grimberg.me>
- <b33737ab-d923-173c-efcc-9e5c920e6dbf@suse.de>
- <173e27fe-18bb-6194-2af3-1743bc0f8f61@grimberg.me>
- <0ceb62b7-c310-cc4a-6b90-651e6b0c09ae@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <0ceb62b7-c310-cc4a-6b90-651e6b0c09ae@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+        linux-scsi <linux-scsi@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <23bd2eafa9b9a23e4a8a96fc0180bba9e77e42ca.camel@HansenPartnership.com>
+ <CAHk-=wjgnB11KzroXS+Gi1TQO19uf0FvkMBn=V7mcQ8q78ucnQ@mail.gmail.com>
+From: Mike Christie <michael.christie@oracle.com>
+In-Reply-To: <CAHk-=wjgnB11KzroXS+Gi1TQO19uf0FvkMBn=V7mcQ8q78ucnQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DS7PR06CA0009.namprd06.prod.outlook.com
+ (2603:10b6:8:2a::28) To CY8PR10MB7243.namprd10.prod.outlook.com
+ (2603:10b6:930:7c::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY8PR10MB7243:EE_|CYYPR10MB7605:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3456a542-3a25-4e7f-fdc0-08db7be83a50
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: lid8AXihqQW8aPUxVkvlvDEGXG0LRm+2rfkzeMBmg1XVBGGMA21+2xO9NPK44jsikqcIxmkpnKOCJxz/EKEOLdreIbZc+auX2JmsMPe2GjELjvw3P8e0ofHuPqCJOer3dscDwCrpVqDFEGlCFjyNc6csVQll5oQkz6yd4bl4w43C433qFLjzjxcHdwRrLp43sBPjE/igV2aNz4qVw+uMDH91o8LpcZsgbEJqFKRCi1PyqIpvsqfpwiPJznuZ+BmwnErVv68MpjIeCMFYw1Pf62O6yqycVs4R33niWPMJ290wCMvqgkQjZQC6ErZezz7eQNvUzvx979kF+zAJzXvPtjsuwRNYKVTGpL0GE7ICJeK0k2Y9XyknxNCnH2+KWGC7qpRyxLaJB8Ww56ldoEMoeGJI36Y0tB+4Vx9wydqHG2rPme6b0xOLv+54PWSfLxPOiSyIvU4cXXOYJ3to8dKf4PnBrMZjLDBbwsdIdZwgddIE8/5x78Xr3LS3dO8CUtCnaxD0NCLggPXHLqcMBjb/1FnYVIaphKDnRkmhx5w9C6KnfpjwLDA70o8mborjtzZ9VS5/Rc/H0D8cI9vPaChTCQ1l5Z050hFVZzSryApRTOY+ZGMoUSQ8DbDdpyDfr0I9QZgqxUbwrpxtjjtyAAZI0Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR10MB7243.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(39860400002)(396003)(346002)(136003)(366004)(451199021)(38100700002)(2906002)(6486002)(8936002)(8676002)(110136005)(54906003)(36756003)(41300700001)(5660300002)(478600001)(31696002)(53546011)(66946007)(66476007)(186003)(6512007)(26005)(86362001)(6506007)(66556008)(4326008)(316002)(31686004)(2616005)(83380400001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SjZxMjE3T1Q1NkNVSGxaWXVNYklBWDF3RUJ2dHQ0UzUza1M3bzR3SUhFVXZR?=
+ =?utf-8?B?Z1ZIL2dvYVdOY20wcGJacjdxZmM2Y3FxdncxSE0vYTk1N3JtVXhBc09QTHZl?=
+ =?utf-8?B?d1k3dGRpSzdLOUUzT2t1Zkd2NXhuOGw4SThLbUMvL1ZJamN4RXAvNy9oQnZ2?=
+ =?utf-8?B?TUprRlRidXd0NXFpL0JROHVnRWROQWdwR0FxNC90N2M2QWxFSUF6MStQK2My?=
+ =?utf-8?B?NW1FOCt5Wi9JekxCQkRPZGZNWFo5eGsrdGM2ZVVGRjI2WWdGZ3k0NC9GQnRG?=
+ =?utf-8?B?K25sR2lmUW1KN3pCdTZQNjhEQ3lXNUo2OXE2V0xmSEpnQ2MrTXZDb0xKQlJ2?=
+ =?utf-8?B?dEVxNjd0WlRUREpGVGdOWkl6SS84RExUbW9FMDlBMnk3dXR5VUUvWFJiV0Vr?=
+ =?utf-8?B?YmtnSXgrcnd1WHhWdkx4UUo5TFRSWXhnRE9td2M3ZW1tSWJvbDcvYXBYU0l0?=
+ =?utf-8?B?MnVMS2tFMDJWaGlBYWNlZ2prYnBjaGI5cDFrZllkRFFQaDhnVWREa3oycjRZ?=
+ =?utf-8?B?VG41WG1ZNFc5RkN6Nkw2MTZxdnFKeFZNRytoWUJsZVBDUlE0MC9PSGJYVUtN?=
+ =?utf-8?B?cWhBWDNLVjh2Uy81d2pMcFVZdFJpdmQ5aHZ4QjJtUUZaZEw1SkI4MDhjQ3hm?=
+ =?utf-8?B?Ymh4QzdobXRXeVJDUGlveTM3dlhFRkxaWUJLcjYzNVFBV1BwWUlsL1Qvcm1z?=
+ =?utf-8?B?M2RFWHQ1cDcwcjh6Q25EM1hoSm84aTdIc2ZURzBIM1JHYWRhMEh6RzFJcjRw?=
+ =?utf-8?B?NDBseElOZXlHZkJYUWk5SmM3ZGtmalpzVlBhNTdiN0lIdHJtcHhkeGRreXlF?=
+ =?utf-8?B?YU14b1dxbUh2SVErRlNxWVlCSXY0UUYza1gxdEZIejZkNDRPQVhWdDc2ZkFh?=
+ =?utf-8?B?elFta3FRdGtQd3ZkTUNoMHBvcXJrc0NGQVhDK1ZFcGEyUk5sdm12MjJ6SEhm?=
+ =?utf-8?B?WURMUmlTclBqOURiQ1IyMmdHLzU4ZXFaRjN4UEV1aTErNXArQ2pQbldUYUJi?=
+ =?utf-8?B?S3FINkxEVlVueWJtclc3azFSVkJQRm1aUWlnNTVVTHBacGlkUlYyMEhBYnhU?=
+ =?utf-8?B?ZFhWaVpUc2xFZ1JQa21xUzJOYnJHVW45aXFQMnlWbmxtU0kreEZ2QmZuazVn?=
+ =?utf-8?B?Y0ttdHVxczg1MkxHMjJOVTdlQzhpeml3aWptdjJrMjJkQVlNU2dVcHVJUW8w?=
+ =?utf-8?B?SmZPMFBEM09hd2RySkovU2R4Snp0dlBHY2F0MHRXVmpSL0F5b3QwenhZaUlC?=
+ =?utf-8?B?eUpPMnBHZTRBRTRmYUhsSG1wanh2b2lhbGJiOFdLU3pEVG5DR0FDTElCa25P?=
+ =?utf-8?B?QW5rS1lBelpRNFlPREltUzR2bEgxN3hhSFVLcHVCNUVJdG8wSXpjVTg3RURs?=
+ =?utf-8?B?aE1MZHJTOFMxUCtvMCszVWNmR1FLbC9WTFZNamZlOTgrNlp3dThxVDBlVjI4?=
+ =?utf-8?B?SU5XaHRRZ2tlNEY4SUh3b0RjNVBnR3dEbTQ5TmxPWTMvOG56ZzRSN3J0N0dt?=
+ =?utf-8?B?Y0Iza25XL0lBamVwR2d4dzBKaEFtZ3JPZkhnM3JXdllpZk5iOUw2TjYrNHJJ?=
+ =?utf-8?B?NzFicFRGZW1uUVNzem5xditIbDVzSUZPWkIzcXNldktOcjAxektLMjVSMk9u?=
+ =?utf-8?B?WHhabmNJWllUYVpFUjdrdFdpZ0h3dWVDQ1J2c0toVWp6bVJpcGtxb0UyS0Zw?=
+ =?utf-8?B?TDBnaEtPWGNZbGtDbzk1dHpORlpycHVYbVFURnpFOWRLSHZpVEZ0ZWlBNVhL?=
+ =?utf-8?B?RS9ULytNWlR5OEdNaFFDbTFjcWFmZWVxeXo2eEVJdjAwMmFGU0IvSXNUQzRN?=
+ =?utf-8?B?ZmgzSXh5eWR5ampOVzlSc3F1b3pna3hrS3FqZFlEUUsyOEhvM3JqaWlvYkhm?=
+ =?utf-8?B?eHFQZjVETFVWRTQrNjVFRFZVamkzK3p5Y2pNWkVaa3d2cWpNcXN0aDJEdXRs?=
+ =?utf-8?B?M1FkZnhwalVyNVllMlJUOWlMdXUyNVFiOENJcE8yWW51M29EQ2J1aDI3T0dY?=
+ =?utf-8?B?WUMvMitkU1dQQXlhbVZhaS95MVpxUk9wWVVsYjBUTGluKzMyNmt1amJ5SHhO?=
+ =?utf-8?B?UjZZTGtzMHhpalhwMWpqdjZ0R1Q5akJ0VVNIT1lSYUNMNk1tNmNjZ0V3TndR?=
+ =?utf-8?B?bEVZclp4R0hOcWM2ZW15MTk4MHdxd1NFYWZKeFZwRVJHY1RQcEVhSmdyWit1?=
+ =?utf-8?B?MkE9PQ==?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: rP2ikzlAxsmOFB5GlNBOtDNOzFZ9j/nBxlBIjk+tNuSK9Ri/Tyrcj694/WvPl/5c574HFfsbWT/bIPUmaGSDKvZW+2rqcVd8teJlACJ1I79S1ozkdMMQ4MaZtXh4UHzeb0xt1wfVfjsgsOHy8P/d6FqeY4m5nzzkxjoSmaauf+3qPdqXGRnb+wP4ASBUeSVicU8w5eFSOMyBn7awIFN3o3t5Wequ1Vg8pcABHH9Pcu3961LLOO7C+55HKaRypDbxBwlhM4VZr4mPSiSNdiJycFZPLyHOL61Hs1+wzXvUhVPDMuEsODbShK4Lnyu5ODuipPWLEDArHz6TeOtJXYHktz/fJdH4T9rCstnq2DGC27FMqi4wiEbjCFRcazy8Y3K5RxAs9zBnR349z+gwI+43YNe8AvuVbsXyEMWnT+TaQBJbO6en8EtCE3cRiKPDc9GKiczoYTBm8qLBTG4m61HgPQbN8+lKlopFhjA7sDYIe0SgnN7gT4zPLTbitC4ZrfmY5sg97YcsOb7TkKXPUZJ9yGFPcgZ57RJGE7Lfmv8DISQizhn2qpb1sYHba7YfzFWQW6vWfJl8P/NJjgL0A/2yVJlxYFbHhQuV+AvSSCUaMFBx5auVPSwSLBT7HE6iCA6WmQEEF44poOsBEck5DsW3ESVuI5/MWwFj8OrCiTc77yvujMT8xBf0qxAF/8t5CPnEVf/8QrBv4mKobiR0eGY16XxcS72Oax9Pg4/l7x1ZyjoytylsRvUXMskQejGgprwUrdYfei52jOr4lGhKhuLiY5jnH5vLFDI3xgN12gZCznLGtE5yhcMQyyHst58peNj/f5rKtW9/Q/OFxjfpiCtyOLS1wPtCY+h6jD68k4vRr4dGvAvu7Swwcfvg6q98Q7Z+bKyyQvIlu1UUI4vfQWFLJRRQAcbW3ZuPAMBDOXtEk1k=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3456a542-3a25-4e7f-fdc0-08db7be83a50
+X-MS-Exchange-CrossTenant-AuthSource: CY8PR10MB7243.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2023 17:09:14.5429
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5ktcElDatggRO9Z0jn2GuiRkoB/XcDhYpiUp3Er2Lxmd9v4BjpG0qKRSvRbMHhQkjpWR0CLYvMiVrMH6kRF9/GIB3YIl6SCQ1I7JxMJfvM0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR10MB7605
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-03_13,2023-06-30_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxlogscore=847
+ suspectscore=0 bulkscore=0 spamscore=0 mlxscore=0 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2307030157
+X-Proofpoint-GUID: gmi-q9GaIP-yLNifRip34YmA343B6yTB
+X-Proofpoint-ORIG-GUID: gmi-q9GaIP-yLNifRip34YmA343B6yTB
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230703_071008_170668_5F0532D9 
-X-CRM114-Status: GOOD (  13.94  )
+X-CRM114-CacheID: sfid-20230703_100925_861426_FF71DA18 
+X-CRM114-Status: GOOD (  21.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,75 +181,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 7/3/23 16:57, Hannes Reinecke wrote:
-> On 7/3/23 15:42, Sagi Grimberg wrote:
+On 6/30/23 2:14 PM, Linus Torvalds wrote:
+> On Thu, 29 Jun 2023 at 05:48, James Bottomley
+> <James.Bottomley@hansenpartnership.com> wrote:
 >>
->>>>> Hannes Reinecke <hare@suse.de> wrote:
->>>>>
->>>>>>> 'discover' and 'connect' works, but when I'm trying to transfer data
->>>>>>> (eg by doing a 'mkfs.xfs') the whole thing crashes horribly in
->>>>>>> sock_sendmsg() as it's trying to access invalid pages :-(
->>>>>
->>>>> Can you be more specific about the crash?
->>>>
->>>> Hannes,
->>>>
->>>> See:
->>>> [PATCH net] nvme-tcp: Fix comma-related oops
->>>
->>> Ah, right. That solves _that_ issue.
->>>
->>> But now I'm deadlocking on the tls_rx_reader_lock() (patched as to 
->>> your suggestion). Investigating.
->>
->> Are you sure it is a deadlock? or maybe you returned EAGAIN and nvme-tcp
->> does not interpret this as a transient status and simply returns from
->> io_work?
->>
-> Unfortunately, yes.
+>>    We have a couple of major core changes impacting other
+>> systems: Command Duration Limits, which spills into block and ATA and
+>> block level Persistent Reservation Operations, which touches block,
+>> nvme, target and dm (both of which are added with merge commits
+>> containing a cover letter explaining what's going on).
 > 
-> static int tls_rx_reader_acquire(struct sock *sk, struct 
-> tls_sw_context_rx *ctx,
->                                   bool nonblock)
-> {
->          long timeo;
+> Random side note - as an outsider that then sees a trivial conflict
+> due to the split of the nmve side into a file called 'pr.c', I can
+> only say that my reaction to that was "what a horrible filename".
 > 
->          timeo = sock_rcvtimeo(sk, nonblock);
+> Maybe it makes sense to people that are very into nvme, but honestly,
+> considering it's a new special thing, I kind of doubt it.
 > 
->          while (unlikely(ctx->reader_present)) {
->                  DEFINE_WAIT_FUNC(wait, woken_wake_function);
-> 
->                  ctx->reader_contended = 1;
-> 
->                  add_wait_queue(&ctx->wq, &wait);
->                  sk_wait_event(sk, &timeo,
->                                !READ_ONCE(ctx->reader_present), &wait);
-> 
-> and sk_wait_event() does:
-> #define sk_wait_event(__sk, __timeo, __condition, __wait)              \
->          ({      int __rc;                                              \
->                  __sk->sk_wait_pending++;                               \
->                  release_sock(__sk);                                    \
->                  __rc = __condition;                                    \
->                  if (!__rc) {                                           \
->                          *(__timeo) = wait_woken(__wait,                \
->                                                  TASK_INTERRUPTIBLE,    \
->                                                  *(__timeo));           \
->                  }                                                      \
->                  sched_annotate_sleep();                                \
->                  lock_sock(__sk);                                       \
->                  __sk->sk_wait_pending--;                               \
->                  __rc = __condition;                                    \
->                  __rc;                                                  \
->          })
-> 
-> so not calling 'lock_sock()' in tls_tx_reader_acquire() helps only _so_ 
-> much, we're still deadlocking.
+> We really don't lack the disk-space to use more descriptive names for
+> files. "pr.c" really is pretty horrid.
 
-That still is legal assuming that sock lock is taken prior to
-sk_wait_event...
+cc'ing the nvme list because it's their file.
 
-What are the blocked threads from sysrq-trigger?
+PR stands for persistent reservation. It's from the SCSI days so the
+term and abbreviation is common to SCSI people and nvme developers that
+used to work on that. I can see how a new storage person would not be
+familiar with it.
+
+Maybe name it persistent_reservation.c, or if people think that's too
+long does persistent_resv.c make sense since we use the "resv"
+abbreviation for reservation in nvme and the block layer.
+
 
