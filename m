@@ -4,84 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 377A4C3063F
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jul 2023 17:25:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E78A0C30654
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jul 2023 18:26:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=n4kUBRQrdx2CGWwKrDgL92ebtE5Gyg+bfTU+CSzkAt8=; b=ufqWHz04A4gn6kUQRSjfpeZOwH
-	519E8cMaN9m5Syq9hM3WRmL73J4yTHumLp1x6xUpRG8rqDCwJjP29/LiwLkzMUSdxRKkvyEmg71/F
-	H/JO68q7CRAMjoG/EsxwAWcshJrpBeiE3cWPlqQxLMJalEC1iIif+I0APvCPPrcDjNA6k8cd0aZoX
-	e17jGs6+pcuFZPwwe7fvf7DefmUtWnH3+pKGS6k/IOKm4ZXKnOVXU9SoDcm5kvoxepzGWSNt5Zc0V
-	ddeSi2Eg+YWf5Zlq1ddmbv24eEr/NaYcShMB38e1KHLF6Gqcn2joV9aL7kL8s3cBLBEJnlKgzfRnp
-	ZG+fsw6w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=S3goOZqeuYoc0I9eekS0pLYTxfPF9T/RelhGiV7wzY8=; b=K57Wxkh2YjsKPvJGLv7kIjpNK4
+	MfFalNQr7nqYA76qNtyBuhAZaBhdR5T6prpbIWhWbz3eqkoSl2Mfte0wnrC8pZszjSjtdpI0M3PQG
+	D/IM+SBjNBArrHwLs9C1Oc3IUE00JrxGfpNE8lV7bMppTHlCA8D8MNt5VaOnacPvcha2gyKJrmD+R
+	lDRyaZ/iJoPIY+ohOmfxfD2+QiyzQPb4eAuvEVWAMbq0Qzp+fTVzZcut35Rul7a0m+ZGvFjHNYMWn
+	rQ1heWKFwXYtmhbvMkq+YiN3YBAa1e1wp/No+/VcFAGMyZAHHC1DINuUdArGAbH1MUKMBd2BCTPUL
+	KukSftHQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qGNIy-00B6OB-0G;
-	Mon, 03 Jul 2023 17:25:40 +0000
-Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f])
+	id 1qGOFN-00BCHx-2X;
+	Mon, 03 Jul 2023 18:26:01 +0000
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qGNIv-00B6NY-0W
+	id 1qGOFK-00BCGc-31
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Jul 2023 17:25:38 +0000
-Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-4fafe87c6fbso7243124e87.3
-        for <linux-nvme@lists.infradead.org>; Mon, 03 Jul 2023 10:25:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1688405133; x=1690997133;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=n4kUBRQrdx2CGWwKrDgL92ebtE5Gyg+bfTU+CSzkAt8=;
-        b=fPvby7RWNhhWJ3wBolEnbdAotZ3JLJT78FZIvayG8/GVnG0STYphwavS30ktr3Nq5b
-         UYgTdsN4ho/jKZRazJDccpfXyWDR1o+lN9Qr5VEXT2Sol4VnDFHo6UtoXzKIlSF3ulIx
-         O5dl7aEo2+1fyBcIhvjngW+iZ2J6shc1hiBv0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688405133; x=1690997133;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=n4kUBRQrdx2CGWwKrDgL92ebtE5Gyg+bfTU+CSzkAt8=;
-        b=Ua2WrJ1frLGF9vOOeP/QehKW5yxqh+FMC8ibEKx0fPuVrFceNmLo9yyl2iQP6uBQcN
-         1dBU207B9IOeanRMTROU7xgOaYC4TJrjQaE3ydCDyqgmD2xEWmwTfnNZ5U0K7Hs5qF0Y
-         636gTqORYNejF6OFa53XMoUSCmdrVhfy5kCaJQ9Nxipr6cc3D/2VDqG11+1j6JBhs2vH
-         QQvVm1usiSqIJ6vo0MJhphVWYoLIl4v4qHbJcJQSkCk2QlyFQJx0AQ+Qj0B0Wdjv06i5
-         pJn7oYCNd7HcAlpz/BKYpfuTqJdXgYpfI6lT16G5sTCG/NKgGPEVHMzEtcodFqMeUPY5
-         O84g==
-X-Gm-Message-State: ABy/qLa1lLroxYFlZ5ULqqKD0/RZtNEAm6LA1McLoH4P4+n2Znz6/JMr
-	SFR1vah25YOgc9xkF+QY9Q87ONY9Gs9zzdoWy8X9L9Qw
-X-Google-Smtp-Source: APBJJlGpY2CFr1v61+apsyk80WkP/yMTXq2o6Lhekz6HRyI776VJ0ElrqOS28FCxK5aIUtXQhH1Jpg==
-X-Received: by 2002:a05:6512:328b:b0:4f8:7697:5207 with SMTP id p11-20020a056512328b00b004f876975207mr6750291lfe.23.1688405133003;
-        Mon, 03 Jul 2023 10:25:33 -0700 (PDT)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com. [209.85.208.179])
-        by smtp.gmail.com with ESMTPSA id r2-20020ac24d02000000b004fb745fd22fsm4046514lfi.32.2023.07.03.10.25.32
-        for <linux-nvme@lists.infradead.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Jul 2023 10:25:32 -0700 (PDT)
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2b69f958ef3so75552101fa.1
-        for <linux-nvme@lists.infradead.org>; Mon, 03 Jul 2023 10:25:32 -0700 (PDT)
-X-Received: by 2002:a2e:8955:0:b0:2b6:9b2e:e352 with SMTP id
- b21-20020a2e8955000000b002b69b2ee352mr7461069ljk.9.1688405131758; Mon, 03 Jul
- 2023 10:25:31 -0700 (PDT)
+	Mon, 03 Jul 2023 18:26:00 +0000
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 363G82oI025221;
+	Mon, 3 Jul 2023 18:25:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2023-03-30; bh=S3goOZqeuYoc0I9eekS0pLYTxfPF9T/RelhGiV7wzY8=;
+ b=mNiJusU2lahRoPDyVnjeOiv6DgU9MtMz3ZUvBNrmwn1qhuEuXnvZqRkw5fOivPslCfRo
+ k0VUsvyUw9CdtMdic0E+UtoTpVA5lWzH7qRBFWd2xvGT9K23ofwbzRvTJDEM5/hZmANt
+ TF9qecVrzhNiHnXEL4ZORFaiMz748dcnLnUEJp36f4docJ0tDUyObzqeuDHsPS/YaB9q
+ fy2dxcAE2Mnzo3bLo6LNIowE5ls44ckPB8AH4FlDje82jlpzIC9OkspltB4Di+hxvlld
+ /DbnCf5BD0KTHq4k6FH+gjTDGcSpPzz1GRFEQwVOO+lTjSynRIaGFfuhJ02eZivBg3gY lg== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3rjc6ck8cr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 03 Jul 2023 18:25:51 +0000
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 363HARxB009061;
+	Mon, 3 Jul 2023 18:25:50 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3rjak9ddgq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 03 Jul 2023 18:25:50 +0000
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 363IPoQ7009914;
+	Mon, 3 Jul 2023 18:25:50 GMT
+Received: from ca-dev94.us.oracle.com (ca-dev94.us.oracle.com [10.129.136.30])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3rjak9ddgd-1;
+	Mon, 03 Jul 2023 18:25:50 +0000
+From: Alan Adamson <alan.adamson@oracle.com>
+To: linux-block@vger.kernel.org
+Cc: alan.adamson@oracle.com, linux-nvme@lists.infradead.org,
+        shinichiro.kawasaki@wdc.com
+Subject: [PATCH blktests] nvme/43: use a valid hostkey
+Date: Mon,  3 Jul 2023 11:25:49 -0700
+Message-Id: <20230703182549.971324-1-alan.adamson@oracle.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <23bd2eafa9b9a23e4a8a96fc0180bba9e77e42ca.camel@HansenPartnership.com>
- <CAHk-=wjgnB11KzroXS+Gi1TQO19uf0FvkMBn=V7mcQ8q78ucnQ@mail.gmail.com> <69eeacda-d59c-bec8-d115-4bf7c97d7690@oracle.com>
-In-Reply-To: <69eeacda-d59c-bec8-d115-4bf7c97d7690@oracle.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 3 Jul 2023 10:25:14 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whkqWU+OVkU5YM=X0rdF4wvcMynReCo+0fyD8ErMb51Sg@mail.gmail.com>
-Message-ID: <CAHk-=whkqWU+OVkU5YM=X0rdF4wvcMynReCo+0fyD8ErMb51Sg@mail.gmail.com>
-Subject: Re: [GIT PULL] first round of SCSI updates for the 6.4+ merge window
-To: Mike Christie <michael.christie@oracle.com>
-Cc: James Bottomley <James.Bottomley@hansenpartnership.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-scsi <linux-scsi@vger.kernel.org>, 
-	linux-kernel <linux-kernel@vger.kernel.org>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-03_13,2023-06-30_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxlogscore=999
+ suspectscore=0 bulkscore=0 spamscore=0 mlxscore=0 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2307030167
+X-Proofpoint-GUID: RHqyIHjbvUVgadGBoUeLuKFB4qvb-R3V
+X-Proofpoint-ORIG-GUID: RHqyIHjbvUVgadGBoUeLuKFB4qvb-R3V
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230703_102537_200859_C9CB545E 
-X-CRM114-Status: GOOD (  15.40  )
+X-CRM114-CacheID: sfid-20230703_112559_117791_D735C22A 
+X-CRM114-Status: GOOD (  15.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,44 +91,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, 3 Jul 2023 at 10:09, Mike Christie <michael.christie@oracle.com> wrote:
->
-> Maybe name it persistent_reservation.c, or if people think that's too
-> long does persistent_resv.c make sense since we use the "resv"
-> abbreviation for reservation in nvme and the block layer.
+The test does not generate a hostkey and uses a NULL when setting
+up and connecting to a target. The test passes, but a valid hotkey
+should be used. This patch generates a valid hostkey and uses it
+when setting up the target.
 
-Yeah, as a non-storage person, I really would prefer more informative names.
+Signed-off-by: Alan Adamson <alan.adamson@oracle.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+---
+ tests/nvme/043 | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Maybe I'll never end up looking at that file again, and my one-time
-conflict resolution reaction is really just that, but I do think that
-we can afford the extra disk space.
+diff --git a/tests/nvme/043 b/tests/nvme/043
+index a030884aa4ed..d498fd7ae885 100755
+--- a/tests/nvme/043
++++ b/tests/nvme/043
+@@ -39,6 +39,11 @@ test() {
+ 		return 1
+ 	fi
+ 	hostnqn="nqn.2014-08.org.nvmexpress:uuid:${hostid}"
++	hostkey="$(nvme gen-dhchap-key -n ${subsys_name} 2> /dev/null)"
++	if [ -z "$hostkey" ] ; then
++		echo "nvme gen-dhchap-key failed"
++		return 1
++	fi
+ 
+ 	_setup_nvmet
+ 
+-- 
+2.31.1
 
-Do people really end up typing that file name so much that the extra
-keystrokes would matter (and if so - do you really not use
-tab-completion? Is it just me that tab-completes pretty much every
-filename I type?)
-
-I did do a simple
-
-    git ls-files | grep '/[a-z][a-z]\.[ch]$'
-
-to see how common this kind of two-letter thing is, and  we do have a
-ton of them (the test directory has single-letter "a.c" kind of files
-too, but for testing that's fine).
-
-Some of those two-letter things look fine: things like "mm", "fs",
-"rw", "rx", "tx", and "io" are I think common enough in kernel
-contexts that there is practically no real long-form version of them
-
-And others seem to perhaps make sense within the context of individual
-device drivers (ie there seem to be two-letter board revisions).
-
-And then we have the ones that make me just go "Whaa". Like that
-"pr.c". If I hadn't looked at it, I would have expected "pr" to be
-shorthand for some kind of printing function (eg our "pr_warn()" etc
-helpers).
-
-Clearly it's not the only one.
-
-           Linus
 
