@@ -4,47 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF6E8C04A6A
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96308C3DA40
 	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jul 2023 02:48:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
-	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6k3JB8Yi2dgF3/B6aoP7SrVOrWhUSxEiaodiZmqNEmE=; b=Y6a7RRJ35Tm3hsPO5ZIlGZ9Dhg
-	dnsDUg0AfHjIPNmtkB2h8anZbwFq/0eVFhLOiif80mU/iP9K7Bwtp9ZwOXcajV8X3ZOa02rA/odWs
-	yhNeV/GV2vxVOccGt8+fZA0AbrOIgUA9XFbXMydOBzRMtxNEJquP96SgWmxCGFaW2li9kmpjdEL9n
-	xT6UcFZK4twRNtcjL55E+vwnfkg6iP31BlxB/3WUxSw2G95PeVejD2j6FfFVXI03EOM7f3LOM/Reh
-	kfW2WOTwB8Q3DoNbkwcZILWHwG3BYDVbbpXQEvGTVbN7N+nKI5pPK+88izNoIRaEVTrlPHaq8vTwc
-	GvtRvl6w==;
+	MIME-Version:Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=r1wq6dF/wwfmdpx1vM1YuRcJ86WXk25W0kl8jltAJ/o=; b=VxsX5AH8cCDty2eN3N6pPkjnkT
+	FGfDTA1eoSxUL/rHGVAu0QqjQwRSzZ6OW8omDhqC+LbQ/vdxCXAK/iRloMDx9GfduZ08OJqwYTgcP
+	fc0ptOa0/p7pcHexsbIGr6WLaqw08cOypH2XlNOWOpSM5ef2MI/TWgBZF3e1QZmHoTfrG5axixI88
+	Xktu9j5LA/WPXd4GgTTU57kpnIqe8L6Ewx/uMJwVaiGb9RQEWhsEXaw7iI0dY5xbVdzJgnnVCltL0
+	TT3R9B4lVym5REXRt7++wWTKFzEaOMgYuzUvH2dYc45Su0KkkO9znLhKPcxJ4JvFp36oQLaeGpXKY
+	yqIWaIkg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qG9by-00962z-0J;
-	Mon, 03 Jul 2023 02:48:22 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1qG9bu-009603-15;
+	Mon, 03 Jul 2023 02:48:18 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qG9bv-0095zk-1p
+	id 1qG9br-0095ys-0y
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Jul 2023 02:48:20 +0000
+	Mon, 03 Jul 2023 02:48:16 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 6C43660C7A;
-	Mon,  3 Jul 2023 02:48:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 172F6C433C7;
-	Mon,  3 Jul 2023 02:48:18 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id C855760DB5;
+	Mon,  3 Jul 2023 02:48:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CE18C433B9;
+	Mon,  3 Jul 2023 02:48:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1688352498;
-	bh=dBbFmN/6e1g7/clXdxXG0GneFGbYmbapZVRFT4a/gV8=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=JgzzMDF1k9nSJ+vF0pGaPf6W5YfDpHWKV99LnLkwBrYffh3eC7/sE9cuS9yoa/kd+
-	 ic1Lf+bJaWMNM5EY+t9ta4xsEjDeREDxfhRk2jCygZKgU4mCrg1z4S/s95b+MKGBRA
-	 phtTFg+yCnPGRkkBKCwSV+eccONQ1gXBmTUYiBqF2MLvLixbpebd6KD7+pmb8cG4HB
-	 wqf/mXJKEUMYTQspKE9kK82TpASz1AfG+BsNrFc0Yn5R3KFsn/4GaK+xguOqzTKjkk
-	 WF1iN6JA4rGlKqlmQCvJnqan7mhX5InzlBjMKR7BTfdPLwcmvWNdGp5IUD50TSYxok
-	 crOh52ekvIeYQ==
+	s=k20201202; t=1688352494;
+	bh=6GZto+pVfutjvCNVgn2qE0kch1Ur5YkjwUQsX8M0fiQ=;
+	h=From:To:Subject:Date:From;
+	b=o/bZ+5ajQ0S9AB6W9WltMAv1GPT2ZfildaSo1qNlDgAwCcrr9FbGZJQyuGPrrbRUj
+	 QjgU5revdnbPUPuu9yrkPh1LB4KEVHqGzRS2+bb7DSF0S+10tpt5oBLHvisaPPkvWI
+	 DeWntvEljzSkMO3kNp6ujdpLAg63EXtJ3ASJ6jiTVCsomyJ3XnRSXEFmZTPS7uw54x
+	 iwMlhx+Usz7rkhWRW8BdckBi+w3rPzcAp3n1ox/wtX53G1QfOmKLMi1ah3fRzSJQMj
+	 8ZwTw1Z22iUyr6Ftp/BvHi6JecnUr1bpdWrTsFV89wuZ5G/LSdGU6z/BlXg0U+G7MF
+	 krAKEUY6F9Mtw==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-block@vger.kernel.org,
 	Jens Axboe <axboe@kernel.dk>,
@@ -53,17 +53,15 @@ To: linux-block@vger.kernel.org,
 	Keith Busch <kbusch@kernel.org>,
 	linux-scsi@vger.kernel.org,
 	"Martin K . Petersen" <martin.petersen@oracle.com>
-Subject: [PATCH v3 4/5] block: virtio_blk: Set zone limits before revalidating zones
-Date: Mon,  3 Jul 2023 11:48:11 +0900
-Message-ID: <20230703024812.76778-5-dlemoal@kernel.org>
+Subject: [PATCH v3 0/5] Improve checks in blk_revalidate_disk_zones()
+Date: Mon,  3 Jul 2023 11:48:07 +0900
+Message-ID: <20230703024812.76778-1-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230703024812.76778-1-dlemoal@kernel.org>
-References: <20230703024812.76778-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230702_194819_686032_77121B49 
-X-CRM114-Status: GOOD (  13.17  )
+X-CRM114-CacheID: sfid-20230702_194815_380454_3B44E047 
+X-CRM114-Status: GOOD (  15.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,81 +76,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In virtblk_probe_zoned_device(), execute blk_queue_chunk_sectors() and
-blk_queue_max_zone_append_sectors() to respectively set the zoned device
-zone size and maximum zone append sector limit before executing
-blk_revalidate_disk_zones(). This is to allow the block layer zone
-reavlidation to check these device characteristics prior to checking all
-zones of the device.
+blk_revalidate_disk_zones() implements checks of the zones of a zoned
+block device, verifying that the zone size is a power of 2 number of
+sectors, that all zones (except possibly the last one) have the same
+size and that zones cover the entire addressing space of the device.
 
-Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
-Reviewed-by: Bart Van Assche <bvanassche@acm.org>
-Reviewed-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
----
- drivers/block/virtio_blk.c | 34 +++++++++++++++-------------------
- 1 file changed, 15 insertions(+), 19 deletions(-)
+While these checks are appropriate to verify that well tested hardware
+devices have an adequate zone configurations, they lack in certain areas
+which may result in issues with potentially buggy emulated devices
+implemented with user drivers such as ublk or tcmu. Specifically, this
+function does not check if the device driver indicated support for the
+mandatory zone append writes, that is, if the device
+max_zone_append_sectors queue limit is set to a non-zero value.
+Additionally, invalid zones such as a zero length zone with a start
+sector equal to the device capacity will not be detected and result in
+out of bounds use of the zone bitmaps prepared with the callback
+function blk_revalidate_zone_cb().
 
-diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
-index b47358da92a2..1fe011676d07 100644
---- a/drivers/block/virtio_blk.c
-+++ b/drivers/block/virtio_blk.c
-@@ -751,7 +751,6 @@ static int virtblk_probe_zoned_device(struct virtio_device *vdev,
- {
- 	u32 v, wg;
- 	u8 model;
--	int ret;
- 
- 	virtio_cread(vdev, struct virtio_blk_config,
- 		     zoned.model, &model);
-@@ -806,6 +805,7 @@ static int virtblk_probe_zoned_device(struct virtio_device *vdev,
- 			vblk->zone_sectors);
- 		return -ENODEV;
- 	}
-+	blk_queue_chunk_sectors(q, vblk->zone_sectors);
- 	dev_dbg(&vdev->dev, "zone sectors = %u\n", vblk->zone_sectors);
- 
- 	if (virtio_has_feature(vdev, VIRTIO_BLK_F_DISCARD)) {
-@@ -814,26 +814,22 @@ static int virtblk_probe_zoned_device(struct virtio_device *vdev,
- 		blk_queue_max_discard_sectors(q, 0);
- 	}
- 
--	ret = blk_revalidate_disk_zones(vblk->disk, NULL);
--	if (!ret) {
--		virtio_cread(vdev, struct virtio_blk_config,
--			     zoned.max_append_sectors, &v);
--		if (!v) {
--			dev_warn(&vdev->dev, "zero max_append_sectors reported\n");
--			return -ENODEV;
--		}
--		if ((v << SECTOR_SHIFT) < wg) {
--			dev_err(&vdev->dev,
--				"write granularity %u exceeds max_append_sectors %u limit\n",
--				wg, v);
--			return -ENODEV;
--		}
--
--		blk_queue_max_zone_append_sectors(q, v);
--		dev_dbg(&vdev->dev, "max append sectors = %u\n", v);
-+	virtio_cread(vdev, struct virtio_blk_config,
-+		     zoned.max_append_sectors, &v);
-+	if (!v) {
-+		dev_warn(&vdev->dev, "zero max_append_sectors reported\n");
-+		return -ENODEV;
-+	}
-+	if ((v << SECTOR_SHIFT) < wg) {
-+		dev_err(&vdev->dev,
-+			"write granularity %u exceeds max_append_sectors %u limit\n",
-+			wg, v);
-+		return -ENODEV;
- 	}
-+	blk_queue_max_zone_append_sectors(q, v);
-+	dev_dbg(&vdev->dev, "max append sectors = %u\n", v);
- 
--	return ret;
-+	return blk_revalidate_disk_zones(vblk->disk, NULL);
- }
- 
- #else
+This series address these issues by modifying the 4 block device drivers
+that currently support zoned block devices to ensure that they all set a
+zoned device zone size and max zone append sectors limit before
+executing blk_revalidate_disk_zones(). With these changes in place, 
+patch 5 improves blk_revalidate_disk_zones() to address the missing
+checks, relying on the fact that the zone size and zone append limit are
+normally set when this function is called.
+
+Changes from v2:
+ - Rebased on current Linus tree to fix a conflict with scsi changes in
+   patch 1.
+ - Added Reviewed-by tags.
+
+Changes from v1:
+ - Updated this cover letter and commit messages to include better
+   explain for these patches
+ - Reworked patch 5 to simplify the checks
+  
+Damien Le Moal (5):
+  scsi: sd_zbc: Set zone limits before revalidating zones
+  nvme: zns: Set zone limits before revalidating zones
+  block: nullblk: Set zone limits before revalidating zones
+  block: virtio_blk: Set zone limits before revalidating zones
+  block: improve checks in blk_revalidate_disk_zones()
+
+ block/blk-zoned.c              | 86 ++++++++++++++++++++--------------
+ drivers/block/null_blk/zoned.c | 16 ++-----
+ drivers/block/virtio_blk.c     | 34 ++++++--------
+ drivers/nvme/host/zns.c        |  9 ++--
+ drivers/scsi/sd_zbc.c          | 12 ++---
+ 5 files changed, 79 insertions(+), 78 deletions(-)
+
 -- 
 2.41.0
 
