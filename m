@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7BB4AC001DF
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF6E8C04A6A
 	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jul 2023 02:48:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,39 +12,39 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
 	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Gjmp7TpuwQSlxosiPkxvHOJCkY3JGvARC/NHcsnAJJk=; b=bfjDsy1dELQ9MNTgssA+OBR0ql
-	G0FCXfjR8Xi7UpeLlvFFrGEMbt4AkeFqO7mK24+rnB0lphnNjcE36tJolYvVo+rJf2maeCPDOrLHt
-	w3savfGt3emSIfTE0H8/gl05SsQ3DrkzuOgZ94eAPLhHrdvf5sMYITchuK8IsmeeMTWiTJEqH8wTP
-	/iPtu1n03VOVABc4LDW0VX3RpgBR9SPvTrS8QgeeIPbupMwgeRVwrIQLyDgRryIJ/Up+hfXyIUc9n
-	5EEuzgnC6XsV8uBbPT2UAUlI+kg1vWoqkZxRyPR4GUG+AY0h9Uft/IZofK0V4glL74VMH8YYBOH0v
-	jFsXtx1g==;
+	bh=6k3JB8Yi2dgF3/B6aoP7SrVOrWhUSxEiaodiZmqNEmE=; b=Y6a7RRJ35Tm3hsPO5ZIlGZ9Dhg
+	dnsDUg0AfHjIPNmtkB2h8anZbwFq/0eVFhLOiif80mU/iP9K7Bwtp9ZwOXcajV8X3ZOa02rA/odWs
+	yhNeV/GV2vxVOccGt8+fZA0AbrOIgUA9XFbXMydOBzRMtxNEJquP96SgWmxCGFaW2li9kmpjdEL9n
+	xT6UcFZK4twRNtcjL55E+vwnfkg6iP31BlxB/3WUxSw2G95PeVejD2j6FfFVXI03EOM7f3LOM/Reh
+	kfW2WOTwB8Q3DoNbkwcZILWHwG3BYDVbbpXQEvGTVbN7N+nKI5pPK+88izNoIRaEVTrlPHaq8vTwc
+	GvtRvl6w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qG9bv-00960P-02;
-	Mon, 03 Jul 2023 02:48:19 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1qG9by-00962z-0J;
+	Mon, 03 Jul 2023 02:48:22 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qG9bs-0095zJ-26
+	id 1qG9bv-0095zk-1p
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Jul 2023 02:48:17 +0000
+	Mon, 03 Jul 2023 02:48:20 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 368DA60D32;
-	Mon,  3 Jul 2023 02:48:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAC5CC433C8;
-	Mon,  3 Jul 2023 02:48:14 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 6C43660C7A;
+	Mon,  3 Jul 2023 02:48:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 172F6C433C7;
+	Mon,  3 Jul 2023 02:48:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1688352495;
-	bh=Q01VZD1Q7rg9nXiwpy4RY4zCwtmYfAeCmZAUUJA97o0=;
+	s=k20201202; t=1688352498;
+	bh=dBbFmN/6e1g7/clXdxXG0GneFGbYmbapZVRFT4a/gV8=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=dc19aNosefurUS6kfeNi6zwQhADyqu0UzBxf9p8LyzI+nsUTiNLCJqbie/5PxOclS
-	 GNS6ozy+sHhyOuNtc6Mu8rVKtEfHz2u7oCjQJH1jbrGEAjhXHFzTsxS+aKMhlya9O6
-	 3EQp2QLz3e7fCJA0E/FqjwHQ6HZxj94PyJLmHaLGzv6LBS2o+YpeQTaH64yPrV/9Of
-	 Hpqke/b/wd1D7v8AeRYGcB6Ij3Q87H+Tp9/eJxoQ0Xp0nRR8GPWXSeMq8l1wYDujPP
-	 6XcOjHjr9TGnxhq8CfiQQDuDEv6nlmpGVUNoqR4kfor6HnB8E1ggWSedMqxMsyLOLA
-	 Jhk/HVUJMlaNw==
+	b=JgzzMDF1k9nSJ+vF0pGaPf6W5YfDpHWKV99LnLkwBrYffh3eC7/sE9cuS9yoa/kd+
+	 ic1Lf+bJaWMNM5EY+t9ta4xsEjDeREDxfhRk2jCygZKgU4mCrg1z4S/s95b+MKGBRA
+	 phtTFg+yCnPGRkkBKCwSV+eccONQ1gXBmTUYiBqF2MLvLixbpebd6KD7+pmb8cG4HB
+	 wqf/mXJKEUMYTQspKE9kK82TpASz1AfG+BsNrFc0Yn5R3KFsn/4GaK+xguOqzTKjkk
+	 WF1iN6JA4rGlKqlmQCvJnqan7mhX5InzlBjMKR7BTfdPLwcmvWNdGp5IUD50TSYxok
+	 crOh52ekvIeYQ==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: linux-block@vger.kernel.org,
 	Jens Axboe <axboe@kernel.dk>,
@@ -53,17 +53,17 @@ To: linux-block@vger.kernel.org,
 	Keith Busch <kbusch@kernel.org>,
 	linux-scsi@vger.kernel.org,
 	"Martin K . Petersen" <martin.petersen@oracle.com>
-Subject: [PATCH v3 1/5] scsi: sd_zbc: Set zone limits before revalidating zones
-Date: Mon,  3 Jul 2023 11:48:08 +0900
-Message-ID: <20230703024812.76778-2-dlemoal@kernel.org>
+Subject: [PATCH v3 4/5] block: virtio_blk: Set zone limits before revalidating zones
+Date: Mon,  3 Jul 2023 11:48:11 +0900
+Message-ID: <20230703024812.76778-5-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230703024812.76778-1-dlemoal@kernel.org>
 References: <20230703024812.76778-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230702_194816_729130_E8E01147 
-X-CRM114-Status: GOOD (  12.43  )
+X-CRM114-CacheID: sfid-20230702_194819_686032_77121B49 
+X-CRM114-Status: GOOD (  13.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,62 +78,81 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In sd_zbc_revalidate_zones(), execute blk_queue_chunk_sectors() and
-blk_queue_max_zone_append_sectors() to respectively set a ZBC device
+In virtblk_probe_zoned_device(), execute blk_queue_chunk_sectors() and
+blk_queue_max_zone_append_sectors() to respectively set the zoned device
 zone size and maximum zone append sector limit before executing
 blk_revalidate_disk_zones(). This is to allow the block layer zone
 reavlidation to check these device characteristics prior to checking all
 zones of the device.
 
-Since blk_queue_max_zone_append_sectors() already caps the device
-maximum zone append limit to the zone size and to the maximum command
-size, the max_append value passed to blk_queue_max_zone_append_sectors()
-is simplified to the maximum number of segments times the number of
-sectors per page.
-
 Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
 Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+Reviewed-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 ---
- drivers/scsi/sd_zbc.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ drivers/block/virtio_blk.c | 34 +++++++++++++++-------------------
+ 1 file changed, 15 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/scsi/sd_zbc.c b/drivers/scsi/sd_zbc.c
-index abbd08933ac7..a25215507668 100644
---- a/drivers/scsi/sd_zbc.c
-+++ b/drivers/scsi/sd_zbc.c
-@@ -831,7 +831,6 @@ int sd_zbc_revalidate_zones(struct scsi_disk *sdkp)
- 	struct request_queue *q = disk->queue;
- 	u32 zone_blocks = sdkp->early_zone_info.zone_blocks;
- 	unsigned int nr_zones = sdkp->early_zone_info.nr_zones;
--	u32 max_append;
- 	int ret = 0;
- 	unsigned int flags;
+diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
+index b47358da92a2..1fe011676d07 100644
+--- a/drivers/block/virtio_blk.c
++++ b/drivers/block/virtio_blk.c
+@@ -751,7 +751,6 @@ static int virtblk_probe_zoned_device(struct virtio_device *vdev,
+ {
+ 	u32 v, wg;
+ 	u8 model;
+-	int ret;
  
-@@ -876,6 +875,11 @@ int sd_zbc_revalidate_zones(struct scsi_disk *sdkp)
- 		goto unlock;
+ 	virtio_cread(vdev, struct virtio_blk_config,
+ 		     zoned.model, &model);
+@@ -806,6 +805,7 @@ static int virtblk_probe_zoned_device(struct virtio_device *vdev,
+ 			vblk->zone_sectors);
+ 		return -ENODEV;
+ 	}
++	blk_queue_chunk_sectors(q, vblk->zone_sectors);
+ 	dev_dbg(&vdev->dev, "zone sectors = %u\n", vblk->zone_sectors);
+ 
+ 	if (virtio_has_feature(vdev, VIRTIO_BLK_F_DISCARD)) {
+@@ -814,26 +814,22 @@ static int virtblk_probe_zoned_device(struct virtio_device *vdev,
+ 		blk_queue_max_discard_sectors(q, 0);
  	}
  
-+	blk_queue_chunk_sectors(q,
-+			logical_to_sectors(sdkp->device, zone_blocks));
-+	blk_queue_max_zone_append_sectors(q,
-+			q->limits.max_segments << PAGE_SECTORS_SHIFT);
-+
- 	ret = blk_revalidate_disk_zones(disk, sd_zbc_revalidate_zones_cb);
- 
- 	memalloc_noio_restore(flags);
-@@ -888,12 +892,6 @@ int sd_zbc_revalidate_zones(struct scsi_disk *sdkp)
- 		goto unlock;
+-	ret = blk_revalidate_disk_zones(vblk->disk, NULL);
+-	if (!ret) {
+-		virtio_cread(vdev, struct virtio_blk_config,
+-			     zoned.max_append_sectors, &v);
+-		if (!v) {
+-			dev_warn(&vdev->dev, "zero max_append_sectors reported\n");
+-			return -ENODEV;
+-		}
+-		if ((v << SECTOR_SHIFT) < wg) {
+-			dev_err(&vdev->dev,
+-				"write granularity %u exceeds max_append_sectors %u limit\n",
+-				wg, v);
+-			return -ENODEV;
+-		}
+-
+-		blk_queue_max_zone_append_sectors(q, v);
+-		dev_dbg(&vdev->dev, "max append sectors = %u\n", v);
++	virtio_cread(vdev, struct virtio_blk_config,
++		     zoned.max_append_sectors, &v);
++	if (!v) {
++		dev_warn(&vdev->dev, "zero max_append_sectors reported\n");
++		return -ENODEV;
++	}
++	if ((v << SECTOR_SHIFT) < wg) {
++		dev_err(&vdev->dev,
++			"write granularity %u exceeds max_append_sectors %u limit\n",
++			wg, v);
++		return -ENODEV;
  	}
++	blk_queue_max_zone_append_sectors(q, v);
++	dev_dbg(&vdev->dev, "max append sectors = %u\n", v);
  
--	max_append = min_t(u32, logical_to_sectors(sdkp->device, zone_blocks),
--			   q->limits.max_segments << PAGE_SECTORS_SHIFT);
--	max_append = min_t(u32, max_append, queue_max_hw_sectors(q));
--
--	blk_queue_max_zone_append_sectors(q, max_append);
--
- 	sd_zbc_print_zones(sdkp);
+-	return ret;
++	return blk_revalidate_disk_zones(vblk->disk, NULL);
+ }
  
- unlock:
+ #else
 -- 
 2.41.0
 
