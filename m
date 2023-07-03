@@ -4,85 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42DF0EB64DC
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jul 2023 13:26:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8689BEB64DC
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jul 2023 13:42:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vqn7IKTdo14CySBv00ohACcAfgAIiWSh1E9RKmDPgr4=; b=39lajirqE6KiUnliyYk0exTeoS
-	MgCvawaT4sa8sk0seoAhTNS32uzdcgdF8jG2/rRB4XjnRE+kvruNdC43vOY/7pRY8b6IDlLNe4KIz
-	C9BUWzUojCeIL5aKIMkw3j+nyR2EHITnQNe8Zn7x7hIE7jergK9S4yJZK8j96MhAKD1c+GeqbKf4r
-	XwZq0c9/X1ofn20cl+kJ3AMDH+jMTPs8OhvMzwAkKUOOX9ifseqqumtFjzmYlyW/B5xBJFdUpzWXf
-	1brYEyHRgL2NYDP3m96iCYPFsR3c16dgvG59b/N/KG0SFVSpQ5DgZ/1xwqLI2VsP4SSsouzDnUwcb
-	fUkCJk+Q==;
+	bh=WSJ7njo1frNB2wbznmgMSd/7sKrygugYA+ScAa+ssjk=; b=M5X6PkGx9ugPA8nH6ZKHXnlbq9
+	HqVuaTffLoXexamtfVYf/T/PNbLgZzPM5Hz8ca6whGkP73LMh5nKkgOsLCZXnwYup7QHM5b/q3IWZ
+	J531EPjDZVAbLYsAh5QVzObUlXCgmPPXc+EhzGmhCZrsLmovMfbve19+3OfNhBs/nMpy4TbvaDAFA
+	oHoRUC1nsntnPRNBm8Z1sZbL/JPFeeME60UfU4U0wcXUo2vOhLRjW1AkwHchiV2rc6WXQudQr/9bw
+	iwFdtnV84dbiyTg4w/3Or12Ngz4Jca16fJOwmGCnHUMMDbMdaLgMVXM+qZiZR4vrAW2FqqqMnQGtr
+	RG7EGHPw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qGJZh-00Ad92-03;
-	Mon, 03 Jul 2023 13:26:41 +0000
-Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233])
+	id 1qGJoi-00Af8P-0v;
+	Mon, 03 Jul 2023 13:42:12 +0000
+Received: from mail-wr1-f48.google.com ([209.85.221.48])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qGJZe-00Ad7O-0x
+	id 1qGJog-00Af7c-0b
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Jul 2023 13:26:39 +0000
-Received: by mail-oi1-x233.google.com with SMTP id 5614622812f47-3a3b7f992e7so238283b6e.2
-        for <linux-nvme@lists.infradead.org>; Mon, 03 Jul 2023 06:26:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688390796; x=1690982796;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vqn7IKTdo14CySBv00ohACcAfgAIiWSh1E9RKmDPgr4=;
-        b=Ek1UGhRgVlcOvIL06WHpGzgjgyHpvklDmtxMOactMDjhcaI4gwwV65eiGbrFnTuYMp
-         sx+StujcB87IZnmVr0obLNhPZ3QtF3Hnn6KRTiSfoUNG34iq6GMQjbrGeO8blA+j2tvf
-         h/kwO/mSVsgqvnw7MmKImnD9Pydwuvvhl5dLCVmInI1GKbEVxBZ0/2klnE3A77D9x7bU
-         WI8PiUsuUjVZhuHi476SolDhvelKrfeWzquDbo/oNuoRyDoPM28I7yNszphIDppKjqcD
-         nIvToQ+4GW88bXvZB5zKvNYfZ/SizZVOiU893uOtzX5iYcLUjFStPOA9WE2E32m0Xk2o
-         XXiA==
+	Mon, 03 Jul 2023 13:42:11 +0000
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-313f5f5c6c3so1390329f8f.1
+        for <linux-nvme@lists.infradead.org>; Mon, 03 Jul 2023 06:42:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688390796; x=1690982796;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vqn7IKTdo14CySBv00ohACcAfgAIiWSh1E9RKmDPgr4=;
-        b=DU2rkoKeXY5Sc4BbtB1sQSq5nRdc75nd+6wUPXGZODjMY4Q+2GjCGVwoOFFh16ssd6
-         lF0JfAhCwHpwFSijW8LQ0L0yO2KgnKZgsA9Hi4T1zQ9ga8/i335FoSXqqjtQ6/3VX06j
-         p0rdKZKfeCsGIFJkycD8cg6vkKFrSTcGxo5LT5OPuGbHWQOY6PJ7e6WI6qQN9b9CW3Gq
-         LEqxw/JYeM0dHjxGhgToWZL2O6TaAHFZDEUpCJwjQM0AhLlncHBcKk30+OGxDovWqoEK
-         M48NJxLlh3UHScZtsVWDFeKAZU2ZZvOXodU4SAlhXJlsp51Jy7Mmfm3Xk2u6Nn5Cc+0V
-         FtTw==
-X-Gm-Message-State: AC+VfDzrrLe/lYL2ysQc4qSiZYZhkZ+UKXwxGSXRgtzKTC8YQrnxc3zu
-	Qb1aXKDnOs46mU6qs8iDOKtnvXj2SXLn3+0sjXA=
-X-Google-Smtp-Source: ACHHUZ6uqGeljNO+21cjgetYX14NexS83zR1TTJuyVJ+ZqhjCxOYbav6ccfXjzVMlVGI0t01i24YsOMut9poxjZGFYM=
-X-Received: by 2002:a05:6808:199f:b0:3a1:e7ad:11a2 with SMTP id
- bj31-20020a056808199f00b003a1e7ad11a2mr9346884oib.18.1688390795816; Mon, 03
- Jul 2023 06:26:35 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1688391725; x=1690983725;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WSJ7njo1frNB2wbznmgMSd/7sKrygugYA+ScAa+ssjk=;
+        b=l2YRXNeo43OAkjQkhi+7K95rkRVRljTstw/O5yCohxz0GHEXRYunHdilRGTILYS1Ju
+         JeV4EWM7/1zcz/wuLaUwtjMYLHyeYiVVxVwKhZ1Hn8y0QXAjTWHJiUeG4h92Gl62ZkHf
+         sQYdqbXWOCljqAKa5b3ii6tXhINE4CtZTG0zCXsnnbo7qtja9RXwPvEJ3HoU8qgWOjF+
+         AQ3leKfTAtZvz7gIJimGsccz8zt4AremTDCAPQ7wKTUhrORaXLq2H5UaCaUn4BiBUhCE
+         CXRWdpT/JolM3oGt547005T1XZCC8XWlv4rj4MPBxw3eMtPcDnI+eMqDUNKG7fudy/aV
+         WaZQ==
+X-Gm-Message-State: ABy/qLYmZfYd9xfkObUYSBV/lrb5Uen7+2iTdidhEQVxNS0RQv2Z1dYL
+	Ns11hEURDmdyDPr7fX+NGhc=
+X-Google-Smtp-Source: APBJJlEmmmyuCovPziLK3HGeeAZFgTUR1+KeDjKK+DIWyKksv8HpLzKMWjOoJPla9nYz1yDcHNlMXw==
+X-Received: by 2002:adf:f504:0:b0:313:e20c:b8e1 with SMTP id q4-20020adff504000000b00313e20cb8e1mr9320754wro.7.1688391724867;
+        Mon, 03 Jul 2023 06:42:04 -0700 (PDT)
+Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id v11-20020adff68b000000b0031424950a99sm8432273wrp.81.2023.07.03.06.42.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Jul 2023 06:42:04 -0700 (PDT)
+Message-ID: <173e27fe-18bb-6194-2af3-1743bc0f8f61@grimberg.me>
+Date: Mon, 3 Jul 2023 16:42:02 +0300
 MIME-Version: 1.0
-References: <d18d2a08-9d24-0209-c2cf-baf60bbf5048@gmail.com>
- <CGME20230627161055eucas1p18d097cbcc2215b292c65a5b3a0f0e6b5@eucas1p1.samsung.com>
- <ZJsKBkPqoWzYyngS@kbusch-mbp.dhcp.thefacebook.com> <9b778d59-c8d5-b037-0eb7-34cee5f273cc@samsung.com>
- <CABfnBFoZ=gh2rkY_oYWzjkGcu8HPQ2FqnrnushH0DZFSi8cwOg@mail.gmail.com> <50723e0c-370b-7e4f-338c-401998739fba@samsung.com>
-In-Reply-To: <50723e0c-370b-7e4f-338c-401998739fba@samsung.com>
-From: Clemens Springsguth <cspringsguth@gmail.com>
-Date: Mon, 3 Jul 2023 15:25:58 +0200
-Message-ID: <CABfnBFpZJ=kToimneFgs87i=yL37Z8_MJ5nL6NUpW9w6mFSyjw@mail.gmail.com>
-Subject: Re: Fwd: Need NVME QUIRK BOGUS for SAMSUNG MZ1WV480HCGL-000MV
- (Samsung SM-953 Datacenter SSD)
-To: Pankaj Raghav <p.raghav@samsung.com>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, Martin Belanger <martin.belanger@dell.com>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, John Meneghini <jmeneghi@redhat.com>, Hannes Reinecke <hare@suse.de>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux Regressions <regressions@lists.linux.dev>, Linux NVMe <linux-nvme@lists.infradead.org>, 
-	Kanchan Joshi <joshi.k@samsung.com>, Jinhwan Park <jh.i.park@samsung.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Javier Gonzalez <javier.gonz@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCHv6 0/5] net/tls: fixes for NVMe-over-TLS
+Content-Language: en-US
+To: Hannes Reinecke <hare@suse.de>, David Howells <dhowells@redhat.com>
+Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ linux-nvme@lists.infradead.org, Jakub Kicinski <kuba@kernel.org>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ netdev@vger.kernel.org
+References: <03dd8a0d-84b9-c925-9547-99f708e88997@suse.de>
+ <20230703090444.38734-1-hare@suse.de>
+ <8fbfa483-caed-870f-68ed-40855feb601f@grimberg.me>
+ <e1165086-fd99-ff43-4bca-d39dd1e46cf1@suse.de>
+ <bf72459d-c2e0-27d2-ad96-89a010f64408@suse.de>
+ <873545.1688387166@warthog.procyon.org.uk>
+ <12a716d5-d493-bea9-8c16-961291451e3d@grimberg.me>
+ <b33737ab-d923-173c-efcc-9e5c920e6dbf@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <b33737ab-d923-173c-efcc-9e5c920e6dbf@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230703_062638_339758_A8CB4D11 
-X-CRM114-Status: GOOD (  14.18  )
+X-CRM114-CacheID: sfid-20230703_064210_250596_0A740E5C 
+X-CRM114-Status: GOOD (  18.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,25 +91,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jun 30, 2023 at 6:21=E2=80=AFPM Pankaj Raghav <p.raghav@samsung.com=
-> wrote:
->
-> On 2023-06-30 17:18, Clemens Springsguth wrote:
-> > Hi Pankaj,
-> >
-> > i would be very very grateful if you would create and submit the quirk
-> > as a proper patch.
-> >
->
-> No problem. I will send something soon, but could you test it and
-> give me a tested-by tag when I send the patch? I don't have that
-> model at my disposal.
->
 
-Hi Pankaj,
+>>> Hannes Reinecke <hare@suse.de> wrote:
+>>>
+>>>>> 'discover' and 'connect' works, but when I'm trying to transfer data
+>>>>> (eg by doing a 'mkfs.xfs') the whole thing crashes horribly in
+>>>>> sock_sendmsg() as it's trying to access invalid pages :-(
+>>>
+>>> Can you be more specific about the crash?
+>>
+>> Hannes,
+>>
+>> See:
+>> [PATCH net] nvme-tcp: Fix comma-related oops
+> 
+> Ah, right. That solves _that_ issue.
+> 
+> But now I'm deadlocking on the tls_rx_reader_lock() (patched as to your 
+> suggestion). Investigating.
 
-I am available for testing with pleasure.
+Are you sure it is a deadlock? or maybe you returned EAGAIN and nvme-tcp
+does not interpret this as a transient status and simply returns from
+io_work?
 
-kind regards
-Clemens
+> But it brought up yet another can of worms: what _exactly_ is the return 
+> value of ->read_sock()?
+> 
+> There are currently two conflicting use-cases:
+> -> Ignore the return value, and assume errors etc are signalled
+>     via 'desc.error'.
+>     net/strparser/strparser.c
+>     drivers/infiniband/sw/siw
+>     drivers/scsi/iscsi_tcp.c
+> -> use the return value of ->read_sock(), ignoring 'desc.error':
+>     drivers/nvme/host/tcp.c
+>     net/ipv4/tcp.c
+> So which one is it?
+> Needless to say, implementations following the second style do not
+> set 'desc.error', causing any errors there to be ignored for callers
+> from the first style...
+
+I don't think ignoring the return value of read_sock makes sense because
+it can fail outside of the recv_actor failures.
+
+But to be on the safe side, perhaps you can both return an error and set
+desc.error?
+
+> Jakub?
+> 
+> Cheers,
+> 
+> Hannes
+> 
+> 
 
