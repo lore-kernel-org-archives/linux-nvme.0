@@ -4,79 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E78A0C30654
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jul 2023 18:26:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C69F6C001B0
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jul 2023 19:16:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=S3goOZqeuYoc0I9eekS0pLYTxfPF9T/RelhGiV7wzY8=; b=K57Wxkh2YjsKPvJGLv7kIjpNK4
-	MfFalNQr7nqYA76qNtyBuhAZaBhdR5T6prpbIWhWbz3eqkoSl2Mfte0wnrC8pZszjSjtdpI0M3PQG
-	D/IM+SBjNBArrHwLs9C1Oc3IUE00JrxGfpNE8lV7bMppTHlCA8D8MNt5VaOnacPvcha2gyKJrmD+R
-	lDRyaZ/iJoPIY+ohOmfxfD2+QiyzQPb4eAuvEVWAMbq0Qzp+fTVzZcut35Rul7a0m+ZGvFjHNYMWn
-	rQ1heWKFwXYtmhbvMkq+YiN3YBAa1e1wp/No+/VcFAGMyZAHHC1DINuUdArGAbH1MUKMBd2BCTPUL
-	KukSftHQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=dlgEq4UH4vDTOZrzscCBubu+ZOjeAEIOmPqCH5Q/VA4=; b=X8bmyoYbG7VggU5lvkb9dYfUxl
+	fWBDIWjmOiI0qd0yVMx04h3Io2Q1E2xsg1jYzeVG/u2nuzzCfvUGjEtdDAWPeeIu9xW9z1NiqZtpM
+	3YBZiiotjm0xIgCUp7oa5uPSZgAikSEnhGgi99+FrE2eaqHD2cib0/gr8uhl2TJnz7+3WqQIkx9PJ
+	AraPhJj5uWCGb2gyXILYUAn6QyaWiXG2n/5z4mQyCCOIRuy/BcCjcvUsFoc0v3qQWsx0BzAbzgbmP
+	hb/V70xgDg4n4iXtnltvZeadXi24R1NONuuursW06deje7xvaegLTZN+anVqIUZ8XSfxiDXANP7fS
+	FHXOnsRA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qGOFN-00BCHx-2X;
-	Mon, 03 Jul 2023 18:26:01 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1qGP2E-00BHI1-0F;
+	Mon, 03 Jul 2023 19:16:30 +0000
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qGOFK-00BCGc-31
+	id 1qGP2A-00BHHM-2c
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Jul 2023 18:26:00 +0000
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 363G82oI025221;
-	Mon, 3 Jul 2023 18:25:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2023-03-30; bh=S3goOZqeuYoc0I9eekS0pLYTxfPF9T/RelhGiV7wzY8=;
- b=mNiJusU2lahRoPDyVnjeOiv6DgU9MtMz3ZUvBNrmwn1qhuEuXnvZqRkw5fOivPslCfRo
- k0VUsvyUw9CdtMdic0E+UtoTpVA5lWzH7qRBFWd2xvGT9K23ofwbzRvTJDEM5/hZmANt
- TF9qecVrzhNiHnXEL4ZORFaiMz748dcnLnUEJp36f4docJ0tDUyObzqeuDHsPS/YaB9q
- fy2dxcAE2Mnzo3bLo6LNIowE5ls44ckPB8AH4FlDje82jlpzIC9OkspltB4Di+hxvlld
- /DbnCf5BD0KTHq4k6FH+gjTDGcSpPzz1GRFEQwVOO+lTjSynRIaGFfuhJ02eZivBg3gY lg== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3rjc6ck8cr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 03 Jul 2023 18:25:51 +0000
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 363HARxB009061;
-	Mon, 3 Jul 2023 18:25:50 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3rjak9ddgq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 03 Jul 2023 18:25:50 +0000
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 363IPoQ7009914;
-	Mon, 3 Jul 2023 18:25:50 GMT
-Received: from ca-dev94.us.oracle.com (ca-dev94.us.oracle.com [10.129.136.30])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3rjak9ddgd-1;
-	Mon, 03 Jul 2023 18:25:50 +0000
-From: Alan Adamson <alan.adamson@oracle.com>
-To: linux-block@vger.kernel.org
-Cc: alan.adamson@oracle.com, linux-nvme@lists.infradead.org,
-        shinichiro.kawasaki@wdc.com
-Subject: [PATCH blktests] nvme/43: use a valid hostkey
-Date: Mon,  3 Jul 2023 11:25:49 -0700
-Message-Id: <20230703182549.971324-1-alan.adamson@oracle.com>
-X-Mailer: git-send-email 2.31.1
+	Mon, 03 Jul 2023 19:16:28 +0000
+Received: by mail-pj1-x1029.google.com with SMTP id 98e67ed59e1d1-263253063f9so3488529a91.1
+        for <linux-nvme@lists.infradead.org>; Mon, 03 Jul 2023 12:16:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1688411784; x=1691003784;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dlgEq4UH4vDTOZrzscCBubu+ZOjeAEIOmPqCH5Q/VA4=;
+        b=siqjtbELynGlxxIRUqqlm1qRIIGPI04SUqntEeyZ9DeXx8FwnRhhG/EMMubIceFYt7
+         RRc7uebvlYi6FEe+8lMc6vsu5mreNBpTjxbiemcLNzjSRJHa47+8ElZ+ZrFSTMgC8SLF
+         BdgsZU43OvuG+VFZfruUNF9AvzzruQwh8EtBS/bwmJpTm/c+JPYvgxaLxxfx8qiu1c3P
+         t7b9zQnHnBx/ccB3g1NZG2DjONQLSTNCZOak+814Gk3OIZVIuE9lwn8CK76yHtvRnjf3
+         DBGIWj/E2eMuYQAMN1bN26jfh/sw16Py4Qdwr82U39plffa37oiePNcacDwtOPVgGxP4
+         Be5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688411784; x=1691003784;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dlgEq4UH4vDTOZrzscCBubu+ZOjeAEIOmPqCH5Q/VA4=;
+        b=cY2oh8hOR4yB0QccSw0Zq8zEYXowHcsx3fyURN2vDYIxmmP2G/4rcC7sRe+JZMLiZI
+         hkO5mwBzT5KZFyk1IuxSS6VGE6zZO+mHSR3c54Yd6T/Hzqwk+4IMe3obP6e/N7MJP9uL
+         dVd/ridKtC0XLJkF6mC7ypgbT3FFmcTXKJvNeIuFiWdUBXSeWJyCrjOn4WCD6xR2WWPQ
+         Dv3kchWiih2nfpivmK3DERxwUIqulQI3RVPZJJ2ot3JhY3/Uhw7RDFvnNlSF0WXU/w1b
+         F9LHVoNfZTxkTFcTrjMy+Pug7j9oEm0o4DcQJSrPKfSeYrN1MVpavc6IAcBuL6cvIIBV
+         TK9Q==
+X-Gm-Message-State: ABy/qLaIG+WkKdwNcFY+EXyiKNKNQZe+ASXCbOgZb/vq5qCwEDmS75aJ
+	LgeWeVJvf9S1KpGwfI7zUGInjHjGWUhagw==
+X-Google-Smtp-Source: APBJJlGqXCrlNyt1UNKb5/0hBKYxlCGcww0eRZOrxb28F+xvEtqrl67rC5Npro1ijOVvH/eEUA1PZQ==
+X-Received: by 2002:a17:90a:6c06:b0:263:4156:97ec with SMTP id x6-20020a17090a6c0600b00263415697ecmr11464301pjj.34.1688411784312;
+        Mon, 03 Jul 2023 12:16:24 -0700 (PDT)
+Received: from localhost ([2620:10d:c090:400::5:b0b9])
+        by smtp.gmail.com with ESMTPSA id i12-20020a17090aee8c00b00263418c81c5sm9054371pjz.46.2023.07.03.12.16.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Jul 2023 12:16:23 -0700 (PDT)
+Date: Mon, 3 Jul 2023 09:16:21 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Ofir Gal <ofir.gal@volumez.com>,
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	"hch@lst.de" <hch@lst.de>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	cgroups@vger.kernel.org
+Subject: Re: [PATCH] nvmet: allow associating port to a cgroup via configfs
+Message-ID: <ZKMehaAF0v-nV1qt@slm.duckdns.org>
+References: <20230627100215.1206008-1-ofir.gal@volumez.com>
+ <30d03bba-c2e1-7847-f17e-403d4e648228@grimberg.me>
+ <90150ffd-ba2d-6528-21b7-7ea493cd2b9a@nvidia.com>
+ <79894bd9-03c7-8d27-eb6a-5e1336550449@volumez.com>
+ <ab204a2d-9a30-7c90-8afa-fc84c935730f@grimberg.me>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-03_13,2023-06-30_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxlogscore=999
- suspectscore=0 bulkscore=0 spamscore=0 mlxscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2307030167
-X-Proofpoint-GUID: RHqyIHjbvUVgadGBoUeLuKFB4qvb-R3V
-X-Proofpoint-ORIG-GUID: RHqyIHjbvUVgadGBoUeLuKFB4qvb-R3V
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ab204a2d-9a30-7c90-8afa-fc84c935730f@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230703_112559_117791_D735C22A 
-X-CRM114-Status: GOOD (  15.68  )
+X-CRM114-CacheID: sfid-20230703_121626_871393_ECAB3C3E 
+X-CRM114-Status: GOOD (  25.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,34 +98,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The test does not generate a hostkey and uses a NULL when setting
-up and connecting to a target. The test passes, but a valid hotkey
-should be used. This patch generates a valid hostkey and uses it
-when setting up the target.
+Hello,
 
-Signed-off-by: Alan Adamson <alan.adamson@oracle.com>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
----
- tests/nvme/043 | 5 +++++
- 1 file changed, 5 insertions(+)
+On Mon, Jul 03, 2023 at 04:21:40PM +0300, Sagi Grimberg wrote:
+> > Thorttiling files and passthru isn't possible with cgroup v1 as well,
+> > cgroup v2 broke the abillity to throttle bdevs. The purpose of the patch
+> > is to re-enable the broken functionality.
+> 
+> cgroupv2 didn't break anything, this was never an intended feature of
+> the linux nvme target, so it couldn't have been broken. Did anyone
+> know that people are doing this with nvmet?
 
-diff --git a/tests/nvme/043 b/tests/nvme/043
-index a030884aa4ed..d498fd7ae885 100755
---- a/tests/nvme/043
-+++ b/tests/nvme/043
-@@ -39,6 +39,11 @@ test() {
- 		return 1
- 	fi
- 	hostnqn="nqn.2014-08.org.nvmexpress:uuid:${hostid}"
-+	hostkey="$(nvme gen-dhchap-key -n ${subsys_name} 2> /dev/null)"
-+	if [ -z "$hostkey" ] ; then
-+		echo "nvme gen-dhchap-key failed"
-+		return 1
-+	fi
- 
- 	_setup_nvmet
- 
+Maybe he's referring to the fact that cgroup1 allowed throttling root
+cgroups? Maybe they were throttling from the root cgroup on the client side?
+
+> I'm pretty sure others on the list are treating this as a suggested
+> new feature for nvmet. and designing this feature as something that
+> is only supported for blkdevs is undersirable.
+> 
+> > There was an attempt to re-enable the functionality by allowing io
+> > throttle on the root cgroup but it's against the cgroup v2 design.
+> > Reference:
+> > https://lore.kernel.org/r/20220114093000.3323470-1-yukuai3@huawei.com/
+> > 
+> > A full blown nvmet cgroup controller may be a complete solution, but it
+> > may take some time to achieve,
+> 
+> I don't see any other sane solution here.
+> 
+> Maybe Tejun/others think differently here?
+
+I'm not necessarily against the idea of enabling subsystems to assign cgroup
+membership to entities which aren't processes or threads. It does make sense
+for cases where a kernel subsystem is serving multiple classes of users
+which aren't processes as here and it's likely that we'd need something
+similar for certain memory regions in a limited way (e.g. tmpfs chunk shared
+across multiple cgroups).
+
+That said, because we haven't done this before, we haven't figured out how
+the API should be like and we definitely want something which can be used in
+a similar fashion across the board. Also, cgroup does assume that resources
+are always associated with processes or threads, and making this work with
+non-task entity would require some generalization there. Maybe the solution
+is to always have a tying kthread which serves as a proxy for the resource
+but that seems a bit nasty at least on the first thought.
+
+In principle, at least from cgroup POV, I think the idea of being able to
+assign cgroup membership to subsystem-specific entities is okay. In
+practice, there are quite a few challenges to address.
+
+Thanks.
+
 -- 
-2.31.1
-
+tejun
 
