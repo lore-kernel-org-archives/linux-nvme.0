@@ -4,169 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B875AC30654
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jul 2023 17:09:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 377A4C3063F
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jul 2023 17:25:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GX5gd8L8SrETX74cuEyRS5DEs89ins2dp7LqLQWtKP4=; b=dQ5DoSCEiiXYlq/z8wDfVRgPtC
-	YhKXDtxz1MK7a1xK9rhyeAQ2K5zpS3mcP5+WxclsTPKIaRV/dEtZWn4RUTYSD7VI3rVqJdXLGNOdd
-	P1xy+oB3I8vzQjz5qEJ5PAcAHyOxfk+zNZSxcZvewNa9QxSAcuskd/WDxZ/5On8iHbquTv1ld4Jwm
-	Ld1qKedcdeHOLwLb3lw3ylrsWth5klYqpNy27OjgATD6nklteU1yvvuiGp4gPlrMANtdroa+eS6do
-	XTHCW6I3Eq8ahSyboN4ZdntNqPas4VvfyXrrROc40xAwVn5fa0FrFmanuZgj9XjPCUmW1leWQXuPL
-	AMqvOPBA==;
+	bh=n4kUBRQrdx2CGWwKrDgL92ebtE5Gyg+bfTU+CSzkAt8=; b=ufqWHz04A4gn6kUQRSjfpeZOwH
+	519E8cMaN9m5Syq9hM3WRmL73J4yTHumLp1x6xUpRG8rqDCwJjP29/LiwLkzMUSdxRKkvyEmg71/F
+	H/JO68q7CRAMjoG/EsxwAWcshJrpBeiE3cWPlqQxLMJalEC1iIif+I0APvCPPrcDjNA6k8cd0aZoX
+	e17jGs6+pcuFZPwwe7fvf7DefmUtWnH3+pKGS6k/IOKm4ZXKnOVXU9SoDcm5kvoxepzGWSNt5Zc0V
+	ddeSi2Eg+YWf5Zlq1ddmbv24eEr/NaYcShMB38e1KHLF6Gqcn2joV9aL7kL8s3cBLBEJnlKgzfRnp
+	ZG+fsw6w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qGN3I-00B4MP-15;
-	Mon, 03 Jul 2023 17:09:28 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1qGNIy-00B6OB-0G;
+	Mon, 03 Jul 2023 17:25:40 +0000
+Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qGN3F-00B4LA-2Y
+	id 1qGNIv-00B6NY-0W
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Jul 2023 17:09:27 +0000
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 363G8QJP006055;
-	Mon, 3 Jul 2023 17:09:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2023-03-30;
- bh=GX5gd8L8SrETX74cuEyRS5DEs89ins2dp7LqLQWtKP4=;
- b=LJlWGIL3aU9Va2PKdiGcTbS+xG5jBHfaV7Sd7ucmBr8KXu220xRNfshpvI40oOvEh4bP
- 0daPne/XJbptb0lcWAnjOVBZz1xT6L5w+BRp01CME2T2sVr96e+OcciINEDxfShO3t3P
- 7JL9m/3JhMB8DeFonHbwIe2+PazBh0lTMuX4yO/YAEvpmY3zybTMhiyiMLA/T5KAVfWN
- f0LXC5SvPToFNRNjXTr1JND+NrgrFvoX3PlilQshwinHjbDzpNezAxv7wawAids1ZLsQ
- +s9UjtRzYaLGDMfRTOCuclcJTzRcNpXSTURXbgsogemvKEmiP6i6EkWs5ZEnqN6qb/J7 HA== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3rjc1ak1s4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 03 Jul 2023 17:09:17 +0000
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 363FGoaI009032;
-	Mon, 3 Jul 2023 17:09:16 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3rjak9b451-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 03 Jul 2023 17:09:16 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=knKMnvSg47qIbEfG1lPZweHiIoRK6+TZDvZ7SWh/j+KjFiTlpLu16WsvcGS05hpFLv2RpMpE7JxToNFl8bbd8KiTwiJ6YrhyoExjmaapEp6iRZNmrN7G3FlwrfdRmFfpqeUiM7WFhvduc50AiDkKUEgD/nMwWUrE4CGWh+KUAUzLBWn09Fa9BGeUDfXAvyfb6wV9sNyrAKw2V5LBNXvM0FpheKzWKtcN2nBinWI8cErFAcq7170bamrwjq6Os0K3M8ShbiXxRUhfmuDPrFJeXDvk4/CueJPmyOPVGN5iehxDIOnAiVk7oNCb3Z/yXYm45wXQDklzI7Klz5tVi6fkNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GX5gd8L8SrETX74cuEyRS5DEs89ins2dp7LqLQWtKP4=;
- b=WT0KILlHoCX4RkkUN0J5Sd2wSnF5R6OUcQTqGzCBCLj1dkpavdmEZzgFJ9poAPLchamSIavMfT1GDZ/p5scMtJAiNStgja+rSZvLMts5yvK/z938NIjhG29wYOPXyBr2LX8cfvwwNOKvuPHNwNfPb/N/PnaCWkYc0Y1281yL9PCwyRaQ+txZdIZayjoWVeIUrUlPndhGQbjV15aPUShj/O+CKa1ANEwYP1B2T3Kqh1Djzc537tCRaQlP5I5h+Fc8hJGO5iOMzPB48WdfrlURIbUqlXpLjiUSnf3Df3DWmovOL90muavVhGDlNoLXi3dvuEIzSkvGf+romwo0JZjccg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	Mon, 03 Jul 2023 17:25:38 +0000
+Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-4fafe87c6fbso7243124e87.3
+        for <linux-nvme@lists.infradead.org>; Mon, 03 Jul 2023 10:25:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GX5gd8L8SrETX74cuEyRS5DEs89ins2dp7LqLQWtKP4=;
- b=joLSV7y/1BhSiPoNWAU9foFWOOjEysSzTjU4nRkqsNG3j5P5+PiSKGoyMI+kQra3QvZ7eUwy1lKFMomIXgl3H5MQgIBVcdCOtHbWif2y+J8mghRaM+olp6wSvn/AI4z4HOS/I1xOpf2WaHwf5FPhDojfSsLnCCcHdnto97oxcTg=
-Received: from CY8PR10MB7243.namprd10.prod.outlook.com (2603:10b6:930:7c::10)
- by CYYPR10MB7605.namprd10.prod.outlook.com (2603:10b6:930:c8::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.24; Mon, 3 Jul
- 2023 17:09:14 +0000
-Received: from CY8PR10MB7243.namprd10.prod.outlook.com
- ([fe80::f5ac:d576:d989:34fa]) by CY8PR10MB7243.namprd10.prod.outlook.com
- ([fe80::f5ac:d576:d989:34fa%4]) with mapi id 15.20.6544.024; Mon, 3 Jul 2023
- 17:09:14 +0000
-Message-ID: <69eeacda-d59c-bec8-d115-4bf7c97d7690@oracle.com>
-Date: Mon, 3 Jul 2023 12:09:12 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [GIT PULL] first round of SCSI updates for the 6.4+ merge window
-Content-Language: en-US
-To: Linus Torvalds <torvalds@linux-foundation.org>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-        linux-scsi <linux-scsi@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <23bd2eafa9b9a23e4a8a96fc0180bba9e77e42ca.camel@HansenPartnership.com>
- <CAHk-=wjgnB11KzroXS+Gi1TQO19uf0FvkMBn=V7mcQ8q78ucnQ@mail.gmail.com>
-From: Mike Christie <michael.christie@oracle.com>
-In-Reply-To: <CAHk-=wjgnB11KzroXS+Gi1TQO19uf0FvkMBn=V7mcQ8q78ucnQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DS7PR06CA0009.namprd06.prod.outlook.com
- (2603:10b6:8:2a::28) To CY8PR10MB7243.namprd10.prod.outlook.com
- (2603:10b6:930:7c::10)
+        d=linux-foundation.org; s=google; t=1688405133; x=1690997133;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=n4kUBRQrdx2CGWwKrDgL92ebtE5Gyg+bfTU+CSzkAt8=;
+        b=fPvby7RWNhhWJ3wBolEnbdAotZ3JLJT78FZIvayG8/GVnG0STYphwavS30ktr3Nq5b
+         UYgTdsN4ho/jKZRazJDccpfXyWDR1o+lN9Qr5VEXT2Sol4VnDFHo6UtoXzKIlSF3ulIx
+         O5dl7aEo2+1fyBcIhvjngW+iZ2J6shc1hiBv0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688405133; x=1690997133;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=n4kUBRQrdx2CGWwKrDgL92ebtE5Gyg+bfTU+CSzkAt8=;
+        b=Ua2WrJ1frLGF9vOOeP/QehKW5yxqh+FMC8ibEKx0fPuVrFceNmLo9yyl2iQP6uBQcN
+         1dBU207B9IOeanRMTROU7xgOaYC4TJrjQaE3ydCDyqgmD2xEWmwTfnNZ5U0K7Hs5qF0Y
+         636gTqORYNejF6OFa53XMoUSCmdrVhfy5kCaJQ9Nxipr6cc3D/2VDqG11+1j6JBhs2vH
+         QQvVm1usiSqIJ6vo0MJhphVWYoLIl4v4qHbJcJQSkCk2QlyFQJx0AQ+Qj0B0Wdjv06i5
+         pJn7oYCNd7HcAlpz/BKYpfuTqJdXgYpfI6lT16G5sTCG/NKgGPEVHMzEtcodFqMeUPY5
+         O84g==
+X-Gm-Message-State: ABy/qLa1lLroxYFlZ5ULqqKD0/RZtNEAm6LA1McLoH4P4+n2Znz6/JMr
+	SFR1vah25YOgc9xkF+QY9Q87ONY9Gs9zzdoWy8X9L9Qw
+X-Google-Smtp-Source: APBJJlGpY2CFr1v61+apsyk80WkP/yMTXq2o6Lhekz6HRyI776VJ0ElrqOS28FCxK5aIUtXQhH1Jpg==
+X-Received: by 2002:a05:6512:328b:b0:4f8:7697:5207 with SMTP id p11-20020a056512328b00b004f876975207mr6750291lfe.23.1688405133003;
+        Mon, 03 Jul 2023 10:25:33 -0700 (PDT)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com. [209.85.208.179])
+        by smtp.gmail.com with ESMTPSA id r2-20020ac24d02000000b004fb745fd22fsm4046514lfi.32.2023.07.03.10.25.32
+        for <linux-nvme@lists.infradead.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Jul 2023 10:25:32 -0700 (PDT)
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2b69f958ef3so75552101fa.1
+        for <linux-nvme@lists.infradead.org>; Mon, 03 Jul 2023 10:25:32 -0700 (PDT)
+X-Received: by 2002:a2e:8955:0:b0:2b6:9b2e:e352 with SMTP id
+ b21-20020a2e8955000000b002b69b2ee352mr7461069ljk.9.1688405131758; Mon, 03 Jul
+ 2023 10:25:31 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY8PR10MB7243:EE_|CYYPR10MB7605:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3456a542-3a25-4e7f-fdc0-08db7be83a50
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lid8AXihqQW8aPUxVkvlvDEGXG0LRm+2rfkzeMBmg1XVBGGMA21+2xO9NPK44jsikqcIxmkpnKOCJxz/EKEOLdreIbZc+auX2JmsMPe2GjELjvw3P8e0ofHuPqCJOer3dscDwCrpVqDFEGlCFjyNc6csVQll5oQkz6yd4bl4w43C433qFLjzjxcHdwRrLp43sBPjE/igV2aNz4qVw+uMDH91o8LpcZsgbEJqFKRCi1PyqIpvsqfpwiPJznuZ+BmwnErVv68MpjIeCMFYw1Pf62O6yqycVs4R33niWPMJ290wCMvqgkQjZQC6ErZezz7eQNvUzvx979kF+zAJzXvPtjsuwRNYKVTGpL0GE7ICJeK0k2Y9XyknxNCnH2+KWGC7qpRyxLaJB8Ww56ldoEMoeGJI36Y0tB+4Vx9wydqHG2rPme6b0xOLv+54PWSfLxPOiSyIvU4cXXOYJ3to8dKf4PnBrMZjLDBbwsdIdZwgddIE8/5x78Xr3LS3dO8CUtCnaxD0NCLggPXHLqcMBjb/1FnYVIaphKDnRkmhx5w9C6KnfpjwLDA70o8mborjtzZ9VS5/Rc/H0D8cI9vPaChTCQ1l5Z050hFVZzSryApRTOY+ZGMoUSQ8DbDdpyDfr0I9QZgqxUbwrpxtjjtyAAZI0Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR10MB7243.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(39860400002)(396003)(346002)(136003)(366004)(451199021)(38100700002)(2906002)(6486002)(8936002)(8676002)(110136005)(54906003)(36756003)(41300700001)(5660300002)(478600001)(31696002)(53546011)(66946007)(66476007)(186003)(6512007)(26005)(86362001)(6506007)(66556008)(4326008)(316002)(31686004)(2616005)(83380400001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SjZxMjE3T1Q1NkNVSGxaWXVNYklBWDF3RUJ2dHQ0UzUza1M3bzR3SUhFVXZR?=
- =?utf-8?B?Z1ZIL2dvYVdOY20wcGJacjdxZmM2Y3FxdncxSE0vYTk1N3JtVXhBc09QTHZl?=
- =?utf-8?B?d1k3dGRpSzdLOUUzT2t1Zkd2NXhuOGw4SThLbUMvL1ZJamN4RXAvNy9oQnZ2?=
- =?utf-8?B?TUprRlRidXd0NXFpL0JROHVnRWROQWdwR0FxNC90N2M2QWxFSUF6MStQK2My?=
- =?utf-8?B?NW1FOCt5Wi9JekxCQkRPZGZNWFo5eGsrdGM2ZVVGRjI2WWdGZ3k0NC9GQnRG?=
- =?utf-8?B?K25sR2lmUW1KN3pCdTZQNjhEQ3lXNUo2OXE2V0xmSEpnQ2MrTXZDb0xKQlJ2?=
- =?utf-8?B?dEVxNjd0WlRUREpGVGdOWkl6SS84RExUbW9FMDlBMnk3dXR5VUUvWFJiV0Vr?=
- =?utf-8?B?YmtnSXgrcnd1WHhWdkx4UUo5TFRSWXhnRE9td2M3ZW1tSWJvbDcvYXBYU0l0?=
- =?utf-8?B?MnVMS2tFMDJWaGlBYWNlZ2prYnBjaGI5cDFrZllkRFFQaDhnVWREa3oycjRZ?=
- =?utf-8?B?VG41WG1ZNFc5RkN6Nkw2MTZxdnFKeFZNRytoWUJsZVBDUlE0MC9PSGJYVUtN?=
- =?utf-8?B?cWhBWDNLVjh2Uy81d2pMcFVZdFJpdmQ5aHZ4QjJtUUZaZEw1SkI4MDhjQ3hm?=
- =?utf-8?B?Ymh4QzdobXRXeVJDUGlveTM3dlhFRkxaWUJLcjYzNVFBV1BwWUlsL1Qvcm1z?=
- =?utf-8?B?M2RFWHQ1cDcwcjh6Q25EM1hoSm84aTdIc2ZURzBIM1JHYWRhMEh6RzFJcjRw?=
- =?utf-8?B?NDBseElOZXlHZkJYUWk5SmM3ZGtmalpzVlBhNTdiN0lIdHJtcHhkeGRreXlF?=
- =?utf-8?B?YU14b1dxbUh2SVErRlNxWVlCSXY0UUYza1gxdEZIejZkNDRPQVhWdDc2ZkFh?=
- =?utf-8?B?elFta3FRdGtQd3ZkTUNoMHBvcXJrc0NGQVhDK1ZFcGEyUk5sdm12MjJ6SEhm?=
- =?utf-8?B?WURMUmlTclBqOURiQ1IyMmdHLzU4ZXFaRjN4UEV1aTErNXArQ2pQbldUYUJi?=
- =?utf-8?B?S3FINkxEVlVueWJtclc3azFSVkJQRm1aUWlnNTVVTHBacGlkUlYyMEhBYnhU?=
- =?utf-8?B?ZFhWaVpUc2xFZ1JQa21xUzJOYnJHVW45aXFQMnlWbmxtU0kreEZ2QmZuazVn?=
- =?utf-8?B?Y0ttdHVxczg1MkxHMjJOVTdlQzhpeml3aWptdjJrMjJkQVlNU2dVcHVJUW8w?=
- =?utf-8?B?SmZPMFBEM09hd2RySkovU2R4Snp0dlBHY2F0MHRXVmpSL0F5b3QwenhZaUlC?=
- =?utf-8?B?eUpPMnBHZTRBRTRmYUhsSG1wanh2b2lhbGJiOFdLU3pEVG5DR0FDTElCa25P?=
- =?utf-8?B?QW5rS1lBelpRNFlPREltUzR2bEgxN3hhSFVLcHVCNUVJdG8wSXpjVTg3RURs?=
- =?utf-8?B?aE1MZHJTOFMxUCtvMCszVWNmR1FLbC9WTFZNamZlOTgrNlp3dThxVDBlVjI4?=
- =?utf-8?B?SU5XaHRRZ2tlNEY4SUh3b0RjNVBnR3dEbTQ5TmxPWTMvOG56ZzRSN3J0N0dt?=
- =?utf-8?B?Y0Iza25XL0lBamVwR2d4dzBKaEFtZ3JPZkhnM3JXdllpZk5iOUw2TjYrNHJJ?=
- =?utf-8?B?NzFicFRGZW1uUVNzem5xditIbDVzSUZPWkIzcXNldktOcjAxektLMjVSMk9u?=
- =?utf-8?B?WHhabmNJWllUYVpFUjdrdFdpZ0h3dWVDQ1J2c0toVWp6bVJpcGtxb0UyS0Zw?=
- =?utf-8?B?TDBnaEtPWGNZbGtDbzk1dHpORlpycHVYbVFURnpFOWRLSHZpVEZ0ZWlBNVhL?=
- =?utf-8?B?RS9ULytNWlR5OEdNaFFDbTFjcWFmZWVxeXo2eEVJdjAwMmFGU0IvSXNUQzRN?=
- =?utf-8?B?ZmgzSXh5eWR5ampOVzlSc3F1b3pna3hrS3FqZFlEUUsyOEhvM3JqaWlvYkhm?=
- =?utf-8?B?eHFQZjVETFVWRTQrNjVFRFZVamkzK3p5Y2pNWkVaa3d2cWpNcXN0aDJEdXRs?=
- =?utf-8?B?M1FkZnhwalVyNVllMlJUOWlMdXUyNVFiOENJcE8yWW51M29EQ2J1aDI3T0dY?=
- =?utf-8?B?WUMvMitkU1dQQXlhbVZhaS95MVpxUk9wWVVsYjBUTGluKzMyNmt1amJ5SHhO?=
- =?utf-8?B?UjZZTGtzMHhpalhwMWpqdjZ0R1Q5akJ0VVNIT1lSYUNMNk1tNmNjZ0V3TndR?=
- =?utf-8?B?bEVZclp4R0hOcWM2ZW15MTk4MHdxd1NFYWZKeFZwRVJHY1RQcEVhSmdyWit1?=
- =?utf-8?B?MkE9PQ==?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: rP2ikzlAxsmOFB5GlNBOtDNOzFZ9j/nBxlBIjk+tNuSK9Ri/Tyrcj694/WvPl/5c574HFfsbWT/bIPUmaGSDKvZW+2rqcVd8teJlACJ1I79S1ozkdMMQ4MaZtXh4UHzeb0xt1wfVfjsgsOHy8P/d6FqeY4m5nzzkxjoSmaauf+3qPdqXGRnb+wP4ASBUeSVicU8w5eFSOMyBn7awIFN3o3t5Wequ1Vg8pcABHH9Pcu3961LLOO7C+55HKaRypDbxBwlhM4VZr4mPSiSNdiJycFZPLyHOL61Hs1+wzXvUhVPDMuEsODbShK4Lnyu5ODuipPWLEDArHz6TeOtJXYHktz/fJdH4T9rCstnq2DGC27FMqi4wiEbjCFRcazy8Y3K5RxAs9zBnR349z+gwI+43YNe8AvuVbsXyEMWnT+TaQBJbO6en8EtCE3cRiKPDc9GKiczoYTBm8qLBTG4m61HgPQbN8+lKlopFhjA7sDYIe0SgnN7gT4zPLTbitC4ZrfmY5sg97YcsOb7TkKXPUZJ9yGFPcgZ57RJGE7Lfmv8DISQizhn2qpb1sYHba7YfzFWQW6vWfJl8P/NJjgL0A/2yVJlxYFbHhQuV+AvSSCUaMFBx5auVPSwSLBT7HE6iCA6WmQEEF44poOsBEck5DsW3ESVuI5/MWwFj8OrCiTc77yvujMT8xBf0qxAF/8t5CPnEVf/8QrBv4mKobiR0eGY16XxcS72Oax9Pg4/l7x1ZyjoytylsRvUXMskQejGgprwUrdYfei52jOr4lGhKhuLiY5jnH5vLFDI3xgN12gZCznLGtE5yhcMQyyHst58peNj/f5rKtW9/Q/OFxjfpiCtyOLS1wPtCY+h6jD68k4vRr4dGvAvu7Swwcfvg6q98Q7Z+bKyyQvIlu1UUI4vfQWFLJRRQAcbW3ZuPAMBDOXtEk1k=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3456a542-3a25-4e7f-fdc0-08db7be83a50
-X-MS-Exchange-CrossTenant-AuthSource: CY8PR10MB7243.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2023 17:09:14.5429
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5ktcElDatggRO9Z0jn2GuiRkoB/XcDhYpiUp3Er2Lxmd9v4BjpG0qKRSvRbMHhQkjpWR0CLYvMiVrMH6kRF9/GIB3YIl6SCQ1I7JxMJfvM0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR10MB7605
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-03_13,2023-06-30_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxlogscore=847
- suspectscore=0 bulkscore=0 spamscore=0 mlxscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2307030157
-X-Proofpoint-GUID: gmi-q9GaIP-yLNifRip34YmA343B6yTB
-X-Proofpoint-ORIG-GUID: gmi-q9GaIP-yLNifRip34YmA343B6yTB
+References: <23bd2eafa9b9a23e4a8a96fc0180bba9e77e42ca.camel@HansenPartnership.com>
+ <CAHk-=wjgnB11KzroXS+Gi1TQO19uf0FvkMBn=V7mcQ8q78ucnQ@mail.gmail.com> <69eeacda-d59c-bec8-d115-4bf7c97d7690@oracle.com>
+In-Reply-To: <69eeacda-d59c-bec8-d115-4bf7c97d7690@oracle.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 3 Jul 2023 10:25:14 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whkqWU+OVkU5YM=X0rdF4wvcMynReCo+0fyD8ErMb51Sg@mail.gmail.com>
+Message-ID: <CAHk-=whkqWU+OVkU5YM=X0rdF4wvcMynReCo+0fyD8ErMb51Sg@mail.gmail.com>
+Subject: Re: [GIT PULL] first round of SCSI updates for the 6.4+ merge window
+To: Mike Christie <michael.christie@oracle.com>
+Cc: James Bottomley <James.Bottomley@hansenpartnership.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, linux-scsi <linux-scsi@vger.kernel.org>, 
+	linux-kernel <linux-kernel@vger.kernel.org>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230703_100925_861426_FF71DA18 
-X-CRM114-Status: GOOD (  21.11  )
+X-CRM114-CacheID: sfid-20230703_102537_200859_C9CB545E 
+X-CRM114-Status: GOOD (  15.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -181,35 +96,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 6/30/23 2:14 PM, Linus Torvalds wrote:
-> On Thu, 29 Jun 2023 at 05:48, James Bottomley
-> <James.Bottomley@hansenpartnership.com> wrote:
->>
->>    We have a couple of major core changes impacting other
->> systems: Command Duration Limits, which spills into block and ATA and
->> block level Persistent Reservation Operations, which touches block,
->> nvme, target and dm (both of which are added with merge commits
->> containing a cover letter explaining what's going on).
-> 
-> Random side note - as an outsider that then sees a trivial conflict
-> due to the split of the nmve side into a file called 'pr.c', I can
-> only say that my reaction to that was "what a horrible filename".
-> 
-> Maybe it makes sense to people that are very into nvme, but honestly,
-> considering it's a new special thing, I kind of doubt it.
-> 
-> We really don't lack the disk-space to use more descriptive names for
-> files. "pr.c" really is pretty horrid.
+On Mon, 3 Jul 2023 at 10:09, Mike Christie <michael.christie@oracle.com> wrote:
+>
+> Maybe name it persistent_reservation.c, or if people think that's too
+> long does persistent_resv.c make sense since we use the "resv"
+> abbreviation for reservation in nvme and the block layer.
 
-cc'ing the nvme list because it's their file.
+Yeah, as a non-storage person, I really would prefer more informative names.
 
-PR stands for persistent reservation. It's from the SCSI days so the
-term and abbreviation is common to SCSI people and nvme developers that
-used to work on that. I can see how a new storage person would not be
-familiar with it.
+Maybe I'll never end up looking at that file again, and my one-time
+conflict resolution reaction is really just that, but I do think that
+we can afford the extra disk space.
 
-Maybe name it persistent_reservation.c, or if people think that's too
-long does persistent_resv.c make sense since we use the "resv"
-abbreviation for reservation in nvme and the block layer.
+Do people really end up typing that file name so much that the extra
+keystrokes would matter (and if so - do you really not use
+tab-completion? Is it just me that tab-completes pretty much every
+filename I type?)
 
+I did do a simple
+
+    git ls-files | grep '/[a-z][a-z]\.[ch]$'
+
+to see how common this kind of two-letter thing is, and  we do have a
+ton of them (the test directory has single-letter "a.c" kind of files
+too, but for testing that's fine).
+
+Some of those two-letter things look fine: things like "mm", "fs",
+"rw", "rx", "tx", and "io" are I think common enough in kernel
+contexts that there is practically no real long-form version of them
+
+And others seem to perhaps make sense within the context of individual
+device drivers (ie there seem to be two-letter board revisions).
+
+And then we have the ones that make me just go "Whaa". Like that
+"pr.c". If I hadn't looked at it, I would have expected "pr" to be
+shorthand for some kind of printing function (eg our "pr_warn()" etc
+helpers).
+
+Clearly it's not the only one.
+
+           Linus
 
