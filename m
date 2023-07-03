@@ -4,65 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 91C5DEB64DC
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jul 2023 13:46:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7CCD2EB64DD
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Jul 2023 13:57:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qTPPuOy0fLOWkWFxmPGwKo0zoZKMu8As8Gl2gXMrGWY=; b=s4H/wzyLWB2myL9rX13RaIwteR
-	Fb5YU1lQr7MrtINTRRCQp1MQCrU/f77hvRPqZ4hDGJ1RPHukkKj/q09DGxutj8RR7tdrj87flELkz
-	7/zMwPtZ8haZiZqR+dxTnTqSm2zQGRubMYOffAGHXHn+bMAoZXzFdHqUkqwZxlnm82ErDWixi1PAX
-	zchG8XcVuhfcc2AlmyT2sWZNt0+sPkjF5/Aaea+RGf1eqw9nvSHnl20p+Z6U6QxnoMK2zzZvjJOku
-	vU3gZVoGuSnib+SGI12V/tiLOBYgnwARLr5J8qcuaP42GGa7UuHlH0BY+9azmbog0FyLgM68jwvMx
-	qBfaJhEg==;
+	bh=p/Tt9Elti8dh7KReBG2dWJCnACGgY/MFt4BEh7pqFN8=; b=1H1nc+W3hgWR4itcHfi0wgWQBB
+	aSge0leDBaojH7gNeOiqHHx7+3GaEWpvVVZWLRZFVR7HUL/QNIG1D6+ValwkYomeDQYnCRoxRkAnE
+	7+jb7Onrlv2LE9bG1YH3QkqTJxleD9k0dViW3wYb/W8d2tOxQ6UA+5jyNd8g+8NtBNp3cEUJx7lh1
+	Ad59SyHEiS93Dh8Umz63q8/jNJO4rQfIrLKq6LcJguOKW6CvPHfyMUHGsUQ90dVXgpXunABDVHBvW
+	bn2fS42g4pC2dOfJxohSJwAywSdzsyOkQbwyE2j/pLjv55lb4N5NyxTNVchiQJ4+ZRsa7HcEfrec7
+	oy1joSNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qGJt5-00Afbe-1m;
-	Mon, 03 Jul 2023 13:46:43 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1qGK3a-00AhYH-0d;
+	Mon, 03 Jul 2023 13:57:34 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qGJt3-00AfaG-02
+	id 1qGK3W-00AhXp-3B
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Jul 2023 13:46:42 +0000
+	Mon, 03 Jul 2023 13:57:32 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0ACD021A09;
-	Mon,  3 Jul 2023 13:46:36 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 720521FE8C;
+	Mon,  3 Jul 2023 13:57:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1688391996; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1688392649; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qTPPuOy0fLOWkWFxmPGwKo0zoZKMu8As8Gl2gXMrGWY=;
-	b=BrkSskJWAHK4FswRrmNtWKWGh10ymV6VZKNQyBh05BhP0cPuQnSaaxQi8nVByrqQ+bZs69
-	xma6+HvFDjYQWnv0XQJ7G+lpn5wcb88UMnhUNgNpyjm88bxHrX0u3Odi9+NSTZ920iCpOg
-	vSbGjPVArpGHYPHguGopDOuK6T97wdU=
+	bh=p/Tt9Elti8dh7KReBG2dWJCnACGgY/MFt4BEh7pqFN8=;
+	b=FvRbftZUhPNOdiJ4/B1A02p2nJrJoKszbLx2jEs1U+WWBgvMUArJJMZ/yotasU8cGg1hfc
+	RBTsGCtLJu6OUT5PqV0kIiqiWcI7uYiPc7B+Y7lqboKX04Vxcr+LA/HMvRzEnw1QYS1ITW
+	HdJjn2yiZA8Sr9PW7iiYmyM4lfAXINI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1688391996;
+	s=susede2_ed25519; t=1688392649;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qTPPuOy0fLOWkWFxmPGwKo0zoZKMu8As8Gl2gXMrGWY=;
-	b=kIEYpBKnuCmQZZNlzz8lQvMQuPe9RIARAbsC/joB/lxb7vgS61ULuJjerhz6Iu5VA+i4Oq
-	J1vDO32/1Bl2CSBQ==
+	bh=p/Tt9Elti8dh7KReBG2dWJCnACGgY/MFt4BEh7pqFN8=;
+	b=V9PnarmzXmCa+iDukSlMLZz4uXpS/wlF1lR9moGQ/hKj8FbVqIzkn0jqu8jHwGVMYsepFr
+	g1eRD1n+3cRtudDA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E7D7513276;
-	Mon,  3 Jul 2023 13:46:35 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 53E4113276;
+	Mon,  3 Jul 2023 13:57:29 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id D7EeODvRomRXJgAAMHmgww
-	(envelope-from <hare@suse.de>); Mon, 03 Jul 2023 13:46:35 +0000
-Message-ID: <656f77b1-caf6-ea3c-6d32-54637f70a629@suse.de>
-Date: Mon, 3 Jul 2023 15:46:35 +0200
+	id 71UEFMnTomS1LAAAMHmgww
+	(envelope-from <hare@suse.de>); Mon, 03 Jul 2023 13:57:29 +0000
+Message-ID: <0ceb62b7-c310-cc4a-6b90-651e6b0c09ae@suse.de>
+Date: Mon, 3 Jul 2023 15:57:28 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
@@ -85,10 +85,10 @@ References: <03dd8a0d-84b9-c925-9547-99f708e88997@suse.de>
 From: Hannes Reinecke <hare@suse.de>
 In-Reply-To: <173e27fe-18bb-6194-2af3-1743bc0f8f61@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230703_064641_196692_772386EE 
-X-CRM114-Status: GOOD (  18.92  )
+X-CRM114-CacheID: sfid-20230703_065731_164650_AAD3A99F 
+X-CRM114-Status: GOOD (  11.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -127,41 +127,45 @@ On 7/3/23 15:42, Sagi Grimberg wrote:
 > does not interpret this as a transient status and simply returns from
 > io_work?
 > 
->> But it brought up yet another can of worms: what _exactly_ is the 
->> return value of ->read_sock()?
->>
->> There are currently two conflicting use-cases:
->> -> Ignore the return value, and assume errors etc are signalled
->>     via 'desc.error'.
->>     net/strparser/strparser.c
->>     drivers/infiniband/sw/siw
->>     drivers/scsi/iscsi_tcp.c
->> -> use the return value of ->read_sock(), ignoring 'desc.error':
->>     drivers/nvme/host/tcp.c
->>     net/ipv4/tcp.c
->> So which one is it?
->> Needless to say, implementations following the second style do not
->> set 'desc.error', causing any errors there to be ignored for callers
->> from the first style...
-> 
-> I don't think ignoring the return value of read_sock makes sense because
-> it can fail outside of the recv_actor failures.
-> 
-Oh, but it's not read_actor which is expected to set desc.error.
-Have a look at 'strp_read_sock()':
+Unfortunately, yes.
 
-         /* sk should be locked here, so okay to do read_sock */
-         sock->ops->read_sock(strp->sk, &desc, strp_recv);
+static int tls_rx_reader_acquire(struct sock *sk, struct 
+tls_sw_context_rx *ctx,
+                                  bool nonblock)
+{
+         long timeo;
 
-         desc.error = strp->cb.read_sock_done(strp, desc.error);
+         timeo = sock_rcvtimeo(sk, nonblock);
 
-it's the ->read_sock() callback which is expected to set desc.error.
+         while (unlikely(ctx->reader_present)) {
+                 DEFINE_WAIT_FUNC(wait, woken_wake_function);
 
-> But to be on the safe side, perhaps you can both return an error and set
-> desc.error?
-> 
-But why? We can easily make ->read_sock() a void function, then it's 
-obvious that you can't check the return value.
+                 ctx->reader_contended = 1;
+
+                 add_wait_queue(&ctx->wq, &wait);
+                 sk_wait_event(sk, &timeo,
+                               !READ_ONCE(ctx->reader_present), &wait);
+
+and sk_wait_event() does:
+#define sk_wait_event(__sk, __timeo, __condition, __wait)              \
+         ({      int __rc;                                              \
+                 __sk->sk_wait_pending++;                               \
+                 release_sock(__sk);                                    \
+                 __rc = __condition;                                    \
+                 if (!__rc) {                                           \
+                         *(__timeo) = wait_woken(__wait,                \
+                                                 TASK_INTERRUPTIBLE,    \
+                                                 *(__timeo));           \
+                 }                                                      \
+                 sched_annotate_sleep();                                \
+                 lock_sock(__sk);                                       \
+                 __sk->sk_wait_pending--;                               \
+                 __rc = __condition;                                    \
+                 __rc;                                                  \
+         })
+
+so not calling 'lock_sock()' in tls_tx_reader_acquire() helps only _so_ 
+much, we're still deadlocking.
 
 Cheers,
 
