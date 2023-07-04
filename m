@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73791EB64DA
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 377F2C00528
 	for <linux-nvme@archiver.kernel.org>; Wed,  5 Jul 2023 12:05:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,57 +12,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qqER76PXnxWxMVZH46uY+IP0A7ISNxa4dFOpqm8Npig=; b=zVxl7OhqLNSN40oa3ifOzp8wkY
-	f91nOkB7FVh9HC2v+AC7im6L3/sjzsYDVWX8VURgcoKAxmmDXbGH8DC/fbgmK9cnYnkXQc8PgE57k
-	ny+GGONJH56DaipDHCDDepXoFMEHEDWSq8T+REDFgCsF40Sha2ooBoKtj45dLRaCE+SR4aP+UQXOu
-	NdqJpuxzlrx57D8fSClk/zseToFBEOFkEgfP1gVt4hBOU1aoUkJEopSK2+HovXZQFz/fMMFQjTgBs
-	cGjOV9aDAo5KcPhTyjt7S2e0AHh0qTK+yw/+HKGaaXiBwp3+ByzLF8fM6Q7tUkDzFxrIUncGH8KAu
-	Nk0XvHdw==;
+	bh=R1W87rnlNGGe3O62ySITe0WV/TkO13M6jrCnVpdBC/M=; b=ODO6RO5CJ2BgxwIA0/bGbeeOio
+	CuGaX74UuHF06TNDEFxC2T6fqxmrQceyF7rxtskuDEcKD682taljSac1Vn8dHh910Af45ile6k3+B
+	RJB3pn1z7mKcgOCwyw28umpsvMAkiMrq8l3oBeojKSP+65KDeDjru7wN5B9zkyQ83iM1V8GN8UdHI
+	oGarzIdluf3RSHhOPR9kJHKgiSwXYwCCSHgvAqrPnm+/7gYVYEJ5f+901/VeYzNGCcG7KStw7el1N
+	TMrGb8leSbrW5MJl3D2JfrlZSc9bOsUJz78MU9VCBaLf+UKrs3RGAbZrs2mU8jTYAb6ZUzR2JjpHC
+	SM0aTjtQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qH1G3-00Fo0q-18;
-	Wed, 05 Jul 2023 12:05:19 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1qH1G1-00FnzZ-2S;
+	Wed, 05 Jul 2023 12:05:17 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qGzdb-00FV9l-0m;
-	Wed, 05 Jul 2023 10:21:32 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 58F0C1F6E6;
-	Wed,  5 Jul 2023 10:21:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1688552489; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qqER76PXnxWxMVZH46uY+IP0A7ISNxa4dFOpqm8Npig=;
-	b=rK+eFTza2+XXgbRvOv5tQtV93F/4zZpu7norREAepZy5yow7baD/dvvqWhpeeItBt0IPcu
-	Y5rwLWutv/on4mwv5EJraqTeqhb05mRkTW0yYXikGz/UA9AQcATVDIgxrBuvXRHMAszN6R
-	RSIAN/j2D8s9RJrt3/Umhb+lT3pvazU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1688552489;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qqER76PXnxWxMVZH46uY+IP0A7ISNxa4dFOpqm8Npig=;
-	b=0Ik5A3faiNr6MKUo0ZlFf0SVDy0zGGeX4x6PTOEnPlUJVjHk96v3tsbq/TGqKcufwhGJGx
-	3sf2EXg0rHzUTICQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 44C0D13460;
-	Wed,  5 Jul 2023 10:21:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id Xem5EClEpWRSCwAAMHmgww
-	(envelope-from <jack@suse.cz>); Wed, 05 Jul 2023 10:21:29 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id C5467A0707; Wed,  5 Jul 2023 12:21:28 +0200 (CEST)
-Date: Wed, 5 Jul 2023 12:21:28 +0200
-From: Jan Kara <jack@suse.cz>
-To: Keith Busch <kbusch@kernel.org>
+	id 1qGifJ-00Dmgs-0F;
+	Tue, 04 Jul 2023 16:14:09 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=R1W87rnlNGGe3O62ySITe0WV/TkO13M6jrCnVpdBC/M=; b=ma0abi+l8BKnWZyE2Bm6SMUpzA
+	GY/Sg9bKM4QGi5Fi3SxYqWXxJ46oHMzkk2XTYG6szPrdjaFZvCOeUvh2qeA+qFPnGTya2tgZ0Czoo
+	anlh0yET7VOr2nReXBjhvXLbethMJyMQRtOEtJdxTJlnJDQLzVkEFxU1z6LlHa+R1Svpz+R+Zi/2e
+	EbHE+jMBvtLJPxFFKggvC8J4kNKoPgnxYJ08D38bFVgefZT0kn05//LL45wE920g1ut/XHRnJF4Ur
+	2JcraLDAhTPQ+qGFyYF+arcI4MuDDkahpy1OJ1ZV5vzT8Q6c9E3mK76aIjApGP0H0G7MQh7QY3lZI
+	j0pVBAMA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1qGifB-009I83-IW; Tue, 04 Jul 2023 16:14:01 +0000
+Date: Tue, 4 Jul 2023 17:14:01 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Bart Van Assche <bvanassche@acm.org>
 Cc: Jan Kara <jack@suse.cz>, linux-block@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
 	Christoph Hellwig <hch@infradead.org>,
@@ -96,17 +74,14 @@ Cc: Jan Kara <jack@suse.cz>, linux-block@vger.kernel.org,
 	Trond Myklebust <trond.myklebust@hammerspace.com>,
 	xen-devel@lists.xenproject.org
 Subject: Re: [PATCH 01/32] block: Provide blkdev_get_handle_* functions
-Message-ID: <20230705102128.vquve4qencbbn2br@quack3>
+Message-ID: <ZKRFSZQglwCba9/i@casper.infradead.org>
 References: <20230629165206.383-1-jack@suse.cz>
  <20230704122224.16257-1-jack@suse.cz>
- <ZKRItBRhm8f5Vba/@kbusch-mbp>
+ <bb91e76b-0bd8-a949-f8b9-868f919ebcb9@acm.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZKRItBRhm8f5Vba/@kbusch-mbp>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230705_032131_434823_DE11E651 
-X-CRM114-Status: GOOD (  16.56  )
+In-Reply-To: <bb91e76b-0bd8-a949-f8b9-868f919ebcb9@acm.org>
 X-Mailman-Approved-At: Wed, 05 Jul 2023 05:05:12 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -122,36 +97,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue 04-07-23 10:28:36, Keith Busch wrote:
-> On Tue, Jul 04, 2023 at 02:21:28PM +0200, Jan Kara wrote:
-> > +struct bdev_handle *blkdev_get_handle_by_dev(dev_t dev, blk_mode_t mode,
-> > +		void *holder, const struct blk_holder_ops *hops)
-> > +{
-> > +	struct bdev_handle *handle = kmalloc(sizeof(struct bdev_handle),
-> > +					     GFP_KERNEL);
-> 
-> I believe 'sizeof(*handle)' is the preferred style.
-
-OK.
-
+On Tue, Jul 04, 2023 at 07:06:26AM -0700, Bart Van Assche wrote:
+> On 7/4/23 05:21, Jan Kara wrote:
+> > +struct bdev_handle {
 > > +	struct block_device *bdev;
-> > +
-> > +	if (!handle)
-> > +		return ERR_PTR(-ENOMEM);
-> > +	bdev = blkdev_get_by_dev(dev, mode, holder, hops);
-> > +	if (IS_ERR(bdev))
-> > +		return ERR_CAST(bdev);
+> > +	void *holder;
+> > +};
 > 
-> Need a 'kfree(handle)' before the error return. Or would it be simpler
-> to get the bdev first so you can check the mode settings against a
-> read-only bdev prior to the kmalloc?
+> Please explain in the patch description why a holder pointer is introduced
+> in struct bdev_handle and how it relates to the bd_holder pointer in struct
+> block_device. Is one of the purposes of this patch series perhaps to add
+> support for multiple holders per block device?
 
-Yeah. Good point with kfree(). I'm not sure calling blkdev_get_by_dev()
-first will be "simpler" - then we need blkdev_put() in case of kmalloc()
-failure. Thanks for review!
- 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+That is all in patch 0/32.  Why repeat it?
 
