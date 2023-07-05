@@ -4,158 +4,110 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 798ABEB64DD
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Jul 2023 02:05:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6E8E9EB64DA
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Jul 2023 02:31:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	In-Reply-To:Date:References:Message-ID:From:Subject:Cc:To:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rIXl5KET38SI8CUYk14sAbROUHLMFIdJwT6+vxHyCYA=; b=tflsHl5p6ITNOmKKioshAtwm0K
-	qsYrIXXTuNuS6CyqRMaSjO7Y8Mvtez+Uqh/DaUhFkXZe1ShSkrpr8zueKoEpdtVC8RS0L+/O1Wqa6
-	A5rbGA+keJ6jtzmamFaonWOjWZKrLbnxaqS5se9B7E/XlRzxA3JRcmsDBt1ldrAgHEsj5/KTmAItq
-	KqGonxThnlT+yX4+jP/xZfH0pJKHNkzbJdbkpwoAoQ0bIYkVwYoA1oj55HE6tyDzyekfRv0oOTJue
-	KSayB3LVIrg1M+jqqWTEkKkqUNPt+xAKMapbxdZF1GKhBVcBZkpFg9jmSln0Vsem+hi5sz2FRPnv4
-	le99l1Mw==;
+	bh=laJnl7HhQK/Tv/PqzUYoidR/wXDE+WAIJVPIFf2lcfQ=; b=c7NupZ0u7sZsFgqW1Yv/v9+npu
+	dOkxAO8QJp0kZgaK7SbqiFtfreqZ2hbcwNce7NMAi31rD3aeMSmjl7rw4QQja7Iv4RzWhio9EBB8Q
+	9nPJrgGrH2j4oFhtXvtnLKI6To4wRXlbF8CS5dNdv81MusFJnjXNtzTsHjwhkPT2CdI3SKL8sekKq
+	iUCQZmjmbeZq6sa8WtuZoXV3s2NaKP/Q8YsLkbpWk6MvceQBtv7GUo8kALgL9fgIVDklxTIsLoNYj
+	GsGfH1JZ/r8F+2VPxM9Itl0PirDjkoYsgY3cNNIfFG5LVx+ZczYucsfnhnt10/GfF5IcmtutSdb6t
+	Xg0buNRA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qHEMc-0004LF-06;
-	Thu, 06 Jul 2023 02:04:58 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1qHEm0-00084B-20;
+	Thu, 06 Jul 2023 02:31:12 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qHEMZ-0004J0-19
-	for linux-nvme@lists.infradead.org;
-	Thu, 06 Jul 2023 02:04:56 +0000
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3661A1nD016107;
-	Thu, 6 Jul 2023 02:04:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
- from : message-id : references : date : in-reply-to : content-type :
- mime-version; s=corp-2023-03-30;
- bh=rIXl5KET38SI8CUYk14sAbROUHLMFIdJwT6+vxHyCYA=;
- b=lugdoQxbDa+iUH+JExRFd8xT9rEyiWri99RuULOGQaluZfX2SW6KCh8q1r/2OaN+TLF9
- /aURaFSCea6EfrjK94rSkhmrzQ3u9j0q3+PdMdqZkN7X/ikt5CL2VSXthyoC6plaPoAG
- cppmvaH9o/waoqr+9wBUMUMMVrDORdjBk/ml+xKClO8+1QXzo3PUALf6af0DFAhDVRHK
- QIok2JwIzY/pDQctYQ0nuuZTsRpHRA83Zv2F0eAMbk03byZLy00xrvZmjxkMV+7xQJFy
- T/BAyQx5mikGm2pbqP6w/+/ivParoH2fjFhnfQDFQgv6+3f8jeNlcymMj1N4+aM1lMKb Gw== 
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3rnkpyg1t9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 06 Jul 2023 02:04:48 +0000
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 365NbAs6024321;
-	Thu, 6 Jul 2023 02:04:47 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2175.outbound.protection.outlook.com [104.47.57.175])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3rjak6u9ea-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 06 Jul 2023 02:04:47 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MniEXY6ZimTdWRxxRLUkSrFraBbNSDHWSDgXVCU5yxS9AFoqlsCVw5aF6iiWBcEk1yG8kofrW9MClb5EFaEgC5m/0pmW0MZ6+xK7cPD4mvxUcLC234Y1QyNQphebLIBiuSEtMfbBnWEi/OTepcFB9L2I0FNM8Wj20uaydCNmnR153vjl/Hzkuoq9BIaDYk4tb0W/SpsmzHHFSO9tEQJz9E268cHOrAwV7jQ2Axa1GdmMw6KvOJWcR3XYDSZOe+eAu4lgLmb9G7gbx4RbSa2eESx6JilatwatjsBNbUbw9mSF7rUkplQHfrTZGFNjNZQbXTnYOxgdC3WyFBr3YRw7TQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rIXl5KET38SI8CUYk14sAbROUHLMFIdJwT6+vxHyCYA=;
- b=KIC8KD/UM8CdTQ6X4HRevHxrpTR7EyoxSAcHweQDNlxCEM4byRDjMDju8XD5oxXcloUYZehwVayBpLQOvBReU80NqgrcpU5eDNHFKPCqpCtIDXvVk9G8C84zW5FzNZYwNAPxcrSPPeUlBi7b4obMUzu6csanADVDajDXHx8cYGYkDguUekLKIlqdw6sJGgrgfZuAOXYsg/QRoayMvSAgD034VluKBM91wOAnoMZB7cWJBrMDsGqQYoUA8g8fLYmyZsy3fYI4GApExmKqvWtUS56K5vFp/a7HI2nvYNfy8l/Zmbd6pdSN+6lX6d6Ko+kbPtSx49hOc2orCUT4iVem/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rIXl5KET38SI8CUYk14sAbROUHLMFIdJwT6+vxHyCYA=;
- b=Q82FqQydUC8yO0+fNJHM0AMNgJbRX6/IhxHUfZLGF6RD1qERm3Xz582mUl748/tJcvfHDwcHckegO72DFK+P8RFJymhWDtr88/8zPCXwD2Iod2D2GX2AF7JtGUmM1zT1HfRjNcnP87ELUeE44dhTY5TJ0yQWOInpjup4l4bWqOQ=
-Received: from CO1PR10MB4754.namprd10.prod.outlook.com (2603:10b6:303:91::24)
- by CY5PR10MB6072.namprd10.prod.outlook.com (2603:10b6:930:38::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.17; Thu, 6 Jul
- 2023 02:04:45 +0000
-Received: from CO1PR10MB4754.namprd10.prod.outlook.com
- ([fe80::9f29:328c:1592:d5bb]) by CO1PR10MB4754.namprd10.prod.outlook.com
- ([fe80::9f29:328c:1592:d5bb%7]) with mapi id 15.20.6544.024; Thu, 6 Jul 2023
- 02:04:45 +0000
-To: Damien Le Moal <dlemoal@kernel.org>
-Cc: linux-block@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-        linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
-        Keith
- Busch <kbusch@kernel.org>, linux-scsi@vger.kernel.org,
-        "Martin K .
- Petersen" <martin.petersen@oracle.com>
-Subject: Re: [PATCH v3 0/5] Improve checks in blk_revalidate_disk_zones()
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <yq1wmzdkd7u.fsf@ca-mkp.ca.oracle.com>
-References: <20230703024812.76778-1-dlemoal@kernel.org>
-Date: Wed, 05 Jul 2023 22:04:39 -0400
-In-Reply-To: <20230703024812.76778-1-dlemoal@kernel.org> (Damien Le Moal's
-	message of "Mon, 3 Jul 2023 11:48:07 +0900")
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P302CA0014.GBRP302.PROD.OUTLOOK.COM
- (2603:10a6:600:2c2::15) To CO1PR10MB4754.namprd10.prod.outlook.com
- (2603:10b6:303:91::24)
+	id 1qH57H-00GSTT-1M;
+	Wed, 05 Jul 2023 16:12:34 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CB46921E20;
+	Wed,  5 Jul 2023 16:12:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1688573545; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=laJnl7HhQK/Tv/PqzUYoidR/wXDE+WAIJVPIFf2lcfQ=;
+	b=pVxtRSYxDum30xk4c2JQyuaRHFNvjqGI5pa+1l9TjK2H7ROMjo7EdIGdDlzQXwaIwGyi0D
+	MYHnvgKqRst/eyFC+Okrc961iU1V/Mr8qyrvjiZzwHXWReUpWSrhSFOpe79t3kyTfJeQAV
+	Hf2p1cnNnsYhDEREwuHH1JI7foWXj1M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1688573545;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=laJnl7HhQK/Tv/PqzUYoidR/wXDE+WAIJVPIFf2lcfQ=;
+	b=6GnGLv2MGHnmlspZbI9IPcwZjE0UgNGbJUyuJME/ujhWk8XPp6xGrnnDrvfBxv6bSto5fw
+	0j8hz2dNTzGg/WAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A8D5D134F3;
+	Wed,  5 Jul 2023 16:12:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id p7ssKWmWpWRbQAAAMHmgww
+	(envelope-from <jack@suse.cz>); Wed, 05 Jul 2023 16:12:25 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 1C3A6A0707; Wed,  5 Jul 2023 18:12:25 +0200 (CEST)
+Date: Wed, 5 Jul 2023 18:12:25 +0200
+From: Jan Kara <jack@suse.cz>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: Jan Kara <jack@suse.cz>, linux-block@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@infradead.org>,
+	Alasdair Kergon <agk@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Anna Schumaker <anna@kernel.org>, Chao Yu <chao@kernel.org>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Dave Kleikamp <shaggy@kernel.org>, David Sterba <dsterba@suse.com>,
+	dm-devel@redhat.com, drbd-dev@lists.linbit.com,
+	Gao Xiang <xiang@kernel.org>, Jack Wang <jinpu.wang@ionos.com>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	jfs-discussion@lists.sourceforge.net,
+	Joern Engel <joern@lazybastard.org>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	Kent Overstreet <kent.overstreet@gmail.com>,
+	linux-bcache@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net, linux-mm@kvack.org,
+	linux-mtd@lists.infradead.org, linux-nfs@vger.kernel.org,
+	linux-nilfs@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-pm@vger.kernel.org, linux-raid@vger.kernel.org,
+	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	"Md. Haris Iqbal" <haris.iqbal@ionos.com>,
+	Mike Snitzer <snitzer@kernel.org>, Minchan Kim <minchan@kernel.org>,
+	ocfs2-devel@oss.oracle.com, reiserfs-devel@vger.kernel.org,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Song Liu <song@kernel.org>, Sven Schnelle <svens@linux.ibm.com>,
+	target-devel@vger.kernel.org, Ted Tso <tytso@mit.edu>,
+	Trond Myklebust <trond.myklebust@hammerspace.com>,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH 01/32] block: Provide blkdev_get_handle_* functions
+Message-ID: <20230705161225.cwig5a3mo6oz7lew@quack3>
+References: <20230629165206.383-1-jack@suse.cz>
+ <20230704122224.16257-1-jack@suse.cz>
+ <bb91e76b-0bd8-a949-f8b9-868f919ebcb9@acm.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PR10MB4754:EE_|CY5PR10MB6072:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5b5b5c4c-39b2-4ece-0c4a-08db7dc55ece
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PPeg+cqQx8Y32UB6E4p+1pUj+jBgbilGg5AD2zodcqc2i2k1p+IrHRvOG4zppdhbAFTA/udTvVmw3ymkZCsklkU3W/KCiBfZOUFZmk6XYbJFsTAgyMYs5LUtnKbxARawLXpPafq7q9dqwZnEegFOT9EQpRYNLeJgBbHrTGj78LU47abSa5liGU0at94fLfEIZ+7EJSnsK8pu9+8k2xIh1chSub9Rf81xWB01P115jSQ/Ogti6i2wz0R9BAueNaMsfXipYlKklUSOgvrMl+kaQ19ww8SjGCd9ne2XPrv6MDAD6cJaUB4pT3vraLRFrEwMJAF1FFrb02G/7+Uf/O6UbieGzMK0AFbuarHE+9CkxiZnguxqEqtTbYUjv/ckeQ6M06Oy4KdBskFEnEObem6nOxrqEof8/CiNXk3l2ZWFKkA7ihlIgKmPBH8TGHWTrHqTz4er2mlgEVC7XEl3Q6M+4lQRFQSObPpP/IoHiHLDF0t2yNHxbCpJpxjJQFkdl+MI7E17rhtAZU0TLgDVnJiUNWskEW6q/IomxLgNho7+VtV+cqyc/9oAIb4fIxqCWUrN
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR10MB4754.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(346002)(39860400002)(366004)(396003)(136003)(376002)(451199021)(5660300002)(8676002)(86362001)(8936002)(54906003)(83380400001)(38100700002)(41300700001)(316002)(66556008)(66476007)(6916009)(4326008)(66946007)(6512007)(186003)(36916002)(6666004)(6486002)(478600001)(107886003)(26005)(6506007)(4744005)(2906002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?J4UUMRhue0RNbrQm/1KwxfJtEQam5hJTk3XL5AFMZ+yC9HpA6D7EiWYiLkG3?=
- =?us-ascii?Q?l/vXr1WNgHVhNqb7FQ45xhLr10FTM7JUAuEzhuZq5mBJ3cc4Y6gFk62+I2Kr?=
- =?us-ascii?Q?wMF80xHkvJ9warjcCe3kNFu1J1sKj68xmhtU9hc55l3c+syW8NbbVEjwosNo?=
- =?us-ascii?Q?GqoW+81dXpDlaYfrPT3X6nnny8mYCo3Tl9NtJ1wm82BrKo9Hvp4Ss6T5rAVs?=
- =?us-ascii?Q?8lT8z4D1qHzZqJajn2c/J3/Xw5oQegx/w2I2g7hESSPBvB3RGuYkoVCwARQp?=
- =?us-ascii?Q?4Pv5PckBUNkhy3X4yyne9gsvUSna/A+mzb8ruviQoaJZlCJvvSsg8O1OcC+g?=
- =?us-ascii?Q?eBV/d6/wOQvVq4njOacfn4I3/G1rzqDUElJO7ONRrnR0zW9/GdiDn5v1az5G?=
- =?us-ascii?Q?/nDm6ky1wWDyWxRJBcxKvRnle2GE+GMdl41Y2nBFBauSg9z6zpgE2cxOGAdZ?=
- =?us-ascii?Q?/xNtQ+eeFSjwC8VkK1R3CQcahYt8vEF5L9Ic8JHDpCQR2Su7Ha3fhWYkQN70?=
- =?us-ascii?Q?ibZ6VxTi7xuUCxqmXPxNtCnYgraDz5+JeMwV3GYdggbFkF8Co/o04T8IUAWA?=
- =?us-ascii?Q?IfmPUKyjGRbKxxnqmaXXj3Jqu+uVpqtF81NbxJ2VR3oGusq8qQaHwyINc+rh?=
- =?us-ascii?Q?RYZHBUhRIevsrKclyNr8koZtMWHJi2EsYMR9DvYEaToVhNrwkhyyzZwQF9oi?=
- =?us-ascii?Q?nKX20oC3V+c9mDGXcjATTsQ6G4vUeRFAueOOf8untCVPTIvWjBp3t51YjRPh?=
- =?us-ascii?Q?xoTkKDL23fTwScHWlsafcUmDY5g4SApE51jQbD9AMKzqjg2CelzSAh+od/ha?=
- =?us-ascii?Q?bRqW1G7rtCyfdwO1fLkY/kRH4yWg61UmIF7BAn98n899Pzq7s3zC57pvXYo3?=
- =?us-ascii?Q?xgC2tdqMbSY2qUdulHuR0eFSxWvcF8Ox3nExxKMOKlviecDHdREOLqCq7GFN?=
- =?us-ascii?Q?ZB9dV38NHyp72iIicKK6T31+g6IyPdEAa0KSIjuXcqWywXPVfYqxMOveijNI?=
- =?us-ascii?Q?dVFz0NX+kE0z68iU1qrQM6Vg6cHJ9R31g/3OSLprv653squSNGDuvcUSpqA5?=
- =?us-ascii?Q?+eLKqHm+4B7EBGsT6mvVBb5ady7OOITVsoeGHWI0zBOQxZWFyVcz0qXSdH6C?=
- =?us-ascii?Q?HgDZPCsDzxfzgahybwqd8fw7lkvS8mEMugdTvC1Yi3yadWQcmH+1nrWdL6Jm?=
- =?us-ascii?Q?JnU2YY+bS86JfBopy4wWd2HwZVVjGSilPZNehGnzJCHPQUQ7ZmNT6W2IjFrE?=
- =?us-ascii?Q?GpLyPzkmT14gDl8rVOamm4PeW8OAGA779qXuEuUqUaKuigXhVxaAqxaA/AvQ?=
- =?us-ascii?Q?j8Dv/LpSSnVE1dXYyFO/aaGVrjCPKRevNezkuuHXa04ABqN0uKWU9d+Hz9Oa?=
- =?us-ascii?Q?Etze27bC6mRqLpqOozoIZb9A48sjpPbcdmEShNB64eFppIXGhbxiGRWnijWP?=
- =?us-ascii?Q?WqyOKT32DVq6RqxZn7z4E7fOPnPEBIt3r5WeJ0g6vnxRZ4wKsK26Tsdf0LF0?=
- =?us-ascii?Q?p2SEmVoZeLmxASfrg5xZ001p1iAIXNX3LZYDTPfLYVlQ+oPEGsVY5COeSB4r?=
- =?us-ascii?Q?M+vGGRRrKzHTfjqr0VhnYvPElzesh+lygQ3BY7qj6/ijDSFDacoREmQCGyHA?=
- =?us-ascii?Q?tg=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: acxjIZOHiOvBXGYO1uL7tsVWz3O2GdjeA99TRyIW8ggYMwI+a3B8h5PYZ4ERoLVcxht2OuNY3CpUYa+/Zp8kKAWkijUJilx/daZLCeF31hikMIxQKCY6fSoYj69mPJhHhQUZ/nwlVlNRDq5FDKsC/RtLGj0H0ZrisG7ywVACmAj189+df9dWu2w55jb3rRIOWpr76fSsvUJscYbi6hKyMbv4Mhs7gA7y+yd6DxJpqIcycKmjm/hFZwUNCr+M39ufjOi09sgyqCNBM9ZyoeLIkbSRnIw7AFxwcg+5yL4ZOZQ4nChgYRkBiSCuIxYHIzQ0hrLNXaiTnt0spWJSoV/l3nmbsI+y3RvjQLpCEVb9Yp5kfzSpgRra1jWS1AIJ1ZIgPyy1ftkHocfQNCobo0QsJnqIF97h0qaNfTdZg5d6+ECD8N4eibtwqWmWXTpbtG+GpNphIqyHiCeKuhL9MNnbpknQJBmiczEdD3Dy3XrJ8i7Qi+i1YZuwslNLcAbpc+EoUm10yRhUGSJXhDntZi6W1C3JuyMwjMvtIq58OBFjZkJwjeAjO86y81wCFzzbFGp6YW8eTp6YsRIcmDAfE0c2VjV5YJJ18o/GLMGLPu3drFU6fFGjzZ9erVo/TrBecKZnlXgZUoTrFezUluBBp5v74f4KVnapcW5wBIcrb8ykZnOwi5GIYLmpgmSBh2MRrVZfP3LPtYfoNgrMZl8uPgvK/8HtCtSYTtYzelsakbW72prchwv9/VdRMVJ4RMouQXRM7JXrwwtMnhWfFd4+u34/6lqvwvIHCBcmgHJsUW1xUDxYHKfwKjq44o9VwoCNcI5gzj6Cc6IB0yI2iA8kEUaYLv7JLChtmZLMk6a84xpjAGEhkvOfrhKKs6C9Li0oLJy6
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b5b5c4c-39b2-4ece-0c4a-08db7dc55ece
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4754.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2023 02:04:45.6731
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 71DaL36ImMGojxr5Uf+8sLe0nYYdxT58ohfohrIvaSZUlPrdK1Guc1p5lQ1rVWXg9jHwbJC1XyzL9muJjtnkn2rRAT/TnSiMHyB+stV0VQk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR10MB6072
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-05_11,2023-07-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 mlxlogscore=349 phishscore=0
- malwarescore=0 spamscore=0 bulkscore=0 suspectscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
- definitions=main-2307060015
-X-Proofpoint-GUID: j66nsEM6Tc0qPPHnuiUsdfmqd-SC3rrh
-X-Proofpoint-ORIG-GUID: j66nsEM6Tc0qPPHnuiUsdfmqd-SC3rrh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bb91e76b-0bd8-a949-f8b9-868f919ebcb9@acm.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230705_190455_403040_99A4CCAC 
-X-CRM114-Status: GOOD (  12.23  )
+X-CRM114-CacheID: sfid-20230705_091231_614609_09CF33D1 
+X-CRM114-Status: GOOD (  18.23  )
+X-Mailman-Approved-At: Wed, 05 Jul 2023 19:31:10 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -170,16 +122,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Tue 04-07-23 07:06:26, Bart Van Assche wrote:
+> On 7/4/23 05:21, Jan Kara wrote:
+> > +struct bdev_handle {
+> > +	struct block_device *bdev;
+> > +	void *holder;
+> > +};
+> 
+> Please explain in the patch description why a holder pointer is introduced
+> in struct bdev_handle and how it relates to the bd_holder pointer in struct
+> block_device. Is one of the purposes of this patch series perhaps to add
+> support for multiple holders per block device?
 
-Damien,
+No. The reason for adding holder to struct bdev_handle is that it is an
+argument blkdev_put() needs. Currently, every user of blkdev_put() has to
+remember what it has passed as 'holder' to blkdev_get_by_*() call and pass
+that to blkdev_put(). With struct bdev_handle this will happen
+automatically. This is already explained in the changelog of this patch:
 
-> blk_revalidate_disk_zones() implements checks of the zones of a zoned
-> block device, verifying that the zone size is a power of 2 number of
-> sectors, that all zones (except possibly the last one) have the same
-> size and that zones cover the entire addressing space of the device.
+"Create struct bdev_handle that contains all parameters that need to be
+passed to blkdev_put()..."
 
-Applied to 6.5/scsi-staging, thanks!
+If it was only about holder, the intrusive patches would not be warranted
+but as the description also says:
+
+"This will eventually allow us to pass one more argument to blkdev_put()
+without too much hassle."
+
+Because we will additionaly need to propagate the 'mode' argument used at
+open to blkdev_put().
+
+								Honza
 
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
 
