@@ -4,76 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37A7DEB64D9
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Jul 2023 19:05:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 75F77EB64D9
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Jul 2023 23:18:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FFptGxWZhjj+ECCgeIrQpbXsXMNJ1NTHKYQf18zg0II=; b=spKaUBY8xpq7qA5Wf1v5NXLay+
-	yI7SMJwlHZLn70v3UfLav1VrZg5XmbTjQip2+AL1L5b6+PhquxV08gSNmGKHVY7DYdyR81OmAv9Oe
-	fqo85AytQSCE8UTkipYjvSmA5U2uKY/f3iI/UI4q50LYyazKeBEgurMygzUQCpGB+KjoIf/J/zYWK
-	35/VTkH89mgxEcpNT85Gc1RqV9aUd0K20ndIgzcAFL4rnuk2CP79Z9PrdvYndsnLI1Veqt8MkWiJq
-	gtcc0cEWah2Q8kw6t5eA1A1vMGFoE95gy418gb6O+0vn6bx7aJhYwiop7IDXBv4EL/AopfRqDZgzW
-	yvSFHVpA==;
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=S43GjkoDOerqhWQkXmcIBu1XA2aSLW3jCsxK/tMyfPk=; b=b5UmO8gV478oRBab9W5Sz81X4S
+	N3xFMLkeQgZuwl64EtyXFtBtiP2ZwqnQ01/CbNDjtzXhHectavh9YIXac/cvIEXMHYsxfXSqew0z2
+	e87P0i2Bw0gFQLe09t4wUZr0ymWH9it5PnGx/y7S23nc43iBFV964CbiaitrMD6VqIPUdbtyCUTr6
+	2SvKf0Qx8D9VGsLUY3OQknzBpQvl24ns0cCyLQXx69mCUm9igciQQG+lcgTjoTNjmL+RAGO+moWSC
+	/1z1mkEgvxAVVYsloq58t9DuZiu+NixGuCnDO4cLheEkCbO9xF3I5ab2c54t+tkCJJSEYxaiOc+qR
+	X6QDDV5Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qHUHo-002TCB-2J;
-	Thu, 06 Jul 2023 19:05:04 +0000
-Received: from mail-oo1-xc2c.google.com ([2607:f8b0:4864:20::c2c])
+	id 1qHYEx-002wVk-1U;
+	Thu, 06 Jul 2023 23:18:23 +0000
+Received: from mail-wm1-f45.google.com ([209.85.128.45])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qHUHl-002TBL-1J
+	id 1qHYEu-002wUn-2b
 	for linux-nvme@lists.infradead.org;
-	Thu, 06 Jul 2023 19:05:02 +0000
-Received: by mail-oo1-xc2c.google.com with SMTP id 006d021491bc7-56598263d1dso730200eaf.0
-        for <linux-nvme@lists.infradead.org>; Thu, 06 Jul 2023 12:05:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688670299; x=1691262299;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FFptGxWZhjj+ECCgeIrQpbXsXMNJ1NTHKYQf18zg0II=;
-        b=HFsMdtBRM0KtnicjHuErgqcKaWHNT+wf76Kw7qlGpFF+6j9K2wkG3XrGhYG5QRmDuy
-         qPx0xQatoknegTs/pmNm06CqVMEY7Bg55ZSvB8sEni2s1EPzPdWrMXytk4IdYw/I0V56
-         zGMqF00vtPv09zydW0aRQFSStblkBBWVBoWOgqH+MIW9Ht5FExLymmp4uw2khdx7Z5S8
-         ownTxsROTiFpqQqVEFzz1YZWty+L4fXQEvf93lUbO7QAGXYwuMwHYTMSaA89mhP42jUa
-         psfbeOosqRmcjYktTaDMxOOGt/7W9sqg1oCa1rWKh5cz0uPOxSFh7Noxtv9usI1H17Ek
-         QYvg==
+	Thu, 06 Jul 2023 23:18:22 +0000
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3fbe35e028aso3013065e9.0
+        for <linux-nvme@lists.infradead.org>; Thu, 06 Jul 2023 16:18:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688670299; x=1691262299;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FFptGxWZhjj+ECCgeIrQpbXsXMNJ1NTHKYQf18zg0II=;
-        b=KovbyCHxZz+AEuebqsNJnQBwm6cOfqUIAQ+m1cyh7a9x34tXloWo8bFgIqZPIneYS/
-         TPEAic+WbZG+7UJoVJRe5T0NaxQMQVKHQEMvpIztGX/fr7WrZKjG/qnHieBEvCNPGDKI
-         Ci2fiD7Xauvs/NMG3XLXk7RpivFQAdVYI+EYNfbltdOAp0H6ojFLUb6R8VLcIdZJrtlB
-         DMZnqFZbFw9mb9WhKTmDm9KEUMC4ICfa6HmOLEwCbc+iAmABXGyW676gOLFHUiNYRd/c
-         sGp/mnU16caZqy60cTTjRHRX39ZE8KxaRSJd/ekVdhkL5kZFO2JhcRcPpDTIDOtCQngU
-         pXpA==
-X-Gm-Message-State: ABy/qLY7skQc56imkWartbatbKxkbltyL2AbTkYDl8cnyQJ12DjdFMnj
-	CXP044A+InURlert+ngVvBf/p/7ETC/e42H/RWA=
-X-Google-Smtp-Source: APBJJlGTtNXHOnWimnXxyrrp6a69dQVzlhmMLx/lXaGvSMC9Gia7/JYaI/7UwKEXn82PnrBG2ANoJmJd85MUJWJ4/so=
-X-Received: by 2002:a4a:2c57:0:b0:547:5593:d6 with SMTP id o84-20020a4a2c57000000b00547559300d6mr2065659ooo.5.1688670299582;
- Thu, 06 Jul 2023 12:04:59 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1688685498; x=1691277498;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=S43GjkoDOerqhWQkXmcIBu1XA2aSLW3jCsxK/tMyfPk=;
+        b=KoO+5Iqw98r0E1C90ChZpVT8Yb6ji6orZLxwLHSZGhPB39edDYp6i9rnWj61Kwcvp0
+         kV76tmBpX9jAEcO1t3dRk5/Takrejs8/r7DlENC2nswfytcXN7dcsqsT+yQqWc6HqmmS
+         0WasAdtN5PtrunDMzaFCWeO51wjCAWdNumYvC81PyJJ4CaNOa4MUQundLSspUzYFTQAx
+         mqNTYlWO6MX0lIh07ECuYWY8C0S6Yu/urQ2Cn7ZuC3JoJgHgVyODqKxRFU1Rba9tHywb
+         CpPaCZGDICmYImZIAxhpFNHX2OzQgXIBY0+/zpxQ4nv5/Ikm4r0COznYjXKkZPyV5qMh
+         JQDQ==
+X-Gm-Message-State: ABy/qLbW1at9Js+Zt9DutMZQlxS3n9Eb+sEg1cnpUy+cDUVdZhQQ2i5s
+	e79ilTtYkvHDN2JvehGD7ag=
+X-Google-Smtp-Source: APBJJlHKhGRqai6KNZHifE44uuz7SwROsEL/hugKlhbw7y4fsNF+EWxVuAebtE6qO9dwDCfym9lMgQ==
+X-Received: by 2002:a05:600c:1c99:b0:3f7:e7c9:4039 with SMTP id k25-20020a05600c1c9900b003f7e7c94039mr2693676wms.4.1688685498245;
+        Thu, 06 Jul 2023 16:18:18 -0700 (PDT)
+Received: from [10.100.102.14] (46-116-229-137.bb.netvision.net.il. [46.116.229.137])
+        by smtp.gmail.com with ESMTPSA id c16-20020a7bc850000000b003fbb06af219sm792252wml.32.2023.07.06.16.18.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Jul 2023 16:18:17 -0700 (PDT)
+Message-ID: <49422387-5ea3-af84-3f94-076c94748fff@grimberg.me>
+Date: Fri, 7 Jul 2023 02:18:15 +0300
 MIME-Version: 1.0
-References: <CGME20230704073658eucas1p1f977a725486b9cc7e0bfe70b29286280@eucas1p1.samsung.com>
- <20230704073656.378760-1-p.raghav@samsung.com>
-In-Reply-To: <20230704073656.378760-1-p.raghav@samsung.com>
-From: Clemens Springsguth <cspringsguth@gmail.com>
-Date: Thu, 6 Jul 2023 21:04:23 +0200
-Message-ID: <CABfnBFqZkHXObCwhgf_SQy5221AGqivs-GDRZ+dnKZLs-omdmw@mail.gmail.com>
-Subject: Re: [PATCH] nvme: add BOGUS_NID quirk for Samsung SM953
-To: Pankaj Raghav <p.raghav@samsung.com>
-Cc: kbusch@kernel.org, jh.i.park@samsung.com, hch@lst.de, sagi@grimberg.me, 
-	linux-nvme@lists.infradead.org, javier.gonz@samsung.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: nvme-tls and TCP window full
+Content-Language: en-US
+To: Hannes Reinecke <hare@suse.de>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <f10a9e4a-b545-429d-803e-c1d63a084afe@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <f10a9e4a-b545-429d-803e-c1d63a084afe@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230706_120501_469044_E26AA348 
-X-CRM114-Status: GOOD (  17.32  )
+X-CRM114-CacheID: sfid-20230706_161820_843107_CD66C7DC 
+X-CRM114-Status: GOOD (  22.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,46 +81,69 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Pankaj,
-hi Keith,
 
-thanks for making and submitting this patch. Tested this succesfully
-on one of my hosts.
+> Hi Sagi,
 
-kind regards
-Clemens
+Hey Hannes,
 
-On Tue, Jul 4, 2023 at 9:36=E2=80=AFAM Pankaj Raghav <p.raghav@samsung.com>=
- wrote:
->
-> Add the quirk as SM953 is reporting bogus namespace ID.
->
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D217593
-> Reported-by: Clemens Springsguth <cspringsguth@gmail.com>
-> Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
-> ---
-> Hi Keith,
->   I haven't tested this patch on a real device. Could you wait for
->   Clemens to test this patch before applying?
->
->  drivers/nvme/host/pci.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 72725729cb6c..8754b4a5c684 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -3396,6 +3396,8 @@ static const struct pci_device_id nvme_id_table[] =
-=3D {
->                 .driver_data =3D NVME_QUIRK_DISABLE_WRITE_ZEROES, },
->         { PCI_DEVICE(0x144d, 0xa809),   /* Samsung MZALQ256HBJD 256G */
->                 .driver_data =3D NVME_QUIRK_DISABLE_WRITE_ZEROES, },
-> +       { PCI_DEVICE(0x144d, 0xa802),   /* Samsung SM953 */
-> +               .driver_data =3D NVME_QUIRK_BOGUS_NID, },
->         { PCI_DEVICE(0x1cc4, 0x6303),   /* UMIS RPJTJ512MGE1QDY 512G */
->                 .driver_data =3D NVME_QUIRK_DISABLE_WRITE_ZEROES, },
->         { PCI_DEVICE(0x1cc4, 0x6302),   /* UMIS RPJTJ256MGE1QDY 256G */
-> --
-> 2.40.1
->
+> I'm currently debugging my nvme-tls patches; with the rebase to latest 
+> linus' head things started to behave erratically as occasionally a CQE 
+> was never received, triggering a reset.
+
+Bummer.
+
+> Originally I thought it's my read_sock() implementation which is to 
+> blame, but then I fixed wireshark to do a proper frame dissecting 
+> (wireshark merge req #11359), and found that it's rather an issue with 
+> TCP window becoming full.
+> While this is arguably an issue with the sender (which is trying to send 
+> 32k worth of data in one packet)
+
+This is before TSO. it is not actually 32K in a single packet. If you
+record on the switch, you will see that it is packetized to MTU size
+properly.
+
+> the connection never recovers from the 
+> window full state; the command is dropped, never to reappear again.
+
+This is a bug. And sounds like a new issue to me. Does this happen
+without TLS patches applied? And without SPLICE patches from david?
+
+> I would have thought/hoped that we (from the NVMe side) would
+> be able to handle it better; in particular I'm surprised that we can 
+> send large chunks of data at all.
+
+What do you mean? if we get R2T of a given size (within MDTS), we just
+send it all... What do you mean by handling it better? What would you
+expect the driver to do?
+
+> And that the packet is dropped due to 
+> a protocol error without us notifying.
+
+TCP needs to handle it. It does not notify the consumer unless there
+is a TCP reset sent which breaks the connection. But I am not familiar
+with a scenario that a TCP segment is dropped and not retired. TCP is
+full of retry logic based on dropped packets (with rtt measurements)
+and ack/data arriving out-of-order...
+
+> So question really is: do we check for the TCP window size somewhere?
+> If so, where? Or is it something the lower layers have to do for us?
+
+We don't and we can't. The application is not and cannot be exposed to
+the TCP window size because it belongs to the very low level of 
+congestion control mechanisms berried deep down in TCP, that's why
+socket buffers exist. The application sends until the socket buffer is
+full (and evicts when sent buffers are acknowledged within the ack'd
+sequence number).
+
+> Full packet dissection available on request.
+
+This does not sound like an nvme-tcp problem to me. Sounds like
+a breakage. It is possible that the sendpage conversion missed
+a flag or something, or that the stack behaves slightly different. Or
+something in your TLS patches and its interaction with the SPLICE
+patches.
+
+Can you send me your updated code (tls fixes plus nvme-tls). I suggest
+to start bisecting.
 
