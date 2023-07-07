@@ -4,37 +4,37 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 447C4EB64D9
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 Jul 2023 09:46:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 09126EB64D9
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 Jul 2023 09:46:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bFNjkpFVsr0wX1IV59D92iuCTOU9SUmgiQChjqVJEPc=; b=G5IR7awriufLmyLz+ZEoov7yzz
-	JHQAAqvoNLlunuyx2gVDaJ7HG/Oh+8EuZT0eVlMuUNtLD2j8tw4ZmKhpWBjAN6NwHhpoH1VPCMvR+
-	1MP9+g12HkF3wE05uMAPNkKInhxh+oWHVrq0WO+EuJ3tC7boX1SZRXHY4PpFFZwOaqhluCiYnBybw
-	TV+Z1nW/RyG5SR7NwD15FUMnOvdN4cQ2IoHkNtZMSt/JBsFFxi4dEQ+ml+yifLhuF/PCOVxErOwC3
-	0Jn//+zTMYHfDAsZ8l5KfsDqtcyIv2JqhdUZ9n+5xJIweli5BGs4XP7ndzCSvbrxOLCa6o69jC8Z/
-	BkdWFs2w==;
+	bh=AC7vG1A2pMZEGPxwZG9McURvrIvQLWC1/NGcjUkvtzc=; b=xOa6aEo3lprHeweOfhBEoh9AGy
+	HwoOgPgzYALBAvuXqCANSrs8SkeTppZluaGKu4Omt/PqOn/2Y4QFY8ut9avv5MfGkqpL2lQ0oPkpu
+	zc9CLcNcw9M5Xur4BBZYdG4q6B7nN0WHMxyNQmvntOiZXStu14S0cqA1gJrncU44IyL5uQLwcoNXJ
+	l8ksKHmPZ39AeCl9W0vEleAOfOPUYmcj9u03aomc6BV2Cc0lEeBbFawfETH7gtbejYYQHxt6x8/Mk
+	14Sjdeyq2MTgovxYWozb1jEIJN6Ggz//tP8jGWHwpFoO122FD8PmWTV1hDiZ+84ZbzMtDde9hNvbi
+	61z6jg3g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qHi2r-0049iB-1G;
-	Fri, 07 Jul 2023 09:46:33 +0000
+	id 1qHi2u-0049j6-0J;
+	Fri, 07 Jul 2023 09:46:36 +0000
 Received: from [89.144.223.112] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1qHi2o-0049h8-2h;
-	Fri, 07 Jul 2023 09:46:31 +0000
+	id 1qHi2s-0049hq-14;
+	Fri, 07 Jul 2023 09:46:34 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>,
 	Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>
 Cc: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH 1/4] block: don't unconditionally set max_discard_sectors in blk_queue_max_discard_sectors
-Date: Fri,  7 Jul 2023 11:46:13 +0200
-Message-Id: <20230707094616.108430-2-hch@lst.de>
+Subject: [PATCH 2/4] nvme: update discard limits in nvme_config_discard
+Date: Fri,  7 Jul 2023 11:46:14 +0200
+Message-Id: <20230707094616.108430-3-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230707094616.108430-1-hch@lst.de>
 References: <20230707094616.108430-1-hch@lst.de>
@@ -54,32 +54,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-max_discard_sectors is split into a hardware and a tunable value, but
-blk_queue_max_discard_sectors sets both unconditionally, thus dropping
-any user stored value on a rescan.  Fix blk_queue_max_discard_sectors to
-only set max_discard_sectors if it either wasn't set, or the new hardware
-limit is smaller than the previous user limit.
+nvme_config_discard currently skips updating the discard limits if they
+were set before because blk_queue_max_discard_sectors used to update the
+configurable max_discard_sectors limit unconditionally.  Now that this
+has been fixed we can update the discard limits even if they were set
+to deal with the case of a reset changing the limits after e.g. a
+firmware update.
 
-Fixes: 0034af036554 ("block: make /sys/block/<dev>/queue/discard_max_bytes writeable")
+Fixes: 3831761eb859 ("nvme: only reconfigure discard if necessary")
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- block/blk-settings.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/block/blk-settings.c b/block/blk-settings.c
-index 0046b447268f91..978d2e1fd67a51 100644
---- a/block/blk-settings.c
-+++ b/block/blk-settings.c
-@@ -179,7 +179,9 @@ void blk_queue_max_discard_sectors(struct request_queue *q,
- 		unsigned int max_discard_sectors)
- {
- 	q->limits.max_hw_discard_sectors = max_discard_sectors;
--	q->limits.max_discard_sectors = max_discard_sectors;
-+	if (!q->limits.max_discard_sectors ||
-+	     q->limits.max_discard_sectors > max_discard_sectors)
-+		q->limits.max_discard_sectors = max_discard_sectors;
- }
- EXPORT_SYMBOL(blk_queue_max_discard_sectors);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 47d7ba2827ff29..2d6c1f4ad7f5c8 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1734,10 +1734,6 @@ static void nvme_config_discard(struct gendisk *disk, struct nvme_ns *ns)
+ 
+ 	queue->limits.discard_granularity = size;
+ 
+-	/* If discard is already enabled, don't reset queue limits */
+-	if (queue->limits.max_discard_sectors)
+-		return;
+-
+ 	blk_queue_max_discard_sectors(queue, ctrl->max_discard_sectors);
+ 	blk_queue_max_discard_segments(queue, ctrl->max_discard_segments);
  
 -- 
 2.39.2
