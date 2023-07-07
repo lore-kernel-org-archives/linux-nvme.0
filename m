@@ -4,69 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 75F77EB64D9
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Jul 2023 23:18:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B2D5EB64D9
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 Jul 2023 00:32:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=S43GjkoDOerqhWQkXmcIBu1XA2aSLW3jCsxK/tMyfPk=; b=b5UmO8gV478oRBab9W5Sz81X4S
-	N3xFMLkeQgZuwl64EtyXFtBtiP2ZwqnQ01/CbNDjtzXhHectavh9YIXac/cvIEXMHYsxfXSqew0z2
-	e87P0i2Bw0gFQLe09t4wUZr0ymWH9it5PnGx/y7S23nc43iBFV964CbiaitrMD6VqIPUdbtyCUTr6
-	2SvKf0Qx8D9VGsLUY3OQknzBpQvl24ns0cCyLQXx69mCUm9igciQQG+lcgTjoTNjmL+RAGO+moWSC
-	/1z1mkEgvxAVVYsloq58t9DuZiu+NixGuCnDO4cLheEkCbO9xF3I5ab2c54t+tkCJJSEYxaiOc+qR
-	X6QDDV5Q==;
+	MIME-Version:Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=M5XFd2seTsTdpNFV9Rdqe1hDZ8fCdXYKM4A9xm9ZPb8=; b=RyLOby/dYC2krfbjIyvQPOyi33
+	ffCssr2avNvZ7A5UDcxBeE/aFBechcFL3pSu2oQWRvrfx30UD4hflgtKoE9oENxhSTpDNXrVOWee/
+	pq6KPcODqLddpk05B1yLFiMUaEJ6oYiGt1L1cqhBZfQFMH+fK1WTuU7htxFditk/73VcM5J65Fx+B
+	ql6/7mlfuCwTFr9B6Uj8mlU8MFfr+R7N95Z/QvQIpfpJhBk0S5l10iTHaKFwWARbBeLnq13hWMLFl
+	iPgzjUeca4rXuovQuDGBK+lEq7NwEVof7hWbIPoDaBX7Rmokwb5MuA2DfGFUfNDihtCLGP9tRvrEJ
+	+CWSsDUw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qHYEx-002wVk-1U;
-	Thu, 06 Jul 2023 23:18:23 +0000
-Received: from mail-wm1-f45.google.com ([209.85.128.45])
+	id 1qHZOe-0033gO-27;
+	Fri, 07 Jul 2023 00:32:28 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qHYEu-002wUn-2b
+	id 1qHZOb-0033fw-1X
 	for linux-nvme@lists.infradead.org;
-	Thu, 06 Jul 2023 23:18:22 +0000
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3fbe35e028aso3013065e9.0
-        for <linux-nvme@lists.infradead.org>; Thu, 06 Jul 2023 16:18:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688685498; x=1691277498;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=S43GjkoDOerqhWQkXmcIBu1XA2aSLW3jCsxK/tMyfPk=;
-        b=KoO+5Iqw98r0E1C90ChZpVT8Yb6ji6orZLxwLHSZGhPB39edDYp6i9rnWj61Kwcvp0
-         kV76tmBpX9jAEcO1t3dRk5/Takrejs8/r7DlENC2nswfytcXN7dcsqsT+yQqWc6HqmmS
-         0WasAdtN5PtrunDMzaFCWeO51wjCAWdNumYvC81PyJJ4CaNOa4MUQundLSspUzYFTQAx
-         mqNTYlWO6MX0lIh07ECuYWY8C0S6Yu/urQ2Cn7ZuC3JoJgHgVyODqKxRFU1Rba9tHywb
-         CpPaCZGDICmYImZIAxhpFNHX2OzQgXIBY0+/zpxQ4nv5/Ikm4r0COznYjXKkZPyV5qMh
-         JQDQ==
-X-Gm-Message-State: ABy/qLbW1at9Js+Zt9DutMZQlxS3n9Eb+sEg1cnpUy+cDUVdZhQQ2i5s
-	e79ilTtYkvHDN2JvehGD7ag=
-X-Google-Smtp-Source: APBJJlHKhGRqai6KNZHifE44uuz7SwROsEL/hugKlhbw7y4fsNF+EWxVuAebtE6qO9dwDCfym9lMgQ==
-X-Received: by 2002:a05:600c:1c99:b0:3f7:e7c9:4039 with SMTP id k25-20020a05600c1c9900b003f7e7c94039mr2693676wms.4.1688685498245;
-        Thu, 06 Jul 2023 16:18:18 -0700 (PDT)
-Received: from [10.100.102.14] (46-116-229-137.bb.netvision.net.il. [46.116.229.137])
-        by smtp.gmail.com with ESMTPSA id c16-20020a7bc850000000b003fbb06af219sm792252wml.32.2023.07.06.16.18.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Jul 2023 16:18:17 -0700 (PDT)
-Message-ID: <49422387-5ea3-af84-3f94-076c94748fff@grimberg.me>
-Date: Fri, 7 Jul 2023 02:18:15 +0300
+	Fri, 07 Jul 2023 00:32:26 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id EF7F961208;
+	Fri,  7 Jul 2023 00:32:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C83ADC433C8;
+	Fri,  7 Jul 2023 00:32:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1688689944;
+	bh=+WSUJ6T1QrwUljeCTDuJyd/HyCB6U09i9My5GVrX8dI=;
+	h=From:To:Subject:Date:From;
+	b=o31fhWJcSvhNL4WJXmqoRxn7SPIjyoKvpKwrbFwdZjYvV2i+mlVDiFe7BB0OWUCxl
+	 wBxhlPvX4VpCCJfvjHgUOCE3CvIDTViJW5XH1dcEY6ug/+NRxU0NNZJ2684lauLy0v
+	 +iBv+BQ7spfQtIA8eAm7l9NMK0rta2V4IMpStyTEMwPwMoWh28mjNWalwwv9453DXs
+	 K8PFumhbv4D3mTnr+K1tkDrb0YDnEJE96xOKW7x4rksmKyPVGXXxRnSYDBCnhe7ayG
+	 TSt+IDpbfZAqDRU+9gLpvqWa3TfrSXX5tozAeDYIhoLuLr1zW2hpLmrnbj0d7mF4wJ
+	 ViBK+spsDiCMw==
+From: Damien Le Moal <dlemoal@kernel.org>
+To: linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Subject: [PATCH] nvmet: use PAGE_SECTORS_SHIFT
+Date: Fri,  7 Jul 2023 09:32:22 +0900
+Message-ID: <20230707003222.5854-1-dlemoal@kernel.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: nvme-tls and TCP window full
-Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <f10a9e4a-b545-429d-803e-c1d63a084afe@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <f10a9e4a-b545-429d-803e-c1d63a084afe@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230706_161820_843107_CD66C7DC 
-X-CRM114-Status: GOOD (  22.25  )
+X-CRM114-CacheID: sfid-20230706_173225_557685_943F4B6D 
+X-CRM114-Status: GOOD (  11.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,69 +73,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Replace occurences of the pattern "PAGE_SHIFT - 9" in the passthru and
+loop targets with PAGE_SECTORS_SHIFT.
 
-> Hi Sagi,
+Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
+---
+ drivers/nvme/target/loop.c     | 2 +-
+ drivers/nvme/target/passthru.c | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-Hey Hannes,
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index f2d24b2d992f..48d5df054cd0 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -373,7 +373,7 @@ static int nvme_loop_configure_admin_queue(struct nvme_loop_ctrl *ctrl)
+ 		goto out_cleanup_tagset;
+ 
+ 	ctrl->ctrl.max_hw_sectors =
+-		(NVME_LOOP_MAX_SEGMENTS - 1) << (PAGE_SHIFT - 9);
++		(NVME_LOOP_MAX_SEGMENTS - 1) << PAGE_SECTORS_SHIFT;
+ 
+ 	nvme_unquiesce_admin_queue(&ctrl->ctrl);
+ 
+diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
+index 71a9c1cc57f5..9fe07d7efa96 100644
+--- a/drivers/nvme/target/passthru.c
++++ b/drivers/nvme/target/passthru.c
+@@ -102,14 +102,14 @@ static u16 nvmet_passthru_override_id_ctrl(struct nvmet_req *req)
+ 	 * which depends on the host's memory fragementation. To solve this,
+ 	 * ensure mdts is limited to the pages equal to the number of segments.
+ 	 */
+-	max_hw_sectors = min_not_zero(pctrl->max_segments << (PAGE_SHIFT - 9),
++	max_hw_sectors = min_not_zero(pctrl->max_segments << PAGE_SECTORS_SHIFT,
+ 				      pctrl->max_hw_sectors);
+ 
+ 	/*
+ 	 * nvmet_passthru_map_sg is limitted to using a single bio so limit
+ 	 * the mdts based on BIO_MAX_VECS as well
+ 	 */
+-	max_hw_sectors = min_not_zero(BIO_MAX_VECS << (PAGE_SHIFT - 9),
++	max_hw_sectors = min_not_zero(BIO_MAX_VECS << PAGE_SECTORS_SHIFT,
+ 				      max_hw_sectors);
+ 
+ 	page_shift = NVME_CAP_MPSMIN(ctrl->cap) + 12;
+-- 
+2.41.0
 
-> I'm currently debugging my nvme-tls patches; with the rebase to latest 
-> linus' head things started to behave erratically as occasionally a CQE 
-> was never received, triggering a reset.
-
-Bummer.
-
-> Originally I thought it's my read_sock() implementation which is to 
-> blame, but then I fixed wireshark to do a proper frame dissecting 
-> (wireshark merge req #11359), and found that it's rather an issue with 
-> TCP window becoming full.
-> While this is arguably an issue with the sender (which is trying to send 
-> 32k worth of data in one packet)
-
-This is before TSO. it is not actually 32K in a single packet. If you
-record on the switch, you will see that it is packetized to MTU size
-properly.
-
-> the connection never recovers from the 
-> window full state; the command is dropped, never to reappear again.
-
-This is a bug. And sounds like a new issue to me. Does this happen
-without TLS patches applied? And without SPLICE patches from david?
-
-> I would have thought/hoped that we (from the NVMe side) would
-> be able to handle it better; in particular I'm surprised that we can 
-> send large chunks of data at all.
-
-What do you mean? if we get R2T of a given size (within MDTS), we just
-send it all... What do you mean by handling it better? What would you
-expect the driver to do?
-
-> And that the packet is dropped due to 
-> a protocol error without us notifying.
-
-TCP needs to handle it. It does not notify the consumer unless there
-is a TCP reset sent which breaks the connection. But I am not familiar
-with a scenario that a TCP segment is dropped and not retired. TCP is
-full of retry logic based on dropped packets (with rtt measurements)
-and ack/data arriving out-of-order...
-
-> So question really is: do we check for the TCP window size somewhere?
-> If so, where? Or is it something the lower layers have to do for us?
-
-We don't and we can't. The application is not and cannot be exposed to
-the TCP window size because it belongs to the very low level of 
-congestion control mechanisms berried deep down in TCP, that's why
-socket buffers exist. The application sends until the socket buffer is
-full (and evicts when sent buffers are acknowledged within the ack'd
-sequence number).
-
-> Full packet dissection available on request.
-
-This does not sound like an nvme-tcp problem to me. Sounds like
-a breakage. It is possible that the sendpage conversion missed
-a flag or something, or that the stack behaves slightly different. Or
-something in your TLS patches and its interaction with the SPLICE
-patches.
-
-Can you send me your updated code (tls fixes plus nvme-tls). I suggest
-to start bisecting.
 
