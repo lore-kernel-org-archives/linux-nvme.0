@@ -4,65 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A9925EB64D9
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D3A78C001DC
 	for <linux-nvme@archiver.kernel.org>; Fri,  7 Jul 2023 21:22:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=SyPy6unUqhqYvr9G7zrtCVnKUSfpzIjGwEVu2KRMmEs=; b=TtFhYE+U4R4hjhdM2DNR7kcSjQ
-	uCXrfZaftNozRcWp3Xw8+mZ8I/nhZ0wIc4n7xSTJ5JWG8eBiVr2/tKDBkoVchhpWE9pxzvf4cY1qD
-	Yyqj0vfwZtvb4ziU1biClvBp0Ypm7SiwGdAnSLbdepfqK8yHYInai4qtoOrNGEB2KltdTWsTq790T
-	/WYe7O4czusoUV+j30msDJURBHrE1ZscDRE8T6kIe3BPDNm5cunkWcIL9UjBX1R13bBuTzpSC3s57
-	nu2AirahXYbceGWQyHXLA1x0MpEcWmLMRR854Ytk1GT+Jckrlcb8LqRbL61+A68lhpw0vK59+uJbN
-	HoyNhqhw==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=TgTVnA2PFNS3TTAMOBn0sODIfT++lGhKtJ9Vw8zaglI=; b=g+wEla2wxRafky5WFYp4apjnEr
+	90Cf7QiVpjxj5kYafJGRW3o/y56oDHFVsAfuWXZGKiBcowPfVcHWUE+zLTeHUCUKZjnGbSU9WtkXG
+	9SFXXVLEO2ovMn+o4vrUkDDiLfatKQ/DCNC7pegpIFBKi0bLRmfqI6bZ5GZVG/TSSe69FZKzWY5/8
+	8O7haun9Zpq6X2SYANethvBOOe7ZKTkJPvHvD76xrXjTbObvAgmqdu76DBnkGHC9GhT1QeG0MkTcg
+	KQFMDw+8Z92KbowR+5ynf4NHhhLWVY2s/q+46BwQR/qZZZ3HIRt7YitcISeSWTcn3IDkqzNSw/JiJ
+	OKcw08Uw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qHsu9-005igT-0G;
-	Fri, 07 Jul 2023 21:22:17 +0000
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
+	id 1qHsuB-005ihM-2e;
+	Fri, 07 Jul 2023 21:22:19 +0000
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qHsu6-005ieo-0O
+	id 1qHsu8-005ifu-1n
 	for linux-nvme@lists.infradead.org;
-	Fri, 07 Jul 2023 21:22:15 +0000
-Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-666e6541c98so1924513b3a.2
-        for <linux-nvme@lists.infradead.org>; Fri, 07 Jul 2023 14:22:08 -0700 (PDT)
+	Fri, 07 Jul 2023 21:22:17 +0000
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-66f3fc56ef4so2429653b3a.0
+        for <linux-nvme@lists.infradead.org>; Fri, 07 Jul 2023 14:22:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1688764927; x=1691356927;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SyPy6unUqhqYvr9G7zrtCVnKUSfpzIjGwEVu2KRMmEs=;
-        b=Vmm5/ZSFn95kkggd3ArWEN8YD4Vx+zXwMTMJGjvtaWcgfxmkvdGOIk5EWp7c9lfnpK
-         q2qMZjuJvkYAhRR1DRgNvPx9zIZLBh35a8mzNPI2iSgXpPi3ZqpXWtQXTqHgw0rL5v/2
-         Xan+h+GdpbwEXQTqsFznfO6hfaPBULDCYalzqov0FXL4EpZ5KeqhytfE2cO0BYsySTLh
-         RD42onGtY96DDFHG+kQWDwOeD735GT5/UDhcqDjokHz+kWHC23Gpd6jIgPhmJb2u8l3F
-         nNtoeg3TDakUIWkgpCFT7fKkcj1fVxXXUKihFiPep46V+RAtDH60X0ZaRMMBjGlIIVO4
-         T8eg==
+        d=purestorage.com; s=google2022; t=1688764934; x=1691356934;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TgTVnA2PFNS3TTAMOBn0sODIfT++lGhKtJ9Vw8zaglI=;
+        b=UXkWbYNHfEYDCf+UEwkjLZNUFR3pI8VV0jrg3vLzEqyTUxi4JEGt5/pqxvG7EwaQ1v
+         ICy4+wHmE/s+SdzkzYJogju/dFm8qFiwD38av96od/EMMRZ0les1oB763nPU1U72AuWd
+         qhkFXYRGLgaPVCykRFzHcEszwyg8+PKpALzBdx2ai0OQsMskXaUO3KODvQ6BMRr/ehVb
+         Nn3f1GCE9aq1BCtZ4ii4KbkLM6xDB7KCnIEmPNEJjm26p/oV4Wo9J1Cda6DiaEl/N13Y
+         YwMUQ+PE6zH+MNCBnWSuu5j4nfcitXRBcG4joXSKuYI6QIbCF6r4vg93oaPjOJ/+kqSt
+         UT5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688764927; x=1691356927;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SyPy6unUqhqYvr9G7zrtCVnKUSfpzIjGwEVu2KRMmEs=;
-        b=QlnvzJp/E06EI2oCs+owmIS8dbwLBZ0cutDtyycMZqV0nvPod/+j1/ro1tIuK4yrlu
-         PXZNksY9IEoxiOMHvL66SK1DdoBUsF7Rv84BkmPMKCgGxLKMAHV9NI4gV/RJG/HRRXt1
-         8Lh5qqmTVqm8DDoMEngFqmSoOX7TLiUekcHaSP15wG5jIOwy1jlrA7122M4wTJLAmzdP
-         5koPV4SMERQqB+u08L7b92eNZRTrWzyNCt1TRdBuWSIsnmzdz4RUnxkOstgsbm6iOEXR
-         viawJNPrzyv8Gam6853hYJUqzrjwupCuz3PxV700ApUWaWhpLOGJRZMT/qMLzgtgPAja
-         9QRQ==
-X-Gm-Message-State: ABy/qLb6prkGcNgEI9b115uQOL46tCrmFjyxEej4DppRQ5hNeTuBmGun
-	Lv17KLmu4UPVXGe8lMnqSgj4xDbvDc9UQ3L4pNRSRXYZX0pATAq92fFFupIDZSATq6L7SoXvVxJ
-	ReBAtkFiiNbXIMOntPo6IQEbgkSJsrg4KtalPKCStrUsCyCI1Ab4/w9xiDozg/7wD33mxr+pKd9
-	XxUYEeCCXqV0bE
-X-Google-Smtp-Source: APBJJlEo6OInoDyI3skG9LQuayf1PxlBKGkminzfU/WfTyEZYE5WNcdQlGdMFYKTZ8/QCTBE+AfVTQ==
-X-Received: by 2002:a05:6a00:15d3:b0:67f:1d30:9e51 with SMTP id o19-20020a056a0015d300b0067f1d309e51mr7570879pfu.33.1688764927479;
-        Fri, 07 Jul 2023 14:22:07 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1688764934; x=1691356934;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TgTVnA2PFNS3TTAMOBn0sODIfT++lGhKtJ9Vw8zaglI=;
+        b=LyqOmenS0RQlet1bvCHsUa7eXuXxMB0n+YFp7sq3jVRYaNfwX45iX+BJjLh0w0XU3a
+         b86+lzoUxc+R/SkAKimzartYpcESIoBg35btCDsm8qlay35+XdKCDlT1ng7s+o4YAShr
+         t7EqKz57OIpiFhUZHZpsdvpgoEii3xSgUyoftdGOGDfLrEpo8l+0IfFIinOYispzMVjA
+         hLnS0Y/uYmNZ4AnN/UH7A7mA7PKom0jSWQpxN19Cjh+IEho2ldAPIuF17qv87CPz1vxJ
+         4LWUHUbMj9HrGbZUr7pBsI5OKFswaT8HPaQz1Acd54+2+1COI2OP/VKiP9U2epr9n2Yk
+         JDJg==
+X-Gm-Message-State: ABy/qLabK1hoc3F3tnvj8mnaxuv7GJsc9lf6S1PZZQFvp2e3v/pr4ZEv
+	nyVMvgtXBZQX0idog/yw8WMgC+ZWCV4qoaLReTbQn4ViMSG0+jVaTUACelORbE4v0Q8pUYOq14r
+	jWZ7Ras4qWk8gNDYvPBN0Tts6Wvkecqsj4lWTw3JCynLv/l1ZuhYsWBs2BsDtN4tOCzEdLk0oRM
+	5iT/SO+9/PvK0o
+X-Google-Smtp-Source: APBJJlFB9BVfs0RCHpxLTIUt+pCmL68uTFTa40keC/BlArd0YmoiDeGLOTWBbtIiylIMDTq1eW0inQ==
+X-Received: by 2002:a05:6a00:3911:b0:67f:d5e7:4604 with SMTP id fh17-20020a056a00391100b0067fd5e74604mr9054057pfb.13.1688764934350;
+        Fri, 07 Jul 2023 14:22:14 -0700 (PDT)
 Received: from dev-mliang.dev.purestorage.com ([208.88.159.128])
-        by smtp.gmail.com with ESMTPSA id fm15-20020a056a002f8f00b006828ee9fdaesm3274967pfb.127.2023.07.07.14.22.06
+        by smtp.gmail.com with ESMTPSA id fm15-20020a056a002f8f00b006828ee9fdaesm3274967pfb.127.2023.07.07.14.22.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jul 2023 14:22:06 -0700 (PDT)
+        Fri, 07 Jul 2023 14:22:13 -0700 (PDT)
 From: Michael Liang <mliang@purestorage.com>
 To: linux-nvme@lists.infradead.org,
 	jsmart2021@gmail.com
@@ -71,16 +72,17 @@ Cc: randyj@purestorage.com,
 	ushankar@purestorage.com,
 	psajeepa@purestorage.com,
 	Michael Liang <mliang@purestorage.com>
-Subject: [PATCH 0/2] nvme-fc: enhance transport error handling when create associations
-Date: Fri,  7 Jul 2023 15:21:55 -0600
-Message-Id: <20230707212157.1158725-1-mliang@purestorage.com>
+Subject: [PATCH 2/2] nvme-fc: fix race between error recovery and creating association
+Date: Fri,  7 Jul 2023 15:21:57 -0600
+Message-Id: <20230707212157.1158725-3-mliang@purestorage.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230707212157.1158725-1-mliang@purestorage.com>
+References: <20230707212157.1158725-1-mliang@purestorage.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230707_142214_160346_EA2B3E28 
-X-CRM114-Status: UNSURE (   8.73  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230707_142216_594370_FAB06A82 
+X-CRM114-Status: GOOD (  12.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,28 +97,67 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Currently when there is some transport error happens during creating
-nvme-fc association, nvme_fc_create_association() could return 0 status code
-which implies the association creation was done successfully while it's
-actually not. The consequence is the nvme controller could be stuck in
-connecting state infinitely. Also there is a potential race condition
-between transport io error recovery and the last ASSOC_FAILED check in
-nvme_fc_create_association(). We may end up ignoring a transport error during
-connecting creation.
+There is a small race window between nvme-fc association creation and error
+recovery. Fix this race condition by protecting accessing to controller
+state and ASSOC_FAILED flag under nvme-fc controller lock.
 
-Fix these two issues by:
-1. Return non-zero status code(-EIO) when needed, so re-connecting
-or deleting controller will be triggered properly;
-2. Protect accessing to nvme-fc controller ASSOC_FAILED flag and nvme controller
-state transition under nvme-fc controller's spin lock;
+Signed-off-by: Michael Liang <mliang@purestorage.com>
+Reviewed-by: Caleb Sander <csander@purestorage.com>
+---
+ drivers/nvme/host/fc.c | 21 ++++++++++++++++-----
+ 1 file changed, 16 insertions(+), 5 deletions(-)
 
-Michael Liang (2):
-  nvme-fc: return non-zero status code when fails to create association
-  nvme-fc: fix race between error recovery and creating association
-
- drivers/nvme/host/fc.c | 37 +++++++++++++++++++++++++++++--------
- 1 file changed, 29 insertions(+), 8 deletions(-)
-
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index ad9336343e01..1cd2bf82319a 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2548,17 +2548,24 @@ nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char *errmsg)
+ 	 * the controller.  Abort any ios on the association and let the
+ 	 * create_association error path resolve things.
+ 	 */
+-	if (ctrl->ctrl.state == NVME_CTRL_CONNECTING) {
+-		__nvme_fc_abort_outstanding_ios(ctrl, true);
++	enum nvme_ctrl_state state;
++	unsigned long flags;
++
++	spin_lock_irqsave(&ctrl->lock, flags);
++	state = ctrl->ctrl.state;
++	if (state == NVME_CTRL_CONNECTING) {
+ 		set_bit(ASSOC_FAILED, &ctrl->flags);
++		spin_unlock_irqrestore(&ctrl->lock, flags);
++		__nvme_fc_abort_outstanding_ios(ctrl, true);
+ 		dev_warn(ctrl->ctrl.device,
+ 			"NVME-FC{%d}: transport error during (re)connect\n",
+ 			ctrl->cnum);
+ 		return;
+ 	}
++	spin_unlock_irqrestore(&ctrl->lock, flags);
+ 
+ 	/* Otherwise, only proceed if in LIVE state - e.g. on first error */
+-	if (ctrl->ctrl.state != NVME_CTRL_LIVE)
++	if (state != NVME_CTRL_LIVE)
+ 		return;
+ 
+ 	dev_warn(ctrl->ctrl.device,
+@@ -3172,12 +3179,16 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ 		else
+ 			ret = nvme_fc_recreate_io_queues(ctrl);
+ 	}
++
++	spin_lock_irqsave(&ctrl->lock, flags);
+ 	if (!ret && test_bit(ASSOC_FAILED, &ctrl->flags))
+ 		ret = -EIO;
+-	if (ret)
++	if (ret) {
++		spin_unlock_irqrestore(&ctrl->lock, flags);
+ 		goto out_term_aen_ops;
+-
++	}
+ 	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
++	spin_unlock_irqrestore(&ctrl->lock, flags);
+ 
+ 	ctrl->ctrl.nr_reconnects = 0;
+ 
 -- 
 2.34.1
 
