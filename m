@@ -4,50 +4,145 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A724DC001DE
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Jul 2023 16:09:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7334FEB64DA
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Jul 2023 16:09:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Message-ID:Sender:
-	List-Subscribe:List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Date
-	:Content-Type:To:Subject:From:Reply-To:Cc:MIME-Version:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Owner; bh=7f7sMqFGcuCD95eOeguiz17buDW799hol+bmDU7L50g=; b=gZX
-	mXssP4M7rCYtlQ4LWzfFWz68lZyiTOquTQeETuf0HkWM7ndp5U6e2rNCnIP/P1DEyYay6C4nzKZfR
-	Ov9yNcxGk90VZB72tBF9H+sq+9ZkrwkgF4DekUhtr6XcIQUoOJfqpxn8cE6b9G/jt7hILTRDUh4+U
-	+X94grgxNyhmMWWAc33nBwMVwjviRjP0WS1bYavt94Ao4Qi1XIZuPp3qgiuBWw92PEs73w3RYLhAq
-	LWDQpYmYPKHdaakwIsRpBe90xwt3xZggHsiBIheZsLQsgL54cj59NesijNWRHlb3oYtbBxbA57vVi
-	0a/XUbZpnpRGhlt4xIGm+/vTzXPA03Q==;
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=AkcllTXaBBgTvGpp8T6MAgMy3lqiAkEaH53w0AU+zOk=; b=DUBfTAfuB192r7sj6GQ2U51TAS
+	0/ZBp1vvY8ksNTPfKcG2P5ql2FC96s15lfZi4n0nEhUawwqSv6CrKoIASwe0Lv/CeRlQmwyBkfMkH
+	Rbgwh2xr3IlT3oF5XTsdymhQ024LOMk/ABTV7fPbFBA+Xtg+VKda9YYESPf6e1YM0TZiIqfoJPHGl
+	WbBbg1CBT91cix4Hb3yrQTAc2HNc7sGXjgu/n2BA6lFaXIR0PU0BLmqv4rWGUzE/nZErRWT40sz+4
+	fRGumgTtWa41NvrXPw2J0YOas2L3lB4lwtavpj3ARsOilqRupQlO5W4NQuLTLDCcNy2oRkrKAKiC9
+	FpiVGB6Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJcP6-000TCB-2b;
-	Wed, 12 Jul 2023 16:09:24 +0000
-Received: from p3nlsmtp11.shr.prod.phx3.secureserver.net ([72.167.234.236])
+	id 1qJcP7-000TCK-20;
+	Wed, 12 Jul 2023 16:09:25 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qIe8e-009uci-39
+	id 1qIkOR-00AZih-1F
 	for linux-nvme@lists.infradead.org;
-	Sun, 09 Jul 2023 23:48:26 +0000
-Received: from cuttingexperts.com ([10.199.64.96])
-	by : HOSTING RELAY : with SMTP
-	id Ie7Qqj3GIdeDcIe7RqzhTT; Sun, 09 Jul 2023 16:47:19 -0700
-X-CMAE-Analysis: v=2.4 cv=Fu3DvUnq c=1 sm=1 tr=0 ts=64ab4707
- a=2X41b4ieGfoJAKBLAMfEgQ==:117 a=HpEJnUlJZJkA:10 a=M8Dd_m5H9PaUuAlbF28A:9
-X-SECURESERVER-ACCT: UNKNOWN
-From: "Boost Your Sales" <ytzax7kf@cuttingexperts.com>
-Subject: Boost Your Sales Todayfmt1
-To: linux-nvme@lists.infradead.org
-Content-Type: text/plain
-Date: Sun, 9 Jul 2023 20:47:19 -0300
-X-Priority: 5
-X-CMAE-Envelope: MS4xfMfW0wqPnJPzyEhGrs8LH/A2Aupr8J1oQb2v9Mo1lY729z8kA6fVK9O9NKKpo9gM3GAwOzOtUhwyZpLp58kfDcKa3pCGLr6wUPtN0qQ0rQcAK9GmhfXP
- P72cfj+510tDql7juumPvkcCmsblapeqe4a+Vnm8UDECncaM6YVZ3ZGLWVtfCAr0BCw6Zlg2tMxntDyE9p8odXP5PEGCniZNAL8AyDFQNV7Hgo9IVr4kmTAH
- YyFxXaj4/fWVUUI75wasaNr8n7/vNXYY+RAoN+hmV2mgjUOqN/ZTPlZK4INBmbmHyLJhzSarFxfdB7Rmn3YwP6iWB7jhZdj2b93sAkzgg0+Gt0zpLVpI3rhY
- tV8skzA0rnrRjmHX3Kk3f4GP20i+HK/9PzYDbN0Sqp6dek0rQgN38XL6HlFViPQxS0e9zvIVJJoVbZtMCOY1ieiareVN1ciwXvzhenykwsIXMvVHCWzBmDkT
- 6SM9dLOKwIH44sXymXT2kuZT4svg/Q48W6J94LUhKZ35aHB83TgSyetNspo=
+	Mon, 10 Jul 2023 06:29:10 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20230710062857epoutp02ecae40428d3b2a9784085b54959d5a2f~wbcFJUtEf1874918749epoutp02d
+	for <linux-nvme@lists.infradead.org>; Mon, 10 Jul 2023 06:28:57 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20230710062857epoutp02ecae40428d3b2a9784085b54959d5a2f~wbcFJUtEf1874918749epoutp02d
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1688970537;
+	bh=AkcllTXaBBgTvGpp8T6MAgMy3lqiAkEaH53w0AU+zOk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=aCqCm77vnKI3Sb57gV/tORBkqAOp27/tq1AorR3CCq0AtsstcywQEM5Ndi1mpwPRf
+	 MutVwrUedylonUAtm7CfSA0eU1QcXI3YOPxuuQ8+8wC4Mbh64Aiz+VShTEGkdcB+aQ
+	 kx7HFu+fpiQ+mMHdyNCXJ3kX4yFBcERdcozsdAUU=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20230710062856epcas5p2880af543580e2063d281acd332e97161~wbcEompir0427004270epcas5p2q;
+	Mon, 10 Jul 2023 06:28:56 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.175]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4QzvGb2Td5z4x9Q7; Mon, 10 Jul
+	2023 06:28:55 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	AE.14.44250.725ABA46; Mon, 10 Jul 2023 15:28:55 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20230710061719epcas5p36b7be425517b0b09d73540b18fc17748~wbR7vCBu91195211952epcas5p3V;
+	Mon, 10 Jul 2023 06:17:19 +0000 (GMT)
+Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20230710061719epsmtrp1bebd27292cfbc5654c3251e1e80611db~wbR7t2fVC1310913109epsmtrp1d;
+	Mon, 10 Jul 2023 06:17:19 +0000 (GMT)
+X-AuditID: b6c32a4a-ec1fd7000000acda-96-64aba52792cd
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
+	86.2E.64355.F62ABA46; Mon, 10 Jul 2023 15:17:19 +0900 (KST)
+Received: from green245 (unknown [107.99.41.245]) by epsmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20230710061715epsmtip1965f1b463cf314395eb9ac24b4926cc0~wbR3v5VNB2634026340epsmtip1p;
+	Mon, 10 Jul 2023 06:17:15 +0000 (GMT)
+Date: Mon, 10 Jul 2023 11:44:01 +0530
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>, Jens Axboe
+	<axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon
+	<agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi
+	Grimberg <sagi@grimberg.me>, James Smart <james.smart@broadcom.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>, Alexander Viro
+	<viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+	linux-scsi@vger.kernel.org, willy@infradead.org, hare@suse.de,
+	djwong@kernel.org, bvanassche@acm.org, ming.lei@redhat.com,
+	dlemoal@kernel.org, nitheshshetty@gmail.com, gost.dev@samsung.com, Kanchan
+	Joshi <joshi.k@samsung.com>, Javier =?utf-8?B?R29uesOhbGV6?=
+	<javier.gonz@samsung.com>, Anuj Gupta <anuj20.g@samsung.com>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v12 5/9] nvme: add copy offload support
+Message-ID: <20230710061401.43uzki644sw5jagz@green245>
+MIME-Version: 1.0
+In-Reply-To: <ZIKphgDavKVPREnw@infradead.org>
+User-Agent: NeoMutt/20171215
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xTdxTH+d3b3hYZ5gISf+ADcjed4MDWlfJDYC6DmOtwhCmbi1nCOnpH
+	EWibPsacMVIY76f4GHSggiDPQaBsAwHHygAFtFuYNBJgMAuLNhPkoSIKoy26/fc553tev3Py
+	4+LOXRx3bqxUxSikoniK2MD6sdvL2+fNyjoxr2neATX29+IoueAFjurG8glk7p4D6MLsEo5M
+	XekADZk2oomf96POh9+x0d2uNgx1lBdiaKCgHEM1dT0Yai97hKF7o/Mc1LP6D4EK9cMATd3R
+	YqhzZDcqS6tgoY7Omyw0dK2EQJeuTnFQtrGVQFV9KxjSn03BUKtJA1CDeYaFboxsQYYXfWy0
+	/LSEeNeDHvojjNb+eYug27RjHNow3sSiddXe9NAtNd1cm0nQuorTdPvdJIK+kneWTeemPCTo
+	R1MjLHrm+h2CzmupBbRu4CQ937w9wulYXJCEEYkZhScjjZaJY6UxwVTYkaiQKD8hj+/DD0D+
+	lKdUlMAEU6GHInwOxMavLYvy/FIUr15zRYiUSmrPO0EKmVrFeEpkSlUwxcjF8XKB3FcpSlCq
+	pTG+Uka1j8/j7fVbC/wsTjKgKcLkTx2/KikewZLArw5ZgMuFpACOzLlkgQ1cZ7IdwNkryWyb
+	MQdgzfVlziujP28WzwL21oyczEHcJrQBeL/XaBWcyWkAMxY/sTCL3AEXdSssSwuC3A0HVrkW
+	9ybSC45UpVtzcbKbA58YilkWwYUMhBNGs7WOIymE2fUGzMZO8GaxyRpjT/rAwccTwMKu5FZY
+	VLloLQTJOXs4+ff8+nShsOeqFrOxC3zQ18KxsTu8n5+2zomw5lw1YUv+BkCtUQtswn6Y2p+P
+	W6bGSQkcngm2ubfB8/0N1po4uRHmLpvW6zvC1osv+XVY33iZsLEbHH6iWWcaNv32nLBtawWD
+	5uUfsALgof3f47T/tdNaW+yDmbPJbJt7C6xa4drQCzZe23MZsGuBGyNXJsQwSj/5XimT+Ore
+	0bKEZmD9St7vt4LJiVlfPcC4QA8gF6c2Ocp/qRU7O4pFJ75mFLIohTqeUeqB39qtzuDurtGy
+	tb8oVUXxBQE8gVAoFAS8LeRTmx3NqaViZzJGpGLiGEbOKF7mYVx79ySsdGYq91N1JL388cKR
+	3oPZ7gsZnP4Wu2ctAceCawsCW9+KvMjmrvIwVkiVUWoXdO40Si2Qbf0w6EEF5jTuOlgtonSB
+	C4KsRVMa16xVSwKC83cuOZQ3VxY+X5R8UaSXq/yLPndr1LdFnH+syPn+g8EAu9SyjNLbyyEd
+	r9HhodsPjrJ+H50rOZk4tC3mRgN2KezZEl4J+KW5FMPfWRZ5RvfRYXZ2UPqpbz3uaVKO4yeK
+	04iJo+7e0dm7Mu1NRr15MHDVkFQhv3D7Df3h5hQwm6n5Kyd9TK6pPz5t7KIivfJDDUen/fm8
+	0r7xWKV/1S5TuND1lH3ET+FZZYd2vDc1udmBYiklIr43rlCK/gWa8eSm0wQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrPIsWRmVeSWpSXmKPExsWy7bCSnG7+otUpBnP36VmsP3WM2aJpwl9m
+	i9V3+9ksXh/+xGgx7cNPZosnB9oZLS4/4bN4sN/eYu+72awWNw/sZLLYs2gSk8XpCYuYLFau
+	PspksXvhRyaLx3c+s1sc/f+WzWLSoWuMFk+vzmKy2HtL22Jh2xIWiz17T7JYXN41h81i/rKn
+	7Bbd13ewWSw//o/J4tDkZiaLHU8aGS3WvX7PYnHilrTF+b/HWS1+/5jD5iDvcfmKt8es+2fZ
+	PHbOusvucf7eRhaPzSu0PC6fLfXYtKqTzWPzknqP3Tcb2DwW901m9ehtfsfm8fHpLRaP9/uu
+	snn0bVnF6LH5dLXH501yAYJRXDYpqTmZZalF+nYJXBnXTnUzF6ziruhqbGBvYJzA2cXIySEh
+	YCLR03mGuYuRi0NIYDujxP97e9kgEpISy/4eYYawhSVW/nvODmILCTxhlJizyAjEZhFQlfi6
+	+R9LFyMHB5uAtsTp/xwgYREBTYlby9vBZjILHGeX2LF5BwtIQljAWuLB9ddgM3kFzCS615xn
+	gljcxCxx4HgXK0RCUOLkzCdgDcxARfM2P2QGWcAsIC2x/B/YAk4BXYkz3x4wgtiiAjISM5Z+
+	ZZ7AKDgLSfcsJN2zELoXMDKvYhRNLSjOTc9NLjDUK07MLS7NS9dLzs/dxAhOI1pBOxiXrf+r
+	d4iRiYPxEKMEB7OSCG/BwVUpQrwpiZVVqUX58UWlOanFhxilOViUxHmVczpThATSE0tSs1NT
+	C1KLYLJMHJxSDUzMh+RcBTh2ehzl4HRosmI99OVHYN3f5oS0m1JfDv7ZoOeWq5//6o3VgbIb
+	E66/TKi7+lSF52+9gAWfXli8gXBX/Z7Pny9Hxe+WnRKvuT7kU+PNFc3zhN5EuV1LO+z/Wj1r
+	J+dNz1XeUgVOdbf0Oo7JzN+0KfvR7fNnOp/nvBQqNV93uMEwOluwUrSR/4PjSffmZU9Yrh02
+	POe4e/H0u+pBJ3LOG55k9HylE9T+9DFnm3vEcr0bnk92fHa99c84MjO8e+/M7ftUBR+xSeun
+	7Nh62kr/oUiac9gM40n27xrjpb/kbfVYscvqZqbH/phTBcIyf/Re3HDzS3nSkSx2uO7+erP7
+	v3daugYtqBOaX6rEUpyRaKjFXFScCACXJ/QPkgMAAA==
+X-CMS-MailID: 20230710061719epcas5p36b7be425517b0b09d73540b18fc17748
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----RbnLpepSOhDWt1JmDV6HMUWO9Dmn-C3OOrycHY1seGoKI43i=_b1f2d_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230605122310epcas5p4aaebfc26fe5377613a36fe50423cf494
+References: <20230605121732.28468-1-nj.shetty@samsung.com>
+	<CGME20230605122310epcas5p4aaebfc26fe5377613a36fe50423cf494@epcas5p4.samsung.com>
+	<20230605121732.28468-6-nj.shetty@samsung.com>
+	<ZH3mjUb+yqI11XD8@infradead.org> <20230606113535.rjbhe6eqlyqk4pqq@green245>
+	<ZIAt7vL+/isPJEl5@infradead.org> <20230608120817.jg4xb4jhg77mlksw@green245>
+	<ZIKphgDavKVPREnw@infradead.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230709_164825_052773_0902DD3D 
-X-CRM114-Status: UNSURE (   1.32  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230709_232907_989179_EB103870 
+X-CRM114-Status: GOOD (  20.77  )
 X-Mailman-Approved-At: Wed, 12 Jul 2023 09:09:23 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -61,48 +156,50 @@ List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
-Message-ID: <E1qJcP6-000TCB-2b@bombadil.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Boost Your Email Marketing Success Now!
+------RbnLpepSOhDWt1JmDV6HMUWO9Dmn-C3OOrycHY1seGoKI43i=_b1f2d_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-Discover the ultimate email lists for your campaigns.
+On 23/06/08 09:24PM, Christoph Hellwig wrote:
+>On Thu, Jun 08, 2023 at 05:38:17PM +0530, Nitesh Shetty wrote:
+>> Sure, we can do away with subsys and realign more on single namespace copy.
+>> We are planning to use token to store source info, such as src sector,
+>> len and namespace. Something like below,
+>>
+>> struct nvme_copy_token {
+>> 	struct nvme_ns *ns; // to make sure we are copying within same namespace
+>> /* store source info during *IN operation, will be used by *OUT operation */
+>> 	sector_t src_sector;
+>> 	sector_t sectors;
+>> };
+>> Do you have any better way to handle this in mind ?
+>
+>In general every time we tried to come up with a request payload that is
+>not just data passed to the device it has been a nightmare.
+>
+>So my gut feeling would be that bi_sector and bi_iter.bi_size are the
+>ranges, with multiple bios being allowed to form the input data, similar
+>to how we implement discard merging.
+>
+>The interesting part is how we'd match up these bios.  One idea would
+>be that since copy by definition doesn't need integrity data we just
+>add a copy_id that unions it, and use a simple per-gendisk copy I/D
+>allocator, but I'm not entirely sure how well that interacts stacking
+>drivers.
 
-100% VALID email lists worldwide.
+V13[1] implements that route. Please see if that matches with what you had
+in mind?
 
-Contact us on WhatsApp:
-+55 11 91264 6760
+[1] https://lore.kernel.org/linux-nvme/20230627183629.26571-1-nj.shetty@samsung.com/
 
-Global Email Lists Available:
+Thank you, 
+Nitesh Shetty
 
-100,000 emails = $150
-500,000 emails = $350
-1 million emails = $500
-5 million emails = $750
-10 million emails = $1000
-
-Segmented Email Lists by Country:
-
-10,000 emails = $150
-50,000 emails = $350
-100,000 emails = $500
-500,000 emails = $750
-1 million emails = $1000
-
-Don't miss out on this opportunity!
-
-Best regards,
-
-AMAZING LISTS
-Unleashing the power of email marketing - since 2009
-
-WhatsApp:
-+55 11 91264 6760
+------RbnLpepSOhDWt1JmDV6HMUWO9Dmn-C3OOrycHY1seGoKI43i=_b1f2d_
+Content-Type: text/plain; charset="utf-8"
 
 
-
-
-
-
-If you wish to unsubscribe, simply reply to this email with the subject line: "Unsubscribe"
+------RbnLpepSOhDWt1JmDV6HMUWO9Dmn-C3OOrycHY1seGoKI43i=_b1f2d_--
 
