@@ -4,75 +4,142 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8449EB64D9
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Jul 2023 09:51:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33860EB64D9
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Jul 2023 09:53:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VlLWxX08b8LJ3Dkp7XTnOw8mVjNbPIPcBglZ+TM5Sow=; b=YPm64J6AriE8tnIk+9PFnYfQD6
-	OvUqD/bqioxBNC7VvbvnbvLErNXcvuKrPpH1dAlymRajNRsNOl/cKB9+Bt636PrsI9rsJdgt66uSS
-	z5tgipfN7m/KrNa3Q4B+Ej8WE5ZzRldH1TWHuP3VQdM8Vkkv7fWX+YzefwyCVOXAQMTFz/OKjRT/n
-	yyxtqeZfkoe/CAckOmRyfY6J3ndgUlwO0Dv8ggVYpPevbUKixQvUegQaD162CHTBp+yeSgBRkriiM
-	AZbf115qQbMlEgn7IBpJE6cb+lzSDI08oFnscvZQ2qc2iWdny0ZJIxs6qI4JK7OYEi7mwQ7UoOoWH
-	IRFBPH9A==;
+	bh=DcACC08flFdwz7WT/AUq0BGDWspg9g4SJTa6SnivBNM=; b=pzX0sFMTunq/WxKmljzjuButQ7
+	3kjkNFb3FH+9zR4uDS7n44iXl8RtNXd6dPguBspThdW347JepX6es/cggubvrJCbu3a8HWSeNo2Ct
+	vL+QKxAH7kCnQ5s6O4+J67DJhCb3RyI0JjOegVFRZa4N7d1NfsO5RodeGbvAGfHsX5zb878eVaeUY
+	1psq9YA5Tid8Dci0a7yTEXd6WHQo7CDDYr26vTwBf1cF00aPBjR2nlUXJAVewshzRJtZjMO29OyWG
+	a+4B5eUWBVMfFsuqWvt066EAI1A9KEQvBX6YsUnoI3g/yeogyHj6ebhqZpLFHFlk4OPpaY4E3cgtr
+	DQHyZgZQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qInY3-00B7Jg-2I;
-	Mon, 10 Jul 2023 09:51:15 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1qInaK-00B7nS-0w;
+	Mon, 10 Jul 2023 09:53:36 +0000
+Received: from mail-dm6nam12on2062b.outbound.protection.outlook.com ([2a01:111:f400:fe59::62b] helo=NAM12-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qInY0-00B7Ik-28
+	id 1qInaH-00B7lO-0W
 	for linux-nvme@lists.infradead.org;
-	Mon, 10 Jul 2023 09:51:14 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1688982671;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VlLWxX08b8LJ3Dkp7XTnOw8mVjNbPIPcBglZ+TM5Sow=;
-	b=Z2lb/voDy1dmsK6iFVnH25cxyCxZmrkNX7l/9UJN7iTts0G/4HtStGYA3D2IRrUeJhFq5p
-	Q76twmdu1riuxGIUi73HW6/gpyLjlvFbeJwsM9GE5JrTyz8rfv82i6c7j4pgHyg7c62xGe
-	PfHLdq2zDgj9ez2ZUqP9WyCvblF9m5g=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-359-CbfClYVXO3OjJhTZmS0Hiw-1; Mon, 10 Jul 2023 05:51:08 -0400
-X-MC-Unique: CbfClYVXO3OjJhTZmS0Hiw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 811FA1044589;
-	Mon, 10 Jul 2023 09:51:07 +0000 (UTC)
-Received: from ovpn-8-33.pek2.redhat.com (ovpn-8-33.pek2.redhat.com [10.72.8.33])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 578C1111E3E4;
-	Mon, 10 Jul 2023 09:51:01 +0000 (UTC)
-Date: Mon, 10 Jul 2023 17:50:56 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org, Yi Zhang <yi.zhang@redhat.com>,
-	Chunguang Xu <brookxu.cn@gmail.com>, stable@vger.kernel.org,
-	ming.lei@redhat.com
-Subject: Re: [PATCH] nvme: mark ctrl as DEAD if removing from error recovery
-Message-ID: <ZKvUgDbdCdScx0e7@ovpn-8-33.pek2.redhat.com>
-References: <20230628031234.1916897-1-ming.lei@redhat.com>
- <8dc6852e-ee90-ed64-1d3e-9ecdc9f4473b@grimberg.me>
- <148a3e62-939f-a74f-8075-8f37cda102ab@grimberg.me>
- <ZKt0wSHqrw3W88UQ@ovpn-8-21.pek2.redhat.com>
- <b11743c1-6c58-5f7a-8dc9-2a1a065835d0@grimberg.me>
- <ZKvH6cO+XnGgQQyc@ovpn-8-31.pek2.redhat.com>
- <8dba03f7-2421-e86b-bc94-ff031c153110@grimberg.me>
+	Mon, 10 Jul 2023 09:53:34 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oKq94d71BbkJedM4JPazNhKh3vHx9GhQMvOrSkC8JQLR6IS1+daGLnY+5k5zUyXPLb7VB/dUQlPLhUEC//+E4/Dp4DPUzkOGgl9z5noEVmQN9LaxCAASCtxZduq7YLas4jUt1ASK9vpRa1IyEqM1oo4x8WiIE6KMh9ILn4EMLPyi/I/xEDMWfISPgdCcG2C2BHSyeWUaVUr32MMruXHciapXzctHsRiALw8UTFH3+DstOVTqqi300dKbuyBmw5CMvMe5qAzVOO5/I3nQ0P55WQ1333EV14svQ7eTP8MYsMjnxjq+lYxpQW95r559h+7QRoYvx+XNlUv7KA+k/bZiAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DcACC08flFdwz7WT/AUq0BGDWspg9g4SJTa6SnivBNM=;
+ b=HkMJzywgCdBTiC93WI2NkQZrEt2wZk5HqlsSQMekn7T3STu91pzt+NiScTlL41FeB+l72nf2AtgONA3D7p9Ik4B7Hgs01TpkkMsnfPqRjy1j9KFZfsSf4XDO4QzWvELF/FioWkG8DplPOa8zt+WCFo8rDorcy2ThFUmB9D8eBI0L0zdpyxwJMFawmO34ACDGLsD74ygz7VkWz/a9wjssavWFBPiXdxez69sGmLdHFAyzKUaqVbRpTBK9E+X+DWnVyEAcdZ+BeoNbAwwHe2n1sUtAxM7KZ54RatbOlM9J/0eXSNfLr9yuSXbADzS7EAkggWuBXjPVGWob+jHtILa9XA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DcACC08flFdwz7WT/AUq0BGDWspg9g4SJTa6SnivBNM=;
+ b=V3zizAkHTr71HzTIYeGhJeP+DM3d2Rv/LTe2AMUfTpfCRlx1+AVuxITGJRGFda8TrwkDuQGWYdUi52pFY35wh2hmFZDwPQvRufeHRgePLh0CAK6GyImxpZP4Nh0TgsRyKPSHzxcM1MYV2wDSngZEvMeLQjfvMyVbXtcTSDRkzskRM6+YnerlgA8rPhMUV8Mb8fqA79bxCHGLqPQ+KQMrcVtEeqNkM+nUPdLe2/5ALLZSNdkBh9b+Zhn6BTjfggmvzzymsUo76UoHt/C1InNPj2YHat+KAJPAocGrouaHIpc0WS3cx1hlnsCS3OuCI6MV5137xhp6p5Iayjim7UkMtw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
+ by BY5PR12MB4997.namprd12.prod.outlook.com (2603:10b6:a03:1d6::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.31; Mon, 10 Jul
+ 2023 09:53:25 +0000
+Received: from DM4PR12MB5040.namprd12.prod.outlook.com
+ ([fe80::5fe3:edc2:ade4:32ea]) by DM4PR12MB5040.namprd12.prod.outlook.com
+ ([fe80::5fe3:edc2:ade4:32ea%7]) with mapi id 15.20.6565.028; Mon, 10 Jul 2023
+ 09:53:25 +0000
+Message-ID: <39f9977e-b34c-f2dd-d356-8c78414a60d1@nvidia.com>
+Date: Mon, 10 Jul 2023 12:53:17 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH blktests v1 2/3] nvme/rc: Avoid triggering host nvme-cli
+ autoconnect
+To: Daniel Wagner <dwagner@suse.de>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, Chaitanya Kulkarni <kch@nvidia.com>,
+ Shin'ichiro Kawasaki <shinichiro@fastmail.com>,
+ Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
+ James Smart <jsmart2021@gmail.com>,
+ Martin Belanger <Martin.Belanger@dell.com>
+References: <20230620132703.20648-1-dwagner@suse.de>
+ <20230620132703.20648-3-dwagner@suse.de>
+ <9c07e4f6-2cf5-b53b-6b48-bd4df8798ee9@nvidia.com>
+ <bz2s6nyjwl6l7yfrd4wtjdtousv23ypcdleckibps5lyjpwi4x@wqq6qqesevpk>
+Content-Language: en-US
+From: Max Gurtovoy <mgurtovoy@nvidia.com>
+In-Reply-To: <bz2s6nyjwl6l7yfrd4wtjdtousv23ypcdleckibps5lyjpwi4x@wqq6qqesevpk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MR1P264CA0197.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:501:57::12) To DM4PR12MB5040.namprd12.prod.outlook.com
+ (2603:10b6:5:38b::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8dba03f7-2421-e86b-bc94-ff031c153110@grimberg.me>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5040:EE_|BY5PR12MB4997:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7e5fba17-6df9-4385-5a81-08db812b80e3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: PzamXNvVN1h3OEM39McvEtzIElDcKkKEXyGQH08wAzynSRx1HuYuhUAW0U6TM+dI9ZmvvetOfpZHOyI8a/r9x7JGhftTvix7Jy/4m0bSuch5xruwZVxKksGmIx3jkePA7jUyOwfyz0mxLuhj7vmrlEuzJXi26lAQZ/FYwRqdeRixuos0X7sZTdeM6OOW4S0/rRWnAMDAEElu03WxxZVMyPRxFF1oXZtBqwcccTIJf88e+e3/XEXXNBquDL8bo8e10qFFJGLLxFKzflNcjLy2BC+FJnvmXJdMJxfC+GM9CIpeaGhJsX+P7U+Oi6rmRfVweJAwKxeIwXlrZDy1sWDVfKZyToF3UGkv2ARQUyyv0LyjZQb8sg9wfrWEmANiDrRQHH/SpjIp4QifNGXXqRXQhvxw52QCHsUFHtTaFFAqR3Dv/ocg+3AZMMsFbvXHT5lJDaxx4sgxoBdsi6OvmP8viTD7C1nVoDR52KZSMaz2Hx6j7oCI4o1ZkiFw9AP+iFZtp7bfjDvyLH+xfkwaJ5vrv+FTln3+9ksdLpf/nskVcaRb+zFGEN62vP2YH04D6DJPjLPIMYUTDr2PZOqibwVxIeKOVyZltmJk7ndvH4c8mG0KCVh4SVuEbXYyN/RQc+wOK983xmIFJ+df0RkolSDHZEzKSF06ZE9mSK6aIrQ6YsUZS+JmldUJJB8tEI6iUfzl
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(366004)(39850400004)(396003)(136003)(451199021)(86362001)(31696002)(31686004)(5660300002)(8676002)(8936002)(41300700001)(38100700002)(316002)(2906002)(6916009)(4326008)(66476007)(66946007)(66556008)(54906003)(83380400001)(6666004)(6486002)(478600001)(186003)(2616005)(6506007)(966005)(6512007)(36756003)(53546011)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VmZ5R0lFZGdWSkdLQXlrUE43SHpyYzIwRFd4RXFVcDNNNitGQWpiVndoUWd5?=
+ =?utf-8?B?dklYMUVpTWZ4MUV6MFpQNVVhZktheXZwU01XMHJJQ29mcURNbTl5enR3MzNK?=
+ =?utf-8?B?V3pRckVsZ0lkK1ZiR3N6Yld5ZUEzNVJQTWRhM1dlamVSYkhOeFljelRVOHky?=
+ =?utf-8?B?ZW40aEwvMllWZGR0aEZOelFHRGwyU3B3Mml4VEh0VDc3QjhGZm43Sy9leHBB?=
+ =?utf-8?B?N1ppOU1mOGVDR3ZIdGpoTjZueHRDa3REWEhLV25FaytEWkluWGRYRmZEdG1X?=
+ =?utf-8?B?RzR2REFtVTRYUWlMeVdoY014QUdsV1c0OVdZY0NTUUc3T3pCK2Q5RDBwSmJV?=
+ =?utf-8?B?bzZ5MFNjYXBKVXgveGlhWjRYanJGeGVEaDVudWovU2ZwcSt1ZkF0dWM0ZGhl?=
+ =?utf-8?B?OFM1ZUFyWXpWKzV5U1oxNUYrc3lybWI5UWFZVURCeXAvQVpWTXpTTGExV1Y4?=
+ =?utf-8?B?RGI1N2h3VHR0L0FxM0dyM3kwQm9OSTlKbDdPWTJ6blNxcXpPTFl1L2ZLR0tD?=
+ =?utf-8?B?OGdubXV4cWNhODJmUW9OVXZLbkJ0ZmNBbnBWdHNHelJaTThjRUJBZkxFUzhW?=
+ =?utf-8?B?RHFDaFFzdTRSOHVvdG95U0dWRTUwQjluamtTQVlYMC9yakNzMUkvRHBOT1Yw?=
+ =?utf-8?B?UFVlMzhSSURYdXRwNVRkalBleXFvaWVlQjM2MUI4YWVuazdBbmlZcjZkQWFa?=
+ =?utf-8?B?VTBEMk16cVZpTTc0SFhKdHhwMzROcGl0eHN1R0srQjVMNUtoa3J5cTJ2NWYx?=
+ =?utf-8?B?YVBjaHh2MjNwRkhEVUlvaGFac3NzTzk3S2cxa3VRL3pxOU1BTitPKytJM0NQ?=
+ =?utf-8?B?aVFMMnp0TWV0Mzk2MmpBNFdIOXlaMW5hL1p0ZGVQU0lacWQyTmsrQkFQN1Vv?=
+ =?utf-8?B?UW44MFVpelNJNWsrUWJlczR6VzV0N3NWZkRTVTRvNnJDbUpkM01tTzdBaEoz?=
+ =?utf-8?B?NG9YRWJRNFFDd3JjT2pBVHM1SDBEQUZMYmVFcnVxK3R3dVd6OTVITXFYL291?=
+ =?utf-8?B?QitUdVRtS0JtOXZUQlV4TDZtN1dMamVSTTVYdlhvWTgxdWdySjc1ZHBzbUUr?=
+ =?utf-8?B?Nks0eUhIS1BrVUlEM2Zod1BsUXl0TXZ5bDhLWnRPNmVTSnc4aEtMenJ3VERn?=
+ =?utf-8?B?TlZMRlJzeEkxejJzNy9ESitoUjB0YXMwdVlNT09LV2ExSHNDU2xVSWNwMXcx?=
+ =?utf-8?B?MVVQTW9jemt4U0FWZFg2NkhXUm9QSTNDMUFlMjhEU2toRncrOU1GN1YzWWlr?=
+ =?utf-8?B?SzliS2k0ZGxMV0pSeFI1RUhnWlpaYjFNVnVhM0U0bW1xQ21iakR1MUoxcWFx?=
+ =?utf-8?B?TmpnK0pKZkNKNzFRSDNHNXJML0xNTVBKZzZRd3J6UHlIbXRBWUxVNmxTaU9L?=
+ =?utf-8?B?MjRaYzFEVDFRRjFiM3FDUFowK1BpbGQyUFVLY1h2cEtNQWtldWN3ZDRKQWcy?=
+ =?utf-8?B?MXQ1RnVFcjJ6b0U2aUFrcDByazgxVURzYWY0STBSaCswZHZVWW5mOXU5WlBq?=
+ =?utf-8?B?TWJpSEtiakgyZUw0bU9CSWdvdTNHN2NaNlhZbElJNGh5ckJnb1d3dGs0S0ZO?=
+ =?utf-8?B?bFJTbkF5aEVjVFBWVk4ybG5LRTNXa3UveGhLeUk4WEtKMDFNdmpqbXhyTDhw?=
+ =?utf-8?B?N01naFoxSE56LzVFemZ1TWtYTlFYMzRxejgrS25UTm1YVHJZTk4wV0orYUpp?=
+ =?utf-8?B?NjdDRkFRWEFrK2FXMU45TVp0RzQwRUVQRVBlTHJOYm1WQ1M0eWpPa0gwUmNQ?=
+ =?utf-8?B?TzhXLzRzMXZoU0M4TFNrSUEwVGtZM3N0QlladjhWZE9BNTZ1OHVrK3RoK3Fx?=
+ =?utf-8?B?eXo3cXdZbUUzWmg5Vi9QUUx4eFkzQ3FqR2FzQ0t6UFhqVDNqNSt1L0phQjR6?=
+ =?utf-8?B?VmtBNGJQdWFWejlxdVE1VTB5V3NxZWdvZVlSMjFHYXFkelJucnVuV2RNSnFQ?=
+ =?utf-8?B?UzRjZHVHTDIrekI3dDBFaTg4THRaaTlicGdnZkZUbzVwRnBGODFZSDZPUEVt?=
+ =?utf-8?B?dTlTMC9LSlQxRHdMR054bDJhYkkyc3ZVUHI3WVRzODhGWG5ldU04b3lzSC9t?=
+ =?utf-8?B?czJsTTN5UGlOellvM1JVdlVjQkFxUXNKc09aU1ZLcUxWaTgvdE1jMnUrZHBW?=
+ =?utf-8?B?dWFSb1NIZFZZSjFZeHVSOTBxcGhYclZ5TG9DMkJNbDdZR3BVMC9nWFY4djA0?=
+ =?utf-8?B?ZWtxVVk4SFRlcVI5ejlnUXRRRHNwUkNpNXJiaUI4UTQ5d0dvbHpRZWUrTmxK?=
+ =?utf-8?B?ZjNoNDBBNDNRZDZsYWJ0djlob2p3PT0=?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e5fba17-6df9-4385-5a81-08db812b80e3
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2023 09:53:25.1822
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /oM942S9pSoj4Ea2I1N1y82pMGdtisVvf9ptRNzucX16JRGkjP3NE+PO5tb+0Sv+uoTHEfpgYqOhyKdGuzrvgw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4997
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230710_025112_785211_11A4BE1A 
-X-CRM114-Status: GOOD (  49.90  )
+X-CRM114-CacheID: sfid-20230710_025333_297690_07C1977E 
+X-CRM114-Status: GOOD (  15.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,130 +154,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jul 10, 2023 at 12:27:31PM +0300, Sagi Grimberg wrote:
+
+
+On 10/07/2023 11:27, Daniel Wagner wrote:
+> On Thu, Jul 06, 2023 at 07:11:58PM +0300, Max Gurtovoy wrote:
+>>
+>>
+>> On 20/06/2023 16:27, Daniel Wagner wrote:
+>>> When the host has enabled the udev/systemd autoconnect services for the
+>>> fc transport it interacts with blktests and make tests break.
+>>>
+>>> nvme-cli learned to ignore connects attemps when using the
+>>> --context command line option paired with a volatile configuration. Thus
+>>> we can mark all the resources created by blktests and avoid any
+>>> interaction with the systemd autoconnect scripts.
+>>
+>> why would we like to ignore connect attempts during blktests ?
 > 
-> > > > > > I still want your patches for tcp/rdma that move the freeze.
-> > > > > > If you are not planning to send them, I swear I will :)
-> > > > > 
-> > > > > Ming, can you please send the tcp/rdma patches that move the
-> > > > > freeze? As I said before, it addresses an existing issue with
-> > > > > requests unnecessarily blocked on a frozen queue instead of
-> > > > > failing over.
-> > > > 
-> > > > Any chance to fix the current issue in one easy(backportable) way[1] first?
-> > > 
-> > > There is, you suggested one. And I'm requesting you to send a patch for
-> > > it.
-> > 
-> > The patch is the one pointed by link [1], and it still can be applied on current
-> > linus tree.
-> > 
-> > https://lore.kernel.org/linux-nvme/20230629064818.2070586-1-ming.lei@redhat.com/
+> The problem I observed is that there were two connect attempts (one triggered
+> via udev and one via the test itself) which disturbed the test. The interference
+> resulted into a complete hang of the test case:
 > 
-> This is separate from what I am talking about.
+> https://lore.kernel.org/linux-nvme/6g53yj5afhhonwf2psf7ft2gkakkwewy7klkix3y3u6uclpa5w@tt2yfzigyxgg/
 > 
-> > > > All previous discussions on delay freeze[2] are generic, which apply on all
-> > > > nvme drivers, not mention this error handling difference causes extra maintain
-> > > > burden. I still suggest to convert all drivers in same way, and will work
-> > > > along the approach[1] aiming for v6.6.
-> > > 
-> > > But we obviously hit a difference in expectations from different
-> > > drivers. In tcp/rdma there is currently an _existing_ bug, where
-> > > we freeze the queue on error recovery, and unfreeze only after we
-> > > reconnect. In the meantime, requests can be blocked on the frozen
-> > > request queue and not failover like they should.
-> > > 
-> > > In fabrics the delta between error recovery and reconnect can (and
-> > > often will be) minutes or more. Hence I request that we solve _this_
-> > > issue which is addressed by moving the freeze to the reconnect path.
-> > > 
-> > > I personally think that pci should do this as well, and at least
-> > > dual-ported multipath pci devices would prefer instant failover
-> > > than after a full reset cycle. But Keith disagrees and I am not going to
-> > > push for it.
-> > > 
-> > > Regardless of anything we do in pci, the tcp/rdma transport
-> > > freeze-blocking-failover _must_ be addressed.
-> > 
-> > It is one generic issue, freeze/unfreeze has to be paired strictly
-> > for every driver.
-> > 
-> > For any nvme driver, the inbalance can happen when error handling
-> > is involved, that is why I suggest to fix the issue in one generic
-> > way.
+>> We define unique nqn/ids/etc. So we never should disturb other running
+>> services, unless it uses the same parameters, which shouldn't happen.
 > 
-> Ming, you are ignoring what I'm saying. I don't care if the
-> freeze/unfreeze is 100% balanced or not (for the sake of this
-> discussion).
+> Yes, that should do the decoupling between udev and blktests.
 > 
-> I'm talking about a _separate_ issue where a queue
-> is frozen for potentially many minutes blocking requests that
-> could otherwise failover.
+>> Agree on setting the hard coded values for hostnqn and hostid instead of
+>> reading the /etc/nvme/* files. This should do the work IMO, isn't it ?
 > 
-> > > So can you please submit a patch for each? Please phrase it as what
-> > > it is, a bug fix, so stable kernels can pick it up. And try to keep
-> > > it isolated to _only_ the freeze change so that it is easily
-> > > backportable.
-> > 
-> > The patch of "[PATCH V2] nvme: mark ctrl as DEAD if removing from error
-> > recovery" can fix them all(include nvme tcp/fc's issue), and can be backported.
-> 
-> Ming, this is completely separate from what I'm talking about. This one
-> is addressing when the controller is removed, while I'm talking about
-> the error-recovery and failover, which is ages before the controller is
-> removed.
-> 
-> > But as we discussed, we still want to call freeze/unfreeze in pair, and
-> > I also suggest the following approach[2], which isn't good to backport:
-> > 
-> > 	1) moving freeze into reset
-> > 	
-> > 	2) during resetting
-> > 	
-> > 	- freeze NS queues
-> > 	- unquiesce NS queues
-> > 	- nvme_wait_freeze()
-> > 	- update_nr_hw_queues
-> > 	- unfreeze NS queues
-> > 	
-> > 	3) meantime changes driver's ->queue_rq() in case that ctrl state is NVME_CTRL_CONNECTING,
-> > 	
-> > 	- if the request is FS IO with data, re-submit all bios of this request, and free the request
-> > 	
-> > 	- otherwise, fail the request
-> > 
-> > 
-> > [2] https://lore.kernel.org/linux-block/5bddeeb5-39d2-7cec-70ac-e3c623a8fca6@grimberg.me/T/#mfc96266b63eec3e4154f6843be72e5186a4055dc
-> 
-> Ming, please read again what my concern is. I'm talking about error recovery
-> freezing a queue, and unfreezing only after we reconnect,
-> blocking requests that should failover.
+> Do you mean that nvme-cli will ignore the udev trigger when a different hostnqn
+> is invovled? At least for the well-known discover controller the hostqnq
+> doesn't work. Though not sure if I understood you correctly here.
 
-From my understanding, nothing is special for tcp/rdma compared with
-nvme-pci.
-
-All take two stage error recovery: teardown & [reset(nvme-pci) | reconnect(tcp/rdma)]
-
-Queues are frozen during teardown, and unfreeze in reset or reconnect.
-
-If the 2nd stage is failed or bypassed, queues could be left as frozen
-& unquisced, and requests can't be handled, and io hang.
-
-When tcp reconnect failed, nvme_delete_ctrl() is called for failing
-requests & removing controller.
-
-Then the patch of "nvme: mark ctrl as DEAD if removing from error recovery"
-can avoid this issue by calling blk_mark_disk_dead() which can fail any
-request pending in bio_queue_enter().
-
-If that isn't tcp/rdma's issue, can you explain it in details?
-
-At least, from what you mentioned in the following link, seems it is
-same with what I am trying to address.
-
-https://lore.kernel.org/linux-nvme/b11743c1-6c58-5f7a-8dc9-2a1a065835d0@grimberg.me/T/#m5f07ee01cdc99b0b38305d8171e9085921df2bc2
-
-Thanks, 
-Ming
-
+All I was saying is that your issue would have been fixed easily by 2-3 
+LOC by removing the usage of /etc/nvme/* files that are usually 
+configured by system administrator and use a default values for blktests 
+hostnqn and hostid.
+The usage of --context in blktests is redundant IMO.
 
