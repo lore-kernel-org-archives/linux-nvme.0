@@ -4,74 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93607EB64D9
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Jul 2023 15:36:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51B16EB64D9
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Jul 2023 15:37:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
-	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JJt3F0DoRKHyViNzL/t4BeQj05JapErM6wRBtE4ao8A=; b=JWPa920wN63HRG3dfBZsNm7ZtW
-	481Jm/hQSq78WSwfYHwzKoJ2DzRi/NcyOn1QDiefFU9vhkyomFfWg8Z/8h+AZ1xtzPGaK57anwwyo
-	VpBp+r+Jn/B7/2tzeNfdVxVVlmBZenqLdlqNMZLwGt2njUoLwJ5S4o2lNIXgBUCfVhbu3HYNp7jiM
-	GesgQyGD4EWYpxtJIFWD4ZrUMkKkEImh5nX24x+P4494+yinprevSCPubHcJAylFKZwhQCWc05gXx
-	7DDsnaxSa6613GU7lYMAbOs5w++3ZW/NNvw4NbjjUHU3AiiDj/qh8PezxBsLn2Jf6uyxPlZS4sTHx
-	6Yn2CBbA==;
+	bh=yk3h8MT1WXQ4Hzm+/nTwX2HobwerbK0LKQs2bmU3+jk=; b=2T/ZRpusZd1lxn4domxtH7C0ss
+	lQVnByaMoVaCSwiRNdT+sh5ZWcm6PzumY/n4ZHWdX+svsh/JRVwgZn9FBXLl4s4Go+cYtxk6sHr/N
+	qXBs76PmEVvURmz3p97Mdtn5zzdV1rba+pVqvusfAXQq5f+6eHm6NSv5p1KQpnvfzCpsC2rFyi2zG
+	5kqFr/5t4lEfafU6IooLcyvmpxOgMLIsLiYSFAWarAdWQgIidb/Rf7Hbavhj3AUB18rqbZVBX8JFA
+	yDuL+dq5SmcRvkTSkgvTj61bAGPlfSQRPNFcSwJBGBMI7TNSjy+57MSxZ087uv3XETLgK02gLln34
+	fIvE02xw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qIswW-00C12Z-2M;
-	Mon, 10 Jul 2023 15:36:52 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1qIsxQ-00C1TJ-10;
+	Mon, 10 Jul 2023 15:37:48 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qIswT-00C10e-2K
+	id 1qIsxM-00C1RA-15
 	for linux-nvme@lists.infradead.org;
-	Mon, 10 Jul 2023 15:36:50 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1689003408;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JJt3F0DoRKHyViNzL/t4BeQj05JapErM6wRBtE4ao8A=;
-	b=RipCcANYi2Z3DBszPd2Sle2yVGGPTqz/fROX7s+U8OdsZNdXedJyE/ZgxWr+lLNfXocfkc
-	L7Iji0xCvFhEYOzEspd5IM6lgIh6FTahGoDh4zpaWWfxfBGuGIYU+L0IFA5Nkh0QhZTDQ8
-	jgWWl89Q6iO/Tm3XWE5lBMriDZc3BiA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-414-0WkjM26EP6G4gn0VieCb1w-1; Mon, 10 Jul 2023 11:36:47 -0400
-X-MC-Unique: 0WkjM26EP6G4gn0VieCb1w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	Mon, 10 Jul 2023 15:37:46 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1F4BA1C07827;
-	Mon, 10 Jul 2023 15:36:47 +0000 (UTC)
-Received: from localhost (ovpn-8-19.pek2.redhat.com [10.72.8.19])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 350A040C206F;
-	Mon, 10 Jul 2023 15:36:45 +0000 (UTC)
-From: Ming Lei <ming.lei@redhat.com>
-To: Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org
-Cc: Yi Zhang <yi.zhang@redhat.com>,
-	Chunguang Xu <brookxu.cn@gmail.com>,
-	Ming Lei <ming.lei@redhat.com>
-Subject: [PATCH 6/6] nvem: rdma: move start freeze into nvme_rdma_configure_io_queues
-Date: Mon, 10 Jul 2023 23:35:55 +0800
-Message-Id: <20230710153555.1766438-7-ming.lei@redhat.com>
-In-Reply-To: <20230710153555.1766438-1-ming.lei@redhat.com>
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 9E13561070;
+	Mon, 10 Jul 2023 15:37:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97F76C433C7;
+	Mon, 10 Jul 2023 15:37:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1689003463;
+	bh=UH9FD6H4E8FgVGpGrI10/m2MFNWZjqwwvLW65UsSe9w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QM0MOFFaogZsNCLdvOIVJizQKOk6ReGZFQDD6LxUb543yeezLwPAystRKd3DpVsnj
+	 nI6DdZgFUKdZJ08pa2RIssoB1sTsuJ2iZv/Jc1m0zVWcBNgom0S92S+WoknE9kpkBb
+	 4L7CEQY/tlAt+MXshVmo9iCZxfkxB5N23zR+I7TTe1mStU+nZs/IpLP2EbwYzeNFko
+	 gltLN4SbVrkEKzLc0w6/DdjQHNLrPJ9CnwxjpGPQc8yLXyfWBpTjqD5EfMPO2ezZ/s
+	 Ui6WRPnylNm0VR2ZhgDlMV9L3Jajd+02z8bkvFOViQiF+mkbJvBfCjUkfbwyx3jP/a
+	 omrrki/TXN1Dw==
+Date: Mon, 10 Jul 2023 09:37:40 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org, Yi Zhang <yi.zhang@redhat.com>,
+	Chunguang Xu <brookxu.cn@gmail.com>
+Subject: Re: [PATCH 1/6] nvme: unquiesce io queues when removing namespaces
+Message-ID: <ZKwlxGBI2zUzbacn@kbusch-mbp.dhcp.thefacebook.com>
 References: <20230710153555.1766438-1-ming.lei@redhat.com>
+ <20230710153555.1766438-2-ming.lei@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230710153555.1766438-2-ming.lei@redhat.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230710_083649_830774_6FEBC677 
-X-CRM114-Status: GOOD (  14.11  )
+X-CRM114-CacheID: sfid-20230710_083744_437991_3B5FB568 
+X-CRM114-Status: GOOD (  11.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,55 +76,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Move start_freeze into nvme_rdma_configure_io_queues(), and there is
-at least two benefits:
+On Mon, Jul 10, 2023 at 11:35:50PM +0800, Ming Lei wrote:
+> Error recovery can be interrupted by controller removal, then the
+> controller is left as quiesced, and IO hang can be caused.
+> 
+> Fix the issue by unquiescing controller unconditionally when removing
+> namespaces.
+> 
+> This way is reasonable and safe given forward progress can be made
+> when removing namespaces.
 
-1) freeze and unfreeze are done in pair
+Looks good.
 
-2) IO during error recovery can be failfast quickly because nvme fabrics
-unquiesces queues after teardown.
-
-One side-effect is that !mpath request may timeout during connecting
-because of queue topo change, but that looks not one big deal:
-
-1) same problem exists with current code base
-
-2) compared with !mpath, mpath use case is dominant
-
-Signed-off-by: Ming Lei <ming.lei@redhat.com>
----
- drivers/nvme/host/rdma.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index cdfa93d67b80..ec365ee9ad0e 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -883,6 +883,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
- 		goto out_cleanup_tagset;
- 
- 	if (!new) {
-+		nvme_start_freeze(&ctrl->ctrl);
- 		nvme_unquiesce_io_queues(&ctrl->ctrl);
- 		if (!nvme_wait_freeze_timeout(&ctrl->ctrl, NVME_IO_TIMEOUT)) {
- 			/*
-@@ -891,6 +892,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
- 			 * to be safe.
- 			 */
- 			ret = -ENODEV;
-+			nvme_unfreeze(&ctrl->ctrl);
- 			goto out_wait_freeze_timed_out;
- 		}
- 		blk_mq_update_nr_hw_queues(ctrl->ctrl.tagset,
-@@ -940,7 +942,6 @@ static void nvme_rdma_teardown_io_queues(struct nvme_rdma_ctrl *ctrl,
- 		bool remove)
- {
- 	if (ctrl->ctrl.queue_count > 1) {
--		nvme_start_freeze(&ctrl->ctrl);
- 		nvme_quiesce_io_queues(&ctrl->ctrl);
- 		nvme_sync_io_queues(&ctrl->ctrl);
- 		nvme_rdma_stop_io_queues(ctrl);
--- 
-2.40.1
-
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 
