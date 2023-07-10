@@ -4,85 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 94DEAEB64DA
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Jul 2023 15:03:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40A10EB64D9
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Jul 2023 15:36:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=n/qf8t736MhnMG6cgOeDWCdeGz1fhgazOeOiizGpyF8=; b=FZdGLUNsQliQKDJIyTvYJT52GB
-	W3KKqCQdiThedAhVe0b4tC3LGNY+KDY4fjQZ2TjmUY3Dz+saHmJqGNNYrXQEvgWJZozxg2B+J7vx7
-	ihZvDiuG1a/D/36xd6y+VA0Vuw5gG4cT1SpnGQQqRDujlXHfY+7kfIIryldnX8HAWNtgh/77WUH0I
-	NM7E2i+0YMKLalK02XCTORYgjJC6RfJQgnX4DDJ3S8FjmwfSnpk1seGCrORyvfPcY3VrHoIYdAsXC
-	xH2blbsaBCegRqvLfY4917PCEfr8jbumUylSw/8RqYxy+wqxTTWd/HAXAXbwcVOj3StCX5M62GUFJ
-	bQnH/GWg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=3KctTaIrmzRyNyehDwer2TCH/LjoShQcONS5SqScU7Y=; b=NCvLObkqSP0OHLHWXPGfNAUl/4
+	I7sFAcBgXayzYUaCjd/upVSAQv3jj2gn2wSfe191hATMKj4f4YvfytvYwjsp9Bn19t5kf0TBAPHG4
+	48zyCbwOmxqEUwFWDDrkxFy+U9gzldB6z0gGy1x4F1h4b2B6Cs0OU8GRxFD3sQL522OI7tZv6WhW1
+	54fUJh7kss7d6yTQgQHTjwqPirb3qXt7nvKR2D2Gn254STIlEsOqHw/rnujQBVpRK0AzkRAlgIv2l
+	b28t44bDTzLOxQRhEbDlQq4lLhX9XapVOZ+CVmUKL01LRJ4l7l+u01M+KvLMYYZa9sXkn5FLNp3Gc
+	GkpAj+Yg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qIsQb-00BxKH-1A;
-	Mon, 10 Jul 2023 15:03:53 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1qIsvu-00C0jb-1d;
+	Mon, 10 Jul 2023 15:36:14 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qIsQY-00BxJc-1w
+	id 1qIsvs-00C0j1-0I
 	for linux-nvme@lists.infradead.org;
-	Mon, 10 Jul 2023 15:03:51 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	Mon, 10 Jul 2023 15:36:13 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1689003369;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=3KctTaIrmzRyNyehDwer2TCH/LjoShQcONS5SqScU7Y=;
+	b=Ipeo3eXBVD2obc37l4ZyUx9Os318EWBwR1/CiP3zCMfvMjrDtO37S7v80mmylqEYi+B8Jt
+	LnnC62HDYteSqjTnUP4JpVEjXmhEtVx5ItmAWpRyj4xMGSYCdMV6oSlUgySyylQTY/8921
+	Xxxn+TaGrm1bzPeFyiKXCEP0yYo/TmY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-119-NECxf7wtNn2Xnebm288e0w-1; Mon, 10 Jul 2023 11:36:08 -0400
+X-MC-Unique: NECxf7wtNn2Xnebm288e0w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 035181FDD1;
-	Mon, 10 Jul 2023 15:03:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1689001429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=n/qf8t736MhnMG6cgOeDWCdeGz1fhgazOeOiizGpyF8=;
-	b=yvfEOh8xCXsPeFjboveHYNYtFBjZ4PxI4cCPf11WU2ffQrVJILoDI4I03maqJRHPi+1wWE
-	2OOt4Dz7nGL+iaiLepNZ6WoXBIdLSKEWut398C94OT00nMKScVeooF8b6kx4fjMg0QGqNk
-	qz3e5AknEMS3ERBbdUu/QtfUCJPeXWo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1689001429;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=n/qf8t736MhnMG6cgOeDWCdeGz1fhgazOeOiizGpyF8=;
-	b=re341B1pPYvrLz9MDRB7/fTJn1PKA7vOV91pL15Ld6o9yKp7rsQTJxYoYEe0MlmsY680KV
-	tOk69sJYluVRJXCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E9A3B13A05;
-	Mon, 10 Jul 2023 15:03:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id wfzpONQdrGQ6VgAAMHmgww
-	(envelope-from <dwagner@suse.de>); Mon, 10 Jul 2023 15:03:48 +0000
-Date: Mon, 10 Jul 2023 17:03:48 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Max Gurtovoy <mgurtovoy@nvidia.com>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-block@vger.kernel.org, Chaitanya Kulkarni <kch@nvidia.com>, 
-	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>, Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>, 
-	James Smart <jsmart2021@gmail.com>, Martin Belanger <Martin.Belanger@dell.com>
-Subject: Re: [PATCH blktests v1 2/3] nvme/rc: Avoid triggering host nvme-cli
- autoconnect
-Message-ID: <cskolyrp3s47gnn4nwtqpfxtafzhpirn3hv7ovhnnzpbb3ll2z@oum3v3n7go6l>
-References: <20230620132703.20648-1-dwagner@suse.de>
- <20230620132703.20648-3-dwagner@suse.de>
- <9c07e4f6-2cf5-b53b-6b48-bd4df8798ee9@nvidia.com>
- <bz2s6nyjwl6l7yfrd4wtjdtousv23ypcdleckibps5lyjpwi4x@wqq6qqesevpk>
- <39f9977e-b34c-f2dd-d356-8c78414a60d1@nvidia.com>
- <jdsoqllqmrqu5j5bt3fudkksmjskgs4ooodynm6yh3b4oc5scn@t3hydrmbb22f>
- <972a06e0-6841-043e-fc00-db7596f664c4@nvidia.com>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1E2B13C13504;
+	Mon, 10 Jul 2023 15:36:08 +0000 (UTC)
+Received: from localhost (ovpn-8-19.pek2.redhat.com [10.72.8.19])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 37C694087C74;
+	Mon, 10 Jul 2023 15:36:06 +0000 (UTC)
+From: Ming Lei <ming.lei@redhat.com>
+To: Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org
+Cc: Yi Zhang <yi.zhang@redhat.com>,
+	Chunguang Xu <brookxu.cn@gmail.com>,
+	Ming Lei <ming.lei@redhat.com>
+Subject: [PATCH 0/6] nvme fabircs: move start freeze into reconnection work
+Date: Mon, 10 Jul 2023 23:35:49 +0800
+Message-Id: <20230710153555.1766438-1-ming.lei@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <972a06e0-6841-043e-fc00-db7596f664c4@nvidia.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230710_080350_780104_86010558 
-X-CRM114-Status: GOOD (  15.82  )
+X-CRM114-CacheID: sfid-20230710_083612_227647_753771FD 
+X-CRM114-Status: UNSURE (   8.97  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,30 +84,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jul 10, 2023 at 03:31:23PM +0300, Max Gurtovoy wrote:
-> I think it is more than just commit message.
+Hello,
 
-Okay, starting to understand what's the problem.
+The 1st patch unquiesces queues when removing namespaces.
 
-> A lot of code that we can avoid was added regarding the --context cmdline
-> argument.
+The 2nd patch remove 'shutdown' parameters from two teardown helpers.
 
-Correct and it's not optional to get the tests passing for the fc transport.
+The other 4 patches moves start freeze into reconnection work context for
+tcp and rdma: 1) freeze and unfreeze are paired 2) tcp/rdma io won't be
+held too long during error recovery, and can be failfast quickly.
+Suggested by Sagi Grimberg.
 
-> Maybe it's worth cleaning it..
 
-It really solves the problem that the autoconnect setup of nvme-cli is
-distrubing the tests (*). The only other way I found to stop the autoconnect is
-by disabling the udev rule completely. If autoconnect isn't enabled the context
-isn't necessary. Though changing system configuration from blktests seems at bit
-excessive.
+Ming Lei (6):
+  nvme: unquiesce io queues when removing namespaces
+  nvme: tcp: remove 'shutdown' parameters from two teardown helpers
+  nvme: tcp: unquiesce queues after ctrl state is changed
+  nvme: rdma: unquiesce queues until ctrl state is changed
+  nvem: tcp: move start freeze into nvme_tcp_configure_io_queues
+  nvem: rdma: move start freeze into nvme_rdma_configure_io_queues
 
-Another option is to detect if autoconect is enabled and report this when
-starting the tests. In this case we could remove the context part completely.
-Obviously, I would prefer to keep it but I am certaintaly not against dropping
-it and make blktests a bit simpler if this is the preference. I just need to
-remember to disable the autoconnect stuff when using blktests.
+ drivers/nvme/host/core.c | 10 +++++++---
+ drivers/nvme/host/rdma.c |  7 ++++---
+ drivers/nvme/host/tcp.c  | 32 ++++++++++++++++----------------
+ 3 files changed, 27 insertions(+), 22 deletions(-)
 
-(*) Sure we can fix this but at this point. Though I think it's a bit strange
-for a test suite to depend/interact with external components in this way.
+-- 
+2.40.1
+
 
