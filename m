@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0AA7EEB64D9
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Jul 2023 15:36:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 969EBEB64D9
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Jul 2023 15:36:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
 	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Zg7w3fQ/DlJ6TBs+1LVVo/JtmkyVshxOmUEKEXvlUS0=; b=Bx+rd0Gj0/+590sZ/RZjG2dGV7
-	bjv6XhNdLus+hvSvUQbQdaxQpUVh2ji+cwUdp/kuO3Vm5vPBL3LKGgppCH8RY7/A5Gh1f+Grp7au+
-	7j7aPV8Tnu6fSYuhUOGrU43baT4HP8t8QoHitL7F22FEcqAAMbdCmCoIj4QjY8HIGM/FDQDsxQqg7
-	WLGhDpMNjAus8+qPRJhmXo+BTsfzEUcKAvfW+Afz0ILcktMfL4XKqdLu7GU/P3meBj4B55kHPd4fw
-	tllvz3hwBb9oOk7n3u6ACQ0df1nX1bzIOqNd3YtQQGjCpGV72+hqbQU7ZNRrgeLZHSH/Z91Dyuh9z
-	EpNl/rjA==;
+	bh=4RgppggoNg0OVt1d9YvaBwKvuJ/gFRg4h3dh1c70UhU=; b=gobrsNt/s1/qfC3NM7Z8g5trsc
+	wv+flz449ywlWRZSxHJk9ZcsseOWI8pgjWU78nphVIuj0AfkPmGRRFGqs5nRwRgKCe+xXWb06K4zd
+	q5juB4elvBJdls76lUjHR5Yqhul5OTvBfJuYWUN812GP5DtN8s85gX4D6fin3OSZLXQeUndw5fraI
+	dRnIGutMj5b9+v3+7JFVsOadD2xyf8vFndP0Q0cEECyb/9sndHws2rhK2hsc27P0saSSH1Gdtn5f8
+	pHMtwIGAasMCaV0/nLG1QRMETJdUzgzoeQ/HSxvKz2EgIHqMZ3jiGst4fKBfMo0Jbv6gQ5SSAQJrt
+	ls4olQcg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qIsw2-00C0lu-03;
-	Mon, 10 Jul 2023 15:36:22 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1qIswA-00C0qN-2Q;
+	Mon, 10 Jul 2023 15:36:30 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qIsvy-00C0ko-1w
+	id 1qIsw7-00C0oR-1m
 	for linux-nvme@lists.infradead.org;
-	Mon, 10 Jul 2023 15:36:19 +0000
+	Mon, 10 Jul 2023 15:36:29 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1689003377;
+	s=mimecast20190719; t=1689003386;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Zg7w3fQ/DlJ6TBs+1LVVo/JtmkyVshxOmUEKEXvlUS0=;
-	b=b7bUNjf30AxAt8gJAVDhvhHeIGWvD7bAsK3GIs0plCS/f1HvQwZ3HoDHTdiH9dewtqoLir
-	WxUNlxrOSWfeQjyUjADlq+Y/zXDkXXBtE7dzgg1lqhsvDcy0hgMAmRghLamYsZTA2+fE7c
-	bW7RUDtDP/l2U9MSZMTTgHkFql7AJuc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=4RgppggoNg0OVt1d9YvaBwKvuJ/gFRg4h3dh1c70UhU=;
+	b=BkjO6awZEhIqxRJ+6SPkWhUo8bgDKnJtl53MjdjKBfWi0Ugx7IvS5kIpFhaLrO3ECwzQHS
+	aE+DkhpCLMeNRamkRFONi+aYwJ+IysA1VMONlBujiMRkeNJxqCLQxVt4C50TpKtu+bryR4
+	4qB3gFVrnsE2UBOt8vo7h77D+uBoqKQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-541-DOtuRCwkOpiGeYQ3wmU-iA-1; Mon, 10 Jul 2023 11:36:16 -0400
-X-MC-Unique: DOtuRCwkOpiGeYQ3wmU-iA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+ us-mta-356-O4nRrwzgPjqkng-TePSfIg-1; Mon, 10 Jul 2023 11:36:22 -0400
+X-MC-Unique: O4nRrwzgPjqkng-TePSfIg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C5EF21C0782D;
-	Mon, 10 Jul 2023 15:36:15 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2333988D543;
+	Mon, 10 Jul 2023 15:36:22 +0000 (UTC)
 Received: from localhost (ovpn-8-19.pek2.redhat.com [10.72.8.19])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id E03BC200A7CA;
-	Mon, 10 Jul 2023 15:36:14 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 42B094087C73;
+	Mon, 10 Jul 2023 15:36:18 +0000 (UTC)
 From: Ming Lei <ming.lei@redhat.com>
 To: Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
@@ -58,20 +58,20 @@ To: Christoph Hellwig <hch@lst.de>,
 Cc: Yi Zhang <yi.zhang@redhat.com>,
 	Chunguang Xu <brookxu.cn@gmail.com>,
 	Ming Lei <ming.lei@redhat.com>
-Subject: [PATCH 2/6] nvme: tcp: remove 'shutdown' parameters from two teardown helpers
-Date: Mon, 10 Jul 2023 23:35:51 +0800
-Message-Id: <20230710153555.1766438-3-ming.lei@redhat.com>
+Subject: [PATCH 3/6] nvme: tcp: unquiesce queues after ctrl state is changed
+Date: Mon, 10 Jul 2023 23:35:52 +0800
+Message-Id: <20230710153555.1766438-4-ming.lei@redhat.com>
 In-Reply-To: <20230710153555.1766438-1-ming.lei@redhat.com>
 References: <20230710153555.1766438-1-ming.lei@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230710_083618_713077_D200C28E 
-X-CRM114-Status: GOOD (  13.10  )
+X-CRM114-CacheID: sfid-20230710_083627_663873_26A08A07 
+X-CRM114-Status: GOOD (  13.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,81 +86,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-'shutdown' is just for unquiescing queues, and we can do that outside
-the caller, and turns out more readable given unquiesce isn't needed
-in error recovery code path.
+Unquiesce queues until controller state is changed successfully.
+
+Prepare for moving start freeze into reconnect work for preventing new
+request from entering queue in LIVE state.
+
+Before removing namespace, unquiescing queues is done unconditionally, so
+it is safe to do this way in case of state change failure.
 
 Signed-off-by: Ming Lei <ming.lei@redhat.com>
 ---
- drivers/nvme/host/tcp.c | 22 ++++++++++------------
- 1 file changed, 10 insertions(+), 12 deletions(-)
+ drivers/nvme/host/tcp.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 3e7dd6f91832..e414cfb3433f 100644
+index e414cfb3433f..e68bf21af348 100644
 --- a/drivers/nvme/host/tcp.c
 +++ b/drivers/nvme/host/tcp.c
-@@ -1962,20 +1962,16 @@ static int nvme_tcp_configure_admin_queue(struct nvme_ctrl *ctrl, bool new)
- 	return error;
- }
- 
--static void nvme_tcp_teardown_admin_queue(struct nvme_ctrl *ctrl,
--		bool remove)
-+static void nvme_tcp_teardown_admin_queue(struct nvme_ctrl *ctrl)
- {
- 	nvme_quiesce_admin_queue(ctrl);
- 	blk_sync_queue(ctrl->admin_q);
- 	nvme_tcp_stop_queue(ctrl, 0);
- 	nvme_cancel_admin_tagset(ctrl);
--	if (remove)
--		nvme_unquiesce_admin_queue(ctrl);
- 	nvme_tcp_destroy_admin_queue(ctrl, remove);
- }
- 
--static void nvme_tcp_teardown_io_queues(struct nvme_ctrl *ctrl,
--		bool remove)
-+static void nvme_tcp_teardown_io_queues(struct nvme_ctrl *ctrl)
- {
- 	if (ctrl->queue_count <= 1)
- 		return;
-@@ -1985,8 +1981,6 @@ static void nvme_tcp_teardown_io_queues(struct nvme_ctrl *ctrl,
- 	nvme_sync_io_queues(ctrl);
- 	nvme_tcp_stop_io_queues(ctrl);
- 	nvme_cancel_tagset(ctrl);
--	if (remove)
--		nvme_unquiesce_io_queues(ctrl);
- 	nvme_tcp_destroy_io_queues(ctrl, remove);
- }
- 
-@@ -2114,10 +2108,10 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
- 
+@@ -2109,10 +2109,7 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
  	nvme_stop_keep_alive(ctrl);
  	flush_work(&ctrl->async_event_work);
--	nvme_tcp_teardown_io_queues(ctrl, false);
-+	nvme_tcp_teardown_io_queues(ctrl);
- 	/* unquiesce to fail fast pending requests */
- 	nvme_unquiesce_io_queues(ctrl);
--	nvme_tcp_teardown_admin_queue(ctrl, false);
-+	nvme_tcp_teardown_admin_queue(ctrl);
- 	nvme_unquiesce_admin_queue(ctrl);
+ 	nvme_tcp_teardown_io_queues(ctrl);
+-	/* unquiesce to fail fast pending requests */
+-	nvme_unquiesce_io_queues(ctrl);
+ 	nvme_tcp_teardown_admin_queue(ctrl);
+-	nvme_unquiesce_admin_queue(ctrl);
  	nvme_auth_stop(ctrl);
  
-@@ -2133,10 +2127,14 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
+ 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_CONNECTING)) {
+@@ -2122,6 +2119,10 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
+ 		return;
+ 	}
  
- static void nvme_tcp_teardown_ctrl(struct nvme_ctrl *ctrl, bool shutdown)
- {
--	nvme_tcp_teardown_io_queues(ctrl, shutdown);
-+	nvme_tcp_teardown_io_queues(ctrl);
- 	nvme_quiesce_admin_queue(ctrl);
- 	nvme_disable_ctrl(ctrl, shutdown);
--	nvme_tcp_teardown_admin_queue(ctrl, shutdown);
-+	nvme_tcp_teardown_admin_queue(ctrl);
-+	if (shutdown) {
-+		nvme_unquiesce_io_queues(ctrl);
-+		nvme_unquiesce_admin_queue(ctrl);
-+	}
++	/* unquiesce to fail fast pending requests */
++	nvme_unquiesce_io_queues(ctrl);
++	nvme_unquiesce_admin_queue(ctrl);
++
+ 	nvme_tcp_reconnect_or_remove(ctrl);
  }
  
- static void nvme_tcp_delete_ctrl(struct nvme_ctrl *ctrl)
 -- 
 2.40.1
 
