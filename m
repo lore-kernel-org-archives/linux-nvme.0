@@ -4,109 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 016EBC001B0
-	for <linux-nvme@archiver.kernel.org>; Sun,  9 Jul 2023 16:54:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70184EB64DC
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Jul 2023 03:02:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=U3X2c4DZ7u1WJQoXTnnFA0EIrJReIsvKkxSR5ka0KIA=; b=l4silhxQGCzfbbBMMYev637eVZ
-	ZE4l3ujxyScP5La51Regs+FRWdMUXKE+F53rS6rm7KJGCYt3/4tUO3gckJAPzsFTM3qoI2aa5Jngg
-	mle0xoUcdx1Y7T3GWq7SuQvCfifGgwG8wWIthwtZdlVyetfqyTctbj/kYy5xgGNo6TxbjOnU7JB9r
-	8FU3hKNjiIYVIVvYTSqUQpeXG0xqUQY6Jzo5L4P69H4vRHIZY4/jMhxSBl+/AZQM3rB8J7cnVFZoH
-	f9K5c4vVfQ0etdb2XX9I/x0FY31GG3mlAPnn8Faqmuj1fahHMra9Wugm7G5ptzFTjWmfcZv8pdsCy
-	S6B4B43Q==;
+	bh=XZdypXFkBjoBC9AdVCThdk80K7RU0xQwH/gJH94hZBE=; b=KtKzlTGQMJgDU0f9zgdzgu6PQz
+	srW5W540P2+EIj3zhpySYoZQEXCG4Ply93p8lfLsP5R2ccKKZrZzJDSajA0WdVuM3jCB9vWukDf1c
+	VEILrEPDlDQfBgAXIpVMoU7CuYsYZ8sLHqTjx9lXMH7Oz8Z3HbjzwO7d38aOVc5quu859bmT7QRGo
+	scq7NoGp6OGvnDobIz9BSbT2NoqT5akVxe2bY6r87gtv2yonTJaNLw73HJzu+WgdVpaRVJECkgkPk
+	Pf7jVQ8l/ZiaBKH1cF3AS+Ba/a6kiWNksHqiXba5ER//A0/I3z7r7rFNvOdEnrqvFQWzRS66FmIVT
+	jOKZlT+w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qIXfq-009S9o-17;
-	Sun, 09 Jul 2023 16:54:14 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1qIhAi-00AErf-1k;
+	Mon, 10 Jul 2023 03:02:44 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qHRcs-0028B5-06;
-	Thu, 06 Jul 2023 16:14:40 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4E502223E8;
-	Thu,  6 Jul 2023 16:14:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1688660074; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	id 1qIhAf-00AEpw-1o
+	for linux-nvme@lists.infradead.org;
+	Mon, 10 Jul 2023 03:02:42 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1688958159;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=U3X2c4DZ7u1WJQoXTnnFA0EIrJReIsvKkxSR5ka0KIA=;
-	b=QmpkaGPRZaoHJzRo2a6TjndqPucrWh7f/FY2L3L/tkSmDEI1eMsM8wrizbEulyyCbALdKF
-	NAhJw22VD9dE7RV9U1X7QxEMrx2wMp7N4RocvtwIIP7j7sOckxmGngjpgD0K7UzZlI8BMj
-	7TaptoZ4hnlDaa+a0YvCourIJS7rkEc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1688660074;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=U3X2c4DZ7u1WJQoXTnnFA0EIrJReIsvKkxSR5ka0KIA=;
-	b=BFZ9TyrydR/g+7ExWBaMGJWuaCnekgsDWt3QOA77tpx+pa0ab3V9kDQ7HgXi8ns77IxFLs
-	krph+7hPTygy6eCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	bh=XZdypXFkBjoBC9AdVCThdk80K7RU0xQwH/gJH94hZBE=;
+	b=TR1WzpMr2m5n55KxQo0Aagatx7k2VYVJoAXTQoUr71+7u/Y4zW9i9c+54jwgVAIZF3ofAe
+	REIrO7vL/Q56d/pOpsvGpjlyxEIAiP4ylNZNRZd2uZR5YIUkzKHg6Z4RzlWM7LsjIWdqU3
+	fj5K5DnxT6r+GfU8hRkdUfEoIIMWgBE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-381-Gq7u1Sm_NBKNVRcYvxzP4g-1; Sun, 09 Jul 2023 23:02:35 -0400
+X-MC-Unique: Gq7u1Sm_NBKNVRcYvxzP4g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2ADF1138EE;
-	Thu,  6 Jul 2023 16:14:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id +RN/CmropmTIKwAAMHmgww
-	(envelope-from <jack@suse.cz>); Thu, 06 Jul 2023 16:14:34 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id B00D6A0707; Thu,  6 Jul 2023 18:14:33 +0200 (CEST)
-Date: Thu, 6 Jul 2023 18:14:33 +0200
-From: Jan Kara <jack@suse.cz>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Jan Kara <jack@suse.cz>, linux-block@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-	Alasdair Kergon <agk@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Anna Schumaker <anna@kernel.org>, Chao Yu <chao@kernel.org>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Dave Kleikamp <shaggy@kernel.org>, David Sterba <dsterba@suse.com>,
-	dm-devel@redhat.com, drbd-dev@lists.linbit.com,
-	Gao Xiang <xiang@kernel.org>, Jack Wang <jinpu.wang@ionos.com>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	jfs-discussion@lists.sourceforge.net,
-	Joern Engel <joern@lazybastard.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Kent Overstreet <kent.overstreet@gmail.com>,
-	linux-bcache@vger.kernel.org, linux-btrfs@vger.kernel.org,
-	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, linux-mm@kvack.org,
-	linux-mtd@lists.infradead.org, linux-nfs@vger.kernel.org,
-	linux-nilfs@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-pm@vger.kernel.org, linux-raid@vger.kernel.org,
-	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	"Md. Haris Iqbal" <haris.iqbal@ionos.com>,
-	Mike Snitzer <snitzer@kernel.org>, Minchan Kim <minchan@kernel.org>,
-	ocfs2-devel@oss.oracle.com, reiserfs-devel@vger.kernel.org,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Song Liu <song@kernel.org>, Sven Schnelle <svens@linux.ibm.com>,
-	target-devel@vger.kernel.org, Ted Tso <tytso@mit.edu>,
-	Trond Myklebust <trond.myklebust@hammerspace.com>,
-	xen-devel@lists.xenproject.org
-Subject: Re: [PATCH 01/32] block: Provide blkdev_get_handle_* functions
-Message-ID: <20230706161433.lj4apushiwguzvdd@quack3>
-References: <20230629165206.383-1-jack@suse.cz>
- <20230704122224.16257-1-jack@suse.cz>
- <ZKbgAG5OoHVyUKOG@infradead.org>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BB8F21C07243;
+	Mon, 10 Jul 2023 03:02:34 +0000 (UTC)
+Received: from ovpn-8-21.pek2.redhat.com (ovpn-8-21.pek2.redhat.com [10.72.8.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id B605C200A7CA;
+	Mon, 10 Jul 2023 03:02:30 +0000 (UTC)
+Date: Mon, 10 Jul 2023 11:02:25 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org, Yi Zhang <yi.zhang@redhat.com>,
+	Chunguang Xu <brookxu.cn@gmail.com>, stable@vger.kernel.org
+Subject: Re: [PATCH] nvme: mark ctrl as DEAD if removing from error recovery
+Message-ID: <ZKt0wSHqrw3W88UQ@ovpn-8-21.pek2.redhat.com>
+References: <20230628031234.1916897-1-ming.lei@redhat.com>
+ <8dc6852e-ee90-ed64-1d3e-9ecdc9f4473b@grimberg.me>
+ <148a3e62-939f-a74f-8075-8f37cda102ab@grimberg.me>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZKbgAG5OoHVyUKOG@infradead.org>
+In-Reply-To: <148a3e62-939f-a74f-8075-8f37cda102ab@grimberg.me>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230706_091438_233367_0FB7C351 
-X-CRM114-Status: GOOD (  16.79  )
-X-Mailman-Approved-At: Sun, 09 Jul 2023 09:54:11 -0700
+X-CRM114-CacheID: sfid-20230709_200241_695642_F2621AD9 
+X-CRM114-Status: GOOD (  21.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -121,31 +82,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu 06-07-23 08:38:40, Christoph Hellwig wrote:
-> On Tue, Jul 04, 2023 at 02:21:28PM +0200, Jan Kara wrote:
-> > Create struct bdev_handle that contains all parameters that need to be
-> > passed to blkdev_put() and provide blkdev_get_handle_* functions that
-> > return this structure instead of plain bdev pointer. This will
-> > eventually allow us to pass one more argument to blkdev_put() without
-> > too much hassle.
+On Sun, Jul 09, 2023 at 10:38:29AM +0300, Sagi Grimberg wrote:
 > 
-> Can we use the opportunity to come up with better names?  blkdev_get_*
-> was always a rather horrible naming convention for something that
-> ends up calling into ->open.
+> > > namespace's request queue is frozen and quiesced during error recovering,
+> > > writeback IO is blocked in bio_queue_enter(), so fsync_bdev() <-
+> > > del_gendisk()
+> > > can't move on, and causes IO hang. Removal could be from sysfs, hard
+> > > unplug or error handling.
+> > > 
+> > > Fix this kind of issue by marking controller as DEAD if removal breaks
+> > > error recovery.
+> > > 
+> > > This ways is reasonable too, because controller can't be recovered any
+> > > more after being removed.
+> > 
+> > This looks fine to me Ming,
+> > Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+> > 
+> > 
+> > I still want your patches for tcp/rdma that move the freeze.
+> > If you are not planning to send them, I swear I will :)
 > 
-> What about:
-> 
-> struct bdev_handle *bdev_open_by_dev(dev_t dev, blk_mode_t mode, void *holder,
-> 		const struct blk_holder_ops *hops);
-> struct bdev_handle *bdev_open_by_path(dev_t dev, blk_mode_t mode,
-> 		void *holder, const struct blk_holder_ops *hops);
-> void bdev_release(struct bdev_handle *handle);
+> Ming, can you please send the tcp/rdma patches that move the
+> freeze? As I said before, it addresses an existing issue with
+> requests unnecessarily blocked on a frozen queue instead of
+> failing over.
 
-I'd maybe use bdev_close() instead of bdev_release() but otherwise I like
-the new naming.
+Any chance to fix the current issue in one easy(backportable) way[1] first?
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+All previous discussions on delay freeze[2] are generic, which apply on all
+nvme drivers, not mention this error handling difference causes extra maintain
+burden. I still suggest to convert all drivers in same way, and will work
+along the approach[1] aiming for v6.6.
+
+
+[1] https://lore.kernel.org/linux-nvme/20230629064818.2070586-1-ming.lei@redhat.com/
+[2] https://lore.kernel.org/linux-block/5bddeeb5-39d2-7cec-70ac-e3c623a8fca6@grimberg.me/T/#mfc96266b63eec3e4154f6843be72e5186a4055dc
+
+Thanks,
+Ming
+
 
