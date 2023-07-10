@@ -4,83 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ADE5EEB64D9
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Jul 2023 10:19:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D9253EB64DA
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Jul 2023 10:43:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dOPQVlVl/8vQ//n15Tk8y4R1eYRMJsmZsPzlZqEUlNs=; b=0cvMYzq+8V/8qZabvqFTKdj2JB
-	DGDp4WOQu403YmAGLj5/9KEAfTwCkd6e+2islgdvrIE7iQtxI82CK9uQZTcrwVgt6UjXyaXHusqBL
-	89szewpMGAsJ7P8LLHQmnWNd2DDcQD7+e/B6sb0akNjnvXvagY3x46CPyJVKIvbPKie7T4Xev8e3W
-	dBuDX1+DqhhJw5m7iDtWLCFWlPy1uSdB2ODKtsC8/uocX9BglPtMCRj/nTGe154O5aJ7Wz7XZiwjO
-	jdUgJzdgEbPB3bfxaQHcO6BvcNXh9U0IOL4R3k1xoUwA9g9f0PypXKqaoeSf1/Aov4cHZVXeYeeph
-	KfCeIqlw==;
+	bh=dcqwH1JHB/zMyfnzLAkQxVrnbSRsy6dRa4E0txqsIQs=; b=1Hq5cr6fJAetykxjzkh4D7bWz2
+	YUFpjwirQCe3SOo513xRHkQURJxm1Q4OkiG5TFbd+NKzEZ2Fibc/I1hUUqm8x6w4qjnfjs7futY6w
+	AZ0iRxBWRhPv7mu9Te0BpZN34gdBciV7Cci3N+M/YBNpBDRWkLCbPzxNtOqwLlSpELM8hhSHUiuIf
+	p4zWMgpKB+vo1uBSiaxWgv34wfJzCbX8bip9P/+8jyJqr9DYUCJ5QITMV+hPbtMCg8Mio3V+DvYI0
+	uaUywSNWvZYhwN0485pqcdp3DcCy9zcxQs9hrekPzLAE1/5J/tQvsaCupsX8SMPzKnfdxI4B7eMki
+	cmwDc24w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qInzX-00BCdE-23;
-	Mon, 10 Jul 2023 10:19:39 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1qIoM3-00BL8E-35;
+	Mon, 10 Jul 2023 10:42:55 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qInzU-00BCci-37
+	id 1qIoM1-00BL5F-0w
 	for linux-nvme@lists.infradead.org;
-	Mon, 10 Jul 2023 10:19:38 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 547AF1FE4C;
-	Mon, 10 Jul 2023 10:19:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1688984373; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	Mon, 10 Jul 2023 10:42:54 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1688985771;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=dOPQVlVl/8vQ//n15Tk8y4R1eYRMJsmZsPzlZqEUlNs=;
-	b=Wp0QUbNf5XaNlRPlG0FB9Zz/3WpMnrs1+b8iNdyU95ruQBihKhwUs2PLtYeSAZOtTSK+PQ
-	dF+kV5V87URc5OHxolj0z8nmgFGS2N/rPU+kqKb5kyMytUAObxYKCW3ywRqsRUMpqFqbjc
-	E2Otgn39N453HG4U7uXxooZrh2mXB6A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1688984373;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dOPQVlVl/8vQ//n15Tk8y4R1eYRMJsmZsPzlZqEUlNs=;
-	b=M1y7Pko3BRJD16IVNvY+R0b+D274u+SqFXOje3G1Pjo7N8uHPwvWSI9RgeXKoNNg74OR1j
-	UIidc8Nvqy7uN/Cw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	bh=dcqwH1JHB/zMyfnzLAkQxVrnbSRsy6dRa4E0txqsIQs=;
+	b=Yao5EYyw67DwO4wlyqPOLgjfDoo4z/DN/Q3ZIZXsEsJRsopKba5XFM1j6y8fVnJx8YkPAJ
+	jzVfltJhG6KEXYyHRSmZYrMLaEw/d9owpo0l8qdI9l4g0nPdr6ocXkmBCdJ6soE+6y7cr5
+	a0wjIBcaDhrObzY19t93h1VJJsw/Jxg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-84-NwoKJUS-OB6gnRBBDCzZ2Q-1; Mon, 10 Jul 2023 06:42:46 -0400
+X-MC-Unique: NwoKJUS-OB6gnRBBDCzZ2Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4269513A05;
-	Mon, 10 Jul 2023 10:19:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id Hac1EDXbq2SPPwAAMHmgww
-	(envelope-from <dwagner@suse.de>); Mon, 10 Jul 2023 10:19:33 +0000
-Date: Mon, 10 Jul 2023 12:19:32 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Max Gurtovoy <mgurtovoy@nvidia.com>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-block@vger.kernel.org, Chaitanya Kulkarni <kch@nvidia.com>, 
-	Shin'ichiro Kawasaki <shinichiro@fastmail.com>, Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>, 
-	James Smart <jsmart2021@gmail.com>, Martin Belanger <Martin.Belanger@dell.com>
-Subject: Re: [PATCH blktests v1 2/3] nvme/rc: Avoid triggering host nvme-cli
- autoconnect
-Message-ID: <jdsoqllqmrqu5j5bt3fudkksmjskgs4ooodynm6yh3b4oc5scn@t3hydrmbb22f>
-References: <20230620132703.20648-1-dwagner@suse.de>
- <20230620132703.20648-3-dwagner@suse.de>
- <9c07e4f6-2cf5-b53b-6b48-bd4df8798ee9@nvidia.com>
- <bz2s6nyjwl6l7yfrd4wtjdtousv23ypcdleckibps5lyjpwi4x@wqq6qqesevpk>
- <39f9977e-b34c-f2dd-d356-8c78414a60d1@nvidia.com>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8DEFC2999B20;
+	Mon, 10 Jul 2023 10:42:45 +0000 (UTC)
+Received: from ovpn-8-33.pek2.redhat.com (ovpn-8-33.pek2.redhat.com [10.72.8.33])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6960FC09A09;
+	Mon, 10 Jul 2023 10:42:41 +0000 (UTC)
+Date: Mon, 10 Jul 2023 18:42:36 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, ming.lei@redhat.com
+Subject: Re: [PATCH 1/4] block: don't unconditionally set max_discard_sectors
+ in blk_queue_max_discard_sectors
+Message-ID: <ZKvgnI5qZ/Z70ycL@ovpn-8-33.pek2.redhat.com>
+References: <20230707094616.108430-1-hch@lst.de>
+ <20230707094616.108430-2-hch@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <39f9977e-b34c-f2dd-d356-8c78414a60d1@nvidia.com>
+In-Reply-To: <20230707094616.108430-2-hch@lst.de>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230710_031937_168955_E6B40965 
-X-CRM114-Status: GOOD (  15.07  )
+X-CRM114-CacheID: sfid-20230710_034253_403444_F57E8CFA 
+X-CRM114-Status: GOOD (  22.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,22 +82,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jul 10, 2023 at 12:53:17PM +0300, Max Gurtovoy wrote:
- > > Agree on setting the hard coded values for hostnqn and hostid instead of
-> > > reading the /etc/nvme/* files. This should do the work IMO, isn't it ?
-> > 
-> > Do you mean that nvme-cli will ignore the udev trigger when a different hostnqn
-> > is invovled? At least for the well-known discover controller the hostqnq
-> > doesn't work. Though not sure if I understood you correctly here.
+On Fri, Jul 07, 2023 at 11:46:13AM +0200, Christoph Hellwig wrote:
+> max_discard_sectors is split into a hardware and a tunable value, but
+> blk_queue_max_discard_sectors sets both unconditionally, thus dropping
+> any user stored value on a rescan.  Fix blk_queue_max_discard_sectors to
+> only set max_discard_sectors if it either wasn't set, or the new hardware
+> limit is smaller than the previous user limit.
 > 
-> All I was saying is that your issue would have been fixed easily by 2-3 LOC
-> by removing the usage of /etc/nvme/* files that are usually configured by
-> system administrator and use a default values for blktests hostnqn and
-> hostid.
+> Fixes: 0034af036554 ("block: make /sys/block/<dev>/queue/discard_max_bytes writeable")
 
-Okay.
+It is hard to say a fix, given discard_max_bytes can still be changed
+by kernel. I'd suggest to document this behavior in Documentation/ABI/stable/sysfs-block.
 
-> The usage of --context in blktests is redundant IMO.
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  block/blk-settings.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/block/blk-settings.c b/block/blk-settings.c
+> index 0046b447268f91..978d2e1fd67a51 100644
+> --- a/block/blk-settings.c
+> +++ b/block/blk-settings.c
+> @@ -179,7 +179,9 @@ void blk_queue_max_discard_sectors(struct request_queue *q,
+>  		unsigned int max_discard_sectors)
+>  {
+>  	q->limits.max_hw_discard_sectors = max_discard_sectors;
+> -	q->limits.max_discard_sectors = max_discard_sectors;
+> +	if (!q->limits.max_discard_sectors ||
+> +	     q->limits.max_discard_sectors > max_discard_sectors)
+> +		q->limits.max_discard_sectors = max_discard_sectors;
+>  }
 
-Right, I made a bit of a mess with the commit message. Sorry about that.
+Userspace may write 0 to discard_max_bytes, and this patch still can
+override user setting.
+
+Thanks,
+Ming
+
 
