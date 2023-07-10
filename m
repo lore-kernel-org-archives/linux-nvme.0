@@ -4,60 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7E962EB64D9
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Jul 2023 13:27:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B540EB64D9
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Jul 2023 14:00:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BjZp94Gfzls29ldF6IZpXLpeuiOCCA3v2VRcEOHVBkY=; b=MZq8WPHxfnbnw7JMpgRXT6kerI
-	NlDPtIhur76kGzjYFQCPOHGKqzzD8U7VwamU8lbmnOe/EJnVjV+3MowyYWmukqJOYJl7VzrU3W5LP
-	XWr2J5qghPCB6MYUlxnw1983dvczxGDBcxxDXYbivxUQKkPbUT42bpXFiqACyeXviumidicJ1T2AR
-	1DjghU/cdv83wlXKgdOq78CimyvOT8JY/Zbc8DgW6WDRK/4grdvxEh1LAMX/9ID4ZuKaBax9uo+va
-	ebP+Yj3pAD7z7osv4b98JxAUQc+V8+JoxQuC64lcrIV1Xxl18ztzd7B2ip5G1pSpmREVvCrcUzYFW
-	Nc8RiPpg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=JJErA4qd0WElNqdpCU9r0IqbOD1q4SGivoPWezaKt4c=; b=Bs5FcqFeuB+sETAJJbzeh2Xl1U
+	GEVe5D750Dn//R765fujXY73lHjs5WKFXnEbE7DnQPqsIBvRWC9Rimcq3j1zCH1Fm18U+vLauHvcb
+	bvsk+g5dPm7b1q1WReuw4dgG4i5whcGTLhkc+bVcasVchXhtoU2lUNIph4rsvkee+ZsYgBE7ZOs+5
+	eunSgkbZqMHqLyKonJGUpUIYNmthD0aI9vzn9ITQdvuUBhQ9A392agOHIYzTqKr+mR3iEGxihHj1f
+	iBF0DXopGHkddEGv0m2vklzBrfru+6MN3n1dkoYP1gvDnmgEpuYXBI0Wa91wE0XeCG7oIdlyo6EJ6
+	RVwSKD3w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qIqve-00Bkq2-39;
-	Mon, 10 Jul 2023 13:27:50 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1qIrRZ-00BomM-2x;
+	Mon, 10 Jul 2023 14:00:49 +0000
+Received: from mail-wr1-f42.google.com ([209.85.221.42])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qIqva-00BkpG-2m
+	id 1qIrRX-00Bolg-3A
 	for linux-nvme@lists.infradead.org;
-	Mon, 10 Jul 2023 13:27:49 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1688995661;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BjZp94Gfzls29ldF6IZpXLpeuiOCCA3v2VRcEOHVBkY=;
-	b=f5OjvUFnklHQbG8n7NUvnJvbYxY+POj+2D0bgosGB1zNmoj6klR3GDSUHJyfvEVy6Qjr6E
-	gMz/+5AM9OKYfxIP9WkdhogMwav6JHCR137tyIKVwpE1eSzteDDxrC9dHHDLEbZZTIHszD
-	EJTqzppca8sMyuJ3/Wul5yOQgkP7QY0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-557-4UZoPYL8NeqZZbzPshEVIw-1; Mon, 10 Jul 2023 09:27:37 -0400
-X-MC-Unique: 4UZoPYL8NeqZZbzPshEVIw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 686B18DBB49;
-	Mon, 10 Jul 2023 13:27:37 +0000 (UTC)
-Received: from ovpn-8-33.pek2.redhat.com (ovpn-8-19.pek2.redhat.com [10.72.8.19])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 40E32492B01;
-	Mon, 10 Jul 2023 13:27:31 +0000 (UTC)
-Date: Mon, 10 Jul 2023 21:27:26 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org, Yi Zhang <yi.zhang@redhat.com>,
-	Chunguang Xu <brookxu.cn@gmail.com>, stable@vger.kernel.org,
-	ming.lei@redhat.com
+	Mon, 10 Jul 2023 14:00:49 +0000
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3145fcecef6so965753f8f.0
+        for <linux-nvme@lists.infradead.org>; Mon, 10 Jul 2023 07:00:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688997645; x=1691589645;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JJErA4qd0WElNqdpCU9r0IqbOD1q4SGivoPWezaKt4c=;
+        b=IS7wEd/Z8LqOgWybQi7y0ytDXh+kh/SifClxY5ppwCHXvFMIEuWVr7gJKbH4VNvzF4
+         0UywxefsbA2Ms7zUURYo4kAVTGxvJ5DtlQ/teuLzQkSxjtgOQCy1f7vIhmiW1DCB9W6l
+         m/hjuW7W/MUFOrjqz5MnPTX9Y5JGuot5q8bY7/J+nYt/oulNrNNeMO6cNbc/wEdwTauq
+         Xpx6We5fLqyoHltfwN/uYKQr+XqSa7m2lFWU997d7zCXz6Hs3b1ydO9E8cR/DLQshmoh
+         v9vEIEaxo7fRN9Xkg+JEXK5ymtkmfN6SdDhorQRURBD92PP2l9H31YeppH38/K/YyXag
+         i/fg==
+X-Gm-Message-State: ABy/qLZrkB04ROMUytAVYIStWAkz1LX3ebFq39aImniioyYvs9Izs7cA
+	zanHilHiRgz/C9+80knw004=
+X-Google-Smtp-Source: APBJJlF73m+d9scSG+8ojwGGRP7yqIeKpmYFj2IXxvl71h2CAMXT77QemBG3NAIpqjmMCn+LlZozpA==
+X-Received: by 2002:adf:cd86:0:b0:314:1af1:4ea6 with SMTP id q6-20020adfcd86000000b003141af14ea6mr12094698wrj.5.1688997644245;
+        Mon, 10 Jul 2023 07:00:44 -0700 (PDT)
+Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id u7-20020a5d5147000000b0030fb828511csm11729959wrt.100.2023.07.10.07.00.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Jul 2023 07:00:43 -0700 (PDT)
+Message-ID: <4f9a578c-8aa6-5a87-884f-77271b5946f3@grimberg.me>
+Date: Mon, 10 Jul 2023 17:00:41 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
 Subject: Re: [PATCH] nvme: mark ctrl as DEAD if removing from error recovery
-Message-ID: <ZKwHPqi21HUNUyaY@ovpn-8-33.pek2.redhat.com>
+Content-Language: en-US
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ linux-nvme@lists.infradead.org, Yi Zhang <yi.zhang@redhat.com>,
+ Chunguang Xu <brookxu.cn@gmail.com>, stable@vger.kernel.org
 References: <8dc6852e-ee90-ed64-1d3e-9ecdc9f4473b@grimberg.me>
  <148a3e62-939f-a74f-8075-8f37cda102ab@grimberg.me>
  <ZKt0wSHqrw3W88UQ@ovpn-8-21.pek2.redhat.com>
@@ -68,14 +71,14 @@ References: <8dc6852e-ee90-ed64-1d3e-9ecdc9f4473b@grimberg.me>
  <61fcbded-dbed-bd04-4b96-b3326265eb43@grimberg.me>
  <ZKvsGuYrf+tJTy41@ovpn-8-33.pek2.redhat.com>
  <725f5e57-7900-3836-6232-ce862ae9971e@grimberg.me>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <725f5e57-7900-3836-6232-ce862ae9971e@grimberg.me>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+ <ZKwHPqi21HUNUyaY@ovpn-8-33.pek2.redhat.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <ZKwHPqi21HUNUyaY@ovpn-8-33.pek2.redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230710_062747_000802_E3817C77 
-X-CRM114-Status: GOOD (  68.14  )
+X-CRM114-CacheID: sfid-20230710_070048_017768_698DF822 
+X-CRM114-Status: GOOD (  17.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,202 +93,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jul 10, 2023 at 02:56:08PM +0300, Sagi Grimberg wrote:
+
+>>> OK, I got your idea now, but which is basically not doable from current
+>>> nvme error recovery approach.
+>>>
+>>> Even though starting freeze is moved to reconnect stage, queue is still
+>>> quiesced, then request is kept in block layer's internal queue, and can't
+>>> enter nvme fabric .queue_rq().
+>>
+>> See error-recovery in nvme_[tcp|rdma]_error_recovery(), the queue is
+>> unquiesced for fast-failover.
 > 
+> OK, sorry for missing the nvme_unquiesce_io_queues() called in
+> nvme_tcp_error_recovery_work().
 > 
-> On 7/10/23 14:31, Ming Lei wrote:
-> > On Mon, Jul 10, 2023 at 02:01:18PM +0300, Sagi Grimberg wrote:
-> > > 
-> > > 
-> > > On 7/10/23 12:50, Ming Lei wrote:
-> > > > On Mon, Jul 10, 2023 at 12:27:31PM +0300, Sagi Grimberg wrote:
-> > > > > 
-> > > > > > > > > > I still want your patches for tcp/rdma that move the freeze.
-> > > > > > > > > > If you are not planning to send them, I swear I will :)
-> > > > > > > > > 
-> > > > > > > > > Ming, can you please send the tcp/rdma patches that move the
-> > > > > > > > > freeze? As I said before, it addresses an existing issue with
-> > > > > > > > > requests unnecessarily blocked on a frozen queue instead of
-> > > > > > > > > failing over.
-> > > > > > > > 
-> > > > > > > > Any chance to fix the current issue in one easy(backportable) way[1] first?
-> > > > > > > 
-> > > > > > > There is, you suggested one. And I'm requesting you to send a patch for
-> > > > > > > it.
-> > > > > > 
-> > > > > > The patch is the one pointed by link [1], and it still can be applied on current
-> > > > > > linus tree.
-> > > > > > 
-> > > > > > https://lore.kernel.org/linux-nvme/20230629064818.2070586-1-ming.lei@redhat.com/
-> > > > > 
-> > > > > This is separate from what I am talking about.
-> > > > > 
-> > > > > > > > All previous discussions on delay freeze[2] are generic, which apply on all
-> > > > > > > > nvme drivers, not mention this error handling difference causes extra maintain
-> > > > > > > > burden. I still suggest to convert all drivers in same way, and will work
-> > > > > > > > along the approach[1] aiming for v6.6.
-> > > > > > > 
-> > > > > > > But we obviously hit a difference in expectations from different
-> > > > > > > drivers. In tcp/rdma there is currently an _existing_ bug, where
-> > > > > > > we freeze the queue on error recovery, and unfreeze only after we
-> > > > > > > reconnect. In the meantime, requests can be blocked on the frozen
-> > > > > > > request queue and not failover like they should.
-> > > > > > > 
-> > > > > > > In fabrics the delta between error recovery and reconnect can (and
-> > > > > > > often will be) minutes or more. Hence I request that we solve _this_
-> > > > > > > issue which is addressed by moving the freeze to the reconnect path.
-> > > > > > > 
-> > > > > > > I personally think that pci should do this as well, and at least
-> > > > > > > dual-ported multipath pci devices would prefer instant failover
-> > > > > > > than after a full reset cycle. But Keith disagrees and I am not going to
-> > > > > > > push for it.
-> > > > > > > 
-> > > > > > > Regardless of anything we do in pci, the tcp/rdma transport
-> > > > > > > freeze-blocking-failover _must_ be addressed.
-> > > > > > 
-> > > > > > It is one generic issue, freeze/unfreeze has to be paired strictly
-> > > > > > for every driver.
-> > > > > > 
-> > > > > > For any nvme driver, the inbalance can happen when error handling
-> > > > > > is involved, that is why I suggest to fix the issue in one generic
-> > > > > > way.
-> > > > > 
-> > > > > Ming, you are ignoring what I'm saying. I don't care if the
-> > > > > freeze/unfreeze is 100% balanced or not (for the sake of this
-> > > > > discussion).
-> > > > > 
-> > > > > I'm talking about a _separate_ issue where a queue
-> > > > > is frozen for potentially many minutes blocking requests that
-> > > > > could otherwise failover.
-> > > > > 
-> > > > > > > So can you please submit a patch for each? Please phrase it as what
-> > > > > > > it is, a bug fix, so stable kernels can pick it up. And try to keep
-> > > > > > > it isolated to _only_ the freeze change so that it is easily
-> > > > > > > backportable.
-> > > > > > 
-> > > > > > The patch of "[PATCH V2] nvme: mark ctrl as DEAD if removing from error
-> > > > > > recovery" can fix them all(include nvme tcp/fc's issue), and can be backported.
-> > > > > 
-> > > > > Ming, this is completely separate from what I'm talking about. This one
-> > > > > is addressing when the controller is removed, while I'm talking about
-> > > > > the error-recovery and failover, which is ages before the controller is
-> > > > > removed.
-> > > > > 
-> > > > > > But as we discussed, we still want to call freeze/unfreeze in pair, and
-> > > > > > I also suggest the following approach[2], which isn't good to backport:
-> > > > > > 
-> > > > > > 	1) moving freeze into reset
-> > > > > > 	
-> > > > > > 	2) during resetting
-> > > > > > 	
-> > > > > > 	- freeze NS queues
-> > > > > > 	- unquiesce NS queues
-> > > > > > 	- nvme_wait_freeze()
-> > > > > > 	- update_nr_hw_queues
-> > > > > > 	- unfreeze NS queues
-> > > > > > 	
-> > > > > > 	3) meantime changes driver's ->queue_rq() in case that ctrl state is NVME_CTRL_CONNECTING,
-> > > > > > 	
-> > > > > > 	- if the request is FS IO with data, re-submit all bios of this request, and free the request
-> > > > > > 	
-> > > > > > 	- otherwise, fail the request
-> > > > > > 
-> > > > > > 
-> > > > > > [2] https://lore.kernel.org/linux-block/5bddeeb5-39d2-7cec-70ac-e3c623a8fca6@grimberg.me/T/#mfc96266b63eec3e4154f6843be72e5186a4055dc
-> > > > > 
-> > > > > Ming, please read again what my concern is. I'm talking about error recovery
-> > > > > freezing a queue, and unfreezing only after we reconnect,
-> > > > > blocking requests that should failover.
-> > > > 
-> > > >   From my understanding, nothing is special for tcp/rdma compared with
-> > > > nvme-pci.
-> > > 
-> > > But there is... The expectations are different.
-> > > 
-> > > > All take two stage error recovery: teardown & [reset(nvme-pci) | reconnect(tcp/rdma)]
-> > > > 
-> > > > Queues are frozen during teardown, and unfreeze in reset or reconnect.
-> > > > 
-> > > > If the 2nd stage is failed or bypassed, queues could be left as frozen
-> > > > & unquisced, and requests can't be handled, and io hang.
-> > > > 
-> > > > When tcp reconnect failed, nvme_delete_ctrl() is called for failing
-> > > > requests & removing controller.
-> > > > 
-> > > > Then the patch of "nvme: mark ctrl as DEAD if removing from error recovery"
-> > > > can avoid this issue by calling blk_mark_disk_dead() which can fail any
-> > > > request pending in bio_queue_enter().
-> > > > 
-> > > > If that isn't tcp/rdma's issue, can you explain it in details?
-> > > 
-> > > Yes I can. The expectation in pci is that a reset lifetime will be a few
-> > > seconds. By lifetime I mean it starts and either succeeds or fails.
-> > > 
-> > > in fabrics the lifetime is many minutes. i.e. it starts when error
-> > > recovery kicks in, and either succeeds (reconnected) or fails (deleted
-> > > due to ctrl_loss_tmo). This can take a long period of time (if for
-> > > example the controller is down for maintenance/reboot).
-> > > 
-> > > Hence, while it may be acceptable that requests are blocked on
-> > > a frozen queue for the duration of a reset in pci, it is _not_
-> > > acceptable in fabrics. I/O should failover far sooner than that
-> > > and must _not_ be dependent on the success/failure or the reset.
-> > > 
-> > > Hence I requested that this is addressed specifically for fabrics
-> > > (tcp/rdma).
-> > 
-> > OK, I got your idea now, but which is basically not doable from current
-> > nvme error recovery approach.
-> > 
-> > Even though starting freeze is moved to reconnect stage, queue is still
-> > quiesced, then request is kept in block layer's internal queue, and can't
-> > enter nvme fabric .queue_rq().
+> After moving start_freeze to nvme_tcp_reconnect_ctrl_work, new request
+> can enter queue quickly, and all these requests may not be handled
+> after reconnection is done because queue topo may change. It looks not
+> an issue for mpath, but could be one trouble for !mpath, just like
+> nvme-pci. I guess you don't care !mpath?
+
+First, !mpath is less of a concern for fabrics, although it should still
+work.
+
+In the !mpath case, if the cpu topology changes, then this needs to be
+addressed specifically, and it is a secondary issue, far less important
+than not failing over quickly.
+
+> nvme_tcp_queue_rq() highly depends on ctrl state for handling request
+> during error recovery, and this way is actually fragile, such as:
 > 
-> See error-recovery in nvme_[tcp|rdma]_error_recovery(), the queue is
-> unquiesced for fast-failover.
-
-OK, sorry for missing the nvme_unquiesce_io_queues() called in
-nvme_tcp_error_recovery_work().
-
-After moving start_freeze to nvme_tcp_reconnect_ctrl_work, new request
-can enter queue quickly, and all these requests may not be handled
-after reconnection is done because queue topo may change. It looks not
-an issue for mpath, but could be one trouble for !mpath, just like
-nvme-pci. I guess you don't care !mpath?
-
-nvme_tcp_queue_rq() highly depends on ctrl state for handling request
-during error recovery, and this way is actually fragile, such as:
-
-1) nvme_unquiesce_io_queues() has to be done after ctrl state is changed
-to NVME_CTRL_CONNECTING, in nvme_tcp_error_recovery_work().
-
-At least we should be careful for this change.
-
+> 1) nvme_unquiesce_io_queues() has to be done after ctrl state is changed
+> to NVME_CTRL_CONNECTING, in nvme_tcp_error_recovery_work().
 > 
-> > The patch you are pushing can't work for this requirement, also I don't
-> > think you need that, because FS IO is actually queued to nvme mpath queue,
-> > which won't be frozen at all.
-> 
-> But it will enter the ns request queue, and will block there. There is a
-> window where a *few* stray requests enter the ns request queue before
-> the current path is reset, those are the ones that will not failover
-> immediately (because they are blocked on a frozen queue).
-> 
-> > However, you can improve nvme_ns_head_submit_bio() by selecting new path
-> > if the underlying queue is in error recovery. Not dig into the current
-> > code yet, I think it should have been done in this way already.
-> 
-> That is fine, and it happens to new requests already. The nvme-mpath
-> failover is not broken obviously. I am only talking about the few
-> requests that entered the ns queue when it was frozen and before the
-> nshead current_path was changed.
-> 
-> For those requests, we should fast failover as well, and we don't today.
+> At least we should be careful for this change.
 
-OK.
-
-
-Thanks, 
-Ming
-
+queue_rq() depends on ctrl->state but also queue state, and the latter
+is guaranteed to be stable across quiesce/unquiesce. This is already
+the case today.
 
