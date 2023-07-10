@@ -4,64 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51B16EB64D9
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Jul 2023 15:37:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 90726EB64D9
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Jul 2023 15:47:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yk3h8MT1WXQ4Hzm+/nTwX2HobwerbK0LKQs2bmU3+jk=; b=2T/ZRpusZd1lxn4domxtH7C0ss
-	lQVnByaMoVaCSwiRNdT+sh5ZWcm6PzumY/n4ZHWdX+svsh/JRVwgZn9FBXLl4s4Go+cYtxk6sHr/N
-	qXBs76PmEVvURmz3p97Mdtn5zzdV1rba+pVqvusfAXQq5f+6eHm6NSv5p1KQpnvfzCpsC2rFyi2zG
-	5kqFr/5t4lEfafU6IooLcyvmpxOgMLIsLiYSFAWarAdWQgIidb/Rf7Hbavhj3AUB18rqbZVBX8JFA
-	yDuL+dq5SmcRvkTSkgvTj61bAGPlfSQRPNFcSwJBGBMI7TNSjy+57MSxZ087uv3XETLgK02gLln34
-	fIvE02xw==;
+	bh=1cmxjMcfvrFVecoH9p5LC3mEGtFprhW9cvmWSFdwapk=; b=zcNmwOmpL9qAv7IbKUu9dA9V42
+	SFIIqdzdnCaS6+XB0JwqNA5vb2AHklcdk+haWrsJWPCPQN8I9nqGg2p1xyA++UJsGr7WsHaoBPQn5
+	JKOZwMDKGfv3VjG7TLbGRUR+wxLl/uWzVYK7QU0yfOnfy70rkbeqg8SDqP5j2jvI0cDz2nA28zRuO
+	EEs+3cl8pLv02g/ZdtnOWfqX7iMeXwTgOl4XZ3WDCcE2beqa+tJeaEISnCOyZkTolwmizCtQoYTDg
+	k/pCzn/uOeStihSqqxaCu5CoYI6YH2r9bL3td05NS00B8FRO1TeGeqQVhcgoM1tPBDatmLN2wRKLm
+	J6ffQvCw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qIsxQ-00C1TJ-10;
-	Mon, 10 Jul 2023 15:37:48 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1qIt6L-00C3By-1A;
+	Mon, 10 Jul 2023 15:47:01 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qIsxM-00C1RA-15
+	id 1qIt6J-00C3BW-0c
 	for linux-nvme@lists.infradead.org;
-	Mon, 10 Jul 2023 15:37:46 +0000
+	Mon, 10 Jul 2023 15:47:00 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 9E13561070;
-	Mon, 10 Jul 2023 15:37:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97F76C433C7;
-	Mon, 10 Jul 2023 15:37:42 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 8508061089;
+	Mon, 10 Jul 2023 15:46:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 969F5C433C8;
+	Mon, 10 Jul 2023 15:46:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1689003463;
-	bh=UH9FD6H4E8FgVGpGrI10/m2MFNWZjqwwvLW65UsSe9w=;
+	s=k20201202; t=1689004018;
+	bh=1cmxjMcfvrFVecoH9p5LC3mEGtFprhW9cvmWSFdwapk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QM0MOFFaogZsNCLdvOIVJizQKOk6ReGZFQDD6LxUb543yeezLwPAystRKd3DpVsnj
-	 nI6DdZgFUKdZJ08pa2RIssoB1sTsuJ2iZv/Jc1m0zVWcBNgom0S92S+WoknE9kpkBb
-	 4L7CEQY/tlAt+MXshVmo9iCZxfkxB5N23zR+I7TTe1mStU+nZs/IpLP2EbwYzeNFko
-	 gltLN4SbVrkEKzLc0w6/DdjQHNLrPJ9CnwxjpGPQc8yLXyfWBpTjqD5EfMPO2ezZ/s
-	 Ui6WRPnylNm0VR2ZhgDlMV9L3Jajd+02z8bkvFOViQiF+mkbJvBfCjUkfbwyx3jP/a
-	 omrrki/TXN1Dw==
-Date: Mon, 10 Jul 2023 09:37:40 -0600
+	b=ou1zV6X+ctbj2VRps+ge6CgFlQRO8MFi3o6vGGhoIzKE8bTFGcZTaVrlA6Sl1fM2v
+	 PbxYb5Eho6dlFghIPUC7K8SeCHsuLjuSlGK8C5BS125V3pIvKWFT73fNitpD87at7h
+	 xYltKZhEInAlqqP62Lv5RmeMDeii6Oh2vjyE1jxdLCyU7ZYB26t3JJodeSCjp6PxGr
+	 GPkLXLboayTXIb7bw0mkmXv4G/6sAfWScYsVTImFAx97x2H7I/Na2aZKwx3sn3PSqV
+	 52knnrXQiIXFcgadka90MXZi9NKZMbpDQGp7ZhzZRL4cOnJjFpt5DuSRhWLwVj/dWP
+	 SmU7Lw+Pb8E+g==
+Date: Mon, 10 Jul 2023 09:46:55 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org, Yi Zhang <yi.zhang@redhat.com>,
-	Chunguang Xu <brookxu.cn@gmail.com>
-Subject: Re: [PATCH 1/6] nvme: unquiesce io queues when removing namespaces
-Message-ID: <ZKwlxGBI2zUzbacn@kbusch-mbp.dhcp.thefacebook.com>
-References: <20230710153555.1766438-1-ming.lei@redhat.com>
- <20230710153555.1766438-2-ming.lei@redhat.com>
+To: Damien Le Moal <dlemoal@kernel.org>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: [PATCH] nvmet: use PAGE_SECTORS_SHIFT
+Message-ID: <ZKwn79c9xjGPT+3k@kbusch-mbp.dhcp.thefacebook.com>
+References: <20230707003222.5854-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230710153555.1766438-2-ming.lei@redhat.com>
+In-Reply-To: <20230707003222.5854-1-dlemoal@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230710_083744_437991_3B5FB568 
-X-CRM114-Status: GOOD (  11.28  )
+X-CRM114-CacheID: sfid-20230710_084659_267287_26E68F9C 
+X-CRM114-Status: UNSURE (   6.60  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,17 +75,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jul 10, 2023 at 11:35:50PM +0800, Ming Lei wrote:
-> Error recovery can be interrupted by controller removal, then the
-> controller is left as quiesced, and IO hang can be caused.
-> 
-> Fix the issue by unquiescing controller unconditionally when removing
-> namespaces.
-> 
-> This way is reasonable and safe given forward progress can be made
-> when removing namespaces.
-
-Looks good.
-
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+Applied, thanks!
 
