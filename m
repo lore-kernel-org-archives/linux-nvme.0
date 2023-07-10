@@ -4,70 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D9253EB64DA
-	for <linux-nvme@archiver.kernel.org>; Mon, 10 Jul 2023 10:43:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7318EB64D9
+	for <linux-nvme@archiver.kernel.org>; Mon, 10 Jul 2023 11:01:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dcqwH1JHB/zMyfnzLAkQxVrnbSRsy6dRa4E0txqsIQs=; b=1Hq5cr6fJAetykxjzkh4D7bWz2
-	YUFpjwirQCe3SOo513xRHkQURJxm1Q4OkiG5TFbd+NKzEZ2Fibc/I1hUUqm8x6w4qjnfjs7futY6w
-	AZ0iRxBWRhPv7mu9Te0BpZN34gdBciV7Cci3N+M/YBNpBDRWkLCbPzxNtOqwLlSpELM8hhSHUiuIf
-	p4zWMgpKB+vo1uBSiaxWgv34wfJzCbX8bip9P/+8jyJqr9DYUCJ5QITMV+hPbtMCg8Mio3V+DvYI0
-	uaUywSNWvZYhwN0485pqcdp3DcCy9zcxQs9hrekPzLAE1/5J/tQvsaCupsX8SMPzKnfdxI4B7eMki
-	cmwDc24w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=F/8Cp2LKOxEnOhplNaNGG/Ckc9tJgRB9yfMo4YldCZM=; b=W1jZB2wSg8NsMfX8YYdrmQ8DSM
+	UYq57jmWxehhOJtxHw+g1Tj3eyZm2AJxgIXSnKRW5ESSnFG64QQxNGxoNkbz0I3rBD177qjU3J/rx
+	ET6IinihXAzzVWx8ql2HMfW4W1GmFberP4GD8wi+0FElQH5utfwh4eEhn3nxBM0iH45wTYswjDmgm
+	kt1lsU+gHabyOXxwsGtsBeiynxWWlKApiDx3jQgIN/3trNaqrUfZ8d5HcLsepYmefPFqr5ybgApiw
+	0ZTtLg3279KiXiINnYzzXlS06NnwhBfjuywJx+MnO9aRwEOketoGYj5PR8foamrevFiCuYjEDUlXK
+	yy3jfSXQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qIoM3-00BL8E-35;
-	Mon, 10 Jul 2023 10:42:55 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1qIoe1-00BPfw-0w;
+	Mon, 10 Jul 2023 11:01:29 +0000
+Received: from mail-wm1-f48.google.com ([209.85.128.48])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qIoM1-00BL5F-0w
+	id 1qIodx-00BPeR-1i
 	for linux-nvme@lists.infradead.org;
-	Mon, 10 Jul 2023 10:42:54 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1688985771;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dcqwH1JHB/zMyfnzLAkQxVrnbSRsy6dRa4E0txqsIQs=;
-	b=Yao5EYyw67DwO4wlyqPOLgjfDoo4z/DN/Q3ZIZXsEsJRsopKba5XFM1j6y8fVnJx8YkPAJ
-	jzVfltJhG6KEXYyHRSmZYrMLaEw/d9owpo0l8qdI9l4g0nPdr6ocXkmBCdJ6soE+6y7cr5
-	a0wjIBcaDhrObzY19t93h1VJJsw/Jxg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-84-NwoKJUS-OB6gnRBBDCzZ2Q-1; Mon, 10 Jul 2023 06:42:46 -0400
-X-MC-Unique: NwoKJUS-OB6gnRBBDCzZ2Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8DEFC2999B20;
-	Mon, 10 Jul 2023 10:42:45 +0000 (UTC)
-Received: from ovpn-8-33.pek2.redhat.com (ovpn-8-33.pek2.redhat.com [10.72.8.33])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6960FC09A09;
-	Mon, 10 Jul 2023 10:42:41 +0000 (UTC)
-Date: Mon, 10 Jul 2023 18:42:36 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, ming.lei@redhat.com
-Subject: Re: [PATCH 1/4] block: don't unconditionally set max_discard_sectors
- in blk_queue_max_discard_sectors
-Message-ID: <ZKvgnI5qZ/Z70ycL@ovpn-8-33.pek2.redhat.com>
-References: <20230707094616.108430-1-hch@lst.de>
- <20230707094616.108430-2-hch@lst.de>
+	Mon, 10 Jul 2023 11:01:27 +0000
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3fbb634882dso10582355e9.0
+        for <linux-nvme@lists.infradead.org>; Mon, 10 Jul 2023 04:01:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688986882; x=1691578882;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=F/8Cp2LKOxEnOhplNaNGG/Ckc9tJgRB9yfMo4YldCZM=;
+        b=S0MzljLCprAsGqXZLMQnT3CTRgbaYeAR5GYy4gbjiHLQyBsO1o8rDfuK3OesVec7zb
+         sbvp104DSkT1y9b7NX6SvKsjnVkEFDJpT5Cez7koQTNn5PUFwWPWGc2sgCQXJ6b4pLFB
+         V9cocCe4dTl0skx1Pp/j8M/LudBUPSA6LrY4KJqOzZOrl2E/kShS4h/2QP1PP/H9dVa5
+         /sFtgdoonmzu3l+Z9OoDWtzP6nhm3YiXax25ZcxOLnPPkt/B2szohRphyzRY9J+vmfVM
+         1NINfdBsmp9iMGGvwJhlt/AR7qqoxs8/mIaIM6d7ryDGlOKPutUguPEg4GQn0LEdQPkq
+         cw/g==
+X-Gm-Message-State: ABy/qLY05DEX2VNYUYU/QHphm/a6EEuevygr8zBiMSXrElgn5NnvDBK1
+	IoLXJQQlQ7/qVt8XYvPV+sg=
+X-Google-Smtp-Source: APBJJlFpEEu2lBDj2f8kzLvrdALdGTnxlGgrDO1CEksYTXuEOWIlb3jf713ghnxx8stoxZG7vAvwvg==
+X-Received: by 2002:a05:600c:43c5:b0:3fa:9587:8fc1 with SMTP id f5-20020a05600c43c500b003fa95878fc1mr11357372wmn.1.1688986880493;
+        Mon, 10 Jul 2023 04:01:20 -0700 (PDT)
+Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id 25-20020a05600c021900b003fbc30825fbsm9986594wmi.39.2023.07.10.04.01.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Jul 2023 04:01:19 -0700 (PDT)
+Message-ID: <61fcbded-dbed-bd04-4b96-b3326265eb43@grimberg.me>
+Date: Mon, 10 Jul 2023 14:01:18 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230707094616.108430-2-hch@lst.de>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] nvme: mark ctrl as DEAD if removing from error recovery
+Content-Language: en-US
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ linux-nvme@lists.infradead.org, Yi Zhang <yi.zhang@redhat.com>,
+ Chunguang Xu <brookxu.cn@gmail.com>, stable@vger.kernel.org
+References: <20230628031234.1916897-1-ming.lei@redhat.com>
+ <8dc6852e-ee90-ed64-1d3e-9ecdc9f4473b@grimberg.me>
+ <148a3e62-939f-a74f-8075-8f37cda102ab@grimberg.me>
+ <ZKt0wSHqrw3W88UQ@ovpn-8-21.pek2.redhat.com>
+ <b11743c1-6c58-5f7a-8dc9-2a1a065835d0@grimberg.me>
+ <ZKvH6cO+XnGgQQyc@ovpn-8-31.pek2.redhat.com>
+ <8dba03f7-2421-e86b-bc94-ff031c153110@grimberg.me>
+ <ZKvUgDbdCdScx0e7@ovpn-8-33.pek2.redhat.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <ZKvUgDbdCdScx0e7@ovpn-8-33.pek2.redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230710_034253_403444_F57E8CFA 
-X-CRM114-Status: GOOD (  22.56  )
+X-CRM114-CacheID: sfid-20230710_040125_572252_34583ACD 
+X-CRM114-Status: GOOD (  36.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,41 +90,146 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jul 07, 2023 at 11:46:13AM +0200, Christoph Hellwig wrote:
-> max_discard_sectors is split into a hardware and a tunable value, but
-> blk_queue_max_discard_sectors sets both unconditionally, thus dropping
-> any user stored value on a rescan.  Fix blk_queue_max_discard_sectors to
-> only set max_discard_sectors if it either wasn't set, or the new hardware
-> limit is smaller than the previous user limit.
+
+
+On 7/10/23 12:50, Ming Lei wrote:
+> On Mon, Jul 10, 2023 at 12:27:31PM +0300, Sagi Grimberg wrote:
+>>
+>>>>>>> I still want your patches for tcp/rdma that move the freeze.
+>>>>>>> If you are not planning to send them, I swear I will :)
+>>>>>>
+>>>>>> Ming, can you please send the tcp/rdma patches that move the
+>>>>>> freeze? As I said before, it addresses an existing issue with
+>>>>>> requests unnecessarily blocked on a frozen queue instead of
+>>>>>> failing over.
+>>>>>
+>>>>> Any chance to fix the current issue in one easy(backportable) way[1] first?
+>>>>
+>>>> There is, you suggested one. And I'm requesting you to send a patch for
+>>>> it.
+>>>
+>>> The patch is the one pointed by link [1], and it still can be applied on current
+>>> linus tree.
+>>>
+>>> https://lore.kernel.org/linux-nvme/20230629064818.2070586-1-ming.lei@redhat.com/
+>>
+>> This is separate from what I am talking about.
+>>
+>>>>> All previous discussions on delay freeze[2] are generic, which apply on all
+>>>>> nvme drivers, not mention this error handling difference causes extra maintain
+>>>>> burden. I still suggest to convert all drivers in same way, and will work
+>>>>> along the approach[1] aiming for v6.6.
+>>>>
+>>>> But we obviously hit a difference in expectations from different
+>>>> drivers. In tcp/rdma there is currently an _existing_ bug, where
+>>>> we freeze the queue on error recovery, and unfreeze only after we
+>>>> reconnect. In the meantime, requests can be blocked on the frozen
+>>>> request queue and not failover like they should.
+>>>>
+>>>> In fabrics the delta between error recovery and reconnect can (and
+>>>> often will be) minutes or more. Hence I request that we solve _this_
+>>>> issue which is addressed by moving the freeze to the reconnect path.
+>>>>
+>>>> I personally think that pci should do this as well, and at least
+>>>> dual-ported multipath pci devices would prefer instant failover
+>>>> than after a full reset cycle. But Keith disagrees and I am not going to
+>>>> push for it.
+>>>>
+>>>> Regardless of anything we do in pci, the tcp/rdma transport
+>>>> freeze-blocking-failover _must_ be addressed.
+>>>
+>>> It is one generic issue, freeze/unfreeze has to be paired strictly
+>>> for every driver.
+>>>
+>>> For any nvme driver, the inbalance can happen when error handling
+>>> is involved, that is why I suggest to fix the issue in one generic
+>>> way.
+>>
+>> Ming, you are ignoring what I'm saying. I don't care if the
+>> freeze/unfreeze is 100% balanced or not (for the sake of this
+>> discussion).
+>>
+>> I'm talking about a _separate_ issue where a queue
+>> is frozen for potentially many minutes blocking requests that
+>> could otherwise failover.
+>>
+>>>> So can you please submit a patch for each? Please phrase it as what
+>>>> it is, a bug fix, so stable kernels can pick it up. And try to keep
+>>>> it isolated to _only_ the freeze change so that it is easily
+>>>> backportable.
+>>>
+>>> The patch of "[PATCH V2] nvme: mark ctrl as DEAD if removing from error
+>>> recovery" can fix them all(include nvme tcp/fc's issue), and can be backported.
+>>
+>> Ming, this is completely separate from what I'm talking about. This one
+>> is addressing when the controller is removed, while I'm talking about
+>> the error-recovery and failover, which is ages before the controller is
+>> removed.
+>>
+>>> But as we discussed, we still want to call freeze/unfreeze in pair, and
+>>> I also suggest the following approach[2], which isn't good to backport:
+>>>
+>>> 	1) moving freeze into reset
+>>> 	
+>>> 	2) during resetting
+>>> 	
+>>> 	- freeze NS queues
+>>> 	- unquiesce NS queues
+>>> 	- nvme_wait_freeze()
+>>> 	- update_nr_hw_queues
+>>> 	- unfreeze NS queues
+>>> 	
+>>> 	3) meantime changes driver's ->queue_rq() in case that ctrl state is NVME_CTRL_CONNECTING,
+>>> 	
+>>> 	- if the request is FS IO with data, re-submit all bios of this request, and free the request
+>>> 	
+>>> 	- otherwise, fail the request
+>>>
+>>>
+>>> [2] https://lore.kernel.org/linux-block/5bddeeb5-39d2-7cec-70ac-e3c623a8fca6@grimberg.me/T/#mfc96266b63eec3e4154f6843be72e5186a4055dc
+>>
+>> Ming, please read again what my concern is. I'm talking about error recovery
+>> freezing a queue, and unfreezing only after we reconnect,
+>> blocking requests that should failover.
 > 
-> Fixes: 0034af036554 ("block: make /sys/block/<dev>/queue/discard_max_bytes writeable")
+>  From my understanding, nothing is special for tcp/rdma compared with
+> nvme-pci.
 
-It is hard to say a fix, given discard_max_bytes can still be changed
-by kernel. I'd suggest to document this behavior in Documentation/ABI/stable/sysfs-block.
+But there is... The expectations are different.
 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  block/blk-settings.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+> All take two stage error recovery: teardown & [reset(nvme-pci) | reconnect(tcp/rdma)]
 > 
-> diff --git a/block/blk-settings.c b/block/blk-settings.c
-> index 0046b447268f91..978d2e1fd67a51 100644
-> --- a/block/blk-settings.c
-> +++ b/block/blk-settings.c
-> @@ -179,7 +179,9 @@ void blk_queue_max_discard_sectors(struct request_queue *q,
->  		unsigned int max_discard_sectors)
->  {
->  	q->limits.max_hw_discard_sectors = max_discard_sectors;
-> -	q->limits.max_discard_sectors = max_discard_sectors;
-> +	if (!q->limits.max_discard_sectors ||
-> +	     q->limits.max_discard_sectors > max_discard_sectors)
-> +		q->limits.max_discard_sectors = max_discard_sectors;
->  }
+> Queues are frozen during teardown, and unfreeze in reset or reconnect.
+> 
+> If the 2nd stage is failed or bypassed, queues could be left as frozen
+> & unquisced, and requests can't be handled, and io hang.
+> 
+> When tcp reconnect failed, nvme_delete_ctrl() is called for failing
+> requests & removing controller.
+> 
+> Then the patch of "nvme: mark ctrl as DEAD if removing from error recovery"
+> can avoid this issue by calling blk_mark_disk_dead() which can fail any
+> request pending in bio_queue_enter().
+> 
+> If that isn't tcp/rdma's issue, can you explain it in details?
 
-Userspace may write 0 to discard_max_bytes, and this patch still can
-override user setting.
+Yes I can. The expectation in pci is that a reset lifetime will be a few
+seconds. By lifetime I mean it starts and either succeeds or fails.
 
-Thanks,
-Ming
+in fabrics the lifetime is many minutes. i.e. it starts when error
+recovery kicks in, and either succeeds (reconnected) or fails (deleted
+due to ctrl_loss_tmo). This can take a long period of time (if for
+example the controller is down for maintenance/reboot).
 
+Hence, while it may be acceptable that requests are blocked on
+a frozen queue for the duration of a reset in pci, it is _not_
+acceptable in fabrics. I/O should failover far sooner than that
+and must _not_ be dependent on the success/failure or the reset.
+
+Hence I requested that this is addressed specifically for fabrics
+(tcp/rdma).
+
+Now, I did mention that I think that pci should behave similar to this,
+but that is arguable and is only my opinion, and should be separate from
+fixing the issue noted above for tcp/rdma.
 
