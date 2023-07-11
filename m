@@ -4,72 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B38CDEB64DC
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jul 2023 09:41:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 27856EB64DC
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jul 2023 10:31:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qPgyJBvvYy9SP5xmX+Xa32nmNa9nzZ7L5AMIyS5vjwY=; b=MTxRGECP1BzLDrCvJs+LokEvGC
-	Z/bmY4eoxx6eCCQN1F6TEAYgG5ezmGY2qknCH2ZpK09vczWTbBpE2B4P1tMtOfe/yswyLapde9Sck
-	l7QR9iQeJ4V+ZjvW9i+v2Wn83MobfvwA2pjNjKVqL3o8y5T8bzpmFo0f63Bj5ksmgg8EwOmNelUXs
-	yFzeLwvFQa52yzmKFNopO8Osuo2BFoLklJBSaEyAVQr3AQeG+GZSoyR0t1OgtOQWVOHZ/Foz/gJdI
-	VXgredK/AhnmkXbeXoYfni1HtUzgUI94p1Tbtz0Y7LrjTpOr0glNZH7aFQsIFrYCvmKxOuxoI8Z1B
-	9oMY0FXA==;
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=2N8XZ5kQ9s6Jq1Bw2Rm3Se7A9aKRwPFoHDGqHejlXH0=; b=HDBRh6MD19O0VLmqB3ch2FaYOI
+	dc8EWDyljc/2znjnCmoqQbQ/21MeD8ROSrfSoJIuBpzNZL0TwvpoHo4zG8pjGTgmi7p5IS6eEowOH
+	tvkJGRDebmpM+tReQ+lDDGWSXyWudWHegTTGrhThVrBNe+gFLwVdXWSLi1QLjSz3yZypFdqqc5Ib/
+	95qzVK22uunZnF/M0bn5QPYo69C0Qg8/K+lluyUr7wqN8drY6EIYPvuIhojEZO8B8AfRJ0E/pf+8l
+	DDYYilnRnu2qhvVNADfbKO0IQGpHHFIqgHONv1g8zINwx4ZYp4lD6PaHYeQLC4HjTGgkX6mb5N/S5
+	KOfEslbQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJ9ru-00EKKs-02;
-	Tue, 11 Jul 2023 09:41:14 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1qJAeS-00EcW3-0F;
+	Tue, 11 Jul 2023 10:31:24 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJ9rr-00EKJW-0C
+	id 1qJAeO-00EcUf-2u
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Jul 2023 09:41:12 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1689068470;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	Tue, 11 Jul 2023 10:31:22 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D83991FF97;
+	Tue, 11 Jul 2023 10:31:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1689071476; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qPgyJBvvYy9SP5xmX+Xa32nmNa9nzZ7L5AMIyS5vjwY=;
-	b=A3ToZBEq1v7kyi7ljaglF4pYafX8vg+hMcBX/ubEtlu4osIcqj4BZiHBQRAUkB4ppyi8dX
-	Rq3fo5qozbaFhQJfSMD+lzrpv3BUircBaCBzIbUd8FQip5f+UCt1bqqWAYzTE+cPpB2NTk
-	9lkYafc82VXUMZh/dzZqzUbfBMdmMnw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-380-7RvF_JBPNuGo7aYWizgOCg-1; Tue, 11 Jul 2023 05:41:05 -0400
-X-MC-Unique: 7RvF_JBPNuGo7aYWizgOCg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	bh=2N8XZ5kQ9s6Jq1Bw2Rm3Se7A9aKRwPFoHDGqHejlXH0=;
+	b=I5ZONSp/U4JFytgoI1kucpLH0adVLoUFLgTZ6MXXC6E40bQqjZgGlY2xL+e57brfFa+71c
+	ZexnY2r08UQer/a6oBkOwPC9hpVlInd8wwsSGCVJKNPjg43fc10kJJSvs4IxdMKhvJE0Da
+	4k049UT2C2t4EpCuzlv8oXoaV7HOnK4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1689071476;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2N8XZ5kQ9s6Jq1Bw2Rm3Se7A9aKRwPFoHDGqHejlXH0=;
+	b=Vc32gg25endAzWZIT9w2NwNEBk00JnuzbLGJEZLWcK38sSxykxZlQ2Jfh6Bcww06GlgzJp
+	cjC4EGnAE1SWBRCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A6DBA1C04B4D;
-	Tue, 11 Jul 2023 09:41:04 +0000 (UTC)
-Received: from localhost (ovpn-8-22.pek2.redhat.com [10.72.8.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id AF58F200B406;
-	Tue, 11 Jul 2023 09:41:03 +0000 (UTC)
-From: Ming Lei <ming.lei@redhat.com>
-To: Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org
-Cc: Yi Zhang <yi.zhang@redhat.com>,
-	Chunguang Xu <brookxu.cn@gmail.com>,
-	Ming Lei <ming.lei@redhat.com>,
-	stable@vger.kernel.org
-Subject: [PATCH V2 3/3] nvme-rdma: fix potential unbalanced freeze & unfreeze
-Date: Tue, 11 Jul 2023 17:40:41 +0800
-Message-Id: <20230711094041.1819102-4-ming.lei@redhat.com>
-In-Reply-To: <20230711094041.1819102-1-ming.lei@redhat.com>
-References: <20230711094041.1819102-1-ming.lei@redhat.com>
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CDE791391C;
+	Tue, 11 Jul 2023 10:31:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id xRbnMXQvrWSnewAAMHmgww
+	(envelope-from <hare@suse.de>); Tue, 11 Jul 2023 10:31:16 +0000
+Message-ID: <a50ee71b-8ee9-7636-917d-694eb2a482b4@suse.de>
+Date: Tue, 11 Jul 2023 12:31:16 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: nvme-tls and TCP window full
+To: Sagi Grimberg <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <f10a9e4a-b545-429d-803e-c1d63a084afe@suse.de>
+ <49422387-5ea3-af84-3f94-076c94748fff@grimberg.me>
+ <ed5b22c6-d862-8706-fc2e-5306ed1eaad2@grimberg.me>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <ed5b22c6-d862-8706-fc2e-5306ed1eaad2@grimberg.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230711_024111_167738_21A35F32 
-X-CRM114-Status: GOOD (  14.45  )
+X-CRM114-CacheID: sfid-20230711_033121_101672_CC565044 
+X-CRM114-Status: UNSURE (   9.99  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,58 +95,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Move start_freeze into nvme_rdma_configure_io_queues(), and there is
-at least two benefits:
+On 7/11/23 11:28, Sagi Grimberg wrote:
+> Hey Hannes,
+> 
+> Any progress on this one?
+> 
+Oh well; slow going.
+After some length debugging I found that the read_sock() implementation 
+wasn't exactly up to scratch (it would read each byte individually, 
+instead of each skb individually ... D'oh).
+But even with that fixed I'm still seeing I/O stalls due to window full:
 
-1) fix unbalanced freeze and unfreeze, since re-connection work may
-fail or be broken by removal
+[85639.669120] nvme nvme0: queue 2: C2H data cid 0x4d offset 0 len 4096
+[85639.669885] nvme nvme0: queue 2: PDU Data cid 0x4d offset 29 len 4120 
+rem 4096
+[85639.670809] nvme nvme0: queue 2: RSP cid 0x4d status 0
+[85639.671449] nvme nvme0: queue 2: pdu 24 data 0 consumed 4144 result 0
+[85639.674928] nvme nvme0: queue 2: skb 00000000bee9b76d len 8262 offset 
+5 len 8240
+[85639.676474] nvme nvme0: queue 2: C2H data cid 0x4e offset 0 len 8192
+[85639.678013] nvme nvme0: queue 2: PDU Data cid 0x4e offset 29 len 8216 
+rem 8192
+[85639.679810] nvme nvme0: queue 2: RSP cid 0x4e status 0
+[85639.681247] nvme nvme0: queue 2: pdu 24 data 0 consumed 8240 result 0
+[85639.690985] nvme nvme0: queue 2: skb 00000000bee9b76d len 16406 
+offset 5 len 16384
+[85639.692321] nvme nvme0: queue 2: C2H data cid 0x4f offset 0 len 126976
+[85639.694012] nvme nvme0: queue 2: PDU Data cid 0x4f offset 29 len 
+16360 rem 126976
+[85639.695882] nvme nvme0: queue 2: pdu 0 data 110616 consumed 16384 
+result 0
+[85639.697667] nvme nvme0: queue 2: skb 00000000bee9b76d len 16406 
+offset 5 len 16384
+[85639.699339] nvme nvme0: queue 2: PDU Data cid 0x4f offset 5 len 16384 
+rem 110616
+[85639.701122] nvme nvme0: queue 2: pdu 0 data 94232 consumed 16384 result 0
+[85639.702831] nvme nvme0: queue 2: skb 00000000bee9b76d len 16406 
+offset 5 len 16384
+[85639.704918] nvme nvme0: queue 2: PDU Data cid 0x4f offset 5 len 16384 
+rem 94232
+[85639.706759] nvme nvme0: queue 2: pdu 0 data 77848 consumed 16384 result 0
+[85639.708367] nvme nvme0: queue 2: skb 00000000bee9b76d len 16406 
+offset 5 len 16384
+[85639.711219] nvme nvme0: queue 2: PDU Data cid 0x4f offset 5 len 16384 
+rem 77848
+[85639.712108] nvme nvme0: queue 2: pdu 0 data 61464 consumed 16384 result 0
+[85639.714182] nvme nvme0: queue 2: skb 00000000bee9b76d len 16406 
+offset 5 len 16384
+[85639.715107] nvme nvme0: queue 2: PDU Data cid 0x4f offset 5 len 16384 
+rem 61464
+[85639.715989] nvme nvme0: queue 2: pdu 0 data 45080 consumed 16384 result 0
+[85671.510572] nvme nvme0: queue 2: timeout cid 0x4f type 4 opcode 0x2 
+(Read)
 
-2) IO during error recovery can be failfast quickly because nvme fabrics
-unquiesces queues after teardown.
+(These are just client-side logs).
+Which looks to me as if we're waiting for the server to continue sending
+PDU data frames, only these never arrive.
+So really I wonder whether it's not rather an issue on the server side. 
+Maybe the server doesn't retire skbs (or not all of them), causing the 
+TCP window to shrink.
+That, of course, is wild guessing, as I have no idea if and how calls to 
+'consume_skb' reflect back to the TCP window size.
 
-One side-effect is that !mpath request may timeout during connecting
-because of queue topo change, but that looks not one big deal:
+Investigation continues.
 
-1) same problem exists with current code base
+Cheers,
 
-2) compared with !mpath, mpath use case is dominant
-
-Fixes: 9f98772ba307 ("nvme-rdma: fix controller reset hang during traffic")
-Cc: stable@vger.kernel.org
-Signed-off-by: Ming Lei <ming.lei@redhat.com>
----
- drivers/nvme/host/rdma.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index d433b2ec07a6..337a624a537c 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -883,6 +883,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
- 		goto out_cleanup_tagset;
- 
- 	if (!new) {
-+		nvme_start_freeze(&ctrl->ctrl);
- 		nvme_unquiesce_io_queues(&ctrl->ctrl);
- 		if (!nvme_wait_freeze_timeout(&ctrl->ctrl, NVME_IO_TIMEOUT)) {
- 			/*
-@@ -891,6 +892,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
- 			 * to be safe.
- 			 */
- 			ret = -ENODEV;
-+			nvme_unfreeze(&ctrl->ctrl);
- 			goto out_wait_freeze_timed_out;
- 		}
- 		blk_mq_update_nr_hw_queues(ctrl->ctrl.tagset,
-@@ -940,7 +942,6 @@ static void nvme_rdma_teardown_io_queues(struct nvme_rdma_ctrl *ctrl,
- 		bool remove)
- {
- 	if (ctrl->ctrl.queue_count > 1) {
--		nvme_start_freeze(&ctrl->ctrl);
- 		nvme_quiesce_io_queues(&ctrl->ctrl);
- 		nvme_sync_io_queues(&ctrl->ctrl);
- 		nvme_rdma_stop_io_queues(ctrl);
--- 
-2.40.1
+Hannes
 
 
