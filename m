@@ -4,85 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6A72EB64DD
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jul 2023 19:48:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A4FBEB64DD
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jul 2023 22:08:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=a83u02dRQIY72xED+2uezS0avDMu71isv9swtNIALZ8=; b=JQrPqYSj6zOHG7RrdO/dxNMp0e
-	NaN5ClzeGl57Dc0wZE7zN0fYCYzUc+0acoQT9C986rmEbUlF83YKZ/CmrvIwa+lOuiWkgRo15b8Nr
-	E9cFee0XCTnOOSnpMB2xwIOT64u6IvNLmNtBrqc15Bvvsh9HBSMyYhAFVg5mYlfpzGiBTbpHgt94/
-	/q/ErLCwSmf7dOsSsClXUX8koKftfZImHyQzUpHdEI3V985oEsRPa8nmA4GX1mkNogXKKxJgbWQZu
-	vpNQke2Lv096LfRK/v+Ukt07zzSC/FnibTluId1mXzSxUdgZchj2eXfrbpetpLCQ3Y5hVuh8XI3i7
-	NiViYA1g==;
+	bh=22o7sJ4qMvAv+MYHGzcaJXVzraK0uhlI2bEFW2/yXhs=; b=nT9Ij/jCdNqAwacNqf+gRuz63s
+	w6sBG6DyrLxKtng+PzZs6m5IRW9fIqLEVCjyBzoRghuMlpFIXws8GvmTcW8Ym8fnu22LdAZaJP5jT
+	r/CnQThCCR3xiUQHYLHRzg76eVBCHgQ8L+9/Q8taxJBsv2PZ2tfRbm1f8Stz0AVW/SChLtj15jWgr
+	dYJqU0uVQIG4FnOCTV+Wb3DDRrWjqkLKFK9mx5FXTJXnXcqFIM0TJ2H67hL24Xfmq8DADWFurC+Dp
+	V3/wKI2dPKNtkymacBitzuIuUzPUZraMxGNHYI+ZXKE08V22eieQhzFEu3GkvCA8GXvt93pNKSWWc
+	4CoKpYgQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJJLQ-00Flxo-3C;
-	Tue, 11 Jul 2023 19:48:20 +0000
-Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f])
+	id 1qJLWY-00Fy1E-3B;
+	Tue, 11 Jul 2023 22:07:58 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJJLO-00Flwv-14
+	id 1qJLWW-00Fy0H-1N
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Jul 2023 19:48:19 +0000
-Received: by mail-qt1-x82f.google.com with SMTP id d75a77b69052e-403b36a4226so13778791cf.0
-        for <linux-nvme@lists.infradead.org>; Tue, 11 Jul 2023 12:48:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689104897; x=1691696897;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=a83u02dRQIY72xED+2uezS0avDMu71isv9swtNIALZ8=;
-        b=JKqSpKV4Ht1RCs65znN5FcaT6Fzpm8CWNSDqrWofvIVGWPHQ6ZOou5lIH0th0qIkki
-         bOcQ8l8tyvLzlbvJ7tIsh9xgsmU6vOZVvN+Cl6eazg7r2aCiKakWf+3ZxVadiC7RTocf
-         DHLehpeqzgmbb1lkgnLsFXU6zfoUs1gszngme6hF8FKu8jo3ju/JVvADLD+7S4V6hhWx
-         qBDU+X4F/zHXAmOY8jvY5Z0ZD4wWKCej8vbGfw757dmwVnmBdCHsm0KGvF3O623HaiH7
-         OKuP/L1BgI33B0kJBt2UB3P+8Yf6rZfCjE4sJbn+rJSwbWqdZcNpALtyjcNyOWaSBYom
-         U4Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689104897; x=1691696897;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=a83u02dRQIY72xED+2uezS0avDMu71isv9swtNIALZ8=;
-        b=kaJAHoORFxFdvJVWIsx/rnaZ20blKZxUWOkEVCltMoX0D0XtR9rqgCcLRu73qt8PLU
-         Gunn3rXqG/Q161duda1iP3OCt1klZM2UKlfOERzBPXIEANTE2XYqBVFgAzgvTLoL1hjD
-         T8xwl6+9q6jz7MR48VXaKECxf5i0lFT2W099yAbda+RZAKfC1/u5+hqhfHhnjjO8S4kq
-         dA3Iyi7cR+MSL80kzjnXoEH5GKSIeaECjvmQHHvpPxjAzhTxABoIuCS/l6z3yUQhsazU
-         si9RQOI0hnd+qYsMASgiB1/ro+12Y55WTXhFp9j8W9aMNa1Fz/mjVGdAgR68YEnmX8gs
-         W6eA==
-X-Gm-Message-State: ABy/qLa1KZtVVYC2uUPYZ8+iIFF6rimQyoIjHZx5nGnN8xYbb4YR6Z2b
-	3D1CecS44pfh/WVMEmX8HNWNeI48158=
-X-Google-Smtp-Source: APBJJlGdL7ilrNyHMqXOBIq71Om0DgaeuIkOJJQskMnlU7Y+IB1gP4bhQ9reFkTJjvj+eWeP9QCoyA==
-X-Received: by 2002:a0c:e108:0:b0:628:6879:ee48 with SMTP id w8-20020a0ce108000000b006286879ee48mr14571295qvk.50.1689104897481;
-        Tue, 11 Jul 2023 12:48:17 -0700 (PDT)
-Received: from [10.69.46.142] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id o3-20020a0cf4c3000000b0062439f05b87sm1459570qvm.45.2023.07.11.12.48.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jul 2023 12:48:17 -0700 (PDT)
-Message-ID: <5e3cb52c-ad4e-cacf-a45a-7e7c7f173806@gmail.com>
-Date: Tue, 11 Jul 2023 12:48:15 -0700
+	Tue, 11 Jul 2023 22:07:57 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1689113270;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=22o7sJ4qMvAv+MYHGzcaJXVzraK0uhlI2bEFW2/yXhs=;
+	b=OIJY9zdc+WMmdroI3RrjMaT0i87y9KdKYUdHlFGpinZ41HzXpugXDNyl3xQ//KriyGD0Av
+	QQO2knaIhmAKyH+pvQcN6WLv3sZI7NAxNAjQT0RIyYwpYT5Zpr8CY7brghxFVZYnYo9zLh
+	SV2jd66NBC75w9SmmFTlqHm/W3yL4PQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-323-XMfvtaptNeqoL_2kfIKVVA-1; Tue, 11 Jul 2023 18:07:48 -0400
+X-MC-Unique: XMfvtaptNeqoL_2kfIKVVA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 53BDF185A791;
+	Tue, 11 Jul 2023 22:07:47 +0000 (UTC)
+Received: from [10.22.16.29] (unknown [10.22.16.29])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 8BF1A40C6CD0;
+	Tue, 11 Jul 2023 20:13:46 +0000 (UTC)
+Message-ID: <87b925cb-6393-ca9b-6549-b3ba85ad54fc@redhat.com>
+Date: Tue, 11 Jul 2023 18:07:46 -0400
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH 2/2] nvme-fc: fix race between error recovery and creating
- association
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: Fwd: Need NVME QUIRK BOGUS for SAMSUNG MZ1WV480HCGL-000MV
+ (Samsung SM-953 Datacenter SSD)
 Content-Language: en-US
-To: Michael Liang <mliang@purestorage.com>, linux-nvme@lists.infradead.org
-Cc: randyj@purestorage.com, csander@purestorage.com,
- ushankar@purestorage.com, psajeepa@purestorage.com
-References: <20230707212157.1158725-1-mliang@purestorage.com>
- <20230707212157.1158725-3-mliang@purestorage.com>
-From: James Smart <jsmart2021@gmail.com>
-In-Reply-To: <20230707212157.1158725-3-mliang@purestorage.com>
+To: Keith Busch <kbusch@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Christoph Hellwig <hch@lst.de>,
+ Linux regressions mailing list <regressions@lists.linux.dev>,
+ Pankaj Raghav <p.raghav@samsung.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
+ "Clemens S." <cspringsguth@gmail.com>,
+ Martin Belanger <martin.belanger@dell.com>,
+ Chaitanya Kulkarni <kch@nvidia.com>, Hannes Reinecke <hare@suse.de>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux NVMe <linux-nvme@lists.infradead.org>,
+ Kanchan Joshi <joshi.k@samsung.com>,
+ Javier Gonzalez <javier.gonz@samsung.com>, =?UTF-8?B?67CV7KeE7ZmY?=
+ <jh.i.park@samsung.com>
+References: <d18d2a08-9d24-0209-c2cf-baf60bbf5048@gmail.com>
+ <ZJsKBkPqoWzYyngS@kbusch-mbp.dhcp.thefacebook.com>
+ <6f333133-2cc4-406a-d6c2-642ac6ccabca@leemhuis.info>
+ <CGME20230710155902eucas1p2b464a29adc35e983c73b00d18ab5344c@eucas1p2.samsung.com>
+ <ZKwqvTMPVmhnkZjS@kbusch-mbp.dhcp.thefacebook.com>
+ <f0fdf86e-4293-8e07-835d-b5a866252068@samsung.com>
+ <462e0e1e-98ea-0f3c-4aaa-8d44f0a8e664@leemhuis.info>
+ <20230711120609.GB27050@lst.de>
+ <CAHk-=whXh9sgLo24RO02JjfD0m3HE5NADRPWoEd+dW6bruFhVA@mail.gmail.com>
+ <ZK2PgNizcMLW+S/V@kbusch-mbp.dhcp.thefacebook.com>
+From: John Meneghini <jmeneghi@redhat.com>
+Organization: RHEL Core Storge Team
+In-Reply-To: <ZK2PgNizcMLW+S/V@kbusch-mbp.dhcp.thefacebook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230711_124818_367492_1F3FE380 
-X-CRM114-Status: UNSURE (   9.61  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230711_150756_561375_D18456F0 
+X-CRM114-Status: GOOD (  21.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,22 +105,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/7/2023 2:21 PM, Michael Liang wrote:
-> There is a small race window between nvme-fc association creation and error
-> recovery. Fix this race condition by protecting accessing to controller
-> state and ASSOC_FAILED flag under nvme-fc controller lock.
+Yes, this is what I thought.  This is all the result of the duplicate NID check added to deal with TP4034 Dispersed Namespaces.
+
+One suggestion I have would be to limit this check to nvme-of subsystems only. These are the only devices I am aware of out 
+there which support TP4034.  Moreover, all nvme-of devices report a valid NID.  It's required with NVMe Over Fabrics. The PCIe 
+devices, I expect, don't care. You don't really need a valid NID with a private namespace - which is what most PCIe devices are.
+
+I'll wager that if you change nvme_global_check_duplicate_ids() to check only nvme-of subsystems, and simply continue with PCIe 
+subsystems, 90% of these nvme quirks can be removed.
+
+John Meneghini
+Senior Principal Platform Storage Engineer
+RHEL SST - Platform Storage Group
+jmeneghi@redhat.com
+
+On 7/11/23 13:21, Keith Busch wrote:
+> On Tue, Jul 11, 2023 at 09:47:00AM -0700, Linus Torvalds wrote:
+>> On Tue, 11 Jul 2023 at 05:06, Christoph Hellwig <hch@lst.de> wrote:
+>> For example, we have this completely unacceptable garbage:
+>>
+>>          ret = nvme_global_check_duplicate_ids(ctrl->subsys, &info->ids);
+>>          if (ret) {
+>>                  dev_err(ctrl->device,
+>>                          "globally duplicate IDs for nsid %d\n", info->nsid);
+>>                  nvme_print_device_info(ctrl);
+>>                  return ret;
+>>          }
+>>
+>> iow, the code even checks for and *notices* that there are duplicate
+>> IDs, and what does it do? It then errors out.
 > 
-> Signed-off-by: Michael Liang <mliang@purestorage.com>
-> Reviewed-by: Caleb Sander <csander@purestorage.com>
-> ---
->   drivers/nvme/host/fc.c | 21 ++++++++++++++++-----
->   1 file changed, 16 insertions(+), 5 deletions(-)
-
-This patch looks good.  Thanks
-
-Reviewed-by: James Smart <jsmart2021@gmail.com>
-
--- james
-
+> This check came from a recent half-baked spec feature called "Dispersed
+> Namespaces" that caused breakage and data corruption when used in Linux.
+> Rather than attempt to support that mostly vendor specific feature, the
+> driver attempted to fence that off as unmaintainable. This check wasn't
+> aimed at enforcing "correctness", but it certainly found a lot of that
+> as collatoral damage. Let's see if we can find a better way to detect
+> the difference with a sane fallback as you suggest.
+> 
 
 
