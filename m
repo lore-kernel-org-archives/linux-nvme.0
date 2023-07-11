@@ -4,72 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 259DDEB64DC
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jul 2023 08:31:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 340B2EB64DD
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jul 2023 09:05:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZfSTZglvIGSrhocBNtgpf2SRGtSqiqusnODT4ZKCd20=; b=wenKdjWeo9O30y5CLcsRSL37ma
-	Wc8VtFu7nC3o28ftZR7sEc/2U1sb7oHxRordP+7bug9GSWbtuG07yYEwUd6c7yjsnGmhj2BXC8cL7
-	jsfftmcP73mQbxN5CKdbjmcdxpvh1AZKXEY0R7y8CS+EDQgbR1StePyTc9+GoMgTylRUnb2xSf+Tk
-	or+VpfYEKizQpv/9j7NCjMqrctBt6DAKg3Tr/6pI80VtGMLgoYm1FgXy3cEi47/ttsJzmnCvbM8Aj
-	idqAjPfGJI18RmfnnTY+pxzqqUU8GHysCb6HX61/4+f+OWWXUzs7v6auRGEZnuw8OmJFKmGjqejk9
-	7gD5duKQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=4jQlsF4VS5XkytwZjmbfeFb6WoEk0rjs6SWWnI5tDpI=; b=PJGTY+0Gax9GyS8g9p8s5oiNhp
+	eduGnrEgLaL5IHEeiKL5C8U6x/pwjoBa3vASIlA3iKCIobSTU/z8z2BE7pOUkFzWCHKEEEkDcV/am
+	Io3fkC6BJOnN1TCrY3snoNlKp8IVv92dqDrkacMpyvkwW60vE5vc1nRH+Sja9BVo1Uxyv84EvYyeb
+	e19P3QlLOy95lcjEvtD4ScdozxXMYFHMpW7f8RCRMNnQ+zBzSmIpL668S6uVvuRGGycvd3JjE60wB
+	lpBJpiv9ohELwzG0KutzR6XY0MxUQS1Eokcocyih9NgluN8KDMJaymzV3L4bcEedQcLSzJucHFeLl
+	F6wHg2jw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJ8mG-00E7o8-0A;
-	Tue, 11 Jul 2023 08:31:20 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1qJ9JX-00EE3U-0X;
+	Tue, 11 Jul 2023 09:05:43 +0000
+Received: from mail-wm1-f45.google.com ([209.85.128.45])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJ8mD-00E7nf-08
+	id 1qJ9JT-00EE2N-2A
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Jul 2023 08:31:18 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1689064274;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZfSTZglvIGSrhocBNtgpf2SRGtSqiqusnODT4ZKCd20=;
-	b=HP8e6XrxGZUmoi8cZUdeebNc+vmctAf/eX8fIZvqH2Xlg9C5obzeEgP3HzlEkG4bUJnfQ9
-	EvBwVixsmbdJzlRaPK84NHeJthvXJ0qfWyYwgPL4m/B71c4YwF96oKjmYgiGEEQrv/sM5R
-	OOynjN5d7u3hPKN1f+DQULF1Ian1eG0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-226-dI4TuKYXPnSndGRgHvp51A-1; Tue, 11 Jul 2023 04:31:11 -0400
-X-MC-Unique: dI4TuKYXPnSndGRgHvp51A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1ABDC1C0782D;
-	Tue, 11 Jul 2023 08:31:11 +0000 (UTC)
-Received: from ovpn-8-22.pek2.redhat.com (ovpn-8-22.pek2.redhat.com [10.72.8.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 388971121315;
-	Tue, 11 Jul 2023 08:31:05 +0000 (UTC)
-Date: Tue, 11 Jul 2023 16:31:00 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org, Yi Zhang <yi.zhang@redhat.com>,
-	Chunguang Xu <brookxu.cn@gmail.com>, ming.lei@redhat.com
-Subject: Re: [PATCH 1/6] nvme: unquiesce io queues when removing namespaces
-Message-ID: <ZK0TRK89VVatUdXE@ovpn-8-22.pek2.redhat.com>
-References: <20230710153555.1766438-1-ming.lei@redhat.com>
- <20230710153555.1766438-2-ming.lei@redhat.com>
- <20230711082719.GA23019@lst.de>
+	Tue, 11 Jul 2023 09:05:41 +0000
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3fa99b4f71fso11561825e9.1
+        for <linux-nvme@lists.infradead.org>; Tue, 11 Jul 2023 02:05:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689066337; x=1689671137;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4jQlsF4VS5XkytwZjmbfeFb6WoEk0rjs6SWWnI5tDpI=;
+        b=H8gXkQFvBsH7MOMdVGw35B/me2+CE+7D/RiYJcYVvNt9nqH6kmyziKtf6OxaQ+PgVz
+         kLDqaKUr5DINJh//YqvvIOOIYZeSxtkWrdws/Ac4VLVD4rK9TWJm18IQAmZ3vYwxvaCQ
+         +YHZOgRooomez32cILyrk8L37lziU01225NSjsr0CtkPN8I0tJZdsPIA21W5O34qJ0fx
+         fMQjEzYmi/677d3tLGcLHb53Hvp5A2N2coxwKYL7QzZvkQDe6guhnIc80IlmL0BJQoov
+         wTDVHVmXr0+2WOXseKO4rUDa4QvtJG6v2542k+KDfkfrTDsvH3al85Qm2jnOOPEvaldk
+         WqJw==
+X-Gm-Message-State: ABy/qLa78chFoh1gaAcApE8864uR9D6Ea9OA7Ft2SI9uELp/jPQs6GYe
+	1Xnseq1EpApMkCVOyqSnXGg=
+X-Google-Smtp-Source: APBJJlHSOhgLS0Qpj8pE/vvuOXbBvsXR/Q2AAJMHknyOY0FPWHCnoc3NCcsjSlq6RiJa+zBT8whgVQ==
+X-Received: by 2002:a5d:56c7:0:b0:314:1b64:1919 with SMTP id m7-20020a5d56c7000000b003141b641919mr11964093wrw.4.1689066336627;
+        Tue, 11 Jul 2023 02:05:36 -0700 (PDT)
+Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id q14-20020adfea0e000000b003063a92bbf5sm1663226wrm.70.2023.07.11.02.05.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Jul 2023 02:05:35 -0700 (PDT)
+Message-ID: <930baefd-3424-c620-1b99-c912ed381785@grimberg.me>
+Date: Tue, 11 Jul 2023 12:05:34 +0300
 MIME-Version: 1.0
-In-Reply-To: <20230711082719.GA23019@lst.de>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 3/6] nvme: tcp: unquiesce queues after ctrl state is
+ changed
+Content-Language: en-US
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ linux-nvme@lists.infradead.org, Yi Zhang <yi.zhang@redhat.com>,
+ Chunguang Xu <brookxu.cn@gmail.com>
+References: <20230710153555.1766438-1-ming.lei@redhat.com>
+ <20230710153555.1766438-4-ming.lei@redhat.com>
+ <c794c9d5-f665-3d5e-edee-7dc36ed69bad@grimberg.me>
+ <ZK0KemgHZEkvrA8i@ovpn-8-22.pek2.redhat.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <ZK0KemgHZEkvrA8i@ovpn-8-22.pek2.redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230711_013117_215236_2FB161C7 
-X-CRM114-Status: GOOD (  15.61  )
+X-CRM114-CacheID: sfid-20230711_020539_716734_AE85B573 
+X-CRM114-Status: GOOD (  23.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,29 +87,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jul 11, 2023 at 10:27:19AM +0200, Christoph Hellwig wrote:
-> On Mon, Jul 10, 2023 at 11:35:50PM +0800, Ming Lei wrote:
-> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > index 47d7ba2827ff..98fa8315bc65 100644
-> > --- a/drivers/nvme/host/core.c
-> > +++ b/drivers/nvme/host/core.c
-> > @@ -3903,6 +3903,12 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
-> >  	 */
-> >  	nvme_mpath_clear_ctrl_paths(ctrl);
-> >  
-> > +	/*
-> > +	 * Unquiesce io queues so any pending IO won't hang, especially
-> > +	 * those submitted from scan work
-> > +	 */
-> > +	nvme_unquiesce_io_queues(ctrl);
+
+
+On 7/11/23 10:53, Ming Lei wrote:
+> On Tue, Jul 11, 2023 at 10:41:46AM +0300, Sagi Grimberg wrote:
+>>
+>>> Unquiesce queues until controller state is changed successfully.
+>>>
+>>> Prepare for moving start freeze into reconnect work for preventing new
+>>> request from entering queue in LIVE state.
+>>>
+>>> Before removing namespace, unquiescing queues is done unconditionally, so
+>>> it is safe to do this way in case of state change failure.
+>>>
+>>> Signed-off-by: Ming Lei <ming.lei@redhat.com>
+>>> ---
+>>>    drivers/nvme/host/tcp.c | 7 ++++---
+>>>    1 file changed, 4 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+>>> index e414cfb3433f..e68bf21af348 100644
+>>> --- a/drivers/nvme/host/tcp.c
+>>> +++ b/drivers/nvme/host/tcp.c
+>>> @@ -2109,10 +2109,7 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
+>>>    	nvme_stop_keep_alive(ctrl);
+>>>    	flush_work(&ctrl->async_event_work);
+>>>    	nvme_tcp_teardown_io_queues(ctrl);
+>>> -	/* unquiesce to fail fast pending requests */
+>>> -	nvme_unquiesce_io_queues(ctrl);
+>>>    	nvme_tcp_teardown_admin_queue(ctrl);
+>>> -	nvme_unquiesce_admin_queue(ctrl);
+>>>    	nvme_auth_stop(ctrl);
+>>
+>> This is potentially a problem. It is possible that auth work is
+>> running in the bg here, and without unquiescing the admin queue
+>> the the auth_stop may take unnecessarily long until its I/O times
+>> out.
 > 
-> What quiesce does this pair with?
+> There isn't any IO queued to nvme before unquiesce since nvme_cancel_*tagset
+> cancels all inflight IOs.
 
-The one done during teardown of error recovery, then removal comes and breaks
-the in-progress error recovery.
+There is a window after cancel and before unquiesce that requests can
+come in.
 
+>>
+>> I think it is fine to keep it as is...
+> 
+> If ctrl state is LIVE, nvme_check_ready() return true, then IO is
+> sent to socket before changing ctrl state to NVME_CTRL_CONNECTING.
 
-Thanks,
-Ming
+a) the controller is not live because it was changed to RESETTING before
+b) nvme_check_ready() will also fail because the queue cleared bit
+NVME_TCP_Q_LIVE when the io queues stopped in
+nvme_tcp_teardown_io_queues.
 
+> So unquisce has to be done after state is changed to NVME_CTRL_CONNECTING
+> if we want to move start_freeze into re-connection work.
+
+See my response. It is perfectly safe to keep it as is.
 
