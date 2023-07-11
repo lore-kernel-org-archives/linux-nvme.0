@@ -4,51 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 521C5EB64DC
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jul 2023 09:41:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F82BEB64DC
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jul 2023 09:41:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=BxWx9Z1EI9oNshNZxa+Wkbf4eQAC4Xt7tA2mOrlGR8Q=; b=NZbzen9X1eJdcurwjnjd4THp2M
-	Y3wIO6mDjxboZA0gd3dhHgJZ5YnWhMgcjvVBt8wPA7UtWeD0HolFVyH1dnkn39SL4g5zYYToC/ePD
-	ACzZMmzFH+TaHaTxVck8huna/XEJKdmDMbT2TfLNVzwHbSLClcUl964XsdLW9AbNrvLOcmcAaOQRl
-	7Jd6vWHAuJzwF88e8afhrulbyoLw/KrJ/VCsFuovThQGvScbX8YdAV1vFHtTmzNvZmThp0NH4jy8K
-	aDWDtD1axiTKQZd0gFmNz3Y6ifXpYdv1MeENhBjrmUPga1KohfMLhpE1EDFizasmEUEWzDmS9xC0J
-	Jq74+TnA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=XsHk3s5WKMPNtRSOR2hho7ctM2lgfEHLxGIuRz1PzpE=; b=HXgK//oYaoxp1NBLKqdW8Hh0Ck
+	MMGUZSo9LllsQJP6AvTC1DcnLtjJOL8ybkZyFvAaXvqIHoZyZeFGlpoigyLeir3fkvHdxaEmw8rM8
+	+RhjDxNK0JB9xOqrE0e1jN3vDpu1tCKTML+t5ypP5TJvs0l2L9I5g1mu8QTidNlLSIUDx+pGjL81D
+	Gv6xej02YvOz2eR69MXK+MwzHfJOK+Fh8rmN3Pc5A0VZHYy3ap46zp4jp863JIq4wbHu6Svss8gUM
+	j9SxCKfXlNjvoXpqjQd7adG4rP6gp9XSZmwbnJunw7lE+0s+KfC+RQ26xMrOa4iLK+jabJkGLmjFd
+	I1gFPHMw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJ9rh-00EKG0-1Z;
-	Tue, 11 Jul 2023 09:41:01 +0000
+	id 1qJ9rl-00EKHC-0o;
+	Tue, 11 Jul 2023 09:41:05 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJ9rf-00EKEZ-00
+	id 1qJ9ri-00EKGH-1r
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Jul 2023 09:41:00 +0000
+	Tue, 11 Jul 2023 09:41:03 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1689068457;
+	s=mimecast20190719; t=1689068461;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=BxWx9Z1EI9oNshNZxa+Wkbf4eQAC4Xt7tA2mOrlGR8Q=;
-	b=Td9Diff+zSiOjnPaMP+qSJPXK+pfkV/lQqwxDThiB2i+cu+fJFQk4ov9XyQDxkjoxXv9Ke
-	6jNrwJERt05PdkKBFNctI0B21be+F/GzNSWUa7vUeAXGYYAHboUp9ltKt7qKYlgqb7i5VT
-	EBHnWO3TJTLN2pHvyBqC3WiR097qgOA=
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XsHk3s5WKMPNtRSOR2hho7ctM2lgfEHLxGIuRz1PzpE=;
+	b=NYK/7FSooZ0d7DTHOl06DdOMattU6fVdZkh9ZY2r9GXU9h1KB3NiQCBL79KMDxMpX9XhvO
+	t2wR1Hx96PAUBKZv4Zvr92UH1R4xBfMu7M1tI5V7mDbNs+s2SrL/Auz3Hz1Q+4APJ5FP6E
+	zZ+uDXyRQy8Mlmh84i1tUIrwPFRURrE=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-64-YWRI6hX0NFe8wO1Fnye98A-1; Tue, 11 Jul 2023 05:40:53 -0400
-X-MC-Unique: YWRI6hX0NFe8wO1Fnye98A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+ us-mta-52-xcXtflm3M6Cx6BYMoIu5Bg-1; Tue, 11 Jul 2023 05:40:58 -0400
+X-MC-Unique: xcXtflm3M6Cx6BYMoIu5Bg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4EF803815F0A;
-	Tue, 11 Jul 2023 09:40:53 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A24571C4FDAC;
+	Tue, 11 Jul 2023 09:40:56 +0000 (UTC)
 Received: from localhost (ovpn-8-22.pek2.redhat.com [10.72.8.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 48025F66AD;
-	Tue, 11 Jul 2023 09:40:51 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id C3F31207B356;
+	Tue, 11 Jul 2023 09:40:55 +0000 (UTC)
 From: Ming Lei <ming.lei@redhat.com>
 To: Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
@@ -56,20 +57,19 @@ To: Christoph Hellwig <hch@lst.de>,
 	linux-nvme@lists.infradead.org
 Cc: Yi Zhang <yi.zhang@redhat.com>,
 	Chunguang Xu <brookxu.cn@gmail.com>,
-	Ming Lei <ming.lei@redhat.com>
-Subject: [PATCH 0/3] nvme fabircs: fix io hang in error recovery vs. removal
-Date: Tue, 11 Jul 2023 17:40:38 +0800
-Message-Id: <20230711094041.1819102-1-ming.lei@redhat.com>
+	Ming Lei <ming.lei@redhat.com>,
+	stable@vger.kernel.org
+Subject: [PATCH V2 1/3] nvme: fix possible hang when removing a controller during error recovery
+Date: Tue, 11 Jul 2023 17:40:39 +0800
+Message-Id: <20230711094041.1819102-2-ming.lei@redhat.com>
+In-Reply-To: <20230711094041.1819102-1-ming.lei@redhat.com>
+References: <20230711094041.1819102-1-ming.lei@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230711_024059_106882_9F8A9AD5 
-X-CRM114-Status: UNSURE (   9.64  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230711_024102_679192_7123074A 
+X-CRM114-Status: GOOD (  15.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,25 +84,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello,
+Error recovery can be interrupted by controller removal, then the
+controller is left as quiesced, and IO hang can be caused.
 
-The 1st patch fixes io hang when queues are left as quiesced.
+Fix the issue by unquiescing controller unconditionally when removing
+namespaces.
 
-The other 2 patches fixes io hang when queues are left as frozen.
+This way is reasonable and safe given forward progress can be made
+when removing namespaces.
 
-All are triggered in error recovery vs. removal.
-
-Ming Lei (3):
-  nvme: fix possible hang when removing a controller during error
-    recovery
-  nvme-tcp: fix potential unbalanced freeze & unfreeze
-  nvme-rdma: fix potential unbalanced freeze & unfreeze
-
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Reported-by: Chunguang Xu <brookxu.cn@gmail.com>
+Closes: https://lore.kernel.org/linux-nvme/cover.1685350577.git.chunguang.xu@shopee.com/
+Cc: stable@vger.kernel.org
+Signed-off-by: Ming Lei <ming.lei@redhat.com>
+---
  drivers/nvme/host/core.c | 10 +++++++---
- drivers/nvme/host/rdma.c |  3 ++-
- drivers/nvme/host/tcp.c  |  3 ++-
- 3 files changed, 11 insertions(+), 5 deletions(-)
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 47d7ba2827ff..98fa8315bc65 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3903,6 +3903,12 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+ 	 */
+ 	nvme_mpath_clear_ctrl_paths(ctrl);
+ 
++	/*
++	 * Unquiesce io queues so any pending IO won't hang, especially
++	 * those submitted from scan work
++	 */
++	nvme_unquiesce_io_queues(ctrl);
++
+ 	/* prevent racing with ns scanning */
+ 	flush_work(&ctrl->scan_work);
+ 
+@@ -3912,10 +3918,8 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+ 	 * removing the namespaces' disks; fail all the queues now to avoid
+ 	 * potentially having to clean up the failed sync later.
+ 	 */
+-	if (ctrl->state == NVME_CTRL_DEAD) {
++	if (ctrl->state == NVME_CTRL_DEAD)
+ 		nvme_mark_namespaces_dead(ctrl);
+-		nvme_unquiesce_io_queues(ctrl);
+-	}
+ 
+ 	/* this is a no-op when called from the controller reset handler */
+ 	nvme_change_ctrl_state(ctrl, NVME_CTRL_DELETING_NOIO);
 -- 
 2.40.1
 
