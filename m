@@ -4,82 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 27856EB64DC
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jul 2023 10:31:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0D81EB64DD
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jul 2023 10:38:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2N8XZ5kQ9s6Jq1Bw2Rm3Se7A9aKRwPFoHDGqHejlXH0=; b=HDBRh6MD19O0VLmqB3ch2FaYOI
-	dc8EWDyljc/2znjnCmoqQbQ/21MeD8ROSrfSoJIuBpzNZL0TwvpoHo4zG8pjGTgmi7p5IS6eEowOH
-	tvkJGRDebmpM+tReQ+lDDGWSXyWudWHegTTGrhThVrBNe+gFLwVdXWSLi1QLjSz3yZypFdqqc5Ib/
-	95qzVK22uunZnF/M0bn5QPYo69C0Qg8/K+lluyUr7wqN8drY6EIYPvuIhojEZO8B8AfRJ0E/pf+8l
-	DDYYilnRnu2qhvVNADfbKO0IQGpHHFIqgHONv1g8zINwx4ZYp4lD6PaHYeQLC4HjTGgkX6mb5N/S5
-	KOfEslbQ==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=Fcb7nYT7pLk4pqMAjqbMeKG3hg
+	kLpyAogTqPqCwk4QSXeVWjxC+oJOZ2ydEcPPzuRS5PB+2RfiVSWRkNVktjizJWhdIQyL48VaGoFS0
+	hHeFT/KVES/Ny0D/ovrNqFc/Ns8iWxc+6quqfK25cZuGLDGkZ+YvnpdD/KmFTYjbTZPI7AZTpPKJa
+	Dhmckm41UaDtkGQvAHDQy7qsqPw8+DaQGj3LTZX4VYYaq6IcZhAtv3PltN+qYp+De84q3P8bYA0WM
+	qqNGNIakWIYybPusBaGiY+KXNjq1cTMLEpvvoe7PHMGEXFm616HpobZAyy5ZQdvy8eL1irUcHss4k
+	FBiVYEUg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJAeS-00EcW3-0F;
-	Tue, 11 Jul 2023 10:31:24 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1qJAlT-00Edrh-0P;
+	Tue, 11 Jul 2023 10:38:39 +0000
+Received: from mail-wr1-f46.google.com ([209.85.221.46])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJAeO-00EcUf-2u
+	id 1qJAlQ-00EdpL-36
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Jul 2023 10:31:22 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D83991FF97;
-	Tue, 11 Jul 2023 10:31:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1689071476; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2N8XZ5kQ9s6Jq1Bw2Rm3Se7A9aKRwPFoHDGqHejlXH0=;
-	b=I5ZONSp/U4JFytgoI1kucpLH0adVLoUFLgTZ6MXXC6E40bQqjZgGlY2xL+e57brfFa+71c
-	ZexnY2r08UQer/a6oBkOwPC9hpVlInd8wwsSGCVJKNPjg43fc10kJJSvs4IxdMKhvJE0Da
-	4k049UT2C2t4EpCuzlv8oXoaV7HOnK4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1689071476;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2N8XZ5kQ9s6Jq1Bw2Rm3Se7A9aKRwPFoHDGqHejlXH0=;
-	b=Vc32gg25endAzWZIT9w2NwNEBk00JnuzbLGJEZLWcK38sSxykxZlQ2Jfh6Bcww06GlgzJp
-	cjC4EGnAE1SWBRCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CDE791391C;
-	Tue, 11 Jul 2023 10:31:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id xRbnMXQvrWSnewAAMHmgww
-	(envelope-from <hare@suse.de>); Tue, 11 Jul 2023 10:31:16 +0000
-Message-ID: <a50ee71b-8ee9-7636-917d-694eb2a482b4@suse.de>
-Date: Tue, 11 Jul 2023 12:31:16 +0200
+	Tue, 11 Jul 2023 10:38:38 +0000
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-31422f20399so1208088f8f.1
+        for <linux-nvme@lists.infradead.org>; Tue, 11 Jul 2023 03:38:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689071914; x=1691663914;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+        b=mDa9qQ0cvpwGOEeAbcyIQdtUyxJuLV4PHzKdDaZtkey4NP0mp1M3wtOFg/Lc0pBuxL
+         cuo3bd75taWxflBZ91zM44VkrDRjXHxI6mgE8OubSxL1jy68JLJRTNzycBkkOswmNBJb
+         VcDY7yXJYbPAQltze6XVaVZ70Gpw4oTVIu2lnLCxJGoIEi0GQWfl693hKkh27TQ2K0uL
+         Vtm1zFy9l53zns3XcQTPKB8VofSNDEf3Fl0g43L2BFVu18yWK2ZTJlk7KNAXEklH2Tlb
+         tksexZrpcs4czNRiQrgqNIls44ZneV4BrKyq9TFtb6rFv7vmafH9mOATE1fL1opL45bi
+         unmQ==
+X-Gm-Message-State: ABy/qLa+F01Rl9L1fYPpPUt8hTRZPY+RRiiJpVtsud5mxlwNi1zD7WJt
+	Be8PBMFl/AfusVBnkPNDFLE=
+X-Google-Smtp-Source: APBJJlFFs9XqqYORhWsk2APEGGk+VSzShkQ+i3uE78roAxfWx6F7jAI4ik45PxlK2gnQBGy2uCLYmw==
+X-Received: by 2002:a05:6000:11c2:b0:30a:f103:1f55 with SMTP id i2-20020a05600011c200b0030af1031f55mr14033907wrx.0.1689071913750;
+        Tue, 11 Jul 2023 03:38:33 -0700 (PDT)
+Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id k8-20020a5d5188000000b00314172ba213sm1850004wrv.108.2023.07.11.03.38.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Jul 2023 03:38:33 -0700 (PDT)
+Message-ID: <992bfec5-5997-6e5e-f8fd-096f8eeaa551@grimberg.me>
+Date: Tue, 11 Jul 2023 13:38:32 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: nvme-tls and TCP window full
-To: Sagi Grimberg <sagi@grimberg.me>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <f10a9e4a-b545-429d-803e-c1d63a084afe@suse.de>
- <49422387-5ea3-af84-3f94-076c94748fff@grimberg.me>
- <ed5b22c6-d862-8706-fc2e-5306ed1eaad2@grimberg.me>
+ Thunderbird/102.12.0
+Subject: Re: [PATCH V2 2/3] nvme-tcp: fix potential unbalanced freeze &
+ unfreeze
 Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <ed5b22c6-d862-8706-fc2e-5306ed1eaad2@grimberg.me>
+To: Ming Lei <ming.lei@redhat.com>, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+Cc: Yi Zhang <yi.zhang@redhat.com>, Chunguang Xu <brookxu.cn@gmail.com>,
+ stable@vger.kernel.org
+References: <20230711094041.1819102-1-ming.lei@redhat.com>
+ <20230711094041.1819102-3-ming.lei@redhat.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20230711094041.1819102-3-ming.lei@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230711_033121_101672_CC565044 
-X-CRM114-Status: UNSURE (   9.99  )
+X-CRM114-CacheID: sfid-20230711_033837_001276_88DB5E41 
+X-CRM114-Status: UNSURE (   7.66  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -95,72 +86,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/11/23 11:28, Sagi Grimberg wrote:
-> Hey Hannes,
-> 
-> Any progress on this one?
-> 
-Oh well; slow going.
-After some length debugging I found that the read_sock() implementation 
-wasn't exactly up to scratch (it would read each byte individually, 
-instead of each skb individually ... D'oh).
-But even with that fixed I'm still seeing I/O stalls due to window full:
-
-[85639.669120] nvme nvme0: queue 2: C2H data cid 0x4d offset 0 len 4096
-[85639.669885] nvme nvme0: queue 2: PDU Data cid 0x4d offset 29 len 4120 
-rem 4096
-[85639.670809] nvme nvme0: queue 2: RSP cid 0x4d status 0
-[85639.671449] nvme nvme0: queue 2: pdu 24 data 0 consumed 4144 result 0
-[85639.674928] nvme nvme0: queue 2: skb 00000000bee9b76d len 8262 offset 
-5 len 8240
-[85639.676474] nvme nvme0: queue 2: C2H data cid 0x4e offset 0 len 8192
-[85639.678013] nvme nvme0: queue 2: PDU Data cid 0x4e offset 29 len 8216 
-rem 8192
-[85639.679810] nvme nvme0: queue 2: RSP cid 0x4e status 0
-[85639.681247] nvme nvme0: queue 2: pdu 24 data 0 consumed 8240 result 0
-[85639.690985] nvme nvme0: queue 2: skb 00000000bee9b76d len 16406 
-offset 5 len 16384
-[85639.692321] nvme nvme0: queue 2: C2H data cid 0x4f offset 0 len 126976
-[85639.694012] nvme nvme0: queue 2: PDU Data cid 0x4f offset 29 len 
-16360 rem 126976
-[85639.695882] nvme nvme0: queue 2: pdu 0 data 110616 consumed 16384 
-result 0
-[85639.697667] nvme nvme0: queue 2: skb 00000000bee9b76d len 16406 
-offset 5 len 16384
-[85639.699339] nvme nvme0: queue 2: PDU Data cid 0x4f offset 5 len 16384 
-rem 110616
-[85639.701122] nvme nvme0: queue 2: pdu 0 data 94232 consumed 16384 result 0
-[85639.702831] nvme nvme0: queue 2: skb 00000000bee9b76d len 16406 
-offset 5 len 16384
-[85639.704918] nvme nvme0: queue 2: PDU Data cid 0x4f offset 5 len 16384 
-rem 94232
-[85639.706759] nvme nvme0: queue 2: pdu 0 data 77848 consumed 16384 result 0
-[85639.708367] nvme nvme0: queue 2: skb 00000000bee9b76d len 16406 
-offset 5 len 16384
-[85639.711219] nvme nvme0: queue 2: PDU Data cid 0x4f offset 5 len 16384 
-rem 77848
-[85639.712108] nvme nvme0: queue 2: pdu 0 data 61464 consumed 16384 result 0
-[85639.714182] nvme nvme0: queue 2: skb 00000000bee9b76d len 16406 
-offset 5 len 16384
-[85639.715107] nvme nvme0: queue 2: PDU Data cid 0x4f offset 5 len 16384 
-rem 61464
-[85639.715989] nvme nvme0: queue 2: pdu 0 data 45080 consumed 16384 result 0
-[85671.510572] nvme nvme0: queue 2: timeout cid 0x4f type 4 opcode 0x2 
-(Read)
-
-(These are just client-side logs).
-Which looks to me as if we're waiting for the server to continue sending
-PDU data frames, only these never arrive.
-So really I wonder whether it's not rather an issue on the server side. 
-Maybe the server doesn't retire skbs (or not all of them), causing the 
-TCP window to shrink.
-That, of course, is wild guessing, as I have no idea if and how calls to 
-'consume_skb' reflect back to the TCP window size.
-
-Investigation continues.
-
-Cheers,
-
-Hannes
-
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
