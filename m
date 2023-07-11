@@ -4,84 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8A4FAEB64DD
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jul 2023 17:21:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04B22C0015E
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jul 2023 19:48:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aI3Ui101NxXRv3Hbo0Nk8IavmZUMj4JekCjivkN5htM=; b=JVdpy7WBD1HrzfmnQV+mgQtoz/
-	oxEDg0945idl3KWm9Td/0ZJvBQbvEqmRQQlrW9e7VHvjF0JiyooViuv/N5alOTuazx7YqJ3yzzGrD
-	p4Z8DvJ1otsim0f+UOnixYMMSxEICaLkyLEnqnHcF3PtWo6JE+aqogceLPmePWzX0MFr4w6cz14eQ
-	0IrJhzCOaJ3DaQ10SwLWwK84TnK0xuzYoOedlORpBA3oNSsGP5jz+/aZRsLjjMbRadAw5scfzlWvf
-	TRSayXyuCz9wfNBaTu4NdoXp0nxGzsX+wqsMZ9/bFu5gVjedPNnpuuufHSbvSKtEq93cfQreCuZsK
-	eaaOyCuQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=oUzMx8qZuiBmW+xBwTCjnRcQLk96NDgTlsZEGeKbvi0=; b=NUpkqZGZ+TFnizswR4vmk/RHSU
+	LUogrUiQ2YfO6lnW/AyaRrHUA6kFVCuPbPAqLtNEhWf9VFPkyNKcytjunqtfewKvZxwHRHpt9Dag2
+	r7Ir65ZtDgmErEE03UuzLb9bt5RbPC0j+hbAYB8PS46bHQXmxyjN1xiiCrqYdIFCxGy2ZBukEUvMQ
+	lUvOFQh1jSPFDDt7Nz99UYZJcErY2HRpyUGPQJUAWmYaRpvd/6/2RK2cLoqnxFWHWXrnQUQAP9kAN
+	Qdps/iFL70xMWlMvJSQLL/9HlAKJiUsQv+zFBwYiU3Z7n/M6ugqg7PJ0hkQEWFMLWnskr+kY7LSxr
+	QrtvqRNw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJH31-00FX0u-36;
-	Tue, 11 Jul 2023 17:21:11 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1qJJLN-00Flwq-0o;
+	Tue, 11 Jul 2023 19:48:17 +0000
+Received: from mail-qv1-xf33.google.com ([2607:f8b0:4864:20::f33])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJH2z-00FWzQ-1O
+	id 1qJJLK-00FlwH-1V
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Jul 2023 17:21:10 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id AF44C61590;
-	Tue, 11 Jul 2023 17:21:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16E61C433C8;
-	Tue, 11 Jul 2023 17:21:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1689096068;
-	bh=D9NhEWLQ+8T9pjVANP9yzpBRkQDSj1Txy7/I4fmLuC0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QLFN6GiFIF2oAhds3PLA6zV44YXggdZxwAeEVlcqsKqWBHuPqaV5HW9K/0Dkuz8gE
-	 0HUN1+ZGbbcWIsLs+2jrzjZ8QjkUM8BtbdDEfRlHRwQ8fPmkuMUW27GnQ5X5AVuqmN
-	 zmAg0Jf3+YhzrlVe8MMNe9QKFgdkEHb/umFJohA8s1w1ccSCqNPigVitG9PhIumFvW
-	 UbVDZGoGByXpwryx/EvfRJI4WoDov13LYhLvXqmPhzC+mTlyJCAPICiei7qFF5xLb7
-	 7n7iTgz7BD249Yj1Jg+TsSMYYznL+67fzI2qiSD6+ZGB6O/dD3tVu3mX4huGmIK+lQ
-	 HpunQ6cFV9eFQ==
-Date: Tue, 11 Jul 2023 11:21:04 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Christoph Hellwig <hch@lst.de>,
-	Linux regressions mailing list <regressions@lists.linux.dev>,
-	Pankaj Raghav <p.raghav@samsung.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>, Jens Axboe <axboe@kernel.dk>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	"Clemens S." <cspringsguth@gmail.com>,
-	Martin Belanger <martin.belanger@dell.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	John Meneghini <jmeneghi@redhat.com>,
-	Hannes Reinecke <hare@suse.de>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux NVMe <linux-nvme@lists.infradead.org>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Javier Gonzalez <javier.gonz@samsung.com>,
-	=?utf-8?B?67CV7KeE7ZmY?= <jh.i.park@samsung.com>
-Subject: Re: Fwd: Need NVME QUIRK BOGUS for SAMSUNG MZ1WV480HCGL-000MV
- (Samsung SM-953 Datacenter SSD)
-Message-ID: <ZK2PgNizcMLW+S/V@kbusch-mbp.dhcp.thefacebook.com>
-References: <d18d2a08-9d24-0209-c2cf-baf60bbf5048@gmail.com>
- <ZJsKBkPqoWzYyngS@kbusch-mbp.dhcp.thefacebook.com>
- <6f333133-2cc4-406a-d6c2-642ac6ccabca@leemhuis.info>
- <CGME20230710155902eucas1p2b464a29adc35e983c73b00d18ab5344c@eucas1p2.samsung.com>
- <ZKwqvTMPVmhnkZjS@kbusch-mbp.dhcp.thefacebook.com>
- <f0fdf86e-4293-8e07-835d-b5a866252068@samsung.com>
- <462e0e1e-98ea-0f3c-4aaa-8d44f0a8e664@leemhuis.info>
- <20230711120609.GB27050@lst.de>
- <CAHk-=whXh9sgLo24RO02JjfD0m3HE5NADRPWoEd+dW6bruFhVA@mail.gmail.com>
+	Tue, 11 Jul 2023 19:48:15 +0000
+Received: by mail-qv1-xf33.google.com with SMTP id 6a1803df08f44-635e5b06aaeso35448996d6.0
+        for <linux-nvme@lists.infradead.org>; Tue, 11 Jul 2023 12:48:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689104892; x=1691696892;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oUzMx8qZuiBmW+xBwTCjnRcQLk96NDgTlsZEGeKbvi0=;
+        b=kkhmdFxO9iI1/bAqtlgs9AEA1VOmh6KqPS/N5MKjbqk27OjWLOla3jw5KFw77g16cK
+         sOakSYlY+Wom2NlqZ9KeLTSCj/cujPdLhymOy98KUhcC42vVsisBrquwqotjS5ouy6pM
+         ZjsQPWut9l4/ZEoeQzM+RzfqArNqJyGdDDXEzEq9/s87VsyHsh3ZH+5ReaBJf8SJ3b+P
+         XN4fDqNCHy/4EwG72frPJX57NAzj8GhBIk0UP2VpyMLRuuB7M5c1HD4mHuPRPy13VS3z
+         PlZyVHCwc03uhZdYMwBB3sZ9io1Muzq0mV3SKTWH6dsZEVxfesMJiUSzgUrOQUTRSg3p
+         3KnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689104892; x=1691696892;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oUzMx8qZuiBmW+xBwTCjnRcQLk96NDgTlsZEGeKbvi0=;
+        b=bLCadfzbt2TElyXu4ISWzTroNi4BuLJK0O8phDfg5XzjpSaXoYSgsQqA/sU/ii6xt9
+         TVWYdse4wIMUVoI66CvXrhq3xPY+SMFQ/dM3HCxr+wFGnb/HBzxjl44Lgm3ifKdLhMOv
+         6ZDcZOFOoFRmE6kH7UATyICRFblcgX9Ti9QHe+GJcW34oOS/6vJR38lHrFfsSxjxRaTK
+         yffo6v3+Bi5FGiPFj1aQyM8UXspeURoNvHYVNBR+r85uqBCM/Gy4BnIBRMzv5JiSkgq1
+         cO6+yg0AJ5BGaKAz0oRYrYsYjuyeDV0V08olIXHQhSlnlUrpuYq+OiSsrJqOECK8vXVK
+         aiFA==
+X-Gm-Message-State: ABy/qLa1D+KK8YSovVXR+1beqvaKpZg6LnnXfv9/YlyJwUX1Fz5/k/Py
+	5/QYnkslKpYKXt60zVBexPo=
+X-Google-Smtp-Source: APBJJlGCGFAJmbFlc08Hva6wnCWkZSBhFpP9qYjI2DukIRxQ7eZ7w6ZVmmFFAzARzPPL8fpKevqZHg==
+X-Received: by 2002:a0c:a711:0:b0:62d:f096:be06 with SMTP id u17-20020a0ca711000000b0062df096be06mr14190108qva.22.1689104892301;
+        Tue, 11 Jul 2023 12:48:12 -0700 (PDT)
+Received: from [10.69.46.142] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id n6-20020a0ce546000000b00626161ea7a3sm1465006qvm.2.2023.07.11.12.48.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Jul 2023 12:48:12 -0700 (PDT)
+Message-ID: <5900463c-5983-d70a-a707-656363e588ea@gmail.com>
+Date: Tue, 11 Jul 2023 12:48:10 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=whXh9sgLo24RO02JjfD0m3HE5NADRPWoEd+dW6bruFhVA@mail.gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH 1/2] nvme-fc: return non-zero status code when fails to
+ create association
+Content-Language: en-US
+To: Michael Liang <mliang@purestorage.com>, linux-nvme@lists.infradead.org
+Cc: randyj@purestorage.com, csander@purestorage.com,
+ ushankar@purestorage.com, psajeepa@purestorage.com
+References: <20230707212157.1158725-1-mliang@purestorage.com>
+ <20230707212157.1158725-2-mliang@purestorage.com>
+From: James Smart <jsmart2021@gmail.com>
+In-Reply-To: <20230707212157.1158725-2-mliang@purestorage.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230711_102109_509161_2B3456B3 
-X-CRM114-Status: GOOD (  15.08  )
+X-CRM114-CacheID: sfid-20230711_124814_502128_19746BBD 
+X-CRM114-Status: UNSURE (   8.99  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,26 +97,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jul 11, 2023 at 09:47:00AM -0700, Linus Torvalds wrote:
-> On Tue, 11 Jul 2023 at 05:06, Christoph Hellwig <hch@lst.de> wrote:
-> For example, we have this completely unacceptable garbage:
+On 7/7/2023 2:21 PM, Michael Liang wrote:
+> Return non-zero status code(-EIO) when needed, so re-connecting or
+> deleting controller will be triggered properly.
 > 
->         ret = nvme_global_check_duplicate_ids(ctrl->subsys, &info->ids);
->         if (ret) {
->                 dev_err(ctrl->device,
->                         "globally duplicate IDs for nsid %d\n", info->nsid);
->                 nvme_print_device_info(ctrl);
->                 return ret;
->         }
+> Signed-off-by: Michael Liang <mliang@purestorage.com>
+> Reviewed-by: Caleb Sander <csander@purestorage.com>
+> ---
+>   drivers/nvme/host/fc.c | 18 +++++++++++++++---
+>   1 file changed, 15 insertions(+), 3 deletions(-)
 > 
-> iow, the code even checks for and *notices* that there are duplicate
-> IDs, and what does it do? It then errors out.
 
-This check came from a recent half-baked spec feature called "Dispersed
-Namespaces" that caused breakage and data corruption when used in Linux.
-Rather than attempt to support that mostly vendor specific feature, the
-driver attempted to fence that off as unmaintainable. This check wasn't
-aimed at enforcing "correctness", but it certainly found a lot of that
-as collatoral damage. Let's see if we can find a better way to detect
-the difference with a sane fallback as you suggest.
+This patch looks good.  Thanks
+
+Reviewed-by: James Smart <jsmart2021@gmail.com>
+
+-- james
+
+
 
