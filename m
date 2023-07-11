@@ -4,90 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BFD96EB64DC
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jul 2023 04:05:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8739AEB64DD
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Jul 2023 05:27:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Sanp52G7qe4emaxcQItrkn4g0y24nEg66UbSkbqz794=; b=Zao2kINoXEdSQZ00wiH51DCt0J
-	P4mEWaPLngSaUB1RlMGe30lxTE1sM/o+h8r8TxAt7LpVMTMOCX1pc26dyIrv0DUKhc66vZMAL+xG0
-	aeJiWPxAUbNkAitTc0IMzYj4OXKMVEnqN2w3O4baX78XP8iBEb2UreFyUv7/P10AMu3mGfqQj1NUx
-	UOoVhXVgkm5F6Yp2vEEdxJ10AQ2R8kmz4jPOmpUjfm5R6R1TJYc5Il9fNOhJu/DYsdsPcD0zjVAeE
-	pD/oofepexeEmu68fdWwSqibJ1PkP2PPhz1shQls6OwucT5YsGgHZ93uCRb5Bvi0DBLsh4fK92A+/
-	2SRZ1TQA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=CTzYylXFf5/kv6vZEBn6T2Mo8TWnOWIAucvgFAeSqGs=; b=XcFmwnVvBBSfGw+MwS6bheXdht
+	rLfqTUjphbnKn2wgmg+mFxJWtzPXL52gowyyatuHIuAr49r8LcYc2juZyEkdsOI4ASFv7Fozi86j5
+	6AEy/x+lt2xrnoprkrH3v0/OnCZStkxa0plgRj3ddhruKEm+T/TZIYGDMQv17VmGSarbA7z47C69d
+	VENFrydK46n1oXpSMwMoir6hY+GxoRSEfKWAlNH/RiF2j+8q7DkzGPfJzJgd2WofcLfkNGmbyCPQX
+	VbzJ6PjNJ8oQLVJly5BFaUURakmGNzMxSHBpkBEgu663gVXpWiwEFPUZq50BDCmqnvm7V6BkLNdkK
+	3aoOzf2g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJ4dE-00DZMM-2S;
-	Tue, 11 Jul 2023 04:05:44 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1qJ5uf-00DkjH-2Y;
+	Tue, 11 Jul 2023 05:27:49 +0000
+Received: from mga11.intel.com ([192.55.52.93])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJ4dA-00DZKT-1V
+	id 1qJ5uc-00Dkif-0q
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Jul 2023 04:05:43 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1689048339;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Sanp52G7qe4emaxcQItrkn4g0y24nEg66UbSkbqz794=;
-	b=PBzbNEHyLcR/bqjTWLqLDIWYTju6lTFNhqcx4hnSd5Z669/JQW3NeNy0invYzOX1tduJAi
-	YVcDEGkJ1KLy61qB5sIzcWhrqj6AjprLpAmAhjAtHBQo8m2BndsLP797FfRqJh/OxT/Z98
-	mYjzggxHRo9LGlH1xZe+AILmlxBdjsc=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-594-03nUTlYYOOeYXFQIqnT-6A-1; Tue, 11 Jul 2023 00:05:36 -0400
-X-MC-Unique: 03nUTlYYOOeYXFQIqnT-6A-1
-Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-6351121aa10so55607846d6.0
-        for <linux-nvme@lists.infradead.org>; Mon, 10 Jul 2023 21:05:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689048336; x=1691640336;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Sanp52G7qe4emaxcQItrkn4g0y24nEg66UbSkbqz794=;
-        b=YART/gzCtjBRn3+SpMDnH44vCCBaNy329AfWFyMeq+y/VgN0DosP4/0sTr6EkdM+Ep
-         pD54sx8Ca37/yS210Iy5vYRO6P/bG1d/CMmEY5hdGD7sarun7JPvkiDWK6bVAvRTFdx7
-         fH0qDHE9CC1SPBE5mtPEtyoyDSIXtxgXbDUX6UZHCrNjixbD9m8b1aLFh+SLnPzBWmOa
-         Ufl6To63a4F+N9rcnwH19HfYSOp5s8F3fukuv6NhhrcUQeuEw2ElUMNEDLXmK13daXBJ
-         S9Qn0e7nL36nYPOcnGx+0G4J1ONNxudE/MZRpNfTWWUC9adfWcwoUl8kKN3QiLJ2mpRR
-         XJtA==
-X-Gm-Message-State: ABy/qLa4Ci9VaogsH9fo4zmJ7P/3pLV2L9po5O7SJW431gOd/xZQ4gOH
-	53JpWlNjR77X+W3Xq7Jy2uonx+Zq/xYm/v78xV8qqAiWHBWGv6iKGN4CCD8ohNxeehg1aziVf3d
-	onmA/HizbkPbaaoiiprM52QnJ+R8KSElFY2BBGsdg0Dw=
-X-Received: by 2002:a0c:e44d:0:b0:62d:ef66:ff1c with SMTP id d13-20020a0ce44d000000b0062def66ff1cmr12076660qvm.24.1689048335875;
-        Mon, 10 Jul 2023 21:05:35 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlEGTtnbv4lplqsuwMA0lcF/2QRhbSnqCLDEDGVhD6GZ6v3vRL7xgj3ixm6UdOxJvERNjVYrT8Aw+QUQlev+2Ls=
-X-Received: by 2002:a0c:e44d:0:b0:62d:ef66:ff1c with SMTP id
- d13-20020a0ce44d000000b0062def66ff1cmr12076645qvm.24.1689048335643; Mon, 10
- Jul 2023 21:05:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230708020259.1343736-1-ming.lei@redhat.com> <20230708020259.1343736-3-ming.lei@redhat.com>
- <20230710064109.GB24519@lst.de> <ZKvL58L58rY3GWnt@ovpn-8-31.pek2.redhat.com>
-In-Reply-To: <ZKvL58L58rY3GWnt@ovpn-8-31.pek2.redhat.com>
-From: Pingfan Liu <piliu@redhat.com>
-Date: Tue, 11 Jul 2023 12:05:24 +0800
-Message-ID: <CAF+s44T5Hn5ikNq+YMp2Nucb6rBT=e4VHW8WN8YDhZHe9JmqGw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] nvme-pci: use blk_mq_max_nr_hw_queues() to calculate
- io queues
-To: Ming Lei <ming.lei@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, linux-nvme@lists.infradead.org, 
-	linux-block@vger.kernel.org, Wen Xiong <wenxiong@linux.ibm.com>, 
-	Keith Busch <kbusch@kernel.org>, Dave Young <dyoung@redhat.com>, kexec@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linuxppc-dev@lists.ozlabs.org, mpe@ellerman.id.au, 
-	Thomas Gleixner <tglx@linutronix.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	Tue, 11 Jul 2023 05:27:47 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689053266; x=1720589266;
+  h=date:from:to:cc:subject:message-id;
+  bh=RuQu+glZEPOxqRqsrhUmm5npoYmDaMcR8IDj5iWF8D8=;
+  b=Zhvqh03/ylMEgpwJ0mgP05dQj8BsFVCS6CgGT2q4GXhELDYAW+7/Wsy6
+   7VzTl/O15BDCr/FDALrYEUaGdStKFk+gUrVbqukOpBR07d8q8h0t6KN9B
+   raoQLtQUDOjJ9yBsj9SFI4G6qOgCTsB/TXzTUanrtLk0hUArjrNDDVrHJ
+   MbMJxos+6ME4Y+/0jFWDRjZZZt32qGWl10m3TkwD26AHMNqlXg4d3x8MP
+   qeg1jVk6fdDhbAvvNbr35SZA1ed6WDqUN1W9ANPBIMV8BlWeeP52uhUyu
+   zQ/W9yqOYRjlHrkuegcjEAIr+R165b2O0yVf0XysXTFfxFPLaTo8QLbNi
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="361990053"
+X-IronPort-AV: E=Sophos;i="6.01,196,1684825200"; 
+   d="scan'208";a="361990053"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2023 22:27:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="715060354"
+X-IronPort-AV: E=Sophos;i="6.01,196,1684825200"; 
+   d="scan'208";a="715060354"
+Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 10 Jul 2023 22:27:42 -0700
+Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qJ5uY-0004Lj-0d;
+	Tue, 11 Jul 2023 05:27:42 +0000
+Date: Tue, 11 Jul 2023 13:26:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.5] BUILD SUCCESS
+ b938e6603660652dc3db66d3c915fbfed3bce21d
+Message-ID: <202307111356.2e198BKP-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230710_210540_575492_9C42C561 
-X-CRM114-Status: GOOD (  22.29  )
+X-CRM114-CacheID: sfid-20230710_222746_337487_6147FEA9 
+X-CRM114-Status: UNSURE (   6.68  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,64 +80,164 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Ming,
+tree/branch: git://git.infradead.org/nvme.git nvme-6.5
+branch HEAD: b938e6603660652dc3db66d3c915fbfed3bce21d  nvme: fix the NVME_ID_NS_NVM_STS_MASK definition
 
-Having no [PATCH 1/2] blk-mq: add blk_mq_max_nr_hw_queues() in inbox.
-So I reply here.
+elapsed time: 728m
 
-At first glance, I think that  the cpu hot plug callback hook should
-be the remedy for the newly introduced blk_mq_max_nr_hw_queues(),
-although it is more complicated.
+configs tested: 144
+configs skipped: 6
 
-Consider the scene where nr_cpus=3D4, which can speed up the dumping
-process, the blk_mq_max_nr_hw_queues() can not utilize the other three
-cpus.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r001-20230710   gcc  
+alpha                randconfig-r011-20230710   gcc  
+alpha                randconfig-r014-20230710   gcc  
+alpha                randconfig-r022-20230710   gcc  
+alpha                randconfig-r025-20230710   gcc  
+alpha                randconfig-r036-20230710   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                            hsdk_defconfig   gcc  
+arc                  randconfig-r043-20230710   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                        neponset_defconfig   clang
+arm                  randconfig-r046-20230710   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r004-20230710   gcc  
+arm64                randconfig-r006-20230710   gcc  
+arm64                randconfig-r034-20230710   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r024-20230710   gcc  
+csky                 randconfig-r031-20230710   gcc  
+csky                 randconfig-r034-20230710   gcc  
+hexagon              randconfig-r033-20230710   clang
+hexagon              randconfig-r035-20230710   clang
+hexagon              randconfig-r041-20230710   clang
+hexagon              randconfig-r045-20230710   clang
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-r004-20230710   gcc  
+i386         buildonly-randconfig-r004-20230711   clang
+i386         buildonly-randconfig-r005-20230710   gcc  
+i386         buildonly-randconfig-r005-20230711   clang
+i386         buildonly-randconfig-r006-20230710   gcc  
+i386         buildonly-randconfig-r006-20230711   clang
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i001-20230710   gcc  
+i386                 randconfig-i001-20230711   clang
+i386                 randconfig-i002-20230710   gcc  
+i386                 randconfig-i002-20230711   clang
+i386                 randconfig-i003-20230710   gcc  
+i386                 randconfig-i003-20230711   clang
+i386                 randconfig-i004-20230710   gcc  
+i386                 randconfig-i004-20230711   clang
+i386                 randconfig-i005-20230710   gcc  
+i386                 randconfig-i005-20230711   clang
+i386                 randconfig-i006-20230710   gcc  
+i386                 randconfig-i006-20230711   clang
+i386                 randconfig-i011-20230710   clang
+i386                 randconfig-i012-20230710   clang
+i386                 randconfig-i013-20230710   clang
+i386                 randconfig-i014-20230710   clang
+i386                 randconfig-i015-20230710   clang
+i386                 randconfig-i016-20230710   clang
+i386                 randconfig-r035-20230710   gcc  
+i386                 randconfig-r036-20230710   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r011-20230710   gcc  
+loongarch            randconfig-r032-20230710   gcc  
+m68k                             allmodconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r001-20230710   gcc  
+m68k                 randconfig-r004-20230710   gcc  
+m68k                 randconfig-r016-20230710   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                  cavium_octeon_defconfig   clang
+mips                 randconfig-r004-20230710   clang
+mips                 randconfig-r026-20230710   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r012-20230710   gcc  
+nios2                randconfig-r013-20230710   gcc  
+openrisc             randconfig-r002-20230710   gcc  
+openrisc             randconfig-r022-20230710   gcc  
+openrisc             randconfig-r032-20230710   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                 linkstation_defconfig   gcc  
+powerpc                      makalu_defconfig   gcc  
+powerpc                       maple_defconfig   gcc  
+powerpc              randconfig-r013-20230710   clang
+powerpc              randconfig-r021-20230710   clang
+powerpc                     tqm8548_defconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r003-20230710   gcc  
+riscv                randconfig-r023-20230710   clang
+riscv                randconfig-r042-20230710   clang
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r005-20230710   gcc  
+s390                 randconfig-r033-20230710   gcc  
+s390                 randconfig-r044-20230710   clang
+sh                               allmodconfig   gcc  
+sh                   randconfig-r015-20230710   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r001-20230710   gcc  
+sparc64              randconfig-r002-20230710   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                   randconfig-r012-20230710   gcc  
+um                   randconfig-r024-20230710   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-r001-20230710   gcc  
+x86_64       buildonly-randconfig-r001-20230711   clang
+x86_64       buildonly-randconfig-r002-20230710   gcc  
+x86_64       buildonly-randconfig-r002-20230711   clang
+x86_64       buildonly-randconfig-r003-20230710   gcc  
+x86_64       buildonly-randconfig-r003-20230711   clang
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-r014-20230710   clang
+x86_64               randconfig-x001-20230710   clang
+x86_64               randconfig-x002-20230710   clang
+x86_64               randconfig-x003-20230710   clang
+x86_64               randconfig-x004-20230710   clang
+x86_64               randconfig-x005-20230710   clang
+x86_64               randconfig-x006-20230710   clang
+x86_64               randconfig-x011-20230710   gcc  
+x86_64               randconfig-x012-20230710   gcc  
+x86_64               randconfig-x013-20230710   gcc  
+x86_64               randconfig-x014-20230710   gcc  
+x86_64               randconfig-x015-20230710   gcc  
+x86_64               randconfig-x016-20230710   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
 
-Thanks,
-
-Pingfan
-
-On Mon, Jul 10, 2023 at 5:16=E2=80=AFPM Ming Lei <ming.lei@redhat.com> wrot=
-e:
->
-> On Mon, Jul 10, 2023 at 08:41:09AM +0200, Christoph Hellwig wrote:
-> > On Sat, Jul 08, 2023 at 10:02:59AM +0800, Ming Lei wrote:
-> > > Take blk-mq's knowledge into account for calculating io queues.
-> > >
-> > > Fix wrong queue mapping in case of kdump kernel.
-> > >
-> > > On arm and ppc64, 'maxcpus=3D1' is passed to kdump command line, see
-> > > `Documentation/admin-guide/kdump/kdump.rst`, so num_possible_cpus()
-> > > still returns all CPUs.
-> >
-> > That's simply broken.  Please fix the arch code to make sure
-> > it does not return a bogus num_possible_cpus value for these
->
-> That is documented in Documentation/admin-guide/kdump/kdump.rst.
->
-> On arm and ppc64, 'maxcpus=3D1' is passed for kdump kernel, and "maxcpu=
-=3D1"
-> simply keep one of CPU cores as online, and others as offline.
->
-> So Cc our arch(arm & ppc64) & kdump guys wrt. passing 'maxcpus=3D1' for
-> kdump kernel.
->
-> > setups, otherwise you'll have to paper over it in all kind of
-> > drivers.
->
-> The issue is only triggered for drivers which use managed irq &
-> multiple hw queues.
->
->
-> Thanks,
-> Ming
->
->
-> _______________________________________________
-> kexec mailing list
-> kexec@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/kexec
->
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
