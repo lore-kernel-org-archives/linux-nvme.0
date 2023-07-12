@@ -4,69 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99101C0015E
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Jul 2023 16:34:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2134EB64DA
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Jul 2023 16:34:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
 	Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WNK9jd4+rXfBjE3kWlpXUMxBMoezNGmBk0vf7oWjo/s=; b=k7CVXFeRKdhLd/S15ANPkUs4tG
-	7jyYAmtNBIg0nlodtVpvrZcpVG9HxFzm73sJ5cQf2AaTzM3TbZbf3Z6ORT65SWoAkgST4crqRrEfs
-	iECUc0WDeb2RETc1vjhyKDfwj7DLME3bBo6RmB6Ee4H3FXWMQAS5A5Tquoan/mS+AwL4tP27iffmi
-	l4jk58+vC9ogOnjzrJdfS8C4EQwuqApjrZPEBgiW6C1JdzTwm9fqRRahu6NQEonv5ZXFvGmxjZyyo
-	PhNYoiehKCchxlsJCAroX5eWXl7GauCYCAZa9ouIz6CN5C9+uEW1WnIqKJVBU4EqwGyzSAWk81K/g
-	CvLrJ8ow==;
+	bh=90UiRMiJCW6PM67s1pfky4dycy8dT7QB+1Be+Z2807o=; b=Lu9/uA3p4jA+FBDUCLXrnwSNpf
+	eCkowoKroAF8EcyF0/b+A6AvMcPu2OislS3cIdV1zeLQ4phGyjMftPPzkIVst0C1okB28Cs7d1/Nh
+	A+a/pFB9XHtgzwMQJtbE1iK7jYu5sAfiZBiCRZHdxT5WaVZCaNeQ1A82YBR1Uw5aCsJpXeh5aMSLn
+	PnqHZOO9pAIucvudG+Coqj7tHSjRWls0rQPkjgKH6GMgEda3UgYzvyIHgWKRt190Ly7nySbZM06nU
+	D98zeD26nqEtWym1j3qySNOOpWI+smsRdsJA5S9koJ3jz6vPTAK8+JWJ00cbnXIif34xa+HEICfMB
+	KwX7WuTA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJcnZ-000bOR-2U;
+	id 1qJcnZ-000bO2-08;
 	Wed, 12 Jul 2023 16:34:41 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJcnX-000bN0-1f
+	id 1qJcnW-000bN0-2m
 	for linux-nvme@bombadil.infradead.org;
 	Wed, 12 Jul 2023 16:34:39 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:
 	Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:Cc:
 	To:From:Sender:Reply-To:Content-ID:Content-Description;
-	bh=WNK9jd4+rXfBjE3kWlpXUMxBMoezNGmBk0vf7oWjo/s=; b=DZB/chzLMndddej/tiogbCVY4P
-	v+PbVDuhaaJCTjWwf2GyZMid5wBb3xd0HkjdRpQkhQjdEmMCOS4L+wrw5ngtYCVL7inp7xk+MmHls
-	KNleyqsJwDdq8FEF2HuEj7H3VIdw2f5cMenDcK8x1MSLi2qCMJ/2zHINDNDuFAYA/HadfH5nrQcGA
-	KTQ9GaemcP0cfm7NbP33EmZ9UPxESasbHdvSN0VuictoX1CI7qbl6c1/YhqAkL7M+IKPCW1mgVjbX
-	brDAwIB3mTXUeaf3MW4iKXWz7QfWV4UAHrWr46nCrSP2272YFuWhmIUWlxZ1zfjiB2e7mhLULeUFo
-	rKJZ1s9Q==;
+	bh=90UiRMiJCW6PM67s1pfky4dycy8dT7QB+1Be+Z2807o=; b=SP0kXrV3Qxj34SmTnHloJOu16q
+	1WXGmGcB6JdivpsTdVHi25yBRYbtM66XVCQ0BuhuNWGX1cwbYQ0C40NWUZsJG3XR1USKSWdZniaLt
+	ADxuHxZ6MVsiqS26YgQ1IwjVrNABQBIrjcCu+64HI8AJEBGW2iWEXKe6Bc83Lzdnx8VFKXhS6mvmK
+	oxCulHMZBz1Qh+FDCLE+eGB4zAT6g3eMlJngIGXwDTRNBFOnqOTvcLe+bd1RZ6vTtECGpXlmSFXDu
+	l97lDtmmtsl5o7G5Pmnmub2jUu0sSHyhoarqz0if5ttkz9/qjEN1uXXbhkDjrF1y/IZMOXULl7Afl
+	p7rZmFtA==;
 Received: from mail-dm3nam02on20616.outbound.protection.outlook.com ([2a01:111:f400:7e83::616] helo=NAM02-DM3-obe.outbound.protection.outlook.com)
 	by casper.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1qJcXu-00GrWc-7j
-	for linux-nvme@lists.infradead.org; Wed, 12 Jul 2023 16:18:32 +0000
+	id 1qJcXn-00GrWc-Ba
+	for linux-nvme@lists.infradead.org; Wed, 12 Jul 2023 16:18:27 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YFHm8XzZiaZ7C355CgU10C3og29X9hLt4B30civVuUwSHUVaJWauTD2n4HR2tmG4ccXFwM4ey9sxj+iofsEl1atXrWrP5l9vIA9C0k70zwQ9MKGGW+VxkYQSi+ohokqiHMiFastBoYTy47ftDR8cAY3F1ze7z9u7TN94zjMBp/yRZ9WS7zmAb8UBx3N7/qMV0mPUP7geGO4hVyzRMrOoQ9zQRF8+nwSgg/0KmkRC0BQzj0vURgsKqilfDltLYUSOmrnowFrtvxDmRYurGiSeRRG+FkL1FT/OgISGY6M0DYgGwK5DAa+XOOOu8Ss5ulkDmM3kmPbC/pqKGbVAlQ9xbg==
+ b=UM6NechY7foxzaO8zGlcRIpB3moFVd1LXUj40Oa9oV98vG0BQVehM0SraEeYdzn3RWEAASNvy1WLyVSJfg3MG8+cLZCQbCV7wupLuHS8f7AkN0ol0uGBGobUoZmnfx/XthRi+xeqqIl6vHhEK/ZO58kkXiH7jW9yuWjFCKY0zz9iUrw3coF4RPHXypDqF9UggfLMypLifNyjNbPXp1xswK65Z82jUUlA9/HodrwSVBL7MPRAV1CIOf3FRbrhA6sICAJmnTuEYJVwpgl9x62Tq4GWGBmW3RxDzmqSD4DFTl0uOM65QhG8KYov2DJ+nsvSrq1ePh3XruRovDFBWaeZ/A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WNK9jd4+rXfBjE3kWlpXUMxBMoezNGmBk0vf7oWjo/s=;
- b=Fg2Qs5KMMhEgLwNT9i8eC9PQPM9XSlne+OQ3mooG+JJGKqf2pCKC9YRG6ouJEuwfI5mpoxTzM2sFQfMuNhVP39kIVYbVNSDin4gYXrMzopOh2wsfDNokNOOXvv+asrrKidjedt9s29wIn2UesLJNbv4gV3q3JEiUpkcjOy8BTzS0Sz6cptpkAalfQh+1EGUiA+uCT1r1oOUTVS0Wj9VQUkk3ebEIAqm7kNAe+FM84r7fkxsys7MQ/3bLij47Z6JKGBxxkTpCT8JFx9h9rhfjHN0PJvp6vMCfnmP9d3ozSvcWTlNbWLCoakwJdTy1K70r8L1FCdLWC61o2gNo1p1hCQ==
+ bh=90UiRMiJCW6PM67s1pfky4dycy8dT7QB+1Be+Z2807o=;
+ b=A5opQ7JayH+AObswqQfKX9B7OuulWIycBbQ5b7YLpbgNtBXLiQz04DdVCKItWGn0g+KAk/WDChXvDqoaQqskgnW9klz6wnOxlj43lan0YxS/BMFWuBJGLtX9fuMuipq5ePvdwT9KVs8KvQwuY0F/abbrVWJ8g309Ww+CYyQUGffz2eOBmpeaXRFyk0wtwkNpXQfJVB3HTMB9+gSIuLjUbMl2/oyUZBOT9aU4PE9uArYRGqyK5nGr/Ey7MXUU3KJOjmIJ/BLm4iDASvsNnRnWAMn8Ybh/qTPah5UhVwu3mWyP4VUPsJYiPbiYioIzsdkRVOsSp6w7BApF7ThbySaKYA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WNK9jd4+rXfBjE3kWlpXUMxBMoezNGmBk0vf7oWjo/s=;
- b=LqgGr+sX2xDh04cg2ovXhTeOP0swQsADWG615MpdRRceSbjz7P05A+NM0iJmuv47VmmvlcljcwwTL8VC4A+SupjlyWVUENvu+8OTo5lTlsu6EXIS0BYsZMtieRr+dkePzr7lex+Oaxr14S/ZrR0Ymg+TImy+DVQlhy9lVryJ3ZOnKDyUsJr+GpqebTLjWnIDTIofTV7dTCa48GTNocNEpFL2DN7RdZllUsKEEMs5kV2yxV54IP0xEM+KeNlvlPKqpi+mG8bWevkqfi9TbFJAkpiMYVody/FeIxYz88Mrhf6rJJc7gOujES2yBufl8X1bw2JC8Gk3Kzl53md594+9Og==
+ bh=90UiRMiJCW6PM67s1pfky4dycy8dT7QB+1Be+Z2807o=;
+ b=bLGJWck8SMDFjUyrEXNoUOijJ2xdILbN/71CTXBM02rYTslkRHCZvieVkUKmMLCNi328ehOh7V7QQ/EdJTC5cT5OFhC55ZBKIeUMIQb0MfY3pSwyAHCDnKWP19gzGdMi2BB4sJgqVh2eCzVPSRGSjt65EHlb+JfSinZU5YpJ+KupIaYFZpPOgSK7Q/ZcUmyXc/8/ZDz6+G0WPVtsRMHIlJpBVvqafDujqQ7W7UEKgASBsgScqD+hBa30WIDqaltkh+D2Jjx+oWfBr5IvUiqjDmubK5Uw9m9PmA/2cc/8cev7MR+mNUIYlsrApgFUrWxncfe0kchIbmeisJy8Gi5bbQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
  by PH7PR12MB7212.namprd12.prod.outlook.com (2603:10b6:510:207::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.20; Wed, 12 Jul
- 2023 16:18:25 +0000
+ 2023 16:18:15 +0000
 Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
  ([fe80::3f6a:7977:dcd4:9ad1]) by SJ1PR12MB6075.namprd12.prod.outlook.com
  ([fe80::3f6a:7977:dcd4:9ad1%4]) with mapi id 15.20.6588.017; Wed, 12 Jul 2023
- 16:18:25 +0000
+ 16:18:15 +0000
 From: Aurelien Aptel <aaptel@nvidia.com>
 To: linux-nvme@lists.infradead.org,
 	netdev@vger.kernel.org,
@@ -87,68 +87,68 @@ Cc: Ben Ben-Ishay <benishay@nvidia.com>,
 	borisp@nvidia.com,
 	galshalom@nvidia.com,
 	mgurtovoy@nvidia.com
-Subject: [PATCH v12 21/26] net/mlx5e: NVMEoTCP, use KLM UMRs for buffer registration
-Date: Wed, 12 Jul 2023 16:15:08 +0000
-Message-Id: <20230712161513.134860-22-aaptel@nvidia.com>
+Subject: [PATCH v12 19/26] net/mlx5e: NVMEoTCP, offload initialization
+Date: Wed, 12 Jul 2023 16:15:06 +0000
+Message-Id: <20230712161513.134860-20-aaptel@nvidia.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230712161513.134860-1-aaptel@nvidia.com>
 References: <20230712161513.134860-1-aaptel@nvidia.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: FR2P281CA0158.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:99::11) To SJ1PR12MB6075.namprd12.prod.outlook.com
+X-ClientProxiedBy: FR2P281CA0018.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a::28) To SJ1PR12MB6075.namprd12.prod.outlook.com
  (2603:10b6:a03:45e::8)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|PH7PR12MB7212:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7af53c27-21d6-421d-a4f6-08db82f39e7e
+X-MS-Office365-Filtering-Correlation-Id: 04b0ed10-dcab-40f8-32cf-08db82f39890
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: q8rq2HGaQQSiftGA9AGwoCc1zeZR4kqP7dsg9//vv4dopIBd03ULjqmUeWGk4TBit+GeN0p6xqnF9h3phN5QZnE9wSWehA4UOvZCyar0VFj85Yn5d3M7p9aniriD+OREqvBxt2woL1SR6TFBGDdsvziZh7Yc6rVUDkXK2pksh0/l8GGvhUGVOPtCRvvXsXPSzfbAkTum1TuHxfHBnXGHYzfnnxDHZP+im1TTtq0P1QhurjuOza8+7ZEo7h0C+1mn40n3zTr9XE8ulqG46HGv41rcgM6YPzS+Mz9l96JsAl6jnM+nh118hG4Vz/4D4XwTEQ1wbLcqnyAH8Ze01q8UjqWKZRawQEgOsuRxOXpc/7ufQEnsLx0Gr3tFZ1Ld6BYGpyuX9mBYPveRn5XBFCcm3bBx0lZ9/bLT+YS68GfzTNHSEoHoj/e/2UEEJ4xVrOnr4lPk0ORH6dgSHUZ25GAa/SyOHTUCyFx/pFv2Yzc4JQPbgCV73rzpQciCKCeFbkj1+lWNBNMf56UrsBPEgQptgUj5Y1FmX86ao1Yp1tPXNuR6W28wmP+7pP0oBxqHtDrV
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(366004)(136003)(346002)(376002)(396003)(451199021)(186003)(2616005)(86362001)(66476007)(66946007)(66556008)(316002)(83380400001)(107886003)(4326008)(6512007)(1076003)(26005)(6506007)(478600001)(2906002)(6486002)(36756003)(6666004)(38100700002)(41300700001)(7416002)(8676002)(8936002)(5660300002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: p64OE3p1Wp39sa3hnhXITzn1PtbAgeT3JvvO5u8sjPGQVkn4rKxTtwrdniVjsf3TNJNge1pgnggHb1owHcGngiNIBUC70SB05HYbwM0IMpJfSd/XH0KDwkN3NPePda4haAhYhEzYTCNFwXEDN7dYN4lpPI6w9C7bUe+uDsaIovvHWn+DIeVQjVtRR2BiOHnYxm5sb4IdtHq/j7UqCGDu78h1Dcy3iFCFcQOfRyFZjIILOCPEGVY08MybE4KrqMlmeMZkaPNcJ9ui6gZsISeraodDF3Olv6mTWL7wb+LUKnzA5xbSbu0RDP9xPfOJ3481V3SHGH5Lk5XU5VuBgbC5eiq7ZLrccM9zd8UCPBksc55NoXpXRC+xHIx0w954zSvYdK5GBJjH47oM8vQLcDcCpsPqtFnasH7aR9/DMfHHgmX7ED20vJ9sxB6xIsrwECn+DKqaaU0nwZ09fwnL724//Fc9CqGw05kklYV0MpfiabmkiQwbvuGQ/+mVFYAjjQKX2I3QX78XFvP+Es1aS141sfdyDOmSQsewkZbRMQCR8idWClbrouCo2f2qUZ/UzvUv
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(366004)(136003)(346002)(376002)(396003)(451199021)(186003)(2616005)(86362001)(66476007)(66946007)(66556008)(316002)(83380400001)(107886003)(4326008)(6512007)(1076003)(26005)(6506007)(478600001)(2906002)(6486002)(36756003)(30864003)(66899021)(6666004)(38100700002)(41300700001)(7416002)(8676002)(8936002)(5660300002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?12rzaTn6BuGjsuCcy0wc2i8TfTxx+csXc5X/yBZ1mxAVicD5PrQzNuixlFpD?=
- =?us-ascii?Q?EEuobI5P2Rx1qn5gr0Rtq13O3tKsk8E89xQ9qRFIdj1Hx8G23xBkuC6t2/u1?=
- =?us-ascii?Q?s1COT35ifYERpA6qwVW45fGS+rVi/aFL7KP0AXUvFSM8cL5xmb3BoE0BtyNa?=
- =?us-ascii?Q?cSFmftsBXjW247RAzc1aVR6DlwX0NnwbVwNNaV7weS0peXPTi5qg6e/SwYG/?=
- =?us-ascii?Q?Cepxp2lKgtKZzoFM8J12a7d1WGeo+/Wxj5AgtLAo5xdaJxqti09x5hNXaiSw?=
- =?us-ascii?Q?8OYp2u0QNbSJ60TJbmKNnFsJvWN7FnHgyU7cpW1b8L+rVrDQgolNC/WEIUC3?=
- =?us-ascii?Q?jYvBJ1w0CYZ2OWIXpQjgE5wBAQeBOmMlxYcY2TQeLiMh4fw+tEGhA9ntGjyC?=
- =?us-ascii?Q?KRHc+wi5b9mDdsAlf+m3EYuKhuP2gHKrwtlIWfVJ4BSFu28nCrv//nyHJu0r?=
- =?us-ascii?Q?wjy+3Nt1x5vWzrBgkkMGesXyXon2f2fc85XEMtCH18TCDP/IOIQsU0lwlWLZ?=
- =?us-ascii?Q?8CiHhkYMAaRFgk22HltE/2CENsiglDI+tGQE4tuDfNA2h6kY2kUicwkCjJYf?=
- =?us-ascii?Q?Gpc3MOk7iaSOdwxXQ0Mj9PLLVlADIUfRm8hzvlSc4nkSA+K5ui3kUC6kuUd7?=
- =?us-ascii?Q?BL76PRASkFIKuSAcjDM+sdWC9V5UDMWCzduD4BEN0Oa+6pSxT+qFW8YfRbOk?=
- =?us-ascii?Q?WuyUa4/tzDAi+mV7y0G4fn7M0tAMNYXSdLdRV4AgcBt+rBBMi1qd1UwtS/j7?=
- =?us-ascii?Q?hbSmqY3dYnNH8PxpFNIrfeywTd865smclpTu3E6He/xGAbh0InxQJMkF4CZ0?=
- =?us-ascii?Q?y0S3kav9+5AhmftjPh5eHSS8gjP8y/Sp2JuUQGsuqZWpenZjhG0ss4fHe5XI?=
- =?us-ascii?Q?m8adfzUS2JaBOxTKSFonhgyuVPn4PGE7c4BxxJXnfJDulFWG26G02YsKpH3M?=
- =?us-ascii?Q?w1Zu2mXyRFxZckTqu9z+9h2YZYisn+GK7K3U5q5DosIquYxWVwBKcc3ZAnqH?=
- =?us-ascii?Q?KMJOVV8xEu6a1kkf/6bNuOM91FoUeiMISXKOYlq4bI3yCBBJtMZEP+Zh1bn3?=
- =?us-ascii?Q?e8b16xdehNBGfaGdSXHIHEmPzLqf+OaBEcUgtH7fHyveRQ98pxqGyHNypQ7n?=
- =?us-ascii?Q?MuuR+GCXKJpj7b64FO9kzhbVCUY2+mOveP7bSiNIMd0eFNhsG1TdvZ1IPuEH?=
- =?us-ascii?Q?zeB61JIsD2PJRFUdCl7H4y98oXLVuxeb3wKRVLLKfxT0I4hE6o2QfWvNubM0?=
- =?us-ascii?Q?ZK+VHnH1SEqo0iGJ14OABGtgWQ/cIniNqQg62o5xGr/UQ8Si36+GO/PmzSJf?=
- =?us-ascii?Q?1gKb/9Ow+QXd9DD5qDTJLZj9cPWfjDUwveJZJE+DM5GcSX+Kq0ZqQWzTDU5j?=
- =?us-ascii?Q?MCSWMcuVT96LIIEy03JamEECEVr/kMa8SMdUXp7G/KKYgGPSrkn5BXQxZOdT?=
- =?us-ascii?Q?TzI+wLsmQeVIJCmk2fMxJEedPKYPls+YC1/kChUdIyeBrJ7cDcAHMeCNKXhC?=
- =?us-ascii?Q?jVmTFdsFRs8/10fw85Vv57dYq5IRV+UkwUz5qfSAd/w7iQaIuk9PS8rLfPmm?=
- =?us-ascii?Q?M2UaaPyAsaETvFmKlAQXg+AO6ZR+nOYrrd7XJJab?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EvzIc3ZfGfecQqZnc2kzGX4m5SLJRwHRAaWCAAFdZcfHnbZSNID6svB0N30l?=
+ =?us-ascii?Q?w8T7lTlqG+RJKrLj6Tx0g1ymxRk45ADKYVcIVzNnR3+39VUXZ9qrcprhnRfl?=
+ =?us-ascii?Q?FhEUxA2nQS7YtJzExzLWLh3nQ7TF2MOE1cu2RR/3b6vEZOI9+tjlJIPjnOR9?=
+ =?us-ascii?Q?ZAJHhIHTuNBcLPr6pNxD7OZwSfVZnmVxKCk8iH9FekSSVDJeQkKIJPLyNGgW?=
+ =?us-ascii?Q?iyWGKTCizqX2hequEXtyFIrHj+JbpSFU2Rpd2mrCvh6Nj2HbupKKtFciKq4d?=
+ =?us-ascii?Q?22h+5rorjvIgjQfWWWTNZKLQ+tW+MFpqd7pVvONsYddTYg+xwk/ng7K5Tq3S?=
+ =?us-ascii?Q?KzGs69DB+RgAXmqIewmi9c1T9XoKuJk+E4DVJVUD9jNX1ohDJ8g3/DqaU+2x?=
+ =?us-ascii?Q?OrNT9YiuY/nlqoCEJbrWCv+N16mpj7PQIKnp3sQuy21JpRXip9Mjhmjopt9l?=
+ =?us-ascii?Q?g8kJNifEwLr34WfyjdndLPUFPtt4xkVRxlNLXaWoJ54EXCEKY++rAsJRJllQ?=
+ =?us-ascii?Q?iD3eZODmci2eKzCDxH5OsCLzwhLRJn08BNhgBG/2Fda0iuNn7iNsF9mVs3Br?=
+ =?us-ascii?Q?dfLxjuwwTjf13dxZ3G16bEdWvANVdSdfl6MRCe195YH+yTxNHQC3ldU+gS3a?=
+ =?us-ascii?Q?7xGvWJG3FHremAuUOCkIMjIA8bSF0E2+OJ0C+nf1Xj87wpiPgBk5HmjyqkVq?=
+ =?us-ascii?Q?qag28CBXISGtw9asFqzM3xOTFZQBn16iKPuDT9lNeSsXAAMSdqbSiN19okDS?=
+ =?us-ascii?Q?MTP8pBTjZjtXS0w64R+El0LECrAIJlC8LBoxT5s5gyJkvNy9sSEjuHxMasN8?=
+ =?us-ascii?Q?0VQP2oNS4goL3+lpQsO/2DGbFhyjy5CKdweQ8NwqyJhu0h43insTg3av/G7c?=
+ =?us-ascii?Q?ejgPeW/cbpgGxz8qLt0F0wZL4ZvXms3QZKOago2cE8qTQ7RPchHxBxvS5fm4?=
+ =?us-ascii?Q?0DfWviv8eDvhqn3pPUtSl3bvBDdB5VlK8/GPWm3ZmVPHNLQnboPTZQfeDd4L?=
+ =?us-ascii?Q?Ko+s1JKzq67CAKCzyHSI6MrSIbg0iPOaE0mhFPuX5iYMzchX4L+fZDGUiLTP?=
+ =?us-ascii?Q?ucRhlgALr17Tx/dnlH/Pa2aZYEtmC44GygSelRpd/eWXMAW5p9m7T93UsPfN?=
+ =?us-ascii?Q?7st2tScaUBzJ5496rH+tH8QiiChu9/NLRHDbSZ1e3YDqO5V3uTpWwtKBId6E?=
+ =?us-ascii?Q?Q9h0/DC9HgZcKnCbibOrdPAmT2cRbh2NFIAHniQebYVu8lhvJPBHje1fJOua?=
+ =?us-ascii?Q?Y5JaaX7k9tO0O27xXWJJ/F4qXyz0cISKGYLCNihRTinO9I5bOfXKkVsJO70H?=
+ =?us-ascii?Q?DBxkVODEcKPaTljrEW7ObXAxWcXSAg4bQyVTVGw3vIffhSK5B/u3HH8iIPPG?=
+ =?us-ascii?Q?PpknOO/ex0+efxfcHFG5zL3MeIKXjd8kazY4g6cMbEoZQT5GEZmycDZWxkB5?=
+ =?us-ascii?Q?+I0tQAV+/2y+bn+rFx8fgM/0nWFXhIU1NGz/+JL6j1Jz40nQH0qpGpxAMVOD?=
+ =?us-ascii?Q?mNYeJDS+2lsw6ddBU5uHu/2jrmCMFbeYrslyNP9diDJoQFiEK3sztl3F7e9g?=
+ =?us-ascii?Q?mi/MLT8QDaEh4zK9k2mfr6hhpPK9J9d/FpSwnyV4?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7af53c27-21d6-421d-a4f6-08db82f39e7e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 04b0ed10-dcab-40f8-32cf-08db82f39890
 X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2023 16:18:25.3091
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2023 16:18:15.5408
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uqdedUxZ+cvIjLRoeeQA2J3YMi2B/L3dxyTrGDgDjd9x/nGg/6Yrqze+oMe5Ghm7rnaB5MNKytOudxP4M1oxlQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ps++He7SzxGou0nv6QfX8yPagdyn9T3n5lBpDTVK+PWQ6hL/a6hoXpUrmUkL4kC1/6IUTRJloVNW8AmA/4CrIg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7212
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230712_171830_404777_F4525589 
-X-CRM114-Status: GOOD (  19.20  )
+X-CRM114-CacheID: sfid-20230712_171823_643506_DE4A290D 
+X-CRM114-Status: GOOD (  17.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -165,244 +165,711 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Ben Ben-Ishay <benishay@nvidia.com>
 
-NVMEoTCP offload uses buffer registration for ddp operation.
-Every request comprises from SG list that might consist from elements
-with multiple combination sizes, thus the appropriate way to perform
-buffer registration is with KLM UMRs.
+This commit introduces the driver structures and initialization blocks
+for NVMEoTCP offload. The mlx5 nvmeotcp structures are:
 
-UMR stands for user-mode memory registration, it is a mechanism to alter
-address translation properties of MKEY by posting WorkQueueElement
-aka WQE on send queue.
+- queue (mlx5e_nvmeotcp_queue) - pairs 1:1 with nvmeotcp driver queues and
+  deals with the offloading parts. The mlx5e queue is accessed in the ddp
+  ops: initialized on sk_add, used in ddp setup,teardown,resync and in the
+  fast path when dealing with packets, destroyed in the sk_del op.
 
-MKEY stands for memory key, MKEY are used to describe a region in memory
-that can be later used by HW.
+- queue entry (nvmeotcp_queue_entry) - pairs 1:1 with offloaded IO from
+  that queue. Keeps pointers to the SG elements describing the buffers
+  used for the IO and the ddp context of it.
 
-KLM stands for {Key, Length, MemVa}, KLM_MKEY is indirect MKEY that
-enables to map multiple memory spaces with different sizes in unified MKEY.
-KLM UMR is a UMR that use to update a KLM_MKEY.
+- queue handler (mlx5e_nvmeotcp_queue_handler) - we use icosq per NVME-TCP
+  queue for UMR mapping as part of the ddp offload. Those dedicated SQs are
+  unique in the sense that they are driven directly by the NVME-TCP layer
+  to submit and invalidate ddp requests.
+  Since the life-cycle of these icosqs is not tied to the channels, we
+  create dedicated napi contexts for polling them such that channels can be
+  re-created during offloading. The queue handler has pointer to the cq
+  associated with the queue's sq and napi context.
+
+- main offload context (mlx5e_nvmeotcp) - has ida and hash table instances.
+  Each offloaded queue gets an ID from the ida instance and the <id, queue>
+  pairs are kept in the hash table. The id is programmed as flow tag to be
+  set by HW on the completion (cqe) of all packets related to this queue
+  (by 5-tuple steering). The fast path which deals with packets uses the
+  flow tag to access the hash table and retrieve the queue for the
+  processing.
+
+We query nvmeotcp capabilities to see if the offload can be supported and
+use 128B CQEs when this happens. By default, the offload is off but can
+be enabled with `ethtool --ulp-ddp <device> nvme-tcp-ddp on`.
 
 Signed-off-by: Ben Ben-Ishay <benishay@nvidia.com>
 Signed-off-by: Boris Pismenny <borisp@nvidia.com>
 Signed-off-by: Or Gerlitz <ogerlitz@nvidia.com>
 Signed-off-by: Yoray Zack <yorayz@nvidia.com>
+Signed-off-by: Shai Malin <smalin@nvidia.com>
 Signed-off-by: Aurelien Aptel <aaptel@nvidia.com>
 Reviewed-by: Tariq Toukan <tariqt@nvidia.com>
 ---
- .../net/ethernet/mellanox/mlx5/core/en/txrx.h |   3 +
- .../mellanox/mlx5/core/en_accel/nvmeotcp.c    | 123 ++++++++++++++++++
- .../mlx5/core/en_accel/nvmeotcp_utils.h       |  25 ++++
- .../net/ethernet/mellanox/mlx5/core/en_rx.c   |   4 +
- 4 files changed, 155 insertions(+)
- create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp_utils.h
+ .../net/ethernet/mellanox/mlx5/core/Kconfig   |  11 +
+ .../net/ethernet/mellanox/mlx5/core/Makefile  |   2 +
+ drivers/net/ethernet/mellanox/mlx5/core/en.h  |   4 +
+ .../net/ethernet/mellanox/mlx5/core/en/fs.h   |   4 +-
+ .../ethernet/mellanox/mlx5/core/en/params.c   |  12 +-
+ .../ethernet/mellanox/mlx5/core/en/params.h   |   3 +
+ .../mellanox/mlx5/core/en_accel/en_accel.h    |   3 +
+ .../mellanox/mlx5/core/en_accel/fs_tcp.h      |   2 +-
+ .../mellanox/mlx5/core/en_accel/nvmeotcp.c    | 216 ++++++++++++++++++
+ .../mellanox/mlx5/core/en_accel/nvmeotcp.h    | 121 ++++++++++
+ .../ethernet/mellanox/mlx5/core/en_ethtool.c  |   6 +
+ .../net/ethernet/mellanox/mlx5/core/en_fs.c   |   4 +-
+ .../net/ethernet/mellanox/mlx5/core/en_main.c |  17 ++
+ .../net/ethernet/mellanox/mlx5/core/main.c    |   1 +
+ 14 files changed, 397 insertions(+), 9 deletions(-)
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.c
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.h
 
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/txrx.h b/drivers/net/ethernet/mellanox/mlx5/core/en/txrx.h
-index 3807536932e4..294fdcdb0f6c 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en/txrx.h
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en/txrx.h
-@@ -50,6 +50,9 @@ enum mlx5e_icosq_wqe_type {
- 	MLX5E_ICOSQ_WQE_SET_PSV_TLS,
- 	MLX5E_ICOSQ_WQE_GET_PSV_TLS,
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/Kconfig b/drivers/net/ethernet/mellanox/mlx5/core/Kconfig
+index bb1d7b039a7e..eb989068c64f 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/Kconfig
++++ b/drivers/net/ethernet/mellanox/mlx5/core/Kconfig
+@@ -163,6 +163,17 @@ config MLX5_EN_TLS
+ 	help
+ 	Build support for TLS cryptography-offload acceleration in the NIC.
+ 
++config MLX5_EN_NVMEOTCP
++	bool "NVMEoTCP acceleration"
++	depends on ULP_DDP
++	depends on MLX5_CORE_EN
++	default y
++	help
++	Build support for NVMEoTCP acceleration in the NIC.
++	This includes Direct Data Placement and CRC offload.
++	Note: Support for hardware with this capability needs to be selected
++	for this option to become available.
++
+ config MLX5_SW_STEERING
+ 	bool "Mellanox Technologies software-managed steering"
+ 	depends on MLX5_CORE_EN && MLX5_ESWITCH
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/Makefile b/drivers/net/ethernet/mellanox/mlx5/core/Makefile
+index 35f00700a4d6..9801ca65fe97 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/Makefile
++++ b/drivers/net/ethernet/mellanox/mlx5/core/Makefile
+@@ -105,6 +105,8 @@ mlx5_core-$(CONFIG_MLX5_EN_TLS) += en_accel/ktls_stats.o \
+ 				   en_accel/fs_tcp.o en_accel/ktls.o en_accel/ktls_txrx.o \
+ 				   en_accel/ktls_tx.o en_accel/ktls_rx.o
+ 
++mlx5_core-$(CONFIG_MLX5_EN_NVMEOTCP) += en_accel/fs_tcp.o en_accel/nvmeotcp.o
++
+ mlx5_core-$(CONFIG_MLX5_SW_STEERING) += steering/dr_domain.o steering/dr_table.o \
+ 					steering/dr_matcher.o steering/dr_rule.o \
+ 					steering/dr_icm_pool.o steering/dr_buddy.o \
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en.h b/drivers/net/ethernet/mellanox/mlx5/core/en.h
+index 4fcb6c7db38a..8149883341ad 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en.h
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en.h
+@@ -319,6 +319,7 @@ struct mlx5e_params {
+ 	int hard_mtu;
+ 	bool ptp_rx;
+ 	__be32 terminate_lkey_be;
++	bool nvmeotcp;
+ };
+ 
+ static inline u8 mlx5e_get_dcb_num_tc(struct mlx5e_params *params)
+@@ -926,6 +927,9 @@ struct mlx5e_priv {
  #endif
-+#ifdef CONFIG_MLX5_EN_NVMEOTCP
-+	MLX5E_ICOSQ_WQE_UMR_NVMEOTCP,
+ #ifdef CONFIG_MLX5_EN_TLS
+ 	struct mlx5e_tls          *tls;
 +#endif
- };
++#ifdef CONFIG_MLX5_EN_NVMEOTCP
++	struct mlx5e_nvmeotcp      *nvmeotcp;
+ #endif
+ 	struct devlink_health_reporter *tx_reporter;
+ 	struct devlink_health_reporter *rx_reporter;
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/fs.h b/drivers/net/ethernet/mellanox/mlx5/core/en/fs.h
+index e5a44b0b9616..c817308c6102 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en/fs.h
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en/fs.h
+@@ -77,7 +77,7 @@ enum {
+ 	MLX5E_INNER_TTC_FT_LEVEL,
+ 	MLX5E_FS_TT_UDP_FT_LEVEL = MLX5E_INNER_TTC_FT_LEVEL + 1,
+ 	MLX5E_FS_TT_ANY_FT_LEVEL = MLX5E_INNER_TTC_FT_LEVEL + 1,
+-#ifdef CONFIG_MLX5_EN_TLS
++#if defined(CONFIG_MLX5_EN_TLS) || defined(CONFIG_MLX5_EN_NVMEOTCP)
+ 	MLX5E_ACCEL_FS_TCP_FT_LEVEL = MLX5E_INNER_TTC_FT_LEVEL + 1,
+ #endif
+ #ifdef CONFIG_MLX5_EN_ARFS
+@@ -170,7 +170,7 @@ struct mlx5e_fs_any *mlx5e_fs_get_any(struct mlx5e_flow_steering *fs);
+ void mlx5e_fs_set_any(struct mlx5e_flow_steering *fs, struct mlx5e_fs_any *any);
+ struct mlx5e_fs_udp *mlx5e_fs_get_udp(struct mlx5e_flow_steering *fs);
+ void mlx5e_fs_set_udp(struct mlx5e_flow_steering *fs, struct mlx5e_fs_udp *udp);
+-#ifdef CONFIG_MLX5_EN_TLS
++#if defined(CONFIG_MLX5_EN_TLS) || defined(CONFIG_MLX5_EN_NVMEOTCP)
+ struct mlx5e_accel_fs_tcp *mlx5e_fs_get_accel_tcp(struct mlx5e_flow_steering *fs);
+ void mlx5e_fs_set_accel_tcp(struct mlx5e_flow_steering *fs, struct mlx5e_accel_fs_tcp *accel_tcp);
+ #endif
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/params.c b/drivers/net/ethernet/mellanox/mlx5/core/en/params.c
+index 5ce28ff7685f..b4712e980635 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en/params.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en/params.c
+@@ -872,7 +872,8 @@ static void mlx5e_build_common_cq_param(struct mlx5_core_dev *mdev,
+ 	void *cqc = param->cqc;
  
- /* General */
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.c b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.c
-index 9ddee04a1327..0fba80b1bb4c 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.c
-@@ -4,6 +4,7 @@
- #include <linux/netdevice.h>
- #include <linux/idr.h>
- #include "en_accel/nvmeotcp.h"
-+#include "en_accel/nvmeotcp_utils.h"
- #include "en_accel/fs_tcp.h"
- #include "en/txrx.h"
- 
-@@ -19,6 +20,120 @@ static const struct rhashtable_params rhash_queues = {
- 	.max_size = MAX_NUM_NVMEOTCP_QUEUES,
- };
- 
-+static void
-+fill_nvmeotcp_klm_wqe(struct mlx5e_nvmeotcp_queue *queue, struct mlx5e_umr_wqe *wqe, u16 ccid,
-+		      u32 klm_entries, u16 klm_offset)
-+{
-+	struct scatterlist *sgl_mkey;
-+	u32 lkey, i;
-+
-+	lkey = queue->priv->mdev->mlx5e_res.hw_objs.mkey;
-+	for (i = 0; i < klm_entries; i++) {
-+		sgl_mkey = &queue->ccid_table[ccid].sgl[i + klm_offset];
-+		wqe->inline_klms[i].bcount = cpu_to_be32(sg_dma_len(sgl_mkey));
-+		wqe->inline_klms[i].key = cpu_to_be32(lkey);
-+		wqe->inline_klms[i].va = cpu_to_be64(sgl_mkey->dma_address);
-+	}
-+
-+	for (; i < ALIGN(klm_entries, MLX5_UMR_KLM_NUM_ENTRIES_ALIGNMENT); i++) {
-+		wqe->inline_klms[i].bcount = 0;
-+		wqe->inline_klms[i].key = 0;
-+		wqe->inline_klms[i].va = 0;
-+	}
-+}
-+
-+static void
-+build_nvmeotcp_klm_umr(struct mlx5e_nvmeotcp_queue *queue, struct mlx5e_umr_wqe *wqe,
-+		       u16 ccid, int klm_entries, u32 klm_offset, u32 len,
-+		       enum wqe_type klm_type)
-+{
-+	u32 id = (klm_type == KLM_UMR) ? queue->ccid_table[ccid].klm_mkey :
-+		 (mlx5e_tir_get_tirn(&queue->tir) << MLX5_WQE_CTRL_TIR_TIS_INDEX_SHIFT);
-+	u8 opc_mod = (klm_type == KLM_UMR) ? MLX5_CTRL_SEGMENT_OPC_MOD_UMR_UMR :
-+		MLX5_OPC_MOD_TRANSPORT_TIR_STATIC_PARAMS;
-+	u32 ds_cnt = MLX5E_KLM_UMR_DS_CNT(ALIGN(klm_entries, MLX5_UMR_KLM_NUM_ENTRIES_ALIGNMENT));
-+	struct mlx5_wqe_umr_ctrl_seg *ucseg = &wqe->uctrl;
-+	struct mlx5_wqe_ctrl_seg *cseg = &wqe->ctrl;
-+	struct mlx5_mkey_seg *mkc = &wqe->mkc;
-+	u32 sqn = queue->sq.sqn;
-+	u16 pc = queue->sq.pc;
-+
-+	cseg->opmod_idx_opcode = cpu_to_be32((pc << MLX5_WQE_CTRL_WQE_INDEX_SHIFT) |
-+					     MLX5_OPCODE_UMR | (opc_mod) << 24);
-+	cseg->qpn_ds = cpu_to_be32((sqn << MLX5_WQE_CTRL_QPN_SHIFT) | ds_cnt);
-+	cseg->general_id = cpu_to_be32(id);
-+
-+	if (klm_type == KLM_UMR && !klm_offset) {
-+		ucseg->mkey_mask = cpu_to_be64(MLX5_MKEY_MASK_XLT_OCT_SIZE |
-+					       MLX5_MKEY_MASK_LEN | MLX5_MKEY_MASK_FREE);
-+		mkc->xlt_oct_size = cpu_to_be32(ALIGN(len, MLX5_UMR_KLM_NUM_ENTRIES_ALIGNMENT));
-+		mkc->len = cpu_to_be64(queue->ccid_table[ccid].size);
-+	}
-+
-+	ucseg->flags = MLX5_UMR_INLINE | MLX5_UMR_TRANSLATION_OFFSET_EN;
-+	ucseg->xlt_octowords = cpu_to_be16(ALIGN(klm_entries, MLX5_UMR_KLM_NUM_ENTRIES_ALIGNMENT));
-+	ucseg->xlt_offset = cpu_to_be16(klm_offset);
-+	fill_nvmeotcp_klm_wqe(queue, wqe, ccid, klm_entries, klm_offset);
-+}
-+
-+static void
-+mlx5e_nvmeotcp_fill_wi(struct mlx5e_icosq *sq, u32 wqebbs, u16 pi)
-+{
-+	struct mlx5e_icosq_wqe_info *wi = &sq->db.wqe_info[pi];
-+
-+	memset(wi, 0, sizeof(*wi));
-+
-+	wi->num_wqebbs = wqebbs;
-+	wi->wqe_type = MLX5E_ICOSQ_WQE_UMR_NVMEOTCP;
-+}
-+
-+static u32
-+post_klm_wqe(struct mlx5e_nvmeotcp_queue *queue,
-+	     enum wqe_type wqe_type,
-+	     u16 ccid,
-+	     u32 klm_length,
-+	     u32 klm_offset)
-+{
-+	struct mlx5e_icosq *sq = &queue->sq;
-+	u32 wqebbs, cur_klm_entries;
-+	struct mlx5e_umr_wqe *wqe;
-+	u16 pi, wqe_sz;
-+
-+	cur_klm_entries = min_t(int, queue->max_klms_per_wqe, klm_length - klm_offset);
-+	wqe_sz = MLX5E_KLM_UMR_WQE_SZ(ALIGN(cur_klm_entries, MLX5_UMR_KLM_NUM_ENTRIES_ALIGNMENT));
-+	wqebbs = DIV_ROUND_UP(wqe_sz, MLX5_SEND_WQE_BB);
-+	pi = mlx5e_icosq_get_next_pi(sq, wqebbs);
-+	wqe = MLX5E_NVMEOTCP_FETCH_KLM_WQE(sq, pi);
-+	mlx5e_nvmeotcp_fill_wi(sq, wqebbs, pi);
-+	build_nvmeotcp_klm_umr(queue, wqe, ccid, cur_klm_entries, klm_offset,
-+			       klm_length, wqe_type);
-+	sq->pc += wqebbs;
-+	sq->doorbell_cseg = &wqe->ctrl;
-+	return cur_klm_entries;
-+}
-+
-+static void
-+mlx5e_nvmeotcp_post_klm_wqe(struct mlx5e_nvmeotcp_queue *queue, enum wqe_type wqe_type,
-+			    u16 ccid, u32 klm_length)
-+{
-+	struct mlx5e_icosq *sq = &queue->sq;
-+	u32 klm_offset = 0, wqes, i;
-+
-+	wqes = DIV_ROUND_UP(klm_length, queue->max_klms_per_wqe);
-+
-+	spin_lock_bh(&queue->sq_lock);
-+
-+	for (i = 0; i < wqes; i++)
-+		klm_offset += post_klm_wqe(queue, wqe_type, ccid, klm_length, klm_offset);
-+
-+	if (wqe_type == KLM_UMR) /* not asking for completion on ddp_setup UMRs */
-+		__mlx5e_notify_hw(&sq->wq, sq->pc, sq->uar_map, sq->doorbell_cseg, 0);
-+	else
-+		mlx5e_notify_hw(&sq->wq, sq->pc, sq->uar_map, sq->doorbell_cseg);
-+
-+	spin_unlock_bh(&queue->sq_lock);
-+}
-+
- static int
- mlx5e_nvmeotcp_offload_limits(struct net_device *netdev,
- 			      struct ulp_ddp_limits *limits)
-@@ -45,6 +160,14 @@ mlx5e_nvmeotcp_ddp_setup(struct net_device *netdev,
- 			 struct sock *sk,
- 			 struct ulp_ddp_io *ddp)
- {
-+	struct mlx5e_nvmeotcp_queue *queue;
-+
-+	queue = container_of(ulp_ddp_get_ctx(sk),
-+			     struct mlx5e_nvmeotcp_queue, ulp_ddp_ctx);
-+
-+	/* Placeholder - map_sg and initializing the count */
-+
-+	mlx5e_nvmeotcp_post_klm_wqe(queue, KLM_UMR, ddp->command_id, 0);
- 	return 0;
+ 	MLX5_SET(cqc, cqc, uar_page, mdev->priv.uar->index);
+-	if (MLX5_CAP_GEN(mdev, cqe_128_always) && cache_line_size() >= 128)
++	if (MLX5_CAP_GEN(mdev, cqe_128_always) &&
++	    (cache_line_size() >= 128 || param->force_cqe128))
+ 		MLX5_SET(cqc, cqc, cqe_sz, CQE_STRIDE_128_PAD);
  }
  
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp_utils.h b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp_utils.h
+@@ -902,6 +903,9 @@ static void mlx5e_build_rx_cq_param(struct mlx5_core_dev *mdev,
+ 	void *cqc = param->cqc;
+ 	u8 log_cq_size;
+ 
++	/* nvme-tcp offload mandates 128 byte cqes */
++	param->force_cqe128 |= IS_ENABLED(CONFIG_MLX5_EN_NVMEOTCP) && params->nvmeotcp;
++
+ 	switch (params->rq_wq_type) {
+ 	case MLX5_WQ_TYPE_LINKED_LIST_STRIDING_RQ:
+ 		hw_stridx = MLX5_CAP_GEN(mdev, mini_cqe_resp_stride_index);
+@@ -1241,9 +1245,9 @@ static u8 mlx5e_build_async_icosq_log_wq_sz(struct mlx5_core_dev *mdev)
+ 	return MLX5E_PARAMS_MINIMUM_LOG_SQ_SIZE;
+ }
+ 
+-static void mlx5e_build_icosq_param(struct mlx5_core_dev *mdev,
+-				    u8 log_wq_size,
+-				    struct mlx5e_sq_param *param)
++void mlx5e_build_icosq_param(struct mlx5_core_dev *mdev,
++			     u8 log_wq_size,
++			     struct mlx5e_sq_param *param)
+ {
+ 	void *sqc = param->sqc;
+ 	void *wq = MLX5_ADDR_OF(sqc, sqc, wq);
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/params.h b/drivers/net/ethernet/mellanox/mlx5/core/en/params.h
+index 6800949dafbc..f5a4d6f5d5bf 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en/params.h
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en/params.h
+@@ -17,6 +17,7 @@ struct mlx5e_cq_param {
+ 	struct mlx5_wq_param       wq;
+ 	u16                        eq_ix;
+ 	u8                         cq_period_mode;
++	bool                       force_cqe128;
+ };
+ 
+ struct mlx5e_rq_param {
+@@ -147,6 +148,8 @@ void mlx5e_build_xdpsq_param(struct mlx5_core_dev *mdev,
+ 			     struct mlx5e_params *params,
+ 			     struct mlx5e_xsk_param *xsk,
+ 			     struct mlx5e_sq_param *param);
++void mlx5e_build_icosq_param(struct mlx5_core_dev *mdev,
++			     u8 log_wq_size, struct mlx5e_sq_param *param);
+ int mlx5e_build_channel_param(struct mlx5_core_dev *mdev,
+ 			      struct mlx5e_params *params,
+ 			      u16 q_counter,
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/en_accel.h b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/en_accel.h
+index bac4717548c6..39510370847d 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/en_accel.h
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/en_accel.h
+@@ -40,6 +40,7 @@
+ #include "en_accel/ktls.h"
+ #include "en_accel/ktls_txrx.h"
+ #include <en_accel/macsec.h>
++#include "en_accel/nvmeotcp.h"
+ #include "en.h"
+ #include "en/txrx.h"
+ 
+@@ -202,11 +203,13 @@ static inline void mlx5e_accel_tx_finish(struct mlx5e_txqsq *sq,
+ 
+ static inline int mlx5e_accel_init_rx(struct mlx5e_priv *priv)
+ {
++	mlx5e_nvmeotcp_init_rx(priv);
+ 	return mlx5e_ktls_init_rx(priv);
+ }
+ 
+ static inline void mlx5e_accel_cleanup_rx(struct mlx5e_priv *priv)
+ {
++	mlx5e_nvmeotcp_cleanup_rx(priv);
+ 	mlx5e_ktls_cleanup_rx(priv);
+ }
+ 
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/fs_tcp.h b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/fs_tcp.h
+index a032bff482a6..d907e352ffae 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/fs_tcp.h
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/fs_tcp.h
+@@ -6,7 +6,7 @@
+ 
+ #include "en/fs.h"
+ 
+-#ifdef CONFIG_MLX5_EN_TLS
++#if defined(CONFIG_MLX5_EN_TLS) || defined(CONFIG_MLX5_EN_NVMEOTCP)
+ int mlx5e_accel_fs_tcp_create(struct mlx5e_flow_steering *fs);
+ void mlx5e_accel_fs_tcp_destroy(struct mlx5e_flow_steering *fs);
+ struct mlx5_flow_handle *mlx5e_accel_fs_add_sk(struct mlx5e_flow_steering *fs,
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.c b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.c
 new file mode 100644
-index 000000000000..6ef92679c5d0
+index 000000000000..9ddee04a1327
 --- /dev/null
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp_utils.h
-@@ -0,0 +1,25 @@
-+/* SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB */
-+/* Copyright (c) 2023, NVIDIA CORPORATION & AFFILIATES. */
-+#ifndef __MLX5E_NVMEOTCP_UTILS_H__
-+#define __MLX5E_NVMEOTCP_UTILS_H__
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.c
+@@ -0,0 +1,216 @@
++// SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB
++// Copyright (c) 2023, NVIDIA CORPORATION & AFFILIATES.
 +
-+#include "en.h"
++#include <linux/netdevice.h>
++#include <linux/idr.h>
++#include "en_accel/nvmeotcp.h"
++#include "en_accel/fs_tcp.h"
++#include "en/txrx.h"
 +
-+#define MLX5E_NVMEOTCP_FETCH_KLM_WQE(sq, pi) \
-+	((struct mlx5e_umr_wqe *)\
-+	 mlx5e_fetch_wqe(&(sq)->wq, pi, sizeof(struct mlx5e_umr_wqe)))
++#define MAX_NUM_NVMEOTCP_QUEUES	(4000)
++#define MIN_NUM_NVMEOTCP_QUEUES	(1)
 +
-+#define MLX5_CTRL_SEGMENT_OPC_MOD_UMR_NVMEOTCP_TIR_PROGRESS_PARAMS 0x4
-+
-+#define MLX5_CTRL_SEGMENT_OPC_MOD_UMR_TIR_PARAMS 0x2
-+#define MLX5_CTRL_SEGMENT_OPC_MOD_UMR_UMR 0x0
-+
-+enum wqe_type {
-+	KLM_UMR,
-+	BSF_KLM_UMR,
-+	SET_PSV_UMR,
-+	BSF_UMR,
-+	KLM_INV_UMR,
++static const struct rhashtable_params rhash_queues = {
++	.key_len = sizeof(int),
++	.key_offset = offsetof(struct mlx5e_nvmeotcp_queue, id),
++	.head_offset = offsetof(struct mlx5e_nvmeotcp_queue, hash),
++	.automatic_shrinking = true,
++	.min_size = MIN_NUM_NVMEOTCP_QUEUES,
++	.max_size = MAX_NUM_NVMEOTCP_QUEUES,
 +};
 +
-+#endif /* __MLX5E_NVMEOTCP_UTILS_H__ */
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c b/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c
-index 84ea8594e1b6..9dc182ebdaee 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c
-@@ -1036,6 +1036,10 @@ int mlx5e_poll_ico_cq(struct mlx5e_cq *cq, int budget)
- 			case MLX5E_ICOSQ_WQE_GET_PSV_TLS:
- 				mlx5e_ktls_handle_get_psv_completion(wi, sq);
- 				break;
-+#endif
++static int
++mlx5e_nvmeotcp_offload_limits(struct net_device *netdev,
++			      struct ulp_ddp_limits *limits)
++{
++	return 0;
++}
++
++static int
++mlx5e_nvmeotcp_queue_init(struct net_device *netdev,
++			  struct sock *sk,
++			  struct ulp_ddp_config *tconfig)
++{
++	return 0;
++}
++
++static void
++mlx5e_nvmeotcp_queue_teardown(struct net_device *netdev,
++			      struct sock *sk)
++{
++}
++
++static int
++mlx5e_nvmeotcp_ddp_setup(struct net_device *netdev,
++			 struct sock *sk,
++			 struct ulp_ddp_io *ddp)
++{
++	return 0;
++}
++
++static void
++mlx5e_nvmeotcp_ddp_teardown(struct net_device *netdev,
++			    struct sock *sk,
++			    struct ulp_ddp_io *ddp,
++			    void *ddp_ctx)
++{
++}
++
++static void
++mlx5e_nvmeotcp_ddp_resync(struct net_device *netdev,
++			  struct sock *sk, u32 seq)
++{
++}
++
++int set_ulp_ddp_nvme_tcp(struct net_device *netdev, bool enable)
++{
++	struct mlx5e_priv *priv = netdev_priv(netdev);
++	struct mlx5e_params new_params;
++	int err = 0;
++
++	/* There may be offloaded queues when an ethtool callback to disable the feature is made.
++	 * Hence, we can't destroy the tcp flow-table since it may be referenced by the offload
++	 * related flows and we'll keep the 128B CQEs on the channel RQs. Also, since we don't
++	 * deref/destroy the fs tcp table when the feature is disabled, we don't ref it again
++	 * if the feature is enabled multiple times.
++	 */
++	if (!enable || priv->nvmeotcp->enabled)
++		return 0;
++
++	err = mlx5e_accel_fs_tcp_create(priv->fs);
++	if (err)
++		return err;
++
++	new_params = priv->channels.params;
++	new_params.nvmeotcp = enable;
++	err = mlx5e_safe_switch_params(priv, &new_params, NULL, NULL, true);
++	if (err)
++		goto fs_tcp_destroy;
++
++	priv->nvmeotcp->enabled = true;
++	return 0;
++
++fs_tcp_destroy:
++	mlx5e_accel_fs_tcp_destroy(priv->fs);
++	return err;
++}
++
++static int mlx5e_ulp_ddp_set_caps(struct net_device *netdev, unsigned long *new_caps,
++				  struct netlink_ext_ack *extack)
++{
++	struct mlx5e_priv *priv = netdev_priv(netdev);
++	DECLARE_BITMAP(old_caps, ULP_DDP_C_COUNT);
++	struct mlx5e_params *params;
++	int ret = 0;
++	int nvme = -1;
++
++	mutex_lock(&priv->state_lock);
++	params = &priv->channels.params;
++	bitmap_copy(old_caps, netdev->ulp_ddp_caps.active, ULP_DDP_C_COUNT);
++
++	/* always handle nvme-tcp-ddp and nvme-tcp-ddgst-rx together (all or nothing) */
++
++	if (ulp_ddp_cap_turned_on(old_caps, new_caps, ULP_DDP_C_NVME_TCP_BIT) &&
++	    ulp_ddp_cap_turned_on(old_caps, new_caps, ULP_DDP_C_NVME_TCP_DDGST_RX_BIT)) {
++		if (MLX5E_GET_PFLAG(params, MLX5E_PFLAG_RX_CQE_COMPRESS)) {
++			NL_SET_ERR_MSG_MOD(extack,
++					   "NVMe-TCP offload not supported when CQE compress is active. Disable rx_cqe_compress ethtool private flag first\n");
++			goto out;
++		}
++
++		if (netdev->features & (NETIF_F_LRO | NETIF_F_GRO_HW)) {
++			NL_SET_ERR_MSG_MOD(extack,
++					   "NVMe-TCP offload not supported when HW_GRO/LRO is active. Disable rx-gro-hw ethtool feature first\n");
++			goto out;
++		}
++		nvme = 1;
++	} else if (ulp_ddp_cap_turned_off(old_caps, new_caps, ULP_DDP_C_NVME_TCP_BIT) &&
++		   ulp_ddp_cap_turned_off(old_caps, new_caps, ULP_DDP_C_NVME_TCP_DDGST_RX_BIT)) {
++		nvme = 0;
++	}
++
++	if (nvme >= 0) {
++		ret = set_ulp_ddp_nvme_tcp(netdev, nvme);
++		if (ret)
++			goto out;
++		change_bit(ULP_DDP_C_NVME_TCP_BIT, netdev->ulp_ddp_caps.active);
++		change_bit(ULP_DDP_C_NVME_TCP_DDGST_RX_BIT, netdev->ulp_ddp_caps.active);
++	}
++
++out:
++	mutex_unlock(&priv->state_lock);
++	return ret;
++}
++
++const struct ulp_ddp_dev_ops mlx5e_nvmeotcp_ops = {
++	.limits = mlx5e_nvmeotcp_offload_limits,
++	.sk_add = mlx5e_nvmeotcp_queue_init,
++	.sk_del = mlx5e_nvmeotcp_queue_teardown,
++	.setup = mlx5e_nvmeotcp_ddp_setup,
++	.teardown = mlx5e_nvmeotcp_ddp_teardown,
++	.resync = mlx5e_nvmeotcp_ddp_resync,
++	.set_caps = mlx5e_ulp_ddp_set_caps,
++};
++
++void mlx5e_nvmeotcp_build_netdev(struct mlx5e_priv *priv)
++{
++	struct net_device *netdev = priv->netdev;
++	struct mlx5_core_dev *mdev = priv->mdev;
++
++	if (!(MLX5_CAP_GEN(mdev, nvmeotcp) &&
++	      MLX5_CAP_DEV_NVMEOTCP(mdev, zerocopy) &&
++	      MLX5_CAP_DEV_NVMEOTCP(mdev, crc_rx) && MLX5_CAP_GEN(mdev, cqe_128_always)))
++		return;
++
++	/* report ULP DPP as supported, but don't enable it by default */
++	set_bit(ULP_DDP_C_NVME_TCP_BIT, netdev->ulp_ddp_caps.hw);
++	set_bit(ULP_DDP_C_NVME_TCP_DDGST_RX_BIT, netdev->ulp_ddp_caps.hw);
++}
++
++void mlx5e_nvmeotcp_cleanup_rx(struct mlx5e_priv *priv)
++{
++	if (priv->nvmeotcp && priv->nvmeotcp->enabled)
++		mlx5e_accel_fs_tcp_destroy(priv->fs);
++}
++
++int mlx5e_nvmeotcp_init(struct mlx5e_priv *priv)
++{
++	struct mlx5e_nvmeotcp *nvmeotcp = NULL;
++	int ret = 0;
++
++	if (!MLX5_CAP_GEN(priv->mdev, nvmeotcp))
++		return 0;
++
++	nvmeotcp = kzalloc(sizeof(*nvmeotcp), GFP_KERNEL);
++
++	if (!nvmeotcp)
++		return -ENOMEM;
++
++	ida_init(&nvmeotcp->queue_ids);
++	ret = rhashtable_init(&nvmeotcp->queue_hash, &rhash_queues);
++	if (ret)
++		goto err_ida;
++
++	nvmeotcp->enabled = false;
++
++	priv->nvmeotcp = nvmeotcp;
++	return 0;
++
++err_ida:
++	ida_destroy(&nvmeotcp->queue_ids);
++	kfree(nvmeotcp);
++	return ret;
++}
++
++void mlx5e_nvmeotcp_cleanup(struct mlx5e_priv *priv)
++{
++	struct mlx5e_nvmeotcp *nvmeotcp = priv->nvmeotcp;
++
++	if (!nvmeotcp)
++		return;
++
++	rhashtable_destroy(&nvmeotcp->queue_hash);
++	ida_destroy(&nvmeotcp->queue_ids);
++	kfree(nvmeotcp);
++	priv->nvmeotcp = NULL;
++}
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.h b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.h
+new file mode 100644
+index 000000000000..a665b7a72bc2
+--- /dev/null
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.h
+@@ -0,0 +1,121 @@
++/* SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB */
++/* Copyright (c) 2023, NVIDIA CORPORATION & AFFILIATES. */
++#ifndef __MLX5E_NVMEOTCP_H__
++#define __MLX5E_NVMEOTCP_H__
++
 +#ifdef CONFIG_MLX5_EN_NVMEOTCP
-+			case MLX5E_ICOSQ_WQE_UMR_NVMEOTCP:
-+				break;
++
++#include <net/ulp_ddp.h>
++#include "en.h"
++#include "en/params.h"
++
++struct mlx5e_nvmeotcp_queue_entry {
++	struct mlx5e_nvmeotcp_queue *queue;
++	u32 sgl_length;
++	u32 klm_mkey;
++	struct scatterlist *sgl;
++	u32 ccid_gen;
++	u64 size;
++
++	/* for the ddp invalidate done callback */
++	void *ddp_ctx;
++	struct ulp_ddp_io *ddp;
++};
++
++struct mlx5e_nvmeotcp_queue_handler {
++	struct napi_struct napi;
++	struct mlx5e_cq *cq;
++};
++
++/**
++ *	struct mlx5e_nvmeotcp_queue - mlx5 metadata for NVMEoTCP queue
++ *	@ulp_ddp_ctx: Generic ulp ddp context
++ *	@tir: Destination TIR created for NVMEoTCP offload
++ *	@fh: Flow handle representing the 5-tuple steering for this flow
++ *	@id: Flow tag ID used to identify this queue
++ *	@size: NVMEoTCP queue depth
++ *	@ccid_gen: Generation ID for the CCID, used to avoid conflicts in DDP
++ *	@max_klms_per_wqe: Number of KLMs per DDP operation
++ *	@hash: Hash table of queues mapped by @id
++ *	@pda: Padding alignment
++ *	@tag_buf_table_id: Tag buffer table for CCIDs
++ *	@dgst: Digest supported (header and/or data)
++ *	@sq: Send queue used for posting umrs
++ *	@ref_count: Reference count for this structure
++ *	@after_resync_cqe: Indicate if resync occurred
++ *	@ccid_table: Table holding metadata for each CC (Command Capsule)
++ *	@ccid: ID of the current CC
++ *	@ccsglidx: Index within the scatter-gather list (SGL) of the current CC
++ *	@ccoff: Offset within the current CC
++ *	@ccoff_inner: Current offset within the @ccsglidx element
++ *	@channel_ix: Channel IX for this nvmeotcp_queue
++ *	@sk: The socket used by the NVMe-TCP queue
++ *	@crc_rx: CRC Rx offload indication for this queue
++ *	@priv: mlx5e netdev priv
++ *	@static_params_done: Async completion structure for the initial umr mapping
++ *	synchronization
++ *	@sq_lock: Spin lock for the icosq
++ *	@qh: Completion queue handler for processing umr completions
++ */
++struct mlx5e_nvmeotcp_queue {
++	struct ulp_ddp_ctx ulp_ddp_ctx;
++	struct mlx5e_tir tir;
++	struct mlx5_flow_handle *fh;
++	int id;
++	u32 size;
++	/* needed when the upper layer immediately reuses CCID + some packet loss happens */
++	u32 ccid_gen;
++	u32 max_klms_per_wqe;
++	struct rhash_head hash;
++	int pda;
++	u32 tag_buf_table_id;
++	u8 dgst;
++	struct mlx5e_icosq sq;
++
++	/* data-path section cache aligned */
++	refcount_t ref_count;
++	/* for MASK HW resync cqe */
++	bool after_resync_cqe;
++	struct mlx5e_nvmeotcp_queue_entry *ccid_table;
++	/* current ccid fields */
++	int ccid;
++	int ccsglidx;
++	off_t ccoff;
++	int ccoff_inner;
++
++	u32 channel_ix;
++	struct sock *sk;
++	u8 crc_rx:1;
++	/* for ddp invalidate flow */
++	struct mlx5e_priv *priv;
++	/* end of data-path section */
++
++	struct completion static_params_done;
++	/* spin lock for the ico sq, ULP can issue requests from multiple contexts */
++	spinlock_t sq_lock;
++	struct mlx5e_nvmeotcp_queue_handler qh;
++};
++
++struct mlx5e_nvmeotcp {
++	struct ida queue_ids;
++	struct rhashtable queue_hash;
++	bool enabled;
++};
++
++void mlx5e_nvmeotcp_build_netdev(struct mlx5e_priv *priv);
++int mlx5e_nvmeotcp_init(struct mlx5e_priv *priv);
++int set_ulp_ddp_nvme_tcp(struct net_device *netdev, bool enable);
++void mlx5e_nvmeotcp_cleanup(struct mlx5e_priv *priv);
++static inline void mlx5e_nvmeotcp_init_rx(struct mlx5e_priv *priv) {}
++void mlx5e_nvmeotcp_cleanup_rx(struct mlx5e_priv *priv);
++extern const struct ulp_ddp_dev_ops mlx5e_nvmeotcp_ops;
++#else
++
++static inline void mlx5e_nvmeotcp_build_netdev(struct mlx5e_priv *priv) {}
++static inline int mlx5e_nvmeotcp_init(struct mlx5e_priv *priv) { return 0; }
++static inline void mlx5e_nvmeotcp_cleanup(struct mlx5e_priv *priv) {}
++static inline int set_ulp_ddp_nvme_tcp(struct net_device *dev, bool en) { return -EOPNOTSUPP; }
++static inline void mlx5e_nvmeotcp_init_rx(struct mlx5e_priv *priv) {}
++static inline void mlx5e_nvmeotcp_cleanup_rx(struct mlx5e_priv *priv) {}
++#endif
++#endif /* __MLX5E_NVMEOTCP_H__ */
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_ethtool.c b/drivers/net/ethernet/mellanox/mlx5/core/en_ethtool.c
+index 27861b68ced5..f8a4c78b388f 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en_ethtool.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en_ethtool.c
+@@ -38,6 +38,7 @@
+ #include "en/ptp.h"
+ #include "lib/clock.h"
+ #include "en/fs_ethtool.h"
++#include "en_accel/nvmeotcp.h"
+ 
+ void mlx5e_ethtool_get_drvinfo(struct mlx5e_priv *priv,
+ 			       struct ethtool_drvinfo *drvinfo)
+@@ -1929,6 +1930,11 @@ int mlx5e_modify_rx_cqe_compression_locked(struct mlx5e_priv *priv, bool new_val
+ 		return -EINVAL;
+ 	}
+ 
++	if (priv->channels.params.nvmeotcp) {
++		netdev_warn(priv->netdev, "Can't set CQE compression after ULP DDP NVMe-TCP offload\n");
++		return -EINVAL;
++	}
++
+ 	new_params = priv->channels.params;
+ 	MLX5E_SET_PFLAG(&new_params, MLX5E_PFLAG_RX_CQE_COMPRESS, new_val);
+ 	if (rx_filter)
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_fs.c b/drivers/net/ethernet/mellanox/mlx5/core/en_fs.c
+index 934b0d5ce1b3..37492af5b038 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en_fs.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en_fs.c
+@@ -62,7 +62,7 @@ struct mlx5e_flow_steering {
+ #ifdef CONFIG_MLX5_EN_ARFS
+ 	struct mlx5e_arfs_tables       *arfs;
  #endif
- 			default:
- 				netdev_WARN_ONCE(cq->netdev,
+-#ifdef CONFIG_MLX5_EN_TLS
++#if defined(CONFIG_MLX5_EN_TLS) || defined(CONFIG_MLX5_EN_NVMEOTCP)
+ 	struct mlx5e_accel_fs_tcp      *accel_tcp;
+ #endif
+ 	struct mlx5e_fs_udp            *udp;
+@@ -1561,7 +1561,7 @@ void mlx5e_fs_set_any(struct mlx5e_flow_steering *fs, struct mlx5e_fs_any *any)
+ 	fs->any = any;
+ }
+ 
+-#ifdef CONFIG_MLX5_EN_TLS
++#if defined(CONFIG_MLX5_EN_TLS) || defined(CONFIG_MLX5_EN_NVMEOTCP)
+ struct mlx5e_accel_fs_tcp *mlx5e_fs_get_accel_tcp(struct mlx5e_flow_steering *fs)
+ {
+ 	return fs->accel_tcp;
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_main.c b/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
+index d1820c4c7324..426ee4bbf8b1 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
+@@ -50,6 +50,7 @@
+ #include "en_accel/macsec.h"
+ #include "en_accel/en_accel.h"
+ #include "en_accel/ktls.h"
++#include "en_accel/nvmeotcp.h"
+ #include "lib/vxlan.h"
+ #include "lib/clock.h"
+ #include "en/port.h"
+@@ -4184,6 +4185,13 @@ static netdev_features_t mlx5e_fix_features(struct net_device *netdev,
+ 		features &= ~NETIF_F_NETNS_LOCAL;
+ 	}
+ 
++	if (features & (NETIF_F_LRO | NETIF_F_GRO_HW)) {
++		if (params->nvmeotcp) {
++			netdev_warn(netdev, "Disabling HW-GRO/LRO, not supported after ULP DDP NVMe-TCP offload\n");
++			features &= ~(NETIF_F_LRO | NETIF_F_GRO_HW);
++		}
++	}
++
+ 	mutex_unlock(&priv->state_lock);
+ 
+ 	return features;
+@@ -4940,6 +4948,9 @@ const struct net_device_ops mlx5e_netdev_ops = {
+ 	.ndo_has_offload_stats   = mlx5e_has_offload_stats,
+ 	.ndo_get_offload_stats   = mlx5e_get_offload_stats,
+ #endif
++#ifdef CONFIG_MLX5_EN_NVMEOTCP
++	.ulp_ddp_ops             = &mlx5e_nvmeotcp_ops,
++#endif
+ };
+ 
+ static u32 mlx5e_choose_lro_timeout(struct mlx5_core_dev *mdev, u32 wanted_timeout)
+@@ -5209,6 +5220,7 @@ static void mlx5e_build_nic_netdev(struct net_device *netdev)
+ 	mlx5e_macsec_build_netdev(priv);
+ 	mlx5e_ipsec_build_netdev(priv);
+ 	mlx5e_ktls_build_netdev(priv);
++	mlx5e_nvmeotcp_build_netdev(priv);
+ }
+ 
+ void mlx5e_create_q_counters(struct mlx5e_priv *priv)
+@@ -5279,6 +5291,10 @@ static int mlx5e_nic_init(struct mlx5_core_dev *mdev,
+ 	if (err)
+ 		mlx5_core_err(mdev, "TLS initialization failed, %d\n", err);
+ 
++	err = mlx5e_nvmeotcp_init(priv);
++	if (err)
++		mlx5_core_err(mdev, "NVMEoTCP initialization failed, %d\n", err);
++
+ 	mlx5e_health_create_reporters(priv);
+ 	/* update XDP supported features */
+ 	mlx5e_set_xdp_feature(netdev);
+@@ -5289,6 +5305,7 @@ static int mlx5e_nic_init(struct mlx5_core_dev *mdev,
+ static void mlx5e_nic_cleanup(struct mlx5e_priv *priv)
+ {
+ 	mlx5e_health_destroy_reporters(priv);
++	mlx5e_nvmeotcp_cleanup(priv);
+ 	mlx5e_ktls_cleanup(priv);
+ 	mlx5e_fs_cleanup(priv->fs);
+ 	debugfs_remove_recursive(priv->dfs_root);
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/main.c b/drivers/net/ethernet/mellanox/mlx5/core/main.c
+index 88dbea6631d5..a822363dbb35 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/main.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/main.c
+@@ -1726,6 +1726,7 @@ static const int types[] = {
+ 	MLX5_CAP_MACSEC,
+ 	MLX5_CAP_ADV_VIRTUALIZATION,
+ 	MLX5_CAP_CRYPTO,
++	MLX5_CAP_DEV_NVMEOTCP,
+ };
+ 
+ static void mlx5_hca_caps_free(struct mlx5_core_dev *dev)
 -- 
 2.34.1
 
