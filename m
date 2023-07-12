@@ -4,87 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2DFB4EB64DA
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Jul 2023 06:50:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E414BEB64D9
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Jul 2023 07:38:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=q0RkH5WqJss4L/epVGtpcnugvrtDh2KTyP98Fes5eso=; b=b71+nVWVuzIgpYP/2LiLsiJExJ
-	L1XZ1nMCf1pAYcI9OSjarkREqursAMv2Ec9kXi98VhrEz5WGfw+MPs7DaMFdrIS0AxPYc7WJOuBOO
-	ujUjuq7VLUy8LgKDaN4RDGTQ0mcryGHWTlpRe2z7xnFYbjWSHKrqDZc+gzDX8VKue5UxNNAwPotvc
-	FgqoRD+Pfacw8OoftYAll49rUVlOCYUtRaNhOQv20vAFy36Sq4+Ex/uXz5RzR4TdNJgjy79nwtUWJ
-	ICjdh+DsAhoOow3wlZFcARXCN5expYQc5iUkP6tBqMfC1nze67xtVvkJRjFELEO3dz2DTxN3D55kJ
-	VjHQyveA==;
+	bh=oChKme24SZPOA92hTi9VYNZ4RCh0CFOD0OdnxXjwR/I=; b=XYs9snoUZ/lAC+7UOJCTlj5uGd
+	Z0VXecM4za4fvyKiCosLVV7iS0Z9FSheH8vAwxCqm7g16RL1f/NxxiFu66MKRVxlTpkBgRHvBPxaO
+	ImG4cHp7Jy/yzsrRnVaLgBlZtrrLG/RoWRd1TL4NR3Rxnmz8PkyAKa2DEt/bdCOd5YV3JI0lRspMw
+	mJ/p3rt5nViK5lt8r2/PDvQ/U+wznEvYDtu15Xtb5KIt5JEQ3SLwXoEy28qjKp9ngBsZsmQMSQuZS
+	o6oq73pYy6lWtcfNhDud0CYEOncZrgESPYf8uuK/fJltRBSYBUINmT8z8nKex7hU9FCGraK9iN9Cb
+	YrCXIRbA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJTgW-00Gip2-1c;
-	Wed, 12 Jul 2023 06:50:48 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1qJUQz-00Go2b-0i;
+	Wed, 12 Jul 2023 07:38:49 +0000
+Received: from mail-wr1-f52.google.com ([209.85.221.52])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJTgQ-00Gio4-1W
+	id 1qJUQw-00Go1K-2t
 	for linux-nvme@lists.infradead.org;
-	Wed, 12 Jul 2023 06:50:46 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 14BAC22581;
-	Wed, 12 Jul 2023 06:50:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1689144641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=q0RkH5WqJss4L/epVGtpcnugvrtDh2KTyP98Fes5eso=;
-	b=GUv37xgI+gqiC6MqWK9+hM0+lMfuz2ib0W9F1YAXyw6QMovnCBbKTEKQ3pmIUjCIbGWjnE
-	x7Lv6Mpzxu1LCOmgdapwTZiRuvDJBmVoZIqngMGHQXhsIvSqXW7gQIcOtGDjmsDyP0FoP4
-	7nI+QJoWCcoQRoTfX3Rmej0iK/B3KQY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1689144641;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=q0RkH5WqJss4L/epVGtpcnugvrtDh2KTyP98Fes5eso=;
-	b=3UNbjRgI++VXyRei9e//0f3aU0ELwy0YT3Vc3K3zh6hzoLd3eLAsds/c2/kVWGfGtmcnrY
-	F/7tgC8yKAz5GxAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D9D8C133DD;
-	Wed, 12 Jul 2023 06:50:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id rewnNEBNrmQyFQAAMHmgww
-	(envelope-from <hare@suse.de>); Wed, 12 Jul 2023 06:50:40 +0000
-Message-ID: <5f239919-d4bb-17ed-f8d1-8edb4f3659fc@suse.de>
-Date: Wed, 12 Jul 2023 08:50:40 +0200
+	Wed, 12 Jul 2023 07:38:48 +0000
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-315abbd2e64so197519f8f.1
+        for <linux-nvme@lists.infradead.org>; Wed, 12 Jul 2023 00:38:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689147524; x=1691739524;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oChKme24SZPOA92hTi9VYNZ4RCh0CFOD0OdnxXjwR/I=;
+        b=hxo+X4WG3IgCWpZzNnJy2+zMJXVJyQUs1ujpnbhmY3uyiUA1i3LehOY74cAH3nUcmM
+         j6EFlDr2A7j6XZxLygoC4IokvFAPr/LcrJGyZRXK8QbjgLOBuwj2aXopAR9dpi2UHcgL
+         1cHvp4ZojzED6XWCNN2P3KrVHTiv6zQ9UzuumNcsC86eUjYZ3rLaURz6qO+Ar2dO03a+
+         SsQcqcOpJ/cwWNYpWVmyIiUdyu4JFHC1FQdKR+m1g385o9IOgQeFQWpIeKani0BbnRJU
+         GYqL721RTdGN+V7cnrtkPm6fxo9fF2guvIAC18RbO++QFHkVQqtD78MHs0YJ9DhJj6xU
+         5yDw==
+X-Gm-Message-State: ABy/qLaFBgTnYFLoACEF/+YBDQnN3gBeACAJpDWENDIOWEtvTd2hWdE4
+	duS77DG7TgO44Ret8Jr0TOE=
+X-Google-Smtp-Source: APBJJlFGYYhdLQYp1qY5RENlDfGjtleaBJ34hizcHHIjbEHqYhTrPpcNzYFzCgPsLN4VJw3meqaKNA==
+X-Received: by 2002:a5d:4c85:0:b0:314:1d7f:9e9 with SMTP id z5-20020a5d4c85000000b003141d7f09e9mr17797032wrs.0.1689147523663;
+        Wed, 12 Jul 2023 00:38:43 -0700 (PDT)
+Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id f17-20020adffcd1000000b003140fff4f75sm4260000wrs.17.2023.07.12.00.38.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Jul 2023 00:38:43 -0700 (PDT)
+Message-ID: <f0e8de7b-655c-9932-16d4-105decff9a6c@grimberg.me>
+Date: Wed, 12 Jul 2023 10:38:40 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH v2 4/5] nvme-fc: Make initial connect attempt synchronous
+Subject: Re: Fwd: Need NVME QUIRK BOGUS for SAMSUNG MZ1WV480HCGL-000MV
+ (Samsung SM-953 Datacenter SSD)
 Content-Language: en-US
-To: James Smart <jsmart2021@gmail.com>, Daniel Wagner <dwagner@suse.de>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, Chaitanya Kulkarni <kch@nvidia.com>,
- Shin'ichiro Kawasaki <shinichiro@fastmail.com>,
- Sagi Grimberg <sagi@grimberg.me>, Ewan Milne <emilne@redhat.com>
-References: <20230620133711.22840-1-dwagner@suse.de>
- <20230620133711.22840-5-dwagner@suse.de>
- <594f73f2-59b0-bbcb-d7a0-6d89e2446830@gmail.com>
- <7kcc75btp5bo5oqjnpqlwwo37l2f4atwfemknbmvqagrqicl2i@njn4tai7e4m7>
- <0605ac36-16d5-2026-d3c6-62d346db6dfb@gmail.com>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <0605ac36-16d5-2026-d3c6-62d346db6dfb@gmail.com>
+To: Keith Busch <kbusch@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Christoph Hellwig <hch@lst.de>,
+ Linux regressions mailing list <regressions@lists.linux.dev>,
+ Pankaj Raghav <p.raghav@samsung.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ Jens Axboe <axboe@kernel.dk>, "Clemens S." <cspringsguth@gmail.com>,
+ Martin Belanger <martin.belanger@dell.com>,
+ Chaitanya Kulkarni <kch@nvidia.com>, John Meneghini <jmeneghi@redhat.com>,
+ Hannes Reinecke <hare@suse.de>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux NVMe <linux-nvme@lists.infradead.org>,
+ Kanchan Joshi <joshi.k@samsung.com>,
+ Javier Gonzalez <javier.gonz@samsung.com>, =?UTF-8?B?67CV7KeE7ZmY?=
+ <jh.i.park@samsung.com>
+References: <d18d2a08-9d24-0209-c2cf-baf60bbf5048@gmail.com>
+ <ZJsKBkPqoWzYyngS@kbusch-mbp.dhcp.thefacebook.com>
+ <6f333133-2cc4-406a-d6c2-642ac6ccabca@leemhuis.info>
+ <CGME20230710155902eucas1p2b464a29adc35e983c73b00d18ab5344c@eucas1p2.samsung.com>
+ <ZKwqvTMPVmhnkZjS@kbusch-mbp.dhcp.thefacebook.com>
+ <f0fdf86e-4293-8e07-835d-b5a866252068@samsung.com>
+ <462e0e1e-98ea-0f3c-4aaa-8d44f0a8e664@leemhuis.info>
+ <20230711120609.GB27050@lst.de>
+ <CAHk-=whXh9sgLo24RO02JjfD0m3HE5NADRPWoEd+dW6bruFhVA@mail.gmail.com>
+ <ZK2PgNizcMLW+S/V@kbusch-mbp.dhcp.thefacebook.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <ZK2PgNizcMLW+S/V@kbusch-mbp.dhcp.thefacebook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230711_235045_573125_546906E2 
-X-CRM114-Status: GOOD (  24.26  )
+X-CRM114-CacheID: sfid-20230712_003846_932168_460CC539 
+X-CRM114-Status: GOOD (  14.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,88 +103,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/12/23 00:47, James Smart wrote:
-> On 7/6/2023 5:07 AM, Daniel Wagner wrote:
->> Hi James,
+
+>> For example, we have this completely unacceptable garbage:
 >>
->> On Sat, Jul 01, 2023 at 05:11:11AM -0700, James Smart wrote:
->>> As much as you want to make this change to make transports "similar", 
->>> I am dead set against it unless you are completing a long qualification
->>> of the change on real FC hardware and FC-NVME devices. There is probably 
->>> 1.5 yrs of testing of different race conditions that drove this change.
->>> You cannot declare success from a simplistic toy tool such as fcloop for 
->>> validation.
->>>
->>> The original issues exist, probably have even morphed given the time 
->>> from
->>> the original change, and this will seriously disrupt the transport 
->>> and any
->>> downstream releases.  So I have a very strong NACK on this change.
->>>
->>> Yes - things such as the connect failure results are difficult to return
->>> back to nvme-cli. I have had many gripes about the nvme-cli's 
->>> behavior over
->>> the years, especially on negative cases due to race conditions which
->>> required retries. It still fails this miserably.  The async reconnect 
->>> path
->>> solved many of these issues for fc.
->>>
->>> For the auth failure, how do we deal with things if auth fails over 
->>> time as
->>> reconnects fail due to a credential changes ?  I would think 
->>> commonality of
->>> this behavior drives part of the choice.
+>>          ret = nvme_global_check_duplicate_ids(ctrl->subsys, &info->ids);
+>>          if (ret) {
+>>                  dev_err(ctrl->device,
+>>                          "globally duplicate IDs for nsid %d\n", info->nsid);
+>>                  nvme_print_device_info(ctrl);
+>>                  return ret;
+>>          }
 >>
->> Alright, what do you think about the idea to introduce a new '--sync' 
->> option to
->> nvme-cli which forwards this info to the kernel that we want to wait 
->> for the
->> initial connect to succeed or fail? Obviously, this needs to handle 
->> signals too.
->>
->>  From what I understood this is also what Ewan would like to have
-> To me this is not sync vs non-sync option, it's a max_reconnects value 
-> tested for in nvmf_should_reconnect(). Which, if set to 0 (or 1), should 
-> fail if the initial connect fails.
+>> iow, the code even checks for and *notices* that there are duplicate
+>> IDs, and what does it do? It then errors out.
 > 
-Well, this is more a technical detail while we continue to harp about 
-'sync' vs 'non-sync'.
-Currently all instances of ->create_ctrl() are running asynchronously,
-ie ->create_ctrl() returns a 'ctrl' object which is still in the process
-of establishing the connection.
-(And there it doesn't really matter whether it's FC or TCP/RDMA; FC is 
-kicking of a workqueue for the 'reconnect' call, whereas TCP/RDMA is 
-creating the association and issues the actual 'connect' NVMe SQE via
-an I/O workqueue; net result is identical).
-And when we talk about 'sync' connect we are planning to _wait_ until
-this asynchronous operation reaches a steady state, ie either after the 
-connect attempts succeeded or after the connect retries are exhausted.
+> This check came from a recent half-baked spec feature called "Dispersed
+> Namespaces" that caused breakage and data corruption when used in Linux.
+> Rather than attempt to support that mostly vendor specific feature, the
+> driver attempted to fence that off as unmaintainable. This check wasn't
+> aimed at enforcing "correctness", but it certainly found a lot of that
+> as collatoral damage. Let's see if we can find a better way to detect
+> the difference with a sane fallback as you suggest.
 
-And yes, we _are_ aware that this might be a quite long time.
+Perhaps we could fallback to what we do in wwid_show()?
 
-> Right now max_reconnects is calculated by the ctrl_loss_tmo and 
-> reconnect_delay. So there's already a way via the cli to make sure 
-> there's only 1 connect attempt. I wouldn't mind seeing an exact cli 
-> option that sets it to 1 connection attempt w/o the user calculation and 
-> 2 value specification.
-> 
-Again, we do _not_ propose to change any of the default settings.
-The 'sync' option will not modify the reconnect settings, it will just 
-wait until a steady state it reached.
-
-> I also assume that this is not something that would be set by default in 
-> the auto-connect scripts or automated cli startup scripts.
-> 
-You assume correctly. That's why it'll be an additional option.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
-
+"nvme.%04x-%*phN-%*phN-%08x\n", subsys->vendor_id, serial_len,
+subsys->serial, model_len, subsys->model, head->ns_id)
 
