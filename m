@@ -4,62 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04072C001DC
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jul 2023 11:44:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F407BEB64DD
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jul 2023 12:37:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CCvvUNYvnCDYxbtzBXcI0/VOI4w7KStCcFmdCMjQhJ4=; b=EZT84YLWPPybAN020W7ZGO0ihU
-	c6RUd/pHOiVQaVVcjUdz523L/43b0BsWH81e4u1UKv9wxB8B39V2L0exvaIWvq22Yzh9RgzE6bSIm
-	u803NiQP/745nI+vJ8luNuBoaJSGsQARMXxXZz8fb+UVBD+zXinMo166hTdipwd3eQGYENitrDccH
-	PIJsooyx3Fr/ejAamCE2do6EGLB9hFK7fF2HDzZUe0DcRl/PoTcAAWTYBl9Z8GX5CpjqIv6Auwb0t
-	m3uKOCuQy8OzHr/AFEInOOsE0Ys8iLfMUEjZRaJ20huUBqRkk6ICdffprMi/z1SOaeVrky61mZSCV
-	ul7L+hSQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:MIME-Version:Date:Message-ID:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=SvWDdjhd0LKTApanOcXTpRAz1dbUh82hZnsbP9dBDUI=; b=yL3qzQW84D6Bm+
+	9TobCJsxpML9J+ZQCHWKV0fY7WuzHVCR79gP1Cctdjq1Icj3JB40TvFJ2cFIWAKYdv4yIIFtalGeW
+	TRTXMH0iWHF6DMaA0SSfAG+/LtZEU+puVU7MOqZKBUX6hTFbo2IQ1mKvI9Vom1iE1RykvzGrRC3f7
+	z1bAPY3jd4iCjqoBXGPPSaUwmQWuRq5m7iZuiCP1KKbxiKXtt0ldUyHnaUiFketRMwIjSd8OKBuRx
+	+oSqYUD19w1eIMD3OnPAcOwjhv4J9Rxr9WYbE1G0AGIn1AwYzB6GIEwMn7RGTGLTsqBBTePoxtN5z
+	tvg2Y7tU2DQg5Nw5uiGg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJuk9-0037oK-0T;
-	Thu, 13 Jul 2023 11:44:21 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1qJvZL-003G8j-07;
+	Thu, 13 Jul 2023 12:37:15 +0000
+Received: from wp530.webpack.hosteurope.de ([80.237.130.52])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJuk7-0037mu-09
+	id 1qJvZH-003G7v-2z
 	for linux-nvme@lists.infradead.org;
-	Thu, 13 Jul 2023 11:44:20 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id E91E668AA6; Thu, 13 Jul 2023 13:44:12 +0200 (CEST)
-Date: Thu, 13 Jul 2023 13:44:12 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Christoph Hellwig <hch@lst.de>,
-	Linux regressions mailing list <regressions@lists.linux.dev>,
-	Pankaj Raghav <p.raghav@samsung.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>, Jens Axboe <axboe@kernel.dk>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	"Clemens S." <cspringsguth@gmail.com>,
-	Martin Belanger <martin.belanger@dell.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	John Meneghini <jmeneghi@redhat.com>,
-	Hannes Reinecke <hare@suse.de>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux NVMe <linux-nvme@lists.infradead.org>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Javier Gonzalez <javier.gonz@samsung.com>,
-	=?utf-8?B?67CV7KeE7ZmY?= <jh.i.park@samsung.com>
-Subject: Re: Fwd: Need NVME QUIRK BOGUS for SAMSUNG MZ1WV480HCGL-000MV
- (Samsung SM-953 Datacenter SSD)
-Message-ID: <20230713114412.GA23427@lst.de>
-References: <CGME20230710155902eucas1p2b464a29adc35e983c73b00d18ab5344c@eucas1p2.samsung.com> <ZKwqvTMPVmhnkZjS@kbusch-mbp.dhcp.thefacebook.com> <f0fdf86e-4293-8e07-835d-b5a866252068@samsung.com> <462e0e1e-98ea-0f3c-4aaa-8d44f0a8e664@leemhuis.info> <20230711120609.GB27050@lst.de> <CAHk-=whXh9sgLo24RO02JjfD0m3HE5NADRPWoEd+dW6bruFhVA@mail.gmail.com> <20230712164546.GA31434@lst.de> <CAHk-=whA9rmvNfo=8iKmtimayiA2Aus4XvPwcDrA53G2rfGP0w@mail.gmail.com> <20230712165721.GA31965@lst.de> <CAHk-=wgzetYEqj7phbJBE_ZshFq0=k3zWouJ8XyFyERgDX5sZg@mail.gmail.com>
+	Thu, 13 Jul 2023 12:37:13 +0000
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1qJvZ6-0006Dr-U9; Thu, 13 Jul 2023 14:37:00 +0200
+Message-ID: <425eba3b-0138-81d1-f615-97fc24b2d51d@leemhuis.info>
+Date: Thu, 13 Jul 2023 14:37:00 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wgzetYEqj7phbJBE_ZshFq0=k3zWouJ8XyFyERgDX5sZg@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: Performance Regression due to ASPM disable patch
+Content-Language: en-US, de-DE
+To: Anuj Gupta <anuj20.g@samsung.com>, hkallweit1@gmail.com,
+ davem@davemloft.net
+Cc: holger@applied-asynchrony.com, kai.heng.feng@canonical.com,
+ simon.horman@corigine.com, nic_swsd@realtek.com, netdev@vger.kernel.org,
+ linux-nvme@lists.infradead.org,
+ Linux kernel regressions list <regressions@lists.linux.dev>
+References: <CGME20230712155834epcas5p1140d90c8a0a181930956622728c4dd89@epcas5p1.samsung.com>
+ <20230712155052.GA946@green245>
+From: "Linux regression tracking #adding (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+In-Reply-To: <20230712155052.GA946@green245>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1689251831;60fd35d3;
+X-HE-SMSGID: 1qJvZ6-0006Dr-U9
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230713_044419_232867_5FB2747F 
-X-CRM114-Status: GOOD (  11.04  )
+X-CRM114-CacheID: sfid-20230713_053712_112202_4B05E0BA 
+X-CRM114-Status: GOOD (  15.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,18 +66,55 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jul 12, 2023 at 10:34:05AM -0700, Linus Torvalds wrote:
-> That's a *FACT*.
+[CCing the regression list, as it should be in the loop for regressions:
+https://docs.kernel.org/admin-guide/reporting-regressions.html]
+
+[TLDR: I'm adding this report to the list of tracked Linux kernel
+regressions; the text you find below is based on a few templates
+paragraphs you might have encountered already in similar form.
+See link in footer if these mails annoy you.]
+
+On 12.07.23 17:55, Anuj Gupta wrote:
 > 
-> You then say "Some devices have UUID's, so all devices must have UUIDs".
+> I see a performance regression for read/write workloads on our NVMe over
+> fabrics using TCP as transport setup.
+> IOPS drop by 23% for 4k-randread [1] and by 18% for 4k-randwrite [2].
+> 
+> I bisected and found that the commit
+> e1ed3e4d91112027b90c7ee61479141b3f948e6a ("r8169: disable ASPM during
+> NAPI poll") is the trigger.
+> When I revert this commit, the performance drop goes away.
+> 
+> The target machine uses a realtek ethernet controller
+> [...]
 
-Please stop putting words in my mouth.  Maybe instead of shouting it
-would help to actually read the text?
+Thanks for the report. To be sure the issue doesn't fall through the
+cracks unnoticed, I'm adding it to regzbot, the Linux kernel regression
+tracking bot:
 
-You said we've never seen devices with reliably IDs, which simply isn't
-true.  And that doesn't mean I'm saying all devices have reliably IDs,
-which somehow you're not trying to make me say.
+#regzbot ^introduced e1ed3e4d91112027b90c7ee61479141b3f94
+#regzbot title net: r8169: performance regression for read/write
+workloads on our NVMe over fabrics
+#regzbot ignore-activity
+
+This isn't a regression? This issue or a fix for it are already
+discussed somewhere else? It was fixed already? You want to clarify when
+the regression started to happen? Or point out I got the title or
+something else totally wrong? Then just reply and tell me -- ideally
+while also telling regzbot about it, as explained by the page listed in
+the footer of this mail.
+
+Developers: When fixing the issue, remember to add 'Link:' tags pointing
+to the report (the parent of this mail). See page linked in footer for
+details.
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+That page also explains what to do if mails like this annoy you.
 
