@@ -4,73 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 39A80EB64DD
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jul 2023 07:48:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6D6AEC0015E
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jul 2023 08:41:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=T/j6txsL1LAa6TqQUQIjj+sTK0ZG/oC531uOufNfwD4=; b=dyuZrT2Yz8Z0PlkPw6HinRWLR1
-	kD2tVJKEqiWFx6l5MvBMt++8gJ6Gw2Kd0JSRLMQfpgNwfsNL8/DACtF7L/6GLIEVRNQz21QEzj0JD
-	yqGU98AMV1tC7Juk2dh8OYoxXUtBgxxwwQBQZMXGHa3pQbiFOWLmN3heXgnBZoiC2gL8BcLla5mbF
-	4hWbfQffoCRd1xsLjTgTWzl22Y0X8efIeuXRIKa8ulMxp0/GYvgdiFRGbO9fRRcO7en7mA0r3j4Ta
-	9L++9X87eAjfFHDWmpjSX0kYr5AXrtu5/nQ/5RUBMItYU70ooEuT//GFVf9dDVR5o9CgO/ICuEmCZ
-	1SpEByDw==;
+	bh=1KgJ9b4cdiZIcEXMAwDsegI3Npa1Ik9C7lO9ptGTJ5I=; b=BgFvPDYkGdFeV/JBENtvFx5ug6
+	Qe8S+Cy9FHEhNgqdsbL3hG9nU0py4MyedqhYPy/6uu3+Q12o7AGQ3JJ9xLsSbb6BN7RRsVdYIb3ob
+	M44ynjdiU45xfFJl2Of/k7r2taZTuXckw21vbn6mAOQYPvDfihminJmVTKzWDy9F1famZ7WBkoRog
+	VeIoU3jMsEqUnWx5e+8bxCjFnUkFtBVbY2K++2a4Q64UCeeD6rk9vnGMnmDJWrMud+kc6CgaptYIU
+	1idGq/5AXi3ERQh8CWCyQbgVsHOrWG02jIXIWbrpPk6YI4NUsUUhhAI+gsyBKXjOEjlLU6O6dpfHv
+	+q00Ft7g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJr3k-002HHq-1g;
-	Thu, 13 Jul 2023 07:48:20 +0000
-Received: from mail-lf1-f42.google.com ([209.85.167.42])
+	id 1qJrtT-002Suv-0x;
+	Thu, 13 Jul 2023 08:41:47 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJr3h-002HH6-1m
+	id 1qJrtP-002Stb-0R
 	for linux-nvme@lists.infradead.org;
-	Thu, 13 Jul 2023 07:48:19 +0000
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-4fb7bbbfa95so129984e87.0
-        for <linux-nvme@lists.infradead.org>; Thu, 13 Jul 2023 00:48:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689234494; x=1689839294;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=T/j6txsL1LAa6TqQUQIjj+sTK0ZG/oC531uOufNfwD4=;
-        b=AVgAJOyGyUAad3ZCcOndZ5tdmF6gMnd7FSvofIuMk8oE6T+KfW9rFn7BmU+8Fq/suD
-         av7DI95hgsUyIVX0sIpeb+mvK+2TtkoOr0sLbO+2qcn5wa8+znsxenkUrjSR9AZSJtZF
-         FPlvroyqApS3guuXrFChiHsdnMicxZyb+70bVYOJL5gMuHAUSOXnYQjLArQlZpOz74ld
-         3pmRiF8oACnzy6cHDFA/AYEddxo5JZpt05f1Dbo2hFnl98Cgfn4mn5iluegOhy5hoqoA
-         PwwBRybuG9FUzyuCfFPvKVHGPzHapNndLCG/HkQPBSNxWYQ7I4q+f4aLmKDT89gyxkH9
-         VRnw==
-X-Gm-Message-State: ABy/qLZD3MG4UkAj8SGWjxccFqJbD3c19ld4/IMHOCfdmQXRYf23T77+
-	KyeS0Mc6JGiG3lMYnYF4hjk=
-X-Google-Smtp-Source: APBJJlGH1XfNfN6Hk9YPZpTfnIc4LqK5nsPIdkMxQMMseZTRHRkODL5rjNptHgOb5BBKC0kZLzxyZQ==
-X-Received: by 2002:a05:651c:1ce:b0:2b6:a662:b879 with SMTP id d14-20020a05651c01ce00b002b6a662b879mr649292ljn.3.1689234494025;
-        Thu, 13 Jul 2023 00:48:14 -0700 (PDT)
-Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id m17-20020a05600c281100b003fbca05faa9sm7019740wmb.24.2023.07.13.00.48.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Jul 2023 00:48:13 -0700 (PDT)
-Message-ID: <152f0684-4bcd-699f-e0e3-40189be4b80a@grimberg.me>
-Date: Thu, 13 Jul 2023 10:48:12 +0300
+	Thu, 13 Jul 2023 08:41:44 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1A79E2218F;
+	Thu, 13 Jul 2023 08:41:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1689237700; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1KgJ9b4cdiZIcEXMAwDsegI3Npa1Ik9C7lO9ptGTJ5I=;
+	b=H6/jDACyxdlBd8hsPY4LydrTExUUQmFg7zRPTH79GCqgTqg6+RmFH7WkPcSeo382hchjUl
+	CiElvvDRsVoSb6nCtZbPOEWTVxNJloAx6j2gJaZJIBx9zcdItz+9cSKEAguG3AKzQTgFw4
+	SgyOGtr1OnTIa9r+ozHm5GFKcmhW5lU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1689237700;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1KgJ9b4cdiZIcEXMAwDsegI3Npa1Ik9C7lO9ptGTJ5I=;
+	b=OGz/jjPNyVaIDuxQ9Oh254HyyphEpByzhRttLXj/+/Or2a9uoEosAr/G9ao0GVEJ9HD+CD
+	OPbfsqB7ZHu2OSCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0C6CA13489;
+	Thu, 13 Jul 2023 08:41:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 1COjAsS4r2SHNQAAMHmgww
+	(envelope-from <hare@suse.de>); Thu, 13 Jul 2023 08:41:40 +0000
+Message-ID: <142962ad-55fc-d193-de7a-949f290d3fdf@suse.de>
+Date: Thu, 13 Jul 2023 10:41:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
+ Thunderbird/102.12.0
 Subject: Re: blktests failures with v6.4
-Content-Language: en-US
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Sagi Grimberg <sagi@grimberg.me>,
+ Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
  "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
  "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>
 References: <lkmloyrqpebispffur5udxdiubmevvodtsvnap3jz7tv5ihstr@jg7ejye3bein>
  <165eceaa-55d4-f9c7-7e02-18115e6df6fe@grimberg.me>
  <v3n4k4gk5uhbuh6ijl2pwaysvxzidzhrmjejourfnmobebwbzi@hejuqcryp4nc>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <v3n4k4gk5uhbuh6ijl2pwaysvxzidzhrmjejourfnmobebwbzi@hejuqcryp4nc>
+ <152f0684-4bcd-699f-e0e3-40189be4b80a@grimberg.me>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <152f0684-4bcd-699f-e0e3-40189be4b80a@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230713_004817_592344_B71D0D99 
-X-CRM114-Status: GOOD (  21.09  )
+X-CRM114-CacheID: sfid-20230713_014143_331161_5CAEE2DF 
+X-CRM114-Status: GOOD (  30.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,84 +98,163 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->>> #3: nvme/003 (fabrics transport)
->>>
->>>      When nvme test group is run with trtype=rdma or tcp, the test case fails
->>>      due to lockdep WARNING "possible circular locking dependency detected".
->>>      Reported in May/2023. Bart suggested a fix for trytpe=rdma [4] but it
->>>      needs more discussion.
->>>
->>>      [4] https://lore.kernel.org/linux-nvme/20230511150321.103172-1-bvanassche@acm.org/
->>
->> This patch is unfortunately incorrect and buggy.
->>
->> This will likely make the issue go away, but adds another
->> old issue where a client can DDOS a target by bombarding it
->> with connect/disconnect. When releases are async and we don't
->> have any back-pressure, it is likely to happen.
->> --
->> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
->> index 4597bca43a6d..8b4f4aa48206 100644
->> --- a/drivers/nvme/target/rdma.c
->> +++ b/drivers/nvme/target/rdma.c
->> @@ -1582,11 +1582,6 @@ static int nvmet_rdma_queue_connect(struct rdma_cm_id
->> *cm_id,
->>                  goto put_device;
->>          }
->>
->> -       if (queue->host_qid == 0) {
->> -               /* Let inflight controller teardown complete */
->> -               flush_workqueue(nvmet_wq);
->> -       }
->> -
->>          ret = nvmet_rdma_cm_accept(cm_id, queue, &event->param.conn);
->>          if (ret) {
->>                  /*
->> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
->> index 868aa4de2e4c..c8cfa19e11c7 100644
->> --- a/drivers/nvme/target/tcp.c
->> +++ b/drivers/nvme/target/tcp.c
->> @@ -1844,11 +1844,6 @@ static u16 nvmet_tcp_install_queue(struct nvmet_sq
->> *sq)
->>          struct nvmet_tcp_queue *queue =
->>                  container_of(sq, struct nvmet_tcp_queue, nvme_sq);
->>
->> -       if (sq->qid == 0) {
->> -               /* Let inflight controller teardown complete */
->> -               flush_workqueue(nvmet_wq);
->> -       }
->> -
->>          queue->nr_cmds = sq->size * 2;
->>          if (nvmet_tcp_alloc_cmds(queue))
->>                  return NVME_SC_INTERNAL;
->> --
+On 7/13/23 09:48, Sagi Grimberg wrote:
 > 
-> Thanks Sagi, I tried the patch above and confirmed the lockdep WARN disappears
-> for both rdma and tcp. It indicates that the flush_workqueue(nvmet_wq)
-> introduced the circular lock dependency.
-
-Thanks for confirming. This was expected.
-
-> I also found the two commits below
-> record why the flush_workqueue(nvmet_wq) was introduced.
+>>>> #3: nvme/003 (fabrics transport)
+>>>>
+>>>>      When nvme test group is run with trtype=rdma or tcp, the test 
+>>>> case fails
+>>>>      due to lockdep WARNING "possible circular locking dependency 
+>>>> detected".
+>>>>      Reported in May/2023. Bart suggested a fix for trytpe=rdma [4] 
+>>>> but it
+>>>>      needs more discussion.
+>>>>
+>>>>      [4] 
+>>>> https://lore.kernel.org/linux-nvme/20230511150321.103172-1-bvanassche@acm.org/
+>>>
+>>> This patch is unfortunately incorrect and buggy.
+>>>
+>>> This will likely make the issue go away, but adds another
+>>> old issue where a client can DDOS a target by bombarding it
+>>> with connect/disconnect. When releases are async and we don't
+>>> have any back-pressure, it is likely to happen.
+>>> -- 
+>>> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+>>> index 4597bca43a6d..8b4f4aa48206 100644
+>>> --- a/drivers/nvme/target/rdma.c
+>>> +++ b/drivers/nvme/target/rdma.c
+>>> @@ -1582,11 +1582,6 @@ static int nvmet_rdma_queue_connect(struct 
+>>> rdma_cm_id
+>>> *cm_id,
+>>>                  goto put_device;
+>>>          }
+>>>
+>>> -       if (queue->host_qid == 0) {
+>>> -               /* Let inflight controller teardown complete */
+>>> -               flush_workqueue(nvmet_wq);
+>>> -       }
+>>> -
+>>>          ret = nvmet_rdma_cm_accept(cm_id, queue, &event->param.conn);
+>>>          if (ret) {
+>>>                  /*
+>>> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+>>> index 868aa4de2e4c..c8cfa19e11c7 100644
+>>> --- a/drivers/nvme/target/tcp.c
+>>> +++ b/drivers/nvme/target/tcp.c
+>>> @@ -1844,11 +1844,6 @@ static u16 nvmet_tcp_install_queue(struct 
+>>> nvmet_sq
+>>> *sq)
+>>>          struct nvmet_tcp_queue *queue =
+>>>                  container_of(sq, struct nvmet_tcp_queue, nvme_sq);
+>>>
+>>> -       if (sq->qid == 0) {
+>>> -               /* Let inflight controller teardown complete */
+>>> -               flush_workqueue(nvmet_wq);
+>>> -       }
+>>> -
+>>>          queue->nr_cmds = sq->size * 2;
+>>>          if (nvmet_tcp_alloc_cmds(queue))
+>>>                  return NVME_SC_INTERNAL;
+>>> -- 
+>>
+>> Thanks Sagi, I tried the patch above and confirmed the lockdep WARN 
+>> disappears
+>> for both rdma and tcp. It indicates that the flush_workqueue(nvmet_wq)
+>> introduced the circular lock dependency.
 > 
->   777dc82395de ("nvmet-rdma: occasionally flush ongoing controller teardown")
->   8832cf922151 ("nvmet: use a private workqueue instead of the system workqueue")
+> Thanks for confirming. This was expected.
+> 
+>> I also found the two commits below
+>> record why the flush_workqueue(nvmet_wq) was introduced.
+>>
+>>   777dc82395de ("nvmet-rdma: occasionally flush ongoing controller 
+>> teardown")
+>>   8832cf922151 ("nvmet: use a private workqueue instead of the system 
+>> workqueue")
+> 
+> The second patch is unrelated, before we used a global workqueue and
+> fundamentally had the same issue.
+> 
+>> The left question is how to avoid both the connect/disconnect 
+>> bombarding DDOS
+>> and the circular lock possibility related to the nvmet_wq completion.
+> 
+> I don't see any way to synchronize connects with releases without moving 
+> connect sequences to a dedicated thread. Which in my mind is undesirable.
+> 
+> The only solution I can think of is to fail a host connect expecting the
+> host to reconnect and throttle this way, but that would lead to spurious
+> connect failures (at least from the host PoV).
+> 
+> Maybe we can add a NOT_READY connect error code in nvme for that...
+> 
+You know, I have been seeing the very same lockdep warning during TLS 
+testing; wasn't sure, though, if it's a generic issue or something I've 
+introduced with the TLS logic.
 
-The second patch is unrelated, before we used a global workqueue and
-fundamentally had the same issue.
+I guess we can solve this by adding another NVMET_TCP_Q_INIT state 
+before NVMET_TCP_Q_CONNECTING; then we can flip the state from INIT to 
+CONNECTING in nvmet_tcp_alloc_queue():
 
-> The left question is how to avoid both the connect/disconnect bombarding DDOS
-> and the circular lock possibility related to the nvmet_wq completion.
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index ed98df72c76b..e6f699a44128 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -121,6 +121,7 @@ struct nvmet_tcp_cmd {
+  };
 
-I don't see any way to synchronize connects with releases without moving 
-connect sequences to a dedicated thread. Which in my mind is undesirable.
+  enum nvmet_tcp_queue_state {
++       NVMET_TCP_Q_INIT,
+         NVMET_TCP_Q_CONNECTING,
+         NVMET_TCP_Q_LIVE,
+         NVMET_TCP_Q_DISCONNECTING,
+@@ -1274,7 +1275,8 @@ static int nvmet_tcp_try_recv(struct 
+nvmet_tcp_queue *queue,
+  static void nvmet_tcp_schedule_release_queue(struct nvmet_tcp_queue 
+*queue)
+  {
+         spin_lock(&queue->state_lock);
+-       if (queue->state != NVMET_TCP_Q_DISCONNECTING) {
++       if (queue->state != NVMET_TCP_Q_INIT &&
++           queue->state != NVMET_TCP_Q_DISCONNECTING) {
+                 queue->state = NVMET_TCP_Q_DISCONNECTING;
+                 queue_work(nvmet_wq, &queue->release_work);
+         }
+@@ -1625,7 +1627,7 @@ static int nvmet_tcp_alloc_queue(struct 
+nvmet_tcp_port *port,
+         queue->port = port;
+         queue->nr_cmds = 0;
+         spin_lock_init(&queue->state_lock);
+-       queue->state = NVMET_TCP_Q_CONNECTING;
++       queue->state = NVMET_TCP_Q_INIT;
+         INIT_LIST_HEAD(&queue->free_list);
+         init_llist_head(&queue->resp_list);
+         INIT_LIST_HEAD(&queue->resp_send_list);
+@@ -1832,10 +1834,12 @@ static u16 nvmet_tcp_install_queue(struct 
+nvmet_sq *sq)
+         struct nvmet_tcp_queue *queue =
+                 container_of(sq, struct nvmet_tcp_queue, nvme_sq);
 
-The only solution I can think of is to fail a host connect expecting the
-host to reconnect and throttle this way, but that would lead to spurious
-connect failures (at least from the host PoV).
+-       if (sq->qid == 0) {
+-               /* Let inflight controller teardown complete */
+-               flush_workqueue(nvmet_wq);
++       spin_lock(&queue->state_lock);
++       if (queue->state != NVMET_TCP_Q_INIT) {
++               spin_unlock(&queue->state_lock);
++               return NVME_SC_NOT_READY;
+         }
++       spin_unlock(&queue->state_lock);
 
-Maybe we can add a NOT_READY connect error code in nvme for that...
+         queue->nr_cmds = sq->size * 2;
+         if (nvmet_tcp_alloc_cmds(queue))
 
+With that we'll return 'not ready' whenever we hit this condition, but 
+that should be fine as we would've crashed anyway with the old code.
+
+Hmm?
+
+Cheers,
+
+Hannes
 
