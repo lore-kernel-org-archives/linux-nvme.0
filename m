@@ -4,57 +4,39 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F407BEB64DD
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jul 2023 12:37:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4619FEB64DD
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jul 2023 13:30:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:MIME-Version:Date:Message-ID:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=SvWDdjhd0LKTApanOcXTpRAz1dbUh82hZnsbP9dBDUI=; b=yL3qzQW84D6Bm+
-	9TobCJsxpML9J+ZQCHWKV0fY7WuzHVCR79gP1Cctdjq1Icj3JB40TvFJ2cFIWAKYdv4yIIFtalGeW
-	TRTXMH0iWHF6DMaA0SSfAG+/LtZEU+puVU7MOqZKBUX6hTFbo2IQ1mKvI9Vom1iE1RykvzGrRC3f7
-	z1bAPY3jd4iCjqoBXGPPSaUwmQWuRq5m7iZuiCP1KKbxiKXtt0ldUyHnaUiFketRMwIjSd8OKBuRx
-	+oSqYUD19w1eIMD3OnPAcOwjhv4J9Rxr9WYbE1G0AGIn1AwYzB6GIEwMn7RGTGLTsqBBTePoxtN5z
-	tvg2Y7tU2DQg5Nw5uiGg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=1YyF6MhYdMbqTvsaaognXuFhGeRHnQ1UfdYoP22pnYw=; b=KJqC6pyfA06CuwoSZwrTFfyK9o
+	mKxz6WIbUyXtLwHij2Fp3caDm6W1H4eI3XuTo4FGE9oVc2/myuFFQYoXNxafg5pQDu1yO6ytheaae
+	CwDH1raID7kklLDqcOrIse0PGFw+AoPH/Fau4TdPoX4auZPBfz+9egehEPBGqluZwX3HjvDv4I9OW
+	GosW13H4Y2DC4H7+AwSVUKBKUbhWCN4KsRjTYjgUG8dBAPatzd7uEm6BVBfXQMIFjmKmpljbVe9F9
+	L0ii/zn7qch09Y+qIlU6HKnqLf4tbJ9bhNTQ1aIXk6u/d8myoxFNLLncO/er9AV4cMXICj9ee588j
+	GyTLzP7g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJvZL-003G8j-07;
-	Thu, 13 Jul 2023 12:37:15 +0000
-Received: from wp530.webpack.hosteurope.de ([80.237.130.52])
-	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJvZH-003G7v-2z
-	for linux-nvme@lists.infradead.org;
-	Thu, 13 Jul 2023 12:37:13 +0000
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1qJvZ6-0006Dr-U9; Thu, 13 Jul 2023 14:37:00 +0200
-Message-ID: <425eba3b-0138-81d1-f615-97fc24b2d51d@leemhuis.info>
-Date: Thu, 13 Jul 2023 14:37:00 +0200
+	id 1qJwP9-003Q5P-0Y;
+	Thu, 13 Jul 2023 13:30:47 +0000
+Received: from 2a02-8389-2341-5b80-39d3-4735-9a3c-88d8.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:39d3:4735:9a3c:88d8] helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1qJwP6-003Q4Z-2j;
+	Thu, 13 Jul 2023 13:30:45 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: kbusch@kernel.org,
+	sagi@grimberg.me,
+	axboe@kernel.dk
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH] nvme: don't reject probe due to duplicate IDs for single-ported PCIe devices
+Date: Thu, 13 Jul 2023 15:30:42 +0200
+Message-Id: <20230713133042.3981-1-hch@lst.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: Performance Regression due to ASPM disable patch
-Content-Language: en-US, de-DE
-To: Anuj Gupta <anuj20.g@samsung.com>, hkallweit1@gmail.com,
- davem@davemloft.net
-Cc: holger@applied-asynchrony.com, kai.heng.feng@canonical.com,
- simon.horman@corigine.com, nic_swsd@realtek.com, netdev@vger.kernel.org,
- linux-nvme@lists.infradead.org,
- Linux kernel regressions list <regressions@lists.linux.dev>
-References: <CGME20230712155834epcas5p1140d90c8a0a181930956622728c4dd89@epcas5p1.samsung.com>
- <20230712155052.GA946@green245>
-From: "Linux regression tracking #adding (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-In-Reply-To: <20230712155052.GA946@green245>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1689251831;60fd35d3;
-X-HE-SMSGID: 1qJvZ6-0006Dr-U9
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230713_053712_112202_4B05E0BA 
-X-CRM114-Status: GOOD (  15.06  )
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,55 +48,76 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-[CCing the regression list, as it should be in the loop for regressions:
-https://docs.kernel.org/admin-guide/reporting-regressions.html]
+While duplicate IDs are still very harmful, including the potential to easily
+see changing devices in /dev/disk/by-id, it turn out they are extremely
+common for cheap end user NVMe devices.
 
-[TLDR: I'm adding this report to the list of tracked Linux kernel
-regressions; the text you find below is based on a few templates
-paragraphs you might have encountered already in similar form.
-See link in footer if these mails annoy you.]
+Relax our check for them for so that it doesn't reject the probe on
+single-ported PCIe devices, but prints a big warning instead.  In doubt
+we'd still like to see quirk entries to disable the potential for
+changing supposed stable device identifier links, but this will at least
+allow users how have two (or more) of these devices to use them without
+having to manually add a new PCI ID entry with the quirk through sysfs or
+by patching the kernel.
 
-On 12.07.23 17:55, Anuj Gupta wrote:
-> 
-> I see a performance regression for read/write workloads on our NVMe over
-> fabrics using TCP as transport setup.
-> IOPS drop by 23% for 4k-randread [1] and by 18% for 4k-randwrite [2].
-> 
-> I bisected and found that the commit
-> e1ed3e4d91112027b90c7ee61479141b3f948e6a ("r8169: disable ASPM during
-> NAPI poll") is the trigger.
-> When I revert this commit, the performance drop goes away.
-> 
-> The target machine uses a realtek ethernet controller
-> [...]
+Co-developed-by: Sagi Grimberg <sagi@grimberg.me>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/nvme/host/core.c | 36 +++++++++++++++++++++++++++++++++---
+ 1 file changed, 33 insertions(+), 3 deletions(-)
 
-Thanks for the report. To be sure the issue doesn't fall through the
-cracks unnoticed, I'm adding it to regzbot, the Linux kernel regression
-tracking bot:
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 47d7ba2827ff29..37b6fa74666204 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3431,10 +3431,40 @@ static int nvme_init_ns_head(struct nvme_ns *ns, struct nvme_ns_info *info)
+ 
+ 	ret = nvme_global_check_duplicate_ids(ctrl->subsys, &info->ids);
+ 	if (ret) {
+-		dev_err(ctrl->device,
+-			"globally duplicate IDs for nsid %d\n", info->nsid);
++		/*
++		 * We've found two different namespaces on two different
++		 * subsystems that report the same ID.  This is pretty nasty
++		 * for anything that actually requires unique device
++		 * identification.  In the kernel we need this for multipathing,
++		 * and in user space the /dev/disk/by-id/ links rely on it.
++		 *
++		 * If the device also claims to be multi-path capable back off
++		 * here now and refuse the probe the second device as this is a
++		 * recipe for data corruption.  If not this is probably a
++		 * cheap consumer device if on the PCIe bus, so let the user
++		 * proceed and use the shiny toy, but warn that with changing
++		 * probing order (which due to our async probing could just be
++		 * device taking longer to startup) the other device could show
++		 * up at any time.
++		 */
+ 		nvme_print_device_info(ctrl);
+-		return ret;
++		if ((ns->ctrl->ops->flags & NVME_F_FABRICS) || /* !PCIe */
++		    ((ns->ctrl->subsys->cmic & NVME_CTRL_CMIC_MULTI_CTRL) &&
++		     info->is_shared)) {
++			dev_err(ctrl->device,
++				"ignoring nsid %d because of duplicate IDs\n",
++				info->nsid);
++			return ret;
++		}
++
++		dev_err(ctrl->device,
++			"clearing duplicate IDs for nsid %d\n", info->nsid);
++		dev_err(ctrl->device,
++			"use of /dev/disk/by-id/ may cause data corruption\n");
++		memset(&info->ids.nguid, 0, sizeof(info->ids.nguid));
++		memset(&info->ids.uuid, 0, sizeof(info->ids.uuid));
++		memset(&info->ids.eui64, 0, sizeof(info->ids.eui64));
++		ctrl->quirks |= NVME_QUIRK_BOGUS_NID;
+ 	}
+ 
+ 	mutex_lock(&ctrl->subsys->lock);
+-- 
+2.39.2
 
-#regzbot ^introduced e1ed3e4d91112027b90c7ee61479141b3f94
-#regzbot title net: r8169: performance regression for read/write
-workloads on our NVMe over fabrics
-#regzbot ignore-activity
-
-This isn't a regression? This issue or a fix for it are already
-discussed somewhere else? It was fixed already? You want to clarify when
-the regression started to happen? Or point out I got the title or
-something else totally wrong? Then just reply and tell me -- ideally
-while also telling regzbot about it, as explained by the page listed in
-the footer of this mail.
-
-Developers: When fixing the issue, remember to add 'Link:' tags pointing
-to the report (the parent of this mail). See page linked in footer for
-details.
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-That page also explains what to do if mails like this annoy you.
 
