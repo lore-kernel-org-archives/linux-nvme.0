@@ -4,62 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D3952C001B0
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jul 2023 15:19:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9565FC001B0
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jul 2023 15:20:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1cmxjMcfvrFVecoH9p5LC3mEGtFprhW9cvmWSFdwapk=; b=FVfDsNBkYrByX9ZzlcjhWVcDw3
-	GDBRAgWAeP848IKnVe13qsX661Pufda2RucS+Yg08Wae1gsrepd0vEZJppBhkqeevJpA+PjTd674f
-	nr8yXSAaWYcDOcZBqIvOkcgN+6PBU+B9gTeGd3tnzS/U+PFlCK9zT6KSe8Qkquc0kM3Oia+UqIxRE
-	i8kF0YWYYX7rjUH1XQjQSU0r7aKS1tVKKh4xtvedinFzV0S+29ZLAqZs5QTyeLSSPucxz+lpctcIe
-	8ppPiEKOOr5tbwIbvdrddLeHlegQzG1LsN2LfTLSWv3Y8goXOMEJxw+K6R2903D4t30KDR+UDU6uW
-	4vmeTPTA==;
+	bh=cxAGvmTNkrZ2ZWQdRG4kbTl4vahEG62V08kbGb5eTC4=; b=C1nKCKNIXF+aWG8ML+/FFOhtbe
+	y9eWjipxwtx2KrWcR9M41Uzrb1VrJyK4tZY/yZ9w8OAkp2Nu4b8w7Hp3w7kfBASSSyRyq9Kb8WPEA
+	ZJjBXXWcZkixK4GETUTRgvOUPZ/LBwTp7TUhMFgwd8WajXN1hnUnbWAoljDe97pNt7ZzLMiF1na95
+	imVnHKrJtdTFlp4f5yuyR1J70kyPyveBAovVsy0395z9DrmjdyLOUMLrD0FUXn+iHFAVjfgNLgeMm
+	JiFdYq7a+xY9NCg4TKsnxpmMLTrTxm+f6pST6b7oNzg8ZRxAm8j9EpaufbCe4zd+e+vsbnkBww7b3
+	B+pbGAyQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJy6C-003jNq-0Y;
-	Thu, 13 Jul 2023 15:19:20 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1qJy7D-003jYl-1Y;
+	Thu, 13 Jul 2023 15:20:23 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJy69-003jMU-1u
+	id 1qJy7B-003jYF-2i
 	for linux-nvme@lists.infradead.org;
-	Thu, 13 Jul 2023 15:19:18 +0000
+	Thu, 13 Jul 2023 15:20:22 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id E266961087;
-	Thu, 13 Jul 2023 15:19:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00204C433C8;
-	Thu, 13 Jul 2023 15:19:15 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 2AD2060C26;
+	Thu, 13 Jul 2023 15:20:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38F8DC433C8;
+	Thu, 13 Jul 2023 15:20:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1689261556;
-	bh=1cmxjMcfvrFVecoH9p5LC3mEGtFprhW9cvmWSFdwapk=;
+	s=k20201202; t=1689261620;
+	bh=Z3PrmpxRymkulKNXOrfpqlzVymBb/sam5aW0aKcFSU4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JHOFEY2mrsWwvkEAH36j7H99siqCFu89QsCEQoM9HOyJqirbbumaIJRjL8xEe2UX+
-	 XFYA4u3KHa3GxcbfNTbDuPPRsYyFIq1hTko/TGFWD4FfuZLnv+70YOAiN/jsN2QCIO
-	 vf7cBe94drWnS8f0h4fdtd2wdNekBYV0xBe2AlNtuPhOlc+0k2bClCC5q0jN4oDczq
-	 oHJc4VpaW/QzSsyCKHk0jZCx7FXPtuHH2LY7yjJ4mCgNuGHGbwqGGPhWOxOvudV2jX
-	 XrHr82K9gQ+9h7LizTfama4x+x0+UPRbong7U5RQNs2l/z+bwsBV5cnekSySMHG/S9
-	 6HmAM61LVPjhA==
-Date: Thu, 13 Jul 2023 09:19:13 -0600
+	b=e2VedWpGStvK4hv7ngr+XjBNroSU5utV9QtISVTSZ+3FxxczKMtsaddK3poiCUaul
+	 Xz6otSdW/9OJaPCqX/CCaIR9MONbLnHyGJjWrGAZLiew0ZffDAZhWmpDGk+8toIbBG
+	 XQTnfkYOABzYifW6PXDJrg+VWiLwyaysVjWKdERhjvwTfC/R5zd4A+BvcoNv0cuhk+
+	 54rjOypVhKhDIsNd3llMZCkQKXIO0UoS7C8y4YsE37ZXFlZ9Lh08uxMSxGpGeKBLk+
+	 /GNl1mcYaLiXHvAZroRRE14HcMe711DNbZDkklXmJLYFsb2dIyZw9BKAXf0lf1YlKa
+	 E9ruB30/H0uCA==
+Date: Thu, 13 Jul 2023 09:20:18 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
-	Guangwu Zhang <guazhang@redhat.com>
-Subject: Re: [PATCH] nvme-pci: fix DMA direction of unmapping integrity data
-Message-ID: <ZLAV8acB4fa1uqMw@kbusch-mbp.dhcp.thefacebook.com>
-References: <20230713092620.2076742-1-ming.lei@redhat.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Kanchan Joshi <joshi.k@samsung.com>, Christoph Hellwig <hch@lst.de>,
+	sagi@grimberg.me, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvme: don't reject probe due to duplicate IDs for
+ single-ported PCIe devices
+Message-ID: <ZLAWMhEoQeYf19jz@kbusch-mbp.dhcp.thefacebook.com>
+References: <CGME20230713133859epcas5p2b0de1a117d69f54f2d1dcf027f73afef@epcas5p2.samsung.com>
+ <20230713133042.3981-1-hch@lst.de>
+ <20230713140156.GA2143@green245>
+ <ZLAQPKOApKCg1LDu@kbusch-mbp.dhcp.thefacebook.com>
+ <aa5270de-3286-c3f3-75fe-f1b5ba1dfde4@kernel.dk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230713092620.2076742-1-ming.lei@redhat.com>
+In-Reply-To: <aa5270de-3286-c3f3-75fe-f1b5ba1dfde4@kernel.dk>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230713_081917_669399_7A3FB4B7 
-X-CRM114-Status: UNSURE (   7.17  )
+X-CRM114-CacheID: sfid-20230713_082021_923081_50FFB5A8 
+X-CRM114-Status: UNSURE (   9.26  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -75,5 +80,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Applied, thanks!
+On Thu, Jul 13, 2023 at 09:01:18AM -0600, Jens Axboe wrote:
+> You probably want:
+> 
+> Fixes: 2079f41ec6ff ("nvme: check that EUI/GUID/UUID are globally unique")
+> Cc: stable@vger.kernel.org
+> 
+> and that should do the trick.
+
+Done, pushed to nvme-6.5. I'll send a new pull request before
+end-of-day.
 
