@@ -4,81 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8AC3C001DE
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jul 2023 20:31:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6DC24C0015E
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jul 2023 20:36:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=eLcqHPinnwkmlRMkJbo6RrqEQRdQP4WvNtNACwBOh7Y=; b=oMtO9Y0QJbRpjfWu15G1ippyUk
-	ibf2llgglrtrj2Mbk3127UOWXZWbBVRJ2a/IbSM9qot69Nosz2CzAwIDYBvQkb87jh3p2wLtYeyYd
-	727+8DGLk30dUcTw9jtGwa508ICg0k7w70ohspKE+RhXY4G9PJyJ0tIQ2FqyqCW6cABH0yI1HcsoI
-	wa2OP8EA3y/eD1ZpOs6d4ocA7Bo9TWfXP+2glAe8UPri6LYsNzQeAfMfeE210YdZOcXSxYppeRfGY
-	zx0daZI5bDFjs9rqr7KfCDmwF8ak11g0J0RZAkFDuXiqLubnOboO7HmGFDqu4JTk1u8/Bxe2UnIQF
-	UkUH8OXQ==;
+	bh=WVgpZ8lQKOwdGxh2onlmjRJMoFI1HaOmtUktQySa1w4=; b=tSA3FvZ+NjKxR46/2B90vJKt7p
+	Eowaa1yPSyw1hy6giheoliUZJi9mAThWmhn5QOZyI57lVxe1ChPypQBIQziYzsP2MrwnCy4dPVgb1
+	8J/EIYxuW8DJvQA4FYJH+acxy/y+ByJO0tnHY0ojrIxLEKlYWmNH4WNd7SjdQlQ/YPb/05oEYA86B
+	HIxLa0WNRu3tEesJKic75i7NJW2glbbN7lHWT7s3qcmUdRfPQpW4fSoSO5QU+IdZ+LeC0JdNsCMKM
+	1H1CVbO6myIeYaIdcBOWztBvx8gyrL5zFtuN33X9lltCBZi6UF/IVWxsbIeOgCJZv2ElDlLPbQWZP
+	oHasrdMA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qK2ye-004Jaj-0v;
-	Thu, 13 Jul 2023 20:31:52 +0000
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
+	id 1qK32a-004JtY-1J;
+	Thu, 13 Jul 2023 20:35:56 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qK2yZ-004JZk-3A
+	id 1qK32X-004Jss-0V
 	for linux-nvme@lists.infradead.org;
-	Thu, 13 Jul 2023 20:31:50 +0000
-Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-6748a616e17so229637b3a.1
-        for <linux-nvme@lists.infradead.org>; Thu, 13 Jul 2023 13:31:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1689280304; x=1689885104;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eLcqHPinnwkmlRMkJbo6RrqEQRdQP4WvNtNACwBOh7Y=;
-        b=TvlwoC6AxCvpmLv0lj34lOCsIrifRV2b2H46l+sbQkWvvNL2C4M/7/YZNZOKvh4pGM
-         0PvUo/8uGa49eta/iJFNlGqepf16zQhDHaZZ8BsAw5Y+ITmIaCphnBlK4ZOtfe7XUkt3
-         VbbMJ05hlRkFWE2imV+2eN6boVpAcam59NgCjjCaWxG1Nod2fv3K10zroW2JoloGUBMF
-         yc1glxDxbAVePnUwezSmDdnnLiFzodTOEl176GXdB39gOdFSfvO2Ng5k2aVAZa62wPUY
-         Yc3yqLiCfLuDYpn1GdUuNmf1hb9G7+XeBCkCVvMxWsmDGY2Don0ixPaewVO6xiyuXXAf
-         ZZ7A==
+	Thu, 13 Jul 2023 20:35:54 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1689280547;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WVgpZ8lQKOwdGxh2onlmjRJMoFI1HaOmtUktQySa1w4=;
+	b=brAghUeEi5zm7m+NPYv9vZQ0dwGQRnDouoQDfN1E1wZMIVXlIukP9Yd0R21SknFIXiKQ8x
+	qo+6Eq08ZpXY+06e6x8L1P1YZAmgUhlu4+6hNtsKNCQU4yBVy3HVlfhwWW5Q/2dacI/zp5
+	ldab4W6esPZp9rYpMImkaKKmz7E41Bw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-646-enLu2P8rOP-7hSZd2tV-AA-1; Thu, 13 Jul 2023 16:35:46 -0400
+X-MC-Unique: enLu2P8rOP-7hSZd2tV-AA-1
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-30e6153f0eeso736149f8f.0
+        for <linux-nvme@lists.infradead.org>; Thu, 13 Jul 2023 13:35:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689280304; x=1689885104;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eLcqHPinnwkmlRMkJbo6RrqEQRdQP4WvNtNACwBOh7Y=;
-        b=KProNmdjR9uQjLLxDhdXYe6wX7lZAL/1XPJr5IgTV8pBHBGkh+0wWqa175A6dcvVhR
-         4mIfXvGW56kPP52mOY18rU8LrJhO2HS9F4GXhddZiLBwsGrlumTIuSV8a9s507YvYm2z
-         6kL9nCe2cIpIjqrHciRtG0E9xsE6S0cbZLEejqxUhkoO+d0fxXDW8Tx2l4M5VGHyDEIq
-         pvtr851ei8zC2jpYdlh+fkJbNJuW7JYyVWV4+u8tnvdCyWKh9zacrOG/SZhran1WVik8
-         Gnr4aGuNd+D1mzIzcj1byIYckeJKndKKhzpjEwaaiM227GpU9bpsrxfT2//AWUv4g9Px
-         lsYg==
-X-Gm-Message-State: ABy/qLbsemxQPttXMheslADWzr5yWVYMZzOjGt7O4JHmHnGYLqlcghXt
-	0smzLo7jqckJnJVqLn7wmcfIXQ==
-X-Google-Smtp-Source: APBJJlFtl0C2+MJ48CigWgsBvfYmxoARvtbGGnPpfcm3NW338Cn8c9+RWdIqBO3GzmToxUCGys7uFw==
-X-Received: by 2002:a05:6a00:2daa:b0:668:834d:4bd with SMTP id fb42-20020a056a002daa00b00668834d04bdmr3736093pfb.0.1689280304216;
-        Thu, 13 Jul 2023 13:31:44 -0700 (PDT)
-Received: from [192.168.1.136] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id t16-20020a62ea10000000b0063b898b3502sm5783273pfh.153.2023.07.13.13.31.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Jul 2023 13:31:43 -0700 (PDT)
-Message-ID: <e1df21c6-1bf5-ab8c-d66c-7d55eb6df9c9@kernel.dk>
-Date: Thu, 13 Jul 2023 14:31:42 -0600
+        d=1e100.net; s=20221208; t=1689280544; x=1691872544;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WVgpZ8lQKOwdGxh2onlmjRJMoFI1HaOmtUktQySa1w4=;
+        b=JSzeiCq1NR3YdkkiEKyBt/zdBMZ4r2P8fOC37TbpwI0gRsAnO251x78qtgylQzWqA1
+         VyjjvorrPd4blRBLn/cj3RmzkkoKgJj8+CBnydfRPy3Gx/tnPBetht6oT7a52rNBXjM9
+         0DnaD6LKG2b9MlLl8dvK3vcGqU2Scuz464vbymlqiQvvSYOcVVMRVfw+6LRIYkqd1nLI
+         2rldEEe3AwX3mBwzS7tiud/XUJ2MD0JeSn0QBpApB1WY55mVBuNKWDPSg3V5qijlR22l
+         I5PdN8KbHL6WPkmqXwbiaKrKu8Bfsc1ogwmsymHLkLto1CtAQrcLIIavTl/3qqqXXXgJ
+         RWuQ==
+X-Gm-Message-State: ABy/qLYJ649Hjf9ESYL1mdj2054AdTAl1mtXrx0Zsbbp7BolDzcIZk84
+	KJ+CiOd9jnFSRUt6Ncmr46VRXuNDkNR1HvQ9icE4d579f1KUiBO8ZP26Z+JUgIoFhSLIVDDhk27
+	YgtuUxvlFLBNbt+hbn6q1SAZQfGgUdVGsj003polrGB8MjTdwmnk=
+X-Received: by 2002:adf:e60f:0:b0:314:1ad7:2ea8 with SMTP id p15-20020adfe60f000000b003141ad72ea8mr2264240wrm.54.1689280544728;
+        Thu, 13 Jul 2023 13:35:44 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlHOrNFSNqO2ibgNG8U5/2UOpb0BAv2NtxVH0GEXiTL3/xlDsfILHX94fg3ANCKRsk4V/3fsHjacWFA3C9imx4A=
+X-Received: by 2002:adf:e60f:0:b0:314:1ad7:2ea8 with SMTP id
+ p15-20020adfe60f000000b003141ad72ea8mr2264232wrm.54.1689280544417; Thu, 13
+ Jul 2023 13:35:44 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [GIT PULL] nvme fixes for Linux 6.5
-Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
-References: <ZLBdlPjrbvdex1Hq@kbusch-mbp.dhcp.thefacebook.com>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <ZLBdlPjrbvdex1Hq@kbusch-mbp.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230620133711.22840-1-dwagner@suse.de> <20230620133711.22840-5-dwagner@suse.de>
+ <594f73f2-59b0-bbcb-d7a0-6d89e2446830@gmail.com> <7kcc75btp5bo5oqjnpqlwwo37l2f4atwfemknbmvqagrqicl2i@njn4tai7e4m7>
+In-Reply-To: <7kcc75btp5bo5oqjnpqlwwo37l2f4atwfemknbmvqagrqicl2i@njn4tai7e4m7>
+From: Ewan Milne <emilne@redhat.com>
+Date: Thu, 13 Jul 2023 16:35:33 -0400
+Message-ID: <CAGtn9rmDDqXKH2XfqKXww7aOKmNG6vwuPEsy6bXmABaWvHvd7Q@mail.gmail.com>
+Subject: Re: [PATCH v2 4/5] nvme-fc: Make initial connect attempt synchronous
+To: Daniel Wagner <dwagner@suse.de>
+Cc: James Smart <jsmart2021@gmail.com>, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
+	Chaitanya Kulkarni <kch@nvidia.com>, "Shin'ichiro Kawasaki" <shinichiro@fastmail.com>, 
+	Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230713_133148_237061_D4BC20F3 
-X-CRM114-Status: GOOD (  11.38  )
+X-CRM114-CacheID: sfid-20230713_133553_283438_DAED6F01 
+X-CRM114-Status: GOOD (  30.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,37 +99,87 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/13/23 2:24 PM, Keith Busch wrote:
-> The following changes since commit 2fb48d88e77f29bf9d278f25bcfe82cf59a0e09b:
-> 
->   blk-crypto: use dynamic lock class for blk_crypto_profile::lock (2023-07-05 16:36:12 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-6.5-2023-07-13
-> 
-> for you to fetch changes up to b8f6446b6853768cb99e7c201bddce69ca60c15e:
-> 
->   nvme-pci: fix DMA direction of unmapping integrity data (2023-07-13 08:16:07 -0700)
-> 
-> ----------------------------------------------------------------
-> nvme fixes for Linux 6.5
-> 
->  - Don't require quirk to use duplicate namespace identifiers
->    (Christoph, Sagi)
->  - One more BOGUS_NID quirk (Pankaj)
->  - IO timeout and error hanlding fixes for PCI (Keith)
->  - Enhanced metadata format mask fix (Ankit)
->  - Association race condition fix for fibre channel (Michael)
->  - Correct debugfs error checks (Minjie)
->  - Use PAGE_SECTORS_SHIFT where needed (Damien)
->  - Reduce kernel logs for legacy nguid attribute (Keith)
->  - Use correct dma direction when unmapping metadata (Ming)
+The basic issue I am trying to solve with NVMe/FC is that we cannot get sys=
+tems
+to boot reliably from NVMe/FC (boot from SAN) because we don't know how lon=
+g
+the connect is going to take, and we have seen spurious failures in our tes=
+ting.
 
-Pulled, thanks.
+In general, I think the whole business of a userspace syscall() -> asynchro=
+nous
+work in the kernel is problematic because the syscall can return a good sta=
+tus
+even if the connect is never going to work due to a condition that is
+not going to
+clear.  It is difficult and cumbersome to script around this reliably.
 
--- 
-Jens Axboe
+So what I am saying is the current mechanism doesn't work completely
+right anyway.
 
+We also encounter the problem Daniel is addressing trying to get
+blktests and other
+internal tests to work, for similar reasons.
+
+-Ewan
+
+On Thu, Jul 6, 2023 at 8:07=E2=80=AFAM Daniel Wagner <dwagner@suse.de> wrot=
+e:
+>
+> Hi James,
+>
+> On Sat, Jul 01, 2023 at 05:11:11AM -0700, James Smart wrote:
+> > As much as you want to make this change to make transports "similar", I=
+ am
+> > dead set against it unless you are completing a long qualification of t=
+he
+> > change on real FC hardware and FC-NVME devices. There is probably 1.5 y=
+rs of
+> > testing of different race conditions that drove this change. You cannot
+> > declare success from a simplistic toy tool such as fcloop for validatio=
+n.
+> >
+> > The original issues exist, probably have even morphed given the time fr=
+om
+> > the original change, and this will seriously disrupt the transport and =
+any
+> > downstream releases.  So I have a very strong NACK on this change.
+> >
+> > Yes - things such as the connect failure results are difficult to retur=
+n
+> > back to nvme-cli. I have had many gripes about the nvme-cli's behavior =
+over
+> > the years, especially on negative cases due to race conditions which
+> > required retries. It still fails this miserably.  The async reconnect p=
+ath
+> > solved many of these issues for fc.
+> >
+> > For the auth failure, how do we deal with things if auth fails over tim=
+e as
+> > reconnects fail due to a credential changes ?  I would think commonalit=
+y of
+> > this behavior drives part of the choice.
+>
+> Alright, what do you think about the idea to introduce a new '--sync' opt=
+ion to
+> nvme-cli which forwards this info to the kernel that we want to wait for =
+the
+> initial connect to succeed or fail? Obviously, this needs to handle signa=
+ls too.
+>
+> From what I understood this is also what Ewan would like to have.
+>
+> Hannes thought it would make sense to use the same initial connect logic =
+in
+> tcp/rdma, because there could also be transient erros (e.g. spanning tree
+> protocol). In short making the tcp/rdma do the same thing as fc?
+>
+> So let's drop the final patch from this series for the time. Could you gi=
+ve some
+> feedback on the rest of the patches?
+>
+> Thanks,
+> Daniel
+>
 
 
