@@ -4,122 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2A807EB64DA
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Jul 2023 18:40:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A42B9EB64DA
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jul 2023 00:03:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=5udMUw8ZOI5kI4ggj/Zu4b22t6Qo1rZXdPP8gUdpj6c=; b=iBAjr9k6FZc6Wb
-	y1uJ9piskt7Bpgu6TgQFEr8nWlSMAZl02ZXKVkG7IwkabqWpoS45y8MWm77we85GDkKJPwGi5fkqW
-	B95Z/Ja8cgEPSn1d9hzSF/8h+cQf8DDlwEbrSchpmzEA1+wXmPqA8hsfHNGXuiW8z12inRAcU2/qC
-	IFaP3AOCqv5aWfH0J5BkSxr0oSw9fFDi/Lsn/q+2Yeya//KpR1DRSX2VqDfpQ94V3BiitN4Z5cqex
-	TvNXJ/UQ0/MX/Byrj0DZ+Dy365+EiNb8vXdRNPjyOMXWacPjOpLplB9ZlQwZ1OmEESkZk/tCsDdCL
-	bO14S4AgSwLmwTyxDqow==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=rkkA0LMXJ6EJO8ZBIrahw9NK6XtYuf0ofi+9E893seU=; b=ft7PSXwLdlA6E5o/sNVUJq4uKE
+	ac+DQfBKIgXvBejqi6v8dxF9MAORU4x9yT5VQ8QNpBZIA8VuD5KrGFSyc4dSF/jnQ5WIlQel+tzdY
+	6bvNBUXtforwmHWvt1XmMWHJnSg1riUfIhh0tk2bo2V9Wiqf3AmpQWRTZ8+YspeSpIdXNWvLORGrE
+	zY+/WHn20xGeTrqYGkfQ0zCwQqapDovQIzYSTA0Eq1GDQ1RWRKbtZB+ElkUdU3t4bNlNgpZBg3giF
+	I9Nz/e2bMmg9cT46Elc7Ui253U4vC5w/n/2UDomkTvR3lr0i/4iVJmwVIRg9Xrm+4EvK4KcAmDH+x
+	3aXsd5Fg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJel7-000uua-2A;
-	Wed, 12 Jul 2023 18:40:17 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1qJjo1-001XXR-1g;
+	Thu, 13 Jul 2023 00:03:37 +0000
+Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJel2-000utR-2U
+	id 1qJjnz-001XVr-2F
 	for linux-nvme@lists.infradead.org;
-	Wed, 12 Jul 2023 18:40:15 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20230712184002epoutp04ba5a88730a71372a1edc48cfa9b3b015~xMs_TJIRI2410524105epoutp04c
-	for <linux-nvme@lists.infradead.org>; Wed, 12 Jul 2023 18:40:02 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20230712184002epoutp04ba5a88730a71372a1edc48cfa9b3b015~xMs_TJIRI2410524105epoutp04c
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1689187202;
-	bh=5udMUw8ZOI5kI4ggj/Zu4b22t6Qo1rZXdPP8gUdpj6c=;
-	h=Date:From:To:Cc:Subject:References:From;
-	b=YgC8ra9YMb7bTvsPB/ufLswAqc17O3q1G7UmeHKMpM03fSG4lPjmFBlntYnwjg4sA
-	 pUX0p5xHzBgxMIUYuKQvScdjMs1/PEELE/BHczIGOSp0gtEChZh6MI/CaoRw9so3fh
-	 Z3XxKWeoro/KJV4JKxsm8DshfpKZjVKa4/3Ir6ZY=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20230712184001epcas5p2b95fc7a9dcb4b5a1595eefbfe691e5e5~xMs9QDVg71503115031epcas5p2d;
-	Wed, 12 Jul 2023 18:40:01 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.174]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4R1RPC3q6vz4x9Pt; Wed, 12 Jul
-	2023 18:39:59 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	97.3D.55522.F73FEA46; Thu, 13 Jul 2023 03:39:59 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20230712155834epcas5p1140d90c8a0a181930956622728c4dd89~xKf-6ueT60052900529epcas5p1f;
-	Wed, 12 Jul 2023 15:58:34 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20230712155834epsmtrp15ce7440e631f5d0e1940f1bf9ab3e8ce~xKf-5-wpn1965519655epsmtrp1Y;
-	Wed, 12 Jul 2023 15:58:34 +0000 (GMT)
-X-AuditID: b6c32a49-67ffa7000000d8e2-30-64aef37fed8d
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	E9.C0.30535.AADCEA46; Thu, 13 Jul 2023 00:58:34 +0900 (KST)
-Received: from green245 (unknown [107.99.41.245]) by epsmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20230712155833epsmtip10a5ae24d57bfc6461e2271881f64a8bd~xKf_l_nGm2267922679epsmtip1e;
-	Wed, 12 Jul 2023 15:58:33 +0000 (GMT)
-Date: Wed, 12 Jul 2023 21:25:21 +0530
-From: Anuj Gupta <anuj20.g@samsung.com>
-To: hkallweit1@gmail.com, davem@davemloft.net
-Cc: holger@applied-asynchrony.com, kai.heng.feng@canonical.com,
-	simon.horman@corigine.com, nic_swsd@realtek.com, netdev@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: Performance Regression due to ASPM disable patch
-Message-ID: <20230712155052.GA946@green245>
+	Thu, 13 Jul 2023 00:03:37 +0000
+Received: by mail-yb1-xb36.google.com with SMTP id 3f1490d57ef6-c387552291cso7488276.0
+        for <linux-nvme@lists.infradead.org>; Wed, 12 Jul 2023 17:03:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689206610; x=1689811410;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rkkA0LMXJ6EJO8ZBIrahw9NK6XtYuf0ofi+9E893seU=;
+        b=B4bVQ0sWquLoM0r6xOPwFQ8N6TQnuKE3itkRYhssSKUTCfWniZDokY97TmM4vK4l0k
+         7FpToXZGtZD1L8yZVObxO0vaQBOBT5lMcFLdA9tLsrIhr/yzzoYPIlxpOjpvW0hpo73G
+         CvWObux//kErneUPfSjCCfOYNrqtV9eK4uFtAyYeKL5rRPITQJ3QWbk3V56qhVR5j93d
+         RWU0RjMnah4yf3k1Kc6RIb2XKmEnpo8I5SNjSePmVcQIM3PFf2zwxlw0JxiByDBzPfrK
+         7ThMZoB3hRRTSrAO2vdKu+J7B7KfZKVdJotveK6uiWhRavSGowH8kSV0xHHeZfaxCABM
+         /L6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689206610; x=1689811410;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rkkA0LMXJ6EJO8ZBIrahw9NK6XtYuf0ofi+9E893seU=;
+        b=J4rt1Oe2cjFcEYQvfLSoMDR3Kr7x0sQSGhpx4f8Ch0rAPMpK5c6kpXyU1iSRo4O1ia
+         cSM5dBWjCUSPYVCT6CbFT7gESqzAgdu2M6EXxVDV1jVQZMBe1VwzDG9OakecTljvYi/Z
+         Sze7/Sboas590Voge+HaDeuLwakPSbAOaC7XQrLgmoyra6mtWNftQi2zoQFilQUp5eI0
+         xGuKYtzz+irX8gg3waK/u9AJJL6HdEYD3TDuzUIRvVu0p5sKkGuQRBojWDZl4bM5AbId
+         RrTMeiR6CQts1soFUZDTarzUdOWY2agEHSs6OMfGzfngA2AYwUp7AGXs29wBEijsxJ41
+         a95A==
+X-Gm-Message-State: ABy/qLZDBYY1MnOjCOG4D9w+kkKiiVK1h/JVX0SA0JrJcVoxGEdzg6ww
+	XuD563j3XjRK0sbyC2IqH/sfijKQzDytNHGhhuA=
+X-Google-Smtp-Source: APBJJlGADVIdji1KcjMzFLea4D7Ai1TaoUOxO12SLFR1+VzgNBMYdqYw4++7zvjr0JM+V/BO9kUqgi+1qjZbdHQ1cPI=
+X-Received: by 2002:a81:4c05:0:b0:569:322b:d067 with SMTP id
+ z5-20020a814c05000000b00569322bd067mr104522ywa.4.1689206610234; Wed, 12 Jul
+ 2023 17:03:30 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprHJsWRmVeSWpSXmKPExsWy7bCmlm7953UpBn27ZCzmnG9hsVj0fgar
-	xbeD31gt/nUvY7OYv+wpu8WxBWIWX3pnsVpcv23jwOHx++R5do9ZDb1sHotWLWLy2LLyJpPH
-	zll32T02L6n3ePx2M7vH501yARxR2TYZqYkpqUUKqXnJ+SmZeem2St7B8c7xpmYGhrqGlhbm
-	Sgp5ibmptkouPgG6bpk5QHcpKZQl5pQChQISi4uV9O1sivJLS1IVMvKLS2yVUgtScgpMCvSK
-	E3OLS/PS9fJSS6wMDQyMTIEKE7Izlm+6yVrwjKfiePsbxgbG31xdjJwcEgImEpOev2PsYuTi
-	EBLYzShx+9FZdgjnE6PElTW7WUGqhAS+MUr0zWSH6Xj4ei0bRHwvo8TDCxIQDc+Aar5uZwRJ
-	sAioShyeuxGsiE1AXeLI81awuIiArsT6DS1sIA3MAqsZJdbeng62QVjAUmLJvXNgG3gFtCXe
-	rN8CZQtKnJz5hAXEFhVQljiw7TgTSLOEQCOHxIsri4AmcQA5LhJvTuRDXCcs8er4FqhLpSRe
-	9rdB2ekSPy4/ZYKwCySaj+1jhLDtJVpP9TOD2MwCGRLbbp2CqpGVmHpqHRNEnE+i9/cTqDiv
-	xI55MLaSRPvKOVC2hMTecw1MEOd4SHRsFYQEUKxEw+srzBMY5WYh+WYWkm0Qto7Egt2f2GYB
-	dTMLSEss/8cBYWpKrN+lv4CRdRWjZGpBcW56arFpgWFeajk8ipPzczcxghOqlucOxrsPPugd
-	YmTiYDzEKMHBrCTCq7JtXYoQb0piZVVqUX58UWlOavEhRlNg9ExklhJNzgem9LySeEMTSwMT
-	MzMzE0tjM0Mlcd7XrXNThATSE0tSs1NTC1KLYPqYODilGpjyRU7LCOxYuVtaT/3E2577R1bv
-	Yfad8W6CseDkxOdRNRuczmltT5J8Z1vKcsiUs29RT0dbbZ7aPebjc3TYWUxu8MrNE7zVqpTx
-	6RVDs9/uhQ/dZMQs3Fffc71zKc/H5v0qcXP/BS+THWY9XOq/1zuDXcXslsbjTyaNn41zPfhX
-	RU3+3JYmusD0N0vXNwGeGa12zI35/6yfPN/y62vV3HcHruz1E/p5rLIh6cC9baxSLg79S1dm
-	+OzXDZu7e+/7B58d3Y6+O/CjcsNeYZ5ds0tFntx76iSxt8uiI/W/ZnBDxLT8E5/nP1v7OSxY
-	LvXuwS+bZya26s/dHfHufs2h3pTXyXzlEVd/K3m+vl9R/cFbiaU4I9FQi7moOBEAS3Zt8TEE
-	AAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrOLMWRmVeSWpSXmKPExsWy7bCSnO6qs+tSDB52KFjMOd/CYrHo/QxW
-	i28Hv7Fa/OtexmYxf9lTdotjC8QsvvTOYrW4ftvGgcPj98nz7B6zGnrZPBatWsTksWXlTSaP
-	nbPusntsXlLv8fjtZnaPz5vkAjiiuGxSUnMyy1KL9O0SuDJOv5rGVrCMq2LN60tMDYxXOLoY
-	OTkkBEwkHr5ey9bFyMUhJLCbUWLS3htsEAkJiVMvlzFC2MISK/89Z4coesIosWTRbiaQBIuA
-	qsThuRvBGtgE1CWOPG8FaxAR0JVYv6EFbCqzwGpGiV1bPoA1CAtYSiy5d44dxOYV0JZ4s34L
-	lC0ocXLmExYQm1lAS+LGv5dA9RxAtrTE8n9gl4oKKEsc2HacaQIj/ywkHbOQdMxC6FjAyLyK
-	UTK1oDg3PbfYsMAoL7Vcrzgxt7g0L10vOT93EyM47LW0djDuWfVB7xAjEwfjIUYJDmYlEV6V
-	betShHhTEiurUovy44tKc1KLDzFKc7AoifN+e92bIiSQnliSmp2aWpBaBJNl4uCUamCK3/gj
-	O8zY17WmedrXh5oBSmE79/DO3KqW6/tTsXFCjvr3/NP9P83+PEyPen520qtj+jtL7R0Vv+8W
-	STj549iUxemBn6UmxTbvzb+Q0u/yadb5W/u71PzP1VRKnfpguJEzcsL8x7kvd04zZ5q1Le1Q
-	WMsd3tOGl391Nj+Y/iPcteDTzuPfLqyu40i4JXf/0L+z59KVdSp3T5y8wS18qQf/kaeabgv1
-	yj8dvfH5RcumacUL9vgfEzpfrM9pPvtEw9umNXyB27aumFUr+/ztxWdnhfb/Phtbstnr6r4b
-	Vycnv1DiiOj03bttSfuHNKc1nB+un1m+kCe0ctp8rlc8xu81Hqf18PDuvxBV2v1kysoC6Ugl
-	luKMREMt5qLiRABiWp/96gIAAA==
-X-CMS-MailID: 20230712155834epcas5p1140d90c8a0a181930956622728c4dd89
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----CHyoCALg6LzvWsSTaVDWulLjyDTSZVBAz8-9IIrQs0inuafE=_ba39d_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230712155834epcas5p1140d90c8a0a181930956622728c4dd89
-References: <CGME20230712155834epcas5p1140d90c8a0a181930956622728c4dd89@epcas5p1.samsung.com>
+References: <20230712125455.1986455-1-ming.lei@redhat.com> <20230712125455.1986455-4-ming.lei@redhat.com>
+In-Reply-To: <20230712125455.1986455-4-ming.lei@redhat.com>
+From: Justin Tee <justintee8345@gmail.com>
+Date: Wed, 12 Jul 2023 17:03:19 -0700
+Message-ID: <CABPRKS9WPBq1R9EH39=8vCAcW0+0YDAuYKRtEU9ck=BRfZKo1w@mail.gmail.com>
+Subject: Re: [PATCH 3/8] scsi: lpfc: use blk_mq_max_nr_hw_queues() to
+ calculate io vectors
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org, 
+	"Martin K . Petersen" <martin.petersen@oracle.com>, linux-scsi@vger.kernel.org, 
+	linux-block@vger.kernel.org, Wen Xiong <wenxiong@linux.ibm.com>, 
+	Keith Busch <kbusch@kernel.org>, James Smart <james.smart@broadcom.com>, 
+	Justin Tee <justin.tee@broadcom.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230712_114014_257883_9A152544 
-X-CRM114-Status: GOOD (  12.44  )
+X-CRM114-CacheID: sfid-20230712_170335_731372_4CCB51B1 
+X-CRM114-Status: GOOD (  20.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,46 +92,74 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------CHyoCALg6LzvWsSTaVDWulLjyDTSZVBAz8-9IIrQs0inuafE=_ba39d_
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+Hi Ming,
 
-Hi,
+A few lines below in if (aff_mask), vectors can be overwritten again
+with min(phba->cfg_irq_chann, cpu_cnt).
 
-I see a performance regression for read/write workloads on our NVMe over
-fabrics using TCP as transport setup.
-IOPS drop by 23% for 4k-randread [1] and by 18% for 4k-randwrite [2].
+Perhaps we should move blk_mq_max_nr_hw_queues min comparison a little late=
+r:
 
-I bisected and found that the commit
-e1ed3e4d91112027b90c7ee61479141b3f948e6a ("r8169: disable ASPM during
-NAPI poll") is the trigger.
-When I revert this commit, the performance drop goes away.
+diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
+index 3221a934066b..20410789e8b8 100644
+--- a/drivers/scsi/lpfc/lpfc_init.c
++++ b/drivers/scsi/lpfc/lpfc_init.c
+@@ -13025,6 +13025,8 @@ lpfc_sli4_enable_msix(struct lpfc_hba *phba)
+                flags |=3D PCI_IRQ_AFFINITY;
+        }
 
-The target machine uses a realtek ethernet controller - 
-root@testpc:/home/test# lspci | grep -i eth
-29:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. Device 2600
-(rev 21)
-2a:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. Killer
-E3000 2.5GbE Controller (rev 03)
-
-I tried to disable aspm by passing "pcie_aspm=off" as boot parameter and
-by setting pcie aspm policy to performance. But it didn't improve the
-performance.
-I wonder if this is already known, and something different should be
-done to handle the original issue? 
-
-[1] fio randread
-fio -direct=1 -iodepth=1 -rw=randread -ioengine=psync -bs=4k -numjobs=1
--runtime=30 -group_reporting -filename=/dev/nvme1n1 -name=psync_read
--output=psync_read
-[2] fio randwrite
-fio -direct=1 -iodepth=1 -rw=randwrite -ioengine=psync -bs=4k -numjobs=1
--runtime=30 -group_reporting -filename=/dev/nvme1n1 -name=psync_read
--output=psync_write
-
-------CHyoCALg6LzvWsSTaVDWulLjyDTSZVBAz8-9IIrQs0inuafE=_ba39d_
-Content-Type: text/plain; charset="utf-8"
++       vectors =3D min_t(unsigned int, vectors, blk_mq_max_nr_hw_queues())=
+;
++
+        rc =3D pci_alloc_irq_vectors(phba->pcidev, 1, vectors, flags);
+        if (rc < 0) {
+                lpfc_printf_log(phba, KERN_INFO, LOG_INIT,
 
 
-------CHyoCALg6LzvWsSTaVDWulLjyDTSZVBAz8-9IIrQs0inuafE=_ba39d_--
+Regards,
+Justin
+
+On Wed, Jul 12, 2023 at 6:04=E2=80=AFAM Ming Lei <ming.lei@redhat.com> wrot=
+e:
+>
+> Take blk-mq's knowledge into account for calculating io queues.
+>
+> Fix wrong queue mapping in case of kdump kernel.
+>
+> On arm and ppc64, 'maxcpus=3D1' is passed to kdump kernel command line,
+> see `Documentation/admin-guide/kdump/kdump.rst`, so num_possible_cpus()
+> still returns all CPUs because 'maxcpus=3D1' just bring up one single
+> cpu core during booting.
+>
+> blk-mq sees single queue in kdump kernel, and in driver's viewpoint
+> there are still multiple queues, this inconsistency causes driver to appl=
+y
+> wrong queue mapping for handling IO, and IO timeout is triggered.
+>
+> Meantime, single queue makes much less resource utilization, and reduce
+> risk of kernel failure.
+>
+> Cc: James Smart <james.smart@broadcom.com>
+> Signed-off-by: Ming Lei <ming.lei@redhat.com>
+> ---
+>  drivers/scsi/lpfc/lpfc_init.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.=
+c
+> index 3221a934066b..88314c3f1dc1 100644
+> --- a/drivers/scsi/lpfc/lpfc_init.c
+> +++ b/drivers/scsi/lpfc/lpfc_init.c
+> @@ -13012,6 +13012,7 @@ lpfc_sli4_enable_msix(struct lpfc_hba *phba)
+>         if (phba->irq_chann_mode !=3D NORMAL_MODE)
+>                 aff_mask =3D &phba->sli4_hba.irq_aff_mask;
+>
+> +       vectors =3D min_t(unsigned int, vectors, blk_mq_max_nr_hw_queues(=
+));
+>         if (aff_mask) {
+>                 cpu_cnt =3D cpumask_weight(aff_mask);
+>                 vectors =3D min(phba->cfg_irq_chann, cpu_cnt);
+> --
+> 2.40.1
+>
 
