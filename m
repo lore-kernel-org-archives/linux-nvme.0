@@ -4,94 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58846C0015E
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jul 2023 16:54:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05D99C001DC
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Jul 2023 20:25:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KGEyliUCXJSU8koPebhUNQWCpCmY8dz3cK7dturAlTQ=; b=0LMf7wGoK3Wg6t8jrnMo20Drkq
-	y93eTV1gkKDVnkDN1UdXfRSnm9GTY1VaawzWAbh0IxMmWRbLMVwTJrskTt79/Y6BHtDkAPkxi3pv9
-	ayrhkpCPiaI9lPGju8AuDpTBBuvK6Tgq+3oaz0mRWFKPOnjTP/6R71Soak9u00n6HyqWfZ1BZdW3j
-	LaLrI3y8CBvkIZiA6IytlRO1Gx8+b6oidzbWrI+Jfvln1THH54Mk3jfr+ovDa/ldtAlLecCVgiCFu
-	0dRNVbxC8icw/pzw2sUcyaNcWXprOb+69Ax6Ahv5dKmEvplsLim515Uu36BQKtzJgAHjHswZiEuAl
-	HQuG1LPw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Eg768jXQNsUXmosWqx7uZD7w3xqqrl7XQ0EXAdMsG/8=; b=hoqY6WMUhmqQ/C1OW4lkYc5dM+
+	7gbTzaQ0wcmztnnCqGPuy2xoEtYmWx5ifDtcbbk9H/w0omOWb2LXNrQJrxJWVQILYwF7FXpTmpgC4
+	VRnIXMYEt5wa+tMt2IJT5Td1qbi10oyed5cGoA7T+4uBi5CPcBrRcUkmklDiD8iFSjUgbF7BP2WNZ
+	B+JG0xN1oxpQDDT/etDsgW6EvVIxM6gCS8XO/vNtTxjapcXzM/FTGe9dEQUZ6/mzN/IShmcfB39dP
+	9e5TDu1gVv1EUpzTbIVJCFHDbFzDTIkxdw4racK+cyHCO0B78dv2OJLiVxtBsqefZ691l4vV+3Xj5
+	hbTv1fXw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJzaD-003xYL-2S;
-	Thu, 13 Jul 2023 16:54:25 +0000
-Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132])
+	id 1qK2rz-004J40-0f;
+	Thu, 13 Jul 2023 20:24:59 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qJzaB-003xXG-2G
+	id 1qK2rw-004J3S-2z
 	for linux-nvme@lists.infradead.org;
-	Thu, 13 Jul 2023 16:54:25 +0000
-Received: by mail-lf1-x132.google.com with SMTP id 2adb3069b0e04-4fb73ba3b5dso1715943e87.1
-        for <linux-nvme@lists.infradead.org>; Thu, 13 Jul 2023 09:54:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1689267259; x=1691859259;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=KGEyliUCXJSU8koPebhUNQWCpCmY8dz3cK7dturAlTQ=;
-        b=GsyzB7oNmrB4lIDTgdgx/uTCskKoaCViyBQKUB4ak5MKhIEO+F9Mdk0XQClMWBCV+H
-         44oIYpWPYQeyjJqaSC69uEbNo1tC/Eqt/eUL5gcsBIT5nOsIYTgz5/THDm3+2DYgrfxb
-         sXHrg26jG9nLbIvOKwYLm+whINeAssFYXPoQM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689267259; x=1691859259;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KGEyliUCXJSU8koPebhUNQWCpCmY8dz3cK7dturAlTQ=;
-        b=Ki6tEVBeeRz8hoV6e61OYyHLbX/cEDDgZVDtO1T0jEuhYssbBNOAtP/1+M533fKLs2
-         11fztQsfUia11xxslf2Y7ogRrO75KQuWHQefNhUo1o2h+32gsSPFRz2JW1YtWJAxNUzH
-         tVRzMPFFGjtzDaAn0A9D+b/U1BLxzx1JSODTVTDob6BdJ2fgNiXSUFKbHFpsgqDqo5CE
-         VJXJO72mH9K6qBjS2iumZAGGn367cqO9HUPMbjBWH3vjcP6t8dOqH8Nj0G+fNCgSM4Py
-         SG/DPYLhEA8QNsl5WWpEEdZMdUFMv40ahBmUnCde2diCXpHppCDVoPtNrU1B/F/ez4ym
-         j89w==
-X-Gm-Message-State: ABy/qLanohdLQmzZxorl3P4gNpYZIqp3vGj7ltKetVPXUVJ7nH3Nmhuv
-	pBqwUW/HWPkADlUxDVn+li4q7tEjBvIuC0eDo4V4Vm6T
-X-Google-Smtp-Source: APBJJlHqxQ2hH5K8HX5GJIYINWVS1fxc1jE0Perx1uyl05uNmp34fY9BWOA8ibHWXD2mDH9hRP1MsQ==
-X-Received: by 2002:a05:6512:304b:b0:4fb:a0f1:f8b8 with SMTP id b11-20020a056512304b00b004fba0f1f8b8mr1678445lfb.63.1689267259026;
-        Thu, 13 Jul 2023 09:54:19 -0700 (PDT)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com. [209.85.167.49])
-        by smtp.gmail.com with ESMTPSA id u1-20020ac25181000000b004f3ab100161sm1188994lfi.15.2023.07.13.09.54.17
-        for <linux-nvme@lists.infradead.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Jul 2023 09:54:18 -0700 (PDT)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-4f9fdb0ef35so1743724e87.0
-        for <linux-nvme@lists.infradead.org>; Thu, 13 Jul 2023 09:54:17 -0700 (PDT)
-X-Received: by 2002:a05:6512:b85:b0:4fb:9075:4fca with SMTP id
- b5-20020a0565120b8500b004fb90754fcamr1900310lfv.11.1689267257561; Thu, 13 Jul
- 2023 09:54:17 -0700 (PDT)
+	Thu, 13 Jul 2023 20:24:58 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id C4AFA61B36;
+	Thu, 13 Jul 2023 20:24:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA778C433C8;
+	Thu, 13 Jul 2023 20:24:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1689279895;
+	bh=HM/kNLi+ytdrxXxnUlTh3sy3JB7X95S4gsgZ/sObx9A=;
+	h=Date:From:To:Cc:Subject:From;
+	b=J/s/MlK8f5vrA19J4U7dnGdW3jpy60xqAeDWVYDY62cMosUPCyHczadmgSFhQSfke
+	 kq498vgaMLbVMMw1QJnkmZ7s0+VHKcfQzu6fTZF1nul/zgBfUOQA0IPN6nZNDCYyNG
+	 cXdJglVqKRmvtSwW8k21ZhSdkqQ5TLT4uLlHZ3YWMTzyc91rMw3vkgQZLfgstRP/z6
+	 T7iyllV7KJoZZm+JTPpY+wRtFk0ohYAQY6kZXtmB5IkhCmy2uM7iiXDqc/A5y0lmXa
+	 qKesNs7bPm9uoosxLWSfvpkw7D8C+PUfUYZ0WlLxJGR2WMIAzQSDex9dR3oH1SoTEE
+	 1F1r2JdvVtaQA==
+Date: Thu, 13 Jul 2023 14:24:52 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: axboe@kernel.dk
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
+Subject: [GIT PULL] nvme fixes for Linux 6.5
+Message-ID: <ZLBdlPjrbvdex1Hq@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
-References: <CGME20230710155902eucas1p2b464a29adc35e983c73b00d18ab5344c@eucas1p2.samsung.com>
- <ZKwqvTMPVmhnkZjS@kbusch-mbp.dhcp.thefacebook.com> <f0fdf86e-4293-8e07-835d-b5a866252068@samsung.com>
- <462e0e1e-98ea-0f3c-4aaa-8d44f0a8e664@leemhuis.info> <20230711120609.GB27050@lst.de>
- <CAHk-=whXh9sgLo24RO02JjfD0m3HE5NADRPWoEd+dW6bruFhVA@mail.gmail.com>
- <20230712164546.GA31434@lst.de> <CAHk-=whA9rmvNfo=8iKmtimayiA2Aus4XvPwcDrA53G2rfGP0w@mail.gmail.com>
- <20230712165721.GA31965@lst.de> <CAHk-=wgzetYEqj7phbJBE_ZshFq0=k3zWouJ8XyFyERgDX5sZg@mail.gmail.com>
- <20230713114412.GA23427@lst.de>
-In-Reply-To: <20230713114412.GA23427@lst.de>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 13 Jul 2023 09:53:53 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgVArJmE3rB+sHCURUP=oK-mW5-QfVyiRwZV9OLpWwxGg@mail.gmail.com>
-Message-ID: <CAHk-=wgVArJmE3rB+sHCURUP=oK-mW5-QfVyiRwZV9OLpWwxGg@mail.gmail.com>
-Subject: Re: Fwd: Need NVME QUIRK BOGUS for SAMSUNG MZ1WV480HCGL-000MV
- (Samsung SM-953 Datacenter SSD)
-To: Christoph Hellwig <hch@lst.de>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>, Pankaj Raghav <p.raghav@samsung.com>, 
-	Keith Busch <kbusch@kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>, Jens Axboe <axboe@kernel.dk>, 
-	Sagi Grimberg <sagi@grimberg.me>, "Clemens S." <cspringsguth@gmail.com>, 
-	Martin Belanger <martin.belanger@dell.com>, Chaitanya Kulkarni <kch@nvidia.com>, 
-	John Meneghini <jmeneghi@redhat.com>, Hannes Reinecke <hare@suse.de>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux NVMe <linux-nvme@lists.infradead.org>, 
-	Kanchan Joshi <joshi.k@samsung.com>, Javier Gonzalez <javier.gonz@samsung.com>, 
-	=?UTF-8?B?67CV7KeE7ZmY?= <jh.i.park@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230713_095423_767640_2C4CDC74 
-X-CRM114-Status: GOOD (  16.52  )
+X-CRM114-CacheID: sfid-20230713_132457_022277_B28ED8A1 
+X-CRM114-Status: GOOD (  10.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,62 +71,66 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, 13 Jul 2023 at 04:44, Christoph Hellwig <hch@lst.de> wrote:
->
-> Please stop putting words in my mouth.  Maybe instead of shouting it
-> would help to actually read the text?
+The following changes since commit 2fb48d88e77f29bf9d278f25bcfe82cf59a0e09b:
 
-I have read the text. You spout unbelievable garbage. Even in this email:
+  blk-crypto: use dynamic lock class for blk_crypto_profile::lock (2023-07-05 16:36:12 -0600)
 
-> You said we've never seen devices with reliably IDs, which simply isn't
-> true.  And that doesn't mean I'm saying all devices have reliably IDs,
-> which somehow you're not trying to make me say.
+are available in the Git repository at:
 
-When I say "devices", I obviously mean in general.
+  git://git.infradead.org/nvme.git tags/nvme-6.5-2023-07-13
 
-You seem to argue against it.
+for you to fetch changes up to b8f6446b6853768cb99e7c201bddce69ca60c15e:
 
-OF COURSE a _single_ device that has shown to have a UUID is likely to
-then repeat that UUID reliably. But that doesn't mean it's true in
-general.
+  nvme-pci: fix DMA direction of unmapping integrity data (2023-07-13 08:16:07 -0700)
 
-The fact is, any driver subsystem that deals with more than one device
-manufacturer had better not rely on any serial number for uniqueness.
+----------------------------------------------------------------
+nvme fixes for Linux 6.5
 
-If some device layer does, and there is a device without serial
-numbers, then the bug is squarely on the driver, not the device.
-Because the driver author clearly didn't think things through.
+ - Don't require quirk to use duplicate namespace identifiers
+   (Christoph, Sagi)
+ - One more BOGUS_NID quirk (Pankaj)
+ - IO timeout and error hanlding fixes for PCI (Keith)
+ - Enhanced metadata format mask fix (Ankit)
+ - Association race condition fix for fibre channel (Michael)
+ - Correct debugfs error checks (Minjie)
+ - Use PAGE_SECTORS_SHIFT where needed (Damien)
+ - Reduce kernel logs for legacy nguid attribute (Keith)
+ - Use correct dma direction when unmapping metadata (Ming)
 
-THAT is what I mean by "devices do not EVER reliably have uuids".
+----------------------------------------------------------------
+Ankit Kumar (1):
+      nvme: fix the NVME_ID_NS_NVM_STS_MASK definition
 
-I just checked. I have on my desk access to three machines with NVMe
-drives. Of them
+Christoph Hellwig (1):
+      nvme: don't reject probe due to duplicate IDs for single-ported PCIe devices
 
- (a) one didn't have any UUID at all, didn't report namespaces and the
-"wwid" exposed in /proc is that
+Damien Le Moal (1):
+      nvmet: use PAGE_SECTORS_SHIFT
 
-        return sysfs_emit(buf, "nvme.%04x-%*phN-%*phN-%08x\n",
-subsys->vendor_id,
-                serial_len, subsys->serial, model_len, subsys->model,
-                head->ns_id);
+Keith Busch (2):
+      nvme: warn only once for legacy uuid attribute
+      nvme: ensure disabling pairs with unquiesce
 
-     thing.
+Michael Liang (2):
+      nvme-fc: return non-zero status code when fails to create association
+      nvme-fc: fix race between error recovery and creating association
 
-(b) the other two had a NULL uuid and nguid, but seem to have a eui64,
-whatever the hell that is.
+Ming Lei (1):
+      nvme-pci: fix DMA direction of unmapping integrity data
 
-So just from my limited test, one in three didn't have any UUID at all.
+Minjie Du (1):
+      nvme: fix parameter check in nvme_fault_inject_init()
 
-Deal with it. Stop claiming it's somehow "reliable". Two out of three
-out of a random selection is not "reliable".
+Pankaj Raghav (1):
+      nvme: add BOGUS_NID quirk for Samsung SM953
 
-And it has never been reliable, judging by those quirks. When we have
-manufacturers like Samsung, Phison, ADATA, Lexar, Sandisk, Micron, and
-Kingston mentioned in the quirk list, we probably have covered most of
-the consumer SSD manufacturers.
-
-It's a sad that NVMe - that started out as a "lean mean low-overhead
-disk interface definition" results in this kind of mess.
-
-           Linus
+ drivers/nvme/host/core.c         | 36 +++++++++++++++++++++++++++++++++---
+ drivers/nvme/host/fault_inject.c |  2 +-
+ drivers/nvme/host/fc.c           | 37 ++++++++++++++++++++++++++++++-------
+ drivers/nvme/host/pci.c          | 29 ++++++++++++++++++++---------
+ drivers/nvme/host/sysfs.c        |  2 +-
+ drivers/nvme/target/loop.c       |  2 +-
+ drivers/nvme/target/passthru.c   |  4 ++--
+ include/linux/nvme.h             |  2 +-
+ 8 files changed, 89 insertions(+), 25 deletions(-)
 
