@@ -4,81 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8089DEB64DC
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Jul 2023 13:13:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F2D3EB64DC
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Jul 2023 19:15:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:From:
+	Subject:Message-ID:Mime-Version:Date:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=lPSms7Svt0v1FhaYrBtasQxf1zX/2vOpkMaaCXfzVv8=; b=bdCs17ui0CZogGU9NdNgUvCmkG
-	4KMkEUkjOE4XWrLTcyPz8Cza/1QQXpmR7saaoDhMsJXT8VcnbwosjsxhnJkdl0Qn6dSJOUXh6ilg5
-	/VELnAOvFb1rfONewAy50LdPYMAFN3YIi36H8GyJOfOnxnaNXI9P71GtHcGoZKf0F7K5odKairWbv
-	iV1v9ZSfzrMguWpPbKxz4U0Cy60vcrW/H+q5AhjcNmL+t/rqjhXEQ0wL7Zg6uJ1q3lRorleoGGhvM
-	qWtR8b9h3s1PoBYhlMKoJsj0tbDjkDiP3rTmDAZ/T0nrFlcXPuvdKJI0gcKhtXLy6zzTbBpvYeYi+
-	EeNIfplA==;
+	bh=tIRaWqNd8CpFFc5HeNtFkuYRBNFE4Oe3YtPk/F8xiyA=; b=XyGi2uV1pwTCiRrqhiJMIPTSO5
+	wq09wSKk4VtMNXuKzXDcQT5VdF7G9l6uFOTn8cph0fLgD8j+hdrc/viLZYngAONvcZPhgDm+d9D3V
+	4bwfaszqPA/CXnXhNBVVkJGCblqdh/49x/YZ+dshy79p5Gro7zUdHtkGCQIMcdJwXBU0tdWz4vY8l
+	4BtJ6NZBstf2o3mWk361KuCwi77bUkrs6I67DWy/1CtBVZDxzb226eQ4BgeTilGxl9nK0fmtf93kv
+	eU5XaWjml6V+gE13zrA3D02ObB0MgWUTW9av3XqD220wVMHqU0EqTOfGVGkW6fl6PiISUzdY5T2rf
+	9dlfK6aQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qKIcJ-006GLq-02;
-	Fri, 14 Jul 2023 13:13:51 +0000
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
+	id 1qKOGA-0074KG-2N;
+	Fri, 14 Jul 2023 19:15:22 +0000
+Received: from mail-pg1-x549.google.com ([2607:f8b0:4864:20::549])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qKIcE-006GL6-0z
+	id 1qKOG7-0074JU-2H
 	for linux-nvme@lists.infradead.org;
-	Fri, 14 Jul 2023 13:13:47 +0000
-Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1b8bbcfd89aso11005795ad.1
-        for <linux-nvme@lists.infradead.org>; Fri, 14 Jul 2023 06:13:45 -0700 (PDT)
+	Fri, 14 Jul 2023 19:15:20 +0000
+Received: by mail-pg1-x549.google.com with SMTP id 41be03b00d2f7-55c29c283f5so1713267a12.2
+        for <linux-nvme@lists.infradead.org>; Fri, 14 Jul 2023 12:15:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689340424; x=1691932424;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lPSms7Svt0v1FhaYrBtasQxf1zX/2vOpkMaaCXfzVv8=;
-        b=bNQIefppjIKFx2HPNJdWZwzu4OATM5y1y4LiD6TulYlcu56jrK+c5SB7HqUXz9pG9/
-         hDVMAZg6iKi7PoVjsiB7rc1CcXKhawfmWm8dazwFZLsmnzUqAkXmFIANnx82k/t07rzb
-         MJ91IlNG8xCEdVeCXIOPO9GiczWZjAAvguQ7H1RdSGd0Q9a6VtHYIH10dmykKYrMuBsT
-         0PT5jvXjsMeyYhiXDacDPRG1vZ94QnpiRMbNqZKp08wMef9f5NwWoiFq3mal6w+KsNCK
-         3US3dBBZqKyK33isSGsIP6cPmmLInGhg/7JRDVWO8iEWXq5mUXj7DOGd8RQxDqIee9gj
-         4jzA==
+        d=google.com; s=20221208; t=1689362117; x=1691954117;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=tIRaWqNd8CpFFc5HeNtFkuYRBNFE4Oe3YtPk/F8xiyA=;
+        b=ipJM850R8G3r1+3KBLZOIROyJCUjMU9of6KXkX93ZxqyymqzT/H6Tiq9wxD529EglC
+         baBZ+5wLkD7wRXBiPJWXf8IGRY60Y2afL38H2CiOXbdbCqkBnbLuJ5jM5yRv8/PYgJJR
+         SNO1zPb5Z0U8SbUAVK7pcQlZB07wynKEeHSxqRe5gAxLQcwDf+eXFe+vdzQrkDxD1cA3
+         ZwkIcVzFgRaRok1O92gVNvWTwsO2JFE8xaU7YDqcjXqeSDankPXki3olflfv443eMR2k
+         OiREuPEjpv/q6TtHCeNjGA8jaEXFcI++lpJWlL0G3lLCzZBIBq5beZMbDGK9KE/OcCcy
+         fXww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689340424; x=1691932424;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lPSms7Svt0v1FhaYrBtasQxf1zX/2vOpkMaaCXfzVv8=;
-        b=lrEBSoHWNclu0W7SV+PZGTJ87oDVH1hUGl8FNnT0W9Mquftwl6plsg5LQPhL9yuQKW
-         DycQDNZ0/WFjE9VQD1yyU/8dxDUqbBZyvjCMU/5iruxUEBZR/WTgz4dQe4GOFYAI0GZu
-         gWUxyMDsQE60JtSburFFYreR6EWIbQr1Q9kFWr+rp6KXvRbOjY5tcYnkhARUL2tsUBUE
-         cOSBDhkGknymat1YgsBllEuq6VbrV/MJ6wEyeaEPSivzsmBM2F5JLFMWEJv7qDBA/SGV
-         Sw5+nO9OISJ3W/Xg5JLpp74HU+etb6tIL7KKhNj0t+9yL1//GTYjcyag8iQUXldVK2mf
-         FaUg==
-X-Gm-Message-State: ABy/qLZTnee4ldMfwmaojsYv+/FU9Yh7AMQ7iVm9n3ExJTuHHLyAz4QQ
-	Ew9r4jJnAMKCes9Yk43vjTE=
-X-Google-Smtp-Source: APBJJlGL9JGLy10O73QK3szm+DEF7SAKVndVH3a3mA6KEGtyxifInalzNWCIpWbxy0wzSqsUngr6tw==
-X-Received: by 2002:a17:902:704c:b0:1ba:fe63:6616 with SMTP id h12-20020a170902704c00b001bafe636616mr3242178plt.6.1689340424527;
-        Fri, 14 Jul 2023 06:13:44 -0700 (PDT)
-Received: from localhost.localdomain ([103.156.184.205])
-        by smtp.gmail.com with ESMTPSA id x21-20020a170902b41500b001b3bf8001a9sm7777905plr.48.2023.07.14.06.13.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jul 2023 06:13:44 -0700 (PDT)
-From: Han Gao <highenthalpyh@gmail.com>
-To: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Han Gao <highenthalpyh@gmail.com>,
-	David Xu <xuwd1@hotmail.com>
-Subject: [PATCH] nvme-pci: add NVME_QUIRK_DELAY_BEFORE_CHK_RDY for MAXIO MAP1602
-Date: Fri, 14 Jul 2023 21:13:33 +0800
-Message-ID: <20230714131333.5858-1-highenthalpyh@gmail.com>
-X-Mailer: git-send-email 2.41.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        d=1e100.net; s=20221208; t=1689362117; x=1691954117;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tIRaWqNd8CpFFc5HeNtFkuYRBNFE4Oe3YtPk/F8xiyA=;
+        b=T9AjFTpnJS/z2kb4wx9nfdPw6JdVTSZM00y1yXmmeuZ4gt7NJYkPF8noF85Jes83H0
+         sWLKVpCrExtyudS5Bp/e+N+HMY04iMCmzBT0TmMcgF3lGplw4zik+HOjnPcPmjN6qtI0
+         /nLhchfXU2t6lX4TB8Z162qXJf4FzIWbht6pKyv6yeXCqQRr2izRA6Q+lhQcbd4RLZSL
+         /cpEvi9pd6vkTYkGJgzBJCqrefHi9UrRPd0CMXH/O4MVE5GaaGgDy2QmLFA7yZjFgB4Y
+         WBRjC0A/TRGBCtBqYytL/YC3lW4iSLBZ2Pe0EqLZTEQTuRCQOVrgpsNSASXDJdqwnWuC
+         PhPA==
+X-Gm-Message-State: ABy/qLad79c4AaDqKKhxXWXyjwvUxcE9dVL6lOFTn347kN+DUrxfu98n
+	d03U/iUNgp+0LZIH0UG0N3sagbb+1d5Lr5E=
+X-Google-Smtp-Source: APBJJlGPwvId1hKvJGb4xXQWCBhwlHfd5BkrJuPcvfHbnRDhI60r6NrNnA2MAZaz8x5MiPoP2ygL7CA0f37uPew=
+X-Received: from zhichuang-cloudtop.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:30fd])
+ (user=zhichuang job=sendgmr) by 2002:a63:3d41:0:b0:557:9cc7:bc79 with SMTP id
+ k62-20020a633d41000000b005579cc7bc79mr10364pga.7.1689362116807; Fri, 14 Jul
+ 2023 12:15:16 -0700 (PDT)
+Date: Fri, 14 Jul 2023 12:14:51 -0700
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.41.0.255.g8b1d071c50-goog
+Message-ID: <20230714191451.2700625-1-zhichuang@google.com>
+Subject: [PATCH] nvme: fix dma direction macro in dma_unmap_page
+From: zhichuang@google.com
+To: kbusch@kernel.org
+Cc: hch@lst.de, axboe@fb.com, sagi@grimberg.me, linux-nvme@lists.infradead.org, 
+	Zhichuang Sun <zhichuang@google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230714_061346_344965_5985E21C 
-X-CRM114-Status: GOOD (  12.90  )
+X-CRM114-CacheID: sfid-20230714_121519_764455_DC83AE92 
+X-CRM114-Status: GOOD (  13.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,39 +85,84 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-4TB SSD with MAXIO MAP1602 controller is cannot by initialised
-in nvme_enable_ctrl with a high probability, which causeds the system
-to be unable to use SSD, and SSD device only be shown in lspci.
+From: Zhichuang Sun <zhichuang@google.com>
 
-dmesg output of problem
+This patch fix a DMA related bug in the nvme driver,
+which caused a surge of DMA errors. The DMA debug
+subsystem complains:
 
-----------
-nvme nvme1: Device not ready; aborting initialisation, CSTS=0x0
-----------
+"nvme device driver frees DMA memory with different direction
+[mapped with DMA_FROM_DEVICE] [unmapped with DMA_BIDIRECTIONAL]"
 
-Problem and fix are verified with my MAP1602 controller SSD device.
+It's caused by the wrong macro used in "dma_unmap_page()" to
+specify the dma direction. It should use "rq_dma_dir(req)"
+instead of "rq_data_dir(req)".
 
-Signed-off-by: Han Gao <highenthalpyh@gmail.com>
-Signed-off-by: David Xu <xuwd1@hotmail.com>
+For map:
+drivers/nvme/host/pci.c
+nvme_queue_rq
+  --> nvme_map_data
+    --> nvme_map_metadata
+      --> dma_map_bvec(dev->dev, rq_integrity_vec(req), rq_dma_dir(req), 0);
+         --> dma_map_page_attrs(dev, (bv)->bv_page, (bv)->bv_offset, \
+				 (bv)->bv_len, (dir), (attrs))
+
+For unmap:
+drivers/nvme/host/pci.c
+nvme_pci_complete_rq
+  --> dma_unmap_page(dev->dev, iod->meta_dma, \
+		rq_integrity_vec(req)->bv_len, rq_data_dir(req));
+    --> dma_unmap_page_attrs(dev, addr, len, dir, attrs)
+
+For the same req, during map, the mapping direction is passed with
+rq_dma_dir(req); during unmap, the mapping direction is passed with
+rq_data_dir(req). rq_data_dir and rq_dma_dir interprate direction
+differently, see definition below:
+
+include/linux/blkdev.h
+ #define rq_data_dir(rq)         (op_is_write(req_op(rq)) ? WRITE : READ)
+
+ #define rq_dma_dir(rq) \
+         (op_is_write(req_op(rq)) ? DMA_TO_DEVICE : DMA_FROM_DEVICE)
+
+include/linux/kernel.h
+ /* generic data direction definitions */
+ #define READ                    0
+ #define WRITE                   1
+
+include/linux/dma-direction.h
+ enum dma_data_direction {
+         DMA_BIDIRECTIONAL = 0,
+         DMA_TO_DEVICE = 1,
+         DMA_FROM_DEVICE = 2,
+         DMA_NONE = 3,
+ };
+
+As a result, for a read DMA req, during map, it is recorded as
+DMA_FROM_DEVICE(2) with rq_dma_dir(rq), and during unmap, it is
+unmapped as READ(0) with rq_data_dir, which will be interprated
+as DMA_DMA_BIDIRECTIONAL(0), thus causing a mismatch during DMA
+unmap, triggering false alarms of DMA bugs.
+
+Signed-off-by: Zhichuang Sun <zhichuang@google.com>
 ---
- drivers/nvme/host/pci.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 492f319ebdf3..f75c27730bde 100644
+index 72725729cb6c..7778f384293c 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -3425,7 +3425,8 @@ static const struct pci_device_id nvme_id_table[] = {
- 	{ PCI_DEVICE(0x1e4B, 0x1202),   /* MAXIO MAP1202 */
- 		.driver_data = NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_DEVICE(0x1e4B, 0x1602),   /* MAXIO MAP1602 */
--		.driver_data = NVME_QUIRK_BOGUS_NID, },
-+		.driver_data = NVME_QUIRK_BOGUS_NID |
-+				NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
- 	{ PCI_DEVICE(0x1cc1, 0x5350),   /* ADATA XPG GAMMIX S50 */
- 		.driver_data = NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_DEVICE(0x1dbe, 0x5236),   /* ADATA XPG GAMMIX S70 */
+@@ -967,7 +967,7 @@ static __always_inline void nvme_pci_unmap_rq(struct request *req)
+ 	        struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+ 
+ 		dma_unmap_page(dev->dev, iod->meta_dma,
+-			       rq_integrity_vec(req)->bv_len, rq_data_dir(req));
++			       rq_integrity_vec(req)->bv_len, rq_dma_dir(req));
+ 	}
+ 
+ 	if (blk_rq_nr_phys_segments(req))
 -- 
-2.41.0
+2.41.0.255.g8b1d071c50-goog
 
 
