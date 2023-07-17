@@ -4,77 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2BA0EEB64DC
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Jul 2023 08:02:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EEB95EB64DC
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Jul 2023 08:04:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Md2k3SrB9PFNNZtXw1D5bjJvxlmODL3oFcv29rGU+0w=; b=4KH6F5zlC6l49koAeSvsynFrGh
-	2w4UpDcjPeTbugN2YTp6w/iO9ioxDcMWkWsCha9FXjchvUOJhBd+HgmkHQT06/GgXOTW1ZUa2IWCK
-	Pjrno8s8xMUH2P2O876D+vDVOSU8HYM3+gUPNypmUvr3ZqdygfPQtjiD9PrGJG+3cSFmR6Uq9Xewj
-	R1SkCaOn/IicuzMlUKdgvJ/q7+8+hl7Dqf69FTT6SREXog1Zk1BRct6RsBw/i1lvD9oV5txH10wa0
-	jVvrVBftFpEpLZs/FsnfpFxKMZgIGf8cL7TPG4Kxf9K4S0qb/d7n37KEDRUciCavMezMn82uPkuUM
-	k0wrouNg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=8WbeqUwXg63Mjue9IkzBHg2sl77/SvPI+XDchBxbZf4=; b=V13bpUXoM+qvrgy/ire7YwAl1B
+	YOpuJjXabUKxd90XqshRNSrjkBVjuQWXNle1kRm51AQEql3+SSZl+fmghFOquGbnI6AfxR+10GRnL
+	nUaqXmdmtJJC2QbRor2bfBwqW6iWzSeiwMlS9X3bTsjIXbSA8anYYr0prglZR5DM6526Mu3L46OpI
+	QjpudK1GZAZuSwQ1KyaIKcLBE3QEXjzVE0EoYAFmxtOf4xmydVc89ss/JjOulHvgvrP/m+S6fE775
+	cFiXKR/AwHBdqrZSztsT65a17X8XxmThcU4ZAp35mHRZyd/kvcR2f+viYv7Y8oG5iYgGm19j/xHJ8
+	ou9DWhdA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qLJBY-003ONT-2F;
-	Mon, 17 Jul 2023 08:02:24 +0000
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
+	id 1qLJDK-003Oen-0v;
+	Mon, 17 Jul 2023 08:04:14 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qLJBD-003OLA-0U
+	id 1qLJCl-003OZq-2U
 	for linux-nvme@lists.infradead.org;
-	Mon, 17 Jul 2023 08:02:22 +0000
-Received: by mail-ed1-x533.google.com with SMTP id 4fb4d7f45d1cf-51ff0e3d8c1so5523297a12.0
-        for <linux-nvme@lists.infradead.org>; Mon, 17 Jul 2023 01:02:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689580920; x=1692172920;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Md2k3SrB9PFNNZtXw1D5bjJvxlmODL3oFcv29rGU+0w=;
-        b=Tj9ESHlAIEY5Ok+t1+UQEqgXZpFohXw53hftfkkBeDtkJIo0nBvLvFnisMxq5Rj2iQ
-         8PdNEnjyaoS3UOEi9nMjIifEQFGggbFY24svukX5rnVJOCICfNyxM2s59REzz8UWfsIp
-         ZawCt/JduBAq7tD9sQFEtpyhZCVMxmJef/ARUOi/5XgDoiiri8ZVk3Ooe/THn+zFXcTM
-         z4EiPvrbE/5ScWF5My9n5UAxbY+/u23lKTRQJM9dJ7+ItLjDQcSZkrc1jpUqsaxNIZmm
-         zG/iJhwiSZQr96qBLHcF2SeD/Hsp4E00qsw5D1bKsKirfD/yPzGiMrlGRgYG+Tvf2j6d
-         BgYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689580920; x=1692172920;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Md2k3SrB9PFNNZtXw1D5bjJvxlmODL3oFcv29rGU+0w=;
-        b=b+OfrmFBvWNXTA31powC4mITdlk7+fmoyWmi0V60vuQItXvod/9tyoUDB3svqC0yPU
-         8Nf8aUrmYQp3/VAXXUuWjLJMq4GLwcWEPqAFUDrmw5Af6HYAFfRQDQnIfwxwoWkTxSgI
-         i1nfieCDQMOVrkEIHCXHEYEqJb5jfDb6H3nhnmdSHa/NccVZwPi9EprX65WbxejMorXX
-         xh9xdf5fSSZvncJ8WXIH04RgAEf2Lt3zQ03g4qyoXw8juBSSuiJraC3kGwP789QQPH8E
-         V+GoddJdnZCn8AtzpSi/QzIYmoGfYUkFTZZa7lDA97cWUXaap3bttnKg2Iz8j83vToL4
-         XJ1A==
-X-Gm-Message-State: ABy/qLb4d2FkIsvmzKWP0NpuqBb7SBXQEG5CtkxAbezoFrvtVt/UGMKV
-	SP4wrZyb9AbVUKh/6wqjmwiK6Lq7UTNPvdbWIK0=
-X-Google-Smtp-Source: APBJJlHZQRmdkq0uytrbJpI4dB8Hr+FJMXkrPe3TaMiMWBSlVina9KNg9TPqxFql3z1+rKwkjMtlLgZZSjtgMCU/25g=
-X-Received: by 2002:a17:906:20d6:b0:994:4e9c:30c6 with SMTP id
- c22-20020a17090620d600b009944e9c30c6mr3743404ejc.57.1689580920270; Mon, 17
- Jul 2023 01:02:00 -0700 (PDT)
+	Mon, 17 Jul 2023 08:04:10 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 7BDAB60FA0;
+	Mon, 17 Jul 2023 08:03:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBF2CC433C7;
+	Mon, 17 Jul 2023 08:03:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1689581017;
+	bh=fxCzi9cqQ/6Te9Id+fLIHCQJFVg7LEXG2cA0E+qADbg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FISKc+7gCFhCRRl0wkH4LKhJ2TtLo1Zcbd5H+B09PDWFKUUyJcBeJg8VL+QClvgea
+	 y4E77RexFfMjBLyDjcaeMg4lWfeICFn4Oveq5XGMC+aUifC1cYMA3yCcRwnIisZhxr
+	 Jmpm2nph7AAyTLi77S1ghli1vuBZpaVXqYg9dV3rWYMOUiVBlrmTDD1YOw7pTILx02
+	 YQloLQwMXxGqmcyRSvTbK3zNyJJMG3uNkc4gP8mT5NWVi7UDBhl1QN06YpwygQOI9l
+	 o8qBEmIhDKjm3J9+L4ZVo00gG+Egb/vpHbwsCXAsatTAhdqhfCrUtZvhHwUBPryh7h
+	 4UURKLSAGBsLQ==
+Date: Mon, 17 Jul 2023 10:03:32 +0200
+From: Keith Busch <kbusch@kernel.org>
+To: Sean Wang <wangxiao@hotmail.it>
+Cc: "highenthalpyh@gmail.com" <highenthalpyh@gmail.com>,
+	"axboe@kernel.dk" <axboe@kernel.dk>, "hch@lst.de" <hch@lst.de>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"sagi@grimberg.me" <sagi@grimberg.me>,
+	"xuwd1@hotmail.com" <xuwd1@hotmail.com>
+Subject: Re: [PATCH] nvme-pci: add NVME_QUIRK_DELAY_BEFORE_CHK_RDY for MAXIO
+ MAP1602
+Message-ID: <ZLT11NpGd4hR4yp7@kbusch-mbp.dhcp.thefacebook.com>
+References: <MEAP282MB039120C4DEF97CED9B4CE841B33BA@MEAP282MB0391.AUSP282.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-References: <b99a5149-c3d6-2a9b-1298-576a1b4b22c1@gmail.com> <0206e2ce-ff33-6017-15ab-cc89f1eb7485@augustwikerfors.se>
-In-Reply-To: <0206e2ce-ff33-6017-15ab-cc89f1eb7485@augustwikerfors.se>
-From: Nils Kruse <nilskruse97@gmail.com>
-Date: Mon, 17 Jul 2023 10:01:49 +0200
-Message-ID: <CAKVFSw+_EFNaYjOjNDQ0zOGoSFMt3yZctR47Rcss2KhkfNQJ9g@mail.gmail.com>
-Subject: Re: [PATCH] nvme-pci: Add quirk for Samsung PM9B1 256G and 512G SSD
-To: August Wikerfors <git@augustwikerfors.se>
-Cc: stable@vger.kernel.org, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, 
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <MEAP282MB039120C4DEF97CED9B4CE841B33BA@MEAP282MB0391.AUSP282.PROD.OUTLOOK.COM>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230717_010204_091559_2D549E2C 
-X-CRM114-Status: GOOD (  11.76  )
+X-CRM114-CacheID: sfid-20230717_010340_652662_13207A61 
+X-CRM114-Status: GOOD (  11.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,21 +80,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Jul 16, 2023 at 9:30=E2=80=AFPM August Wikerfors <git@augustwikerfo=
-rs.se> wrote:
->
-> On 2023-06-11 13:41, Nils Kruse wrote:
-> > Add a quirk for Samsung PM9B1 256G and 512G that reports duplicate ids
-> > for disk.
->
-> Is this the same issue with suspend as [1], [2] and [3] or is it a
-> different case?
->
-> [1] https://lore.kernel.org/all/20221116171727.4083-1-git@augustwikerfors=
-.se/t/
-> [2] https://github.com/tomsom/yoga-linux/issues/9
-> [3] https://lore.kernel.org/all/d0ce0f3b-9407-9207-73a4-3536f0948653@augu=
-stwikerfors.se/
+On Mon, Jul 17, 2023 at 07:41:26AM +0000, Sean Wang wrote:
+> My two SSDs are from different companies, but they all use MaxIO 1602 nvme controllers.
+> 
+> After applying this patch, they could work.
+> 
+> Otherwise, here is a workaround to make live cd to recognize these SSDs:
+> 
+> 
+> echo “1” > /sys/bus/pci/devices/0000:02:00.0/remove
+> sleep 1
+> echo “1” > /sys/bus/pci/rescan
+> 
+> Where device id (02:00.0) could be found via
+> 
+> lspci -nn -d ::0108
 
-Yes, this is the same issue.
+We have a generic solution for such devices as of 6.5-rc2 so it should
+work now; however, it's still recommended to get devices with this
+behavior in the quirk list in order to ensure that the we get udev to
+generate deterministic symlinks. Since this controller is used by
+multiple vendors, though, it's unclear if this quirk applies to all
+variations.
 
