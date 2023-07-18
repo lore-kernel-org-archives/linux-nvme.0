@@ -4,102 +4,152 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A054C001DC
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jul 2023 06:40:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0A121C0015E
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jul 2023 06:56:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:Subject:
-	Message-ID:Date:From:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=81HUz5TsjLf2tkUXAeCvH6wBtAZ4xsXWeh9xXuk3h0I=; b=GsM3kjklQJAhoH8THXr8qXUJkv
-	MSTr18qLAcly3WGN4k+dbB3aPZC+8YjtE8o24JYKvAzqTTWfT19oL8jZUxVIs5tY2yvB0OmMACavN
-	NhqgXLQ6fQHt87OUXNbypSinZRxTBaMHpFaX6OVj7xPRvVdC1DniT7bw2p7aQtiIqNEdwj6vefxoW
-	knAs58IOnfCJeiWePeZ89RDOZpjyNVcBF1wE9QHExByKEcHhwHB90Zjwoi97D8riz+Xd+btir29wh
-	4Q+DRRB2PFO7ed69car/ioZdrqcIzqqS/dp1qBn/1l4DMJBvQZ9MSP2kAfyYJ2tctmVG4UAq5Nghf
-	C3UKVEtA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=gT4DpBgR9epnJ4bwNkODuk8f+NBhhxrC3Sb2BaIJIHo=; b=Tk0AuFcxGUR8kEEB7FbaYHLU4y
+	bbJiFH4kD2p6vNXuwLNfA0s9OuPD8SyPbusnIeU0Og/EvYVz/XUx4/T5jMqOfYXKDB/xHDlsAAnop
+	JxyEcZQCbSm+Mo9lA9r+DNE4t4ffpegbWAcp4Nqxn/GWUCWZyHpSBCSR5XeRBIWHEuXruGNn22i0/
+	5iVZw2P7aFqr8hV0/G1R4YKlaP6nA63CnELF7J5g2NgjUyq5C/KT+2pObRjaB8QTRs0kp59LH4CdB
+	gMeDu5rsQNqqNTrJm1Rbf+yfFa75vBfd1lm3CUzURuPlXlbZ42/qPwN0X4h8ka7RLuy2v4ni/3fcY
+	qmNFTJuA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qM0rB-005q6G-07;
-	Wed, 19 Jul 2023 06:40:17 +0000
+	id 1qM17G-005zVH-03;
+	Wed, 19 Jul 2023 06:56:54 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qM0r9-005q59-2y
+	id 1qM178-005zOT-24
 	for linux-nvme@bombadil.infradead.org;
-	Wed, 19 Jul 2023 06:40:16 +0000
+	Wed, 19 Jul 2023 06:56:46 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Type:To:Subject:Message-ID:
-	Date:From:MIME-Version:Sender:Reply-To:Cc:Content-Transfer-Encoding:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=81HUz5TsjLf2tkUXAeCvH6wBtAZ4xsXWeh9xXuk3h0I=; b=MpHxVDenN1ImhqZAEClTGF1q3r
-	qPTqLSeQySSOza2HbJq9HK8FiayVH2ZHroTpN5Fj8WMsGZIWj4VYE5rG4dmLLOWZmk6s7hM/mEgYz
-	mr9LflPvlL3NKIyJ2aIM11s2iJzXPAxbRk5ZBk7SAWk2AlzcP1Deir2T4qALddS2qSh7A4aay60e0
-	hR9aEWAzqNnguWvzeemTTo2aZAffRVxhrucystHeZFpiG1AScYysxEAjrxnrsDBsn8dKX8nYQYbPK
-	ObhudQKL8PQ0V9T8yUz0G5b60JP66ZAI4GGkhIGvJZ3j7Aww+dLTCt838x/lzqnk0s/nuPxwO4dvg
-	6CYuagSw==;
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	d=infradead.org; s=desiato.20200630; h=MIME-Version:Content-Transfer-Encoding
+	:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:To:
+	From:Sender:Reply-To:Cc:Content-Description;
+	bh=gT4DpBgR9epnJ4bwNkODuk8f+NBhhxrC3Sb2BaIJIHo=; b=c/fnQOh4Yl82N5cXGrTCkm0OGJ
+	2ayPCLi1Fl4TdJ+CD3MsNY43eA3NuccKO3EiaRnh5BsRxuqVn5UQGd7frMrAH5lOwPg8a+x+Yqa8P
+	qYzyl6RDs10HRxO6UWxAGLm0LNrofMCo14Zy0u/lB4hiXxO3DUygE3MhZEG1jVUm4xUt3xiI14lIe
+	Imn5AmtoderWDUTDCZRuydf6EpfORPBJgxW1hMQ/oTzFw/iFmj8aZIqwZG6CnUAyN8QU+619Cvbfg
+	hJiZBvLrRlPO9xjZuNDiFYZa7PWqzrR/plmP7ehO6Dy71VQ72S+hf0VhOW0ZPHsuY8nI8h+n0eb9B
+	6b4VSrOw==;
+Received: from mail-dm6nam10on20604.outbound.protection.outlook.com ([2a01:111:f400:7e88::604] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
 	by desiato.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qLkHL-00BXz7-2h
+	id 1qLnAf-00BkGQ-22
 	for linux-nvme@lists.infradead.org;
-	Tue, 18 Jul 2023 12:58:14 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1689684961;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type;
-	bh=81HUz5TsjLf2tkUXAeCvH6wBtAZ4xsXWeh9xXuk3h0I=;
-	b=eR/3C2VXx6r7YmTPL85VFIZDu23HYpt0M4ZZ2GaFi62UcQPAASx6uU0mRUwp6PATxaN6CQ
-	aIbjVH8/VIkTl8fPHHycUbgttTjCyqOblj/9RgfShNgxEuKEm+DkV8dJEDZIEY11A7R5sp
-	NflXPBa+UyAktvDmFuP6uAxJeKpqjA4=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1689685089;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type;
-	bh=81HUz5TsjLf2tkUXAeCvH6wBtAZ4xsXWeh9xXuk3h0I=;
-	b=bnninVVClaPlS1+R1YbXWxr6T0XLlAsMd8N5LNMXcaM3EnOdM/jEWOUztlzK+gaRQR60Md
-	1G7dbY+nAg+nx7ppBg+MG6xvvAzcfVAHggmr0hvjTsOxI6P7N50Uu/Jj0IOTLqmqks1lOx
-	x8NUHvpzMpR6qu/dYb65KBMeER/1tg8=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-295-SUZIhynLMBKvmNLltUmKMQ-1; Tue, 18 Jul 2023 08:52:28 -0400
-X-MC-Unique: SUZIhynLMBKvmNLltUmKMQ-1
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-262e0c70e8eso2796874a91.2
-        for <linux-nvme@lists.infradead.org>; Tue, 18 Jul 2023 05:52:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689684747; x=1692276747;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=81HUz5TsjLf2tkUXAeCvH6wBtAZ4xsXWeh9xXuk3h0I=;
-        b=JIsbKiaRMxt/AwWKJbEAM7IIjJcXqRsqtpXlLoo8QMhdR8oKAM1Mcy6f6K3QMyc9yB
-         jVLj3xzTBGYbmbhHUr1582Qe03NEEKvDv78oZ7xmvsztg5YaUoICdME04LH86Q6EVQrs
-         UQPlMdb8n3ezCdyNs6fxUpJXNAPHeUR/5ftHaGG5pgLyQHuMvE9wwtQwpGVnjlFLEWYP
-         R4aby7LdyukPDt5Wq4sc78QI+v8NNdQb3tYA4VjiH16QKv0jXgy8CDhmGF/cKqJmxGZ3
-         pEDpECcqpAKJVNU9UNjnMLL0o7DVyA4mU9Dn/kGWmIHon9ZhUnJH+imsY+wYn5x6zeRr
-         n4Pw==
-X-Gm-Message-State: ABy/qLYOQQY4MvmhFiyC6taH4jIPOQYxUZKUzEO0oIMzUKsZTFysAsme
-	WtLAh9uv9L98DDbmNarmXCQYPNoheu10upTKXgScpWkYLDPGgw/5wjeDMcY2tPQAhkF4oAE+QYf
-	e5GJKJG/ARfzQ6mvrghTDBFq9X4kYr793uIwljKbsuGg=
-X-Received: by 2002:a17:90b:3112:b0:262:ebb9:dd60 with SMTP id gc18-20020a17090b311200b00262ebb9dd60mr11373780pjb.20.1689684747352;
-        Tue, 18 Jul 2023 05:52:27 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGvxPA95PkPTVO/xjrMI2ejhidENujGKn3ICHdHVTKbJjxTA/b9gWHKY3hwf3ujOLRqmH5o81MLzFTplO/FvIk=
-X-Received: by 2002:a17:90b:3112:b0:262:ebb9:dd60 with SMTP id
- gc18-20020a17090b311200b00262ebb9dd60mr11373765pjb.20.1689684746901; Tue, 18
- Jul 2023 05:52:26 -0700 (PDT)
-MIME-Version: 1.0
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Tue, 18 Jul 2023 20:52:15 +0800
-Message-ID: <CAHj4cs96VFJoncjaam1u4JT4PWZEJxWxR3BhJVRH6p0uCBvd5g@mail.gmail.com>
-Subject: [bug report] Unable to handle kernel paging request observed during
- blktest nvme/047
-To: linux-block <linux-block@vger.kernel.org>, 
+	Tue, 18 Jul 2023 16:03:31 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=S/ZXpTBdX8lFt8uWBpZNsUmAmLia49w2A5MEnm9A+4ueBm5pCb8ZxGgFez5WE87Q3/d59o+TrNMx5VwJcsVuNJpPK7C5Dgj10ry7605Ip+nf2ratKB/PLJkRnzLs5rMguJeH94Tk68uYu4JlI7/eC3buqegvhyjF5/SqXQtxmcFLCDLDB6wEG/eShlMUPRydfcrJVkVWlsS7B0AATWNzPcMKh3nUf/R22sdaS+TxYZMbqsxJr6/4iLMV4aEKbvShIlNvzkiZ3rYhpd2EL0RP5kftdrSfYqTpGBGAtaOO7pc5hHkKqIF758cALXtzjuEjhrQ6fEBEsWmAwLmqy5HJUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gT4DpBgR9epnJ4bwNkODuk8f+NBhhxrC3Sb2BaIJIHo=;
+ b=MlozPNjSnEwBevHWsFXOFAtbvW+UB4pZ3vFRlfS8mWvpsclrgIci++6x8RcrVzFClDIeCMefpjNes4CEmszGamhbQkiL2NzyzQ9JnifYL6Kd3nvfFmTj7ZEtINmVvie8J9goIfA0H0Lk9os0QVkcZqZgSXZ+X8NjsAwZR3voBX2wZQLrlMhb5/l8/69pD7gHEGYFLm0Qr1ztFP4kc9YXNvmsX7mkOSsRVdPgDjQMLz2wD5ag1/koV7g+wvD3WL6bF84Y9Mq4xrPW03H6JnpDYPy/0KecOA+iFHjl69G8FbF4Vmf6pMhQCAi7c8uRLbsteAEubQ8MnDvT2FJAvkm6tA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gT4DpBgR9epnJ4bwNkODuk8f+NBhhxrC3Sb2BaIJIHo=;
+ b=MhumZaK5gORFGp8kdz+is3TuP+iIjzLDHy+XkGSwLX6J9q7+l5Yna6GEcMjGVoxC/eGs+kgzJRF3Xs+jjE/L/bThNFOHQauh53P3ZQMxgEZwbZXfmTqHD9glMF0HWccYggTFOlUoP0guFi4a7/Ui4pNhgCU8CuHZdYJFsI91wwk6FdWyC7rOB1b11W2waYT2DwDDKZkhJK/iJ57t++sa4F+KqftqS1Fq42dBmZbLbmRowMXLqgJ2xUrQXph9zw+oMfCvabN53MnBDswgbfJvlHQ8d64ENvH0PDOFVqdWEUimxQu01sfilzeevhZ8T5nlVMVVJM8XiT1pd2jnF5o9Cg==
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
+ by MW4PR12MB7311.namprd12.prod.outlook.com (2603:10b6:303:227::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.33; Tue, 18 Jul
+ 2023 16:02:38 +0000
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::f1c3:add0:836f:cf90]) by MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::f1c3:add0:836f:cf90%6]) with mapi id 15.20.6588.031; Tue, 18 Jul 2023
+ 16:02:38 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Yi Zhang <yi.zhang@redhat.com>, linux-block <linux-block@vger.kernel.org>,
 	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [bug report] Unable to handle kernel paging request observed
+ during blktest nvme/047
+Thread-Topic: [bug report] Unable to handle kernel paging request observed
+ during blktest nvme/047
+Thread-Index: AQHZuXbTFOmyzj2K/02Hhol76fsD9K+/r52A
+Date: Tue, 18 Jul 2023 16:02:38 +0000
+Message-ID: <30784603-c958-6d39-6b85-6b8ec6be7b75@nvidia.com>
+References: <CAHj4cs96VFJoncjaam1u4JT4PWZEJxWxR3BhJVRH6p0uCBvd5g@mail.gmail.com>
+In-Reply-To: <CAHj4cs96VFJoncjaam1u4JT4PWZEJxWxR3BhJVRH6p0uCBvd5g@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MW2PR12MB4667:EE_|MW4PR12MB7311:EE_
+x-ms-office365-filtering-correlation-id: 9ec35b58-dceb-4ff8-58e9-08db87a868c8
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: xitKmRTYmp3RG/bqSe02ovYNwPgKyJCXH69k2h/3hHvoC2bZaacSVolQQwVCFcyDdHtDNLDyFEKCNovti9zDfR/QUk7ed5tj0If6wrw6mb1rYG+T6gCIdFEEMbrVBYYWhlmidAQ+RWcjYwHb5Jq8PjKkHRzszcZtdKe35n1pZtmWZN9F/HIU/5bNcQZlY91FTNh9tqEi8jNNk6JewJpuCD7r5stgJPXH9dTO0UH7j7/cdZwbJ4XsILRuEbKXf9nRer9NO486QPe8aTkAmfOQro48SdqZ3njtdvJzYTVqg2UMeylWjSM9ON8rXvyibTqvqwCl2FLTr/xyocH5pHAxD4992pD+h7WK4eYy7zYFyU46cqhdbtiwTuLBztL3Y2YnlP/TVJlFkmqD+lQoVzOku4e2oHZq0e+XklH3xWfLurwxOzzJd1mMQ10FwCAn70FKOAkXf6m4oSo2kYq06c5mocJ4k/KTf8DwzQ4+ziyBfTauUzyBo4WVeZ8rbpcJKIqGvq+YeDOKPw9ZYUkv7mOaw0oby6QqGF+MrxLbfvB7QrNKNI8IEJjpdQVce18/BzumKGFTSgsG74lTyOiY1lWAFg/LUFldbDZ7mfRlaEGrF5RVrGk92mE7mKqKxBymkT8uCdWr/+yT/DWrta/QLs8lbHrpZFLZ0QBjxLv4WQ8PJuP32bOxl2o/jBvM9pCtkPM+VHkGu7W2wBtfPu88XgFn1OQh7kZdsyVMazBy7gq+sh0=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(39860400002)(346002)(376002)(366004)(136003)(451199021)(122000001)(6486002)(110136005)(71200400001)(45080400002)(478600001)(76116006)(41300700001)(8676002)(8936002)(5660300002)(66476007)(66446008)(64756008)(66556008)(66946007)(91956017)(6512007)(316002)(2616005)(83380400001)(186003)(53546011)(6506007)(38100700002)(86362001)(31696002)(36756003)(38070700005)(2906002)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?YWc5N2xLMVo4VHZjYlFRL2w5NmZiUjVsZDYzRG5VWFpVaStVWFcrdlRyalMz?=
+ =?utf-8?B?eE5DN0NoNHEwdk56K21pTlNPWW13MVJLUnQ0RTlpWmtHWkYxSFJQdHhkRGZT?=
+ =?utf-8?B?bXA3ejNIWklNdDNQc3NnandjZ3FhSkNHcDNHa3I0T2U4aXJ1MXFLM3cxN3Q0?=
+ =?utf-8?B?ZUxpVkYyd213TUsydFRyV0s5aE44T05aOXByQlZHR2tZc1lvdFA5SjBrWXMz?=
+ =?utf-8?B?ZlJkMkNpajZXdmVPeGgrQkpvNlpHd2lyTTliVzBJV242Y1B3RUE5emhWRzlm?=
+ =?utf-8?B?R1U3OUR4Nm1wdmRUa3RFUDhidTRuSVhrK0lETWVETUcxWDBUUzlxcWNsQnJK?=
+ =?utf-8?B?OGl3Q1JMZkNXUDgySWhjanNVUmZENmFTRkxmUFg2V3h2bXo3dC83WjF5L3NQ?=
+ =?utf-8?B?Q1o5MHgzNHZNS3J3VHBRWHI3UFVyVDNBY3FMUHFyZStlcEd3cm5VZGV2aWh4?=
+ =?utf-8?B?UnBweEhMYjEwNFJSYStoZG1QbjA0WHoxKzQ3MjZSZG50S3lHdVd5RWxsb3Vu?=
+ =?utf-8?B?bHNLSHBHN1RXb2JIUTdmWnJySWRPZHdSajBuclNBNmtCNmxPRGJlOHdvbjJ2?=
+ =?utf-8?B?cEZacVVEUWR2K1NxK25wMTZRWlh5dXlJazN3aXBsVnpmZ3M2VFA5WUh4MDl5?=
+ =?utf-8?B?bHkxbkZEdGtzL1ZGcmI4VEZLUUJQRnBQQUxteFBuM3lsRDRLNWZWRVllcnJR?=
+ =?utf-8?B?bk96M0lLUFZOSHFaa2ZBbE1RamEwTm1HZ1JUOVZHK2c2TjdvQ3RpTEduM0lJ?=
+ =?utf-8?B?MmRxd3g4YjVMMWc1UThSVWN4R2lGZ3U4UzdpZHgyRHNsaTNnNnVqZVBXcVVO?=
+ =?utf-8?B?dkZuMlZEVzNwZ0xmdHd0bnZ5bnJiZWRTTlphVzdvQ3Erckg2QXFLcFd5d21a?=
+ =?utf-8?B?YTNGbTQyRlhZdVc0SlBMRE5vL2ZZc3hYNExCS2NSdzdobjNPbnNzY3dnR0l4?=
+ =?utf-8?B?eitTV2hPbVAwbkJLTDBOK0dvaC84UU9wc3h4S3NlR0pjTVhqby9wV3pSd1FZ?=
+ =?utf-8?B?QlNLbGJDNzBRQUpGMGgraGRoSG9lWG5rSTVrcHdrajh0b0djMU5DaDJLQnNI?=
+ =?utf-8?B?eWpQS0YvMnFaRTRSMTZKSFNlZnNsdWFBaUN2SGlvQmROdHpKZ3Q3VzU4bktN?=
+ =?utf-8?B?Z2c0ZmtOc0E3YThzR0JabG5ya2hXbjdZSDRVTkJNVWVySC9heGpjdEJnMXZD?=
+ =?utf-8?B?czRZY0VFNU9YNkFBdS9rQUx3OHllY2dGbTd0T2p0MXBqRjQ5R3ZtYVhqVWRG?=
+ =?utf-8?B?SVRFTzlQTmNoalVTZE1XeThWSEYrdzZHVytCL1JKV01PSGVsakdsU3FDZHFF?=
+ =?utf-8?B?NEZpNlJjV3g4UXo3cmRSUjRuNHh2N25wdUlWZFNnUC9oYUZXSzQ0ZE9rVjJk?=
+ =?utf-8?B?LzJyYUtxdFRRYkViS25WY2FkaFE4SVI1TVg5M0xEdnhDRUF5QUxrWFhYSi9Q?=
+ =?utf-8?B?bjNXUTFhbko1WCtFNjJJNnN6c2xXdUJNempXRjBMSWk4WDRRbWQvVFdVeXRK?=
+ =?utf-8?B?VWxPN0duWnlKeUwxYWc5d2EzN2V0QURxdC9qWHhIeGN3aTFtVkczRWc5T0xn?=
+ =?utf-8?B?ckMyemVkUnJBZFBzZWtJY0hVNFRyUS91Q2VraktldmQzRzcwcFppZkNDc1FT?=
+ =?utf-8?B?RU05VkVvR1U0eUZyMGN2Y2crZkFaeG1hRVlqYS82bWRNMGxsUFhXWnZMbHd6?=
+ =?utf-8?B?Nm5HZUFYdzg2a2ZrYzdRKzBrYmY4Vy9RN3QxaFNXeU5iMW0wZys1TnZxYjgx?=
+ =?utf-8?B?c0d1SFdOQkp2RFF2aFhXQ1phUDljeEIxc2pQYkNTY3VQVnRFeEVuTU9KUkU3?=
+ =?utf-8?B?RU8yUG1pb2hOdXdkMmhmSldOUnhObnhyNk1rTndJUktyWTNGY3hlaE9LNU9l?=
+ =?utf-8?B?a0VmblZ6WWQwYlIrYmhMNTVYeDFWVHEwcGJCaFVyS01wUnU3bG9YdlIrQjdp?=
+ =?utf-8?B?QzkzNDlSWnNCMG1GMWFFbUk5NDFwNnZaUzFKRWNpMUdPTGltRUQybkdlSXl4?=
+ =?utf-8?B?dHoxRnJZanRjMC8xWjEvV09DZ0RZK3VDV3VJOGF0WXpFbHVpZ1QvcG45Q1VJ?=
+ =?utf-8?B?U1pqY1h3bVVzeDVjR3Z1blhpMXUrQ3BCOFZvZDJ5eFpRNmJCTmNqN0FORFZu?=
+ =?utf-8?B?SlB5UlJqMC9ZT3ZSWm1Ua1RnZkJjZjJjRmQvbllHT2dPdVVGUEtlOFpYYlZm?=
+ =?utf-8?Q?yHSh6i4688eMLa0Ds5tAIOrmEq2o4CIA64LjRpmoK2zL?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <BEEF178FBFE50D4C8AF92D566EEE22B8@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ec35b58-dceb-4ff8-58e9-08db87a868c8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jul 2023 16:02:38.5248
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: XVC/eLa05vDr2y3Ck7hV8w7FsNznNRsaye5wSt5+Jv47wIXutatVKQJg0aRWZIOWz6gigVq/rDEJBLbsspTq6A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7311
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230718_135812_085183_C56ACC30 
-X-CRM114-Status: UNSURE (   6.81  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230718_170329_937720_B809B360 
+X-CRM114-Status: GOOD (  10.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,187 +164,109 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello
-
-I connected one remote testing server and running stress blktests
-nvme/tcp nvme/047, my local PC's network suddenly disconnect,
-when I connect the remote test server again, found the server panic,
-here is the full log.
-
-[ 2775.059752] run blktests nvme/047 at 2023-07-18 07:14:35
-[ 2775.077916] loop0: detected capacity change from 0 to 2097152
-[ 2775.086905] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-[ 2775.097228] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
-[ 2775.107654] nvmet: creating nvm controller 1 for subsystem
-blktests-subsystem-1 for NQN
-nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
-[ 2775.122214] nvme nvme1: creating 128 I/O queues.
-[ 2775.131320] nvme nvme1: mapped 128/0/0 default/read/poll queues.
-[ 2775.156774] nvme nvme1: new ctrl: NQN "blktests-subsystem-1", addr
-127.0.0.1:4420
-[ 2776.457015] nvme nvme1: Removing ctrl: NQN "blktests-subsystem-1"
-[ 2776.819885] nvmet: creating nvm controller 2 for subsystem
-blktests-subsystem-1 for NQN
-nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
-[ 2776.834469] nvme nvme1: creating 128 I/O queues.
-[ 2776.843587] nvme nvme1: mapped 128/0/0 default/read/poll queues.
-[ 2776.868188] nvme nvme1: new ctrl: NQN "blktests-subsystem-1", addr
-127.0.0.1:4420
-[ 2777.130742] nvme nvme1: Removing ctrl: NQN "blktests-subsystem-1"
-[ 2778.008799] run blktests nvme/047 at 2023-07-18 07:14:38
-[ 2778.026652] loop0: detected capacity change from 0 to 2097152
-[ 2778.035601] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-[ 2778.046391] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
-[ 2778.057017] nvmet: creating nvm controller 1 for subsystem
-blktests-subsystem-1 for NQN
-nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
-[ 2778.071593] nvme nvme1: creating 128 I/O queues.
-[ 2778.080719] nvme nvme1: mapped 128/0/0 default/read/poll queues.
-[ 2778.106150] nvme nvme1: new ctrl: NQN "blktests-subsystem-1", addr
-127.0.0.1:4420
-[ 2779.409008] nvme nvme1: Removing ctrl: NQN "blktests-subsystem-1"
-[ 2779.749743] nvmet: creating nvm controller 2 for subsystem
-blktests-subsystem-1 for NQN
-nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
-[ 2779.764303] nvme nvme1: creating 128 I/O queues.
-[ 2779.773359] nvme nvme1: mapped 128/0/0 default/read/poll queues.
-[ 2779.797745] nvme nvme1: new ctrl: NQN "blktests-subsystem-1", addr
-127.0.0.1:4420
-[ 2780.053958] nvme nvme1: Removing ctrl: NQN "blktests-subsystem-1"
-[ 2780.350049] ------------[ cut here ]------------
-[ 2780.354658] WARNING: CPU: 118 PID: 1874 at kernel/workqueue.c:1635
-__queue_work+0x3cc/0x460
-[ 2780.362999] Modules linked in: nvmet_tcp nvmet nvme_fabrics loop
-rfkill sunrpc vfat fat ast acpi_ipmi drm_shmem_helper ipmi_ssif
-arm_spe_pmu drm_kms_helper ipmi_devintf ipmi_msghandler arm_cmn
-arm_dmc620_pmu arm_dsu_pmu cppc_cpufreq fuse drm xfs libcrc32c
-crct10dif_ce nvme ghash_ce igb sha2_ce nvme_core sha256_arm64 sha1_ce
-sbsa_gwdt i2c_designware_platform nvme_common i2c_algo_bit
-i2c_designware_core xgene_hwmon dm_mirror dm_region_hash dm_log dm_mod
-[last unloaded: nvme_tcp]
-[ 2780.405219] CPU: 118 PID: 1874 Comm: kworker/118:1H Kdump: loaded
-Not tainted 6.5.0-rc2+ #1
-[ 2780.413557] Hardware name: GIGABYTE R152-P31-00/MP32-AR1-00, BIOS
-F31n (SCP: 2.10.20220810) 09/30/2022
-[ 2780.422848] Workqueue: kblockd blk_mq_run_work_fn
-[ 2780.427542] pstate: 204000c9 (nzCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[ 2780.434490] pc : __queue_work+0x3cc/0x460
-[ 2780.438487] lr : __queue_work+0x408/0x460
-[ 2780.442484] sp : ffff800086ec3ba0
-[ 2780.445785] x29: ffff800086ec3ba0 x28: ffff07ffb8a4d6c0 x27: ffff07fff7bf1400
-[ 2780.452908] x26: ffff07ffe52e0af8 x25: ffff07ffb8a4d708 x24: 0000000000000000
-[ 2780.460030] x23: ffff800086ec3cd8 x22: ffff07ff94d70000 x21: 0000000000000000
-[ 2780.467152] x20: ffff0800814f2400 x19: ffff07ff94d70008 x18: 0000000000000000
-[ 2780.474275] x17: 0000000000000000 x16: ffffd3eb60e7a5e0 x15: 0000000000000000
-[ 2780.481397] x14: 0000000000000000 x13: 0000000000000038 x12: 0101010101010101
-[ 2780.488519] x11: 7f7f7f7f7f7f7f7f x10: fefefefefefefeff x9 : ffffd3eb60e7a588
-[ 2780.495641] x8 : fefefefefefefeff x7 : 0000000000000008 x6 : 000000010003c8e4
-[ 2780.502763] x5 : ffff07ffe52e4db0 x4 : 0000000000000000 x3 : 0000000000000000
-[ 2780.509885] x2 : 0000000000000000 x1 : 0000000004208060 x0 : ffff07ff84c67e00
-[ 2780.517008] Call trace:
-[ 2780.519441]  __queue_work+0x3cc/0x460
-[ 2780.523091]  queue_work_on+0x70/0xc0
-[ 2780.526654]  0xffffd3eb3893ff74
-[ 2780.529784]  blk_mq_dispatch_rq_list+0x148/0x578
-[ 2780.534389]  __blk_mq_sched_dispatch_requests+0xb4/0x1b8
-[ 2780.539689]  blk_mq_sched_dispatch_requests+0x40/0x80
-[ 2780.544727]  blk_mq_run_work_fn+0x44/0x98
-[ 2780.548723]  process_one_work+0x1f4/0x488
-[ 2780.552720]  worker_thread+0x74/0x420
-[ 2780.556369]  kthread+0x100/0x110
-[ 2780.559585]  ret_from_fork+0x10/0x20
-[ 2780.563148] ---[ end trace 0000000000000000 ]---
-[ 2789.825110] nvmet: ctrl 2 keep-alive timer (5 seconds) expired!
-[ 2789.831054] nvmet: ctrl 2 fatal error occurred!
-[ 2789.835585] Unable to handle kernel paging request at virtual
-address ffffd3eb3893e448
-[ 2789.843489] Mem abort info:
-[ 2789.846272]   ESR = 0x0000000086000007
-[ 2789.850007]   EC = 0x21: IABT (current EL), IL = 32 bits
-[ 2789.855309]   SET = 0, FnV = 0
-[ 2789.858350]   EA = 0, S1PTW = 0
-[ 2789.861478]   FSC = 0x07: level 3 translation fault
-[ 2789.866344] swapper pgtable: 4k pages, 48-bit VAs, pgdp=0000080457515000
-[ 2789.873032] [ffffd3eb3893e448] pgd=1000080ffffff003,
-p4d=1000080ffffff003, pud=1000080029323003, pmd=1000080039493003,
-pte=0000000000000000
-[ 2789.885542] Internal error: Oops: 0000000086000007 [#1] SMP
-[ 2789.891102] Modules linked in: nvmet_tcp nvmet loop rfkill sunrpc
-vfat fat ast acpi_ipmi drm_shmem_helper ipmi_ssif arm_spe_pmu
-drm_kms_helper ipmi_devintf ipmi_msghandler arm_cmn arm_dmc620_pmu
-arm_dsu_pmu cppc_cpufreq fuse drm xfs libcrc32c crct10dif_ce nvme
-ghash_ce igb sha2_ce nvme_core sha256_arm64 sha1_ce sbsa_gwdt
-i2c_designware_platform nvme_common i2c_algo_bit i2c_designware_core
-xgene_hwmon dm_mirror dm_region_hash dm_log dm_mod [last unloaded:
-nvme_fabrics]
-[ 2789.932537] CPU: 0 PID: 60955 Comm: kworker/0:125 Kdump: loaded
-Tainted: G        W          6.5.0-rc2+ #1
-[ 2789.942177] Hardware name: GIGABYTE R152-P31-00/MP32-AR1-00, BIOS
-F31n (SCP: 2.10.20220810) 09/30/2022
-[ 2789.951469] Workqueue: nvmet-wq nvmet_fatal_error_handler [nvmet]
-[ 2789.957560] pstate: 00400009 (nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[ 2789.964509] pc : 0xffffd3eb3893e448
-[ 2789.967985] lr : tcp_fin+0xb8/0x1a0
-[ 2789.971463] sp : ffff800080003a80
-[ 2789.974764] x29: ffff800080003a80 x28: ffff07ffdf93b480 x27: 0000000000000001
-[ 2789.981886] x26: ffffd3eb6181a1d0 x25: ffff08008a3c1020 x24: 0000000000000000
-[ 2789.989009] x23: ffffd3eb637c9480 x22: ffff08008a3c1020 x21: ffff080089b94310
-[ 2789.996131] x20: ffff080089b942e8 x19: ffff07ffdf93b480 x18: ffffffffffffffff
-[ 2790.003254] x17: ffff3423d4d57000 x16: ffff800080000000 x15: ffff800143a0b9c7
-[ 2790.010376] x14: 0000000000000000 x13: 2164657272756363 x12: 6f20726f72726520
-[ 2790.017498] x11: ffffd3eb637c9480 x10: 0000000000004411 x9 : ffffd3eb6191d9e8
-[ 2790.024621] x8 : ffff800080003ae8 x7 : 0000000000000000 x6 : 0000000000004103
-[ 2790.031744] x5 : ffff3423d4d57000 x4 : ffffd3eb62bbc478 x3 : ffffffffffffffff
-[ 2790.038866] x2 : 0000000000000000 x1 : ffffd3eb3893e448 x0 : ffff07ffdf93b480
-[ 2790.045989] Call trace:
-[ 2790.048422]  0xffffd3eb3893e448
-[ 2790.051551]  tcp_data_queue+0x43c/0x570
-[ 2790.055374]  tcp_rcv_established+0x2ec/0x868
-[ 2790.059631]  tcp_v4_do_rcv+0x1c8/0x370
-[ 2790.063368]  tcp_v4_rcv+0xc98/0xd20
-[ 2790.066844]  ip_protocol_deliver_rcu+0x48/0x1e0
-[ 2790.071362]  ip_local_deliver_finish+0x80/0xd0
-[ 2790.075792]  ip_local_deliver+0x80/0x128
-[ 2790.079702]  ip_rcv_finish+0x94/0xb8
-[ 2790.083264]  ip_rcv+0x58/0x100
-[ 2790.086306]  __netif_receive_skb_one_core+0x5c/0x90
-[ 2790.091172]  __netif_receive_skb+0x1c/0x70
-[ 2790.095255]  process_backlog+0xc8/0x1c8
-[ 2790.099077]  __napi_poll+0x3c/0x218
-[ 2790.102553]  net_rx_action+0x340/0x448
-[ 2790.106289]  __do_softirq+0x118/0x3d4
-[ 2790.109939]  ____do_softirq+0x14/0x28
-[ 2790.113589]  call_on_irq_stack+0x24/0x30
-[ 2790.117499]  do_softirq_own_stack+0x20/0x30
-[ 2790.121669]  do_softirq+0xa8/0xc0
-[ 2790.124973]  __local_bh_enable_ip+0xa0/0xb8
-[ 2790.129143]  __dev_queue_xmit+0x350/0x698
-[ 2790.133140]  neigh_hh_output+0x9c/0x108
-[ 2790.136964]  ip_finish_output2+0x3fc/0x4d0
-[ 2790.141047]  __ip_finish_output+0xa4/0x1a0
-[ 2790.145131]  ip_finish_output+0x38/0xf0
-[ 2790.148954]  ip_output+0xfc/0x1b8
-[ 2790.152256]  __ip_queue_xmit+0x16c/0x400
-[ 2790.156166]  ip_queue_xmit+0x18/0x28
-[ 2790.159729]  __tcp_transmit_skb+0x3ec/0x7f0
-[ 2790.163900]  tcp_write_xmit+0x534/0xb08
-[ 2790.167723]  __tcp_push_pending_frames+0x40/0x108
-[ 2790.172415]  tcp_send_fin+0x6c/0x240
-[ 2790.175978]  tcp_shutdown+0x60/0x70
-[ 2790.179453]  inet_shutdown+0xb4/0x128
-[ 2790.183103]  kernel_sock_shutdown+0x1c/0x30
-[ 2790.187274]  nvmet_tcp_delete_ctrl+0x6c/0xa0 [nvmet_tcp]
-[ 2790.192576]  nvmet_fatal_error_handler+0x3c/0x50 [nvmet]
-[ 2790.197882]  process_one_work+0x1f4/0x488
-[ 2790.201879]  worker_thread+0x74/0x420
-[ 2790.205529]  kthread+0x100/0x110
-[ 2790.208745]  ret_from_fork+0x10/0x20
-[ 2790.212309] Code: ???????? ???????? ???????? ???????? (????????)
-[ 2790.218390] SMP: stopping secondary CPUs
-[ 2790.223318] Starting crashdump kernel...
-[ 2790.227228] Bye!
--- 
-Best Regards,
-  Yi Zhang
-
+T24gNy8xOC8yMDIzIDU6NTIgQU0sIFlpIFpoYW5nIHdyb3RlOg0KPiBIZWxsbw0KPiANCj4gSSBj
+b25uZWN0ZWQgb25lIHJlbW90ZSB0ZXN0aW5nIHNlcnZlciBhbmQgcnVubmluZyBzdHJlc3MgYmxr
+dGVzdHMNCj4gbnZtZS90Y3AgbnZtZS8wNDcsIG15IGxvY2FsIFBDJ3MgbmV0d29yayBzdWRkZW5s
+eSBkaXNjb25uZWN0LA0KPiB3aGVuIEkgY29ubmVjdCB0aGUgcmVtb3RlIHRlc3Qgc2VydmVyIGFn
+YWluLCBmb3VuZCB0aGUgc2VydmVyIHBhbmljLA0KPiBoZXJlIGlzIHRoZSBmdWxsIGxvZy4NCj4g
+DQo+IFsgMjc3NS4wNTk3NTJdIHJ1biBibGt0ZXN0cyBudm1lLzA0NyBhdCAyMDIzLTA3LTE4IDA3
+OjE0OjM1DQo+IFsgMjc3NS4wNzc5MTZdIGxvb3AwOiBkZXRlY3RlZCBjYXBhY2l0eSBjaGFuZ2Ug
+ZnJvbSAwIHRvIDIwOTcxNTINCj4gWyAyNzc1LjA4NjkwNV0gbnZtZXQ6IGFkZGluZyBuc2lkIDEg
+dG8gc3Vic3lzdGVtIGJsa3Rlc3RzLXN1YnN5c3RlbS0xDQo+IFsgMjc3NS4wOTcyMjhdIG52bWV0
+X3RjcDogZW5hYmxpbmcgcG9ydCAwICgxMjcuMC4wLjE6NDQyMCkNCj4gWyAyNzc1LjEwNzY1NF0g
+bnZtZXQ6IGNyZWF0aW5nIG52bSBjb250cm9sbGVyIDEgZm9yIHN1YnN5c3RlbQ0KPiBibGt0ZXN0
+cy1zdWJzeXN0ZW0tMSBmb3IgTlFODQo+IG5xbi4yMDE0LTA4Lm9yZy5udm1leHByZXNzOnV1aWQ6
+MGYwMWZiNDItOWY3Zi00ODU2LWIwYjMtNTFlNjBiOGRlMzQ5Lg0KPiBbIDI3NzUuMTIyMjE0XSBu
+dm1lIG52bWUxOiBjcmVhdGluZyAxMjggSS9PIHF1ZXVlcy4NCj4gWyAyNzc1LjEzMTMyMF0gbnZt
+ZSBudm1lMTogbWFwcGVkIDEyOC8wLzAgZGVmYXVsdC9yZWFkL3BvbGwgcXVldWVzLg0KPiBbIDI3
+NzUuMTU2Nzc0XSBudm1lIG52bWUxOiBuZXcgY3RybDogTlFOICJibGt0ZXN0cy1zdWJzeXN0ZW0t
+MSIsIGFkZHINCj4gMTI3LjAuMC4xOjQ0MjANCj4gWyAyNzc2LjQ1NzAxNV0gbnZtZSBudm1lMTog
+UmVtb3ZpbmcgY3RybDogTlFOICJibGt0ZXN0cy1zdWJzeXN0ZW0tMSINCj4gWyAyNzc2LjgxOTg4
+NV0gbnZtZXQ6IGNyZWF0aW5nIG52bSBjb250cm9sbGVyIDIgZm9yIHN1YnN5c3RlbQ0KPiBibGt0
+ZXN0cy1zdWJzeXN0ZW0tMSBmb3IgTlFODQo+IG5xbi4yMDE0LTA4Lm9yZy5udm1leHByZXNzOnV1
+aWQ6MGYwMWZiNDItOWY3Zi00ODU2LWIwYjMtNTFlNjBiOGRlMzQ5Lg0KPiBbIDI3NzYuODM0NDY5
+XSBudm1lIG52bWUxOiBjcmVhdGluZyAxMjggSS9PIHF1ZXVlcy4NCj4gWyAyNzc2Ljg0MzU4N10g
+bnZtZSBudm1lMTogbWFwcGVkIDEyOC8wLzAgZGVmYXVsdC9yZWFkL3BvbGwgcXVldWVzLg0KPiBb
+IDI3NzYuODY4MTg4XSBudm1lIG52bWUxOiBuZXcgY3RybDogTlFOICJibGt0ZXN0cy1zdWJzeXN0
+ZW0tMSIsIGFkZHINCj4gMTI3LjAuMC4xOjQ0MjANCj4gWyAyNzc3LjEzMDc0Ml0gbnZtZSBudm1l
+MTogUmVtb3ZpbmcgY3RybDogTlFOICJibGt0ZXN0cy1zdWJzeXN0ZW0tMSINCj4gWyAyNzc4LjAw
+ODc5OV0gcnVuIGJsa3Rlc3RzIG52bWUvMDQ3IGF0IDIwMjMtMDctMTggMDc6MTQ6MzgNCj4gWyAy
+Nzc4LjAyNjY1Ml0gbG9vcDA6IGRldGVjdGVkIGNhcGFjaXR5IGNoYW5nZSBmcm9tIDAgdG8gMjA5
+NzE1Mg0KPiBbIDI3NzguMDM1NjAxXSBudm1ldDogYWRkaW5nIG5zaWQgMSB0byBzdWJzeXN0ZW0g
+YmxrdGVzdHMtc3Vic3lzdGVtLTENCj4gWyAyNzc4LjA0NjM5MV0gbnZtZXRfdGNwOiBlbmFibGlu
+ZyBwb3J0IDAgKDEyNy4wLjAuMTo0NDIwKQ0KPiBbIDI3NzguMDU3MDE3XSBudm1ldDogY3JlYXRp
+bmcgbnZtIGNvbnRyb2xsZXIgMSBmb3Igc3Vic3lzdGVtDQo+IGJsa3Rlc3RzLXN1YnN5c3RlbS0x
+IGZvciBOUU4NCj4gbnFuLjIwMTQtMDgub3JnLm52bWV4cHJlc3M6dXVpZDowZjAxZmI0Mi05Zjdm
+LTQ4NTYtYjBiMy01MWU2MGI4ZGUzNDkuDQo+IFsgMjc3OC4wNzE1OTNdIG52bWUgbnZtZTE6IGNy
+ZWF0aW5nIDEyOCBJL08gcXVldWVzLg0KPiBbIDI3NzguMDgwNzE5XSBudm1lIG52bWUxOiBtYXBw
+ZWQgMTI4LzAvMCBkZWZhdWx0L3JlYWQvcG9sbCBxdWV1ZXMuDQo+IFsgMjc3OC4xMDYxNTBdIG52
+bWUgbnZtZTE6IG5ldyBjdHJsOiBOUU4gImJsa3Rlc3RzLXN1YnN5c3RlbS0xIiwgYWRkcg0KPiAx
+MjcuMC4wLjE6NDQyMA0KPiBbIDI3NzkuNDA5MDA4XSBudm1lIG52bWUxOiBSZW1vdmluZyBjdHJs
+OiBOUU4gImJsa3Rlc3RzLXN1YnN5c3RlbS0xIg0KPiBbIDI3NzkuNzQ5NzQzXSBudm1ldDogY3Jl
+YXRpbmcgbnZtIGNvbnRyb2xsZXIgMiBmb3Igc3Vic3lzdGVtDQo+IGJsa3Rlc3RzLXN1YnN5c3Rl
+bS0xIGZvciBOUU4NCj4gbnFuLjIwMTQtMDgub3JnLm52bWV4cHJlc3M6dXVpZDowZjAxZmI0Mi05
+ZjdmLTQ4NTYtYjBiMy01MWU2MGI4ZGUzNDkuDQo+IFsgMjc3OS43NjQzMDNdIG52bWUgbnZtZTE6
+IGNyZWF0aW5nIDEyOCBJL08gcXVldWVzLg0KPiBbIDI3NzkuNzczMzU5XSBudm1lIG52bWUxOiBt
+YXBwZWQgMTI4LzAvMCBkZWZhdWx0L3JlYWQvcG9sbCBxdWV1ZXMuDQo+IFsgMjc3OS43OTc3NDVd
+IG52bWUgbnZtZTE6IG5ldyBjdHJsOiBOUU4gImJsa3Rlc3RzLXN1YnN5c3RlbS0xIiwgYWRkcg0K
+PiAxMjcuMC4wLjE6NDQyMA0KPiBbIDI3ODAuMDUzOTU4XSBudm1lIG52bWUxOiBSZW1vdmluZyBj
+dHJsOiBOUU4gImJsa3Rlc3RzLXN1YnN5c3RlbS0xIg0KPiBbIDI3ODAuMzUwMDQ5XSAtLS0tLS0t
+LS0tLS1bIGN1dCBoZXJlIF0tLS0tLS0tLS0tLS0NCj4gWyAyNzgwLjM1NDY1OF0gV0FSTklORzog
+Q1BVOiAxMTggUElEOiAxODc0IGF0IGtlcm5lbC93b3JrcXVldWUuYzoxNjM1DQo+IF9fcXVldWVf
+d29yaysweDNjYy8weDQ2MA0KPiBbIDI3ODAuMzYyOTk5XSBNb2R1bGVzIGxpbmtlZCBpbjogbnZt
+ZXRfdGNwIG52bWV0IG52bWVfZmFicmljcyBsb29wDQo+IHJma2lsbCBzdW5ycGMgdmZhdCBmYXQg
+YXN0IGFjcGlfaXBtaSBkcm1fc2htZW1faGVscGVyIGlwbWlfc3NpZg0KPiBhcm1fc3BlX3BtdSBk
+cm1fa21zX2hlbHBlciBpcG1pX2RldmludGYgaXBtaV9tc2doYW5kbGVyIGFybV9jbW4NCj4gYXJt
+X2RtYzYyMF9wbXUgYXJtX2RzdV9wbXUgY3BwY19jcHVmcmVxIGZ1c2UgZHJtIHhmcyBsaWJjcmMz
+MmMNCj4gY3JjdDEwZGlmX2NlIG52bWUgZ2hhc2hfY2UgaWdiIHNoYTJfY2UgbnZtZV9jb3JlIHNo
+YTI1Nl9hcm02NCBzaGExX2NlDQo+IHNic2FfZ3dkdCBpMmNfZGVzaWdud2FyZV9wbGF0Zm9ybSBu
+dm1lX2NvbW1vbiBpMmNfYWxnb19iaXQNCj4gaTJjX2Rlc2lnbndhcmVfY29yZSB4Z2VuZV9od21v
+biBkbV9taXJyb3IgZG1fcmVnaW9uX2hhc2ggZG1fbG9nIGRtX21vZA0KPiBbbGFzdCB1bmxvYWRl
+ZDogbnZtZV90Y3BdDQo+IFsgMjc4MC40MDUyMTldIENQVTogMTE4IFBJRDogMTg3NCBDb21tOiBr
+d29ya2VyLzExODoxSCBLZHVtcDogbG9hZGVkDQo+IE5vdCB0YWludGVkIDYuNS4wLXJjMisgIzEN
+Cj4gWyAyNzgwLjQxMzU1N10gSGFyZHdhcmUgbmFtZTogR0lHQUJZVEUgUjE1Mi1QMzEtMDAvTVAz
+Mi1BUjEtMDAsIEJJT1MNCj4gRjMxbiAoU0NQOiAyLjEwLjIwMjIwODEwKSAwOS8zMC8yMDIyDQo+
+IFsgMjc4MC40MjI4NDhdIFdvcmtxdWV1ZToga2Jsb2NrZCBibGtfbXFfcnVuX3dvcmtfZm4NCj4g
+WyAyNzgwLjQyNzU0Ml0gcHN0YXRlOiAyMDQwMDBjOSAobnpDdiBkYUlGICtQQU4gLVVBTyAtVENP
+IC1ESVQgLVNTQlMgQlRZUEU9LS0pDQo+IFsgMjc4MC40MzQ0OTBdIHBjIDogX19xdWV1ZV93b3Jr
+KzB4M2NjLzB4NDYwDQo+IFsgMjc4MC40Mzg0ODddIGxyIDogX19xdWV1ZV93b3JrKzB4NDA4LzB4
+NDYwDQo+IFsgMjc4MC40NDI0ODRdIHNwIDogZmZmZjgwMDA4NmVjM2JhMA0KPiBbIDI3ODAuNDQ1
+Nzg1XSB4Mjk6IGZmZmY4MDAwODZlYzNiYTAgeDI4OiBmZmZmMDdmZmI4YTRkNmMwIHgyNzogZmZm
+ZjA3ZmZmN2JmMTQwMA0KPiBbIDI3ODAuNDUyOTA4XSB4MjY6IGZmZmYwN2ZmZTUyZTBhZjggeDI1
+OiBmZmZmMDdmZmI4YTRkNzA4IHgyNDogMDAwMDAwMDAwMDAwMDAwMA0KPiBbIDI3ODAuNDYwMDMw
+XSB4MjM6IGZmZmY4MDAwODZlYzNjZDggeDIyOiBmZmZmMDdmZjk0ZDcwMDAwIHgyMTogMDAwMDAw
+MDAwMDAwMDAwMA0KPiBbIDI3ODAuNDY3MTUyXSB4MjA6IGZmZmYwODAwODE0ZjI0MDAgeDE5OiBm
+ZmZmMDdmZjk0ZDcwMDA4IHgxODogMDAwMDAwMDAwMDAwMDAwMA0KPiBbIDI3ODAuNDc0Mjc1XSB4
+MTc6IDAwMDAwMDAwMDAwMDAwMDAgeDE2OiBmZmZmZDNlYjYwZTdhNWUwIHgxNTogMDAwMDAwMDAw
+MDAwMDAwMA0KPiBbIDI3ODAuNDgxMzk3XSB4MTQ6IDAwMDAwMDAwMDAwMDAwMDAgeDEzOiAwMDAw
+MDAwMDAwMDAwMDM4IHgxMjogMDEwMTAxMDEwMTAxMDEwMQ0KPiBbIDI3ODAuNDg4NTE5XSB4MTE6
+IDdmN2Y3ZjdmN2Y3ZjdmN2YgeDEwOiBmZWZlZmVmZWZlZmVmZWZmIHg5IDogZmZmZmQzZWI2MGU3
+YTU4OA0KPiBbIDI3ODAuNDk1NjQxXSB4OCA6IGZlZmVmZWZlZmVmZWZlZmYgeDcgOiAwMDAwMDAw
+MDAwMDAwMDA4IHg2IDogMDAwMDAwMDEwMDAzYzhlNA0KPiBbIDI3ODAuNTAyNzYzXSB4NSA6IGZm
+ZmYwN2ZmZTUyZTRkYjAgeDQgOiAwMDAwMDAwMDAwMDAwMDAwIHgzIDogMDAwMDAwMDAwMDAwMDAw
+MA0KPiBbIDI3ODAuNTA5ODg1XSB4MiA6IDAwMDAwMDAwMDAwMDAwMDAgeDEgOiAwMDAwMDAwMDA0
+MjA4MDYwIHgwIDogZmZmZjA3ZmY4NGM2N2UwMA0KPiBbIDI3ODAuNTE3MDA4XSBDYWxsIHRyYWNl
+Og0KPiBbIDI3ODAuNTE5NDQxXSAgX19xdWV1ZV93b3JrKzB4M2NjLzB4NDYwDQo+IFsgMjc4MC41
+MjMwOTFdICBxdWV1ZV93b3JrX29uKzB4NzAvMHhjMA0KPiBbIDI3ODAuNTI2NjU0XSAgMHhmZmZm
+ZDNlYjM4OTNmZjc0DQo+IFsgMjc4MC41Mjk3ODRdICBibGtfbXFfZGlzcGF0Y2hfcnFfbGlzdCsw
+eDE0OC8weDU3OA0KPiBbIDI3ODAuNTM0Mzg5XSAgX19ibGtfbXFfc2NoZWRfZGlzcGF0Y2hfcmVx
+dWVzdHMrMHhiNC8weDFiOA0KPiBbIDI3ODAuNTM5Njg5XSAgYmxrX21xX3NjaGVkX2Rpc3BhdGNo
+X3JlcXVlc3RzKzB4NDAvMHg4MA0KPiBbIDI3ODAuNTQ0NzI3XSAgYmxrX21xX3J1bl93b3JrX2Zu
+KzB4NDQvMHg5OA0KPiBbIDI3ODAuNTQ4NzIzXSAgcHJvY2Vzc19vbmVfd29yaysweDFmNC8weDQ4
+OA0KPiBbIDI3ODAuNTUyNzIwXSAgd29ya2VyX3RocmVhZCsweDc0LzB4NDIwDQo+IFsgMjc4MC41
+NTYzNjldICBrdGhyZWFkKzB4MTAwLzB4MTEwDQo+IFsgMjc4MC41NTk1ODVdICByZXRfZnJvbV9m
+b3JrKzB4MTAvMHgyMA0KPiBbIDI3ODAuNTYzMTQ4XSAtLS1bIGVuZCB0cmFjZSAwMDAwMDAwMDAw
+MDAwMDAwIF0tLS0NCj4gWyAyNzg5LjgyNTExMF0gbnZtZXQ6IGN0cmwgMiBrZWVwLWFsaXZlIHRp
+bWVyICg1IHNlY29uZHMpIGV4cGlyZWQhDQo+IFsgMjc4OS44MzEwNTRdIG52bWV0OiBjdHJsIDIg
+ZmF0YWwgZXJyb3Igb2NjdXJyZWQhDQo+IFsgMjc4OS44MzU1ODVdIFVuYWJsZSB0byBoYW5kbGUg
+a2VybmVsIHBhZ2luZyByZXF1ZXN0IGF0IHZpcnR1YWwNCj4gYWRkcmVzcyBmZmZmZDNlYjM4OTNl
+NDQ4DQo+IFsgMjc4OS44NDM0ODldIE1lbSBhYm9ydCBpbmZvOg0KPiBbIDI3ODkuODQ2MjcyXSAg
+IEVTUiA9IDB4MDAwMDAwMDA4NjAwMDAwNw0KPiBbIDI3ODkuODUwMDA3XSAgIEVDID0gMHgyMTog
+SUFCVCAoY3VycmVudCBFTCksIElMID0gMzIgYml0cw0KPiBbIDI3ODkuODU1MzA5XSAgIFNFVCA9
+IDAsIEZuViA9IDANCj4gWyAyNzg5Ljg1ODM1MF0gICBFQSA9IDAsIFMxUFRXID0gMA0KPiBbIDI3
+ODkuODYxNDc4XSAgIEZTQyA9IDB4MDc6IGxldmVsIDMgdHJhbnNsYXRpb24gZmF1bHQNCj4gWyAy
+Nzg5Ljg2NjM0NF0gc3dhcHBlciBwZ3RhYmxlOiA0ayBwYWdlcywgNDgtYml0IFZBcywgcGdkcD0w
+MDAwMDgwNDU3NTE1MDAwDQo+IFsgMjc4OS44NzMwMzJdIFtmZmZmZDNlYjM4OTNlNDQ4XSBwZ2Q9
+MTAwMDA4MGZmZmZmZjAwMywNCj4NCg0KQ2FuIHlvdSBiaXNlY3QgdGhlIGlzc3VlID8NCg0KLWNr
+DQoNCg0K
 
