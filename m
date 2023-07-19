@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 98394EB64DA
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jul 2023 11:20:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 09CE2C001B0
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jul 2023 11:20:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0jQDZxCtHSygcvnzTXExpJm0oBvfu3bBtgPr9fdylL0=; b=jALmDYrJrjgDEsBPpfcAckLz3s
-	tkGMYswttCFAFfPdZcoLtR4Zuz+TSvMgAcE8y5+7OUCuCDCsdbriYIVCzyAYBUlSGr+lh2RgD2ktZ
-	EPAOjAiAWTdGhmtEUNVeDrggDMDnbn37+v1U7kDid7r0nlo3s4K+GVgLqt2vhBL2RanTc3CPsIpuc
-	HisTTV0Bxi+zd+cVapk67d0s3BurKMDPlS3S1OPNQ45dSaOxC3IWeiH5vtnnTdT2T7OSf2TlqFFAe
-	cidhi4r1VrtXHl29MEp40lq/FHZeblmDY6QayFlAr+n/+x5ibIqOLewIJptPQtcXsG36RErmsrT7K
-	h6qyvecQ==;
+	bh=slKVuHlQLLm38POGRVwlSA+SLJNSLb1/O0U9okq5QUI=; b=lHnoKulLIv2aBZVvybClw0CfiV
+	69xKUUOmBCPSP1dJV23tDOYL4lK/zEPMw0jrWIGRI/eaUc5cPZbfX1+Q9y+myyTj82itbvp4F8m6N
+	pHuSSRFPMBuff6wkzUAE44Ov4CmMq0McMhCfF00b+LnyswRqVSm2fCwFXrmUgOwqGF2ZwB9p9R39f
+	YX/AhNnbRgXmuXzGK/0f1+b9JGq1FfZKFUwMd0sFiL1z0es+kMKcmM0R+c8/QjYuHb5kbtHLzTtt1
+	qvYIgLUe9OTbeXPQ72muCLhmrCq+64J/MYbO7uloxyz+ZDQqKujR3kAwLGK5dM3JJjT4uQGAwsYvS
+	+k2PZS9g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qM5Ds-0076QV-0A;
-	Wed, 19 Jul 2023 11:20:00 +0000
+	id 1qM5Dv-0076UP-0i;
+	Wed, 19 Jul 2023 11:20:03 +0000
 Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qM5Dp-0076Eg-0w
+	id 1qM5Dp-0076Ei-0w
 	for linux-nvme@lists.infradead.org;
-	Wed, 19 Jul 2023 11:19:58 +0000
+	Wed, 19 Jul 2023 11:20:00 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id 143151FE97;
+	by smtp-out2.suse.de (Postfix) with ESMTP id 1BF991FE98;
 	Wed, 19 Jul 2023 11:19:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1689765588; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0jQDZxCtHSygcvnzTXExpJm0oBvfu3bBtgPr9fdylL0=;
-	b=GDvULEw7D12EnmjQSRS9zMhkdZw7nlEjgjOUT2Aez/h3unjcYl/XHZBJYaE9enXp4NLAaX
-	EoBAXavBy60iFfyoLoj9QV202/s5rCFqtO6FhqZ5QMDItn9/dg4cQfg7mJyuacRkSeS+l/
-	9jzlST3+9lJsHd7TDnbnrw1nIbHg288=
+	bh=slKVuHlQLLm38POGRVwlSA+SLJNSLb1/O0U9okq5QUI=;
+	b=sO0rEOBARmwsqpDFwtZ5hkz7CY6nIeTqbWxPIVraNbQ+GjBQDM0BF2mEATuJAKDgAUyx6x
+	WLhNZiTqqd0o4dcqZUjDhYG2GMjZHsWOIscVXy5UuX/ovZSscyrIYKqpfc4jSAq1Kql9Kg
+	E0OFaqZF74NKx4oSDjb+whnckw1lFZs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1689765588;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0jQDZxCtHSygcvnzTXExpJm0oBvfu3bBtgPr9fdylL0=;
-	b=c7iIn2UIzKGfeONfu1mK/idDbS8piJCRwxGHW8pQ2wYu0h1JeEAiZsURXXglO3Z9wqwxeC
-	ZBoqaw4AtKj9rgBw==
+	bh=slKVuHlQLLm38POGRVwlSA+SLJNSLb1/O0U9okq5QUI=;
+	b=pRTK1khuS9QU+23zlI1rqCc0kuJNm9jAEo9xaLcYGOXo9g8VxChYGM9RmwR3xB77u0qOpk
+	UqA7jhw+tjHhP9Cg==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id F17372C149;
-	Wed, 19 Jul 2023 11:19:47 +0000 (UTC)
+	by relay2.suse.de (Postfix) with ESMTP id 078C92C14B;
+	Wed, 19 Jul 2023 11:19:48 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id E54C851C9EC3; Wed, 19 Jul 2023 13:19:47 +0200 (CEST)
+	id EDE9851C9EC5; Wed, 19 Jul 2023 13:19:47 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
@@ -63,17 +63,17 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Paolo Abeni <pabeni@redhat.com>,
 	linux-netdev@vger.kernel.org,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 4/6] net/tls: Use tcp_read_sock() instead of ops->read_sock()
-Date: Wed, 19 Jul 2023 13:19:42 +0200
-Message-Id: <20230719111944.68544-5-hare@suse.de>
+Subject: [PATCH 5/6] net/tls: split tls_rx_reader_lock
+Date: Wed, 19 Jul 2023 13:19:43 +0200
+Message-Id: <20230719111944.68544-6-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230719111944.68544-1-hare@suse.de>
 References: <20230719111944.68544-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230719_041957_515278_20DA010B 
-X-CRM114-Status: GOOD (  13.02  )
+X-CRM114-CacheID: sfid-20230719_041957_552286_25C3FE37 
+X-CRM114-Status: GOOD (  13.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,42 +88,91 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-TLS resets the protocol operations, so the read_sock() callback might
-be changed, too.
-In this case using sock->ops->readsock() in tls_strp_read_copyin() will
-enter an infinite recursion if the read_sock() callback is calling
-tls_rx_rec_wait() which will call into sock->ops->readsock() via
-tls_strp_read_copyin().
-But as tls_strp_read_copyin() is supposed to produce data from the
-consumed socket and that socket is always a TCP socket we can call
-tcp_read_sock() directly without having to deal with callbacks.
+Split tls_rx_reader_{lock,unlock} into an 'acquire/release' and
+the actual locking part.
+With that we can use the tls_rx_reader_lock in situations where
+the socket is already locked.
 
+Suggested-by: Sagi Grimberg <sagi@grimberg.me>
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- net/tls/tls_strp.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ net/tls/tls_sw.c | 38 ++++++++++++++++++++++----------------
+ 1 file changed, 22 insertions(+), 16 deletions(-)
 
-diff --git a/net/tls/tls_strp.c b/net/tls/tls_strp.c
-index f37f4a0fcd3c..ca1e0e198ceb 100644
---- a/net/tls/tls_strp.c
-+++ b/net/tls/tls_strp.c
-@@ -369,7 +369,6 @@ static int tls_strp_copyin(read_descriptor_t *desc, struct sk_buff *in_skb,
- 
- static int tls_strp_read_copyin(struct tls_strparser *strp)
- {
--	struct socket *sock = strp->sk->sk_socket;
- 	read_descriptor_t desc;
- 
- 	desc.arg.data = strp;
-@@ -377,7 +376,7 @@ static int tls_strp_read_copyin(struct tls_strparser *strp)
- 	desc.count = 1; /* give more than one skb per call */
- 
- 	/* sk should be locked here, so okay to do read_sock */
--	sock->ops->read_sock(strp->sk, &desc, tls_strp_copyin);
-+	tcp_read_sock(strp->sk, &desc, tls_strp_copyin);
- 
- 	return desc.error;
+diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
+index 9aef45e870a5..d0636ea13009 100644
+--- a/net/tls/tls_sw.c
++++ b/net/tls/tls_sw.c
+@@ -1848,13 +1848,10 @@ tls_read_flush_backlog(struct sock *sk, struct tls_prot_info *prot,
+ 	return sk_flush_backlog(sk);
  }
+ 
+-static int tls_rx_reader_lock(struct sock *sk, struct tls_sw_context_rx *ctx,
+-			      bool nonblock)
++static int tls_rx_reader_acquire(struct sock *sk, struct tls_sw_context_rx *ctx,
++				 bool nonblock)
+ {
+ 	long timeo;
+-	int err;
+-
+-	lock_sock(sk);
+ 
+ 	timeo = sock_rcvtimeo(sk, nonblock);
+ 
+@@ -1868,26 +1865,30 @@ static int tls_rx_reader_lock(struct sock *sk, struct tls_sw_context_rx *ctx,
+ 			      !READ_ONCE(ctx->reader_present), &wait);
+ 		remove_wait_queue(&ctx->wq, &wait);
+ 
+-		if (timeo <= 0) {
+-			err = -EAGAIN;
+-			goto err_unlock;
+-		}
+-		if (signal_pending(current)) {
+-			err = sock_intr_errno(timeo);
+-			goto err_unlock;
+-		}
++		if (timeo <= 0)
++			return -EAGAIN;
++		if (signal_pending(current))
++			return sock_intr_errno(timeo);
+ 	}
+ 
+ 	WRITE_ONCE(ctx->reader_present, 1);
+ 
+ 	return 0;
++}
+ 
+-err_unlock:
+-	release_sock(sk);
++static int tls_rx_reader_lock(struct sock *sk, struct tls_sw_context_rx *ctx,
++			      bool nonblock)
++{
++	int err;
++
++	lock_sock(sk);
++	err = tls_rx_reader_acquire(sk, ctx, nonblock);
++	if (err)
++		release_sock(sk);
+ 	return err;
+ }
+ 
+-static void tls_rx_reader_unlock(struct sock *sk, struct tls_sw_context_rx *ctx)
++static void tls_rx_reader_release(struct sock *sk, struct tls_sw_context_rx *ctx)
+ {
+ 	if (unlikely(ctx->reader_contended)) {
+ 		if (wq_has_sleeper(&ctx->wq))
+@@ -1899,6 +1900,11 @@ static void tls_rx_reader_unlock(struct sock *sk, struct tls_sw_context_rx *ctx)
+ 	}
+ 
+ 	WRITE_ONCE(ctx->reader_present, 0);
++}
++
++static void tls_rx_reader_unlock(struct sock *sk, struct tls_sw_context_rx *ctx)
++{
++	tls_rx_reader_release(sk, ctx);
+ 	release_sock(sk);
+ }
+ 
 -- 
 2.35.3
 
