@@ -4,76 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 018CFEB64DA
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jul 2023 11:38:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 15016C0015E
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jul 2023 11:39:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=slKVuHlQLLm38POGRVwlSA+SLJNSLb1/O0U9okq5QUI=; b=xAYkEnWOVz8A/cUosXPg1sNNSt
-	V+qLty1DWdr3zxlEl20OZQfD+iQ3A0mcAmxy4NY2fBGFZvONjKFUWuZnCboujpbkPvsk1Fdrle3VO
-	c5oMte6kHaS8mvjo2cZ1M+ihwpRPobMpxPyat7rsc15DSjLPuu3W0nxyUKCpjt8a1WRexh1Cl2OI8
-	oN7BRiKL2kc/100L3bq5o6a+tCqfH0f+ofo4vvjm0gNCUneD88i+PY7sh/zU/9IdlqfljaUut87RD
-	bQB1EC5jNAAKoSqpHc6PLD87vBMedT0exS/oHaC6qRUtinuvKefp/EnydbysSpxKLMfhowJRfoI0Z
-	kqz1fKMw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=8blCrV88O6kZTECcW6yFH6jJTp6I81UB/6UiMgYJZfI=; b=2GnTSMRk+geg0KWCNjmW1X4QQP
+	6OqR5dDO/VbkKiKSP8J03ZVE8Zkl9GT/O4sCIBCYSWDAhbu8yYkTZOmN1j7PRd75feihachiPUsuy
+	NrnYvebDw+97tkPY6rKfcOZzGb/JJ8nNEw5H3+zc/zPdD9nvTjhA2nDp9zKbgBPEsG+Tv8uKeE7jg
+	pGTDimBYPVsXgLubahtJj32kOpfOnYt1GNh1EEehfNpRaaPLAx8joQLOMfvGmYcIGOkNP/U8R6A+1
+	ttPFAN7CZgwPPDdxZZpX9IPpVhTAh/1gaLATkqvApk4vDxcfhvjhojDnoXIRD9p4f0V9IdImzU4iv
+	6KYOX+6A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qM5WC-007HE3-2A;
-	Wed, 19 Jul 2023 11:38:56 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1qM5WK-007HJv-33;
+	Wed, 19 Jul 2023 11:39:05 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qM5W2-007H40-0O
+	id 1qM5WH-007HHd-2n
 	for linux-nvme@lists.infradead.org;
-	Wed, 19 Jul 2023 11:38:47 +0000
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id D16CF1FEB6;
-	Wed, 19 Jul 2023 11:38:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1689766720; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=slKVuHlQLLm38POGRVwlSA+SLJNSLb1/O0U9okq5QUI=;
-	b=uVvkbLmEEKMWDO5Ukugv+tKuTEGv+VWZN3mlETdODgo0O1gAOPitd6VpY+vxzDGj7i/ZC+
-	K1G422IBsSbd8m2U3z/M1t4ejNgTDutNIRmj8p9K32Iv5qFTUy53TBe6ybaBBR8Q9FFdut
-	d5qAXfK2v6gmXBtPL2CaOB4mOXJ5GRQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1689766720;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=slKVuHlQLLm38POGRVwlSA+SLJNSLb1/O0U9okq5QUI=;
-	b=P7Uw9ytW5Ky+T7jrJfjeTxr1O8wRfkqYCCs7ykYE2upq8QCvtBtfFTNfcBSMek2mAt/UdQ
-	6fAUVWYFvXHwusDQ==
-Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id BBB362C14B;
-	Wed, 19 Jul 2023 11:38:40 +0000 (UTC)
-Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id AB5B351C9ED5; Wed, 19 Jul 2023 13:38:40 +0200 (CEST)
-From: Hannes Reinecke <hare@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 5/6] net/tls: split tls_rx_reader_lock
-Date: Wed, 19 Jul 2023 13:38:35 +0200
-Message-Id: <20230719113836.68859-6-hare@suse.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20230719113836.68859-1-hare@suse.de>
-References: <20230719113836.68859-1-hare@suse.de>
+	Wed, 19 Jul 2023 11:39:03 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id F27D561626;
+	Wed, 19 Jul 2023 11:39:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 597B5C433C8;
+	Wed, 19 Jul 2023 11:38:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1689766740;
+	bh=NtDa673qM3W2WdFVYdb8immacaWoESgu/M+KV26c+VQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=F3Wwm/px5hxcn38XTY9Nw8TtT4/Kmc6HxHO6688wXM+n0V1yfAocy8ZjGREQipR8+
+	 dunB4eooKaqV2ICmDz9KE6cmeFWc53tyhGQOE6Ot3AacMUH5xBMNp41i4YjLAWMhon
+	 pyqo7ZPUujT26FNan4vRpe2WP2XFFBnSAgKxBmAyPWtLvXn5OJAi7UDINjTYpNMzNj
+	 KvTC4Wc6yjxWQGyAL+IfVSkYYSix+sNN+pdETjtUJK/U3BtiiwdqxXIP+SDxuzSzjc
+	 VHIR+GWPix8aURJmDsuokkRy4VISkt0jKt+jt/dWuwQqFhtKkOpFRBAQ42+wjoiigq
+	 NhrieVhFHrOhA==
+Date: Wed, 19 Jul 2023 13:38:55 +0200
+From: Keith Busch <kbusch@kernel.org>
+To: Daniel Wagner <dwagner@suse.de>
+Cc: linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v1 1/2] nvme: drop multipath config option
+Message-ID: <ZLfLT5Oirckc+o7W@kbusch-mbp.dhcp.thefacebook.com>
+References: <20230719084147.16272-1-dwagner@suse.de>
+ <20230719084147.16272-2-dwagner@suse.de>
+ <ZLe1QmfGg488wH9D@kbusch-mbp.dhcp.thefacebook.com>
+ <egbrvnkgv7dpbcqudnvp5xzj75ng6qh3fe7exedwmmffixibex@cdr4jraimzgk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <egbrvnkgv7dpbcqudnvp5xzj75ng6qh3fe7exedwmmffixibex@cdr4jraimzgk>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230719_043846_307996_C4705F12 
-X-CRM114-Status: GOOD (  13.32  )
+X-CRM114-CacheID: sfid-20230719_043901_962181_81F27527 
+X-CRM114-Status: GOOD (  22.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,92 +76,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Split tls_rx_reader_{lock,unlock} into an 'acquire/release' and
-the actual locking part.
-With that we can use the tls_rx_reader_lock in situations where
-the socket is already locked.
+On Wed, Jul 19, 2023 at 01:13:18PM +0200, Daniel Wagner wrote:
+> On Wed, Jul 19, 2023 at 12:04:50PM +0200, Keith Busch wrote:
+> > From my reading of this message, I thought the intention was that this
+> > driver will eventually replace it with a:
+> > 
+> >   			goto out_put_ns_head;
+> 
+> This would obviously make the PowerPath module unhappy. Sure, I am aware of our
+> upstream policy so I wont argue.
+> 
+> > instead of letting the namespace become visible for some unsupported
+> > mode. The warning was to give people a chance to migrate off whatever
+> > unsupported setup they were using, not a deadline for when the warning
+> > dissappears.
+> 
+> I assume this means the dm-multipath setups? If so, I understand the motivation
+> but do we really have to burn the bridge here? It's not that we have additional
+> code or maintaince overhead, except the module parameter multipath.
 
-Suggested-by: Sagi Grimberg <sagi@grimberg.me>
-Signed-off-by: Hannes Reinecke <hare@suse.de>
----
- net/tls/tls_sw.c | 38 ++++++++++++++++++++++----------------
- 1 file changed, 22 insertions(+), 16 deletions(-)
+Yeah, dm-mpath is such a setup this was intended to prevent, as well as
+out-of-tree alternatives. Not that I advocating one way or another at
+this point; I'm just trying to set the context for why this message
+exists for discussing your patchset.
 
-diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
-index 9aef45e870a5..d0636ea13009 100644
---- a/net/tls/tls_sw.c
-+++ b/net/tls/tls_sw.c
-@@ -1848,13 +1848,10 @@ tls_read_flush_backlog(struct sock *sk, struct tls_prot_info *prot,
- 	return sk_flush_backlog(sk);
- }
- 
--static int tls_rx_reader_lock(struct sock *sk, struct tls_sw_context_rx *ctx,
--			      bool nonblock)
-+static int tls_rx_reader_acquire(struct sock *sk, struct tls_sw_context_rx *ctx,
-+				 bool nonblock)
- {
- 	long timeo;
--	int err;
--
--	lock_sock(sk);
- 
- 	timeo = sock_rcvtimeo(sk, nonblock);
- 
-@@ -1868,26 +1865,30 @@ static int tls_rx_reader_lock(struct sock *sk, struct tls_sw_context_rx *ctx,
- 			      !READ_ONCE(ctx->reader_present), &wait);
- 		remove_wait_queue(&ctx->wq, &wait);
- 
--		if (timeo <= 0) {
--			err = -EAGAIN;
--			goto err_unlock;
--		}
--		if (signal_pending(current)) {
--			err = sock_intr_errno(timeo);
--			goto err_unlock;
--		}
-+		if (timeo <= 0)
-+			return -EAGAIN;
-+		if (signal_pending(current))
-+			return sock_intr_errno(timeo);
- 	}
- 
- 	WRITE_ONCE(ctx->reader_present, 1);
- 
- 	return 0;
-+}
- 
--err_unlock:
--	release_sock(sk);
-+static int tls_rx_reader_lock(struct sock *sk, struct tls_sw_context_rx *ctx,
-+			      bool nonblock)
-+{
-+	int err;
-+
-+	lock_sock(sk);
-+	err = tls_rx_reader_acquire(sk, ctx, nonblock);
-+	if (err)
-+		release_sock(sk);
- 	return err;
- }
- 
--static void tls_rx_reader_unlock(struct sock *sk, struct tls_sw_context_rx *ctx)
-+static void tls_rx_reader_release(struct sock *sk, struct tls_sw_context_rx *ctx)
- {
- 	if (unlikely(ctx->reader_contended)) {
- 		if (wq_has_sleeper(&ctx->wq))
-@@ -1899,6 +1900,11 @@ static void tls_rx_reader_unlock(struct sock *sk, struct tls_sw_context_rx *ctx)
- 	}
- 
- 	WRITE_ONCE(ctx->reader_present, 0);
-+}
-+
-+static void tls_rx_reader_unlock(struct sock *sk, struct tls_sw_context_rx *ctx)
-+{
-+	tls_rx_reader_release(sk, ctx);
- 	release_sock(sk);
- }
- 
--- 
-2.35.3
-
+I'm curious why a proprietary module is even used, though. Is the
+driver's native handling doing something undesirable, or is this to
+cater to some vendor specific behavior outside the spec? If the former,
+I'd like to understand the problem and see if there's something we can
+improve.
 
