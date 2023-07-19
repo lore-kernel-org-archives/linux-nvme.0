@@ -4,55 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A778CEB64DA
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jul 2023 11:38:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 309CEC0015E
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jul 2023 11:38:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XIMcA8z+WBKAkW13YsjUtCNEo27aVXFivONyOXhQiIk=; b=0Sn4MuqUWv6jn8G5j/uX9aboHV
-	IxNz4aRoL3xUS5g/lhOJisW1o0gFIog58HMrvw/a9+bkEBif8upNR9uInKVLnJS+muy4iQwQiJHyZ
-	YGx7F5Y3qdhBXvZTn3fzzmdJazECASf/W0xJHlQEdXVYJU5ipTogk8fzJtCFTlIIaCTEE6x/AnqRJ
-	zR9J7sV0wpOEjf1J8Q1QNtzB4RbPbyQxz5rG55rRkGMxDMvJMO73StUtwQ9uSQqvNDd8FcwUAK0Z3
-	ZAsMZ8SFKJ0Oa4LENMdMs0ConHM1XvpoiTx9rEmTj1/aUZpEMdv6a4QgOndiSSOb7MIpFSPFpnfNz
-	Z/vOrcXg==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=MjE+MOFpFadd0F3lZwj3UXnm3sqwZEpBmBb74wm7f0c=; b=Nd6CjNlM8VQ4tBWLGB5HIuM0cE
+	Ui8j7ALrEuojHsO4jvFmxSG+z2Xqt1mIMtdBX4PXN5vqhsYv+AwjhcYK6R8LaYpuYQSZfblCdq7iV
+	c5W1l6ttumMJfOOFGs2mI8caY1QF1U1f/smlSORHpdOXF4q9zzd4LfXF4U57UxJbPz8CyUrQ1+sC5
+	U1fyMn42Q0OLOsaI1vbRTuodH16KVoU51LIsNTY/10YEF0GxIr3xuX17K1VAiy978vUpqpslJptB9
+	b916g16Ujp4yukydimIq6A+dTNs0w9SLrMKdFBmLhmHdH3ICnfPmeT/Xl2bMVS/veXp3UNmQjI4ke
+	Zrho/jnQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qM5W6-007H8Z-2E;
-	Wed, 19 Jul 2023 11:38:50 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1qM5W8-007H9c-0J;
+	Wed, 19 Jul 2023 11:38:52 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qM5Vy-007H1u-2H
+	id 1qM5W0-007H1t-18
 	for linux-nvme@lists.infradead.org;
 	Wed, 19 Jul 2023 11:38:45 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id C4A771FEB4;
+	by smtp-out1.suse.de (Postfix) with ESMTP id BB3A621B98;
 	Wed, 19 Jul 2023 11:38:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1689766720; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XIMcA8z+WBKAkW13YsjUtCNEo27aVXFivONyOXhQiIk=;
-	b=wgC8KlUx2p1MRO1EQJmo7DboJYYV+64f5zch53knWhIRXboah2DBps4OzwDIzKCuOdTRl1
-	EgRo2ivoqSPqdI4rP+48V1mu8Hkdsyzu0eqXDdQHVcXIDv2FAg0a3Lf7e5XLSsIUoqB6xO
-	FE1AAb4Bm5gDqdPhWzpSAL4QsGZ3JGE=
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=MjE+MOFpFadd0F3lZwj3UXnm3sqwZEpBmBb74wm7f0c=;
+	b=j4z/i8vfjPyQPDpROWLntORA/iOaOIx9pSUu2jVGBvJ/GjVxkAQ0fOQToFuAlE6oXa9Wc2
+	nKNHVPdbtdDiTVnjquDlnTZpqUz6u2Z1/OCAXyTaOIbfKhVIm3B62+kByNr4AxXFAFFz8a
+	+KcAPIS6xdkK8zId6xvO4n0eq7qTnp4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1689766720;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XIMcA8z+WBKAkW13YsjUtCNEo27aVXFivONyOXhQiIk=;
-	b=A0yXHFfdwtQO+H8N5G0NvbQKNhC1qdH49VK3TQtix5IBEAfiFilp7a92IzWpEL+w9o6m7I
-	Bpwx3lSRB/jfKrDw==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=MjE+MOFpFadd0F3lZwj3UXnm3sqwZEpBmBb74wm7f0c=;
+	b=km34e623ab1u2UylPoopyVK66Mvu27tUCP1o3qXYcqwtvb7iiXkfIXZOpI+vl/wJgLUQ4I
+	leF4/MMNiZXcxzAA==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id AF37C2C146;
+	by relay2.suse.de (Postfix) with ESMTP id A2BBC2C142;
 	Wed, 19 Jul 2023 11:38:40 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id A2C1D51C9ED1; Wed, 19 Jul 2023 13:38:40 +0200 (CEST)
+	id 91FFF51C9ECB; Wed, 19 Jul 2023 13:38:40 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
@@ -63,17 +59,15 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Paolo Abeni <pabeni@redhat.com>,
 	netdev@vger.kernel.org,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 3/6] selftests/net/tls: add test for MSG_EOR
-Date: Wed, 19 Jul 2023 13:38:33 +0200
-Message-Id: <20230719113836.68859-4-hare@suse.de>
+Subject: [RESENT PATCHv7 0/6] net/tls: fixes for NVMe-over-TLS
+Date: Wed, 19 Jul 2023 13:38:30 +0200
+Message-Id: <20230719113836.68859-1-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20230719113836.68859-1-hare@suse.de>
-References: <20230719113836.68859-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230719_043842_918185_CD8E4B7E 
-X-CRM114-Status: GOOD (  11.03  )
+X-CRM114-CacheID: sfid-20230719_043844_541270_43DCB408 
+X-CRM114-Status: GOOD (  12.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,37 +82,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-As the recent patch is modifying the behaviour for TLS re MSG_EOR
-handling we should be having a test for it.
+Hi all,
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
----
- tools/testing/selftests/net/tls.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+here are some small fixes to get NVMe-over-TLS up and running.
+The first set are just minor modifications to have MSG_EOR handled
+for TLS, but the second set implements the ->read_sock() callback for tls_sw
+which I guess could do with some reviews.
 
-diff --git a/tools/testing/selftests/net/tls.c b/tools/testing/selftests/net/tls.c
-index a3c57004344c..4b63708c6a81 100644
---- a/tools/testing/selftests/net/tls.c
-+++ b/tools/testing/selftests/net/tls.c
-@@ -486,6 +486,17 @@ TEST_F(tls, msg_more_unsent)
- 	EXPECT_EQ(recv(self->cfd, buf, send_len, MSG_DONTWAIT), -1);
- }
- 
-+TEST_F(tls, msg_eor)
-+{
-+	char const *test_str = "test_read";
-+	int send_len = 10;
-+	char buf[10];
-+
-+	EXPECT_EQ(send(self->fd, test_str, send_len, MSG_EOR), send_len);
-+	EXPECT_EQ(recv(self->cfd, buf, send_len, MSG_WAITALL), send_len);
-+	EXPECT_EQ(memcmp(buf, test_str, send_len), 0);
-+}
-+
- TEST_F(tls, sendmsg_single)
- {
- 	struct msghdr msg;
+As usual, comments and reviews are welcome.
+
+Changes to the original submission:
+- Add a testcase for MSG_EOR handling
+
+Changes to v2:
+- Bail out on conflicting message flags
+- Rework flag handling
+
+Changes to v3:
+- Return -EINVAL on conflicting flags
+- Rebase on top of net-next
+
+Changes to v4:
+- Add tlx_rx_reader_lock() to read_sock
+- Add MSG_EOR handling to tls_sw_readpages()
+
+Changes to v5:
+- Rebase to latest upstream
+- Split tls_rx_reader_lock() as suggested by Sagi
+
+Changes to v6:
+- Fixup tls_strp_read_copyin() to avoid infinite recursion
+  in tls_read_sock()
+- Rework tls_read_sock() to read all available data
+
+Hannes Reinecke (6):
+  net/tls: handle MSG_EOR for tls_sw TX flow
+  net/tls: handle MSG_EOR for tls_device TX flow
+  selftests/net/tls: add test for MSG_EOR
+  net/tls: Use tcp_read_sock() instead of ops->read_sock()
+  net/tls: split tls_rx_reader_lock
+  net/tls: implement ->read_sock()
+
+ net/tls/tls.h                     |   2 +
+ net/tls/tls_device.c              |   6 +-
+ net/tls/tls_main.c                |   2 +
+ net/tls/tls_strp.c                |   3 +-
+ net/tls/tls_sw.c                  | 139 ++++++++++++++++++++++++++----
+ tools/testing/selftests/net/tls.c |  11 +++
+ 6 files changed, 143 insertions(+), 20 deletions(-)
+
 -- 
 2.35.3
 
