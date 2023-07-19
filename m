@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18D81C001B0
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jul 2023 11:19:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0479EB64DA
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Jul 2023 11:19:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XIMcA8z+WBKAkW13YsjUtCNEo27aVXFivONyOXhQiIk=; b=wOOzbhAF0HCFecPEZIQpeWyNjk
-	TEjqH/lh94Rz8B8axBB0MAWFrnjnU+U43VwDVLxwblv73TbpcaFGkqAHT4MJ1CKiJrZVe0IuwfLaC
-	heQyXdIfA2PEbEcGoiecq1lEKh7eChG/0cDRvC/Vy/2XhDo/6gEWaWMcOR7Pt2ix2q3TrHkFp6Fog
-	7QRUa86wFYOiDkbGa/0xxyppKLDLP7c5vimM7NhgTVDezt+KyfzO80zrXy/IjYdUI3/UVgTSc/GqQ
-	ZzyQbnLhm3kQDLZCMCr3zlU7oR2ZYXcsJMgEmQjjxFnw6Ef4vO4ZvM/o3rcaTiG3QQUD3LB2hLta/
-	q5UDseKw==;
+	bh=gvILd7sk13wwDq+N4D5AU+ZHek+MVfhla4H8J9D8dBw=; b=kdhC98BpFFu3p/N3Pr1cL9aZgr
+	M/dPaVkDSb5N01QlO+Aj8N7q8u9mCn3DBindTojvfoPtnQTsGRtV7Bz/b4gDRvx3gkXtPejr4A1KM
+	rpt99RfAcJwsORocR1D7lfUZ6/ddBbpA6uw6YiV1UFiCGiXkNrvOPSZlmbqeE46DBPlyu0vlU6ar+
+	jP9aropO2IjlO0OvcLjj1IMmg5+2kYsgKF555qUMykkcJB8I6t7Ty+9htjvZFEN8P5upLnZfMm7vz
+	UVVf/lgvnFH/CdkPF6XohlCVkuOOUwsy+jkxFNvlQQYc6YJeK6os1JpJL+P7OQCiRzf82j2l2e8+A
+	9SwyUUCg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qM5Dm-0076Jk-0s;
-	Wed, 19 Jul 2023 11:19:54 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
-	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qM5Dj-0076Ee-0A
-	for linux-nvme@lists.infradead.org;
+	id 1qM5Dk-0076HY-0q;
 	Wed, 19 Jul 2023 11:19:52 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
+	id 1qM5Dh-0076Ec-1S
+	for linux-nvme@lists.infradead.org;
+	Wed, 19 Jul 2023 11:19:50 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id 0E6B41FE96;
+	by smtp-out1.suse.de (Postfix) with ESMTP id 07B6821B68;
 	Wed, 19 Jul 2023 11:19:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1689765588; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XIMcA8z+WBKAkW13YsjUtCNEo27aVXFivONyOXhQiIk=;
-	b=vfZ9Z952BQf6kDfkeIYy3IonJ3Pfjcr66kQHqG6Wr3XPdECzjhN2p7K8Ta1pUTZeB6LfED
-	MHkGravUAAr8ihs2j7Hrt6moqZd/aqZ8L2tWNErppPFlIIHCO5MwEp4px7qaYg1uZhfZKs
-	Bw/iDAsIwU8jp5fmOqqSPWwiqjc+ga4=
+	bh=gvILd7sk13wwDq+N4D5AU+ZHek+MVfhla4H8J9D8dBw=;
+	b=QKf4rHEgkfF363ZtObP/c36dA/nJbgHoUWelvbsc2cwpDZ/0FV9qx+DIa2du1k6T/HKdbC
+	GsRqnmDkX3bWpqihnCGYzNlSeKGrbUlHF9+mdJAZTeKexlSMv8dweyay5HuJapUIIFZDP7
+	NlhjNUasOx5dUXV5v3oZua5NfO/2+NA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1689765588;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XIMcA8z+WBKAkW13YsjUtCNEo27aVXFivONyOXhQiIk=;
-	b=s8qfH8JmvRjZLTU60e6r53c8Pivb9tFqYrqUi2HPi9EfxeUL6DRD5BcPcEaugHZQrZ00gs
-	5MFHKMxfSbZPrXBw==
+	bh=gvILd7sk13wwDq+N4D5AU+ZHek+MVfhla4H8J9D8dBw=;
+	b=OyBzKnCUPiBWh9ZoyCFDOX60/PyGR9HwJd5z26W2JEZhwaSanOva5puVyh0iT/W/oFEQq7
+	CF6nxZ1MVF8wO8AA==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id E9FFA2C146;
+	by relay2.suse.de (Postfix) with ESMTP id D99B02C143;
 	Wed, 19 Jul 2023 11:19:47 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id DD17551C9EC1; Wed, 19 Jul 2023 13:19:47 +0200 (CEST)
+	id CC3EE51C9EBD; Wed, 19 Jul 2023 13:19:47 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
@@ -62,18 +62,19 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Eric Dumazet <edumazet@google.com>,
 	Paolo Abeni <pabeni@redhat.com>,
 	linux-netdev@vger.kernel.org,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 3/6] selftests/net/tls: add test for MSG_EOR
-Date: Wed, 19 Jul 2023 13:19:41 +0200
-Message-Id: <20230719111944.68544-4-hare@suse.de>
+	Hannes Reinecke <hare@suse.de>,
+	netdev@vger.kernel.org
+Subject: [PATCH 1/6] net/tls: handle MSG_EOR for tls_sw TX flow
+Date: Wed, 19 Jul 2023 13:19:39 +0200
+Message-Id: <20230719111944.68544-2-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230719111944.68544-1-hare@suse.de>
 References: <20230719111944.68544-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230719_041951_501597_3C913195 
-X-CRM114-Status: GOOD (  11.03  )
+X-CRM114-CacheID: sfid-20230719_041949_664642_812B1BE0 
+X-CRM114-Status: GOOD (  13.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,37 +89,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-As the recent patch is modifying the behaviour for TLS re MSG_EOR
-handling we should be having a test for it.
+tls_sw_sendmsg() already handles MSG_MORE, but bails
+out on MSG_EOR.
+Seeing that MSG_EOR is basically the opposite of
+MSG_MORE this patch adds handling MSG_EOR by treating
+it as the negation of MSG_MORE.
+And erroring out if MSG_EOR is specified with MSG_MORE.
 
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org
 Signed-off-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- tools/testing/selftests/net/tls.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ net/tls/tls_sw.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/net/tls.c b/tools/testing/selftests/net/tls.c
-index a3c57004344c..4b63708c6a81 100644
---- a/tools/testing/selftests/net/tls.c
-+++ b/tools/testing/selftests/net/tls.c
-@@ -486,6 +486,17 @@ TEST_F(tls, msg_more_unsent)
- 	EXPECT_EQ(recv(self->cfd, buf, send_len, MSG_DONTWAIT), -1);
- }
+diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
+index 53f944e6d8ef..9aef45e870a5 100644
+--- a/net/tls/tls_sw.c
++++ b/net/tls/tls_sw.c
+@@ -984,6 +984,9 @@ static int tls_sw_sendmsg_locked(struct sock *sk, struct msghdr *msg,
+ 	int ret = 0;
+ 	int pending;
  
-+TEST_F(tls, msg_eor)
-+{
-+	char const *test_str = "test_read";
-+	int send_len = 10;
-+	char buf[10];
++	if (!eor && (msg->msg_flags & MSG_EOR))
++		return -EINVAL;
 +
-+	EXPECT_EQ(send(self->fd, test_str, send_len, MSG_EOR), send_len);
-+	EXPECT_EQ(recv(self->cfd, buf, send_len, MSG_WAITALL), send_len);
-+	EXPECT_EQ(memcmp(buf, test_str, send_len), 0);
-+}
-+
- TEST_F(tls, sendmsg_single)
- {
- 	struct msghdr msg;
+ 	if (unlikely(msg->msg_controllen)) {
+ 		ret = tls_process_cmsg(sk, msg, &record_type);
+ 		if (ret) {
+@@ -1193,7 +1196,7 @@ int tls_sw_sendmsg(struct sock *sk, struct msghdr *msg, size_t size)
+ 	int ret;
+ 
+ 	if (msg->msg_flags & ~(MSG_MORE | MSG_DONTWAIT | MSG_NOSIGNAL |
+-			       MSG_CMSG_COMPAT | MSG_SPLICE_PAGES |
++			       MSG_CMSG_COMPAT | MSG_SPLICE_PAGES | MSG_EOR |
+ 			       MSG_SENDPAGE_NOPOLICY))
+ 		return -EOPNOTSUPP;
+ 
 -- 
 2.35.3
 
