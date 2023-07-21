@@ -4,61 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 01045C001DE
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Jul 2023 08:03:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 823F5EB64DC
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Jul 2023 08:49:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ENu8IM63AcDSK2j91mbDMwAUEGTW39H9hh/NgLey+9U=; b=C7jUltxWgIS8XlcgMjjYsNuQvr
-	XTDnNALqXWwTNWm0yuR/NQEtoT0EdKjBLjjsxsNrR3qQUzMFRuSW2Oqh8LKXPPf5OFi3HAPR03rYd
-	qJiNAP9H7NbFmi0nBh/w5zqEiVctBj/AGQpyAoNlXOHF/UG64WCVnKvO/p02TX+73g1U+MKNpZfEw
-	eMFMrCjSFi3zJPwpoTcuRu8js1ddX+qFk33HJZHos2k91wP6A2kaii2/kO1bvmIso5LMR3oPdqBWk
-	jRlpcVooqBlct2WMLg9lq1GILiFgsazR7VOPL1z4IdrnOLjYQfbyBMi3VSfaWEoEdE5KMAQSt+atz
-	JA/YzJgQ==;
+	bh=rIuqhH6IY8ONncAtN7QDgruUel+r3gNk5xnCvWyYpDA=; b=DI0fO1d1ayy7pIrbXjsU/VWFDR
+	xGyfBa2xkAWBUOYfcn8ORmaQOqnM7IndDFcMet5KTuagRi7PvCmzjoujvpVUDdN5Qw+RGosapYqnI
+	iUBldwXP+n/N9EsFLHVmxEU2tld4kdNjmhg24n8myzDfO20AQPWMW5H40msn+is2JznwIbF73PJVu
+	JpTfyX5ZL2bfCLl4J4k1IlHUe6XeLzNWLEbWrgaZTGrAXVBEGEiiZ2YXfD9KWV3MKcY9vmj7h/W7Z
+	7a/2nK+XtWGGuood876cNztjUZK3Eyt22cxNhBJHQmZLFXVrkEP4x5fvqZC6li5FbUqsdF8XyjDV+
+	g+qHzrgQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qMl6w-00DIUB-2Q;
-	Fri, 21 Jul 2023 08:03:38 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1qMlp4-00DQMz-2C;
+	Fri, 21 Jul 2023 08:49:14 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qMl6t-00DITI-2Y
+	id 1qMlp0-00DQMW-30
 	for linux-nvme@lists.infradead.org;
-	Fri, 21 Jul 2023 08:03:37 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	Fri, 21 Jul 2023 08:49:13 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1689929349;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rIuqhH6IY8ONncAtN7QDgruUel+r3gNk5xnCvWyYpDA=;
+	b=g+SjWqt1Ppe1PQHt6jDqtgaZfpZVu/EOACeTEaQqgNv9YsIH7A0yOFlfXtXi/kGdBx+TNB
+	H67wdz/NkOkht2P6YIi7CECyUC4MYyw+o78SMxx6JdjM08xiuWhK0dsKwB40CI84e362Ua
+	1rUtXP6sdwqxuabEPso/de9q6k34wbg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-376-7BJI8WwOOCGkGhdT2d1gVA-1; Fri, 21 Jul 2023 04:49:03 -0400
+X-MC-Unique: 7BJI8WwOOCGkGhdT2d1gVA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 3D4AE612AF;
-	Fri, 21 Jul 2023 08:03:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66FA7C433C8;
-	Fri, 21 Jul 2023 08:03:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1689926614;
-	bh=94sOFZYZlXgDp94s2qFcEOi2pVWZd27doNO/7fb3TlU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pfq95p+9bjGFsM+3/tkMzWm1dNRWCrp6By1tod5Rro78wZ/zvdex47YzfycRl6Hpo
-	 ya2em6owAn2GLBBKOGckNpDEzewFLPLkdWuWG6xc0EVO8QmDM3w0raRsiN5EGbsA2O
-	 IRyOQ5U3MTEWHHn+SroNUInrxqLOmpUXz9bfxQPqnBIuwTY30xZ0Szwrhrzz3ARd7y
-	 YE9Fs/AdIp2ZQFsrroxmEYjE2Q9opbwwljMiDRxVsMXu40AGcdGEPBCXNx7fk2tLhL
-	 pCQ8phFr9gL5BwFu1cGCgJ8+WiHCuvWNKOfKK37ZeiP7S3Q1+dyKerravNGM1gt2oH
-	 s+mddlRVbSfHA==
-Date: Fri, 21 Jul 2023 10:03:30 +0200
-From: Keith Busch <kbusch@kernel.org>
-To: Martin Bayern <martinbayern@outlook.com>
-Cc: linux-nvme@lists.infradead.org, ming.lei@redhat.com
-Subject: Re: Failed to enable trace event: nvme:*
-Message-ID: <ZLo70opGfRVMxBQu@kbusch-mbp.dhcp.thefacebook.com>
-References: <DB9P195MB14891E0E72F12377031315CAD23EA@DB9P195MB1489.EURP195.PROD.OUTLOOK.COM>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 531D3936D27;
+	Fri, 21 Jul 2023 08:49:02 +0000 (UTC)
+Received: from ovpn-8-26.pek2.redhat.com (ovpn-8-26.pek2.redhat.com [10.72.8.26])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F57F40C206F;
+	Fri, 21 Jul 2023 08:48:55 +0000 (UTC)
+Date: Fri, 21 Jul 2023 16:48:48 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Justin Tee <justintee8345@gmail.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	linux-nvme@lists.infradead.org,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	linux-scsi@vger.kernel.org, linux-block@vger.kernel.org,
+	Wen Xiong <wenxiong@linux.ibm.com>, Keith Busch <kbusch@kernel.org>,
+	James Smart <james.smart@broadcom.com>,
+	Justin Tee <justin.tee@broadcom.com>
+Subject: Re: [PATCH 3/8] scsi: lpfc: use blk_mq_max_nr_hw_queues() to
+ calculate io vectors
+Message-ID: <ZLpGcJbCFyK0vB4+@ovpn-8-26.pek2.redhat.com>
+References: <20230712125455.1986455-1-ming.lei@redhat.com>
+ <20230712125455.1986455-4-ming.lei@redhat.com>
+ <CABPRKS9WPBq1R9EH39=8vCAcW0+0YDAuYKRtEU9ck=BRfZKo1w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DB9P195MB14891E0E72F12377031315CAD23EA@DB9P195MB1489.EURP195.PROD.OUTLOOK.COM>
+In-Reply-To: <CABPRKS9WPBq1R9EH39=8vCAcW0+0YDAuYKRtEU9ck=BRfZKo1w@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230721_010335_867613_7AF604AF 
-X-CRM114-Status: GOOD (  14.70  )
+X-CRM114-CacheID: sfid-20230721_014911_928968_CBE935A6 
+X-CRM114-Status: GOOD (  16.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,15 +87,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jul 20, 2023 at 11:08:41PM +0200, Martin Bayern wrote:
-> Not sure why NVMe tracepoints cannot be enabled during the boot phase in Ubuntu, I added "trace_event=nvme:*" in the kernel boot command line, but after booting, I get the following error message:
+On Wed, Jul 12, 2023 at 05:03:19PM -0700, Justin Tee wrote:
+> Hi Ming,
 > 
-> "Failed to enable trace event: nvme:*"
+> A few lines below in if (aff_mask), vectors can be overwritten again
+> with min(phba->cfg_irq_chann, cpu_cnt).
 > 
-> I found Ming Lei posted the same problem on the 2019 Linux-nvme mailing list, but don't know how to fix it.
+> Perhaps we should move blk_mq_max_nr_hw_queues min comparison a little later:
 > 
-> Does anyone know why?
+> diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
+> index 3221a934066b..20410789e8b8 100644
+> --- a/drivers/scsi/lpfc/lpfc_init.c
+> +++ b/drivers/scsi/lpfc/lpfc_init.c
+> @@ -13025,6 +13025,8 @@ lpfc_sli4_enable_msix(struct lpfc_hba *phba)
+>                 flags |= PCI_IRQ_AFFINITY;
+>         }
+> 
+> +       vectors = min_t(unsigned int, vectors, blk_mq_max_nr_hw_queues());
+> +
+>         rc = pci_alloc_irq_vectors(phba->pcidev, 1, vectors, flags);
+>         if (rc < 0) {
+>                 lpfc_printf_log(phba, KERN_INFO, LOG_INIT,
 
-I don't think the trace event command line option works for loadable
-modules. You have to build it into the kernel.
+Hi Justin, 
+
+Indeed, will take it in next version.
+
+Thanks,
+Ming
+
 
