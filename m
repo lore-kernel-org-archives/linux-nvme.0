@@ -4,68 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7ADAFC0015E
-	for <linux-nvme@archiver.kernel.org>; Sat, 22 Jul 2023 02:16:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 75E5EEB64DA
+	for <linux-nvme@archiver.kernel.org>; Sat, 22 Jul 2023 14:08:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=p9OSKrRKUh0HVp07HtMAOz1uGFZTMP4cBjHc53vtWLE=; b=jrH0KWv9DYw5mFhrfIcJx/2YPH
-	guQpbtw5pSTtaRSyOoOu8zjFdt/768DMZ20PHSE+bSJ1KMAChs4Fq74VeL924sGjLYYoeN6d9wZM1
-	9IzJPUPX8eaMpkRR0h+72L4IOWzRpXrkoa1lfGAu6qOcL+omXmRUEXY1ay/pkBqyKoeiy3K5SMRpk
-	yRS2RncgR6I6y7TTW1BuGMK+c0symprsi75kID3l0ahwQaCxqMMqI8TnZw9wwuIbtC3TrFG1/s0AP
-	9VNSFwNopuPQaYO5nzcTESji9dX6yzOZqpK3gSArYdkfsQvyLtQEzHXhavt570y/ePfDdG3jiAkno
-	xMXcfvAw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=UEc/gKJsyHCzqxEQtroXydSdK7o/MzgDF2qH7kIt9/8=; b=F3df2KQazIUDh71dsXAHAK/b0b
+	H5jPzwaaFVPW3H8zh3FPTI/NVQ9j6H+F/Z0KNG2jLxXfqnXjGhau7nveZhf70dVKLqPH3i9ZhAT+/
+	C2/mlokzPJeqZDXE9IDXDjw+NpGOZmcr5YNmqmwK0eFH5ZGeDI/kMtNJKlSfYTWvXZ7UJln3j2JPy
+	wPv6Z+Wvm9NroGKkXAQybQhJiI8Plo3AnLnaGGDEHbnyOg9/RhyvK5kbYN3KKOU9b0ieKCth8zfIn
+	TEvW6UwiiMiQwBQTho2Nu5VYPLvbKwZ3OwHQR2+CfeYhc5VN585l401jVosIec5VpnVSyHt+DyRyv
+	zy2JpI5w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qN2AE-00FbKL-2z;
-	Sat, 22 Jul 2023 02:16:10 +0000
-Received: from mga18.intel.com ([134.134.136.126])
+	id 1qNDHH-00GpXq-1a;
+	Sat, 22 Jul 2023 14:08:11 +0000
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qN2AC-00FbJJ-0J
+	id 1qNDHC-00GpWy-2P
 	for linux-nvme@lists.infradead.org;
-	Sat, 22 Jul 2023 02:16:09 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689992168; x=1721528168;
-  h=date:from:to:cc:subject:message-id;
-  bh=F4ueeLcY4qVe9zVU5FMjVFHeMVxvkYgJ4jAiDYomNCM=;
-  b=e6n8DdHSxbZEBSbxqmT6qFXH8G/0CQxsDlai1psAt6aenH+4O+YNjsQO
-   ggjmYyWzgN41yU0mBZfY0+StCYNfZ+6X/N8nd2REuoTS9ElLJG0EjrMtK
-   pMvvk3AiOKLg4Uo5Uzlp9FF5oDrPxE1PFp6SkAdvyZi8W2vNrLtjtmyKw
-   sWzVTpaPHOj/3YdI8KrgS2OuK2hue/ivMMCqV4OKxD28w1/r9V3eagn+s
-   J/yD1hInQqUEDyiwblEycYgnvbkq68n/ypzxdkZQg4YWm8DXUcw8X7WkY
-   In3vv37jZG2v9f5R3/rIaJiNZy4hkVZfghEH9RYS6GCbDUWIM0+LWpRGE
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="352046628"
-X-IronPort-AV: E=Sophos;i="6.01,223,1684825200"; 
-   d="scan'208";a="352046628"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2023 19:15:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="725073718"
-X-IronPort-AV: E=Sophos;i="6.01,223,1684825200"; 
-   d="scan'208";a="725073718"
-Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 21 Jul 2023 19:15:56 -0700
-Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qN2A0-0007rb-07;
-	Sat, 22 Jul 2023 02:15:56 +0000
-Date: Sat, 22 Jul 2023 10:14:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.5] BUILD SUCCESS
- 29b434d1e49252b3ad56ad3197e47fafff5356a1
-Message-ID: <202307221056.78N2s7ve-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Sat, 22 Jul 2023 14:08:08 +0000
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1b89cfb4571so22311655ad.3
+        for <linux-nvme@lists.infradead.org>; Sat, 22 Jul 2023 07:08:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690034882; x=1690639682;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UEc/gKJsyHCzqxEQtroXydSdK7o/MzgDF2qH7kIt9/8=;
+        b=ELPN2a4KsE8+/aqvLMY5S0P2fyMByLMQqiSF9pX8JuC7oGTZVB5HYHVMvzNzY1KnIl
+         GnJBlAWSiAueIRoNvLe9IcYNeggkvdnhJGlGGcTtUlgmthMN0wfICvjvUES8PCphL+hr
+         n1w+lPJty/2/PXZoXKl7Q2Api/XhUV6p5698jVfPGbiSvL+JINRJcxjN81KVQRwE+b+M
+         NYFFjz+yzKl+ItrP0ERVTX+cL2OdXqV5XMX1mLoGkW7cUYjwp53ekLZypEmHHmSswMLy
+         VsKkQy5yYS9553auaCwuPGn1akKj7dbHXXyeUC9BUcrp6dV0JAGvcxys17cBgIqrhdfQ
+         qdkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690034882; x=1690639682;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UEc/gKJsyHCzqxEQtroXydSdK7o/MzgDF2qH7kIt9/8=;
+        b=DymX4j4EBiOI3QN5qyFIFVMuAFDwa9+mcKR/FrLjIL082iY48mE/XWu+ZsGYBsPpMD
+         4wcnqvYwXyVQL11gNCF8vQgx0I3Y8ecf79lLQFi08GL+wSoei2si+EvuME6aa2k1JGw2
+         NaquFi2jx4CuElbhRGToqXNAaO/5MHlq4xcI3Zv8bzNSHWEEh7X5nRoLzWQWHq2pbyHW
+         e2kZKr+BPLpLpx7VftPJw2Y+qmpNNuLOU4mJ7S5BuKVsjT+AmHTtWex18tmffrCKsvPB
+         G00l9F1obzS8seHlnfhfdYIjCbI73PoR5mGPItzTQAX1vHhn8N1Q89eBzYkABuigVr5d
+         fVfA==
+X-Gm-Message-State: ABy/qLZLhLkecFA+n5CxLFS+wMp2kuzGr/Vv8ZUWjCXH+0WdvuoxulAK
+	lpBZvYVENNGiOM6LHnCQOUQ=
+X-Google-Smtp-Source: APBJJlGyYcJ+Gs2gK8banGHT6FQdje64Ooc8PKiLBj2Rmlhda6BN2YnbvbGb8h7pXNj2OFE+rsYByA==
+X-Received: by 2002:a17:902:6b4c:b0:1bb:7d2f:7c19 with SMTP id g12-20020a1709026b4c00b001bb7d2f7c19mr2367596plt.64.1690034882167;
+        Sat, 22 Jul 2023 07:08:02 -0700 (PDT)
+Received: from kit.horse-mountain.ts.net ([159.196.93.60])
+        by smtp.gmail.com with ESMTPSA id 19-20020a170902c21300b001b8b4730355sm3519469pll.287.2023.07.22.07.07.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Jul 2023 07:08:01 -0700 (PDT)
+From: Josh Taylor <joshuataylorx@gmail.com>
+To: wangxiao@hotmail.it
+Cc: axboe@kernel.dk,
+	hch@lst.de,
+	highenthalpyh@gmail.com,
+	kbusch@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	sagi@grimberg.me,
+	xuwd1@hotmail.com
+Subject: Re: [PATCH] nvme-pci: add NVME_QUIRK_DELAY_BEFORE_CHK_RDY for MAXIO MAP1602
+Date: Sat, 22 Jul 2023 14:07:52 +0000
+Message-ID: <20230722140752.616073-1-joshuataylorx@gmail.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <MEAP282MB0391131326CF9E3BD5C26FD0B338A@MEAP282MB0391.AUSP282.PROD.OUTLOOK.COM>
+References: <MEAP282MB0391131326CF9E3BD5C26FD0B338A@MEAP282MB0391.AUSP282.PROD.OUTLOOK.COM>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230721_191608_182955_C6255DD6 
-X-CRM114-Status: UNSURE (   7.72  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230722_070806_803034_4E548D45 
+X-CRM114-Status: GOOD (  11.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,127 +97,200 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.5
-branch HEAD: 29b434d1e49252b3ad56ad3197e47fafff5356a1  nvme-rdma: fix potential unbalanced freeze & unfreeze
+This is my first response to a Kernel patch, so I apologise for any formatting weirdness.
 
-elapsed time: 931m
+I have a Lexar NM790 (4TB), which uses the MAP1602. It looks like this is going to be a fairly popular controller, as it seems a few are using it - as of July 2023 it looks like ~18 M.2 2280 are using it according to techpowerup (https://www.techpowerup.com/ssd-specs/?f&controllerMfgr=Maxiotech#MAP1602).
 
-configs tested: 107
-configs skipped: 4
+I however cannot get this patch to work for me on 6.5-rc2 on ArchLinux, nor with 6.4.4.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+This is my dmesg when booting (Linux archiso 6.3.9-arch1-1):
 
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r023-20230720   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r043-20230720   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                  randconfig-r046-20230720   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r003-20230720   gcc  
-arm64                randconfig-r026-20230720   clang
-csky                                defconfig   gcc  
-csky                 randconfig-r032-20230720   gcc  
-csky                 randconfig-r033-20230720   gcc  
-csky                 randconfig-r034-20230720   gcc  
-hexagon              randconfig-r041-20230720   clang
-hexagon              randconfig-r045-20230720   clang
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-r004-20230720   gcc  
-i386         buildonly-randconfig-r005-20230720   gcc  
-i386         buildonly-randconfig-r006-20230720   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-i001-20230720   gcc  
-i386                 randconfig-i002-20230720   gcc  
-i386                 randconfig-i003-20230720   gcc  
-i386                 randconfig-i004-20230720   gcc  
-i386                 randconfig-i005-20230720   gcc  
-i386                 randconfig-i006-20230720   gcc  
-i386                 randconfig-i011-20230720   clang
-i386                 randconfig-i012-20230720   clang
-i386                 randconfig-i013-20230720   clang
-i386                 randconfig-i014-20230720   clang
-i386                 randconfig-i015-20230720   clang
-i386                 randconfig-i016-20230720   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-m68k                             allmodconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                 randconfig-r013-20230720   gcc  
-m68k                 randconfig-r014-20230720   gcc  
-microblaze           randconfig-r036-20230720   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                 randconfig-r004-20230720   clang
-mips                 randconfig-r024-20230720   gcc  
-mips                 randconfig-r025-20230720   gcc  
-nios2                               defconfig   gcc  
-nios2                randconfig-r031-20230720   gcc  
-nios2                randconfig-r035-20230720   gcc  
-openrisc             randconfig-r011-20230720   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc              randconfig-r001-20230720   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r002-20230720   gcc  
-riscv                randconfig-r042-20230720   clang
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r015-20230720   clang
-s390                 randconfig-r044-20230720   clang
-sh                               allmodconfig   gcc  
-sh                   randconfig-r006-20230720   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r005-20230720   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                   randconfig-r012-20230720   gcc  
-um                   randconfig-r021-20230720   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-r001-20230720   gcc  
-x86_64       buildonly-randconfig-r002-20230720   gcc  
-x86_64       buildonly-randconfig-r003-20230720   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-x001-20230720   clang
-x86_64               randconfig-x002-20230720   clang
-x86_64               randconfig-x003-20230720   clang
-x86_64               randconfig-x004-20230720   clang
-x86_64               randconfig-x005-20230720   clang
-x86_64               randconfig-x006-20230720   clang
-x86_64               randconfig-x011-20230720   gcc  
-x86_64               randconfig-x012-20230720   gcc  
-x86_64               randconfig-x013-20230720   gcc  
-x86_64               randconfig-x014-20230720   gcc  
-x86_64               randconfig-x015-20230720   gcc  
-x86_64               randconfig-x016-20230720   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+	[    6.634874] nvme nvme0: pci function 0000:01:00.0
+	[    6.640698] r8169 0000:27:00.0: enabling device (0000 -> 0003)
+	[    6.643601] nvme nvme0: Device not ready; aborting initialisation, CSTS=0x0
+
+
+When doing a suspend, then resuming, I can then re-initialise the device using the rescan steps in the previous email.
+
+I then get this in my dmesg (Linux archiso 6.3.9-arch1-1):
+
+
+	[  130.948667] pci 0000:01:00.0: Removing from iommu group 14
+	[  131.983938] pci 0000:01:00.0: [1d97:1602] type 00 class 0x010802
+	[  131.983963] pci 0000:01:00.0: reg 0x10: [mem 0xfcf00000-0xfcf03fff 64bit]
+	[  131.984212] pci 0000:01:00.0: 31.504 Gb/s available PCIe bandwidth, limited by 8.0 GT/s PCIe x4 link at 0000:00:01.1 (capable of 63.012 Gb/s with 16.0 GT/s PCIe x4 link)
+	[  131.984346] pci 0000:01:00.0: Adding to iommu group 14
+	[  132.031556] pci 0000:01:00.0: BAR 0: assigned [mem 0xfcf00000-0xfcf03fff 64bit]
+	[  132.031662] nvme nvme0: pci function 0000:01:00.0
+	[  132.044095] nvme nvme0: allocated 40 MiB host memory buffer.
+	[  132.088892] nvme nvme0: 16/0/0 default/read/poll queues
+
+
+The "allocated 40 MiB host memory buffer" part is interesting, none of my other drives have this, as this is a DRAM-less drive.
+
+# nvme get-feature /dev/nvme0 -f 0x0c -H
+get-feature:0x0c (Autonomous Power State Transition), Current value:0x00000001
+	Autonomous Power State Transition Enable (APSTE): Enabled
+	Auto PST Entries	.................
+	Entry[ 0]
+	.................
+	Idle Time Prior to Transition (ITPT): 100 ms
+	Idle Transition Power State   (ITPS): 3
+	.................
+	Entry[ 1]
+	.................
+	Idle Time Prior to Transition (ITPT): 100 ms
+	Idle Transition Power State   (ITPS): 3
+	.................
+	Entry[ 2]
+	.................
+	Idle Time Prior to Transition (ITPT): 100 ms
+	Idle Transition Power State   (ITPS): 3
+	.................
+	Entry[ 3]
+	.................
+	Idle Time Prior to Transition (ITPT): 2000 ms
+	Idle Transition Power State   (ITPS): 4
+	.................
+	Entry[ 4]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[ 5]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[ 6]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[ 7]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[ 8]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[ 9]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[10]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[11]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[12]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[13]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[14]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[15]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[16]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[17]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[18]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[19]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[20]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[21]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[22]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[23]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[24]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[25]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[26]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[27]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[28]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[29]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[30]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
+	Entry[31]
+	.................
+	Idle Time Prior to Transition (ITPT): 0 ms
+	Idle Transition Power State   (ITPS): 0
+	.................
 
