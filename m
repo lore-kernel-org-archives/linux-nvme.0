@@ -4,83 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ED283C04A6A
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Jul 2023 07:10:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A06B9C001DE
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Jul 2023 07:22:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Bs8GFqJdLR6YpYEb/PQpUFtoXE+F2xMFCO/25AMcKi4=; b=GNKAci2SEV5PkK1HEomlR2GjJu
-	PVDaaW/az+Mp9oHYnrAqHxIqSkrB75Rs7l0hd+yW5n1zbPfK87I5CbW1Tl/7CpIQDYMYPY7TXye/L
-	RW7uvDwKUwLDVQX5Fe67EluypTki8XiKBWT170zVDzCVAkqmkEDcOpJK/suiwzWYZtLcTYkfRFvYt
-	b62DJAUOXiMJdecWqOPNOGCOTm8q5yt43z4hh2V1EFrEVgDxfBR9WjNjT0dKhQB/lImUKagakUtd7
-	n6/d8ghGQ0ivGvfVDXg9+Ca9+kY5JKjPb2r/sr7Hsb18lu5MAuB6HoUewYg1rP1n85egsF4DQhJ/v
-	AHmP47Zw==;
+	bh=csHOlK60oFtyoKK55DCid0LNEQDIrrzyZU/pUX0ng1M=; b=101GVmnNoP7XtxlxBQNSAfm5IV
+	PsRF4//aAuTmUg1qSQSXGru+c8dknWeyoJvZ23GPZtQVePw7zopIXIUQg8rhZ6+Hiuk30pDjyNZ1S
+	ZnV5fvyMJWjMU88npix8JPvOO9H7dTTUphbDkTqKPg60YB5hPu+joH88PeqSGMIETXj2ucmv+TJuA
+	HZxOIkzh9wUbk/Cj3gBySz2a/K/Q1QE5If9eQXw0zTckpyTRQmlMKP1C04THapnnuNr7hviZ/wShR
+	NyoZ6NzX1xwCIDEZEIjmetzeiFgCpfueEQ2cWPyzGANfGiSV1sMj1riVBB7p8b0qLCEs410yBI5Er
+	qBq1dc6w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qNpiU-00346Q-2I;
-	Mon, 24 Jul 2023 07:10:50 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1qNptK-0035PY-1g;
+	Mon, 24 Jul 2023 07:22:02 +0000
+Received: from mail-lj1-f177.google.com ([209.85.208.177])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qNpiR-00344E-2c
+	id 1qNptH-0035On-1T
 	for linux-nvme@lists.infradead.org;
-	Mon, 24 Jul 2023 07:10:49 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5D9AD20534;
-	Mon, 24 Jul 2023 07:10:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1690182643; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Bs8GFqJdLR6YpYEb/PQpUFtoXE+F2xMFCO/25AMcKi4=;
-	b=fBa9aV8+gRtjHML/OsSesIUP51mYQFhkYM/7fgqPo5h43uo7T5Akhavq8I0fiBZSrIDmHU
-	x2L/4XxXEVCYQl6+x0lqRABaixaogDDqdgl2UNSGsyvx9hQuDydXAC/18jBj8KwsBIFKJs
-	o+DVXYOrCVlwHbTEx/JPbw0uxVq62KI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1690182643;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Bs8GFqJdLR6YpYEb/PQpUFtoXE+F2xMFCO/25AMcKi4=;
-	b=oWujHEFreCiu7vRYWv50U9iY0dW6CLto56R8LC7N39+g4VB41cwOT+oD0Lu9NaCZzKVPuf
-	X//7dRdS+blS44AA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1065413476;
-	Mon, 24 Jul 2023 07:10:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id R36cAvMjvmQMWQAAMHmgww
-	(envelope-from <hare@suse.de>); Mon, 24 Jul 2023 07:10:43 +0000
-Message-ID: <3e83c1dd-99bd-4dbd-2f83-4008e7059cfa@suse.de>
-Date: Mon, 24 Jul 2023 09:10:42 +0200
+	Mon, 24 Jul 2023 07:22:01 +0000
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2b83c673ab5so10946651fa.1
+        for <linux-nvme@lists.infradead.org>; Mon, 24 Jul 2023 00:21:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690183316; x=1690788116;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=csHOlK60oFtyoKK55DCid0LNEQDIrrzyZU/pUX0ng1M=;
+        b=I1sYl2n8yOloHa2FXHvQjHxhKIadc3TFYE7puHRy7n/9ll7yZ0wuxxpHHe/2IJ+t/i
+         pjPsMhB8pjMqqHtZHSVuA1uonqjH8btBDX4N64FWIzKaQOuH8avn4A7HOq4xL7gp46Tg
+         ghxx8ioQ2OGRZ1Y5/A0ozv8rMv92v6F3uSbhgW5TMtruU/dHqt9KY1SEJ8PlEx8RY3sZ
+         ZIISEbJOlcIOCrdGlJ4dkHiIWrAbRQDizYtsawMOMgNFm2nla6JJibZocNDLlS3ZoKGD
+         u4L7jmyXK1HtAg+C7GlaPdLp6OQN36BQqzk4X4vKBANh4dEF6CdhY1s6MKv+0H4/yy8g
+         1AjA==
+X-Gm-Message-State: ABy/qLbszaCCZPibUpHsVkMwoE3E4quVa9NhU41ciVohsr0beG7vB1Of
+	0ZW3ozGYsHjb41fn+LgyBoHlwz6isnc=
+X-Google-Smtp-Source: APBJJlGL3OVo/tghx+lWn9HITaXRKTzvnR6vR/lieEMtbY0b49/X5EaR0GjTv5+BSbsIXBNaE13nMg==
+X-Received: by 2002:a2e:a98b:0:b0:2b6:99a7:2fb4 with SMTP id x11-20020a2ea98b000000b002b699a72fb4mr4787194ljq.0.1690183315690;
+        Mon, 24 Jul 2023 00:21:55 -0700 (PDT)
+Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id p3-20020a05600c204300b003fc3b03e41esm12385411wmg.1.2023.07.24.00.21.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Jul 2023 00:21:54 -0700 (PDT)
+Message-ID: <9f37941c-b265-7f28-ebec-76c04804b684@grimberg.me>
+Date: Mon, 24 Jul 2023 10:21:52 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
+ Thunderbird/102.13.0
 Subject: Re: [PATCHv8 0/6] net/tls: fixes for NVMe-over-TLS
 Content-Language: en-US
-To: Jakub Kicinski <kuba@kernel.org>, Sagi Grimberg <sagi@grimberg.me>
+To: Hannes Reinecke <hare@suse.de>, Jakub Kicinski <kuba@kernel.org>
 Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
  linux-nvme@lists.infradead.org, Eric Dumazet <edumazet@google.com>,
  Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org
 References: <20230721143523.56906-1-hare@suse.de>
  <20230721190026.25d2f0a5@kernel.org>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20230721190026.25d2f0a5@kernel.org>
+ <3e83c1dd-99bd-4dbd-2f83-4008e7059cfa@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <3e83c1dd-99bd-4dbd-2f83-4008e7059cfa@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230724_001048_019570_A2BBDE65 
-X-CRM114-Status: GOOD (  13.43  )
+X-CRM114-CacheID: sfid-20230724_002159_514465_8FBF997B 
+X-CRM114-Status: GOOD (  14.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,30 +85,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/22/23 04:00, Jakub Kicinski wrote:
-> On Fri, 21 Jul 2023 16:35:17 +0200 Hannes Reinecke wrote:
->> here are some small fixes to get NVMe-over-TLS up and running.
->> The first set are just minor modifications to have MSG_EOR handled
->> for TLS, but the second set implements the ->read_sock() callback for tls_sw
->> which I guess could do with some reviews.
+
+>>> here are some small fixes to get NVMe-over-TLS up and running.
+>>> The first set are just minor modifications to have MSG_EOR handled
+>>> for TLS, but the second set implements the ->read_sock() callback for 
+>>> tls_sw
+>>> which I guess could do with some reviews.
+>>
+>> Reviewed-by: Jakub Kicinski <kuba@kernel.org>
+>>
+>> Sagi, I _think_ a stable branch with this should be doable,
+>> would you like one, or no rush?
 > 
-> Reviewed-by: Jakub Kicinski <kuba@kernel.org>
-> 
-> Sagi, I _think_ a stable branch with this should be doable,
-> would you like one, or no rush?
+> I guess a stable branch would not be too bad; I've got another
+> set of patches for the NVMe side, too.
+> Sagi?
 
-I guess a stable branch would not be too bad; I've got another
-set of patches for the NVMe side, too.
-Sagi?
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
-
+I don't think there is a real need for this to go to stable, nothing
+is using it. Perhaps the MSG_EOR patches can go to stable in case
+there is some userspace code that wants to rely on it.
 
