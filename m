@@ -4,66 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4ED64C001B0
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Jul 2023 09:06:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EB132C001B0
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Jul 2023 09:20:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=QmGn4ZQf3FojYOwvSFsh5xrujW8n06HMs5La+mg2A7E=; b=XBYZsJV9H41lIzvLAaf1rQliVO
-	wC0EDV0lqYWsetJDqB1gHt/LqYTaTXRw+XFiqCQAdFYVsryipspn6WzpxfohVixrZ9OXSkUlvdNQh
-	gTSlK/oUySpeog+TvMiaGG5EemhIAxc9yVj9eLV6XSosiYB7BNRP831V1/lOV1+gbU0KiekG/t0Ub
-	tcz0VomRXVeRnZnIfqvDJwYYA+lE8MKSuM8uZ09RKRvsHFSeuqcWO9nFJ2DBid8XutMkUoS+bME3K
-	Jk+tE2hl26FgM+aJPaIgM/UKJo58PeV5xw1ReeE6ksEUZZkEwW7vKPR4QZJ4BSc0t3hwPK9+H1TZk
-	hxt2nJIQ==;
+	bh=4Fh5Q0fclU5Kv578t8uLI8jR7YtKpZoXnS2iHfEtp8Y=; b=x0Z9G+U3bOW8S35qQydzb7QWY+
+	AuFfJs6RWR+seA7hNu/fRI5UKfpudlTQXmiy78oTMGF2V2PhXoQ3SF2poouLAMmlTFJ6mL1FDRt2z
+	Phf28qCLtvBSu35e7syvptTZIfKz0ShPrlUcVKrSWmtTUrsbdHoiMtF1gdMn42hPAkhP/ysokFz/X
+	H4j7NEljmcx1pmZSQ9dAVCSu7IFfEVfFXzEvue6uwCOGEWxhgNnNUoJoF1b+A/m2hq1Ts60SE+l6l
+	d5oqmzeaytkzyDboud01gJDwKZz4nqGdIhrgrHo/fVmPrwggOCOVhzYZAhtxpLtMmxN7JPvtnbQ3M
+	uJ/2zHVA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qNrWG-003Lam-0b;
-	Mon, 24 Jul 2023 09:06:20 +0000
-Received: from mail-wm1-f53.google.com ([209.85.128.53])
+	id 1qNrk0-003Nke-0G;
+	Mon, 24 Jul 2023 09:20:32 +0000
+Received: from mail-wm1-f49.google.com ([209.85.128.49])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qNrWD-003LZr-1p
+	id 1qNrjw-003Nj5-2q
 	for linux-nvme@lists.infradead.org;
-	Mon, 24 Jul 2023 09:06:19 +0000
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-3fbb634882dso8133975e9.0
-        for <linux-nvme@lists.infradead.org>; Mon, 24 Jul 2023 02:06:16 -0700 (PDT)
+	Mon, 24 Jul 2023 09:20:30 +0000
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-3fbe35e028aso7205475e9.0
+        for <linux-nvme@lists.infradead.org>; Mon, 24 Jul 2023 02:20:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690189574; x=1690794374;
+        d=1e100.net; s=20221208; t=1690190425; x=1690795225;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=QmGn4ZQf3FojYOwvSFsh5xrujW8n06HMs5La+mg2A7E=;
-        b=KE1X7XCEbt8whvD/rLbP7G1XY1IGYxkZuHYSdqTs3T8gh+0nUo/P/QOZ86U5xX8K9J
-         S3LSHn/7RSaT90XQUkcc4SBgO5dB2YKrOKGQaMyWMACTb3V/OEctgB1yB4g/lUq7L1Bz
-         klLN5acpyWduEv+qtCBSYc6oREEGBzY1qTzGT1aGM3cwWWtZOKDQZotwg2aiXIJ3GQYR
-         RZJ+0DTWPe4UViPd+VjLKgE2HkAD1LHhJ8q9DXfda0zf51VT9U7mEiBAILBjqw6T8YRP
-         ngWVucgzu4nObLEmzYG41JZf7bxqQe8Yw1UA1R6v0g/tRMxIixmd5AuVs3HreB3hgOW4
-         gqZQ==
-X-Gm-Message-State: ABy/qLaRCNlfKpe87jHg1QN+MWPERbg6Ywxcnj2vyBuzxwC2OCgDW2Fe
-	1YoQkBewqMw1PMspNx6lcl31xA6daeg=
-X-Google-Smtp-Source: APBJJlEJxxleF8qBCPZQJybMrPSRviPtOxMg/WgRzbWIlPuXW2vm3OteI33nxvFp/UrXJ/+6jYyNBQ==
-X-Received: by 2002:a05:600c:46c4:b0:3fb:aadc:41dc with SMTP id q4-20020a05600c46c400b003fbaadc41dcmr8325599wmo.4.1690189573668;
-        Mon, 24 Jul 2023 02:06:13 -0700 (PDT)
+        bh=4Fh5Q0fclU5Kv578t8uLI8jR7YtKpZoXnS2iHfEtp8Y=;
+        b=G8XbFxztTRzT5XNC0M4Lc3o/N/bPzU1aRDrK7jg6S632hUYBAFJHlGYhMC29OoT0sk
+         gP1utXZGtWJMDieFa0tNhcLpgRmN3e69+R0FAil10qxYbeGaZ2x3CQ1dvzjORrQLhqwM
+         n+2gp79lymX7GN2EXWAMv3Kgb6cud/OI4wpjrfklmAUKvTRhz+RPkcpy0qMFu2G4hZYr
+         pUQITByU+Azp0Y855SLFODXK0Q6qoc5AbQj88D5rm92ae2f6KwhYyaP7DVhHCFnmLKge
+         Rr755wrGRJeAuWQt9lMIKDkjBltXMRxXPcd+wigvl3qBHD22n/aLi9echcfy+tCT5y3f
+         XLvQ==
+X-Gm-Message-State: ABy/qLZ+/+Y9x568hoHTiGi0IxCxkjTOBYvknWinc89C3Um8oEueBoEk
+	P6P9sXUxB2i4GVb/K+RgwIefjFUf0dg=
+X-Google-Smtp-Source: APBJJlER1Of71MLrbmun8zoaDakWtCEdIwEHe0fZdOnvD6a8uMkpQU0dWZKJJpWVR2LA2H06kz4KFQ==
+X-Received: by 2002:a7b:c8cc:0:b0:3f9:9a6:eb68 with SMTP id f12-20020a7bc8cc000000b003f909a6eb68mr7734275wml.3.1690190425383;
+        Mon, 24 Jul 2023 02:20:25 -0700 (PDT)
 Received: from localhost.localdomain (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id s15-20020a05600c044f00b003fbc89af035sm9777635wmb.17.2023.07.24.02.06.12
+        by smtp.gmail.com with ESMTPSA id x21-20020a05600c21d500b003fb41491670sm12354052wmj.24.2023.07.24.02.20.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jul 2023 02:06:13 -0700 (PDT)
+        Mon, 24 Jul 2023 02:20:24 -0700 (PDT)
 From: Sagi Grimberg <sagi@grimberg.me>
 To: linux-nvme@lists.infradead.org
 Cc: Christoph Hellwig <hch@lst.de>,
 	Keith Busch <kbusch@kernel.org>,
-	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH libnvme] fabrics: don't pass sqflow_disable if the kernel does not support the option
-Date: Mon, 24 Jul 2023 12:06:11 +0300
-Message-ID: <20230724090611.705366-1-sagi@grimberg.me>
+	Daniel Wagner <dwagner@suse.de>,
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH rfc 0/6] support traddr as dns names for ip based transports
+Date: Mon, 24 Jul 2023 12:20:16 +0300
+Message-ID: <20230724092023.708335-1-sagi@grimberg.me>
 X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230724_020617_659947_D29A685A 
-X-CRM114-Status: GOOD (  13.69  )
+X-CRM114-CacheID: sfid-20230724_022028_943775_0C96086C 
+X-CRM114-Status: GOOD (  14.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,43 +79,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Instead of retrying again without it.
+Currently nvme-cli is able to resolve an ip address from a dns name if
+traddr argument was given as a dns name, so it does that and passes down
+to the kernel the resolved ip address.
 
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
----
- src/nvme/fabrics.c | 12 +-----------
- 1 file changed, 1 insertion(+), 11 deletions(-)
+However, if the dns resolution changes over time, the kernel will not
+be able to reconnect because it has a stale ip address. While this is
+not a real use case for nvme subsystems, it could be a valid use-case
+for discovery controllers, where the resolution is made from a dns
+name that may load-balance/failover over multiple endpoints.
 
-diff --git a/src/nvme/fabrics.c b/src/nvme/fabrics.c
-index fd761d10d0cb..2a9d8dc7f23a 100644
---- a/src/nvme/fabrics.c
-+++ b/src/nvme/fabrics.c
-@@ -1026,7 +1026,7 @@ nvme_ctrl_t nvmf_connect_disc_entry(nvme_host_t h,
- 		return NULL;
- 	}
- 
--	if (e->treq & NVMF_TREQ_DISABLE_SQFLOW)
-+	if (e->treq & NVMF_TREQ_DISABLE_SQFLOW && h->r->options->disable_sqflow)
- 		c->cfg.disable_sqflow = true;
- 
- 	if (e->trtype == NVMF_TRTYPE_TCP &&
-@@ -1038,16 +1038,6 @@ nvme_ctrl_t nvmf_connect_disc_entry(nvme_host_t h,
- 	if (!ret)
- 		return c;
- 
--	if (errno == EINVAL && c->cfg.disable_sqflow) {
--		errno = 0;
--		/* disable_sqflow is unrecognized option on older kernels */
--		nvme_msg(h->r, LOG_INFO, "failed to connect controller, "
--			 "retry with disabling SQ flow control\n");
--		c->cfg.disable_sqflow = false;
--		ret = nvmf_add_ctrl(h, c, cfg);
--		if (!ret)
--			return c;
--	}
- 	nvme_free_ctrl(c);
- 	return NULL;
- }
+The last patch (7/6) is for libnvme to pass down the traddr as a dns
+name if the kernel supports dns queries.
+
+The inspiration was taken from the nfs client that does this for
+redirects or locations discovery.
+
+It is an rfc, so feedback is welcome.
+
+Sagi Grimberg (6):
+  nvme-fabrics: add helper to resolve ipv4/ipv6 or dns name
+  nvme-tcp: use nvmf_resolve_address helper
+  nvme-tcp: re-resolve traddr upon reconnect in case it is a dns name
+  nvme-rdma: use nvmf_resolve_address helper
+  nvme-rdma: re-resolve traddr upon reconnect in case it is a dns name
+  nvme-fabrics: expose support for traddr as dns names to userspace
+
+ drivers/nvme/host/fabrics.c | 29 +++++++++++++++++++++++++++++
+ drivers/nvme/host/fabrics.h |  2 ++
+ drivers/nvme/host/rdma.c    | 21 +++++++++++++--------
+ drivers/nvme/host/tcp.c     | 21 +++++++++++++--------
+ 4 files changed, 57 insertions(+), 16 deletions(-)
+
 -- 
 2.41.0
 
