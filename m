@@ -4,69 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 088FDEB64DD
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Jul 2023 19:52:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DF1FFEB64DD
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Jul 2023 06:05:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xS2+TE0PoWNNVCMBiw69alXnWlNgMLCp0CT41onkF8U=; b=rXW6H2b8ZFiarMDEWSbRFgvam8
-	Ig2jTO+tLkjXl93B4660mRS+nazWaqomW4WJoXKpZsBxncBw9DZR0jMzCcuhnoHY9tqqHnzL9z4XA
-	XgTAxrjU8sndLdn8/1hL2lbh0jWtmUU9E8G6/+hWKvU9NsqU1Tb8DUu6rA4VaFFQFYMAu7VKgk9pu
-	sJubrX4Oitz3yvR9dgD47v2MPLhlSfwRtZ7nJeRq2iYOnb2m8AHtUH0HyrbtuOMB7eVHNKVK0ZHEq
-	zFIIddZS8PSfANsWs/l+oRp6dFYp2+sl7XgQMBXoEOCntWImn33gIgGOctwVRe/+xC6dQI6kn4Sr8
-	v7AAlcOw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=0s8zpzHw2Tp0dRt1pC6N27B8HTT+CzeVhlNUqju4wYU=; b=dg3MbbV9u/HL0YD5TJZlohlETl
+	h3QnSIRc4bq8nWJH5aOHjrBRRpakWQfmmrRDmGfIHs89ZCnc3mByFLZ+RCqOAvG0KPG9pAeenWa95
+	yzMLVglwQgS2n/QjOCaB3OBO94udG3q7j+haiVVPkTACbHdErKTSe6Gr68s/ia0+u8aG58SqAefn+
+	eYjMpw9l8yOlmeGMyQK8IlWr3lhli2PPuLO1zblMEXoXoKvnkzItkuTEndtnAHiUYJKOaGQIEorPw
+	N1wSKJAf8w7EunnM+zHtsOc4crEw6SE1xCgKApsLy4/dEQEKp7fkHcQWZTq0XaTvdtHE3g5wI4uoS
+	V9PZTuYQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qO1by-005KdJ-1O;
-	Mon, 24 Jul 2023 19:52:54 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1qOBAq-006NDp-0s;
+	Tue, 25 Jul 2023 06:05:32 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qO1bv-005Kct-1E
+	id 1qOBAn-006NCt-2P
 	for linux-nvme@lists.infradead.org;
-	Mon, 24 Jul 2023 19:52:53 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	Tue, 25 Jul 2023 06:05:31 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id DCEF761357;
-	Mon, 24 Jul 2023 19:52:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF1BAC433C7;
-	Mon, 24 Jul 2023 19:52:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690228370;
-	bh=kP9LFVtRs+Ccd680KNMd/rso4IU7MRNI/s2gQcTn8K8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=qgSBdgWOM6O8dH0osz4XFlKo9jOWZ6gGAyBSleFY0cnmRksLenDlC26PBXmkn475s
-	 6iD9hEfArzfCxkcjLk6q0oP5NLIVXeUc8djvArC2em9TW/KP4ztJWX1wkoP9sYiJQm
-	 iyfLYlYGH2BpSXP6DDFec83DGL9tVYgF6vaJ98nU83TfzlZydgPZ+VBxsNOIyimlac
-	 KxXtaEI6gaLpndVzh/s49gopZSdIqPf98IKnG7Kumg+aTQ3BzgNfIwb3L/obEFkYuu
-	 mIf+pf6ozPuCmzGRk6NJt7GF0dMBc9ijV01zcbks02tkqYqraJgLm4sr6jIIbg7E/3
-	 14s25cH8SkrCg==
-Date: Mon, 24 Jul 2023 12:52:49 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>, Keith
- Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- netdev@vger.kernel.org
-Subject: Re: [PATCHv8 0/6] net/tls: fixes for NVMe-over-TLS
-Message-ID: <20230724125249.319241b7@kernel.org>
-In-Reply-To: <ad36e40b-65d9-b7ad-a72e-882fe7441e52@grimberg.me>
-References: <20230721143523.56906-1-hare@suse.de>
-	<20230721190026.25d2f0a5@kernel.org>
-	<3e83c1dd-99bd-4dbd-2f83-4008e7059cfa@suse.de>
-	<9f37941c-b265-7f28-ebec-76c04804b684@grimberg.me>
-	<20230724123546.70775e77@kernel.org>
-	<ad36e40b-65d9-b7ad-a72e-882fe7441e52@grimberg.me>
+	by smtp-out2.suse.de (Postfix) with ESMTPS id EB0621F74C;
+	Tue, 25 Jul 2023 06:05:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1690265125; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0s8zpzHw2Tp0dRt1pC6N27B8HTT+CzeVhlNUqju4wYU=;
+	b=DYdpDLouBKGrD4qbT5qgIk5YCOTekePbxeMG76pLjMThf9CX5BAQ+MsSCdMEzGwl1y/3Q2
+	5iLzsXMqSDENDxVWKYkaVUxbZGZv9FpLSwNBRgQWtjPmejDmfkvs/bOUkAMM6m/gv/gjLj
+	zRdT4yie9WUJoIAqXBIVumVF3sNhEL8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1690265125;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0s8zpzHw2Tp0dRt1pC6N27B8HTT+CzeVhlNUqju4wYU=;
+	b=UNFKMN5osaWI/o1EUdyywwfNrH14tED3/Of68p+j2+8nbSeyBX58QNg2yQ5KA7ssPDumuo
+	X8c7L4BqhjxlioCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DC87713342;
+	Tue, 25 Jul 2023 06:05:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id N5/uNSVmv2TAbQAAMHmgww
+	(envelope-from <dwagner@suse.de>); Tue, 25 Jul 2023 06:05:25 +0000
+Date: Tue, 25 Jul 2023 08:05:25 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v1 1/2] nvme: drop multipath config option
+Message-ID: <7risd4kfoey3mkwsjr2hd5ofxawvjenjv6h4x76p6gepzoygll@cwap52i6hwg2>
+References: <20230719084147.16272-1-dwagner@suse.de>
+ <20230719084147.16272-2-dwagner@suse.de>
+ <ZLe1QmfGg488wH9D@kbusch-mbp.dhcp.thefacebook.com>
+ <ZL6sFA+fwsWwWOkF@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZL6sFA+fwsWwWOkF@infradead.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230724_125251_457126_2816D1A7 
-X-CRM114-Status: GOOD (  14.72  )
+X-CRM114-CacheID: sfid-20230724_230529_933772_0F12EC90 
+X-CRM114-Status: GOOD (  10.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,17 +90,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, 24 Jul 2023 22:44:49 +0300 Sagi Grimberg wrote:
-> > I'm probably using the wrong word. I mean a branch based on -rc3 that's
-> > not going to get rebased so the commits IDs match and we can both pull
-> > it in. Not stable as in Greg KH.  
-> 
-> Are you aiming this for 6.5 ? We are unlikely to get the nvme bits in
-> this round. I also don't think there is a conflict so the nvme bits
-> can go in for 6.6 and later the nvme tree will pull the tls updates.
+On Mon, Jul 24, 2023 at 09:51:32AM -0700, Christoph Hellwig wrote:
+> Btw, Daniel - any reason you didn't Cc me on this?
 
-Great, less work :) 
-
-Let's see a v9 with the flushing improved and we'll apply to net-next
-directly.
+I thought you preferred not to be Cc. I am just trying to be nice :)
 
