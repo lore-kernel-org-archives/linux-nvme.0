@@ -4,87 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CDB08C0015E
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Jul 2023 06:55:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4C01EC0015E
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Jul 2023 08:40:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vWtLl8i1rbPf13JE/6xoTLnWOhWNofxKSknjHfrEgxU=; b=UC0cI3sSlAI4W5eiUybbgFfCah
-	BYmDVb7LQel43dhvUMi11dJu1Zu+SJDzIjr018dufbtpLXCBcM41a5FAJwOz6YQokyoQOsLoH9W7k
-	4LNz3PngGAS//LmIkwO1aDOeirZ7iD2yBPCapErKWW0tv0z0ZQ7acSTZSa83pkkW1Xh9a3nLLzML1
-	E/JOJeq36Q9yHiKBJ5DhLVQtf42ei52BHlqkIsqpGEfy+tHKkgG0DAkxdv0BSbST1+BUnVJrEePo+
-	Cy31XC6C9Slmprh88VQ67uwEZpmvrWml4f7H+8I90rC4PIHwy//w7UJyo515c070FAMd5IsRt5ck0
-	kMPKbwJw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=SVjL4UhSzoBlrDSbgc7vzp1Jz7SDoXUOlax3PWxzyjI=; b=izuRifPy0kANfdI1oVAFBdldN2
+	kaElCD5EjsU5ng6ykfztllMCva+CCFLVc61VDL/79e5tq3Vz36j1YpbaDL7KxMsOIAeuSaxJBqT8W
+	G0xmhVnzRz1S7MfouFwmb8YmvTbz1rshHIwJdaDBrkQFvhmHUWciojbsJLlFQpaSaZDXk4XGECp2R
+	DZwHGHwuDb1UA8Ped72gOhDdtRUGE4ro9XiuorMIFE6TYByHANyTM+t1AgTFvytJ9znnqtDdl4gpD
+	xlyTzM+Ytkg2QkB7ABtHdbExaXkl2ge+R0pgm9veIZGvAnbgBGdFmW6kA556GCN7H/hKoKTOeragC
+	dQqCeXLA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qOBxU-006UWo-0k;
-	Tue, 25 Jul 2023 06:55:48 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1qODb6-006mx5-0j;
+	Tue, 25 Jul 2023 08:40:48 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qOBxO-006UVk-2t
+	id 1qODb3-006mvN-2J
 	for linux-nvme@lists.infradead.org;
-	Tue, 25 Jul 2023 06:55:44 +0000
+	Tue, 25 Jul 2023 08:40:47 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id AA2081F460;
-	Tue, 25 Jul 2023 06:55:41 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5D6592238C;
+	Tue, 25 Jul 2023 08:40:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1690268141; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1690274441; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vWtLl8i1rbPf13JE/6xoTLnWOhWNofxKSknjHfrEgxU=;
-	b=dO1SE3NEW+VJOAq8B7jbiygDGXXIU2Zlj3Ms5JSH0XPYcuTNyyYizuKKlqL1/cvM1KCKYl
-	nFsUCylvx9XkAHJSLR9Y19xGEwy+Jy7aisva0f3Mqbf+3VxOr4ihIik38F2Jd4p2WCV2SD
-	Eli4l8i0WlASYF0nXm1htpeN8Sk6M+k=
+	bh=SVjL4UhSzoBlrDSbgc7vzp1Jz7SDoXUOlax3PWxzyjI=;
+	b=Dfcq9//5pFtA2txSoxOqxANwZMzmG/eSytFddD3B//7EnowMc6XgVfmMxXHpm4r1soY5sQ
+	cwd7M2WvrbehaBvo9jQfdsItl1Vm38JkX0lSHwQ8JcQV84nCrmUbrpJfQtawgA0rYixSdE
+	zkHIy+ZCDxiwVHN7sLHhonN6FOgTtx4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1690268141;
+	s=susede2_ed25519; t=1690274441;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vWtLl8i1rbPf13JE/6xoTLnWOhWNofxKSknjHfrEgxU=;
-	b=elF174kLgi2YA1GJy699NE14euMwD1+jnbw6IYPpvh8IJoE8Yxi+PE3jUhjeIdfmtXMn+o
-	Hn81AKb5UDMhXOAw==
+	bh=SVjL4UhSzoBlrDSbgc7vzp1Jz7SDoXUOlax3PWxzyjI=;
+	b=rrdfZYJRvafe2H8ek8sIdFonlbD4biIgLKfexCXKe3wlHA37bgqEyJGpsNgVDElkyW/dWt
+	eBsBVX9uAXKfl8Cw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7CC7913487;
-	Tue, 25 Jul 2023 06:55:41 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 50CD613342;
+	Tue, 25 Jul 2023 08:40:41 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id J4Z4He1xv2SRBQAAMHmgww
-	(envelope-from <hare@suse.de>); Tue, 25 Jul 2023 06:55:41 +0000
-Message-ID: <6411e1e7-19a4-0cf4-8593-54b41c2adcbf@suse.de>
-Date: Tue, 25 Jul 2023 08:55:41 +0200
+	id ylWmE4mKv2QCPgAAMHmgww
+	(envelope-from <dwagner@suse.de>); Tue, 25 Jul 2023 08:40:41 +0000
+Date: Tue, 25 Jul 2023 10:40:40 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Caleb Sander <csander@purestorage.com>, linux-nvme@lists.infradead.org, 
+	Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH libnvme] fabrics: don't pass sqflow_disable if the kernel
+ does not support the option
+Message-ID: <r3xuoptvmxqnbt6gi26b6av2jj4wbi3eixgd74lmdauxip63jt@pxmvqyljanjr>
+References: <20230724090611.705366-1-sagi@grimberg.me>
+ <CADUfDZr9bNo17_NmWLCu_kVdURQn7XbbwtZoi2XzF8NTNyL_VA@mail.gmail.com>
+ <a20ee796-3690-9d2b-2363-4caaefc3aca9@grimberg.me>
+ <udo5xyydb5jb6isnpcbutuegifww2kuto44k3yu3eb6mnctwia@d7lmpffppurl>
+ <e23cbae3-2a31-070f-e03a-bb6b5ff1ad76@grimberg.me>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCHv8 0/6] net/tls: fixes for NVMe-over-TLS
-Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>, Jakub Kicinski <kuba@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- linux-nvme@lists.infradead.org, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org
-References: <20230721143523.56906-1-hare@suse.de>
- <20230721190026.25d2f0a5@kernel.org>
- <3e83c1dd-99bd-4dbd-2f83-4008e7059cfa@suse.de>
- <9f37941c-b265-7f28-ebec-76c04804b684@grimberg.me>
- <20230724123546.70775e77@kernel.org>
- <ad36e40b-65d9-b7ad-a72e-882fe7441e52@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <ad36e40b-65d9-b7ad-a72e-882fe7441e52@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e23cbae3-2a31-070f-e03a-bb6b5ff1ad76@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230724_235543_080468_84E821BE 
-X-CRM114-Status: GOOD (  19.11  )
+X-CRM114-CacheID: sfid-20230725_014045_916223_CA281774 
+X-CRM114-Status: GOOD (  28.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,45 +93,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/24/23 21:44, Sagi Grimberg wrote:
+On Mon, Jul 24, 2023 at 10:49:31PM +0300, Sagi Grimberg wrote:
+> > I've paired __nvmf_supported_options() with build_options(). We can
+> > move the call to __nvmf_supported_options() further up if it helps.
 > 
->>>>> Reviewed-by: Jakub Kicinski <kuba@kernel.org>
->>>>>
->>>>> Sagi, I _think_ a stable branch with this should be doable,
->>>>> would you like one, or no rush?
->>>>
->>>> I guess a stable branch would not be too bad; I've got another
->>>> set of patches for the NVMe side, too.
->>>> Sagi?
->>>
->>> I don't think there is a real need for this to go to stable, nothing
->>> is using it. Perhaps the MSG_EOR patches can go to stable in case
->>> there is some userspace code that wants to rely on it.
->>
->> I'm probably using the wrong word. I mean a branch based on -rc3 that's
->> not going to get rebased so the commits IDs match and we can both pull
->> it in. Not stable as in Greg KH.
+> We really should just have an interface to check specific options,
+> because that is what consumers care about, not the entire opts set.
 > 
-> Are you aiming this for 6.5 ? We are unlikely to get the nvme bits in
-> this round. I also don't think there is a conflict so the nvme bits
-> can go in for 6.6 and later the nvme tree will pull the tls updates.
+> Inside you can do the open/read/close once and cache it in memory
+> (although I think this is a really unneeded optimization).
 
-I really would love to get this into 6.5, as then we can do a clean 
-rebase of the NVMe development tree off 6.5, knowing that we won't have 
-to touch the networking. Otherwise you have to be sure to fork the 6.6 
-development branch off the right point.
+There are some users with bigger setups where 8 connections are initiated. We
+currently have 7 new options avaible which we are looking for. Thus at least 56
+the open/read/close step in such a scenario. I found this a bit excessive hence
+the optimization.
 
-But then I'm not doing the forking, so really all I care is that the 
-networking bits are present in the 6.6 NVMe development branch ...
+> > > Daniel? Any reason why we are caching these opts in an executable
+> > > with a short lifetime? And apparently we need to be very precise when
+> > > we rely on this cache to be stable.
+> > 
+> > Ah I see, in this case let's bring nvmf_check_cap() (although I couldn't find it
+> > anywhere... I can remember I saw those patches)
+> 
+> I also remember making disable_sqflow check instead of a retry, so maybe
+> it got left behind...
 
-Cheers,
+I couldn't find in my mail box or on lore. No idea what I did with it.
+Sorry.
 
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
+> > > If you prefer to cache it, at least do it in the start of every
+> > > fabrics callback so we don't need to understand when this cache
+> > > is valid...
+> > 
+> > I don't want to cache it, I just wanted to avoid the above mentioned
+> > open/read/parse/close cycle for each build options.
+> 
+> So do you want to add the interface? Or should I? (assuming you agree
+> on individual opt check) ?
 
+Yes, no problems with an individual opt check. Just a sec...
 
