@@ -4,74 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B7F6C001E0
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Jul 2023 11:06:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B724C0015E
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Jul 2023 13:43:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=f3+5Ws3IvZL4KRwctyVp9MLtU2uqQxu77BXFalL2nZY=; b=jVGHswNzfjuRvR8DCKyF3ucdmF
-	JHi2EKe/uqepNFsyzuYolFPsTbcC9NLPVkYZ8bmZql5Jp9cJ35FDofM3oKmeM49Yb/4AkE8ltV43k
-	3f1U5HO5C2RmfGXWBnMkqBFba41AIuzy5w5Ooz3I9FsOEltg0CGfKzmFd2Ys98Dw91wXb5G7Jh35E
-	Ph2bR1tOk44jcIxKdOa7LV7oDRAeXxJMc3te+NnnRjPtDOjCEAGM20GB5sHPnRDDbmm30GZMNl6P+
-	yPXmjT2F6VyffcBYjz5gM965dsTnNjVoi855Kw6NHm6TidyRjPmlKmiO9gaS2N6bd4hgjQjJ2ys8z
-	6Uuf2NFg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Cc:To:From:
+	Subject:MIME-Version:Date:Message-ID:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=zGcyFMRbEQ+DkLqOkUunYckn9C40x5rzx1sYQOo13Rc=; b=R5c2hQvFfl+99c
+	G37VNqHPFNR0qMGxc8qO1PMFA/S8TA5IalUa99IcF9STGHaHdwTL5LykiDKAr7PTwnawrfpTOCvO9
+	icIsv1ryDix4UCDuaGX/8iJf4x0Qcj0fFXcG1bPBWVO83X7FGNwVj5xPL76ov8kxJAeRpuo3+PyLf
+	qxw/h/ocP4YvBFk+CnDv6YMCAlePezqLwf5MENnyF3hodG4UcQFfnT4ZJhkQoOLmgburjzP6gQN2G
+	rewWTjMp4xd1hyw4u5VSQza9qEUNvpcGm1a8ZtKeW525cmDx7zYWfqF8wNDg1zF33Sv2NI/j9Lbnt
+	TCNJUsHTzr4y97nntv5A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qOFsF-007MT4-0C;
-	Tue, 25 Jul 2023 11:06:39 +0000
-Received: from smtp-fw-6001.amazon.com ([52.95.48.154])
+	id 1qOIKB-007fZ2-1t;
+	Tue, 25 Jul 2023 13:43:39 +0000
+Received: from wp530.webpack.hosteurope.de ([2a01:488:42:1000:50ed:8234::])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qOFsC-007MRb-2M
+	id 1qOIK8-007fWK-1D
 	for linux-nvme@lists.infradead.org;
-	Tue, 25 Jul 2023 11:06:38 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1690283197; x=1721819197;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=f3+5Ws3IvZL4KRwctyVp9MLtU2uqQxu77BXFalL2nZY=;
-  b=nFvtCR0cFg2B5IVR8zkjpTzScvhIZvg3AZWg/IE3LufK3BJAAsysZTu8
-   V4llo7tk8teUvjOuOhTaoh0HnftkdmG57tSMzha9aF7Yr743eMUMfUewR
-   YnkG8ATLdUVzqHhuDtMfPbNISWAZxDs9MA8TOpOx2H16O2cTuPyTIL+3r
-   s=;
-X-IronPort-AV: E=Sophos;i="6.01,230,1684800000"; 
-   d="scan'208";a="348734793"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-pdx-2a-m6i4x-44b6fc51.us-west-2.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-6001.iad6.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 11:06:30 +0000
-Received: from EX19D019EUA002.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
-	by email-inbound-relay-pdx-2a-m6i4x-44b6fc51.us-west-2.amazon.com (Postfix) with ESMTPS id 61984A0AD0;
-	Tue, 25 Jul 2023 11:06:27 +0000 (UTC)
-Received: from EX19D028EUB001.ant.amazon.com (10.252.61.99) by
- EX19D019EUA002.ant.amazon.com (10.252.50.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.30; Tue, 25 Jul 2023 11:06:26 +0000
-Received: from EX19MTAUEB001.ant.amazon.com (10.252.135.35) by
- EX19D028EUB001.ant.amazon.com (10.252.61.99) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.30; Tue, 25 Jul 2023 11:06:26 +0000
-Received: from dev-dsk-ptyadav-1c-37607b33.eu-west-1.amazon.com (10.15.11.255)
- by mail-relay.amazon.com (10.252.135.35) with Microsoft SMTP Server id
- 15.2.1118.30 via Frontend Transport; Tue, 25 Jul 2023 11:06:26 +0000
-Received: by dev-dsk-ptyadav-1c-37607b33.eu-west-1.amazon.com (Postfix, from userid 23027615)
-	id 0142E23299; Tue, 25 Jul 2023 13:06:25 +0200 (CEST)
-From: Pratyush Yadav <ptyadav@amazon.de>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, "Christoph
- Hellwig" <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-CC: Pratyush Yadav <ptyadav@amazon.de>, <linux-nvme@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH] nvme-pci: do not set the NUMA node of device if it has none
-Date: Tue, 25 Jul 2023 13:06:22 +0200
-Message-ID: <20230725110622.129361-1-ptyadav@amazon.de>
-X-Mailer: git-send-email 2.40.1
+	Tue, 25 Jul 2023 13:43:38 +0000
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1qOIK0-0003xR-4j; Tue, 25 Jul 2023 15:43:28 +0200
+Message-ID: <2d2d2225-3a64-2255-92c8-3237402e3f3d@leemhuis.info>
+Date: Tue, 25 Jul 2023 15:43:27 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: Performance Regression due to ASPM disable patch
+Content-Language: en-US, de-DE
+From: "Linux regression tracking #update (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+To: Linux kernel regressions list <regressions@lists.linux.dev>
+Cc: nic_swsd@realtek.com, netdev@vger.kernel.org,
+ linux-nvme@lists.infradead.org
+References: <CGME20230712155834epcas5p1140d90c8a0a181930956622728c4dd89@epcas5p1.samsung.com>
+ <20230712155052.GA946@green245>
+ <425eba3b-0138-81d1-f615-97fc24b2d51d@leemhuis.info>
+In-Reply-To: <425eba3b-0138-81d1-f615-97fc24b2d51d@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1690292616;33808e48;
+X-HE-SMSGID: 1qOIK0-0003xR-4j
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230725_040637_006405_61B291AC 
-X-CRM114-Status: GOOD (  13.79  )
+X-CRM114-CacheID: sfid-20230725_064336_575562_D8288799 
+X-CRM114-Status: UNSURE (   8.36  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,45 +65,39 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-If a device has no NUMA node information associated with it, the driver
-puts the device in node first_memory_node (say node 0). As a side
-effect, this gives an indication to userspace IRQ balancing programs
-that the device is in node 0 so they prefer CPUs in node 0 to handle the
-IRQs associated with the queues. For example, irqbalance will only let
-CPUs in node 0 handle the interrupts. This reduces random access
-performance on CPUs in node 1 since the interrupt for command completion
-will fire on node 0.
+[TLDR: This mail in primarily relevant for Linux kernel regression
+tracking. See link in footer if these mails annoy you.]
 
-For example, AWS EC2's i3.16xlarge instance does not expose NUMA
-information for the NVMe devices. This means all NVMe devices have
-NUMA_NO_NODE by default. Without this patch, random 4k read performance
-measured via fio on CPUs from node 1 (around 165k IOPS) is almost 50%
-less than CPUs from node 0 (around 315k IOPS). With this patch, CPUs on
-both nodes get similar performance (around 315k IOPS).
+On 13.07.23 14:37, Linux regression tracking #adding (Thorsten Leemhuis)
+wrote:
 
-Signed-off-by: Pratyush Yadav <ptyadav@amazon.de>
----
- drivers/nvme/host/pci.c | 3 ---
- 1 file changed, 3 deletions(-)
+> On 12.07.23 17:55, Anuj Gupta wrote:
+>>
+>> I see a performance regression for read/write workloads on our NVMe over
+>> fabrics using TCP as transport setup.
+>> IOPS drop by 23% for 4k-randread [1] and by 18% for 4k-randwrite [2].
+> 
+> #regzbot ^introduced e1ed3e4d91112027b90c7ee61479141b3f94
+> #regzbot title net: r8169: performance regression for read/write
+> workloads on our NVMe over fabrics
+> #regzbot ignore-activity
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index baf69af7ea78e..f5ba2d7102eae 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2916,9 +2916,6 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
- 	struct nvme_dev *dev;
- 	int ret = -ENOMEM;
- 
--	if (node == NUMA_NO_NODE)
--		set_dev_node(&pdev->dev, first_memory_node);
--
- 	dev = kzalloc_node(sizeof(*dev), GFP_KERNEL, node);
- 	if (!dev)
- 		return ERR_PTR(-ENOMEM);
--- 
-2.40.1
+The fix did not properly link to the report (it only linked to a reply
+in the thread), hence regzbot missed it:
 
+#regzbot fix: e31a9fedc7d8d8
+#regzbot ignore-activity
+
+/me meanwhile wonders if it'S worth teaching regzbot how to handle these
+cases
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+That page also explains what to do if mails like this annoy you.
 
