@@ -4,76 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9450BC04A94
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Jul 2023 19:16:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D376C0015E
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Jul 2023 19:32:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=an99c2Bly3oHsUbH8CBRgxdYchS7h7EFR57B8TXyjaw=; b=FA4RuSim+WuAj+PAW/lx4YWl38
-	KHmnvHKVj+ey5LWmpwTIYLMZtHnKAA5SNFSQp9gZdIQakQwDRf+AQO5i4dDh/fbW84w/AtwbQdfFC
-	azWuN4Ar5t4jG/vBqdVtBdRBxgE55BUjuUbCPf0gYhSy3B3HvyefcXjCOoejJE3FlHaA+uNAK7Vdf
-	Zg/h89agqHIVK5RT92i162/QXtGUSGpRpfR9IiBOm7lvp+kTEvF57leCe35cme527eax11moaXjAZ
-	f0i1jUu2/A2FBJft1Ht8G8MMRpwh3htaIZWuSo1ZTCkic/lT+nOdbGyiXNpCFTXNxbpNWEKL0ObuK
-	0G1zSG/g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:In-Reply-To:Date:References:Subject:CC:To:From:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=PdsSRu7tlZBA3gNrHuPdzW7N3hmmobQp+k8jhBUmFHA=; b=FKDOTWaTfDuk9jPpDcwkFTdZ/d
+	SrvHk7ryoxQtCi48xlyQKBiK62fL1xHGppjvYIJrQb09XPBUrVximgsGX5netmbdscVba9FjhHOLt
+	v5G3FWPmWEMZArNtBJwbV8IwTo72lqFhlF6G1sk1gPs7Fmgome82oPrQH9YmON4Djaxv9Zw7BdNsK
+	H2HhflVZnN0EU+MrSr3ufSVbgyMVNE2uBmVFWnA98Zo7mK1gQFxMv0sLndVQ+AlU6jxcSMAPcCG5D
+	M6/2R/WOMq9w7ELhnTu+RadYYkVai0xstpAhxYNVmX+0ryt626a53VZ9Z+K+WAMeYGtMEqTdBLZCI
+	UuhnRlHg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qOjzb-00BMA2-0i;
-	Wed, 26 Jul 2023 19:16:15 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1qOkFZ-00BOoq-19;
+	Wed, 26 Jul 2023 19:32:45 +0000
+Received: from smtp-fw-80006.amazon.com ([99.78.197.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qOjzW-00BM6m-34
+	id 1qOkFU-00BOnm-1W
 	for linux-nvme@lists.infradead.org;
-	Wed, 26 Jul 2023 19:16:12 +0000
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id 1604021CA2;
-	Wed, 26 Jul 2023 19:16:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1690398967; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=an99c2Bly3oHsUbH8CBRgxdYchS7h7EFR57B8TXyjaw=;
-	b=DJxcyp215Y9Rh8thegpyrdSh+SEytJ7pc48Zheo96FFYcII8LTEcYLyQcla/i72lYA/veH
-	Gfdke6NT/r3EK9+d+pLCzQRCDrQPzD2d3Vb2Jk4FQLTzjiNR6VJsRpqIhAsCXUbH2n/KkD
-	w5mZaq6QUP0ZWLCsyP03untiEouh4J4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1690398967;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=an99c2Bly3oHsUbH8CBRgxdYchS7h7EFR57B8TXyjaw=;
-	b=OeLjS6xDIBFlDLFGNbfpRk84bpqtnsuK7Fk15mRxzmPZqCNK0X9kMK6SLOfZPIoUrPHEFr
-	efIsdaaX47iyx9Ag==
-Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 283E52C145;
-	Wed, 26 Jul 2023 19:16:06 +0000 (UTC)
-Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id 1D1CC51CA331; Wed, 26 Jul 2023 21:16:06 +0200 (CEST)
-From: Hannes Reinecke <hare@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 2/6] net/tls: handle MSG_EOR for tls_device TX flow
-Date: Wed, 26 Jul 2023 21:15:52 +0200
-Message-Id: <20230726191556.41714-3-hare@suse.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20230726191556.41714-1-hare@suse.de>
-References: <20230726191556.41714-1-hare@suse.de>
+	Wed, 26 Jul 2023 19:32:43 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+  t=1690399960; x=1721935960;
+  h=from:to:cc:subject:references:date:in-reply-to:
+   message-id:mime-version;
+  bh=PdsSRu7tlZBA3gNrHuPdzW7N3hmmobQp+k8jhBUmFHA=;
+  b=Ef8fCo9NZnxaJs03/iLQFkKyyxprxaPwz2LaJlqJpDtXxI2FU01p7gQW
+   wHLZbeDL+U7+FwSdLqlowh5+QeaoZtN9WLxD25pXP/Ksto+LfYO96herO
+   hXb9vx4yJzpk1NEFePxTbW6fYJFtEVhAYtvyXu/mITa/iZeP7qiFnqzqj
+   Q=;
+X-IronPort-AV: E=Sophos;i="6.01,232,1684800000"; 
+   d="scan'208";a="228901664"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-iad-1e-m6i4x-529f0975.us-east-1.amazon.com) ([10.25.36.210])
+  by smtp-border-fw-80006.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 19:32:35 +0000
+Received: from EX19MTAUEC002.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
+	by email-inbound-relay-iad-1e-m6i4x-529f0975.us-east-1.amazon.com (Postfix) with ESMTPS id 2DFAA46E5E;
+	Wed, 26 Jul 2023 19:32:34 +0000 (UTC)
+Received: from EX19MTAUEB001.ant.amazon.com (10.252.135.35) by
+ EX19MTAUEC002.ant.amazon.com (10.252.135.253) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.30; Wed, 26 Jul 2023 19:32:33 +0000
+Received: from dev-dsk-ptyadav-1c-37607b33.eu-west-1.amazon.com (10.15.11.255)
+ by mail-relay.amazon.com (10.252.135.35) with Microsoft SMTP Server id
+ 15.2.1118.30 via Frontend Transport; Wed, 26 Jul 2023 19:32:33 +0000
+Received: by dev-dsk-ptyadav-1c-37607b33.eu-west-1.amazon.com (Postfix, from userid 23027615)
+	id 3672C20E1D; Wed, 26 Jul 2023 21:32:33 +0200 (CEST)
+From: Pratyush Yadav <ptyadav@amazon.de>
+To: Keith Busch <kbusch@kernel.org>
+CC: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, "Jens
+ Axboe" <axboe@kernel.dk>, <linux-nvme@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] nvme-pci: do not set the NUMA node of device if it has
+ none
+References: <20230725110622.129361-1-ptyadav@amazon.de>
+	<ZL/dphk/MJMRskX8@kbusch-mbp.dhcp.thefacebook.com>
+	<50a125da-95c8-3b9b-543a-016c165c745d@grimberg.me>
+	<20230726131408.GA15909@lst.de> <mafs0cz0e8zc6.fsf_-_@amazon.de>
+	<ZMFHEK95WGwtYbid@kbusch-mbp.dhcp.thefacebook.com>
+Date: Wed, 26 Jul 2023 21:32:33 +0200
+In-Reply-To: <ZMFHEK95WGwtYbid@kbusch-mbp.dhcp.thefacebook.com> (Keith Busch's
+	message of "Wed, 26 Jul 2023 10:17:20 -0600")
+Message-ID: <mafs08rb28o4u.fsf_-_@amazon.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230726_121611_188011_B1D4D920 
-X-CRM114-Status: GOOD (  12.36  )
+X-CRM114-CacheID: sfid-20230726_123240_583698_B018DCF9 
+X-CRM114-Status: GOOD (  22.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,39 +89,209 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tls_push_data() MSG_MORE, but bails out on MSG_EOR.
-Seeing that MSG_EOR is basically the opposite of MSG_MORE
-this patch adds handling MSG_EOR by treating it as the
-absence of MSG_MORE.
-Consequently we should return an error when both are set.
+On Wed, Jul 26 2023, Keith Busch wrote:
 
-Cc: netdev@vger.kernel.org
-Signed-off-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Jakub Kicinski <kuba@kernel.org>
----
- net/tls/tls_device.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+> On Wed, Jul 26, 2023 at 05:30:33PM +0200, Pratyush Yadav wrote:
+>> On Wed, Jul 26 2023, Christoph Hellwig wrote:
+>> > On Wed, Jul 26, 2023 at 10:58:36AM +0300, Sagi Grimberg wrote:
+>> >>>> For example, AWS EC2's i3.16xlarge instance does not expose NUMA
+>> >>>> information for the NVMe devices. This means all NVMe devices have
+>> >>>> NUMA_NO_NODE by default. Without this patch, random 4k read performance
+>> >>>> measured via fio on CPUs from node 1 (around 165k IOPS) is almost 50%
+>> >>>> less than CPUs from node 0 (around 315k IOPS). With this patch, CPUs on
+>> >>>> both nodes get similar performance (around 315k IOPS).
+>> >>>
+>> >>> irqbalance doesn't work with this driver though: the interrupts are
+>> >>> managed by the kernel. Is there some other reason to explain the perf
+>> >>> difference?
+>>
+>> Hmm, I did not know that. I have not gone and looked at the code but I
+>> think the same reasoning should hold, just with s/irqbalance/kernel. If
+>> the kernel IRQ balancer sees the device is on node 0, it would deliver
+>> its interrupts to CPUs on node 0.
+>>
+>> In my tests I can see that the interrupts for NVME queues are sent only
+>> to CPUs from node 0 without this patch. With this patch CPUs from both
+>> nodes get the interrupts.
+>
+> Could you send the output of:
+>
+>   numactl --hardware
 
-diff --git a/net/tls/tls_device.c b/net/tls/tls_device.c
-index 2021fe557e50..5df18f696d7f 100644
---- a/net/tls/tls_device.c
-+++ b/net/tls/tls_device.c
-@@ -441,9 +441,13 @@ static int tls_push_data(struct sock *sk,
- 	long timeo;
- 
- 	if (flags &
--	    ~(MSG_MORE | MSG_DONTWAIT | MSG_NOSIGNAL | MSG_SPLICE_PAGES))
-+	    ~(MSG_MORE | MSG_DONTWAIT | MSG_NOSIGNAL |
-+	      MSG_SPLICE_PAGES | MSG_EOR))
- 		return -EOPNOTSUPP;
- 
-+	if ((flags & (MSG_MORE | MSG_EOR)) == (MSG_MORE | MSG_EOR))
-+		return -EINVAL;
-+
- 	if (unlikely(sk->sk_err))
- 		return -sk->sk_err;
- 
+$ numactl --hardware
+available: 2 nodes (0-1)
+node 0 cpus: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47
+node 0 size: 245847 MB
+node 0 free: 245211 MB
+node 1 cpus: 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63
+node 1 size: 245932 MB
+node 1 free: 245328 MB
+node distances:
+node   0   1
+  0:  10  21
+  1:  21  10
+
+>
+> and then with and without your patch:
+>
+>   for i in $(cat /proc/interrupts | grep nvme0 | sed "s/^ *//g" | cut -d":" -f 1); do \
+>     cat /proc/irq/$i/{smp,effective}_affinity_list; \
+>   done
+
+Without my patch:
+
+    $   for i in $(cat /proc/interrupts | grep nvme0 | sed "s/^ *//g" | cut -d":" -f 1); do \
+    >     cat /proc/irq/$i/{smp,effective}_affinity_list; \
+    >   done
+    40
+    40
+    33
+    33
+    44
+    44
+    9
+    9
+    32
+    32
+    2
+    2
+    6
+    6
+    11
+    11
+    1
+    1
+    35
+    35
+    39
+    39
+    13
+    13
+    42
+    42
+    46
+    46
+    41
+    41
+    46
+    46
+    15
+    15
+    5
+    5
+    43
+    43
+    0
+    0
+    14
+    14
+    8
+    8
+    12
+    12
+    7
+    7
+    10
+    10
+    47
+    47
+    38
+    38
+    36
+    36
+    3
+    3
+    34
+    34
+    45
+    45
+    5
+    5
+
+With my patch:
+
+    $   for i in $(cat /proc/interrupts | grep nvme0 | sed "s/^ *//g" | cut -d":" -f 1); do \
+    >     cat /proc/irq/$i/{smp,effective}_affinity_list; \
+    >   done
+    9
+    9
+    15
+    15
+    5
+    5
+    23
+    23
+    38
+    38
+    52
+    52
+    21
+    21
+    36
+    36
+    13
+    13
+    56
+    56
+    44
+    44
+    42
+    42
+    31
+    31
+    48
+    48
+    5
+    5
+    3
+    3
+    1
+    1
+    11
+    11
+    28
+    28
+    18
+    18
+    34
+    34
+    29
+    29
+    58
+    58
+    46
+    46
+    54
+    54
+    59
+    59
+    32
+    32
+    7
+    7
+    56
+    56
+    62
+    62
+    49
+    49
+    57
+    57
+
 -- 
-2.35.3
+Regards,
+Pratyush Yadav
+
+
+
+Amazon Development Center Germany GmbH
+Krausenstr. 38
+10117 Berlin
+Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+Sitz: Berlin
+Ust-ID: DE 289 237 879
+
+
 
 
