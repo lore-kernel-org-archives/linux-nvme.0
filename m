@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04193C001E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Jul 2023 09:40:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7BEDC0015E
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Jul 2023 09:40:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=k/XiItvuETzuFaV0q2/0Ml9SkHL0l2Lbxykjfon98Ww=; b=vNkTu6idin62sBfpTbDl/95I/6
-	L7lg7MO9llQbVO0wUDrJDnVVOwT0HNhA1uU1dj/C4ME3ZhRxnTRjq64zBFPVTWmNeFWCvFBMmX0Pz
-	RHRPmw49hOPrsO+Ej/r31iyGpusuhueB/WFQA3k77kHVIYe1TY6q895QibNhltAkuTJFd511OLCf2
-	nCAcibLTE7712V47AlbnopwkvFuy1p3r2CvMAWNEAkQVwFY3bNydflZ6KT/EMDSoamWv+Fb0rJ6TO
-	20v9MrmKNJUR1Hb+VeKzYG1r0J5GrWPSPIX8Tjr9G5UYKCcEAPCpyD2o+hd9ffJhrMIybbKQfPoWl
-	lwK0WLIw==;
+	bh=XUAbwUholcdP/E78pjIWjWfXWvuCT6ODN3CqmEOBnlY=; b=jwc8cZxtvwMC1kvNwuzKxGV7o4
+	3H21n4R5QVoy69uh1nd6ZcSDUumTShwpihAlqQkoqmwJg4rBV8AL7t+Y4DV9SGk1FeUQmTIvgJgE1
+	cIvWFvorKWIx+RU5um+cYtBIm+QKD5u9S1c0KDocT7WIwFEJnIFgv2MV2KqbcP/JQbygFBG57ktge
+	4uy1GFlavbn0GBOorckramrUJ2iBro1vLq+Fey59vWmNfAMVfLDNP+9yOidW+HWsI3qTUMWYTkSCC
+	R2dmpUOMwFdTdq034EhuiuNjsQoDq4bTGxm9srNzwaKyXxSteiEYeMCJqyKGXAwt2/KBS6Gqf1Ht1
+	go/1bZlw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qOb0l-009lgL-1k;
-	Wed, 26 Jul 2023 09:40:51 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1qOb0r-009ljJ-0m;
+	Wed, 26 Jul 2023 09:40:57 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qOb0h-009leq-1N
+	id 1qOb0n-009lhK-37
 	for linux-nvme@lists.infradead.org;
-	Wed, 26 Jul 2023 09:40:48 +0000
+	Wed, 26 Jul 2023 09:40:55 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1690364446;
+	s=mimecast20190719; t=1690364453;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=k/XiItvuETzuFaV0q2/0Ml9SkHL0l2Lbxykjfon98Ww=;
-	b=ewgcgBWzBz09ubCvwOxLpEDEq+E9FBsImaLC3z6BC2bhs4I41EPfRLtLV0QJuU3Y0B+Szv
-	WgUn1wk4FrkGGHgIxACHR+lQAirXXXPSjntkxsVhR+TwR8Gd6RuNhwiH33l43v/MFvd1DL
-	j4zuNccV7omuLaSIWkwswPcX17I60/U=
+	bh=XUAbwUholcdP/E78pjIWjWfXWvuCT6ODN3CqmEOBnlY=;
+	b=VNww+fC8VbMqWR+kFe9muO7UWK1bGGW4iUXzUeHWcAI5cJm0r70FFXwgBHygzjxG7++OV+
+	SE51vEUPSAmumBWRtzwKB0IOGczEHoa/FCQMN6d7Lzo9IARbB77opwvpCJG1YKoiLjmOuX
+	I6cMq0n1l3JXHHL6klzYHNoHs4xC+YA=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-351-Ad3sbx7uMbeI3W7dnB5SwQ-1; Wed, 26 Jul 2023 05:40:43 -0400
-X-MC-Unique: Ad3sbx7uMbeI3W7dnB5SwQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+ us-mta-294-oQFhGE4cMQWWMo61YsirzA-1; Wed, 26 Jul 2023 05:40:46 -0400
+X-MC-Unique: oQFhGE4cMQWWMo61YsirzA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3B3F4803FDF;
-	Wed, 26 Jul 2023 09:40:43 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4EB1888D583;
+	Wed, 26 Jul 2023 09:40:46 +0000 (UTC)
 Received: from localhost (unknown [10.72.120.4])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 6C6F3F7835;
-	Wed, 26 Jul 2023 09:40:42 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 7CF031401C2E;
+	Wed, 26 Jul 2023 09:40:45 +0000 (UTC)
 From: Ming Lei <ming.lei@redhat.com>
 To: Jens Axboe <axboe@kernel.dk>,
 	Christoph Hellwig <hch@lst.de>,
@@ -60,17 +60,17 @@ Cc: linux-block@vger.kernel.org,
 	Wen Xiong <wenxiong@linux.ibm.com>,
 	Keith Busch <kbusch@kernel.org>,
 	Ming Lei <ming.lei@redhat.com>
-Subject: [PATCH V2 2/9] nvme-pci: use blk_mq_max_nr_hw_queues() to calculate io queues
-Date: Wed, 26 Jul 2023 17:40:20 +0800
-Message-Id: <20230726094027.535126-3-ming.lei@redhat.com>
+Subject: [PATCH V2 3/9] scsi: core: add helper of scsi_max_nr_hw_queues()
+Date: Wed, 26 Jul 2023 17:40:21 +0800
+Message-Id: <20230726094027.535126-4-ming.lei@redhat.com>
 In-Reply-To: <20230726094027.535126-1-ming.lei@redhat.com>
 References: <20230726094027.535126-1-ming.lei@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230726_024047_537552_720B081A 
-X-CRM114-Status: GOOD (  16.10  )
+X-CRM114-CacheID: sfid-20230726_024054_075081_1DA17B9A 
+X-CRM114-Status: GOOD (  13.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,41 +85,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Take blk-mq's knowledge into account for calculating io queues.
+blk_mq_alloc_tag_set() may change nr_hw_queues for kdump kernel, so
+driver has to take blk-mq max supported nr_hw_queues into account
+when figuring out nr_hw_queues from hardware info, for avoiding
+inconsistency between scsi driver and blk-mq.
 
-Fix wrong queue mapping in case of kdump kernel.
+Add helper of scsi_max_nr_hw_queues() for avoiding nr_hw_queues
+inconsistency between scsi driver and blk-mq.
 
-On arm and ppc64, 'maxcpus=1' is passed to kdump command line, see
-`Documentation/admin-guide/kdump/kdump.rst`, so num_possible_cpus()
-still returns all CPUs because 'maxcpus=1' just bring up one single
-cpu core during booting.
-
-blk-mq sees single queue in kdump kernel, and in driver's viewpoint
-there are still multiple queues, this inconsistency causes driver to apply
-wrong queue mapping for handling IO, and IO timeout is triggered.
-
-Meantime, single queue makes much less resource utilization, and reduce
-risk of kernel failure.
-
-Reported-by: Wen Xiong <wenxiong@linux.ibm.com>
 Signed-off-by: Ming Lei <ming.lei@redhat.com>
 ---
- drivers/nvme/host/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/scsi/scsi_host.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index baf69af7ea78..a1227ae7eb39 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2251,7 +2251,7 @@ static unsigned int nvme_max_io_queues(struct nvme_dev *dev)
- 	 */
- 	if (dev->ctrl.quirks & NVME_QUIRK_SHARED_TAGS)
- 		return 1;
--	return num_possible_cpus() + dev->nr_write_queues + dev->nr_poll_queues;
-+	return blk_mq_max_nr_hw_queues() + dev->nr_write_queues + dev->nr_poll_queues;
- }
+diff --git a/include/scsi/scsi_host.h b/include/scsi/scsi_host.h
+index 70b7475dcf56..2273f855940f 100644
+--- a/include/scsi/scsi_host.h
++++ b/include/scsi/scsi_host.h
+@@ -803,6 +803,11 @@ extern int scsi_host_unblock(struct Scsi_Host *shost, int new_state);
+ void scsi_host_busy_iter(struct Scsi_Host *,
+ 			 bool (*fn)(struct scsi_cmnd *, void *), void *priv);
  
- static int nvme_setup_io_queues(struct nvme_dev *dev)
++static inline unsigned int scsi_max_nr_hw_queues(void)
++{
++	return blk_mq_max_nr_hw_queues();
++}
++
+ struct class_container;
+ 
+ /*
 -- 
 2.40.1
 
