@@ -4,77 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D376C0015E
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Jul 2023 19:32:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CFA7BC001DC
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Jul 2023 22:12:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:In-Reply-To:Date:References:Subject:CC:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PdsSRu7tlZBA3gNrHuPdzW7N3hmmobQp+k8jhBUmFHA=; b=FKDOTWaTfDuk9jPpDcwkFTdZ/d
-	SrvHk7ryoxQtCi48xlyQKBiK62fL1xHGppjvYIJrQb09XPBUrVximgsGX5netmbdscVba9FjhHOLt
-	v5G3FWPmWEMZArNtBJwbV8IwTo72lqFhlF6G1sk1gPs7Fmgome82oPrQH9YmON4Djaxv9Zw7BdNsK
-	H2HhflVZnN0EU+MrSr3ufSVbgyMVNE2uBmVFWnA98Zo7mK1gQFxMv0sLndVQ+AlU6jxcSMAPcCG5D
-	M6/2R/WOMq9w7ELhnTu+RadYYkVai0xstpAhxYNVmX+0ryt626a53VZ9Z+K+WAMeYGtMEqTdBLZCI
-	UuhnRlHg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=u8mBYQ48hqxLsJ20eS/0jkkgIvd41omZCyTUT7Irfl8=; b=Uh7nchWbW0UCzxKN7Ut+ydDGi+
+	eIvDIt2tybZt8+dh793wNxW/XzwusEthBt1r9MYbI3cSGQR3NpsUijWX8oU/60HSo7HoIFKoPi7OW
+	V3DxeU7EqsPAXvLwhJfNkVnbr91LK7+BUdJE6q98D6g9z3gQuDiSSU+1j2VwSPS5fOcdVvxS/z2iv
+	ExKn/Mawr4xjYmMv2Jo5oQ5/MrwdSkVKn9nqMClurGXlnAtvBN5d3SJnzx/wbfBAkDhyLq2AuLIX1
+	CTCuI/+1nMCAIlc1aBdr6VZqHN3NEYt8vSGH0SQ8+TVF5XX3JNuIMnBKQLfNPjP4FjsD6q+SUl+cC
+	ilbUP0RA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qOkFZ-00BOoq-19;
-	Wed, 26 Jul 2023 19:32:45 +0000
-Received: from smtp-fw-80006.amazon.com ([99.78.197.217])
+	id 1qOmkC-00BcEd-0W;
+	Wed, 26 Jul 2023 22:12:32 +0000
+Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qOkFU-00BOnm-1W
+	id 1qOmk9-00BcEF-0v
 	for linux-nvme@lists.infradead.org;
-	Wed, 26 Jul 2023 19:32:43 +0000
+	Wed, 26 Jul 2023 22:12:30 +0000
+Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-5844191983bso556127b3.1
+        for <linux-nvme@lists.infradead.org>; Wed, 26 Jul 2023 15:12:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1690399960; x=1721935960;
-  h=from:to:cc:subject:references:date:in-reply-to:
-   message-id:mime-version;
-  bh=PdsSRu7tlZBA3gNrHuPdzW7N3hmmobQp+k8jhBUmFHA=;
-  b=Ef8fCo9NZnxaJs03/iLQFkKyyxprxaPwz2LaJlqJpDtXxI2FU01p7gQW
-   wHLZbeDL+U7+FwSdLqlowh5+QeaoZtN9WLxD25pXP/Ksto+LfYO96herO
-   hXb9vx4yJzpk1NEFePxTbW6fYJFtEVhAYtvyXu/mITa/iZeP7qiFnqzqj
-   Q=;
-X-IronPort-AV: E=Sophos;i="6.01,232,1684800000"; 
-   d="scan'208";a="228901664"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-iad-1e-m6i4x-529f0975.us-east-1.amazon.com) ([10.25.36.210])
-  by smtp-border-fw-80006.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 19:32:35 +0000
-Received: from EX19MTAUEC002.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
-	by email-inbound-relay-iad-1e-m6i4x-529f0975.us-east-1.amazon.com (Postfix) with ESMTPS id 2DFAA46E5E;
-	Wed, 26 Jul 2023 19:32:34 +0000 (UTC)
-Received: from EX19MTAUEB001.ant.amazon.com (10.252.135.35) by
- EX19MTAUEC002.ant.amazon.com (10.252.135.253) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.30; Wed, 26 Jul 2023 19:32:33 +0000
-Received: from dev-dsk-ptyadav-1c-37607b33.eu-west-1.amazon.com (10.15.11.255)
- by mail-relay.amazon.com (10.252.135.35) with Microsoft SMTP Server id
- 15.2.1118.30 via Frontend Transport; Wed, 26 Jul 2023 19:32:33 +0000
-Received: by dev-dsk-ptyadav-1c-37607b33.eu-west-1.amazon.com (Postfix, from userid 23027615)
-	id 3672C20E1D; Wed, 26 Jul 2023 21:32:33 +0200 (CEST)
-From: Pratyush Yadav <ptyadav@amazon.de>
-To: Keith Busch <kbusch@kernel.org>
-CC: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, "Jens
- Axboe" <axboe@kernel.dk>, <linux-nvme@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] nvme-pci: do not set the NUMA node of device if it has
- none
-References: <20230725110622.129361-1-ptyadav@amazon.de>
-	<ZL/dphk/MJMRskX8@kbusch-mbp.dhcp.thefacebook.com>
-	<50a125da-95c8-3b9b-543a-016c165c745d@grimberg.me>
-	<20230726131408.GA15909@lst.de> <mafs0cz0e8zc6.fsf_-_@amazon.de>
-	<ZMFHEK95WGwtYbid@kbusch-mbp.dhcp.thefacebook.com>
-Date: Wed, 26 Jul 2023 21:32:33 +0200
-In-Reply-To: <ZMFHEK95WGwtYbid@kbusch-mbp.dhcp.thefacebook.com> (Keith Busch's
-	message of "Wed, 26 Jul 2023 10:17:20 -0600")
-Message-ID: <mafs08rb28o4u.fsf_-_@amazon.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+        d=gmail.com; s=20221208; t=1690409547; x=1691014347;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u8mBYQ48hqxLsJ20eS/0jkkgIvd41omZCyTUT7Irfl8=;
+        b=FGMXJIm+YcdnO2qdl9FARUysPWEgy4ZPjJMWoyY5JQFrLYy/xhbsOd/fGYe1HgkGql
+         pwgC+CQD+7sPsRUocSzXMxgtDZMqOlRK8JOk8aFBW/RwtRTD8Ox/vfB53GHO6EOOygld
+         YgpptCv1YGYr+QjGiznuxc0N10q8/czjpTLTJUUILRBrN0sKXYI6Wiy5lZQ/tyUenAXA
+         THq4EpnBOvuM7e1m+P/ccaGwlZQEZCiO1eQQxB18EzMY4+iYdcLfIrmMFoxINsS1EkP8
+         CQq9H0/aL9FBMZQK3S9ktE0nJv0/z26zCITlVUKYKkqHI0q+846gLlY+ehtBe9nreUrK
+         tY4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690409547; x=1691014347;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=u8mBYQ48hqxLsJ20eS/0jkkgIvd41omZCyTUT7Irfl8=;
+        b=N1uM/pG3oyf6VqzCxL3J7djRBkmC++m0bZllnHHTbR5dhQprRonSRfCJ/1aTi50s0X
+         e0cI7+n7sD2YqxR5neS7YoZy2vViSyqh3t1TUnkbnpCD422c+AtUNKeZic/Tp97W9nsX
+         e/aEB45VBq8ehAwuz2kBNW2TduxnJ0pmXqqJkgcoTYGDx1Z6YJE8HYnqsJYMDefc/HGz
+         WbfevzasDUR7nKeANKbO6sN5xXkBH8oK35KLdfT400qP+0jhFdGjwoFNnLgyXsWsqPGP
+         UAuAvZqo4Mp8y4mme7uTh5MMZLimoJN34LH3qFiYrqqU/ly/qb5bCo1V7hiQ1rnh1enX
+         NnIA==
+X-Gm-Message-State: ABy/qLYFO7hhk62WhWW5ASpwjemMj2jx+5dB07kv3KvRCkpbkihw7FJE
+	POXy2J0GG8PNYhjRZBM/r+PrbLob2Rn0HQLWLok=
+X-Google-Smtp-Source: APBJJlFve1PkP06DY6fpBvu+Zd5E0ezqHhw29sIUPOsCCsvNLLVEHnoLaKmgHoIiHbPqze9ucSiCbjkXkmHOEVV5l+c=
+X-Received: by 2002:a81:6d51:0:b0:580:e3bf:698f with SMTP id
+ i78-20020a816d51000000b00580e3bf698fmr1781329ywc.3.1690409546737; Wed, 26 Jul
+ 2023 15:12:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20230726094027.535126-1-ming.lei@redhat.com> <20230726094027.535126-5-ming.lei@redhat.com>
+In-Reply-To: <20230726094027.535126-5-ming.lei@redhat.com>
+From: Justin Tee <justintee8345@gmail.com>
+Date: Wed, 26 Jul 2023 15:12:16 -0700
+Message-ID: <CABPRKS-0GQqMRiGh6akOgk3BKpx5kqTd0QVhH4nPe=fUdi7DbQ@mail.gmail.com>
+Subject: Re: [PATCH V2 4/9] scsi: lpfc: use blk_mq_max_nr_hw_queues() to
+ calculate io vectors
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org, 
+	"Martin K . Petersen" <martin.petersen@oracle.com>, linux-scsi@vger.kernel.org, 
+	linux-block@vger.kernel.org, Wen Xiong <wenxiong@linux.ibm.com>, 
+	Keith Busch <kbusch@kernel.org>, James Smart <james.smart@broadcom.com>, 
+	Justin Tee <justin.tee@broadcom.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230726_123240_583698_B018DCF9 
-X-CRM114-Status: GOOD (  22.36  )
+X-CRM114-CacheID: sfid-20230726_151229_324834_59D6A2B7 
+X-CRM114-Status: GOOD (  21.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,209 +92,70 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jul 26 2023, Keith Busch wrote:
+Hi Ming,
 
-> On Wed, Jul 26, 2023 at 05:30:33PM +0200, Pratyush Yadav wrote:
->> On Wed, Jul 26 2023, Christoph Hellwig wrote:
->> > On Wed, Jul 26, 2023 at 10:58:36AM +0300, Sagi Grimberg wrote:
->> >>>> For example, AWS EC2's i3.16xlarge instance does not expose NUMA
->> >>>> information for the NVMe devices. This means all NVMe devices have
->> >>>> NUMA_NO_NODE by default. Without this patch, random 4k read performance
->> >>>> measured via fio on CPUs from node 1 (around 165k IOPS) is almost 50%
->> >>>> less than CPUs from node 0 (around 315k IOPS). With this patch, CPUs on
->> >>>> both nodes get similar performance (around 315k IOPS).
->> >>>
->> >>> irqbalance doesn't work with this driver though: the interrupts are
->> >>> managed by the kernel. Is there some other reason to explain the perf
->> >>> difference?
->>
->> Hmm, I did not know that. I have not gone and looked at the code but I
->> think the same reasoning should hold, just with s/irqbalance/kernel. If
->> the kernel IRQ balancer sees the device is on node 0, it would deliver
->> its interrupts to CPUs on node 0.
->>
->> In my tests I can see that the interrupts for NVME queues are sent only
->> to CPUs from node 0 without this patch. With this patch CPUs from both
->> nodes get the interrupts.
+From version 1 of the patchset, I thought we had planned to put the
+min comparison right above pci_alloc_irq_vectors instead?
+
+diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
+index 3221a934066b..20410789e8b8 100644
+--- a/drivers/scsi/lpfc/lpfc_init.c
++++ b/drivers/scsi/lpfc/lpfc_init.c
+@@ -13025,6 +13025,8 @@ lpfc_sli4_enable_msix(struct lpfc_hba *phba)
+                flags |=3D PCI_IRQ_AFFINITY;
+        }
+
++       vectors =3D min_t(unsigned int, vectors, scsi_max_nr_hw_queues());
++
+        rc =3D pci_alloc_irq_vectors(phba->pcidev, 1, vectors, flags);
+        if (rc < 0) {
+                lpfc_printf_log(phba, KERN_INFO, LOG_INIT,
+
+Thanks,
+Justin
+
+On Wed, Jul 26, 2023 at 2:40=E2=80=AFAM Ming Lei <ming.lei@redhat.com> wrot=
+e:
 >
-> Could you send the output of:
+> Take blk-mq's knowledge into account for calculating io queues.
 >
->   numactl --hardware
-
-$ numactl --hardware
-available: 2 nodes (0-1)
-node 0 cpus: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47
-node 0 size: 245847 MB
-node 0 free: 245211 MB
-node 1 cpus: 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63
-node 1 size: 245932 MB
-node 1 free: 245328 MB
-node distances:
-node   0   1
-  0:  10  21
-  1:  21  10
-
+> Fix wrong queue mapping in case of kdump kernel.
 >
-> and then with and without your patch:
+> On arm and ppc64, 'maxcpus=3D1' is passed to kdump kernel command line,
+> see `Documentation/admin-guide/kdump/kdump.rst`, so num_possible_cpus()
+> still returns all CPUs because 'maxcpus=3D1' just bring up one single
+> cpu core during booting.
 >
->   for i in $(cat /proc/interrupts | grep nvme0 | sed "s/^ *//g" | cut -d":" -f 1); do \
->     cat /proc/irq/$i/{smp,effective}_affinity_list; \
->   done
-
-Without my patch:
-
-    $   for i in $(cat /proc/interrupts | grep nvme0 | sed "s/^ *//g" | cut -d":" -f 1); do \
-    >     cat /proc/irq/$i/{smp,effective}_affinity_list; \
-    >   done
-    40
-    40
-    33
-    33
-    44
-    44
-    9
-    9
-    32
-    32
-    2
-    2
-    6
-    6
-    11
-    11
-    1
-    1
-    35
-    35
-    39
-    39
-    13
-    13
-    42
-    42
-    46
-    46
-    41
-    41
-    46
-    46
-    15
-    15
-    5
-    5
-    43
-    43
-    0
-    0
-    14
-    14
-    8
-    8
-    12
-    12
-    7
-    7
-    10
-    10
-    47
-    47
-    38
-    38
-    36
-    36
-    3
-    3
-    34
-    34
-    45
-    45
-    5
-    5
-
-With my patch:
-
-    $   for i in $(cat /proc/interrupts | grep nvme0 | sed "s/^ *//g" | cut -d":" -f 1); do \
-    >     cat /proc/irq/$i/{smp,effective}_affinity_list; \
-    >   done
-    9
-    9
-    15
-    15
-    5
-    5
-    23
-    23
-    38
-    38
-    52
-    52
-    21
-    21
-    36
-    36
-    13
-    13
-    56
-    56
-    44
-    44
-    42
-    42
-    31
-    31
-    48
-    48
-    5
-    5
-    3
-    3
-    1
-    1
-    11
-    11
-    28
-    28
-    18
-    18
-    34
-    34
-    29
-    29
-    58
-    58
-    46
-    46
-    54
-    54
-    59
-    59
-    32
-    32
-    7
-    7
-    56
-    56
-    62
-    62
-    49
-    49
-    57
-    57
-
--- 
-Regards,
-Pratyush Yadav
-
-
-
-Amazon Development Center Germany GmbH
-Krausenstr. 38
-10117 Berlin
-Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
-Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
-Sitz: Berlin
-Ust-ID: DE 289 237 879
-
-
-
+> blk-mq sees single queue in kdump kernel, and in driver's viewpoint
+> there are still multiple queues, this inconsistency causes driver to appl=
+y
+> wrong queue mapping for handling IO, and IO timeout is triggered.
+>
+> Meantime, single queue makes much less resource utilization, and reduce
+> risk of kernel failure.
+>
+> Cc: Justin Tee <justintee8345@gmail.com>
+> Cc: James Smart <james.smart@broadcom.com>
+> Signed-off-by: Ming Lei <ming.lei@redhat.com>
+> ---
+>  drivers/scsi/lpfc/lpfc_init.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.=
+c
+> index 3221a934066b..c546e5275108 100644
+> --- a/drivers/scsi/lpfc/lpfc_init.c
+> +++ b/drivers/scsi/lpfc/lpfc_init.c
+> @@ -13022,6 +13022,8 @@ lpfc_sli4_enable_msix(struct lpfc_hba *phba)
+>                 cpu =3D cpumask_first(aff_mask);
+>                 cpu_select =3D lpfc_next_online_cpu(aff_mask, cpu);
+>         } else {
+> +               vectors =3D min_t(unsigned int, vectors,
+> +                               scsi_max_nr_hw_queues());
+>                 flags |=3D PCI_IRQ_AFFINITY;
+>         }
+>
+> --
+> 2.40.1
+>
 
