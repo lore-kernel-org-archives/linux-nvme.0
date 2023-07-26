@@ -4,72 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97873C001DC
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Jul 2023 07:58:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58E44C0015E
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Jul 2023 09:40:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rArkLhnWUlIK4304QM/qMQbcdjqKn5ft/zJeEhBuNj0=; b=lft+13m/UmSTZGXbdJFCOyjzwC
-	iPHDpzc/KnEFgny9aBlwCgS8sauS7Wkq853bca0TC97zN8ZIusWmm16UWNw6yFsqcJwVCB/6/B+Do
-	ammbDGILqGuEnHukVR/KUwXVGRqpwS+kXy6/wRnniM6MvOda28TCQb/o112t/+sKTUBHA916DCf5j
-	nkiFgemZB7ZBdjSV63IXh9S9BcEN+SbAahC2GPEmbwKCmOrNJXntUgNiiDil5tzVBduSUqG2b+pSG
-	zNR/fl9a7ND0FrcOjdGRJtLKeX9PO7leACYfMVe82trVlyhdVebT8YCK6YHTakHyyK7/ZCWLHvyFh
-	sGG/jjIw==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=qw3JY1fSFkCDbqzWrwPQL1ow2KshJKSV3fmVfeQPZXE=; b=3JlDR3Sl+5tVrYYmn1nYc/G0AB
+	ZbqX2p9eKVkWBScD/X+NReTyX/Z8QfzKTCuXUUaZPIK9LmsGt2yF4+OkkSt0JztdVo+p6rPGEY15N
+	YOx/nMXrJ85bFmZv0mbvEv79M6Yule3LsTrvX+PW1kDdj6q4aBgmnU+fzRSJHyrRBxuAMeulC5sZR
+	QvC/zq+faZFqy12hvHt7hBqfcHZ5ZAMFY3X+R5hbekDNSGcxoWOJKCZnxjUsBfFRgR9aPZUO+P51D
+	JChk0Jz4/6fDXWpxAxdgno3LGmYSRSFv+Qi/v8hhl403KVNEb0y3mU3yVNvkZF2JKlh3kTM+5WlOA
+	nwUEEA6g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qOZPz-009WcL-0z;
-	Wed, 26 Jul 2023 07:58:47 +0000
-Received: from mail-ed1-f43.google.com ([209.85.208.43])
+	id 1qOb0k-009lfm-2t;
+	Wed, 26 Jul 2023 09:40:50 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qOZPt-009Wak-29
+	id 1qOb0g-009lee-3A
 	for linux-nvme@lists.infradead.org;
-	Wed, 26 Jul 2023 07:58:43 +0000
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-521a69c8da5so1815353a12.1
-        for <linux-nvme@lists.infradead.org>; Wed, 26 Jul 2023 00:58:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690358318; x=1690963118;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rArkLhnWUlIK4304QM/qMQbcdjqKn5ft/zJeEhBuNj0=;
-        b=cDtiC1+pXJv1OcyiNCFqtOMSAYP5FYSpzElMeCB15qom7wibU6BVGJlFxqKkEDqm8z
-         vmkvc5jVF54MoagBaWLBujg9Hfaq8KEVhkJ+eDlh8G9LxZYspNLuzjwKZYzrFzBJVOwE
-         ZAt09lnxWxYk1aWM7xKic1RKQreG7pAc8oihUeTBU345svrPQVqhZ5/Q1Ss6Y4MUZWB8
-         skcQpyCqFVcp9JISLLXXAO5fmmL2QbCOBzP9BudlCYsWK/utLxsmc9SFI/mktklej82b
-         4IcXDgUiBPuE7ekxNxoWEz+weXvv5aOi9XwbG+PXNA+0yCusF4bwTlb+5lxvsUP79QdQ
-         P1fg==
-X-Gm-Message-State: ABy/qLbasqGypZz8sQRVSoOMGwCNrFL3uFn3ENsgQjSJ9eQj7dVg2C5U
-	sOhVqtDr6BdGvMnMLnJHaC4=
-X-Google-Smtp-Source: APBJJlE75PBRDWnYZDfkulwH3fm6QqsNZRSZ1N7P13z+sDsfk/xykOgPxCQQusachBN1RjIoVLR6rw==
-X-Received: by 2002:a05:6402:278f:b0:522:3f32:52f1 with SMTP id b15-20020a056402278f00b005223f3252f1mr1109591ede.3.1690358318560;
-        Wed, 26 Jul 2023 00:58:38 -0700 (PDT)
-Received: from [10.100.102.14] (46-116-229-137.bb.netvision.net.il. [46.116.229.137])
-        by smtp.gmail.com with ESMTPSA id v26-20020aa7d9da000000b005226f281bc5sm517939eds.25.2023.07.26.00.58.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jul 2023 00:58:37 -0700 (PDT)
-Message-ID: <50a125da-95c8-3b9b-543a-016c165c745d@grimberg.me>
-Date: Wed, 26 Jul 2023 10:58:36 +0300
+	Wed, 26 Jul 2023 09:40:48 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1690364444;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=qw3JY1fSFkCDbqzWrwPQL1ow2KshJKSV3fmVfeQPZXE=;
+	b=Pva29bVdOrlZnEJwPdUDAt+7IlDnUPowitB8svqIJ/XuIBzVs+9YWdhebFKkFj9t9e0wcZ
+	vfbC3d/JTpi3ucM4Cq2QwZT+NJnID+4FdurbE1WV8uV1/M3m78rioI6R84uuE91RKo5MTa
+	UhY2JgVJ2lVf17EiEoNTIYFM/1U5tho=
+Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-208-nPty-3TXN5CPhkgu8OlO_A-1; Wed, 26 Jul 2023 05:40:36 -0400
+X-MC-Unique: nPty-3TXN5CPhkgu8OlO_A-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2AB713C01BA1;
+	Wed, 26 Jul 2023 09:40:36 +0000 (UTC)
+Received: from localhost (unknown [10.72.120.4])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id C90C0492C13;
+	Wed, 26 Jul 2023 09:40:34 +0000 (UTC)
+From: Ming Lei <ming.lei@redhat.com>
+To: Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	linux-nvme@lists.infradead.org,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	linux-scsi@vger.kernel.org
+Cc: linux-block@vger.kernel.org,
+	Wen Xiong <wenxiong@linux.ibm.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Ming Lei <ming.lei@redhat.com>
+Subject: [PATCH V2 0/9] blk-mq: fix wrong queue mapping for kdump kernel
+Date: Wed, 26 Jul 2023 17:40:18 +0800
+Message-Id: <20230726094027.535126-1-ming.lei@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] nvme-pci: do not set the NUMA node of device if it has
- none
-Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>, Pratyush Yadav <ptyadav@amazon.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20230725110622.129361-1-ptyadav@amazon.de>
- <ZL/dphk/MJMRskX8@kbusch-mbp.dhcp.thefacebook.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <ZL/dphk/MJMRskX8@kbusch-mbp.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230726_005841_708609_BBBF7112 
-X-CRM114-Status: GOOD (  17.69  )
+X-CRM114-CacheID: sfid-20230726_024047_112655_33D52E54 
+X-CRM114-Status: GOOD (  15.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,27 +82,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi,
 
->> If a device has no NUMA node information associated with it, the driver
->> puts the device in node first_memory_node (say node 0). As a side
->> effect, this gives an indication to userspace IRQ balancing programs
->> that the device is in node 0 so they prefer CPUs in node 0 to handle the
->> IRQs associated with the queues. For example, irqbalance will only let
->> CPUs in node 0 handle the interrupts. This reduces random access
->> performance on CPUs in node 1 since the interrupt for command completion
->> will fire on node 0.
->>
->> For example, AWS EC2's i3.16xlarge instance does not expose NUMA
->> information for the NVMe devices. This means all NVMe devices have
->> NUMA_NO_NODE by default. Without this patch, random 4k read performance
->> measured via fio on CPUs from node 1 (around 165k IOPS) is almost 50%
->> less than CPUs from node 0 (around 315k IOPS). With this patch, CPUs on
->> both nodes get similar performance (around 315k IOPS).
-> 
-> irqbalance doesn't work with this driver though: the interrupts are
-> managed by the kernel. Is there some other reason to explain the perf
-> difference?
+On arm and ppc64, 'maxcpus=1' is required for kdump kernel,
+see `Documentation/admin-guide/kdump/kdump.rst`, so num_possible_cpus()
+still returns all CPUs because 'maxcpus=1' just bring up one single
+cpu core during booting.
 
-Maybe its because the numa_node goes to the tagset which allocates
-stuff based on that numa-node ?
+blk-mq sees single queue in kdump kernel, and in driver's viewpoint
+there are still multiple queues, this inconsistency causes driver to apply
+wrong queue mapping for handling IO, and IO timeout is triggered.
+
+This issue is only triggered on managed irq in case of multiple hw
+queues. Some drivers takes online cpus into account for nr_hw_queues,
+and don't have such issue, such as nvme rdma/tcp.
+
+Meantime, single queue makes much less resource utilization, and reduce
+risk of kernel failure.
+
+V2:
+	- add helper of scsi_max_nr_hw_queues() for avoiding potential build
+	failure because scsi driver often doesn't deal with blk-mq directly
+	- apply scsi_max_nr_hw_queues() for all scsi changes
+	- move lpfc's change into managed irq code path
+
+
+Thanks,
+Ming
+
+Ming Lei (9):
+  blk-mq: add blk_mq_max_nr_hw_queues()
+  nvme-pci: use blk_mq_max_nr_hw_queues() to calculate io queues
+  scsi: core: add helper of scsi_max_nr_hw_queues()
+  scsi: lpfc: use blk_mq_max_nr_hw_queues() to calculate io vectors
+  scsi: hisi: take blk_mq_max_nr_hw_queues() into account for
+    calculating io vectors
+  scsi: mpi3mr: take blk_mq_max_nr_hw_queues() into account for
+    calculating io vectors
+  scsi: megaraid: take blk_mq_max_nr_hw_queues() into account for
+    calculating io vectors
+  scsi: mpt3sas: take blk_mq_max_nr_hw_queues() into account for
+    calculating io vectors
+  scsi: pm8001: take blk_mq_max_nr_hw_queues() into account for
+    calculating io vectors
+
+ block/blk-mq.c                            | 16 ++++++++++++++++
+ drivers/nvme/host/pci.c                   |  2 +-
+ drivers/scsi/hisi_sas/hisi_sas_v3_hw.c    |  3 +++
+ drivers/scsi/lpfc/lpfc_init.c             |  2 ++
+ drivers/scsi/megaraid/megaraid_sas_base.c |  6 +++++-
+ drivers/scsi/mpi3mr/mpi3mr_fw.c           |  3 +++
+ drivers/scsi/mpt3sas/mpt3sas_base.c       |  4 ++--
+ drivers/scsi/pm8001/pm8001_init.c         |  4 +++-
+ include/linux/blk-mq.h                    |  1 +
+ include/scsi/scsi_host.h                  |  5 +++++
+ 10 files changed, 41 insertions(+), 5 deletions(-)
+
+-- 
+2.40.1
+
 
