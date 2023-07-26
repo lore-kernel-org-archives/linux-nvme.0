@@ -4,64 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3E1CEC001E0
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Jul 2023 14:35:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97873C001DC
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Jul 2023 07:58:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WWBebdUOHAwGjNmUd0BLD5EBUj4u21H/flsLVNiSGyE=; b=Fx+f9/+IGd1EkRHV/BEzOIdB9G
-	uT6sTiV71AGe0woqBgWX49gZtwVsqO85/KYnKkf2XNE3O4xY4gG1lgPukJBTtFoLOuhLcxfRrQdvC
-	ms/hwT8cicxcNyotCXo1do6qtQx7HQMMBLbS+l28fpmiAwNrmLgEW1rGsow0qz21nsljefdW1ZNNz
-	VSiVnJiRPop05/Tn5Pvj6LLISy0UO7SeEc2LZSTjFBSgDImMQuQ2DiTKkhPkeEZl3ZLJMI6U9gAQp
-	kikftKz7w+WCqFUlFxX/rDyMR5+xv73bxHGdsp6v5vM+9nz1M/yhPKOAmWbYxtrAHhNPFB/5rQC0o
-	WsuvWdVA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=rArkLhnWUlIK4304QM/qMQbcdjqKn5ft/zJeEhBuNj0=; b=lft+13m/UmSTZGXbdJFCOyjzwC
+	iPHDpzc/KnEFgny9aBlwCgS8sauS7Wkq853bca0TC97zN8ZIusWmm16UWNw6yFsqcJwVCB/6/B+Do
+	ammbDGILqGuEnHukVR/KUwXVGRqpwS+kXy6/wRnniM6MvOda28TCQb/o112t/+sKTUBHA916DCf5j
+	nkiFgemZB7ZBdjSV63IXh9S9BcEN+SbAahC2GPEmbwKCmOrNJXntUgNiiDil5tzVBduSUqG2b+pSG
+	zNR/fl9a7ND0FrcOjdGRJtLKeX9PO7leACYfMVe82trVlyhdVebT8YCK6YHTakHyyK7/ZCWLHvyFh
+	sGG/jjIw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qOJ8H-007n3U-0j;
-	Tue, 25 Jul 2023 14:35:25 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1qOZPz-009WcL-0z;
+	Wed, 26 Jul 2023 07:58:47 +0000
+Received: from mail-ed1-f43.google.com ([209.85.208.43])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qOJ8E-007n2u-2J
+	id 1qOZPt-009Wak-29
 	for linux-nvme@lists.infradead.org;
-	Tue, 25 Jul 2023 14:35:23 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 9953361782;
-	Tue, 25 Jul 2023 14:35:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88FB4C433C7;
-	Tue, 25 Jul 2023 14:35:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690295721;
-	bh=WWBebdUOHAwGjNmUd0BLD5EBUj4u21H/flsLVNiSGyE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IerEz7osX93i6yK1JNW2zmIpgHzJcMB+j3yDUJPtDvwWOGcSkxCx31sDEIcFaOk9n
-	 GuErLPO0vaQXJjmS0o/WAOEaDFhC9kM3e3RpS4VcbumZRO2tWHRvdoJAGcmKXxPb7v
-	 r91/m6ZY1VwuUPMLl6g8giZgnu1HsBa4wZUgmiP93ByjBWGNGEIlYSUePSrGu2KEsb
-	 IcYci2QbXP0UkLRNW2M5VYVotMEzA9e87AI6Dw/y6AAGXsj40bS3RsIZot3n8LeoBk
-	 xEQ6gPTeG5N0p9QioniD/xm6JBhSsUTTBMAFi1fSIjl9FtG4Qpue3a/thTAm/J2s4+
-	 w49bXwqQu0ZPA==
-Date: Tue, 25 Jul 2023 08:35:18 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Pratyush Yadav <ptyadav@amazon.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
+	Wed, 26 Jul 2023 07:58:43 +0000
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-521a69c8da5so1815353a12.1
+        for <linux-nvme@lists.infradead.org>; Wed, 26 Jul 2023 00:58:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690358318; x=1690963118;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rArkLhnWUlIK4304QM/qMQbcdjqKn5ft/zJeEhBuNj0=;
+        b=cDtiC1+pXJv1OcyiNCFqtOMSAYP5FYSpzElMeCB15qom7wibU6BVGJlFxqKkEDqm8z
+         vmkvc5jVF54MoagBaWLBujg9Hfaq8KEVhkJ+eDlh8G9LxZYspNLuzjwKZYzrFzBJVOwE
+         ZAt09lnxWxYk1aWM7xKic1RKQreG7pAc8oihUeTBU345svrPQVqhZ5/Q1Ss6Y4MUZWB8
+         skcQpyCqFVcp9JISLLXXAO5fmmL2QbCOBzP9BudlCYsWK/utLxsmc9SFI/mktklej82b
+         4IcXDgUiBPuE7ekxNxoWEz+weXvv5aOi9XwbG+PXNA+0yCusF4bwTlb+5lxvsUP79QdQ
+         P1fg==
+X-Gm-Message-State: ABy/qLbasqGypZz8sQRVSoOMGwCNrFL3uFn3ENsgQjSJ9eQj7dVg2C5U
+	sOhVqtDr6BdGvMnMLnJHaC4=
+X-Google-Smtp-Source: APBJJlE75PBRDWnYZDfkulwH3fm6QqsNZRSZ1N7P13z+sDsfk/xykOgPxCQQusachBN1RjIoVLR6rw==
+X-Received: by 2002:a05:6402:278f:b0:522:3f32:52f1 with SMTP id b15-20020a056402278f00b005223f3252f1mr1109591ede.3.1690358318560;
+        Wed, 26 Jul 2023 00:58:38 -0700 (PDT)
+Received: from [10.100.102.14] (46-116-229-137.bb.netvision.net.il. [46.116.229.137])
+        by smtp.gmail.com with ESMTPSA id v26-20020aa7d9da000000b005226f281bc5sm517939eds.25.2023.07.26.00.58.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Jul 2023 00:58:37 -0700 (PDT)
+Message-ID: <50a125da-95c8-3b9b-543a-016c165c745d@grimberg.me>
+Date: Wed, 26 Jul 2023 10:58:36 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
 Subject: Re: [PATCH] nvme-pci: do not set the NUMA node of device if it has
  none
-Message-ID: <ZL/dphk/MJMRskX8@kbusch-mbp.dhcp.thefacebook.com>
+Content-Language: en-US
+To: Keith Busch <kbusch@kernel.org>, Pratyush Yadav <ptyadav@amazon.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
 References: <20230725110622.129361-1-ptyadav@amazon.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230725110622.129361-1-ptyadav@amazon.de>
+ <ZL/dphk/MJMRskX8@kbusch-mbp.dhcp.thefacebook.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <ZL/dphk/MJMRskX8@kbusch-mbp.dhcp.thefacebook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230725_073522_818995_A29CA97D 
-X-CRM114-Status: GOOD (  20.28  )
+X-CRM114-CacheID: sfid-20230726_005841_708609_BBBF7112 
+X-CRM114-Status: GOOD (  17.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,24 +84,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jul 25, 2023 at 01:06:22PM +0200, Pratyush Yadav wrote:
-> If a device has no NUMA node information associated with it, the driver
-> puts the device in node first_memory_node (say node 0). As a side
-> effect, this gives an indication to userspace IRQ balancing programs
-> that the device is in node 0 so they prefer CPUs in node 0 to handle the
-> IRQs associated with the queues. For example, irqbalance will only let
-> CPUs in node 0 handle the interrupts. This reduces random access
-> performance on CPUs in node 1 since the interrupt for command completion
-> will fire on node 0.
->
-> For example, AWS EC2's i3.16xlarge instance does not expose NUMA
-> information for the NVMe devices. This means all NVMe devices have
-> NUMA_NO_NODE by default. Without this patch, random 4k read performance
-> measured via fio on CPUs from node 1 (around 165k IOPS) is almost 50%
-> less than CPUs from node 0 (around 315k IOPS). With this patch, CPUs on
-> both nodes get similar performance (around 315k IOPS).
 
-irqbalance doesn't work with this driver though: the interrupts are
-managed by the kernel. Is there some other reason to explain the perf
-difference?
+>> If a device has no NUMA node information associated with it, the driver
+>> puts the device in node first_memory_node (say node 0). As a side
+>> effect, this gives an indication to userspace IRQ balancing programs
+>> that the device is in node 0 so they prefer CPUs in node 0 to handle the
+>> IRQs associated with the queues. For example, irqbalance will only let
+>> CPUs in node 0 handle the interrupts. This reduces random access
+>> performance on CPUs in node 1 since the interrupt for command completion
+>> will fire on node 0.
+>>
+>> For example, AWS EC2's i3.16xlarge instance does not expose NUMA
+>> information for the NVMe devices. This means all NVMe devices have
+>> NUMA_NO_NODE by default. Without this patch, random 4k read performance
+>> measured via fio on CPUs from node 1 (around 165k IOPS) is almost 50%
+>> less than CPUs from node 0 (around 315k IOPS). With this patch, CPUs on
+>> both nodes get similar performance (around 315k IOPS).
+> 
+> irqbalance doesn't work with this driver though: the interrupts are
+> managed by the kernel. Is there some other reason to explain the perf
+> difference?
+
+Maybe its because the numa_node goes to the tagset which allocates
+stuff based on that numa-node ?
 
