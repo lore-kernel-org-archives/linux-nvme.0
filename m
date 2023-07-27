@@ -4,82 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6852AC001E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Jul 2023 07:11:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6E706C04E69
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Jul 2023 07:23:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=at8qZJllNklpGVvIglzagPpypbwOZ001CdqDVCWZu6k=; b=3XSQ03qY7diiRb4NYQwC5DT899
-	P2XX8zdhhWVkuxSRyPwm/Nns/QELbzhehRO2yX0mAZrO9x76gc4+Qc+8D0DZK/v/bi3dtYxYfGPrs
-	p2LHpnDMLHNg73NfYv1cIsDzRVc4ZDKVkzfQTNB+hLxTasfHmCSBETghPFYpDmygw6ZuK8tukF38H
-	ii0liJo8c7D+rYrmOYh89ADDaGAUgt4ENL7nFPrUpB4U6anUWQTC+AKWGpw175+0dFkRaicZ7B10X
-	m2oO8+VxVyZ5dzBbGS30/ZCEn9ShKK5CuLrxdNn1l0yh4HfuqJcX3bUFlI+AfuRR+i1v+aeIl2CRs
-	koaWefKg==;
+	bh=0q945IgIffc812XZDpwmAjUWxOnZGENLVOUTBX7sU3w=; b=GvZaNygrRfOOzM8m9cFYFCYom2
+	G1fgfMFO8ByGT+qnpTkCkAIxGT6ObppW5rMgFywrnaSgnyDdctbcNDExEK0kIXUGYtc7j7p5tAC+n
+	PMdN7aMk7QP1uplVPuYjR8gbZajjMo5DpV6xrtGNU2MM9DaR+fsuMcTlho3W26VyzlXAYKxNPdrbq
+	ncNChAAyi16J3gnNDXh8nZYUgz3qPKs8ChGjLBl/iR+aq9nIR5KDJvv+eilQIksOLJGKwerq7pe8l
+	KgHsYhDhsObjp2JwmBp+vGOBpB22NYYUflGXu8iPjGgNfN0rae7+ihQ6PRsJvs4r4WrKzlVEvJOci
+	uIivofSA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qOv9x-00CQaW-0t;
-	Thu, 27 Jul 2023 07:11:41 +0000
+	id 1qOvLT-00CSKO-0z;
+	Thu, 27 Jul 2023 07:23:35 +0000
 Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qOv9u-00CQYX-1m
+	id 1qOvLQ-00CSJp-03
 	for linux-nvme@lists.infradead.org;
-	Thu, 27 Jul 2023 07:11:40 +0000
+	Thu, 27 Jul 2023 07:23:33 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id F137921A5E;
-	Thu, 27 Jul 2023 07:11:32 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 94B8C21B76;
+	Thu, 27 Jul 2023 07:23:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1690441892; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1690442610; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=at8qZJllNklpGVvIglzagPpypbwOZ001CdqDVCWZu6k=;
-	b=w7UDgFoQSOafNyVdsVyqv/2IIJgCUEPKxyO6lVBGxD2hkzElIAWs9IXUBr2sCFROV55N9N
-	p11HN0kvLet0EapcAlhM56qUtMNDb4h4afvc0mACYm6uo1q665exjOuQuDHM+l5c3fnoEu
-	ISIOteqUwr9dXDRLGhd9m3iUlXNIx/I=
+	bh=0q945IgIffc812XZDpwmAjUWxOnZGENLVOUTBX7sU3w=;
+	b=THMvwnmF4HI9CbS8NCGUVaQaFZP1blRNVv3e9k06FbJt138amRstquWhxRPEXFlHpP/7Np
+	NoMgTpz8PjSxyacQxJ7VerDHDUjGqJ85q4DuqL1y7OITYXxJ+EUrXgoLHjO2JUUicQz15a
+	tkYggyoPp743J4DfVp41gDH0RguYzS0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1690441892;
+	s=susede2_ed25519; t=1690442610;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=at8qZJllNklpGVvIglzagPpypbwOZ001CdqDVCWZu6k=;
-	b=y3J02R5VwGsZCFslJw1lvKSEl5FQRLBcjcU3HlZVi0UhXYU+IAvHBxUtrKec8eIz1S5/0U
-	cqaGUlNAgZ+wyWCg==
+	bh=0q945IgIffc812XZDpwmAjUWxOnZGENLVOUTBX7sU3w=;
+	b=2vSU7ZCloQFGvXSpyXvjlt5teP1YCxdc/nbPgesNLZwP5d3Mqu06CcaJXMcV3jRAsvj8ab
+	Oh/+z8h3gKnyTXCQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E2C7A138E5;
-	Thu, 27 Jul 2023 07:11:32 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 84A1D138E5;
+	Thu, 27 Jul 2023 07:23:30 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id L5vVNqQYwmSeKgAAMHmgww
-	(envelope-from <dwagner@suse.de>); Thu, 27 Jul 2023 07:11:32 +0000
-Date: Thu, 27 Jul 2023 09:11:32 +0200
+	id JMH6H3IbwmQRMQAAMHmgww
+	(envelope-from <dwagner@suse.de>); Thu, 27 Jul 2023 07:23:30 +0000
+Date: Thu, 27 Jul 2023 09:23:30 +0200
 From: Daniel Wagner <dwagner@suse.de>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-block@vger.kernel.org, Chaitanya Kulkarni <kch@nvidia.com>, 
-	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>, Max Gurtovoy <mgurtovoy@nvidia.com>, 
-	Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	James Smart <jsmart2021@gmail.com>
-Subject: Re: [PATCH blktests v1 01/11] nvme/{003,004,005,013,046,049}: Group
- all variables declarations
-Message-ID: <kya2ayzcgz7iemknkx6xuef4m37f2ms7rt3uxamtxr2w7zbwfc@onladguxa7bk>
-References: <20230726124644.12619-1-dwagner@suse.de>
- <20230726124644.12619-2-dwagner@suse.de>
- <7e4f6c51-43f4-c039-07bc-6724748a1d3e@acm.org>
+To: Guangwu Zhang <guazhang@redhat.com>
+Cc: Ming Lei <ming.lei@redhat.com>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
+Subject: Re: stack smashing detected with 'nvme sanitize-log /dev/nvme0'
+Message-ID: <gvplwccjkke5rn2fu2gvncbtgctcuc64xb3bv5vgwhp2qloabg@22ivmfqiyub4>
+References: <dckvq3ohgqdkxg7wz4vslf36gaivgldl742vew67oyh2buj5nr@7ypn5ydt6kss>
+ <ZMHIrcv+GyqB4FfM@ovpn-8-16.pek2.redhat.com>
+ <CAGS2=YpVe=4mPnUNVd4mvcsaL66wUv0TPhSAf_MB9jAbbSOJKA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7e4f6c51-43f4-c039-07bc-6724748a1d3e@acm.org>
+In-Reply-To: <CAGS2=YpVe=4mPnUNVd4mvcsaL66wUv0TPhSAf_MB9jAbbSOJKA@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230727_001138_755650_FD7405A8 
-X-CRM114-Status: GOOD (  12.69  )
+X-CRM114-CacheID: sfid-20230727_002332_206999_316B1FD1 
+X-CRM114-Status: GOOD (  13.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,21 +90,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jul 26, 2023 at 07:54:24AM -0700, Bart Van Assche wrote:
-> On 7/26/23 05:46, Daniel Wagner wrote:
-> > Group all variable declarations together at the beginning of the
-> > function.
-> 
-> An explanation of why this change has been proposed is missing from the
-> patch description.
+On Thu, Jul 27, 2023 at 09:37:05AM +0800, Guangwu Zhang wrote:
+> Can not reproduce the bug with our test environment.
 
-Sure, I'll add one. The coding style to declare all local variables at the
-beginning of the function.
+Thanks for the quick test. It looks like it depends on the SDD invovled, the
+ones from MAXIO:
 
-> I think the current style, with variable declarations occurring just before
-> the first use of a variable, is on purpose. I like that style.
+# nvme id-ctrl -H /dev/nvme0
+NVME Identify Controller:
+vid       : 0x1e4b
+ssvid     : 0x1e4b
 
-The majority of functions declare variables at the beginning of the functions.
-As you can see these are only a handful of declerations which do not adhere to
-the coding style.
+Both reports have this SDD in common. Other SDDs in the same systems did not
+cause the stack smash.
+
+> > >  b8f6446b6853 ("nvme-pci: fix DMA direction of unmapping integrity data")
+> >
+> > This commit only fixes DMA UNMAP direction for integrity data, but is
+> > there integrity data involved for 'nvme sanitize-log /dev/nvme0'?
+
+Don't think so. As I said I just saw this fix and I was wondering if the changes
+which came in v5.2 in this area uncoverd a bug. As Christoph suggested, I need
+to figure out if device behaves correctly for example with playing with the
+IOMMU.
 
