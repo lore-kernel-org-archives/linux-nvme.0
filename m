@@ -4,76 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DF8C0C001DC
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Jul 2023 09:42:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B6EEC001DC
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Jul 2023 10:20:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CI5UZH5UjEb4ZuOXK+Of+tpWam/uu676fhmwtmx5P14=; b=WDC5Y8Noc5t1nei8beqbbW0P40
-	Oi7MqfMigL+MEJjfuWh6RXc50sTs8MSeGIQWHFQY+0PpnUxkNcDKulCVoYgQYcxzI9FdmGHZqf0Qq
-	I3WKWjuchoEfGUKmSkdMfFRazoPwCnWizxTT8XF5PShiRXKxYZubZ4CT0rdKQTCICla1LSuPQw2D2
-	oYQD0lrJJ6uWGdatDI0aSDzU79wRrc/Ui6wPhHCwkc1CJKIkzx/5NUFkj2GkhSrli9C15tt8uAAuG
-	l3lS3LHiEKBp90T87F57vuefAa40qp9DWvLp1QGOwSyXP/aBjCV7FdPHbfJzgP0H3f60ygxaehStC
-	ox6mcAPQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=dazoiG/A1vrVzBtZaRm1eL6aOfJ6AlDwSG66EtOsTmE=; b=KE7iU0xFPaMKoXlGXCNZslhKhm
+	75UTmUKxdKI6dzaaFBC8tPeFgHyojkkciiZqfvwZiX/IZmmniGHfUsG+3hzBEFgMedzcfRzRUtqWf
+	eIE18znyy6Twye5kmeM9UgJwbfCLZ+T4tjCWuOikoXJIin+MBHdGga1queNXgNkVqwos7i29pitoB
+	1PTi5x+m1yVKBe5WwysV8UVUzFaIK4IRaiLeI2Q+UmTQbnXCJ4zUxiCnkHhOngoSUymTFmGteICLW
+	Qu34AYGkRt89zZD1fXsrGeNjfc80KgpmVOWbkMOMA8rdnxX0nslsSCKto+2o6A7M8HHz/cjbg2h0W
+	Yx9EvHoQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qOxVy-00CrW4-1x;
-	Thu, 27 Jul 2023 09:42:34 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1qOy6X-00CyYs-2c;
+	Thu, 27 Jul 2023 10:20:21 +0000
+Received: from mailgw.kylinos.cn ([124.126.103.232])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qOxVt-00CrVX-2C
+	id 1qOy6T-00CyVN-0o
 	for linux-nvme@lists.infradead.org;
-	Thu, 27 Jul 2023 09:42:31 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1690450947;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CI5UZH5UjEb4ZuOXK+Of+tpWam/uu676fhmwtmx5P14=;
-	b=e7vuVe/dR43oN+FU0aqYE3lc8tol+CtoVBzPFgRu2vb5DmBYZZ++ZwAbtLRYcYlot5KWZY
-	vGuc3wd7c4sj3cKtOVcOiY4FB4BXRGQq2ptii9CVZErQLuu08D1Iis/EDEFRof6XTRNqo5
-	cQqFUH13TKmhSzSqyjcsfT206fTM+PU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-132-WMHH14fcPieXeCLGTU6VFQ-1; Thu, 27 Jul 2023 05:42:22 -0400
-X-MC-Unique: WMHH14fcPieXeCLGTU6VFQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6BF83803470;
-	Thu, 27 Jul 2023 09:42:21 +0000 (UTC)
-Received: from ovpn-8-16.pek2.redhat.com (ovpn-8-16.pek2.redhat.com [10.72.8.16])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E0A4C2C856;
-	Thu, 27 Jul 2023 09:42:15 +0000 (UTC)
-Date: Thu, 27 Jul 2023 17:42:10 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: John Garry <john.g.garry@oracle.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	linux-nvme@lists.infradead.org,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	linux-scsi@vger.kernel.org, linux-block@vger.kernel.org,
-	Wen Xiong <wenxiong@linux.ibm.com>, Keith Busch <kbusch@kernel.org>,
-	Xiang Chen <chenxiang66@hisilicon.com>, ming.lei@redhat.com
-Subject: Re: [PATCH V2 5/9] scsi: hisi: take blk_mq_max_nr_hw_queues() into
- account for calculating io vectors
-Message-ID: <ZMI78klyiVUPFRZA@ovpn-8-16.pek2.redhat.com>
-References: <20230726094027.535126-1-ming.lei@redhat.com>
- <20230726094027.535126-6-ming.lei@redhat.com>
- <07f84570-5307-df3c-99ab-a996bfcbf83a@oracle.com>
- <ZMHFQm2BpuGjjlTm@ovpn-8-16.pek2.redhat.com>
- <44b1bd30-426d-db85-4b52-4f079948e52a@oracle.com>
+	Thu, 27 Jul 2023 10:20:18 +0000
+X-UUID: efdee9600b8242dab6b8f45134d09719-20230727
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.28,REQID:cd34a3cc-68f4-4daf-8285-83140148c9bd,IP:5,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:0
+X-CID-INFO: VERSION:1.1.28,REQID:cd34a3cc-68f4-4daf-8285-83140148c9bd,IP:5,URL
+	:0,TC:0,Content:0,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:0
+X-CID-META: VersionHash:176cd25,CLOUDID:3f028542-d291-4e62-b539-43d7d78362ba,B
+	ulkID:230727181935Q0FGY2OS,BulkQuantity:0,Recheck:0,SF:44|38|24|17|19|102,
+	TC:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+	,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI
+X-UUID: efdee9600b8242dab6b8f45134d09719-20230727
+X-User: aichao@kylinos.cn
+Received: from localhost.localdomain [(111.48.58.12)] by mailgw
+	(envelope-from <aichao@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 1232940138; Thu, 27 Jul 2023 18:19:32 +0800
+From: Ai Chao <aichao@kylinos.cn>
+To: kbusch@kernel.org,
+	axboe@fb.com,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Ai Chao <aichao@kylinos.cn>
+Subject: [PATCH] nvme-pci: add quirk to disable APST feature for BIWIN AP443 256GB SSD
+Date: Thu, 27 Jul 2023 18:19:28 +0800
+Message-Id: <20230727101928.1366179-1-aichao@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <44b1bd30-426d-db85-4b52-4f079948e52a@oracle.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230727_024229_808286_8BB3B9B8 
-X-CRM114-Status: GOOD (  21.03  )
+X-CRM114-CacheID: sfid-20230727_032017_500534_0BA132AF 
+X-CRM114-Status: GOOD (  10.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,35 +79,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jul 27, 2023 at 08:35:06AM +0100, John Garry wrote:
-> On 27/07/2023 02:15, Ming Lei wrote:
-> > > > hisi_sas_v3_hw.c
-> > > > +++ b/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
-> > > > @@ -2550,6 +2550,9 @@ static int interrupt_preinit_v3_hw(struct hisi_hba *hisi_hba)
-> > > >    	hisi_hba->cq_nvecs = vectors - BASE_VECTORS_V3_HW - hisi_hba->iopoll_q_cnt;
-> > > > +	if (hisi_hba->cq_nvecs > scsi_max_nr_hw_queues())
-> > > > +		hisi_hba->cq_nvecs = scsi_max_nr_hw_queues();
-> > > > +
-> > > >    	shost->nr_hw_queues = hisi_hba->cq_nvecs + hisi_hba->iopoll_q_cnt;
-> > > For other drivers you limit the max MSI vectors which we try to allocate
-> > > according to scsi_max_nr_hw_queues(), but here you continue to alloc the
-> > > same max vectors but then limit the driver's completion queue count. Why not
-> > > limit the max MSI vectors also here?
-> 
-> Ah, checking again, I think that this driver always allocates maximum
-> possible MSI due to arm interrupt controller driver bug - see comment at top
-> of function interrupt_preinit_v3_hw(). IIRC, there was a problem if we
-> remove and re-insert the device driver that the GIC ITS fails to allocate
-> MSI unless all MSI were previously allocated.
+Add quirk to disable APST feature for BIWIN AP443 256GB SSD.
+It drops off the PCIe bus on a Lenovo board, board name
+ is LXKT-ZXFG-N6 or LXKT-ZXE-N70.
 
-My question is actually why hisi_hba->iopoll_q_cnt is subtracted from
-allocated vectors since io poll queues does _not_ use msi vector.
+Signed-off-by: Ai Chao <aichao@kylinos.cn>
+---
+ drivers/nvme/host/pci.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-So it isn't related with driver's msi vector allocation bug, is it?
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 7f25c0fe3a0b..240e8e946e01 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2897,7 +2897,18 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
+ 		if ((dmi_match(DMI_BOARD_VENDOR, "LENOVO")) &&
+ 		     dmi_match(DMI_BOARD_NAME, "LNVNB161216"))
+ 			return NVME_QUIRK_SIMPLE_SUSPEND;
+-	}
++	} else if (pdev->vendor == 0x1dee && pdev->device == 0x5216) {
++		/*
++		 * BIWIN AP443 256GB SSD drops off the PCIe bus on a
++		 * Lenovo or KaiTian board, board name is LXKT-ZXFG-N6
++		 * or LXKT-ZXE-N70
++		 */
++		if ((dmi_match(DMI_BOARD_VENDOR, "LENOVO") ||
++		     dmi_match(DMI_BOARD_VENDOR, "KaiTian")) &&
++		    (dmi_match(DMI_BOARD_NAME, "LXKT-ZXEG-N6") ||
++		     dmi_match(DMI_BOARD_NAME, "LXKT-ZXE-N70")))
++			return NVME_QUIRK_NO_APST;
++		}
+ 
+ 	return 0;
+ }
+-- 
+2.25.1
 
 
-
-Thanks,
-Ming
-
+No virus found
+		Checked by Hillstone Network AntiVirus
 
