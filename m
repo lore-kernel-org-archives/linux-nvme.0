@@ -4,81 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C65AC0015E
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Jul 2023 16:57:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5898C001DC
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Jul 2023 03:30:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
+	:Date:Message-Id:From:Subject:Content-Transfer-Encoding:MIME-Version:
+	Content-Type:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2TbDyUZsWzsObspTjv/7qDRWOVn/FC/GQiLADatzNto=; b=fFuU3Gbhci35w2plb7S2nKqXDy
-	rS/JErUEDTucQtZL62Q1J288vBymFO1mI4iOnHOJfvqk4m5xC7m9oSUUxTXhGt6PadGreh4iFTP1C
-	2OloemXV9UL411yrhOTnQ7F/ugdDe+77XOKCx7DhTbV7R9hMDGNlhDzzfZ32s8clxNIc/9Hb0hIYR
-	o2Ngat7keT/k7SKxZKmpVZVHshsxjzduNY2iZI51G5K9Hn1NwjtOL+w5ZlxIPqgyCo+gOAylZNCAT
-	ZLgp5OKGHLMnYRbzYdviCR3eXXRcyMz3ZRWTtEoePSDoPKXbzen7BWmXGVzHUqXjs6sk1IH9EwFBS
-	ob7UJuFQ==;
+	bh=ZDMDbKXLYL8jqpFBC7pTP00nk+E49e1wvyThutgAn+g=; b=uKY3Y7/F5DYr5PpnQ3Z/2/lDWz
+	DKxuytOsNDfYDjvk+kiMB6pxX14INue5eAAuGbeAqMuT0llqLrjtkPuYPODS/Erqo/6RaLUibS9G1
+	7sGVuGJGNWMhmZ1VStR60AQFA0oeY971G/QDLEtwC/AgjPS06Z9QhVjod74t3AUbH1W0/SHF6JtcP
+	j+J+8BNdOhVWJOBOf5u+xIf0sh+CAmUS9rI75u0xkp1Iil5VgG48y9t/iO+gKZk5p86Y25d8XJuxx
+	TLrxrTB22GLF59DuenufVQtvUUCmCdsAdAy+KK/tJmpARAqWWYPLAwL58sunouPtriQeBrgRAnRy5
+	SJ6MxCJw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qP4IN-00Gy4m-36;
-	Thu, 27 Jul 2023 16:56:59 +0000
-Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35])
+	id 1qPEBT-001SMm-2G;
+	Fri, 28 Jul 2023 03:30:31 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qP4IJ-00Gy15-35
+	id 1qPEBQ-001SMK-0c
 	for linux-nvme@lists.infradead.org;
-	Thu, 27 Jul 2023 16:56:57 +0000
-Received: by mail-io1-xd35.google.com with SMTP id ca18e2360f4ac-785ccd731a7so15003739f.0
-        for <linux-nvme@lists.infradead.org>; Thu, 27 Jul 2023 09:56:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690477014; x=1691081814;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2TbDyUZsWzsObspTjv/7qDRWOVn/FC/GQiLADatzNto=;
-        b=QVWXff1MHGFzKeu2yMSop5DgLF/mnGt7ujiUK+cK7qgU25t4z0pQLC3LLk1cBb9Fao
-         ICDs5FS4uyyYYYSXZIj6AVAXLV8cXjT9xYUA0iwxzklJqzxG+4G8s8p2Y308gHg1u8vV
-         nUMY3P3tHoHGmKuw7jAe4mVs5hOfFokPoIOjqkAucjNiC/q8j4P0R+26bksNpAN10G31
-         aSH5whNcEwF+qzt9ECVIPo6MvqRhQExufVKQhNWHJr/y+xhMCdDUBYIU8KnOq9hyF9jV
-         yPQk9EJS0SiO8Ja616+hmibeUeLXOfQfPl9hevhwxbjVGYM96ztaU59Xnz9m7zkEMEte
-         GSOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690477014; x=1691081814;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2TbDyUZsWzsObspTjv/7qDRWOVn/FC/GQiLADatzNto=;
-        b=Ozs4UFehyr5Bg4B9sMdY9rtaHmUUYSlrJGw2iy1c2vT/Qqs1L8DYcvC+0bJlSMVFGg
-         WLmQjWoslQijJnAbYJBrSqmRNxXH3mOx926zHIZJNp+Jt/gx+o8eR70Y5HTFLHK6Ds8C
-         m3fNCO3ChwylT/42MLty+HN2q7jZCy8XOJQ1kkpe3UIcrKjUDw4k6/F5d1evb5fB3u6g
-         t+1bfkH6wToqzfhcMnSQkZeHzNQje6oUnjU8GT2gPhn/4UsMKiEPJ1ZSCy572r6BzIEA
-         dOoCvEaD0L/DHBHrnx6te2qMGoRUZb8Rnj03w1bIyMajHl1wGET5mzaG212Fj9B+2RDR
-         qCjg==
-X-Gm-Message-State: ABy/qLYVr1qa+FkGV/nxEP7mMCEoOcGYKmhYoyB6q+I6Lgjq46nqsyiU
-	INVymqxtFh3B5Mvnf9JXOAS4QFZEBHgaCjKX8Pw=
-X-Google-Smtp-Source: APBJJlEoSCoL8q7efvULtSRO2w2U+hoIsFGnoOvtgrvlFGhkvFEEEYatzDufiBpbn8t4TXFCvNwzhUkmsGojgXJVZOw=
-X-Received: by 2002:a05:6602:2d89:b0:780:d65c:d78f with SMTP id
- k9-20020a0566022d8900b00780d65cd78fmr90887iow.2.1690477014246; Thu, 27 Jul
- 2023 09:56:54 -0700 (PDT)
+	Fri, 28 Jul 2023 03:30:29 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 43DDF61FC5;
+	Fri, 28 Jul 2023 03:30:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 96C35C433CD;
+	Fri, 28 Jul 2023 03:30:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1690515025;
+	bh=wTuzCF2A7a5OUWovA3zFSSC0NTzx9ILvTXye72QKJ70=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=kXbFayOq6bsCC8KGfMJ5xn4gJgmDCeW8uHm2E+I2r+v9erit0JmieD56Tntyw2ciC
+	 1idfa5ZVK6e+XS0fMkG3s3bD3WtVYvpnmyt5UIMF/nDItcmCkZz9xoL8tjRxERYUTX
+	 zy2O0BjIPBDv+fpOw0mB1Wl+bvGR/Flgf+nboVcy00/3KJNRMvXU+SyJwmC1o8r8p4
+	 te8eISOHlGqYu1/rN5rmqZVY6m5rttv3/AcVQPeBqS0JpWdw5DIOZZ/4d/p2F3ir0v
+	 E4FYtOfde8kc25mqLL1uU2438jUZczMBP7N4/8y5xx7bgDbH3UVZKKjnuo+b0hKPgK
+	 TjjA0Uc4W5tzQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 83C76C3959F;
+	Fri, 28 Jul 2023 03:30:25 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20230726094027.535126-1-ming.lei@redhat.com> <20230726094027.535126-5-ming.lei@redhat.com>
- <CABPRKS-0GQqMRiGh6akOgk3BKpx5kqTd0QVhH4nPe=fUdi7DbQ@mail.gmail.com> <ZMHGLyg2bRY6S35i@ovpn-8-16.pek2.redhat.com>
-In-Reply-To: <ZMHGLyg2bRY6S35i@ovpn-8-16.pek2.redhat.com>
-From: Justin Tee <justintee8345@gmail.com>
-Date: Thu, 27 Jul 2023 09:56:43 -0700
-Message-ID: <CABPRKS-vnvOUOhZzc6yghKV4RjTTsZMQphR=TEs-S-OD5Ap29Q@mail.gmail.com>
-Subject: Re: [PATCH V2 4/9] scsi: lpfc: use blk_mq_max_nr_hw_queues() to
- calculate io vectors
-To: Ming Lei <ming.lei@redhat.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org, 
-	"Martin K . Petersen" <martin.petersen@oracle.com>, linux-scsi@vger.kernel.org, 
-	linux-block@vger.kernel.org, Wen Xiong <wenxiong@linux.ibm.com>, 
-	Keith Busch <kbusch@kernel.org>, James Smart <james.smart@broadcom.com>, 
-	Justin Tee <justin.tee@broadcom.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCHv9  0/6] net/tls: fixes for NVMe-over-TLS
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: <169051502553.18144.8079815837647562945.git-patchwork-notify@kernel.org>
+Date: Fri, 28 Jul 2023 03:30:25 +0000
+References: <20230726191556.41714-1-hare@suse.de>
+In-Reply-To: <20230726191556.41714-1-hare@suse.de>
+To: Hannes Reinecke <hare@suse.de>
+Cc: hch@lst.de, sagi@grimberg.me, kbusch@kernel.org,
+ linux-nvme@lists.infradead.org, kuba@kernel.org, edumazet@google.com,
+ pabeni@redhat.com, netdev@vger.kernel.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230727_095656_003320_AF9F8C3C 
-X-CRM114-Status: GOOD (  10.86  )
+X-CRM114-CacheID: sfid-20230727_203028_275103_48144F48 
+X-CRM114-Status: GOOD (  11.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,20 +78,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jul 26, 2023 at 6:20=E2=80=AFPM Ming Lei <ming.lei@redhat.com> wrot=
-e:
-> Strictly speaking, the above change is better, but non-managed irq
-> doesn't have such issue, that is why I just apply the change on managed
-> irq branch.
->
->
-> Thanks,
-> Ming
+Hello:
 
-Sure, thanks Ming.
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-Reviewed-by: Justin Tee <justin.tee@broadcom.com>
+On Wed, 26 Jul 2023 21:15:50 +0200 you wrote:
+> Hi all,
+> 
+> here are some small fixes to get NVMe-over-TLS up and running.
+> The first set are just minor modifications to have MSG_EOR handled
+> for TLS, but the second set implements the ->read_sock() callback
+> for tls_sw.
+> The ->read_sock() callbacks return -EIO when encountering any TLS
+> Alert message, but as that's the default behaviour anyway I guess
+> we can get away with it.
+> 
+> [...]
 
-Regards,
-Justin
+Here is the summary with links:
+  - [1/6] net/tls: handle MSG_EOR for tls_sw TX flow
+    https://git.kernel.org/netdev/net-next/c/e22e358bbeb3
+  - [2/6] net/tls: handle MSG_EOR for tls_device TX flow
+    https://git.kernel.org/netdev/net-next/c/c004b0e00c94
+  - [3/6] selftests/net/tls: add test for MSG_EOR
+    https://git.kernel.org/netdev/net-next/c/8790c6a4f54d
+  - [4/6] net/tls: Use tcp_read_sock() instead of ops->read_sock()
+    https://git.kernel.org/netdev/net-next/c/11863c6d440d
+  - [5/6] net/tls: split tls_rx_reader_lock
+    https://git.kernel.org/netdev/net-next/c/f9ae3204fb45
+  - [6/6] net/tls: implement ->read_sock()
+    https://git.kernel.org/netdev/net-next/c/662fbcec32f4
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
 
