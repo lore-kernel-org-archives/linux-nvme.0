@@ -4,66 +4,171 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5898C001DC
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Jul 2023 03:30:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 755B8C0015E
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Jul 2023 05:06:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
-	:Date:Message-Id:From:Subject:Content-Transfer-Encoding:MIME-Version:
-	Content-Type:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZDMDbKXLYL8jqpFBC7pTP00nk+E49e1wvyThutgAn+g=; b=uKY3Y7/F5DYr5PpnQ3Z/2/lDWz
-	DKxuytOsNDfYDjvk+kiMB6pxX14INue5eAAuGbeAqMuT0llqLrjtkPuYPODS/Erqo/6RaLUibS9G1
-	7sGVuGJGNWMhmZ1VStR60AQFA0oeY971G/QDLEtwC/AgjPS06Z9QhVjod74t3AUbH1W0/SHF6JtcP
-	j+J+8BNdOhVWJOBOf5u+xIf0sh+CAmUS9rI75u0xkp1Iil5VgG48y9t/iO+gKZk5p86Y25d8XJuxx
-	TLrxrTB22GLF59DuenufVQtvUUCmCdsAdAy+KK/tJmpARAqWWYPLAwL58sunouPtriQeBrgRAnRy5
-	SJ6MxCJw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=21aEO1Dca+s6dHSd4tfSlWlppECuF1gcIv6xTEtsxMY=; b=26335yWXqaHuKM9m9rnI4kvRzd
+	zBF6Z8mZlxgiwMtaeUtUhTHQJ1MWMp6giqYvhi+ohfzAq8v/ASZ6aheVNRoS3PFEZrVgiEL/BxIir
+	CVZ4UEArVT5SxAOs507TplrGHgyNX0MDWFlqaNiTXgw5a2Udd5MBRL7TUpguBbBvYAKrUNrpZvHNj
+	I+BdLldjWswD6HKfrtE+Bf+biDAplN+b21z0fmZ3g6RhXwVweM/Xmx3oSPQPUiUCE9Xcl5eXI78VC
+	p2CBMcQ4P9gDI3SMBN2PjNC3E3P7QcTqdF5unB3Gl/PWtao3BBTY1637/dyQhHGP41y4a2TFG334A
+	3z1V8U4w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qPEBT-001SMm-2G;
-	Fri, 28 Jul 2023 03:30:31 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1qPFgj-001hJ8-2B;
+	Fri, 28 Jul 2023 05:06:53 +0000
+Received: from esa2.hgst.iphmx.com ([68.232.143.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qPEBQ-001SMK-0c
+	id 1qPFgg-001hHf-1x
 	for linux-nvme@lists.infradead.org;
-	Fri, 28 Jul 2023 03:30:29 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 43DDF61FC5;
-	Fri, 28 Jul 2023 03:30:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 96C35C433CD;
-	Fri, 28 Jul 2023 03:30:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690515025;
-	bh=wTuzCF2A7a5OUWovA3zFSSC0NTzx9ILvTXye72QKJ70=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=kXbFayOq6bsCC8KGfMJ5xn4gJgmDCeW8uHm2E+I2r+v9erit0JmieD56Tntyw2ciC
-	 1idfa5ZVK6e+XS0fMkG3s3bD3WtVYvpnmyt5UIMF/nDItcmCkZz9xoL8tjRxERYUTX
-	 zy2O0BjIPBDv+fpOw0mB1Wl+bvGR/Flgf+nboVcy00/3KJNRMvXU+SyJwmC1o8r8p4
-	 te8eISOHlGqYu1/rN5rmqZVY6m5rttv3/AcVQPeBqS0JpWdw5DIOZZ/4d/p2F3ir0v
-	 E4FYtOfde8kc25mqLL1uU2438jUZczMBP7N4/8y5xx7bgDbH3UVZKKjnuo+b0hKPgK
-	 TjjA0Uc4W5tzQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 83C76C3959F;
-	Fri, 28 Jul 2023 03:30:25 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	Fri, 28 Jul 2023 05:06:52 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1690520810; x=1722056810;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=La8BKB/Ok04WVkAyRVxapsIWREpCl1nV0s68FaNuXk4=;
+  b=IRrCN11Qd1zL7hOByJqn+vhk8uefnvsIYsDhSeLSykbazQdpxglLI0tr
+   ldB9evUSx23d2BSSUvlAgRqfROdIa8qLRP++WROCHl/ElOqunBzIjuWsH
+   AmSqhQa9ywes6JXr19MlCTSH/biMD9+nwwJWnahN26T4wZPVW2DHl3Ryn
+   1DjYCrIZczCcZRHfahxAAyZfV4A7E0wR1Toe5LKoFs2IvPQqLmllfYx+R
+   4pyhLVSdmr9NmmUtaNNnOjp0RYRru9Ytm+t+RJ3msAXlzSfMwJ9enJwA7
+   0Tn6hLuUbDLvzp6oD8pM4D/uVvF/0/zEm8n/s+skAhA0FSrTgDUbNkno8
+   A==;
+X-IronPort-AV: E=Sophos;i="6.01,236,1684771200"; 
+   d="scan'208";a="344455428"
+Received: from mail-co1nam11lp2177.outbound.protection.outlook.com (HELO NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.177])
+  by ob1.hgst.iphmx.com with ESMTP; 28 Jul 2023 13:06:36 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aBxr2BaP4EYmsneR2oHgq6oOH5A/rBO4XQIj7jUTiLvIQQLPgyq4oQcsuD/wuCtRqDSwoWuCBCAu99d1kbqMErBNu3nWA5St1FV5N3hBEbspMHViOC+GVitYXRwCKFKUuACScMQTUdvfK/2KQfb0qPJPk5PIRGq7hHvSj5GiWfcBkM/5B88winDtpz3juJLhyORBHY+g4O7BaNl3O+d5b/aTmpK/3BdHXiHgNtWctlMSK1WoKbATmfNTkm5gYDpIufMuM9NoKbv/PR+W0qYvYJYzKv7Jz2T6vM540tA/I+UU8we25VJvOpiHvEghjF2IouM/MEyCo50L9l1VnhoCbQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=21aEO1Dca+s6dHSd4tfSlWlppECuF1gcIv6xTEtsxMY=;
+ b=XZCJuVHzGHyxK6q6+ZUNlt+qaNQPeiwFjlIDTJzL7OdDBx6qVjZVdc/k2TR/OCEL9ACFSINqV8P8DostG6RiAE+0HsGIBh03pFYO+6fqtwsD/iJ/WNGDolFLCD+8EgyM60fDTlon18yj8JDneD5RmYLdX3N3q61uyO4pcBJR+Q/TvbOzZlnOMAgcFipNYPSZFphryjg6nVnjfGk25GIrj8ZOG3X5SQrOKWKZTWUplQCl/UuXuzuqzJD1h9x8dVIKfXLyWcpji0aA6mU4tQ+NG7MZurDCHzSGpJxtOu10HHQm9muu90fVbFqpy+jECIIU/4fBW6Z+ubMJpqayxjiCaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=21aEO1Dca+s6dHSd4tfSlWlppECuF1gcIv6xTEtsxMY=;
+ b=pX4o+EMO2CRuosmzsOQa2R5F/Ubyg45HBEYpkFOPXaq9l74MdkCP6HYHnD6Tl2xTzwwFXhVt7oXk8JeM45GPhWfPy3C444xUZipbmRRFGyxCEU+DZIFhSmKMvn1j63U/rYBlW6Tgjw94qz6RthjbGSaCHIZ5HBDldaPdGJmB8dQ=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ DM8PR04MB8119.namprd04.prod.outlook.com (2603:10b6:8:2::10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6631.29; Fri, 28 Jul 2023 05:06:34 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::f92a:6d40:fe94:34e9]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::f92a:6d40:fe94:34e9%7]) with mapi id 15.20.6631.026; Fri, 28 Jul 2023
+ 05:06:34 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Bart Van Assche <bvanassche@acm.org>
+CC: Daniel Wagner <dwagner@suse.de>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>, Chaitanya Kulkarni <kch@nvidia.com>, Max
+ Gurtovoy <mgurtovoy@nvidia.com>, Hannes Reinecke <hare@suse.de>, Sagi
+ Grimberg <sagi@grimberg.me>, James Smart <jsmart2021@gmail.com>
+Subject: Re: [PATCH blktests v1 01/11] nvme/{003,004,005,013,046,049}: Group
+ all variables declarations
+Thread-Topic: [PATCH blktests v1 01/11] nvme/{003,004,005,013,046,049}: Group
+ all variables declarations
+Thread-Index: AQHZv79EpGj72imkKEOvomc2O06946/MIqMAgAERAgCAAIgcgIAA5zkA
+Date: Fri, 28 Jul 2023 05:06:34 +0000
+Message-ID: <ky32xyzyii2c5fr7kknyx5z6fikvh674v4sw2s4yux52l4vu7w@4nqmrmyxkwmw>
+References: <20230726124644.12619-1-dwagner@suse.de>
+ <20230726124644.12619-2-dwagner@suse.de>
+ <7e4f6c51-43f4-c039-07bc-6724748a1d3e@acm.org>
+ <kya2ayzcgz7iemknkx6xuef4m37f2ms7rt3uxamtxr2w7zbwfc@onladguxa7bk>
+ <c3bff0d9-957a-fbb7-a433-4cab457c62bf@acm.org>
+In-Reply-To: <c3bff0d9-957a-fbb7-a433-4cab457c62bf@acm.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|DM8PR04MB8119:EE_
+x-ms-office365-filtering-correlation-id: 3c3cfd70-d984-4b12-ef75-08db8f2869e8
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: SnZcubL14OZEM6u55DqH42GN1VbxLFjQT0uGVQ1lAjOrKyotlcvJ05CPE/XiG6yat2gJ0Ig0OXfJArUD658yHCGiLareCs9ln7PuunhgwyDu/Ic0RguXTF4teLzZDLRDe65u++0JzBOx24DQpgdlMQpyfGxXqfzCrvwtWjZF7SAL5oyE+rJ00Vn34nil6o/zjMU53ChHswoL8vA8uBTH0rYTSEqrPMy5LDeTyrAKI8XfFehPjHrBet24mWkg2VBIS3JnnL8bMoeBA4HekM6+dOZsCqyGqdmjyYVF+rqZRG214OIvp8snPDXTIIWhgzyvUo4ONpYQ1V4s6A7H26S3uDfBaNXj2zVwZBA3TmNVWBhji3P4rYDJlOKO6a+OgBKQl+s/5hbnk5iwp4aR/zXiBNuMxZg5tkKv3c3LVZ1fD3WnErMKi1Yj0b24uDh8tnNUP75HM99QEzzvG3e0R7OlgPQfWYc3MEl2BAfyfmcDJRjU9PIdeJ+dokuD4lvoPj8vni03TH9xK8O6pCjtfy+Evp9cfc3/a30873fns3SdkOPpz4yVtBmc4Ms4CtAXIql+YrfNeH2JF52EirwaSDYAe5dtr3RdBfHjKwbRJlGPQxQ=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(4636009)(376002)(39860400002)(396003)(346002)(366004)(136003)(451199021)(2906002)(316002)(8936002)(8676002)(7416002)(5660300002)(41300700001)(38070700005)(44832011)(33716001)(86362001)(6512007)(6486002)(71200400001)(122000001)(54906003)(478600001)(82960400001)(26005)(6506007)(186003)(53546011)(966005)(9686003)(83380400001)(66946007)(91956017)(76116006)(38100700002)(66556008)(4326008)(66446008)(64756008)(66476007)(6916009);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Hkop6Dg3XpFOggF07zGbmM4xPYIKZ1FGf99+Bfhf+Lf37kMzIg8Q7iF/6dXT?=
+ =?us-ascii?Q?tHF9PWwwmUoAobit+m27oo9od8Cq63SPzYnLd9Q5rBOOyFqnI3ltyaIfOn1A?=
+ =?us-ascii?Q?eWCP9w/pBBVsRqWGy+DbKNjFD4uJW2bol7HKm654aYxFWAhNFpZwbdYi01ab?=
+ =?us-ascii?Q?A5u8R4aZjpNGwCfRipYf1Ocb4ZuY57Ck28iZccLxWHw6vFJ01Y0WWRKM6jQ+?=
+ =?us-ascii?Q?JqCf9ZPGUgOxWaGVhUIuoQNbB+ba7iMOmEvEnel3IOePXNQP/G4CrIKpJwrg?=
+ =?us-ascii?Q?A4fHpA3WtE8hx1wBnpkI/8UTPROPYv4m/yYxWD6J5oWAJFWv6mJ4TS+6mZmY?=
+ =?us-ascii?Q?EwVx89VlE2yUR/eZdy3QEvfRf4PaJpDB3jPVQvmLBL1ytWq4YhPGG5HjtYvZ?=
+ =?us-ascii?Q?OmWkF/n3D8g1ZhTLTzn6JZNxgAvogQ7LJGKwyWeNKcpq/lObncY+WNEde8jp?=
+ =?us-ascii?Q?ec25oxzP5koTOHpqwgYBJ/x+pcfCuKbRG8QitBJA4Lu9tdcYMSoqMPFpcyba?=
+ =?us-ascii?Q?sUnRJUsiyq15tLw5inRA4/XejOqAIsr/fOnnhRL/aL+ec9GYqetex8jxNeGj?=
+ =?us-ascii?Q?2xgq6v1Vl9tTSC6iE0UW+yPyqv/FuBWcrEPR9YMEW7I9FW4Lpue+EZkVBgzv?=
+ =?us-ascii?Q?cwdGrdVmM8fUWZpweywSMsYTFBLDC0GrQyRV9Oao9UPfHDFFuCsxk8Ut7rvu?=
+ =?us-ascii?Q?tvlnlHnDrR2C4I3VvuY5uY27a0vW3xW15DMwSEYqDsCyCE+hZXvz8Zqmyk3P?=
+ =?us-ascii?Q?zZsW9yhAOS72UgAiraJmL7ou8NuEUE3Ylt2kV8Wv3rTx5a0ytHy7PEScjE49?=
+ =?us-ascii?Q?hDsUX8AZVvudfFBCQQh+Da287ogI6ZkBqRRj6hkbrh/VvMtwcAZlXE+2cDgL?=
+ =?us-ascii?Q?jHofrqvbhj+J1Ic2Rq0nRwRCDZ7vUNevzDw2WUqriDkBc3dhFjs62gAaamaf?=
+ =?us-ascii?Q?y9cL9/0x1dicjrj98zOgtm4SKqYUKzUouP7nvs2VvEbVc+H05wP0TzvMtWeW?=
+ =?us-ascii?Q?dUd7O4DIRqKtsDU9ShQYIxBmSouaugie02Pmz0qy5tvYZUBhJGvM56Wk9Kw+?=
+ =?us-ascii?Q?zbx4nflL4CHTvqIs2G/qlDklTKB45Y366RiyulEySUWxn+KPEGYSxKaqK5QX?=
+ =?us-ascii?Q?PiFRenVQb7oqSPFr0+Crooj7liVapFFetYGjLgwqk41NpQVQOVuBQowLYU+l?=
+ =?us-ascii?Q?OzN9XeRnPOuzbPxMUCY40R+io3L7XWVLOmEI7KNZgTw8/KQHeXsa2Fu70kYz?=
+ =?us-ascii?Q?63k1X80HbvAyjVNVIiqiqV8pWpp9wVdX3xg+2U4mmiHbEigAAho+8Rjvl6Im?=
+ =?us-ascii?Q?165PKtO9RMI2j6Fs0UubTLdF9y4YhB0vnNXdDYDNfEsvqAx/A+CkiznmVa6N?=
+ =?us-ascii?Q?JrMlite7dFe5M62EHNoaRPk3BBxJzRShpHi2aR97rPJ4zuQi+QdcEmXXyVGy?=
+ =?us-ascii?Q?zlUwYHoLHAqHQ+/yWx0gH1ddQA1zx/UliS7eblYjluYCNfqdeSxkbvRlh+mJ?=
+ =?us-ascii?Q?mjyrzYZbVJNm9sa1fdCySsrDT92R2EmzuXTPa38ziv0k9amgUR/8Rp3B8OiJ?=
+ =?us-ascii?Q?xk3lC6NjmAQdZhwkmeDv5qgC8Zc37GZfmGTFjZxihP0+hOqiu/ZBY2jjY3QW?=
+ =?us-ascii?Q?MSDeixvpF3+KQKKlrEkAn9g=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <36F5A8830207EC4BA90091848C866EAA@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCHv9  0/6] net/tls: fixes for NVMe-over-TLS
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: <169051502553.18144.8079815837647562945.git-patchwork-notify@kernel.org>
-Date: Fri, 28 Jul 2023 03:30:25 +0000
-References: <20230726191556.41714-1-hare@suse.de>
-In-Reply-To: <20230726191556.41714-1-hare@suse.de>
-To: Hannes Reinecke <hare@suse.de>
-Cc: hch@lst.de, sagi@grimberg.me, kbusch@kernel.org,
- linux-nvme@lists.infradead.org, kuba@kernel.org, edumazet@google.com,
- pabeni@redhat.com, netdev@vger.kernel.org
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?us-ascii?Q?yQbHx3VAvNreg8EXA5U8a4CxqCZBD0HoRAkBBemwtlpo9JoNYB0a69/PhYdj?=
+ =?us-ascii?Q?kJ3E0yIZ1EDmoJwo0pS6Tpk12SyLp4fGtGi52/2WcgyEiJr4YP792zzIRI7G?=
+ =?us-ascii?Q?mr/smpfbGShLD6g17RMz5NTymwhm8+zSX+y52/XTGBz+VYJs+UAgBQON5m8h?=
+ =?us-ascii?Q?GAVtxDwaBypI6nVgnsI8nKDJPBbB05H/rAhXbBaOqLsE03lIXgoBzhlB6zdu?=
+ =?us-ascii?Q?Iqzqw4YV7XqJHiOBmHuivtjLK24plLtzIF18nPHV2prh+MJDMPHOUIpDEjVx?=
+ =?us-ascii?Q?OBonz62OUJwUyqjGGfWDdkPkmAZkMW0I5KhKlnQpA1exIPdtybpBgM2AMIQd?=
+ =?us-ascii?Q?9SJI0raoBSeq6m7BB87+Qds8Sbf8kNbJp0izcsFxqSEP9ixwkJGjU1U5XXm3?=
+ =?us-ascii?Q?ipp4WFOqDVmSuTE0idbPzukF10V2S2GOfEtgHANBrBZ7Ia2gapFxT1f3/MNg?=
+ =?us-ascii?Q?Innt8dAgMh5kc8Woep5kmvA+ps+IoPSg6hC6nFU8/Z+3TouTA4qQWzz7QFXH?=
+ =?us-ascii?Q?9GuUgxGtNevbwRL6DHDmzvHjphDKIKwXMIVOdqKNwPlPP4xxJG5AD5e29Wb0?=
+ =?us-ascii?Q?1fwv0nQEPyShFkP425sBykNpjq5oFe+OjaNIgIgXj/djiqz5GhuIXJboPQCL?=
+ =?us-ascii?Q?ldsw+rAzM44I3DiZBLEnvm27VN2nDw9wJWT3mSEcsSgnISzOOnKgzuQa1YsK?=
+ =?us-ascii?Q?llCwwpvX+tJ712Z+0F/VUyJyEnASAH19TgN3Z8q9Uyv/lCRuXqcvQof2PfgZ?=
+ =?us-ascii?Q?38U+mxhJoTTqOeOq6CzSYXQq4QYis5t1PVkaFNUimNAnCGBacsr8g9cNiP2N?=
+ =?us-ascii?Q?5AZZsafN0YQgG+FsFgYe7PHaC0EVQhrggqdZKTVFvaYTN7qo6U/a0ppz8MsO?=
+ =?us-ascii?Q?4Y72Ur2eACQWplySo8rHw02LUM6ndmN7HKGrB6GlCBQIgT2bz44WqcMlFNYY?=
+ =?us-ascii?Q?twvPQWEv1eWXF9mwRc50AA=3D=3D?=
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c3cfd70-d984-4b12-ef75-08db8f2869e8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jul 2023 05:06:34.1247
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ZeRgU/OEiBzB9AL1HcnU17bqoKVNXolLVKT9B9sezyWCIqD72+jCjdCTGXpe4dJ2pROcHGgOl7MgxeVtRgs/bjT11q4gyA3CsJbsjFIPQXo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR04MB8119
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230727_203028_275103_48144F48 
-X-CRM114-Status: GOOD (  11.57  )
+X-CRM114-CacheID: sfid-20230727_220650_711369_82D38AC9 
+X-CRM114-Status: GOOD (  18.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,42 +183,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello:
+On Jul 27, 2023 / 08:18, Bart Van Assche wrote:
+> On 7/27/23 00:11, Daniel Wagner wrote:
+> > On Wed, Jul 26, 2023 at 07:54:24AM -0700, Bart Van Assche wrote:
+> > > On 7/26/23 05:46, Daniel Wagner wrote:
+> > > > Group all variable declarations together at the beginning of the
+> > > > function.
+> > >=20
+> > > An explanation of why this change has been proposed is missing from t=
+he
+> > > patch description.
+> >=20
+> > Sure, I'll add one. The coding style to declare all local variables at =
+the
+> > beginning of the function.
+>=20
+> Isn't declaring local variables just before their first use a better styl=
+e?
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+IMO both styles have pros and cons. Declarations at "beginning of functions=
+"
+helps to understand what the function uses as its local data (pros), but th=
+e
+declaration and the usage are separated and makes it difficult to understan=
+d
+(cons). Declarations at "just before first use" have the opposite pros and =
+cons.
+This style is easier to read especially when a function is rather long.
 
-On Wed, 26 Jul 2023 21:15:50 +0200 you wrote:
-> Hi all,
-> 
-> here are some small fixes to get NVMe-over-TLS up and running.
-> The first set are just minor modifications to have MSG_EOR handled
-> for TLS, but the second set implements the ->read_sock() callback
-> for tls_sw.
-> The ->read_sock() callbacks return -EIO when encountering any TLS
-> Alert message, but as that's the default behaviour anyway I guess
-> we can get away with it.
-> 
-> [...]
+In the past, I preferred declarations at the beginning functions and reques=
+ted
+it in my review comments [1], but I learned that this guide is not so widel=
+y
+applied: xfstests scripts, or even blktests 'check' scripts have declaratio=
+ns in
+the middle of the functions. So I think both styles are okay at this moment=
+.
 
-Here is the summary with links:
-  - [1/6] net/tls: handle MSG_EOR for tls_sw TX flow
-    https://git.kernel.org/netdev/net-next/c/e22e358bbeb3
-  - [2/6] net/tls: handle MSG_EOR for tls_device TX flow
-    https://git.kernel.org/netdev/net-next/c/c004b0e00c94
-  - [3/6] selftests/net/tls: add test for MSG_EOR
-    https://git.kernel.org/netdev/net-next/c/8790c6a4f54d
-  - [4/6] net/tls: Use tcp_read_sock() instead of ops->read_sock()
-    https://git.kernel.org/netdev/net-next/c/11863c6d440d
-  - [5/6] net/tls: split tls_rx_reader_lock
-    https://git.kernel.org/netdev/net-next/c/f9ae3204fb45
-  - [6/6] net/tls: implement ->read_sock()
-    https://git.kernel.org/netdev/net-next/c/662fbcec32f4
+  [1] https://github.com/osandov/blktests/pull/99
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+More importantly, this discussion maybe going towards "too strict" guidelin=
+es,
+which will discourage contributions. Similar topic is [[ ]] vs [ ]. Once I =
+was
+requesting strictly to use [[ ]], but it did not seem productive. Now I no
+longer request to replace [ ] with [[ ]]. In same manner, I suggest not to =
+be
+strict on the local variable declaration position either.
 
-
+As for this patch, it is not required to follow guidelines. Does it make
+Daniel's refactoring work easier? If so, I guess it will be valuable.
 
