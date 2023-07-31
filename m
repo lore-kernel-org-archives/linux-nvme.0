@@ -4,76 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3E89CC001E0
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Jul 2023 17:22:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 688C6C001DE
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Jul 2023 17:46:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zgAOi0AulmhX3Bd5KBUZ0xiMSJxcMbsevkpcJpCf8mw=; b=l1g0UR9+jTgnDRHvlh56Zt7L1f
-	mBkKoCXaN4C2U4qQhl8YVwE0oLgy6f/1+fBcPPCcG7Za+/DoOAJdU+SNyUXpNpcC1aUrOuh9Yt6VO
-	pcO1WV891BQ14EAc5iVErtqnlRTGnBKGcCd6rJ2wpWLt5M7fMziB57EdaHd/4fO+robu6ZgcLq0rj
-	vOa2bD/AKYpjnzpuKH0q4Rb1/TLWL1GaQzSauGX3cRuN3LcsaP2+OloVs4IE5KbTYQdhoccYFDVP0
-	8HDBH6NIuwoUbA2LhDpz8RdgSfrsuIZ6Wi7TTxSUEaetYLyfDC13WClJFxafv7nyf+Yvyzka/D/q6
-	+oXd+X3A==;
+	bh=lVLcZTXcl+LT1xB5JKh70mgOl4t/pfMP6F2K3RX3WCA=; b=sP5/q8UyAVh42K9dMRrheBFsMK
+	tO2fIfXBib7wDRGrcuJA/q9n6+wOOn2FaeceEkToHrEyUJeNH9UMfjv+mgtpTuH+xi7nS5XEldkDp
+	sBnbVc9aBDYXJ2iTwKbbFkQOQHd8PZ3wI5zHu6LxloLsU2OUO27jDuApj9DIEW4emBMh0XPG1FbKY
+	oYVpjRyb2XyPvfftjmklPx54ZgNw8fgjYXVNMMnJpu/5Ildi6QJ85d/odhh2w0PYX0Q0RU8C2E3K9
+	GwDFJjgx3Qf6UhukoEoxyzC0rn6rbLn3yD0j5uNA2X9wI99YdFsHKTAgWoFCkl4gIjB7dZzgzl48d
+	4guwjpJg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qQWb7-00Gqki-1X;
-	Mon, 31 Jul 2023 17:22:21 +0000
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
+	id 1qQWyc-00Gt5K-2W;
+	Mon, 31 Jul 2023 17:46:38 +0000
+Received: from mout.web.de ([212.227.17.12])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qQWb5-00Gqj8-0t
+	id 1qQWyZ-00Gt4h-2F
 	for linux-nvme@lists.infradead.org;
-	Mon, 31 Jul 2023 17:22:20 +0000
-Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-99bf1f632b8so506405366b.1
-        for <linux-nvme@lists.infradead.org>; Mon, 31 Jul 2023 10:22:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690824137; x=1691428937;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zgAOi0AulmhX3Bd5KBUZ0xiMSJxcMbsevkpcJpCf8mw=;
-        b=WVEgiFopsCCI5ic/Y88N8Q+wBiKTI0Dd0VkkE4d59d0VKWgFSUOJcwpjHMvOHkQScc
-         1idoMtDVsXKF1VlvLQ/pf3ha02lpmkpYV6ySqSCc3Ui7XylDkfpxKeHSN/S40SlbfZvj
-         Ok0TlgX5VJ2fxnuMsRcRJ/h/0GC8UToKNzSLAn18xY8M5MhGfSuJeAJRC1fizz2UeV8d
-         Kq3r/tFLFKeRMucj4dlAKLGXt6Qdg+NnBL1EFf0nUwExVqqRL2dANx6fB4LgGjWwe0Ub
-         3Ucl95goAww4wmfgJ9Zxtap/29csSacR8OQgGk95UQhF985VVuhI+ekDLZTPw9sEDqKb
-         zLAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690824137; x=1691428937;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zgAOi0AulmhX3Bd5KBUZ0xiMSJxcMbsevkpcJpCf8mw=;
-        b=GoQa/SyjHGBzA6Q+Xdtv7SevGMcRRjjz1leFtuF3osVWJJyLeRwByWwReCr76NAr5R
-         jX1UJhp3jKpUZB3YexFJykBzgBm7rg6s5KLjF2FRWhSIWQCBSXb1aYCznHmQTFdmBbFh
-         QVMpne/qAFUiLb+v75SdT1DWMe81MrDFBH9gTwvxS904Rsta6shkF8Imqo1P/RZbdnMi
-         scZKZqopxV2Wkvu5oPRm/mtW202pWPLly9ieEYhgi6KDAIs+qT5eryeeGSiai9ZZ0zTA
-         wImyZYV8Lb5Joc9L+/WePO3N7GnaHyhYdEGSHu8qhkJNvQ/kohlcsQG7NCsoOUaHNoxd
-         RzEQ==
-X-Gm-Message-State: ABy/qLZU9se3az0PD61DyNGF/yMzYglDdkBlp8RdS/r2SDbxwnJvu35v
-	o7pzpTCUOVIzk372cMHBudfoMiIdpeJ+l48B8wQ=
-X-Google-Smtp-Source: APBJJlFdjkjNgBYK35RYkvKzobwQ+iaRm7mQfahASn9z1AN4541IW4Wld6Tqx4D0vGKQAbAkKxv+7F03rWxWYMMEDVM=
-X-Received: by 2002:a17:906:51c7:b0:978:8e8c:1bcb with SMTP id
- v7-20020a17090651c700b009788e8c1bcbmr289377ejk.43.1690824136797; Mon, 31 Jul
- 2023 10:22:16 -0700 (PDT)
+	Mon, 31 Jul 2023 17:46:37 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=s29768273; t=1690825586; x=1691430386; i=markus.elfring@web.de;
+ bh=lVLcZTXcl+LT1xB5JKh70mgOl4t/pfMP6F2K3RX3WCA=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=kgwU/sc6qZw/X8h1EVFWwL6YiWchkro2Xy0QYUXQIK1JGwN4GeKzK+W6K2yQ6n92VgTXXln
+ WHzVOkzZA6QXftzg9pvcDINWEKi/o28BSiDuYVuqohP1iw8DDjopsgDHCEb64RBlAZXk90PmF
+ fH2RrwsNzXRQcfAVC6z4DFV/w+b8DAhKBEhQpZvTcpJVKwFr6tDi/BmuYbF9KfTecCk0xlVrg
+ En8O8/7PgT2x0BiOhBRdmWugRhTvT13U0ymYnDHyoqbZpbAXeLa5AUK+fO+n1K+vwAwmbGnG1
+ gEAr/M+aBS//V11GdSqeZRw0xd77lMnfVq0l7CESxhvgHOl3+k6g==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.90.83]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MQgl2-1qBb7M2IXW-00NuIl; Mon, 31
+ Jul 2023 19:46:26 +0200
+Message-ID: <d51771bc-32a6-7424-ba02-bcc8ab9bf3f8@web.de>
+Date: Mon, 31 Jul 2023 19:46:25 +0200
 MIME-Version: 1.0
-References: <C401F824-646E-4D1B-8157-370320FCC1FE@hxcore.ol>
-In-Reply-To: <C401F824-646E-4D1B-8157-370320FCC1FE@hxcore.ol>
-From: irvin cote <irvincoteg@gmail.com>
-Date: Mon, 31 Jul 2023 19:22:05 +0200
-Message-ID: <CALL+9ejKJ-TT6hJLdejiS9Xk1SHF43-2LgZbOMzExEsqg5ObTA@mail.gmail.com>
-Subject: Re: Not possible to have PI at the end of metadata
-To: ankit <ankit1455@gmail.com>
-Cc: "axboe@kernel.dk" <axboe@kernel.dk>, "hch@lst.de" <hch@lst.de>, "kbusch@kernel.org" <kbusch@kernel.org>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, "sagi@grimberg.me" <sagi@grimberg.me>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.1
+Subject: Re: [1/2] nvme-auth: unlock mutex in one place only
+Content-Language: en-GB
+To: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+ kernel-janitors@vger.kernel.org
+Cc: Mark O'Donovan <shiftee@posteo.net>, Hannes Reinecke <hare@suse.de>,
+ Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, LKML <linux-kernel@vger.kernel.org>
+References: <20230727134748.4163796-1-shiftee@posteo.net>
+ <28d11fc5-743f-0810-8ab7-3fa2a3f98c65@web.de> <20230731135152.GA6016@lst.de>
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20230731135152.GA6016@lst.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Kq34+iH/MWqKQfoawGm9S655bIDAVa0wk/hvLgaCvzf2wqBdPzT
+ qL9mnBhglKEA+vQ2OKGQtxu4M3TaVToXf1zt9pSvdKFXmBF+Eb/4y1kSaXfNMLiNn5Jn5kd
+ xA8svzbClCj4fkMaamCYpLgUR9b4aHj38smqYyr/Sf3zrFUVax4zkcpVmxhN87Hp8LgEhpQ
+ ALRfYHBAt7IuQ3m7OOWQg==
+UI-OutboundReport: notjunk:1;M01:P0:5IEirzbBHkg=;tVjA9wxDFDZ6LMhVXYochVtkk4F
+ CczrRHXKO7EI47ebIrtueCQFztUJYSAjd0/c182vpOuXa95LBoOMcaiZtxJQneWtYm6xrTxZd
+ wiv3xUQV+ZInp7ww0z0cS/dP6VyGLzyGyIoknV9yl4jX/MLKLbDwe2Tf7dBlYFK2wSSTBlZe3
+ Gnseza0VUsVlPCS8hFoS2ev7ltNrX6lpdGMkHs79mJyf9fMYTV01Wg52P22IrF5LFrOwJVPry
+ ZVkgJnd1JiIVzAbIyfUso6ZQOdhxD/FKgstU9Ie+s7rvdxIFtVlZ7+1pNcNF3vGUrrrXQ1QnY
+ WAZkP4TgjYviL6r0Bh/1JkBSGoPEBAdy9kf6ACqGFfNxXCNL841b1DmZz5mZsv6n4ZTUVj8LK
+ sWxhXkV9IfhU1TXw/dJ0GTCU5l0cZgyeUsi2I2znV/FB3+S5LDq1E3QQVIRxKc9si1Z++rgcd
+ 1PfyfX73neqCMrKP1LEZcVcMdkc+hPEiBvTfmfcG5fCiGaE0KIJMRcJsWvg7rgcN0jxZcrZrc
+ wrSwTiHcYJYUXYxqfDjumGsyXfAWiTiOsp8yihBJjpeCcc30qyMT4x8CwpRtIYW2peGe8IzmK
+ I4uzH3DgIH4YIUVZ+D15b/jwPrJISb51qNE5al4ufsUsLJB5x63KQx/Zc92169XRy4eAVo9R+
+ p+h9bukp50va8rkKE3dLR3c7cGDIlP1VN0sQ2K1Bj27bBZMtAGprOGfLsw0S/keWS4ZpvPl7V
+ o5UsmvLiXF/G7PM0gplxNcv368i1WtzBhrvxby1c4K6moEmdSGElageC0RtfFlZVt3XrtE8j0
+ gsEn0Q7NUNKGoqnxxx+RBAll2Z8mfU7UQpPEcI0biwSBCYI4ajFOO3JAGZg/02oFk34lQDoHw
+ XJCC9UQ8IcbfcmOrxsBxYbjJjDFyHTv4LfUSqS7KP3pGgzRa3cXWZy+0qqdOTceLMmTRd1wzf
+ Zq/qNHm8HThSQ6aNfKQAUwgMBoU=
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230731_102219_317941_F9133CB6 
-X-CRM114-Status: GOOD (  26.87  )
+X-CRM114-CacheID: sfid-20230731_104636_179271_07D5CD23 
+X-CRM114-Status: UNSURE (   7.25  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,94 +95,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Ankit,
-Thank you for your detailed answer!
-So if I got it right, the driver requires PI to be the first bytes of metad=
-ata
-because the block layer's implementation of t10
-only expects the user data to be used for CRC generation.
-I guess ithis would be pretty costly to change so as to have the nvme
-driver comply
-with >=3D1.0 spec as as you say SCSI also depends on that t10 implementatio=
-n.
-Anyway I had just asked that in case this had not been seen.
-Thanks again.
-Regards,
-Irvin Cote
+>> Are imperative change descriptions still preferred?
+>
+> It doesn't fucking matter.
 
-On Mon, 31 Jul 2023 at 18:04, ankit <ankit1455@gmail.com> wrote:
->
-> Hi Irvin,
->
->
->
-> These are the possible scenarios, how PI is handled.
->
->
->
-> If PRACT bit is set, and metadata size =3D=3D pi size, controller inserts=
- / removes PI portion for write / read respectively.
-> If PRACT bit is set, and metadata size > pi size
->
-> controller overwrites the PI portion of metadata for write before sending=
- it to NVM.
-> for read controller does not touch the PI portion of metadata while sendi=
-ng it to the host.
->
-> If PRACT bit is not set, then it=E2=80=99s the host responsibility to gen=
-erate PI for write, and verify for read, irrespective of PI size.
->
->
->
-> For PIL (PIP bit of DPS Identify namespace data structure), if its set to=
- 0 then protection information should be transferred at the last bytes of m=
-etadata. The guard tag (crc) of PI for this case covers data buffer as well=
- as metadata buffer excluding the PI portion.
->
-> If PIP bit is not set the guard tag (crc) only covers data buffer.
->
->
->
-> Now coming to nvme-driver working.
->
->
->
-> if CONFIG_BLK_DEV_INTEGRITY is set, it registers a integrity profile and =
-block layer provides the metadata buffer. The existing guard tag (crc) calc=
-ulation is done only on the data buffer, it does not cover metadata buffer =
-excluding the PI portion (you may refer block/t10-pi.c), hence the restrict=
-ion on PI location as first bytes of metadata. I am not sure, how much effo=
-rt will be required to modify this (crc on metadata buffer in block/t10-pi.=
-c) as this is used by SCSI driver also.
-> If CONFIG_BLK_DEV_INTEGRITY is not set and device is formatted with metad=
-ata with PI enabled then the scenarios are
->
-> metadata size =3D=3D pi_size, nvme driver does not need to do anything.
-> Metadata size > pi_size, nvme driver sets the capacity to 0 since there i=
-s no metadata buffer, which is expected by controller.
->
->
->
-> I don=E2=80=99t know how you are trying to use this, but we now have io_u=
-ring passthrough (works with nvme character device), kind of bypasses the b=
-lock layer.
->
->
->
-> FIO has an ioengine for that, and I am currently working on adding PI sup=
-port, and will soon post the patches. It will also cover DIF case (extended=
- LBA), which is not supported with the block device. I hope you will find t=
-his interesting for your use-case.
->
->
->
-> Regards
->
-> Ankit
->
->
->
-> Sent from Mail for Windows
->
->
+Do you exaggerate here?
+
+If not:
+Does such a feedback really indicate that you would intentionally like to
+disagree with specific requirements from the Linux development documentati=
+on
+(for a discussed patch)?
+
+
+> Please stop spamming nvme contributors.
+Why do you interpret a few change suggestions in this direction?
+
+Regards,
+Markus
 
