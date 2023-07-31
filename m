@@ -4,71 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2D283C001E0
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Jul 2023 13:52:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C4E9C001DE
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Jul 2023 13:53:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=rbU4XO+GvXnhyxq9QSPb06TlSO
-	ThoKa9jLZtexxtykS2DRtBsmiGA0pDyXhxSq7iLwequu55lE77SydccwBPzgXKaZ2i7mUa44Qnf03
-	0ZI8XdHcsTfz05PnQRCA9zRJEHZkzgqhn/fdsa110w9O8Dxq2CbW4KU1ayWELFK+Z5mFTX17lRT4V
-	QbUy6D8m+O0J907x/AEGNXuoXB5wzzxzZi3jEnlpm/aSmoVnTxza3h5DF799BC24dzk3gR5M4+X6P
-	+lSHQCKwJ5wNMXN+85TTjtSlc53qhDob7x+uimlISA9xcBR0m3kz3sBBfTl7qJX1JrTkhFICnZila
-	YkO8fUfw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Yj32Z4uprL3OyQ2speBlNpV9aNtjSpuXnPP9C9MGlWM=; b=SrFzg2YUnj/B/3JiC6bMRECLSy
+	EQwC+Fy8C8pPjq6yDkCT8W6RVP7cgnDX88hysa/h+fkKqN6VxuK47Amk/6WoOp/N+FXCEwRBPH1Gw
+	otwC4g9cxIAOHZ2+sOA38BaakM9uoRp2cPyf1rKTbrhmGT5GJDZshpy8mHqy8y76FTSww4md6/jkj
+	CHw1aU126t4cX+pWqAQnMeV9UIefiNFOHkzeBxCZGxJZDz70ysLFh8USNUEAEIyAKoRbcmfqUA3WB
+	T263eByab4Ud9XncpY755OGphduFJPhcvhaAUqyaMSzurCQ15ui0lwPQWNJEDaUqQNpOK+ABc+C5M
+	PMHaupEw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qQTK4-00FsVa-0w;
-	Mon, 31 Jul 2023 13:52:32 +0000
-Received: from mail-wm1-f44.google.com ([209.85.128.44])
+	id 1qQTKV-00Fsrt-31;
+	Mon, 31 Jul 2023 13:53:00 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qQTJK-00Frue-2H
+	id 1qQTJb-00Fs4x-1u
 	for linux-nvme@lists.infradead.org;
-	Mon, 31 Jul 2023 13:51:47 +0000
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-3fe1f70a139so3256745e9.0
-        for <linux-nvme@lists.infradead.org>; Mon, 31 Jul 2023 06:51:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690811504; x=1691416304;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=fOwZnfgdsfHl8UhTyR8UFCtzcyen/SHmtce/OOj4cxUy5XgCja8Z7CER14AGePhlVw
-         5/A1HRHX7Iry4E5QIwiLNacA08hWSa/W6dfnqCWPC0o9Y947lIyErYiHFuSy9rE2rVu+
-         AzjVwr0w1F3Xu5eKxV8Zb5kpLFyZ17Rxl6cvKCmc9Gs9cbyG0WU73VERiSA+wyd91HyI
-         wyKPKVMn96UuUOFQoFEDK8KqS0An8bcqn+opJ7z+eJkqZgyTPPbkzfu8aGG7EeHvyP7O
-         PC6tUfOj/kH6snNfQmqcgObcu+mUW4j8UqEULR1FTB3val2tFcSvAF8TOrbv9OQRKSqy
-         5MUA==
-X-Gm-Message-State: ABy/qLaweSuD3lCxB3F3Y74etbK87PYdOntSXnn120Zht7KVEWkd65Q1
-	1TbqKknU85nWhy/fPXii/PJ6FnTkxtw=
-X-Google-Smtp-Source: APBJJlGMmPciRbX3khPzZG/zec5Sjkb0lpADKxI2keeJewtrWCPvpr8swI6z98Dz1ALgtpozwwhZpQ==
-X-Received: by 2002:a05:600c:8807:b0:3f7:e7c9:4039 with SMTP id gy7-20020a05600c880700b003f7e7c94039mr6429093wmb.4.1690811503545;
-        Mon, 31 Jul 2023 06:51:43 -0700 (PDT)
-Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id e19-20020a05600c219300b003fbdbd0a7desm14129553wme.27.2023.07.31.06.51.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Jul 2023 06:51:42 -0700 (PDT)
-Message-ID: <220e814d-84de-afa2-5bd1-da20e11fdf8f@grimberg.me>
-Date: Mon, 31 Jul 2023 16:51:39 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
+	Mon, 31 Jul 2023 13:52:06 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id E72F767373; Mon, 31 Jul 2023 15:51:52 +0200 (CEST)
+Date: Mon, 31 Jul 2023 15:51:52 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: Mark O'Donovan <shiftee@posteo.net>, linux-nvme@lists.infradead.org,
+	kernel-janitors@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+	Hannes Reinecke <hare@suse.de>, Jens Axboe <axboe@kernel.dk>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	LKML <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH 1/2] nvme-auth: unlock mutex in one place only
-Content-Language: en-US
-To: Mark O'Donovan <shiftee@posteo.net>, linux-kernel@vger.kernel.org
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, axboe@kernel.dk,
- kbusch@kernel.org, hare@suse.de
-References: <20230727134748.4163796-1-shiftee@posteo.net>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230727134748.4163796-1-shiftee@posteo.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Message-ID: <20230731135152.GA6016@lst.de>
+References: <20230727134748.4163796-1-shiftee@posteo.net> <28d11fc5-743f-0810-8ab7-3fa2a3f98c65@web.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <28d11fc5-743f-0810-8ab7-3fa2a3f98c65@web.de>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230731_065146_741942_8188DC34 
-X-CRM114-Status: UNSURE (   6.27  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230731_065203_806859_803D1082 
+X-CRM114-Status: GOOD (  10.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,5 +62,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+On Mon, Jul 31, 2023 at 02:00:37PM +0200, Markus Elfring wrote:
+> Are imperative change descriptions still preferred?
+
+It doesn't fucking matter.  Please stop spamming nvme contributors.
 
