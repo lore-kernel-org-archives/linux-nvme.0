@@ -4,50 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 43C2CC001DC
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Jul 2023 07:14:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 09CD4C001DF
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Jul 2023 08:39:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TLUOrz2O7XtnlAMXY8aeUdPeNBXUAyTO1dE7whqT6mo=; b=b/Tj49LGdW45Nbc7TxH8V8/Sbd
-	j8Bi/oHq4CwxH4B7Z1BmKG0SPcb9qWKqHPKKmCHwrkuYo5ouDH7Lbz6s5LbofCB9qHBNDySDUO4Ak
-	Kp1VavBK31cQjIA0tDBX2l8zmtjBnC1alIccT7uKnxGKGgXaHj+RP3gQaIFGK3XNEqUiE+Y2cVt4e
-	Aa+kdc9uzQkyC6MYCpSHBZNLChVhSOHvZLS6XMxhWHQtPtPOu3PGHU5bP81DjonKQpEoRS2rzYAFi
-	ddajbw/35MnXsn3N+veo/g4mjMM/AeweaXLpBCrxswkPT98/pWuAoDzuW9McKVO/AZAjE+D/1gbq3
-	pgLou86g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=dwoca0X6C9VXklO/zRgFQCPapTk5LFz4tKaENdvy6Po=; b=u1obFcwSd+YNKLJM50THRlO7vN
+	t0Oo+u+5nMAI/hwIGyN4PzFkzzDKl+XTfYLRJc0KL0voQozrFwHG/vheADLP+/iDVMDca4X6RSuyL
+	tjkyfwqFqNwVyXY9Om+8Qc2inP7geBwUFGTv2hFm5lr5h4AiJLTGThQqEiGzwlS4k7/klkC5wmELc
+	RmQw+VXzcQ/OyOyl5d8TsuGiMI+39oTGsy9H9AYOpzxZbg/szvHHmMyd0lMFq48DNVXdUkWyU8sP6
+	JtyJHJyQkrnZnEVIFHz+5ufCgqMsaEt+/oC/mfJBwRsb2zMJ7mtKwUB3JjpPBFdt74QVGXedPJG1w
+	XxTki3VA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qQN6i-00EHlr-1o;
-	Mon, 31 Jul 2023 07:14:20 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1qQORP-00EZUg-0p;
+	Mon, 31 Jul 2023 08:39:47 +0000
+Received: from mail.cothiafon.pl ([217.61.106.23])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qQN6f-00EHl6-2U
+	id 1qQORM-00EZTh-32
 	for linux-nvme@lists.infradead.org;
-	Mon, 31 Jul 2023 07:14:19 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 02FA567373; Mon, 31 Jul 2023 09:14:10 +0200 (CEST)
-Date: Mon, 31 Jul 2023 09:14:09 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	linux-nvme@lists.infradead.org,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	linux-scsi@vger.kernel.org, linux-block@vger.kernel.org,
-	Wen Xiong <wenxiong@linux.ibm.com>, Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH V2 0/9] blk-mq: fix wrong queue mapping for kdump kernel
-Message-ID: <20230731071409.GA31608@lst.de>
-References: <20230726094027.535126-1-ming.lei@redhat.com>
+	Mon, 31 Jul 2023 08:39:46 +0000
+Received: by mail.cothiafon.pl (Postfix, from userid 1002)
+	id 5E49483B70; Mon, 31 Jul 2023 10:36:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=cothiafon.pl; s=mail;
+	t=1690792662; bh=dwoca0X6C9VXklO/zRgFQCPapTk5LFz4tKaENdvy6Po=;
+	h=Date:From:To:Subject:From;
+	b=bhXqtnGfpsYSMIf5G/dtu24qH/bagFM2D4OfsKtQL/0Ril/ZtywQmS2xGeX88pJH+
+	 l454oa0iKQM7VqVumfpE2aEkLXdCaJW1M67E5uDElEpyu1DnB9ReM004Fj9TlvR0wZ
+	 AQ5zSfkacEdii2RU1zEnhtNxPtiCelCUD2KB2/4SSgCMnrwplvQVJcW1g2rbPiV6ks
+	 V0sDvkLGIxbm2HqfP+8t47CN2s3lg/FJupL/hf2Aec6/zkta3gacm6dh7uh3TAZjtd
+	 0fXKYptgfXg6y3FsVc+lmjeRCPxKGWUu/l7HGcZxUiZoKZb/o0OXcOgC5NdUBjYSp4
+	 hH1y7jobqlE9Q==
+Received: by mail.cothiafon.pl for <linux-nvme@lists.infradead.org>; Mon, 31 Jul 2023 08:35:48 GMT
+Message-ID: <20230731095940-0.1.28.onue.0.vjbcgtef8x@cothiafon.pl>
+Date: Mon, 31 Jul 2023 08:35:48 GMT
+From: =?UTF-8?Q?"Rados=C5=82aw_Grabowski"?= <radoslaw.grabowski@cothiafon.pl>
+To: <linux-nvme@lists.infradead.org>
+Subject: W sprawie samochodu
+X-Mailer: mail.cothiafon.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230726094027.535126-1-ming.lei@redhat.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230731_001417_952210_7268D040 
-X-CRM114-Status: GOOD (  14.26  )
+X-CRM114-CacheID: sfid-20230731_013945_118146_E6E9BD0A 
+X-CRM114-Status: UNSURE (   1.48  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,16 +66,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jul 26, 2023 at 05:40:18PM +0800, Ming Lei wrote:
-> Hi,
-> 
-> On arm and ppc64, 'maxcpus=1' is required for kdump kernel,
-> see `Documentation/admin-guide/kdump/kdump.rst`, so num_possible_cpus()
-> still returns all CPUs because 'maxcpus=1' just bring up one single
-> cpu core during booting.
+Dzie=C5=84 dobry,
 
-Just as said last time:  Please drop the odd is_kdump_kernel checks
-in blk_mq_update_queue_map and blk_mq_alloc_tag_set instead of sprinkling
-this crap even further. 
+chcieliby=C5=9Bmy zapewni=C4=87 Pa=C5=84stwu kompleksowe rozwi=C4=85zania=
+, je=C5=9Bli chodzi o system monitoringu GPS.
 
+Precyzyjne monitorowanie pojazd=C3=B3w na mapach cyfrowych, =C5=9Bledzeni=
+e ich parametr=C3=B3w eksploatacyjnych w czasie rzeczywistym oraz kontrol=
+a paliwa to kluczowe funkcjonalno=C5=9Bci naszego systemu.=20
+
+Organizowanie pracy pracownik=C3=B3w jest dzi=C4=99ki temu prostsze i bar=
+dziej efektywne, a oszcz=C4=99dno=C5=9Bci i optymalizacja w zakresie pono=
+szonych koszt=C3=B3w, maj=C4=85 dla ka=C5=BCdego przedsi=C4=99biorcy ogro=
+mne znaczenie.
+
+Dopasujemy nasz=C4=85 ofert=C4=99 do Pa=C5=84stwa oczekiwa=C5=84 i potrze=
+b organizacji. Czy mogliby=C5=9Bmy porozmawia=C4=87 o naszej propozycji?
+
+
+Pozdrawiam
+Rados=C5=82aw Grabowski
 
