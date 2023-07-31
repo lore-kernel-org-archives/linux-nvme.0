@@ -4,48 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 937D4C001DF
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Jul 2023 05:58:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 660BBC001DC
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Jul 2023 05:59:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=h6y91OBFoVTUXIYPFYmDpZb6yvZnL1uNSNSMeZirCqc=; b=sju0ogat66rza+OYuqLEGgY7im
-	Kid3d6+ypMu0/F1HACU/77VRyXXlqgjD+SRWOHJxi8choXPETDHdT/2tVxSNbrpkj6CD6FkaVeOq3
-	1YZvsTn1U5pbE9fiedkHgc/Jli5J+2lKG5I61lxg9Ctn8E+HI20hsLKcFWjwiLsciP+q6px/PgR6m
-	H23YuX2wDJFlN06jCsMvymJMMgax3WPnG2qnr5m24cprFsPVcTaFZamB4bwXV5NroYSLb+cUvLUDr
-	CG3GCV4HmAuksMqN7gkwISDY98gTJ9NjsEBX+rq/IxCQaROFt9togzI3IXk9YaJ0LKUG6AAxmQadI
-	d5aOkiUg==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=VjPRBaSaw3Pm7HRcwSEDtcv5EB
+	RR3dkFSoRqAunDTvYFfGOJh/w31/dslNJ30tCUuDOtLd59nAhpudXT8WHgMBepJ4jP5JOEMy3lUbc
+	2jfZcOI0EZfDJ4qwbMrKCQUFGdxYBkIYKk3Yl8XcO4nR20wnBJ28pgGjqcPE8ZRIq8LbIAaI6JxEK
+	usRJUwfLH/8YO3YhkP2metUQu5Xb0dF8pgeighJ3z36UFT2ziDc6wDYzgHKz3u+kop0dU4SNLo+ly
+	2pKYqypD1nCHl1aDSVOcpfnQ+LovhsiM+tHzdc/U9sUabnY75IbUdYIVPlsqCQyvQ1sj4uFdMetwU
+	2rAwexhw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qQLv4-00E2PW-1c;
-	Mon, 31 Jul 2023 05:58:14 +0000
+	id 1qQLwC-00E5Rs-0y;
+	Mon, 31 Jul 2023 05:59:24 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qQLv0-00E2It-1U
+	id 1qQLw9-00E5Hw-2Z
 	for linux-nvme@lists.infradead.org;
-	Mon, 31 Jul 2023 05:58:11 +0000
+	Mon, 31 Jul 2023 05:59:22 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 0421567373; Mon, 31 Jul 2023 07:58:07 +0200 (CEST)
-Date: Mon, 31 Jul 2023 07:58:06 +0200
+	id 247A767373; Mon, 31 Jul 2023 07:59:19 +0200 (CEST)
+Date: Mon, 31 Jul 2023 07:59:18 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Mark O'Donovan <shiftee@posteo.net>
-Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	sagi@grimberg.me, hch@lst.de, axboe@kernel.dk, kbusch@kernel.org,
-	hare@suse.de
-Subject: Re: [PATCH 2/2] nvme-auth: set explanation code for failure2 msgs
-Message-ID: <20230731055806.GB30150@lst.de>
-References: <20230727134748.4163796-1-shiftee@posteo.net> <20230727134748.4163796-2-shiftee@posteo.net>
+To: Varun Prakash <varun@chelsio.com>
+Cc: sagi@grimberg.me, hch@lst.de, linux-nvme@lists.infradead.org,
+	Rakshana Sridhar <rakshanas@chelsio.com>
+Subject: Re: [PATCH] nvmet-tcp: pass iov_len instead of sg->length to
+ bvec_set_page()
+Message-ID: <20230731055918.GC30150@lst.de>
+References: <20230727150550.5851-1-varun@chelsio.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230727134748.4163796-2-shiftee@posteo.net>
+In-Reply-To: <20230727150550.5851-1-varun@chelsio.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230730_225810_643719_906248D3 
-X-CRM114-Status: GOOD (  11.81  )
+X-CRM114-CacheID: sfid-20230730_225921_990452_1C0D7440 
+X-CRM114-Status: UNSURE (   9.03  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,14 +61,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jul 27, 2023 at 01:47:48PM +0000, Mark O'Donovan wrote:
-> These error cases were not setting an auth-failure-reason-code-explanation.
-> This means an AUTH_Failure2 message will be sent with an explanation value
-> of 0 which is a reserved value.
+Looks good:
 
-I'll leave the final decision to Hannes, but shouldn't we find a common
-place, either behind a label or in the body of the function to set
-chap->status?  Having to add this in a lot of error labels doesn't feel
-very maintainable.
-
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
