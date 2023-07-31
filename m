@@ -4,71 +4,112 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D1EFBC001DE
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Jul 2023 10:52:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05272C001DF
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Jul 2023 11:08:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:MIME-Version:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=WyzMdIIymW/6Z0nnVSNvD7p0pdlAEYGfFstKND3Wt9Q=; b=L0ltYg9QL1f3T4AqSAe0C+hAhL
-	qTEZYs+oyaMifZYCMzUlKn/I7GNvv7XCg7iP/WWoD0vBaxFduEcFcztusB/kpJ5WHmmj/ljRcBg7p
-	wklhXY2oCM3F6B1jRGytR1B3cKS+ySU4eUYaf2MeRDUtELKVDT7/CDshu1SgvWRN+9uoLWjmAYaPa
-	TWzU5pHA75gVF/Qt6xmxGtOSK+DNmQWkEVkziEq+KL1JrU1oze71MVO2QDnu022MZ1xegfgGX5BV/
-	5mAQKE20pvFkxsDn0WbBBpqlc/x83MH6i72TS2rJ8NBnC00+WNgKpIzvweG+coQoxQfTn4V3ofuCn
-	JwQoHPPA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=PJDu3H9G0xjlLFp1Wxvq9yQHkB2Q9jBIbPsGkP5jLhY=; b=HSqkwhhrGTpQBJlSGGf/qgtowI
+	AUEC7gZUOCsm8dvqrEYXQpAN71EWuoQb59Jg6CrwcBvInRtFVF8587jPZDlVaopR4CJm7iSiH7Nr8
+	9XqHAUy2JgejUsdFexROFb7nihekkyEp50X3YRTDEf9cLzWFtabtdcpDv2YEBU2QSQEc8WckVQ+8X
+	oOZFRA0luaeWb63wVr7qLiYmEVJysPARLGAiejYLwMXEZg0EW3qxZLc81roVh8puJUAfICEJnp1Sj
+	pHY2Ap8aRKYRlbC8VK8nm+5CCCVSBysyV0iPIyw+nQDRj7hGs1b/Yjv5yLJjXvU4Z2+tOku7PRT+K
+	DHRq/dcQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qQQVk-00FA7o-1m;
-	Mon, 31 Jul 2023 10:52:24 +0000
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
+	id 1qQQl4-00FIaz-1I;
+	Mon, 31 Jul 2023 11:08:14 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qQQVi-00FA6e-2O
-	for linux-nvme@lists.infradead.org;
-	Mon, 31 Jul 2023 10:52:23 +0000
-Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-99bc9e3cbf1so917133766b.0
-        for <linux-nvme@lists.infradead.org>; Mon, 31 Jul 2023 03:52:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690800738; x=1691405538;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=WyzMdIIymW/6Z0nnVSNvD7p0pdlAEYGfFstKND3Wt9Q=;
-        b=bOOywGtTBRFFY4anR8RhweoVbXh8ikC/EhW5cfJMY3NFDRVK7BfeP5dJ7jiN5K/5m3
-         w/0E803fwZgQy0xthHoW2pEPUjU+9h0nz/K1BpDuU46l78VvoL7hnzKWG3u1YJBTuW/V
-         cCM5kcvaj63o9ArnvQWRmwyIepKRur0o+OV3i2ukFEMSqcC9HBKNIgabm2Mvgw9BZqBp
-         vWEIoJbcAblMRzn3BMAfLKVgpzHlYXYJ1ktfafNkSDWXw/l8TtFx2x5oDP5YIGfcyS7B
-         BfLikxdI4x6Jn16wREqq5D8I7kdVdNn0ldg51fiVVDFxKuyHaauUtUl9Pw4lIldmIS1W
-         Oo9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690800738; x=1691405538;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WyzMdIIymW/6Z0nnVSNvD7p0pdlAEYGfFstKND3Wt9Q=;
-        b=i0KFi538xRVqc00TKBqqGAet2Ko1QKpxqLPJr/yhD25e3SZPh+4teccr7WguOIhAoT
-         BESe6ahqo1VG00d4Q8lg2gLveB1LBwHh/cqS7csBLKZHvIbwKDJmDxwV5eQCgjfQYkcD
-         H3V5BL+efno4RMaGA5l567+dedvb/WBqPQiLvvDKxbTB190x97Za4pJoxRhVj84tqV+C
-         OswuWY5uGD6LltKTBlsCERL8sxA/jsy5CMe5YCYKeh2476TU9yyU3IdgvUtCZr5isPT/
-         fTffoTlB0CH6cwYW7lH/RR2Y6mqh1vSdthyNv+IdLJzet8Hci1XzdCPqoYtqJUtQyPSd
-         RyZg==
-X-Gm-Message-State: ABy/qLb36QrN9whrFAUO0mAHHQPhWtKsWqbG3ldYz/O9gzgNW1HHhWZa
-	8ATb5L7i24B86xe4ZdiQGecgQerNpL94IxboOYM=
-X-Google-Smtp-Source: APBJJlHdlQ4xwI3zGrAhyqtA/GK3cGGo2F6IgrdOeSv368cGiqu2oCZ7h2NJxqv5jwzWjAVEyQpg++TI2XmTYkuOP1w=
-X-Received: by 2002:a17:906:9b94:b0:991:f0dc:c930 with SMTP id
- dd20-20020a1709069b9400b00991f0dcc930mr6652609ejc.16.1690800737540; Mon, 31
- Jul 2023 03:52:17 -0700 (PDT)
+	id 1qQQU3-00F9sB-1u;
+	Mon, 31 Jul 2023 10:50:40 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id ED50E22197;
+	Mon, 31 Jul 2023 10:50:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1690800635; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PJDu3H9G0xjlLFp1Wxvq9yQHkB2Q9jBIbPsGkP5jLhY=;
+	b=LfsIvVgX25rf01P6sVcmZRL3nPMT3sPJRPMrpOspwMqpMg9mmQx6AkDi/eF6WU32a2Vp6x
+	/7YLD1OJK0u+bqfGa4P87gaOpA6/QZlHA1eZkenSQs1V9CjuRPICqxTQ9KdHYFZ84hOqsV
+	4L46K3Rf4+bEtg2brIa/aboXrQrqviE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1690800635;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PJDu3H9G0xjlLFp1Wxvq9yQHkB2Q9jBIbPsGkP5jLhY=;
+	b=X5g/KyOpcE2CiMGegP9N6Ypxz5sWUyAuayNnMILk5q3XabEg0BuGZ7c8jHqKycooaqKD7s
+	Ajq9KEorZZBfWcDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D6932133F7;
+	Mon, 31 Jul 2023 10:50:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id ovhUNPqRx2R2ZgAAMHmgww
+	(envelope-from <jack@suse.cz>); Mon, 31 Jul 2023 10:50:34 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 457F5A0767; Mon, 31 Jul 2023 12:50:34 +0200 (CEST)
+Date: Mon, 31 Jul 2023 12:50:34 +0200
+From: Jan Kara <jack@suse.cz>
+To: Haris Iqbal <haris.iqbal@ionos.com>
+Cc: Christoph Hellwig <hch@infradead.org>, Jan Kara <jack@suse.cz>,
+	linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Jens Axboe <axboe@kernel.dk>, Alasdair Kergon <agk@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Anna Schumaker <anna@kernel.org>, Chao Yu <chao@kernel.org>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Dave Kleikamp <shaggy@kernel.org>, David Sterba <dsterba@suse.com>,
+	dm-devel@redhat.com, drbd-dev@lists.linbit.com,
+	Gao Xiang <xiang@kernel.org>, Jack Wang <jinpu.wang@ionos.com>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	jfs-discussion@lists.sourceforge.net,
+	Joern Engel <joern@lazybastard.org>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	Kent Overstreet <kent.overstreet@gmail.com>,
+	linux-bcache@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net, linux-mm@kvack.org,
+	linux-mtd@lists.infradead.org, linux-nfs@vger.kernel.org,
+	linux-nilfs@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-pm@vger.kernel.org, linux-raid@vger.kernel.org,
+	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-xfs@vger.kernel.org, Mike Snitzer <snitzer@kernel.org>,
+	Minchan Kim <minchan@kernel.org>, ocfs2-devel@oss.oracle.com,
+	reiserfs-devel@vger.kernel.org,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Song Liu <song@kernel.org>, Sven Schnelle <svens@linux.ibm.com>,
+	target-devel@vger.kernel.org, Ted Tso <tytso@mit.edu>,
+	Trond Myklebust <trond.myklebust@hammerspace.com>,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH 01/32] block: Provide blkdev_get_handle_* functions
+Message-ID: <20230731105034.43skhi5ubze563c3@quack3>
+References: <20230629165206.383-1-jack@suse.cz>
+ <20230704122224.16257-1-jack@suse.cz>
+ <ZKbgAG5OoHVyUKOG@infradead.org>
+ <CAJpMwyiUcw+mH0sZa8f8UJsaSZ7NSE65s2gZDEia+pASyP_gJQ@mail.gmail.com>
 MIME-Version: 1.0
-From: irvin cote <irvincoteg@gmail.com>
-Date: Mon, 31 Jul 2023 12:52:06 +0200
-Message-ID: <CALL+9egphcj9_tD+jw5jUZTftjQzXAxeEk26s0rQQDDBK=hRPg@mail.gmail.com>
-Subject: Not possible to have PI at the end of metadata
-To: hch@lst.de, Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
-	Jens Axboe <axboe@kernel.dk>
-Cc: linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJpMwyiUcw+mH0sZa8f8UJsaSZ7NSE65s2gZDEia+pASyP_gJQ@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230731_035222_776587_553650D5 
-X-CRM114-Status: GOOD (  11.98  )
+X-CRM114-CacheID: sfid-20230731_035039_774002_1593871A 
+X-CRM114-Status: GOOD (  21.49  )
+X-Mailman-Approved-At: Mon, 31 Jul 2023 04:08:13 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,23 +124,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all, I am not sure of the exact procedure/format for this type of
-submission,
-but I have noticed something about the code for which I had no patch but that
-seemed to be at odds with the spec.
-Basically if the user has formatted the namespace with a format for which
-metadata size > PI size and has set the PIL bit to 0, then in nvme_init_ms
-ns->pi_type is set to 0 (effectively disabling PI).
-Is there a particular reason why the driver should disable PI in this
-situation?
-Additionally, in the description of the PIL bit in the NVME NVM
-Command Set spec, it is said
-that PIL shall be cleared to 0 for implementations compliant with
-version 1.0 or later.
-I don't really know if this is intended for the user or for the
-developer and how it impacts
-the above.
-Thank you for your time
-Cheers
-Irvin Cote.
+On Wed 12-07-23 18:06:35, Haris Iqbal wrote:
+> On Thu, Jul 6, 2023 at 5:38 PM Christoph Hellwig <hch@infradead.org> wrote:
+> >
+> > On Tue, Jul 04, 2023 at 02:21:28PM +0200, Jan Kara wrote:
+> > > Create struct bdev_handle that contains all parameters that need to be
+> > > passed to blkdev_put() and provide blkdev_get_handle_* functions that
+> > > return this structure instead of plain bdev pointer. This will
+> > > eventually allow us to pass one more argument to blkdev_put() without
+> > > too much hassle.
+> >
+> > Can we use the opportunity to come up with better names?  blkdev_get_*
+> > was always a rather horrible naming convention for something that
+> > ends up calling into ->open.
+> >
+> > What about:
+> >
+> > struct bdev_handle *bdev_open_by_dev(dev_t dev, blk_mode_t mode, void *holder,
+> >                 const struct blk_holder_ops *hops);
+> > struct bdev_handle *bdev_open_by_path(dev_t dev, blk_mode_t mode,
+> >                 void *holder, const struct blk_holder_ops *hops);
+> > void bdev_release(struct bdev_handle *handle);
+> 
+> +1 to this.
+> Also, if we are removing "handle" from the function, should the name
+> of the structure it returns also change? Would something like bdev_ctx
+> be better?
+
+I think the bdev_handle name is fine for the struct. After all it is
+equivalent of an open handle for the block device so IMHO bdev_handle
+captures that better than bdev_ctx.
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
 
