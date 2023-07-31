@@ -4,73 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A93F4C001DE
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Jul 2023 14:33:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 90A92C001DF
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Jul 2023 15:01:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RdQAM6VxGMfoMTaPvBMcsHXXQDS0t6wgyEF3X9osK3w=; b=UX+BpvuCAN32AyMhF/vmnrsHUg
-	1keSSRWSMSMSWfuWMFbdkThCorHXrZJ8YlwQk2BgfpDr7WfkdJu8LJa9Q50KwASBrrcD4wWq/EiIV
-	oVeT7EPdxG/6iQunvtCVBWWFeHlRK+Cglcw4lAcPqjxylakMXxe0ruVkstef2mKrhYwmn/MFzu7Wz
-	SQGls667yeo/Mvf2uXGyBCWVger2i9iwxKabDmOIXL1YVOsB9DWzvIjZAQKpNCoHepSV0bDqhf14U
-	L9Expbjvwj+3HdlSmply4ccNIVcOxQ+aeacOuqEVrP+QTBRO7TO+ifxPi2QOIkSoEQXt9y19WmcFh
-	JyfrOItA==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=z9mrYk9ezevgnVRh6fo8v+zzdhxngLuWQKAfOQIGxIk=; b=Y4yB9ww1pPqnI8LTUncvOeHCtS
+	TtZEXX7IZTSb9OvbVjLYC/q8gWNGIjmjVRD8SVqusLajZGGgu9YF7HUDhH+L7AH4z1OWhbt48Zwpl
+	arJQpl+DaOjhZCt1s/WY5r//e0qxieH4ieLC5/1CYRLWeO4TSzLHelgwHqGDUS9XGySrLHqjKbhF1
+	LE0gXx4D7kiN+/zD8rk+PaBujWyy4nacnjEiA6cigEabBo+wJrVEEWR6StwK4g0a7IxCIXltC3rUv
+	ufnG6TPIpkKFUMzeNgfCDJ+Dj80k5ZfxQ4RPcIjJpffSsatfTYtPinsmUqfFkeTVPLs9PAZiJyuA7
+	affPA5Sw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qQTxM-00G8oj-09;
-	Mon, 31 Jul 2023 14:33:08 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1qQUOJ-00GEuD-0K;
+	Mon, 31 Jul 2023 15:00:59 +0000
+Received: from mout02.posteo.de ([185.67.36.66])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qQTxJ-00G8n3-13
+	id 1qQUO3-00GEWG-2C
 	for linux-nvme@lists.infradead.org;
-	Mon, 31 Jul 2023 14:33:06 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id C31D96117E;
-	Mon, 31 Jul 2023 14:33:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98223C433C7;
-	Mon, 31 Jul 2023 14:33:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690813984;
-	bh=zSETG/ZitpLOxcM6B1R5a9FyDOKM69LLigtLZ5RJ5sI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FuJgYKk92kQfapeQD3sGS/ciPMajjBa1opzfb5BWJW/WqdAhl0sTM1zjRZ/6Hh/Sz
-	 yOrGCZ09/XRym22Jj0mElDi9CW0Avdkq0XmmDvfyJ2TjZjh+uhr7nilrFq78iamaNV
-	 Ywbnc5qhGJPaibb12gyjMjLJdvWPgjOdcJxRFu5DOMLRLlcYHd05pM0R7EhIQ/L+SF
-	 mVFzx3fC9x888RZuGmYPkp4cUuk3G8Pm69DFNXHg2Q0rLb8UAzuzKCV3rHkKHPi1HE
-	 nKs3RcNovmcO1ygil4u3Mru2n+n4LPs0i9JRB2gTYz8iBsG+5Ger+bGZhIWLbM8K2O
-	 lvL/ZnpS92NPw==
-Message-ID: <d3d9e1c5-e090-fe65-7d80-850f0d0d284d@kernel.org>
-Date: Mon, 31 Jul 2023 23:33:02 +0900
+	Mon, 31 Jul 2023 15:00:45 +0000
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id D5ED5240101
+	for <linux-nvme@lists.infradead.org>; Mon, 31 Jul 2023 17:00:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+	t=1690815637; bh=XImkWyr8X4KhNLsQctrbLiFktbFlqmuLxa0+EGeRPJA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:
+	 Content-Transfer-Encoding:From;
+	b=izyE3ONGaA+0jfWhgRU//8h85d0ObOdP7jK5FSSx3X2DTKilXfgsxG5TKQn0jbw5n
+	 LgEheEDXQlvdZBXqmxPJEv+C7Osk4ItDJu7cJz3+g844hRbLemMkcU+O06ugrIbupa
+	 9PS7mvZ5yrDb05/OlJxf6zQDyA0+PEzjRZce2zjgLpYJJC9TfUMWbb7zl2ONGoaV6t
+	 9JdqfLFyUP0H4NVNygbi270PXhv7S9HLAiFKAn4QKKyvaD1NP5rFPqRsoiTuycyNTz
+	 y1HyY9x/JB1bFtI+znYZjYkBW1YUP3FqgS2GJ2P7U93sNfVsWlyHLcMAtSLic+VhqL
+	 49PMktOwVpYWw==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4RF1dH2n7bz9s0p;
+	Mon, 31 Jul 2023 17:00:35 +0200 (CEST)
+From: Mark O'Donovan <shiftee@posteo.net>
+To: linux-kernel@vger.kernel.org
+Cc: linux-nvme@lists.infradead.org,
+	axboe@kernel.dk,
+	kbusch@kernel.org,
+	hare@suse.de,
+	Mark O'Donovan <shiftee@posteo.net>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Subject: [PATCH v2 1/2] nvme-auth: unlock mutex in one place only
+Date: Mon, 31 Jul 2023 14:51:05 +0000
+Message-Id: <20230731145106.917526-1-shiftee@posteo.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] nvme: zns: limit max_zone_append by max_segments
-Content-Language: en-US
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
- Johannes Thumshirn <johannes.thumshirn@wdc.com>
-References: <20230731114632.1429799-1-shinichiro.kawasaki@wdc.com>
- <e0f88870-73a8-05a3-024d-52cefcdef71d@kernel.org>
- <ZMe8XvFDDdAom97/@infradead.org>
- <3a827ef4-4143-a7d4-f3b1-6b50837f6fd9@kernel.org>
- <ZMfAA0yDhgvekjb4@infradead.org>
- <8da417c3-f505-ebfc-c92a-509fee68cfa3@kernel.org>
- <ZMfEkFBT7D7fizuL@infradead.org>
-From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <ZMfEkFBT7D7fizuL@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230731_073305_408922_056E908B 
-X-CRM114-Status: GOOD (  15.68  )
+X-CRM114-CacheID: sfid-20230731_080043_894811_45D0D997 
+X-CRM114-Status: UNSURE (   9.15  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,26 +75,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/31/23 23:26, Christoph Hellwig wrote:
-> On Mon, Jul 31, 2023 at 11:12:43PM +0900, Damien Le Moal wrote:
->> max zone append sectors limit indicates the maximum size of a zone append BIO
->> that can be built without ever needing splitting.
->>
->> So if we fix the zns limit, zonefs does not really need a fix, eventhough the
->> code would be a little weird as-is.
-> 
-> You still need to fix splitting due to I/O layout and not just size.
-> 
-> E.g. if your do a writev() with two non-page aligned buffers (you'll
-> probably need a arm64 or power box to trigger it), you need to split
-> the bio even if it trivially fits into the size limit.  Similar for
-> things like max_segment_size.
+Signed-off-by: Mark O'Donovan <shiftee@posteo.net>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+---
+ drivers/nvme/host/auth.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Good point. So fix needed.
-
-
+diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+index daf5d144a8ea..e1a98647c3a2 100644
+--- a/drivers/nvme/host/auth.c
++++ b/drivers/nvme/host/auth.c
+@@ -758,12 +758,11 @@ static void nvme_queue_auth_work(struct work_struct *work)
+ 		__func__, chap->qid);
+ 	mutex_lock(&ctrl->dhchap_auth_mutex);
+ 	ret = nvme_auth_dhchap_setup_host_response(ctrl, chap);
++	mutex_unlock(&ctrl->dhchap_auth_mutex);
+ 	if (ret) {
+-		mutex_unlock(&ctrl->dhchap_auth_mutex);
+ 		chap->error = ret;
+ 		goto fail2;
+ 	}
+-	mutex_unlock(&ctrl->dhchap_auth_mutex);
+ 
+ 	/* DH-HMAC-CHAP Step 3: send reply */
+ 	dev_dbg(ctrl->device, "%s: qid %d send reply\n",
 -- 
-Damien Le Moal
-Western Digital Research
+2.39.2
 
 
