@@ -4,82 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AAD58C001DC
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Jul 2023 16:18:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13E95C00528
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Jul 2023 16:37:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pQSYaglFHbCeXVvaupUEWLNsLwJkDurEJNTXFu1tGlY=; b=k5sshpwo8O3uvSbaP4obksQUhN
-	qhCixQbV/kPNjC8Jhu8g8EY90avRGHbCH4/d3JpzVrwkIF1Po6FjwLII/pmLmXsxhkfTiSd7TZRs2
-	EF60+br45OZms0gTm0BQHTXhGVONf8+e8ajzr0x8axGs3SqqmPh4x1LoDOHBQaZfvh+ZPei1ew9BN
-	0Pw3z/nIHdJUffRg6SXR+rkPklJZbMgG/WUK6TMWpmrxcky2CvMiR+oHWWM04av5cQRqB9sLCGSL5
-	AaOPmhsMRUWSzfiZfwM2fvGXieeb8Oybasu5ycGL5Gyf1sbO/9LSROUobCSehb1TatK1svoWpXOIN
-	Fj55moVA==;
+	bh=wQexKwbMw/0jrCvp1mBl0Fr7yOygUHw2vHpVI3P30Jc=; b=dXlbUM2pT3By3WSWXFF9ve13+D
+	ptFrp1wl5gpUuiKoL2RrOAgix6tEmohpVAXQ/VvRyY9ym+2lgPKpaSzllMGtNrpemEX9DfW5eqPg+
+	yGbJ8JUHpniY0h/kWVrd0CNMbhUJiYn6PVnWT6WHfYeFJovtjQ/DOkjI6PkDLcUVGin+e47E5uFTq
+	tq3cIaj4nmcrivPlcn+zkA5Br6F0Hskkw29CPqO1k++yiIz0PQe8JM3x9R0/1RptkORIMG/ga6LYP
+	x9/g51wejoxJh4vcj4AJTTp5q/bsCDhSjG4NgPkvFw6t/4NTAgpaGBLGcNXdvTzPUHDmOdkDEGHQS
+	Mq5O7BUg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qQVal-00GXxa-2K;
-	Mon, 31 Jul 2023 16:17:55 +0000
+	id 1qQVtp-00GaH8-2w;
+	Mon, 31 Jul 2023 16:37:37 +0000
 Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qQVai-00GXwy-2h
+	id 1qQVtm-00GaG7-0r
 	for linux-nvme@lists.infradead.org;
-	Mon, 31 Jul 2023 16:17:54 +0000
+	Mon, 31 Jul 2023 16:37:35 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E1CAC1F45F;
-	Mon, 31 Jul 2023 16:17:49 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6964A1F854;
+	Mon, 31 Jul 2023 16:37:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1690820269; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1690821451; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pQSYaglFHbCeXVvaupUEWLNsLwJkDurEJNTXFu1tGlY=;
-	b=fLgdlIxC9biD85dIjEfPZAcsw6bhww0K+D0GLja5FV5vwRrO372Ys/enTwdNE+VG4d5tM4
-	qAiLb+3hiOKT9uJrfCokDKgAxLS51q9yi+1s3gsNIBnSMco/SrdHsgmfBzxNvDQsAslG9p
-	RRC2Rt8T56dzv8fnV4R4dYYZ8vH8q+Y=
+	bh=wQexKwbMw/0jrCvp1mBl0Fr7yOygUHw2vHpVI3P30Jc=;
+	b=tpuB/uTTqnw/VrWMQsnjA938YOn7XAj5/u+3IcT7fLm22OM7ohWxaZ46+ry10fSQKUObwo
+	Ge4MK3ROhvepkY41dTJLmsFqNxdYDuCIQeKpFMSryXLhitmEgw890rFRTLH5duDYphsepO
+	rDf6PGvoqoUtQ5Z+diz1gQRUJkKsZ28=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1690820269;
+	s=susede2_ed25519; t=1690821451;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pQSYaglFHbCeXVvaupUEWLNsLwJkDurEJNTXFu1tGlY=;
-	b=3mIwl2OJUEZqJTS503a9Ppbzi82x36Qnihr3mTQ9GjrBOmu/0fcQCOkW7tiNuPvJ2nJPfG
-	oauoFxRAM+SYVjCw==
+	bh=wQexKwbMw/0jrCvp1mBl0Fr7yOygUHw2vHpVI3P30Jc=;
+	b=ez6HW3VZZe0VXx4zFKd0iYlY3rDvtmMHKka+KhRWz1XN/qKqWMvmWQIbfZJDqua7Xl4f7Q
+	l1nBPC6r8NC5+rAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B80AC1322C;
-	Mon, 31 Jul 2023 16:17:49 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3BBF71322C;
+	Mon, 31 Jul 2023 16:37:31 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id ZbaCKq3ex2RdDwAAMHmgww
-	(envelope-from <hare@suse.de>); Mon, 31 Jul 2023 16:17:49 +0000
-Message-ID: <3b63d8d9-4246-3010-49e9-fbc433b1ce36@suse.de>
-Date: Mon, 31 Jul 2023 18:17:49 +0200
+	id yREgDUvjx2TuFwAAMHmgww
+	(envelope-from <hare@suse.de>); Mon, 31 Jul 2023 16:37:31 +0000
+Message-ID: <69d4239c-25b7-5d14-6140-490bb88dccb4@suse.de>
+Date: Mon, 31 Jul 2023 18:37:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH 2/2] nvme-auth: set explanation code for failure2 msgs
+Subject: Re: [PATCH v2 1/2] nvme-auth: unlock mutex in one place only
 Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, Mark O'Donovan <shiftee@posteo.net>
-Cc: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- sagi@grimberg.me, axboe@kernel.dk, kbusch@kernel.org
-References: <20230727134748.4163796-1-shiftee@posteo.net>
- <20230727134748.4163796-2-shiftee@posteo.net> <20230731055806.GB30150@lst.de>
+To: Mark O'Donovan <shiftee@posteo.net>, linux-kernel@vger.kernel.org
+Cc: linux-nvme@lists.infradead.org, axboe@kernel.dk, kbusch@kernel.org,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+References: <20230731145106.917526-1-shiftee@posteo.net>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20230731055806.GB30150@lst.de>
+In-Reply-To: <20230731145106.917526-1-shiftee@posteo.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230731_091753_037293_D1A0905B 
-X-CRM114-Status: GOOD (  12.06  )
+X-CRM114-CacheID: sfid-20230731_093734_496074_3A8DBA21 
+X-CRM114-Status: GOOD (  16.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,21 +93,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/31/23 07:58, Christoph Hellwig wrote:
-> On Thu, Jul 27, 2023 at 01:47:48PM +0000, Mark O'Donovan wrote:
->> These error cases were not setting an auth-failure-reason-code-explanation.
->> This means an AUTH_Failure2 message will be sent with an explanation value
->> of 0 which is a reserved value.
+On 7/31/23 16:51, Mark O'Donovan wrote:
+> Signed-off-by: Mark O'Donovan <shiftee@posteo.net>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+> ---
+>   drivers/nvme/host/auth.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> I'll leave the final decision to Hannes, but shouldn't we find a common
-> place, either behind a label or in the body of the function to set
-> chap->status?  Having to add this in a lot of error labels doesn't feel
-> very maintainable.
-> 
-Yeah; the whole AUTH_XXX errors are ever so cumbersome as we don't have 
-a good way to passing them up the stack. Plus we can't transport errors
-during connect, making it doubly pointless.
-Maybe a printk() somewhere. I'll check.
+> diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+> index daf5d144a8ea..e1a98647c3a2 100644
+> --- a/drivers/nvme/host/auth.c
+> +++ b/drivers/nvme/host/auth.c
+> @@ -758,12 +758,11 @@ static void nvme_queue_auth_work(struct work_struct *work)
+>   		__func__, chap->qid);
+>   	mutex_lock(&ctrl->dhchap_auth_mutex);
+>   	ret = nvme_auth_dhchap_setup_host_response(ctrl, chap);
+> +	mutex_unlock(&ctrl->dhchap_auth_mutex);
+>   	if (ret) {
+> -		mutex_unlock(&ctrl->dhchap_auth_mutex);
+>   		chap->error = ret;
+>   		goto fail2;
+>   	}
+> -	mutex_unlock(&ctrl->dhchap_auth_mutex);
+>   
+>   	/* DH-HMAC-CHAP Step 3: send reply */
+>   	dev_dbg(ctrl->device, "%s: qid %d send reply\n",
+If you insist.
+
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
 Cheers,
 
