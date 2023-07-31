@@ -4,50 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C4E9C001DE
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Jul 2023 13:53:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D79CAC001DC
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Jul 2023 14:01:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Yj32Z4uprL3OyQ2speBlNpV9aNtjSpuXnPP9C9MGlWM=; b=SrFzg2YUnj/B/3JiC6bMRECLSy
-	EQwC+Fy8C8pPjq6yDkCT8W6RVP7cgnDX88hysa/h+fkKqN6VxuK47Amk/6WoOp/N+FXCEwRBPH1Gw
-	otwC4g9cxIAOHZ2+sOA38BaakM9uoRp2cPyf1rKTbrhmGT5GJDZshpy8mHqy8y76FTSww4md6/jkj
-	CHw1aU126t4cX+pWqAQnMeV9UIefiNFOHkzeBxCZGxJZDz70ysLFh8USNUEAEIyAKoRbcmfqUA3WB
-	T263eByab4Ud9XncpY755OGphduFJPhcvhaAUqyaMSzurCQ15ui0lwPQWNJEDaUqQNpOK+ABc+C5M
-	PMHaupEw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=pNUg6YLqYajqSVg7y5U83A/CFJJpONWu88vK4CV4Etw=; b=ABv9eflUlrG1YGWHh779oZEghV
+	FY8P4Yr9rcIZd3ZXKQBqtxZKTGV3QAM6LTSv0iYN8A6cZKdc4WT4MAB6eLyq2Kra5RNebJczEcaN6
+	PAnuQ46xtjDs9pOZHzuEp4T9jKREvbsRRmw8lkRNvfOxCEd73sP4tabQvO7bTjDF2wqq6Lc1ye8rz
+	1PLp34f3uoQ27UjdQYomk7wixNKet8QCKzh3qu53WZ9n+LoN/xu2mbEZzTLXGwn30N5FiG5NSE79o
+	w6KQvQuliBShh8todYX+tB/L2KwcxIDj9N+aOHwmwbYr7XEZWyU9pcm83aWTC+KGpFCswfqKMVWv8
+	TU0sc+xQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qQTKV-00Fsrt-31;
-	Mon, 31 Jul 2023 13:53:00 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1qQTSg-00G3oK-17;
+	Mon, 31 Jul 2023 14:01:26 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qQTJb-00Fs4x-1u
+	id 1qQTSe-00G3nY-0V
 	for linux-nvme@lists.infradead.org;
-	Mon, 31 Jul 2023 13:52:06 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id E72F767373; Mon, 31 Jul 2023 15:51:52 +0200 (CEST)
-Date: Mon, 31 Jul 2023 15:51:52 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: Mark O'Donovan <shiftee@posteo.net>, linux-nvme@lists.infradead.org,
-	kernel-janitors@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
-	Hannes Reinecke <hare@suse.de>, Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/2] nvme-auth: unlock mutex in one place only
-Message-ID: <20230731135152.GA6016@lst.de>
-References: <20230727134748.4163796-1-shiftee@posteo.net> <28d11fc5-743f-0810-8ab7-3fa2a3f98c65@web.de>
+	Mon, 31 Jul 2023 14:01:25 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 9B16A61154;
+	Mon, 31 Jul 2023 14:01:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E028C433C7;
+	Mon, 31 Jul 2023 14:01:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1690812083;
+	bh=QnnO+ArqnYMvUlDuzQUcPlRkcnUbnWqHyk3jl9JzeTs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=mtXAlSnerEjI5rctkaIxcyCKQ3HOmN6jsKm5u+t3sRfvfzkG2PPyrOTSgQwb2N75Y
+	 QMkpUDQN1+f8Or3JUjzBeg+hQw+weBkBm+dVcGzt1IdAdWOvJ79WLY9clgGjLkjsav
+	 edjGrlVz1iRHURQtLzzRxxG7oIHouwV0dJB5OhO3vFa0EHdGokPnLyKw515w7DXVhV
+	 F5D0YfHQCqVgK9aLBQHC9iDAxImllrZbwMTI/XkWOnaNFneT75hYRjpcncuFjdPi0Z
+	 gx/EjfOLgFAs54C5T7wtKG5E8lvSmVvJQ6n+3iN9hqSynRQ6tOKGYxmCpEnUwvYF+d
+	 NlP2lAuWOXn+Q==
+Message-ID: <3a827ef4-4143-a7d4-f3b1-6b50837f6fd9@kernel.org>
+Date: Mon, 31 Jul 2023 23:01:21 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <28d11fc5-743f-0810-8ab7-3fa2a3f98c65@web.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] nvme: zns: limit max_zone_append by max_segments
+Content-Language: en-US
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+ linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+ Johannes Thumshirn <johannes.thumshirn@wdc.com>
+References: <20230731114632.1429799-1-shinichiro.kawasaki@wdc.com>
+ <e0f88870-73a8-05a3-024d-52cefcdef71d@kernel.org>
+ <ZMe8XvFDDdAom97/@infradead.org>
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <ZMe8XvFDDdAom97/@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230731_065203_806859_803D1082 
-X-CRM114-Status: GOOD (  10.43  )
+X-CRM114-CacheID: sfid-20230731_070124_279413_2FE94951 
+X-CRM114-Status: GOOD (  24.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,8 +81,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jul 31, 2023 at 02:00:37PM +0200, Markus Elfring wrote:
-> Are imperative change descriptions still preferred?
+On 7/31/23 22:51, Christoph Hellwig wrote:
+> On Mon, Jul 31, 2023 at 09:03:46PM +0900, Damien Le Moal wrote:
+>> I feel like a lot of the special casing for zone append bio add page can be
+>> removed from the block layer. This issue was found with zonefs tests on real zns
+>> devices because of this huge (and incorrect) zone append limit that zns has,
+>> combined with the recent zonefs iomap write change which overlooked the fact
+>> that bio add page is done by iomap before the bio op is set to zone append. That
+>> resulted in the large BIO. This problem however does not happen with scsi or
+>> null blk, kind-of proving that the regular bio add page is fine for zone append
+>> as long as the issuer has the correct zone append limit. Thought ?
+> 
+> A zone append limit larger than max_sectors is odd, and maybe the
+> block layer should assert something.  I think the root cause is that
+> many NVMe devices have a very large hardware equivalent to max_sectors
+> (the MDTS field), but Linux still uses a much lower limit due to memory
+> allocation issues (the PRPs used by NVMe are very inefficient in terms
+> of memory usage for larger transfers).  So we cap max_sectors to the
+> ѕoftware limit, but not max_zoned_append_sectors.
+> 
+> Zone Append needs some amount of special casing in the block layer
+> because the splitting of Zone Append bios must happen in the file system
+> as the file system needs a completion context per hardware operation.
+> I think the best way to do that is to first build up a maximum bio
+> and then use the same bio_split_rw function that the block layer would
+> use to split it to the hardware limits, just in the the issuer.  This
+> is what I did in btrfs, and it seems like zonefs actually needs to do
+> the same, but I missed that during review of the recent direct I/O
+> changes.
 
-It doesn't fucking matter.  Please stop spamming nvme contributors.
+We cannot do that in zonefs because there is no metadata to handle a possible
+reordering of the fragments of a split large zone append. Hence zonefs limits
+writes size to max zone append on entry and never tries to do larger writes. But
+the ZNS limit bug resulted in the split. At least for zonefs, I think there is
+no need to use the special bio add page since with a proper limit, we should
+never see a split.
+
+
+-- 
+Damien Le Moal
+Western Digital Research
+
 
