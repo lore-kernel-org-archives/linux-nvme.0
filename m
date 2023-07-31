@@ -4,68 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B8146C001DE
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Jul 2023 10:40:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D1EFBC001DE
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Jul 2023 10:52:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=yQqwaJKJ+ZwyeHeSwTfWnXBAA0fnPi+TPNv6aKisjNs=; b=R9XoOhK7kpC6lEYwpFP3K71F1d
-	ssA9+5XdMfrcr9qDF1S26e6f+qKqVAOlNo93n9w/OnTkEiq4MYqzEB/74RRfSL9Svjfc42g/TjEdT
-	5GP+WqwvT+3xDRFPGyp21p4NSPi+nojhxrcp7VPmxNzRdsqej+i/A4eHBdTboPZyc6aUZoFxpzQs0
-	JqGfZgmW8MIm8ywk62b240CQwWD/G4mphhMTdpv0vi3n+F0jcFg4oSymbCstY2KN2yjMrn1oVrFIS
-	yhu6dZhjVvRSCVOtkpTxPgo8f3tT1x9aISZTYhHS8BAaEYwciAIrUHrcYXG8jPfD3fUDSRJY4U4gj
-	VgE/GeDQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:MIME-Version:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=WyzMdIIymW/6Z0nnVSNvD7p0pdlAEYGfFstKND3Wt9Q=; b=L0ltYg9QL1f3T4AqSAe0C+hAhL
+	qTEZYs+oyaMifZYCMzUlKn/I7GNvv7XCg7iP/WWoD0vBaxFduEcFcztusB/kpJ5WHmmj/ljRcBg7p
+	wklhXY2oCM3F6B1jRGytR1B3cKS+ySU4eUYaf2MeRDUtELKVDT7/CDshu1SgvWRN+9uoLWjmAYaPa
+	TWzU5pHA75gVF/Qt6xmxGtOSK+DNmQWkEVkziEq+KL1JrU1oze71MVO2QDnu022MZ1xegfgGX5BV/
+	5mAQKE20pvFkxsDn0WbBBpqlc/x83MH6i72TS2rJ8NBnC00+WNgKpIzvweG+coQoxQfTn4V3ofuCn
+	JwQoHPPA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qQQJs-00F8H7-2H;
-	Mon, 31 Jul 2023 10:40:08 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1qQQVk-00FA7o-1m;
+	Mon, 31 Jul 2023 10:52:24 +0000
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qQQJo-00F8GQ-2A
+	id 1qQQVi-00FA6e-2O
 	for linux-nvme@lists.infradead.org;
-	Mon, 31 Jul 2023 10:40:06 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1690800001;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=yQqwaJKJ+ZwyeHeSwTfWnXBAA0fnPi+TPNv6aKisjNs=;
-	b=i3ahU6QKnqPrb6oiZEdO2VcJ3rg5+5ANgWvuzhZIAuc8sm+76PA7PnoPExYJo7jt8DbNn+
-	Qq4TidTkMoTQcqRK1Sf/hnF9eT4hErEpOCLqjMADILyOQQApzJDqKKFnh7CiYAJmsXLHbl
-	3jkC3OZTh/Vd10mKWAnnl0tBS1V8l+8=
-Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-111-B1FpbEqaN8CBeFGpTSqE8A-1; Mon, 31 Jul 2023 06:38:01 -0400
-X-MC-Unique: B1FpbEqaN8CBeFGpTSqE8A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3B4923810B0E;
-	Mon, 31 Jul 2023 10:38:01 +0000 (UTC)
-Received: from kalibr.redhat.com (unknown [10.35.206.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id C67FF200BA63;
-	Mon, 31 Jul 2023 10:37:59 +0000 (UTC)
-From: Maurizio Lombardi <mlombard@redhat.com>
-To: kbusch@kernel.org
-Cc: hch@lst.de,
-	sagi@grimberg.me,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH] nvme-rdma: do not try to stop unallocated queues
-Date: Mon, 31 Jul 2023 12:37:58 +0200
-Message-Id: <20230731103758.117533-1-mlombard@redhat.com>
+	Mon, 31 Jul 2023 10:52:23 +0000
+Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-99bc9e3cbf1so917133766b.0
+        for <linux-nvme@lists.infradead.org>; Mon, 31 Jul 2023 03:52:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690800738; x=1691405538;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=WyzMdIIymW/6Z0nnVSNvD7p0pdlAEYGfFstKND3Wt9Q=;
+        b=bOOywGtTBRFFY4anR8RhweoVbXh8ikC/EhW5cfJMY3NFDRVK7BfeP5dJ7jiN5K/5m3
+         w/0E803fwZgQy0xthHoW2pEPUjU+9h0nz/K1BpDuU46l78VvoL7hnzKWG3u1YJBTuW/V
+         cCM5kcvaj63o9ArnvQWRmwyIepKRur0o+OV3i2ukFEMSqcC9HBKNIgabm2Mvgw9BZqBp
+         vWEIoJbcAblMRzn3BMAfLKVgpzHlYXYJ1ktfafNkSDWXw/l8TtFx2x5oDP5YIGfcyS7B
+         BfLikxdI4x6Jn16wREqq5D8I7kdVdNn0ldg51fiVVDFxKuyHaauUtUl9Pw4lIldmIS1W
+         Oo9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690800738; x=1691405538;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WyzMdIIymW/6Z0nnVSNvD7p0pdlAEYGfFstKND3Wt9Q=;
+        b=i0KFi538xRVqc00TKBqqGAet2Ko1QKpxqLPJr/yhD25e3SZPh+4teccr7WguOIhAoT
+         BESe6ahqo1VG00d4Q8lg2gLveB1LBwHh/cqS7csBLKZHvIbwKDJmDxwV5eQCgjfQYkcD
+         H3V5BL+efno4RMaGA5l567+dedvb/WBqPQiLvvDKxbTB190x97Za4pJoxRhVj84tqV+C
+         OswuWY5uGD6LltKTBlsCERL8sxA/jsy5CMe5YCYKeh2476TU9yyU3IdgvUtCZr5isPT/
+         fTffoTlB0CH6cwYW7lH/RR2Y6mqh1vSdthyNv+IdLJzet8Hci1XzdCPqoYtqJUtQyPSd
+         RyZg==
+X-Gm-Message-State: ABy/qLb36QrN9whrFAUO0mAHHQPhWtKsWqbG3ldYz/O9gzgNW1HHhWZa
+	8ATb5L7i24B86xe4ZdiQGecgQerNpL94IxboOYM=
+X-Google-Smtp-Source: APBJJlHdlQ4xwI3zGrAhyqtA/GK3cGGo2F6IgrdOeSv368cGiqu2oCZ7h2NJxqv5jwzWjAVEyQpg++TI2XmTYkuOP1w=
+X-Received: by 2002:a17:906:9b94:b0:991:f0dc:c930 with SMTP id
+ dd20-20020a1709069b9400b00991f0dcc930mr6652609ejc.16.1690800737540; Mon, 31
+ Jul 2023 03:52:17 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+From: irvin cote <irvincoteg@gmail.com>
+Date: Mon, 31 Jul 2023 12:52:06 +0200
+Message-ID: <CALL+9egphcj9_tD+jw5jUZTftjQzXAxeEk26s0rQQDDBK=hRPg@mail.gmail.com>
+Subject: Not possible to have PI at the end of metadata
+To: hch@lst.de, Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
+	Jens Axboe <axboe@kernel.dk>
+Cc: linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230731_034004_810595_F8C721B3 
-X-CRM114-Status: GOOD (  11.51  )
+X-CRM114-CacheID: sfid-20230731_035222_776587_553650D5 
+X-CRM114-Status: GOOD (  11.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,39 +83,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Trying to stop a queue which hasn't been allocated will result
-in a warning due to calling mutex_lock() against an uninitialized mutex.
-
- DEBUG_LOCKS_WARN_ON(lock->magic != lock)
- WARNING: CPU: 4 PID: 104150 at kernel/locking/mutex.c:579
-
- Call trace:
-  RIP: 0010:__mutex_lock+0x1173/0x14a0
-  nvme_rdma_stop_queue+0x1b/0xa0 [nvme_rdma]
-  nvme_rdma_teardown_io_queues.part.0+0xb0/0x1d0 [nvme_rdma]
-  nvme_rdma_delete_ctrl+0x50/0x100 [nvme_rdma]
-  nvme_do_delete_ctrl+0x149/0x158 [nvme_core]
-
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
----
- drivers/nvme/host/rdma.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index d433b2ec07a6..00b13336125e 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -638,6 +638,9 @@ static void __nvme_rdma_stop_queue(struct nvme_rdma_queue *queue)
- 
- static void nvme_rdma_stop_queue(struct nvme_rdma_queue *queue)
- {
-+	if (!test_bit(NVME_RDMA_Q_ALLOCATED, &queue->flags))
-+		return;
-+
- 	mutex_lock(&queue->queue_lock);
- 	if (test_and_clear_bit(NVME_RDMA_Q_LIVE, &queue->flags))
- 		__nvme_rdma_stop_queue(queue);
--- 
-2.39.3
-
+Hi all, I am not sure of the exact procedure/format for this type of
+submission,
+but I have noticed something about the code for which I had no patch but that
+seemed to be at odds with the spec.
+Basically if the user has formatted the namespace with a format for which
+metadata size > PI size and has set the PIL bit to 0, then in nvme_init_ms
+ns->pi_type is set to 0 (effectively disabling PI).
+Is there a particular reason why the driver should disable PI in this
+situation?
+Additionally, in the description of the PIL bit in the NVME NVM
+Command Set spec, it is said
+that PIL shall be cleared to 0 for implementations compliant with
+version 1.0 or later.
+I don't really know if this is intended for the user or for the
+developer and how it impacts
+the above.
+Thank you for your time
+Cheers
+Irvin Cote.
 
