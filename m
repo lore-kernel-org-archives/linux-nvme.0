@@ -4,71 +4,41 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18D22C001DE
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Jul 2023 13:44:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0047C001DE
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Jul 2023 13:46:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=w/O1d7MIPSh5ePF3sOAwkkKiFiK4AngaB1+xxMGz+Is=; b=r8Mb5wLmlNwum5tvqjEryn1Dic
-	4Jb/97u9pkhfa/ro17Od6uS5c8QhYZogxuqVMpITrJbMccLJXAL6LKRtnoo1NRtPRLdgPAl602Nlm
-	s0hCgYFitoTXK9Dg9rw+Og4Ko+h+z7/6Ivpis6SJd3NyoRKHw+QA021+JMyHIwjRrJhTENXfrZkf2
-	O/bzbF30rUcmCZ2zuYKffvwNVLfWBp04BjkiBy1BblZPDkcal9lvxMLh7FAr7qj3k8cS/M/X48Xw8
-	OklDs+9OZ4TjeiLrl/3Zv9VosqMCZJ2Cl//GaQ024rkYDBgRt0uexvBeYjyOZHa7J0OG1wmmdKvOb
-	dHeXbkfw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=OvWG4luZ7dlK4iBvObeFJ0vKbtYprEdoeIHxGcL3E70=; b=q7RO3LzYmKd7RBb7bnjKs43Rey
+	IoAh5ZdbSmV5y58x/qwhkZNtp4uJ9UHJgqoCF0H1cs1xClBqbXm+FAQ/fcedbgJsP7KHcMWyu6CUY
+	W9e0ThwzscWwJwUZMClTMN0ijgNVOGN++jjZ6jPrLAPB/drlP6kUFUzJM8QamhTHb2kEvcuxYy/zb
+	MJJ8uzkFp8EfrEhd7SeyOClxwZkkVXeYkurHjsCCWnxAaEdw/V6pkGCXMrZh+hYY4fCEA4AErL/Nv
+	qhDcTWI0f89Qmbnp7qxKshqHqtkCIPMjn2AkhaQadzLHNg51t23MNRypiqHbFodDXmYKyZTlFgbBV
+	o/eGKxjw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qQTBo-00FqJ8-0w;
-	Mon, 31 Jul 2023 13:44:00 +0000
-Received: from mail-wm1-f51.google.com ([209.85.128.51])
-	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qQTBl-00FqIm-1G
-	for linux-nvme@lists.infradead.org;
-	Mon, 31 Jul 2023 13:43:58 +0000
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-3fe23319695so1848465e9.0
-        for <linux-nvme@lists.infradead.org>; Mon, 31 Jul 2023 06:43:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690811035; x=1691415835;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=w/O1d7MIPSh5ePF3sOAwkkKiFiK4AngaB1+xxMGz+Is=;
-        b=IjF76QSv63uesiCiCQHX91oYJJieYT23uc7kQEYMWBIN1ecwdJEKNqjCU4vPQkjUUw
-         POvsTr5rIEsn9pZiviIBEjMhtCSzco0Mor7VyvlHYIK3aTOkDP9FviGR8fOKoIBu2GY6
-         AIzOyKFYHefpUf74LQoLY8/0Z1bEFIhNfiMGYEqUn0doySKtVvzsaoxRQE1o/bmH+vJh
-         8U7vdDB2K/xTTKkDa6SCw2F7Bz6nbkcAvmfaW/wqe2rtT3miRWkcQ7LP4/TXGBL6e8s7
-         ZKEa7zeIYv/0jcC3VmYE7+2sUPklfT9GDCQybD4gDf4Jd2nhJhjXgAjuCwrqgSNpnD11
-         cC0g==
-X-Gm-Message-State: ABy/qLZwib3m8YNeiy2epM7cXDh7StpMzUIuG2ykkoz4qoLgadinRYw7
-	LGpUKNcRVbcIndHGuBZ1maE=
-X-Google-Smtp-Source: APBJJlHzojZa6I5Fzu7Th3JjRWdmGkYj/yJXbD1Naj9Bl5oWOV9AWvrwupWzbrKqEFKZTCtCt6qk0A==
-X-Received: by 2002:a05:600c:8814:b0:3f6:8a3:8e59 with SMTP id gy20-20020a05600c881400b003f608a38e59mr5954354wmb.1.1690811035238;
-        Mon, 31 Jul 2023 06:43:55 -0700 (PDT)
-Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id 9-20020a05600c240900b003fa98908014sm14149561wmp.8.2023.07.31.06.43.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Jul 2023 06:43:53 -0700 (PDT)
-Message-ID: <e2f28086-7750-9bfc-6f44-c681584270de@grimberg.me>
-Date: Mon, 31 Jul 2023 16:43:51 +0300
+	id 1qQTDn-00FqZl-0c;
+	Mon, 31 Jul 2023 13:46:03 +0000
+Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+	id 1qQTDm-00FqZR-04;
+	Mon, 31 Jul 2023 13:46:02 +0000
+Date: Mon, 31 Jul 2023 06:46:01 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@infradead.org>,
+	Keith Busch <kbusch@kernel.org>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Subject: Re: [PATCH] nvme: zns: limit max_zone_append by max_segments
+Message-ID: <ZMe7Gck9MSo8Fn+a@infradead.org>
+References: <20230731114632.1429799-1-shinichiro.kawasaki@wdc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] nvmet-tcp: fix data digest calculation for multiple
- H2CData PDUs
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, Varun Prakash <varun@chelsio.com>
-Cc: linux-nvme@lists.infradead.org, Rakshana Sridhar <rakshanas@chelsio.com>
-References: <20230727150731.5905-1-varun@chelsio.com>
- <20230731060119.GD30150@lst.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230731060119.GD30150@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230731_064357_452532_A79146C2 
-X-CRM114-Status: GOOD (  10.76  )
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230731114632.1429799-1-shinichiro.kawasaki@wdc.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,22 +53,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Mon, Jul 31, 2023 at 08:46:32PM +0900, Shin'ichiro Kawasaki wrote:
+> To avoid the unexpected BIO split, reflect the max_segments limit to the
+> max_zone_append limit. In the worst case, the safe max_zone_append size
+> is max_segments multiplied by PAGE_SIZE. Compare it with the
+> max_zone_append size obtained from ZNS devices, and set the smaller
+> value as the max_zone_append limit.
 
->> transfer length, it works if host sends only one H2CData PDU per cmd, if
->> host sends multiple H2CData PDU per cmd then target reports data digest
->> error.
->>
->> This issue was fixed in commit fda871c0ba5d ("nvmet-tcp: fix receive data
->> digest calculation for multiple h2cdata PDUs").
->>
->> commit ed0691cf5514 ("nvmet-tcp: fix regression in data_digest
->> calculation") reverted the fix done in the above commit.
-> 
-> This simply seems to revert this revert again and not address the
-> reason why it was reverted.
+This is true only for NVMe and a hand full of drivers that
+set the virt_boundary.  For others the maximum size is completely
+unrelated to the maximum number of segments.
 
-We no longer map/unmap per pdu, so the original issue addressed
-in fda871c0ba5d should no longer exist.
+Can you reword the commit log a bit to make that more clear?
 
-This part is missing from the change log though.
+> diff --git a/drivers/nvme/host/zns.c b/drivers/nvme/host/zns.c
+> index ec8557810c21..9ee77626c235 100644
+> --- a/drivers/nvme/host/zns.c
+> +++ b/drivers/nvme/host/zns.c
+> @@ -10,9 +10,11 @@
+>  int nvme_revalidate_zones(struct nvme_ns *ns)
+>  {
+>  	struct request_queue *q = ns->queue;
+> +	unsigned int max_sectors = queue_max_segments(q) << PAGE_SECTORS_SHIFT;
+>  
+>  	blk_queue_chunk_sectors(q, ns->zsze);
+> -	blk_queue_max_zone_append_sectors(q, ns->ctrl->max_zone_append);
+> +	max_sectors = min(max_sectors, ns->ctrl->max_zone_append);
+> +	blk_queue_max_zone_append_sectors(q, max_sectors);
+
+And while this looks correct, it also feels pretty ugly.  Shouldn't a
+
+	blk_queue_max_zone_append_sectors(q,
+		queue_max_sectors(q), ns->ctrl->max_zone_append);
+
+do the same thing in a somewhat more obvious way given that max_segments
+is already taken into account for the queue_max_sectors calculation?
 
