@@ -4,67 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4839C001DC
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Jul 2023 12:03:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 388F7C001DE
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Jul 2023 13:41:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aq6u0pR9cfqUTnBYipi5Gew3ZlTO6F3copr5KtTjZ4I=; b=roTne1WougySyTjmiJ/uPILwgQ
-	Xw4/dDawGKZdgx/N6LYPiOuHJY6wPsX5Ixv8nfJPJIKZpzZ0vvohVDZq0ZbL6d3lBr1EHTbhLv+MZ
-	4U99csAbOSit6U1Wne0Ec+nUwyPdFDPmFz3mbroU9u2nYL07UljZEXBjPRFnQlGoHUPAGjEwFVTY5
-	oEPWtUcejd7ZJ3PdXqL7kD8OiaBcruH740XDnZImm84Uda/TRjTU45jeWOiF2Hn8cP/zqTNCjAGEP
-	8VnDRQDSZUZ2Pjqvp6voRj9tnCdF4amwPpQncR9XbZw//VV5m7wMOwk4STOc7TWOQWeMghCtjlVT7
-	bih6N2XQ==;
+	bh=ytsM7PIFfzlNovndDv1vmd8xZArNHlp4ssMKjJ+U1gk=; b=oE7J38fj2cVGoAJJXfUOA3TInI
+	quiZ4YG+BdT7Byqx73nuZOd/3iZQxKTtgVCqanAWdC4b9l/hNZRZtcG59DxHBJMlmsPYa1IcxIXQ0
+	WmQFun2L7FJw85gehMr88W+6bTIb2pQrh599iyJlGVH60Hs+iG4qbaKy6WbIK/FT/+Drf27Qy5sgD
+	u9E5O6aooZfKptAPCmUTgE3HWZL3zwgwLGR78rVNxtndPy5rlCtybFfVjHuyowX8GNxIAmpwGx5Xh
+	MOGTqpzNa3TrPWSChpuixnKeENDN08q0ZHqbLUV6jfs06cDh8B++RthRtlQDj3THjpCr/gkbBqI+4
+	dtD2oYXA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qQRcu-00FUUF-2L;
-	Mon, 31 Jul 2023 12:03:52 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1qQT9B-00Fq9q-1L;
+	Mon, 31 Jul 2023 13:41:17 +0000
+Received: from mail-wm1-f45.google.com ([209.85.128.45])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qQRcs-00FUTH-03
+	id 1qQT99-00Fq9L-0a
 	for linux-nvme@lists.infradead.org;
-	Mon, 31 Jul 2023 12:03:51 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 02C4161083;
-	Mon, 31 Jul 2023 12:03:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8375C433C8;
-	Mon, 31 Jul 2023 12:03:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690805028;
-	bh=RLse1hCJ1aWyaYPFqDGouatap+ZcliZQPPjVYQfi7e4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=CXtpVhhMYGGsFAHL9amPJxarfGmQ0IR5+7tVreyga5SJbhp6t5j3otf6wObZ97Rv1
-	 /PwDilekwOgH8Cv76Kj9PMVjzUqqZxHAz3qv6gvFz8g4T2MDWA2qYms4FkiPLZHAt/
-	 VGNhx5vyegQ6p5UZJ2rQQ2oTa0EKWm8G2/ZX+Z1tnAbLwF982q1WxnbS3iHtAG7u8k
-	 h39ovrra7zolfmr5966oJsYOy5PDRzRpxzJsFrp4U6ZsFqVTQBNghdbhSbBDA+qnMc
-	 SwpTBr8dxJuKGyDXAXQZ/nXKbZ9yMo6MweBupCdq2OXb9u2URnaQ4DOURHywQrtmD0
-	 wFfT5cGNnxOVA==
-Message-ID: <e0f88870-73a8-05a3-024d-52cefcdef71d@kernel.org>
-Date: Mon, 31 Jul 2023 21:03:46 +0900
+	Mon, 31 Jul 2023 13:41:16 +0000
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3fa86011753so8739305e9.0
+        for <linux-nvme@lists.infradead.org>; Mon, 31 Jul 2023 06:41:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690810873; x=1691415673;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ytsM7PIFfzlNovndDv1vmd8xZArNHlp4ssMKjJ+U1gk=;
+        b=DKdK0+bu68ehArfK6avVj+fCvOC9IMDlQd2xfXkr15kIPE0LmJGdLwXrbAQw1RYmGU
+         QoYKXgzS1wefwTP5pE8BPi+RGTNMKDPTH+WKA5Hd7bSG/1YbsAA45ZA/2DCotraemoqc
+         ZUjcOy30ylcnR4IkgVTeXcrn6BMLILeVnQavQ2BNOpAu9KFluMhLDcZqATF2dbUNN9Q/
+         mYWUSBc+eaoMP1REsnbh6cwh6Rqh6x9/JdT1EswAn8JGHvMU8Ba4FcDZPNs9uT4VbgN3
+         71Zfnjo4/L7gXEACVHt8v9aJA5fNb+8pVMlO4bBfW325QFAhX7A0vTFm6fbCgk4VWA4o
+         1hrQ==
+X-Gm-Message-State: ABy/qLbB3tSC//4P0LMQqFVkOp6Aas13robTqF25s/fwE2xy0hOWvbdc
+	jYwPV44TLy2wVGUIyZe0bxWIVdW7ZTo=
+X-Google-Smtp-Source: APBJJlEN7AjWR6l6dGfV0mSOmkrteHVgjAnI116M5b5BAbbdbUJbsAfn3YeB61In4tWq6DzcjUFrwg==
+X-Received: by 2002:a5d:4ec2:0:b0:317:5f08:32a3 with SMTP id s2-20020a5d4ec2000000b003175f0832a3mr5458843wrv.6.1690810873073;
+        Mon, 31 Jul 2023 06:41:13 -0700 (PDT)
+Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id a8-20020adfed08000000b0031417b0d338sm13161926wro.87.2023.07.31.06.41.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 31 Jul 2023 06:41:11 -0700 (PDT)
+Message-ID: <d0badb81-782c-52c8-2b05-06ca6c696157@grimberg.me>
+Date: Mon, 31 Jul 2023 16:41:09 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH] nvme: zns: limit max_zone_append by max_segments
+Subject: Re: [PATCH] nvmet-tcp: pass iov_len instead of sg->length to
+ bvec_set_page()
 Content-Language: en-US
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- linux-nvme@lists.infradead.org
-Cc: Christoph Hellwig <hch@infradead.org>, Keith Busch <kbusch@kernel.org>,
- Johannes Thumshirn <johannes.thumshirn@wdc.com>
-References: <20230731114632.1429799-1-shinichiro.kawasaki@wdc.com>
-From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <20230731114632.1429799-1-shinichiro.kawasaki@wdc.com>
-Content-Type: text/plain; charset=UTF-8
+To: Varun Prakash <varun@chelsio.com>, hch@lst.de
+Cc: linux-nvme@lists.infradead.org, Rakshana Sridhar <rakshanas@chelsio.com>
+References: <20230727150550.5851-1-varun@chelsio.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20230727150550.5851-1-varun@chelsio.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230731_050350_156601_C3481BC2 
-X-CRM114-Status: GOOD (  25.72  )
+X-CRM114-CacheID: sfid-20230731_064115_243646_A2309974 
+X-CRM114-Status: GOOD (  14.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,74 +82,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 7/31/23 20:46, Shin'ichiro Kawasaki wrote:
-> BIOs for zone append operation can not be split by nature, since device
-> returns the written sectors of the BIOs. Then the number of segments of
-> the BIOs shall not be larger than max_segments limit of devices to avoid
-> bio split due to the number of segments.
+
+> iov_len is the valid data length, so pass iov_len instead of sg->length to
+> bvec_set_page().
 > 
-> However, the nvme driver sets max_zone_append limit referring the limit
-> obtained from ZNS devices, regardless of max_segments limit of the
-> devices. This allows zone append BIOs to have large size, and also to
-> have number of segments larger than the max_segments limit. This causes
-> unexpected BIO split. It results in WARN in bio_split() followed by
-> KASAN issues. The recent commit 16d7fd3cfa72 ("zonefs: use iomap for
-> synchronous direct writes") triggered such BIO split. The commit
-> modified BIO preparation for zone append operations in zonefs, then
-> pages for the BIOs are set up not by bio_add_hw_page() but by
-> bio_iov_add_page(). This prepared each BIO segment to have one page, and
-> increased the number of segments. Hence the BIO split.
-> 
-> To avoid the unexpected BIO split, reflect the max_segments limit to the
-> max_zone_append limit. In the worst case, the safe max_zone_append size
-> is max_segments multiplied by PAGE_SIZE. Compare it with the
-> max_zone_append size obtained from ZNS devices, and set the smaller
-> value as the max_zone_append limit.
-> 
-> Fixes: 240e6ee272c0 ("nvme: support for zoned namespaces")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+> Fixes: 5bfaba275ae6 ("nvmet-tcp: don't map pages which can't come from HIGHMEM")
+> Signed-off-by: Rakshana Sridhar <rakshanas@chelsio.com>
+> Signed-off-by: Varun Prakash <varun@chelsio.com>
 > ---
->  drivers/nvme/host/zns.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>   drivers/nvme/target/tcp.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/nvme/host/zns.c b/drivers/nvme/host/zns.c
-> index ec8557810c21..9ee77626c235 100644
-> --- a/drivers/nvme/host/zns.c
-> +++ b/drivers/nvme/host/zns.c
-> @@ -10,9 +10,11 @@
->  int nvme_revalidate_zones(struct nvme_ns *ns)
->  {
->  	struct request_queue *q = ns->queue;
-> +	unsigned int max_sectors = queue_max_segments(q) << PAGE_SECTORS_SHIFT;
->  
->  	blk_queue_chunk_sectors(q, ns->zsze);
-> -	blk_queue_max_zone_append_sectors(q, ns->ctrl->max_zone_append);
-> +	max_sectors = min(max_sectors, ns->ctrl->max_zone_append);
-> +	blk_queue_max_zone_append_sectors(q, max_sectors);
+> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+> index 868aa4de2e4c..05163751f2e5 100644
+> --- a/drivers/nvme/target/tcp.c
+> +++ b/drivers/nvme/target/tcp.c
+> @@ -348,8 +348,8 @@ static void nvmet_tcp_build_pdu_iovec(struct nvmet_tcp_cmd *cmd)
+>   	while (length) {
+>   		u32 iov_len = min_t(u32, length, sg->length - sg_offset);
+>   
+> -		bvec_set_page(iov, sg_page(sg), sg->length,
+> -				sg->offset + sg_offset);
+> +		bvec_set_page(iov, sg_page(sg), iov_len,
+> +			      sg->offset + sg_offset);
 
-You could combine these 2 lines:
+The second line alignment modification is unneeded.
+Other than that,
 
-	blk_queue_max_zone_append_sectors(q,
-		min(max_sectors, ns->ctrl->max_zone_append));
-
->  
->  	return blk_revalidate_disk_zones(ns->disk, NULL);
->  }
-
-Christoph,
-
-I feel like a lot of the special casing for zone append bio add page can be
-removed from the block layer. This issue was found with zonefs tests on real zns
-devices because of this huge (and incorrect) zone append limit that zns has,
-combined with the recent zonefs iomap write change which overlooked the fact
-that bio add page is done by iomap before the bio op is set to zone append. That
-resulted in the large BIO. This problem however does not happen with scsi or
-null blk, kind-of proving that the regular bio add page is fine for zone append
-as long as the issuer has the correct zone append limit. Thought ?
-
--- 
-Damien Le Moal
-Western Digital Research
-
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
