@@ -4,70 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EDB5FC001DF
-	for <linux-nvme@archiver.kernel.org>; Mon, 31 Jul 2023 13:48:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7C5BDC001DF
+	for <linux-nvme@archiver.kernel.org>; Mon, 31 Jul 2023 13:51:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ikT4eVyvU7rhrS+ize2bjoA90gbY2TMQg4mIfd48ApQ=; b=N7cxQYfk0dXDvWFvpFak2IuV0Q
-	DmQ/dZeSHswBLqEoopY1w5ikzAhPBlJNKFQegziL/3mmLuD+lqK28aeRfG5Zoq+AbdUIH/gJh6XP4
-	hlH3h4LVCioHa91kUG7mp24hM2yNVYGP4ibWZ/+eais4iIKYYe9+NAIKLzoUl55/V+9eOSfuPnS0f
-	Ty42WrPIUdwnwwiekNPz0Jk+22xNnrRRHmK6wWf3ZJhqb6X+6hk+Aq6bcBj1RWjRmkRHqoNTGBXkQ
-	BPP0tW0JdRZ+bjOkiF/KYkdRPK9GzAadSzYjp9gI1offoy/dXA9rL6G6x33qJyGnxRObSJIkIpir2
-	SVNBtLag==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=GdLAgHbaIhUuS5ie7DVrkYjcjVNXTKW5lqZtOXrdOjM=; b=zMwzBC6ggxV7+okRh2hZjVF641
+	aM/hX0yYHy9B9UBCkyXPotM8yGk9uuinQpv7N+VdmO+dvPliQZ/am9wPMUEKAsp0VGw/Y7shkmyTj
+	Xp6IDCSVy+0pq45OkFHeTwMbkmTlAgzBhT+049uqfJ6oj8nhJUGknSISbRXKKDsLvvwOsB68WSjrj
+	+5wlALU0R3aolamtBl1hgTRnUzxAorjOTf2FFudOKC84wOkGAWT5KVlZIf9UXbpLR4la+IajWyxlx
+	uhEj5A4Eg5gvF6+8Tqi5IUq9atwLEGQaKVzEVGjQosfA+NNGOePgmdctLOoR6JNl8xlBUlaAJZ9mD
+	8HFW1UrA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qQTFv-00Fr4X-08;
-	Mon, 31 Jul 2023 13:48:15 +0000
-Received: from mail-wm1-f48.google.com ([209.85.128.48])
-	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qQTFs-00Fr34-0C
-	for linux-nvme@lists.infradead.org;
-	Mon, 31 Jul 2023 13:48:13 +0000
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3fe23319695so1860455e9.0
-        for <linux-nvme@lists.infradead.org>; Mon, 31 Jul 2023 06:48:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690811289; x=1691416089;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ikT4eVyvU7rhrS+ize2bjoA90gbY2TMQg4mIfd48ApQ=;
-        b=aLayGXG9tbag614/HU9E1845Xa8Pl5m17BZ7ccvNH/ZimpZTiiaHFUy/0aWFnvkZ6I
-         KX6KlfjBOV+nA9DM8uN6Shp5J6Fvrold8Z9b73dMUTqP+HBGJ0sqbtG8SSnR32rd4YAJ
-         ja4Z4G1DDTbNyb5M3kHevq5eruRton+ESybXEnZLD/gtuPd/mCnQ8pUjlXxhmuC7ZA89
-         JoR/g4qo6klapEHy/TwdFcOIMUd9w1ItZ86GTRhZvLp/F/tyhJC8LWfoJveSxmeqUsoN
-         DX0328heTc3dq+8al+/p9VJTLXAHnRGhKfdFGDR5anI0Y61Mcd1cdD9BjRuNDicSPDjL
-         k5YA==
-X-Gm-Message-State: ABy/qLaiyWDJtAjcyx+9ljFQYPbd7iv1CgC2V5DFiXqPjbWa0c0ylGAk
-	49qYlG+Wz2AVki4yyLfg6LU=
-X-Google-Smtp-Source: APBJJlHzIl7oBxUG9npgFa7lnX//G0bzokzmDd6/BDw6xr9rfZFGMTY9Ml/5ICTHv5ypgn2mJoEnGg==
-X-Received: by 2002:a05:600c:1e11:b0:3f8:efad:31ee with SMTP id ay17-20020a05600c1e1100b003f8efad31eemr5927310wmb.2.1690811289035;
-        Mon, 31 Jul 2023 06:48:09 -0700 (PDT)
-Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id z10-20020a05600c220a00b003fbd9e390e1sm14212166wml.47.2023.07.31.06.48.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Jul 2023 06:48:08 -0700 (PDT)
-Message-ID: <3e08284a-9163-a83f-b7eb-e5b697e45947@grimberg.me>
-Date: Mon, 31 Jul 2023 16:48:06 +0300
+	id 1qQTJT-00Fs3e-1P;
+	Mon, 31 Jul 2023 13:51:55 +0000
+Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+	id 1qQTJ0-00Frgn-0c;
+	Mon, 31 Jul 2023 13:51:26 +0000
+Date: Mon, 31 Jul 2023 06:51:26 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Damien Le Moal <dlemoal@kernel.org>
+Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	linux-nvme@lists.infradead.org,
+	Christoph Hellwig <hch@infradead.org>,
+	Keith Busch <kbusch@kernel.org>,
+	Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Subject: Re: [PATCH] nvme: zns: limit max_zone_append by max_segments
+Message-ID: <ZMe8XvFDDdAom97/@infradead.org>
+References: <20230731114632.1429799-1-shinichiro.kawasaki@wdc.com>
+ <e0f88870-73a8-05a3-024d-52cefcdef71d@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] nvmet-tcp: fix data digest calculation for multiple
- H2CData PDUs
-Content-Language: en-US
-To: Varun Prakash <varun@chelsio.com>, hch@lst.de
-Cc: linux-nvme@lists.infradead.org, Rakshana Sridhar <rakshanas@chelsio.com>
-References: <20230727150731.5905-1-varun@chelsio.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230727150731.5905-1-varun@chelsio.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230731_064812_102343_3FD407BA 
-X-CRM114-Status: GOOD (  22.96  )
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e0f88870-73a8-05a3-024d-52cefcdef71d@kernel.org>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,103 +56,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> On receiving H2CData PDU current code calculates data digest for the entire
-> transfer length, it works if host sends only one H2CData PDU per cmd, if
-> host sends multiple H2CData PDU per cmd then target reports data digest
-> error.
-> 
-> This issue was fixed in commit fda871c0ba5d ("nvmet-tcp: fix receive data
-> digest calculation for multiple h2cdata PDUs").
-> 
-> commit ed0691cf5514 ("nvmet-tcp: fix regression in data_digest
-> calculation") reverted the fix done in the above commit.
-> 
-> Fixes: ed0691cf5514 ("nvmet-tcp: fix regression in data_digest calculation")
-> Signed-off-by: Rakshana Sridhar <rakshanas@chelsio.com>
-> Signed-off-by: Varun Prakash <varun@chelsio.com>
-> ---
->   drivers/nvme/target/tcp.c | 31 +++++++++++++++++++++++++++----
->   1 file changed, 27 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-> index 05163751f2e5..e5e3498675af 100644
-> --- a/drivers/nvme/target/tcp.c
-> +++ b/drivers/nvme/target/tcp.c
-> @@ -415,8 +415,8 @@ static int nvmet_tcp_map_data(struct nvmet_tcp_cmd *cmd)
->   	return NVME_SC_INTERNAL;
->   }
->   
-> -static void nvmet_tcp_calc_ddgst(struct ahash_request *hash,
-> -		struct nvmet_tcp_cmd *cmd)
-> +static void nvmet_tcp_send_ddgst(struct ahash_request *hash,
-> +				 struct nvmet_tcp_cmd *cmd)
->   {
->   	ahash_request_set_crypt(hash, cmd->req.sg,
->   		(void *)&cmd->exp_ddgst, cmd->req.transfer_len);
-> @@ -447,7 +447,7 @@ static void nvmet_setup_c2h_data_pdu(struct nvmet_tcp_cmd *cmd)
->   
->   	if (queue->data_digest) {
->   		pdu->hdr.flags |= NVME_TCP_F_DDGST;
-> -		nvmet_tcp_calc_ddgst(queue->snd_hash, cmd);
-> +		nvmet_tcp_send_ddgst(queue->snd_hash, cmd);
->   	}
->   
->   	if (cmd->queue->hdr_digest) {
-> @@ -1152,11 +1152,34 @@ static int nvmet_tcp_try_recv_pdu(struct nvmet_tcp_queue *queue)
->   	return nvmet_tcp_done_recv_pdu(queue);
->   }
->   
-> +static void nvmet_tcp_recv_ddgst(struct ahash_request *hash,
-> +				 struct nvmet_tcp_cmd *cmd)
-> +{
-> +	struct bio_vec *iov = cmd->iov;
-> +	struct scatterlist sg;
-> +	u32 data_length = cmd->pdu_len;
-> +
-> +	sg_init_table(&sg, 1);
-> +	crypto_ahash_init(hash);
-> +
-> +	while (data_length) {
-> +		sg_set_page(&sg, iov->bv_page, iov->bv_len, iov->bv_offset);
-> +		ahash_request_set_crypt(hash, &sg, NULL, iov->bv_len);
-> +		crypto_ahash_update(hash);
-> +
-> +		data_length -= iov->bv_len;
-> +		iov++;
-> +	}
-> +
-> +	ahash_request_set_crypt(hash, NULL, (void *)&cmd->exp_ddgst, 0);
-> +	crypto_ahash_final(hash);
-> +}
+On Mon, Jul 31, 2023 at 09:03:46PM +0900, Damien Le Moal wrote:
+> I feel like a lot of the special casing for zone append bio add page can be
+> removed from the block layer. This issue was found with zonefs tests on real zns
+> devices because of this huge (and incorrect) zone append limit that zns has,
+> combined with the recent zonefs iomap write change which overlooked the fact
+> that bio add page is done by iomap before the bio op is set to zone append. That
+> resulted in the large BIO. This problem however does not happen with scsi or
+> null blk, kind-of proving that the regular bio add page is fine for zone append
+> as long as the issuer has the correct zone append limit. Thought ?
 
-Maybe instead of (re)coding crypto_ahash_digest, maybe we can do a
-little hack to pass the request sg from cmd->sg_idx which is already
-set when we build the pdu?
+A zone append limit larger than max_sectors is odd, and maybe the
+block layer should assert something.  I think the root cause is that
+many NVMe devices have a very large hardware equivalent to max_sectors
+(the MDTS field), but Linux still uses a much lower limit due to memory
+allocation issues (the PRPs used by NVMe are very inefficient in terms
+of memory usage for larger transfers).  So we cap max_sectors to the
+ѕoftware limit, but not max_zoned_append_sectors.
 
-Something like:
---
-+static void nvmet_tcp_calc_recv_ddgst(struct ahash_request *hash,
-+               struct nvmet_tcp_cmd *cmd)
-+{
-+       struct scatterlist *sg;
-+       u32 sg_offset;
-+
-+       sg = &cmd->req.sg[cmd->sg_idx];
-+
-+       /*
-+        * adjust the offset for the first sg element if the received bytes
-+        * is not aligned to page size (and adjust back after the ddgst
-+        * calculation). A bit hacky but we don't need to do the hash digest
-+        * update per sg entry this way.
-+        */
-+       sg_offset = cmd->rbytes_done % PAGE_SIZE;
-+       sg->offset -= sg_offset;
-+       __nvmet_tcp_calc_ddgst(hash, sg, (void *)&cmd->exp_ddgst, 
-cmd->pdu_len);
-+       sg->offset += sg_offset;
-  }
---
-
-untested but I think it should be ok. It's kinda hacky but prevents
-us from doing it entry by entry. Maybe it's too ugly.
+Zone Append needs some amount of special casing in the block layer
+because the splitting of Zone Append bios must happen in the file system
+as the file system needs a completion context per hardware operation.
+I think the best way to do that is to first build up a maximum bio
+and then use the same bio_split_rw function that the block layer would
+use to split it to the hardware limits, just in the the issuer.  This
+is what I did in btrfs, and it seems like zonefs actually needs to do
+the same, but I missed that during review of the recent direct I/O
+changes.
 
