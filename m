@@ -4,109 +4,112 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3D832C001E0
-	for <linux-nvme@archiver.kernel.org>; Wed,  2 Aug 2023 03:27:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04B71C001E0
+	for <linux-nvme@archiver.kernel.org>; Wed,  2 Aug 2023 03:27:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=k8yPKGeEFL4D3sifwWlKiEbQqe0260aqoVdgDt7/hcQ=; b=hW0fptdkvefux4jRTHaLir1s+T
-	4bpnpp9e2adfhEFc5BOWyjr7pL17VPW1909gtPTS0BfkSrpWXHURf5T8j6VuYvkdfVZEK7sCbiyd/
-	uz1IOtGFMRr6CBhPb3c6y2ydgL4LOm26IA95yH4z8x9AyihM2Lr4dn8wJZxSJfYLgpcW0/IfX0naC
-	yH+I895luplHOGEU7npWDh2gtLYMpmaJdjyNp32gQ63zuU6X5q93wmXJXSXgccQW7Yij0yhWkSEdy
-	KjaozUfrcGosjJpjLv1cSpjC6dxLRHIFYYRPx4KIlLHz9l0JeKeIqeo1fwKGSh/rpbnGzBvCbA5Y8
-	9/2Dt/zw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=pSfkO2KCMN6IV1AwLlYtHdNWGwi226lxQ3+y7plGrBs=; b=gNoy2dm+dZplDg8V78AiwhYr16
+	hzgESWuI2hcYrdFQv/r9oYj0iAHpmnmIe0MgsMGEWMmuJuY9I+mCvzOp5sSl17GcFbMc3iebpndEh
+	shnmYqtC2iB+0uK+icNhsqiCfTECtsfjdzWHhiyZKqWbaJ8EJDs38c/iWa8QrP1f3Ri6QWcrF78Mo
+	yzqr00bM5QIYqKTZiX0RGRrfUStiBancJZihd1VLrlZZt4SCfC2aTT+6XW94yVmSDF7Ralqv1quhC
+	T9HVw9J341mKzK7eNj77CEgDFo2G3nA9QvdQVXuGAvh3bhMbZNMMDn5WUbxqDlpcOdmOKRnTZKV4C
+	A7GFV/kw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qR2Vy-003rch-22;
-	Wed, 02 Aug 2023 03:27:10 +0000
-Received: from mail-mw2nam10on20600.outbound.protection.outlook.com ([2a01:111:f400:7e89::600] helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+	id 1qR2W8-003rf3-31;
+	Wed, 02 Aug 2023 03:27:20 +0000
+Received: from mail-co1nam11on20621.outbound.protection.outlook.com ([2a01:111:f400:7eab::621] helo=NAM11-CO1-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qR2Vt-003rbv-1q
+	id 1qR2W6-003re9-00
 	for linux-nvme@lists.infradead.org;
-	Wed, 02 Aug 2023 03:27:09 +0000
+	Wed, 02 Aug 2023 03:27:19 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bPEovyYu7eRAn8wkORB/PKAtwseS7mXtl7DfAMFVHIfIFS5jBlZLW/4aiDorvj643ZtTFSyskkGSUAKTwqXJICTtk7w5omnF/ZnXAVO1jTjbGeplooIn3zeKzjl1j1oI9Cz+e7rHkVADFaoMOBWa/BrC+0nfTmI+ZBwOslmrVUAKTKu/sClu+RX3FKghuKVjdXuKnMb1Ov+xzEBEWFO7CHXEEtrPr6JR9UA0e75S2SQ1ABGzFvoq9YvEbCjRd8hVRmOx9OmUnP5pN8kJCL3Mlxw/U3bBiCaD7QMzJKEm+gjVJrr+tVawnTR8pRt0eFIBRVJ8FoXcd8lrf0c6/M4i6A==
+ b=mWrHp60Qf9FiJAFkpcktOnSGUNamkh6o5PeN0/qEwA8OMm5rZ63nu9fCY9O6G8+ywueGVA0vqAgWmWDfcGugispaaKiXHE4HpoCfCY7A0rA9+BadjiIDJbITP+1WVD2aQf2Yzkf7bNXQ/n53WRoQD3ox+1juXGycdU1WhxhVwjarMBaSscHwRnfcPLKiN4e2CgfLy70rhc9UJl2UtrKU4nQEAWeT9BLdS78G8UQ5aZCImWKGd7LmMSuN4wqdTiJ9yNuwr9wnXpNwYjUoZVKELfs3urWxw2OxXryOBsqx2/sMSvRNtRRzCtf4R5UbZvcfpHMRlQv/FGF4w4M6Il7nlg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k8yPKGeEFL4D3sifwWlKiEbQqe0260aqoVdgDt7/hcQ=;
- b=eOiNaG8N+mURVLRuI9BYFouEaTBnS1mD0M5yOE5JssFUhKFYLiW8QBDy8alllMLWufJVG6P/biCB7TiEwFK6QqXqD/YAH/ZPrFw8EHXgcZsVaPApke0nlXduE22Aez3Bn61G5xe2Qg3aIi/UdGszHtGTp6K4l8flaZvwyimnod5qFgnFjdCHX2K2CO+Yikxp/P6/BLkjL0IVkPdsPJYE55h3+mio3oKuXVUfu2ZjmyR5+PZMIxF2gkJa+UPXBirSiKFEReUNbShrEYNkV7zSo1FKx2lefBIqK6ohmniKZZIhGXPxmkft/b8KqkTSIDRmr8cx+sKhje6U70m84mCM5A==
+ bh=pSfkO2KCMN6IV1AwLlYtHdNWGwi226lxQ3+y7plGrBs=;
+ b=OLm5CqHCcs/rjerl+mRdWKrMF4Btnr4ONxusRKA2ssH7QU4ozSmGc7WxuQvU/sqMia02uh1stFlmBbzRRk9/UszWz1K8/ydXRincUdMmEZOF/v9Qu1QVvX/lR52g4RsY4OLZ1G/CX07rRZ7pwhXYGjsEqnN79E587b6UcCoP5vCO8MOSBNL6F+Jse1g33gap7zTTQa288JRVVylpPGufoVhrqeuFraPoTOg2oE8RrotUNJWR39+FUiKezGRDHIwX/7MEqcgY8CF2nSTZUyf6KQNnerjgayEZK3Zlb7hypIHODhGoJYdi//ar0KiaW2aOtOz/cRYLmhuM4xThf5Ck0g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=lists.infradead.org
+ 216.228.117.160) smtp.rcpttodomain=lists.infradead.org
  smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
  header.from=nvidia.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k8yPKGeEFL4D3sifwWlKiEbQqe0260aqoVdgDt7/hcQ=;
- b=ILaEeDcBqFs9adMWeeVaUykxs1vVxEF9+fG3BLZ1WU3sNVe5p7ijtEC0dk5LLgEWIs0w+yyIpmLWxmtHhmtf9qQzbn/A5DN/7nStzDFNtWDBV92NQnHCNPUl+4TjHuPqYSFpMQMIri64udSLqZDVh7pZ2ELfq9DIBICA7m4iJWCpJFSkIZqVbafVcOyh+IL2L5ObUU060JMMNqrU3IOz/MMfRpgujxdFTeIgA5bJawOYglmogK8MOzkqY4RNLoqK8VOOUopzplF5HaRhnyACKP4VkpO3jEUglECHlfl9/SYL1v6YJPTquojkA9XgTrIQA/uvK3Po26UyQCvXxhzm4Q==
-Received: from DS7P222CA0001.NAMP222.PROD.OUTLOOK.COM (2603:10b6:8:2e::7) by
- PH7PR12MB5617.namprd12.prod.outlook.com (2603:10b6:510:133::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6631.44; Wed, 2 Aug 2023 03:26:50 +0000
-Received: from CY4PEPF0000EDD3.namprd03.prod.outlook.com
- (2603:10b6:8:2e:cafe::79) by DS7P222CA0001.outlook.office365.com
- (2603:10b6:8:2e::7) with Microsoft SMTP Server (version=TLS1_2,
+ bh=pSfkO2KCMN6IV1AwLlYtHdNWGwi226lxQ3+y7plGrBs=;
+ b=oPEgA2E5nPdWyWGs4lqah11PcG60BaWITy55VbTS8yCdn5r4HOepKOBVTh2U7MusLiXJY6shNrwVVzykxaJWYDlzEe8gSs55LTPMhnJtqmcUz6FcF9qrP9glw5TiAMscu7enucwvAShoaPxTVbXVL0w+ToncHyNfs/httrg2tY6bSjGNqDRC3SldCxq2fXFwlImLAgQRixzSnnMgc7qsfQBmbF7uOrO6A5jCDtFqqYfv8lp7zD1kNm4iRskR1s8uROG/6Ep+lKCjq++DnqU7ceQzyNGTgpcSZgC6THxrbkV2F0HaAud1K85C9fvndSbRWKUFaa9WH8PWmAl/k82t/A==
+Received: from MW4P221CA0002.NAMP221.PROD.OUTLOOK.COM (2603:10b6:303:8b::7) by
+ PH7PR12MB6587.namprd12.prod.outlook.com (2603:10b6:510:211::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.45; Wed, 2 Aug
+ 2023 03:27:11 +0000
+Received: from CO1PEPF000044EE.namprd05.prod.outlook.com
+ (2603:10b6:303:8b:cafe::b8) by MW4P221CA0002.outlook.office365.com
+ (2603:10b6:303:8b::7) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.44 via Frontend
- Transport; Wed, 2 Aug 2023 03:26:49 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ Transport; Wed, 2 Aug 2023 03:27:10 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
  smtp.mailfrom=nvidia.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=nvidia.com;
 Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- CY4PEPF0000EDD3.mail.protection.outlook.com (10.167.241.207) with Microsoft
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ CO1PEPF000044EE.mail.protection.outlook.com (10.167.241.68) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6652.19 via Frontend Transport; Wed, 2 Aug 2023 03:26:49 +0000
+ 15.20.6631.22 via Frontend Transport; Wed, 2 Aug 2023 03:27:10 +0000
 Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Tue, 1 Aug 2023
- 20:26:38 -0700
-Received: from dev.nvidia.com (10.126.231.35) by rnnvmail201.nvidia.com
+ 20:27:01 -0700
+Received: from dev.nvidia.com (10.126.230.35) by rnnvmail201.nvidia.com
  (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.37; Tue, 1 Aug 2023
- 20:26:37 -0700
+ 20:27:00 -0700
 From: Chaitanya Kulkarni <kch@nvidia.com>
 To: <linux-nvme@lists.infradead.org>, <linux-pm@vger.kernel.org>
 CC: <rafael@kernel.org>, <len.brown@intel.com>, <pavel@ucw.cz>,
 	<gregkh@linuxfoundation.org>, <kbusch@kernel.org>, <hch@lst.de>,
 	<sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH 0/3] nvme-core: restructure nvme_init_ctrl()
-Date: Tue, 1 Aug 2023 20:26:26 -0700
-Message-ID: <20230802032629.24309-1-kch@nvidia.com>
+Subject: [PATCH 2/3] nvme-core: init fault injection & mpath ctrl early
+Date: Tue, 1 Aug 2023 20:26:28 -0700
+Message-ID: <20230802032629.24309-3-kch@nvidia.com>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230802032629.24309-1-kch@nvidia.com>
+References: <20230802032629.24309-1-kch@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="a"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.126.231.35]
+Content-Type: text/plain
+X-Originating-IP: [10.126.230.35]
 X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
  rnnvmail201.nvidia.com (10.129.68.8)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EDD3:EE_|PH7PR12MB5617:EE_
-X-MS-Office365-Filtering-Correlation-Id: 29e900c7-1482-4c61-4546-08db93084f18
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044EE:EE_|PH7PR12MB6587:EE_
+X-MS-Office365-Filtering-Correlation-Id: 17ffba84-497e-4828-4906-08db93085b8a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: eyOIZqh11fu1KJ+XnBaMeAL+WrUcs4mRgGYRJ1pqyUfXId1NtHYsoRdVsC1xM+HlLKM1TXj8yBhSG4wvba2xbq5T+Fx6LyVfbW8leKlQyKAruvlQBBiQryzEvjNSi5VD6eCwrlTcVHbDyUqNo/N8E5w4em/oprQ5pcFXUQoaUMbYx76i8ItEy+AK5IZyMCfasq8t6vnCxfJWHSPLUQtUrDKe0Ha2dNFjNRrvZzrNaPDNhHazxIRSDBjPiL16rabvjN42uKIgb0ON5j9Z2DqnFTvSs3dRJ9IiflrDjKDetuzcm1z++4JcLjZnPxchuG6eG5xcuusy8CRvMlAsQa1he0Zn57Z9N10fc/WTWSI1Gsvb51ru2VL7HpsQ5sAvogJjx265X5hSsEa/Z0iRrRinbzLLqlyU2FdzWvDGEIh2Uhk2jPO8i+oQehskpeI6U5CQ5rihUFJbpuLrk/8E5EOr8tJDMENsIP5HiWKq+UxVIrytNDDdlSGKAFoSqvzQpPqneiVRBpBlzLnM9ZhxpJVSBtQn+N3R60iN5lPHJNELSi14WCDaE9EY82fErBiIF1y7u180T5J5rviAdD5xD5xOxq4rbyejjlxNmfEDGyIirY2hFOZ3obmJ4qahADssz9J3O8DyDeO72nbYvvDWLHFJY9FHtMNYrVVsmb+WpTBpBQnxlfhhw5eTRuXool2GCH1+3q1c1HzWhIPfpxvsgxLZNLOpRWAF4S3eFcR+W7xGy+NdB4PHG3vmdgpJ1Tbw76a5kfj7zsHRtqtJMpJ+jlospsc6hxMru5ircGDmudHCdSA=
-X-Forefront-Antispam-Report: CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230028)(4636009)(376002)(136003)(346002)(39860400002)(396003)(82310400008)(451199021)(40470700004)(46966006)(36840700001)(107886003)(40480700001)(4326008)(2616005)(83380400001)(2906002)(426003)(30864003)(47076005)(186003)(336012)(316002)(16526019)(478600001)(41300700001)(36860700001)(110136005)(356005)(7636003)(54906003)(40460700003)(82740400003)(5660300002)(70206006)(1076003)(26005)(6666004)(8676002)(70586007)(8936002)(7696005)(36756003)(93036002)(2101003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: KADcGE7ndm9uh9cFZAGGghvkTN6sDDTX/V0GZmFJhhytHV8NVLXGvARJQH4CvLlq1KdZlKviy3wQw2cM7idIiSb66JYMiAmGLxVYPfMeyDelEwO/8CSxo0XtbYfo7PceoU9YJEmHGVEo1HkRl1H9d8Wsue32aLOAF9rGxjvT7DCXMjCrkGCWrgbJPnkwF0SxuwF10QTmB6OrHWyyZkE/n7uzO/tsm/wOcDlpnp7M2ykCbdnM4P2wkNmLpC0daG69TWYrcM4FfM7/hI1sa+/4FCiyjb2C8SEKwLNabeUDgf9BFvDkNhlOHGzYpzbPCSwaQM41ZY2GBAs5oDxtdCg7K+uLho29Hsx4AiwDJFHJD91joKUjHxN1s3req+a4sUVulgIqx/iF/zfRYTJpYXah7TvazrkJXJ9bLN2q3DQB2kRkpf0x+1i4CeqnLikZEGw1PzON78zRGd21p2Qckn/2Gc6BuLo0Ampl614ibdpg+QGdOMQbRU0vOVJWxjPUrX7WJs5mXhhZKu6YEOS2SBm0/EjNEt7j9n3Ep5D13XdIjWNo7g/h/J7cFgVt+6OoYltTxAmHRGKsF8+YhmPINaljrKd8y0T4ISVZvRmUBqYyxFyyf1wTCtV72AArpCt4mm7Zmo6Ls+rDrZeA7NL/MLnyb8U9BBZyshHU3J+aDwfDvH3Oo6i1+0q5dYG2rM3kNXI902+c84rbT6hLmXDCXUNI7EMePuCOnv+hv9dHiDRWFJfiuSJgbzlALikotYNnRads
+X-Forefront-Antispam-Report: CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230028)(4636009)(136003)(39860400002)(346002)(396003)(376002)(451199021)(82310400008)(36840700001)(46966006)(40470700004)(2616005)(5660300002)(426003)(8936002)(186003)(336012)(16526019)(36860700001)(8676002)(47076005)(83380400001)(478600001)(26005)(70586007)(70206006)(110136005)(4326008)(54906003)(316002)(107886003)(7696005)(6666004)(41300700001)(1076003)(40480700001)(36756003)(40460700003)(2906002)(356005)(7636003)(82740400003)(2101003);DIR:OUT;SFP:1101;
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Aug 2023 03:26:49.7663
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Aug 2023 03:27:10.6461
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 29e900c7-1482-4c61-4546-08db93084f18
+X-MS-Exchange-CrossTenant-Network-Message-Id: 17ffba84-497e-4828-4906-08db93085b8a
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000EDD3.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044EE.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5617
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6587
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230801_202705_697783_628DF3A2 
-X-CRM114-Status: GOOD (  15.69  )
+X-CRM114-CacheID: sfid-20230801_202718_041310_4B43902B 
+X-CRM114-Status: GOOD (  10.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -121,333 +124,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+In order to avoid any initialization after cdev_device_add() move fault
+injection and multipath ctrl initialization before cdev_device_add().
 
-Restructure nvme_init_ctrl() for better initialization flow.
+Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+---
+ drivers/nvme/host/core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Currenlty nvme_init_ctrl() initialized nvme authentication, fault
-injection, and device PM QoS after adding the controller device with
-a call to cdev_device_add(). This has led to additional code complexity,
-as it required handling the unwinding of these initializations if any
-of them failed.
-
-This series addresses the issue by restructuring nvme_init_ctrl() to
-perform the required initializations before adding the controller
-device. With this potential failures are caught earlier in the
-initialization process, preventing the controller from becoming
-visible in userspace until it is fully initialized.
-
-Also it avoids exposing a half-initialized device to userspace, which 
-could lead to various problems, including userspace inconsistencies 
-where applications may assume the device is fully initialized while
-still being prone to failure.
-
-I've done basic testing with blktests and module load/unload they seem
-to pass.
-
-Instead of sending one patch I've purposely made 3 separate patches
-since they all are not related, however I've merged fault injection
-and mpath.
-
--ck
-
-Chaitanya Kulkarni (3):
-  nvme-core: init auth ctrl early
-  nvme-core: init fault injection & mpath ctrl early
-  nvme-core: init power qoe ops early
-
- drivers/nvme/host/core.c | 23 ++++++++++-------------
- 1 file changed, 10 insertions(+), 13 deletions(-)
-
-nvme (nvme-6.6) # 
-nvme (nvme-6.6) # gitlog -3
-218a1f775461 (HEAD -> nvme-6.6) nvme-core: init power qoe ops early
-d7240009e752 nvme-core: init fault injection & mpath ctrl early
-063f3e74a3a2 nvme-core: init auth ctrl early
-nvme (nvme-6.6) # ./compile_nvme.sh 
-+ umount /mnt/nvme0n1
-+ clear_dmesg
-./compile_nvme.sh: line 3: clear_dmesg: command not found
-umount: /mnt/nvme0n1: no mount point specified.
-+ ./delete.sh
-+ NQN=testnqn
-+ nvme disconnect -n testnqn
-NQN:testnqn disconnected 0 controller(s)
-
-real	0m0.012s
-user	0m0.000s
-sys	0m0.005s
-+ rm -fr '/sys/kernel/config/nvmet/ports/1/subsystems/*'
-+ rmdir /sys/kernel/config/nvmet/ports/1
-rmdir: failed to remove '/sys/kernel/config/nvmet/ports/1': No such file or directory
-+ for subsys in /sys/kernel/config/nvmet/subsystems/*
-+ for ns in ${subsys}/namespaces/*
-+ echo 0
-./delete.sh: line 14: /sys/kernel/config/nvmet/subsystems/*/namespaces/*/enable: No such file or directory
-+ rmdir '/sys/kernel/config/nvmet/subsystems/*/namespaces/*'
-rmdir: failed to remove '/sys/kernel/config/nvmet/subsystems/*/namespaces/*': No such file or directory
-+ rmdir '/sys/kernel/config/nvmet/subsystems/*'
-rmdir: failed to remove '/sys/kernel/config/nvmet/subsystems/*': No such file or directory
-+ rmdir 'config/nullb/nullb*'
-rmdir: failed to remove 'config/nullb/nullb*': No such file or directory
-+ umount /mnt/nvme0n1
-umount: /mnt/nvme0n1: no mount point specified.
-+ umount /mnt/backend
-umount: /mnt/backend: not mounted.
-+ modprobe -r nvme_loop
-+ modprobe -r nvme_fabrics
-+ modprobe -r nvmet
-+ modprobe -r nvme
-+ modprobe -r null_blk
-+ tree /sys/kernel/config
-/sys/kernel/config
-└── pci_ep
-    ├── controllers
-    └── functions
-
-3 directories, 0 files
-+ sleep 1
-+ modprobe -r nvme-core
-+ lsmod
-+ grep nvme
-+ sleep 1
-+ git diff
-diff --git a/drivers/base/power/qos.c b/drivers/base/power/qos.c
-index 8e93167f1783..169ec6d02ffb 100644
---- a/drivers/base/power/qos.c
-+++ b/drivers/base/power/qos.c
-@@ -39,6 +39,9 @@
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index a732a862d6bf..555ec4af5b80 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4465,6 +4465,8 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	if (ret)
+ 		goto out_release_instance;
  
- #include "power.h"
++	nvme_fault_inject_init(&ctrl->fault_inject, dev_name(ctrl->device));
++	nvme_mpath_init_ctrl(ctrl);
+ 	nvme_get_ctrl(ctrl);
+ 	cdev_init(&ctrl->cdev, &nvme_dev_fops);
+ 	ctrl->cdev.owner = ops->module;
+@@ -4480,8 +4482,6 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	dev_pm_qos_update_user_latency_tolerance(ctrl->device,
+ 		min(default_ps_max_latency_us, (unsigned long)S32_MAX));
  
-+#undef pr_fmt
-+#define pr_fmt(fmt)    "power/qos: " fmt
-+
- static DEFINE_MUTEX(dev_pm_qos_mtx);
- static DEFINE_MUTEX(dev_pm_qos_sysfs_mtx);
+-	nvme_fault_inject_init(&ctrl->fault_inject, dev_name(ctrl->device));
+-	nvme_mpath_init_ctrl(ctrl);
+ 	return 0;
  
-@@ -906,11 +909,12 @@ int dev_pm_qos_update_user_latency_tolerance(struct device *dev, s32 val)
-        int ret;
- 
-        mutex_lock(&dev_pm_qos_mtx);
--
-+       pr_info("%s %d\n", __func__, __LINE__);
-        if (IS_ERR_OR_NULL(dev->power.qos)
-            || !dev->power.qos->latency_tolerance_req) {
-                struct dev_pm_qos_request *req;
- 
-+               pr_info("%s %d\n", __func__, __LINE__);
-                if (val < 0) {
-                        if (val == PM_QOS_LATENCY_TOLERANCE_NO_CONSTRAINT)
-                                ret = 0;
-@@ -918,19 +922,24 @@ int dev_pm_qos_update_user_latency_tolerance(struct device *dev, s32 val)
-                                ret = -EINVAL;
-                        goto out;
-                }
-+               pr_info("%s %d\n", __func__, __LINE__);
-                req = kzalloc(sizeof(*req), GFP_KERNEL);
-                if (!req) {
-                        ret = -ENOMEM;
-                        goto out;
-                }
-+               pr_info("%s %d\n", __func__, __LINE__);
-                ret = __dev_pm_qos_add_request(dev, req, DEV_PM_QOS_LATENCY_TOLERANCE, val);
-                if (ret < 0) {
-                        kfree(req);
-                        goto out;
-                }
-                dev->power.qos->latency_tolerance_req = req;
-+               pr_info("%s %d\n", __func__, __LINE__);
-        } else {
-+               pr_info("%s %d\n", __func__, __LINE__);
-                if (val < 0) {
-+                       pr_info("%s %d\n", __func__, __LINE__);
-                        __dev_pm_qos_drop_user_request(dev, DEV_PM_QOS_LATENCY_TOLERANCE);
-                        ret = 0;
-                } else {
-++ nproc
-+ make -j 48 M=drivers/nvme/ modules
-  CC [M]  drivers/nvme/host/core.o
-  LD [M]  drivers/nvme/host/nvme-core.o
-  MODPOST drivers/nvme/Module.symvers
-  CC [M]  drivers/nvme/host/nvme-core.mod.o
-  CC [M]  drivers/nvme/host/nvme.mod.o
-  CC [M]  drivers/nvme/host/nvme-fabrics.mod.o
-  CC [M]  drivers/nvme/host/nvme-rdma.mod.o
-  CC [M]  drivers/nvme/host/nvme-fc.mod.o
-  CC [M]  drivers/nvme/host/nvme-tcp.mod.o
-  CC [M]  drivers/nvme/target/nvmet.mod.o
-  CC [M]  drivers/nvme/target/nvme-loop.mod.o
-  CC [M]  drivers/nvme/target/nvmet-fc.mod.o
-  CC [M]  drivers/nvme/target/nvmet-rdma.mod.o
-  CC [M]  drivers/nvme/target/nvme-fcloop.mod.o
-  CC [M]  drivers/nvme/common/nvme-common.mod.o
-  CC [M]  drivers/nvme/target/nvmet-tcp.mod.o
-  LD [M]  drivers/nvme/host/nvme-tcp.ko
-  LD [M]  drivers/nvme/target/nvmet.ko
-  LD [M]  drivers/nvme/host/nvme-fabrics.ko
-  LD [M]  drivers/nvme/target/nvmet-fc.ko
-  LD [M]  drivers/nvme/host/nvme.ko
-  LD [M]  drivers/nvme/host/nvme-rdma.ko
-  LD [M]  drivers/nvme/host/nvme-fc.ko
-  LD [M]  drivers/nvme/target/nvme-fcloop.ko
-  LD [M]  drivers/nvme/target/nvmet-rdma.ko
-  LD [M]  drivers/nvme/target/nvme-loop.ko
-  LD [M]  drivers/nvme/host/nvme-core.ko
-  LD [M]  drivers/nvme/target/nvmet-tcp.ko
-  LD [M]  drivers/nvme/common/nvme-common.ko
-+ HOST=drivers/nvme/host
-+ TARGET=drivers/nvme/target
-++ uname -r
-+ HOST_DEST=/lib/modules/6.5.0-rc2nvme+/kernel/drivers/nvme/host/
-++ uname -r
-+ TARGET_DEST=/lib/modules/6.5.0-rc2nvme+/kernel/drivers/nvme/target/
-+ cp drivers/nvme/host/nvme-core.ko drivers/nvme/host/nvme-fabrics.ko drivers/nvme/host/nvme-fc.ko drivers/nvme/host/nvme.ko drivers/nvme/host/nvme-rdma.ko drivers/nvme/host/nvme-tcp.ko /lib/modules/6.5.0-rc2nvme+/kernel/drivers/nvme/host//
-+ cp drivers/nvme/target/nvme-fcloop.ko drivers/nvme/target/nvme-loop.ko drivers/nvme/target/nvmet-fc.ko drivers/nvme/target/nvmet.ko drivers/nvme/target/nvmet-rdma.ko drivers/nvme/target/nvmet-tcp.ko /lib/modules/6.5.0-rc2nvme+/kernel/drivers/nvme/target//
-+ ls -lrth /lib/modules/6.5.0-rc2nvme+/kernel/drivers/nvme/host/ /lib/modules/6.5.0-rc2nvme+/kernel/drivers/nvme/target//
-/lib/modules/6.5.0-rc2nvme+/kernel/drivers/nvme/host/:
-total 8.1M
--rw-r--r--. 1 root root  4.1M Aug  1 18:34 nvme-core.ko
--rw-r--r--. 1 root root  495K Aug  1 18:34 nvme-fabrics.ko
--rw-r--r--. 1 root root 1005K Aug  1 18:34 nvme-fc.ko
--rw-r--r--. 1 root root  788K Aug  1 18:34 nvme.ko
--rw-r--r--. 1 root root  931K Aug  1 18:34 nvme-rdma.ko
--rw-r--r--. 1 root root  914K Aug  1 18:34 nvme-tcp.ko
-
-/lib/modules/6.5.0-rc2nvme+/kernel/drivers/nvme/target//:
-total 7.5M
--rw-r--r--. 1 root root 541K Aug  1 18:34 nvme-fcloop.ko
--rw-r--r--. 1 root root 476K Aug  1 18:34 nvme-loop.ko
--rw-r--r--. 1 root root 827K Aug  1 18:34 nvmet-fc.ko
--rw-r--r--. 1 root root 4.0M Aug  1 18:34 nvmet.ko
--rw-r--r--. 1 root root 903K Aug  1 18:34 nvmet-rdma.ko
--rw-r--r--. 1 root root 769K Aug  1 18:34 nvmet-tcp.ko
-+ sync
-+ sync
-+ sync
-+ modprobe nvme
-+ echo 'Press enter to continue ...'
-Press enter to continue ...
-nvme (nvme-6.6) # modprobe nvme 
-nvme (nvme-6.6) # dmesg  -c 
-[  147.346136] nvme 0000:00:04.0: vgaarb: pci_notify
-[  147.403997] power/qos: dev_pm_qos_update_user_latency_tolerance 912
-[  147.404001] power/qos: dev_pm_qos_update_user_latency_tolerance 940
-[  147.404002] power/qos: dev_pm_qos_update_user_latency_tolerance 942
-[  147.404211] pci 0000:00:04.0: vgaarb: pci_notify
-[  154.598489] nvme_core: loading out-of-tree module taints kernel.
-[  154.607823] nvme 0000:00:04.0: vgaarb: pci_notify
-[  154.607857] nvme 0000:00:04.0: runtime IRQ mapping not provided by arch
-[  154.607938] power/qos: dev_pm_qos_update_user_latency_tolerance 912
-[  154.607974] power/qos: dev_pm_qos_update_user_latency_tolerance 917
-[  154.607976] power/qos: dev_pm_qos_update_user_latency_tolerance 925
-[  154.607978] power/qos: dev_pm_qos_update_user_latency_tolerance 931
-[  154.607981] power/qos: dev_pm_qos_update_user_latency_tolerance 938
-[  154.608624] nvme nvme0: pci function 0000:00:04.0
-[  154.624312] nvme 0000:00:04.0: enabling bus mastering
-[  154.624900] nvme 0000:00:04.0: saving config space at offset 0x0 (reading 0x101b36)
-[  154.624907] nvme 0000:00:04.0: saving config space at offset 0x4 (reading 0x100507)
-[  154.624912] nvme 0000:00:04.0: saving config space at offset 0x8 (reading 0x1080202)
-[  154.624916] nvme 0000:00:04.0: saving config space at offset 0xc (reading 0x0)
-[  154.624921] nvme 0000:00:04.0: saving config space at offset 0x10 (reading 0xfebd0004)
-[  154.624926] nvme 0000:00:04.0: saving config space at offset 0x14 (reading 0x0)
-[  154.624930] nvme 0000:00:04.0: saving config space at offset 0x18 (reading 0x0)
-[  154.624935] nvme 0000:00:04.0: saving config space at offset 0x1c (reading 0x0)
-[  154.624939] nvme 0000:00:04.0: saving config space at offset 0x20 (reading 0x0)
-[  154.624944] nvme 0000:00:04.0: saving config space at offset 0x24 (reading 0x0)
-[  154.624948] nvme 0000:00:04.0: saving config space at offset 0x28 (reading 0x0)
-[  154.624952] nvme 0000:00:04.0: saving config space at offset 0x2c (reading 0x11001af4)
-[  154.624957] nvme 0000:00:04.0: saving config space at offset 0x30 (reading 0x0)
-[  154.624961] nvme 0000:00:04.0: saving config space at offset 0x34 (reading 0x40)
-[  154.624966] nvme 0000:00:04.0: saving config space at offset 0x38 (reading 0x0)
-[  154.624970] nvme 0000:00:04.0: saving config space at offset 0x3c (reading 0x10b)
-[  154.636004] nvme nvme0: 48/0/0 default/read/poll queues
-[  154.639365] nvme nvme0: Ignoring bogus Namespace Identifiers
-[  154.642471] nvme 0000:00:04.0: vgaarb: pci_notify
-nvme (nvme-6.6) # modprobe  -r nvme 
-nvme (nvme-6.6) # cdblktests 
-blktests (master) # ./check nvme
-nvme/002 (create many subsystems and test discovery)         [passed]
-    runtime  18.857s  ...  18.964s
-nvme/003 (test if we're sending keep-alives to a discovery controller) [passed]
-    runtime  10.082s  ...  10.075s
-nvme/004 (test nvme and nvmet UUID NS descriptors)           [passed]
-    runtime  1.434s  ...  1.437s
-nvme/005 (reset local loopback target)                       [passed]
-    runtime  1.800s  ...  1.793s
-nvme/006 (create an NVMeOF target with a block device-backed ns) [passed]
-    runtime  0.066s  ...  0.074s
-nvme/007 (create an NVMeOF target with a file-backed ns)     [passed]
-    runtime  0.033s  ...  0.037s
-nvme/008 (create an NVMeOF host with a block device-backed ns) [passed]
-    runtime  1.448s  ...  1.452s
-nvme/009 (create an NVMeOF host with a file-backed ns)       [passed]
-    runtime  1.420s  ...  1.434s
-nvme/010 (run data verification fio job on NVMeOF block device-backed ns) [passed]
-    runtime  58.052s  ...  59.627s
-nvme/011 (run data verification fio job on NVMeOF file-backed ns) [passed]
-    runtime  89.351s  ...  90.811s
-nvme/012 (run mkfs and data verification fio job on NVMeOF block device-backed ns) [passed]
-    runtime  52.261s  ...  54.646s
-nvme/013 (run mkfs and data verification fio job on NVMeOF file-backed ns) [passed]
-    runtime  82.256s  ...  82.792s
-nvme/014 (flush a NVMeOF block device-backed ns)             [passed]
-    runtime  6.966s  ...  7.131s
-nvme/015 (unit test for NVMe flush for file backed ns)       [passed]
-    runtime  6.135s  ...  6.227s
-nvme/016 (create/delete many NVMeOF block device-backed ns and test discovery) [passed]
-    runtime  12.594s  ...  12.457s
-nvme/017 (create/delete many file-ns and test discovery)     [passed]
-    runtime  12.636s  ...  12.562s
-nvme/018 (unit test NVMe-oF out of range access on a file backend) [passed]
-    runtime  1.429s  ...  1.416s
-nvme/019 (test NVMe DSM Discard command on NVMeOF block-device ns) [passed]
-    runtime  1.440s  ...  1.445s
-nvme/020 (test NVMe DSM Discard command on NVMeOF file-backed ns) [passed]
-    runtime  1.431s  ...  1.425s
-nvme/021 (test NVMe list command on NVMeOF file-backed ns)   [passed]
-    runtime  1.430s  ...  1.408s
-nvme/022 (test NVMe reset command on NVMeOF file-backed ns)  [passed]
-    runtime  1.761s  ...  1.779s
-nvme/023 (test NVMe smart-log command on NVMeOF block-device ns) [passed]
-    runtime  1.448s  ...  1.427s
-nvme/024 (test NVMe smart-log command on NVMeOF file-backed ns) [passed]
-    runtime  1.431s  ...  1.410s
-nvme/025 (test NVMe effects-log command on NVMeOF file-backed ns) [passed]
-    runtime  1.435s  ...  1.419s
-nvme/026 (test NVMe ns-descs command on NVMeOF file-backed ns) [passed]
-    runtime  1.415s  ...  1.429s
-nvme/027 (test NVMe ns-rescan command on NVMeOF file-backed ns) [passed]
-    runtime  1.436s  ...  1.431s
-nvme/028 (test NVMe list-subsys command on NVMeOF file-backed ns) [passed]
-    runtime  1.430s  ...  1.418s
-nvme/029 (test userspace IO via nvme-cli read/write interface) [passed]
-    runtime  1.563s  ...  1.554s
-nvme/030 (ensure the discovery generation counter is updated appropriately) [passed]
-    runtime  0.205s  ...  0.189s
-nvme/031 (test deletion of NVMeOF controllers immediately after setup) [passed]
-    runtime  3.899s  ...  3.959s
-nvme/038 (test deletion of NVMeOF subsystem without enabling) [passed]
-    runtime  0.013s  ...  0.013s
-nvme/040 (test nvme fabrics controller reset/disconnect operation during I/O) [passed]
-    runtime  7.953s  ...  7.992s
-nvme/041 (Create authenticated connections)                  [passed]
-    runtime  0.733s  ...  0.731s
-nvme/042 (Test dhchap key types for authenticated connections) [passed]
-    runtime  4.755s  ...  4.768s
-nvme/043 (Test hash and DH group variations for authenticated connections) [passed]
-    runtime  23.182s  ...  23.268s
-nvme/044 (Test bi-directional authentication)                [passed]
-    runtime  1.814s  ...  1.813s
-nvme/045 (Test re-authentication)                            [passed]
-    runtime  4.272s  ...  3.809s
-nvme/047 (test different queue types for fabric transports)  [not run]
-    nvme_trtype=loop is not supported in this test
-nvme/048 (Test queue count changes on reconnect)             [not run]
-    nvme_trtype=loop is not supported in this test
-blktests (master) # 
-
-
+ out_free_name:
 -- 
 2.40.0
 
