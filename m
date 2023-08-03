@@ -4,72 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 69AE4C04A6A
-	for <linux-nvme@archiver.kernel.org>; Thu,  3 Aug 2023 10:53:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 091F4C001DF
+	for <linux-nvme@archiver.kernel.org>; Thu,  3 Aug 2023 10:53:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fmdxDCqYzaVvw6/Q74bXrhYczR1nHD6qwmiJWKu4mPQ=; b=Rr2uL9EqrKBULwEBFiwf33+n/j
-	fQN8o9ylTQED56jsqYNNYOpUjRgn4xGpIJZEOCZWIVEYB6TgKWcAnagLKjoMsRQwxok6JDe3+1czO
-	gqdeGybTmVD69R+KuoPC5AQfyL0H/yb6WUMo7HPyxTLeh0LxqH8EwhhU1oD9CSFYA6MpqOq4S2VYF
-	M4hntj5m+aQslzxNvsOqHS2DfbwERldd/K803/140OueAAYEU7uYc0Wl0WGTrHbEGfQohPRthflRu
-	+nT0quiyi10OYgQlnEZzDz+0HtkIf+bn05KfNH6yC+BAgxYSZmrDTPWerX6KNJIMRcPiFDZRh067Z
-	/xH5f5YQ==;
+	bh=AqKYZvI6RJyVRFvDbH3P26X6fCQ91hG+739kibdKL5Q=; b=y8/FGh6uDWrJ1q3dYSrtJbU181
+	cyISFyBkM+xrwbz3R1tu+aTQkCNCl4JFq1fME2NdZiVcJdl82dzUHbP5TTnexOJBp5HCQUaGv5Ja2
+	12Ep9IaUmwZW3kkmrMJXznaADTNjpKaWSJuqaEElmwEbUgsdmTpGVL3EDH3sWKNvbNF6nz2p06vYf
+	OsSiPbMTZmi4rXQF3BoOZVzSg/687Jj8LujTw/csSHiHlV9w7j+GvUjYIv1BwFeQ5tm7itOwK25eG
+	NC8KfnLMlM+ugnSrpAR188YIRrCAxJYzhL/6HvyU3hAjaZ8zAaa3GRZI5dtIP1jzB+gyU1NBGqG7W
+	+bFC5uFQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qRVxO-007XJZ-0j;
-	Thu, 03 Aug 2023 10:53:26 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1qRVxQ-007XLD-1D;
+	Thu, 03 Aug 2023 10:53:28 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qRVxB-007X7n-1l
+	id 1qRVxB-007X7h-07
 	for linux-nvme@lists.infradead.org;
 	Thu, 03 Aug 2023 10:53:17 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id 4F7E92199B;
+	by smtp-out1.suse.de (Postfix) with ESMTP id 4D5702199A;
 	Thu,  3 Aug 2023 10:53:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1691059989; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fmdxDCqYzaVvw6/Q74bXrhYczR1nHD6qwmiJWKu4mPQ=;
-	b=qL4lszZROlp18UnALVe3OvPknFaWSqJ4zqYnzACRgthvUtDihqU4UN7b2kVQRV03IGkG9h
-	iDeiONONp1aNyDvv6AlgovO7Ol9a9XfgUeQxi5BBfsGMBJtYgEt/lrhBykp+Ye4Z7FhKAT
-	JK3w8LJO1QnNRvziRxWBnyUoPuUn03Q=
+	bh=AqKYZvI6RJyVRFvDbH3P26X6fCQ91hG+739kibdKL5Q=;
+	b=G/a7E+cYuWr2wGafRDmwpZ2JrptlA0Mc3XXxFHcB9a+oIxukAbWK6M8l8o7ACUJE2auAT1
+	O0LIKjlCxgGsiJ9TRyvnhcwQdwtUnn9cW2sI7fqFcXQL1j9U617XLuBinQ3ymTideGn3MK
+	+FVOM1uUTtRYW0lD4eGGhQZS/RMq85I=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1691059989;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fmdxDCqYzaVvw6/Q74bXrhYczR1nHD6qwmiJWKu4mPQ=;
-	b=4N7Dq/dGOMzsCjsdJRP2FyrTzMl0/3r/NIiucjP8c3qPHB+4irWlyNnexYlDnfY6zVMIxr
-	kO2lYN8pQ5KpWsCw==
+	bh=AqKYZvI6RJyVRFvDbH3P26X6fCQ91hG+739kibdKL5Q=;
+	b=7tWjfQLiBlcudqqH1S+Ah4brSs01Hd9trV2qZCbpmzZm5uhdGNHo6j6U5z0OEKOfHAPeU+
+	9ri8jkvbf9NOSoCA==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 41C092C146;
+	by relay2.suse.de (Postfix) with ESMTP id 3D3BB2C145;
 	Thu,  3 Aug 2023 10:53:09 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id 373A751CA7C5; Thu,  3 Aug 2023 12:53:09 +0200 (CEST)
+	id 2F24C51CA7C3; Thu,  3 Aug 2023 12:53:09 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 03/14] nvme: add TCP TSAS definitions
-Date: Thu,  3 Aug 2023 12:50:51 +0200
-Message-Id: <20230803105102.30949-4-hare@suse.de>
+Subject: [PATCH 02/14] nvme-keyring: define a 'psk' keytype
+Date: Thu,  3 Aug 2023 12:50:50 +0200
+Message-Id: <20230803105102.30949-3-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230803105102.30949-1-hare@suse.de>
 References: <20230803105102.30949-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230803_035314_137535_97131E31 
-X-CRM114-Status: GOOD (  10.75  )
+X-CRM114-CacheID: sfid-20230803_035313_264403_BE4DE12E 
+X-CRM114-Status: GOOD (  13.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,40 +84,140 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
----
- include/linux/nvme.h | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Define a 'psk' keytype to hold the NVMe TLS PSKs.
 
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 26dd3f859d9d..a7ba74babad7 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -108,6 +108,13 @@ enum {
- 	NVMF_RDMA_CMS_RDMA_CM	= 1, /* Sockets based endpoint addressing */
- };
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ drivers/nvme/common/keyring.c | 94 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 94 insertions(+)
+
+diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
+index 5cf64b278119..494dd365052e 100644
+--- a/drivers/nvme/common/keyring.c
++++ b/drivers/nvme/common/keyring.c
+@@ -8,6 +8,8 @@
+ #include <linux/key-type.h>
+ #include <keys/user-type.h>
+ #include <linux/nvme.h>
++#include <linux/nvme-tcp.h>
++#include <linux/nvme-keyring.h>
  
-+/* TSAS SECTYPE for TCP transport */
-+enum {
-+	NVMF_TCP_SECTYPE_NONE = 0, /* No Security */
-+	NVMF_TCP_SECTYPE_TLS12 = 1, /* TLSv1.2, NVMe-oF 1.1 and NVMe-TCP 3.6.1.1 */
-+	NVMF_TCP_SECTYPE_TLS13 = 2, /* TLSv1.3, NVMe-oF 1.1 and NVMe-TCP 3.6.1.1 */
+ static struct key *nvme_keyring;
+ 
+@@ -17,8 +19,94 @@ key_serial_t nvme_keyring_id(void)
+ }
+ EXPORT_SYMBOL_GPL(nvme_keyring_id);
+ 
++static void nvme_tls_psk_describe(const struct key *key, struct seq_file *m)
++{
++	seq_puts(m, key->description);
++	seq_printf(m, ": %u", key->datalen);
++}
++
++static bool nvme_tls_psk_match(const struct key *key,
++			       const struct key_match_data *match_data)
++{
++	const char *match_id;
++	size_t match_len;
++
++	if (!key->description) {
++		pr_debug("%s: no key description\n", __func__);
++		return false;
++	}
++	match_len = strlen(key->description);
++	pr_debug("%s: id %s len %zd\n", __func__, key->description, match_len);
++
++	if (!match_data->raw_data) {
++		pr_debug("%s: no match data\n", __func__);
++		return false;
++	}
++	match_id = match_data->raw_data;
++	pr_debug("%s: match '%s' '%s' len %zd\n",
++		 __func__, match_id, key->description, match_len);
++	return !memcmp(key->description, match_id, match_len);
++}
++
++static int nvme_tls_psk_match_preparse(struct key_match_data *match_data)
++{
++	match_data->lookup_type = KEYRING_SEARCH_LOOKUP_ITERATE;
++	match_data->cmp = nvme_tls_psk_match;
++	return 0;
++}
++
++static struct key_type nvme_tls_psk_key_type = {
++	.name           = "psk",
++	.flags          = KEY_TYPE_NET_DOMAIN,
++	.preparse       = user_preparse,
++	.free_preparse  = user_free_preparse,
++	.match_preparse = nvme_tls_psk_match_preparse,
++	.instantiate    = generic_key_instantiate,
++	.revoke         = user_revoke,
++	.destroy        = user_destroy,
++	.describe       = nvme_tls_psk_describe,
++	.read           = user_read,
 +};
 +
- #define NVME_AQ_DEPTH		32
- #define NVME_NR_AEN_COMMANDS	1
- #define NVME_AQ_BLK_MQ_DEPTH	(NVME_AQ_DEPTH - NVME_NR_AEN_COMMANDS)
-@@ -1493,6 +1500,9 @@ struct nvmf_disc_rsp_page_entry {
- 			__u16	pkey;
- 			__u8	resv10[246];
- 		} rdma;
-+		struct tcp {
-+			__u8	sectype;
-+		} tcp;
- 	} tsas;
- };
++static struct key *nvme_tls_psk_lookup(struct key *keyring,
++		const char *hostnqn, const char *subnqn,
++		int hmac, bool generated)
++{
++	char *identity;
++	size_t identity_len = (NVMF_NQN_SIZE) * 2 + 11;
++	key_ref_t keyref;
++	key_serial_t keyring_id;
++
++	identity = kzalloc(identity_len, GFP_KERNEL);
++	if (!identity)
++		return ERR_PTR(-ENOMEM);
++
++	snprintf(identity, identity_len, "NVMe0%c%02d %s %s",
++		 generated ? 'G' : 'R', hmac, hostnqn, subnqn);
++
++	if (!keyring)
++		keyring = nvme_keyring;
++	keyring_id = key_serial(keyring);
++	pr_debug("keyring %x lookup tls psk '%s'\n",
++		 keyring_id, identity);
++	keyref = keyring_search(make_key_ref(keyring, true),
++				&nvme_tls_psk_key_type,
++				identity, false);
++	if (IS_ERR(keyref)) {
++		pr_debug("lookup tls psk '%s' failed, error %ld\n",
++			 identity, PTR_ERR(keyref));
++		kfree(identity);
++		return ERR_PTR(-ENOKEY);
++	}
++	kfree(identity);
++
++	return key_ref_to_ptr(keyref);
++}
++
+ int nvme_keyring_init(void)
+ {
++	int err;
++
+ 	nvme_keyring = keyring_alloc(".nvme",
+ 				     GLOBAL_ROOT_UID, GLOBAL_ROOT_GID,
+ 				     current_cred(),
+@@ -28,12 +116,18 @@ int nvme_keyring_init(void)
+ 	if (IS_ERR(nvme_keyring))
+ 		return PTR_ERR(nvme_keyring);
  
++	err = register_key_type(&nvme_tls_psk_key_type);
++	if (err) {
++		key_put(nvme_keyring);
++		return err;
++	}
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(nvme_keyring_init);
+ 
+ void nvme_keyring_exit(void)
+ {
++	unregister_key_type(&nvme_tls_psk_key_type);
+ 	key_revoke(nvme_keyring);
+ 	key_put(nvme_keyring);
+ }
 -- 
 2.35.3
 
