@@ -4,84 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D1E91C04A94
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Aug 2023 10:33:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5282CC001DF
+	for <linux-nvme@archiver.kernel.org>; Fri,  4 Aug 2023 14:50:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LYiqSi4DodEOlaOomALCTsLyCZXw6UfvQ3KXAk6gbxE=; b=lKLQo5bQbrqEOevhn/Mi5/DvVw
-	f8TSVT8kjC3EVgcO2DyDCAGA8zROtkdmzuSv9ZUAhIYhuwIRke4g1dCAMCWfZHOsmW/wsFvr0dBxU
-	WCwfuppkBxa9zYlLBXkM3Cx4JftwuC6oDw/NEXZPYoMzmYaOmJaPYa3QaGhPg4d3sglDEb2xTD3ei
-	GXNr9jwLP2zXOuaO6nw7YvNesMsfBh4RryIclvlWKeGPftG3/tM8yA+swaClusyyciVYozRgqGJ3W
-	8GVzHIf9AJVVfIiI01Zs6/lO4SC6OJjRFBCzgsnNxOtwCQyY4xObtiG0DkifuXDy/eUB5Y0bBpnd3
-	D8MSUJkQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Date:References:Subject:CC:To:From:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	List-Owner; bh=AYMpbnj0XgY3+I8gCis285x1Nv3cNPuWZ467V0VPTmU=; b=O+saNlCpnskdAl
+	Tp4dy5OOrXNzJ1b7n/5vtfh2EGXSzTyMeRKAJ/nwFhklvAQviWj9tdqI+J469RbedHit5Rns10fzm
+	jlvuIPX1r2FxrRKMgz9yynvBO6skNiXPzfLXn6KGc5Nfn6mUVXGj6k+QvAeigMlvjhBKssE5e/Lbt
+	VQ21sZTtckbMLvaa14d+sh+BF8R4mKYDHVXMK7cSZHcdIPIgsUploJyTiLUK6tmZvmSfYlJSXgdQS
+	y9XL2VeuYJUB1FbCqHo2kBqzt+Boh87qPDObNabzLJ7J0DxbwXEHKUiLl8AXaCpHR1JKYsbEUKJ/h
+	m2VTzR0COQeiIDvZN+/Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qRs7d-00C8rN-2U;
-	Fri, 04 Aug 2023 10:33:29 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1qRw8K-00CdBR-1n;
+	Fri, 04 Aug 2023 14:50:28 +0000
+Received: from smtp-fw-2101.amazon.com ([72.21.196.25])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qRs7Y-00C8ou-15
+	id 1qRw8I-00CdAT-02
 	for linux-nvme@lists.infradead.org;
-	Fri, 04 Aug 2023 10:33:25 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1691145199;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LYiqSi4DodEOlaOomALCTsLyCZXw6UfvQ3KXAk6gbxE=;
-	b=d13I2i1VkRXUCslG8rnxPlpNlyOF/v9IhXRTJ/bIMbEjHFhw8igAnu3D/vAP0zrL63wVyR
-	gDwV7fl0XJUpdGQn4UguAXbyCl+iPH1uhF/t0USnPx1dgMr4e2xPSB7wffxT6T/tnEUUzb
-	Var+mCWK3G7Ul0/4aLob4SdvQchTesA=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-121-aQy-vCvfNoqhyrNYFJ04_Q-1; Fri, 04 Aug 2023 06:33:18 -0400
-X-MC-Unique: aQy-vCvfNoqhyrNYFJ04_Q-1
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-268441d0e64so1598461a91.1
-        for <linux-nvme@lists.infradead.org>; Fri, 04 Aug 2023 03:33:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691145197; x=1691749997;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LYiqSi4DodEOlaOomALCTsLyCZXw6UfvQ3KXAk6gbxE=;
-        b=JP7cQRSQlY6nyD1Gl3h/ya/LLjDm2kEaH3GBTJZISHWUommMJNGVqCNxo9c4uEC5Nw
-         ShJ+eTwzKVDHb/FCH/fABplzbO2n0rzApYypMFnRJuI0vmXU5N2yhlHmaZadzaGtRYg0
-         dgRXVffSnGEbCorCOBYEFpyJrCkUZa0TuPKc/R2QXI+RNXA8v9SBv9GoEfL0nw0RV2WV
-         U18buFzExii3706c7foUEo7C9BWxFHb4pizoklQcPJx/oQEfvo8NgsAJFj1vA1EKVP5b
-         VFL39wU/ayrAw559Ip/anbjRXB57lp6tEHw871AxeFBX3NID8JlPAtcnebXurxmOeSxT
-         GMbg==
-X-Gm-Message-State: AOJu0YzmFKF2c2zc5tlMry5tQpGa43tAELOCmmlAcOnjw36fkwfPYZ9l
-	TusV5ShMnYIbcEvDVc9R/L9Hh/QPVOMC0AE6EQ2mUx6zp5lPoU5zNYDyQF1WHefs0BI+l0m42X8
-	Z3D0ucFmR/6HMAvNT1HYfCjmFmnL62gm+1HQ+hpMXz4w=
-X-Received: by 2002:a17:90b:3b4f:b0:262:f06d:c0fc with SMTP id ot15-20020a17090b3b4f00b00262f06dc0fcmr1384840pjb.7.1691145197683;
-        Fri, 04 Aug 2023 03:33:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF81eckYJqc1+gwa1EwjNj3rqlJJA6x/ZAxR713Dj1IuEDl9lZjyBwP8DHBTAaI45pg010f6iMGvfVyFgK4T4o=
-X-Received: by 2002:a17:90b:3b4f:b0:262:f06d:c0fc with SMTP id
- ot15-20020a17090b3b4f00b00262f06dc0fcmr1384831pjb.7.1691145197391; Fri, 04
- Aug 2023 03:33:17 -0700 (PDT)
+	Fri, 04 Aug 2023 14:50:27 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+  t=1691160626; x=1722696626;
+  h=from:to:cc:subject:references:date:message-id:
+   mime-version;
+  bh=AYMpbnj0XgY3+I8gCis285x1Nv3cNPuWZ467V0VPTmU=;
+  b=QA4wjuwMsvVemgMO/LDZq9znFdowMPHW981baq7kRY3MjdDq3taOLo0g
+   bsIy2OStYvseqmQp9FoPwu6STyhkd6y4xmsDL6bLugxllSnwAQXyp9p3B
+   rRIHn7M2i++mYQ6zfWRmQJIeB1Dn8Uod0/PFqcQ5TOe20qcxMlGu4y+GH
+   Q=;
+X-IronPort-AV: E=Sophos;i="6.01,255,1684800000"; 
+   d="scan'208";a="343643443"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-pdx-2b-m6i4x-0ec33b60.us-west-2.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-2101.iad2.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 14:50:19 +0000
+Received: from EX19MTAUEA002.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
+	by email-inbound-relay-pdx-2b-m6i4x-0ec33b60.us-west-2.amazon.com (Postfix) with ESMTPS id 86D34A0B74;
+	Fri,  4 Aug 2023 14:50:17 +0000 (UTC)
+Received: from EX19MTAUEA001.ant.amazon.com (10.252.134.203) by
+ EX19MTAUEA002.ant.amazon.com (10.252.134.9) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.30; Fri, 4 Aug 2023 14:50:17 +0000
+Received: from dev-dsk-ptyadav-1c-37607b33.eu-west-1.amazon.com (10.15.11.255)
+ by mail-relay.amazon.com (10.252.134.102) with Microsoft SMTP Server id
+ 15.2.1118.30 via Frontend Transport; Fri, 4 Aug 2023 14:50:17 +0000
+Received: by dev-dsk-ptyadav-1c-37607b33.eu-west-1.amazon.com (Postfix, from userid 23027615)
+	id E9B6420CD4; Fri,  4 Aug 2023 16:50:16 +0200 (CEST)
+From: Pratyush Yadav <ptyadav@amazon.de>
+To: Keith Busch <kbusch@kernel.org>
+CC: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, "Jens
+ Axboe" <axboe@kernel.dk>, <linux-nvme@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] nvme-pci: do not set the NUMA node of device if it has
+ none
+References: <20230725110622.129361-1-ptyadav@amazon.de>
+	<ZL/dphk/MJMRskX8@kbusch-mbp.dhcp.thefacebook.com>
+	<50a125da-95c8-3b9b-543a-016c165c745d@grimberg.me>
+	<20230726131408.GA15909@lst.de> <mafs0cz0e8zc6.fsf_-_@amazon.de>
+	<ZMFHEK95WGwtYbid@kbusch-mbp.dhcp.thefacebook.com>
+	<mafs08rb28o4u.fsf_-_@amazon.de>
+	<ZMGddjINDt10BSvf@kbusch-mbp.dhcp.thefacebook.com>
+	<mafs0tttn7vs3.fsf_-_@amazon.de>
+	<ZMQYURrKPqIyTkG7@kbusch-mbp.dhcp.thefacebook.com>
+Date: Fri, 4 Aug 2023 16:50:16 +0200
+Message-ID: <mafs0350y7tg7.fsf@amazon.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-References: <CAHj4cs9GNohGUjohNw93jrr8JGNcRYC-ienAZz+sa7az1RK77w@mail.gmail.com>
-In-Reply-To: <CAHj4cs9GNohGUjohNw93jrr8JGNcRYC-ienAZz+sa7az1RK77w@mail.gmail.com>
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Fri, 4 Aug 2023 18:33:04 +0800
-Message-ID: <CAHj4cs9J7w_QSWMrj0ncufKwT9viS-o7pxmS2Y4FeaWEyPD34Q@mail.gmail.com>
-Subject: Re: [bug report] blktests nvme/047 failed due to /dev/nvme0n1 not
- created in time
-To: linux-block <linux-block@vger.kernel.org>, 
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230804_033324_467528_CCD1128C 
-X-CRM114-Status: GOOD (  15.24  )
+X-CRM114-CacheID: sfid-20230804_075026_203401_A17E0174 
+X-CRM114-Status: GOOD (  35.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,76 +91,215 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 1, 2023 at 7:28=E2=80=AFPM Yi Zhang <yi.zhang@redhat.com> wrote=
-:
->
-> Hello
->
-> I found random nvme/047 failure on linux-block/for-next when I do
-> stress blktests nvme/tcp nvme/047 test:
+On Fri, Jul 28 2023, Keith Busch wrote:
 
-I tried to add one "sleep 0.05" after connecting that can workaround this i=
-ssue.
-
+> On Fri, Jul 28, 2023 at 08:09:32PM +0200, Pratyush Yadav wrote:
+>>
+>> I am guessing you are looking at irq_create_affinity_masks(). Yeah, It
+>> does not take into account the NUMA information. In fact, even if it
+>> did, the NUMA node associated with the IRQ is NUMA_NO_NODE
+>> (/proc/$irq/node == -1).
+>>
+>> I did some more digging over the week to figure out what is going on. It
+>> seems like the kernel _does_ in fact allow all CPUs in the affinity. I
+>> added some prints in set_affinity_irq() in
+>> drivers/xen/events/events_base.c (since that is the irqchip for the
+>> interrupt). I see it being called with mask: ffffffff,ffffffff.
+>>
+>> But I later see the function being called again with a different mask:
+>> 00000000,00008000. The stack trace shows the call is coming from
+>> ksys_write(). The process doing the write is irqbalance.
+>>
+>> So I think your earlier statement was incorrect. irqbalance does in fact
+>> balance these interrupts and it probably looks at the NUMA information
+>> of the device to make that decision. My original reasoning holds and
+>> irqbalance is the one picking the affinity.
+>>
+>> With this explanation, do you think the patch is good to go?
 >
-> Kernel config: https://pastebin.com/6i3sZWAx
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D0
-> nvme/047 (test different queue types for fabric transports)  [failed]
->     runtime  71.129s  ...  7.096s
->     --- tests/nvme/047.out 2023-07-16 23:04:30.052101710 -0400
->     +++ /root/blktests/results/nodev/nvme/047.out.bad 2023-07-19
-> 09:17:35.949908134 -0400
->     @@ -1,2 +1,198 @@
->      Running nvme/047
->     +fio: looks like your file system does not support direct=3D1/buffere=
-d=3D0
->     +fio: looks like your file system does not support direct=3D1/buffere=
-d=3D0
->     +fio: looks like your file system does not support direct=3D1/buffere=
-d=3D0
->     +fio: looks like your file system does not support direct=3D1/buffere=
-d=3D0
->     +fio: destination does not support O_DIRECT
->     +fio: destination does not support O_DIRECT
->     ...
->     (Run 'diff -u tests/nvme/047.out
-> /root/blktests/results/nodev/nvme/047.out.bad' to see the entire diff)
->
-> After some investigating, I found it was due to the /dev/nvme0n1 node
-> couldn't be created in time which lead to the following fio failing.
-> + nvme connect -t tcp -a 127.0.0.1 -s 4420 -n blktests-subsystem-1
-> --hostnqn=3Dnqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60=
-b8de349
-> --hostid=3D0f01fb42-9f7f-4856-b0b3-51e60b8de349 --nr-write-queues=3D1
-> + ls -l /dev/nvme0 /dev/nvme-fabrics
-> crw-------. 1 root root 234,   0 Aug  1 05:50 /dev/nvme0
-> crw-------. 1 root root  10, 122 Aug  1 05:50 /dev/nvme-fabrics
-> + '[' '!' -b /dev/nvme0n1 ']'
-> + echo '/dev/nvme0n1 node still not created'
-> dmesg:
-> [ 1840.413396] loop0: detected capacity change from 0 to 10485760
-> [ 1840.934379] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-> [ 1841.018766] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
-> [ 1846.782615] nvmet: creating nvm controller 1 for subsystem
-> blktests-subsystem-1 for NQN
-> nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
-> [ 1846.808392] nvme nvme0: creating 33 I/O queues.
-> [ 1846.874298] nvme nvme0: mapped 1/32/0 default/read/poll queues.
-> [ 1846.945334] nvme nvme0: new ctrl: NQN "blktests-subsystem-1", addr
-> 127.0.0.1:4420
->
-> BTW, I also found after disabling nvme_core.multipath, seems this
-> issue cannot be reproduced.
->
-> --
-> Best Regards,
->   Yi Zhang
+> irqbalance still writes to the /proc/<irq>/smp_affinity to change it,
+> right? That's just getting I/O errors on my machines because it fails
+> irq_can_set_affinity_usr() for nvme's kernel managed interrupts (except
+> the first vector, but that one is not used for I/O). Is there another
+> path irqbalance is using that's somehow getting past the appropriate
+> checks? Or perhaps is your xen irq_chip somehow bypassing the managed
+> irq property?
+
+I picked the interrupt "nvme4q26" as example. The call stack is (printed
+via WARN_ON(1)):
+
+    ? __warn+0x7d/0x140
+    ? set_affinity_irq+0xf0/0x220
+    ? report_bug+0xf8/0x1e0
+    ? handle_bug+0x44/0x80
+    ? exc_invalid_op+0x13/0x60
+    ? asm_exc_invalid_op+0x16/0x20
+    ? set_affinity_irq+0xf0/0x220
+    ? set_affinity_irq+0xf0/0x220
+    irq_do_set_affinity+0x135/0x1e0
+    irq_set_affinity_locked+0x186/0x1f0
+    __irq_set_affinity+0x41/0x70
+    write_irq_affinity.isra.8+0xf6/0x120
+    proc_reg_write+0x59/0x80
+    vfs_write+0xc7/0x3c0
+    ? __do_sys_newfstat+0x35/0x60
+    ? __fget_light+0xcb/0x120
+    ksys_write+0xa5/0xe0
+    do_syscall_64+0x42/0x90
+    entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+The check you mention is in write_irq_affinity(). I added some prints
+there and it turns out that __irqd_can_set_affinity() returns true and
+irqd_affinity_is_managed() is false.
+
+I did some more digging and it turns out that the masks are called by
+irq_create_affinity_masks() which sets is_managed to the IRQ affinity
+descriptors.
+
+This is then passed down to __msi_domain_alloc_locked(). On a non-Xen
+system you would end up calling __msi_domain_alloc_irqs() next since
+ops->domain_alloc_irqs() is only implemented by Xen. This function finds
+the masks created earlier and passes them down to
+__irq_domain_alloc_irqs(). This then eventually lands in alloc_descs()
+which checks is_managed and sets IRQD_AFFINITY_MANAGED.
+
+On Xen though, xen_msi_domain_alloc_irqs() is called. This eventually
+lands in xen_allocate_irqs_dynamic() which calls irq_alloc_descs(). This
+macro calls __irq_alloc_descs() with affinity set to NULL. This leads to
+us losing the is_managed flag and the affinities created by
+irq_create_affinity_masks() via group_cpus_evenly().
+
+As a result of this, MSI IRQs on Xen can never be managed by the kernel.
+They are marked as userspace manageable and irqbalance can set their
+affinity. Applying the (hacky) patch below fixes this problem and lets
+the kernel manage the affinities.
+
+------ 8< ------
+diff --git a/drivers/xen/events/events_base.c b/drivers/xen/events/events_base.c
+index c7715f8bd4522..15f36e34e28b4 100644
+--- a/drivers/xen/events/events_base.c
++++ b/drivers/xen/events/events_base.c
+@@ -743,9 +743,10 @@ static void xen_irq_init(unsigned irq)
+ 	list_add_tail(&info->list, &xen_irq_list_head);
+ }
+ 
+-static int __must_check xen_allocate_irqs_dynamic(int nvec)
++static int __must_check xen_allocate_irqs_dynamic(int nvec,
++						  struct irq_affinity_desc *affd)
+ {
+-	int i, irq = irq_alloc_descs(-1, 0, nvec, -1);
++	int i, irq = __irq_alloc_descs(-1, 0, nvec, -1, THIS_MODULE, affd);
+ 
+ 	if (irq >= 0) {
+ 		for (i = 0; i < nvec; i++)
+@@ -758,7 +759,7 @@ static int __must_check xen_allocate_irqs_dynamic(int nvec)
+ static inline int __must_check xen_allocate_irq_dynamic(void)
+ {
+ 
+-	return xen_allocate_irqs_dynamic(1);
++	return xen_allocate_irqs_dynamic(1, NULL);
+ }
+ 
+ static int __must_check xen_allocate_irq_gsi(unsigned gsi)
+@@ -1108,7 +1109,7 @@ int xen_bind_pirq_msi_to_irq(struct pci_dev *dev, struct msi_desc *msidesc,
+ 
+ 	mutex_lock(&irq_mapping_update_lock);
+ 
+-	irq = xen_allocate_irqs_dynamic(nvec);
++	irq = xen_allocate_irqs_dynamic(nvec, msidesc->affinity);
+ 	if (irq < 0)
+ 		goto out;
+------ >8 ------ 
+
+With this patch, I get the below affinities:
+
+    $   for i in $(cat /proc/interrupts | grep nvme0 | sed "s/^ *//g" | cut -d":" -f 1); do \
+    >     cat /proc/irq/$i/{smp,effective}_affinity_list; \
+    >   done
+    8
+    8
+    16-17,48,65,67,69
+
+    18-19,50,71,73,75
+
+    20,52,77,79
+
+    21,53,81,83
+
+    22,54,85,87
+
+    23,55,89,91
+
+    24,56,93,95
+
+    25,57,97,99
+
+    26,58,101,103
+
+    27,59,105,107
+
+    28,60,109,111
+
+    29,61,113,115
+
+    30,62,117,119
+
+    31,63,121,123
+
+    49,51,125,127
+
+    0,32,64,66
+
+    1,33,68,70
+
+    2,34,72,74
+
+    3,35,76,78
+
+    4,36,80,82
+
+    5,37,84,86
+
+    6,38,88,90
+
+    7,39,92,94
+
+    8,40,96,98
+
+    9,41,100,102
+
+    10,42,104,106
+
+    11,43,108,110
+
+    12,44,112,114
+
+    13,45,116,118
+
+    14,46,120,122
+
+    15,47,124,126
+
+The blank lines are because effective_smp_affinity is blank for all but the first interrupt.
+
+The problem is, even with this I still get the same performance
+difference when running on Node 1 vs Node 0. I am not sure why. Any
+pointers?
+
+-- 
+Regards,
+Pratyush Yadav
 
 
 
---=20
-Best Regards,
-  Yi Zhang
+Amazon Development Center Germany GmbH
+Krausenstr. 38
+10117 Berlin
+Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+Sitz: Berlin
+Ust-ID: DE 289 237 879
+
+
 
 
