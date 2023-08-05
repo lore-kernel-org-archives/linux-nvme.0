@@ -4,73 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5941C04A94
-	for <linux-nvme@archiver.kernel.org>; Fri,  4 Aug 2023 15:19:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65E9DC00528
+	for <linux-nvme@archiver.kernel.org>; Sat,  5 Aug 2023 00:57:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XhTBa3EFL7BqS5cVbuKWD/ZMbt0NuCyUr4s4pCIIW2Q=; b=uGXsVmEO624HYKokjHGVXWpGxz
-	7kB8mHYUTjlSFO2Q/2fB2Q0sEkk7WzsW0gIdf1I+3EmSUSITPx/xDDu1jCGsluJBptFFuRjLpPd0v
-	ogwuWB1zXR94qSS0yEtEXS5jXHR4DYb1Qupi9EMdE/5syBM6dX5vlBgfwZOLvCLtPBr0ymapwKbtt
-	58m9b3V4mAqw0NzgkWICo1Ax6T3i6xsg9sSyNzU65TqfW+F7gNLnRFpGMrqQKUwNTRspNy4uuBwjt
-	TZEhse1Q9PErHQNE4bW8Cl0hXKzjfYGshQt8JSbS3TdT5829WPnRz7XVJn0CO6wMdzJWRZNKajDbf
-	ZFm2HzGg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=EImlXeMZVWICapqmVEubp+0gMWAM5m4kOmUkc0ZIeao=; b=rz594vOyG1n8LP96wBsZD9mY6X
+	lbJxgpJMf9SDbXLT4zvJ8a8YNOsYRc//ogMe029vWbuwUp7kMTXdvVR4c+0ADLLbFL8dLXrE7V/N9
+	kDx7MWorhzFGf5ZgF40pBubedg1xTQHO7kPDtjEfPLLMO/uug7ckT6f3jtUQEUc1hPM1iXm+FBo0p
+	tpHzja8TG0tS/hwG2o9JgUwScIL/Ox8lhD7+WcMVS7/KtXY7wSsOA/6pxc/mrOPGdb2XBsixpPFTU
+	IgrK6b3aUIn6bQAlGTUGWXBTho/Zfq3enZ6BBIpbOLolJUWRSPCFz7P6Pi5aK663N3K7mQnjffhdt
+	FJ5T5acA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qRwao-00CgUx-0W;
-	Fri, 04 Aug 2023 15:19:54 +0000
+	id 1qS5bO-00DVPp-0c;
+	Sat, 05 Aug 2023 00:57:06 +0000
 Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qRwal-00CgUH-0I
+	id 1qS5bL-00DVPS-2g
 	for linux-nvme@lists.infradead.org;
-	Fri, 04 Aug 2023 15:19:52 +0000
+	Sat, 05 Aug 2023 00:57:05 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id D6C1C61F50;
-	Fri,  4 Aug 2023 15:19:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F3B0C433C7;
-	Fri,  4 Aug 2023 15:19:48 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id BBD236213E;
+	Sat,  5 Aug 2023 00:57:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0B7DC433C7;
+	Sat,  5 Aug 2023 00:57:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691162388;
-	bh=3N0bkV5TRHkrXO8pWt66dKSeJ+i+DWdZ25VNCKRjndc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XDeAC7OgqIFHcLVbnxOlTKH33OVpLZJxGcw/M+8KEswpIXoDRpF0IUoCcvpSZ1vGM
-	 e8h/VeCal6Y//47GQxUNaEXeJT9CKUQTnWaM+drUGHcVPTUL/t5pn6fmSCXLQ0M8He
-	 gY7B1uuzwB17Dj7AUb36ezP2OayvAGjhzWwxBfDl/mf9xTCZzqBe9gH+Vhj22XSbP3
-	 W6SHONbwNXhDhuzEGkvwqEKqOLOGtQZ6w0QSFjPalinExTjTGc1aW8PD23VanmayqE
-	 VvswP03ydwAZNNwrb+qgZiWf0jJ2Jb//378LchFSUbwghCs5N1SzxvfzQ/diaxsPyR
-	 zPxVNenz/udxQ==
-Date: Fri, 4 Aug 2023 09:19:45 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Pratyush Yadav <ptyadav@amazon.de>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Jens Axboe <axboe@kernel.dk>, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] nvme-pci: do not set the NUMA node of device if it has
- none
-Message-ID: <ZM0XEUw0xKgzXvi+@kbusch-mbp>
-References: <ZL/dphk/MJMRskX8@kbusch-mbp.dhcp.thefacebook.com>
- <50a125da-95c8-3b9b-543a-016c165c745d@grimberg.me>
- <20230726131408.GA15909@lst.de>
- <mafs0cz0e8zc6.fsf_-_@amazon.de>
- <ZMFHEK95WGwtYbid@kbusch-mbp.dhcp.thefacebook.com>
- <mafs08rb28o4u.fsf_-_@amazon.de>
- <ZMGddjINDt10BSvf@kbusch-mbp.dhcp.thefacebook.com>
- <mafs0tttn7vs3.fsf_-_@amazon.de>
- <ZMQYURrKPqIyTkG7@kbusch-mbp.dhcp.thefacebook.com>
- <mafs0350y7tg7.fsf@amazon.de>
+	s=k20201202; t=1691197022;
+	bh=R11BsqXSVi4wUiZMEOD+B5oPYL6Hoa/QtR76MRpQdPE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=QNyPckaj6Xfs59VP9W+BxQt8XDvbRSHL1DA/MM+IzkQ4Y7gWtOOEx8pO81ml3VE8h
+	 LpCQUXtROEGRadxtrvLLVRiB4Fm+ypTvysCA/AHkV0E+TUDQ4Htbv7IHpVRHDWnAQI
+	 EjQ9V4r32ddBXRXIcyAkVmbZNoREIHET0m+psPUudGZMv2cM/ZkHUyRIhBBptIsWxk
+	 nLB+5Ir0N2EN0Eq/uHsl0VWorzAHb3ymBtnK3SyPvwmRUX/zQUAHzNKemUmcKbXJoI
+	 QwKQsHMyqBTMMHRy4xx1+s9G9VojQNpwH21ycRv+MsFIxXZoKvTf1MetNG/5xXUJPV
+	 HzseGUOu5gR3w==
+Date: Fri, 4 Aug 2023 17:57:00 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Keith
+ Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ netdev@vger.kernel.org
+Subject: Re: [PATCH] net/tls: avoid TCP window full during ->read_sock()
+Message-ID: <20230804175700.1f88604b@kernel.org>
+In-Reply-To: <20230803100809.29864-1-hare@suse.de>
+References: <20230803100809.29864-1-hare@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <mafs0350y7tg7.fsf@amazon.de>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230804_081951_195445_9E15C60C 
-X-CRM114-Status: GOOD (  14.93  )
+X-CRM114-CacheID: sfid-20230804_175703_910515_E9E8E632 
+X-CRM114-Status: GOOD (  17.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,91 +76,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Aug 04, 2023 at 04:50:16PM +0200, Pratyush Yadav wrote:
-> With this patch, I get the below affinities:
+On Thu,  3 Aug 2023 12:08:09 +0200 Hannes Reinecke wrote:
+> When flushing the backlog after decoding each record in ->read_sock()
+> we may end up with really long records, causing a TCP window full as
+> the TCP window would only be increased again after we process the
+> record. So we should rather process the record first to allow the
+> TCP window to be increased again before flushing the backlog.
 
-Something still seems off without effective_affinity set. That attribute
-should always reflect one CPU from the smp_affinity_list.
+> -			released = tls_read_flush_backlog(sk, prot, rxm->full_len, to_decrypt,
+> -							  decrypted, &flushed_at);
+>  			skb = darg.skb;
+> +			/* TLS 1.3 may have updated the length by more than overhead */
 
-At least with your patch, the smp_affinity_list looks as expected: every
-CPU is accounted for, and no vector appears to share the resource among
-CPUs in different nodes.
- 
->     $   for i in $(cat /proc/interrupts | grep nvme0 | sed "s/^ *//g" | cut -d":" -f 1); do \
->     >     cat /proc/irq/$i/{smp,effective}_affinity_list; \
->     >   done
->     8
->     8
->     16-17,48,65,67,69
-> 
->     18-19,50,71,73,75
-> 
->     20,52,77,79
-> 
->     21,53,81,83
-> 
->     22,54,85,87
-> 
->     23,55,89,91
-> 
->     24,56,93,95
-> 
->     25,57,97,99
-> 
->     26,58,101,103
-> 
->     27,59,105,107
-> 
->     28,60,109,111
-> 
->     29,61,113,115
-> 
->     30,62,117,119
-> 
->     31,63,121,123
-> 
->     49,51,125,127
-> 
->     0,32,64,66
-> 
->     1,33,68,70
-> 
->     2,34,72,74
-> 
->     3,35,76,78
-> 
->     4,36,80,82
-> 
->     5,37,84,86
-> 
->     6,38,88,90
-> 
->     7,39,92,94
-> 
->     8,40,96,98
-> 
->     9,41,100,102
-> 
->     10,42,104,106
-> 
->     11,43,108,110
-> 
->     12,44,112,114
-> 
->     13,45,116,118
-> 
->     14,46,120,122
-> 
->     15,47,124,126
-> 
-> The blank lines are because effective_smp_affinity is blank for all but the first interrupt.
-> 
-> The problem is, even with this I still get the same performance
-> difference when running on Node 1 vs Node 0. I am not sure why. Any
-> pointers?
+> +			rxm = strp_msg(skb);
+> +			tlm = tls_msg(skb);
+>  			decrypted += rxm->full_len;
+>  
+>  			tls_rx_rec_done(ctx);
+> @@ -2280,6 +2275,12 @@ int tls_sw_read_sock(struct sock *sk, read_descriptor_t *desc,
+>  			goto read_sock_requeue;
+>  		}
+>  		copied += used;
+> +		/*
+> +		 * flush backlog after processing the TLS record, otherwise we might
+> +		 * end up with really large records and triggering a TCP window full.
+> +		 */
+> +		released = tls_read_flush_backlog(sk, prot, decrypted - copied, decrypted,
+> +						  copied, &flushed_at);
 
-I suspect effective_affinity isn't getting set and interrupts are
-triggering on unexpected CPUs. If you check /proc/interrupts, can you
-confirm if the interrupts are firing on CPUs within the
-smp_affinity_list or some other CPU?
+I'm surprised moving the flushing out makes a difference.
+rx_list should generally hold at most 1 skb (16kB) unless something 
+is PEEKing the data.
+
+Looking at it closer I think the problem may be calling args to
+tls_read_flush_backlog(). Since we don't know how much data
+reader wants we can't sensibly evaluate the first condition,
+so how would it work if instead of this patch we did:
+
+-			released = tls_read_flush_backlog(sk, prot, rxm->full_len, to_decrypt,
++			released = tls_read_flush_backlog(sk, prot, INT_MAX, 0,
+							  decrypted, &flushed_at);
+
+That would give us a flush every 128k of data (or every record if
+inq is shorter than 16kB).
+
+side note - I still prefer 80 char max lines, please. It seems to result
+in prettier code ovarall as it forces people to think more about code
+structure.
+
+>  		if (used < rxm->full_len) {
+>  			rxm->offset += used;
+>  			rxm->full_len -= used;
+-- 
+pw-bot: cr
 
