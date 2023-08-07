@@ -4,84 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E6BCBEB64DD
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Aug 2023 09:17:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51020EB64DD
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Aug 2023 10:30:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5bNiFKSI+NLCPSzlmcX1dWMO09vqsjtBdwUssAmxsyU=; b=UJLh9x1cqRPp2md4Ubpd7pps/4
-	/7iy/SUjfEiagMyoDjrKctHRgFdbSU+BfXDPYVIfUI846SeFZaliEJj67+IzNkGcZ5LqJwjujP/ye
-	IRjgsDXzAp7i1gJ3v6SuLkO+WMsbRplQYu+3xLu06kB7YG2ywWdsvF6K4za5pxWSMfzrRY6nvnQGp
-	2WiSKHzuaiNm2FWuy6VlZkqOsULlECwTdY1SGqVV8QGL/D1Q8fYKp/zl7Tso3ilAUsAqa857mkkDD
-	gZgJ26wSAZ6uMEAdndpZWnHidNQdfhdbd83Hz+WiLlIenHwNTDLCtDgKFuoE0AMzIVPTqFOLQezjx
-	ZA8V9o1w==;
+	bh=8ie1xgDxiiOiaNq3yXPerRraTJqI+zO5f31vlmZM58A=; b=amIH64I2sUXEC54kbm4YesW9y+
+	nKkFTt39OOi/COUhaBOeHGTTkBGSrz+/e91QBKLVe4eZ92WHplHzEwObNu7XekFMcahRQhZeii5FO
+	UDiXF6oGILVcOqIWYrpMIKqESyEUyU1uyMD5NHSEK++13ldR5MwSXr9HIK0+nbQO78C1WRnTc1283
+	WHSlYmub0zJ4V4+Ale0BfX92sl4Om3p1NYt7zafsOzK++dmWPltsIoI4XiJqK2Th8E0tdk3Ka5TqV
+	nKhh8vGh+cPOM+BH0RyINPIdZe02cHn/F+SYoTCcCqPxFEgnKNmXm0pBFI2A0OYZOoofzsFRVg3II
+	lRrFTpig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qSwMv-00GXwk-05;
-	Mon, 07 Aug 2023 09:17:41 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1qSxVg-00GqNc-3B;
+	Mon, 07 Aug 2023 10:30:48 +0000
+Received: from wp530.webpack.hosteurope.de ([80.237.130.52])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qSwMs-00GXw8-0z
+	id 1qSxVd-00GqJT-1v
 	for linux-nvme@lists.infradead.org;
-	Mon, 07 Aug 2023 09:17:39 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 13A561F460;
-	Mon,  7 Aug 2023 09:17:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1691399857; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5bNiFKSI+NLCPSzlmcX1dWMO09vqsjtBdwUssAmxsyU=;
-	b=Vg7WCpmbwqZQIN+h7PeZeva81FRqjLVBGdwEkCQRoLCASAXz6G/AQ0qAQBacIHrVHaVTpV
-	i1iOc1UUsTHgY8cYXZXKHB+l92Aqf1Cl9DD5vCFDbIZXZ5sUymebzdSKu5L9eWn5KIZddg
-	LY4mOySTN1dRhtLy/4+O/aBd0PkHZwA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1691399857;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5bNiFKSI+NLCPSzlmcX1dWMO09vqsjtBdwUssAmxsyU=;
-	b=JjAIZmxml+/prFPeb14kfYc7ZWLX8qA06P7iNUJFzHVqaGhvsqralKwIHSALSKoH0wnQRK
-	+vdCTQzV5YiwxmBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C1A7D13910;
-	Mon,  7 Aug 2023 09:17:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id lHTjLLC20GQ8HQAAMHmgww
-	(envelope-from <hare@suse.de>); Mon, 07 Aug 2023 09:17:36 +0000
-Message-ID: <4e14f8b3-27ac-4afa-91e9-8ccb41a8b89b@suse.de>
-Date: Mon, 7 Aug 2023 11:17:36 +0200
+	Mon, 07 Aug 2023 10:30:47 +0000
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1qSxVP-0004E8-4E; Mon, 07 Aug 2023 12:30:31 +0200
+Message-ID: <d7290782-bf72-3a65-26fa-b58e75bcae2c@leemhuis.info>
+Date: Mon, 7 Aug 2023 12:30:30 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 12/14] nvmet-tcp: allocate socket file
-Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20230803105102.30949-1-hare@suse.de>
- <20230803105102.30949-13-hare@suse.de>
- <0ac55b10-6917-9247-59f3-5f3b8e121a9f@grimberg.me>
- <432fd12b-3da0-a3d0-73cc-863a272a0f85@suse.de>
- <8e0a1503-266f-0368-9eb2-ebeb256bd091@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <8e0a1503-266f-0368-9eb2-ebeb256bd091@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: Fwd: Ubuntu 22.04, "nvme list" will hang for 60 seconds after
+ "nvme subsystem-reset"
+Content-Language: en-US, de-DE
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, shenlinghai@163.com,
+ Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
+ dwmw2@infradead.org
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Regressions <regressions@lists.linux.dev>,
+ Linux NVMe <linux-nvme@lists.infradead.org>
+References: <8edde583-2b5f-2332-e59a-f1f4688b9e40@gmail.com>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+In-Reply-To: <8edde583-2b5f-2332-e59a-f1f4688b9e40@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1691404245;49f0ba60;
+X-HE-SMSGID: 1qSxVP-0004E8-4E
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230807_021738_500968_D5AB74C4 
-X-CRM114-Status: GOOD (  11.56  )
+X-CRM114-CacheID: sfid-20230807_033045_779832_BC7A28C1 
+X-CRM114-Status: GOOD (  12.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,33 +68,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/7/23 10:53, Sagi Grimberg wrote:
+On 02.08.23 13:41, Bagas Sanjaya wrote:
 > 
->>>> -static int nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
->>>> +static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
->>>>           struct socket *newsock)
->>>
->>> Why does the function change from retcode to void in this patch?
+> I notice a regression report on Bugzilla [1]. Quoting from it:
+> 
+>> Issue description:
+>> root:~# lsb_release -a
+>> No LSB modules are available.
+>> Distributor ID:	Ubuntu
+>> Description:	Ubuntu 22.04 LTS
+>> Release:	22.04
+>> Codename:	jammy
 >>
->> Because the return code was never evaluated.
+>> root:~# uname -a
+>> Linux dapu-Star-Lake 5.19.0-46-generic #47~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Wed Jun 21 15:35:31 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+
+Bagas, please don't forward reports to the developers (and also don't
+add them to the regression tracking) if the report is about a problem
+with a vendor kernel that is known or likely to be patched[1].
+Developers otherwise will just start to ignore your mails, as you are
+wasting their time.
+
+Ciao, Thorsten
+
+[1] unless of course the reporter confirmed that the issue also happens
+with a fresh vanilla kernel; but that afaics still hasn't happened in
+this case yet; and even if that's the case it must be really obvious
+when forwarding a report.
+
+>> root:~#nvme subsystem-reset /dev/nvme0
+>>
+>> root:~#nvme list      //This command will hang about 60 seconds. 
+>>
+>> Issue analysis:
+>> Maybe it hangs in function nvme_wait_reset. When we revert the following commit, this issue will disappear.
+>> if (!nvme_wait_reset(ctrl))
+>> https://github.com/torvalds/linux/commit/1e866afd4bcdd01a70a5eddb4371158d3035ce03?diff=split
 > 
-> ??
+> See Bugzilla for the full thread.
 > 
-> I see it is evaluated.
-
-Yes, but this patch moved the 'sock_release()' call into 
-nvmet_tcp_alloc_queue(), making the return code obsolete.
-
-But I can make it a separate patch if required.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
-
+> Anyway, I'm adding this regression to be tracked by regzbot:
+> 
+> #regzbot introduced: 1e866afd4bcdd0 https://bugzilla.kernel.org/show_bug.cgi?id=217745
+> #regzbot title: listing nvme devices hangs after subsystem reset
+> 
+> Thanks.
+> 
+> [1]: https://bugzilla.kernel.org/show_bug.cgi?id=217745
+> 
 
