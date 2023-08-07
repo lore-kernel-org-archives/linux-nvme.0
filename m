@@ -4,70 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2A799C001DE
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Aug 2023 07:10:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2F146EB64DD
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Aug 2023 07:11:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=zdnNPe9x6gIbmIISAnn80bWKgLVTtTKLyV6yho1UrN8=; b=OTaO8i10SXWbouv0h2r7q4biab
-	EzpgCkBxLLqRjozoja95wANABmyzVo6/E2v0hMrRvtc76cPP+TFN1/ax7l3wLBj9N+98tVb+QJE3r
-	pjTBXLl6XNvaAZCDikMv4yARle714z3BN3hcf1He2Psw4jVpA/WdWrBEkF1d0hLaR8MGFy6Yy19xG
-	ew5Mv4WjHHCNdwAFnlJJj9dJAPJJl9cHPf0ARnOn/HlWkjV8z7ULnwc3/STlQ43GCBzX+DVhNBMbQ
-	ImX3/bkbYsOuhPTnuxRAdNOdo+8W5+zNKuTDARtQclDw8NVuGbvqvf0n+JFT5XBR1OE2dqC/QJvHE
-	aI5OB6pQ==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=14cHJWW3ugS6saw8nDfxz8czbb
+	/CVP7aRUA9oUJebDpmIS8I/caNKSIQMqGlfy0o3PFAdEPyVj2G7rEk+HyIC0fVnxUmSplQe7amSv3
+	vKcrmxHEqcjJz2rtprzf0v0YyOawEAt7NoeTdg2Q6G1/qB7CBzDj+pe0OwyDGIWWFgaPHe+j6SeZ2
+	e5V0bZ6LcgdLRWW+7phHZWXh0pbx1IrFVKfJSBtRwzl34S1uh1/KCPYmQpQYc07MLG9pFkkvPa/fm
+	Ff1hVP4X3m+bGrpEFtz+KkCaeTNJAJwpHj3cEhEQzOpTQrFtewDWgXqsMUDu2U+EPsSuYeDcT1Qcy
+	DSSQZvIQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qSuNr-00GKZz-14;
-	Mon, 07 Aug 2023 07:10:31 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1qSuOc-00GKgK-0k;
+	Mon, 07 Aug 2023 07:11:18 +0000
+Received: from mail-wm1-f48.google.com ([209.85.128.48])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qSuNo-00GKZW-08
+	id 1qSuOZ-00GKfY-2T
 	for linux-nvme@lists.infradead.org;
-	Mon, 07 Aug 2023 07:10:29 +0000
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id 2A5D22189B;
-	Mon,  7 Aug 2023 07:10:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1691392225; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=zdnNPe9x6gIbmIISAnn80bWKgLVTtTKLyV6yho1UrN8=;
-	b=gbPVndzk1qiyMm3VX8KoGMLIUAxrAmu9qaYVdL7neQWrd9SF8+3HMsHkSyiO5fqqpBgDP+
-	Dpe03HBFA6L8vs9jPn9ssZqabSvsSBZ3GMdgR1zDcts+KOVdJYrBpRm45niUH4YcQuTZtd
-	DwJ/Lva1PzimXsBhQbC8JrCfiJIKz+U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1691392225;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=zdnNPe9x6gIbmIISAnn80bWKgLVTtTKLyV6yho1UrN8=;
-	b=eSSZ6X33K8v63XA64TqfEbTUzXPEUwm4I9h73y1FRNlnnzuzrdklU9Gq7dI2ZKxiM7tG4x
-	dWocFqVVqHmCpjBg==
-Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 38ABA2C142;
-	Mon,  7 Aug 2023 07:10:24 +0000 (UTC)
-Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id 2671151CAB59; Mon,  7 Aug 2023 09:10:24 +0200 (CEST)
-From: Hannes Reinecke <hare@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCHv2] net/tls: avoid TCP window full during ->read_sock()
-Date: Mon,  7 Aug 2023 09:10:22 +0200
-Message-Id: <20230807071022.10091-1-hare@suse.de>
-X-Mailer: git-send-email 2.35.3
+	Mon, 07 Aug 2023 07:11:17 +0000
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3fc03d990daso7173945e9.1
+        for <linux-nvme@lists.infradead.org>; Mon, 07 Aug 2023 00:11:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691392274; x=1691997074;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+        b=L5yM5k24BjqRZjhFkfo29A9YBQK9wOlIsyIFolPY1tXqDBjCyw8kI5ZyiPXj0H8shN
+         FVzC7mAuV0DNLNGyWz+Rw8Gl4SnInH7iZ3aL++CejvKnQ6OHP+n+vwX6APIOlVEQAbYo
+         s3MlH9XTCSoGIRDeSaTgz4+bmfK4RuVNBw4WepsJcPmAAxKLeT6WnGivQEV0gMYTyj+7
+         rhMWayXW62LOPU+i5UbtOqCBWJhzGq7riscvtuX5ECy+pJwSbg9Vuu3LhO4rXLxVG265
+         07ECpOm7/Rl9sC28sMjg4nq2ca8cRc4AvOQ776o7lUhSii3qtAzFUoBVIkh1nITwFNc8
+         662Q==
+X-Gm-Message-State: ABy/qLZ4F/kbX4q5rth+cy95YGRU+uB28DwlUeKtQNkGOYIargr6+vLY
+	sQBslUZvVQEfRFL+F+om33w=
+X-Google-Smtp-Source: APBJJlG6j/xAwlZr3sMwhV6PpoP1tOQk0y3W5M7uTtW+YARI01P6mbqLuFEo/P/HVEJRqAt/GMlTNQ==
+X-Received: by 2002:a05:600c:4452:b0:3fc:2d8:b1f2 with SMTP id v18-20020a05600c445200b003fc02d8b1f2mr22240026wmn.3.1691392273823;
+        Mon, 07 Aug 2023 00:11:13 -0700 (PDT)
+Received: from [192.168.64.157] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id l7-20020a7bc347000000b003fbdbd0a7desm14132336wmj.27.2023.08.07.00.11.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Aug 2023 00:11:13 -0700 (PDT)
+Message-ID: <b235e529-e8a1-5a5b-a02e-7831384d0bf4@grimberg.me>
+Date: Mon, 7 Aug 2023 10:11:11 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 02/14] nvme-keyring: define a 'psk' keytype
+Content-Language: en-US
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20230803105102.30949-1-hare@suse.de>
+ <20230803105102.30949-3-hare@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20230803105102.30949-3-hare@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230807_001028_736322_357CE2EA 
-X-CRM114-Status: GOOD (  10.34  )
+X-CRM114-CacheID: sfid-20230807_001115_798909_CB2CD787 
+X-CRM114-Status: UNSURE (   6.57  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,57 +83,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When flushing the backlog after decoding a record we don't really
-know how much data the caller want us to evaluate, so use INT_MAX
-and 0 as arguments to tls_read_flush_backlog() to ensure we flush
-at 128k of data. Otherwise we might be reading too much data and
-trigger a TCP window full.
-
-Suggested-by: Jakub Kicinski <kuba@kernel.org>
-Signed-off-by: Hannes Reinecke <hare@suse.de>
----
- net/tls/tls_sw.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
-
-diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
-index 9c1f13541708..5c122d7bb784 100644
---- a/net/tls/tls_sw.c
-+++ b/net/tls/tls_sw.c
-@@ -2240,7 +2240,6 @@ int tls_sw_read_sock(struct sock *sk, read_descriptor_t *desc,
- 			tlm = tls_msg(skb);
- 		} else {
- 			struct tls_decrypt_arg darg;
--			int to_decrypt;
- 
- 			err = tls_rx_rec_wait(sk, NULL, true, released);
- 			if (err <= 0)
-@@ -2248,20 +2247,18 @@ int tls_sw_read_sock(struct sock *sk, read_descriptor_t *desc,
- 
- 			memset(&darg.inargs, 0, sizeof(darg.inargs));
- 
--			rxm = strp_msg(tls_strp_msg(ctx));
--			tlm = tls_msg(tls_strp_msg(ctx));
--
--			to_decrypt = rxm->full_len - prot->overhead_size;
--
- 			err = tls_rx_one_record(sk, NULL, &darg);
- 			if (err < 0) {
- 				tls_err_abort(sk, -EBADMSG);
- 				goto read_sock_end;
- 			}
- 
--			released = tls_read_flush_backlog(sk, prot, rxm->full_len, to_decrypt,
--							  decrypted, &flushed_at);
-+			released = tls_read_flush_backlog(sk, prot, INT_MAX,
-+							  0, decrypted,
-+							  &flushed_at);
- 			skb = darg.skb;
-+			rxm = strp_msg(skb);
-+			tlm = tls_msg(skb);
- 			decrypted += rxm->full_len;
- 
- 			tls_rx_rec_done(ctx);
--- 
-2.35.3
-
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
