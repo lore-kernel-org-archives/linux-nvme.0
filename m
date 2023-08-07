@@ -4,70 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4A3A3EB64DD
-	for <linux-nvme@archiver.kernel.org>; Mon,  7 Aug 2023 11:33:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3477EB64DD
+	for <linux-nvme@archiver.kernel.org>; Mon,  7 Aug 2023 11:49:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LRJSF4PvbClJhVe2Qd2v17vUM8IVHQZnmG7bWG1heOQ=; b=iHlnmF5vyXkPTQc2MLPkzmlpt4
-	iCKQdVlnref7At+ZsLAQ9IaRga0eogtczS5QbLGZTLsJPmbrFPT4VhsnfXHlbuoevwHy2fnezLE/I
-	dxozkuzKHGF2zrsIcwFjuJ+MvCQ+e9blgr6uIsAobj8I1KDRgddY7Z5uthZ4gcK3yLxrER9EByqOu
-	DItp6p6Gg6AI5xCOHy/fXfB5bB6T1w9l9xUuqpXqTArE/xhD3fM9oohjSu17qqwj1nAiJD7u5uP/a
-	kAEyigz0Ls5WnybMSXIZ5pwAi6XXZB6//++EmC+vEuUwL1yl0nBE+B1YXzlm/Zwnt0ghcvCfBfIRI
-	3iTWWDOw==;
+	bh=dx0/Ux/aBdAY0A1gs78EhBVnVY05V2b1IUaEZFpZ6Kg=; b=MCp/GAJ9ZCO2GMeEdh8tfw3xEG
+	2RrH4qC8oFTnxDKAnAGYYsLDnn2owlTlxeS0QnlQaRUxbJvAKU+mP+rwv8Iagv6c9MraZx6h2WJBL
+	hCZN7pyA31Odds8acF7C6K78/59iE9Q6DOEHgG1Bc2eEWvDybX+Sov10PFmXkVT99cQZpRUO4J3Dm
+	Lj5Up+JhkGfSrs9vClqNzdPK+yNz2vwUFwjWNpEQoLtpTRbU0ciKZxqHZr3arUAsdAugHRgKn6oni
+	GuSaSPTwjNb1kJK8E7TAxwMgkn+hzmlFHt6Wb6oMU+xI4ynJDTX89Uk3QSpicM6yD7PJdErsxWOVZ
+	CWhTsiiA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qSyTs-00H63V-2U;
-	Mon, 07 Aug 2023 11:33:00 +0000
-Received: from mail-wm1-f49.google.com ([209.85.128.49])
+	id 1qSyjb-00H7wy-1D;
+	Mon, 07 Aug 2023 11:49:15 +0000
+Received: from mail-ed1-f52.google.com ([209.85.208.52])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qSyTp-00H631-2f
+	id 1qSyjX-00H7wJ-2i
 	for linux-nvme@lists.infradead.org;
-	Mon, 07 Aug 2023 11:32:59 +0000
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-3fe1b6192e8so12716625e9.1
-        for <linux-nvme@lists.infradead.org>; Mon, 07 Aug 2023 04:32:56 -0700 (PDT)
+	Mon, 07 Aug 2023 11:49:13 +0000
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-522a9e0e6e9so1276402a12.1
+        for <linux-nvme@lists.infradead.org>; Mon, 07 Aug 2023 04:49:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691407975; x=1692012775;
+        d=1e100.net; s=20221208; t=1691408948; x=1692013748;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LRJSF4PvbClJhVe2Qd2v17vUM8IVHQZnmG7bWG1heOQ=;
-        b=YRVeBsmriHD13URkrJsVz3gtjGTRwaCpil7XQV3MFL43jwT6M7lFUYN9C/iai593uV
-         WMG+UwNBDqWJrsKKY1UAKv1nd6gYdMJsBdI+XsW/UTc/aZPm0doWAaMN8l8QVn44pu3l
-         j0ottCScZqNBH1RV7NPmWtD7hzdy10P5irmk0ZfG9MGoejqpSYBeB58FXEA4c+EzXiTM
-         L+Av68ZkFoqMsfubfmrinzjc5Kg4Lbv8dBTOYYjoTxF8ZiHrbGNrXGnSjFOEtEAVNQCn
-         0S3xb+Usgfk3fMtDgXyIDoSg0DdrL6+xpYiGk42kzkkh4GgvTcLNRZ71V1/crMukgkXq
-         ++pQ==
-X-Gm-Message-State: AOJu0Yy6kz6oXlXRNgh1Sf/aO85HaTHF0Th09/73SC4iw8rwuM4GCAia
-	mnSf1XHP0m88/mTueemgX9I=
-X-Google-Smtp-Source: AGHT+IEXBffm+OehTboIwyemk85/L7ybd0x+oAQ7BrUPQfdQYukJatLhJ6n3RV/FOt4CsJ4wYczzZw==
-X-Received: by 2002:a05:600c:c0d:b0:3fe:427c:477e with SMTP id fm13-20020a05600c0c0d00b003fe427c477emr9822681wmb.4.1691407974830;
-        Mon, 07 Aug 2023 04:32:54 -0700 (PDT)
+        bh=dx0/Ux/aBdAY0A1gs78EhBVnVY05V2b1IUaEZFpZ6Kg=;
+        b=QiC0mRpuTDHnUZEt5zPIic9TNiIBArCyuFc3yC6kM3CwVjXQlZ92p1Fnf5RGynQlVM
+         Arjfys64+B0oVh8LTqpS2y1rGVVBC/bgV8MZNkm1OXQZdCK1T13jEDrfJcTXjvlq93fS
+         WcDWYPJCtlnyBkU6GcYKwd3UNStLF0vmnNQSzllmiStKK+c8E3+W/kU55RogAFUwKsye
+         CvVFc+fN2gz3eXMJy8SPsdMw5h+3Hx4aRkrHAOWq0OABYTNJ6aHx9l7gYLDePXIGfSn8
+         VVYa4zWQ3aKTEUKloHyeY2F0hu59oOPnqzcrennhy4snrTG4ET0n7C0MXpJxuL9VMKsr
+         qtCA==
+X-Gm-Message-State: ABy/qLaPX1RVq6NxUB5pQOEBcaO41euni0blKG2J1fqeGaSsGFSxgxXP
+	A7hEE37hrBtEQCEZO9OotNI=
+X-Google-Smtp-Source: APBJJlEeMWBdQBPfmN9cQpbZGBb06EGdbY0SGlMoHT+zdItnwCmnkOZwvGUjIWEOEQFJYUAgo/FGGg==
+X-Received: by 2002:a05:6402:520e:b0:522:580f:8304 with SMTP id s14-20020a056402520e00b00522580f8304mr25520920edd.1.1691408948036;
+        Mon, 07 Aug 2023 04:49:08 -0700 (PDT)
 Received: from [192.168.64.157] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id 5-20020a05600c230500b003fc01f7a42dsm10464928wmo.8.2023.08.07.04.32.53
+        by smtp.gmail.com with ESMTPSA id b3-20020aa7cd03000000b0052229d203a4sm5107161edw.36.2023.08.07.04.49.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Aug 2023 04:32:54 -0700 (PDT)
-Message-ID: <eb0ec990-50f2-128b-93ea-5a997e36bdee@grimberg.me>
-Date: Mon, 7 Aug 2023 14:32:52 +0300
+        Mon, 07 Aug 2023 04:49:07 -0700 (PDT)
+Message-ID: <5d114710-6786-d82a-d3c2-4b281a7ab3cd@grimberg.me>
+Date: Mon, 7 Aug 2023 14:49:05 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v2] nvmet-tcp: fix data digest calculation for multiple
- H2CData PDUs
+Subject: Re: [PATCH 13/14] nvmet-tcp: enable TLS handshake upcall
 Content-Language: en-US
-To: Varun Prakash <varun@chelsio.com>, hch@lst.de, kbusch@kernel.org
-Cc: linux-nvme@lists.infradead.org, Rakshana Sridhar <rakshanas@chelsio.com>
-References: <20230803105839.6139-1-varun@chelsio.com>
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20230803105102.30949-1-hare@suse.de>
+ <20230803105102.30949-14-hare@suse.de>
+ <7260f07a-2d2a-1f84-722c-8385eda7475a@grimberg.me>
+ <fb4a9ec5-15b0-c93c-ae54-c7215d155c3d@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230803105839.6139-1-varun@chelsio.com>
+In-Reply-To: <fb4a9ec5-15b0-c93c-ae54-c7215d155c3d@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230807_043257_866605_B2B4435E 
-X-CRM114-Status: GOOD (  23.82  )
+X-CRM114-CacheID: sfid-20230807_044911_880398_ED33E16B 
+X-CRM114-Status: GOOD (  22.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,118 +85,91 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
+>>> @@ -389,6 +427,16 @@ static ssize_t nvmet_addr_tsas_store(struct 
+>>> config_item *item,
+>>>   found:
+>>>       nvmet_port_init_tsas_tcp(port, nvmet_addr_tsas_tcp[i].type);
+>>> +    if (nvmet_addr_tsas_tcp[i].type == NVMF_TCP_SECTYPE_TLS13) {
+>>> +        if (nvmet_port_treq(port) == NVMF_TREQ_NOT_SPECIFIED)
+>>> +            treq |= NVMF_TREQ_REQUIRED;
+>>> +        else
+>>> +            treq |= nvmet_port_treq(port);
+>>> +    } else {
+>>> +        /* Set to 'not specified' if TLS is not enabled */
+>>> +        treq |= NVMF_TREQ_NOT_SPECIFIED;
+>>> +    }
+>>> +    port->disc_addr.treq = treq;
+>>>       return count;
+>>>   }
+>>
+>> Can the treq/tsas be split from the actual nvmet-tcp upcall addition?
+>>
+> I guess it can; it's just that it doesn't make any sense if we don't 
+> have the TLS upcall implemented.
 
-On 8/3/23 13:58, Varun Prakash wrote:
-> On receiving H2CData PDU current code calculates data digest for the entire
-> transfer length, it works if host sends only one H2CData PDU per cmd, if
-> host sends multiple H2CData PDU per cmd then target reports data digest
-> error.
-> 
-> This issue was fixed in commit fda871c0ba5d ("nvmet-tcp: fix receive data
-> digest calculation for multiple h2cdata PDUs").
-> 
-> commit bac04454ef9f ("nvmet-tcp: fix kmap leak when data digest in use")
-> unmaps iovec before calculating data digest and
-> commit 69b85e1f1d1d ("nvmet-tcp: add an helper to free the cmd buffers")
-> sets cmd->nr_mapped = 0 after unmapping iovec, both of these commits
-> caused regression in data digest calculation.
-> 
-> To fix this regression commit ed0691cf5514 ("nvmet-tcp: fix regression in
-> data_digest calculation") changed the logic to use sg directly instead of
-> iovec, it calculates data digest for the entire transfer length this
-> caused another regression for multiple H2CData PDU per cmd case.
-> 
-> Fixes: ed0691cf5514 ("nvmet-tcp: fix regression in data_digest calculation")
-> Signed-off-by: Rakshana Sridhar <rakshanas@chelsio.com>
-> Signed-off-by: Varun Prakash <varun@chelsio.com>
-> ---
-> 
-> v2:
-> - used sg instead of iovec for data digest calculation
-> - updated commit message
-> 
->   drivers/nvme/target/tcp.c | 42 ++++++++++++++++++++++++++++++++++++---
->   1 file changed, 39 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-> index cd92d7ddf5ed..4d72b4b2b205 100644
-> --- a/drivers/nvme/target/tcp.c
-> +++ b/drivers/nvme/target/tcp.c
-> @@ -415,7 +415,7 @@ static int nvmet_tcp_map_data(struct nvmet_tcp_cmd *cmd)
->   	return NVME_SC_INTERNAL;
->   }
->   
-> -static void nvmet_tcp_calc_ddgst(struct ahash_request *hash,
-> +static void nvmet_tcp_send_ddgst(struct ahash_request *hash,
->   		struct nvmet_tcp_cmd *cmd)
+Still its mixing two parts together and makes the patch unnecessarily
+complicated.
 
-We should call it nvmet_tcp_calc_send_ddgst
+>>> @@ -1285,12 +1302,12 @@ static int nvmet_tcp_try_recv(struct 
+>>> nvmet_tcp_queue *queue,
+>>>   static void nvmet_tcp_schedule_release_queue(struct nvmet_tcp_queue 
+>>> *queue)
+>>>   {
+>>> -    spin_lock(&queue->state_lock);
+>>> +    spin_lock_irq(&queue->state_lock);
+>>
+>> Where is this lock taken in irq context that needs disabling irq?
+>>
+> Let me check; might be that it got solved with the workqueue fixes which 
+> went in lately.
 
->   {
->   	ahash_request_set_crypt(hash, cmd->req.sg,
-> @@ -447,7 +447,7 @@ static void nvmet_setup_c2h_data_pdu(struct nvmet_tcp_cmd *cmd)
->   
->   	if (queue->data_digest) {
->   		pdu->hdr.flags |= NVME_TCP_F_DDGST;
-> -		nvmet_tcp_calc_ddgst(queue->snd_hash, cmd);
-> +		nvmet_tcp_send_ddgst(queue->snd_hash, cmd);
->   	}
->   
->   	if (cmd->queue->hdr_digest) {
-> @@ -1152,11 +1152,47 @@ static int nvmet_tcp_try_recv_pdu(struct nvmet_tcp_queue *queue)
->   	return nvmet_tcp_done_recv_pdu(queue);
->   }
->   
-> +static void nvmet_tcp_recv_ddgst(struct ahash_request *hash,
-> +		struct nvmet_tcp_cmd *cmd)
+Can you explain what was the original issue for this change?
 
-We should call it nvmet_tcp_calc_recv_ddgst
+>>> +{
+>>> +    struct nvmet_tcp_queue *queue = data;
+>>> +
+>>> +    pr_debug("queue %d: TLS handshake done, key %x, status %d\n",
+>>> +         queue->idx, peerid, status);
+>>> +    if (!status) {
+>>> +        spin_lock_irq(&queue->state_lock);
+>>> +        queue->tls_pskid = peerid;
+>>> +        spin_unlock_irq(&queue->state_lock);
+>>> +    }
+>>> +    cancel_delayed_work_sync(&queue->tls_handshake_work);
+>>
+>> Hmm, the cancel_delayed_work_sync is scary.
+>>
+>> What happens if it ran and already scheduled a release (which
+>> already ran and completed)?
+>>
+> Well, we need to stop the timeout at some point; granted, for a failure 
+> we can just flush the workqueue, but in the success case we need 
+> terminate the workqueue.
+> And nvmet_tcp_schedule_release_queue() already checks for the queue 
+> state, so we should be (reasonably) safe.
 
-> +{
-> +	struct scatterlist *sg = &cmd->req.sg[cmd->sg_idx];
-> +	struct bio_vec *iov = cmd->iov;
-> +	u32 data_length = cmd->pdu_len;
-> +
-> +	crypto_ahash_init(hash);
-> +
-> +	if (iov->bv_offset) {
-> +		struct scatterlist first_sg;
-> +
-> +		sg_init_table(&first_sg, 1);
-> +		sg_set_page(&first_sg, sg_page(sg), iov->bv_len,
-> +				iov->bv_offset);
-> +
-> +		data_length -= iov->bv_len;
-> +
-> +		if (data_length) {
-> +			ahash_request_set_crypt(hash, &first_sg, NULL,
-> +						iov->bv_len);
-> +			crypto_ahash_update(hash);
-> +			sg = sg_next(sg);
-> +		} else {
-> +			ahash_request_set_crypt(hash, &first_sg,
-> +					(void *)&cmd->exp_ddgst, iov->bv_len);
-> +			crypto_ahash_finup(hash);
-> +			return;
-> +		}
+Still it looks error prone (although granted, I didn't spot a particular
+race where this breaks).
 
-What is the case for data_length=0 ? I'm not entirely clear how this can
-happen.
+I wish the handshake code could have given us a timeout functionality
+so we don't need to deal with it...
 
-> +	}
-> +
-> +	ahash_request_set_crypt(hash, sg, (void *)&cmd->exp_ddgst,
-> +				data_length);
-> +	crypto_ahash_finup(hash);
-> +}
-> +
->   static void nvmet_tcp_prep_recv_ddgst(struct nvmet_tcp_cmd *cmd)
->   {
->   	struct nvmet_tcp_queue *queue = cmd->queue;
->   
-> -	nvmet_tcp_calc_ddgst(queue->rcv_hash, cmd);
-> +	nvmet_tcp_recv_ddgst(queue->rcv_hash, cmd);
->   	queue->offset = 0;
->   	queue->left = NVME_TCP_DIGEST_LENGTH;
->   	queue->rcv_state = NVMET_TCP_RECV_DDGST;
+In any event, preferably the synchronization does not require to
+synchronize an active work element on the workqueue.
+
+>>> +    pr_debug("queue %d: TLS ServerHello\n", queue->idx);
+>>> +    memset(&args, 0, sizeof(args));
+>>> +    args.ta_sock = queue->sock;
+>>> +    args.ta_done = nvmet_tcp_tls_handshake_done;
+>>> +    args.ta_data = queue;
+>>> +    args.ta_keyring = key_serial(queue->port->nport->keyring);
+>>> +    args.ta_timeout_ms = tls_handshake_timeout * 2 * 1024;
+>>
+>> * 2 * 1024 ? I didn't know we have 2048 ms in a second...
+>>
+> The '_ms' bit is just an indicator of the unit, not the value.
+> We don't have an 'args.ta_timeout_sec' ...
+
+I expected to see tls_handshake_timeout * 1000, i.e. a trivial
+conversion from sec to ms.
 
