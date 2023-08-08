@@ -4,72 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B33B6C001B0
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Aug 2023 08:41:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CA97DC001DB
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Aug 2023 08:44:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6nDfshqGjfSU1LQvNk/0CiyR68GvY2EUpy3tDNk00eQ=; b=IdDbnA9IXVfZw8HskwCM53kirl
-	R6m+mY8lRz4I4JFSmE86SA4kIdWyWUUpRRlfbTdtBZsB6IO/jfYQfFY+h/GVV4rLqdG43t4owazzT
-	5hIjIWQgUb5Db3jnJ1213ghdMpw3JQ1pZchk1bDZ2+4wMimQSfks5rwSotFwvXs1bC4ZbMPOgVsQ+
-	lfpROVdbCvPEh5dETfyFgQLto766VNHSCbWhnpwrQ9Ht0/Exd72iTWK6TkFJeNs3J7HD/TmZk4LWn
-	q6W9jX19uSiClEzDxbWdUxZU6ajrdQvlVRxwn77q6d8+hqhWurztjMLB0D+R3VYvO8FaZGhLU63Gy
-	tu32RYeQ==;
+	bh=Fe3HYBBNrBsCfVwosrVYyR1qukOyzkNRsF+CRQzIjcE=; b=eg3F3g3A3pL5m2SAMX0aF7JNEH
+	JJh04Lb0OKHnIJAhqH1exudAZmNiLihmQEuhItpq2GgIAyWfgHSOmFHPccNUQUD2D2k+bJZkB54By
+	ZGpNwCNV9R+FWOaP+GrCvr3CiRpGcZvKd4wdvPkYEMTo8f4nH9ni7VRk4de7dAvZyPXrmpAT+s6K8
+	juYKnPvdnYcUnWu14WUXlaCATGbCW4lCXoirhc4/ww8x+b9GPfkr7LC+ZzgVDBX+GL8bzKfuWNrBL
+	UoTT6Wg3RvbhVc0RvZSrn1/twdb5kLPOartz/3VZcFbScOjNw7JQTJdBnSopfbpzv97UwtPMskgH1
+	Oc/jNGLg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTIHU-0023m3-0f;
-	Tue, 08 Aug 2023 08:41:32 +0000
-Received: from mail-ej1-f44.google.com ([209.85.218.44])
+	id 1qTIK3-0024Fh-1p;
+	Tue, 08 Aug 2023 08:44:11 +0000
+Received: from mail-lj1-f180.google.com ([209.85.208.180])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTIHR-0023lL-0H
+	id 1qTIK1-0024Ag-0Q
 	for linux-nvme@lists.infradead.org;
-	Tue, 08 Aug 2023 08:41:30 +0000
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-94ea38c90ccso138822866b.1
-        for <linux-nvme@lists.infradead.org>; Tue, 08 Aug 2023 01:41:24 -0700 (PDT)
+	Tue, 08 Aug 2023 08:44:10 +0000
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2b9b6c57c94so16875791fa.0
+        for <linux-nvme@lists.infradead.org>; Tue, 08 Aug 2023 01:44:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691484083; x=1692088883;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20221208; t=1691484245; x=1692089045;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6nDfshqGjfSU1LQvNk/0CiyR68GvY2EUpy3tDNk00eQ=;
-        b=YC8+xHxaQteimV36X1dSoksaQLRifcgoyWVYa7eD2i7jypYNOmTfoo+Sez5NnugVfC
-         x+TpwNbe0+TFwmEMzcQVmYTIyxWSU3b4R5JvkkPvnv9zur/gvXuK+qaOhHqFqQqFKoe4
-         2NmzrSWIT0offkFbXxVbSJXO8ZCm5gx1COHw9rCmvjEXsoyjVtAZttBDmRcY5VukLwQl
-         trjZKUpZ6wvgk/gKyCIAJcu6qIQjJIMnHurv4JvLeyCpaJqlbRi4hpzSeuO47xcMCXvC
-         0RhAAD596IpDs0ojepab9ATKyZeHL+Owi4gFvANvyTAEZKAGwlbLjfehAAwhFHn1uCu1
-         iZgw==
-X-Gm-Message-State: ABy/qLZ+PllwoESF+iUXcpshZGcSqvPgiUc3F5dT8vwMv+LtZu0oU9b5
-	VfyszgoCAiofhAhcM1Z06Y4YYcSwCiY=
-X-Google-Smtp-Source: APBJJlEL7kvznQxIW2G1Csk6xzP0KJxzYrXhm/PsyZrzCPBAWliABfB3ZE8U0Uutr3fHboNc9N93Tg==
-X-Received: by 2002:a17:906:20ce:b0:994:539d:f98b with SMTP id c14-20020a17090620ce00b00994539df98bmr20012496ejc.6.1691484083274;
-        Tue, 08 Aug 2023 01:41:23 -0700 (PDT)
+        bh=Fe3HYBBNrBsCfVwosrVYyR1qukOyzkNRsF+CRQzIjcE=;
+        b=XkJ47ynrtUkg2soLHyaAtaUarx+kRxoch17YZq/S1/QtBBXJwWko7q+sTBfO2WW0ok
+         V72t3ohtW4iCnx7ctKcx4h6+jh0kbuNyIXZKHZl1sI+owCp5+pFdp56FdV5huE3pFStY
+         /cixuaE8117tuETryAK0uNE84KKre2PR30X5kGQXn+YTnmCT6P0wbQhToPTuJOXNlwOn
+         rtT5fe6nTxvghqCl74vpB3IHVoNolaanXXvCCIhoOr4zu66ig0ieobk8+xRmzbbqg6tN
+         8L+XgE6WoXWrXwH/KWRfV6aBSZb1QlhBjGXyCKYg8QHVP3dXQ0a4IsS4p7M41awuNeLf
+         viKA==
+X-Gm-Message-State: ABy/qLYaJeRNhrTgfa2zerOfwv51bcfqSh3Doma+xDJiI/+4VRJGJ3KA
+	maDo9lLHrpr9xXPQcWbW+Is=
+X-Google-Smtp-Source: APBJJlFeIo6/DmDaaPWtj1G9VhTc/XSsPQkR28CBMPQaJZqxL5/q5y50mQEzMiOqaWRkjJ9PXse4mw==
+X-Received: by 2002:a05:651c:2c6:b0:2b6:120a:af65 with SMTP id f6-20020a05651c02c600b002b6120aaf65mr14671242ljo.3.1691484245520;
+        Tue, 08 Aug 2023 01:44:05 -0700 (PDT)
 Received: from [192.168.64.157] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id l7-20020a17090612c700b009937dbabbdasm6243631ejb.217.2023.08.08.01.41.21
+        by smtp.gmail.com with ESMTPSA id f10-20020a7bc8ca000000b003fe20533a1esm13004789wml.44.2023.08.08.01.44.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Aug 2023 01:41:22 -0700 (PDT)
-Message-ID: <41f9e217-374e-2cfa-b912-147686fe7ee6@grimberg.me>
-Date: Tue, 8 Aug 2023 11:41:20 +0300
+        Tue, 08 Aug 2023 01:44:04 -0700 (PDT)
+Message-ID: <044969f1-f6dc-fa3d-f933-5e4c928eaab9@grimberg.me>
+Date: Tue, 8 Aug 2023 11:44:03 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH 09/14] nvme-tcp: control message handling for recvmsg()
+Subject: Re: [PATCH 12/14] nvmet-tcp: allocate socket file
+Content-Language: en-US
 To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
 References: <20230803105102.30949-1-hare@suse.de>
- <20230803105102.30949-10-hare@suse.de>
- <5c12f391-c5cb-2d1a-40b3-b93f45292c6c@grimberg.me>
- <5127f18a-7a15-71d0-4ae3-b7caa62e5d80@suse.de>
-Content-Language: en-US
+ <20230803105102.30949-13-hare@suse.de>
+ <0ac55b10-6917-9247-59f3-5f3b8e121a9f@grimberg.me>
+ <432fd12b-3da0-a3d0-73cc-863a272a0f85@suse.de>
+ <8e0a1503-266f-0368-9eb2-ebeb256bd091@grimberg.me>
+ <4e14f8b3-27ac-4afa-91e9-8ccb41a8b89b@suse.de>
+ <3dca56b7-f981-73a7-386f-099c6f008064@grimberg.me>
+ <1b3cc664-ad7d-493c-50a4-6fc473f06f5c@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <5127f18a-7a15-71d0-4ae3-b7caa62e5d80@suse.de>
+In-Reply-To: <1b3cc664-ad7d-493c-50a4-6fc473f06f5c@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230808_014129_125714_96604AAA 
-X-CRM114-Status: GOOD (  18.70  )
+X-CRM114-CacheID: sfid-20230808_014409_174232_50596AD2 
+X-CRM114-Status: GOOD (  12.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,73 +89,41 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-
-On 8/8/23 09:39, Hannes Reinecke wrote:
-> On 8/7/23 10:22, Sagi Grimberg wrote:
->>
->>
->> On 8/3/23 13:50, Hannes Reinecke wrote:
->>> kTLS is sending TLS ALERT messages as control messages for recvmsg().
->>> As we can't do anything sensible with it just abort the connection
->>> and let the userspace agent to a re-negotiation.
+>>>>>>> -static int nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
+>>>>>>> +static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
+>>>>>>>           struct socket *newsock)
+>>>>>>
+>>>>>> Why does the function change from retcode to void in this patch?
+>>>>>
+>>>>> Because the return code was never evaluated.
+>>>>
+>>>> ??
+>>>>
+>>>> I see it is evaluated.
 >>>
->>> Signed-off-by: Hannes Reinecke <hare@suse.de>
->>> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
->>> ---
->>>   drivers/nvme/host/tcp.c | 18 +++++++++++++++++-
->>>   1 file changed, 17 insertions(+), 1 deletion(-)
+>>> Yes, but this patch moved the 'sock_release()' call into 
+>>> nvmet_tcp_alloc_queue(), making the return code obsolete.
 >>>
->>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
->>> index 98400ad5f969..4d0e3de39c26 100644
->>> --- a/drivers/nvme/host/tcp.c
->>> +++ b/drivers/nvme/host/tcp.c
->>> @@ -14,6 +14,7 @@
->>>   #include <net/sock.h>
->>>   #include <net/tcp.h>
->>>   #include <net/tls.h>
->>> +#include <net/tls_prot.h>
->>>   #include <net/handshake.h>
->>>   #include <linux/blk-mq.h>
->>>   #include <crypto/hash.h>
->>> @@ -1369,6 +1370,10 @@ static int nvme_tcp_init_connection(struct 
->>> nvme_tcp_queue *queue)
->>>   {
->>>       struct nvme_tcp_icreq_pdu *icreq;
->>>       struct nvme_tcp_icresp_pdu *icresp;
->>> +#ifdef CONFIG_NVME_TCP_TLS
->>> +    char cbuf[CMSG_LEN(sizeof(char))] = {};
->>> +    u8 ctype;
->>> +#endif
->>>       struct msghdr msg = {};
->>>       struct kvec iov;
->>>       bool ctrl_hdgst, ctrl_ddgst;
->>> @@ -1406,11 +1411,22 @@ static int nvme_tcp_init_connection(struct 
->>> nvme_tcp_queue *queue)
->>>       memset(&msg, 0, sizeof(msg));
->>>       iov.iov_base = icresp;
->>>       iov.iov_len = sizeof(*icresp);
->>> +#ifdef CONFIG_NVME_TCP_TLS
->>> +    msg.msg_control = cbuf;
->>> +    msg.msg_controllen = sizeof(cbuf);
->>> +#endif
->>>       ret = kernel_recvmsg(queue->sock, &msg, &iov, 1,
->>>               iov.iov_len, msg.msg_flags);
->>>       if (ret < 0)
->>>           goto free_icresp;
+>>> But I can make it a separate patch if required.
 >>
->> Is the cmsg passed unconditionally? meaning this does not
->> impact non-tls?
+>> But now who calls sock_release if you failed before allocating
+>> the sockfile?
 >>
->> If so, why is the ifdef needed?
->>
-> Passing in a cmsg (and a controllen) always enables the use of
-> control messages, irrespective of the type.
-> As we never enabled control messages prior to this we would
-> change the implementation when TLS is not enabled; who knows,
-> someone might have been sending us control messages all along,
-> but we never checked. So I thought it prudent to only enable
-> it for TLS where we know that we might be getting control messages.
+> That is done in nvmet_tcp_remove_port(), and independent on
+> queue release.
 
-But you are doing this only based on the compile-time config option, not
-based on a runtime setting. I am not sure I follow your logic.
+I'm referring to newsock, not the listener socket.
+
+--
+static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
+                 struct socket *newsock)
+{
+         struct nvmet_tcp_queue *queue;
+         int ret;
+
+         queue = kzalloc(sizeof(*queue), GFP_KERNEL);
+	//i.e. you fail here...
+         if (!queue)
+                 return;
+--
 
