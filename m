@@ -4,81 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00228C001B0
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Aug 2023 08:46:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 671C0C001B0
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Aug 2023 08:47:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1VmL4cnlNgAd9wIWh+n1F88tzINAPC+fI3K+o+7FiWI=; b=X72/o1SCVYN6oKv+N+j4Hx4t8i
-	lewPsRJdGM6rGHVvy68gosVyJ05Fx/SU1issdDKxct/SRJpRMVJAmMnu0fSoFaqVfcKq5miipCHGT
-	0Pwpi76cisI7x/uO1fgEhyphjY/SYqFHaN+/EiDGEUOnjDYplspHMArFSZ5rwAPIS1TOYXMpMR/Qh
-	iXi1Ic7phDs2J6FfnFQLZcTKQr5u2ER91fzsU9CJv1cIlnlzI7E0oR9p5htmmq0Nw6SyybqdhLx8/
-	ptMgLO/Q3kGfROAbrIY35LLiq8c3X3UGOBURuSbgm1n75B6ZyOfv2b0/46QvWMT5pXMV35a7arD4Y
-	QArseBkw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=IE+cQYrLbzbuiiR055HvYGpi3UVMCeFENxlo5dC5k5w=; b=NuQSxxUUbLkbGHzLGntnvKF3+Y
+	q7Vp7VkiQXodDsMAZUcTEtSU/yYuXXFFk0wdNvvaqDKiIeyJ/95ZvN0FaL7xmUss7vDa07RS9jSbO
+	cpeK4W73au95w+1hlns849B7QDopNdI2+DiXODDEomoUQxVjwJIuXm9RXlxQ6IaCT6PJzizIQ2Eqq
+	YAJFWyG7kFZNa7zDxqZrM5PBesHIp6m4LdZ2unOfx1emPP+0PGvV+0MrH4WIpi+x7UODoIuKZlGcS
+	j0bJFFibCEi1vWRveElTJoyWiJRk5bu8cgUe8qb80B8deBpmio3W+BgLbhb0Nb+u3hZuOJGCfuvj+
+	t8l1DrkQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTIMi-0024dW-11;
-	Tue, 08 Aug 2023 08:46:56 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1qTIN8-0024h4-2L;
+	Tue, 08 Aug 2023 08:47:22 +0000
+Received: from mail-ed1-f44.google.com ([209.85.208.44])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTIMe-0024cb-0G
+	id 1qTIN5-0024gJ-2K
 	for linux-nvme@lists.infradead.org;
-	Tue, 08 Aug 2023 08:46:54 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8B5AD20310;
-	Tue,  8 Aug 2023 08:46:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1691484407; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1VmL4cnlNgAd9wIWh+n1F88tzINAPC+fI3K+o+7FiWI=;
-	b=kPmvuDyyKufNdk1d2aK3My5PVf/0qF0yLNCx+l0mgsLS5AkXAVPr6DcUFDdBqKiy2VQB6L
-	+CLlHOc0a28PZOaEGGb/4OEFRoO113NDS0BVDDAoY9dqUAMMr5qVx2mNXrWNbRaBYFTXkI
-	hq7BENiPoKY+rGn/vqLBMXSCBfSQyhE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1691484407;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1VmL4cnlNgAd9wIWh+n1F88tzINAPC+fI3K+o+7FiWI=;
-	b=ClDAnv4Er+7VUiVfj723l/hk/ylWWLCSHpwdDaXrQvWmmtVQlAefPBIZRcQp+dabW9EyR4
-	4AmUTlQLFoy260Aw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 718E4139D1;
-	Tue,  8 Aug 2023 08:46:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id qDuyG/cA0mQ8BQAAMHmgww
-	(envelope-from <dwagner@suse.de>); Tue, 08 Aug 2023 08:46:47 +0000
-Date: Tue, 8 Aug 2023 10:46:46 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Yi Zhang <yi.zhang@redhat.com>
-Cc: linux-block <linux-block@vger.kernel.org>, 
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Subject: Re: [bug report] blktests nvme/047 failed due to /dev/nvme0n1 not
- created in time
-Message-ID: <vxeo2ucxhvdcm2z673keqerkpxay6dgfluuvxawukkbunddzm2@jdkdk7y3a5nu>
-References: <CAHj4cs9GNohGUjohNw93jrr8JGNcRYC-ienAZz+sa7az1RK77w@mail.gmail.com>
- <CAHj4cs9J7w_QSWMrj0ncufKwT9viS-o7pxmS2Y4FeaWEyPD34Q@mail.gmail.com>
+	Tue, 08 Aug 2023 08:47:20 +0000
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5230f92b303so1603252a12.0
+        for <linux-nvme@lists.infradead.org>; Tue, 08 Aug 2023 01:47:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691484436; x=1692089236;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IE+cQYrLbzbuiiR055HvYGpi3UVMCeFENxlo5dC5k5w=;
+        b=HEMfar7k9mino8IpG3fqemA/K6B8R9ro0QAx4aN41rKaiyBSV18ndZvxm7hgyZfFRo
+         +rxmx67UeUBcHWiSJzkPHDY+jj9X/E+cXwtm9I6oSVpb2QPr7dJJgKU3Qum607kQBuGM
+         AvWjgUGIBzr+G9E1gGIJThg1mV6zs01DVGO49XYKXbMuGFzTJqOOWW6qtWVM478zZc58
+         67ZpnKWtpeyWO0wSKGh3QYp0JRivTjBU/7frupQD5144/OwU+yD3lbv7ndS7d0A+Abak
+         yO8tfHAyinFJoehflS8JMq9LVGL/XjqByoZXAbtoYywtzk/WnysryuRI2qbVLxIHm4TO
+         sGQg==
+X-Gm-Message-State: ABy/qLb4wmHIUPvuST5HseMXD8LWkJDKetdnU652mBtoFGFMQT8C4EX4
+	7PWy3lkebnBXQvsXpNYZwxU=
+X-Google-Smtp-Source: APBJJlG4LDvxeTCVtTRK5ag4k0ARoHjKSEheRUpF87XGkzeWpDSuk6i1u1K5hwjweUKyMIwTiJ12Xg==
+X-Received: by 2002:a17:906:519d:b0:99b:d682:f306 with SMTP id y29-20020a170906519d00b0099bd682f306mr20659333ejk.4.1691484435936;
+        Tue, 08 Aug 2023 01:47:15 -0700 (PDT)
+Received: from [192.168.64.157] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id ot29-20020a170906ccdd00b00991d54db2acsm6298299ejb.44.2023.08.08.01.47.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Aug 2023 01:47:15 -0700 (PDT)
+Message-ID: <e33c1a36-2b8e-8331-5f36-54dc47ab02d1@grimberg.me>
+Date: Tue, 8 Aug 2023 11:47:14 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHj4cs9J7w_QSWMrj0ncufKwT9viS-o7pxmS2Y4FeaWEyPD34Q@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH libnvme v2 2/2] fabrics: Do not pass disable_sqflow if not
+ supported
+Content-Language: en-US
+To: Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org, Caleb Sander <csander@purestorage.com>,
+ Keith Busch <kbusch@kernel.org>
+References: <20230808070907.18834-1-dwagner@suse.de>
+ <20230808070907.18834-3-dwagner@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20230808070907.18834-3-dwagner@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230808_014652_276606_E0D1DEFB 
-X-CRM114-Status: GOOD (  15.54  )
+X-CRM114-CacheID: sfid-20230808_014719_773875_F68238EA 
+X-CRM114-Status: GOOD (  19.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,34 +84,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Aug 04, 2023 at 06:33:04PM +0800, Yi Zhang wrote:
-> On Tue, Aug 1, 2023 at 7:28 PM Yi Zhang <yi.zhang@redhat.com> wrote:
-> > After some investigating, I found it was due to the /dev/nvme0n1 node
-> > couldn't be created in time which lead to the following fio failing.
-> > + nvme connect -t tcp -a 127.0.0.1 -s 4420 -n blktests-subsystem-1
-> > --hostnqn=nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
-> > --hostid=0f01fb42-9f7f-4856-b0b3-51e60b8de349 --nr-write-queues=1
-> > + ls -l /dev/nvme0 /dev/nvme-fabrics
-> > crw-------. 1 root root 234,   0 Aug  1 05:50 /dev/nvme0
-> > crw-------. 1 root root  10, 122 Aug  1 05:50 /dev/nvme-fabrics
-> > + '[' '!' -b /dev/nvme0n1 ']'
-> > + echo '/dev/nvme0n1 node still not created'
-> > dmesg:
-> > [ 1840.413396] loop0: detected capacity change from 0 to 10485760
-> > [ 1840.934379] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-> > [ 1841.018766] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
-> > [ 1846.782615] nvmet: creating nvm controller 1 for subsystem
-> > blktests-subsystem-1 for NQN
-> > nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
-> > [ 1846.808392] nvme nvme0: creating 33 I/O queues.
-> > [ 1846.874298] nvme nvme0: mapped 1/32/0 default/read/poll queues.
-> > [ 1846.945334] nvme nvme0: new ctrl: NQN "blktests-subsystem-1", addr
-> > 127.0.0.1:4420
 
-Not really sure how the blk device registration code works, but this
-looks like there something executed not in the same context as the
-nvme-cli command and thus we might return to userspace before the device
-is fully created. And there is also udev events which are handled by
-systemd. If this is the case, we might want to add some generic helper
-which waits for the device to pop up before we continue with the test.
+> Only retry a connect attempt with disable_sqflow if the kernel
+> actually supports this option.
+> 
+> Reported-by: Sagi Grimberg <sagi@grimberg.me>
+> Signed-off-by: Daniel Wagner <dwagner@suse.de>
+> ---
+>   src/nvme/fabrics.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/src/nvme/fabrics.c b/src/nvme/fabrics.c
+> index 9725eeb3cda8..f0e85d3b766d 100644
+> --- a/src/nvme/fabrics.c
+> +++ b/src/nvme/fabrics.c
+> @@ -1043,7 +1043,8 @@ nvme_ctrl_t nvmf_connect_disc_entry(nvme_host_t h,
+>   	if (!ret)
+>   		return c;
+>   
+> -	if (errno == EINVAL && c->cfg.disable_sqflow) {
+> +	if (errno == EINVAL && c->cfg.disable_sqflow &&
+> +	    nvmf_check_option(h->r, disable_sqflow)) {
+>   		errno = 0;
+>   		/* disable_sqflow is unrecognized option on older kernels */
+>   		nvme_msg(h->r, LOG_INFO, "failed to connect controller, "
+
+I think you want to check this before the initial call
+and avoid the retry altogether.
+--
+-       if (e->treq & NVMF_TREQ_DISABLE_SQFLOW)
++       if (e->treq & NVMF_TREQ_DISABLE_SQFLOW &&
++           nvmf_check_option(h->r, disable_sqflow))
+                 c->cfg.disable_sqflow = true;
++       else
++               c->cfg.disable_sqflow = false;
+
+         if (e->trtype == NVMF_TRTYPE_TCP &&
+             (e->treq & NVMF_TREQ_REQUIRED ||
+--
 
