@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F9A0C001DF
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Aug 2023 10:43:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B074CC001B0
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Aug 2023 10:43:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jmP+yqN1CMl4seuzyOdC4zCzUZWNFx4ZDmn6s0/7WWk=; b=lwnqM5E+XwWbpfMfQt82QWBC+C
-	Ac5cECZelzKZgVkKUE7GlWzPTGPUA1Uom/R0d9jCbNe1AXiRdT9PWF3+IWkd6nNgBG0RyNpASnVQs
-	dF3zXLvwx/fZxT8+LqmZAR6Dpoemo0FITCO4X9n21k/tqiGZXeefnerSaMu2CP9ndfuYrHMqPJXlv
-	6EWCNm+qOF2XvRKqVvFSt2W20QscRzi0IsQzv0BzZkF5RQu6DXI29LeslYR6x5h1rkhcel0c7nQ0V
-	NPGC8DkLKRWe+wkCg4CKcaSg97EAYN+QEYnj+xtMbhskcIsUbVAtoEyDJtXMkFrRT6UsjItpW6uQP
-	Bic97xJw==;
+	bh=G5vWqgVWZ30SumBVkEoD+1IKC/3TIbPs2fN+ccFAG78=; b=Z4GE5GaNKoyyNN4NzdoDCF+l9U
+	1hoaT6ePcl4hjnbqWlpXLI9Xgdlmh4Y0fqcM8UZLPlua4v3rmKVGs6sEE/o+Z5cqKFb2g+WYMiNDz
+	FhgmpPJliYybywm+lrWSMT28Jqgoj1jfxKWis2LqDp6z5Na+DrMDZUJMrgNDGWdJMIA862eMEklm7
+	MqdjjETdXbEeZdUcew7x23fBi7pZi3mt4qxYBRJHxQ3mnVkWUaPqbvaxC7AUYjkkXviigNeauowHh
+	VYIk1jDztDCNY79e+uqnq6PXELhT2+BuSNY9BWdmWxMKKsAdypZ90iBJnVNtc18+6mYOVJfypm73m
+	NEVoKdSg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTKBV-002Jk7-1X;
-	Tue, 08 Aug 2023 10:43:29 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1qTKBW-002JlX-2G;
+	Tue, 08 Aug 2023 10:43:30 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTKBR-002JfG-2h
+	id 1qTKBS-002Jge-2f
 	for linux-nvme@lists.infradead.org;
-	Tue, 08 Aug 2023 10:43:27 +0000
+	Tue, 08 Aug 2023 10:43:28 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1691491405;
+	s=mimecast20190719; t=1691491406;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=jmP+yqN1CMl4seuzyOdC4zCzUZWNFx4ZDmn6s0/7WWk=;
-	b=JgKPpKJWbFgesVSAY5IofBBHgiXsHy6/VYM0B2oQaExPughu3ilGVEN6nuZMMPXS4lmqK0
-	i1swMp7ewBl+71VLNvg8QbwG653Y+ylKoNad2yknt4DFDK9KH4VrpwQtlF0lv4nJuhNg/T
-	ksttEOIbyigdqxHuVUBY8Xe2GASScWc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-642-wIauOLLpNZKM2kg1dDb2WQ-1; Tue, 08 Aug 2023 06:43:19 -0400
-X-MC-Unique: wIauOLLpNZKM2kg1dDb2WQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+	bh=G5vWqgVWZ30SumBVkEoD+1IKC/3TIbPs2fN+ccFAG78=;
+	b=Qt3qco5iK/kP4bMZ1/xZiw50UuMqQx193s+swFVYbflKgUpkAlCa2jn/HoySIgvSqgJinb
+	CX8Bfakwskp0i54WVS5/1JLA+Aj367fBXdrc2e/ZqhOqI8QH3/xSRMqbKs/Vvsbd4zh0d6
+	w5JOvjS5cFc0NzTbnkGbMO/vm4xMURY=
+Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-221-vLpqu9fwMnezhqdyB-j8NQ-1; Tue, 08 Aug 2023 06:43:23 -0400
+X-MC-Unique: vLpqu9fwMnezhqdyB-j8NQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 201908DC666;
-	Tue,  8 Aug 2023 10:43:19 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F2C6F3815EF3;
+	Tue,  8 Aug 2023 10:43:22 +0000 (UTC)
 Received: from localhost (unknown [10.72.120.3])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 54067492C13;
-	Tue,  8 Aug 2023 10:43:17 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 13BA11121314;
+	Tue,  8 Aug 2023 10:43:21 +0000 (UTC)
 From: Ming Lei <ming.lei@redhat.com>
 To: Jens Axboe <axboe@kernel.dk>,
 	Christoph Hellwig <hch@lst.de>,
@@ -60,20 +60,18 @@ Cc: linux-block@vger.kernel.org,
 	Wen Xiong <wenxiong@linux.ibm.com>,
 	Keith Busch <kbusch@kernel.org>,
 	Ming Lei <ming.lei@redhat.com>,
-	Sathya Prakash <sathya.prakash@broadcom.com>,
-	Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
-	Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>
-Subject: [PATCH V3 09/14] scsi: mpt3sas: take blk_mq_max_nr_hw_queues() into account for calculating io vectors
-Date: Tue,  8 Aug 2023 18:42:34 +0800
-Message-Id: <20230808104239.146085-10-ming.lei@redhat.com>
+	Jack Wang <jinpu.wang@ionos.com>
+Subject: [PATCH V3 10/14] scsi: pm8001: take blk_mq_max_nr_hw_queues() into account for calculating io vectors
+Date: Tue,  8 Aug 2023 18:42:35 +0800
+Message-Id: <20230808104239.146085-11-ming.lei@redhat.com>
 In-Reply-To: <20230808104239.146085-1-ming.lei@redhat.com>
 References: <20230808104239.146085-1-ming.lei@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230808_034325_954419_C02BF45C 
-X-CRM114-Status: GOOD (  14.94  )
+X-CRM114-CacheID: sfid-20230808_034326_940212_5DA9132E 
+X-CRM114-Status: GOOD (  16.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,29 +102,34 @@ wrong queue mapping for handling IO, and IO timeout is triggered.
 Meantime, single queue makes much less resource utilization, and reduce
 risk of kernel failure.
 
-Cc: Sathya Prakash <sathya.prakash@broadcom.com>
-Cc: Sreekanth Reddy <sreekanth.reddy@broadcom.com>
-Cc: Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>
+Acked-by: Jack Wang <jinpu.wang@ionos.com>
 Signed-off-by: Ming Lei <ming.lei@redhat.com>
 ---
- drivers/scsi/mpt3sas/mpt3sas_base.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/scsi/pm8001/pm8001_init.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/scsi/mpt3sas/mpt3sas_base.c b/drivers/scsi/mpt3sas/mpt3sas_base.c
-index 53f5492579cb..d238e0275edd 100644
---- a/drivers/scsi/mpt3sas/mpt3sas_base.c
-+++ b/drivers/scsi/mpt3sas/mpt3sas_base.c
-@@ -3332,8 +3332,8 @@ _base_alloc_irq_vectors(struct MPT3SAS_ADAPTER *ioc)
- 	 * Don't allocate msix vectors for poll_queues.
- 	 * msix_vectors is always within a range of FW supported reply queue.
- 	 */
--	int nr_msix_vectors = ioc->iopoll_q_start_index;
--
-+	int nr_msix_vectors = min_t(unsigned int, ioc->iopoll_q_start_index,
-+			scsi_max_nr_hw_queues());
+diff --git a/drivers/scsi/pm8001/pm8001_init.c b/drivers/scsi/pm8001/pm8001_init.c
+index 4995e1ef4e0e..220ae504e5a5 100644
+--- a/drivers/scsi/pm8001/pm8001_init.c
++++ b/drivers/scsi/pm8001/pm8001_init.c
+@@ -965,6 +965,8 @@ static u32 pm8001_setup_msix(struct pm8001_hba_info *pm8001_ha)
+ 		rc = pci_alloc_irq_vectors(pm8001_ha->pdev, 1, 1,
+ 					   PCI_IRQ_MSIX);
+ 	} else {
++		unsigned int max_vecs = min_t(unsigned int, PM8001_MAX_MSIX_VEC,
++				scsi_max_nr_hw_queues() + 1);
+ 		/*
+ 		 * Queue index #0 is used always for housekeeping, so don't
+ 		 * include in the affinity spreading.
+@@ -973,7 +975,7 @@ static u32 pm8001_setup_msix(struct pm8001_hba_info *pm8001_ha)
+ 			.pre_vectors = 1,
+ 		};
+ 		rc = pci_alloc_irq_vectors_affinity(
+-				pm8001_ha->pdev, 2, PM8001_MAX_MSIX_VEC,
++				pm8001_ha->pdev, 2, max_vecs,
+ 				PCI_IRQ_MSIX | PCI_IRQ_AFFINITY, &desc);
+ 	}
  
- 	if (ioc->smp_affinity_enable)
- 		irq_flags |= PCI_IRQ_AFFINITY | PCI_IRQ_ALL_TYPES;
 -- 
 2.40.1
 
