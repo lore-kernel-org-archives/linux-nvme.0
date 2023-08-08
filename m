@@ -4,76 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CA97DC001DB
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Aug 2023 08:44:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00228C001B0
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Aug 2023 08:46:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Fe3HYBBNrBsCfVwosrVYyR1qukOyzkNRsF+CRQzIjcE=; b=eg3F3g3A3pL5m2SAMX0aF7JNEH
-	JJh04Lb0OKHnIJAhqH1exudAZmNiLihmQEuhItpq2GgIAyWfgHSOmFHPccNUQUD2D2k+bJZkB54By
-	ZGpNwCNV9R+FWOaP+GrCvr3CiRpGcZvKd4wdvPkYEMTo8f4nH9ni7VRk4de7dAvZyPXrmpAT+s6K8
-	juYKnPvdnYcUnWu14WUXlaCATGbCW4lCXoirhc4/ww8x+b9GPfkr7LC+ZzgVDBX+GL8bzKfuWNrBL
-	UoTT6Wg3RvbhVc0RvZSrn1/twdb5kLPOartz/3VZcFbScOjNw7JQTJdBnSopfbpzv97UwtPMskgH1
-	Oc/jNGLg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=1VmL4cnlNgAd9wIWh+n1F88tzINAPC+fI3K+o+7FiWI=; b=X72/o1SCVYN6oKv+N+j4Hx4t8i
+	lewPsRJdGM6rGHVvy68gosVyJ05Fx/SU1issdDKxct/SRJpRMVJAmMnu0fSoFaqVfcKq5miipCHGT
+	0Pwpi76cisI7x/uO1fgEhyphjY/SYqFHaN+/EiDGEUOnjDYplspHMArFSZ5rwAPIS1TOYXMpMR/Qh
+	iXi1Ic7phDs2J6FfnFQLZcTKQr5u2ER91fzsU9CJv1cIlnlzI7E0oR9p5htmmq0Nw6SyybqdhLx8/
+	ptMgLO/Q3kGfROAbrIY35LLiq8c3X3UGOBURuSbgm1n75B6ZyOfv2b0/46QvWMT5pXMV35a7arD4Y
+	QArseBkw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTIK3-0024Fh-1p;
-	Tue, 08 Aug 2023 08:44:11 +0000
-Received: from mail-lj1-f180.google.com ([209.85.208.180])
+	id 1qTIMi-0024dW-11;
+	Tue, 08 Aug 2023 08:46:56 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTIK1-0024Ag-0Q
+	id 1qTIMe-0024cb-0G
 	for linux-nvme@lists.infradead.org;
-	Tue, 08 Aug 2023 08:44:10 +0000
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2b9b6c57c94so16875791fa.0
-        for <linux-nvme@lists.infradead.org>; Tue, 08 Aug 2023 01:44:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691484245; x=1692089045;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fe3HYBBNrBsCfVwosrVYyR1qukOyzkNRsF+CRQzIjcE=;
-        b=XkJ47ynrtUkg2soLHyaAtaUarx+kRxoch17YZq/S1/QtBBXJwWko7q+sTBfO2WW0ok
-         V72t3ohtW4iCnx7ctKcx4h6+jh0kbuNyIXZKHZl1sI+owCp5+pFdp56FdV5huE3pFStY
-         /cixuaE8117tuETryAK0uNE84KKre2PR30X5kGQXn+YTnmCT6P0wbQhToPTuJOXNlwOn
-         rtT5fe6nTxvghqCl74vpB3IHVoNolaanXXvCCIhoOr4zu66ig0ieobk8+xRmzbbqg6tN
-         8L+XgE6WoXWrXwH/KWRfV6aBSZb1QlhBjGXyCKYg8QHVP3dXQ0a4IsS4p7M41awuNeLf
-         viKA==
-X-Gm-Message-State: ABy/qLYaJeRNhrTgfa2zerOfwv51bcfqSh3Doma+xDJiI/+4VRJGJ3KA
-	maDo9lLHrpr9xXPQcWbW+Is=
-X-Google-Smtp-Source: APBJJlFeIo6/DmDaaPWtj1G9VhTc/XSsPQkR28CBMPQaJZqxL5/q5y50mQEzMiOqaWRkjJ9PXse4mw==
-X-Received: by 2002:a05:651c:2c6:b0:2b6:120a:af65 with SMTP id f6-20020a05651c02c600b002b6120aaf65mr14671242ljo.3.1691484245520;
-        Tue, 08 Aug 2023 01:44:05 -0700 (PDT)
-Received: from [192.168.64.157] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id f10-20020a7bc8ca000000b003fe20533a1esm13004789wml.44.2023.08.08.01.44.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Aug 2023 01:44:04 -0700 (PDT)
-Message-ID: <044969f1-f6dc-fa3d-f933-5e4c928eaab9@grimberg.me>
-Date: Tue, 8 Aug 2023 11:44:03 +0300
+	Tue, 08 Aug 2023 08:46:54 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8B5AD20310;
+	Tue,  8 Aug 2023 08:46:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1691484407; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1VmL4cnlNgAd9wIWh+n1F88tzINAPC+fI3K+o+7FiWI=;
+	b=kPmvuDyyKufNdk1d2aK3My5PVf/0qF0yLNCx+l0mgsLS5AkXAVPr6DcUFDdBqKiy2VQB6L
+	+CLlHOc0a28PZOaEGGb/4OEFRoO113NDS0BVDDAoY9dqUAMMr5qVx2mNXrWNbRaBYFTXkI
+	hq7BENiPoKY+rGn/vqLBMXSCBfSQyhE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1691484407;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1VmL4cnlNgAd9wIWh+n1F88tzINAPC+fI3K+o+7FiWI=;
+	b=ClDAnv4Er+7VUiVfj723l/hk/ylWWLCSHpwdDaXrQvWmmtVQlAefPBIZRcQp+dabW9EyR4
+	4AmUTlQLFoy260Aw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 718E4139D1;
+	Tue,  8 Aug 2023 08:46:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id qDuyG/cA0mQ8BQAAMHmgww
+	(envelope-from <dwagner@suse.de>); Tue, 08 Aug 2023 08:46:47 +0000
+Date: Tue, 8 Aug 2023 10:46:46 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Yi Zhang <yi.zhang@redhat.com>
+Cc: linux-block <linux-block@vger.kernel.org>, 
+	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: Re: [bug report] blktests nvme/047 failed due to /dev/nvme0n1 not
+ created in time
+Message-ID: <vxeo2ucxhvdcm2z673keqerkpxay6dgfluuvxawukkbunddzm2@jdkdk7y3a5nu>
+References: <CAHj4cs9GNohGUjohNw93jrr8JGNcRYC-ienAZz+sa7az1RK77w@mail.gmail.com>
+ <CAHj4cs9J7w_QSWMrj0ncufKwT9viS-o7pxmS2Y4FeaWEyPD34Q@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 12/14] nvmet-tcp: allocate socket file
-Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20230803105102.30949-1-hare@suse.de>
- <20230803105102.30949-13-hare@suse.de>
- <0ac55b10-6917-9247-59f3-5f3b8e121a9f@grimberg.me>
- <432fd12b-3da0-a3d0-73cc-863a272a0f85@suse.de>
- <8e0a1503-266f-0368-9eb2-ebeb256bd091@grimberg.me>
- <4e14f8b3-27ac-4afa-91e9-8ccb41a8b89b@suse.de>
- <3dca56b7-f981-73a7-386f-099c6f008064@grimberg.me>
- <1b3cc664-ad7d-493c-50a4-6fc473f06f5c@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <1b3cc664-ad7d-493c-50a4-6fc473f06f5c@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHj4cs9J7w_QSWMrj0ncufKwT9viS-o7pxmS2Y4FeaWEyPD34Q@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230808_014409_174232_50596AD2 
-X-CRM114-Status: GOOD (  12.54  )
+X-CRM114-CacheID: sfid-20230808_014652_276606_E0D1DEFB 
+X-CRM114-Status: GOOD (  15.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,42 +93,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Fri, Aug 04, 2023 at 06:33:04PM +0800, Yi Zhang wrote:
+> On Tue, Aug 1, 2023 at 7:28 PM Yi Zhang <yi.zhang@redhat.com> wrote:
+> > After some investigating, I found it was due to the /dev/nvme0n1 node
+> > couldn't be created in time which lead to the following fio failing.
+> > + nvme connect -t tcp -a 127.0.0.1 -s 4420 -n blktests-subsystem-1
+> > --hostnqn=nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
+> > --hostid=0f01fb42-9f7f-4856-b0b3-51e60b8de349 --nr-write-queues=1
+> > + ls -l /dev/nvme0 /dev/nvme-fabrics
+> > crw-------. 1 root root 234,   0 Aug  1 05:50 /dev/nvme0
+> > crw-------. 1 root root  10, 122 Aug  1 05:50 /dev/nvme-fabrics
+> > + '[' '!' -b /dev/nvme0n1 ']'
+> > + echo '/dev/nvme0n1 node still not created'
+> > dmesg:
+> > [ 1840.413396] loop0: detected capacity change from 0 to 10485760
+> > [ 1840.934379] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+> > [ 1841.018766] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
+> > [ 1846.782615] nvmet: creating nvm controller 1 for subsystem
+> > blktests-subsystem-1 for NQN
+> > nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
+> > [ 1846.808392] nvme nvme0: creating 33 I/O queues.
+> > [ 1846.874298] nvme nvme0: mapped 1/32/0 default/read/poll queues.
+> > [ 1846.945334] nvme nvme0: new ctrl: NQN "blktests-subsystem-1", addr
+> > 127.0.0.1:4420
 
->>>>>>> -static int nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
->>>>>>> +static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
->>>>>>>           struct socket *newsock)
->>>>>>
->>>>>> Why does the function change from retcode to void in this patch?
->>>>>
->>>>> Because the return code was never evaluated.
->>>>
->>>> ??
->>>>
->>>> I see it is evaluated.
->>>
->>> Yes, but this patch moved the 'sock_release()' call into 
->>> nvmet_tcp_alloc_queue(), making the return code obsolete.
->>>
->>> But I can make it a separate patch if required.
->>
->> But now who calls sock_release if you failed before allocating
->> the sockfile?
->>
-> That is done in nvmet_tcp_remove_port(), and independent on
-> queue release.
-
-I'm referring to newsock, not the listener socket.
-
---
-static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
-                 struct socket *newsock)
-{
-         struct nvmet_tcp_queue *queue;
-         int ret;
-
-         queue = kzalloc(sizeof(*queue), GFP_KERNEL);
-	//i.e. you fail here...
-         if (!queue)
-                 return;
---
+Not really sure how the blk device registration code works, but this
+looks like there something executed not in the same context as the
+nvme-cli command and thus we might return to userspace before the device
+is fully created. And there is also udev events which are handled by
+systemd. If this is the case, we might want to add some generic helper
+which waits for the device to pop up before we continue with the test.
 
