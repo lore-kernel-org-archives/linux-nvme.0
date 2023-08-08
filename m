@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F824C04FE2
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 250A8C04FDF
 	for <linux-nvme@archiver.kernel.org>; Tue,  8 Aug 2023 16:54:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,64 +12,64 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=V3l9Ci+ybfsMTFs7lxLQ1BI6O14QQjb6jHsPow6xE2M=; b=zS+CEFDIDp7pDhOc+RvUXZQxDr
-	aNygcuv2iri9nyp95C3W34qMdcT3Zolpq0I9w1xzXzT9kJ1rGfQPGbdkieG0bwUIxqVTEEVdMC2HI
-	29IencU+XH31jDHKoP6D5zPHzLIOQ0JqMtQ2fYo8TkEFM0npNnvKSFvUHY6vV7tEt4HjY8B5kL63w
-	fu9ee9RjpiJW936n8DV4pSZa0Z0K90Ct2LNsasHOQLjtCBEufMCb9kXRDybERIuL0U8jZUFpxelEs
-	iQ8FT+Kn+fKdXgeSPpgIKDKUk5NdHiZQsuY6hNrL9qb+Gze4YLzsyYWoIXreLOICLMNSsM2EhxdBX
-	En8pmVAQ==;
+	bh=fmdxDCqYzaVvw6/Q74bXrhYczR1nHD6qwmiJWKu4mPQ=; b=loeb2wezG1wx7dNUaCHNzhX1IE
+	vBVz1ooFrdPeFJiP5B9jiyCQoTnFaDmy6qyVlkxfot1ioSvmAKwy7oFRNAMH+qrfgmS+wT1rvxTUf
+	Wt5u7WNHPfKal68KkcAlFI4JMOthgPQ9lXwdtXibEThl1S4c3gAISXf8Uupie60+QypEJWjcStANg
+	ZNCVt6CuhzBS0oh8xpfEKXXE+4zr/16axEX2dn2pTqg8cEmyDUVVAEkSCt7NgtEAIGCRUcoAdgSOA
+	i+XkQedLnxd59ulpquBU4oBTzwHQsOcqmU0NlDr3yMHV26D7MQF8UDmAdVQDVETsAlemC95z0FyzU
+	zCHtuwxg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTPyN-00321X-0y;
-	Tue, 08 Aug 2023 16:54:19 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1qTPyM-0031zF-12;
+	Tue, 08 Aug 2023 16:54:18 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTPyG-0031wd-0d
+	id 1qTPyG-0031wi-2O
 	for linux-nvme@lists.infradead.org;
 	Tue, 08 Aug 2023 16:54:16 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id 469442030C;
+	by smtp-out1.suse.de (Postfix) with ESMTP id 24DD721A83;
 	Tue,  8 Aug 2023 16:54:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1691513648; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=V3l9Ci+ybfsMTFs7lxLQ1BI6O14QQjb6jHsPow6xE2M=;
-	b=2aL91aj5L88yfFZ6NOCOSF9dmXbdfxuI+6GPR2sbcPXDHLMOWJB9VLLeN7vyfGlQPwQR7G
-	0kCJSVDz7REYP+brd8r1cxPEhqPX6yudTavXawUiWuNTi7JDsophi66Q3NZOODlYP4Bjru
-	eEKXKXV6rGIWBJyIhV6hWF64DPtx+QQ=
+	bh=fmdxDCqYzaVvw6/Q74bXrhYczR1nHD6qwmiJWKu4mPQ=;
+	b=sVtlewR5o+6gX5/RYFfx6Kr7k6Aq7Yip/Q4RCZbh7BqbC9gqrqLMcYc4oI6maNXtwhwqLh
+	Sp76p3HC35BREUKTGmLpsfomwgrY7om+onPBEDFflxCWouVYOXi8Z98gpYetha/ui1n1ZR
+	6/ntiDT2hNH9AUhxXXhANVIFgGe/xZg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1691513648;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=V3l9Ci+ybfsMTFs7lxLQ1BI6O14QQjb6jHsPow6xE2M=;
-	b=w085YZEiztNhee2PVunJ3+W6wbWoUXaK5+1dLpwMj7bg19g81a5NPjYQR+MB5db4iOhfYI
-	iq/KpTzqTGttbaDw==
+	bh=fmdxDCqYzaVvw6/Q74bXrhYczR1nHD6qwmiJWKu4mPQ=;
+	b=xd2QBqLI3M2jqIwZO2gJMqjGM7oRufJA5nZrGhgpjqNjYh2EcFvG6LcrLb63yoMCn2KPli
+	vfUEjnvV/pNkyIBg==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 39AF02C153;
+	by relay2.suse.de (Postfix) with ESMTP id 15C642C146;
 	Tue,  8 Aug 2023 16:54:08 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id 362BF51CACF7; Tue,  8 Aug 2023 18:54:08 +0200 (CEST)
+	id 0935F51CACEB; Tue,  8 Aug 2023 18:54:08 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 09/16] nvme-tcp: control message handling for recvmsg()
-Date: Tue,  8 Aug 2023 18:53:47 +0200
-Message-Id: <20230808165354.123499-10-hare@suse.de>
+Subject: [PATCH 03/16] nvme: add TCP TSAS definitions
+Date: Tue,  8 Aug 2023 18:53:41 +0200
+Message-Id: <20230808165354.123499-4-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230808165354.123499-1-hare@suse.de>
 References: <20230808165354.123499-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230808_095414_928770_2AF4EA8E 
-X-CRM114-Status: GOOD (  13.34  )
+X-CRM114-CacheID: sfid-20230808_095414_936210_DA273B1C 
+X-CRM114-Status: GOOD (  10.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,62 +84,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-kTLS is sending TLS ALERT messages as control messages for recvmsg().
-As we can't do anything sensible with it just abort the connection
-and let the userspace agent to a re-negotiation.
-
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/tcp.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ include/linux/nvme.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index d444119c408b..3382e85b7759 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -14,6 +14,7 @@
- #include <net/sock.h>
- #include <net/tcp.h>
- #include <net/tls.h>
-+#include <net/tls_prot.h>
- #include <net/handshake.h>
- #include <linux/blk-mq.h>
- #include <crypto/hash.h>
-@@ -1369,6 +1370,8 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
- {
- 	struct nvme_tcp_icreq_pdu *icreq;
- 	struct nvme_tcp_icresp_pdu *icresp;
-+	char cbuf[CMSG_LEN(sizeof(char))] = {};
-+	u8 ctype;
- 	struct msghdr msg = {};
- 	struct kvec iov;
- 	bool ctrl_hdgst, ctrl_ddgst;
-@@ -1406,11 +1409,23 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
- 	memset(&msg, 0, sizeof(msg));
- 	iov.iov_base = icresp;
- 	iov.iov_len = sizeof(*icresp);
-+	if (queue->ctrl->ctrl.opts->tls) {
-+		msg.msg_control = cbuf;
-+		msg.msg_controllen = sizeof(cbuf);
-+	}
- 	ret = kernel_recvmsg(queue->sock, &msg, &iov, 1,
- 			iov.iov_len, msg.msg_flags);
- 	if (ret < 0)
- 		goto free_icresp;
--
-+	if (queue->ctrl->ctrl.opts->tls) {
-+		ctype = tls_get_record_type(queue->sock->sk,
-+					    (struct cmsghdr *)cbuf);
-+		if (ctype != TLS_RECORD_TYPE_DATA) {
-+			pr_err("queue %d: unhandled TLS record %d\n",
-+			       nvme_tcp_queue_id(queue), ctype);
-+			return -ENOTCONN;
-+		}
-+	}
- 	ret = -EINVAL;
- 	if (icresp->hdr.type != nvme_tcp_icresp) {
- 		pr_err("queue %d: bad type returned %d\n",
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 26dd3f859d9d..a7ba74babad7 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -108,6 +108,13 @@ enum {
+ 	NVMF_RDMA_CMS_RDMA_CM	= 1, /* Sockets based endpoint addressing */
+ };
+ 
++/* TSAS SECTYPE for TCP transport */
++enum {
++	NVMF_TCP_SECTYPE_NONE = 0, /* No Security */
++	NVMF_TCP_SECTYPE_TLS12 = 1, /* TLSv1.2, NVMe-oF 1.1 and NVMe-TCP 3.6.1.1 */
++	NVMF_TCP_SECTYPE_TLS13 = 2, /* TLSv1.3, NVMe-oF 1.1 and NVMe-TCP 3.6.1.1 */
++};
++
+ #define NVME_AQ_DEPTH		32
+ #define NVME_NR_AEN_COMMANDS	1
+ #define NVME_AQ_BLK_MQ_DEPTH	(NVME_AQ_DEPTH - NVME_NR_AEN_COMMANDS)
+@@ -1493,6 +1500,9 @@ struct nvmf_disc_rsp_page_entry {
+ 			__u16	pkey;
+ 			__u8	resv10[246];
+ 		} rdma;
++		struct tcp {
++			__u8	sectype;
++		} tcp;
+ 	} tsas;
+ };
+ 
 -- 
 2.35.3
 
