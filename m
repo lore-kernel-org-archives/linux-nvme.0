@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2896C001DF
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Aug 2023 10:43:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B3C2C001DF
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Aug 2023 10:43:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QvKrmms9fUHhxbhcGxDz7QDKl8B/hBW7QeIiIj8phvY=; b=kECyPUhEujbOEaTV6CQDdlSqnJ
-	+7oHPQgA5xOgKI/qGohq3Ct1QpSIg3th5nK2HjDsvuUapFSI2RhKq4MEMTdvj/5LcKho9g/9mGxnc
-	PxVVqw8hu8pPsie33tkDAWkVwg6s82TR/uAMZnuc2z46J0NEvE3GWb4tl0W+PQYsQMEzqge7xBySp
-	2KRbNIbv8uh623+bY/6yoTtceYFRDjM4/sLzoqNj+Rhnub6nAKSN+BzxmoeEAQDhA+HYO3isFIGHr
-	FUZ3bLZw8f52Zkd41sHxyJfuDEjUm/ZH+Pzk2Nvt9uIUT0KBIbYaOXqzgsckA8wi8wd0LMk+aUO5A
-	iRVC/epg==;
+	bh=k/XiItvuETzuFaV0q2/0Ml9SkHL0l2Lbxykjfon98Ww=; b=oKnXnHgxdF2fv1DNWFW0vu4gMW
+	18nG1wN0pXbbON3Y375QsUwbCvoH6xgKFxP+3m6BgRDU761H7vc5MpXjxO7OEDaNU+6C8ECvOHXt+
+	2wo0durgXfiXNhj2gu/1Ctd1iQao/X999NqJ9MCVhQm2IKljlRfL+IqZr40+eYc+PrxEf2oOB8CY7
+	NEGQxIHaYa+bG+4tXDaqNW7vP83YMSv5yAkfAvZjU5qkpPaEo4gC1mQbtoH1paRgeFCxw1xSBUMyI
+	b3Y6DYLd2qkWE8y+KEH0m1jtalDfEoBezpJwNO4w+A1mbGs9hFcclBStS4NCgZlkk+2/h0Xal7drj
+	c5Eun6YA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTKB1-002JFV-1Y;
-	Tue, 08 Aug 2023 10:42:59 +0000
+	id 1qTKB6-002JJa-1B;
+	Tue, 08 Aug 2023 10:43:04 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTKAy-002JCS-0T
+	id 1qTKB3-002JH3-2p
 	for linux-nvme@lists.infradead.org;
-	Tue, 08 Aug 2023 10:42:57 +0000
+	Tue, 08 Aug 2023 10:43:03 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1691491375;
+	s=mimecast20190719; t=1691491381;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=QvKrmms9fUHhxbhcGxDz7QDKl8B/hBW7QeIiIj8phvY=;
-	b=gkYm/gkzwzt5n1D4nXbDQF8cZD+g+MdsgmYFYRTjih3BnAdxSVywOaDoax4FRITj8REPdw
-	L4dmmMNuIinOMDsyhKk5jdDAt9ET/fo1S2f2QeCbXMENYhlVevMf6L0juzsk91PbOgK2gg
-	nenQJT8c0b7uFYmBK78Qm+IzTOlNeKM=
+	bh=k/XiItvuETzuFaV0q2/0Ml9SkHL0l2Lbxykjfon98Ww=;
+	b=NGAGWyI57r5wps7a3rIgJEDmAZ8otE7DU9QkMIVQHY7F9UJAG9Z7RGo/65O0JjC3ROiJ9H
+	3Fm9+CZ30IKFikswE4xoLoNsbNIeCNZcgiajfxd/B7UJ/nzJxfxnNio6mTIiG5PxNOnBNN
+	FkknaEikQ1tV46A30L/O0SDellRFhwg=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-586-xZnrD3mGMTGBaneeBOzJFQ-1; Tue, 08 Aug 2023 06:42:52 -0400
-X-MC-Unique: xZnrD3mGMTGBaneeBOzJFQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+ us-mta-484-dHf5P5j1NCCY04pi7Cukww-1; Tue, 08 Aug 2023 06:42:55 -0400
+X-MC-Unique: dHf5P5j1NCCY04pi7Cukww-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 955AC800270;
-	Tue,  8 Aug 2023 10:42:51 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3A89B85CCE0;
+	Tue,  8 Aug 2023 10:42:55 +0000 (UTC)
 Received: from localhost (unknown [10.72.120.3])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id CAD5A2026D4B;
-	Tue,  8 Aug 2023 10:42:50 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 65E124E3D1;
+	Tue,  8 Aug 2023 10:42:53 +0000 (UTC)
 From: Ming Lei <ming.lei@redhat.com>
 To: Jens Axboe <axboe@kernel.dk>,
 	Christoph Hellwig <hch@lst.de>,
@@ -60,17 +60,17 @@ Cc: linux-block@vger.kernel.org,
 	Wen Xiong <wenxiong@linux.ibm.com>,
 	Keith Busch <kbusch@kernel.org>,
 	Ming Lei <ming.lei@redhat.com>
-Subject: [PATCH V3 01/14] blk-mq: add blk_mq_max_nr_hw_queues()
-Date: Tue,  8 Aug 2023 18:42:26 +0800
-Message-Id: <20230808104239.146085-2-ming.lei@redhat.com>
+Subject: [PATCH V3 02/14] nvme-pci: use blk_mq_max_nr_hw_queues() to calculate io queues
+Date: Tue,  8 Aug 2023 18:42:27 +0800
+Message-Id: <20230808104239.146085-3-ming.lei@redhat.com>
 In-Reply-To: <20230808104239.146085-1-ming.lei@redhat.com>
 References: <20230808104239.146085-1-ming.lei@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230808_034256_253495_79664545 
-X-CRM114-Status: GOOD (  16.00  )
+X-CRM114-CacheID: sfid-20230808_034301_986915_87F09099 
+X-CRM114-Status: GOOD (  16.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,65 +85,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-blk_mq_alloc_tag_set() may override set->nr_hw_queues as 1 in case of kdump
-kernel. This way causes trouble for driver, because blk-mq and driver see
-different queue mapping. Especially the only online CPU may not be 1 for
-kdump kernel, in which 'maxcpus=1' is passed from kernel command line,
-then driver may map hctx0 into one inactive real hw queue which cpu
-affinity is 0(offline).
+Take blk-mq's knowledge into account for calculating io queues.
 
-The issue exists on all drivers which use managed irq and support
-multiple hw queue.
+Fix wrong queue mapping in case of kdump kernel.
 
-Prepare for fixing this kind of issue by applying the added helper, so
-driver can take blk-mq max nr_hw_queues knowledge into account when
-calculating io queues.
+On arm and ppc64, 'maxcpus=1' is passed to kdump command line, see
+`Documentation/admin-guide/kdump/kdump.rst`, so num_possible_cpus()
+still returns all CPUs because 'maxcpus=1' just bring up one single
+cpu core during booting.
 
+blk-mq sees single queue in kdump kernel, and in driver's viewpoint
+there are still multiple queues, this inconsistency causes driver to apply
+wrong queue mapping for handling IO, and IO timeout is triggered.
+
+Meantime, single queue makes much less resource utilization, and reduce
+risk of kernel failure.
+
+Reported-by: Wen Xiong <wenxiong@linux.ibm.com>
 Signed-off-by: Ming Lei <ming.lei@redhat.com>
 ---
- block/blk-mq.c         | 16 ++++++++++++++++
- include/linux/blk-mq.h |  1 +
- 2 files changed, 17 insertions(+)
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index b04ff6f56926..617d6f849a7b 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -140,6 +140,22 @@ void blk_mq_freeze_queue_wait(struct request_queue *q)
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index baf69af7ea78..a1227ae7eb39 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2251,7 +2251,7 @@ static unsigned int nvme_max_io_queues(struct nvme_dev *dev)
+ 	 */
+ 	if (dev->ctrl.quirks & NVME_QUIRK_SHARED_TAGS)
+ 		return 1;
+-	return num_possible_cpus() + dev->nr_write_queues + dev->nr_poll_queues;
++	return blk_mq_max_nr_hw_queues() + dev->nr_write_queues + dev->nr_poll_queues;
  }
- EXPORT_SYMBOL_GPL(blk_mq_freeze_queue_wait);
  
-+/*
-+ * Return the max supported nr_hw_queues for each hw queue type
-+ *
-+ * blk_mq_alloc_tag_set() may change nr_hw_queues for kdump kernel, so
-+ * driver has to take blk-mq max supported nr_hw_queues into account
-+ * when figuring out nr_hw_queues from hardware info, for avoiding
-+ * inconsistency between driver and blk-mq.
-+ */
-+unsigned int blk_mq_max_nr_hw_queues(void)
-+{
-+	if (is_kdump_kernel())
-+		return 1;
-+	return nr_cpu_ids;
-+}
-+EXPORT_SYMBOL_GPL(blk_mq_max_nr_hw_queues);
-+
- int blk_mq_freeze_queue_wait_timeout(struct request_queue *q,
- 				     unsigned long timeout)
- {
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 495ca198775f..4c0cfd1f9e52 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -711,6 +711,7 @@ int blk_mq_alloc_sq_tag_set(struct blk_mq_tag_set *set,
- 		const struct blk_mq_ops *ops, unsigned int queue_depth,
- 		unsigned int set_flags);
- void blk_mq_free_tag_set(struct blk_mq_tag_set *set);
-+unsigned int blk_mq_max_nr_hw_queues(void);
- 
- void blk_mq_free_request(struct request *rq);
- int blk_rq_poll(struct request *rq, struct io_comp_batch *iob,
+ static int nvme_setup_io_queues(struct nvme_dev *dev)
 -- 
 2.40.1
 
