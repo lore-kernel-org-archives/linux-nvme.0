@@ -4,73 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12B92C001B0
-	for <linux-nvme@archiver.kernel.org>; Tue,  8 Aug 2023 10:50:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CD40AC001DB
+	for <linux-nvme@archiver.kernel.org>; Tue,  8 Aug 2023 10:57:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CIJajdd4Yc3wo/yJr5hUql5qY0jUL0/PgHadt/NVtZQ=; b=KY31jJZkjIKnAGey4roahfFd5f
-	aewxqJnHlL5rWFjuf7Ago2JKHRYnqlqqQyP40V9Tpl1i8X+urFw0fkCTZHP6rmPRTjQTfwXbNbeeA
-	ON2ylYsH3Mra757WYH96FOJU38CYVal/FciazKlbkDOry05HUjgjT2va1P1uRMWlgGRrJHb7x+WW7
-	hBSIa4+0ctgOM+1qM5XpioqyZsOa4s7NUNE9wULmx5ksCfACgoqZbvxR+9pkHXUcMmSVtK6mGDwo+
-	MmpyK/iyA4H4/LLWzUy1GVuhduRoRw7VCA6MCkxC4tRln11CTFArWYebQLij4Snl3IP94IXT7UUQ+
-	F3ktXlPA==;
+	bh=aWJnS+cZgmzDFgeZrvUFd6LVlJsReyvkOPaX8DBMJLM=; b=zHg+yGgAPsDngu698A2HSeOwpN
+	Ms14TPdQIt+NIQhJpQ36LCurbGiGc0JOZ9b9y/wB2TKe4m9g7cpN890CzgYncqbvH8ubBMz/kEJ7T
+	AcI1Txeb8mGNSW9d2Joh3J1DU5fZeAIobOyO5ViL8E8QwBp8O5A7tzz1OYVAEAYPeURL3q3KKfReC
+	JDUXkfJEz6TX4t2EQVWS52wlyQGiam8EAdSJEC4CsJe940Kj5vTSQNcdq8KMRdMoBNv7bYUaRLtL9
+	xW5it8EdLfVyh3wGRIs3EsRfdSGOzk3UmjsWIdxfWN0yWNDOHf7O/f1gAa3tt4xWTDx+ozG1DHHGf
+	h6CjN1Kg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTKIB-002OuU-0j;
-	Tue, 08 Aug 2023 10:50:23 +0000
-Received: from mail-wm1-f47.google.com ([209.85.128.47])
+	id 1qTKPK-002QFi-1H;
+	Tue, 08 Aug 2023 10:57:46 +0000
+Received: from mx0a-00154904.pphosted.com ([148.163.133.20])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTKI7-002OrQ-1B
+	id 1qTKPI-002QEl-0f
 	for linux-nvme@lists.infradead.org;
-	Tue, 08 Aug 2023 10:50:21 +0000
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-3fe5c552dd0so3301565e9.0
-        for <linux-nvme@lists.infradead.org>; Tue, 08 Aug 2023 03:50:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691491817; x=1692096617;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CIJajdd4Yc3wo/yJr5hUql5qY0jUL0/PgHadt/NVtZQ=;
-        b=Za5NYeArLJ6JHBxykeMF6Wivffsdv8846lFa2BdetJ4inUBkRnnMdFsJla4SRjy9hW
-         Jaf6GPMvXuls76JsvzaT3BxhoDQa+Nb7wJJl1xWEZsObVfUCOZVfs7F45D3v22GdLC9Y
-         WpZhTHJ7EM7hOtdFS5j6QTMwmaogGZHH/vHF88K70Y8Jr6QLINwTCF9rGXBgRS2gD2cD
-         4m+ksT4wSxGWSAf1d68TEpOhJ969drll3GPlJo4lzEWn2x2FztygglnhZeSMGrs34j8h
-         cqglQ4+NBskM+WCZ6thPIMjcTdxvMQNF5fLGrMLQdyDUXZejYTV1ATbBSVGwe3mStWYg
-         AWdQ==
-X-Gm-Message-State: ABy/qLbmGgQQYAU0IX7LKNlJqG2C7/5wm7tM4O15p1kpnV7osDXlyvj0
-	c63V3pFMKP7ZLVgXYspcyhk=
-X-Google-Smtp-Source: APBJJlEoiyO37RduZ7UBE8MsP6lQX9+dGJ+PMsujgLSdn/gByNmxC9FfTmJiAV5YnY2h1CjgpXWYlA==
-X-Received: by 2002:a05:600c:32af:b0:3fb:aadc:41dc with SMTP id t47-20020a05600c32af00b003fbaadc41dcmr25000550wmp.4.1691491817395;
-        Tue, 08 Aug 2023 03:50:17 -0700 (PDT)
-Received: from [192.168.64.157] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id m9-20020adfe0c9000000b003145559a691sm13581437wri.41.2023.08.08.03.50.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Aug 2023 03:50:16 -0700 (PDT)
-Message-ID: <14286c1a-b6cd-24bb-0f9c-7943c97b8304@grimberg.me>
-Date: Tue, 8 Aug 2023 13:50:11 +0300
+	Tue, 08 Aug 2023 10:57:45 +0000
+Received: from pps.filterd (m0170390.ppops.net [127.0.0.1])
+	by mx0a-00154904.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37866khx013149
+	for <linux-nvme@lists.infradead.org>; Tue, 8 Aug 2023 06:57:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=smtpout1;
+ bh=aWJnS+cZgmzDFgeZrvUFd6LVlJsReyvkOPaX8DBMJLM=;
+ b=Q6x0J1UC9b7aZjJ3nybqU3XI3HMwjzbl0TQevHbZvQjbBM4irs8nfewsyrHf/QsELF8R
+ NfLI4Hp4ogP7GV598GOrWZusVyEf476q6duvxl+QtYTNez9RwcceGuKp/pG9sFdDzNIL
+ RO3ZyFF5oGyrgq0DQDIQciYFBVkSsiA5AKav/AGyULJehvJTmJ55A4OB/JRtXYpEVSts
+ 7CjA29a2KRyZNi5a4oGP1x4bRFRBa9gzU1VyU2jr2ZTxYreytDLEpse7WVp1Dumte0g6
+ /x8rb26hv5KtSkKDbwoLRReX+UD5gEhzaJ/rL596SoFxQtGxbO0q4x3V2ozEcOE5Cpw/ Qg== 
+Received: from mx0a-00154901.pphosted.com (mx0a-00154901.pphosted.com [67.231.149.39])
+	by mx0a-00154904.pphosted.com (PPS) with ESMTPS id 3s9hg3jsn0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Tue, 08 Aug 2023 06:57:41 -0400
+Received: from pps.filterd (m0090351.ppops.net [127.0.0.1])
+	by mx0b-00154901.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 378AokFX013678
+	for <linux-nvme@lists.infradead.org>; Tue, 8 Aug 2023 06:57:41 -0400
+Received: from esaploutpc105.us.dell.com (smtp-outbound-pc1.dell.com [143.166.24.15])
+	by mx0b-00154901.pphosted.com (PPS) with ESMTPS id 3sbk5as415-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <linux-nvme@lists.infradead.org>; Tue, 08 Aug 2023 06:57:40 -0400
+X-LoopCount0: from 10.227.212.77
+X-PREM-Routing: D-Outbound
+X-MS-Exchange-CrossPremises-AuthAs: Internal
+X-IronPort-AV: E=McAfee;i="6500,9779,10588"; a="192768861"
+Received: from unknown (HELO drmcyc-pawel-baldysiak-1-00.cec.lab.emc.com) ([10.227.212.77])
+  by esaploutpc105.us.dell.com with ESMTP; 08 Aug 2023 05:57:40 -0500
+From: Pawel Baldysiak <pawel.baldysiak@dell.com>
+To: sagi@grimberg.me
+Cc: hare@suse.de, hch@lst.de, kbusch@kernel.org,
+        linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 09/14] nvme-tcp: control message handling for recvmsg()
+Date: Tue,  8 Aug 2023 06:57:38 -0400
+Message-Id: <20230808105738.3950615-1-pawel.baldysiak@dell.com>
+X-Mailer: git-send-email 2.39.1
+In-Reply-To: <0c927b66-94cf-e2e1-ae7f-0c5dc4391c72@grimberg.me>
+References: <0c927b66-94cf-e2e1-ae7f-0c5dc4391c72@grimberg.me>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH libnvme v3 2/2] fabrics: Do not pass disable_sqflow if not
- supported
-Content-Language: en-US
-To: Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org, Caleb Sander <csander@purestorage.com>,
- Keith Busch <kbusch@kernel.org>
-References: <20230808091550.25349-1-dwagner@suse.de>
- <20230808091550.25349-3-dwagner@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230808091550.25349-3-dwagner@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-08_09,2023-08-08_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 clxscore=1011
+ adultscore=0 mlxscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=560
+ bulkscore=0 impostorscore=0 spamscore=0 suspectscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2308080097
+X-Proofpoint-ORIG-GUID: RHOZYFBNd0glFCdrzD7cHEUTEH3iPvw6
+X-Proofpoint-GUID: RHOZYFBNd0glFCdrzD7cHEUTEH3iPvw6
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 lowpriorityscore=0
+ spamscore=0 adultscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
+ suspectscore=0 mlxlogscore=578 impostorscore=0 phishscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2308080097
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230808_035019_408772_53F71F9E 
-X-CRM114-Status: UNSURE (   8.41  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230808_035744_274461_C574EED8 
+X-CRM114-Status: GOOD (  13.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,12 +100,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> From: Sagi Grimberg <sagi@grimberg.me>
+Hi all,
 
-You can make the patch from you, you are sending it after all..
+I'm testing this patchset and observe the issue with above.
+It's not only about passing cbuf, but the check below.
+When I would like to connect/discover without TLS, 
+I got an error about unhandled TLS record.
+tls_get_record_type() simply returns 0 for non-TLS,
+so it breaks non-tls connections here.
 
-> Only retry a connect attempt with disable_sqflow if the kernel
-> actually supports this option.
-
-commit msg needs update.
+Thanks
+Pawel Baldysiak
 
