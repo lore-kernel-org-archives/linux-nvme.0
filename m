@@ -4,82 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8CEA7EB64DD
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Aug 2023 07:39:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8FD1EB64DD
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Aug 2023 07:53:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IcnCQ8xaUB5P+nnoqcvRQHtgfnUd197HfgGPw0/AMZ4=; b=g0037WvrQAcbew9cnIXx3MH5GD
-	Y/j/W2OTBRqKRR8Bxj4NBAd+g3nbOlPWBLCYH3YoZEivEGa3ugjbQkQyNYhz8y+skRVKB+bZmzJ4E
-	CFZ9aqLMN2mufIMhPTYZYHhXrBBeiE70KZ8fm1bWroJLhW+lp9krcQ/uiMilBlo5juslBgOsexROA
-	2RLQJtDHWK06GhJZPh/waBaztJ2z7RtUTLwa11ZTYtrUPdplIUe4z210fLxEZCNR9M05a4Db7bCUo
-	lF+ET4r6OMBUw3sd8/6ypH7xvUfWpry1pmOZPxb8vKG6C0JuCDbeEuSBoGjHvcux0hc7o0JekBI7C
-	OPbHR3jw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Rjg+hl9YspXXm0IG+7csRqCTK6A/U1FFIIEGhuO5jxU=; b=kF95TbeuNE75mRaNnjY7iJQNgy
+	yBDcAfak/SCGsCMMGiUn1psJbaifE5eLS9TXA6e2P9C7lRr+E1xemPIfts8IzZVzh4gdxiqfTJDr4
+	JoyewKF32Erts3w2jns4Af1nrvGzvXdbZaNC8oENhOxdIhWdKeDgahlkp6UE47GMd7WDK8X/73b1t
+	VMd+nfFMmZanY55wpXUDiuywwfDINEDyWdWGKKzXW85gIOxaDfp576xsF4xL+Jd6hy0gvOdMe72V0
+	b+Bp4wTVyr5TyUYZlGv2L4we91NtKzzCt3k2hp3fKDcA6LNdjU65oCzCsjvOhVIq+BoBcmWIR/YL9
+	6EWs76+g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTdnM-004Hq8-1l;
-	Wed, 09 Aug 2023 07:39:52 +0000
-Received: from mail-lf1-f42.google.com ([209.85.167.42])
+	id 1qTe0s-004J9A-1L;
+	Wed, 09 Aug 2023 07:53:50 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTdnJ-004Hpa-3A
+	id 1qTe0q-004J8Z-25
 	for linux-nvme@lists.infradead.org;
-	Wed, 09 Aug 2023 07:39:51 +0000
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-4fe1e7440f1so1687170e87.0
-        for <linux-nvme@lists.infradead.org>; Wed, 09 Aug 2023 00:39:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691566787; x=1692171587;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IcnCQ8xaUB5P+nnoqcvRQHtgfnUd197HfgGPw0/AMZ4=;
-        b=VvSQdEeh5AqyJJ+J11jmP5yqFjPhKFotPyNRzQPKlw95x09UdlYE0UTYd/eJolUsqy
-         fSGvK7zeRnhz76M9WK7lr5XPYq3nxwjGRUvGGLb/1UDg0Wxg+pf1Dnr9BeBSeIZ3oIe/
-         xlKentUROMfOoEJzfoDxdwtfor/AMbxtNT2CbFifTXHBdwRFUaX33tIOkKRPNscVPF3b
-         SUw7u6RIrpwWhVE1iVvlcd4W8huu29c6aj9HC3I45gRXaPw0mEssckpN5KZMh89t/OZr
-         34MShy0m5n2GQG3i3nRlQVuK3+HxD1Hu+PZCL+KQ4NU1Rsvi5iNLSKkM7w7xAbSlkEQl
-         P65Q==
-X-Gm-Message-State: AOJu0YznrFZV64nM1xOMw1jo81BGrUIGZMkDu1bngTMTMRyB3mEn62po
-	oquantTlQ9mabOQr1PpC44a5zmIhKc0=
-X-Google-Smtp-Source: AGHT+IFJX0Xo0Kww2n3GLSYlhtOJuzJjcw2BH3VbUdL+l46JRVFYUsKV5vo8Mm3CIUvknuBnWyY1QQ==
-X-Received: by 2002:a19:750c:0:b0:4fd:d0f7:5b90 with SMTP id y12-20020a19750c000000b004fdd0f75b90mr1092919lfe.4.1691566786641;
-        Wed, 09 Aug 2023 00:39:46 -0700 (PDT)
-Received: from [192.168.64.157] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id c21-20020aa7df15000000b005222b471dc4sm7504786edy.95.2023.08.09.00.39.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Aug 2023 00:39:45 -0700 (PDT)
-Message-ID: <2ae6c96b-2b05-583e-55bd-2d20133b9b37@grimberg.me>
-Date: Wed, 9 Aug 2023 10:39:42 +0300
+	Wed, 09 Aug 2023 07:53:50 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1691567627;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Rjg+hl9YspXXm0IG+7csRqCTK6A/U1FFIIEGhuO5jxU=;
+	b=dtvulmyIyyWuXdpEmvJzSsr3/9by2eyT+HPdwXFX3yKpB6I5RNAfgr62oDs4aJWMDBzFEr
+	JFxVOp2gmskFIbdS+sEVJw9XMrE3OboQYzLFyi5DLXVQT+T2IPH1pz8lco6cwBu85/cT20
+	9v27QSKcOqOH7KwDD5cjpxIVZxLser0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-153-aGAmfeL0OverE2Yzcbrx7A-1; Wed, 09 Aug 2023 03:53:46 -0400
+X-MC-Unique: aGAmfeL0OverE2Yzcbrx7A-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9852C801CF3;
+	Wed,  9 Aug 2023 07:53:45 +0000 (UTC)
+Received: from fedora (unknown [10.72.120.4])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0FA50492B0F;
+	Wed,  9 Aug 2023 07:53:40 +0000 (UTC)
+Date: Wed, 9 Aug 2023 15:53:35 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Kanchan Joshi <joshi.k@samsung.com>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>,
+	Guangwu Zhang <guazhang@redhat.com>,
+	Anuj Gupta <anuj20.g@samsung.com>
+Subject: Re: [PATCH] nvme: core: don't hold rcu read lock in
+ nvme_ns_chr_uring_cmd_iopoll
+Message-ID: <ZNNF/2NEPYCeiXlM@fedora>
+References: <CGME20230809020844epcas5p30e520491fa59ab8c20836d4275931e8f@epcas5p3.samsung.com>
+ <20230809020440.174682-1-ming.lei@redhat.com>
+ <20230809065920.GA19415@green245>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v12 07/26] nvme-tcp: Add DDP offload control path
-Content-Language: en-US
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- Aurelien Aptel <aaptel@nvidia.com>, Shai Malin <smalin@nvidia.com>
-Cc: "davem@davemloft.net" <davem@davemloft.net>,
- Boris Pismenny <borisp@nvidia.com>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "kuba@kernel.org" <kuba@kernel.org>,
- "aurelien.aptel@gmail.com" <aurelien.aptel@gmail.com>,
- "hch@lst.de" <hch@lst.de>, "axboe@fb.com" <axboe@fb.com>,
- "malin1024@gmail.com" <malin1024@gmail.com>, Or Gerlitz
- <ogerlitz@nvidia.com>, Yoray Zack <yorayz@nvidia.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Gal Shalom <galshalom@nvidia.com>, Max Gurtovoy <mgurtovoy@nvidia.com>,
- "kbusch@kernel.org" <kbusch@kernel.org>
-References: <20230712161513.134860-1-aaptel@nvidia.com>
- <20230712161513.134860-8-aaptel@nvidia.com>
- <8a4ccb05-b9c5-fd45-69cb-c531fd017941@nvidia.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <8a4ccb05-b9c5-fd45-69cb-c531fd017941@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20230809065920.GA19415@green245>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230809_003950_041627_CE5984F6 
-X-CRM114-Status: GOOD (  21.82  )
+X-CRM114-CacheID: sfid-20230809_005348_752429_3CCBC5A2 
+X-CRM114-Status: GOOD (  16.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,69 +86,64 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 8/1/23 05:25, Chaitanya Kulkarni wrote:
-> On 7/12/23 09:14, Aurelien Aptel wrote:
->> From: Boris Pismenny <borisp@nvidia.com>
->>
->> This commit introduces direct data placement offload to NVME
->> TCP. There is a context per queue, which is established after the
->> handshake using the sk_add/del NDOs.
->>
->> Additionally, a resynchronization routine is used to assist
->> hardware recovery from TCP OOO, and continue the offload.
->> Resynchronization operates as follows:
->>
->> 1. TCP OOO causes the NIC HW to stop the offload
->>
->> 2. NIC HW identifies a PDU header at some TCP sequence number,
->> and asks NVMe-TCP to confirm it.
->> This request is delivered from the NIC driver to NVMe-TCP by first
->> finding the socket for the packet that triggered the request, and
->> then finding the nvme_tcp_queue that is used by this routine.
->> Finally, the request is recorded in the nvme_tcp_queue.
->>
->> 3. When NVMe-TCP observes the requested TCP sequence, it will compare
->> it with the PDU header TCP sequence, and report the result to the
->> NIC driver (resync), which will update the HW, and resume offload
->> when all is successful.
->>
->> Some HW implementation such as ConnectX-7 assume linear CCID (0...N-1
->> for queue of size N) where the linux nvme driver uses part of the 16
->> bit CCID for generation counter. To address that, we use the existing
->> quirk in the nvme layer when the HW driver advertises if the device is
->> not supports the full 16 bit CCID range.
->>
->> Furthermore, we let the offloading driver advertise what is the max hw
->> sectors/segments via ulp_ddp_limits.
->>
->> A follow-up patch introduces the data-path changes required for this
->> offload.
->>
->> Socket operations need a netdev reference. This reference is
->> dropped on NETDEV_GOING_DOWN events to allow the device to go down in
->> a follow-up patch.
->>
->> Signed-off-by: Boris Pismenny <borisp@nvidia.com>
->> Signed-off-by: Ben Ben-Ishay <benishay@nvidia.com>
->> Signed-off-by: Or Gerlitz <ogerlitz@nvidia.com>
->> Signed-off-by: Yoray Zack <yorayz@nvidia.com>
->> Signed-off-by: Shai Malin <smalin@nvidia.com>
->> Signed-off-by: Aurelien Aptel <aaptel@nvidia.com>
->> Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
->> ---
+On Wed, Aug 09, 2023 at 12:29:20PM +0530, Kanchan Joshi wrote:
+> On Wed, Aug 09, 2023 at 10:04:40AM +0800, Ming Lei wrote:
+> > Now nvme_ns_chr_uring_cmd_iopoll() has switched to request based io
+> > polling, and the associated NS is guaranteed to be live in case of
+> > io polling, so request is guaranteed to be valid because blk-mq uses
+> > pre-allocated request pool.
+> > 
+> > Remove the rcu read lock in nvme_ns_chr_uring_cmd_iopoll(), which
+> > isn't needed any more after switching to request based io polling.
 > 
-> For NVMe related code :-
+> > Fix "BUG: sleeping function called from invalid context" because
+> > set_page_dirty_lock() from blk_rq_unmap_user() may sleep.
+> > 
+> > Fixes: 585079b6e425 ("nvme: wire up async polling for io passthrough commands")
+> > Reported-by: Guangwu Zhang <guazhang@redhat.com>
 > 
-> Offload feature is configurable and maybe not be turned on in the absence
-> of the H/W. In order to keep the nvme/host/tcp.c file small to only handle
-> core related functionality, I wonder if we should to move tcp-offload code
-> into it's own file say nvme/host/tcp-offload.c ?
+> Thanks Ming. Looks fine, but any link to this report?
+> I don't see this breaking in my tests. So I wonder how to reproduce and
+> improve the coverage.
 
-Maybe. it wouldn't be tcp_offload.c but rather tcp_ddp.c because its not
-offloading the tcp stack but rather doing direct data placement.
+It is reported in RH BZ2227639, and follows the stack trace:
 
-If we are going to do that it will pollute nvme.h or add a common
-header file, which is something I'd like to avoid if possible.
+[ 3286.960425] BUG: sleeping function called from invalid context at include/linux/pagemap.h:914
+[ 3286.960434] in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 530910, name: fio
+[ 3286.960440] preempt_count: 1, expected: 0
+[ 3286.960443] RCU nest depth: 1, expected: 0
+[ 3286.960446] 3 locks held by fio/530910:
+[ 3286.960450]  #0: ffff8881108e40b0 (&ctx->uring_lock){+.+.}-{3:3}, at: __do_sys_io_uring_enter+0x535/0x980
+[ 3286.960476]  #1: ffffffff9b72a320 (rcu_read_lock){....}-{1:2}, at: nvme_ns_chr_uring_cmd_iopoll+0x5/0x270 [nvme_core]
+[ 3286.960530]  #2: ffff88837937b098 (&nvmeq->cq_poll_lock){+.+.}-{2:2}, at: nvme_poll+0x129/0x180 [nvme]
+[ 3286.960553] Preemption disabled at:
+[ 3286.960555] [<0000000000000000>] 0x0
+[ 3286.960691] CPU: 1 PID: 530910 Comm: fio Kdump: loaded Tainted: G        W    L X  -------  ---  5.14.0-345.el9.x86_64+debug #1
+[ 3286.960700] Hardware name: Dell Inc. PowerEdge R640/06DKY5, BIOS 2.15.1 06/15/2022
+[ 3286.960704] Call Trace:
+[ 3286.960707]  <TASK>
+[ 3286.960720]  dump_stack_lvl+0x57/0x81
+[ 3286.960734]  __might_resched.cold+0x222/0x26b
+[ 3286.960756]  set_page_dirty_lock+0x1d/0x130
+[ 3286.960773]  __bio_release_pages+0x266/0x470
+[ 3286.960811]  blk_rq_unmap_user+0x2a8/0x660
+[ 3286.960824]  ? lock_acquire+0x1d8/0x640
+[ 3286.960839]  ? sched_clock_cpu+0x15/0x1b0
+[ 3286.960850]  ? find_held_lock+0x33/0x120
+[ 3286.960870]  ? __pfx_blk_rq_unmap_user+0x10/0x10
+[ 3286.960876]  ? __lock_release+0x4c1/0xa00
+[ 3286.960894]  ? __pfx___lock_release+0x10/0x10
+[ 3286.960908]  ? mark_held_locks+0xa5/0xf0
+[ 3286.960938]  nvme_uring_cmd_end_io+0x204/0x300 [nvme_core]
+[ 3286.960974]  ? __pfx_nvme_uring_cmd_end_io+0x10/0x10 [nvme_core]
+[ 3286.961020]  __blk_mq_end_request+0xf6/0x4c0
+[ 3286.961042]  nvme_poll_cq+0x71e/0xe40 [nvme]
+[ 3286.961102]  nvme_poll+0x134/0x180 [nvme]
+[ 3286.961121]  blk_mq_poll_classic+0x179/0x420
+[ 3286.961153]  bio_poll+0x1f5/0x440
+[ 3286.961182]  nvme_ns_chr_uring_cmd_iopoll+0x16f/0x270 [nvme_core]
+
+Thanks,
+Ming
+
 
