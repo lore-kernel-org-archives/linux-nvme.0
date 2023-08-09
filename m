@@ -4,59 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9744EB64DD
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Aug 2023 07:15:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 111F6EB64DD
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Aug 2023 07:35:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=X5B2K2pvwKA9Wq8Dl+kWR4xuQovpDnJXA1ylw11/oa4=; b=c4HvX/VPuCylZOXI4+NmXfETPK
-	fdgf4WRdBbnxEoCS8mSMW32dyZMjxtQt5mSImPA+pwIjoFW31KwpG7YB/58iQgv5mOv2qssSbeHw2
-	RGVjiU6++U/J7tonREw27nMbl5VBsh2iEtRWJzyI7qHBpLgglqglD3dXIBG7FtX9M8FqZdhHFrGQ1
-	H/r9k35rWjkQVAAtNRx1zYh9Vh/mkjvo/ibZ26WoT4iKfVnk/9Tu69URG0PZjV0kHDt8U643IMUsi
-	eheaH9fm9bvB6dr1b/wkKA9H23Od+OvzM2O/mVjrviGwpnh2JaYDgnd68wmEap/WkTJaN0CSaMEnO
-	o+dHJxlA==;
+	bh=MxD4Z8RJdkSf14Iq1u4v8rQRCJKMLijBlvwEtgiqg4A=; b=2MvVz76PV1aWJLVmtYXpPKqlfE
+	jwRcGJLCikbzCVKDPYGTU/nvB88Slb6UK9J3AZePT0wmneRieCMeM/amJkPfAKertz5Rzwvdzjd7a
+	GRHJQFt/qTlhdMHRJJQfLPs094xGhtxVaG585EhV5rkdh1YtqaLhah03Conwth1Xh7eG9vNuj5naP
+	NqCjNGy8nLbGrx8N0JVa1b2TDkArzjIp7eTwei5G+mnh+xAp3uQecg5cD64Dh8HKJ1T7Y6deJ1dYk
+	/qcgZ7sKGMWT0lLJek70Aj62COAT1F+0nMWfMCSx2vP8x4GASV0aNZuJKMe7rWByLgx2g+cJ14TQZ
+	CIh+ihDw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTdPy-004FB3-32;
-	Wed, 09 Aug 2023 07:15:42 +0000
-Received: from mail-wm1-f42.google.com ([209.85.128.42])
+	id 1qTdjE-004HHJ-3A;
+	Wed, 09 Aug 2023 07:35:37 +0000
+Received: from mail-lf1-f52.google.com ([209.85.167.52])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTdPw-004FAE-0D
+	id 1qTdjC-004HG4-2D
 	for linux-nvme@lists.infradead.org;
-	Wed, 09 Aug 2023 07:15:42 +0000
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-3fe4f3b5f25so9201675e9.0
-        for <linux-nvme@lists.infradead.org>; Wed, 09 Aug 2023 00:15:38 -0700 (PDT)
+	Wed, 09 Aug 2023 07:35:36 +0000
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-4fe70332415so749521e87.0
+        for <linux-nvme@lists.infradead.org>; Wed, 09 Aug 2023 00:35:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691565337; x=1692170137;
+        d=1e100.net; s=20221208; t=1691566532; x=1692171332;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=X5B2K2pvwKA9Wq8Dl+kWR4xuQovpDnJXA1ylw11/oa4=;
-        b=PBHnRkgJRXdZweULR+2IXWgxUSRPK1c0MYkdwYfFrdBYFu9YX74VpugRF36HS/A6jz
-         X1RcHRRN/7qFGbGTRNIbwDgVIOa6Z/j1VDIIbeNMkrv/F9bSrCFuX/5g/9rRdjZRJY58
-         T31VeDSHhpTrYgtoX6caZ8ShI10FsMnHJt+zCSrTh9LeftIMspzphNwUNG0N+XFNx6qN
-         wNUuMBGlccnGB0peviOeERPJp9/7ARRV3xgqDPZGpUZhs23GIqeuLvX1KJpor3a8jn0i
-         aZ5nWRXo8cymAtkzdWmarLDsPpVUM894qQ/t9ivz6/3qXVASrEpLNos9BgJlOceHJHhM
-         3saQ==
-X-Gm-Message-State: AOJu0YxGTUVYhfrvfQeNDf6suKAHemzlISeMz9HVLBQoFT3TFTfniBXL
-	BP/oLfHsZdckNY2mxG4fd10=
-X-Google-Smtp-Source: AGHT+IEa1EpdphkSe/8HGXyk+ZABdA2vbaF1wVjFQHRTGCarxSViS8i7obm9/cb/RrB9dxxX7bqF2Q==
-X-Received: by 2002:a05:600c:1d19:b0:3fe:21a6:a18 with SMTP id l25-20020a05600c1d1900b003fe21a60a18mr1575937wms.3.1691565336707;
-        Wed, 09 Aug 2023 00:15:36 -0700 (PDT)
+        bh=MxD4Z8RJdkSf14Iq1u4v8rQRCJKMLijBlvwEtgiqg4A=;
+        b=UTQ/I8zAgw9SiA506VaT6OoANqlvPBfh0bKH1uXNPklaZkNCq6QOS+7A4mzwU2xD/U
+         nklTtmBu9UKpPFYqG2Yw8HQiQmxeBtyyRZFb+qIM/eGgcSgcWU+1bZU0LeoxQrskWlPu
+         eIshWYqjJ6lUvit5EvRmTMgxZxSAZtZfX+4AiageWKMKn2k+ityvZDdX0T43BA6dyVjW
+         gqX59vX1SkfCKKEcNZ+ykHkxTfzobm+Wb1KkesEgUq3GlDJxJmR7dL2zdxBvvxNjFlJO
+         /n2AzAtDw5DySGpvZcrKjEtH0otBKzNa2SoughWAS/WfxLHQrtPlIcKdWmJKg5+fxB4v
+         XEVA==
+X-Gm-Message-State: AOJu0YzrIriNhtxQpJT2V335SsTnyiw/IK+b2CDKfsaqLn8dHXOab0Z8
+	8kRCsmatF1t2vjZxwhEpd7M=
+X-Google-Smtp-Source: AGHT+IGLZYj0+h+2w/xhdXAUxPcFSndm7fBE4FCEFa+o4aUYiHiWeMtk5t/nTMhUJUsgid7pYj8Igw==
+X-Received: by 2002:a19:7401:0:b0:4fd:d47b:cff8 with SMTP id v1-20020a197401000000b004fdd47bcff8mr1055592lfe.6.1691566531530;
+        Wed, 09 Aug 2023 00:35:31 -0700 (PDT)
 Received: from [192.168.64.157] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id 8-20020a05600c228800b003fbcf032c55sm1036871wmf.7.2023.08.09.00.15.32
+        by smtp.gmail.com with ESMTPSA id t15-20020a7bc3cf000000b003fe601a7d46sm1079435wmj.45.2023.08.09.00.35.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Aug 2023 00:15:36 -0700 (PDT)
-Message-ID: <eb7c7bee-7105-ef0d-0f62-c251a2919128@grimberg.me>
-Date: Wed, 9 Aug 2023 10:15:31 +0300
+        Wed, 09 Aug 2023 00:35:30 -0700 (PDT)
+Message-ID: <1d5adbe9-dcab-5eae-fff3-631b91c2da94@grimberg.me>
+Date: Wed, 9 Aug 2023 10:35:28 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v12 01/26] net: Introduce direct data placement tcp
- offload
+Subject: Re: [PATCH v12 08/26] nvme-tcp: Add DDP data-path
 Content-Language: en-US
 To: Aurelien Aptel <aaptel@nvidia.com>, linux-nvme@lists.infradead.org,
  netdev@vger.kernel.org, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
@@ -65,14 +64,14 @@ Cc: Boris Pismenny <borisp@nvidia.com>, aurelien.aptel@gmail.com,
  smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
  yorayz@nvidia.com, galshalom@nvidia.com, mgurtovoy@nvidia.com
 References: <20230712161513.134860-1-aaptel@nvidia.com>
- <20230712161513.134860-2-aaptel@nvidia.com>
+ <20230712161513.134860-9-aaptel@nvidia.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230712161513.134860-2-aaptel@nvidia.com>
+In-Reply-To: <20230712161513.134860-9-aaptel@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230809_001540_105577_690C6157 
-X-CRM114-Status: GOOD (  47.33  )
+X-CRM114-CacheID: sfid-20230809_003534_720421_6B07524D 
+X-CRM114-Status: GOOD (  30.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,54 +91,20 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 On 7/12/23 19:14, Aurelien Aptel wrote:
 > From: Boris Pismenny <borisp@nvidia.com>
 > 
-> This commit introduces direct data placement (DDP) offload for TCP.
+> Introduce the NVMe-TCP DDP data-path offload.
+> Using this interface, the NIC hardware will scatter TCP payload directly
+> to the BIO pages according to the command_id in the PDU.
+> To maintain the correctness of the network stack, the driver is expected
+> to construct SKBs that point to the BIO pages.
 > 
-> The motivation is saving compute resources/cycles that are spent
-> to copy data from SKBs to the block layer buffers and CRC
-> calculation/verification for received PDUs (Protocol Data Units).
+> The data-path interface contains two routines: setup/teardown.
+> The setup provides the mapping from command_id to the request buffers,
+> while the teardown removes this mapping.
 > 
-> The DDP capability is accompanied by new net_device operations that
-> configure hardware contexts.
-> 
-> There is a context per socket, and a context per DDP operation.
-> Additionally, a resynchronization routine is used to assist
-> hardware handle TCP OOO, and continue the offload. Furthermore,
-> we let the offloading driver advertise what is the max hw
-> sectors/segments.
-> 
-> The interface includes the following net-device ddp operations:
-> 
->   1. sk_add - add offload for the queue represented by socket+config pair
->   2. sk_del - remove the offload for the socket/queue
->   3. ddp_setup - request copy offload for buffers associated with an IO
->   4. ddp_teardown - release offload resources for that IO
->   5. limits - query NIC driver for quirks and limitations (e.g.
->               max number of scatter gather entries per IO)
->   6. set_caps - request ULP DDP capabilities enablement
->   7. get_stats - query NIC driver for ULP DDP stats
-> 
-> Using this interface, the NIC hardware will scatter TCP payload
-> directly to the BIO pages according to the command_id.
-> 
-> To maintain the correctness of the network stack, the driver is
-> expected to construct SKBs that point to the BIO pages.
-> 
-> The SKB passed to the network stack from the driver represents
-> data as it is on the wire, while it is pointing directly to data
-> in destination buffers.
-> 
-> As a result, data from page frags should not be copied out to
-> the linear part. To avoid needless copies, such as when using
-> skb_condense, we mark the skb->ulp_ddp bit.
-> In addition, the skb->ulp_crc will be used by the upper layers to
-> determine if CRC re-calculation is required. The two separated skb
-> indications are needed to avoid false positives GRO flushing events.
-> 
-> Follow-up patches will use this interface for DDP in NVMe-TCP.
-> 
-> Capability bits stored in net_device allow drivers to report which
-> ULP DDP capabilities a device supports. Control over these
-> capabilities will be exposed to userspace in later patches.
+> For efficiency, we introduce an asynchronous nvme completion, which is
+> split between NVMe-TCP and the NIC driver as follows:
+> NVMe-TCP performs the specific completion, while NIC driver performs the
+> generic mq_blk completion.
 > 
 > Signed-off-by: Boris Pismenny <borisp@nvidia.com>
 > Signed-off-by: Ben Ben-Ishay <benishay@nvidia.com>
@@ -147,301 +112,217 @@ On 7/12/23 19:14, Aurelien Aptel wrote:
 > Signed-off-by: Yoray Zack <yorayz@nvidia.com>
 > Signed-off-by: Shai Malin <smalin@nvidia.com>
 > Signed-off-by: Aurelien Aptel <aaptel@nvidia.com>
+> Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
 > ---
->   include/linux/netdevice.h          |  15 +++
->   include/linux/skbuff.h             |  25 +++-
->   include/net/inet_connection_sock.h |   6 +
->   include/net/ulp_ddp.h              | 191 +++++++++++++++++++++++++++++
->   include/net/ulp_ddp_caps.h         |  35 ++++++
->   net/Kconfig                        |  20 +++
->   net/core/skbuff.c                  |   3 +-
->   net/ipv4/tcp_input.c               |  13 +-
->   net/ipv4/tcp_ipv4.c                |   3 +
->   net/ipv4/tcp_offload.c             |   3 +
->   10 files changed, 311 insertions(+), 3 deletions(-)
->   create mode 100644 include/net/ulp_ddp.h
->   create mode 100644 include/net/ulp_ddp_caps.h
+>   drivers/nvme/host/tcp.c | 121 ++++++++++++++++++++++++++++++++++++++--
+>   1 file changed, 116 insertions(+), 5 deletions(-)
 > 
-> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-> index b828c7a75be2..26e25b2df6fa 100644
-> --- a/include/linux/netdevice.h
-> +++ b/include/linux/netdevice.h
-> @@ -54,6 +54,10 @@
->   #include <net/net_debug.h>
->   #include <net/dropreason-core.h>
->   
-> +#ifdef CONFIG_ULP_DDP
-> +#include <net/ulp_ddp_caps.h>
-> +#endif
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index 7d3b0ac65c03..6057cd424a19 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -116,6 +116,13 @@ struct nvme_tcp_request {
+>   	size_t			offset;
+>   	size_t			data_sent;
+>   	enum nvme_tcp_send_state state;
 > +
->   struct netpoll_info;
->   struct device;
->   struct ethtool_ops;
-> @@ -1418,6 +1422,8 @@ struct netdev_net_notifier {
->    *	Get hardware timestamp based on normal/adjustable time or free running
->    *	cycle counter. This function is required if physical clock supports a
->    *	free running cycle counter.
-> + * struct ulp_ddp_dev_ops *ulp_ddp_ops;
-> + *	ULP DDP operations (see include/net/ulp_ddp.h)
->    */
->   struct net_device_ops {
->   	int			(*ndo_init)(struct net_device *dev);
-> @@ -1652,6 +1658,9 @@ struct net_device_ops {
->   	ktime_t			(*ndo_get_tstamp)(struct net_device *dev,
->   						  const struct skb_shared_hwtstamps *hwtstamps,
->   						  bool cycles);
-> +#if IS_ENABLED(CONFIG_ULP_DDP)
-> +	const struct ulp_ddp_dev_ops	*ulp_ddp_ops;
+> +#ifdef CONFIG_ULP_DDP
+> +	bool			offloaded;
+> +	struct ulp_ddp_io	ddp;
+> +	__le16			ddp_status;
+> +	union nvme_result	result;
 > +#endif
 >   };
 >   
->   struct xdp_metadata_ops {
-> @@ -1825,6 +1834,9 @@ enum netdev_ml_priv_type {
->    *	@mpls_features:	Mask of features inheritable by MPLS
->    *	@gso_partial_features: value(s) from NETIF_F_GSO\*
->    *
-> + *	@ulp_ddp_caps:	Bitflags keeping track of supported and enabled
-> + *			ULP DDP capabilities.
-> + *
->    *	@ifindex:	interface index
->    *	@group:		The group the device belongs to
->    *
-> @@ -2121,6 +2133,9 @@ struct net_device {
->   	netdev_features_t	mpls_features;
->   	netdev_features_t	gso_partial_features;
+>   enum nvme_tcp_queue_flags {
+> @@ -354,11 +361,75 @@ static inline bool is_netdev_ulp_offload_active(struct net_device *netdev,
+>   	return false;
+>   }
 >   
+> +static int nvme_tcp_req_map_ddp_sg(struct nvme_tcp_request *req, struct request *rq)
+
+Why do you pass both req and rq? You can derive each from the other.
+
+> +{
+> +	int ret;
+> +
+> +	req->ddp.sg_table.sgl = req->ddp.first_sgl;
+> +	ret = sg_alloc_table_chained(&req->ddp.sg_table,
+> +				     blk_rq_nr_phys_segments(rq),
+> +				     req->ddp.sg_table.sgl, SG_CHUNK_SIZE);
+> +	if (ret)
+> +		return -ENOMEM;
+> +	req->ddp.nents = blk_rq_map_sg(rq->q, rq, req->ddp.sg_table.sgl);
+
+General question, I'm assuming that the hca knows how to deal with
+a controller that sends c2hdata in parts?
+
+
+> +	return 0;
+> +}
+> +
+>   static bool nvme_tcp_resync_request(struct sock *sk, u32 seq, u32 flags);
+> +static void nvme_tcp_ddp_teardown_done(void *ddp_ctx);
+>   static const struct ulp_ddp_ulp_ops nvme_tcp_ddp_ulp_ops = {
+>   	.resync_request		= nvme_tcp_resync_request,
+> +	.ddp_teardown_done	= nvme_tcp_ddp_teardown_done,
+>   };
+>   
+> +static void nvme_tcp_teardown_ddp(struct nvme_tcp_queue *queue,
+> +				  struct request *rq)
+> +{
+> +	struct net_device *netdev = queue->ctrl->offloading_netdev;
+> +	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+> +
+> +	netdev->netdev_ops->ulp_ddp_ops->teardown(netdev, queue->sock->sk,
+> +						  &req->ddp, rq);
+> +	sg_free_table_chained(&req->ddp.sg_table, SG_CHUNK_SIZE);
+> +}
+> +
+> +static void nvme_tcp_ddp_teardown_done(void *ddp_ctx)
+> +{
+> +	struct request *rq = ddp_ctx;
+> +	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+> +
+> +	if (!nvme_try_complete_req(rq, req->ddp_status, req->result))
+> +		nvme_complete_rq(rq);
+> +}
+> +
+> +static int nvme_tcp_setup_ddp(struct nvme_tcp_queue *queue, u16 command_id,
+> +			      struct request *rq)
+
+I think you can use nvme_cid(rq) instead of passing the command_id.
+
+> +{
+> +	struct net_device *netdev = queue->ctrl->offloading_netdev;
+> +	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+> +	int ret;
+> +
+> +	if (rq_data_dir(rq) != READ ||
+> +	    queue->ctrl->offload_io_threshold > blk_rq_payload_bytes(rq))
+> +		return 0;
+> +
+> +	req->ddp.command_id = command_id;
+> +	ret = nvme_tcp_req_map_ddp_sg(req, rq);
+
+Don't see why map_ddp_sg is not open-coded here, its the only call-site,
+and its pretty much does exactly what its called.
+
+> +	if (ret)
+> +		return -ENOMEM;
+> +
+> +	ret = netdev->netdev_ops->ulp_ddp_ops->setup(netdev, queue->sock->sk,
+> +						     &req->ddp);
+> +	if (ret) {
+> +		sg_free_table_chained(&req->ddp.sg_table, SG_CHUNK_SIZE);
+> +		return ret;
+> +	}
+> +
+> +	/* if successful, sg table is freed in nvme_tcp_teardown_ddp() */
+> +	req->offloaded = true;
+> +	return 0;
+> +}
+> +
+>   static int nvme_tcp_offload_socket(struct nvme_tcp_queue *queue)
+>   {
+>   	struct net_device *netdev = queue->ctrl->offloading_netdev;
+> @@ -491,6 +562,12 @@ static inline bool is_netdev_ulp_offload_active(struct net_device *netdev,
+>   	return false;
+>   }
+>   
+> +static int nvme_tcp_setup_ddp(struct nvme_tcp_queue *queue, u16 command_id,
+> +			      struct request *rq)
+> +{
+> +	return 0;
+> +}
+> +
+>   static int nvme_tcp_offload_socket(struct nvme_tcp_queue *queue)
+>   {
+>   	return -EOPNOTSUPP;
+> @@ -778,6 +855,26 @@ static void nvme_tcp_error_recovery(struct nvme_ctrl *ctrl)
+>   	queue_work(nvme_reset_wq, &to_tcp_ctrl(ctrl)->err_work);
+>   }
+>   
+> +static void nvme_tcp_complete_request(struct request *rq,
+> +				      __le16 status,
+> +				      union nvme_result result,
+> +				      __u16 command_id)
+> +{
 > +#ifdef CONFIG_ULP_DDP
-> +	struct ulp_ddp_netdev_caps ulp_ddp_caps;
+> +	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+> +
+> +	if (req->offloaded) {
+> +		req->ddp_status = status;
+> +		req->result = result;
+> +		nvme_tcp_teardown_ddp(req->queue, rq);
+> +		return;
+> +	}
 > +#endif
->   	unsigned int		min_mtu;
->   	unsigned int		max_mtu;
->   	unsigned short		type;
-> diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-> index 91ed66952580..cfa65945874d 100644
-> --- a/include/linux/skbuff.h
-> +++ b/include/linux/skbuff.h
-> @@ -813,6 +813,8 @@ typedef unsigned char *sk_buff_data_t;
->    *		delivery_time in mono clock base (i.e. EDT).  Otherwise, the
->    *		skb->tstamp has the (rcv) timestamp at ingress and
->    *		delivery_time at egress.
-> + *	@ulp_ddp: DDP offloaded
-> + *	@ulp_crc: CRC offloaded
->    *	@napi_id: id of the NAPI struct this skb came from
->    *	@sender_cpu: (aka @napi_id) source CPU in XPS
->    *	@alloc_cpu: CPU which did the skb allocation.
-> @@ -992,7 +994,10 @@ struct sk_buff {
->   #if IS_ENABLED(CONFIG_IP_SCTP)
->   	__u8			csum_not_inet:1;
->   #endif
+> +
+> +	if (!nvme_try_complete_req(rq, status, result))
+> +		nvme_complete_rq(rq);
+> +}
+> +
+>   static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
+>   		struct nvme_completion *cqe)
+>   {
+> @@ -797,10 +894,9 @@ static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
+>   	if (req->status == cpu_to_le16(NVME_SC_SUCCESS))
+>   		req->status = cqe->status;
+>   
+> -	if (!nvme_try_complete_req(rq, req->status, cqe->result))
+> -		nvme_complete_rq(rq);
+> +	nvme_tcp_complete_request(rq, req->status, cqe->result,
+> +				  cqe->command_id);
+>   	queue->nr_cqe++;
 > -
-> +#ifdef CONFIG_ULP_DDP
-> +	__u8                    ulp_ddp:1;
-> +	__u8			ulp_crc:1;
-> +#endif
->   #ifdef CONFIG_NET_SCHED
->   	__u16			tc_index;	/* traffic control index */
->   #endif
-> @@ -5040,5 +5045,23 @@ static inline void skb_mark_for_recycle(struct sk_buff *skb)
->   ssize_t skb_splice_from_iter(struct sk_buff *skb, struct iov_iter *iter,
->   			     ssize_t maxsize, gfp_t gfp);
+>   	return 0;
+>   }
 >   
-> +static inline bool skb_is_ulp_ddp(struct sk_buff *skb)
-> +{
-> +#ifdef CONFIG_ULP_DDP
-> +	return skb->ulp_ddp;
-> +#else
-> +	return 0;
-> +#endif
-> +}
-> +
-> +static inline bool skb_is_ulp_crc(struct sk_buff *skb)
-> +{
-> +#ifdef CONFIG_ULP_DDP
-> +	return skb->ulp_crc;
-> +#else
-> +	return 0;
-> +#endif
-> +}
-> +
->   #endif	/* __KERNEL__ */
->   #endif	/* _LINUX_SKBUFF_H */
-> diff --git a/include/net/inet_connection_sock.h b/include/net/inet_connection_sock.h
-> index c2b15f7e5516..b11fbbc95541 100644
-> --- a/include/net/inet_connection_sock.h
-> +++ b/include/net/inet_connection_sock.h
-> @@ -68,6 +68,8 @@ struct inet_connection_sock_af_ops {
->    * @icsk_ulp_ops	   Pluggable ULP control hook
->    * @icsk_ulp_data	   ULP private data
->    * @icsk_clean_acked	   Clean acked data hook
-> + * @icsk_ulp_ddp_ops	   Pluggable ULP direct data placement control hook
-> + * @icsk_ulp_ddp_data	   ULP direct data placement private data
->    * @icsk_ca_state:	   Congestion control state
->    * @icsk_retransmits:	   Number of unrecovered [RTO] timeouts
->    * @icsk_pending:	   Scheduled timer event
-> @@ -98,6 +100,10 @@ struct inet_connection_sock {
->   	const struct tcp_ulp_ops  *icsk_ulp_ops;
->   	void __rcu		  *icsk_ulp_data;
->   	void (*icsk_clean_acked)(struct sock *sk, u32 acked_seq);
-> +#ifdef CONFIG_ULP_DDP
-> +	const struct ulp_ddp_ulp_ops  *icsk_ulp_ddp_ops;
-> +	void __rcu		  *icsk_ulp_ddp_data;
-> +#endif
->   	unsigned int		  (*icsk_sync_mss)(struct sock *sk, u32 pmtu);
->   	__u8			  icsk_ca_state:5,
->   				  icsk_ca_initialized:1,
-> diff --git a/include/net/ulp_ddp.h b/include/net/ulp_ddp.h
-> new file mode 100644
-> index 000000000000..b85fda4450b4
-> --- /dev/null
-> +++ b/include/net/ulp_ddp.h
-> @@ -0,0 +1,191 @@
-> +/* SPDX-License-Identifier: GPL-2.0
-> + *
-> + * ulp_ddp.h
-> + *	Author:	Boris Pismenny <borisp@nvidia.com>
-> + *	Copyright (c) 2023, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
-> + */
-> +#ifndef _ULP_DDP_H
-> +#define _ULP_DDP_H
-> +
-> +#include <linux/netdevice.h>
-> +#include <net/inet_connection_sock.h>
-> +#include <net/sock.h>
-> +
-> +#include "ulp_ddp_caps.h"
-> +
-> +enum ulp_ddp_type {
-> +	ULP_DDP_NVME = 1,
-> +};
-> +
-> +/**
-> + * struct nvme_tcp_ddp_limits - nvme tcp driver limitations
-> + *
-> + * @full_ccid_range:	true if the driver supports the full CID range
-> + */
-> +struct nvme_tcp_ddp_limits {
-> +	bool			full_ccid_range;
-> +};
-> +
-> +/**
-> + * struct ulp_ddp_limits - Generic ulp ddp limits: tcp ddp
-> + * protocol limits.
-> + * Add new instances of ulp_ddp_limits in the union below (nvme-tcp, etc.).
-> + *
-> + * @type:		type of this limits struct
-> + * @max_ddp_sgl_len:	maximum sgl size supported (zero means no limit)
-> + * @io_threshold:	minimum payload size required to offload
-> + * @tls:		support for ULP over TLS
-> + * @nvmeotcp:		NVMe-TCP specific limits
-> + */
-> +struct ulp_ddp_limits {
-> +	enum ulp_ddp_type	type;
-> +	int			max_ddp_sgl_len;
-> +	int			io_threshold;
-> +	bool			tls:1;
+> @@ -998,10 +1094,13 @@ static int nvme_tcp_recv_pdu(struct nvme_tcp_queue *queue, struct sk_buff *skb,
+>   
+>   static inline void nvme_tcp_end_request(struct request *rq, u16 status)
+>   {
+> +	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+> +	struct nvme_tcp_queue *queue = req->queue;
+> +	struct nvme_tcp_data_pdu *pdu = (void *)queue->pdu;
+>   	union nvme_result res = {};
+>   
+> -	if (!nvme_try_complete_req(rq, cpu_to_le16(status << 1), res))
+> -		nvme_complete_rq(rq);
+> +	nvme_tcp_complete_request(rq, cpu_to_le16(status << 1), res,
+> +				  pdu->command_id);
+>   }
+>   
+>   static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
+> @@ -1308,6 +1407,15 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
+>   	else
+>   		msg.msg_flags |= MSG_EOR;
+>   
+> +	if (test_bit(NVME_TCP_Q_OFF_DDP, &queue->flags)) {
+> +		ret = nvme_tcp_setup_ddp(queue, pdu->cmd.common.command_id,
+> +					 blk_mq_rq_from_pdu(req));
+> +		WARN_ONCE(ret, "ddp setup failed (queue 0x%x, cid 0x%x, ret=%d)",
+> +			  nvme_tcp_queue_id(queue),
+> +			  pdu->cmd.common.command_id,
+> +			  ret);
+> +	}
 
-Is this a catch-all for tls 1.2/1.3 or future ones?
+Any reason why this is done here when sending the command pdu and not
+in setup time?
 
-> +	union {
-> +		struct nvme_tcp_ddp_limits nvmeotcp;
-> +	};
-> +};
 > +
-> +/**
-> + * struct nvme_tcp_ddp_config - nvme tcp ddp configuration for an IO queue
-> + *
-> + * @pfv:	pdu version (e.g., NVME_TCP_PFV_1_0)
-> + * @cpda:	controller pdu data alignment (dwords, 0's based)
-> + * @dgst:	digest types enabled (header or data, see enum nvme_tcp_digest_option).
-> + *		The netdev will offload crc if it is supported.
-> + * @queue_size: number of nvme-tcp IO queue elements
-> + * @queue_id:	queue identifier
-> + * @io_cpu:	cpu core running the IO thread for this queue
-> + */
-> +struct nvme_tcp_ddp_config {
-> +	u16			pfv;
-> +	u8			cpda;
-> +	u8			dgst;
-> +	int			queue_size;
-> +	int			queue_id;
-> +	int			io_cpu;
-> +};
-> +
-> +/**
-> + * struct ulp_ddp_config - Generic ulp ddp configuration
-> + * Add new instances of ulp_ddp_config in the union below (nvme-tcp, etc.).
-> + *
-> + * @type:	type of this config struct
-> + * @nvmeotcp:	NVMe-TCP specific config
-> + */
-> +struct ulp_ddp_config {
-> +	enum ulp_ddp_type    type;
-> +	union {
-> +		struct nvme_tcp_ddp_config nvmeotcp;
-> +	};
-> +};
-> +
-> +/**
-> + * struct ulp_ddp_io - ulp ddp configuration for an IO request.
-> + *
-> + * @command_id: identifier on the wire associated with these buffers
-> + * @nents:	number of entries in the sg_table
-> + * @sg_table:	describing the buffers for this IO request
-> + * @first_sgl:	first SGL in sg_table
-> + */
-> +struct ulp_ddp_io {
-> +	u32			command_id;
-> +	int			nents;
-> +	struct sg_table		sg_table;
-> +	struct scatterlist	first_sgl[SG_CHUNK_SIZE];
-> +};
-> +
-> +struct ethtool_ulp_ddp_stats;
-> +struct netlink_ext_ack;
-> +
-> +/**
-> + * struct ulp_ddp_dev_ops - operations used by an upper layer protocol
-> + *                          to configure ddp offload
-> + *
-> + * @limits:    query ulp driver limitations and quirks.
-> + * @sk_add:    add offload for the queue represented by socket+config
-> + *             pair. this function is used to configure either copy, crc
-> + *             or both offloads.
-> + * @sk_del:    remove offload from the socket, and release any device
-> + *             related resources.
-> + * @setup:     request copy offload for buffers associated with a
-> + *             command_id in ulp_ddp_io.
-> + * @teardown:  release offload resources association between buffers
-> + *             and command_id in ulp_ddp_io.
-> + * @resync:    respond to the driver's resync_request. Called only if
-> + *             resync is successful.
-> + * @set_caps:  set device ULP DDP capabilities.
-> + *	       returns a negative error code or zero.
-> + * @get_stats: query ULP DDP statistics.
-> + */
-> +struct ulp_ddp_dev_ops {
-> +	int (*limits)(struct net_device *netdev,
-> +		      struct ulp_ddp_limits *limits);
-> +	int (*sk_add)(struct net_device *netdev,
-> +		      struct sock *sk,
-> +		      struct ulp_ddp_config *config);
-> +	void (*sk_del)(struct net_device *netdev,
-> +		       struct sock *sk);
-> +	int (*setup)(struct net_device *netdev,
-> +		     struct sock *sk,
-> +		     struct ulp_ddp_io *io);
-> +	void (*teardown)(struct net_device *netdev,
-> +			 struct sock *sk,
-> +			 struct ulp_ddp_io *io,
-> +			 void *ddp_ctx);
-> +	void (*resync)(struct net_device *netdev,
-> +		       struct sock *sk, u32 seq);
-> +	int (*set_caps)(struct net_device *dev, unsigned long *bits,
-> +			struct netlink_ext_ack *extack);
-> +	int (*get_stats)(struct net_device *dev,
-> +			 struct ethtool_ulp_ddp_stats *stats);
-> +};
-
-It would be beneficial to have proper wrappers to these that
-can also do some housekeeping work around the callbacks.
+>   	if (queue->hdr_digest && !req->offset)
+>   		nvme_tcp_hdgst(queue->snd_hash, pdu, sizeof(*pdu));
+>   
+> @@ -2739,6 +2847,9 @@ static blk_status_t nvme_tcp_setup_cmd_pdu(struct nvme_ns *ns,
+>   	if (ret)
+>   		return ret;
+>   
+> +#ifdef CONFIG_ULP_DDP
+> +	req->offloaded = false;
+> +#endif
+>   	req->state = NVME_TCP_SEND_CMD_PDU;
+>   	req->status = cpu_to_le16(NVME_SC_SUCCESS);
+>   	req->offset = 0;
 
