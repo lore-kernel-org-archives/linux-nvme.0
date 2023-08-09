@@ -4,70 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F18BAEB64DD
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Aug 2023 10:51:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D51DEB64DD
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Aug 2023 11:18:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=55BtCKKYc3jYvkgaaCNXcot6laC6PPh2Lc4uLaXFnAg=; b=V8qGWPiiICt7TkgSpeZALgHZ4r
-	8xQwn12yBllaQVMjYnk/0BQAN04ytDblmeAdIqXfYJUWm4YcHpdIfNh6XifU7AdqFxaNrFBd816hU
-	0zt1P+R9Gnip47IJwuFHS+6lPcNPXx9Zjmfy7VLgLGjZoM9kbsGiFSGu3S45q5gQmFepG3YapFQIR
-	JYQTlilLK1ciTdHk3Xbf6he0MAF/G+57S2J2VVJe7MnzN9MgyOyVSPuVY9Epf+UerG+tcrjTdCbPA
-	/BCpOOMb1TQ/cymBfqd7iMZyFIJ8XgtXFtoqSBaNUQ+vFjUTHHOzUbeo1oL8Ui5X1nEYcvcH6Td2u
-	fp5kDnWg==;
+	bh=o0BK8fznQDkN/Yw+OZOhfYrDBBNJry58KTjlioF58Eo=; b=gP8/HwY39TUGmCqRH1xm7bDyBd
+	DTrA/z9MRaVuoQ8sjz+UYn6C3iSVboD+8WbeFEHgmyaFs/vcMBaBrKoHRKdhEMirMZPWTqGAKdB5R
+	CLn6QM79QmadlZuYxfm7jnPFEvaWYoDAoZpuUF8JnNrc1rCHXR0yFj+N/CMxpyCuH39UdjoiWMId3
+	l4mTnVCpoWdqNqJXjmZEERlb5C5LPuiRWXAZOYQU04DrwO2w3DtYr8ZkaT9iselaR1L5VuIehLI65
+	2OiTiLQ+DmvZTnHjqSezZzSc9c2EXWkZS4aGyALc5wV76SiCSxinxYZre80gW3+zQGDax3H3zagx7
+	N9OX/pIA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTgmj-004hhy-00;
-	Wed, 09 Aug 2023 10:51:25 +0000
-Received: from mail-wm1-f47.google.com ([209.85.128.47])
+	id 1qThD1-004knL-1f;
+	Wed, 09 Aug 2023 11:18:35 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTgmf-004hgn-1Y
+	id 1qThCy-004kmG-0v
 	for linux-nvme@lists.infradead.org;
-	Wed, 09 Aug 2023 10:51:23 +0000
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-3fe5c552dd0so4787045e9.0
-        for <linux-nvme@lists.infradead.org>; Wed, 09 Aug 2023 03:51:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691578277; x=1692183077;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=55BtCKKYc3jYvkgaaCNXcot6laC6PPh2Lc4uLaXFnAg=;
-        b=IYDmEJEsrw6HjqkQWvgTAG/WUTvC7sbUYStiTvEbN+WdB7Nc+znY9xnmXCv6KNelOo
-         re2qON1nWNFEX1ZGgBZThz89ey00XQxkWS4mxHFAJI6WWumH8Ov8mxK4FwQSQgJxiZSh
-         /hnFvjgWQuNL2YXPbi8W58jkXIOi+gIBm5zIPybtqsk5hMj12F/hvfw4/42NqWHZTd2n
-         rdRkwXQt/yPGFUt4dt26Kd8+sfWvJnjKZ123YIeK1olc4zfBdUjyUodOL1jZwRuZcw86
-         dALIyZ326sUkGgQYgRAqew8t2vbV57JuFTBIztfPx0M36SpippqofIrh375J9Xn6HxBx
-         5c9A==
-X-Gm-Message-State: AOJu0YxBlJHpAXxSizLE0TD/k/ftkvQCneT8ZHFiOMxCDflcz0DqV3KN
-	Su7IRxFkvSi6snYDopgS54IbVTqUUtU=
-X-Google-Smtp-Source: AGHT+IGJb/tpxkX1h42XoTL0trRIN2c5p0Nd8FQeTc4nXpntLX0UiELBW47r+NetPaObuk9L3EETHQ==
-X-Received: by 2002:a05:600c:a54:b0:3f7:fb5d:6e7a with SMTP id c20-20020a05600c0a5400b003f7fb5d6e7amr1989105wmq.0.1691578277133;
-        Wed, 09 Aug 2023 03:51:17 -0700 (PDT)
-Received: from [192.168.64.157] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id o10-20020a5d474a000000b003141a3c4353sm16398308wrs.30.2023.08.09.03.51.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Aug 2023 03:51:16 -0700 (PDT)
-Message-ID: <e28dffb6-66bd-2724-6c9d-f06e5da75aeb@grimberg.me>
-Date: Wed, 9 Aug 2023 13:51:14 +0300
+	Wed, 09 Aug 2023 11:18:33 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9F0B61F38C;
+	Wed,  9 Aug 2023 11:18:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1691579907; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=o0BK8fznQDkN/Yw+OZOhfYrDBBNJry58KTjlioF58Eo=;
+	b=dEdmDi2pwd+ym6+L/oQzH5n4VjyxPW9vB1nas554ivL0FLw/3mbeFEDmzFDQFEf7YLvn33
+	X9XkEMW47sicnEAQiSf2aj8Em9x7cxZBzhCO9GAPZl2Na4BSfLCor+/i34SoEst0thA7Ga
+	rbajEQO075YW9gzDoZc5Qfjb6VIDhBM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1691579907;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=o0BK8fznQDkN/Yw+OZOhfYrDBBNJry58KTjlioF58Eo=;
+	b=GZp1AreogUhHYmC9KlAi6A7FAKhBq0mpmv7vGRoieE2dF43x8s5B54zAliTdR9gMHauGVA
+	IpCiex4VsRkJv3Aw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 85BBA13251;
+	Wed,  9 Aug 2023 11:18:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 1urxHwN202RfSgAAMHmgww
+	(envelope-from <hare@suse.de>); Wed, 09 Aug 2023 11:18:27 +0000
+Message-ID: <d99912c7-13ba-b0df-c571-5a1cf0861d12@suse.de>
+Date: Wed, 9 Aug 2023 13:18:27 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 15/16] nvmet-tcp: enable TLS handshake upcall
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 14/16] nvmet: Allow to change 'TSAS' and 'TREQ'
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
 References: <20230808165354.123499-1-hare@suse.de>
- <20230808165354.123499-16-hare@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230808165354.123499-16-hare@suse.de>
+ <20230808165354.123499-15-hare@suse.de>
+ <28b7fa83-291f-00bc-913d-8a6a7688557a@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <28b7fa83-291f-00bc-913d-8a6a7688557a@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230809_035121_522004_5EFB26B5 
-X-CRM114-Status: GOOD (  31.00  )
+X-CRM114-CacheID: sfid-20230809_041832_471603_B50F6CCD 
+X-CRM114-Status: GOOD (  27.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,262 +93,134 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 8/8/23 19:53, Hannes Reinecke wrote:
-> Add functions to start the TLS handshake upcall when
-> the TCP TSAS sectype is set to 'tls1.3' and add a config
-> option NVME_TARGET_TCP_TLS.
-> And move the 'state' lock to an irq-safe lock as the 'done'
-> callback from the TLS handshake will be running in interrupt
-> context.
-
-Really.. that is surprising. Can you describe how exactly?
-
+On 8/9/23 12:44, Sagi Grimberg wrote:
 > 
-> Signed-off-by: Hannes Reincke <hare@suse.de>
-> ---
->   drivers/nvme/target/Kconfig    |  15 ++++
->   drivers/nvme/target/configfs.c |  27 ++++++++
->   drivers/nvme/target/nvmet.h    |   1 +
->   drivers/nvme/target/tcp.c      | 123 +++++++++++++++++++++++++++++++--
->   4 files changed, 161 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/nvme/target/Kconfig b/drivers/nvme/target/Kconfig
-> index 79fc64035ee3..8a6c9cae804c 100644
-> --- a/drivers/nvme/target/Kconfig
-> +++ b/drivers/nvme/target/Kconfig
-> @@ -84,6 +84,21 @@ config NVME_TARGET_TCP
->   
->   	  If unsure, say N.
->   
-> +config NVME_TARGET_TCP_TLS
-> +	bool "NVMe over Fabrics TCP target TLS encryption support"
-> +	depends on NVME_TARGET_TCP
-> +	select NVME_COMMON
-> +	select NVME_KEYRING
-> +	select NET_HANDSHAKE
-> +	select KEYS
-> +	help
-> +	  Enables TLS encryption for the NVMe TCP target using the netlink handshake API.
-> +
-> +	  The TLS handshake daemon is availble at
-> +	  https://github.com/oracle/ktls-utils.
-> +
-> +	  If unsure, say N.
-> +
->   config NVME_TARGET_AUTH
->   	bool "NVMe over Fabrics In-band Authentication support"
->   	depends on NVME_TARGET
-> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-> index 3c2aeb763e22..49b407702ad5 100644
-> --- a/drivers/nvme/target/configfs.c
-> +++ b/drivers/nvme/target/configfs.c
-> @@ -15,6 +15,7 @@
->   #ifdef CONFIG_NVME_TARGET_AUTH
->   #include <linux/nvme-auth.h>
->   #endif
-> +#include <linux/nvme-keyring.h>
->   #include <crypto/hash.h>
->   #include <crypto/kpp.h>
->   
-> @@ -204,6 +205,14 @@ static ssize_t nvmet_addr_treq_store(struct config_item *item,
->   
->   found:
->   	if (port->disc_addr.trtype == NVMF_TRTYPE_TCP) {
-> +		if (!IS_ENABLED(CONFIG_NVME_TARGET_TCP_TLS)) {
-> +			pr_err("TLS is not supported\n");
-> +			return -EINVAL;
-> +		}
-> +		if (!port->keyring) {
-> +			pr_err("TLS keyring not configured\n");
-> +			return -EINVAL;
-> +		}
->   		if (port->disc_addr.tsas.tcp.sectype != NVMF_TCP_SECTYPE_TLS13) {
->   			pr_warn("cannot change TREQ when TLS is not enabled\n");
->   			return -EINVAL;
-> @@ -399,6 +408,15 @@ static ssize_t nvmet_addr_tsas_store(struct config_item *item,
->   	if (port->disc_addr.trtype != NVMF_TRTYPE_TCP)
->   		return -EINVAL;
->   
-> +	if (!IS_ENABLED(CONFIG_NVME_TARGET_TCP_TLS)) {
-> +		pr_err("TLS is not supported\n");
-> +		return -EINVAL;
-> +	}
-> +	if (!port->keyring) {
-> +		pr_err("TLS keyring not configured\n");
-> +		return -EINVAL;
-> +	}
-> +
->   	for (i = 0; i < ARRAY_SIZE(nvmet_addr_tsas_tcp); i++) {
->   		if (sysfs_streq(page, nvmet_addr_tsas_tcp[i].name))
->   			goto found;
-> @@ -1825,6 +1843,7 @@ static void nvmet_port_release(struct config_item *item)
->   	flush_workqueue(nvmet_wq);
->   	list_del(&port->global_entry);
->   
-> +	key_put(port->keyring);
->   	kfree(port->ana_state);
->   	kfree(port);
->   }
-> @@ -1874,6 +1893,14 @@ static struct config_group *nvmet_ports_make(struct config_group *group,
->   		return ERR_PTR(-ENOMEM);
->   	}
->   
-> +	if (nvme_keyring_id()) {
-> +		port->keyring = key_lookup(nvme_keyring_id());
-> +		if (IS_ERR(port->keyring)) {
-> +			pr_warn("NVMe keyring not available, disabling TLS\n");
-> +			port->keyring = NULL;
-> +		}
-> +	}
-> +
->   	for (i = 1; i <= NVMET_MAX_ANAGRPS; i++) {
->   		if (i == NVMET_DEFAULT_ANA_GRPID)
->   			port->ana_state[1] = NVME_ANA_OPTIMIZED;
-> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-> index 8cfd60f3b564..7f9ae53c1df5 100644
-> --- a/drivers/nvme/target/nvmet.h
-> +++ b/drivers/nvme/target/nvmet.h
-> @@ -158,6 +158,7 @@ struct nvmet_port {
->   	struct config_group		ana_groups_group;
->   	struct nvmet_ana_group		ana_default_group;
->   	enum nvme_ana_state		*ana_state;
-> +	struct key			*keyring;
->   	void				*priv;
->   	bool				enabled;
->   	int				inline_data_size;
-> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-> index a8ceef6e5a7b..75e4cb4c2f29 100644
-> --- a/drivers/nvme/target/tcp.c
-> +++ b/drivers/nvme/target/tcp.c
-> @@ -8,9 +8,13 @@
->   #include <linux/init.h>
->   #include <linux/slab.h>
->   #include <linux/err.h>
-> +#include <linux/key.h>
->   #include <linux/nvme-tcp.h>
-> +#include <linux/nvme-keyring.h>
->   #include <net/sock.h>
->   #include <net/tcp.h>
-> +#include <net/tls.h>
-> +#include <net/handshake.h>
->   #include <linux/inet.h>
->   #include <linux/llist.h>
->   #include <crypto/hash.h>
-> @@ -66,6 +70,16 @@ device_param_cb(idle_poll_period_usecs, &set_param_ops,
->   MODULE_PARM_DESC(idle_poll_period_usecs,
->   		"nvmet tcp io_work poll till idle time period in usecs: Default 0");
->   
-> +#ifdef CONFIG_NVME_TARGET_TCP_TLS
-> +/*
-> + * TLS handshake timeout
-> + */
-> +static int tls_handshake_timeout = 10;
-> +module_param(tls_handshake_timeout, int, 0644);
-> +MODULE_PARM_DESC(tls_handshake_timeout,
-> +		 "nvme TLS handshake timeout in seconds (default 30)");
+> On 8/8/23 19:53, Hannes Reinecke wrote:
+>> Allow to change 'TSAS' and 'TREQ' to values specified in the spec.
+> 
+> I think a little more description is needed here. About the
+> rules of how the two interact.
+> 
+Ok.
 
-modparam description is lying...
+>>
+>> Signed-off-by: Hannes Reinecke <hare@suse.de>
+>> ---
+>>   drivers/nvme/target/configfs.c | 36 +++++++++++++++++++++++++++++++---
+>>   1 file changed, 33 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/nvme/target/configfs.c 
+>> b/drivers/nvme/target/configfs.c
+>> index 7f826ac8b75c..3c2aeb763e22 100644
+>> --- a/drivers/nvme/target/configfs.c
+>> +++ b/drivers/nvme/target/configfs.c
+>> @@ -159,10 +159,15 @@ static const struct nvmet_type_name_map 
+>> nvmet_addr_treq[] = {
+>>       { NVMF_TREQ_NOT_REQUIRED,    "not required" },
+>>   };
+>> +static inline u8 nvmet_port_treq(struct nvmet_port *port)
+>> +{
+>> +    return (port->disc_addr.treq & NVME_TREQ_SECURE_CHANNEL_MASK);
+>> +}
+> 
+> The function name does not match what it does.
+> 
+nvmet_port_addr_treq() ?
 
-> +#endif
-> +
->   #define NVMET_TCP_RECV_BUDGET		8
->   #define NVMET_TCP_SEND_BUDGET		8
->   #define NVMET_TCP_IO_WORK_BUDGET	64
-> @@ -122,6 +136,7 @@ struct nvmet_tcp_cmd {
->   
->   enum nvmet_tcp_queue_state {
->   	NVMET_TCP_Q_CONNECTING,
-> +	NVMET_TCP_Q_TLS_HANDSHAKE,
->   	NVMET_TCP_Q_LIVE,
->   	NVMET_TCP_Q_DISCONNECTING,
->   };
-> @@ -154,6 +169,8 @@ struct nvmet_tcp_queue {
->   	bool			data_digest;
->   	struct ahash_request	*snd_hash;
->   	struct ahash_request	*rcv_hash;
-> +	key_serial_t		tls_pskid;
-> +	struct delayed_work	tls_handshake_work;
->   
->   	unsigned long           poll_end;
->   
-> @@ -1285,12 +1302,12 @@ static int nvmet_tcp_try_recv(struct nvmet_tcp_queue *queue,
->   
->   static void nvmet_tcp_schedule_release_queue(struct nvmet_tcp_queue *queue)
->   {
-> -	spin_lock(&queue->state_lock);
-> +	spin_lock_irq(&queue->state_lock);
->   	if (queue->state != NVMET_TCP_Q_DISCONNECTING) {
->   		queue->state = NVMET_TCP_Q_DISCONNECTING;
->   		queue_work(nvmet_wq, &queue->release_work);
->   	}
-> -	spin_unlock(&queue->state_lock);
-> +	spin_unlock_irq(&queue->state_lock);
->   }
->   
->   static inline void nvmet_tcp_arm_queue_deadline(struct nvmet_tcp_queue *queue)
-> @@ -1512,8 +1529,12 @@ static void nvmet_tcp_data_ready(struct sock *sk)
->   
->   	read_lock_bh(&sk->sk_callback_lock);
->   	queue = sk->sk_user_data;
-> -	if (likely(queue))
-> -		queue_work_on(queue_cpu(queue), nvmet_tcp_wq, &queue->io_work);
-> +	if (queue->data_ready)
-> +		queue->data_ready(sk);
-> +	if (likely(queue) &&
-> +	    queue->state != NVMET_TCP_Q_TLS_HANDSHAKE)
-> +		queue_work_on(queue_cpu(queue), nvmet_tcp_wq,
-> +			      &queue->io_work);
->   	read_unlock_bh(&sk->sk_callback_lock);
->   }
->   
-> @@ -1621,6 +1642,75 @@ static int nvmet_tcp_set_queue_sock(struct nvmet_tcp_queue *queue)
->   	return ret;
->   }
->   
-> +#ifdef CONFIG_NVME_TARGET_TCP_TLS
-> +static void nvmet_tcp_tls_handshake_done(void *data, int status,
-> +					 key_serial_t peerid)
-> +{
-> +	struct nvmet_tcp_queue *queue = data;
-> +
-> +	pr_debug("queue %d: TLS handshake done, key %x, status %d\n",
-> +		 queue->idx, peerid, status);
-> +	spin_lock_irq(&queue->state_lock);
-> +	if (queue->state != NVMET_TCP_Q_TLS_HANDSHAKE) {
-> +		pr_warn("queue %d: TLS handshake already completed\n",
-> +			queue->idx);
-> +		spin_unlock_irq(&queue->state_lock);
-> +		return;
-> +	}
-> +	if (!status)
-> +		queue->tls_pskid = peerid;
-> +	queue->state = NVMET_TCP_Q_CONNECTING;
-> +	spin_unlock_irq(&queue->state_lock);
-> +
-> +	cancel_delayed_work_sync(&queue->tls_handshake_work);
-> +	if (status) {
+>> +
+>>   static ssize_t nvmet_addr_treq_show(struct config_item *item, char 
+>> *page)
+>>   {
+>> -    u8 treq = to_nvmet_port(item)->disc_addr.treq &
+>> -        NVME_TREQ_SECURE_CHANNEL_MASK;
+>> +    struct nvmet_port *port = to_nvmet_port(item);
+>> +    u8 treq = nvmet_port_treq(port);
+>>       int i;
+>>       for (i = 0; i < ARRAY_SIZE(nvmet_addr_treq); i++) {
+>> @@ -174,11 +179,16 @@ static ssize_t nvmet_addr_treq_show(struct 
+>> config_item *item, char *page)
+>>       return snprintf(page, PAGE_SIZE, "\n");
+>>   }
+>> +static inline u8 nvmet_port_treq_mask(struct nvmet_port *port)
+>> +{
+>> +    return (port->disc_addr.treq & ~NVME_TREQ_SECURE_CHANNEL_MASK);
+>> +}
+> 
+> Same here, function name and what it returns seem diverged from each
+> other.
+> 
+nvmet_port_addr_treq_mask() ?
 
-I think that after this call, you cannot reference anything
-in queue as it may have been released. Or I'm missing something?
+>> +
+>>   static ssize_t nvmet_addr_treq_store(struct config_item *item,
+>>           const char *page, size_t count)
+>>   {
+>>       struct nvmet_port *port = to_nvmet_port(item);
+>> -    u8 treq = port->disc_addr.treq & ~NVME_TREQ_SECURE_CHANNEL_MASK;
+>> +    u8 treq = nvmet_port_treq_mask(port);
+>>       int i;
+>>       if (nvmet_is_port_enabled(port, __func__))
+>> @@ -193,6 +203,15 @@ static ssize_t nvmet_addr_treq_store(struct 
+>> config_item *item,
+>>       return -EINVAL;
+>>   found:
+>> +    if (port->disc_addr.trtype == NVMF_TRTYPE_TCP) {
+>> +        if (port->disc_addr.tsas.tcp.sectype != 
+>> NVMF_TCP_SECTYPE_TLS13) {
+>> +            pr_warn("cannot change TREQ when TLS is not enabled\n");
+>> +            return -EINVAL;
+> 
+> So what are you supposed to set in treq without tls?
+> 
+'not specified' is the only valid choice currrently.
 
-> +		nvmet_tcp_schedule_release_queue(queue);
-> +		return;
-> +	}
-> +
-> +	pr_debug("queue %d: resetting queue callbacks after TLS handshake\n",
-> +		 queue->idx);
-> +	nvmet_tcp_set_queue_sock(queue);
-> +}
-> +
-> +static void nvmet_tcp_tls_handshake_timeout_work(struct work_struct *w)
-> +{
-> +	struct nvmet_tcp_queue *queue = container_of(to_delayed_work(w),
-> +			struct nvmet_tcp_queue, tls_handshake_work);
-> +
-> +	pr_debug("queue %d: TLS handshake timeout\n", queue->idx);
-> +	nvmet_tcp_tls_handshake_done((void *)queue, ETIMEDOUT, 0);
-> +}
-> +
+>> +        } else if (nvmet_addr_treq[i].type == NVMF_TREQ_NOT_SPECIFIED) {
+>> +            pr_warn("cannot set TREQ to 'not specified' when TLS is 
+>> enabled\n");
+>> +            return -EINVAL;
+>> +        }
+>> +    }
+>>       treq |= nvmet_addr_treq[i].type;
+>>       port->disc_addr.treq = treq;
+>>       return count;
+>> @@ -371,6 +390,7 @@ static ssize_t nvmet_addr_tsas_store(struct 
+>> config_item *item,
+>>           const char *page, size_t count)
+>>   {
+>>       struct nvmet_port *port = to_nvmet_port(item);
+>> +    u8 treq = nvmet_port_treq_mask(port);
+>>       int i;
+>>       if (nvmet_is_port_enabled(port, __func__))
+>> @@ -389,6 +409,16 @@ static ssize_t nvmet_addr_tsas_store(struct 
+>> config_item *item,
+>>   found:
+>>       nvmet_port_init_tsas_tcp(port, nvmet_addr_tsas_tcp[i].type);
+>> +    if (nvmet_addr_tsas_tcp[i].type == NVMF_TCP_SECTYPE_TLS13) {
+>> +        if (nvmet_port_treq(port) == NVMF_TREQ_NOT_SPECIFIED)
+>> +            treq |= NVMF_TREQ_REQUIRED;
+>> +        else
+>> +            treq |= nvmet_port_treq(port);
+>> +    } else {
+>> +        /* Set to 'not specified' if TLS is not enabled */
+>> +        treq |= NVMF_TREQ_NOT_SPECIFIED;
+>> +    }
+>> +    port->disc_addr.treq = treq;
+> 
+> Hmm, so setting tsas modifies treq under the hood.
+> Surprising...
+> 
+> It is not clear to me what is the user supposed to set in configfs.
+> Just set tsas to tls1.3 and that's it? any treq setting will not be
+> allowed after it? Its a bit confusing.
+
+Yeah, it is. I guess we should disallow setting of the 'treq' bit from
+the user, as it's pretty much defined by the TSAS value.
+
+Will be modifying it.
+
+Cheers,
+
+Hannes
+
 
