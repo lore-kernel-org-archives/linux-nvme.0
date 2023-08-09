@@ -4,74 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A00BC001B0
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Aug 2023 08:00:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A5BFDEB64DD
+	for <linux-nvme@archiver.kernel.org>; Wed,  9 Aug 2023 08:03:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=q3sy719J1OdKMCl1tpcdWo2P4o7Y0NWOiudBzFSrvUs=; b=O/WJ/eJWFPfdboDm66xZi8XH8B
-	nkUvlugGNfT2Fb3H2GcKm1B6lyMHYUpEHSfBDMcsXzUpCYN+v35K61R5yUsZ68bDOguwR7R53lFhZ
-	ejev4lv1DC/FcMTKSGMs3YKa9nJmdWg8G3VYmr+3B4jKCGEfJXXOlkv63tmOKXB62+fEaAIgorIMU
-	r2fuoQ85lUsGuJryMRDnTTtesU09AUOH2J9PU3OYj50a0KXYm+nmlbgzWDo2u0/1T6YqEfMGSO5Y8
-	S1OfHmCXzxTPFhWg0nhQDTEbW5pBUtBZSOfX5oJMzS9zrcVNHxZ/7jEReNDMs5aKqP+hC8XXnO1el
-	WXu6yXlA==;
+	bh=zk90bIXL+yyvPk2okzm0tDjIZH3f7c861pF0b2flLdE=; b=whTYXZS0LZiddS5/3KskGqyvKj
+	TXmzDwHIGPevPnmV79zctrMDaD500h646sxSF5KbJS+WMqQnKGEKGo8/pauGLakTvX8azMdbaC8Mi
+	VdYED6icffM0FrUMTJWhoMYtTfFl3rwU3KE8vgF59D42WWqjLv7FR75OWBX4UnO3I0p7aCGkvX2mK
+	eb0a+ehYyGV5WPbH06VaOzqZLC81Epr8amd/ijXG/uiybEaAFsgATpyKMivpQdfaxeLXXzrblVhgh
+	Yi+JCdDpSjs1n5HJI1oS2NgilNSAP1DdG+++1eUXcMYQBpMceFMLRF0eMS4BlUFqdFe2PnHSWp5Xi
+	atjljbTw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTe7I-004JgW-0G;
-	Wed, 09 Aug 2023 08:00:28 +0000
-Received: from mail-ej1-f47.google.com ([209.85.218.47])
+	id 1qTeA4-004K4b-1Z;
+	Wed, 09 Aug 2023 08:03:20 +0000
+Received: from mail-wm1-f45.google.com ([209.85.128.45])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTe7F-004JfV-0x
+	id 1qTeA1-004K3t-2o
 	for linux-nvme@lists.infradead.org;
-	Wed, 09 Aug 2023 08:00:27 +0000
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-98273ae42d0so197587366b.0
-        for <linux-nvme@lists.infradead.org>; Wed, 09 Aug 2023 01:00:23 -0700 (PDT)
+	Wed, 09 Aug 2023 08:03:19 +0000
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3fc03d990daso10692105e9.1
+        for <linux-nvme@lists.infradead.org>; Wed, 09 Aug 2023 01:03:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691568022; x=1692172822;
+        d=1e100.net; s=20221208; t=1691568195; x=1692172995;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=q3sy719J1OdKMCl1tpcdWo2P4o7Y0NWOiudBzFSrvUs=;
-        b=ahi05PsHrhjmkKzQLcxNZv0VxJCyHgsm9H0mva77IdKtSLocXAvOOhPA4SkN0jKYX/
-         KnoC8gRt3RsDCfcQYJPsFRbJ60p5tIKcLiNG2XE0y4t5+HYUByDwhWkXN9lfh9pxhYvt
-         4l0a6ALK2RMTPVkEmkqCuDvgA4ParAyZ97SnMT1hsLnmobYwAZ9SXzv0R7yGbpUNnj2v
-         fU5+h2B8whAhZaJC1+Q7HWeEQt8qLig9p7hdCoOfFyPEmKkGSToMnvS7DPIJSGSd4+0U
-         W0yb1wGssxG6sxC6Q5t+k+Fag5Bcg8Pv+QsVmKLNqfUfPwU6tougrFmE055/TXtuT8cm
-         WWIg==
-X-Gm-Message-State: AOJu0YzFCbnsC42/XQ2ZCFk5oPKW0KbZdqbAp+wU4ZNOfbvdtH4tBkMj
-	QmP2KYjCBl6/3X3QbV6Xptg=
-X-Google-Smtp-Source: AGHT+IG00dZk5hezrxoS1oGLommC7BmAfwLMSx7C11sYJ98hNFag2T//DFpR2NTawUYpowPgfJ7oWw==
-X-Received: by 2002:a17:906:2096:b0:99c:d995:22e8 with SMTP id 22-20020a170906209600b0099cd99522e8mr1229614ejq.7.1691568022095;
-        Wed, 09 Aug 2023 01:00:22 -0700 (PDT)
+        bh=zk90bIXL+yyvPk2okzm0tDjIZH3f7c861pF0b2flLdE=;
+        b=C2F/sMoawDD0nJ/I5vgoZMApI7MCzjJdg0Y1dgVRqxDhgAvaWUABBu8rZAtBuCvy35
+         K2k1sYHAGL+8/uIcSTj+qXvle2fnSQb1bI1e4s320/9GgZ/v38d/SUECGhR0Hu0I3k9w
+         AvDAG2uOLeaFALH9njTUISFE0+28XiDAAVrmhWsg9Em/CRRaUBq4638CmcHpzzL8HGyf
+         SaDt7ig2PiGhkiaFAMMr01c6FtoD4ycMpnkf6HvFxSck4SzIxary4AgL4WSUeanVgYuN
+         oY8WGWXvhMI5FK6S4vMbnkvDphnjACgUPABHOqZYkVrX0+argbHRAy5JqlfZ0PMPkS4l
+         EDbg==
+X-Gm-Message-State: AOJu0YzgwoWKY/wiHEEHhLGvMMl/BIj6RIwDtd4ZJWWjH6HbN8M6hIXc
+	znsZZsAJxitAbb32Dr75sNQZ9k0oqyg=
+X-Google-Smtp-Source: AGHT+IEMQHyxAFHpU7dAZZH278FaZvbsBd2+2urgwy5GgK3U2TTQvkV99io+fNVFL/vnz5azBLs3WQ==
+X-Received: by 2002:a05:600c:a54:b0:3f7:fb5d:6e7a with SMTP id c20-20020a05600c0a5400b003f7fb5d6e7amr1677124wmq.0.1691568194861;
+        Wed, 09 Aug 2023 01:03:14 -0700 (PDT)
 Received: from [192.168.64.157] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id bh10-20020a170906a0ca00b0099bd86f9248sm7606086ejb.63.2023.08.09.01.00.19
+        by smtp.gmail.com with ESMTPSA id j6-20020adfff86000000b003175f00e555sm15956798wrr.97.2023.08.09.01.03.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Aug 2023 01:00:21 -0700 (PDT)
-Message-ID: <b94efb3f-8d37-c60c-5bf6-f87d41967da4@grimberg.me>
-Date: Wed, 9 Aug 2023 11:00:18 +0300
+        Wed, 09 Aug 2023 01:03:14 -0700 (PDT)
+Message-ID: <1f68b7ee-b559-177b-650a-a8683fb86768@grimberg.me>
+Date: Wed, 9 Aug 2023 11:03:11 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v12 10/26] nvme-tcp: Deal with netdevice DOWN events
+Subject: Re: [PATCH v12 11/26] nvme-tcp: Add modparam to control the ULP
+ offload enablement
 Content-Language: en-US
 To: Aurelien Aptel <aaptel@nvidia.com>, linux-nvme@lists.infradead.org,
  netdev@vger.kernel.org, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
  chaitanyak@nvidia.com, davem@davemloft.net, kuba@kernel.org
-Cc: Or Gerlitz <ogerlitz@nvidia.com>, aurelien.aptel@gmail.com,
- smalin@nvidia.com, malin1024@gmail.com, yorayz@nvidia.com,
- borisp@nvidia.com, galshalom@nvidia.com, mgurtovoy@nvidia.com
+Cc: aurelien.aptel@gmail.com, smalin@nvidia.com, malin1024@gmail.com,
+ ogerlitz@nvidia.com, yorayz@nvidia.com, borisp@nvidia.com,
+ galshalom@nvidia.com, mgurtovoy@nvidia.com
 References: <20230712161513.134860-1-aaptel@nvidia.com>
- <20230712161513.134860-11-aaptel@nvidia.com>
+ <20230712161513.134860-12-aaptel@nvidia.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230712161513.134860-11-aaptel@nvidia.com>
+In-Reply-To: <20230712161513.134860-12-aaptel@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230809_010025_330194_4603AEBA 
-X-CRM114-Status: GOOD (  24.95  )
+X-CRM114-CacheID: sfid-20230809_010317_907549_17D180B2 
+X-CRM114-Status: GOOD (  21.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,72 +90,59 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 On 7/12/23 19:14, Aurelien Aptel wrote:
-> From: Or Gerlitz <ogerlitz@nvidia.com>
+> Add ulp_offload module parameter to the nvme-tcp module to control
+> ULP offload at the NVMe-TCP layer.
 > 
-> For ddp setup/teardown and resync, the offloading logic
-> uses HW resources at the NIC driver such as SQ and CQ.
+> Turn ULP offload off be default, regardless of the NIC driver support.
 > 
-> These resources are destroyed when the netdevice does down
-> and hence we must stop using them before the NIC driver
-> destroys them.
+> Overall, in order to enable ULP offload:
+> - nvme-tcp ulp_offload modparam must be set to 1
+> - netdev->ulp_ddp_caps.active must have ULP_DDP_C_NVME_TCP and/or
+>    ULP_DDP_C_NVME_TCP_DDGST_RX capabilities flag set.
 > 
-> Use netdevice notifier for that matter -- offloaded connections
-> are stopped before the stack continues to call the NIC driver
-> close ndo.
-> 
-> We use the existing recovery flow which has the advantage
-> of resuming the offload once the connection is re-set.
-> 
-> This also buys us proper handling for the UNREGISTER event
-> b/c our offloading starts in the UP state, and down is always
-> there between up to unregister.
-> 
-> Signed-off-by: Or Gerlitz <ogerlitz@nvidia.com>
-> Signed-off-by: Boris Pismenny <borisp@nvidia.com>
-> Signed-off-by: Ben Ben-Ishay <benishay@nvidia.com>
 > Signed-off-by: Yoray Zack <yorayz@nvidia.com>
 > Signed-off-by: Shai Malin <smalin@nvidia.com>
 > Signed-off-by: Aurelien Aptel <aaptel@nvidia.com>
-> Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
 > ---
->   drivers/nvme/host/tcp.c | 39 +++++++++++++++++++++++++++++++++++++++
->   1 file changed, 39 insertions(+)
+>   drivers/nvme/host/tcp.c | 12 +++++++++++-
+>   1 file changed, 11 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index df58668cbad6..e68e5da3df76 100644
+> index e68e5da3df76..e560bdf3a023 100644
 > --- a/drivers/nvme/host/tcp.c
 > +++ b/drivers/nvme/host/tcp.c
-> @@ -221,6 +221,7 @@ struct nvme_tcp_ctrl {
+> @@ -49,6 +49,16 @@ MODULE_PARM_DESC(tls_handshake_timeout,
+>   		 "nvme TLS handshake timeout in seconds (default 10)");
+>   #endif
 >   
->   static LIST_HEAD(nvme_tcp_ctrl_list);
->   static DEFINE_MUTEX(nvme_tcp_ctrl_mutex);
-> +static struct notifier_block nvme_tcp_netdevice_nb;
->   static struct workqueue_struct *nvme_tcp_wq;
->   static const struct blk_mq_ops nvme_tcp_mq_ops;
->   static const struct blk_mq_ops nvme_tcp_admin_mq_ops;
-> @@ -3234,6 +3235,30 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
->   	return ERR_PTR(ret);
->   }
->   
-> +static int nvme_tcp_netdev_event(struct notifier_block *this,
-> +				 unsigned long event, void *ptr)
-> +{
-> +	struct net_device *ndev = netdev_notifier_info_to_dev(ptr);
-> +	struct nvme_tcp_ctrl *ctrl;
+> +#ifdef CONFIG_ULP_DDP
+> +/* NVMeTCP direct data placement and data digest offload will not
+> + * happen if this parameter false (default), regardless of what the
+> + * underlying netdev capabilities are.
+> + */
+> +static bool ulp_offload;
+> +module_param(ulp_offload, bool, 0644);
+> +MODULE_PARM_DESC(ulp_offload, "Enable or disable NVMeTCP ULP support");
+
+the name is strange.
+maybe call it ddp_offload?
+and in the description spell it as "direct data placement"
+
+> +#endif
 > +
-> +	switch (event) {
-> +	case NETDEV_GOING_DOWN:
-> +		mutex_lock(&nvme_tcp_ctrl_mutex);
-> +		list_for_each_entry(ctrl, &nvme_tcp_ctrl_list, list) {
-> +			if (ndev == ctrl->offloading_netdev)
-> +				nvme_tcp_error_recovery(&ctrl->ctrl);
-> +		}
-> +		mutex_unlock(&nvme_tcp_ctrl_mutex);
-> +		flush_workqueue(nvme_reset_wq);
+>   #ifdef CONFIG_DEBUG_LOCK_ALLOC
+>   /* lockdep can detect a circular dependency of the form
+>    *   sk_lock -> mmap_lock (page fault) -> fs locks -> sk_lock
+> @@ -350,7 +360,7 @@ static bool nvme_tcp_ddp_query_limits(struct net_device *netdev,
+>   static inline bool is_netdev_ulp_offload_active(struct net_device *netdev,
+>   						struct nvme_tcp_queue *queue)
+>   {
+> -	if (!netdev || !queue)
+> +	if (!ulp_offload || !netdev || !queue)
+>   		return false;
+>   
+>   	/* If we cannot query the netdev limitations, do not offload */
 
-In what context is this called? because every time we flush a workqueue,
-lockdep finds another reason to complain about something...
-
-Otherwise looks good,
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+This patch should be folded to the control path. No reason for it to
+stand on its own I think.
 
