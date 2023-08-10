@@ -4,82 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C75B2C001E0
-	for <linux-nvme@archiver.kernel.org>; Wed,  9 Aug 2023 16:50:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD466C001B0
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Aug 2023 00:09:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AF0HqJKtq785OAd4GOPrkFjQegeTnPgjinGxD+qGhgU=; b=LH5xXSBkhyEKxax3LDnstVRwId
-	o8CisTFqe+jLrqm3ZT7IZRGAidYwKqX9PlspUiKHZkFO1q4aWczZnVG7Bxk1GHqX6jbP5bOp80+lD
-	XEtcVmT5ZTlBLs4EMQ1EigCpDwTbiqHH6rAJ8uVsVUD4oeXpjcBD78/mP5XPFjNTTCdSBw7c7s53+
-	xPD5KoTvqbPTuGCu5P+ntQsbe8gO38VOb7YBbaAZDKeAqr8gHcknbpQVtHmBYD0IDlvesBbcyGHMr
-	0QKvX6tLs63+RK4TXMhmtQ6v0L86J1quzxiuJnszo+FUyFGnT2QRTvW4psH3LEorPWE9PpaEzbxld
-	4euIoxUQ==;
+	bh=RhYjGeDQjHaify9fYveKNlg3W8+1+0vVy9IFYKIMw0M=; b=O6Ddlm0y4uZz7BOqG9ul+6AzUM
+	x3WqiAibROXmdkk/qxVCEJskHyk72EUrWuYcyOmfPAMghNkspyx40K5Tazrf5qfzFcXAacXyExLgN
+	ll4PthuKjZmwv96Wo8SMZWtvdYldRB/82kHQOJaMTOLnIWw2U0MQUsedNTyfd55rzoXZzWur0wlKH
+	8Ts9EbBZrSFZCgqXp1IPoc6PHbXrECMB8EtDpHt1KHNG54Tw6zXu9Hoxk+hw5vnOpI66CxODkQt17
+	Uu79Iflonb4X/ej8ihszpzavRQUqFvtXjWV09lmZi+8Gjdetd3Jt+PkOB2Af3SqK+W/BL9SQc1LJG
+	Nhb4C5fA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTmOA-005RFs-1O;
-	Wed, 09 Aug 2023 16:50:26 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1qTtFN-0068Mr-0y;
+	Thu, 10 Aug 2023 00:09:49 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTmO7-005RE3-27
+	id 1qTtFK-0068Ld-0D
 	for linux-nvme@lists.infradead.org;
-	Wed, 09 Aug 2023 16:50:25 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 78A861F390;
-	Wed,  9 Aug 2023 16:50:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1691599816; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	Thu, 10 Aug 2023 00:09:47 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1691626183;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AF0HqJKtq785OAd4GOPrkFjQegeTnPgjinGxD+qGhgU=;
-	b=Mt7opTm3TNW2tVA/MCh75LxQ1X2CTjtKBHJYyK58Xgxtcrjzckx+k0vSB50UUnjdTP7sxz
-	1s8j4+kfJ/Dl3yH69VyqyPOtURjfryebE4HTRZ5XDzxd51DnqN3W0VhW+2qn/grgjZLgUG
-	gV1KMdmYz4CqqGXbXgLHYwgXceN/YZI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1691599816;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AF0HqJKtq785OAd4GOPrkFjQegeTnPgjinGxD+qGhgU=;
-	b=dTCzO7IiZtqTaoztLGK5HCLF7NjFMfxwwY6Dc9R5SO8UxO1oRjCsrzL0dOS377ipjiDFyU
-	F/SYu5obqKie4rCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	bh=RhYjGeDQjHaify9fYveKNlg3W8+1+0vVy9IFYKIMw0M=;
+	b=TmcJYfCnmq5zm2wFuGcK6rUmvlVg3sl4aFa4zHaQ07CgaJElz1jsrwAHeWA1/uDfmIMaHH
+	fGArd4a4vA6Efd7mstjHs7u0Br+8rdqXQOgoElYrgCudRx+zM5HZ/JvFZ1ckxkxLYI4mh1
+	ODS/lnFKoMPRb7ik0mlhQQ/hYsuCOAc=
+Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-583-dBjPouXWOO-yZ4G5_5ahoA-1; Wed, 09 Aug 2023 20:09:40 -0400
+X-MC-Unique: dBjPouXWOO-yZ4G5_5ahoA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6A8CF133B5;
-	Wed,  9 Aug 2023 16:50:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id BJ4AGsjD02Q4bgAAMHmgww
-	(envelope-from <dwagner@suse.de>); Wed, 09 Aug 2023 16:50:16 +0000
-Date: Wed, 9 Aug 2023 18:50:17 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Yi Zhang <yi.zhang@redhat.com>
-Cc: linux-block <linux-block@vger.kernel.org>, 
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Subject: Re: [bug report] blktests nvme/047 failed due to /dev/nvme0n1 not
- created in time
-Message-ID: <xrqutkdhz7v6axohfxipv4or7k4jhoa57semwcxde7gletk76z@5kcashfdezhk>
-References: <CAHj4cs9GNohGUjohNw93jrr8JGNcRYC-ienAZz+sa7az1RK77w@mail.gmail.com>
- <CAHj4cs9J7w_QSWMrj0ncufKwT9viS-o7pxmS2Y4FeaWEyPD34Q@mail.gmail.com>
- <vxeo2ucxhvdcm2z673keqerkpxay6dgfluuvxawukkbunddzm2@jdkdk7y3a5nu>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0557D3802BBC;
+	Thu, 10 Aug 2023 00:09:40 +0000 (UTC)
+Received: from fedora (unknown [10.72.120.3])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id EA7C02026D4B;
+	Thu, 10 Aug 2023 00:09:32 +0000 (UTC)
+Date: Thu, 10 Aug 2023 08:09:27 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, linux-nvme@lists.infradead.org,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	linux-scsi@vger.kernel.org, linux-block@vger.kernel.org,
+	Wen Xiong <wenxiong@linux.ibm.com>, Keith Busch <kbusch@kernel.org>,
+	linuxppc-dev@lists.ozlabs.org, Dave Young <dyoung@redhat.com>,
+	kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Baoquan He <bhe@redhat.com>, Pingfan Liu <piliu@redhat.com>
+Subject: Re: [PATCH V3 01/14] blk-mq: add blk_mq_max_nr_hw_queues()
+Message-ID: <ZNQqt1C0pXspGl3d@fedora>
+References: <20230808104239.146085-1-ming.lei@redhat.com>
+ <20230808104239.146085-2-ming.lei@redhat.com>
+ <20230809134401.GA31852@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <vxeo2ucxhvdcm2z673keqerkpxay6dgfluuvxawukkbunddzm2@jdkdk7y3a5nu>
+In-Reply-To: <20230809134401.GA31852@lst.de>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230809_095023_840917_972913AB 
-X-CRM114-Status: GOOD (  22.00  )
+X-CRM114-CacheID: sfid-20230809_170946_179694_A0D0A96C 
+X-CRM114-Status: GOOD (  16.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,109 +86,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 08, 2023 at 10:46:46AM +0200, Daniel Wagner wrote:
-> On Fri, Aug 04, 2023 at 06:33:04PM +0800, Yi Zhang wrote:
-> > On Tue, Aug 1, 2023 at 7:28 PM Yi Zhang <yi.zhang@redhat.com> wrote:
-> > > After some investigating, I found it was due to the /dev/nvme0n1 node
-> > > couldn't be created in time which lead to the following fio failing.
-> > > + nvme connect -t tcp -a 127.0.0.1 -s 4420 -n blktests-subsystem-1
-> > > --hostnqn=nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
-> > > --hostid=0f01fb42-9f7f-4856-b0b3-51e60b8de349 --nr-write-queues=1
-> > > + ls -l /dev/nvme0 /dev/nvme-fabrics
-> > > crw-------. 1 root root 234,   0 Aug  1 05:50 /dev/nvme0
-> > > crw-------. 1 root root  10, 122 Aug  1 05:50 /dev/nvme-fabrics
-> > > + '[' '!' -b /dev/nvme0n1 ']'
-> > > + echo '/dev/nvme0n1 node still not created'
-> > > dmesg:
-> > > [ 1840.413396] loop0: detected capacity change from 0 to 10485760
-> > > [ 1840.934379] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-> > > [ 1841.018766] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
-> > > [ 1846.782615] nvmet: creating nvm controller 1 for subsystem
-> > > blktests-subsystem-1 for NQN
-> > > nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
-> > > [ 1846.808392] nvme nvme0: creating 33 I/O queues.
-> > > [ 1846.874298] nvme nvme0: mapped 1/32/0 default/read/poll queues.
-> > > [ 1846.945334] nvme nvme0: new ctrl: NQN "blktests-subsystem-1", addr
-> > > 127.0.0.1:4420
+On Wed, Aug 09, 2023 at 03:44:01PM +0200, Christoph Hellwig wrote:
+> I'm starting to sound like a broken record, but we can't just do random
+> is_kdump checks, and it's not going to get better by resending it again and
+> again.  If kdump kernels limit the number of possible CPUs, it needs to
+> reflected in cpu_possible_map and we need to use that information.
 > 
-> Not really sure how the blk device registration code works, but this
-> looks like there something executed not in the same context as the
-> nvme-cli command and thus we might return to userspace before the device
-> is fully created. And there is also udev events which are handled by
-> systemd. If this is the case, we might want to add some generic helper
-> which waits for the device to pop up before we continue with the test.
 
-After looking a bit at nvme/010 I see why does tests are not failing
-in the same way as nvme/047. After connecting _find_nvme_dev is used
-to wait for the device to appear:
+Can you look at previous kdump/arch guys' comment about kdump usage &
+num_possible_cpus?
 
-+ nvme connect -t tcp -n blktests-subsystem-1 -a 127.0.0.1 -s 4420 --hostnqn=nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349 --hostid=0f01fb42-9f7f-4856-b0b3-51e60b8de349
-++ _find_nvme_dev blktests-subsystem-1
-++ local subsys=blktests-subsystem-1
-++ local subsysnqn
-++ local dev
-++ for dev in /sys/class/nvme/nvme*
-++ '[' -e /sys/class/nvme/nvme0 ']'
-+++ basename /sys/class/nvme/nvme0
-++ dev=nvme0
-+++ cat /sys/class/nvme/nvme0/subsysnqn
-++ subsysnqn=nqn.2019-08.org.qemu:nvme-0
-++ [[ nqn.2019-08.org.qemu:nvme-0 == \b\l\k\t\e\s\t\s\-\s\u\b\s\y\s\t\e\m\-\1 ]]
-++ for dev in /sys/class/nvme/nvme*
-++ '[' -e /sys/class/nvme/nvme1 ']'
-+++ basename /sys/class/nvme/nvme1
-++ dev=nvme1
-+++ cat /sys/class/nvme/nvme1/subsysnqn
-++ subsysnqn=blktests-subsystem-1
-++ [[ blktests-subsystem-1 == \b\l\k\t\e\s\t\s\-\s\u\b\s\y\s\t\e\m\-\1 ]]
-++ echo nvme1
-++ (( i = 0 ))
-++ (( i < 10 ))
-++ [[ -e /sys/block/nvme1/uuid ]]
-++ sleep .1
-++ (( i++ ))
-++ (( i < 10 ))
-++ [[ -e /sys/block/nvme1/uuid ]]
-++ sleep .1
-++ (( i++ ))
-++ (( i < 10 ))
-++ [[ -e /sys/block/nvme1/uuid ]]
-++ sleep .1
-++ (( i++ ))
-++ (( i < 10 ))
-++ [[ -e /sys/block/nvme1/uuid ]]
-++ sleep .1
-++ (( i++ ))
-++ (( i < 10 ))
-++ [[ -e /sys/block/nvme1/uuid ]]
-++ sleep .1
-++ (( i++ ))
-++ (( i < 10 ))
-++ [[ -e /sys/block/nvme1/uuid ]]
-++ sleep .1
-++ (( i++ ))
-++ (( i < 10 ))
-++ [[ -e /sys/block/nvme1/uuid ]]
-++ sleep .1
-++ (( i++ ))
-++ (( i < 10 ))
-++ [[ -e /sys/block/nvme1/uuid ]]
-++ sleep .1
-++ (( i++ ))
-++ (( i < 10 ))
-++ [[ -e /sys/block/nvme1/uuid ]]
-++ sleep .1
-++ (( i++ ))
-++ (( i < 10 ))
-++ [[ -e /sys/block/nvme1/uuid ]]
-++ sleep .1
-++ (( i++ ))
-++ (( i < 10 ))
-+ nvmedev=nvme1
-+ cat /sys/block/nvme1n1/uuid
-91fdba0d-f87b-4c25-b80f-db7be1418b9e
-+ cat /sys/block/nvme1n1/wwid
-uuid.91fdba0d-f87b-4c25-b80f-db7be1418b9e
+    https://lore.kernel.org/linux-block/CAF+s44RuqswbosY9kMDx35crviQnxOeuvgNsuE75Bb0Y2Jg2uw@mail.gmail.com/
+    https://lore.kernel.org/linux-block/ZKz912KyFQ7q9qwL@MiWiFi-R3L-srv/
 
-We should propably do the same for all tests.
+The point is that kdump kernels does not limit the number of possible CPUs.
+
+1) some archs support 'nr_cpus=1' for kdump kernel, which is fine, since
+num_possible_cpus becomes 1.
+
+2) some archs do not support 'nr_cpus=1', and have to rely on
+'max_cpus=1', so num_possible_cpus isn't changed, and kernel just boots
+with single online cpu. That causes trouble because blk-mq limits single
+queue.
+
+Documentation/admin-guide/kdump/kdump.rst
+
+Thanks, 
+Ming
+
 
