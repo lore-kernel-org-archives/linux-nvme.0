@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E4ADC04A6A
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Aug 2023 15:06:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 66B9AC04E69
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Aug 2023 15:07:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Va1veEwDpJUEh5ATScwAqKgDyPffWib9gL4y5XoXAQc=; b=FDfcte2vw1RNv9RZy3lg9Vhh2l
-	Rx3wS+cr/1cR/CP52fRk5aWGl5fhwG6SO5sdg2WX5HUz5WjRUqSuAmhCRzy167OMG4bYTRNkhA8ix
-	97tjSe8P4t5jmKy/qTzpO1Awg6SSOOmEiaRiFL9hbExboAq+FE9GZa5we5isPcuN+t5GSuxXM6ulY
-	xoTYH3alQso7N7nDiC336paPnmXTcNAFF6nMOwx9BugHDjFpyKQWBR1RNr4znEuktgRn+iQ5gOBNX
-	fqCn16ZB6o7wT8lyYz2tQdxFm6aAahZP5YI89GqTx81PIGGBdIpfj9y58SS8gan2jp4k0HkSngO7A
-	AN/tjORw==;
+	bh=FQqYYIOb8vWqxiQHbz2yDg7e1e95gSKNG15/a5Zrh7U=; b=y8nghDGhINhMnRLehY491Cr7qA
+	PTXzDr68Rs54tsQVu0445ILN27YaS1g5LljJRh00fCbP8bD5++KxRNGZ27hMFbmPOOGUda0HntV9J
+	3Al2jaylMRon5kEpeqHYzkuaAgyNb4VLXVnFXCA5JWxpZt5I7/9jSXayBEcqvkuCUbXPCjnBS5BEk
+	JyNC9SP7iShZPqDB+2ZTA1TeUPBhdjLBErtBtwYpbCiM+sfdCs7PC8zglRjS/hRyvSL5/x5hIrjaN
+	fbAslkZyzqwC/5fFjH/ArhPx3nQs9Mk1kXsP23P0EZ8A0cCP0SKV+BVOB0kaEED0vAlxu0eX1F2WZ
+	VkHJf0AQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qU7FX-007yGn-2j;
-	Thu, 10 Aug 2023 15:06:56 +0000
+	id 1qU7Fa-007yIy-1U;
+	Thu, 10 Aug 2023 15:06:58 +0000
 Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qU7FL-007y4Q-0h
+	id 1qU7FL-007y4N-0h
 	for linux-nvme@lists.infradead.org;
 	Thu, 10 Aug 2023 15:06:46 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id F378D1F74B;
+	by smtp-out2.suse.de (Postfix) with ESMTP id EE6131F750;
 	Thu, 10 Aug 2023 15:06:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1691680001; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1691680000; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Va1veEwDpJUEh5ATScwAqKgDyPffWib9gL4y5XoXAQc=;
-	b=hjc/NwfHFX5OLMTWu2fiOwlz1r4uLUKELKTtVGSoP6Us1Kb/uP62H2jh/P2kl5ExrDK1iI
-	9KuwzMHTZW8aTEs2UxV18jNT3M1qtod9yVEnFe7MZLM/ZsJFx1hBwoLXi57lN+NOKLOgMI
-	HxoRnjwIOaRv08po9CQJIM2krQNjTj0=
+	bh=FQqYYIOb8vWqxiQHbz2yDg7e1e95gSKNG15/a5Zrh7U=;
+	b=uE47CtLuRgFTJPoFrf0fSPqZhS1vfo1iFUIx0fCnsBxMG0WCEumNi+kT6faPgAekwIMvuG
+	aJ1CjSvcPjUlzGLrizXJPD/nDx7eUfGeYP3VOlJGsF2yR2M/hjKVPEdsMHchwnMJPXrnmU
+	4B5UXop3VzoQOAjiIGUDCJScdjHttFA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1691680001;
+	s=susede2_ed25519; t=1691680000;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Va1veEwDpJUEh5ATScwAqKgDyPffWib9gL4y5XoXAQc=;
-	b=DrrRFv+lYo9sbGNsd2hAcdG0Q333613fcgoMcdC1h6DineVSr5TVRL1eMJpyPeZEjL0ZgP
-	ve2waINLKso+9DDA==
+	bh=FQqYYIOb8vWqxiQHbz2yDg7e1e95gSKNG15/a5Zrh7U=;
+	b=UOzaBNeg7Np8jLUD/uI1ROIND92vaLPWWKVNXwfP+7UNKiV5CVUdD2tRzfqEeUMs+vU6ww
+	rWlxY35lL3Ds3DCg==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 001512C152;
+	by relay2.suse.de (Postfix) with ESMTP id D6F442C149;
 	Thu, 10 Aug 2023 15:06:39 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id E1E4251CAE44; Thu, 10 Aug 2023 17:06:39 +0200 (CEST)
+	id C958251CAE3E; Thu, 10 Aug 2023 17:06:39 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
@@ -63,18 +63,17 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Paolo Abeni <pabeni@redhat.com>,
 	netdev@vger.kernel.org,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 04/17] nvme-tcp: add definitions for TLS cipher suites
-Date: Thu, 10 Aug 2023 17:06:17 +0200
-Message-Id: <20230810150630.134991-5-hare@suse.de>
+Subject: [PATCH 01/17] nvme-keyring: register '.nvme' keyring
+Date: Thu, 10 Aug 2023 17:06:14 +0200
+Message-Id: <20230810150630.134991-2-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230810150630.134991-1-hare@suse.de>
 References: <20230810150630.134991-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230810_080643_425394_0F8A56F8 
-X-CRM114-Status: UNSURE (   8.91  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230810_080643_415766_8A823957 
+X-CRM114-Status: GOOD (  19.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,29 +88,166 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Register a '.nvme' keyring to hold keys for TLS and DH-HMAC-CHAP and
+add a new config option NVME_KEYRING.
+We need a separate keyring for NVMe as the configuration is done
+via individual commands (eg for configfs), and the usual per-session
+or per-process keyrings can't be used.
+
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- include/linux/nvme-tcp.h | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/nvme/common/Kconfig   |  4 ++++
+ drivers/nvme/common/Makefile  |  3 ++-
+ drivers/nvme/common/keyring.c | 40 +++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/core.c      | 10 +++++++--
+ include/linux/nvme-keyring.h  | 28 ++++++++++++++++++++++++
+ 5 files changed, 82 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/nvme/common/keyring.c
+ create mode 100644 include/linux/nvme-keyring.h
 
-diff --git a/include/linux/nvme-tcp.h b/include/linux/nvme-tcp.h
-index 57ebe1267f7f..e07e8978d691 100644
---- a/include/linux/nvme-tcp.h
-+++ b/include/linux/nvme-tcp.h
-@@ -18,6 +18,12 @@ enum nvme_tcp_pfv {
- 	NVME_TCP_PFV_1_0 = 0x0,
- };
+diff --git a/drivers/nvme/common/Kconfig b/drivers/nvme/common/Kconfig
+index 4514f44362dd..641b27adb047 100644
+--- a/drivers/nvme/common/Kconfig
++++ b/drivers/nvme/common/Kconfig
+@@ -2,3 +2,7 @@
  
-+enum nvme_tcp_tls_cipher {
-+	NVME_TCP_TLS_CIPHER_INVALID     = 0,
-+	NVME_TCP_TLS_CIPHER_SHA256      = 1,
-+	NVME_TCP_TLS_CIPHER_SHA384      = 2,
-+};
+ config NVME_COMMON
+        tristate
 +
- enum nvme_tcp_fatal_error_status {
- 	NVME_TCP_FES_INVALID_PDU_HDR		= 0x01,
- 	NVME_TCP_FES_PDU_SEQ_ERR		= 0x02,
++config NVME_KEYRING
++       bool
++       select KEYS
+diff --git a/drivers/nvme/common/Makefile b/drivers/nvme/common/Makefile
+index 720c625b8a52..0cbd0b0b8d49 100644
+--- a/drivers/nvme/common/Makefile
++++ b/drivers/nvme/common/Makefile
+@@ -4,4 +4,5 @@ ccflags-y			+= -I$(src)
+ 
+ obj-$(CONFIG_NVME_COMMON)	+= nvme-common.o
+ 
+-nvme-common-y			+= auth.o
++nvme-common-$(CONFIG_NVME_AUTH)	+= auth.o
++nvme-common-$(CONFIG_NVME_KEYRING) += keyring.o
+diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
+new file mode 100644
+index 000000000000..5cf64b278119
+--- /dev/null
++++ b/drivers/nvme/common/keyring.c
+@@ -0,0 +1,40 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (c) 2023 Hannes Reinecke, SUSE Labs
++ */
++
++#include <linux/module.h>
++#include <linux/seq_file.h>
++#include <linux/key-type.h>
++#include <keys/user-type.h>
++#include <linux/nvme.h>
++
++static struct key *nvme_keyring;
++
++key_serial_t nvme_keyring_id(void)
++{
++	return nvme_keyring->serial;
++}
++EXPORT_SYMBOL_GPL(nvme_keyring_id);
++
++int nvme_keyring_init(void)
++{
++	nvme_keyring = keyring_alloc(".nvme",
++				     GLOBAL_ROOT_UID, GLOBAL_ROOT_GID,
++				     current_cred(),
++				     (KEY_POS_ALL & ~KEY_POS_SETATTR) |
++				     (KEY_USR_ALL & ~KEY_USR_SETATTR),
++				     KEY_ALLOC_NOT_IN_QUOTA, NULL, NULL);
++	if (IS_ERR(nvme_keyring))
++		return PTR_ERR(nvme_keyring);
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(nvme_keyring_init);
++
++void nvme_keyring_exit(void)
++{
++	key_revoke(nvme_keyring);
++	key_put(nvme_keyring);
++}
++EXPORT_SYMBOL_GPL(nvme_keyring_exit);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 37b6fa746662..dfc574d0f18d 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -25,6 +25,7 @@
+ #include "nvme.h"
+ #include "fabrics.h"
+ #include <linux/nvme-auth.h>
++#include <linux/nvme-keyring.h>
+ 
+ #define CREATE_TRACE_POINTS
+ #include "trace.h"
+@@ -4703,12 +4704,16 @@ static int __init nvme_core_init(void)
+ 		result = PTR_ERR(nvme_ns_chr_class);
+ 		goto unregister_generic_ns;
+ 	}
+-
+-	result = nvme_init_auth();
++	result = nvme_keyring_init();
+ 	if (result)
+ 		goto destroy_ns_chr;
++	result = nvme_init_auth();
++	if (result)
++		goto keyring_exit;
+ 	return 0;
+ 
++keyring_exit:
++	nvme_keyring_exit();
+ destroy_ns_chr:
+ 	class_destroy(nvme_ns_chr_class);
+ unregister_generic_ns:
+@@ -4732,6 +4737,7 @@ static int __init nvme_core_init(void)
+ static void __exit nvme_core_exit(void)
+ {
+ 	nvme_exit_auth();
++	nvme_keyring_exit();
+ 	class_destroy(nvme_ns_chr_class);
+ 	class_destroy(nvme_subsys_class);
+ 	class_destroy(nvme_class);
+diff --git a/include/linux/nvme-keyring.h b/include/linux/nvme-keyring.h
+new file mode 100644
+index 000000000000..32bd264a71e6
+--- /dev/null
++++ b/include/linux/nvme-keyring.h
+@@ -0,0 +1,28 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (c) 2023 Hannes Reinecke, SUSE Labs
++ */
++
++#ifndef _NVME_KEYRING_H
++#define _NVME_KEYRING_H
++
++#ifdef CONFIG_NVME_KEYRING
++
++key_serial_t nvme_keyring_id(void);
++int nvme_keyring_init(void);
++void nvme_keyring_exit(void);
++
++#else
++
++static inline key_serial_t nvme_keyring_id(void)
++{
++	return 0;
++}
++static inline int nvme_keyring_init(void)
++{
++	return 0;
++}
++static inline void nvme_keyring_exit(void) {}
++
++#endif /* !CONFIG_NVME_KEYRING */
++#endif /* _NVME_KEYRING_H */
 -- 
 2.35.3
 
