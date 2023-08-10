@@ -4,63 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9679AC001E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Aug 2023 11:13:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F1D8C04A94
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Aug 2023 11:13:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KKE2B+AUQdCdxtybXQXEsZ0s9QJcXsW1/BXKK44OcjU=; b=hf3yTbUMN3EW+N3f4iIhj0CWQq
-	0UkQJ7bvnj70CuXEd9RMtDaJJ9pSs+c6hwOpz/iv8gkWIz+26g80JV/6dHE0FmxyIwS3aoFcn67Io
-	8BYZCOGx4IWPekFbIaGbwqeua+OfPfmoJpZm5xEi8duEY4wq/rfyIY7ASixmnLIk0/D8qxPw+kxsx
-	HohzVKWFTQK30Zb+aO4vkwdamEjdhStk71SiIAlDTyWOZRKHdc/zwCL0SNARvJYdqzDZfZNiSei51
-	h6rlsI6VPiB4waiej9VrWMUlcDTYqOWuZmbXz1Tr5ccje9HWwvxREYHwGarjBarPFI/M/i9oYckCL
-	IJJRQ5+w==;
+	bh=aQBcsh+FyPbDNoSK+ENnlxq1RffYuE+RoAlftBVeRYs=; b=haSGmGIMWq/2N8llqZBy72uZRk
+	S1/rNAU2SXL6uzYcVOLjCmOuxdBbmQvZrDwyCRewR/3DIG7KTfM2TLIAD9lCgAar3PGywd/V9pIrd
+	b9POLlPvw5VpM9Xk5Jl7/yEw8SjbeG5+iDE0oI9SBYuxU+Qke6sh59fituquH+E5jbIfdxD7BcMnH
+	GdWSvQtJhhyl8UingVeNAVDfXW7v1a8Vr08uEhpqZpByklEG0NqLu7T+31+UcI0lQkHNA9aCuPH6f
+	oJ2MN4VpfQxYEDBRv0bCYwzcw/GkJMH02qYjjhh8DmEj0Bcz4z++1WvmVdJ55ZO7HXKb7I25ieIgO
+	kiA/rlOw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qU3bt-007MSP-2H;
-	Thu, 10 Aug 2023 11:13:45 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1qU3bw-007MVx-1g;
+	Thu, 10 Aug 2023 11:13:48 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qU3bc-007M80-2c
+	id 1qU3be-007MBx-0y
 	for linux-nvme@lists.infradead.org;
-	Thu, 10 Aug 2023 11:13:35 +0000
+	Thu, 10 Aug 2023 11:13:36 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 289C621870;
-	Thu, 10 Aug 2023 11:13:26 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3EE361F889;
+	Thu, 10 Aug 2023 11:13:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1691666006; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1691666008; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KKE2B+AUQdCdxtybXQXEsZ0s9QJcXsW1/BXKK44OcjU=;
-	b=dRAmSZDUj3HurW4QAPH4R86MhicoS8leHw828QSUtZGC71Kwkx0ojwQApYuTGeGKn5DRBO
-	vLWxaU5xbF518psaIrmrzVoOCzGgnKM8RR4M6Cj/NzCRK5xmu4C5Evvi12eJNvnIoOJFBU
-	LgYL1SbsZMohfGqo23ehiOLVQmTALng=
+	bh=aQBcsh+FyPbDNoSK+ENnlxq1RffYuE+RoAlftBVeRYs=;
+	b=MC2016lTEGQkxEE9jgx/AVV5vnk2VW1gLeUcKgoszsBNUQuIm0Ps/ctyFEI4EFh+x41Z4j
+	TwyPZB97m8pPyDCSKm1WaVvo8dF/i1ykzYpd91kgDL3Mn6EHJPGeO5Ck37e/TgVGXqdW2V
+	Jk0bajCKlkeiNZSODYBDJRTFsI4dIUc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1691666006;
+	s=susede2_ed25519; t=1691666008;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KKE2B+AUQdCdxtybXQXEsZ0s9QJcXsW1/BXKK44OcjU=;
-	b=SnU2p72aIeyULjl1zkHLxKvu0F/jAJIf0LivJ4QTESexfPvqCQrPpW8N2RYxad+5D9ykUp
-	UlPcsh4RQu2pRsAA==
+	bh=aQBcsh+FyPbDNoSK+ENnlxq1RffYuE+RoAlftBVeRYs=;
+	b=2f6/Nr1kaxkUJUphY+WT2ud2Bkm1JA6vJ1Ph17y8M5pSLCsYmFlEl48M2/2NsBL6090S+/
+	PIS/1KJMDeCkw5Dw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 12723138E2;
-	Thu, 10 Aug 2023 11:13:26 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2E78A138E2;
+	Thu, 10 Aug 2023 11:13:28 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 2JZlBFbG1GRDLwAAMHmgww
-	(envelope-from <dwagner@suse.de>); Thu, 10 Aug 2023 11:13:26 +0000
+	id XQVDC1jG1GRMLwAAMHmgww
+	(envelope-from <dwagner@suse.de>); Thu, 10 Aug 2023 11:13:28 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org,
@@ -73,17 +73,17 @@ Cc: linux-kernel@vger.kernel.org,
 	James Smart <jsmart2021@gmail.com>,
 	Bart Van Assche <bvanassche@acm.org>,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH blktests v2 07/12] nvme: Use def_file_path variable instead local variable
-Date: Thu, 10 Aug 2023 13:13:12 +0200
-Message-ID: <20230810111317.25273-8-dwagner@suse.de>
+Subject: [PATCH blktests v2 11/12] nvme: Add explicitly host to allow_host list
+Date: Thu, 10 Aug 2023 13:13:16 +0200
+Message-ID: <20230810111317.25273-12-dwagner@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230810111317.25273-1-dwagner@suse.de>
 References: <20230810111317.25273-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230810_041329_181762_E1F259CA 
-X-CRM114-Status: GOOD (  10.00  )
+X-CRM114-CacheID: sfid-20230810_041330_665524_FACE70EB 
+X-CRM114-Status: GOOD (  12.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,1007 +98,616 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-As all tests are using the same file path name anyway, use
-the def_file_path variable.
+Only allow to connect to our setup target with the correct hostnqn.
+
+Thus we have to explicitly add the test hostnqn to the test subsysnqn
+allow_host list.
+
+In nvme/030 the genctr is updated as side effect by writing the
+attr_allow_any_host variable. Though writting to attr_allow_any_host is
+not allowed after switching to the allow_host list. We can achieve the
+same effect by adding and removing the host to the allow_host list.
 
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 ---
- tests/nvme/004 |  6 +++---
- tests/nvme/005 |  6 +++---
- tests/nvme/006 |  6 +++---
- tests/nvme/007 |  9 +++------
- tests/nvme/008 |  7 +++----
- tests/nvme/009 |  7 +++----
- tests/nvme/010 |  7 +++----
- tests/nvme/011 |  8 +++-----
- tests/nvme/012 |  7 +++----
- tests/nvme/013 |  7 +++----
- tests/nvme/014 |  7 +++----
- tests/nvme/015 |  7 +++----
- tests/nvme/017 | 11 ++++-------
- tests/nvme/018 |  7 +++----
- tests/nvme/019 |  7 +++----
- tests/nvme/020 |  7 +++----
- tests/nvme/021 |  7 +++----
- tests/nvme/022 |  7 +++----
- tests/nvme/023 |  7 +++----
- tests/nvme/024 |  7 +++----
- tests/nvme/025 |  7 +++----
- tests/nvme/026 |  7 +++----
- tests/nvme/027 |  7 +++----
- tests/nvme/028 |  7 +++----
- tests/nvme/029 |  7 +++----
- tests/nvme/031 |  6 +++---
- tests/nvme/040 |  7 +++----
- tests/nvme/041 |  7 +++----
- tests/nvme/042 |  7 +++----
- tests/nvme/043 |  7 +++----
- tests/nvme/044 |  7 +++----
- tests/nvme/045 |  7 +++----
- tests/nvme/047 |  7 +++----
- tests/nvme/048 |  7 +++----
- 34 files changed, 103 insertions(+), 138 deletions(-)
+ tests/nvme/004 |  2 ++
+ tests/nvme/005 |  4 +++-
+ tests/nvme/008 |  2 ++
+ tests/nvme/009 |  2 ++
+ tests/nvme/010 |  2 ++
+ tests/nvme/011 |  2 ++
+ tests/nvme/012 |  2 ++
+ tests/nvme/013 |  2 ++
+ tests/nvme/014 |  2 ++
+ tests/nvme/015 |  2 ++
+ tests/nvme/018 |  2 ++
+ tests/nvme/019 |  2 ++
+ tests/nvme/020 |  2 ++
+ tests/nvme/021 |  2 ++
+ tests/nvme/022 |  2 ++
+ tests/nvme/023 |  2 ++
+ tests/nvme/024 |  2 ++
+ tests/nvme/025 |  2 ++
+ tests/nvme/026 |  2 ++
+ tests/nvme/027 |  2 ++
+ tests/nvme/028 |  2 ++
+ tests/nvme/029 |  2 ++
+ tests/nvme/030 | 11 ++++++-----
+ tests/nvme/040 |  3 +++
+ tests/nvme/047 |  2 ++
+ tests/nvme/rc  |  7 +++++--
+ 26 files changed, 61 insertions(+), 8 deletions(-)
 
 diff --git a/tests/nvme/004 b/tests/nvme/004
-index 0314ed3c949e..78b11c7b84c5 100755
+index 54d74b61f689..697c758d3059 100755
 --- a/tests/nvme/004
 +++ b/tests/nvme/004
-@@ -27,9 +27,9 @@ test() {
- 
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
- 
--	truncate -s "${nvme_img_size}" "$TMPDIR/img"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
- 
--	loop_dev="$(losetup -f --show "$TMPDIR/img")"
-+	loop_dev="$(losetup -f --show "${def_file_path}")"
- 
+@@ -34,6 +34,7 @@ test() {
  	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}" \
- 		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
-@@ -47,7 +47,7 @@ test() {
+ 		"${def_subsys_uuid}"
+ 	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
++	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
+ 
+ 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
+ 
+@@ -46,6 +47,7 @@ test() {
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
  	_remove_nvmet_subsystem "${def_subsysnqn}"
  	_remove_nvmet_port "${port}"
++	_remove_nvmet_host "${def_hostnqn}"
  	losetup -d "$loop_dev"
--	rm "$TMPDIR/img"
-+	rm "${def_file_path}"
+ 	rm "${def_file_path}"
  
- 	echo "Test complete"
- }
 diff --git a/tests/nvme/005 b/tests/nvme/005
-index 935b8634cb96..211b8affc32a 100755
+index 8e3ddfe75e2f..6646b826ecfa 100755
 --- a/tests/nvme/005
 +++ b/tests/nvme/005
-@@ -27,9 +27,9 @@ test() {
- 
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
- 
--	truncate -s "${nvme_img_size}" "$TMPDIR/img"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
- 
--	loop_dev="$(losetup -f --show "$TMPDIR/img")"
-+	loop_dev="$(losetup -f --show "${def_file_path}")"
- 
+@@ -34,6 +34,7 @@ test() {
  	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}" \
- 		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
-@@ -49,7 +49,7 @@ test() {
- 
- 	_remove_nvmet_subsystem "${def_subsysnqn}"
- 	losetup -d "$loop_dev"
--	rm "$TMPDIR/img"
-+	rm "${def_file_path}"
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/006 b/tests/nvme/006
-index 066acabb1175..f31633825a70 100755
---- a/tests/nvme/006
-+++ b/tests/nvme/006
-@@ -23,9 +23,9 @@ test() {
- 	local port
- 	local loop_dev
- 
--	truncate -s "${nvme_img_size}" "$TMPDIR/img"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
- 
--	loop_dev="$(losetup -f --show "$TMPDIR/img")"
-+	loop_dev="$(losetup -f --show "${def_file_path}")"
- 
- 	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}" \
- 		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
-@@ -38,7 +38,7 @@ test() {
- 
- 	losetup -d "$loop_dev"
- 
--	rm "$TMPDIR/img"
-+	rm "${def_file_path}"
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/007 b/tests/nvme/007
-index c6ba36cc4b4f..b6a4bc437103 100755
---- a/tests/nvme/007
-+++ b/tests/nvme/007
-@@ -20,13 +20,10 @@ test() {
- 	_setup_nvmet
- 
- 	local port
--	local file_path
- 
--	file_path="${TMPDIR}/img"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
- 
--	truncate -s "${nvme_img_size}" "${file_path}"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${file_path}" \
-+	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
- 		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
+ 		"${def_subsys_uuid}"
  	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
-@@ -35,7 +32,7 @@ test() {
- 	_remove_nvmet_subsystem "${def_subsysnqn}"
++	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
+ 
+ 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
+ 
+@@ -46,8 +47,9 @@ test() {
+ 	_nvme_disconnect_ctrl "${nvmedev}"
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
  	_remove_nvmet_port "${port}"
+-
+ 	_remove_nvmet_subsystem "${def_subsysnqn}"
++	_remove_nvmet_host "${def_hostnqn}"
++
+ 	losetup -d "$loop_dev"
+ 	rm "${def_file_path}"
  
--	rm "${file_path}"
-+	rm "${def_file_path}"
- 
- 	echo "Test complete"
- }
 diff --git a/tests/nvme/008 b/tests/nvme/008
-index c3fbcbc59686..a38926ef0051 100755
+index 752ab30a756b..3921fc6992b2 100755
 --- a/tests/nvme/008
 +++ b/tests/nvme/008
-@@ -23,11 +23,10 @@ test() {
- 	local port
- 	local nvmedev
- 	local loop_dev
--	local file_path="$TMPDIR/img"
+@@ -32,6 +32,7 @@ test() {
+ 		"${def_subsys_uuid}"
+ 	port="$(_create_nvmet_port "${nvme_trtype}")"
+ 	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
++	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
  
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
+ 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
  
--	loop_dev="$(losetup -f --show "${file_path}")"
-+	loop_dev="$(losetup -f --show "${def_file_path}")"
- 
- 	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}" \
- 		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
-@@ -50,7 +49,7 @@ test() {
+@@ -46,6 +47,7 @@ test() {
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
+ 	_remove_nvmet_subsystem "${def_subsysnqn}"
+ 	_remove_nvmet_port "${port}"
++	_remove_nvmet_host "${def_hostnqn}"
  
  	losetup -d "${loop_dev}"
  
--	rm "${file_path}"
-+	rm "${def_file_path}"
- 
- 	echo "Test complete"
- }
 diff --git a/tests/nvme/009 b/tests/nvme/009
-index 88c27889fbe1..2c8ea7ead9b8 100755
+index 7debd837cc76..aac3c1e0f642 100755
 --- a/tests/nvme/009
 +++ b/tests/nvme/009
-@@ -21,11 +21,10 @@ test() {
- 
- 	local port
- 	local nvmedev
--	local file_path="$TMPDIR/img"
- 
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
- 
--	_create_nvmet_subsystem "${def_subsysnqn}" "${file_path}" \
-+	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
- 		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
+@@ -28,6 +28,7 @@ test() {
+ 		"${def_subsys_uuid}"
  	port="$(_create_nvmet_port "${nvme_trtype}")"
  	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
-@@ -44,7 +43,7 @@ test() {
++	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
+ 
+ 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
+ 
+@@ -42,6 +43,7 @@ test() {
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
  	_remove_nvmet_subsystem "${def_subsysnqn}"
  	_remove_nvmet_port "${port}"
++	_remove_nvmet_host "${def_hostnqn}"
  
--	rm "${file_path}"
-+	rm "${def_file_path}"
+ 	rm "${def_file_path}"
  
- 	echo "Test complete"
- }
 diff --git a/tests/nvme/010 b/tests/nvme/010
-index 38c062ec73f4..81f7d2024ee6 100755
+index cba711b29af8..19bb7f3fc7a7 100755
 --- a/tests/nvme/010
 +++ b/tests/nvme/010
-@@ -23,11 +23,10 @@ test() {
- 	local port
- 	local nvmedev
- 	local loop_dev
--	local file_path="${TMPDIR}/img"
+@@ -32,6 +32,7 @@ test() {
+ 		"${def_subsys_uuid}"
+ 	port="$(_create_nvmet_port "${nvme_trtype}")"
+ 	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
++	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
  
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
+ 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
  
--	loop_dev="$(losetup -f --show "${file_path}")"
-+	loop_dev="$(losetup -f --show "${def_file_path}")"
- 
- 	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}" \
- 		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
-@@ -51,7 +50,7 @@ test() {
+@@ -47,6 +48,7 @@ test() {
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
+ 	_remove_nvmet_subsystem "${def_subsysnqn}"
+ 	_remove_nvmet_port "${port}"
++	_remove_nvmet_host "${def_hostnqn}"
  
  	losetup -d "${loop_dev}"
  
--	rm "${file_path}"
-+	rm "${def_file_path}"
- 
- 	echo "Test complete"
- }
 diff --git a/tests/nvme/011 b/tests/nvme/011
-index 0dab74e7e5b5..e6f78867e283 100755
+index ba2718d81bd9..0e54c2588bc8 100755
 --- a/tests/nvme/011
 +++ b/tests/nvme/011
-@@ -22,12 +22,10 @@ test() {
- 
- 	local port
- 	local nvmedev
--	local file_path
--	local file_path="${TMPDIR}/img"
- 
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
- 
--	_create_nvmet_subsystem "${def_subsysnqn}" "${file_path}" \
-+	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
- 		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
+@@ -29,6 +29,7 @@ test() {
+ 		"${def_subsys_uuid}"
  	port="$(_create_nvmet_port "${nvme_trtype}")"
  	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
-@@ -47,7 +45,7 @@ test() {
++	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
+ 
+ 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
+ 
+@@ -44,6 +45,7 @@ test() {
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
  	_remove_nvmet_subsystem "${def_subsysnqn}"
  	_remove_nvmet_port "${port}"
++	_remove_nvmet_host "${def_hostnqn}"
  
--	rm "${file_path}"
-+	rm "${def_file_path}"
+ 	rm "${def_file_path}"
  
- 	echo "Test complete"
- }
 diff --git a/tests/nvme/012 b/tests/nvme/012
-index 8ed57d3a5ab0..85549c25a1c6 100755
+index 629b5194435e..c6b82c821bf2 100755
 --- a/tests/nvme/012
 +++ b/tests/nvme/012
-@@ -27,11 +27,10 @@ test() {
- 	local port
- 	local nvmedev
- 	local loop_dev
--	local file_path="${TMPDIR}/img"
+@@ -36,6 +36,7 @@ test() {
+ 		"${def_subsys_uuid}"
+ 	port="$(_create_nvmet_port "${nvme_trtype}")"
+ 	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
++	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
  
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
+ 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
  
--	loop_dev="$(losetup -f --show "${file_path}")"
-+	loop_dev="$(losetup -f --show "${def_file_path}")"
- 
- 	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}" \
- 		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
-@@ -54,7 +53,7 @@ test() {
+@@ -50,6 +51,7 @@ test() {
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
+ 	_remove_nvmet_subsystem "${def_subsysnqn}"
+ 	_remove_nvmet_port "${port}"
++	_remove_nvmet_host "${def_hostnqn}"
  
  	losetup -d "${loop_dev}"
  
--	rm "${file_path}"
-+	rm "${def_file_path}"
- 
- 	echo "Test complete"
- }
 diff --git a/tests/nvme/013 b/tests/nvme/013
-index e3eb4e914750..355bc2e03557 100755
+index ca51544b82d1..441db7477d75 100755
 --- a/tests/nvme/013
 +++ b/tests/nvme/013
-@@ -25,11 +25,10 @@ test() {
- 
- 	local port
- 	local nvmedev
--	local file_path="${TMPDIR}/img"
- 
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
- 
--	_create_nvmet_subsystem "${def_subsysnqn}" "${file_path}" \
-+	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
- 		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
+@@ -32,6 +32,7 @@ test() {
+ 		"${def_subsys_uuid}"
  	port="$(_create_nvmet_port "${nvme_trtype}")"
  	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
-@@ -48,7 +47,7 @@ test() {
++	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
+ 
+ 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
+ 
+@@ -46,6 +47,7 @@ test() {
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
  	_remove_nvmet_subsystem "${def_subsysnqn}"
  	_remove_nvmet_port "${port}"
++	_remove_nvmet_host "${def_hostnqn}"
  
--	rm "${file_path}"
-+	rm "${def_file_path}"
+ 	rm "${def_file_path}"
  
- 	echo "Test complete"
- }
 diff --git a/tests/nvme/014 b/tests/nvme/014
-index cbafd802af16..44ae91e2210f 100755
+index 6d27300cfb30..3656f9399687 100755
 --- a/tests/nvme/014
 +++ b/tests/nvme/014
-@@ -26,11 +26,10 @@ test() {
- 	local size
- 	local bs
- 	local count
--	local file_path="$TMPDIR/img"
+@@ -35,6 +35,7 @@ test() {
+ 		 "${def_subsys_uuid}"
+ 	port="$(_create_nvmet_port "${nvme_trtype}")"
+ 	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
++	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
  
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
+ 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
  
--	loop_dev="$(losetup -f --show "${file_path}")"
-+	loop_dev="$(losetup -f --show "${def_file_path}")"
- 
- 	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}" \
- 		 "91fdba0d-f87b-4c25-b80f-db7be1418b9e"
-@@ -60,7 +59,7 @@ test() {
+@@ -56,6 +57,7 @@ test() {
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
+ 	_remove_nvmet_subsystem "${def_subsysnqn}"
+ 	_remove_nvmet_port "${port}"
++	_remove_nvmet_host "${def_hostnqn}"
  
  	losetup -d "${loop_dev}"
  
--	rm "${file_path}"
-+	rm "${def_file_path}"
- 
- 	echo "Test complete"
- }
 diff --git a/tests/nvme/015 b/tests/nvme/015
-index b32d16a91de8..16e41ee65d42 100755
+index 1b3aa4aa36c2..bc04e39c628c 100755
 --- a/tests/nvme/015
 +++ b/tests/nvme/015
-@@ -25,11 +25,10 @@ test() {
- 	local size
- 	local bs
- 	local count
--	local file_path="$TMPDIR/img"
- 
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
- 
--	_create_nvmet_subsystem "${def_subsysnqn}" "${file_path}" \
-+	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
- 		 "91fdba0d-f87b-4c25-b80f-db7be1418b9e"
+@@ -32,6 +32,7 @@ test() {
+ 		 "${def_subsys_uuid}"
  	port="$(_create_nvmet_port "${nvme_trtype}")"
  	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
-@@ -55,7 +54,7 @@ test() {
++	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
+ 
+ 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
+ 
+@@ -53,6 +54,7 @@ test() {
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
  	_remove_nvmet_subsystem "${def_subsysnqn}"
  	_remove_nvmet_port "${port}"
++	_remove_nvmet_host "${def_hostnqn}"
  
--	rm "${file_path}"
-+	rm "${def_file_path}"
+ 	rm "${def_file_path}"
  
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/017 b/tests/nvme/017
-index 6f7ef5882d3e..7cbf274c13b0 100755
---- a/tests/nvme/017
-+++ b/tests/nvme/017
-@@ -19,20 +19,17 @@ test() {
- 	_setup_nvmet
- 
- 	local port
--	local file_path
- 	local iterations="${nvme_num_iter}"
- 
--	file_path="${TMPDIR}/img"
--
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
- 
- 	local genctr=1
- 
--	_create_nvmet_subsystem "${def_subsysnqn}" "${file_path}" \
-+	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
- 		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
- 
- 	for ((i = 2; i <= iterations; i++)); do
--		_create_nvmet_ns "${def_subsysnqn}" "${i}" "${file_path}"
-+		_create_nvmet_ns "${def_subsysnqn}" "${i}" "${def_file_path}"
- 	done
- 
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
-@@ -49,7 +46,7 @@ test() {
- 
- 	_remove_nvmet_subsystem "${def_subsysnqn}"
- 
--	rm "${file_path}"
-+	rm "${def_file_path}"
- 
- 	echo "Test complete"
- }
 diff --git a/tests/nvme/018 b/tests/nvme/018
-index 155f094ea6b3..d1d2082e62ac 100755
+index b66056d43041..68729c3cb070 100755
 --- a/tests/nvme/018
 +++ b/tests/nvme/018
-@@ -23,11 +23,10 @@ test() {
- 
- 	local port
- 	local nvmedev
--	local file_path="$TMPDIR/img"
- 
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
- 
--	_create_nvmet_subsystem "${def_subsysnqn}" "${file_path}" \
-+	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
- 		 "91fdba0d-f87b-4c25-b80f-db7be1418b9e"
+@@ -30,6 +30,7 @@ test() {
+ 		 "${def_subsys_uuid}"
  	port="$(_create_nvmet_port "${nvme_trtype}")"
  	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
-@@ -52,7 +51,7 @@ test() {
++	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
+ 
+ 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
+ 
+@@ -50,6 +51,7 @@ test() {
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
  	_remove_nvmet_subsystem "${def_subsysnqn}"
  	_remove_nvmet_port "${port}"
++	_remove_nvmet_host "${def_hostnqn}"
  
--	rm "${file_path}"
-+	rm "${def_file_path}"
+ 	rm "${def_file_path}"
  
- 	echo "Test complete"
- }
 diff --git a/tests/nvme/019 b/tests/nvme/019
-index 4ac351cbb782..2628dea55ac8 100755
+index b456b38d038e..33a25d52e9fd 100755
 --- a/tests/nvme/019
 +++ b/tests/nvme/019
-@@ -23,13 +23,12 @@ test() {
- 	local port
- 	local nvmedev
- 	local loop_dev
--	local file_path="$TMPDIR/img"
- 	local nblk_range="10,10,10,10,10,10,10,10,10,10"
- 	local sblk_range="100,200,300,400,500,600,700,800,900,1000"
+@@ -34,6 +34,7 @@ test() {
+ 		"${def_subsys_uuid}"
+ 	port="$(_create_nvmet_port "${nvme_trtype}")"
+ 	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
++	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
  
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
+ 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
  
--	loop_dev="$(losetup -f --show "${file_path}")"
-+	loop_dev="$(losetup -f --show "${def_file_path}")"
- 
- 	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}" \
- 		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
-@@ -52,7 +51,7 @@ test() {
+@@ -48,6 +49,7 @@ test() {
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
+ 	_remove_nvmet_subsystem "${def_subsysnqn}"
+ 	_remove_nvmet_port "${port}"
++	_remove_nvmet_host "${def_hostnqn}"
  
  	losetup -d "${loop_dev}"
  
--	rm -f "${file_path}"
-+	rm -f "${def_file_path}"
- 
- 	echo "Test complete"
- }
 diff --git a/tests/nvme/020 b/tests/nvme/020
-index 744d4b7d6805..4a4f3c12da30 100755
+index ba88921d75af..f436cdc8b262 100755
 --- a/tests/nvme/020
 +++ b/tests/nvme/020
-@@ -21,13 +21,12 @@ test() {
- 
- 	local port
- 	local nvmedev
--	local file_path="$TMPDIR/img"
- 	local nblk_range="10,10,10,10,10,10,10,10,10,10"
- 	local sblk_range="100,200,300,400,500,600,700,800,900,1000"
- 
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
- 
--	_create_nvmet_subsystem "${def_subsysnqn}" "${file_path}" \
-+	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
- 		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
+@@ -30,6 +30,7 @@ test() {
+ 		"${def_subsys_uuid}"
  	port="$(_create_nvmet_port "${nvme_trtype}")"
  	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
-@@ -46,7 +45,7 @@ test() {
++	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
+ 
+ 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
+ 
+@@ -44,6 +45,7 @@ test() {
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
  	_remove_nvmet_subsystem "${def_subsysnqn}"
  	_remove_nvmet_port "${port}"
++	_remove_nvmet_host "${def_hostnqn}"
  
--	rm -f "${file_path}"
-+	rm -f "${def_file_path}"
+ 	rm -f "${def_file_path}"
  
- 	echo "Test complete"
- }
 diff --git a/tests/nvme/021 b/tests/nvme/021
-index 1fd9bcbb3d23..11f82d64f378 100755
+index 02ef9727ee59..5043fe4916be 100755
 --- a/tests/nvme/021
 +++ b/tests/nvme/021
-@@ -22,11 +22,10 @@ test() {
- 
- 	local port
- 	local nvmedev
--	local file_path="$TMPDIR/img"
- 
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
- 
--	_create_nvmet_subsystem "${def_subsysnqn}" "${file_path}" \
-+	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
- 		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
+@@ -29,6 +29,7 @@ test() {
+ 		"${def_subsys_uuid}"
  	port="$(_create_nvmet_port "${nvme_trtype}")"
  	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
-@@ -47,7 +46,7 @@ test() {
++	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
+ 
+ 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
+ 
+@@ -45,6 +46,7 @@ test() {
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
  	_remove_nvmet_subsystem "${def_subsysnqn}"
  	_remove_nvmet_port "${port}"
++	_remove_nvmet_host "${def_hostnqn}"
  
--	rm -f "${file_path}"
-+	rm -f "${def_file_path}"
+ 	rm -f "${def_file_path}"
  
- 	echo "Test complete"
- }
 diff --git a/tests/nvme/022 b/tests/nvme/022
-index 053991625250..586f6cdd3448 100755
+index 74c12c3e0ba9..8b6f610c4894 100755
 --- a/tests/nvme/022
 +++ b/tests/nvme/022
-@@ -22,11 +22,10 @@ test() {
- 
- 	local port
- 	local nvmedev
--	local file_path="$TMPDIR/img"
- 
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
- 
--	_create_nvmet_subsystem "${def_subsysnqn}" "${file_path}" \
-+	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
- 		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
+@@ -29,6 +29,7 @@ test() {
+ 		"${def_subsys_uuid}"
  	port="$(_create_nvmet_port "${nvme_trtype}")"
  	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
-@@ -47,7 +46,7 @@ test() {
++	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
+ 
+ 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
+ 
+@@ -45,6 +46,7 @@ test() {
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
  	_remove_nvmet_subsystem "${def_subsysnqn}"
  	_remove_nvmet_port "${port}"
++	_remove_nvmet_host "${def_hostnqn}"
  
--	rm -f "${file_path}"
-+	rm -f "${def_file_path}"
+ 	rm -f "${def_file_path}"
  
- 	echo "Test complete"
- }
 diff --git a/tests/nvme/023 b/tests/nvme/023
-index c10e5a0138a8..b13426cf5615 100755
+index 413b6afa6d14..90af0338e81f 100755
 --- a/tests/nvme/023
 +++ b/tests/nvme/023
-@@ -23,11 +23,10 @@ test() {
- 	local port
- 	local nvmedev
- 	local loop_dev
--	local file_path="$TMPDIR/img"
+@@ -32,6 +32,7 @@ test() {
+ 		"${def_subsys_uuid}"
+ 	port="$(_create_nvmet_port "${nvme_trtype}")"
+ 	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
++	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
  
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
+ 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
  
--	loop_dev="$(losetup -f --show "${file_path}")"
-+	loop_dev="$(losetup -f --show "${def_file_path}")"
- 
- 	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}" \
- 		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
-@@ -52,7 +51,7 @@ test() {
+@@ -48,6 +49,7 @@ test() {
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
+ 	_remove_nvmet_subsystem "${def_subsysnqn}"
+ 	_remove_nvmet_port "${port}"
++	_remove_nvmet_host "${def_hostnqn}"
  
  	losetup -d "${loop_dev}"
  
--	rm -f "${file_path}"
-+	rm -f "${def_file_path}"
- 
- 	echo "Test complete"
- }
 diff --git a/tests/nvme/024 b/tests/nvme/024
-index d1d7f0bfb994..b7c7b3f64321 100755
+index 1baf5487ae64..7a89ddd79fd9 100755
 --- a/tests/nvme/024
 +++ b/tests/nvme/024
-@@ -22,11 +22,10 @@ test() {
- 
- 	local port
- 	local nvmedev
--	local file_path="$TMPDIR/img"
- 
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
- 
--	_create_nvmet_subsystem "${def_subsysnqn}" "${file_path}" \
-+	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
- 		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
+@@ -29,6 +29,7 @@ test() {
+ 		"${def_subsys_uuid}"
  	port="$(_create_nvmet_port "${nvme_trtype}")"
  	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
-@@ -46,7 +45,7 @@ test() {
++	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
+ 
+ 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
+ 
+@@ -44,6 +45,7 @@ test() {
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
  	_remove_nvmet_subsystem "${def_subsysnqn}"
  	_remove_nvmet_port "${port}"
++	_remove_nvmet_host "${def_hostnqn}"
  
--	rm -f "${file_path}"
-+	rm -f "${def_file_path}"
+ 	rm -f "${def_file_path}"
  
- 	echo "Test complete"
- }
 diff --git a/tests/nvme/025 b/tests/nvme/025
-index ea944830612b..04ceace5840b 100755
+index 9eecd4d4a604..90f214eff6c8 100755
 --- a/tests/nvme/025
 +++ b/tests/nvme/025
-@@ -22,11 +22,10 @@ test() {
- 
- 	local port
- 	local nvmedev
--	local file_path="$TMPDIR/img"
- 
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
- 
--	_create_nvmet_subsystem "${def_subsysnqn}" "${file_path}" \
-+	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
- 		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
+@@ -29,6 +29,7 @@ test() {
+ 		"${def_subsys_uuid}"
  	port="$(_create_nvmet_port "${nvme_trtype}")"
  	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
-@@ -47,7 +46,7 @@ test() {
++	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
+ 
+ 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
+ 
+@@ -45,6 +46,7 @@ test() {
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
  	_remove_nvmet_subsystem "${def_subsysnqn}"
  	_remove_nvmet_port "${port}"
++	_remove_nvmet_host "${def_hostnqn}"
  
--	rm -f "${file_path}"
-+	rm -f "${def_file_path}"
+ 	rm -f "${def_file_path}"
  
- 	echo "Test complete"
- }
 diff --git a/tests/nvme/026 b/tests/nvme/026
-index f1193c20477c..a9dc7bc15db5 100755
+index 8a8bc58170e2..ec352acaa489 100755
 --- a/tests/nvme/026
 +++ b/tests/nvme/026
-@@ -22,11 +22,10 @@ test() {
- 
- 	local port
- 	local nvmedev
--	local file_path="$TMPDIR/img"
- 
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
- 
--	_create_nvmet_subsystem "${def_subsysnqn}" "${file_path}" \
-+	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
- 		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
+@@ -29,6 +29,7 @@ test() {
+ 		"${def_subsys_uuid}"
  	port="$(_create_nvmet_port "${nvme_trtype}")"
  	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
-@@ -47,7 +46,7 @@ test() {
++	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
+ 
+ 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
+ 
+@@ -45,6 +46,7 @@ test() {
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
  	_remove_nvmet_subsystem "${def_subsysnqn}"
  	_remove_nvmet_port "${port}"
++	_remove_nvmet_host "${def_hostnqn}"
  
--	rm -f "${file_path}"
-+	rm -f "${def_file_path}"
+ 	rm -f "${def_file_path}"
  
- 	echo "Test complete"
- }
 diff --git a/tests/nvme/027 b/tests/nvme/027
-index c097c51ea4f3..fda8c61405a5 100755
+index 723e721202be..339f7605a9f5 100755
 --- a/tests/nvme/027
 +++ b/tests/nvme/027
-@@ -22,11 +22,10 @@ test() {
- 
- 	local port
- 	local nvmedev
--	local file_path="$TMPDIR/img"
- 
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
- 
--	_create_nvmet_subsystem "${def_subsysnqn}" "${file_path}" \
-+	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
- 		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
+@@ -29,6 +29,7 @@ test() {
+ 		"${def_subsys_uuid}"
  	port="$(_create_nvmet_port "${nvme_trtype}")"
  	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
-@@ -46,7 +45,7 @@ test() {
++	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
+ 
+ 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
+ 
+@@ -44,6 +45,7 @@ test() {
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
  	_remove_nvmet_subsystem "${def_subsysnqn}"
  	_remove_nvmet_port "${port}"
++	_remove_nvmet_host "${def_hostnqn}"
  
--	rm -f "${file_path}"
-+	rm -f "${def_file_path}"
+ 	rm -f "${def_file_path}"
  
- 	echo "Test complete"
- }
 diff --git a/tests/nvme/028 b/tests/nvme/028
-index 6e37be4893b1..8e42ea37a634 100755
+index d4e62e8cae1c..7f387eb337f6 100755
 --- a/tests/nvme/028
 +++ b/tests/nvme/028
-@@ -22,11 +22,10 @@ test() {
- 
- 	local port
- 	local nvmedev
--	local file_path="$TMPDIR/img"
- 
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
- 
--	_create_nvmet_subsystem "${def_subsysnqn}" "${file_path}" \
-+	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
- 		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
+@@ -29,6 +29,7 @@ test() {
+ 		"${def_subsys_uuid}"
  	port="$(_create_nvmet_port "${nvme_trtype}")"
  	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
-@@ -46,7 +45,7 @@ test() {
++	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
+ 
+ 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
+ 
+@@ -44,6 +45,7 @@ test() {
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
  	_remove_nvmet_subsystem "${def_subsysnqn}"
  	_remove_nvmet_port "${port}"
++	_remove_nvmet_host "${def_hostnqn}"
  
--	rm -f "${file_path}"
-+	rm -f "${def_file_path}"
+ 	rm -f "${def_file_path}"
  
- 	echo "Test complete"
- }
 diff --git a/tests/nvme/029 b/tests/nvme/029
-index 4d0ca997404b..7988faf5dd03 100755
+index b113e387f1fa..461e6c6c4454 100755
 --- a/tests/nvme/029
 +++ b/tests/nvme/029
-@@ -56,11 +56,10 @@ test() {
- 	local port
- 	local nvmedev
- 	local loop_dev
--	local file_path="$TMPDIR/img"
+@@ -65,6 +65,7 @@ test() {
+ 		 "${def_subsys_uuid}"
+ 	port="$(_create_nvmet_port "${nvme_trtype}")"
+ 	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
++	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
  
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
+ 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
  
--	loop_dev="$(losetup -f --show "${file_path}")"
-+	loop_dev="$(losetup -f --show "${def_file_path}")"
- 
- 	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}" \
- 		 "91fdba0d-f87b-4c25-b80f-db7be1418b9e"
-@@ -89,7 +88,7 @@ test() {
+@@ -85,6 +86,7 @@ test() {
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
+ 	_remove_nvmet_subsystem "${def_subsysnqn}"
+ 	_remove_nvmet_port "${port}"
++	_remove_nvmet_host "${def_hostnqn}"
  
  	losetup -d "${loop_dev}"
  
--	rm "${file_path}"
-+	rm "${def_file_path}"
+diff --git a/tests/nvme/030 b/tests/nvme/030
+index a0b999cace94..9251e1744f61 100755
+--- a/tests/nvme/030
++++ b/tests/nvme/030
+@@ -28,6 +28,7 @@ test() {
  
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/031 b/tests/nvme/031
-index 27b08e96dd0b..d5c2561b941b 100755
---- a/tests/nvme/031
-+++ b/tests/nvme/031
-@@ -33,9 +33,9 @@ test() {
- 	local loop_dev
- 	local port
+ 	_create_nvmet_subsystem "${subsys}1" "$(losetup -f)"
+ 	_add_nvmet_subsys_to_port "${port}" "${subsys}1"
++	_create_nvmet_host "${subsys}1" "${def_hostnqn}"
  
--	truncate -s "${nvme_img_size}" "$TMPDIR/img"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
+ 	genctr=$(_discovery_genctr)
  
--	loop_dev="$(losetup -f --show "$TMPDIR/img")"
-+	loop_dev="$(losetup -f --show "${def_file_path}")"
+@@ -36,13 +37,13 @@ test() {
  
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
+ 	genctr=$(_check_genctr "${genctr}" "adding a subsystem to a port")
  
-@@ -50,7 +50,7 @@ test() {
+-	echo 0 > "${NVMET_CFS}/subsystems/${subsys}2/attr_allow_any_host"
++	_add_nvmet_allow_hosts "${subsys}2" "${def_hostnqn}"
  
+-	genctr=$(_check_genctr "${genctr}" "clearing attr_allow_any_host")
++	genctr=$(_check_genctr "${genctr}" "adding host to allow_hosts")
+ 
+-	echo 1 > "${NVMET_CFS}/subsystems/${subsys}2/attr_allow_any_host"
++	_remove_nvmet_allow_hosts "${subsys}2" "${def_hostnqn}"
+ 
+-	genctr=$(_check_genctr "${genctr}" "setting attr_allow_any_host")
++	genctr=$(_check_genctr "${genctr}" "removing host from allow_hosts")
+ 
+ 	_remove_nvmet_subsystem_from_port "${port}" "${subsys}2"
+ 	_remove_nvmet_subsystem "${subsys}2"
+@@ -51,8 +52,8 @@ test() {
+ 
+ 	_remove_nvmet_subsystem_from_port "${port}" "${subsys}1"
+ 	_remove_nvmet_subsystem "${subsys}1"
+-
  	_remove_nvmet_port "${port}"
- 	losetup -d "$loop_dev"
--	rm "$TMPDIR/img"
-+	rm "${def_file_path}"
++	_remove_nvmet_host "${def_hostnqn}"
  
  	echo "Test complete"
  }
 diff --git a/tests/nvme/040 b/tests/nvme/040
-index 8d7f68f9a2d7..452ecd690edf 100755
+index 452ecd690edf..1a9be5c9342c 100755
 --- a/tests/nvme/040
 +++ b/tests/nvme/040
-@@ -21,14 +21,13 @@ test() {
- 
- 	_setup_nvmet
- 
--	local file_path="${TMPDIR}/img"
- 	local port
- 	local loop_dev
- 	local nvmedev
- 	local fio_pid
- 
--	truncate -s "${nvme_img_size}" "${file_path}"
--	loop_dev="$(losetup -f --show "${file_path}")"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
-+	loop_dev="$(losetup -f --show "${def_file_path}")"
- 
+@@ -32,6 +32,8 @@ test() {
  	port="$(_create_nvmet_port "${nvme_trtype}")"
  	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}"
-@@ -60,7 +59,7 @@ test() {
+ 	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
++	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
++
+ 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
+ 	udevadm settle
+ 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
+@@ -56,6 +58,7 @@ test() {
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
+ 	_remove_nvmet_subsystem "${def_subsysnqn}"
+ 	_remove_nvmet_port "${port}"
++	_remove_nvmet_host "${def_hostnqn}"
  
  	losetup -d "${loop_dev}"
  
--	rm -f "${file_path}"
-+	rm -f "${def_file_path}"
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/041 b/tests/nvme/041
-index 4c553251f379..0a0700533b7b 100755
---- a/tests/nvme/041
-+++ b/tests/nvme/041
-@@ -25,7 +25,6 @@ test() {
- 	_setup_nvmet
- 
- 	local port
--	local file_path="${TMPDIR}/img"
- 	local hostkey
- 	local ctrldev
- 
-@@ -35,9 +34,9 @@ test() {
- 		return 1
- 	fi
- 
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
- 
--	_create_nvmet_subsystem "${def_subsysnqn}" "${file_path}" \
-+	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
- 		"b92842df-a394-44b1-84a4-92ae7d112861"
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
- 	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
-@@ -69,7 +68,7 @@ test() {
- 
- 	_remove_nvmet_host "${def_hostnqn}"
- 
--	rm "${file_path}"
-+	rm "${def_file_path}"
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/042 b/tests/nvme/042
-index 866249ed598c..9180fce17b4e 100755
---- a/tests/nvme/042
-+++ b/tests/nvme/042
-@@ -25,15 +25,14 @@ test() {
- 	_setup_nvmet
- 
- 	local port
--	local file_path="${TMPDIR}/img"
- 	local hmac
- 	local key_len
- 	local hostkey
- 	local ctrldev
- 
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
- 
--	_create_nvmet_subsystem "${def_subsysnqn}" "${file_path}"
-+	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}"
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
- 	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
- 	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-@@ -82,7 +81,7 @@ test() {
- 
- 	_remove_nvmet_host "${def_hostnqn}"
- 
--	rm "${file_path}"
-+	rm "${def_file_path}"
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/043 b/tests/nvme/043
-index 5569a7a58ad5..f08422949efb 100755
---- a/tests/nvme/043
-+++ b/tests/nvme/043
-@@ -26,7 +26,6 @@ test() {
- 	_setup_nvmet
- 
- 	local port
--	local file_path="${TMPDIR}/img"
- 	local hash
- 	local dhgroup
- 	local hostkey
-@@ -38,9 +37,9 @@ test() {
- 		return 1
- 	fi
- 
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
- 
--	_create_nvmet_subsystem "${def_subsysnqn}" "${file_path}"
-+	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}"
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
- 	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
- 	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}" "${hostkey}"
-@@ -84,7 +83,7 @@ test() {
- 
- 	_remove_nvmet_host "${def_hostnqn}"
- 
--	rm "${file_path}"
-+	rm "${def_file_path}"
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/044 b/tests/nvme/044
-index 6c2cb602313c..5eb163db2c99 100755
---- a/tests/nvme/044
-+++ b/tests/nvme/044
-@@ -26,7 +26,6 @@ test() {
- 	_setup_nvmet
- 
- 	local port
--	local file_path="${TMPDIR}/img"
- 	local hostkey
- 	local ctrlkey
- 	local ctrldev
-@@ -43,9 +42,9 @@ test() {
- 		return 1
- 	fi
- 
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
- 
--	_create_nvmet_subsystem "${def_subsysnqn}" "${file_path}"
-+	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}"
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
- 	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
- 	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}" \
-@@ -111,7 +110,7 @@ test() {
- 
- 	_remove_nvmet_host "${def_hostnqn}"
- 
--	rm "${file_path}"
-+	rm "${def_file_path}"
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/045 b/tests/nvme/045
-index a936e7fb661f..8364d5ec3a2b 100755
---- a/tests/nvme/045
-+++ b/tests/nvme/045
-@@ -27,7 +27,6 @@ test() {
- 	_setup_nvmet
- 
- 	local port
--	local file_path="${TMPDIR}/img"
- 	local hostkey
- 	local new_hostkey
- 	local ctrlkey
-@@ -47,9 +46,9 @@ test() {
- 		return 1
- 	fi
- 
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
- 
--	_create_nvmet_subsystem "${def_subsysnqn}" "${file_path}"
-+	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}"
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
- 	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
- 	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}" "${hostkey}" "${ctrlkey}"
-@@ -124,7 +123,7 @@ test() {
- 
- 	_remove_nvmet_host "${def_hostnqn}"
- 
--	rm "${file_path}"
-+	rm "${def_file_path}"
- 
- 	echo "Test complete"
- }
 diff --git a/tests/nvme/047 b/tests/nvme/047
-index b435dd3cecba..66032f679ae2 100755
+index 2b81f7ea9ffd..1da24b5638a6 100755
 --- a/tests/nvme/047
 +++ b/tests/nvme/047
-@@ -26,11 +26,10 @@ test() {
- 	local nvmedev
- 	local loop_dev
- 	local rand_io_size
--	local file_path="$TMPDIR/img"
+@@ -35,6 +35,7 @@ test() {
+ 		"${def_subsys_uuid}"
+ 	port="$(_create_nvmet_port "${nvme_trtype}")"
+ 	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
++	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
  
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
- 
--	loop_dev="$(losetup -f --show "${file_path}")"
-+	loop_dev="$(losetup -f --show "${def_file_path}")"
- 
- 	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}" \
- 		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
-@@ -61,7 +60,7 @@ test() {
+ 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}" \
+ 		--nr-write-queues 1 || echo FAIL
+@@ -57,6 +58,7 @@ test() {
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
+ 	_remove_nvmet_subsystem "${def_subsysnqn}"
+ 	_remove_nvmet_port "${port}"
++	_remove_nvmet_host "${def_hostnqn}"
  
  	losetup -d "${loop_dev}"
  
--	rm "${file_path}"
-+	rm "${def_file_path}"
+diff --git a/tests/nvme/rc b/tests/nvme/rc
+index 706f95d74a4b..0000254da731 100644
+--- a/tests/nvme/rc
++++ b/tests/nvme/rc
+@@ -608,7 +608,7 @@ _create_nvmet_subsystem() {
+ 	local cfs_path="${NVMET_CFS}/subsystems/${nvmet_subsystem}"
  
- 	echo "Test complete"
+ 	mkdir -p "${cfs_path}"
+-	echo 1 > "${cfs_path}/attr_allow_any_host"
++	echo 0 > "${cfs_path}/attr_allow_any_host"
+ 	_create_nvmet_ns "${nvmet_subsystem}" "1" "${blkdev}" "${uuid}"
  }
-diff --git a/tests/nvme/048 b/tests/nvme/048
-index f9a19b1e655e..6a05feae9b82 100755
---- a/tests/nvme/048
-+++ b/tests/nvme/048
-@@ -86,13 +86,12 @@ test() {
- 	_setup_nvmet
  
- 	local cfs_path="${NVMET_CFS}/subsystems/${def_subsysnqn}"
--	local file_path="${TMPDIR}/img"
- 	local skipped=false
- 	local port
+@@ -679,7 +679,7 @@ _create_nvmet_passthru() {
+ 	local passthru_path="${subsys_path}/passthru"
  
--	truncate -s "${nvme_img_size}" "${file_path}"
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
+ 	mkdir -p "${subsys_path}"
+-	echo 1 > "${subsys_path}/attr_allow_any_host"
++	echo 0 > "${subsys_path}/attr_allow_any_host"
  
--	_create_nvmet_subsystem "${def_subsysnqn}" "${file_path}" \
-+	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
- 		"b92842df-a394-44b1-84a4-92ae7d112861"
+ 	_test_dev_nvme_ctrl > "${passthru_path}/device_path"
+ 	echo 1 > "${passthru_path}/enable"
+@@ -694,6 +694,7 @@ _remove_nvmet_passhtru() {
+ 	local passthru_path="${subsys_path}/passthru"
+ 
+ 	echo 0 > "${passthru_path}/enable"
++	rm -f "${subsys_path}"/allowed_hosts/*
+ 	rmdir "${subsys_path}"
+ }
+ 
+@@ -785,6 +786,7 @@ _nvmet_passthru_target_setup() {
+ 	_create_nvmet_passthru "${subsys_name}"
  	port="$(_create_nvmet_port "${nvme_trtype}")"
+ 	_add_nvmet_subsys_to_port "${port}" "${subsys_name}"
++	_create_nvmet_host "${subsys_name}" "${def_hostnqn}"
  
-@@ -124,7 +123,7 @@ test() {
+ 	echo "$port"
+ }
+@@ -811,6 +813,7 @@ _nvmet_passthru_target_cleanup() {
+ 	_remove_nvmet_subsystem_from_port "${port}" "${subsys_name}"
  	_remove_nvmet_port "${port}"
- 	_remove_nvmet_host "${def_hostnqn}"
+ 	_remove_nvmet_passhtru "${subsys_name}"
++	_remove_nvmet_host "${def_hostnqn}"
+ }
  
--	rm "${file_path}"
-+	rm "${def_file_path}"
- 
- 	if [[ "${skipped}" = true ]] ; then
- 		return 1
+ _discovery_genctr() {
 -- 
 2.41.0
 
