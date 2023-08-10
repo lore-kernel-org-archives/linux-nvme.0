@@ -4,78 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C0ABC001E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Aug 2023 02:07:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D2ABEB64DD
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Aug 2023 02:17:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CujbJvk8xR2wivezZL312pI5YeFGQCWJwDhrju025js=; b=VcszY7T2A9CZd8A+2DhcbkD1zb
-	MOAhv2F8R4WxB4hKx55vNVqyT0qmOVTlyoTf+lFQO390W7g0NovTXEbcXDSplJZIz1gl5U8JLY0Of
-	kJhdeOpEA8ENjHaD4RD1Xk3ndL903QyR4vT6bc7O7u5UNpDSLLYb1vNiy+fagZRKUE4kIw4PHXkuK
-	X1YYIg3j8mCwqd7iW9vqpX0toP7IR1lIZfNobJIMbQcqH6z4WkWyG8KainJkUaDGkkBTwf+fMaKIw
-	jXMbObh+ROWKighE8BgZbJ4MnzMksv7L4LBpfaKg5++jvtZoFfEBTT/KPJDV0gMhyQyQgoFtqio2E
-	eElpGrmA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Kn2gdSjEHu02/v4mAeMAEf4LvFeRTaYDVdUmz7aC8GI=; b=iNNYu2JE8jkz4y03gEl3bisXCW
+	wdSrtZuR7qBLl6gTafVmYN+dfdr2swFNL3JFlV74stCMVvo792RXGQ+bpOKwoUDRa9lWkAGBXtrvQ
+	VPr0Ug3pOVLuBxjDIaNPGzVI58CTWEZJepMkOhXCqUrEYaQEsZotrgmc33ZLsCst18+Ax4VtVXc+W
+	Ku1RxuGNE7jSOeAJlIFpJMqBUOoLKdSAakk1XCmKXr09VjwKJ2bzrLFotRPn/mlaWQVA+7QIjbeW+
+	nehe0HgoPW70Ad+mPsBrwOxDI3Jffo1yTTX1+UMJKRjpi+4gRGpODw/Se7UTBE2A3Fmw1XVqy25XV
+	aignCcJg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTv4v-006KEU-0M;
-	Thu, 10 Aug 2023 02:07:09 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1qTvEe-006L34-0O;
+	Thu, 10 Aug 2023 02:17:12 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTv4r-006KDh-1Q
+	id 1qTvEb-006L2N-0g
 	for linux-nvme@lists.infradead.org;
-	Thu, 10 Aug 2023 02:07:07 +0000
+	Thu, 10 Aug 2023 02:17:10 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1691633223;
+	s=mimecast20190719; t=1691633820;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CujbJvk8xR2wivezZL312pI5YeFGQCWJwDhrju025js=;
-	b=FNu8aQbjfleXY52kOe3p62/xWSJ9qs4ILHg6ob3apVde1gJO6HeL2Ey/nkmSRCDjC+T5z3
-	Jm8V+sOABUHioBHcTbZXE2/gGoAFleT/GF1ybYJko+bSzGSCz9ZjqDunrzY1VTmpSGeeeR
-	VPvfbF47y7Ld8jdRyqB833JDgkKrlms=
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Kn2gdSjEHu02/v4mAeMAEf4LvFeRTaYDVdUmz7aC8GI=;
+	b=Q2njFRwOqtdctFt+5/QBGw0HWCv8duHmk58kw3yBw0HH9ujGNevYuBKftSHsnf+w/+P8qS
+	Mv6KHfZdVW+AxxlCjMelh8FxcvEv9m6UZRnJddkKOVVEp0ofFZlE+jwgX3aYovqVMyNol6
+	6SsjiLPJWHHofGyT9oRvHYPrU9RpYvI=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-376-02XBssC6PbqWp0BJ03OIxQ-1; Wed, 09 Aug 2023 22:07:00 -0400
-X-MC-Unique: 02XBssC6PbqWp0BJ03OIxQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+ us-mta-517-_Ag9I_rmMV2p-eVMLrwEjg-1; Wed, 09 Aug 2023 22:16:55 -0400
+X-MC-Unique: _Ag9I_rmMV2p-eVMLrwEjg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 822FB185A78F;
-	Thu, 10 Aug 2023 02:06:59 +0000 (UTC)
-Received: from fedora (unknown [10.72.120.5])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 16AB540C2076;
-	Thu, 10 Aug 2023 02:06:50 +0000 (UTC)
-Date: Thu, 10 Aug 2023 10:06:46 +0800
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5B43E185A78B;
+	Thu, 10 Aug 2023 02:16:55 +0000 (UTC)
+Received: from localhost (unknown [10.72.120.5])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 800CE1121314;
+	Thu, 10 Aug 2023 02:16:54 +0000 (UTC)
 From: Ming Lei <ming.lei@redhat.com>
-To: Baoquan He <bhe@redhat.com>
-Cc: mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
-	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: linux-kernel@vger.kernel.org,
+	Ming Lei <ming.lei@redhat.com>,
+	Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	linux-scsi@vger.kernel.org, linux-block@vger.kernel.org,
-	Wen Xiong <wenxiong@linux.ibm.com>, Keith Busch <kbusch@kernel.org>,
-	linuxppc-dev@lists.ozlabs.org, Dave Young <dyoung@redhat.com>,
-	kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Pingfan Liu <piliu@redhat.com>
-Subject: Re: [PATCH V3 01/14] blk-mq: add blk_mq_max_nr_hw_queues()
-Message-ID: <ZNRGNsRzEJfzUEzH@fedora>
-References: <20230808104239.146085-1-ming.lei@redhat.com>
- <20230808104239.146085-2-ming.lei@redhat.com>
- <20230809134401.GA31852@lst.de>
- <ZNQqt1C0pXspGl3d@fedora>
- <ZNQ64xhCIBU6XM/5@MiWiFi-R3L-srv>
+	linux-block@lists.infradead.org,
+	Yi Zhang <yi.zhang@redhat.com>,
+	Guangwu Zhang <guazhang@redhat.com>
+Subject: [PATCH] lib/group_cpus.c: avoid to acquire cpu hotplug lock in group_cpus_evenly
+Date: Thu, 10 Aug 2023 10:16:40 +0800
+Message-Id: <20230810021640.252033-1-ming.lei@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZNQ64xhCIBU6XM/5@MiWiFi-R3L-srv>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230809_190705_574340_14E00825 
-X-CRM114-Status: GOOD (  31.47  )
+X-CRM114-CacheID: sfid-20230809_191709_342222_F7470AC2 
+X-CRM114-Status: GOOD (  17.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,54 +81,112 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Aug 10, 2023 at 09:18:27AM +0800, Baoquan He wrote:
-> On 08/10/23 at 08:09am, Ming Lei wrote:
-> > On Wed, Aug 09, 2023 at 03:44:01PM +0200, Christoph Hellwig wrote:
-> > > I'm starting to sound like a broken record, but we can't just do random
-> > > is_kdump checks, and it's not going to get better by resending it again and
-> > > again.  If kdump kernels limit the number of possible CPUs, it needs to
-> > > reflected in cpu_possible_map and we need to use that information.
-> > > 
-> > 
-> > Can you look at previous kdump/arch guys' comment about kdump usage &
-> > num_possible_cpus?
-> > 
-> >     https://lore.kernel.org/linux-block/CAF+s44RuqswbosY9kMDx35crviQnxOeuvgNsuE75Bb0Y2Jg2uw@mail.gmail.com/
-> >     https://lore.kernel.org/linux-block/ZKz912KyFQ7q9qwL@MiWiFi-R3L-srv/
-> > 
-> > The point is that kdump kernels does not limit the number of possible CPUs.
-> > 
-> > 1) some archs support 'nr_cpus=1' for kdump kernel, which is fine, since
-> > num_possible_cpus becomes 1.
-> 
-> Yes, "nr_cpus=" is strongly suggested in kdump kernel because "nr_cpus="
-> limits the possible cpu numbers, while "maxcpuss=" only limits the cpu
-> number which can be brought up during bootup. We noticed this diference
-> because a large number of possible cpus will cost more memory in kdump
-> kernel. e.g percpu initialization, even though kdump kernel have set
-> "maxcpus=1". 
-> 
-> Currently x86 and arm64 all support "nr_cpus=". Pingfan ever spent much
-> effort to make patches to add "nr_cpus=" support to ppc64, seems ppc64
-> dev and maintainers do not care about it. Finally the patches are not
-> accepted, and the work is not continued.
-> 
-> Now, I am wondering what is the barrier to add "nr_cpus=" to power ach.
-> Can we reconsider adding 'nr_cpus=' to power arch since real issue
-> occurred in kdump kernel?
+group_cpus_evenly() could be part of storage driver's error handler,
+such as nvme driver, when may happen during CPU hotplug, in which
+storage queue has to drain its pending IOs because all CPUs associated
+with the queue are offline and the queue is becoming inactive. And
+handling IO needs error handler to provide forward progress.
 
-If 'nr_cpus=' can be supported on ppc64, this patchset isn't needed.
+Then dead lock is caused:
 
-> 
-> As for this patchset, it can be accpeted so that no failure in kdump
-> kernel is seen on ARCHes w/o "nr_cpus=" support? My personal opinion.
+1) inside CPU hotplug handler, CPU hotplug lock is held, and blk-mq's
+handler is waiting for inflight IO
 
-IMO 'nr_cpus=' support should be preferred, given it is annoying to
-maintain two kinds of implementation for kdump kernel from driver
-viewpoint. I guess kdump things can be simplified too with supporting
-'nr_cpus=' only.
+2) error handler is waiting for CPU hotplug lock
 
-thanks,
-Ming
+3) inflight IO can't be completed in blk-mq's CPU hotplug handler because
+error handling can't provide forward progress.
+
+Solve the deadlock by not holding CPU hotplug lock in group_cpus_evenly(),
+in which two stage spreads are taken: 1) the 1st stage is over all present
+CPUs; 2) the end stage is over all other CPUs.
+
+Turns out the two stage spread just needs consistent 'cpu_present_mask', and
+remove the CPU hotplug lock by storing it into one local cache. This way
+doesn't change correctness, because all CPUs are still covered.
+
+Cc: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Cc: linux-block@lists.infradead.org
+Reported-by: Yi Zhang <yi.zhang@redhat.com>
+Reported-by: Guangwu Zhang <guazhang@redhat.com>
+Signed-off-by: Ming Lei <ming.lei@redhat.com>
+---
+ lib/group_cpus.c | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
+
+diff --git a/lib/group_cpus.c b/lib/group_cpus.c
+index aa3f6815bb12..15006e79196f 100644
+--- a/lib/group_cpus.c
++++ b/lib/group_cpus.c
+@@ -348,6 +348,7 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
+ {
+ 	unsigned int curgrp = 0, nr_present = 0, nr_others = 0;
+ 	cpumask_var_t *node_to_cpumask;
++	cpumask_var_t local_cpu_present_mask;
+ 	cpumask_var_t nmsk, npresmsk;
+ 	int ret = -ENOMEM;
+ 	struct cpumask *masks = NULL;
+@@ -355,6 +356,16 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
+ 	if (!zalloc_cpumask_var(&nmsk, GFP_KERNEL))
+ 		return NULL;
+ 
++	if (!zalloc_cpumask_var(&local_cpu_present_mask, GFP_KERNEL))
++		goto fail_local_pres_mask;
++
++	/*
++	 * Make a local cache of 'cpu_present_mask', so the two stages
++	 * spread can observe consistent 'cpu_present_mask' without holding
++	 * cpu hotplug lock.
++	 */
++	cpumask_copy(local_cpu_present_mask, cpu_present_mask);
++
+ 	if (!zalloc_cpumask_var(&npresmsk, GFP_KERNEL))
+ 		goto fail_nmsk;
+ 
+@@ -366,13 +377,11 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
+ 	if (!masks)
+ 		goto fail_node_to_cpumask;
+ 
+-	/* Stabilize the cpumasks */
+-	cpus_read_lock();
+ 	build_node_to_cpumask(node_to_cpumask);
+ 
+ 	/* grouping present CPUs first */
+ 	ret = __group_cpus_evenly(curgrp, numgrps, node_to_cpumask,
+-				  cpu_present_mask, nmsk, masks);
++				  local_cpu_present_mask, nmsk, masks);
+ 	if (ret < 0)
+ 		goto fail_build_affinity;
+ 	nr_present = ret;
+@@ -387,15 +396,13 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
+ 		curgrp = 0;
+ 	else
+ 		curgrp = nr_present;
+-	cpumask_andnot(npresmsk, cpu_possible_mask, cpu_present_mask);
++	cpumask_andnot(npresmsk, cpu_possible_mask, local_cpu_present_mask);
+ 	ret = __group_cpus_evenly(curgrp, numgrps, node_to_cpumask,
+ 				  npresmsk, nmsk, masks);
+ 	if (ret >= 0)
+ 		nr_others = ret;
+ 
+  fail_build_affinity:
+-	cpus_read_unlock();
+-
+ 	if (ret >= 0)
+ 		WARN_ON(nr_present + nr_others < numgrps);
+ 
+@@ -406,6 +413,9 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
+ 	free_cpumask_var(npresmsk);
+ 
+  fail_nmsk:
++	free_cpumask_var(local_cpu_present_mask);
++
++ fail_local_pres_mask:
+ 	free_cpumask_var(nmsk);
+ 	if (ret < 0) {
+ 		kfree(masks);
+-- 
+2.40.1
 
 
