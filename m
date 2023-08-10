@@ -4,66 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D441C001B0
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Aug 2023 13:20:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0ABBCC001B0
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Aug 2023 13:24:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=3PwYKTRmpJjhAIZl8R6wBIWaQc/qwL6eOlr+D7VNGm8=; b=T+/PFWyd9L6BxHbDhhr66DBGkr
-	8RXYdsWmvddG0bst/qupxJWSFnpmwcmYF5mdOLoX8pr4SM2aJqkWRP3+6I35DgRHktSV4x6wvYkwt
-	sufbyJLJBmmKz9JaecPpNhATkLkMDq/8PpfAWbr0ZEGxLcbn/2ARlqGPjHr4+HUGGljfxhNADkD6/
-	CWV3tuMgGuM5ienuG3dsZYyXE7bYKdQy2r6UA87X2yCNhDiW/eNL0jDXUIxgOHt+CM7eloxlG6cgf
-	S84fNJlF1sYcwPo80PG+QAsD2O8HO5gnu030QigtTVQ0QNuQ3IeF3jDeuCCnNSMNcVfFQx9ehBFZr
-	lP4w3JmA==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=/9tDs5Yc8B7Cv9pvLYNDhrDtLhOZATHUhQak+t8eJZI=; b=OiP8eLR9/XrIaaBCx5caLWPdrE
+	n/3Qs5QB74KWLQbboYMllzE9s/qucYfraLzf7j4QTy5dBQxZODin4CUM5IbSaoTeF1m2L80sGTS7w
+	tzX+BbwSE0w9tnkWpjPkCClRK2Al84PYwRnm2UT+Cygf4Tnjjqfr6vkFobZnoW/HIHou8+p0L/vtK
+	or/mCa/d/aIgJgSrepHuWmfK4xjIhwl3f+9mMYRgVcd53k5MQvw+U6hvgjRp7+db/R8p952g23tKm
+	1eIn20Tf9DTOSitn6fMz8H4DyGWRN4US9N2yZZsckrCPjPBCYRsvLvk1z8qf2ikWgYYnW4me/MT9e
+	ytdCYC7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qU5aI-007iCu-11;
-	Thu, 10 Aug 2023 13:20:14 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1qU5eV-007iqR-36;
+	Thu, 10 Aug 2023 13:24:35 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qU5aF-007iBH-18
+	id 1qU5eT-007ipg-0X
 	for linux-nvme@lists.infradead.org;
-	Thu, 10 Aug 2023 13:20:12 +0000
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id C63F921846;
-	Thu, 10 Aug 2023 13:20:07 +0000 (UTC)
+	Thu, 10 Aug 2023 13:24:34 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E419D211BD;
+	Thu, 10 Aug 2023 13:24:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1691673607; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=3PwYKTRmpJjhAIZl8R6wBIWaQc/qwL6eOlr+D7VNGm8=;
-	b=EMCjK7F7Aj/i026RoYnoPaFOkakH+uxhc8Viu/xsBuv0aIbugUw0Ud4q1YR6MCKtubPXIX
-	F8rZ4fBZhmDbg678nnIZtAHn7ri3LDifQBbqmxrAh+hJQYtd23PGE3xCsMaln7WXvoww3s
-	B2QgO9U2Sk/BMmmsM0Q0tTC6WGO5PbM=
+	t=1691673871; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/9tDs5Yc8B7Cv9pvLYNDhrDtLhOZATHUhQak+t8eJZI=;
+	b=NhCU9a5QhHT4cfcdlbsS1+X0Eyo3qrFXgTXu5zDrNWIXSCpxfxpQnKtAOogTo/IrEV8Ih3
+	+h/MAgpLdJKzmOpRz5QuC+RkenweigkaxJgtfXIYxxSLidlujtUU9dX+TXbBJ75z/3hIXp
+	3UM0GPZbSjmS24FNVBBvEQGXIdpLYN0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1691673607;
+	s=susede2_ed25519; t=1691673871;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=3PwYKTRmpJjhAIZl8R6wBIWaQc/qwL6eOlr+D7VNGm8=;
-	b=OWY8tq7s4bJLjf8jFJ8vbYO6CR5TU4Yjtlw/uPIA+VvlRHdEI0WL1PYaCTD2F0v216Ll9k
-	kT/zAvin0exExVDg==
-Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id B537F2C142;
-	Thu, 10 Aug 2023 13:20:07 +0000 (UTC)
-Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id AC2C551CAE2F; Thu, 10 Aug 2023 15:20:07 +0200 (CEST)
-From: Hannes Reinecke <hare@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH] nvmet-tcp: avoid circular locking dependency on install_queue()
-Date: Thu, 10 Aug 2023 15:20:06 +0200
-Message-Id: <20230810132006.129365-1-hare@suse.de>
-X-Mailer: git-send-email 2.35.3
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/9tDs5Yc8B7Cv9pvLYNDhrDtLhOZATHUhQak+t8eJZI=;
+	b=cT72rnSi0Cpqw98ur9F6gU1T6FhVOnd9rBjcmdl5AhutC0dThbyoDbllony5/NBA/TxFef
+	Hgx94OKJ9B+LK8Bw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B5838138E2;
+	Thu, 10 Aug 2023 13:24:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id KH3pKg/l1GSxaQAAMHmgww
+	(envelope-from <hare@suse.de>); Thu, 10 Aug 2023 13:24:31 +0000
+Message-ID: <a7ca8d28-9c28-4eba-a21b-26579f5053e4@suse.de>
+Date: Thu, 10 Aug 2023 15:24:31 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH rfc 0/6] support traddr as dns names for ip based
+ transports
+Content-Language: en-US
+To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ Daniel Wagner <dwagner@suse.de>
+References: <20230724092023.708335-1-sagi@grimberg.me>
+ <1032f160-3307-0405-9b68-b8f6f5b028b5@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <1032f160-3307-0405-9b68-b8f6f5b028b5@grimberg.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230810_062011_525166_CCEE3C67 
-X-CRM114-Status: GOOD (  12.49  )
+X-CRM114-CacheID: sfid-20230810_062433_351160_95D8AA05 
+X-CRM114-Status: GOOD (  16.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,44 +94,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvmet_tcp_install_queue() is driven from the ->io_work workqueue
-function, but will call flush_workqueue() which might trigger
-->release_work() which in itself calls flush_work on ->io_work.
+On 8/10/23 14:03, Sagi Grimberg wrote:
+> 
+>> Currently nvme-cli is able to resolve an ip address from a dns name if
+>> traddr argument was given as a dns name, so it does that and passes down
+>> to the kernel the resolved ip address.
+>>
+>> However, if the dns resolution changes over time, the kernel will not
+>> be able to reconnect because it has a stale ip address. While this is
+>> not a real use case for nvme subsystems, it could be a valid use-case
+>> for discovery controllers, where the resolution is made from a dns
+>> name that may load-balance/failover over multiple endpoints.
+>>
+>> The last patch (7/6) is for libnvme to pass down the traddr as a dns
+>> name if the kernel supports dns queries.
+>>
+>> The inspiration was taken from the nfs client that does this for
+>> redirects or locations discovery.
+>>
+>> It is an rfc, so feedback is welcome.
+> 
+> So I get that there is zero appetite to support this?
+No, actually not.
 
-To avoid that check for pending queue in disconnecting status,
-and return 'controller busy' until all disconnects are completed.
+I'm pretty much in favour of it.
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
----
- drivers/nvme/target/tcp.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+Hmm. Probably should send a review ... wait ...
 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index f131b504aa01..97d07488072d 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -1845,8 +1845,18 @@ static u16 nvmet_tcp_install_queue(struct nvmet_sq *sq)
- 		container_of(sq, struct nvmet_tcp_queue, nvme_sq);
- 
- 	if (sq->qid == 0) {
--		/* Let inflight controller teardown complete */
--		flush_workqueue(nvmet_wq);
-+		struct nvmet_tcp_queue *q;
-+		int pending = 0;
-+
-+		mutex_lock(&nvmet_tcp_queue_mutex);
-+		list_for_each_entry(q, &nvmet_tcp_queue_list, queue_list) {
-+			if (q->state == NVMET_TCP_Q_DISCONNECTING)
-+				pending++;
-+		}
-+		mutex_unlock(&nvmet_tcp_queue_mutex);
-+		/* Retry for pending controller teardown */
-+		if (pending)
-+			return NVME_SC_CONNECT_CTRL_BUSY;
- 	}
- 
- 	queue->nr_cmds = sq->size * 2;
--- 
-2.35.3
+Cheers,
+
+Hannes
 
 
