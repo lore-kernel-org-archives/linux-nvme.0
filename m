@@ -4,56 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 63405C001B0
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Aug 2023 01:18:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C0ABC001E0
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Aug 2023 02:07:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8RyE1XhIfdOavy1+yd7tZWH6XrA0A0ZMjPep4bJOZxA=; b=LHirlBX7ZhXPXvlxJOl4FKIHVJ
-	l4RZ8GcjIvJUGij8cDXSxawdA1+yGVkRk62bicKlL+JJ+dVBH5o3NOXpLceuNdLm6Lkefr4FU+dKX
-	5Uf0ipbzUz9cjHLA6MNhvtjfGdUB4lzE94Tg739AEs56nFDd/kRT8/YU+akAzjAC/b/eqIjDwS56S
-	7ENDjyRrjp8+3/Il4tUI9yrfbeHRrFhodwp9zzv0xAy2KBKiD7GE5ICBv2CmcRhqSLKqBJhn762kt
-	/iq/kJhd5PYj9bbwXTeJSyFGsiHhcqacJvRL2ufimwdAhxaXgvaRJBdEmkCOAsMSUkvLY0rTXT1nB
-	u6TJP0Wg==;
+	bh=CujbJvk8xR2wivezZL312pI5YeFGQCWJwDhrju025js=; b=VcszY7T2A9CZd8A+2DhcbkD1zb
+	MOAhv2F8R4WxB4hKx55vNVqyT0qmOVTlyoTf+lFQO390W7g0NovTXEbcXDSplJZIz1gl5U8JLY0Of
+	kJhdeOpEA8ENjHaD4RD1Xk3ndL903QyR4vT6bc7O7u5UNpDSLLYb1vNiy+fagZRKUE4kIw4PHXkuK
+	X1YYIg3j8mCwqd7iW9vqpX0toP7IR1lIZfNobJIMbQcqH6z4WkWyG8KainJkUaDGkkBTwf+fMaKIw
+	jXMbObh+ROWKighE8BgZbJ4MnzMksv7L4LBpfaKg5++jvtZoFfEBTT/KPJDV0gMhyQyQgoFtqio2E
+	eElpGrmA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTuJz-006GU2-3B;
-	Thu, 10 Aug 2023 01:18:39 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1qTv4v-006KEU-0M;
+	Thu, 10 Aug 2023 02:07:09 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qTuJx-006GTR-1y
+	id 1qTv4r-006KDh-1Q
 	for linux-nvme@lists.infradead.org;
-	Thu, 10 Aug 2023 01:18:39 +0000
+	Thu, 10 Aug 2023 02:07:07 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1691630316;
+	s=mimecast20190719; t=1691633223;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8RyE1XhIfdOavy1+yd7tZWH6XrA0A0ZMjPep4bJOZxA=;
-	b=A3Fsu839pyA4VM4uZIr6VXdbFy9Tg6/G7MicivBy0GbByahVspoYfXZVktHowrb9j405JF
-	bRznq8M7/FLjDWq0dUJ9KkKaGmJsj13bCeUtWtR0raHZcU0BspREf8dEQ3jI71UPs/IJmO
-	roWoTh640VGD1ngfffCac6YS/jrdVFY=
-Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-251-yJgvA4ilMeOrCYwrgq4MeA-1; Wed, 09 Aug 2023 21:18:33 -0400
-X-MC-Unique: yJgvA4ilMeOrCYwrgq4MeA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+	bh=CujbJvk8xR2wivezZL312pI5YeFGQCWJwDhrju025js=;
+	b=FNu8aQbjfleXY52kOe3p62/xWSJ9qs4ILHg6ob3apVde1gJO6HeL2Ey/nkmSRCDjC+T5z3
+	Jm8V+sOABUHioBHcTbZXE2/gGoAFleT/GF1ybYJko+bSzGSCz9ZjqDunrzY1VTmpSGeeeR
+	VPvfbF47y7Ld8jdRyqB833JDgkKrlms=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-376-02XBssC6PbqWp0BJ03OIxQ-1; Wed, 09 Aug 2023 22:07:00 -0400
+X-MC-Unique: 02XBssC6PbqWp0BJ03OIxQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 448DA1C04182;
-	Thu, 10 Aug 2023 01:18:32 +0000 (UTC)
-Received: from localhost (unknown [10.72.112.99])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 45ECB2166B25;
-	Thu, 10 Aug 2023 01:18:29 +0000 (UTC)
-Date: Thu, 10 Aug 2023 09:18:27 +0800
-From: Baoquan He <bhe@redhat.com>
-To: Ming Lei <ming.lei@redhat.com>, mpe@ellerman.id.au, npiggin@gmail.com,
-	christophe.leroy@csgroup.eu
-Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 822FB185A78F;
+	Thu, 10 Aug 2023 02:06:59 +0000 (UTC)
+Received: from fedora (unknown [10.72.120.5])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 16AB540C2076;
+	Thu, 10 Aug 2023 02:06:50 +0000 (UTC)
+Date: Thu, 10 Aug 2023 10:06:46 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Baoquan He <bhe@redhat.com>
+Cc: mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
+	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
 	linux-nvme@lists.infradead.org,
 	"Martin K . Petersen" <martin.petersen@oracle.com>,
 	linux-scsi@vger.kernel.org, linux-block@vger.kernel.org,
@@ -62,19 +62,20 @@ Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
 	kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
 	Pingfan Liu <piliu@redhat.com>
 Subject: Re: [PATCH V3 01/14] blk-mq: add blk_mq_max_nr_hw_queues()
-Message-ID: <ZNQ64xhCIBU6XM/5@MiWiFi-R3L-srv>
+Message-ID: <ZNRGNsRzEJfzUEzH@fedora>
 References: <20230808104239.146085-1-ming.lei@redhat.com>
  <20230808104239.146085-2-ming.lei@redhat.com>
  <20230809134401.GA31852@lst.de>
  <ZNQqt1C0pXspGl3d@fedora>
+ <ZNQ64xhCIBU6XM/5@MiWiFi-R3L-srv>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZNQqt1C0pXspGl3d@fedora>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+In-Reply-To: <ZNQ64xhCIBU6XM/5@MiWiFi-R3L-srv>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230809_181837_745284_463701DB 
-X-CRM114-Status: GOOD (  25.90  )
+X-CRM114-CacheID: sfid-20230809_190705_574340_14E00825 
+X-CRM114-Status: GOOD (  31.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,54 +90,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 08/10/23 at 08:09am, Ming Lei wrote:
-> On Wed, Aug 09, 2023 at 03:44:01PM +0200, Christoph Hellwig wrote:
-> > I'm starting to sound like a broken record, but we can't just do random
-> > is_kdump checks, and it's not going to get better by resending it again and
-> > again.  If kdump kernels limit the number of possible CPUs, it needs to
-> > reflected in cpu_possible_map and we need to use that information.
+On Thu, Aug 10, 2023 at 09:18:27AM +0800, Baoquan He wrote:
+> On 08/10/23 at 08:09am, Ming Lei wrote:
+> > On Wed, Aug 09, 2023 at 03:44:01PM +0200, Christoph Hellwig wrote:
+> > > I'm starting to sound like a broken record, but we can't just do random
+> > > is_kdump checks, and it's not going to get better by resending it again and
+> > > again.  If kdump kernels limit the number of possible CPUs, it needs to
+> > > reflected in cpu_possible_map and we need to use that information.
+> > > 
 > > 
+> > Can you look at previous kdump/arch guys' comment about kdump usage &
+> > num_possible_cpus?
+> > 
+> >     https://lore.kernel.org/linux-block/CAF+s44RuqswbosY9kMDx35crviQnxOeuvgNsuE75Bb0Y2Jg2uw@mail.gmail.com/
+> >     https://lore.kernel.org/linux-block/ZKz912KyFQ7q9qwL@MiWiFi-R3L-srv/
+> > 
+> > The point is that kdump kernels does not limit the number of possible CPUs.
+> > 
+> > 1) some archs support 'nr_cpus=1' for kdump kernel, which is fine, since
+> > num_possible_cpus becomes 1.
 > 
-> Can you look at previous kdump/arch guys' comment about kdump usage &
-> num_possible_cpus?
+> Yes, "nr_cpus=" is strongly suggested in kdump kernel because "nr_cpus="
+> limits the possible cpu numbers, while "maxcpuss=" only limits the cpu
+> number which can be brought up during bootup. We noticed this diference
+> because a large number of possible cpus will cost more memory in kdump
+> kernel. e.g percpu initialization, even though kdump kernel have set
+> "maxcpus=1". 
 > 
->     https://lore.kernel.org/linux-block/CAF+s44RuqswbosY9kMDx35crviQnxOeuvgNsuE75Bb0Y2Jg2uw@mail.gmail.com/
->     https://lore.kernel.org/linux-block/ZKz912KyFQ7q9qwL@MiWiFi-R3L-srv/
+> Currently x86 and arm64 all support "nr_cpus=". Pingfan ever spent much
+> effort to make patches to add "nr_cpus=" support to ppc64, seems ppc64
+> dev and maintainers do not care about it. Finally the patches are not
+> accepted, and the work is not continued.
 > 
-> The point is that kdump kernels does not limit the number of possible CPUs.
-> 
-> 1) some archs support 'nr_cpus=1' for kdump kernel, which is fine, since
-> num_possible_cpus becomes 1.
+> Now, I am wondering what is the barrier to add "nr_cpus=" to power ach.
+> Can we reconsider adding 'nr_cpus=' to power arch since real issue
+> occurred in kdump kernel?
 
-Yes, "nr_cpus=" is strongly suggested in kdump kernel because "nr_cpus="
-limits the possible cpu numbers, while "maxcpuss=" only limits the cpu
-number which can be brought up during bootup. We noticed this diference
-because a large number of possible cpus will cost more memory in kdump
-kernel. e.g percpu initialization, even though kdump kernel have set
-"maxcpus=1". 
-
-Currently x86 and arm64 all support "nr_cpus=". Pingfan ever spent much
-effort to make patches to add "nr_cpus=" support to ppc64, seems ppc64
-dev and maintainers do not care about it. Finally the patches are not
-accepted, and the work is not continued.
-
-Now, I am wondering what is the barrier to add "nr_cpus=" to power ach.
-Can we reconsider adding 'nr_cpus=' to power arch since real issue
-occurred in kdump kernel?
-
-As for this patchset, it can be accpeted so that no failure in kdump
-kernel is seen on ARCHes w/o "nr_cpus=" support? My personal opinion.
+If 'nr_cpus=' can be supported on ppc64, this patchset isn't needed.
 
 > 
-> 2) some archs do not support 'nr_cpus=1', and have to rely on
-> 'max_cpus=1', so num_possible_cpus isn't changed, and kernel just boots
-> with single online cpu. That causes trouble because blk-mq limits single
-> queue.
-> 
-> Documentation/admin-guide/kdump/kdump.rst
-> 
-> Thanks, 
-> Ming
-> 
+> As for this patchset, it can be accpeted so that no failure in kdump
+> kernel is seen on ARCHes w/o "nr_cpus=" support? My personal opinion.
+
+IMO 'nr_cpus=' support should be preferred, given it is annoying to
+maintain two kinds of implementation for kdump kernel from driver
+viewpoint. I guess kdump things can be simplified too with supporting
+'nr_cpus=' only.
+
+thanks,
+Ming
 
 
