@@ -4,154 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 63860C001E0
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Aug 2023 12:52:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CBE9FC001E0
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Aug 2023 13:19:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ytPLA+duTuz6eBhAlDoXi7q2y+SboGkt2Bbxt5PKxPg=; b=Td/UlCukGifePQmyQ0Ko+Yxsia
-	PvYweppMnC7kAt7tVkOOHcgEhSI9hJnBRB/1YggpUmBpsdpQxD+6WIi9W3qYe7gCD7EFsJ74k9z/m
-	W3wuBY1ySgvbSf0xtptSMvuTdMXRIwrBK5T6nEcnv0krLFRc7OJESJqpdZADKOrULSvjuMJCktqrV
-	jaT5aO5lDxHFjpu+99hd4u9+z6GmgPJvNjgYQiiBul0onyUAVXAEsRiLFm4R0+8gxLLrk/WF5QTg5
-	DeG+98t/pCDCpfhiHDfwnebJRDFgeii5o4PtdgVRbKHyVy6q5zNcYse9UTnxFIQ3UJKOx+3S2/jZg
-	XQVFhaQA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=J+fSrIvCxcgs+V1gODyWsNNx5JOxtGyFDCMQgbzOIno=; b=Q2ZxWzVkDmX31H1frfv0/wcCJk
+	2mmgl85beAR1fmoFuFNe6Yd5XtGgwjvWt+IMgOKamJYykarL+WjkRWhDlLKGDy7izOo3wBUhv1yLx
+	KNWrRlIW5J7wiw0I6r2FIbSsUFXMgF1EfPkY7JZ7vKA6Er2CkH2T2fQk5MI1YA8V3TR80hIVd1U6y
+	+Cq8nlBfA2lhO4XuUdBOn1y1gk2pHWjnbXeTlTcCEVOLbFUX67x3ikGEeHnteCq0cCEi77wdGqEWm
+	HdkW3d+ahUeDhHDOrVh1E/XJyr7K14JiPmuYs/KtSKl8X+Ql6rWXrE9KCrfp1ZCpgk4eHIA/d8g29
+	QteAMdXQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qU58z-007eoY-0q;
-	Thu, 10 Aug 2023 12:52:01 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1qU5Zu-007i7O-0B;
+	Thu, 10 Aug 2023 13:19:50 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qU58w-007enH-0l
+	id 1qU5Zs-007i6M-0N
 	for linux-nvme@lists.infradead.org;
-	Thu, 10 Aug 2023 12:51:59 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1691671918; x=1723207918;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=IEUL71EwkiLOp3n2XKlgpwzZHK/AfiRUPk1Fmfo7GBo=;
-  b=KjGiMOzkzE/5awr3c2pZa1X9VYX/ssYWgKHyBT+PoTNQ1VTl31RCnQVi
-   hn+blaCPqjGge/FHfp+eI3uB7qdffvP9k9nntBWSha+evN93RQ1XcbcOQ
-   B55zoO2GBylfszLgFoaLogNXx7hFtnuMq93apbOA1BXiD0Bedp1kjPEvr
-   1D1Ff85U1rlUC9NjdpERvDgPgDWTkGXyJfns9BxzbHjlW2EAtX8lxZ6uO
-   ABm2ycpOPtMeHbuSWs9Jwsn6ug4Ihr6yytZNDVlatfy9DPiWJyTzqWga0
-   2G+TMfqZVQ+Q3ADrtOYy3wDgAroFa9ZWwzAnGiL6mbTr07ne8gKREwXgA
-   g==;
-X-IronPort-AV: E=Sophos;i="6.01,162,1684771200"; 
-   d="scan'208";a="345788159"
-Received: from mail-bn8nam11lp2168.outbound.protection.outlook.com (HELO NAM11-BN8-obe.outbound.protection.outlook.com) ([104.47.58.168])
-  by ob1.hgst.iphmx.com with ESMTP; 10 Aug 2023 20:51:48 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=imljGWUEvmGM2oGYVabxW8zT8mbOpPveyma96ahrfqDNJcavI8ufiBdd+DmGAJxJsu5eokO1BJCKvoEM5rvZgrUKc35yPvJ/7ueQvLgWrnzhaBgatqzarbY5HL2CXyQSHrZvVfgDx/x3DAeaVa3hOt0iDo5nmTnpfUftfcz4OOFaO3eQ2s2MmaIxHNCJ5kwcUiMl3s8DBVBbnL4JgZ9q/lodybz18+kgt1uvk6PjYv6pdLAqIBsIdTufMZR9ZvHla6R31bRt+v1CnHEOH+KGOASL0TGVnpUqK9kXNqaOPhj0sjRuXjf/t0JQctGrf5jHur0QGYtUcZrg2ebA9Ji0Jg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ytPLA+duTuz6eBhAlDoXi7q2y+SboGkt2Bbxt5PKxPg=;
- b=Xqe/o3q2RK0nwrp13WaSouoaKbWcDIdkD9FCHfisf+7sLk2fa4dOLrZuyTFQOipiE79A9jiGhshwlOaEMSB6poYVOPyMXBkKgICtmksvg3kmEpbzJdzGxRBR8kklKD1CyapDVMUhhWMgIu82hXYjDjYQBeWsFsOS+4E/Q6o9yOgqPUDlnYgW99rq8ZzJA4ikH7oO21IUay/egRJTxd8Ecv2sMEoYFdOWf49UiQBETpC8GQF73P3TcnRvLdA04dYtZtNAtdLlOjmS0boxE+lZFeauihclG7ysqZ0a9X+RFKeAHcOeoCYtZg5JPXztWs4snyalA9FB6q/UWcCD0OTCBw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ytPLA+duTuz6eBhAlDoXi7q2y+SboGkt2Bbxt5PKxPg=;
- b=saMe6hg4rAEmITVYAxGEz04nzeC8kpQvxruyNI38LnDWUhl0Nu1ZIrr7geNs+rq0OnEU6EVExhORW2DvBibnNwVQCe5iB1e2xf2uGuFO26eZGlHhQMyabKSNNbA0finRHkGtR7uZpCGZ72hv0I+WP+LQ4WmvojIqxkTaSArTYiI=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- SN7PR04MB8604.namprd04.prod.outlook.com (2603:10b6:806:2e5::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6631.41; Thu, 10 Aug 2023 12:51:46 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::f92a:6d40:fe94:34e9]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::f92a:6d40:fe94:34e9%7]) with mapi id 15.20.6652.029; Thu, 10 Aug 2023
- 12:51:46 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Yi Zhang <yi.zhang@redhat.com>
-CC: Daniel Wagner <dwagner@suse.de>, linux-block
-	<linux-block@vger.kernel.org>, "open list:NVM EXPRESS DRIVER"
-	<linux-nvme@lists.infradead.org>
-Subject: Re: [bug report] blktests nvme/047 failed due to /dev/nvme0n1 not
- created in time
-Thread-Topic: [bug report] blktests nvme/047 failed due to /dev/nvme0n1 not
- created in time
-Thread-Index: AQHZydThaLSaElB1oUmqvdDBPohT9a/iL3yAgAB9eICAAJaLAIAAEZeAgAAqFQA=
-Date: Thu, 10 Aug 2023 12:51:45 +0000
-Message-ID: <git5brh4yq7ij65oskwd7m4pwnhfcqbvwdn7pzsbrmzv3wgsk4@xvb43h5dbo4g>
-References: <CAHj4cs9GNohGUjohNw93jrr8JGNcRYC-ienAZz+sa7az1RK77w@mail.gmail.com>
- <CAHj4cs9J7w_QSWMrj0ncufKwT9viS-o7pxmS2Y4FeaWEyPD34Q@mail.gmail.com>
- <vxeo2ucxhvdcm2z673keqerkpxay6dgfluuvxawukkbunddzm2@jdkdk7y3a5nu>
- <xrqutkdhz7v6axohfxipv4or7k4jhoa57semwcxde7gletk76z@5kcashfdezhk>
- <adgkdt52d6qvcbxq4aof7ggun3t77znndpvzq5k7aww3jrx2tk@6ispx7zimxhy>
- <o2443ezmpny7dyvhiteajzgt3j7wcxo2fv7dik3h7hkjpc2h74@xeetbva55fx2>
- <CAHj4cs8TBsEct9P6iiYwsiRhgCkPbdVL0-8KkXuKZbYhVsQV0Q@mail.gmail.com>
-In-Reply-To: <CAHj4cs8TBsEct9P6iiYwsiRhgCkPbdVL0-8KkXuKZbYhVsQV0Q@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|SN7PR04MB8604:EE_
-x-ms-office365-filtering-correlation-id: cc07b3b9-84d6-4a01-713a-08db99a08e0a
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ktpDC+ODUlmLu0/CQsjtmGnT7h5CrwVud/5DZO8zYXdHuvQHi7ZI/oagGCevINCO9yZI3ulPhwwcmDjX14uOlQdOTR10XgRb65ypJhHfhc0yWX069/gLDN02qcjU2EYe9rDj7z5hK9aQ9fMHzOK4BMTSZDbA/Ij3WpVMkguVG0hWJ48CwiHR4oF6Plds4NLzvLmhkAepITtTCF61Bgpo6Px6beD0Lh+haRFoRu/DashmMXeYHHA2Z4yPNgQlZBJVJRpPVyv4JP/ePu27cgUgPmMnamiXX9oIteJFeYUBmMnqxqk2kJgd9s+Z6ov3c5QeI+a2YRzOtjnno8EFJTgjpOld2oggVkOc/4uYdtfwNHzGCzxSA5Rv9pNerw57Z8Zmzwcjp2hY34TgGvCgRWF7RrFmxBAMXzp7t+xr5wEgMj5R9ChNauMezyudgaTwnFa7vjV65Jk3BvjG5aT7PdXfbMn8C9nc4SJarA51KdSxkZ0zbframx3LqISRYkly2jLJo4QUTyJ7yyNmEIU9gHDdPn7W0oMd+vYOmSr1jYbGypfMpCtZE9pA8JUHqmSu5hDSmUuJ/k3/fb5XoTZvo+d8Rpwqv8LJ4tRL8m1KEt9GzTO6QsF+x76jN/eFEhsWn67e
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(7916004)(366004)(376002)(346002)(136003)(396003)(39860400002)(451199021)(1800799006)(186006)(54906003)(5660300002)(38070700005)(8936002)(83380400001)(44832011)(2906002)(86362001)(8676002)(66556008)(64756008)(66446008)(41300700001)(316002)(6506007)(66946007)(6512007)(76116006)(4326008)(91956017)(33716001)(26005)(9686003)(478600001)(66476007)(82960400001)(6916009)(122000001)(38100700002)(71200400001)(6486002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?sjElkRCHXFqstvV80o+1bBhM0n5sJenu4nUbvUXVR0uE6I8Ush4551IQmJ1F?=
- =?us-ascii?Q?girZDlzGqtvkIhlEnuUw1JxO0QUm+S65NUq2EfKmkFqi8LgxJpkAF44NZ/hn?=
- =?us-ascii?Q?ryRIeu9Z3gW+WurwBqMg91n6SCD13mNkdolC88RaI16WJ0ES+txCd0EbDRbW?=
- =?us-ascii?Q?P+VSLNxoPYTjCcj/NdkwFcVyJ67yJAD/yydsNeQN56ZWol0C9uotlBoFKYGs?=
- =?us-ascii?Q?VgOTNGwZ7HRLwIM2BHHYcnc5JwEw/hIak5NRdM4H+O6IY6/bJQ46ciAMQPdz?=
- =?us-ascii?Q?HoXWN4RlvtsGkIGL+1cT9V0deRL4afvAZjrIXKDfQDfjw/ibOhMqQuvughec?=
- =?us-ascii?Q?PYyi3Lv6HE270bB2G2brNKFPCChvThIP8lKzrNr1lWIvEc6F2kDO1X/Il5tk?=
- =?us-ascii?Q?BEx89wLvJiasVEfbjpo6NcHb7hHiNOxHcR23PfMjBvhYhTuGJSAvEjgXQQv5?=
- =?us-ascii?Q?YuFDCVFCkA5+QoW2wgP8Zvs1p+qCOvv5zEHCiFfuZ9b5ez/gus4B9mprd+jX?=
- =?us-ascii?Q?9j8xDMRiKj0OgoRdWxlD0kdsf2EEVjI+JCCTGLM7e0WZI/79cUWYIFenGtzv?=
- =?us-ascii?Q?YkIQQqKbni6kJxiXc+C/nZPNRnjXnWNfC1g8wP5+KnimKPuR5USDFfYsY82O?=
- =?us-ascii?Q?TMmSPqiTO1hsYk1rSYCN1xg00W+H2Bymu/35ZMpPv+fRzWZl/1lsjqgGmHxY?=
- =?us-ascii?Q?83OORSckT03nc5UwBsm0qKxal8MB88KcQHoKESesIiDuP6/71M7Hi1a2wwLJ?=
- =?us-ascii?Q?fCv7IRVgqlcK6tHn2atM2oq4rzKtWUaokbFL3l0D+JVZnsLCJFurMTa+Od9X?=
- =?us-ascii?Q?maAwSQVzuyCx5GJTr9I19NEWATdAKr9zhvN7UQdgbjl3AGizmXVf1z5at2tS?=
- =?us-ascii?Q?YA87vx5gVpGwEZtMbbswmdQB+S4+XRTWi85pas1J8v2RR3oIawja+HUvIMEi?=
- =?us-ascii?Q?YmQqkYVr8K7tkrsgyUjFM+xpJfmr64GL6yd7MA1rK+P8KDIRrG27m27uNypx?=
- =?us-ascii?Q?cOHcUy/zfWdt2D9SOIDLVhyA4jjUrtdD/qIwJf/hemcTW5YRzb1ZzjSA6Vhs?=
- =?us-ascii?Q?xoJv3sYGkplIlO4Wig1/BW+nj95iapn51STbT+2r8kZ/fmy+tfnKzi3IFDp1?=
- =?us-ascii?Q?J3yEuWbVm6XyTb1gdYG3l9ExkTpsgKa9eqcxjGbE8HFiwh4xHOimok9iNhzY?=
- =?us-ascii?Q?vnMzczp8FGp3Y3Mh2lB7bqPUb34rl4RKmnmJnqgFGRZUm29Ig+bpykX6TaqV?=
- =?us-ascii?Q?kn3OpIY6UGHcCc0ikbS5EOJxfJLssime2cGKv3Ltr3YlgX+mY1dexByFlgVL?=
- =?us-ascii?Q?lg+5nxm6O2cSbPB4+PRqNJNv/c+4jFY5+nD9kfsUFeaQdMvdsZWdNx2Om0H+?=
- =?us-ascii?Q?MaC3mZzNugn+cJjNtyUli4K9ihZ8OGwQKcJPVzzFQ5kK/U0+gKwrHmIMaS9y?=
- =?us-ascii?Q?OyLX6nk72g2wOtAwE80kmYcWs7eCK/W8Gh0J+xFnwuwZ9nJUI2FVkgoS1OtU?=
- =?us-ascii?Q?DCW/8X72VijarSMEaEcx2+OePC0sm+c9DDKqKec0HGb2i1ooE5WuUqvuWdRK?=
- =?us-ascii?Q?aTMH3y1i4t2E7cSEAEBGH3Vfm4jiUadlm/QW0Newh1TXzlDCazzdB3rlge1k?=
- =?us-ascii?Q?a1ROazDm/e/LZEcQ3W6S1/Y=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <9B3470571AD32A48B2C7F394DB178049@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	Thu, 10 Aug 2023 13:19:49 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out1.suse.de (Postfix) with ESMTP id DEAD721864;
+	Thu, 10 Aug 2023 13:19:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1691673581; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=J+fSrIvCxcgs+V1gODyWsNNx5JOxtGyFDCMQgbzOIno=;
+	b=hRhqGGEzdtfGlOW4dSfMZklOiO7rZNYym16OETrXI/YwVi4k65bImbbby3HZy953ObkBfC
+	6I5tGR4O1BFuheewRLKM5WBlQnrCJJ/aAXuKuiwyLIQqc0dfkN6T5+vm+AJS2hS+FQfn25
+	dO9eBSkYq/r+7c1Ff7bAbT2nijdh/50=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1691673581;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=J+fSrIvCxcgs+V1gODyWsNNx5JOxtGyFDCMQgbzOIno=;
+	b=RKZeKSzsaQRfa2bThMMSzKS79rg8JghFcENomhwdHsB/vi/4yIGvawGghd1Jf5EJe8vao/
+	fHAmZnz6X2GwzQAA==
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+	by relay2.suse.de (Postfix) with ESMTP id 0536B2C142;
+	Thu, 10 Aug 2023 13:19:40 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 16045)
+	id DFEE151CAE2D; Thu, 10 Aug 2023 15:19:40 +0200 (CEST)
+From: Hannes Reinecke <hare@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH] nvmet-tcp: use 'spin_lock_bh' for state_lock()
+Date: Thu, 10 Aug 2023 15:19:39 +0200
+Message-Id: <20230810131939.129343-1-hare@suse.de>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: GayZJiOBbkYJqpR4A0LZTbiIcx+EG7YRbbug5Kgx14jKawpSRXXkCqFy/taNugJgP/ppKc1CF9U2+Ax7pQiq62Wm61o65ZlcPR46JbPSkoCV5YGiW22UiC6nNYicGphpR4hr3stjAvgu24ikNpuxItddX6NPtlz1Gmz+hX76iRm+jhEGSiUeAuv1v4uV/R38B3u+HyqAWAmIMakMKLH+BYRa1GG291Y78fEapm1RuhRIRQ0g1BRUeXsSUaR2WAZmboKU0AxQHJFeEBPHqBKwDIEoHWqG6v+XwEucMdUwwZ4oQu1xbe8lecmX8irtdRcyMAShQqf7E1KsOAb23i4wOtGBEPn/Qc07BEwHbXlvE4xlEi26GR1bs+VzZv/SW3n2gnI2qbROKsC/0daXDfljt0zpQpvTHgyQ98AjCqpPbsxlZqNZNva/gwqpF7tbyuNQ25R+N1XFyZvSlpgDksu3ILt6ihdygULywrxamPNyYH7QPUKW4YewuqzMLT11NrUeN33Y9kUVnU7RJ01nteBuHBr4SSp+eT6J9urPnZ+gd8lkg/22q7+YHPAbAKuMSQ0cDUF8V1NBp6c5BRQvhcsVpCndvr9PjeCTzqQ/L24c+Knw4VNWSsbXlxPxQzCaNiq9FqBsAGVCtxMdiqebC5Z9OeMh8OzO14lWdTfrg0kfZshUUB9O2nujlf0thjS0n0+vSZUv17CDZFgwFGfcFpmeLM41h1hr5u5biORVmQddCw1htAkoIpaPRUDyYHvn00qhaKDfsBgGHn48yh/OdamvjCv/oG+iMrTevm5ibjj7HBopx+BpfSWzrpgysP8lFDQpoMI6T38q3R1avyd6dKPGOMfbx27a91YyNZrLlKh90jIP5XxHt84zu718Td9lHJei
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc07b3b9-84d6-4a01-713a-08db99a08e0a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Aug 2023 12:51:45.9827
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: X6YqgcNfAl+ic9WefabEaBvaPC0HLhs1sECXg4xN5+nLRR0oFcu8iNbVNR4N04Qs90xbuUDKQFa61QlGEHTBTgyxGqB60jh4tFWC+Fq1+iE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR04MB8604
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230810_055158_360497_ED4D34DE 
-X-CRM114-Status: GOOD (  18.09  )
+X-CRM114-CacheID: sfid-20230810_061948_312675_CE5F64F1 
+X-CRM114-Status: GOOD (  11.65  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -166,84 +78,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Aug 10, 2023 / 18:21, Yi Zhang wrote:
-> Hi Daniel/Shinichiro
-> Thanks for looking into this issue, I checked the 047 code, and we are
-> missing _find_nvme_dev after the second connect, and the below change
-> could fix this issue now.
->=20
-> diff --git a/tests/nvme/047 b/tests/nvme/047
-> index 6a7599b..8c0a024 100755
-> --- a/tests/nvme/047
-> +++ b/tests/nvme/047
-> @@ -52,6 +52,8 @@ test() {
->                 --nr-write-queues 1 \
->                 --nr-poll-queues 1 || echo FAIL
->=20
-> +       nvmedev=3D$(_find_nvme_dev "${subsys_name}")
-> +
->         _run_fio_rand_io --filename=3D"/dev/${nvmedev}n1" --size=3D"${ran=
-d_io_size}"
->=20
->         _nvme_disconnect_subsys "${subsys_name}" >> "$FULL" 2>&1
->=20
->=20
+nvmet_tcp_schedule_release_queue() is called from socket state
+change callbacks, which may be called from an softirq context.
+So use 'spin_lock_bh' to avoid a spin lock warning.
 
-Ah, I overlooked that the test case calls _nvme_connect_subsys twice. Good =
-to
-know that the above changes avoid the failure.
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ drivers/nvme/target/tcp.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Having said that, the fix above does not look the best. As discussed in ano=
-ther
-e-mail, _find_nvme_dev() just does 1 second wait, and it actually does not =
-check
-readiness of the device. This needs fix. Also I think the check and wait sh=
-ould
-move from _find_nvme_dev()to _nvme_connect_subsys(). Could you try the patc=
-h
-below and see if it avoid the failure?
-
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index 4f3a994..d09e7b4 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -425,6 +425,7 @@ _nvme_connect_subsys() {
- 	local keep_alive_tmo=3D""
- 	local reconnect_delay=3D""
- 	local ctrl_loss_tmo=3D""
-+	local dev i
-=20
- 	while [[ $# -gt 0 ]]; do
- 		case $1 in
-@@ -529,6 +530,16 @@ _nvme_connect_subsys() {
- 	fi
-=20
- 	nvme connect "${ARGS[@]}" 2> /dev/null
-+
-+	dev=3D$(_find_nvme_dev "$subsysnqn")
-+	for ((i =3D 0; i < 10; i++)); do
-+		if [[ -b /dev/${dev}n1 &&
-+			      -e /sys/block/${dev}n1/uuid &&
-+			      -e /sys/block/${dev}n1/wwid ]]; then
-+			return
-+		fi
-+		sleep .1
-+	done
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 868aa4de2e4c..f131b504aa01 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -1285,12 +1285,12 @@ static int nvmet_tcp_try_recv(struct nvmet_tcp_queue *queue,
+ 
+ static void nvmet_tcp_schedule_release_queue(struct nvmet_tcp_queue *queue)
+ {
+-	spin_lock(&queue->state_lock);
++	spin_lock_bh(&queue->state_lock);
+ 	if (queue->state != NVMET_TCP_Q_DISCONNECTING) {
+ 		queue->state = NVMET_TCP_Q_DISCONNECTING;
+ 		queue_work(nvmet_wq, &queue->release_work);
+ 	}
+-	spin_unlock(&queue->state_lock);
++	spin_unlock_bh(&queue->state_lock);
  }
-=20
- _nvme_discover() {
-@@ -739,13 +750,6 @@ _find_nvme_dev() {
- 		subsysnqn=3D"$(cat "/sys/class/nvme/${dev}/subsysnqn")"
- 		if [[ "$subsysnqn" =3D=3D "$subsys" ]]; then
- 			echo "$dev"
--			for ((i =3D 0; i < 10; i++)); do
--				if [[ -e /sys/block/$dev/uuid &&
--					-e /sys/block/$dev/wwid ]]; then
--					return
--				fi
--				sleep .1
--			done
- 		fi
- 	done
- }
+ 
+ static inline void nvmet_tcp_arm_queue_deadline(struct nvmet_tcp_queue *queue)
+-- 
+2.35.3
+
 
