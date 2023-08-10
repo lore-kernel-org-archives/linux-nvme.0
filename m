@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D1D8CC001B0
-	for <linux-nvme@archiver.kernel.org>; Thu, 10 Aug 2023 15:07:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B9B48C04FDF
+	for <linux-nvme@archiver.kernel.org>; Thu, 10 Aug 2023 15:07:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TqBwO+J3t2qylfSRQkB5FK/tZ2zNypcUL7n1uVdZoNc=; b=O2LYeDvjcOZUJeK134US7rDMBE
-	LMUDJP4D5f2lum8Fbukr5dkxACyLBWLWkYbj7a375ZPv1rw/9Z8Ct6zHoDu385Z2Nv6MKuIURnspy
-	WEiEMrog8SOXEfUx7ezwnDrJLaGazFD0G+GdVg6P5NIEmWRUPZoVfhw1vUmjyOdPKds96yD8qKrnl
-	ouuo19qKeM17HtIcPPGHIul7UtOxkN7v3sPcOSrNTCOaA5e5Bwl+dg6u3DVA4FrxTiGxFdzPLvjBF
-	bd7Wukwy+e+6YBq62JxPM5Rp66hOd6gkHPAaC5dl8F/0hAZz/7CAwkl4g0u0puSAJFvhl81bjG4+j
-	tr40sTog==;
+	bh=OaA0/Va0nIXrPF01LBxtB22OHx5T1NvSdywd6N9q0iE=; b=MLw3b5OG+xz60Yusdbnb7NK/Wn
+	YFHv5YxznSrmRNJ/otVtM7jXAJpuiIyPvOdhe4A4fCtp+zJnU+Lg1nV08Uw7ANisYjzFWG71YWH5C
+	BObvqtsE9Po4635H3sEC2SLuDIhRP65GDjV2WINAMuIWf9txYmcNsxMJuefGPgyOGX6yO+e+Jna3J
+	p5iTFVka+M7ZC8EpGV1VuzV7TfYwg4AopnyARJMkCv4J/IQn85xMujG2jC+TNyUPuAS0zZAuqsJXr
+	5jhTQMqpP5taUf/wo7o6LimJvxM/1LWXsof6imPxyR45RO+e8jX6QPrQ4ZBRqGzPyHw6J9nE5T1QD
+	PoYuuPcg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qU7Fm-007yVo-2p;
-	Thu, 10 Aug 2023 15:07:10 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1qU7Fp-007yYL-0q;
+	Thu, 10 Aug 2023 15:07:13 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qU7FQ-007y9r-0k
+	id 1qU7FP-007y9B-1O
 	for linux-nvme@lists.infradead.org;
 	Thu, 10 Aug 2023 15:06:52 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id 2A1DD1F892;
+	by smtp-out2.suse.de (Postfix) with ESMTP id 1B1681F88C;
 	Thu, 10 Aug 2023 15:06:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1691680001; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TqBwO+J3t2qylfSRQkB5FK/tZ2zNypcUL7n1uVdZoNc=;
-	b=hVIa6uec6LeNivn12lnM+F/8xLLfFiXf+xL6G2xS6bm9An9cbDT+fRzje/Pq+H8cqK4sqQ
-	JimHdHqEjMiFxWu4T9LSfqlu2SzNh7WD+zSoiC4OV4FagMfowLCnctEezMhu1B2ERNI0TB
-	4xSdT7/xil4G74CT/wcAvRd0q7/+34Y=
+	bh=OaA0/Va0nIXrPF01LBxtB22OHx5T1NvSdywd6N9q0iE=;
+	b=vUpoZPh5sBKCKF34GsMpy/kxNO4vIcPyG6vZapXawnmY0g6+x21sq7IB/mMtkfXroHt/gb
+	tV8y0UWcUrE1ddovQnlifPIx4DTUmAMwi2PlRqK9zYXLHErbZXDYROF1tGeAH7yebfZL3r
+	xIgE4vXbSDe4dpcDPXZ5RnHXVAWufs8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1691680001;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TqBwO+J3t2qylfSRQkB5FK/tZ2zNypcUL7n1uVdZoNc=;
-	b=QIypjNr5be56voYmiWcxXgsPdboltcJgrQMsY9CE834sxHeC8EWP3so0XQWUm0eld6x7m3
-	cp2vE36P3HhQHlAA==
+	bh=OaA0/Va0nIXrPF01LBxtB22OHx5T1NvSdywd6N9q0iE=;
+	b=+EUtPx25CfDDdyRVcW5HmOkTaINDGyKgrU/6t5Dyc9d2XlQqCW6yHQoVOXWyO1WTL4tq/7
+	+mfDwqkMC/M2efCA==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 03B3A2C15F;
+	by relay2.suse.de (Postfix) with ESMTP id 05ABB2C161;
 	Thu, 10 Aug 2023 15:06:41 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id 30CFC51CAE54; Thu, 10 Aug 2023 17:06:40 +0200 (CEST)
+	id 4177B51CAE58; Thu, 10 Aug 2023 17:06:40 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
@@ -63,17 +63,17 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Paolo Abeni <pabeni@redhat.com>,
 	netdev@vger.kernel.org,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 12/17] nvmet-tcp: make nvmet_tcp_alloc_queue() a void function
-Date: Thu, 10 Aug 2023 17:06:25 +0200
-Message-Id: <20230810150630.134991-13-hare@suse.de>
+Subject: [PATCH 14/17] nvmet-tcp: reference counting for queues
+Date: Thu, 10 Aug 2023 17:06:27 +0200
+Message-Id: <20230810150630.134991-15-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230810150630.134991-1-hare@suse.de>
 References: <20230810150630.134991-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230810_080648_422888_EC8FBD42 
-X-CRM114-Status: GOOD (  12.09  )
+X-CRM114-CacheID: sfid-20230810_080647_662497_F6EB765D 
+X-CRM114-Status: GOOD (  22.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,72 +88,206 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The return value from nvmet_tcp_alloc_queue() are just used to
-figure out if sock_release() need to be called. So this patch
-moves sock_release() into nvmet_tcp_alloc_queue() and make it
-a void function.
+The 'queue' structure is referenced from various places and
+used as an argument of asynchronous functions, so it's really
+hard to figure out if the queue is still valid when the
+asynchronous function triggers.
+So add reference counting to validate the queue structure.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/target/tcp.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+ drivers/nvme/target/tcp.c | 73 ++++++++++++++++++++++++++++++---------
+ 1 file changed, 56 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 97d07488072d..4d573c3bbd62 100644
+index ce1d1c5f4e90..a79ede885865 100644
 --- a/drivers/nvme/target/tcp.c
 +++ b/drivers/nvme/target/tcp.c
-@@ -1621,7 +1621,7 @@ static int nvmet_tcp_set_queue_sock(struct nvmet_tcp_queue *queue)
- 	return ret;
+@@ -127,6 +127,7 @@ enum nvmet_tcp_queue_state {
+ };
+ 
+ struct nvmet_tcp_queue {
++	struct kref		kref;
+ 	struct socket		*sock;
+ 	struct nvmet_tcp_port	*port;
+ 	struct work_struct	io_work;
+@@ -192,6 +193,8 @@ static struct workqueue_struct *nvmet_tcp_wq;
+ static const struct nvmet_fabrics_ops nvmet_tcp_ops;
+ static void nvmet_tcp_free_cmd(struct nvmet_tcp_cmd *c);
+ static void nvmet_tcp_free_cmd_buffers(struct nvmet_tcp_cmd *cmd);
++static int nvmet_tcp_get_queue(struct nvmet_tcp_queue *queue);
++static void nvmet_tcp_put_queue(struct nvmet_tcp_queue *queue);
+ 
+ static inline u16 nvmet_tcp_cmd_tag(struct nvmet_tcp_queue *queue,
+ 		struct nvmet_tcp_cmd *cmd)
+@@ -1437,11 +1440,21 @@ static void nvmet_tcp_restore_socket_callbacks(struct nvmet_tcp_queue *queue)
+ 	struct socket *sock = queue->sock;
+ 
+ 	write_lock_bh(&sock->sk->sk_callback_lock);
++	/*
++	 * Check if nvmet_tcp_set_queue_sock() has been called;
++	 * if not the queue reference has not been increased
++	 * and we're getting an refcount error on exit.
++	 */
++	if (sock->sk->sk_data_ready != nvmet_tcp_data_ready) {
++		write_unlock_bh(&sock->sk->sk_callback_lock);
++		return;
++	}
+ 	sock->sk->sk_data_ready =  queue->data_ready;
+ 	sock->sk->sk_state_change = queue->state_change;
+ 	sock->sk->sk_write_space = queue->write_space;
+ 	sock->sk->sk_user_data = NULL;
+ 	write_unlock_bh(&sock->sk->sk_callback_lock);
++	nvmet_tcp_put_queue(queue);
  }
  
--static int nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
-+static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
- 		struct socket *newsock)
- {
- 	struct nvmet_tcp_queue *queue;
-@@ -1629,7 +1629,7 @@ static int nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
+ static void nvmet_tcp_uninit_data_in_cmds(struct nvmet_tcp_queue *queue)
+@@ -1474,6 +1487,30 @@ static void nvmet_tcp_free_cmd_data_in_buffers(struct nvmet_tcp_queue *queue)
+ 		nvmet_tcp_free_cmd_buffers(&queue->connect);
+ }
  
- 	queue = kzalloc(sizeof(*queue), GFP_KERNEL);
- 	if (!queue)
--		return -ENOMEM;
-+		goto out_release;
++static void nvmet_tcp_release_queue_final(struct kref *kref)
++{
++	struct nvmet_tcp_queue *queue = container_of(kref, struct nvmet_tcp_queue, kref);
++
++	WARN_ON(queue->state != NVMET_TCP_Q_DISCONNECTING);
++	nvmet_tcp_free_cmds(queue);
++	ida_free(&nvmet_tcp_queue_ida, queue->idx);
++	/* ->sock will be released by fput() */
++	fput(queue->sock->file);
++	kfree(queue);
++}
++
++static int nvmet_tcp_get_queue(struct nvmet_tcp_queue *queue)
++{
++	if (!queue)
++		return 0;
++	return kref_get_unless_zero(&queue->kref);
++}
++
++static void nvmet_tcp_put_queue(struct nvmet_tcp_queue *queue)
++{
++	kref_put(&queue->kref, nvmet_tcp_release_queue_final);
++}
++
+ static void nvmet_tcp_release_queue_work(struct work_struct *w)
+ {
+ 	struct page *page;
+@@ -1493,15 +1530,11 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
+ 	nvmet_sq_destroy(&queue->nvme_sq);
+ 	cancel_work_sync(&queue->io_work);
+ 	nvmet_tcp_free_cmd_data_in_buffers(queue);
+-	/* ->sock will be released by fput() */
+-	fput(queue->sock->file);
+-	nvmet_tcp_free_cmds(queue);
+ 	if (queue->hdr_digest || queue->data_digest)
+ 		nvmet_tcp_free_crypto(queue);
+-	ida_free(&nvmet_tcp_queue_ida, queue->idx);
+ 	page = virt_to_head_page(queue->pf_cache.va);
+ 	__page_frag_cache_drain(page, queue->pf_cache.pagecnt_bias);
+-	kfree(queue);
++	nvmet_tcp_put_queue(queue);
+ }
+ 
+ static void nvmet_tcp_data_ready(struct sock *sk)
+@@ -1512,8 +1545,10 @@ static void nvmet_tcp_data_ready(struct sock *sk)
+ 
+ 	read_lock_bh(&sk->sk_callback_lock);
+ 	queue = sk->sk_user_data;
+-	if (likely(queue))
++	if (likely(nvmet_tcp_get_queue(queue))) {
+ 		queue_work_on(queue_cpu(queue), nvmet_tcp_wq, &queue->io_work);
++		nvmet_tcp_put_queue(queue);
++	}
+ 	read_unlock_bh(&sk->sk_callback_lock);
+ }
+ 
+@@ -1523,18 +1558,16 @@ static void nvmet_tcp_write_space(struct sock *sk)
+ 
+ 	read_lock_bh(&sk->sk_callback_lock);
+ 	queue = sk->sk_user_data;
+-	if (unlikely(!queue))
++	if (unlikely(!nvmet_tcp_get_queue(queue)))
+ 		goto out;
+ 
+ 	if (unlikely(queue->state == NVMET_TCP_Q_CONNECTING)) {
+ 		queue->write_space(sk);
+-		goto out;
+-	}
+-
+-	if (sk_stream_is_writeable(sk)) {
++	} else if (sk_stream_is_writeable(sk)) {
+ 		clear_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
+ 		queue_work_on(queue_cpu(queue), nvmet_tcp_wq, &queue->io_work);
+ 	}
++	nvmet_tcp_put_queue(queue);
+ out:
+ 	read_unlock_bh(&sk->sk_callback_lock);
+ }
+@@ -1545,7 +1578,7 @@ static void nvmet_tcp_state_change(struct sock *sk)
+ 
+ 	read_lock_bh(&sk->sk_callback_lock);
+ 	queue = sk->sk_user_data;
+-	if (!queue)
++	if (!nvmet_tcp_get_queue(queue))
+ 		goto done;
+ 
+ 	switch (sk->sk_state) {
+@@ -1562,6 +1595,7 @@ static void nvmet_tcp_state_change(struct sock *sk)
+ 		pr_warn("queue %d unhandled state %d\n",
+ 			queue->idx, sk->sk_state);
+ 	}
++	nvmet_tcp_put_queue(queue);
+ done:
+ 	read_unlock_bh(&sk->sk_callback_lock);
+ }
+@@ -1582,6 +1616,9 @@ static int nvmet_tcp_set_queue_sock(struct nvmet_tcp_queue *queue)
+ 	if (ret < 0)
+ 		return ret;
+ 
++	if (unlikely(!nvmet_tcp_get_queue(queue)))
++		return -ECONNRESET;
++
+ 	/*
+ 	 * Cleanup whatever is sitting in the TCP transmit queue on socket
+ 	 * close. This is done to prevent stale data from being sent should
+@@ -1603,6 +1640,7 @@ static int nvmet_tcp_set_queue_sock(struct nvmet_tcp_queue *queue)
+ 		 * If the socket is already closing, don't even start
+ 		 * consuming it
+ 		 */
++		nvmet_tcp_put_queue(queue);
+ 		ret = -ENOTCONN;
+ 	} else {
+ 		sock->sk->sk_user_data = queue;
+@@ -1634,6 +1672,7 @@ static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
  
  	INIT_WORK(&queue->release_work, nvmet_tcp_release_queue_work);
  	INIT_WORK(&queue->io_work, nvmet_tcp_io_work);
-@@ -1666,7 +1666,7 @@ static int nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
- 	if (ret)
- 		goto out_destroy_sq;
++	kref_init(&queue->kref);
+ 	queue->sock = newsock;
+ 	queue->port = port;
+ 	queue->nr_cmds = 0;
+@@ -1670,15 +1709,15 @@ static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
+ 	mutex_unlock(&nvmet_tcp_queue_mutex);
  
--	return 0;
-+	return;
- out_destroy_sq:
+ 	ret = nvmet_tcp_set_queue_sock(queue);
+-	if (ret)
+-		goto out_destroy_sq;
++	if (!ret)
++		return;
+ 
+-	return;
+-out_destroy_sq:
++	queue->state = NVMET_TCP_Q_DISCONNECTING;
  	mutex_lock(&nvmet_tcp_queue_mutex);
  	list_del_init(&queue->queue_list);
-@@ -1678,7 +1678,9 @@ static int nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
- 	ida_free(&nvmet_tcp_queue_ida, queue->idx);
- out_free_queue:
- 	kfree(queue);
--	return ret;
-+out_release:
-+	pr_err("failed to allocate queue\n");
-+	sock_release(newsock);
- }
- 
- static void nvmet_tcp_accept_work(struct work_struct *w)
-@@ -1695,11 +1697,7 @@ static void nvmet_tcp_accept_work(struct work_struct *w)
- 				pr_warn("failed to accept err=%d\n", ret);
- 			return;
- 		}
--		ret = nvmet_tcp_alloc_queue(port, newsock);
--		if (ret) {
--			pr_err("failed to allocate queue\n");
--			sock_release(newsock);
--		}
-+		nvmet_tcp_alloc_queue(port, newsock);
- 	}
- }
- 
+ 	mutex_unlock(&nvmet_tcp_queue_mutex);
+-	nvmet_sq_destroy(&queue->nvme_sq);
++	nvmet_tcp_put_queue(queue);
++	return;
+ out_free_connect:
+ 	nvmet_tcp_free_cmd(&queue->connect);
+ out_ida_remove:
 -- 
 2.35.3
 
