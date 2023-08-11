@@ -4,68 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7980EC001DB
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Aug 2023 10:32:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A1407C001B0
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Aug 2023 10:33:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rSCiVd63A0apbQOTi8RD4ORweBgcojuoEuE9DEzZ7LI=; b=DprK3KQQCrJHzXhouRcUg1m5rf
-	7p6TUZ0sNMVrhJWhuRrxwf+RB6nNg0+ahCoyJsEeaIe/feYdhWK6KyUhbsmI5su34L7gojOhio40y
-	eH5ZN90TG3O7V34yz6ryWpVmuN7yBF/WM5O6PLTsAfWpUKi82EBsg6j59rBJbiD3zjKp37f4Dtrh1
-	KMtZGTasih3Mcml8/oAkgwXaEqFGEf/C1R+/7qas8P71kpUv7Xn/dAedZJzRCc/PP8Th69gx8GH4R
-	c+XRnUsqF3AXaUjiFGrMSUdSVRZo01nT9uBfoUC2MnCu/f2hPNZRNt91dq9FThRJ2ZOLPsEohslhV
-	YK3ep47A==;
+	bh=Oqi6dStUAp56mF5dWp39sAQGoXA8YvkddDwiGzYVvMk=; b=RJ65lGJ0Re22t4ICMF07JU4DhX
+	WmC30Cll2MgeYsLmWQs5evQP+i8TrSpSbMKt4YT603aBmdfTQ42s1plD6SXVVJeKtRFdCZIV9lvbf
+	Uab4WlHbP58Tu76WXevQTe2dEnGg1jR9lv3ss8qN8SD1Ew9M9By9RRAjasMuvursvmIU78Lb8/SDX
+	8PepzCtT+pUfX9jgXTB8JjtVlxR1KER2UuMK+hzrjhlM8TV8T+WEV1vCm5N1MhWYS+YujMReTjWnO
+	sGHUKgdpLq8iKn4IdqDcr8VC+9GQ8LsY317koZUsns7Tq8OcNNvx+wUTrMqH3el3BvSO7yuLi8jDw
+	5Dnmndcw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qUPRp-00AHKl-04;
-	Fri, 11 Aug 2023 10:32:49 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1qUPSl-00AHzW-2K;
+	Fri, 11 Aug 2023 10:33:47 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qUPRm-00AHI3-2G
+	id 1qUPSh-00AHuR-1K
 	for linux-nvme@lists.infradead.org;
-	Fri, 11 Aug 2023 10:32:48 +0000
+	Fri, 11 Aug 2023 10:33:46 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4B50A1F889;
-	Fri, 11 Aug 2023 10:32:45 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6C9EC1F459;
+	Fri, 11 Aug 2023 10:33:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1691749965; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1691750020; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=rSCiVd63A0apbQOTi8RD4ORweBgcojuoEuE9DEzZ7LI=;
-	b=2XXuDJKDL8Crugro2NSEFovJQEoWsttrmCRpVDjPksO6ZeTpeSnIPAfUroAIlFI+xhBFzm
-	2jhHUE21m2Awu6C/RphGOghxhvd1E4xJWHorF5LxOqU7lJ5PRJ83Jor3LU4elKfVxn0fVW
-	9gOyRm8/c+OK3REWkYV6f5XaYHxqSzY=
+	bh=Oqi6dStUAp56mF5dWp39sAQGoXA8YvkddDwiGzYVvMk=;
+	b=a4XEecPZ27XBMHEYnKrDVCc5S2nipSlP84gWzF6DjL/UNK88VpuI1gOdnKwxFzH5bM5ByL
+	geLrkNQgewYQ3G5H7LFtAbQRMq+hC67o3zP9NWZOnR7g5F9xawOJgLefpjxZeOoYsHYECS
+	xJPzSSIwyo/PD/O51IzmELU+MIMq1Fc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1691749965;
+	s=susede2_ed25519; t=1691750020;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=rSCiVd63A0apbQOTi8RD4ORweBgcojuoEuE9DEzZ7LI=;
-	b=i7xRR9AYtZ/w7qvekkhXG/NqEFvsM6bocRfPlyywLmfDJ1zSCSDofQgzel2TCK0jvEOYu9
-	J0zvxGYvzW9Ra1Dg==
+	bh=Oqi6dStUAp56mF5dWp39sAQGoXA8YvkddDwiGzYVvMk=;
+	b=KZCo4bI5HIFQuO2A4Fz4QkosMzZe9laZ35Gjc9HA68GSQ0GcaC77ZXKCuEzRML+22YyHNm
+	PwbcmFocSB7R54Cw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 86EAE13592;
-	Fri, 11 Aug 2023 10:32:44 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 93EFD13592;
+	Fri, 11 Aug 2023 10:33:39 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id oPirH0wO1mQiNwAAMHmgww
-	(envelope-from <hare@suse.de>); Fri, 11 Aug 2023 10:32:44 +0000
-Message-ID: <c05035e6-1d90-411b-545f-a1dbd1f946a4@suse.de>
-Date: Fri, 11 Aug 2023 12:32:44 +0200
+	id WOrHIoMO1mQiNwAAMHmgww
+	(envelope-from <hare@suse.de>); Fri, 11 Aug 2023 10:33:39 +0000
+Message-ID: <60eac20d-45d0-ca31-912c-6eb9c480bf58@suse.de>
+Date: Fri, 11 Aug 2023 12:33:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/17] nvmet: make TCP sectype settable via configfs
+Subject: Re: [PATCH 14/17] nvmet-tcp: reference counting for queues
 Content-Language: en-US
 To: Simon Horman <horms@kernel.org>
 Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
@@ -73,7 +73,7 @@ Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
  Jakub Kicinski <kuba@kernel.org>, Eric Dumazet <edumazet@google.com>,
  Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org
 References: <20230810150630.134991-1-hare@suse.de>
- <20230810150630.134991-12-hare@suse.de> <ZNYMQPCbsqxOtFur@vergenet.net>
+ <20230810150630.134991-15-hare@suse.de> <ZNYNrYXSS02Qqlvn@vergenet.net>
 From: Hannes Reinecke <hare@suse.de>
 Autocrypt: addr=hare@suse.de; keydata=
  xsFNBE6KyREBEACwRN6XKClPtxPiABx5GW+Yr1snfhjzExxkTYaINHsWHlsLg13kiemsS6o7
@@ -119,12 +119,12 @@ Autocrypt: addr=hare@suse.de; keydata=
  QuSHPtufr0nWz7vC3IackvoFHNjQ92ZbHhFbOqLYFHvqaBu8N2PE0YhPh0y0/sjmHM9DHUQh
  jbCcdMlwO54T4hHLBbuR/lU6locuDn9SsF5lFeoPtfnztU0+GtqTw+cRSo0g2ARonLsydcQ0
  YwtooKEemPj2lg==
-In-Reply-To: <ZNYMQPCbsqxOtFur@vergenet.net>
+In-Reply-To: <ZNYNrYXSS02Qqlvn@vergenet.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230811_033246_890931_D0C8996D 
-X-CRM114-Status: GOOD (  10.10  )
+X-CRM114-CacheID: sfid-20230811_033343_612173_22360889 
+X-CRM114-Status: GOOD (  19.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -139,22 +139,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/11/23 12:24, Simon Horman wrote:
-> On Thu, Aug 10, 2023 at 05:06:24PM +0200, Hannes Reinecke wrote:
-> 
-> ...
-> 
->> +static ssize_t nvmet_addr_tsas_store(struct config_item *item,
->> +		const char *page, size_t count)
->> +{
->> +	struct nvmet_port *port = to_nvmet_port(item);
->> +	u8 treq = nvmet_port_disc_addr_treq_mask(port);
+On 8/11/23 12:30, Simon Horman wrote:
+> On Thu, Aug 10, 2023 at 05:06:27PM +0200, Hannes Reinecke wrote:
+>> The 'queue' structure is referenced from various places and
+>> used as an argument of asynchronous functions, so it's really
+>> hard to figure out if the queue is still valid when the
+>> asynchronous function triggers.
+>> So add reference counting to validate the queue structure.
+>>
+>> Signed-off-by: Hannes Reinecke <hare@suse.de>
+>> ---
+>>   drivers/nvme/target/tcp.c | 73 ++++++++++++++++++++++++++++++---------
+>>   1 file changed, 56 insertions(+), 17 deletions(-)
+>>
+>> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+>> index ce1d1c5f4e90..a79ede885865 100644
+>> --- a/drivers/nvme/target/tcp.c
+>> +++ b/drivers/nvme/target/tcp.c
+>> @@ -127,6 +127,7 @@ enum nvmet_tcp_queue_state {
+>>   };
+>>   
+>>   struct nvmet_tcp_queue {
+>> +	struct kref		kref;
+>>   	struct socket		*sock;
+>>   	struct nvmet_tcp_port	*port;
+>>   	struct work_struct	io_work;
+>> @@ -192,6 +193,8 @@ static struct workqueue_struct *nvmet_tcp_wq;
+>>   static const struct nvmet_fabrics_ops nvmet_tcp_ops;
+>>   static void nvmet_tcp_free_cmd(struct nvmet_tcp_cmd *c);
+>>   static void nvmet_tcp_free_cmd_buffers(struct nvmet_tcp_cmd *cmd);
+>> +static int nvmet_tcp_get_queue(struct nvmet_tcp_queue *queue);
+>> +static void nvmet_tcp_put_queue(struct nvmet_tcp_queue *queue);
+>>   
+>>   static inline u16 nvmet_tcp_cmd_tag(struct nvmet_tcp_queue *queue,
+>>   		struct nvmet_tcp_cmd *cmd)
+>> @@ -1437,11 +1440,21 @@ static void nvmet_tcp_restore_socket_callbacks(struct nvmet_tcp_queue *queue)
+>>   	struct socket *sock = queue->sock;
+>>   
+>>   	write_lock_bh(&sock->sk->sk_callback_lock);
+>> +	/*
+>> +	 * Check if nvmet_tcp_set_queue_sock() has been called;
+>> +	 * if not the queue reference has not been increased
+>> +	 * and we're getting an refcount error on exit.
+>> +	 */
+>> +	if (sock->sk->sk_data_ready != nvmet_tcp_data_ready) {
 > 
 > Hi Hannes,
 > 
-> treq appears to be unused in this function.
+> it seems that nvmet_tcp_data_ready is used here,
+> but doesn't exist until patch 16/17.
 > 
-And so it is. Will be cleaning it up.
+Right. Will be modifying the patch.
 
 Cheers,
 
