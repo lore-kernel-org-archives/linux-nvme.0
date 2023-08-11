@@ -4,121 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 22E56C001DB
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Aug 2023 12:14:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D697C04FDF
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Aug 2023 12:16:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=5tRGa7YNpy5azfO2DILJGaxnHQqIrHRIuX4HPJpenrQ=; b=dfZoFU0EV3WsVXNBC052QYFuB/
-	U05F3F4Ju6nQjvkUVKSkWh0G69jm06Or3P9XnEeNa/EGTNiLH6l3Q59QOrOl0ssdmGIkTTNWHg13y
-	zaxb4zCnqJkrszw+KJw/7ljSpmM8AnqktYXJwfO9Nv1aPl/P+/hceuCLqnKMLMXWP01JZF99eL4WE
-	r7VC/PhK0BsrOfQS58nJZFhVk74iwkqiD9t4Db3sRkfv6n+AUGynPgbit74Igb9O8nmFPxwaEmsmX
-	vUADo4LYLDsE2pEQRrQgItobrU93tt23Cp2+4vJESsJLBMavJGzSBOLAiu6IedJOrgj8L1oopSrbG
-	Q3Ca9T1A==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=+VvG+qanYVVtcIzr1nzOMpltdtzys8SDvpDOLMGyxXQ=; b=uxNPkuR2VHd84TWjlqF5FyRS4O
+	HrAEzBo3A3a+bU1Gr0PlptNmQGSZzF/n+zP6EOjfSbp9oLa44lSHFAUihqkNU1maqUyjT2YsgbxOD
+	5qoe6LDblai+/AzAjS9Wn7VorMqipl6KlMXryLFIzfSUpmN5HOvJGHmbLGk2woeXkxk7k8pEv1QwY
+	KoJ0LdoVXqM/6r+ACSmYSkX+oavjGtzrovYhMbvNQWkkThjUhee3O/NvSG48w8rly/onP31EmQXw2
+	p4jOsytgp0MClzXMZ30/cMjJDfH4rfnuAq0qb/BWROR0KK9Obtpoz11/zgRjO/HwQNjj6Sbs6mcvv
+	Fw0m3jWQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qUR2R-00AYPR-1r;
-	Fri, 11 Aug 2023 12:14:43 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1qUR3s-00AYgT-1p;
+	Fri, 11 Aug 2023 12:16:12 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qUPx8-00ANFq-34;
-	Fri, 11 Aug 2023 11:05:15 +0000
+	id 1qUPx7-00ANFp-1V
+	for linux-nvme@lists.infradead.org;
+	Fri, 11 Aug 2023 11:05:10 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 554E921867;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E37E51F896;
 	Fri, 11 Aug 2023 11:05:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
 	t=1691751905; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=5tRGa7YNpy5azfO2DILJGaxnHQqIrHRIuX4HPJpenrQ=;
-	b=nS0o04Ko2eofWDhOvWx6o3T36EV25HqbUFvkN9WMKumyZo3DU5IiWgMskXfjyH4OXEiKYl
-	IITYxvL5Q8pMKkFc8O6biwC3K3TxmcmnzVR3W1NQhsfgztirbY49kzZoor0HytOQKCBlyL
-	GV3cB78+BIPaD5P0M4y2xB0Q495MkAo=
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+VvG+qanYVVtcIzr1nzOMpltdtzys8SDvpDOLMGyxXQ=;
+	b=WCk7VvfxgVgbtBC5hvdq7s4tr7vq+1LIcLuhFbtbOIuHWTAGfnLyN/edoHR/KE8MidPHoD
+	fbetoNlEvH08xSIqojCekPsPcF66139DoEwFW+BB1uqtLEOb+mJZNvIFx9yZprQiQ6MIcv
+	WDiyzlnvTj/v/yNGeSdCufqEB42XuCY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
 	s=susede2_ed25519; t=1691751905;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=5tRGa7YNpy5azfO2DILJGaxnHQqIrHRIuX4HPJpenrQ=;
-	b=PRu3LFGsOROMaty7jNH51X1wMClD6ZMlY5AdbxYnc0QwtMHxNWZ8s/wVfL1uImLDOQT/Rl
-	cDHfO/YvLXNV1tAw==
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+VvG+qanYVVtcIzr1nzOMpltdtzys8SDvpDOLMGyxXQ=;
+	b=wwiHgMNl6kaEcRc8ZXkF818Bk2nlWlaawr35deBuRknkb+pZ9I1Twvz9I80srYTyfny3n7
+	OcjZUT3aH9HLkcDA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 40B5313592;
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D5E5113592;
 	Fri, 11 Aug 2023 11:05:05 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id kdy/D+EV1mQuRQAAMHmgww
+	id ehItNOEV1mRTRQAAMHmgww
 	(envelope-from <jack@suse.cz>); Fri, 11 Aug 2023 11:05:05 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id B94BAA076F; Fri, 11 Aug 2023 13:05:04 +0200 (CEST)
+	id 0E6E0A078C; Fri, 11 Aug 2023 13:05:05 +0200 (CEST)
 From: Jan Kara <jack@suse.cz>
 To: <linux-fsdevel@vger.kernel.org>
 Cc: <linux-block@vger.kernel.org>,
 	Christoph Hellwig <hch@infradead.org>,
 	Jan Kara <jack@suse.cz>,
-	Alasdair Kergon <agk@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Chao Yu <chao@kernel.org>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Dave Kleikamp <shaggy@kernel.org>,
-	David Sterba <dsterba@suse.com>,
-	dm-devel@redhat.com,
-	drbd-dev@lists.linbit.com,
-	Gao Xiang <xiang@kernel.org>,
-	Jack Wang <jinpu.wang@ionos.com>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	jfs-discussion@lists.sourceforge.net,
-	Joern Engel <joern@lazybastard.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Kent Overstreet <kent.overstreet@gmail.com>,
-	linux-bcache@vger.kernel.org,
-	linux-btrfs@vger.kernel.org,
-	linux-erofs@lists.ozlabs.org,
-	linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-mm@kvack.org,
-	linux-mtd@lists.infradead.org,
-	linux-nfs@vger.kernel.org,
-	linux-nilfs@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	linux-pm@vger.kernel.org,
-	linux-raid@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	"Md. Haris Iqbal" <haris.iqbal@ionos.com>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Minchan Kim <minchan@kernel.org>,
-	ocfs2-devel@oss.oracle.com,
-	reiserfs-devel@vger.kernel.org,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Song Liu <song@kernel.org>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	target-devel@vger.kernel.org,
-	Ted Tso <tytso@mit.edu>,
-	Trond Myklebust <trond.myklebust@hammerspace.com>,
-	xen-devel@lists.xenproject.org
-Subject: [PATCH v2 0/29] block: Make blkdev_get_by_*() return handle
-Date: Fri, 11 Aug 2023 13:04:31 +0200
-Message-Id: <20230810171429.31759-1-jack@suse.cz>
+	linux-nvme@lists.infradead.org
+Subject: [PATCH 13/29] nvmet: Convert to bdev_open_by_path()
+Date: Fri, 11 Aug 2023 13:04:44 +0200
+Message-Id: <20230811110504.27514-13-jack@suse.cz>
 X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20230810171429.31759-1-jack@suse.cz>
+References: <20230810171429.31759-1-jack@suse.cz>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3218; i=jack@suse.cz; h=from:subject:message-id; bh=8um6o7br1koHMcykRc7ml18Y2BSCm69vwpPmgjRXxkk=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBk1hW86qklK68Z0G139b8b61UzO/oV2Y6qvJg1uvDC +JKlEZuJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCZNYVvAAKCRCcnaoHP2RA2epoB/ 9Sgdf//aomv8tBKGEg1kRzItWS+CXbN/cjy5B6uL3IUWhEY6vxFg7DsN+znMmPFPOp7X1w/e2PExiA dGNvKiX2BNUyl6ZLFstCZUiXyzlig8pnDHrmrN4lbx3SIS3BHdNJ8igPArMWVDYXlZuosexzFn3fIW ELsTpVpNLZdp6BAxZg4925E1qscyN11eFDJecvW+IrpMA1nHR12Y/AX4zqXWcBT8MPUEiJD1Cnfxfa Leji+h3vOG0k2IQAyfN6R1cj/0POs0zJWvSVK9bZM8IYFIOHr+jpYHi0KEVh62q6NLoQxbMBVEzn9K JsmkBplP7UobjvtEWvfH0EwVENii9z
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2104; i=jack@suse.cz; h=from:subject; bh=FAuKndxt7wCQ/EOUvXjS4qpj9RdHieyhESE54xG3zVI=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBk1hXOgK7AqYwzOQFWZD0qRRsuDjzkADkBgAP3+VaB B3qfROiJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCZNYVzgAKCRCcnaoHP2RA2UuTB/ wNninM0hrQc6qC2V3w/QG7II38duTpbl1+HPXy4sJyFK4JT93bRZ4alsQHlVoaFsECH7fPbEpJn9/g tPWc7h0gGZJ+urNfqfbqJLtzydQHDu3Hr8IDPw0DQt7mnxjHinNPg7XhsNwpUncAUU+6mzT0yICXN8 HUoCZem/9UBZi5b0g9t0ymx1fWQ2L6xPscG1XA37X3otZEhhGKhTDACiHQng70/fQOTQ7fDohgjbBb oZp2Uptgqfvkkzi+EeN5fb8pSfhInQNytwIg4jy0bIhqfOtW8bgzS1GoR7KbpLvf5Bh8eXwiO94N44 aeerRQZk6+ZCYWmA4yAwkO4YcqnkVW
 X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230811_040511_187807_2172E859 
-X-CRM114-Status: GOOD (  13.90  )
-X-Mailman-Approved-At: Fri, 11 Aug 2023 05:14:42 -0700
+X-CRM114-CacheID: sfid-20230811_040509_665731_72BF91C0 
+X-CRM114-Status: GOOD (  16.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,84 +96,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello,
+Convert nvmet to use bdev_open_by_path() and pass the handle around.
 
-this is a v2 of the patch series which implements the idea of blkdev_get_by_*()
-calls returning bdev_handle which is then passed to blkdev_put() [1]. This
-makes the get and put calls for bdevs more obviously matching and allows us to
-propagate context from get to put without having to modify all the users
-(again!).  In particular I need to propagate used open flags to blkdev_put() to
-be able count writeable opens and add support for blocking writes to mounted
-block devices. I'll send that series separately.
-
-The series is based on Christian's vfs tree as of yesterday as there is quite
-some overlap. Patches have passed some reasonable testing - I've tested block
-changes, md, dm, bcache, xfs, btrfs, ext4, swap. This obviously doesn't cover
-everything so I'd like to ask respective maintainers to review / test their
-changes. Thanks! I've pushed out the full branch to:
-
-git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git bdev_handle
-
-to ease review / testing.
-
-Changes since v1:
-* Rebased on top of current vfs tree
-* Renamed final functions to bdev_open_by_*() and bdev_release()
-* Fixed detection of exclusive open in blkdev_ioctl() and blkdev_fallocate()
-* Fixed swap conversion to properly reinitialize swap_info->bdev_handle
-* Fixed xfs conversion to not oops with rtdev without logdev
-* Couple other minor fixups
-
-								Honza
-
-[1] https://lore.kernel.org/all/ZJGNsVDhZx0Xgs2H@infradead.org
-
-CC: Alasdair Kergon <agk@redhat.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Anna Schumaker <anna@kernel.org>
-CC: Chao Yu <chao@kernel.org>
-CC: Christian Borntraeger <borntraeger@linux.ibm.com>
-CC: Coly Li <colyli@suse.de
-CC: "Darrick J. Wong" <djwong@kernel.org>
-CC: Dave Kleikamp <shaggy@kernel.org>
-CC: David Sterba <dsterba@suse.com>
-CC: dm-devel@redhat.com
-CC: drbd-dev@lists.linbit.com
-CC: Gao Xiang <xiang@kernel.org>
-CC: Jack Wang <jinpu.wang@ionos.com>
-CC: Jaegeuk Kim <jaegeuk@kernel.org>
-CC: jfs-discussion@lists.sourceforge.net
-CC: Joern Engel <joern@lazybastard.org>
-CC: Joseph Qi <joseph.qi@linux.alibaba.com>
-CC: Kent Overstreet <kent.overstreet@gmail.com>
-CC: linux-bcache@vger.kernel.org
-CC: linux-btrfs@vger.kernel.org
-CC: linux-erofs@lists.ozlabs.org
-CC: <linux-ext4@vger.kernel.org>
-CC: linux-f2fs-devel@lists.sourceforge.net
-CC: linux-mm@kvack.org
-CC: linux-mtd@lists.infradead.org
-CC: linux-nfs@vger.kernel.org
-CC: linux-nilfs@vger.kernel.org
 CC: linux-nvme@lists.infradead.org
-CC: linux-pm@vger.kernel.org
-CC: linux-raid@vger.kernel.org
-CC: linux-s390@vger.kernel.org
-CC: linux-scsi@vger.kernel.org
-CC: linux-xfs@vger.kernel.org
-CC: "Md. Haris Iqbal" <haris.iqbal@ionos.com>
-CC: Mike Snitzer <snitzer@kernel.org>
-CC: Minchan Kim <minchan@kernel.org>
-CC: ocfs2-devel@oss.oracle.com
-CC: reiserfs-devel@vger.kernel.org
-CC: Sergey Senozhatsky <senozhatsky@chromium.org>
-CC: Song Liu <song@kernel.org>
-CC: Sven Schnelle <svens@linux.ibm.com>
-CC: target-devel@vger.kernel.org
-CC: Ted Tso <tytso@mit.edu>
-CC: Trond Myklebust <trond.myklebust@hammerspace.com>
-CC: xen-devel@lists.xenproject.org
+Signed-off-by: Jan Kara <jack@suse.cz>
+---
+ drivers/nvme/target/io-cmd-bdev.c | 20 +++++++++++---------
+ drivers/nvme/target/nvmet.h       |  1 +
+ 2 files changed, 12 insertions(+), 9 deletions(-)
 
-Previous versions:
-Link: http://lore.kernel.org/r/20230629165206.383-1-jack@suse.cz # v1
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index 2733e0158585..0bf05c19d8b5 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -50,9 +50,10 @@ void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id)
+ 
+ void nvmet_bdev_ns_disable(struct nvmet_ns *ns)
+ {
+-	if (ns->bdev) {
+-		blkdev_put(ns->bdev, NULL);
++	if (ns->bdev_handle) {
++		bdev_release(ns->bdev_handle);
+ 		ns->bdev = NULL;
++		ns->bdev_handle = NULL;
+ 	}
+ }
+ 
+@@ -84,17 +85,18 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
+ 	if (ns->buffered_io)
+ 		return -ENOTBLK;
+ 
+-	ns->bdev = blkdev_get_by_path(ns->device_path,
+-			BLK_OPEN_READ | BLK_OPEN_WRITE, NULL, NULL);
+-	if (IS_ERR(ns->bdev)) {
+-		ret = PTR_ERR(ns->bdev);
++	ns->bdev_handle = bdev_open_by_path(ns->device_path,
++				BLK_OPEN_READ | BLK_OPEN_WRITE, NULL, NULL);
++	if (IS_ERR(ns->bdev_handle)) {
++		ret = PTR_ERR(ns->bdev_handle);
+ 		if (ret != -ENOTBLK) {
+-			pr_err("failed to open block device %s: (%ld)\n",
+-					ns->device_path, PTR_ERR(ns->bdev));
++			pr_err("failed to open block device %s: (%d)\n",
++					ns->device_path, ret);
+ 		}
+-		ns->bdev = NULL;
++		ns->bdev_handle = NULL;
+ 		return ret;
+ 	}
++	ns->bdev = ns->bdev_handle->bdev;
+ 	ns->size = bdev_nr_bytes(ns->bdev);
+ 	ns->blksize_shift = blksize_bits(bdev_logical_block_size(ns->bdev));
+ 
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 8cfd60f3b564..360e385be33b 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -58,6 +58,7 @@
+ 
+ struct nvmet_ns {
+ 	struct percpu_ref	ref;
++	struct bdev_handle	*bdev_handle;
+ 	struct block_device	*bdev;
+ 	struct file		*file;
+ 	bool			readonly;
+-- 
+2.35.3
+
 
