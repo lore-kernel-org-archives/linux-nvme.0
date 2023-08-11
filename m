@@ -4,63 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36D76C001DB
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Aug 2023 09:36:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B537C04FE0
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Aug 2023 09:36:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9RZ2Yzq36jl6W2j4gefEmERvFCX8trh+F8G0TYairgM=; b=pI30CN+JueiIlu4vqzFAay2s0i
-	vCluTuNdb9jgju5C2kV1lRRYaPZiMnAV7VMZ0fQcAb9Zo6kX+nXj9Tr2mR4JiUGoDMb+/5Ihkk0gr
-	6gOZHy6C9K1lCFIkitkcxsof5C6vtCoSbUSG4gSilBq+WAEG+DpZky1504ISU/3xw+SeGahQvr98m
-	y1rzadSNW54mA3UZzu1Zb3uEIEW1SWKH9umi1uGiPIhChtV6p6Q89irKInQE/NIecB5+f3cE6Te4j
-	+DhaOSH7iDtWNEc1JePA1hsxT5NOs8wgkt6Tjn/agxoSEXq0SWyLuQV7h2p9yi1wVpDDLm2u4E+Bj
-	CZIdo0Jg==;
+	bh=mG6IRZ9q40lCvRAwlcOpEAtXBD4DfqCDrz6tzkiMxmU=; b=GCbV0IWX+WvC33fxS3LAPv+ilh
+	XpA3zZrKTkNJJw1T07kY1JxoYNh2JOQQp9KCXgqfVUTlWKWwXtK+ng61lTDC2bosMR9TtpWM8ZZRc
+	NTonODNXMX0m2Ko2YT7a7Qz1KL0lTy7PSf+bbVkKAGa9Z0Qd1cWyix6mf14TK6QKb72otPkPUYzfq
+	1Pft6CY3RcqJdNQ915rlNayiCiy3yMc90dqwvEZOTFDsfpkXCoQGjDooDYU703u+BL5GWWq8T931J
+	ihlI+EyX4NCILzv5VFvkZyGPkXjnv+2KWIb2C3DKaNhp01zVorsEDFG+x/FiQ17+wN+rqRp4qG5Ih
+	4siOo+sQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qUOZI-00A04h-24;
-	Fri, 11 Aug 2023 09:36:28 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1qUOZU-00A0EP-0r;
+	Fri, 11 Aug 2023 09:36:40 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qUOZD-00A02w-0G
+	id 1qUOZO-00A088-0H
 	for linux-nvme@lists.infradead.org;
-	Fri, 11 Aug 2023 09:36:24 +0000
+	Fri, 11 Aug 2023 09:36:37 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 014891F88C;
-	Fri, 11 Aug 2023 09:36:21 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DE09421870;
+	Fri, 11 Aug 2023 09:36:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1691746581; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1691746592; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9RZ2Yzq36jl6W2j4gefEmERvFCX8trh+F8G0TYairgM=;
-	b=LNefJHLTw6qvD0/sVgJrnnhuY5PLgra9PQgYn2GWkc83OBfRU8v468a0mmMTLK1yktmlWy
-	bB5s303ZAIoYJPpR8Ools4jyte7fvhrHMxIBzvwQGXLbDyeoQS6aDSZXUVrF8xEHRG1gP3
-	YwBeEC4NlBGijjHIj/coNT16FmO82MU=
+	bh=mG6IRZ9q40lCvRAwlcOpEAtXBD4DfqCDrz6tzkiMxmU=;
+	b=CGhHuE4YaF4bmtRkYoBrXX+70/+I6zm0J7t1YOLsDqFbvJRQwXNsn+fq3ELwDix1xNHgLU
+	B2WJMOwVD5h10TpDipyHXSPXYpsK+jS8YWhVxLd7Ht5YhUvIWZxwfTXTDvhHxmFn4Z1gxd
+	uM8s/lMTAT+alv/fi8Em/q+kveRN4dM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1691746581;
+	s=susede2_ed25519; t=1691746592;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9RZ2Yzq36jl6W2j4gefEmERvFCX8trh+F8G0TYairgM=;
-	b=YHw2WhnxHLDJZXMyAgPMW87o6lkmNo+HXSH3yzdzlg7VhVyIdgDCf3SaeBzGqoOMVWxbJj
-	VtJ8w7t8IOLRV1DA==
+	bh=mG6IRZ9q40lCvRAwlcOpEAtXBD4DfqCDrz6tzkiMxmU=;
+	b=7KCrtASSd2Js+drBRfgJqsl79hLSuiRGBZQ+PdSSsgu9plM2GX/Sy3JobLZUcMLlNM/u9e
+	UXgUvXp0AXLqQVCQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C9DDB138E2;
-	Fri, 11 Aug 2023 09:36:20 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CB759138E2;
+	Fri, 11 Aug 2023 09:36:32 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id VzuMIhQB1mSaHwAAMHmgww
-	(envelope-from <dwagner@suse.de>); Fri, 11 Aug 2023 09:36:20 +0000
+	id XWSYMCAB1mTEHwAAMHmgww
+	(envelope-from <dwagner@suse.de>); Fri, 11 Aug 2023 09:36:32 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org,
@@ -73,17 +73,18 @@ Cc: linux-kernel@vger.kernel.org,
 	James Smart <jsmart2021@gmail.com>,
 	Bart Van Assche <bvanassche@acm.org>,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH blktests v3 01/13] nvme/{003,004,005,013,046,049}: Group all variables declarations
-Date: Fri, 11 Aug 2023 11:36:02 +0200
-Message-ID: <20230811093614.28005-2-dwagner@suse.de>
+Subject: [PATCH blktests v3 07/13] nvme/rc: Add common file_path name define
+Date: Fri, 11 Aug 2023 11:36:08 +0200
+Message-ID: <20230811093614.28005-8-dwagner@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230811093614.28005-1-dwagner@suse.de>
 References: <20230811093614.28005-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230811_023623_262153_A0521FA2 
-X-CRM114-Status: GOOD (  11.97  )
+X-CRM114-CacheID: sfid-20230811_023634_264386_70369D42 
+X-CRM114-Status: UNSURE (   8.39  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,119 +99,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Group all variable declarations together at the beginning of the
-function. Many of the nvme tests do this but not all. Thus make these
-tests use the same style. This allows to spot the odd balls in the
-refactoring of the tests.
+Add common file_path name as global definition so that we can reuse it.
 
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 ---
- tests/nvme/003 | 3 ++-
- tests/nvme/004 | 3 ++-
- tests/nvme/005 | 5 +++--
- tests/nvme/013 | 1 -
- tests/nvme/046 | 1 +
- tests/nvme/049 | 1 +
- 6 files changed, 9 insertions(+), 5 deletions(-)
+ tests/nvme/rc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tests/nvme/003 b/tests/nvme/003
-index 6604012d2068..aa26abf8d8b3 100755
---- a/tests/nvme/003
-+++ b/tests/nvme/003
-@@ -22,10 +22,11 @@ test() {
- 
- 	_setup_nvmet
- 
-+	local loop_dev
- 	local port
-+
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
- 
--	local loop_dev
- 	loop_dev="$(losetup -f)"
- 
- 	_create_nvmet_subsystem "blktests-subsystem-1" "${loop_dev}"
-diff --git a/tests/nvme/004 b/tests/nvme/004
-index cab98ff44326..1e5c2b8b3e87 100755
---- a/tests/nvme/004
-+++ b/tests/nvme/004
-@@ -23,11 +23,12 @@ test() {
- 	_setup_nvmet
- 
- 	local port
-+	local loop_dev
-+
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
- 
- 	truncate -s "${nvme_img_size}" "$TMPDIR/img"
- 
--	local loop_dev
- 	loop_dev="$(losetup -f --show "$TMPDIR/img")"
- 
- 	_create_nvmet_subsystem "blktests-subsystem-1" "${loop_dev}" \
-diff --git a/tests/nvme/005 b/tests/nvme/005
-index 8e15a13f3794..836854086822 100755
---- a/tests/nvme/005
-+++ b/tests/nvme/005
-@@ -22,11 +22,13 @@ test() {
- 	_setup_nvmet
- 
- 	local port
-+	local loop_dev
-+	local nvmedev
-+
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
- 
- 	truncate -s "${nvme_img_size}" "$TMPDIR/img"
- 
--	local loop_dev
- 	loop_dev="$(losetup -f --show "$TMPDIR/img")"
- 
- 	_create_nvmet_subsystem "blktests-subsystem-1" "${loop_dev}" \
-@@ -35,7 +37,6 @@ test() {
- 
- 	_nvme_connect_subsys "${nvme_trtype}" blktests-subsystem-1
- 
--	local nvmedev
- 	nvmedev=$(_find_nvme_dev "blktests-subsystem-1")
- 
- 	udevadm settle
-diff --git a/tests/nvme/013 b/tests/nvme/013
-index 14e646a19c47..2be8681616d1 100755
---- a/tests/nvme/013
-+++ b/tests/nvme/013
-@@ -26,7 +26,6 @@ test() {
- 	local port
- 	local nvmedev
- 	local file_path="${TMPDIR}/img"
--
- 	local subsys_name="blktests-subsystem-1"
- 
- 	truncate -s "${nvme_img_size}" "${file_path}"
-diff --git a/tests/nvme/046 b/tests/nvme/046
-index b37b9e98a559..942f25206c17 100755
---- a/tests/nvme/046
-+++ b/tests/nvme/046
-@@ -16,6 +16,7 @@ requires() {
- 
- test_device() {
- 	echo "Running ${TEST_NAME}"
-+
- 	local ngdev=${TEST_DEV/nvme/ng}
- 	local perm nsid
- 
-diff --git a/tests/nvme/049 b/tests/nvme/049
-index f72862c6426d..599ab58d7a29 100755
---- a/tests/nvme/049
-+++ b/tests/nvme/049
-@@ -17,6 +17,7 @@ requires() {
- 
- test_device() {
- 	echo "Running ${TEST_NAME}"
-+
- 	local ngdev=${TEST_DEV/nvme/ng}
- 	local common_args=(
- 		--size=1M
+diff --git a/tests/nvme/rc b/tests/nvme/rc
+index c11848b59c49..9c802ddc872d 100644
+--- a/tests/nvme/rc
++++ b/tests/nvme/rc
+@@ -17,6 +17,7 @@ def_local_wwpn="0x20001100aa000002"
+ def_hostid="0f01fb42-9f7f-4856-b0b3-51e60b8de349"
+ def_hostnqn="nqn.2014-08.org.nvmexpress:uuid:${def_hostid}"
+ def_subsysnqn="blktests-subsystem-1"
++def_file_path="${TMPDIR}/img"
+ nvme_trtype=${nvme_trtype:-"loop"}
+ nvme_img_size=${nvme_img_size:-"1G"}
+ nvme_num_iter=${nvme_num_iter:-"1000"}
 -- 
 2.41.0
 
