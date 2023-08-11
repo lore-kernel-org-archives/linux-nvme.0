@@ -4,84 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00B6EC0015E
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Aug 2023 14:12:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6C10C0015E
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Aug 2023 14:13:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mpNPhPM1LO9QInm9E5liSFlKjT3q51L1wYmcK4UmSmo=; b=MeyhNf3malvJYnbIbmE64YJXbe
-	+MYBrQK4B+OcpqrYkDZ5FYCXnK+WS8+KN3GgQUb41TW19828Y7Ojl4ws1O68ru9SBupTxcnATVm2P
-	OuFRqiHx8KJCPrdcxpSqNly8ouySuHPj2P2K3BLrTCcxkgmZvm/vBmYDMaf3L3DYHZZywrCa7//83
-	EWUkJho/yvL1fl0lKFpTjPNCnBUVAJ6qD9K5jvsz83NOB+OVQV6H7OIswr46zw6kEOYCdZ6ZsW0B0
-	Sa6NYGGVLszopIvBJ5RaBVYiN6yKCClIs4XnGi9/I3zEJ2GWeKUQnnrb6yq29RaU20VYxopQbFNd1
-	4xuAbwiQ==;
+	bh=mgwyz4iRj9q6yAvphm1Dow+SLYBoFEuXL7N+OHxLH2w=; b=eeeIWm2Qrx1RVh+pulT2wLB2Wo
+	ym2Uhq/sgr3iUR+cUopOVVS88zQHeadLyVsh7OQNCakUcbLcPq7LjuNPy/jLm1NjnIiVtwPRJXif0
+	dmxxo3/1AQpzlRpCkOqzVZg44lciR55o4pXtIWaj3KHCP+MUkEQ0dZhckilLN48iKEgUFQEhrAzp+
+	AhZVxAiFILpp+/ZUa/0sWsr1hgidGOAgZNBnZazYXBZYecCrYw4/zJPrxzLl9CUaiuXqhDDSgNv8F
+	sCUkiCJrg8dTpQhpIzKwqRXF3Pl1pRC0fvRZ5k+jKF5qZuQEoiUnmQf7wKd7vRZHcQOijM+Xlge9T
+	QGLkn4kw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qUSsR-00AnY6-2L;
-	Fri, 11 Aug 2023 14:12:31 +0000
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+	id 1qUSsx-00Anda-0g;
+	Fri, 11 Aug 2023 14:13:03 +0000
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qUSsO-00AnWj-1i
+	id 1qUSsu-00Anco-2j
 	for linux-nvme@lists.infradead.org;
-	Fri, 11 Aug 2023 14:12:30 +0000
-Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1bba9539a23so3739415ad.1
-        for <linux-nvme@lists.infradead.org>; Fri, 11 Aug 2023 07:12:21 -0700 (PDT)
+	Fri, 11 Aug 2023 14:13:01 +0000
+Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1bc4dc65aa7so2633685ad.0
+        for <linux-nvme@lists.infradead.org>; Fri, 11 Aug 2023 07:12:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1691763141; x=1692367941;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mpNPhPM1LO9QInm9E5liSFlKjT3q51L1wYmcK4UmSmo=;
-        b=H8gLov7a0sZgLOlXA4+UgCisSi8VRddHwOavRREwHv9UqPD9uoWnIzqf1zlYr3tb5+
-         qIP6+YhW6q/NrGqiPur0wQz3TRLc2CxM9DfKgH02VbXFaBfZ4DikKm48s2wpOuHkkYrt
-         RAZ1XMBEL1SdX/rDzEqWZoMMNyfpHMIlYigMbsSQHR4hamcE3UytMSLMWvqzihVMIhJW
-         71k45moTj+RrHBd6duqTbtNJN+33FENhoigr3dqJ+SiELV2Qpwr6UAtcGCAVP8XSvLba
-         WUqQpBoJlK5tfF7tXxB6VBsptZ5V+yEXi1AXFCaIP3vLW8bFmvI/1J1BXYZrQd7nhH7h
-         0tcQ==
+        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1691763179; x=1692367979;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mgwyz4iRj9q6yAvphm1Dow+SLYBoFEuXL7N+OHxLH2w=;
+        b=GQ8Q8/rdI4M1qNpW9R4Itc5OZoIOQy9/W221t3XQYfAHBztdjcoTgiCYgu5Vj3esHw
+         Z3FmPryRxdVvkLIX1r7PhODgp4rv8vbgpUXAmZGUX+LZQtw0pb8HSsBy3fSC8BsstsKj
+         6wyOx/wLwWdCrAqApdJi8cnyzbxLCFKTo99P0sCq0vCuS6SCy9Pn3VOsZZfLanqmX4ng
+         qYuzVx2s14F/s0wHUiAXyoCMtak7ETdqmtZ36hSQHeh+G4YRNsoJctMvPPDFBB3ACTBb
+         uVCc+JiNZsQH/0jv6UzY+wPOx/MlgJZ38TIbcmVpRdIZ3l7agM2LPdQN1Whdzd9nuN1Z
+         hymw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691763141; x=1692367941;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mpNPhPM1LO9QInm9E5liSFlKjT3q51L1wYmcK4UmSmo=;
-        b=MAE/VKrwtOObMcDgv6kh4F6XbVOhnVSEWsbMw60srDsAGzb9Y3wfEHhCskIBrh8Gzt
-         H/8PEoZ1y2Akyo8wM4Nu2Ka1qD3P9EK4gdKJy8c+Ea7ysEVHvQX0nrdkCnLYcgXcOxLY
-         6mYHe80b455oLGvz+kEF+/FxBDNjZjb+J7AwCr2n03wd4pqikLm+B5O72zokCoIRJStf
-         Ckc515rDiiZmwwB/D2GQWnqJT4TuXLkogQzSjjpVlj0MuHKtjtAjIw7J061kpPhgmU5C
-         2/UwQketUvPdJsvQtcGXdc/r6mdU8Y5UP66Tl+GoU9/+6+OY4k055Mi1qAcLIbllpUdJ
-         gong==
-X-Gm-Message-State: AOJu0YyOk4gRttEPg1JD0bGeYBe4t8SY5uc7GyFolAmp6IP984LmnHx9
-	hmfEdrkqBBpS87lRsf9H30Z9vA==
-X-Google-Smtp-Source: AGHT+IFz3NGpfOGW9CaxB7VH0crSSXVkd0iD7wPCzPSEzLkpsXgBw9ItNZ2Z4eolLqiokfRNIou1OA==
-X-Received: by 2002:a17:903:22ca:b0:1b3:ec39:f42c with SMTP id y10-20020a17090322ca00b001b3ec39f42cmr2369903plg.5.1691763140828;
-        Fri, 11 Aug 2023 07:12:20 -0700 (PDT)
-Received: from [192.168.1.136] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 12-20020a170902e9cc00b001bdb85291casm1611852plk.208.2023.08.11.07.12.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Aug 2023 07:12:19 -0700 (PDT)
-Message-ID: <f30f2133-d0d7-48cc-b8be-6766e6ba2626@kernel.dk>
-Date: Fri, 11 Aug 2023 08:12:18 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+        d=1e100.net; s=20221208; t=1691763179; x=1692367979;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mgwyz4iRj9q6yAvphm1Dow+SLYBoFEuXL7N+OHxLH2w=;
+        b=HI7B5nZBWjI3jgSYA9E72nyK2zr8moY4eV8HhoSyb3/CJyRdsFuMpFkoAJ9c+ew0UQ
+         0GGMjVF/XwQKwH0qkG1DMdBSGSkv2LaggN6vn/5+HAz2eAoxe0N4zAI+qIkEURyOiBiu
+         k14Qb6khqrexBiUpw5DpTlerStfSCjTPPFwYkBR5Og/pc5mDamv6Ju2/YSNur62YcsCV
+         yPKoT25ckCH7vfW7QvC+/odLIsJZkR7PTPC6e8+s5XHLwC8k3EVHkotg4nI7bc8JSIxP
+         ZbOaPkf1GEMQJpaHZ0DnEdC3DijWMZvwerLBPZjPodSbiXq6nZHU0MLZ6bcXHSPz3pm2
+         ETQg==
+X-Gm-Message-State: AOJu0YyL1rgY9/AMS4UILwja1sRFgPx5W0RQwJjQWTZzyRgbw4U9dGaN
+	kNfOKoX5daG/7JHl4NMLBArGZKoIdrNNVNywRMw=
+X-Google-Smtp-Source: AGHT+IHb1vvE44E885Mpy/o4Fr4NxojEjBL6DfkSbEBSrUbnDmm0Qt+tB9WxTOvN8Cr9J225WRBoDA==
+X-Received: by 2002:a17:902:f543:b0:1bb:d7d4:e2b with SMTP id h3-20020a170902f54300b001bbd7d40e2bmr2467037plf.0.1691763178834;
+        Fri, 11 Aug 2023 07:12:58 -0700 (PDT)
+Received: from [127.0.0.1] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id l12-20020a170902d34c00b001bdb8c0b578sm1559521plk.192.2023.08.11.07.12.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Aug 2023 07:12:58 -0700 (PDT)
+From: Jens Axboe <axboe@kernel.dk>
+To: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, 
+ linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>, 
+ Ming Lei <ming.lei@redhat.com>
+Cc: Guangwu Zhang <guazhang@redhat.com>, 
+ Kanchan Joshi <joshi.k@samsung.com>, Anuj Gupta <anuj20.g@samsung.com>
+In-Reply-To: <20230809020440.174682-1-ming.lei@redhat.com>
+References: <20230809020440.174682-1-ming.lei@redhat.com>
 Subject: Re: [PATCH] nvme: core: don't hold rcu read lock in
  nvme_ns_chr_uring_cmd_iopoll
-Content-Language: en-US
-To: Ming Lei <ming.lei@redhat.com>, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Sagi Grimberg <sagi@grimberg.me>
-Cc: Guangwu Zhang <guazhang@redhat.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Anuj Gupta <anuj20.g@samsung.com>
-References: <20230809020440.174682-1-ming.lei@redhat.com>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20230809020440.174682-1-ming.lei@redhat.com>
-Content-Type: text/plain; charset=UTF-8
+Message-Id: <169176317750.160467.12217175461941030658.b4-ty@kernel.dk>
+Date: Fri, 11 Aug 2023 08:12:57 -0600
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-034f2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230811_071228_753354_EC88136A 
-X-CRM114-Status: GOOD (  11.07  )
+X-CRM114-CacheID: sfid-20230811_071300_889037_DBB10BD6 
+X-CRM114-Status: UNSURE (   9.61  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,7 +96,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/8/23 8:04 PM, Ming Lei wrote:
+
+On Wed, 09 Aug 2023 10:04:40 +0800, Ming Lei wrote:
 > Now nvme_ns_chr_uring_cmd_iopoll() has switched to request based io
 > polling, and the associated NS is guaranteed to be live in case of
 > io polling, so request is guaranteed to be valid because blk-mq uses
@@ -105,15 +106,17 @@ On 8/8/23 8:04 PM, Ming Lei wrote:
 > Remove the rcu read lock in nvme_ns_chr_uring_cmd_iopoll(), which
 > isn't needed any more after switching to request based io polling.
 > 
-> Fix "BUG: sleeping function called from invalid context" because
-> set_page_dirty_lock() from blk_rq_unmap_user() may sleep.
+> [...]
 
-Reviewed-by: Jens Axboe <axboe@kernel.dk>
+Applied, thanks!
 
-Keith, I'll just apply this directly so it can make this weeks pull
-request.
+[1/1] nvme: core: don't hold rcu read lock in nvme_ns_chr_uring_cmd_iopoll
+      (no commit info)
 
+Best regards,
 -- 
 Jens Axboe
+
+
 
 
