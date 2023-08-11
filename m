@@ -4,71 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53D27C04A6A
-	for <linux-nvme@archiver.kernel.org>; Sat, 12 Aug 2023 05:57:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33E39C0015E
+	for <linux-nvme@archiver.kernel.org>; Sat, 12 Aug 2023 08:12:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TE+ouoIqEz4IDU7UMwRykLkO97f8FPIcCydv1N4G4LU=; b=cZYvpLve2mPbvT1n39exy8uwA/
-	X7qyN7/YomeS/Sk/GnUM7QKXdwOw7nG4xP2GQe7CmuRU7tjzoJGi7UugYEZ1Sj1hsEwjxkmEWbB1H
-	4GUnxg2V3/819CbfvNaaBAkapmeOXr6f+mV9eyDEjtvpGdFVjGB8vT1IpMx/baICAWqCx6OHAQiO+
-	ZC42L/DOWkt1QidtBXr0PydtklKIbRJtw/eICGrrbnHMB7p+uUzpzbv1TtG9/VBjdgGCjk9lapob0
-	MV8/4TqEcA/Q+Gb1HIgrBUslGSTBvFB4YSScuw2u3o1FA+dspfIWyVwrkOIVCL4TEIYR5knfztEfJ
-	1y3uemqg==;
+	bh=96Jyxa0hgrG24aZgu2ilDmsPaDJbIFT8CvAcqFGq7ak=; b=2oH3j+G6LsO+GwWpqVaJNEMw0U
+	rlaSUDp24C+AhhypgNyAXp6TbxwXK7DkehUUtajeHykeROBUn5Hkmw8+HALBuHcUqBclUU0b8Xwob
+	77YRRrhqAhcHuSCbw6VBu4lFwyGs7SdkF6mc137MYp6aJRgX5LtGAC/HZ3skwpBkC5q4sl2UzvOEV
+	4Vf3AA7JxzV312s6Ra+nTc31AkbrbCSxHc5EtGQGsqWb9N2qgZI3nBzQWgSLMbPnAKFU9B6SUtqqU
+	2l0E3NlY2SBiWsgJUPhadDqLDxFLzgmQeF/xRLxoNfU9sKwqJmInJ4AZAn3k/eb9K8rPyBn1ilIrT
+	9J3v0Y6Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qUhdK-00Cjnv-05;
-	Sat, 12 Aug 2023 05:57:54 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
-	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qUhdH-00Cjme-2U
-	for linux-nvme@lists.infradead.org;
-	Sat, 12 Aug 2023 05:57:53 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 4578F64366;
-	Sat, 12 Aug 2023 05:57:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58012C433C7;
-	Sat, 12 Aug 2023 05:57:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1691819870;
-	bh=ZThS3z/Cr+ADxRaKGfkjS2bncKPUrhLfkLKGIPqXyLM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tC4fybrKzzSIpZkP6LpWo0wc5dCoYRMOxtLlRsCz5BEpNnK+aghoJXG2w5NJ2pDlK
-	 1rw5+GJQtMzHq927M990P8aQpmHbs4F7CuunUc7TKGyK+ZJM/YnvN1Or9hEYmQZmLc
-	 Bn1xTrEBhh4Lw4d5H2xpQV/egVolQyHxfKEALo4w=
-Date: Sat, 12 Aug 2023 07:57:47 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Keith Busch <kbusch@kernel.org>
-Cc: August Wikerfors <git@augustwikerfors.se>, stable@vger.kernel.org,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Christoph Hellwig <hch@lst.de>, axboe@fb.com, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	nilskruse97@gmail.com, David.Chang@amd.com
-Subject: Re: [PATCH] nvme: Don't fail to resume if NSIDs change
-Message-ID: <2023081215-stock-huddling-03c9@gregkh>
-References: <040c5788-1a7b-26ea-23cc-ba239c76efa9@augustwikerfors.se>
- <39697f68-9dc8-7692-7210-b75cce32c6ce@amd.com>
- <20230731201047.GA14034@lst.de>
- <36319a0f-34a6-9353-bc52-4d4d0fac27a5@amd.com>
- <20230801112403.GA3972@lst.de>
- <ae7fb9b2-d692-f9b8-5130-4555cc489846@amd.com>
- <ZMlrGNw5OMW3yxId@kbusch-mbp.dhcp.thefacebook.com>
- <b2e741b3-b581-40fe-2c28-e4660f52003d@amd.com>
- <0f422dbe-2e3f-4401-be87-2963cbbc1234@augustwikerfors.se>
- <ZNahNYGd3L8YYtiQ@kbusch-mbp.dhcp.thefacebook.com>
+	id 1qUjjU-00CvUt-35;
+	Sat, 12 Aug 2023 08:12:24 +0000
+Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+	id 1qUREm-00Abyw-17;
+	Fri, 11 Aug 2023 12:27:28 +0000
+Date: Fri, 11 Aug 2023 05:27:28 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+	Christoph Hellwig <hch@infradead.org>,
+	Alasdair Kergon <agk@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Anna Schumaker <anna@kernel.org>, Chao Yu <chao@kernel.org>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Dave Kleikamp <shaggy@kernel.org>, David Sterba <dsterba@suse.com>,
+	dm-devel@redhat.com, drbd-dev@lists.linbit.com,
+	Gao Xiang <xiang@kernel.org>, Jack Wang <jinpu.wang@ionos.com>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	jfs-discussion@lists.sourceforge.net,
+	Joern Engel <joern@lazybastard.org>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	Kent Overstreet <kent.overstreet@gmail.com>,
+	linux-bcache@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net, linux-mm@kvack.org,
+	linux-mtd@lists.infradead.org, linux-nfs@vger.kernel.org,
+	linux-nilfs@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-pm@vger.kernel.org, linux-raid@vger.kernel.org,
+	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	"Md. Haris Iqbal" <haris.iqbal@ionos.com>,
+	Mike Snitzer <snitzer@kernel.org>, Minchan Kim <minchan@kernel.org>,
+	ocfs2-devel@oss.oracle.com, reiserfs-devel@vger.kernel.org,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Song Liu <song@kernel.org>, Sven Schnelle <svens@linux.ibm.com>,
+	target-devel@vger.kernel.org, Ted Tso <tytso@mit.edu>,
+	Trond Myklebust <trond.myklebust@hammerspace.com>,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v2 0/29] block: Make blkdev_get_by_*() return handle
+Message-ID: <ZNYpMPM5o4q1xcIt@infradead.org>
+References: <20230810171429.31759-1-jack@suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZNahNYGd3L8YYtiQ@kbusch-mbp.dhcp.thefacebook.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230811_225751_855504_64F1A5DF 
-X-CRM114-Status: GOOD (  13.52  )
+In-Reply-To: <20230810171429.31759-1-jack@suse.cz>
+X-Mailman-Approved-At: Sat, 12 Aug 2023 01:12:23 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,24 +81,10 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Aug 11, 2023 at 02:59:33PM -0600, Keith Busch wrote:
-> On Fri, Aug 11, 2023 at 10:19:35PM +0200, August Wikerfors wrote:
-> > On 2023-08-01 22:34, Mario Limonciello wrote:
-> > > If you can still change it before sending out can you add a stable tag
-> > > as well?
-> > 
-> > This didn't get added in time, so, stable team, please backport:
-> > 
-> > 688b419c57c1 ("nvme-pci: add NVME_QUIRK_BOGUS_NID for Samsung PM9B1 256G and 512G")
-> 
-> Perhaps bad form on my end for relying on it, but in my experience, the
-> stable bot has a great record on auto selecting nvme quirks.
+Except for a mostly cosmetic nitpick this looks good to me:
 
-It's better for everyone if you mark it for stable, so you know it will
-get reviewed, otherwise you are at the mercy of our scripts and free
-time to dig for patches :)
+Acked-by: Christoph Hellwig <hch@lst.de>
 
-thanks,
-
-greg k-h
+That's not eactly the deep review I'd like to do, but as I'm about to
+head out for vacation that's probably as good as it gets.
 
