@@ -4,73 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF252C0015E
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Aug 2023 20:59:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 615CEC0015E
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Aug 2023 21:16:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9vnb0LUtFIzM3i+dHAplRe9+3aKzWBKHkBcPDINO9GQ=; b=NUWGqx9NJ4bCQkC+V+Y2Xf3/BO
-	9OUchNiDpt8958biSKaHM03u/GPaWSppQ9QuUS2S4ReHk8C1qW0i+0S8XfIASnOQCRIVMxA7APL/k
-	Fx71DDOpxiMkUfWSltBR6xwX7GVchX5ucgvj2cP8K/1BM/xYD0vOG/m0YTsVDAcsmJLGstgp7Psk6
-	+d/0SVtfY//A6zAHzuv0rQ46ZJMOE42vPDMmu+Y5Chfja4cJD0WMHU6sPDgT4Cr9oe67gBJdEUypK
-	ghniLWEYQ4TAoF1UX9FVrAkGjr4k/SwfZuXE/kGrWTBNFGH4rorbO6LpXQocvr5vVfbkpnlPpqKFG
-	4hfNM2cg==;
+	bh=F2QCXlx2iU2QFsTm1ME2F1Q4OPNaqUJlaGebHWFuUbM=; b=fC7suF0VV+3g3HbS17PPyehbv0
+	VKKoFnABhPxq/iKx/8WKBe0C8WrkIvuKV/wszLqS2Ks4lQtdEzsBr0bePMZILtrG+v6zt70AV2mgy
+	xlVLU6ZhDq3Dt91rURXsMix5h+00RGeaVyGCSYReLOLzeiyw907SB0Znw6NeiwAWDGLhL5ro71kgz
+	fNmPHCbM65I7qeJwvTOkgefoi9ftDO7QXKkgbd0NvVm0oBNXts6pUjhUU2l+Z4IX7Pv1S77dQgAci
+	eMnTPeEwyn0AIDtj7Kt5MoGvHQbM+szuFSg1FRlRERX778fO6+Gy2h+MiRCx8GFPO1W/FnVDr+l/L
+	YLVNqBIg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qUZES-00BdOp-1r;
-	Fri, 11 Aug 2023 20:59:40 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1qUZUh-00Bfi5-2y;
+	Fri, 11 Aug 2023 21:16:27 +0000
+Received: from mgamail.intel.com ([134.134.136.100])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qUZEQ-00BdNy-06
+	id 1qUZUf-00BfhE-1i
 	for linux-nvme@lists.infradead.org;
-	Fri, 11 Aug 2023 20:59:39 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id EA1AC64817;
-	Fri, 11 Aug 2023 20:59:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0393C433C7;
-	Fri, 11 Aug 2023 20:59:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691787576;
-	bh=kdOkYOLUIHXvpGrXXLNbvMVFBY5bjHVGpejjL6TXi+w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UdYSsKSDT5puBMDQgCfso6AoxmNYinDHjhuqqDe0ajCer3AbOx8YVG8iQi3HsMbV+
-	 o57KmNkTGERDZIVfzA2xXXI9PFMJuhaRDLa68W5mvO/XcF/8UNghtfLdyGab0cbYfQ
-	 GiYVsHpCdhyjR+aTo3GPhp+Ev/fsfTtf1zq2O3sYqetbmtCT6KIAHTFYtUH53IMABj
-	 7R9Pm2I5bYbN9QaX/mdlKvL+8f3l7rOvJmi1RmfX3E9wMdxO2xssUlWG6oi1j+qGXZ
-	 WhnObYYeFf+8HK7QXm3zweML0JPQc6s2Kq0fdfvQuzzdt0OURKyHP9CxlB0a/drdky
-	 WRq50273Bcwgw==
-Date: Fri, 11 Aug 2023 14:59:33 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: August Wikerfors <git@augustwikerfors.se>
-Cc: stable@vger.kernel.org, Mario Limonciello <mario.limonciello@amd.com>,
-	Christoph Hellwig <hch@lst.de>, axboe@fb.com, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	nilskruse97@gmail.com, David.Chang@amd.com
-Subject: Re: [PATCH] nvme: Don't fail to resume if NSIDs change
-Message-ID: <ZNahNYGd3L8YYtiQ@kbusch-mbp.dhcp.thefacebook.com>
-References: <ZMgHE2wu4T4OfrTR@kbusch-mbp>
- <040c5788-1a7b-26ea-23cc-ba239c76efa9@augustwikerfors.se>
- <39697f68-9dc8-7692-7210-b75cce32c6ce@amd.com>
- <20230731201047.GA14034@lst.de>
- <36319a0f-34a6-9353-bc52-4d4d0fac27a5@amd.com>
- <20230801112403.GA3972@lst.de>
- <ae7fb9b2-d692-f9b8-5130-4555cc489846@amd.com>
- <ZMlrGNw5OMW3yxId@kbusch-mbp.dhcp.thefacebook.com>
- <b2e741b3-b581-40fe-2c28-e4660f52003d@amd.com>
- <0f422dbe-2e3f-4401-be87-2963cbbc1234@augustwikerfors.se>
+	Fri, 11 Aug 2023 21:16:27 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1691788585; x=1723324585;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=r3gM2YsGq24wLI63levM/2uhpcljlyD/xcFHlYhLSl8=;
+  b=bm7lo8/9H0MJOBrZ4n1Xr3yx1Gu1sMlsm0sB57HDBBo//IRSuFfGTZ87
+   sdIBP3lCZpLhJzs/nLkk4gI+pccKmPB8gyEr94/KRA5Yu94E24x8LEnp8
+   HGicYaTJSqtAGjm2rXKt3XkgRylA9jsZGxgoaqaOzvb6zk1YjMpFp+wgw
+   fyefdqclwVuwbxu46nEsTr4L82t+FBeRWLy42iGWQnGua6vmR+KEAMq/D
+   rHlkIR/jtba+BwtDfptjFOeba4hrBSGqPv2Yog2b9wfXaerxbyfCmY3tI
+   Qxc+eTn9eW2h6Wdlo0Cy8lkcnvieD5PJUqvxjeOuxSkSn/iaLcMut74T2
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="438098270"
+X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
+   d="scan'208";a="438098270"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2023 14:15:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10799"; a="802817157"
+X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
+   d="scan'208";a="802817157"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 11 Aug 2023 14:15:52 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qUZU8-00082u-06;
+	Fri, 11 Aug 2023 21:15:52 +0000
+Date: Sat, 12 Aug 2023 05:15:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
+	Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	martin.petersen@oracle.com, mcgrof@kernel.org, dlemoal@kernel.org,
+	gost.dev@samsung.com, Nitesh Shetty <nj.shetty@samsung.com>,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+	Anuj Gupta <anuj20.g@samsung.com>,
+	Vincent Fu <vincent.fu@samsung.com>, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v14 11/11] null_blk: add support for copy offload
+Message-ID: <202308120529.EW7DuUW7-lkp@intel.com>
+References: <20230811105300.15889-12-nj.shetty@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0f422dbe-2e3f-4401-be87-2963cbbc1234@augustwikerfors.se>
+In-Reply-To: <20230811105300.15889-12-nj.shetty@samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230811_135938_111802_D661B47C 
-X-CRM114-Status: GOOD (  11.37  )
+X-CRM114-CacheID: sfid-20230811_141625_611458_C57BEA88 
+X-CRM114-Status: GOOD (  12.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,15 +97,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Aug 11, 2023 at 10:19:35PM +0200, August Wikerfors wrote:
-> On 2023-08-01 22:34, Mario Limonciello wrote:
-> > If you can still change it before sending out can you add a stable tag
-> > as well?
-> 
-> This didn't get added in time, so, stable team, please backport:
-> 
-> 688b419c57c1 ("nvme-pci: add NVME_QUIRK_BOGUS_NID for Samsung PM9B1 256G and 512G")
+Hi Nitesh,
 
-Perhaps bad form on my end for relying on it, but in my experience, the
-stable bot has a great record on auto selecting nvme quirks.
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on f7dc24b3413851109c4047b22997bd0d95ed52a2]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nitesh-Shetty/block-Introduce-queue-limits-and-sysfs-for-copy-offload-support/20230811-192259
+base:   f7dc24b3413851109c4047b22997bd0d95ed52a2
+patch link:    https://lore.kernel.org/r/20230811105300.15889-12-nj.shetty%40samsung.com
+patch subject: [PATCH v14 11/11] null_blk: add support for copy offload
+config: hexagon-randconfig-r032-20230811 (https://download.01.org/0day-ci/archive/20230812/202308120529.EW7DuUW7-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230812/202308120529.EW7DuUW7-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308120529.EW7DuUW7-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: undefined symbol: __tracepoint_nullb_copy_op
+   >>> referenced by atomic-arch-fallback.h:444 (include/linux/atomic/atomic-arch-fallback.h:444)
+   >>>               drivers/block/null_blk/main.o:(null_process_cmd) in archive vmlinux.a
+   >>> referenced by atomic-arch-fallback.h:444 (include/linux/atomic/atomic-arch-fallback.h:444)
+   >>>               drivers/block/null_blk/main.o:(null_process_cmd) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: __traceiter_nullb_copy_op
+   >>> referenced by trace.h:71 (drivers/block/null_blk/trace.h:71)
+   >>>               drivers/block/null_blk/main.o:(null_process_cmd) in archive vmlinux.a
+   >>> referenced by trace.h:71 (drivers/block/null_blk/trace.h:71)
+   >>>               drivers/block/null_blk/main.o:(null_process_cmd) in archive vmlinux.a
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
