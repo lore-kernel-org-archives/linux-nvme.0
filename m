@@ -4,111 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3A98EB64DD
-	for <linux-nvme@archiver.kernel.org>; Fri, 11 Aug 2023 07:53:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7BF15C001DB
+	for <linux-nvme@archiver.kernel.org>; Fri, 11 Aug 2023 09:36:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fsxSThKavB4Wa/c1slzKbPIW5l6Yh6RXKmr7qs6SFSo=; b=cuxBiU8LGvIMXKj9LK15GwSJbJ
-	jbOU1W7EhNa49h6SN/vR9ZZRbNR0rbtRZ3npRD/X1SqNjgSE3B5QjByyMtQcqswqfo42FNEaBtYHI
-	Bq+7AB1Ddr47Muj2TxII80lyCSMg5yEXUBIHngBxLAeiZXo5NTlxxDXtkGobDr8q35sywj8tMzERR
-	9QTJYwUIjy2ZmBwo7MDuLeYtWqIpK590Bxfd62edJvLFO2hVvOCei2XhW7Njr/l4FPa0mkcDlkUyK
-	UNtzMO5Y7ODF13FBun1fWoCc8cDxnTkeNYhHLhVOm5qhwOzTujJpAEFpb1JO2zbYqp2N/gP7zlgZo
-	GVYgKPTw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=RiLrAjI/PW50HvWlrm+PJmGFw1sGaHe93CcjuVC440I=; b=sCkpRDfgsvzf0oGC/OZmDKGd9c
+	r3jJOMpc6WNJvfIMSuKFDasa6qvvL7ZBP/RjHkYWk8y3SqwgI+fHSoLjtWS4I3uuOsa610fc5xGQs
+	UiqS8yvbfMdzJkDP8FReGCvHukeCh791y6tV0mC4ESazx0y4N3MPYRW3Jzx6oEIH/yXpZ2xT6Fk0u
+	y/EZaD5C2iaCXmRMzoUN5n38bVItFcW+BuxDsZQqF8Yo+jsoLnYxH2fghi2Y/UqXZMW0QmQ9nmGGa
+	mbH952ELsGX33sf2lwwS4h2A9LTIqEskLoma3vWrOlzxzN78GLwxMeD93oMMnSjXowY5PvbDShlt/
+	tAbimIrg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qUMxd-009nIX-0f;
-	Fri, 11 Aug 2023 07:53:29 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1qUOZL-00A06y-14;
+	Fri, 11 Aug 2023 09:36:31 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qUMxZ-009nHe-0p;
-	Fri, 11 Aug 2023 07:53:27 +0000
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37B7gSdP003926;
-	Fri, 11 Aug 2023 07:53:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=fsxSThKavB4Wa/c1slzKbPIW5l6Yh6RXKmr7qs6SFSo=;
- b=JGPM0ylHnbvmOTDiFgoOo/EMXDwuIqbqPDsZd1gFQ3sSSE0Bzqq8ifiLWmsDqfY/4mQc
- 3ln3tLlol5hot0/q8aNQ87BpTl/hJ3+sk/634IbptVQNfkdlBgECVulA823V/6H6etew
- 7ITA9Mkrvusa5ioRBTZmB7MCpKzeZC2eAV7Dh50r6oCicfL0X9wtMT1S58prdIyZ0r5M
- zgU79h62Uj9vm6pJRd3UiDNnaDIK7pmIgf5bllZZYMHKcryoDj+AX2PhuvWPW7NJ37f+
- G3nWTvSULjjZeYXJiUjOEXu4kGn1Dn2z/3EIWx17nYt5DUGPYwq2KGqzH0QsDAznAXLU 2Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3sdgtwg7xn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 11 Aug 2023 07:53:15 +0000
-Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 37B7hdWN007933;
-	Fri, 11 Aug 2023 07:53:14 GMT
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3sdgtwg7xd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 11 Aug 2023 07:53:14 +0000
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 37B76qu4015354;
-	Fri, 11 Aug 2023 07:53:13 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3sb3f3jj4q-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 11 Aug 2023 07:53:13 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 37B7rAsw57934296
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 11 Aug 2023 07:53:10 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9542E20040;
-	Fri, 11 Aug 2023 07:53:10 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C5EAC2004B;
-	Fri, 11 Aug 2023 07:53:06 +0000 (GMT)
-Received: from [9.43.111.169] (unknown [9.43.111.169])
-	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 11 Aug 2023 07:53:06 +0000 (GMT)
-Message-ID: <772c4140-3035-16d8-0253-f5893c3698e2@linux.ibm.com>
-Date: Fri, 11 Aug 2023 13:23:05 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH V3 01/14] blk-mq: add blk_mq_max_nr_hw_queues()
-To: Baoquan He <bhe@redhat.com>, Ming Lei <ming.lei@redhat.com>
-Cc: Jens Axboe <axboe@kernel.dk>, linux-scsi@vger.kernel.org,
-        "Martin K . Petersen" <martin.petersen@oracle.com>,
-        Pingfan Liu <piliu@redhat.com>, Dave Young <dyoung@redhat.com>,
-        npiggin@gmail.com, linux-kernel@vger.kernel.org,
-        linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-        Wen Xiong <wenxiong@linux.ibm.com>, kexec@lists.infradead.org,
-        Keith Busch <kbusch@kernel.org>, linuxppc-dev@lists.ozlabs.org,
-        Christoph Hellwig <hch@lst.de>,
-        Mahesh J Salgaonkar <mahesh@linux.ibm.com>
-References: <20230808104239.146085-1-ming.lei@redhat.com>
- <20230808104239.146085-2-ming.lei@redhat.com> <20230809134401.GA31852@lst.de>
- <ZNQqt1C0pXspGl3d@fedora> <ZNQ64xhCIBU6XM/5@MiWiFi-R3L-srv>
- <ZNRGNsRzEJfzUEzH@fedora> <ZNRTGrRuwf69EgnE@MiWiFi-R3L-srv>
-Content-Language: en-US
-From: Hari Bathini <hbathini@linux.ibm.com>
-In-Reply-To: <ZNRTGrRuwf69EgnE@MiWiFi-R3L-srv>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: gWFn9VUrffjAE3WNuOELsGUhX27lTrVe
-X-Proofpoint-ORIG-GUID: oPPSb3RsDgqGSQYgmI0ooyVmbtyN59DI
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	id 1qUOZI-00A05W-2K
+	for linux-nvme@lists.infradead.org;
+	Fri, 11 Aug 2023 09:36:30 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 87CED1F889;
+	Fri, 11 Aug 2023 09:36:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1691746587; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RiLrAjI/PW50HvWlrm+PJmGFw1sGaHe93CcjuVC440I=;
+	b=oNqi5h5/zwJ1tvBsN0wv/SlP/ckB3ZsZQeRvjdmqQmV1LuGJy5Vt10BQT8dVNhusqUYI2K
+	ZrhGewvKeqltHEfEBZarAhXgpYLCELx/YYHM3BzeDZaGFCIBY1K2fFLC7SHosNc7B4GQ7Q
+	L+6JHtwq9/MUE6cw56JQM0C+0+nD2zU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1691746587;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RiLrAjI/PW50HvWlrm+PJmGFw1sGaHe93CcjuVC440I=;
+	b=To25ejZnOeNxcNud8cyUIGi/7vGMfwzsD6lcY5HU33O0SqROpVN7qUjg9uqOcGY4OAmleD
+	v5KXjZEQqhODwNDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 76265138E2;
+	Fri, 11 Aug 2023 09:36:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 91rlGxsB1mSrHwAAMHmgww
+	(envelope-from <dwagner@suse.de>); Fri, 11 Aug 2023 09:36:27 +0000
+From: Daniel Wagner <dwagner@suse.de>
+To: linux-nvme@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	Max Gurtovoy <mgurtovoy@nvidia.com>,
+	Hannes Reinecke <hare@suse.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	James Smart <jsmart2021@gmail.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Daniel Wagner <dwagner@suse.de>
+Subject: [PATCH blktests v3 03/13] nvme/043: Use hostnqn to generate DHCAP key
+Date: Fri, 11 Aug 2023 11:36:04 +0200
+Message-ID: <20230811093614.28005-4-dwagner@suse.de>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230811093614.28005-1-dwagner@suse.de>
+References: <20230811093614.28005-1-dwagner@suse.de>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-08-10_20,2023-08-10_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 phishscore=0
- impostorscore=0 clxscore=1011 mlxscore=0 priorityscore=1501 spamscore=0
- mlxlogscore=999 adultscore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
- definitions=main-2308110068
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230811_005325_526610_046FA930 
-X-CRM114-Status: GOOD (  31.82  )
+X-CRM114-CacheID: sfid-20230811_023628_907447_02234603 
+X-CRM114-Status: GOOD (  11.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,74 +98,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+The key is supposed to be derived from the hostnqn not fom the subsys
+name.
 
+Signed-off-by: Daniel Wagner <dwagner@suse.de>
+---
+ tests/nvme/043 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 10/08/23 8:31 am, Baoquan He wrote:
-> On 08/10/23 at 10:06am, Ming Lei wrote:
->> On Thu, Aug 10, 2023 at 09:18:27AM +0800, Baoquan He wrote:
->>> On 08/10/23 at 08:09am, Ming Lei wrote:
->>>> On Wed, Aug 09, 2023 at 03:44:01PM +0200, Christoph Hellwig wrote:
->>>>> I'm starting to sound like a broken record, but we can't just do random
->>>>> is_kdump checks, and it's not going to get better by resending it again and
->>>>> again.  If kdump kernels limit the number of possible CPUs, it needs to
->>>>> reflected in cpu_possible_map and we need to use that information.
->>>>>
->>>>
->>>> Can you look at previous kdump/arch guys' comment about kdump usage &
->>>> num_possible_cpus?
->>>>
->>>>      https://lore.kernel.org/linux-block/CAF+s44RuqswbosY9kMDx35crviQnxOeuvgNsuE75Bb0Y2Jg2uw@mail.gmail.com/
->>>>      https://lore.kernel.org/linux-block/ZKz912KyFQ7q9qwL@MiWiFi-R3L-srv/
->>>>
->>>> The point is that kdump kernels does not limit the number of possible CPUs.
->>>>
->>>> 1) some archs support 'nr_cpus=1' for kdump kernel, which is fine, since
->>>> num_possible_cpus becomes 1.
->>>
->>> Yes, "nr_cpus=" is strongly suggested in kdump kernel because "nr_cpus="
->>> limits the possible cpu numbers, while "maxcpuss=" only limits the cpu
->>> number which can be brought up during bootup. We noticed this diference
->>> because a large number of possible cpus will cost more memory in kdump
->>> kernel. e.g percpu initialization, even though kdump kernel have set
->>> "maxcpus=1".
->>>
->>> Currently x86 and arm64 all support "nr_cpus=". Pingfan ever spent much
->>> effort to make patches to add "nr_cpus=" support to ppc64, seems ppc64
->>> dev and maintainers do not care about it. Finally the patches are not
->>> accepted, and the work is not continued.
->>>
->>> Now, I am wondering what is the barrier to add "nr_cpus=" to power ach.
->>> Can we reconsider adding 'nr_cpus=' to power arch since real issue
->>> occurred in kdump kernel?
->>
->> If 'nr_cpus=' can be supported on ppc64, this patchset isn't needed.
->>
->>>
->>> As for this patchset, it can be accpeted so that no failure in kdump
->>> kernel is seen on ARCHes w/o "nr_cpus=" support? My personal opinion.
->>
->> IMO 'nr_cpus=' support should be preferred, given it is annoying to
->> maintain two kinds of implementation for kdump kernel from driver
->> viewpoint. I guess kdump things can be simplified too with supporting
->> 'nr_cpus=' only.
-> 
-> Yes, 'nr_cpus=' is ideal. Not sure if there's some underlying concerns so
-> that power people decided to not support it.
+diff --git a/tests/nvme/043 b/tests/nvme/043
+index 4a37f91e50c3..b5cb8378681e 100755
+--- a/tests/nvme/043
++++ b/tests/nvme/043
+@@ -37,7 +37,7 @@ test() {
+ 
+ 	hostid="${def_hostid}"
+ 	hostnqn="${def_hostnqn}"
+-	hostkey="$(nvme gen-dhchap-key -n ${subsys_name} 2> /dev/null)"
++	hostkey="$(nvme gen-dhchap-key -n ${hostnqn} 2> /dev/null)"
+ 	if [ -z "$hostkey" ] ; then
+ 		echo "nvme gen-dhchap-key failed"
+ 		return 1
+-- 
+2.41.0
 
-Though "nr_cpus=1" is an ideal solution, maintainer was not happy with
-the patch as the code changes have impact for regular boot path and
-it is likely to cause breakages. So, even if "nr_cpus=1" support for
-ppc64 is revived, the change is going to take time to be accepted
-upstream.
-
-Also, I see is_kdump_kernel() being used irrespective of "nr_cpus=1"
-support for other optimizations in the driver for the special dump
-capture environment kdump is.
-
-If there is no other downside for driver code, to use is_kdump_kernel(),
-other than the maintainability aspect, I think the above changes are
-worth considering.
-
-Thanks
-Hari
 
