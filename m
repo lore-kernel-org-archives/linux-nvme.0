@@ -4,66 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9E8AEC001B0
-	for <linux-nvme@archiver.kernel.org>; Sun, 13 Aug 2023 14:45:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 537A7C04E69
+	for <linux-nvme@archiver.kernel.org>; Sun, 13 Aug 2023 14:45:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zCCJuLWxlzwZK4lPpl9OOBdDL3u1368YHPb0g0HV9fw=; b=Jgkx/gu1+VMtO3jELemsyxWLYP
-	3L3r4QY8g9kQEoaVkc9NTje2ltZYq0QrlQj/0lhwHzYfajtIChRzzIdnLY6Mj9mKTPVyrzPWRiiC8
-	pZVdiBBdRmrsW0BA0RaHc69+VGaCF31eLs/OsGcl5aNZmRZvGXDA5Ee44Ezje/KCQKKjimpJi1CNX
-	fCg+IdufwBOGDFuDNa4mzo6jAkcSAQuJcLs6pJPep2vGjkydCrhFtZhDX/v2DmxNwmyOa+WpwY4O/
-	hiSBmWSNWPXh7S2DJGCcbrYlu81HIYd0S95OL8oTwJFDHCRoug8vz3XUFkeVhQvNcelpJCL39XkeN
-	aNaAUYJg==;
+	bh=nQ2cTXEltHCfVXnyLCfSTIsmKfECOAmh3JPWbPsMLMY=; b=TiOsm56qpgeXyRAF7ZXEedGVFy
+	Q4nf2YHG8bnx1DZMQ1acbEH2kFvj1TS92HzEZRNyJhbrJrU5q3DrfOAOhb8tk7AO2mCj0yG5EB9BD
+	BCI52jGoR6baDDfxbkvYnVlxSst9Ty1MndGprgYgKvrqQ5RFmsYMBPWx6TguC3b6N0dSPueOlti33
+	vq2r5qqsIDFi7BzdQz6v8ORDSOW2zaNLGoMmR4iGKGpT9LDmlaEbxLpUeZxJaH2VgCzns63zeYO6k
+	hsRZVzQ2aIV/Pu4JH0pOuNz34MqBBvmqdEYtwLh/GIditwNa1ies/v91aVLjRqE9F2VDa3ysDbmM+
+	IqZPqzGA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qVCL7-00FFsN-0D;
-	Sun, 13 Aug 2023 14:45:09 +0000
-Received: from mail-ed1-f54.google.com ([209.85.208.54])
+	id 1qVCLG-00FFv7-2C;
+	Sun, 13 Aug 2023 14:45:18 +0000
+Received: from mail-ej1-f47.google.com ([209.85.218.47])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qVCL4-00FFqz-0q
+	id 1qVCLE-00FFts-12
 	for linux-nvme@lists.infradead.org;
-	Sun, 13 Aug 2023 14:45:07 +0000
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-52349d93c8aso1043146a12.1
-        for <linux-nvme@lists.infradead.org>; Sun, 13 Aug 2023 07:45:05 -0700 (PDT)
+	Sun, 13 Aug 2023 14:45:17 +0000
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-99bded9d93dso81026066b.1
+        for <linux-nvme@lists.infradead.org>; Sun, 13 Aug 2023 07:45:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691937904; x=1692542704;
+        d=1e100.net; s=20221208; t=1691937914; x=1692542714;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zCCJuLWxlzwZK4lPpl9OOBdDL3u1368YHPb0g0HV9fw=;
-        b=Bue6diU2nYIsSV+s22HjJbTSkPCSxNlqVgHY2JUuymQqJCL8KpWa35ULjcUQem6VPE
-         7gcIVRG+ql2kSv7L4rQUjYgVcCWG87WoC2x9MGUa8UL9JqxHsd436QiRWdvSj+PZmP04
-         2ASo3y6oClQ91a1eZxBBY2bPEk4tT8Bsnyc1PQDcHLnPfShrkdmovwKZpzhhgIxOCbx+
-         gBS9H/PG1q3t22skFaxvsg1FXB5w+OzJ3sbUtFeKlqgdjDTvjX3OIyd6aSZVbMbKPEnN
-         YEJlredJaM14WugyKEiU33TZ1wICT1s4SswEbSvxc/Ov3kaElhLTc+S4QuYRTb+AQNtT
-         iQww==
-X-Gm-Message-State: AOJu0YwU3HtlcYLdt8/wJM16VuVitUoHwQgk/ASpZl8yAncH4320wcZB
-	TkqOOtEC5oZwOZda2UeX4ZKv462e9cY=
-X-Google-Smtp-Source: AGHT+IFIRCwoxlLELSV6+nD2yzu51uet4FKj4HXaxSd/Tq89d9NcP9kV/g2lKC51F+pjVVWNPlqp3w==
-X-Received: by 2002:a17:906:21c:b0:99c:c178:cef9 with SMTP id 28-20020a170906021c00b0099cc178cef9mr5573065ejd.2.1691937904256;
-        Sun, 13 Aug 2023 07:45:04 -0700 (PDT)
+        bh=nQ2cTXEltHCfVXnyLCfSTIsmKfECOAmh3JPWbPsMLMY=;
+        b=gIxviwkQtiX7H+VNsuNHRNwGZzMQGs648HIxOljEs3d5CCevdhtmjlyahvAhLP3jRY
+         6+qLF+1m10WNFxwS3KexjMMltQ3rSSyqFTtmtA8mfE6xd2BeeLvXFtUxQjeQx7achCEP
+         Qp+tq4ft/DefZB69gT1bWgHWjQp6H21CmeJWIBr7MKqoUJEzYop9CFSoz1twbILgzibh
+         TOZSFk03eOJrMVs7ZLkrUrx6AF4JA/asaXcdjyL3RnzfuFlUd4Y4S0Dz4uX157rYI6T5
+         U+Ao5HpRd5AbQ57FJbEJsXn5AOCE7IyeRYMdXb01wXQ4AFviAb3/go8QFhy9k3GiIrcl
+         t+lg==
+X-Gm-Message-State: AOJu0Yy1a/I2eD6HUAOMhdFsMkNtZ3nz7jjCZyrwx3zSdwqmMm+ZeDCy
+	11ekiyOcUQ23dOfFBxbOfFgA/T7Bwts=
+X-Google-Smtp-Source: AGHT+IHitYqQ2RuY/X6YIxQYqp2OwJkrUNKE/oC4VN8cCqNDu1e/sOR7dWb5UEeuMIbbjfLCJPF/3w==
+X-Received: by 2002:a17:906:10d2:b0:99b:4670:aca9 with SMTP id v18-20020a17090610d200b0099b4670aca9mr5579963ejv.1.1691937914286;
+        Sun, 13 Aug 2023 07:45:14 -0700 (PDT)
 Received: from localhost.localdomain (46-116-229-137.bb.netvision.net.il. [46.116.229.137])
-        by smtp.gmail.com with ESMTPSA id h11-20020a170906110b00b00977cad140a8sm4618761eja.218.2023.08.13.07.45.03
+        by smtp.gmail.com with ESMTPSA id g6-20020a170906348600b0099c157cba46sm4574699ejb.119.2023.08.13.07.45.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Aug 2023 07:45:03 -0700 (PDT)
+        Sun, 13 Aug 2023 07:45:13 -0700 (PDT)
 From: Sagi Grimberg <sagi@grimberg.me>
 To: <stable@vger.kernel.org>
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH 6.1.y 2/2] nvme-rdma: fix potential unbalanced freeze & unfreeze
-Date: Sun, 13 Aug 2023 17:45:00 +0300
-Message-ID: <20230813144500.15339-2-sagi@grimberg.me>
+Subject: [PATCH 5.15.y 5.10.y 5.4.y 2/2] nvme-rdma: fix potential unbalanced freeze & unfreeze
+Date: Sun, 13 Aug 2023 17:45:10 +0300
+Message-ID: <20230813144510.15401-2-sagi@grimberg.me>
 X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230813144500.15339-1-sagi@grimberg.me>
-References: <20230813144500.15339-1-sagi@grimberg.me>
+In-Reply-To: <20230813144510.15401-1-sagi@grimberg.me>
+References: <20230813144510.15401-1-sagi@grimberg.me>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230813_074506_299988_2B0AA047 
-X-CRM114-Status: GOOD (  12.96  )
+X-CRM114-CacheID: sfid-20230813_074516_361290_89884358 
+X-CRM114-Status: GOOD (  12.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,18 +107,18 @@ Signed-off-by: Keith Busch <kbusch@kernel.org>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 80383213b882..c478480f54aa 100644
+index 2db9c166a1b7..b76e1d4adcc7 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -923,6 +923,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
- 		goto out_cleanup_tagset;
+@@ -989,6 +989,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
+ 		goto out_cleanup_connect_q;
  
  	if (!new) {
 +		nvme_start_freeze(&ctrl->ctrl);
  		nvme_start_queues(&ctrl->ctrl);
  		if (!nvme_wait_freeze_timeout(&ctrl->ctrl, NVME_IO_TIMEOUT)) {
  			/*
-@@ -931,6 +932,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
+@@ -997,6 +998,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
  			 * to be safe.
  			 */
  			ret = -ENODEV;
@@ -126,7 +126,7 @@ index 80383213b882..c478480f54aa 100644
  			goto out_wait_freeze_timed_out;
  		}
  		blk_mq_update_nr_hw_queues(ctrl->ctrl.tagset,
-@@ -980,7 +982,6 @@ static void nvme_rdma_teardown_io_queues(struct nvme_rdma_ctrl *ctrl,
+@@ -1038,7 +1040,6 @@ static void nvme_rdma_teardown_io_queues(struct nvme_rdma_ctrl *ctrl,
  		bool remove)
  {
  	if (ctrl->ctrl.queue_count > 1) {
