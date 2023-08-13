@@ -4,66 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 537A7C04E69
-	for <linux-nvme@archiver.kernel.org>; Sun, 13 Aug 2023 14:45:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F938C001B0
+	for <linux-nvme@archiver.kernel.org>; Sun, 13 Aug 2023 14:56:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nQ2cTXEltHCfVXnyLCfSTIsmKfECOAmh3JPWbPsMLMY=; b=TiOsm56qpgeXyRAF7ZXEedGVFy
-	Q4nf2YHG8bnx1DZMQ1acbEH2kFvj1TS92HzEZRNyJhbrJrU5q3DrfOAOhb8tk7AO2mCj0yG5EB9BD
-	BCI52jGoR6baDDfxbkvYnVlxSst9Ty1MndGprgYgKvrqQ5RFmsYMBPWx6TguC3b6N0dSPueOlti33
-	vq2r5qqsIDFi7BzdQz6v8ORDSOW2zaNLGoMmR4iGKGpT9LDmlaEbxLpUeZxJaH2VgCzns63zeYO6k
-	hsRZVzQ2aIV/Pu4JH0pOuNz34MqBBvmqdEYtwLh/GIditwNa1ies/v91aVLjRqE9F2VDa3ysDbmM+
-	IqZPqzGA==;
+	bh=Ad0NVWbLc0DW2zExtiVlyR4ajbzJ+cjn6E663HH2QCg=; b=WSSCVBwzepg0XSF46x5wgw0DVn
+	tbqtQ9smm0crChhU3m2Vqmq6NwOoU/UuwT96N1m9RIOjmxnbRXBiLoxNYo7Ci7pWGnxhNWr12TgGV
+	YoZbVM/CnUI+Ezg75qSzPiNaoz1wY+kHc9GE+SJ2OVR2qPfhltYMZnCTIGP1E7v7lFyyUxJf+K4BR
+	jC6oBZJuRFl2WQkAi8aykFZrIGfObkTOikOwfuVv3DyQ94B3k+eWm1qLzGWvbijhOKNdrqpm+Uiij
+	aE1HMT81pp7z6Wf+2nJ7OYdVwsHPQ1m8w848o197UYJenrzZmcNpcObdDHoX3ezHir281aa+F3sJX
+	dw5ySkHA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qVCLG-00FFv7-2C;
-	Sun, 13 Aug 2023 14:45:18 +0000
-Received: from mail-ej1-f47.google.com ([209.85.218.47])
+	id 1qVCVY-00FHWv-1n;
+	Sun, 13 Aug 2023 14:55:56 +0000
+Received: from mail-ed1-f43.google.com ([209.85.208.43])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qVCLE-00FFts-12
+	id 1qVCVV-00FHWI-2a
 	for linux-nvme@lists.infradead.org;
-	Sun, 13 Aug 2023 14:45:17 +0000
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-99bded9d93dso81026066b.1
-        for <linux-nvme@lists.infradead.org>; Sun, 13 Aug 2023 07:45:15 -0700 (PDT)
+	Sun, 13 Aug 2023 14:55:55 +0000
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-522a9e0e6e9so839704a12.1
+        for <linux-nvme@lists.infradead.org>; Sun, 13 Aug 2023 07:55:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691937914; x=1692542714;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nQ2cTXEltHCfVXnyLCfSTIsmKfECOAmh3JPWbPsMLMY=;
-        b=gIxviwkQtiX7H+VNsuNHRNwGZzMQGs648HIxOljEs3d5CCevdhtmjlyahvAhLP3jRY
-         6+qLF+1m10WNFxwS3KexjMMltQ3rSSyqFTtmtA8mfE6xd2BeeLvXFtUxQjeQx7achCEP
-         Qp+tq4ft/DefZB69gT1bWgHWjQp6H21CmeJWIBr7MKqoUJEzYop9CFSoz1twbILgzibh
-         TOZSFk03eOJrMVs7ZLkrUrx6AF4JA/asaXcdjyL3RnzfuFlUd4Y4S0Dz4uX157rYI6T5
-         U+Ao5HpRd5AbQ57FJbEJsXn5AOCE7IyeRYMdXb01wXQ4AFviAb3/go8QFhy9k3GiIrcl
-         t+lg==
-X-Gm-Message-State: AOJu0Yy1a/I2eD6HUAOMhdFsMkNtZ3nz7jjCZyrwx3zSdwqmMm+ZeDCy
-	11ekiyOcUQ23dOfFBxbOfFgA/T7Bwts=
-X-Google-Smtp-Source: AGHT+IHitYqQ2RuY/X6YIxQYqp2OwJkrUNKE/oC4VN8cCqNDu1e/sOR7dWb5UEeuMIbbjfLCJPF/3w==
-X-Received: by 2002:a17:906:10d2:b0:99b:4670:aca9 with SMTP id v18-20020a17090610d200b0099b4670aca9mr5579963ejv.1.1691937914286;
-        Sun, 13 Aug 2023 07:45:14 -0700 (PDT)
-Received: from localhost.localdomain (46-116-229-137.bb.netvision.net.il. [46.116.229.137])
-        by smtp.gmail.com with ESMTPSA id g6-20020a170906348600b0099c157cba46sm4574699ejb.119.2023.08.13.07.45.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Aug 2023 07:45:13 -0700 (PDT)
-From: Sagi Grimberg <sagi@grimberg.me>
-To: <stable@vger.kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH 5.15.y 5.10.y 5.4.y 2/2] nvme-rdma: fix potential unbalanced freeze & unfreeze
-Date: Sun, 13 Aug 2023 17:45:10 +0300
-Message-ID: <20230813144510.15401-2-sagi@grimberg.me>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230813144510.15401-1-sagi@grimberg.me>
-References: <20230813144510.15401-1-sagi@grimberg.me>
+        d=1e100.net; s=20221208; t=1691938551; x=1692543351;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ad0NVWbLc0DW2zExtiVlyR4ajbzJ+cjn6E663HH2QCg=;
+        b=ME0vYl+b8PTZEuWW127yvgK4IjzhWBNAvVKuK8Zy75tYmvqn8IV3iXlzGYn/7aYu6K
+         G3gJUMQybATSPxwKuY02QkslGNqln8jrP0MPW8HCztb6xs8GrPqd/twFDdIv7Qo8UuIK
+         MMn9DrfD/CpgQwBVSbglYlJ/WwC/dkxpWtnfS9D5hMnyfSv8xR3YZg8qflovXdBilpjv
+         i/4WCQyfCDlvwKvBQ3ZCe+buT4fj7a8bkgahDKYYPV4RqE9JpkwV99Bk5WU2Mckvm4Rl
+         +hnXHwPq6iLRJffc+jzxujNi6ebm3WU23zEYUWF81zwtED9EDJSeM3jXPqjLNaVzSA67
+         612g==
+X-Gm-Message-State: AOJu0YwyFgNk2zQrbMAhkmaIbSpfeDCTDnrBbVHNu5fymWxIPuOEybvP
+	uP3NuTpKBOXuigbYbm6hdxA=
+X-Google-Smtp-Source: AGHT+IH3JQ0kaSRLJCXCDqYhq/hqML2mvDZq457dPLaKXnmiQQaxMW8oTzpTC0DWWg3H/Y51a7PXIg==
+X-Received: by 2002:a05:6402:4314:b0:522:580f:8304 with SMTP id m20-20020a056402431400b00522580f8304mr6185856edc.1.1691938551110;
+        Sun, 13 Aug 2023 07:55:51 -0700 (PDT)
+Received: from [10.100.102.14] (46-116-229-137.bb.netvision.net.il. [46.116.229.137])
+        by smtp.gmail.com with ESMTPSA id r15-20020a056402034f00b005255991c576sm1032584edw.66.2023.08.13.07.55.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 13 Aug 2023 07:55:50 -0700 (PDT)
+Message-ID: <58d299c4-84e1-603d-6c99-15d0484f9609@grimberg.me>
+Date: Sun, 13 Aug 2023 17:55:48 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH blktests v3 13/13] nvme: Introduce
+ nvmet_target_{setup/cleanup} common code
+Content-Language: en-US
+To: Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+ Chaitanya Kulkarni <kch@nvidia.com>,
+ Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+ Max Gurtovoy <mgurtovoy@nvidia.com>, Hannes Reinecke <hare@suse.de>,
+ James Smart <jsmart2021@gmail.com>, Bart Van Assche <bvanassche@acm.org>
+References: <20230811093614.28005-1-dwagner@suse.de>
+ <20230811093614.28005-14-dwagner@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20230811093614.28005-14-dwagner@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230813_074516_361290_89884358 
-X-CRM114-Status: GOOD (  12.98  )
+X-CRM114-CacheID: sfid-20230813_075553_845228_24661F00 
+X-CRM114-Status: GOOD (  16.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,63 +87,90 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Ming Lei <ming.lei@redhat.com>
 
-Move start_freeze into nvme_rdma_configure_io_queues(), and there is
-at least two benefits:
 
-1) fix unbalanced freeze and unfreeze, since re-connection work may
-fail or be broken by removal
+On 8/11/23 12:36, Daniel Wagner wrote:
+> Almost all fabric tests have the identically code for
+> setting up and cleaning up the target side. Introduce
+> two new helpers.
+> 
+> Signed-off-by: Daniel Wagner <dwagner@suse.de>
+> ---
+>   tests/nvme/003 | 13 +++-------
+>   tests/nvme/004 | 20 +++------------
+>   tests/nvme/005 | 19 ++-------------
+>   tests/nvme/006 | 18 ++------------
+>   tests/nvme/007 | 13 ++--------
+>   tests/nvme/008 | 20 ++-------------
+>   tests/nvme/009 | 15 ++----------
+>   tests/nvme/010 | 20 ++-------------
+>   tests/nvme/011 | 15 ++----------
+>   tests/nvme/012 | 20 ++-------------
+>   tests/nvme/013 | 15 ++----------
+>   tests/nvme/014 | 20 ++-------------
+>   tests/nvme/015 | 15 ++----------
+>   tests/nvme/018 | 15 ++----------
+>   tests/nvme/019 | 20 ++-------------
+>   tests/nvme/020 | 15 ++----------
+>   tests/nvme/021 | 15 ++----------
+>   tests/nvme/022 | 15 ++----------
+>   tests/nvme/023 | 20 ++-------------
+>   tests/nvme/024 | 15 ++----------
+>   tests/nvme/025 | 15 ++----------
+>   tests/nvme/026 | 15 ++----------
+>   tests/nvme/027 | 16 +++---------
+>   tests/nvme/028 | 16 +++---------
+>   tests/nvme/029 | 20 ++-------------
+>   tests/nvme/040 | 18 ++------------
+>   tests/nvme/041 | 17 ++-----------
+>   tests/nvme/042 | 16 ++----------
+>   tests/nvme/043 | 16 ++----------
+>   tests/nvme/044 | 18 +++-----------
+>   tests/nvme/045 | 17 +++----------
+>   tests/nvme/047 | 20 ++-------------
+>   tests/nvme/048 | 16 ++----------
+>   tests/nvme/rc  | 66 ++++++++++++++++++++++++++++++++++++++++++++++++++
+>   34 files changed, 138 insertions(+), 486 deletions(-)
+> 
+> diff --git a/tests/nvme/003 b/tests/nvme/003
+> index 71b82ce758a3..54e5fe651c9a 100755
+> --- a/tests/nvme/003
+> +++ b/tests/nvme/003
+> @@ -22,15 +22,9 @@ test() {
+>   
+>   	_setup_nvmet
+>   
+> -	local loop_dev
+>   	local port
+>   
+> -	port="$(_create_nvmet_port "${nvme_trtype}")"
+> -
+> -	loop_dev="$(losetup -f)"
+> -
+> -	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}"
+> -	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
+> +	port="$(_nvmet_target_setup --blkdev=device)"
+>   
+>   	_nvme_connect_subsys "${nvme_trtype}" nqn.2014-08.org.nvmexpress.discovery
+>   
+> @@ -46,9 +40,8 @@ test() {
+>   	fi
+>   
+>   	_nvme_disconnect_subsys nqn.2014-08.org.nvmexpress.discovery
+> -	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
+> -	_remove_nvmet_subsystem "${def_subsysnqn}"
+> -	_remove_nvmet_port "${port}"
+> +
+> +	_nvmet_target_cleanup "${port}"
 
-2) IO during error recovery can be failfast quickly because nvme fabrics
-unquiesces queues after teardown.
+It is very very strange that _setup returns a port
+which is passed to _cleanup...
 
-One side-effect is that !mpath request may timeout during connecting
-because of queue topo change, but that looks not one big deal:
+I think that _cleanup should simply remove all
+ports, and that setup should not return a port
+to begin with.
 
-1) same problem exists with current code base
-
-2) compared with !mpath, mpath use case is dominant
-
-Fixes: 9f98772ba307 ("nvme-rdma: fix controller reset hang during traffic")
-Cc: stable@vger.kernel.org
-Signed-off-by: Ming Lei <ming.lei@redhat.com>
-Tested-by: Yi Zhang <yi.zhang@redhat.com>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/rdma.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 2db9c166a1b7..b76e1d4adcc7 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -989,6 +989,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
- 		goto out_cleanup_connect_q;
- 
- 	if (!new) {
-+		nvme_start_freeze(&ctrl->ctrl);
- 		nvme_start_queues(&ctrl->ctrl);
- 		if (!nvme_wait_freeze_timeout(&ctrl->ctrl, NVME_IO_TIMEOUT)) {
- 			/*
-@@ -997,6 +998,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
- 			 * to be safe.
- 			 */
- 			ret = -ENODEV;
-+			nvme_unfreeze(&ctrl->ctrl);
- 			goto out_wait_freeze_timed_out;
- 		}
- 		blk_mq_update_nr_hw_queues(ctrl->ctrl.tagset,
-@@ -1038,7 +1040,6 @@ static void nvme_rdma_teardown_io_queues(struct nvme_rdma_ctrl *ctrl,
- 		bool remove)
- {
- 	if (ctrl->ctrl.queue_count > 1) {
--		nvme_start_freeze(&ctrl->ctrl);
- 		nvme_stop_queues(&ctrl->ctrl);
- 		nvme_sync_io_queues(&ctrl->ctrl);
- 		nvme_rdma_stop_io_queues(ctrl);
--- 
-2.41.0
-
+If someone needs the actual port number, then it
+should either not use this _setup helper or
+query it somehow.
 
