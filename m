@@ -4,84 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA944C001DE
-	for <linux-nvme@archiver.kernel.org>; Sun, 13 Aug 2023 14:38:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D9767C001B0
+	for <linux-nvme@archiver.kernel.org>; Sun, 13 Aug 2023 14:45:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XG77WwgrbqNAtRpiCA9zFnnIvUyShu4BoNdctPor2wE=; b=eP66+EjQiOgDv+AGYHcdYOJwnd
-	FpSnld8KpvEaNtrZXQmcXTTcJJCv0RFiIFAlDVEbY9/OhD8Z73/4oXhhAdt0bgXPg8EwhNHr63p0F
-	eysk43nGY01ezS56WVNmqMOedZCvgTk5y4A7WcE8rfanSrw1Z04RlFAr0yMYF+7uDAQc/qDuacKVx
-	0+vtcYMKz8ErclaA0FyD5OmxyB+Ndz2nS2SOiNT+diORv/Sgbo2AAVlX8lUBVW6AX6egrr1TqAHFL
-	6Z6DUrGjUF/Sh9weQkTklxTXfyqTicEmSatX+FLLtoDrWmrF59tUCsnqA/2rcgoLwN6bSMZspJhG2
-	g5u81HTg==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=tUuuKbL8ydFNPda8N4HOTsW5STdP9ERZYuHURXlNIxg=; b=k27kzpzEMAdGdWGolffiraVTXw
+	IxPQuFb21Gfobv1o65/gzmGmuKmjiKBMrYnZ636sbsCoZGStuFuk2FQ3Yun/d+iYbi+JIvSMIyveM
+	bpYEfqO0+p8xVFJtnom5+TbxlUdifCkMKd/Mr0rFk17UPmQnnRPv0Jhp55lAkJKVGQFatCZcKXOpz
+	dlZryAUdw8MzR1gltJ9aPJBjCJD3jTonfJPpc+XCMuUDeaVkYh0Kb3TfJ+ew3xzshiEuaJeSvGfae
+	6tYrWjzyqiy0xek+jqUJg/PTyhoiSjyyACmgCqTP1lqilWOlmNCFD7rpzT+d0wkQOl8eFy4+F3aO5
+	Mie8451w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qVCEt-00FFJ2-2h;
-	Sun, 13 Aug 2023 14:38:43 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1qVCL6-00FFrp-1J;
+	Sun, 13 Aug 2023 14:45:08 +0000
+Received: from mail-ej1-f51.google.com ([209.85.218.51])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qVCEq-00FFIM-1F
+	id 1qVCL2-00FFqw-2v
 	for linux-nvme@lists.infradead.org;
-	Sun, 13 Aug 2023 14:38:42 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0EE5A1F8C2;
-	Sun, 13 Aug 2023 14:38:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1691937515; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XG77WwgrbqNAtRpiCA9zFnnIvUyShu4BoNdctPor2wE=;
-	b=Bg/qQOqZ16DQASt5PLdWIG883y/1UYlTRzdcUTK3KTNwsltZUhdmF+5frxlNsNCi+h3qBD
-	dA24fBX+9VuRSJNULZIoTY5jWxSOX/7h8lLhkqAvd3XQm2/bUVIl9ywJJxJFuclhPlRaxg
-	Uub35h9LLG0s39+ZvFiIh9A2PKZxF1U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1691937515;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XG77WwgrbqNAtRpiCA9zFnnIvUyShu4BoNdctPor2wE=;
-	b=FWueex4DGXdIEKQISY/F2VuXT0F0EzMIBl4Spw4qs01qVYCmHh3jsw0J4s6OCm2U228qlM
-	20ILG2j/LsYKX9BQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BC7351322C;
-	Sun, 13 Aug 2023 14:38:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id VD3FLOrq2GSzEAAAMHmgww
-	(envelope-from <hare@suse.de>); Sun, 13 Aug 2023 14:38:34 +0000
-Message-ID: <fe971baa-e009-2388-dc0b-54eb4788eb3f@suse.de>
-Date: Sun, 13 Aug 2023 16:38:32 +0200
+	Sun, 13 Aug 2023 14:45:06 +0000
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-99bded9d93dso81022766b.1
+        for <linux-nvme@lists.infradead.org>; Sun, 13 Aug 2023 07:45:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691937903; x=1692542703;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tUuuKbL8ydFNPda8N4HOTsW5STdP9ERZYuHURXlNIxg=;
+        b=Hn+iSMk0mbgF8q+szwfCwP7T1KqMEhBb+lSUME7uqgMM0GjI7m6rlmWdTqoxWeYeBY
+         l5hd5dIP0R5DKXw2ZqN046oqZ5a1Wm6r5QrTSreGLS3hT0a2tKpN1lOlYq9+NEonwTMF
+         XHfPtwCxqnhf0utVqAIt3N+dt0CNTxRfzGWMVVN4Sb+hrHnsQDTr01H9MZ+OW/KsuwWM
+         nlw6sr7tNhF2wl90eSKjsQ6tO1ZWLrS0AKwD/bD3UmfFXbPyC8aW4sPudM8Rk/h606eK
+         PgBSat78f29szt8U+snyDOLZEfTyJisKt2Yu45tt3O80bbzY+Z4YgaHcouhIfiliIcu1
+         s6sQ==
+X-Gm-Message-State: AOJu0YyUgKX8RjPkV17OvoZ0cnzDz5YGSQpigkbif0p6zDFqsG3XO9E/
+	IKxKsg+c0rZumKCChYznHNtvOL4/aME=
+X-Google-Smtp-Source: AGHT+IGZM1qYkBktaWviYMhvhRd2I8b2PoUwBCntgMUqmL9huiI//X6jdvuIouNEpBOQZxmtPJQx8Q==
+X-Received: by 2002:a17:906:19:b0:993:d0e1:f308 with SMTP id 25-20020a170906001900b00993d0e1f308mr5254691eja.2.1691937902935;
+        Sun, 13 Aug 2023 07:45:02 -0700 (PDT)
+Received: from localhost.localdomain (46-116-229-137.bb.netvision.net.il. [46.116.229.137])
+        by smtp.gmail.com with ESMTPSA id h11-20020a170906110b00b00977cad140a8sm4618761eja.218.2023.08.13.07.45.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Aug 2023 07:45:02 -0700 (PDT)
+From: Sagi Grimberg <sagi@grimberg.me>
+To: <stable@vger.kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH 6.1.y 1/2] nvme-tcp: fix potential unbalanced freeze & unfreeze
+Date: Sun, 13 Aug 2023 17:44:59 +0300
+Message-ID: <20230813144500.15339-1-sagi@grimberg.me>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 14/17] nvmet-tcp: reference counting for queues
-Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Jakub Kicinski <kuba@kernel.org>, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org
-References: <20230811121755.24715-1-hare@suse.de>
- <20230811121755.24715-15-hare@suse.de>
- <6aa77bb8-8d22-3e40-c8fe-654b5c094b10@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <6aa77bb8-8d22-3e40-c8fe-654b5c094b10@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230813_073840_590839_BBC4A844 
-X-CRM114-Status: GOOD (  36.96  )
+X-CRM114-CacheID: sfid-20230813_074504_966775_0F059F80 
+X-CRM114-Status: GOOD (  12.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,267 +76,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/13/23 16:01, Sagi Grimberg wrote:
-> 
-> 
-> On 8/11/23 15:17, Hannes Reinecke wrote:
->> The 'queue' structure is referenced from various places and
->> used as an argument of asynchronous functions, so it's really
->> hard to figure out if the queue is still valid when the
->> asynchronous function triggers.
->> So add reference counting to validate the queue structure.
->>
->> Signed-off-by: Hannes Reinecke <hare@suse.de>
->> ---
->>   drivers/nvme/target/tcp.c | 74 ++++++++++++++++++++++++++++++---------
->>   1 file changed, 57 insertions(+), 17 deletions(-)
->>
->> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
->> index f19ea9d923fd..84b726dfc1c4 100644
->> --- a/drivers/nvme/target/tcp.c
->> +++ b/drivers/nvme/target/tcp.c
->> @@ -127,6 +127,7 @@ enum nvmet_tcp_queue_state {
->>   };
->>   struct nvmet_tcp_queue {
->> +    struct kref        kref;
->>       struct socket        *sock;
->>       struct nvmet_tcp_port    *port;
->>       struct work_struct    io_work;
->> @@ -192,6 +193,9 @@ static struct workqueue_struct *nvmet_tcp_wq;
->>   static const struct nvmet_fabrics_ops nvmet_tcp_ops;
->>   static void nvmet_tcp_free_cmd(struct nvmet_tcp_cmd *c);
->>   static void nvmet_tcp_free_cmd_buffers(struct nvmet_tcp_cmd *cmd);
->> +static int nvmet_tcp_get_queue(struct nvmet_tcp_queue *queue);
->> +static void nvmet_tcp_put_queue(struct nvmet_tcp_queue *queue);
->> +static void nvmet_tcp_data_ready(struct sock *sk);
->>   static inline u16 nvmet_tcp_cmd_tag(struct nvmet_tcp_queue *queue,
->>           struct nvmet_tcp_cmd *cmd)
->> @@ -1437,11 +1441,21 @@ static void 
->> nvmet_tcp_restore_socket_callbacks(struct nvmet_tcp_queue *queue)
->>       struct socket *sock = queue->sock;
->>       write_lock_bh(&sock->sk->sk_callback_lock);
->> +    /*
->> +     * Check if nvmet_tcp_set_queue_sock() has been called;
->> +     * if not the queue reference has not been increased
->> +     * and we're getting an refcount error on exit.
->> +     */
->> +    if (sock->sk->sk_data_ready != nvmet_tcp_data_ready) {
->> +        write_unlock_bh(&sock->sk->sk_callback_lock);
->> +        return;
->> +    }
-> 
-> This is really ugly I think.
-> 
-Me too, but what would be the alternative?
+From: Ming Lei <ming.lei@redhat.com>
 
->>       sock->sk->sk_data_ready =  queue->data_ready;
->>       sock->sk->sk_state_change = queue->state_change;
->>       sock->sk->sk_write_space = queue->write_space;
->>       sock->sk->sk_user_data = NULL;
->>       write_unlock_bh(&sock->sk->sk_callback_lock);
->> +    nvmet_tcp_put_queue(queue);
->>   }
->>   static void nvmet_tcp_uninit_data_in_cmds(struct nvmet_tcp_queue 
->> *queue)
->> @@ -1474,6 +1488,30 @@ static void 
->> nvmet_tcp_free_cmd_data_in_buffers(struct nvmet_tcp_queue *queue)
->>           nvmet_tcp_free_cmd_buffers(&queue->connect);
->>   }
->> +static void nvmet_tcp_release_queue_final(struct kref *kref)
->> +{
->> +    struct nvmet_tcp_queue *queue = container_of(kref, struct 
->> nvmet_tcp_queue, kref);
->> +
->> +    WARN_ON(queue->state != NVMET_TCP_Q_DISCONNECTING);
->> +    nvmet_tcp_free_cmds(queue);
->> +    ida_free(&nvmet_tcp_queue_ida, queue->idx);
->> +    /* ->sock will be released by fput() */
->> +    fput(queue->sock->file);
->> +    kfree(queue);
->> +}
->> +
->> +static int nvmet_tcp_get_queue(struct nvmet_tcp_queue *queue)
->> +{
->> +    if (!queue)
->> +        return 0;
->> +    return kref_get_unless_zero(&queue->kref);
->> +}
->> +
->> +static void nvmet_tcp_put_queue(struct nvmet_tcp_queue *queue)
->> +{
->> +    kref_put(&queue->kref, nvmet_tcp_release_queue_final);
->> +}
->> +
->>   static void nvmet_tcp_release_queue_work(struct work_struct *w)
->>   {
->>       struct page *page;
->> @@ -1493,15 +1531,11 @@ static void 
->> nvmet_tcp_release_queue_work(struct work_struct *w)
->>       nvmet_sq_destroy(&queue->nvme_sq);
->>       cancel_work_sync(&queue->io_work);
->>       nvmet_tcp_free_cmd_data_in_buffers(queue);
->> -    /* ->sock will be released by fput() */
->> -    fput(queue->sock->file);
->> -    nvmet_tcp_free_cmds(queue);
->>       if (queue->hdr_digest || queue->data_digest)
->>           nvmet_tcp_free_crypto(queue);
->> -    ida_free(&nvmet_tcp_queue_ida, queue->idx);
->>       page = virt_to_head_page(queue->pf_cache.va);
->>       __page_frag_cache_drain(page, queue->pf_cache.pagecnt_bias);
->> -    kfree(queue);
->> +    nvmet_tcp_put_queue(queue);
-> 
-> What made you pick these vs. the others for before/after the
-> final reference?
-> 
-I wanted to call 'nvmet_tcp_put_queue()' for a failed allocation
-in nvmet_tcp_alloc_queue(), and at that time the queue itself
-is not live.
-nvmet_tcp_release_queue() is only called on a live queue, so using
-that as the kref ->release() function would either limit it's
-usefulness or would require me to ensure that all calls in there
-can be made with a non-initialized argument.
+Move start_freeze into nvme_tcp_configure_io_queues(), and there is
+at least two benefits:
 
->>   }
->>   static void nvmet_tcp_data_ready(struct sock *sk)
->> @@ -1512,8 +1546,10 @@ static void nvmet_tcp_data_ready(struct sock *sk)
->>       read_lock_bh(&sk->sk_callback_lock);
->>       queue = sk->sk_user_data;
->> -    if (likely(queue))
->> +    if (likely(nvmet_tcp_get_queue(queue))) {
->>           queue_work_on(queue_cpu(queue), nvmet_tcp_wq, &queue->io_work);
->> +        nvmet_tcp_put_queue(queue);
->> +    }
-> 
-> No... Why?
-> 
-> The shutdown code should serialize perfectly without this. Why add
-> a kref to the normal I/O path?
-> 
-> I thought we'd simply move release_work to do a kref_put and take
-> an extra reference when we fire the tls handshake...
-> 
-Because I feel ever so slightly unsure about using the sk_user_data
-argument. This function is completely asynchronous, and I can't really
-see how we can ensure that sk_user_data references a valid object.
-(If it were valid, why would we need to check for !queue ?)
+1) fix unbalanced freeze and unfreeze, since re-connection work may
+fail or be broken by removal
 
-If you have lifetime guarantees that the kref isn't required, by all
-means, please tell me, and we can drop the kref thing here.
-But I guess that would imply to _not_ having to check for (!queue)
-which is fine by me, too.
+2) IO during error recovery can be failfast quickly because nvme fabrics
+unquiesces queues after teardown.
 
->>       read_unlock_bh(&sk->sk_callback_lock);
->>   }
->> @@ -1523,18 +1559,16 @@ static void nvmet_tcp_write_space(struct sock 
->> *sk)
->>       read_lock_bh(&sk->sk_callback_lock);
->>       queue = sk->sk_user_data;
->> -    if (unlikely(!queue))
->> +    if (unlikely(!nvmet_tcp_get_queue(queue)))
->>           goto out;
->>       if (unlikely(queue->state == NVMET_TCP_Q_CONNECTING)) {
->>           queue->write_space(sk);
->> -        goto out;
->> -    }
->> -
->> -    if (sk_stream_is_writeable(sk)) {
->> +    } else if (sk_stream_is_writeable(sk)) {
->>           clear_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
->>           queue_work_on(queue_cpu(queue), nvmet_tcp_wq, &queue->io_work);
->>       }
->> +    nvmet_tcp_put_queue(queue);
-> 
-> Same here...
-> 
-> Why not simply exclude the kref get/put to the tls handshake where
-> there is actually a race?
-> 
-It's not abot the handshake, it's about socket closing.
-See above.
+One side-effect is that !mpath request may timeout during connecting
+because of queue topo change, but that looks not one big deal:
 
->>   out:
->>       read_unlock_bh(&sk->sk_callback_lock);
->>   }
->> @@ -1545,7 +1579,7 @@ static void nvmet_tcp_state_change(struct sock *sk)
->>       read_lock_bh(&sk->sk_callback_lock);
->>       queue = sk->sk_user_data;
->> -    if (!queue)
->> +    if (!nvmet_tcp_get_queue(queue))
->>           goto done;
->>       switch (sk->sk_state) {
->> @@ -1562,6 +1596,7 @@ static void nvmet_tcp_state_change(struct sock *sk)
->>           pr_warn("queue %d unhandled state %d\n",
->>               queue->idx, sk->sk_state);
->>       }
->> +    nvmet_tcp_put_queue(queue);
->>   done:
->>       read_unlock_bh(&sk->sk_callback_lock);
->>   }
->> @@ -1582,6 +1617,9 @@ static int nvmet_tcp_set_queue_sock(struct 
->> nvmet_tcp_queue *queue)
->>       if (ret < 0)
->>           return ret;
->> +    if (unlikely(!nvmet_tcp_get_queue(queue)))
->> +        return -ECONNRESET;
->> +
-> 
-> Can this actually fail?
-> 
-Yes. The socket might have been closed before this call.
-Unlikely, I know, but still...
+1) same problem exists with current code base
 
->>       /*
->>        * Cleanup whatever is sitting in the TCP transmit queue on socket
->>        * close. This is done to prevent stale data from being sent should
->> @@ -1603,6 +1641,7 @@ static int nvmet_tcp_set_queue_sock(struct 
->> nvmet_tcp_queue *queue)
->>            * If the socket is already closing, don't even start
->>            * consuming it
->>            */
->> +        nvmet_tcp_put_queue(queue);
->>           ret = -ENOTCONN;
->>       } else {
->>           sock->sk->sk_user_data = queue;
->> @@ -1636,6 +1675,7 @@ static void nvmet_tcp_alloc_queue(struct 
->> nvmet_tcp_port *port,
->>       INIT_WORK(&queue->release_work, nvmet_tcp_release_queue_work);
->>       INIT_WORK(&queue->io_work, nvmet_tcp_io_work);
->> +    kref_init(&queue->kref);
->>       queue->sock = newsock;
->>       queue->port = port;
->>       queue->nr_cmds = 0;
->> @@ -1672,15 +1712,15 @@ static void nvmet_tcp_alloc_queue(struct 
->> nvmet_tcp_port *port,
->>       mutex_unlock(&nvmet_tcp_queue_mutex);
->>       ret = nvmet_tcp_set_queue_sock(queue);
->> -    if (ret)
->> -        goto out_destroy_sq;
->> +    if (!ret)
->> +        return;
->> -    return;
->> -out_destroy_sq:
->> +    queue->state = NVMET_TCP_Q_DISCONNECTING;
->>       mutex_lock(&nvmet_tcp_queue_mutex);
->>       list_del_init(&queue->queue_list);
->>       mutex_unlock(&nvmet_tcp_queue_mutex);
->> -    nvmet_sq_destroy(&queue->nvme_sq);
->> +    nvmet_tcp_put_queue(queue);
->> +    return;
->>   out_free_connect:
->>       nvmet_tcp_free_cmd(&queue->connect);
->>   out_ida_remove:
+2) compared with !mpath, mpath use case is dominant
 
-But thanks for the review!
+Fixes: 2875b0aecabe ("nvme-tcp: fix controller reset hang during traffic")
+Cc: stable@vger.kernel.org
+Signed-off-by: Ming Lei <ming.lei@redhat.com>
+Tested-by: Yi Zhang <yi.zhang@redhat.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/tcp.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Cheers,
-
-Hannes
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 1dc7c733c7e3..8d67cdd844f5 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1884,6 +1884,7 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+ 		goto out_cleanup_connect_q;
+ 
+ 	if (!new) {
++		nvme_start_freeze(ctrl);
+ 		nvme_start_queues(ctrl);
+ 		if (!nvme_wait_freeze_timeout(ctrl, NVME_IO_TIMEOUT)) {
+ 			/*
+@@ -1892,6 +1893,7 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+ 			 * to be safe.
+ 			 */
+ 			ret = -ENODEV;
++			nvme_unfreeze(ctrl);
+ 			goto out_wait_freeze_timed_out;
+ 		}
+ 		blk_mq_update_nr_hw_queues(ctrl->tagset,
+@@ -1996,7 +1998,6 @@ static void nvme_tcp_teardown_io_queues(struct nvme_ctrl *ctrl,
+ 	if (ctrl->queue_count <= 1)
+ 		return;
+ 	nvme_stop_admin_queue(ctrl);
+-	nvme_start_freeze(ctrl);
+ 	nvme_stop_queues(ctrl);
+ 	nvme_sync_io_queues(ctrl);
+ 	nvme_tcp_stop_io_queues(ctrl);
 -- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
+2.41.0
 
 
