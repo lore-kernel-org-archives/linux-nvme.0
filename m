@@ -4,59 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 76E64C001DE
-	for <linux-nvme@archiver.kernel.org>; Sun, 13 Aug 2023 16:26:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0BBCEB64DD
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Aug 2023 02:04:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=voPZVihT3jhQAE+bQukxUMDUrOSYAi2zGU9Q6bbP430=; b=lqJwSdS0fULrqcMcuK+Y1Wup5m
-	Yv54TRkWrNFhDtwovL9RUpbsqTmSBS+AJPhAFHgf8DjrPz9klFSsvr6oyo07zcOw8bSLcGbYf2LlQ
-	Odq9DOsGKHSxdwZ5Ff6Sn+NI4rth616W405xPpRpmdoy7f9+LV3TtlNQvPQYwmkEbNjKFgpMIw+lO
-	H8DGrgZh8Tpv2FfdyYyblL+Zq4WSqNBXYW+fzL9q9U6NTLZ2+TZCSARY+8emZjTwxWqy7pkFrpD0g
-	vIqWQk8YmzDeieI+GNsX4ylSSNBGyp3+HfE8QeAJgM0Ui7wyZqTG/4Yeg0Qol/WfCcuvJiEvNlDHV
-	w2vptc/g==;
+	bh=OkkvN5LaeJ7jSZxGFsHd4Qul6dNlN5wnF04FypSAqNk=; b=nV8q8QIWjBmWB3k4Cx95FqGphW
+	oIdE12Zi0hUSiUTDIz9JdhkLvfsSHUV6NGIyr0qNeJ0pB0w9g3vLHEzJIIhx+XaJ4/eZtjfoj55J0
+	f3+qFj+kQIgHZVWNQb34lPUIKaLwMzegSVyuMbOFBgh1ZgknYue8k6FHmRFMDOS5++lc4wg0s0ND2
+	BP0wc8rW7to5KfiOcnRR3hszVBTWxE+b7CxWbIKBT0v5c5WQKpipXe7NzmI0M1ONsf3vnob9cp8NC
+	COLBSnuGAo57DmhIK4BUFY008tE+tKgbswxZKcxzZsiSk3xwe87VjhVMuQlOuNtLTMysrTas3f0fq
+	/bUhorog==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qVDvB-00FRlO-0c;
-	Sun, 13 Aug 2023 16:26:29 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1qVMw7-00Fz6m-27;
+	Mon, 14 Aug 2023 02:04:03 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qVDv8-00FRko-1b
+	id 1qVMw4-00Fz6L-2k
 	for linux-nvme@lists.infradead.org;
-	Sun, 13 Aug 2023 16:26:27 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	Mon, 14 Aug 2023 02:04:02 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1691978636;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OkkvN5LaeJ7jSZxGFsHd4Qul6dNlN5wnF04FypSAqNk=;
+	b=c+4/oHVFm/xnS3MXnP5HpjDuLGrLnd1upw0XmoN296Ha2MJlCPHI4dX/v+Vyk4p2SGWhyo
+	02P1cKaABdJg3ZAcL3F3Pg60snWGoONEyhqzu4lWbPBzawPA+voNnN0kPaUOH1KiYIBxJg
+	u8nmg2JI7gobL/WE0HW38ITovRkqmO8=
+Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-459-BNu-ZOwjOI-42Xcp2PFdzA-1; Sun, 13 Aug 2023 22:03:54 -0400
+X-MC-Unique: BNu-ZOwjOI-42Xcp2PFdzA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id B14E9638AD;
-	Sun, 13 Aug 2023 16:26:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE6D4C433C8;
-	Sun, 13 Aug 2023 16:26:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1691943985;
-	bh=s5dT010UIn2FJfSNfbpZQ1GBn9UlLwHEftGd4vg+tIo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dhu91dYEvIvHGT0iKN69McmHh4aWRUmmzbLmpvoJ0U/pyS6LG9nHStJLzAgoAwBoH
-	 bGmE8oPUBKHzWlfPelaa8CW5T8yL9AXTShR+9patEuTrLsb8CkeYPfJq/2Bg6R0EqU
-	 DhRmd1uxF5Hvcbc0fFPXCkPh8FPzScqquqsLL/fY=
-Date: Sun, 13 Aug 2023 18:26:19 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: stable@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 5.15.y 5.10.y 5.4.y 1/2] nvme-tcp: fix potential
- unbalanced freeze & unfreeze
-Message-ID: <2023081310-playback-thirstily-c79f@gregkh>
-References: <20230813144510.15401-1-sagi@grimberg.me>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D89513C02532;
+	Mon, 14 Aug 2023 02:03:53 +0000 (UTC)
+Received: from fedora (unknown [10.72.120.3])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 53B33400DE97;
+	Mon, 14 Aug 2023 02:03:48 +0000 (UTC)
+Date: Mon, 14 Aug 2023 10:03:44 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Guangwu Zhang <guazhang@redhat.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org,
+	Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+	linux-block@lists.infradead.org, Yi Zhang <yi.zhang@redhat.com>,
+	ming.lei@redhat.com
+Subject: Re: [PATCH] lib/group_cpus.c: avoid to acquire cpu hotplug lock in
+ group_cpus_evenly
+Message-ID: <ZNmLgBW06NZWUMo1@fedora>
+References: <20230810021640.252033-1-ming.lei@redhat.com>
+ <CAGS2=Ypt3U6AiR77B-WDUMB5atGt9YsuQoEn+PgZVmcH0n8tXg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230813144510.15401-1-sagi@grimberg.me>
+In-Reply-To: <CAGS2=Ypt3U6AiR77B-WDUMB5atGt9YsuQoEn+PgZVmcH0n8tXg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230813_092626_589475_7A330FC2 
-X-CRM114-Status: GOOD (  15.75  )
+X-CRM114-CacheID: sfid-20230813_190400_999408_49F55035 
+X-CRM114-Status: GOOD (  10.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,36 +83,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Aug 13, 2023 at 05:45:09PM +0300, Sagi Grimberg wrote:
-> From: Ming Lei <ming.lei@redhat.com>
-> 
-> Move start_freeze into nvme_tcp_configure_io_queues(), and there is
-> at least two benefits:
-> 
-> 1) fix unbalanced freeze and unfreeze, since re-connection work may
-> fail or be broken by removal
-> 
-> 2) IO during error recovery can be failfast quickly because nvme fabrics
-> unquiesces queues after teardown.
-> 
-> One side-effect is that !mpath request may timeout during connecting
-> because of queue topo change, but that looks not one big deal:
-> 
-> 1) same problem exists with current code base
-> 
-> 2) compared with !mpath, mpath use case is dominant
-> 
-> Fixes: 2875b0aecabe ("nvme-tcp: fix controller reset hang during traffic")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Ming Lei <ming.lei@redhat.com>
-> Tested-by: Yi Zhang <yi.zhang@redhat.com>
-> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
-> ---
->  drivers/nvme/host/tcp.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+Hello Thomas and Guys,
 
-All now queued up, thanks.
+On Fri, Aug 11, 2023 at 06:59:25PM +0800, Guangwu Zhang wrote:
+> Hi Ming,
+> I don't find any IO block after apply the patch.
+> 
+> Tested-by: Guangwu Zhang <guazhang@redhat.com>
 
-greg k-h
+Can you take a look at this fix? And this one solves a couple
+of nvme io hang report in case of cpu hotplug & reset involved.
+
+Thanks,
+Ming
+
 
