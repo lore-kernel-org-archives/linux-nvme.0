@@ -4,76 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DE948EB64DD
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Aug 2023 19:01:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CD35EEB64DD
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Aug 2023 19:05:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lQ77JWlcF/3CKlrUcH+wSXPOTkNjnUsQD1YZzzBs6TY=; b=FakMbhk0TNwqsjlxuV7dcCUH1p
-	mTI1uoHrQxuLa6jMph9xn02sg2WwE/UdfKrMqVG6hwcyrpcboxkGW22kwfM2vqZ8Io9uMqxPNnlK1
-	XyWu4IfaNuzNfnUFJF5k6pTdwfTv4vLPY4G9I6arLwnEVHjQ1cfHYYExm2QalCjIk2WDZzOWIPNK6
-	vZVvcAl86C9loul+AkJn/78biLczL4ufRlDTWTi/dlYekK7uP0F+NstlWi8UNH5HZA9jCoBXTO5xS
-	uPn12fBuI2bMY6YbMYfUE2DEB8MMqVilLZ8rf85bSf291qEEN6PUT0HVw0McSSfPtcslafLeS6U+b
-	bj4eIZjA==;
+	bh=BDF226U8s20wd6YP8ikmSWH6z2gzB09wST2WRKhovQI=; b=yZkuX2/WWXqb5xg4xP621fK0VK
+	gqqL+uzd1wTtvQfr4XD5xWAHY5gWYrv50mLrGtTqWrd+c1b49WgJA+6gzWImd3WNH4EITyHi93d62
+	i3Llcqf4sXvEDeyjcE1DfTQ6a+gxg1rQVlQ2GqaQGWKmOZAtEYWKvSopqe0owg9Nslhn6FYQ6tqr+
+	fcdzorACo87WtHeXkiecmWZrSk3GQ9zJnSp0nUBbhJAAP2Zple/Edv8Jpj6NdyI9sfMFx0RLy5QeS
+	jord0f0mJR105j8rwFk3xCFVmrfTm5W9/s3di3aabiDGTXs6kveayVWijwoU0JxlmxiG+Px+uolf0
+	PDpQAEDw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qVcod-000ATV-0j;
-	Mon, 14 Aug 2023 19:01:23 +0000
-Received: from mail-lf1-f45.google.com ([209.85.167.45])
+	id 1qVcsl-000B8C-2v;
+	Mon, 14 Aug 2023 19:05:39 +0000
+Received: from mail-ej1-f46.google.com ([209.85.218.46])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qVcob-000ASF-0w
+	id 1qVcsj-000B5i-10
 	for linux-nvme@lists.infradead.org;
-	Mon, 14 Aug 2023 19:01:22 +0000
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-4fe0a3377bfso1985762e87.0
-        for <linux-nvme@lists.infradead.org>; Mon, 14 Aug 2023 12:01:20 -0700 (PDT)
+	Mon, 14 Aug 2023 19:05:38 +0000
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-99bded9d93dso102284366b.1
+        for <linux-nvme@lists.infradead.org>; Mon, 14 Aug 2023 12:05:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692039679; x=1692644479;
+        d=1e100.net; s=20221208; t=1692039934; x=1692644734;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lQ77JWlcF/3CKlrUcH+wSXPOTkNjnUsQD1YZzzBs6TY=;
-        b=YqSDb9Oi0VmlavL4fGThB1NPmSAw9D3EJxUlny/biad3xgTaKOux3YLJLhijMS7Bkw
-         0IyFHPlXYblbyaPtaQkLOhKLVe1t73fOf6VF+NkpWG2wW8NV92ODVaCYIdY8V7yVvl1w
-         hMRp5mHDk5HOaGjibT1tDyjddP4s+ZGtmRhw/k4V1cGcM6FvesBQWMlhP7oZG1EnXpDU
-         Ed4gnrAEM+qaLDNDfFhqV4hbwjCpzYoRG6sIS9iBbsxa/uVzelsVgck6pjcHqoiqjcwG
-         2hnn36AjzJLLW5gw4O5oFnxElJn7GW9GWVAGTCcTUhne4Uv9dbRzLqsBlzzrvdpZvACl
-         Fl0Q==
-X-Gm-Message-State: AOJu0YwsuureutoNwGW9DKcqiRn3ryahfpy52fdRMKcGLDBTBX44BdPg
-	KAMAxQ5jtMMO6mxiMveMKmE=
-X-Google-Smtp-Source: AGHT+IFmLrTLGuDhCCL9vHJGXv/EwdcTHk0uU9kaQdWWrlrg1XR/E2162sm0MRiorOfiuwiNj22ICA==
-X-Received: by 2002:ac2:519a:0:b0:4fd:cab4:7d15 with SMTP id u26-20020ac2519a000000b004fdcab47d15mr4727508lfi.2.1692039678801;
-        Mon, 14 Aug 2023 12:01:18 -0700 (PDT)
+        bh=BDF226U8s20wd6YP8ikmSWH6z2gzB09wST2WRKhovQI=;
+        b=Xoha5FkpOM/Hzi5CKojtJPPJdxhCE6RWFdZRBPbfasdXoTOabge6L1w81KIMbR+ixq
+         0yZBi0tkPsXvAoBEdj14cZ86h4Z7jwQ9NBUsczCFvG/OGrh2p2rLqZMS05e9QH/d3aO6
+         Oy7sUDBVMS04tAb4ZXnCgmzuEXI2Zb+PS5Ak3o/NfcvkXh7/YNGqC/31ym1YmAg1zQ5Q
+         mb9uUlq06gHcdOnBqDm1pIeEVQ7jkSAF4HMpH9BVx1CB4hQLVsjW+zCiEdMswW0LAr9A
+         NAiAD+IuDsD5ySM5OqUsuWvI9Ei9Hpfs4LBxtYnZP/Nvq8hZIbSaWonRG/8YUQhM8n7a
+         fdew==
+X-Gm-Message-State: AOJu0YwEXPDhD5IXOFq0Vzt2nYlW5kvRV8Flav2E96n1KfgjZ5eYymaB
+	60n5t/3mveUX/Yg2+4KUpyA=
+X-Google-Smtp-Source: AGHT+IFshae9uLDqcs3fwT3y7Y9Y0Q99ktIq4atrQ1uA+SbbrnZrfL2r3M0L0wS54JnFHSmVpifWrA==
+X-Received: by 2002:a17:906:1041:b0:99c:5711:da5 with SMTP id j1-20020a170906104100b0099c57110da5mr7729118ejj.5.1692039933918;
+        Mon, 14 Aug 2023 12:05:33 -0700 (PDT)
 Received: from [10.100.102.14] (46-116-229-137.bb.netvision.net.il. [46.116.229.137])
-        by smtp.gmail.com with ESMTPSA id p18-20020a17090635d200b0099d0a8ccb5fsm5990701ejb.152.2023.08.14.12.01.15
+        by smtp.gmail.com with ESMTPSA id a17-20020a170906671100b0099bd8c1f67esm5955053ejp.109.2023.08.14.12.05.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Aug 2023 12:01:17 -0700 (PDT)
-Message-ID: <1a28b970-1954-a482-5906-c6ee96b248f0@grimberg.me>
-Date: Mon, 14 Aug 2023 22:01:14 +0300
+        Mon, 14 Aug 2023 12:05:33 -0700 (PDT)
+Message-ID: <b9ec8b98-dcde-1d89-9431-4799240f0c80@grimberg.me>
+Date: Mon, 14 Aug 2023 22:05:30 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v12 08/26] nvme-tcp: Add DDP data-path
+Subject: Re: [PATCH 17/17] nvmet-tcp: peek icreq before starting TLS
 Content-Language: en-US
-To: Aurelien Aptel <aaptel@nvidia.com>, linux-nvme@lists.infradead.org,
- netdev@vger.kernel.org, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
- chaitanyak@nvidia.com, davem@davemloft.net, kuba@kernel.org
-Cc: Boris Pismenny <borisp@nvidia.com>, aurelien.aptel@gmail.com,
- smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
- yorayz@nvidia.com, galshalom@nvidia.com, mgurtovoy@nvidia.com
-References: <20230712161513.134860-1-aaptel@nvidia.com>
- <20230712161513.134860-9-aaptel@nvidia.com>
- <1d5adbe9-dcab-5eae-fff3-631b91c2da94@grimberg.me>
- <2535y5hwqkg.fsf@nvidia.com>
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Jakub Kicinski <kuba@kernel.org>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org
+References: <20230814111943.68325-1-hare@suse.de>
+ <20230814111943.68325-18-hare@suse.de>
+ <304bc2f7-5f77-6e08-bcdb-f382233f611b@grimberg.me>
+ <f9ebbd9d-31be-8e2c-f8a2-1f5b95a83344@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <2535y5hwqkg.fsf@nvidia.com>
+In-Reply-To: <f9ebbd9d-31be-8e2c-f8a2-1f5b95a83344@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230814_120121_330137_59135408 
-X-CRM114-Status: GOOD (  12.28  )
+X-CRM114-CacheID: sfid-20230814_120537_347914_8FA6090A 
+X-CRM114-Status: GOOD (  14.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,31 +87,29 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
->>> @@ -1308,6 +1407,15 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
->>>        else
->>>                msg.msg_flags |= MSG_EOR;
->>>
->>> +     if (test_bit(NVME_TCP_Q_OFF_DDP, &queue->flags)) {
->>> +             ret = nvme_tcp_setup_ddp(queue, pdu->cmd.common.command_id,
->>> +                                      blk_mq_rq_from_pdu(req));
->>> +             WARN_ONCE(ret, "ddp setup failed (queue 0x%x, cid 0x%x, ret=%d)",
->>> +                       nvme_tcp_queue_id(queue),
->>> +                       pdu->cmd.common.command_id,
->>> +                       ret);
->>> +     }
+
+On 8/14/23 16:18, Hannes Reinecke wrote:
+> On 8/14/23 14:11, Sagi Grimberg wrote:
 >>
->> Any reason why this is done here when sending the command pdu and not
->> in setup time?
+>>> Incoming connection might be either 'normal' NVMe-TCP connections
+>>> starting with icreq or TLS handshakes. To ensure that 'normal'
+>>> connections can still be handled we need to peek the first packet
+>>> and only start TLS handshake if it's not an icreq.
+>>
+>> That depends if we want to do that.
+>> Why should we let so called normal connections if tls1.3 is
+>> enabled?
 > 
-> We wish to interact with the HW from the same CPU per queue, hence we
-> are calling setup_ddp() after queue->io_cpu == raw_smp_processor_id()
-> was checked in nvme_tcp_queue_request().
+> Because of the TREQ setting.
+> TREQ can be 'not specified, 'required', or 'not required'.
+> Consequently when TSAS is set to 'tls1.3', and TREQ to 'not required' 
+> the initiator can choose whether he wants to do TLS.
+> 
+> And we don't need this weird 'select TREQ required' when TLS is active;
+> never particularly liked that one.
 
-That is very fragile. You cannot depend on this micro-optimization being
-in the code. Is this related to a hidden steering rule you are adding
-to the hw?
-
-Which reminds me, in the control patch, you are passing io_cpu, this is
-also a dependency that should be avoided, you should use the same 
-mechanism as arfs to learn where the socket is being reaped.
+The guideline should be that treq 'not required' should be the explicit
+setting in tls and not the other way around. We should be strict by
+default and permissive only if the user explicitly chose it, and log
+a warning in the log.
 
