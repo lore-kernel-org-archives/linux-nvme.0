@@ -4,72 +4,137 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6D2C1C04A6A
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Aug 2023 12:48:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 43B8AC41513
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Aug 2023 13:01:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ffgi8sdzt4mElKNGL2sdufwPEtWxnhNpy3RZRQL38UM=; b=bFAUveFoxENxlsoaJb5X04zpre
-	6iOXQ5IOcUGafrFY8e+Xp9g3WBTW7zKAEikm19uGzXxy7xoTFqtifv2le83D833vFTQ0nKTCOxRKZ
-	eEseyHzoSMgu1vNY9lHIH0B103ppas2/1Q+BjJkcahafEZI34MyYm9PSLHE796ADQVfHJvmOcshe5
-	pdlnHJqXZvjtHZN7fiAf1RVpvNLwDyHKC5oMvFhFd66YmsLNyKXiYdjSlNzOHAdJ07WtGAxjHyEYT
-	Bydd1sWGlCP+C8ou3nYZ6SDZUB44D5cgB6b6MSGlkMh8XmNTMz+EwZdBkYpG/+OjGDTb3+LDDKFfh
-	KVkAgoyw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=jM2VGHFb+JlqR9zjYuZhlEYqAEqGzpivCMEb/22+bAE=; b=Okq5vx6VuZaGakTbYu1Tcon4/a
+	bs3KLFif0579XcbS0ZKpO2k7bYuWFxnPrgXkQS+VerU/qX/pvxKwBUBQpKWJKJ2J/rVZHfcxKmnts
+	hw35LbRY+740iPK8vNoJJBXzDpuKUr1voA63/Pe0GSxlI71cZCHtyE0hAQGFSqK/Ja03Nol+4Jnos
+	TUlQKbjGpHxJoXaurlnzCingB5Qcnk97eUDtBId+sRnQYvMpyNX+dVMVQTMk8QTrbMCTsn0IKxcUg
+	9mUhrW0JdFrOK9fMp6RynxChLOcL00FBsGG9dg9xE6J3fSvZX2WZZlCUNfnpp9jN9X687eg4GkP+3
+	l5Wf+pwQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qVWzm-00H4ri-0b;
-	Mon, 14 Aug 2023 12:48:30 +0000
-Received: from mail-wm1-f50.google.com ([209.85.128.50])
+	id 1qVXCE-00H6Cf-1H;
+	Mon, 14 Aug 2023 13:01:22 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qVWzj-00H4r8-0n
+	id 1qVXCA-00H6BB-1w
 	for linux-nvme@lists.infradead.org;
-	Mon, 14 Aug 2023 12:48:29 +0000
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-3fe1b6192e8so12659635e9.1
-        for <linux-nvme@lists.infradead.org>; Mon, 14 Aug 2023 05:48:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692017305; x=1692622105;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ffgi8sdzt4mElKNGL2sdufwPEtWxnhNpy3RZRQL38UM=;
-        b=GXOf6pIs9FBRXpQZxh9/0j5omwJNizdL9Ezt+Td96OpfhP6q87eviju3XMYIpe8t69
-         CE3RWcsGqtpKjOCAYDYKFkapgE01GhvNo+sEaaxhvz1icVYruRIIm/mtMOsfm9yzdOV+
-         dsc71E2q9sHkD1+kf4EeKywvHCF6BAAhadBCOZtGVmplX1dtXWCm4B3QHfNmNJbVlyRM
-         syiVSUuxi65kyQGcZsyeCfYriNIu36DMnvevWorjkPbUhGClcM1aIlDESTmpFs6F8PP4
-         N91OBYXgRd/cWq26vHRBSE75blPSPl+f63Q4Cap6J9CfffWen1ykVkFAy2BNtpbIBOqy
-         wmGA==
-X-Gm-Message-State: AOJu0YwvcEFtbI7YQX3++/OUosyT61VUFqNc0rQtBvHhI4Bj6Z9vCEC0
-	S1LcztOWHguPNH4GKz/Tg2oTDrzsJiA=
-X-Google-Smtp-Source: AGHT+IGdPO0kaMt0P9JRVsxMQoti9Y3FVW76w3PQi33nLzP58STEhESWDkBvhFIQHj3Ql2ysZ3B7wQ==
-X-Received: by 2002:a05:600c:1c07:b0:3fe:5228:b792 with SMTP id j7-20020a05600c1c0700b003fe5228b792mr7757179wms.3.1692017304769;
-        Mon, 14 Aug 2023 05:48:24 -0700 (PDT)
-Received: from [192.168.64.157] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id c6-20020a7bc846000000b003fe0a0e03fcsm16908991wml.12.2023.08.14.05.48.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Aug 2023 05:48:24 -0700 (PDT)
-Message-ID: <cf21000c-177e-c882-ac30-fe3190748bae@grimberg.me>
-Date: Mon, 14 Aug 2023 15:48:22 +0300
+	Mon, 14 Aug 2023 13:01:20 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20230814130112epoutp02f6e356e8d73cda1b4ac1c77d880257f9~7QXkCeYZn2300423004epoutp02z
+	for <linux-nvme@lists.infradead.org>; Mon, 14 Aug 2023 13:01:12 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20230814130112epoutp02f6e356e8d73cda1b4ac1c77d880257f9~7QXkCeYZn2300423004epoutp02z
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1692018073;
+	bh=jM2VGHFb+JlqR9zjYuZhlEYqAEqGzpivCMEb/22+bAE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=N8/b2hifmH6DnilUQOTgvOjptWpBYi1PeG915VClLEOR/R/6/rdJG/aaLNjVQnyiz
+	 OUI9tV46PMiqEqNySUcrcLf3zSdMgRQPLVWjgZiqULI/OrOtHDVz4vc3ihf84O1ywz
+	 zunoJIyBFMXsfEWUNFxZn1lUKQPEBBNIKcTryMoc=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20230814130112epcas5p4911f9a9e6f010a347b48734a3237a9e6~7QXjHSw3B3072830728epcas5p4X;
+	Mon, 14 Aug 2023 13:01:12 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.176]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4RPZK22WlHz4x9Pr; Mon, 14 Aug
+	2023 13:01:10 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	58.C3.55522.6952AD46; Mon, 14 Aug 2023 22:01:10 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20230814121319epcas5p32e02f82561b4040f8e3fb7c7410b6de5~7PtvgeQaE2140321403epcas5p3E;
+	Mon, 14 Aug 2023 12:13:19 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20230814121319epsmtrp2479bbf33206258a34d03825743a7e8e3~7PtvfUa9o0884008840epsmtrp2I;
+	Mon, 14 Aug 2023 12:13:19 +0000 (GMT)
+X-AuditID: b6c32a49-419ff7000000d8e2-83-64da2596b55e
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	7D.55.30535.E5A1AD46; Mon, 14 Aug 2023 21:13:18 +0900 (KST)
+Received: from green245 (unknown [107.99.41.245]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20230814121315epsmtip264aaea99f00073a95cc0b32dd5a0ebd7~7PtsahaFA0358203582epsmtip2d;
+	Mon, 14 Aug 2023 12:13:15 +0000 (GMT)
+Date: Mon, 14 Aug 2023 17:39:59 +0530
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
+	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	dm-devel@redhat.com, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
+	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
+	<kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
+	Brauner <brauner@kernel.org>, martin.petersen@oracle.com,
+	linux-doc@vger.kernel.org, gost.dev@samsung.com, Anuj Gupta
+	<anuj20.g@samsung.com>, linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	mcgrof@kernel.org, dlemoal@kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [dm-devel] [PATCH v14 02/11] Add infrastructure for copy
+ offload in block and request layer.
+Message-ID: <20230814120959.ridr6xptirlcjkty@green245>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 15/17] nvmet-tcp: enable TLS handshake upcall
-Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Jakub Kicinski <kuba@kernel.org>, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org
-References: <20230814111943.68325-1-hare@suse.de>
- <20230814111943.68325-16-hare@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230814111943.68325-16-hare@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <355bb623-9cd9-fe33-106e-1f091c09fb32@acm.org>
+User-Agent: NeoMutt/20171215
+X-Brightmail-Tracker: H4sIAAAAAAAAA01TfVCTdRzv9zzPxjO6eY+86M9pOudxF/NANsb6ARKmnD1l3XF1epVXa7In
+	IGCbe1GyTKA0kFchSEaCprxtxFtmBI10KEzAzCPexoFcB2oguKBI4sU2Njr/+/w+n+/n9327
+	L4l7ZXjwyHiljtEo5YkCtidxpc1fGFDkZ1MEDf3uieo623GUlreEI9NwLhtNts0AVGSfx9HY
+	1S8AGv05EpmnS1ho8OqPGKo23cBQvqUPoPFeA4bMtu3owqlLBPrJfJNAPc1fs1FZxbgHquxY
+	xtBA3jhAtZOPCGS1bUS3lzpYu9bRPb/to2+PNBB0zy093WjMYNPfXTpBtwymsOmLOQUsOvuz
+	aTb957iNoB+19rLpnMtGQM82bqYbx6awaO47CTvjGLmC0fAZZYxKEa+MjRDse1O2RxYiDRIF
+	iELRCwK+Up7ERAiiXosO2Buf6OhZwD8iT9Q7qGi5VivY8eJOjUqvY/hxKq0uQsCoFYlqiTpQ
+	K0/S6pWxgUpGFyYKChKHOALfT4hb7F/A1AMeyaXzuewUcJ19GnBISElg5UiBA3uSXlQLgLbM
+	+8ApeFEzALYN6V3CHICWr9I9Vh1D6Rcxl2AGcH6iELge9wAcaq5gOaMIyg8au1IdDpJkU9th
+	1xPSSftQz8O50UrCGY9TxSx4paYUdwreVAIsHupjO+O5lBTmFx5z0lxqLbxZPEY4MYcKh2Vd
+	uStF+FKb4Nnyv3HnP5Aq48CHlnPAVV0UNFrbcRf2hhMdl91V8+DstNnd81FY/WUV22X+HEBD
+	v8FtjoQnO3NXzDgVB+sHUwkX/xws7KzFXPwamL0whrl4LmwqXcXbYE3deXeCDbDvn1Q3puHZ
+	6R/c47IDWGu6QOSBLYanujM8lc+Fw2CGPY1lcAwDpzbCymXSBf1hXfOO84BlBBsYtTYpltGG
+	qEVK5uj/G49RJTWClZsQvtIEhkftgRaAkcACIIkLfLhZXJvCi6uQf3SM0ahkGn0io7WAEMey
+	zuA83xiV46iUOplIEhokkUqlktBgqUiwnjt58pzCi4qV65gEhlEzmlUfRnJ4KdjahUy/V2+x
+	eM+W/5HVY/DZOtEQpEonDe0fK6vEr8+Wt5B+rd8WNE8tYMH2w38txr0XwLdydr8UnN/9iZWo
+	3rqFOvxr8ofcT5OzxLrQTtMHp5U6vO7I/g7ZxIGa3vB3eQcfm4yl166X8Eus7WnNsvBD/45P
+	HJT+chzOmk/cW79mc/39499vUgq9aWyyVSx6IyH+Wk/2tidC/yru3EDF2w/8Ti0bxTK0J18W
+	2t2Ssq6nIZR150xaXf/eJt+CIXuaOCxYQd+JGYm8awpTdz4wSHb5iQYjD1hfPiSa4vDrH6bu
+	Ll9sNM1kBmu6jbpvHnOFz+RY7y7diGrU1yikRftZb9ntwwJCGycXCXGNVv4fIjC6FJwEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Re0hTYRjG+c45OzsbrY7T6stZxigqLS/d/CqpIKFTUa3yrwprupOGbo4d
+	L2kXraBU8lJh2MrKtEmTNKd0U0unTkvUcDnymLZoVjC8l2Cp5ZSo/x6e5/e87wsvhUubCU/q
+	pCaO1WmUMXJSTDypl3uvCfPkVQGFuUGo7I0FRxdyJnFU0pNNImf9CEA3hsZx5Ki9DJD91TZU
+	M3BLgLpqn2PoYUkjhq6ZbQD1deoxVMP7ooJLRQSqrnlNIOuL2yS6a+gTouKmKQy9z+kDqNQ5
+	SKBmXobaJ5sE2xcw1nd7mPbecoKxtsYzJmM6yVQUpTBVXakkU5h1XcBkXhwgmeE+nmAGX3aS
+	TFalETCjpiWMydGPKSSHxcEqNuZkAqvz33pcHPXyUQ+mzRCcuj9URqSCHCIDiChIr4fdaYWY
+	S0vpKgD570Gz/iJomGzAZ7U7fDj1VZgBxNOMA8DeiRcCV0DQy6Gx5fx0QFEk7QtbflMu24Ne
+	CcfsxYSLx+l8ATT8ahe6Anc6GvZYykgXL6E3wmu5ybN7hwBML5G4tIR2g69vOmZuw6eROxWf
+	cBeO0zJYPDUzXkRvgXdbsmcmzqe9YN6DH3gOcNP/19b/19b/a98DuBEsYrWcOlLNBWrXathE
+	P06p5uI1kX4RsWoTmHm2j88zUG0c8jMDjAJmAClc7iG5IuFVUolKmZTM6mKP6eJjWM4MZBQh
+	XygZc2aqpHSkMo6NZlktq/ubYpTIMxV7mqgcEb1VN9l2997XH4lIaPj4pWvNwitz8RSvmHyH
+	uGNj4NIC61Zt9+5d4QX+AT/P7Wz9LFzKJeKnbXHFy5zNAzvEO1PeVde5BY+TQb11wtDFzpAW
+	+SN9NRbybd9wYaOhU73y00FrnW17XIjHruxR/ucHWV5Wh/fR7vB+fxPY43598MSgXbicfxW7
+	7kHlPHXyY7/9mzu9z2rj+TSp/mZER+Ot1hL7aH158yHmRumWkbdG7Z2OOUkKUbTF98yGhAlq
+	27ngtLzQ1YccbUGbci+nZTR8bpPFEulcRL5FETUC7Ap/g1kxrvgtnuCLpAcyhfTzMI3Xiqur
+	inItvO3g3io5wUUpA31wHaf8A6ifNtlbAwAA
+X-CMS-MailID: 20230814121319epcas5p32e02f82561b4040f8e3fb7c7410b6de5
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----nvFln8z3L_krFSQI_duuyTsYVGNcxCMU6qftyQwhOSKtHzaF=_548ca_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230811105648epcas5p3ae8b8f6ed341e2aa253e8b4de8920a4d
+References: <20230811105300.15889-1-nj.shetty@samsung.com>
+	<CGME20230811105648epcas5p3ae8b8f6ed341e2aa253e8b4de8920a4d@epcas5p3.samsung.com>
+	<20230811105300.15889-3-nj.shetty@samsung.com>
+	<355bb623-9cd9-fe33-106e-1f091c09fb32@acm.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230814_054827_284112_880D5CB9 
-X-CRM114-Status: GOOD (  37.02  )
+X-CRM114-CacheID: sfid-20230814_060119_344428_B84ED4F3 
+X-CRM114-Status: GOOD (  13.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,390 +149,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+------nvFln8z3L_krFSQI_duuyTsYVGNcxCMU6qftyQwhOSKtHzaF=_548ca_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
+
+On 23/08/11 02:58PM, Bart Van Assche wrote:
+>On 8/11/23 03:52, Nitesh Shetty wrote:
+>>We expect caller to take a plug and send bio with source information,
+>>followed by bio with destination information.
+>>Once the src bio arrives we form a request and wait for destination
+>>bio. Upon arrival of destination we merge these two bio's and send
+>>corresponding request down to device driver.
+>
+>Is the above description up-to-date? In the cover letter there is a 
+>different description of how copy offloading works.
+>
+Acked, This description is up to date.
+We need to update this description in cover letter.
+
+Thank you,
+Nitesh Shetty
+
+------nvFln8z3L_krFSQI_duuyTsYVGNcxCMU6qftyQwhOSKtHzaF=_548ca_
+Content-Type: text/plain; charset="utf-8"
 
 
-On 8/14/23 14:19, Hannes Reinecke wrote:
-> Add functions to start the TLS handshake upcall when
-> the TCP TSAS sectype is set to 'tls1.3' and add a config
-> option NVME_TARGET_TCP_TLS.
-
-Need to document the refcount added.
-Also the general design with upcalling tls handshake in
-userspace and continue from there...
-
-> 
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> ---
->   drivers/nvme/target/Kconfig    |  15 ++++
->   drivers/nvme/target/configfs.c |  21 +++++
->   drivers/nvme/target/nvmet.h    |   1 +
->   drivers/nvme/target/tcp.c      | 146 ++++++++++++++++++++++++++++++++-
->   4 files changed, 179 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/Kconfig b/drivers/nvme/target/Kconfig
-> index 79fc64035ee3..8a6c9cae804c 100644
-> --- a/drivers/nvme/target/Kconfig
-> +++ b/drivers/nvme/target/Kconfig
-> @@ -84,6 +84,21 @@ config NVME_TARGET_TCP
->   
->   	  If unsure, say N.
->   
-> +config NVME_TARGET_TCP_TLS
-> +	bool "NVMe over Fabrics TCP target TLS encryption support"
-> +	depends on NVME_TARGET_TCP
-> +	select NVME_COMMON
-> +	select NVME_KEYRING
-> +	select NET_HANDSHAKE
-> +	select KEYS
-> +	help
-> +	  Enables TLS encryption for the NVMe TCP target using the netlink handshake API.
-> +
-> +	  The TLS handshake daemon is availble at
-> +	  https://github.com/oracle/ktls-utils.
-> +
-> +	  If unsure, say N.
-> +
->   config NVME_TARGET_AUTH
->   	bool "NVMe over Fabrics In-band Authentication support"
->   	depends on NVME_TARGET
-> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-> index efbfed310370..ad1fb32c7387 100644
-> --- a/drivers/nvme/target/configfs.c
-> +++ b/drivers/nvme/target/configfs.c
-> @@ -15,6 +15,7 @@
->   #ifdef CONFIG_NVME_TARGET_AUTH
->   #include <linux/nvme-auth.h>
->   #endif
-> +#include <linux/nvme-keyring.h>
->   #include <crypto/hash.h>
->   #include <crypto/kpp.h>
->   
-> @@ -397,6 +398,17 @@ static ssize_t nvmet_addr_tsas_store(struct config_item *item,
->   	return -EINVAL;
->   
->   found:
-> +	if (sectype == NVMF_TCP_SECTYPE_TLS13) {
-> +		if (!IS_ENABLED(CONFIG_NVME_TARGET_TCP_TLS)) {
-> +			pr_err("TLS is not supported\n");
-> +			return -EINVAL;
-> +		}
-> +		if (!port->keyring) {
-> +			pr_err("TLS keyring not configured\n");
-> +			return -EINVAL;
-> +		}
-> +	}
-> +
->   	nvmet_port_init_tsas_tcp(port, sectype);
->   	/*
->   	 * The TLS implementation currently does not support
-> @@ -1815,6 +1827,7 @@ static void nvmet_port_release(struct config_item *item)
->   	flush_workqueue(nvmet_wq);
->   	list_del(&port->global_entry);
->   
-> +	key_put(port->keyring);
->   	kfree(port->ana_state);
->   	kfree(port);
->   }
-> @@ -1864,6 +1877,14 @@ static struct config_group *nvmet_ports_make(struct config_group *group,
->   		return ERR_PTR(-ENOMEM);
->   	}
->   
-> +	if (nvme_keyring_id()) {
-> +		port->keyring = key_lookup(nvme_keyring_id());
-> +		if (IS_ERR(port->keyring)) {
-> +			pr_warn("NVMe keyring not available, disabling TLS\n");
-> +			port->keyring = NULL;
-
-why setting this to NULL?
-
-> +		}
-> +	}
-> +
->   	for (i = 1; i <= NVMET_MAX_ANAGRPS; i++) {
->   		if (i == NVMET_DEFAULT_ANA_GRPID)
->   			port->ana_state[1] = NVME_ANA_OPTIMIZED;
-> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-> index 8cfd60f3b564..7f9ae53c1df5 100644
-> --- a/drivers/nvme/target/nvmet.h
-> +++ b/drivers/nvme/target/nvmet.h
-> @@ -158,6 +158,7 @@ struct nvmet_port {
->   	struct config_group		ana_groups_group;
->   	struct nvmet_ana_group		ana_default_group;
->   	enum nvme_ana_state		*ana_state;
-> +	struct key			*keyring;
->   	void				*priv;
->   	bool				enabled;
->   	int				inline_data_size;
-> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-> index f19ea9d923fd..77fa339008e1 100644
-> --- a/drivers/nvme/target/tcp.c
-> +++ b/drivers/nvme/target/tcp.c
-> @@ -8,9 +8,13 @@
->   #include <linux/init.h>
->   #include <linux/slab.h>
->   #include <linux/err.h>
-> +#include <linux/key.h>
->   #include <linux/nvme-tcp.h>
-> +#include <linux/nvme-keyring.h>
->   #include <net/sock.h>
->   #include <net/tcp.h>
-> +#include <net/tls.h>
-> +#include <net/handshake.h>
->   #include <linux/inet.h>
->   #include <linux/llist.h>
->   #include <crypto/hash.h>
-> @@ -66,6 +70,16 @@ device_param_cb(idle_poll_period_usecs, &set_param_ops,
->   MODULE_PARM_DESC(idle_poll_period_usecs,
->   		"nvmet tcp io_work poll till idle time period in usecs: Default 0");
->   
-> +#ifdef CONFIG_NVME_TARGET_TCP_TLS
-> +/*
-> + * TLS handshake timeout
-> + */
-> +static int tls_handshake_timeout = 10;
-> +module_param(tls_handshake_timeout, int, 0644);
-> +MODULE_PARM_DESC(tls_handshake_timeout,
-> +		 "nvme TLS handshake timeout in seconds (default 10)");
-> +#endif
-> +
->   #define NVMET_TCP_RECV_BUDGET		8
->   #define NVMET_TCP_SEND_BUDGET		8
->   #define NVMET_TCP_IO_WORK_BUDGET	64
-> @@ -122,11 +136,13 @@ struct nvmet_tcp_cmd {
->   
->   enum nvmet_tcp_queue_state {
->   	NVMET_TCP_Q_CONNECTING,
-> +	NVMET_TCP_Q_TLS_HANDSHAKE,
->   	NVMET_TCP_Q_LIVE,
->   	NVMET_TCP_Q_DISCONNECTING,
->   };
->   
->   struct nvmet_tcp_queue {
-> +	struct kref		kref;
-
-Why is kref the first member of the struct?
-
->   	struct socket		*sock;
->   	struct nvmet_tcp_port	*port;
->   	struct work_struct	io_work;
-> @@ -155,6 +171,10 @@ struct nvmet_tcp_queue {
->   	struct ahash_request	*snd_hash;
->   	struct ahash_request	*rcv_hash;
->   
-> +	/* TLS state */
-> +	key_serial_t		tls_pskid;
-> +	struct delayed_work	tls_handshake_work;
-> +
->   	unsigned long           poll_end;
->   
->   	spinlock_t		state_lock;
-> @@ -1283,12 +1303,21 @@ static int nvmet_tcp_try_recv(struct nvmet_tcp_queue *queue,
->   	return ret;
->   }
->   
-> +static void nvmet_tcp_release_queue(struct kref *kref)
-> +{
-> +	struct nvmet_tcp_queue *queue =
-> +		container_of(kref, struct nvmet_tcp_queue, kref);
-> +
-> +	WARN_ON(queue->state != NVMET_TCP_Q_DISCONNECTING);
-> +	queue_work(nvmet_wq, &queue->release_work);
-> +}
-> +
->   static void nvmet_tcp_schedule_release_queue(struct nvmet_tcp_queue *queue)
->   {
->   	spin_lock_bh(&queue->state_lock);
->   	if (queue->state != NVMET_TCP_Q_DISCONNECTING) {
->   		queue->state = NVMET_TCP_Q_DISCONNECTING;
-> -		queue_work(nvmet_wq, &queue->release_work);
-> +		kref_put(&queue->kref, nvmet_tcp_release_queue);
->   	}
->   	spin_unlock_bh(&queue->state_lock);
->   }
-> @@ -1485,6 +1514,8 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
->   	mutex_unlock(&nvmet_tcp_queue_mutex);
->   
->   	nvmet_tcp_restore_socket_callbacks(queue);
-> +	tls_handshake_cancel(queue->sock->sk);
-> +	cancel_delayed_work_sync(&queue->tls_handshake_work);
-
-We should call it tls_handshake_tmo_work or something to make it
-clear it is a timeout work.
-
->   	cancel_work_sync(&queue->io_work);
->   	/* stop accepting incoming data */
->   	queue->rcv_state = NVMET_TCP_RECV_ERR;
-> @@ -1512,8 +1543,13 @@ static void nvmet_tcp_data_ready(struct sock *sk)
->   
->   	read_lock_bh(&sk->sk_callback_lock);
->   	queue = sk->sk_user_data;
-> -	if (likely(queue))
-> -		queue_work_on(queue_cpu(queue), nvmet_tcp_wq, &queue->io_work);
-> +	if (likely(queue)) {
-> +		if (queue->data_ready)
-> +			queue->data_ready(sk);
-> +		if (queue->state != NVMET_TCP_Q_TLS_HANDSHAKE)
-> +			queue_work_on(queue_cpu(queue), nvmet_tcp_wq,
-> +				      &queue->io_work);
-> +	}
->   	read_unlock_bh(&sk->sk_callback_lock);
->   }
->   
-> @@ -1621,6 +1657,83 @@ static int nvmet_tcp_set_queue_sock(struct nvmet_tcp_queue *queue)
->   	return ret;
->   }
->   
-> +#ifdef CONFIG_NVME_TARGET_TCP_TLS
-> +static void nvmet_tcp_tls_handshake_done(void *data, int status,
-> +					 key_serial_t peerid)
-> +{
-> +	struct nvmet_tcp_queue *queue = data;
-> +
-> +	pr_debug("queue %d: TLS handshake done, key %x, status %d\n",
-> +		 queue->idx, peerid, status);
-> +	spin_lock_bh(&queue->state_lock);
-> +	if (queue->state != NVMET_TCP_Q_TLS_HANDSHAKE) {
-
-Is this even possible?
-
-> +		pr_warn("queue %d: TLS handshake already completed\n",
-> +			queue->idx);
-> +		spin_unlock_bh(&queue->state_lock);
-> +		kref_put(&queue->kref, nvmet_tcp_release_queue);
-
-How can we get here?
-
-> +		return;
-> +	}
-> +	if (!status)
-> +		queue->tls_pskid = peerid;
-> +	queue->state = NVMET_TCP_Q_CONNECTING;
-> +	spin_unlock_bh(&queue->state_lock);
-> +
-> +	cancel_delayed_work_sync(&queue->tls_handshake_work);
-> +	if (status) {
-
-Wait, did we assign the sk_state_change in this stage? What will
-sock shutdown trigger?
-
-> +		kernel_sock_shutdown(queue->sock, SHUT_RDWR);
-
-Probably the put can be moved to a out: label in the end.
-
-> +		kref_put(&queue->kref, nvmet_tcp_release_queue);
-> +		return;
-> +	}
-> +
-> +	pr_debug("queue %d: resetting queue callbacks after TLS handshake\n",
-> +		 queue->idx);
-> +	nvmet_tcp_set_queue_sock(queue);
-> +	kref_put(&queue->kref, nvmet_tcp_release_queue);
-> +}
-> +
-> +static void nvmet_tcp_tls_handshake_timeout_work(struct work_struct *w)
-> +{
-> +	struct nvmet_tcp_queue *queue = container_of(to_delayed_work(w),
-> +			struct nvmet_tcp_queue, tls_handshake_work);
-> +
-> +	pr_debug("queue %d: TLS handshake timeout\n", queue->idx);
-
-Probably its better to make this pr_warn...
-
-> +	if (!tls_handshake_cancel(queue->sock->sk))
-> +		return;
-> +	kernel_sock_shutdown(queue->sock, SHUT_RDWR);
-
-Same question here, did we assign sk_state_change yet?
-
-> +	kref_put(&queue->kref, nvmet_tcp_release_queue);
-> +}
-> +
-> +static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue)
-> +{
-> +	int ret = -EOPNOTSUPP;
-> +	struct tls_handshake_args args;
-> +
-> +	if (queue->state != NVMET_TCP_Q_TLS_HANDSHAKE) {
-> +		pr_warn("cannot start TLS in state %d\n", queue->state);
-> +		return -EINVAL;
-> +	}
-> +
-> +	kref_get(&queue->kref);
-> +	pr_debug("queue %d: TLS ServerHello\n", queue->idx);
-> +	memset(&args, 0, sizeof(args));
-> +	args.ta_sock = queue->sock;
-> +	args.ta_done = nvmet_tcp_tls_handshake_done;
-> +	args.ta_data = queue;
-> +	args.ta_keyring = key_serial(queue->port->nport->keyring);
-> +	args.ta_timeout_ms = tls_handshake_timeout * 1000;
-> +
-> +	ret = tls_server_hello_psk(&args, GFP_KERNEL);
-> +	if (ret) {
-> +		kref_put(&queue->kref, nvmet_tcp_release_queue);
-> +		pr_err("failed to start TLS, err=%d\n", ret);
-> +	} else {
-> +		queue_delayed_work(nvmet_wq, &queue->tls_handshake_work,
-> +				   tls_handshake_timeout * HZ);
-> +	}
-> +	return ret;
-> +}
-> +#endif
-> +
->   static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
->   		struct socket *newsock)
->   {
-> @@ -1636,11 +1749,16 @@ static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
->   
->   	INIT_WORK(&queue->release_work, nvmet_tcp_release_queue_work);
->   	INIT_WORK(&queue->io_work, nvmet_tcp_io_work);
-> +	kref_init(&queue->kref);
->   	queue->sock = newsock;
->   	queue->port = port;
->   	queue->nr_cmds = 0;
->   	spin_lock_init(&queue->state_lock);
-> -	queue->state = NVMET_TCP_Q_CONNECTING;
-> +	if (queue->port->nport->disc_addr.tsas.tcp.sectype ==
-> +	    NVMF_TCP_SECTYPE_TLS13)
-> +		queue->state = NVMET_TCP_Q_TLS_HANDSHAKE;
-> +	else
-> +		queue->state = NVMET_TCP_Q_CONNECTING;
->   	INIT_LIST_HEAD(&queue->free_list);
->   	init_llist_head(&queue->resp_list);
->   	INIT_LIST_HEAD(&queue->resp_send_list);
-> @@ -1671,12 +1789,32 @@ static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
->   	list_add_tail(&queue->queue_list, &nvmet_tcp_queue_list);
->   	mutex_unlock(&nvmet_tcp_queue_mutex);
->   
-> +#ifdef CONFIG_NVME_TARGET_TCP_TLS
-> +	INIT_DELAYED_WORK(&queue->tls_handshake_work,
-> +			  nvmet_tcp_tls_handshake_timeout_work);
-> +	if (queue->state == NVMET_TCP_Q_TLS_HANDSHAKE) {
-> +		struct sock *sk = queue->sock->sk;
-> +
-> +		/* Restore the default callbacks before starting upcall */
-> +		read_lock_bh(&sk->sk_callback_lock);
-> +		sk->sk_user_data = NULL;
-> +		sk->sk_data_ready = port->data_ready;
-> +		read_unlock_bh(&sk->sk_callback_lock);
-> +		if (!nvmet_tcp_tls_handshake(queue))
-> +			return;
-> +
-> +		/* TLS handshake failed, terminate the connection */
-> +		goto out_destroy_sq;
-> +	}
-> +#endif
-> +
->   	ret = nvmet_tcp_set_queue_sock(queue);
->   	if (ret)
->   		goto out_destroy_sq;
->   
->   	return;
->   out_destroy_sq:
-> +	queue->state = NVMET_TCP_Q_DISCONNECTING;
-
-Can you clarify what this is used for?
-
->   	mutex_lock(&nvmet_tcp_queue_mutex);
->   	list_del_init(&queue->queue_list);
->   	mutex_unlock(&nvmet_tcp_queue_mutex);
+------nvFln8z3L_krFSQI_duuyTsYVGNcxCMU6qftyQwhOSKtHzaF=_548ca_--
 
