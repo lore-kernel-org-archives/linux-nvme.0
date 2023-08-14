@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B9239C04A94
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Aug 2023 11:20:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54442EB64DD
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Aug 2023 11:20:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gFv1GNXmaQGmSM+mG7gy4jwJID6bSTZqne91i6RpXC0=; b=0LeeNpzEw/6vpjvT1zNCEqsaEb
-	f2Zo8igLYFSFXWXVLQYMgZsnk5oVMgAMpGuHB5vkxAOZ08JvWKHWzkiN3r2VP0FRH7t++mAr7jMuM
-	mzm5zm4mq/0GZLqMeJCCGnduSkWj5frfEExELpumaCQI0pMMdnibxxmqfdTytMD5yBw8hPXeM6wsV
-	AuDxtgJvtOGKIDd6fgagANtEcNZxwS8p0rr4lNo4At6m0E2E3dgroPGzqejJ4U0XEDr1fQSnCAxQl
-	ynMFbnYdIko0tkQX1RQdGttfvgekCX4Teaap+TV7Pbj1DGSIjtYlXCOmmDUdYy66+WPHg8tlGpjGe
-	Pg4AYmGA==;
+	bh=B4aqrTlToa8Jvk+PKaV79W3CRO9BmyXTdg/2F5fZy5Q=; b=ij0LizyaTn1uFivmkOVMgowN+x
+	ldBTW4eDL98WWVPz8gbAUmCvP7oknHgY/YepKxqmwGN6mmWp9oB+Ux+DuY7RCusi8MWpDCLI2PoPL
+	RSfY/VXcIBGwZxGxkzFU3xaWuCsmc7G2mt2mmhJsxkpGakmlwJE1DhQcEKi5G4SGOwmnFpbV6CKpf
+	qcRHyR5Nk1JvMHESOxk9vxXpoJAB3OWBsdWMBQJLYlgfX2eKGPwrsmkWatn5SsU/e4lcHhkOS+u7c
+	FgKabV5vo3Se8VYQs4Ydw5uKK4sO5X0wPIBoPD6TSAUThixVr7zAVcNOWMTPZ8hArE4uetlGFdCee
+	JnQX09wA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qVVc8-00GunO-2D;
-	Mon, 14 Aug 2023 11:20:00 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1qVVc9-00Guol-2y;
+	Mon, 14 Aug 2023 11:20:01 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qVVc2-00GuiL-2l
+	id 1qVVc2-00GuiO-2l
 	for linux-nvme@lists.infradead.org;
 	Mon, 14 Aug 2023 11:19:57 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id 1A76721998;
+	by smtp-out1.suse.de (Postfix) with ESMTP id 455BD21992;
 	Mon, 14 Aug 2023 11:19:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1692011992; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gFv1GNXmaQGmSM+mG7gy4jwJID6bSTZqne91i6RpXC0=;
-	b=oZKWff0dsitH1nS8g7qGNsB9q0LKQBrzg8aPxU4rxYyvO/xLNf99lfM7WYoY9hx6QtIDfx
-	2Xr2K3FIKl9Y+8fVp4vO5OYTMcTvgsfFW6AC/aFGdOEJvvUXJe9rb3HWtIAR1EQJOGemgU
-	+wByAgS3UN98Ra1kdS5aiCVGgrkFB2s=
+	bh=B4aqrTlToa8Jvk+PKaV79W3CRO9BmyXTdg/2F5fZy5Q=;
+	b=fTUb284eK39m7sU9FSUwNX//CXo2z8QUjDDu83ocUPXSUo2qTVR+MhcOXl/NMRJBGBbAyZ
+	dV9nc/imO+lEzdj19KhPLG9VXAJKtwh5ymRMa1hdTVhsAdv1D4EO3lBkM9hS4o4Hno4kS+
+	RqbMCfDKBxoQnqANEogiBpcipEsi3h0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1692011992;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gFv1GNXmaQGmSM+mG7gy4jwJID6bSTZqne91i6RpXC0=;
-	b=Q3hfiOEaRC2b0xxdnSm+49b+VgqRssIrXAis5Yt3kqYfgGL+Fw8dAb9iqY5x0J4w3op+Y3
-	3vKfFkF6aj+DFFCw==
+	bh=B4aqrTlToa8Jvk+PKaV79W3CRO9BmyXTdg/2F5fZy5Q=;
+	b=R9LL9iBfzbxXm38QpMHBkuCRCnM4L5m7OcYx2YZZI5PBk69SV5ey/MxNl+TDK9O+NQsZl8
+	/EY0yyjp3jRRHbAQ==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 059882C153;
+	by relay2.suse.de (Postfix) with ESMTP id 32CB12C173;
 	Mon, 14 Aug 2023 11:19:52 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id F1F1551CB0CB; Mon, 14 Aug 2023 13:19:51 +0200 (CEST)
+	id 2F51751CB0D7; Mon, 14 Aug 2023 13:19:52 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
@@ -62,19 +62,18 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Eric Dumazet <edumazet@google.com>,
 	Paolo Abeni <pabeni@redhat.com>,
 	netdev@vger.kernel.org,
-	Hannes Reinecke <hare@suse.de>,
-	David Howells <dhowells@redhat.com>
-Subject: [PATCH 06/17] security/keys: export key_lookup()
-Date: Mon, 14 Aug 2023 13:19:32 +0200
-Message-Id: <20230814111943.68325-7-hare@suse.de>
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH 12/17] nvmet-tcp: make nvmet_tcp_alloc_queue() a void function
+Date: Mon, 14 Aug 2023 13:19:38 +0200
+Message-Id: <20230814111943.68325-13-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230814111943.68325-1-hare@suse.de>
 References: <20230814111943.68325-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230814_041955_112663_0416BBAD 
-X-CRM114-Status: GOOD (  10.58  )
+X-CRM114-CacheID: sfid-20230814_041955_147024_0A44F549 
+X-CRM114-Status: GOOD (  13.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,31 +88,75 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-For in-kernel consumers one cannot readily assign a user (eg when
-running from a workqueue), so the normal key search permissions
-cannot be applied.
-This patch exports the 'key_lookup()' function for a simple lookup
-of keys without checking for permissions.
+The return value from nvmet_tcp_alloc_queue() are just used to
+figure out if sock_release() need to be called. So this patch
+moves sock_release() into nvmet_tcp_alloc_queue() and make it
+a void function.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Acked-by: David Howells <dhowells@redhat.com>
 ---
- security/keys/key.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/nvme/target/tcp.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/security/keys/key.c b/security/keys/key.c
-index 5c0c7df833f8..0260a1902922 100644
---- a/security/keys/key.c
-+++ b/security/keys/key.c
-@@ -693,6 +693,7 @@ struct key *key_lookup(key_serial_t id)
- 	spin_unlock(&key_serial_lock);
- 	return key;
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 97d07488072d..d44e9051ddd9 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -1621,15 +1621,17 @@ static int nvmet_tcp_set_queue_sock(struct nvmet_tcp_queue *queue)
+ 	return ret;
  }
-+EXPORT_SYMBOL(key_lookup);
  
- /*
-  * Find and lock the specified key type against removal.
+-static int nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
++static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
+ 		struct socket *newsock)
+ {
+ 	struct nvmet_tcp_queue *queue;
+ 	int ret;
+ 
+ 	queue = kzalloc(sizeof(*queue), GFP_KERNEL);
+-	if (!queue)
+-		return -ENOMEM;
++	if (!queue) {
++		ret = -ENOMEM;
++		goto out_release;
++	}
+ 
+ 	INIT_WORK(&queue->release_work, nvmet_tcp_release_queue_work);
+ 	INIT_WORK(&queue->io_work, nvmet_tcp_io_work);
+@@ -1666,7 +1668,7 @@ static int nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
+ 	if (ret)
+ 		goto out_destroy_sq;
+ 
+-	return 0;
++	return;
+ out_destroy_sq:
+ 	mutex_lock(&nvmet_tcp_queue_mutex);
+ 	list_del_init(&queue->queue_list);
+@@ -1678,7 +1680,9 @@ static int nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
+ 	ida_free(&nvmet_tcp_queue_ida, queue->idx);
+ out_free_queue:
+ 	kfree(queue);
+-	return ret;
++out_release:
++	pr_err("failed to allocate queue, error %d\n", ret);
++	sock_release(newsock);
+ }
+ 
+ static void nvmet_tcp_accept_work(struct work_struct *w)
+@@ -1695,11 +1699,7 @@ static void nvmet_tcp_accept_work(struct work_struct *w)
+ 				pr_warn("failed to accept err=%d\n", ret);
+ 			return;
+ 		}
+-		ret = nvmet_tcp_alloc_queue(port, newsock);
+-		if (ret) {
+-			pr_err("failed to allocate queue\n");
+-			sock_release(newsock);
+-		}
++		nvmet_tcp_alloc_queue(port, newsock);
+ 	}
+ }
+ 
 -- 
 2.35.3
 
