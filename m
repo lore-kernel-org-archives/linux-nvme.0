@@ -4,137 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D3D6AEB64DD
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Aug 2023 11:05:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 98BDCC001B0
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Aug 2023 11:20:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MpU5sg64Rtz0wgAz4NAZ93T3v5OyDdjEZ/irGTT+4ow=; b=o6s+vd6K/E5nWyx6HPjQ0OaHbP
-	IDJLWYkqm2kB79JAan7OwHOrMwSHx6ikzAxRSMjumMXM4SlFb7Mn8v11WMcgl6q6ajETLGzjcwVJK
-	bVtneSIyOTacTMDBYDzo1GnYsJcu7PKSAImJ3H7nXDabDxXxGsdu8N4YDbGoCpA27wp9NTXUU/F46
-	+paZpRZrZFgTqTqgrgk+7HM3jxoB3i8rtKTxDsh2AIfH5MSosmxAST8vMiZH1+eF+XiF8fIFN6aCh
-	U1eZL3DfVxoAXKHc4mQ4OFdB5uv/NYYejO8PJX3Bo7xhf0Gp9taLqL7epHw9cfo+KH+VY9OJ2gP3n
-	MuYeCrFA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Va1veEwDpJUEh5ATScwAqKgDyPffWib9gL4y5XoXAQc=; b=lMlAqSlFcr3Mt9nZSDbvbHR2aX
+	WFRG+7YabvbK2sWRlSeT4eee+zjhGP0J10hlYKTfx6PGqJEtUVju31D04pNI8ZwdOhloIUBD7I9Pp
+	sNX9WUOVoKPGDUgqZn2rA4KZb5Vl5BIftU6oVaGq44+zfrIOtMdsjO9jDytdASjqRqHReEG8MdDWF
+	9qg5N/tojzTnjYSf+3N/vmvmQJhTlv85Qs5+/42LTf1IbmwaCg3+7TDstZwBLwf5yX1TUrwdMjI8/
+	6CXTWmQueEfcJK+kOn5IY8bIeD+/KezmsY2+j6fSzrx94oNVf8R0VuI0CpYcd/u5VDUzXK/G6FBR+
+	V2o0ufEQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qVVNc-00GtTE-0u;
-	Mon, 14 Aug 2023 11:05:00 +0000
-Received: from mailout1.samsung.com ([203.254.224.24])
+	id 1qVVc5-00Guka-2M;
+	Mon, 14 Aug 2023 11:19:57 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qVVNZ-00GtRl-01
+	id 1qVVc2-00GuiM-2l
 	for linux-nvme@lists.infradead.org;
-	Mon, 14 Aug 2023 11:04:58 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20230814110447epoutp01cd312532140144a9b0e4a3f772888166~7Ox6ojGcP1611916119epoutp01q
-	for <linux-nvme@lists.infradead.org>; Mon, 14 Aug 2023 11:04:47 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20230814110447epoutp01cd312532140144a9b0e4a3f772888166~7Ox6ojGcP1611916119epoutp01q
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1692011087;
-	bh=MpU5sg64Rtz0wgAz4NAZ93T3v5OyDdjEZ/irGTT+4ow=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=cwrLcHFRsIN1Mel/hQPN4E4zc6zrlc4Iq0cimVzTKv9GWs+56gv4Q+Kckyvcdl+R/
-	 J6gteMXoDqVthpo6Q4iweF1GMZwXpFoPUXCMzO1khXKLx0GlHG57bPJ/G3aN5u+1Ir
-	 1k13qnLRQoEkyLDpigjZjvx8xvUbq50V27KYXAHA=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20230814110447epcas5p490379260eb7de32348ca4fc4b8d3cfc2~7Ox6IFwcC2024420244epcas5p4m;
-	Mon, 14 Aug 2023 11:04:47 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.183]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4RPWkj4Rfpz4x9Pr; Mon, 14 Aug
-	2023 11:04:45 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	88.39.44250.D4A0AD46; Mon, 14 Aug 2023 20:04:45 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20230814103824epcas5p2e5155c861ab70bb8cca3e76bdd927a81~7Oa4VdjhG0954109541epcas5p2F;
-	Mon, 14 Aug 2023 10:38:24 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20230814103824epsmtrp1d65eec6dba8f8ada46fd5bd57ce2d5ee~7Oa4Ub3752451324513epsmtrp12;
-	Mon, 14 Aug 2023 10:38:24 +0000 (GMT)
-X-AuditID: b6c32a4a-c4fff7000000acda-9a-64da0a4d2535
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	83.B3.64355.0240AD46; Mon, 14 Aug 2023 19:38:24 +0900 (KST)
-Received: from green245 (unknown [107.99.41.245]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20230814103821epsmtip27238edf5915e73a70212847347f4b676~7Oa1Opylv1721117211epsmtip2Q;
-	Mon, 14 Aug 2023 10:38:21 +0000 (GMT)
-Date: Mon, 14 Aug 2023 16:05:05 +0530
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
-	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	dm-devel@redhat.com, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
-	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
-	<kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
-	Brauner <brauner@kernel.org>, Kanchan Joshi <joshi.k@samsung.com>,
-	martin.petersen@oracle.com, linux-doc@vger.kernel.org, gost.dev@samsung.com,
-	Anuj Gupta <anuj20.g@samsung.com>, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	mcgrof@kernel.org, dlemoal@kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [dm-devel] [PATCH v14 01/11] block: Introduce queue limits and
- sysfs for copy-offload support
-Message-ID: <20230814103505.rjcv4esakiqpndnl@green245>
+	Mon, 14 Aug 2023 11:19:56 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out2.suse.de (Postfix) with ESMTP id 0F8D01FD64;
+	Mon, 14 Aug 2023 11:19:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1692011992; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Va1veEwDpJUEh5ATScwAqKgDyPffWib9gL4y5XoXAQc=;
+	b=IXz8880c946tNrsWZEtWyEVetaVw6TXYp+7bXrLERa/06j93LMEY2Xh/M5zdGKUTAf8CjM
+	ZEOxffv9hzC+Y4VX9Tdwoh6cCwxuTPJqac1uIPJ/XZX0+oLme7tNqqJLfLITwkggg2/v/l
+	O5NZNHtRoXPFyEuEJAXiFw5fb7c6ejU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1692011992;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Va1veEwDpJUEh5ATScwAqKgDyPffWib9gL4y5XoXAQc=;
+	b=oRmibRK1LRSjTglm7iZIcEibvlRuBGEXMnA55ars6ZVf480L7TOAOE3dVXvQ8tVL1NP7oq
+	39GbSurlAMYQY4CA==
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+	by relay2.suse.de (Postfix) with ESMTP id EFCBF2C152;
+	Mon, 14 Aug 2023 11:19:51 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 16045)
+	id E22D151CB0C7; Mon, 14 Aug 2023 13:19:51 +0200 (CEST)
+From: Hannes Reinecke <hare@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org,
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH 04/17] nvme-tcp: add definitions for TLS cipher suites
+Date: Mon, 14 Aug 2023 13:19:30 +0200
+Message-Id: <20230814111943.68325-5-hare@suse.de>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20230814111943.68325-1-hare@suse.de>
+References: <20230814111943.68325-1-hare@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <170b68ca-b24c-0723-cc54-7fcdc9004bcc@acm.org>
-User-Agent: NeoMutt/20171215
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xTdxTH9+u9vbTEkrsC+hOQ1RocYAotlnpRq0t8cINbIMFtCZkpld6U
-	jtI2fQz1HxkMESIC4xFXGDJEy2MroTinPITgGFLmWFd5deBwFDIHCOI7DlhLgfjf53zP7/s7
-	OefkMBD2Ba8AhkKlp7QqqZKLeaM37oSF8z7ydsj4k4vbiCbrLwiRVbSEEI3jhRgxc2cREOUL
-	rxHC2ZULiInOg0TH4wo6Mdp1i0bUN/bQiJ6VOYz4unsIEFODRhrR4dhFfHeuFiXaO/pQwt5a
-	iRGXr015EabeZRoxUjQFCPPMPErcdQQSA0u99A+2kPb7x8iBB80oab9nIC0NeRjZUnuWbBvN
-	xMgrF0voZEH2Y4x8MuVAyfnbgxh58XoDIJ9agkmLc46WwEpK259KSWWUlkOpUtQyhUou5h5L
-	lBySRIv4Ap4ghtjD5aik6ZSYe/jDBN5RhdLVOJfzhVRpcEkJUp2OG3lgv1Zt0FOcVLVOL+ZS
-	GplSI9RE6KTpOoNKHqGi9HsFfH5UtOthclpq12Qf0IxipzprHF6ZYJSeDxgMiAvhq9ygfODN
-	YONtAPbN9tA9wSKAL7NzwEZQPNiy4egeXtNvATj2vBh162x8GsDy2HzAZKB4CGyZKfdyyxi+
-	C/avMNyyHx4KX0yYULcVwW/TYaF5CXEnfHElrCttx9zMwkXQbi5BPPwu7PvGibqZie+DZaOL
-	q+yPB8FLV58j7o8gfoUJLQ4nzZ2A+GE41Jbr5WFf+G/v9TUOgI8Kz61xBqwvrcM85q8ANA4b
-	gSdxEOZYC1crI3gqzJpeWdO3wTKrmebRfWDBm/ViLHizap13wO+bqjEPb4VDL79cYxKWnX+C
-	eaa1AGBV0RxaBN4zvtWd8a16Ht4L8xay6EbX9BA8EJqWGR4Mg02tkdWA3gC2UhpdupzSRWui
-	VFTGxr5T1OkWsHoW4XE3wcOJhYhuQGOAbgAZCNeP5YgdkrFZMunpM5RWLdEalJSuG0S7tlWM
-	BPinqF13pdJLBMIYvlAkEgljdosE3C2smZxvZWxcLtVTaRSlobTrPhqDGZBJkwtP88HAm+XL
-	xY2tIX0/ODifcEvif7SfjVu6MR1aNfH6xMIf88HRf+/cd21ZFW6zXcpoaXpHHDcb72Tjr1oU
-	/Sa/IluFYNJin5IcKTA9MolrZvPCP8upffEgXmKLLL9ad//TKF6BbCT2zKGInyL+rBn7a+Q/
-	6dHPmZVlysphOfP3Z9VFm6wlY4GHksYvhHTsEIdod2tO9rd1Jq9YBZyk5YJ/alOCHyZXBBXc
-	zQ31PcLTGk4ossz+85tL32+qrB8wa+lZonwLes+htbN/c9jabYUjrRW/2jGrT+KpZ+cDTvIU
-	2WHHnbWyxP6cPdvDjm/Cu4xjPk97D4wHNTfDnR//vHmSi+pSpYJwRKuT/g9IngSjnwQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrNIsWRmVeSWpSXmKPExsWy7bCSvK4Cy60Ug8MndSzWnzrGbNE04S+z
-	xeq7/WwWrw9/YrSY9uEns8WTA+2MFg/221vsfTeb1eLmgZ1MFitXH2WyOPr/LZvFpEPXGC2e
-	Xp3FZLH3lrbFwrYlLBZ79p5ksbi8aw6bxfxlT9ktlh//x2RxY8JTRot1r9+zWJy4JW1x/u9x
-	Vgdxj8tXvD3O39vI4nH5bKnHplWdbB6bl9R77L7ZwOaxuG8yq0dv8zs2j49Pb7F4vN93lc2j
-	b8sqRo/Pm+Q8Nj15yxTAG8Vlk5Kak1mWWqRvl8CV8eHDWuaCbpaKb9OWMDcwLmXuYuTgkBAw
-	kTh0nbGLkYtDSGA7o8SKzoesXYycQHFJiWV/jzBD2MISK/89Z4coesIoceToDSaQBIuAqsTm
-	19PYQQaxCWhLnP7PARIWEdCQ+PZgOQtIPbPAEVaJKY1PWEASwgI5Eium7GEDsXkFzCQur5vM
-	DDH0A6PEwckr2CESghInZ0I0MAMVzdv8EOxSZgFpieX/wBZwClhLTL35CaxEVEBGYsbSr8wT
-	GAVnIemehaR7FkL3AkbmVYyiqQXFuem5yQWGesWJucWleel6yfm5mxjB8a0VtINx2fq/eocY
-	mTgYDzFKcDArifDecr+WIsSbklhZlVqUH19UmpNafIhRmoNFSZxXOaczRUggPbEkNTs1tSC1
-	CCbLxMEp1cDE55XF06k678cOKYMt5Wt8I3o7Zx7jDNiosGSR4Syb3s8rs/un7vr702Jl2of+
-	3ooWlqVX/iitPelgtffR5/12i6XemiV+O2mt2XMwQnZ3YdlHwwS17L7zNW8SjPtkmnaeevuM
-	uzSj8VL1+4cqIqeTxRYtL/ppKXrqbvLNI8b3927Mc1Hnc+4Ml2NOn8l0sXDHpfy2tynffDk7
-	bIXF9J9O3GVjl3NBPHCCRpay6ESLIhuFi0xxmSfiDZ/vzRb6VpP17q1YqO0Ch1PWN/7y6R7Z
-	uUVQyD7w4TlXP9vDG97G1YRlpyR/yEg6yjqtsGBuE8dGa76jj/a8PCF2tVlxsqH2zkLZ2LMJ
-	R3c07Qm/6K7EUpyRaKjFXFScCABloun2XgMAAA==
-X-CMS-MailID: 20230814103824epcas5p2e5155c861ab70bb8cca3e76bdd927a81
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----Ax27aEWlRRTyCTKvLJGz44CsYuK4yEI58Kfkn8Ic_yMAot59=_545b7_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230811105638epcas5p4db95584b6a432ea4b8b93e060a95e5f1
-References: <20230811105300.15889-1-nj.shetty@samsung.com>
-	<CGME20230811105638epcas5p4db95584b6a432ea4b8b93e060a95e5f1@epcas5p4.samsung.com>
-	<20230811105300.15889-2-nj.shetty@samsung.com>
-	<170b68ca-b24c-0723-cc54-7fcdc9004bcc@acm.org>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230814_040457_373595_5BD3FDB4 
-X-CRM114-Status: GOOD (  15.97  )
+X-CRM114-CacheID: sfid-20230814_041955_041934_5E9CB140 
+X-CRM114-Status: UNSURE (   8.89  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -149,28 +89,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------Ax27aEWlRRTyCTKvLJGz44CsYuK4yEI58Kfkn8Ic_yMAot59=_545b7_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+---
+ include/linux/nvme-tcp.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-On 23/08/11 02:56PM, Bart Van Assche wrote:
->On 8/11/23 03:52, Nitesh Shetty wrote:
->>+/* maximum copy offload length, this is set to 128MB based on current testing */
->>+#define COPY_MAX_BYTES		(1 << 27)
->
->Since the COPY_MAX_BYTES constant is only used in source file
->block/blk-settings.c it should be moved into that file. If you really
->want to keep it in include/linux/blkdev.h, a BLK_ prefix should
->be added.
->
-We are using this in other files. So we will add a prefix BLK_.
+diff --git a/include/linux/nvme-tcp.h b/include/linux/nvme-tcp.h
+index 57ebe1267f7f..e07e8978d691 100644
+--- a/include/linux/nvme-tcp.h
++++ b/include/linux/nvme-tcp.h
+@@ -18,6 +18,12 @@ enum nvme_tcp_pfv {
+ 	NVME_TCP_PFV_1_0 = 0x0,
+ };
+ 
++enum nvme_tcp_tls_cipher {
++	NVME_TCP_TLS_CIPHER_INVALID     = 0,
++	NVME_TCP_TLS_CIPHER_SHA256      = 1,
++	NVME_TCP_TLS_CIPHER_SHA384      = 2,
++};
++
+ enum nvme_tcp_fatal_error_status {
+ 	NVME_TCP_FES_INVALID_PDU_HDR		= 0x01,
+ 	NVME_TCP_FES_PDU_SEQ_ERR		= 0x02,
+-- 
+2.35.3
 
-Thank you,
-Nitesh Shetty
-
-------Ax27aEWlRRTyCTKvLJGz44CsYuK4yEI58Kfkn8Ic_yMAot59=_545b7_
-Content-Type: text/plain; charset="utf-8"
-
-
-------Ax27aEWlRRTyCTKvLJGz44CsYuK4yEI58Kfkn8Ic_yMAot59=_545b7_--
 
