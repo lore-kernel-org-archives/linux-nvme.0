@@ -4,122 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 69912C04A94
-	for <linux-nvme@archiver.kernel.org>; Mon, 14 Aug 2023 07:06:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7995BC001B0
+	for <linux-nvme@archiver.kernel.org>; Mon, 14 Aug 2023 07:32:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/RLnxGM6+CIysdMXiYRH09arI3UcGTmgOc5/fXZBsPE=; b=dF5j4tuXn/QuC8Br2H/9rixFl2
-	T3FG0XEbiTQgUj1Z8w436arJQhTahWE257Xb8nao8kECqTgfIo+hn5epdza4wtkma6FqpnUQaMIPm
-	g2sLvRX+8Z2l4SH+GKmrssKxls6J3kPBqSVwgLT1UjXb36MEXSS9C4GTaKfVoHSpLCdTlyw7HzDki
-	ltiRqWBLtCvR/yAhcnq6LQkyq3fPmFE+1Pkk5Nwb8E2Bf3B35QZWxlau8dRjLwJP5GL2NoN6BnOMf
-	4rAwVFxgDmBLVmKBzeY7jL/YL1UrcJ0ARsNLnIyJ6O8krNc8fneapaMVplekX/9oHHR6YMaqQKj6L
-	yB4gNpkQ==;
+	bh=1JZhJnxLl5/hxwRD6RcnqAJV9VSz0s93qZ3zTgomAZw=; b=fPxLkS5XBdThNgEvyq8+U1g1r0
+	dgE8zXu6ROyeFpBDSRnagbbLGUo4vCuLiCvx4jXf6GuhmMB8BF2ez++/VsINaOa0AuCgXrIKCZTAq
+	dzOIbh1SUZcJPJp2p5+BXQhh66QnQhLSsUz1R/FLIoMJYtAUUGffsylzdSNLIQkXXt3+kHIiOhe+D
+	+MaGD4h4q3gdQ+N+5wjBohr7ZSFLu48qB+cS+SZfxgSDQIOm13/EsLuw8RG03pb4BktHQcgYQOvU8
+	MnwgD4xiyRuaB8lEO4Bzh1wzND5Bt081x0qCWnDHTabHm0Ly9HONKycJF6nflpFwNAJ1FZX1Xjbcd
+	TkJ39Vfw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qVReN-00GKJk-16;
-	Mon, 14 Aug 2023 07:06:03 +0000
-Received: from mailout3.samsung.com ([203.254.224.33])
+	id 1qVS40-00GNNo-13;
+	Mon, 14 Aug 2023 07:32:32 +0000
+Received: from mail-wm1-f41.google.com ([209.85.128.41])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qVReL-00GKHw-08
+	id 1qVS3x-00GNMh-1A
 	for linux-nvme@lists.infradead.org;
-	Mon, 14 Aug 2023 07:06:02 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20230814070554epoutp03477ce86eb0a0f562da8cbf6c6b92e590~7LhV_g3p13182831828epoutp037
-	for <linux-nvme@lists.infradead.org>; Mon, 14 Aug 2023 07:05:54 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20230814070554epoutp03477ce86eb0a0f562da8cbf6c6b92e590~7LhV_g3p13182831828epoutp037
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1691996754;
-	bh=/RLnxGM6+CIysdMXiYRH09arI3UcGTmgOc5/fXZBsPE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DH9fs3pppVi7s0AUU/LY7YhO6M6nfWklV7jZTpgs6z28QaraBKEcg4tAFwLGHSKrc
-	 jYKwZLYcKUV7cDKSfpHmB79dwBpN9cfAFampjBjf6sFfApZLnWDWEId2eD6+9ROqtZ
-	 i2l6ttBarRDq3Jh4y8PgKr9OF7TojW0CjJUURIWI=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20230814070554epcas5p13c716a7877240453f826fc082bcda4a3~7LhVfHnXk1005910059epcas5p1h;
-	Mon, 14 Aug 2023 07:05:54 +0000 (GMT)
-Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.178]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4RPQR436Ttz4x9Ps; Mon, 14 Aug
-	2023 07:05:52 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
-	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	D1.EB.57354.052D9D46; Mon, 14 Aug 2023 16:05:52 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20230814070552epcas5p2940c7b3fef64f7e405dcd18855c240b0~7LhTaryIW2539025390epcas5p2l;
-	Mon, 14 Aug 2023 07:05:52 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20230814070552epsmtrp1b10bfdedc58b0de7e0dd488a4af529e1~7LhTZ7pPN0093400934epsmtrp1C;
-	Mon, 14 Aug 2023 07:05:52 +0000 (GMT)
-X-AuditID: b6c32a44-269fb7000001e00a-19-64d9d2509939
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	39.B8.64355.F42D9D46; Mon, 14 Aug 2023 16:05:51 +0900 (KST)
-Received: from localhost.localdomain (unknown [107.99.41.245]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20230814070550epsmtip2cddfc5ad2dcc8f2a96ce9de7f0fe68fc~7LhRz0s-92323723237epsmtip2_;
-	Mon, 14 Aug 2023 07:05:50 +0000 (GMT)
-From: Kanchan Joshi <joshi.k@samsung.com>
-To: hch@lst.de, kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org, vincentfu@gmail.com,
-	ankit.kumar@samsung.com, joshiiitr@gmail.com, gost.dev@samsung.com, Kanchan
-	Joshi <joshi.k@samsung.com>
-Subject: [PATCH v2 2/2] nvme: avoid memory corruption for sync passthrough
-Date: Mon, 14 Aug 2023 12:32:13 +0530
-Message-Id: <20230814070213.161033-3-joshi.k@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230814070213.161033-1-joshi.k@samsung.com>
+	Mon, 14 Aug 2023 07:32:30 +0000
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-3fe1f70a139so10635975e9.0
+        for <linux-nvme@lists.infradead.org>; Mon, 14 Aug 2023 00:32:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691998347; x=1692603147;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1JZhJnxLl5/hxwRD6RcnqAJV9VSz0s93qZ3zTgomAZw=;
+        b=SQ2kCvxPJ4XZBV4Uvb7eluaPYVm2lK7aVBnCi98+n1aUxQkRa4bD7YESubAuE8YOTo
+         O1jn+QZHFXxSYbNn0BBmZHoQ4pL8G+8hL+6oxNAG6ONcB6PwPQIEhzXz9bsRQuEKEj7e
+         GUjSOdNpNqon0Ayml1FPzbI/MjLKCriK4cfvwWroOJZWD8HMUOdZvFiAX6lvjjhtV4/Q
+         +FXB5YrSEARhnfDXR7zYBOpYYNeRHt1CVym9DXlUavRVfknPEwrhdRw/czpAglQa2DeF
+         Xh8XYAiir7xKmdws25f9uvvdoJ+JB5WavVfoE809tY0L9ZMAjLbfH/cmGZ4YfAVU6GHB
+         Hf+Q==
+X-Gm-Message-State: AOJu0Yyqx5GTn5P7RgR/RPH6KkX5BvZZ9Vaxuhw6TFZgh606Fh3jG7cI
+	erwNLFG5TFr1ZDV41VOxEf8=
+X-Google-Smtp-Source: AGHT+IFIuDKzN57buPIfzHNzuN7jnsdw/924uPh1ka2T9FPgyq9fOkvIYzoBbf4tyJArdlbSuLSxbw==
+X-Received: by 2002:a5d:4dce:0:b0:317:6c66:bdc3 with SMTP id f14-20020a5d4dce000000b003176c66bdc3mr5716541wru.7.1691998347302;
+        Mon, 14 Aug 2023 00:32:27 -0700 (PDT)
+Received: from [192.168.64.157] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id n5-20020a05600c294500b003fbaade0735sm16352384wmd.19.2023.08.14.00.32.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Aug 2023 00:32:26 -0700 (PDT)
+Message-ID: <9bd285d7-78cd-ff13-4e89-eb36ad478780@grimberg.me>
+Date: Mon, 14 Aug 2023 10:32:25 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 14/17] nvmet-tcp: reference counting for queues
+Content-Language: en-US
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Jakub Kicinski <kuba@kernel.org>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org
+References: <20230811121755.24715-1-hare@suse.de>
+ <20230811121755.24715-15-hare@suse.de>
+ <6aa77bb8-8d22-3e40-c8fe-654b5c094b10@grimberg.me>
+ <fe971baa-e009-2388-dc0b-54eb4788eb3f@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <fe971baa-e009-2388-dc0b-54eb4788eb3f@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprJJsWRmVeSWpSXmKPExsWy7bCmum7ApZspBpM6xCzWXPnNbrH6bj+b
-	xc0DO5ksVq4+ymRx9P9bNovzbw8zWUw6dI3RYv6yp+wW616/Z7HY0CbowOWxc9Zddo/z9zay
-	eFw+W+qxaVUnm8fmJfUeu282sHn0bVnFGMAelW2TkZqYklqkkJqXnJ+SmZduq+QdHO8cb2pm
-	YKhraGlhrqSQl5ibaqvk4hOg65aZA3SdkkJZYk4pUCggsbhYSd/Opii/tCRVISO/uMRWKbUg
-	JafApECvODG3uDQvXS8vtcTK0MDAyBSoMCE748Mt2YLVnBUTf/xla2B8wt7FyMkhIWAicX7F
-	fJYuRi4OIYHdjBKzPtyFcj4xSiy8MJkJzrm7/y0TTMvnbR/AbCGBnYwSF66mQxR9ZpR4f64Z
-	qJ2Dg01AU+LC5FKQGhEBF4mGf28YQWqYBZYwSsx/t4QZJCEs4CUx/f47VhCbRUBV4v++V2BD
-	eQUsJabvec8KsUxeYual72C3cgpYSTxZspUFokZQ4uTMJ2A2M1BN89bZzCALJAQaOSQmHX8D
-	1ewicWrvNqirhSVeHd8C9bSUxMv+Nig7WeLSzHNQNSUSj/cchLLtJVpP9TODPMMM9Mz6XfoQ
-	u/gken8/YQIJSwjwSnS0CUFUK0rcm/QUaqu4xMMZS6BsD4kvj+ewQ8Knl1Hi+eKVjBMY5Wch
-	eWEWkhdmIWxbwMi8ilEytaA4Nz012bTAMC+1HB6vyfm5mxjBaVTLZQfjjfn/9A4xMnEwHmKU
-	4GBWEuG95X4tRYg3JbGyKrUoP76oNCe1+BCjKTCMJzJLiSbnAxN5Xkm8oYmlgYmZmZmJpbGZ
-	oZI47+vWuSlCAumJJanZqakFqUUwfUwcnFINTFl8DV7LNRJf9fSZ2N+ebP/B+v6X3c3HAg9n
-	z7t7K1tyoWGwuMUT92zhIMOA009Srqj7LZi+Nv353VCDNxyLpz/nean4YULllOmRFZ9X2F1p
-	Ud+31GPNQtedC58rW0S9e3aGrfXWysVzZMxbDgbvWLjK78d1w619z8o5p06NnPTorq/Wf4nH
-	sr5qv3dL3QrT6X8dlyESPYPbU+SVRdg9hSOTipmnvHyWPfOCWPC29Xxn//3Nm7L5S+zDiJr1
-	iWl2wvci5izZuqb77YXy9ZdWr28ocLUTET8uLXCiWWXpkVkui53s5/AuXmKwIsmOO2JfUdya
-	LSb3A1csmZaczbQnpKpC3OhUT8WPc8FzvzF3zLdQYinOSDTUYi4qTgQAmnLl7iwEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrBLMWRmVeSWpSXmKPExsWy7bCSvK7/pZspBqu/WVusufKb3WL13X42
-	i5sHdjJZrFx9lMni6P+3bBbn3x5msph06BqjxfxlT9kt1r1+z2KxoU3Qgctj56y77B7n721k
-	8bh8ttRj06pONo/NS+o9dt9sYPPo27KKMYA9issmJTUnsyy1SN8ugSvjwy3ZgtWcFRN//GVr
-	YHzC3sXIySEhYCLxedsHpi5GLg4hge2MEkuOL2CDSIhLNF/7AVUkLLHy33N2iKKPjBJ/9x1m
-	7GLk4GAT0JS4MLkUpEZEwEti3uwFLCA2s8AqoJrPeiC2MFB8+v13rCA2i4CqxP99r5hAbF4B
-	S4npe96zQsyXl5h56TvYLk4BK4knS7aCzRECqlm/7Q0jRL2gxMmZT6Dmy0s0b53NPIFRYBaS
-	1CwkqQWMTKsYRVMLinPTc5MLDPWKE3OLS/PS9ZLzczcxggNfK2gH47L1f/UOMTJxMB5ilOBg
-	VhLhveV+LUWINyWxsiq1KD++qDQntfgQozQHi5I4r3JOZ4qQQHpiSWp2ampBahFMlomDU6qB
-	aZNeR7xrliTvLpk9wZumJj/fmiW9Xit77ieznX96/fzrphzIit3248a8+NhqGyszruWcwcZB
-	u+xdNEPa/S946F5ienzuwpfpK6a7n605qsJkuOT242b5tP0VEWr2O+8aTV946HtPg5z3DttL
-	tXNMC1887+WcX/Wc9S47U7Oi9yb14pc32v+4THAt3Tx3a5WC17GN71sWXvOSKFCJ2bVxf+2y
-	3Z/qzpspteXscJ137tRzA5b0xzVO3gcu5j260HHFOprZz1/ReV7Ih13nLJi11U3OPZuSvjv9
-	7OVw2Y3cR+2ndLnPTpatlZdYFbn0C0tSQeC85Z8M1O6Kz7occfGpicsSs+URN1/wrf6Wvk+l
-	QYmlOCPRUIu5qDgRAFD2niXrAgAA
-X-CMS-MailID: 20230814070552epcas5p2940c7b3fef64f7e405dcd18855c240b0
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230814070552epcas5p2940c7b3fef64f7e405dcd18855c240b0
-References: <20230814070213.161033-1-joshi.k@samsung.com>
-	<CGME20230814070552epcas5p2940c7b3fef64f7e405dcd18855c240b0@epcas5p2.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230814_000601_408429_991583A2 
-X-CRM114-Status: GOOD (  13.29  )
+X-CRM114-CacheID: sfid-20230814_003229_397474_B1A67396 
+X-CRM114-Status: GOOD (  33.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,41 +86,171 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Sync passthrough metadata handling also needs to avoid the situation of
-device writing into unrelated kernel memory.
 
-Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
----
- drivers/nvme/host/ioctl.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 717c7effaf8a..d97657fb6e39 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -393,6 +393,10 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	c.common.cdw14 = cpu_to_le32(cmd.cdw14);
- 	c.common.cdw15 = cpu_to_le32(cmd.cdw15);
- 
-+	if (!nvme_validate_passthru_meta(ctrl, ns, &c, cmd.metadata,
-+					 cmd.metadata_len))
-+		return -EINVAL;
-+
- 	if (!nvme_cmd_allowed(ns, &c, 0, open_for_write))
- 		return -EACCES;
- 
-@@ -440,6 +444,10 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	c.common.cdw14 = cpu_to_le32(cmd.cdw14);
- 	c.common.cdw15 = cpu_to_le32(cmd.cdw15);
- 
-+	if (!nvme_validate_passthru_meta(ctrl, ns, &c, cmd.metadata,
-+					 cmd.metadata_len))
-+		return -EINVAL;
-+
- 	if (!nvme_cmd_allowed(ns, &c, flags, open_for_write))
- 		return -EACCES;
- 
--- 
-2.25.1
+On 8/13/23 17:38, Hannes Reinecke wrote:
+> On 8/13/23 16:01, Sagi Grimberg wrote:
+>>
+>>
+>> On 8/11/23 15:17, Hannes Reinecke wrote:
+>>> The 'queue' structure is referenced from various places and
+>>> used as an argument of asynchronous functions, so it's really
+>>> hard to figure out if the queue is still valid when the
+>>> asynchronous function triggers.
+>>> So add reference counting to validate the queue structure.
+>>>
+>>> Signed-off-by: Hannes Reinecke <hare@suse.de>
+>>> ---
+>>>   drivers/nvme/target/tcp.c | 74 ++++++++++++++++++++++++++++++---------
+>>>   1 file changed, 57 insertions(+), 17 deletions(-)
+>>>
+>>> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+>>> index f19ea9d923fd..84b726dfc1c4 100644
+>>> --- a/drivers/nvme/target/tcp.c
+>>> +++ b/drivers/nvme/target/tcp.c
+>>> @@ -127,6 +127,7 @@ enum nvmet_tcp_queue_state {
+>>>   };
+>>>   struct nvmet_tcp_queue {
+>>> +    struct kref        kref;
+>>>       struct socket        *sock;
+>>>       struct nvmet_tcp_port    *port;
+>>>       struct work_struct    io_work;
+>>> @@ -192,6 +193,9 @@ static struct workqueue_struct *nvmet_tcp_wq;
+>>>   static const struct nvmet_fabrics_ops nvmet_tcp_ops;
+>>>   static void nvmet_tcp_free_cmd(struct nvmet_tcp_cmd *c);
+>>>   static void nvmet_tcp_free_cmd_buffers(struct nvmet_tcp_cmd *cmd);
+>>> +static int nvmet_tcp_get_queue(struct nvmet_tcp_queue *queue);
+>>> +static void nvmet_tcp_put_queue(struct nvmet_tcp_queue *queue);
+>>> +static void nvmet_tcp_data_ready(struct sock *sk);
+>>>   static inline u16 nvmet_tcp_cmd_tag(struct nvmet_tcp_queue *queue,
+>>>           struct nvmet_tcp_cmd *cmd)
+>>> @@ -1437,11 +1441,21 @@ static void 
+>>> nvmet_tcp_restore_socket_callbacks(struct nvmet_tcp_queue *queue)
+>>>       struct socket *sock = queue->sock;
+>>>       write_lock_bh(&sock->sk->sk_callback_lock);
+>>> +    /*
+>>> +     * Check if nvmet_tcp_set_queue_sock() has been called;
+>>> +     * if not the queue reference has not been increased
+>>> +     * and we're getting an refcount error on exit.
+>>> +     */
+>>> +    if (sock->sk->sk_data_ready != nvmet_tcp_data_ready) {
+>>> +        write_unlock_bh(&sock->sk->sk_callback_lock);
+>>> +        return;
+>>> +    }
+>>
+>> This is really ugly I think.
+>>
+> Me too, but what would be the alternative?
+> 
+>>>       sock->sk->sk_data_ready =  queue->data_ready;
+>>>       sock->sk->sk_state_change = queue->state_change;
+>>>       sock->sk->sk_write_space = queue->write_space;
+>>>       sock->sk->sk_user_data = NULL;
+>>>       write_unlock_bh(&sock->sk->sk_callback_lock);
+>>> +    nvmet_tcp_put_queue(queue);
+>>>   }
+>>>   static void nvmet_tcp_uninit_data_in_cmds(struct nvmet_tcp_queue 
+>>> *queue)
+>>> @@ -1474,6 +1488,30 @@ static void 
+>>> nvmet_tcp_free_cmd_data_in_buffers(struct nvmet_tcp_queue *queue)
+>>>           nvmet_tcp_free_cmd_buffers(&queue->connect);
+>>>   }
+>>> +static void nvmet_tcp_release_queue_final(struct kref *kref)
+>>> +{
+>>> +    struct nvmet_tcp_queue *queue = container_of(kref, struct 
+>>> nvmet_tcp_queue, kref);
+>>> +
+>>> +    WARN_ON(queue->state != NVMET_TCP_Q_DISCONNECTING);
+>>> +    nvmet_tcp_free_cmds(queue);
+>>> +    ida_free(&nvmet_tcp_queue_ida, queue->idx);
+>>> +    /* ->sock will be released by fput() */
+>>> +    fput(queue->sock->file);
+>>> +    kfree(queue);
+>>> +}
+>>> +
+>>> +static int nvmet_tcp_get_queue(struct nvmet_tcp_queue *queue)
+>>> +{
+>>> +    if (!queue)
+>>> +        return 0;
+>>> +    return kref_get_unless_zero(&queue->kref);
+>>> +}
+>>> +
+>>> +static void nvmet_tcp_put_queue(struct nvmet_tcp_queue *queue)
+>>> +{
+>>> +    kref_put(&queue->kref, nvmet_tcp_release_queue_final);
+>>> +}
+>>> +
+>>>   static void nvmet_tcp_release_queue_work(struct work_struct *w)
+>>>   {
+>>>       struct page *page;
+>>> @@ -1493,15 +1531,11 @@ static void 
+>>> nvmet_tcp_release_queue_work(struct work_struct *w)
+>>>       nvmet_sq_destroy(&queue->nvme_sq);
+>>>       cancel_work_sync(&queue->io_work);
+>>>       nvmet_tcp_free_cmd_data_in_buffers(queue);
+>>> -    /* ->sock will be released by fput() */
+>>> -    fput(queue->sock->file);
+>>> -    nvmet_tcp_free_cmds(queue);
+>>>       if (queue->hdr_digest || queue->data_digest)
+>>>           nvmet_tcp_free_crypto(queue);
+>>> -    ida_free(&nvmet_tcp_queue_ida, queue->idx);
+>>>       page = virt_to_head_page(queue->pf_cache.va);
+>>>       __page_frag_cache_drain(page, queue->pf_cache.pagecnt_bias);
+>>> -    kfree(queue);
+>>> +    nvmet_tcp_put_queue(queue);
+>>
+>> What made you pick these vs. the others for before/after the
+>> final reference?
+>>
+> I wanted to call 'nvmet_tcp_put_queue()' for a failed allocation
+> in nvmet_tcp_alloc_queue(), and at that time the queue itself
+> is not live.
+> nvmet_tcp_release_queue() is only called on a live queue, so using
+> that as the kref ->release() function would either limit it's
+> usefulness or would require me to ensure that all calls in there
+> can be made with a non-initialized argument.
+> 
+>>>   }
+>>>   static void nvmet_tcp_data_ready(struct sock *sk)
+>>> @@ -1512,8 +1546,10 @@ static void nvmet_tcp_data_ready(struct sock *sk)
+>>>       read_lock_bh(&sk->sk_callback_lock);
+>>>       queue = sk->sk_user_data;
+>>> -    if (likely(queue))
+>>> +    if (likely(nvmet_tcp_get_queue(queue))) {
+>>>           queue_work_on(queue_cpu(queue), nvmet_tcp_wq, 
+>>> &queue->io_work);
+>>> +        nvmet_tcp_put_queue(queue);
+>>> +    }
+>>
+>> No... Why?
+>>
+>> The shutdown code should serialize perfectly without this. Why add
+>> a kref to the normal I/O path?
+>>
+>> I thought we'd simply move release_work to do a kref_put and take
+>> an extra reference when we fire the tls handshake...
+>>
+> Because I feel ever so slightly unsure about using the sk_user_data
+> argument. This function is completely asynchronous, and I can't really
+> see how we can ensure that sk_user_data references a valid object.
+> (If it were valid, why would we need to check for !queue ?)
+> 
+> If you have lifetime guarantees that the kref isn't required, by all
+> means, please tell me, and we can drop the kref thing here.
+> But I guess that would imply to _not_ having to check for (!queue)
+> which is fine by me, too.
 
+Something doesn't add up here.
+What I think you need to do, is add another reference just for the
+tls handshake.
+
+Then in the timeout handler you call tls_handshake_cancel():
+- if you got %true back, you drop the reference and schedule
+a release work
+- if you got %false back, you simply ignore the timeout because
+the .ta_done() was already triggered.
+- in .ta_done() you drop the reference, cancel the timeout work
+   and then continue or remove based on the status.
+
+btw in the queue release you should call tls_handshake_cancel() as well.
 
