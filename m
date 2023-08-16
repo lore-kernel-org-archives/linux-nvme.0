@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 541B8C001E0
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C96ADC04FDF
 	for <linux-nvme@archiver.kernel.org>; Wed, 16 Aug 2023 12:06:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,47 +12,47 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aYpMppRc3Um2x2Fg3sOcnpRtep0A2eFDujgh1gnRIxs=; b=VDPOoAjv7/qGMv8Z0Hfef7vKZG
-	y4WOr6zHo8eHfejXtECy1Md7actC34KDinYinrfg6EFA8mwpGZHTnVlV8l/znldAuUsYlYO9YFLGJ
-	k1lElbtYx3nxACytt+6e9L2WFqrvmucTc5AkcOFHsMsxLdgwqFRyjzoteb05vYbZr1QoGOgBGygCB
-	O5EIujT3RjTE8gfYR3YEeZ/HHqQvoPpo/OAepkewIv90ZdM55SP1lrPkbyCK4K2MGb8QzSi1n1lKM
-	TJ1bsgcd0WcZbhx2S/uKSopoa0Ohj/iZDfHT35CzWxU6iTSUhDBI8wMj4vwbvtPtpSU0tVoAJqUJm
-	7+DDtzHQ==;
+	bh=5syOYf2FbNeUU81PSg/DjOopXf1XiFXvucnCZoHAhkA=; b=o0TbcCrxoPBiOt0Gl50ti4gnVU
+	X8aDFqONsjnLmyCye1iG6YKdK2g2IFSMOpS4m9Grxso9jY4uNlfsCvZ5ibUod8cz4aJixCtCVtzhs
+	pTLvwcISe0xaHgQkb7Gf/OjTKhp7xtvnPi1UQpzIf33lG4N5AdvRkvUxJTxpmi96rZ3rSUnrux3Kr
+	h77B5n9wQ6R4XkTOkdngr/8Q8lQMsZbL6rDpXHZ4Cpek0zfPXkQ9744fY6itG6nqDB6avtESmd/nP
+	H/nOjzzEIfM/sKbb2oVeGZAKzdLk80Dxq6FpwokbT77DPPhqglPcI3QIlWUsGzJhlx2SrMuf0qxML
+	tI6lESig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWFIa-004486-09;
+	id 1qWFIa-004494-2u;
 	Wed, 16 Aug 2023 12:06:52 +0000
 Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWFIE-0043mm-1H
+	id 1qWFIE-0043mn-1J
 	for linux-nvme@lists.infradead.org;
 	Wed, 16 Aug 2023 12:06:35 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id EE2961FD70;
+	by smtp-out2.suse.de (Postfix) with ESMTP id 2D6FC1FD6D;
 	Wed, 16 Aug 2023 12:06:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1692187585; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1692187584; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aYpMppRc3Um2x2Fg3sOcnpRtep0A2eFDujgh1gnRIxs=;
-	b=giv5fOGEuc9yQ/+4FfG5Oy5ldoZfePgkHC/cET17HEa79UL/ungL86uFEzkzbSnvQndgi9
-	sTJdJeu7HTcKf29th+FBsql0OtJCgXLAFBYku7TUh70+nO85mvtyOYVda+EQhEw/2sQBpr
-	FHDTZU5cyAf5qGzEHwyedGrGCpV3BPc=
+	bh=5syOYf2FbNeUU81PSg/DjOopXf1XiFXvucnCZoHAhkA=;
+	b=jmQHoYupaT98WIKPFeXnP1NkAvVbpybsv46oOqw6siK8TXQf/frJZxsi84JxQU8KXHbC3l
+	Kw/AVxGTZUQS7oOdOQntkf2shfycMEeyx3eTbeCfo1ehc1el6rqTuR5Xbq4mhXzthNls52
+	1Lm7PeqJ7Yv7Lg5HvzBJddpXoRC0/vQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1692187585;
+	s=susede2_ed25519; t=1692187584;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aYpMppRc3Um2x2Fg3sOcnpRtep0A2eFDujgh1gnRIxs=;
-	b=o5y0sdK44vQNL8OosCi8o+g7IMYP8MXVsAOCmg/o+7Ib1JOkkX875S5wa/hj6rnPt4HC1+
-	+RHpk1bExvFAGJDA==
+	bh=5syOYf2FbNeUU81PSg/DjOopXf1XiFXvucnCZoHAhkA=;
+	b=u1ZezhLidyO2i4DIqxQWBc5ZDpbLFC3YTdN7tJgFu2IL7P7NcJvGfT6IIU4iF8w49g0tDJ
+	w2DOv3UHlYP5ieDw==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id BA23C2C15D;
-	Wed, 16 Aug 2023 12:06:23 +0000 (UTC)
+	by relay2.suse.de (Postfix) with ESMTP id 1A3832C175;
+	Wed, 16 Aug 2023 12:06:24 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id AC9C451CB22A; Wed, 16 Aug 2023 14:06:23 +0200 (CEST)
+	id 15B7151CB240; Wed, 16 Aug 2023 14:06:24 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
@@ -63,17 +63,17 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Paolo Abeni <pabeni@redhat.com>,
 	netdev@vger.kernel.org,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 07/18] nvme-tcp: allocate socket file
-Date: Wed, 16 Aug 2023 14:05:57 +0200
-Message-Id: <20230816120608.37135-8-hare@suse.de>
+Subject: [PATCH 18/18] nvmet-tcp: peek icreq before starting TLS
+Date: Wed, 16 Aug 2023 14:06:08 +0200
+Message-Id: <20230816120608.37135-19-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230816120608.37135-1-hare@suse.de>
 References: <20230816120608.37135-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230816_050630_573222_72C3CA14 
-X-CRM114-Status: GOOD (  14.20  )
+X-CRM114-CacheID: sfid-20230816_050630_643583_BDD6207A 
+X-CRM114-Status: GOOD (  20.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,60 +88,160 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When using the TLS upcall we need to allocate a socket file such
-that the userspace daemon is able to use the socket.
+Incoming connection might be either 'normal' NVMe-TCP connections
+starting with icreq or TLS handshakes. To ensure that 'normal'
+connections can still be handled we need to peek the first packet
+and only start TLS handshake if it's not an icreq.
+With that we can lift the restriction to always set TREQ to
+'required' when TLS1.3 is enabled.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/tcp.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ drivers/nvme/target/configfs.c | 25 +++++++++++---
+ drivers/nvme/target/nvmet.h    |  5 +++
+ drivers/nvme/target/tcp.c      | 61 +++++++++++++++++++++++++++++++---
+ 3 files changed, 82 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 9ce417cd32a7..324d3bce65b8 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1338,7 +1338,9 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
- 	}
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index b780ce049163..9eed6e6765ea 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -198,6 +198,20 @@ static ssize_t nvmet_addr_treq_store(struct config_item *item,
+ 	return -EINVAL;
  
- 	noreclaim_flag = memalloc_noreclaim_save();
--	sock_release(queue->sock);
-+	/* ->sock will be released by fput() */
-+	fput(queue->sock->file);
-+	queue->sock = NULL;
- 	memalloc_noreclaim_restore(noreclaim_flag);
- 
- 	kfree(queue->pdu);
-@@ -1512,6 +1514,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
- 	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
- 	struct nvme_tcp_queue *queue = &ctrl->queues[qid];
- 	int ret, rcv_pdu_size;
-+	struct file *sock_file;
- 
- 	mutex_init(&queue->queue_lock);
- 	queue->ctrl = ctrl;
-@@ -1534,6 +1537,11 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
- 		goto err_destroy_mutex;
- 	}
- 
-+	sock_file = sock_alloc_file(queue->sock, O_CLOEXEC, NULL);
-+	if (IS_ERR(sock_file)) {
-+		ret = PTR_ERR(sock_file);
-+		goto err_destroy_mutex;
+ found:
++	if (port->disc_addr.trtype == NVMF_TRTYPE_TCP &&
++	    port->disc_addr.tsas.tcp.sectype == NVMF_TCP_SECTYPE_TLS13) {
++		switch (nvmet_addr_treq[i].type) {
++		case NVMF_TREQ_NOT_SPECIFIED:
++			pr_debug("treq '%s' not allowed for TLS1.3\n",
++				 nvmet_addr_treq[i].name);
++			return -EINVAL;
++		case NVMF_TREQ_NOT_REQUIRED:
++			pr_warn("Allow non-TLS connections while TLS1.3 is enabled\n");
++			break;
++		default:
++			break;
++		}
 +	}
- 	nvme_tcp_reclassify_socket(queue->sock);
+ 	treq |= nvmet_addr_treq[i].type;
+ 	port->disc_addr.treq = treq;
+ 	return count;
+@@ -410,12 +424,15 @@ static ssize_t nvmet_addr_tsas_store(struct config_item *item,
  
- 	/* Single syn retry */
-@@ -1640,7 +1648,8 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
- 	if (queue->hdr_digest || queue->data_digest)
- 		nvme_tcp_free_crypto(queue);
- err_sock:
--	sock_release(queue->sock);
-+	/* ->sock will be released by fput() */
-+	fput(queue->sock->file);
- 	queue->sock = NULL;
- err_destroy_mutex:
- 	mutex_destroy(&queue->send_mutex);
+ 	nvmet_port_init_tsas_tcp(port, sectype);
+ 	/*
+-	 * The TLS implementation currently does not support
+-	 * secure concatenation, so TREQ is always set to 'required'
+-	 * if TLS is enabled.
++	 * If TLS is enabled TREQ should be set to 'required' per default
+ 	 */
+ 	if (sectype == NVMF_TCP_SECTYPE_TLS13) {
+-		treq |= NVMF_TREQ_REQUIRED;
++		u8 sc = nvmet_port_disc_addr_treq_secure_channel(port);
++
++		if (sc == NVMF_TREQ_NOT_SPECIFIED)
++			treq |= NVMF_TREQ_REQUIRED;
++		else
++			treq |= sc;
+ 	} else {
+ 		treq |= NVMF_TREQ_NOT_SPECIFIED;
+ 	}
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index e35a03260f45..3e179019ca7c 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -184,6 +184,11 @@ static inline u8 nvmet_port_disc_addr_treq_secure_channel(struct nvmet_port *por
+ 	return (port->disc_addr.treq & NVME_TREQ_SECURE_CHANNEL_MASK);
+ }
+ 
++static inline bool nvmet_port_secure_channel_required(struct nvmet_port *port)
++{
++    return nvmet_port_disc_addr_treq_secure_channel(port) == NVMF_TREQ_REQUIRED;
++}
++
+ struct nvmet_ctrl {
+ 	struct nvmet_subsys	*subsys;
+ 	struct nvmet_sq		**sqs;
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 8be9203a1de6..5cae74e48e84 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -1729,6 +1729,54 @@ static int nvmet_tcp_set_queue_sock(struct nvmet_tcp_queue *queue)
+ }
+ 
+ #ifdef CONFIG_NVME_TARGET_TCP_TLS
++static int nvmet_tcp_try_peek_pdu(struct nvmet_tcp_queue *queue)
++{
++	struct nvme_tcp_hdr *hdr = &queue->pdu.cmd.hdr;
++	int len, ret;
++	struct kvec iov = {
++		.iov_base = (u8 *)&queue->pdu + queue->offset,
++		.iov_len = sizeof(struct nvme_tcp_hdr),
++	};
++	char cbuf[CMSG_LEN(sizeof(char))] = {};
++	struct msghdr msg = {
++		.msg_control = cbuf,
++		.msg_controllen = sizeof(cbuf),
++		.msg_flags = MSG_PEEK,
++	};
++
++	if (nvmet_port_secure_channel_required(queue->port->nport))
++		return 0;
++
++	len = kernel_recvmsg(queue->sock, &msg, &iov, 1,
++			iov.iov_len, msg.msg_flags);
++	if (unlikely(len < 0)) {
++		pr_debug("queue %d: peek error %d\n",
++			 queue->idx, len);
++		return len;
++	}
++
++	ret = nvmet_tcp_tls_record_ok(queue, &msg, cbuf);
++	if (ret < 0)
++		return ret;
++
++	if (len < sizeof(struct nvme_tcp_hdr)) {
++		pr_debug("queue %d: short read, %d bytes missing\n",
++			 queue->idx, (int)iov.iov_len - len);
++		return -EAGAIN;
++	}
++	pr_debug("queue %d: hdr type %d hlen %d plen %d size %d\n",
++		 queue->idx, hdr->type, hdr->hlen, hdr->plen,
++		 (int)sizeof(struct nvme_tcp_icreq_pdu));
++	if (hdr->type == nvme_tcp_icreq &&
++	    hdr->hlen == sizeof(struct nvme_tcp_icreq_pdu) &&
++	    hdr->plen == (__le32)sizeof(struct nvme_tcp_icreq_pdu)) {
++		pr_debug("queue %d: icreq detected\n",
++			 queue->idx);
++		return len;
++	}
++	return 0;
++}
++
+ static void nvmet_tcp_tls_handshake_done(void *data, int status,
+ 					 key_serial_t peerid)
+ {
+@@ -1868,11 +1916,14 @@ static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
+ 		sk->sk_user_data = NULL;
+ 		sk->sk_data_ready = port->data_ready;
+ 		read_unlock_bh(&sk->sk_callback_lock);
+-		if (!nvmet_tcp_tls_handshake(queue))
+-			return;
+-
+-		/* TLS handshake failed, terminate the connection */
+-		goto out_destroy_sq;
++		if (!nvmet_tcp_try_peek_pdu(queue)) {
++			if (!nvmet_tcp_tls_handshake(queue))
++				return;
++			/* TLS handshake failed, terminate the connection */
++			goto out_destroy_sq;
++		}
++		/* Not a TLS connection, continue with normal processing */
++		queue->state = NVMET_TCP_Q_CONNECTING;
+ 	}
+ #endif
+ 
 -- 
 2.35.3
 
