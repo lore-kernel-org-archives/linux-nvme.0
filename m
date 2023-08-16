@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3088BC04E69
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Aug 2023 12:06:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87831C001E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Aug 2023 12:06:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FQqYYIOb8vWqxiQHbz2yDg7e1e95gSKNG15/a5Zrh7U=; b=IeqpKsZVEQQjdHcp7yHdMULkkM
-	SHtkzXl+bFwX/MxlNkXC/bngVHfRp7xdosanPRGxJKoxLoUWyfBFgEVV4hYCARV9/vlfFP4qOB5MT
-	WB+72S9l4+PH0HCqFRbf7BQF5To9qSfqQWDs05uAyMt7vczH1h57S6BljvbVkrG1W2+R5xWZRKFyq
-	MC2TvPLBLRLLtNd+XMar7uiP3sP3tHDM3JB/awX+TK+aUx6YbjGgBwgzGq1f1gGorI4mCfSe6YVxs
-	4x3gB4dYXqT5yiMgf7K8gGFnqAN5B2V3PtTMcgk5gJoO4inguv51d+YMkzKpMllwtHietO178ZmPh
-	4lQn0EUA==;
+	bh=FLqe2UwRnp56/h6LhOpIMk7FGvn5MepaYq54jmH2ip0=; b=UI/GQQDRSl9zrrhbBdfcf85MpO
+	l4z46d3DR7XR/vOgSPI3Qy+t667UIX4Mgle/uvzqk1z/XufnJb4+Kbyu5hnCrKfICoCQHbb+Dn2k7
+	Dk8u2BklaGk5tnrIfXo2SMXVhqwzaomY7k1dQ3xrDeasmqwOcOEv1Zp0QsLyMWIMw2A1DElm0vZ2o
+	K5pS7FbbA2KO27GkFeEtxn8M6bJ4c061hubinZHEMyX0BxXRyFIhSl7JfSHW19apK++37ii/uG0Ly
+	Gq43KfHLhGMcqDLr5OwIwDxqQ0Rc+qTJLDZQH+HrWhCitpbl8jWvBPmeyA/tkBxWn1cEO+9IjLDQG
+	JuOTmZuw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWFID-0043mD-0J;
-	Wed, 16 Aug 2023 12:06:29 +0000
+	id 1qWFIF-0043ot-1p;
+	Wed, 16 Aug 2023 12:06:31 +0000
 Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWFI9-0043iA-0v
+	id 1qWFI9-0043iJ-1g
 	for linux-nvme@lists.infradead.org;
-	Wed, 16 Aug 2023 12:06:26 +0000
+	Wed, 16 Aug 2023 12:06:28 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id B735B21959;
+	by smtp-out1.suse.de (Postfix) with ESMTP id EE81521961;
 	Wed, 16 Aug 2023 12:06:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1692187583; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FQqYYIOb8vWqxiQHbz2yDg7e1e95gSKNG15/a5Zrh7U=;
-	b=n1uFttfZcOCPK0dzVqs0CQCriPSF0+kYg0gTIBJb1FziMwJx48bpy8apjzgC7umNH0VHVf
-	kxQ1hNIO+5gxogeS4rdvW8pyid83iwIrXAPZmJ4ikSvEYCAtHQ6tzKrG+KT15pNvr+/PWB
-	L3aotSxflqym9zxYH2UHRHv7vU0xkxY=
+	bh=FLqe2UwRnp56/h6LhOpIMk7FGvn5MepaYq54jmH2ip0=;
+	b=WTvbENEzAcxkYBf0p6T8zRvAVFDb0e0T9WBT99+PNzQTS33jDEJJheEUUXAR34KY7LkaLr
+	Ive3cGGXygp9SPsDocE8+5ZtFAHcJMmjt2qI9QgH+sx6EtgMjYGn9YuNVRh9R2hzJM9Ai8
+	AawLn1WDZZ7U0kvyLCvBM0fATfIxRak=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1692187583;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FQqYYIOb8vWqxiQHbz2yDg7e1e95gSKNG15/a5Zrh7U=;
-	b=cA/A+RkfwHg0k7yiFX0UJ8RRRoaJL8CgqF5as1AS9QvIaV16it5COr++2Vt0H5sF2WL0Ve
-	L9mqoRsZiaV6AiBg==
+	bh=FLqe2UwRnp56/h6LhOpIMk7FGvn5MepaYq54jmH2ip0=;
+	b=cfEmLZonHS8O8ACmddFuzJe/3dV4SppjEGpfYfzV47cjnDQ5YkPiWhvxUP6x+gNCyIyLrg
+	aCoLAn87CGsXvVAQ==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 8E1C12C146;
+	by relay2.suse.de (Postfix) with ESMTP id D12C12C161;
 	Wed, 16 Aug 2023 12:06:23 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id 7CBFC51CB21E; Wed, 16 Aug 2023 14:06:23 +0200 (CEST)
+	id BDF5651CB22E; Wed, 16 Aug 2023 14:06:23 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
@@ -63,17 +63,17 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Paolo Abeni <pabeni@redhat.com>,
 	netdev@vger.kernel.org,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 01/18] nvme-keyring: register '.nvme' keyring
-Date: Wed, 16 Aug 2023 14:05:51 +0200
-Message-Id: <20230816120608.37135-2-hare@suse.de>
+Subject: [PATCH 09/18] nvme-tcp: control message handling for recvmsg()
+Date: Wed, 16 Aug 2023 14:05:59 +0200
+Message-Id: <20230816120608.37135-10-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230816120608.37135-1-hare@suse.de>
 References: <20230816120608.37135-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230816_050625_492833_67061207 
-X-CRM114-Status: GOOD (  20.05  )
+X-CRM114-CacheID: sfid-20230816_050625_705375_5AFA14FA 
+X-CRM114-Status: GOOD (  13.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,166 +88,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Register a '.nvme' keyring to hold keys for TLS and DH-HMAC-CHAP and
-add a new config option NVME_KEYRING.
-We need a separate keyring for NVMe as the configuration is done
-via individual commands (eg for configfs), and the usual per-session
-or per-process keyrings can't be used.
+kTLS is sending TLS ALERT messages as control messages for recvmsg().
+As we can't do anything sensible with it just abort the connection
+and let the userspace agent to a re-negotiation.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/common/Kconfig   |  4 ++++
- drivers/nvme/common/Makefile  |  3 ++-
- drivers/nvme/common/keyring.c | 40 +++++++++++++++++++++++++++++++++++
- drivers/nvme/host/core.c      | 10 +++++++--
- include/linux/nvme-keyring.h  | 28 ++++++++++++++++++++++++
- 5 files changed, 82 insertions(+), 3 deletions(-)
- create mode 100644 drivers/nvme/common/keyring.c
- create mode 100644 include/linux/nvme-keyring.h
+ drivers/nvme/host/tcp.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/common/Kconfig b/drivers/nvme/common/Kconfig
-index 4514f44362dd..641b27adb047 100644
---- a/drivers/nvme/common/Kconfig
-+++ b/drivers/nvme/common/Kconfig
-@@ -2,3 +2,7 @@
- 
- config NVME_COMMON
-        tristate
-+
-+config NVME_KEYRING
-+       bool
-+       select KEYS
-diff --git a/drivers/nvme/common/Makefile b/drivers/nvme/common/Makefile
-index 720c625b8a52..0cbd0b0b8d49 100644
---- a/drivers/nvme/common/Makefile
-+++ b/drivers/nvme/common/Makefile
-@@ -4,4 +4,5 @@ ccflags-y			+= -I$(src)
- 
- obj-$(CONFIG_NVME_COMMON)	+= nvme-common.o
- 
--nvme-common-y			+= auth.o
-+nvme-common-$(CONFIG_NVME_AUTH)	+= auth.o
-+nvme-common-$(CONFIG_NVME_KEYRING) += keyring.o
-diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
-new file mode 100644
-index 000000000000..5cf64b278119
---- /dev/null
-+++ b/drivers/nvme/common/keyring.c
-@@ -0,0 +1,40 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2023 Hannes Reinecke, SUSE Labs
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/seq_file.h>
-+#include <linux/key-type.h>
-+#include <keys/user-type.h>
-+#include <linux/nvme.h>
-+
-+static struct key *nvme_keyring;
-+
-+key_serial_t nvme_keyring_id(void)
-+{
-+	return nvme_keyring->serial;
-+}
-+EXPORT_SYMBOL_GPL(nvme_keyring_id);
-+
-+int nvme_keyring_init(void)
-+{
-+	nvme_keyring = keyring_alloc(".nvme",
-+				     GLOBAL_ROOT_UID, GLOBAL_ROOT_GID,
-+				     current_cred(),
-+				     (KEY_POS_ALL & ~KEY_POS_SETATTR) |
-+				     (KEY_USR_ALL & ~KEY_USR_SETATTR),
-+				     KEY_ALLOC_NOT_IN_QUOTA, NULL, NULL);
-+	if (IS_ERR(nvme_keyring))
-+		return PTR_ERR(nvme_keyring);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(nvme_keyring_init);
-+
-+void nvme_keyring_exit(void)
-+{
-+	key_revoke(nvme_keyring);
-+	key_put(nvme_keyring);
-+}
-+EXPORT_SYMBOL_GPL(nvme_keyring_exit);
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 37b6fa746662..dfc574d0f18d 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -25,6 +25,7 @@
- #include "nvme.h"
- #include "fabrics.h"
- #include <linux/nvme-auth.h>
-+#include <linux/nvme-keyring.h>
- 
- #define CREATE_TRACE_POINTS
- #include "trace.h"
-@@ -4703,12 +4704,16 @@ static int __init nvme_core_init(void)
- 		result = PTR_ERR(nvme_ns_chr_class);
- 		goto unregister_generic_ns;
- 	}
--
--	result = nvme_init_auth();
-+	result = nvme_keyring_init();
- 	if (result)
- 		goto destroy_ns_chr;
-+	result = nvme_init_auth();
-+	if (result)
-+		goto keyring_exit;
- 	return 0;
- 
-+keyring_exit:
-+	nvme_keyring_exit();
- destroy_ns_chr:
- 	class_destroy(nvme_ns_chr_class);
- unregister_generic_ns:
-@@ -4732,6 +4737,7 @@ static int __init nvme_core_init(void)
- static void __exit nvme_core_exit(void)
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index fca18064f1fb..e8e408dbb6ad 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -14,6 +14,7 @@
+ #include <net/sock.h>
+ #include <net/tcp.h>
+ #include <net/tls.h>
++#include <net/tls_prot.h>
+ #include <net/handshake.h>
+ #include <linux/blk-mq.h>
+ #include <crypto/hash.h>
+@@ -1369,6 +1370,8 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
  {
- 	nvme_exit_auth();
-+	nvme_keyring_exit();
- 	class_destroy(nvme_ns_chr_class);
- 	class_destroy(nvme_subsys_class);
- 	class_destroy(nvme_class);
-diff --git a/include/linux/nvme-keyring.h b/include/linux/nvme-keyring.h
-new file mode 100644
-index 000000000000..32bd264a71e6
---- /dev/null
-+++ b/include/linux/nvme-keyring.h
-@@ -0,0 +1,28 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (c) 2023 Hannes Reinecke, SUSE Labs
-+ */
-+
-+#ifndef _NVME_KEYRING_H
-+#define _NVME_KEYRING_H
-+
-+#ifdef CONFIG_NVME_KEYRING
-+
-+key_serial_t nvme_keyring_id(void);
-+int nvme_keyring_init(void);
-+void nvme_keyring_exit(void);
-+
-+#else
-+
-+static inline key_serial_t nvme_keyring_id(void)
-+{
-+	return 0;
-+}
-+static inline int nvme_keyring_init(void)
-+{
-+	return 0;
-+}
-+static inline void nvme_keyring_exit(void) {}
-+
-+#endif /* !CONFIG_NVME_KEYRING */
-+#endif /* _NVME_KEYRING_H */
+ 	struct nvme_tcp_icreq_pdu *icreq;
+ 	struct nvme_tcp_icresp_pdu *icresp;
++	char cbuf[CMSG_LEN(sizeof(char))] = {};
++	u8 ctype;
+ 	struct msghdr msg = {};
+ 	struct kvec iov;
+ 	bool ctrl_hdgst, ctrl_ddgst;
+@@ -1406,11 +1409,23 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
+ 	memset(&msg, 0, sizeof(msg));
+ 	iov.iov_base = icresp;
+ 	iov.iov_len = sizeof(*icresp);
++	if (queue->ctrl->ctrl.opts->tls) {
++		msg.msg_control = cbuf;
++		msg.msg_controllen = sizeof(cbuf);
++	}
+ 	ret = kernel_recvmsg(queue->sock, &msg, &iov, 1,
+ 			iov.iov_len, msg.msg_flags);
+ 	if (ret < 0)
+ 		goto free_icresp;
+-
++	if (queue->ctrl->ctrl.opts->tls) {
++		ctype = tls_get_record_type(queue->sock->sk,
++					    (struct cmsghdr *)cbuf);
++		if (ctype != TLS_RECORD_TYPE_DATA) {
++			pr_err("queue %d: unhandled TLS record %d\n",
++			       nvme_tcp_queue_id(queue), ctype);
++			return -ENOTCONN;
++		}
++	}
+ 	ret = -EINVAL;
+ 	if (icresp->hdr.type != nvme_tcp_icresp) {
+ 		pr_err("queue %d: bad type returned %d\n",
 -- 
 2.35.3
 
