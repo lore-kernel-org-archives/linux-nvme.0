@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 974C5C04E69
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Aug 2023 12:06:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C1B51C001E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Aug 2023 12:06:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=r44AGU89fbr2kIGCRc1HbALaa9GuRJqyF2xn832+/8s=; b=2WA0CNliRDIIOErnbcp1e7WihG
-	INWA65Xh7LmZ9O8aEpJRP+Q5vaZGwLwXuxUl2olX84RFIWGbCg8iXAt/Xdz6pmM5VK9RsSmv2araT
-	ngaiL3w+sWJFPVJMr4emJZzI/li794iAjqs0vLDSJvsbe/U7tQEd+TPhtG4w1wNQzN+1zw/m8OA4b
-	nRsrT6jaepj+wdynfmQLVQBSZhffKpfKFMmUBfaDcZwAKfLDRUZ16LJdcus6K+DAabT7y8gL7LrZ8
-	xNv0QagOeFup2XxFnesZbfQ76LRN3FnKhnLpmFFUSf/dj+ozYWMLTr9rLPqAsZNjmM/oEtpRC0PVU
-	i0QYXoBw==;
+	bh=CUNSXIhjiSKp2ogissRH1lWVegNQ9weINYXrmPdcKjc=; b=hdLluikgR2ALLZMJX5C/6Y3kr6
+	piIFEKHN8hV5Jb4yvQEa+B89vMuFuk0hE4p5+Iz7s+EKcVxkgAbb27mc1/TqdBxtlJF7c1tOuESmG
+	GeAgFe0nPpMLlk2J8i4zPLCdTctrJhKFuhhzhQugUofSdbSxBBITwIpx8wnTl2B37cjLNsjzMGo2K
+	jZj5mh7jyE4lWms9SAjzVQ+rn3XLPSHyQGiyhpmgRjZya+MPFw2WAZEovyQGAHdsIIEH8wfEVYHwR
+	qDIZgcGzVAKsgrU7O17xkYSx9eOaYMAud2aJuRiWg5i2CLXkdj4HLGCCabTvF6ETSzgs9zLV5Tjch
+	MZKVciDw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWFIK-0043sl-2q;
-	Wed, 16 Aug 2023 12:06:36 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1qWFIM-0043uL-2T;
+	Wed, 16 Aug 2023 12:06:38 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWFI9-0043iI-3B
+	id 1qWFIB-0043kj-2s
 	for linux-nvme@lists.infradead.org;
-	Wed, 16 Aug 2023 12:06:29 +0000
+	Wed, 16 Aug 2023 12:06:30 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id E4E781F85D;
-	Wed, 16 Aug 2023 12:06:23 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTP id 1EF6321979;
+	Wed, 16 Aug 2023 12:06:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1692187583; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1692187584; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=r44AGU89fbr2kIGCRc1HbALaa9GuRJqyF2xn832+/8s=;
-	b=pfwIWy6xKl5ejb5DsVAUn15cHxOdKB69KlQQCw5M+sio8JVAu54uyR6Ld9UOPiIf6Agq/V
-	GEJxnozHHt1UURO190QIVtwtiz3Elke0BTTDQ57urvp9SIrhMlNs2hX0AZd65QDu5crjhM
-	SMy4helWJ5xzWJl5ORofj/y4Jw9HCjs=
+	bh=CUNSXIhjiSKp2ogissRH1lWVegNQ9weINYXrmPdcKjc=;
+	b=eEr2EHLRChhUab8iCQuvobsNjWh2PWKZrE+ixKHDVNQoD/ZH3vS1z294OikeiZib0VlGe+
+	TepFMVxjErtGtKsYEWrb57OrBZjL4dnPIStVeowu1pCJuEB9pgnY4zebgtNabKUDQvi0ha
+	7xOo6FtxkYsHT4KQEFhvZ3OIq135f1Q=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1692187583;
+	s=susede2_ed25519; t=1692187584;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=r44AGU89fbr2kIGCRc1HbALaa9GuRJqyF2xn832+/8s=;
-	b=lKkzH4ejyfdPPf+CKr6pDXrRSn2Ser15umktIljh2X0bXDNb5/YRvfHKYQFpZhmMsHAW2I
-	812qaHKIG0HdnLBQ==
+	bh=CUNSXIhjiSKp2ogissRH1lWVegNQ9weINYXrmPdcKjc=;
+	b=G2l1wwDdBBww6S1OpzUtIiXCRJPcBHghtrLkPdlW1bF22mqn1FuPn08ZRmWqtlEiJSdUKy
+	OdAt/6eihsbl1/CA==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id B7A582C15C;
+	by relay2.suse.de (Postfix) with ESMTP id 01CB82C172;
 	Wed, 16 Aug 2023 12:06:23 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id A474151CB228; Wed, 16 Aug 2023 14:06:23 +0200 (CEST)
+	id F053951CB23A; Wed, 16 Aug 2023 14:06:23 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
@@ -62,19 +62,18 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Eric Dumazet <edumazet@google.com>,
 	Paolo Abeni <pabeni@redhat.com>,
 	netdev@vger.kernel.org,
-	Hannes Reinecke <hare@suse.de>,
-	David Howells <dhowells@redhat.com>
-Subject: [PATCH 06/18] security/keys: export key_lookup()
-Date: Wed, 16 Aug 2023 14:05:56 +0200
-Message-Id: <20230816120608.37135-7-hare@suse.de>
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH 15/18] nvmet: Set 'TREQ' to 'required' when TLS is enabled
+Date: Wed, 16 Aug 2023 14:06:05 +0200
+Message-Id: <20230816120608.37135-16-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230816120608.37135-1-hare@suse.de>
 References: <20230816120608.37135-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230816_050626_166456_90A3ACD7 
-X-CRM114-Status: GOOD (  12.35  )
+X-CRM114-CacheID: sfid-20230816_050628_086676_A4755259 
+X-CRM114-Status: GOOD (  15.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,44 +88,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-For in-kernel consumers one cannot readily assign a user (eg when
-running from a workqueue), so the normal key search permissions
-cannot be applied.
-This patch exports the 'key_lookup()' function for a simple lookup
-of keys without checking for permissions.
+The current implementation does not support secure concatenation,
+so 'TREQ' is always set to 'required' when TLS is enabled.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Acked-by: David Howells <dhowells@redhat.com>
 ---
- include/linux/key.h | 1 +
- security/keys/key.c | 1 +
- 2 files changed, 2 insertions(+)
+ drivers/nvme/target/configfs.c | 15 +++++++++++++--
+ drivers/nvme/target/nvmet.h    |  5 +++++
+ 2 files changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/key.h b/include/linux/key.h
-index 938d7ecfb495..943a432da3ae 100644
---- a/include/linux/key.h
-+++ b/include/linux/key.h
-@@ -515,6 +515,7 @@ extern void key_init(void);
- #define key_init()			do { } while(0)
- #define key_free_user_ns(ns)		do { } while(0)
- #define key_remove_domain(d)		do { } while(0)
-+#define key_lookup(k)			NULL
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 27a0f9c768e8..483569c3f622 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -166,8 +166,7 @@ static inline u8 nvmet_port_disc_addr_treq_mask(struct nvmet_port *port)
  
- #endif /* CONFIG_KEYS */
- #endif /* __KERNEL__ */
-diff --git a/security/keys/key.c b/security/keys/key.c
-index 5c0c7df833f8..0260a1902922 100644
---- a/security/keys/key.c
-+++ b/security/keys/key.c
-@@ -693,6 +693,7 @@ struct key *key_lookup(key_serial_t id)
- 	spin_unlock(&key_serial_lock);
- 	return key;
+ static ssize_t nvmet_addr_treq_show(struct config_item *item, char *page)
+ {
+-	u8 treq = to_nvmet_port(item)->disc_addr.treq &
+-		NVME_TREQ_SECURE_CHANNEL_MASK;
++	u8 treq = nvmet_port_disc_addr_treq_secure_channel(to_nvmet_port(item));
+ 	int i;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(nvmet_addr_treq); i++) {
+@@ -376,6 +375,7 @@ static ssize_t nvmet_addr_tsas_store(struct config_item *item,
+ 		const char *page, size_t count)
+ {
+ 	struct nvmet_port *port = to_nvmet_port(item);
++	u8 treq = nvmet_port_disc_addr_treq_mask(port);
+ 	u8 sectype;
+ 	int i;
+ 
+@@ -397,6 +397,17 @@ static ssize_t nvmet_addr_tsas_store(struct config_item *item,
+ 
+ found:
+ 	nvmet_port_init_tsas_tcp(port, sectype);
++	/*
++	 * The TLS implementation currently does not support
++	 * secure concatenation, so TREQ is always set to 'required'
++	 * if TLS is enabled.
++	 */
++	if (sectype == NVMF_TCP_SECTYPE_TLS13) {
++		treq |= NVMF_TREQ_REQUIRED;
++	} else {
++		treq |= NVMF_TREQ_NOT_SPECIFIED;
++	}
++	port->disc_addr.treq = treq;
+ 	return count;
  }
-+EXPORT_SYMBOL(key_lookup);
  
- /*
-  * Find and lock the specified key type against removal.
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 8cfd60f3b564..87da62e4b743 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -178,6 +178,11 @@ static inline struct nvmet_port *ana_groups_to_port(
+ 			ana_groups_group);
+ }
+ 
++static inline u8 nvmet_port_disc_addr_treq_secure_channel(struct nvmet_port *port)
++{
++	return (port->disc_addr.treq & NVME_TREQ_SECURE_CHANNEL_MASK);
++}
++
+ struct nvmet_ctrl {
+ 	struct nvmet_subsys	*subsys;
+ 	struct nvmet_sq		**sqs;
 -- 
 2.35.3
 
