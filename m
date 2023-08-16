@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11EDCC04E69
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Aug 2023 12:06:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 541B8C001E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Aug 2023 12:06:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/Cvzf6un9zteo6BYtmrMHzIiNQIcezIJ9JwacCOtpBo=; b=050r/GDLeOilS4v7VKK5sbbiku
-	aBaIxHw+XG3sLroUzpaKzg3z2MuZ+j5VRT7/pffmh34CzivkNXSjXREpGyl/UE+nRx2Q67lWGnv6H
-	kIPACM3fwRYnVs54oXRxFXnP5uzbmwMZuVnsJaqAOV/KlFZrZyCJy/SxNkH0sPoM1GcxIPd0Ve/H7
-	nzQjP7DM78NtYbQGNnGW3wW5gIfL3LQHEi+QVtTX29rRrwQAUG50byB7Zu2J9wAjkyl5UXZSIEHwK
-	qCBosJmZ3crlRROIRU8FCDTZDxSwNcM3vJuBhRayF8Zx5U39W7v4AD8sMhY7emKHxVQl7yxoXRi8u
-	KWX/Phfw==;
+	bh=aYpMppRc3Um2x2Fg3sOcnpRtep0A2eFDujgh1gnRIxs=; b=VDPOoAjv7/qGMv8Z0Hfef7vKZG
+	y4WOr6zHo8eHfejXtECy1Md7actC34KDinYinrfg6EFA8mwpGZHTnVlV8l/znldAuUsYlYO9YFLGJ
+	k1lElbtYx3nxACytt+6e9L2WFqrvmucTc5AkcOFHsMsxLdgwqFRyjzoteb05vYbZr1QoGOgBGygCB
+	O5EIujT3RjTE8gfYR3YEeZ/HHqQvoPpo/OAepkewIv90ZdM55SP1lrPkbyCK4K2MGb8QzSi1n1lKM
+	TJ1bsgcd0WcZbhx2S/uKSopoa0Ohj/iZDfHT35CzWxU6iTSUhDBI8wMj4vwbvtPtpSU0tVoAJqUJm
+	7+DDtzHQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWFIV-00442N-08;
-	Wed, 16 Aug 2023 12:06:47 +0000
+	id 1qWFIa-004486-09;
+	Wed, 16 Aug 2023 12:06:52 +0000
 Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWFID-0043m9-2M
+	id 1qWFIE-0043mm-1H
 	for linux-nvme@lists.infradead.org;
-	Wed, 16 Aug 2023 12:06:33 +0000
+	Wed, 16 Aug 2023 12:06:35 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id 1CFCF1FD6A;
+	by smtp-out2.suse.de (Postfix) with ESMTP id EE2961FD70;
 	Wed, 16 Aug 2023 12:06:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1692187584; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1692187585; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/Cvzf6un9zteo6BYtmrMHzIiNQIcezIJ9JwacCOtpBo=;
-	b=vtNW5d4EUpEBK12uBh/zu+vmau2w2fWnb/AYB3RhJ0BGqa2stHBgt7VFVGBPqtbINsCNeB
-	DQz7lAQOawZRv1+BrC8XXHOxkT7lRaWN7fGo0fFf8Xfyq9+TrFM31E9x2wSHFA8SyGdk5q
-	esYB+ltKWqUvI/qF2OnvlTd/9Nacrfg=
+	bh=aYpMppRc3Um2x2Fg3sOcnpRtep0A2eFDujgh1gnRIxs=;
+	b=giv5fOGEuc9yQ/+4FfG5Oy5ldoZfePgkHC/cET17HEa79UL/ungL86uFEzkzbSnvQndgi9
+	sTJdJeu7HTcKf29th+FBsql0OtJCgXLAFBYku7TUh70+nO85mvtyOYVda+EQhEw/2sQBpr
+	FHDTZU5cyAf5qGzEHwyedGrGCpV3BPc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1692187584;
+	s=susede2_ed25519; t=1692187585;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/Cvzf6un9zteo6BYtmrMHzIiNQIcezIJ9JwacCOtpBo=;
-	b=RuXurhaz/ri97DxexfwUeJ6wYuEzODnFq1YR2wbzNHSZUfgpfUt/OGVgB2+ZUtBeo736YH
-	uDcL/qGMaoObHWBw==
+	bh=aYpMppRc3Um2x2Fg3sOcnpRtep0A2eFDujgh1gnRIxs=;
+	b=o5y0sdK44vQNL8OosCi8o+g7IMYP8MXVsAOCmg/o+7Ib1JOkkX875S5wa/hj6rnPt4HC1+
+	+RHpk1bExvFAGJDA==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id EFDA22C171;
+	by relay2.suse.de (Postfix) with ESMTP id BA23C2C15D;
 	Wed, 16 Aug 2023 12:06:23 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id E867451CB238; Wed, 16 Aug 2023 14:06:23 +0200 (CEST)
+	id AC9C451CB22A; Wed, 16 Aug 2023 14:06:23 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
@@ -63,17 +63,17 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Paolo Abeni <pabeni@redhat.com>,
 	netdev@vger.kernel.org,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 14/18] nvmet-tcp: allocate socket file
-Date: Wed, 16 Aug 2023 14:06:04 +0200
-Message-Id: <20230816120608.37135-15-hare@suse.de>
+Subject: [PATCH 07/18] nvme-tcp: allocate socket file
+Date: Wed, 16 Aug 2023 14:05:57 +0200
+Message-Id: <20230816120608.37135-8-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230816120608.37135-1-hare@suse.de>
 References: <20230816120608.37135-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230816_050629_935996_2FA671E8 
-X-CRM114-Status: GOOD (  14.09  )
+X-CRM114-CacheID: sfid-20230816_050630_573222_72C3CA14 
+X-CRM114-Status: GOOD (  14.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,76 +88,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-For the TLS upcall we need to allocate a socket file such
+When using the TLS upcall we need to allocate a socket file such
 that the userspace daemon is able to use the socket.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/target/tcp.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+ drivers/nvme/host/tcp.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index d44e9051ddd9..f19ea9d923fd 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -1493,12 +1493,12 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
- 	nvmet_sq_destroy(&queue->nvme_sq);
- 	cancel_work_sync(&queue->io_work);
- 	nvmet_tcp_free_cmd_data_in_buffers(queue);
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 9ce417cd32a7..324d3bce65b8 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1338,7 +1338,9 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
+ 	}
+ 
+ 	noreclaim_flag = memalloc_noreclaim_save();
 -	sock_release(queue->sock);
 +	/* ->sock will be released by fput() */
 +	fput(queue->sock->file);
- 	nvmet_tcp_free_cmds(queue);
- 	if (queue->hdr_digest || queue->data_digest)
- 		nvmet_tcp_free_crypto(queue);
- 	ida_free(&nvmet_tcp_queue_ida, queue->idx);
--
- 	page = virt_to_head_page(queue->pf_cache.va);
- 	__page_frag_cache_drain(page, queue->pf_cache.pagecnt_bias);
- 	kfree(queue);
-@@ -1625,6 +1625,7 @@ static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
- 		struct socket *newsock)
- {
- 	struct nvmet_tcp_queue *queue;
-+	struct file *sock_file = NULL;
- 	int ret;
++	queue->sock = NULL;
+ 	memalloc_noreclaim_restore(noreclaim_flag);
  
- 	queue = kzalloc(sizeof(*queue), GFP_KERNEL);
-@@ -1644,10 +1645,16 @@ static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
- 	init_llist_head(&queue->resp_list);
- 	INIT_LIST_HEAD(&queue->resp_send_list);
+ 	kfree(queue->pdu);
+@@ -1512,6 +1514,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
+ 	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
+ 	struct nvme_tcp_queue *queue = &ctrl->queues[qid];
+ 	int ret, rcv_pdu_size;
++	struct file *sock_file;
+ 
+ 	mutex_init(&queue->queue_lock);
+ 	queue->ctrl = ctrl;
+@@ -1534,6 +1537,11 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
+ 		goto err_destroy_mutex;
+ 	}
  
 +	sock_file = sock_alloc_file(queue->sock, O_CLOEXEC, NULL);
 +	if (IS_ERR(sock_file)) {
 +		ret = PTR_ERR(sock_file);
-+		goto out_free_queue;
++		goto err_destroy_mutex;
 +	}
-+
- 	queue->idx = ida_alloc(&nvmet_tcp_queue_ida, GFP_KERNEL);
- 	if (queue->idx < 0) {
- 		ret = queue->idx;
--		goto out_free_queue;
-+		goto out_sock;
- 	}
+ 	nvme_tcp_reclassify_socket(queue->sock);
  
- 	ret = nvmet_tcp_alloc_cmd(queue, &queue->connect);
-@@ -1678,11 +1685,14 @@ static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
- 	nvmet_tcp_free_cmd(&queue->connect);
- out_ida_remove:
- 	ida_free(&nvmet_tcp_queue_ida, queue->idx);
-+out_sock:
+ 	/* Single syn retry */
+@@ -1640,7 +1648,8 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
+ 	if (queue->hdr_digest || queue->data_digest)
+ 		nvme_tcp_free_crypto(queue);
+ err_sock:
+-	sock_release(queue->sock);
++	/* ->sock will be released by fput() */
 +	fput(queue->sock->file);
- out_free_queue:
- 	kfree(queue);
- out_release:
- 	pr_err("failed to allocate queue, error %d\n", ret);
--	sock_release(newsock);
-+	if (!sock_file)
-+		sock_release(newsock);
- }
- 
- static void nvmet_tcp_accept_work(struct work_struct *w)
+ 	queue->sock = NULL;
+ err_destroy_mutex:
+ 	mutex_destroy(&queue->send_mutex);
 -- 
 2.35.3
 
