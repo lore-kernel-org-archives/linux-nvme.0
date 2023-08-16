@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6893C001E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Aug 2023 12:06:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11EDCC04E69
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Aug 2023 12:06:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=84IHUX0vIe+LvPaQmPyEYhckKxKvuPR8TuCoT2MDUDQ=; b=Kv3fwqubzVQi/HeRC9LsHBt0vM
-	59b6eZxsSYM6wzXrDz6DgB7Oi59gK5R69pSGsl3iXCtGLFHOswg3xDTFsFiDaeZn5Jcs+1Dof5r+T
-	xyG896qw4FTBDKE749kcIJXWzaUzhbMv9VK9dNzqdYzI8CEmxGlPuYmGm0bHiikpJn0JGBxxGcDpC
-	jYtfr/Qv7aXpyoJQ+o2uZccWuzKCUyHjqMExc0+4TAm3snraFyXYNaVYntD0PtpXphzdKy5VAW8OT
-	WyDvMHFqNXEyH+NxkuAjHSneQEILbcHKxnkZzqcshA57Pi7+mF2OjqHSykBtPX8tdGw9XFVIWR8vT
-	AVnR8oVQ==;
+	bh=/Cvzf6un9zteo6BYtmrMHzIiNQIcezIJ9JwacCOtpBo=; b=050r/GDLeOilS4v7VKK5sbbiku
+	aBaIxHw+XG3sLroUzpaKzg3z2MuZ+j5VRT7/pffmh34CzivkNXSjXREpGyl/UE+nRx2Q67lWGnv6H
+	kIPACM3fwRYnVs54oXRxFXnP5uzbmwMZuVnsJaqAOV/KlFZrZyCJy/SxNkH0sPoM1GcxIPd0Ve/H7
+	nzQjP7DM78NtYbQGNnGW3wW5gIfL3LQHEi+QVtTX29rRrwQAUG50byB7Zu2J9wAjkyl5UXZSIEHwK
+	qCBosJmZ3crlRROIRU8FCDTZDxSwNcM3vJuBhRayF8Zx5U39W7v4AD8sMhY7emKHxVQl7yxoXRi8u
+	KWX/Phfw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWFIW-00443r-12;
-	Wed, 16 Aug 2023 12:06:48 +0000
+	id 1qWFIV-00442N-08;
+	Wed, 16 Aug 2023 12:06:47 +0000
 Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWFID-0043m1-1j
+	id 1qWFID-0043m9-2M
 	for linux-nvme@lists.infradead.org;
 	Wed, 16 Aug 2023 12:06:33 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id 0D32F1FD69;
+	by smtp-out2.suse.de (Postfix) with ESMTP id 1CFCF1FD6A;
 	Wed, 16 Aug 2023 12:06:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1692187584; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=84IHUX0vIe+LvPaQmPyEYhckKxKvuPR8TuCoT2MDUDQ=;
-	b=NYfa6mm3coZQvSEWpvCq0AeEEtN65rrimCpN6K8BD2Vmp89mfhToswuQJ/07pnRrZOhhCp
-	BYfzeZ3B9KSxeGbJpIf1eL0dsJnKHXNgjznp1kFh3ucEFFfez9Fh5FAkiNo+VTggVrYler
-	fSSCwpYc+VOMyal4RJptfJZYHHOx/Gk=
+	bh=/Cvzf6un9zteo6BYtmrMHzIiNQIcezIJ9JwacCOtpBo=;
+	b=vtNW5d4EUpEBK12uBh/zu+vmau2w2fWnb/AYB3RhJ0BGqa2stHBgt7VFVGBPqtbINsCNeB
+	DQz7lAQOawZRv1+BrC8XXHOxkT7lRaWN7fGo0fFf8Xfyq9+TrFM31E9x2wSHFA8SyGdk5q
+	esYB+ltKWqUvI/qF2OnvlTd/9Nacrfg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1692187584;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=84IHUX0vIe+LvPaQmPyEYhckKxKvuPR8TuCoT2MDUDQ=;
-	b=STrup2gRfjcakEz1VuDd34EzdnLI0g6ZJfvX01DjKQd9V5TIFLidHx45J+0KNpxc96msIA
-	PTf2aoSRzFYYmDAw==
+	bh=/Cvzf6un9zteo6BYtmrMHzIiNQIcezIJ9JwacCOtpBo=;
+	b=RuXurhaz/ri97DxexfwUeJ6wYuEzODnFq1YR2wbzNHSZUfgpfUt/OGVgB2+ZUtBeo736YH
+	uDcL/qGMaoObHWBw==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id E108F2C16D;
+	by relay2.suse.de (Postfix) with ESMTP id EFDA22C171;
 	Wed, 16 Aug 2023 12:06:23 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id CE94D51CB232; Wed, 16 Aug 2023 14:06:23 +0200 (CEST)
+	id E867451CB238; Wed, 16 Aug 2023 14:06:23 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
@@ -63,17 +63,17 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Paolo Abeni <pabeni@redhat.com>,
 	netdev@vger.kernel.org,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 11/18] nvme-fabrics: parse options 'keyring' and 'tls_key'
-Date: Wed, 16 Aug 2023 14:06:01 +0200
-Message-Id: <20230816120608.37135-12-hare@suse.de>
+Subject: [PATCH 14/18] nvmet-tcp: allocate socket file
+Date: Wed, 16 Aug 2023 14:06:04 +0200
+Message-Id: <20230816120608.37135-15-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230816120608.37135-1-hare@suse.de>
 References: <20230816120608.37135-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230816_050629_731487_1F1D6CF5 
-X-CRM114-Status: GOOD (  17.38  )
+X-CRM114-CacheID: sfid-20230816_050629_935996_2FA671E8 
+X-CRM114-Status: GOOD (  14.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,180 +88,76 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Parse the fabrics options 'keyring' and 'tls_key' and store the
-referenced keys in the options structure.
+For the TLS upcall we need to allocate a socket file such
+that the userspace daemon is able to use the socket.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/fabrics.c | 52 ++++++++++++++++++++++++++++++++++++-
- drivers/nvme/host/fabrics.h |  6 +++++
- drivers/nvme/host/tcp.c     | 14 +++++++---
- 3 files changed, 67 insertions(+), 5 deletions(-)
+ drivers/nvme/target/tcp.c | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index ddad482c3537..e453c3871cb1 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -622,6 +622,23 @@ static struct nvmf_transport_ops *nvmf_lookup_transport(
- 	return NULL;
- }
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index d44e9051ddd9..f19ea9d923fd 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -1493,12 +1493,12 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
+ 	nvmet_sq_destroy(&queue->nvme_sq);
+ 	cancel_work_sync(&queue->io_work);
+ 	nvmet_tcp_free_cmd_data_in_buffers(queue);
+-	sock_release(queue->sock);
++	/* ->sock will be released by fput() */
++	fput(queue->sock->file);
+ 	nvmet_tcp_free_cmds(queue);
+ 	if (queue->hdr_digest || queue->data_digest)
+ 		nvmet_tcp_free_crypto(queue);
+ 	ida_free(&nvmet_tcp_queue_ida, queue->idx);
+-
+ 	page = virt_to_head_page(queue->pf_cache.va);
+ 	__page_frag_cache_drain(page, queue->pf_cache.pagecnt_bias);
+ 	kfree(queue);
+@@ -1625,6 +1625,7 @@ static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
+ 		struct socket *newsock)
+ {
+ 	struct nvmet_tcp_queue *queue;
++	struct file *sock_file = NULL;
+ 	int ret;
  
-+static struct key *nvmf_parse_key(int key_id, char *key_type)
-+{
-+	struct key *key;
-+
-+	if (!IS_ENABLED(CONFIG_NVME_TCP_TLS)) {
-+		pr_err("TLS is not supported\n");
-+		return ERR_PTR(-EINVAL);
+ 	queue = kzalloc(sizeof(*queue), GFP_KERNEL);
+@@ -1644,10 +1645,16 @@ static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
+ 	init_llist_head(&queue->resp_list);
+ 	INIT_LIST_HEAD(&queue->resp_send_list);
+ 
++	sock_file = sock_alloc_file(queue->sock, O_CLOEXEC, NULL);
++	if (IS_ERR(sock_file)) {
++		ret = PTR_ERR(sock_file);
++		goto out_free_queue;
 +	}
 +
-+	key = key_lookup(key_id);
-+	if (IS_ERR(key))
-+		pr_err("%s %08x not found\n", key_type, key_id);
-+	else
-+		pr_debug("Using %s %08x\n", key_type, key_id);
-+	return key;
-+}
-+
- static const match_table_t opt_tokens = {
- 	{ NVMF_OPT_TRANSPORT,		"transport=%s"		},
- 	{ NVMF_OPT_TRADDR,		"traddr=%s"		},
-@@ -643,6 +660,10 @@ static const match_table_t opt_tokens = {
- 	{ NVMF_OPT_NR_WRITE_QUEUES,	"nr_write_queues=%d"	},
- 	{ NVMF_OPT_NR_POLL_QUEUES,	"nr_poll_queues=%d"	},
- 	{ NVMF_OPT_TOS,			"tos=%d"		},
-+#ifdef CONFIG_NVME_TCP_TLS
-+	{ NVMF_OPT_KEYRING,		"keyring=%d"		},
-+	{ NVMF_OPT_TLS_KEY,		"tls_key=%d"		},
-+#endif
- 	{ NVMF_OPT_FAIL_FAST_TMO,	"fast_io_fail_tmo=%d"	},
- 	{ NVMF_OPT_DISCOVERY,		"discovery"		},
- 	{ NVMF_OPT_DHCHAP_SECRET,	"dhchap_secret=%s"	},
-@@ -660,9 +681,10 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 	char *options, *o, *p;
- 	int token, ret = 0;
- 	size_t nqnlen  = 0;
--	int ctrl_loss_tmo = NVMF_DEF_CTRL_LOSS_TMO;
-+	int ctrl_loss_tmo = NVMF_DEF_CTRL_LOSS_TMO, key_id;
- 	uuid_t hostid;
- 	char hostnqn[NVMF_NQN_SIZE];
-+	struct key *key;
+ 	queue->idx = ida_alloc(&nvmet_tcp_queue_ida, GFP_KERNEL);
+ 	if (queue->idx < 0) {
+ 		ret = queue->idx;
+-		goto out_free_queue;
++		goto out_sock;
+ 	}
  
- 	/* Set defaults */
- 	opts->queue_size = NVMF_DEF_QUEUE_SIZE;
-@@ -928,6 +950,32 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 			}
- 			opts->tos = token;
- 			break;
-+		case NVMF_OPT_KEYRING:
-+			if (match_int(args, &key_id) || key_id <= 0) {
-+				ret = -EINVAL;
-+				goto out;
-+			}
-+			key = nvmf_parse_key(key_id, "Keyring");
-+			if (IS_ERR(key)) {
-+				ret = PTR_ERR(key);
-+				goto out;
-+			}
-+			key_put(opts->keyring);
-+			opts->keyring = key;
-+			break;
-+		case NVMF_OPT_TLS_KEY:
-+			if (match_int(args, &key_id) || key_id <= 0) {
-+				ret = -EINVAL;
-+				goto out;
-+			}
-+			key = nvmf_parse_key(key_id, "Key");
-+			if (IS_ERR(key)) {
-+				ret = PTR_ERR(key);
-+				goto out;
-+			}
-+			key_put(opts->tls_key);
-+			opts->tls_key = key;
-+			break;
- 		case NVMF_OPT_DISCOVERY:
- 			opts->discovery_nqn = true;
- 			break;
-@@ -1168,6 +1216,8 @@ static int nvmf_check_allowed_opts(struct nvmf_ctrl_options *opts,
- void nvmf_free_options(struct nvmf_ctrl_options *opts)
- {
- 	nvmf_host_put(opts->host);
-+	key_put(opts->keyring);
-+	key_put(opts->tls_key);
- 	kfree(opts->transport);
- 	kfree(opts->traddr);
- 	kfree(opts->trsvcid);
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index dac17c3fee26..fbaee5a7be19 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -71,6 +71,8 @@ enum {
- 	NVMF_OPT_DHCHAP_SECRET	= 1 << 23,
- 	NVMF_OPT_DHCHAP_CTRL_SECRET = 1 << 24,
- 	NVMF_OPT_TLS		= 1 << 25,
-+	NVMF_OPT_KEYRING	= 1 << 26,
-+	NVMF_OPT_TLS_KEY	= 1 << 27,
- };
+ 	ret = nvmet_tcp_alloc_cmd(queue, &queue->connect);
+@@ -1678,11 +1685,14 @@ static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
+ 	nvmet_tcp_free_cmd(&queue->connect);
+ out_ida_remove:
+ 	ida_free(&nvmet_tcp_queue_ida, queue->idx);
++out_sock:
++	fput(queue->sock->file);
+ out_free_queue:
+ 	kfree(queue);
+ out_release:
+ 	pr_err("failed to allocate queue, error %d\n", ret);
+-	sock_release(newsock);
++	if (!sock_file)
++		sock_release(newsock);
+ }
  
- /**
-@@ -103,6 +105,8 @@ enum {
-  * @dhchap_secret: DH-HMAC-CHAP secret
-  * @dhchap_ctrl_secret: DH-HMAC-CHAP controller secret for bi-directional
-  *              authentication
-+ * @keyring:    Keyring to use for key lookups
-+ * @tls_key:    TLS key for encrypted connections (TCP)
-  * @tls:        Start TLS encrypted connections (TCP)
-  * @disable_sqflow: disable controller sq flow control
-  * @hdr_digest: generate/verify header digest (TCP)
-@@ -130,6 +134,8 @@ struct nvmf_ctrl_options {
- 	struct nvmf_host	*host;
- 	char			*dhchap_secret;
- 	char			*dhchap_ctrl_secret;
-+	struct key		*keyring;
-+	struct key		*tls_key;
- 	bool			tls;
- 	bool			disable_sqflow;
- 	bool			hdr_digest;
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index ef9cf8c7a113..f48797fcc4ee 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1589,6 +1589,8 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
- 
- 	dev_dbg(nctrl->device, "queue %d: start TLS with key %x\n",
- 		qid, pskid);
-+	if (nctrl->opts->keyring)
-+		keyring = key_serial(nctrl->opts->keyring);
- 	memset(&args, 0, sizeof(args));
- 	args.ta_sock = queue->sock;
- 	args.ta_done = nvme_tcp_tls_done;
-@@ -1914,9 +1916,12 @@ static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
- 	key_serial_t pskid = 0;
- 
- 	if (ctrl->opts->tls) {
--		pskid = nvme_tls_psk_default(NULL,
--					      ctrl->opts->host->nqn,
--					      ctrl->opts->subsysnqn);
-+		if (ctrl->opts->tls_key)
-+			pskid = key_serial(ctrl->opts->tls_key);
-+		else
-+			pskid = nvme_tls_psk_default(ctrl->opts->keyring,
-+						      ctrl->opts->host->nqn,
-+						      ctrl->opts->subsysnqn);
- 		if (!pskid) {
- 			dev_err(ctrl->device, "no valid PSK found\n");
- 			ret = -ENOKEY;
-@@ -2776,7 +2781,8 @@ static struct nvmf_transport_ops nvme_tcp_transport = {
- 			  NVMF_OPT_HOST_TRADDR | NVMF_OPT_CTRL_LOSS_TMO |
- 			  NVMF_OPT_HDR_DIGEST | NVMF_OPT_DATA_DIGEST |
- 			  NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_NR_POLL_QUEUES |
--			  NVMF_OPT_TOS | NVMF_OPT_HOST_IFACE | NVMF_OPT_TLS,
-+			  NVMF_OPT_TOS | NVMF_OPT_HOST_IFACE | NVMF_OPT_TLS |
-+			  NVMF_OPT_KEYRING | NVMF_OPT_TLS_KEY,
- 	.create_ctrl	= nvme_tcp_create_ctrl,
- };
- 
+ static void nvmet_tcp_accept_work(struct work_struct *w)
 -- 
 2.35.3
 
