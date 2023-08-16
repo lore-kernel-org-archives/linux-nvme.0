@@ -4,80 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 56376C001E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Aug 2023 14:14:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F9F2C27C42
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Aug 2023 20:39:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GOj5vqEBCGVZTE/uLdUG8o3NQamjXmeqO4V0Lf5FTJk=; b=nhV13j8hV83c1nwqqUf7yWqQkN
-	92HzXxVl8FDxheAl57IOZ2hpezsJwYJrOxgBjuwl202V8yfOqPK7apDN2IeftcdpmuilhO+fo13TN
-	bOX5ydiqmkVJyXSpIvqwnUgvGT3r5VhYA2rzmqZRW/oE3AZ4Ua0BjNKRooJxpanlG+jGm42t2NEdK
-	qx/PHBC3EUsho6NMZNsPWXKo1rWiotGY80RYdI1fzQc/g4lydD9e+oCT8/HUhZqvACvT17c36igw2
-	ZctTZf1c/tSWZfcHIxUTuuxiaoneeDYInzyjc2oYFBplTE1LO64ZaprwWILBz7ubbL9KzVzA93BKN
-	5GpuDxNw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Subject:From:Cc:To:MIME-Version:Date:Message-ID:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=cwK/9qb93uefmOwiM9L7eoX9EqBo1PHGiY0SO/DNWXQ=; b=hAQuMHl3FojZXrjg5nkBO+hVuA
+	mgT/+r8/y6bRexRhAtKWxSfCOD1Q+87CYXUQtsqQ0eGHWgyzfBMEYxWSgH4+FUEsX9ndz08VBti3k
+	+YwJmLL5G13LFfECOIqO+B57xXwKP3kjBNGz/QgPb7qb4EQTo0X5IC3Ln+XkUQgzXNGQdUdbVBoK6
+	ij8VH1rij0dzb/hGA4Q8v2j9T24PO2s9PofXGPLwnHI0O9all5Ms9TmYPQEBNYQirK+PVBzt9f6wL
+	WiEz6q2ClL47rqSGQ/h13Aa13plpM5v2OpgcwX/ygSIoFsQGzcdvlrPk8aAF7N79N6MteF5CzexK5
+	qMqBZgPw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWHI3-004LLy-2S;
-	Wed, 16 Aug 2023 14:14:27 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1qWNIs-004xt7-1O;
+	Wed, 16 Aug 2023 20:39:42 +0000
+Received: from s1.sapience.com ([72.84.236.66])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWHI1-004LKz-1l
+	id 1qWNIp-004xsl-2b
 	for linux-nvme@lists.infradead.org;
-	Wed, 16 Aug 2023 14:14:26 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	Wed, 16 Aug 2023 20:39:41 +0000
+Authentication-Results: dkim-srvy7; dkim=pass (Good ed25519-sha256 
+   signature) header.d=sapience.com header.i=@sapience.com 
+   header.a=ed25519-sha256; dkim=pass (Good 2048 bit rsa-sha256 signature) 
+   header.d=sapience.com header.i=@sapience.com header.a=rsa-sha256
+Received: from srv8.prv.sapience.com (srv8.prv.sapience.com [x.x.x.x])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	 key-exchange X25519 server-signature ECDSA (secp384r1) server-digest SHA384)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 153052193C;
-	Wed, 16 Aug 2023 14:14:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1692195263; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GOj5vqEBCGVZTE/uLdUG8o3NQamjXmeqO4V0Lf5FTJk=;
-	b=EKSsnfF2FPVjmROp8oATkXTVc0l16M3HUuAu1h6bMO5mF0FH4Wz9kQTRiK8/bpaVjAXYXR
-	5ZBJUNCNhYXlENTuomJbJwTP4kOsvZ0IBaj5x9mC1ZcHUV+YXr9AHl7UQu9GHF371sSXEL
-	Ivc99UoomzFFceAws6whxW/VjagHFlk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1692195263;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GOj5vqEBCGVZTE/uLdUG8o3NQamjXmeqO4V0Lf5FTJk=;
-	b=qHz2GP4WnHaU/T42nb4r6cchR1nkB7AnxIJWdlabuADd/oMzUCDRNMPB0wvX4tCtpuSepL
-	e0ect8DVZfYgXDCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 05A7E133F2;
-	Wed, 16 Aug 2023 14:14:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id AkxaAb/Z3GRmcQAAMHmgww
-	(envelope-from <dwagner@suse.de>); Wed, 16 Aug 2023 14:14:23 +0000
-Date: Wed, 16 Aug 2023 16:14:32 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Yi Zhang <yi.zhang@redhat.com>, 
-	Bart Van Assche <bvanassche@acm.org>
-Subject: Re: [PATCH blktests] nvme/rc: fix nvme device readiness check after
- _nvme_connect_subsys
-Message-ID: <bwprzz5jxwrsnfycw5hh3wvyke3rnpzt3cozeddmfabbv2eubj@uk25btx723lb>
-References: <20230811012334.3392220-1-shinichiro.kawasaki@wdc.com>
- <6x55ggt7k2kjgd6lr6ykubwmo2qfilz3k32ywfuun2zhat2p5v@7aohs7kgb23x>
- <dsb7kr6wzpebiruz3uqrl2mfhahsv4pgmvojeaeshn4to6csrj@iape74ngcwg2>
+	by s1.sapience.com (Postfix) with ESMTPS id 0CD98480AB8;
+	Wed, 16 Aug 2023 16:39:35 -0400 (EDT)
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=sapience.com;
+ i=@sapience.com; q=dns/txt; s=dk-ed25519-220413; t=1692218374;
+ h=message-id : date : mime-version : to : cc : from : subject :
+ content-type : content-transfer-encoding : from;
+ bh=cwK/9qb93uefmOwiM9L7eoX9EqBo1PHGiY0SO/DNWXQ=;
+ b=8uUWVzaOjcnNARkelIFzXv8PnV0r5M/UL/yy72gIdxuL3WTv95m/zJMcIlc/4bydwQyDV
+ muaGv2h/J5CdR6GDg==
+ARC-Seal: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412; t=1692218374;
+	cv=none; b=PsUJiXEGnDabzl9uwToLeXToWFtmQskJscXyt9qo4isQxpfinK7cOqM9tcFjd41pLNWCS+RVCNbAW6J/x+2hZuRFwQnvQiHQofkHc5BKrn1uW29VPQFW0oUEqCcmzkX90CdZ/wc1Kg5Q3JjK5y5S1uCGMKCJCPibbkUZFg3rmswac7s5gheGPmc7/oOlGZasIzE2CWLcA4Lap1jJMn88pWU5sFrQs0W5tFN6T6dZdm8hqn+2TsKuQIIBUjWQwd4L0VBPlzokwZb7w7DDCWuCGs6NYna6rQ4WdvHOiUDf/WuY7GZ8oHXVeb0oW1NPhmdYXcrocL6bdqAmRK8Jxan3Xw==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412;
+	t=1692218374; c=relaxed/simple;
+	bh=PiSNuZkOfyb48JGDdwOkAi+WrfYdMcst/w+0ai9sHm8=;
+	h=DKIM-Signature:DKIM-Signature:Message-ID:Date:MIME-Version:
+	 User-Agent:Content-Language:To:Cc:From:Subject:Content-Type:
+	 Content-Transfer-Encoding; b=UJx1vNjT1prLNd4vRLm0xD/vL1MJTvbn4CWcVYkzp9jZVMtv9C2pkk4Egoj2SuMkCZngGP4eWhGCFR2YOvPUKbZgcxBWUWlE9sMExCMCbjLzgIhCmd5+c4FQerNYtq8lI5n+A45X9aQGh1oH5xvTZ2oB/4T7WiuYz1cOy8rTsdQ37BmNh9DWETCHuUdYyO1pJcsMXlwBnmdsQO/cwleGXwhvWO/s2mhZzGenodTumaBrfeJQYD0/mAa3HcldU7/LeDyezUT1+JcxWwX9fkD5o75G4mz9IA7surleRCSBFgxYpt52QfGr63lEwgNtx+3uonzyLPDm8tI3J2qlM0DO4g==
+ARC-Authentication-Results: i=1; arc-srv8.sapience.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sapience.com;
+ i=@sapience.com; q=dns/txt; s=dk-rsa-220413; t=1692218374;
+ h=message-id : date : mime-version : to : cc : from : subject :
+ content-type : content-transfer-encoding : from;
+ bh=cwK/9qb93uefmOwiM9L7eoX9EqBo1PHGiY0SO/DNWXQ=;
+ b=AsIg5l8CarmMYWZ4R4WWtokk0DIFEMGDU3YvQnsEp7eoxW2Mnkg4Oxh2IVgxt1EjQiq6r
+ vFdfkGcDvjJwjpRanpn7EXj6zvC6zMGPhy/75VF4ZsZydNje/3UudVH3zrbekYkQWgaY9vz
+ lgVChL4M5UMQEwVt8N7/KlAjdqcc/Ip0Yg0Z5dUG3d2HgP7my8hsaay+E7aPALJU9GeXnBN
+ 7IsICzxT6/9PZtYkKy/ZB4y5RCUZwSbJ40WNqUOk5wHlmVEtelgKpVeJccGxQmAZKa8JT84
+ RCtjN18zk5+qnCtbETYxzxs1dcxCYp4vwqM/te4H7R5FBpQHfvx7CJIh1lzw==
+Message-ID: <5f968b95-6b1c-4d6f-aac7-5d54f66834a8@sapience.com>
+Date: Wed, 16 Aug 2023 16:39:34 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dsb7kr6wzpebiruz3uqrl2mfhahsv4pgmvojeaeshn4to6csrj@iape74ngcwg2>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: linux-kernel@vger.kernel.org
+Cc: kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org, hch@lst.de
+From: Genes Lists <lists@sapience.com>
+Subject: Possible nvme regression in 6.4.11
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230816_071425_729091_36E74201 
-X-CRM114-Status: GOOD (  28.38  )
+X-CRM114-CacheID: sfid-20230816_133940_006601_FED55DE1 
+X-CRM114-Status: UNSURE (   8.79  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,63 +93,66 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Aug 16, 2023 at 12:04:24PM +0000, Shinichiro Kawasaki wrote:
-> > Not sure if this going to work for the passthru case as intended.
-> 
-> IMO, the check above is not for the passthru case. The function
-> _nvmet_passthru_target_connect() has the code below:
-> 
-> 	while [ ! -b "${nsdev}" ]; do sleep 1; done
-> 
-> This checks readiness of the device for the passthru case.
 
-I am worried about the case that in _nvmet_passthru_target_connect we
-call first _nvme_connet_subsys and then we do also the above loop.
+Also reported to bugzilla [1]
 
-> For that case, the check in _nvmet_passthru_target_connect() ensures
-> readiness of the passthru device. The drawback is that the check for
-> namespace 1 consumes 1 second for nothing.
+Failure happens on 1 laptop with samsung ssd.
 
-And this is something we should not do on purpose, IMO.
+Boot log manually transcribed:
 
-> > Thinking about it, shouldn't we log that we couldn't find the
-> > device/uuid/wwid at the end of the loop?
-> 
-> Not sure. For the non-passthru case, it will be helpful. But for passthru case,
-> check result log for namespace 1 can be confusing.
-> 
-> I can think of two other fix approaches below, but they did not look better than
-> this patch for me. What do you think?
-> 
-> 1) Go back to the fix approach to add another _find_nvme_dev() in nvme/047.
->    I worried this will leave the chance that we will fall into the same issue
->    when we will add a new test case with multiple _nvme_connect_subsys
->    calls.
+kernel: nvme nvme0: controller is down; will reset: CSTS:0xffffffff, 
+PCI_STATUS=0xffff
+kernel: nvme nvme0: Does your device have a faulty power saving mode 
+enabled?
+kernel: nvme nvme0: try "nvme_core.default_ps_max_latency_us=0 
+pcie_aspm=off" and report a bug
+kernel: nvme 0000:04:00.0: Unable to change power state from D3cold to 
+D0, device inaccessible
+kernel: nvme nvme0: Disabling device after reset failure: -19
+mount[353]: mount /sysroot: can't read suprtblock on /dev/nvme0n1p5.
+mount[353]:       dmesg(1) may have more information after failed moutn 
+system call.
+kernel: nvme0m1: detected capacity change from 2000409264 to 0
+kernel: EXT4-fs (nvme0n1p5): unable to read superblock
+systemd([1]: sysroot.mount: Mount process exited, code=exited, status=32/n/a
+...
 
-I'd rather not go down this route. Ideally, the infrastructure code does
-the right thing and we don't have to deal in each test case with this
-problem.
+All kernels are upstream, untainted and compiled on Arch using:
 
-> 2) Rework _find_nvme_dev into two new functions _find_nvme_ctrl_dev and
->    _find_nvme_ns_dev, and do the readiness check in _find_nvme_ns_dev.
->    IMO, this confusion comes from the fact that _find_nvme_dev returns control
->    device, but some test cases use it to operate namespaces by adding "n1" to
->    the control device name. If a test case uses namespace device, it's the
->    better to call _find_nvme_ns_dev. But I worry this approach may be too much.
+  gcc version 13.2.1
 
-As we already have an argument parser in _nvme_connect_subsys, we could
-also introduce a new option which allows to select the wait type. With
-this _nvmet_passtrhu_target_connect could be something like
+Kernels Tested:
+  - 6.4.10 - works fine
+  - 6.4.11 - fails
+  - 6.5-rc6 - fails
+  - 6.4.11 + nvme_core.default_ps_max_latency_us=0 pcie_aspm=off - fails
+  - 6.4.11 with 1 revert below - fails
 
-_nvmet_passthru_target_connect() {
-        [...]
+     Revert "nvme-pci: add NVME_QUIRK_BOGUS_NID for Samsung PM9B1 256G 
+and 512G"
+     This reverts commit 061fbf64825fb47367bbb6e0a528611f08119473.
 
-        _nvme_connect_subsys "${trtype}" "${subsys_name}" \
-                --wait-for=device || return
+Hardware:
+   model name      : Intel(R) Core(TM) i7-7820HQ CPU @ 2.90GHz
+   stepping        : 9
+   microcode       : 0xf4
 
-        [...]
-}
+nvme:
+04:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe 
+SSD Controller SM961/PM961/SM963
+         Subsystem: Samsung Electronics Co Ltd SM963 2.5" NVMe PCIe SSD
+         Flags: bus master, fast devsel, latency 0, IRQ 16, NUMA node 0
+         Memory at edb00000 (64-bit, non-prefetchable) [size=16K]
+         Capabilities: [40] Power Management version 3
+         Capabilities: [50] MSI: Enable- Count=1/32 Maskable- 64bit+
+         Capabilities: [70] Express Endpoint, MSI 00
+         Capabilities: [b0] MSI-X: Enable+ Count=33 Masked-
+         Kernel driver in use: nvme
 
-and for the rest of the test cases we just set the default for
---wait-for to ns.
+
+
+
+Gene
+
+[1] https://bugzilla.kernel.org/show_bug.cgi?id=217802
 
