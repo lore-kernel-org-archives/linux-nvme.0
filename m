@@ -4,125 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 332BDC001E0
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Aug 2023 13:04:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58B37C001E0
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Aug 2023 14:10:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=68z1IcZcXraTIIyqRgCo3ru+wLphx2KtBw9+ikxU0sM=; b=lbpXaCL8ClMubzn29uF3RXNVIT
-	0mEg6XpXMvyQPY+CoeeKsKJXdACVZSBNzRWreh3WCjMfwbpPI4sJ9g5d2AxxW9CfC0sLBdIHpx1BU
-	kYEVP500b3bB1cqVpLyoQvZYUnx/1yl7ha4DUg6BPIkHuEvi4eF+VZPD5MY9k7wBsCYQNYZ6hHa82
-	pf1LqxDfMoZVim21HPwu+8v5QJqqWzOE61YSjywOQMrS8vMFAVnWilnFYcZSlaifFT88kqRQgaYKs
-	fk6IHzq9/cPT7nD3vX5HwBfQp3W1PwIKzsn0oyRBYryHh+zQYjkINFz8sgLpXuRJPF7WkSeb66m75
-	yi/ISOCg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=95HPwFgqaDXlLLkzpChDZIHs2R0I1EBhpERpAxW/ijY=; b=yNJXURmKxcEKdsxX+oH+H0vu7v
+	5heJ0cIJ4CA9pcK9vEKF/h5vr7n5mfNXJ8KhOoRZjpypcSMy/Mp1SvJFChz0fFkaAL1IM4qsbvsAl
+	wu+GnDTOiVmLCCAJk1uFZxh+/6/vIbGvPPlQyJ+/u16+ks9rdG5IGu6FXk7yD7xgxIUP5OSZ7rqx6
+	z9jWznEzTi9EeOwgBVn/6HhX9ymcwaTofTREv1yF7rQ6WteFGoMmUU5DTj0JUD7kcaclKgW+0Ier8
+	CKemGlw5J8oMoPXnPZTnoH3XLWxQvTzCUKvIliJKrsKieb5/ZZIe7VrSLjLNTqRhCd1COwzHC2eA/
+	ZBqseVSA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWGBw-004Cpl-0J;
-	Wed, 16 Aug 2023 13:04:04 +0000
-Received: from mail-dm6nam10on20623.outbound.protection.outlook.com ([2a01:111:f400:7e88::623] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+	id 1qWHEZ-004KoM-2T;
+	Wed, 16 Aug 2023 14:10:51 +0000
+Received: from mail-wr1-f44.google.com ([209.85.221.44])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWGBt-004CoO-0p
+	id 1qWHEV-004KnM-07
 	for linux-nvme@lists.infradead.org;
-	Wed, 16 Aug 2023 13:04:02 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IgTDY3S1+C+LnvNxIrFZQqPsyJIzNipbHvYd3DnkTm9nfNaPY6tpd2ghhtWICQWuJqp4XLrNlOe8l4385KgcArlWMUiLJ17eqQ0UoO6S0bpiGto7bb0fsHkVhQxWyjHb4lzyhlKQ9NqIGqg+3DAdD+3t+0VN10FtycA5fgxVwid7xY7jGY63InGpAIfZFcMEoqaBHCSpMSVrgUD0NIQv9K2fPFxcY8FtfIdDghwaAB2lremFrMp5g5CAaARDngFJzg6FMKPUi54W3dcR+SebBHtGaetR+qTb0yWkbB5drSKnLkcht5I2wagVbUB/YmD1t5HpOCG0YbDGOPhfTzH9/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=68z1IcZcXraTIIyqRgCo3ru+wLphx2KtBw9+ikxU0sM=;
- b=NfNf8X7ehtKvgX7vQB3i+u1AK9pebHsCy7TITvax9VrF4wKjePpU12VNFthf8pG1dFGn4sAfHzGmetUFScSaDrMTPlaWduCTOEe69+yB17c5QmuzqVbhwd/MvaaCOEla2e62jDqcNhHM5rnHzr6RR2+7rQghfV+AGB22V5jbk3k04wG4R41RnnZw98MIbvXVULeNaJ8PhvUzN2pyRsOVjKFLnZx8Nfj3GCWZctJU3lbvPH6F+0Vci3DqzE84z3mX+NL17Qsg5SQIgEtKlEF1tUyJWuoJ89XxW0YRWwuhSIx8X1Gl5x4oksUJdacm8FTVtkCJqVfMwbItZu6p7ZDbSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=68z1IcZcXraTIIyqRgCo3ru+wLphx2KtBw9+ikxU0sM=;
- b=ebxPNEBai9mgjaB95eA29eHlvTmLqBrkv5Wo4vT/CQHI5y8WVxoLqBU3cl4mo8CWfd9KkaD23H8+Pm+LVaE3JhU5wg0hLU1hiUiOZjbAzFYK3t6I+PqyEiuwC46hFMw6nUfgYrpfAgVTkS3AgALlrNGmpPMCy4SpLpNQysU+LrQeWcCPZLkeV5FjZUer6/Bwou6kIJ4qhx5OtnuQjNywrxQHFnP91BBFeQonsqR7mDdsaRZ3pO5HiSDt1JyBmn56JSRitYLJ6txh1Hg0CYvGA0wfUNdYbCrR1/VZfBQqSJBTe2Qx4V1zcdNag2eEZwCirtUnzIgesPIX7NYw+xhJ4w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
- by DM4PR12MB5214.namprd12.prod.outlook.com (2603:10b6:5:395::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.26; Wed, 16 Aug
- 2023 13:03:52 +0000
-Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
- ([fe80::968e:999a:9134:766b]) by SJ1PR12MB6075.namprd12.prod.outlook.com
- ([fe80::968e:999a:9134:766b%7]) with mapi id 15.20.6678.025; Wed, 16 Aug 2023
- 13:03:52 +0000
-From: Aurelien Aptel <aaptel@nvidia.com>
-To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+	Wed, 16 Aug 2023 14:10:48 +0000
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3197b9cb84eso493493f8f.1
+        for <linux-nvme@lists.infradead.org>; Wed, 16 Aug 2023 07:10:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692195044; x=1692799844;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=95HPwFgqaDXlLLkzpChDZIHs2R0I1EBhpERpAxW/ijY=;
+        b=VvZmeRqKv+LrcQojYMDH6/bWXeiaiYsYZOLP3PBHviUjO+nTY+NVR+QdHyxn4rzntS
+         fAI5rlftieTVes6UTOsOu3mTDzqvMrzRZpi6bem/TpH2ZqdHg8q4CQWN+5eoZYt1gA+Y
+         KBfS6bl11hyr+oYQMv6cNFysxXTqTfiTBpwXsrLIqqzYVSb5O+Ib4ium1vVKLSDXw+f1
+         RnaGQrXKaj/tXrXy6uyQbL4Ld603kTvW2g1B/NpYfkcwK0/APV+oZ0CNVdbjcFIeIItw
+         10C3n8qsbLXO2XgwzyzrXmFSy8iBG2SVlTwYFJmbI++0QRnuUSr6BuJevLnP88BSD0zD
+         Rvbg==
+X-Gm-Message-State: AOJu0YzIvdxLjvQSJkzPxolDfPs5lUfUESD1+Qi80Fr1mpKaL9JIf41b
+	t9V9Vd7tic4l27RMtrPMakc=
+X-Google-Smtp-Source: AGHT+IFAdE+gPg7IcxZmulI51PLKclkD6DyWh+geDi49pMSfDRXQdy9EFgoumun16fMKn/34l3Q+WQ==
+X-Received: by 2002:adf:f0c9:0:b0:316:ef5f:7d8f with SMTP id x9-20020adff0c9000000b00316ef5f7d8fmr1652244wro.3.1692195043533;
+        Wed, 16 Aug 2023 07:10:43 -0700 (PDT)
+Received: from [192.168.64.157] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id q10-20020adfcd8a000000b0031753073abcsm21417662wrj.36.2023.08.16.07.10.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Aug 2023 07:10:42 -0700 (PDT)
+Message-ID: <186675e2-464f-bec4-1a26-5a516ef11540@grimberg.me>
+Date: Wed, 16 Aug 2023 17:10:39 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v12 10/26] nvme-tcp: Deal with netdevice DOWN events
+Content-Language: en-US
+To: Aurelien Aptel <aaptel@nvidia.com>, linux-nvme@lists.infradead.org,
  netdev@vger.kernel.org, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
  chaitanyak@nvidia.com, davem@davemloft.net, kuba@kernel.org
 Cc: Or Gerlitz <ogerlitz@nvidia.com>, aurelien.aptel@gmail.com,
  smalin@nvidia.com, malin1024@gmail.com, yorayz@nvidia.com,
  borisp@nvidia.com, galshalom@nvidia.com, mgurtovoy@nvidia.com
-Subject: Re: [PATCH v12 10/26] nvme-tcp: Deal with netdevice DOWN events
-In-Reply-To: <b94efb3f-8d37-c60c-5bf6-f87d41967da4@grimberg.me>
 References: <20230712161513.134860-1-aaptel@nvidia.com>
  <20230712161513.134860-11-aaptel@nvidia.com>
  <b94efb3f-8d37-c60c-5bf6-f87d41967da4@grimberg.me>
-Date: Wed, 16 Aug 2023 16:03:45 +0300
-Message-ID: <253pm3nuojy.fsf@nvidia.com>
-Content-Type: text/plain
-X-ClientProxiedBy: VI1PR04CA0125.eurprd04.prod.outlook.com
- (2603:10a6:803:f0::23) To SJ1PR12MB6075.namprd12.prod.outlook.com
- (2603:10b6:a03:45e::8)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|DM4PR12MB5214:EE_
-X-MS-Office365-Filtering-Correlation-Id: 86cf419e-77ad-4ead-993a-08db9e593d2c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: woKnnNOWulhGVprUY1ibgxA7iJrkGDHzoKYh85VpYWyWMeak/Gpa1Jeh10+n2Gn5nLdgObpUP1UF+dd+WWBlHG4useKobDj6hr/ax1/HBDeM+Iifj2gSKKYbOsElYBK3hN/TMo/k7m1SpJOSQbjW6KfATMPnZruO+y72hIOyymKRXd5HQ/Af0vsqRCKpbk+rn8GzUo6At0LpBFHqEHaxuoYtZJWjU7KA5B5+KhVcWKXJ3NpYwWae63whIh2/oRsSjPxn8R9IOauuJtZVZmsmmCP05b6hoTPROm52S7y8+ToTZtk/DjEgFPCC2FjBkkc7qjEbi0xjwGUZNBMh6780jUu/0lKib0xcLBd6KJXH7JyX7eD/BRjJ8mlnrx1h3hQRpngy7n6tdAIOZOAETgaX3vhnhsYobhW+qQy7HE17QqtZo4v1HZmpqQpf36ey32HtIo55KSPy6Gfzj/GXN2Y7utoWpLpRoe9Vw2HyeqC6j4BFThuXpIJJvXVWCV+nPGvO/dlJPCW7qB2+WfW5bH37cTLsxPithOHKlLqthBsD6ot24E9LmKR0VLFeZuPaolNZ
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(39860400002)(346002)(366004)(376002)(136003)(1800799009)(451199024)(186009)(316002)(66946007)(66476007)(66556008)(41300700001)(5660300002)(38100700002)(8676002)(4326008)(8936002)(2906002)(4744005)(83380400001)(26005)(478600001)(7416002)(86362001)(6512007)(107886003)(6506007)(36756003)(6666004)(2616005)(6486002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0Qcym5/p5LCIkuNMEK7wCWOg4guMnAaYvw/R+pvmt1zGEhScR3nrwq23h1DK?=
- =?us-ascii?Q?VXEu1wXQd5IboSrpE6AGr/9zIoJGniIltdC+SK5jWuUqRmi870opsoOU1iax?=
- =?us-ascii?Q?Zy7UcEebZ3g+Mtrnh0c++1yRgnMNwWhg1TRH603YgSGiGB96fTTCTdt1a3Mn?=
- =?us-ascii?Q?xFqlQLBmh+6v0E+RmZemHseSQH4AWYbIRvoPBxAXzGHQ2tRALT/UnP80hhm+?=
- =?us-ascii?Q?+0HaWLwIHThCYgWpC3L/uDGaQytkmNWIBrl4qO4a+AbDYCMeT9wB8mr+zJlk?=
- =?us-ascii?Q?BZ8uYLVg3dH5bA7lEAt0V5oOtLTLYfsV4KtVfAEc5WJBqdXrNR6EzVxwPAPc?=
- =?us-ascii?Q?cMUiVR9GC532ErjQGBl74frPuOxAWFO3J28YJ65pAZghdzTHx8xWEqmn19xR?=
- =?us-ascii?Q?h2TF/aUG6+p/Jig4qiMLlxGW7CxKKtZqNfTlwVFXUoWM4NOHMUgJmzP/bRat?=
- =?us-ascii?Q?vOlKo2Ng9zUdib5ozRrHfMZjS8YinJNgnvK0XXVAHESpwHMHumvQCV0Biw9F?=
- =?us-ascii?Q?fal2I1lpw88E4ffXpwFk1E9MtcDF+fWM4ZEM865iN2uLVrxdOi2A0Ema7BPh?=
- =?us-ascii?Q?WFbK6rs1hjZb89P6Yp4wK9IfTvs1rog3yDTPpODUc1Ec4IdEgxAsJ8tc5N/v?=
- =?us-ascii?Q?oF5FE++BuaTBXaMum6FCEZRDwu6MJzRr7a92ggDdBtFNjXFbfOjp8QOglD+5?=
- =?us-ascii?Q?xa10TlSbhcNwOOhjzyJv0mVgm4Ak4aTr7ROKBWRlcoSaxBme4dCFGfx+wmSO?=
- =?us-ascii?Q?ArRYkXxmMGmOo1bNr8WmIG6EuZkzv63MOK+UxMrxaP7ySwEFLTgY4KUo9bcX?=
- =?us-ascii?Q?TvI+t95WhMiIoELI3mcVT7ZpXE/28Zf4uZblnkILzDqZE7jNvZRNINicaFJ6?=
- =?us-ascii?Q?mLJdSEHzomhOvIQwNlG6A63dmbhulg1tsg6imJBi9iT0b0nrrsawlAKM2p5v?=
- =?us-ascii?Q?gkzE7hUu9VAL6zcuWtQZq3Byw92RrtkL1+fxMFlOit+O2e7kpvto+ww2r++U?=
- =?us-ascii?Q?DOD8x1hwlbq9MtkBX8AjF+6QfMQZq25PIJCznPQwnA5k8U7sREOGhVF0BJqc?=
- =?us-ascii?Q?+Z4LDjcegc43fvcSzowZij7/Dmtq67PHfnYAJEnFEum1WjdOfWtwZA7pCc8O?=
- =?us-ascii?Q?NgsPeKq9vFndprJkMKRZesymSY0NoXhrMF63lVjL3IlubsXE+029qsvnGydZ?=
- =?us-ascii?Q?lTC7z0O1PwbkNfw+Em8adRKrz/rh2qqpF2XVa4GojxZUy9g7Q8oEzdFM9MiF?=
- =?us-ascii?Q?Tlr1YRg0ZGDN8jDbc+YUQP4mg7xT6biUq9S7zWf/2K3P+SINojG5H3RFoVWL?=
- =?us-ascii?Q?DiNzK/2Q2FznZLXHzomRzmXEKesx+fF173kczkdEWBZuOEn0OzI2FAD+tb6Q?=
- =?us-ascii?Q?k5rXmEqnx7ZGpFOY0ohYG3PDz352249KGYGOYS0ZuOZVmesa3jj+6ESp3HNG?=
- =?us-ascii?Q?xU1BTF2LQntdK6xnu+9RXEh5wVM/oh6NmXzW17OZwvqx0SsGBwivDRTcUvGL?=
- =?us-ascii?Q?LLxnKBgqBbeNuSsPTQY4Frl9QCIJS6DKgriCOA6pS80wwBnP7raDszmG319K?=
- =?us-ascii?Q?BKnpYhvTh5tzxjuA2iTXZb0+1IfARoBSQkYdhfsy?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 86cf419e-77ad-4ead-993a-08db9e593d2c
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2023 13:03:52.0194
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: K9+gxoP4Z4+5YIztdk+9t7Qq4bcHl/DBdwwcX1kzqu6TKx+FuF/tK3NrqIKdy0Av7Wjq1IAg7/nAQ2+naBgcUQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5214
+ <253pm3nuojy.fsf@nvidia.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <253pm3nuojy.fsf@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230816_060401_339233_DF1E5A2B 
-X-CRM114-Status: UNSURE (   8.35  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230816_071047_073030_3CF05064 
+X-CRM114-Status: GOOD (  11.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -137,26 +88,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Sagi Grimberg <sagi@grimberg.me> writes:
->> +     switch (event) {
->> +     case NETDEV_GOING_DOWN:
->> +             mutex_lock(&nvme_tcp_ctrl_mutex);
->> +             list_for_each_entry(ctrl, &nvme_tcp_ctrl_list, list) {
->> +                     if (ndev == ctrl->offloading_netdev)
->> +                             nvme_tcp_error_recovery(&ctrl->ctrl);
->> +             }
->> +             mutex_unlock(&nvme_tcp_ctrl_mutex);
->> +             flush_workqueue(nvme_reset_wq);
->
-> In what context is this called? because every time we flush a workqueue,
-> lockdep finds another reason to complain about something...
 
-Thanks for highlighting this, we re-checked it and we found that we are
-covered by nvme_tcp_error_recovery(), we can remove the
-flush_workqueue() call above.
+>>> +     switch (event) {
+>>> +     case NETDEV_GOING_DOWN:
+>>> +             mutex_lock(&nvme_tcp_ctrl_mutex);
+>>> +             list_for_each_entry(ctrl, &nvme_tcp_ctrl_list, list) {
+>>> +                     if (ndev == ctrl->offloading_netdev)
+>>> +                             nvme_tcp_error_recovery(&ctrl->ctrl);
+>>> +             }
+>>> +             mutex_unlock(&nvme_tcp_ctrl_mutex);
+>>> +             flush_workqueue(nvme_reset_wq);
+>>
+>> In what context is this called? because every time we flush a workqueue,
+>> lockdep finds another reason to complain about something...
+> 
+> Thanks for highlighting this, we re-checked it and we found that we are
+> covered by nvme_tcp_error_recovery(), we can remove the
+> flush_workqueue() call above.
 
-> Otherwise looks good,
-> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-
-Thanks
+Don't you need to flush at least err_work? How do you know that it
+completed and put all the references?
 
