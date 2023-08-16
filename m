@@ -4,76 +4,165 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CE2E6C41513
-	for <linux-nvme@archiver.kernel.org>; Wed, 16 Aug 2023 12:06:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC000C04A94
+	for <linux-nvme@archiver.kernel.org>; Wed, 16 Aug 2023 12:11:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=U6gkVsN8kxXN1vaBb1t5Yl5YVXh1YVe/HB5BDNykHaE=; b=QREUUbGVsp+mC8IadLZ0BgIYfx
-	hjFYYrObat1X1zlVO/mdfbLC2lvl0yeHHpOCAR91C//sVHLCYchBhisAOLDLatfkjZebQyXBpYYEE
-	VKbWzwRScwEdjPvPkxse4r5WhrJg2t3xZJx4JkQiWHIu5B0sNeDF0Nue4ILfPe8VBsYLHuBijZBa0
-	ldRVq4PLlanCdxoMWghAlAO+l1J3GccWmcfC27N6WsHT+AZginvqmCHqcHrXIbeeevJpRsle6JrL0
-	/zDeUg8yfrZlYFWbO0Mo30wl6cVrcf0c7gqW9AeuOjC+XIS3JeUm6y0NIWmRxRMg3Mo4Ud4+FmVxi
-	pZVn4U6g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=GiODiVRqoyNI315AHF6+5L0vEtJZJ1xkcoA9ko9VrBc=; b=OHnkVCNHvX8qcqLPFQQcYQmDcm
+	Q/elm+lpmbgue2Db4uJ5lFvBbGAqtTZHQuzrwuxm3ZtkzoUkEsqjlyNaGsTFHJM9AeDRP39FJS8zF
+	dV+VJs++gjbAtNQoqwIzysAfi8c0fjKf2UCOCRI9wP4x37vixaWiljwh/wmWEGPBF2LNA21whV4Bn
+	miZCFGHdW9T90p/jyv7D+ZmdVZvXxIhx5tORnxmNqOpCLPY8Z4GK3N/ZsjmEu0xY+QFc+pVteFanq
+	hd6dPnKAeC0QnFTtlugWVv2CS6xA6BMnqRpQlwGV6xhTUYI4D4II+Vm7Kvv94uwfIaanC3bw96Lea
+	kTtMe8nQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWFIZ-00447G-0r;
-	Wed, 16 Aug 2023 12:06:51 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1qWFMp-0045SB-0y;
+	Wed, 16 Aug 2023 12:11:15 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWFID-0043mA-2C
+	id 1qWFMm-0045Qy-1O
 	for linux-nvme@lists.infradead.org;
-	Wed, 16 Aug 2023 12:06:35 +0000
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id 268E21FD6B;
-	Wed, 16 Aug 2023 12:06:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1692187584; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=U6gkVsN8kxXN1vaBb1t5Yl5YVXh1YVe/HB5BDNykHaE=;
-	b=Ch92Qzd0Xn1inA3fYZZnFVoiEJoaXQN9WSwPt5oGiE7c03FvqtrIRXwyDvjl2c7hhTdwVy
-	xXzyvdLaW+GRjF6qv8uylbg+987EF6T0JM8wiDpZqyx+an8ADup9uVrNmlpO9mcGfuNkM8
-	APuyh8GGiqDiEsWQOgz9yPcTZ5qgJHw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1692187584;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=U6gkVsN8kxXN1vaBb1t5Yl5YVXh1YVe/HB5BDNykHaE=;
-	b=FWFrvEy4oeyGzrgUyw3UOAj1bXd8aFvmiAqXLE3/VT6ilhHFQ5ZVJSyWFj8KCt+YIBmoKi
-	aihDJt3JItlcILCw==
-Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 083B72C173;
-	Wed, 16 Aug 2023 12:06:24 +0000 (UTC)
-Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id 049D251CB23C; Wed, 16 Aug 2023 14:06:24 +0200 (CEST)
-From: Hannes Reinecke <hare@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 16/18] nvmet-tcp: enable TLS handshake upcall
-Date: Wed, 16 Aug 2023 14:06:06 +0200
-Message-Id: <20230816120608.37135-17-hare@suse.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20230816120608.37135-1-hare@suse.de>
-References: <20230816120608.37135-1-hare@suse.de>
+	Wed, 16 Aug 2023 12:11:13 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1692187872; x=1723723872;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=GiODiVRqoyNI315AHF6+5L0vEtJZJ1xkcoA9ko9VrBc=;
+  b=j8qiaMQqcr+gIHKQJ10fedhGzoSqCgyGDkwTT7rlQoS6GMPnh8VOktel
+   AphHp0DRw0L/kZhtsCA/ftRJgrUMSFvR7txpKrnjg7veG9RewBvHADkAz
+   6hvbn54X9DFmiYqKT/9/zf283Z7z0A5udwB78QxuIDhYDjFF1jtxs8mKR
+   Djh2H+6quNoQ8kLR4PY3FmGGCc9on2esM0euLdxCV8x2rXrV0qOTt8SzE
+   E0X3VDfpAU5cltlV8SYE2XXdMx+Va4CtcPfsBUfcy6Jl0LHsHMsw3lQjn
+   qPvV/oEMB4Au0EpGHTwde+nDY/R5fk0s5v2jtiNbj6IAcjcw0Net8HTJb
+   A==;
+X-IronPort-AV: E=Sophos;i="6.01,176,1684771200"; 
+   d="scan'208";a="353245753"
+Received: from mail-mw2nam10lp2108.outbound.protection.outlook.com (HELO NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.108])
+  by ob1.hgst.iphmx.com with ESMTP; 16 Aug 2023 20:11:09 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RSaDCfiK3w5LeoVwyzblpz+flpdYdRZH2DesfRNN2AakMtt+ZINpiJyo345H/5Drkgh0iJF1oiwSfUloiW/g6QPcylyWFCjM+oFK3z7kLAy69j4P21G1PHcsLelVWvNPs4CCSS8T6ltoxeI2TlzR5gYpHiEi3RJms2QxpX5L9+XIbObNyJBclfDlK6FDYu0Mhk3foWKMRsaPPJC2fUYi2haQ6GtRpbMZ/x802uCDnENRbpsns5MK+Bqfh1UDL+bR69tIMi8x/UPdAUoFcW7Q4HX/wCKaMqvAyB0BxUDYNoEE+2UDpAYx3PaUFDr6Fxly6SSmLolVAlI/YGEH0yh8PQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GiODiVRqoyNI315AHF6+5L0vEtJZJ1xkcoA9ko9VrBc=;
+ b=XDufdkOsdDzED+AXHPlL52RP+biVV9/w/DPj4FqlTYeSvnLxHywg1HbuRx3Y7ncRCU6Xpb8K4uawk05grVM/wwuy7Nf/QnamWJcYjNrRu57LYdpRHOD7PKcwMMZXiFjMEynevfiR1q03IASainDgxKrJU1mH1+MjnbNaNkjhTVCnWtalFyrvdV1QKDmHta2FK2rpTlMrqz/KPq7s4MDBMW5/KH8iLEXrbbc6e43LttmxhuRzz0JlfLrPslaNNNrOH0eGaJpN20XmqjOREpP9FDVSlXK9CaMCmi5QhHb68P67+hJ7OgcWk8lZwVy/FbTR6I0LZLvGzW+vj3uT7UdIEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GiODiVRqoyNI315AHF6+5L0vEtJZJ1xkcoA9ko9VrBc=;
+ b=at1Zka+k+jS+JizzoHhAJ/Rw0Apjpvk9xfQcKW+IoF8Aka+IdhLvSjdYB60nhQAnGL+ocBPz97g3U0Z44qZUTTShMEH5Bp04UNngnVf56w//vmplWSAxz9x1oiRZ94as+YCs6rcqV1yOgb3ioHiCfYDW9HqEGOvlf8ztbQXJTFk=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ DM8PR04MB7846.namprd04.prod.outlook.com (2603:10b6:8:39::24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6678.30; Wed, 16 Aug 2023 12:11:05 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::f92a:6d40:fe94:34e9]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::f92a:6d40:fe94:34e9%7]) with mapi id 15.20.6678.025; Wed, 16 Aug 2023
+ 12:11:05 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Yi Zhang
+	<yi.zhang@redhat.com>, Daniel Wagner <dwagner@suse.de>, Bart Van Assche
+	<bvanassche@acm.org>
+Subject: Re: [PATCH blktests] nvme/rc: fix nvme device readiness check after
+ _nvme_connect_subsys
+Thread-Topic: [PATCH blktests] nvme/rc: fix nvme device readiness check after
+ _nvme_connect_subsys
+Thread-Index: AQHZy/J3Glbz+YK/PUq03CAsK7LAl6/pjh0AgANPcwA=
+Date: Wed, 16 Aug 2023 12:11:05 +0000
+Message-ID: <3zmxxrhmcpn2ogavpuropzmqbhwzqtgurkgx7cgpws3rt7qq4n@guspsox5d73u>
+References: <20230811012334.3392220-1-shinichiro.kawasaki@wdc.com>
+ <149f023e-e4f4-3b36-56d5-e2d0f486439f@grimberg.me>
+In-Reply-To: <149f023e-e4f4-3b36-56d5-e2d0f486439f@grimberg.me>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|DM8PR04MB7846:EE_
+x-ms-office365-filtering-correlation-id: 967b6910-ec00-45bc-6569-08db9e51ddcc
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Lwm2L8rnatFL/iIJ3QkALHNi9/klshStMkbK71jtuXSSUBk5w+g9C1EYjzIwW5ztLu8wDqaEdKXT4DUiaXmDM/q4O6Giv9YuecMBjonJQ7q9o4FgjBblqCswz+AUzB9phxCYZ6cAbIIrE1oeQzgFk0F+BSV8JYSjd96d7/3XPxl2IG0VajvYFaWfEJG51Yy+o2ubEA+xXq8q/s6UMsYaeR7tT1y9k+OqOuVienIiYuQqei1WxnMZUwIx2DARrFDgkuVzyUKZY7xjHnUykAdGiBfeqU/ffC/TeBHntNDxlllncHiDz90/VbZS2yik0/Ke0+RMqQAmewuExqeMCG1pYtR3dbUznd+B7PygzThENTDGQT7ea1DXX5XzZ/rybtP7qx/oEEirCYaf2d9Tk6C3CpugzZ1IiUBtlnLOrg1rHHag4vtFYoRttOQtuwHWzlAOW3wLT5zE6iIMjX8TUlez8T65WLqRbHoYDqdYCWyqfEydrmPdijUG1A55zIxUXcnS9F573ODrzXwGjbn514qCLg7MKDaQEfkc0yt9aTKMscwxqDTbV+mBB1TEWVHHTRVOg2dU4OQ8+ZOR2uuMPnCxmKh1tq2qOGmCNRJXQlgidi8=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(366004)(136003)(396003)(346002)(376002)(39860400002)(186009)(451199024)(1800799009)(33716001)(86362001)(8936002)(4326008)(8676002)(5660300002)(4744005)(2906002)(41300700001)(26005)(6486002)(6506007)(71200400001)(44832011)(6512007)(9686003)(122000001)(91956017)(316002)(478600001)(66946007)(66556008)(66476007)(66446008)(64756008)(54906003)(82960400001)(6916009)(76116006)(38100700002)(38070700005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?LAFxBDx1nriqMR9tlY/ppKY/VmtZpq1ksN+Xhdg8BvLdAB9mB1k4W2Qo9mvu?=
+ =?us-ascii?Q?6qoCYqu53Pq3zMg7YexZ+/7Wg/OdJdsqinh8jW9rgubm4OqW8Dk33pHSKH8c?=
+ =?us-ascii?Q?qcwzUcZsoseH0NV6je7q6laAboynFxsl+m44EPKRFneFpAXTlyd/ukgu+Ecw?=
+ =?us-ascii?Q?VkGnfRAq0roqbcOcsA/owoVPHwnei7k2xNRkmTMuBJ0yjMgH1qTQqLuA5i1k?=
+ =?us-ascii?Q?kTtlogvxuhxLAUZ4bJfipBpp9Vn9goNpxkNCZNZ3Z32CzFVaofArf9S2OYNt?=
+ =?us-ascii?Q?enMcCYJIqG0JHaHhynO2O70VQ8Fbz/GAelxG+KJuKdQN/tRSEMNAjgOUPnml?=
+ =?us-ascii?Q?LdaG5aDh8n148NxLtp0pL+wNaPcVyLVXR2g/Vt9vFUBiT/fcAYD8FUvDAlGq?=
+ =?us-ascii?Q?oZOCogVTRM6oMREAwWjBjIDWLiWUuz711tirCOPHhcmvyp2reqZzbj0vDcW/?=
+ =?us-ascii?Q?faJY+aoQwrdOMKogvm6Q7Vqe5oOlYeUud+is+0yWDmVYXgr1Y0xJz76GTTTC?=
+ =?us-ascii?Q?qQewRxc/z9Ukn/d16T7jFlTp5n52PlQjOkl/Z4hHVmbau+jY9Kz5xTgOcB9Z?=
+ =?us-ascii?Q?PxSKmJ3wRt7o4kBJwxogrRemj6Syd1w1YVHyvcn53ebIKRBq3Q/iZbern6zF?=
+ =?us-ascii?Q?45gK6OxHhc0yFLSJG98uCN4kFKACdRb4mvbXzefCcRyR73Gcbg5GMd+mVMVF?=
+ =?us-ascii?Q?HzRfUr02YSbaLIW/Z0MXXbCmmLu0wJcIi8j2/SR57bHb63/jGCukEU+Xhe92?=
+ =?us-ascii?Q?8cE6wdqMSezWhsD1K0mi9eQ8l6Ee9zuGC7Bp6j8ZcXk99Jvzf726mG7FGHdD?=
+ =?us-ascii?Q?jtCIN5/waOHvhwVQ0mjvpOtIsO6cjFqxD4J+jXqZausZwAZzq0SxsuPhor3C?=
+ =?us-ascii?Q?ioVuPGaqhr1UcVqwBa9+txh+SVErqp/4kPx+DnJgvsYPOz+GTkeOzOKjp6Xr?=
+ =?us-ascii?Q?Siqb+ct8rjfmZfzaez+SgCuvZx1CdF2jtxlGEC1aLWAVxcFgK49hz87kYZp0?=
+ =?us-ascii?Q?YraX9qMh5Sf85rYibuNbsWUFQmDvcDhPMe5OzGlxGRaxjpDCqLCZXAKs0UCk?=
+ =?us-ascii?Q?qL8+1eRkLF/8Ojm5VVoIqvm3YteP4VukvNGSzWjDjNzjoiA7i6PjoBY2kFCd?=
+ =?us-ascii?Q?ryMglgoyuRQ+ThRzKL4sYsd86o9zne07Tej4garNSQigVSv0Ertho3mqYYQT?=
+ =?us-ascii?Q?Wfok43qhjHFVKyD895q9VMYTSKx73AN7YAZZQ6v/Tgho8i9QgqxHqsIdXrBL?=
+ =?us-ascii?Q?yht38yGuYYj9bG6rUK9CqFpHcXeguWoA0+ulPbOYsE0cNzncf8r0L5ntUPct?=
+ =?us-ascii?Q?ii5KIWvMg2LOxRndTKjBrQpKeu+zDWbvU0c6Kx5s/dS8/HGMNldLC22PZOOy?=
+ =?us-ascii?Q?esWYG0oVccs1xWkeCurEZuEw6ZRm7cl97q7UaLtX8voxC356cRqHpxdDfN24?=
+ =?us-ascii?Q?IHrgWS0uuEkcPhTE2ne6A4e9G2kYaIqqke9drRCOXuqAXCik8+OH1EUpGlq5?=
+ =?us-ascii?Q?4Vl3uQkCwMylxusYqnk3tk35+rYg6mU+3QeUZ7T7gVU5MOV3SxwHlDwuRxsX?=
+ =?us-ascii?Q?6yMc8jcasuTBIu3o6fJBTQjVDEK94qQRliTfyvGW8kmguuvlEP7V2VGfGwrK?=
+ =?us-ascii?Q?fSfgW9+6D/3XwSxdxDnwZGg=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <97F4C6C38046E64CB7523D59C3AB20B5@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?us-ascii?Q?6EBUQIdlEvEBuaC2bxHj1RLi92Nxgs7mCfrBc0l0vZxzWYjYb3x3zcBB0jb7?=
+ =?us-ascii?Q?ogNMP8zGjX5nHEOdvq3NtiFSIZ5ZOlzCVtlbSc4XOpJfd/3AOb/UqZn3BZGa?=
+ =?us-ascii?Q?qZZvlrN5V2ZBT9uJRbyjxqXiZ9ebHgtg5JVfdbQTP2Iak7Zf38sO3wPAGPqE?=
+ =?us-ascii?Q?yu5tniXc82VeOKCW0ewvDGsSJoL6ol89EjuTbKbqVwK/ywObmVrWSIiLCLCL?=
+ =?us-ascii?Q?P6r2Vh5+gTtBi83txXSKdjXfYD2CErDaGNT43E0grqc8menf20Rk9XAFGNw2?=
+ =?us-ascii?Q?nw4fZpHutcLZmtl+J5cbCAtS+30i8rXhyGpWDX0Ukkk/zOMvDX1YLSZ6eYSM?=
+ =?us-ascii?Q?UuJfBN0ABjJIjj3U7rEYiDrcAv3hYmxToU1d2KsbgtgxGY30AJ1bOGqHCHhr?=
+ =?us-ascii?Q?oDRfJykOqKl++iQmuLSKUvxYjvM99X7ClD8QLd8VDtLNLMHMmWSktIGzr71R?=
+ =?us-ascii?Q?gg5VPN0ho5kddn/+u15jSHYD5r4mlI4lR/T41WhzzModKi0Bwk3MaPgmsW6g?=
+ =?us-ascii?Q?UxPOnfcQBfQdUML/ebhcP2lCpkH5lkQ0e7enSFRZHSpdlQSPQj2FfjCBeDqy?=
+ =?us-ascii?Q?4ByKAFhftEBCOPrAhMtBIk5iUGVhFOwjK7TC2W3OpSIE0tHz2hUdObLQ5Z3u?=
+ =?us-ascii?Q?6Q7z7Khs/otzUhh0iNyhi0XUq0tNxHk/CVk/LlTU8l4GuOeIOrb8rQQaSRlU?=
+ =?us-ascii?Q?PS/AlNlHXTF394E7BsubSZ2yk5t6HO0r6jP8HujmQpUWT/Ms29b3JtnvCY6t?=
+ =?us-ascii?Q?sLgu7Li0aUnR7tVIFzQwv6U1eNLViXUIPKJl7mUypZsh8WP6tX315Z1/8kcX?=
+ =?us-ascii?Q?AwRqQp7H+CEZ9ovwWghdxBJbPCts7sz0uK89uNHOxgwB4XzduyJYIm9ImfF2?=
+ =?us-ascii?Q?NLUEc6KFwhTUYRbEjukX06S+YdYw3jWe5nMlRz9ZzP9+y2A6lWFWzZdBWNUO?=
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 967b6910-ec00-45bc-6569-08db9e51ddcc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Aug 2023 12:11:05.3630
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 06hAAAnkRoNKNm/oAbfu02Znv8L1n2lDnnoepOlEleucqgR/BTQl6gS6N5M/855/10MBcYKvo7VgK1EPccjN3d1rABl1cXtYMyNdVWjxEEs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR04MB7846
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230816_050629_888261_91F1FAAC 
-X-CRM114-Status: GOOD (  24.99  )
+X-CRM114-CacheID: sfid-20230816_051112_475038_2A7D656C 
+X-CRM114-Status: GOOD (  14.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,355 +177,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-TLS handshake is handled in userspace with the
-netlink tls handshake protocol.
-The patch adds a function to start the TLS handshake
-upcall for any incoming network connections if
-the TCP TSAS sectype is set to 'tls1.3'.
-A config option NVME_TARGET_TCP_TLS selects whether
-the TLS handshake upcall should be compiled in.
-The patch also adds reference counting to
-struct nvmet_tcp_queue to ensure the queue is
-always valid when the the TLS handshake completes.
+On Aug 14, 2023 / 12:37, Sagi Grimberg wrote:
+>=20
+> > The helper function _nvme_connect_subsys() creates a nvme device. It ma=
+y
+> > take some time after the function call until the device gets ready for
+> > I/O. So it is expected that the test cases call _find_nvme_dev() after
+> > _nvme_connect_subsys() before I/O. _find_nvme_dev() returns the path of
+> > the created device, and it also waits for uuid and wwid sysfs attribute=
+s
+> > of the created device get ready. This wait works as the wait for the
+> > device I/O readiness.
+>=20
+> Shouldn't this call udevadm --settle or something?
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
----
- drivers/nvme/target/Kconfig    |  15 ++++
- drivers/nvme/target/configfs.c |  21 +++++
- drivers/nvme/target/nvmet.h    |   1 +
- drivers/nvme/target/tcp.c      | 145 ++++++++++++++++++++++++++++++++-
- 4 files changed, 178 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/nvme/target/Kconfig b/drivers/nvme/target/Kconfig
-index 79fc64035ee3..c56cb1005327 100644
---- a/drivers/nvme/target/Kconfig
-+++ b/drivers/nvme/target/Kconfig
-@@ -84,6 +84,21 @@ config NVME_TARGET_TCP
- 
- 	  If unsure, say N.
- 
-+config NVME_TARGET_TCP_TLS
-+	bool "NVMe over Fabrics TCP target TLS encryption support"
-+	depends on NVME_TARGET_TCP
-+	select NVME_COMMON
-+	select NVME_KEYRING
-+	select NET_HANDSHAKE
-+	select KEYS
-+	help
-+	  Enables TLS encryption for the NVMe TCP target using the netlink handshake API.
-+
-+	  The TLS handshake daemon is available at
-+	  https://github.com/oracle/ktls-utils.
-+
-+	  If unsure, say N.
-+
- config NVME_TARGET_AUTH
- 	bool "NVMe over Fabrics In-band Authentication support"
- 	depends on NVME_TARGET
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 483569c3f622..b780ce049163 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -15,6 +15,7 @@
- #ifdef CONFIG_NVME_TARGET_AUTH
- #include <linux/nvme-auth.h>
- #endif
-+#include <linux/nvme-keyring.h>
- #include <crypto/hash.h>
- #include <crypto/kpp.h>
- 
-@@ -396,6 +397,17 @@ static ssize_t nvmet_addr_tsas_store(struct config_item *item,
- 	return -EINVAL;
- 
- found:
-+	if (sectype == NVMF_TCP_SECTYPE_TLS13) {
-+		if (!IS_ENABLED(CONFIG_NVME_TARGET_TCP_TLS)) {
-+			pr_err("TLS is not supported\n");
-+			return -EINVAL;
-+		}
-+		if (!port->keyring) {
-+			pr_err("TLS keyring not configured\n");
-+			return -EINVAL;
-+		}
-+	}
-+
- 	nvmet_port_init_tsas_tcp(port, sectype);
- 	/*
- 	 * The TLS implementation currently does not support
-@@ -1814,6 +1826,7 @@ static void nvmet_port_release(struct config_item *item)
- 	flush_workqueue(nvmet_wq);
- 	list_del(&port->global_entry);
- 
-+	key_put(port->keyring);
- 	kfree(port->ana_state);
- 	kfree(port);
- }
-@@ -1863,6 +1876,14 @@ static struct config_group *nvmet_ports_make(struct config_group *group,
- 		return ERR_PTR(-ENOMEM);
- 	}
- 
-+	if (nvme_keyring_id()) {
-+		port->keyring = key_lookup(nvme_keyring_id());
-+		if (IS_ERR(port->keyring)) {
-+			pr_warn("NVMe keyring not available, disabling TLS\n");
-+			port->keyring = NULL;
-+		}
-+	}
-+
- 	for (i = 1; i <= NVMET_MAX_ANAGRPS; i++) {
- 		if (i == NVMET_DEFAULT_ANA_GRPID)
- 			port->ana_state[1] = NVME_ANA_OPTIMIZED;
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 87da62e4b743..e35a03260f45 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -158,6 +158,7 @@ struct nvmet_port {
- 	struct config_group		ana_groups_group;
- 	struct nvmet_ana_group		ana_default_group;
- 	enum nvme_ana_state		*ana_state;
-+	struct key			*keyring;
- 	void				*priv;
- 	bool				enabled;
- 	int				inline_data_size;
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index f19ea9d923fd..3e447593ea72 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -8,9 +8,13 @@
- #include <linux/init.h>
- #include <linux/slab.h>
- #include <linux/err.h>
-+#include <linux/key.h>
- #include <linux/nvme-tcp.h>
-+#include <linux/nvme-keyring.h>
- #include <net/sock.h>
- #include <net/tcp.h>
-+#include <net/tls.h>
-+#include <net/handshake.h>
- #include <linux/inet.h>
- #include <linux/llist.h>
- #include <crypto/hash.h>
-@@ -66,6 +70,16 @@ device_param_cb(idle_poll_period_usecs, &set_param_ops,
- MODULE_PARM_DESC(idle_poll_period_usecs,
- 		"nvmet tcp io_work poll till idle time period in usecs: Default 0");
- 
-+#ifdef CONFIG_NVME_TARGET_TCP_TLS
-+/*
-+ * TLS handshake timeout
-+ */
-+static int tls_handshake_timeout = 10;
-+module_param(tls_handshake_timeout, int, 0644);
-+MODULE_PARM_DESC(tls_handshake_timeout,
-+		 "nvme TLS handshake timeout in seconds (default 10)");
-+#endif
-+
- #define NVMET_TCP_RECV_BUDGET		8
- #define NVMET_TCP_SEND_BUDGET		8
- #define NVMET_TCP_IO_WORK_BUDGET	64
-@@ -122,6 +136,7 @@ struct nvmet_tcp_cmd {
- 
- enum nvmet_tcp_queue_state {
- 	NVMET_TCP_Q_CONNECTING,
-+	NVMET_TCP_Q_TLS_HANDSHAKE,
- 	NVMET_TCP_Q_LIVE,
- 	NVMET_TCP_Q_DISCONNECTING,
- };
-@@ -132,6 +147,7 @@ struct nvmet_tcp_queue {
- 	struct work_struct	io_work;
- 	struct nvmet_cq		nvme_cq;
- 	struct nvmet_sq		nvme_sq;
-+	struct kref		kref;
- 
- 	/* send state */
- 	struct nvmet_tcp_cmd	*cmds;
-@@ -155,6 +171,10 @@ struct nvmet_tcp_queue {
- 	struct ahash_request	*snd_hash;
- 	struct ahash_request	*rcv_hash;
- 
-+	/* TLS state */
-+	key_serial_t		tls_pskid;
-+	struct delayed_work	tls_handshake_tmo_work;
-+
- 	unsigned long           poll_end;
- 
- 	spinlock_t		state_lock;
-@@ -1283,12 +1303,26 @@ static int nvmet_tcp_try_recv(struct nvmet_tcp_queue *queue,
- 	return ret;
- }
- 
-+static void nvmet_tcp_release_queue(struct kref *kref)
-+{
-+	struct nvmet_tcp_queue *queue =
-+		container_of(kref, struct nvmet_tcp_queue, kref);
-+
-+	WARN_ON(queue->state != NVMET_TCP_Q_DISCONNECTING);
-+	queue_work(nvmet_wq, &queue->release_work);
-+}
-+
- static void nvmet_tcp_schedule_release_queue(struct nvmet_tcp_queue *queue)
- {
- 	spin_lock_bh(&queue->state_lock);
-+	if (queue->state == NVMET_TCP_Q_TLS_HANDSHAKE) {
-+		/* Socket closed during handshake */
-+		tls_handshake_cancel(queue->sock->sk);
-+		queue->state = NVMET_TCP_Q_CONNECTING;
-+	}
- 	if (queue->state != NVMET_TCP_Q_DISCONNECTING) {
- 		queue->state = NVMET_TCP_Q_DISCONNECTING;
--		queue_work(nvmet_wq, &queue->release_work);
-+		kref_put(&queue->kref, nvmet_tcp_release_queue);
- 	}
- 	spin_unlock_bh(&queue->state_lock);
- }
-@@ -1485,6 +1519,7 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
- 	mutex_unlock(&nvmet_tcp_queue_mutex);
- 
- 	nvmet_tcp_restore_socket_callbacks(queue);
-+	cancel_delayed_work_sync(&queue->tls_handshake_tmo_work);
- 	cancel_work_sync(&queue->io_work);
- 	/* stop accepting incoming data */
- 	queue->rcv_state = NVMET_TCP_RECV_ERR;
-@@ -1512,8 +1547,13 @@ static void nvmet_tcp_data_ready(struct sock *sk)
- 
- 	read_lock_bh(&sk->sk_callback_lock);
- 	queue = sk->sk_user_data;
--	if (likely(queue))
--		queue_work_on(queue_cpu(queue), nvmet_tcp_wq, &queue->io_work);
-+	if (likely(queue)) {
-+		if (queue->data_ready)
-+			queue->data_ready(sk);
-+		if (queue->state != NVMET_TCP_Q_TLS_HANDSHAKE)
-+			queue_work_on(queue_cpu(queue), nvmet_tcp_wq,
-+				      &queue->io_work);
-+	}
- 	read_unlock_bh(&sk->sk_callback_lock);
- }
- 
-@@ -1621,6 +1661,79 @@ static int nvmet_tcp_set_queue_sock(struct nvmet_tcp_queue *queue)
- 	return ret;
- }
- 
-+#ifdef CONFIG_NVME_TARGET_TCP_TLS
-+static void nvmet_tcp_tls_handshake_done(void *data, int status,
-+					 key_serial_t peerid)
-+{
-+	struct nvmet_tcp_queue *queue = data;
-+
-+	pr_debug("queue %d: TLS handshake done, key %x, status %d\n",
-+		 queue->idx, peerid, status);
-+	spin_lock_bh(&queue->state_lock);
-+	WARN_ON(queue->state != NVMET_TCP_Q_TLS_HANDSHAKE);
-+	if (!status)
-+		queue->tls_pskid = peerid;
-+	queue->state = NVMET_TCP_Q_CONNECTING;
-+	spin_unlock_bh(&queue->state_lock);
-+
-+	cancel_delayed_work_sync(&queue->tls_handshake_tmo_work);
-+	if (status)
-+		nvmet_tcp_schedule_release_queue(queue);
-+	else
-+		nvmet_tcp_set_queue_sock(queue);
-+	kref_put(&queue->kref, nvmet_tcp_release_queue);
-+}
-+
-+static void nvmet_tcp_tls_handshake_timeout(struct work_struct *w)
-+{
-+	struct nvmet_tcp_queue *queue = container_of(to_delayed_work(w),
-+			struct nvmet_tcp_queue, tls_handshake_tmo_work);
-+
-+	pr_warn("queue %d: TLS handshake timeout\n", queue->idx);
-+	/*
-+	 * If tls_handshake_cancel() fails we've lost the race with
-+	 * nvmet_tcp_tls_handshake_done() */
-+	if (!tls_handshake_cancel(queue->sock->sk))
-+		return;
-+	spin_lock_bh(&queue->state_lock);
-+	WARN_ON(queue->state != NVMET_TCP_Q_TLS_HANDSHAKE);
-+	queue->state = NVMET_TCP_Q_CONNECTING;
-+	spin_unlock_bh(&queue->state_lock);
-+	nvmet_tcp_schedule_release_queue(queue);
-+	kref_put(&queue->kref, nvmet_tcp_release_queue);
-+}
-+
-+static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue)
-+{
-+	int ret = -EOPNOTSUPP;
-+	struct tls_handshake_args args;
-+
-+	if (queue->state != NVMET_TCP_Q_TLS_HANDSHAKE) {
-+		pr_warn("cannot start TLS in state %d\n", queue->state);
-+		return -EINVAL;
-+	}
-+
-+	kref_get(&queue->kref);
-+	pr_debug("queue %d: TLS ServerHello\n", queue->idx);
-+	memset(&args, 0, sizeof(args));
-+	args.ta_sock = queue->sock;
-+	args.ta_done = nvmet_tcp_tls_handshake_done;
-+	args.ta_data = queue;
-+	args.ta_keyring = key_serial(queue->port->nport->keyring);
-+	args.ta_timeout_ms = tls_handshake_timeout * 1000;
-+
-+	ret = tls_server_hello_psk(&args, GFP_KERNEL);
-+	if (ret) {
-+		kref_put(&queue->kref, nvmet_tcp_release_queue);
-+		pr_err("failed to start TLS, err=%d\n", ret);
-+	} else {
-+		queue_delayed_work(nvmet_wq, &queue->tls_handshake_tmo_work,
-+				   tls_handshake_timeout * HZ);
-+	}
-+	return ret;
-+}
-+#endif
-+
- static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
- 		struct socket *newsock)
- {
-@@ -1636,11 +1749,16 @@ static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
- 
- 	INIT_WORK(&queue->release_work, nvmet_tcp_release_queue_work);
- 	INIT_WORK(&queue->io_work, nvmet_tcp_io_work);
-+	kref_init(&queue->kref);
- 	queue->sock = newsock;
- 	queue->port = port;
- 	queue->nr_cmds = 0;
- 	spin_lock_init(&queue->state_lock);
--	queue->state = NVMET_TCP_Q_CONNECTING;
-+	if (queue->port->nport->disc_addr.tsas.tcp.sectype ==
-+	    NVMF_TCP_SECTYPE_TLS13)
-+		queue->state = NVMET_TCP_Q_TLS_HANDSHAKE;
-+	else
-+		queue->state = NVMET_TCP_Q_CONNECTING;
- 	INIT_LIST_HEAD(&queue->free_list);
- 	init_llist_head(&queue->resp_list);
- 	INIT_LIST_HEAD(&queue->resp_send_list);
-@@ -1671,6 +1789,25 @@ static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
- 	list_add_tail(&queue->queue_list, &nvmet_tcp_queue_list);
- 	mutex_unlock(&nvmet_tcp_queue_mutex);
- 
-+#ifdef CONFIG_NVME_TARGET_TCP_TLS
-+	INIT_DELAYED_WORK(&queue->tls_handshake_tmo_work,
-+			  nvmet_tcp_tls_handshake_timeout);
-+	if (queue->state == NVMET_TCP_Q_TLS_HANDSHAKE) {
-+		struct sock *sk = queue->sock->sk;
-+
-+		/* Restore the default callbacks before starting upcall */
-+		read_lock_bh(&sk->sk_callback_lock);
-+		sk->sk_user_data = NULL;
-+		sk->sk_data_ready = port->data_ready;
-+		read_unlock_bh(&sk->sk_callback_lock);
-+		if (!nvmet_tcp_tls_handshake(queue))
-+			return;
-+
-+		/* TLS handshake failed, terminate the connection */
-+		goto out_destroy_sq;
-+	}
-+#endif
-+
- 	ret = nvmet_tcp_set_queue_sock(queue);
- 	if (ret)
- 		goto out_destroy_sq;
--- 
-2.35.3
-
+Ah, it will be more stable to add "udevadm settle" before the readiness che=
+ck.
+Will add it.=
 
