@@ -4,61 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CC06DC27C7A
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Aug 2023 07:30:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3688FC2FC14
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Aug 2023 07:30:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=4t4bFhGUB6fJAIS8Slv/VZbslz8wju1yeC0TRcppncE=; b=gNXERBOsMr0cOFP2MzQ5UMpxCJ
-	RgYziwPeaPvQd4pkwhutVLw9c8BpvUdCiLsPM6woznkCE5zlyy/kaDOCVvDWL5jNf7NoKuV2Rtkzo
-	27DJuRExdE5GKx70E3jpY13aZcp1nwVxXat3+RDzvJ7qnNtNkNDfQXU56FN4sUUAMP01ijWMKxlnz
-	s9aa8Scfv0lTlHlirX3jLal0Za1X34V/91HBlRASO4Ob3GemJb+jsw1ZopErtstlw+nGCVfMZMDzR
-	OxFe7ZGwOnDuw6SC9J/2tklq7iiAZs1tS+oANqTLwwKURgvxFP7zpvVIUdBzZjS8rLrdEp+PNL6LL
-	dxZGPJCg==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=/RutsZnzULY+zk55WN6RT3Wp4xjPI+BbRfW6fowK0sE=; b=MV8mndsuKt/CDaZWydv0WHjQzM
+	TGIBh1diXz7xnGNCYF+OaCPa2Yq7xOFazAuDcBJA5hp8i1pMjtlDiPh+e9QhpCfJ9frzH9SInWGqr
+	DP105vImLeQEOoKL9uC6JZFaaMvkFQgvEqhSimQoSDBeRdJU2nu7MVjb52QB6aR/u9jMFZKxNltuv
+	em6WpRtSe9tDUpW+yL2oG0gNQp/DskM4G7cqcoHQSmldA2RZ780Q2ngz0o2YNdDU5X7s1MzhgmKrk
+	ZrBZITdfWeDHbeVCNwBg2dc7G8xXa/9KFi+4vSWLpP6BPz5LwgV/sVylrDeONurg/4Hbwvg2LG0eC
+	/JpIiGOQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWXSu-005ipM-0H;
-	Thu, 17 Aug 2023 07:30:44 +0000
+	id 1qWXSv-005ipZ-2Z;
+	Thu, 17 Aug 2023 07:30:45 +0000
 Received: from esa6.hgst.iphmx.com ([216.71.154.45])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWXSr-005ioo-0r
+	id 1qWXSt-005ioo-08
 	for linux-nvme@lists.infradead.org;
-	Thu, 17 Aug 2023 07:30:42 +0000
+	Thu, 17 Aug 2023 07:30:44 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1692257441; x=1723793441;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=kWnODAqt0Mw2BZKaBie2yj1ClUJdr2nuftoERPO8Oi4=;
-  b=afx2Va098tFx4/eva2E1tf/x4aEiVQ5khGfJ6P6IOmFhq4F5uQcyISG2
-   MZi2t6PSA2ofZzjn+lIy3TXd72YgeirrEas04oAPpB+if53VQlFTqgbaU
-   a4bJDjmZxwIk8rbK7Xbq9fjjvxbf0oafH2JehnbYt60rsyullqPLIaspW
-   oSsekxE9iXjLr6n1IJCn8kRb3afJevMugstnZiaGv4QbC4ffnfyURuxjo
-   TX8gTcEKppZbborQm8lQs4w9VIRztZa5vEY/hhQV5tntA0cA281ZspnGM
-   IcxZeddhXM7KvDjGYS/iPAY3vcGAzV6uZZ15V7tWOJIAE6WK28oKND6zJ
+  t=1692257442; x=1723793442;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=UUWnka0lvWrfZ4NWtFcx8XJGzhEQIbMjxWq1Vz1NalM=;
+  b=JTtrp9y9nEPPkXUUoNyjN8vJsP13UAmyYPnkvQJI8H5DrevUppCZ6bto
+   KznEjYUMl/9GJUP+TGUagOhdaR07olAt7v2Qk47A6coyjUo0fPVa+CFn7
+   umR2DeGCjd/daHT7QeSMhUe3jJ4Qi5QH147eqOIdXNmqn8Hb1E7NkoifK
+   hJJX3PY2CHL+pIb6yDFaZCfrv4nJDgixEsrNipbXDoVUVvC4E9JUQx4Ie
+   I5cdq7ccpyRwygQazXhu2imi77d5tfn2R17sJu8u/Z22bUTelSN6xdj75
+   2W2huo7FkDeJ6hg8DrAzj1jpLn5lfk4QuiwZxqZvkH+JOIVk/d/CSHI3m
    A==;
 X-IronPort-AV: E=Sophos;i="6.01,179,1684771200"; 
-   d="scan'208";a="241697900"
+   d="scan'208";a="241697901"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
   by ob1.hgst.iphmx.com with ESMTP; 17 Aug 2023 15:30:26 +0800
-IronPort-SDR: uWSFXAn+/01ykUGdPt/JpZpgxGhu4Fzrq/zrZhNBpF8v24PY0Mw6hvBk7PiWTzlQRyEcQRK7XF
- Q8MqgQrBxfQiDrJG+TKpgoZ1mMEANLFR3msmAlTYH8ArouJW76w4aM3irWaNVgV+CYmrW1cQNv
- ecgENMwecAQ77Gbu0gm0vDZv3OX2XG16GZ8LScF/7YHEwAmDGMBcJf2bd0uoFYiYNgXO8fFocX
- UvDlM19yLVd6A+kqEKEK1a4QZ9sagBQw5SIj5d6uj4Xg31hBqspdYOYfeQIJlPDRgPmqQZKDI/
- VMo=
+IronPort-SDR: 061qbfDwcGSHTKb268OpPDaiWRRTRX92syTExwxs333jZ9yrItItM3mSg90UfYLwZSU3InjTNk
+ xU4I1cqm5zaxjX4L+iwWongIYKs0HtjzYKM2W5IRbajFBqetSBk+jpQg+elWPVSPwotqNQHA+7
+ Xx1yYniVeRXtH542Jm5MTA92awb4JoIO/hxHZDwwV+7UTywSm7xPMHSe3IbPpHwifkAGZB6M7a
+ aLJfkseVHe2v36JE3j+AfLdqOZxYkwsSw/a97UWGlwDnsajjDIfvVL7+9mvkXXDQJPr4OZnPqA
+ Tes=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
   by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 16 Aug 2023 23:43:43 -0700
-IronPort-SDR: LAr0+QMRHuwnWLVYg6EaJ+VLplf4pxXvEatSUgI4U3v9CFhhYDtJ3Nn//+eb8hsbFgBimh1EzD
- 7DxhSAi9se9Q6P9OB3zB/Coc2TdNflkJAAz2moDjTScg1dId40qB92ekl/7OQkdtbXDswp6FXU
- WiEZR5FzrEfR/aL1IctiboqG+ApjcU4eDKaj3AvDlRQun2Os/4vxM8TthoiyMNNhCCL/f3nSgT
- JkACwd9+Edof+HCK1FEIyXSkgGIT2zbu4VrOdVjtqoxis6TSUPnNrLFaaJM3TJHRxOUMDDUalx
- 61E=
+IronPort-SDR: 8LjGFSSJVg+jApn3yw0OMSkd9bVshYGe6Bu5zGrlSFZELSAdq8SilxFMx6AK0BPuVRVcZtnoJb
+ unTVjMuZTsoP9EJlvwi3a5xGvZE7GO3Sf17VnNLzZkOF7h8f0n69pzY1OOuvmkTMzJNaPlVDn4
+ +vPK5Fa19SC6KSDWrXYPsQwYjH/8Hp4OjnKKf3ub6ZTtByGPOjIxuLh3b6KLHxAkye+BEvRsVu
+ PxPa4ax9BMlX+MMwwEAT4AKLfWKzam4vOB+uUR2M1hBR6C9hYgAzSFWnUe3KScvBgtEpFTQxSv
+ gCo=
 WDCIronportException: Internal
 Received: from shindev.dhcp.fujisawa.hgst.com (HELO shindev.fujisawa.hgst.com) ([10.149.53.55])
-  by uls-op-cesaip01.wdc.com with ESMTP; 17 Aug 2023 00:30:22 -0700
+  by uls-op-cesaip01.wdc.com with ESMTP; 17 Aug 2023 00:30:23 -0700
 From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 To: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org
@@ -67,15 +67,17 @@ Cc: Yi Zhang <yi.zhang@redhat.com>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	Bart Van Assche <bvanassche@acm.org>,
 	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Subject: [PATCH blktests v2 1/2] nvme/rc: fix nvme device readiness check after _nvme_connect_subsys
-Date: Thu, 17 Aug 2023 16:30:20 +0900
-Message-Id: <20230817073021.3674602-1-shinichiro.kawasaki@wdc.com>
+Subject: [PATCH blktests v2 2/2] nvme: remove "udevadm settle" after _nvme_connect_subsys
+Date: Thu, 17 Aug 2023 16:30:21 +0900
+Message-Id: <20230817073021.3674602-2-shinichiro.kawasaki@wdc.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230817073021.3674602-1-shinichiro.kawasaki@wdc.com>
+References: <20230817073021.3674602-1-shinichiro.kawasaki@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230817_003041_372876_DC1D4CE4 
-X-CRM114-Status: GOOD (  19.91  )
+X-CRM114-CacheID: sfid-20230817_003043_141425_FBDABB09 
+X-CRM114-Status: GOOD (  12.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,116 +92,183 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The helper function _nvme_connect_subsys() creates a nvme device. It may
-take some time after the function call until the device gets ready for
-I/O. So it is expected that the test cases call _find_nvme_dev() after
-_nvme_connect_subsys() before I/O. _find_nvme_dev() returns the path of
-the created device, and it also waits for uuid and wwid sysfs attributes
-of the created device get ready. This wait works as the wait for the
-device I/O readiness.
+The previous commit introduced "udevadm settle" command at the end of
+_nvme_connect_subsys. Then the command is no longer required after
+calling _nvme_connect_subsys in test cases.
 
-However, this wait by _find_nvme_dev() has two problems. The first
-problem is missing call of _find_nvme_dev(). The test case nvme/047
-calls _nvme_connect_subsys() twice, but _find_nvme_dev() is called only
-for the first _nvme_connect_subsys() call. This causes too early I/O to
-the device with tcp transport [1]. Fix this by moving the wait for the
-device readiness from _find_nvme_dev() to _nvme_connect_subsys(). Also
-add --wait-for option to _nvme_connect_subsys(). It allows to skip the
-wait in _nvmet_passthru_target_connect() which has its own wait for
-device readiness.
-
-The second problem is wrong paths for the sysfs attributes. The paths
-do not include namespace index, so the check for the attributes always
-fail. Still _find_nvme_dev() does 1 second wait and allows the device
-get ready for I/O in most cases, but this is not intended behavior.
-Fix the paths by adding the namespace index.
-
-On top of the checks for sysfs attributes, add 'udevadm settle' and a
-check for the created device file. These ensures that the create device
-is ready for I/O.
-
-[1] https://lore.kernel.org/linux-block/CAHj4cs9GNohGUjohNw93jrr8JGNcRYC-ienAZz+sa7az1RK77w@mail.gmail.com/
-
-Fixes: c766fccf3aff ("Make the NVMe tests more reliable")
 Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 ---
-Changes from v1:
-* Added --wait-for option to _nvme_connect_subsys()
-* Added 'udevadm settle' before readiness check
+ tests/nvme/005 | 2 --
+ tests/nvme/008 | 2 --
+ tests/nvme/009 | 2 --
+ tests/nvme/040 | 1 -
+ tests/nvme/041 | 2 --
+ tests/nvme/042 | 3 ---
+ tests/nvme/043 | 4 ----
+ tests/nvme/044 | 8 --------
+ tests/nvme/045 | 2 --
+ 9 files changed, 26 deletions(-)
 
- tests/nvme/rc | 31 +++++++++++++++++++++++--------
- 1 file changed, 23 insertions(+), 8 deletions(-)
-
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index 0b964e9..797483e 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -428,6 +428,8 @@ _nvme_connect_subsys() {
- 	local keep_alive_tmo=""
- 	local reconnect_delay=""
- 	local ctrl_loss_tmo=""
-+	local wait_for="ns"
-+	local dev i
+diff --git a/tests/nvme/005 b/tests/nvme/005
+index 6646b82..4ca87ff 100755
+--- a/tests/nvme/005
++++ b/tests/nvme/005
+@@ -40,8 +40,6 @@ test() {
  
- 	while [[ $# -gt 0 ]]; do
- 		case $1 in
-@@ -483,6 +485,10 @@ _nvme_connect_subsys() {
- 				ctrl_loss_tmo="$2"
- 				shift 2
- 				;;
-+			--wait-for)
-+				wait_for="$2"
-+				shift 2
-+				;;
- 			*)
- 				positional_args+=("$1")
- 				shift
-@@ -532,6 +538,21 @@ _nvme_connect_subsys() {
- 	fi
+ 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
  
- 	nvme connect "${ARGS[@]}" 2> /dev/null
-+
-+	# Wait until device file and uuid/wwid sysfs attributes get ready for
-+	# namespace 1.
-+	if [[ ${wait_for} == ns ]]; then
-+		udevadm settle
-+		dev=$(_find_nvme_dev "$subsysnqn")
-+		for ((i = 0; i < 10; i++)); do
-+			if [[ -b /dev/${dev}n1 &&
-+				      -e /sys/block/${dev}n1/uuid &&
-+				      -e /sys/block/${dev}n1/wwid ]]; then
-+				return
-+			fi
-+			sleep .1
-+		done
-+	fi
- }
+-	udevadm settle
+-
+ 	echo 1 > "/sys/class/nvme/${nvmedev}/reset_controller"
  
- _nvme_discover() {
-@@ -758,13 +779,6 @@ _find_nvme_dev() {
- 		subsysnqn="$(cat "/sys/class/nvme/${dev}/subsysnqn")"
- 		if [[ "$subsysnqn" == "$subsys" ]]; then
- 			echo "$dev"
--			for ((i = 0; i < 10; i++)); do
--				if [[ -e /sys/block/$dev/uuid &&
--					-e /sys/block/$dev/wwid ]]; then
--					return
--				fi
--				sleep .1
--			done
- 		fi
+ 	_nvme_disconnect_ctrl "${nvmedev}"
+diff --git a/tests/nvme/008 b/tests/nvme/008
+index 3921fc6..bd5e10f 100755
+--- a/tests/nvme/008
++++ b/tests/nvme/008
+@@ -40,8 +40,6 @@ test() {
+ 	cat "/sys/block/${nvmedev}n1/uuid"
+ 	cat "/sys/block/${nvmedev}n1/wwid"
+ 
+-	udevadm settle
+-
+ 	_nvme_disconnect_subsys "${def_subsysnqn}"
+ 
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
+diff --git a/tests/nvme/009 b/tests/nvme/009
+index aac3c1e..c9a4b57 100755
+--- a/tests/nvme/009
++++ b/tests/nvme/009
+@@ -36,8 +36,6 @@ test() {
+ 	cat "/sys/block/${nvmedev}n1/uuid"
+ 	cat "/sys/block/${nvmedev}n1/wwid"
+ 
+-	udevadm settle
+-
+ 	_nvme_disconnect_subsys "${def_subsysnqn}"
+ 
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
+diff --git a/tests/nvme/040 b/tests/nvme/040
+index 1a9be5c..ed6df3b 100755
+--- a/tests/nvme/040
++++ b/tests/nvme/040
+@@ -35,7 +35,6 @@ test() {
+ 	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
+ 
+ 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
+-	udevadm settle
+ 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
+ 
+ 	# start fio job
+diff --git a/tests/nvme/041 b/tests/nvme/041
+index cb27666..bc84412 100755
+--- a/tests/nvme/041
++++ b/tests/nvme/041
+@@ -57,8 +57,6 @@ test() {
+ 			     --hostid "${def_hostid}" \
+ 			     --dhchap-secret "${hostkey}"
+ 
+-	udevadm settle
+-
+ 	_nvme_disconnect_subsys "${def_subsysnqn}"
+ 
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
+diff --git a/tests/nvme/042 b/tests/nvme/042
+index 9180fce..47e1b95 100755
+--- a/tests/nvme/042
++++ b/tests/nvme/042
+@@ -50,7 +50,6 @@ test() {
+ 				     --hostnqn "${def_hostnqn}" \
+ 				     --hostid "${def_hostid}" \
+ 				     --dhchap-secret "${hostkey}"
+-		udevadm settle
+ 
+ 		_nvme_disconnect_subsys "${def_subsysnqn}"
  	done
- }
-@@ -794,7 +808,8 @@ _nvmet_passthru_target_connect() {
- 	local trtype=$1
- 	local subsys_name=$2
+@@ -69,8 +68,6 @@ test() {
+ 				     --hostid "${def_hostid}" \
+ 				     --dhchap-secret "${hostkey}"
  
--	_nvme_connect_subsys "${trtype}" "${subsys_name}" || return
-+	_nvme_connect_subsys "${trtype}" "${subsys_name}" --wait-for=none ||
-+		return
- 	nsdev=$(_find_nvme_passthru_loop_dev "${subsys_name}")
+-		udevadm settle
+-
+ 		_nvme_disconnect_subsys "${def_subsysnqn}"
+ 	done
  
- 	# The following tests can race with the creation
+diff --git a/tests/nvme/043 b/tests/nvme/043
+index f084229..15676f8 100755
+--- a/tests/nvme/043
++++ b/tests/nvme/043
+@@ -55,8 +55,6 @@ test() {
+ 				     --hostid "${def_hostid}" \
+ 				     --dhchap-secret "${hostkey}"
+ 
+-		udevadm settle
+-
+ 		_nvme_disconnect_subsys "${def_subsysnqn}"
+ 	done
+ 
+@@ -71,8 +69,6 @@ test() {
+ 				      --hostid "${def_hostid}" \
+ 				      --dhchap-secret "${hostkey}"
+ 
+-		udevadm settle
+-
+ 		_nvme_disconnect_subsys "${def_subsysnqn}"
+ 	done
+ 
+diff --git a/tests/nvme/044 b/tests/nvme/044
+index 5eb163d..9407ac6 100755
+--- a/tests/nvme/044
++++ b/tests/nvme/044
+@@ -59,8 +59,6 @@ test() {
+ 			     --hostid "${def_hostid}" \
+ 			     --dhchap-secret "${hostkey}"
+ 
+-	udevadm settle
+-
+ 	_nvme_disconnect_subsys "${def_subsysnqn}"
+ 
+ 	# Step 2: Connect with host authentication
+@@ -72,8 +70,6 @@ test() {
+ 			     --dhchap-secret "${hostkey}" \
+ 			     --dhchap-ctrl-secret "${hostkey}"
+ 
+-	udevadm settle
+-
+ 	_nvme_disconnect_subsys "${def_subsysnqn}"
+ 
+ 	# Step 3: Connect with host authentication
+@@ -85,8 +81,6 @@ test() {
+ 			     --dhchap-secret "${hostkey}" \
+ 			     --dhchap-ctrl-secret "${ctrlkey}"
+ 
+-	udevadm settle
+-
+ 	_nvme_disconnect_subsys "${def_subsysnqn}"
+ 
+ 	# Step 4: Connect with host authentication
+@@ -99,8 +93,6 @@ test() {
+ 			     --dhchap-secret "${hostkey}" \
+ 			     --dhchap-ctrl-secret "${invkey}"
+ 
+-	udevadm settle
+-
+ 	_nvme_disconnect_subsys "${def_subsysnqn}"
+ 
+ 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
+diff --git a/tests/nvme/045 b/tests/nvme/045
+index 8364d5e..396bcde 100755
+--- a/tests/nvme/045
++++ b/tests/nvme/045
+@@ -61,8 +61,6 @@ test() {
+ 			     --dhchap-secret "${hostkey}" \
+ 			     --dhchap-ctrl-secret "${ctrlkey}"
+ 
+-	udevadm settle
+-
+ 	echo "Re-authenticate with original host key"
+ 
+ 	ctrldev=$(_find_nvme_dev "${def_subsysnqn}")
 -- 
 2.40.1
 
