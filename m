@@ -4,77 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0F1EEB64DD
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Aug 2023 10:37:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04FB3EB64DD
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Aug 2023 10:41:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UT4sjaDwcFqKs9Obf7DcB5pD7crKyvQ8FvzUnXWxBBw=; b=ExgKbDjEpej6bitjOvkkQ4lfym
-	8IkBg9H8LKxy2obphrkUO/TUY1p+bJCISVNQ9K40dx51o/+4Pk4FLBlaUztKHegy/xNCdoC4ySifW
-	HqnUfhWRf2EhwJ90iWwjixq9WGxkzT8DO6LiBbABaOzIqnZe1qfPhmEHXq/m3n40yj4gGCrTKKkPN
-	ZgL05dpuAupOaea5JRxUQkmZzaNkAFMCo8WsYJ8KUQm3znKQgRJdyC+QC0BgpeeTUGf1hAWea+LTH
-	pCueOka5GQdbMkYmAjYuyvvvMLbx9F9u1HRmlGR+XaPQX4dzUUmLniVhHvfhuhwDBSWF5gYvTUUbe
-	qtputSWw==;
+	bh=1U107HDGRsnh6fdBS2dCkA5s3quKWrB4L5clKKz8Y48=; b=OY0/FQTGHfENDSFN/aLQZbWUEB
+	0YOAL6eCq4FmGkzs9CHDQzPiP1FsB1ohg9d+r8f12m4b/+TU5+fvi/JFA+fhEFjYXC5Bgcn5tS7jd
+	6tB/tn2P8wCoYfRtZic9bxNjO54pXZ8+U3VmMbBptcOn5X+XSqZt7l2NR11cfhVAfJ4b65PBvM1rt
+	u+ojs00/IQYsNTThe+ya1zz5YF6374YJW8/HINk9QqWY2DlAVKue1jKiWYAczjUAlzoV54fqvav06
+	xVdnKiiFyahYP59Lfz9+CGizK9k/2Bctg19ObZp3GPH2o4J6v338IHVY9SlYVSv0ARML5MnFx9t/L
+	1GNvTisw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWaNW-0068Rh-0E;
-	Thu, 17 Aug 2023 10:37:22 +0000
-Received: from mail-ej1-f50.google.com ([209.85.218.50])
+	id 1qWaRD-006AeO-0C;
+	Thu, 17 Aug 2023 10:41:11 +0000
+Received: from mail-ed1-f42.google.com ([209.85.208.42])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWaNS-0068OX-0e
+	id 1qWaR9-006AaN-3B
 	for linux-nvme@lists.infradead.org;
-	Thu, 17 Aug 2023 10:37:20 +0000
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-99c4e426714so170625666b.1
-        for <linux-nvme@lists.infradead.org>; Thu, 17 Aug 2023 03:37:17 -0700 (PDT)
+	Thu, 17 Aug 2023 10:41:09 +0000
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-525691843d1so1242990a12.0
+        for <linux-nvme@lists.infradead.org>; Thu, 17 Aug 2023 03:41:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692268636; x=1692873436;
+        d=1e100.net; s=20221208; t=1692268865; x=1692873665;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UT4sjaDwcFqKs9Obf7DcB5pD7crKyvQ8FvzUnXWxBBw=;
-        b=bstX8Ze3UecXn1FR+05Ep7DT/hbJW6gm7SW5iFf96vgX8nxAsET7UK8Xi/fUYmu4ul
-         JbIZLMpa60JdnSChro25hy6aWYBX1szAzoWPbZdi2djKE6whvyFi/xMGLVvnTX+njUjX
-         HqKIMnQQSBphvwXzyzqXXankllcIVrtvGIGZzDoZbk9JC8SwtXfR+Jwx6YK424FOS8gV
-         nVhRdrw87y5ylEfEH2DWKR4r51/m+Fv3xDHrmr8jZYhDNi1n7yum1kMbSBYr04mCUEyN
-         7vRb2JphATDAaYg+2xyG6Xbme4CpTn8cApE7dbzzZnjy6vZLl4z/XGOjTe4OweZmpbDY
-         G7bg==
-X-Gm-Message-State: AOJu0YwTtLsmtKdHJPXdkEp+U7I7k32S9Evh5MIPPQihwC/g3QowbP9y
-	sXF8wJw3PQJ5KcrrFGmeVmQ=
-X-Google-Smtp-Source: AGHT+IExmbugO3B3BJT51InwAUVJNpOJ0kd72hUoHfrVOqOOASvUX/N101A0kixmust+7ojPHWvLUQ==
-X-Received: by 2002:a17:906:2098:b0:99c:db0f:e115 with SMTP id 24-20020a170906209800b0099cdb0fe115mr2852385ejq.3.1692268634181;
-        Thu, 17 Aug 2023 03:37:14 -0700 (PDT)
+        bh=1U107HDGRsnh6fdBS2dCkA5s3quKWrB4L5clKKz8Y48=;
+        b=OvTZsOXi8Mp+RiyL3go4w3GDHApUgLvch6VRL0I0ezC+H5uA6enakDMnlnaxZkwyzI
+         cR8ycr84X1StZmyccL8gVzuReGnJ+pQM4KEYh7ETW084IsskpuvkT32pjFbFLgVe4NtT
+         B6hYQWHAtUtyi352jrGczxqAQvTtGZ6VQA7OJ24kX5Dvtj9VOfhxOuWEgrSuyTtbAmVO
+         UtglJjQKvnInWmLPA+CYZPCAjO+NnLbSAsNkCph9RuMNlTaW/eTjSw14i3AvT5RZ4Yz3
+         4KtssdcowHsq1YkbA8USqozOlPotMC3MrSwD8lSR9xeqhDS4grUKgwQDbqpZmn+i6v2/
+         ZKvg==
+X-Gm-Message-State: AOJu0YyS9NrtHVwyXkco8sAuXwrJlg1j8yyhg60DS8vgnIpwJjVpFS4P
+	RdbvcEbE7gmCJ2RaH8TG62M=
+X-Google-Smtp-Source: AGHT+IEEcEG8xciklrkTtRDf013vKDyTeBMMfVJwWYnTLSpQ12iIDmmG1BPA1bQl4oRaikbABWmHdw==
+X-Received: by 2002:a05:6402:350a:b0:523:2e64:122b with SMTP id b10-20020a056402350a00b005232e64122bmr3589269edd.3.1692268864434;
+        Thu, 17 Aug 2023 03:41:04 -0700 (PDT)
 Received: from [192.168.64.157] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id gr12-20020a170906e2cc00b0099c53c4407dsm9969733ejb.78.2023.08.17.03.37.12
+        by smtp.gmail.com with ESMTPSA id c23-20020a056402121700b00523653295f9sm9549069edw.94.2023.08.17.03.41.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Aug 2023 03:37:13 -0700 (PDT)
-Message-ID: <b4fe7c1f-1581-bad2-9203-6f4c87d6a599@grimberg.me>
-Date: Thu, 17 Aug 2023 13:37:12 +0300
+        Thu, 17 Aug 2023 03:41:03 -0700 (PDT)
+Message-ID: <615aaad8-b216-ceaa-1553-d283a3c4531b@grimberg.me>
+Date: Thu, 17 Aug 2023 13:41:02 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH rfc 6/6] nvme-fabrics: expose support for traddr as dns
- names to userspace
+Subject: Re: [PATCH 11/18] nvme-fabrics: parse options 'keyring' and 'tls_key'
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- Daniel Wagner <dwagner@suse.de>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-References: <20230724092023.708335-1-sagi@grimberg.me>
- <20230724092023.708335-7-sagi@grimberg.me>
- <7d60e267-be0a-41ff-8015-d3440b6eca2c@suse.de>
- <433182d8-c57e-2e51-2692-02ac8b474bf2@grimberg.me>
- <8e72f698-af99-c8a4-a672-d51d28ee7a36@grimberg.me>
- <cc448d32-f3f1-0929-18d4-15186adeac01@suse.de>
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Jakub Kicinski <kuba@kernel.org>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org
+References: <20230816120608.37135-1-hare@suse.de>
+ <20230816120608.37135-12-hare@suse.de>
+ <f250deb1-90d9-f9c4-667f-9e6ad580cb6b@grimberg.me>
+ <b460dc0c-3254-0c97-557b-3cf42041c247@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <cc448d32-f3f1-0929-18d4-15186adeac01@suse.de>
+In-Reply-To: <b460dc0c-3254-0c97-557b-3cf42041c247@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230817_033718_238923_8A761C0D 
-X-CRM114-Status: GOOD (  15.52  )
+X-CRM114-CacheID: sfid-20230817_034108_024258_14594F54 
+X-CRM114-Status: GOOD (  16.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,33 +87,105 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-> [ .. ]
->>> So I figured that the current approach would be preferable if
->>> we accept how to expose that for a given kernel/driver, we can
->>> accept dns names, or we cannot.
->>>
->>> What do others think? Christoph? Keith? Chaitanya?
+>>> +        case NVMF_OPT_KEYRING:
+>>> +            if (match_int(args, &key_id) || key_id <= 0) {
+>>> +                ret = -EINVAL;
+>>> +                goto out;
+>>> +            }
+>>> +            key = nvmf_parse_key(key_id, "Keyring");
+>>> +            if (IS_ERR(key)) {
+>>> +                ret = PTR_ERR(key);
+>>> +                goto out;
+>>> +            }
+>>> +            key_put(opts->keyring);
 >>
->> Anyone has feedback here?
+>> Don't understand how keyring/tls_key are pre-populated though...
 >>
->> Seems that we want this, but the question is how to expose
->> a new format of traddr (now can be a dns name) to userspace?
+> They are not. But they might, as there's nothing in the code preventing 
+> the user to specify 'keyring' or 'tls_key' several times.
+> I can make it one-shot and error out if they are already populated, but
+> really haven't seen the need.
+
+OK, now I understand. its fine.
+
 > 
-> Or have a new token 'traddr_dns' (instaed of 'traddr'), which would
-> hold the dnsname instead of the ip address.
-> And reject inputs where both are set.
-> Hmm?
+>>> +            opts->keyring = key;
+>>> +            break;
+>>> +        case NVMF_OPT_TLS_KEY:
+>>> +            if (match_int(args, &key_id) || key_id <= 0) {
+>>> +                ret = -EINVAL;
+>>> +                goto out;
+>>> +            }
+>>> +            key = nvmf_parse_key(key_id, "Key");
+>>> +            if (IS_ERR(key)) {
+>>> +                ret = PTR_ERR(key);
+>>> +                goto out;
+>>> +            }
+>>> +            key_put(opts->tls_key);
+>>> +            opts->tls_key = key;
+>>> +            break;
+>>>           case NVMF_OPT_DISCOVERY:
+>>>               opts->discovery_nqn = true;
+>>>               break;
+>>> @@ -1168,6 +1216,8 @@ static int nvmf_check_allowed_opts(struct 
+>>> nvmf_ctrl_options *opts,
+>>>   void nvmf_free_options(struct nvmf_ctrl_options *opts)
+>>>   {
+>>>       nvmf_host_put(opts->host);
+>>> +    key_put(opts->keyring);
+>>> +    key_put(opts->tls_key);
+>>>       kfree(opts->transport);
+>>>       kfree(opts->traddr);
+>>>       kfree(opts->trsvcid);
+>>> diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+>>> index dac17c3fee26..fbaee5a7be19 100644
+>>> --- a/drivers/nvme/host/fabrics.h
+>>> +++ b/drivers/nvme/host/fabrics.h
+>>> @@ -71,6 +71,8 @@ enum {
+>>>       NVMF_OPT_DHCHAP_SECRET    = 1 << 23,
+>>>       NVMF_OPT_DHCHAP_CTRL_SECRET = 1 << 24,
+>>>       NVMF_OPT_TLS        = 1 << 25,
+>>> +    NVMF_OPT_KEYRING    = 1 << 26,
+>>> +    NVMF_OPT_TLS_KEY    = 1 << 27,
+>>>   };
+>>>   /**
+>>> @@ -103,6 +105,8 @@ enum {
+>>>    * @dhchap_secret: DH-HMAC-CHAP secret
+>>>    * @dhchap_ctrl_secret: DH-HMAC-CHAP controller secret for 
+>>> bi-directional
+>>>    *              authentication
+>>> + * @keyring:    Keyring to use for key lookups
+>>> + * @tls_key:    TLS key for encrypted connections (TCP)
+>>>    * @tls:        Start TLS encrypted connections (TCP)
+>>>    * @disable_sqflow: disable controller sq flow control
+>>>    * @hdr_digest: generate/verify header digest (TCP)
+>>> @@ -130,6 +134,8 @@ struct nvmf_ctrl_options {
+>>>       struct nvmf_host    *host;
+>>>       char            *dhchap_secret;
+>>>       char            *dhchap_ctrl_secret;
+>>> +    struct key        *keyring;
+>>> +    struct key        *tls_key;
+>>>       bool            tls;
+>>>       bool            disable_sqflow;
+>>>       bool            hdr_digest;
+>>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+>>> index ef9cf8c7a113..f48797fcc4ee 100644
+>>> --- a/drivers/nvme/host/tcp.c
+>>> +++ b/drivers/nvme/host/tcp.c
+>>> @@ -1589,6 +1589,8 @@ static int nvme_tcp_start_tls(struct nvme_ctrl 
+>>> *nctrl,
+>>>       dev_dbg(nctrl->device, "queue %d: start TLS with key %x\n",
+>>>           qid, pskid);
+>>> +    if (nctrl->opts->keyring)
+>>> +        keyring = key_serial(nctrl->opts->keyring);
+>>
+>> Maybe populate opts->keyring with nvme_keyring_id() to begin
+>> with and then you don't need this?
+>>
+> We could; one would lose the distinction between 'not specified' and
+> 'specified with the defaul keyring', but one could argue whether that
+> brings any benefit.
 
-I listed that as an option, you should read it.
-There are some disadvantages in doing that, it needs to co-exist
-with the mandatory (today) traddr, which is now will be mandatory
-only for fc. And also now the user will need to decide a conflicting
-existing functionality in nvme-cli that today accept dns names as
-a format to traddr, but now will need a different argument for
-passing it to the kernel.
-
-Anyway, its possible, but more complicated IMO.
-
-Plus, I also think that it can be useful for the kernel to signal
-capabilities and support for things that are not only valid tokens.
+Not sure I understand.
+What exactly is the distinction and how is it manifested?
 
