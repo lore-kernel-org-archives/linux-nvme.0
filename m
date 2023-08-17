@@ -4,71 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CEAC4EB64DD
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Aug 2023 09:09:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62CFCEB64DD
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Aug 2023 09:11:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=cpoFoEtFvJj/gytbORvs9AXqTk
-	xr6fvqQd2BWMjESAypQgJETF4EoKz9MI/x4QhcMvjeY4CDvtF2qtBw3v9A5gU18DGlHABE3WBT5y2
-	Ee16N2mEPpmpM0nGb4kHN01lKiweQiismsLyJegAczVrkkv164HlVv1W2oWth+FNWJ5J+Lj4ITBeO
-	3mfTdf6iOdVDOQC8rAkh5r7urpf5Tn+R6SfaCsGojj+jAXCZ1dteMWcnDVm6+6EzLoXTR8weArfkS
-	kjnclk1Ht5C9KklgeqynPCOd6xytsLoQPHlrZl46dyL5p8pF6V/djGF1r2Gpdaz2fNojvElEMhz+J
-	7jpBGegg==;
+	bh=0+36Q9eI84qtxcdlzUKjOqUi1lcIRIGvrPgXpAYg71w=; b=kvKNVfAnI7RBcHlyTqSxhSBt14
+	zcs6o61UaqrVThnR/wBxQeae38acB7LzirFGC3qVT/rIM0U9ws95rLKM+2/cQaPwerYs/ksSWslaJ
+	IsouPnWbjUZtaaxT+Uaz0hp9iBtuFsTTFhAf6Kp0MDZREBVe+13097+0y7Mfx6rE3hZuvYbHK2Jrp
+	wkZ5clIjO6hGSm7DPT7/T4Hols+vgzxSy8Ak4NXM+U2ZZDskH0d0Q+XoMm3gTpW+SUKg6g5Iz8spm
+	e+oVjVeU3ZzdpqCsiA2AgF+RIAeNN124BAy5zrAEFqxOYTNgThr4xHBE8VBNbRdOy6Avk5shZ99iG
+	XP7DacVw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWZ0o-005teB-2n;
-	Thu, 17 Aug 2023 09:09:50 +0000
-Received: from mail-wm1-f53.google.com ([209.85.128.53])
+	id 1qWZ2i-005tlX-1r;
+	Thu, 17 Aug 2023 09:11:48 +0000
+Received: from mail-wm1-f45.google.com ([209.85.128.45])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWZ0m-005tcb-1K
+	id 1qWZ2f-005tl0-2M
 	for linux-nvme@lists.infradead.org;
-	Thu, 17 Aug 2023 09:09:49 +0000
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-3fe3194d21dso13725275e9.1
-        for <linux-nvme@lists.infradead.org>; Thu, 17 Aug 2023 02:09:39 -0700 (PDT)
+	Thu, 17 Aug 2023 09:11:47 +0000
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3fe5c552dd0so15875865e9.0
+        for <linux-nvme@lists.infradead.org>; Thu, 17 Aug 2023 02:11:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692263378; x=1692868178;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        d=1e100.net; s=20221208; t=1692263502; x=1692868302;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=NrzaiX5Fu5o9FPhxKM+T6NVL7M6p22HdlpnnOFNtkYs1lB5gdo018bLdvCdr4J0tkm
-         3HaSZPxD3NaAo9PfzJPuj0NT2XXu7hhJXUsKHaLaU8bNV5UmFPnR0DrPOebl3Xi7kULC
-         fkh+54Q8ekwgII3qFe5T1dN4xyPuVulYYsmVq0g6Qtt1VIMSBx1GnMN00fB1Ysmu97XV
-         dB/Jnknw+Qwu1GORN8x56hnFLwoYmt56UkSwvjq7v4JpNoCoSurHShjp9KXZRTHLjf3F
-         BGSPT4AwJY9hESTLt/T1DrFpoS4wEdkRJ6SFg2YhRKPbMGcRdSqHb7kwZtd44hfS0oO6
-         TEJA==
-X-Gm-Message-State: AOJu0Yye9Ne9H5QIdOGvhjjOf4pOjeDUKsB6zLVUsDBNgfuDLwj6xfJB
-	jjMnBeV/8VDc8W3eIb+xs2k=
-X-Google-Smtp-Source: AGHT+IGj6dNN+zpaXvGqC/LQdnfZDiM+LduNGZzkfM2LyqeC8kTFre2YMIbbwRWsKtg2xS5Js7zgqw==
-X-Received: by 2002:a05:600c:310b:b0:3f9:bf0e:a312 with SMTP id g11-20020a05600c310b00b003f9bf0ea312mr3610127wmo.1.1692263378181;
-        Thu, 17 Aug 2023 02:09:38 -0700 (PDT)
+        bh=0+36Q9eI84qtxcdlzUKjOqUi1lcIRIGvrPgXpAYg71w=;
+        b=CIQTupKQjRMimgN2xUOghziQc6BSmbyLhlNN0yrQ2G+RE4eLszmvegUn8yRFVfeDlW
+         c4Tpe816v68W0p6QekdERMHjAk+xqqNMuRWmSkXzmEac2KoVaEDvlUGJvR6RoKYCT7fG
+         AD5ZgA0eYd3V8FQ4qKnSgn7oyg5DCmu16pR54xQfWEblT4z0mudARMYAX+hT+STbg/iK
+         DcQlY34ATS+shnc2fK3rUoVQIoRsROGaf+3/Xu5VFubGy12kagzbpY4BQH+49e5dZuRb
+         tpXHFCSgn0mtctE1m4U5Gkou7znFm+EowjBrTTusxseZSWxo1138BDFOLXZRcZ29tUTV
+         ongg==
+X-Gm-Message-State: AOJu0YwYFOWRj9ksabGlgIsQmNeux2RRcnKmK1itXzNhv1anSYylrzT6
+	+y+XOE4ENOf+cdxp73Lpe5s=
+X-Google-Smtp-Source: AGHT+IGxZ1N2C64sNHklSa/Rh0UTzWVnfwn241r4oYciJYVyxu9MQERKEM8CzizjXNhHluRAYjxmPw==
+X-Received: by 2002:a05:600c:4710:b0:3fb:aadc:41dc with SMTP id v16-20020a05600c471000b003fbaadc41dcmr3956462wmo.4.1692263501727;
+        Thu, 17 Aug 2023 02:11:41 -0700 (PDT)
 Received: from [192.168.64.157] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id m12-20020a5d4a0c000000b00317e9c05d35sm24177001wrq.85.2023.08.17.02.09.36
+        by smtp.gmail.com with ESMTPSA id v10-20020a05600c214a00b003fe263dab33sm2223240wml.9.2023.08.17.02.11.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Aug 2023 02:09:37 -0700 (PDT)
-Message-ID: <f7fb851e-bc96-1c28-c5ab-fd5b5ca5ccf7@grimberg.me>
-Date: Thu, 17 Aug 2023 12:09:35 +0300
+        Thu, 17 Aug 2023 02:11:41 -0700 (PDT)
+Message-ID: <8e72f698-af99-c8a4-a672-d51d28ee7a36@grimberg.me>
+Date: Thu, 17 Aug 2023 12:11:39 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v4] nvmet-tcp: fix data digest calculation for multiple
- H2CData PDUs
+Subject: Re: [PATCH rfc 6/6] nvme-fabrics: expose support for traddr as dns
+ names to userspace
 Content-Language: en-US
-To: Varun Prakash <varun@chelsio.com>, hch@lst.de, kbusch@kernel.org
-Cc: linux-nvme@lists.infradead.org, Rakshana Sridhar <rakshanas@chelsio.com>
-References: <20230815114200.50705-1-varun@chelsio.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230815114200.50705-1-varun@chelsio.com>
+To: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ Daniel Wagner <dwagner@suse.de>,
+ Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+References: <20230724092023.708335-1-sagi@grimberg.me>
+ <20230724092023.708335-7-sagi@grimberg.me>
+ <7d60e267-be0a-41ff-8015-d3440b6eca2c@suse.de>
+ <433182d8-c57e-2e51-2692-02ac8b474bf2@grimberg.me>
+In-Reply-To: <433182d8-c57e-2e51-2692-02ac8b474bf2@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230817_020948_468050_6B672F3B 
-X-CRM114-Status: UNSURE (   5.76  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230817_021145_812235_D00A0BF3 
+X-CRM114-Status: GOOD (  30.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,5 +87,65 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+
+
+On 8/13/23 16:07, Sagi Grimberg wrote:
+> 
+>>> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+>>> index fadd25538d1b..6a7e8cbdaf69 100644
+>>> --- a/drivers/nvme/host/fabrics.c
+>>> +++ b/drivers/nvme/host/fabrics.c
+>>> @@ -1331,6 +1331,7 @@ static void __nvmf_concat_opt_tokens(struct 
+>>> seq_file *seq_file)
+>>>           seq_puts(seq_file, ",");
+>>>           seq_puts(seq_file, tok->pattern);
+>>>       }
+>>> +    seq_puts(seq_file, ",dns_ip_traddr");
+>>>       seq_puts(seq_file, "\n");
+>>>   }
+>>
+>> Don't we need to update the parser to accept this option, too?
+>> After all, the implication is that all tokens in the output can be 
+>> used as valid tokens for the connect string ...
+> 
+> I struggled with this bit here...
+> 
+> Today, we simply expose all valid tokens, but in this case
+> what we really need is a capability indicator (in this case
+> traddr can be a fqdn and not only an ip address).
+> 
+> So we could make this a parsed token, and make userspace
+> actually pass it in case traddr was passed as a fqdn, but
+> it is absolutely redundant to do so.
+> 
+> We could come up with a format that explicitly says this
+> is a capability instead of a valid token.
+> Like: "cap=dns_ip_traddr" or "format=traddr_as_dns_name" or
+> something...
+> 
+> What we just need, is for userspace to know if it is possible
+> to pass traddr in a specific format.
+> 
+> I tend to think that this is something that we will want for
+> other options that can have multiple formats.
+> 
+> Another option would be to make this a separate token and
+> call it ctrl_dns_name that would be separate from traddr, but:
+> - that will cause the changes a spray of changes that would accept
+>    an alternative to traddr, and validate that at least one exist, but
+>    fail if both are given
+> - bubble up the usage to userspace, leaving the admin with the
+>    exact format of the traddr
+> - keep track of this when doing reconnects and stuff.
+> 
+> So I figured that the current approach would be preferable if
+> we accept how to expose that for a given kernel/driver, we can
+> accept dns names, or we cannot.
+> 
+> What do others think? Christoph? Keith? Chaitanya?
+
+Anyone has feedback here?
+
+Seems that we want this, but the question is how to expose
+a new format of traddr (now can be a dns name) to userspace?
 
