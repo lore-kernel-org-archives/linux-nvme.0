@@ -4,78 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F06EEB64DD
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Aug 2023 08:19:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E40F5EB64DD
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Aug 2023 08:22:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YJhnEkfD1jsN4t8MPe/F0flXlGnvUjNwChAguWMLs8w=; b=p8mZwDADqdIN6kiXRw3Uik8ywG
-	RjaaDCrftsy/JGYKCqQl68ikwjz1H9LsN4egLNLU4CfvKmz0A4ki8z8n89Hiar+SffvmpuLDXwm4p
-	kJFUniwRqSE6oJL9SWU0te2J8upgWTZW/lxw3IE1avOWMKEP7ozQFJMaN+xNt3GiDRmIHVDMxTISl
-	h2DQTFCDyL0Y3E7OlCyhJ7D1B6vOzD01y8a7a/lGTMIDdmIf+A0DqfT14yh75n/uva4cYDeOi2t2P
-	78TQWKA5XiItohli7TI0C+YfQzld5WDfktNypk5u/8tujp8dNEQc98Q0vIZ86XAm/EMwwBbgvoXYL
-	aA9fD6pw==;
+	bh=/EGH713J2ziKAzyOkNilfz8/zPpxaQhAAZH84cXzWBY=; b=JXbs/DyX/UM4/Kic9kjt5qPQAB
+	B3rOOA3QqLgT6QWksoDkeE7IfBIzpywQHgLSksD1/g0dbYR4cRYmtXnQpkaHGEa4iiXMhXjVtP+1i
+	RY/Sg1XekLEVHrmoK9Cl7L7mfYzPGm6n0S1k/Zg7PLYTiiXkZobu9dVfIhdz2qUQWUDwx8087sT0b
+	i83Dbsuoi3qRK2+1fdRAsLYXf4S+7hDP8geVu7hg3GvkA/sgLYvibvXKVv7tok0ZH+gUUBdRrS9KP
+	cgA/3DgYwuCC69tbTMlh08ZYJg3HYr1se2+kmMLwEk+ijB1ecXn3uU+GOspa1n6/YDuA/EFlCDVhR
+	DNFguvRg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWYDh-005npV-1L;
-	Thu, 17 Aug 2023 08:19:05 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1qWYHL-005oLA-0Z;
+	Thu, 17 Aug 2023 08:22:51 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWYDe-005noT-0F
+	id 1qWYHI-005oKN-2G
 	for linux-nvme@lists.infradead.org;
-	Thu, 17 Aug 2023 08:19:03 +0000
+	Thu, 17 Aug 2023 08:22:49 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D6DDF1F891;
-	Thu, 17 Aug 2023 08:19:00 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 37476210EF;
+	Thu, 17 Aug 2023 08:22:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1692260340; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1692260567; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YJhnEkfD1jsN4t8MPe/F0flXlGnvUjNwChAguWMLs8w=;
-	b=Lgove2rkHKp59k+4QbLjeat5w5zsp2sbqj9E4o0+Bom2uhwsBBcq/QORQQiqFI0wOASPF9
-	bupjXXVksie+fiAgCJMxwxyZBxo0ZLH7BaojlZNS4smCNV3fbJ/A9obJhkIg9ytzWyEZ+n
-	TB2BN+jyT6qNDx+Fo0URyollvMkOr44=
+	bh=/EGH713J2ziKAzyOkNilfz8/zPpxaQhAAZH84cXzWBY=;
+	b=GQPbqN9EFWWPst1KJI7D0F/Yeit9yvIgs7hrfY5W47tsQMIGsiSXSegD8Zd2ErGDwZSKxB
+	FYQh5CcGGt5tjOQ1QXR8/Jry4v8lrgLAYxmKzakrXoXp6gEMGP80VPGXdBvUvjD9FbDBqj
+	MiyVMFQUYx2faFRNP+SP3Nuv3abj76o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1692260340;
+	s=susede2_ed25519; t=1692260567;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YJhnEkfD1jsN4t8MPe/F0flXlGnvUjNwChAguWMLs8w=;
-	b=fmZsvtFo5krEWNZ6g8FFEkrIEfS0hbkrAt8u1AU0HzbP+KiT3evThdT5JHS0HanvGSNOb9
-	I0w2lnfE4qPwYEDA==
+	bh=/EGH713J2ziKAzyOkNilfz8/zPpxaQhAAZH84cXzWBY=;
+	b=30M/TwPol8ZLihjY3EvQgBq3Jthr1rYi3i6qzFeR2RfZuRsXwUmGcDjRa2eOhbHgw7WnbI
+	TEeUxL9ZuYlJf7DA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 993111392B;
-	Thu, 17 Aug 2023 08:19:00 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 253A91392B;
+	Thu, 17 Aug 2023 08:22:47 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id HZ2fIfTX3WRBUQAAMHmgww
-	(envelope-from <dwagner@suse.de>); Thu, 17 Aug 2023 08:19:00 +0000
-Date: Thu, 17 Aug 2023 10:19:10 +0200
+	id h9AiCNfY3WQoUwAAMHmgww
+	(envelope-from <dwagner@suse.de>); Thu, 17 Aug 2023 08:22:47 +0000
+Date: Thu, 17 Aug 2023 10:22:57 +0200
 From: Daniel Wagner <dwagner@suse.de>
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	Yi Zhang <yi.zhang@redhat.com>, Sagi Grimberg <sagi@grimberg.me>, 
-	Bart Van Assche <bvanassche@acm.org>
-Subject: Re: [PATCH blktests v2 1/2] nvme/rc: fix nvme device readiness check
- after _nvme_connect_subsys
-Message-ID: <lqazvjte6tnjw45txgeo4yzj3cvyj427z5ldwnbbr5j7wf5jwf@g6twqzzqgdgl>
-References: <20230817073021.3674602-1-shinichiro.kawasaki@wdc.com>
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, Max Gurtovoy <mgurtovoy@nvidia.com>, 
+	Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	James Smart <jsmart2021@gmail.com>, Bart Van Assche <bvanassche@acm.org>
+Subject: Re: [PATCH blktests v2 00/12] Switch to allowed_host
+Message-ID: <wko3lfszmhyczqav7bks5cb2bsttfnq3uhjrqk44ayahtfozvs@s3ug7d7jnhor>
+References: <20230810111317.25273-1-dwagner@suse.de>
+ <xpoocad2nthor6naxp35h5qiz3oqxpijp5qds5qao6aguh6fp5@6fyygawm7kfq>
+ <2u7xe3szftmoeicayxahqt6r44lgkwl6owvmlkjpby4mqvu6hh@pq2gfkgw6p6e>
+ <glfjkah5e54ymq75lp46akttuqrsccigb445nchcpe4ahixzxk@5al3wjxify5d>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230817073021.3674602-1-shinichiro.kawasaki@wdc.com>
+In-Reply-To: <glfjkah5e54ymq75lp46akttuqrsccigb445nchcpe4ahixzxk@5al3wjxify5d>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230817_011902_260871_147713E2 
-X-CRM114-Status: GOOD (  20.51  )
+X-CRM114-CacheID: sfid-20230817_012248_887998_1F06A8A2 
+X-CRM114-Status: GOOD (  14.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,41 +94,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Aug 17, 2023 at 04:30:20PM +0900, Shin'ichiro Kawasaki wrote:
-> The helper function _nvme_connect_subsys() creates a nvme device. It may
-> take some time after the function call until the device gets ready for
-> I/O. So it is expected that the test cases call _find_nvme_dev() after
-> _nvme_connect_subsys() before I/O. _find_nvme_dev() returns the path of
-> the created device, and it also waits for uuid and wwid sysfs attributes
-> of the created device get ready. This wait works as the wait for the
-> device I/O readiness.
+On Thu, Aug 17, 2023 at 02:55:25AM +0000, Shinichiro Kawasaki wrote:
+> On Aug 11, 2023 / 09:00, Daniel Wagner wrote:
+> [...]
+> > BTW, what do you think about removing nvme/006 and nvme/007? They are
+> > basically doing nothing anymore except setting up a target with either
+> > device or file backing. We exercise this code now in all the other
+> > tests. So this is bit redundant IMO.
 > 
-> However, this wait by _find_nvme_dev() has two problems. The first
-> problem is missing call of _find_nvme_dev(). The test case nvme/047
-> calls _nvme_connect_subsys() twice, but _find_nvme_dev() is called only
-> for the first _nvme_connect_subsys() call. This causes too early I/O to
-> the device with tcp transport [1]. Fix this by moving the wait for the
-> device readiness from _find_nvme_dev() to _nvme_connect_subsys(). Also
-> add --wait-for option to _nvme_connect_subsys(). It allows to skip the
-> wait in _nvmet_passthru_target_connect() which has its own wait for
-> device readiness.
-> 
-> The second problem is wrong paths for the sysfs attributes. The paths
-> do not include namespace index, so the check for the attributes always
-> fail. Still _find_nvme_dev() does 1 second wait and allows the device
-> get ready for I/O in most cases, but this is not intended behavior.
-> Fix the paths by adding the namespace index.
-> 
-> On top of the checks for sysfs attributes, add 'udevadm settle' and a
-> check for the created device file. These ensures that the create device
-> is ready for I/O.
-> 
-> [1] https://lore.kernel.org/linux-block/CAHj4cs9GNohGUjohNw93jrr8JGNcRYC-ienAZz+sa7az1RK77w@mail.gmail.com/
-> 
-> Fixes: c766fccf3aff ("Make the NVMe tests more reliable")
-> Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+> I think the test cases are meaningful. They confirm that target set up feature
+> is working good. When other test cases fail, we can refer nvme/006 and nvme/007
+> results and see if the failure cause is in target set up or not.
 
-Thanks!
-
-Reviewed-by: Daniel Wagner <dwagner@suse.de>
+Fair enough. If I want to cut execution time I can just exclude those
+test from the run.
 
