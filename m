@@ -4,67 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 06C6BC3DA58
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Aug 2023 17:28:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4286C3DA65
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Aug 2023 17:44:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uEW1X+U5BoNEleUE5hv+X/J4NG4T3egXeAoPK2sKhcw=; b=tOScdzOIxvq69d6WLiLwne12qH
-	ngNOBYXE74oOrC3wBNJ1+88ar2q/M28OOOwMZqaymMSyPBQkIpndHqaUmZQNq1eT/Ui3Id7RGUMO1
-	APzLQfFVQAgziN/knBRncvKuv/N+nCbWcNRDnt7CsbhDxPDEeY5pIGRNa1JtyQ7BZ4rDfyGvspQPF
-	X3AZJTPgDpCVX4rVamITH38NihdcVDe/nndcRxqM9Ao2mjWUXaorgX7T/yLV5UvYLr/ISDJw02VIg
-	3dggPkn8Bqrs5riA8NBoqNjORx2oIzBXREylbSwma1p4lmPAcq8l7vOatSRtOxfws2CfizTB6RQKu
-	rH2xZdyw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=pchJGXdFj7yASFJiMjwy7GapHCrWKXFQX/m1Yk4JjY8=; b=w84MsJWOBYEVkW0eYTGXk7rjdm
+	2IV0WDZuFRF6g4ST6XPa0Ny5frmUfA56pmkOFzfEOV9BsQnBX2/beKiN/uaQ+WQNs9jANxNaAl7FV
+	36qTAU+bjFOq48it1XlpkwQrzaB79IuT/u842hYewp+2zMMrZZrnOWWkUcJ/AqnKNNOdIWj2rHUK8
+	LaFPP5IcQ4w0Y3zNzgrvaBH7W9jB2DAMgfiwoK2FUskSgl1mwjALaqBv9f6oSarn3Ws4nwFI4e1Ir
+	WFyAQnu20yvEoUr+FIWvZmvqXegf7sBUP3NXAI+FFLwdoSNkm+mn8cN+AAsDno90ZAOOtBHy1zecM
+	yCPyowqQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWgn8-006swI-2A;
-	Thu, 17 Aug 2023 17:28:14 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1qWh2Q-006uCZ-0G;
+	Thu, 17 Aug 2023 17:44:02 +0000
+Received: from s1.sapience.com ([72.84.236.66])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWgn5-006sv8-2y
+	id 1qWh2N-006uBz-3D
 	for linux-nvme@lists.infradead.org;
-	Thu, 17 Aug 2023 17:28:13 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	Thu, 17 Aug 2023 17:44:01 +0000
+Authentication-Results: dkim-srvy7; dkim=pass (Good ed25519-sha256 
+   signature) header.d=sapience.com header.i=@sapience.com 
+   header.a=ed25519-sha256; dkim=pass (Good 2048 bit rsa-sha256 signature) 
+   header.d=sapience.com header.i=@sapience.com header.a=rsa-sha256
+Received: from srv8.prv.sapience.com (srv8.prv.sapience.com [x.x.x.x])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature ECDSA (secp384r1) server-digest SHA384)
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 69D5361BC2;
-	Thu, 17 Aug 2023 17:28:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D26BC433C8;
-	Thu, 17 Aug 2023 17:28:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1692293290;
-	bh=LnZjsJz7EZXeWbPKrmBF1pX9XMVjg1pxfryeZzTteec=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RozV1TsWvToEi3lx/ro/Xe9DZER9Qw9kzYusKskWHrURFvw7TdfrMVCw2IDvZPl25
-	 wshQrwsWuIxdz+vKdRlhBQHhbaEjL6xh9AnirlGII7tVFOLk+xfwlvscnHlM+hWfUe
-	 80EM2BwjZ4ynBVGWA4ogzRHujEf1EeOGGunLLXfi95CzHLtli6KU8+a8nvmqnzlNqv
-	 2quhoPb9n7Bc4rfZHaJjOjr+Td0kacwvq0qku6D0/Bs9ncmlfkBSCIts0e2pSqxjpC
-	 IeWO/KbuT5Zes/2qYer9IJ5g5uAz04QZZvmLqSuJt/xInTkCDAtbgQ31pK/Z5E9yJJ
-	 nHEvSGhQngNlw==
-Date: Thu, 17 Aug 2023 11:28:08 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Genes Lists <lists@sapience.com>
-Cc: linux-kernel@vger.kernel.org, axboe@kernel.dk, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, hch@lst.de, arnd@arndb.de,
-	ricky_wu@realtek.com, gregkh@linuxfoundation.org
+	by s1.sapience.com (Postfix) with ESMTPS id B9218480AD0;
+	Thu, 17 Aug 2023 13:43:55 -0400 (EDT)
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=sapience.com;
+ i=@sapience.com; q=dns/txt; s=dk-ed25519-220413; t=1692294235;
+ h=message-id : date : mime-version : subject : to : cc : references :
+ from : in-reply-to : content-type : content-transfer-encoding : from;
+ bh=pchJGXdFj7yASFJiMjwy7GapHCrWKXFQX/m1Yk4JjY8=;
+ b=iZMIp8y252HjvqY6H8pTAcdcmVE8Ztwrcowqloe9H4Y9bEtTQ5/+s/dgHNlc2dl9wXGrj
+ EQDd8nYvSX9CE+zCQ==
+ARC-Seal: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412; t=1692294235;
+	cv=none; b=oHMtZajJ+RDIMnuZSmccYVweMEpqCAsK1AyWYT55DedirrsA4BBLr9Jb1Yqwde6orRhaQh2lfkVpo0a5UQwLrVUb6mVKttUL4TYObkWS2ZQen3l0RtbkaXnLfzyzKW8FVSAHXZ2oGWxdn84+AvOySw8+80dXxTuoSqplKke7trbR4rYmJgAXvpwYkv1dMtyvuE/7zCn40hHFYLpjZV2Bn362hQ4sLZWvU5mKMnGCy6P1xLtXJ4RBrmhUJ3AxWHBPzVB2n+bjeIhN2p/R6PaqjpUiCKJa29pCtJ3DYAXOJj/Zi7mDJVL4q9Q3tnYwEJLQSOCjitw9jNzDUdPha0kCRg==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412;
+	t=1692294235; c=relaxed/simple;
+	bh=dZS5RVSYcsGorR4/8gqqGJDeqMoexXOT4YAtAxwqxfI=;
+	h=DKIM-Signature:DKIM-Signature:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:Content-Language:To:Cc:References:From:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding; b=F71VhLZz9OqoTV0r670h5mTEPDqhw61ieXOq2XGqxYV27K0sxBkbWKXftHuy8SAWmW8YUlveuj3pUavsVLpcWxKSoD1bR84ejDiRRyFcUoEE6cn0Rxg/weIDcXN2hLEvnxZNquhC2Vz7BzIjbO7Bjale1HzRQDPkYmAIrmtzIyc06BlYPb6NGkn/tVUjhoOEGOVconvN+ulWgLOkYPpt8AS5j7FxzZmkJia+VEAUFKILk43NsWBgz+iREly/DD+LyQSoYkCgA/JzrfzMhQl7J6LQyBc09zjCb7eC+wO7TGIXxP6xlwpFtzIU70NBRWzn4jINJUT41f0MPq7AMFi5og==
+ARC-Authentication-Results: i=1; arc-srv8.sapience.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sapience.com;
+ i=@sapience.com; q=dns/txt; s=dk-rsa-220413; t=1692294235;
+ h=message-id : date : mime-version : subject : to : cc : references :
+ from : in-reply-to : content-type : content-transfer-encoding : from;
+ bh=pchJGXdFj7yASFJiMjwy7GapHCrWKXFQX/m1Yk4JjY8=;
+ b=X2OrGUVueTaxda7MdDQqGWuspU2C/glVS/gWDL1xf3O3kk9A+nFlqKLOciuL0XitFyUWS
+ QhtLQNqSLjJTHysxCVa7Uy/m/D4yiC6KXXmrW8SXzS9BgYjHe3aBFyMBhzAaUQHJP3vuQGh
+ bgm2Vm5jzfhy6zbmO3/jCGj+f8wOirCOFI8nU7AU9nCxqkzG1nYEWPvWyWfd9sCcL690DLB
+ SrKxgcRMZzid3BasnXdGYFsaE55ZQgo+uSgo7RGwmiNHgVsDkmTxm6os7mi0lPj6yhBLCgI
+ a1XQ1MPGBJHla4NeJTFkIumoDYxv106jro6hvw6DBpJaT3crwrCjocQZlLLQ==
+Message-ID: <144d4c08-2cd4-4d77-acb5-5c89d8dede46@sapience.com>
+Date: Thu, 17 Aug 2023 13:43:55 -0400
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: Possible nvme regression in 6.4.11
-Message-ID: <ZN5YqPuT0+j8kP3l@kbusch-mbp.dhcp.thefacebook.com>
+Content-Language: en-US
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-kernel@vger.kernel.org, axboe@kernel.dk, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org, hch@lst.de, arnd@arndb.de,
+ ricky_wu@realtek.com, gregkh@linuxfoundation.org
 References: <5f968b95-6b1c-4d6f-aac7-5d54f66834a8@sapience.com>
  <ZN050TFnKZ54LJ5v@kbusch-mbp.dhcp.thefacebook.com>
  <30b69186-5a6e-4f53-b24c-2221926fc3b4@sapience.com>
  <570d465a-7500-4b58-98f0-fd781c8740cc@sapience.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <570d465a-7500-4b58-98f0-fd781c8740cc@sapience.com>
+ <ZN5YqPuT0+j8kP3l@kbusch-mbp.dhcp.thefacebook.com>
+From: Genes Lists <lists@sapience.com>
+In-Reply-To: <ZN5YqPuT0+j8kP3l@kbusch-mbp.dhcp.thefacebook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230817_102812_047149_54FE53CB 
-X-CRM114-Status: GOOD (  27.28  )
+X-CRM114-CacheID: sfid-20230817_104400_153878_A42866CF 
+X-CRM114-Status: UNSURE (   9.70  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,68 +100,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Aug 17, 2023 at 05:16:01AM -0400, Genes Lists wrote:
-> On 8/16/23 21:30, Genes Lists wrote:
-> > On 8/16/23 17:04, Keith Busch wrote:
-> > ...
-> > > It sounds like you can recreate this. Since .10 worked and .11 doesn't,
-> > > could you bisect the git commits? It looks like it will take 7 steps
-> > > between those two versions.
-> > > 
-> > > I don't think there are any nvme specific patches that could contribute
-> > > to what you're seeing, it's more likely some lower level platform patch
-> > > if a kernel change really did cause the regression. None of the recent
-> > > commits really stood out to me, so bisect is what I'd recommend.
-> > 
-> > Thank you
-> > 
-> > Bisect done - This is result:
+On 8/17/23 13:28, Keith Busch wrote:
+...
+>>>
+>>> Bisect done - This is result:
+> 
+> Sounds like the driver's ASPM suspicion was justified, however the
+> recommended work-around doesn't appear to apply to this hardware.
+> Thanks for running the bisect!
 
-Sounds like the driver's ASPM suspicion was justified, however the
-recommended work-around doesn't appear to apply to this hardware.
-Thanks for running the bisect!
+Happy to help :)
 
-> > ----------------------------------------------------------------
-> > 69304c8d285b77c9a56d68f5ddb2558f27abf406 is the first bad commit
-> > commit 69304c8d285b77c9a56d68f5ddb2558f27abf406
-> > Author: Ricky WU <ricky_wu@realtek.com>
-> > Date:   Tue Jul 25 09:10:54 2023 +0000
-> > 
-> >      misc: rtsx: judge ASPM Mode to set PETXCFG Reg
-> > 
-> >      commit 101bd907b4244a726980ee67f95ed9cafab6ff7a upstream.
-> > 
-> >      ASPM Mode is ASPM_MODE_CFG need to judge the value of clkreq_0
-> >      to set HIGH or LOW, if the ASPM Mode is ASPM_MODE_REG
-> >      always set to HIGH during the initialization.
-> > 
-> >      Cc: stable@vger.kernel.org
-> >      Signed-off-by: Ricky Wu <ricky_wu@realtek.com>
-> >      Link:
-> > https://lore.kernel.org/r/52906c6836374c8cb068225954c5543a@realtek.com
-> >      Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > 
-> >   drivers/misc/cardreader/rts5227.c  |  2 +-
-> >   drivers/misc/cardreader/rts5228.c  | 18 ------------------
-> >   drivers/misc/cardreader/rts5249.c  |  3 +--
-> >   drivers/misc/cardreader/rts5260.c  | 18 ------------------
-> >   drivers/misc/cardreader/rts5261.c  | 18 ------------------
-> >   drivers/misc/cardreader/rtsx_pcr.c |  5 ++++-
-> >   6 files changed, 6 insertions(+), 58 deletions(-)
-> > 
-> > ------------------------------------------------------
-> > 
-> > And the machine does have this hardware:
-> > 
-> > 03:00.0 Unassigned class [ff00]: Realtek Semiconductor Co., Ltd. RTS525A
-> > PCI Express Card Reader (rev 01)
-> >          Subsystem: Dell RTS525A PCI Express Card Reader
-> >          Physical Slot: 1
-> >          Flags: bus master, fast devsel, latency 0, IRQ 141
-> >          Memory at ed100000 (32-bit, non-prefetchable) [size=4K]
-> >          Capabilities: [80] Power Management version 3
-> >          Capabilities: [90] MSI: Enable+ Count=1/1 Maskable- 64bit+
-> >          Capabilities: [b0] Express Endpoint, MSI 00
-> >          Kernel driver in use: rtsx_pci
-> >          Kernel modules: rtsx_pci
+gene
+
 
