@@ -4,79 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9F9C2C27C7A
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Aug 2023 11:09:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7280DC2FC0E
+	for <linux-nvme@archiver.kernel.org>; Thu, 17 Aug 2023 11:12:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/qDGBTxkIM76SBLG417AAwTBir1T75Ixp2e5rls5Pjs=; b=Id+wz9nbvXeow60WZ1Ua+UQOWR
-	Jsd5nOlOxmHhTNTVOp9AYSfo5+Lxw3bpJKDP4tIAseXF9P5fLyptuq3UmRUmqQJoeUZz+H5RMpkDS
-	KufPjDvmKaYpLUC77xYm9JeD8tSx0lH+/NRuAP6aHWmO7cRfjHUNnGtdg5A5W76OMJ3Vrd4x00irL
-	0JKMuLqbeJeavZ0Tdg29fV61VSlgYq1bLv8uKWaWWGDHD94lZ2jJpCQqZRlk9HjbsZDYus16/IAKT
-	6cbE92I8HldQ5MyaZZZWRnR9OOZjw6oeTvtTNVvzt4s8KWKKbdESbPlIeoOc1fzmGzwhBPXi2HEX6
-	qDfl0o2A==;
+	bh=NYyjycsCKPw5ErIg4V3iuXvuinbrGra9mLIvMNp4acE=; b=V0NDOCbain9p3GyL/BTzozNBgG
+	UHZUrcdbWB8y4MrNHzNtse6UOgGujIGsu302u/qNw/VUSKLmm0AwIjCrIc6t3dWmklpUNIVqmN49d
+	tfb/knDOP0bn0meFneDSgWlOH6LXo0IY/soK+ypOLMuRK8NNaJqHCZPHliSNL8JFR04MSuT3yMQjM
+	yCNwt+0d2M45EqK7mqkx0nGFhz3KTDcVMpPplRpxb6w+JNmvcDIusCC4EslTwVcVt49xX0hzrO2JB
+	DFnlrZ8hTSin9oDwgrqerBy0K5CoBGXcUW6CW3GS6/q8sa8uA90xcsgvR2JzLtvPH15Bd6eUryYFa
+	28N0HaNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWass-006FDQ-2o;
-	Thu, 17 Aug 2023 11:09:46 +0000
-Received: from mail-lj1-f169.google.com ([209.85.208.169])
+	id 1qWav4-006FQT-0x;
+	Thu, 17 Aug 2023 11:12:02 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWasq-006FCd-0x
+	id 1qWav1-006FPb-1y
 	for linux-nvme@lists.infradead.org;
-	Thu, 17 Aug 2023 11:09:45 +0000
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2bb94e3f39bso6775371fa.0
-        for <linux-nvme@lists.infradead.org>; Thu, 17 Aug 2023 04:09:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692270581; x=1692875381;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/qDGBTxkIM76SBLG417AAwTBir1T75Ixp2e5rls5Pjs=;
-        b=CB3yWfHNRNXr+k1H4wn4Jbrwbo7HXEaIpplCpFux/KcaOeLHpDzJsg4mtB/dvd2dFI
-         UJH1oKj+2u8d1gTGMozbXZ1ocPnIqxiye+G7PXSry+bujik52OgreGY/HRqYtwLvHAmP
-         tQGuNlIldZyKFUxTkp4dYsznUlS8YyNufzslbJp5LbUWMLsKSNVnYTyNLPolAPcFHxe7
-         rsNB+eyMSO7Nw0Qx4cAeq+2x32XL36YgPJTg4colj5oyJda3q3QhfCysyOcgxxIWmAU0
-         Z9983zZDSNzOZNbRg57HYuyYTdpGV61ZyoqRf2YR6fvWsC/lEzEBnFYLL80itje2Qlc6
-         SAXA==
-X-Gm-Message-State: AOJu0YwHF+8+aYo1egN+x5GyOapVI2E3B4b33WfLZg5ZpX2HhcIo6Ika
-	lwYx+c9x3PeMWuOePrKUkiqt0ddzYzc=
-X-Google-Smtp-Source: AGHT+IFidDSV4SP+IyV3D09/9KnLZEDRuJAPZQ1NT7OC+EFw6bg4jJoyZKuSSkxqEu0t1j9VfvQowA==
-X-Received: by 2002:a2e:b53a:0:b0:2b8:3c52:113 with SMTP id z26-20020a2eb53a000000b002b83c520113mr3784941ljm.5.1692270581150;
-        Thu, 17 Aug 2023 04:09:41 -0700 (PDT)
-Received: from [192.168.64.157] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id z22-20020a7bc7d6000000b003fbfef555d2sm2572704wmk.23.2023.08.17.04.09.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Aug 2023 04:09:40 -0700 (PDT)
-Message-ID: <0569a67e-1264-1dcc-d44a-23bf8256a9e9@grimberg.me>
-Date: Thu, 17 Aug 2023 14:09:39 +0300
+	Thu, 17 Aug 2023 11:12:01 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 75E981F385;
+	Thu, 17 Aug 2023 11:11:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1692270715; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NYyjycsCKPw5ErIg4V3iuXvuinbrGra9mLIvMNp4acE=;
+	b=lTR+/WrohUlq94uJ/pkKzunbDlb2hc49b+VYdD4q5SytDiEoym60zZCzny8I0baGxluRGc
+	8AhhIPVfs+nN+p5BPfE/mXa/0wBTwtxIw4kHT6HXPPo3rnDUgx5SnCSxB7OYawvD/Vzi65
+	LBykJTZ62HkvMHCrLcKy6LUEmQ1PfKI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1692270715;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NYyjycsCKPw5ErIg4V3iuXvuinbrGra9mLIvMNp4acE=;
+	b=l0ayq8uHVKd7sgHH1R7NQ+dLW78ofm+Q5Qw1y0e6fwYB1HdgsJC0/MhVUiK0oJjm3LCaoz
+	4pv0BXNtF07x7EBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 471C61392B;
+	Thu, 17 Aug 2023 11:11:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id MZKgD3sA3mSgMgAAMHmgww
+	(envelope-from <hare@suse.de>); Thu, 17 Aug 2023 11:11:55 +0000
+Message-ID: <48e9b2a7-fcaf-acfe-0819-3a484bf90dc3@suse.de>
+Date: Thu, 17 Aug 2023 13:11:54 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH rfc 6/6] nvme-fabrics: expose support for traddr as dns
- names to userspace
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] nvmet-tcp: avoid circular locking dependency on
+ install_queue()
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- Daniel Wagner <dwagner@suse.de>,
- Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-References: <20230724092023.708335-1-sagi@grimberg.me>
- <20230724092023.708335-7-sagi@grimberg.me>
- <7d60e267-be0a-41ff-8015-d3440b6eca2c@suse.de>
- <433182d8-c57e-2e51-2692-02ac8b474bf2@grimberg.me>
- <8e72f698-af99-c8a4-a672-d51d28ee7a36@grimberg.me>
- <cc448d32-f3f1-0929-18d4-15186adeac01@suse.de>
- <b4fe7c1f-1581-bad2-9203-6f4c87d6a599@grimberg.me>
- <69b5e07b-f16a-0a9e-bee2-28877dbecab3@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <69b5e07b-f16a-0a9e-bee2-28877dbecab3@suse.de>
+To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20230810132006.129365-1-hare@suse.de>
+ <05b7479a-5243-00fb-4a5a-a063bce65378@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <05b7479a-5243-00fb-4a5a-a063bce65378@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230817_040944_342102_7DB56FE6 
-X-CRM114-Status: GOOD (  19.86  )
+X-CRM114-CacheID: sfid-20230817_041159_788257_F71D186A 
+X-CRM114-Status: GOOD (  25.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,50 +94,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->> I listed that as an option, you should read it.
->> There are some disadvantages in doing that, it needs to co-exist
->> with the mandatory (today) traddr, which is now will be mandatory
->> only for fc. And also now the user will need to decide a conflicting
->> existing functionality in nvme-cli that today accept dns names as
->> a format to traddr, but now will need a different argument for
->> passing it to the kernel.
->>
->> Anyway, its possible, but more complicated IMO.
->>
->> Plus, I also think that it can be useful for the kernel to signal
->> capabilities and support for things that are not only valid tokens.
+On 8/17/23 10:54, Sagi Grimberg wrote:
 > 
-> I cross-checked with nvme-cli; there we read the list of available 
-> tokens upon failure to give the user a hint which arguments are 
-> supported by any given kernel.
-> So by that regard it should be fine to just add 'dns' as a parameter
-> here.
 > 
-> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> On 8/10/23 16:20, Hannes Reinecke wrote:
+>> nvmet_tcp_install_queue() is driven from the ->io_work workqueue
+>> function, but will call flush_workqueue() which might trigger
+>> ->release_work() which in itself calls flush_work on ->io_work.
+>>
+>> To avoid that check for pending queue in disconnecting status,
+>> and return 'controller busy' until all disconnects are completed.
+>>
+>> Signed-off-by: Hannes Reinecke <hare@suse.de>
+>> ---
+>>   drivers/nvme/target/tcp.c | 14 ++++++++++++--
+>>   1 file changed, 12 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+>> index f131b504aa01..97d07488072d 100644
+>> --- a/drivers/nvme/target/tcp.c
+>> +++ b/drivers/nvme/target/tcp.c
+>> @@ -1845,8 +1845,18 @@ static u16 nvmet_tcp_install_queue(struct 
+>> nvmet_sq *sq)
+>>           container_of(sq, struct nvmet_tcp_queue, nvme_sq);
+>>       if (sq->qid == 0) {
+>> -        /* Let inflight controller teardown complete */
+>> -        flush_workqueue(nvmet_wq);
+>> +        struct nvmet_tcp_queue *q;
+>> +        int pending = 0;
+>> +
+>> +        mutex_lock(&nvmet_tcp_queue_mutex);
+>> +        list_for_each_entry(q, &nvmet_tcp_queue_list, queue_list) {
+>> +            if (q->state == NVMET_TCP_Q_DISCONNECTING)
+>> +                pending++;
+>> +        }
+>> +        mutex_unlock(&nvmet_tcp_queue_mutex);
+>> +        /* Retry for pending controller teardown */
+>> +        if (pending)
+>> +            return NVME_SC_CONNECT_CTRL_BUSY;
+> 
+> Overall I'm fine with the approach.
+> 
+> That will most likely be the case for a controller reset or a "reset
+> storm". Maybe it is better to keep it at some reasonably allowed pending
+> to say 10 or something... The whole point is to not let the removals
+> accumulate and continue creating new ones...
+> 
+> Can you please test this with a host that does a loop like:
+> while true; do nvme reset /dev/nvme0; done
+> 
+> And let it run for some time...
+> Or even better create a test that does this for 100 iterations
+> or a log/short variants of this?
+> 
+> The same would be needed by nvmet-rdma btw.
 
-Thanks,
+Retested with the reset loop; no issues found after 327 iterations.
 
-I'd also want to hear from others (Keith, Christoph, Chaitanya, Daniel,
-Martin...)
+Cheers,
 
-Where do you stand on the kernel exposing capabilities that do not
-manifest in "valid tokens" when writing to /dev/nvme-fabrics ?
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
+Myers, Andrew McDonald, Martje Boudien Moerman
 
-today when we read /dev/nvme-fabrics we get a string with all
-the valid tokens. that is useful for userspace to understand what
-it can or cannot pass in a fabrics connection string.
-
-In the example here, we are trying to introduce a new format for
-traddr argument that is now supported by the fabrics driver (tcp/rdma)
-where traddr can now be ipv4, ipv6 or a dns name (where before this
-patchset it could only be ipv4 or ipv6).
-
-The question is:
-Do we enforce that every new capability must come with a matching valid
-token? Or do we want to expose capabilities that are not necessarily
-come with dedicated tokens (like in this example)?
-
-I think the latter is a be better approach. But could be convinced
-otherwise...
 
