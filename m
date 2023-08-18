@@ -4,80 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 90BACC71133
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Aug 2023 04:41:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6A54C001DE
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Aug 2023 06:59:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ri4HV5lJvqLdJGCBFTB9NoMUMErF/dRhj6X9gdPDQZo=; b=XleT+PvDh4KuDJlOagdtOh2Wzt
-	s+Pr4KQZ54LejtknAY87G7w1yoV+G4FNaGUsKPctoAZZ84ytXsSfH7FW1bUG/MNJ3cHQETNZ6q+bR
-	d3XTY3GOD+oecTpXqSqEy81TVR9g4kqSU+obkw8T1xPgu4D0BGgPvLcwtO3MrDDZmT+7rrQ2rTkpl
-	LLWD4yNR4SjBw0+AYDfsV5Bw5eRBk26p3IthyHK51T4NbenKZsoyPS+6oA36v8HBwVZKyGQsr345g
-	dSCsmULF4GJx21GA/Df6J5IrAulNN2zI4JN9WJdswPHxCG2GPtEqxr25ygRFX0gJTccN/DQik3HEB
-	JTLMTlOA==;
+	bh=CmMGnP7L7bn/5ssBCNCkB8ryZejZU4L6IU8tNWtA8SU=; b=xlArx0pIxGGNAU+ENSJX7wAiZ5
+	Q1ebJrS07mpuozfdhWYjP+lYKK2b1SMD2ax30Yp2XyBVbMzbiTiBw6yQK2bW29cC5YuLCez90U1eQ
+	Gy5lh7rCXrom3OFJ2VOQAXwfAu/5NCLOIZbbLwoyInxmb8S96eyoHor/YsNd9tJPGK7/4WC1Kfg0B
+	OyKF/X7jy2Bs7zsQNxPU/tFXs0bJLTd5hDgZPhAJhj2xIt96NKS5LbqWRT/Tb7CKTRv8wZECVi/B0
+	eUqOZMhwntaZcLZ6twFJibwPBUCeNGfmZjwV70bWdI1/RS4gWwF/6ihcrrluGI7GbmkiU0NBi8eKd
+	W6zrL5fg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWrIT-007gRk-25;
-	Fri, 18 Aug 2023 04:41:17 +0000
-Received: from esa6.hgst.iphmx.com ([216.71.154.45])
+	id 1qWtSJ-007q1N-2r;
+	Fri, 18 Aug 2023 06:59:35 +0000
+Received: from out-15.mta0.migadu.com ([91.218.175.15])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWrIQ-007gQF-2n
+	id 1qWtSF-007q0K-2L
 	for linux-nvme@lists.infradead.org;
-	Fri, 18 Aug 2023 04:41:16 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1692333674; x=1723869674;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=LyNRwf8ssMynfsyFtHTj7f6WyJDWVTzXFNCD6YowvTE=;
-  b=qMol9cmO3t28XMt5Cs5mbOi45Zi4w93FmpuLqgVRqsjam0JHdknXdpKq
-   eVX1nIKFAz0LFZ54niu19gFrSc91CeUHNelMDuLPoLf57nnZ7ePBrVdvC
-   2K+gHwaMpg0cJF9/nSTsS1Vq4mYmfpI+oiWNeVY5fd0CYyd0SeqsnT9Z7
-   JSZzJpmSL1mg0gmfkOP3S++fFqi9V/AqReW4MQA8tBzlDkEmRqHEl7Vv2
-   rkGmTVQaHfEe13sbUhYcUpM5C/RGu5q2yWVMmonRwKIVtWrR/rNoCuP9W
-   mc8AZd+T6pSxaEwOd7zLPnEM9W1IABNqMWRcniljzRfuaMQugX/DIGbpt
-   Q==;
-X-IronPort-AV: E=Sophos;i="6.01,182,1684771200"; 
-   d="scan'208";a="241793468"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
-  by ob1.hgst.iphmx.com with ESMTP; 18 Aug 2023 12:41:00 +0800
-IronPort-SDR: WP3SVh7hm6+HJAhf1vooATXi4+2B8S2Wf6OtCnyDL0a9NnaPV+yizeOOyJxk+MvL4Jts9eLTnV
- qpADSNFdvduVM9n2Tr6KiN/ko6pE9aLSP/OTLeI2ghWahGNM5w41jeQYq27sA7uoQaNZ6sRnX0
- XGMQEgNjvo+mwCoos4Rwd7bGv1tFghV/mYCHoAYU7qsM2hK+Kk4CWkMempGkn1da70m9iPTDKt
- /ozBT8jJO0dbUc9nZQ7EfKxqtRDKdIOIGlSaV/8GoecqIv2jRWGSHKWgKBfsKpMx9fVkZ9swHp
- mPY=
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 17 Aug 2023 20:48:36 -0700
-IronPort-SDR: ctxTS/nXU+6yvVnIZOsyLhN+sMXQP9TPdxjTp6pRZjvraxfTgQZGoNgnF2MfHXQZ8fq5qt7NiO
- UE71mxIFB5Zpb92qKbPYOf5PuD6lm5M4PIQOj0rnYQNEHwJxK7e7/zsD5DS7HGY8jmZsUK25/J
- eg9XtRL2FZOAIofscuv/4+tvNYFrDOuTva3b565H5xvPgWQIlxueOEhwJqeBXewZ2ZNy6ozKTx
- ROOGKHJvlyGm3mQF+VdQBhSqOtCSzkYthO2EhrzvBXAOdE9TJ/OsiptK4Lj2J+TWdMtyuM4yyk
- l3Y=
-WDCIronportException: Internal
-Received: from shindev.dhcp.fujisawa.hgst.com (HELO shindev.fujisawa.hgst.com) ([10.149.53.55])
-  by uls-op-cesaip02.wdc.com with ESMTP; 17 Aug 2023 21:40:59 -0700
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Cc: Yi Zhang <yi.zhang@redhat.com>,
-	Daniel Wagner <dwagner@suse.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Subject: [PATCH blktests v3 2/2] nvme: remove "udevadm settle" after _nvme_connect_subsys
-Date: Fri, 18 Aug 2023 13:40:57 +0900
-Message-Id: <20230818044057.3794564-2-shinichiro.kawasaki@wdc.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230818044057.3794564-1-shinichiro.kawasaki@wdc.com>
-References: <20230818044057.3794564-1-shinichiro.kawasaki@wdc.com>
+	Fri, 18 Aug 2023 06:59:34 +0000
+Message-ID: <a60de9ff-6dad-f243-6bd0-56810ef57c85@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1692341959;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CmMGnP7L7bn/5ssBCNCkB8ryZejZU4L6IU8tNWtA8SU=;
+	b=qk7w6tviAs5Oa5HG9F4Y1FXDH7P1BeQVk9ddJEzlTyeN+JDa1EwWL6exFVAaxqWOeEyiL3
+	GJ+u9sm8V8Dpgi/mdD8dxbYG7FJgVJ/zF4fKPIUM6n3WcMmO5IRODTQA5Djyp4EDiw4VCq
+	V+e5XLxhAaI+92zrhup++X+05QLElEM=
+Date: Fri, 18 Aug 2023 14:59:13 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH V2] lib/group_cpus.c: avoid to acquire cpu hotplug lock in
+ group_cpus_evenly
+Content-Language: en-US
+To: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+ Thomas Gleixner <tglx@linutronix.de>
+Cc: linux-kernel@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ Yi Zhang <yi.zhang@redhat.com>, Guangwu Zhang <guazhang@redhat.com>
+References: <20230818015244.1176929-1-ming.lei@redhat.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Chengming Zhou <chengming.zhou@linux.dev>
+In-Reply-To: <20230818015244.1176929-1-ming.lei@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230817_214114_970477_38214948 
-X-CRM114-Status: GOOD (  12.95  )
+X-CRM114-CacheID: sfid-20230817_235932_375602_EE5D8F69 
+X-CRM114-Status: GOOD (  24.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,188 +72,132 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The previous commit introduced "udevadm settle" command at the end of
-_nvme_connect_subsys. Then the command is no longer required after
-calling _nvme_connect_subsys in test cases.
+Hi,
 
-Reviewed-by: Daniel Wagner <dwagner@suse.de>
-Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
----
-Changes from v2:
-* Added Reviewed-by tag
+On 2023/8/18 09:52, Ming Lei wrote:
+> group_cpus_evenly() could be part of storage driver's error handler,
+> such as nvme driver, when may happen during CPU hotplug, in which
+> storage queue has to drain its pending IOs because all CPUs associated
+> with the queue are offline and the queue is becoming inactive. And
+> handling IO needs error handler to provide forward progress.
+> 
+> Then dead lock is caused:
+> 
+> 1) inside CPU hotplug handler, CPU hotplug lock is held, and blk-mq's
+> handler is waiting for inflight IO
+> 
+> 2) error handler is waiting for CPU hotplug lock
+> 
+> 3) inflight IO can't be completed in blk-mq's CPU hotplug handler because
+> error handling can't provide forward progress.
+> 
+> Solve the deadlock by not holding CPU hotplug lock in group_cpus_evenly(),
+> in which two stage spreads are taken: 1) the 1st stage is over all present
+> CPUs; 2) the end stage is over all other CPUs.
+> 
+> Turns out the two stage spread just needs consistent 'cpu_present_mask', and
+> remove the CPU hotplug lock by storing it into one local cache. This way
+> doesn't change correctness, because all CPUs are still covered.
+> 
+> Cc: Keith Busch <kbusch@kernel.org>
+> Cc: linux-nvme@lists.infradead.org
+> Cc: linux-block@vger.kernel.org
+> Reported-by: Yi Zhang <yi.zhang@redhat.com>
+> Reported-by: Guangwu Zhang <guazhang@redhat.com>
+> Tested-by: Guangwu Zhang <guazhang@redhat.com>
+> Signed-off-by: Ming Lei <ming.lei@redhat.com>
+> ---
+> V2:
+> 	- fix "Cc: block list"
+> 	- add tested-by tag
+> 
+>  lib/group_cpus.c | 22 ++++++++++++++++------
+>  1 file changed, 16 insertions(+), 6 deletions(-)
+> 
+> diff --git a/lib/group_cpus.c b/lib/group_cpus.c
+> index aa3f6815bb12..15006e79196f 100644
+> --- a/lib/group_cpus.c
+> +++ b/lib/group_cpus.c
+> @@ -348,6 +348,7 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
+>  {
+>  	unsigned int curgrp = 0, nr_present = 0, nr_others = 0;
+>  	cpumask_var_t *node_to_cpumask;
+> +	cpumask_var_t local_cpu_present_mask;
+>  	cpumask_var_t nmsk, npresmsk;
+>  	int ret = -ENOMEM;
+>  	struct cpumask *masks = NULL;
+> @@ -355,6 +356,16 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
+>  	if (!zalloc_cpumask_var(&nmsk, GFP_KERNEL))
+>  		return NULL;
+>  
+> +	if (!zalloc_cpumask_var(&local_cpu_present_mask, GFP_KERNEL))
+> +		goto fail_local_pres_mask;
+> +
+> +	/*
+> +	 * Make a local cache of 'cpu_present_mask', so the two stages
+> +	 * spread can observe consistent 'cpu_present_mask' without holding
+> +	 * cpu hotplug lock.
+> +	 */
+> +	cpumask_copy(local_cpu_present_mask, cpu_present_mask);
+> +
 
- tests/nvme/005 | 2 --
- tests/nvme/008 | 2 --
- tests/nvme/009 | 2 --
- tests/nvme/040 | 1 -
- tests/nvme/041 | 2 --
- tests/nvme/042 | 3 ---
- tests/nvme/043 | 4 ----
- tests/nvme/044 | 8 --------
- tests/nvme/045 | 2 --
- 9 files changed, 26 deletions(-)
+Maybe we can reuse npresmsk instead of allocating another cpumask?
+In the first stage: npresmsk = cpu_present_mask
+In the second stage: npresmsk = cpu_possible_mask & ~npresmsk
 
-diff --git a/tests/nvme/005 b/tests/nvme/005
-index 6646b82..4ca87ff 100755
---- a/tests/nvme/005
-+++ b/tests/nvme/005
-@@ -40,8 +40,6 @@ test() {
- 
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
- 
--	udevadm settle
--
- 	echo 1 > "/sys/class/nvme/${nvmedev}/reset_controller"
- 
- 	_nvme_disconnect_ctrl "${nvmedev}"
-diff --git a/tests/nvme/008 b/tests/nvme/008
-index 3921fc6..bd5e10f 100755
---- a/tests/nvme/008
-+++ b/tests/nvme/008
-@@ -40,8 +40,6 @@ test() {
- 	cat "/sys/block/${nvmedev}n1/uuid"
- 	cat "/sys/block/${nvmedev}n1/wwid"
- 
--	udevadm settle
--
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
- 
- 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
-diff --git a/tests/nvme/009 b/tests/nvme/009
-index aac3c1e..c9a4b57 100755
---- a/tests/nvme/009
-+++ b/tests/nvme/009
-@@ -36,8 +36,6 @@ test() {
- 	cat "/sys/block/${nvmedev}n1/uuid"
- 	cat "/sys/block/${nvmedev}n1/wwid"
- 
--	udevadm settle
--
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
- 
- 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
-diff --git a/tests/nvme/040 b/tests/nvme/040
-index 1a9be5c..ed6df3b 100755
---- a/tests/nvme/040
-+++ b/tests/nvme/040
-@@ -35,7 +35,6 @@ test() {
- 	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
- 
- 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
--	udevadm settle
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
- 
- 	# start fio job
-diff --git a/tests/nvme/041 b/tests/nvme/041
-index cb27666..bc84412 100755
---- a/tests/nvme/041
-+++ b/tests/nvme/041
-@@ -57,8 +57,6 @@ test() {
- 			     --hostid "${def_hostid}" \
- 			     --dhchap-secret "${hostkey}"
- 
--	udevadm settle
--
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
- 
- 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
-diff --git a/tests/nvme/042 b/tests/nvme/042
-index 9180fce..47e1b95 100755
---- a/tests/nvme/042
-+++ b/tests/nvme/042
-@@ -50,7 +50,6 @@ test() {
- 				     --hostnqn "${def_hostnqn}" \
- 				     --hostid "${def_hostid}" \
- 				     --dhchap-secret "${hostkey}"
--		udevadm settle
- 
- 		_nvme_disconnect_subsys "${def_subsysnqn}"
- 	done
-@@ -69,8 +68,6 @@ test() {
- 				     --hostid "${def_hostid}" \
- 				     --dhchap-secret "${hostkey}"
- 
--		udevadm settle
--
- 		_nvme_disconnect_subsys "${def_subsysnqn}"
- 	done
- 
-diff --git a/tests/nvme/043 b/tests/nvme/043
-index f084229..15676f8 100755
---- a/tests/nvme/043
-+++ b/tests/nvme/043
-@@ -55,8 +55,6 @@ test() {
- 				     --hostid "${def_hostid}" \
- 				     --dhchap-secret "${hostkey}"
- 
--		udevadm settle
--
- 		_nvme_disconnect_subsys "${def_subsysnqn}"
- 	done
- 
-@@ -71,8 +69,6 @@ test() {
- 				      --hostid "${def_hostid}" \
- 				      --dhchap-secret "${hostkey}"
- 
--		udevadm settle
--
- 		_nvme_disconnect_subsys "${def_subsysnqn}"
- 	done
- 
-diff --git a/tests/nvme/044 b/tests/nvme/044
-index 5eb163d..9407ac6 100755
---- a/tests/nvme/044
-+++ b/tests/nvme/044
-@@ -59,8 +59,6 @@ test() {
- 			     --hostid "${def_hostid}" \
- 			     --dhchap-secret "${hostkey}"
- 
--	udevadm settle
--
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
- 
- 	# Step 2: Connect with host authentication
-@@ -72,8 +70,6 @@ test() {
- 			     --dhchap-secret "${hostkey}" \
- 			     --dhchap-ctrl-secret "${hostkey}"
- 
--	udevadm settle
--
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
- 
- 	# Step 3: Connect with host authentication
-@@ -85,8 +81,6 @@ test() {
- 			     --dhchap-secret "${hostkey}" \
- 			     --dhchap-ctrl-secret "${ctrlkey}"
- 
--	udevadm settle
--
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
- 
- 	# Step 4: Connect with host authentication
-@@ -99,8 +93,6 @@ test() {
- 			     --dhchap-secret "${hostkey}" \
- 			     --dhchap-ctrl-secret "${invkey}"
- 
--	udevadm settle
--
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
- 
- 	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
-diff --git a/tests/nvme/045 b/tests/nvme/045
-index 8364d5e..396bcde 100755
---- a/tests/nvme/045
-+++ b/tests/nvme/045
-@@ -61,8 +61,6 @@ test() {
- 			     --dhchap-secret "${hostkey}" \
- 			     --dhchap-ctrl-secret "${ctrlkey}"
- 
--	udevadm settle
--
- 	echo "Re-authenticate with original host key"
- 
- 	ctrldev=$(_find_nvme_dev "${def_subsysnqn}")
--- 
-2.40.1
+>  	if (!zalloc_cpumask_var(&npresmsk, GFP_KERNEL))
+>  		goto fail_nmsk;
+>  
+> @@ -366,13 +377,11 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
+>  	if (!masks)
+>  		goto fail_node_to_cpumask;
+>  
+> -	/* Stabilize the cpumasks */
+> -	cpus_read_lock();
+>  	build_node_to_cpumask(node_to_cpumask);
+>  
+>  	/* grouping present CPUs first */
+>  	ret = __group_cpus_evenly(curgrp, numgrps, node_to_cpumask,
+> -				  cpu_present_mask, nmsk, masks);
+> +				  local_cpu_present_mask, nmsk, masks);
+>  	if (ret < 0)
+>  		goto fail_build_affinity;
+>  	nr_present = ret;
+> @@ -387,15 +396,13 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
+>  		curgrp = 0;
+>  	else
+>  		curgrp = nr_present;
+> -	cpumask_andnot(npresmsk, cpu_possible_mask, cpu_present_mask);
+> +	cpumask_andnot(npresmsk, cpu_possible_mask, local_cpu_present_mask);
+>  	ret = __group_cpus_evenly(curgrp, numgrps, node_to_cpumask,
+>  				  npresmsk, nmsk, masks);
+>  	if (ret >= 0)
+>  		nr_others = ret;
+>  
+>   fail_build_affinity:
+> -	cpus_read_unlock();
+> -
+>  	if (ret >= 0)
+>  		WARN_ON(nr_present + nr_others < numgrps);
+
+This fail_build_affinity tag seems unneeded anymore.
+
+The patch looks good to me:
+
+Reviewed-by: Chengming Zhou <zhouchengming@bytedance.com>
+
+Thanks.
+
+>  
+> @@ -406,6 +413,9 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
+>  	free_cpumask_var(npresmsk);
+>  
+>   fail_nmsk:
+> +	free_cpumask_var(local_cpu_present_mask);
+> +
+> + fail_local_pres_mask:
+>  	free_cpumask_var(nmsk);
+>  	if (ret < 0) {
+>  		kfree(masks);
 
 
