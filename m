@@ -4,80 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8869CC5479A
-	for <linux-nvme@archiver.kernel.org>; Thu, 17 Aug 2023 20:12:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E51FC3DA66
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Aug 2023 01:53:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hNGtJZdneBAl7lmjoJKJfKqjJmQbRHdxs25+V37yGMU=; b=Ep42nwQWaMPlDBB1FH+O+5djdd
-	M/MMMp/hqpZ17mcQZGfjCBsuAroehnLnCy8poBzh7MECLR0c8zDOSj5/0z0VpvKZIeb2oiHuOGLa2
-	g9BzIG4zf7CWMGSB56dGqf3bEeUQSMPFsXkcTnP+LXoIqIjjekBlCzi12rcGcs3SPD0oWitD3HTfH
-	NqscxY2CTTxqX/Yidp4Uc5O7DmtQbY6ONfEWuBQm8UV6yPvmTznxl1qIUXStb57Kd3BxjnwYgJ00b
-	iP4TEB160oWDuz1LyKCP11ubBxZTgUBg/GFoXbPsA4lUqitkeqZ6Ko7W+lzK2HdKDJsCi8dOHgALD
-	pv5QThuA==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=f42bCxvlAvmcujooXy3bffnAnWJZzzFDZ6+tYkOrJJ0=; b=bva6F194QPN/GkyixytRDyprpk
+	44f3hE/jLA1yKf89S6CmlWd3Cg8tet5SuN+ylqulYBKXGS/Voy0FmQgbl6Tr9MP04P/V4vYjKx1BX
+	VELSROJSF53oYTffZ8J1NgmteHuUvB3CcxBBi/uWCoaKet3tCtGlOFoPJeTyYaIJjxmYJkh3DSFpm
+	HLO/iwQrZwI09dxGPd0GYqSubUROGujN+jUSNuFDNcj1Y1UWWVoT2SrJsIpIIiNhjEe9z7mwpC8Au
+	w4GgHZPP6QuMQ4aeNP1KFyx1dE4ecJ7fHN8kA+cGURSYM7PXDm1+mt/X/ZdAC5L0AUS6NboJdBAzy
+	0d3WVpUQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWjLn-0075Zn-2L;
-	Thu, 17 Aug 2023 20:12:11 +0000
-Received: from mail-qt1-x835.google.com ([2607:f8b0:4864:20::835])
+	id 1qWoff-007Vgw-2i;
+	Fri, 18 Aug 2023 01:53:03 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qWjLk-0075Yn-2B
+	id 1qWofd-007Vfy-13
 	for linux-nvme@lists.infradead.org;
-	Thu, 17 Aug 2023 20:12:09 +0000
-Received: by mail-qt1-x835.google.com with SMTP id d75a77b69052e-4103393a459so1800851cf.0
-        for <linux-nvme@lists.infradead.org>; Thu, 17 Aug 2023 13:12:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692303124; x=1692907924;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hNGtJZdneBAl7lmjoJKJfKqjJmQbRHdxs25+V37yGMU=;
-        b=qtijS+kAIyJhoDDHHuS3IXqBZlLAEqaqlvI532/0qr9CavPwWxzK63EhH3jAWB8DG4
-         9NVpnAyuObcdU93+4ih77DmbMUxDhJMdtEdWzsXVkFacOrcthozDLbl61X68O5WtxftD
-         2rzGHuj00r2lfQL9Cna05nz1N8gaBZ4ENX1j66Bq/ulOtEoJj2PMfH92nDiB75ESEs8d
-         Maovi32u5iK87aQ0SSJKHesYXr4Qybac9HQ7nUFZKBS6M041632GQLRxuXqitIq/0qbi
-         n/MYOGTI9EaSVpcUmho8/W1xUKRaxWiq+AcbVyF5Jx2+nY1EYNSEEc9Dt/M8dhRXxYSm
-         KeXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692303124; x=1692907924;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hNGtJZdneBAl7lmjoJKJfKqjJmQbRHdxs25+V37yGMU=;
-        b=JmAp6Tq4M9VFLZ9h3kLu8/T0iz/4+VEpiG8p8Z0kSrqmENosGIHnEIlv3kifwEDd0L
-         LGgNYWbyLKEKko55m0alo7J3k5Pb4VEDOhSXSvlOlqPw2YUnjtE8rfuRvM0+PL3pz3Nn
-         rAgyd6MurN0z9ZZ4RTYs4nKUJPb1qDxJDp6ULod6j9bom8pGEu6TYmbASl++KWoYN8Y9
-         tWp2EHnpLlhLsV8yJQEUPMDhNyOMD56AwRo7duy33OKcA+7zW/Ul0+s3s5S/KnsOGz8H
-         Xwak+n20DQGPraQjSi7PbUupimO5Z13sD16wWPWg04qZSYpl9dhUdrhhy3z2noW8HKuR
-         kC4Q==
-X-Gm-Message-State: AOJu0YwcycYSDEffM67ImA0/FCJAijxF/ixPZ6muYR58LsiSSCansG80
-	/cPdcfaawIu2/Z/J4ManD+kY4UUFlMk=
-X-Google-Smtp-Source: AGHT+IHf9d/hQXut6UtZ2LXibhsWfxB/cKElGT5DWIaWUw+ybt1ugdvc+7IMQuTbQ64WVyIAmws2TA==
-X-Received: by 2002:ac8:4e92:0:b0:40f:da50:4dbf with SMTP id 18-20020ac84e92000000b0040fda504dbfmr836007qtp.1.1692303124649;
-        Thu, 17 Aug 2023 13:12:04 -0700 (PDT)
-Received: from [10.69.46.142] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id t17-20020ac865d1000000b0040ff0590fd2sm82366qto.87.2023.08.17.13.12.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Aug 2023 13:12:04 -0700 (PDT)
-Message-ID: <87944825-9b33-4b2d-8ce4-812e770ad8bd@gmail.com>
-Date: Thu, 17 Aug 2023 13:11:59 -0700
+	Fri, 18 Aug 2023 01:53:02 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1692323578;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=f42bCxvlAvmcujooXy3bffnAnWJZzzFDZ6+tYkOrJJ0=;
+	b=cyxdhrMCvMylwSCdh7NhvAwRVBijrKSAp0WGGDc5Y44SvN+dhx3U+gGLZzHsVGOu9WYHP8
+	xw6pt8WKQo6OTnEDTKfTMnDJuxR6YBdg0cpiMpE5Ih0o9oqCTNv9alVskO41LkETEnrBzj
+	XRsqg6wQVhsUeQjobnnsI5lZlie31KA=
+Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-681-tyZm7me1N8SlX0ks18qw8Q-1; Thu, 17 Aug 2023 21:52:54 -0400
+X-MC-Unique: tyZm7me1N8SlX0ks18qw8Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1CD8E3C01C1B;
+	Fri, 18 Aug 2023 01:52:54 +0000 (UTC)
+Received: from localhost (unknown [10.72.120.4])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 33F84C15BAD;
+	Fri, 18 Aug 2023 01:52:52 +0000 (UTC)
+From: Ming Lei <ming.lei@redhat.com>
+To: Jens Axboe <axboe@kernel.dk>,
+	Thomas Gleixner <tglx@linutronix.de>
+Cc: linux-kernel@vger.kernel.org,
+	Ming Lei <ming.lei@redhat.com>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org,
+	Yi Zhang <yi.zhang@redhat.com>,
+	Guangwu Zhang <guazhang@redhat.com>
+Subject: [PATCH V2] lib/group_cpus.c: avoid to acquire cpu hotplug lock in group_cpus_evenly
+Date: Fri, 18 Aug 2023 09:52:44 +0800
+Message-Id: <20230818015244.1176929-1-ming.lei@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme-fc: Prevent null pointer dereference in
- nvme_fc_io_getuuid()
-Content-Language: en-US
-To: Nigel Kirkland <nkirkland2304@gmail.com>, linux-nvme@lists.infradead.org
-References: <CACnqm78ssvRVay=Q5mPhsZaWvu5-LxASKs2Dv86NiVgGXytWoA@mail.gmail.com>
-From: James Smart <jsmart2021@gmail.com>
-In-Reply-To: <CACnqm78ssvRVay=Q5mPhsZaWvu5-LxASKs2Dv86NiVgGXytWoA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230817_131208_737296_57838B22 
-X-CRM114-Status: GOOD (  15.16  )
+X-CRM114-CacheID: sfid-20230817_185301_460114_0334DEBD 
+X-CRM114-Status: GOOD (  18.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,38 +82,117 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/17/2023 12:43 PM, Nigel Kirkland wrote:
-> The nvme_fc_fcp_op structure describing an AEN operation is initialized with a
-> null request structure pointer. An FC LLDD may make a call to
-> nvme_fc_io_getuuid passing a pointer to an nvmefc_fcp_req for an AEN operation.
-> 
-> Add validation of the request structure pointer before dereference.
-> 
-> Signed-off-by: Nigel Kirkland <nkirkland2304@gmail.com>
-> ---
->   drivers/nvme/host/fc.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> 
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index 1cd2bf8..a15b377 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -1924,7 +1924,7 @@ char *nvme_fc_io_getuuid(struct nvmefc_fcp_req *req)
->       struct nvme_fc_fcp_op *op = fcp_req_to_fcp_op(req);
->       struct request *rq = op->rq;
-> 
-> -    if (!IS_ENABLED(CONFIG_BLK_CGROUP_FC_APPID) || !rq->bio)
-> +    if (!IS_ENABLED(CONFIG_BLK_CGROUP_FC_APPID) || !rq || !rq->bio)
->           return NULL;
->       return blkcg_get_fc_appid(rq->bio);
->   }
+group_cpus_evenly() could be part of storage driver's error handler,
+such as nvme driver, when may happen during CPU hotplug, in which
+storage queue has to drain its pending IOs because all CPUs associated
+with the queue are offline and the queue is becoming inactive. And
+handling IO needs error handler to provide forward progress.
 
-Looks good
+Then dead lock is caused:
 
-Reviewed-by: James Smart <jsmart2021@gmail.com>
+1) inside CPU hotplug handler, CPU hotplug lock is held, and blk-mq's
+handler is waiting for inflight IO
 
--- james
+2) error handler is waiting for CPU hotplug lock
 
+3) inflight IO can't be completed in blk-mq's CPU hotplug handler because
+error handling can't provide forward progress.
+
+Solve the deadlock by not holding CPU hotplug lock in group_cpus_evenly(),
+in which two stage spreads are taken: 1) the 1st stage is over all present
+CPUs; 2) the end stage is over all other CPUs.
+
+Turns out the two stage spread just needs consistent 'cpu_present_mask', and
+remove the CPU hotplug lock by storing it into one local cache. This way
+doesn't change correctness, because all CPUs are still covered.
+
+Cc: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Cc: linux-block@vger.kernel.org
+Reported-by: Yi Zhang <yi.zhang@redhat.com>
+Reported-by: Guangwu Zhang <guazhang@redhat.com>
+Tested-by: Guangwu Zhang <guazhang@redhat.com>
+Signed-off-by: Ming Lei <ming.lei@redhat.com>
+---
+V2:
+	- fix "Cc: block list"
+	- add tested-by tag
+
+ lib/group_cpus.c | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
+
+diff --git a/lib/group_cpus.c b/lib/group_cpus.c
+index aa3f6815bb12..15006e79196f 100644
+--- a/lib/group_cpus.c
++++ b/lib/group_cpus.c
+@@ -348,6 +348,7 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
+ {
+ 	unsigned int curgrp = 0, nr_present = 0, nr_others = 0;
+ 	cpumask_var_t *node_to_cpumask;
++	cpumask_var_t local_cpu_present_mask;
+ 	cpumask_var_t nmsk, npresmsk;
+ 	int ret = -ENOMEM;
+ 	struct cpumask *masks = NULL;
+@@ -355,6 +356,16 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
+ 	if (!zalloc_cpumask_var(&nmsk, GFP_KERNEL))
+ 		return NULL;
+ 
++	if (!zalloc_cpumask_var(&local_cpu_present_mask, GFP_KERNEL))
++		goto fail_local_pres_mask;
++
++	/*
++	 * Make a local cache of 'cpu_present_mask', so the two stages
++	 * spread can observe consistent 'cpu_present_mask' without holding
++	 * cpu hotplug lock.
++	 */
++	cpumask_copy(local_cpu_present_mask, cpu_present_mask);
++
+ 	if (!zalloc_cpumask_var(&npresmsk, GFP_KERNEL))
+ 		goto fail_nmsk;
+ 
+@@ -366,13 +377,11 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
+ 	if (!masks)
+ 		goto fail_node_to_cpumask;
+ 
+-	/* Stabilize the cpumasks */
+-	cpus_read_lock();
+ 	build_node_to_cpumask(node_to_cpumask);
+ 
+ 	/* grouping present CPUs first */
+ 	ret = __group_cpus_evenly(curgrp, numgrps, node_to_cpumask,
+-				  cpu_present_mask, nmsk, masks);
++				  local_cpu_present_mask, nmsk, masks);
+ 	if (ret < 0)
+ 		goto fail_build_affinity;
+ 	nr_present = ret;
+@@ -387,15 +396,13 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
+ 		curgrp = 0;
+ 	else
+ 		curgrp = nr_present;
+-	cpumask_andnot(npresmsk, cpu_possible_mask, cpu_present_mask);
++	cpumask_andnot(npresmsk, cpu_possible_mask, local_cpu_present_mask);
+ 	ret = __group_cpus_evenly(curgrp, numgrps, node_to_cpumask,
+ 				  npresmsk, nmsk, masks);
+ 	if (ret >= 0)
+ 		nr_others = ret;
+ 
+  fail_build_affinity:
+-	cpus_read_unlock();
+-
+ 	if (ret >= 0)
+ 		WARN_ON(nr_present + nr_others < numgrps);
+ 
+@@ -406,6 +413,9 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
+ 	free_cpumask_var(npresmsk);
+ 
+  fail_nmsk:
++	free_cpumask_var(local_cpu_present_mask);
++
++ fail_local_pres_mask:
+ 	free_cpumask_var(nmsk);
+ 	if (ret < 0) {
+ 		kfree(masks);
+-- 
+2.40.1
 
 
