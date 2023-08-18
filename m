@@ -4,63 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96A9CC7113C
-	for <linux-nvme@archiver.kernel.org>; Fri, 18 Aug 2023 14:15:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C532BC71150
+	for <linux-nvme@archiver.kernel.org>; Fri, 18 Aug 2023 14:15:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fBFsEI0/jrPBLLtbeuavruB1PrzH5cauI3y9s1NHi6I=; b=Fq7XaleIv5LA81VtSbeJA5kxSL
-	K+ESCQPLhAWtJCxME4gGohlYMucmz0/jaGDDp7t9U4fvj0PPRQo0wO4HtjS7J0gJu5apX5geqWJmX
-	0HpTJMtvLSJEQ2zY3U17P3AQK/FBlFpxY6Kh64LSJFKsXCXbzvsecOk4xyFMHtlfLGclsgH0b062m
-	/Fv2e6DuVw/kVaBjQzmnetR0jn+5heuRRttupyAuvKbwNPcKT0ZNU14O6I+PrfZ4VAS++ZzuoQxBt
-	z2jX/RCA7uM6b3iFUYmoW4fbuT0X23qHKcKulbNEZBcXSK8xKTa/Zy+tZy3aHE6Yv+jBCUaEJoYFF
-	efFr2WBA==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=d/7zqkRLWIWxWvda4BWwDf8i+W56yQsa+BJdqTLnd8E=; b=AdtdU3rh/aDlubesEWjbiQA0gI
+	mYfEVCqWqdVrlSSJ0RRz/P5zhPRi8cEmr1A+t16Jz/0QMizbTg8kHbHptAYiHB6Mf3UcxfPE3diqe
+	GKwqHnHKpOhwePFeawB7moF63Bma2shEdSi4xEY4owbNfGsqoMimkBMAxvSjULar81h1BzCRuwgut
+	daaY57Uw/NituVBrRao+wLtYd/RsC2oH3bsMG7GKmev/WmQRFbpcmFToIU456WvMG6pjGKbN2IWfs
+	CaG9sCT+WQGs0rmyu8Ob2edeDqa1dCwbNujjVJCOLjBGyDGig26rNcjob+ZUTZ4QU+F8RGznPHvWz
+	EQFqmAmA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qX0GU-009TSX-0L;
-	Fri, 18 Aug 2023 14:15:50 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1qX0GY-009TTn-0M;
+	Fri, 18 Aug 2023 14:15:54 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qX0GR-009TRA-1Q
+	id 1qX0GR-009TRD-2R
 	for linux-nvme@lists.infradead.org;
-	Fri, 18 Aug 2023 14:15:49 +0000
+	Fri, 18 Aug 2023 14:15:50 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3DC421F8AC;
-	Fri, 18 Aug 2023 14:15:45 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 31C452188E;
+	Fri, 18 Aug 2023 14:15:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1692368145; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fBFsEI0/jrPBLLtbeuavruB1PrzH5cauI3y9s1NHi6I=;
-	b=NL5BgYi75+jWolN2aiQ57XHRy2xhqKOUS8csGmT3Jt2IzHiSzRUo3rZNpmXtGLBqSjsi1R
-	zuN9JXS0pShhU283vlnIQT1Ele5ADz56+aKK38woLo0NgRFTdPXmHcwwbCT+eombTSPUWh
-	mdpEI6L85HmVW9pKFB4T8fDWRtnDba8=
+	t=1692368144; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=d/7zqkRLWIWxWvda4BWwDf8i+W56yQsa+BJdqTLnd8E=;
+	b=do5QGAvAdPsbSHggbhL0312MUN/DIt7IlQ6WomwCO9yk/n9jeJItQfkjobeAxuPFZlonfT
+	HDrova9KA68dB4o+xwgAxYGohfZFDwhzq2p//+5c43IerJggsuWoGhdmDqxBWaq63nOVum
+	egoFvcGeH6yGiQbRZQYuvmf+vNMkWtU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1692368145;
+	s=susede2_ed25519; t=1692368144;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fBFsEI0/jrPBLLtbeuavruB1PrzH5cauI3y9s1NHi6I=;
-	b=NCxsre0lJQTNOQW4oUEDcAS+2mcYnucIYl0ePmCLZcMS2ysIyuaFXXxOqqcR6bIGASLBic
-	UwH0N3Dm/ZMA8iBQ==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=d/7zqkRLWIWxWvda4BWwDf8i+W56yQsa+BJdqTLnd8E=;
+	b=RDwzUzcOKBuzzpG96ATXIu+uSlJfbBDFYr5vJacXJXMGayHLQjF6U1zZYH5tdvccqVYjIf
+	52ase1XHVpvOjuCg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 30F7E13441;
-	Fri, 18 Aug 2023 14:15:45 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 228F413441;
+	Fri, 18 Aug 2023 14:15:44 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id /fn0CxF932SdOwAAMHmgww
-	(envelope-from <dwagner@suse.de>); Fri, 18 Aug 2023 14:15:45 +0000
+	id zehmCBB932SXOwAAMHmgww
+	(envelope-from <dwagner@suse.de>); Fri, 18 Aug 2023 14:15:44 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org,
@@ -71,17 +67,15 @@ Cc: linux-kernel@vger.kernel.org,
 	Sagi Grimberg <sagi@grimberg.me>,
 	Jason Gunthorpe <jgg@ziepe.ca>,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH blktests v2 2/3] nvme/{033,034,035,036,37}: drop port handle between passthru target setup and cleanup
-Date: Fri, 18 Aug 2023 16:15:36 +0200
-Message-ID: <20230818141537.22332-3-dwagner@suse.de>
+Subject: [PATCH blktests v2 0/1] Introduce nvmet target setup/cleanup helpers
+Date: Fri, 18 Aug 2023 16:15:34 +0200
+Message-ID: <20230818141537.22332-1-dwagner@suse.de>
 X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230818141537.22332-1-dwagner@suse.de>
-References: <20230818141537.22332-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230818_071547_629291_C25D3357 
-X-CRM114-Status: GOOD (  11.27  )
+X-CRM114-CacheID: sfid-20230818_071547_944132_DD5C36EB 
+X-CRM114-Status: GOOD (  16.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,197 +90,112 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The passthru nvmet setup and cleanup helpers are using the port as
-handle to track resources.
+I've decided to at two cleanup patches for the passthru tests. Initially I tried
+to get rid of the arguments when calling the helpers.
 
-Instead returning the port from the setup call, we figure out in the
-cleanup code which resources have been allocated. This avoids passing
-around awkward handles.
+Instead
 
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
----
- tests/nvme/033 |  5 ++---
- tests/nvme/034 |  5 ++---
- tests/nvme/035 |  5 ++---
- tests/nvme/036 |  5 ++---
- tests/nvme/037 |  5 ++---
- tests/nvme/rc  | 30 ++++++++++++++++++++++++------
- 6 files changed, 34 insertions(+), 21 deletions(-)
+   _nvmet_passthru_target_setup "${def_subsysnqn}"
 
-diff --git a/tests/nvme/033 b/tests/nvme/033
-index d924883460c2..6cc4f57e6d60 100755
---- a/tests/nvme/033
-+++ b/tests/nvme/033
-@@ -50,16 +50,15 @@ test_device() {
- 	_setup_nvmet
- 
- 	local nsdev
--	local port
- 
--	port=$(_nvmet_passthru_target_setup "${def_subsysnqn}")
-+	_nvmet_passthru_target_setup "${def_subsysnqn}"
- 
- 	nsdev=$(_nvmet_passthru_target_connect "${nvme_trtype}" "${def_subsysnqn}")
- 
- 	compare_dev_info "${nsdev}"
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
--	_nvmet_passthru_target_cleanup "${port}" "${def_subsysnqn}"
-+	_nvmet_passthru_target_cleanup "${def_subsysnqn}"
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/034 b/tests/nvme/034
-index e79eef5e756d..3bd1c3ad2f61 100755
---- a/tests/nvme/034
-+++ b/tests/nvme/034
-@@ -21,15 +21,14 @@ test_device() {
- 
- 	local ctrldev
- 	local nsdev
--	local port
- 
--	port=$(_nvmet_passthru_target_setup "${def_subsysnqn}")
-+	_nvmet_passthru_target_setup "${def_subsysnqn}"
- 	nsdev=$(_nvmet_passthru_target_connect "${nvme_trtype}" "${def_subsysnqn}")
- 
- 	_run_fio_verify_io --size="${nvme_img_size}" --filename="${nsdev}"
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
--	_nvmet_passthru_target_cleanup "${port}" "${def_subsysnqn}"
-+	_nvmet_passthru_target_cleanup "${def_subsysnqn}"
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/035 b/tests/nvme/035
-index f0dfc92ceeea..712fe1dbcfb8 100755
---- a/tests/nvme/035
-+++ b/tests/nvme/035
-@@ -27,15 +27,14 @@ test_device() {
- 
- 	local ctrldev
- 	local nsdev
--	local port
- 
--	port=$(_nvmet_passthru_target_setup "${def_subsysnqn}")
-+	_nvmet_passthru_target_setup "${def_subsysnqn}"
- 	nsdev=$(_nvmet_passthru_target_connect "${nvme_trtype}" "${def_subsysnqn}")
- 
- 	_xfs_run_fio_verify_io "${nsdev}" "${nvme_img_size}"
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
--	_nvmet_passthru_target_cleanup "${port}" "${def_subsysnqn}"
-+	_nvmet_passthru_target_cleanup "${def_subsysnqn}"
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/036 b/tests/nvme/036
-index 61b9e2309da7..89ccd256a67c 100755
---- a/tests/nvme/036
-+++ b/tests/nvme/036
-@@ -19,9 +19,8 @@ test_device() {
- 	_setup_nvmet
- 
- 	local ctrldev
--	local port
- 
--	port=$(_nvmet_passthru_target_setup "${def_subsysnqn}")
-+	_nvmet_passthru_target_setup "${def_subsysnqn}"
- 	nsdev=$(_nvmet_passthru_target_connect "${nvme_trtype}" "${def_subsysnqn}")
- 
- 	ctrldev=$(_find_nvme_dev "${def_subsysnqn}")
-@@ -31,7 +30,7 @@ test_device() {
- 	fi
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
--	_nvmet_passthru_target_cleanup "${port}" "${def_subsysnqn}"
-+	_nvmet_passthru_target_cleanup "${def_subsysnqn}"
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/037 b/tests/nvme/037
-index 5a78444b7e78..a2815b3ff2d7 100755
---- a/tests/nvme/037
-+++ b/tests/nvme/037
-@@ -20,15 +20,14 @@ test_device() {
- 	local subsys="blktests-subsystem-"
- 	local iterations=10
- 	local ctrldev
--	local port
- 
- 	for ((i = 0; i < iterations; i++)); do
--		port=$(_nvmet_passthru_target_setup "${subsys}${i}")
-+		_nvmet_passthru_target_setup "${subsys}${i}"
- 		nsdev=$(_nvmet_passthru_target_connect "${nvme_trtype}" \
- 				"${subsys}${i}")
- 
- 		_nvme_disconnect_subsys "${subsys}${i}" >>"${FULL}" 2>&1
--		_nvmet_passthru_target_cleanup "${port}" "${subsys}${i}"
-+		_nvmet_passthru_target_cleanup "${subsys}${i}"
- 	done
- 
- 	echo "Test complete"
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index 0b964e99efd8..b6f06be75ca1 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -712,6 +712,19 @@ _remove_nvmet_subsystem_from_port() {
- 	rm "${NVMET_CFS}/ports/${port}/subsystems/${nvmet_subsystem}"
- }
- 
-+_get_nvmet_ports() {
-+	local nvmet_subsystem="$1"
-+	local -n nvmet_ports="$2"
-+	local cfs_path="${NVMET_CFS}/ports"
-+	local sarg
-+
-+	sarg="s;^${cfs_path}/\([0-9]\+\)/subsystems/${nvmet_subsystem}$;\1;p"
-+
-+	for path in "${cfs_path}/"*"/subsystems/${nvmet_subsystem}"; do
-+		nvmet_ports+=("$(echo "${path}" | sed -n -s "${sarg}")")
-+	done
-+}
-+
- _set_nvmet_hostkey() {
- 	local nvmet_hostnqn="$1"
- 	local nvmet_hostkey="$2"
-@@ -781,13 +794,12 @@ _find_nvme_passthru_loop_dev() {
- 
- _nvmet_passthru_target_setup() {
- 	local subsys_name=$1
-+	local port
- 
- 	_create_nvmet_passthru "${subsys_name}"
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
- 	_add_nvmet_subsys_to_port "${port}" "${subsys_name}"
- 	_create_nvmet_host "${subsys_name}" "${def_hostnqn}"
--
--	echo "$port"
- }
- 
- _nvmet_passthru_target_connect() {
-@@ -806,11 +818,17 @@ _nvmet_passthru_target_connect() {
- }
- 
- _nvmet_passthru_target_cleanup() {
--	local port=$1
--	local subsys_name=$2
-+	local subsys_name=$1
-+	local ports
-+	local port
-+
-+	_get_nvmet_ports "${subsys_name}" ports
-+
-+	for port in "${ports[@]}"; do
-+		_remove_nvmet_subsystem_from_port "${port}" "${subsys_name}"
-+		_remove_nvmet_port "${port}"
-+	done
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${subsys_name}"
--	_remove_nvmet_port "${port}"
- 	_remove_nvmet_passhtru "${subsys_name}"
- 	_remove_nvmet_host "${def_hostnqn}"
- }
+just
+
+   _nvmet_passthru_target_setup
+
+but I run into the problem that ShellCheck seems to have a bug when default
+arguments are used in the function:
+
+fn() {
+        local -i a=${1:-42}
+        printf '%d\n' "$a"
+}
+fn
+
+will trigger SC2119 and SC2120. This has been reported but not fixed yet:
+
+  https://github.com/koalaman/shellcheck/issues/2511
+
+Thus I decided to leave it as it is, unless someone has a clever idea
+how to get this working.
+
+
+
+original cover letter:
+
+Introduce helpers to setup nvmet targets. This is spin off from the refactoring
+patches and the allowed_host patches [1].
+
+Sagi suggested to record all resources allocated by nvmet_target_setup and then
+later clean them up in nvmet_target_cleanup. I opted to figure out in
+nvmet_target_cleanup what was allocated via the newly introdcuded _get_nvmet_ports
+helper. The reason being, Hannes told me offline that he would like to add ANA
+tests which will add some more ports to the subsystem. I hope with this
+the code is more future proof.
+
+BTW, while looking at this I saw that the passthru code is using the awkward
+return value port when calling nvmet_passthru_target_setup. It seems some
+more refactoring is in order...
+
+[1] https://lore.kernel.org/linux-nvme/5h333eqhtw252sjw6axjewlb5bbb5ze7awekczxe3kie2lnhw6@manyer42khct/
+
+
+changes
+
+v2:
+ - drop local subsys variable in passthru tests
+ - do not use port as handle in passthru tests
+ - free port after unregistering from subsys
+
+v1:
+ - https://lore.kernel.org/linux-nvme/20230818095744.24619-1-dwagner@suse.de/
+
+
+Daniel Wagner (3):
+  nvme/{033,034,035,036}: use default subsysnqn variable directly
+  nvme/{033,034,035,036,37}: drop port handle between passthru target
+    setup and cleanup
+  nvme: introduce nvmet_target_{setup/cleanup} common code
+
+ tests/nvme/003 | 14 ++-----
+ tests/nvme/004 | 21 ++---------
+ tests/nvme/005 | 20 +---------
+ tests/nvme/006 | 19 +---------
+ tests/nvme/007 | 14 +------
+ tests/nvme/008 | 21 +----------
+ tests/nvme/009 | 16 +-------
+ tests/nvme/010 | 21 +----------
+ tests/nvme/011 | 16 +-------
+ tests/nvme/012 | 21 +----------
+ tests/nvme/013 | 16 +-------
+ tests/nvme/014 | 21 +----------
+ tests/nvme/015 | 16 +-------
+ tests/nvme/018 | 16 +-------
+ tests/nvme/019 | 21 +----------
+ tests/nvme/020 | 16 +-------
+ tests/nvme/021 | 16 +-------
+ tests/nvme/022 | 16 +-------
+ tests/nvme/023 | 21 +----------
+ tests/nvme/024 | 16 +-------
+ tests/nvme/025 | 16 +-------
+ tests/nvme/026 | 16 +-------
+ tests/nvme/027 | 17 ++-------
+ tests/nvme/028 | 17 ++-------
+ tests/nvme/029 | 21 +----------
+ tests/nvme/033 | 10 ++---
+ tests/nvme/034 | 10 ++---
+ tests/nvme/035 | 10 ++---
+ tests/nvme/036 | 12 +++---
+ tests/nvme/037 |  5 +--
+ tests/nvme/040 | 19 +---------
+ tests/nvme/041 | 18 +--------
+ tests/nvme/042 | 17 +--------
+ tests/nvme/043 | 17 +--------
+ tests/nvme/044 | 19 ++--------
+ tests/nvme/045 | 18 ++-------
+ tests/nvme/047 | 21 +----------
+ tests/nvme/048 | 17 +--------
+ tests/nvme/rc  | 99 +++++++++++++++++++++++++++++++++++++++++++++++---
+ 39 files changed, 184 insertions(+), 553 deletions(-)
+
 -- 
 2.41.0
 
