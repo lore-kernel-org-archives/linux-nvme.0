@@ -4,87 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4398EE49A0
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Aug 2023 06:08:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E477DEE4996
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Aug 2023 07:42:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZLiTY7kyVnVlx/it+YhyIz7mPUa8ybbsHmAK53uaOlE=; b=pQD9GJMFEBiqWiSAr01dwVvJ4q
-	tGjDEMXQYcgjt1q3YRMqeIPVZ47LS9cMN2b1vrhCPCftFecGZOPdAU6ZwWxtWeI+RCM+Yr/P2/gvI
-	hXktv//BsfVFQH55E+J2fxLpspISB7sd2AE1qG7wlQzW7JAWkfh8CDpgsx71lCcH6ctjPsQmMd3U+
-	UNraApJynDfWuJ8gSx32W0Ft9Mvc+ZuQhINiBPcSyZ8Y7Cs2DBEq3T5Z+rzFH10ARcejkCUTthNfN
-	42fvdhvvjJPeJ7kpTHyCKKAfjt2RITI+6VEHy5jIwwtg+AD1uTZ4XyCNiF2SlOFIH0bdrIN8IYttp
-	gsCv1ehw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=Z1Np6DQKQzUfvzJNDyKSyeshZG
+	KirscXkj83BljXWXP8i+jIcEoP1J8vKn/65lM5mKdfcRb/FV/ktA81UUEtMr5xP1PHkjbAt/gxiyR
+	XG6fj+crOqpTgVc67KuqVa1ilHTvWbCrkFGI9Cm2oSIRZQYGeg+Ndr4veQ66scfUPt+MpZUi6hGU1
+	m9lpDN4RpJh7kz/Tqs+iNfAeFONU0QCBjtchuBGRli+V4pjGe1Ho7EGdmB2UU1wBZrN8j+kNr3yhw
+	LBbR/Ua/UUQ6VvMnM/YGwhzQH07riePiI6SwViCBtlMVLuWHAhzURiP9JzcwuCLrBYzZtcgCJoycE
+	ipFUjonw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qXy5g-00DE3y-29;
-	Mon, 21 Aug 2023 06:08:40 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1qXzYO-00DNVv-1Y;
+	Mon, 21 Aug 2023 07:42:24 +0000
+Received: from mail-wr1-f42.google.com ([209.85.221.42])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qXy5c-00DE3I-2g
+	id 1qXzYL-00DNVF-2Z
 	for linux-nvme@lists.infradead.org;
-	Mon, 21 Aug 2023 06:08:38 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 72C0F204BF;
-	Mon, 21 Aug 2023 06:08:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1692598112; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZLiTY7kyVnVlx/it+YhyIz7mPUa8ybbsHmAK53uaOlE=;
-	b=BpOixEM93ibOvHy5R5DwjIy6tSVL6BstwNe4J6azbRVoVWgih3gK+Kqs47Y7ZG6rbwwqfM
-	OBcYxJ91bwBkV53JWWBrwgbAOrXM8fgc6Dw6EkkM4TUvpeU8SgeLbtCGRaObYGPwHIQAvk
-	US1U5N4HDkDVZgDvvy2e5gV6Hfg6zAQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1692598112;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZLiTY7kyVnVlx/it+YhyIz7mPUa8ybbsHmAK53uaOlE=;
-	b=urLc0Hy0o7cwfgV9YOmn5tpg64CyYzgf2w4eHi7BMvMray8pHAU6/q4Zy6Z4fKJZ4fCfx+
-	Y6ih3ndYSzfCruAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6458913421;
-	Mon, 21 Aug 2023 06:08:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id yQlwGGD/4mT+eAAAMHmgww
-	(envelope-from <dwagner@suse.de>); Mon, 21 Aug 2023 06:08:32 +0000
-Date: Mon, 21 Aug 2023 08:08:46 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org, 
-	Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, 
-	Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Subject: Re: [PATCH rfc 6/6] nvme-fabrics: expose support for traddr as dns
- names to userspace
-Message-ID: <vzcluo7jktlrut4iavcdyrsdedcg4cpsm72ewuqwrq2sjqkce3@ik3imkps3llf>
-References: <20230724092023.708335-7-sagi@grimberg.me>
- <7d60e267-be0a-41ff-8015-d3440b6eca2c@suse.de>
- <433182d8-c57e-2e51-2692-02ac8b474bf2@grimberg.me>
- <8e72f698-af99-c8a4-a672-d51d28ee7a36@grimberg.me>
- <cc448d32-f3f1-0929-18d4-15186adeac01@suse.de>
- <b4fe7c1f-1581-bad2-9203-6f4c87d6a599@grimberg.me>
- <69b5e07b-f16a-0a9e-bee2-28877dbecab3@suse.de>
- <0569a67e-1264-1dcc-d44a-23bf8256a9e9@grimberg.me>
- <3wmt5cd5yd5ru3uzp5grcspkvi27ijztnxwxhov7chmf6wicg5@6dj2qed6ulja>
- <e797a124-ac6a-0205-65a5-9806c6955d4c@grimberg.me>
+	Mon, 21 Aug 2023 07:42:22 +0000
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3177675d6dfso466263f8f.0
+        for <linux-nvme@lists.infradead.org>; Mon, 21 Aug 2023 00:42:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692603736; x=1693208536;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+        b=AL+PxjjNP7Vs9FTADrPtBpYKr3Qha0NYz2RFfXDLX7tTOrR7kA+VUMUyP8UPJ9Pv11
+         5LEdhDhXnb8mcAgUFyCsK2NVn9y1/zBpFFXS4/oFofd5FwPWzQPc1WJvobhPRQGoy8+c
+         T29SH4iqUy0DFoszMLWLSTfhH/x/HYfCCWW2GwK8x44jskaZOOKVutU+TyEfo9kVDjwF
+         aIYOc0kIFbExO/FXe0KsLdBR8f7DQFE5YtKf1CQBRzKiAuiCPqan1Si/QamBbfTD7i3k
+         7Q2+Ju/hxgA4lwIFPK1C6lU5y477g1obKg8/de8ZnkAb7IvTADCgzZXU279u5cOQ9HH8
+         pnLQ==
+X-Gm-Message-State: AOJu0YwP5YAoWhvLyLbNXBRdRWXZM8IGRCOmt60k3pw96B73BGBPtJxX
+	z4x79+AgByjKcx+FmAN7uwk=
+X-Google-Smtp-Source: AGHT+IGs9G7ZbbGap2oNvrpZ1r4yLWv8R60En7f82Pqh6R0VxUXFXdjG5AT0T1bhvBv5heT45Nhniw==
+X-Received: by 2002:a5d:60d2:0:b0:317:630d:1e8e with SMTP id x18-20020a5d60d2000000b00317630d1e8emr3536728wrt.2.1692603736380;
+        Mon, 21 Aug 2023 00:42:16 -0700 (PDT)
+Received: from [192.168.64.157] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id e10-20020a5d594a000000b003140f47224csm11484332wri.15.2023.08.21.00.42.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Aug 2023 00:42:15 -0700 (PDT)
+Message-ID: <c4a23989-d349-b7ac-38ee-bf7365947e8e@grimberg.me>
+Date: Mon, 21 Aug 2023 10:42:13 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e797a124-ac6a-0205-65a5-9806c6955d4c@grimberg.me>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] nvme-rdma: do not try to stop unallocated queues
+Content-Language: en-US
+To: Maurizio Lombardi <mlombard@redhat.com>, kbusch@kernel.org
+Cc: hch@lst.de, linux-nvme@lists.infradead.org
+References: <20230731103758.117533-1-mlombard@redhat.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20230731103758.117533-1-mlombard@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230820_230837_034928_12E5B32F 
-X-CRM114-Status: GOOD (  25.05  )
+X-CRM114-CacheID: sfid-20230821_004221_841164_73DFD7C3 
+X-CRM114-Status: UNSURE (   6.35  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,42 +82,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Aug 20, 2023 at 01:55:47PM +0300, Sagi Grimberg wrote:
-> > My gut feeling tells me in the long run it's good to have some generic
-> > way to inform userspace of options format or feature changes. I am
-> > pondering if sysfs wouldn't be the better place for this.
-> 
-> You would need a global entry for that, its not controller/subsystem
-> specific. For that we have the misc device...
-
-Ah, that explains why we have this interface after all.
-
-> > ...,traddr=%s@v2,...
-> > 
-> > If I got this right, the current libnvme token parser would just ignore
-> > the versioning string.
-> 
-> I don't think that this is a elegant option, there would need for some
-> documentation entry for what is the versioning stuff. Plus, a
-> feature/capability may not even relate directly to an existing token
-> necessarily (if we generalize this).
-
-I agree. It is clumsy.
-
-> > Obviously, the simplest way is to introduce just a new token and be done
-> > with it. I somewhat don't like it. Maybe I am trying to over engineer
-> > this.
-> 
-> It could be a form of token that can emphasize its not a token like
-> ",feat=<feat_name>" or "cap=<cap_name>"...
-> 
-> But this would definitely need to be done in a way that is compatible
-> with userspace moving forward.
-
-The libnvme parser is ignore anything it doesn't know yet. Introducing
-'feat' or 'cap' is not a problem at all. Also it should be fairly simple
-to add. The resulting code is likely to be very similar too; testing if
-feat/cap or dns_ip_addr token is available and then use the dns name.
-
-Given this, I am in favor of the feat/cap approach.
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
