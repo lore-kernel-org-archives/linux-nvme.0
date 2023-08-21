@@ -4,70 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E477DEE4996
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Aug 2023 07:42:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7AE72EE4996
+	for <linux-nvme@archiver.kernel.org>; Mon, 21 Aug 2023 07:43:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=Z1Np6DQKQzUfvzJNDyKSyeshZG
-	KirscXkj83BljXWXP8i+jIcEoP1J8vKn/65lM5mKdfcRb/FV/ktA81UUEtMr5xP1PHkjbAt/gxiyR
-	XG6fj+crOqpTgVc67KuqVa1ilHTvWbCrkFGI9Cm2oSIRZQYGeg+Ndr4veQ66scfUPt+MpZUi6hGU1
-	m9lpDN4RpJh7kz/Tqs+iNfAeFONU0QCBjtchuBGRli+V4pjGe1Ho7EGdmB2UU1wBZrN8j+kNr3yhw
-	LBbR/Ua/UUQ6VvMnM/YGwhzQH07riePiI6SwViCBtlMVLuWHAhzURiP9JzcwuCLrBYzZtcgCJoycE
-	ipFUjonw==;
+	bh=L6hlRFuEO18ewfLVhWL/VLpc0gMEa3vQtcpOVMBFDnE=; b=aphdQ/oLhYaBrssYcFiNSK903h
+	Nu5SdGMOnI+JsWOdod6hdwTVJWP6Q2eYzT4XUhc/FSqImHS53zYfEme0e50QXM/uIvuj0OxbB1jxx
+	qAbnG6u/kyAyA0Q2EAH2wSAP/KSz7tdw5uPEaWPJG+kCIqQnHI5i2k0Jk3IystJ4Hh85M50Tcd9Fr
+	mf/fx8aNG6MAu8kh3m9HFCcekJ53AI4ceYcaMoZpWoVIZDjFVehKghsl/JWTR2atCwlHuvCcfD4do
+	eaUKQYskQhgffzdKqA6j1pKGQLBU5y9rNrNG/WHEjFp8vSVSHjqwQLbrv5cWFL2abCImM3MXkovFX
+	BGmMaEIQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qXzYO-00DNVv-1Y;
-	Mon, 21 Aug 2023 07:42:24 +0000
-Received: from mail-wr1-f42.google.com ([209.85.221.42])
+	id 1qXzZL-00DNgc-15;
+	Mon, 21 Aug 2023 07:43:23 +0000
+Received: from mail-wr1-f47.google.com ([209.85.221.47])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qXzYL-00DNVF-2Z
+	id 1qXzZI-00DNfk-39
 	for linux-nvme@lists.infradead.org;
-	Mon, 21 Aug 2023 07:42:22 +0000
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3177675d6dfso466263f8f.0
-        for <linux-nvme@lists.infradead.org>; Mon, 21 Aug 2023 00:42:17 -0700 (PDT)
+	Mon, 21 Aug 2023 07:43:22 +0000
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-31985ebed68so623532f8f.0
+        for <linux-nvme@lists.infradead.org>; Mon, 21 Aug 2023 00:43:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692603736; x=1693208536;
+        d=1e100.net; s=20221208; t=1692603798; x=1693208598;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=AL+PxjjNP7Vs9FTADrPtBpYKr3Qha0NYz2RFfXDLX7tTOrR7kA+VUMUyP8UPJ9Pv11
-         5LEdhDhXnb8mcAgUFyCsK2NVn9y1/zBpFFXS4/oFofd5FwPWzQPc1WJvobhPRQGoy8+c
-         T29SH4iqUy0DFoszMLWLSTfhH/x/HYfCCWW2GwK8x44jskaZOOKVutU+TyEfo9kVDjwF
-         aIYOc0kIFbExO/FXe0KsLdBR8f7DQFE5YtKf1CQBRzKiAuiCPqan1Si/QamBbfTD7i3k
-         7Q2+Ju/hxgA4lwIFPK1C6lU5y477g1obKg8/de8ZnkAb7IvTADCgzZXU279u5cOQ9HH8
-         pnLQ==
-X-Gm-Message-State: AOJu0YwP5YAoWhvLyLbNXBRdRWXZM8IGRCOmt60k3pw96B73BGBPtJxX
-	z4x79+AgByjKcx+FmAN7uwk=
-X-Google-Smtp-Source: AGHT+IGs9G7ZbbGap2oNvrpZ1r4yLWv8R60En7f82Pqh6R0VxUXFXdjG5AT0T1bhvBv5heT45Nhniw==
-X-Received: by 2002:a5d:60d2:0:b0:317:630d:1e8e with SMTP id x18-20020a5d60d2000000b00317630d1e8emr3536728wrt.2.1692603736380;
-        Mon, 21 Aug 2023 00:42:16 -0700 (PDT)
+        bh=L6hlRFuEO18ewfLVhWL/VLpc0gMEa3vQtcpOVMBFDnE=;
+        b=eoJvkBtjbIn7CBBn4TSWtTyPvA+6+z82Uzb0c4zA41QJQNDcBdCcXp0B9+J++TcbVA
+         g+tklMwTOja29lIEDTrPnAC9EyxY+NW7HpyeeSITABd8Onf8yUQVWeibF///cKf5vJds
+         zHJTbvIuThQae3vF3AILFCW+O6I/cYzzkfQp+PTGSTUj5Kejv3RDIr37Za+bDDo0TZPv
+         9L/SHiRk3iWZATK4t3FlSjkWt+faldnUvIX6fTn9Fe3OhBJ/LdEK8tMI2V3CATVGHBMZ
+         c/yOPyMbkwzPxfRcGOQuyghxMLSkMsDce7EMwjyFfTD02r7crtJL4r0JYLLzvh6XvpUc
+         oOmQ==
+X-Gm-Message-State: AOJu0Yz3sFRvXsMP4AO/tsGcuWqOEdW+eCXvbqXycZ6YHscRuFkz0WoE
+	XPc9jaMg1IVzX2q8GUrhr94=
+X-Google-Smtp-Source: AGHT+IHDt7naLH0gcQQARK8rQAsDXjJZrHcQgGMzMpPBtCojQBs1ERrRjAWBRx5UUBj9r+yPoyICZw==
+X-Received: by 2002:adf:f4ce:0:b0:317:f1d6:997c with SMTP id h14-20020adff4ce000000b00317f1d6997cmr4443599wrp.0.1692603798154;
+        Mon, 21 Aug 2023 00:43:18 -0700 (PDT)
 Received: from [192.168.64.157] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id e10-20020a5d594a000000b003140f47224csm11484332wri.15.2023.08.21.00.42.14
+        by smtp.gmail.com with ESMTPSA id e11-20020a5d65cb000000b0031416362e23sm11696178wrw.3.2023.08.21.00.43.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Aug 2023 00:42:15 -0700 (PDT)
-Message-ID: <c4a23989-d349-b7ac-38ee-bf7365947e8e@grimberg.me>
-Date: Mon, 21 Aug 2023 10:42:13 +0300
+        Mon, 21 Aug 2023 00:43:17 -0700 (PDT)
+Message-ID: <fc4d55db-dbd3-d2e5-ab2a-3eed07b30676@grimberg.me>
+Date: Mon, 21 Aug 2023 10:43:14 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH] nvme-rdma: do not try to stop unallocated queues
+Subject: Re: [PATCH blktests v2 3/3] nvme: introduce
+ nvmet_target_{setup/cleanup} common code
 Content-Language: en-US
-To: Maurizio Lombardi <mlombard@redhat.com>, kbusch@kernel.org
-Cc: hch@lst.de, linux-nvme@lists.infradead.org
-References: <20230731103758.117533-1-mlombard@redhat.com>
+To: Daniel Wagner <dwagner@suse.de>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, Chaitanya Kulkarni <kch@nvidia.com>,
+ Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+ Hannes Reinecke <hare@suse.de>, Jason Gunthorpe <jgg@ziepe.ca>
+References: <20230818141537.22332-1-dwagner@suse.de>
+ <20230818141537.22332-4-dwagner@suse.de>
+ <3713297b-a5fb-b027-c34b-d56526155c4c@grimberg.me>
+ <u2esnihohobu5jaxgz3xdfpjfvfrnmkklzajjrckdnr6g3i54b@qofopy4bhhlp>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230731103758.117533-1-mlombard@redhat.com>
+In-Reply-To: <u2esnihohobu5jaxgz3xdfpjfvfrnmkklzajjrckdnr6g3i54b@qofopy4bhhlp>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230821_004221_841164_73DFD7C3 
-X-CRM114-Status: UNSURE (   6.35  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230821_004321_012651_39B7C5A5 
+X-CRM114-Status: GOOD (  10.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,5 +88,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+
+>>> diff --git a/tests/nvme/003 b/tests/nvme/003
+>>> index 71b82ce758a3..eed1f549866a 100755
+>>> --- a/tests/nvme/003
+>>> +++ b/tests/nvme/003
+>>> @@ -22,15 +22,8 @@ test() {
+>>>    	_setup_nvmet
+>>> -	local loop_dev
+>>> -	local port
+>>> -	port="$(_create_nvmet_port "${nvme_trtype}")"
+>>> -
+>>> -	loop_dev="$(losetup -f)"
+>>> -
+>>> -	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}"
+>>> -	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
+>>> +	_nvmet_target_setup --blkdev=device
+>>
+>> --blkdev=device by default no?
+> 
+> Yes. I thought it is better to be explicit in the tests. I don't mind
+> dropping --blkdev=device if you think we should use the defaults.
+
+Just wondering why it is different than all the rest of the defaults?
+It probably can be omitted from the callers.
 
