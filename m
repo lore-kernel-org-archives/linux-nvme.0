@@ -4,84 +4,136 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4292AEE49AC
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Aug 2023 08:38:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 372F4EE49A3
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Aug 2023 15:05:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DqL2sMcaHhRS4XGXqpth3e/SV2SBKNsHssmjl8r+6/0=; b=b3HRwX24Y7LL10T9PBXuSm0diA
-	Az0aA3XPVsXQFHEnxUcxZOxe3d0SilhvX+zizAJ6s2w71U4P6wt7pWnWzVM9Iadz8bjwm89TbK/o+
-	D6k8c05eywJxC7Q28vbN34DB/xB6BfE0L2uNbHn1jeV69qJaTqT3DZuR3EuUuPToLKPnnJEWOK30l
-	txVJ6bvlLDNk+JZ8QIl2QxVxpIRVZO7pO4mtwzllHf1NsrkmpHD8Y/Fze4ndzJOjO9uJfoWUCwlMS
-	L3rpThzDDrdwty0bksKX56zBqLks9ggCgOygBQ6mD/PPaNjEs5NBuhd/wj3N0Obx84WkjflqZTtJv
-	n3wsFz5A==;
+	bh=uNoWCgEwkncrOue8rFja0CKoXQtmTBjVxyiB/UV1UGc=; b=n3XzcYjlddphVN+4evSAClrALF
+	GWDg9qhdUSHKThJ3TMglJi0o1GjTn5S/uUdos5D4hSK/HBweaS9sPHXLRpjLEf570qrnB3n+VcYOC
+	HrqHX4F2iQBKUie1RNHhUpc0E4q5pb/qbJ8iSoG4HRoPaZ/kYFFtiQ2+vUe1yUgxIHMYWPhMwO+YD
+	2jSJYuFcE+CyKfwfb8eHfxaztkzsvfaatbB+91MNy2agINb+7H3/+PCXcTbVqJqtaujliGCSSfKh+
+	ZTTrJ+vUN5wT67siW/KK8triAYpluVEADm0bvwkliB8WW6kOghqGcH7RWYFK0NA3qbmEwplpaleEk
+	JItb0Edw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qYMtv-00FT5v-0t;
-	Tue, 22 Aug 2023 08:38:11 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1qYSwJ-00GI4X-1W;
+	Tue, 22 Aug 2023 15:05:03 +0000
+Received: from mail-dm6nam10on20620.outbound.protection.outlook.com ([2a01:111:f400:7e88::620] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qYMtp-00FT2f-2R
+	id 1qYSwF-00GI2g-0x
 	for linux-nvme@lists.infradead.org;
-	Tue, 22 Aug 2023 08:38:09 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2BB5F1F85D;
-	Tue, 22 Aug 2023 08:38:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1692693482; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DqL2sMcaHhRS4XGXqpth3e/SV2SBKNsHssmjl8r+6/0=;
-	b=qX4ULHi4W6VxkBDnV6JdeAvtF2BmF5Dpq1eSJ6XOC/BX6u++ABjxzyibjHeJVM3S0tZEzq
-	JClVQ/BiwZMkVShf787V5cxNyvRmkLtRbBNENrZT5fSDEl9kU0D6se+naGjazauWH9ewvk
-	dxem0ixg0O8DgjzXPl/9QqbSr3oI+FM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1692693482;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DqL2sMcaHhRS4XGXqpth3e/SV2SBKNsHssmjl8r+6/0=;
-	b=7F/p0Xs8kc7yj34zamuRf91kisMhe2JagN3GW/hRJEF83WgT1C3001xFgUtvKXkTSJfC5V
-	4sBeKUF/t/NgkUDA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 182C9132B9;
-	Tue, 22 Aug 2023 08:38:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id pO3MBepz5GQ1cAAAMHmgww
-	(envelope-from <dwagner@suse.de>); Tue, 22 Aug 2023 08:38:02 +0000
-From: Daniel Wagner <dwagner@suse.de>
-To: linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
-	Hannes Reinecke <hare@suse.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH blktests v3 3/3] nvme: introduce nvmet_target_{setup/cleanup} common code
-Date: Tue, 22 Aug 2023 10:38:12 +0200
-Message-ID: <20230822083812.24612-4-dwagner@suse.de>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230822083812.24612-1-dwagner@suse.de>
-References: <20230822083812.24612-1-dwagner@suse.de>
-MIME-Version: 1.0
+	Tue, 22 Aug 2023 15:05:02 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jLV1kduBLS594fj4A9uraUQlFyBTJ+f7vR0ikT4cvwEMgMPDHj0tb8mZI7OGXiDPbO67kqUmiwbkGoOrygN8dYqAP5hLX8UWGrMRf+0VSVJIWOfmetX+RPfwkuAJuxVoVy3nLw9otjc7Ma/qmu4fju08dwDbErBUNMbfozEzTqSr98BMXkUXfg1yoHXqAZ2An1d5PIIEc8yyxH1RngPqaWHI47WEwl8vZeNk+9Fs89evQhWAIK8fodvkTvp/RHUyUU8XKA4SNjqFBG4PWyMnQ59nIXBzJXbrgg7CTmY8yMuw1zPcshgXRHoISyCyU2QGeb6E0TuDfGaMivDUGrwgGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uNoWCgEwkncrOue8rFja0CKoXQtmTBjVxyiB/UV1UGc=;
+ b=gWlaZ7J7k+C11MXOXStNpODbjqaO+aTkXZaFyawwQ0YNilydKLKVNj8fFp1oNZeWSSyUVKzZVP3XfFO7uwFZQ6VLS6fnclukTuJE+iXGTSHYxKZA+yB0VUUY0M1V+H2fLYzjEC2i69v/n7T1xhquM4FZe+UmQMCIOIaFcxNdNQQDXMI6Qu+4Rg5lAxddslPRHI82mN6pL/UVSmgqHTRdQhlIM/XelIR/QRhJ+F3Bd6bR0ZlFOnp+F5ZK3LmVqknjGdSkTLbFtkd2rB2m4zOJBj1OjKSvQJYe+qWmH7XRQWxtlXID/3BXB4Ces3DxX69h1a96APGZdDIcvqmNeR7OrA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uNoWCgEwkncrOue8rFja0CKoXQtmTBjVxyiB/UV1UGc=;
+ b=X84sj38EY5E5F/Rf6NkhPcVgqwBABPQB78LeGuX61wA7mP2RHq5UQ1e9uZjkI0FPscSDpT5thqtA+jc5lRaioZucDGblzgwgywBIUYOV4PfPXFdEHRsDGbUIGfIiqkIuj9Gj55MSJM7tIBeNpQmVsTKh+sKa8I6vunrkh8UNI/9RgNuws7bOccvaJAkFOidjtCrLtT9ZnZqQm0WBK0r6B3H25zIc80AfzNqsS/IXQRiABH0u9f/nnEJ1nUpOJ/oJk+ZX6zUP3q+5SZcdsYJKkMNTwXH2EMkJfq0Kv/ey3mCMKYj/xr+CyEW5bVw4x3wstHH5vQ4DVmP2pwrIpBkbuA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
+ by PH7PR12MB7378.namprd12.prod.outlook.com (2603:10b6:510:20d::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.24; Tue, 22 Aug
+ 2023 15:04:51 +0000
+Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
+ ([fe80::968e:999a:9134:766b]) by SJ1PR12MB6075.namprd12.prod.outlook.com
+ ([fe80::968e:999a:9134:766b%7]) with mapi id 15.20.6699.020; Tue, 22 Aug 2023
+ 15:04:51 +0000
+From: Aurelien Aptel <aaptel@nvidia.com>
+To: linux-nvme@lists.infradead.org,
+	netdev@vger.kernel.org,
+	sagi@grimberg.me,
+	hch@lst.de,
+	kbusch@kernel.org,
+	axboe@fb.com,
+	chaitanyak@nvidia.com,
+	davem@davemloft.net,
+	kuba@kernel.org
+Cc: Boris Pismenny <borisp@nvidia.com>,
+	aaptel@nvidia.com,
+	aurelien.aptel@gmail.com,
+	smalin@nvidia.com,
+	malin1024@gmail.com,
+	ogerlitz@nvidia.com,
+	yorayz@nvidia.com,
+	galshalom@nvidia.com,
+	mgurtovoy@nvidia.com
+Subject: [PATCH v13 01/24] net: Introduce direct data placement tcp offload
+Date: Tue, 22 Aug 2023 15:04:02 +0000
+Message-Id: <20230822150425.3390-2-aaptel@nvidia.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230822150425.3390-1-aaptel@nvidia.com>
+References: <20230822150425.3390-1-aaptel@nvidia.com>
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: FR0P281CA0255.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:af::18) To SJ1PR12MB6075.namprd12.prod.outlook.com
+ (2603:10b6:a03:45e::8)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|PH7PR12MB7378:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7f167e16-e023-4708-2482-08dba32122b8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: SfcCyDOgDDn2WfrQuLwcseOKoZdJHJjiLFq4UGoI41de6UtvJTZfH4yxDtXsuh0HUCqpG/OZtv0/eJxp/xXpdIAyadQZeFzUk1cJh95ngYaqbdtMddShakx7v0Vud1IYPCmAmt+SRfvKKYbyNyW5FyJNjkvAQPKpY2BTEHEav81z9smq7LkDxSMe79JUwo9zybsTSMc4CI27za1djem1DYJPUgoxX4dNFCsq1jLe417rSXTkQoEng602OaSMlURVdXba7XMdU72HYRLC2aedvNwCS5lx7t2Xqf4ePWr8F8mx4/WlSgxW0mRiB71YWqvbILkKnkOWRCKAOdkKvjN+GOE1KhHvj08wgLFzSDkdgiVpy75iq9nhAhEcrseNBd+Kr6HBBFNEFmtsDrMYuG1TbjiZIF2xwLuhngpk5yDkj1p6rDanv4KzOtqzmS6Ep3ITq+DAaJiifbwcP0fu7oAFKGXBUZvTwsm4U/UnKru2aZxJrxrmlr9TtKudlvoZLdejjfLl5gSgCMi/KH8HsYpI8E1ZNfEMt0ZrXogxUlUQBWcxS8Ih/zcBzLTsb8pBrKaC
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(39860400002)(376002)(136003)(396003)(451199024)(186009)(1800799009)(2906002)(30864003)(83380400001)(7416002)(6506007)(6486002)(38100700002)(5660300002)(26005)(86362001)(8676002)(8936002)(2616005)(4326008)(107886003)(316002)(6512007)(66556008)(66476007)(478600001)(66946007)(6666004)(41300700001)(36756003)(1076003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Q+y6LcJo/IiTsQziHJ5mVZUtPNDVEDIwQteM5af6NKMh62EkKXyvyv6H3l4w?=
+ =?us-ascii?Q?Q0WTljdwF2zphFb7gQIj+qMr6xZlcOEW/puwuf39REZyooWoZRcdilYEWapb?=
+ =?us-ascii?Q?cjw6eT/zeBe4gXalSru/ay9x099RWwX3YPDEbPQCQPTsL05r9nkwzCK5yrZu?=
+ =?us-ascii?Q?eZf3wEzlZt5VuMNJohCScS7hJ0KrrvIpZjsuZoIoTQ23wkQpdcdqXQVNezRC?=
+ =?us-ascii?Q?00UqlsbjDJvGEZ6fQI64HYdxCgOviZhgHylVMhcIl49bsxNBGisE7d1C08c9?=
+ =?us-ascii?Q?4anCkax3t9sYInGVWFWyOnqSX3NplDMEVEWwe4U0U8PL27ytECl+5bUr6j92?=
+ =?us-ascii?Q?RCVA/bKYSjiujMHDKBn1x2nkJkuZQXJzeGEuoMZ0jFZ8xqdNUUyEQHVM0CfX?=
+ =?us-ascii?Q?L1Jgw3iObWyrNtdHu5c5XGXT6fiIKBM9UatnL2B/rm76Yfso7t9KyFp2/q2S?=
+ =?us-ascii?Q?SI2yw/XIdsHsr5Hp6ThPCjiO1b6oUMkQ92STWK91Xq+pHRc2GYyUrIHuIEPO?=
+ =?us-ascii?Q?F9EqysrGtIGI4ZKufZT5Qo4ssc7jRrg2cJYncb4X31aeo5L6vFwf/BcPlp7J?=
+ =?us-ascii?Q?uAgpGZbz/4t9OCmvBqr1q4Qpxe/VzsJ+dwB/nXDu6rMihfxwjE/79BzASWgo?=
+ =?us-ascii?Q?2dwzH/PnIdFvKWWuopiCZEL+4XAAfzREzPIRgbLbzVbjVGImoOqCNVPxzAtj?=
+ =?us-ascii?Q?sU0y5vBaqbhMoq2lJcAoeuOTxl6aiKudOwa8Sue7+FCohYEOeYwicBkdkFPb?=
+ =?us-ascii?Q?jcJMr/iu10O7TwrDyAKE/l+VhJboEsAi3drN4n/Xh0ES+mjO2vh/rNQNhzaC?=
+ =?us-ascii?Q?o2HXmPxNqohHkAQAhzJzik8o/xpMbMcusCeHiwB+ZKSihh0hTgtqDIiBAXwa?=
+ =?us-ascii?Q?24Fkw3EG59KFLho8B7a9LvhQQTh3cdj7qydN88I2jXOQRSgTJGi1q+YrFoNv?=
+ =?us-ascii?Q?5a2DTQSlImnKtyKfNehCmceCpLWlvMEhlcThuhuWSv2Vt+3cSRi4YACthJ4j?=
+ =?us-ascii?Q?yeuSxZpIrQIO0ePF/77o++ESQV8ZjdQYs/dlFH9VjPsMTk4ePLITmW2tA1Li?=
+ =?us-ascii?Q?Yh8Sq691kgT6u+fyt5WrxeoCHfU28o6z4nul+lF0ae8XArO3xnfOF3zPBANe?=
+ =?us-ascii?Q?+QcTBR4GmEjf2I36y3V9kg2pBJPR2oKe666Ar/x3dtjvu2r1B0m63BnQaZLg?=
+ =?us-ascii?Q?VWh3rhoJTJcU9I3zFy0fINdJRDLRFir1nbAxequmtfurGZJg3YDMWRKZc1dY?=
+ =?us-ascii?Q?lUjr9uWaIKVBjFSq8ikhz72knxQjUUB+aoNF25QCa78gX59luA/E9vRv8y5t?=
+ =?us-ascii?Q?jtiPUFySyDHbM/J0a6LgfC4yg+e3kRp1QENBxGhSNZDckP7PtoYLd2gCx16g?=
+ =?us-ascii?Q?fdxc3EBnIFpFWihNfAM70gyuSaeRqDu5NkIH9k+CBLNCfZsOHI22WXOWKbf+?=
+ =?us-ascii?Q?r9AE6LnBnFxCF3jOyIT62I0/tfiKOwE2/MMFCSje9fT4gUdIndNRssD1/EJd?=
+ =?us-ascii?Q?tQN12r2OKDN9Zio/NcfmZ0oCjF3AfF8uVHtHNMIeiIyosg3uMoQrba+5CVk7?=
+ =?us-ascii?Q?W3k82zniVcM1g41UzGSLtgkuDSUxuTA2TZnDm+6a?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f167e16-e023-4708-2482-08dba32122b8
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2023 15:04:51.7596
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SJ6u4fRS71HI55g0JXnXN6ITPy0FgMRGUbtygWqK+ivL2/LdRD/TC7MCN7OS6+/6618GN2PHpLaZmpxMFy0H4A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7378
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230822_013806_084927_4671F83E 
-X-CRM114-Status: GOOD (  10.52  )
+X-CRM114-CacheID: sfid-20230822_080459_383390_83C13120 
+X-CRM114-Status: GOOD (  26.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,1410 +148,722 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Almost all fabric tests have the identically code for
-setting up and cleaning up the target side. Introduce
-two new helpers.
+From: Boris Pismenny <borisp@nvidia.com>
 
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
+This commit introduces direct data placement (DDP) offload for TCP.
+
+The motivation is saving compute resources/cycles that are spent
+to copy data from SKBs to the block layer buffers and CRC
+calculation/verification for received PDUs (Protocol Data Units).
+
+The DDP capability is accompanied by new net_device operations that
+configure hardware contexts.
+
+There is a context per socket, and a context per DDP operation.
+Additionally, a resynchronization routine is used to assist
+hardware handle TCP OOO, and continue the offload. Furthermore,
+we let the offloading driver advertise what is the max hw
+sectors/segments.
+
+The interface includes the following net-device ddp operations:
+
+ 1. sk_add - add offload for the queue represented by socket+config pair
+ 2. sk_del - remove the offload for the socket/queue
+ 3. ddp_setup - request copy offload for buffers associated with an IO
+ 4. ddp_teardown - release offload resources for that IO
+ 5. limits - query NIC driver for quirks and limitations (e.g.
+             max number of scatter gather entries per IO)
+ 6. set_caps - request ULP DDP capabilities enablement
+ 7. get_stats - query NIC driver for ULP DDP stats
+
+Using this interface, the NIC hardware will scatter TCP payload
+directly to the BIO pages according to the command_id.
+
+To maintain the correctness of the network stack, the driver is
+expected to construct SKBs that point to the BIO pages.
+
+The SKB passed to the network stack from the driver represents
+data as it is on the wire, while it is pointing directly to data
+in destination buffers.
+
+As a result, data from page frags should not be copied out to
+the linear part. To avoid needless copies, such as when using
+skb_condense, we mark the skb->ulp_ddp bit.
+In addition, the skb->ulp_crc will be used by the upper layers to
+determine if CRC re-calculation is required. The two separated skb
+indications are needed to avoid false positives GRO flushing events.
+
+Follow-up patches will use this interface for DDP in NVMe-TCP.
+
+Capability bits stored in net_device allow drivers to report which
+ULP DDP capabilities a device supports. Control over these
+capabilities will be exposed to userspace in later patches.
+
+Signed-off-by: Boris Pismenny <borisp@nvidia.com>
+Signed-off-by: Ben Ben-Ishay <benishay@nvidia.com>
+Signed-off-by: Or Gerlitz <ogerlitz@nvidia.com>
+Signed-off-by: Yoray Zack <yorayz@nvidia.com>
+Signed-off-by: Shai Malin <smalin@nvidia.com>
+Signed-off-by: Aurelien Aptel <aaptel@nvidia.com>
 ---
- tests/nvme/003 | 14 +++-------
- tests/nvme/004 | 21 +++------------
- tests/nvme/005 | 20 ++-------------
- tests/nvme/006 | 19 ++------------
- tests/nvme/007 | 14 ++--------
- tests/nvme/008 | 21 ++-------------
- tests/nvme/009 | 16 ++----------
- tests/nvme/010 | 21 ++-------------
- tests/nvme/011 | 16 ++----------
- tests/nvme/012 | 21 ++-------------
- tests/nvme/013 | 16 ++----------
- tests/nvme/014 | 21 ++-------------
- tests/nvme/015 | 16 ++----------
- tests/nvme/018 | 16 ++----------
- tests/nvme/019 | 21 ++-------------
- tests/nvme/020 | 16 ++----------
- tests/nvme/021 | 16 ++----------
- tests/nvme/022 | 16 ++----------
- tests/nvme/023 | 21 ++-------------
- tests/nvme/024 | 16 ++----------
- tests/nvme/025 | 16 ++----------
- tests/nvme/026 | 16 ++----------
- tests/nvme/027 | 17 +++----------
- tests/nvme/028 | 17 +++----------
- tests/nvme/029 | 21 ++-------------
- tests/nvme/040 | 19 ++------------
- tests/nvme/041 | 18 ++-----------
- tests/nvme/042 | 17 ++-----------
- tests/nvme/043 | 17 ++-----------
- tests/nvme/044 | 19 +++-----------
- tests/nvme/045 | 18 +++----------
- tests/nvme/047 | 21 ++-------------
- tests/nvme/048 | 17 ++-----------
- tests/nvme/rc  | 69 ++++++++++++++++++++++++++++++++++++++++++++++++++
- 34 files changed, 141 insertions(+), 519 deletions(-)
+ include/linux/netdevice.h          |  15 ++
+ include/linux/skbuff.h             |  25 ++-
+ include/net/inet_connection_sock.h |   6 +
+ include/net/ulp_ddp.h              | 262 +++++++++++++++++++++++++++++
+ include/net/ulp_ddp_caps.h         |  35 ++++
+ net/Kconfig                        |  20 +++
+ net/core/Makefile                  |   1 +
+ net/core/skbuff.c                  |   3 +-
+ net/core/ulp_ddp.c                 |  70 ++++++++
+ net/ipv4/tcp_input.c               |  13 +-
+ net/ipv4/tcp_ipv4.c                |   3 +
+ net/ipv4/tcp_offload.c             |   3 +
+ 12 files changed, 453 insertions(+), 3 deletions(-)
+ create mode 100644 include/net/ulp_ddp.h
+ create mode 100644 include/net/ulp_ddp_caps.h
+ create mode 100644 net/core/ulp_ddp.c
 
-diff --git a/tests/nvme/003 b/tests/nvme/003
-index 71b82ce758a3..b5ea2720100e 100755
---- a/tests/nvme/003
-+++ b/tests/nvme/003
-@@ -22,15 +22,8 @@ test() {
+diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+index 0896aaa91dd7..04255823079d 100644
+--- a/include/linux/netdevice.h
++++ b/include/linux/netdevice.h
+@@ -53,6 +53,10 @@
+ #include <net/net_debug.h>
+ #include <net/dropreason-core.h>
  
- 	_setup_nvmet
- 
--	local loop_dev
--	local port
- 
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--
--	loop_dev="$(losetup -f)"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
-+	_nvmet_target_setup
- 
- 	_nvme_connect_subsys "${nvme_trtype}" nqn.2014-08.org.nvmexpress.discovery
- 
-@@ -46,9 +39,8 @@ test() {
- 	fi
- 
- 	_nvme_disconnect_subsys nqn.2014-08.org.nvmexpress.discovery
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
++#ifdef CONFIG_ULP_DDP
++#include <net/ulp_ddp_caps.h>
++#endif
 +
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/004 b/tests/nvme/004
-index 697c758d3059..31af8737857b 100755
---- a/tests/nvme/004
-+++ b/tests/nvme/004
-@@ -22,19 +22,8 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
--	local loop_dev
- 
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	loop_dev="$(losetup -f --show "${def_file_path}")"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}" \
--		"${def_subsys_uuid}"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvmet_target_setup
- 
- 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
- 
-@@ -44,12 +33,8 @@ test() {
- 	cat "/sys/block/${nvmedev}n1/wwid"
- 
- 	_nvme_disconnect_subsys ${def_subsysnqn}
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--	_remove_nvmet_host "${def_hostnqn}"
--	losetup -d "$loop_dev"
--	rm "${def_file_path}"
-+
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/005 b/tests/nvme/005
-index 4ca87ff48016..f9956e960a56 100755
---- a/tests/nvme/005
-+++ b/tests/nvme/005
-@@ -21,20 +21,9 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
--	local loop_dev
- 	local nvmedev
- 
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	loop_dev="$(losetup -f --show "${def_file_path}")"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}" \
--		"${def_subsys_uuid}"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvmet_target_setup
- 
- 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
- 
-@@ -43,13 +32,8 @@ test() {
- 	echo 1 > "/sys/class/nvme/${nvmedev}/reset_controller"
- 
- 	_nvme_disconnect_ctrl "${nvmedev}"
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_host "${def_hostnqn}"
- 
--	losetup -d "$loop_dev"
--	rm "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/006 b/tests/nvme/006
-index 910204aaeb90..d85f64b702eb 100755
---- a/tests/nvme/006
-+++ b/tests/nvme/006
-@@ -20,25 +20,10 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
--	local loop_dev
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
-+	_nvmet_target_setup
- 
--	loop_dev="$(losetup -f --show "${def_file_path}")"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}" \
--		"${def_subsys_uuid}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--
--	losetup -d "$loop_dev"
--
--	rm "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/007 b/tests/nvme/007
-index db00bdcc2d08..feac5060a950 100755
---- a/tests/nvme/007
-+++ b/tests/nvme/007
-@@ -19,20 +19,10 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
-+	_nvmet_target_setup --blkdev=file
- 
--	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
--		"${def_subsys_uuid}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--
--	rm "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/008 b/tests/nvme/008
-index bd5e10fbfb99..f4b45b2f1c11 100755
---- a/tests/nvme/008
-+++ b/tests/nvme/008
-@@ -20,19 +20,9 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 	local nvmedev
--	local loop_dev
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	loop_dev="$(losetup -f --show "${def_file_path}")"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}" \
--		"${def_subsys_uuid}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvmet_target_setup
- 
- 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
- 
-@@ -42,14 +32,7 @@ test() {
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--	_remove_nvmet_host "${def_hostnqn}"
--
--	losetup -d "${loop_dev}"
--
--	rm "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/009 b/tests/nvme/009
-index c9a4b57ac288..63614c91a96d 100755
---- a/tests/nvme/009
-+++ b/tests/nvme/009
-@@ -19,16 +19,9 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 	local nvmedev
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
--		"${def_subsys_uuid}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvmet_target_setup --blkdev=file
- 
- 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
- 
-@@ -38,12 +31,7 @@ test() {
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--	_remove_nvmet_host "${def_hostnqn}"
--
--	rm "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/010 b/tests/nvme/010
-index 19bb7f3fc7a7..e782a9bb06f3 100755
---- a/tests/nvme/010
-+++ b/tests/nvme/010
-@@ -20,19 +20,9 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 	local nvmedev
--	local loop_dev
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	loop_dev="$(losetup -f --show "${def_file_path}")"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}" \
--		"${def_subsys_uuid}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvmet_target_setup
- 
- 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
- 
-@@ -45,14 +35,7 @@ test() {
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--	_remove_nvmet_host "${def_hostnqn}"
--
--	losetup -d "${loop_dev}"
--
--	rm "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/011 b/tests/nvme/011
-index 0e54c2588bc8..7329e0505f59 100755
---- a/tests/nvme/011
-+++ b/tests/nvme/011
-@@ -20,16 +20,9 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 	local nvmedev
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
--		"${def_subsys_uuid}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvmet_target_setup --blkdev=file
- 
- 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
- 
-@@ -42,12 +35,7 @@ test() {
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--	_remove_nvmet_host "${def_hostnqn}"
--
--	rm "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/012 b/tests/nvme/012
-index c6b82c821bf2..6072eed3532a 100755
---- a/tests/nvme/012
-+++ b/tests/nvme/012
-@@ -24,19 +24,9 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 	local nvmedev
--	local loop_dev
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	loop_dev="$(losetup -f --show "${def_file_path}")"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}" \
--		"${def_subsys_uuid}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvmet_target_setup
- 
- 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
- 
-@@ -48,14 +38,7 @@ test() {
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--	_remove_nvmet_host "${def_hostnqn}"
--
--	losetup -d "${loop_dev}"
--
--	rm "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/013 b/tests/nvme/013
-index 441db7477d75..c9be60675cc4 100755
---- a/tests/nvme/013
-+++ b/tests/nvme/013
-@@ -23,16 +23,9 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 	local nvmedev
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
--		"${def_subsys_uuid}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvmet_target_setup --blkdev=file
- 
- 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
- 
-@@ -44,12 +37,7 @@ test() {
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--	_remove_nvmet_host "${def_hostnqn}"
--
--	rm "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/014 b/tests/nvme/014
-index 3656f9399687..d49e8f3cce4d 100755
---- a/tests/nvme/014
-+++ b/tests/nvme/014
-@@ -20,22 +20,12 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 	local nvmedev
--	local loop_dev
- 	local size
- 	local bs
- 	local count
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	loop_dev="$(losetup -f --show "${def_file_path}")"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}" \
--		 "${def_subsys_uuid}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvmet_target_setup
- 
- 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
- 
-@@ -54,14 +44,7 @@ test() {
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--	_remove_nvmet_host "${def_hostnqn}"
--
--	losetup -d "${loop_dev}"
--
--	rm "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/015 b/tests/nvme/015
-index bc04e39c628c..b418d785ab27 100755
---- a/tests/nvme/015
-+++ b/tests/nvme/015
-@@ -20,19 +20,12 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 	local nvmedev
- 	local size
- 	local bs
- 	local count
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
--		 "${def_subsys_uuid}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvmet_target_setup --blkdev=file
- 
- 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
- 
-@@ -51,12 +44,7 @@ test() {
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--	_remove_nvmet_host "${def_hostnqn}"
--
--	rm "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/018 b/tests/nvme/018
-index 68729c3cb070..19e439f3f3e0 100755
---- a/tests/nvme/018
-+++ b/tests/nvme/018
-@@ -21,16 +21,9 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 	local nvmedev
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
--		 "${def_subsys_uuid}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvmet_target_setup
- 
- 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
- 
-@@ -48,12 +41,7 @@ test() {
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--	_remove_nvmet_host "${def_hostnqn}"
--
--	rm "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/019 b/tests/nvme/019
-index 33a25d52e9fd..15e98c40134f 100755
---- a/tests/nvme/019
-+++ b/tests/nvme/019
-@@ -20,21 +20,11 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 	local nvmedev
--	local loop_dev
- 	local nblk_range="10,10,10,10,10,10,10,10,10,10"
- 	local sblk_range="100,200,300,400,500,600,700,800,900,1000"
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	loop_dev="$(losetup -f --show "${def_file_path}")"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}" \
--		"${def_subsys_uuid}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvmet_target_setup
- 
- 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
- 
-@@ -46,14 +36,7 @@ test() {
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--	_remove_nvmet_host "${def_hostnqn}"
--
--	losetup -d "${loop_dev}"
--
--	rm -f "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/020 b/tests/nvme/020
-index f436cdc8b262..aae40e7131e0 100755
---- a/tests/nvme/020
-+++ b/tests/nvme/020
-@@ -19,18 +19,11 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 	local nvmedev
- 	local nblk_range="10,10,10,10,10,10,10,10,10,10"
- 	local sblk_range="100,200,300,400,500,600,700,800,900,1000"
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
--		"${def_subsys_uuid}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvmet_target_setup --blkdev=file
- 
- 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
- 
-@@ -42,12 +35,7 @@ test() {
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--	_remove_nvmet_host "${def_hostnqn}"
--
--	rm -f "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/021 b/tests/nvme/021
-index 5043fe4916be..f9bed1546307 100755
---- a/tests/nvme/021
-+++ b/tests/nvme/021
-@@ -20,16 +20,9 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 	local nvmedev
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
--		"${def_subsys_uuid}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvmet_target_setup --blkdev=file
- 
- 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
- 
-@@ -43,12 +36,7 @@ test() {
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}" >> "$FULL" 2>&1
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--	_remove_nvmet_host "${def_hostnqn}"
--
--	rm -f "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/022 b/tests/nvme/022
-index 8b6f610c4894..e3e67b0996df 100755
---- a/tests/nvme/022
-+++ b/tests/nvme/022
-@@ -20,16 +20,9 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 	local nvmedev
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
--		"${def_subsys_uuid}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvmet_target_setup --blkdev=file
- 
- 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
- 
-@@ -43,12 +36,7 @@ test() {
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}" >> "$FULL" 2>&1
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--	_remove_nvmet_host "${def_hostnqn}"
--
--	rm -f "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/023 b/tests/nvme/023
-index 90af0338e81f..c8d1e4619822 100755
---- a/tests/nvme/023
-+++ b/tests/nvme/023
-@@ -20,19 +20,9 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 	local nvmedev
--	local loop_dev
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	loop_dev="$(losetup -f --show "${def_file_path}")"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}" \
--		"${def_subsys_uuid}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvmet_target_setup
- 
- 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
- 
-@@ -46,14 +36,7 @@ test() {
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}" >> "$FULL" 2>&1
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--	_remove_nvmet_host "${def_hostnqn}"
--
--	losetup -d "${loop_dev}"
--
--	rm -f "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/024 b/tests/nvme/024
-index 7a89ddd79fd9..2308b42968e1 100755
---- a/tests/nvme/024
-+++ b/tests/nvme/024
-@@ -20,16 +20,9 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 	local nvmedev
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
--		"${def_subsys_uuid}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvmet_target_setup --blkdev=file
- 
- 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
- 
-@@ -42,12 +35,7 @@ test() {
- 	fi
- 	_nvme_disconnect_subsys "${def_subsysnqn}" >> "$FULL" 2>&1
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--	_remove_nvmet_host "${def_hostnqn}"
--
--	rm -f "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/025 b/tests/nvme/025
-index 90f214eff6c8..b3851d8ceb14 100755
---- a/tests/nvme/025
-+++ b/tests/nvme/025
-@@ -20,16 +20,9 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 	local nvmedev
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
--		"${def_subsys_uuid}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvmet_target_setup --blkdev=file
- 
- 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
- 
-@@ -43,12 +36,7 @@ test() {
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}" >> "$FULL" 2>&1
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--	_remove_nvmet_host "${def_hostnqn}"
--
--	rm -f "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/026 b/tests/nvme/026
-index ec352acaa489..38acfcc373b4 100755
---- a/tests/nvme/026
-+++ b/tests/nvme/026
-@@ -20,16 +20,9 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 	local nvmedev
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
--		"${def_subsys_uuid}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvmet_target_setup --blkdev=file
- 
- 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
- 
-@@ -43,12 +36,7 @@ test() {
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}" >> "$FULL" 2>&1
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--	_remove_nvmet_host "${def_hostnqn}"
--
--	rm -f "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/027 b/tests/nvme/027
-index 339f7605a9f5..2d65b3e1a820 100755
---- a/tests/nvme/027
-+++ b/tests/nvme/027
-@@ -20,16 +20,9 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 	local nvmedev
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
--		"${def_subsys_uuid}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvmet_target_setup --blkdev=file
- 
- 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
- 
-@@ -40,14 +33,10 @@ test() {
- 	if ! nvme ns-rescan "/dev/${nvmedev}" >> "$FULL" 2>&1; then
- 		echo "ERROR: ns-rescan failed"
- 	fi
--	_nvme_disconnect_subsys "${def_subsysnqn}" >> "$FULL" 2>&1
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--	_remove_nvmet_host "${def_hostnqn}"
-+	_nvme_disconnect_subsys "${def_subsysnqn}" >> "$FULL" 2>&1
- 
--	rm -f "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/028 b/tests/nvme/028
-index 7f387eb337f6..eec1807884a9 100755
---- a/tests/nvme/028
-+++ b/tests/nvme/028
-@@ -20,16 +20,9 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 	local nvmedev
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
--		"${def_subsys_uuid}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvmet_target_setup --blkdev=file
- 
- 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
- 
-@@ -40,14 +33,10 @@ test() {
- 	if ! nvme list-subsys 2>> "$FULL" | grep -q "${nvme_trtype}"; then
- 		echo "ERROR: list-subsys"
- 	fi
--	_nvme_disconnect_subsys "${def_subsysnqn}" >> "$FULL" 2>&1
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--	_remove_nvmet_host "${def_hostnqn}"
-+	_nvme_disconnect_subsys "${def_subsysnqn}" >> "$FULL" 2>&1
- 
--	rm -f "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/029 b/tests/nvme/029
-index 461e6c6c4454..bbc481437fc8 100755
---- a/tests/nvme/029
-+++ b/tests/nvme/029
-@@ -53,19 +53,9 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 	local nvmedev
--	local loop_dev
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	loop_dev="$(losetup -f --show "${def_file_path}")"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}" \
--		 "${def_subsys_uuid}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvmet_target_setup
- 
- 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
- 
-@@ -83,14 +73,7 @@ test() {
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}" >> "$FULL" 2>&1
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--	_remove_nvmet_host "${def_hostnqn}"
--
--	losetup -d "${loop_dev}"
--
--	rm "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/040 b/tests/nvme/040
-index ed6df3bbed52..7759bac9b43c 100755
---- a/tests/nvme/040
-+++ b/tests/nvme/040
-@@ -21,18 +21,10 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
--	local loop_dev
- 	local nvmedev
- 	local fio_pid
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--	loop_dev="$(losetup -f --show "${def_file_path}")"
--
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvmet_target_setup
- 
- 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
- 	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
-@@ -54,14 +46,7 @@ test() {
- 
- 	{ kill "${fio_pid}"; wait; } &> /dev/null
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--	_remove_nvmet_host "${def_hostnqn}"
--
--	losetup -d "${loop_dev}"
--
--	rm -f "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/041 b/tests/nvme/041
-index bc84412ccb46..99c24ad4e6a2 100755
---- a/tests/nvme/041
-+++ b/tests/nvme/041
-@@ -24,7 +24,6 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 	local hostkey
- 	local ctrldev
- 
-@@ -34,13 +33,7 @@ test() {
- 		return 1
- 	fi
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
--		"${def_subsys_uuid}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}" "${hostkey}"
-+	_nvmet_target_setup --blkdev=file --hostkey "${hostkey}"
- 
- 	# Test unauthenticated connection (should fail)
- 	echo "Test unauthenticated connection (should fail)"
-@@ -59,14 +52,7 @@ test() {
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--
--	_remove_nvmet_port "${port}"
--
--	_remove_nvmet_host "${def_hostnqn}"
--
--	rm "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/042 b/tests/nvme/042
-index 47e1b95ffdc6..f0e196a13ba0 100755
---- a/tests/nvme/042
-+++ b/tests/nvme/042
-@@ -24,18 +24,12 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 	local hmac
- 	local key_len
- 	local hostkey
- 	local ctrldev
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvmet_target_setup --blkdev=file
- 
- 	for hmac in 0 1 2 3; do
- 		echo "Testing hmac ${hmac}"
-@@ -71,14 +65,7 @@ test() {
- 		_nvme_disconnect_subsys "${def_subsysnqn}"
- 	done
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--
--	_remove_nvmet_port "${port}"
--
--	_remove_nvmet_host "${def_hostnqn}"
--
--	rm "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/043 b/tests/nvme/043
-index 15676f88d556..c95f38e6c71b 100755
---- a/tests/nvme/043
-+++ b/tests/nvme/043
-@@ -25,7 +25,6 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 	local hash
- 	local dhgroup
- 	local hostkey
-@@ -37,12 +36,7 @@ test() {
- 		return 1
- 	fi
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}" "${hostkey}"
-+	_nvmet_target_setup --blkdev=file --hostkey "${hostkey}"
- 
- 	for hash in "hmac(sha256)" "hmac(sha384)" "hmac(sha512)" ; do
- 
-@@ -72,14 +66,7 @@ test() {
- 		_nvme_disconnect_subsys "${def_subsysnqn}"
- 	done
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--
--	_remove_nvmet_port "${port}"
--
--	_remove_nvmet_host "${def_hostnqn}"
--
--	rm "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/044 b/tests/nvme/044
-index 9407ac6338c8..f48458a82323 100755
---- a/tests/nvme/044
-+++ b/tests/nvme/044
-@@ -25,7 +25,6 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 	local hostkey
- 	local ctrlkey
- 	local ctrldev
-@@ -42,13 +41,8 @@ test() {
- 		return 1
- 	fi
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}" \
--			   "${hostkey}" "${ctrlkey}"
-+	_nvmet_target_setup --blkdev=file --ctrlkey "${ctrlkey}" \
-+			    --hostkey "${hostkey}"
- 
- 	_set_nvmet_dhgroup "${def_hostnqn}" "ffdhe2048"
- 
-@@ -95,14 +89,7 @@ test() {
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--
--	_remove_nvmet_port "${port}"
--
--	_remove_nvmet_host "${def_hostnqn}"
--
--	rm "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/045 b/tests/nvme/045
-index 396bcdefbcba..902eb26bef8e 100755
---- a/tests/nvme/045
-+++ b/tests/nvme/045
-@@ -26,7 +26,6 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 	local hostkey
- 	local new_hostkey
- 	local ctrlkey
-@@ -46,12 +45,8 @@ test() {
- 		return 1
- 	fi
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}" "${hostkey}" "${ctrlkey}"
-+	_nvmet_target_setup --blkdev=file --ctrlkey "${ctrlkey}" \
-+			    --hostkey "${hostkey}"
- 
- 	_set_nvmet_dhgroup "${def_hostnqn}" "ffdhe2048"
- 
-@@ -114,14 +109,7 @@ test() {
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}"
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--
--	_remove_nvmet_port "${port}"
--
--	_remove_nvmet_host "${def_hostnqn}"
--
--	rm "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/047 b/tests/nvme/047
-index 1da24b5638a6..94d7d50f9f98 100755
---- a/tests/nvme/047
-+++ b/tests/nvme/047
-@@ -22,20 +22,10 @@ test() {
- 
- 	_setup_nvmet
- 
--	local port
- 	local nvmedev
--	local loop_dev
- 	local rand_io_size
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	loop_dev="$(losetup -f --show "${def_file_path}")"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${loop_dev}" \
--		"${def_subsys_uuid}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvmet_target_setup
- 
- 	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}" \
- 		--nr-write-queues 1 || echo FAIL
-@@ -55,14 +45,7 @@ test() {
- 
- 	_nvme_disconnect_subsys "${def_subsysnqn}" >> "$FULL" 2>&1
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--	_remove_nvmet_host "${def_hostnqn}"
--
--	losetup -d "${loop_dev}"
--
--	rm "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/048 b/tests/nvme/048
-index 19234a5b3791..06e1fa6b4f65 100755
---- a/tests/nvme/048
-+++ b/tests/nvme/048
-@@ -87,16 +87,8 @@ test() {
- 
- 	local cfs_path="${NVMET_CFS}/subsystems/${def_subsysnqn}"
- 	local skipped=false
--	local port
- 
--	truncate -s "${nvme_img_size}" "${def_file_path}"
--
--	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
--		"${def_subsys_uuid}"
--	port="$(_create_nvmet_port "${nvme_trtype}")"
--
--	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
--	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-+	_nvmet_target_setup --blkdev=file
- 
- 	if [[ -f "${cfs_path}/attr_qid_max" ]] ; then
- 		_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}" \
-@@ -118,12 +110,7 @@ test() {
- 		skipped=true
- 	fi
- 
--	_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
--	_remove_nvmet_subsystem "${def_subsysnqn}"
--	_remove_nvmet_port "${port}"
--	_remove_nvmet_host "${def_hostnqn}"
--
--	rm "${def_file_path}"
-+	_nvmet_target_cleanup
- 
- 	if [[ "${skipped}" = true ]] ; then
- 		return 1
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index fdffc07da34a..261892ed2070 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -359,6 +359,12 @@ _cleanup_nvmet() {
- 	if [[ "${nvme_trtype}" == "rdma" ]]; then
- 		stop_soft_rdma
- 	fi
-+
-+	blkdev="$(losetup -l | awk '$6 == "'"${def_file_path}"'" { print $1 }')"
-+	for dev in ${blkdev}; do
-+		losetup -d "${dev}"
-+	done
-+	rm -f "${def_file_path}"
- }
- 
- _setup_nvmet() {
-@@ -818,6 +824,69 @@ _find_nvme_passthru_loop_dev() {
- 	echo "/dev/${dev}n${nsid}"
- }
- 
-+_nvmet_target_setup() {
-+	local blkdev_type="device"
-+	local blkdev
-+	local ctrlkey=""
-+	local hostkey=""
-+	local port
-+
-+	while [[ $# -gt 0 ]]; do
-+		case $1 in
-+			--blkdev)
-+				blkdev_type="$2"
-+				shift 2
-+				;;
-+			--ctrlkey)
-+				ctrlkey="$2"
-+				shift 2
-+				;;
-+			--hostkey)
-+				hostkey="$2"
-+				shift 2
-+				;;
-+			*)
-+				shift
-+				;;
-+		esac
-+	done
-+
-+	truncate -s "${nvme_img_size}" "${def_file_path}"
-+	if [[ "${blkdev_type}" == "device" ]]; then
-+		blkdev="$(losetup -f --show "${def_file_path}")"
-+	else
-+		blkdev="${def_file_path}"
-+	fi
-+
-+	_create_nvmet_subsystem "${def_subsysnqn}" "${blkdev}" \
-+				"${def_subsys_uuid}"
-+	port="$(_create_nvmet_port "${nvme_trtype}")"
-+	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
-+	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}" \
-+			"${hostkey}" "${ctrlkey}"
+ struct netpoll_info;
+ struct device;
+ struct ethtool_ops;
+@@ -1406,6 +1410,8 @@ struct netdev_net_notifier {
+  *			   struct kernel_hwtstamp_config *kernel_config,
+  *			   struct netlink_ext_ack *extack);
+  *	Change the hardware timestamping parameters for NIC device.
++ * struct ulp_ddp_dev_ops *ulp_ddp_ops;
++ *	ULP DDP operations (see include/net/ulp_ddp.h)
+  */
+ struct net_device_ops {
+ 	int			(*ndo_init)(struct net_device *dev);
+@@ -1645,6 +1651,9 @@ struct net_device_ops {
+ 	int			(*ndo_hwtstamp_set)(struct net_device *dev,
+ 						    struct kernel_hwtstamp_config *kernel_config,
+ 						    struct netlink_ext_ack *extack);
++#if IS_ENABLED(CONFIG_ULP_DDP)
++	const struct ulp_ddp_dev_ops	*ulp_ddp_ops;
++#endif
+ };
+ 
+ /**
+@@ -1816,6 +1825,9 @@ enum netdev_ml_priv_type {
+  *	@mpls_features:	Mask of features inheritable by MPLS
+  *	@gso_partial_features: value(s) from NETIF_F_GSO\*
+  *
++ *	@ulp_ddp_caps:	Bitflags keeping track of supported and enabled
++ *			ULP DDP capabilities.
++ *
+  *	@ifindex:	interface index
+  *	@group:		The group the device belongs to
+  *
+@@ -2112,6 +2124,9 @@ struct net_device {
+ 	netdev_features_t	mpls_features;
+ 	netdev_features_t	gso_partial_features;
+ 
++#ifdef CONFIG_ULP_DDP
++	struct ulp_ddp_netdev_caps ulp_ddp_caps;
++#endif
+ 	unsigned int		min_mtu;
+ 	unsigned int		max_mtu;
+ 	unsigned short		type;
+diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
+index 4174c4b82d13..75558f0ddde8 100644
+--- a/include/linux/skbuff.h
++++ b/include/linux/skbuff.h
+@@ -810,6 +810,8 @@ typedef unsigned char *sk_buff_data_t;
+  *		delivery_time in mono clock base (i.e. EDT).  Otherwise, the
+  *		skb->tstamp has the (rcv) timestamp at ingress and
+  *		delivery_time at egress.
++ *	@ulp_ddp: DDP offloaded
++ *	@ulp_crc: CRC offloaded
+  *	@napi_id: id of the NAPI struct this skb came from
+  *	@sender_cpu: (aka @napi_id) source CPU in XPS
+  *	@alloc_cpu: CPU which did the skb allocation.
+@@ -989,7 +991,10 @@ struct sk_buff {
+ #if IS_ENABLED(CONFIG_IP_SCTP)
+ 	__u8			csum_not_inet:1;
+ #endif
+-
++#ifdef CONFIG_ULP_DDP
++	__u8                    ulp_ddp:1;
++	__u8			ulp_crc:1;
++#endif
+ #if defined(CONFIG_NET_SCHED) || defined(CONFIG_NET_XGRESS)
+ 	__u16			tc_index;	/* traffic control index */
+ #endif
+@@ -5063,5 +5068,23 @@ static inline void skb_mark_for_recycle(struct sk_buff *skb)
+ ssize_t skb_splice_from_iter(struct sk_buff *skb, struct iov_iter *iter,
+ 			     ssize_t maxsize, gfp_t gfp);
+ 
++static inline bool skb_is_ulp_ddp(struct sk_buff *skb)
++{
++#ifdef CONFIG_ULP_DDP
++	return skb->ulp_ddp;
++#else
++	return 0;
++#endif
 +}
 +
-+_nvmet_target_cleanup() {
-+	local ports
-+	local port
-+	local blkdev
-+
-+	_get_nvmet_ports "${def_subsysnqn}" ports
-+
-+	for port in "${ports[@]}"; do
-+		_remove_nvmet_subsystem_from_port "${port}" "${def_subsysnqn}"
-+		_remove_nvmet_port "${port}"
-+	done
-+	_remove_nvmet_subsystem "${def_subsysnqn}"
-+	_remove_nvmet_host "${def_hostnqn}"
-+
-+	blkdev="$(losetup -l | awk '$6 == "'"${def_file_path}"'" { print $1 }')"
-+	if [[ -n "${blkdev}" ]] ; then
-+		losetup -d "${blkdev}"
-+	fi
-+	rm "${def_file_path}"
++static inline bool skb_is_ulp_crc(struct sk_buff *skb)
++{
++#ifdef CONFIG_ULP_DDP
++	return skb->ulp_crc;
++#else
++	return 0;
++#endif
 +}
 +
- _nvmet_passthru_target_setup() {
- 	local subsys_name=$1
- 	local port
+ #endif	/* __KERNEL__ */
+ #endif	/* _LINUX_SKBUFF_H */
+diff --git a/include/net/inet_connection_sock.h b/include/net/inet_connection_sock.h
+index 5d2fcc137b88..daefa3771b66 100644
+--- a/include/net/inet_connection_sock.h
++++ b/include/net/inet_connection_sock.h
+@@ -68,6 +68,8 @@ struct inet_connection_sock_af_ops {
+  * @icsk_ulp_ops	   Pluggable ULP control hook
+  * @icsk_ulp_data	   ULP private data
+  * @icsk_clean_acked	   Clean acked data hook
++ * @icsk_ulp_ddp_ops	   Pluggable ULP direct data placement control hook
++ * @icsk_ulp_ddp_data	   ULP direct data placement private data
+  * @icsk_ca_state:	   Congestion control state
+  * @icsk_retransmits:	   Number of unrecovered [RTO] timeouts
+  * @icsk_pending:	   Scheduled timer event
+@@ -98,6 +100,10 @@ struct inet_connection_sock {
+ 	const struct tcp_ulp_ops  *icsk_ulp_ops;
+ 	void __rcu		  *icsk_ulp_data;
+ 	void (*icsk_clean_acked)(struct sock *sk, u32 acked_seq);
++#ifdef CONFIG_ULP_DDP
++	const struct ulp_ddp_ulp_ops  *icsk_ulp_ddp_ops;
++	void __rcu		  *icsk_ulp_ddp_data;
++#endif
+ 	unsigned int		  (*icsk_sync_mss)(struct sock *sk, u32 pmtu);
+ 	__u8			  icsk_ca_state:5,
+ 				  icsk_ca_initialized:1,
+diff --git a/include/net/ulp_ddp.h b/include/net/ulp_ddp.h
+new file mode 100644
+index 000000000000..e162ac9c3d18
+--- /dev/null
++++ b/include/net/ulp_ddp.h
+@@ -0,0 +1,262 @@
++/* SPDX-License-Identifier: GPL-2.0
++ *
++ * ulp_ddp.h
++ *	Author:	Boris Pismenny <borisp@nvidia.com>
++ *	Copyright (c) 2023, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
++ */
++#ifndef _ULP_DDP_H
++#define _ULP_DDP_H
++
++#include <linux/netdevice.h>
++#include <net/inet_connection_sock.h>
++#include <net/sock.h>
++
++#include "ulp_ddp_caps.h"
++
++enum ulp_ddp_type {
++	ULP_DDP_NVME = 1,
++};
++
++/**
++ * struct nvme_tcp_ddp_limits - nvme tcp driver limitations
++ *
++ * @full_ccid_range:	true if the driver supports the full CID range
++ */
++struct nvme_tcp_ddp_limits {
++	bool			full_ccid_range;
++};
++
++/**
++ * struct ulp_ddp_limits - Generic ulp ddp limits: tcp ddp
++ * protocol limits.
++ * Add new instances of ulp_ddp_limits in the union below (nvme-tcp, etc.).
++ *
++ * @type:		type of this limits struct
++ * @max_ddp_sgl_len:	maximum sgl size supported (zero means no limit)
++ * @io_threshold:	minimum payload size required to offload
++ * @tls:		support for ULP over TLS
++ * @nvmeotcp:		NVMe-TCP specific limits
++ */
++struct ulp_ddp_limits {
++	enum ulp_ddp_type	type;
++	int			max_ddp_sgl_len;
++	int			io_threshold;
++	bool			tls:1;
++	union {
++		struct nvme_tcp_ddp_limits nvmeotcp;
++	};
++};
++
++/**
++ * struct nvme_tcp_ddp_config - nvme tcp ddp configuration for an IO queue
++ *
++ * @pfv:	pdu version (e.g., NVME_TCP_PFV_1_0)
++ * @cpda:	controller pdu data alignment (dwords, 0's based)
++ * @dgst:	digest types enabled (header or data, see enum nvme_tcp_digest_option).
++ *		The netdev will offload crc if it is supported.
++ * @queue_size: number of nvme-tcp IO queue elements
++ * @queue_id:	queue identifier
++ * @io_cpu:	cpu core running the IO thread for this queue
++ */
++struct nvme_tcp_ddp_config {
++	u16			pfv;
++	u8			cpda;
++	u8			dgst;
++	int			queue_size;
++	int			queue_id;
++	int			io_cpu;
++};
++
++/**
++ * struct ulp_ddp_config - Generic ulp ddp configuration
++ * Add new instances of ulp_ddp_config in the union below (nvme-tcp, etc.).
++ *
++ * @type:	type of this config struct
++ * @nvmeotcp:	NVMe-TCP specific config
++ */
++struct ulp_ddp_config {
++	enum ulp_ddp_type    type;
++	union {
++		struct nvme_tcp_ddp_config nvmeotcp;
++	};
++};
++
++/**
++ * struct ulp_ddp_io - ulp ddp configuration for an IO request.
++ *
++ * @command_id: identifier on the wire associated with these buffers
++ * @nents:	number of entries in the sg_table
++ * @sg_table:	describing the buffers for this IO request
++ * @first_sgl:	first SGL in sg_table
++ */
++struct ulp_ddp_io {
++	u32			command_id;
++	int			nents;
++	struct sg_table		sg_table;
++	struct scatterlist	first_sgl[SG_CHUNK_SIZE];
++};
++
++struct ethtool_ulp_ddp_stats;
++struct netlink_ext_ack;
++
++/**
++ * struct ulp_ddp_dev_ops - operations used by an upper layer protocol
++ *                          to configure ddp offload
++ *
++ * @limits:    query ulp driver limitations and quirks.
++ * @sk_add:    add offload for the queue represented by socket+config
++ *             pair. this function is used to configure either copy, crc
++ *             or both offloads.
++ * @sk_del:    remove offload from the socket, and release any device
++ *             related resources.
++ * @setup:     request copy offload for buffers associated with a
++ *             command_id in ulp_ddp_io.
++ * @teardown:  release offload resources association between buffers
++ *             and command_id in ulp_ddp_io.
++ * @resync:    respond to the driver's resync_request. Called only if
++ *             resync is successful.
++ * @set_caps:  set device ULP DDP capabilities.
++ *	       returns a negative error code or zero.
++ * @get_stats: query ULP DDP statistics.
++ */
++struct ulp_ddp_dev_ops {
++	int (*limits)(struct net_device *netdev,
++		      struct ulp_ddp_limits *limits);
++	int (*sk_add)(struct net_device *netdev,
++		      struct sock *sk,
++		      struct ulp_ddp_config *config);
++	void (*sk_del)(struct net_device *netdev,
++		       struct sock *sk);
++	int (*setup)(struct net_device *netdev,
++		     struct sock *sk,
++		     struct ulp_ddp_io *io);
++	void (*teardown)(struct net_device *netdev,
++			 struct sock *sk,
++			 struct ulp_ddp_io *io,
++			 void *ddp_ctx);
++	void (*resync)(struct net_device *netdev,
++		       struct sock *sk, u32 seq);
++	int (*set_caps)(struct net_device *dev, unsigned long *bits,
++			struct netlink_ext_ack *extack);
++	int (*get_stats)(struct net_device *dev,
++			 struct ethtool_ulp_ddp_stats *stats);
++};
++
++#define ULP_DDP_RESYNC_PENDING BIT(0)
++
++/**
++ * struct ulp_ddp_ulp_ops - Interface to register upper layer
++ *                          Direct Data Placement (DDP) TCP offload.
++ * @resync_request:         NIC requests ulp to indicate if @seq is the start
++ *                          of a message.
++ * @ddp_teardown_done:      NIC driver informs the ulp that teardown is done,
++ *                          used for async completions.
++ */
++struct ulp_ddp_ulp_ops {
++	bool (*resync_request)(struct sock *sk, u32 seq, u32 flags);
++	void (*ddp_teardown_done)(void *ddp_ctx);
++};
++
++/**
++ * struct ulp_ddp_ctx - Generic ulp ddp context
++ *
++ * @type:	type of this context struct
++ * @buf:	protocol-specific context struct
++ */
++struct ulp_ddp_ctx {
++	enum ulp_ddp_type	type;
++	unsigned char		buf[];
++};
++
++static inline struct ulp_ddp_ctx *ulp_ddp_get_ctx(const struct sock *sk)
++{
++#ifdef CONFIG_ULP_DDP
++	struct inet_connection_sock *icsk = inet_csk(sk);
++
++	return (__force struct ulp_ddp_ctx *)icsk->icsk_ulp_ddp_data;
++#else
++	return NULL;
++#endif
++}
++
++static inline void ulp_ddp_set_ctx(struct sock *sk, void *ctx)
++{
++#ifdef CONFIG_ULP_DDP
++	struct inet_connection_sock *icsk = inet_csk(sk);
++
++	rcu_assign_pointer(icsk->icsk_ulp_ddp_data, ctx);
++#endif
++}
++
++static inline int ulp_ddp_setup(struct net_device *netdev,
++				struct sock *sk,
++				struct ulp_ddp_io *io)
++{
++#ifdef CONFIG_ULP_DDP
++	return netdev->netdev_ops->ulp_ddp_ops->setup(netdev, sk, io);
++#else
++	return -EOPNOTSUPP;
++#endif
++}
++
++static inline void ulp_ddp_teardown(struct net_device *netdev,
++				    struct sock *sk,
++				    struct ulp_ddp_io *io,
++				    void *ddp_ctx)
++{
++#ifdef CONFIG_ULP_DDP
++	netdev->netdev_ops->ulp_ddp_ops->teardown(netdev, sk, io, ddp_ctx);
++#endif
++}
++
++static inline void ulp_ddp_resync(struct net_device *netdev,
++				  struct sock *sk,
++				  u32 seq)
++{
++#ifdef CONFIG_ULP_DDP
++	netdev->netdev_ops->ulp_ddp_ops->resync(netdev, sk, seq);
++#endif
++}
++
++#ifdef CONFIG_ULP_DDP
++
++int ulp_ddp_sk_add(struct net_device *netdev,
++		   struct sock *sk,
++		   struct ulp_ddp_config *config,
++		   const struct ulp_ddp_ulp_ops *ops);
++
++void ulp_ddp_sk_del(struct net_device *netdev,
++		    struct sock *sk);
++
++bool ulp_ddp_query_limits(struct net_device *netdev,
++			  struct ulp_ddp_limits *limits,
++			  enum ulp_ddp_type type,
++			  int cap_bit_nr,
++			  bool tls);
++
++#else
++
++static inline int ulp_ddp_sk_add(struct net_device *netdev,
++				 struct sock *sk,
++				 struct ulp_ddp_config *config,
++				 const struct ulp_ddp_ulp_ops *ops)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline void ulp_ddp_sk_del(struct net_device *netdev,
++				  struct sock *sk)
++{}
++
++static inline bool ulp_ddp_query_limits(struct net_device *netdev,
++					struct ulp_ddp_limits *limits,
++					enum ulp_ddp_type type,
++					int cap_bit_nr,
++					bool tls)
++{
++	return false;
++}
++
++#endif
++
++#endif	/* _ULP_DDP_H */
+diff --git a/include/net/ulp_ddp_caps.h b/include/net/ulp_ddp_caps.h
+new file mode 100644
+index 000000000000..8ee964a4df78
+--- /dev/null
++++ b/include/net/ulp_ddp_caps.h
+@@ -0,0 +1,35 @@
++/* SPDX-License-Identifier: GPL-2.0
++ *
++ * ulp_ddp.h
++ *	Author:	Aurelien Aptel <aaptel@nvidia.com>
++ *	Copyright (c) 2023, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
++ */
++#ifndef _ULP_DDP_CAPS_H
++#define _ULP_DDP_CAPS_H
++
++#include <linux/types.h>
++
++enum {
++	ULP_DDP_C_NVME_TCP_BIT,
++	ULP_DDP_C_NVME_TCP_DDGST_RX_BIT,
++
++	/* add capabilities above */
++	ULP_DDP_C_COUNT,
++};
++
++struct ulp_ddp_netdev_caps {
++	DECLARE_BITMAP(active, ULP_DDP_C_COUNT);
++	DECLARE_BITMAP(hw, ULP_DDP_C_COUNT);
++};
++
++static inline bool ulp_ddp_cap_turned_on(unsigned long *old, unsigned long *new, int bit_nr)
++{
++	return !test_bit(bit_nr, old) && test_bit(bit_nr, new);
++}
++
++static inline bool ulp_ddp_cap_turned_off(unsigned long *old, unsigned long *new, int bit_nr)
++{
++	return test_bit(bit_nr, old) && !test_bit(bit_nr, new);
++}
++
++#endif
+diff --git a/net/Kconfig b/net/Kconfig
+index d532ec33f1fe..17ebb9b6f5b7 100644
+--- a/net/Kconfig
++++ b/net/Kconfig
+@@ -508,4 +508,24 @@ config NETDEV_ADDR_LIST_TEST
+ 	default KUNIT_ALL_TESTS
+ 	depends on KUNIT
+ 
++config ULP_DDP
++	bool "ULP direct data placement offload"
++	help
++	  This feature provides a generic infrastructure for Direct
++	  Data Placement (DDP) offload for Upper Layer Protocols (ULP,
++	  such as NVMe-TCP).
++
++	  If the ULP and NIC driver supports it, the ULP code can
++	  request the NIC to place ULP response data directly
++	  into application memory, avoiding a costly copy.
++
++	  This infrastructure also allows for offloading the ULP data
++	  integrity checks (e.g. data digest) that would otherwise
++	  require another costly pass on the data we managed to avoid
++	  copying.
++
++	  For more information, see
++	  <file:Documentation/networking/ulp-ddp-offload.rst>.
++
++
+ endif   # if NET
+diff --git a/net/core/Makefile b/net/core/Makefile
+index 731db2eaa610..09da9ed3f9ff 100644
+--- a/net/core/Makefile
++++ b/net/core/Makefile
+@@ -18,6 +18,7 @@ obj-y		     += dev.o dev_addr_lists.o dst.o netevent.o \
+ obj-$(CONFIG_NETDEV_ADDR_LIST_TEST) += dev_addr_lists_test.o
+ 
+ obj-y += net-sysfs.o
++obj-$(CONFIG_ULP_DDP) += ulp_ddp.o
+ obj-$(CONFIG_PAGE_POOL) += page_pool.o
+ obj-$(CONFIG_PROC_FS) += net-procfs.o
+ obj-$(CONFIG_NET_PKTGEN) += pktgen.o
+diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+index faa6c86da2a5..9fb81e6ebc29 100644
+--- a/net/core/skbuff.c
++++ b/net/core/skbuff.c
+@@ -75,6 +75,7 @@
+ #include <net/mctp.h>
+ #include <net/page_pool/helpers.h>
+ #include <net/dropreason.h>
++#include <net/ulp_ddp.h>
+ 
+ #include <linux/uaccess.h>
+ #include <trace/events/skb.h>
+@@ -6584,7 +6585,7 @@ void skb_condense(struct sk_buff *skb)
+ {
+ 	if (skb->data_len) {
+ 		if (skb->data_len > skb->end - skb->tail ||
+-		    skb_cloned(skb))
++		    skb_cloned(skb) || skb_is_ulp_ddp(skb))
+ 			return;
+ 
+ 		/* Nice, we can free page frag(s) right now */
+diff --git a/net/core/ulp_ddp.c b/net/core/ulp_ddp.c
+new file mode 100644
+index 000000000000..de016d1aa5e1
+--- /dev/null
++++ b/net/core/ulp_ddp.c
+@@ -0,0 +1,70 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ *
++ * ulp_ddp.h
++ *	Author:	Aurelien Aptel <aaptel@nvidia.com>
++ *	Copyright (c) 2023, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
++ */
++
++#include <net/ulp_ddp.h>
++
++int ulp_ddp_sk_add(struct net_device *netdev,
++		   struct sock *sk,
++		   struct ulp_ddp_config *config,
++		   const struct ulp_ddp_ulp_ops *ops)
++{
++	int ret;
++
++	/* put in ulp_ddp_sk_del() */
++	dev_hold(netdev);
++
++	ret = netdev->netdev_ops->ulp_ddp_ops->sk_add(netdev, sk, config);
++	if (ret) {
++		dev_put(netdev);
++		return ret;
++	}
++
++	inet_csk(sk)->icsk_ulp_ddp_ops = ops;
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(ulp_ddp_sk_add);
++
++void ulp_ddp_sk_del(struct net_device *netdev,
++		    struct sock *sk)
++{
++	netdev->netdev_ops->ulp_ddp_ops->sk_del(netdev, sk);
++	inet_csk(sk)->icsk_ulp_ddp_ops = NULL;
++	dev_put(netdev);
++}
++EXPORT_SYMBOL_GPL(ulp_ddp_sk_del);
++
++bool ulp_ddp_query_limits(struct net_device *netdev,
++			  struct ulp_ddp_limits *limits,
++			  enum ulp_ddp_type type,
++			  int cap_bit_nr,
++			  bool tls)
++{
++	int ret;
++
++	if (!netdev->netdev_ops->ulp_ddp_ops->limits)
++		return false;
++
++	limits->type = type;
++	ret = netdev->netdev_ops->ulp_ddp_ops->limits(netdev, limits);
++	if (ret == -EOPNOTSUPP ||
++	    !test_bit(cap_bit_nr, netdev->ulp_ddp_caps.active) ||
++	    (tls && !limits->tls)) {
++		return false;
++	} else if (ret) {
++		WARN_ONCE(ret, "ddp limits failed (ret=%d)", ret);
++		return false;
++	}
++
++	dev_dbg_ratelimited(&netdev->dev,
++			    "netdev %s offload limits: max_ddp_sgl_len %d\n",
++			    netdev->name, limits->max_ddp_sgl_len);
++
++	return true;
++}
++EXPORT_SYMBOL_GPL(ulp_ddp_query_limits);
+diff --git a/net/ipv4/tcp_input.c b/net/ipv4/tcp_input.c
+index 06fe1cf645d5..e7d395d02682 100644
+--- a/net/ipv4/tcp_input.c
++++ b/net/ipv4/tcp_input.c
+@@ -4686,7 +4686,10 @@ static bool tcp_try_coalesce(struct sock *sk,
+ 	if (from->decrypted != to->decrypted)
+ 		return false;
+ #endif
+-
++#ifdef CONFIG_ULP_DDP
++	if (skb_is_ulp_crc(from) != skb_is_ulp_crc(to))
++		return false;
++#endif
+ 	if (!skb_try_coalesce(to, from, fragstolen, &delta))
+ 		return false;
+ 
+@@ -5255,6 +5258,10 @@ tcp_collapse(struct sock *sk, struct sk_buff_head *list, struct rb_root *root,
+ 		memcpy(nskb->cb, skb->cb, sizeof(skb->cb));
+ #ifdef CONFIG_TLS_DEVICE
+ 		nskb->decrypted = skb->decrypted;
++#endif
++#ifdef CONFIG_ULP_DDP
++		nskb->ulp_ddp = skb->ulp_ddp;
++		nskb->ulp_crc = skb->ulp_crc;
+ #endif
+ 		TCP_SKB_CB(nskb)->seq = TCP_SKB_CB(nskb)->end_seq = start;
+ 		if (list)
+@@ -5288,6 +5295,10 @@ tcp_collapse(struct sock *sk, struct sk_buff_head *list, struct rb_root *root,
+ #ifdef CONFIG_TLS_DEVICE
+ 				if (skb->decrypted != nskb->decrypted)
+ 					goto end;
++#endif
++#ifdef CONFIG_ULP_DDP
++				if (skb_is_ulp_crc(skb) != skb_is_ulp_crc(nskb))
++					goto end;
+ #endif
+ 			}
+ 		}
+diff --git a/net/ipv4/tcp_ipv4.c b/net/ipv4/tcp_ipv4.c
+index 2a662d5f3072..286e2988b797 100644
+--- a/net/ipv4/tcp_ipv4.c
++++ b/net/ipv4/tcp_ipv4.c
+@@ -1868,6 +1868,9 @@ bool tcp_add_backlog(struct sock *sk, struct sk_buff *skb,
+ 	      TCP_SKB_CB(skb)->tcp_flags) & (TCPHDR_ECE | TCPHDR_CWR)) ||
+ #ifdef CONFIG_TLS_DEVICE
+ 	    tail->decrypted != skb->decrypted ||
++#endif
++#ifdef CONFIG_ULP_DDP
++	    skb_is_ulp_crc(tail) != skb_is_ulp_crc(skb) ||
+ #endif
+ 	    thtail->doff != th->doff ||
+ 	    memcmp(thtail + 1, th + 1, hdrlen - sizeof(*th)))
+diff --git a/net/ipv4/tcp_offload.c b/net/ipv4/tcp_offload.c
+index 8311c38267b5..56705fbe6ce4 100644
+--- a/net/ipv4/tcp_offload.c
++++ b/net/ipv4/tcp_offload.c
+@@ -268,6 +268,9 @@ struct sk_buff *tcp_gro_receive(struct list_head *head, struct sk_buff *skb)
+ #ifdef CONFIG_TLS_DEVICE
+ 	flush |= p->decrypted ^ skb->decrypted;
+ #endif
++#ifdef CONFIG_ULP_DDP
++	flush |= skb_is_ulp_crc(p) ^ skb_is_ulp_crc(skb);
++#endif
+ 
+ 	if (flush || skb_gro_receive(p, skb)) {
+ 		mss = 1;
 -- 
-2.41.0
+2.34.1
 
 
