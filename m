@@ -4,66 +4,166 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2F39CEE4993
-	for <linux-nvme@archiver.kernel.org>; Mon, 21 Aug 2023 15:11:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99F9EEE4996
+	for <linux-nvme@archiver.kernel.org>; Tue, 22 Aug 2023 03:50:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9qjHM63ewJnoN0R3RiE8BJvKc2Z69bN6pVonrBX5veQ=; b=MTt1quOnMvdnKUVZNYp18Pj0td
-	1ARXc/18oEGrAD11/gncR1fmXmTbLJksnGyw882gwGtmMksXUsg+5/uCqxM1G4n2x2jIBlBey9TLR
-	p18gkrrVmIfGmrDW0uA5P1SIciJdJA8AocejEh/+bYTCMoGYgUfxb2gfewObNless0+TzSAcWU3bU
-	Wk8kV+Xz32raQNY1RxEkrDFgR3a1WitscdO4Kvje29FgxYdSiLdxc0X3xfyUxESKdWfXFG2tXO5Wh
-	2vr7xgIfoXMc981g5M4tI+FFi+ksthB5Sf7L9mU5XEqGNxDdqysWPv03u1lm2KcxIcMqXTAnjKBNI
-	9H3evNQw==;
+	bh=Rckpc3CFB9e4bzpKDo3NlrmFknSFn7WgzJccbjYInDA=; b=aTj7zhORgKYYJZmWlsZCkgyao6
+	3JUvB/ljvAGmSkZlFwypEYb6NZ90+qdKVMKkbDXlafyFKm14fJv3QdJwkICiiusa5uJbyXFOw3MaL
+	j0RqJUNFkXEA1KjUfVa2EHI5qgwAp0K3E7PtXcTMAnYh7tdhZFHfW6rXgbIjCZBdZv9/DyTty/IMI
+	up4hpqbcKDy9ziPxER9F9sslATs5rHFswziNtdHbc04k6u72ukFoo7qonXkCfz++1Vra4SNe37vXK
+	SOHz1QCXJWvVUgDuOLi9rIKsQD6eHMPu1m9cShHWa2hPQXPjZWipW3eSvD0iZ4lkbdbjMrEYUu+zU
+	gWgkc+Rw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qY6ZH-00EFRN-1z;
-	Mon, 21 Aug 2023 15:11:47 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1qYIP1-00F3m6-0v;
+	Tue, 22 Aug 2023 03:49:59 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qY6ZF-00EFQy-0G
+	id 1qYIOy-00F3lJ-1I
 	for linux-nvme@lists.infradead.org;
-	Mon, 21 Aug 2023 15:11:46 +0000
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 19D7E637EC;
-	Mon, 21 Aug 2023 15:11:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E6F0C433C8;
-	Mon, 21 Aug 2023 15:11:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1692630701;
-	bh=tbKCeWn0ZjvA3hj7JRQTS8xhr3rbKXqfbESVm3EMXkQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PKB/m4pOugUDDPydHqMovCsKdthip5ADQlKUoqoXDXCCSTlFDIBNQZydM6j/yqY/+
-	 sFN0oa83Z/XOnQQTJcf1vpK2uKnk+tW+MFHk5n61ajzVnrKTp9+HtVOHbo493oIJuJ
-	 vWGizY4RynHlckatme6nUT8x6MKW8fND//lw4i0xWJyR2yZrKD1A/g3ER1/k23r4CS
-	 RzJXd8hUFPcklgZ2bw1MwWlwbPhYWQbexrY0GnmOlXARi26A9GU4kBmbRAzN60k5Gm
-	 3emxKDWlWYsiVwIkSNykid+JjupQ/dGjH4VDww4dmru2P0mwMkhL7gbx0o530hxImi
-	 FOlxcv1RqV/hQ==
-Date: Mon, 21 Aug 2023 09:11:38 -0600
-From: Keith Busch <kbusch@kernel.org>
+	Tue, 22 Aug 2023 03:49:57 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1692676195; x=1724212195;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=Rckpc3CFB9e4bzpKDo3NlrmFknSFn7WgzJccbjYInDA=;
+  b=m/gPxTlIbGTSkK+yD7yyxsb2At5ZYuhjK017GFQnukKM5x6molGz/TsS
+   OZBzX2umtNdzA1HtXX7YqYV3KNxTrsaYxWb5sZ5FuQZCPBcKsBxRfWNLy
+   uTdl6bEOGU/1eakLAGFSx5+0xorKmE/qeXTBf27aD8qIaweeCGWhChHKr
+   iBmqzyhwT7S7jC7mKyfnmJIquN0ACBbeqZIKeEaFZ2hYNeinOWzW6Fo2q
+   nyDM+xYg5k60cniVenXDNopaFcMvti/LtLfbkNDD+oJZ3DyXtDX7+qpo5
+   LKxuEoxgUUfeFCe2V2OyrORJX1b+FUmu6sL2heeVDYqrYNR2qWC4xBdVI
+   g==;
+X-IronPort-AV: E=Sophos;i="6.01,191,1684771200"; 
+   d="scan'208";a="242090588"
+Received: from mail-mw2nam10lp2108.outbound.protection.outlook.com (HELO NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.108])
+  by ob1.hgst.iphmx.com with ESMTP; 22 Aug 2023 11:49:49 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ERNwdq9eojBJiEjFZ2yzAFkmCAho9lGMVbXbLVEIXNdKR/gUHgFS+e5EAC1oIEvXnW9BKCn4hmY24LGwzzVQl5yyGlA6U5jWRaH4GWJ7d5hGd4LmtXuNcymOSclN79yjl2OcpCmN5hUOIjbIMXFgL+KxEB7dApN6b6xBLKFnoWJ2FFUgkkgQ1w55Nf5eT0QjQ6M3mIftuTn4FIWaaqwmwaIio8XPoMdY5Qcw1xVKq6qk63XqdOqX9iJVupC8UH+QH9G0vV6x7puNJu+dW/TkzZtBtouDZ0as+QPlGtTd85WXfmtqzluSDyDAeMbkIcfEW6KeG9yA44YUsTHq89se6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Rckpc3CFB9e4bzpKDo3NlrmFknSFn7WgzJccbjYInDA=;
+ b=NiLqXwtCNDcC8Ga6pV0S2WGJ2caPHqxAVnXNEXtX/ozcO9lgmhJXS7pmGB/huGaRDu6MOl4iuxZGaeVUyF9ZH+K6c+jdfn3BmU4IaaXdRrHGzs3VnttRArcG4HG0b90itGS40cFALoWLQotoBI+Yj/mFdN5SROpm+ip1NLJebAwm7lHb3qr4nz5yoRcSb62S0GPgDK35jNKeMcyenXBpyJ/EWjNuIZYTDrSNbl1RjXAXykbXlTR824gnHCCaH/fwjWGukm3F2GJyTfeG34yXepWQh1zIUPFPmUUj0sjwU+jD/UUI3/ac31PYh6FKeW40o+epOuB82QyGSEfNth1MPg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Rckpc3CFB9e4bzpKDo3NlrmFknSFn7WgzJccbjYInDA=;
+ b=dRJB5oi2vxGGgNXnc7Dtp6vPQxiI3o5EGXTAvvMU3I5lzVhH9vzGkJEzsGS6HdC+PJxUo+YkZImebZeTfwBfI/AT3aZLiZl5NeRR20tZlEK9cSBlMDrHGT4nGEu83OR3INvvjs46VlxyUsxKl2R6cUdTpYMsBwnYDEbdIHIbjnU=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ BN0PR04MB8192.namprd04.prod.outlook.com (2603:10b6:408:144::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6723.14; Tue, 22 Aug
+ 2023 03:49:47 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::f92a:6d40:fe94:34e9]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::f92a:6d40:fe94:34e9%7]) with mapi id 15.20.6723.013; Tue, 22 Aug 2023
+ 03:49:47 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 To: Daniel Wagner <dwagner@suse.de>
-Cc: Christoph Hellwig <hch@lst.de>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	Guangwu Zhang <guazhang@redhat.com>, Ming Lei <ming.lei@redhat.com>,
-	Oleg Solovyov <mcpain@altlinux.org>
-Subject: Re: stack smashing detected with 'nvme sanitize-log /dev/nvme0'
-Message-ID: <ZON+qrAwuO3eQB6G@kbusch-mbp.dhcp.thefacebook.com>
-References: <dckvq3ohgqdkxg7wz4vslf36gaivgldl742vew67oyh2buj5nr@7ypn5ydt6kss>
- <20230726131643.GA16186@lst.de>
- <zopmb3355u2vorlkvas3gqb53azp7qtb7yq2kyc3reezlyqtcy@iev3wkvzumsq>
+CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Yi Zhang
+	<yi.zhang@redhat.com>, Sagi Grimberg <sagi@grimberg.me>, Bart Van Assche
+	<bvanassche@acm.org>
+Subject: Re: [PATCH blktests v3 1/2] nvme/rc: fix nvme device readiness check
+ after _nvme_connect_subsys
+Thread-Topic: [PATCH blktests v3 1/2] nvme/rc: fix nvme device readiness check
+ after _nvme_connect_subsys
+Thread-Index: AQHZ0Y4wNWMY+2F98EKZHuEV5VJm+q/vv8gAgAX0a4A=
+Date: Tue, 22 Aug 2023 03:49:47 +0000
+Message-ID: <jpo6k4plsg5one3r5kaogg3ieucxfc5ha4r75tsbr7uamzpucp@dd5jwwerz24i>
+References: <20230818044057.3794564-1-shinichiro.kawasaki@wdc.com>
+ <mgfm3zji6qpuohc2hxfhttu3dmrj74ytmx5wfkloj23le6zcg7@gorhk6oekqln>
+In-Reply-To: <mgfm3zji6qpuohc2hxfhttu3dmrj74ytmx5wfkloj23le6zcg7@gorhk6oekqln>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|BN0PR04MB8192:EE_
+x-ms-office365-filtering-correlation-id: 24512593-0f3a-4545-29e7-08dba2c2d454
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: rvewY06KVglByIL1b5xewKxw2pjtqxIeTUjbxxMhQ2GEClliJSbGbiPYmX6h9XQ+G0DwyIR1mh+JItU+OYXjIOjLC/5NJ11n/LjMsy3SMV6hDOM/FO+xPo0ZNkN4Arm5h2KDAH5sxtzGi6cNtPmgtK2BAOp8m7uTMJHanc13Vf54c2zESEnwa4BA2Wn1khp3UB2y9EaCIAWIvOwdugDpgGrODExEQd9QSEihDmwZL41vFidTiJY0GHDp/EXXH14wuMeNTM2ao2sYRazN4vK5klSa3x/srTF2v/SE0n15FYLJ095iq907+aHPfKUH49neYFHFFjytL0XZxcbfwJa5jwKSdlBllQaiR7tW1NQ3e9t9KZsDzoRXU+MDjXGcKEafGkfKdkc+CDyu/kYtW/IsEZNGv533JLRX5msW5j0zil3I06yTYiBN3A5DQl2/wcXXhzFMSugGYVUz7RWA1ZJfpwPy5HccZYiUHuPNOZ1pnCdcjBMFu94Og7/yfRi26zIDYFGThcqbO1xzKLum9mSnxQMe04fjq0NoVpIuxd3Pd1x33ehOpXia4Zz5axhn7HF9okP6EnuE8bi1R6WHMr3o/2mxnqV/xlb6xbqx27VePeY=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(366004)(39860400002)(346002)(396003)(136003)(376002)(451199024)(1800799009)(186009)(2906002)(83380400001)(6486002)(38100700002)(6506007)(5660300002)(44832011)(26005)(86362001)(38070700005)(8676002)(8936002)(4326008)(66946007)(316002)(6916009)(9686003)(6512007)(66446008)(66556008)(76116006)(64756008)(54906003)(66476007)(91956017)(82960400001)(966005)(478600001)(122000001)(71200400001)(41300700001)(33716001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?tNNF4kmhX1CpQOL0fCpgcXd4QDPcedHuH/xu0vqw8w++3BmcJ/gwGy7eiE6a?=
+ =?us-ascii?Q?OvD8hlCLIH9+++IX1n0Wvsj+n/qPnmIuRdJQN5d0dp+A7WClUW+eWWA1O5Zq?=
+ =?us-ascii?Q?+gDBsObqZXjc9Ek29jhBZc/URrDOzr5UgE3TqTIftM1ujp+t0sEkYS2XBCfS?=
+ =?us-ascii?Q?p23z+iNoiZjpUGuV+kSPnyR2d021UaCQ/QYqoimOzB3dF83rm6Epb7pwB+8q?=
+ =?us-ascii?Q?NRnefmfl0c6t4wqF3vYVtbmfahSfpruyF/px7O0fnUHYIMLrLw+LROZa0RzK?=
+ =?us-ascii?Q?LT1VjM5nFZ8BDCcH2CmNvK++1pLrbu9Ei4bvMJ9PAQIFg4MjgiNYAzbPYrma?=
+ =?us-ascii?Q?0wgn1NDkUG+uDkAT552p1Z48nOfCj+IDZuJlu7hJWaIApP1cfwacTJb51Gk0?=
+ =?us-ascii?Q?jVJDY6Ah65MKkBqefH/LPZaXRDeWyrFo3j5wJhIWV9oe+NM/jJGvkZaabPxv?=
+ =?us-ascii?Q?9Km5RYzLzNuVxwIaUYCHgyIRP4IbN/aRlE5HdbWBEn8aGLdgeRu6d8jblTwI?=
+ =?us-ascii?Q?/RojN0RDdNLnOANtKPN4DFXUSvfdp/mGalqWb681f5tBUnppf3BSf1NsTGKT?=
+ =?us-ascii?Q?tZ8qFmIsF8oE5br6GVwhuKn+bhecZw8+3FQUsk6LDrZcX9C2C/jMUrRq53AH?=
+ =?us-ascii?Q?5/Zig5xoO/hoqZC1MTeV1rqLvoAvEPNGlAQfv7wndMlrXSxLaAYCYePvbq88?=
+ =?us-ascii?Q?QZB0N96tkrEWnqEzgG1gOyayKlxQt9xj0/c5mh9ySng+iIYjMVUcbPd2EyGf?=
+ =?us-ascii?Q?xBNyJcRgFuq8s7pY+xl1EBrnfXe8b9NJoO1ancjPPpvZQeL2K3bQ+C6LQIUa?=
+ =?us-ascii?Q?XoIgtPjKVxexukJsZbtYOHUQi8dXb1d8yIs9FXQiVb09qYtiIcGRorhFhtkq?=
+ =?us-ascii?Q?zfD8HbEneOEMHupXXAYdA0PP+LpYdJPEiwgKTTe4hIUgaNHcaZSyqnOleNP/?=
+ =?us-ascii?Q?yHlDCRALu6x+/UNMfEBabOUStkGaYpVfg7OOr63Oe6cK933wL6u3cnzPX8+6?=
+ =?us-ascii?Q?+fOlIt1X2GuSh5Z4JmGrLyL+28utuyXiIENXcOcTAybZSM9vOfuUUg2bUFAt?=
+ =?us-ascii?Q?Md6yhwPi5+4zAsXlp2scok1yAiKCsEu9c+X3L/G6cdLEuVksV9oVONmAfADx?=
+ =?us-ascii?Q?rFzp6n7yM10PJnCY1bpz54dREdALbiBK7i5LB48DZApVDEkzvDR23J5tQx24?=
+ =?us-ascii?Q?0iHO0ihBb4sX3dLmQ8GUys08in6M0BtwrgkADyrN2PxoJ0ERuNomCLo+emws?=
+ =?us-ascii?Q?38nE066tlOQVR2i3cqR5QeWsH6v7PAIKwgkskyJqYUADlDEEKccvKXuMiUI+?=
+ =?us-ascii?Q?/WEvTiYiesp3Ifyfy8abvHWFeLUdJ6Tjvbrq9o8o3GNoLxObXzmOSGDN0kw4?=
+ =?us-ascii?Q?wFr00wBULcCHooiVIXCic9Jz8JHUi+ue5g1paPE7Ys1WbQZ9JwPZE9vwg3D4?=
+ =?us-ascii?Q?xbJIQGFLBg85tamxFAcz/NOkVRaAKY75U2vEoAyV3mdbhV3u2+37Ljz4sJWv?=
+ =?us-ascii?Q?++if7xvKCttQjplKD33rhHFcgQ7e0PKYonCePMgeY58HpoaBgcoJto8XTxpN?=
+ =?us-ascii?Q?4IymtFUMi0i4GLNQcDH8hxm+gV1pQqjmwUyBsHPW91SHJ2CWK5MWQLCGx753?=
+ =?us-ascii?Q?XpRc/tJTKvgQQroAZgyhXRM=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <4AD21691A8797C4C88F060AF05DE7325@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <zopmb3355u2vorlkvas3gqb53azp7qtb7yq2kyc3reezlyqtcy@iev3wkvzumsq>
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?us-ascii?Q?NbsGCOgviOvykITrs2G48KXM3R8rX+++ewgJcQQZyYoFYdjS5ZIh5Nz555tB?=
+ =?us-ascii?Q?jw3SRk0qE/8iMCF63jLNz+92EtCX7+y2ncO4UIaFOpuOmH5C1gcrhwomVNZT?=
+ =?us-ascii?Q?ablY39ME0J1Q7WgA4A1KvvrZrSFNMJAf9T/dVcFO9r4yXZ3w/lrWsjm3J3v8?=
+ =?us-ascii?Q?VdPumSrLjw4rGsmPkVHvdYSsAgy0A77L+2DqOfySDGza26qz0byvR6LRVasg?=
+ =?us-ascii?Q?SwZbOFIcghRj7RRiT9eZW5IN4dTspbkdpZRnE/DTPUKGOvTZsKlCPX2T23zv?=
+ =?us-ascii?Q?Z+8QlWxJ1P+xygjKK0ElW02qpArdXu+70ycKyQdYYyYwPxnJ6N7N/hQliifJ?=
+ =?us-ascii?Q?11a2qMcN7z2zUgShGKSefxWkqojH7+nKIPu9Dl24f7RX7l8hy/F58/SRWe/h?=
+ =?us-ascii?Q?WC5bSkGyCjeFf6lx60XoN6SKGpng2oMv85dy9XGD4+qtzmWXc0GlTRsEVVe1?=
+ =?us-ascii?Q?zHJgbYzLFFu3KIgD8adgJNAvBJFKK9S83VsVIVCZj1Iv0hiHui3e5q+9yaY4?=
+ =?us-ascii?Q?tSWQklApaA+cAUqZqLNg6Vdzqj25ju8wm7y3GSnkiixNQLymMTceKWMzlbLk?=
+ =?us-ascii?Q?+iYo3DNYwrJVzYlp5Z/umSuM3NJKuILRkocfUL9r1acwTjUKwJSI/gAmwSBM?=
+ =?us-ascii?Q?DIO3IjypLwtH05ngzz3G88wwCzfFFHIeopFLjbmJn7HJizoomICUDefI5wxc?=
+ =?us-ascii?Q?mAUsch/whTYkr6/TuGPefJsVr5cmggkCjZTZkBCdK8nI2/ySGEVoqVLT45DL?=
+ =?us-ascii?Q?LE4p9TLMiwFoj9PEv5U6skqm3y07LvXxt29nAjM2z3/P58k2vuLEZj9y9gh/?=
+ =?us-ascii?Q?Vqxw0eg61C4PCWUIHgptuigWKD/pD1Nt5DBU89fsQqiUyw3TRXxbLZ9dWiJN?=
+ =?us-ascii?Q?IHomWZZkm3RIUB3G+QIzmv/cHkJJodEWo8Ighz27mAomIdesUAzkx/26U1Tj?=
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 24512593-0f3a-4545-29e7-08dba2c2d454
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Aug 2023 03:49:47.2429
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: qWTbOXjE02lO5LVakwI2MoA2xb0PC8iqwAj4dim7u5AnCv/LVcg6v/7vbbuMo1la20F83OTcBD1Eu3rwOboFA68ckQU2xxqmCW/FnL2ecNk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR04MB8192
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230821_081145_211479_20369D42 
-X-CRM114-Status: GOOD (  38.31  )
+X-CRM114-CacheID: sfid-20230821_204956_528628_1BE439BF 
+X-CRM114-Status: GOOD (  30.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,105 +178,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Aug 21, 2023 at 03:37:55PM +0200, Daniel Wagner wrote:
-> On Wed, Jul 26, 2023 at 03:16:43PM +0200, Christoph Hellwig wrote:
-> > On Wed, Jul 26, 2023 at 01:52:04PM +0200, Daniel Wagner wrote:
-> > > FYI, I got a a bug report [1] with a 'stack smashing detected' when running
-> > > 'nvme sanitize-log /dev/nvme0' on Debian. Originally, it was reported against
-> > > udisk. udisk recently added libnvme which does now a sanitize-log call, so this
-> > > problem might exists for a while.
-> > > 
-> > > We figured out that an older kernel such as 4.19.289 work but newer not (it's a
-> > > bit hard for the reporter to test all combinations on his setup due to compiler
-> > > changes etc.).
-> > > 
-> > > There was a bit of refactoring in v5.2 which could be the cause of the stack
-> > > smash, because saw this recent fix:
-> > > 
-> > >  b8f6446b6853 ("nvme-pci: fix DMA direction of unmapping integrity data")
-> > > 
-> > > [1] https://github.com/storaged-project/udisks/issues/1152
-> > 
-> > If you think it is related to DMA, there are good ways to check for:
-> > 
-> >   1) force that an IOMMU is used for this device
-> >   2) hack nvme or the blk-map code that we never do the direct mapping
-> >      to user space but do the copy based version, and then enable
-> >      all kernel memory debugging helpers, most importantly KASAN
-> 
-> Collected some info:
-> 
->  - this happens only with devices from MAXIO Technology
-> 
->    vid       : 0x1e4b
->    ssvid     : 0x1e4b
-> 
->  - Oleg bissect the kernel and he landed on 3b2a1ebceba3 ("nvme: set
->    dma alignment to qword"). He hacked the kernel and this made it
->    work again:
-> 
->    --- a/drivers/nvme/host/core.c
->    +++ b/drivers/nvme/host/core.c
->    @@ -1871,7 +1871,6 @@ static void nvme_set_queue_limits(struct nvme_ctrl *ctrl,
->                    blk_queue_max_segments(q, min_t(u32, max_segments, USHRT_MAX));
->            }
->            blk_queue_virt_boundary(q, NVME_CTRL_PAGE_SIZE - 1);
->    -       blk_queue_dma_alignment(q, 3);
->            blk_queue_write_cache(q, vwc, vwc);
->    }
-> 
->  - modified the reproducer so that it allocates a 4k buffer with a well
->    known pattern and checked the buffer after fetching the sanitize log
->    [1]. The first invocation wrote 0x940 bytes and the second 0x5c0
->    bytes. Note we just asking for 0x200 bytes.
-> 
->  - modified blk_rq_map_user_iov so that it always uses the copy path.
->    The problem went away. Though forgot to ask to turn on KASAN but
->    given that we know the device writes too much data it is likely also
->    overwriting some kernel memory.
-> 
-> So what's the best way forward from here? Introduce a quirk and always
-> use bounce buffer?
+On Aug 18, 2023 / 10:53, Daniel Wagner wrote:
+> On Fri, Aug 18, 2023 at 01:40:56PM +0900, Shin'ichiro Kawasaki wrote:
+> > The helper function _nvme_connect_subsys() creates a nvme device. It ma=
+y
+> > take some time after the function call until the device gets ready for
+> > I/O. So it is expected that the test cases call _find_nvme_dev() after
+> > _nvme_connect_subsys() before I/O. _find_nvme_dev() returns the path of
+> > the created device, and it also waits for uuid and wwid sysfs attribute=
+s
+> > of the created device get ready. This wait works as the wait for the
+> > device I/O readiness.
+> >=20
+> > However, this wait by _find_nvme_dev() has two problems. The first
+> > problem is missing call of _find_nvme_dev(). The test case nvme/047
+> > calls _nvme_connect_subsys() twice, but _find_nvme_dev() is called only
+> > for the first _nvme_connect_subsys() call. This causes too early I/O to
+> > the device with tcp transport [1]. Fix this by moving the wait for the
+> > device readiness from _find_nvme_dev() to _nvme_connect_subsys(). Also
+> > add --no-wait option to _nvme_connect_subsys(). It allows to skip the
+> > wait in _nvmet_passthru_target_connect() which has its own wait for
+> > device readiness.
+> >=20
+> > The second problem is wrong paths for the sysfs attributes. The paths
+> > do not include namespace index, so the check for the attributes always
+> > fail. Still _find_nvme_dev() does 1 second wait and allows the device
+> > get ready for I/O in most cases, but this is not intended behavior.
+> > Fix this by checking sysfs paths with the namespace index. Get list of
+> > namespace indices for the sub-system and do the check for all indices.
+> >=20
+> > On top of the checks for sysfs attributes, add 'udevadm settle' and a
+> > check for the created device file. These ensures that the create device
+> > is ready for I/O.
+> >=20
+> > [1] https://lore.kernel.org/linux-block/CAHj4cs9GNohGUjohNw93jrr8JGNcRY=
+C-ienAZz+sa7az1RK77w@mail.gmail.com/
+> >=20
+> > Fixes: c766fccf3aff ("Make the NVMe tests more reliable")
+> > Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+>=20
+> just a minor nitpick but feel free to add:
+>=20
+> Reviewed-by: Daniel Wagner <dwagner@suse.de>
 
-I don't think we want to bounce to kernel memory for the device to
-overwrite it. I suggest just change nvme-cli's stack allocated santize
-log to a use page aligned and sized buffer.
-
----
-diff --git a/nvme.c b/nvme.c
-index 181141ad..7f98a506 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -2376,7 +2376,7 @@ ret:
- static int sanitize_log(int argc, char **argv, struct command *command, struct plugin *plugin)
- {
- 	const char *desc = "Retrieve sanitize log and show it.";
--	struct nvme_sanitize_log_page sanitize_log;
-+	struct nvme_sanitize_log_page *sanitize_log;
- 	enum nvme_print_flags flags;
- 	struct nvme_dev *dev;
- 	int err;
-@@ -2419,13 +2419,19 @@ static int sanitize_log(int argc, char **argv, struct command *command, struct p
- 	if (cfg.human_readable)
- 		flags |= VERBOSE;
- 
--	err = nvme_cli_get_log_sanitize(dev, cfg.rae, &sanitize_log);
-+	if (posix_memalign((void *)&sanitize_log, getpagesize(), 0x1000)) {
-+		err = -1;
-+		goto close_dev;
-+	}
-+
-+	err = nvme_cli_get_log_sanitize(dev, cfg.rae, sanitize_log);
- 	if (!err)
--		nvme_show_sanitize_log(&sanitize_log, dev->name, flags);
-+		nvme_show_sanitize_log(sanitize_log, dev->name, flags);
- 	else if (err > 0)
- 		nvme_show_status(err);
- 	else
- 		nvme_show_error("sanitize status log: %s", nvme_strerror(errno));
-+	free(sanitize_log);
- close_dev:
- 	dev_close(dev);
- ret:
---
+Thanks for the comment. I've applied this with the suggested change.=
 
