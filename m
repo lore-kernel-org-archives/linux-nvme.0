@@ -4,68 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5513EE49A0
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Aug 2023 15:38:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D43DAC27C40
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Aug 2023 17:41:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Eenv0E3pbFxBLmV/yDdoisR0p0sMffadvPsgkrHKufY=; b=jRXDD2uBrzpY9dMITyEyk7jkNH
-	m67fSYe0KeYfKAENtIWrU82SRnv8L5F83oigZWobOooXL7ex0chfidA6I/WdRc9LvfWFHC44egfRh
-	tBuDn29qi6pw2/3GQ8vxpWX1ucrPqQnU7u9ZwUsu2fM3359OHJffn5W7WCSLdVfmAlHDFMIUWzpu8
-	uJMTTC1h03V93UHDjwiuP1J7E/zAtlthWi/UUt8DCcJLwCQUcg3CenEeMiFqZo/znozDWm15dW70/
-	QdbOeryuk5/Q9xs51TEAne03q7wdiN399m1CnoK+LMdGTvMYJvzKLoJhXHn9arrcAEC+jj0ecB79K
-	JFdfcAgA==;
+	bh=y3XjGeHACUJ3YF2gkQ1CMAVW4WVrgEx1hELMjsq71y4=; b=OksfN4Pp3S5QMycN5oUEWbUBtl
+	B86aoGUS2huOsvidEh04xAz/GwvKapA3d8F/sPO8OQ+zjYJBXI4udtmX1buCJdkTkQpjUmfy7gIHl
+	K4CTFSKs04MVhaFeCYNfxMZ/DMn67KIkoFvywTlo8Nzq/YXxh0CKKEkhoUoE/rnw/m6t7qnKYBNku
+	z6hZ/rQtKDjB5lzNCL94f8qXFUGJ7t55wavaD+8q/rwe/ehh71wWd/JdK93uomkSaP1nXADA2lpDS
+	vVgX5AISfZhPzz7kS8+fXDStJPl3hbOh6/PXZ/vVmEQIMGgOcXeuqsqH+Gzc1CxRq6DFEzTv4FLlb
+	uzJxtLMA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qYpvl-000zro-07;
-	Wed, 23 Aug 2023 15:38:01 +0000
+	id 1qYrrG-001ExB-0b;
+	Wed, 23 Aug 2023 17:41:30 +0000
 Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qYpvf-000zrC-11
+	id 1qYrrD-001EwW-1l
 	for linux-nvme@lists.infradead.org;
-	Wed, 23 Aug 2023 15:37:56 +0000
+	Wed, 23 Aug 2023 17:41:29 +0000
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id B457160AC4;
-	Wed, 23 Aug 2023 15:37:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7600CC433C7;
-	Wed, 23 Aug 2023 15:37:52 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 81A2161DAA;
+	Wed, 23 Aug 2023 17:41:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07CEEC433C7;
+	Wed, 23 Aug 2023 17:41:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1692805072;
-	bh=8/9EbLHyidtqZz27exoTNlGynMuUFw3JiOjBx/Kfn5E=;
+	s=k20201202; t=1692812485;
+	bh=hsb6gB5NMJFwkpeeIIp0w7CdLGqMZt2F4W1XolOfh/g=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=szp+06IUki47DlwYhUpPF4uCnVR1u/gpgYuDmLl4MmW0eYocsYv352z+4jxjs/bLY
-	 Tavde0xtBAjE44kETh28E5Fh4W5ttrfpxNqMiahZHO4Qn/XRytDeUGrDySmEm4y6R7
-	 RUdGRBULsDcZieMFtdUHF1efA3Dzd6IpjImZfuk2R8IfJ/0aJH2NFs+Og60yfmRaO2
-	 CPlufVIgO/Hv9zGn9uXbD9BLOjlAfX6flK1lGZgpLxd4fYG2+n1SFOhzV+xWYGjPde
-	 akWUuduMcXkh6FSbiSvgaJYwpYQSZB7dXExyrynEsdjJzXnjLCTEBHk6foV0ft/7FH
-	 /7WvUqrXHLjuw==
-Date: Wed, 23 Aug 2023 09:37:48 -0600
+	b=CRxhLp5hrc32SJ3DBmJPdqYlQBQAftbsQyxLrXkD1awC1ufAnhwH0YVxpWgj8qB5F
+	 HS+0sGLajLyCg8Yq+ciP6LniF/lapkAuo7MwiSj+uYXAIQiow8PCCU01wgeqG2gShd
+	 xKDM0/W+a1ZYz7j4eMepKACC5VbLk99v8OITJBoiKRmeJC4Xdz/ZV6kkQQPzbPyGR4
+	 X4H/45ORQmA7FQMPx1iAdS74Dbz1f4WPX2/9rJGtGrlYySy+d6afdw/B9uVGtgSHyV
+	 taGWxsRitUQtaMgLtex4oSfWhTwiluyN3DE0Ao9IUe79JHgSo51TEcJaG89MkjCI8a
+	 OtKRx4F8JUlHQ==
+Date: Wed, 23 Aug 2023 11:41:21 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Christoph Hellwig <hch@lst.de>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	Guangwu Zhang <guazhang@redhat.com>, Ming Lei <ming.lei@redhat.com>,
-	Oleg Solovyov <mcpain@altlinux.org>
-Subject: Re: stack smashing detected with 'nvme sanitize-log /dev/nvme0'
-Message-ID: <ZOYnzFSgWAwnkWqs@kbusch-mbp>
-References: <dckvq3ohgqdkxg7wz4vslf36gaivgldl742vew67oyh2buj5nr@7ypn5ydt6kss>
- <20230726131643.GA16186@lst.de>
- <zopmb3355u2vorlkvas3gqb53azp7qtb7yq2kyc3reezlyqtcy@iev3wkvzumsq>
- <ZON+qrAwuO3eQB6G@kbusch-mbp.dhcp.thefacebook.com>
- <4ub43j2q4glt42cwgmaf4cohswt4xaz3lna5nquvb5lavjitvv@tctmuwftqil6>
+To: Genes Lists <lists@sapience.com>
+Cc: linux-kernel@vger.kernel.org, axboe@kernel.dk, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org, hch@lst.de, arnd@arndb.de,
+	ricky_wu@realtek.com, gregkh@linuxfoundation.org
+Subject: Re: Possible nvme regression in 6.4.11
+Message-ID: <ZOZEwafA8+tknJNT@kbusch-mbp.dhcp.thefacebook.com>
+References: <5f968b95-6b1c-4d6f-aac7-5d54f66834a8@sapience.com>
+ <ZN050TFnKZ54LJ5v@kbusch-mbp.dhcp.thefacebook.com>
+ <30b69186-5a6e-4f53-b24c-2221926fc3b4@sapience.com>
+ <570d465a-7500-4b58-98f0-fd781c8740cc@sapience.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <4ub43j2q4glt42cwgmaf4cohswt4xaz3lna5nquvb5lavjitvv@tctmuwftqil6>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <570d465a-7500-4b58-98f0-fd781c8740cc@sapience.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230823_083755_463427_77047429 
-X-CRM114-Status: GOOD (  28.14  )
+X-CRM114-CacheID: sfid-20230823_104127_695884_AF54E22C 
+X-CRM114-Status: GOOD (  18.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,63 +79,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 22, 2023 at 09:55:38AM +0200, Daniel Wagner wrote:
-> On Mon, Aug 21, 2023 at 09:11:38AM -0600, Keith Busch wrote:
-> > I don't think we want to bounce to kernel memory for the device to
-> > overwrite it. I suggest just change nvme-cli's stack allocated santize
-> > log to a use page aligned and sized buffer.
+On Thu, Aug 17, 2023 at 05:16:01AM -0400, Genes Lists wrote:
+> > ----------------------------------------------------------------
+> > 69304c8d285b77c9a56d68f5ddb2558f27abf406 is the first bad commit
+> > commit 69304c8d285b77c9a56d68f5ddb2558f27abf406
+> > Author: Ricky WU <ricky_wu@realtek.com>
+> > Date:   Tue Jul 25 09:10:54 2023 +0000
+> > 
+> >      misc: rtsx: judge ASPM Mode to set PETXCFG Reg
+> > 
+> >      commit 101bd907b4244a726980ee67f95ed9cafab6ff7a upstream.
+> > 
+> >      ASPM Mode is ASPM_MODE_CFG need to judge the value of clkreq_0
+> >      to set HIGH or LOW, if the ASPM Mode is ASPM_MODE_REG
+> >      always set to HIGH during the initialization.
+> > 
+> >      Cc: stable@vger.kernel.org
+> >      Signed-off-by: Ricky Wu <ricky_wu@realtek.com>
+> >      Link:
+> > https://lore.kernel.org/r/52906c6836374c8cb068225954c5543a@realtek.com
+> >      Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > 
+> >   drivers/misc/cardreader/rts5227.c  |  2 +-
+> >   drivers/misc/cardreader/rts5228.c  | 18 ------------------
+> >   drivers/misc/cardreader/rts5249.c  |  3 +--
+> >   drivers/misc/cardreader/rts5260.c  | 18 ------------------
+> >   drivers/misc/cardreader/rts5261.c  | 18 ------------------
+> >   drivers/misc/cardreader/rtsx_pcr.c |  5 ++++-
+> >   6 files changed, 6 insertions(+), 58 deletions(-)
+> > 
+> > ------------------------------------------------------
+> > 
+> > And the machine does have this hardware:
+> > 
+> > 03:00.0 Unassigned class [ff00]: Realtek Semiconductor Co., Ltd. RTS525A
+> > PCI Express Card Reader (rev 01)
+> >          Subsystem: Dell RTS525A PCI Express Card Reader
+> >          Physical Slot: 1
+> >          Flags: bus master, fast devsel, latency 0, IRQ 141
+> >          Memory at ed100000 (32-bit, non-prefetchable) [size=4K]
+> >          Capabilities: [80] Power Management version 3
+> >          Capabilities: [90] MSI: Enable+ Count=1/1 Maskable- 64bit+
+> >          Capabilities: [b0] Express Endpoint, MSI 00
+> >          Kernel driver in use: rtsx_pci
+> >          Kernel modules: rtsx_pci
+> > 
+> > 
+> > 
 > 
-> Sure we can add workarounds in userspace, though I think this is a
-> regression and should ideally address in the kernel somehow.
-
-Not sure if this is a regression. Even prior to the DMA alignment
-settings change, you'd still hit this if your stack buffer aligned to
-512b. The kernel bounce buffer sounds like it just corrupts kernel
-memory instead, so we can't have the driver just go back to the way it
-was for these devices; someone has to over allocate the buffer.
-
-A device over running their DMA buffer, though, sounds bad enough that a
-firmware fix should happen instead.
-
-> > diff --git a/nvme.c b/nvme.c
-> > index 181141ad..7f98a506 100644
-> > --- a/nvme.c
-> > +++ b/nvme.c
-> > @@ -2376,7 +2376,7 @@ ret:
-> >  static int sanitize_log(int argc, char **argv, struct command *command, struct plugin *plugin)
-> >  {
-> >  	const char *desc = "Retrieve sanitize log and show it.";
-> > -	struct nvme_sanitize_log_page sanitize_log;
-> > +	struct nvme_sanitize_log_page *sanitize_log;
-> >  	enum nvme_print_flags flags;
-> >  	struct nvme_dev *dev;
-> >  	int err;
-> > @@ -2419,13 +2419,19 @@ static int sanitize_log(int argc, char **argv, struct command *command, struct p
-> >  	if (cfg.human_readable)
-> >  		flags |= VERBOSE;
-> >
-> > -	err = nvme_cli_get_log_sanitize(dev, cfg.rae, &sanitize_log);
-> > +	if (posix_memalign((void *)&sanitize_log, getpagesize(), 0x1000)) {
-> > +		err = -1;
-> > +		goto close_dev;
-> > +	}
-> > +
-> > +	err = nvme_cli_get_log_sanitize(dev, cfg.rae, sanitize_log);
-> >  	if (!err)
-> > -		nvme_show_sanitize_log(&sanitize_log, dev->name, flags);
-> > +		nvme_show_sanitize_log(sanitize_log, dev->name, flags);
-> >  	else if (err > 0)
-> >  		nvme_show_status(err);
-> >  	else
-> >  		nvme_show_error("sanitize status log: %s", nvme_strerror(errno));
-> > +	free(sanitize_log);
-> >  close_dev:
-> >  	dev_close(dev);
-> >  ret:
 > 
-> Anyway, I suppose we want to do this far all get log commands, not sure
-> if it is limited to the get sanitize log alone.
+> Adding to CC list since bisect landed on
+> 
+>    drivers/misc/cardreader/rtsx_pcr.c
+> 
+> Thread starts here: https://lkml.org/lkml/2023/8/16/1154
 
-Perhaps for saftey we could do that for all logs < 4k in size. There are
-not very many of those.
+I realize you can work around this by blacklisting the rtsx_pci, but
+that's not a pleasant solution. With only a few days left in 6.5, should
+the commit just be reverted?
 
