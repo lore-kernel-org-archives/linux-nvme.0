@@ -4,142 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B55C3EE49AE
-	for <linux-nvme@archiver.kernel.org>; Tue, 22 Aug 2023 17:55:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9DC38EE49A0
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Aug 2023 10:49:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=b72g56+PY+gKvyrSK23icUbp+SsD5ND7PTIWHDq9nZ0=; b=PejWai90sw1bVI+6sTsjW+/OKc
-	cu6L0PG8sU66+dnZTdorat2JZZwyKG9mq1SPQi578XHd0ehU9a+2doQlNuaIfeNMkSduOCQLz6C1i
-	qeOPvXGD8QwaqNCad1SBinhEhvVZMXoGxhZp04m5l8d5v1R+GP1HBaitP9exmJ3vfQEJD13PCT2/x
-	akMEI9cwGAqxchmVwVmzQG87gQuzS9vOyy3PKBEf8Lh09hJoLTZ74pQq6RXb/bi+oqiiz0TSHYUco
-	mRGsbYQOF5s396VEAqrL8ZoiYAGqq7jsXHFXaLrzIOsErWKlAUg1QlDolfUonnIt0aX3TG3iQ5Yb6
-	ZlHP2VkQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=MBsPveD1xI53cn0DT68/0aGElxKX0zddJPsr7N619Ak=; b=XEVrpM4XLuoznrW1SwZKEgnG5y
+	rpmJXYFqSadDRKIbBhM4qH3SGOK0SUityEuijTO8fXg0fvskeDtpNqScoB6Eg82j7NUiAosD4FbXi
+	BlTJqc2LBziraXDYxbPzGCPoI+GHZToLyIi1d2T/Xub+DKRJ5NgMVjd7YNJYEffhUB2jpBfiOq3w7
+	b0QGvBTFjdZ5UPj2KO7/ZAvDzc63banZFQ2k5mkbSeHCWbQ2tDt94jhOqIZiZS1BTg68Dba/9R5ze
+	6dw9jylijfSLozzEEOYhH5XB69pNkSDl0EGb+xouCp25P3BBZJqkBthIUg6uLYM/ckTBszzKxMaTa
+	3HLFXYTw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qYVan-00GbVP-0s;
-	Tue, 22 Aug 2023 17:55:01 +0000
-Received: from mail-bn7nam10on2062b.outbound.protection.outlook.com ([2a01:111:f400:7e8a::62b] helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+	id 1qYlQB-000McI-1h;
+	Wed, 23 Aug 2023 10:49:07 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qYVak-00GbUr-0x
+	id 1qYlQ6-000MUS-0P
 	for linux-nvme@lists.infradead.org;
-	Tue, 22 Aug 2023 17:54:59 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lU6l02fxaG7R1+bRUejwBDyFnFuKvaztixvgs28GrmAUtyP1m4LSNpoOL8QVxEGZcIc1tgt6DcpNEuyFjmPEFEUxznfPSXzT4klm93tvLs+xxvZKURlp1gE/2U29nUn5VdttCAUWu3vGsfRePPy1M1lIT0vwhqtTGPCIRAZ/rwjAOHughYxxdihjVAxJzDAuGvQTla6k81t+kpqlT8c8YUcUe8Bz3YTyqxo6fXRBBosCrGYeVte6JQrjiFDlnO+6o/wn7FvPSO/bUW5YT0FkN7d5salGlkfhLL85cUtPSshm4yZgvbtIgMfIPXsQUVlkrujpTRi3YVOBQ4seNhnSNw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b72g56+PY+gKvyrSK23icUbp+SsD5ND7PTIWHDq9nZ0=;
- b=gOCkG9Unfml7T4+xXlFtfY1hIxL9R7yvBWthqOB2eMX/bt8rVhGrkXVXI7/s6mdAqRJJ+VLbYVFJP9CrX1LW59/va4eyeqDM9lkTWhnBdtKbSqr2PeHT7yipQEWa/Iv86H86C78CpeNSDPXPXieILXMRAULLdVl56hJP/+7DZGLZHAdLl9G1jELjrIlNyY1icYD/tKaRnzzjbs8fay0Om+60SiXrGDkSHDznBsgY2ZuqX+tqRUwN+txdiEbowK3UJ2Ro4jEU2XPYHqAMO0vOZ3dRV+IT+7WJeQg8SOBd6ASnPrJTJRw1a8osNPxKEUJnoatXU4skBFw3UniaMqyRHg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b72g56+PY+gKvyrSK23icUbp+SsD5ND7PTIWHDq9nZ0=;
- b=jooHKdCZbV5RrRnYmUt6ll1GSwKYhsNxmdfOyUN4ShZt18sl1ondVq/0dv8zXp91i9p8EP1kYAlM7CSb6njETh5Yj7rBgQaWUWs1qg6ZV4TkTFi734b/8BJJOfBzcpj/gjkiV0mb75Z4fGhxWPLezoZKq3IkhoNDbIKW0NLy+Qtr1xu7zIsBDnq/sC7e05lcoz3yodBlsk+uq7HHNT5DnDmm12HDzZ1dTqwRykuaEcIHisAh5dfcvZ7v6TeFgX5FvraOh8+XuyBIF8OG+IbtxLGB3UZ7Ezx91UyVMdha9q/MkFztEV+DsiRwuhdvjniJFp6hhAsbej3QV8axF9HoXA==
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
- by PH7PR12MB6979.namprd12.prod.outlook.com (2603:10b6:510:1b9::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.24; Tue, 22 Aug
- 2023 17:54:49 +0000
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::f55b:c44f:74a7:7056]) by MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::f55b:c44f:74a7:7056%4]) with mapi id 15.20.6699.022; Tue, 22 Aug 2023
- 17:54:48 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Daniel Wagner <dwagner@suse.de>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, Chaitanya
- Kulkarni <chaitanyak@nvidia.com>, Shin'ichiro Kawasaki
-	<shinichiro.kawasaki@wdc.com>, Hannes Reinecke <hare@suse.de>, Sagi Grimberg
-	<sagi@grimberg.me>, Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH blktests v3 0/3] Introduce nvmet target setup/cleanup
- helpers
-Thread-Topic: [PATCH blktests v3 0/3] Introduce nvmet target setup/cleanup
- helpers
-Thread-Index: AQHZ1NP3n57h8HfHO02ZwNZwaW00oK/2mdMA
-Date: Tue, 22 Aug 2023 17:54:48 +0000
-Message-ID: <f51b5ea8-a9e7-8bb2-983f-b46b44eb3776@nvidia.com>
-References: <20230822083812.24612-1-dwagner@suse.de>
-In-Reply-To: <20230822083812.24612-1-dwagner@suse.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW2PR12MB4667:EE_|PH7PR12MB6979:EE_
-x-ms-office365-filtering-correlation-id: 9ff6142a-25b5-479a-2163-08dba338e0c0
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Vo/BvT/f+1urITaZOTTUOIrKcRtvP0DOPTyKHv2d+UmQUQb+hFPYkzJayKaCqbbHZOYyhdzIfRwC1uz/8+MMag3MQ4urVGW779NxsC+7zTiNqt4PydgFMbi7dxob+1C0Kv5OzrYmtxjsr/dIMh0TESa2lSDl5aaCm2BtmeB67VbyWUM/KZH0eFczK4lmApg7WDNWoiHvy10/0nY5lS0bx3BHsbw2JzyrLDfPzNKGmwMqiKo+dkicL/WY0wZH9MwPVAOvnTpC4+4GALWS4O8CkISp713Iw7oTG10T0U52RJqoqJxdqhM1eR98H/4DkL/x6fD2grajjtK8AVauJRUungvD+/TbGa5JXJrGUs8Fk2T0f6WAwtPM1M33Gcd/Khy2WldRQidul+7wfHaTuOBonYAzFpFson1SNpMw9vMJR2jNfvosxOT+vd6f5AW+n/dvGJ+9DGVpM2xsvl01Vw/RNXayHDm0jtny3YMOamCWO3NTi29sae1Acc1MS0Wzr/GQbg+HmRIXnjPkT+LXp7qfnuFzRmrrvg1chZpYP39t6XMSrmn8rJphpqkeeqYXvoWzaHBoLOIJvo0ySEAsA4OJ2es6ui+dOBV979M25tTrGDwYk4VklCb+6Wbah12+c23lct6w5LyRq86vr7I6LbhxOdwSBJq4Ygkxj3vWDziepWjUJr/8OmTKZkZ+9XI1liVeK/MRJRHitI2PdlWqYTuYqg1/HN/t9brUpAJrS3kp0/o=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(376002)(366004)(136003)(396003)(39860400002)(451199024)(186009)(1800799009)(2906002)(38070700005)(38100700002)(6506007)(53546011)(6486002)(83380400001)(5660300002)(31696002)(31686004)(86362001)(8676002)(2616005)(8936002)(4326008)(966005)(316002)(66946007)(64756008)(6512007)(54906003)(76116006)(66556008)(66446008)(66476007)(110136005)(91956017)(478600001)(122000001)(71200400001)(36756003)(41300700001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WVRFU3p4VmVwekRua0VQMkoxTHlEUy9rQm5VeW42cTBpY1FCVjkzVU05RWFD?=
- =?utf-8?B?WHVnckFtNlFSYnZFaldKaC80amJFbTdwTlhnUDNiMzFsQnVpQmxCUXFvZ2kv?=
- =?utf-8?B?NDJvY3IxMzVZSU9pQTFncjlUdVZ4N2ZkSVFsMmQ4MnhnZTU4TFIwZXBGMVN6?=
- =?utf-8?B?ZXZKZnZ1RG5Lc1B2UVZjOUpPeEpTRTRKNzMvdWZwenViSkdRSEZZd1MrYkpX?=
- =?utf-8?B?Sm1KMU5Sb0RTNFRtRjQySGhVTG9pOWhDVGZJbFRzK2Rrc3FidGgyWitMODlB?=
- =?utf-8?B?OEZZMXNDTkhoVHJWbVR6NmxVZzkwN3ZjMDQyWElrVVdqemJUVzBzYUNLbW5X?=
- =?utf-8?B?bEVzaGlVVFJ2N0Y2ZU5VUGUyeWVlZDFLL29CZUVBQ1ErbmovekFxNUJKUEtI?=
- =?utf-8?B?WXF0T1VvRW5UTGRId2VWUXhnWkNONlM2a0RQaDVMZlN4dDMwd25XSGt3VlRx?=
- =?utf-8?B?YUh5VW9zbEIrYmdRdGtqMTdKQXN5ZDJMR25zWDlwREZBMTYwd3BEM1htRG40?=
- =?utf-8?B?N0REUzhXUW1KSndySHJRb0dENEdGWkxLYmpVbzZmM0lvMk9yOHVwOGVmRlVJ?=
- =?utf-8?B?K3plc0lKanZLbzFwbjE3YjB3WmREYlpDWVVEenlKcTRPUVBlVDNDeFlKanJ6?=
- =?utf-8?B?Y0oydlAyNjVLczdrZ1BPWWF5NzdEWjUxa0IxdHQyNXpPbGlWUmxzK0VxTHph?=
- =?utf-8?B?am01S0RNVmo4VXUzcjhuNVA2WTdjclRFRlhFTVJyYjlkMmhMSDZUWWhDcjRm?=
- =?utf-8?B?ZFoxOEFhUjRIUUlXRE1zeFZzUUVLWHM4V2lvb2N6K00zaVNZRnJaMHgzMHgx?=
- =?utf-8?B?RTg3VldkbUhEb0JOSmNuL2ZQbk4zbGhQKy84WFFST3d6M3VHVHlMQUgwN3E3?=
- =?utf-8?B?NllSSUZzTTExNVpmZ3JFUFJQQWR5ZE1aNGlFUG5sS2hSZGhLSXJYaEdBYndN?=
- =?utf-8?B?T050TlJadVlzdngrcTJTR0ozc1NNYmw4eWhyVHlacDhxYytXejkxay90MFpM?=
- =?utf-8?B?L1FzVWxLWFl4YTVlTmEybHZTZkhoR0lveFpnd003RWFyZ3dkNGNNZHRSRzRF?=
- =?utf-8?B?ZHZrZVNtL01PZ1pKbUI5SmJBWDVYMFl0Y3E3czMzU3ZBenNwdDMvdmZoZXVE?=
- =?utf-8?B?TmRHNWJobzRtNFdDRUhzOEFvYUJFaE15OTBGTjEvZ2FLT1kyZzlwMU9vUkZv?=
- =?utf-8?B?WDFzVzFnZVF4SjMzV3liUnJlU1l2cHo5bG9YNUJOWHF3K3ZRMjgzY2lQdjI4?=
- =?utf-8?B?YXFaNUR3ZENva25SdnVyYTdDYUo5VHh5NFloeDI5RFNHZXZrdEozbkQwL05h?=
- =?utf-8?B?N2NRUkoxcHpnSWJpRGVDN0EwWmxDQVpFK1JYMGFDWVAvTzVHZDk0bENib1RX?=
- =?utf-8?B?dXV1SzgvcUtMOXBrb08vODRzTFZqK3d6cHNTd1VsVU9Mc2VRaE9WeGtCYzI5?=
- =?utf-8?B?dm1aUktvWXVWeTM4SjZXUGYzaWdDQlRzeW5nYzJxK3J5UVJXUGxVTi9UNzlo?=
- =?utf-8?B?bldaOVNLenJhK2xVMGFHZCtHcHpDb3BGeHJzUVQ1c0V2bmdMalduNlIvdDVD?=
- =?utf-8?B?QTI4ZzVDMHhKT1lJSkJFSlBadm1JRVhrOHl0WHJFODk2UUxZT290NlcyTUZm?=
- =?utf-8?B?ajlERXdXQW1wL1ZIYkhhN3F5NXFHaGF5TkZvazZubWpNT21VRTlZMWV4STVo?=
- =?utf-8?B?MUZsOE82VFVUdU5jOVpyU0MyYXlCcnVZNGtuVTlhTzZvdWpaTFZnMWdPN0hh?=
- =?utf-8?B?Z2MwdXNkTU5lZVFkeUYwK0RLRTN5SGJSNWM1VTMxb0k2QnR0YnB0ZTNiekor?=
- =?utf-8?B?c0EwWElTTUdBWm1yMjczRjdYZEI0bU12MTFUK3pSb25hZlBKdUtBTzNFWUkz?=
- =?utf-8?B?RVF1ejVmczFYc1VnTHRqZVNIelo2amhPQ2NyRUxxczFsSUllZWJ1MzBuNDls?=
- =?utf-8?B?bVFGRVlhSEJ1QnpoTXFiZWoxSlB4OXplOU9valhpVnVobTFnZllXNy8xeVZt?=
- =?utf-8?B?U09PT0hlN21tdVhPZ0VCRUNURkwxOWhYaC94Q0ZZTDY4SDBpQjk1VEhxbHlD?=
- =?utf-8?B?cjRSTzZFMHFBNHQ4VXo3ajdzZFFBUVFLV1o4M21ZazgxRm5Bc0ZNRmtGeTdW?=
- =?utf-8?B?cllwS1AwZm1zWkFtdktjRVQyMlVvQ2xPZzI4THVZU25HbUlwVW1jOHpIZHpj?=
- =?utf-8?Q?PvymHAZRoFmsfhGpyMPwsKZbRDq6NV8wsbKVMSKm1PIe?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <73AA5D2AD8A5DD4EBC8198D0AA678F23@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	Wed, 23 Aug 2023 10:49:05 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A27542074F;
+	Wed, 23 Aug 2023 10:48:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1692787738; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MBsPveD1xI53cn0DT68/0aGElxKX0zddJPsr7N619Ak=;
+	b=CDGV6etjiImeGEUO+0BUVbX7RrWvHoApelFxQwE+MvKkuapFoSM3992rna3Bq9ee4PSIw6
+	+LXG9cXNVM1eYwTwr/bQdOFAS6mHFaO1dN/yAeP3C+dn99TY4Go53DK6Qw+n5oqjlDEuxc
+	PqGpPheiFx2BLmX9XP87j/wbjP/DRao=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1692787738;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MBsPveD1xI53cn0DT68/0aGElxKX0zddJPsr7N619Ak=;
+	b=N6z3QTU6ieH93k9KF4kE1tM6zgWhTjKW3zovp7A1dMknTyjGy4QJojKcRNyAdb0/bhpQHV
+	8PGnGalNM2lFCrBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9240E13592;
+	Wed, 23 Aug 2023 10:48:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id kmaxIxrk5WRMIAAAMHmgww
+	(envelope-from <jack@suse.cz>); Wed, 23 Aug 2023 10:48:58 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 5625FA078D; Wed, 23 Aug 2023 12:48:57 +0200 (CEST)
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>,
+	<linux-fsdevel@vger.kernel.org>,
+	<linux-block@vger.kernel.org>,
+	Christoph Hellwig <hch@infradead.org>,
+	Jan Kara <jack@suse.cz>,
+	linux-nvme@lists.infradead.org,
+	Christoph Hellwig <hch@lst.de>
+Subject: [PATCH 13/29] nvmet: Convert to bdev_open_by_path()
+Date: Wed, 23 Aug 2023 12:48:24 +0200
+Message-Id: <20230823104857.11437-13-jack@suse.cz>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20230818123232.2269-1-jack@suse.cz>
+References: <20230818123232.2269-1-jack@suse.cz>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ff6142a-25b5-479a-2163-08dba338e0c0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Aug 2023 17:54:48.6829
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: wrXtxXLUWxH7Kbu+kYbEXAH85NlGiDJ5omsc0yDuuq0Edk4exaCb7El2joEy5d9JGqS0er6EOISaI043VF9L8g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6979
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2146; i=jack@suse.cz; h=from:subject; bh=P3kIXEticntI8ldLR8W/RXMKkQjvvAD6UtqoFr/c9Kw=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBk5eP5SvEBatGZsIjgJiA6c5YnzkSHf0MP6rkeUG43 o8ebsHqJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCZOXj+QAKCRCcnaoHP2RA2TUwB/ 4wcLZc14Yrt0gDhGdTJgkH8N4G8qwWxdOI88u2Lhfw2i3xYxHB4dmlkDvPGtGjq3hru2kNmml/zFpD aPXPQZSkA2xl0l5ycYbfKZ2qzVnS9dHCTaAh9XilOwY2ZOE+nPcazmIxaALS0e5vH27HAdIdVGXgfX +Ub5T4XFFXhhZeUarI3y6eUEhQwi4B9QxU0SV7K79+qmqy7HICDwIK8sJkE6uYE9ESXiqe/GE4GYFw 9G11zl4Aiw6O8tf+86EMdVp4YqdlAvfOVfDX7gDHNIAa4FpwiNqdy3Iy2XrbiBysP54gJ0Id1iFCh3 6kIb4sVIV1B9A4YMizL+G7Z/Y87xCZ
+X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230822_105458_356679_CABE34B8 
-X-CRM114-Status: GOOD (  21.53  )
+X-CRM114-CacheID: sfid-20230823_034902_325525_4E5DCF86 
+X-CRM114-Status: GOOD (  17.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -154,39 +99,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gOC8yMi8yMyAwMTozOCwgRGFuaWVsIFdhZ25lciB3cm90ZToNCj4gQWRkcmVzc2VkIFNhZ2kn
-cyBmZWVkYmFjayBhbmQgZHJvcHBlZCB0aGUgZXhwbGljaXQgLS1ibGtkZXY9ZGV2aWNlIGFyZ3Vt
-ZW50IGZyb20NCj4gdGhlIF9udm1ldF90YXJnZXRfc2V0dXAgY2FsbHMsIGFzIGl0IGlzIHRoZSBk
-ZWZhdWx0Lg0KPg0KPg0KPg0KPiBvcmlnaW5hbCBjb3ZlciBsZXR0ZXI6DQo+DQo+IEludHJvZHVj
-ZSBoZWxwZXJzIHRvIHNldHVwIG52bWV0IHRhcmdldHMuIFRoaXMgaXMgc3BpbiBvZmYgZnJvbSB0
-aGUgcmVmYWN0b3JpbmcNCj4gcGF0Y2hlcyBhbmQgdGhlIGFsbG93ZWRfaG9zdCBwYXRjaGVzIFsx
-XS4NCj4NCj4gU2FnaSBzdWdnZXN0ZWQgdG8gcmVjb3JkIGFsbCByZXNvdXJjZXMgYWxsb2NhdGVk
-IGJ5IG52bWV0X3RhcmdldF9zZXR1cCBhbmQgdGhlbg0KPiBsYXRlciBjbGVhbiB0aGVtIHVwIGlu
-IG52bWV0X3RhcmdldF9jbGVhbnVwLiBJIG9wdGVkIHRvIGZpZ3VyZSBvdXQgaW4NCj4gbnZtZXRf
-dGFyZ2V0X2NsZWFudXAgd2hhdCB3YXMgYWxsb2NhdGVkIHZpYSB0aGUgbmV3bHkgaW50cm9kY3Vk
-ZWQgX2dldF9udm1ldF9wb3J0cw0KPiBoZWxwZXIuIFRoZSByZWFzb24gYmVpbmcsIEhhbm5lcyB0
-b2xkIG1lIG9mZmxpbmUgdGhhdCBoZSB3b3VsZCBsaWtlIHRvIGFkZCBBTkENCj4gdGVzdHMgd2hp
-Y2ggd2lsbCBhZGQgc29tZSBtb3JlIHBvcnRzIHRvIHRoZSBzdWJzeXN0ZW0uIEkgaG9wZSB3aXRo
-IHRoaXMNCj4gdGhlIGNvZGUgaXMgbW9yZSBmdXR1cmUgcHJvb2YuDQo+DQo+IEJUVywgd2hpbGUg
-bG9va2luZyBhdCB0aGlzIEkgc2F3IHRoYXQgdGhlIHBhc3N0aHJ1IGNvZGUgaXMgdXNpbmcgdGhl
-IGF3a3dhcmQNCj4gcmV0dXJuIHZhbHVlIHBvcnQgd2hlbiBjYWxsaW5nIG52bWV0X3Bhc3N0aHJ1
-X3RhcmdldF9zZXR1cC4gSXQgc2VlbXMgc29tZQ0KPiBtb3JlIHJlZmFjdG9yaW5nIGlzIGluIG9y
-ZGVyLi4uDQo+DQo+IFsxXSBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1udm1lLzVoMzMz
-ZXFodHcyNTJzanc2YXhqZXdsYjViYmI1emU3YXdla2N6eGUza2llMmxuaHc2QG1hbnllcjQya2hj
-dC8NCj4NCj4NCj4gY2hhbmdlcw0KPg0KPiB2MzoNCj4gICAtIHJlYmFzZWQvcmV0ZXN0ZWQNCj4g
-ICAtIHVzZSB0aGUgZGVmYXVsdCB3aXRoIF9udm1ldF90YXJnZXRfc2V0dXANCj4NCj4gdjI6DQo+
-ICAgLSBkcm9wIGxvY2FsIHN1YnN5cyB2YXJpYWJsZSBpbiBwYXNzdGhydSB0ZXN0cw0KPiAgIC0g
-ZG8gbm90IHVzZSBwb3J0IGFzIGhhbmRsZSBpbiBwYXNzdGhydSB0ZXN0cw0KPiAgIC0gZnJlZSBw
-b3J0IGFmdGVyIHVucmVnaXN0ZXJpbmcgZnJvbSBzdWJzeXMNCj4gICAtIGh0dHBzOi8vbG9yZS5r
-ZXJuZWwub3JnL2xpbnV4LW52bWUvMjAyMzA4MTgxNDE1MzcuMjIzMzItMS1kd2FnbmVyQHN1c2Uu
-ZGUvDQo+DQo+IHYxOg0KPiAgIC0gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtbnZtZS8y
-MDIzMDgxODA5NTc0NC4yNDYxOS0xLWR3YWduZXJAc3VzZS5kZS8NCj4NCj4gRGFuaWVsIFdhZ25l
-ciAoMyk6DQo+ICAgIG52bWUvezAzMywwMzQsMDM1LDAzNn06IHVzZSBkZWZhdWx0IHN1YnN5c25x
-biB2YXJpYWJsZSBkaXJlY3RseQ0KPiAgICBudm1lL3swMzMsMDM0LDAzNSwwMzYsMzd9OiBkcm9w
-IHBvcnQgaGFuZGxlIGJldHdlZW4gcGFzc3RocnUgdGFyZ2V0DQo+ICAgICAgc2V0dXAgYW5kIGNs
-ZWFudXANCj4gICAgbnZtZTogaW50cm9kdWNlIG52bWV0X3RhcmdldF97c2V0dXAvY2xlYW51cH0g
-Y29tbW9uIGNvZGUNCj4NCj4NCg0KSSByZWFsbHkgYXBwcmVjaWF0ZSB5b3UgZG9pbmcgdGhpcyBj
-bGVhbnVwLCBpdCB3YXMgbG9uZyBkdWUuDQoNClRoYW5rcyBhIGxvdCwgZm9yIHRoaXMgc2VyaWVz
-IDotDQoNClJldmlld2VkLWJ5OiBDaGFpdGFueWEgS3Vsa2FybmkgPGtjaEBudmlkaWEuY29tPg0K
-DQotY2sNCg0KDQo=
+Convert nvmet to use bdev_open_by_path() and pass the handle around.
+
+CC: linux-nvme@lists.infradead.org
+Acked-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Jan Kara <jack@suse.cz>
+---
+ drivers/nvme/target/io-cmd-bdev.c | 20 +++++++++++---------
+ drivers/nvme/target/nvmet.h       |  1 +
+ 2 files changed, 12 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index 2733e0158585..0bf05c19d8b5 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -50,9 +50,10 @@ void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id)
+ 
+ void nvmet_bdev_ns_disable(struct nvmet_ns *ns)
+ {
+-	if (ns->bdev) {
+-		blkdev_put(ns->bdev, NULL);
++	if (ns->bdev_handle) {
++		bdev_release(ns->bdev_handle);
+ 		ns->bdev = NULL;
++		ns->bdev_handle = NULL;
+ 	}
+ }
+ 
+@@ -84,17 +85,18 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
+ 	if (ns->buffered_io)
+ 		return -ENOTBLK;
+ 
+-	ns->bdev = blkdev_get_by_path(ns->device_path,
+-			BLK_OPEN_READ | BLK_OPEN_WRITE, NULL, NULL);
+-	if (IS_ERR(ns->bdev)) {
+-		ret = PTR_ERR(ns->bdev);
++	ns->bdev_handle = bdev_open_by_path(ns->device_path,
++				BLK_OPEN_READ | BLK_OPEN_WRITE, NULL, NULL);
++	if (IS_ERR(ns->bdev_handle)) {
++		ret = PTR_ERR(ns->bdev_handle);
+ 		if (ret != -ENOTBLK) {
+-			pr_err("failed to open block device %s: (%ld)\n",
+-					ns->device_path, PTR_ERR(ns->bdev));
++			pr_err("failed to open block device %s: (%d)\n",
++					ns->device_path, ret);
+ 		}
+-		ns->bdev = NULL;
++		ns->bdev_handle = NULL;
+ 		return ret;
+ 	}
++	ns->bdev = ns->bdev_handle->bdev;
+ 	ns->size = bdev_nr_bytes(ns->bdev);
+ 	ns->blksize_shift = blksize_bits(bdev_logical_block_size(ns->bdev));
+ 
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 8cfd60f3b564..360e385be33b 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -58,6 +58,7 @@
+ 
+ struct nvmet_ns {
+ 	struct percpu_ref	ref;
++	struct bdev_handle	*bdev_handle;
+ 	struct block_device	*bdev;
+ 	struct file		*file;
+ 	bool			readonly;
+-- 
+2.35.3
+
 
