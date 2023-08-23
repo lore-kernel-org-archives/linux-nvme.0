@@ -4,141 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DF429C3DA6F
-	for <linux-nvme@archiver.kernel.org>; Wed, 23 Aug 2023 19:36:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79B3BC27C40
+	for <linux-nvme@archiver.kernel.org>; Wed, 23 Aug 2023 20:25:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TAPPn3UUW/yWvzk6xAMCDBg6syDwRch1ZyLaZC70kkI=; b=1bXgOR5x8Lq28qoYCwcpdNab70
-	82Ay+JgC0O1svpfTvJNm8gHlqnHKRFShCEIB5LNvMAbG6kH7IakNl/Gh8sYDJdaJsJAI5+rzuOWk3
-	f0sGwcxwGO5H4n5X8Um0A10rbx5uGZ+uE4LyLoTwQPY4l+9yYiT9rhEY2L93e5IXtuuROYD4KohkW
-	RK+kqG9mc/BwTZXcUHKPHhr0CVc3sVbfa5650lPNoNg5P4W9xMAcvRUcS65Sbcu6r9Zq3RtQO030v
-	sJP2CU0b5feKLYIXv8sqTINt8c/yiHqembHUyAjPCI/XjPmUHfbsYtzCfgaLq5Q4xuwRExghpaOmT
-	KPIH2scA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Ft03CV2PAvrd6Ou6FSTiA4u/1nSBwbfPWSQS7Uu0uW0=; b=e2AjB6AnHKyU8yJ0HI9g/Oo5vk
+	fZbrarnkHBYqk26RYCyH7pWg/2D0S5MajA2ElfJGN8TfN+fVeaxV0iGUKAKgZF6DncZUeRToUceqY
+	KwXTJr8EszVhvxIVWenBG2yKvQHjWGcNWn+SE31X0a3G8e/Gj6UMxAAw6Q6R5idZkkqOKKN26/wc6
+	S0RzYWXy7B5zTshScZRQZXOXyKclGlXRSltVE+n8o1l7m4Dr2u8gGwHH2DiPzmXsugLlSb3cNZs7v
+	IRC9FqyvazODX8XQWELzoZhjlj0N0wPmexarnK8jszs1Xulv85PLekhjbxrcUPRFBS29OX7C67kEg
+	5h+z3cnA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qYteQ-001QHq-0e;
-	Wed, 23 Aug 2023 19:36:22 +0000
-Received: from mail-dm6nam12on20624.outbound.protection.outlook.com ([2a01:111:f400:fe59::624] helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+	id 1qYuPl-001UV7-1v;
+	Wed, 23 Aug 2023 20:25:17 +0000
+Received: from s1.sapience.com ([72.84.236.66])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qYteO-001QH4-0G
+	id 1qYuPi-001UUL-2M
 	for linux-nvme@lists.infradead.org;
-	Wed, 23 Aug 2023 19:36:21 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ty+thhQyykBa2UiPYTigjbFgteegckc6OfSAN7kk7/4ctGSnk+gpxZupE4zp7RMNFvzaEYpoTBAIrjHpE9ThXhCz00U6rjGlfidHwdPyXuMFIpDF4npnwNCt9u5zJLVAoPtetNJpmIjTzu2yGLKkpj26M+KTOSNeASMkdIUo2XJQwL9KSetbVCuuErOyOoPGRTJ7nROR3Ai2T1OoXt6xxP7UztMbU0LSINEgJC4OakjFIgRVYSnd67aLykhpiNBsglNfmK4cz47HFPS/6zyE84sUnEuYxZpc7/BT9ZdRIDMtI5ltQeLPZVtibChN+dxKQGQh5kQ3FfNNXaOGFqGNOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TAPPn3UUW/yWvzk6xAMCDBg6syDwRch1ZyLaZC70kkI=;
- b=PGyEnid/InqXB3W8CNal1WCWevTJPMBJoU/xf/mIgzl64zT8/0XhPc1DdJoOnKJaZ+NZSEDk4oY+scP5UHRZ1eoInDjpNcJi3esMAK0TcvCCT7HESUR7jUaR62pAYc+zdHfanczx53Nc+z0yOWZzGtOf/rL8qLF9n7ucoUuAUk8WXtwW3d+oTdcc4eucJ0pTdbwUDDBkWecIFM0KlQsb7bqp0Y9QmRVueuQuJ34t3jFwd8n2cQFLwgmhpHEGDXj6PX7gwYjefTmHAMgo2r3O5TjSK3BcG79wiMaX63MtM5jyNV6cCl+k8DDFH/FWj2xCLHZ0rJeBXP2uj/kFUfIFQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TAPPn3UUW/yWvzk6xAMCDBg6syDwRch1ZyLaZC70kkI=;
- b=PCQ7Z47xn39zsbTfUv4a3ianqUKslorE7mhX/Cc7hTSDcH7Eq+bXSj5M9h0HJT29lXGBx9/a86t/eR9HtLKEwIW29zwn/IZr8U7zEIuLSk4G53HvmV52oGsyAW24QpmBQ/w/aVL0YaAc3hqTftFveBoAgE9cNTdk0L0DbkftPoWAneIfGihwRaRI/3VQ6d6s/CVfFOLyd7RV7zOcssgKDEicOJhN1UD4UWFAE/qxvQAFN9O8g+tNQBXRRuUyTiR1LrrUXtPsKsY/iHuQ7erse/I6e1HJk222DryPCDDNKe1NIoxuU1ykbtO9CIPyFBCVv2nXIhp2iNHfQede6Dduqw==
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
- by PH8PR12MB6794.namprd12.prod.outlook.com (2603:10b6:510:1c5::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.24; Wed, 23 Aug
- 2023 19:36:09 +0000
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::f55b:c44f:74a7:7056]) by MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::f55b:c44f:74a7:7056%4]) with mapi id 15.20.6699.026; Wed, 23 Aug 2023
- 19:36:09 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>
-CC: Jens Axboe <axboe@kernel.dk>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>, Christoph Hellwig <hch@infradead.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Christoph
- Hellwig <hch@lst.de>
-Subject: Re: [PATCH 13/29] nvmet: Convert to bdev_open_by_path()
-Thread-Topic: [PATCH 13/29] nvmet: Convert to bdev_open_by_path()
-Thread-Index: AQHZ1a+IEMxzs7PskU2CLMV2gFbmza/4RsSA
-Date: Wed, 23 Aug 2023 19:36:09 +0000
-Message-ID: <d598a6ad-8542-ab06-66a7-415236a680be@nvidia.com>
-References: <20230818123232.2269-1-jack@suse.cz>
- <20230823104857.11437-13-jack@suse.cz>
-In-Reply-To: <20230823104857.11437-13-jack@suse.cz>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW2PR12MB4667:EE_|PH8PR12MB6794:EE_
-x-ms-office365-filtering-correlation-id: b64ab9dc-b2f1-4868-e84f-08dba41033c6
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: zllC8ZFDJiBVdahtWQ75kuoXB6UOXa7W+ELvgf30DjufGfkdTvUgWirJjE2QoTpx3aXxJnYPOWyxeTHI5fjAqqGb4WupxMds84YqSUAZabH3kGuB6E61LZDd8oFmiVjHj1z1yjTT1Cd2Nn7J/H8dLnTZLK7kRSZVr3w6lKFnEyGu2cx6+Z+csDJeTZgGw2bV9KYayWGmKQkZsLCMwL1/Jl99MRXjqw0CEEk9y2pzPy7MXJ+R7lBIglsmf2UHQ1OsovvlYzaSlmKq9V//oDXhgXmZCfw1SAiBIKXqeVSV41ewdWCKdrwItPhk69zLKUggD2vSt67zCB20tga7VaZB17mlSqbg22wALJe+zMHmXBmUOFXFCvYP8h/ajYcnoT1tQRmL/8NrbPRkC4Tpl3dclGXDXbi+hlIct+8eqVX9DQJHFt2++7lB+AgSzdh9aOlyw4fnDrILSg+DveK3qQxROb3vY7KfySDA368ZngB1e2xUUT9/od3dohKOHNJPwGsv9EWYn/74vFoClVdAYl2QYNpoKHbX0DIGYQDYKf5OrePMFygBk44ERUYpxeFMpxzZhlehlcwyG1CS3qWUY/LJ1n3NDYs/SGERg3OpLDCG9R/WgaNwxIgWo1V1agHmQT/z/TSq60nbYv5fxN9GWMYbFxboBD93wR90/wQ9krq/JvFRCj0KJnKH43Y4BDS+zccO
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(39860400002)(376002)(396003)(136003)(451199024)(1800799009)(186009)(2906002)(53546011)(6506007)(6486002)(38100700002)(558084003)(5660300002)(38070700005)(31696002)(86362001)(31686004)(8676002)(8936002)(2616005)(4326008)(6512007)(316002)(66476007)(64756008)(54906003)(66446008)(66556008)(76116006)(66946007)(91956017)(110136005)(478600001)(122000001)(71200400001)(36756003)(41300700001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Z0ZtT3drbklrNG9RU0NLbnRCTzJWeGY0dk5Vc3UydGpEOTMvUVc1ZG1uOCtT?=
- =?utf-8?B?bW1iVUx5U1VlYk9CekUwMGtnTllYR0ptdndsaG5ORk5PVXJyZ3AzczNKY2lu?=
- =?utf-8?B?L0VHWEJYbWZjYzg2S0hveE93U3VRZG9JVGZpOHB0UWVVYkh2bEllblIvNE9H?=
- =?utf-8?B?V1J6bEE3MytVVVI5SGZYczB3LzR6ZEloc3BRck5VUVQ1eEYxQlA2a3hTSit3?=
- =?utf-8?B?MTZqUWcvSkF0YjVyV0Exb2pheE42U3QvajJZRWdUSUNRZ0VvblNlWml3S3c5?=
- =?utf-8?B?R2dDY0sybDBoUlRxVGhYN2tjQmR1d1lPQ05rVWRFencySVB4d0E0ZDVjZDhI?=
- =?utf-8?B?eU83R2sxYVdRUXBQUmxHcGNLWUVBRWIvOThOMEVWWkVVT0Fxazk4ZnhDam1s?=
- =?utf-8?B?bTFrQUl2M3RaUVIrMklUL3ZuYUF0RHpNYUJXMDdxMUpQd2lDd1JPRVQwOGdO?=
- =?utf-8?B?anhxa25MQittK29YeGdhbTYrK2FsZzluY2p4d0RSWktab2dWT3FyTlM3L1VN?=
- =?utf-8?B?U2EyZ3NONkZ0cFE2ckhCT0JqdkRzeFh6MkdDbVZjNGhuL0t3a25aQ0UydTkr?=
- =?utf-8?B?WGJVYXpTaVdCclNPS2NUWHhlTndwazR1T0VpbWh2djFCci9wc0ZQdGs0Zkd1?=
- =?utf-8?B?NGVHMXBUMHU0bUtCeTNhRUJid3RrUmFVNWl4VXlIbEpoTFJxajdwaGVLR0lo?=
- =?utf-8?B?Qm1wZDNsVnFNakg1UUJiWDZnbzBUNUpuOG8wY1lHTElGbC8rcFhya3U4KzBL?=
- =?utf-8?B?aHhZenMyTVp1YmRHOWRydWJuODFWKytUYUoxNUtVdXV3NHpFMzk3UW9uclpK?=
- =?utf-8?B?OVo3dXltcmhPdU0vRnM2Z3A1eHk5aWo3R3g3dmRUZWZDcTlqd3d0TlVDVkVo?=
- =?utf-8?B?WWFxdXUvcFNNUUlvSFdySHNnNGxNbWduYnNGUGpYbkFyREhEM3o0b1RuTklU?=
- =?utf-8?B?MFVPQ0dZN1dsTFVENGFKZFFsUVc4WVJNTGxtN0hTOU9RNmFPcDk0M2Y5Ri92?=
- =?utf-8?B?cXkrUStueDArSDN5WHF5OUc1RXVkeFQvU3VYMUZ6TXdERjMrVHAxSThCSFdC?=
- =?utf-8?B?eGUyQkNsbWh5SWdvS3g1L1Z6Z1FaWkRnc3FlQ0dxQzhhWmhmUUF5U2tvTHI2?=
- =?utf-8?B?NVRuOUNkbGFpc0tlaDE1TFIvS0JSK2R3V1ZVV2VMMkdFaisxOWJzN3BIQ3Rh?=
- =?utf-8?B?cVpySTRMUngxVHhHQlVBdFBuWGFHOHpqcFFLU3o5cnlzK1FOUUQ5TXFpdXk4?=
- =?utf-8?B?eC8rNzlRVVRFYWxVMngzYkRuOXpYUVVnZjRrM2Q1WDdqK1dKSXBXUzBRdTBt?=
- =?utf-8?B?NTZ1L3JXMDd4ZnhpNEpuZ08xbGVvU1R6dmw3YitDT0h6UDQ4U2sxby9qOTJS?=
- =?utf-8?B?T0Jvcmllbk5WbVoxZlZvTFN1TDkwd0ZCVzluRy9hWklXNDBDajlqcWhOdURr?=
- =?utf-8?B?eXNQRFVWQ3BlQ0FUR2xXbVlycUlEV3RSNXh6WHpGeFBQaVYzVkQySk1WelJH?=
- =?utf-8?B?VFNGQytiYXJhTFVSZ2ttZHpVdHhDMHJMRzk0UW4xZUEzajZPV1p6b2FMZi9B?=
- =?utf-8?B?M3RjUTVaS2t5dTVMNWNoRXBqZlFjTDk5QVhLZ3R6TmdQVVZFNXR1amRQMnlI?=
- =?utf-8?B?SHQ0SnhXVkxVUUp5TXlrVDZOdGw3RTQ3QTA5b2FuWHY0eGtYOGtjZ1BXYmN3?=
- =?utf-8?B?R0x2OFA4QVJLTXErbVZoZ05RbVVDem4vMnpTUktQajFaNXl4eWhUYW1kcjRo?=
- =?utf-8?B?cFh6djBLZTVZcTFvSXgrUy84MFI2dGpVbmdBbGJYWXpOaGt6ZnMxQXlIdlFS?=
- =?utf-8?B?V1gxc3k3elRhd3JSTWpjZkpuc2FvM2ZmRXgwcGZSL2FUVmdURWtMVm0zNEY5?=
- =?utf-8?B?UytjL1kzY2dMVzIyb1VPOGtmNkZDWmlCUUJzbkZocTBKUGFyMnhOeGlWNCt2?=
- =?utf-8?B?VUt2eCtuUDFnd0x2NTdSSy9wUm5LNzYrcG81dThaN3U0OG83dHp4TG9YOGIw?=
- =?utf-8?B?NTlkTysrcWc1cHpxUFptRVlvL0F0NGVMSHZVTnJndjBxMXBiSGk3OXVhSDBH?=
- =?utf-8?B?MnR5TFVranFkYW1iOWpNN0hlZEU3dVpFUm9FVFFZODA1VWs5ZnlzUTZ0NFJN?=
- =?utf-8?B?NnZObnU5aDFEME0vaVFpUWpuZFU5VTYzSnZydjRaZ3VuZ0RBQUpPeXdLemgv?=
- =?utf-8?Q?p/m80c5uiiXZC4PntLNyZB2/Z+Ti2SW7byFssVrhUKkb?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <7F78614EB1E05E43A089EA6EABDABCB3@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	Wed, 23 Aug 2023 20:25:16 +0000
+Authentication-Results: dkim-srvy7; dkim=pass (Good ed25519-sha256 
+   signature) header.d=sapience.com header.i=@sapience.com 
+   header.a=ed25519-sha256; dkim=pass (Good 2048 bit rsa-sha256 signature) 
+   header.d=sapience.com header.i=@sapience.com header.a=rsa-sha256
+Received: from srv8.prv.sapience.com (srv8.prv.sapience.com [x.x.x.x])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (secp384r1) server-digest SHA384)
+	(No client certificate requested)
+	by s1.sapience.com (Postfix) with ESMTPS id CDC57480A3D;
+	Wed, 23 Aug 2023 16:25:09 -0400 (EDT)
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=sapience.com;
+ i=@sapience.com; q=dns/txt; s=dk-ed25519-220413; t=1692822309;
+ h=message-id : date : mime-version : subject : to : cc : references :
+ from : in-reply-to : content-type : content-transfer-encoding : from;
+ bh=Ft03CV2PAvrd6Ou6FSTiA4u/1nSBwbfPWSQS7Uu0uW0=;
+ b=VFSvEnctGQ7Pbrci/n7uhRb3x3mfT1DP+fWhgihksY/Dt2nSADWnR1OTH/PGLt2N9D3UW
+ IkpK1Ui24LowyzZDg==
+ARC-Seal: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412; t=1692822309;
+	cv=none; b=JLo8rB8M7KFPFp1d5FLvd/KTpSS3OIK2i3eMvAgXE0tXZvhiXt6Zg101c+yOu6p1Kfk7wzajT8Ey9yaV/6uJogj6Odo4Hb4k3Jy0QgOZFHPZ88417YbVF4mRwBRR4JkCwCOWvJgxRNc/voZj9iu0OIghueenlGmUY7z94PCVGsBuWwggyAjW46zYYJKI/1oX1OeTJ6sB+uRcpnYbEnrLski3NGWDf6Y19QRpfnzCWjuslBY1D6YOFYHSjEzXpIAwOXbFFMaX7QAp3QfWvd0K2EsKrUaVMOdjSN5nXaf+Vt5kPQYHwoXMsllCWP+vdLmW1Ov2rI1S66UJEqk9GYyT7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412;
+	t=1692822309; c=relaxed/simple;
+	bh=1WiXPw6udIcWYNpBiU1SuaqbQe6zJ8KvPhSxwPE/kEY=;
+	h=DKIM-Signature:DKIM-Signature:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:Content-Language:To:Cc:References:From:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding; b=kkD34ra9+s20M5pTmukJWy4wF1X05d8sFla80Huil8OGn/Eevpymrj0JlnvAzYMCHvC2Sm7RyEYE0b5/nzzcALTXtQ+6Lk3c4Fpy8XTHrbNnIAjfy1ks6I/YVwjQEcY/uf4/8XQ6eZDUQ1jPHBc7ng+5lixb/aLagHcv0xGcmxoaiJ48to89ygO5T1GfQ7a6I4dBKnXXnyEzMwSSMZrjW90OwrJLEueDI115FGMyPvMqr7oLqmc4MVc6ijknTbHc8tqdfYqO5SSXxBZrcL3nO7nOyjrAY1VReeWDxdPlkotrg3uBCvLAHa5x0+5C9eB9qnpziqLRb917SsICPchhNA==
+ARC-Authentication-Results: i=1; arc-srv8.sapience.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sapience.com;
+ i=@sapience.com; q=dns/txt; s=dk-rsa-220413; t=1692822309;
+ h=message-id : date : mime-version : subject : to : cc : references :
+ from : in-reply-to : content-type : content-transfer-encoding : from;
+ bh=Ft03CV2PAvrd6Ou6FSTiA4u/1nSBwbfPWSQS7Uu0uW0=;
+ b=IJyHNePtaGtm0bc3DsnSiZlVpi0UQIYZ0FzZk+IXr1wukn+0oSc/eD6bJZ2SIoXXMLHjO
+ zWfbGL1LWs1UuZQq/aEMZb84q598X4oo6u/VBaZv4iJj/e//yr4DNaRY1f5MQmH5qliC7Rh
+ jJdLWET0GoYxJj1DhDPxg/7PJlH0xd3oZhMPsFBCJXfv7Y5NFXB0frkax1inRdH36gKvgAF
+ UYwugW8upS2bmKdlg7M6uuG8cwtJUI1RIHb/Cee07ZQmb4usU24j/WtlLVKRxh3hD7f7xr9
+ Zpqhh15yHnFHR1KFo84XO2UB0/8r42m1zDPM05qpqzLfwuriy+8tp5cAOHvg==
+Message-ID: <7cf188d0-77b4-4e80-8da6-2045a7f29866@sapience.com>
+Date: Wed, 23 Aug 2023 16:25:09 -0400
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b64ab9dc-b2f1-4868-e84f-08dba41033c6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Aug 2023 19:36:09.7810
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: iWH7TqSfDckkuxLf5UbrW7o62vwEpgEQ+hFMSqQ2yxgxiTEHn0cX0Xoq2bOAv3FFI1Cddz4TkvJc9FPlvDXIJg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6794
+User-Agent: Mozilla Thunderbird
+Subject: Re: Possible nvme regression in 6.4.11
+Content-Language: en-US
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-kernel@vger.kernel.org, axboe@kernel.dk, sagi@grimberg.me,
+ linux-nvme@lists.infradead.org, hch@lst.de, arnd@arndb.de,
+ ricky_wu@realtek.com, gregkh@linuxfoundation.org
+References: <5f968b95-6b1c-4d6f-aac7-5d54f66834a8@sapience.com>
+ <ZN050TFnKZ54LJ5v@kbusch-mbp.dhcp.thefacebook.com>
+ <30b69186-5a6e-4f53-b24c-2221926fc3b4@sapience.com>
+ <570d465a-7500-4b58-98f0-fd781c8740cc@sapience.com>
+ <ZOZEwafA8+tknJNT@kbusch-mbp.dhcp.thefacebook.com>
+From: Genes Lists <lists@sapience.com>
+In-Reply-To: <ZOZEwafA8+tknJNT@kbusch-mbp.dhcp.thefacebook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230823_123620_189415_AE8982C3 
-X-CRM114-Status: UNSURE (   9.11  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230823_132514_866730_093D87F2 
+X-CRM114-Status: GOOD (  20.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -153,10 +99,90 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gOC8yMy8yMDIzIDM6NDggQU0sIEphbiBLYXJhIHdyb3RlOg0KPiBDb252ZXJ0IG52bWV0IHRv
-IHVzZSBiZGV2X29wZW5fYnlfcGF0aCgpIGFuZCBwYXNzIHRoZSBoYW5kbGUgYXJvdW5kLg0KPiAN
-Cj4gQ0M6IGxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZw0KPiBBY2tlZC1ieTogQ2hyaXN0
-b3BoIEhlbGx3aWcgPGhjaEBsc3QuZGU+DQo+IFNpZ25lZC1vZmYtYnk6IEphbiBLYXJhIDxqYWNr
-QHN1c2UuY3o+DQo+IC0tLQ0KDQpSZXZpZXdlZC1ieTogQ2hhaXRhbnlhIEt1bGthcm5pIDxrY2hA
-bnZpZGlhLmNvbT4NCg0KLWNrDQoNCg0K
+On 8/23/23 13:41, Keith Busch wrote:
+> On Thu, Aug 17, 2023 at 05:16:01AM -0400, Genes Lists wrote:
+>>> ----------------------------------------------------------------
+>>> 69304c8d285b77c9a56d68f5ddb2558f27abf406 is the first bad commit
+>>> commit 69304c8d285b77c9a56d68f5ddb2558f27abf406
+>>> Author: Ricky WU <ricky_wu@realtek.com>
+>>> Date:   Tue Jul 25 09:10:54 2023 +0000
+>>>
+>>>       misc: rtsx: judge ASPM Mode to set PETXCFG Reg
+>>>
+>>>       commit 101bd907b4244a726980ee67f95ed9cafab6ff7a upstream.
+>>>
+>>>       ASPM Mode is ASPM_MODE_CFG need to judge the value of clkreq_0
+>>>       to set HIGH or LOW, if the ASPM Mode is ASPM_MODE_REG
+>>>       always set to HIGH during the initialization.
+>>>
+>>>       Cc: stable@vger.kernel.org
+>>>       Signed-off-by: Ricky Wu <ricky_wu@realtek.com>
+>>>       Link:
+>>> https://lore.kernel.org/r/52906c6836374c8cb068225954c5543a@realtek.com
+>>>       Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>>>
+>>>    drivers/misc/cardreader/rts5227.c  |  2 +-
+>>>    drivers/misc/cardreader/rts5228.c  | 18 ------------------
+>>>    drivers/misc/cardreader/rts5249.c  |  3 +--
+>>>    drivers/misc/cardreader/rts5260.c  | 18 ------------------
+>>>    drivers/misc/cardreader/rts5261.c  | 18 ------------------
+>>>    drivers/misc/cardreader/rtsx_pcr.c |  5 ++++-
+>>>    6 files changed, 6 insertions(+), 58 deletions(-)
+>>>
+>>> ------------------------------------------------------
+>>>
+>>> And the machine does have this hardware:
+>>>
+>>> 03:00.0 Unassigned class [ff00]: Realtek Semiconductor Co., Ltd. RTS525A
+>>> PCI Express Card Reader (rev 01)
+>>>           Subsystem: Dell RTS525A PCI Express Card Reader
+>>>           Physical Slot: 1
+>>>           Flags: bus master, fast devsel, latency 0, IRQ 141
+>>>           Memory at ed100000 (32-bit, non-prefetchable) [size=4K]
+>>>           Capabilities: [80] Power Management version 3
+>>>           Capabilities: [90] MSI: Enable+ Count=1/1 Maskable- 64bit+
+>>>           Capabilities: [b0] Express Endpoint, MSI 00
+>>>           Kernel driver in use: rtsx_pci
+>>>           Kernel modules: rtsx_pci
+>>>
+>>>
+>>>
+>>
+>>
+>> Adding to CC list since bisect landed on
+>>
+>>     drivers/misc/cardreader/rtsx_pcr.c
+>>
+>> Thread starts here: https://lkml.org/lkml/2023/8/16/1154
+> 
+> I realize you can work around this by blacklisting the rtsx_pci, but
+> that's not a pleasant solution. With only a few days left in 6.5, should
+> the commit just be reverted?
+
+Keith - thanks for reminder.
+
+The card reader device itself is non-critical and very low priority.
+
+What perhaps is a little more worrisome is the change in rtsx somehow 
+prevented nvme from functioning normally and the machine then not 
+booting (at least for some combination(s) of hardware).
+
+If there is a simple fix to prevent nvme from being impacted by the rtsx 
+driver that would be more than sufficient?
+
+On the other hand 6.4.11 is out, and I'm guessing there isn't a lot of 
+noise on this either. From what I've seen, 1 other user with same 
+problem [1] and 1 with same card reader not having a problema [2].
+And no 'me-too's in the kernel bugzilla [3] either.
+
+
+Gene
+
+
+[1] https://bbs.archlinux.org/viewtopic.php?id=288095
+[2] https://bugs.archlinux.org/task/79439
+[3] https://bugzilla.kernel.org/show_bug.cgi?id=217802
+
+
+
 
