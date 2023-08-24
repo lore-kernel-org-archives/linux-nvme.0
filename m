@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E816DC7EE2C
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Aug 2023 14:39:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A57A3C6FA8F
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Aug 2023 14:39:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=oa36kjhIvJTxwAHm0GK8Afk1tL9+tuRbCuSsAg+bQ6g=; b=2ChvI8UrdcbarftstUMOc7l1Hq
-	qLA6FlXeGiQAPD3GsP2XzroqBjwxjU8P9ZcaxucYmOR3jgAeRsOgbgKJqSQtEZI6DvEeI/CstFpWj
-	qzd9uj/NOMhH68nKwa5+RSZAMh/F9tkvzcqIQpJpdi/WI3qoMvWVb/II2iLF7EPUQb2I1z3beWs6n
-	YwYtFGAuQ6c715OTBREGbtrk8UORIXo7y4LnjRr/5PZWlrlpgwA8cSuLd58qzJ0ym7HwKzr8JTbnd
-	xIj870QPyK+eMjYIHVpR0Q7J3gGsDGjO1sPvWmAT30xDlrE4VWgWOsspWU614icxn2QqXD/esVIcD
-	KwrULOKQ==;
+	bh=r44AGU89fbr2kIGCRc1HbALaa9GuRJqyF2xn832+/8s=; b=uls+dlxzQKGTeRGjqh5bYgs2r8
+	I63h27YpWxXF7L0NTFIZp7UpVLlCeWmzTgakAtL25fB5EdTGC92uXSNUTzwDGsgq0daDJE93ul9iA
+	i2KZVhDw0x70zKvYn+LojVAR420BRO0ufJ0AffIRSfVrcPrWbBmidtD1rqAdWMJPqsvG6ioZOghiG
+	Q8jSpo6whokDHEVVcKWI0teIy6ZGIKCmQRlqRGZyg89eWbD101K4d1aFjSeDBw6tX4cVpLpcOAWOP
+	u+F+ghsKND/8Wx4KTgWiMQjw/d07ceCbPZ3q26wh5Q2N6qG3Rq/tSAJDTyAHCbDl+vlfjkq8GDhsR
+	LhBmjczQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qZBUr-003FM8-0E;
-	Thu, 24 Aug 2023 14:39:41 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1qZBUu-003FP5-2c;
+	Thu, 24 Aug 2023 14:39:44 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qZBUi-003FCw-1O
+	id 1qZBUj-003FCs-0u
 	for linux-nvme@lists.infradead.org;
-	Thu, 24 Aug 2023 14:39:34 +0000
+	Thu, 24 Aug 2023 14:39:35 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id BB91020732;
+	by smtp-out2.suse.de (Postfix) with ESMTP id C16CA2081D;
 	Thu, 24 Aug 2023 14:39:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1692887966; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=oa36kjhIvJTxwAHm0GK8Afk1tL9+tuRbCuSsAg+bQ6g=;
-	b=O1ZU50VREt9WMHNSxzMH3QHqG1+896302nyamG5Cqg0u4ijwDWMxjEiUcsiAiuUxvCmeag
-	nap5XateFOgwu6Td/bq6mBtYGd9V3kKBm7woA3XNDWH0D6nLD9Ny4YcR/2R7J8PiFdEV0v
-	FkLGJM/FGKYB5RZFmzLyYSFTS2Bc1Vk=
+	bh=r44AGU89fbr2kIGCRc1HbALaa9GuRJqyF2xn832+/8s=;
+	b=OCRA0NzR+sy4NqMiPZpA4mWjI414BKP0hXHlZ9dJ8VllSpC84g9cXsuTlEff3mTzRwb1Zk
+	0CKZGjOYlW9mJDri5TNEtxwF2LfnQSrHyKiHwMBcFbGQPZZ1TN//aEQPG8Wqm0GT2mt+dZ
+	OqekzmowzPx8DPJofniVPA8QdNnNjZg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1692887966;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=oa36kjhIvJTxwAHm0GK8Afk1tL9+tuRbCuSsAg+bQ6g=;
-	b=IuyVvxVo6iFQoWfBCWAiUUpI8OJcamzxwlVv7Ij36p9Gi/i3UnjxjKG6BldRD8YtnDV19B
-	eOEKsNgQj14G0bCw==
+	bh=r44AGU89fbr2kIGCRc1HbALaa9GuRJqyF2xn832+/8s=;
+	b=H0MBguMsARLRtxtyccBEEFk5tL53jEC09d/viUlP2/VuK5g+UrYuXl8+I/RRNPtc0nS8jy
+	7Q52XaYrAjRIbsDQ==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id B2E2A2C14E;
+	by relay2.suse.de (Postfix) with ESMTP id B531F2C14F;
 	Thu, 24 Aug 2023 14:39:26 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id AD3AF51CB8C1; Thu, 24 Aug 2023 16:39:26 +0200 (CEST)
+	id B26DE51CB8C3; Thu, 24 Aug 2023 16:39:26 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
@@ -62,18 +62,19 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Eric Dumazet <edumazet@google.com>,
 	Paolo Abeni <pabeni@redhat.com>,
 	netdev@vger.kernel.org,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 05/18] nvme-keyring: implement nvme_tls_psk_default()
-Date: Thu, 24 Aug 2023 16:39:12 +0200
-Message-Id: <20230824143925.9098-6-hare@suse.de>
+	Hannes Reinecke <hare@suse.de>,
+	David Howells <dhowells@redhat.com>
+Subject: [PATCH 06/18] security/keys: export key_lookup()
+Date: Thu, 24 Aug 2023 16:39:13 +0200
+Message-Id: <20230824143925.9098-7-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230824143925.9098-1-hare@suse.de>
 References: <20230824143925.9098-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230824_073932_634009_63AB135B 
-X-CRM114-Status: GOOD (  13.32  )
+X-CRM114-CacheID: sfid-20230824_073933_460921_E7BB733A 
+X-CRM114-Status: GOOD (  12.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,108 +89,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Implement a function to select the preferred PSK for TLS.
-A 'retained' PSK should be preferred over a 'generated' PSK,
-and SHA-384 should be preferred to SHA-256.
+For in-kernel consumers one cannot readily assign a user (eg when
+running from a workqueue), so the normal key search permissions
+cannot be applied.
+This patch exports the 'key_lookup()' function for a simple lookup
+of keys without checking for permissions.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Acked-by: David Howells <dhowells@redhat.com>
 ---
- drivers/nvme/common/keyring.c | 48 +++++++++++++++++++++++++++++++++++
- include/linux/nvme-keyring.h  |  8 ++++++
- 2 files changed, 56 insertions(+)
+ include/linux/key.h | 1 +
+ security/keys/key.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
-index 494dd365052e..f8d9a208397b 100644
---- a/drivers/nvme/common/keyring.c
-+++ b/drivers/nvme/common/keyring.c
-@@ -5,6 +5,7 @@
+diff --git a/include/linux/key.h b/include/linux/key.h
+index 938d7ecfb495..943a432da3ae 100644
+--- a/include/linux/key.h
++++ b/include/linux/key.h
+@@ -515,6 +515,7 @@ extern void key_init(void);
+ #define key_init()			do { } while(0)
+ #define key_free_user_ns(ns)		do { } while(0)
+ #define key_remove_domain(d)		do { } while(0)
++#define key_lookup(k)			NULL
  
- #include <linux/module.h>
- #include <linux/seq_file.h>
-+#include <linux/key.h>
- #include <linux/key-type.h>
- #include <keys/user-type.h>
- #include <linux/nvme.h>
-@@ -103,6 +104,53 @@ static struct key *nvme_tls_psk_lookup(struct key *keyring,
- 	return key_ref_to_ptr(keyref);
+ #endif /* CONFIG_KEYS */
+ #endif /* __KERNEL__ */
+diff --git a/security/keys/key.c b/security/keys/key.c
+index 5c0c7df833f8..0260a1902922 100644
+--- a/security/keys/key.c
++++ b/security/keys/key.c
+@@ -693,6 +693,7 @@ struct key *key_lookup(key_serial_t id)
+ 	spin_unlock(&key_serial_lock);
+ 	return key;
  }
++EXPORT_SYMBOL(key_lookup);
  
-+/*
-+ * NVMe PSK priority list
-+ *
-+ * 'Retained' PSKs (ie 'generated == false')
-+ * should be preferred to 'generated' PSKs,
-+ * and SHA-384 should be preferred to SHA-256.
-+ */
-+struct nvme_tls_psk_priority_list {
-+	bool generated;
-+	enum nvme_tcp_tls_cipher cipher;
-+} nvme_tls_psk_prio[] = {
-+	{ .generated = false,
-+	  .cipher = NVME_TCP_TLS_CIPHER_SHA384, },
-+	{ .generated = false,
-+	  .cipher = NVME_TCP_TLS_CIPHER_SHA256, },
-+	{ .generated = true,
-+	  .cipher = NVME_TCP_TLS_CIPHER_SHA384, },
-+	{ .generated = true,
-+	  .cipher = NVME_TCP_TLS_CIPHER_SHA256, },
-+};
-+
-+/*
-+ * nvme_tls_psk_default - Return the preferred PSK to use for TLS ClientHello
-+ */
-+key_serial_t nvme_tls_psk_default(struct key *keyring,
-+		      const char *hostnqn, const char *subnqn)
-+{
-+	struct key *tls_key;
-+	key_serial_t tls_key_id;
-+	int prio;
-+
-+	for (prio = 0; prio < ARRAY_SIZE(nvme_tls_psk_prio); prio++) {
-+		bool generated = nvme_tls_psk_prio[prio].generated;
-+		enum nvme_tcp_tls_cipher cipher = nvme_tls_psk_prio[prio].cipher;
-+
-+		tls_key = nvme_tls_psk_lookup(keyring, hostnqn, subnqn,
-+					      cipher, generated);
-+		if (!IS_ERR(tls_key)) {
-+			tls_key_id = tls_key->serial;
-+			key_put(tls_key);
-+			return tls_key_id;
-+		}
-+	}
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(nvme_tls_psk_default);
-+
- int nvme_keyring_init(void)
- {
- 	int err;
-diff --git a/include/linux/nvme-keyring.h b/include/linux/nvme-keyring.h
-index 32bd264a71e6..4efea9dd967c 100644
---- a/include/linux/nvme-keyring.h
-+++ b/include/linux/nvme-keyring.h
-@@ -8,12 +8,20 @@
- 
- #ifdef CONFIG_NVME_KEYRING
- 
-+key_serial_t nvme_tls_psk_default(struct key *keyring,
-+		const char *hostnqn, const char *subnqn);
-+
- key_serial_t nvme_keyring_id(void);
- int nvme_keyring_init(void);
- void nvme_keyring_exit(void);
- 
- #else
- 
-+static inline key_serial_t nvme_tls_psk_default(struct key *keyring,
-+		const char *hostnqn, const char *subnqn)
-+{
-+	return 0;
-+}
- static inline key_serial_t nvme_keyring_id(void)
- {
- 	return 0;
+ /*
+  * Find and lock the specified key type against removal.
 -- 
 2.35.3
 
