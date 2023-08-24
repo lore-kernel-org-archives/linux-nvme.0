@@ -4,77 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B44EC27C40
-	for <linux-nvme@archiver.kernel.org>; Thu, 24 Aug 2023 14:36:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 753DFC6FA8F
+	for <linux-nvme@archiver.kernel.org>; Thu, 24 Aug 2023 14:39:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EtlLPQ4XkMFpJySjQ9OXycirNX1t9e/eOV9xbgj8ih0=; b=UG4e8XQ9a4Kr3qXv26g6Res/WI
-	OnBlq1vUxjHpsgDr2gjetOFHI9bAb0MM8FBL3dyOaW2CpPWzmvpKMxyIG45QgJyWemiLqZ2d/aX6e
-	to27cEoAnC2ZLGXowkM1buh89eH7r5zAs04koc7w0UR3hjjX0T0Rp/olkBo8Ro4F6EOSOOYl7+evV
-	rk041/P8045dcviZOtZNsSrKPJC5aqkf+vxHegrDStrSZBEA9d6eRzv9YexzAsoZ7ZXy02/8q7CnW
-	iVJQ5LwffWpZ5M/4EYORfdCJqLoWZT9W8IFsTef5HvX132NOUobNEf6XLSHUfZ/ZHoRT5UbG9VtJE
-	nK3U+9Vw==;
+	bh=aYpMppRc3Um2x2Fg3sOcnpRtep0A2eFDujgh1gnRIxs=; b=GGLtea4/XqWOI17vZd+t7UuiRe
+	WjTQNSqJiJNam//OSZWxM6kg21Mw6hAmGzSQ/XJ5tpLBziKNhz11pkuDZv+zcktBYGgELdIin/psZ
+	P2OA8QMzunHTctJJZdM563/QXsws9D6yP0Zwfcuudnp4yyTYa5lErBuJfCq5UjKP7DGyaGa7GW4/i
+	xut4hed7bgKFS4ibTb8/iduiauO0LXr4LBvG88nJKnWBTaLUaU71k008s4iJt3wL1UiROmdRANViM
+	J3QsgF0gpyAHsgZuduN+A55b52ljsNYzxMwx02Rz3gEguUBMBHGt/6Xq+mI11ETvTBX6Aj1zE6TBU
+	LEE33DuQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qZBRd-003EpA-1t;
-	Thu, 24 Aug 2023 14:36:21 +0000
-Received: from mail-pf1-f173.google.com ([209.85.210.173])
+	id 1qZBUl-003FGw-1A;
+	Thu, 24 Aug 2023 14:39:35 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qZBRa-003Eod-2t
+	id 1qZBUi-003FD1-0Q
 	for linux-nvme@lists.infradead.org;
-	Thu, 24 Aug 2023 14:36:20 +0000
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-68bed28cb22so741619b3a.2
-        for <linux-nvme@lists.infradead.org>; Thu, 24 Aug 2023 07:36:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692887777; x=1693492577;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EtlLPQ4XkMFpJySjQ9OXycirNX1t9e/eOV9xbgj8ih0=;
-        b=N/eGz1rm8PJjoNtAiYNbat2nWK6EgbRtavLnhp8t2E4FBYJ3ZwTZbTyqBWg4af9iVe
-         tKUZyUd5RmWY9bqivLeKsw00AXlbAQblA0bFi7jz6jIFVwZNZBA1+dhPjeD1ChpiCKR+
-         gqCgd/+pqNk4V+5+mPtEdYrHWEd91tde+/mbGLmJDEzmf7YmkJe4J/gsn+/hX60ZH8c7
-         KwcVL1aNEIfzIgSxXicYe0HbI41jNUAzMlu+q/OhskrLMntP7TrTI+OIYaErExi2iAn2
-         shqK9Pw6oxIbLYiIaq6U3lVe3O/2q/q2lzhkfthww4VrikG5lMgaGQECXrapt2ltnT4q
-         6NXw==
-X-Gm-Message-State: AOJu0YwYQfyv+bsrR6Wf/HaVdnMCrrLNYnFYpPiOQeOnFOX/0/WWT9jO
-	P38JqHpfoZowQ33igZhO1qc=
-X-Google-Smtp-Source: AGHT+IFhh/yEEq8jK9/1mUwkjtgL9PDsZzGFDBhhP31JIt8DlZgc7qS60r6ZxJZj+KRAPFQGufVKHQ==
-X-Received: by 2002:a05:6a00:1406:b0:682:4ef7:9b17 with SMTP id l6-20020a056a00140600b006824ef79b17mr15252022pfu.32.1692887776574;
-        Thu, 24 Aug 2023 07:36:16 -0700 (PDT)
-Received: from ?IPV6:2620:15c:211:201:e6ec:4683:972:2d78? ([2620:15c:211:201:e6ec:4683:972:2d78])
-        by smtp.gmail.com with ESMTPSA id z12-20020aa791cc000000b00682c864f35bsm11533887pfa.140.2023.08.24.07.36.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Aug 2023 07:36:16 -0700 (PDT)
-Message-ID: <7b5fc500-afeb-7edf-383c-0cdda77b3cf6@acm.org>
-Date: Thu, 24 Aug 2023 07:36:12 -0700
+	Thu, 24 Aug 2023 14:39:33 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out1.suse.de (Postfix) with ESMTP id C09D022BB0;
+	Thu, 24 Aug 2023 14:39:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1692887966; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aYpMppRc3Um2x2Fg3sOcnpRtep0A2eFDujgh1gnRIxs=;
+	b=YMwCk+FMv5MpKsH9KUZcI6W34fSIYFz3ltCpYyS05aGkLExu5feaqeUt+CMb6xQS1D/Q4P
+	Kl3z8VlA3d1ZC+hrqSAmzifs2bUF33tOOsxxS8E5vz0yoWWFCJI09VKoX3/PpOpLTl6a/O
+	oAbcW4pJ8g29Cga0HWvYty+tEi59WmI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1692887966;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aYpMppRc3Um2x2Fg3sOcnpRtep0A2eFDujgh1gnRIxs=;
+	b=aJjd7Gr7rD2D3KgZafBgG9hienxyom/0tL2ic5XjgE44TbE9Si6Gqbzy7b0s3ofAI4lpxK
+	fjSHxNS0sSjIYMAA==
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+	by relay2.suse.de (Postfix) with ESMTP id BA92A2C152;
+	Thu, 24 Aug 2023 14:39:26 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 16045)
+	id B7FF051CB8C5; Thu, 24 Aug 2023 16:39:26 +0200 (CEST)
+From: Hannes Reinecke <hare@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org,
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH 07/18] nvme-tcp: allocate socket file
+Date: Thu, 24 Aug 2023 16:39:14 +0200
+Message-Id: <20230824143925.9098-8-hare@suse.de>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20230824143925.9098-1-hare@suse.de>
+References: <20230824143925.9098-1-hare@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.1
-Subject: Re: [PATCH blktests v3 3/3] nvme: introduce
- nvmet_target_{setup/cleanup} common code
-Content-Language: en-US
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- Daniel Wagner <dwagner@suse.de>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- Chaitanya Kulkarni <kch@nvidia.com>, Hannes Reinecke <hare@suse.de>,
- Sagi Grimberg <sagi@grimberg.me>, Jason Gunthorpe <jgg@ziepe.ca>
-References: <20230822083812.24612-1-dwagner@suse.de>
- <20230822083812.24612-4-dwagner@suse.de>
- <fbyacmtpqfhfb763s7utwbt4kdbr3pli4rp7prj7jlklq2tit6@mkkjzy73r3a3>
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <fbyacmtpqfhfb763s7utwbt4kdbr3pli4rp7prj7jlklq2tit6@mkkjzy73r3a3>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230824_073618_935614_A72F428B 
-X-CRM114-Status: GOOD (  11.75  )
+X-CRM114-CacheID: sfid-20230824_073932_355103_05EF25D6 
+X-CRM114-Status: GOOD (  13.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,33 +88,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/23/23 20:09, Shinichiro Kawasaki wrote:
-> CC+: Bart,
-> 
-> This patch makes shellcheck unhappy:
-> 
-> tests/nvme/003:26:2: note: Use _nvmet_target_setup "$@" if function's $1 should mean script's $1. [SC2119]
-> tests/nvme/004:26:2: note: Use _nvmet_target_setup "$@" if function's $1 should mean script's $1. [SC2119]
-> tests/nvme/005:26:2: note: Use _nvmet_target_setup "$@" if function's $1 should mean script's $1. [SC2119]
-> tests/nvme/006:24:2: note: Use _nvmet_target_setup "$@" if function's $1 should mean script's $1. [SC2119]
-> tests/nvme/008:25:2: note: Use _nvmet_target_setup "$@" if function's $1 should mean script's $1. [SC2119]
-> tests/nvme/010:25:2: note: Use _nvmet_target_setup "$@" if function's $1 should mean script's $1. [SC2119]
-> tests/nvme/012:29:2: note: Use _nvmet_target_setup "$@" if function's $1 should mean script's $1. [SC2119]
-> tests/nvme/014:28:2: note: Use _nvmet_target_setup "$@" if function's $1 should mean script's $1. [SC2119]
-> tests/nvme/018:26:2: note: Use _nvmet_target_setup "$@" if function's $1 should mean script's $1. [SC2119]
-> tests/nvme/019:27:2: note: Use _nvmet_target_setup "$@" if function's $1 should mean script's $1. [SC2119]
-> tests/nvme/023:25:2: note: Use _nvmet_target_setup "$@" if function's $1 should mean script's $1. [SC2119]
-> 
-> But I think the warn SC2119 is false-positive and we should suppress it. In the
-> past, blktests had suppressed it until the recent commit 26664dff17b6 ("Do not
-> suppress any shellcheck warnings"). I think this commit should be reverted
-> together with this series.
-Please do not revert commit 26664dff17b6 because it produces useful
-warnings. Do you agree that the above warnings are easy to suppress,
-e.g. by changing "_nvmet_target_setup" into
-"_nvmet_target_setup ignored_argument"?
+When using the TLS upcall we need to allocate a socket file such
+that the userspace daemon is able to use the socket.
 
-Thanks,
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+---
+ drivers/nvme/host/tcp.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-Bart.
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 9ce417cd32a7..324d3bce65b8 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1338,7 +1338,9 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
+ 	}
+ 
+ 	noreclaim_flag = memalloc_noreclaim_save();
+-	sock_release(queue->sock);
++	/* ->sock will be released by fput() */
++	fput(queue->sock->file);
++	queue->sock = NULL;
+ 	memalloc_noreclaim_restore(noreclaim_flag);
+ 
+ 	kfree(queue->pdu);
+@@ -1512,6 +1514,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
+ 	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
+ 	struct nvme_tcp_queue *queue = &ctrl->queues[qid];
+ 	int ret, rcv_pdu_size;
++	struct file *sock_file;
+ 
+ 	mutex_init(&queue->queue_lock);
+ 	queue->ctrl = ctrl;
+@@ -1534,6 +1537,11 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
+ 		goto err_destroy_mutex;
+ 	}
+ 
++	sock_file = sock_alloc_file(queue->sock, O_CLOEXEC, NULL);
++	if (IS_ERR(sock_file)) {
++		ret = PTR_ERR(sock_file);
++		goto err_destroy_mutex;
++	}
+ 	nvme_tcp_reclassify_socket(queue->sock);
+ 
+ 	/* Single syn retry */
+@@ -1640,7 +1648,8 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
+ 	if (queue->hdr_digest || queue->data_digest)
+ 		nvme_tcp_free_crypto(queue);
+ err_sock:
+-	sock_release(queue->sock);
++	/* ->sock will be released by fput() */
++	fput(queue->sock->file);
+ 	queue->sock = NULL;
+ err_destroy_mutex:
+ 	mutex_destroy(&queue->send_mutex);
+-- 
+2.35.3
+
 
