@@ -4,82 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 999A9C71133
-	for <linux-nvme@archiver.kernel.org>; Fri, 25 Aug 2023 06:24:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62E96C7EE2C
+	for <linux-nvme@archiver.kernel.org>; Fri, 25 Aug 2023 06:36:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gUtDy3vy5owHa1nT7w/gfPpkT2zQPnqVi3pslPb35oc=; b=MWlv0XdjOXhvVu446ePo1pmDGw
-	v0kJLPY09mNA2l7Z0ZjvOicgMDo7q0hdOwmT5ciZXBOgbvVsmyDic1zojh+Q+Vgd49Tfi2e3axoy7
-	2UyAtMNAxokPdxTRQTJW5OaYR1q7ltIrWznLNbGTzylwjOxGCVNVPncOD/TwjB+aREsWcHWZtaB2p
-	1O3FH1lkiN226ajrWtaMhk8lZuVMLhtPXyzhWlTJlL6ztD6jgeaoPISmkec3AC2PNVQoFojBqDlRk
-	Sph1PI/wRJ9g15MQCxuIb5YEjF14bIlahQS5KSxOEHSTwbTZRPufHAZpcIZolR3inbSb90+s00Qfc
-	K7m29jOw==;
+	bh=jnYY8U9ugF44RNWGBtqhWfIQ34dMJpcLQpRX4lYVKPE=; b=YuTZ/KSqfK8JjN08gAZXfOcrRm
+	cEkddKp7rDPzlFT3MefvvIwenfRCc9EMbPrX/bembVbCuR4FaTknUEwYQzOfqaHiUZxBaL3NVlyJ3
+	Kxkw1LIoZfz1UGVQjsKrF1Ie+HiC7/tHSpwnGI4C9kW+KO0RKgPBIf+E1jzQF+YX/2DPCzUMwlrY2
+	Vf2hLVtkDdoZuqwKMwnll4HZaO8/JaZDmeav5iddjtSCWhEkQDzpA9LwXOpHhPoosnp4z1lH82MHm
+	PikSAGw88XSETAUYf5dNWpDnIHRJh6vGS3bTxwoO8wVr8Tcc7DNnjzhNPBn37ikCCSwJ4xZGmF+7m
+	8nYlQSuA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qZQFS-004RmY-0v;
-	Fri, 25 Aug 2023 06:24:46 +0000
+	id 1qZQQx-004TWx-2b;
+	Fri, 25 Aug 2023 06:36:39 +0000
 Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qZQFP-004Rlc-0q
+	id 1qZQQu-004TVr-0a
 	for linux-nvme@lists.infradead.org;
-	Fri, 25 Aug 2023 06:24:44 +0000
+	Fri, 25 Aug 2023 06:36:37 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1007F1F8B0;
-	Fri, 25 Aug 2023 06:24:38 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BF8E61F8B0;
+	Fri, 25 Aug 2023 06:36:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1692944678; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1692945394; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gUtDy3vy5owHa1nT7w/gfPpkT2zQPnqVi3pslPb35oc=;
-	b=KjL+qbyt3oKatnDWHUK+0GA6xt9mmc7xpJ0yM/pocrAofJaCW+82fvEqeMVyIx1gR/urpz
-	S/viyFJS3n2cHx2kK5hoGg+g8U36wWLlDJVvPuPw97v5oeC3kH14APVYAe1/6Jasb6Mooe
-	4I1eC1b5rAox9MICii2iMdkZh71DyGk=
+	bh=jnYY8U9ugF44RNWGBtqhWfIQ34dMJpcLQpRX4lYVKPE=;
+	b=XpRtwWSxk7FWo6w7XUvip8eOXDVnoanVkJeY6WxaqprCeLJC1la4aNjAg6TVfjAUTJpoy+
+	zDeyH8Cwvn+Gi8CJXA/1X9ipOM2uvqq5d6v2JCIN1HPYu2WG9tsclJAgE40GhMd7T9Pjmt
+	gg1FXKAOubvLvqFcQ2WqKsMlMC1c3gU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1692944678;
+	s=susede2_ed25519; t=1692945394;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gUtDy3vy5owHa1nT7w/gfPpkT2zQPnqVi3pslPb35oc=;
-	b=qT9WmPLRfqMP1Qm8+ziDKk9uH4PY41ZoprTBna3qyhiIQKKVVi5CIuqEo/TulajcpemShO
-	RI1d20vY8aiYO3DQ==
+	bh=jnYY8U9ugF44RNWGBtqhWfIQ34dMJpcLQpRX4lYVKPE=;
+	b=dULSZte9Z0e77TECiRslE6+piTA/77yfXrDwwB6FLOS59oN6v8/KjiPSd7Q2Bl50TebIoA
+	iUjYcjtcqNDgYvCQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 010D01340A;
-	Fri, 25 Aug 2023 06:24:37 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B1EF2138F9;
+	Fri, 25 Aug 2023 06:36:34 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id I+ZuOyVJ6GTrKAAAMHmgww
-	(envelope-from <dwagner@suse.de>); Fri, 25 Aug 2023 06:24:37 +0000
-Date: Fri, 25 Aug 2023 08:24:53 +0200
+	id dQRdK/JL6GQpLgAAMHmgww
+	(envelope-from <dwagner@suse.de>); Fri, 25 Aug 2023 06:36:34 +0000
+Date: Fri, 25 Aug 2023 08:36:50 +0200
 From: Daniel Wagner <dwagner@suse.de>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, Chaitanya Kulkarni <kch@nvidia.com>, 
-	Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>, Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH blktests v3 3/3] nvme: introduce
- nvmet_target_{setup/cleanup} common code
-Message-ID: <fkj36wd64v3nzs5uy776zqqxqlyxucsyf7xbjzuxdy6d4lfagz@kzryxwk6ptfr>
-References: <20230822083812.24612-1-dwagner@suse.de>
- <20230822083812.24612-4-dwagner@suse.de>
- <fbyacmtpqfhfb763s7utwbt4kdbr3pli4rp7prj7jlklq2tit6@mkkjzy73r3a3>
- <7b5fc500-afeb-7edf-383c-0cdda77b3cf6@acm.org>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Guangwu Zhang <guazhang@redhat.com>, 
+	Ming Lei <ming.lei@redhat.com>, Oleg Solovyov <mcpain@altlinux.org>
+Subject: Re: stack smashing detected with 'nvme sanitize-log /dev/nvme0'
+Message-ID: <j4azjg6k4cg3tynmvyl3qqcd7imcoaisy35ssqob34cw3ox32g@qk7dmqt72vbx>
+References: <dckvq3ohgqdkxg7wz4vslf36gaivgldl742vew67oyh2buj5nr@7ypn5ydt6kss>
+ <20230726131643.GA16186@lst.de>
+ <zopmb3355u2vorlkvas3gqb53azp7qtb7yq2kyc3reezlyqtcy@iev3wkvzumsq>
+ <ZON+qrAwuO3eQB6G@kbusch-mbp.dhcp.thefacebook.com>
+ <4ub43j2q4glt42cwgmaf4cohswt4xaz3lna5nquvb5lavjitvv@tctmuwftqil6>
+ <ZOYnzFSgWAwnkWqs@kbusch-mbp>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7b5fc500-afeb-7edf-383c-0cdda77b3cf6@acm.org>
+In-Reply-To: <ZOYnzFSgWAwnkWqs@kbusch-mbp>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230824_232443_541453_F671FCEA 
-X-CRM114-Status: GOOD (  15.05  )
+X-CRM114-CacheID: sfid-20230824_233636_367200_E715B7EA 
+X-CRM114-Status: GOOD (  23.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,39 +94,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Aug 24, 2023 at 07:36:12AM -0700, Bart Van Assche wrote:
-> On 8/23/23 20:09, Shinichiro Kawasaki wrote:
-> > CC+: Bart,
+On Wed, Aug 23, 2023 at 09:37:48AM -0600, Keith Busch wrote:
+> On Tue, Aug 22, 2023 at 09:55:38AM +0200, Daniel Wagner wrote:
+> > On Mon, Aug 21, 2023 at 09:11:38AM -0600, Keith Busch wrote:
+> > > I don't think we want to bounce to kernel memory for the device to
+> > > overwrite it. I suggest just change nvme-cli's stack allocated santize
+> > > log to a use page aligned and sized buffer.
 > > 
-> > This patch makes shellcheck unhappy:
-> > 
-> > tests/nvme/003:26:2: note: Use _nvmet_target_setup "$@" if function's $1 should mean script's $1. [SC2119]
-> > tests/nvme/004:26:2: note: Use _nvmet_target_setup "$@" if function's $1 should mean script's $1. [SC2119]
-> > tests/nvme/005:26:2: note: Use _nvmet_target_setup "$@" if function's $1 should mean script's $1. [SC2119]
-> > tests/nvme/006:24:2: note: Use _nvmet_target_setup "$@" if function's $1 should mean script's $1. [SC2119]
-> > tests/nvme/008:25:2: note: Use _nvmet_target_setup "$@" if function's $1 should mean script's $1. [SC2119]
-> > tests/nvme/010:25:2: note: Use _nvmet_target_setup "$@" if function's $1 should mean script's $1. [SC2119]
-> > tests/nvme/012:29:2: note: Use _nvmet_target_setup "$@" if function's $1 should mean script's $1. [SC2119]
-> > tests/nvme/014:28:2: note: Use _nvmet_target_setup "$@" if function's $1 should mean script's $1. [SC2119]
-> > tests/nvme/018:26:2: note: Use _nvmet_target_setup "$@" if function's $1 should mean script's $1. [SC2119]
-> > tests/nvme/019:27:2: note: Use _nvmet_target_setup "$@" if function's $1 should mean script's $1. [SC2119]
-> > tests/nvme/023:25:2: note: Use _nvmet_target_setup "$@" if function's $1 should mean script's $1. [SC2119]
-> > 
-> > But I think the warn SC2119 is false-positive and we should suppress it. In the
-> > past, blktests had suppressed it until the recent commit 26664dff17b6 ("Do not
-> > suppress any shellcheck warnings"). I think this commit should be reverted
-> > together with this series.
-> Please do not revert commit 26664dff17b6 because it produces useful
-> warnings. Do you agree that the above warnings are easy to suppress,
-> e.g. by changing "_nvmet_target_setup" into
-> "_nvmet_target_setup ignored_argument"?
+> > Sure we can add workarounds in userspace, though I think this is a
+> > regression and should ideally address in the kernel somehow.
+> 
+> Not sure if this is a regression. Even prior to the DMA alignment
+> settings change, you'd still hit this if your stack buffer aligned to
+> 512b. The kernel bounce buffer sounds like it just corrupts kernel
+> memory instead, so we can't have the driver just go back to the way it
+> was for these devices; someone has to over allocate the buffer.
 
-Well, these warnings could be address by adding back '--blkdev=device',
-but I just dropped them on Sagi's request.
+Okay, let's ignore the regression argument then. But what about the fact
+we are asking for 512 bytes via the kernels API and get too much data?
+Isn't this something we should address? I mean this forces all users of
+this kernel API allocate enough large buffers to handle this device.
 
-So what is it going to be? Ignoring SC2119 or adding and default
-argument? I personally would rather add SC2119 because there a lot of
-more callers which hand in default arguments which I would like to
-remove anyway. Working around ShellCheck current limitation seems wrong
-to me.
+Alternatively, we could add bounce buffers in libnvme instead in the
+kernel.
+
+> A device over running their DMA buffer, though, sounds bad enough that a
+> firmware fix should happen instead.
+
+Oleg contacted the manufacturer but I do not get my hopes up at all.
 
