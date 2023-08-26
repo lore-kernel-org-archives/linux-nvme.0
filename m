@@ -4,67 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95AB5C83F15
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Aug 2023 12:11:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1455CC83F16
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Aug 2023 12:11:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BpzfsfMiRxmg30OdFnKzv1mOgTevyt5wkPNcyneGwG0=; b=4vYVzyqb50HbHvOv2f8wIvWHl4
-	GIipG0vNv1l0QkLiu9kHMn8YYebj/72QpuqUXqImUHHDMvQZDOU+jJRh3RRJoqu0vG40q7dQkCbV8
-	EAbXrSo8WPnFBYjMpzcAtHsVEgB6SMUw8Uo7diOi5mRAZVsRkABaTYVc3efw9Ty3ZHuX9KM1Cpjww
-	qyi75m7XLAVPowqQ55dXbalvSd3G39WMOi4QMh0lGnjA7HuxH7z8G341qQyquIl1OBIhopDLk+isL
-	chGtDCGiXtZCnhy+qZmSbZEU0OQcOVJ9c2VwDCvZ529DAzDGyNB28vEOgvsLp9gKqUnNcI8HoNZCU
-	ehrJf6sA==;
+	bh=kRz17k12DLtH5ptlx3fiiancvtShyoQwDvuAAOUED4Y=; b=06zHjqXw6OOQCGNZgDXiWdAVJh
+	FcL00StkoglD3FME1TccXjXgtkOaYn+VoOdW7nbBcKcbMg6xN86qyp7SYYqQIhOoTeWU4DG+jeqJX
+	nC0jQhkdd3TSIQa2BkKjYx4D1I5Om8k6zyXxYk+nQ+fm93QGRuXzV3Q/JA7bYVNmwm4ZETUH5weHq
+	Tn07u5xuaVC8ZE2xpG6fjc/f5DLH4RMVhOApQgZaov4dVoZI1pwMwcY+lQIMLeYt3P1mwA+ifq33P
+	J8pTZAW/9nhE7hrONIrf2YHyq5AB1a2trEr30rFlReV7SRHzbn8GFJZ7h0Ky7R2SFF3TxdKHHSp7g
+	+eKnfSdA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qab5M-009XPQ-1S;
-	Mon, 28 Aug 2023 12:11:12 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1qab5O-009XPq-0e;
+	Mon, 28 Aug 2023 12:11:14 +0000
+Received: from zeniv.linux.org.uk ([2a03:a000:7:0:5054:ff:fe1c:15ff])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qZXAQ-005UKM-0F;
-	Fri, 25 Aug 2023 13:48:03 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 49AEC21F79;
-	Fri, 25 Aug 2023 13:47:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1692971277; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BpzfsfMiRxmg30OdFnKzv1mOgTevyt5wkPNcyneGwG0=;
-	b=uohLnKnqtpENx2vCia+CF25VunAvqKNxW8Gl/JZPjm2522sG0QzHP89CKm9gvg5uhIQmJN
-	WBEcUX07tygEsfRFeW0MDCmmX2lneinhEWFdq+jYTgqP+tDCYKowqEsMW88igvW28lrojs
-	hfcd/30g2Ie/qrM4mt7e3dhBm3c9V28=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1692971277;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BpzfsfMiRxmg30OdFnKzv1mOgTevyt5wkPNcyneGwG0=;
-	b=avw/hNX+TPhBa6q/Pyjq6dsHiVTX81moNODEW9+kRWtkr4cKF/cxPXXUPquXV79uoK0IL4
-	nSbq/d/haJGtPRAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 28033138F9;
-	Fri, 25 Aug 2023 13:47:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id UJRbCQ2x6GQZAwAAMHmgww
-	(envelope-from <jack@suse.cz>); Fri, 25 Aug 2023 13:47:57 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id A432FA0774; Fri, 25 Aug 2023 15:47:56 +0200 (CEST)
-Date: Fri, 25 Aug 2023 15:47:56 +0200
-From: Jan Kara <jack@suse.cz>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org,
-	linux-block@vger.kernel.org, Christoph Hellwig <hch@infradead.org>,
+	id 1qZj3Q-006JlI-0d;
+	Sat, 26 Aug 2023 02:29:37 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=kRz17k12DLtH5ptlx3fiiancvtShyoQwDvuAAOUED4Y=; b=mPm/qZCa7MWW4zdrpIjhXYeIS6
+	8cbIgOvCf/9Y6gIxhhuc7MbOClbX1o3H4gTlXLJmOpOyil1pufLmdD8oxm6VhlxB4x6C/OQmKz1OC
+	9Sg7eN60e8HGn0pn/DtWEZ2zi7uHlJyyQNolWeGdXQEgqn78/62UYsbUB8gsUgOw68YkPTd36+fo0
+	kPzizyM3mKJ55bukbV99w6F1Yx4exn0ELF0EHA2mn4TEClpd2hjjcTiwEbEGv+vsWkEq4IC7ejHjR
+	rO8uE9/3ipL5VpLJjGdd7WJssIdQ5Tj/z+j2E3fQDWI0Qb9TMLDhfRhfBXk5sw2QK4rJI42xn3tDe
+	SBJa1VHw==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
+	id 1qZj2i-0010QB-1S;
+	Sat, 26 Aug 2023 02:28:52 +0000
+Date: Sat, 26 Aug 2023 03:28:52 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+	Christoph Hellwig <hch@infradead.org>,
 	Alasdair Kergon <agk@redhat.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Anna Schumaker <anna@kernel.org>, Chao Yu <chao@kernel.org>,
@@ -96,16 +75,17 @@ Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org,
 	xen-devel@lists.xenproject.org, Jens Axboe <axboe@kernel.dk>,
 	Christian Brauner <brauner@kernel.org>
 Subject: Re: [PATCH v2 0/29] block: Make blkdev_get_by_*() return handle
-Message-ID: <20230825134756.o3wpq6bogndukn53@quack3>
+Message-ID: <20230826022852.GO3390869@ZenIV>
 References: <20230810171429.31759-1-jack@suse.cz>
  <20230825015843.GB95084@ZenIV>
+ <20230825134756.o3wpq6bogndukn53@quack3>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230825015843.GB95084@ZenIV>
+In-Reply-To: <20230825134756.o3wpq6bogndukn53@quack3>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230825_064802_400852_16B8C08B 
-X-CRM114-Status: GOOD (  28.76  )
+X-CRM114-CacheID: sfid-20230825_192936_257066_6B0C97AB 
+X-CRM114-Status: GOOD (  29.31  )
 X-Mailman-Approved-At: Mon, 28 Aug 2023 05:11:10 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -121,62 +101,77 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri 25-08-23 02:58:43, Al Viro wrote:
-> On Fri, Aug 11, 2023 at 01:04:31PM +0200, Jan Kara wrote:
-> > Hello,
-> > 
-> > this is a v2 of the patch series which implements the idea of blkdev_get_by_*()
-> > calls returning bdev_handle which is then passed to blkdev_put() [1]. This
-> > makes the get and put calls for bdevs more obviously matching and allows us to
-> > propagate context from get to put without having to modify all the users
-> > (again!).  In particular I need to propagate used open flags to blkdev_put() to
-> > be able count writeable opens and add support for blocking writes to mounted
-> > block devices. I'll send that series separately.
-> > 
-> > The series is based on Christian's vfs tree as of yesterday as there is quite
-> > some overlap. Patches have passed some reasonable testing - I've tested block
-> > changes, md, dm, bcache, xfs, btrfs, ext4, swap. This obviously doesn't cover
-> > everything so I'd like to ask respective maintainers to review / test their
-> > changes. Thanks! I've pushed out the full branch to:
-> > 
-> > git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git bdev_handle
-> > 
-> > to ease review / testing.
-> 
-> Hmm...  Completely Insane Idea(tm): how about turning that thing inside out and
-> having your bdev_open_by... return an actual opened struct file?
-> 
-> After all, we do that for sockets and pipes just fine and that's a whole lot
-> hotter area.
-> 
-> Suppose we leave blkdev_open()/blkdev_release() as-is.  No need to mess with
-> what we have for normal opened files for block devices.  And have block_open_by_dev()
-> that would find bdev, etc., same yours does and shove it into anon file.
-> 
-> Paired with plain fput() - no need to bother with new primitives for closing.
-> With a helper returning I_BDEV(bdev_file_inode(file)) to get from those to bdev.
-> 
-> NOTE: I'm not suggesting replacing ->s_bdev with struct file * if we do that -
-> we want that value cached, obviously.  Just store both...
-> 
-> Not saying it's a good idea, but... might be interesting to look into.
-> Comments?
+On Fri, Aug 25, 2023 at 03:47:56PM +0200, Jan Kara wrote:
 
-I can see the appeal of not having to introduce the new bdev_handle type
-and just using struct file which unifies in-kernel and userspace block
-device opens. But I can see downsides too - the last fput() happening from
-task work makes me a bit nervous whether it will not break something
-somewhere with exclusive bdev opens. Getting from struct file to bdev is
-somewhat harder but I guess a helper like F_BDEV() would solve that just
-fine.
+> I can see the appeal of not having to introduce the new bdev_handle type
+> and just using struct file which unifies in-kernel and userspace block
+> device opens. But I can see downsides too - the last fput() happening from
+> task work makes me a bit nervous whether it will not break something
+> somewhere with exclusive bdev opens. Getting from struct file to bdev is
+> somewhat harder but I guess a helper like F_BDEV() would solve that just
+> fine.
+> 
+> So besides my last fput() worry about I think this could work and would be
+> probably a bit nicer than what I have. But before going and redoing the whole
+> series let me gather some more feedback so that we don't go back and forth.
+> Christoph, Christian, Jens, any opinion?
 
-So besides my last fput() worry about I think this could work and would be
-probably a bit nicer than what I have. But before going and redoing the whole
-series let me gather some more feedback so that we don't go back and forth.
-Christoph, Christian, Jens, any opinion?
+Redoing is not an issue - it can be done on top of your series just
+as well.  Async behaviour of fput() might be, but...  need to look
+through the actual users; for a lot of them it's perfectly fine.
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+FWIW, from a cursory look there appears to be a missing primitive: take
+an opened bdev (or bdev_handle, with your variant, or opened file if we
+go that way eventually) and claim it.
+
+I mean, look at claim_swapfile() for example:
+                p->bdev = blkdev_get_by_dev(inode->i_rdev,
+                                   FMODE_READ | FMODE_WRITE | FMODE_EXCL, p);
+                if (IS_ERR(p->bdev)) {
+                        error = PTR_ERR(p->bdev);
+                        p->bdev = NULL;
+                        return error;
+                }
+                p->old_block_size = block_size(p->bdev);
+                error = set_blocksize(p->bdev, PAGE_SIZE);
+                if (error < 0)
+                        return error;
+we already have the file opened, and we keep it opened all the way until
+the swapoff(2); here we have noticed that it's a block device and we
+	* open the fucker again (by device number), this time claiming
+it with our swap_info_struct as holder, to be closed at swapoff(2) time
+(just before we close the file)
+	* flip the block size to PAGE_SIZE, to be reverted at swapoff(2)
+time That really looks like it ought to be
+	* take the opened file, see that it's a block device
+	* try to claim it with that holder
+	* on success, flip the block size
+with close_filp() in the swapoff(2) (or failure exit path in swapon(2))
+doing what it would've done for an O_EXCL opened block device.
+The only difference from O_EXCL userland open is that here we would
+end up with holder pointing not to struct file in question, but to our
+swap_info_struct.  It will do the right thing.
+
+This extra open is entirely due to "well, we need to claim it and the
+primitive that does that happens to be tied to opening"; feels rather
+counter-intuitive.
+
+For that matter, we could add an explicit "unclaim" primitive - might
+be easier to follow.  That would add another example where that could
+be used - in blkdev_bszset() we have an opened block device (it's an
+ioctl, after all), we want to change block size and we *really* don't
+want to have that happen under a mounted filesystem.  So if it's not
+opened exclusive, we do a temporary exclusive open of own and act on
+that instead.   Might as well go for a temporary claim...
+
+BTW, what happens if two threads call ioctl(fd, BLKBSZSET, &n)
+for the same descriptor that happens to have been opened O_EXCL?
+Without O_EXCL they would've been unable to claim the sucker at the same
+time - the holder we are using is the address of a function argument,
+i.e. something that points to kernel stack of the caller.  Those would
+conflict and we either get set_blocksize() calls fully serialized, or
+one of the callers would eat -EBUSY.  Not so in "opened with O_EXCL"
+case - they can very well overlap and IIRC set_blocksize() does *not*
+expect that kind of crap...  It's all under CAP_SYS_ADMIN, so it's not
+as if it was a meaningful security hole anyway, but it does look fishy.
 
