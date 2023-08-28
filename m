@@ -4,68 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1104FC83F11
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Aug 2023 15:14:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4090C71153
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Aug 2023 17:02:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=k4/eVPaw3IBTjAjPz+bqGvgtrzgk0IYeEEuriGEdCkg=; b=atF92EopFS3c66Yj4ZBGSsdPaS
-	/1vCspEhxKhAdJ7slax6VmedXX3KXNd0m+aF1IR/iagA9eoajTi+4dpdkpdAlMSY6NgneD8V0WpqM
-	BMVpgyyGYvGlkniTMbCh26S+PajPPk2tId946c1EW3oipqxAYkZQbR1vUeM0Ve3mGl5FWXWENVD9/
-	P2wWgey+98QHmfT5DsE1jue4wZavvKDG3hGKCiXiROCTGTH2En7svQYMquiHKjgNwGAU4zzc5lnL2
-	NCJ0pdG7hjGPwHg4zeVmiCjrGnQlrUFblRqk/snwUv+SLxdejQR92+3lg0ptNznVGjXsK5Sp31lAb
-	fgkgqRew==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=S/98S7UGlGVbuoQo/nQkeiOHz185uMZm/ktFwF4RCt0=; b=W92xj0lwXnB5JxvR/cCw+Azxo6
+	/N3+ZNDilUL0JJiYw7lSif6bMlK7EDqg34AXge7TyHKs7Ayr5GpQgCBnCSeiBluwJQmYftGpx5bmE
+	5r/SFdVv6FutmDgHXwpziFseiwbVAZFDFhzsU9iL4V+w98zy85IDSTI7x6UW+eTEUV/RRlZaGJirV
+	eFqJxzLVOJQ5+A3VLsbHh9Nn0FndyOM/GMvRk8AMlaRq8KPq/Xrn0y6On5BO+GfvMuxzwWSLPIG1D
+	MQb4ycdUq00q3BFXw+kBbJ5RJ00QDezqIpCfg4IsXh0WntX+/bnml3YX1Pa6G9Xo0ax/r7L1otJDQ
+	hkh0Md7A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qadwr-009mA8-0m;
-	Mon, 28 Aug 2023 15:14:37 +0000
-Received: from mail-pf1-f180.google.com ([209.85.210.180])
+	id 1qafch-009xLf-2f;
+	Mon, 28 Aug 2023 17:01:55 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qadwp-009m9N-04
+	id 1qafcd-009xK8-0C
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Aug 2023 15:14:36 +0000
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-68a410316a2so2372353b3a.0
-        for <linux-nvme@lists.infradead.org>; Mon, 28 Aug 2023 08:14:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693235673; x=1693840473;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=k4/eVPaw3IBTjAjPz+bqGvgtrzgk0IYeEEuriGEdCkg=;
-        b=iswuKV9PEJsHGkSn9hsVeWqli31qikbMLgUmcQE3oqzGa3GTTlDuHW0zdcJK8OnrCF
-         KAIqYM0/jFb49wiJ+RxYjkY0yA5CPWueY8LXQnQirJi2gIrZFOHhtV4LyI/jsO6maIlI
-         ZVUCIT8E6vIsZs6jpHgJbfDQr4LTPucFR+Q50D8OZTe/RdpqB37Lg/Hcbge/m/JwpeyJ
-         65dPDqJsx9hItfe9OWitDgpbZpGIqCzKEScS3d1UwUUHtFTnjFdn3n44rNjCrVtYyD7t
-         l/Y8DqhWqmLW7TMm470xRnlPWgdaGaB6vW39trfKHwi7JezHmxb9VkVhW0+xnEJqCVfM
-         1TKw==
-X-Gm-Message-State: AOJu0Yx5le151f4DGe/l+SFmJvZ/t7IHxsLkQe2cWTQuVbddIcR7Ei98
-	UChCxWoFukAMzcAQyPhr8yc=
-X-Google-Smtp-Source: AGHT+IH+PPAxCeqwS0rQxAFK2k4hiRnRDctlRk35+6aaJ1RvNhCGrMLpEhUj+rAntmblcZ/VFz85jg==
-X-Received: by 2002:a05:6a21:6da6:b0:126:9081:2156 with SMTP id wl38-20020a056a216da600b0012690812156mr25192585pzb.4.1693235672771;
-        Mon, 28 Aug 2023 08:14:32 -0700 (PDT)
-Received: from [192.168.51.14] ([98.51.102.78])
-        by smtp.gmail.com with ESMTPSA id 16-20020aa79250000000b0068bff979c33sm6708230pfp.188.2023.08.28.08.14.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Aug 2023 08:14:32 -0700 (PDT)
-Message-ID: <8ffb6c2f-0836-4302-82b9-902e092e537c@acm.org>
-Date: Mon, 28 Aug 2023 08:14:31 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+	Mon, 28 Aug 2023 17:01:54 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DE23E21A70;
+	Mon, 28 Aug 2023 17:01:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1693242106; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=S/98S7UGlGVbuoQo/nQkeiOHz185uMZm/ktFwF4RCt0=;
+	b=xlJ2neZhkbrzFt+WcvyWK8eqKP/KAH6rOCB0Csv9ybo5xb4Q3guoy1ibGE5wFCj0WmU04q
+	x1SKzZ7UHYWgfHaYWtqtPSwFxejkuRidXAgFbZGt3nT6homX9QemjYw2zFWeaHw95i+xrg
+	9CpvKqnX/hc9Ccz/uU7O9I0pq3a2AbE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1693242106;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=S/98S7UGlGVbuoQo/nQkeiOHz185uMZm/ktFwF4RCt0=;
+	b=+JsAubtjiKmzSzUxbJ9lyruBfJY/xAAswrNP81eJp0SXHMhKadCIhsZ17Sw7MWksuy6iY3
+	muYkWOR+i0q2OwBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D029D139CC;
+	Mon, 28 Aug 2023 17:01:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id BInEMvrS7GRHMgAAMHmgww
+	(envelope-from <dwagner@suse.de>); Mon, 28 Aug 2023 17:01:46 +0000
+Date: Mon, 28 Aug 2023 19:02:06 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, Chaitanya Kulkarni <kch@nvidia.com>, 
+	Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>, Jason Gunthorpe <jgg@ziepe.ca>
 Subject: Re: [PATCH blktests v3 3/3] nvme: introduce
  nvmet_target_{setup/cleanup} common code
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: Daniel Wagner <dwagner@suse.de>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- Chaitanya Kulkarni <kch@nvidia.com>, Hannes Reinecke <hare@suse.de>,
- Sagi Grimberg <sagi@grimberg.me>, Jason Gunthorpe <jgg@ziepe.ca>
-References: <20230822083812.24612-1-dwagner@suse.de>
- <20230822083812.24612-4-dwagner@suse.de>
- <fbyacmtpqfhfb763s7utwbt4kdbr3pli4rp7prj7jlklq2tit6@mkkjzy73r3a3>
+Message-ID: <txsyjpcxb3baog5fgqdnm5hh765nt5qcbcmllsto7uulyzr5kn@zirmqldhosbi>
+References: <fbyacmtpqfhfb763s7utwbt4kdbr3pli4rp7prj7jlklq2tit6@mkkjzy73r3a3>
  <7b5fc500-afeb-7edf-383c-0cdda77b3cf6@acm.org>
  <oss54jmgqzjcxecea4h7eeguh6lmhls4p74e7unbxmhz34asvk@a7n6vu6hauys>
  <zvu2ihivd6f4fbs7hpgowstq3li4wrdycqzso3c32qcco7zes4@s2l2solzzo6u>
@@ -74,14 +78,14 @@ References: <20230822083812.24612-1-dwagner@suse.de>
  <xz7rnke52xu3anmnjliybqv4yk3w367noo6ipguarkec6u4i5g@7bqtovmc3gjb>
  <d6ec4e54-1ec9-648a-ce8c-1e08a439c3c6@acm.org>
  <ckuewnzuiejug6jbuxfw4viqwf4v43pq54mj4k4qbq7uz3zwpn@3iijcby24ujd>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <ckuewnzuiejug6jbuxfw4viqwf4v43pq54mj4k4qbq7uz3zwpn@3iijcby24ujd>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <8ffb6c2f-0836-4302-82b9-902e092e537c@acm.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8ffb6c2f-0836-4302-82b9-902e092e537c@acm.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230828_081435_058408_92F3CA0D 
-X-CRM114-Status: GOOD (  11.27  )
+X-CRM114-CacheID: sfid-20230828_100151_265672_BDC10DED 
+X-CRM114-Status: GOOD (  19.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,20 +100,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/27/23 21:13, Shinichiro Kawasaki wrote:
-> For me, your original suggestion to add "ignored_agument" looks better
-> than "$@". (or in short, "noarg" or something)
+On Mon, Aug 28, 2023 at 08:14:31AM -0700, Bart Van Assche wrote:
+> On 8/27/23 21:13, Shinichiro Kawasaki wrote:
+> > For me, your original suggestion to add "ignored_agument" looks better
+> > than "$@". (or in short, "noarg" or something)
+> 
+> It is not clear to me what the intention is of the _nvmet_target_setup
+> calls without arguments.
 
-It is not clear to me what the intention is of the _nvmet_target_setup
-calls without arguments. Is the intention to pass all arguments that have
-been passed to the caller or is the intention not to pass any arguments?
-In the latter case I think it would be wrong to suppress SC2119 because
-there really is a problem in this case. How about passing -- as argument
-if the intention is not to pass any arguments? It is a well established
-convention for shell commands and shell functions to ignore the double
-hyphen if it is encountered in the argument list.
+Create a target. That's it. It is really not that complicated.
 
-Thanks,
+> Is the intention to pass all arguments that have
+> been passed to the caller or is the intention not to pass any
+> arguments?
 
-Bart.
+If there are no arguments, the indent is not to pass any arguments.
+
+> In the latter case I think it would be wrong to suppress SC2119 because
+> there really is a problem in this case.
+
+IMO, SC2119 is not helping at all. What does it prevent? It doesn't even
+understand how many arguments are supposed to be passed into a function.
+The few error cases it catches are very limitted.
+
+> How about passing -- as argument
+> if the intention is not to pass any arguments? It is a well established
+> convention for shell commands and shell functions to ignore the double
+> hyphen if it is encountered in the argument list.
+
+I am against adding code just to make ShellCheck happy. If there is
+another way achieve this I am all ear.
 
