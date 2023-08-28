@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CA50DC83F1D
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0877CC83F1E
 	for <linux-nvme@archiver.kernel.org>; Tue, 29 Aug 2023 15:05:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,60 +12,43 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gY+yGRa61TK2BR8Nw1XPStAseZID7tr6EzNodmZtwGI=; b=BJTg0FKkyufy+VCFbTLIVHOgyf
-	++MlBUfIReRrqyLZQdnFpZTvofIRDBq6jLeEdBKQxFlYMHoGdRWL8tUB9qKy16Rq/TrRg1G5MkVvR
-	wVVOH8VlkSa90/PEyQ1VcyndzhRvFkHxBRSS3E0yS3tigIFCtmVTlgg21iaXn6KpF7kjssyjFfMXD
-	JPWTAMiyN5vHF8jTCMwiRNcCbqalHFo0aM9tmbS0mnadGHZvvEojIq6GmKxNMrwU7X1m8ArU5CCTT
-	8wzU3dSQa8ELXmDjnjGzWbuasNhofu1tIIs8o/BQQh4+nAXVzzu8RgG461wqVZ51qoqq/M9yB49QL
-	yN2t0tNQ==;
+	bh=QtirhpZ6M4wRBs0PcZuQKaZInNnIQCord7zI9oR3eYc=; b=cHU4KiOS0E8S95CElNF3gaOSN6
+	/Tw9ivTm7DCSk9bIByHSJlqtTPbF7htoCf+ZAXdt6X6dL48Nh5HG8ydQcd4uaFpWscQuR8u9qS12u
+	eJDD5kHL+l0HUQDIIE20UlExcFj9BzJZuzue28pf8ooZqCExK06dosThEoptxCfr4rt+RK8WaPWHc
+	BnkRFwTQBAYdeHachZktJVIkufkGp0SleXKBtQuyCXJXGWxFntjWEx4AnFyZb+0g2oomlH00Mt99c
+	wpv1VGwUMRiYOS3/nwqfJZ6T4nOQuaiisrJuMSvL7B/+fztgUuSeiEKCyIxFofl+7m6cseKGpJ3ml
+	yIPDTOtg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qb0HQ-00Bkeg-12;
-	Tue, 29 Aug 2023 15:05:20 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1qb0HO-00BkeI-17;
+	Tue, 29 Aug 2023 15:05:18 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qafiM-009xvk-37;
-	Mon, 28 Aug 2023 17:07:48 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	id 1qacAz-009cvq-1z;
+	Mon, 28 Aug 2023 13:21:06 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 873FB1F37E;
-	Mon, 28 Aug 2023 17:07:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1693242465; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gY+yGRa61TK2BR8Nw1XPStAseZID7tr6EzNodmZtwGI=;
-	b=qVtknFwaytxobpauxbbKFuuIVi6tPH4Iq6U6De70imbcWuGOxhftHNb/4FbPSlc5GK5oK7
-	GshsV6S1hXqpxSKPutaEa7H9BjX/0wslT8a/D4qnl6I13zhL54OxmZm3biLLUgjj3B0284
-	RPao+ZPH1kv8DfDq9EfFHRPOBMpXacI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1693242465;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gY+yGRa61TK2BR8Nw1XPStAseZID7tr6EzNodmZtwGI=;
-	b=R3UkEJ5CJtN+ADS2q+nxkKoBRTSfFifpdVN9hgBj3Kx2evg21jSoeC6uq7LeWXoMGsRfiN
-	pZDyCc1pRe5jtEDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6A42A139CC;
-	Mon, 28 Aug 2023 17:07:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id scxcGWHU7GQMNQAAMHmgww
-	(envelope-from <jack@suse.cz>); Mon, 28 Aug 2023 17:07:45 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id CE101A0774; Mon, 28 Aug 2023 19:07:44 +0200 (CEST)
-Date: Mon, 28 Aug 2023 19:07:44 +0200
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>,
-	linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
-	Christoph Hellwig <hch@infradead.org>,
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 1E9A96187E;
+	Mon, 28 Aug 2023 13:21:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6569C433C8;
+	Mon, 28 Aug 2023 13:20:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1693228864;
+	bh=QtirhpZ6M4wRBs0PcZuQKaZInNnIQCord7zI9oR3eYc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dGzUUvJG87+eWzsz6xzROYCBNDl7W5LTOJNZSdrdj6kC4UZhu/D9tYCBTY1kzrQPe
+	 x7WILXB1VLYusnI7i57xbkDNp7AlezoIITxDEYtPZbpKeaRaDjmpnSpx19pqxTzCO1
+	 eHWv5jG6Kk405k0HzfGlQ5FnGrphH6RQF/qbsChQZpHtUi1E5k/RJY2W8E0veW1Pw4
+	 WmlHIAC8kSpEcFeEGWLjHX2ee4G742ubGUZGwha6A7RHD325wN5SUYbEQ3omUMFDG/
+	 CM1aA/cNlMXqkEYlHa/Phek8pvPKy4SQPmUA3IhuobWAQwG6yFUbEhG6jgGYrQO+H2
+	 J9dq9/E4F2ZeQ==
+Date: Mon, 28 Aug 2023 15:20:47 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Jan Kara <jack@suse.cz>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org,
+	linux-block@vger.kernel.org, Christoph Hellwig <hch@infradead.org>,
 	Alasdair Kergon <agk@redhat.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Anna Schumaker <anna@kernel.org>, Chao Yu <chao@kernel.org>,
@@ -94,18 +77,19 @@ Cc: Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>,
 	Song Liu <song@kernel.org>, Sven Schnelle <svens@linux.ibm.com>,
 	target-devel@vger.kernel.org, Ted Tso <tytso@mit.edu>,
 	Trond Myklebust <trond.myklebust@hammerspace.com>,
-	xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v3 0/29] block: Make blkdev_get_by_*() return handle
-Message-ID: <20230828170744.iifdmaw732cfiauf@quack3>
-References: <20230818123232.2269-1-jack@suse.cz>
- <20230825-hubraum-gedreht-8c5c4db9330a@brauner>
+	xen-devel@lists.xenproject.org, Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH v2 0/29] block: Make blkdev_get_by_*() return handle
+Message-ID: <20230828-durften-hauswand-67319ee0c17c@brauner>
+References: <20230810171429.31759-1-jack@suse.cz>
+ <20230825015843.GB95084@ZenIV>
+ <20230825134756.o3wpq6bogndukn53@quack3>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230825-hubraum-gedreht-8c5c4db9330a@brauner>
+In-Reply-To: <20230825134756.o3wpq6bogndukn53@quack3>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230828_100747_148266_1FD34488 
-X-CRM114-Status: GOOD (  28.23  )
+X-CRM114-CacheID: sfid-20230828_062105_700467_5F1AE83C 
+X-CRM114-Status: GOOD (  10.56  )
 X-Mailman-Approved-At: Tue, 29 Aug 2023 08:05:16 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -121,43 +105,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri 25-08-23 15:32:47, Christian Brauner wrote:
-> On Wed, Aug 23, 2023 at 12:48:11PM +0200, Jan Kara wrote:
-> > Hello,
-> > 
-> > this is a v3 of the patch series which implements the idea of blkdev_get_by_*()
-> > calls returning bdev_handle which is then passed to blkdev_put() [1]. This
-> > makes the get and put calls for bdevs more obviously matching and allows us to
-> > propagate context from get to put without having to modify all the users
-> > (again!). In particular I need to propagate used open flags to blkdev_put() to
-> > be able count writeable opens and add support for blocking writes to mounted
-> > block devices. I'll send that series separately.
-> > 
-> > The series is based on Christian's vfs tree as of today as there is quite
-> > some overlap. Patches have passed some reasonable testing - I've tested block
-> > changes, md, dm, bcache, xfs, btrfs, ext4, swap. More testing or review is
-> > always welcome. Thanks! I've pushed out the full branch to:
-> > 
-> > git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git bdev_handle
-> > 
-> > to ease review / testing. Since there were not many comments for v2 and
-> > Christoph has acked the series I think we should start discussing how to merge
-> > the series. Most collisions with this series seem to happen in the filesystems
-> > area so VFS tree would seem as the least painful way to merge this. Jens,
-> 
-> I really do like this series especially struct bdev_handle and moving
-> the mode bits in there. I'll happily take this. So far there have only
-> been minor things that can easily be fixed.
+> So besides my last fput() worry about I think this could work and would be
+> probably a bit nicer than what I have. But before going and redoing the whole
+> series let me gather some more feedback so that we don't go back and forth.
+> Christoph, Christian, Jens, any opinion?
 
-Thanks. Since Al is fine with just doing a potential conversion to 'struct
-file' as a handle on top of this series (it will be dumb Coccinelle
-replacement) I think we can go ahead with the series as is. As you said
-there will be some conflicts in btrfs and I've learned about f2fs conflicts
-as well so I can rebase & repost the series on top of rc1 to make life
-easier for you.
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+I'll be a bit under water for the next few days, I expect but I'll get
+back to this. I think not making you redo this whole thing from scratch
+is what I'd prefer unless there's really clear advantages. But I don't
+want to offer a haphazard opinion in the middle of the merge window.
 
