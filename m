@@ -4,86 +4,176 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D3FEEC83F10
-	for <linux-nvme@archiver.kernel.org>; Mon, 28 Aug 2023 00:58:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DCD95C83F10
+	for <linux-nvme@archiver.kernel.org>; Mon, 28 Aug 2023 04:13:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Vmal4hn0XBHdSL8GzE89VF+dr7kcGENPa2m8SJGidbg=; b=KpHhg63x5YptfPCs7FSXvDBc3y
-	YY5IF/ps3/h5GOwVSCo2Hac8FBhJ1n/YiV4pGQNUl5vhh/oU5Ah3Qb3AeuYyyCcc3jgzsAQ6G+QmT
-	7pf9AEgFuZpxRsq9QjVBL56+RA6JGb8cA4l5K83/9h0N4VRYkAvkOsprij/XnVf4pnIu5cgFZ/jyq
-	DMxQ1HtkvzRzmF4SzsrvSpfHvFCkaAFIZiUegyucMnlxaXnwBPL/J02Vgp1AFs9mUl9PXdDU8Qm0C
-	SNFnocAI5/7JGID1t2z/1E7SOhz5c9YTRHJoRGLTtXiWDyu/EHzpcJu3xBo+i0s2k30tjrEdKRh1P
-	ngUdujug==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=CGgPnHm5g8IF7IROjJhW1dAx1kY088fA/XN+2NUzMco=; b=e0851G2Hr4KdSoQY2cAdOSYkyZ
+	svkQ1Pe5/7cM897O22MwuScPngWVe6PimKayVxs+4J1qddlpiKz6dbYhkIJTR6a1V3vw4IPgQYA9W
+	W2G/8mTr+1BdXSlbAtIicTm9CCrZfsuCxxg+AitUvYftoJxGU6wR+z3zCkYxd9pmHZI8UcULRCIN4
+	G+BiH4FMRq5Jq2orKT3Wgym1w+2Kb53ztFhG74Bryy03xfh6ebQQIhdm2Yiwpn7y65BcjHhj8A5ce
+	hULN4D+p2gOlrIIvkEMSpf8aE8h5E/5h1doEzLvYn0Lym/mOS3PDEDTmvu94esVLvDFfiNvLMZW6O
+	GzW8WcVg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qaQai-008eWC-0i;
-	Mon, 28 Aug 2023 00:58:52 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1qaTdQ-008pDU-2m;
+	Mon, 28 Aug 2023 04:13:52 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qaQad-008eVP-0S
+	id 1qaTdO-008pD5-0e
 	for linux-nvme@lists.infradead.org;
-	Mon, 28 Aug 2023 00:58:48 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1693184323;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Vmal4hn0XBHdSL8GzE89VF+dr7kcGENPa2m8SJGidbg=;
-	b=bAyEj4y6/c6GsNB6VrZQRXcAoxHI0Gye3lZZtDjRZKM6pB3mky6KChOOdMDgpLe3QswSDB
-	gj33awiXTFHYMwANeqPqfrwQZMrKaVvt3x2dcAQ9Pb5+HFP6ZRxDMzSMvQyuP7fmv7UT84
-	c59X4XzyRo81S42jgMbMkJnqe4x9+PU=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-12-lJWpz4JOO7qD_QSYfbPT_g-1; Sun, 27 Aug 2023 20:58:41 -0400
-X-MC-Unique: lJWpz4JOO7qD_QSYfbPT_g-1
-Received: by mail-vk1-f199.google.com with SMTP id 71dfb90a1353d-48fa8d86dedso217397e0c.1
-        for <linux-nvme@lists.infradead.org>; Sun, 27 Aug 2023 17:58:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693184321; x=1693789121;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Vmal4hn0XBHdSL8GzE89VF+dr7kcGENPa2m8SJGidbg=;
-        b=BvVLkVEB6ZxRGZMoC17iSzxhhTrbQyuvFaJGN0JZ0NpodwIqiaQEd/Pu42vFO65xBQ
-         2fK0WzhPxadZTYdSRY7309ZqCJN/+wC5DwKsCkUdDBx/98vA/vCSIY/mnQMrdx8xVNHm
-         DZRvp2NwwIkpy32mVeMYVtqhdtx8wk5gi1e70GZ9JkM1iSXuGfyJZ7vKkiXENjmSdYPN
-         /UCR2sXhI/wSqBUqf3dtTsO85BekvzDFR885lT4tiohOkkFRggnYb8tTDL8eJvchLVBd
-         quwqBswmBQ/KjkDmG7ApjfwbJTJ3fGsV3rKXUbDNTN1NYiMcndoMfZrPAeYxjjNHgVzZ
-         jThw==
-X-Gm-Message-State: AOJu0Yy3cHuSBjTUADh1bMLIhWBXDHn1E3/zJ+xg4+dQCUIs3VzGOx8V
-	uB8yav/BcuV4wtfMbrd3CDyIFnXPFg4etfQMmjXSGFbFM9p906ceG4yog2ReOpZJbDUakyJg+/j
-	VbPTN+GwkqQjaGwwrurEvonaa8eF4Ay/VxigVdMNAAtw=
-X-Received: by 2002:a05:6102:3082:b0:44d:626a:f079 with SMTP id l2-20020a056102308200b0044d626af079mr11011475vsb.3.1693184319865;
-        Sun, 27 Aug 2023 17:58:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFk8x4y0ZS8y62BRq47uQm/s83tXzZyWyVZwGWwniyN2eYrb2TIg9cR3GcQ+RXT4nTqSvOaZ2XdGbeTF7tcLfI=
-X-Received: by 2002:a05:6102:3082:b0:44d:626a:f079 with SMTP id
- l2-20020a056102308200b0044d626af079mr11011470vsb.3.1693184319657; Sun, 27 Aug
- 2023 17:58:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230818140145.1229805-1-ming.lei@redhat.com>
-In-Reply-To: <20230818140145.1229805-1-ming.lei@redhat.com>
-From: Ming Lei <ming.lei@redhat.com>
-Date: Mon, 28 Aug 2023 08:58:28 +0800
-Message-ID: <CAFj5m9LGi4zxvDYqTvSHYh=Ra3YHUMe3nePZqJsMfEXttbrgMA@mail.gmail.com>
-Subject: Re: [PATCH V3] lib/group_cpus.c: avoid to acquire cpu hotplug lock in group_cpus_evenly
-To: Jens Axboe <axboe@kernel.dk>, Thomas Gleixner <tglx@linutronix.de>
-Cc: linux-kernel@vger.kernel.org, Keith Busch <kbusch@kernel.org>, 
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, 
-	Yi Zhang <yi.zhang@redhat.com>, Guangwu Zhang <guazhang@redhat.com>, 
-	Chengming Zhou <zhouchengming@bytedance.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+	Mon, 28 Aug 2023 04:13:51 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1693196030; x=1724732030;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=TyE7CNgFGoyp0VzvdVsMc/oan5pAngWPdbxzQiQIFp8=;
+  b=f2pcwfQCaARcj237AsKTMTU9OFC1LfiI3/e/W0gzpPYLaxDWxxToxleB
+   seEJDjrXm2zJ5tCCV6i3O1e1sFTXqt/eSlTrbqcv0FHj7EQUdoCdECri2
+   Qg0GKe+C8KfGKNXct8JXHN0M/xkMrUeC6gk5JZgbD6RCwbPEhaOT63BYn
+   XWLqvqFqIH4I6ViBz14x2kZ93Y5kwgVvcCB/Y05WVnPWA9V4EcfF6P4yA
+   RbpDTO16iiNdsrNrLf2l1AdhljBPWCLcuQpcFk9fWzIWBF1gqj8m6mVzU
+   fpVO7ADoEjWajsNKcEE4jyRxcXqhwJoYmgJsX1T4ECZMMt4YnhvOsS0zN
+   w==;
+X-IronPort-AV: E=Sophos;i="6.02,206,1688400000"; 
+   d="scan'208";a="354319237"
+Received: from mail-mw2nam12lp2046.outbound.protection.outlook.com (HELO NAM12-MW2-obe.outbound.protection.outlook.com) ([104.47.66.46])
+  by ob1.hgst.iphmx.com with ESMTP; 28 Aug 2023 12:13:43 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IfzDvUKiTb/A1Cn4Nf84j0EEyjcpGGOKQP4cVuWESRDND0tE3rs4Euxj2yFzS+ITb61jHFrhgn8CFhTJTD8aAF83oa4U6NBetx5J+RjJHjfh7OZoYv+uxaVfzN4b1CYiHukbELVuKb0uYt80pdyH1K1ArmW015UNSc0dWGe/F7ZV5wb1z+kmyFkIrbyjNvdBuUuyE4dOikCWMxDD2XbHSQ6t/tozIrCGAjgdkGDKIpvhngwyoj6OeKZ/eA+5W8E9qwr87HMV1nxBfRo2VZbhhPBDDa3I/iJfvaDl5eg/sFH/5Rt9DcyX994Cn9noFWALjKMPHlFkDpZEExW4re1D6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CGgPnHm5g8IF7IROjJhW1dAx1kY088fA/XN+2NUzMco=;
+ b=PtXsiyXpF+lNAQ3CkfA68qJHJZrmGqpj2pE35dPllojlTv0zrnYGMj3EKl1Vag7iTd1ss9EPD6aZOSwsbPTsUG+xLESmYrDGVu1jW2GJvoDlkYlrwDNRtpIVnO1chwDXSFUOWixKHK3+DXODfLenO3PgjtmxcNv6AYdPHl8vUjRD7O2DXGPfX9fXpNTqIFoVz0b6FP1DGPRgY4dQyN8JoVJh7bZXnI7dLeT5w41WFPNW5WBIBMigo0cMhvpEASQfxhrxwSgJ4FP6QgoBnIuyXzvKovERKeYGs0qwMvrn+mRjtVkFU4JkWTn0uqvbM/0SXIkjI0gWATtA8ajavWTukw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CGgPnHm5g8IF7IROjJhW1dAx1kY088fA/XN+2NUzMco=;
+ b=s3q8FOLH6Nzbej8vP+U+PRpQ7uTNBcDggzuwB6/qGWeC4/Y6leMet9GR+22nGbhA1w6SukCfN4vdDl4xfMiEswWz0GjT3LhEaT7Appg16wQomaoO3H0E3pdmj6y7LC51Vc7cmL3KMCutczD+hU4Pb4fasVBJcdv+wN6xMOnFrEY=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ CYYPR04MB8867.namprd04.prod.outlook.com (2603:10b6:930:bf::22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6745.16; Mon, 28 Aug 2023 04:13:41 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::f92a:6d40:fe94:34e9]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::f92a:6d40:fe94:34e9%7]) with mapi id 15.20.6745.015; Mon, 28 Aug 2023
+ 04:13:41 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Bart Van Assche <bvanassche@acm.org>
+CC: Daniel Wagner <dwagner@suse.de>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>, Chaitanya Kulkarni <kch@nvidia.com>, Hannes
+ Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>, Jason Gunthorpe
+	<jgg@ziepe.ca>
+Subject: Re: [PATCH blktests v3 3/3] nvme: introduce
+ nvmet_target_{setup/cleanup} common code
+Thread-Topic: [PATCH blktests v3 3/3] nvme: introduce
+ nvmet_target_{setup/cleanup} common code
+Thread-Index: AQHZ1NQBelM/0wps2Uy83of5WKTqEa/4xwsAgAC/9QCAAKx0AIAAYPoAgAAPCACAAGeugIAAC3qAgAAnFQCAA+SfgA==
+Date: Mon, 28 Aug 2023 04:13:40 +0000
+Message-ID: <ckuewnzuiejug6jbuxfw4viqwf4v43pq54mj4k4qbq7uz3zwpn@3iijcby24ujd>
+References: <20230822083812.24612-1-dwagner@suse.de>
+ <20230822083812.24612-4-dwagner@suse.de>
+ <fbyacmtpqfhfb763s7utwbt4kdbr3pli4rp7prj7jlklq2tit6@mkkjzy73r3a3>
+ <7b5fc500-afeb-7edf-383c-0cdda77b3cf6@acm.org>
+ <oss54jmgqzjcxecea4h7eeguh6lmhls4p74e7unbxmhz34asvk@a7n6vu6hauys>
+ <zvu2ihivd6f4fbs7hpgowstq3li4wrdycqzso3c32qcco7zes4@s2l2solzzo6u>
+ <saxcmve2nchhytphnknfqp2fxpwdk5v5xqfoq2g5gsdlecf3il@sypswqownxih>
+ <b79c0c9d-3930-4dbf-a1cf-8ca9e00af614@acm.org>
+ <xz7rnke52xu3anmnjliybqv4yk3w367noo6ipguarkec6u4i5g@7bqtovmc3gjb>
+ <d6ec4e54-1ec9-648a-ce8c-1e08a439c3c6@acm.org>
+In-Reply-To: <d6ec4e54-1ec9-648a-ce8c-1e08a439c3c6@acm.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|CYYPR04MB8867:EE_
+x-ms-office365-filtering-correlation-id: e0fa4231-a055-4ba8-4231-08dba77d2966
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Ds4UW5NhRosN+e7q14EE4aO7SlhgU7aydwN20ANp1bc88qmcocM091SsVitOKCiO7wmTx/rjoBeDPI2LST97kIyYQAGkUfj9JAXpBDNEtHDf8rr1koO/i/uhmdHdfYmi8vItP+phdzZ3utQuQj+l9aFvVasBUlaefzf9vfxiB+NisCeq0I8ZoPNwZj6dQwcF4A88ilQyM2w4MjERcBKzLdUdKU/uyFa2CQBpFOxKiatZhh9sISeBIvZVSvHxqgOlC+2b1KAzFY7a0BXqGHrhfBh1qESfH1t1KrkWQNJ1Zg4y9rcW9DOguNN11o/SGwUZUhLiPNwm27NoIHtO9R1bi8gs08B8yHnYtx74+Ch2Y4GaDDzrVh40UbY5obGGO7OVetgD3YZulQD3P1sTSD6H1f3PxH2vG38jzr2PMfp6NeD3G1U4BmaKgZ/OSZ/r3u3sEF7/h+DCQQ/waMDPwjgUoaGrS8cLUltZlUlyAwgyhILdbUFPZD7rai6/oP2jzqaC5y4tYtnudZ49Vo4hotjNs4RFW6d1N8Eet7ZX+flzg3C/uM18W9PlUIO6hX8YVbVsMrA8yfa2ekrWyYOKNTcBspOKydEv/9sH4bZp02VKVWG+96SZIZp/TLvRfUDKrSHP
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(366004)(136003)(346002)(396003)(376002)(39860400002)(186009)(451199024)(1800799009)(41300700001)(33716001)(122000001)(38100700002)(38070700005)(86362001)(82960400001)(478600001)(83380400001)(71200400001)(26005)(9686003)(6512007)(53546011)(6506007)(6486002)(76116006)(64756008)(316002)(54906003)(91956017)(66446008)(2906002)(6916009)(66476007)(66556008)(66946007)(5660300002)(8676002)(8936002)(4326008)(44832011);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?NfNoFkzMGXT1Mzu4cZV1bqHh6MDUSGboX0g1c30APT7vHue2BonJo4sVXzfb?=
+ =?us-ascii?Q?34TpRsXdFbBqaH6P8MSKh1gq9c5rnpEOpERvwyw6xphWeAa8r9uPol8FHNqG?=
+ =?us-ascii?Q?C9lrXdJXxPcFnNqKAGhGM3w8jzAh3ck7BiwxwqM5TySP5En0BJEMby8m7/gj?=
+ =?us-ascii?Q?NOgvDhWHr0ebCYx8czuTusj7cMAZ6dysup5oXkeGq2DOcrbhrfxh2ZO17mPY?=
+ =?us-ascii?Q?v1W4NHgjv2yArlmal17+wOT1ukU7nxLA1EhF5ceRCpI7JCeNPxIpMSDV1yEi?=
+ =?us-ascii?Q?/HK4hZ5+ZixyJge0H6379EsnennANViQJh+e+tnu9R3Z9f0iKHE3mcNDQD7j?=
+ =?us-ascii?Q?o+oTp6Twcjj4iA+zMqmxmKirUA33gcpmelyvCncbv1/Bn2++gKlZvgH2BboA?=
+ =?us-ascii?Q?yk4R7B+6+ebtvaCF/8VYbkqSubhcr4QB2BPphQaLcrBNzsbI4ZagY7r6hPuq?=
+ =?us-ascii?Q?I8VAMopFkmzlUGCHS1r9RfWdCh8hxt8UtxWjRk+QlB+F3bMaF72B29LoWmV1?=
+ =?us-ascii?Q?uMXExgpYDNFjdaz2IU9y8PU/8/V1ulHK4/7KoVbP7aU6S8+HTyT8iZrA+HSP?=
+ =?us-ascii?Q?bZxDAQBvovWG6SIY813D3qbWayz2OiLnl2POB+oo4eOdkkFjtT3aaHZ3wsk0?=
+ =?us-ascii?Q?A8pD6ZTIsMpOXzXpnuf9xn2IZi31s6TyepcvFxqtMB/W7EzsJJQ1wpTnMWbk?=
+ =?us-ascii?Q?9nTya3a7AAK77+gY+nb8MHx5dfEkkdBSTefmbOK7HRg+RmrE9qnM34a9ca57?=
+ =?us-ascii?Q?btib28kbxEXgbTUt6r+u0phc11yhcvNarHvz+NLyJDd1RzIOLZkazwnTKeR8?=
+ =?us-ascii?Q?G4icl4En9cx3CElhNiXQkGORQy42zEiuEr2U/ENaSFe8jesMEK97EMmSoyxo?=
+ =?us-ascii?Q?LFL2/cyOvHV4lvkCho5jvOJCjbe3Tj5iivJ/sBCE9+jfTKgzAGnSAXMxbNni?=
+ =?us-ascii?Q?snCA0Rlhv3JfAxlIDa9wmL38vwDtjR1WLf/vjObA6ZOWb39lXUbx0YE/DvgP?=
+ =?us-ascii?Q?HXKLH6ZNhQcH/+hwka84ODFEV+SUz66sfExvNKhkOn3BiVImt4ClG74bSFyR?=
+ =?us-ascii?Q?vJ2LbVnNeTPWyixmn145e6gCrGDZfEgLK8xSDdjswR8omrXB/Zw2lNoTm8EY?=
+ =?us-ascii?Q?kuRBLgEm85an7u4JumLDNsJ9EE2tmytRvyiKbDtTfc/z7QuSSQ+ZZRkKcuDV?=
+ =?us-ascii?Q?CYrBDTgrPtHJjx/XuPV9vACnIcKqx/0O+45MiyaWXwkZWgEHa4V4985CE1Fi?=
+ =?us-ascii?Q?IJYW17yCAYEJJ7f1sITx6eCjaKHUnu5mYTbn6z6csanDgFx22FfH8maZ9E+u?=
+ =?us-ascii?Q?+Ojfw5nhdUGv4NfixpSM+j0zpZXWKIfi3GtxR+zLfBNvgOt0bvHIlr6C7Ga4?=
+ =?us-ascii?Q?sy8k42ILFGd4/0LcXFfLqx41XKysNgGPpM4xyLDw0SFQGU+OX4qynwcItuXs?=
+ =?us-ascii?Q?irLfNlLMwxN6jWIJTiBOdohrdKbKnxazjbQqTifWWDLc8idIgfiIgvdIeCaq?=
+ =?us-ascii?Q?J4SFEzIogb26b5CbHM4+L3Ry9gENj7RJkSvH9PZNWU/J1jCQo09KJ9m1Fueh?=
+ =?us-ascii?Q?zuAjFoJ0FhbZzOaOu35QcY69pm5NzxxQ+QNBr+tWA8fJPbCZ+DZV6r/mVdbo?=
+ =?us-ascii?Q?yrnN+y8ky8c/UDvNm47bMkI=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <617F7D2994332A4DA5219A4825B185CC@namprd04.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?us-ascii?Q?nz7VyNzj8UQTXnlwXEVJHbMXZz4HjC3oucn5AaQAK/NqpWFcx2Iy1XBgNana?=
+ =?us-ascii?Q?VgPosjtgCqx3BN182UCy1ovfFfUahtcc77SUyBnaAeTTvNEROayRDFH7aTaT?=
+ =?us-ascii?Q?zDaUKcB20XNJ1ZGfRtpu/cfWVtyPo/E0rnbuYiiXzmENWfxaaFN9lcCEJo6z?=
+ =?us-ascii?Q?vL6dI76NvB6H1ojhp8MzqdsHbjpKWM79KVA05yFnmqcAGEPs8Pc6Nt8xSn3u?=
+ =?us-ascii?Q?mX4S05raj/TV1JrazZo6SqnHqsn0H6PPBcEkcLTQI9t/uzaOLCsbdG6aDci3?=
+ =?us-ascii?Q?WARUvspPQ1+wRt08f3zHKGafovJk/68+WFG5Q66P7oMR6yB8kB8t7T2+E90B?=
+ =?us-ascii?Q?B57TcrG+90jK3vHPL3zHdGF2fsLTr+21szOmPaFXkQWEdLXRdPBGACKbcPXs?=
+ =?us-ascii?Q?VNzpYZUiGpRmXCg1SheseJtJ1a3ie3Nyjh4dSL2e1VuFFkD1J8IQu7sdyM8y?=
+ =?us-ascii?Q?2GEnBpmYXlzwgtZdu+O6ONzDlJ0Mhum+lKaWqAY3ocx8g3O33eQwxBEaxpHG?=
+ =?us-ascii?Q?3wKxtnv/wL1jEXfGkfFVkaYnPMnAhvNI4XHSgTAFTYRZfHpZQ5HU64N3mi5g?=
+ =?us-ascii?Q?Sy9JGjCgu+cBuAeU61QBxMcju6CxTbrfliyOmFw7/4crgj6DD1BIxHJZtKdE?=
+ =?us-ascii?Q?5q7rC6Wg+Lt/kN6Mcu8+dmht58W5cbrcOrnAzG48Op6CWT69tYZjYX+sqonk?=
+ =?us-ascii?Q?boZGSrgYgY+N3UwW4kharW238OMiQGE53fTB2qQZVrzqgvJv4/5NwsyhBddT?=
+ =?us-ascii?Q?oTIj1D4+vZxfArpHcHQYus4fW1qAavNqnHXNXR69nKk+R7s+lgSX6GeAjfBV?=
+ =?us-ascii?Q?MPrTb63zvrEA5UwOD2GOkdQ+Il2Qo+OfAnhnl/FTuNKHTJ0mh6r13Sn1PMgZ?=
+ =?us-ascii?Q?bZu99/nKp3MwYAX5iGLr/jh6cHCDEdCaX3mPPvKaD3xf7gFcCexmrycpoYVt?=
+ =?us-ascii?Q?fp0Jsx0I+6EekuRJvuAhPw=3D=3D?=
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e0fa4231-a055-4ba8-4231-08dba77d2966
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Aug 2023 04:13:41.0104
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: NhcNsdr3MAedaThWb4+bZsuVqvA9nzFLLgNtiTHO1lGX6eyi7Yn5LndQMBMVT6Jw0HLnwYJcC88TEbAmBpSCeKxjCbJSb7WdkTogcJB/ODA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR04MB8867
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230827_175847_266795_5EB5CA10 
-X-CRM114-Status: GOOD (  15.17  )
+X-CRM114-CacheID: sfid-20230827_211350_325327_626AC641 
+X-CRM114-Status: GOOD (  16.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,55 +188,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Aug 18, 2023 at 10:01=E2=80=AFPM Ming Lei <ming.lei@redhat.com> wro=
-te:
->
-> group_cpus_evenly() could be part of storage driver's error handler,
-> such as nvme driver, when may happen during CPU hotplug, in which
-> storage queue has to drain its pending IOs because all CPUs associated
-> with the queue are offline and the queue is becoming inactive. And
-> handling IO needs error handler to provide forward progress.
->
-> Then dead lock is caused:
->
-> 1) inside CPU hotplug handler, CPU hotplug lock is held, and blk-mq's
-> handler is waiting for inflight IO
->
-> 2) error handler is waiting for CPU hotplug lock
->
-> 3) inflight IO can't be completed in blk-mq's CPU hotplug handler because
-> error handling can't provide forward progress.
->
-> Solve the deadlock by not holding CPU hotplug lock in group_cpus_evenly()=
-,
-> in which two stage spreads are taken: 1) the 1st stage is over all presen=
-t
-> CPUs; 2) the end stage is over all other CPUs.
->
-> Turns out the two stage spread just needs consistent 'cpu_present_mask', =
-and
-> remove the CPU hotplug lock by storing it into one local cache. This way
-> doesn't change correctness, because all CPUs are still covered.
->
-> Cc: Keith Busch <kbusch@kernel.org>
-> Cc: linux-nvme@lists.infradead.org
-> Cc: linux-block@vger.kernel.org
-> Reported-by: Yi Zhang <yi.zhang@redhat.com>
-> Reported-by: Guangwu Zhang <guazhang@redhat.com>
-> Tested-by: Guangwu Zhang <guazhang@redhat.com>
-> Reviewed-by: Chengming Zhou <zhouchengming@bytedance.com>
-> Signed-off-by: Ming Lei <ming.lei@redhat.com>
-> ---
-> V3:
->         - reuse `npresmsk`, and avoid to allocate new variable, suggested=
- by
->         Chengming Zhou
+On Aug 25, 2023 / 09:46, Bart Van Assche wrote:
+> On 8/25/23 07:26, Daniel Wagner wrote:
+> > On Fri, Aug 25, 2023 at 06:45:25AM -0700, Bart Van Assche wrote:
+> > > I don't like the "new style". What is so hard about typing "$@" to pa=
+ss all function
+> > > arguments to _nvmet_target_setup()? Leaving out "$@" makes it much ha=
+rder than
+> > > necessary to figure out the intent of the code author - not passing a=
+ny arguments
+> > > or passing all caller arguments implicitly.
+> >=20
+> > Because "$@" is just not correct.
+>=20
+> Why not?
 
-Hello Thomas and Jens,
+Bart, let me confirm. Do you suggest
 
-Ping...
+    test() {
 
-Thanks,
-Ming
+        _nvmet_target_setup "$@"
 
+instead of this?
+
+    test() {
+
+        _nvmet_target_setup
+
+If so, it looks weird since "$@" in test() is not the parameters passed to
+_nvmet_target_setup(). Anyway, I tried the change with test/nvme/003, and
+observed the shellcheck warning disappears. Then, it will work so long as "=
+$@"
+is empty in the context of _nvmet_target_setup() caller. Otherwise, it will=
+ not
+work. For me, your original suggestion to add "ignored_agument" looks bette=
+r
+than "$@". (or in short, "noarg" or something)=
 
