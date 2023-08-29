@@ -4,55 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A817C6FA8F
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Aug 2023 19:13:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8DCC9C71153
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Aug 2023 23:42:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fxxwqPfI4ZPMl7V+SYOrn3sysRQ47yzu4QoySEktQoo=; b=ovW+HdNe7J2kuWEInGH/XJntD9
-	iFOqSRE3SRZEg5g0n9XCEZMNA+xygBQGF/JMA73u4BYCHR8yXEDoIe3V0h/O3uWzKwJNqOLEF85Dz
-	CmuGqy/9krwsuK/3WBH9WLCIqf1Ww1XBUzPxQuzWuFFj+e/1LoPYzgo8AfIwamZN7G4M7KP4dTD3x
-	BVI9rovlH/vM8Oy7woWHaavQg+m9k3FTAfSmPR/JWIAfW/ch6JVhThDvpso6ZONCY0iWoJSCWWuRF
-	sbHmjglI1sYuUYiWuRoYxDBQpZ5BCYKnMolDP1DTQv5PAr8zv3j6AMtde7J60r7PPEnRs/nUreCNS
-	sVmpjpjw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=qBlbdawOVe2RY5CaEGmqAFN7Qj8QDw1yQiewvNd8PTo=; b=VXcjL0ElnOIhCbLvHb2yeVMVZc
+	nSHyJKLjxOCpYoVc30iH+ZycalA44zqXmXE6dkjVb+TKSVn02LOtYYRkqONbRSZwvS9M+fXw1WzDb
+	COE2YOc5jYw5si5EJ9sgR3q6KzE0vSU0LBB0uYXz0W/Dl6o5eBR96hki8/KoNfTXoyWMQTGq4lCsm
+	SZvir4LTxmMgfdarkJmyCwfpNbXj6n3StTjeohV8bUbJL8UeEfaxDWaQ1MaMXYgAeMZWvJ0ESsVBZ
+	Lzq9IK8Puq89znS2w2MDjS1OUPgcMIOlIdJLF6Ej1ZrN0UOEeivq9udd5QW5OQyjxrXq6bB1Mf47Z
+	hEZ+48gA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qb49N-00C7Q4-2J;
-	Tue, 29 Aug 2023 19:13:17 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1qb8LM-00CSkR-1Z;
+	Tue, 29 Aug 2023 23:41:56 +0000
+Received: from mout01.posteo.de ([185.67.36.65])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qb49L-00C7Po-2w
-	for linux-nvme@bombadil.infradead.org;
-	Tue, 29 Aug 2023 19:13:15 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=fxxwqPfI4ZPMl7V+SYOrn3sysRQ47yzu4QoySEktQoo=; b=ogx7s3SFQLQiyWYzlQWAnZK7lG
-	FNLqdscOtjWC/sSSxEncfqfmhkBl8rxupJMDs42+XCG5iXuPt4+/RXIUeWzgStQ1qZTd4PJo6S/T6
-	bb7f87eOut5C31YwG+i+Ym5F3XJjjmFDl5+fyAajyRkq+1cD4j7g1UTB65aVDrnYVsKwB2A4toF/W
-	CcAFzBlQtN2YOxNuwPPG3iSnM8S8FbIAq6pCoAbFjfOs0pXCAm2vSxaXxMzI83/z2V3F8Yd1vOpB7
-	tiVa8POAqeBya2dz6KFYV9lBqHDL4Y0qNCWfKh2GeTa1BSk4j5a9k5hcfWKpmZW16AVHRKZdrkRwg
-	jSTzku9w==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1qb49H-008Iun-SQ; Tue, 29 Aug 2023 19:13:11 +0000
-Date: Tue, 29 Aug 2023 20:13:11 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
-Cc: linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
-	linux-mm@kvack.org, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Subject: Re: BUG: KCSAN: data-race in folio_batch_move_lru / mpage_read_end_io
-Message-ID: <ZO5DR771Khv1d5gR@casper.infradead.org>
-References: <cbb9d596-43ac-bad4-b6f6-8c13f95d244e@alu.unizg.hr>
+	id 1qb8LI-00CSk0-1B
+	for linux-nvme@lists.infradead.org;
+	Tue, 29 Aug 2023 23:41:54 +0000
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 76166240029
+	for <linux-nvme@lists.infradead.org>; Wed, 30 Aug 2023 01:41:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+	t=1693352507; bh=D6AYcLbD9pyug1LRusmbFmyIx8d1u0ojE0a7WGxPfcI=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:
+	 Content-Transfer-Encoding:From;
+	b=E1UA3umtxlMcu7FDgeUIryd/e3tYyoRICaaJb5wQEeLUq0GLbKaLl158Uj1BAYCNy
+	 TjR/rQYBcpolQqFtmH+8gs36Z3y5DCkFQMDRK2oTVLSi402Jsz3qGItmjP0KpeEfhJ
+	 ZdK4whamNe3clJRDIaagv9GPvFLak4aN8oNakphqGpOxffCr31fmru4Uk2IgcpeGik
+	 fyVBe1+QrS+zs7M5F/SyntFiu6BCGxopnlT/MnsFMDF3Anp7kJg/6/EcnJMFk90F+8
+	 R0AjPFAOJdMuryqMf1aH40ySGTGJp+1DAxpIYemrP+VFS5mjHivJJdpJ6EXwpBEBFZ
+	 l9Tx2rBqEgKNQ==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4Rb3qD3BwDz6twJ;
+	Wed, 30 Aug 2023 01:41:44 +0200 (CEST)
+Message-ID: <08a9b45b-f1e8-3fac-3d02-54b7bb31d954@posteo.net>
+Date: Tue, 29 Aug 2023 23:37:15 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cbb9d596-43ac-bad4-b6f6-8c13f95d244e@alu.unizg.hr>
+From: Mark O'Donovan <shiftee@posteo.net>
+Subject: Re: [PATCH 1/2] nvme-tcp: auth success1 msg always includes resp
+To: Sagi Grimberg <sagi@grimberg.me>, linux-kernel@vger.kernel.org
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, axboe@kernel.dk,
+ kbusch@kernel.org, hare@suse.de
+References: <20230828212033.3244512-1-shiftee@posteo.net>
+ <34c159dc-c534-2329-4049-7e9e8a53cd4d@grimberg.me>
+Content-Language: en-US
+In-Reply-To: <34c159dc-c534-2329-4049-7e9e8a53cd4d@grimberg.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20230829_164152_578671_B5C06393 
+X-CRM114-Status: UNSURE (   7.50  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,50 +75,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Aug 28, 2023 at 11:14:23PM +0200, Mirsad Todorovac wrote:
-> In the vanilla torvalds tree 6.5 kernel on the Ubuntu 22.04 system, KCSAN found another data race:
+On 29/08/2023 12:47, Sagi Grimberg wrote:
+> This is not nvme-tcp specific.
+> prefix should be "nvme-auth: ..."
+> 
+> I'm assuming that this passes blktests?
+> 
+> Nonetheless looks fine to me.
 
-KCSAN is wrong.
-
-> [   34.102069] write (marked) to 0xffffef9a44978bc0 of 8 bytes by interrupt on cpu 28:
-> [   34.108569] mpage_read_end_io (/home/marvin/linux/kernel/linux_torvalds/./arch/x86/include/asm/bitops.h:55 /home/marvin/linux/kernel/linux_torvalds/./include/asm-generic/bitops/instrumented-atomic.h:29 /home/marvin/linux/kernel/linux_torvalds/./include/linux/page-flags.h:739 /home/marvin/linux/kernel/linux_torvalds/fs/mpage.c:55)
-
-        bio_for_each_folio_all(fi, bio) {
-                if (err)
-                        folio_set_error(fi.folio);
-                else
-                        folio_mark_uptodate(fi.folio);
-                folio_unlock(fi.folio);
-        }
-
-It's noting the write to folio->flags in folio_mark_uptodate().  You can
-see it's locked.  Also, the folio is under I/O.
-
-> [   34.115221] read to 0xffffef9a44978bc0 of 8 bytes by task 348 on cpu 12:
-> [   34.121702] folio_batch_move_lru (/home/marvin/linux/kernel/linux_torvalds/./include/linux/mm.h:1814 /home/marvin/linux/kernel/linux_torvalds/./include/linux/mm.h:1824 /home/marvin/linux/kernel/linux_torvalds/./include/linux/memcontrol.h:1636 /home/marvin/linux/kernel/linux_torvalds/./include/linux/memcontrol.h:1659 /home/marvin/linux/kernel/linux_torvalds/mm/swap.c:216)
-
-Here, it's noting the read to folio->flags that's part of page_to_nid().
-
-> [   34.121713] folio_batch_add_and_move (/home/marvin/linux/kernel/linux_torvalds/mm/swap.c:235)
-> [   34.121724] folio_add_lru (/home/marvin/linux/kernel/linux_torvalds/./arch/x86/include/asm/preempt.h:95 /home/marvin/linux/kernel/linux_torvalds/mm/swap.c:518)
-> [   34.121735] folio_add_lru_vma (/home/marvin/linux/kernel/linux_torvalds/mm/swap.c:538)
-> [   34.121746] do_anonymous_page (/home/marvin/linux/kernel/linux_torvalds/mm/memory.c:4146)
-
-Here we can see the page is freshly allocated.
-
-So KCSAN has three things wrong here.  One is that the write to
-folio_mark_uptodate() is setting a bit, that is nowhere near the bits
-that are used for the node ID.  It can't know that; it doesn't track
-writes at that granularity.
-
-The second thing is that the node bits in folio->flags are immutable.
-They're set at boot (or memory hotplug).  There is never a race risk when
-reading them.  Presumably there needs to be some kind of annotation to
-tell KCSAN that this is always safe.
-
-The third thing is that these two accesses cannot race.  The write is
-to a folio which is under I/O, so cannot be freed.  The read is to a
-folio which has just been allocated, so cannot be under I/O.  This is
-some kind of failure of KCSAN.
-
+Yes, the nvme auth blktests all pass with this change.
+Sorry about the prefix. Will fix if doing another revision.
 
