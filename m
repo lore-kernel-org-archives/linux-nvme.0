@@ -4,84 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00B24C6FA8F
-	for <linux-nvme@archiver.kernel.org>; Tue, 29 Aug 2023 13:36:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA009C83F1B
+	for <linux-nvme@archiver.kernel.org>; Tue, 29 Aug 2023 15:05:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=58tJu8HS3Uk+gerFXyZAfcbbsx2SaXKrB/OzNfMroZM=; b=g8mI8CDy/ZYUsBRoLUIqxwCkTv
-	KGD71wYyy8RtDldjgZ6J2LGDGKabI+eFoTalENgXQUtRvSoKkieKFOkUr/s+lWXbHuiqzcGyc2WSg
-	PyStQuuIiZ7/dbK5rH7O7HZo8wxhIKZv2MlpLYi1O9CnZUr7XHeEIRc4Za7KUGsRqiKrs1uVpUabv
-	GM1uM24QcVlzC78VYnmlvrBoPbaZskBYa6KvgCZshB3rohBQZjyAxdr5sOrP451V7FDR3ZIorJs3c
-	bXuEAm8V/fD7ybmAKpGhKzwjSc+0nZcfK2Kc3FIjslQNW51c634bpazLxetkUDjgL+3xNsdVKO6ni
-	q371OM6A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=U8tO0dLFljDnktuq80r4afitP93wv2ZaRihVU0Qyu2I=; b=OsEJO8lnhmA+oDamUAzKD78Dog
+	buFSC8XZOcJ+dRiQNxt8uv6p4qAdqj+e8l0/u69oIKSeZ+g04rXSPLn0fEu/9WDU6wddYR9F6gefc
+	Y+dz3i2y17k5iMcuFQ9cFWU+Lwf2II78cQ6ULt4CMLkS3yNxnusfgyynPDC4GaiZ9l4xkMrIBVcLN
+	DRF/hoUPIXeWBTK/qNsUGxpxgPbf3CY+ExZptjZlGEJwjQV+8NRCsvEiq/KjPH/fzv8mYLNh1coGV
+	dGmO04x/Mk6QBk+31vOB0+6jVW4AH0PECsrocw0we2IrEWSR0eSOcTGZQMrK5pcK+RjMx7LH7AuXC
+	+U5K6VLw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qaysw-00BcVb-0L;
-	Tue, 29 Aug 2023 13:35:58 +0000
-Received: from mail-pf1-f176.google.com ([209.85.210.176])
+	id 1qb0HR-00BkfT-05;
+	Tue, 29 Aug 2023 15:05:21 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qayst-00BcV3-1t
-	for linux-nvme@lists.infradead.org;
-	Tue, 29 Aug 2023 13:35:56 +0000
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-68a440a8a20so3788593b3a.3
-        for <linux-nvme@lists.infradead.org>; Tue, 29 Aug 2023 06:35:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693316154; x=1693920954;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=58tJu8HS3Uk+gerFXyZAfcbbsx2SaXKrB/OzNfMroZM=;
-        b=K5kafjupIqhWGvxKvYs1AIx5CE7WCR7Xp8iK9NEvMbcKfs76XyrHGNgDRVdNFg5Lhc
-         VGJrwGjket4pXggjjCB4jCw5WagldDlHdclvju7FKN82nQetw+OyFe/ZRlzM8TvrfPwA
-         K5vFHI45TC5Y3IHQ6Dzua+tX9YU1Q2r7FrqohzJ/q8vhbeH1h8LUgq2idioMwZncfrs6
-         GwwPWwwIx1v/6GTSZQ2vmWKMtQb1MSNnwSLj8gBWcS3F/22qAAY/5Qdk3tuguBbDDydb
-         tYH51TrWnjMQa/49saz7koqDKVvMqvzgTg0Y6lDW1SRAi7JLLIbR/9B8m7M5co4jJ7TU
-         e4Xw==
-X-Gm-Message-State: AOJu0Yxh/XUZN/b2BpMBUua5XnrxVndds90NVwgIZ/f1HwUD/RZ/k1cT
-	fn4YajgM84PHb1cTYZRFRoE=
-X-Google-Smtp-Source: AGHT+IG9aL/VbyawH5cxLpKPv48bF/ifjtaCOBxvr16QlUWtHvl9BmANrS6abaZiiejyKlhA6FbCiw==
-X-Received: by 2002:a05:6a20:6a05:b0:13f:9cee:ff42 with SMTP id p5-20020a056a206a0500b0013f9ceeff42mr35105172pzk.41.1693316153610;
-        Tue, 29 Aug 2023 06:35:53 -0700 (PDT)
-Received: from [172.20.4.71] ([208.98.210.70])
-        by smtp.gmail.com with ESMTPSA id 22-20020aa79156000000b00666b012baedsm8485174pfi.158.2023.08.29.06.35.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Aug 2023 06:35:52 -0700 (PDT)
-Message-ID: <3b5b246f-386d-4afe-a20d-4b08770bd4cb@acm.org>
-Date: Tue, 29 Aug 2023 06:35:52 -0700
+	id 1qawUx-00BNAK-20;
+	Tue, 29 Aug 2023 11:03:04 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 4E2B2653BA;
+	Tue, 29 Aug 2023 11:03:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A91DC433C8;
+	Tue, 29 Aug 2023 11:02:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1693306979;
+	bh=U8tO0dLFljDnktuq80r4afitP93wv2ZaRihVU0Qyu2I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Zpf44oWH5Z2L6QhPNIGp7PeBhJpnP4KfVurKgcL9DEj/BIRmEq8ijJzbb6q5k8Ovs
+	 9bWmbNzBkJw5MyDAxRy27lwjHGda6NbScABpEWJtXeah3765gQ9TUqIkk0ScRRsr4B
+	 pgJc/+HtIStX4e0zZcs6Mgm/y0cAQCiR+vX0i9HUCQ2jW21Dvj1m5KvDe2xJG8sZD9
+	 7J/ySnM4IatjDikdEeiDLegDHPGVAKFz5CZJOY4FIoLRlouJhKb12RDwuxVPSp/21Q
+	 Im6ZTKLVuSh6T0hvwNEhJP5WmzsfCpgy49EfIICESoo8yOH/FPp5HVYEAtlfB2KJ19
+	 jLNduaFs+ry8A==
+Date: Tue, 29 Aug 2023 13:02:47 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Jan Kara <jack@suse.cz>
+Cc: Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org,
+	linux-block@vger.kernel.org, Christoph Hellwig <hch@infradead.org>,
+	Alasdair Kergon <agk@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Anna Schumaker <anna@kernel.org>, Chao Yu <chao@kernel.org>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Dave Kleikamp <shaggy@kernel.org>, David Sterba <dsterba@suse.com>,
+	dm-devel@redhat.com, drbd-dev@lists.linbit.com,
+	Gao Xiang <xiang@kernel.org>, Jack Wang <jinpu.wang@ionos.com>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	jfs-discussion@lists.sourceforge.net,
+	Joern Engel <joern@lazybastard.org>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	Kent Overstreet <kent.overstreet@gmail.com>,
+	linux-bcache@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net, linux-mm@kvack.org,
+	linux-mtd@lists.infradead.org, linux-nfs@vger.kernel.org,
+	linux-nilfs@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-pm@vger.kernel.org, linux-raid@vger.kernel.org,
+	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	"Md. Haris Iqbal" <haris.iqbal@ionos.com>,
+	Mike Snitzer <snitzer@kernel.org>, Minchan Kim <minchan@kernel.org>,
+	ocfs2-devel@oss.oracle.com, reiserfs-devel@vger.kernel.org,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Song Liu <song@kernel.org>, Sven Schnelle <svens@linux.ibm.com>,
+	target-devel@vger.kernel.org, Ted Tso <tytso@mit.edu>,
+	Trond Myklebust <trond.myklebust@hammerspace.com>,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v3 0/29] block: Make blkdev_get_by_*() return handle
+Message-ID: <20230829-stark-trapez-2251bf78c6a9@brauner>
+References: <20230818123232.2269-1-jack@suse.cz>
+ <20230825-hubraum-gedreht-8c5c4db9330a@brauner>
+ <20230828170744.iifdmaw732cfiauf@quack3>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH blktests v3 3/3] nvme: introduce
- nvmet_target_{setup/cleanup} common code
-Content-Language: en-US
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: Daniel Wagner <dwagner@suse.de>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- Chaitanya Kulkarni <kch@nvidia.com>, Hannes Reinecke <hare@suse.de>,
- Sagi Grimberg <sagi@grimberg.me>, Jason Gunthorpe <jgg@ziepe.ca>
-References: <oss54jmgqzjcxecea4h7eeguh6lmhls4p74e7unbxmhz34asvk@a7n6vu6hauys>
- <zvu2ihivd6f4fbs7hpgowstq3li4wrdycqzso3c32qcco7zes4@s2l2solzzo6u>
- <saxcmve2nchhytphnknfqp2fxpwdk5v5xqfoq2g5gsdlecf3il@sypswqownxih>
- <b79c0c9d-3930-4dbf-a1cf-8ca9e00af614@acm.org>
- <xz7rnke52xu3anmnjliybqv4yk3w367noo6ipguarkec6u4i5g@7bqtovmc3gjb>
- <d6ec4e54-1ec9-648a-ce8c-1e08a439c3c6@acm.org>
- <ckuewnzuiejug6jbuxfw4viqwf4v43pq54mj4k4qbq7uz3zwpn@3iijcby24ujd>
- <8ffb6c2f-0836-4302-82b9-902e092e537c@acm.org>
- <txsyjpcxb3baog5fgqdnm5hh765nt5qcbcmllsto7uulyzr5kn@zirmqldhosbi>
- <ed518b56-a579-49bb-b2bb-220214ef6e2e@acm.org>
- <ptqdqjo7xt5qsijmuftmboutck5bpwm2wjrwks5lr4l44ssvjy@iurtgbaxnoji>
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <ptqdqjo7xt5qsijmuftmboutck5bpwm2wjrwks5lr4l44ssvjy@iurtgbaxnoji>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230828170744.iifdmaw732cfiauf@quack3>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230829_063555_620474_85AFE000 
-X-CRM114-Status: GOOD (  14.03  )
+X-CRM114-CacheID: sfid-20230829_040303_705736_5187CB0B 
+X-CRM114-Status: UNSURE (   9.97  )
+X-CRM114-Notice: Please train this message.
+X-Mailman-Approved-At: Tue, 29 Aug 2023 08:05:16 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,28 +106,10 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 8/28/23 19:11, Shinichiro Kawasaki wrote:
-> This is the unclear point for me. Does bash really pass the arguments list of
-> the caller to the callee when functions are called without arguments?
-> 
-> Looking back the commit 852996fea4f1, you explained that bash does, and I
-> agreed. But now in my environment bash doesn't. I tried the script below in my
-> environment, and see nothing printed.
-> 
->    funcA() { echo "$1" ; }
->    funcB() { funcA; }
->    funcB foo
-> 
-> Then the arguments of funcB is not passed to funcA. How does it run in your
-> environment?
+> replacement) I think we can go ahead with the series as is. As you said
+> there will be some conflicts in btrfs and I've learned about f2fs conflicts
+> as well so I can rebase & repost the series on top of rc1 to make life
+> easier for you.
 
-I see the same result that you see. It seems that I misinterpret the 
-text produced by shellcheck if it reports warning SC2119. After having 
-reread https://github.com/koalaman/shellcheck/wiki/SC2119, I'm OK with
-suppressing warning SC2119 because that warning doesn't seem useful to
-me.
-
-Thanks,
-
-Bart.
+That is be much appreciated. Thank you!
 
