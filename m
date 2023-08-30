@@ -4,81 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 57ED9C83F01
-	for <linux-nvme@archiver.kernel.org>; Wed, 30 Aug 2023 15:06:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A5DCDC83F01
+	for <linux-nvme@archiver.kernel.org>; Wed, 30 Aug 2023 17:44:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hQgATRv0Yi8dSOXsizpcql2/oe40FoEEth/0M4vOQzM=; b=ugzAYSpRvHEvizdmplpCgFC7ts
-	2FZtBp4StoVTYF+V+oyNKnVxSczxzGKpxWCb+50dWjzOEzbKTgnAoFSpc05LaLI8K7cKKHFA3Wohj
-	3zjj1ZgZ5sWZtSHm4H3PiSXbw1TSAlnWzszbiA13xoHxwlPNZ6UyCof+RANg9hrkYTV7JF7vYEqt8
-	h8f1D+J6zUIS2AXfnPMty67k7XW0XBL1UrydbpBcem2yeWQyCfgbvzqKvBAvbEFA0KawKF6LbRgfV
-	MGIgb+Z9D7M8pZVi37wtbi0xycpHVmI5J2k8cbJ7gSs5XtNzqKmzm5TtMLOzFFUsPseb7qWzLe+FR
-	AvCzoxeQ==;
+	bh=dgT0AIDPZgl26tMkDdsBHDsxRu9I3n2FZzYpBP7cGCg=; b=ou5e/ILwd98HAdgJIKrc5x1GM7
+	xMbeCDxZY1rG6IKRfuWs1VetDMikjDruydL8nemyVrwKmgCOA4eHnlWulstF2PCn/ypV7qwsFbrv9
+	y/BemG+tUgasmrzVTOiXIrrT1KxuClX7QY7cCfGGTNT5eJQi24q+7kUAxSdl85m3pZLclNCbLCcgi
+	oGzQ7Ba4fM+HszFXQKv5k4xt+gSzhmk5QwRBdRunBS/IJYQuBP9k7BSEHRsuqyHChe707chBv7Xtv
+	TK5F7uyb4njd3gf3JyoVtIo75p5rjhy6B/z6l12UCi3bCs/OdSRZHJT3pqABX7lAHwyXQdgnutCFf
+	Xu26ixLQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qbMln-00DjVN-1S;
-	Wed, 30 Aug 2023 15:06:11 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1qbPEm-00DvUb-0d;
+	Wed, 30 Aug 2023 17:44:16 +0000
+Received: from galois.linutronix.de ([193.142.43.55])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qbMlg-00DjU6-3A
+	id 1qbPEi-00DvTt-2t
 	for linux-nvme@lists.infradead.org;
-	Wed, 30 Aug 2023 15:06:09 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 53E271F74B;
-	Wed, 30 Aug 2023 15:06:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1693407960; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	Wed, 30 Aug 2023 17:44:14 +0000
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1693417444;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hQgATRv0Yi8dSOXsizpcql2/oe40FoEEth/0M4vOQzM=;
-	b=i74ke5EYmN+nuBvfIpv5fQssIN/iuwRGjWUWPuvhq4yxm0U6tFvN5uHv1WDVVwblXr7u7L
-	5NIcfJXMboFmwLmsOVTLumnuwmLMel9y3IKHj8dt+l3J/XF7G/mld86ZE06xzjNboH/8P+
-	oyted/cJUQeM/7Clf1H9A6UE0NweGMI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1693407960;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	bh=dgT0AIDPZgl26tMkDdsBHDsxRu9I3n2FZzYpBP7cGCg=;
+	b=29k7LTWIm9DMq2cvAp585AIxhEGIlsLyKObcUcw/Ftj6Gnb0JxrNeCsKWYPEhC5jBGlluy
+	TTN4P7SXPLIYqknzbXC17wdPx7yEzlnl1c+zCuQ4Biy8yx0CyKnXuMqsopo1iELeI3kC/5
+	FNZc8mernGKPDlvxSrlRYJ4kAqujsv/INchiysSGWixlqOR91dwiR3ffbzVfVoohifacSV
+	srJWRs6jtiHQlM1wlBELCX9We22povOiX2MdiqFM2C/vPavcw9aBiE+kUaPedff10RbcHC
+	oaMhY6rgB/tEn65wmX0zlxaM5ZtapDQH5B6CzKO5F9Eb7Az2RBVZI0zQ5En/bA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1693417444;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hQgATRv0Yi8dSOXsizpcql2/oe40FoEEth/0M4vOQzM=;
-	b=9GX8ofwxXSF4PgfWcK3B9cLiDA031+L2dIToWIlgI4jgwZr8uZzr0FrILvEhqMBnympM9z
-	ZdE3Es6JtcsS+WAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 43C741353E;
-	Wed, 30 Aug 2023 15:06:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id woJ9ENha72T7IgAAMHmgww
-	(envelope-from <dwagner@suse.de>); Wed, 30 Aug 2023 15:06:00 +0000
-Date: Wed, 30 Aug 2023 17:06:21 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Bart Van Assche <bvanassche@acm.org>
-Subject: Re: [PATCH blktests v4 3/3] nvme: introduce
- nvmet_target_{setup/cleanup} common code
-Message-ID: <c36hdvkw2ia5g2e6k2jkagux3by453stigjoik2wf7neinfrew@t35ny54nn7gt>
-References: <20230830092019.9846-1-dwagner@suse.de>
- <20230830092019.9846-4-dwagner@suse.de>
- <fhwbcvhmm57c55ozfgtczcix42zri63cswjavre46l42tmzgo7@3krpokexbslw>
+	bh=dgT0AIDPZgl26tMkDdsBHDsxRu9I3n2FZzYpBP7cGCg=;
+	b=hTwrnzBqCSxtiJiAB7fbzhJcvQSwOfFyEkhCsz43GY12ZToHHutDY9UB0Sgv+FhnmCgS+P
+	0KC25+Gvlqnpa0Bw==
+To: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>
+Cc: linux-kernel@vger.kernel.org, Ming Lei <ming.lei@redhat.com>, Keith
+ Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, Yi Zhang <yi.zhang@redhat.com>, Guangwu Zhang
+ <guazhang@redhat.com>, Chengming Zhou <zhouchengming@bytedance.com>
+Subject: Re: [PATCH V3] lib/group_cpus.c: avoid to acquire cpu hotplug lock
+ in group_cpus_evenly
+In-Reply-To: <20230818140145.1229805-1-ming.lei@redhat.com>
+References: <20230818140145.1229805-1-ming.lei@redhat.com>
+Date: Wed, 30 Aug 2023 19:44:03 +0200
+Message-ID: <87edjk5st8.ffs@tglx>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fhwbcvhmm57c55ozfgtczcix42zri63cswjavre46l42tmzgo7@3krpokexbslw>
+Content-Type: text/plain
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230830_080605_161832_EF7C0C52 
-X-CRM114-Status: GOOD (  13.84  )
+X-CRM114-CacheID: sfid-20230830_104413_094073_667D66AA 
+X-CRM114-Status: GOOD (  10.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,34 +77,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Aug 30, 2023 at 01:38:03PM +0000, Shinichiro Kawasaki wrote:
-> > diff --git a/tests/nvme/018 b/tests/nvme/018
-> > index 68729c3cb070..19e439f3f3e0 100755
-> > --- a/tests/nvme/018
-> > +++ b/tests/nvme/018
-> > @@ -21,16 +21,9 @@ test() {
-> >  
-> >  	_setup_nvmet
-> >  
-> > -	local port
-> >  	local nvmedev
-> >  
-> > -	truncate -s "${nvme_img_size}" "${def_file_path}"
-> > -
-> > -	_create_nvmet_subsystem "${def_subsysnqn}" "${def_file_path}" \
-> > -		 "${def_subsys_uuid}"
-> > -	port="$(_create_nvmet_port "${nvme_trtype}")"
-> > -	_add_nvmet_subsys_to_port "${port}" "${def_subsysnqn}"
-> > -	_create_nvmet_host "${def_subsysnqn}" "${def_hostnqn}"
-> > +	_nvmet_target_setup
-> 
-> As I noted for v3, I think the line above should be,
-> 
-> 	_nvmet_target_setup --blkdev file
-> 
-> If the change is ok for you, I'll add this fix up and apply the
-> series.
+Ming!
 
-Sorry, I didn't see it in the response. Sure thing, no objection from my
-side.
+On Fri, Aug 18 2023 at 22:01, Ming Lei wrote:
+
+> group_cpus_evenly() could be part of storage driver's error handler,
+> such as nvme driver, when may happen during CPU hotplug, in which
+> storage queue has to drain its pending IOs because all CPUs associated
+> with the queue are offline and the queue is becoming inactive. And
+> handling IO needs error handler to provide forward progress.
+>
+> Then dead lock is caused:
+>
+> 1) inside CPU hotplug handler, CPU hotplug lock is held, and blk-mq's
+> handler is waiting for inflight IO
+>
+> 2) error handler is waiting for CPU hotplug lock
+>
+> 3) inflight IO can't be completed in blk-mq's CPU hotplug handler because
+> error handling can't provide forward progress.
+>
+> Solve the deadlock by not holding CPU hotplug lock in group_cpus_evenly(),
+> in which two stage spreads are taken: 1) the 1st stage is over all present
+> CPUs; 2) the end stage is over all other CPUs.
+
+That solves the deadlock, but makes the code racy against a concurrent
+hot-add operation which modifies cpu_present_mask. IOW, it introduces a
+data race.
+
+The changelog does not explain why this does not matter nor does the
+comment.
+
+Thanks,
+
+        tglx
+
+
 
