@@ -4,127 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C24DC83F10
-	for <linux-nvme@archiver.kernel.org>; Thu, 31 Aug 2023 14:09:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F1317C83F10
+	for <linux-nvme@archiver.kernel.org>; Thu, 31 Aug 2023 14:52:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:Message-ID:Date:Subject:CC
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IhZo9HTMeYHJ99KUn4xRaNtn0eqI4FRUFoQojNm54bY=; b=dBX5sFSDOY3a02ay5lNoacCd7c
-	C2KyHXhUHc3dtxCvaSXjYSR53K572E4YzyotAFqLZmxD4lHzRvI5LQaLIBp/byU5E2Q8CKTfHInxY
-	kdviHNBDFBRnlWdzQ2PsJ3CUsrgpp8x91qylAEfDXUjlQz4MnuRHmS9Ec56n4EJqS1iGtAJ7xp++3
-	6ES7wZV6qSTKcvjwGunE/BmAJOXXE3+GdJXYGfWL+Ves0rGa9UqjufiyhWJAAkvnjXVd5IGBM63d1
-	OP84NV7uuACCiZ/FvN3/cbVdYSbyBjUnJD7RcDnXco0myBvMJF1TYHJWSauJGL0OFwv6fT/nV5YEi
-	35I4cJ5Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=lwE1GdV6D69f6G+zYZ3quXQds5jqv1KmBeIZnoFgnz0=; b=QwPKdXIx5XPBEj3PtJROi6d7X4
+	newmIEajD22cZAkyes3ujT7W4vwrf2yjUzyvbQ9Khbk/xYQwWsL78taEdgfmZNlKmj0c2etuKym1z
+	E8g96XbUNXO1Ep18RWoYmNoYJj4UkHDYie2D+wD/7p9IL+4XJ/pf+3hbAWZRPMeGoGrVITX/J/kGi
+	LQqqEcDTWJgABfjdfdYVO6yDkl3UAarOdxUWtQ6EBJpmiw05thg6q104JWRRiUlXk1laq/CJ6vWR6
+	DoTMBrahWRKePWVoIq6vee2wvq/AlWBl9lUQksz8v008BiFbKnSgttXBcyiDF1WCbyAhNpCfQnChz
+	FrIOpuCg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qbiMe-00FPn9-0C;
-	Thu, 31 Aug 2023 14:09:40 +0000
-Received: from mailout1.w2.samsung.com ([211.189.100.11])
+	id 1qbj2V-00FSmJ-2B;
+	Thu, 31 Aug 2023 14:52:55 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qbiMb-00FPma-0t
-	for linux-nvme@lists.infradead.org;
-	Thu, 31 Aug 2023 14:09:39 +0000
-Received: from uscas1p2.samsung.com (unknown [182.198.245.207])
-	by mailout1.w2.samsung.com (KnoxPortal) with ESMTP id 20230831140936usoutp01ef5855e3986a7a5ffd6aec6663e0ae5b~AfRH6ZFvp2674626746usoutp01G;
-	Thu, 31 Aug 2023 14:09:36 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w2.samsung.com 20230831140936usoutp01ef5855e3986a7a5ffd6aec6663e0ae5b~AfRH6ZFvp2674626746usoutp01G
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1693490976;
-	bh=IhZo9HTMeYHJ99KUn4xRaNtn0eqI4FRUFoQojNm54bY=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-	b=rQH09SItmFoC2UWth20Gk0meVaThmN557+hxnXiuWOhjTFoik32uYGDeLC9JQeicI
-	 JOMPKN6SJvho3lxJqNn4zIDOzURIfDQVZWiSEnbJqotopLFEP7qtWj5rFjc+66GTD0
-	 /Hy5nTGYNVxmzsKb0aTTDp5iuWvsklm/JHOhYC5o=
-Received: from ussmges2new.samsung.com (u111.gpu85.samsung.co.kr
-	[203.254.195.111]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
-	20230831140935uscas1p123d5883fa6e0ea16cd09ed2274ebdac3~AfRHtpr563122831228uscas1p1v;
-	Thu, 31 Aug 2023 14:09:35 +0000 (GMT)
-Received: from uscas1p2.samsung.com ( [182.198.245.207]) by
-	ussmges2new.samsung.com (USCPEMTA) with SMTP id 86.E8.40279.F1F90F46; Thu,
-	31 Aug 2023 10:09:35 -0400 (EDT)
-Received: from ussmgxs3new.samsung.com (u92.gpu85.samsung.co.kr
-	[203.254.195.92]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
-	20230831140935uscas1p1d7406a58aae26e1ce2adfa5f33770fb9~AfRHXo_BT0339303393uscas1p1e;
-	Thu, 31 Aug 2023 14:09:35 +0000 (GMT)
-X-AuditID: cbfec36f-4cbfe70000009d57-2e-64f09f1fef61
-Received: from SSI-EX3.ssi.samsung.com ( [105.128.2.145]) by
-	ussmgxs3new.samsung.com (USCPEXMTA) with SMTP id F7.47.31410.F1F90F46; Thu,
-	31 Aug 2023 10:09:35 -0400 (EDT)
-Received: from SSI-EX3.ssi.samsung.com (105.128.2.228) by
-	SSI-EX3.ssi.samsung.com (105.128.2.228) with Microsoft SMTP Server
-	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
-	15.1.2375.24; Thu, 31 Aug 2023 07:09:34 -0700
-Received: from SSI-EX3.ssi.samsung.com ([105.128.5.228]) by
-	SSI-EX3.ssi.samsung.com ([105.128.5.228]) with mapi id 15.01.2375.024; Thu,
-	31 Aug 2023 07:09:34 -0700
-From: Vincent Fu <vincent.fu@samsung.com>
-To: "joshi.k@samsung.com" <joshi.k@samsung.com>
-CC: "ankit.kumar@samsung.com" <ankit.kumar@samsung.com>, "axboe@kernel.dk"
-	<axboe@kernel.dk>, "gost.dev@samsung.com" <gost.dev@samsung.com>,
-	"hch@lst.de" <hch@lst.de>, "joshiiitr@gmail.com" <joshiiitr@gmail.com>,
-	"kbusch@kernel.org" <kbusch@kernel.org>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "sagi@grimberg.me" <sagi@grimberg.me>,
-	"vincentfu@gmail.com" <vincentfu@gmail.com>, Vincent Fu
-	<vincent.fu@samsung.com>
-Subject: Re: [PATCH v2 2/2] nvme: avoid memory corruption for sync
- passthrough
-Thread-Topic: [PATCH v2 2/2] nvme: avoid memory corruption for sync
-	passthrough
-Thread-Index: AQHZzn3HbbHWMYP4VUyCJVIZ+ut3NbAFAdSA
-Date: Thu, 31 Aug 2023 14:09:34 +0000
-Message-ID: <20230831140918.85341-1-vincent.fu@samsung.com>
-In-Reply-To: <20230814070213.161033-3-joshi.k@samsung.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [105.128.2.176]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	id 1qbj2T-00FSmA-1F
+	for linux-nvme@bombadil.infradead.org;
+	Thu, 31 Aug 2023 14:52:53 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=lwE1GdV6D69f6G+zYZ3quXQds5jqv1KmBeIZnoFgnz0=; b=ZPYbF54tuouED9z6EN3KIkl3g9
+	JdC7ngDwcMKciB6aIQXbMZKb4zWv+FaIV9nJA3I6XU5VtcZfbVDQ8cKaN+3teDlXYFGr7dqQvi3YI
+	QKelGrsc2qvjHRkernw6hRQtSn8i5Ubsf/BIJPH80jkHBV2takvPiJs87NWw+OBxL2/0YtclokET+
+	mU2wbLkPDe82empFNt0sOlk0G+T+VHx4+gmbEfBsred9xYqmWHOtnEcetovtC4LwYQXl6PBtni9bB
+	9qWxxNHXa9WoE8PEprurVWx7FWb4EM4LUcINoj7IfkVPJk8ADpj9bKBwjNYjnDnHX7A+s2affthen
+	yCtonS/w==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1qbj2P-001ufX-K8; Thu, 31 Aug 2023 14:52:49 +0000
+Date: Thu, 31 Aug 2023 15:52:49 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
+Cc: linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+	linux-mm@kvack.org, Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Subject: Re: BUG: KCSAN: data-race in folio_batch_move_lru / mpage_read_end_io
+Message-ID: <ZPCpQQVTtlB0FA5A@casper.infradead.org>
+References: <cbb9d596-43ac-bad4-b6f6-8c13f95d244e@alu.unizg.hr>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprPKsWRmVeSWpSXmKPExsWy7djX87ry8z+kGHS81rNYfbefzWLl6qNM
-	FuffHmaymHToGqPF/GVP2S3WvX7PYrGhTdCB3WPnrLvsHufvbWTxuHy21GPTqk42j81L6j12
-	32xgC2CL4rJJSc3JLEst0rdL4Mro3/iVtWAaX8WKO/+ZGhgncnUxcnJICJhIbNh9iqWLkYtD
-	SGAlo0T/z6PsEE4rk8Sl958ZYapWfN3ADJFYyyjxcPJaVgjnE6PE/+f7gVo4gJxljBJzOEFM
-	NgFNibf7C0B6RQT0JfqbL4JtYBY4wixx4uRUFpCEsECAxJ7Wfywg9SICgRJv+jwh6o0kftx7
-	xgxiswioShz/up4NxOYVsJZouvaSDaScU8BKYsv0UpAwo4CYxPdTa5hAbGYBcYlbT+YzQZws
-	KLFo9h5mCFtM4t+uh2wQtqLE/e8v2SHq9SRuTJ3CBmFrSyxb+JoZYpWgxMmZT1gg6iUlDq64
-	AXa+hMAVDome3qdQQ10kPh25Aw0faYnpay6DvSIhkC/xri8GIlwh8evHLagSa4mFf9ZD3ckn
-	8ffXI8YJjMqzkJw9C8lJs5CcNAvJSQsYWVYxipcWF+empxYb5aWW6xUn5haX5qXrJefnbmIE
-	pqHT/w7n72C8fuuj3iFGJg7GQ4wSHMxKIryxZu9ShHhTEiurUovy44tKc1KLDzFKc7AoifMa
-	2p5MFhJITyxJzU5NLUgtgskycXBKNTDNYAjIymJIZtt0Odvy9LTtJywUlSa51uxcPnGDpwXv
-	pcRnrwUiM4pX1BecT9dMmPPrf61WBzOncw2P5jH59mdrIjlau6051r1rfXDhoUaTn/rM+J+2
-	67o2H62+mz1basqta5Ntl8xLN3d6p5IpbDSRZWF2nOM+170bmk2656RFLSpW/KyzLXfHPVeV
-	UPlLKpIJZxO2b/jA+UPfZ65Qq0OKde7umU9srn/M3ZG2ojRpiXzAMdvUrxmf5y6qnhuy+mWT
-	2oGN/Z+mmSZwqPv+Cd2WvlSdza/3hvvj87ynp4d2ZG0tMP5oo9W5dHL4pgN9MqcK9K5P+zxv
-	l86UdRN/rp8kqP19488KQ5avYT93qVkosRRnJBpqMRcVJwIAqGVZS7IDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrCIsWRmVeSWpSXmKPExsWS2cA0UVd+/ocUg0ufRCxW3+1ns1i5+iiT
-	xfm3h5ksJh26xmgxf9lTdot1r9+zWGxoE3Rg99g56y67x/l7G1k8Lp8t9di0qpPNY/OSeo/d
-	NxvYAtiiuGxSUnMyy1KL9O0SuDL6N35lLZjGV7Hizn+mBsaJXF2MnBwSAiYSK75uYO5i5OIQ
-	EljNKHHpSgc7hPOJUeLzmeVMEM4yRolf358DORwcbAKaEm/3F4B0iwjoS/Q3X2QBqWEWOMIs
-	ceLkVBaQhLCAn8Spg5fZIYoCJXqW/2SEsI0kftx7xgxiswioShz/up4NxOYVsJZouvYSzBYS
-	sJRY9/YtI8guTgEriS3TS0HCjAJiEt9PrWECsZkFxCVuPZnPBPGBgMSSPeeZIWxRiZeP/7FC
-	2IoS97+/ZIeo15O4MXUKG4StLbFs4WtmiLWCEidnPmGBqJeUOLjiBssERvFZSFbMQtI+C0n7
-	LCTtCxhZVjGKlxYX56ZXFBvnpZbrFSfmFpfmpesl5+duYgRG7Ol/h2N2MN679VHvECMTB+Mh
-	RgkOZiUR3lizdylCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeXdMuZgiJJCeWJKanZpakFoEk2Xi
-	4JRqYLrg+KujJPdMw70/uUVNt7Y+Drq+9nrJT81rwvXfvdmYHOe/vfftUPztZZuS+Cc/nN1R
-	tb/Uc3rE79P18eFbepx6bynYyVo4aBt+jNhz9PX820kun1NjlqiV/AxisNqe9a79Z/ecfV3B
-	Ch/CiteUBps9qVyy5ez6oor1tmvtt03kK64x2dnoeXT3lPfl3eknTpatWn/klHti7CK91UUX
-	oht6glXyV01JZyw7uGTSg5c3mMwTddVWBpy9yezUmft7zepzHh6alYvmKMw+pnJmbUeyzte4
-	/R+kq1pLT2i+jJfeUffw/7WXuzT+d79YsTNkl9/F16mfzqa8WnJ1z6KFP7i/vk25PsnXquoE
-	S53y9tVVSizFGYmGWsxFxYkAt3qJGUcDAAA=
-X-CMS-MailID: 20230831140935uscas1p1d7406a58aae26e1ce2adfa5f33770fb9
-CMS-TYPE: 301P
-X-CMS-RootMailID: 20230831140935uscas1p1d7406a58aae26e1ce2adfa5f33770fb9
-References: <20230814070213.161033-3-joshi.k@samsung.com>
-	<CGME20230831140935uscas1p1d7406a58aae26e1ce2adfa5f33770fb9@uscas1p1.samsung.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230831_070937_443428_7A9EE1C6 
-X-CRM114-Status: GOOD (  14.79  )
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cbb9d596-43ac-bad4-b6f6-8c13f95d244e@alu.unizg.hr>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -139,57 +67,99 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-I tested this patch on a QEMU NVMe device.
+On Mon, Aug 28, 2023 at 11:14:23PM +0200, Mirsad Todorovac wrote:
+>  BUG: KCSAN: data-race in folio_batch_move_lru / mpage_read_end_io
 
-I formatted the device with a 512+16 lbaf with a separate buffer for metada=
-ta:
+This one's still niggling at me.  I've trimmed the timestamps and some
+of the other irrelevant stuff out of this to make it easier to read.
 
-nvme format /dev/ng0n1 -m 0 -i 1 -p 0 --lbaf 2 --force
+>  value changed: 0x0017ffffc0020001 -> 0x0017ffffc0020004
 
-Using the latest fio I wrote some data to it:
+Notionally I understand this.  This is page->flags and the PG_locked bit
+was set initially, but after a short delay PG_locked was cleared and
+PG_uptodate was set.  That's _normal_.  For many, many pages, we set the
+locked bit, initiate a read; the device does a DMA, sends an interrupt;
+the interrupt handler sets the PG_uptodate bit and clears the PG_locked
+bit to indicate the page is no longer under I/O.
 
-./fio --name=3Ddifdix --ioengine=3Dio_uring_cmd --cmd_type=3Dnvme \
-  --filename=3D/dev/ng0n1 --rw=3Dwrite --bs=3D512 --md_per_io_size=3D16 --p=
-i_act=3D1 \
-  --pi_chk=3DAPPTAG --apptag=3D0x8888 --apptag_mask=3D0xFFFF --number_ios=
-=3D128
+But what I don't understand is how we see this for _this_ page.
 
-Then I built nvme-cli with the following patch:
+>  write (marked) to 0xffffef9a44978bc0 of 8 bytes by interrupt on cpu 28:
+>  mpage_read_end_io (arch/x86/include/asm/bitops.h:55 include/asm-generic/bitops/instrumented-atomic.h:29 include/linux/page-flags.h:739 fs/mpage.c:55)
+>  bio_endio (block/bio.c:1617)
+>  blk_mq_end_request_batch (block/blk-mq.c:850 block/blk-mq.c:1088)
+>  nvme_pci_complete_batch (drivers/nvme/host/pci.c:986) nvme
+>  nvme_irq (drivers/nvme/host/pci.c:1086) nvme
 
-diff --git a/nvme.c b/nvme.c
-index b5b05857..807a6643 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -7581,12 +7581,7 @@ static int submit_io(int opcode, char *command, cons=
-t char *desc, int argc, char
-                        pif =3D (nvm_ns.elbaf[lba_index] & NVME_NVM_ELBAF_P=
-IF_MASK) >> 7;
-                }
+This is the interrupt handler.  It's doing what it's supposed to;
+marking the page uptodate and unlocking it.
 
--               mbuffer_size =3D ((unsigned long long)cfg.block_count + 1) =
-* ms;
--               if (ms && cfg.metadata_size < mbuffer_size)
--                       nvme_show_error("Rounding metadata size to fit bloc=
-k count (%lld bytes)",
--                                       mbuffer_size);
--               else
--                       mbuffer_size =3D cfg.metadata_size;
-+               mbuffer_size =3D cfg.metadata_size;
+>  read to 0xffffef9a44978bc0 of 8 bytes by task 348 on cpu 12:
+>  folio_batch_move_lru (./include/linux/mm.h:1814 ./include/linux/mm.h:1824 ./include/linux/memcontrol.h:1636 ./include/linux/memcontrol.h:1659 mm/swap.c:216)
+>  folio_batch_add_and_move (mm/swap.c:235)
+>  folio_add_lru (./arch/x86/include/asm/preempt.h:95 mm/swap.c:518)
+>  folio_add_lru_vma (mm/swap.c:538)
+>  do_anonymous_page (mm/memory.c:4146)
 
-                mbuffer =3D malloc(mbuffer_size);
-                if (!mbuffer) {
+This is the part I don't understand.  The path to calling
+folio_add_lru_vma() comes directly from vma_alloc_zeroed_movable_folio():
 
-Using the patched nvme-cli I ran commands like this:
+        folio = vma_alloc_zeroed_movable_folio(vma, vmf->address);
+        if (!folio)
+                goto oom;
+        if (mem_cgroup_charge(folio, vma->vm_mm, GFP_KERNEL))
+                goto oom_free_page;
+        folio_throttle_swaprate(folio, GFP_KERNEL);
+        __folio_mark_uptodate(folio);
+        entry = mk_pte(&folio->page, vma->vm_page_prot);
+        entry = pte_sw_mkyoung(entry);
+        if (vma->vm_flags & VM_WRITE)
+                entry = pte_mkwrite(pte_mkdirty(entry));
+        vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd, vmf->address,
+                        &vmf->ptl);
+        if (!vmf->pte)
+                goto release;
+        if (vmf_pte_changed(vmf)) {
+                update_mmu_tlb(vma, vmf->address, vmf->pte);
+                goto release;
+        }
+        ret = check_stable_address_space(vma->vm_mm);
+        if (ret)
+                goto release;
+        /* Deliver the page fault to userland, check inside PT lock */
+        if (userfaultfd_missing(vma)) {
+                pte_unmap_unlock(vmf->pte, vmf->ptl);
+                folio_put(folio);
+                return handle_userfault(vmf, VM_UFFD_MISSING);
+        }
+        inc_mm_counter(vma->vm_mm, MM_ANONPAGES);
+        folio_add_new_anon_rmap(folio, vma, vmf->address);
+        folio_add_lru_vma(folio, vma);
 
-./nvme read /dev/ng0n1 -n 1 -s 0 -z 0 -c 255 -z 131072 -y 8 -r 0 -m 0 -d ou=
-t -M out-md
+(sorry that's a lot of lines).  But there's _nowhere_ there that sets
+PG_locked.  It's a freshly allocated page; all page flags (that are
+actually flags; ignore the stuff up at the top) should be clear.  We
+even check that with PAGE_FLAGS_CHECK_AT_PREP.  Plus, it doesn't
+make sense that we'd start I/O; the page is freshly allocated, full of
+zeroes; there's no backing store to read the page from.
 
-It reads 128k of data which should require 4k of metadata but provides a bu=
-ffer
-of only 8 bytes.
+It really feels like this page was freed while it was still under I/O
+and it's been reallocated to this victim process.
 
-Without the patch there are no error messages but with the patch the read
-request fails and I see error messages in the kernel log.
+I'm going to try a few things and see if I can figure this out.
 
-Tested-by: Vincent Fu <vincent.fu@samsung.com>
+>  __handle_mm_fault (mm/memory.c:3662 mm/memory.c:4939 mm/memory.c:5079)
+>  handle_mm_fault (mm/memory.c:5233)
+>  do_user_addr_fault (arch/x86/mm/fault.c:1392)
+>  exc_page_fault (./arch/x86/include/asm/paravirt.h:695 arch/x86/mm/fault.c:1494 arch/x86/mm/fault.c:1542)
+>  asm_exc_page_fault (./arch/x86/include/asm/idtentry.h:570)
+>  copyout (./arch/x86/include/asm/uaccess_64.h:112 ./arch/x86/include/asm/uaccess_64.h:133 lib/iov_iter.c:168)
+>  _copy_to_iter (lib/iov_iter.c:316 (discriminator 5))
+>  copy_page_to_iter (lib/iov_iter.c:483 lib/iov_iter.c:468)
+>  filemap_read (mm/filemap.c:2712)
+>  blkdev_read_iter (block/fops.c:620)
+>  vfs_read (./include/linux/fs.h:1871 fs/read_write.c:389 fs/read_write.c:470)
+>  ksys_read (fs/read_write.c:613)
+>  __x64_sys_read (fs/read_write.c:621)
+
 
