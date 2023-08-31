@@ -4,71 +4,127 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8069FC83F01
-	for <linux-nvme@archiver.kernel.org>; Thu, 31 Aug 2023 09:38:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A2EAC83F01
+	for <linux-nvme@archiver.kernel.org>; Thu, 31 Aug 2023 14:09:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=pIHkr0l2kEulrVce5uaSBSAoxxMZwAnZ1GdIhmQZ2hI=; b=qIE49a4IKgb14+zdGgA2fN874A
-	I7pXJBBFAqal9UkHPXUdrlXI9mZ7tHhTgoETue8MmGXDMIXYuCGpPuDXt6+FLGdEW6D77REVt5KA1
-	8VBKIed0WlVhzfDpv93rhruztmx3H/7Gp9n1bk68zk554FkYvim8v5dss1ghUwBZHfnBd52UDBX+Q
-	bXSFI0BlKJi/ysuHTXkkbomPIKs5GRCkxJk83YMQxVHnzvoPQLh107nPOBpP4HYxX+6SHyilTz4dA
-	L16VKibfCwXVa5ZSt5v0OVGQp6i+YuuNG7sapzQMy//S0EQQR96Df+BGUY4Jr4KW8rLzznQjM0+7J
-	9XfCxDAg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:Message-ID:Date:Subject:CC
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=8g1TPPMVMgzgEygDZgoGVEC+0XwnoQ/QgkvL/3yr038=; b=4OeX2PZBMI8O6NWCHwNIXeQ5lZ
+	q5Y7WKv7lkwEBpPPb+OFyKyAkouo+8qB+zbivhKzVYdyTjHPqVVVMdIDyKcjS9SJ6DVSPrtgryGaJ
+	ME8v4Cqhfp+hoH/TzSVsYXW0IwEkxtaZ9MCP32bk0E9PX7Nh7ZpMVUQB+J4Qb/uyOUUq3OzqYEYoV
+	dA80MszMy0bt8+Y0AL38xAVELAvEzBFs6sU1M+2WKOAmZqfO0lPX+9RSlI8ztgfdzrVJaZiRO8+nl
+	Rh+MLPateHftdHF53puQEHkUGYUbstd38OVFQi+CL8gsQCXT9RfZz0ZNE2SNIVTI3wpajFISngity
+	K67MIu7g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qbe7y-00ExeB-15;
-	Thu, 31 Aug 2023 09:38:14 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1qbiMT-00FPkv-0P;
+	Thu, 31 Aug 2023 14:09:29 +0000
+Received: from mailout1.w2.samsung.com ([211.189.100.11])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qbe7s-00Exdf-0c
+	id 1qbiMP-00FPkS-2L
 	for linux-nvme@lists.infradead.org;
-	Thu, 31 Aug 2023 09:38:09 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1693474685;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=pIHkr0l2kEulrVce5uaSBSAoxxMZwAnZ1GdIhmQZ2hI=;
-	b=i5UZg4eCLgT1mFR6cFHBm4Nc8HYGLJn6KcVoy1tCaonXJ3s6K5oBBnAjGUiNhhevPs+6xb
-	5XZVJlCk26nuQFcTB1aZAzSHidZULLlr33HXgSfXXwYd6YQUdz4RAvpBqggKRQAX+ctt4w
-	F+4bqP0J9KlzcfFaVT9bXy979ZR70Xk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-511-LnRHs2JGOduXWRKhYf_VWg-1; Thu, 31 Aug 2023 05:38:02 -0400
-X-MC-Unique: LnRHs2JGOduXWRKhYf_VWg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 84D7985CBE0;
-	Thu, 31 Aug 2023 09:38:00 +0000 (UTC)
-Received: from localhost (unknown [10.72.120.4])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 3F65C1121315;
-	Thu, 31 Aug 2023 09:37:58 +0000 (UTC)
-From: Ming Lei <ming.lei@redhat.com>
-To: Jens Axboe <axboe@kernel.dk>,
-	Thomas Gleixner <tglx@linutronix.de>
-Cc: linux-kernel@vger.kernel.org,
-	Ming Lei <ming.lei@redhat.com>,
-	Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org,
-	Yi Zhang <yi.zhang@redhat.com>,
-	Guangwu Zhang <guazhang@redhat.com>,
-	Chengming Zhou <zhouchengming@bytedance.com>
-Subject: [PATCH V4] lib/group_cpus.c: avoid to acquire cpu hotplug lock in group_cpus_evenly
-Date: Thu, 31 Aug 2023 17:37:54 +0800
-Message-Id: <20230831093754.2322955-1-ming.lei@redhat.com>
+	Thu, 31 Aug 2023 14:09:27 +0000
+Received: from uscas1p2.samsung.com (unknown [182.198.245.207])
+	by mailout1.w2.samsung.com (KnoxPortal) with ESMTP id 20230831140920usoutp014743bce01c0e40d2a5f9a3a329dc510e~AfQ5F442N2674826748usoutp01A;
+	Thu, 31 Aug 2023 14:09:20 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w2.samsung.com 20230831140920usoutp014743bce01c0e40d2a5f9a3a329dc510e~AfQ5F442N2674826748usoutp01A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1693490960;
+	bh=8g1TPPMVMgzgEygDZgoGVEC+0XwnoQ/QgkvL/3yr038=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References:From;
+	b=GWiIXA57PuU3LXcMVP9B1P/tmyS9nh3Sh38YMJngdJcVoUDzyDWJOhh6qTE8Dr2MB
+	 THHZe5Bqjusl4Jgt1xQDaJ4c/WcxzJQDY9RlFASJY1WEmGpcbGYlFUeShdblv/nGxL
+	 NXaHr0t/QQsow/l7D9GlIurktosTeQZYCISJP7XM=
+Received: from ussmges3new.samsung.com (u112.gpu85.samsung.co.kr
+	[203.254.195.112]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
+	20230831140919uscas1p1070ab1cfcfd96482a6803a1234f08c30~AfQ43yqmg0117601176uscas1p1Z;
+	Thu, 31 Aug 2023 14:09:19 +0000 (GMT)
+Received: from uscas1p2.samsung.com ( [182.198.245.207]) by
+	ussmges3new.samsung.com (USCPEMTA) with SMTP id 66.13.62237.F0F90F46; Thu,
+	31 Aug 2023 10:09:19 -0400 (EDT)
+Received: from ussmgxs3new.samsung.com (u92.gpu85.samsung.co.kr
+	[203.254.195.92]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20230831140919uscas1p20f84c512d5c624cfb35b925ccf8beae9~AfQ4U1jPC3245232452uscas1p2r;
+	Thu, 31 Aug 2023 14:09:19 +0000 (GMT)
+X-AuditID: cbfec370-823ff7000001f31d-29-64f09f0f1b13
+Received: from SSI-EX3.ssi.samsung.com ( [105.128.2.146]) by
+	ussmgxs3new.samsung.com (USCPEXMTA) with SMTP id 27.47.31410.F0F90F46; Thu,
+	31 Aug 2023 10:09:19 -0400 (EDT)
+Received: from SSI-EX3.ssi.samsung.com (105.128.2.228) by
+	SSI-EX3.ssi.samsung.com (105.128.2.228) with Microsoft SMTP Server
+	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+	15.1.2375.24; Thu, 31 Aug 2023 07:09:18 -0700
+Received: from SSI-EX3.ssi.samsung.com ([105.128.5.228]) by
+	SSI-EX3.ssi.samsung.com ([105.128.5.228]) with mapi id 15.01.2375.024; Thu,
+	31 Aug 2023 07:09:18 -0700
+From: Vincent Fu <vincent.fu@samsung.com>
+To: "joshi.k@samsung.com" <joshi.k@samsung.com>
+CC: "ankit.kumar@samsung.com" <ankit.kumar@samsung.com>, "axboe@kernel.dk"
+	<axboe@kernel.dk>, "gost.dev@samsung.com" <gost.dev@samsung.com>,
+	"hch@lst.de" <hch@lst.de>, "joshiiitr@gmail.com" <joshiiitr@gmail.com>,
+	"kbusch@kernel.org" <kbusch@kernel.org>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "sagi@grimberg.me" <sagi@grimberg.me>,
+	"stable@vger.kernel.org" <stable@vger.kernel.org>, Vincent Fu
+	<vincent.fu@samsung.com>, "vincentfu@gmail.com" <vincentfu@gmail.com>
+Subject: Re: [PATCH v2 1/2] nvme: fix memory corruption for passthrough
+ metadata
+Thread-Topic: [PATCH v2 1/2] nvme: fix memory corruption for passthrough
+	metadata
+Thread-Index: AQHZzn3EVuw/Gvu24EGX1R9hYquQ0rAFAaCA
+Date: Thu, 31 Aug 2023 14:09:18 +0000
+Message-ID: <20230831140834.85315-1-vincent.fu@samsung.com>
+In-Reply-To: <20230814070213.161033-2-joshi.k@samsung.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [105.128.2.176]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+X-CFilter-Loop: Reflected
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrNKsWRmVeSWpSXmKPExsWy7djX87r88z+kGMybbWSx+m4/m8XK1UeZ
+	LM6/PcxkMenQNUaL+cuesluse/2exWLBxkeMFhvaBB04PHbOusvucf7eRhaPy2dLPTat6mTz
+	2Lyk3mP3zQY2j8+b5ALYo7hsUlJzMstSi/TtErgyjs7qZy1o4ajYt2EjcwPjAbYuRk4OCQET
+	iR0TvzB3MXJxCAmsZJRonn+aCcJpZZK4tmMnE0zV54OToarWMkqcfHYIyvnEKLHkSB8LhLOM
+	UWLimResXYwcHGwCmhJv9xeAdIsI6Ev0N18Eq2EW+M4ssXTlPkaQhLBAkMSS/X3sEEXBEp+n
+	/gTrFREwkvh5MQMkzCKgKvHv5jGwK3gFrCV+vDkCVs4pYCUx5dB1MJtRQEzi+6k1YDXMAuIS
+	t57Mh7paUGLR7D3MELaYxL9dD6F+VpS4//0lO0S9nsSNqVPYIGxtiWULXzND7BKUODnzCQtE
+	vaTEwRU3wO6XELjDITH1+F92iISLxOypW6AWSEtMX3OZBeR+CYF8iXd9MRDhColfP24xQtjW
+	Egv/rIe6k0/i769HjBMYlWchOXsWkpNmITlpFpKTFjCyrGIULy0uzk1PLTbOSy3XK07MLS7N
+	S9dLzs/dxAhMT6f/HS7YwXjr1ke9Q4xMHIyHGCU4mJVEeGPN3qUI8aYkVlalFuXHF5XmpBYf
+	YpTmYFES5zW0PZksJJCeWJKanZpakFoEk2Xi4JRqYJolnfBy5lHOy/mPL3u5mbEemvpK3v+o
+	7n7OW2F3rzqoWvjvuD1znQpL1/kfZ2/uWR14ZX/kcp8zmrOLi4Tk7PJSA896iGk93VDkz7wp
+	WWSO1k8lvxcLG7tTHkZsWSf5IiAqb+KkJ39WZBfFrWCacWLXnroN0/kzZx8qc9vbVT7zxt7f
+	Ew5k3dwWu9aw2NK/SJ77zyWRcoWtQRsrvGbIsLyTdd6/VsT0AkNpkdsCKRfLToVF9yKyuQPe
+	Jq0I/O4qpvSrOzlB8kJF2ve7h87E/FjLv/9TZmPrwVNRadmzZm/J/rY9cofo1eDMjvznxheT
+	r07/7FnqWFbo4XDrnkahZOf8X4rplXW6J1qfvdGy3qrEUpyRaKjFXFScCADMWOkvvgMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrLIsWRmVeSWpSXmKPExsWS2cA0SZd//ocUg32T+CxW3+1ns1i5+iiT
+	xfm3h5ksJh26xmgxf9lTdot1r9+zWCzY+IjRYkOboAOHx85Zd9k9zt/byOJx+Wypx6ZVnWwe
+	m5fUe+y+2cDm8XmTXAB7FJdNSmpOZllqkb5dAlfG0Vn9rAUtHBX7NmxkbmA8wNbFyMkhIWAi
+	8fngZOYuRi4OIYHVjBLdl9awQjifGCV6ft5mh3CWMUps+f4eqIWDg01AU+Lt/gKQbhEBfYn+
+	5ossIDXMAt+ZJZau3McIkhAWCJJYsr+PHaIoWOJU9xImkF4RASOJnxczQMIsAqoS/24eYwKx
+	eQWsJX68OQJWLiRgKfGspw1sDKeAlcSUQ9fB4owCYhLfT60Bq2cWEJe49WQ+E8QHAhJL9pxn
+	hrBFJV4+/scKYStK3P/+kh2iXk/ixtQpbBC2tsSyha+ZIfYKSpyc+YQFol5S4uCKGywTGMVn
+	IVkxC0n7LCTts5C0L2BkWcUoXlpcnJteUWycl1quV5yYW1yal66XnJ+7iREYw6f/HY7ZwXjv
+	1ke9Q4xMHIyHGCU4mJVEeGPN3qUI8aYkVlalFuXHF5XmpBYfYpTmYFES590x5WKKkEB6Yklq
+	dmpqQWoRTJaJg1Oqgam7YPq0LW5zzz8+8yde/NUhBT6m8Ht3pOyCmKP7Pvey/FHhVN4kH5L/
+	MbOyt9ahMyzp9DOWvsCFj2b5BL+c+PtEK9NWcS9z09VTHNQ2ljzX8P69bpeV5pGFF//aBsS7
+	BvyZdIwjSdb5gNOstwpO/sJnXLfsKbeW7eWLMlRrEOhqaF/9ct4VgbdZRrdaBSd+js1UKtyi
+	u/H/3dCJ2jdEln466HvmC8dptefOtsqiuUoH6jY399zVYl+sJ+tkOtv2xtpl2t+LlT/HdRS+
+	W5zlpWWvVNG3aq2GlozG7zt3anbk3ws8+4n75gJ2v1v37rmrMn4V+rpaOvpvzdJXa7bdvWkV
+	zT75l6qxcZSHy5z/QUosxRmJhlrMRcWJAN+VeMpQAwAA
+X-CMS-MailID: 20230831140919uscas1p20f84c512d5c624cfb35b925ccf8beae9
+CMS-TYPE: 301P
+X-CMS-RootMailID: 20230831140919uscas1p20f84c512d5c624cfb35b925ccf8beae9
+References: <20230814070213.161033-2-joshi.k@samsung.com>
+	<CGME20230831140919uscas1p20f84c512d5c624cfb35b925ccf8beae9@uscas1p2.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230831_023808_323288_692353B5 
-X-CRM114-Status: GOOD (  18.99  )
+X-CRM114-CacheID: sfid-20230831_070926_267284_D1A4175A 
+X-CRM114-Status: GOOD (  12.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,107 +139,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-group_cpus_evenly() could be part of storage driver's error handler,
-such as nvme driver, when may happen during CPU hotplug, in which
-storage queue has to drain its pending IOs because all CPUs associated
-with the queue are offline and the queue is becoming inactive. And
-handling IO needs error handler to provide forward progress.
+I think the metadata size check is too strict. Commands where the metadata =
+size
+is too small should result in errors but when the metadata size is larger t=
+han
+needed they should still go through.
 
-Then dead lock is caused:
+In any case, I tested this patch on a QEMU NVMe device (which supports PI b=
+y
+default).
 
-1) inside CPU hotplug handler, CPU hotplug lock is held, and blk-mq's
-handler is waiting for inflight IO
+I formatted the device with a 512+16 lbaf with a separate buffer for metada=
+ta:
 
-2) error handler is waiting for CPU hotplug lock
+nvme format /dev/ng0n1 -m 0 -i 1 -p 0 --lbaf 2 --force
 
-3) inflight IO can't be completed in blk-mq's CPU hotplug handler because
-error handling can't provide forward progress.
+Using the latest fio I wrote some data to it:
 
-Solve the deadlock by not holding CPU hotplug lock in group_cpus_evenly(),
-in which two stage spreads are taken: 1) the 1st stage is over all present
-CPUs; 2) the end stage is over all other CPUs.
+./fio --name=3Ddifdix --ioengine=3Dio_uring_cmd --cmd_type=3Dnvme \
+  --filename=3D/dev/ng0n1 --rw=3Dwrite --bs=3D512 --md_per_io_size=3D16 --p=
+i_act=3D1 \
+  --pi_chk=3DAPPTAG --apptag=3D0x8888 --apptag_mask=3D0xFFFF --number_ios=
+=3D128
 
-Turns out the two stage spread just needs consistent 'cpu_present_mask', and
-remove the CPU hotplug lock by storing it into one local cache. This way
-doesn't change correctness, because all CPUs are still covered.
+Then I wrote a small program to read 4096 bytes from the device with only a
+16-byte (instead of 64-byte) metadata buffer. Without this patch the kernel
+crashes. With the patch the read fails with an error message in the kernel =
+log.
 
-Cc: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Cc: linux-block@vger.kernel.org
-Reported-by: Yi Zhang <yi.zhang@redhat.com>
-Reported-by: Guangwu Zhang <guazhang@redhat.com>
-Tested-by: Guangwu Zhang <guazhang@redhat.com>
-Reviewed-by: Chengming Zhou <zhouchengming@bytedance.com>
-Signed-off-by: Ming Lei <ming.lei@redhat.com>
----
-V4:
-	- annotate lockess read of cpu_present_mask with data_race()
-	- document why lockless read of cpu_present_mask is correct for
-	group_cpus_evenly, as suggested by Thomas
-	
-V3:
-	- reuse `npresmsk`, and avoid to allocate new variable, suggested by
-	Chengming Zhou
-
-V2:
-	- fix "Cc: block list"
-	- add tested-by tag
-
-
- lib/group_cpus.c | 22 ++++++++++++++++------
- 1 file changed, 16 insertions(+), 6 deletions(-)
-
-diff --git a/lib/group_cpus.c b/lib/group_cpus.c
-index aa3f6815bb12..ee272c4cefcc 100644
---- a/lib/group_cpus.c
-+++ b/lib/group_cpus.c
-@@ -366,13 +366,25 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
- 	if (!masks)
- 		goto fail_node_to_cpumask;
- 
--	/* Stabilize the cpumasks */
--	cpus_read_lock();
- 	build_node_to_cpumask(node_to_cpumask);
- 
-+	/*
-+	 * Make a local cache of 'cpu_present_mask', so the two stages
-+	 * spread can observe consistent 'cpu_present_mask' without holding
-+	 * cpu hotplug lock, then we can reduce deadlock risk with cpu
-+	 * hotplug code.
-+	 *
-+	 * Here CPU hotplug may happen when reading `cpu_present_mask`, and
-+	 * we can live with the case because it only affects that hotplug
-+	 * CPU is handled in the 1st or 2nd stage, and either way is correct
-+	 * from API user viewpoint since 2-stage spread is sort of
-+	 * optimization.
-+	 */
-+	cpumask_copy(npresmsk, data_race(cpu_present_mask));
-+
- 	/* grouping present CPUs first */
- 	ret = __group_cpus_evenly(curgrp, numgrps, node_to_cpumask,
--				  cpu_present_mask, nmsk, masks);
-+				  npresmsk, nmsk, masks);
- 	if (ret < 0)
- 		goto fail_build_affinity;
- 	nr_present = ret;
-@@ -387,15 +399,13 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
- 		curgrp = 0;
- 	else
- 		curgrp = nr_present;
--	cpumask_andnot(npresmsk, cpu_possible_mask, cpu_present_mask);
-+	cpumask_andnot(npresmsk, cpu_possible_mask, npresmsk);
- 	ret = __group_cpus_evenly(curgrp, numgrps, node_to_cpumask,
- 				  npresmsk, nmsk, masks);
- 	if (ret >= 0)
- 		nr_others = ret;
- 
-  fail_build_affinity:
--	cpus_read_unlock();
--
- 	if (ret >= 0)
- 		WARN_ON(nr_present + nr_others < numgrps);
- 
--- 
-2.40.1
-
+Tested-by: Vincent Fu <vincent.fu@samsung.com>=
 
