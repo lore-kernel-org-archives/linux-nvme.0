@@ -4,55 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F1317C83F10
-	for <linux-nvme@archiver.kernel.org>; Thu, 31 Aug 2023 14:52:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EAAF8CA0FE2
+	for <linux-nvme@archiver.kernel.org>; Thu, 31 Aug 2023 23:18:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lwE1GdV6D69f6G+zYZ3quXQds5jqv1KmBeIZnoFgnz0=; b=QwPKdXIx5XPBEj3PtJROi6d7X4
-	newmIEajD22cZAkyes3ujT7W4vwrf2yjUzyvbQ9Khbk/xYQwWsL78taEdgfmZNlKmj0c2etuKym1z
-	E8g96XbUNXO1Ep18RWoYmNoYJj4UkHDYie2D+wD/7p9IL+4XJ/pf+3hbAWZRPMeGoGrVITX/J/kGi
-	LQqqEcDTWJgABfjdfdYVO6yDkl3UAarOdxUWtQ6EBJpmiw05thg6q104JWRRiUlXk1laq/CJ6vWR6
-	DoTMBrahWRKePWVoIq6vee2wvq/AlWBl9lUQksz8v008BiFbKnSgttXBcyiDF1WCbyAhNpCfQnChz
-	FrIOpuCg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=0/0HCldJlNW9RGD9PzX6DAuIZoRrXRhAV33cFZkML/M=; b=Y3FqBDg1Rz6+PZGGlELsLczgEC
+	R2UM+wOh47KbEl6lQGZfg45K0IC6w4hHgcMTdGwh2NIpLAl2u+2JF8Sf/JFS275m1qYK8vO1OqUb2
+	BgagmZCIy0FD/RDn4pivtggi/yQ06JvKiOssWrGHPFB/FisXEMFrj19frBeBzbHJyawX0sZA75bz+
+	1d69gWR2A1eVyUjMyYhgno81HJcnQvyTG8VM2lY2AxIHxIXk7yBjDdGhURROUj7ITorsWna3i4KTL
+	j8wSagPBAUHjV7HqDj0z8oiyCvryvC6mhBwaCq2NzTLpdCersDRWwsmuRaZEr2ykU0KkCf5ETGhHh
+	2alNxPEA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qbj2V-00FSmJ-2B;
-	Thu, 31 Aug 2023 14:52:55 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1qbqw1-00Fx73-02;
+	Thu, 31 Aug 2023 23:18:45 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qbj2T-00FSmA-1F
-	for linux-nvme@bombadil.infradead.org;
-	Thu, 31 Aug 2023 14:52:53 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=lwE1GdV6D69f6G+zYZ3quXQds5jqv1KmBeIZnoFgnz0=; b=ZPYbF54tuouED9z6EN3KIkl3g9
-	JdC7ngDwcMKciB6aIQXbMZKb4zWv+FaIV9nJA3I6XU5VtcZfbVDQ8cKaN+3teDlXYFGr7dqQvi3YI
-	QKelGrsc2qvjHRkernw6hRQtSn8i5Ubsf/BIJPH80jkHBV2takvPiJs87NWw+OBxL2/0YtclokET+
-	mU2wbLkPDe82empFNt0sOlk0G+T+VHx4+gmbEfBsred9xYqmWHOtnEcetovtC4LwYQXl6PBtni9bB
-	9qWxxNHXa9WoE8PEprurVWx7FWb4EM4LUcINoj7IfkVPJk8ADpj9bKBwjNYjnDnHX7A+s2affthen
-	yCtonS/w==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1qbj2P-001ufX-K8; Thu, 31 Aug 2023 14:52:49 +0000
-Date: Thu, 31 Aug 2023 15:52:49 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
-Cc: linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
-	linux-mm@kvack.org, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Subject: Re: BUG: KCSAN: data-race in folio_batch_move_lru / mpage_read_end_io
-Message-ID: <ZPCpQQVTtlB0FA5A@casper.infradead.org>
-References: <cbb9d596-43ac-bad4-b6f6-8c13f95d244e@alu.unizg.hr>
+	id 1qbqvy-00Fx6c-0K
+	for linux-nvme@lists.infradead.org;
+	Thu, 31 Aug 2023 23:18:43 +0000
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37VMxo7i021807;
+	Thu, 31 Aug 2023 23:18:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=corp-2023-03-30;
+ bh=0/0HCldJlNW9RGD9PzX6DAuIZoRrXRhAV33cFZkML/M=;
+ b=I3fIADV+0MQgfp/ARntbL2tDOVCHDwQHuDtkxgY3XMj/mUUzcppcqqh6LjR1oFf0hetp
+ WU6kyUfAGon7tGiugIDxC2Qo56Nk1rQEowb84pluJqgwQZGiIN/zc5UUJFl7qkiz6AGi
+ RVOxCd3ThQFH6/msdA32P9EyXWz+QzbeHOGPPbIzXmtOALUPxLn8aE3eMd9sBigeEsvj
+ KZmDfxw/gSErIYIz27KiNbxGN5+09JjZeQq5FBJnjALXEC9MTeoacuQz7JFBfL2a8VUp
+ OuEDd2yGqOJYvjLenShyStxlDU11ltGUncp9g06+2KlvS9uQn1EKyLlIC+deCf2J0EQ8 CA== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3sq9xtb0dm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 31 Aug 2023 23:18:35 +0000
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 37VLbmjv024397;
+	Thu, 31 Aug 2023 23:18:34 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3sr6drmphq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 31 Aug 2023 23:18:34 +0000
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 37VNIWXg032008;
+	Thu, 31 Aug 2023 23:18:33 GMT
+Received: from ca-dev94.us.oracle.com (ca-dev94.us.oracle.com [10.129.136.30])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3sr6drmpds-2;
+	Thu, 31 Aug 2023 23:18:33 +0000
+From: Alan Adamson <alan.adamson@oracle.com>
+To: linux-nvme@lists.infradead.org
+Cc: alan.adamson@oracle.com, kch@nvidia.com, kbusch@kernel.org, hch@lst.de,
+        sagi@grimberg.me
+Subject: [PATCH V7 1/1] nvme: allow passthru cmd error logging
+Date: Thu, 31 Aug 2023 16:18:27 -0700
+Message-Id: <20230831231827.3896883-2-alan.adamson@oracle.com>
+X-Mailer: git-send-email 2.39.3
+In-Reply-To: <20230831231827.3896883-1-alan.adamson@oracle.com>
+References: <20230831231827.3896883-1-alan.adamson@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cbb9d596-43ac-bad4-b6f6-8c13f95d244e@alu.unizg.hr>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-31_20,2023-08-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 spamscore=0 adultscore=0
+ suspectscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2308100000
+ definitions=main-2308310208
+X-Proofpoint-ORIG-GUID: DN_cv6fvl9b-hO5qDowPNzGz_xgFLecQ
+X-Proofpoint-GUID: DN_cv6fvl9b-hO5qDowPNzGz_xgFLecQ
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20230831_161842_179179_BD86EA6E 
+X-CRM114-Status: GOOD (  24.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,99 +94,184 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Aug 28, 2023 at 11:14:23PM +0200, Mirsad Todorovac wrote:
->  BUG: KCSAN: data-race in folio_batch_move_lru / mpage_read_end_io
+Commit d7ac8dca938c ("nvme: quiet user passthrough command errors")
+disabled error logging for user passthrough commands.  This commit
+adds the ability to opt-in to passthrough admin error logging. IO
+commands initiated as passthrough will always be logged.
 
-This one's still niggling at me.  I've trimmed the timestamps and some
-of the other irrelevant stuff out of this to make it easier to read.
+The logging output for passthrough commands (Admin and IO) has been
+changed to include CDWXX fields.
 
->  value changed: 0x0017ffffc0020001 -> 0x0017ffffc0020004
+nvme0n1: Read(0x2), LBA Out of Range (sct 0x0 / sc 0x80) DNR cdw10=0x0 cdw11=0x1
+        cdw12=0x70000 cdw13=0x0 cdw14=0x0 cdw15=0x0
 
-Notionally I understand this.  This is page->flags and the PG_locked bit
-was set initially, but after a short delay PG_locked was cleared and
-PG_uptodate was set.  That's _normal_.  For many, many pages, we set the
-locked bit, initiate a read; the device does a DMA, sends an interrupt;
-the interrupt handler sets the PG_uptodate bit and clears the PG_locked
-bit to indicate the page is no longer under I/O.
+Add a helper function nvme_log_err_passthru() which allows us to log
+error for passthru commands by decoding cdw10-cdw15 values of nvme
+command.
 
-But what I don't understand is how we see this for _this_ page.
+Add a new sysfs attr passthru_err_log_enabled that allows user to conditionally
+enable passthru command logging, by default it is disabled.
 
->  write (marked) to 0xffffef9a44978bc0 of 8 bytes by interrupt on cpu 28:
->  mpage_read_end_io (arch/x86/include/asm/bitops.h:55 include/asm-generic/bitops/instrumented-atomic.h:29 include/linux/page-flags.h:739 fs/mpage.c:55)
->  bio_endio (block/bio.c:1617)
->  blk_mq_end_request_batch (block/blk-mq.c:850 block/blk-mq.c:1088)
->  nvme_pci_complete_batch (drivers/nvme/host/pci.c:986) nvme
->  nvme_irq (drivers/nvme/host/pci.c:1086) nvme
+To enable passthrough admin error logging:
+        echo 1 > /sys/class/nvme/nvme0/passthru_err_log_enabled
 
-This is the interrupt handler.  It's doing what it's supposed to;
-marking the page uptodate and unlocking it.
+To disable passthrough admin error logging:
+        echo 0 > /sys/class/nvme/nvme0/passthru_err_log_enabled
 
->  read to 0xffffef9a44978bc0 of 8 bytes by task 348 on cpu 12:
->  folio_batch_move_lru (./include/linux/mm.h:1814 ./include/linux/mm.h:1824 ./include/linux/memcontrol.h:1636 ./include/linux/memcontrol.h:1659 mm/swap.c:216)
->  folio_batch_add_and_move (mm/swap.c:235)
->  folio_add_lru (./arch/x86/include/asm/preempt.h:95 mm/swap.c:518)
->  folio_add_lru_vma (mm/swap.c:538)
->  do_anonymous_page (mm/memory.c:4146)
+Signed-off-by: Alan Adamson <alan.adamson@oracle.com>
+[kch] fix sevaral nits and trim down code, details in cover-letter.
+Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+---
+ drivers/nvme/host/core.c  | 43 ++++++++++++++++++++++++++++++++++-----
+ drivers/nvme/host/nvme.h  |  1 +
+ drivers/nvme/host/sysfs.c | 29 ++++++++++++++++++++++++++
+ 3 files changed, 68 insertions(+), 5 deletions(-)
 
-This is the part I don't understand.  The path to calling
-folio_add_lru_vma() comes directly from vma_alloc_zeroed_movable_folio():
-
-        folio = vma_alloc_zeroed_movable_folio(vma, vmf->address);
-        if (!folio)
-                goto oom;
-        if (mem_cgroup_charge(folio, vma->vm_mm, GFP_KERNEL))
-                goto oom_free_page;
-        folio_throttle_swaprate(folio, GFP_KERNEL);
-        __folio_mark_uptodate(folio);
-        entry = mk_pte(&folio->page, vma->vm_page_prot);
-        entry = pte_sw_mkyoung(entry);
-        if (vma->vm_flags & VM_WRITE)
-                entry = pte_mkwrite(pte_mkdirty(entry));
-        vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd, vmf->address,
-                        &vmf->ptl);
-        if (!vmf->pte)
-                goto release;
-        if (vmf_pte_changed(vmf)) {
-                update_mmu_tlb(vma, vmf->address, vmf->pte);
-                goto release;
-        }
-        ret = check_stable_address_space(vma->vm_mm);
-        if (ret)
-                goto release;
-        /* Deliver the page fault to userland, check inside PT lock */
-        if (userfaultfd_missing(vma)) {
-                pte_unmap_unlock(vmf->pte, vmf->ptl);
-                folio_put(folio);
-                return handle_userfault(vmf, VM_UFFD_MISSING);
-        }
-        inc_mm_counter(vma->vm_mm, MM_ANONPAGES);
-        folio_add_new_anon_rmap(folio, vma, vmf->address);
-        folio_add_lru_vma(folio, vma);
-
-(sorry that's a lot of lines).  But there's _nowhere_ there that sets
-PG_locked.  It's a freshly allocated page; all page flags (that are
-actually flags; ignore the stuff up at the top) should be clear.  We
-even check that with PAGE_FLAGS_CHECK_AT_PREP.  Plus, it doesn't
-make sense that we'd start I/O; the page is freshly allocated, full of
-zeroes; there's no backing store to read the page from.
-
-It really feels like this page was freed while it was still under I/O
-and it's been reallocated to this victim process.
-
-I'm going to try a few things and see if I can figure this out.
-
->  __handle_mm_fault (mm/memory.c:3662 mm/memory.c:4939 mm/memory.c:5079)
->  handle_mm_fault (mm/memory.c:5233)
->  do_user_addr_fault (arch/x86/mm/fault.c:1392)
->  exc_page_fault (./arch/x86/include/asm/paravirt.h:695 arch/x86/mm/fault.c:1494 arch/x86/mm/fault.c:1542)
->  asm_exc_page_fault (./arch/x86/include/asm/idtentry.h:570)
->  copyout (./arch/x86/include/asm/uaccess_64.h:112 ./arch/x86/include/asm/uaccess_64.h:133 lib/iov_iter.c:168)
->  _copy_to_iter (lib/iov_iter.c:316 (discriminator 5))
->  copy_page_to_iter (lib/iov_iter.c:483 lib/iov_iter.c:468)
->  filemap_read (mm/filemap.c:2712)
->  blkdev_read_iter (block/fops.c:620)
->  vfs_read (./include/linux/fs.h:1871 fs/read_write.c:389 fs/read_write.c:470)
->  ksys_read (fs/read_write.c:613)
->  __x64_sys_read (fs/read_write.c:621)
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f3a01b79148c..1bf933c886fd 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -337,6 +337,30 @@ static void nvme_log_error(struct request *req)
+ 			   nr->status & NVME_SC_DNR  ? "DNR "  : "");
+ }
+ 
++static void nvme_log_err_passthru(struct request *req)
++{
++	struct nvme_ns *ns = req->q->queuedata;
++	struct nvme_request *nr = nvme_req(req);
++
++	pr_err_ratelimited("%s: %s(0x%x), %s (sct 0x%x / sc 0x%x) %s%s"
++		"cdw10=0x%x cdw11=0x%x cdw12=0x%x cdw13=0x%x cdw14=0x%x cdw15=0x%x\n",
++		ns ? ns->disk->disk_name : dev_name(nr->ctrl->device),
++		ns ? nvme_get_opcode_str(nr->cmd->common.opcode) :
++		     nvme_get_admin_opcode_str(nr->cmd->common.opcode),
++		nr->cmd->common.opcode,
++		nvme_get_error_status_str(nr->status),
++		nr->status >> 8 & 7,	/* Status Code Type */
++		nr->status & 0xff,	/* Status Code */
++		nr->status & NVME_SC_MORE ? "MORE " : "",
++		nr->status & NVME_SC_DNR  ? "DNR "  : "",
++		nr->cmd->common.cdw10,
++		nr->cmd->common.cdw11,
++		nr->cmd->common.cdw12,
++		nr->cmd->common.cdw13,
++		nr->cmd->common.cdw14,
++		nr->cmd->common.cdw14);
++}
++
+ enum nvme_disposition {
+ 	COMPLETE,
+ 	RETRY,
+@@ -381,8 +405,12 @@ static inline void nvme_end_req(struct request *req)
+ {
+ 	blk_status_t status = nvme_error_status(nvme_req(req)->status);
+ 
+-	if (unlikely(nvme_req(req)->status && !(req->rq_flags & RQF_QUIET)))
+-		nvme_log_error(req);
++	if (unlikely(nvme_req(req)->status && !(req->rq_flags & RQF_QUIET))) {
++		if (blk_rq_is_passthrough(req))
++			nvme_log_err_passthru(req);
++		else
++			nvme_log_error(req);
++	}
+ 	nvme_end_req_zoned(req);
+ 	nvme_trace_bio_complete(req);
+ 	if (req->cmd_flags & REQ_NVME_MPATH)
+@@ -675,10 +703,15 @@ static inline void nvme_clear_nvme_request(struct request *req)
+ /* initialize a passthrough request */
+ void nvme_init_request(struct request *req, struct nvme_command *cmd)
+ {
++	struct nvme_request *nr = nvme_req(req);
++
+ 	if (req->q->queuedata)
+ 		req->timeout = NVME_IO_TIMEOUT;
+-	else /* no queuedata implies admin queue */
++	else { /* no queuedata implies admin queue */
+ 		req->timeout = NVME_ADMIN_TIMEOUT;
++		if (!nr->ctrl->passthru_err_log_enabled)
++			req->rq_flags |= RQF_QUIET;
++	}
+ 
+ 	/* passthru commands should let the driver set the SGL flags */
+ 	cmd->common.flags &= ~NVME_CMD_SGL_ALL;
+@@ -687,8 +720,7 @@ void nvme_init_request(struct request *req, struct nvme_command *cmd)
+ 	if (req->mq_hctx->type == HCTX_TYPE_POLL)
+ 		req->cmd_flags |= REQ_POLLED;
+ 	nvme_clear_nvme_request(req);
+-	req->rq_flags |= RQF_QUIET;
+-	memcpy(nvme_req(req)->cmd, cmd, sizeof(*cmd));
++	memcpy(nr->cmd, cmd, sizeof(*cmd));
+ }
+ EXPORT_SYMBOL_GPL(nvme_init_request);
+ 
+@@ -4415,6 +4447,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	int ret;
+ 
+ 	ctrl->state = NVME_CTRL_NEW;
++	ctrl->passthru_err_log_enabled = false;
+ 	clear_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
+ 	spin_lock_init(&ctrl->lock);
+ 	mutex_init(&ctrl->scan_lock);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index f35647c470af..7da6285fc30a 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -256,6 +256,7 @@ enum nvme_ctrl_flags {
+ struct nvme_ctrl {
+ 	bool comp_seen;
+ 	bool identified;
++	bool passthru_err_log_enabled;
+ 	enum nvme_ctrl_state state;
+ 	spinlock_t lock;
+ 	struct mutex scan_lock;
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+index 212e1b05d298..fbca06a4e4ce 100644
+--- a/drivers/nvme/host/sysfs.c
++++ b/drivers/nvme/host/sysfs.c
+@@ -35,6 +35,34 @@ static ssize_t nvme_sysfs_rescan(struct device *dev,
+ }
+ static DEVICE_ATTR(rescan_controller, S_IWUSR, NULL, nvme_sysfs_rescan);
+ 
++static ssize_t nvme_passthru_err_log_enabled_show(struct device *dev,
++		struct device_attribute *attr, char *buf)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++
++	return sysfs_emit(buf, ctrl->passthru_err_log_enabled ? "on" : "off");
++}
++
++static ssize_t nvme_passthru_err_log_enabled_store(struct device *dev,
++		struct device_attribute *attr, const char *buf, size_t count)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++	int err;
++	bool passthru_err_log_enabled;
++
++	err = kstrtobool(buf, &passthru_err_log_enabled);
++	if (err)
++		return -EINVAL;
++
++	ctrl->passthru_err_log_enabled = passthru_err_log_enabled;
++
++	return count;
++}
++
++static DEVICE_ATTR(passthru_err_log_enabled, S_IRUGO | S_IWUSR,
++	nvme_passthru_err_log_enabled_show,
++	nvme_passthru_err_log_enabled_store);
++
+ static inline struct nvme_ns_head *dev_to_ns_head(struct device *dev)
+ {
+ 	struct gendisk *disk = dev_to_disk(dev);
+@@ -554,6 +582,7 @@ static struct attribute *nvme_dev_attrs[] = {
+ 	&dev_attr_dhchap_secret.attr,
+ 	&dev_attr_dhchap_ctrl_secret.attr,
+ #endif
++	&dev_attr_passthru_err_log_enabled.attr,
+ 	NULL
+ };
+ 
+-- 
+2.39.3
 
 
