@@ -4,84 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 41EA6C71153
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Sep 2023 11:09:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CFAE8C71153
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Sep 2023 15:28:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Subject:From:Cc:To:MIME-Version:Date:Message-ID:Reply-To:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=vGFV9RdXIBN+D6ZdfrgNJVd3fOxwTgeaUelyWOQ2VLY=; b=rDPmpVAIpLBFShAJmXwhFjDjns
-	i7mn5lUgtdRgWZIXt4toEhZrpPWsnEgAY65yYKNhiwTKulHby77kJ7MD30QjEPGI75iGmo36BhQoe
-	vFXkqi7Mje7dBdwspJsr+TQlTHbxg9QxZ0Znd2pb8G3mjNYfEDTMEBP1KQ47qkv3/PgQG/ZjsSYQG
-	Q+OV++YX8NYHJ8xHlWr/v3arIqmYg7eL1XBnoKL8tItyTTRbHRBlVie7f2y7uiCOZpFp0GqO1r3JS
-	tU8lUf3G1IsWvV7rfHJpvYMF8RV74//xPlq91SOieJb2CPBsL0IhwDeJRfuXLXb4gy9Yr7DCibtzz
-	rb0rF0wA==;
+	bh=nIwEjtsY0Ggze5y0crLHE0egaxqEfPY99SHGckpiA0M=; b=OsBeKDBmT6SAN4/Pitx2XeJDUt
+	LvCQKG/5GkXkg7phJVIcNg6ves/ldtoKFg/W2Ji4gBNDoaew6ga1sAoMLFnQ8E0lIYWjScrV772dK
+	uT/iQFKgbZRrS+oq7Y1qV1nqUzDE3tQ6yGZh0SLSBFuJ3dCag5VkcryNhpui/UDzVs7RzNrVa9098
+	PqNwoEqg3dDcc8fQZzOmaMAbUlvTKVyK68Xq2NCkxNd/vY/32IdOlpHBTghOZHbrQsAxNAetvz6P2
+	O+SbYuhrIPLakpppIsGy/dL6p7RmIdoxvT2QfVzmJnnEfiWeumuwCVALiriTYVTZtVekE1hsDldZF
+	C5nXf+tw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qd7SU-003y9U-04;
-	Mon, 04 Sep 2023 11:09:30 +0000
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
+	id 1qdBUZ-004NRy-2p;
+	Mon, 04 Sep 2023 15:27:55 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qd7R6-003y91-0n
+	id 1qdBTt-004NQv-1M
 	for linux-nvme@lists.infradead.org;
-	Mon, 04 Sep 2023 11:08:06 +0000
-Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-68a520dba33so1088783b3a.0
-        for <linux-nvme@lists.infradead.org>; Mon, 04 Sep 2023 04:08:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693825681; x=1694430481; darn=lists.infradead.org;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vGFV9RdXIBN+D6ZdfrgNJVd3fOxwTgeaUelyWOQ2VLY=;
-        b=dD91j+rtG9iwKjEsaLdg16AnqDvJEz9uNbTD8/qWqHRgh+Zu0sBKHvXqL2PFD1GeiA
-         QAwvhaee+LHkXbew7ECMnjkR9vP+8K6zjiMd5mm3tmAAIS8Rwj8CAiI5RdcJOHjBO8rI
-         Eq5I4SYm076fSI8iFBSA8b3UCy0VTrkM6tOMekuYcOcCZZ1fmJbnL71kx0AQItFOjZgx
-         l9qTvWTEyriLzwKn3mvBkSMs1/5tnzdMGdMiDFvda1PAaf6Pmr0BXj+1haUU57dPDslX
-         COsufL6/GJGyQFw9tcg6RDgYNhcbHdKbQeokbV1Mpum7bsO/Vx7rchyvcjM+Doljzk6R
-         vu1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693825681; x=1694430481;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=vGFV9RdXIBN+D6ZdfrgNJVd3fOxwTgeaUelyWOQ2VLY=;
-        b=KZx0bXvPPL/WyXvYLkA6q9hNsyJefOWUl168LP9tSRm6ZJTlgFz0dfyCmLHFXV10h0
-         rUoLuw7LM7wVtT9njf6lIR+eXDrdGYGOzzCSC/L0ir3K3usMeaQIosOPigDaoGivbjtM
-         rTp3mW36BZVGoWIQVstXDBNwBK3lrxx8dpmq/KSrYyBGBEEhh6jcru6jKYGe+xEUWRbH
-         D7UCrq3dtPad3QkHyjkbT2FZ89/loCYsgCHapvtkw1K9xTgfdKXteh8r9JuG511bU53r
-         g4ROj7NH20XWJhIZOC+QPunT7dg2PqPM9hBUspDD4x/8rstxN6PwPFEwZSHevJf75OhN
-         FLeA==
-X-Gm-Message-State: AOJu0Yyauzcy6XO9eKS7rsDl/VcXRp4JFe90o+H8cRHdYAMctJd+BEgC
-	lmaFGxbDILw8JAT/0TsGkfk=
-X-Google-Smtp-Source: AGHT+IGSm6XZ2nlG25arT69VYYhZ7sC3wwO1vhYk8pWlyzLHNDl72ZVoXTbaPcZuHWIZviCz6S9daQ==
-X-Received: by 2002:a05:6a00:1585:b0:68c:3ef6:2170 with SMTP id u5-20020a056a00158500b0068c3ef62170mr12481566pfk.34.1693825680516;
-        Mon, 04 Sep 2023 04:08:00 -0700 (PDT)
-Received: from [192.168.0.106] ([103.124.138.83])
-        by smtp.gmail.com with ESMTPSA id p22-20020a62ab16000000b006870721fcc5sm7396453pff.175.2023.09.04.04.07.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Sep 2023 04:07:59 -0700 (PDT)
-Message-ID: <8af186ba-5f64-2102-8f9c-3969b0906893@gmail.com>
-Date: Mon, 4 Sep 2023 18:07:54 +0700
+	Mon, 04 Sep 2023 15:27:14 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 849BA1F74B;
+	Mon,  4 Sep 2023 15:27:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1693841225; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=nIwEjtsY0Ggze5y0crLHE0egaxqEfPY99SHGckpiA0M=;
+	b=TLJwQLh10tvwCO/QVttr6qB6k0R5+Teav5ckGQo5+uI5G5Dfbd0Xy3Eou8W9eVXVnFyHjA
+	+AyivClzuJyeMJVld0phxgmHljP/vh97+aqj9RluXNDDqkszO7fyRrSqesfgKc5c15cbu6
+	bETelefEm88g00ZtfoA6l2Vs0cYYzbc=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3352D13585;
+	Mon,  4 Sep 2023 15:27:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id WJO0Ckn39WSgTQAAMHmgww
+	(envelope-from <mwilck@suse.com>); Mon, 04 Sep 2023 15:27:05 +0000
+From: mwilck@suse.com
+To: Sagi Grimberg <sagi@grimberg.me>,
+	Hannes Reinecke <hare@suse.de>,
+	Christoph Hellwig <hch@lst.de>,
+	linux-nvme@lists.infradead.org
+Cc: Daniel Wagner <dwagner@suse.de>,
+	"George, Martin" <Martin.George@netapp.com>,
+	"Kumar, Arun" <Arun.C@netapp.com>,
+	Martin Wilck <mwilck@suse.com>
+Subject: [PATCH] nvme-auth: use chap->s2 to indicate bidirectional authentication
+Date: Mon,  4 Sep 2023 17:26:38 +0200
+Message-ID: <20230904152638.28311-1-mwilck@suse.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Claudio Sampaio <patola@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Regressions <regressions@lists.linux.dev>,
- Linux NVMe <linux-nvme@lists.infradead.org>,
- Linux Stable <stable@vger.kernel.org>
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Fwd: Lexar NM790 SSDs are not recognized anymore after 6.1.50 LTS
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230904_040804_687531_C8EF4F00 
-X-CRM114-Status: GOOD (  23.81  )
+X-CRM114-CacheID: sfid-20230904_082713_616339_23CE1345 
+X-CRM114-Status: GOOD (  14.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,50 +82,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+From: Martin Wilck <mwilck@suse.com>
 
-I notice a regression report on Bugzilla [1]. Quoting from it:
+Commit 546dea18c999 ("nvme-auth: check chap ctrl_key once constructed")
+replaced the condition "if (ctrl->ctrl_key)" (indicating bidirectional
+auth) by "if (chap->ctrl_key)", because ctrl->ctrl_key is a resource shared
+with sysfs. But chap->ctrl_key is set in
+nvme_auth_process_dhchap_challenge() depending on the DHVLEN in the
+DH-HMAC-CHAP Challenge message received from the controller, and will thus
+be non-NULL for every DH-HMAC-CHAP exchange, even if unidirectional auth
+was requested. This will lead to a protocol violation by sending a Success2
+message in the unidirectional case (per NVMe base spec 2.0, the
+authentication transaction ends after the Success1 message for
+unidirectional auth). Use chap->s2 instead, which is non-zero if and only
+if the host requested bi-directional authentication from the controller.
 
-> I bought a new 4 TB Lexar NM790 and I was using kernel 6.3.13 at the time. It wasn't recognized, with these messages in dmesg:
-> 
-> [ 358.950147] nvme nvme0: pci function 0000:06:00.0
-> [ 358.958327] nvme nvme0: Device not ready; aborting initialisation, CSTS=0x0
-> 
-> My other NVMe appears correctly in the nvme list though.
-> 
-> 
-> So I tried using other kernels I had installed at the time: 6.3.7, 6.4.10, 6.5.0rc6, 6.5.0, 6.5.1 and none of these recognized the disk.
-> I installed the 6.1.50 lts kernel from arch repositories (I can compile my own too if this would be an issue) and then the device was correctly recognized:
-> 
-> [    4.654613] nvme 0000:06:00.0: platform quirk: setting simple suspend
-> [    4.654632] nvme nvme0: pci function 0000:06:00.0
-> [    4.667290] nvme nvme0: allocated 40 MiB host memory buffer.
-> [    4.709473] nvme nvme0: 16/0/0 default/read/poll queues
-> 
-> And then it appears alongside the other nvme:
-> [15:58] [6836] [patola@risadinha patola]% sudo nvme list
-> Node                  Generic               SN                   Model                                    Namespace  Usage                      Format           FW Rev  
-> --------------------- --------------------- -------------------- ---------------------------------------- ---------- -------------------------- ---------------- --------
-> /dev/nvme1n1          /dev/ng1n1            2K36292CEKD9         XPG GAMMIX S11 Pro                       0x1          1.39  TB /   2.05  TB    512   B +  0 B   42B4S9NA
-> /dev/nvme0n1          /dev/ng0n1            NF9755R000057P2202   Lexar SSD NM790 4TB                      0x1          4.10  TB /   4.10  TB    512   B +  0 B   12237   
-> 
-> And I was able to read and write from it, pvcreate and so on, so it's working. But I can't use a higher kernel version so apparently this is a regression.
-> 
-> There are other people with the same NVMe model (although different capacities) reporting the same issue on this reddit thread: https://www.reddit.com/r/archlinux/comments/15xbxeo/nvme_device_not_ready_aborting_initialisation/
-> 
-> I am not sure but I think this issue might've been introducted after this patch: https://bugzilla.kernel.org/show_bug.cgi?id=215742
+Fixes: 546dea18c999 ("nvme-auth: check chap ctrl_key once constructed")
+Signed-off-by: Martin Wilck <mwilck@suse.com>
+---
+ drivers/nvme/host/auth.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-See Bugzilla for the full thread and proposed quirk fix.
-
-Anyway, I'm adding this regression to be tracked by regzbot:
-
-#regzbot introduced: v6.1.50..v6.3.13 https://bugzilla.kernel.org/show_bug.cgi?id=217863
-#regzbot link: https://www.reddit.com/r/archlinux/comments/15xbxeo/nvme_device_not_ready_aborting_initialisation/
-
-Thanks.
-
-[1]: https://bugzilla.kernel.org/show_bug.cgi?id=217863
-
+diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+index daf5d144a8ea..064592a5d546 100644
+--- a/drivers/nvme/host/auth.c
++++ b/drivers/nvme/host/auth.c
+@@ -341,7 +341,7 @@ static int nvme_auth_process_dhchap_success1(struct nvme_ctrl *ctrl,
+ 	struct nvmf_auth_dhchap_success1_data *data = chap->buf;
+ 	size_t size = sizeof(*data);
+ 
+-	if (chap->ctrl_key)
++	if (chap->s2)
+ 		size += chap->hash_len;
+ 
+ 	if (size > CHAP_BUF_SIZE) {
+@@ -825,7 +825,7 @@ static void nvme_queue_auth_work(struct work_struct *work)
+ 		goto fail2;
+ 	}
+ 
+-	if (chap->ctrl_key) {
++	if (chap->s2) {
+ 		/* DH-HMAC-CHAP Step 5: send success2 */
+ 		dev_dbg(ctrl->device, "%s: qid %d send success2\n",
+ 			__func__, chap->qid);
 -- 
-An old man doll... just what I always wanted! - Clara
+2.42.0
+
 
