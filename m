@@ -4,79 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E8E0CC83F3E
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Sep 2023 08:26:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BD8D2C83F2C
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Sep 2023 08:34:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HhetfFhOHSS+038oUbTRXF+UPsEC1zWgHiLgMmQPm+8=; b=RjQAKPo4Rx1d0deUXAlk3DgPlW
-	4xCxCHmBM70E4uRo8zJRy+0FD8y6jfI+bE4lR5YTtqzzahooMZWXDZNXDoeJKXEwwiOU/XPAmBa+S
-	TbjUd9laAOkIa6TqRqfVpQc6TpHkFcBj7IEKkxE/LUWxiRlx0HUNVsqeynyb3s8aGJL3UrBJarjLj
-	VeeF6MqwUyKd7LcX3AwoIS611etHymUJLye08+7aVm3bNSCka1fj2zbSITdhrH1dv+CYJwoxP/Skq
-	CV7zjIRXDQIO6WhJjoJCsQuOUiueLETWT+Ke7vTz3m12sth069PMZ6yw7M8CAsTs6FYZ+0QElhtxJ
-	femqRgvg==;
+	bh=NIODgjYa7PuvXGsEAPMzKj+NfiGv8Os/+c+vFOFDL0A=; b=DGWb4gqPjplxzEr5HugBA4VvCG
+	pyn8La6Yl80Ncfs54NS8TT67TXVnlt4v1YGE7wtTjedOaq2QDg1H/QnODAVKR8F74YLOk+4LAIdnT
+	DXQCwENmMjLnp8P00ZL6K/lpiryxaRFGYxPZSn/8kUgePCVjwi2ymV0CWuF7f9bIns6we9gjxwUFo
+	FKa50xJXK6AkQFN6XZGZAs1PinzFM71PGH0tW9UrcrqauDSHSVuZW0CnxvGaQ9txUVYxy3ViHu4Vx
+	3uw2dfWTf2LCbBIN0XnzJoBX42pjtpq2woYYOh9Mlk56TOQLrlKtg5NlOEfvsRk3WZi+1s6DgfKVL
+	MegueX0g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qdRNi-005WGU-21;
-	Tue, 05 Sep 2023 08:25:54 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1qdRWC-005XVJ-30;
+	Tue, 05 Sep 2023 08:34:40 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qdRMM-005WFs-01
+	id 1qdRUq-005XUD-31
 	for linux-nvme@lists.infradead.org;
-	Tue, 05 Sep 2023 08:24:31 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E26EF211CE;
-	Tue,  5 Sep 2023 08:24:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1693902262; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HhetfFhOHSS+038oUbTRXF+UPsEC1zWgHiLgMmQPm+8=;
-	b=jzMKCa2yYWLNbfwAIS2rBWTr9eS6/cnY90D+QVv1bapYAGptYG6dFSlVkSCyqum2Fxg+9l
-	RJGb6RUbz2TMrm+X6LJmqT7nLS0/hGP4TfVtuhisMO7X2LhUcyVU6hobe+bDbjlzFeTdmX
-	bBLPIgQroN27pkm0RSTwgKr4Jy3Cx3U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1693902262;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HhetfFhOHSS+038oUbTRXF+UPsEC1zWgHiLgMmQPm+8=;
-	b=3T3MucQ0R/XLFrtX5Zkf4gscLBBxnJdjJqws7kMT00NNJjtBo+zucaz+kvAY0am9tDVcJQ
-	2Jt2C9QLBnlpJlCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D52EC13499;
-	Tue,  5 Sep 2023 08:24:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id RkkENLbl9mSoDAAAMHmgww
-	(envelope-from <dwagner@suse.de>); Tue, 05 Sep 2023 08:24:22 +0000
-Date: Tue, 5 Sep 2023 10:24:51 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	James Smart <james.smart@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>
+	Tue, 05 Sep 2023 08:33:18 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 30B4E68AA6; Tue,  5 Sep 2023 10:33:09 +0200 (CEST)
+Date: Tue, 5 Sep 2023 10:33:08 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Daniel Wagner <dwagner@suse.de>
+Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, Hannes Reinecke <hare@suse.de>,
+	Sagi Grimberg <sagi@grimberg.me>, Jason Gunthorpe <jgg@ziepe.ca>,
+	James Smart <james.smart@broadcom.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>
 Subject: Re: [RFC v1 1/4] nvmet-trace: avoid dereferencing pointer too early
-Message-ID: <77nt3zr7rap6w7bpvm6vfdqqf4xc46afq4tzlifsn3zlry5wvh@t2e6orslw6on>
-References: <20230829091350.16156-1-dwagner@suse.de>
- <20230829091350.16156-2-dwagner@suse.de>
- <20230905064846.GA19701@lst.de>
+Message-ID: <20230905083308.GA20920@lst.de>
+References: <20230829091350.16156-1-dwagner@suse.de> <20230829091350.16156-2-dwagner@suse.de> <20230905064846.GA19701@lst.de> <77nt3zr7rap6w7bpvm6vfdqqf4xc46afq4tzlifsn3zlry5wvh@t2e6orslw6on>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230905064846.GA19701@lst.de>
+In-Reply-To: <77nt3zr7rap6w7bpvm6vfdqqf4xc46afq4tzlifsn3zlry5wvh@t2e6orslw6on>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230905_012430_204044_3FBA5EFE 
-X-CRM114-Status: GOOD (  11.65  )
+X-CRM114-CacheID: sfid-20230905_013317_119446_E586828F 
+X-CRM114-Status: GOOD (  16.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,20 +62,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Sep 05, 2023 at 08:48:46AM +0200, Christoph Hellwig wrote:
-> > +static inline u16 nvmet_req_to_ctrl_id(struct nvmet_req *req)
-> >  {
-> > -	return req->sq->ctrl;
-> > +	if (!req->sq || !req->sq->ctrl)
-> > +		return 0;
-> > +	return req->sq->ctrl->cntlid;
+On Tue, Sep 05, 2023 at 10:24:51AM +0200, Daniel Wagner wrote:
+> On Tue, Sep 05, 2023 at 08:48:46AM +0200, Christoph Hellwig wrote:
+> > > +static inline u16 nvmet_req_to_ctrl_id(struct nvmet_req *req)
+> > >  {
+> > > -	return req->sq->ctrl;
+> > > +	if (!req->sq || !req->sq->ctrl)
+> > > +		return 0;
+> > > +	return req->sq->ctrl->cntlid;
+> > 
+> > Can you add a comment here why we have this check?
 > 
-> Can you add a comment here why we have this check?
+> /*
+>  * The queue and controller pointer are not valid until an
+>  * association has been established.
+>  */
 
-/*
- * The queue and controller pointer are not valid until an
- * association has been established.
- */
-
-?
+sounds good.
 
