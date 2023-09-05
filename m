@@ -4,154 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77093C83F33
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Sep 2023 00:41:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B7AF9C83F2C
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Sep 2023 05:04:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=k6QtIoyIleEHz24oHhFKF+dORARdI2vCONVTjU4bFbo=; b=jYSuh2+00ruAXOUcw/eqy5RTCP
-	b+ikVqo60p/85tKR9IAb8TVL3zACGi5dKd9RQfY63pa6J0uKVxN9u4d5GErh9QYlldXtmmyqi9p3y
-	cBZFnEZJbG+yJu1AUw/MSGeOhun/F9H66W2TmG9mVX73Rp2JuA6aBlarbBm165AlKc6DHZLwpZfCU
-	oT2LjgzdV9D02yvMm0FPWp9TMeOapTJZ8h3hmkvJXA8BM+zU+r34VsYJv96n4dBvytoAGHqxfPWQL
-	SKz6cpn344IBLl7ge9tbIYf3uyyM/M1AHh23Jfdx2bPIl0SAo8fb6RJQd8xb+u57zfCX1Dd66badt
-	BhjcfPRQ==;
+	bh=QF++iXxEZpFrQCnUt3ZrjX7wcQsJCw0Lcgs8IhL6Xus=; b=X0xVgHXIKN6yf5MTa5jZGImjQE
+	cH7wEnreQceQSYr4j4woaGoXqxhVp6P8QLKsW7x23lA7xBKvDsqt7B4El8vXvztxk6IRIbjJV3WAR
+	mfo5sc//6E0BzUJNQOUu73m2s/r5j2fW/K3dZW/PPykU1Xz3TSx2FGPjP7//0yhbHORQrnIh0v5NS
+	Y4GsUxyGiAddttRyD5kxdnSoL7zRI4bmu9oh5JzIQ71B2iDYz5izM9ntGA5FCtGcuNCFjmY+F5Lhd
+	Y+4CHRtuOQ/U18EJB7pOhPWN7jpY3S7vbKEsfrW6aWPhsRkJogK+Z9tRfsJIat237JP1DtBjeJo+v
+	yj6Qh7nQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qdK7x-0052PY-1y;
-	Tue, 05 Sep 2023 00:41:09 +0000
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+	id 1qdOF4-005Gxn-36;
+	Tue, 05 Sep 2023 05:04:46 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qdK6c-0052Om-0R
+	id 1qdODg-005Gwr-2M
 	for linux-nvme@lists.infradead.org;
-	Tue, 05 Sep 2023 00:39:47 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1693874385; x=1725410385;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=k6QtIoyIleEHz24oHhFKF+dORARdI2vCONVTjU4bFbo=;
-  b=JJvODpwKmzq0wUO61fL0tjjXXKGYV3dsQPn/8Pu3WD6WAKCHsX9gYiRh
-   RmYK/GQFyZH00WtsBRebuR1VzgBEQvQkbPzYcF673rvN37ntWMyxayOTN
-   BO1HIbvMczbrdKRM2oBSx1bSR3ul0n8xmLzQMKrhlza6AqiGcc9vZg2qS
-   6QffE4lJgnPSyJuD+ibL0X70ILsGIp1fHEdvI7RULsyerUtRQGcrW1DwB
-   QopmHaZOGCe/B/uIHU803mI8PNOZIaQouHEeD13pVGFmXGfaxItXP1aO5
-   Ff5Z5QxNjf6QKCC4rwIga/XSAFT0RxWgauq5nXdfOgklWRVC8uXstLxQr
-   A==;
-X-IronPort-AV: E=Sophos;i="6.02,227,1688400000"; 
-   d="scan'208";a="355023591"
-Received: from mail-bn8nam12lp2174.outbound.protection.outlook.com (HELO NAM12-BN8-obe.outbound.protection.outlook.com) ([104.47.55.174])
-  by ob1.hgst.iphmx.com with ESMTP; 05 Sep 2023 08:39:40 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OM4ZjOzh5Okth7HBi3V8cUB+GBZczTSwxzDr7Va9+n+ivnc1ACi1IK+Mgcf9ejpZZErntkOVB7o8gfWBYrqRnoax+ru/RMlC+vTDqALPBIdjYMronvTL7cqpLc/bF2XO6ZaBLmDt38aS3lF+f3oYGstBTwo35xr7MxpP4uCV2Gs3V0BGG5TlILT7d9Jk7LdGFdp4QOvCjK8tCcR6T/TMtY72JCxcxwjN/uMmsUWafMzVpLz8gVbJV8lKFAfnXztt24F0kCkuGWnAWXWtAsq+kq1uGhGCkDOXnodd249oV0TGeOOez4sPlIdldMSNdzi6LIVBrQ5lzTaE06pyKDUoIQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k6QtIoyIleEHz24oHhFKF+dORARdI2vCONVTjU4bFbo=;
- b=gT+09/CwX1PiPIPRs60OZG+AX/mcBORP6HEQxvD+riUQc/Me127WO313EyvlSxDk4YVOx/gdwSi4cZtq320s5nz5wXF1+SIvwPmXgxnxoG0285u+CZnKhdrCxqdY3lAcsiybL+Hh6Ga99wCezqkGbsKHRVpdkr0koMYeNq/o5QiDk8WcNZd59L2TJ3uMQMFV26eV7/cOjoSdtTYfRlhY5NejbBaYXZyWaU1gbXEhwB/Q7jFtZyi61h3J8msZNacFyMI26GSPp7j35y8lJzF/utd3IydIgyiAjo8pXcNBNHBudGDshpcbOlF1/IdGTFU/oVgVbjEP0qlFPLW/59YiyA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k6QtIoyIleEHz24oHhFKF+dORARdI2vCONVTjU4bFbo=;
- b=Oq4Wg0mluPCI0jMI4QnAT8LCKSjTo2YHCu2+3TAfyK1n5AB3twPPYCjhvh9lr2OtwWKm6cF/Z5gjYPzj1XnKCQFDH6JXMk7El1reStSercTcsMKU5k5wXvYLYJD2JF1sv8e04dnLx6l9KnDeYZq83nAfiyj6+E0p+cpBRxMerK8=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- DM6PR04MB6330.namprd04.prod.outlook.com (2603:10b6:5:1e4::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6768.25; Tue, 5 Sep 2023 00:39:38 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::f92a:6d40:fe94:34e9]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::f92a:6d40:fe94:34e9%7]) with mapi id 15.20.6768.024; Tue, 5 Sep 2023
- 00:39:38 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-CC: Leon Romanovsky <leon@kernel.org>, "linux-rdma@vger.kernel.org"
-	<linux-rdma@vger.kernel.org>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, Damien Le Moal <dlemoal@kernel.org>
-Subject: Re: [PATCH v2] RDMA/cma: prevent rdma id destroy during
- cma_iw_handler
-Thread-Topic: [PATCH v2] RDMA/cma: prevent rdma id destroy during
- cma_iw_handler
-Thread-Index: AQHZnPC2s/8x06ig6k2H99zVQRnT1a+HN4aAgAC/dQCAAMWdgIAATXGAgADmt4CAAKMBAIAAd8UAgIDdfAA=
-Date: Tue, 5 Sep 2023 00:39:38 +0000
-Message-ID: <g2lh3wh6e6yossw2ktqmxx2rf63m36mumqmx4qbtzvxuygsr6h@gpgftgfigllv>
-References: <20230612054237.1855292-1-shinichiro.kawasaki@wdc.com>
- <ZIcpHbV3oqsjuwfz@ziepe.ca>
- <3x4kcccwy5s2yhni5t26brhgejj24kxyk7bnlabp5zw2js26eb@kjwyilm5d4wc>
- <ZIhvfdVOMsN2cXEX@ziepe.ca> <20230613180747.GB12152@unreal>
- <iclshorg6eyrorloix2bkfsezzbnkwdepschcn5vhk3m2ionxc@oti3l4kvv4ds>
- <ZIn6ul5jPuxC+uIG@ziepe.ca>
- <l3gjwsd7hlx5dnl74moxo3rvnbsrejjvur6ykdl3pxiwh52wzp@6hfb4xb2tco3>
-In-Reply-To: <l3gjwsd7hlx5dnl74moxo3rvnbsrejjvur6ykdl3pxiwh52wzp@6hfb4xb2tco3>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|DM6PR04MB6330:EE_
-x-ms-office365-filtering-correlation-id: a47b8268-afa5-4575-1fc6-08dbada895c3
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: EBuMRPva0HcAIx1BpBtwgsbng20eX60201G1CY7t90ysWWsIQZVUYYBRMEoNNjDx+vvJSWe6chgTkHpvCqOGYYMv01y/c9oQawXd2bFcpfIcDU9a3SimJKjFn5KG3gVGrHJ/OQSc8UG3CAV1Ip48Nr+rzEF48oTEwezJp/p6K8fJyfcCJjxq0UEKqSYnN1LrJ8NwMejKnawOId3utpojfYKNW7SAV2yHygfA2s9aVEhLwpei3sbPNgTFVPyN6wqIN7e+UvDhGXWomu3HkwtSJWrR5XOoBwPDc2bmhoKu06+KUOhu4ecdF5+ryEYkzZU3SOf9SkNTBcR1G3WDIeuLHdXtKU8UPKzuK+i/vJ6GCZPGLvgDQyWxAj74BUNNBwoNtvsG2FkCDQoz5y9R+Zta88r9BPKIt+qDOl4NliFEJWTggi4KLaiI+pPYMCQ5Wyx19WaR5vE12D9lAbNxcFriMCRH9c7UeiCFoCWBk/eCnWQOFbuh7C3nNT9RixiASrgd5WYjQ26M0dfEfa6NDNt9D1Y2FxU0HMTxDm+ETL4n+VUBD2JEKDAbXom/VgYjrzzjOITaTDT5kFdZW9oeg2QPcKJMPhZNIyEES3R5FgfbsjKTf7tcXlOooYIlBimtPtmnXCdNXp6XDatttP6wN8BTJQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(366004)(39860400002)(376002)(346002)(136003)(396003)(186009)(451199024)(1800799009)(2906002)(4744005)(82960400001)(38100700002)(38070700005)(86362001)(33716001)(122000001)(6512007)(9686003)(41300700001)(6506007)(6486002)(316002)(6916009)(54906003)(64756008)(91956017)(66446008)(66476007)(66556008)(66946007)(76116006)(4326008)(8676002)(8936002)(478600001)(71200400001)(44832011)(5660300002)(83380400001)(26005)(27256005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?SnecTdoi1TDmhzIbOZmv7aqNN7TA02oF6Wv0aJ4K29qwip3K03h54MXDoD0y?=
- =?us-ascii?Q?jno12uEzrRdl3bSaR9bPAGJQLucHCSwjae91Oaig2knjOffEAVcvcaFi9bq5?=
- =?us-ascii?Q?Pw0ZNhKjMCiJPNLOFrHX4dRWYrbenTQsluyDEoelco1Um1JCh00dGkNvBsKn?=
- =?us-ascii?Q?K8kCLLxgmriVNFiEqBOgLc+rqadYBaFNSoJ1lvTHEkXjyWaGGEE9pkA2PP9c?=
- =?us-ascii?Q?K/VIGWKWBr0qibazKs38/WU99McJIN5pCJSns2lhCpH+CkHjxEncUn2ywmq7?=
- =?us-ascii?Q?gLBnraBm2K+eAMrFAHS5EY2fICRFhbXQ4EUSTLh6xfPOBsIb4kxHDmIzJzw0?=
- =?us-ascii?Q?6R2vhWoiPoJs8jl6lWXQ2KCjsqjAAt/Fje+YKWLTcN9pPIqkbWRwvOil3/YP?=
- =?us-ascii?Q?RKPOtjzgpAO8t+FR92F7JKqYuVK2tXko2AnVKsFxEf3TvIGqyRKs28V2YGEO?=
- =?us-ascii?Q?Rv63TKhrj9MHGVoBiIqGYBQqTircPJV3TcIjHOUOM6cQkeHvjKAdOaqsctx3?=
- =?us-ascii?Q?d9xwTtn8R3BoI0WEmJfed/M3mq+MiptIgHNXziOibinrSNZTelubNkE6owKk?=
- =?us-ascii?Q?ivDhmBorBIhZnvAQGvtTFFIqf+kyIQol9HORJDzUx+cEHjKhj1vK29SKJo0B?=
- =?us-ascii?Q?seVrz/kCkyTLnF/rxaKNKP4uKCJYvxjr2kee+VRTOrED/i881Y4Thr8AOE7B?=
- =?us-ascii?Q?8EOjoldv+YPoy2932xJqojMuqwTudSWZEzyJgGRUtsPTj4hBJ2IqrhGf2qlp?=
- =?us-ascii?Q?JGQyOd1zb+ceypIzncqB8AIx2mjKYNiPUQkdciPQ3g4yO206HO4E8vqnCtCd?=
- =?us-ascii?Q?9hiOFxIQ8A+wyD4gEJi7k75U30k5Qdj6q0GdhfN66a+Spu4M1byiQnmefum6?=
- =?us-ascii?Q?0rTa/2QkrVT4u8hKzTlZBDrQnlZVvzWV2rNmKQvsCxzKTbza+A3tyUbLaecq?=
- =?us-ascii?Q?zLzMwusSYbbHnssoCYaLdSK99A5woSw3fH3dV8wolV2KbqiQNdaZcdbtv1H/?=
- =?us-ascii?Q?GPjwSuvrdkbEeEAMFB4Mq9C/LpDPs2QoBDPI6x0Up8EPHv144r9AWtahf6/1?=
- =?us-ascii?Q?DXJtNObo4j66cYfR/BjTN/fqbuh8IPr5nbg0WEF0EZuVS/nJC0mE1QPuqhi8?=
- =?us-ascii?Q?Hd6Sea9gwBwVVr9zbI3ZoXKPWSnN5+HWzULCdISuyZkC2U502txlHCx0s5YZ?=
- =?us-ascii?Q?2TReJKZXT+0LoywelJGaP/gcVJxJPtiMv4xL6tsKV5qo+AV3E6KxqXyPqdDi?=
- =?us-ascii?Q?mVoTuvm0OAlxk6xp7b4fKlKdnuozhIk7OkuTMVCylh7xfTd9I8tBUaGshZ+J?=
- =?us-ascii?Q?VJ0Hjlyf5H5SGxhvaVt8Ll9P7rGKPG9bJ6QThNPIfYBTLeVAA3IOcF/9IJpJ?=
- =?us-ascii?Q?u2G45N6jpdgxoBcg/JL9drv1MNEkUY8vHsJTCDnlx1pe1qLC+Ps/yC+zekOJ?=
- =?us-ascii?Q?N4yrURuATH2TMEBZtemv4zW1CDMApRkTCLdM4kAA6a+lT42apnK+EGhO4f2M?=
- =?us-ascii?Q?nXui6FIWCzRr7RoyuFI0F5m7EalWBMGFGF7vdg0wXOFUuSUFyMTPWljI04rK?=
- =?us-ascii?Q?ljja64eqr5ZTW3KZ59eYfYONjooNFXzCKZjw1o+fJfIoUmEzNNHuJrKjafDt?=
- =?us-ascii?Q?xyxlEksUqL+kezWu0PXHhgM=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <F8E50E29852BE44DACD36757C1CAE559@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	Tue, 05 Sep 2023 05:03:22 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1693890192;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QF++iXxEZpFrQCnUt3ZrjX7wcQsJCw0Lcgs8IhL6Xus=;
+	b=gwKWv4p8HCDzRoZhLZanxU/tIjPHyLMmThxDD9HDAJk1qoMm1mG4j+NuPa7TN/JNpVP+JG
+	itpaDWZdPutihVC1CDemq9FMUGXcc1nCN9tSVMET6+vdewT9Vo1Da1MKs1RP+9PIKUc6KO
+	kCicd/GafzwWmtgbsT9oaDPTX98LJCI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-625-4rUGPEBPMYipOttOl5wP7g-1; Tue, 05 Sep 2023 01:03:06 -0400
+X-MC-Unique: 4rUGPEBPMYipOttOl5wP7g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B587B1817904;
+	Tue,  5 Sep 2023 05:03:05 +0000 (UTC)
+Received: from localhost (unknown [10.72.113.126])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id B496340C6CCC;
+	Tue,  5 Sep 2023 05:03:04 +0000 (UTC)
+Date: Tue, 5 Sep 2023 13:03:01 +0800
+From: Baoquan He <bhe@redhat.com>
+To: Hari Bathini <hbathini@linux.ibm.com>, mpe@ellerman.id.au
+Cc: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+	linux-scsi@vger.kernel.org,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	Pingfan Liu <piliu@redhat.com>, Dave Young <dyoung@redhat.com>,
+	npiggin@gmail.com, linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	Wen Xiong <wenxiong@linux.ibm.com>, kexec@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>, linuxppc-dev@lists.ozlabs.org,
+	Christoph Hellwig <hch@lst.de>,
+	Mahesh J Salgaonkar <mahesh@linux.ibm.com>
+Subject: Re: [PATCH V3 01/14] blk-mq: add blk_mq_max_nr_hw_queues()
+Message-ID: <ZPa2hbRQUdFRNqr9@MiWiFi-R3L-srv>
+References: <20230808104239.146085-1-ming.lei@redhat.com>
+ <20230808104239.146085-2-ming.lei@redhat.com>
+ <20230809134401.GA31852@lst.de>
+ <ZNQqt1C0pXspGl3d@fedora>
+ <ZNQ64xhCIBU6XM/5@MiWiFi-R3L-srv>
+ <ZNRGNsRzEJfzUEzH@fedora>
+ <ZNRTGrRuwf69EgnE@MiWiFi-R3L-srv>
+ <772c4140-3035-16d8-0253-f5893c3698e2@linux.ibm.com>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: T90/+0IxpBBXZ4xpA4AzS+nqd1/H1qGaicvl7Bap+nOeIyAVAjwURs6mmOUGeUbUWJ7lyUH8JEvzafx60y75WR/4REve9XJHlLsWeX1ze46hDPt549R7KI/sQJTcFVe91VqUgflJDgSLJXgc80nXAYYjsqJ/7MCetQ7XHHUCqiGYk+wHRDfd0Q7SKiwfZxqnk4D8mahGFBQ1RQXyXj0ZwgSGLQqgPczL5W2kzj7N0tnjLqmNxGSagNHkuFwfjyUKhoCSGDIQYGMSYjU4O0XKY4dzY9tluU49ZYYoyVi+e27peFCcJhg1x/J2vLm+PIlipgc8qkBuHTXQ2th+ZcfEgKSOEqC2CQOwJW4ckTb6v1ApFwNEXUcMh5u97AYBjGJyfK3uDcaVrxjDiOAyneuYCJIL/RcaDorkn+a6WKXHWca/EZmtZEDMM/HRg7gMf46hgZVPO4QrIZEpuJxih24LchkBqUKSWyQdlIqaCbvci3N+95rJmAQM0NyT9YoKWTvIHT9WaRe3Ap1C58ugZSR7pnrnF1uAPa8tGcIXXCJew6cuSb0+AcRKj9+B+3CyWkHttpeMjm1Cnx1MEluFD4KVh342KZPFj8UrrNVSbfgC5/KQRhDXZis4fs5t1xp2EGecxK6Kicj0fhnTnn5gFY798bPcsSlh+xFuEAjBjnVdXnvB58W9YiOk9LjQD4gm/Ijre4iBoW3WIGwiHpsMyF0a0jFa32veGw+Ah/LxxoCXRvxCuQBida2oRMewwZRdnyINSiP5f4g7dbWWYWHI4Tl+pP+Flqf2vDI3c3W3MCQOpsVGhwJZOoNcJSgHxxEhilWQGnPataz3+92fmJyZSNYj7EzkbylaQXm3xdqwmFG8rqGbGkAyHLZyPaE9U56T8DUU
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a47b8268-afa5-4575-1fc6-08dbada895c3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Sep 2023 00:39:38.1317
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: nK7mFQ30Crs2rsmdtSaARQAZW+2NLipfnQC7ZFu18pSJIE2e8gKhWhHERPTOpYUOw5JOoBH8BDII06Tw1Srp431EFTMBlfEEv9TTGjTSquU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB6330
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <772c4140-3035-16d8-0253-f5893c3698e2@linux.ibm.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230904_173946_242573_58C2A840 
-X-CRM114-Status: GOOD (  12.56  )
+X-CRM114-CacheID: sfid-20230904_220320_885216_CBD228DB 
+X-CRM114-Status: GOOD (  43.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -166,29 +94,92 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Jun 15, 2023 / 09:45, Shin'ichiro Kawasaki wrote:
-[...]
-> I stop my fix attempt here, since it looks beyond my bandwidth now. If an=
-yone
-> provides fix patches, I'm willing to test them.
+Hi Hari, Michael
 
-FYI, I tried to recreate this failure on my test system this week, and foun=
-d it
-is no longer recreated. In case your TODO list includes a work item for thi=
-s
-issue, please put lower priority on it.
+On 08/11/23 at 01:23pm, Hari Bathini wrote:
+> 
+> 
+> On 10/08/23 8:31 am, Baoquan He wrote:
+> > On 08/10/23 at 10:06am, Ming Lei wrote:
+> > > On Thu, Aug 10, 2023 at 09:18:27AM +0800, Baoquan He wrote:
+> > > > On 08/10/23 at 08:09am, Ming Lei wrote:
+> > > > > On Wed, Aug 09, 2023 at 03:44:01PM +0200, Christoph Hellwig wrote:
+> > > > > > I'm starting to sound like a broken record, but we can't just do random
+> > > > > > is_kdump checks, and it's not going to get better by resending it again and
+> > > > > > again.  If kdump kernels limit the number of possible CPUs, it needs to
+> > > > > > reflected in cpu_possible_map and we need to use that information.
+> > > > > > 
+> > > > > 
+> > > > > Can you look at previous kdump/arch guys' comment about kdump usage &
+> > > > > num_possible_cpus?
+> > > > > 
+> > > > >      https://lore.kernel.org/linux-block/CAF+s44RuqswbosY9kMDx35crviQnxOeuvgNsuE75Bb0Y2Jg2uw@mail.gmail.com/
+> > > > >      https://lore.kernel.org/linux-block/ZKz912KyFQ7q9qwL@MiWiFi-R3L-srv/
+> > > > > 
+> > > > > The point is that kdump kernels does not limit the number of possible CPUs.
+> > > > > 
+> > > > > 1) some archs support 'nr_cpus=1' for kdump kernel, which is fine, since
+> > > > > num_possible_cpus becomes 1.
+> > > > 
+> > > > Yes, "nr_cpus=" is strongly suggested in kdump kernel because "nr_cpus="
+> > > > limits the possible cpu numbers, while "maxcpuss=" only limits the cpu
+> > > > number which can be brought up during bootup. We noticed this diference
+> > > > because a large number of possible cpus will cost more memory in kdump
+> > > > kernel. e.g percpu initialization, even though kdump kernel have set
+> > > > "maxcpus=1".
+> > > > 
+> > > > Currently x86 and arm64 all support "nr_cpus=". Pingfan ever spent much
+> > > > effort to make patches to add "nr_cpus=" support to ppc64, seems ppc64
+> > > > dev and maintainers do not care about it. Finally the patches are not
+> > > > accepted, and the work is not continued.
+> > > > 
+> > > > Now, I am wondering what is the barrier to add "nr_cpus=" to power ach.
+> > > > Can we reconsider adding 'nr_cpus=' to power arch since real issue
+> > > > occurred in kdump kernel?
+> > > 
+> > > If 'nr_cpus=' can be supported on ppc64, this patchset isn't needed.
+> > > 
+> > > > 
+> > > > As for this patchset, it can be accpeted so that no failure in kdump
+> > > > kernel is seen on ARCHes w/o "nr_cpus=" support? My personal opinion.
+> > > 
+> > > IMO 'nr_cpus=' support should be preferred, given it is annoying to
+> > > maintain two kinds of implementation for kdump kernel from driver
+> > > viewpoint. I guess kdump things can be simplified too with supporting
+> > > 'nr_cpus=' only.
+> > 
+> > Yes, 'nr_cpus=' is ideal. Not sure if there's some underlying concerns so
+> > that power people decided to not support it.
+> 
+> Though "nr_cpus=1" is an ideal solution, maintainer was not happy with
+> the patch as the code changes have impact for regular boot path and
+> it is likely to cause breakages. So, even if "nr_cpus=1" support for
+> ppc64 is revived, the change is going to take time to be accepted
+> upstream.
 
-Two month ago, the failure had been recreated by repeating the blktests tes=
-t
-cases nvme/030 and nvme/031 with SIW tranposrt around 30 times. Now I do no=
-t see
-it when I repeat them 100 times. I suspected some kernel changes between v6=
-.4
-and v6.5 would have fixed the issue, but even when I use both kernel versio=
-ns,
-the failure is no longer seen. I reverted nvme-cli and libnvme to older ver=
-sion,
-but still do not see the failure. I just guess some change on my test syste=
-m
-affected the symptom (Fedora 38 on QEMU).=
+I talked to pingfan recently, he said he posted patches to add 'nr_cpus='
+support in powerpc in order to reduce memory amount for kdump kernel.
+His patches were rejected by maintainer because maintainer thought the
+reason is not sufficient. So up to now, in architectures fedora/RHEL
+supports to provide default crashkernel reservation value, powerpc costs
+most. Now with this emerging issue, can we reconsider supporting
+'nr_cpus=' in powerpc?
+
+> 
+> Also, I see is_kdump_kernel() being used irrespective of "nr_cpus=1"
+> support for other optimizations in the driver for the special dump
+> capture environment kdump is.
+> 
+> If there is no other downside for driver code, to use is_kdump_kernel(),
+> other than the maintainability aspect, I think the above changes are
+> worth considering.
+
+Hi Hari,
+
+By the way, will you use the ppc specific is_kdump_kernel() and
+is_crashdump_kernel() in your patches to fix this issue?
+
+Thanks
+Baoquan
+
 
