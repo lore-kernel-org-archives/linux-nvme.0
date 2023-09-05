@@ -4,70 +4,154 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CFAE8C71153
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Sep 2023 15:28:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77093C83F33
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Sep 2023 00:41:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=nIwEjtsY0Ggze5y0crLHE0egaxqEfPY99SHGckpiA0M=; b=OsBeKDBmT6SAN4/Pitx2XeJDUt
-	LvCQKG/5GkXkg7phJVIcNg6ves/ldtoKFg/W2Ji4gBNDoaew6ga1sAoMLFnQ8E0lIYWjScrV772dK
-	uT/iQFKgbZRrS+oq7Y1qV1nqUzDE3tQ6yGZh0SLSBFuJ3dCag5VkcryNhpui/UDzVs7RzNrVa9098
-	PqNwoEqg3dDcc8fQZzOmaMAbUlvTKVyK68Xq2NCkxNd/vY/32IdOlpHBTghOZHbrQsAxNAetvz6P2
-	O+SbYuhrIPLakpppIsGy/dL6p7RmIdoxvT2QfVzmJnnEfiWeumuwCVALiriTYVTZtVekE1hsDldZF
-	C5nXf+tw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=k6QtIoyIleEHz24oHhFKF+dORARdI2vCONVTjU4bFbo=; b=jYSuh2+00ruAXOUcw/eqy5RTCP
+	b+ikVqo60p/85tKR9IAb8TVL3zACGi5dKd9RQfY63pa6J0uKVxN9u4d5GErh9QYlldXtmmyqi9p3y
+	cBZFnEZJbG+yJu1AUw/MSGeOhun/F9H66W2TmG9mVX73Rp2JuA6aBlarbBm165AlKc6DHZLwpZfCU
+	oT2LjgzdV9D02yvMm0FPWp9TMeOapTJZ8h3hmkvJXA8BM+zU+r34VsYJv96n4dBvytoAGHqxfPWQL
+	SKz6cpn344IBLl7ge9tbIYf3uyyM/M1AHh23Jfdx2bPIl0SAo8fb6RJQd8xb+u57zfCX1Dd66badt
+	BhjcfPRQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qdBUZ-004NRy-2p;
-	Mon, 04 Sep 2023 15:27:55 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1qdK7x-0052PY-1y;
+	Tue, 05 Sep 2023 00:41:09 +0000
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qdBTt-004NQv-1M
+	id 1qdK6c-0052Om-0R
 	for linux-nvme@lists.infradead.org;
-	Mon, 04 Sep 2023 15:27:14 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 849BA1F74B;
-	Mon,  4 Sep 2023 15:27:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1693841225; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=nIwEjtsY0Ggze5y0crLHE0egaxqEfPY99SHGckpiA0M=;
-	b=TLJwQLh10tvwCO/QVttr6qB6k0R5+Teav5ckGQo5+uI5G5Dfbd0Xy3Eou8W9eVXVnFyHjA
-	+AyivClzuJyeMJVld0phxgmHljP/vh97+aqj9RluXNDDqkszO7fyRrSqesfgKc5c15cbu6
-	bETelefEm88g00ZtfoA6l2Vs0cYYzbc=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3352D13585;
-	Mon,  4 Sep 2023 15:27:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id WJO0Ckn39WSgTQAAMHmgww
-	(envelope-from <mwilck@suse.com>); Mon, 04 Sep 2023 15:27:05 +0000
-From: mwilck@suse.com
-To: Sagi Grimberg <sagi@grimberg.me>,
-	Hannes Reinecke <hare@suse.de>,
-	Christoph Hellwig <hch@lst.de>,
-	linux-nvme@lists.infradead.org
-Cc: Daniel Wagner <dwagner@suse.de>,
-	"George, Martin" <Martin.George@netapp.com>,
-	"Kumar, Arun" <Arun.C@netapp.com>,
-	Martin Wilck <mwilck@suse.com>
-Subject: [PATCH] nvme-auth: use chap->s2 to indicate bidirectional authentication
-Date: Mon,  4 Sep 2023 17:26:38 +0200
-Message-ID: <20230904152638.28311-1-mwilck@suse.com>
-X-Mailer: git-send-email 2.42.0
+	Tue, 05 Sep 2023 00:39:47 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1693874385; x=1725410385;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=k6QtIoyIleEHz24oHhFKF+dORARdI2vCONVTjU4bFbo=;
+  b=JJvODpwKmzq0wUO61fL0tjjXXKGYV3dsQPn/8Pu3WD6WAKCHsX9gYiRh
+   RmYK/GQFyZH00WtsBRebuR1VzgBEQvQkbPzYcF673rvN37ntWMyxayOTN
+   BO1HIbvMczbrdKRM2oBSx1bSR3ul0n8xmLzQMKrhlza6AqiGcc9vZg2qS
+   6QffE4lJgnPSyJuD+ibL0X70ILsGIp1fHEdvI7RULsyerUtRQGcrW1DwB
+   QopmHaZOGCe/B/uIHU803mI8PNOZIaQouHEeD13pVGFmXGfaxItXP1aO5
+   Ff5Z5QxNjf6QKCC4rwIga/XSAFT0RxWgauq5nXdfOgklWRVC8uXstLxQr
+   A==;
+X-IronPort-AV: E=Sophos;i="6.02,227,1688400000"; 
+   d="scan'208";a="355023591"
+Received: from mail-bn8nam12lp2174.outbound.protection.outlook.com (HELO NAM12-BN8-obe.outbound.protection.outlook.com) ([104.47.55.174])
+  by ob1.hgst.iphmx.com with ESMTP; 05 Sep 2023 08:39:40 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OM4ZjOzh5Okth7HBi3V8cUB+GBZczTSwxzDr7Va9+n+ivnc1ACi1IK+Mgcf9ejpZZErntkOVB7o8gfWBYrqRnoax+ru/RMlC+vTDqALPBIdjYMronvTL7cqpLc/bF2XO6ZaBLmDt38aS3lF+f3oYGstBTwo35xr7MxpP4uCV2Gs3V0BGG5TlILT7d9Jk7LdGFdp4QOvCjK8tCcR6T/TMtY72JCxcxwjN/uMmsUWafMzVpLz8gVbJV8lKFAfnXztt24F0kCkuGWnAWXWtAsq+kq1uGhGCkDOXnodd249oV0TGeOOez4sPlIdldMSNdzi6LIVBrQ5lzTaE06pyKDUoIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=k6QtIoyIleEHz24oHhFKF+dORARdI2vCONVTjU4bFbo=;
+ b=gT+09/CwX1PiPIPRs60OZG+AX/mcBORP6HEQxvD+riUQc/Me127WO313EyvlSxDk4YVOx/gdwSi4cZtq320s5nz5wXF1+SIvwPmXgxnxoG0285u+CZnKhdrCxqdY3lAcsiybL+Hh6Ga99wCezqkGbsKHRVpdkr0koMYeNq/o5QiDk8WcNZd59L2TJ3uMQMFV26eV7/cOjoSdtTYfRlhY5NejbBaYXZyWaU1gbXEhwB/Q7jFtZyi61h3J8msZNacFyMI26GSPp7j35y8lJzF/utd3IydIgyiAjo8pXcNBNHBudGDshpcbOlF1/IdGTFU/oVgVbjEP0qlFPLW/59YiyA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k6QtIoyIleEHz24oHhFKF+dORARdI2vCONVTjU4bFbo=;
+ b=Oq4Wg0mluPCI0jMI4QnAT8LCKSjTo2YHCu2+3TAfyK1n5AB3twPPYCjhvh9lr2OtwWKm6cF/Z5gjYPzj1XnKCQFDH6JXMk7El1reStSercTcsMKU5k5wXvYLYJD2JF1sv8e04dnLx6l9KnDeYZq83nAfiyj6+E0p+cpBRxMerK8=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ DM6PR04MB6330.namprd04.prod.outlook.com (2603:10b6:5:1e4::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6768.25; Tue, 5 Sep 2023 00:39:38 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::f92a:6d40:fe94:34e9]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::f92a:6d40:fe94:34e9%7]) with mapi id 15.20.6768.024; Tue, 5 Sep 2023
+ 00:39:38 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+CC: Leon Romanovsky <leon@kernel.org>, "linux-rdma@vger.kernel.org"
+	<linux-rdma@vger.kernel.org>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, Damien Le Moal <dlemoal@kernel.org>
+Subject: Re: [PATCH v2] RDMA/cma: prevent rdma id destroy during
+ cma_iw_handler
+Thread-Topic: [PATCH v2] RDMA/cma: prevent rdma id destroy during
+ cma_iw_handler
+Thread-Index: AQHZnPC2s/8x06ig6k2H99zVQRnT1a+HN4aAgAC/dQCAAMWdgIAATXGAgADmt4CAAKMBAIAAd8UAgIDdfAA=
+Date: Tue, 5 Sep 2023 00:39:38 +0000
+Message-ID: <g2lh3wh6e6yossw2ktqmxx2rf63m36mumqmx4qbtzvxuygsr6h@gpgftgfigllv>
+References: <20230612054237.1855292-1-shinichiro.kawasaki@wdc.com>
+ <ZIcpHbV3oqsjuwfz@ziepe.ca>
+ <3x4kcccwy5s2yhni5t26brhgejj24kxyk7bnlabp5zw2js26eb@kjwyilm5d4wc>
+ <ZIhvfdVOMsN2cXEX@ziepe.ca> <20230613180747.GB12152@unreal>
+ <iclshorg6eyrorloix2bkfsezzbnkwdepschcn5vhk3m2ionxc@oti3l4kvv4ds>
+ <ZIn6ul5jPuxC+uIG@ziepe.ca>
+ <l3gjwsd7hlx5dnl74moxo3rvnbsrejjvur6ykdl3pxiwh52wzp@6hfb4xb2tco3>
+In-Reply-To: <l3gjwsd7hlx5dnl74moxo3rvnbsrejjvur6ykdl3pxiwh52wzp@6hfb4xb2tco3>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|DM6PR04MB6330:EE_
+x-ms-office365-filtering-correlation-id: a47b8268-afa5-4575-1fc6-08dbada895c3
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: EBuMRPva0HcAIx1BpBtwgsbng20eX60201G1CY7t90ysWWsIQZVUYYBRMEoNNjDx+vvJSWe6chgTkHpvCqOGYYMv01y/c9oQawXd2bFcpfIcDU9a3SimJKjFn5KG3gVGrHJ/OQSc8UG3CAV1Ip48Nr+rzEF48oTEwezJp/p6K8fJyfcCJjxq0UEKqSYnN1LrJ8NwMejKnawOId3utpojfYKNW7SAV2yHygfA2s9aVEhLwpei3sbPNgTFVPyN6wqIN7e+UvDhGXWomu3HkwtSJWrR5XOoBwPDc2bmhoKu06+KUOhu4ecdF5+ryEYkzZU3SOf9SkNTBcR1G3WDIeuLHdXtKU8UPKzuK+i/vJ6GCZPGLvgDQyWxAj74BUNNBwoNtvsG2FkCDQoz5y9R+Zta88r9BPKIt+qDOl4NliFEJWTggi4KLaiI+pPYMCQ5Wyx19WaR5vE12D9lAbNxcFriMCRH9c7UeiCFoCWBk/eCnWQOFbuh7C3nNT9RixiASrgd5WYjQ26M0dfEfa6NDNt9D1Y2FxU0HMTxDm+ETL4n+VUBD2JEKDAbXom/VgYjrzzjOITaTDT5kFdZW9oeg2QPcKJMPhZNIyEES3R5FgfbsjKTf7tcXlOooYIlBimtPtmnXCdNXp6XDatttP6wN8BTJQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(366004)(39860400002)(376002)(346002)(136003)(396003)(186009)(451199024)(1800799009)(2906002)(4744005)(82960400001)(38100700002)(38070700005)(86362001)(33716001)(122000001)(6512007)(9686003)(41300700001)(6506007)(6486002)(316002)(6916009)(54906003)(64756008)(91956017)(66446008)(66476007)(66556008)(66946007)(76116006)(4326008)(8676002)(8936002)(478600001)(71200400001)(44832011)(5660300002)(83380400001)(26005)(27256005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?SnecTdoi1TDmhzIbOZmv7aqNN7TA02oF6Wv0aJ4K29qwip3K03h54MXDoD0y?=
+ =?us-ascii?Q?jno12uEzrRdl3bSaR9bPAGJQLucHCSwjae91Oaig2knjOffEAVcvcaFi9bq5?=
+ =?us-ascii?Q?Pw0ZNhKjMCiJPNLOFrHX4dRWYrbenTQsluyDEoelco1Um1JCh00dGkNvBsKn?=
+ =?us-ascii?Q?K8kCLLxgmriVNFiEqBOgLc+rqadYBaFNSoJ1lvTHEkXjyWaGGEE9pkA2PP9c?=
+ =?us-ascii?Q?K/VIGWKWBr0qibazKs38/WU99McJIN5pCJSns2lhCpH+CkHjxEncUn2ywmq7?=
+ =?us-ascii?Q?gLBnraBm2K+eAMrFAHS5EY2fICRFhbXQ4EUSTLh6xfPOBsIb4kxHDmIzJzw0?=
+ =?us-ascii?Q?6R2vhWoiPoJs8jl6lWXQ2KCjsqjAAt/Fje+YKWLTcN9pPIqkbWRwvOil3/YP?=
+ =?us-ascii?Q?RKPOtjzgpAO8t+FR92F7JKqYuVK2tXko2AnVKsFxEf3TvIGqyRKs28V2YGEO?=
+ =?us-ascii?Q?Rv63TKhrj9MHGVoBiIqGYBQqTircPJV3TcIjHOUOM6cQkeHvjKAdOaqsctx3?=
+ =?us-ascii?Q?d9xwTtn8R3BoI0WEmJfed/M3mq+MiptIgHNXziOibinrSNZTelubNkE6owKk?=
+ =?us-ascii?Q?ivDhmBorBIhZnvAQGvtTFFIqf+kyIQol9HORJDzUx+cEHjKhj1vK29SKJo0B?=
+ =?us-ascii?Q?seVrz/kCkyTLnF/rxaKNKP4uKCJYvxjr2kee+VRTOrED/i881Y4Thr8AOE7B?=
+ =?us-ascii?Q?8EOjoldv+YPoy2932xJqojMuqwTudSWZEzyJgGRUtsPTj4hBJ2IqrhGf2qlp?=
+ =?us-ascii?Q?JGQyOd1zb+ceypIzncqB8AIx2mjKYNiPUQkdciPQ3g4yO206HO4E8vqnCtCd?=
+ =?us-ascii?Q?9hiOFxIQ8A+wyD4gEJi7k75U30k5Qdj6q0GdhfN66a+Spu4M1byiQnmefum6?=
+ =?us-ascii?Q?0rTa/2QkrVT4u8hKzTlZBDrQnlZVvzWV2rNmKQvsCxzKTbza+A3tyUbLaecq?=
+ =?us-ascii?Q?zLzMwusSYbbHnssoCYaLdSK99A5woSw3fH3dV8wolV2KbqiQNdaZcdbtv1H/?=
+ =?us-ascii?Q?GPjwSuvrdkbEeEAMFB4Mq9C/LpDPs2QoBDPI6x0Up8EPHv144r9AWtahf6/1?=
+ =?us-ascii?Q?DXJtNObo4j66cYfR/BjTN/fqbuh8IPr5nbg0WEF0EZuVS/nJC0mE1QPuqhi8?=
+ =?us-ascii?Q?Hd6Sea9gwBwVVr9zbI3ZoXKPWSnN5+HWzULCdISuyZkC2U502txlHCx0s5YZ?=
+ =?us-ascii?Q?2TReJKZXT+0LoywelJGaP/gcVJxJPtiMv4xL6tsKV5qo+AV3E6KxqXyPqdDi?=
+ =?us-ascii?Q?mVoTuvm0OAlxk6xp7b4fKlKdnuozhIk7OkuTMVCylh7xfTd9I8tBUaGshZ+J?=
+ =?us-ascii?Q?VJ0Hjlyf5H5SGxhvaVt8Ll9P7rGKPG9bJ6QThNPIfYBTLeVAA3IOcF/9IJpJ?=
+ =?us-ascii?Q?u2G45N6jpdgxoBcg/JL9drv1MNEkUY8vHsJTCDnlx1pe1qLC+Ps/yC+zekOJ?=
+ =?us-ascii?Q?N4yrURuATH2TMEBZtemv4zW1CDMApRkTCLdM4kAA6a+lT42apnK+EGhO4f2M?=
+ =?us-ascii?Q?nXui6FIWCzRr7RoyuFI0F5m7EalWBMGFGF7vdg0wXOFUuSUFyMTPWljI04rK?=
+ =?us-ascii?Q?ljja64eqr5ZTW3KZ59eYfYONjooNFXzCKZjw1o+fJfIoUmEzNNHuJrKjafDt?=
+ =?us-ascii?Q?xyxlEksUqL+kezWu0PXHhgM=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <F8E50E29852BE44DACD36757C1CAE559@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: T90/+0IxpBBXZ4xpA4AzS+nqd1/H1qGaicvl7Bap+nOeIyAVAjwURs6mmOUGeUbUWJ7lyUH8JEvzafx60y75WR/4REve9XJHlLsWeX1ze46hDPt549R7KI/sQJTcFVe91VqUgflJDgSLJXgc80nXAYYjsqJ/7MCetQ7XHHUCqiGYk+wHRDfd0Q7SKiwfZxqnk4D8mahGFBQ1RQXyXj0ZwgSGLQqgPczL5W2kzj7N0tnjLqmNxGSagNHkuFwfjyUKhoCSGDIQYGMSYjU4O0XKY4dzY9tluU49ZYYoyVi+e27peFCcJhg1x/J2vLm+PIlipgc8qkBuHTXQ2th+ZcfEgKSOEqC2CQOwJW4ckTb6v1ApFwNEXUcMh5u97AYBjGJyfK3uDcaVrxjDiOAyneuYCJIL/RcaDorkn+a6WKXHWca/EZmtZEDMM/HRg7gMf46hgZVPO4QrIZEpuJxih24LchkBqUKSWyQdlIqaCbvci3N+95rJmAQM0NyT9YoKWTvIHT9WaRe3Ap1C58ugZSR7pnrnF1uAPa8tGcIXXCJew6cuSb0+AcRKj9+B+3CyWkHttpeMjm1Cnx1MEluFD4KVh342KZPFj8UrrNVSbfgC5/KQRhDXZis4fs5t1xp2EGecxK6Kicj0fhnTnn5gFY798bPcsSlh+xFuEAjBjnVdXnvB58W9YiOk9LjQD4gm/Ijre4iBoW3WIGwiHpsMyF0a0jFa32veGw+Ah/LxxoCXRvxCuQBida2oRMewwZRdnyINSiP5f4g7dbWWYWHI4Tl+pP+Flqf2vDI3c3W3MCQOpsVGhwJZOoNcJSgHxxEhilWQGnPataz3+92fmJyZSNYj7EzkbylaQXm3xdqwmFG8rqGbGkAyHLZyPaE9U56T8DUU
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a47b8268-afa5-4575-1fc6-08dbada895c3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Sep 2023 00:39:38.1317
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: nK7mFQ30Crs2rsmdtSaARQAZW+2NLipfnQC7ZFu18pSJIE2e8gKhWhHERPTOpYUOw5JOoBH8BDII06Tw1Srp431EFTMBlfEEv9TTGjTSquU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB6330
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230904_082713_616339_23CE1345 
-X-CRM114-Status: GOOD (  14.92  )
+X-CRM114-CacheID: sfid-20230904_173946_242573_58C2A840 
+X-CRM114-Status: GOOD (  12.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,50 +166,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Martin Wilck <mwilck@suse.com>
+On Jun 15, 2023 / 09:45, Shin'ichiro Kawasaki wrote:
+[...]
+> I stop my fix attempt here, since it looks beyond my bandwidth now. If an=
+yone
+> provides fix patches, I'm willing to test them.
 
-Commit 546dea18c999 ("nvme-auth: check chap ctrl_key once constructed")
-replaced the condition "if (ctrl->ctrl_key)" (indicating bidirectional
-auth) by "if (chap->ctrl_key)", because ctrl->ctrl_key is a resource shared
-with sysfs. But chap->ctrl_key is set in
-nvme_auth_process_dhchap_challenge() depending on the DHVLEN in the
-DH-HMAC-CHAP Challenge message received from the controller, and will thus
-be non-NULL for every DH-HMAC-CHAP exchange, even if unidirectional auth
-was requested. This will lead to a protocol violation by sending a Success2
-message in the unidirectional case (per NVMe base spec 2.0, the
-authentication transaction ends after the Success1 message for
-unidirectional auth). Use chap->s2 instead, which is non-zero if and only
-if the host requested bi-directional authentication from the controller.
+FYI, I tried to recreate this failure on my test system this week, and foun=
+d it
+is no longer recreated. In case your TODO list includes a work item for thi=
+s
+issue, please put lower priority on it.
 
-Fixes: 546dea18c999 ("nvme-auth: check chap ctrl_key once constructed")
-Signed-off-by: Martin Wilck <mwilck@suse.com>
----
- drivers/nvme/host/auth.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-index daf5d144a8ea..064592a5d546 100644
---- a/drivers/nvme/host/auth.c
-+++ b/drivers/nvme/host/auth.c
-@@ -341,7 +341,7 @@ static int nvme_auth_process_dhchap_success1(struct nvme_ctrl *ctrl,
- 	struct nvmf_auth_dhchap_success1_data *data = chap->buf;
- 	size_t size = sizeof(*data);
- 
--	if (chap->ctrl_key)
-+	if (chap->s2)
- 		size += chap->hash_len;
- 
- 	if (size > CHAP_BUF_SIZE) {
-@@ -825,7 +825,7 @@ static void nvme_queue_auth_work(struct work_struct *work)
- 		goto fail2;
- 	}
- 
--	if (chap->ctrl_key) {
-+	if (chap->s2) {
- 		/* DH-HMAC-CHAP Step 5: send success2 */
- 		dev_dbg(ctrl->device, "%s: qid %d send success2\n",
- 			__func__, chap->qid);
--- 
-2.42.0
-
+Two month ago, the failure had been recreated by repeating the blktests tes=
+t
+cases nvme/030 and nvme/031 with SIW tranposrt around 30 times. Now I do no=
+t see
+it when I repeat them 100 times. I suspected some kernel changes between v6=
+.4
+and v6.5 would have fixed the issue, but even when I use both kernel versio=
+ns,
+the failure is no longer seen. I reverted nvme-cli and libnvme to older ver=
+sion,
+but still do not see the failure. I just guess some change on my test syste=
+m
+affected the symptom (Fedora 38 on QEMU).=
 
