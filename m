@@ -4,82 +4,126 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B7AF9C83F2C
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Sep 2023 05:04:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C6B12C83F33
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Sep 2023 05:23:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QF++iXxEZpFrQCnUt3ZrjX7wcQsJCw0Lcgs8IhL6Xus=; b=X0xVgHXIKN6yf5MTa5jZGImjQE
-	cH7wEnreQceQSYr4j4woaGoXqxhVp6P8QLKsW7x23lA7xBKvDsqt7B4El8vXvztxk6IRIbjJV3WAR
-	mfo5sc//6E0BzUJNQOUu73m2s/r5j2fW/K3dZW/PPykU1Xz3TSx2FGPjP7//0yhbHORQrnIh0v5NS
-	Y4GsUxyGiAddttRyD5kxdnSoL7zRI4bmu9oh5JzIQ71B2iDYz5izM9ntGA5FCtGcuNCFjmY+F5Lhd
-	Y+4CHRtuOQ/U18EJB7pOhPWN7jpY3S7vbKEsfrW6aWPhsRkJogK+Z9tRfsJIat237JP1DtBjeJo+v
-	yj6Qh7nQ==;
+	bh=ZSzpqw7io+vpYe7EpNqzOEdGMoJyUNbsKrAI4ciskw0=; b=lH9RHi5q2wVZhaMB800WEJju+e
+	d4jdFkY0NNGfE3hAS5KX4mKe3qqI850t7tOrOr3Tb7Y6FWVL3uTB/UGPv6J98j7P4Mi2nPq6YccB0
+	7gK3PF0dvvjxUVvP489W4oYDlAnAg5ha3UpB6dm5XGJWHuaG45KQgkKe9FwsH25HVawLKa1iNur9P
+	XCTGzPX3uXIfFvboMsvxaadijO4U1Y8LjhDr7yCY2+9Njte4h4/FVYIpyOAH+wVOzW4TpwLOnx23T
+	qzWkwLbgPUihW4DC7QiExYhtEyMOnbDj90dCxDDBXgVFVSvp5OSMg3ExiBzRdf/3Wh4xjWG5LsdcE
+	tgEW45lQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qdOF4-005Gxn-36;
-	Tue, 05 Sep 2023 05:04:46 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1qdOXL-005IDl-1s;
+	Tue, 05 Sep 2023 05:23:39 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qdODg-005Gwr-2M
+	id 1qdOVw-005IDA-1z
 	for linux-nvme@lists.infradead.org;
-	Tue, 05 Sep 2023 05:03:22 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1693890192;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QF++iXxEZpFrQCnUt3ZrjX7wcQsJCw0Lcgs8IhL6Xus=;
-	b=gwKWv4p8HCDzRoZhLZanxU/tIjPHyLMmThxDD9HDAJk1qoMm1mG4j+NuPa7TN/JNpVP+JG
-	itpaDWZdPutihVC1CDemq9FMUGXcc1nCN9tSVMET6+vdewT9Vo1Da1MKs1RP+9PIKUc6KO
-	kCicd/GafzwWmtgbsT9oaDPTX98LJCI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-625-4rUGPEBPMYipOttOl5wP7g-1; Tue, 05 Sep 2023 01:03:06 -0400
-X-MC-Unique: 4rUGPEBPMYipOttOl5wP7g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B587B1817904;
-	Tue,  5 Sep 2023 05:03:05 +0000 (UTC)
-Received: from localhost (unknown [10.72.113.126])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B496340C6CCC;
-	Tue,  5 Sep 2023 05:03:04 +0000 (UTC)
-Date: Tue, 5 Sep 2023 13:03:01 +0800
-From: Baoquan He <bhe@redhat.com>
-To: Hari Bathini <hbathini@linux.ibm.com>, mpe@ellerman.id.au
-Cc: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
-	linux-scsi@vger.kernel.org,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	Pingfan Liu <piliu@redhat.com>, Dave Young <dyoung@redhat.com>,
-	npiggin@gmail.com, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	Wen Xiong <wenxiong@linux.ibm.com>, kexec@lists.infradead.org,
-	Keith Busch <kbusch@kernel.org>, linuxppc-dev@lists.ozlabs.org,
-	Christoph Hellwig <hch@lst.de>,
-	Mahesh J Salgaonkar <mahesh@linux.ibm.com>
-Subject: Re: [PATCH V3 01/14] blk-mq: add blk_mq_max_nr_hw_queues()
-Message-ID: <ZPa2hbRQUdFRNqr9@MiWiFi-R3L-srv>
-References: <20230808104239.146085-1-ming.lei@redhat.com>
- <20230808104239.146085-2-ming.lei@redhat.com>
- <20230809134401.GA31852@lst.de>
- <ZNQqt1C0pXspGl3d@fedora>
- <ZNQ64xhCIBU6XM/5@MiWiFi-R3L-srv>
- <ZNRGNsRzEJfzUEzH@fedora>
- <ZNRTGrRuwf69EgnE@MiWiFi-R3L-srv>
- <772c4140-3035-16d8-0253-f5893c3698e2@linux.ibm.com>
+	Tue, 05 Sep 2023 05:22:16 +0000
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20230905052159epoutp03100ca083ed403d35450270c9823d288c~B6S4xP5n91286412864epoutp03z
+	for <linux-nvme@lists.infradead.org>; Tue,  5 Sep 2023 05:21:59 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20230905052159epoutp03100ca083ed403d35450270c9823d288c~B6S4xP5n91286412864epoutp03z
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1693891319;
+	bh=ZSzpqw7io+vpYe7EpNqzOEdGMoJyUNbsKrAI4ciskw0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=SZznal1v57XoVUbvf7cbvm+PlJUG4wwoTHkcyXIEYtdmsIMmgGsUobMVHqHQjvfuF
+	 mHuhCikjG69B+G1iQ2RZoSif3PIpkOADRx8jEOdyVwJzBAOv991wSXnAruhJYevvKt
+	 /oYlKKuvM631yyG+iC8orvNx6dMujpKUEKIxTb5g=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+	20230905052159epcas5p3eff3cdd0a3a7de947f93b10e6d05eb55~B6S4VVw6z1914119141epcas5p3L;
+	Tue,  5 Sep 2023 05:21:59 +0000 (GMT)
+Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.181]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4Rfv511L0Zz4x9QG; Tue,  5 Sep
+	2023 05:21:57 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	C0.D6.09023.4FAB6F46; Tue,  5 Sep 2023 14:21:57 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20230905052156epcas5p1cff7df2bcffc5e5080d29cda8c17a238~B6S2N4vZx0731107311epcas5p1c;
+	Tue,  5 Sep 2023 05:21:56 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20230905052156epsmtrp15732e50abf0e2f396688ab2168ee34c1~B6S2NG5F_0392903929epsmtrp1s;
+	Tue,  5 Sep 2023 05:21:56 +0000 (GMT)
+X-AuditID: b6c32a44-29b9ca800000233f-44-64f6baf46cc1
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	2C.36.08788.4FAB6F46; Tue,  5 Sep 2023 14:21:56 +0900 (KST)
+Received: from green245 (unknown [107.99.41.245]) by epsmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20230905052155epsmtip1831d670128ddcbba66c44a3a36785744~B6S0pUlE81025010250epsmtip1v;
+	Tue,  5 Sep 2023 05:21:54 +0000 (GMT)
+Date: Tue, 5 Sep 2023 10:48:25 +0530
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: hch@lst.de, axboe@kernel.dk, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org, vincentfu@gmail.com,
+	ankit.kumar@samsung.com, joshiiitr@gmail.com, gost.dev@samsung.com,
+	stable@vger.kernel.org, Vincent Fu <vincent.fu@samsung.com>
+Subject: Re: [PATCH v2 1/2] nvme: fix memory corruption for passthrough
+ metadata
+Message-ID: <20230905051825.GA4073@green245>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <772c4140-3035-16d8-0253-f5893c3698e2@linux.ibm.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+In-Reply-To: <ZPH5Hjsqntn7tBCh@kbusch-mbp>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrHJsWRmVeSWpSXmKPExsWy7bCmhu7XXd9SDM6vZbZYc+U3u8Xqu/1s
+	FjcP7GSyWLn6KJPF+beHmSwmHbrGaDF/2VN2i3Wv37NYLNj4iNHicXcHo8WGNkEHbo+ds+6y
+	e5y/t5HF4/LZUo9NqzrZPDYvqffYfbOBzaNvyypGj8+b5AI4orJtMlITU1KLFFLzkvNTMvPS
+	bZW8g+Od403NDAx1DS0tzJUU8hJzU22VXHwCdN0yc4DOVFIoS8wpBQoFJBYXK+nb2RTll5ak
+	KmTkF5fYKqUWpOQUmBToFSfmFpfmpevlpZZYGRoYGJkCFSZkZ/z/sI2xYLNoxdpzm5kbGA8I
+	djFyckgImEgsXbWBGcQWEtjNKDFvUUQXIxeQ/YlR4tCuxawQzjdGiYVTFrDBdKzd9R4qsZdR
+	Ys26H2wQzjNGif4tR1hAqlgEVCSm7FzM3sXIwcEmoClxYXIpSFhEQFni7vyZYM3MAm8ZJXa/
+	fwW2W1ggSGLJ/j52EJtXQEdiwdZ9zBC2oMTJmU/AZnIKaEk83HyPEcQWBRp0YNtxJpBBEgJr
+	OSSen77NBrJMQsBF4sj1PIhLhSVeHd/CDmFLSbzsb4OykyUuzTzHBGGXSDzecxDKtpdoPdUP
+	tpdZIEPi4ZXbjBA2n0Tv7ydMEON5JTrahCDKFSXuTXrKCmGLSzycsQTK9pC4vGwqMyRMbjNK
+	vFiznHkCo9wsJO/MQrICwraS6PzQxDoLaAWzgLTE8n8cEKamxPpd+gsYWVcxSqYWFOempyab
+	FhjmpZbD4zg5P3cTIzjharnsYLwx/5/eIUYmDsZDjBIczEoivO/kv6UI8aYkVlalFuXHF5Xm
+	pBYfYjQFRs9EZinR5Hxgys8riTc0sTQwMTMzM7E0NjNUEud93To3RUggPbEkNTs1tSC1CKaP
+	iYNTqoGpzrk3wUP52deCLfpXdb+f8eg7MKVFebLhzpmK/NJKmgpN+mrCf9ef9xe9OGfl4pUz
+	CgVUfwTmW6xZ2/XrbLWm21ueO0LhbQoaXxj/6f6Qbq1Tmqsw8bvVYtmVCu+/lR49sCsu3ttO
+	w33RoYP7V1aqG006/W/rwk13n205lVe8551VcvVHJ3vlX3mVDN62K/fP7CnxspmuG/UxYj/L
+	hAT/4u0pfBvulvVf2N99fJehgYPa59z6mQ+nfb5R3fCg8t3XmZveFPFGFQu+3DF5yyyjkKAf
+	p7Qkw152Mvype5+R7bPveXKL7N/Dk7NFe7zupqvznHitcYBdMFdXSdBK6u+sqadWPfIP29Ls
+	4Foa9fytEktxRqKhFnNRcSIA/rqMHEEEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrHLMWRmVeSWpSXmKPExsWy7bCSnO6XXd9SDKY/VrFYc+U3u8Xqu/1s
+	FjcP7GSyWLn6KJPF+beHmSwmHbrGaDF/2VN2i3Wv37NYLNj4iNHicXcHo8WGNkEHbo+ds+6y
+	e5y/t5HF4/LZUo9NqzrZPDYvqffYfbOBzaNvyypGj8+b5AI4orhsUlJzMstSi/TtErgyjm87
+	zljwVKhi0Z3JzA2MPfxdjJwcEgImEmt3vWftYuTiEBLYzSgxueMIM0RCXKL52g92CFtYYuW/
+	5+wQRU8YJbZM2QaWYBFQkZiyczGQzcHBJqApcWFyKUhYREBZ4u78mWBDmQXeMkrsfv8KbKiw
+	QJDEkv19YL28AjoSC7buY4YYepdR4u3sHawQCUGJkzOfsIDYzAJmEvM2P2QGWcAsIC2x/B8H
+	SJhTQEvi4eZ7jCC2KNCyA9uOM01gFJyFpHsWku5ZCN0LGJlXMUqmFhTnpucWGxYY5aWW6xUn
+	5haX5qXrJefnbmIER5GW1g7GPas+6B1iZOJgPMQowcGsJML7Tv5bihBvSmJlVWpRfnxRaU5q
+	8SFGaQ4WJXHeb697U4QE0hNLUrNTUwtSi2CyTBycUg1M23vdjc9EnFyd2N0rqH785/EvWzQ3
+	v9A4e+mIdeCibSfv7th1MuGNltdzr6vtzdyXdrw4tU1j3/22FUaegZ//Za9+lH1wpbe43sUQ
+	5qDfjzuEKvcXuZf51XFmHdCZOf1i04movZfn1jcW7Jr+0/vA3f0zbt96WMhVlNFn1uP95mZ6
+	8vOpnts8fdff80pety5ccTJ3ghrD7p1WrDduzRNY9HzP2n2/u1ce972y/LC7p2LQ/mibDt31
+	aYpXl8eaJOZzfwlwMrLnLok+zxm45U0X+2O5psRKC2EbrWS90qqqnO19i24t0ZMICDfX97RU
+	8tY6+vXL1j2i69NVzR5dkJWSFv9R4WW3bU72R67TtccZlViKMxINtZiLihMBtMqsRhEDAAA=
+X-CMS-MailID: 20230905052156epcas5p1cff7df2bcffc5e5080d29cda8c17a238
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----nvFln8z3L_krFSQI_duuyTsYVGNcxCMU6qftyQwhOSKtHzaF=_be2e1_"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230814070548epcas5p34eb8f36ab460ee2bf55030ce856844b9
+References: <20230814070213.161033-1-joshi.k@samsung.com>
+	<CGME20230814070548epcas5p34eb8f36ab460ee2bf55030ce856844b9@epcas5p3.samsung.com>
+	<20230814070213.161033-2-joshi.k@samsung.com> <ZPH5Hjsqntn7tBCh@kbusch-mbp>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230904_220320_885216_CBD228DB 
-X-CRM114-Status: GOOD (  43.78  )
+X-CRM114-CacheID: sfid-20230904_222213_366553_8174A486 
+X-CRM114-Status: GOOD (  22.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,92 +138,64 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Hari, Michael
+------nvFln8z3L_krFSQI_duuyTsYVGNcxCMU6qftyQwhOSKtHzaF=_be2e1_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-On 08/11/23 at 01:23pm, Hari Bathini wrote:
-> 
-> 
-> On 10/08/23 8:31 am, Baoquan He wrote:
-> > On 08/10/23 at 10:06am, Ming Lei wrote:
-> > > On Thu, Aug 10, 2023 at 09:18:27AM +0800, Baoquan He wrote:
-> > > > On 08/10/23 at 08:09am, Ming Lei wrote:
-> > > > > On Wed, Aug 09, 2023 at 03:44:01PM +0200, Christoph Hellwig wrote:
-> > > > > > I'm starting to sound like a broken record, but we can't just do random
-> > > > > > is_kdump checks, and it's not going to get better by resending it again and
-> > > > > > again.  If kdump kernels limit the number of possible CPUs, it needs to
-> > > > > > reflected in cpu_possible_map and we need to use that information.
-> > > > > > 
-> > > > > 
-> > > > > Can you look at previous kdump/arch guys' comment about kdump usage &
-> > > > > num_possible_cpus?
-> > > > > 
-> > > > >      https://lore.kernel.org/linux-block/CAF+s44RuqswbosY9kMDx35crviQnxOeuvgNsuE75Bb0Y2Jg2uw@mail.gmail.com/
-> > > > >      https://lore.kernel.org/linux-block/ZKz912KyFQ7q9qwL@MiWiFi-R3L-srv/
-> > > > > 
-> > > > > The point is that kdump kernels does not limit the number of possible CPUs.
-> > > > > 
-> > > > > 1) some archs support 'nr_cpus=1' for kdump kernel, which is fine, since
-> > > > > num_possible_cpus becomes 1.
-> > > > 
-> > > > Yes, "nr_cpus=" is strongly suggested in kdump kernel because "nr_cpus="
-> > > > limits the possible cpu numbers, while "maxcpuss=" only limits the cpu
-> > > > number which can be brought up during bootup. We noticed this diference
-> > > > because a large number of possible cpus will cost more memory in kdump
-> > > > kernel. e.g percpu initialization, even though kdump kernel have set
-> > > > "maxcpus=1".
-> > > > 
-> > > > Currently x86 and arm64 all support "nr_cpus=". Pingfan ever spent much
-> > > > effort to make patches to add "nr_cpus=" support to ppc64, seems ppc64
-> > > > dev and maintainers do not care about it. Finally the patches are not
-> > > > accepted, and the work is not continued.
-> > > > 
-> > > > Now, I am wondering what is the barrier to add "nr_cpus=" to power ach.
-> > > > Can we reconsider adding 'nr_cpus=' to power arch since real issue
-> > > > occurred in kdump kernel?
-> > > 
-> > > If 'nr_cpus=' can be supported on ppc64, this patchset isn't needed.
-> > > 
-> > > > 
-> > > > As for this patchset, it can be accpeted so that no failure in kdump
-> > > > kernel is seen on ARCHes w/o "nr_cpus=" support? My personal opinion.
-> > > 
-> > > IMO 'nr_cpus=' support should be preferred, given it is annoying to
-> > > maintain two kinds of implementation for kdump kernel from driver
-> > > viewpoint. I guess kdump things can be simplified too with supporting
-> > > 'nr_cpus=' only.
-> > 
-> > Yes, 'nr_cpus=' is ideal. Not sure if there's some underlying concerns so
-> > that power people decided to not support it.
-> 
-> Though "nr_cpus=1" is an ideal solution, maintainer was not happy with
-> the patch as the code changes have impact for regular boot path and
-> it is likely to cause breakages. So, even if "nr_cpus=1" support for
-> ppc64 is revived, the change is going to take time to be accepted
-> upstream.
+On Fri, Sep 01, 2023 at 10:45:50AM -0400, Keith Busch wrote:
+>On Mon, Aug 14, 2023 at 12:32:12PM +0530, Kanchan Joshi wrote:
+>> +static bool nvme_validate_passthru_meta(struct nvme_ctrl *ctrl,
+>> +					struct nvme_ns *ns,
+>> +					struct nvme_command *c,
+>> +					__u64 meta, __u32 meta_len)
+>> +{
+>> +	/*
+>> +	 * User may specify smaller meta-buffer with a larger data-buffer.
+>> +	 * Driver allocated meta buffer will also be small.
+>> +	 * Device can do larger dma into that, overwriting unrelated kernel
+>> +	 * memory.
+>> +	 */
+>
+>What if the user doesn't specify metadata or length for a command that
+>uses it? The driver won't set MPTR in that case, causing the device to
+>access NULL.
 
-I talked to pingfan recently, he said he posted patches to add 'nr_cpus='
-support in powerpc in order to reduce memory amount for kdump kernel.
-His patches were rejected by maintainer because maintainer thought the
-reason is not sufficient. So up to now, in architectures fedora/RHEL
-supports to provide default crashkernel reservation value, powerpc costs
-most. Now with this emerging issue, can we reconsider supporting
-'nr_cpus=' in powerpc?
+That is fine, because kernel is not going to allocate memory for that
+case. I am not trying to provide any saftey net to user-space in this
+patch. Rather, the objective is to prevent kernel-memory corruption.
 
-> 
-> Also, I see is_kdump_kernel() being used irrespective of "nr_cpus=1"
-> support for other optimizations in the driver for the special dump
-> capture environment kdump is.
-> 
-> If there is no other downside for driver code, to use is_kdump_kernel(),
-> other than the maintainability aspect, I think the above changes are
-> worth considering.
+>And similiar to this problem, what if the metadata is extended rather
+>than separate, and the user's buffer is too short? That will lead to the
+>same type of problem you're trying to fix here?
 
-Hi Hari,
+No.
+For extended metadata, userspace is using its own buffer. Since
+intermediate kernel buffer does not exist, I do not have a problem to
+solve.
 
-By the way, will you use the ppc specific is_kdump_kernel() and
-is_crashdump_kernel() in your patches to fix this issue?
+>My main concern, though, is forward and backward compatibility. Even
+>when metadata is enabled, there are IO commands that don't touch it, so
+>some tool that erroneously requested it will stop working. Or perhaps
+>some other future opcode will have some other metadata use that doesn't
+>match up exactly with how read/write/compare/append use it. As much as
+>I'd like to avoid bad user commands from crashing, these kinds of checks
+>can become problematic for maintenance. 
 
-Thanks
-Baoquan
+For forward compatibility - if we have commands that need to specify
+metadata in a different way (than what is possible from this interface),
+we anyway need a new passthrough command structure.
+Moreover, it's really about caring _only_ for cases when kernel allocates
+memory for metadata. And those cases are specific (i.e., when
+metadata and metalen are not zero). We don't have to think in terms of
+opcode (existing or future), no?
 
+For backward comptability, should we care about erroneous tools.
+My concern is we currenly have a hole that can be exploited to affect
+other sane applications and bring the kernel down to its knees.
+
+------nvFln8z3L_krFSQI_duuyTsYVGNcxCMU6qftyQwhOSKtHzaF=_be2e1_
+Content-Type: text/plain; charset="utf-8"
+
+
+------nvFln8z3L_krFSQI_duuyTsYVGNcxCMU6qftyQwhOSKtHzaF=_be2e1_--
 
