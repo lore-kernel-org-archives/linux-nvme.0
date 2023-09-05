@@ -4,59 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B78AC83F33
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Sep 2023 14:49:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79BFCC83F2C
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Sep 2023 15:15:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:MIME-Version:Date:Message-ID:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=UkBdY3nZmDQN7lxXU3C9NthpSXTfSFz7c3c9SNclC5g=; b=0OYaIjZ2FyMkJG
-	v8zdRtZxDkJHIZ0urnwga8vBffF8wCo2lamGFSd1vMlwByIm8J/aKfZFD/4y/cY4HadFELkEeLwZ2
-	2pg5rN/31DjfH+ti0vF76ehHKgYbHEHbRlB4NPHsYoB0F5YlZ/tD3ViibRZNGrhdUc0VIrrStSo/E
-	7pFTaU5qt/zcknPkqg2h9X5zRkfQ8GcTXZc+lLHMgHwp+e2FDvJePI7N/HAEz2pKHt0zWUgirnrdk
-	OJw/AmZXppMUWSXr85IVkElRfsazg5ZcqOPT+nCrJLDONDJZxfhYfsqVEpLpCbe/SIAlDcr0Z91Ln
-	JYUgm3Gy/UINp5tNw5Gg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=MZxTQDzJvL3TKBJNWbi9qEr79IBFR2kYRZ8zfG3sVtc=; b=03scapcUFtfiJCIFEZe85FhijS
+	6N/fVIGU//EDq/R/gthXIQELHwK2gZoxYOJ7vWLdyepPDjMabaKYFgb2Uiman8DAWDvGk/jh3pTaR
+	CreyVIV7WxP2NQcTpph0j9rnyrxtcUlGY85zMrcau/QZsQx2vq0osxKvxAXOG1rvIC9WIrIVYPeUK
+	ks8qJm95HWGXoKAW9BlfCNvZblkZhkiqrrbd+GZGalXAUGkSs41XlFUsF0wLBs32aUcfDRjQChVzD
+	6q2/Zmi+Wm7R38HCFcp3p5GD8g5XhBb0F4VwAgMMyqOzruwus8hnG7fL4aBttS3q9kFlfBPo3Wr8z
+	mH8maYwA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qdXMs-006DFW-0L;
-	Tue, 05 Sep 2023 14:49:26 +0000
-Received: from wp530.webpack.hosteurope.de ([80.237.130.52])
+	id 1qdXlf-006FIQ-2U;
+	Tue, 05 Sep 2023 15:15:03 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qdXMp-006DEM-1H
+	id 1qdXlb-006FHB-2f
 	for linux-nvme@lists.infradead.org;
-	Tue, 05 Sep 2023 14:49:25 +0000
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1qdXMe-0002IZ-Hb; Tue, 05 Sep 2023 16:49:12 +0200
-Message-ID: <2a379b3a-6ff3-444b-bbad-0fba0bc3a28b@leemhuis.info>
-Date: Tue, 5 Sep 2023 16:49:11 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Fwd: Lexar NM790 SSDs are not recognized anymore after 6.1.50 LTS
-Content-Language: en-US, de-DE
-To: Keith Busch <kbusch@kernel.org>,
- Linux regressions mailing list <regressions@lists.linux.dev>
+	Tue, 05 Sep 2023 15:15:01 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 685A1B81201;
+	Tue,  5 Sep 2023 15:14:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9375EC433C7;
+	Tue,  5 Sep 2023 15:14:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1693926881;
+	bh=MZxTQDzJvL3TKBJNWbi9qEr79IBFR2kYRZ8zfG3sVtc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ooglhayVbYjqTRt3Zcgr4L3EZ6hQTlB2Y2JzzB9M5z9u9B0ZS0l/WDjCZLnwIGTrl
+	 7U8cMIqE/QLjvdRdDDZiUMCbauATB8gi7x/ZoqSP52J2uAbC9Fmn4yLiUvldPicDuK
+	 S8GqMDYxrKLlPyXwAcpNn3ycBD/fILkFqrPp+ULMoACZcUUKa0VFSZmQ283b5PEuv2
+	 JaKCllNqV3SgauysH/VIYuMG284xPSXjY0X5ycfGiNHqX7mtpgNlb0Y/1NanrgMLRq
+	 91Owc/PaAwDW5oqeBXdoA6xvSYOhnucprNoVIn2WwiUntTlMfrjrU/huLhaIMLjeP3
+	 MWD1kviohfq9g==
+Date: Tue, 5 Sep 2023 09:14:38 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Linux regressions mailing list <regressions@lists.linux.dev>
 Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Claudio Sampaio <patola@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux NVMe <linux-nvme@lists.infradead.org>,
- Linux Stable <stable@vger.kernel.org>
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Claudio Sampaio <patola@gmail.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux NVMe <linux-nvme@lists.infradead.org>,
+	Linux Stable <stable@vger.kernel.org>
+Subject: Re: Fwd: Lexar NM790 SSDs are not recognized anymore after 6.1.50 LTS
+Message-ID: <ZPdF3uqbJNSZADzv@kbusch-mbp>
 References: <8af186ba-5f64-2102-8f9c-3969b0906893@gmail.com>
  <faa245bf-e925-45b0-9827-b0c9c117e06c@leemhuis.info>
  <ZPc8v9-lHF4jAcxL@kbusch-mbp>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-In-Reply-To: <ZPc8v9-lHF4jAcxL@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1693925363;df99a228;
-X-HE-SMSGID: 1qdXMe-0002IZ-Hb
+ <2a379b3a-6ff3-444b-bbad-0fba0bc3a28b@leemhuis.info>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2a379b3a-6ff3-444b-bbad-0fba0bc3a28b@leemhuis.info>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230905_074923_573577_DFAEDD3A 
-X-CRM114-Status: GOOD (  20.05  )
+X-CRM114-CacheID: sfid-20230905_081500_143202_906CE8BD 
+X-CRM114-Status: GOOD (  12.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,72 +78,21 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 05.09.23 16:35, Keith Busch wrote:
-> On Tue, Sep 05, 2023 at 01:37:36PM +0200, Linux regression tracking (Thorsten Leemhuis) wrote:
->> On 04.09.23 13:07, Bagas Sanjaya wrote:
->>>
->>> I notice a regression report on Bugzilla [1]. Quoting from it:
->>>
->>>> I bought a new 4 TB Lexar NM790 and I was using kernel 6.3.13 at the time. It wasn't recognized, with these messages in dmesg:
->>>>
->>>> [ 358.950147] nvme nvme0: pci function 0000:06:00.0
->>>> [ 358.958327] nvme nvme0: Device not ready; aborting initialisation, CSTS=0x0
->>>>
->>>> My other NVMe appears correctly in the nvme list though.
->>>>
->>>>
->>>> So I tried using other kernels I had installed at the time: 6.3.7, 6.4.10, 6.5.0rc6, 6.5.0, 6.5.1 and none of these recognized the disk.
->>>> I installed the 6.1.50 lts kernel from arch repositories (I can compile my own too if this would be an issue) and then the device was correctly recognized:
->>>>
->>>> [    4.654613] nvme 0000:06:00.0: platform quirk: setting simple suspend
->>>> [    4.654632] nvme nvme0: pci function 0000:06:00.0
->>>> [    4.667290] nvme nvme0: allocated 40 MiB host memory buffer.
->>>> [    4.709473] nvme nvme0: 16/0/0 default/read/poll queues
->>
->> FWIW, the quoted mail missed one crucial detail:
->> """
->>  Claudio Sampaio 2023-09-02 19:04:29 UTC
->>
->> Adding the two lines
->>
->> │ 3457   { PCI_DEVICE(0x1d97, 0x1602), /* Lexar NM790 */
->> │ 3458   │ .driver_data = NVME_QUIRK_BOGUS_NID, },
->>
->> in file drivers/nvme/host/pci.c made my NVMe work correctly. Compiled a
->> new 6.5.1 kernel and everything works.
->> """
->>
->> @NVME maintainers: is there anything more you need from Claudio at this
->> point?
-> 
-> Yes: it doesn't really make any sense. The report says the device
-> stopped showing up with message:
-> 
->   nvme nvme0: Device not ready; aborting initialisation, CSTS=0x0
-> 
-> That (a) happens long before the mentioned quirk is considered by the
-> driver, and (b) the "quirk" behavior is now the default in 6.5 and
-> several of the listed stable kernels anyway.
-> 
-> It more likely sounds like the device is flaky and either never becomes
-> ready due to some unspecified internal firmware condition, or
-> inaccurately reports how long it actually needs to become ready in
-> worst-case-scenario.
+On Tue, Sep 05, 2023 at 04:49:11PM +0200, Linux regression tracking (Thorsten Leemhuis) wrote:
+> But what can Claudio do to find the root cause? Check hardware
+> (especially the connectors), update firmware, ...? And if that doesn't
+> lead to anything, bisect the issue?
 
-Thx, I kinda suspected something like that, but I kept my mouth shut, as
-I feared comments from the cheap seats might be more harmful then helpful.
+Try the current 6.5.1 as-is where the failure was previously seen and
+verify if this observation is indeed 100% reproducible with the "device
+not ready" kernel message. Full system power cycle between tests, too.
 
-But what can Claudio do to find the root cause? Check hardware
-(especially the connectors), update firmware, ...? And if that doesn't
-lead to anything, bisect the issue?
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+If this is truly a regression, my only guess is some platform power
+setting that a newer kernel changed. I am currently suspicious of that
+right now since 6.5.1 was reported to fail but succeed with a "quirk"
+that doesn't accomplish anything. I'm more leaning toward my "device is
+not reliable" theory.
 
