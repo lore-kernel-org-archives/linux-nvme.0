@@ -4,65 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07E4FEE14D4
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Sep 2023 03:44:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CD9D5EE14D4
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Sep 2023 05:39:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=wpk/JLwGOs1eIjILox3z19SNd6kr3FuL2TFM0S4zDCQ=; b=SLKbYk1CQxAzn4gBSgrqW4yct6
-	S3aFQP127gaKk+VmNLnQrxKC0MwkFnfqE8AGYWJ0gJYpMAZApeW0mJsRWVrp9MLTOI/aIN0NsiXeM
-	Nfmiz3Zv13ngSUfldq/rv9rx7mTMrB04Nyc/nUBOzU/WUFlSvDFhSmF1UG+TKnmP7pqI+5srQ3Et2
-	wqmwiG52oqlFtGO7v17sTvnrChaTq7vlolFQ0+XeYJWpw/CvsOlD7YoCMDTBEy4LH4yoLy742dW02
-	nxKe+UNqAdHKe7vLqxbP6LlVo+n9OrJAVhBiEg3zi8C9eQUUCvPGhMOYmXJSmSzKM/QSNZc69SH+I
-	3IY0xmiA==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=vEzdXwzrXnDTeO0P+aNFlsgJ60oxO7RTr/+XEDVnWGU=; b=W5GRq2oJ3qHSYkslwiDTIVnmIu
+	lMOLo1jdo1wFXeOztpRf9q7rxCVh1z9iqZVynQC3PS2HNnSe54LpyGCeZ6pc0IND2u0CRWvSWHUHN
+	oLs/0uiLu5oecn05HPvoYrRTkyCvGtIYKHslZF2xhnmavtGn67WELwQ+AVzjBEup0H8fa9LlT/aLf
+	iZ58x4uotkGOffLU1GUb2RJR/VTrw+ayqQjDjF9aPPkZMS6prGBz1/z/+/j2Wix+l6G9CrEbmPXUG
+	KwvjZP6dBeSMyKKfbTwgx0ho1wVcnfsmULWLRh+Dwxkkk8k9LZbf6upomD+i9RyGfmDZbMk02Ih0u
+	xpvJXInw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qe5wm-00BGA6-29;
-	Thu, 07 Sep 2023 03:44:48 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1qe7je-00BMt2-0h;
+	Thu, 07 Sep 2023 05:39:22 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qe5wk-00BG8s-0X
+	id 1qe7jb-00BMsL-0v
 	for linux-nvme@lists.infradead.org;
-	Thu, 07 Sep 2023 03:44:47 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1694058281;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=wpk/JLwGOs1eIjILox3z19SNd6kr3FuL2TFM0S4zDCQ=;
-	b=aBIoV2LlLtlQPsEs2fJKgIzftQPjO3DZoDuo6FZKEURkTSaz/YEuK4FTCwUxTZAt6YrAZx
-	Yvy7LPy+XHoySKwXhhv2Zsj0CXimR8f63rj3QEvRsszKquetNpCnS0QmoX5qCN/7samLTu
-	eX6SXi7ipJ1LEJGkge5mqgFvjUGQ/0o=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-643-uByImZJyOSSBhsRwCKBLRQ-1; Wed, 06 Sep 2023 23:44:39 -0400
-X-MC-Unique: uByImZJyOSSBhsRwCKBLRQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	Thu, 07 Sep 2023 05:39:20 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 749D838149AE;
-	Thu,  7 Sep 2023 03:44:39 +0000 (UTC)
-Received: from fedora34.. (unknown [10.66.146.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 99F0B21EE56A;
-	Thu,  7 Sep 2023 03:44:37 +0000 (UTC)
-From: Yi Zhang <yi.zhang@redhat.com>
-To: linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Cc: shinichiro.kawasaki@wdc.com,
-	dwagner@suse.de
-Subject: [PATCH blktests] tests/nvme/031: fix connecting faiure
-Date: Thu,  7 Sep 2023 11:44:23 +0800
-Message-Id: <20230907034423.3928010-1-yi.zhang@redhat.com>
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 2C08A1F459;
+	Thu,  7 Sep 2023 05:39:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1694065156; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vEzdXwzrXnDTeO0P+aNFlsgJ60oxO7RTr/+XEDVnWGU=;
+	b=zr7k3C3k5bcifoR7lksFXR5wYxINEnL5SHX7Hgtw8PH/VB7pxIJltEsBEDIsWKJhtOBllg
+	kjBlPikKsXRR3aBkuHtcwqVYAsGuRiCE+5YdeJ9Gj/nMdolzpBxh0W+LWzTQsmgCtsl0GU
+	nx8up8cqOng/NvIWPUVsz5QE5LyTNmQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1694065156;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vEzdXwzrXnDTeO0P+aNFlsgJ60oxO7RTr/+XEDVnWGU=;
+	b=cwHd6RbV9kQqZVcKJLf2ZxshTikYkz2/zqjz1vx77H0a2bb63I00umYAVZa6h4IjnOM5ZK
+	fpOti423Zoa7T8Ag==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7AB0513458;
+	Thu,  7 Sep 2023 05:39:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id r6UMGwNi+WQ6XAAAMHmgww
+	(envelope-from <hare@suse.de>); Thu, 07 Sep 2023 05:39:15 +0000
+Message-ID: <d2c3a257-0505-4d3e-ae71-28015952cef6@suse.de>
+Date: Thu, 7 Sep 2023 07:39:14 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v15 02/12] Add infrastructure for copy offload in block
+ and request layer.
+Content-Language: en-US
+To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
+ Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
+ Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>
+Cc: martin.petersen@oracle.com, mcgrof@kernel.org, gost.dev@samsung.com,
+ Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
+References: <20230906163844.18754-1-nj.shetty@samsung.com>
+ <CGME20230906164303epcas5p1c2d3ec21feac347f0f1d68adc97c61f5@epcas5p1.samsung.com>
+ <20230906163844.18754-3-nj.shetty@samsung.com>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20230906163844.18754-3-nj.shetty@samsung.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230906_204446_298468_4F85D1D9 
-X-CRM114-Status: GOOD (  11.18  )
+X-CRM114-CacheID: sfid-20230906_223919_474576_4FE433F2 
+X-CRM114-Status: GOOD (  15.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,38 +103,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-allow_any_host was disabled during _create_nvmet_subsystem, call
-_create_nvmet_host before connecting to allow the host to connect.
+On 9/6/23 18:38, Nitesh Shetty wrote:
+> We add two new opcode REQ_OP_COPY_SRC, REQ_OP_COPY_DST.
+> Since copy is a composite operation involving src and dst sectors/lba,
+> each needs to be represented by a separate bio to make it compatible
+> with device mapper.
+> We expect caller to take a plug and send bio with source information,
+> followed by bio with destination information.
+> Once the src bio arrives we form a request and wait for destination
+> bio. Upon arrival of destination we merge these two bio's and send
+> corresponding request down to device driver.
+> 
+> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+> Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+> ---
+>   block/blk-core.c          |  7 +++++++
+>   block/blk-merge.c         | 41 +++++++++++++++++++++++++++++++++++++++
+>   block/blk.h               | 16 +++++++++++++++
+>   block/elevator.h          |  1 +
+>   include/linux/bio.h       |  6 +-----
+>   include/linux/blk_types.h | 10 ++++++++++
+>   6 files changed, 76 insertions(+), 5 deletions(-)
+> 
+Having two separate bios is okay, and what one would expect.
+What is slightly strange is the merging functionality;
+That could do with some more explanation why this approach was taken.
+And also some checks in the merging code to avoid merging non-copy 
+offload  bios.
 
-[76096.420586] nvmet: adding nsid 1 to subsystem blktests-subsystem-0
-[76096.440595] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
-[76096.491344] nvmet: connect by host nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349 for subsystem blktests-subsystem-0 not allowed
-[76096.505049] nvme nvme2: Connect for subsystem blktests-subsystem-0 is not allowed, hostnqn: nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
-[76096.519609] nvme nvme2: failed to connect queue: 0 ret=16772
+Cheers,
 
-Signed-off-by: Yi Zhang <yi.zhang@redhat.com>
----
- tests/nvme/031 | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/tests/nvme/031 b/tests/nvme/031
-index d5c2561..696db2d 100755
---- a/tests/nvme/031
-+++ b/tests/nvme/031
-@@ -42,10 +42,12 @@ test() {
- 	for ((i = 0; i < iterations; i++)); do
- 		_create_nvmet_subsystem "${subsys}$i" "${loop_dev}"
- 		_add_nvmet_subsys_to_port "${port}" "${subsys}$i"
-+		_create_nvmet_host "${subsys}$i" "${def_hostnqn}"
- 		_nvme_connect_subsys "${nvme_trtype}" "${subsys}$i"
- 		_nvme_disconnect_subsys "${subsys}$i" >> "${FULL}" 2>&1
- 		_remove_nvmet_subsystem_from_port "${port}" "${subsys}$i"
- 		_remove_nvmet_subsystem "${subsys}$i"
-+		_remove_nvmet_host "${def_hostnqn}"
- 	done
- 
- 	_remove_nvmet_port "${port}"
+Hannes
 -- 
-2.34.3
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
+Myers, Andrew McDonald, Martje Boudien Moerman
 
 
