@@ -4,136 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30BB1EE14D6
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Sep 2023 08:09:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BD7D2EE14D6
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Sep 2023 08:12:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=V6wr2bHKFf1JJGBntBJklQKl0KYjTY7rWeAV22neHUc=; b=4KHCgSqks/O5/kh3GnDcrJcgY7
-	HGJrZTk/HRk42OwtYjunD585nVo/hn9QSf/DLVZ2Zqjq/FOkE876WndS1NM4vf7SeKLnu8hf8Da9K
-	Lgaejuo9m2XABUNWeKcrPp8Bnz8qaMv4XPmkkXHMj4fCNBRiFANpIYEEQPxyQ50QnOPWveEz9FxJh
-	vcKSsFs/EkSWQw4lPgGsSNP6XHBH0F86s3ARisrIaHr3XMOAtxKsxfDKMJafIXe1F8cs9J1zpiVhP
-	+k3UcwOhpOC7uKb/y2ETwqGHnTHf0OGSY47z6DHOrO4WNPnsZ4ViuhAWCPppNTKDVTQbASZUMi1KN
-	TlqslfAg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=w100yaLBvwNH+WVfbjpN8T5H4OviHRTR+lJmQJEyilA=; b=QuYAgXPR9RwBYWWOf3/g9S4LoU
+	QnR/zJsynbNojTzjNO/DQVBPwsbDsgTZ81wzymUdl5PNqKptui6J0RdSTzsFSO5gB0WVvu3fmQ6sP
+	PZmC7fYhMqmzcqEPgQGB9aTJML4ZkJl6rXxsrIKgys5cAl5EFZHtNqo0kP1YmQF3mpiSUFKogIK+K
+	qMKd6Kinug0rMPL6pl8cc974LBxc1hSP/FRFgxdY8LodU+VrIhvXOTA+U8fPYyF6Dki1w33aHMHR8
+	dd89iHaTmEIjduKugrV5ykwrO5CKeH8ET8Z8c/fMf+oKEPW1c1GXWOfPH7uoF925qluqV6xMWmP9p
+	NQYBXVnQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qeA5A-00BYeK-06;
-	Thu, 07 Sep 2023 08:09:44 +0000
-Received: from mailout1.samsung.com ([203.254.224.24])
+	id 1qeA7z-00BYy3-19;
+	Thu, 07 Sep 2023 08:12:39 +0000
+Received: from out-222.mta0.migadu.com ([2001:41d0:1004:224b::de])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qeA55-00BYcX-1e
+	id 1qeA7u-00BYwm-3A
 	for linux-nvme@lists.infradead.org;
-	Thu, 07 Sep 2023 08:09:41 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20230907080933epoutp01b1cb9ef32415e27a73d1707fa7fdc183~Cj3wgAjnr0478004780epoutp01-
-	for <linux-nvme@lists.infradead.org>; Thu,  7 Sep 2023 08:09:33 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20230907080933epoutp01b1cb9ef32415e27a73d1707fa7fdc183~Cj3wgAjnr0478004780epoutp01-
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1694074173;
-	bh=V6wr2bHKFf1JJGBntBJklQKl0KYjTY7rWeAV22neHUc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=FuIsvGFBvEa3mSAuwbudLT13WTEF4irSeTJwTLS02ZR1lw4VXAkTtF7Mp51f/FSdv
-	 4FsOsII2UFfacQCYclmXd/ERK+PuP7Dwzw1kKP7v8NGj2jOzCZdkT5/Z4KdjQ7Eeb+
-	 em53o6sbb4Vimt9FBI1xdjZ+xsanhssjNly3gvzU=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20230907080932epcas5p29191997c30b6c069da4ec6098457f9ed~Cj3v7N0E82859528595epcas5p27;
-	Thu,  7 Sep 2023 08:09:32 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.181]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4RhBjQ5pMQz4x9Q6; Thu,  7 Sep
-	2023 08:09:30 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	61.40.09638.A3589F46; Thu,  7 Sep 2023 17:09:30 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20230907071936epcas5p1ae555e75c8ee278f08e4537d0839cc72~CjMJf8lev2653926539epcas5p1y;
-	Thu,  7 Sep 2023 07:19:36 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20230907071936epsmtrp17265aa18f417f5e035967b86ea7c0b17~CjMJe6os_1235812358epsmtrp1B;
-	Thu,  7 Sep 2023 07:19:36 +0000 (GMT)
-X-AuditID: b6c32a4a-92df9700000025a6-ff-64f9853a35a9
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	D0.0D.18916.88979F46; Thu,  7 Sep 2023 16:19:36 +0900 (KST)
-Received: from green245 (unknown [107.99.41.245]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20230907071933epsmtip2c2f2ef6298194cfcf6c7db10e2733a19~CjMGmu15-2489124891epsmtip2B;
-	Thu,  7 Sep 2023 07:19:32 +0000 (GMT)
-Date: Thu, 7 Sep 2023 12:46:11 +0530
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
-	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	dm-devel@redhat.com, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
-	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
-	<kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
-	Brauner <brauner@kernel.org>, martin.petersen@oracle.com, mcgrof@kernel.org,
-	gost.dev@samsung.com, Anuj Gupta <anuj20.g@samsung.com>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v15 03/12] block: add copy offload support
-Message-ID: <20230907071611.rgukw7fory2xh5sy@green245>
+	Thu, 07 Sep 2023 08:12:37 +0000
+Message-ID: <a403c942-5b1c-c7f7-243b-81545f7f83ad@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1694074351;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=w100yaLBvwNH+WVfbjpN8T5H4OviHRTR+lJmQJEyilA=;
+	b=FG9s9/vAhtMIH5kleuUh8B4JZPQUOwicxxS6HsmU1hIpkiN8n4F+QSU1poNq1Ah1cREvGr
+	qmapYbEOKn4NfKUEHDIsAUq/jDSVsb6cTiLq7AT8loxFLneB1Tzm9oQk6Q31+rILwq8JbF
+	J1tznL52BG06IphVpRAhxawxKrIip7Q=
+Date: Thu, 7 Sep 2023 16:12:18 +0800
 MIME-Version: 1.0
-In-Reply-To: <b0f3d320-047b-4bd8-a6fc-25b468caf5b3@suse.de>
-User-Agent: NeoMutt/20171215
-X-Brightmail-Tracker: H4sIAAAAAAAAA02TfVCTdRzA+z3Psxc8V09D7AdU0rC7kAM32uYzYuAp1z2XdQennlndwWKP
-	jGNsuz0bYHY1UUC4YIoUMKlAKN6E5SCP9yMMgVHxh4GAQsIxDZD3GyIEtLHh+d/n+/52XzbK
-	TWf5sBNUOkqrkil5zF3YrdsBAUGh6c/k/KKcAMJsvYMSaZc3UKJm1MgkZm4vAWKyIxMQbXPX
-	GMRwRxNCtF7PQ4iqmi6EyOscBIRtwIQQbSOBRGlGOUa0tvVixN3mYibx4882FlHRvYkQQ5dt
-	gKibmceInhFfon+jm3HYi+wfu4mRd//Uk5bqLCZZX/412TJsYJJluVcZZM6FOSa5aBvByPn2
-	ASaZ21ANyPq+c+Sy5U3SMjmLRHE+SQxTUDI5pfWjVHFqeYIqXso7djzmaIxIzBcECSTEIZ6f
-	SpZESXmRH0YFvZ+gdMzL80uWKfUOVZSMpnkHw8O0ar2O8lOoaZ2UR2nkSo1QE0zLkmi9Kj5Y
-	RelCBXx+iMjhGJuoWMtewDRbrNTKrCamATxgZgMPNsSFMGtzGMsGu9hcvAXAjMe/sFzCEoDz
-	tR3M54J9ogzZCbHPNCIuQxOABXPDLKeBiz8CsH5ht5MxfD+8uLHlcGKzmXgg7NtiO9V7cB5c
-	zOzcroDi6Qy4VrO0ndQTD4cTK5sMJ3NwMZw5X4q6+FXYWzSJOdkDfw8aV8e3+/bCX4eFP9lR
-	ZyKIF3jA8sJld3eRsLBpg+FiTzjd3cBysQ+cMma4OQVW5VcyXcEXATTdMwGXIQKmW43blVFc
-	AZ9MjWIu/RvwW2sd4tK/DHPWJ93FOLDxhx32hzfMJe6tesPBp+fdTMLJp7XuDS0AaJg9chns
-	M70wnOmFci4OhVkLaQyTY3ko7gsrNtkuDIDm5oMlgFENvCkNnRRP0SJNiIpKeX7xOHWSBWz/
-	w4EPGsH4w4XgToCwQSeAbJS3hzO3b0XO5chlZ7+gtOoYrV5J0Z1A5DjWFdTHK07teCiVLkYg
-	lPCFYrFYKHlXLOC9xplJ/17OxeNlOiqRojSUdicOYXv4GJCKa/nWM/cubJmjuoo2PFdQ6+/B
-	x0kpdyTTctJ66I93vO/M7R8fM0R+XDAsT/4r9p/kmOK6hvw6USkbiCZ+WzxWzIe3lKsaq2BN
-	n9N+OjmCHp2iLPd9bxR+FVGWUlVVuTeyR3Ip/mZT34DhvwKPElq43nzWOK1t7Xmr2Jb25Du7
-	f8RLVv+EL0uiU/8+9XaYRa7g9knW1yOH8kJ7uNgle605rpKCD6dbVsnBX7m+it2nsgIrTCfO
-	zfZa64zBA4+vPLDY+s+kfrRy+v7ecE7XSqv5aOx63pD18HUzEv5o6pV/2zLJT9ujk77xlEQf
-	ORlSNPbs6mcnYtOW2+yoVPN5wqI0l4fRCpngAKqlZf8D0vdD9ZgEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrEIsWRmVeSWpSXmKPExsWy7bCSvG5H5c8Ug52beS3WnzrGbNE04S+z
-	xeq7/WwWrw9/YrR4cqCd0WLvu9msFjcP7GSy2LNoEpPFytVHmSwmHbrGaPH06iwmi723tC0W
-	ti1hsdiz9ySLxeVdc9gs5i97ym6x/Pg/JosbE54yWqx7/Z7F4sQtaYvzf4+zOoh6nL+3kcXj
-	8tlSj02rOtk8Ni+p99h9s4HNY3HfZFaP3uZ3bB4fn95i8Xi/7yqbR9+WVYwem09Xe3zeJOex
-	6clbpgDeKC6blNSczLLUIn27BK6M8613WAs2slYc3dnE1sC4gqWLkZNDQsBE4uvrHUxdjFwc
-	QgLbGSWezX3KDJGQlFj29wiULSyx8t9zdhBbSOAJo8TyPVEgNouAikTL3/9AzRwcbALaEqf/
-	c4CERQSUJD62H2IHmcks0M4q0b/gFSNIQljATuLRt3+sIDavgJnE68aFzBCLPzBKXNp+kxki
-	IShxcuYTsOuYgYrmbX7IDLKAWUBaYvk/sAWcAtYS/T8esoHYogIyEjOWfmWewCg4C0n3LCTd
-	sxC6FzAyr2IUTS0ozk3PTS4w1CtOzC0uzUvXS87P3cQIjmatoB2My9b/1TvEyMTBeIhRgoNZ
-	SYT3nfy3FCHelMTKqtSi/Pii0pzU4kOM0hwsSuK8yjmdKUIC6YklqdmpqQWpRTBZJg5OqQYm
-	psVGUjocv0PKF1veYZ6r5CabX2m7J+v1ubSIoFPLQiZPSBackunI5m6f/aTmt5Csv8qiRuby
-	fYdsMlgPZThaXf/x13umoG4Qw4d/i/+GRTnsZJJL6LmXxsCXyHo9dVXFIc2+2MaQsLOK2TJu
-	PpdSXB5kHMvvPzlvW2GI8sPbpqpJX97oRK1JeV1W0H6U+bHzwvnch6cp5Vrcj/kRnBH4+O67
-	NYI1D7eLP/68patKUlN/xY9p7d7HjtawHlBOenbhwTaeN+yZ91M29xubxqS6MoYobvfu3s0V
-	zyAaJmBn9jk+MuJ4e8GM/+ZS3g8M1hmeuvL5/auvU9Yd5JrsviNBdkb5+4Rjfw7d4mRqalRi
-	Kc5INNRiLipOBABGGkG3VQMAAA==
-X-CMS-MailID: 20230907071936epcas5p1ae555e75c8ee278f08e4537d0839cc72
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----1B4_PwnuBgjs5al8.ARo7bB9J1Y4sbiuOmsCUR3u7pWcBekA=_3ae06_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230906164312epcas5p397662c68dde1dbc4dc14c3e80ca260b3
-References: <20230906163844.18754-1-nj.shetty@samsung.com>
-	<CGME20230906164312epcas5p397662c68dde1dbc4dc14c3e80ca260b3@epcas5p3.samsung.com>
-	<20230906163844.18754-4-nj.shetty@samsung.com>
-	<b0f3d320-047b-4bd8-a6fc-25b468caf5b3@suse.de>
+Subject: Re: [PATCH RFC] nvmet-tcp: add new workqueue to surpress lockdep
+ warning
+Content-Language: en-US
+To: Yi Zhang <yi.zhang@redhat.com>
+Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
+ linux-nvme@lists.infradead.org
+References: <20230726142939.10062-1-guoqing.jiang@linux.dev>
+ <CAHj4cs9LppxseFzZe-fj7tDaeKd0x8t8Wr-aYcjXAU-8FyfoiQ@mail.gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Guoqing Jiang <guoqing.jiang@linux.dev>
+In-Reply-To: <CAHj4cs9LppxseFzZe-fj7tDaeKd0x8t8Wr-aYcjXAU-8FyfoiQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230907_010939_887850_C6877640 
-X-CRM114-Status: GOOD (  15.88  )
+X-CRM114-CacheID: sfid-20230907_011235_443516_F64D9FDC 
+X-CRM114-Status: UNSURE (   9.09  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -148,32 +72,133 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------1B4_PwnuBgjs5al8.ARo7bB9J1Y4sbiuOmsCUR3u7pWcBekA=_3ae06_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+Hi Yi,
 
-On 07/09/23 07:49AM, Hannes Reinecke wrote:
->On 9/6/23 18:38, Nitesh Shetty wrote:
+On 9/7/23 14:41, Yi Zhang wrote:
+> Tested-by: Yi Zhang <yi.zhang@redhat.com>
 >
->Hmm. That looks a bit odd. Why do you have to use wait_for_completion?
+> Confirmed below issue was fixed by this patch:
 
-wait_for_completion is waiting for all the copy IOs to complete,
-when caller does not pass endio handler.
-Copy IO submissions are still async, as in previous revisions.
+Thanks a lot for the test!
 
->Can't you submit the 'src' bio, and then submit the 'dst' bio from the 
->endio handler of the 'src' bio?
-We can't do this with the current bio merging approach.
-'src' bio waits for the 'dst' bio to arrive in request layer.
-Note that both bio's should be present in request reaching the driver,
-to form the copy-cmd.
-
-Thank You,
-Nitesh Shetty
-
-------1B4_PwnuBgjs5al8.ARo7bB9J1Y4sbiuOmsCUR3u7pWcBekA=_3ae06_
-Content-Type: text/plain; charset="utf-8"
+And I had got another similar lockdep warning about nvmet-rdma.
 
 
-------1B4_PwnuBgjs5al8.ARo7bB9J1Y4sbiuOmsCUR3u7pWcBekA=_3ae06_--
+[ 1218.508847] ======================================================
+[ 1218.508849] WARNING: possible circular locking dependency detected
+[ 1218.508852] 6.5.0-rc3+ #16 Tainted: G           OE
+[ 1218.508854] ------------------------------------------------------
+[ 1218.508856] kworker/1:3/357 is trying to acquire lock:
+[ 1218.508858] ffff8e32b919fc20 (&id_priv->handler_mutex){+.+.}-{3:3}, 
+at: rdma_destroy_id+0x1c/0x40 [rdma_cm]
+[ 1218.508877]
+                but task is already holding lock:
+[ 1218.508878] ffffb5dbc0c67e40 
+((work_completion)(&queue->release_work)){+.+.}-{0:0}, at: 
+process_one_work+0x236/0x590
+[ 1218.508887]
+                which lock already depends on the new lock.
+
+[ 1218.508888]
+                the existing dependency chain (in reverse order) is:
+[ 1218.508890]
+                -> #3 ((work_completion)(&queue->release_work)){+.+.}-{0:0}:
+[ 1218.508894]        process_one_work+0x28c/0x590
+[ 1218.508898]        worker_thread+0x52/0x3f0
+[ 1218.508901]        kthread+0x109/0x140
+[ 1218.508904]        ret_from_fork+0x46/0x70
+[ 1218.508908]        ret_from_fork_asm+0x1b/0x30
+[ 1218.508911]
+                -> #2 ((wq_completion)nvmet-wq){+.+.}-{0:0}:
+[ 1218.508915]        __flush_workqueue+0xc5/0x4f0
+[ 1218.508917]        nvmet_rdma_cm_handler+0xa50/0x1080 [nvmet_rdma]
+[ 1218.508924]        cma_cm_event_handler+0x4f/0x170 [rdma_cm]
+[ 1218.508933]        iw_conn_req_handler+0x2ad/0x3f0 [rdma_cm]
+[ 1218.508942]        cm_work_handler+0xbe2/0xe80 [iw_cm]
+[ 1218.508948]        process_one_work+0x2bd/0x590
+[ 1218.508951]        worker_thread+0x52/0x3f0
+[ 1218.508954]        kthread+0x109/0x140
+[ 1218.508956]        ret_from_fork+0x46/0x70
+[ 1218.508959]        ret_from_fork_asm+0x1b/0x30
+[ 1218.508961]
+                -> #1 (&id_priv->handler_mutex/1){+.+.}-{3:3}:
+[ 1218.508966]        __mutex_lock+0x8d/0xd20
+[ 1218.508969]        mutex_lock_nested+0x1b/0x30
+[ 1218.508971]        iw_conn_req_handler+0x137/0x3f0 [rdma_cm]
+[ 1218.508980]        cm_work_handler+0xbe2/0xe80 [iw_cm]
+[ 1218.508986]        process_one_work+0x2bd/0x590
+[ 1218.508989]        worker_thread+0x52/0x3f0
+[ 1218.508991]        kthread+0x109/0x140
+[ 1218.508993]        ret_from_fork+0x46/0x70
+[ 1218.508996]        ret_from_fork_asm+0x1b/0x30
+[ 1218.508998]
+                -> #0 (&id_priv->handler_mutex){+.+.}-{3:3}:
+[ 1218.509002]        __lock_acquire+0x1523/0x2590
+[ 1218.509007]        lock_acquire+0xd6/0x2f0
+[ 1218.509009]        __mutex_lock+0x8d/0xd20
+[ 1218.509011]        mutex_lock_nested+0x1b/0x30
+[ 1218.509013]        rdma_destroy_id+0x1c/0x40 [rdma_cm]
+[ 1218.509022]        nvmet_rdma_free_queue+0x38/0xf0 [nvmet_rdma]
+[ 1218.509028]        nvmet_rdma_release_queue_work+0x1a/0x70 [nvmet_rdma]
+[ 1218.509033]        process_one_work+0x2bd/0x590
+[ 1218.509036]        worker_thread+0x52/0x3f0
+[ 1218.509039]        kthread+0x109/0x140
+[ 1218.509040]        ret_from_fork+0x46/0x70
+[ 1218.509043]        ret_from_fork_asm+0x1b/0x30
+[ 1218.509045]
+                other info that might help us debug this:
+
+[ 1218.509046] Chain exists of:
+                  &id_priv->handler_mutex --> (wq_completion)nvmet-wq 
+--> (work_completion)(&queue->release_work)
+
+[ 1218.509052]  Possible unsafe locking scenario:
+
+[ 1218.509053]        CPU0                    CPU1
+[ 1218.509055]        ----                    ----
+[ 1218.509056] lock((work_completion)(&queue->release_work));
+[ 1218.509058] lock((wq_completion)nvmet-wq);
+[ 1218.509061] lock((work_completion)(&queue->release_work));
+[ 1218.509063]   lock(&id_priv->handler_mutex);
+[ 1218.509065]
+                 *** DEADLOCK ***
+
+The happens because nvmet_rdma_cm_handler receives 
+RDMA_CM_EVENT_DISCONNECTED
+event then the call chain is triggered.
+
+1. nvmet_rdma_queue_disconnect -> __nvmet_rdma_queue_disconnect
+2.                                                             -> 
+queue_work(nvmet_wq, &queue->release_work)
+3. -> nvmet_rdma_release_queue_work
+4.      -> nvmet_rdma_free_queue
+5.          -> nvmet_rdma_destroy_queue_ib
+6.              -> rdma_destroy_id
+
+If cm_handler receives RDMA_CM_EVENT_CONNECT_REQUEST event at the same 
+time, which
+means the path nvmet_rdma_queue_connect -> flush_workqueue(nvmet_wq) can 
+happen
+between 1 and 6.
+
+Besides make similar change like this patch, another option might be 
+check queue state before
+flush workqueue. Thoughts?
+
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -1582,7 +1582,8 @@ static int nvmet_rdma_queue_connect(struct 
+rdma_cm_id *cm_id,
+                 goto put_device;
+         }
+
+-       if (queue->host_qid == 0) {
++       if (queue->state == NVMET_RDMA_Q_LIVE &&
++           queue->host_qid == 0) {
+                 /* Let inflight controller teardown complete */
+                 flush_workqueue(nvmet_wq);
+         }
+
+Thanks,
+Guoqing
 
