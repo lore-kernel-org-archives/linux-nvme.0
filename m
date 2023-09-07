@@ -4,85 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0C344EE14A9
-	for <linux-nvme@archiver.kernel.org>; Wed,  6 Sep 2023 22:59:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07E4FEE14D4
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Sep 2023 03:44:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yJw+M6onsJhTXFRL2PhMRMs0CmpVVyJ8JiCuDiXAbB0=; b=x2XwKUb4BfRT8Ww/vJuoy/EtC9
-	zrq7WE6Lvvycp/cwnncecjhU57tVo8YUskAVBSNpUqGDy5A340JHBp4JXjw+U8L0ECqL1BgEraK3o
-	ix7+bxBgBdbtJIBa/Kx8NC/cBaVFETN+ITFPnQcijZHdOUGQmPXa+VdYO+B7XzR//WiLtpucEfjeG
-	ReRrqm/t9LOpC2pYcbHbY1GFMHNVBeIcN/2KGrNLNXbabalRbvCdMVWm2AVpCM920PU8H2ypAlQt8
-	5GqBebyfKGp6WNWOB4T5Zi11Dh9AV4Ipa/KrdU5zaO7Ne9WTLFBVGTVcG3rDmzlb2wwX2vMeHfs3k
-	F9vgewfQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=wpk/JLwGOs1eIjILox3z19SNd6kr3FuL2TFM0S4zDCQ=; b=SLKbYk1CQxAzn4gBSgrqW4yct6
+	S3aFQP127gaKk+VmNLnQrxKC0MwkFnfqE8AGYWJ0gJYpMAZApeW0mJsRWVrp9MLTOI/aIN0NsiXeM
+	Nfmiz3Zv13ngSUfldq/rv9rx7mTMrB04Nyc/nUBOzU/WUFlSvDFhSmF1UG+TKnmP7pqI+5srQ3Et2
+	wqmwiG52oqlFtGO7v17sTvnrChaTq7vlolFQ0+XeYJWpw/CvsOlD7YoCMDTBEy4LH4yoLy742dW02
+	nxKe+UNqAdHKe7vLqxbP6LlVo+n9OrJAVhBiEg3zi8C9eQUUCvPGhMOYmXJSmSzKM/QSNZc69SH+I
+	3IY0xmiA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qe1UZ-00B0Q7-2Q;
-	Wed, 06 Sep 2023 22:59:23 +0000
-Received: from mgamail.intel.com ([192.55.52.43])
+	id 1qe5wm-00BGA6-29;
+	Thu, 07 Sep 2023 03:44:48 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qe1UW-00B0Or-32
+	id 1qe5wk-00BG8s-0X
 	for linux-nvme@lists.infradead.org;
-	Wed, 06 Sep 2023 22:59:22 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694041160; x=1725577160;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iZpacsJmtPibvRYCVTNE2cwagSSO7Bbbq8tQpQEh6CI=;
-  b=LuzMvSPf0zhdo7mMHQgP47f2Pnfh4hhEBn4rBHCHy6eemoKVVGOzeQ6k
-   XWbX9Jw5RpQSTf/6te2T3ARN44JtVnPcYeToHOq03hsVF6Xd9FGJD6NqJ
-   1m2Gp3/ZSYJnXXpYLR4WP+fW//BHI/M+4DwP1b2H75Z3cHDtWch07BzV1
-   RofMr+z8LhzJQ6S4aC4xgn/VK4Db22U8CB1ItHQiwOxMwbBJf8QTllx+X
-   D5DuWlaL10qMwaAhjLZzcKq2DoVfuvekuHO4DntXog0ZyH6/zrrUqoJx3
-   5DbDTL1pFFHWVV7iDeAIE+wSdrU/7GDZ3MiOPWYhsJqhouDL+o2aMseaL
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="463582374"
-X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; 
-   d="scan'208";a="463582374"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2023 15:59:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10825"; a="691498791"
-X-IronPort-AV: E=Sophos;i="6.02,233,1688454000"; 
-   d="scan'208";a="691498791"
-Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 06 Sep 2023 15:59:08 -0700
-Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qe1UI-0000ff-0E;
-	Wed, 06 Sep 2023 22:59:06 +0000
-Date: Thu, 7 Sep 2023 06:58:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
-	Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
-	Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, martin.petersen@oracle.com,
-	mcgrof@kernel.org, gost.dev@samsung.com,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Anuj Gupta <anuj20.g@samsung.com>,
-	Vincent Fu <vincent.fu@samsung.com>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v15 12/12] null_blk: add support for copy offload
-Message-ID: <202309070607.akFEF327-lkp@intel.com>
-References: <20230906163844.18754-13-nj.shetty@samsung.com>
+	Thu, 07 Sep 2023 03:44:47 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1694058281;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=wpk/JLwGOs1eIjILox3z19SNd6kr3FuL2TFM0S4zDCQ=;
+	b=aBIoV2LlLtlQPsEs2fJKgIzftQPjO3DZoDuo6FZKEURkTSaz/YEuK4FTCwUxTZAt6YrAZx
+	Yvy7LPy+XHoySKwXhhv2Zsj0CXimR8f63rj3QEvRsszKquetNpCnS0QmoX5qCN/7samLTu
+	eX6SXi7ipJ1LEJGkge5mqgFvjUGQ/0o=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-643-uByImZJyOSSBhsRwCKBLRQ-1; Wed, 06 Sep 2023 23:44:39 -0400
+X-MC-Unique: uByImZJyOSSBhsRwCKBLRQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 749D838149AE;
+	Thu,  7 Sep 2023 03:44:39 +0000 (UTC)
+Received: from fedora34.. (unknown [10.66.146.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 99F0B21EE56A;
+	Thu,  7 Sep 2023 03:44:37 +0000 (UTC)
+From: Yi Zhang <yi.zhang@redhat.com>
+To: linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Cc: shinichiro.kawasaki@wdc.com,
+	dwagner@suse.de
+Subject: [PATCH blktests] tests/nvme/031: fix connecting faiure
+Date: Thu,  7 Sep 2023 11:44:23 +0800
+Message-Id: <20230907034423.3928010-1-yi.zhang@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230906163844.18754-13-nj.shetty@samsung.com>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230906_155920_996239_D3766C6E 
-X-CRM114-Status: GOOD (  14.16  )
+X-CRM114-CacheID: sfid-20230906_204446_298468_4F85D1D9 
+X-CRM114-Status: GOOD (  11.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,85 +77,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Nitesh,
+allow_any_host was disabled during _create_nvmet_subsystem, call
+_create_nvmet_host before connecting to allow the host to connect.
 
-kernel test robot noticed the following build warnings:
+[76096.420586] nvmet: adding nsid 1 to subsystem blktests-subsystem-0
+[76096.440595] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
+[76096.491344] nvmet: connect by host nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349 for subsystem blktests-subsystem-0 not allowed
+[76096.505049] nvme nvme2: Connect for subsystem blktests-subsystem-0 is not allowed, hostnqn: nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
+[76096.519609] nvme nvme2: failed to connect queue: 0 ret=16772
 
-[auto build test WARNING on c50216cfa084d5eb67dc10e646a3283da1595bb6]
+Signed-off-by: Yi Zhang <yi.zhang@redhat.com>
+---
+ tests/nvme/031 | 2 ++
+ 1 file changed, 2 insertions(+)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nitesh-Shetty/block-Introduce-queue-limits-and-sysfs-for-copy-offload-support/20230907-015817
-base:   c50216cfa084d5eb67dc10e646a3283da1595bb6
-patch link:    https://lore.kernel.org/r/20230906163844.18754-13-nj.shetty%40samsung.com
-patch subject: [PATCH v15 12/12] null_blk: add support for copy offload
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20230907/202309070607.akFEF327-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230907/202309070607.akFEF327-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309070607.akFEF327-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/trace/define_trace.h:102,
-                    from drivers/block/null_blk/trace.h:104,
-                    from drivers/block/null_blk/main.c:15:
-   drivers/block/null_blk/./trace.h: In function 'trace_raw_output_nullb_copy_op':
->> drivers/block/null_blk/./trace.h:91:27: warning: format '%lu' expects argument of type 'long unsigned int', but argument 7 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-      91 |                 TP_printk("%s req=%-15s: dst=%llu, src=%llu, len=%lu",
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     203 |         trace_event_printf(iter, print);                                \
-         |                                  ^~~~~
-   include/trace/trace_events.h:45:30: note: in expansion of macro 'PARAMS'
-      45 |                              PARAMS(print));                   \
-         |                              ^~~~~~
-   drivers/block/null_blk/./trace.h:73:1: note: in expansion of macro 'TRACE_EVENT'
-      73 | TRACE_EVENT(nullb_copy_op,
-         | ^~~~~~~~~~~
-   drivers/block/null_blk/./trace.h:91:17: note: in expansion of macro 'TP_printk'
-      91 |                 TP_printk("%s req=%-15s: dst=%llu, src=%llu, len=%lu",
-         |                 ^~~~~~~~~
-   In file included from include/trace/trace_events.h:237:
-   drivers/block/null_blk/./trace.h:91:68: note: format string is defined here
-      91 |                 TP_printk("%s req=%-15s: dst=%llu, src=%llu, len=%lu",
-         |                                                                  ~~^
-         |                                                                    |
-         |                                                                    long unsigned int
-         |                                                                  %u
-
-
-vim +91 drivers/block/null_blk/./trace.h
-
-    72	
-    73	TRACE_EVENT(nullb_copy_op,
-    74			TP_PROTO(struct request *req,
-    75				 sector_t dst, sector_t src, size_t len),
-    76			TP_ARGS(req, dst, src, len),
-    77			TP_STRUCT__entry(
-    78					 __array(char, disk, DISK_NAME_LEN)
-    79					 __field(enum req_op, op)
-    80					 __field(sector_t, dst)
-    81					 __field(sector_t, src)
-    82					 __field(size_t, len)
-    83			),
-    84			TP_fast_assign(
-    85				       __entry->op = req_op(req);
-    86				       __assign_disk_name(__entry->disk, req->q->disk);
-    87				       __entry->dst = dst;
-    88				       __entry->src = src;
-    89				       __entry->len = len;
-    90			),
-  > 91			TP_printk("%s req=%-15s: dst=%llu, src=%llu, len=%lu",
-    92				  __print_disk_name(__entry->disk),
-    93				  blk_op_str(__entry->op),
-    94				  __entry->dst, __entry->src, __entry->len)
-    95	);
-    96	#endif /* _TRACE_NULLB_H */
-    97	
-
+diff --git a/tests/nvme/031 b/tests/nvme/031
+index d5c2561..696db2d 100755
+--- a/tests/nvme/031
++++ b/tests/nvme/031
+@@ -42,10 +42,12 @@ test() {
+ 	for ((i = 0; i < iterations; i++)); do
+ 		_create_nvmet_subsystem "${subsys}$i" "${loop_dev}"
+ 		_add_nvmet_subsys_to_port "${port}" "${subsys}$i"
++		_create_nvmet_host "${subsys}$i" "${def_hostnqn}"
+ 		_nvme_connect_subsys "${nvme_trtype}" "${subsys}$i"
+ 		_nvme_disconnect_subsys "${subsys}$i" >> "${FULL}" 2>&1
+ 		_remove_nvmet_subsystem_from_port "${port}" "${subsys}$i"
+ 		_remove_nvmet_subsystem "${subsys}$i"
++		_remove_nvmet_host "${def_hostnqn}"
+ 	done
+ 
+ 	_remove_nvmet_port "${port}"
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.3
+
 
