@@ -4,69 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3F22EE57D0
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Sep 2023 06:08:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A697EE57D0
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Sep 2023 06:09:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ivSqbdIaew11jIuy3b2FJ8sJqyjpyuQpjdb9X+4So/k=; b=S/bSZV9KX5Vnwhi//plxVsG8Ea
-	5jidm/7+HPhZ9otlGJRqlsJ4huyQxOBsjzFh2ZomCTSYI0AXaQ5RFZVHMpmf4lRuQbyIZeid63SJA
-	JKldPKc77qEuL1Bzu0tezkIejG85ATQB9c8Tr45A9xhWsO+XmFeqWAakuGO2uZdEqlTt9g8Me2Dis
-	4KybVO7TH/jQKR+cLOaWaLPGTDMuP6q5tpR8rJS+pXoS2kzAl/ed/wLO5Mx7ZUwxaqlPTq4uOeTsj
-	pJSd4b1+lZICFN74sh0B9vC/ktTNwGBrAXd66rDY/LCKPzhW5Mhy38ChQXpGLf/vXPq2YSDG6S64l
-	6qOzIa+A==;
+	bh=P8F49nTEGpcf3Tsrq6gB2cLzMdUH0MJKv89igSWXxnM=; b=pbnxEMbxGwDVG4h3QJTOJn1iDk
+	dxjPWNbIdHFvA65o/DlqTvJvt0ClX28MlI85L+uu0Rme006Wgn18ZFWbr1PqPu6HulOVkahbvYOud
+	xfIRsvxELbVQpw8/W4vvZvXG6wbxOyJmC224z9Wz+WAcA9tvRlsbOUJJfiEKwiZZjU77YDqF1tj0O
+	BpOCQxBBEFwnfxxPuOJi4CQSo1eZNMdqNm0oO4ZKFRk48ipVy0IAf8b7fMG9dGaWCyAIcu2ORYjbO
+	8pLGEOLnErUvQ4ofr0A3lKhkIY3EwDtq3FpkKKtzXCLxlylC2qyM116sRIUj4EflutJqTBhUR22Rx
+	iVZH9//w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qeUfg-00D7yZ-09;
-	Fri, 08 Sep 2023 06:08:48 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1qeUga-00D89d-31;
+	Fri, 08 Sep 2023 06:09:44 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qeUfc-00D7wj-1w
+	id 1qeUgY-00D88W-0e
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Sep 2023 06:08:46 +0000
+	Fri, 08 Sep 2023 06:09:43 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 121FE1F45A;
-	Fri,  8 Sep 2023 06:08:43 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E15C1218EC;
+	Fri,  8 Sep 2023 06:09:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1694153323; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1694153380; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ivSqbdIaew11jIuy3b2FJ8sJqyjpyuQpjdb9X+4So/k=;
-	b=Ww+PbR+NZChwI9hAoic8DpX3L4csUIVIEAvvkPKyzNqzwf/eRRHFhFYHXV5/jMOULswp4P
-	J8gUjCB0V+qM+wi+jgVhu6RnYezEvVfsR/EVljabJmdtFuN472Ujma7vr4ZbKPJKypFhij
-	wBBWzQlKeUktHrHgEy1eRN40jKsAGFU=
+	bh=P8F49nTEGpcf3Tsrq6gB2cLzMdUH0MJKv89igSWXxnM=;
+	b=la6V6ou/e2WWjCjInvBTAoIcJNjIWTRkB/MPGo7fp92S9XUzGhQztsWsxtL3mRiXZebNqg
+	jSfOJ3dBf+xSwlQYFEhtyz9vTWsGbKzIn3yJEhkee4xkwCsVfjrCuXwdeohTJFxt4pifj+
+	almdn9+/ZymSpEY/Z9c9PYYdZMCQ7O4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1694153323;
+	s=susede2_ed25519; t=1694153380;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ivSqbdIaew11jIuy3b2FJ8sJqyjpyuQpjdb9X+4So/k=;
-	b=GZr0pwkKaX5mCM6Rvq/aswI7YZyZQd7svEZ13JJiPkTTDhDlDxuvj1gd5ZDh9JOvjyCIGD
-	f2qrTt+7kMY7FIBg==
+	bh=P8F49nTEGpcf3Tsrq6gB2cLzMdUH0MJKv89igSWXxnM=;
+	b=zr+gzmkKB3kFLLW5t+GeilEswq5cubBiIPy6C5FCfI+dfXUvPWovxCJSrbnvYpZWqO2Vy3
+	UiQzr+UNzhCr3TCA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8CAA5131FD;
-	Fri,  8 Sep 2023 06:08:42 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6E6A9131FD;
+	Fri,  8 Sep 2023 06:09:40 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id CCFRIWq6+mQYaQAAMHmgww
-	(envelope-from <hare@suse.de>); Fri, 08 Sep 2023 06:08:42 +0000
-Message-ID: <bc365ee8-7fbf-4f1a-8ab9-901362bc257a@suse.de>
-Date: Fri, 8 Sep 2023 08:08:42 +0200
+	id 2GXfGaS6+mQYaQAAMHmgww
+	(envelope-from <hare@suse.de>); Fri, 08 Sep 2023 06:09:40 +0000
+Message-ID: <2b568b29-c4f4-4058-9a83-b1f37290ae34@suse.de>
+Date: Fri, 8 Sep 2023 08:09:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 06/12] fs, block: copy_file_range for def_blk_ops for
- direct block device
+Subject: Re: [PATCH v15 07/12] nvme: add copy offload support
 Content-Language: en-US
 To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
  Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
@@ -76,19 +75,21 @@ To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
  Alexander Viro <viro@zeniv.linux.org.uk>,
  Christian Brauner <brauner@kernel.org>
 Cc: martin.petersen@oracle.com, mcgrof@kernel.org, gost.dev@samsung.com,
+ Kanchan Joshi <joshi.k@samsung.com>,
+ =?UTF-8?Q?Javier_Gonz=C3=A1lez?= <javier.gonz@samsung.com>,
  Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
 References: <20230906163844.18754-1-nj.shetty@samsung.com>
- <CGME20230906164340epcas5p11ebd2dd93bd1c8bdb0c4452bfe059dd3@epcas5p1.samsung.com>
- <20230906163844.18754-7-nj.shetty@samsung.com>
+ <CGME20230906164350epcas5p3f9b8bca1a2cb4d452e5c893cd3222418@epcas5p3.samsung.com>
+ <20230906163844.18754-8-nj.shetty@samsung.com>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20230906163844.18754-7-nj.shetty@samsung.com>
+In-Reply-To: <20230906163844.18754-8-nj.shetty@samsung.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230907_230844_784233_ED250553 
-X-CRM114-Status: GOOD (  10.66  )
+X-CRM114-CacheID: sfid-20230907_230942_382980_707B25FC 
+X-CRM114-Status: GOOD (  11.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,18 +105,26 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 9/6/23 18:38, Nitesh Shetty wrote:
-> For direct block device opened with O_DIRECT, use copy_file_range to
-> issue device copy offload, and fallback to generic_copy_file_range incase
-> device copy offload capability is absent or the device files are not open
-> with O_DIRECT.
+> Current design only supports single source range.
+> We receive a request with REQ_OP_COPY_SRC.
+> Parse this request which consists of src(1st) and dst(2nd) bios.
+> Form a copy command (TP 4065)
 > 
-> Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+> trace event support for nvme_copy_cmd.
+> Set the device copy limits to queue limits.
+> 
+> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
 > Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+> Signed-off-by: Javier González <javier.gonz@samsung.com>
+> Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
 > ---
->   block/fops.c | 25 +++++++++++++++++++++++++
->   1 file changed, 25 insertions(+)
+>   drivers/nvme/host/constants.c |  1 +
+>   drivers/nvme/host/core.c      | 79 +++++++++++++++++++++++++++++++++++
+>   drivers/nvme/host/trace.c     | 19 +++++++++
+>   include/linux/blkdev.h        |  1 +
+>   include/linux/nvme.h          | 43 +++++++++++++++++--
+>   5 files changed, 140 insertions(+), 3 deletions(-)
 > 
-
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 
 Cheers,
