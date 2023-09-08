@@ -4,68 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 901C0EE57CA
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Sep 2023 06:06:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AFF7DEE57CF
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Sep 2023 06:07:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xhh86L1a0Ac0pSFA8hXQbQNg11VEwhvnOW57DV+REVA=; b=KKY4FOYSawrj0FmpLzxjNB2mI3
-	GkmyrcRDp6rSSWmAvJnX9kd4Lp9mIKnype+im7q5y6zMDNDmdzdo+6J8aEHr++YUV3uN/S5xaQQtr
-	gAbmJfHGFePW28U0xLYLDV6pbTM/bO9mAPjrVf7Q8PDYZQ0Xxo4p4anz/a90ctC1BTzZBvh8Rghmx
-	/yNgNgqBIT+D/sWa6CQlT4g5uz47PCbVCR5msbAOeOGbQ3MnR4GshBo3izZ+eTsBT74YfEL25apez
-	bhWavJ0stgAxmRrehyUhplEzKr5zu0mqIr/FIqvykpJ7Y+dMptVtc8Vh5s5Ln9HaLn+kMze2NTmAY
-	f5qdglwQ==;
+	bh=QTfS2X/xkOw/2NTBeewMgceKxQGW9jXg3F3akNo2EcM=; b=XRZ4IUN0HzjVeYSYyPuAs+9wZG
+	lUGGw0pkZa0R3uY+YWqNG8m5h7ZhlDwYS78IhSlUOlCies1nXpimuif1eV3YGF93Sbf+qLWzh11KV
+	JOqSMVyNBBXbOsdrlMKDG1mpe8IY1MF3eDDqG5fdKhfjCpcgie8LT71Hn9OU7q7bI7rRd/VX0Dypq
+	t8Bj5+t7h1xkHL/20f+2dwcSZLnAiJYMlXhlzOQ/BRHE22RqTVnty5NJ83rWm9OPa/cmyh+AN6pKZ
+	XYwRMZPcISFNe1/hljWzxtbrnzVMG5lf90yVf2JjA6n74R25mI1i7SuQ+SIcGyTfmpz4F6+/ShJSI
+	39B5H3tw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qeUdi-00D7hc-1b;
-	Fri, 08 Sep 2023 06:06:46 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1qeUei-00D7qA-2X;
+	Fri, 08 Sep 2023 06:07:48 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qeUde-00D7h5-2j
+	id 1qeUef-00D7oG-2v
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Sep 2023 06:06:44 +0000
+	Fri, 08 Sep 2023 06:07:47 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A5880218E0;
-	Fri,  8 Sep 2023 06:06:39 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C10B7218EC;
+	Fri,  8 Sep 2023 06:07:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1694153199; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1694153261; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xhh86L1a0Ac0pSFA8hXQbQNg11VEwhvnOW57DV+REVA=;
-	b=zMuWdrBIaSNFqIIXPXdPjTuDPASA1tateMYYR1Nx7YqYbc97yCMa0dRaqzTgW4gf4+fyiI
-	1xG//iibMhqxYkfvVoNBP60YY2cXGaq3Bh6K0pomIYJ2RqFRJGqFUDDkC+moYai7iZR8Bj
-	0RrA+Qq+lsqz+u5Uulo9hfVf+JRd9sY=
+	bh=QTfS2X/xkOw/2NTBeewMgceKxQGW9jXg3F3akNo2EcM=;
+	b=yqa+CGeEPxJxuLFaBzh0aI3usoN3LyGaH3E5Nlui8WepVeYNgHEW6KLrPlIaG33kxWL5IO
+	mk7fu4SCqI6sq7zBRaR4l3KKDbE9b5NDjGyOtIH3qcbDCgmnnDWefYUMrLG5ruLUf2c+bt
+	6aF7W/5cU3U3HjPcu39RqettuNIXb9M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1694153199;
+	s=susede2_ed25519; t=1694153261;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xhh86L1a0Ac0pSFA8hXQbQNg11VEwhvnOW57DV+REVA=;
-	b=laUyeSPKn5jrNLRDjpA0OVdQd1LpZvPMMJ7MMPQ0q8DTusjAmhVkJSeuJbmHQwp41fKTM/
-	c73bp/F1wuNo1LCA==
+	bh=QTfS2X/xkOw/2NTBeewMgceKxQGW9jXg3F3akNo2EcM=;
+	b=cvk4kvHHtGPqAXUu1t7XPbCyKawOPNtG64P6A/iVKLwF5iNG5L0UBQeWBzDKjhVK71wChp
+	T8+yrr3ftYf8i2DA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 25CF2131FD;
-	Fri,  8 Sep 2023 06:06:39 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4DC28131FD;
+	Fri,  8 Sep 2023 06:07:41 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id o2HgB++5+mQYaQAAMHmgww
-	(envelope-from <hare@suse.de>); Fri, 08 Sep 2023 06:06:39 +0000
-Message-ID: <e6fc7e65-ad31-4ca2-8b1b-4d97ba32926e@suse.de>
-Date: Fri, 8 Sep 2023 08:06:38 +0200
+	id mK7aEC26+mQYaQAAMHmgww
+	(envelope-from <hare@suse.de>); Fri, 08 Sep 2023 06:07:41 +0000
+Message-ID: <f04968ef-0da6-48aa-a5b0-bd6a717e03b2@suse.de>
+Date: Fri, 8 Sep 2023 08:07:41 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 04/12] block: add emulation for copy
+Subject: Re: [PATCH v15 05/12] fs/read_write: Enable copy_file_range for block
+ device.
 Content-Language: en-US
 To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
  Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
@@ -75,20 +76,19 @@ To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
  Alexander Viro <viro@zeniv.linux.org.uk>,
  Christian Brauner <brauner@kernel.org>
 Cc: martin.petersen@oracle.com, mcgrof@kernel.org, gost.dev@samsung.com,
- Vincent Fu <vincent.fu@samsung.com>, Anuj Gupta <anuj20.g@samsung.com>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org
+ Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
 References: <20230906163844.18754-1-nj.shetty@samsung.com>
- <CGME20230906164321epcas5p4dad5b1c64fcf85e2c4f9fc7ddb855ea7@epcas5p4.samsung.com>
- <20230906163844.18754-5-nj.shetty@samsung.com>
+ <CGME20230906164330epcas5p105dbc5a7edd4b47c3dce6fe94301015e@epcas5p1.samsung.com>
+ <20230906163844.18754-6-nj.shetty@samsung.com>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20230906163844.18754-5-nj.shetty@samsung.com>
+In-Reply-To: <20230906163844.18754-6-nj.shetty@samsung.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230907_230643_050892_4910D16B 
-X-CRM114-Status: GOOD (  13.43  )
+X-CRM114-CacheID: sfid-20230907_230746_083722_70FCE2B6 
+X-CRM114-Status: GOOD (  11.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,25 +104,22 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 9/6/23 18:38, Nitesh Shetty wrote:
-> For the devices which does not support copy, copy emulation is added.
-> It is required for in-kernel users like fabrics, where file descriptor is
-> not available and hence they can't use copy_file_range.
-> Copy-emulation is implemented by reading from source into memory and
-> writing to the corresponding destination.
-> Also emulation can be used, if copy offload fails or partially completes.
-> At present in kernel user of emulation is NVMe fabrics.
+> From: Anuj Gupta <anuj20.g@samsung.com>
 > 
-Leave out the last sentence; I really would like to see it enabled for 
-SCSI, too (we do have copy offload commands for SCSI ...).
+> This is a prep patch. Allow copy_file_range to work for block devices.
+> Relaxing generic_copy_file_checks allows us to reuse the existing infra,
+> instead of adding a new user interface for block copy offload.
+> Change generic_copy_file_checks to use ->f_mapping->host for both inode_in
+> and inode_out. Allow block device in generic_file_rw_checks.
+> 
+> Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+> ---
+>   fs/read_write.c | 8 +++++---
+>   1 file changed, 5 insertions(+), 3 deletions(-)
+> 
 
-And it raises all the questions which have bogged us down right from the 
-start: where is the point in calling copy offload if copy offload is not 
-implemented or slower than copying it by hand?
-And how can the caller differentiate whether copy offload bring a 
-benefit to him?
-
-IOW: wouldn't it be better to return -EOPNOTSUPP if copy offload is not 
-available?
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
 Cheers,
 
