@@ -4,116 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93D88EE801F
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Sep 2023 17:03:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47B9DEEB570
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Sep 2023 21:49:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
-	From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LXfimIk+p+DPjO+FnT78eZEGMiaUfwRetRIMYdvL4cE=; b=FPmnXPv10wsR9rrLLpmFVxm7ik
-	9yr2sC0BlzjoVpfwSa2oFOUzILKFxguwXBD3HVF33fQKFTO4VZegd+MiDjNTQQwoI2CIZnjsK5+9u
-	6SHmq4bvJvicqV1moIpDNA3QYFrrLrPtf2/w7lxE927H4uLOIf+rYNalG70+adeeiECRrOvO6rkNW
-	NMNW1gIUcxvGJp+4mZC2eEdklIOoHUpNO60lsfN8rTGvNgCM6POfTt4EHZG+E7mLG032CXjEDE4+v
-	c897ot7HZynxcIu0Ob+nwkIttPGP6eu357XC/Sk9RS8A6FIkY3o4LDJP2fdgf9Ac2n7CAYwmXXtOk
-	upm30g6Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=XNlwYUIm7BzvFy9zm5RELmgq4v+ClTJwv0f+rw5z7BI=; b=PfJB43wKOfR2N5BAsLWFE682aq
+	k3YQU3iK/h2U4njn+UoMEBC6qFfMqSVf1GiYIsnL/V5ZxWwQ7GymbDmg+V33el1mSYDF4aguTUTRK
+	7u7p9PtvizqWX9PwwLkYhYYvvblcD+3vGQwnM441BzChg27dibvr6IFLro2RsHNjIphXEvda4D+ZA
+	4Z7AIbrpI67k5Bm4e68kzmwCYyKFVA2atLN89lX3l5cj2GsvcyWgpRpFSC/8PEZKOfsZjHQvdoSgC
+	2bMLFYJItCQqjPgUS3WvfF+Opj6trqDol/o18bFBr3ug4DhzYY0emjPKMIv9S/n6pMZC4YHDOUsdc
+	DO2CUncw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qeetC-00E8cp-0B;
-	Fri, 08 Sep 2023 17:03:26 +0000
-Received: from mail.archlinux.org ([95.216.189.61])
+	id 1qejLs-00EYXT-10;
+	Fri, 08 Sep 2023 21:49:20 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qeet8-00E8az-1t
+	id 1qejLp-00EYW6-1B
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Sep 2023 17:03:24 +0000
-Message-ID: <dee1e345-7df7-4ecb-b8f6-4828632429c6@archlinux.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=archlinux.org;
-	s=dkim-rsa; t=1694192594;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=LXfimIk+p+DPjO+FnT78eZEGMiaUfwRetRIMYdvL4cE=;
-	b=aQdqsE1ncZsp36yrUBhshJcVMlzr8gdhd1bdYfokf0iv8IlhLQqsQwvuH4DzSUQWysfFHH
-	7QiulPJg5khjQn2sd221GrPXHbWdec33Ugb6jnRcqPMw0hjMIz4cQWzpNl4D2zTxGtPHMi
-	UNoxKJcbL2xSB0LAgEU96Ajjy1NpflFAEjEjKPRi/kkzLuj1OfBRC03P4mUNrONJ0bO43E
-	7TPfqDQOrgkJI0ZsQdNbK2OvNqZblmuuoVAmk/FUCWjmqNeY0bh06LSVDxB+hwJXt0uHnO
-	xQqACfQGMft5cw9XBzVcNEcg9R5++gycXtvbVk/XI70cYMviFEKW/Y0rdcwL+A3Ru/2xvF
-	QMVgt2B8DRsjabMliPnCTdkxR5hKs1T3TBr5RYFZCygCnZMeVGtiwRplVmDLRrCp1Epusm
-	0CxVTLeBC3Q1jFZ88dKISIFq65tdD9eWDO+FhFHGmlVkQALStx2yZ/+Hp8yS3On2y8H5VN
-	QIhrNztYeSZn/f6mV+pbGpeHA7UgL8onHSngE5IJqeItFjH2K5dexEnHsVyi2xN3oKVrww
-	VwmfJzOtyghbCAspTmGzACH0sGx7ujAP3PG/bn5tFQmyqCZUZiwtoj7ZnhtsH+UYtXPTOL
-	dhZl8Qi3d8NS9X7jq1prh/erANtOns83bQ4rwR+bTF+8B4mWmqj0E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=archlinux.org;
-	s=dkim-ed25519; t=1694192594;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=LXfimIk+p+DPjO+FnT78eZEGMiaUfwRetRIMYdvL4cE=;
-	b=1w+7XZ9sJkrZEIcy0Z1uB+6nhl5ms96GRxAQTPCNX8JwPI+D6JmdeY1AD60jugNtgKmgJ1
-	ptYKLlkSMrRfCaDA==
-Authentication-Results: mail.archlinux.org;
-	auth=pass smtp.auth=felixonmars smtp.mailfrom=felixonmars@archlinux.org
-Date: Fri, 8 Sep 2023 20:03:08 +0300
+	Fri, 08 Sep 2023 21:49:19 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 413E4B8215E;
+	Fri,  8 Sep 2023 21:49:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50D8CC433C9;
+	Fri,  8 Sep 2023 21:49:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1694209750;
+	bh=4mnPVpyCVE3F/FD7bixq4POO6Pw+/pAH+2ANeTbfmlo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=L0u45HU0G8qNBcKYI+LZSDdfnJDUS9FZE9rSrCO9q1vcx14pJRpO83ooGsD+d8dRP
+	 INhz3pOR7Cmv9BAJVRy9xdxCshyivVEq0ipq0yGwhzPRe3vjx7jQhaDIkb9+I5p08G
+	 gF1H5MdwmZ8INKAZKXcenudXJXbkxSoyvdA1a3vpodHMH44r66kDzy7jssRJSpsMSF
+	 Amiik5vl4Ewjn5dpq0uFiF4R8U9Jhff8TEK6pwlZftN+pzEkWrbna2s11NzDZtbQdY
+	 2S8u6pYTGZA5CAK7LXgxKdz4ibuWPvD2qp7gnDgb8BBrZKUWXF/QYn3ogd4VzQOS4S
+	 Gz5uPud9uJ0Vw==
+Date: Fri, 8 Sep 2023 14:49:09 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Aurelien Aptel <aaptel@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
+ sagi@grimberg.me, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
+ chaitanyak@nvidia.com, davem@davemloft.net, aurelien.aptel@gmail.com,
+ smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
+ yorayz@nvidia.com, borisp@nvidia.com, galshalom@nvidia.com,
+ mgurtovoy@nvidia.com
+Subject: Re: [PATCH v14 02/20] netlink: add new family to manage ULP_DDP
+ enablement and stats
+Message-ID: <20230908144909.5d7a36ce@kernel.org>
+In-Reply-To: <20230906113018.2856-3-aaptel@nvidia.com>
+References: <20230906113018.2856-1-aaptel@nvidia.com>
+	<20230906113018.2856-3-aaptel@nvidia.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH] nvme-pci: ignore bogus CRTO according to NVME 2.0 spec
-Content-Language: en-US-large
-To: Keith Busch <kbusch@kernel.org>
-Cc: highenthalpyh@gmail.com, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, xuwd1@hotmail.com
-References: <20230908155442.31423-1-felixonmars@archlinux.org>
- <ZPtREsG8XGGEFgg4@kbusch-mbp.dhcp.thefacebook.com>
-From: Felix Yan <felixonmars@archlinux.org>
-Autocrypt: addr=felixonmars@archlinux.org; keydata=
- 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
-In-Reply-To: <ZPtREsG8XGGEFgg4@kbusch-mbp.dhcp.thefacebook.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------SpT6E6sNJK7Qfln0t747BneH"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230908_100322_891939_635C208B 
-X-CRM114-Status: GOOD (  12.15  )
+X-CRM114-CacheID: sfid-20230908_144917_704586_DA49BCA3 
+X-CRM114-Status: GOOD (  18.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -128,63 +80,103 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------SpT6E6sNJK7Qfln0t747BneH
-Content-Type: multipart/mixed; boundary="------------jNtJ0WUzuKhb085q1FisWqZL";
- protected-headers="v1"
-From: Felix Yan <felixonmars@archlinux.org>
-To: Keith Busch <kbusch@kernel.org>
-Cc: highenthalpyh@gmail.com, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, xuwd1@hotmail.com
-Message-ID: <dee1e345-7df7-4ecb-b8f6-4828632429c6@archlinux.org>
-Subject: Re: [PATCH] nvme-pci: ignore bogus CRTO according to NVME 2.0 spec
-References: <20230908155442.31423-1-felixonmars@archlinux.org>
- <ZPtREsG8XGGEFgg4@kbusch-mbp.dhcp.thefacebook.com>
-In-Reply-To: <ZPtREsG8XGGEFgg4@kbusch-mbp.dhcp.thefacebook.com>
+On Wed,  6 Sep 2023 11:30:00 +0000 Aurelien Aptel wrote:
+> Add a new netlink family to get/set ULP DDP capabilities on a network
+> device and to retrieve statistics.
+> 
+> The messages use the genetlink infrastructure and are specified in a
+> YAML file which was used to generate some of the files in this commit:
+> 
+> ./tools/net/ynl/ynl-gen-c.py --mode kernel \
+>     --spec ./Documentation/netlink/specs/ulp_ddp.yaml --header \
+>     -o net/core/ulp_ddp_gen_nl.h
+> ./tools/net/ynl/ynl-gen-c.py --mode kernel \
+>     --spec ./Documentation/netlink/specs/ulp_ddp.yaml --source \
+>     -o net/core/ulp_ddp_gen_nl.c
+> ./tools/net/ynl/ynl-gen-c.py --mode uapi \
+>     --spec ./Documentation/netlink/specs/ulp_ddp.yaml --header \
+>     > include/uapi/linux/ulp_ddp_nl.h  
 
---------------jNtJ0WUzuKhb085q1FisWqZL
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Looks mostly good, but we lost dump support. TAL at netdev_nl_dev_get_dumpit(), 
+the iteration is not that hard, I reckon we should support dumps.
 
-T24gOS84LzIzIDE5OjUxLCBLZWl0aCBCdXNjaCB3cm90ZToNCj4gT24gRnJpLCBTZXAgMDgs
-IDIwMjMgYXQgMDY6NTQ6NDJQTSArMDMwMCwgRmVsaXggWWFuIHdyb3RlOg0KPj4gTlZNRSAy
-LjAgc3BlYyBzZWN0aW9uIDMuMS4zIHN1Z2dlc3RzIHRoYXQgIlNvZnR3YXJlIHNob3VsZCBu
-b3QgcmVseSBvbg0KPj4gMGggYmVpbmcgcmV0dXJuZWQiLiBIZXJlIHdlIHNob3VsZCBzYWZl
-Z3VhcmQgdGltZW91dCByZWFkcyB3aGVuIENSVE8gaXMgMCBhbmQNCj4+IGZhbGxiYWNrIHRv
-IHRoZSBvbGQgTlZNRSAxLjQgY29tcGF0aWJsZSBmaWVsZC4NCj4gDQo+IE5vdCBzdXJlIEkg
-Zm9sbG93IHdoYXQgeW91J3JlIHNheWluZyBoZXJlLiBXZSdyZSBub3QgcmVhbGx5IHJlbHlp
-bmcgb24NCj4gQ1JUTyBiZWluZyAwLiBJdCB3YXMgYSBub24temVybyBjYXBhYmlsaXR5IGJp
-dCB0aGF0IHRvbGQgdGhlIGRyaXZlciB0bw0KPiB1c2UgQ1JUTywgYW5kIDAgaXMgcG90ZW50
-aWFsbHkgYSB2YWxpZCB2YWx1ZSBhIGNvbnRyb2xsZXIgY291bGQgcmVwb3J0Lg0KDQpTb3Jy
-eSwgSSBhY3R1YWxseSBtZWFudCB0aGUgb3Bwb3NpdGU6IElmIHRoZSB3aG9sZSBDUlRPIGZp
-ZWxkIGlzIHplcm9lZCwgDQp3ZSBwcm9iYWJseSBzaG91bGRuJ3QgcmVseSBvbiBpdCBhcyBw
-ZXIgdGhlIHNwZWMgc2F5cy4NCg0KSSB1bmRlcnN0YW5kIHRoYXQgMCBjb3VsZCBiZSBhIHZh
-bGlkIHZhbHVlLCB0aGUgc3BlYyBfbWF5XyBiZSBhIGxpdHRsZSANCmJpdCB1bmNsZWFyIGhl
-cmUgdGhlbiwgaWYgSSB1bmRlcnN0YW5kIGl0IGNvcnJlY3RseS4NCg0KLS0gDQpSZWdhcmRz
-LA0KRmVsaXggWWFuDQoNCg==
+Few extra nits below.
 
---------------jNtJ0WUzuKhb085q1FisWqZL--
+> +static struct ulp_ddp_netdev_caps *netdev_ulp_ddp_caps(struct net_device *dev)
+> +{
+> +#ifdef CONFIG_ULP_DDP
+> +	return &dev->ulp_ddp_caps;
+> +#else
+> +	return NULL;
+> +#endif
 
---------------SpT6E6sNJK7Qfln0t747BneH
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+Are the ifdefs still needed? Can't we compile out all of the family code
+if the config is not selected?
 
------BEGIN PGP SIGNATURE-----
+> +/* pre_doit */
+> +int ulp_ddp_get_netdev(const struct genl_split_ops *ops,
+> +		       struct sk_buff *skb, struct genl_info *info)
+> +{
+> +	struct reply_data *data;
+> +
+> +	if (GENL_REQ_ATTR_CHECK(info, ULP_DDP_A_DEV_IFINDEX))
+> +		return -EINVAL;
+> +
+> +	data = kzalloc(sizeof(*data), GFP_KERNEL);
+> +	if (!data)
+> +		return -ENOMEM;
+> +
+> +	data->ifindex = nla_get_u32(info->attrs[ULP_DDP_A_DEV_IFINDEX]);
+> +	data->dev = netdev_get_by_index(genl_info_net(info),
+> +					data->ifindex,
+> +					&data->tracker,
+> +					GFP_KERNEL);
+> +
 
-wsF5BAABCAAjFiEEtZcfLFwQqaCMYAMPeGxj8zDXy5IFAmT7U8wFAwAAAAAACgkQeGxj8zDXy5KP
-exAAujnNyyAmV4WWLgmcwK6te3boqXNwxUmDLQaO1jDTW45oR0NwtoDseonqEJ7vKyEIo5h9OY2d
-sBKwep1i62s/nPBt6brndZS+DThdPrI/NzhbfITNIoxlMJOinhh0FOWidsESAW46D1xxcxQa4y9/
-rzYUSEwDNRR18aXlv9d/YOf1QKvNsXWwrwnvj3KTO5TjHrp6VOLZQT01r+eN+vywCS5683Db7XVH
-CUQpOO0SlmCbbr8rTU1Li7zNxUSZcZVO+x5OaGuhTjDGkgWDb+occXE9Aa+jQ/22xTyYy2GIDF/7
-G7Nr/VZT3jICEMRG0bkqHm3+jociegcj4m+udpWGNqA9QkwdKvb21C3u9Ijwrn1vylJ7qja3HCrA
-ziaIe6LGQkOFUE0bH4HtzGoZzEY2v2WbRBurYfAC5y6FxAhx4wV9XOWxoG3GQkDszfIu57lS51TX
-d8HVj7DlYHOabYDe/C0yOomBmIYPErzlBzpdQnr+tCG4gElXLxBHqnmdrMVfEyNuhgYVtGxbLPoE
-W2MuYC/RSZEy6z9HhlZ7G3l4ACKfyOWrzX+RV48/5sUc3/UHg87MH+qbVciAL9BPJ2J8NcD/+nc4
-pDkOjPGbiqoqB9tBgqEC6qCpRARswMGRhuDAPl2NB413KojyMZZrqyIbGcVS+K3QC4ZR+43KK6uH
-aPw=
-=p9IC
------END PGP SIGNATURE-----
+nit pointless empty line.
 
---------------SpT6E6sNJK7Qfln0t747BneH--
+> +	if (!data->dev) {
+> +		kfree(data);
+> +		return -EINVAL;
+
+ENOENT ? Maybe also 
+
+		NL_SET_BAD_ATTR(info->extack, info->attrs[ULP_DDP_A_DEV_IFINDEX]) 
+?
+
+> +int ulp_ddp_nl_set_doit(struct sk_buff *skb, struct genl_info *info)
+> +{
+> +	struct reply_data *data = info->user_ptr[0];
+> +	unsigned long wanted, wanted_mask;
+> +	struct sk_buff *rsp;
+> +	bool notify;
+> +	int ret;
+> +
+> +	if (GENL_REQ_ATTR_CHECK(info, ULP_DDP_A_DEV_WANTED) ||
+> +	    GENL_REQ_ATTR_CHECK(info, ULP_DDP_A_DEV_WANTED_MASK))
+> +		return -EINVAL;
+> +
+> +	rsp = genlmsg_new(reply_size(ULP_DDP_CMD_STATS), GFP_KERNEL);
+> +	if (!rsp)
+> +		return -EMSGSIZE;
+> +
+> +	wanted = nla_get_u64(info->attrs[ULP_DDP_A_DEV_WANTED]);
+> +	wanted_mask = nla_get_u64(info->attrs[ULP_DDP_A_DEV_WANTED_MASK]);
+> +
+> +	ret = apply_bits(data, &wanted, &wanted_mask, info->extack);
+> +	if (ret < 0)
+> +		return ret;
+
+leaks rsp
+
+> +	notify = !!ret;
+> +	ret = prepare_data(info, data, ULP_DDP_CMD_SET);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = fill_data(rsp, data, ULP_DDP_CMD_SET, info->snd_portid, info->snd_seq, 0);
+
+fill_date() can probably use genlmsg_iput() ?
+-- 
+pw-bot: cr
 
