@@ -4,87 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8F45CEE57E6
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Sep 2023 08:44:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B0B3EE57E4
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Sep 2023 08:46:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=oFxQWufNZPj+UVdvDwOEYmLSczmPnEzE02oXUxetDWw=; b=Cf51U8exMISxcybTR8K9eAhG4J
-	4lf7HjoQZBnKMlldT9GfGhniBkHPNbJDj4REzozpXhH+eCr/f9nogFDNYu24KRiAu+uYYth8H+CSI
-	CmQonWGGUfC+5jraYYOyIWjJqUmgBH/n1VuTP873a6RH2LEU6XlKVREs4dRVSmS+R+hcMSZJ2r9TQ
-	7cFH8ETqCPTOo4hslY29lLOmOtY4lPW5tQSZwyk4890u3/eF8nLte/UDve9Zei1zirxIJ/Q5JqCV0
-	4ih2IzH0pubYeG+Xb2mrFslmkbLj5mqaApUl3b5NZ8j+UFJPHj/Qh3N/1ABwqCiLcZFJHxqfzxhEb
-	UWwgqFrA==;
+	bh=iE/MifZUFhBLW4YfWK4elA3RXA0pZRBZ1zmDbLfI+QQ=; b=tv4OLDWNOthrWcUwCirO8XFpZp
+	hdjgom78dduDuCazU/jWTLynDoW5PmNbTUUwH89nG/oAykNy7VETrTMDQCO7w7RoaRX0l2xWnxe96
+	DVOpVP209WXYJKxNMRZULl63w08YZIbrg4UO5zmjVVR1t5qt45Wsf23t1aVq4ck8N2t7keFyJnrg6
+	NWo46vH02x85thNpr/IZ8dKokyx2th7zSu/dUFQgIBvBbaDC6TGmzyLO+XQtGgH0f6ehvhq7ge3mB
+	qKhQTfltsixvE7vwAZ7n0sqxzbwgQ2WByFUYwxpNi8XhlnMAqcglmtBb+DJwMrhLaFY7sWs5K/W+B
+	rweo9GBw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qeX6M-00DLE8-0x;
-	Fri, 08 Sep 2023 08:44:30 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1qeX8N-00DLYo-2O;
+	Fri, 08 Sep 2023 08:46:35 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qeX6J-00DLDQ-1w
+	id 1qeX8L-00DLY6-13
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Sep 2023 08:44:29 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1694162666;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	Fri, 08 Sep 2023 08:46:34 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3AF771F74D;
+	Fri,  8 Sep 2023 08:46:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1694162787; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=oFxQWufNZPj+UVdvDwOEYmLSczmPnEzE02oXUxetDWw=;
-	b=YoZaEUe4/q0GXDvgwiXg2IuyGfTeL8sSDzSHpDGczjeNKcflN0Ddvv4b4vwwl47yVP4iMR
-	v0/PdyNEkYeQ4rKtMr8v37tHvw713z9nKGpgG87xmDNDN6/+F5a1tDcOjgIWuupECztHQn
-	xSi2ajTziNYW1xSxRDKB7/XoadXPczc=
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
- [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-448-l-qi6YriOymAKWMSoUiKng-1; Fri, 08 Sep 2023 04:44:24 -0400
-X-MC-Unique: l-qi6YriOymAKWMSoUiKng-1
-Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-56f8334c253so2312025a12.0
-        for <linux-nvme@lists.infradead.org>; Fri, 08 Sep 2023 01:44:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694162663; x=1694767463;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oFxQWufNZPj+UVdvDwOEYmLSczmPnEzE02oXUxetDWw=;
-        b=GDaR/aRsGPD4N0GXQXnWeRydAWFtVXp7zraAQBitTURTeNEqrgiM0W8gh0P+OxuaOy
-         TNpwC4r0LS+Ub7nHvPn+1SHHQfUnUD3Qtl0K3ycIgicUGt4hCjcwuyEjz9/Nk7WSdjd7
-         RHnVGQpiuRZjBS2hC2q6sd9zs/yIxlwJMaxYS1BGMBGVPf/wM3erq1pv6L2jlAoULNOH
-         BdzDs1ZlCKQmscempl5I4JnmJo05w3JlTTm3s8Zg1sfKfrOCASRvvIW3wBWMtZA0Xx8h
-         L00Cru+s8kN7HOrLfgvf6vLmsvCNIYph3ftZ1LN0l3L7t+pUmtABijbreB2SM4iIPcId
-         imHQ==
-X-Gm-Message-State: AOJu0Yxpu07IfykVNDaeXlJyfGwHhvABP8o9peEmdf4DREkEj1Eu+eFT
-	0JZojw5BE4/ZDYDaOaiFe2M9oUdQoYiagQyOz4fNFgMOrw5un9/DvzHju/7csuQlK8evjERVkST
-	B+Awa0vi3kgb5U1ieiXyeM3tboltYe6stqKkQ4SM0mow=
-X-Received: by 2002:a05:6a21:71cb:b0:153:6e63:49fb with SMTP id ay11-20020a056a2171cb00b001536e6349fbmr2297174pzc.52.1694162663525;
-        Fri, 08 Sep 2023 01:44:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHmusW2khjukQ7iLhcSpXD7n7ZKFsJ85sNEgvHxoXw2AFtmypXoyR9IJAFcJAYFvqqtPfu4knM9zvan68UwN8M=
-X-Received: by 2002:a05:6a21:71cb:b0:153:6e63:49fb with SMTP id
- ay11-20020a056a2171cb00b001536e6349fbmr2297166pzc.52.1694162663286; Fri, 08
- Sep 2023 01:44:23 -0700 (PDT)
+	bh=iE/MifZUFhBLW4YfWK4elA3RXA0pZRBZ1zmDbLfI+QQ=;
+	b=wZ+8i0de0OYdt25QjJes/75tPnGlZfp+FpeQj7aYa8M5WN/rXRr5nkzxvMAMZaNCH8gdGK
+	eAizdX9H8QyNWLrSnwctwJ+zEttH+SbZyHv/44mwx2eeAd8Ffu6CzqZobJxRlmvAuMOYlb
+	73DbTXYTwiX8xzBDtXUU3DffGp3OHRo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1694162787;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iE/MifZUFhBLW4YfWK4elA3RXA0pZRBZ1zmDbLfI+QQ=;
+	b=BBgXI84RiFxQnbUi2nwO6WR2Ow4R6tV7rneWGPZPGerM9G42ew0+EiHbj6HorhFHeWHzDr
+	19ueOK+VvTZhBqBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C669A131FD;
+	Fri,  8 Sep 2023 08:46:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id EGPuKmLf+mQ0OwAAMHmgww
+	(envelope-from <hare@suse.de>); Fri, 08 Sep 2023 08:46:26 +0000
+Message-ID: <867b9e99-ec99-4227-bf4e-5600cd241cea@suse.de>
+Date: Fri, 8 Sep 2023 10:46:26 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC] nvmet-tcp: add new workqueue to surpress lockdep
+ warning
+Content-Language: en-US
+To: Yi Zhang <yi.zhang@redhat.com>
+Cc: Guoqing Jiang <guoqing.jiang@linux.dev>, hch@lst.de, sagi@grimberg.me,
+ kch@nvidia.com, linux-nvme@lists.infradead.org
 References: <20230726142939.10062-1-guoqing.jiang@linux.dev>
  <CAHj4cs9LppxseFzZe-fj7tDaeKd0x8t8Wr-aYcjXAU-8FyfoiQ@mail.gmail.com>
- <a403c942-5b1c-c7f7-243b-81545f7f83ad@linux.dev> <065d800d-8c6c-4257-ade2-9ffa92c36735@suse.de>
+ <a403c942-5b1c-c7f7-243b-81545f7f83ad@linux.dev>
+ <065d800d-8c6c-4257-ade2-9ffa92c36735@suse.de>
  <CAHj4cs_8iC5rn+xA7_bvRifE+1Uu9jjj0wHf=5EmuW7zvaxeYw@mail.gmail.com>
-In-Reply-To: <CAHj4cs_8iC5rn+xA7_bvRifE+1Uu9jjj0wHf=5EmuW7zvaxeYw@mail.gmail.com>
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Fri, 8 Sep 2023 16:44:11 +0800
-Message-ID: <CAHj4cs_bn=mCiVu1ZhZYUhf950TsHzdLe4++9N2ebHsLq2YGwg@mail.gmail.com>
-Subject: Re: [PATCH RFC] nvmet-tcp: add new workqueue to surpress lockdep warning
-To: Hannes Reinecke <hare@suse.de>
-Cc: Guoqing Jiang <guoqing.jiang@linux.dev>, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
-	linux-nvme@lists.infradead.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <CAHj4cs_bn=mCiVu1ZhZYUhf950TsHzdLe4++9N2ebHsLq2YGwg@mail.gmail.com>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <CAHj4cs_bn=mCiVu1ZhZYUhf950TsHzdLe4++9N2ebHsLq2YGwg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230908_014427_728464_4DBD3E36 
-X-CRM114-Status: GOOD (  20.76  )
+X-CRM114-CacheID: sfid-20230908_014633_510152_045B4130 
+X-CRM114-Status: GOOD (  13.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,60 +98,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Sep 8, 2023 at 4:09=E2=80=AFPM Yi Zhang <yi.zhang@redhat.com> wrote=
-:
->
-> On Fri, Sep 8, 2023 at 3:15=E2=80=AFPM Hannes Reinecke <hare@suse.de> wro=
-te:
-> >
-> > On 9/7/23 10:12, Guoqing Jiang wrote:
-> > > Hi Yi,
-> > >
-> > > On 9/7/23 14:41, Yi Zhang wrote:
-> > >> Tested-by: Yi Zhang <yi.zhang@redhat.com>
-> > >>
-> > >> Confirmed below issue was fixed by this patch:
-> > >
-> > > Thanks a lot for the test!
-> > >
-> > > And I had got another similar lockdep warning about nvmet-rdma.
-> > >
-> > Please note that this issue is fixed by my patch 'nvmet-tcp: avoid
-> > circular locking dependency on install_queue()' send earlier to this li=
-st.
-> >
-> > Can you please test with that one to see if it fixes the issue for you?
+On 9/8/23 10:44, Yi Zhang wrote:
+> On Fri, Sep 8, 2023 at 4:09 PM Yi Zhang <yi.zhang@redhat.com> wrote:
+>>
+>> On Fri, Sep 8, 2023 at 3:15 PM Hannes Reinecke <hare@suse.de> wrote:
+>>>
+>>> On 9/7/23 10:12, Guoqing Jiang wrote:
+>>>> Hi Yi,
+>>>>
+>>>> On 9/7/23 14:41, Yi Zhang wrote:
+>>>>> Tested-by: Yi Zhang <yi.zhang@redhat.com>
+>>>>>
+>>>>> Confirmed below issue was fixed by this patch:
+>>>>
+>>>> Thanks a lot for the test!
+>>>>
+>>>> And I had got another similar lockdep warning about nvmet-rdma.
+>>>>
+>>> Please note that this issue is fixed by my patch 'nvmet-tcp: avoid
+>>> circular locking dependency on install_queue()' send earlier to this list.
+>>>
+>>> Can you please test with that one to see if it fixes the issue for you?
+> 
+> Hi Hannes
+> There are changes in nvmet_tcp_install_queue and the patch cannot be
+> cleanly applied,
+>  > Could you check it, Thanks.
+> 
+Ah, right. Why, but of course I'll be resending it.
 
-Hi Hannes
-There are changes in nvmet_tcp_install_queue and the patch cannot be
-cleanly applied,
-Could you check it, Thanks.
+Cheers,
 
->
-> Sure, will try it later this week.
->
-> >
-> > Cheers,
-> >
-> > Hannes
-> > --
-> > Dr. Hannes Reinecke                Kernel Storage Architect
-> > hare@suse.de                              +49 911 74053 688
-> > SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 N=C3=BCrnberg
-> > HRB 36809 (AG N=C3=BCrnberg), Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev, And=
-rew
-> > Myers, Andrew McDonald, Martje Boudien Moerman
-> >
->
->
-> --
-> Best Regards,
->   Yi Zhang
-
-
-
---=20
-Best Regards,
-  Yi Zhang
+Hannes
 
 
