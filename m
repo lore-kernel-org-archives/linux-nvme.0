@@ -4,68 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B53E6EE57CB
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Sep 2023 06:13:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CCD90EE57CB
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Sep 2023 06:14:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=34ts/sZLoOfVW2XbTvlcGR+VmUDspiKitFY4Ya68t3s=; b=mpvpFV+ivm+VfpUoEeY0mdeZrU
-	8GPdIyZid++q7Nit7yKoom8Lh4eQdyns2dZfd3Fjed49LFzuURIQOFhUDaz8CIAySgZHZjtdHIlhP
-	WCxO7fuIpvVEF4kCT8lfoZTeJtlm2QrP+yE9QS4HK9sNJiKtVeGxMIeA6nq0NElG8ECBQNqTzB+IA
-	angqLUUD8WdxG5yAtnRpCgqLitzEksMKEGK5hVtmXBhwAeANpF7HvUsvocrl3Dqgy432i+c9fysuC
-	DbY04pnXWIbRNcddVYmq1f1IMX6E5vIN7vsidFql+2DQIHCOMLCLFkscCsZI08Tot/eOHv7sPRcIy
-	A72lo0Fw==;
+	bh=u70NF1V9pWl9eEz7YZwVeuG+ejy85zfIYBi8ygYJwcs=; b=YTpiPXXH1x3S/uEkCMa13Z0eHn
+	VjOXyjq/6ZWiKv6iEvT8rGCwwQYO4BwWTYcxWx2DjNUOo9J2FxrhD8bqkxi3cxb6XdbfUCmu6AJeT
+	r0tllmfNUvFvnBi49rArTacGnhGQ3cCKJBu/Eo8HhcZbzm5KRGQwNDYVcocq3TBQj21sTqTH6hEvJ
+	zRb5CPZO1I44HSx1x7Yyz/2qfQPyxNwwGPsGAR+qA0h6CVpH9Rr1bvTrdAdmd66+ML8Lh7xkfl9gL
+	GvP1nD0givH9IT7gAaMGY0B5hHqmFHN4SODU5YXby1284cKkSagseGyhaTCShyjfo4WF6ANsNE7il
+	XhH0kKsg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qeUkQ-00D8y6-3A;
-	Fri, 08 Sep 2023 06:13:42 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1qeUkt-00D91p-1Q;
+	Fri, 08 Sep 2023 06:14:11 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qeUkN-00D8xc-31
+	id 1qeUkp-00D91L-3D
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Sep 2023 06:13:41 +0000
+	Fri, 08 Sep 2023 06:14:09 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8DB54218E9;
-	Fri,  8 Sep 2023 06:13:38 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B13221F45A;
+	Fri,  8 Sep 2023 06:14:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1694153618; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1694153646; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=34ts/sZLoOfVW2XbTvlcGR+VmUDspiKitFY4Ya68t3s=;
-	b=V9nxEUcpxeFNOtHIyMMy+Q8turvt85KDM32KGaliDf0I8Dy6oRMvE0A5pi7ScgdPboHRTS
-	fV5FhWuvBK8ClqYODXD5v1d6OZ606bvDQYAIaMYNYpoEV9raGKWkNcBFXMgg5t2i/Sdh4Y
-	s8bpi8FeIqKnTglsDUNCko7LrNtp+7Q=
+	bh=u70NF1V9pWl9eEz7YZwVeuG+ejy85zfIYBi8ygYJwcs=;
+	b=DfeVirnZxhbQk1vAmjPAszH9kgnjQ3mOjdsW6PQxPQoqn25ABy9S9M94hBjvfqWlB1Rcot
+	OhTa3zhpxuizP08v7mUneOy36Jcv03CCEqTfdAUUWJn/+w4m3DUWlfxNC+Gd83kvXJfyDK
+	evrDTPIBagGq4EXSJ3pJmeU15gkkenU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1694153618;
+	s=susede2_ed25519; t=1694153646;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=34ts/sZLoOfVW2XbTvlcGR+VmUDspiKitFY4Ya68t3s=;
-	b=Vz8Fpv4mKyUQZEi+urezblo8dETHY2TrzCiharhXXPPkt5tlJn7swm/J447x2acVffBB6x
-	B2fCzymJfPd05gBA==
+	bh=u70NF1V9pWl9eEz7YZwVeuG+ejy85zfIYBi8ygYJwcs=;
+	b=8pVjwALs0VCba9DB+/tcyO7UMWlunbPcm56DD/pKbGKFHTDC57S/iVM0F+Qvf6MyKkqZp2
+	msgmNvwoPd7uHgCw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2A170131FD;
-	Fri,  8 Sep 2023 06:13:38 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 37819131FD;
+	Fri,  8 Sep 2023 06:14:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id kbvpCJK7+mSabAAAMHmgww
-	(envelope-from <hare@suse.de>); Fri, 08 Sep 2023 06:13:38 +0000
-Message-ID: <cb767dc9-1732-4e31-bcc6-51c187750d66@suse.de>
-Date: Fri, 8 Sep 2023 08:13:37 +0200
+	id CKh6DK67+mSabAAAMHmgww
+	(envelope-from <hare@suse.de>); Fri, 08 Sep 2023 06:14:06 +0000
+Message-ID: <ee307498-7d15-48e0-9f9f-518c928e8ebc@suse.de>
+Date: Fri, 8 Sep 2023 08:14:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 09/12] dm: Add support for copy offload
+Subject: Re: [PATCH v15 10/12] dm: Enable copy offload for dm-linear target
 Content-Language: en-US
 To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
  Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
@@ -79,16 +79,15 @@ Cc: martin.petersen@oracle.com, mcgrof@kernel.org, gost.dev@samsung.com,
  linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-fsdevel@vger.kernel.org
 References: <20230906163844.18754-1-nj.shetty@samsung.com>
- <CGME20230906164407epcas5p3f9e9f33e15d7648fd1381cdfb97d11f2@epcas5p3.samsung.com>
- <20230906163844.18754-10-nj.shetty@samsung.com>
+ <CGME20230906164416epcas5p307df0f4ab0a6a6a670fb50f6a8420a2a@epcas5p3.samsung.com>
+ <20230906163844.18754-11-nj.shetty@samsung.com>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20230906163844.18754-10-nj.shetty@samsung.com>
+In-Reply-To: <20230906163844.18754-11-nj.shetty@samsung.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230907_231340_119873_AC3C6B79 
-X-CRM114-Status: UNSURE (   8.68  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230907_231408_184120_8F9CCA4C 
+X-CRM114-Status: GOOD (  13.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,16 +103,26 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 9/6/23 18:38, Nitesh Shetty wrote:
-> Before enabling copy for dm target, check if underlying devices and
-> dm target support copy. Avoid split happening inside dm target.
-> Fail early if the request needs split, currently splitting copy
-> request is not supported.
+> Setting copy_offload_supported flag to enable offload.
 > 
-And here is where I would have expected the emulation to take place;
-didn't you have it in one of the earlier iterations?
-After all, device-mapper already has the infrastructure for copying
-data between devices, so adding a copy-offload emulation for 
-device-mapper should be trivial.
+> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+> ---
+>   drivers/md/dm-linear.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/md/dm-linear.c b/drivers/md/dm-linear.c
+> index f4448d520ee9..1d1ee30bbefb 100644
+> --- a/drivers/md/dm-linear.c
+> +++ b/drivers/md/dm-linear.c
+> @@ -62,6 +62,7 @@ static int linear_ctr(struct dm_target *ti, unsigned int argc, char **argv)
+>   	ti->num_discard_bios = 1;
+>   	ti->num_secure_erase_bios = 1;
+>   	ti->num_write_zeroes_bios = 1;
+> +	ti->copy_offload_supported = 1;
+>   	ti->private = lc;
+>   	return 0;
+>   
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
 Cheers,
 
