@@ -4,82 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D71EEE57D7
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Sep 2023 07:11:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D106FEE57D9
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Sep 2023 07:15:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZdwtPaTuyo58tUcfUZ9XA6FpwT3BPUD2ICHDkD0BNZw=; b=uRgC/kb8Q+RL7iN1ZsA5ZBqaLU
-	FqpRFP1rnpGMPv7qXrNSfw5XXsYzLdO0PnemnIftCJHCRv8GUD2WSY8dtiP/kOuVGszNFhdcOU/nQ
-	T/m1zHtsUpP/cBQTN0+Nsu5M+K7TlbIo1sKzrCnmnVp+oC26keaz+KBCzDAByHCDVCbv9cLCKgKWl
-	LkpCgUKgURNPCDewHsPt5F4xGwr4OkcOmmEqkQAP6ZZPyYWNRliOP7ifTHIQmxk3os2AoN5GGdNTr
-	LB8RJOfmQRdigOhEulJ1nYPqhj0e/jTEkpxWZMGKI6KilOLT2qAJhSFDt2ykt5mg/cE0X27JPtLiY
-	o5E/KNrA==;
+	bh=rW9s1cga0xhpNbTYkt4TJtVYhZxGSBW5rMvvsZ8iBLo=; b=oGSCkEVrDE+hFkx2Qh9Ei0PxzV
+	PpUphRt4FmQrQ74kgbOVLbIR3uxaa+2AdV3jDzgtZz/SyCoZAsoOxEGPDmnBy0295w4r4E1C71HzD
+	chQvjUr3gU7xvTwsZjCBjpE2/XFI4xX6lZPocXO2Z75371oDLcoQ2XwLFtFiAN82miN7/ClWDulJe
+	2mYGdZ8ByZx5oAWImmKNOP2CTVTh4DsL+lPgidcv6FJbG0RN+60E0DlcsaIfVL+71pFEuTHewqA29
+	VUNAZGIj5ExgYkDPe0L2oBMl+5E/VCy66lDgWSPm1TkfxwtnVIS63nEfXdgOsMba4nTMWPkF5aWvg
+	F8DRnSUA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qeVeD-00DDt0-1m;
-	Fri, 08 Sep 2023 07:11:21 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1qeViK-00DEE7-1r;
+	Fri, 08 Sep 2023 07:15:36 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qeVeA-00DDsM-22
+	id 1qeViI-00DEDo-0Q
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Sep 2023 07:11:20 +0000
+	Fri, 08 Sep 2023 07:15:35 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D49E31F45A;
-	Fri,  8 Sep 2023 07:11:14 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E6C6E218E1;
+	Fri,  8 Sep 2023 07:15:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1694157074; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1694157332; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZdwtPaTuyo58tUcfUZ9XA6FpwT3BPUD2ICHDkD0BNZw=;
-	b=R0XdwYc32xamO85VueMJIcakVphIbAgo949pItRm7y/0b10+bkQygAi9y5EKbrUD32ZNyg
-	pGMeslAgYO0QcF4WQvEMw1mTp1azY0m/8kgFHi3Pg/N5ZjSa0gddGsmBH2sdOtYqtGh3m2
-	/unYBzQQh3FM4Es0oFyUQwreXUj2oMM=
+	bh=rW9s1cga0xhpNbTYkt4TJtVYhZxGSBW5rMvvsZ8iBLo=;
+	b=PoDvXcxT2Pa+mxSTO0f9p7ES8yFNU8k3CrsBA5bvXN2NSPyI0M8mvs2fmFpplMooSElJbm
+	o2dYNo+aeoXo9BfJee0zRT7EfgV2ZHQnepsmTwLXC//GiCrPxzkmwnDaSnNgccbsSjmURF
+	ejpe+r1/AMZhpRoYe6a5f6U8/ZFLY58=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1694157074;
+	s=susede2_ed25519; t=1694157332;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZdwtPaTuyo58tUcfUZ9XA6FpwT3BPUD2ICHDkD0BNZw=;
-	b=Te6evBqmrosJl1ydhK+qRK7sVCN/Em+0msiyupEsgvoHgPt6K7PwuD5+eQ4EjajLtL5Kx7
-	CsSWJ3TqaROdxcDQ==
+	bh=rW9s1cga0xhpNbTYkt4TJtVYhZxGSBW5rMvvsZ8iBLo=;
+	b=TY/mbj4gfYLWZJtx/yh+4MImqmL45Dl+/tFwDSPcZKNMxJx7/oF3yOf5GY4hrQlVm2ZYpi
+	9QlLKZ88lZZcfBAg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A9EB1132F2;
-	Fri,  8 Sep 2023 07:11:14 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BEC3E132F2;
+	Fri,  8 Sep 2023 07:15:32 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id /tJ+KBLJ+mR6BgAAMHmgww
-	(envelope-from <hare@suse.de>); Fri, 08 Sep 2023 07:11:14 +0000
-Message-ID: <a1086bcb-6600-43cb-95e9-479096555a18@suse.de>
-Date: Fri, 8 Sep 2023 09:11:14 +0200
+	id XoteLRTK+mTjCAAAMHmgww
+	(envelope-from <hare@suse.de>); Fri, 08 Sep 2023 07:15:32 +0000
+Message-ID: <065d800d-8c6c-4257-ade2-9ffa92c36735@suse.de>
+Date: Fri, 8 Sep 2023 09:15:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme-auth: use chap->s2 to indicate bidirectional
- authentication
+Subject: Re: [PATCH RFC] nvmet-tcp: add new workqueue to surpress lockdep
+ warning
 Content-Language: en-US
-To: mwilck@suse.com, Sagi Grimberg <sagi@grimberg.me>,
- Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org
-Cc: Daniel Wagner <dwagner@suse.de>, "George, Martin"
- <Martin.George@netapp.com>, "Kumar, Arun" <Arun.C@netapp.com>
-References: <20230904152638.28311-1-mwilck@suse.com>
+To: Guoqing Jiang <guoqing.jiang@linux.dev>, Yi Zhang <yi.zhang@redhat.com>
+Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
+ linux-nvme@lists.infradead.org
+References: <20230726142939.10062-1-guoqing.jiang@linux.dev>
+ <CAHj4cs9LppxseFzZe-fj7tDaeKd0x8t8Wr-aYcjXAU-8FyfoiQ@mail.gmail.com>
+ <a403c942-5b1c-c7f7-243b-81545f7f83ad@linux.dev>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20230904152638.28311-1-mwilck@suse.com>
+In-Reply-To: <a403c942-5b1c-c7f7-243b-81545f7f83ad@linux.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230908_001119_023513_47368CE1 
-X-CRM114-Status: GOOD (  13.83  )
+X-CRM114-CacheID: sfid-20230908_001534_332204_0E95F936 
+X-CRM114-Status: GOOD (  12.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,29 +95,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/4/23 17:26, mwilck@suse.com wrote:
-> From: Martin Wilck <mwilck@suse.com>
+On 9/7/23 10:12, Guoqing Jiang wrote:
+> Hi Yi,
 > 
-> Commit 546dea18c999 ("nvme-auth: check chap ctrl_key once constructed")
-> replaced the condition "if (ctrl->ctrl_key)" (indicating bidirectional
-> auth) by "if (chap->ctrl_key)", because ctrl->ctrl_key is a resource shared
-> with sysfs. But chap->ctrl_key is set in
-> nvme_auth_process_dhchap_challenge() depending on the DHVLEN in the
-> DH-HMAC-CHAP Challenge message received from the controller, and will thus
-> be non-NULL for every DH-HMAC-CHAP exchange, even if unidirectional auth
-> was requested. This will lead to a protocol violation by sending a Success2
-> message in the unidirectional case (per NVMe base spec 2.0, the
-> authentication transaction ends after the Success1 message for
-> unidirectional auth). Use chap->s2 instead, which is non-zero if and only
-> if the host requested bi-directional authentication from the controller.
+> On 9/7/23 14:41, Yi Zhang wrote:
+>> Tested-by: Yi Zhang <yi.zhang@redhat.com>
+>>
+>> Confirmed below issue was fixed by this patch:
 > 
-> Fixes: 546dea18c999 ("nvme-auth: check chap ctrl_key once constructed")
-> Signed-off-by: Martin Wilck <mwilck@suse.com>
-> ---
->   drivers/nvme/host/auth.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> Thanks a lot for the test!
 > 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+> And I had got another similar lockdep warning about nvmet-rdma.
+> 
+Please note that this issue is fixed by my patch 'nvmet-tcp: avoid 
+circular locking dependency on install_queue()' send earlier to this list.
+
+Can you please test with that one to see if it fixes the issue for you?
 
 Cheers,
 
