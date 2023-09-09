@@ -4,69 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2170EEEB580
-	for <linux-nvme@archiver.kernel.org>; Sat,  9 Sep 2023 05:36:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AAD0DEEB580
+	for <linux-nvme@archiver.kernel.org>; Sat,  9 Sep 2023 05:37:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=T9QdRpHmKF7Dl0phviBz7WSuqViIRbheRKqXILmxCEw=; b=QaD0gb0SzdWpHFmivg7fKkj1Mm
-	NsS54LnKxsbPwiUJTRJtZg0g71OocU0WUwB2kDENbOXJoVSNXcCdcQmtXaqQ7fY7sL29IfAmnQHRG
-	3CJOzWgUFjz85ydrNVtT0hUTWNIbUL9GZIMMsa5xyrqhZCSeD1N1Ibo6FMUnM0/V0hDYd35/srAqO
-	IpDH/M+F+KwcUrahDBzTntdLSGO/e3Y9gHMPWADKCHH6L2fGkZJ2AA/KIeTWEJCThgpqt5XXiHlYK
-	ST/jPxvA4P59usyRhxin+LjYHvbfNZSLNFlJVUhQ/4ttk0r8ITVLFN5RxHD1QvY66uV0J579U8+mo
-	QL8LxOyQ==;
+	bh=bFQ0t0uD6xgDoywgg3aN4cVqH93hmn9yTMWxAqceJW8=; b=RtQhsz/i9OBfUq2m3+yUrMpJnk
+	d6fUxPVP+rsz+n+FMM6jB516rIApmxZDBgUKoftthBu04e6exA8c436KNGVAhOBvIQtv4HGdZekj3
+	N8pyvehMVZipsdqHsKVYKKeCZ6Zgz7RbbJaRUpYi/uCyvZqDizuAj9BIsE9Hq4naysLe0tBFczyxH
+	9b6mjdXKT7ne9MHcEbX+2IrvQyfn4NyLLxyudhGqF6onhxvYFSBr/Q9DLr4YxWwHuUSIxPrYr9puL
+	BF+b41Db2+Ny6ZND1/IjafbeYTygP8/b2afKaEYcl79sp8rtJS+buzCZiY9NaJwywpBSbFskyD5rA
+	MM6JZ0Dg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qeqdr-00F2wg-35;
-	Sat, 09 Sep 2023 05:36:23 +0000
-Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36])
+	id 1qeqev-00F349-1O;
+	Sat, 09 Sep 2023 05:37:29 +0000
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qeqdp-00F2vm-0g
+	id 1qeqes-00F32u-0n
 	for linux-nvme@lists.infradead.org;
-	Sat, 09 Sep 2023 05:36:22 +0000
-Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-1c50438636fso1869871fac.1
-        for <linux-nvme@lists.infradead.org>; Fri, 08 Sep 2023 22:36:20 -0700 (PDT)
+	Sat, 09 Sep 2023 05:37:27 +0000
+Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-68bec3a9bdbso2150456b3a.3
+        for <linux-nvme@lists.infradead.org>; Fri, 08 Sep 2023 22:37:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694237779; x=1694842579; darn=lists.infradead.org;
+        d=gmail.com; s=20221208; t=1694237845; x=1694842645; darn=lists.infradead.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=T9QdRpHmKF7Dl0phviBz7WSuqViIRbheRKqXILmxCEw=;
-        b=dqO3YiLkwU90gxAJh9gavdY+qc+EGpEUyGHRX6KYRXfGwETpmRy81wCdX3dqE9zbbp
-         OgRbbyZWdXAa5155RXQmr9Let4VjN0maZZh3Q8xDO7laBeaE7iUXBUkSq1FTZlAx9rBt
-         +NyYCKu/EE7iVK3Fg7y5Ho+3UMQsUZty8hRncU90xV/ppWZExKPRcbz3UjhEXWxwg7+f
-         vbVgDqHjKqXdbuEVTCLbzZdFL4aJkcYTYi+fzLKCo0MzLN2PV0UvZ2dya7hhrWPXnaIO
-         iZ79tci60ayY4grMNftsGppYoBs19Y8JFrO4Iap6Dwn4ndHV7qmE0hUXR3Vp5wN0MdMC
-         My9w==
+        bh=bFQ0t0uD6xgDoywgg3aN4cVqH93hmn9yTMWxAqceJW8=;
+        b=EsVgNOuq1pVa7J1t4F0sed0IwGKkZhC/K2ovqyxW1NgZZmN6HxC6aaEelNYDVZIxqS
+         /Owvs4wGBotd8tuHyRgsH+IQU8FP1lQmBrp7ksduvQ8u6GPS/filAJQI08Y3TzVkRnOm
+         P1YwqBpKqMuT60hJRl2yxyWv1c6ZspuZYLIViO9HXx9o5A3N4kCDTnJltHXfXl2os8b+
+         qWmgbnTsWAHcHz8sQ9jE7sIEGtY7zZgcDWGfZCK5KmqzuqC0hn5nKzaW4Qhzuluy1NXG
+         CkL7hRa+hYMSL2VweIenjS10/zGOt6nJsUwJqRno4qtUusq+rWOQGg2f2mYP85lh19ST
+         0+Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694237779; x=1694842579;
+        d=1e100.net; s=20230601; t=1694237845; x=1694842645;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=T9QdRpHmKF7Dl0phviBz7WSuqViIRbheRKqXILmxCEw=;
-        b=qZdYhKVtb7glIeskcCIBT2P/KEQOIQ3CxWTgBf40tSwMtYF96T2Pt3zenpc8es1jrG
-         LFpG5mZDqKM3GugS8iRHn2vnyivFi68c3xX6VcNwpj1wjdcEQU2FHr8bl1aKD5vs+T8/
-         A7JfXRF9fLrg1WKpgTuKO0tI1FgbR72ev6bA+H2vDakqkJLdk/Ug+ddC76eLAFLu0ftu
-         hPIHjV6frRy01aVi9kSoLo+YAqFFx6Nn4F6ZEtC4ilK2gk4NfLyziP9KSsKtnDWRRvhK
-         Vg9H5kGdvffi5A+gTa/ySoCjo/Sc50J62AJd4fEyv5gE2Cgadd6JJ4kiP1gHmvPLuL/A
-         TwlA==
-X-Gm-Message-State: AOJu0YxTKeAns5ZGap5jNk7Ykp+Lx9lWRr6YSEkX4JHKHdhJE4mOig6+
-	fMOqsZTfvvfIMRsgm2rQCGo=
-X-Google-Smtp-Source: AGHT+IFsBaaCIIBHfXy6K9EBhaseuwvlm/ZF7VeyFi6SRkSkOxHCXNBxcjku48ptQPAr+1Rdzbe1Sg==
-X-Received: by 2002:a05:6870:fb8a:b0:1bb:6cca:3468 with SMTP id kv10-20020a056870fb8a00b001bb6cca3468mr4623544oab.47.1694237779496;
-        Fri, 08 Sep 2023 22:36:19 -0700 (PDT)
+        bh=bFQ0t0uD6xgDoywgg3aN4cVqH93hmn9yTMWxAqceJW8=;
+        b=VOgV/TCwwzilFTjmFANMz9vkCNkjMeCMiB+B0qoOjVHD6ZzaoR2kVF+EsthCwUM0IR
+         DSswcsSkXaCTlwf+MFP3KjyPSN6JMTJ3jAvbmBtrz0Uir6JHF1S+0GSYlPkPoHheykJN
+         WOF2oBTcj6cLyPAGCmaEC6BZZqrQJ/gS32o3ykKu388L2ezLIBvYyGaKVbq2k1gDsLRy
+         R5udHdKdxfrRjUCtuSqP4gX2wCd9Dqop6+s/vlofSIYT20ydU/BxvLzAVlBLpE20Tc4Y
+         CYcxtON3uYRPIE9fJ0jBeZ4hqWY2L028sAsuuAqzsvD04Dj8T9b4olVHNXXXeQFqow0W
+         UUzQ==
+X-Gm-Message-State: AOJu0YyqCSysbgc3VVihNhiAy6XS+iODUNykZeICOISieEVO5ZYHAaTY
+	ul1ZIXa2fNY88Ap3Y9bGxeqeLaW3AWM=
+X-Google-Smtp-Source: AGHT+IHNFDByETjzv4HPnQxVupj6RSk7YkzviBjkYMWjW45k+/RS05dM1OIhmQeWqnE91WNyi4a92g==
+X-Received: by 2002:a05:6a21:61c:b0:14c:e089:94a8 with SMTP id ll28-20020a056a21061c00b0014ce08994a8mr3788602pzb.27.1694237844670;
+        Fri, 08 Sep 2023 22:37:24 -0700 (PDT)
 Received: from debian.me ([103.124.138.83])
-        by smtp.gmail.com with ESMTPSA id 25-20020a17090a01d900b0026b46ad94c9sm2312333pjd.24.2023.09.08.22.36.18
+        by smtp.gmail.com with ESMTPSA id jj18-20020a170903049200b001b9d95945afsm2456479plb.155.2023.09.08.22.37.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Sep 2023 22:36:18 -0700 (PDT)
+        Fri, 08 Sep 2023 22:37:24 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
-	id 165109A5D464; Sat,  9 Sep 2023 12:36:14 +0700 (WIB)
-Date: Sat, 9 Sep 2023 12:36:14 +0700
+	id 5F1519A5D462; Sat,  9 Sep 2023 12:37:21 +0700 (WIB)
+Date: Sat, 9 Sep 2023 12:37:21 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Thorsten Leemhuis <regressions@leemhuis.info>,
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
 	shenlinghai@163.com, Jens Axboe <axboe@fb.com>,
 	Sagi Grimberg <sagi@grimberg.me>, dwmw2@infradead.org
 Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -74,17 +73,16 @@ Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux NVMe <linux-nvme@lists.infradead.org>
 Subject: Re: Fwd: Ubuntu 22.04, "nvme list" will hang for 60 seconds after
  "nvme subsystem-reset"
-Message-ID: <ZPwETorRO60QGen6@debian.me>
+Message-ID: <ZPwEkVraLm9WIkYK@debian.me>
 References: <8edde583-2b5f-2332-e59a-f1f4688b9e40@gmail.com>
- <d7290782-bf72-3a65-26fa-b58e75bcae2c@leemhuis.info>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="NwbKn5UmL+2AYyp/"
+	protocol="application/pgp-signature"; boundary="MPojfPQaeXRUiCUh"
 Content-Disposition: inline
-In-Reply-To: <d7290782-bf72-3a65-26fa-b58e75bcae2c@leemhuis.info>
+In-Reply-To: <8edde583-2b5f-2332-e59a-f1f4688b9e40@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230908_223621_271890_008FA1E3 
-X-CRM114-Status: GOOD (  14.53  )
+X-CRM114-CacheID: sfid-20230908_223726_291876_E81AC992 
+X-CRM114-Status: GOOD (  10.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,37 +98,32 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
---NwbKn5UmL+2AYyp/
+--MPojfPQaeXRUiCUh
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 07, 2023 at 12:30:30PM +0200, Thorsten Leemhuis wrote:
-> >> root:~# uname -a
-> >> Linux dapu-Star-Lake 5.19.0-46-generic #47~22.04.1-Ubuntu SMP PREEMPT_=
-DYNAMIC Wed Jun 21 15:35:31 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+On Wed, Aug 02, 2023 at 06:41:01PM +0700, Bagas Sanjaya wrote:
+> #regzbot introduced: 1e866afd4bcdd0 https://bugzilla.kernel.org/show_bug.=
+cgi?id=3D217745
+> #regzbot title: listing nvme devices hangs after subsystem reset
 >=20
-> Bagas, please don't forward reports to the developers (and also don't
-> add them to the regression tracking) if the report is about a problem
-> with a vendor kernel that is known or likely to be patched[1].
-> Developers otherwise will just start to ignore your mails, as you are
-> wasting their time.
 
-OK, thanks!
+#regzbot invalid: regression reported using downstream kernel
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---NwbKn5UmL+2AYyp/
+--MPojfPQaeXRUiCUh
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZPwETgAKCRD2uYlJVVFO
-o2JTAQCJLs9Rku/9XRes2BQ/A134vw5Uq14Ob4IgfIZtAQclqQD+P+WKjV56tT5N
-6XJnoVyWpHG3yHNHWtMHvwS0QKpfoAY=
-=Pizn
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZPwEkQAKCRD2uYlJVVFO
+o5XAAP9HgtdqEDXnbtYY8DMvg7aMO62dgHjsURSMH2FST36TvQD+IMVvnH2iXslb
+028fbd/9PzCQCfhZLz5BrPf2TWQ5WQk=
+=G5rm
 -----END PGP SIGNATURE-----
 
---NwbKn5UmL+2AYyp/--
+--MPojfPQaeXRUiCUh--
 
