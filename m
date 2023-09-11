@@ -4,80 +4,150 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70E71EE57DF
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Sep 2023 10:07:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B409EE7FF4
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Sep 2023 11:00:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cxPXPMibTU/WQCgXGbiL/szHxJfWSieTNiAS+pJX5EQ=; b=AvF9XAvlaUmM/Rh4nNH/QYXrWB
-	xAK/7WJRFSVhPjkOV+0S0F7B2KX/Qouh5JjCLAWt6sSkjfuIOSdzHNdGATQqg081hP1d2kNTBWM7m
-	C78CB7Gdgl2TlIhrpIM+f1618uaN9yXht8uOrMH1Kp+33ypeT53wai+IR6qBS2rG09l+LMQAjxpV4
-	BeaiwQW2HUNevJZPOACz3HMz1pBbtvVXCNFQq+LoMf/SDuyT9F6isTgCl19TamvfF4sSsGNAak7F6
-	PqYjWG6l7ja7Wthn87MBVyJK7ZZxpj0eN/5nPW16v57SzWIwoVHZGwFdhE+t6KQvgcbUVeaA6o3xK
-	evgYiRqg==;
+	bh=5+PPXdzP2hwCrlPdT/kZbS/5LPWqgc2OggyFAEW0Xo8=; b=Z4dy7xs9Ol0CifNtL7jEUBW/It
+	1fTtL3E0nGPxLArn18al2NDWYfOPLlCmuRg+M7S+OMZfLzGaEcOQjw2L7h4IJVCxls3y15sjFbjaC
+	S87v6I1QKDW+1fi/PkebqolPhJ5iYiOuyRGXd9NMskVFy0Zg7UblrUJUEvCNuc9MIuKwVOslYlpSW
+	yo70IDV6hwES9bCAGvtjqh9nyNWsottKmkqwVYXE716faVuStVRryuumZnUrUrBKUpDKU9rHGrjFR
+	DTu6egpl5SsfJLCD8XWhWGlm62t9R4xuFcbcK3OT12IQhfBkQCnHZ87nJiD1Wtj7HjISmgzQMI1Vo
+	JgC5OFcg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qfdpO-0005zA-0s;
-	Mon, 11 Sep 2023 10:07:34 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1qfeea-000L7V-1I;
+	Mon, 11 Sep 2023 11:00:28 +0000
+Received: from esa2.hgst.iphmx.com ([68.232.143.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qfdpM-0005yi-0K
+	id 1qfeeY-000L6K-0V
 	for linux-nvme@lists.infradead.org;
-	Mon, 11 Sep 2023 10:07:33 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 378722184D;
-	Mon, 11 Sep 2023 10:07:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1694426846; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cxPXPMibTU/WQCgXGbiL/szHxJfWSieTNiAS+pJX5EQ=;
-	b=IrV7P1MJYIzyfQEKZuvm1I05jsHjizYTsIAn5GC1c1BRO7qOHymsF9qNvbtxbMqmcHfw61
-	9txiRa419pMLFZfNc4TlmZxbXwTEmb8WCz9W5sEnYdadhwls5j95bNlIcCoJrcgeRG3/Gr
-	gym0kEONOjdlFXYpJBEsIrXpsx6KH+U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1694426846;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cxPXPMibTU/WQCgXGbiL/szHxJfWSieTNiAS+pJX5EQ=;
-	b=Vu3Ink0bNrUEvNZM4E/2cRG9LbDABx7hW8SY59QWX7iG0+QM59YIRKKrYssWfxENqngtla
-	ADEfDmlp8inithDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 28D0F139CC;
-	Mon, 11 Sep 2023 10:07:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 1CboCd7m/mRZPQAAMHmgww
-	(envelope-from <dwagner@suse.de>); Mon, 11 Sep 2023 10:07:26 +0000
-Date: Mon, 11 Sep 2023 12:08:01 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Hannes Reinecke <hare@suse.de>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Sagi Grimberg <sagi@grimberg.me>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	James Smart <james.smart@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>, 
-	Christoph Hellwig <hch@lst.de>
-Subject: Re: [RFC v1 3/4] nvmet-fc: untangle cross refcounting objects
-Message-ID: <kl45f37ubitdm7djwb37zxox22e4bieoqdyetxibgb4dtmaevc@jafhs7q2ajy2>
-References: <20230829091350.16156-1-dwagner@suse.de>
- <20230829091350.16156-4-dwagner@suse.de>
- <69c8e29a-cba6-4bd4-adfe-81f507415d5f@suse.de>
+	Mon, 11 Sep 2023 11:00:27 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1694430025; x=1725966025;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=+Ov4JDGf3QD5TQvMnepNOtNDtkG2VodLXpOBA0gLsBo=;
+  b=FBqB+yJd0nS096BR8Yov/jylHsvHx2jyiIUltxdoyfbGws1YHYGDb/NU
+   m9QlNjHSHf6VxueA0StQiRGjIRLnShgcPTgNvv79c6WxJFXPAmYylK2mC
+   kkBDuIJ/9eiz5A5NozOiRbfkhPa7+o48dLzrqj/uZYSezrkBZ45xs+yLd
+   nazpHGADIalvMB8i9jz7DB1LY0KK6lCJwCZS9E7Eohb3/1OTmEJ3/Puvp
+   fyJjr3lt74kWkE7Da6l8KXQkwqC/IkXxAIcmyhB1qD7ecd4QtUQBrjSOC
+   LRZuj5W8N/XJG3Q4UNP/pocFIqCG1h62pNpqagp+iLUOWgzw2G2LAZlnF
+   Q==;
+X-CSE-ConnectionGUID: 7scEEzmTTZqISNV7DAgo6Q==
+X-CSE-MsgGUID: 8bF+SncqSEeNyigbzFzscg==
+X-IronPort-AV: E=Sophos;i="6.02,243,1688400000"; 
+   d="scan'208";a="348903639"
+Received: from mail-co1nam11lp2176.outbound.protection.outlook.com (HELO NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.176])
+  by ob1.hgst.iphmx.com with ESMTP; 11 Sep 2023 19:00:19 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mkBKAgFBUGtVlrxF9+ygF43snx6aH+fhityOEs2rTZKkVsN7ks6swFY8rViNqypkHgjZxSSc97AUwVhfBiZWJOAFabQ3Y+HQrK/kbpFO8CNrw9PgMcwqfWeCoJtgrVy5L/t13wXPr8mSqBpiTS1ZydbnHcDgNSQTx/VVHz2+VOVxq8sEr65mO54nZR30cqrU7GNbiRP3rz9P1c+XI5BpuXGtzha6YBdPrYbzMoKu5GlK0ALCUOEVbLDqb/qDvae3SE+sz+qzC7PNt2SY781LB/R2BnEMWsx00K8MiIA9h/Odb8FfqOXjz1LkX9Ij6A2UboDAItgo9tAULxMKiqfHiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5+PPXdzP2hwCrlPdT/kZbS/5LPWqgc2OggyFAEW0Xo8=;
+ b=UcIz2k7bML9wQdg1jxsjN9zSxtDdlvBt1a0oVQJEpdlCin007tV/PKI/+Q0vqRGCQot5A3RQW9I0UVmC82qxPJYLhlD0EmDxmJU9NeXBGLr9hEV7nCmmc30jJB05SmqdRNZrs1kMvUSOeMstVktV9fi5XtOqbpLXeuYPH5/MJr7TB9Sjuk3D6+j0eoH4hytAg3Ca2/Dsmtlp/7EqXyf0Xl9SQX9mIAAoRB5KSHQ34UxYwqokjgnqphZJEHHtSok4FTuntwZKqeZ9jjRJm1E2voeyokqsnW3jHVdfqlULb00F8iWYjl3S8V3cPcoE7cqIc3G9sdZNRlpfjy148qX+sw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5+PPXdzP2hwCrlPdT/kZbS/5LPWqgc2OggyFAEW0Xo8=;
+ b=A6IMqYn+1EHBIBTqlRvCFsPH6xwhk8S2aiFhCO3KkmQGfRUR9TEGO04iGgTEccjzhb/XdRfk7UH7QITkinLhatpcNuM4Ta3U73ddxntixEv3kwfMSYkJVNl++6GlLQDsACvuDZ+SwxUhKdBc72k34imLUs9EsZS58ldx1w77xEk=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ DM6PR04MB6842.namprd04.prod.outlook.com (2603:10b6:5:243::10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6792.16; Mon, 11 Sep 2023 11:00:17 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::f92a:6d40:fe94:34e9]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::f92a:6d40:fe94:34e9%7]) with mapi id 15.20.6792.016; Mon, 11 Sep 2023
+ 11:00:17 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Daniel Wagner <dwagner@suse.de>
+CC: Yi Zhang <yi.zhang@redhat.com>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH blktests] tests/nvme/031: fix connecting faiure
+Thread-Topic: [PATCH blktests] tests/nvme/031: fix connecting faiure
+Thread-Index: AQHZ4T2oqmvmMH8z00mCjjVD3irOrLAQzBEAgAAc5YCABJLXgA==
+Date: Mon, 11 Sep 2023 11:00:17 +0000
+Message-ID: <swd5rjag3soiz5b6fkktk5vncfjtb4wemrbtl4fwkpcx6uodg7@5wnw5gf6luz6>
+References: <20230907034423.3928010-1-yi.zhang@redhat.com>
+ <nrfuja62qetxqxzwxuxhjve2u4r4reofcpo43zmg6qbbhjjqkp@ratsu2kubymb>
+ <kflpcc7u4wksuuo27gcrjxwsqr277b3phpnbbbjkdaniycmttn@f6t4dadmvqih>
+In-Reply-To: <kflpcc7u4wksuuo27gcrjxwsqr277b3phpnbbbjkdaniycmttn@f6t4dadmvqih>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|DM6PR04MB6842:EE_
+x-ms-office365-filtering-correlation-id: 0849f916-72f8-4df3-c4ef-08dbb2b64865
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 3H+pyYkeRZ8WFbovDi0Oatgt3AFLp+4nOuAjM+9nOq6tmI1GCWgCS1pS44tMJtlnEwWmY+0+4eYGDjhcYMehK/UiZAI9451sgMlL9tdmyT6O8Y19F8nb2yFhgQEYDbXqyNJN7nAT73i+UF+0dVimPp/fXymROpo3d51XWG6MhRTpk42FJ12AZJsBNbwkaV2bRpkztTMDnswFXxtBybyF6oed0M/J/u/tgA7lziuStypSEEcFY6JThyjMArX/I8qI5MwSn0mnbecsEtqMSC875KbbX+bKh/bOeZWLajQdem35unFv5M5O4xdrMihDRnjoQXrVbR6nMvQNQc2sTgb8jAT5gb4qr2nHK1EIuQ3bDkS77hBnjerwhAdzt7F1NN7wMnHunIOuboLgFKtLiZlvv/Y+quIW/Kk9/UrAzkyVrEHVIe8v45GQ/pi101Jma2LbQI6/gBfssM+cMfooPUzc9SF6HQCzP/4qIlOpsKLFx6q1r4sKbioYkP8N5gIoMS8v5Z+qmWTtvcKoL6iQMNEN9gbZf9zUB7iPSl1keEKzbw/p7aFfQyjc8dZXmwoonlT1C1nzYuS9rkFueCsWLxz1KFU7zzlonaQsjqzuScJ4SG0=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(396003)(366004)(39860400002)(136003)(376002)(346002)(186009)(451199024)(1800799009)(41300700001)(6916009)(316002)(26005)(91956017)(478600001)(44832011)(2906002)(76116006)(8676002)(8936002)(4326008)(66556008)(64756008)(66476007)(66446008)(66946007)(54906003)(966005)(5660300002)(6486002)(6506007)(6512007)(9686003)(71200400001)(83380400001)(33716001)(82960400001)(38070700005)(38100700002)(86362001)(122000001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ISxNX+sHMqi3Mb55aijorc0Er84fhFvoUfCSTZX1ZYtGigVtAzX5qOgdmAaz?=
+ =?us-ascii?Q?vJNAYg/3kkm9g52OlJf6C2e+gnB5ksjSdjT6neG4CLxSLW+7sk0JN6Kq58XH?=
+ =?us-ascii?Q?OK4kN6QSvt5RKslagFQ7BiLDkLk3mJHMO82On4h0fvaY52dfoLWHnfG401Bh?=
+ =?us-ascii?Q?HdfEr3E6PH9dO9W/Ncz/BpNCpkAtbL/z+TpJ4jmeBRHNhCWUGcY5x2EMLGv0?=
+ =?us-ascii?Q?0sfxpY4QK3A+fJ4yayjlkp9Y1xDYsoSoCZOsxPX6IG5e0q0xqH41FW/cgkxi?=
+ =?us-ascii?Q?9K8K4nbv1lKmect/pMlki7CE81fIJrVz8iwkvxu1tL4Dvwa3NpArU/zFglfV?=
+ =?us-ascii?Q?yUi2nCAoUa5ck41O6z5aetel6ea8DKlvGe0Bz4Tbae57SiZn7NN32JllwcsR?=
+ =?us-ascii?Q?mSNA/sN2tjdyErGipOH/kG2Pll4sIzEgmNjnadOu4oZO30KMXdYM663GXdsy?=
+ =?us-ascii?Q?1UvKFX7wga3/BY/sLMm/dwKx0qnhv0qGTvA6P9DQdDI5AnIItTr/Co5E7xax?=
+ =?us-ascii?Q?u91AK7HurTACpF4kSOwbuRq5rnudHeO85JnYgpqlPI5vjuzkSKBC0WXuXoWV?=
+ =?us-ascii?Q?VqONw2rFLEBlBpdhGL1Rd5a1S/ViJgAK0QFJOUxbzAk4uhkYBFVKRyc1qVXT?=
+ =?us-ascii?Q?xOSiGiQMO+SprAVkfCapByWNmeT8hYX73emBLvDFY8qho1iKhKwuiRqQ1oYR?=
+ =?us-ascii?Q?z6Te0nWoFBJpF/H0/T6HleU+J2e6VGhUK1zHsoPu9CBmkqIEfh8f0DAUyjks?=
+ =?us-ascii?Q?GsO5E24x4LD3az7wlJDJbxu5kW/yugcVYh4kqsAXWxr/7/SDGxikNHDfViak?=
+ =?us-ascii?Q?AqaHYvz84OCu6rdP1aMLEh+D38WkBopC5WsrFWNEvrbHL5kjOb41eVqSDaR4?=
+ =?us-ascii?Q?+PrB53hPHUMTAB80Ii3X88spEAALWnHqZ7+zX7dZlEazi1tW9VLWIKw+xANb?=
+ =?us-ascii?Q?/3peO8sQUtrERcxM20a02eDW47Q4vp8xughl6IDHn+t5ZcWbM5iCXYEK6PE9?=
+ =?us-ascii?Q?tqX8BDXhRIMt/uohsBgRRrG1TQfVcT/YOVfkknYXiK9Ffv5G90tFW6FqyK8w?=
+ =?us-ascii?Q?pe4doIbBcjbPnNZ3N14pg18mb6uxtlLCAXpB8ZjH2F5eaHykWgzfqBqj6YLR?=
+ =?us-ascii?Q?ttXkwbNff0JYaphVENK0icvJeFin9A6jgJ7JMh/TJV1/djqkLIIG0zTKRLK2?=
+ =?us-ascii?Q?s9Vhl/rCuLOjfkSpr/KmaHDhiEQn6E9UG4S8NzhdfW7VnJwQ7buZJcBVqU9v?=
+ =?us-ascii?Q?HRYcINHVoiAB3ZQmTDbWJIxIc7ntuO5+HyVN+xvoRMN0xHL5thSm3OAoKKcB?=
+ =?us-ascii?Q?oQ5re6uGxagwhYYVsmufjCQAK9hviYGviS+2Pr5JNqEq0NL2oRtAQPY297hW?=
+ =?us-ascii?Q?KZtsymq/DZ6Bg3CqRyN/iNw0UMBdPPD8kVAIW3o9f8rjHtf4d9kjYDRbLy+p?=
+ =?us-ascii?Q?S7UKNds8FJsJS++Sq3Edpjf36s0fo/54epB8Jyv+WHC2gPrG6nNGiNi0FCZX?=
+ =?us-ascii?Q?7PmnfJBnj3ovdjDFuoVzIZJhTjaHnvzRzHVgjNv5vL31honfD5yztqCGkR7h?=
+ =?us-ascii?Q?w1R/YUEXXCSUCrkIAQjTOVnQ+C7rQBFwhvbgYuCs/8NbeDBZ2aZMX0JjmxGj?=
+ =?us-ascii?Q?qQ6JNRT5zQkFYHXK7R8pZLE=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <CD54C47C786BC14BB3B10732BC852156@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <69c8e29a-cba6-4bd4-adfe-81f507415d5f@suse.de>
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: zXog6RPJLPy3NLxsG/9/2Vl2BE+Dpt1ZIo1/w2dr5vTjt6IWEL1MztR79h5xHXwT7h0ZTT7p3pXbeVPBtQQaYSD85u1BNBTnZciiVg0RD3p6/c1k2HJQ+5MDvwoc5lMBJg4S8U4sXDbyZ8asQA5uJ9SP0dlZhSj55/8L8Vz1UyYQPtl1+5qnzdJ7LqmFLaoMkFoX5ca/bR/RGZDl8xV5W6XNMIcnsxDz9bDPuRvUZHWPOR/tidSBznv2hQ7/5tiMinHg2tn+wihD56fViGTwS44R7FT4cNtTi7dsZ3ehvemgv1nM98JEXWn1EgYeD/KYLZiZEpDbLV0CjetbxKLUrg4dOjQsTGS3lrkJOQovqADPEHn9RPFZUyxiy81tB2NEs37SFxwqMMn4QOED/9TwwdFp3vXrWwHXObOFrnTe3gC8mFEejnXgrd1Eq5bwAXUITZlcMD1Bsu0ev5ollexmbQLdUm/59AmBOWj/Ho8884vRhdh3HBKxCfGPqmOvqHP3txejvd5W6FCvR7/ErYbLlTtFveRJgbau4xql+bv2dRC/5lVDo1Zayq9i7O8wtBbHiuQEgLNr//SBpefGsTMlhCrr0HAT7Sp0LztLNi3MXp7VnO26S1/UBwOoSXS+L4kk8fJjkCZ3ZA/zOVhXYefyzbnDONykumD8nVq7pE9hNO2gpffUCck96pQfuHsSIrWDBrXG3h2+YUrVjTO818/9kDZgHDMQKvo33NqaGwcXqqofQKOUy0W//eC/XbCOepNCR5dhkFsZSmOer2xwT7g+2ELJf5Ed/+vTgiUJSmomTYNJMEMWSvpk7I1WnTiVF/8jbcbnZqbfWEv53y3QSJImcLLfU56lB3KMywfgVsoeo1n8pn/sslZ7h8Ksdxih/Bnl
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0849f916-72f8-4df3-c4ef-08dbb2b64865
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2023 11:00:17.1241
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 1XK4VBbb9xLWs013I8dwV7l2a3K/DLfFbBnJlxRZdUKHurwiHPCljZECA4UkjOUUbIl/6ZccaBSpsBcrGzIyRUec0IoeQ/B2Y+1GGm/1x3c=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB6842
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230911_030732_301155_019E736D 
-X-CRM114-Status: GOOD (  17.04  )
+X-CRM114-CacheID: sfid-20230911_040026_294071_FBE1D9A6 
+X-CRM114-Status: GOOD (  24.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,37 +162,95 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Sep 06, 2023 at 01:22:28PM +0200, Hannes Reinecke wrote:
- >   	destroy_workqueue(queue->work_q);
-> >   	kfree_rcu(queue, rcu);
-> > @@ -1100,6 +1093,11 @@ nvmet_fc_delete_assoc(struct work_struct *work)
-> >   		container_of(work, struct nvmet_fc_tgt_assoc, del_work);
-> >   	nvmet_fc_delete_target_assoc(assoc);
-> > +
-> > +	/* release get taken in nvmet_fc_find_target_assoc */
-> > +	nvmet_fc_tgt_a_put(assoc);
-> > +
-> > +	/* final reference from nvmet_fc_ls_create_association */
-> >   	nvmet_fc_tgt_a_put(assoc);
-> >   }
-> That feels wrong. If we're having to do two put in a row it seems that
-> we're taking one reference too many here.
+On Sep 08, 2023 / 15:09, Daniel Wagner wrote:
+> On Fri, Sep 08, 2023 at 11:26:31AM +0000, Shinichiro Kawasaki wrote:
+> > On Sep 07, 2023 / 11:44, Yi Zhang wrote:
+> > > allow_any_host was disabled during _create_nvmet_subsystem, call
+> > > _create_nvmet_host before connecting to allow the host to connect.
+> > >
+> > > [76096.420586] nvmet: adding nsid 1 to subsystem blktests-subsystem-0
+> > > [76096.440595] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
+> > > [76096.491344] nvmet: connect by host nqn.2014-08.org.nvmexpress:uuid=
+:0f01fb42-9f7f-4856-b0b3-51e60b8de349 for subsystem blktests-subsystem-0 no=
+t allowed
+> > > [76096.505049] nvme nvme2: Connect for subsystem blktests-subsystem-0=
+ is not allowed, hostnqn: nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-485=
+6-b0b3-51e60b8de349
+> > > [76096.519609] nvme nvme2: failed to connect queue: 0 ret=3D16772
+> > >
+> > > Signed-off-by: Yi Zhang <yi.zhang@redhat.com>
+>=20
+> Reviewed-by: Daniel Wagner <dwagner@suse.de>
+>=20
+> > Thanks for the catching this. I looked back the past changes and found =
+that the
+> > commit c32b233b7dd6 ("nvme/rc: Add helper for adding/removing to allow =
+list")
+> > triggered the connection failure. So, I think a Fixes tag with this com=
+mit is
+> > required (I can add when this patch is applied).
 
-When the association is created the first reference is taken. This is
-the one we want to release here. But as nvmet_fc_find_target_assoc
-always takes a reference we have to drop that one too. One possibility
-would be to introduce a lookup function which doesn't take the
-reference.
+I've applied the fix. Thanks!
 
- > +	/* prevent new I/Os entering the queues */
-> > +	for (i = NVMET_NR_QUEUES; i >= 0; i--)
-> > +		rcu_assign_pointer(assoc->queues[i], NULL);
-> > +	list_del_rcu(&assoc->a_list);
-> > +	synchronize_rcu();
-> Watch out for 'list_del_rcu()'. That does _not_ modify the pointer for the
-> element in question, only those from the list.
-> So to avoid concurrency with nvmet_fc_alloc_target_assoc() I guess we need
-> to get the tgtport lock here.
+> >
+> > Even after the commit, the test case still passes. That's why I did not=
+ notice
+> > the connection failure. I think _nvme_connect_subsys() should check exi=
+t status
+> > of "nvme connect" command and print an error message on failure. This w=
+ill help
+> > to catch similar connection failures in future.
+>=20
+> I was running into a similiar problem for (not yet existing) nvme/050
+> test case [1]:
+>=20
+> nvmf_wait_for_state() {
+>        local def_state_timeout=3D5
+>        local subsys_name=3D"$1"
+>        local state=3D"$2"
+>        local timeout=3D"${3:-$def_state_timeout}"
+>        local nvmedev
+>        local state_file
+>        local start_time
+>        local end_time
+>=20
+>        nvmedev=3D$(_find_nvme_dev "${subsys_name}")
+>        state_file=3D"/sys/class/nvme-fabrics/ctl/${nvmedev}/state"
+>=20
+>        start_time=3D$(date +%s)
+>        while ! grep -q "${state}" "${state_file}"; do
+>                sleep 1
+>                end_time=3D$(date +%s)
+>                if (( end_time - start_time > timeout )); then
+>                        echo "expected state \"${state}\" not " \
+>                                "reached within ${timeout} seconds"
+>                        return 1
+>                fi
+>        done
+>=20
+>        return 0
+> }
+>=20
+> _nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}" \
+>                             --hostnqn "${def_hostnqn}" \
+>                             --reconnect-delay 1 \
+>                             --ctrl-loss-tmo 10
+>=20
+> nvmf_wait_for_state "${def_subsysnqn}" "live"
+> nvmedev=3D$(_find_nvme_dev "${def_subsysnqn}")
+>=20
+> We could make this a bit more generic and move it into the connect
+> helper. What do you think?
 
-Yes, we need to protect from concurent write access obviously.
+This nvme state file check looks a bit complicated, but looks more robust t=
+han
+"nvme connect" command exit status check. Do you think that "nvme connect" =
+can
+fail even when "nvme connect" command returns good status? If so, your appr=
+oach
+will be the way to choose.
+
+>=20
+> [1] https://lore.kernel.org/linux-nvme/20230621155825.20146-2-dwagner@sus=
+e.de/=
 
