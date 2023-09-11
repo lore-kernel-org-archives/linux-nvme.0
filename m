@@ -4,89 +4,135 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6282EEE57DF
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Sep 2023 05:54:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B520EE57DF
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Sep 2023 07:28:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mddRx9TAqSRMsMPN4p3Vnm+hCIKQPnvIVc3OSLx1r8E=; b=3Yxdd3GgGJ5CJP/9Ym+012Q/w6
-	nkZgV7BnNemRK+1vKAnr+88WNvrU45On12JeF4qa0yIez6mGiISVHMGnnoG48kAgVNZ8mTU7YQyZS
-	Xzxu9SnvnFeMS3o216hakFF9AASuEg9msfBRQ9PmnUwPlcBjyCLIaFXBtqWHU7iVOGwwsnR0/PzpT
-	BnsqlLhFw6yq9H8EIIINJsWRXjAtvkehZs+o6v5ZYhFOI5yeLrx1q1gPA08QjheIcT4MfExAWVJTy
-	BA/AnT5jV/uoi1yTFHFmJcNZmbfxbv918mhHM/WYSJ5YGGLMLVcp8nEUbtOr4soR7yT7btjbqjfqf
-	CAVPMWvA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=cej4R47hwsUoLrP3kMO4xkB8phBdyh7ScwQgbs9zXgI=; b=ER1dhm6n5n7nDZDNss23MPGxy8
+	x1KMXwGAC2NWJdMvxepqZ2QA9Jh+tvK09RkpCB+ygjx5UfNCzfp9uH4M9ocU9aR50Ig6jgW86dX+N
+	17q/5xGu0pkQv6dlkqX3IyY6/CARkUIUL66A60VDjyCxi5+OeJe+0Pv3mzid5yWvB1lRkDnTF+DED
+	2NfZYxfJ06YVoc1ZupHYdGHe68cP56nuPx4SjKWnfXHVF7alkparC6+EdqoSb5zXbh531WtArPWvR
+	9R8xlXAHSbR8RNKm7ue3iDJ3BCTDlJilqCSMGGytnsuHihZJzXl4ElPrgSTMe8M1/MgFlyXOgYbjk
+	Dz4eztEg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qfZso-00HHly-2b;
-	Mon, 11 Sep 2023 05:54:50 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1qfbLM-00HPR1-0x;
+	Mon, 11 Sep 2023 07:28:24 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qfZsm-00HHl6-0P
+	id 1qfbLJ-00HPP4-1t
 	for linux-nvme@lists.infradead.org;
-	Mon, 11 Sep 2023 05:54:49 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1694411685;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mddRx9TAqSRMsMPN4p3Vnm+hCIKQPnvIVc3OSLx1r8E=;
-	b=HFUwjchEXZvAZL9u31rdP6ZXv9O0hcxn+wfifaRoRIc8Z6IIlg8lDAXP+ZcpcdhhYgvnT/
-	lovTVG/oPOX7uo8uRJjQnFk1n1Ua02EBQ6MUvpLqM1tOhQGYAP2f3IFZ/4nVYFrQiHpNGv
-	W+z1I16fRMCrY2NvFCtDGeGxVw3C+wo=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-578-pek7hHUONEWF6UgmBjCIRg-1; Mon, 11 Sep 2023 01:54:43 -0400
-X-MC-Unique: pek7hHUONEWF6UgmBjCIRg-1
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-273f8487f53so2184320a91.1
-        for <linux-nvme@lists.infradead.org>; Sun, 10 Sep 2023 22:54:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694411682; x=1695016482;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mddRx9TAqSRMsMPN4p3Vnm+hCIKQPnvIVc3OSLx1r8E=;
-        b=tiYW7/LwNajw/Q5sMsC8FMnkwbBOMVItcIPd93afObM7Nq99At8NSGFlSvSV1cKVfL
-         NHA6C556+Kz0Zdm/lob1ovDFkJZjBV1BWO/ggXD1eTL+I5n3j2E2em7asS6P5gYRWRNJ
-         3TX2pZEU0YODttrzavQ7AfrhckcFLHnrROdgpvLuLji6TzGfdy4tHoUP4b8WreUXVbbV
-         5h4iIKq2LoB05mspKRwleKAkaR8Bfbd6HoXnQx9pn90l9UfKa0jPErtXTU1LcnjHvcI/
-         OGkSRF/4M6E2GwLiNTYHYECbNlm/9BtI0QOKd/8bniX5K8bjWgH4Dv1BymIXMA0Kw8QG
-         USqw==
-X-Gm-Message-State: AOJu0Yy4hQ4t/DNCzc8icbaIrUArzzD/WYxKuawhW1S1i55E9lFQEJyJ
-	zYOA2f/uSXIpjHcDp7lfhE7/PyN5ISAr8wOlRoAqdg8z33tLWFwORnaMh7NZFvB8+TzkW0iFxki
-	8Lj1W+Pio3J9+RLo+I9MqB3C7g58J8RBG36qLRCj1RRI=
-X-Received: by 2002:a17:90b:38c1:b0:262:f449:4497 with SMTP id nn1-20020a17090b38c100b00262f4494497mr8172712pjb.2.1694411682713;
-        Sun, 10 Sep 2023 22:54:42 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFOVhvWBZ/E4QHwrJrErqhIG48dfTYHKkmlSCxE/hxSMmUATo+/U5fqOt1szNDCMfTjC/TgtkCnFUpqYpkXLS0=
-X-Received: by 2002:a17:90b:38c1:b0:262:f449:4497 with SMTP id
- nn1-20020a17090b38c100b00262f4494497mr8172706pjb.2.1694411682474; Sun, 10 Sep
- 2023 22:54:42 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230726142939.10062-1-guoqing.jiang@linux.dev>
- <CAHj4cs9LppxseFzZe-fj7tDaeKd0x8t8Wr-aYcjXAU-8FyfoiQ@mail.gmail.com>
- <a403c942-5b1c-c7f7-243b-81545f7f83ad@linux.dev> <065d800d-8c6c-4257-ade2-9ffa92c36735@suse.de>
- <CAHj4cs_8iC5rn+xA7_bvRifE+1Uu9jjj0wHf=5EmuW7zvaxeYw@mail.gmail.com>
- <CAHj4cs_bn=mCiVu1ZhZYUhf950TsHzdLe4++9N2ebHsLq2YGwg@mail.gmail.com>
- <77c0f80d-cf77-4828-93ce-5cb06405ceac@suse.de> <CAHj4cs-3Mc0hjE1etM=EPHqcicdOHYw7MzwXb=nCnwQ+KhA9sQ@mail.gmail.com>
-In-Reply-To: <CAHj4cs-3Mc0hjE1etM=EPHqcicdOHYw7MzwXb=nCnwQ+KhA9sQ@mail.gmail.com>
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Mon, 11 Sep 2023 13:54:31 +0800
-Message-ID: <CAHj4cs_X-4c0KiKUYPqMc2rTCsnFwvRXrcM2WxJPHRHBeCYoSg@mail.gmail.com>
-Subject: Re: [PATCH RFC] nvmet-tcp: add new workqueue to surpress lockdep warning
+	Mon, 11 Sep 2023 07:28:23 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20230911072811epoutp0375652b1d596d685fdebb011577c2fa86~Dx4yV4Xua3179931799epoutp03i
+	for <linux-nvme@lists.infradead.org>; Mon, 11 Sep 2023 07:28:11 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20230911072811epoutp0375652b1d596d685fdebb011577c2fa86~Dx4yV4Xua3179931799epoutp03i
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1694417291;
+	bh=cej4R47hwsUoLrP3kMO4xkB8phBdyh7ScwQgbs9zXgI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=GbR8WTq31VsWy1GM/Yio3YcnbQ+mefmCIi5CMrI386+akMsNcDTkOgKWI4JcXrkwP
+	 3tM9Muhcf2K2dLepVat1/noXEDIwIDJWn7aJLGmf+yr8U6mUH7bpZcVcbmaHRCeiBd
+	 UvM5VbfvwfRdCnftjwQXZIbHtBgyJF3i5ATbWLT8=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+	20230911072810epcas5p1d562705d89cfbb6478ca8b261932bcdc~Dx4x02aCc0929309293epcas5p1H;
+	Mon, 11 Sep 2023 07:28:10 +0000 (GMT)
+Received: from epsmgec5p1-new.samsung.com (unknown [182.195.38.180]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4Rkdbs5Kl4z4x9Q2; Mon, 11 Sep
+	2023 07:28:09 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmgec5p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	20.82.19094.981CEF46; Mon, 11 Sep 2023 16:28:09 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20230911071326epcas5p3600b9cef197147920fe1e3b4ab2779eb~Dxr5xvs_B1633516335epcas5p3e;
+	Mon, 11 Sep 2023 07:13:26 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20230911071326epsmtrp14b58900234d6bef91d34adefe1eac313~Dxr5wxixP1320513205epsmtrp1d;
+	Mon, 11 Sep 2023 07:13:26 +0000 (GMT)
+X-AuditID: b6c32a50-39fff70000004a96-19-64fec189d7e9
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	8A.B4.08788.51EBEF46; Mon, 11 Sep 2023 16:13:25 +0900 (KST)
+Received: from green245 (unknown [107.99.41.245]) by epsmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20230911071323epsmtip1e24502945ef6ea5aa939e28947e74d3d~Dxr3KQ5gg0358803588epsmtip1M;
+	Mon, 11 Sep 2023 07:13:23 +0000 (GMT)
+Date: Mon, 11 Sep 2023 12:37:24 +0530
+From: Nitesh Shetty <nj.shetty@samsung.com>
 To: Hannes Reinecke <hare@suse.de>
-Cc: Guoqing Jiang <guoqing.jiang@linux.dev>, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
-	linux-nvme@lists.infradead.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
+	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	dm-devel@redhat.com, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
+	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
+	<kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
+	Brauner <brauner@kernel.org>, martin.petersen@oracle.com, mcgrof@kernel.org,
+	gost.dev@samsung.com, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v15 09/12] dm: Add support for copy offload
+Message-ID: <20230911070724.GA28177@green245>
+MIME-Version: 1.0
+In-Reply-To: <cb767dc9-1732-4e31-bcc6-51c187750d66@suse.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xTdxTH/d3bXi5snZcK4wdMJdds4bEC1bZeHMwpzF0jMsYiCSamdPSO
+	EqBt+hjilsDmgOCDhyCZ5SGCgMACoyUElQ4sShUkBpUWms1XAANkMJiIi4Ot5cLif59zzvf8
+	zjm/k4Oj/FXMD09T6hiNUpZBYh6crv6gQEHhjVV5eK41kGofHECp1t+LMWq2fxFQE30FgDLP
+	VXKp8b6rCNVTdw6hmltvIdQ5iw1Qk6MGhDI7QqhL+Zc5VI/5Dod6cK0Koy42TrpRTdZVhBor
+	mQRU2+w8h7rt8KfurVi5n3jR9x51cOgHw3ra2FKI0abLOfT18VyMri8q49JnT85h9MKkg0PP
+	/zqK0UWdLYA2DX1L/2XcRhsn/kDieUfTIxWMTM5oAhhlikqepkyNIg99KY2WiiXhQoEwgtpN
+	BihlmUwUGRMbLziQluEclQz4Rpahd7riZVotGfZxpEal1zEBCpVWF0UyanmGWqQO1coytXpl
+	aqiS0e0RhofvFDuFyemK0vt2VF3ucXykdBzLBVfxU8Adh4QIzt9aRk4BD5xP9AA4/eonwBqL
+	AM7bO1GXik+8BLDd+tZGRsU/Z9YzzACuvDZxWWMKwBHTojOC4xziffh3ZZYLMSIEDv27Vs2L
+	IOFCgcXNJUeJJxxYarSjLs0WYi9ctnm5kEcI4PP8d11yHuEJ71yY4LjYnfgIGrv7MBd7Eztg
+	X5d1rQVIlLnD0WcNa89AIgY+MtJsm1vgjLXTjWU/OF2cv85ZsLn8Csbm/gigwW4AbGAvzBss
+	XpsXJRTQUXYXZf1b4fnBNoT1vwPPvp5AWD8Pdtds8A74c3stxrIvtC1/v840rF9+yGG/ZwHA
+	geE5tARsN7wxnOGNeix/CGuvL2IG5zwo4Q+bVnEWg2D7tbBawG0Bfoxam5nKpIjVQoGSyfp/
+	3ymqTCNYO4Tg+G7Q+stKqAUgOLAAiKOkF09nWZHzeXJZ9glGo5Jq9BmM1gLEzlWVon7eKSrn
+	JSl1UqEoIlwkkUhEEbskQtKHN5tXLecTqTIdk84wakazkYfg7n65yOkTFO29K3HrjKLmSY8p
+	WvBVZNhJTz6v48yUcD5bX1pUnEN/UHEj7kh/QWPaxeeKzRFNV967f3Ppi98+hfurZmxD+xIa
+	/XwTG4aRu53KbP+3b8fZY7+rloJNWNzx6P7sEBhcXDF95GjXq6WxsN6XJTVtUYk/iBPq8c/D
+	bpqbljxikyXnI5pnv/Z8kaQXdU/t7tvjSAp8WumVNFejr86KET3uB73ArgtyVBw+FjPTEV3e
+	qxzO+4w7MpN1ANv5+IW4cO6Q9bB1KvlYbOX2P+PHa8wJ9px90s22noPWugubmvgO8zatT9zT
+	/AbkIHm67mG0pWK000dcMuY7YErCqi7Zng2THK1CJgxGNVrZf9JDBzmRBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrPIsWRmVeSWpSXmKPExsWy7bCSnK7ovn8pBi+XW1usP3WM2WL13X42
+	i9eHPzFaPDnQzmix991sVoubB3YyWexZNInJYuXqo0wWkw5dY7R4enUWk8XeW9oWC9uWsFjs
+	2XuSxeLyrjlsFvOXPWW3WH78H5PFjQlPGS3WvX7PYnHilrTF+b/HWR1EPM7f28jicflsqcem
+	VZ1sHpuX1HvsvtnA5rG4bzKrR2/zOzaPj09vsXi833eVzaNvyypGj82nqz0+b5Lz2PTkLVMA
+	bxSXTUpqTmZZapG+XQJXRtOlXuaCK+wVPT+esTcwTmLrYuTkkBAwkZj2p4epi5GLQ0hgN6PE
+	v5N9TBAJSYllf48wQ9jCEiv/PWeHKHrCKLHr4xKgBAcHi4CqxM/Z5SAmm4C2xOn/HCDlIgJK
+	Eh/bD4GVMws8YZGY+/chWLmwgL3E92siICavgK7E8zYxiIkfGSV+d+5gBenlFRCUODnzCQuI
+	zSygJXHj30smkHpmAWmJ5f/AxnMKWEts2nEA7HxRAWWJA9uOM01gFJyFpHsWku5ZCN0LGJlX
+	MUqmFhTnpucWGxYY5aWW6xUn5haX5qXrJefnbmIEx7GW1g7GPas+6B1iZOJgPMQowcGsJMJb
+	cuhvihBvSmJlVWpRfnxRaU5q8SFGaQ4WJXHeb697U4QE0hNLUrNTUwtSi2CyTBycUg1MudXf
+	4ktYwhKj5qterlRYYhkj3PjHIPCe35bvPAaHbr6K+FfIqGbOuCNXuf1nnJdamsLGgzeVTjm7
+	qzM2G9pEmIptakhznnjafEE0/+qTfqd6NSqeKLaV/XK8bvvj5pIdO06um6Z8Y8LzoKTAN5a3
+	I+Pif5jERwaezDAQ67T1P3RS2qz32eqsd9kv3nCVB25zfyla+uJ92mrPkB3mh6K9lGc1HZDo
+	OVWw5LXHi8xz9RVrSu1vdcyMTpNuY5gcXRMRXXyk94Tdz70pQTby0QH7tVgTu6YGv1hy/uyT
+	ljNaimdeva+5Zqh7rEN1/pWEy66lXzat/H17nq3e6tpfrTN3XmZamv5O4MwlzQCWyOtKLMUZ
+	iYZazEXFiQBBrOgmUgMAAA==
+X-CMS-MailID: 20230911071326epcas5p3600b9cef197147920fe1e3b4ab2779eb
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----EkYAGCX2vluH006HpQv8E927.wBqYttzOq6t00vxo_cq_k4p=_daab9_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230906164407epcas5p3f9e9f33e15d7648fd1381cdfb97d11f2
+References: <20230906163844.18754-1-nj.shetty@samsung.com>
+	<CGME20230906164407epcas5p3f9e9f33e15d7648fd1381cdfb97d11f2@epcas5p3.samsung.com>
+	<20230906163844.18754-10-nj.shetty@samsung.com>
+	<cb767dc9-1732-4e31-bcc6-51c187750d66@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230910_225448_257092_95DBAE9A 
-X-CRM114-Status: GOOD (  21.31  )
+X-CRM114-CacheID: sfid-20230911_002821_972697_D8D1CBA2 
+X-CRM114-Status: GOOD (  19.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,68 +147,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Sep 8, 2023 at 5:00=E2=80=AFPM Yi Zhang <yi.zhang@redhat.com> wrote=
-:
->
-> On Fri, Sep 8, 2023 at 4:58=E2=80=AFPM Hannes Reinecke <hare@suse.de> wro=
-te:
-> >
-> > On 9/8/23 10:44, Yi Zhang wrote:
-> > > On Fri, Sep 8, 2023 at 4:09=E2=80=AFPM Yi Zhang <yi.zhang@redhat.com>=
- wrote:
-> > >>
-> > >> On Fri, Sep 8, 2023 at 3:15=E2=80=AFPM Hannes Reinecke <hare@suse.de=
-> wrote:
-> > >>>
-> > >>> On 9/7/23 10:12, Guoqing Jiang wrote:
-> > >>>> Hi Yi,
-> > >>>>
-> > >>>> On 9/7/23 14:41, Yi Zhang wrote:
-> > >>>>> Tested-by: Yi Zhang <yi.zhang@redhat.com>
-> > >>>>>
-> > >>>>> Confirmed below issue was fixed by this patch:
-> > >>>>
-> > >>>> Thanks a lot for the test!
-> > >>>>
-> > >>>> And I had got another similar lockdep warning about nvmet-rdma.
-> > >>>>
-> > >>> Please note that this issue is fixed by my patch 'nvmet-tcp: avoid
-> > >>> circular locking dependency on install_queue()' send earlier to thi=
-s list.
-> > >>>
-> > >>> Can you please test with that one to see if it fixes the issue for =
-you?
+------EkYAGCX2vluH006HpQv8E927.wBqYttzOq6t00vxo_cq_k4p=_daab9_
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-Hi Hannes
+On Fri, Sep 08, 2023 at 08:13:37AM +0200, Hannes Reinecke wrote:
+> On 9/6/23 18:38, Nitesh Shetty wrote:
+> > Before enabling copy for dm target, check if underlying devices and
+> > dm target support copy. Avoid split happening inside dm target.
+> > Fail early if the request needs split, currently splitting copy
+> > request is not supported.
+> > 
+> And here is where I would have expected the emulation to take place;
+> didn't you have it in one of the earlier iterations?
 
-Confirmed the issue was fixed with your patch.
+No, but it was the other way round.
+In dm-kcopyd we used device offload, if that was possible, before using default
+dm-mapper copy. It was dropped in the current series,
+to streamline the patches and make the series easier to review.
 
-> > >
-> > > Hi Hannes
-> > > There are changes in nvmet_tcp_install_queue and the patch cannot be
-> > > cleanly applied,
-> > > Could you check it, Thanks.
-> > >
-> > On which tree?
->
-> Sorry, I forgot to revert Guoqing's patch before, I can apply the patch n=
-ow.
->
-> >
-> > Cheers,
-> >
-> > Hannes
-> >
->
->
-> --
-> Best Regards,
->   Yi Zhang
+> After all, device-mapper already has the infrastructure for copying
+> data between devices, so adding a copy-offload emulation for device-mapper
+> should be trivial.
+I did not understand this, can you please elaborate ?
+
+Thank you,
+Nitesh Shetty
+
+------EkYAGCX2vluH006HpQv8E927.wBqYttzOq6t00vxo_cq_k4p=_daab9_
+Content-Type: text/plain; charset="utf-8"
 
 
-
---=20
-Best Regards,
-  Yi Zhang
-
+------EkYAGCX2vluH006HpQv8E927.wBqYttzOq6t00vxo_cq_k4p=_daab9_--
 
