@@ -4,84 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58B21C71153
-	for <linux-nvme@archiver.kernel.org>; Sun, 10 Sep 2023 21:27:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6282EEE57DF
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Sep 2023 05:54:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=G3vyDGkHhGIgt9tKpS+4PfIZn5WSsDuTIQeg67GIK70=; b=NywgxooJeVZVV6panvzlUIWhAQ
-	6c2dbc9ZBJWowsK9g6L6722RFZCxkEBJryofiRmHzA2kMe3xKYm1v9YB2pn03rANEMd3lsdmX+ejc
-	aj/ImHXxqL5CE1P0saEK+IcpfRu5TgKpW1Q+YHlXONru1erOSD7F8rG9oLSHbG/lsKACmRD5leOJ8
-	LsNW0/v32xQsZLYMAz1pW3ZHxBLI4Ru7MnS+Qs3D/BWOC98whT9+jdomGzSt2O74H2DhLtV1/IcVo
-	euxUpNy3rsHtQvFaW5/YzgVX5bcxrpVQrDHshPbxuSNiqpgIpmeTxSYGi9j0G5BuOB80A0Z1EMHmX
-	T15GQF8A==;
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=mddRx9TAqSRMsMPN4p3Vnm+hCIKQPnvIVc3OSLx1r8E=; b=3Yxdd3GgGJ5CJP/9Ym+012Q/w6
+	nkZgV7BnNemRK+1vKAnr+88WNvrU45On12JeF4qa0yIez6mGiISVHMGnnoG48kAgVNZ8mTU7YQyZS
+	Xzxu9SnvnFeMS3o216hakFF9AASuEg9msfBRQ9PmnUwPlcBjyCLIaFXBtqWHU7iVOGwwsnR0/PzpT
+	BnsqlLhFw6yq9H8EIIINJsWRXjAtvkehZs+o6v5ZYhFOI5yeLrx1q1gPA08QjheIcT4MfExAWVJTy
+	BA/AnT5jV/uoi1yTFHFmJcNZmbfxbv918mhHM/WYSJ5YGGLMLVcp8nEUbtOr4soR7yT7btjbqjfqf
+	CAVPMWvA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qfRxm-00GuZt-08;
-	Sun, 10 Sep 2023 21:27:26 +0000
-Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136])
+	id 1qfZso-00HHly-2b;
+	Mon, 11 Sep 2023 05:54:50 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qfRxh-00GuZF-0L
+	id 1qfZsm-00HHl6-0P
 	for linux-nvme@lists.infradead.org;
-	Sun, 10 Sep 2023 21:27:22 +0000
-Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-5921a962adfso36946787b3.1
-        for <linux-nvme@lists.infradead.org>; Sun, 10 Sep 2023 14:27:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ixsystems.com; s=google; t=1694381236; x=1694986036; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=G3vyDGkHhGIgt9tKpS+4PfIZn5WSsDuTIQeg67GIK70=;
-        b=HxwZ7jhc6vYVMPeCKkKz+WXB86j5eJ4yTlAm4iHPSgiOpKbU1XZDUstnK8hseaLgod
-         UKOzReM8jF8YvFa1zNfqWd/Ob3c/J0M53cpIxvcNN7JpzrfRYKm0flv7QCEqM7Mmvv3T
-         q01q2dIcqTNdWHkJyPWwKVnht3SWAoazQ8127yFpn0sfy/TPrLU3+RINTo+fYcfpa8En
-         BNs1ELex0BtLvmTeP60Aw1102vqVA5Ko3HosZz7fsVXQrm6rtZ6ssmgzPejJBMKhfHTq
-         sKREIk8nj7cHmoYIMCQ0qPJ92OwhaXUKNeW9uVYonP00TSat6S3Mi6MfDVC6uwayBYVA
-         AGAA==
+	Mon, 11 Sep 2023 05:54:49 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1694411685;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mddRx9TAqSRMsMPN4p3Vnm+hCIKQPnvIVc3OSLx1r8E=;
+	b=HFUwjchEXZvAZL9u31rdP6ZXv9O0hcxn+wfifaRoRIc8Z6IIlg8lDAXP+ZcpcdhhYgvnT/
+	lovTVG/oPOX7uo8uRJjQnFk1n1Ua02EBQ6MUvpLqM1tOhQGYAP2f3IFZ/4nVYFrQiHpNGv
+	W+z1I16fRMCrY2NvFCtDGeGxVw3C+wo=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-578-pek7hHUONEWF6UgmBjCIRg-1; Mon, 11 Sep 2023 01:54:43 -0400
+X-MC-Unique: pek7hHUONEWF6UgmBjCIRg-1
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-273f8487f53so2184320a91.1
+        for <linux-nvme@lists.infradead.org>; Sun, 10 Sep 2023 22:54:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694381236; x=1694986036;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=G3vyDGkHhGIgt9tKpS+4PfIZn5WSsDuTIQeg67GIK70=;
-        b=U2R9K2ATfDADMiaSGKjD2xJIMc0FQn/wW+tB8sHzbJquVrBP0aSlhBP2Yjzgv/ZwO6
-         68hUYQmARe5GvDZsyIkxokEuLz1lPnOSQttQUwoziEgMLnlmJgx9KcirnFESB5qWJ+gF
-         779o6MkQ5krXpuvwGxoCI7x7F4AMLjH4yIlobQB3WRow5Wc+N7HHZOkJTGUXRg2cKpU3
-         AzAZheXZnZ31R+587/7+i3hiStt47A0VO1YjK++H0Y+Jd0h94ygdSBrl4vepT295ofxc
-         uXNaFZShbNn6IAM/t9+OkpibIzRu4ACmngx8qXlqCX962hKWvhbcNCZFKW875hwvTmxh
-         YNKw==
-X-Gm-Message-State: AOJu0YxJ0Y6Ct4bToN3OmOKdsCx9owc0c0xKXI5IC1RHuR1zAyhCJC2s
-	GxuD7FTJ+LLQEmgL4fesl4D36Lbu3+p45Iflpld7p+zf3Ggb2ls9wIBrZUVKub9zGNaBmfwIROS
-	rAbblyEPO4kTSZUojE/b4Tck3wQk5JoQShUncc9QPceG/MDbC/O8SenSSq9qpayTXpjEcff+/UB
-	19gUiPYajULA==
-X-Google-Smtp-Source: AGHT+IGdJ6M/MVpvzq9gg72gcpDLWx5bSBtAOXQLOr5GqodlmWOPUBZjXiPZ6TaYXYKGjwctfihBuQ==
-X-Received: by 2002:a81:4e90:0:b0:59b:4675:29c6 with SMTP id c138-20020a814e90000000b0059b467529c6mr10301423ywb.9.1694381236266;
-        Sun, 10 Sep 2023 14:27:16 -0700 (PDT)
-Received: from hamza-pc.. ([202.47.34.142])
-        by smtp.googlemail.com with ESMTPSA id r204-20020a815dd5000000b0058e37788bf7sm1602054ywb.72.2023.09.10.14.27.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Sep 2023 14:27:15 -0700 (PDT)
-From: Ameer Hamza <ahamza@ixsystems.com>
-To: linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me,
-	linux-kernel@vger.kernel.org,
-	mav@ixsystems.com,
-	edmund.nadolski@ixsystems.com,
-	ahamza@ixsystems.com
-Subject: [PATCH] nvme: prevent id ctrl csi for specs below 2.0
-Date: Mon, 11 Sep 2023 02:26:41 +0500
-Message-Id: <20230910212641.338438-1-ahamza@ixsystems.com>
-X-Mailer: git-send-email 2.39.2
+        d=1e100.net; s=20230601; t=1694411682; x=1695016482;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mddRx9TAqSRMsMPN4p3Vnm+hCIKQPnvIVc3OSLx1r8E=;
+        b=tiYW7/LwNajw/Q5sMsC8FMnkwbBOMVItcIPd93afObM7Nq99At8NSGFlSvSV1cKVfL
+         NHA6C556+Kz0Zdm/lob1ovDFkJZjBV1BWO/ggXD1eTL+I5n3j2E2em7asS6P5gYRWRNJ
+         3TX2pZEU0YODttrzavQ7AfrhckcFLHnrROdgpvLuLji6TzGfdy4tHoUP4b8WreUXVbbV
+         5h4iIKq2LoB05mspKRwleKAkaR8Bfbd6HoXnQx9pn90l9UfKa0jPErtXTU1LcnjHvcI/
+         OGkSRF/4M6E2GwLiNTYHYECbNlm/9BtI0QOKd/8bniX5K8bjWgH4Dv1BymIXMA0Kw8QG
+         USqw==
+X-Gm-Message-State: AOJu0Yy4hQ4t/DNCzc8icbaIrUArzzD/WYxKuawhW1S1i55E9lFQEJyJ
+	zYOA2f/uSXIpjHcDp7lfhE7/PyN5ISAr8wOlRoAqdg8z33tLWFwORnaMh7NZFvB8+TzkW0iFxki
+	8Lj1W+Pio3J9+RLo+I9MqB3C7g58J8RBG36qLRCj1RRI=
+X-Received: by 2002:a17:90b:38c1:b0:262:f449:4497 with SMTP id nn1-20020a17090b38c100b00262f4494497mr8172712pjb.2.1694411682713;
+        Sun, 10 Sep 2023 22:54:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFOVhvWBZ/E4QHwrJrErqhIG48dfTYHKkmlSCxE/hxSMmUATo+/U5fqOt1szNDCMfTjC/TgtkCnFUpqYpkXLS0=
+X-Received: by 2002:a17:90b:38c1:b0:262:f449:4497 with SMTP id
+ nn1-20020a17090b38c100b00262f4494497mr8172706pjb.2.1694411682474; Sun, 10 Sep
+ 2023 22:54:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230726142939.10062-1-guoqing.jiang@linux.dev>
+ <CAHj4cs9LppxseFzZe-fj7tDaeKd0x8t8Wr-aYcjXAU-8FyfoiQ@mail.gmail.com>
+ <a403c942-5b1c-c7f7-243b-81545f7f83ad@linux.dev> <065d800d-8c6c-4257-ade2-9ffa92c36735@suse.de>
+ <CAHj4cs_8iC5rn+xA7_bvRifE+1Uu9jjj0wHf=5EmuW7zvaxeYw@mail.gmail.com>
+ <CAHj4cs_bn=mCiVu1ZhZYUhf950TsHzdLe4++9N2ebHsLq2YGwg@mail.gmail.com>
+ <77c0f80d-cf77-4828-93ce-5cb06405ceac@suse.de> <CAHj4cs-3Mc0hjE1etM=EPHqcicdOHYw7MzwXb=nCnwQ+KhA9sQ@mail.gmail.com>
+In-Reply-To: <CAHj4cs-3Mc0hjE1etM=EPHqcicdOHYw7MzwXb=nCnwQ+KhA9sQ@mail.gmail.com>
+From: Yi Zhang <yi.zhang@redhat.com>
+Date: Mon, 11 Sep 2023 13:54:31 +0800
+Message-ID: <CAHj4cs_X-4c0KiKUYPqMc2rTCsnFwvRXrcM2WxJPHRHBeCYoSg@mail.gmail.com>
+Subject: Re: [PATCH RFC] nvmet-tcp: add new workqueue to surpress lockdep warning
+To: Hannes Reinecke <hare@suse.de>
+Cc: Guoqing Jiang <guoqing.jiang@linux.dev>, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
+	linux-nvme@lists.infradead.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230910_142721_245001_3BE0EF66 
-X-CRM114-Status: GOOD (  14.03  )
+X-CRM114-CacheID: sfid-20230910_225448_257092_95DBAE9A 
+X-CRM114-Status: GOOD (  21.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,62 +101,68 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The 'id ctrl csi' command was introduced in version 2.0, as specified
-in Section 5.17.2.6 of the NVME Base Specification 2.0. Executing this
-command on previous NVMe versions returns an "Invalid Field" error,
-and the error entry is saved in the log page. Although, Commit
-c917dd96fe41 ("nvme: skip optional id ctrl csi if it failed") reduced
-the error occurrences, but the error persisted during the initial
-module load. This patch ensures the command isn't executed on versions
-older than 2.0, and it also eliminates the skip implementation because
-NVME_ID_CNS_CS_CTRL is expected to succeed with version 2.0.
+On Fri, Sep 8, 2023 at 5:00=E2=80=AFPM Yi Zhang <yi.zhang@redhat.com> wrote=
+:
+>
+> On Fri, Sep 8, 2023 at 4:58=E2=80=AFPM Hannes Reinecke <hare@suse.de> wro=
+te:
+> >
+> > On 9/8/23 10:44, Yi Zhang wrote:
+> > > On Fri, Sep 8, 2023 at 4:09=E2=80=AFPM Yi Zhang <yi.zhang@redhat.com>=
+ wrote:
+> > >>
+> > >> On Fri, Sep 8, 2023 at 3:15=E2=80=AFPM Hannes Reinecke <hare@suse.de=
+> wrote:
+> > >>>
+> > >>> On 9/7/23 10:12, Guoqing Jiang wrote:
+> > >>>> Hi Yi,
+> > >>>>
+> > >>>> On 9/7/23 14:41, Yi Zhang wrote:
+> > >>>>> Tested-by: Yi Zhang <yi.zhang@redhat.com>
+> > >>>>>
+> > >>>>> Confirmed below issue was fixed by this patch:
+> > >>>>
+> > >>>> Thanks a lot for the test!
+> > >>>>
+> > >>>> And I had got another similar lockdep warning about nvmet-rdma.
+> > >>>>
+> > >>> Please note that this issue is fixed by my patch 'nvmet-tcp: avoid
+> > >>> circular locking dependency on install_queue()' send earlier to thi=
+s list.
+> > >>>
+> > >>> Can you please test with that one to see if it fixes the issue for =
+you?
 
-Signed-off-by: Ameer Hamza <ahamza@ixsystems.com>
----
- drivers/nvme/host/core.c | 6 ++----
- drivers/nvme/host/nvme.h | 3 +--
- 2 files changed, 3 insertions(+), 6 deletions(-)
+Hi Hannes
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f3a01b79148c..6c92aa5704f9 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2894,9 +2894,9 @@ static int nvme_init_non_mdts_limits(struct nvme_ctrl *ctrl)
- 	else
- 		ctrl->max_zeroes_sectors = 0;
- 
-+	/* NVME_ID_CNS_CS_CTRL is supported from v2.0 onwards. */
- 	if (ctrl->subsys->subtype != NVME_NQN_NVME ||
--	    nvme_ctrl_limited_cns(ctrl) ||
--	    test_bit(NVME_CTRL_SKIP_ID_CNS_CS, &ctrl->flags))
-+	    ctrl->vs < NVME_VS(2, 0, 0))
- 		return 0;
- 
- 	id = kzalloc(sizeof(*id), GFP_KERNEL);
-@@ -2918,8 +2918,6 @@ static int nvme_init_non_mdts_limits(struct nvme_ctrl *ctrl)
- 		ctrl->max_zeroes_sectors = nvme_mps_to_sectors(ctrl, id->wzsl);
- 
- free_data:
--	if (ret > 0)
--		set_bit(NVME_CTRL_SKIP_ID_CNS_CS, &ctrl->flags);
- 	kfree(id);
- 	return ret;
- }
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index f35647c470af..f3cf10710bce 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -249,8 +249,7 @@ enum nvme_ctrl_flags {
- 	NVME_CTRL_ADMIN_Q_STOPPED	= 1,
- 	NVME_CTRL_STARTED_ONCE		= 2,
- 	NVME_CTRL_STOPPED		= 3,
--	NVME_CTRL_SKIP_ID_CNS_CS	= 4,
--	NVME_CTRL_DIRTY_CAPABILITY	= 5,
-+	NVME_CTRL_DIRTY_CAPABILITY	= 4,
- };
- 
- struct nvme_ctrl {
--- 
-2.39.2
+Confirmed the issue was fixed with your patch.
+
+> > >
+> > > Hi Hannes
+> > > There are changes in nvmet_tcp_install_queue and the patch cannot be
+> > > cleanly applied,
+> > > Could you check it, Thanks.
+> > >
+> > On which tree?
+>
+> Sorry, I forgot to revert Guoqing's patch before, I can apply the patch n=
+ow.
+>
+> >
+> > Cheers,
+> >
+> > Hannes
+> >
+>
+>
+> --
+> Best Regards,
+>   Yi Zhang
+
+
+
+--=20
+Best Regards,
+  Yi Zhang
 
 
