@@ -4,126 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8F820EE57DF
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Sep 2023 13:59:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38BACEE7FF4
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Sep 2023 14:44:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+CF44g3dP9i88MgfaJOTX/TJ2B4UzgtM9W9VEYJs94w=; b=JfZQTepOtvlDPGeOIdvOCDALxD
-	38FPNmB0R/ETWdDMIqJ0lJkdPGGAUfbrmqHwue4a2XJYJgOmcY9NYLbXWYDkb2DbTzkO9BLELddCC
-	RoqF3DIyT2mecqF975KGSVIe3IseyFCR3j7Piad9ZRIuA9fWJxJRbcazEeRpHO6c0mFT3ugSCv3eU
-	0Koo6khWjiRHJ6QCgqo8kJCFX1d+OBdcadbHmsVgv7vrRgc9+KSCRePGDhpXLB3zKWPO9MS76LIg/
-	R2BzGtcyYaPaPrnvi7MS7tY9l1QHHIFPYKwaYbH64qKJfcLM+BbmTMxd7cJ8CppKyHR6BzOhfJrPd
-	D079tbug==;
+	bh=xr4ibqDuzuUnxUV/l1cvdGlA8SZbcOuzfT1Mj/uprVU=; b=c6Qz9wJimupjdccpGcQbn13+b2
+	0tf5GYIPMtoEj1nc3EuP0Hgk6nCbOgu7l74ZuUHb6yyW5oeSIfphYFULLfijSVoVS0d/InPu/7rBG
+	0kYWVEltRi/9U0ZsQJZxRsU2NWaJ4j1Of8e4xJ4Kd6gK3lJLlKEc+GS+J+xz5qv6726p3wvcrdn3S
+	dVP2LWu3vxFxtj2TGNm1M8P5DiMj3icy97XzgGQJLMgYRo9YAq9R+mDdlAhDn3qSURVc2LB9I4TaT
+	xfqaAL8Le/DGB/vuVIZ16FxwJCOIS9Yq0CNz8wQZeIaG7aP9rnb03zXmr/rJsTn/xHfRGoHqiMmMx
+	tYpLJ9CA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qfhRq-000eh4-2X;
-	Mon, 11 Sep 2023 13:59:30 +0000
-Received: from mail-sn1nam02on2060d.outbound.protection.outlook.com ([2a01:111:f400:7ea9::60d] helo=NAM02-SN1-obe.outbound.protection.outlook.com)
+	id 1qfi9B-000kD4-1F;
+	Mon, 11 Sep 2023 14:44:17 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qfhRm-000egS-2f
+	id 1qfi97-000kAm-39
 	for linux-nvme@lists.infradead.org;
-	Mon, 11 Sep 2023 13:59:29 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cTe59agz9FnGAziX46QrWBMoVff8co7dCOA/ii3VNRN/1rBoMaqyfzhHOaP7757VlGZitYoRZ+gLn7sQ2wWlIHOLZu9sVBtAjas2NU2/NMMMGceIsUKicTD1VWmqg8CUPQr7kECseQmRimISQ1NlSF/Q1yAgtkfPaW8PjXCD37MiZ5Vw4yFLyOg8KsjR++ISWoJpjs+acN0uR7yRO+4fUIXu4U44Ea5dJQ9xk4FeN2E16O/a5HCsBQrpHLcXkK9+HltJmDRaUQPZygcBU1kJgntPdWk7LLqgwTD0s5C7r5RqK+yZDYl3HOq8eJgJe2p9egg02R7JFeYpFc8NwbAL5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+CF44g3dP9i88MgfaJOTX/TJ2B4UzgtM9W9VEYJs94w=;
- b=HWCfCJB8EOTMLCdA7XbiCNtXSXO5TTVHllzwJlPDwjBZT8oUHUB9J6BI0TOx1KL8HcwtyR2PmX+WkZI6L+8fGBsbS9NwitwH6SITOh0GiuQuRYl36qv385+ctmjhZ/c3fHN/YEyz4+2/UpUIvPKqjhzrYm7qUw0ywTfsBWCJQKMryIAHynBShaj8nwrJEnALHSNgS6bUwUMHAqUGI5GidmyO3vV+AFp8Eh8UlNf+u7Mgi3kasPr/hdCTf2Q0YLKLzWiCTfc2q9xETC7Wcdk+pBCuvl1vuEahR/tmNA18ICu9e/JA9DviU27fMP9ob0qVb5ZLhlyQwTSSOlyxyst38g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+CF44g3dP9i88MgfaJOTX/TJ2B4UzgtM9W9VEYJs94w=;
- b=HtIgf4JN5cemEu3cGfIaaE0eJutJdktH8yXMDfZImTYDR+E28Bdw72EF/QDGyW2nRTyu/rzVUEHzPtCRyhdVkImqYe/mxHa+to1GY/NWpe6OElitkE0Dra0rIQJkojgcG7bTJ7sYbKm1Qcp/pwXOdMJxlocwKH9vRia6LvQRWT7BsIAs2+l2irSMBRwXSaIQzBCLVEIx+zNdQADu9LyRAuA9fUR8AiIr7GOWSDR9dALtw8CZh8sTnQ6SN2Rfgb+BL2RYwl0uL3e66d8JenYsZSOpUGWvgk8RejweAxdWXc5/ZS2mWSdcELe6sBY6B8NSofg23q8avaHEFR8z5B00DA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
- by DS0PR12MB8765.namprd12.prod.outlook.com (2603:10b6:8:14e::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.30; Mon, 11 Sep
- 2023 13:59:20 +0000
-Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
- ([fe80::968e:999a:9134:766b]) by SJ1PR12MB6075.namprd12.prod.outlook.com
- ([fe80::968e:999a:9134:766b%7]) with mapi id 15.20.6745.035; Mon, 11 Sep 2023
- 13:59:20 +0000
-From: Aurelien Aptel <aaptel@nvidia.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
- sagi@grimberg.me, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
- chaitanyak@nvidia.com, davem@davemloft.net, aurelien.aptel@gmail.com,
- smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
- yorayz@nvidia.com, borisp@nvidia.com, galshalom@nvidia.com,
- mgurtovoy@nvidia.com
-Subject: Re: [PATCH v14 02/20] netlink: add new family to manage ULP_DDP
- enablement and stats
-In-Reply-To: <20230908144909.5d7a36ce@kernel.org>
-References: <20230906113018.2856-1-aaptel@nvidia.com>
- <20230906113018.2856-3-aaptel@nvidia.com>
- <20230908144909.5d7a36ce@kernel.org>
-Date: Mon, 11 Sep 2023 16:59:14 +0300
-Message-ID: <253r0n47qvh.fsf@mtr-vdi-124.i-did-not-set--mail-host-address--so-tickle-me>
-Content-Type: text/plain
-X-ClientProxiedBy: FR4P281CA0082.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:cd::12) To SJ1PR12MB6075.namprd12.prod.outlook.com
- (2603:10b6:a03:45e::8)
+	Mon, 11 Sep 2023 14:44:15 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CD53721846;
+	Mon, 11 Sep 2023 14:44:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1694443450; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xr4ibqDuzuUnxUV/l1cvdGlA8SZbcOuzfT1Mj/uprVU=;
+	b=NfFY5JLCFkpg52Yo0SZyE7dtixYz5/S8ijG4dbkyXIrJtDbjBAx3d7DpjEqx1+4k+76K7a
+	2OMYRCCWd5wuVDb8gQOv+SPIhqSMCLuBT+MU+vSMSw/xi5lUKG061M/hCmid4l16PxFOy4
+	ETFJQnGXIOOwMmsQ4mw6n7hydMptImM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1694443450;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xr4ibqDuzuUnxUV/l1cvdGlA8SZbcOuzfT1Mj/uprVU=;
+	b=Etp/FImonl8DmzxPuqfZ7G2KQfkBQ5zcbFpd5hjLYjrn5qH/fp+XVjD6QKIR+hOuNQ/c4b
+	7B1xLLPiXOxJ8iDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BE607139CC;
+	Mon, 11 Sep 2023 14:44:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 9AtbLron/2TcUwAAMHmgww
+	(envelope-from <dwagner@suse.de>); Mon, 11 Sep 2023 14:44:10 +0000
+Date: Mon, 11 Sep 2023 16:44:46 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	James Smart <james.smart@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>
+Subject: Re: [RFC v1 4/4] nvmet-discovery: do not use invalid port
+Message-ID: <ebfmki7mifmo67x27wwrdpabdbiamalj7rsevxvabyi4sff4ck@4d5fyvrjggkw>
+References: <20230829091350.16156-1-dwagner@suse.de>
+ <20230829091350.16156-5-dwagner@suse.de>
+ <20230905065032.GC19701@lst.de>
+ <vml2mmhjurjaalzcmugnu2c4cm4okfkl43swbmudmaotew4gsy@o4q44el473to>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|DS0PR12MB8765:EE_
-X-MS-Office365-Filtering-Correlation-Id: 41cdfff4-9763-4d94-8607-08dbb2cf4bac
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aChXwyeacNJP2Ej7/25n3jpUTHr/MvxYVjX0RgC5wfNn2AiSIs9Ro9nuvhNvWbBLx1xdD8Wk383cEMdsBmj96PujLnfeyMt5fLwi2Ew3NKWzO3IsAcaiMJCv28SvE/GuxSRDW32W6l1fn27MsaA/2Tj+qHh4gID4y7sV5z1rwP7UrfoKZlvxwy7XQX94r4jzDQcqrr+esrWDcUyeahb5nViKCq/ZLqKK/8IcoJhoSARqB+YVTLi4Ek6hdNPNZdEoC8qD1HkPaFih1LLbF9so140K1i861UJ+C5X1NUAK+FLWiHlGbd5w4m4VWg1DDbPJqsAdP8jmvPfOYNEUjPC3vvAx2jO++nf/HGyKdpw+6g2ORbVMITIbRBQQb2b3Lg4MLEcai2CzuQwKUZQ9waNP8prNLhLF/ToXQkOMPQ6fg4BQpyhepunh2AttyiaDfVDIoCZj6HKNDavb6FMHsoHXaZ81xbZ56/hR+X68s+9kl5bfxaJ4PdHQ5K9yxCkV3Fl4qH906LaKrdnotYqVv4YKhYteplXTsodu+QzHBR/6dgFrklWmhWiTANj5u2UIOjzZZP2/fmQs3LQutp+QMQ+7j//B4kTuKFwh5Ahm2now1hBJ/p1RwQ4LhlP8mPjzNH11
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(376002)(346002)(136003)(366004)(39860400002)(1800799009)(451199024)(186009)(5660300002)(6512007)(6666004)(6506007)(6486002)(86362001)(107886003)(38100700002)(26005)(9686003)(478600001)(66476007)(8936002)(4326008)(66946007)(8676002)(41300700001)(7416002)(2906002)(316002)(6916009)(66556008)(309714004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZHQ5GLDzPZNXf5tf3MpBBRItW+l7oYVAibmgBWwZI3DtoQmjPVBtja0YoZqR?=
- =?us-ascii?Q?HJXbjI/AudJNvS7Nzk7mLJE0yG7eGJTqc8wDI7xko6pkFC5HaKLYIuIMl1Lu?=
- =?us-ascii?Q?qy9j2o7ktZsliti3olKfSOnKIf+RAV5gC/6mwx27r+ScCu6Sr9dVwRrYFe8w?=
- =?us-ascii?Q?CtR9Aj5mFv6chcdDREro/yGW5rCSSU7VOwzR02PJBpT/PaqSQHBTsW01Q7F2?=
- =?us-ascii?Q?5r5OGl+v2wJI+mKm0fszLeZajmDlyUajzlDovVtlEHiF75K1AR9i/arjICEF?=
- =?us-ascii?Q?Y8m9R4QLXFvz2pztE9eGTKWAmPrNjyJp6yT541KNd0cnUmt9kNePsiVzv0Dw?=
- =?us-ascii?Q?LsHB0hH4H8mLFCaHBBEBo5TEbbs8ndhMwxywkDBCEjQRm5tFzoyuZ2YeW6yj?=
- =?us-ascii?Q?LWFknY9SnyWL9YnJtBwo7HzPs9WXT4HIzYYG0J+mTU/pXNPnnSJ6l4GAPhwt?=
- =?us-ascii?Q?pfTDQyMwfo9W04QXWtQtM4Jp0lHGeDAUhboqL1lgWXh1e1wvfS7bUAC+TThB?=
- =?us-ascii?Q?2jlgq162gm7hbHwZ+146Oa80v/sI666WD6b/ZbtDYM7cmNfghK6Bs1WPRaZb?=
- =?us-ascii?Q?OjIsJ3wqAwMfC0bHkwnksbVJ4JyZ4jCyrThT1bkDyOKdywBGdurtgR4qMPm1?=
- =?us-ascii?Q?wg3T1BoLCT1GVy5Sn9eDAkMytjdTdMe5RdZAXxQPYdt4Rjh5REM0Gmrau5xS?=
- =?us-ascii?Q?RQKxvslBJ2NFV4GaSCxoN40G8YiZsGS7VNHxeDXl1/RWQNlqeLc+WkPt7+eT?=
- =?us-ascii?Q?pRHKvKsmLmtsBZrl7b19c+O0l+pAmJUuQkP/xV1MaklaOMrNlNVXp1hNld7i?=
- =?us-ascii?Q?k8sE3iRBaduAxcjtwCIFFS2YZaw00a41nheNJPWlnTOECRwbirYE39Rr5OSl?=
- =?us-ascii?Q?jwxYaTlRmPk4PabEELge8JZTwUwKd1jgyjG24mFUJfHklPnzblEfBJgs58lQ?=
- =?us-ascii?Q?TKYzfOyGAAOwuqBwlT/qav1mHYqVKRkG7I6omxadh7SdNig9vw2mdpPjFwFj?=
- =?us-ascii?Q?xxH1t/BE46zqVvQjNubJr1ygZyKqsQW9Je7dE56TFsipKneR5P2d8uu9TjRX?=
- =?us-ascii?Q?BbNl3TNqGJicG3tAr4YHscxRpQTS7N/IQwfWDh4zQKo+Jv2uIsEWy6AvHY8q?=
- =?us-ascii?Q?uGKFY1dPLhReDohT2UfO8XEmfqhZp1Ur1BDOBu+ZhxQzcR+L4Nn9YdlpzCgD?=
- =?us-ascii?Q?AE1D4YykNYm0bEPVxMfH6Lz6CUW+2UrSEGL30I3AYbuLD24j4MB/D8JF8il2?=
- =?us-ascii?Q?8fiJFcQjaz69q8txwc47rlE3bcBfi1mu5HOk0hZHrYMExRjxfSSE/HaoLRwg?=
- =?us-ascii?Q?7/Lz72z/eVHmr0Qe7oIHstEnQHH/YO6QD/fNGUjAQTpkwrf5MKjZAOnuxFJK?=
- =?us-ascii?Q?JWRrDCqqKvIiOq1C8OVn2Fg53d9X/8GQsPKuRJ2sC7as4QUHeU7iXOY2FyoL?=
- =?us-ascii?Q?Q4o3a691kp/VN6E8MZACzlXXrlmlWDNtmYNi/WFmGlWkrSyKOEpBH4gi8x0D?=
- =?us-ascii?Q?C4Q05yU70C1dEVx3lQhV97mZj0kg0VEuYxPKn/tGvJO2XOKlDJC14DPTTErq?=
- =?us-ascii?Q?ytuyiKr8cCwpnITZeRHfnxry/TIdTQ82mfUVoe+V?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 41cdfff4-9763-4d94-8607-08dbb2cf4bac
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2023 13:59:20.3191
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WfUu0RB0sdBmbo81u6HhX023UqjagmxeMLWNJodZAaIWA62GYdZ8Ls/X8k7Xz9FH59RWttgPht/uiDrnhxz/TA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8765
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <vml2mmhjurjaalzcmugnu2c4cm4okfkl43swbmudmaotew4gsy@o4q44el473to>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230911_065926_925998_3828C048 
-X-CRM114-Status: GOOD (  10.87  )
+X-CRM114-CacheID: sfid-20230911_074414_159566_A8FD6872 
+X-CRM114-Status: GOOD (  15.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -138,55 +92,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Jakub Kicinski <kuba@kernel.org> writes:
-> Looks mostly good, but we lost dump support. TAL at netdev_nl_dev_get_dumpit(),
-> the iteration is not that hard, I reckon we should support dumps.
+On Tue, Sep 05, 2023 at 12:40:25PM +0200, Daniel Wagner wrote:
+> > But I'm still confused how we can get here without req->port
+> > set.  Can you try to do a little more analysis as I suspect we have
+> > a deeper problem somewhere.
 
-Ok, we will add dumpit support for ULP_DDP_CMD_GET.
+The problem is that nvme/005 starts to cleanup all resources and there
+is a race between the cleanup path and the host trying to figure out
+what's going on (get log page).
 
-IIUC the dumpit should loop over all the netdev in its callback and
-write a ULP_DDP_CMD_GET reply msg for each.
+We have 3 association:
 
-> Are the ifdefs still needed? Can't we compile out all of the family code
-> if the config is not selected?
+ assoc 0: systemd/udev triggered 'nvme connect-all' discovery controller
+ assoc 1: discovery controller from nvme/005
+ assoc 2: i/o controller from nvme/005
 
-They are not, we will remove the ifdefs.
+nvme/005 issues a reset_controller but doesn't waiting or checking the
+result. Instead we go directly into the resource cleanup part, nvme
+disconnect which removes assoc 1 and assoc. Then the target cleanup
+part starts. At this point, assoc 0 is still around.
 
->> +
->
-> nit pointless empty line.
+ nvme nvme3: Removing ctrl: NQN "blktests-subsystem-1"
+ block nvme3n1: no available path - failing I/O
+ block nvme3n1: no available path - failing I/O
+ Buffer I/O error on dev nvme3n1, logical block 89584, async page read
+ (NULL device *): {0:2} Association deleted
+ nvmet_fc: nvmet_fc_portentry_unbind: tgtport 000000004f5c9138 pe 00000000e2a2da84
+ [321] nvmet: ctrl 2 stop keep-alive
+ (NULL device *): {0:1} Association freed
+ (NULL device *): Disconnect LS failed: No Association
+ general protection fault, probably for non-canonical address 0xdffffc00000000a4: 0000 [#1] PREEMPT SMP KASAN NOPTI
+ KASAN: null-ptr-deref in range [0x0000000000000520-0x0000000000000527]
+ CPU: 1 PID: 250 Comm: kworker/1:4 Tainted: G        W          6.5.0-rc2+ #20 e82c2becb08b573f1fa41dfeddc70ac8f6838a63
+ Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS unknown 2/2/2022
+ Workqueue: nvmet-wq fcloop_fcp_recv_work [nvme_fcloop]
+ RIP: 0010:nvmet_execute_disc_get_log_page+0x23f/0x8c0 [nvmet]
 
-Ok
+The target cleanup removes the port from the subsystem
+(nvmet_fc_portentry_unbind) and does not check if there is still a
+association around. Right after we have removed assoc 1 and 2 the host
+sends a get log page command on assoc 0. Though we have remove the port
+binding and thus the pointer when nvmet_execute_disc_get_log_page gets
+executed.
 
->> +     if (!data->dev) {
->> +             kfree(data);
->> +             return -EINVAL;
->
-> ENOENT ? Maybe also
->
->                 NL_SET_BAD_ATTR(info->extack, info->attrs[ULP_DDP_A_DEV_IFINDEX])
-> ?
-
-Ok, sounds good.
-
->> +     ret = apply_bits(data, &wanted, &wanted_mask, info->extack);
->> +     if (ret < 0)
->> +             return ret;
->
-> leaks rsp
-
-Oops, thanks for spotting that.
-
->> +     notify = !!ret;
->> +     ret = prepare_data(info, data, ULP_DDP_CMD_SET);
->> +     if (ret)
->> +             return ret;
->> +
->> +     ret = fill_data(rsp, data, ULP_DDP_CMD_SET, info->snd_portid, info->snd_seq, 0);
->
-> fill_date() can probably use genlmsg_iput() ?
-
-Probably yes, unless it makes the dumpit function more complex.
-
-Thanks
+I am still pondering how to fix this.
 
