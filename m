@@ -4,72 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DBA98CA0EC3
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Sep 2023 12:16:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B7641CA0EC3
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Sep 2023 12:18:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5F2/s4ApN+VZBlMAP/QUKrNS3bdLo80b1VJ4xVpaQ1U=; b=wIzcn+8o8ICFrl99whZmMU0B8K
-	8KehJrV/LoOiqyhv6//2tgvKshxV+7kRiaIQ0B/0Af5WhmQ8/YAHA1UftXgCymVpGUIr+3WIb3xdA
-	BU0grGZ4pgGOQD7FmkX8igRWTs/Mc0hkTLYdn0NutzrKB47qaStMthaKCeJf/D77nJ26ZJHVmqwaZ
-	yP9BNUwEBDYEHQR+EqFvIn0CIseTtPMRynhx3Wcbnr4sTjMEjbkuQ1jvI0ezkSSo+mFRJu5xEOMb7
-	xlHI5LiL6VbvXy7uymZvmpSC4emUM+WFxeuGLBLb+qYlytUAL6CDIeowIq7zycAIZR7eGgb5O+MNW
-	GEUBLw5A==;
+	bh=F6UCSN/Lrjr2SjLNlrDr0vGhbie4QKl8HP9yXF7N05o=; b=dhz8z/Hs20zg7h+Rf0nUmnnpi+
+	zW591OZriiYTcPdnGPF2AVTnncbChXm9ApY22/uU04CLmCyGgV6mMU1DBegyNLIyzTDqQPuulrI2f
+	/fOs2qnWJynZtR7cfMfVwuRtdrr4WjqS/xn2132m08bWp5K0h6G7bmIl0vRYYdAJGBfqRxIhVbwqC
+	OxVhBMElG/d9wPfdBvFQI8hGnLhbVbvo8zIaw1YoQcx9vRQTfjs4fzfwyS0MfWbL9Y5e+65uh2ZQp
+	eeH9ZDEQn9OJ8tVdqzsIf7HmP3lxp9ngu0VB/gUCxS0jqJPrFIHsthmRduLsxui+OAQf+Jt/nDcxY
+	Ku1d6Z6g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qg2Ji-003JJl-1u;
-	Tue, 12 Sep 2023 12:16:30 +0000
-Received: from mail-ej1-f51.google.com ([209.85.218.51])
+	id 1qg2LG-003JXL-1d;
+	Tue, 12 Sep 2023 12:18:06 +0000
+Received: from mail-wm1-f51.google.com ([209.85.128.51])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qg2Jf-003JIM-2v
+	id 1qg2LE-003JVk-10
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 Sep 2023 12:16:29 +0000
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-98273ae42d0so161379766b.0
-        for <linux-nvme@lists.infradead.org>; Tue, 12 Sep 2023 05:16:26 -0700 (PDT)
+	Tue, 12 Sep 2023 12:18:05 +0000
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-401d61e9fecso17209015e9.0
+        for <linux-nvme@lists.infradead.org>; Tue, 12 Sep 2023 05:18:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694520985; x=1695125785;
+        d=1e100.net; s=20230601; t=1694521081; x=1695125881;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5F2/s4ApN+VZBlMAP/QUKrNS3bdLo80b1VJ4xVpaQ1U=;
-        b=rHIrBz6h2SEuDY4l9XRDOTb2nxn4A+Ah1/O6Ce6NddX0mFPIScSGw2DMY4UtkfCHjx
-         JNazyy/AhdRslGdNLNise0VR790tmGfb7r62LzLgMHhnzzrTq1giWHY4m8TQXTMgNMqv
-         7VMG+Hhqq3jHLVyKKT1scKyP0xpyF5ROd4CNOhFJAJC241HCsVl703Y2zq5pzwI7BBBl
-         c2GXxa53VD4y/hIg4xGm5bXGOhDAktDUzyIz8tTP0C1U8RsBdRN1ABKjGQiOw53NRp45
-         v99I35FMfuFX5b2QJeDHBd1qOIj8QZ8buyEGQcwvD46A5MlL3uQ1j6j2MCAcq9qHb97+
-         pjRg==
-X-Gm-Message-State: AOJu0YzgHZPsifrnBqreq7PLw5BmnHiLMcc+4xudm/StkfVp/xG1Lghb
-	vFHcs6X0OcnwM7qrRFeePPM=
-X-Google-Smtp-Source: AGHT+IHWb5edEyZI68sbUyfgadyFFNjmWK2aaAWsrT5eBP++lc8/OO4HWIRjadVsEbB1zNzCBZaTSw==
-X-Received: by 2002:a17:906:1d9:b0:9a6:5453:2013 with SMTP id 25-20020a17090601d900b009a654532013mr9441039ejj.3.1694520984610;
-        Tue, 12 Sep 2023 05:16:24 -0700 (PDT)
+        bh=F6UCSN/Lrjr2SjLNlrDr0vGhbie4QKl8HP9yXF7N05o=;
+        b=LpEq7Q2wKG2GVV//wiYqSIos26mVnCWHjwM5whxtVdzJU1KYYhJ9lhopzIt+mOVSIx
+         frnXa5lx2WYPT+VFzb7VeZR6tHXWPj3lsA4Ww04i+B35UMPOlpPo9Duj9QCU07z/8m0n
+         oYXENeag+MxTVns41RVcB63ygPx19BXf863HqnVmu79mBg+n0tmJxOScxWu9H7/WuE5P
+         VQIuGHnUrYhg31Bty1YUNEfOEOMofmynBR+oxj5ktYDz3T6tFj/Q2ACH6tnWuno0tFxw
+         4B9haexrVYYBPNx3oKtM717tJNimSMQgEHRVNqKdGzYcHByGCVX9CxjbGqvFi0svzImU
+         +Z9w==
+X-Gm-Message-State: AOJu0Yyjrvb1NSaiMT15YQD6FiPbEjsyu79onK9mEDicqn0Hjuj042Bc
+	c3EbQxsydQ5FLxETcJXOw+8nddESamE=
+X-Google-Smtp-Source: AGHT+IEbQ+Wd94EcP/thsvGFv/l1QXQf555WtsAjQRG3uhGGkOVHZlhq2fn21JPXKaOBvyoPdduUDA==
+X-Received: by 2002:a5d:67c2:0:b0:319:7624:4c8d with SMTP id n2-20020a5d67c2000000b0031976244c8dmr9218124wrw.0.1694521081450;
+        Tue, 12 Sep 2023 05:18:01 -0700 (PDT)
 Received: from [192.168.64.157] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id ho15-20020a1709070e8f00b009ad8ba6976bsm732070ejc.9.2023.09.12.05.16.00
+        by smtp.gmail.com with ESMTPSA id c18-20020aa7d612000000b005254b41f507sm5915865edr.32.2023.09.12.05.17.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Sep 2023 05:16:17 -0700 (PDT)
-Message-ID: <9f5afd8d-b1b5-53de-9229-8b48d87f4106@grimberg.me>
-Date: Tue, 12 Sep 2023 15:15:45 +0300
+        Tue, 12 Sep 2023 05:18:00 -0700 (PDT)
+Message-ID: <b99aff9e-af66-eb41-c89b-6e8f345e20e8@grimberg.me>
+Date: Tue, 12 Sep 2023 15:17:58 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.0
-Subject: Re: [PATCH 1/3] nvme-tcp: Do not terminate commands when in RESETTING
+Subject: Re: [PATCH 3/3] nvme-tcp: delay error recovery until the next KATO
+ interval
 Content-Language: en-US
 To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
 References: <20230908100049.80809-1-hare@suse.de>
- <20230908100049.80809-2-hare@suse.de>
- <b21a2472-2afb-5a38-1029-1db153102a0c@grimberg.me>
- <25a59314-ff11-4217-b1d8-d06f684312f5@suse.de>
+ <20230908100049.80809-4-hare@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <25a59314-ff11-4217-b1d8-d06f684312f5@suse.de>
+In-Reply-To: <20230908100049.80809-4-hare@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230912_051627_941269_C3E10141 
-X-CRM114-Status: GOOD (  20.08  )
+X-CRM114-CacheID: sfid-20230912_051804_348456_E0603A67 
+X-CRM114-Status: UNSURE (   8.93  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,50 +84,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
->>> When the error recovery started it will terminate all commands
->>> anyway, so we should just return BLK_EH_RESET_TIMER for a
->>> command timeout.
->>
->> Does this fix a real issue? the timeout handler and the error
->> recovery should be mutually exclusive.
->>
-> They are not. When several timeouts are triggering at the same time,
-> only the first will start error recovery; the remaining ones will
-> still hit the timeout function until cancel_tagset() is called.
-
-Yes, but they do not access any resources unsynchronized. Meaning
-is this a use-after-free issue?
-
-> 
->>> Signed-off-by: Hannes Reinecke <hare@suse.de>
->>> ---
->>>   drivers/nvme/host/tcp.c | 8 ++++++++
->>>   1 file changed, 8 insertions(+)
->>>
->>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
->>> index 5b332d9f87fc..1faef1cf5c94 100644
->>> --- a/drivers/nvme/host/tcp.c
->>> +++ b/drivers/nvme/host/tcp.c
->>> @@ -2274,6 +2274,14 @@ static enum blk_eh_timer_return 
->>> nvme_tcp_timeout(struct request *rq)
->>>           nvme_tcp_queue_id(req->queue), nvme_cid(rq), pdu->hdr.type,
->>>           opc, nvme_opcode_str(qid, opc, fctype));
->>> +    /*
->>> +     * If the error recovery is started all commands will be
->>> +     * aborted anyway, and nothing is to be done here.
->>> +     */
->>> +    if (ctrl->state == NVME_CTRL_RESETTING &&
->>> +        work_pending(&to_tcp_ctrl(ctrl)->err_work))
->>> +        return BLK_EH_RESET_TIMER;
->>
->> What does the work_pending() check give you here?
->>
-> 'RESETTING' is also entered for firmware download, so we need to check
-> for work_pending() to find out if the error recovery engaged.
-
-firmware download? what happens if err_work is yet to run when
-this request times out?
-
-Not sure what this is protecting against.
+Please see my questions elsewhere in the thread.
+More information is needed on what exactly is happening.
+It is not clear to me at all.
 
