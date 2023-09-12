@@ -4,116 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E55BDCA0EC3
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Sep 2023 06:26:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6E664CA0ECA
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Sep 2023 06:38:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
-	From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aNUbpcZKyS33tsMES6/JtJfttTT3nS6SkoP+CW5Fg3M=; b=4wPA0zYcEdm1buxW0Np3+uBUOX
-	x0vYd0TFLMgq5C8UH58rYypccKncBtsGGktGyZKTX5a6CC7JoXIK+N6Kdd7dvT+FzAKPm5UpIBONW
-	f/cvFBqpwYNd37CyncPzPuPss3sJTBo4NJO26mdCoC6BnQucto8hOnNvoDEqyuGz2hbGtrlqSsnT5
-	zQLLVQ346qPI4jndxdMprgmpcumk0/1gXW6bHPcy8Rh7eBjKpN6hhlLVd0bR+bsCddLSGgHWTaL9s
-	PgXfPJn0kcn+o5r7IgXjNI+pGSjdxa1+suFRshvDNpt5Ow7ifjRWU9CegN3OIe/C8YjJNOu1uOr78
-	E/c3GfzA==;
+	bh=/iMs+ptgawKOXViIHlc/IyZEiOIVhHG2kbWyDW4Das4=; b=tv7VoRZOay0k2OSb68Jdd2oxwa
+	g+qN1NTnLaCSDwRHHGi+5a+WILb6qlPXBJwGHWzsxSxBKbpyqgLVV3oqYZjr3MUkNHTFnyxuafeWd
+	erspw5kuuy+QcKZfvZv7LbJ2F/Dc0vDoK/eOLeneOs1dNgnm7bfITBBf6Luf+PgyFew9BlhiwzPdI
+	ZhuWWRnIbQAa/bXbE4CNbq1TYRhpIBZzT7t4MrZj5hAdiUz17R4UrHNWfMCyotqBMA1iBF0A/Oxe9
+	bbhkPgTz6GpLLD13F3F4IHQAwcQBW+lU8fUX2GoWX+m039Jr51nELTnmt2P31muqw9zITS/T4IZ/x
+	+i+tL9bw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qfwr1-002HFh-2N;
-	Tue, 12 Sep 2023 06:26:31 +0000
-Received: from mail.archlinux.org ([2a01:4f9:c010:3052::1])
+	id 1qfx2B-002I5g-1K;
+	Tue, 12 Sep 2023 06:38:03 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qfwqx-002HEa-0h
+	id 1qfx28-002I49-1A
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 Sep 2023 06:26:29 +0000
-Message-ID: <0f6ce98c-8f03-4ce1-badd-ae1346456a3e@archlinux.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=archlinux.org;
-	s=dkim-rsa; t=1694499981;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=aNUbpcZKyS33tsMES6/JtJfttTT3nS6SkoP+CW5Fg3M=;
-	b=vfCAvUIoAjMdV7SpQ+o2/P1BhUwWB0D287Y05OicbJcDxEykKvUefT9JcnFyP9y4N0N6/b
-	O+L3QpbbC0pvKlhuLOpF033swO8IDBI1jXWF0ILlO8+gMdvpJAdO6VajqnChJorNPo8x3y
-	0Dgrtt41bonrxBU32/k/QKUt+HK2dKBKbZlCu+79dqysVP86ZzMT2Uru2iWxsfi96V3M01
-	GjCY1G2DOvraq9a8s3SToZFBqEfMSS9cNBEAUoLxBtH5xhoZivbN69y+ozEDNDBoQ2lTNV
-	eaoLqt9hgqq4aXYxQi9YpkPnYdTdKQaI/sELDdvPT777SkeH4kditt7PKF2DQtFnB5at2T
-	Oeahw0fuswUgGAC0P9Hw0sdcQcaoWcgoGQUjRO2p9FZy2Jcs427CUuj0fztQhi/qpY3JdG
-	NjgVPCrT8QGap2KCWy0DnFoNzgvFL2iH1Rnc5bv13d/X8ly8NoFAucfdjS4cM4/KgH5QM/
-	JV2Jgeu8slW+i/zVHpH2U6oad0jXn6AIBJrWIn2TzhR0VNxid7MjLBMwREPKK5prO/boco
-	qiFCBFMR1cz/Z1DT4HD7LAO/or6PNiNnfsSUwqbQYz+j852pzdfhCKNPmJ4mbvm3EJi+fM
-	jSaofSbUDzOkB6gUZZKp89aGj6RDQDL4LxMi9PWPC1ubVGgR6gIVk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=archlinux.org;
-	s=dkim-ed25519; t=1694499981;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=aNUbpcZKyS33tsMES6/JtJfttTT3nS6SkoP+CW5Fg3M=;
-	b=+ux4rQgMcJMZa8cDqWHgls+BZfCmoRgcP0V5KWpsx4VE3Ux10lCFFUOkvPpR0qQdQsQYxN
-	fqyhzCRuCHaPanAA==
-Authentication-Results: mail.archlinux.org;
-	auth=pass smtp.auth=felixonmars smtp.mailfrom=felixonmars@archlinux.org
-Date: Tue, 12 Sep 2023 09:26:19 +0300
+	Tue, 12 Sep 2023 06:38:01 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4C476216DC;
+	Tue, 12 Sep 2023 06:37:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1694500676; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/iMs+ptgawKOXViIHlc/IyZEiOIVhHG2kbWyDW4Das4=;
+	b=IcAbjPwb8dQXTD0bcfZaxuSMIOarHcVwj+AvuFG5XGoZ89zcF1M1yIgt62DdHT284tI0f6
+	5MlmXf0MSjhVl5ZctSLsU13/ZkJRobup3xpRCDfJfwwLxAN1vZ6iBp6o68SSciv0/chYwu
+	cIaMD/y5cldwQCK50piyfkWHXn7GD3U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1694500676;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/iMs+ptgawKOXViIHlc/IyZEiOIVhHG2kbWyDW4Das4=;
+	b=ZRQZheB1CxZqrQKIreGZ/tG12kTOnyw5Gb124em9HWjoN0m6n4TtCOnxb+T4+fxrqFMvAu
+	mP6ABwZvuVfae/CQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3E100139DB;
+	Tue, 12 Sep 2023 06:37:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id I+cTD0QHAGWHZQAAMHmgww
+	(envelope-from <dwagner@suse.de>); Tue, 12 Sep 2023 06:37:56 +0000
+Date: Tue, 12 Sep 2023 08:38:32 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Christoph Hellwig <hch@lst.de>, g@flourine.lan
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	James Smart <james.smart@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>
+Subject: Re: [RFC v1 4/4] nvmet-discovery: do not use invalid port
+Message-ID: <pzgeaisqmqz5up5fiorl46lmb6xglpdu4hp5lxotclnzvpfjrj@mgyfvcrvpl4x>
+References: <20230829091350.16156-1-dwagner@suse.de>
+ <20230829091350.16156-5-dwagner@suse.de>
+ <20230905065032.GC19701@lst.de>
+ <vml2mmhjurjaalzcmugnu2c4cm4okfkl43swbmudmaotew4gsy@o4q44el473to>
+ <ebfmki7mifmo67x27wwrdpabdbiamalj7rsevxvabyi4sff4ck@4d5fyvrjggkw>
+ <pti3xai6zkvitsqaw54sxut4lpb4qupo4c2n5alesb35ndhxv4@ni7ritoqopfe>
 MIME-Version: 1.0
-Subject: Re: [PATCH] nvme-pci: ignore bogus CRTO according to NVME 2.0 spec
-Content-Language: en-US-large
-To: Keith Busch <kbusch@kernel.org>
-Cc: highenthalpyh@gmail.com, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, xuwd1@hotmail.com
-References: <20230908155442.31423-1-felixonmars@archlinux.org>
- <ZP-cGgPzIX7WkNRb@kbusch-mbp.dhcp.thefacebook.com>
-From: Felix Yan <felixonmars@archlinux.org>
-Autocrypt: addr=felixonmars@archlinux.org; keydata=
- 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
-In-Reply-To: <ZP-cGgPzIX7WkNRb@kbusch-mbp.dhcp.thefacebook.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------oD3lDKLB2nOmfEsRYr4l7whR"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <pti3xai6zkvitsqaw54sxut4lpb4qupo4c2n5alesb35ndhxv4@ni7ritoqopfe>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230911_232628_190294_DBC30A41 
-X-CRM114-Status: GOOD (  19.65  )
+X-CRM114-CacheID: sfid-20230911_233800_547330_484DE81D 
+X-CRM114-Status: GOOD (  13.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -128,76 +94,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------oD3lDKLB2nOmfEsRYr4l7whR
-Content-Type: multipart/mixed; boundary="------------RyMy3k0Lef9HrxHkgX042o6X";
- protected-headers="v1"
-From: Felix Yan <felixonmars@archlinux.org>
-To: Keith Busch <kbusch@kernel.org>
-Cc: highenthalpyh@gmail.com, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, xuwd1@hotmail.com
-Message-ID: <0f6ce98c-8f03-4ce1-badd-ae1346456a3e@archlinux.org>
-Subject: Re: [PATCH] nvme-pci: ignore bogus CRTO according to NVME 2.0 spec
-References: <20230908155442.31423-1-felixonmars@archlinux.org>
- <ZP-cGgPzIX7WkNRb@kbusch-mbp.dhcp.thefacebook.com>
-In-Reply-To: <ZP-cGgPzIX7WkNRb@kbusch-mbp.dhcp.thefacebook.com>
+ > We have 3 association:
+> > 
+> >  assoc 0: systemd/udev triggered 'nvme connect-all' discovery controller
+> >  assoc 1: discovery controller from nvme/005
+> >  assoc 2: i/o controller from nvme/005
+> 
+> Actually, assoc 1 is also a i/o controller for the same hostnqn as assoc
+> 2. This looks more like it assoc 0 and 1 are both from systemd/udev
+> trigger. But why the heck is the hostnqn for assoc 1 the same as the
+> hostnqn we use in blktests? Something is really off here.
+> 
+> The rest of my analysis is still valid.
 
---------------RyMy3k0Lef9HrxHkgX042o6X
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+I figured it out. I still used an older version nvme-cli which didn't
+apply the hostnqn correctly. We fixed this in the meantime. With the
+latest git version of nvme-cli the second I/O controller is not setup
+anymore and the crash is gone. Though we still don't cleanup all
+resources as the kernel module complains with
 
-T24gOS8xMi8yMyAwMjowMCwgS2VpdGggQnVzY2ggd3JvdGU6DQo+IFdoYXQgZG8geW91IHRo
-aW5rIGFib3V0IHRoaXMgY2hhbmdlIGluc3RlYWQ/IFdlIGRvbid0IG5lZWQgdG8gcHJpbnQg
-YQ0KPiB3YXJuaW5nIG9uIGV2ZXJ5IGRldmljZSByZXNldCwgYnV0IHdlIHNob3VsZCBwcm9i
-YWJseSBhZGQgYSBjb21tZW50DQo+IGV4cGxhaW5pbmcgd2h5IHRoaXMgaXMgaGFwcGVuaW5n
-Lg0KPiANCj4gLS0tDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMg
-Yi9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMNCj4gaW5kZXggMzdiNmZhNzQ2NjYyMC4uYjQ1
-NzdhODYwZTY3NyAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jDQo+
-ICsrKyBiL2RyaXZlcnMvbnZtZS9ob3N0L2NvcmUuYw0KPiBAQCAtMjI0NSw2ICsyMjQ1LDcg
-QEAgaW50IG52bWVfZW5hYmxlX2N0cmwoc3RydWN0IG52bWVfY3RybCAqY3RybCkNCj4gICAJ
-ZWxzZQ0KPiAgIAkJY3RybC0+Y3RybF9jb25maWcgPSBOVk1FX0NDX0NTU19OVk07DQo+ICAg
-DQo+ICsJdGltZW91dCA9IE5WTUVfQ0FQX1RJTUVPVVQoY3RybC0+Y2FwKTsNCj4gICAJaWYg
-KGN0cmwtPmNhcCAmIE5WTUVfQ0FQX0NSTVNfQ1JXTVMpIHsNCj4gICAJCXUzMiBjcnRvOw0K
-PiAgIA0KPiBAQCAtMjI1NywxMiArMjI1OCwxNSBAQCBpbnQgbnZtZV9lbmFibGVfY3RybChz
-dHJ1Y3QgbnZtZV9jdHJsICpjdHJsKQ0KPiAgIA0KPiAgIAkJaWYgKGN0cmwtPmNhcCAmIE5W
-TUVfQ0FQX0NSTVNfQ1JJTVMpIHsNCj4gICAJCQljdHJsLT5jdHJsX2NvbmZpZyB8PSBOVk1F
-X0NDX0NSSU1FOw0KPiAtCQkJdGltZW91dCA9IE5WTUVfQ1JUT19DUklNVChjcnRvKTsNCj4g
-KwkJCS8qDQo+ICsJCQkgKiBDUklNVCBzaG91bGQgYWx3YXlzIGJlIGdyZWF0ZXIgb3IgZXF1
-YWwgdG8gQ0FQLlRPLA0KPiArCQkJICogYnV0IHNvbWUgZGV2aWNlcyBhcmUga25vd24gdG8g
-Z2V0IHRoaXMgd3JvbmcuIFVzZQ0KPiArCQkJICogdGhlIGxhcmdlciBvZiB0aGUgdHdvIHZh
-bHVlcy4NCj4gKwkJCSAqLw0KPiArCQkJdGltZW91dCA9IG1heCh0aW1lb3V0LCBOVk1FX0NS
-VE9fQ1JJTVQoY3J0bykpOw0KPiAgIAkJfSBlbHNlIHsNCj4gICAJCQl0aW1lb3V0ID0gTlZN
-RV9DUlRPX0NSV01UKGNydG8pOw0KPiAgIAkJfQ0KPiAtCX0gZWxzZSB7DQo+IC0JCXRpbWVv
-dXQgPSBOVk1FX0NBUF9USU1FT1VUKGN0cmwtPmNhcCk7DQo+ICAgCX0NCj4gICANCj4gICAJ
-Y3RybC0+Y3RybF9jb25maWcgfD0gKE5WTUVfQ1RSTF9QQUdFX1NISUZUIC0gMTIpIDw8IE5W
-TUVfQ0NfTVBTX1NISUZUOw0KDQpJJ20gZmluZSBlaXRoZXIgd2F5Lg0KDQpTaG91bGQgd2Ug
-YWxzbyBhcHBseSB0aGUgc2FtZSBtYXgoKSBvbiB0aGUgTlZNRV9DUlRPX0NSSU1UIGJyYW5j
-aCANCnRob3VnaD8gVGhlIHNwZWMgYWN0dWFsbHkgc2F5cyB0aGUgc2FtZSB0aGluZyAoVGlt
-ZW91dCBzaG91bGQgYmUgRkZoKSANCmZvciB0aGF0IHRvby4NCg0KLS0gDQpSZWdhcmRzLA0K
-RmVsaXggWWFuDQoNCg==
-
---------------RyMy3k0Lef9HrxHkgX042o6X--
-
---------------oD3lDKLB2nOmfEsRYr4l7whR
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEEtZcfLFwQqaCMYAMPeGxj8zDXy5IFAmUABIsFAwAAAAAACgkQeGxj8zDXy5JZ
-tQ//Ss35+lgOpISx+SQo1ZGjhqZ8wAhoWZ8D4YQw1nJZ1IBStliRjTV1VrLZsNfkBioXS3jtwPYK
-rMii4K4i0rZeb22cvQ6lzs2CyYqLyUJIhtQCKhkPC95b1xlnVj9m6KSUoq71xYS1XKUBc/NRsyjj
-K3jMsWwtWK+zQuK0N/LUJQ3HYZ81rGDKiRBc8FVkqBWm++Pk0k+5g6Qxoc44oHNxjqdrzC54Xzzp
-yZOS1VhXhjr342SI0l619ABXokD93AirUHzPf18f4FwHCiwdrj9HBkAdbrigjhikVuTLgl3itFO9
-Z0qBn32T43G+zR8gb3wFixrlXnt2O1b8tnnTH95MROzvuvKwQ2v1yfzAOLzPSYVRji9i45P78QJo
-DZjSUV8JeoKjDncohFw9snD5yfzNt7FN5cKGRQQOEUeWeaAwjaMRq1xq1FhNhdmNnNw4xN52/e4Z
-klWqzNRcg43Hma2vjWGWFb5qTiLXMwjcFYSrJw2sqheUEyi+x6zyjMB1bvbZmNJalEEB5o3A9zlb
-7DYTg76xZ2BIbNfMQVRQhxUuvnyHPhvZk6WY8gDCz9yflP6CvkgI8jz3xbYNEpjLs0tLn/Kb5OuI
-n7f0fP79GVH3ehN/bvKNwhqpRdTruAEIBLr5ErX7AO4/7miPoG9PeWa5/StwoPlr0XkTpX1H6Rst
-Mrg=
-=F4bC
------END PGP SIGNATURE-----
-
---------------oD3lDKLB2nOmfEsRYr4l7whR--
+[41707.083039] nvmet_fc: nvmet_fc_exit_module: targetport list not empty
 
