@@ -4,70 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3806CA0ECA
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Sep 2023 11:55:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E30D3CA0EC3
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Sep 2023 11:58:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FKm/PgookQlU1JSHoxtwapzICfJHosWjEiZqsDVd8S4=; b=Ad71GklJCuwpgjTacn5NxG0vv6
-	tFJQBcak/2hn84yEAwMr69A3vkh7pY5waZJUadxuVeOoMnZmN3ukVOtYJRGPn6fGVTL9US6lksLzP
-	MlsiFWLpZXcvOpA6FJmKtftobP+d3MXB6epjynwFIxSRT2odnT0hBHPcNwabRiPNpx4bFBvuoH3fv
-	GWqZ42WedtqSgmsM6h3H8n3i7Vo/OVrNwi+PrVYZ5Qj05ZG4xpWK9vQVF93Om5AFOzLsl+GuBmfrZ
-	TOsHx8qs6jSw099/0aTbF5r4FFTJBurIQZc65Y/0gHtbMhTY2wqrZHs20pOGI0NMkWAXkzs8CjvLG
-	gI8lUITw==;
+	bh=xwmGZ9ZIsFr5+FhaoWy67xUl8qAegsPsD0NNjSZLQVU=; b=1SRdu7QTVKOCLQb7OyWTmJr8W/
+	Jz4LOn6a4MGY0fftNPVh1f71mpgnT9YvOlJ2TFyqAo7TxE1FFH7Q2fAqolVe9u9nm0yId5XWubBtU
+	Wp7GhbvkbdhRgBcuvp/FL+Xj4nUunklunbq5L/4GlaFWccqJhXtdAnMu+xTXgX1q6McT6AAOetCAf
+	LKV0t6i8Yy2WixXOXckL1UN/zsGnpL5W0JBP/VXA4ExWvv1LDaHhHsmWa7igrXhnswuvmAZq9yGKD
+	I10e7rPLBBhX9EuYiy7c6HmvLJhuB73AyCvtvaBHpadY0tBH6RlKUUArXYTW/h4uS3RIgH2tk9E+y
+	1chjLEkA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qg1yz-003Gda-39;
-	Tue, 12 Sep 2023 11:55:06 +0000
-Received: from mail-ed1-f44.google.com ([209.85.208.44])
+	id 1qg22J-003H8w-05;
+	Tue, 12 Sep 2023 11:58:31 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qg1yu-003GcE-0p
+	id 1qg22G-003Gj2-2j
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 Sep 2023 11:55:01 +0000
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5221bd8f62eso1103237a12.1
-        for <linux-nvme@lists.infradead.org>; Tue, 12 Sep 2023 04:55:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694519699; x=1695124499;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FKm/PgookQlU1JSHoxtwapzICfJHosWjEiZqsDVd8S4=;
-        b=EBz5NF/plbdRTxNu8Ef8mZ6RRJ09uJlJZDv73HrniSO8l/TGNmPCBUGuJLqWczD1yj
-         Y/VkV19+ZLzUL4W/2vgfrO/aAdGk+eXWRwv5HLG0YAe2tVdUswwAWjmX6dcu5VebKEau
-         bDAHoGiQz1bPA5oh0zO4Hllj2Y8tF4Q17pA4A6vRGzmULZEyVPqTMrMCL/9fCsPxWLS9
-         lkfPnYTZOxBzUJqPrnwWVRVFrrWfNt1/+Z56aD4+TXvlZOs430DtHBHS8Q4pc67/YZds
-         gkCaychpUTfoATm2fbeSH1TBk1hubsuXFowGDxotv7IwLHJihRX/FyUQZHvg8Ef2paE5
-         DRyg==
-X-Gm-Message-State: AOJu0Yz+CQTY9Yw0IsB+KhkPhK3g1mPr1NP52TE6gEZvvjGlH/spV7QK
-	DKS54zFy+2IL+vrmYHXndpw=
-X-Google-Smtp-Source: AGHT+IEDk7Gv3OIkBwqlAKo29AIDbpQ81aQotuEdqAmZOAR9yG2q9c7N4Tq2QJkCUpFAPs6NZQXhHA==
-X-Received: by 2002:a05:6402:35d5:b0:523:220e:a6ca with SMTP id z21-20020a05640235d500b00523220ea6camr10010972edc.3.1694519698785;
-        Tue, 12 Sep 2023 04:54:58 -0700 (PDT)
-Received: from [192.168.64.157] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id j8-20020aa7c0c8000000b00525503fac84sm5843295edp.25.2023.09.12.04.54.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Sep 2023 04:54:58 -0700 (PDT)
-Message-ID: <b21a2472-2afb-5a38-1029-1db153102a0c@grimberg.me>
-Date: Tue, 12 Sep 2023 14:54:56 +0300
+	Tue, 12 Sep 2023 11:58:30 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id EDE621F8CD;
+	Tue, 12 Sep 2023 11:56:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1694519773; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xwmGZ9ZIsFr5+FhaoWy67xUl8qAegsPsD0NNjSZLQVU=;
+	b=qbc3YB1MoUktjCJxF/P4ApfLzfLGRKT503FcWT8Yp/RGHiR9XKwI2WVAckLEWE6vcwAEUJ
+	nWuScVYuw82F46X3TI4luA1F+KUHyM09YBi5fVImdcPBC1GTs26J8dm9bToK4xGdPamO/H
+	qNQ8xSf3+mMGV9HgQkjd1E0CkL+2YOQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1694519773;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xwmGZ9ZIsFr5+FhaoWy67xUl8qAegsPsD0NNjSZLQVU=;
+	b=C6D1DDzTDQweZdZeuuB2JNsW0P8fmWnNjgRaw9huf2Y+4FksbyZmQadynbx2uveuna3O0F
+	agc6ElQD9A94aRAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D5276139DB;
+	Tue, 12 Sep 2023 11:56:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 9uuoM91RAGWyBQAAMHmgww
+	(envelope-from <hare@suse.de>); Tue, 12 Sep 2023 11:56:13 +0000
+Message-ID: <691e717b-daf0-458c-bbd7-be6c8ffa8f7e@suse.de>
+Date: Tue, 12 Sep 2023 13:56:13 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH 1/3] nvme-tcp: Do not terminate commands when in RESETTING
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] nvme-tcp: start error recovery after KATO
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
 References: <20230908100049.80809-1-hare@suse.de>
- <20230908100049.80809-2-hare@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230908100049.80809-2-hare@suse.de>
+ <1cea7a75-8397-126c-8a2e-8e08948237b1@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <1cea7a75-8397-126c-8a2e-8e08948237b1@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230912_045500_290497_E380CCDC 
-X-CRM114-Status: GOOD (  20.39  )
+X-CRM114-CacheID: sfid-20230912_045829_027478_E1531D08 
+X-CRM114-Status: GOOD (  17.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,39 +92,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-> When the error recovery started it will terminate all commands
-> anyway, so we should just return BLK_EH_RESET_TIMER for a
-> command timeout.
-
-Does this fix a real issue? the timeout handler and the error
-recovery should be mutually exclusive.
-
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> ---
->   drivers/nvme/host/tcp.c | 8 ++++++++
->   1 file changed, 8 insertions(+)
+On 9/12/23 13:51, Sagi Grimberg wrote:
+>> Hi all,
+>>
+>> there have been some very insistent reports of data corruption
+>> with certain target implementations due to command retries.
 > 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 5b332d9f87fc..1faef1cf5c94 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -2274,6 +2274,14 @@ static enum blk_eh_timer_return nvme_tcp_timeout(struct request *rq)
->   		nvme_tcp_queue_id(req->queue), nvme_cid(rq), pdu->hdr.type,
->   		opc, nvme_opcode_str(qid, opc, fctype));
->   
-> +	/*
-> +	 * If the error recovery is started all commands will be
-> +	 * aborted anyway, and nothing is to be done here.
-> +	 */
-> +	if (ctrl->state == NVME_CTRL_RESETTING &&
-> +	    work_pending(&to_tcp_ctrl(ctrl)->err_work))
-> +		return BLK_EH_RESET_TIMER;
+> None of which were reported on this list...
+> 
+Correct. I can ask them to post their finding here if that would make a 
+difference.
 
-What does the work_pending() check give you here?
+>> Problem here is that for TCP we're starting error recovery
+>> immediately after either a command timeout or a (local) link loss.
+> 
+> It does so only in one occasion, when the user triggered a
+> reset_controller. a command timeout is greater than the default
+> kato (6 times in fact), was this the case where the issue was
+> observed? If so, the timeout handler should probably just wait
+> the kato remaining time.
+> 
+Nothing to do with reset_controller.
+The problem really is in nvme_tcp_state_change(), which will blindly 
+start error recovery (and a subsequent command retry) whenever the local 
+link drops. And that error recover does _not_ wait for KATO, but rather
+causes an immediate retry.
 
-> +
->   	if (ctrl->state != NVME_CTRL_LIVE) {
->   		/*
->   		 * If we are resetting, connecting or deleting we should
+> BTW, the same happens for rdma as well. Nothing should be
+> tcp specific here afaict.
+
+Oh, sure. Will be modifying the patch to include that.
+
+Cheers,
+
+Hannes
+
 
