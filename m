@@ -4,83 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 050AACA0EC3
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Sep 2023 11:49:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F1AFCCA0EC3
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Sep 2023 11:51:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TOqxfof9/iMnXadLAttyryph9ZtGm9XNUMgeGnNhbI0=; b=jiKxsDEz4XIgj/quXkWFg1hHf1
-	iewOWyy6eL0xiuUyM7QZppmVInrFSAz/OJjzIPLIiALegh/mJZFrDs1VCTtCoEFjvWMn739Wk4PlI
-	oL97orjyZEeUb5fAfkWmtFXZdspQubWU6iZ85a3vjfL9P9L7G5yP/DRMRAbTbIH5u5WhA0OQyw5GN
-	SClASDT3ESl+gxfx3JhbB9fQ5i9dbDJV8wbEGwKfIi/uC0dAFjrgNwmjir7YYNyrPcwU7rB04pa5P
-	X+IPGQXSivbCgqR1EjqZxemORu9TqE2PqR8HCeAIto6eeXzYEvNXfDXtgWQiP31c39YL9VPo61B2e
-	d+Wk3+xw==;
+	bh=Ez5yOCgWh6+IdYt5V62xOCehHBvMW9ONvki2UtDHKRg=; b=SHlexyClddJP8nMOui0CyCZITZ
+	/H4RvBGx9BMEkRQFw3hxPsNAdlGFVK7xy3OO5O8lLAfP2Ipo2SVgs3Q2NkRSPNHrlC3oenFjGVetu
+	SXeYixf7aE+VB/fCLZBk8rhi6Eeqg0yaCECuTCs+4DhrmcHFSfKQ+7BeelElMi7aNxPHVSZ0CT6sD
+	nr2d1+8GK5Wyz7OcQKqybeKdk316v6eOO9rjEU/a5k3AAOPPnLAzC1XBCjVnf3BUztCvCMqyXMLdo
+	ddPc4jEaXn/jg76nvpWyP1TcaR55ojhluRQr1MdBI68B5cDQwJex8AVdR8FEzGEHawwZle0rp7yUr
+	jsKb4rgw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qg1tl-003FpK-2t;
-	Tue, 12 Sep 2023 11:49:41 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1qg1vb-003GD4-1Y;
+	Tue, 12 Sep 2023 11:51:35 +0000
+Received: from mail-ej1-f41.google.com ([209.85.218.41])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qg1tT-003FdY-2q
+	id 1qg1vZ-003GCL-2D
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 Sep 2023 11:49:39 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id AE3A21FD90;
-	Tue, 12 Sep 2023 11:48:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1694519322; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TOqxfof9/iMnXadLAttyryph9ZtGm9XNUMgeGnNhbI0=;
-	b=wEDpjDlpSeE90KIXoetfDYw62tYUuHf5KPhomGN5O1QBeXWKU1lZizX/UGB1LtyinT4IHf
-	cCh7H6m//K2DsV56yvAaSTIxQaEhjIcUYGDgQpE3rNjgf1zZfcQnUbNQmvCGZXSVfWBhsM
-	7fiJ5hAg+97eFc1wl4d2vZsVdxPgdes=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1694519322;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TOqxfof9/iMnXadLAttyryph9ZtGm9XNUMgeGnNhbI0=;
-	b=8sFrE4fW0KBrhVJtoW7BeSIRDLgs6U6lcwXRB0v3h5MLveXN3BvQ4YXakArpl8Wj/tPs/v
-	xliIxsjMoFnQgwAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9B0D5139DB;
-	Tue, 12 Sep 2023 11:48:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id PfiOJRpQAGUuAQAAMHmgww
-	(envelope-from <hare@suse.de>); Tue, 12 Sep 2023 11:48:42 +0000
-Message-ID: <94fc9502-c743-4f6c-a082-40e326085426@suse.de>
-Date: Tue, 12 Sep 2023 13:48:42 +0200
+	Tue, 12 Sep 2023 11:51:34 +0000
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-99c4e426714so99233766b.1
+        for <linux-nvme@lists.infradead.org>; Tue, 12 Sep 2023 04:51:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694519492; x=1695124292;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ez5yOCgWh6+IdYt5V62xOCehHBvMW9ONvki2UtDHKRg=;
+        b=pwSvN2WywDPRDO9UoB2/epIAqww0oglole1ixJ6Jir4CHKOve+VXKemSj8R7ligMbb
+         d+6FLXZrZMqnbQ+QNPS8kT0DGHQwMz+oU0uupU68qDguGGQEKOQKO52vA8s9KX24OHeZ
+         e7MOMWVchu0G9oKas6Q9uz7JnOFU2LlKThHKFK1H2XS73j1o2Soi3fyyCjt/yplgWGux
+         52Wq1HOuo8XeIogQhqX4tZhRiM6e82TsY1DFizfEqhftngcnwfdMN4AjymBRo51MQq1b
+         hRJ0jRLicJ4DGRCfxAAm//VwoxvPuBUfNmu8bHR+e2kGLXAt+3FB/FLcvpnf26LH70SR
+         f8Zg==
+X-Gm-Message-State: AOJu0Yz3JdhIOR3F4PQk2aGBOpaCZh9BFvyKpTTH1//IFq3gBqHoDmM5
+	lPZ5gqn+XcjvJuLKpwIFQFPfUKU0yIw=
+X-Google-Smtp-Source: AGHT+IGLJgw5Zkl9fc8mY7aVzqCOUo7mic4TehC0eDBONIeKeexrQfya1i22m8iahsVZmk/jpj4HPQ==
+X-Received: by 2002:a17:906:7398:b0:9a1:ddcc:3a04 with SMTP id f24-20020a170906739800b009a1ddcc3a04mr10887610ejl.5.1694519491604;
+        Tue, 12 Sep 2023 04:51:31 -0700 (PDT)
+Received: from [192.168.64.157] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id ck8-20020a170906c44800b009a5f1d1564dsm6697163ejb.126.2023.09.12.04.51.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Sep 2023 04:51:29 -0700 (PDT)
+Message-ID: <1cea7a75-8397-126c-8a2e-8e08948237b1@grimberg.me>
+Date: Tue, 12 Sep 2023 14:51:23 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 18/18] nvmet-tcp: peek icreq before starting TLS
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH 0/3] nvme-tcp: start error recovery after KATO
 Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Jakub Kicinski <kuba@kernel.org>, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org
-References: <20230824143925.9098-1-hare@suse.de>
- <20230824143925.9098-19-hare@suse.de>
- <b545b658-0771-6c53-fc9d-a69e452909c1@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <b545b658-0771-6c53-fc9d-a69e452909c1@grimberg.me>
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20230908100049.80809-1-hare@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20230908100049.80809-1-hare@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230912_044938_320987_95086FB4 
-X-CRM114-Status: GOOD (  19.93  )
+X-CRM114-CacheID: sfid-20230912_045133_721126_EF653315 
+X-CRM114-Status: GOOD (  14.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,105 +81,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/12/23 13:32, Sagi Grimberg wrote:
+> Hi all,
 > 
-> 
-> On 8/24/23 17:39, Hannes Reinecke wrote:
->> Incoming connection might be either 'normal' NVMe-TCP connections
->> starting with icreq or TLS handshakes. To ensure that 'normal'
->> connections can still be handled we need to peek the first packet
->> and only start TLS handshake if it's not an icreq.
->> With that we can lift the restriction to always set TREQ to
->> 'required' when TLS1.3 is enabled.
->>
->> Signed-off-by: Hannes Reinecke <hare@suse.de>
->> ---
->>   drivers/nvme/target/configfs.c | 25 +++++++++++---
->>   drivers/nvme/target/nvmet.h    |  5 +++
->>   drivers/nvme/target/tcp.c      | 61 +++++++++++++++++++++++++++++++---
->>   3 files changed, 82 insertions(+), 9 deletions(-)
->>
->> diff --git a/drivers/nvme/target/configfs.c 
->> b/drivers/nvme/target/configfs.c
->> index b780ce049163..9eed6e6765ea 100644
->> --- a/drivers/nvme/target/configfs.c
->> +++ b/drivers/nvme/target/configfs.c
->> @@ -198,6 +198,20 @@ static ssize_t nvmet_addr_treq_store(struct 
->> config_item *item,
->>       return -EINVAL;
->>   found:
->> +    if (port->disc_addr.trtype == NVMF_TRTYPE_TCP &&
->> +        port->disc_addr.tsas.tcp.sectype == NVMF_TCP_SECTYPE_TLS13) {
->> +        switch (nvmet_addr_treq[i].type) {
->> +        case NVMF_TREQ_NOT_SPECIFIED:
->> +            pr_debug("treq '%s' not allowed for TLS1.3\n",
->> +                 nvmet_addr_treq[i].name);
->> +            return -EINVAL;
->> +        case NVMF_TREQ_NOT_REQUIRED:
->> +            pr_warn("Allow non-TLS connections while TLS1.3 is 
->> enabled\n");
->> +            break;
->> +        default:
->> +            break;
->> +        }
->> +    }
->>       treq |= nvmet_addr_treq[i].type;
->>       port->disc_addr.treq = treq;
->>       return count;
->> @@ -410,12 +424,15 @@ static ssize_t nvmet_addr_tsas_store(struct 
->> config_item *item,
->>       nvmet_port_init_tsas_tcp(port, sectype);
->>       /*
->> -     * The TLS implementation currently does not support
->> -     * secure concatenation, so TREQ is always set to 'required'
->> -     * if TLS is enabled.
->> +     * If TLS is enabled TREQ should be set to 'required' per default
->>        */
->>       if (sectype == NVMF_TCP_SECTYPE_TLS13) {
->> -        treq |= NVMF_TREQ_REQUIRED;
->> +        u8 sc = nvmet_port_disc_addr_treq_secure_channel(port);
->> +
->> +        if (sc == NVMF_TREQ_NOT_SPECIFIED)
->> +            treq |= NVMF_TREQ_REQUIRED;
->> +        else
->> +            treq |= sc;
->>       } else {
->>           treq |= NVMF_TREQ_NOT_SPECIFIED;
->>       }
->> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
->> index e35a03260f45..3e179019ca7c 100644
->> --- a/drivers/nvme/target/nvmet.h
->> +++ b/drivers/nvme/target/nvmet.h
->> @@ -184,6 +184,11 @@ static inline u8 
->> nvmet_port_disc_addr_treq_secure_channel(struct nvmet_port *por
->>       return (port->disc_addr.treq & NVME_TREQ_SECURE_CHANNEL_MASK);
->>   }
->> +static inline bool nvmet_port_secure_channel_required(struct 
->> nvmet_port *port)
->> +{
->> +    return nvmet_port_disc_addr_treq_secure_channel(port) == 
->> NVMF_TREQ_REQUIRED;
->> +}
->> +
->>   struct nvmet_ctrl {
->>       struct nvmet_subsys    *subsys;
->>       struct nvmet_sq        **sqs;
->> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
->> index 67fffa2e1e4a..5c1518a8bded 100644
->> --- a/drivers/nvme/target/tcp.c
->> +++ b/drivers/nvme/target/tcp.c
->> @@ -1730,6 +1730,54 @@ static int nvmet_tcp_set_queue_sock(struct 
->> nvmet_tcp_queue *queue)
->>   }
->>   #ifdef CONFIG_NVME_TARGET_TCP_TLS
-> 
-> You need a stub for the other side of the ifdef?
+> there have been some very insistent reports of data corruption
+> with certain target implementations due to command retries.
 
-No. The new function is completely encapsulated by 
-CONFIG_NVME_TARGET_TCP_TLS, so no need to add a stub.
+None of which were reported on this list...
 
-Cheers,
+> Problem here is that for TCP we're starting error recovery
+> immediately after either a command timeout or a (local) link loss.
 
-Hannes
+It does so only in one occasion, when the user triggered a
+reset_controller. a command timeout is greater than the default
+kato (6 times in fact), was this the case where the issue was
+observed? If so, the timeout handler should probably just wait
+the kato remaining time.
 
+BTW, the same happens for rdma as well. Nothing should be
+tcp specific here afaict.
 
