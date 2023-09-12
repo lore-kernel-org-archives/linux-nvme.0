@@ -4,74 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7275ECA0EC3
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Sep 2023 13:25:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55F7DCA0ECA
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Sep 2023 13:25:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VntrwCUMkXJA9F3I2MFqhyP+yrcYH7KPVjh0eZzdVEc=; b=uwN0z7gmRzy0qUE/yD/9LqJytu
-	z0zldS9TY5dtmZGTtYyqAohNr82kg6QC7TAop0m+vhyrJReHmep6f5DD3X54HS5XvweaTQq6Ju17+
-	iBvhOtIiv0vY5feAUmmyj9yJGYNlHWkADckMw4Y/Z4PsLbTUFcLaq08WKlDJOnqa/g09UEuApw9i9
-	M4w6ZnzOGpjO90U/eet7gqCPy1DrTxEZJaQO0lHTdahEBKjvGvvIemjV6Y/QiqEAyjURd4atFugC6
-	iVELX8JSer1j8GjuTR9BLbTR2Qc24NhkDzKGuIMmJsuClev5OE+iTdiKh0qo3jBrJV96tNeRQvsqB
-	ex7Pzjvg==;
+	bh=O9VOczD7wnlD/9Rk2SoJ6CG6SjkYaZyS4WLeGeK7Gig=; b=BpHZDrd9YvGY73RsgPCbBAEOoo
+	haAVadH2o1CE6+Pe2viXMleKLuEGNS/QFb3Vq4Lb6SkIjsZexN3Cj8Z4Y2lZ/fcmPdbxWVT5RBDNX
+	vkePCnUSPzk3HLVc7X1cfzN3TxC0yrmJAEwak5nZbxGPUXh8MibVGDtokwjJNeI6xT1TygtHn+LRn
+	vDwFvAk4B9MA3pqBt939drxK+/qGGEPHHQzUBwBpnrbNacTNRjvkIM+AsSlsiM0ds2vk3ojINoY8w
+	zcLiNqg7/B/mX7ZSRwgIALOTENRVV5hznTjiJsq1xUwhsAsJpW4jl7Y1eh1iFDopGeTJTw+8yRIB+
+	vYvv6RoA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qg3Nz-003Q1B-1i;
-	Tue, 12 Sep 2023 13:24:59 +0000
-Received: from mail-lf1-f50.google.com ([209.85.167.50])
+	id 1qg3OW-003Q7f-0x;
+	Tue, 12 Sep 2023 13:25:32 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qg3Nv-003Q05-0h
+	id 1qg3OT-003Q6I-1b
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 Sep 2023 13:24:57 +0000
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5008c19d97fso1584024e87.1
-        for <linux-nvme@lists.infradead.org>; Tue, 12 Sep 2023 06:24:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694525091; x=1695129891;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VntrwCUMkXJA9F3I2MFqhyP+yrcYH7KPVjh0eZzdVEc=;
-        b=HygaMcYv45k920MdgEKNjd4UWJ4qAyY7RXuDIuwbWUP+bc46A+0dAfF7U6kgJo/xBo
-         Sv3AVbsxBEAS57ooOfWNIVcPn2xy+2lZlkJdJyr1FL5fn7afvXMceH40f0gsCDgnDE87
-         c7yR7kDndSwrlCAySRFwETLRAB0iDxjNLwHWLLY+3amrEpXErA3h3Oilrw7P5OXGLwr1
-         L6aJPEqFXOVd6j0YyvJcYTIuZ9eT0baPzYkp8HDJwxMMjN58/GeS+GMZQ5cA3r6OJB/p
-         U41n0gOClacFvAguOEdXndU2inhKYq86+SN1mzeI0Fxi9gVdt9b0RqyNwNtZABOZvklu
-         +YAg==
-X-Gm-Message-State: AOJu0Yx1NWQqSUx9fIgMqxikZyvWkisrdqh+8dBGJXJPgATGxwtavvru
-	kP0/ZDkXSSflqD+jYFqpZGg=
-X-Google-Smtp-Source: AGHT+IHPhbvSOeGC1XPyRSOo70lZadF9558vDx5hUXoBzirLccARRsOUYpNNbQwXIUa7VaeMd7+xaw==
-X-Received: by 2002:a2e:390b:0:b0:2b9:e10b:a511 with SMTP id g11-20020a2e390b000000b002b9e10ba511mr6839657lja.0.1694525090558;
-        Tue, 12 Sep 2023 06:24:50 -0700 (PDT)
-Received: from [192.168.64.157] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id lj16-20020a170906f9d000b00992d0de8762sm6832503ejb.216.2023.09.12.06.24.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Sep 2023 06:24:49 -0700 (PDT)
-Message-ID: <db2cbdc2-2a6d-a632-3584-6aeafc5738e2@grimberg.me>
-Date: Tue, 12 Sep 2023 16:24:46 +0300
+	Tue, 12 Sep 2023 13:25:30 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 625751F45A;
+	Tue, 12 Sep 2023 13:25:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1694525123; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=O9VOczD7wnlD/9Rk2SoJ6CG6SjkYaZyS4WLeGeK7Gig=;
+	b=nCM/YrbgHMU0yGi5asS3sxmm+S2fgEO49xpafoHQrzCZT3H7bUc9qTMSws8AoM2jQShuEJ
+	6eL4TIzn2kCuhifsPPNL+iDAEottn/eIAnW0fwU/XHV5dBl66GJMIuJCayVaHbeScl8ugI
+	KxoF+cJYjeNv3w/E+OIEU7CNBMw1ooE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1694525123;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=O9VOczD7wnlD/9Rk2SoJ6CG6SjkYaZyS4WLeGeK7Gig=;
+	b=f+uOaHgLai3ym3vC78Bdkvku2ED01hkK8a6X8Ptq0CtlHMDMmKQnfb2eqtic86VXkzPhst
+	sC1b7gi5shcb2+Dg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 543DD139DB;
+	Tue, 12 Sep 2023 13:25:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 82lTFMNmAGVrNgAAMHmgww
+	(envelope-from <hare@suse.de>); Tue, 12 Sep 2023 13:25:23 +0000
+Message-ID: <116f765d-a94e-4da7-ba81-9f9c7dec04b7@suse.de>
+Date: Tue, 12 Sep 2023 15:25:23 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v15 05/20] nvme-tcp: Add DDP offload control path
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] nvme-tcp: start error recovery after KATO
 Content-Language: en-US
-To: Aurelien Aptel <aaptel@nvidia.com>, linux-nvme@lists.infradead.org,
- netdev@vger.kernel.org, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
- chaitanyak@nvidia.com, davem@davemloft.net, kuba@kernel.org
-Cc: Boris Pismenny <borisp@nvidia.com>, aurelien.aptel@gmail.com,
- smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
- yorayz@nvidia.com, galshalom@nvidia.com, mgurtovoy@nvidia.com
-References: <20230912095949.5474-1-aaptel@nvidia.com>
- <20230912095949.5474-6-aaptel@nvidia.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230912095949.5474-6-aaptel@nvidia.com>
+To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20230908100049.80809-1-hare@suse.de>
+ <1cea7a75-8397-126c-8a2e-8e08948237b1@grimberg.me>
+ <691e717b-daf0-458c-bbd7-be6c8ffa8f7e@suse.de>
+ <16908ba7-73d1-0cb4-6724-caaad7468d37@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <16908ba7-73d1-0cb4-6724-caaad7468d37@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230912_062455_258302_59C16348 
-X-CRM114-Status: GOOD (  51.07  )
+X-CRM114-CacheID: sfid-20230912_062529_676913_3A77B2B2 
+X-CRM114-Status: GOOD (  24.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,355 +94,81 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 9/12/23 14:12, Sagi Grimberg wrote:
+> 
+>>>> Hi all,
+>>>>
+>>>> there have been some very insistent reports of data corruption
+>>>> with certain target implementations due to command retries.
+>>>
+>>> None of which were reported on this list...
+>>>
+>> Correct. I can ask them to post their finding here if that would make 
+>> a difference.
+>>
+>>>> Problem here is that for TCP we're starting error recovery
+>>>> immediately after either a command timeout or a (local) link loss.
+>>>
+>>> It does so only in one occasion, when the user triggered a
+>>> reset_controller. a command timeout is greater than the default
+>>> kato (6 times in fact), was this the case where the issue was
+>>> observed? If so, the timeout handler should probably just wait
+>>> the kato remaining time.
+>>>
+>> Nothing to do with reset_controller.
+>> The problem really is in nvme_tcp_state_change(), which will blindly 
+>> start error recovery (and a subsequent command retry) whenever the 
+>> local link drops.
+> 
+> That is incorrect. A link drop does not trigger a socket state change.
+> a state change is triggered for specific socket states
+> (see net/ipv4/tcp.c for description of socket states).
+> 
+> These are a set of states that describes local and remote sides
+> shutting down (or a TIME_WAIT). The cases where the host
+> triggers error recovery without the controller acknowledging it
+> (in case the link is down) are FIN_WAIT1/2, and these happen
+> when the user triggers a controller reset/disconnect.
+> 
+> In the other circumstances, we'll see a TCP_CLOSE/CLOSE_WAIT/CLOSING
+> which should indicate the controller acknowledged the shutdown.
+> 
 
+Ah, now. It's really neither.
+Complaint from the customer was that we are retrying commands without 
+waiting for KATO. Actual claim was that we're retrying more-or-less 
+immediately.
 
-On 9/12/23 12:59, Aurelien Aptel wrote:
-> From: Boris Pismenny <borisp@nvidia.com>
-> 
-> This commit introduces direct data placement offload to NVME
-> TCP. There is a context per queue, which is established after the
-> handshake using the sk_add/del NDOs.
-> 
-> Additionally, a resynchronization routine is used to assist
-> hardware recovery from TCP OOO, and continue the offload.
-> Resynchronization operates as follows:
-> 
-> 1. TCP OOO causes the NIC HW to stop the offload
-> 
-> 2. NIC HW identifies a PDU header at some TCP sequence number,
-> and asks NVMe-TCP to confirm it.
-> This request is delivered from the NIC driver to NVMe-TCP by first
-> finding the socket for the packet that triggered the request, and
-> then finding the nvme_tcp_queue that is used by this routine.
-> Finally, the request is recorded in the nvme_tcp_queue.
-> 
-> 3. When NVMe-TCP observes the requested TCP sequence, it will compare
-> it with the PDU header TCP sequence, and report the result to the
-> NIC driver (resync), which will update the HW, and resume offload
-> when all is successful.
-> 
-> Some HW implementation such as ConnectX-7 assume linear CCID (0...N-1
-> for queue of size N) where the linux nvme driver uses part of the 16
-> bit CCID for generation counter. To address that, we use the existing
-> quirk in the nvme layer when the HW driver advertises if the device is
-> not supports the full 16 bit CCID range.
-> 
-> Furthermore, we let the offloading driver advertise what is the max hw
-> sectors/segments via ulp_ddp_limits.
-> 
-> A follow-up patch introduces the data-path changes required for this
-> offload.
-> 
-> Socket operations need a netdev reference. This reference is
-> dropped on NETDEV_GOING_DOWN events to allow the device to go down in
-> a follow-up patch.
-> 
-> Signed-off-by: Boris Pismenny <borisp@nvidia.com>
-> Signed-off-by: Ben Ben-Ishay <benishay@nvidia.com>
-> Signed-off-by: Or Gerlitz <ogerlitz@nvidia.com>
-> Signed-off-by: Yoray Zack <yorayz@nvidia.com>
-> Signed-off-by: Shai Malin <smalin@nvidia.com>
-> Signed-off-by: Aurelien Aptel <aaptel@nvidia.com>
-> Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-> ---
->   drivers/nvme/host/tcp.c | 226 ++++++++++++++++++++++++++++++++++++++--
->   1 file changed, 217 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 5b332d9f87fc..f8322a07e27e 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -16,6 +16,10 @@
->   #include <net/busy_poll.h>
->   #include <trace/events/sock.h>
->   
-> +#ifdef CONFIG_ULP_DDP
-> +#include <net/ulp_ddp.h>
-> +#endif
-> +
->   #include "nvme.h"
->   #include "fabrics.h"
->   
-> @@ -31,6 +35,16 @@ static int so_priority;
->   module_param(so_priority, int, 0644);
->   MODULE_PARM_DESC(so_priority, "nvme tcp socket optimize priority");
->   
-> +#ifdef CONFIG_ULP_DDP
-> +/* NVMeTCP direct data placement and data digest offload will not
-> + * happen if this parameter false (default), regardless of what the
-> + * underlying netdev capabilities are.
-> + */
-> +static bool ddp_offload;
-> +module_param(ddp_offload, bool, 0644);
-> +MODULE_PARM_DESC(ddp_offload, "Enable or disable NVMeTCP direct data placement support");
-> +#endif
-> +
->   #ifdef CONFIG_DEBUG_LOCK_ALLOC
->   /* lockdep can detect a circular dependency of the form
->    *   sk_lock -> mmap_lock (page fault) -> fs locks -> sk_lock
-> @@ -104,6 +118,7 @@ enum nvme_tcp_queue_flags {
->   	NVME_TCP_Q_ALLOCATED	= 0,
->   	NVME_TCP_Q_LIVE		= 1,
->   	NVME_TCP_Q_POLLING	= 2,
-> +	NVME_TCP_Q_OFF_DDP	= 3,
->   };
->   
->   enum nvme_tcp_recv_state {
-> @@ -131,6 +146,18 @@ struct nvme_tcp_queue {
->   	size_t			ddgst_remaining;
->   	unsigned int		nr_cqe;
->   
-> +#ifdef CONFIG_ULP_DDP
-> +	/*
-> +	 * resync_req is a speculative PDU header tcp seq number (with
-> +	 * an additional flag at 32 lower bits) that the HW send to
-> +	 * the SW, for the SW to verify.
-> +	 * - The 32 high bits store the seq number
-> +	 * - The 32 low bits are used as a flag to know if a request
-> +	 *   is pending (ULP_DDP_RESYNC_PENDING).
-> +	 */
-> +	atomic64_t		resync_req;
-> +#endif
-> +
->   	/* send state */
->   	struct nvme_tcp_request *request;
->   
-> @@ -170,6 +197,12 @@ struct nvme_tcp_ctrl {
->   	struct delayed_work	connect_work;
->   	struct nvme_tcp_request async_req;
->   	u32			io_queues[HCTX_MAX_TYPES];
-> +
-> +#ifdef CONFIG_ULP_DDP
-> +	struct net_device	*ddp_netdev;
-> +	u32			ddp_threshold;
-> +	struct ulp_ddp_limits	ddp_limits;
-> +#endif
->   };
->   
->   static LIST_HEAD(nvme_tcp_ctrl_list);
-> @@ -273,6 +306,136 @@ static inline size_t nvme_tcp_pdu_last_send(struct nvme_tcp_request *req,
->   	return nvme_tcp_pdu_data_left(req) <= len;
->   }
->   
-> +#ifdef CONFIG_ULP_DDP
-> +
-> +static bool nvme_tcp_ddp_query_limits(struct nvme_tcp_ctrl *ctrl)
-> +{
-> +	return ddp_offload &&
-> +		ulp_ddp_query_limits(ctrl->ddp_netdev,
-> +				     &ctrl->ddp_limits,
-> +				     ULP_DDP_NVME,
-> +				     ULP_DDP_C_NVME_TCP_BIT,
-> +				     false /* tls */);
-> +}
-> +
-> +static bool nvme_tcp_resync_request(struct sock *sk, u32 seq, u32 flags);
-> +static const struct ulp_ddp_ulp_ops nvme_tcp_ddp_ulp_ops = {
-> +	.resync_request		= nvme_tcp_resync_request,
-> +};
-> +
-> +static int nvme_tcp_offload_socket(struct nvme_tcp_queue *queue)
-> +{
-> +	struct ulp_ddp_config config = {.type = ULP_DDP_NVME};
-> +	int ret;
-> +
-> +	config.nvmeotcp.pfv = NVME_TCP_PFV_1_0;
-> +	config.nvmeotcp.cpda = 0;
-> +	config.nvmeotcp.dgst =
-> +		queue->hdr_digest ? NVME_TCP_HDR_DIGEST_ENABLE : 0;
-> +	config.nvmeotcp.dgst |=
-> +		queue->data_digest ? NVME_TCP_DATA_DIGEST_ENABLE : 0;
-> +	config.nvmeotcp.queue_size = queue->ctrl->ctrl.sqsize + 1;
-> +	config.nvmeotcp.queue_id = nvme_tcp_queue_id(queue);
-> +	config.nvmeotcp.io_cpu = queue->sock->sk->sk_incoming_cpu;
-> +
-> +	ret = ulp_ddp_sk_add(queue->ctrl->ddp_netdev,
-> +			     queue->sock->sk,
-> +			     &config,
-> +			     &nvme_tcp_ddp_ulp_ops);
-> +	if (ret)
-> +		return ret;
-> +
-> +	set_bit(NVME_TCP_Q_OFF_DDP, &queue->flags);
-> +
-> +	return 0;
-> +}
-> +
-> +static void nvme_tcp_unoffload_socket(struct nvme_tcp_queue *queue)
-> +{
-> +	clear_bit(NVME_TCP_Q_OFF_DDP, &queue->flags);
-> +	ulp_ddp_sk_del(queue->ctrl->ddp_netdev, queue->sock->sk);
-> +}
-> +
-> +static void nvme_tcp_ddp_apply_limits(struct nvme_tcp_ctrl *ctrl)
-> +{
-> +	ctrl->ctrl.max_segments = ctrl->ddp_limits.max_ddp_sgl_len;
-> +	ctrl->ctrl.max_hw_sectors =
-> +		ctrl->ddp_limits.max_ddp_sgl_len << (ilog2(SZ_4K) - SECTOR_SHIFT);
-> +	ctrl->ddp_threshold = ctrl->ddp_limits.io_threshold;
-> +
-> +	/* offloading HW doesn't support full ccid range, apply the quirk */
-> +	ctrl->ctrl.quirks |=
-> +		ctrl->ddp_limits.nvmeotcp.full_ccid_range ? 0 : NVME_QUIRK_SKIP_CID_GEN;
-> +}
-> +
-> +/* In presence of packet drops or network packet reordering, the device may lose
-> + * synchronization between the TCP stream and the L5P framing, and require a
-> + * resync with the kernel's TCP stack.
-> + *
-> + * - NIC HW identifies a PDU header at some TCP sequence number,
-> + *   and asks NVMe-TCP to confirm it.
-> + * - When NVMe-TCP observes the requested TCP sequence, it will compare
-> + *   it with the PDU header TCP sequence, and report the result to the
-> + *   NIC driver
-> + */
-> +static void nvme_tcp_resync_response(struct nvme_tcp_queue *queue,
-> +				     struct sk_buff *skb, unsigned int offset)
-> +{
-> +	u64 pdu_seq = TCP_SKB_CB(skb)->seq + offset - queue->pdu_offset;
-> +	struct net_device *netdev = queue->ctrl->ddp_netdev;
-> +	u64 pdu_val = (pdu_seq << 32) | ULP_DDP_RESYNC_PENDING;
-> +	u64 resync_val;
-> +	u32 resync_seq;
-> +
-> +	resync_val = atomic64_read(&queue->resync_req);
-> +	/* Lower 32 bit flags. Check validity of the request */
-> +	if ((resync_val & ULP_DDP_RESYNC_PENDING) == 0)
-> +		return;
-> +
-> +	/*
-> +	 * Obtain and check requested sequence number: is this PDU header
-> +	 * before the request?
-> +	 */
-> +	resync_seq = resync_val >> 32;
-> +	if (before(pdu_seq, resync_seq))
-> +		return;
-> +
-> +	/*
-> +	 * The atomic operation guarantees that we don't miss any NIC driver
-> +	 * resync requests submitted after the above checks.
-> +	 */
-> +	if (atomic64_cmpxchg(&queue->resync_req, pdu_val,
-> +			     pdu_val & ~ULP_DDP_RESYNC_PENDING) !=
-> +			     atomic64_read(&queue->resync_req))
-> +		ulp_ddp_resync(netdev, queue->sock->sk, pdu_seq);
-> +}
-> +
-> +static bool nvme_tcp_resync_request(struct sock *sk, u32 seq, u32 flags)
-> +{
-> +	struct nvme_tcp_queue *queue = sk->sk_user_data;
-> +
-> +	/*
-> +	 * "seq" (TCP seq number) is what the HW assumes is the
-> +	 * beginning of a PDU.  The nvme-tcp layer needs to store the
-> +	 * number along with the "flags" (ULP_DDP_RESYNC_PENDING) to
-> +	 * indicate that a request is pending.
-> +	 */
-> +	atomic64_set(&queue->resync_req, (((uint64_t)seq << 32) | flags));
-> +
-> +	return true;
-> +}
-> +
-> +#else
-> +
-> +static void nvme_tcp_unoffload_socket(struct nvme_tcp_queue *queue)
-> +{}
-> +
-> +static void nvme_tcp_resync_response(struct nvme_tcp_queue *queue,
-> +				     struct sk_buff *skb, unsigned int offset)
-> +{}
-> +
-> +#endif
-> +
->   static void nvme_tcp_init_iter(struct nvme_tcp_request *req,
->   		unsigned int dir)
->   {
-> @@ -715,6 +878,9 @@ static int nvme_tcp_recv_pdu(struct nvme_tcp_queue *queue, struct sk_buff *skb,
->   	size_t rcv_len = min_t(size_t, *len, queue->pdu_remaining);
->   	int ret;
->   
-> +	if (test_bit(NVME_TCP_Q_OFF_DDP, &queue->flags))
-> +		nvme_tcp_resync_response(queue, skb, *offset);
-> +
->   	ret = skb_copy_bits(skb, *offset,
->   		&pdu[queue->pdu_offset], rcv_len);
->   	if (unlikely(ret))
-> @@ -1665,6 +1831,15 @@ static void __nvme_tcp_stop_queue(struct nvme_tcp_queue *queue)
->   	kernel_sock_shutdown(queue->sock, SHUT_RDWR);
->   	nvme_tcp_restore_sock_ops(queue);
->   	cancel_work_sync(&queue->io_work);
-> +	if (test_bit(NVME_TCP_Q_OFF_DDP, &queue->flags))
-> +		nvme_tcp_unoffload_socket(queue);
-> +#ifdef CONFIG_ULP_DDP
-> +	if (nvme_tcp_admin_queue(queue) && queue->ctrl->ddp_netdev) {
-> +		/* put back ref from get_netdev_for_sock() */
-> +		dev_put(queue->ctrl->ddp_netdev);
-> +		queue->ctrl->ddp_netdev = NULL;
-> +	}
-> +#endif
+So, the problem here is not the first command running into a timeout;
+the problem really is with the _subsequent_ commands running into a 
+timeout (cf my comments to patch 1/3).
+The first command will set the status to RESETTING and start error 
+recovery, all fine. But all _other_ commands will be aborted directly,
+causing them to be retried immediately without any delay.
 
-Lets avoid spraying these ifdefs in the code.
-the ddp_netdev struct member can be lifted out of the ifdef I think
-because its only controller-wide.
+>> And that error recover does _not_ wait for KATO, but rather
+>> causes an immediate retry.
+> 
+> We can't blindly wait for KATO. If the controller saw the socket
+> closure, there is no point waiting kato.
+> 
+Agreed. So we should be marking out FIN_WAIT1 as that one requiring us
+to wait for KATO.
 
->   }
->   
->   static void nvme_tcp_stop_queue(struct nvme_ctrl *nctrl, int qid)
-> @@ -1707,19 +1882,52 @@ static int nvme_tcp_start_queue(struct nvme_ctrl *nctrl, int idx)
->   	nvme_tcp_init_recv_ctx(queue);
->   	nvme_tcp_setup_sock_ops(queue);
->   
-> -	if (idx)
-> +	if (idx) {
->   		ret = nvmf_connect_io_queue(nctrl, idx);
-> -	else
-> +		if (ret)
-> +			goto err;
-> +
-> +#ifdef CONFIG_ULP_DDP
-> +		if (ctrl->ddp_netdev) {
-> +			ret = nvme_tcp_offload_socket(queue);
-> +			if (ret) {
-> +				dev_info(nctrl->device,
-> +					 "failed to setup offload on queue %d ret=%d\n",
-> +					 idx, ret);
-> +			}
-> +		}
-> +#endif
-> +	} else {
->   		ret = nvmf_connect_admin_queue(nctrl);
-> +		if (ret)
-> +			goto err;
->   
-> -	if (!ret) {
-> -		set_bit(NVME_TCP_Q_LIVE, &queue->flags);
-> -	} else {
-> -		if (test_bit(NVME_TCP_Q_ALLOCATED, &queue->flags))
-> -			__nvme_tcp_stop_queue(queue);
-> -		dev_err(nctrl->device,
-> -			"failed to connect queue: %d ret=%d\n", idx, ret);
-> +#ifdef CONFIG_ULP_DDP
-> +		/*
-> +		 * Admin queue takes a netdev ref here, and puts it
-> +		 * when the queue is stopped in __nvme_tcp_stop_queue().
-> +		 */
-> +		ctrl->ddp_netdev = get_netdev_for_sock(queue->sock->sk);
-> +		if (ctrl->ddp_netdev) {
-> +			if (nvme_tcp_ddp_query_limits(ctrl)) {
-> +				nvme_tcp_ddp_apply_limits(ctrl);
-> +			} else {
-> +				dev_put(ctrl->ddp_netdev);
-> +				ctrl->ddp_netdev = NULL;
-> +			}
-> +		} else {
-> +			dev_info(nctrl->device, "netdev not found\n");
+> If the user sets KATO to be 3 hours, and does a controller reset,
+> what happens now?
+> 
+See above. I'd be fine with delaying error recovery for FIN_WAIT1 only.
 
-Would prefer to not print offload specific messages in non-offload code
-paths. at best, dev_dbg.
+> Only when the host triggers the shutdown, and that is not acknowledged
+> by the controller, then yes, the host needs to wait the remaining of
+> kato.
 
-If the netdev is derived by the sk, why does the interface need a netdev
-at all? why not just pass sk and derive the netdev from the sk behind
-the interface?
+I'll be modifying the patchset to updating the description for the first
+patch and only delaying error recovery for FIN_WAIT1.
 
-Or is there a case that I'm not seeing here?
+Cheers,
+
+Hannes
+
 
