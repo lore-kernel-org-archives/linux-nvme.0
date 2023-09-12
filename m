@@ -4,144 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C75BCA0ECA
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Sep 2023 08:01:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 177E5CA0ECA
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Sep 2023 08:09:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:Message-ID:Date:Subject:To:
-	From:Reply-To:Cc:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=c2fhmjDoosiCf9BSYl28gD0J7KLyzxG8PiehqhzQNEo=; b=O5xY86UYy4qpnwQggINVCt/DTC
-	C00/FZcRNBMBx8h7DcTEEx3jpXCFJcjU2ZzXImjv+ay7/bZcVSo18Vc+xje8e/Q7aCh+u1MDazYFA
-	WlyTx7OtoaqUiZROh5CHu3bXmNUtNTFY+ghGSaLwwCKL8d+mJ+t27fiB7pAk6aOh3ZbFGuwBLJFFn
-	CdUlUs0g0iRuXlf/gnktii7qKEJX/I7HNN46nQA25AOyTsx+5cTeNzaB4A8xrkHl9COiU0epHvWK/
-	YVS38P2W2aH6hHDJ2MUBtdzUls3I6YlRPO5dhpDkisdEbHcpNtS7LC3tt+UFqEpo/CTZWKmn9o0Ss
-	F0Gl/nCg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=BRy58mtOMfLsnyOd5KeG4RjAf/fDpf2NPVmv4pRKN3U=; b=sLAdvg20trbDJ14rfgszDULean
+	gAH174OINpEuqHWfcg1YTx5PRXaGJ8BAntFZownAUW2kdIqU55rAFVqOOlq5ujY5Q3zc73ry63+3Q
+	y69uYEN6dYcWeSoCZwptSUKMfpbpgtLSImvz4qKuIzb9T9Z0Pcx7SYtp+bo4kign0Fg1cMtazuN00
+	x9DLyGAePebgZztfZR0bS9Ksv0Jm49cCRng4wv5uL06glmLXs7GQmEb4RvSZ0UAlh+Rh+ofP8n8WN
+	GzoygPBFPOucIZHs7HEMAmXcainw10HzpicFzuy+xX9gS2/QOSJLGFFtwFnssTict1VKFT9lyOGIw
+	xAKeeMMw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qfyLI-002VG7-07;
-	Tue, 12 Sep 2023 08:01:52 +0000
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	id 1qfySH-002WbM-2k;
+	Tue, 12 Sep 2023 08:09:05 +0000
+Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qfyLC-002VEO-27
+	id 1qfySF-002WZU-1L
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 Sep 2023 08:01:50 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1694505707; x=1726041707;
-  h=from:to:subject:date:message-id:content-id:
-   content-transfer-encoding:mime-version;
-  bh=ITiRWSgdyg/3Bs5/ajFXyDw2vxfA4EwBeTy/1SUckQw=;
-  b=H6vXcu0CbAABixtbmbBcc63xffcqeYFYphh9Vs1PoDS1SblLFBIh8Mme
-   p64OHDKkrcBzFMw6Q964DztoL149igp6GSsmdororME8arC0ocVNu+7YA
-   kJJJFZ8eTRVIoluZcbBGz3oNlKqgvIg/kcSIEtVQdlbhx3LZ54t4TOfyB
-   4L5SGucaoH/4KDpGII5NHk2yZ34qIrlvETBknZguDOuyTF5rxrlzq2/3g
-   XvYAvCXfziOuS3N/vQAtunI8tbGrAG5aATdXS+GYvlpoDqoj2TnuH56Dx
-   /moQWudSY7BYM1yJRLaouAIKJFLfaPv2fncQAVvThd+m978PdZVAapbKH
-   w==;
-X-CSE-ConnectionGUID: 9m+814UCRNasmlhNwhaJQA==
-X-CSE-MsgGUID: /ujHMaHuQy6w1MwuwOp4qw==
-X-IronPort-AV: E=Sophos;i="6.02,245,1688400000"; 
-   d="scan'208";a="241947485"
-Received: from mail-co1nam11lp2169.outbound.protection.outlook.com (HELO NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.169])
-  by ob1.hgst.iphmx.com with ESMTP; 12 Sep 2023 16:01:37 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=coq1TUMKFBsKM8qeVEDqcYkizyHwCKxBTASf4SPwTZ+tvY0ybKIw+tASjgytCjfeX6pidQQWyTKu0mF3++ucK+clGutnKCgqmOeOgnDapv3wKvMhVDT521ME8WcY0a/89t2ym4RpPvQRBj8/T70PG78S5gCuq/j8s12U2YaCP5jT7zS4U/4kM190Z4zgR7B9eLRU8QQ5myVlwFkbP+FXXjdC1NB4HSKEL/0hNtGTA0ZDPk7+TLnWQWson7sBgxWwihVHp8SphwoDYZ5qRiVj7ZPA9iGtbqHRZRSESRZNrmJHMv77AdRF2WZeGon0+stdobeVOonzPNcnWzarYQDhhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=c2fhmjDoosiCf9BSYl28gD0J7KLyzxG8PiehqhzQNEo=;
- b=d6VzrSOk9DylUmMNqQw+ob55I5uxXuyLvV61RJI6iYJirc3BX16EZP14mnsKmvUmBvOk6B0BIbOB6QZqjYxbnofj5IiLxJw5N8FYHeUkdOvF2Dvtm3oL3+83Ep085iwSk/xy0ijt3AoIEGm4vFv9tBTvjLfIi0Q1rRdHUkcr0eQoFJiPFqkGQKipkJAg3hwmsfedEAvUCuLrdxJZoy01JjJDcJFNVetjO1SQwZOD+ghZSaaMrbM0kvywypxgklv4cq5eXnjBd7APwNpbT0G38eJ3z6xhpPRJ1E70yyVZ6ibd+n0vmuxDjVvaKN7fcAjBg9JD8cKs3MBRaBc337WGqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
+	Tue, 12 Sep 2023 08:09:04 +0000
+Received: by mail-lf1-x132.google.com with SMTP id 2adb3069b0e04-501ce655fcbso8547804e87.2
+        for <linux-nvme@lists.infradead.org>; Tue, 12 Sep 2023 01:09:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=c2fhmjDoosiCf9BSYl28gD0J7KLyzxG8PiehqhzQNEo=;
- b=rCLASB6D5PCYiieeDPXPTahO4StQ1k6DX6DB2mypuBT+rHuiCC02ljTb3af7Zs8AXTQS5vogZimUJTgdwlOs13+lAJAHifmwX43elrVMc5uNVe9G+CniM4pNASJRmc107osl1BSmGtFFe0NT1tZ3L+wWPvzIXibqA6Q+KVNg0m8=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- BN8PR04MB6308.namprd04.prod.outlook.com (2603:10b6:408:df::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6792.16; Tue, 12 Sep 2023 08:01:35 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::f92a:6d40:fe94:34e9]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::f92a:6d40:fe94:34e9%7]) with mapi id 15.20.6792.016; Tue, 12 Sep 2023
- 08:01:35 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>
-Subject: blktests failures with v6.6-rc1
-Thread-Topic: blktests failures with v6.6-rc1
-Thread-Index: AQHZ5U9ZuDCF6u+mDk+567SJxCFuZA==
-Date: Tue, 12 Sep 2023 08:01:35 +0000
-Message-ID: <u4g3jh6dnowouthos3tdex2pflzo3hat55e5dc4j6pul3a3uov@y2axtbiura2q>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|BN8PR04MB6308:EE_
-x-ms-office365-filtering-correlation-id: a7bfeafc-856e-4109-81e3-08dbb3667c31
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 8KYqu3kRJxRVETtrT97Ix5ACBtYqMXva5kCy7oH+JG89KHfmdxgCIvweDB2Wj7J9cWUmaaqwhV0LUPJvX+ccVyDGR5qdGsRDxiMnV/ENsuWVURwIjNHABMs5Pa6zTmKN9cM6y/h9BPrpXW5qVpxq7O/kwnid6TH2Vr20D4wCmgoYsKLM3KvqXXBfIXhDjkTKRxN3x2AuWX69EGe48zP9eGPwcE3qAMwNZLHNh7xHfwH3eKvEWbgl+NXkZMDlxuaX2mzHlZvvzVL0RRoz7H4JX/9TOl7bfvtUPx1uneasl4BDPQjwMynHVZls7sRw9h5SxBXm22fVmC/2HznLr3J/+1ic20/S857EpI14azQy8ZoqpxbO9DHLG7bluFmzMCoWEkjI6vQfAEHw6J1pqMiXvjmJDpjWzCgTd9H1KpQgdUC+QZpYoR9oYVpsghl4ZeGnAtU9QY27zPAXPGAi/u5p9uKJJZbJ9fm0ZOoloceomWuOIk3olmr8mDQmKRagpD4KpnHqJMQln+7Tzkg8FyzPBE4NrpRfy+Jf3AUIoU1X9eBabcvUZ1z7N12EQNYm/BBgTJyIEA0CsKeVGaoEypjJ8q2rXxHbqHGTjBzXGjw4+j5fIw/ywZ4GC0MD/IA0b1sv5SRrbvGdC7l5nsJ0PlgsvQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(346002)(376002)(396003)(136003)(366004)(39860400002)(186009)(451199024)(1800799009)(41300700001)(6486002)(71200400001)(6506007)(6512007)(83380400001)(478600001)(966005)(2906002)(33716001)(110136005)(44832011)(66946007)(5660300002)(64756008)(66446008)(66476007)(66556008)(76116006)(8676002)(8936002)(91956017)(316002)(26005)(86362001)(9686003)(82960400001)(38070700005)(38100700002)(122000001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?AH25u7ePrUb1+6Qc54Ca0inVaXXve9VEBX5x9EF5/W0h0kBdZwMPXXIkuGw2?=
- =?us-ascii?Q?G2b0oR2Ro+49+VdnB+1k2FWHQ3LcxHiBisfDElR1nA6qtgGB6WboUTjU179U?=
- =?us-ascii?Q?8RpVoJdIleQX+8mLsfnfjWFQ+BbpF4CjU7e1keGQCCCRzDBfXrWdbSz8PVrY?=
- =?us-ascii?Q?2fK+ci+FkYLFuhrUjtMkhTvM1lMdBktH+V9XELqdXbhYbrMU+LB2C7S+Zauv?=
- =?us-ascii?Q?QiXXO2CuNyOx95Ti9GlUfeIIIBBvI9AcLf3byP3qv2AxQao+dsmTiwXIcF31?=
- =?us-ascii?Q?cYgpIV1ZtmQt9pVxpl5vv6zpcknvFIYOHUfauli81IdVafJEoP5RH5z0HgI6?=
- =?us-ascii?Q?0Zzd9JDG2eqm7r9zIKZ+XfjdcFxsEnb+bQRE4PIwC7e530HL8V6y0zYOv0Ib?=
- =?us-ascii?Q?UXnH4kwpumrFWzBysuKrM5tJK7EBRN60Kp7jFsYLHclPfsTDfA1nQdDC1J9s?=
- =?us-ascii?Q?wT+Ma8AObRVAuVtOrApt4NjhRAZtFbFwkmDbUSfgivzwx1qaRwz+FfsOUw/k?=
- =?us-ascii?Q?x7EV+njzbqo+7SH75xSG/XTZ2ycX/VMCrBxMdGm8e3kRgh0Tm35FuK+X4hjL?=
- =?us-ascii?Q?LPV080CXuVYgPfdP7TGVEWdUpTHmU0KOatN8bc2NuLQX468TUzccRrzrW4EL?=
- =?us-ascii?Q?4mBoQcGIkWToDHFSjak2VLunvh0wv5+erp6J+aQyahdjAt6t4iM3SMSKCd4L?=
- =?us-ascii?Q?2GZqYZiRGTRXnP0CG5Pmiz3vnrPjd+bHrHBj/EGA0/YlWzLBFmCRJ6UwNrVK?=
- =?us-ascii?Q?xlITi9DnU9rFYg7/OHn8roFYW2hX7FCNAx/9rADoXFK1zo2eKpt0xTMdEi/K?=
- =?us-ascii?Q?AqAEzu2zGAyJiU2tDQ7NkpU1HXLFVnIX8MG3DFpL3iT0NFBm0mTqxjIFLD7L?=
- =?us-ascii?Q?QWQOh3UvcslpllxqplZLIdoM76rRzPfdD2HFH247QaBd1hjZgaZkL4MX0JzC?=
- =?us-ascii?Q?WwSAQsttmxapFogXCmA959cL/4NW813i3W2Ah7WegWx25rM6WBJeJZvTv03B?=
- =?us-ascii?Q?dAJA34t3xmNeNYAbscVZEmrbuX2DrcWB/jrWjL2qiPWPUn1X6CZqbk6/N82O?=
- =?us-ascii?Q?Avu/0CkXHj0dcuGAEUQuaolm5QPoLY1xSf78179uw4p6ml7DIfJXfrS+q/+X?=
- =?us-ascii?Q?3titKlwnGT5Sy0RlpCwDghKvQftPrW6X0FgD+4NYxj/tGIwsuPJQlVlGJk23?=
- =?us-ascii?Q?3P9gquuEa0VmtlOK0P3HPdvNxlU2M8m8a7DolaMkjhZHCFadeL/6bHmt+ioy?=
- =?us-ascii?Q?JqRhve2PtsQZMS5F+xzNWu36ufj125JkT78tTGrFwY/wVKUqR1HomGcbeCZT?=
- =?us-ascii?Q?h5hxUq/BF4C7FB2d3VKdzWkSEjYbZsw1szQ4SUp+5ZNk5BYQ8a0bk9/A+7RL?=
- =?us-ascii?Q?rBl8ei/F1iW3/GGtN6XKY5/QHlr6F7fzuqZWfnX/7ip4FX6XlJr4qUbEPLWJ?=
- =?us-ascii?Q?JucZK9ViiiXjwCCvJRcRchHzeSSy483L1eo0FtxKJWUuQpIT6gTSESY05fMt?=
- =?us-ascii?Q?NJnk3zBWTQfpfBzUgZZiOCsKCAUrLuoc+Z17AmkJRXroUVACk3tjA+v4AI0g?=
- =?us-ascii?Q?AGvjcalExj+d4baqlE9n1x6QcXt2VMKA8bkCmQZlOhWbFsg7ZKBYeRnSXjkN?=
- =?us-ascii?Q?dYi7xTWiRScbeqOtx5Ww1jA=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <0CD2427E9F62AA4D86456A3D9110941B@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        d=gmail.com; s=20221208; t=1694506139; x=1695110939; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BRy58mtOMfLsnyOd5KeG4RjAf/fDpf2NPVmv4pRKN3U=;
+        b=lyaad5rG8PFqSshWyxNGy3cxavwxr4dD+GIUX6UDTnbSS0r+Ja95uloS2kV0ybKxPR
+         fAv/v2kEzKc5fc6KTMG3mL0+5h0vSvGVeMPrMTo5FkIgMhTajcraqs+Eci85NhnSc5sM
+         i4wV6tjdJ2iPGqF61+BYqOoKDIODqol3724LPtv6uiDCtOc+IY3g+pB7/ua5Gtp93zP1
+         MQoqLzhNvheSpMOjgK+/5TJ32yBA3vS9/60ygzKbNbcbV3S7vAZCY1pUeaPObQTOqHFO
+         QkW4lqCqmgJInB0iaqC4zhLTQ1ibqjE43H39WQbe/k878rMC8myZ5pvhcRbDv1+/ROnR
+         Ab0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694506139; x=1695110939;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BRy58mtOMfLsnyOd5KeG4RjAf/fDpf2NPVmv4pRKN3U=;
+        b=go66c8uFso5Um5COuBvevrhwkfNg67KWwa7Xt/iocNLKrrmQpxUdDnJ8LVBKzP66vp
+         kp+5AI6TOKt+izp9cTzsVavT/QZPyz6qlgr+meZhv31viYQvUPjbd433N64jzHrzIeIs
+         Uanj1FPsMpSwh6CmElBUxLtkU6HA/hpTJTPLxIWJWRwik6MTI6k/YP5tRQFv8WMohGqp
+         iKscgtq6/l4AqCOyn09y0QBH7v1Q/qiKUUCk4SQrtrN0oFFW5OOcEwcBCfZP7CQLnMWn
+         Wrqt9NkzmJfgLSUy0gAQG+GfWBl42nW8slh5S8wa167e1HSxroeMyoou46/1vYDL26AG
+         6wyQ==
+X-Gm-Message-State: AOJu0Yws47mwNzdMIcSZgk/QM1UvMA3CVg1rEw39+vlvfXUqRT4x+6/f
+	R58ZrQli5mbLcvLrSw1ps46E1V3Gp25j1BgDGic=
+X-Google-Smtp-Source: AGHT+IFwDwJhrpy8HowhIBYcBi/whf/X/T3w9uKWfcXrLILoGcUMzinlah9wOUe1t9L08eJ9Z5UmcgaMaRFE2N9j4uo=
+X-Received: by 2002:a05:6512:33c8:b0:502:a56b:65f7 with SMTP id
+ d8-20020a05651233c800b00502a56b65f7mr8526287lfg.16.1694506138521; Tue, 12 Sep
+ 2023 01:08:58 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: kmhcnPCFp0ygOvRNBMIyxjMrLoRm7AJnihPvmYiP0UFXNIG2iTM3X/j9aZGA7L7QkrlO6uSopy0NsTHxq24PMTCEIoUBJ7VtpS+n3nTOr4dNQf3eWHIc530O78C4UYJ+ZNjjS2BfBoLVyWiljmUwqSFssTMo8KWyJ4hDrjcLe5E91+Uvo8WiPhyDxyKVTHDAcP/x5r4538SmlQmIb38OkH1v5rjirGyGknpKjonVeVnXwcl0guObM6Eqwg/2M2hUp4eYEkYH1pEc+7lUaFwC91nmjDFpfjOaUpBdeMGbHbng0+URKE5qA9zzMaUWxFtCl+8CoL8t7bBZhmPUvxpNpbRAnDxQ4OEEUnX+12K0m8WMpUsZITYG4cHJeQdX4ccSeYC3LNtV0cBevg2YMzq3NlGN0ZE1qUAGI86e/znm1HMMrBfGl3R4CT9MWrHEp1Wwt76VjyT7RdnabI+ia4RXv63rQ+/3cRRr+DY1mp/S2ptpcM5gMiBdGfJ4Ly6gBR+xBM9qZKRU7lyOHWFl4rI3Tys+47vuUckVOdCrIy4bS4zPojsURxIMHjaSk6x8Xr5s8HduOpaiJ+voTd50jPc6D2x2UoLpk0rBDy/d/3ALMgktISXON2C66g2eK0y4qtHcizrpSMqDaI7taK9sXuI6WinEgKbDPpkPP1f6x7PweCGpX5SyPHkdg1CQOLuLJD0o7RFrKDO2CNDaQrKFOxHqnsLql9F/R6REb9YLuf7EaZGQVTNFszTE8IbJpfxArcW1D+xF4Tp0VhjVMaXHRWaEYRrgMaTtKTZFNg15qBWZnPbi4NgpJ+VquJNcI7GSaPOm9tQ0nl2Y04SLlegdNlrT5A==
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a7bfeafc-856e-4109-81e3-08dbb3667c31
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Sep 2023 08:01:35.4275
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fpL5iLeTED8n37ZGmPPGfyajRCQQYR0FOFgc0sJREBx9u2GnhpzKRiMqLSRQcYsqB0PianvibuLgsY++TFU76+Vosxg0P38IHugY/aDbniU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR04MB6308
+References: <8af186ba-5f64-2102-8f9c-3969b0906893@gmail.com>
+ <faa245bf-e925-45b0-9827-b0c9c117e06c@leemhuis.info> <ZPc8v9-lHF4jAcxL@kbusch-mbp>
+In-Reply-To: <ZPc8v9-lHF4jAcxL@kbusch-mbp>
+From: =?UTF-8?Q?Cl=C3=A1udio_Sampaio?= <patola@gmail.com>
+Date: Tue, 12 Sep 2023 10:08:48 +0200
+Message-ID: <CA+4wXKCAYM19H7n4TpbnrtRy_Yv1JOjT3CHVuxh_18Mb7NB4+A@mail.gmail.com>
+Subject: Re: Fwd: Lexar NM790 SSDs are not recognized anymore after 6.1.50 LTS
+To: Keith Busch <kbusch@kernel.org>
+Cc: Linux regressions mailing list <regressions@lists.linux.dev>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux NVMe <linux-nvme@lists.infradead.org>, 
+	Linux Stable <stable@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230912_010147_176093_F0D42BC5 
-X-CRM114-Status: GOOD (  10.17  )
+X-CRM114-CacheID: sfid-20230912_010903_450944_D5DD2F65 
+X-CRM114-Status: GOOD (  30.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -156,57 +91,82 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+Hi, Keith... Just to give you guys a response concerning this, I'm
+sorry for the late reply -- too much work. But yes, you are correct,
+due to having tried patching the kernel in different days and too much
+stuff going on at the same time, I applied this two-line patch to the
+same source where I have applied the other patch that multiplies the
+timeout by 2 and occurs at an earlier time on activation. I thought I
+had an unpatched kernel at the time and ended up compiling it this
+way. Sorry for the mistake, but I also saw that now there's a better
+patch for the issue.
 
-I ran the latest blktests (git hash: e0bb3dc05bc7) with v6.6-rc1 kernel. I
-observed a couple of new test case failures which are listed below.
+On Tue, Sep 5, 2023 at 4:35=E2=80=AFPM Keith Busch <kbusch@kernel.org> wrot=
+e:
+>
+> On Tue, Sep 05, 2023 at 01:37:36PM +0200, Linux regression tracking (Thor=
+sten Leemhuis) wrote:
+> > On 04.09.23 13:07, Bagas Sanjaya wrote:
+> > >
+> > > I notice a regression report on Bugzilla [1]. Quoting from it:
+> > >
+> > >> I bought a new 4 TB Lexar NM790 and I was using kernel 6.3.13 at the=
+ time. It wasn't recognized, with these messages in dmesg:
+> > >>
+> > >> [ 358.950147] nvme nvme0: pci function 0000:06:00.0
+> > >> [ 358.958327] nvme nvme0: Device not ready; aborting initialisation,=
+ CSTS=3D0x0
+> > >>
+> > >> My other NVMe appears correctly in the nvme list though.
+> > >>
+> > >>
+> > >> So I tried using other kernels I had installed at the time: 6.3.7, 6=
+.4.10, 6.5.0rc6, 6.5.0, 6.5.1 and none of these recognized the disk.
+> > >> I installed the 6.1.50 lts kernel from arch repositories (I can comp=
+ile my own too if this would be an issue) and then the device was correctly=
+ recognized:
+> > >>
+> > >> [    4.654613] nvme 0000:06:00.0: platform quirk: setting simple sus=
+pend
+> > >> [    4.654632] nvme nvme0: pci function 0000:06:00.0
+> > >> [    4.667290] nvme nvme0: allocated 40 MiB host memory buffer.
+> > >> [    4.709473] nvme nvme0: 16/0/0 default/read/poll queues
+> >
+> > FWIW, the quoted mail missed one crucial detail:
+> > """
+> >  Claudio Sampaio 2023-09-02 19:04:29 UTC
+> >
+> > Adding the two lines
+> >
+> > =E2=94=82 3457   { PCI_DEVICE(0x1d97, 0x1602), /* Lexar NM790 */
+> > =E2=94=82 3458   =E2=94=82 .driver_data =3D NVME_QUIRK_BOGUS_NID, },
+> >
+> > in file drivers/nvme/host/pci.c made my NVMe work correctly. Compiled a
+> > new 6.5.1 kernel and everything works.
+> > """
+> >
+> > @NVME maintainers: is there anything more you need from Claudio at this
+> > point?
+>
+> Yes: it doesn't really make any sense. The report says the device
+> stopped showing up with message:
+>
+>   nvme nvme0: Device not ready; aborting initialisation, CSTS=3D0x0
+>
+> That (a) happens long before the mentioned quirk is considered by the
+> driver, and (b) the "quirk" behavior is now the default in 6.5 and
+> several of the listed stable kernels anyway.
+>
+> It more likely sounds like the device is flaky and either never becomes
+> ready due to some unspecified internal firmware condition, or
+> inaccurately reports how long it actually needs to become ready in
+> worst-case-scenario.
 
-Comparing with the failures observed with v6.5 kernel [1], the failure at
-zbd/010 is no longer observed (#4 in [1]).
 
-[1] https://lore.kernel.org/linux-block/dycg2iltyeezp6y7bqfhfke6bb3dantkk5n=
-syk6qjfg2o55esu@liixlkhgtqy3/
 
-List of new failures
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-#1: nvme/048
-#2: nbd/002
-
-Failure description
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-#1: nvme/048 (rdma and tcp transport)
-
-  The test case fails with "BUG: KASAN: slab-use-after-free". Yi Zhang obse=
-rved
-  it with linux-next kernel and reported [2]. A fix patch has been provided=
- [3].
-
-  [2] https://lore.kernel.org/linux-block/CAHj4cs_CK63uoDpGBGZ6DN4OCTpzkR3U=
-aVgK=3DLX8Owr8ej2ieQ@mail.gmail.com/
-  [3] https://lore.kernel.org/linux-block/20230908005702.2183908-1-chengmin=
-g.zhou@linux.dev/
-
-#2: nbd/002
-
-  With kernel v6.6-rc1, nbd/002 fails with the messages below. I reported i=
-t
-  to relevant lists [4]. Kernel test robot reported it also [5].
-
-  nbd/002 (tests on partition handling for an nbd device)      [failed]
-      runtime  1.620s  ...  0.369s
-      --- tests/nbd/002.out       2023-04-06 10:11:07.923670528 +0900
-      +++ /home/shin/Blktests/blktests/results/nodev/nbd/002.out.bad      2=
-023-09-11 12:03:30.901246261 +0900
-      @@ -1,4 +1,3 @@
-       Running nbd/002
-       Testing IOCTL path
-      -Testing the netlink path
-      -Test complete
-      +Didn't have partition on ioctl path
-
-  [4] https://lore.kernel.org/linux-block/jvlrypdkye74nea4iys2akwfyvskvpw4x=
-3a2zewwxx3qde22rj@jykkoadmb2m5/
-  [5] https://lore.kernel.org/linux-block/202309121232.767ff8c4-oliver.sang=
-@intel.com/=
+--=20
+Cl=C3=A1udio "Patola" Sampaio
+MakerLinux Labs - Campinas, SP
+Resume Gmail - YOUTUBE!
+Facebook - Facebook da MakerLinux - Lattes
 
