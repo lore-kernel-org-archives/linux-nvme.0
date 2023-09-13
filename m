@@ -4,75 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8326CA553A
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Sep 2023 10:49:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CDDAACA5537
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Sep 2023 10:50:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Esn3bDVPqFAsAFDnhhKPSrWoO2OiXMkjdGA2/ZknMxY=; b=PpIGI7CYsljQFgZOPWQoptno9M
-	IlVqAJ8yoYM40PMEEc0dHNSbkR73Ult9kY/DTmDtXCAU2kuDcKKfcMPgAieTNrJUIKA1tjMS+pe66
-	A+nVpx3G6f8opu5rjztNNT3INlfqBZKRMOdSHNo6z8Xm98noKRJ6XYgkTBGOj1K1caxnYlCznsEYi
-	1SRvHF1Qej0scG/kVcVoTwV3uOr0hUchiVi52Rb9S0ieV2YVZE9LMkXohXbgKivpnwaCpxpCMpWwe
-	LQmrIdbI53oLtfMzazlFlpOJN6A146tVKBSmJmHYF12i99AL2dvJd1U0BgKw0Qlh8Jd71+ybDZDou
-	vxvEPy6w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=m5tN0G/GOKnrc4DvPUqe72mcRRs+o+aCK9wguT3jCVk=; b=LycXKzvjEJdwIOrKZgxV5KkwGs
+	C61LlTJCzsua/73IAPMpVE/iEZgYgA17Bmdf4hnL1KQj72nElDRUfmnW3YYuElvaFiiz6guLql6UL
+	7x20sIw3ti6RT/zQNP8PRTkInx8YwFZb92yoLUyJyKXTYfy3MIDYnowLWQu9YAp38rwlKLSEYxiwf
+	s8AvbGEV09dmS9VCJZfmHbBzhGk2HNUCFhfa87dL9i3tUty5eQBItzh2zXxbaZywpHbeB8F8UTP8N
+	PFgTL4jCGdMUs4TFpWGZkpzNMCJxslCDQeu0FbHi1hVRy4Hc9EARi9NUHthR/Ntp7u8017XSNRIZO
+	gyKojmrQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qgNQm-005egq-1Z;
-	Wed, 13 Sep 2023 10:49:12 +0000
-Received: from mail-wm1-f42.google.com ([209.85.128.42])
+	id 1qgNS0-005ev8-1D;
+	Wed, 13 Sep 2023 10:50:28 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qgNQh-005efA-2q
+	id 1qgNRw-005euM-34
 	for linux-nvme@lists.infradead.org;
-	Wed, 13 Sep 2023 10:49:11 +0000
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-401ce65dfc4so20020085e9.0
-        for <linux-nvme@lists.infradead.org>; Wed, 13 Sep 2023 03:49:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694602144; x=1695206944;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Esn3bDVPqFAsAFDnhhKPSrWoO2OiXMkjdGA2/ZknMxY=;
-        b=om94brVPeWaWaKA7BTTjNQ+cA6Bt9HEd5c600z18w34TxRazqsypKeBuT7VL2BkE55
-         q6XkuzDIdhCcXLJNRdFJNz36ouI4KTUcEkDQD+oy3x8ciTizsGEJE4CEBilIJQ4UzzXm
-         Vwlmge9E7XVGredGN3ZcSQg9kxlwlvCmTni1Hb3yNOivPT6qmVTV1lDipTkeXHBTg2qo
-         z7xsxUTiSvp3s4gcnp2QxOhfPubjeP2fyhyo/VgAuzB5gEIlOZvZyMRHZjYUoiNz8SGv
-         UF0AAaAnPwTEnuYO3ydX5T6P5rLTr6J08Bxs0ejYyK7jo98eDSH4Kic8m0R2J1IO9/PH
-         W2gw==
-X-Gm-Message-State: AOJu0YwEWNYIMfQwqVWvIv4pLa2jo1OZb4szt8b1cO2t6mwDGuhYzhUi
-	fi6IcttmisMKY3djzWUu/Ak=
-X-Google-Smtp-Source: AGHT+IG4m9pCndyGDLU5E9jXsiega50BJYoH3R+yUG8SLcQxS5ITG4ubdS76CNbUddekEUl07q0Fbg==
-X-Received: by 2002:a05:600c:1da2:b0:401:7d3b:cc84 with SMTP id p34-20020a05600c1da200b004017d3bcc84mr1805926wms.0.1694602144226;
-        Wed, 13 Sep 2023 03:49:04 -0700 (PDT)
-Received: from [192.168.64.157] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id 24-20020a05600c021800b003fee53feab5sm1694093wmi.10.2023.09.13.03.49.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Sep 2023 03:49:03 -0700 (PDT)
-Message-ID: <d761c2de-fea3-cbd0-ced8-cee91a670552@grimberg.me>
-Date: Wed, 13 Sep 2023 13:49:01 +0300
+	Wed, 13 Sep 2023 10:50:27 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id C954967373; Wed, 13 Sep 2023 12:50:15 +0200 (CEST)
+Date: Wed, 13 Sep 2023 12:50:15 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
+	Keith Busch <kbusch@kernel.org>,
+	=?iso-8859-1?Q?Cl=E1udio?= Sampaio <patola@gmail.com>,
+	Felix Yan <felixonmars@archlinux.org>, stable@vger.kernel.org
+Subject: Re: [PATCH] nvme: avoid bogus CRTO values
+Message-ID: <20230913105015.GA30644@lst.de>
+References: <20230912214733.3178956-1-kbusch@meta.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v15 05/20] nvme-tcp: Add DDP offload control path
-Content-Language: en-US
-To: Aurelien Aptel <aaptel@nvidia.com>, linux-nvme@lists.infradead.org,
- netdev@vger.kernel.org, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
- chaitanyak@nvidia.com, davem@davemloft.net, kuba@kernel.org
-Cc: Boris Pismenny <borisp@nvidia.com>, aurelien.aptel@gmail.com,
- smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
- yorayz@nvidia.com, galshalom@nvidia.com, mgurtovoy@nvidia.com
-References: <20230912095949.5474-1-aaptel@nvidia.com>
- <20230912095949.5474-6-aaptel@nvidia.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230912095949.5474-6-aaptel@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230912214733.3178956-1-kbusch@meta.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230913_034907_929896_45E00095 
-X-CRM114-Status: UNSURE (   8.82  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230913_035025_152283_E2B148BB 
+X-CRM114-Status: GOOD (  24.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,23 +62,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Tue, Sep 12, 2023 at 02:47:33PM -0700, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
+> 
+> Some devices are reporting controller ready mode support, but return 0
+> for CRTO. These devices require a much higher time to ready than that,
+> so they are failing to initialize after the driver starter preferring
+> that value over CAP.TO.
+> 
+> The spec requires that CAP.TO match the appropritate CRTO value, or be
+> set to 0xff if CRTO is larger than that. This means that CAP.TO can be
+> used to validate if CRTO is reliable, and provides an appropriate
+> fallback for setting the timeout value if not. Use whichever is larger.
+> 
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=217863
+> Reported-by: Cláudio Sampaio <patola@gmail.com>
+> Reported-by: Felix Yan <felixonmars@archlinux.org>
+> Based-on-a-patch-by: Felix Yan <felixonmars@archlinux.org>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
+> ---
+>  drivers/nvme/host/core.c | 48 ++++++++++++++++++++++++----------------
+>  1 file changed, 29 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
 
-> +static int nvme_tcp_offload_socket(struct nvme_tcp_queue *queue)
-> +{
-> +	struct ulp_ddp_config config = {.type = ULP_DDP_NVME};
-> +	int ret;
+> +	if (ctrl->cap & NVME_CAP_CRMS_CRWMS && ctrl->cap & NVME_CAP_CRMS_CRIMS)
+
+I don't think the NVME_CAP_CRMS_CRWMS check here makes sense, this
+should only need the NVME_CAP_CRMS_CRIMS one.
+
+> +	timeout = NVME_CAP_TIMEOUT(ctrl->cap);
+> +	if (ctrl->cap & NVME_CAP_CRMS_CRWMS) {
+> +		u32 crto;
 > +
-> +	config.nvmeotcp.pfv = NVME_TCP_PFV_1_0;
-> +	config.nvmeotcp.cpda = 0;
-> +	config.nvmeotcp.dgst =
-> +		queue->hdr_digest ? NVME_TCP_HDR_DIGEST_ENABLE : 0;
-> +	config.nvmeotcp.dgst |=
-> +		queue->data_digest ? NVME_TCP_DATA_DIGEST_ENABLE : 0;
-> +	config.nvmeotcp.queue_size = queue->ctrl->ctrl.sqsize + 1;
-> +	config.nvmeotcp.queue_id = nvme_tcp_queue_id(queue);
-> +	config.nvmeotcp.io_cpu = queue->sock->sk->sk_incoming_cpu;
+> +		ret = ctrl->ops->reg_read32(ctrl, NVME_REG_CRTO, &crto);
+> +		if (ret) {
+> +			dev_err(ctrl->device, "Reading CRTO failed (%d)\n",
+> +				ret);
+> +			return ret;
+> +		}
+> +
+> +		/*
+> +		 * CRTO should always be greater or equal to CAP.TO, but some
+> +		 * devices are known to get this wrong. Use the larger of the
+> +		 * two values.
+> +		 */
+> +		if (ctrl->ctrl_config & NVME_CC_CRIME)
+> +			timeout = max(timeout, NVME_CRTO_CRIMT(crto));
+> +		else
+> +			timeout = max(timeout, NVME_CRTO_CRWMT(crto));
 
-Please hide io_cpu inside the interface. There is no reason for
-the ulp to assign this. btw, is sk_incoming_cpu stable at this
-point?
+Should we at least log a harmless one-liner warning if the new timeouts
+are too small?
 
