@@ -4,68 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31454CA5534
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Sep 2023 10:13:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC9CFCA5535
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Sep 2023 10:18:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=FzNC0JG55R559sujHsCaqqRQG6IN2LAGW+4WOw9aLQQ=; b=XSm8TtU4NDzljbTRWGuy5iAaIq
-	rOTAmd673eJEiDZfHxndwgu34eakTzq6RwL3GB/DosdxH98W1A+oGmuVU2ohWfrndudLhg8N/NL5S
-	13pfNv5gqvED1lm2f5OkdFiBCiMoNyR6KjnRrjUlM9Wp6qj0I8xVtnlJGl+77RwxDTJmYI3Z5q55g
-	1yVtFay+T4aOhyolfYDWICsrqByViYL2arHvc/NBW0l8NyUJP16slMPS2vJAESkXFlKtTSdOd6VIm
-	lYdTXwbx/lSxvyGgwwZ098KhGg6V81t7ou/Bv4Y8XpdBrj0YXg/4ZeiboVOHzQdwB3glEc32ekZa6
-	2yo+Zq8w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=o+XD2TZrxKS1GI6PCDJPqlHbxIKVvHbsh+8GhW5v1to=; b=n1UQesySnOdnPKBPGnZ72BK7D5
+	p1BWfUNyJ61+QdhZ1Ce0IWeTVW/shKXH6lj/XmpQU49kd8Biy/TmU5mev+mYuXBvNOQ/ehoEiwrqS
+	JvngJjqZS9ftP9pw85TaTrAMcdvaamsmgCH9c1FaqfHwOXzmi4/3uEZVA1ENVvzvavX911vSkuNF8
+	NWvq2YDlbyxXje54bdVGyjlU6p8YOfLmuULuTTSoDYEcb5OWOlu9ft4/o76NR5abi0h0sLbtja1OF
+	T6mlyNAKzVgulFAT1sxXKIS7pNowU7fEnPQsJKq3PXT/PC3eX9Ox50kUitjeGiGXSJ5U636r7iAvp
+	gUj6K+ZQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qgMsG-005Nm9-0z;
-	Wed, 13 Sep 2023 10:13:32 +0000
-Received: from mgamail.intel.com ([192.55.52.120])
+	id 1qgMx7-005ObW-10;
+	Wed, 13 Sep 2023 10:18:33 +0000
+Received: from mgamail.intel.com ([134.134.136.100])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qgMsC-005NlY-2W
+	id 1qgMx4-005OYu-1K
 	for linux-nvme@lists.infradead.org;
-	Wed, 13 Sep 2023 10:13:30 +0000
+	Wed, 13 Sep 2023 10:18:32 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694600008; x=1726136008;
-  h=date:from:to:cc:subject:message-id;
-  bh=DQrBAvjqbFmuBNqoj3tX2f+rHyy3qO1DkkKnBqeg+bE=;
-  b=lIe8oUSZPk8XhlvpgnpgBfFhfsd5tb3WHrPom0q9mw1NRlct818PGtuH
-   TbLHZXkCXNTeBHGpJ2kChFbC7Y2+vVhyyNR2993st/NNqf/o8JMN4nALG
-   8izBIqU+Q55DjL0bRtwhfMQDBFPs/VpmuEULaXApGdEeTDo/2YG8XMibg
-   3CafbOdaO/yp6DJCK3WCkHQMuiNEUk9shmVDXi2fMSaGHimJpd5lcz5eo
-   1InWSmlLB5eMcuW8iZK0+8u/4A6g02zDC4itmi98xGMBlZMWJ5rko7sdM
-   fbUkcElc98N59veoQUjborOBee0wP6dDqzCWm+hu501KImlTFoxPU9AUT
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="377530391"
+  t=1694600310; x=1726136310;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SHP0nIGBAt4mtaptQJxzxBO3GPdpuwYHV4f9icbzzAo=;
+  b=UgzxW8AOeEqCOeKn7/Psnr4MoQu/rm9RunIO9x6uxDZdtRKgrEoIskKV
+   I+TrqUXeP8hwC/cJQzKkxsNr2ZlXcKy3WcXwW0N2SLw22jmgu1KfZvFkQ
+   DzKciOfzYf/oVMx5gxi50UDcEWQoZTHsAUigiLYi5Keup1nr62JQ39hsy
+   +4nf3mDLDP6CyxYeZQTS4uXrEFegUKywLFgSoNLwqNtZj4QvJNNCbPXUt
+   BBIB8U/vCEw6hdAcT2x+DEfiJVij1ljI/An5qfME9C2Wt9DM2fLU1E7e5
+   ogInY7eIjAIUIquxYI7a7nI3Yn4acJPufRE+98D1Y6B7PM5oMVAVCYqcP
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="445058222"
 X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
-   d="scan'208";a="377530391"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 03:13:22 -0700
+   d="scan'208";a="445058222"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 03:18:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="990867016"
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="814171608"
 X-IronPort-AV: E=Sophos;i="6.02,142,1688454000"; 
-   d="scan'208";a="990867016"
+   d="scan'208";a="814171608"
 Received: from lkp-server02.sh.intel.com (HELO cf13c67269a2) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 13 Sep 2023 03:13:20 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 13 Sep 2023 03:18:23 -0700
 Received: from kbuild by cf13c67269a2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qgMs3-0000NW-02;
-	Wed, 13 Sep 2023 10:13:19 +0000
-Date: Wed, 13 Sep 2023 18:12:40 +0800
+	id 1qgMwt-0000O9-0y;
+	Wed, 13 Sep 2023 10:18:19 +0000
+Date: Wed, 13 Sep 2023 18:17:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.6] BUILD SUCCESS
- dad651b2a44eb6b201738f810254279dca29d30d
-Message-ID: <202309131838.HhSlsQnJ-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+To: Ping Gan <jacky_gam_2001@163.com>, kbusch@kernel.org, axboe@kernel.dk,
+	hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, ping_gan@dell.com,
+	jacky_gam_2001@163.com
+Subject: Re: [PATCH 4/4] nvme-core: Get lowlevel disk for target polling
+ queue task
+Message-ID: <202309131858.YUV19V9E-lkp@intel.com>
+References: <006b6aefe94d73ee64931c769af4a908616439ad.1694592708.git.jacky_gam_2001@163.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <006b6aefe94d73ee64931c769af4a908616439ad.1694592708.git.jacky_gam_2001@163.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230913_031328_868137_639B19DC 
-X-CRM114-Status: UNSURE (   6.44  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230913_031830_496733_D3D63E6B 
+X-CRM114-Status: GOOD (  14.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,268 +87,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.6
-branch HEAD: dad651b2a44eb6b201738f810254279dca29d30d  nvme-pci: do not set the NUMA node of device if it has none
+Hi Ping,
 
-elapsed time: 1058m
+kernel test robot noticed the following build warnings:
 
-configs tested: 250
-configs skipped: 2
+[auto build test WARNING on v6.6-rc1]
+[also build test WARNING on linus/master next-20230913]
+[cannot apply to hch-configfs/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+url:    https://github.com/intel-lab-lkp/linux/commits/Ping-Gan/nvmet-Add-nvme-target-polling-queue-task-parameters/20230913-164112
+base:   v6.6-rc1
+patch link:    https://lore.kernel.org/r/006b6aefe94d73ee64931c769af4a908616439ad.1694592708.git.jacky_gam_2001%40163.com
+patch subject: [PATCH 4/4] nvme-core: Get lowlevel disk for target polling queue task
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230913/202309131858.YUV19V9E-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230913/202309131858.YUV19V9E-lkp@intel.com/reproduce)
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r002-20230913   gcc  
-alpha                randconfig-r005-20230913   gcc  
-alpha                randconfig-r015-20230913   gcc  
-alpha                randconfig-r021-20230913   gcc  
-alpha                randconfig-r032-20230913   gcc  
-alpha                randconfig-r036-20230913   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                          axs103_defconfig   gcc  
-arc                                 defconfig   gcc  
-arc                            hsdk_defconfig   gcc  
-arc                     nsimosci_hs_defconfig   gcc  
-arc                  randconfig-r005-20230913   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                        clps711x_defconfig   gcc  
-arm                                 defconfig   gcc  
-arm                        keystone_defconfig   gcc  
-arm                         lpc18xx_defconfig   gcc  
-arm                  randconfig-r016-20230913   gcc  
-arm                  randconfig-r024-20230913   gcc  
-arm                           sunxi_defconfig   gcc  
-arm64                            allmodconfig   gcc  
-arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r035-20230913   gcc  
-arm64                randconfig-r036-20230913   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                 randconfig-r006-20230913   gcc  
-csky                 randconfig-r011-20230913   gcc  
-csky                 randconfig-r025-20230913   gcc  
-hexagon               randconfig-001-20230913   clang
-hexagon               randconfig-002-20230913   clang
-hexagon              randconfig-r005-20230913   clang
-hexagon              randconfig-r022-20230913   clang
-hexagon              randconfig-r034-20230913   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20230913   gcc  
-i386         buildonly-randconfig-002-20230913   gcc  
-i386         buildonly-randconfig-003-20230913   gcc  
-i386         buildonly-randconfig-004-20230913   gcc  
-i386         buildonly-randconfig-005-20230913   gcc  
-i386         buildonly-randconfig-006-20230913   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20230913   gcc  
-i386                  randconfig-002-20230913   gcc  
-i386                  randconfig-003-20230913   gcc  
-i386                  randconfig-004-20230913   gcc  
-i386                  randconfig-005-20230913   gcc  
-i386                  randconfig-006-20230913   gcc  
-i386                  randconfig-011-20230913   clang
-i386                  randconfig-012-20230913   clang
-i386                  randconfig-013-20230913   clang
-i386                  randconfig-014-20230913   clang
-i386                  randconfig-015-20230913   clang
-i386                  randconfig-016-20230913   clang
-i386                 randconfig-r003-20230913   gcc  
-i386                 randconfig-r005-20230913   gcc  
-i386                 randconfig-r006-20230913   gcc  
-i386                 randconfig-r035-20230913   gcc  
-i386                 randconfig-r036-20230913   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20230913   gcc  
-loongarch            randconfig-r001-20230913   gcc  
-loongarch            randconfig-r004-20230913   gcc  
-loongarch            randconfig-r005-20230913   gcc  
-loongarch            randconfig-r006-20230913   gcc  
-loongarch            randconfig-r032-20230913   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                       bvme6000_defconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                       m5275evb_defconfig   gcc  
-m68k                 randconfig-r003-20230913   gcc  
-m68k                 randconfig-r004-20230913   gcc  
-m68k                 randconfig-r011-20230913   gcc  
-m68k                 randconfig-r012-20230913   gcc  
-m68k                 randconfig-r014-20230913   gcc  
-m68k                 randconfig-r022-20230913   gcc  
-m68k                 randconfig-r023-20230913   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-microblaze           randconfig-r002-20230913   gcc  
-microblaze           randconfig-r013-20230913   gcc  
-microblaze           randconfig-r023-20230913   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                           ci20_defconfig   gcc  
-mips                 randconfig-r006-20230913   clang
-mips                 randconfig-r016-20230913   gcc  
-mips                 randconfig-r025-20230913   gcc  
-mips                 randconfig-r031-20230913   clang
-nios2                            alldefconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                randconfig-r014-20230913   gcc  
-nios2                randconfig-r031-20230913   gcc  
-nios2                randconfig-r033-20230913   gcc  
-nios2                randconfig-r034-20230913   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-openrisc             randconfig-r004-20230913   gcc  
-openrisc             randconfig-r016-20230913   gcc  
-openrisc             randconfig-r021-20230913   gcc  
-openrisc             randconfig-r031-20230913   gcc  
-openrisc             randconfig-r032-20230913   gcc  
-openrisc             randconfig-r033-20230913   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                generic-64bit_defconfig   gcc  
-parisc               randconfig-r005-20230913   gcc  
-parisc               randconfig-r006-20230913   gcc  
-parisc               randconfig-r024-20230913   gcc  
-parisc               randconfig-r035-20230913   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   gcc  
-powerpc              randconfig-r001-20230913   gcc  
-powerpc              randconfig-r003-20230913   gcc  
-powerpc              randconfig-r006-20230913   gcc  
-powerpc                     stx_gp3_defconfig   gcc  
-powerpc64            randconfig-r001-20230913   gcc  
-powerpc64            randconfig-r004-20230913   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                    nommu_k210_defconfig   gcc  
-riscv                randconfig-r001-20230913   gcc  
-riscv                randconfig-r024-20230913   clang
-riscv                randconfig-r033-20230913   gcc  
-riscv                randconfig-r035-20230913   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20230913   clang
-s390                 randconfig-r031-20230913   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                        edosk7705_defconfig   gcc  
-sh                   randconfig-r002-20230913   gcc  
-sh                   randconfig-r011-20230913   gcc  
-sh                   randconfig-r012-20230913   gcc  
-sh                   randconfig-r015-20230913   gcc  
-sh                   randconfig-r021-20230913   gcc  
-sh                   randconfig-r026-20230913   gcc  
-sh                   randconfig-r036-20230913   gcc  
-sh                          sdk7786_defconfig   gcc  
-sh                           se7619_defconfig   gcc  
-sh                           se7724_defconfig   gcc  
-sh                             sh03_defconfig   gcc  
-sh                            titan_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r031-20230913   gcc  
-sparc                randconfig-r036-20230913   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64              randconfig-r012-20230913   gcc  
-sparc64              randconfig-r013-20230913   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                   randconfig-r002-20230913   clang
-um                   randconfig-r016-20230913   gcc  
-um                   randconfig-r022-20230913   gcc  
-um                   randconfig-r026-20230913   gcc  
-um                   randconfig-r034-20230913   clang
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-001-20230913   gcc  
-x86_64       buildonly-randconfig-002-20230913   gcc  
-x86_64       buildonly-randconfig-003-20230913   gcc  
-x86_64       buildonly-randconfig-004-20230913   gcc  
-x86_64       buildonly-randconfig-005-20230913   gcc  
-x86_64       buildonly-randconfig-006-20230913   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64                randconfig-001-20230913   clang
-x86_64                randconfig-002-20230913   clang
-x86_64                randconfig-003-20230913   clang
-x86_64                randconfig-004-20230913   clang
-x86_64                randconfig-005-20230913   clang
-x86_64                randconfig-006-20230913   clang
-x86_64                randconfig-011-20230913   gcc  
-x86_64                randconfig-012-20230913   gcc  
-x86_64                randconfig-013-20230913   gcc  
-x86_64                randconfig-014-20230913   gcc  
-x86_64                randconfig-015-20230913   gcc  
-x86_64                randconfig-016-20230913   gcc  
-x86_64                randconfig-071-20230913   gcc  
-x86_64                randconfig-072-20230913   gcc  
-x86_64                randconfig-073-20230913   gcc  
-x86_64                randconfig-074-20230913   gcc  
-x86_64                randconfig-075-20230913   gcc  
-x86_64                randconfig-076-20230913   gcc  
-x86_64               randconfig-r015-20230913   clang
-x86_64               randconfig-r026-20230913   clang
-x86_64               randconfig-r034-20230913   gcc  
-x86_64                           rhel-8.3-bpf   gcc  
-x86_64                          rhel-8.3-func   gcc  
-x86_64                    rhel-8.3-kselftests   gcc  
-x86_64                         rhel-8.3-kunit   gcc  
-x86_64                           rhel-8.3-ltp   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                           allyesconfig   gcc  
-xtensa                  cadence_csp_defconfig   gcc  
-xtensa                              defconfig   gcc  
-xtensa               randconfig-r014-20230913   gcc  
-xtensa               randconfig-r034-20230913   gcc  
-xtensa               randconfig-r035-20230913   gcc  
-xtensa                    smp_lx200_defconfig   gcc  
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309131858.YUV19V9E-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/nvme/host/multipath.c:375:22: warning: no previous prototype for 'nvme_mpath_get_bdev' [-Wmissing-prototypes]
+     375 | struct block_device *nvme_mpath_get_bdev(struct block_device *bdev)
+         |                      ^~~~~~~~~~~~~~~~~~~
+
+
+vim +/nvme_mpath_get_bdev +375 drivers/nvme/host/multipath.c
+
+   373	
+   374	//for polling queue task to get lowlevel block device
+ > 375	struct block_device *nvme_mpath_get_bdev(struct block_device *bdev)
+   376	{
+   377		struct nvme_ns_head *head = bdev->bd_disk->private_data;
+   378		int srcu_idx;
+   379		struct nvme_ns *ns;
+   380		struct block_device *ret = NULL;
+   381	
+   382		if (!multipath)
+   383			return NULL;
+   384		srcu_idx = srcu_read_lock(&head->srcu);
+   385		ns = nvme_find_path(head);
+   386		if (likely(ns))
+   387			ret = ns->disk->part0;
+   388		srcu_read_unlock(&head->srcu, srcu_idx);
+   389		return ret;
+   390	}
+   391	EXPORT_SYMBOL_GPL(nvme_mpath_get_bdev);
+   392	
 
 -- 
 0-DAY CI Kernel Test Service
