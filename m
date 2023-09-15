@@ -4,71 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51FC6CD5BA0
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 Sep 2023 12:22:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4BC9DEE644D
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Sep 2023 09:40:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=A5ABj5ALgACyeYyjXWM4VOk2gjeNWXQ+F4QyWXtsfCo=; b=PtaUmgqD+8ywjAJkadJJm7pRWy
-	iQIE/A3zCH5vLkiNijSJUzE3pfwqs/S1xM8bS9TJSPZrKK8fsoqEIkzwgRCmuGpjjgJbrQG0jASgA
-	CBUb2mTBMby1OoHBjNAAjT4fnd8NGNAjcSvAVpREzSFIpLEuFDB49NHbcAHX3aJ8Uz61Pue5474KQ
-	CZLzSnlDK63dXCY//p9sbuL+RXKdY+RTKKj2skzVn+cnVwsZQvvcvoMW39H9bnBUxOZink1rZ6H5B
-	3BVOzpauUehcG7i9wN8ewr4yqrFT7wfy8Bm8aahgQyHkr1t+qfbtfX+B3MAQAcuDpR+bmwBn9xJSp
-	9du1q4iw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
+	:Subject:Cc:To:From:Content-Type:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Ox4t8vsBfHdHBvmrp8jZiGllqFgu3g66e8FODoz9bQg=; b=0zD6FcNG/n68Li8uPyPTFD4qhq
+	PCerkiTHpFBgAU85jgHUBkWsIpB4Mq8gTc2pXkMfdSpI24Hy1/Ffds3D6phVQH8PcVIbDcA7AhISs
+	W6HUSgyx+3nmktQMGJTAOMbUCw7JtOzM5JunDbLS46IpvjWn86Nfq/7fXasv8vuFSnMfVDPirHwcI
+	zeEavQcFwhp9rOzD28vi3mv2544EEoNtwVEDc778K8awNGh06rfe8tgIiG5qOXdUs6KaKlM8NWBNM
+	Ea9EjqN7pN04N0XOdrOEcHW0VvuGHQmIYyqhYmR8+d56oNcUFXmpnZKhdtEK62LohWurXEGEREPxS
+	dNhNCnSA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qiZkg-000PAN-1r;
-	Tue, 19 Sep 2023 12:22:50 +0000
-Received: from mail-wm1-f53.google.com ([209.85.128.53])
-	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qiZkb-000P9S-2L
+	id 1qh5Iq-00AImM-0h;
+	Fri, 15 Sep 2023 09:39:56 +0000
+Received: from m12.mail.163.com ([220.181.12.214])
+	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
+	id 1qh5Im-00AIjd-1w
 	for linux-nvme@lists.infradead.org;
-	Tue, 19 Sep 2023 12:22:46 +0000
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4046f7d49a9so16847135e9.1
-        for <linux-nvme@lists.infradead.org>; Tue, 19 Sep 2023 05:22:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695126163; x=1695730963;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=A5ABj5ALgACyeYyjXWM4VOk2gjeNWXQ+F4QyWXtsfCo=;
-        b=Da9u6lRzFGk6Wcey91rzOYnDhnmfpZAJEpRYrAYFxc3zgM4nnKvIpzTAH+oawV6Ynw
-         nnAiEw4yZWXTj0g+LIMccHbpf0NN3OT7UmAJfZLTeYcKu8hKNBNJNDg2cN2n84IMsCeC
-         uUA1ds1kcH8taX6xY56OpSXQZP8nHdhoUBlCqoOC4ZtN+MNEkiMmMH3MKFKvwE4se0NO
-         YWKRbjlPUtyeL3wgtyt/mlGK697O2M+/fMI2QGYukTuXa3bFEeDGrEXY71E9noldFIF0
-         gvUfS5KPq+rGcZc0zyf0TWDA+mkhn5TSL91O1YvW0N2P0cEqd2IuvLzTip8K42glq8DV
-         Herw==
-X-Gm-Message-State: AOJu0Yzmt9Dq9kJ/kuDcjTx3of4keRUbZUM1EWFEWZjmsuQh0rdFcCaw
-	6+eyBC7lADZvLa/L9x/aN5jcNH51wt0=
-X-Google-Smtp-Source: AGHT+IE/bzHoH2I27iB8eM3kxCJFZ9o8tC6yBlaodrAeke7/YF3CD9OSqMCeIOKVS8ME3azBb97HPw==
-X-Received: by 2002:a05:600c:5103:b0:401:faf5:85c3 with SMTP id o3-20020a05600c510300b00401faf585c3mr11427510wms.0.1695126162345;
-        Tue, 19 Sep 2023 05:22:42 -0700 (PDT)
-Received: from [192.168.64.157] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id t27-20020a05600c329b00b003fd2e898aa3sm737561wmp.0.2023.09.19.05.22.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Sep 2023 05:22:41 -0700 (PDT)
-Message-ID: <8e8072d2-1564-4879-8f00-682f5367bee0@grimberg.me>
-Date: Tue, 19 Sep 2023 15:22:40 +0300
+	Fri, 15 Sep 2023 09:39:54 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:Reply-To:MIME-Version;
+	bh=Ox4t8vsBfHdHBvmrp8jZiGllqFgu3g66e8FODoz9bQg=; b=fJI6WlWmj1AOf
+	yUIIbKxoEaBQajm2Nrgs7xcc2sqHbxlzU8FsNIYsF/HsIba4+2xI8XKlUFF7uIcr
+	t7swTLsfB4v4PBInxim9tmi+hoKt76Id9c85frM5jIGKYWMY7gWY9TAcWeSmdd9e
+	uWaaHTzaTowEUIdPzCzsGPr+EH6gIY=
+Received: from localhost.localdomain (unknown [139.227.195.81])
+	by zwqz-smtp-mta-g5-3 (Coremail) with SMTP id _____wD3vKUsJgRlL82KCA--.12438S2;
+	Fri, 15 Sep 2023 17:38:54 +0800 (CST)
+From: Ping Gan <jacky_gam_2001@163.com>
+To: chaitanyak@nvidia.com
+Cc: ping_gan@dell.com,
+	kbusch@kernel.org,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	hch@lst.de,
+	sagi@grimberg.me,
+	axboe@kernel.dk,
+	jacky_gam_2001@163.com
+Subject: 
+Date: Fri, 15 Sep 2023 17:37:57 +0800
+Message-Id: <20230915093758.31397-1-jacky_gam_2001@163.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <28949e52-7db7-4227-6bbd-cb8b627b390f@nvidia.com>
+References: <28949e52-7db7-4227-6bbd-cb8b627b390f@nvidia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: nvmet_sq_destroy stuck forever when data digest is turned on
-Content-Language: en-US
-To: "Grupi, Elad" <Elad.Grupi@dell.com>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Cc: "Engel, Amit" <Amit.Engel@Dell.com>, "Zinger, Eldad"
- <Eldad.Zinger@dell.com>
-References: <DM6PR19MB40114101A791D54572BD88C2EFFAA@DM6PR19MB4011.namprd19.prod.outlook.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <DM6PR19MB40114101A791D54572BD88C2EFFAA@DM6PR19MB4011.namprd19.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wD3vKUsJgRlL82KCA--.12438S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Cw15JF4xtrWfZw18GF18uFg_yoW8WFy3pF
+	WFq3ZxArW8tF4rAw1UAws2q34vqw1rC3WrXayrJrZ2kr98KryxWr15AFy3Xrs5WFykKr12
+	vwn2v398Xw48trJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pEzBTnUUUUU=
+X-Originating-IP: [139.227.195.81]
+X-CM-SenderInfo: 5mdfy55bjdzsisqqiqqrwthudrp/1tbiKBTrKV7WNENZmwAAsD
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230919_052245_761212_F514C8E0 
-X-CRM114-Status: GOOD (  19.83  )
+X-CRM114-CacheID: sfid-20230915_023953_021923_63CEA543 
+X-CRM114-Status: GOOD (  13.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,75 +75,56 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-> Hi
+> On 9/13/2023 1:34 AM, Ping Gan wrote:
+> > Since nvme target currently does not support to submit bio to a
+> > polling
+> > queue, the bio's completion relies on system interrupt. But when there
+> > is high workload in system and the competition is very high, so it
+> > makes
+> > sense to add polling queue task to submit bio to disk's polling queue
+> > and poll the completion queue of disk.
+> > 
+> >
+>
+> I did some work in the past for nvmet polling and saw good
+> performance improvement.
+>
+> Can you please share performance numbers for this series ?
 > 
-> I have an issue with nvmet_tcp_release_queue_work hitting hung task after 2 minutes of waiting for nvmet_sq_destroy.
-> This issue reproduces only when data digest is on.
-> 
-> I am inspecting the code of nvmet_tcp_release_queue_work and I see that the code handles 'data in' commands
-> This means that it calls nvmet_req_uninit for any command that its data is still in transit.
-> 
-> There might be commands that the data transfer is already done, but data digest was not received from socket yet (aka rcv_state is NVMET_TCP_RECV_DDGST)
-> The data digest will never be read from the socket because the socket is blocked by NVMET_TCP_RECV_ERR
-> Hence nvmet_sq_destroy will be stuck forever waiting for nvmet_tcp_try_recv_ddgst to execute.
-> 
-> Can you suggest a fix for such an issue?
+> -ck
 
-Does this (untested) patch make the issue go away?
---
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 97d07488072d..f5eaf3457ada 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -204,10 +204,16 @@ static inline u16 nvmet_tcp_cmd_tag(struct 
-nvmet_tcp_queue *queue,
-         return cmd - queue->cmds;
-  }
+hi,
+I have verified this patch on two testbeds one for host and the other
+for target. I used tcp as transport protocol, spdk perf as initiator. 
+I do two group tests. The IO size of first is 4K, and the other is 2M. 
+Both includ randrw, randwrite and randrw.  Both have same prerequisites.
+At the initiator side I used 1 qp, 32 queue depth,and 1 spdk perf 
+application, and for target side I bound tcp queue to 1 target core.
+And I get below results.
+iosize_4k        polling queue                        interrupt
+randrw           NIC_rx:338M/s NIC_tx:335M/s      NIC_rx:260M/s
+NIC_tx:258M/s
+randwrite        NIC_rx:587M/s                    NIC_rx:431M/s
+randread         NIC_tx:873M/s                    NIC_tx:654M/s
 
-+static inline u8 nvmet_tcp_ddgst_len(struct nvmet_tcp_queue *queue)
-+{
-+       return queue->data_digest ? NVME_TCP_DIGEST_LENGTH : 0;
-+}
-+
-  static inline bool nvmet_tcp_has_data_in(struct nvmet_tcp_cmd *cmd)
-  {
--       return nvme_is_write(cmd->req.cmd) &&
--               cmd->rbytes_done < cmd->req.transfer_len;
-+       u32 total_len = cmd->req.transfer_len + 
-nvmet_tcp_ddgst_len(cmd->queue);
-+
-+       return nvme_is_write(cmd->req.cmd) && cmd->rbytes_done < total_len;
-  }
+iosize_2M        polling queue                        interrupt
+randrw           NIC_rx:738M/s NIC_tx:741M/s      NIC_rx:674M/s
+NIC_tx:674M/s
+randwrite        NIC_rx:1199M/s                   NIC_rx:1146M/s
+randread         NIC_tx:2226M/s                   NIC_tx:2119M/s
 
-  static inline bool nvmet_tcp_need_data_in(struct nvmet_tcp_cmd *cmd)
-@@ -265,11 +271,6 @@ static inline u8 nvmet_tcp_hdgst_len(struct 
-nvmet_tcp_queue *queue)
-         return queue->hdr_digest ? NVME_TCP_DIGEST_LENGTH : 0;
-  }
+For iosize 4k the NIC's bandwidth of poling queue is more than 30% than
+bandwidth of interrupt. But for iosize 2M the improvement is not obvious,
+the randrw of polling queue is about 9% more than interrupt; randwrite 
+and randread of polling queue is about 5% more than interrupt.
 
--static inline u8 nvmet_tcp_ddgst_len(struct nvmet_tcp_queue *queue)
--{
--       return queue->data_digest ? NVME_TCP_DIGEST_LENGTH : 0;
--}
--
-  static inline void nvmet_tcp_hdgst(struct ahash_request *hash,
-                 void *pdu, size_t len)
-  {
-@@ -1221,8 +1222,8 @@ static int nvmet_tcp_try_recv_ddgst(struct 
-nvmet_tcp_queue *queue)
-                 goto out;
-         }
 
--       if (cmd->rbytes_done == cmd->req.transfer_len)
--               nvmet_tcp_execute_request(cmd);
-+       cmd->rbytes_done += NVME_TCP_DIGEST_LENGTH;
-+       nvmet_tcp_execute_request(cmd);
+Thanks,
+Ping
 
-         ret = 0;
-  out:
---
+
 
