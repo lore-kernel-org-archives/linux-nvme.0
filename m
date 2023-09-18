@@ -4,58 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8D05BCD37B0
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Sep 2023 14:53:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 06954CD37B0
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Sep 2023 17:09:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3W2iG96sXNpt+qL0wzYfxSEXfbU14HH4BwI31ALCsRw=; b=xDpHe/DAyXZ5B1RZjnnAiCiPLH
-	5Bf3amJIHS9A918zaXMYCMid9/uoPw64HNCJTS2hjVLPPfVMrLc9QdXHwjlC9gDX/eLAM1mCTyREB
-	tZlcjWHBBgSFYvL7CYaqcfm3sYm+fKFvxsuol0jvAvQrKHuOBE0XR4i0hcc8HyBYO3VBkHAVVN1/F
-	QTbzBS2BoK3z2Ho1orCLnxip2nnZiAdEFZlDX5YYV78U5fQRJ7OVut/etb7RlibM0d8+24cJ3EBCg
-	oOz28zEdGCThl3bEph+5+bw2SaDTSm1uKPXCEMPf8xp3mSiWsYd8OkIdV06ntoKneaRyV88ju44xY
-	Be5uiSuA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=AYQSn+OIzp01ryaAaejSH+/Rdtrl+ucwSOYu4Xut+PI=; b=4koaHxW1XGoIe1CgTHLjwopX8z
+	mv00qUu6k5x94PV7fSHfbv0JI2FQbkyiG6nRkpgf5gHCvMAGOK0pnMva1zbbJEDaRySMa7U6EJ4gV
+	0PC1ryvxc52tuuk93wzw+Gs2m9FK39imDkhjoHsJNY27X9Leh4gI+gJwW+hYwh6cfGQa6SEmi5REb
+	DcqWpfMe1d1VV6m2qmGmT/ObKGfl8ZLvaDKBrnA+Dbhd7yHCpJw7xWCD39ShgirDE4fNfTejYoZBk
+	i423nR0Q4T17Wd4xfYq5DRGjgex6XuOu++Bst9yDvglC87Al4Y6UmlsyEeM581yl21/0AtQxsUR/c
+	auZfyofA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qiFdK-00Fgh5-2Y;
-	Mon, 18 Sep 2023 14:53:54 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1qiHkh-00Fx0f-1w;
+	Mon, 18 Sep 2023 17:09:39 +0000
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qiFdJ-00Fggo-0F
-	for linux-nvme@bombadil.infradead.org;
-	Mon, 18 Sep 2023 14:53:53 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=3W2iG96sXNpt+qL0wzYfxSEXfbU14HH4BwI31ALCsRw=; b=kJFx1xc5KRX1gV3ixQPahDa8xR
-	NtVwdG/6RbvBONC1WcD4awRPsWs2+LNGyk1IggDwHPiMU7RRQaenz9+vX0oEHENWHINZp+v7dbwkh
-	Z6GsbkePAG+7zVqxxZWEVc601prwTO+DOWJA1fEHoqOW7tBjnqAddom0oo4qQXI4LHELhLgb10t7R
-	+YSuEXa5eRNBt8AQL+DNBMM9l3/M763b87c8vmx+RS+wowL5EB3+pcF1Q0oYDHOYnQ967Yn9brtkU
-	Efh68kGF86lUYZJrdC+3gKnX0/1WbRwdNxrs9ndowe3ynz1/a+9TCfsE5/xpNxdiL6t/H9VySTLSF
-	ghTWBO/Q==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1qiFdE-00Bd02-Dp; Mon, 18 Sep 2023 14:53:48 +0000
-Date: Mon, 18 Sep 2023 15:53:48 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
-Cc: linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
-	linux-mm@kvack.org, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Subject: Re: BUG: KCSAN: data-race in folio_batch_move_lru / mpage_read_end_io
-Message-ID: <ZQhkfIqwcuTrKxK+@casper.infradead.org>
-References: <cbb9d596-43ac-bad4-b6f6-8c13f95d244e@alu.unizg.hr>
- <ZPCpQQVTtlB0FA5A@casper.infradead.org>
- <ZPs8+sLv5oaubrKj@casper.infradead.org>
- <22a42774-ebe1-081a-c9b9-e11f4d74bc3a@alu.unizg.hr>
+	id 1qiHkd-00Fwyd-29
+	for linux-nvme@lists.infradead.org;
+	Mon, 18 Sep 2023 17:09:38 +0000
+Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-573c62b3cd2so3458329a12.3
+        for <linux-nvme@lists.infradead.org>; Mon, 18 Sep 2023 10:09:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jade-fyi.20230601.gappssmtp.com; s=20230601; t=1695056972; x=1695661772; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AYQSn+OIzp01ryaAaejSH+/Rdtrl+ucwSOYu4Xut+PI=;
+        b=SOtJka1gspl96aaMOjSt9+x2laPGucAp0GgeqjX8WmbUg8IOLj4PGww5NyHldfKVr5
+         CuGAgxAKN2tc2iIGHgYiBhjrK3U6qjk++8DxikBQOTT6wP6zqr2Q6TobgrNAGV4SnGDw
+         op8nQHxX5N3NHpmbNvS4gdgs4omVcMwZRmR6qUb+HMXxcMBZ7K81ldoHk8InXUmo2Odd
+         nsFJoBNifjCi04mwmnFwoq2hN8owMqGjDQ/A+7C91ceJETIwVaqeh5ipR/jHBV2Io2b1
+         RQYB9JkdXCNWWTOgzu/uZKXtu17c7+/hZjGbvkG2UVr+U0Go1LoOMssDWfmYlRddzvW8
+         19Jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695056972; x=1695661772;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=AYQSn+OIzp01ryaAaejSH+/Rdtrl+ucwSOYu4Xut+PI=;
+        b=YND1/9BNAHZp2h/ZiyqAc4ysmOT/q+pVDBvUMS9TVRTb6d8WpyqmErgTXz0cZiFgzX
+         tm7C16oUecUutv7INAewUOXKwQ/BAkanoCUEVHbJt290acjksxj08Go2mtCFYQwjDmpb
+         03g8hNGOfswxwybmu7IEz4bepfsNpvDz3j6b9h0MKXEk3J4AtNGshB3bbVKZQ6DnFBrd
+         23RVmZZhuF0EpdttpqbrSj1SqrkeYBvWW7BzawNngUeRzTilPYgT+SU1yn0zmjH6mGuw
+         0nHFohTqTQFXTUDxUofCdToZOdooMZVBzRK8OeFAqDAG5ZIwJSePui4jmZZBhT4gS80P
+         fRkA==
+X-Gm-Message-State: AOJu0Ywsqifk5/76Jd+aOLJXcmQg3e1FojsPhP3gu0oK4/L6e1/QVZeV
+	CCrbYFklQRo5de+ONsO4KmrL/A==
+X-Google-Smtp-Source: AGHT+IGtUIR1rYu6U73lUGcuPGDdUrU80/1dpmLzoWH5zRK9YDq6P1xbXkYrEtqDzirwAafIJfYUyg==
+X-Received: by 2002:a05:6a20:7288:b0:157:e4c6:766a with SMTP id o8-20020a056a20728800b00157e4c6766amr9410730pzk.41.1695056972113;
+        Mon, 18 Sep 2023 10:09:32 -0700 (PDT)
+Received: from localhost ([172.103.222.8])
+        by smtp.gmail.com with ESMTPSA id x14-20020a056a00270e00b0068fe7c4148fsm7330361pfv.57.2023.09.18.10.09.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Sep 2023 10:09:31 -0700 (PDT)
+From: Jade Lovelace <lists@jade.fyi>
+To: Gene <lists@sapience.com>,
+	Ricky WU <ricky_wu@realtek.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Thorsten Leemhuis <regressions@leemhuis.info>,
+	linux-kernel@vger.kernel.org
+Cc: regressions@lists.linux.dev,
+	Alyssa Ross <hi@alyssa.is>,
+	Michal Suchanek <msuchanek@suse.de>,
+	"axboe @ kernel . dk " <axboe@kernel.dk>,
+	"sagi @ grimberg . me " <sagi@grimberg.me>,
+	"linux-nvme @ lists . infradead . org " <linux-nvme@lists.infradead.org>,
+	"hch@lst.de" <hch@lst.de>,
+	"arnd@arndb.de" <arnd@arndb.de>,
+	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	stable@vger.kernel.org
+Subject: [Revert] Re: Possible nvme regression in 6.4.11
+Date: Mon, 18 Sep 2023 10:07:38 -0700
+Message-ID: <20230918170831.1677690-2-lists@jade.fyi>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <66bc5229-8131-4111-96fe-bd5ee90314b0@leemhuis.info>
+References: <66bc5229-8131-4111-96fe-bd5ee90314b0@leemhuis.info>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <22a42774-ebe1-081a-c9b9-e11f4d74bc3a@alu.unizg.hr>
+Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20230918_100935_926210_5EDFF607 
+X-CRM114-Status: UNSURE (   7.86  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,35 +104,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Sep 18, 2023 at 02:15:05PM +0200, Mirsad Todorovac wrote:
-> > This is what I'm currently running with, and it doesn't trigger.
-> > I'd expect it to if we were going to hit the KCSAN bug.
-> > 
-> > diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> > index 0c5be12f9336..d22e8798c326 100644
-> > --- a/mm/page_alloc.c
-> > +++ b/mm/page_alloc.c
-> > @@ -4439,6 +4439,7 @@ struct page *__alloc_pages(gfp_t gfp, unsigned int order, int preferred_nid,
-> >   	page = __alloc_pages_slowpath(alloc_gfp, order, &ac);
-> >   out:
-> > +	VM_BUG_ON_PAGE(page && (page->flags & (PAGE_FLAGS_CHECK_AT_PREP &~ (1 << PG_head))), page);
-> >   	if (memcg_kmem_online() && (gfp & __GFP_ACCOUNT) && page &&
-> >   	    unlikely(__memcg_kmem_charge_page(page, gfp, order) != 0)) {
-> >   		__free_pages(page, order);
-> 
-> Hi,
-> 
-> Caught another instance of this bug involving folio_batch_move_lru: I don't seem that I can make it
-> happen reliably by the nature of the data racing conditions if I understood them well.
+This regression affects all copies of the Dell XPS 15 9560 and Dell Precision
+5520 with any SSD including aftermarket ones.
 
-Were you running with this patch at the time, or was this actually
-vanilla?  The problem is that, if my diagnosis is correct, both of the
-tasks mentioned are victims; we have a prematurely freed page.  While
-btrfs is clearly a user, it may not be btrfs's fault that the
-page was also allocated as an anon page.
+Per the bugzilla discussion here:
+https://bugzilla.kernel.org/show_bug.cgi?id=217802 this regression has
+been confirmed to also affect 6.5.2 and 6.6-rc1, and affects several
+distros.
 
-I'm trying to gather more data, and running with this patch will give
-us more -- because it'll dump the entire struct page instead of just
-the page->flags, like KCSAN is currently doing.
+Known affected branches: 6.1, 6.4, 6.5, 6.6.
+
+It has already been reverted by OpenSUSE and is soon to be reverted in
+NixOS. A patch follows, hopefully with the right metadata tags.
+
+I have compiled a kernel 6.1 with the revert and confirmed it now boots
+again.
+
+p.s. this is my first time pointing git-send-email at this particular
+list, so I'm sorry if I got anything wrong.
+
+Jade
+
 
 
