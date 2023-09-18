@@ -4,92 +4,125 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9EBDFCD37B0
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Sep 2023 17:09:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2F32CD37B0
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Sep 2023 18:26:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IItNc+Zt5nnQ/8UdDotMfLHi/NEp9s9tuV8PI8RzTEg=; b=4zCC52Dbuh9Z4oxaWadAPilIXX
-	oMnqOiS5Uku5bPcRL2F3pi73YQ/zPXrMpFUMzC9ER2ohzuRPVLhIG5VRc4VCh7BL7/dAkINfaT0cj
-	LewsdpilXlmRSSPX8vqzvpmlL+NwD0bDI1DwyKpJa1u8i11GIxAvYU8kijxd4DfkrbJj1oa31afpE
-	PleVy0k6YP1OLKjCOwCxtjZjnBL8oz5xq1dkz2tFW3UsX12K0Ms+pXrNVUIadN2qksgvVVwP+QgeB
-	Gv6dAjVRLEVd4/V1F1SiUa2+tODvgEXhbRA+sGqqaw9aX4FzYzwCbuJBhC7VyXnJuDvJeGH04uXHw
-	8cp1o4Sg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=z2Zknf/DzMaAhfneK2ttFgbttkMEma38EQjD8Gqapig=; b=qB89cDO0SAnH4GaJkNZt4T8msb
+	4ailsD+e3ym0FQ3X5oJqbhrCkY6Sp7XREINEf5tVS7LLP3bCrmEp0glxz8f+no3LelwINE8g2EV1T
+	Ihyo8m8ZkcN8V95TV5P2HVU5tgfWkyLnBX6IwkQ4SR9fiu/a8oV7D8uUJs1AqqdH3Nn7vbcMM+I7d
+	wH/PcGeYsRlWN121igczzBr3KXj37JT+PDVd2uMp005UZYWjSHvPKMqTwg2rAzf3K0KRVAiHLvf+w
+	Ivl5r2FedPwhSXTuVQyg1sUrbcBcoJj8uC75g0rSztXGKuZUnii6P9QFIOgfSoXRq60M8TAxkPAvJ
+	SPH80Ung==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qiHkt-00Fx3Z-2q;
-	Mon, 18 Sep 2023 17:09:51 +0000
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+	id 1qiIwz-00G532-1M;
+	Mon, 18 Sep 2023 18:26:25 +0000
+Received: from mail-dm6nam11on20610.outbound.protection.outlook.com ([2a01:111:f400:7eaa::610] helo=NAM11-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qiHkq-00Fx10-0q
+	id 1qiIwx-00G52d-0y
 	for linux-nvme@lists.infradead.org;
-	Mon, 18 Sep 2023 17:09:50 +0000
-Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-1bf6ea270b2so35266155ad.0
-        for <linux-nvme@lists.infradead.org>; Mon, 18 Sep 2023 10:09:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jade-fyi.20230601.gappssmtp.com; s=20230601; t=1695056981; x=1695661781; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IItNc+Zt5nnQ/8UdDotMfLHi/NEp9s9tuV8PI8RzTEg=;
-        b=gMoe9qHcgiVtqFNog7krqtz/fQ3aW5fenwdt5QKAWw3B3b2q3Q+d/WG+ZkHLYEHvKE
-         80OE87TnRwZkOlucBhG/sh/7VwcSZSwV8KdpfTFw++wytKKPpfUgepIiKCbdRWCa1i50
-         yoLbx6wm9r4/pJvy6IaJ6SKaWDY6NVfun4fsp3XnEciadaZy1DWHy8+gwXNtrdbrJTta
-         V/aRPjSr4g2H1uKWDxxdhu7Ct8jUVcLEFacvXaGJQUM3HQUPQHAapEUk/B5vyMMrDTiA
-         Yy8sdG44dcpoiNLggxfH/Q0+ODqpVP2cVQMfleIAeL3/joA16CpfLvi0pIH0H3hcEP7G
-         W3FQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695056981; x=1695661781;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IItNc+Zt5nnQ/8UdDotMfLHi/NEp9s9tuV8PI8RzTEg=;
-        b=vtbVOJinEhYQ7Qx35RM/WLJx9x1UBWq5lLAAezEiNIR9Ezfn6pSx8D1HhyQUfZb5RJ
-         GXQQHc8rW3Ms9RiV+0QPMpLnOr7NAd/WhjsFmNv2pcCkcjP2TCJp9tQdC9J+JeyCeYja
-         dzANA8quh2ebaO1mQ1d42Qs5uk9pJJYsPxAeBqKBdxunOlA+MPwy1HFHq/KLAk0eJv1g
-         gwjfrN2jZNBuRBG5tipHRlt7sDb3m0a9hAVkmau3PXzeL2ZGeAbSwSlWXR06rxoCB+zg
-         mZ9khz0i1bMWemP0la53qC2xfgjxTpvw0A90Bu3xMt4jzMlWpb33lFDH8DFzFWQ1QoCX
-         SBpw==
-X-Gm-Message-State: AOJu0YxYrRnszsyI+xayFBW3lxvnMbHe61rZCXwwkHgNSADS2gkdfE3F
-	MF/b03z99cuy9UA4JEC7Az+JPg==
-X-Google-Smtp-Source: AGHT+IGICE7p0GqE8Tg9jhcYRkzC3fqApnNRjDURAFmQTFb9i/QX9MA1iUEb6QiwhikQ+AKuqo0Hjg==
-X-Received: by 2002:a17:902:e9d5:b0:1bd:e64c:5c71 with SMTP id 21-20020a170902e9d500b001bde64c5c71mr6845120plk.21.1695056981249;
-        Mon, 18 Sep 2023 10:09:41 -0700 (PDT)
-Received: from localhost ([172.103.222.8])
-        by smtp.gmail.com with ESMTPSA id l13-20020a170902eb0d00b001c57aac6e5esm1604567plb.23.2023.09.18.10.09.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Sep 2023 10:09:40 -0700 (PDT)
-From: Jade Lovelace <lists@jade.fyi>
-To: Gene <lists@sapience.com>,
-	Ricky WU <ricky_wu@realtek.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Thorsten Leemhuis <regressions@leemhuis.info>,
-	linux-kernel@vger.kernel.org
-Cc: regressions@lists.linux.dev,
-	Alyssa Ross <hi@alyssa.is>,
-	Michal Suchanek <msuchanek@suse.de>,
-	"axboe @ kernel . dk " <axboe@kernel.dk>,
-	"sagi @ grimberg . me " <sagi@grimberg.me>,
-	"linux-nvme @ lists . infradead . org " <linux-nvme@lists.infradead.org>,
-	"hch@lst.de" <hch@lst.de>,
-	"arnd@arndb.de" <arnd@arndb.de>,
-	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-	stable@vger.kernel.org,
-	Gene <geneslists@sapience.com>
-Subject: [PATCH] Revert "misc: rtsx: judge ASPM Mode to set PETXCFG Reg"
-Date: Mon, 18 Sep 2023 10:07:39 -0700
-Message-ID: <20230918170831.1677690-3-lists@jade.fyi>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <66bc5229-8131-4111-96fe-bd5ee90314b0@leemhuis.info>
-References: <66bc5229-8131-4111-96fe-bd5ee90314b0@leemhuis.info>
+	Mon, 18 Sep 2023 18:26:24 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gECuaMk+1kzIw/pot8Ctkd6ev4PLuQYK14MmLldVKbtwEVT2XvfJa8h9WGwW1YBrZjqdOBtETcxcJbgpxu/8vb0QroyzIQXcDhRgIPutuR6BaIlP1L/4QOOCX8whNyTEF/HRHS4kI8c6lyUvRz3CyUdRvxt1R4CfR6cO55djTIzUyYCPm42Rgf+ondU0v9qMPFfiNCrfLJucR8uuD3qM5QMDTBu4lSlF0GYmHxBXaZpCnYWedNzTcbt3mv9b90WL2z3Lsbbj926JXy5GUjwjMthzmR18+eKgsl6eztU9PyIfBO8ZEpnHe+tM1Yr7C+kU3JhXFDUWr2lB9MBqZ5FEMA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=z2Zknf/DzMaAhfneK2ttFgbttkMEma38EQjD8Gqapig=;
+ b=Or29/yEHrlakkiHb25wzUgVGMkn2WB3uOlFeMaxITCrE2+R2hMJJems0k3aEHmgYXNF+Rj+dFS+RpVFG+rasDZhwhdNP3mp6TTdADp2ZuWloohInMFyrrEC5JYRJ71/b/L4KvQyC2+ZMDOR9Z9wcSxcS89/MYkDbkUiE2evUVgdbwuJ/7IyvS8CRytc1N753zn+UttEA7RhlOq5SzcRiFj7a3PQQJCSb6wndTXpC3SNfQl632BsRkygsBQs2TPUc+y4Vr74qRq9CdHMO0Ruw0qmdEo8y/vSpNdCMmyIkTSCPqCPr3JaTG+dejYdvumK4kJq85m2TlJo0+ZaOIeKbxg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=z2Zknf/DzMaAhfneK2ttFgbttkMEma38EQjD8Gqapig=;
+ b=apHZ3BqelMTjaPsJwFj9QNNbTb3CxWYXmdyRpr1hOwOUp7xhGZb3G6Zzwymou7GUwh+Lz3wm0hMxX9a67R38utFBRVQL56ZdatslE49vSk9DNyYKDrYBwF4Pjatx/a0yzu1OY+14lcWg5CIS519UB9A1I8xkwHkPLQj3DUmgmmWvBVoqFHHyahJvhKa4Rd06bc24x92J5ycDy2RvYHm4PCM4Yt8YkCvk1ToY7hb8cdZCbeuRuvx+uZMeQlPXPbik6qL/0Gobis4u6/TyxKalkWLhV8DQxH+EFWfn+V4M+dwIsF81a9/5jmyvbqrpSneCnTh/rmoP76/z4i+SJrbiwA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
+ by SA1PR12MB6846.namprd12.prod.outlook.com (2603:10b6:806:25d::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.26; Mon, 18 Sep
+ 2023 18:26:12 +0000
+Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
+ ([fe80::54a7:525f:1e2a:85b1]) by SJ1PR12MB6075.namprd12.prod.outlook.com
+ ([fe80::54a7:525f:1e2a:85b1%4]) with mapi id 15.20.6792.021; Mon, 18 Sep 2023
+ 18:26:12 +0000
+From: Aurelien Aptel <aaptel@nvidia.com>
+To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ netdev@vger.kernel.org, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
+ chaitanyak@nvidia.com, davem@davemloft.net, kuba@kernel.org
+Cc: Boris Pismenny <borisp@nvidia.com>, aurelien.aptel@gmail.com,
+ smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
+ yorayz@nvidia.com, galshalom@nvidia.com, mgurtovoy@nvidia.com
+Subject: Re: [PATCH v15 06/20] nvme-tcp: Add DDP data-path
+In-Reply-To: <ef66595c-95cd-94c4-7f51-d3d7683a188a@grimberg.me>
+References: <20230912095949.5474-1-aaptel@nvidia.com>
+ <20230912095949.5474-7-aaptel@nvidia.com>
+ <ef66595c-95cd-94c4-7f51-d3d7683a188a@grimberg.me>
+Date: Mon, 18 Sep 2023 21:26:06 +0300
+Message-ID: <2537congwxt.fsf@nvidia.com>
+Content-Type: text/plain
+X-ClientProxiedBy: FR0P281CA0236.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b2::8) To SJ1PR12MB6075.namprd12.prod.outlook.com
+ (2603:10b6:a03:45e::8)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|SA1PR12MB6846:EE_
+X-MS-Office365-Filtering-Correlation-Id: 017be0dd-b41a-4c4a-4cd3-08dbb874bcbe
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: FMQEV6KcyYd+1PEjeMurrRzez0VTUQePCFICkJP5Ib2+wK5GiYimV48ktcAvdjQHDhNP5xz55uZCAymhLnWAvZLiw9UQtvgItzEwfXdG6s3MimhkSZzLcraLOtHAOm+b7U5E8QwrWbDJQonMRNUm3r4rztWapdyqiqJzgVxmpHih1wzV3RGEM+tag2EFfB2SbRlKSeHjd5mXdNASoQmifCBWJdE9NIeeDZWuF3LGhP8zgOJR4b677kHDITh3CEabkPIgTNW3U7AUZ6YVZscbm1WnZClWzvnXQn9bxW2A8KhO4HQeXmAZUP7V0eqe+MvOt3ent5xcHW1PYj9hPMessEatcborm7JHve1mTWfUHiy5pjh/b9G+z2mpqOCm05gzEbZ5T3eYLgT7fEGtWiaXpfLNjplXJO8zMVWacUTnXCHkDveysBxv+glp7IR12yXPx6cbARs7WAp5JJmCKL4FivEonNdR2DD6WHM21DXTVoCT+KVphtN8tnK8izSaLKYkfBTANMvqDmP6j79OGbMa3JWIwQIRobtm7Qwr8T3r4qpQuS1bb+njOECbtU+GHC8Prc4LFsVZ5EKMevAHr5TvB7fgqQJLFO73ohVbzw5CLGg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(376002)(39860400002)(136003)(396003)(366004)(451199024)(1800799009)(186009)(36756003)(86362001)(38100700002)(478600001)(5660300002)(66946007)(66476007)(66556008)(6666004)(2906002)(8676002)(8936002)(4326008)(966005)(6486002)(6512007)(83380400001)(6506007)(7416002)(4744005)(316002)(41300700001)(26005)(2616005)(107886003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?44BvMKIlam9cHM1LPzSYDeLIbb5OcK4gMo9KH49YjGCqEr1RHZU4ZOwEcqtp?=
+ =?us-ascii?Q?+km1xwJRhMRxE3MYmawzfXpKqMrSEvvbC0R2m3y7L483drinmrLrjK/khIwY?=
+ =?us-ascii?Q?kAl5Pl+jNReES4NSeUn7IBbaVtBhMLs3J2PjgC319o/fRPDl+petomlQjBlb?=
+ =?us-ascii?Q?s4Qx71mR1VKY2wjE2I4Yk83zyYBdnKRjn896n7IHkjS4PfETj9ISV3wzcyLo?=
+ =?us-ascii?Q?r8Uvu8lUwf48GBTTox47rw5qkfkyHL02TbzEi6cgNXxb+sB12FoKymTW75wB?=
+ =?us-ascii?Q?m9mrBjw7R2laNIPYGiN0FW6hPjCzybU5fACLYcaDX2AleAm+bOidGz5SH2uN?=
+ =?us-ascii?Q?iyDybuokwwHMRT8KANsLhsHguNu7/I0k5r8dI8AGuPbTzC+F4LKTnpu7nl61?=
+ =?us-ascii?Q?s6cLwwtwQY2ggs8qt36KPNGcZ5xrDS+dCpMbhioRtlBejyR9qUtg86G+2Neb?=
+ =?us-ascii?Q?MRIWuHvK4ecMee61GSAIbHi1f49PIviaO8mpRu8L0CBz1KHyU7Ba/yvHqIlF?=
+ =?us-ascii?Q?QwsDJ0vZzjnOQFgF3T9qSPT8q3YLSI8Dqqf3Mk6Qn6cLmMHi8TNl9FjA0MdK?=
+ =?us-ascii?Q?HKYcRlw7eKym6c/uLSSb5kknrexdOs5crUm2zV5f3vhICjLM+C7Hl8jclmVG?=
+ =?us-ascii?Q?gmk/RkznjgIWWDG0no3FMW2AbOCjQ3OMD1Abvgs52yCIPnPy9nS56HPyA4kb?=
+ =?us-ascii?Q?AfjnmA6uA0KFWyjjwYUCZ7sjC7DUxOmUWjjQk8WAyudy6CA+JyMRciWylRLf?=
+ =?us-ascii?Q?zswz8sM+kiWhiEaPXjg+IcWqxupfNk/2aD4/YN2GzQ7GAESuMWbqGI67/nwz?=
+ =?us-ascii?Q?2avr1Frj4PJGVU9GIL9ENhJtoZzu6P7cQSyiRB5GZG4k/8jUvRCg3pP/9a5d?=
+ =?us-ascii?Q?s6lP9ndM7c1ksrcgWv855QLM895FIGxYIPki4IbG11wyFDSq7bTCfRL87wyj?=
+ =?us-ascii?Q?S293uYdaE5tpcKWrpopL8Kn4iq6eUBTDwXDA9aQfS2fp4R/GH9ojVqik/F7s?=
+ =?us-ascii?Q?VgEHlSyGNsNBFFBInkz5igXnlpTzm6HERKStVYafUpfpSMs9GiunbECfCzUu?=
+ =?us-ascii?Q?gOzOSeyhVvYeG1wMR8aVBILmjo7xN2rt1kh5bVNKNKqQsF23KdJws0YyOxRB?=
+ =?us-ascii?Q?Ggqy7fEkeEzmIy2MlUssfr8jh1H50Scx1abelis5oL2ITKr+//fonE68QJdW?=
+ =?us-ascii?Q?W1SlbHMdB3VlcbAjwSsE0NiddWEwVRzMtJlallv1jRIWsqtqYnPGzlfeveYN?=
+ =?us-ascii?Q?RGDMvXLwhfviJ9tkvwr5j+dPFTkCS6N5Bmf2wmD9lHPKToGi1O2RXjgZB51Z?=
+ =?us-ascii?Q?odmMCZhl7qhgr0L1k+rrrg+gzGhMVxudiGMN/Is9a9X3Rsuoo2IQr5E7mh1u?=
+ =?us-ascii?Q?OcUC5O7WvQ9jz5DIGAOTZ7ck7tSCPylpDLqfCC+VlLykCfjsFL6A3tG9bgkf?=
+ =?us-ascii?Q?GZYqTAB8EzwHP9mGGFmja7XTK69Uua8nXtfIU3CkCmbEvn86k0SGzcvhIvef?=
+ =?us-ascii?Q?C26H/PiwXPmHSNy/LdvJfZFNNmzCsGB9dj/r8cUN7LS+f62tVmF9vLy9z2lY?=
+ =?us-ascii?Q?g22XR2P6LBCxHD47dySKSUMYDPEGAsmg0cI1mdDx?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 017be0dd-b41a-4c4a-4cd3-08dbb874bcbe
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2023 18:26:12.6983
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qOTT9GFVoDE1WyrA9lYHfP6piFNaSokKNIB/MsXVlIxIs+nr+Uk6GIZoyhCFK5mhvrzZlQH/1+Gd4cesCrwS/Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6846
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230918_100948_301339_F8B183E6 
-X-CRM114-Status: GOOD (  19.29  )
+X-CRM114-CacheID: sfid-20230918_112623_401729_AD5A60B8 
+X-CRM114-Status: UNSURE (   6.34  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,221 +137,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This reverts commit 101bd907b4244a726980ee67f95ed9cafab6ff7a.
+Sagi Grimberg <sagi@grimberg.me> writes:
+>> @@ -1235,6 +1330,9 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
+>>       else
+>>               msg.msg_flags |= MSG_EOR;
+>>
+>> +     if (test_bit(NVME_TCP_Q_OFF_DDP, &queue->flags))
+>> +             nvme_tcp_setup_ddp(queue, blk_mq_rq_from_pdu(req));
+>
+> Didn't we agree that setup_ddp should move to setup time and
+> not send time?
 
-This commit causes the NVMe controller to not work on the Dell XPS 15
-9560, and similar laptop models. It appears to happen with any SSD
-model.
+We believe we haven't reached a conclusion last time [1].
 
-This commit is broken on 6.1, 6.4, 6.5, and 6.6-rc1.
+Moving the setup_ddp() call earlier at setup time is less efficient (up
+to ~15% less IOPS) when it does the work on a different CPU.
 
-OpenSUSE has already reverted, and I have submitted a revert to NixOS.
-As far as I can tell, this regression has fallen through the cracks.
-
-Symptom:
-
-kernel: nvme nvme0: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-kernel: nvme nvme0: Does your device have a faulty power saving mode enabled?
-kernel: nvme nvme0: Try "nvme_core.default_ps_max_latency_us=0 pcie_aspm=off" and report a bug
-kernel: nvme 0000:04:00.0: Unable to change power state from D3cold to D0, device inaccessible
-kernel: nvme nvme0: Disabling device after reset failure: -19
-systemd-cryptsetup[169]: Device /dev/disk/by-uuid/b80aedf8-ddd4-46fa-8d09-5215d5f286b9 READ lock released.
-systemd-cryptsetup[169]: IO error while decrypting keyslot.
-systemd-cryptsetup[169]: Keyslot 0 (luks2) open failed with -5.
-systemd-cryptsetup[169]: Keyslot open failed.
-systemd-cryptsetup[169]: Failed to activate with specified passphrase: Input/output error
-
-There are several downstream bugs, these are the ones I know of:
-- https://bugzilla.suse.com/show_bug.cgi?id=1214428
-- https://github.com/NixOS/nixpkgs/issues/253418
-- https://bugs.archlinux.org/task/79439#comment221866
-
-Upstream revert links:
-- https://github.com/openSUSE/kernel-source/commit/1b02b1528a26f4e9b577e215c114d8c5e773ee10
-- https://github.com/NixOS/nixpkgs/pull/255824
-
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=217802
-Reported-and-bisected-by: Gene <geneslists@sapience.com>
-Link: https://lore.kernel.org/lkml/30b69186-5a6e-4f53-b24c-2221926fc3b4@sapience.com/
-Signed-off-by: Jade Lovelace <lists@jade.fyi>
----
- drivers/misc/cardreader/rts5227.c  |  2 +-
- drivers/misc/cardreader/rts5228.c  | 18 ++++++++++++++++++
- drivers/misc/cardreader/rts5249.c  |  3 ++-
- drivers/misc/cardreader/rts5260.c  | 18 ++++++++++++++++++
- drivers/misc/cardreader/rts5261.c  | 18 ++++++++++++++++++
- drivers/misc/cardreader/rtsx_pcr.c |  5 +----
- 6 files changed, 58 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/misc/cardreader/rts5227.c b/drivers/misc/cardreader/rts5227.c
-index 3dae5e3a1697..d676cf63a966 100644
---- a/drivers/misc/cardreader/rts5227.c
-+++ b/drivers/misc/cardreader/rts5227.c
-@@ -195,7 +195,7 @@ static int rts5227_extra_init_hw(struct rtsx_pcr *pcr)
- 		}
- 	}
- 
--	if (option->force_clkreq_0 && pcr->aspm_mode == ASPM_MODE_CFG)
-+	if (option->force_clkreq_0)
- 		rtsx_pci_add_cmd(pcr, WRITE_REG_CMD, PETXCFG,
- 				FORCE_CLKREQ_DELINK_MASK, FORCE_CLKREQ_LOW);
- 	else
-diff --git a/drivers/misc/cardreader/rts5228.c b/drivers/misc/cardreader/rts5228.c
-index f4ab09439da7..cfebad51d1d8 100644
---- a/drivers/misc/cardreader/rts5228.c
-+++ b/drivers/misc/cardreader/rts5228.c
-@@ -435,10 +435,17 @@ static void rts5228_init_from_cfg(struct rtsx_pcr *pcr)
- 			option->ltr_enabled = false;
- 		}
- 	}
-+
-+	if (rtsx_check_dev_flag(pcr, ASPM_L1_1_EN | ASPM_L1_2_EN
-+				| PM_L1_1_EN | PM_L1_2_EN))
-+		option->force_clkreq_0 = false;
-+	else
-+		option->force_clkreq_0 = true;
- }
- 
- static int rts5228_extra_init_hw(struct rtsx_pcr *pcr)
- {
-+	struct rtsx_cr_option *option = &pcr->option;
- 
- 	rtsx_pci_write_register(pcr, RTS5228_AUTOLOAD_CFG1,
- 			CD_RESUME_EN_MASK, CD_RESUME_EN_MASK);
-@@ -469,6 +476,17 @@ static int rts5228_extra_init_hw(struct rtsx_pcr *pcr)
- 	else
- 		rtsx_pci_write_register(pcr, PETXCFG, 0x30, 0x00);
- 
-+	/*
-+	 * If u_force_clkreq_0 is enabled, CLKREQ# PIN will be forced
-+	 * to drive low, and we forcibly request clock.
-+	 */
-+	if (option->force_clkreq_0)
-+		rtsx_pci_write_register(pcr, PETXCFG,
-+				 FORCE_CLKREQ_DELINK_MASK, FORCE_CLKREQ_LOW);
-+	else
-+		rtsx_pci_write_register(pcr, PETXCFG,
-+				 FORCE_CLKREQ_DELINK_MASK, FORCE_CLKREQ_HIGH);
-+
- 	rtsx_pci_write_register(pcr, PWD_SUSPEND_EN, 0xFF, 0xFB);
- 
- 	if (pcr->rtd3_en) {
-diff --git a/drivers/misc/cardreader/rts5249.c b/drivers/misc/cardreader/rts5249.c
-index 47ab72a43256..91d240dd68fa 100644
---- a/drivers/misc/cardreader/rts5249.c
-+++ b/drivers/misc/cardreader/rts5249.c
-@@ -327,11 +327,12 @@ static int rts5249_extra_init_hw(struct rtsx_pcr *pcr)
- 		}
- 	}
- 
-+
- 	/*
- 	 * If u_force_clkreq_0 is enabled, CLKREQ# PIN will be forced
- 	 * to drive low, and we forcibly request clock.
- 	 */
--	if (option->force_clkreq_0 && pcr->aspm_mode == ASPM_MODE_CFG)
-+	if (option->force_clkreq_0)
- 		rtsx_pci_write_register(pcr, PETXCFG,
- 			FORCE_CLKREQ_DELINK_MASK, FORCE_CLKREQ_LOW);
- 	else
-diff --git a/drivers/misc/cardreader/rts5260.c b/drivers/misc/cardreader/rts5260.c
-index 79b18f6f73a8..9b42b20a3e5a 100644
---- a/drivers/misc/cardreader/rts5260.c
-+++ b/drivers/misc/cardreader/rts5260.c
-@@ -517,10 +517,17 @@ static void rts5260_init_from_cfg(struct rtsx_pcr *pcr)
- 			option->ltr_enabled = false;
- 		}
- 	}
-+
-+	if (rtsx_check_dev_flag(pcr, ASPM_L1_1_EN | ASPM_L1_2_EN
-+				| PM_L1_1_EN | PM_L1_2_EN))
-+		option->force_clkreq_0 = false;
-+	else
-+		option->force_clkreq_0 = true;
- }
- 
- static int rts5260_extra_init_hw(struct rtsx_pcr *pcr)
- {
-+	struct rtsx_cr_option *option = &pcr->option;
- 
- 	/* Set mcu_cnt to 7 to ensure data can be sampled properly */
- 	rtsx_pci_write_register(pcr, 0xFC03, 0x7F, 0x07);
-@@ -539,6 +546,17 @@ static int rts5260_extra_init_hw(struct rtsx_pcr *pcr)
- 
- 	rts5260_init_hw(pcr);
- 
-+	/*
-+	 * If u_force_clkreq_0 is enabled, CLKREQ# PIN will be forced
-+	 * to drive low, and we forcibly request clock.
-+	 */
-+	if (option->force_clkreq_0)
-+		rtsx_pci_write_register(pcr, PETXCFG,
-+				 FORCE_CLKREQ_DELINK_MASK, FORCE_CLKREQ_LOW);
-+	else
-+		rtsx_pci_write_register(pcr, PETXCFG,
-+				 FORCE_CLKREQ_DELINK_MASK, FORCE_CLKREQ_HIGH);
-+
- 	rtsx_pci_write_register(pcr, pcr->reg_pm_ctrl3, 0x10, 0x00);
- 
- 	return 0;
-diff --git a/drivers/misc/cardreader/rts5261.c b/drivers/misc/cardreader/rts5261.c
-index 94af6bf8a25a..b1e76030cafd 100644
---- a/drivers/misc/cardreader/rts5261.c
-+++ b/drivers/misc/cardreader/rts5261.c
-@@ -498,10 +498,17 @@ static void rts5261_init_from_cfg(struct rtsx_pcr *pcr)
- 			option->ltr_enabled = false;
- 		}
- 	}
-+
-+	if (rtsx_check_dev_flag(pcr, ASPM_L1_1_EN | ASPM_L1_2_EN
-+				| PM_L1_1_EN | PM_L1_2_EN))
-+		option->force_clkreq_0 = false;
-+	else
-+		option->force_clkreq_0 = true;
- }
- 
- static int rts5261_extra_init_hw(struct rtsx_pcr *pcr)
- {
-+	struct rtsx_cr_option *option = &pcr->option;
- 	u32 val;
- 
- 	rtsx_pci_write_register(pcr, RTS5261_AUTOLOAD_CFG1,
-@@ -547,6 +554,17 @@ static int rts5261_extra_init_hw(struct rtsx_pcr *pcr)
- 	else
- 		rtsx_pci_write_register(pcr, PETXCFG, 0x30, 0x00);
- 
-+	/*
-+	 * If u_force_clkreq_0 is enabled, CLKREQ# PIN will be forced
-+	 * to drive low, and we forcibly request clock.
-+	 */
-+	if (option->force_clkreq_0)
-+		rtsx_pci_write_register(pcr, PETXCFG,
-+				 FORCE_CLKREQ_DELINK_MASK, FORCE_CLKREQ_LOW);
-+	else
-+		rtsx_pci_write_register(pcr, PETXCFG,
-+				 FORCE_CLKREQ_DELINK_MASK, FORCE_CLKREQ_HIGH);
-+
- 	rtsx_pci_write_register(pcr, PWD_SUSPEND_EN, 0xFF, 0xFB);
- 
- 	if (pcr->rtd3_en) {
-diff --git a/drivers/misc/cardreader/rtsx_pcr.c b/drivers/misc/cardreader/rtsx_pcr.c
-index a3f4b52bb159..32b7783e9d4f 100644
---- a/drivers/misc/cardreader/rtsx_pcr.c
-+++ b/drivers/misc/cardreader/rtsx_pcr.c
-@@ -1326,11 +1326,8 @@ static int rtsx_pci_init_hw(struct rtsx_pcr *pcr)
- 			return err;
- 	}
- 
--	if (pcr->aspm_mode == ASPM_MODE_REG) {
-+	if (pcr->aspm_mode == ASPM_MODE_REG)
- 		rtsx_pci_write_register(pcr, ASPM_FORCE_CTL, 0x30, 0x30);
--		rtsx_pci_write_register(pcr, PETXCFG,
--				FORCE_CLKREQ_DELINK_MASK, FORCE_CLKREQ_HIGH);
--	}
- 
- 	/* No CD interrupt if probing driver with card inserted.
- 	 * So we need to initialize pcr->card_exist here.
--- 
-2.42.0
-
+1: https://lore.kernel.org/all/253h6oxvlwd.fsf@nvidia.com/
 
