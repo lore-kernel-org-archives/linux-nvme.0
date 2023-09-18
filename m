@@ -4,127 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA072CD13D2
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Sep 2023 12:53:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8D05BCD37B0
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Sep 2023 14:53:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=S+Gw8IQdFJop4yJkAYdsTY8wKvmey3kKhuS6J5jPVzU=; b=MAVgwOCKMv/XWx6NTsm5oz72sF
-	lnTSQiVhbGTZLq61RWLA6Zp+hKf1xxGsg10/+3EdXOfM+5i9w9il3HTDMyYSfz7XAdQHz0yu3dAF4
-	Ow6Tn1vDH3nri7IdWtuqxecQGh/gxTqB9IL2EoGZZJnWbc7jdR0kG0v3e/zUmHiqKZkafJ4b4LP8q
-	8HyKOqeugnrmzgv7Xei8PnNtFtxunqSr2BrSW3qh2PBt1oKRxJvmDs+2AuG97QQvl12UiBocbI+yc
-	l7dU/Gl9VG8hEqtbZX29jR4zRDH+It+8Ebwsajj+ZLv9fjxqxCHfQM3PYMDkb8HdMbdkYPlUekz56
-	W9+7SCNw==;
+	bh=3W2iG96sXNpt+qL0wzYfxSEXfbU14HH4BwI31ALCsRw=; b=xDpHe/DAyXZ5B1RZjnnAiCiPLH
+	5Bf3amJIHS9A918zaXMYCMid9/uoPw64HNCJTS2hjVLPPfVMrLc9QdXHwjlC9gDX/eLAM1mCTyREB
+	tZlcjWHBBgSFYvL7CYaqcfm3sYm+fKFvxsuol0jvAvQrKHuOBE0XR4i0hcc8HyBYO3VBkHAVVN1/F
+	QTbzBS2BoK3z2Ho1orCLnxip2nnZiAdEFZlDX5YYV78U5fQRJ7OVut/etb7RlibM0d8+24cJ3EBCg
+	oOz28zEdGCThl3bEph+5+bw2SaDTSm1uKPXCEMPf8xp3mSiWsYd8OkIdV06ntoKneaRyV88ju44xY
+	Be5uiSuA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qiDlB-00FTIN-1D;
-	Mon, 18 Sep 2023 12:53:53 +0000
-Received: from mail-dm6nam11on2060f.outbound.protection.outlook.com ([2a01:111:f400:7eaa::60f] helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+	id 1qiFdK-00Fgh5-2Y;
+	Mon, 18 Sep 2023 14:53:54 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qiDl8-00FTHf-0V
-	for linux-nvme@lists.infradead.org;
-	Mon, 18 Sep 2023 12:53:51 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IWuyc0gTHcKVxqVb3ViueykzCYjd10Ca6DWxcVrMdCbTitVkeo2lY+tLOIgV53rrlxhLjQj9zuKtSvsbNyedhpJEpFfpApaRrvdja+eLcN3yduK22/Q8ztFopwv2Yt2ToCQrwk+XxdeoAFu0Bk2XtK/GvQpN3EPUgeQH2Cn+ikjWlj++KZrfgv1xPbU7p4EdSSOg4BssXPImc79esqVfBIybKI7NOZ2HZKxRD51GOpmBt0kxXNRwXFrFGtA2lDTeIU82ajbbj1nBl2DpSEQazB1bnwUd90PsxjbnivPy+Hi0aLzTdNU4Zfgnyzion90r9OnZzduC/KlEyHDY5hbtug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=S+Gw8IQdFJop4yJkAYdsTY8wKvmey3kKhuS6J5jPVzU=;
- b=P3DqFOgSZtiPK6cEo3rNTA9FEBMeUkFXpsx7bMtGnV1wJKTuFQ+qh6Bng/6cYJ3Uc+R1DEyz5HYd724A3fhTZSCsTnnmF6S6skV79ujtMKsgIdu7ZKP53mxJNOz8y70+qJ1hx4v1KmN7fECJBFgdcUJahsHSPH/wg0dSgaXFxZAvGiiqrn4tzCXgH+qLPYRO+p7DOqoKEztm77Xc8W+edjhRF395g5Y8UxMnx8QX99X2xn6RENj90jnXk7GNH0vm6jEFLBSJu2wNXeODtIz1OfQSYKfUD76/BI1k6YgeJLP8Rg8uk0AsqK+jJ77P0phd2kyG00CRutHv5w0AQJggaQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=S+Gw8IQdFJop4yJkAYdsTY8wKvmey3kKhuS6J5jPVzU=;
- b=XnaGoCYMBP5v5My+CPtj7aEj2DPOSgBC2T13uOO63FilFI5UtCBwKNFIGSOoJ0VBpYdmbjtDlPktuKsTUZQCTG8sj6R2ACTA53HgS691SFWzBsufI8/geAAjz7E18oLpKb/qx4ons6k1E7wjF7wG1w7tekDrVKjeAEtYCDuzUD8QeaEox7T8w7Wjvq7bBvjZ2L9iJ/ELt+VXhn/C49CtT+UVnoDnk89c/ZvSURvjqbh5+2MDA1M9N9S0tkmnW38zN6E3yfJtOQklwt5jlZ3uZLsozbydUkbG0/dtoEa6M4iRxZVPX5sJeoIden/alyWTLszVxTujiYc1Vu2037KuEA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
- by DS0PR12MB8453.namprd12.prod.outlook.com (2603:10b6:8:157::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.24; Mon, 18 Sep
- 2023 12:53:41 +0000
-Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
- ([fe80::54a7:525f:1e2a:85b1]) by SJ1PR12MB6075.namprd12.prod.outlook.com
- ([fe80::54a7:525f:1e2a:85b1%4]) with mapi id 15.20.6792.021; Mon, 18 Sep 2023
- 12:53:41 +0000
-From: Aurelien Aptel <aaptel@nvidia.com>
-To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
- netdev@vger.kernel.org, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
- chaitanyak@nvidia.com, davem@davemloft.net, kuba@kernel.org
-Cc: Boris Pismenny <borisp@nvidia.com>, aurelien.aptel@gmail.com,
- smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
- yorayz@nvidia.com, galshalom@nvidia.com, mgurtovoy@nvidia.com
-Subject: Re: [PATCH v15 05/20] nvme-tcp: Add DDP offload control path
-In-Reply-To: <93a30515-c85d-3942-29d9-ad6bb0e869e5@grimberg.me>
-References: <20230912095949.5474-1-aaptel@nvidia.com>
- <20230912095949.5474-6-aaptel@nvidia.com>
- <db2cbdc2-2a6d-a632-3584-6aeafc5738e2@grimberg.me>
- <253edj2h20j.fsf@mtr-vdi-124.i-did-not-set--mail-host-address--so-tickle-me>
- <93a30515-c85d-3942-29d9-ad6bb0e869e5@grimberg.me>
-Date: Mon, 18 Sep 2023 15:53:34 +0300
-Message-ID: <253a5tjhcc1.fsf@nvidia.com>
-Content-Type: text/plain
-X-ClientProxiedBy: AS4P251CA0019.EURP251.PROD.OUTLOOK.COM
- (2603:10a6:20b:5d3::7) To SJ1PR12MB6075.namprd12.prod.outlook.com
- (2603:10b6:a03:45e::8)
+	id 1qiFdJ-00Fggo-0F
+	for linux-nvme@bombadil.infradead.org;
+	Mon, 18 Sep 2023 14:53:53 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=3W2iG96sXNpt+qL0wzYfxSEXfbU14HH4BwI31ALCsRw=; b=kJFx1xc5KRX1gV3ixQPahDa8xR
+	NtVwdG/6RbvBONC1WcD4awRPsWs2+LNGyk1IggDwHPiMU7RRQaenz9+vX0oEHENWHINZp+v7dbwkh
+	Z6GsbkePAG+7zVqxxZWEVc601prwTO+DOWJA1fEHoqOW7tBjnqAddom0oo4qQXI4LHELhLgb10t7R
+	+YSuEXa5eRNBt8AQL+DNBMM9l3/M763b87c8vmx+RS+wowL5EB3+pcF1Q0oYDHOYnQ967Yn9brtkU
+	Efh68kGF86lUYZJrdC+3gKnX0/1WbRwdNxrs9ndowe3ynz1/a+9TCfsE5/xpNxdiL6t/H9VySTLSF
+	ghTWBO/Q==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1qiFdE-00Bd02-Dp; Mon, 18 Sep 2023 14:53:48 +0000
+Date: Mon, 18 Sep 2023 15:53:48 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
+Cc: linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+	linux-mm@kvack.org, Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Subject: Re: BUG: KCSAN: data-race in folio_batch_move_lru / mpage_read_end_io
+Message-ID: <ZQhkfIqwcuTrKxK+@casper.infradead.org>
+References: <cbb9d596-43ac-bad4-b6f6-8c13f95d244e@alu.unizg.hr>
+ <ZPCpQQVTtlB0FA5A@casper.infradead.org>
+ <ZPs8+sLv5oaubrKj@casper.infradead.org>
+ <22a42774-ebe1-081a-c9b9-e11f4d74bc3a@alu.unizg.hr>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|DS0PR12MB8453:EE_
-X-MS-Office365-Filtering-Correlation-Id: 90b167db-0b98-40cd-10ed-08dbb84648c3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7se9JkJYv6J0UMq8W7/ROIH8z8tTVGTA/o47tuePWUrliCQFwoAJguKxZiD7z1WwMhmN/fbWZVsiRLpltsbHjsm93KUhudXjrcu26ovCBTLJAWTc7R1yS8ZusoX/oyhJjRVsUL3GxUaJb8HDIDaRhsh1gY2353jfhlN9FsgLvwbZtn13y6xXg3k9afvRlWT6mycWZYvoqE5Sqt5qpN6OR0hjY0KTvXS0oaMXLZ+1X+DXzUbuPvKH9bUZYYpM8jBgBwC2YM24JtiAr42eGL0zGNAcfjZL04Uk7Sbd2iltTpvWd6Op0Mjh5hfR0cs8KrXqocV7QPxQCED01X2m2PJlOilgIFz98sTXXHdujazXlBAX+wBf7ddKJz1e4VqcjiHngXdOHA/HVrwcSsc8Qh0To3D/tJaavOFcDS0VP5iAf8Wl/wCAgC0w9KzNikBK/9alYmdGut4xra9CYbSnYA6BHOOHMGENnixig8WnfsHVjP6BGJjRbO6MnR8Z6Udf91TgQHcYgHLixQ1uyUecoQTCTML8sC11RETEZ5dfchS3qmpmWEIU6l+DdEp73bsgrWqu
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(39860400002)(366004)(136003)(396003)(451199024)(1800799009)(186009)(66556008)(36756003)(66946007)(5660300002)(26005)(2616005)(38100700002)(107886003)(4744005)(7416002)(2906002)(86362001)(8936002)(4326008)(8676002)(316002)(41300700001)(66476007)(478600001)(6666004)(83380400001)(6506007)(6486002)(6512007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?CrTSz1LuaafYD1+4kj0jofx9XBQ7NlP03SdY1uqpfEEKFQxlQdT0VG65rtXb?=
- =?us-ascii?Q?jTP47p1euXh+uoUK8IQtBeiolnacYgd8u0xcozzARidUD/QxR9DHzB6z6b9G?=
- =?us-ascii?Q?z7b6fqHXyIXiSZ0QLZ5uhjSkj1O2VwHou76nq+ARRH5nsKvbmNSeJ7WI8SXg?=
- =?us-ascii?Q?H7hUzsU4u5lfTiH8cwefGC2LflNHtPwiGJuu5kiO+3vzg8FMEXx3hyy5RfdC?=
- =?us-ascii?Q?DbiV3p7le/CA2UTXLf83TkMZi8Q/EMutzBcz1H9xBwwSBcxpBiUX2b/NAtoT?=
- =?us-ascii?Q?gpX3UVpqWJ0AdlD8HRt0Fj078xzJ8JkvbOm4rljrx5XkGFbbeJGkvhLyLKds?=
- =?us-ascii?Q?wbVBsplFravDqpV4gcP+ttc57Jh1hSBVDHeQdSMhI//N3CdWi6Zquvl0Dn+S?=
- =?us-ascii?Q?5ppr6VyLXQOpT5yiqsqtQzbxy9xu22zGxWzIIrpP2Yd4+F0ieYjXgLFHSHQV?=
- =?us-ascii?Q?Rku4j13xunds0uRmjMDoH44sSYxMbEcaGWlCew5DMyDZxLVHzOoov6ZQLRH0?=
- =?us-ascii?Q?BmnW9S/Nu5frJyMTWXmm7tc/oaWjWhj1NMqbPdG6wLy3BL2wA3XD30rTfLcJ?=
- =?us-ascii?Q?wBiRgdtHn0Go5ZlOwhcnx8sqoCrFvTbOlmlI9cBXXpz88gb2rMKJpuJBfq4z?=
- =?us-ascii?Q?aJ6tDqo6ST7ra11ZS5mUBGozvRM4jYwOoin+zEa/jSodoIVC0SyQuY7pAs5w?=
- =?us-ascii?Q?SDTepAp9y5vwW/IGgnmqyVBxVZTnIRqt1z9wBc13zujp6HgnO1BqVP1Begam?=
- =?us-ascii?Q?ZfTjxpWqgF6fQvTaXvp0tcdpyJAg7EEvoEcd8Thf3MzkDQCLLiHoMmoK4qk+?=
- =?us-ascii?Q?WXMYwFgjAooiX244TInRaxwzi4RtyHbIf5oyaZqoogPRZk+eNSP3vWhVXd36?=
- =?us-ascii?Q?82GrjgHy4FF4xS8LcJ/kMth6Si5LE84qIA0nqlUftzvdwO70RT2KCHxFnm2n?=
- =?us-ascii?Q?MFDOJAQ4B0VMhN7l9DM+8V9ZB4dtQjl0DUOKMKlRaPVUWgzh04JOYZRQjPcR?=
- =?us-ascii?Q?nxJYA0P25ayUKC4LPFWica/GQpWQXmA3MiQESt97zORLMnF4LWna2aN16SUh?=
- =?us-ascii?Q?zGebwQWiUXUKk0Jxk9eXvRiCi52L4SFl5EjpRMUNvAuFmdpkfJAeOIX8kNFn?=
- =?us-ascii?Q?LLSfE4j3TVRJsuLqHQvkVQOv4ugKao2Wwe9eG6JH5B7bCA6caLQ0kOgGndvu?=
- =?us-ascii?Q?j/+jgTGcsQF2xkqEQjh5O2G4wImPHE4ZPxwN1a9ifLmZxzS1A4Ghp6xHyI+L?=
- =?us-ascii?Q?nGWyI9uAOxN5LFu9DXiU45vtf8/mavHGNLdcEnktdMZ697xOuKgcVModJz+d?=
- =?us-ascii?Q?b7g9fgp0kk3SAtl1xLOiRC+5dceb3RN2lqN467dpoUWpOZDdkoSHyCwk32ZQ?=
- =?us-ascii?Q?H6M/3eQWQYt60k+mJEM/fU53FC9m8zGjDm4wbbCCKlhPCcSid1OtAlSx1vX0?=
- =?us-ascii?Q?F0pPUo9Ppi4mbwJ2qFnS/M2vncIOhvP0Tjfbl+Bd3XsocKlc2CFQpmgOI6B9?=
- =?us-ascii?Q?iIpraboqjti4iEDsMMgB/zVcEVzY2+HBNTPYYIiw7tiu4WNpxZYM0bjG9Nf7?=
- =?us-ascii?Q?2X06uGa5LvDuOsx8yh3XoFkuOBwctyTo8PjA0q+L?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 90b167db-0b98-40cd-10ed-08dbb84648c3
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2023 12:53:41.2793
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6QkV4BPbd52n/A+bdq16qdppIc8PG5MZ8QdLJi7NR+RAgT3zanaifdwRRIZgn5gdBuXpSnCKTPn0pGMZ0uSWWA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8453
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230918_055350_214927_DC7E2E65 
-X-CRM114-Status: UNSURE (   6.45  )
-X-CRM114-Notice: Please train this message.
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <22a42774-ebe1-081a-c9b9-e11f4d74bc3a@alu.unizg.hr>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -139,27 +70,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-Sagi Grimberg <sagi@grimberg.me> writes:
-> Perhaps you should bundle them together:
->         ctrl->ddp_netdev = nvme_tcp_get_ddp_netdev_with_limits(ctrl);
->         if (ctrl->ddp_netdev)
->                 nvme_tcp_ddp_apply_ctrl_limits(ctrl);
-> [...]
-
-Sure, we will rewrite it this way.
-
+On Mon, Sep 18, 2023 at 02:15:05PM +0200, Mirsad Todorovac wrote:
+> > This is what I'm currently running with, and it doesn't trigger.
+> > I'd expect it to if we were going to hit the KCSAN bug.
+> > 
+> > diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> > index 0c5be12f9336..d22e8798c326 100644
+> > --- a/mm/page_alloc.c
+> > +++ b/mm/page_alloc.c
+> > @@ -4439,6 +4439,7 @@ struct page *__alloc_pages(gfp_t gfp, unsigned int order, int preferred_nid,
+> >   	page = __alloc_pages_slowpath(alloc_gfp, order, &ac);
+> >   out:
+> > +	VM_BUG_ON_PAGE(page && (page->flags & (PAGE_FLAGS_CHECK_AT_PREP &~ (1 << PG_head))), page);
+> >   	if (memcg_kmem_online() && (gfp & __GFP_ACCOUNT) && page &&
+> >   	    unlikely(__memcg_kmem_charge_page(page, gfp, order) != 0)) {
+> >   		__free_pages(page, order);
 > 
-> And perhaps its time to introduce nvme_tcp_stop_admin_queue()?
-> static void nvme_tcp_stop_admin_queue(struct nvme_ctrl *nctrl) {
->         struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
+> Hi,
 > 
->         nvme_tcp_stop_queue(nctrl, 0);
->         dev_put(ctrl->ddp_netdev);
-> }
+> Caught another instance of this bug involving folio_batch_move_lru: I don't seem that I can make it
+> happen reliably by the nature of the data racing conditions if I understood them well.
 
-Ok, we will add nvme_tcp_stop_admin_queue() and use it to replace calls
-to nvme_tcp_stop_queue(ctrl, 0).
+Were you running with this patch at the time, or was this actually
+vanilla?  The problem is that, if my diagnosis is correct, both of the
+tasks mentioned are victims; we have a prematurely freed page.  While
+btrfs is clearly a user, it may not be btrfs's fault that the
+page was also allocated as an anon page.
 
-Thanks
+I'm trying to gather more data, and running with this patch will give
+us more -- because it'll dump the entire struct page instead of just
+the page->flags, like KCSAN is currently doing.
+
 
