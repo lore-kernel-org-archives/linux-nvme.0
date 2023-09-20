@@ -4,137 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD1B8CE79AD
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Sep 2023 08:59:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 238F5CE79BE
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 Sep 2023 10:12:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ddG+iMTBPykY7aem2/d5RFRU6pD1r9HGia7WdJCIOGI=; b=zBeO6GDSQJ+T4yEIY2Va+W+ecf
-	bjC/uBs7nXx6G/Q1WhYdnyZN+e7VwxiqkUgmpsV2CvSWW6A7G9woLUFRXXf6Fb7L0/iqWqWuiVb+a
-	kqArctL5UZ61/Bavvu5FJzw2S8qOLSNyGj3xtekmR1jMG3FUS2fY1oBRHqnjg7+E0DWSv9KaJEwv/
-	+udDp9wxDBuMW+DzsPQy9fXBb92OEd4mBaWGFBFo8luyFzGvAWydJg/pMd6uwpxmN3H3g33RBPE+F
-	VMIDgx1UV/Q+gaG62vOyU5EeQxQFBRwZRBX5vA1pyexX7PEikHjfV1ZEpM4BNJxYasKjVZhahBJSf
-	2Wixgw5Q==;
+	bh=AFLGB2qgIpGyxCAHfm2i+PmCGhGU/0Xqf15cnOn5phM=; b=XzI8vyLf0J2ginqcpy9P8t9wTM
+	cfdFWjd1I+oNVDZaUCRxHIgzanBXJ4O7kvZKl5ebHHoZdU45PGq1iNlFJD2zA4qcYqIOFOFronWFu
+	XE3/nUp78ZgqL0CTKJdh6lm6z9IV8QjUsLGBkyTYmbOWzWGF0+Hruhorakx1FQHLghAwgmOQujzes
+	gFAdg9qiQT191A7bgdkLqTelQPebmKWY8VyUlcR4lSdg+c4dUwtw04UDce2LTUfrNNB6gc2GDA+ac
+	Nmj8Ui62WSOy5DJow952aaOUbvBlcWduxADub1Fg1aRYhM9KO2+0wURDRaXYsBFaXkw01PuQZ5Vni
+	h9w7yUow==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qit2v-002Mzf-3B;
-	Wed, 20 Sep 2023 08:58:58 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1qiuBZ-002Z4C-0x;
+	Wed, 20 Sep 2023 10:11:57 +0000
+Received: from mail-wm1-f51.google.com ([209.85.128.51])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qit2n-002Mpf-2C
+	id 1qiuBW-002Z2U-1h
 	for linux-nvme@lists.infradead.org;
-	Wed, 20 Sep 2023 08:58:52 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20230920085847epoutp0255b423dde3c8650c07db8c14476d8e79~Gj7dvvQ6E2772527725epoutp02V
-	for <linux-nvme@lists.infradead.org>; Wed, 20 Sep 2023 08:58:47 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20230920085847epoutp0255b423dde3c8650c07db8c14476d8e79~Gj7dvvQ6E2772527725epoutp02V
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1695200327;
-	bh=ddG+iMTBPykY7aem2/d5RFRU6pD1r9HGia7WdJCIOGI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DDz+UnGQ423tla/xax0Am7BkiBctpNH0PSSEIrrsqww+E9/PFRuFi4ucoK8X0Itr+
-	 aQfB6ZkCwrcROpU4xr9V5jq1TmIPUv/C375JUC9DFR/iKdVFtwqKx7E9KshHRiC4t9
-	 KcmQeS+1Hjn5GvnXIPd6DGcARzM4NDYuoqtfacB0=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20230920085847epcas5p2cc008ef9a9ded85cafc0c033339026f3~Gj7dRA2k72273522735epcas5p2I;
-	Wed, 20 Sep 2023 08:58:47 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.178]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4RrCBF49fpz4x9Pw; Wed, 20 Sep
-	2023 08:58:45 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	38.FA.09638.544BA056; Wed, 20 Sep 2023 17:58:45 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20230920081607epcas5p3def8c43668f1bfb5555b65b93f2f7b6f~GjWNZ-Lby2994129941epcas5p3u;
-	Wed, 20 Sep 2023 08:16:07 +0000 (GMT)
-Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20230920081607epsmtrp1edd5801b2581d477d5ff46bdb38677ce~GjWNY3xBc2250122501epsmtrp1K;
-	Wed, 20 Sep 2023 08:16:07 +0000 (GMT)
-X-AuditID: b6c32a4a-6d5ff700000025a6-bc-650ab4458474
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	15.7C.08649.74AAA056; Wed, 20 Sep 2023 17:16:07 +0900 (KST)
-Received: from green245.sa.corp.samsungelectronics.net (unknown
-	[107.99.41.245]) by epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20230920081604epsmtip16700d2985fe3f82725b430bdd8785f24~GjWKQRg_B3072130721epsmtip1b;
-	Wed, 20 Sep 2023 08:16:04 +0000 (GMT)
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
-	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	dm-devel@redhat.com, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
-	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
-	<kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
-	Brauner <brauner@kernel.org>
-Cc: martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
-	nitheshshetty@gmail.com, anuj1072538@gmail.com, gost.dev@samsung.com,
-	mcgrof@kernel.org, Nitesh Shetty <nj.shetty@samsung.com>, Hannes Reinecke
-	<hare@suse.de>, Anuj Gupta <anuj20.g@samsung.com>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v16 11/12] null: Enable trace capability for null block
-Date: Wed, 20 Sep 2023 13:37:48 +0530
-Message-Id: <20230920080756.11919-12-nj.shetty@samsung.com>
-X-Mailer: git-send-email 2.35.1.500.gb896f729e2
-In-Reply-To: <20230920080756.11919-1-nj.shetty@samsung.com>
+	Wed, 20 Sep 2023 10:11:56 +0000
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40506bfca64so11594705e9.0
+        for <linux-nvme@lists.infradead.org>; Wed, 20 Sep 2023 03:11:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695204711; x=1695809511;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AFLGB2qgIpGyxCAHfm2i+PmCGhGU/0Xqf15cnOn5phM=;
+        b=mh/QgxkMYi9E7vywW6UT/8OwkaCTw6fc3VjE3TTUQYE4699MPX4mb2zHb0ut1tOiZZ
+         e183DZDiMK78Ey3wZV2LopZO1hV00eaXfhL/9vY8COHDhLnvqZOg7EZtxP4W0++PUZhE
+         NQH/Xyv/sC+3lWZpHhWJs3hBQH96/usFD4IPSQr+vBlx0P40Y+BEfxUdJb4Lrw05F4LC
+         AQu4mSDd7ixNeytQeW5777ayn76KqSGqZ7/Rcq1SGrS1Ns833ri3TS1qA4r4gYrX8ico
+         VYhFkR8KOkBnmTOS65Nxcg0I+jl/dZC+9w1myiBgiKirNi7r/jyvSYArhz0JWAAzJACF
+         cYvg==
+X-Gm-Message-State: AOJu0YxwN4YoFAyKNFe5b81kfvolEekRV1gF2bBD28vQ54wtyyz4DfM1
+	ePEb+UDQ0PWzSomUUBShZDk=
+X-Google-Smtp-Source: AGHT+IE8jps8mSxzh6OP9U5onGqg4xq5lXToTiBZCN6JQ9cBGAViZJwoh/6vwSycDqZnwVxCwrwX9g==
+X-Received: by 2002:a05:600c:4706:b0:404:74bf:fb3e with SMTP id v6-20020a05600c470600b0040474bffb3emr2011904wmo.2.1695204710971;
+        Wed, 20 Sep 2023 03:11:50 -0700 (PDT)
+Received: from [192.168.64.157] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id v9-20020a1cf709000000b00402f7e473b7sm1525727wmh.15.2023.09.20.03.11.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Sep 2023 03:11:50 -0700 (PDT)
+Message-ID: <b82d4ecd-77f3-a562-ec5c-48b0c8ed06f8@grimberg.me>
+Date: Wed, 20 Sep 2023 13:11:47 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Tf1BUVRTH5763vF2IxQdY3d0CaTF1ZVh+uNClJEtR36A4KE32w4IdeMMS
-	y+7O/lDIZoCItTB+CCi0oKCgwFKA/HAWcBkDFBYzGo3fktosjYVCSEKyrcby1vK/z/nec+73
-	nnPncHCPIjafkyTX0Cq5RCYgXFgXeoQb/Le3utCBFeXeqHHgCo7mHlpZ6PMCG47qJ/MJNN3z
-	ACDLpSMAmWbKnNDYpXYMXTxTiKG6+ssYKuweBmhqSI8h07gfOq2rZqGLJjML3egoJ1DFuSk2
-	OjpiJFBN32MMjRZMAWS0ZAJ0wVqBo4bpWRbqH38JDdr6nN7iUe36STY1+Mt5FnXjmpZqNnxF
-	UC3V6VTnWAZBVeUVOVG5WTMENTc1zqJmu4YIKq/VAKiWq4ep+WZvqtlyH4t2+yB5s5SWJNAq
-	H1oer0hIkieGC3bFxG6LDQkNDPIPCkOvCXzkkhQ6XBCxO9p/R5JseRACn4MSmXZZipao1YKA
-	NzerFFoN7SNVqDXhAlqZIFOKlSK1JEWtlSeK5LTm9aDAwOCQ5cS4ZOlw6RG28ohn6s9N17EM
-	UEzmAGcOJMVwpv28Uw5w4XiQnQDaquYIJngAYOn0GYwJFgDs/f4YyAGclZKOyo8Y3QTgQk+V
-	Iykbg4MWi5M9iSD94NUnHLu+mszAYVNnFbAHOHkKhy2/9mF2c09yJzQ0mVeYRb4K5yf0hJ25
-	5Btw8K88nHELgPm33O2y87I8Xz3CZlLcofkbC8vOOLkGZrWV4fb7IVnjDO+UXMeY5iJg/+ka
-	B3vCP/pa2Qzz4e/5OgcfgnXFtQRT/AWA+hE9YA62wOyB/JVH4KQQNnYEMLIXPD7QgDHGbjDX
-	anHcz4XGU0/ZF37bWEkwzIPDi5kOpuDdo5OOYecBmDFmYBcAH/0zDemfaUj/v3UlwA2ARyvV
-	KYm0OkQZLKcP/ffN8YqUZrCyHRsjjeDO7T9F3QDjgG4AObhgNTdlnQvtwU2QpH1KqxSxKq2M
-	VneDkOWBH8P5z8crltdLrokNEocFikNDQ8Vhm0KDBC9yp7NPJniQiRINnUzTSlr1tA7jOPMz
-	sB3vjZ6tSreqbm55/LXIVFPaO9q/P+pAu3IiymwW0HVrz5VLS16Im9kZF/kOfa2wnrfftfa3
-	smzuD97aYK15grfnk1znJwNeUbGKmwUvn1W4RSyBpeLm+8/ZiMsdqdIK8cO4koXZNi/d1hYZ
-	VxdxbyjY2JFW+K6pR1hctHYiZdG2TmTb2rX+yqP4NN9b7vfW+1pjXqk9nL478sSHyul9bNft
-	OfzOz/5RC122lW64u5dz0Dsq5m9hw8eGPfwF4/Evy3OTa1ofiXr7I/cdyAqrO/m262KTtZc4
-	keq5Spcq/Knlx6E1cZpcD/S+bqors5zjx/uuscFv0yC1qmc6/nZj29LeXQtQwFJLJUEbcZVa
-	8i9kO7jypgQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Rf0yMcRzHfZ/n6bnnzq49rsa3Us1trKFyYvsOYbP0mF/VmM0Yp56l6a5z
-	1wllIsRJEpkudqXLj4vk+nV3leVCVzeLJP3wK92PrSgUlRSd2Pz32uv9/nz22T4ULmggvKk4
-	aSIrl4rjhSSPqKwX+gWG63jsosudvuhe0xMcffk2RqDjWeM4Kn5znkR99V8BstWlA1Tbn+eG
-	OuqMGKq5no2h28WPMZRtbgPI/lKNodrOBajglJZANbWNBHphukoizQ07B519ZSDRzYYJDLVn
-	2QEy2I4BVDmmwVFJ3wCBLJ0+qHm8wW21F2NUv+EwzW/vE8yLp0pGrztDMmXao0x1RyrJFGZe
-	dGPOpfWTzBd7J8EMPHhJMpnlOsCUWZOZQb0fo7d9wiLct/NWxLDxcQdYefDK3by9bVfSObJ0
-	j4OtpS1YKrhEqwBFQXoJNOXvVAEeJaCrAbQ9zCRUgDvpveCN8Uf4FHvA2xNOzlQpDYMWSytw
-	DZP0Amj9Rbm8J63C4Rlj/59hnL6Dw/JrfBd70OFQV9qIuZig58LBLjXpYj69HDYPZeJTRwTD
-	8+9muDR3Ug9qX3FcLKCXQeszDWeqPgM25tr+rveHaRV5eBag1f9F6v+ifIDpgBcrU0hiJdEi
-	mUjKJgUpxBKFUhobFJ0g0YM/v54fYABvNRNBZoBRwAwghQs9+ZJ5PFbAjxEfOszKE3bJlfGs
-	wgx8KEI4iy+6khcjoGPFiew+lpWx8n8pRnG9UzHj0qUdo17WVZXPHXPXBieUbMbyF7Ze7uo6
-	5fQeOpb7I3mkx+HvKFS8i4rkbJasKyf3bDLx2aEBx4Dzalz5oh291YU5Ye3mlkCQJA3Uy4ps
-	rz/73Yo02bldVdy7vh9NllshEUPDPRGziwr7mvI2Coqiuk+023OaYhMIy+jiTRPQMuwTX6dy
-	qC+Eumt1ffePmPcj/63bltQc9TOUKNcgG9Pzff/xXE0vZdxiELa4V3sWp21QwEMeOkPvwowP
-	njdTYlQZVs7M070pBd1VI9N2VSTqwoadIl9qN54xWvqz4c77NbXLp6do80OjUo+0paucJwt8
-	1jMgJ6BHOWcLHSISEoq9YtF8XK4Q/wadwq4jWgMAAA==
-X-CMS-MailID: 20230920081607epcas5p3def8c43668f1bfb5555b65b93f2f7b6f
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230920081607epcas5p3def8c43668f1bfb5555b65b93f2f7b6f
-References: <20230920080756.11919-1-nj.shetty@samsung.com>
-	<CGME20230920081607epcas5p3def8c43668f1bfb5555b65b93f2f7b6f@epcas5p3.samsung.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v15 06/20] nvme-tcp: Add DDP data-path
+To: Aurelien Aptel <aaptel@nvidia.com>, linux-nvme@lists.infradead.org,
+ netdev@vger.kernel.org, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
+ chaitanyak@nvidia.com, davem@davemloft.net, kuba@kernel.org
+Cc: Boris Pismenny <borisp@nvidia.com>, aurelien.aptel@gmail.com,
+ smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
+ yorayz@nvidia.com, galshalom@nvidia.com, mgurtovoy@nvidia.com
+References: <20230912095949.5474-1-aaptel@nvidia.com>
+ <20230912095949.5474-7-aaptel@nvidia.com>
+ <ef66595c-95cd-94c4-7f51-d3d7683a188a@grimberg.me>
+ <2537congwxt.fsf@nvidia.com>
+ <5b0fcc27-04aa-3ebd-e82a-8df39ed3ef5d@grimberg.me>
+ <253v8c5fdc3.fsf@nvidia.com>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <253v8c5fdc3.fsf@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230920_015850_070484_14DF2D43 
-X-CRM114-Status: GOOD (  18.86  )
+X-CRM114-CacheID: sfid-20230920_031154_563753_0D3B7CBB 
+X-CRM114-Status: GOOD (  16.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -149,79 +90,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This is a prep patch to enable copy trace capability.
-At present only zoned null_block is using trace, so we decoupled trace
-and zoned dependency to make it usable in null_blk driver also.
 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
-Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
----
- drivers/block/null_blk/Makefile | 2 --
- drivers/block/null_blk/main.c   | 3 +++
- drivers/block/null_blk/trace.h  | 2 ++
- drivers/block/null_blk/zoned.c  | 1 -
- 4 files changed, 5 insertions(+), 3 deletions(-)
+>> Can you please explain why? sk_incoming_cpu is updated from the network
+>> recv path while you are arguing that the timing matters before you even
+>> send the pdu. I don't understand why should that matter.
+> 
+> Sorry, the original answer was misleading.
+> The problem is not about the timing but only about which CPU the code is
+> running on.  If we move setup_ddp() earlier as you suggested, it can
+> result it running on the wrong CPU.
 
-diff --git a/drivers/block/null_blk/Makefile b/drivers/block/null_blk/Makefile
-index 84c36e512ab8..672adcf0ad24 100644
---- a/drivers/block/null_blk/Makefile
-+++ b/drivers/block/null_blk/Makefile
-@@ -5,7 +5,5 @@ ccflags-y			+= -I$(src)
- 
- obj-$(CONFIG_BLK_DEV_NULL_BLK)	+= null_blk.o
- null_blk-objs			:= main.o
--ifeq ($(CONFIG_BLK_DEV_ZONED), y)
- null_blk-$(CONFIG_TRACING) 	+= trace.o
--endif
- null_blk-$(CONFIG_BLK_DEV_ZONED) += zoned.o
-diff --git a/drivers/block/null_blk/main.c b/drivers/block/null_blk/main.c
-index 968090935eb2..c56bef0edc5e 100644
---- a/drivers/block/null_blk/main.c
-+++ b/drivers/block/null_blk/main.c
-@@ -11,6 +11,9 @@
- #include <linux/init.h>
- #include "null_blk.h"
- 
-+#define CREATE_TRACE_POINTS
-+#include "trace.h"
-+
- #undef pr_fmt
- #define pr_fmt(fmt)	"null_blk: " fmt
- 
-diff --git a/drivers/block/null_blk/trace.h b/drivers/block/null_blk/trace.h
-index 6b2b370e786f..91446c34eac2 100644
---- a/drivers/block/null_blk/trace.h
-+++ b/drivers/block/null_blk/trace.h
-@@ -30,6 +30,7 @@ static inline void __assign_disk_name(char *name, struct gendisk *disk)
- }
- #endif
- 
-+#ifdef CONFIG_BLK_DEV_ZONED
- TRACE_EVENT(nullb_zone_op,
- 	    TP_PROTO(struct nullb_cmd *cmd, unsigned int zone_no,
- 		     unsigned int zone_cond),
-@@ -67,6 +68,7 @@ TRACE_EVENT(nullb_report_zones,
- 	    TP_printk("%s nr_zones=%u",
- 		      __print_disk_name(__entry->disk), __entry->nr_zones)
- );
-+#endif /* CONFIG_BLK_DEV_ZONED */
- 
- #endif /* _TRACE_NULLB_H */
- 
-diff --git a/drivers/block/null_blk/zoned.c b/drivers/block/null_blk/zoned.c
-index 55c5b48bc276..9694461a31a4 100644
---- a/drivers/block/null_blk/zoned.c
-+++ b/drivers/block/null_blk/zoned.c
-@@ -3,7 +3,6 @@
- #include <linux/bitmap.h>
- #include "null_blk.h"
- 
--#define CREATE_TRACE_POINTS
- #include "trace.h"
- 
- #undef pr_fmt
--- 
-2.35.1.500.gb896f729e2
+Please define wrong CPU.
 
+> Calling setup_ddp() in nvme_tcp_setup_cmd_pdu() will not guarantee we
+> are on running on the queue->io_cpu.
+> It's only during nvme_tcp_queue_request() that we either know we are running on
+> queue->io_cpu, or dispatch it to run on queue->io_cpu.
+
+But the sk_incmoing_cpu is updated with the cpu that is reading the
+socket, so in fact it should converge to the io_cpu - shouldn't it?
+
+Can you please provide a concrete explanation to the performance
+degradation?
+
+> As it is only a performance optimization for the non-likely case, we can
+> move it to nvme_tcp_setup_cmd_pdu() as you suggested and re-consider in
+> the future if it will be needed.
+
+Would still like to understand this case.
 
