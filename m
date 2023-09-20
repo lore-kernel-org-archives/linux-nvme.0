@@ -4,71 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AFFBFCE79DC
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Sep 2023 14:42:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F386C04A97
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 Sep 2023 15:36:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IdkwIYdMI8V3dmFlJ2w9ygeIsEoj45Nybb84GzRauaI=; b=md2490wCNJtnadzhwohALXrC4y
-	e0m44MfNPKNPbIg8X2wQq4TpUVVq2SzPhk4QPucxXQV616p9XmQDZcSwWyQ/XM4cnw1yIja6YV+It
-	QDusnNj+7pvIMBdNuSzAYuTjhtS7GaMIb4mHkGw9fHalga/Tc+79Uh8rDYZYemVvhdKzSPRdBZyjh
-	vO4WuY1Qr/Cs70XS6sOXTuAfiL+I9jb1+30JMFgBhI4RQ4KYDVrZ6Ik8gp1nq+TmmFjIzSmES/4fW
-	JBP8JzlsxmCidqAniG5GzfQd6wCjlxwEb9ubUg0ham8fVoPRGTQNiZzCuzXYHLZxq61ZVgVlkelQm
-	3o9ZUtWg==;
+	bh=QPBE9M799lADgnSMZdZr60RYooiDDm/bO/X9KjmjZSU=; b=WUJoatiw2sVlR+ZJjFTYEjsbyU
+	HMtm2fETolmAQ4FqZB7pqhxN5uV/dRMGns2u9g+mJYo7hDEcV2TsowHrqg8yhLntUtIeEBQAazrrp
+	Zf5EdZpyVTgrnOxCpSpPdNbkhJIT+FgK+UBGPh8tEfwUYC7Yog6m3OJr8+Mhxwn38jcIzxfnTr7io
+	Is1NrwdB1Dbdh2P8Xt4g5tZpc3uGpi51n+lc88JR/lCBClJ9mILE6tkYnhhTOGVds15SPBPgeIsbt
+	9UN1Mg+jKGIhwFDzrTTrvU2A66lopsOA9YFb/jjPekx9r5xsEr6M6yyY8iAcEjmtoK9NST+Q8ZRF/
+	+hLYJ4Dw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qiyPl-003PE9-2g;
-	Wed, 20 Sep 2023 14:42:53 +0000
-Received: from mail-ed1-f42.google.com ([209.85.208.42])
+	id 1qizFQ-003WGc-2z;
+	Wed, 20 Sep 2023 15:36:16 +0000
+Received: from mail-vk1-xa2c.google.com ([2607:f8b0:4864:20::a2c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qiyPi-003PDS-2G
+	id 1qizFN-003WFr-0K
 	for linux-nvme@lists.infradead.org;
-	Wed, 20 Sep 2023 14:42:52 +0000
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-52349d93c8aso1614387a12.1
-        for <linux-nvme@lists.infradead.org>; Wed, 20 Sep 2023 07:42:47 -0700 (PDT)
+	Wed, 20 Sep 2023 15:36:14 +0000
+Received: by mail-vk1-xa2c.google.com with SMTP id 71dfb90a1353d-49369d29be3so2848689e0c.3
+        for <linux-nvme@lists.infradead.org>; Wed, 20 Sep 2023 08:36:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=shadow-tech.20230601.gappssmtp.com; s=20230601; t=1695224172; x=1695828972; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QPBE9M799lADgnSMZdZr60RYooiDDm/bO/X9KjmjZSU=;
+        b=AktGIudT+isA6DHq2YIehVuQUqgm6RgRCSVecFOrw+icJJQmyKkXW6RJG6rgIM5YKq
+         9y7/1B91Km9iMWBMgAGYZVNbUUQhj6HnmMPVms2FD+MTUThTkWAarAzL5VRqSxBCXdsd
+         DAeLNMAoqVmksoxIyToFKEboxES3n6c05+z86g8ZC5MTHxsQV8Mx8nx4ITAeW4uUzFNp
+         8csx8N84J+tVopiwxgvl2JAnXpAOGpdUlAfkQIpkbE+27wQ41/5rBbZATSFQ8gwhqWoV
+         HZWTdmMq3WSnV1k6710M44UY7N1VXokjnbpq5UGRpGeFNiwhw6RUZdvu1Q2mo9il97h1
+         1WuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695220966; x=1695825766;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IdkwIYdMI8V3dmFlJ2w9ygeIsEoj45Nybb84GzRauaI=;
-        b=NkxcHeUwHju+YOWMoAZqNINA1V/MnSIZSn6vJNSq3Yj8aOIaBFthmNgqXqeFVeBVoI
-         pBVkvgAPxhKnGi4Yh0vkxYdmkEPxQgYu4rBemaF1yw2rrHN4dChElmSJHjseFMSsCT0g
-         NrFHnJyFas301Ifhqdma7zPwhBRJGWIAxs+rXqesXOfPKco2HGCjEw4si1oUclLl+26n
-         gcUI82hs6mfNXWBfuocW8ZJvNEqMoI3591ShsBZRbWpYnu6yHvR+OzymhPst+SfyLe6D
-         H6XdffoClX+IvmoHkzpF5+RIQt4TKe/ukbrhJIFmqX2gSnLzWvMs2qFQYwkXhKMiCeMe
-         TP6Q==
-X-Gm-Message-State: AOJu0Yy2A6nepThO2j+OZtN4D88RiCuyfFzseItIvdvUGKcVODATqKpO
-	oAZwNj0LaJmTF+aOFHN7qf5Hahemf4c=
-X-Google-Smtp-Source: AGHT+IEvZWFberJnubB0uo+BcCMFaK/ZjiHGJm9h3wrl07kw4EMJSIFCr3W69QWt+IRzPU5HEhKgcQ==
-X-Received: by 2002:a17:906:739b:b0:9ae:3663:4bc2 with SMTP id f27-20020a170906739b00b009ae36634bc2mr2246717ejl.7.1695220965785;
-        Wed, 20 Sep 2023 07:42:45 -0700 (PDT)
-Received: from [192.168.64.157] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id u26-20020a170906c41a00b00989828a42e8sm9510165ejz.154.2023.09.20.07.42.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Sep 2023 07:42:43 -0700 (PDT)
-Message-ID: <6596810b-103a-ff18-49b2-7ae5c8d01c38@grimberg.me>
-Date: Wed, 20 Sep 2023 17:42:42 +0300
+        d=1e100.net; s=20230601; t=1695224172; x=1695828972;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QPBE9M799lADgnSMZdZr60RYooiDDm/bO/X9KjmjZSU=;
+        b=GAH4VdwlMoPyU/GjqIfWC+88cZGctXTteAjH7Y3iz1F4Mh63D6Zl5h/2RBW+1ECiYI
+         Mapu1AmDGnPBSWqtoEaE5bYdafk8hqMFBXT2alSSbXK1PtVOfwvlKZ6kWMOUVVSR5VNH
+         rF7UdNtKqJNRsjxH2i7wzBvIVJic1Hbyc1JvWlZ3i/Mqfa/kD4cCAlgpR25W96q7JK8e
+         lU+KX3pQy4Jn1WoX4aOKDP8EXdMukk/VYm9yFOtP9NVv1BdxzwuiMt2J0R8EHKoTNKp3
+         fQWS7ssG7nfaMCj+R6hFyBXbrhKHSUJUpJ8Vp6YfIE5nLE9xjzdPZwcj6FjzCY3+dxpy
+         i5bw==
+X-Gm-Message-State: AOJu0Yy0atoGEpDmTnb36bm7ZlzqfhlOu7eQZxMh2ZCItc9EPBzXBcAl
+	tT3piwIF0VkvW5lm+6qaIcDoyr+LiXKgBnxENtUdVKjAqF9onZMf4LKxvw==
+X-Google-Smtp-Source: AGHT+IEVEhvFcZ/9UJudvGIUqJ1cigvnaEIwxSHIVS9qAFFn0DQEvOiD0TsbMBWjeIMlmLMmpacBnMdwPsiyWGlu9GA=
+X-Received: by 2002:a1f:cb01:0:b0:48f:f458:f39c with SMTP id
+ b1-20020a1fcb01000000b0048ff458f39cmr2812730vkg.10.1695224171730; Wed, 20 Sep
+ 2023 08:36:11 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH 0/1] nvmet: View subsystem connections on nvmeof target
-Content-Language: en-US
-To: Redouane BOUFENGHOUR <redouane.boufenghour@shadow.tech>,
- linux-nvme@lists.infradead.org
-Cc: kch@nvidia.com, hch@lst.de, antoine.damhet@shadow.tech,
- valentin.brice@shadow.tech
 References: <20230920141205.26637-1-redouane.boufenghour@shadow.tech>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230920141205.26637-1-redouane.boufenghour@shadow.tech>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ <6596810b-103a-ff18-49b2-7ae5c8d01c38@grimberg.me> <CAEjkvFgh9nSbGs0sZOZZdB9TWOtx=i1XE0Q7XjL63fK7TLLjrg@mail.gmail.com>
+In-Reply-To: <CAEjkvFgh9nSbGs0sZOZZdB9TWOtx=i1XE0Q7XjL63fK7TLLjrg@mail.gmail.com>
+From: Redouane BOUFENGHOUR <redouane.boufenghour@shadow.tech>
+Date: Wed, 20 Sep 2023 17:36:01 +0200
+Message-ID: <CAEjkvFiHupE6tLjNyxLBTv1Mj76ddAM2zwDLHt5WyqOt-Pogsw@mail.gmail.com>
+Subject: Re: [PATCH 0/1] nvmet: View subsystem connections on nvmeof target
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, kch@nvidia.com, hch@lst.de, 
+	antoine.damhet@shadow.tech, valentin.brice@shadow.tech
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230920_074250_741826_7890FA03 
-X-CRM114-Status: GOOD (  24.74  )
+X-CRM114-CacheID: sfid-20230920_083613_166404_1660B1AD 
+X-CRM114-Status: GOOD (  35.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,42 +89,133 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+You can find the path here
+https://lore.kernel.org/linux-nvme/20230920141205.26637-2-redouane.boufengh=
+our@shadow.tech/
 
-> HI,
-> We need to list the nqn and their IP connected to our target nvmeof server.
-> In fact we can have several dozen connections on a machine and we need to know
-> which server is connected to which subsystem.
-> Currently there is no way to find out which machine is connected to which subsystem
-> except through the nqn.
-> The nqn can be modified by the initiator , so for us it’s not necessarily a source
-> we can trust.
-> We’ve created a POC to retrieve the nqn and associated ip when a client is connected
-> to a subsystem.
+We chose to put the information in the configfs for nvmet which takes
+up the spirit of the "target" module for connection information.
 
-No patch attached afaict.
+In my humble opinion, this information would be better located in the
+sysfs so the kernel provides the info to userland. That being said,
+splitting the source of truth for the nvmet module into two separate
+pseudo-fs could generate some confusion which would make it harder to
+users to find all available informations provided by the nvmet module.
+This is one of the reason why in the "target" module this whole ordeal
+is handled by a 2-step procedure: first, userland creates ACLs
+directory (since we can't create a directory in the configfs from the
+kernel) based on an attr filling "dynamic_sessions" and then the
+kernel module fills the info in a dedicated configfs attr page in the
+created directory. (The "target" implementation is available in
+drivers/target/iscsi/iscsi_target_configfs.c in the
+lio_target_tpg_dynamic_sessions_show function)
 
-> We’ve tested this poc on a tcp and rdma connection and it’s OK.
-> For the POC we write to the attr_connected_ctrls file in the subsystems directory for
-> each subsystem.
-> We’re not sure this is the right implementation.
-> Either we create a ctrls directory which will be created on the userland side and
-> populated with information
-> from the ctrl connected when the ctrl number folder is created.
-> Or we use the host directory to add an entry when the machine is connected to write its
->   IP address, but this folder is also used by ACLs.
-> Or we stick to a simple attribute listing all connected controllers nqn and addresses.
-> That being said, given the reduced size of a configfs page and the large size of some
-> addresses (ie IPv6 address), that would drastically limit the numbers of controllers
-> and addresses we could list in this attribute.
-> what do you think?
+To sum it up, I think it all boils down to the question: Do you want
+to maintain some similarities between target and nvmet modules or
+should the nvmet module go its own way and implement this in a
+different way ?
 
-I don't think that this should be a configfs attribute at all. And yes,
-a single attribute is going to be unnecessarily limited.
+Regards,
 
-This type of information probably belongs in debugfs. It is possible to
-have nvmet create a root in debugfs and build a hierarchy that the user
-can traverse to get this information from something like:
-/<debugfs>/nvmet/<subsys>/<ctrl>/
 
-A controller can expose different things like host_traddr and hostnqn.
+Le mer. 20 sept. 2023 =C3=A0 17:31, Redouane BOUFENGHOUR
+<redouane.boufenghour@shadow.tech> a =C3=A9crit :
+>
+> You can find the path here https://lore.kernel.org/linux-nvme/20230920141=
+205.26637-2-redouane.boufenghour@shadow.tech/
+>
+> We chose to put the information in the configfs for nvmet which takes up =
+the spirit of the "target" module for connection information.
+> In my humble opinion, this information would be better located in the sys=
+fs so the kernel provides the info to userland. That being said, splitting =
+the source of truth for the nvmet module into two separate pseudo-fs could =
+generate some confusion which would make it harder to users to find all ava=
+ilable informations provided by the nvmet module. This is one of the reason=
+ why in the "target" module this whole ordeal is handled by a 2-step proced=
+ure: first, userland creates ACLs directory (since we can't create a direct=
+ory in the configfs from the kernel) based on an attr filling "dynamic_sess=
+ions" and then the kernel module fills the info in a dedicated configfs att=
+r page in the created directory. (The "target" implementation is available =
+in drivers/target/iscsi/iscsi_target_configfs.c in the lio_target_tpg_dynam=
+ic_sessions_show function)
+>
+> To sum it up, I think it all boils down to the question: Do you want to m=
+aintain some similarities between target and nvmet modules or should the nv=
+met module go its own way and implement this in a different way ?
+>
+> Regards,
+>
+> Le mer. 20 sept. 2023 =C3=A0 16:42, Sagi Grimberg <sagi@grimberg.me> a =
+=C3=A9crit :
+>>
+>>
+>> > HI,
+>> > We need to list the nqn and their IP connected to our target nvmeof se=
+rver.
+>> > In fact we can have several dozen connections on a machine and we need=
+ to know
+>> > which server is connected to which subsystem.
+>> > Currently there is no way to find out which machine is connected to wh=
+ich subsystem
+>> > except through the nqn.
+>> > The nqn can be modified by the initiator , so for us it=E2=80=99s not =
+necessarily a source
+>> > we can trust.
+>> > We=E2=80=99ve created a POC to retrieve the nqn and associated ip when=
+ a client is connected
+>> > to a subsystem.
+>>
+>> No patch attached afaict.
+>>
+>> > We=E2=80=99ve tested this poc on a tcp and rdma connection and it=E2=
+=80=99s OK.
+>> > For the POC we write to the attr_connected_ctrls file in the subsystem=
+s directory for
+>> > each subsystem.
+>> > We=E2=80=99re not sure this is the right implementation.
+>> > Either we create a ctrls directory which will be created on the userla=
+nd side and
+>> > populated with information
+>> > from the ctrl connected when the ctrl number folder is created.
+>> > Or we use the host directory to add an entry when the machine is conne=
+cted to write its
+>> >   IP address, but this folder is also used by ACLs.
+>> > Or we stick to a simple attribute listing all connected controllers nq=
+n and addresses.
+>> > That being said, given the reduced size of a configfs page and the lar=
+ge size of some
+>> > addresses (ie IPv6 address), that would drastically limit the numbers =
+of controllers
+>> > and addresses we could list in this attribute.
+>> > what do you think?
+>>
+>> I don't think that this should be a configfs attribute at all. And yes,
+>> a single attribute is going to be unnecessarily limited.
+>>
+>> This type of information probably belongs in debugfs. It is possible to
+>> have nvmet create a root in debugfs and build a hierarchy that the user
+>> can traverse to get this information from something like:
+>> /<debugfs>/nvmet/<subsys>/<ctrl>/
+>>
+>> A controller can expose different things like host_traddr and hostnqn.
+>
+>
+>
+> --
+>
+> Redouane Boufenghour
+>
+> Storage Engineer
+>
+> Join us at shadow.tech
+
+
+
+--=20
+
+Redouane Boufenghour
+
+Storage Engineer
+
+Join us at shadow.tech
 
