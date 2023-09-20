@@ -4,62 +4,138 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0380ECE79AC
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Sep 2023 08:52:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2DD8CE79AE
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 Sep 2023 08:58:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=42LaC+Ki9kS2X5mr9P1WxGQwcv49odezsy0vgHHfVsw=; b=VwR48hds0AH/jQ3BIXbeswoMIt
-	pY7bEnAIqsD1/KCcc11wTePJQYh0t6+hazIFarSWBQdGbn3ruVNBGRdk/7otLcT1d0sgzhc5W8QGu
-	ce+FLpumFpD1yj4z2ws0ZdzOAHsL3VdjQ8OdfmdYaZeDVooGK6ds4hDwra3ky6/UrZfjcwALWg7PM
-	AoD1qX/NKXPIVQv/W3DtMa90eUoQgvrxXRrJjA15HZgTACw3wHDF0fDMyxkjTYsbcyanz4qcpApHE
-	igCiYYV39ECWywLbtTqyHlR/FrSEsWKgYsXC8544gVm62dMqz5mjD9GpLub8Ntqvy7bMp7LSB53nd
-	4D9foZLA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Pnjs48GpM2fNI5vQ32r+zx38m0Ym/uFN2UPMQUh9Xn4=; b=gyywSX56ChuNbziXyErf4hZcZS
+	FpnmtgCSI3JyRzbLlYfrNge7XmrdZ22IOxyX9hGIYsb4zGEG+GfW9dTexTnVgzNoxn4uwoa/atK8n
+	JGtyiy5oC1Qj657NiWB40hyV3uMWJyscDqjQeOBcCC0RFnX+Rwn5ZASMLYaCf4tfPQRyKm1R4ymc4
+	h/wDAItlXb/9XjshVx/jUGIz9The6BPdWI94TIa0Y1DYWkjRiaJqXsvPGUBs9f344P5ZyeKQd33m8
+	byM6LnrxElvR/94roT6gGMQmDn6edVjNSD7exlY+hlfX2PNn7MGYBE4DKWxyE7zAO6g4LAi39r83m
+	vThg7yUQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qiswn-002LJ0-1r;
-	Wed, 20 Sep 2023 08:52:37 +0000
-Received: from mail.tuxedocomputers.com ([157.90.84.7])
+	id 1qit2J-002MNl-1D;
+	Wed, 20 Sep 2023 08:58:19 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qiswj-002LFL-1T
+	id 1qit2F-002MLV-2u
 	for linux-nvme@lists.infradead.org;
-	Wed, 20 Sep 2023 08:52:35 +0000
-Received: from wse.fritz.box (p5de45a8d.dip0.t-ipconnect.de [93.228.90.141])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 213F42FC00D1;
-	Wed, 20 Sep 2023 10:52:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1695199945;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=42LaC+Ki9kS2X5mr9P1WxGQwcv49odezsy0vgHHfVsw=;
-	b=mv0T9T498iqueOpCOv40rVcUWk2+Ha5utGq1dUZye38ZUOBKjBTzWioTp5oV7/1VXUep0C
-	Nz1tVqDZ0TCIjcYQdIa1gZP+RpuMN68XYrHHNzRVWxAgR3Ry/6PyrDYp7AF642pPn4Qjjn
-	xMVGyHv+De0RuCec2o+hwsSpT01epTs=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-From: Werner Sembach <wse@tuxedocomputers.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: Georg Gottleuber <ggo@tuxedocomputers.com>,
-	Werner Sembach <wse@tuxedocomputers.com>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] nvme-pci: Add sleep quirk for Kingston drives
-Date: Wed, 20 Sep 2023 10:52:10 +0200
-Message-Id: <20230920085210.22573-1-wse@tuxedocomputers.com>
-X-Mailer: git-send-email 2.34.1
+	Wed, 20 Sep 2023 08:58:18 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20230920085812epoutp041c1880b45cba52e7e0d8037a38c68c72~Gj68mxKQd1215612156epoutp04d
+	for <linux-nvme@lists.infradead.org>; Wed, 20 Sep 2023 08:58:12 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20230920085812epoutp041c1880b45cba52e7e0d8037a38c68c72~Gj68mxKQd1215612156epoutp04d
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1695200292;
+	bh=Pnjs48GpM2fNI5vQ32r+zx38m0Ym/uFN2UPMQUh9Xn4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=aiSVNHIDKf7BCpaQa9RNAVJVW1wKDG9eF94qpVZ2K8G8iqZMtGvZkSIAk1Y5MmKvx
+	 fT1tkBTAMJbc7n7P2EELbJylqckg5iBzINbBOin4ztWXhs8sn52/P/J0w5uXNU46L1
+	 j4VFTtcUBhlqHiABCiozoin1TBavv9uxmlJHR74M=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20230920085811epcas5p282b9d9c0b16a7c30dff7c6d563b1b7dd~Gj68DxkQu2273322733epcas5p2G;
+	Wed, 20 Sep 2023 08:58:11 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.183]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4RrC9Y6VxCz4x9Q1; Wed, 20 Sep
+	2023 08:58:09 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	CD.74.09949.124BA056; Wed, 20 Sep 2023 17:58:09 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20230920081425epcas5p407a3b1ee776082798adb92e8025699f1~GjUuhAu0T2321223212epcas5p40;
+	Wed, 20 Sep 2023 08:14:25 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20230920081425epsmtrp226bf5e4a93a025c4257d97c0743b3497~GjUuf60FK0164101641epsmtrp2a;
+	Wed, 20 Sep 2023 08:14:25 +0000 (GMT)
+X-AuditID: b6c32a49-98bff700000026dd-5e-650ab4212680
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	32.FE.08742.1E9AA056; Wed, 20 Sep 2023 17:14:25 +0900 (KST)
+Received: from green245.sa.corp.samsungelectronics.net (unknown
+	[107.99.41.245]) by epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20230920081422epsmtip135b046fe83b44edbfd4fed015cd575c5~GjUrI0Vcg2886728867epsmtip1k;
+	Wed, 20 Sep 2023 08:14:21 +0000 (GMT)
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
+	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	dm-devel@redhat.com, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
+	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
+	<kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
+	Brauner <brauner@kernel.org>
+Cc: martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
+	nitheshshetty@gmail.com, anuj1072538@gmail.com, gost.dev@samsung.com,
+	mcgrof@kernel.org, Nitesh Shetty <nj.shetty@samsung.com>, Hannes Reinecke
+	<hare@suse.de>, Kanchan Joshi <joshi.k@samsung.com>, Anuj Gupta
+	<anuj20.g@samsung.com>, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
+Subject: [PATCH v16 01/12] block: Introduce queue limits and sysfs for
+ copy-offload support
+Date: Wed, 20 Sep 2023 13:37:38 +0530
+Message-Id: <20230920080756.11919-2-nj.shetty@samsung.com>
+X-Mailer: git-send-email 2.35.1.500.gb896f729e2
+In-Reply-To: <20230920080756.11919-1-nj.shetty@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Ta1CUZRTu/b7l2wsufoLiyzrJtk3EJS6bsLyIVBZDH+QPZoia0RxY2W+A
+	2Bt7AaOyVSFAWyDRkoVAFEvAuIOLuMUl3AQNaQcIZgARqBkYQWQ1GkRiWSj/Pec55zzPOeed
+	l4U7f8vksZLlGlolF0sFBIfR0uXl6ftSE4cOyFvwRbU9N3G08HiZgU4UrOCoejSfQLNdjwCa
+	as8GyDRX7ICG21sxdOPiGQxVVndjqHv1AYHOdA4CND1gwJBpxAeVf1nBQDdMtxjIcr2EQGXf
+	TzPR6SEjgX4wP8PQHwXTABmnjgPUslyGo5rZeQb6dWQX6lsxO7zFo1oNo0yqb6yeQVnuaKmG
+	qlyCaqz4gmob1hHUpbxCB0p/co6gFqZHGNT8TwMElddUBajG3k+pxYbdVMPUAyza6WDKviRa
+	LKFVfFqeoJAkyxPDBO/FxL0TFyQKEPoKQ1CwgC8Xy+gwQfiBaN+IZOnaNQT8NLFUu0ZFi9Vq
+	gf8b+1QKrYbmJynUmjABrZRIlYFKP7VYptbKE/3ktGavMCDg9aC1wviUJGve58rssKOWQiOm
+	A017TgE2C5KB8PeZx+AU4LCcyTYA6zqGGfbgEYCTq5aNzBMAB8/nOWy2PCmadrAnTAA2l7QT
+	9iALg/UXf8ROARaLIH1g7yrLxm8ndTisa7u0LoWTXTjsLr9P2KRcyMPwztJfmA0zyFfgUr1l
+	3YJL7oUT/RWETQiS/jB/fJuNZpOhcLFiiGkv2QZvFU0xbBgn3eHJ5mLcpg/Ja2y4YJ3A7KOG
+	w4HhmY2xXeCMuYlpxzy4OGci7DgdVp69QtibMwE0DBmAPfEmzOrJx21D4KQXrL3ub6dfhOd6
+	ajC7sRPUL09teHGhsXQTvwyv1l7Y0HeDg38f39iFgh16jv1YeQBWG78CBYBveG4fw3P7GP53
+	vgDwKuBGK9WyRFodpBTK6fT/XjlBIWsA6z/EO9IIRu899OsEGAt0AsjCBdu5Mg8O7cyViD/J
+	oFWKOJVWSqs7QdDavb/GeTsSFGtfTK6JEwaGBASKRKLAkD0ioWAndzbrO4kzmSjW0Ck0raRV
+	m30Yi83TYVsdTGWLd397NbJS4Xa+QzPG3WKNcaozn20+nDK5oyZV8PTIsdxD2pgrL7QXZbL/
+	CWkfKU7sL2G4p2abjWUSLj7RveID1O69HzoOeI7Tjt+wbqfqdOzY9ys5XaLxgoctCUuvwWuW
+	n11je/bn9rR4B98uP+Qu+1O/ag5a9jiSeG5rbYYfs2S3PiLn7RJT5GW+9ZfPovCrnBxltrfX
+	0fvvcvodo7ZIL0d9wAtodR/fv7Nw/t4uVZvVwzoa+FGaa5rE7+7BsczgeEV0qOSpy+rNTI5e
+	Vq/1dj1RxystHZmv/rhPj0yNIRmmiKK6Z7GTnTlQVHjAEH4sNLsiKx00d3hmxzsKGOoksdAb
+	V6nF/wJYbdxeqgQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrLIsWRmVeSWpSXmKPExsWy7bCSnO7DlVypBovaFSzWnzrGbPHx628W
+	i6YJf5ktVt/tZ7N4ffgTo8WTA+2MFnvfzWa1uHlgJ5PFnkWTmCxWrj7KZHH0/1s2i0mHrjFa
+	PL06i8li7y1ti4VtS1gs9uw9yWJxedccNov5y56yW3Rf38Fmsfz4PyaLGxOeMlrseNLIaLHt
+	93xmi3Wv37NYnLglbXH+73FWBymPnbPusnucv7eRxePy2VKPTas62Tw2L6n32H2zgc1jcd9k
+	Vo/e5ndsHh+f3mLxeL/vKptH35ZVjB6bT1d7fN4k57HpyVumAL4oLpuU1JzMstQifbsErowv
+	fbUF7bYVlyfvYGpg3GLcxcjJISFgIvFt5lPWLkYuDiGB3YwSK16sZIVISEos+3uEGcIWllj5
+	7zk7RFEzk8T9BZOAEhwcbALaEqf/c4DERQS6mCU6d75jAXGYBS4zS0xbeIQRpFtYIFpiRlsH
+	mM0ioCrxY+NlsA28AlYSDy8uYQMZJCGgL9F/XxAkzClgLfF5yXV2EFsIqOT0hfnsEOWCEidn
+	PmEBsZkF5CWat85mnsAoMAtJahaS1AJGplWMkqkFxbnpucWGBYZ5qeV6xYm5xaV56XrJ+bmb
+	GMExrqW5g3H7qg96hxiZOBgPMUpwMCuJ8OaqcaUK8aYkVlalFuXHF5XmpBYfYpTmYFES5xV/
+	0ZsiJJCeWJKanZpakFoEk2Xi4JRqYOLjU7zw7/eeOwa75SvSzibN35V+SeFcZd6rvW4hHYEJ
+	01uM669PmSqzMky8qUklSk8w2qq0vif3VP+LrzWRsR57Xr3dsS124kKXhUozJ8TGh9+YuenR
+	ycwv/F61decVJ9pMnrki801f9f9Ax6lHZ/cfk/584ggHS/upaSFmSnvjN/yrnfnw2J0wcZ4c
+	7TeXJ/0/2pAV27FD9qbcXf/s7l2/vO30r/DP5A8PfJAdVu1Q+ary5++nzMduTFt83ayB18Nn
+	yU5BWY/+Mw/X2JqYlbHsOZc79YlFTonwpvDFFSvzbpzTtY4/W2G8f164/UsRrdTQxftv/fQV
+	6ZY8e8d5QvqcmKxfJ/pLFtWdu5N9+4kSS3FGoqEWc1FxIgBsDchvYAMAAA==
+X-CMS-MailID: 20230920081425epcas5p407a3b1ee776082798adb92e8025699f1
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230920081425epcas5p407a3b1ee776082798adb92e8025699f1
+References: <20230920080756.11919-1-nj.shetty@samsung.com>
+	<CGME20230920081425epcas5p407a3b1ee776082798adb92e8025699f1@epcas5p4.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230920_015233_960188_94395585 
-X-CRM114-Status: GOOD (  16.19  )
+X-CRM114-CacheID: sfid-20230920_015816_249952_BF3CDC84 
+X-CRM114-Status: GOOD (  25.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,73 +150,216 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Georg Gottleuber <ggo@tuxedocomputers.com>
+Add device limits as sysfs entries,
+	- copy_max_bytes (RW)
+	- copy_max_hw_bytes (RO)
 
-Some Kingston NV1 and A2000 are wasting a lot of power on specific TUXEDO
-platforms in s2idle sleep if 'Simple Suspend' is used.
+Above limits help to split the copy payload in block layer.
+copy_max_bytes: maximum total length of copy in single payload.
+copy_max_hw_bytes: Reflects the device supported maximum limit.
 
-This patch applies a new quirk 'Force No Simple Suspend' to achieve a
-low power sleep without 'Simple Suspend'.
-
-Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-Signed-off-by: Georg Gottleuber <ggo@tuxedocomputers.com>
-Cc: <stable@vger.kernel.org>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
 ---
- drivers/nvme/host/nvme.h |  5 +++++
- drivers/nvme/host/pci.c  | 16 +++++++++++++++-
- 2 files changed, 20 insertions(+), 1 deletion(-)
+ Documentation/ABI/stable/sysfs-block | 23 ++++++++++++++++++
+ block/blk-settings.c                 | 24 +++++++++++++++++++
+ block/blk-sysfs.c                    | 36 ++++++++++++++++++++++++++++
+ include/linux/blkdev.h               | 13 ++++++++++
+ 4 files changed, 96 insertions(+)
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index f35647c470afa..74f74b459f5fa 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -156,6 +156,11 @@ enum nvme_quirks {
- 	 * No temperature thresholds for channels other than 0 (Composite).
- 	 */
- 	NVME_QUIRK_NO_SECONDARY_TEMP_THRESH	= (1 << 19),
+diff --git a/Documentation/ABI/stable/sysfs-block b/Documentation/ABI/stable/sysfs-block
+index 1fe9a553c37b..96ba701e57da 100644
+--- a/Documentation/ABI/stable/sysfs-block
++++ b/Documentation/ABI/stable/sysfs-block
+@@ -155,6 +155,29 @@ Description:
+ 		last zone of the device which may be smaller.
+ 
+ 
++What:		/sys/block/<disk>/queue/copy_max_bytes
++Date:		August 2023
++Contact:	linux-block@vger.kernel.org
++Description:
++		[RW] This is the maximum number of bytes that the block layer
++		will allow for a copy request. This is always smaller or
++		equal to the maximum size allowed by the hardware, indicated by
++		'copy_max_hw_bytes'. An attempt to set a value higher than
++		'copy_max_hw_bytes' will truncate this to 'copy_max_hw_bytes'.
++		Writing '0' to this file will disable offloading copies for this
++		device, instead copy is done via emulation.
 +
-+	/*
-+	 * Disables simple suspend/resume path.
-+	 */
-+	NVME_QUIRK_FORCE_NO_SIMPLE_SUSPEND	= (1 << 20),
- };
++
++What:		/sys/block/<disk>/queue/copy_max_hw_bytes
++Date:		August 2023
++Contact:	linux-block@vger.kernel.org
++Description:
++		[RO] This is the maximum number of bytes that the hardware
++		will allow for single data copy request.
++		A value of 0 means that the device does not support
++		copy offload.
++
++
+ What:		/sys/block/<disk>/queue/crypto/
+ Date:		February 2022
+ Contact:	linux-block@vger.kernel.org
+diff --git a/block/blk-settings.c b/block/blk-settings.c
+index 0046b447268f..4441711ac364 100644
+--- a/block/blk-settings.c
++++ b/block/blk-settings.c
+@@ -59,6 +59,8 @@ void blk_set_default_limits(struct queue_limits *lim)
+ 	lim->zoned = BLK_ZONED_NONE;
+ 	lim->zone_write_granularity = 0;
+ 	lim->dma_alignment = 511;
++	lim->max_copy_hw_sectors = 0;
++	lim->max_copy_sectors = 0;
+ }
  
- /*
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 347cb5daebc3c..b4e6f0d21a44c 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2903,6 +2903,18 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
- 		if ((dmi_match(DMI_BOARD_VENDOR, "LENOVO")) &&
- 		     dmi_match(DMI_BOARD_NAME, "LNVNB161216"))
- 			return NVME_QUIRK_SIMPLE_SUSPEND;
-+	} else if (pdev->vendor == 0x2646 && (pdev->device == 0x2263 ||
-+		   pdev->device == 0x500f)) {
-+		/*
-+		 * Exclude some Kingston NV1 and A2000 devices from
-+		 * NVME_QUIRK_SIMPLE_SUSPEND. Do a full suspend to save a
-+		 * lot fo energy with s2idle sleep on some TUXEDO platforms.
-+		 */
-+		if (dmi_match(DMI_BOARD_NAME, "NS5X_NS7XAU") ||
-+		    dmi_match(DMI_BOARD_NAME, "NS5x_7xAU") ||
-+		    dmi_match(DMI_BOARD_NAME, "NS5x_7xPU") ||
-+		    dmi_match(DMI_BOARD_NAME, "PH4PRX1_PH6PRX1"))
-+			return NVME_QUIRK_FORCE_NO_SIMPLE_SUSPEND;
- 	}
+ /**
+@@ -82,6 +84,8 @@ void blk_set_stacking_limits(struct queue_limits *lim)
+ 	lim->max_dev_sectors = UINT_MAX;
+ 	lim->max_write_zeroes_sectors = UINT_MAX;
+ 	lim->max_zone_append_sectors = UINT_MAX;
++	lim->max_copy_hw_sectors = UINT_MAX;
++	lim->max_copy_sectors = UINT_MAX;
+ }
+ EXPORT_SYMBOL(blk_set_stacking_limits);
  
- 	return 0;
-@@ -2933,7 +2945,9 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
- 	dev->dev = get_device(&pdev->dev);
+@@ -183,6 +187,22 @@ void blk_queue_max_discard_sectors(struct request_queue *q,
+ }
+ EXPORT_SYMBOL(blk_queue_max_discard_sectors);
  
- 	quirks |= check_vendor_combination_bug(pdev);
--	if (!noacpi && acpi_storage_d3(&pdev->dev)) {
-+	if (!noacpi &&
-+	    !(quirks & NVME_QUIRK_FORCE_NO_SIMPLE_SUSPEND) &&
-+	    acpi_storage_d3(&pdev->dev)) {
- 		/*
- 		 * Some systems use a bios work around to ask for D3 on
- 		 * platforms that support kernel managed suspend.
++/*
++ * blk_queue_max_copy_hw_sectors - set max sectors for a single copy payload
++ * @q:	the request queue for the device
++ * @max_copy_sectors: maximum number of sectors to copy
++ */
++void blk_queue_max_copy_hw_sectors(struct request_queue *q,
++				   unsigned int max_copy_sectors)
++{
++	if (max_copy_sectors > (BLK_COPY_MAX_BYTES >> SECTOR_SHIFT))
++		max_copy_sectors = BLK_COPY_MAX_BYTES >> SECTOR_SHIFT;
++
++	q->limits.max_copy_hw_sectors = max_copy_sectors;
++	q->limits.max_copy_sectors = max_copy_sectors;
++}
++EXPORT_SYMBOL_GPL(blk_queue_max_copy_hw_sectors);
++
+ /**
+  * blk_queue_max_secure_erase_sectors - set max sectors for a secure erase
+  * @q:  the request queue for the device
+@@ -578,6 +598,10 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
+ 	t->max_segment_size = min_not_zero(t->max_segment_size,
+ 					   b->max_segment_size);
+ 
++	t->max_copy_sectors = min(t->max_copy_sectors, b->max_copy_sectors);
++	t->max_copy_hw_sectors = min(t->max_copy_hw_sectors,
++				     b->max_copy_hw_sectors);
++
+ 	t->misaligned |= b->misaligned;
+ 
+ 	alignment = queue_limit_alignment_offset(b, start);
+diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
+index 63e481262336..4840e21adefa 100644
+--- a/block/blk-sysfs.c
++++ b/block/blk-sysfs.c
+@@ -199,6 +199,37 @@ static ssize_t queue_discard_zeroes_data_show(struct request_queue *q, char *pag
+ 	return queue_var_show(0, page);
+ }
+ 
++static ssize_t queue_copy_hw_max_show(struct request_queue *q, char *page)
++{
++	return sprintf(page, "%llu\n", (unsigned long long)
++		       q->limits.max_copy_hw_sectors << SECTOR_SHIFT);
++}
++
++static ssize_t queue_copy_max_show(struct request_queue *q, char *page)
++{
++	return sprintf(page, "%llu\n", (unsigned long long)
++		       q->limits.max_copy_sectors << SECTOR_SHIFT);
++}
++
++static ssize_t queue_copy_max_store(struct request_queue *q, const char *page,
++				    size_t count)
++{
++	unsigned long max_copy;
++	ssize_t ret = queue_var_store(&max_copy, page, count);
++
++	if (ret < 0)
++		return ret;
++
++	if (max_copy & (queue_logical_block_size(q) - 1))
++		return -EINVAL;
++
++	max_copy >>= SECTOR_SHIFT;
++	q->limits.max_copy_sectors = min_t(unsigned int, max_copy,
++					   q->limits.max_copy_hw_sectors);
++
++	return count;
++}
++
+ static ssize_t queue_write_same_max_show(struct request_queue *q, char *page)
+ {
+ 	return queue_var_show(0, page);
+@@ -517,6 +548,9 @@ QUEUE_RO_ENTRY(queue_nr_zones, "nr_zones");
+ QUEUE_RO_ENTRY(queue_max_open_zones, "max_open_zones");
+ QUEUE_RO_ENTRY(queue_max_active_zones, "max_active_zones");
+ 
++QUEUE_RO_ENTRY(queue_copy_hw_max, "copy_max_hw_bytes");
++QUEUE_RW_ENTRY(queue_copy_max, "copy_max_bytes");
++
+ QUEUE_RW_ENTRY(queue_nomerges, "nomerges");
+ QUEUE_RW_ENTRY(queue_rq_affinity, "rq_affinity");
+ QUEUE_RW_ENTRY(queue_poll, "io_poll");
+@@ -633,6 +667,8 @@ static struct attribute *queue_attrs[] = {
+ 	&queue_discard_max_entry.attr,
+ 	&queue_discard_max_hw_entry.attr,
+ 	&queue_discard_zeroes_data_entry.attr,
++	&queue_copy_hw_max_entry.attr,
++	&queue_copy_max_entry.attr,
+ 	&queue_write_same_max_entry.attr,
+ 	&queue_write_zeroes_max_entry.attr,
+ 	&queue_zone_append_max_entry.attr,
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index eef450f25982..7548f1685ee9 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -309,6 +309,9 @@ struct queue_limits {
+ 	unsigned int		discard_alignment;
+ 	unsigned int		zone_write_granularity;
+ 
++	unsigned int		max_copy_hw_sectors;
++	unsigned int		max_copy_sectors;
++
+ 	unsigned short		max_segments;
+ 	unsigned short		max_integrity_segments;
+ 	unsigned short		max_discard_segments;
+@@ -893,6 +896,8 @@ extern void blk_queue_chunk_sectors(struct request_queue *, unsigned int);
+ extern void blk_queue_max_segments(struct request_queue *, unsigned short);
+ extern void blk_queue_max_discard_segments(struct request_queue *,
+ 		unsigned short);
++extern void blk_queue_max_copy_hw_sectors(struct request_queue *q,
++					  unsigned int max_copy_sectors);
+ void blk_queue_max_secure_erase_sectors(struct request_queue *q,
+ 		unsigned int max_sectors);
+ extern void blk_queue_max_segment_size(struct request_queue *, unsigned int);
+@@ -1211,6 +1216,14 @@ static inline unsigned int bdev_discard_granularity(struct block_device *bdev)
+ 	return bdev_get_queue(bdev)->limits.discard_granularity;
+ }
+ 
++/* maximum copy offload length, this is set to 128MB based on current testing */
++#define BLK_COPY_MAX_BYTES		(1 << 27)
++
++static inline unsigned int bdev_max_copy_sectors(struct block_device *bdev)
++{
++	return bdev_get_queue(bdev)->limits.max_copy_sectors;
++}
++
+ static inline unsigned int
+ bdev_max_secure_erase_sectors(struct block_device *bdev)
+ {
 -- 
-2.34.1
+2.35.1.500.gb896f729e2
 
 
