@@ -4,77 +4,138 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F386C04A97
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Sep 2023 15:36:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 756C2C04AA9
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 Sep 2023 16:05:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QPBE9M799lADgnSMZdZr60RYooiDDm/bO/X9KjmjZSU=; b=WUJoatiw2sVlR+ZJjFTYEjsbyU
-	HMtm2fETolmAQ4FqZB7pqhxN5uV/dRMGns2u9g+mJYo7hDEcV2TsowHrqg8yhLntUtIeEBQAazrrp
-	Zf5EdZpyVTgrnOxCpSpPdNbkhJIT+FgK+UBGPh8tEfwUYC7Yog6m3OJr8+Mhxwn38jcIzxfnTr7io
-	Is1NrwdB1Dbdh2P8Xt4g5tZpc3uGpi51n+lc88JR/lCBClJ9mILE6tkYnhhTOGVds15SPBPgeIsbt
-	9UN1Mg+jKGIhwFDzrTTrvU2A66lopsOA9YFb/jjPekx9r5xsEr6M6yyY8iAcEjmtoK9NST+Q8ZRF/
-	+hLYJ4Dw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:Message-ID:Date:References:In-Reply-To
+	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=lXsaYEYL3s/DUo3RiaipYZNtLyCUIcNSQHHoOsOHWic=; b=xtUXaNP9YnTyFiApUoZisg+sb8
+	qzXFnDvJoZFer2iSPA64yv/WxTFDJDcTLxvaDfpaVkxDDJNUW9u42bT4iK05+iFkGpZI71iAGqYkN
+	sG9kl/TZjqYGKM2I9CObLsxNbgI7I3bHf0Ca1/zN6NUDhH1IwCfgvTV0ln0hmKWiVq+kxTL3E9PB2
+	NRgqN8ONKZR848OHmHdgc3UQy6z/bYVQjB/X9cIL/0JJ0BibnM2tNjyqEQH8HSqf+B9PJo1IWbBZq
+	kOuBxCNZUS/PgOTYp0/QYFqbeH6ky887mW0LJipr1poes1gazmHJHJZuavDz7h83vhEsap0o8LFN+
+	1ecfvK7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qizFQ-003WGc-2z;
-	Wed, 20 Sep 2023 15:36:16 +0000
-Received: from mail-vk1-xa2c.google.com ([2607:f8b0:4864:20::a2c])
+	id 1qizhU-003aTn-1c;
+	Wed, 20 Sep 2023 16:05:16 +0000
+Received: from mail-dm6nam10on2062d.outbound.protection.outlook.com ([2a01:111:f400:7e88::62d] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qizFN-003WFr-0K
+	id 1qizhQ-003aSb-3A
 	for linux-nvme@lists.infradead.org;
-	Wed, 20 Sep 2023 15:36:14 +0000
-Received: by mail-vk1-xa2c.google.com with SMTP id 71dfb90a1353d-49369d29be3so2848689e0c.3
-        for <linux-nvme@lists.infradead.org>; Wed, 20 Sep 2023 08:36:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shadow-tech.20230601.gappssmtp.com; s=20230601; t=1695224172; x=1695828972; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QPBE9M799lADgnSMZdZr60RYooiDDm/bO/X9KjmjZSU=;
-        b=AktGIudT+isA6DHq2YIehVuQUqgm6RgRCSVecFOrw+icJJQmyKkXW6RJG6rgIM5YKq
-         9y7/1B91Km9iMWBMgAGYZVNbUUQhj6HnmMPVms2FD+MTUThTkWAarAzL5VRqSxBCXdsd
-         DAeLNMAoqVmksoxIyToFKEboxES3n6c05+z86g8ZC5MTHxsQV8Mx8nx4ITAeW4uUzFNp
-         8csx8N84J+tVopiwxgvl2JAnXpAOGpdUlAfkQIpkbE+27wQ41/5rBbZATSFQ8gwhqWoV
-         HZWTdmMq3WSnV1k6710M44UY7N1VXokjnbpq5UGRpGeFNiwhw6RUZdvu1Q2mo9il97h1
-         1WuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695224172; x=1695828972;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QPBE9M799lADgnSMZdZr60RYooiDDm/bO/X9KjmjZSU=;
-        b=GAH4VdwlMoPyU/GjqIfWC+88cZGctXTteAjH7Y3iz1F4Mh63D6Zl5h/2RBW+1ECiYI
-         Mapu1AmDGnPBSWqtoEaE5bYdafk8hqMFBXT2alSSbXK1PtVOfwvlKZ6kWMOUVVSR5VNH
-         rF7UdNtKqJNRsjxH2i7wzBvIVJic1Hbyc1JvWlZ3i/Mqfa/kD4cCAlgpR25W96q7JK8e
-         lU+KX3pQy4Jn1WoX4aOKDP8EXdMukk/VYm9yFOtP9NVv1BdxzwuiMt2J0R8EHKoTNKp3
-         fQWS7ssG7nfaMCj+R6hFyBXbrhKHSUJUpJ8Vp6YfIE5nLE9xjzdPZwcj6FjzCY3+dxpy
-         i5bw==
-X-Gm-Message-State: AOJu0Yy0atoGEpDmTnb36bm7ZlzqfhlOu7eQZxMh2ZCItc9EPBzXBcAl
-	tT3piwIF0VkvW5lm+6qaIcDoyr+LiXKgBnxENtUdVKjAqF9onZMf4LKxvw==
-X-Google-Smtp-Source: AGHT+IEVEhvFcZ/9UJudvGIUqJ1cigvnaEIwxSHIVS9qAFFn0DQEvOiD0TsbMBWjeIMlmLMmpacBnMdwPsiyWGlu9GA=
-X-Received: by 2002:a1f:cb01:0:b0:48f:f458:f39c with SMTP id
- b1-20020a1fcb01000000b0048ff458f39cmr2812730vkg.10.1695224171730; Wed, 20 Sep
- 2023 08:36:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230920141205.26637-1-redouane.boufenghour@shadow.tech>
- <6596810b-103a-ff18-49b2-7ae5c8d01c38@grimberg.me> <CAEjkvFgh9nSbGs0sZOZZdB9TWOtx=i1XE0Q7XjL63fK7TLLjrg@mail.gmail.com>
-In-Reply-To: <CAEjkvFgh9nSbGs0sZOZZdB9TWOtx=i1XE0Q7XjL63fK7TLLjrg@mail.gmail.com>
-From: Redouane BOUFENGHOUR <redouane.boufenghour@shadow.tech>
-Date: Wed, 20 Sep 2023 17:36:01 +0200
-Message-ID: <CAEjkvFiHupE6tLjNyxLBTv1Mj76ddAM2zwDLHt5WyqOt-Pogsw@mail.gmail.com>
-Subject: Re: [PATCH 0/1] nvmet: View subsystem connections on nvmeof target
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, kch@nvidia.com, hch@lst.de, 
-	antoine.damhet@shadow.tech, valentin.brice@shadow.tech
-Content-Type: text/plain; charset="UTF-8"
+	Wed, 20 Sep 2023 16:05:14 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VJJpIYlIIWqDOLq9JQeOPFsQWxMhyqRhXaziPby4KZo4BfPLAdXhFnoTe/xbtikMyseB380P0Vvb6RtdL8hf5haqptlS2F2HuC6Y+ZGiWMrE/uWCM/LwHxJCL+EAWBXmAq0CPWzyoy/adUDxccXUu/r3KKOAuVs9D1cy8vrhiPqt9X3YYaUN4sbd9MmP7AoAVfcW6rFOR246r4YN/TDNKX2sMSKxoutFfd/DuYhdijMLe1gLeOhB1dyUPItNxFVaAqQoXx9J+BS4yG8zXnei4CumTim5E2VAJo4MXZUqDcKqCprcQb3tKng+hYxY5I10XjhIwuXpScSk3/VFuFY/CA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lXsaYEYL3s/DUo3RiaipYZNtLyCUIcNSQHHoOsOHWic=;
+ b=l1+ryu/gyzGl2X5M4blVRW5MT+8OwGOCD1fxzKdbntLN92Xed53MJPPplV9JSOGl0+ZgsYqManA5iMBb4A8g4KMmfeQ9yr/DbxOk7mVsXx3dUMIxlClhSSfRM7C7KdXiaML/HAuGuQPlh5mKkSesy61MuXVxCvV8w3e9hQ2IlpGFi0hlk6pnjj2lVldv2DyWIHhGcwq2Q+gC3fdvPIWYoxGu3cVLd0/0aC9bk9jAUy6GiR8k3y7Vd0GiGmBvHfRRjwIlFK8GzOndKAl/ETeMMDwg+aeNlQVoBaInVoApdka9XnzuNgPiyF2Gog3O6XGDGr0OsZYFmuK8/0ckjgnc+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lXsaYEYL3s/DUo3RiaipYZNtLyCUIcNSQHHoOsOHWic=;
+ b=EayHtWEV526XWzbvanCuLiSvZ7KG1lLpHXAXhud0DTCTEB2r4TextvT0al9fZ7UYMAY0ySPsROzxbwIiorvBx7kdOvWiB8uvS1lkmBvOlrWD7BB8aZXnm6S7XivHz4sVnMbmZNAbasLMleJEsAMaAGZpVqU5w0yv0qCcP+mKzVRec3+mZsXs/39Zem99BQu09HmShCKgB1iIGpjYYZ0IpHVctt+BfXyg1p7wz+VoeqImQGN8tXqmdM7LSzkU6bgaLN+aa6mnaABTg4eT1J1GyzVcYv8VS4aiijZNi4IkdmOMEiPhzC2IPJvdxOmaDclNvfnd3Cr418NHDC0S+zzH2g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
+ by CH3PR12MB9026.namprd12.prod.outlook.com (2603:10b6:610:125::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.27; Wed, 20 Sep
+ 2023 16:05:06 +0000
+Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
+ ([fe80::54a7:525f:1e2a:85b1]) by SJ1PR12MB6075.namprd12.prod.outlook.com
+ ([fe80::54a7:525f:1e2a:85b1%4]) with mapi id 15.20.6792.021; Wed, 20 Sep 2023
+ 16:05:06 +0000
+From: Aurelien Aptel <aaptel@nvidia.com>
+To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ netdev@vger.kernel.org, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
+ chaitanyak@nvidia.com, davem@davemloft.net, kuba@kernel.org
+Cc: Boris Pismenny <borisp@nvidia.com>, aurelien.aptel@gmail.com,
+ smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
+ yorayz@nvidia.com, galshalom@nvidia.com, mgurtovoy@nvidia.com
+Subject: Re: [PATCH v15 06/20] nvme-tcp: Add DDP data-path
+In-Reply-To: <b82d4ecd-77f3-a562-ec5c-48b0c8ed06f8@grimberg.me>
+References: <20230912095949.5474-1-aaptel@nvidia.com>
+ <20230912095949.5474-7-aaptel@nvidia.com>
+ <ef66595c-95cd-94c4-7f51-d3d7683a188a@grimberg.me>
+ <2537congwxt.fsf@nvidia.com>
+ <5b0fcc27-04aa-3ebd-e82a-8df39ed3ef5d@grimberg.me>
+ <253v8c5fdc3.fsf@nvidia.com>
+ <b82d4ecd-77f3-a562-ec5c-48b0c8ed06f8@grimberg.me>
+Date: Wed, 20 Sep 2023 19:04:59 +0300
+Message-ID: <253sf78g79w.fsf@nvidia.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: FR2P281CA0089.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9b::15) To SJ1PR12MB6075.namprd12.prod.outlook.com
+ (2603:10b6:a03:45e::8)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|CH3PR12MB9026:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1b2714fa-148a-4f02-5792-08dbb9f35b17
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: kopY/6UimpApIt7aczBBD1udOPD4+xVvsd0iVWlWdBOVcC5gd/O2Cr21TCtBFlsgft4HI4llaGZnOkUveclCIuA8M/4Vq8VZaUtk7+OkURdmtdxKEjIDsSUQ6JR2VKKy7Lk/KcjFKkCQ+UUBR/kLeFPhoHetTVz6w+bcXUdmeWm/3r3KTh/e0kCk1TDBXUMzhMGt9tlPNbicPmvZddY6wJt/VEJkklMpPuFuB64CY6rdW1yHremW+poRx84ZckgL34Bcjx4IX0YADTbkw2G0j06Fcqt6IlasVHDUv1151RCwvKjoJu01cLTCzfUuQjixYhTDV9jzf6Ub4xUtDOL9ekeoMULEVWhg3cawR1UWKIJT6+u9wA8e8qmB8K3U4KR7tUa/SZejGyoi3eFySeRwI/fL0YIOH0m/LJemqB7UCrYUvoEAbOnEBLia4xKYVDRkT+FqYpytFnY/MSDJaCxPW17wg8yLonF6gkMSTf2sw9IJitWMSa5w3VHaNPiXcPcmRm7c96aGIX0j+1L4AqYZHgHyjkom4lIrZVgj8Qugxvyj+u+d4bGgt1o44G13Gi3B
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(396003)(346002)(366004)(39860400002)(451199024)(1800799009)(186009)(478600001)(7416002)(41300700001)(5660300002)(83380400001)(6666004)(2906002)(66556008)(316002)(4326008)(66476007)(8936002)(8676002)(66946007)(6486002)(6506007)(6512007)(107886003)(26005)(2616005)(36756003)(38100700002)(86362001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Mjk0cnR4MFdkWklGQi9BRlRacTFSQ1ZoRXZPWmd4RkxXWXdhMUU5UkxkRGVX?=
+ =?utf-8?B?ZVk0azdnT05GNGJDdkVRMWFDVDZpZUEraW5VdmtjS3phTGlBWDlNRTRyMkdo?=
+ =?utf-8?B?ZFR4bG1xTFhja0pSUWlsWUZWRWVmbnBiVDlzUVhFb1lENC9oSmxac1VnTU1V?=
+ =?utf-8?B?aThkckRvbHE2TENwbjE4RWs2LzlMeDRJdktZZjRqLzZHaWJqZ0pqOXdsZHNI?=
+ =?utf-8?B?S09vMUJKMjhvb1puOHVsa0ZUTVBxTitYVkJTM0t1eVBIRStWV0NUWTBqSEJY?=
+ =?utf-8?B?b0tZVGQ2YkFadk1hL0k3L0hzUFJLeXZUMkFpcEMzVmpRRW5McG4vdlhxcW5U?=
+ =?utf-8?B?R1hhK3IrZTlSYnZFMG81dmF0dkVCemU0Sms2d2RKQ0t0SjA2THRVU0RoYVNG?=
+ =?utf-8?B?MThwWTR4OXpUUFNYbTFMMWRmd2YyK3hIZ0VaOGVIZ3pDTjVJYlhXMUtGUHhJ?=
+ =?utf-8?B?Q2JVUzZyemJpZjlHOHlsRTVPWTZ0MDAxakxHZGlzVVlKR2MvZ0U0Uzgzek53?=
+ =?utf-8?B?TXNyaVcxZFhEK1NOd2I1YVhWelM3QytiM0VDS2N4OEZYNmllcW9pM3NLeTJC?=
+ =?utf-8?B?R2NGdGFObWQwanYwbkUyQVpRZVBQR0ZCTjF5SWVseElvck1iSXFMeXg5YVlB?=
+ =?utf-8?B?aml3QTZsekRwdURocXpNQTNDYVY0SG1qdUhmbUQ1cHora2I4WGNWZkRLdmUz?=
+ =?utf-8?B?V01uWmRPcXFWamtqZDQvSXZPRlgxUDlrb1krNHF4dWo2cVpyNU1TRko0QWJy?=
+ =?utf-8?B?bmZKRCtpVEFqMnlIRXR5N3JOM1FaNjYwTGt4cm1XZzRMQmVJUGNudHVQRHNh?=
+ =?utf-8?B?c2hHa1VSMGNnNmF5MWtlVEhGQXphVmpWYVltdnlNNVpBMEhKZXcvN2FkZTlL?=
+ =?utf-8?B?ZkprbXE4Q0NFc1pLaUJod1BhVEtuWXJ6bno3NlNKVlBvelNNR28zQTNtc3NY?=
+ =?utf-8?B?dkRwNXBzblBDOUlYclZydjVEMTBOS1BLN3g2L1NvOHYvVVlaVjR4UTlPVW5N?=
+ =?utf-8?B?VjRoaFFzazMrQzVmb2xOUVY2WFkrcjJtVUh5UkM4RlluQU5objIxaWltUTR4?=
+ =?utf-8?B?cEgyd0dabG1lek9iTGxjN1laSlVVU1Yyb0YzK1hBbXZTeDRqM0hwY3E3YWpw?=
+ =?utf-8?B?N3lwRmxCNUNhRWdEMXJYSDc2QkRRbmFTQ2JUeFVCU3NrU0NqZ0RTUWNjRXhH?=
+ =?utf-8?B?cjBCNUFIZm5SaUVBSW9hazVaVXNMdy80c2VvSlZSNHQrT2ZidlF3ODVtTEw1?=
+ =?utf-8?B?QStBUHl4YVkwUVZLaFVHYUNrWm1ub1E1b1pBdTk1cEtBaTg2KzhLWk1WRDZi?=
+ =?utf-8?B?ZGVORzlKclRvUWQvTm4yd0VOaGZLVmZQd2g1QmlUV0JnWlpSSHozdm0xQ0Q0?=
+ =?utf-8?B?US9kbHBITWtrYUJIb1RmWk9qVk9KejRWSHgyeGxsNkhOYnhLdlZhazNtcmRu?=
+ =?utf-8?B?R2d6czJYR1ptR0ZRcEJaWllpVTMrWWpyQW95dVlVRk1TTkhNNStpOU9scGVE?=
+ =?utf-8?B?Q1FTaEZVYVFHYU1uT1JlSlZmTmw1M2V3M0RSOGZSazZJcmJqdlZqZ0xHL2dU?=
+ =?utf-8?B?alFVKzFNS0FFNFM5bnRGRzM3amFHTGJ0aTlJbjFZeXpQanNXMkpRTjVPRzgv?=
+ =?utf-8?B?c0FYL2g0VjEyaHpzUWJhTXVOanh4V0xJREsyeWFFaEx0YlFubWJ2QW42M2Y1?=
+ =?utf-8?B?RFU0ekRyZGl2NzJKZVk1MC9GM0psSUY1UXdpMlNGZW5tekFUUXE0T0h5NHI1?=
+ =?utf-8?B?UUxYa2dxY1BmOHUwS3kxdGx5QlpWeGpmVEw0RFlEZmVvV2ZLSStwUzJGNUdE?=
+ =?utf-8?B?SGxwRkx4SndraVl3a0NnZzk0eFk1S3N5NlZSS3ZpTGl0ZStDZE5idmR1NVhI?=
+ =?utf-8?B?SUlLZEd3TGNSb3lUYmI0dk5TdUtkNkkreFd0eEY3V0tmaXVabzd1a0ZtV0du?=
+ =?utf-8?B?ZnR0SU5pL1VZWnB1MDVocjFJUU95M1pnQ3BZZCt6RFdsODE2c0R1azFUQ1FD?=
+ =?utf-8?B?MDdkUldyaGNLU2VrTVhraDJIZXBGVmxWWHNWOFhLVWRNUnFjZ2VjQW9VNzFY?=
+ =?utf-8?B?Q2trRFd0MnBsTWx2QUFGc21uUVdhUitSNmU0ZlFkckRyaTY5b04xWmVRZGp2?=
+ =?utf-8?Q?dR7XYxwJmll4/IGz2HY3LSpHR?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1b2714fa-148a-4f02-5792-08dbb9f35b17
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2023 16:05:06.1571
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SWJeXVdpZKOvtfHQeQFv1sZU2JwBxjW97no+m9FWUJBJxmVQOZ37uJFz+ALt4NEO0s2q0O4WGvP3JE/FCUBZhw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9026
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230920_083613_166404_1660B1AD 
-X-CRM114-Status: GOOD (  35.05  )
+X-CRM114-CacheID: sfid-20230920_090513_060828_DDD0C2E5 
+X-CRM114-Status: GOOD (  12.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,133 +150,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-You can find the path here
-https://lore.kernel.org/linux-nvme/20230920141205.26637-2-redouane.boufengh=
-our@shadow.tech/
-
-We chose to put the information in the configfs for nvmet which takes
-up the spirit of the "target" module for connection information.
-
-In my humble opinion, this information would be better located in the
-sysfs so the kernel provides the info to userland. That being said,
-splitting the source of truth for the nvmet module into two separate
-pseudo-fs could generate some confusion which would make it harder to
-users to find all available informations provided by the nvmet module.
-This is one of the reason why in the "target" module this whole ordeal
-is handled by a 2-step procedure: first, userland creates ACLs
-directory (since we can't create a directory in the configfs from the
-kernel) based on an attr filling "dynamic_sessions" and then the
-kernel module fills the info in a dedicated configfs attr page in the
-created directory. (The "target" implementation is available in
-drivers/target/iscsi/iscsi_target_configfs.c in the
-lio_target_tpg_dynamic_sessions_show function)
-
-To sum it up, I think it all boils down to the question: Do you want
-to maintain some similarities between target and nvmet modules or
-should the nvmet module go its own way and implement this in a
-different way ?
-
-Regards,
-
-
-Le mer. 20 sept. 2023 =C3=A0 17:31, Redouane BOUFENGHOUR
-<redouane.boufenghour@shadow.tech> a =C3=A9crit :
+Sagi Grimberg <sagi@grimberg.me> writes:
+>> Sorry, the original answer was misleading.
+>> The problem is not about the timing but only about which CPU the code is
+>> running on.  If we move setup_ddp() earlier as you suggested, it can
+>> result it running on the wrong CPU.
 >
-> You can find the path here https://lore.kernel.org/linux-nvme/20230920141=
-205.26637-2-redouane.boufenghour@shadow.tech/
->
-> We chose to put the information in the configfs for nvmet which takes up =
-the spirit of the "target" module for connection information.
-> In my humble opinion, this information would be better located in the sys=
-fs so the kernel provides the info to userland. That being said, splitting =
-the source of truth for the nvmet module into two separate pseudo-fs could =
-generate some confusion which would make it harder to users to find all ava=
-ilable informations provided by the nvmet module. This is one of the reason=
- why in the "target" module this whole ordeal is handled by a 2-step proced=
-ure: first, userland creates ACLs directory (since we can't create a direct=
-ory in the configfs from the kernel) based on an attr filling "dynamic_sess=
-ions" and then the kernel module fills the info in a dedicated configfs att=
-r page in the created directory. (The "target" implementation is available =
-in drivers/target/iscsi/iscsi_target_configfs.c in the lio_target_tpg_dynam=
-ic_sessions_show function)
->
-> To sum it up, I think it all boils down to the question: Do you want to m=
-aintain some similarities between target and nvmet modules or should the nv=
-met module go its own way and implement this in a different way ?
->
-> Regards,
->
-> Le mer. 20 sept. 2023 =C3=A0 16:42, Sagi Grimberg <sagi@grimberg.me> a =
-=C3=A9crit :
->>
->>
->> > HI,
->> > We need to list the nqn and their IP connected to our target nvmeof se=
-rver.
->> > In fact we can have several dozen connections on a machine and we need=
- to know
->> > which server is connected to which subsystem.
->> > Currently there is no way to find out which machine is connected to wh=
-ich subsystem
->> > except through the nqn.
->> > The nqn can be modified by the initiator , so for us it=E2=80=99s not =
-necessarily a source
->> > we can trust.
->> > We=E2=80=99ve created a POC to retrieve the nqn and associated ip when=
- a client is connected
->> > to a subsystem.
->>
->> No patch attached afaict.
->>
->> > We=E2=80=99ve tested this poc on a tcp and rdma connection and it=E2=
-=80=99s OK.
->> > For the POC we write to the attr_connected_ctrls file in the subsystem=
-s directory for
->> > each subsystem.
->> > We=E2=80=99re not sure this is the right implementation.
->> > Either we create a ctrls directory which will be created on the userla=
-nd side and
->> > populated with information
->> > from the ctrl connected when the ctrl number folder is created.
->> > Or we use the host directory to add an entry when the machine is conne=
-cted to write its
->> >   IP address, but this folder is also used by ACLs.
->> > Or we stick to a simple attribute listing all connected controllers nq=
-n and addresses.
->> > That being said, given the reduced size of a configfs page and the lar=
-ge size of some
->> > addresses (ie IPv6 address), that would drastically limit the numbers =
-of controllers
->> > and addresses we could list in this attribute.
->> > what do you think?
->>
->> I don't think that this should be a configfs attribute at all. And yes,
->> a single attribute is going to be unnecessarily limited.
->>
->> This type of information probably belongs in debugfs. It is possible to
->> have nvmet create a root in debugfs and build a hierarchy that the user
->> can traverse to get this information from something like:
->> /<debugfs>/nvmet/<subsys>/<ctrl>/
->>
->> A controller can expose different things like host_traddr and hostnqn.
->
->
->
-> --
->
-> Redouane Boufenghour
->
-> Storage Engineer
->
-> Join us at shadow.tech
+> Please define wrong CPU.
 
+Let's say we connect with 1 IO queue on CPU 0.
 
+We run our application which run IOs on multiple CPU cores (0 and 7 as
+an example).
+Whenever the IO was issued on CPU 7, setup_cmd_pdu() and queue_request()
+will be run in the context of CPU 7.
+We consider CPU 7 "wrong", because it isn't q->io_cpu (CPU 0).
 
---=20
+It's only after queue_request() dispatches it that it will it run on CPU 0.
 
-Redouane Boufenghour
+> But the sk_incmoing_cpu is updated with the cpu that is reading the
+> socket, so in fact it should converge to the io_cpu - shouldn't it?
 
-Storage Engineer
+Yes, that is true.
 
-Join us at shadow.tech
+> Can you please provide a concrete explanation to the performance
+> degradation?
+
+We believe the setup_ddp should be called from the CPU core on which the
+nvme queue was created so all the IO path SW-HW interaction will run on
+the same CPU core.
+The performance degradation is relevant only to specific cases in which
+the application will run on the "wrong" CPU core on which the NVMe queue
+was not created.
+
+If you don=E2=80=99t see it as a problem, we can move the setup_ddp to
+setup_cmd_pdu().
+
+Thanks
 
