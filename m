@@ -4,126 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B965DCD5BD5
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Sep 2023 07:43:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A9F92E71062
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Sep 2023 12:33:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5/vhhjkwLd5z69O2Tmw5GpSRBLSGYPNjedcl5GGGYzI=; b=pHlUnBF0sOn+NzrWzKdG+xglVc
-	fRcauvLTYrSNn+bEGe+A61V3TVWZmZrzBcbyhojxuhuA2cRqbeCGezwH1NIQlpeDATMYHhXDnjtc0
-	7J6VYJS6WdWIPOS5i+GdcrAcHCsLRnTdiyWsqPlSS8D5VL4j73a4UOmQ3itc//So2N7Rkc+Gki/X/
-	yN+YfaRH6FykssCD1t9jeBbUtCUegkEMZACmlg6/eY3Ab7lvYBivv3muiFwAD5uJ8kavRFWYhwqhG
-	9JMGXKFNGrpHajykqjfmupZXTjWirygojO48im4NNEgUMxOBr7VkzgV4hB3aqC2E14kHxJbOZTmWV
-	z++tEwsg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=eynQlZvjE27JhyoDUSsmCVMjkh9tOc45JWjWr2Vd8i4=; b=4Kmt+rb5VvaaVA7EunuRPn2Btn
+	cTv86N++iBmCz0gf5SsG8mFrMavETKxBmdtXlh1cXRXHLju+lEVr4TVXr2VmCjoxFcHlwvWoMd3HR
+	JBk2NGL5sqZ8GUWgmAAU7GNqaLr5CxGvHiU9F/aKyLq+7DX+WXh6sGxFzZhVFWGPn5erRu5WL76aC
+	FbR3wKU6Ag/5VMoomtNwS/Kd3eWUrPEa3+WGTk8JDJH7ySPWCG6h2FkC241f2rdfvUD9nW3mzkGe8
+	K1UosF90ipCaYsJ75FgSZ5jFPEHKGRa7kjGMbhJXNYeAtrJ6eso9BQBQOChvzn4g8TUX7BPZB2D55
+	JrrJxrMQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qjELm-005OSD-1w;
-	Thu, 21 Sep 2023 07:43:50 +0000
-Received: from mail-dm6nam10on20630.outbound.protection.outlook.com ([2a01:111:f400:7e88::630] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+	id 1qjIry-0061rv-2g;
+	Thu, 21 Sep 2023 12:33:22 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qjELj-005ORn-3D
+	id 1qjIrw-0061pA-07
 	for linux-nvme@lists.infradead.org;
-	Thu, 21 Sep 2023 07:43:49 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ehfMIo75MDWPYLY32Tv7cUbnyR7dI0Kc1LmtJqutWi2bXG9SlTZvMzc9a61bsrFO1+CjbiLmWbIngrzADBBobkSO+SU7qbdkqV2iHH3qpaF4FRlPRRooDZ8GPgFxgcja2Zgu0ByfPv6+1UvrEsNcG/fSKo33IBVw2j79/DNnBoF/Or3ceR2UaSRQGD8PR33UvujTOO32+hW4XgqrDR6CjewdCSuJjjtYlZU40Jg1bqmZBDvAExfrUu0SzfahLv8zht06oDiYTRodZXSXC58QOtjx5Y8RF5bXnE2TEWQtodXc0pmZiO3pyGoshqI0t8gPhamuqYxKSySpkyB/IF9lRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5/vhhjkwLd5z69O2Tmw5GpSRBLSGYPNjedcl5GGGYzI=;
- b=m+ZxJNPoreoKO6bFUFwHe5HXIIP4F9PTcBINYGH5hseD+lde5t9sDDVfmhjOz6n1Vtr0/mmV5l1f5yUUWNOzLTkejvYgOsSLRD8QMiwsb9VF6UcJTqQR09Fx6NFWSaxFBdwiM07fKVLL0yUq7n1xQRYlfLPQbSmuxk3VDcyhNYK5gIcCN91bHbbaQSZIMUlor0WQoRoWOvvDW7hcqcbMhxHjMMKTmCS84YiXKygkheLz8B1dExM7ABqXW/RQgJMURRowCUafLOs64hN/WuzDK2R3iUe4yrhbkYRHYKV7rsxmkbZo2rVKTt4yDXnwwsMSaeec72i1p1xdQrxiQV5+ew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5/vhhjkwLd5z69O2Tmw5GpSRBLSGYPNjedcl5GGGYzI=;
- b=dGwY92iU2YHqLicTheCE0GDGf69EOApuLCWQVZQOGvarPaG4jIAcKFpRXL8NXlmYoQIKwPZm0kTNpwkpVppdhn/3VtznmfuVSZkEWdcqX+tr/8b76/01k4gD9UpgF1GOWqtl/xup//SuPmZ6ETZIu49WwYv+aCrDOKyjyd2gdf6ovqaFhc/PCKlrDXNzbTA6mHbruYWjm3sZPnM2opMihet3iQ/A6edhCE++QrBBTWVliNXEUczSlDimEfSLImpsmKKvFJsRiwenTR/RhfONnJmQcbis3ohlxb4rlQDAD8wootshQ7y5LHu/guis3ptIF3Qvm7LGi3LvDhP3JMbViw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
- by DS0PR12MB8072.namprd12.prod.outlook.com (2603:10b6:8:dd::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.20; Thu, 21 Sep
- 2023 07:43:41 +0000
-Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
- ([fe80::54a7:525f:1e2a:85b1]) by SJ1PR12MB6075.namprd12.prod.outlook.com
- ([fe80::54a7:525f:1e2a:85b1%4]) with mapi id 15.20.6813.017; Thu, 21 Sep 2023
- 07:43:40 +0000
-From: Aurelien Aptel <aaptel@nvidia.com>
-To: David Ahern <dsahern@kernel.org>, linux-nvme@lists.infradead.org,
+	Thu, 21 Sep 2023 12:33:21 +0000
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by sin.source.kernel.org (Postfix) with ESMTPS id D4010CE220F;
+	Thu, 21 Sep 2023 12:33:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45C28C32781;
+	Thu, 21 Sep 2023 12:33:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1695299592;
+	bh=I2wdsC3bwatwPq1wviIFhcLzP9nRh4x476U8QpzzmYo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=NC8H/ohiAWX3OutaLR4Cya1zHBgBXqp7c2GIxnn8JAcfcpw7xwjEjAdQaNzq0/YBS
+	 FTUUhrz0vR+5jF2OmTX1zVZPdeyizSjanbALvylLLsr1qW5Ibw/JkdVBla0IMCaRwl
+	 tmr+1t9d8u5l3stCZt2xmSWtBn5coDerTofphOvUytFzG3T2qkJZTGTasnW8ydIw8G
+	 KsNMumgxh0LjKs8MFjhUYrBITMx88d3J0vLwsAAI/ilhVQEVOnxZq1aYlDj/v5jX6T
+	 8XWNwoqKkdyMYiePha7rrNeU2+o2AkrH0FtDATXlenRLv1j0t3IJGKcXEBAXJbP1dO
+	 jRrhZkKj49SXg==
+Message-ID: <ab57c5d6-be1a-dca3-1629-4f81b07a3c19@kernel.org>
+Date: Thu, 21 Sep 2023 06:33:10 -0600
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.15.1
+Subject: Re: [PATCH v15 01/20] net: Introduce direct data placement tcp
+ offload
+To: Aurelien Aptel <aaptel@nvidia.com>, linux-nvme@lists.infradead.org,
  netdev@vger.kernel.org, sagi@grimberg.me, hch@lst.de, kbusch@kernel.org,
  axboe@fb.com, chaitanyak@nvidia.com, davem@davemloft.net, kuba@kernel.org
 Cc: Boris Pismenny <borisp@nvidia.com>, aurelien.aptel@gmail.com,
  smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
  yorayz@nvidia.com, galshalom@nvidia.com, mgurtovoy@nvidia.com,
  edumazet@google.com, pabeni@redhat.com, imagedong@tencent.com
-Subject: Re: [PATCH v15 01/20] net: Introduce direct data placement tcp offload
-In-Reply-To: <4ae938a0-6331-f5d6-baa5-62eb8b07e63f@kernel.org>
 References: <20230912095949.5474-1-aaptel@nvidia.com>
  <20230912095949.5474-2-aaptel@nvidia.com>
  <4ae938a0-6331-f5d6-baa5-62eb8b07e63f@kernel.org>
-Date: Thu, 21 Sep 2023 10:43:25 +0300
-Message-ID: <253y1h0j7j6.fsf@mtr-vdi-124.i-did-not-set--mail-host-address--so-tickle-me>
-Content-Type: text/plain
-X-ClientProxiedBy: AM0PR10CA0044.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:20b:150::24) To SJ1PR12MB6075.namprd12.prod.outlook.com
- (2603:10b6:a03:45e::8)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|DS0PR12MB8072:EE_
-X-MS-Office365-Filtering-Correlation-Id: 860f3be8-ae5a-42e5-fad9-08dbba76792a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZlipMmBMZ6tDB27wpPhQSuE4vcFTiqChRZzwzSQqLr7WSOPqLGxHeKvk2Gf0Bi2pSn+dmYlVu/q/zIPRLiABSQOo2HWj4+OQnlWNdhBbjonDm0AWY77FJ3T0iI3oJvtVbOOF+d8LKGpaDOVC4uzXIzgApuYGTECPbwS+LBZXGfAto9BiCXNEZbduWZCXpTYwLyzQSiA2elB9wGDRb/BE8X0UG0VPtrf0m90db2VoTRbWsHXPilPr98A17B8pNTBsve06cB8i4CGnrlHu4YzTQ2Az+TIowcS9m7N66w00keMpNfm8LY5V4En/J+DnvSRxbh11DUYFfNG/q3YYXxIIP07CHhbQE+uE/6i3Cmog/UwBZDKMBcmo4/5wZxmZWj4WW6bsIr96NRbxMvgM1MV3IVnQAGQnjclFe60H/+ovHosD2JBpuQdbG8Mc4+j2q0psLWOe6zDBtIzlUMtRnv+xUg2dMeWe9O8GqJ1Da8KBIKJ2/1oF0kqu1rVAO/UOJjWZYdwdUfd2XpFna2S3dddymqkzpaDIEi1KxDh66yncIOdzp4ypJbPKV9ME1ORoYE0KPDsvQPuC71rEjlY9W1pbruxj7syXxqJomYPiCzRrDYY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(376002)(39860400002)(366004)(346002)(136003)(186009)(451199024)(1800799009)(86362001)(6512007)(9686003)(6486002)(6506007)(26005)(921005)(38100700002)(6666004)(478600001)(4326008)(5660300002)(66556008)(2906002)(316002)(66476007)(66946007)(8676002)(7416002)(41300700001)(8936002)(4744005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?86dRL4nMGyivh+0or1iYGTdBN1nmiyTSXYJFUCSohgU6XV4a9kpLYshUnp+U?=
- =?us-ascii?Q?gnPFOElazcA8af/BJlkTWB0J4ft9T0DTzjB3qlFA0cq9sdjk73a27ipIkkZB?=
- =?us-ascii?Q?Yt/oquEoNf/KJxs3u5TldRXX3/lKaZvZTUfbH1hEW43CgPlkp2YX0KIdiA5Z?=
- =?us-ascii?Q?3bTrnPAVDNyIZuwyacSkykyTTuBZypnIFfw4D2uuXLEtwT8OC7A/9KOYhARM?=
- =?us-ascii?Q?Xho9ToITJKW7h6R/XQCrSguDw8WTFJ9McCIo5bDHRaRKbfwYZrIyddGUD1i4?=
- =?us-ascii?Q?3nVdxT8YVeTNHJ6M+/CI4s0kcYNAJvz2E24AvJ2au1Qdnp0BdUNsJXJnU0GD?=
- =?us-ascii?Q?L3ffnJicJ3g34ATw+xGVJK8YqhxSOMh9j0XwO+otJw0zviw4738KE/kPT8jY?=
- =?us-ascii?Q?LEo4Kmt/nlliNMnTD8ndzZNJYP0yGzyyPtL0m/GJrfhO0xTyEg+foFm5l5ZK?=
- =?us-ascii?Q?1EU02Ju0lJVv9Yk1uSoivcWDyZ1ugbMfZcezQETSGCh8jH95hCel3LLEyC2H?=
- =?us-ascii?Q?aSR0fI3VJq/V6sRO67V7pRLLS3hvzQk40WDA+/+kmWjwHw89v/0HYruXlCI5?=
- =?us-ascii?Q?Pa77jwiHhcKbQl6xyIUWejcgSAgB9X8D1wTB7wZPtsEFjfz8Z7KXxCRC0Yce?=
- =?us-ascii?Q?tTpCTOW/+CVuZBJvihi/1PUd+u/JiBKq83WF+EiqNMZLqh8lMWZ9e5cBzx/q?=
- =?us-ascii?Q?A677/y/+xRgcYDzQ+8o4s2sqXMOLda4dLEJQZsR6YJf7/r7bLog4kp9AeqBi?=
- =?us-ascii?Q?xi/w1Ic+BLpjlG2+pdmPFcOLjotDFwpy7UtsAWci5QWJ748WSdmkMnuiESb+?=
- =?us-ascii?Q?tGBVVfHTur8xMypKtJZM8dTV2K9p4qgYvPDH3XpJE5HzItC1SNEm36eZSB8k?=
- =?us-ascii?Q?saUjY4Cpx/pVDjBPvUNtWVuI7CU81otjVIv3RJjeBBDRgjfMQTSePK3/KwVK?=
- =?us-ascii?Q?28z7wIxpghTNth5UdXwJrDMYSoLA9yZT4dw0HHjwLRacbQdaWaGHeiyDtBCC?=
- =?us-ascii?Q?92VwEu85rbONlWB3yU/vaxkA4mCW2G+GfLDjgEk7L29rItxqIVOahwyutQms?=
- =?us-ascii?Q?mw8s2FvdUQOxPiCmc7ZUUKbnfHFA7LU8JnS0nuZFY2kbMIHeNp630ZVBRuEt?=
- =?us-ascii?Q?bBhI3Jvc1UJq5b8IqBF+l7Grd5c5qCdT7kFnO65dpPE5wyCLqNA0x0+A6tZh?=
- =?us-ascii?Q?bOAGO6e2bCjaIzSUvwkcwlCyRkUlThzFJA89Z6A+rHPgWw5r5lD/JHTjvDMq?=
- =?us-ascii?Q?fWeJkFDNK5NVoKE96LyFgUuWMnWhveLbf0CeWwmPpprihiSksNKkMkWf2IGF?=
- =?us-ascii?Q?3p/lLg1KJFvUAjyCYPuZJv8j5p6/XrWO4tvSmrRvvUgpeXTPW10Ql78yGWRL?=
- =?us-ascii?Q?xlrBLkp4j0/YLEYSe55d2gnBJXcur2OYg522YTdjmsZvDuqkkhysElieVAM0?=
- =?us-ascii?Q?yOsQtcy39okE4qCtqxkOq5KaC2YE6gUtaFfbyGtjOsqzKW/JCdmxktkZwW0U?=
- =?us-ascii?Q?5HMRhlqc8VXWwP0c5WLO2iAnHkbhiAlElIrJ1y/8kkWXtyXHFnyBHptC/CaM?=
- =?us-ascii?Q?oLz6UvxB0WPKiJTk8tGBMVeIzNwNJtPkQ5vK0ubL?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 860f3be8-ae5a-42e5-fad9-08dbba76792a
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2023 07:43:40.7240
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RZSGu/x9bUWdGlQz8se5xc/9PTvxSrIXZzMo0UL8+YUOsFFu2sTL/gOo1erW1BAeg86L7opOQRhQxv/P9YsGNA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8072
+ <253y1h0j7j6.fsf@mtr-vdi-124.i-did-not-set--mail-host-address--so-tickle-me>
+Content-Language: en-US
+From: David Ahern <dsahern@kernel.org>
+In-Reply-To: <253y1h0j7j6.fsf@mtr-vdi-124.i-did-not-set--mail-host-address--so-tickle-me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230921_004348_099655_49A1D193 
-X-CRM114-Status: UNSURE (   6.90  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20230921_053320_270091_00537A03 
+X-CRM114-Status: GOOD (  11.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -138,15 +85,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-David Ahern <dsahern@kernel.org> writes:
-> Not consolidating frags into linear is a requirement for any Rx ZC
-> solution (e.g., the gpu devmem RFC set and accompanying io_uring set for
-> userspace memory). Meaning, the bit can be more generic and less tied to
-> ulp_ddp.
+On 9/21/23 1:43 AM, Aurelien Aptel wrote:
+> David Ahern <dsahern@kernel.org> writes:
+>> Not consolidating frags into linear is a requirement for any Rx ZC
+>> solution (e.g., the gpu devmem RFC set and accompanying io_uring set for
+>> userspace memory). Meaning, the bit can be more generic and less tied to
+>> ulp_ddp.
+> 
+> In our view the ULP Direct Data Placement has a very specific design and
+> avoiding skb coalescing is just one aspect of it.
+> It would be hard to make it generic for any type of zero copy design. We
+> can rename the bit to "ddp" or "zerocopy" if you prefer but it might end
+> up being more misleading.
 
-In our view the ULP Direct Data Placement has a very specific design and
-avoiding skb coalescing is just one aspect of it.
-It would be hard to make it generic for any type of zero copy design. We
-can rename the bit to "ddp" or "zerocopy" if you prefer but it might end
-up being more misleading.
+The number of single use case bits on sk_buff are piling up. In this
+case, skb->ulp_ddp is only used to avoid skb_condense, so name it
+accordingly. skb->no_condense for example.
 
