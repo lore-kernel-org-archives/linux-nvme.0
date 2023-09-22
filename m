@@ -4,71 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78FBFCD4F2B
-	for <linux-nvme@archiver.kernel.org>; Fri, 22 Sep 2023 08:04:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B6B2CD4F2B
+	for <linux-nvme@archiver.kernel.org>; Fri, 22 Sep 2023 08:17:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=CBLqoMyIVireLlLreZE4y9YWUgoFtH3j+ZLwtIAR6bY=; b=sREEOlsGi/OyCgpaVhp/FnNR/Y
-	wt7SevtbH1FfQf7Xk14luGAvRkyQDF1vrjTDYBopaT80779LECbe9i0PQbC504OZZ2JEXFSH0V1hb
-	n+ANyQdvm8caeKYdmrTwaboOEf6PtAwVr4EswwoZ0e5R9ZyHYvSh1Bb4Pna12WiUJfji9QCj86928
-	XISISF4YrLunPlGAmBHXixgzTekJbc35keHuHAvkjHcUdvpu8jeA4OeB/xjGCNYNqsAT3fNK7Zq3u
-	qEy56s7zf6KwIMlSGNDcqfwCuLANlb+eR8pCQh6ELcLbchFHxxPBx9Rx5GUEZANkp1N2NO/sZoN4B
-	2dYLQB5Q==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=DJfuw9D8Q8SVQcNi/Y9NxwRtPgfMr2LRYJ7zesFH1as=; b=xMFpK+fuots7Gvz9MK8VYX6J+5
+	OXUENipmrjrerktYRRS1m9CLdivNbhmATrg1MVyAD0eRawFEQLCc0d9UWiBHRZVguhGGuE6HFvHyl
+	U5GtoRG9fZ9aSAKratNd+oHtPyN5HRehn0xQEJPJtZ38v4x/qa6lPeswMHzLFjnUSF/ADwcc+nLeE
+	MlXVeu6sZ1pay1vxdRcBQaLxTuGmjzJMIbBXfVd9xheXJohhdwN6TIyVOqKaFIqY0UilOOUs6vQgX
+	ySkrpKvZesrKvjbEmnUPFeJIoDoQa8EnS603bXrfwmTBzLZkcHvRCkICYvxKr9ocxk9e4iecOIAqB
+	2fp775BQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qjb9W-008KbB-2t;
-	Fri, 22 Sep 2023 08:04:42 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1qjbME-008OZF-22;
+	Fri, 22 Sep 2023 08:17:50 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qjb9S-008KZA-36
+	id 1qjbMC-008OVz-1f
 	for linux-nvme@lists.infradead.org;
-	Fri, 22 Sep 2023 08:04:40 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1695369876;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=CBLqoMyIVireLlLreZE4y9YWUgoFtH3j+ZLwtIAR6bY=;
-	b=OZg+BjedXGezaJGvSswT2cR2z4Wvi+UaVVtrltDAFYnsTdpHgZ9f8XspLfva5TjeymwK/5
-	+AGwRakaTSyR0v0klQ3MNnOj857VtM+XieAEr12c1LvAkgqmxAI0YHFYm5JOaUJAJ0w8De
-	kBnr40Rrg1pzVhlmMNyTa0stLjR3XUM=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-414-movzolr0O5q7EvlVO3dTTQ-1; Fri, 22 Sep 2023 04:04:32 -0400
-X-MC-Unique: movzolr0O5q7EvlVO3dTTQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	Fri, 22 Sep 2023 08:17:50 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5C4131C06E0B;
-	Fri, 22 Sep 2023 08:04:32 +0000 (UTC)
-Received: from localhost (unknown [10.72.120.3])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 190AF40C2064;
-	Fri, 22 Sep 2023 08:04:30 +0000 (UTC)
-From: Ming Lei <ming.lei@redhat.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: linux-kernel@vger.kernel.org,
-	Ming Lei <ming.lei@redhat.com>,
-	Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org,
-	Yi Zhang <yi.zhang@redhat.com>,
-	Guangwu Zhang <guazhang@redhat.com>,
-	Chengming Zhou <zhouchengming@bytedance.com>,
-	Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH V4 resend] lib/group_cpus.c: avoid to acquire cpu hotplug lock in group_cpus_evenly
-Date: Fri, 22 Sep 2023 16:04:25 +0800
-Message-ID: <20230922080425.2745715-1-ming.lei@redhat.com>
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 0C0641F37F;
+	Fri, 22 Sep 2023 08:17:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1695370658; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DJfuw9D8Q8SVQcNi/Y9NxwRtPgfMr2LRYJ7zesFH1as=;
+	b=qs5GreiwfzR4AR78pWOnQAY8KncZbIGVJLu2o9Ok70vI1WexIKDueCRRZl02QaU7O9DEx7
+	Ui/+z+atYTVH8HasAWRnlfHeXJY7gfUTJHlFrOnxcOoX8zGNgKjkDA3bfMPPsEXYMIsrID
+	NNYWK9m208QEWz/IS8Ae/ehhVL/eRwc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1695370658;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DJfuw9D8Q8SVQcNi/Y9NxwRtPgfMr2LRYJ7zesFH1as=;
+	b=5zLbFo83z10CDu+zHO/ufvgymwiNVLpuSB8N0c74Os05IDdcOgd/QHvzMydqLMINtZMO4d
+	AqsLKWHVbLRkveCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 49C7113597;
+	Fri, 22 Sep 2023 08:17:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id ZvI5D6FNDWWRNwAAMHmgww
+	(envelope-from <hare@suse.de>); Fri, 22 Sep 2023 08:17:37 +0000
+Message-ID: <2fbed8cd-5d70-4384-a488-c21fc831e4e2@suse.de>
+Date: Fri, 22 Sep 2023 10:17:36 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/1] nvmet: View subsystem connections on nvmeof target
+Content-Language: en-US
+To: Redouane BOUFENGHOUR <redouane.boufenghour@shadow.tech>,
+ Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, kch@nvidia.com, hch@lst.de,
+ antoine.damhet@shadow.tech, valentin.brice@shadow.tech
+References: <20230920141205.26637-1-redouane.boufenghour@shadow.tech>
+ <6596810b-103a-ff18-49b2-7ae5c8d01c38@grimberg.me>
+ <CAEjkvFgh9nSbGs0sZOZZdB9TWOtx=i1XE0Q7XjL63fK7TLLjrg@mail.gmail.com>
+ <CAEjkvFiHupE6tLjNyxLBTv1Mj76ddAM2zwDLHt5WyqOt-Pogsw@mail.gmail.com>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <CAEjkvFiHupE6tLjNyxLBTv1Mj76ddAM2zwDLHt5WyqOt-Pogsw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230922_010439_068374_0BE762ED 
-X-CRM114-Status: GOOD (  16.44  )
+X-CRM114-CacheID: sfid-20230922_011748_701367_67CBAE00 
+X-CRM114-Status: GOOD (  21.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,94 +96,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-group_cpus_evenly() could be part of storage driver's error handler,
-such as nvme driver, when may happen during CPU hotplug, in which
-storage queue has to drain its pending IOs because all CPUs associated
-with the queue are offline and the queue is becoming inactive. And
-handling IO needs error handler to provide forward progress.
+On 9/20/23 17:36, Redouane BOUFENGHOUR wrote:
+> You can find the path here
+> https://lore.kernel.org/linux-nvme/20230920141205.26637-2-redouane.boufenghour@shadow.tech/
+> 
+> We chose to put the information in the configfs for nvmet which takes
+> up the spirit of the "target" module for connection information.
+> 
+> In my humble opinion, this information would be better located in the
+> sysfs so the kernel provides the info to userland. That being said,
+> splitting the source of truth for the nvmet module into two separate
+> pseudo-fs could generate some confusion which would make it harder to
+> users to find all available informations provided by the nvmet module.
+> This is one of the reason why in the "target" module this whole ordeal
+> is handled by a 2-step procedure: first, userland creates ACLs
+> directory (since we can't create a directory in the configfs from the
+> kernel) based on an attr filling "dynamic_sessions" and then the
+> kernel module fills the info in a dedicated configfs attr page in the
+> created directory. (The "target" implementation is available in
+> drivers/target/iscsi/iscsi_target_configfs.c in the
+> lio_target_tpg_dynamic_sessions_show function)
+> 
+> To sum it up, I think it all boils down to the question: Do you want
+> to maintain some similarities between target and nvmet modules or
+> should the nvmet module go its own way and implement this in a
+> different way ?
+> 
+Thing is, 'configfs' is, as the name implied, for configuration. Having 
+the driver fill out information is not something the user can nor should 
+edit, and as such it's arguably wrong to have this information in configfs.
+You do have a point in that this information might be displayed in 
+sysfs, but sysfs is pretty tied to the driver model (ie 'struct 
+device'). And nvmet does not use 'struct device' internally, so really 
+sysfs is not a good fit, either.
+debugfs, OTOH, is pretty good fit, as this is information internal to 
+the nvmet subsystem. And one can trivially avoid displaying that 
+information by simply not mounting debugfs, thereby maintaining
+backwards compability.
 
-Then dead lock is caused:
+So I guess debugfs is it, even if it's more work.
+Plus you can use the 'seq_file' interface to avoid the page size 
+limitation when printing out data.
 
-1) inside CPU hotplug handler, CPU hotplug lock is held, and blk-mq's
-handler is waiting for inflight IO
+And I really would like to have this information, too, as occasionally
+I've foud to have a need for that information, too.
 
-2) error handler is waiting for CPU hotplug lock
+Cheers,
 
-3) inflight IO can't be completed in blk-mq's CPU hotplug handler because
-error handling can't provide forward progress.
-
-Solve the deadlock by not holding CPU hotplug lock in group_cpus_evenly(),
-in which two stage spreads are taken: 1) the 1st stage is over all present
-CPUs; 2) the end stage is over all other CPUs.
-
-Turns out the two stage spread just needs consistent 'cpu_present_mask', and
-remove the CPU hotplug lock by storing it into one local cache. This way
-doesn't change correctness, because all CPUs are still covered.
-
-Cc: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Cc: linux-block@vger.kernel.org
-Reported-by: Yi Zhang <yi.zhang@redhat.com>
-Reported-by: Guangwu Zhang <guazhang@redhat.com>
-Tested-by: Guangwu Zhang <guazhang@redhat.com>
-Reviewed-by: Chengming Zhou <zhouchengming@bytedance.com>
-Reviewed-by: Jens Axboe <axboe@kernel.dk>
-Signed-off-by: Ming Lei <ming.lei@redhat.com>
----
- lib/group_cpus.c | 22 ++++++++++++++++------
- 1 file changed, 16 insertions(+), 6 deletions(-)
-
-diff --git a/lib/group_cpus.c b/lib/group_cpus.c
-index aa3f6815bb12..ee272c4cefcc 100644
---- a/lib/group_cpus.c
-+++ b/lib/group_cpus.c
-@@ -366,13 +366,25 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
- 	if (!masks)
- 		goto fail_node_to_cpumask;
- 
--	/* Stabilize the cpumasks */
--	cpus_read_lock();
- 	build_node_to_cpumask(node_to_cpumask);
- 
-+	/*
-+	 * Make a local cache of 'cpu_present_mask', so the two stages
-+	 * spread can observe consistent 'cpu_present_mask' without holding
-+	 * cpu hotplug lock, then we can reduce deadlock risk with cpu
-+	 * hotplug code.
-+	 *
-+	 * Here CPU hotplug may happen when reading `cpu_present_mask`, and
-+	 * we can live with the case because it only affects that hotplug
-+	 * CPU is handled in the 1st or 2nd stage, and either way is correct
-+	 * from API user viewpoint since 2-stage spread is sort of
-+	 * optimization.
-+	 */
-+	cpumask_copy(npresmsk, data_race(cpu_present_mask));
-+
- 	/* grouping present CPUs first */
- 	ret = __group_cpus_evenly(curgrp, numgrps, node_to_cpumask,
--				  cpu_present_mask, nmsk, masks);
-+				  npresmsk, nmsk, masks);
- 	if (ret < 0)
- 		goto fail_build_affinity;
- 	nr_present = ret;
-@@ -387,15 +399,13 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
- 		curgrp = 0;
- 	else
- 		curgrp = nr_present;
--	cpumask_andnot(npresmsk, cpu_possible_mask, cpu_present_mask);
-+	cpumask_andnot(npresmsk, cpu_possible_mask, npresmsk);
- 	ret = __group_cpus_evenly(curgrp, numgrps, node_to_cpumask,
- 				  npresmsk, nmsk, masks);
- 	if (ret >= 0)
- 		nr_others = ret;
- 
-  fail_build_affinity:
--	cpus_read_unlock();
--
- 	if (ret >= 0)
- 		WARN_ON(nr_present + nr_others < numgrps);
- 
+Hannes
 -- 
-2.41.0
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
+Myers, Andrew McDonald, Martje Boudien Moerman
 
 
