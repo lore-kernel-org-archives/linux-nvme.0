@@ -4,83 +4,145 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9CCDFCE7A81
-	for <linux-nvme@archiver.kernel.org>; Fri, 22 Sep 2023 23:08:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E754CCE7A88
+	for <linux-nvme@archiver.kernel.org>; Sat, 23 Sep 2023 08:13:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BH6KQp0bhlj8HA3rXvIBa/OP3apN1qfWs28l283xDRg=; b=uFRA3Y+Icl09ZkWGnUW+gYw9P5
-	59iPQdwOEFSe4f/qeCjsD+v+xARLdGB6IZi3KvvxF1hLRu+l5L8VSjUlJxSQAUgMwYwHYbNkah8cU
-	YafIIRHNREOFptITXj1KE4dqymudIhWIlpRnMasEJEqLrfV6Lz2sGYrwV0DqRfxvQo0UX42zPxknI
-	EKmcFDEwwcEmQ/ZteaONljZMULaGTheHc20p0d672ZmxOoWlCVydwRqOYLcOf5BFN9wcpsaQHLNly
-	IrU37V/LnftIEdX/eS/hBCL5i4RzvzPO6T53lJa/IPGCFq+xrZW9B1o5J7g74tKV0IsRrO/oVIocO
-	Ik4b/rEg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=TLE/Sy/4Fa+njmqsxxYakkAuq43NHPAgx52dBzDfrZA=; b=V/aDjKKLVnnhs2P3RJrHuyhMam
+	1vAG26kanF0yO8GTqKmafvGm6MjNtZC4hqVYoWZTG7u6CEZ23lnwGK+w2sN62gtUbXXOVJlbuK+38
+	rgjhdI2Zn85RlA2TEKQiwIE07XxV14Pg/42GMP78JckSCB/iCBLU1Z16XB+PL1toRmE8zh3L4elua
+	D4Dbgrkhkh5unNZx/JOAil5g38zm3hyvXE6yV+PuCpTBLCBBzGwvA31emVMZUI50dDp+TGuKZAt7O
+	Hxawu2wRNlSX1MLOOBZNdpcBYr2Uzrm6klFOJH6/XSQaUY6RG/2djT0o48H2ZRL6UbALPy473VjPg
+	lSRap+fw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qjpGN-009xbj-0O;
-	Fri, 22 Sep 2023 23:08:43 +0000
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
+	id 1qjxlO-00Ad9t-03;
+	Sat, 23 Sep 2023 08:13:18 +0000
+Received: from mailout1.samsung.com ([203.254.224.24])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qjpGI-009xaq-19
+	id 1qjxlK-00Ad7x-1F
 	for linux-nvme@lists.infradead.org;
-	Fri, 22 Sep 2023 23:08:39 +0000
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-692b2bdfce9so1119833b3a.3
-        for <linux-nvme@lists.infradead.org>; Fri, 22 Sep 2023 16:08:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695424116; x=1696028916; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BH6KQp0bhlj8HA3rXvIBa/OP3apN1qfWs28l283xDRg=;
-        b=UrXkij6//Yfrv1sEGigxDHiAWbVzgtge+ITAfmMsUjCWSUJNCqsfDijX/4KZ+MPgsq
-         74uV05dO3cxkMTM3WHwDNhK48MxKk9ir8bY7UhVYVZozbIOh6b4xGQoUIQiR5Nr1ZPQZ
-         BKB8vtbIy0HoahXgNuUE9WXmfXEU7BMZFb1i3EsnaEiomLi8kTNNTctxl1UUJTWuc/sK
-         b4NMciIg29nL1+Qjgits8zq4dCGXUTMHJv10hH4S9116U85Aq9VyJ707AY9yCqHpbhbx
-         fsnu+r/xqoSYAFY4UyLlIEGksM1BJIbLVaSqIPGO6Yzy91wA0VeWyERp/x3n0YLFLvjj
-         g8ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695424116; x=1696028916;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BH6KQp0bhlj8HA3rXvIBa/OP3apN1qfWs28l283xDRg=;
-        b=F3PNT3fF0JXY+DzfzBjN9Yn+G2IjoBavRuRABxdRaYc44hbiQe9nmos7naeiVk87dj
-         pYwE1lQbc1Jj8iJr+bFRqkL9a7XjBhfBPYTFWhzvN3v+1Vu7uOnIM2EN8LCTjowObdRs
-         dSI+qUykpB3GPtR5zHBc/2NoP8gR3WIwpzhE1F8fnLU1Rm4G5ZlZRN/0wWIKBvqTUEeX
-         sQiTNNiO7uoZ9vlwCCMBPQpQDg01wjRyM3W3z+pWju2h/u6TbZ99XyAni8kZOWfGKkWw
-         pdMxKWbbXPUrGY/HoTXMShxv+Qs2z01CqQsHOSEENCaxOHDyst+QrIW4s5qRc+CkSQAM
-         C2xA==
-X-Gm-Message-State: AOJu0Yy/V8LbjQCZn/KjaX59Mi4dOi2gMJxRv1kcn7J8jBGghiR0hckX
-	yNo5MUksdw22CC/demwWI2g=
-X-Google-Smtp-Source: AGHT+IHmYl3bCs7WXJAZ49JfpXURr+OKwVbh6i7ammq3G2Y5NVBY3MEXZ+0gDX7Vsl4hWt0OIGsFvA==
-X-Received: by 2002:a05:6a00:1508:b0:690:b7a1:ac51 with SMTP id q8-20020a056a00150800b00690b7a1ac51mr851791pfu.31.1695424115970;
-        Fri, 22 Sep 2023 16:08:35 -0700 (PDT)
-Received: from [10.69.46.142] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id f20-20020a63f114000000b005703a63836esm3652638pgi.57.2023.09.22.16.08.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Sep 2023 16:08:35 -0700 (PDT)
-Message-ID: <635234b9-6ad9-4d5f-891e-4c76fbea8d63@gmail.com>
-Date: Fri, 22 Sep 2023 16:08:33 -0700
+	Sat, 23 Sep 2023 08:13:16 +0000
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20230923081305epoutp01759085eaeccd6c747d20a1a3812f3b3d~HePaPPkQ50259402594epoutp01L
+	for <linux-nvme@lists.infradead.org>; Sat, 23 Sep 2023 08:13:05 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20230923081305epoutp01759085eaeccd6c747d20a1a3812f3b3d~HePaPPkQ50259402594epoutp01L
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1695456785;
+	bh=TLE/Sy/4Fa+njmqsxxYakkAuq43NHPAgx52dBzDfrZA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=h/BWI4DfmcnNaHBy6QEQOVpke8+msZ4Ysg5JXgqBpX/KOBzL2t0KTNKyTU7BW30VN
+	 9FjXB5laHJDm7pt9AU3Mcf9q7skaptZLcmsQeiCICp4QRz4db4PP2Mte6G3yKiqKgk
+	 w2Y4rvlrH8jV2WumXnyYSD87oeAmQXNLS6y4Lqhc=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+	20230923081303epcas5p1556a5e37929a332e7b59407ddb854315~HePY2SkX20487904879epcas5p1i;
+	Sat, 23 Sep 2023 08:13:03 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.183]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4Rt22449bnz4x9Pr; Sat, 23 Sep
+	2023 08:13:00 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	20.26.09638.C0E9E056; Sat, 23 Sep 2023 17:13:00 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20230922111746epcas5p204bf631f0d45f43c5fb13bad26b2c798~HNHYET5c51000710007epcas5p2q;
+	Fri, 22 Sep 2023 11:17:46 +0000 (GMT)
+Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20230922111746epsmtrp22f04a152ad73f84d56629c97edbd2234~HNHYDC8w22146921469epsmtrp2S;
+	Fri, 22 Sep 2023 11:17:46 +0000 (GMT)
+X-AuditID: b6c32a4a-92df9700000025a6-78-650e9e0ca620
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	16.D3.08649.AD77D056; Fri, 22 Sep 2023 20:17:46 +0900 (KST)
+Received: from green245 (unknown [107.99.41.245]) by epsmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20230922111742epsmtip1dfbf7bb7f35d2f16f25d65543eb97821~HNHU3SCWc2955729557epsmtip1A;
+	Fri, 22 Sep 2023 11:17:42 +0000 (GMT)
+Date: Fri, 22 Sep 2023 16:41:41 +0530
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Jinyoung Choi <j-young.choi@samsung.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
+	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	"dm-devel@redhat.com" <dm-devel@redhat.com>, Keith Busch
+	<kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
+	<sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, Alexander Viro
+	<viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+	"martin.petersen@oracle.com" <martin.petersen@oracle.com>,
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+	"nitheshshetty@gmail.com" <nitheshshetty@gmail.com>, "anuj1072538@gmail.com"
+	<anuj1072538@gmail.com>, SSDR Gost Dev <gost.dev@samsung.com>,
+	"mcgrof@kernel.org" <mcgrof@kernel.org>, Hannes Reinecke <hare@suse.de>,
+	Anuj Gupta <anuj20.g@samsung.com>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH v16 03/12] block: add copy offload support
+Message-ID: <20230922111141.GA14640@green245>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] nvmet: View subsystem connections on nvmeof target
-Content-Language: en-US
-To: Redouane BOUFENGHOUR <redouane.boufenghour@shadow.tech>,
- linux-nvme@lists.infradead.org
-Cc: kch@nvidia.com, hch@lst.de, sagi@grimberg.me, antoine.damhet@shadow.tech,
- valentin.brice@shadow.tech
-References: <20230920141205.26637-1-redouane.boufenghour@shadow.tech>
- <20230920141205.26637-2-redouane.boufenghour@shadow.tech>
-From: James Smart <jsmart2021@gmail.com>
-In-Reply-To: <20230920141205.26637-2-redouane.boufenghour@shadow.tech>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20230922095650epcms2p8e25340eff5de01f8b3ce63ae81266881@epcms2p8>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Ta1AbVRTHvbvLJlBhFgp6oa8QhikPoaRCeqFA1aJuHzJ0HL/otJCBFRBI
+	0jzEWrWJGJRSXi1YDYWCpKWkD8ojhT5SGQJEYBhUCBSQSiV0FAZog9KhLWjCUqfffud/z/+e
+	e86Zy8U99BwfbrpYwcjEokw+6UJcMwUGhbxY6caEdVZ4o/qeLhw9/OcJgb4sXsbRxfEiEs2Y
+	bABZ274GyDhX7oRG2q5j6NYPJzFUd7ETQwVFBhKdbB8CaMqixZBxNBhV5+oIdMvYTaCBG2dI
+	dPb8FAflD7eSqNa8gqE7xVMAtVrVAF2ZmSfQT6MbUP+y2ek1b/q6dpxD999tIOiBPiXdqM8j
+	6SbdMfrmiIqkawpPOdEFOXMk/XBqlKDnb1tIurBZD+im3qP0QuNmutE6iyW4vZ8RncaIUhgZ
+	jxEnS1LSxakx/H3vJu5OjBCGCUIEkWgHnycWZTEx/Lj9CSFvpWfaB8HnfSzKVNqlBJFczt8W
+	Gy2TKBUML00iV8TwGWlKpjRcGioXZcmV4tRQMaOIEoSFbY+wJyZlpI2MDRJSi+sni5NdmApo
+	1h0HzlxIhcOWjnnsOHDhelA3ARw7YSHYwAbgX7OTOBssAriy1GJP465a1LOfsboRwJmSPzls
+	cB9Ai6bHyXEvQfnDwrYywmEgqWDY+y/XgZ7UK1Cj93Ok45SFC+uWdcCRvp6KhcaKCY6DXakQ
+	2GVuwFh2h93fWwkHO1PxMD+3k3SwF+UH266ZV58NqV+d4Y+LlzlsP3GwtL6DYHk9nDY3r+k+
+	cGHOSLKcDetKL5Cs+SsAtcNawB7sgpqeItzBOJUGqwyDa+ZNsKznCsbqbrDgiRVjdVfYWvmM
+	/eCl+qq1At5w6JF6jWnYp+lYG+MjADV3zZxisEX7XHfa5+qxHArvlJWSLG+BOYZyXGufHk5t
+	gLUrXBYDYf2NbVWA1ANvRirPSmXkEdLtYib7/+0nS7IaweqnCdrbCu5NPAhtBxgXtAPIxfme
+	rsk2F8bDNUV05FNGJkmUKTMZeTuIsC+uBPfxSpbYf51YkSgIjwwLFwqF4ZGvCgX8l11nNBUp
+	HlSqSMFkMIyUkT3zYVxnHxX2+bmMYeneMMPhxyaf6taDns3nbg9dUI0nHzp9zFDEU0WRfceZ
+	rQMpI9IXeny/2CeY9n2Qv6Qs+e1sXuLwh5yl2Z0V/o+jbLrdJ3IPtgR8kDjHCypTGKItObJ7
+	0l1/cy5vVMcFwKtHevM+sjWW+/k3Ly/Z6g0G9/x37g81WLBfLIFtHeNjnm9+txFdOjxfm+Be
+	VJyR9w01Yg2uqQowbXV7w+Np7Ns1uqSOmAp96B8HTh0YMlkLCo82CcnuQ5w9vpPZzi9p3dZN
+	q3uf7ijoUKUaJN+OnFboDJ7qPf34VX7371VJ4z+bPJU74/fHD545vyCUvC6srJ7YvEk71GKt
+	9Ip9T12r4BPyNJEgCJfJRf8BApbBjb0EAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrGIsWRmVeSWpSXmKPExsWy7bCSnO6tct5Ug94+Vov1p44xW3z8+pvF
+	omnCX2aL1Xf72SxeH/7EaPHkQDujxd53s1ktbh7YyWSxZ9EkJouVq48yWfT2b2WzmHToGqPF
+	06uzmCz23tK2WNi2hMViz96TLBaXd81hs5i/7Cm7Rff1HWwWy4//Y7K4MeEpo8WOJ42MFute
+	v2exOHFL2uL83+OsDpIeO2fdZfc4f28ji8fls6Uem1Z1snlsXlLvsftmA5vH4r7JrB69ze/Y
+	PD4+vcXi8X7fVTaPvi2rGD02n672+LxJzmPTk7dMAXxRXDYpqTmZZalF+nYJXBnPXy9kK/jE
+	VXH3eh9zA+M+ji5GDg4JAROJxrc1XYxcHEICuxklum4sYuxi5ASKS0os+3uEGcIWllj57zk7
+	RNETRon9h06wgSRYBFQl+g5MZQEZxCagLXH6P9hMEQEdidZVyiDlzAK3OSSen+9lBSkXFrCT
+	2Dv3ATuIzSugK3Hs+EYmiJnfGSU+z33NApEQlDg58wmYzQw0aOfWO2wgQ5kFpCWW/+OACMtL
+	NG+dDXYbp4CfRHfbUbBzRAWUJQ5sO840gVFoFpJJs5BMmoUwaRaSSQsYWVYxSqYWFOem5yYb
+	FhjmpZbrFSfmFpfmpesl5+duYgQnDS2NHYz35v/TO8TIxMF4iFGCg1lJhDf5E1eqEG9KYmVV
+	alF+fFFpTmrxIUZpDhYlcV7DGbNThATSE0tSs1NTC1KLYLJMHJxSDUw8pTu/rag/wGq6M8Qo
+	Z3a54I399ipzfzQd3fQyQJpxSzjLKl/l5UnGD++fnXtqQbHA7OgZj3jXyLpn7b/tPve7rVHj
+	+s2bnn34lbdR98SW5wK2O9RXFXB0Sc7JWTvlRdu5zitrX79kqcmLzJOcMnfxh5dChgLRwt4b
+	tW9Kh9mqfXFYalUTfKx8gpuA/8+vMvwG865f63qyfs6XinyR70t/NbQZPPh+dXZI+deT/au2
+	pmU+3iFlyL5vDxszb8j3IL4FnzXnekQpXXlS05Ba+uWW65pXIZInTz7M9RB5dzlyV/tsEbGj
+	HMYbOCzv3jywwlV70cOIa8f9lwa/ETi5OcDmjqLHtz05XCtjplXqGpeKK7EUZyQaajEXFScC
+	AFPrTUWJAwAA
+X-CMS-MailID: 20230922111746epcas5p204bf631f0d45f43c5fb13bad26b2c798
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----r74_f6S_OIQxXK41.4aq6v4zMY6akVoN.sMgyBemj3VfQZgP=_119e9_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230920081447epcas5p144e631c5b8c72acf64d38b04d6c2c925
+References: <20230920080756.11919-4-nj.shetty@samsung.com>
+	<20230920080756.11919-1-nj.shetty@samsung.com>
+	<CGME20230920081447epcas5p144e631c5b8c72acf64d38b04d6c2c925@epcms2p8>
+	<20230922095650epcms2p8e25340eff5de01f8b3ce63ae81266881@epcms2p8>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230922_160838_399266_D8B78BFB 
-X-CRM114-Status: GOOD (  29.95  )
+X-CRM114-CacheID: sfid-20230923_011314_773507_EE76CC4B 
+X-CRM114-Status: GOOD (  21.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,187 +157,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/20/2023 7:12 AM, Redouane BOUFENGHOUR wrote:
-> We add a new entry in the tcp and rdma factories to retrieve the peer
-> address of a ctrl.
+------r74_f6S_OIQxXK41.4aq6v4zMY6akVoN.sMgyBemj3VfQZgP=_119e9_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+
+On Fri, Sep 22, 2023 at 06:56:50PM +0900, Jinyoung Choi wrote:
+> > +/*
+> > + * This must only be called once all bios have been issued so that the refcount
+> > + * can only decrease. This just waits for all bios to complete.
+> > + * Returns the length of bytes copied or error
+> > + */
+> > +static ssize_t blkdev_copy_wait_io_completion(struct blkdev_copy_io *cio)
 > 
-> The functions nvmet_rdma_disc_peer_addr and nvmet_tcp_disc_peer_addr return
-> a snprintf of size NVMF_TRADDR_SIZE with the address connected to the ctlrs
+> Hi, Nitesh,
 > 
-> which is then displayed in a subsys attribute attr_connected_ctrls on RO
-
-The "peertraddr" term is odd. On the host side we have "host traddr" for 
-the address information for the host side of the connection to the 
-controller. I'd prefer to use host traddr over the peer traddr name.
-
-as for the patches:
-- I'm not a fan of dstaddr passed between common/transport layers and 
-transports "assuming" they know the length via a compile time define. 
-I'd prefer being explicit and having the dstaddr buffer length passed 
-around as well.
-
-- Are there cases where the address field is more than a single traddr 
-value ?  For example, do you need to know host IP address and port # ? 
-You can leave it up to the transport to fill in whatever data 
-constitutes an "address" which if the max length of the destbuffer is 
-known, makes that easier.
-
--- james
-
-
-
+> don't functions waiting for completion usually set their names to 'wait_for_completion_'?
+> (e.g. blkdev_copy_wait_for_completion_io)
 > 
-> Co-developed-by: Valentin BRICE <valentin.brice@shadow.tech>
-> Signed-off-by: Valentin BRICE <valentin.brice@shadow.tech>
-> Co-developed-by: Antoine DAMHET <antoine.damhet@shadow.tech>
-> Signed-off-by: Antoine DAMHET <antoine.damhet@shadow.tech>
-> Co-developed-by: Redouane BOUFENGHOUR <redouane.boufenghour@shadow.tech>
-> Signed-off-by: Redouane BOUFENGHOUR <redouane.boufenghour@shadow.tech>
-> ---
->   drivers/nvme/target/configfs.c | 30 ++++++++++++++++++++++++++++++
->   drivers/nvme/target/core.c     |  7 +++++++
->   drivers/nvme/target/nvmet.h    |  2 ++
->   drivers/nvme/target/rdma.c     | 10 ++++++++++
->   drivers/nvme/target/tcp.c      | 13 +++++++++++++
->   5 files changed, 62 insertions(+)
 > 
-> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-> index 907143870da5..6cbbe71244dd 100644
-> --- a/drivers/nvme/target/configfs.c
-> +++ b/drivers/nvme/target/configfs.c
-> @@ -1426,6 +1426,35 @@ static ssize_t nvmet_subsys_attr_qid_max_store(struct config_item *item,
->   }
->   CONFIGFS_ATTR(nvmet_subsys_, attr_qid_max);
->   
-> +static ssize_t nvmet_subsys_attr_connected_ctrls_show(
-> +	struct config_item *item, char *page)
-> +{
-> +	ssize_t len, ret;
-> +	int peer;
-> +	char dstaddr[NVMF_TRADDR_SIZE];
-> +	struct nvmet_subsys *subsys;
-> +	struct nvmet_ctrl *ctrl;
-> +
-> +	subsys = to_subsys(item);
-> +	len = 0;
-> +
-> +	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
-> +		peer = get_peer_traddr(ctrl, ctrl->sqs[0], dstaddr);
-> +		if (peer < 0)
-> +			snprintf(dstaddr, NVMF_TRADDR_SIZE, "unknown");
-> +		ret = snprintf(page + len, PAGE_SIZE - len,
-> +			       "hostnqn: %s; peer_addr: %s\n",
-> +			       ctrl->hostnqn, dstaddr);
-> +		if (ret >= PAGE_SIZE - len) {
-> +			sprintf(page + PAGE_SIZE - 14, "\n[truncated]");
-> +			return PAGE_SIZE;
-> +		}
-> +		len += ret;
-> +	}
-> +	return len;
-> +}
-> +CONFIGFS_ATTR_RO(nvmet_subsys_, attr_connected_ctrls);
-> +
->   static struct configfs_attribute *nvmet_subsys_attrs[] = {
->   	&nvmet_subsys_attr_attr_allow_any_host,
->   	&nvmet_subsys_attr_attr_version,
-> @@ -1436,6 +1465,7 @@ static struct configfs_attribute *nvmet_subsys_attrs[] = {
->   	&nvmet_subsys_attr_attr_qid_max,
->   	&nvmet_subsys_attr_attr_ieee_oui,
->   	&nvmet_subsys_attr_attr_firmware,
-> +	&nvmet_subsys_attr_attr_connected_ctrls,
->   #ifdef CONFIG_BLK_DEV_INTEGRITY
->   	&nvmet_subsys_attr_attr_pi_enable,
->   #endif
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index 3935165048e7..ba5997a14675 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -1629,6 +1629,13 @@ static void nvmet_subsys_free(struct kref *ref)
->   	kfree(subsys);
->   }
->   
-> +int get_peer_traddr(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq, char *dstaddr)
-> +{
-> +	if (ctrl->ops->disc_peertraddr == NULL)
-> +		return -EOPNOTSUPP;
-> +	return ctrl->ops->disc_peertraddr(sq, ctrl->port, dstaddr);
-> +}
-> +
->   void nvmet_subsys_del_ctrls(struct nvmet_subsys *subsys)
->   {
->   	struct nvmet_ctrl *ctrl;
-> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-> index 8cfd60f3b564..60ea2391a957 100644
-> --- a/drivers/nvme/target/nvmet.h
-> +++ b/drivers/nvme/target/nvmet.h
-> @@ -341,6 +341,8 @@ struct nvmet_fabrics_ops {
->   	void (*discovery_chg)(struct nvmet_port *port);
->   	u8 (*get_mdts)(const struct nvmet_ctrl *ctrl);
->   	u16 (*get_max_queue_size)(const struct nvmet_ctrl *ctrl);
-> +	int (*disc_peertraddr)(struct nvmet_sq *nvme_sq,
-> +			       struct nvmet_port *port, char *dstaddr);
->   };
->   
->   #define NVMET_MAX_INLINE_BIOVEC	8
-> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-> index 4597bca43a6d..395554a77fc1 100644
-> --- a/drivers/nvme/target/rdma.c
-> +++ b/drivers/nvme/target/rdma.c
-> @@ -1992,6 +1992,15 @@ static void nvmet_rdma_disc_port_addr(struct nvmet_req *req,
->   		memcpy(traddr, nport->disc_addr.traddr, NVMF_TRADDR_SIZE);
->   	}
->   }
-> +int nvmet_rdma_disc_peer_addr(struct nvmet_sq *nvme_sq,
-> +			      struct nvmet_port *nport, char *dstaddr)
-> +{
-> +	struct nvmet_rdma_queue *queue =
-> +		container_of(nvme_sq, struct nvmet_rdma_queue, nvme_sq);
-> +
-> +	snprintf(dstaddr, NVMF_TRADDR_SIZE, "%pISc",
-> +		 (struct sockaddr *)&queue->cm_id->route.addr.dst_addr);
-> +}
->   
->   static u8 nvmet_rdma_get_mdts(const struct nvmet_ctrl *ctrl)
->   {
-> @@ -2015,6 +2024,7 @@ static const struct nvmet_fabrics_ops nvmet_rdma_ops = {
->   	.queue_response		= nvmet_rdma_queue_response,
->   	.delete_ctrl		= nvmet_rdma_delete_ctrl,
->   	.disc_traddr		= nvmet_rdma_disc_port_addr,
-> +	.disc_peertraddr        = nvmet_rdma_disc_peer_addr,
->   	.get_mdts		= nvmet_rdma_get_mdts,
->   	.get_max_queue_size	= nvmet_rdma_get_max_queue_size,
->   };
-> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-> index 868aa4de2e4c..ae454c176fac 100644
-> --- a/drivers/nvme/target/tcp.c
-> +++ b/drivers/nvme/target/tcp.c
-> @@ -1871,6 +1871,18 @@ static void nvmet_tcp_disc_port_addr(struct nvmet_req *req,
->   	}
->   }
->   
-> +int nvmet_tcp_disc_peer_addr(struct nvmet_sq *sq,
-> +			     struct nvmet_port *nport, char *dstaddr)
-> +{
-> +	struct nvmet_tcp_queue *queue =
-> +		container_of(sq, struct nvmet_tcp_queue, nvme_sq);
-> +
-> +	if (queue->sockaddr_peer.ss_family == AF_UNSPEC)
-> +		return -EINVAL;
-> +	return snprintf(dstaddr, NVMF_TRADDR_SIZE, "%pISc",
-> +			 (struct sockaddr *)&queue->sockaddr_peer);
-> +}
-> +
->   static const struct nvmet_fabrics_ops nvmet_tcp_ops = {
->   	.owner			= THIS_MODULE,
->   	.type			= NVMF_TRTYPE_TCP,
-> @@ -1881,6 +1893,7 @@ static const struct nvmet_fabrics_ops nvmet_tcp_ops = {
->   	.delete_ctrl		= nvmet_tcp_delete_ctrl,
->   	.install_queue		= nvmet_tcp_install_queue,
->   	.disc_traddr		= nvmet_tcp_disc_port_addr,
-> +	.disc_peertraddr        = nvmet_tcp_disc_peer_addr,
->   };
->   
->   static int __init nvmet_tcp_init(void)
+> > +ssize_t blkdev_copy_offload(struct block_device *bdev, loff_t pos_in,
+> > +                            loff_t pos_out, size_t len,
+> > +                            void (*endio)(void *, int, ssize_t),
+> > +                            void *private, gfp_t gfp)
+> > +{
+> > +        struct blkdev_copy_io *cio;
+> > +        struct blkdev_copy_offload_io *offload_io;
+> > +        struct bio *src_bio, *dst_bio;
+> > +        ssize_t rem, chunk, ret;
+> > +        ssize_t max_copy_bytes = bdev_max_copy_sectors(bdev) << SECTOR_SHIFT;
+> 
+> wouldn't it be better to use size_t for variables that don't return?
+> values such as chunk and max_copy_bytes may be defined as 'unsigned'.
 
+Agree, we will keep ret as ssize_t and move others to size_t.
+Acked for all other comments, will address them in next version.
+
+Thank You,
+Nitesh Shetty
+
+------r74_f6S_OIQxXK41.4aq6v4zMY6akVoN.sMgyBemj3VfQZgP=_119e9_
+Content-Type: text/plain; charset="utf-8"
+
+
+------r74_f6S_OIQxXK41.4aq6v4zMY6akVoN.sMgyBemj3VfQZgP=_119e9_--
 
