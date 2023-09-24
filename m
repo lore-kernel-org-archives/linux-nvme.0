@@ -4,66 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 02DAECE7A88
-	for <linux-nvme@archiver.kernel.org>; Sun, 24 Sep 2023 13:17:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CF2ADCE7A8A
+	for <linux-nvme@archiver.kernel.org>; Sun, 24 Sep 2023 13:17:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9AvTPsYt9MTiat9bwcwHqWPBwnRomTe/7RLiZ3YWSsE=; b=mlXo5l4usPFtC1SHG5kHE1DnOI
-	pE7GSo63v7dAmz7AD3QXsqCMkZ9VUi0woqVMsoWU4OovmiO00IYZ0dtbJkIuJK3FJPdMZdLh8OAE4
-	2FEJg6OcpmS2+CM65p3+874JSq5TcYoqznDX0ANSGwpK4+Gvtg9LYtT/xbvIzsJZzsl64s4jHTWuv
-	2U9zx3eGRKtWUPCAbJdK5qf/JdKwhU1BzwbGq5m0N28qKZz8NcGlecgykotA/W1lSV3UyPe8Cal0z
-	THogjR66hSf9AnWtHSfeVVfOspsC1S20VaI4dvUqtXHI0p0PYisw5uIoz4rGFr4ungAzHdkGNoL1b
-	KSCCZ9iA==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Xa0Io692KrvNspSZDbDCs/izFawHMgsr//X69SYqYtg=; b=QFqOu613jRfZgH2sdszSHZKNKx
+	tq8k4ggpkWRY+7Eq7jX+fZAPuoEjORnFzSAEkloCKpfuvx8Mo4yDxbGtl/339YZTtH1gtgiBxM4Lq
+	NK75CYjv76Sl6Z5ogEfieZOufwFRQ1txSnAq/EAtCN+hMyGv4U5pmxIRlWGspU+0NTYI+6Zn8NTa+
+	Wr9ug4g5aVag7FYqLCemqJqOng10HBbzCq+hfhh9vRJOh2p39Z7MZWvrfKBjv3N0fOO1catD9u64i
+	yyr4e+vljwtP+y9Qqi+hjP1gtLP1qgNurJh/zT1egRE9t3TEaByNqSmUZo4I+kO3mK5zY3nYyY26q
+	Q0HjqneA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qkOzP-00CI5h-1c;
-	Sun, 24 Sep 2023 13:17:35 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1qkOzi-00CIBI-0u;
+	Sun, 24 Sep 2023 13:17:54 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qkOzM-00CI40-2Q
+	id 1qkOzf-00CI9j-17
 	for linux-nvme@lists.infradead.org;
-	Sun, 24 Sep 2023 13:17:33 +0000
+	Sun, 24 Sep 2023 13:17:52 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 4059F60C34;
-	Sun, 24 Sep 2023 13:17:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49E8DC433D9;
-	Sun, 24 Sep 2023 13:17:31 +0000 (UTC)
+	by ams.source.kernel.org (Postfix) with ESMTP id E156CB808BB;
+	Sun, 24 Sep 2023 13:17:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46CFAC433CC;
+	Sun, 24 Sep 2023 13:17:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1695561452;
-	bh=QbUfRCAME0OFI35Aen84HXcS0Q7RnK2CJu+YfIPSrvY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=e7gd3NaDi+vQtuyIX7L+MbvBCGUi6iEKMT4KgOZbehvp85WmxQ+cCl+dVFtUPMktf
-	 17EV4ARiY+0yWnh3bfbOGCMqfLDf3mvmzIVAPAPqpqPYDuVUSeF5Bi9dloDlN/mzJz
-	 P3B8qfQgcO1Sf4GspuPRU9Tm+kUaot29uTEMJVaX+9+tL/CCQZ4w6ZbGUdt+7Eqb2q
-	 tqNiajgany+MX3SqJNRx+QvYRxbHgRsiKthypvn81KaqBXFFPDe2aagYJ8Hw+9Ah57
-	 qreNynRmH1yPmSLXTXZ+ED6AHfmeqOo3sx5vY2RJUmeKRAL1NVhBsHfFSHk+qdtAOn
-	 4uZyxxaUlOsKw==
+	s=k20201202; t=1695561469;
+	bh=7qx6tClLTt0813NcUQL4Qop7X18L1CzP2lAWaIgHtLs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=jn/oOWtXPxzK3wyQFVq9jlmZlUO7qfUYDVlrU/SOq9LD/Ec+q47tjiKX3ZBHbNStS
+	 6NDcpIuwIxu9thx6qjITyKfeYJLuRZ6Ae1OkVKILD8NCti7NzaYdnqcTdsvURvn+19
+	 i3msN4SVC2UWDwpQ4YVH3Glumiks2wIcpXAtwQc8EvvBMVfedVwdGfJfd2VI+qWu8h
+	 DKnva/tbrntoIuitx6UUZP6YLD9Kz/UrRdwfwl+j8eGzHlla6WuCVq3RY4ePm5mOgf
+	 mqrVrQBhhV1hhQnRctIO9d5mDvZbxBSxE6J7r8xsclZF9Te83DmJ25gpgo30zTb4fL
+	 AzLn3q8LAbwcw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Pratyush Yadav <ptyadav@amazon.de>,
+Cc: Nigel Kirkland <nkirkland2304@gmail.com>,
+	James Smart <jsmart2021@gmail.com>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	james.smart@broadcom.com,
 	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.5 35/41] nvme-pci: do not set the NUMA node of device if it has none
-Date: Sun, 24 Sep 2023 09:15:23 -0400
-Message-Id: <20230924131529.1275335-35-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 01/28] nvme-fc: Prevent null pointer dereference in nvme_fc_io_getuuid()
+Date: Sun, 24 Sep 2023 09:17:18 -0400
+Message-Id: <20230924131745.1275960-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230924131529.1275335-1-sashal@kernel.org>
-References: <20230924131529.1275335-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.5.5
+X-stable-base: Linux 6.1.55
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230924_061732_827380_944E20FE 
-X-CRM114-Status: GOOD (  11.18  )
+X-CRM114-CacheID: sfid-20230924_061751_538972_A24AA2A7 
+X-CRM114-Status: GOOD (  10.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,36 +78,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Pratyush Yadav <ptyadav@amazon.de>
+From: Nigel Kirkland <nkirkland2304@gmail.com>
 
-[ Upstream commit dad651b2a44eb6b201738f810254279dca29d30d ]
+[ Upstream commit 8ae5b3a685dc59a8cf7ccfe0e850999ba9727a3c ]
 
-If a device has no NUMA node information associated with it, the driver
-puts the device in node first_memory_node (say node 0). Not having a
-NUMA node and being associated with node 0 are completely different
-things and it makes little sense to mix the two.
+The nvme_fc_fcp_op structure describing an AEN operation is initialized with a
+null request structure pointer. An FC LLDD may make a call to
+nvme_fc_io_getuuid passing a pointer to an nvmefc_fcp_req for an AEN operation.
 
-Signed-off-by: Pratyush Yadav <ptyadav@amazon.de>
+Add validation of the request structure pointer before dereference.
+
+Signed-off-by: Nigel Kirkland <nkirkland2304@gmail.com>
+Reviewed-by: James Smart <jsmart2021@gmail.com>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/pci.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/nvme/host/fc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 2f57da12d9836..347cb5daebc3c 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2916,9 +2916,6 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
- 	struct nvme_dev *dev;
- 	int ret = -ENOMEM;
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 6c3d469eed7e3..177a365b8ec55 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1911,7 +1911,7 @@ char *nvme_fc_io_getuuid(struct nvmefc_fcp_req *req)
+ 	struct nvme_fc_fcp_op *op = fcp_req_to_fcp_op(req);
+ 	struct request *rq = op->rq;
  
--	if (node == NUMA_NO_NODE)
--		set_dev_node(&pdev->dev, first_memory_node);
--
- 	dev = kzalloc_node(sizeof(*dev), GFP_KERNEL, node);
- 	if (!dev)
- 		return ERR_PTR(-ENOMEM);
+-	if (!IS_ENABLED(CONFIG_BLK_CGROUP_FC_APPID) || !rq->bio)
++	if (!IS_ENABLED(CONFIG_BLK_CGROUP_FC_APPID) || !rq || !rq->bio)
+ 		return NULL;
+ 	return blkcg_get_fc_appid(rq->bio);
+ }
 -- 
 2.40.1
 
