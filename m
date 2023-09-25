@@ -4,71 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B1967CE7A9D
-	for <linux-nvme@archiver.kernel.org>; Mon, 25 Sep 2023 16:34:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B0F97CE79A1
+	for <linux-nvme@archiver.kernel.org>; Mon, 25 Sep 2023 20:56:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
-	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MmROTxnvcqIhpntFCpKSxAWTQpjLm2yAQGI6WuBula0=; b=dK+xc/aaf1yJFlovghgYdbNyp7
-	8ZLTx/pqRxbKLbo7B9bc6rvpobVfmux0ofQIf4RghtJtCJJhYPATu47EEMpr6258/BTX7q7S2WFM7
-	yN07MsL1C468fD8ZLR/i8eVnIjE5ri1Z9uoMiHtdno6j8uv/ECiNML3ePkLgA26od4oJHsfIPnAA+
-	0D2CXhX42FSXYyDt0PaQl8+hsqVBDkAtrfVfSe3AV3k7sPtFNZUWODB6BiVqLzm8j0XcQxG0gRjW+
-	G1DJxjYTcaTNecjRlmQuN57kz9GXV0jPmSRAnffmkbOqpdRDltWH2f/m5opK2NVxG90xeDFUWchZq
-	kwMqZbzw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=j/qoBank0fJZyXTjpvDfBTolj60ngBj0wYpKKJK/nWA=; b=c+VJXnTPMdGXFV0WLGYqhC/SCY
+	L+it33t8HoosgzvFiF7VPCPCqH74ceWHKlh8oDb3hH/2l50ecQXXeiEoH3T/HwxADiLc3AwLRY4+P
+	7PUTGjBFVQy7ERhN4F59KD84dWI5pCoupVNnyg+4rlWlYqi7vDuqYbcp89HbZWKq444AhGDxUJ/iF
+	/qgqYKdjkuZd+7vWqSqUW2n9gdFamd1lPfmNQAYXPboXgXCEQpULxxnHDSVV2qpLqy8ToeCkgSQPZ
+	A1iNm0i/Bl+p5hA2ZiT7sFBist2zLn/VhID6sgXkSliAly12ZxiRICKwgIWTb/Bvdc70y0b3UNSQh
+	sd0EF2HQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qkoX1-00EfhJ-0y;
-	Mon, 25 Sep 2023 16:33:59 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1qksd8-00F14W-1e;
+	Mon, 25 Sep 2023 20:56:34 +0000
+Received: from mail-ot1-f54.google.com ([209.85.210.54])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qkoWy-00Efg0-2d
+	id 1qksd5-00F13c-04
 	for linux-nvme@lists.infradead.org;
-	Mon, 25 Sep 2023 16:33:58 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1695659636;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MmROTxnvcqIhpntFCpKSxAWTQpjLm2yAQGI6WuBula0=;
-	b=EOGdtthswImwt3CGiUGw+KXz0eS2pu5PKaA/MJ6M7kK8CBYie6reU0msNK5Wc11ITUTYNA
-	C/6+NNqaXIgwOxuL4MoNwJS31XUdNtGyeaqEl1UQCbj9veo6hfVHRn089kkjRvTQ1lP/fk
-	+n4WIbL4BuLd+UueS/eEva8Qu6rbOEA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-549-ZDUQ93dRPZKTeAbL1DTdew-1; Mon, 25 Sep 2023 12:31:24 -0400
-X-MC-Unique: ZDUQ93dRPZKTeAbL1DTdew-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5AD4185A5BD;
-	Mon, 25 Sep 2023 16:31:24 +0000 (UTC)
-Received: from emilne.bos.redhat.com (unknown [10.18.25.205])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 36D46C15BB8;
-	Mon, 25 Sep 2023 16:31:24 +0000 (UTC)
-From: "Ewan D. Milne" <emilne@redhat.com>
-To: linux-nvme@lists.infradead.org
-Cc: tsong@purestorage.com,
-	jmeneghi@redhat.com,
-	mlombard@redhat.com
-Subject: [PATCH 1/3] block: introduce blk_queue_nr_active()
-Date: Mon, 25 Sep 2023 12:31:21 -0400
-Message-Id: <20230925163123.16042-2-emilne@redhat.com>
-In-Reply-To: <20230925163123.16042-1-emilne@redhat.com>
-References: <20230925163123.16042-1-emilne@redhat.com>
+	Mon, 25 Sep 2023 20:56:32 +0000
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-6c4e7951dddso1631929a34.1
+        for <linux-nvme@lists.infradead.org>; Mon, 25 Sep 2023 13:56:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695675388; x=1696280188;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=j/qoBank0fJZyXTjpvDfBTolj60ngBj0wYpKKJK/nWA=;
+        b=mGvMtWD9ldViYCKtRh+tg7ARWO+ck+x6shsE6RKtDksOvommp4VDNu49ytSmEYL4uB
+         5Gh6FSlsCzz1faPO3WHfYoVJgSa4bHL3W3K6M8IvD2meXWVGGAsmqCjGvQxxjDWb2Goj
+         m0WnMaX4mw0jDZi81gi/XVcBsM4LaZ/mfOeALQRw7l2dBRCiEl0Pu63dpSkBrzBJoupW
+         a/h9NYmmNBhXTmZW5g9BCS59FZRBmekdV68IRN6L3qZzlA/ZDq8LTY3Loq3MBDfxUc7A
+         5z5xFBBohRC9J1nr384NkeRYEN1NCWktuwYoIKMeDr2Pr5VB7BLlRUZ3KcaS9qQfh6tf
+         MvYw==
+X-Gm-Message-State: AOJu0YyDIF8BBgrTyKMlT3c5G6kZ9u9ivai+LrfZbZNKztnlR2ERI1BC
+	XlBpkKqK/G1Cm4NSoTzzC3Q=
+X-Google-Smtp-Source: AGHT+IH0/jleEOHnJidWS4kRFhUO6aZDnO5MHTboU/wNUHzIRR0XA5MkNTbojrseZKXwVdW5hogKHg==
+X-Received: by 2002:a05:6358:618c:b0:141:162:b0cd with SMTP id w12-20020a056358618c00b001410162b0cdmr10711933rww.19.1695675387526;
+        Mon, 25 Sep 2023 13:56:27 -0700 (PDT)
+Received: from ?IPV6:2601:647:4d7e:54f3:667:4981:ffa1:7be1? ([2601:647:4d7e:54f3:667:4981:ffa1:7be1])
+        by smtp.gmail.com with ESMTPSA id u5-20020aa78485000000b00690d1269691sm8465183pfn.22.2023.09.25.13.56.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Sep 2023 13:56:24 -0700 (PDT)
+Message-ID: <e0bdbbf8-83a6-4ce8-b313-80eab6809b34@acm.org>
+Date: Mon, 25 Sep 2023 13:56:22 -0700
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] block: introduce blk_queue_nr_active()
+Content-Language: en-US
+To: "Ewan D. Milne" <emilne@redhat.com>, linux-nvme@lists.infradead.org
+Cc: tsong@purestorage.com, jmeneghi@redhat.com, mlombard@redhat.com
+References: <20230925163123.16042-1-emilne@redhat.com>
+ <20230925163123.16042-2-emilne@redhat.com>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20230925163123.16042-2-emilne@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230925_093356_927224_1B1D1629 
-X-CRM114-Status: GOOD (  14.01  )
+X-CRM114-CacheID: sfid-20230925_135631_085161_6190D407 
+X-CRM114-Status: GOOD (  11.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,84 +81,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Returns a count of the total number of active requests
-in a queue.  For non-shared tags (the usual case) this is
-the sum of nr_active from all of the hctxs.
+On 9/25/23 09:31, Ewan D. Milne wrote:
+> +static inline unsigned int blk_mq_queue_nr_active(struct request_queue *q)
+> +{
+> +	unsigned int nr_active = 0;
+> +	struct blk_mq_hw_ctx *hctx;
+> +	unsigned long i;
+> +
+> +	queue_for_each_hw_ctx(q, hctx, i) {
+> +		if (unlikely(blk_mq_is_shared_tags(hctx->flags)))
+> +			return atomic_read(&q->nr_active_requests_shared_tags);
+> +		nr_active += atomic_read(&hctx->nr_active);
+> +	}
+> +	return nr_active;
+> +}
 
-Signed-off-by: Ewan D. Milne <emilne@redhat.com>
----
- block/blk-mq.h         |  5 -----
- include/linux/blk-mq.h | 33 ++++++++++++++++++++++++++-------
- 2 files changed, 26 insertions(+), 12 deletions(-)
+The above function should never be called from any command submission
+code path. Hence, I think it should be added in a .c file instead of
+include/linux/blk-mq.h.
 
-diff --git a/block/blk-mq.h b/block/blk-mq.h
-index 1743857e0b01..fbc65eefa017 100644
---- a/block/blk-mq.h
-+++ b/block/blk-mq.h
-@@ -214,11 +214,6 @@ static inline bool blk_mq_tag_is_reserved(struct blk_mq_tags *tags,
- 	return tag < tags->nr_reserved_tags;
- }
- 
--static inline bool blk_mq_is_shared_tags(unsigned int flags)
--{
--	return flags & BLK_MQ_F_TAG_HCTX_SHARED;
--}
--
- static inline struct blk_mq_tags *blk_mq_tags_from_data(struct blk_mq_alloc_data *data)
- {
- 	if (data->rq_flags & RQF_SCHED_TAGS)
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 01e8c31db665..c921ae5236ab 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -716,6 +716,32 @@ int blk_rq_poll(struct request *rq, struct io_comp_batch *iob,
- 
- bool blk_mq_queue_inflight(struct request_queue *q);
- 
-+#define queue_for_each_hw_ctx(q, hctx, i)				\
-+	xa_for_each(&(q)->hctx_table, (i), (hctx))
-+
-+#define hctx_for_each_ctx(hctx, ctx, i)					\
-+	for ((i) = 0; (i) < (hctx)->nr_ctx &&				\
-+	     ({ ctx = (hctx)->ctxs[(i)]; 1; }); (i)++)
-+
-+static inline bool blk_mq_is_shared_tags(unsigned int flags)
-+{
-+	return flags & BLK_MQ_F_TAG_HCTX_SHARED;
-+}
-+
-+static inline unsigned int blk_mq_queue_nr_active(struct request_queue *q)
-+{
-+	unsigned int nr_active = 0;
-+	struct blk_mq_hw_ctx *hctx;
-+	unsigned long i;
-+
-+	queue_for_each_hw_ctx(q, hctx, i) {
-+		if (unlikely(blk_mq_is_shared_tags(hctx->flags)))
-+			return atomic_read(&q->nr_active_requests_shared_tags);
-+		nr_active += atomic_read(&hctx->nr_active);
-+	}
-+	return nr_active;
-+}
-+
- enum {
- 	/* return when out of requests */
- 	BLK_MQ_REQ_NOWAIT	= (__force blk_mq_req_flags_t)(1 << 0),
-@@ -941,13 +967,6 @@ static inline void *blk_mq_rq_to_pdu(struct request *rq)
- 	return rq + 1;
- }
- 
--#define queue_for_each_hw_ctx(q, hctx, i)				\
--	xa_for_each(&(q)->hctx_table, (i), (hctx))
--
--#define hctx_for_each_ctx(hctx, ctx, i)					\
--	for ((i) = 0; (i) < (hctx)->nr_ctx &&				\
--	     ({ ctx = (hctx)->ctxs[(i)]; 1; }); (i)++)
--
- static inline void blk_mq_cleanup_rq(struct request *rq)
- {
- 	if (rq->q->mq_ops->cleanup_rq)
--- 
-2.20.1
+Thanks,
 
+Bart.
 
