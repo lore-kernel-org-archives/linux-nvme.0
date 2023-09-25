@@ -4,60 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8718FCE7AA4
-	for <linux-nvme@archiver.kernel.org>; Mon, 25 Sep 2023 16:33:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B1967CE7A9D
+	for <linux-nvme@archiver.kernel.org>; Mon, 25 Sep 2023 16:34:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date
 	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ny4IdEKx0Olp/QtAzOUUyk/jIreXKp6NCOv1TYEmYD4=; b=xgdgjsfb2HBH+00VTWCn3SiYd3
-	T0ccuotNMC+NvhD3wdu2wL6vw2SOVtFK88oH6VUAA3RyZNhaJL7qvDk3O5J0mxgcMDuI1wT/VKtOv
-	eQtQxfBIUQ0xowOKKs3yylvE4yzpvScaQDMcm8DIXjGfSOOdnJPhF261MBZic0gD2bqKV6gmXvvAb
-	eUWG/eiW5QUsAJW35tYR79ODPJxsi3j4DkyMQPnM8YMW/Pea2+Ioas+PDQGi13NVq6TmHXt24ZdLk
-	DW8hXC0ASZaiSCPm1/MmjN4Prnk2+Vz7p8HNmU8hqTz5/HNuckI+leQiU0qTxRHUh1rT8mqW/bN9b
-	ix99JEKw==;
+	bh=MmROTxnvcqIhpntFCpKSxAWTQpjLm2yAQGI6WuBula0=; b=dK+xc/aaf1yJFlovghgYdbNyp7
+	8ZLTx/pqRxbKLbo7B9bc6rvpobVfmux0ofQIf4RghtJtCJJhYPATu47EEMpr6258/BTX7q7S2WFM7
+	yN07MsL1C468fD8ZLR/i8eVnIjE5ri1Z9uoMiHtdno6j8uv/ECiNML3ePkLgA26od4oJHsfIPnAA+
+	0D2CXhX42FSXYyDt0PaQl8+hsqVBDkAtrfVfSe3AV3k7sPtFNZUWODB6BiVqLzm8j0XcQxG0gRjW+
+	G1DJxjYTcaTNecjRlmQuN57kz9GXV0jPmSRAnffmkbOqpdRDltWH2f/m5opK2NVxG90xeDFUWchZq
+	kwMqZbzw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qkoWA-00EfSS-0W;
-	Mon, 25 Sep 2023 16:33:06 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1qkoX1-00EfhJ-0y;
+	Mon, 25 Sep 2023 16:33:59 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qkoW6-00EfR1-1w
+	id 1qkoWy-00Efg0-2d
 	for linux-nvme@lists.infradead.org;
-	Mon, 25 Sep 2023 16:33:04 +0000
+	Mon, 25 Sep 2023 16:33:58 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1695659580;
+	s=mimecast20190719; t=1695659636;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ny4IdEKx0Olp/QtAzOUUyk/jIreXKp6NCOv1TYEmYD4=;
-	b=OSkfVM9b3YKW2EXFijYR+nFXlf1CllPz6/UoQqAXOdnWRiKdOjUzKZuuZhcqDrbbwLjmyZ
-	sKqGOznzg7YzzU/kBrXtvIzyTu0ZQH82hyGQ47lpPAf5CZ6HzkUjro3VhF3Gem/6j2uTC9
-	trfGvCx0TxWQEBqKQXktbARpL4zPh1o=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-549-aJzsjDDzNxe6kL22VnkbGA-1; Mon, 25 Sep 2023 12:31:25 -0400
-X-MC-Unique: aJzsjDDzNxe6kL22VnkbGA-1
+	bh=MmROTxnvcqIhpntFCpKSxAWTQpjLm2yAQGI6WuBula0=;
+	b=EOGdtthswImwt3CGiUGw+KXz0eS2pu5PKaA/MJ6M7kK8CBYie6reU0msNK5Wc11ITUTYNA
+	C/6+NNqaXIgwOxuL4MoNwJS31XUdNtGyeaqEl1UQCbj9veo6hfVHRn089kkjRvTQ1lP/fk
+	+n4WIbL4BuLd+UueS/eEva8Qu6rbOEA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-549-ZDUQ93dRPZKTeAbL1DTdew-1; Mon, 25 Sep 2023 12:31:24 -0400
+X-MC-Unique: ZDUQ93dRPZKTeAbL1DTdew-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 86BCE3816C90;
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5AD4185A5BD;
 	Mon, 25 Sep 2023 16:31:24 +0000 (UTC)
 Received: from emilne.bos.redhat.com (unknown [10.18.25.205])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 61D66C15BB8;
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 36D46C15BB8;
 	Mon, 25 Sep 2023 16:31:24 +0000 (UTC)
 From: "Ewan D. Milne" <emilne@redhat.com>
 To: linux-nvme@lists.infradead.org
 Cc: tsong@purestorage.com,
 	jmeneghi@redhat.com,
 	mlombard@redhat.com
-Subject: [PATCH 2/3] nvme-multipath: Implement new iopolicy "queue-depth"
-Date: Mon, 25 Sep 2023 12:31:22 -0400
-Message-Id: <20230925163123.16042-3-emilne@redhat.com>
+Subject: [PATCH 1/3] block: introduce blk_queue_nr_active()
+Date: Mon, 25 Sep 2023 12:31:21 -0400
+Message-Id: <20230925163123.16042-2-emilne@redhat.com>
 In-Reply-To: <20230925163123.16042-1-emilne@redhat.com>
 References: <20230925163123.16042-1-emilne@redhat.com>
 MIME-Version: 1.0
@@ -67,8 +67,8 @@ X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230925_093302_705661_29175687 
-X-CRM114-Status: GOOD (  17.40  )
+X-CRM114-CacheID: sfid-20230925_093356_927224_1B1D1629 
+X-CRM114-Status: GOOD (  14.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,129 +83,83 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The existing iopolicies are inefficient in some cases, such as
-the presence of a path with high latency. The round-robin
-policy would use that path equally with faster paths, which
-results in sub-optimal performance.
+Returns a count of the total number of active requests
+in a queue.  For non-shared tags (the usual case) this is
+the sum of nr_active from all of the hctxs.
 
-The queue-depth policy instead sends I/O requests down the path
-with the least amount of requests in its request queue. Paths
-with lower latency will clear requests more quickly and have less
-requests in their queues compared to "bad" paths. The aim is to
-use those paths the most to bring down overall latency.
-
-[edm: patch developed by Thomas Song @ Pure Storage, fixed whitespace
-      and compilation warnings, updated MODULE_PARM description
-      and changed to use new blk_mq_queue_nr_active() instead of adding
-      additional atomic counters.]
-
-Co-developed-by: Thomas Song <tsong@purestorage.com>
 Signed-off-by: Ewan D. Milne <emilne@redhat.com>
 ---
- drivers/nvme/host/multipath.c | 48 +++++++++++++++++++++++++++++++++--
- drivers/nvme/host/nvme.h      |  1 +
- 2 files changed, 47 insertions(+), 2 deletions(-)
+ block/blk-mq.h         |  5 -----
+ include/linux/blk-mq.h | 33 ++++++++++++++++++++++++++-------
+ 2 files changed, 26 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 0a88d7bdc5e3..deea7fd4aa95 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -17,6 +17,7 @@ MODULE_PARM_DESC(multipath,
- static const char *nvme_iopolicy_names[] = {
- 	[NVME_IOPOLICY_NUMA]	= "numa",
- 	[NVME_IOPOLICY_RR]	= "round-robin",
-+	[NVME_IOPOLICY_QD]      = "queue-depth",
- };
- 
- static int iopolicy = NVME_IOPOLICY_NUMA;
-@@ -29,6 +30,8 @@ static int nvme_set_iopolicy(const char *val, const struct kernel_param *kp)
- 		iopolicy = NVME_IOPOLICY_NUMA;
- 	else if (!strncmp(val, "round-robin", 11))
- 		iopolicy = NVME_IOPOLICY_RR;
-+	else if (!strncmp(val, "queue-depth", 11))
-+		iopolicy = NVME_IOPOLICY_QD;
- 	else
- 		return -EINVAL;
- 
-@@ -43,7 +46,7 @@ static int nvme_get_iopolicy(char *buf, const struct kernel_param *kp)
- module_param_call(iopolicy, nvme_set_iopolicy, nvme_get_iopolicy,
- 	&iopolicy, 0644);
- MODULE_PARM_DESC(iopolicy,
--	"Default multipath I/O policy; 'numa' (default) or 'round-robin'");
-+	"Default multipath I/O policy; 'numa' (default) , 'round-robin' or 'queue-depth'");
- 
- void nvme_mpath_default_iopolicy(struct nvme_subsystem *subsys)
- {
-@@ -329,6 +332,41 @@ static struct nvme_ns *nvme_round_robin_path(struct nvme_ns_head *head,
- 	return found;
+diff --git a/block/blk-mq.h b/block/blk-mq.h
+index 1743857e0b01..fbc65eefa017 100644
+--- a/block/blk-mq.h
++++ b/block/blk-mq.h
+@@ -214,11 +214,6 @@ static inline bool blk_mq_tag_is_reserved(struct blk_mq_tags *tags,
+ 	return tag < tags->nr_reserved_tags;
  }
  
-+static struct nvme_ns *nvme_queue_depth_path(struct nvme_ns_head *head,
-+		int node)
+-static inline bool blk_mq_is_shared_tags(unsigned int flags)
+-{
+-	return flags & BLK_MQ_F_TAG_HCTX_SHARED;
+-}
+-
+ static inline struct blk_mq_tags *blk_mq_tags_from_data(struct blk_mq_alloc_data *data)
+ {
+ 	if (data->rq_flags & RQF_SCHED_TAGS)
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 01e8c31db665..c921ae5236ab 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -716,6 +716,32 @@ int blk_rq_poll(struct request *rq, struct io_comp_batch *iob,
+ 
+ bool blk_mq_queue_inflight(struct request_queue *q);
+ 
++#define queue_for_each_hw_ctx(q, hctx, i)				\
++	xa_for_each(&(q)->hctx_table, (i), (hctx))
++
++#define hctx_for_each_ctx(hctx, ctx, i)					\
++	for ((i) = 0; (i) < (hctx)->nr_ctx &&				\
++	     ({ ctx = (hctx)->ctxs[(i)]; 1; }); (i)++)
++
++static inline bool blk_mq_is_shared_tags(unsigned int flags)
 +{
-+	struct nvme_ns *best_opt = NULL, *best_nonopt = NULL, *ns;
-+	unsigned int min_depth_opt = UINT_MAX, min_depth_nonopt = UINT_MAX;
-+	unsigned int depth;
-+
-+	list_for_each_entry_rcu(ns, &head->list, siblings) {
-+		if (nvme_path_is_disabled(ns))
-+			continue;
-+
-+		depth = blk_mq_queue_nr_active(ns->queue);
-+
-+		switch (ns->ana_state) {
-+		case NVME_ANA_OPTIMIZED:
-+			if (depth < min_depth_opt) {
-+				min_depth_opt = depth;
-+				best_opt = ns;
-+			}
-+			break;
-+
-+		case NVME_ANA_NONOPTIMIZED:
-+			if (depth < min_depth_nonopt) {
-+				min_depth_nonopt = depth;
-+				best_nonopt = ns;
-+			}
-+			break;
-+		default:
-+			break;
-+		}
-+	}
-+
-+	return best_opt ? best_opt : best_nonopt;
++	return flags & BLK_MQ_F_TAG_HCTX_SHARED;
 +}
 +
- static inline bool nvme_path_is_optimized(struct nvme_ns *ns)
- {
- 	return ns->ctrl->state == NVME_CTRL_LIVE &&
-@@ -344,8 +382,14 @@ inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
- 	if (unlikely(!ns))
- 		return __nvme_find_path(head, node);
- 
--	if (READ_ONCE(head->subsys->iopolicy) == NVME_IOPOLICY_RR)
-+	switch(READ_ONCE(head->subsys->iopolicy)) {
-+	case NVME_IOPOLICY_RR:
- 		return nvme_round_robin_path(head, node, ns);
++static inline unsigned int blk_mq_queue_nr_active(struct request_queue *q)
++{
++	unsigned int nr_active = 0;
++	struct blk_mq_hw_ctx *hctx;
++	unsigned long i;
 +
-+	case NVME_IOPOLICY_QD:
-+		return nvme_queue_depth_path(head, node);
++	queue_for_each_hw_ctx(q, hctx, i) {
++		if (unlikely(blk_mq_is_shared_tags(hctx->flags)))
++			return atomic_read(&q->nr_active_requests_shared_tags);
++		nr_active += atomic_read(&hctx->nr_active);
 +	}
++	return nr_active;
++}
 +
- 	if (unlikely(!nvme_path_is_optimized(ns)))
- 		return __nvme_find_path(head, node);
- 	return ns;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index f35647c470af..938fbed007ce 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -389,6 +389,7 @@ struct nvme_ctrl {
- enum nvme_iopolicy {
- 	NVME_IOPOLICY_NUMA,
- 	NVME_IOPOLICY_RR,
-+	NVME_IOPOLICY_QD,
- };
+ enum {
+ 	/* return when out of requests */
+ 	BLK_MQ_REQ_NOWAIT	= (__force blk_mq_req_flags_t)(1 << 0),
+@@ -941,13 +967,6 @@ static inline void *blk_mq_rq_to_pdu(struct request *rq)
+ 	return rq + 1;
+ }
  
- struct nvme_subsystem {
+-#define queue_for_each_hw_ctx(q, hctx, i)				\
+-	xa_for_each(&(q)->hctx_table, (i), (hctx))
+-
+-#define hctx_for_each_ctx(hctx, ctx, i)					\
+-	for ((i) = 0; (i) < (hctx)->nr_ctx &&				\
+-	     ({ ctx = (hctx)->ctxs[(i)]; 1; }); (i)++)
+-
+ static inline void blk_mq_cleanup_rq(struct request *rq)
+ {
+ 	if (rq->q->mq_ops->cleanup_rq)
 -- 
 2.20.1
 
