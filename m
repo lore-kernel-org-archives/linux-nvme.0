@@ -4,87 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79491E810BC
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 Sep 2023 09:34:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C03BCE810B1
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 Sep 2023 09:49:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=o5oL3zzk7aBWSiW2h8pYJhcBd87nT48/i5kz3mlJh90=; b=WIqZ04TStutB2N+bIGFTteCiNs
-	e5AKmrCj/4A8uwe4TcPkcQ59m9vwpARlsezlQS4vQWjgpQXnTuJi1KOeeO1JEMjvXsUkxBur8fdJZ
-	66p6mt1tvYH8nYdGF3pLPtwGQaE4KnvDB57laV3UkHy/uKkJi9zNlOEFfOmj80QrGDNa+qUeqlvCJ
-	0MlmwvAeH97f24F0F6M4YCu2Mkv/070pwOg52zpxcmME1oJsmuboL8aHOSsBph2FV9iPC5LdeMt+y
-	4gvS/NQ8kwxznUD702cmA+pyGGoefZVdTAx3upMUs1lD5OMpMOpw/hW+/4bzHIpYvrHOgOVCk5HQJ
-	YJARTp5w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=k9LGDOwHykkauIoDt6YUEfS+xSiVyjQ/+X3igF0gM7Y=; b=wd9EfGx23sEHVjYEoj1ip+A5ex
+	uAxqU4IGDpWLGE7Hk2vyQ1sYlvnvJgJwnAjYQPBdQobxEqYZ/qh0vAH1ZsrnSd0t84ZcP+eigJtG3
+	xZHJ4e0WOXf+e1AEH/j9sxgpmB5ZD47D/oYN6B+NXAjHeKlaeunIrxWGcrCVfwpu3kKe+UDKrj2xG
+	02DRvBPY9VkN51HGRGO/A3SyLfwivhde1KqcdSRjFWNHptwIwDfnjkj+O4UQGzyDRy2mn79pqDHdP
+	ZYXdbFmqewLc6ZoBnPPIYzkRmFc8moIWli/M3CDGzcuVwbt6KKwPJL5a6wiAfHYahmWDhFTU6bduj
+	iY9WVVLg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qlQwU-000U7x-1W;
-	Wed, 27 Sep 2023 09:34:50 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1qlRAr-000WpA-2r;
+	Wed, 27 Sep 2023 09:49:41 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qlQwR-000U3z-0Q
+	id 1qlRAp-000Wmn-1j
 	for linux-nvme@lists.infradead.org;
-	Wed, 27 Sep 2023 09:34:48 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 41F3D1FD64;
-	Wed, 27 Sep 2023 09:34:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1695807284; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	Wed, 27 Sep 2023 09:49:40 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1695808176;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=o5oL3zzk7aBWSiW2h8pYJhcBd87nT48/i5kz3mlJh90=;
-	b=VxWyNg9R5RlMkiQSfkj2UYuqtUrf3hwcvc5HylmbTrnQepEPMHb5swu6/q+YDMI4qZnLOZ
-	oyQsT7QxcFBxcm/IJ8kO0Px9ZQNmw18YqC/xXm6YK+cIygHFm4m54byLoMQb02stPw/ERl
-	WZXqb2gXdC91hZsVUnVVnFY/Qt20j9M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1695807284;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=o5oL3zzk7aBWSiW2h8pYJhcBd87nT48/i5kz3mlJh90=;
-	b=DkrJriAiY9cxBDHeZzcr6QH7ZrXSQ1ViYv9AXwgRxdsD9xEgW/6eb2BmNieALtsvY4KyIv
-	k7CKMQ0MDivWjtAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	bh=k9LGDOwHykkauIoDt6YUEfS+xSiVyjQ/+X3igF0gM7Y=;
+	b=YW0rhy1qJGa+MIpqlZ5L5zqsCYtfjZurSSrSkbt+diK4LS6W7uOux3S36So7bjesiOUjD/
+	Y8wU+cxqBOJpf69rNE0WfhxBqN4EqyjqmvXG2EYFf9p395PEkHFyYBO77ffHf816g2e+wq
+	42G/lBuH8eQee0W0ESNSw79hFgrca0A=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-98-bLFv743GP_GGbuL8sWYgFg-1; Wed, 27 Sep 2023 05:49:33 -0400
+X-MC-Unique: bLFv743GP_GGbuL8sWYgFg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2929313AC6;
-	Wed, 27 Sep 2023 09:34:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id BAgKCjT3E2UZEwAAMHmgww
-	(envelope-from <jack@suse.cz>); Wed, 27 Sep 2023 09:34:44 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 44DF5A07E2; Wed, 27 Sep 2023 11:34:43 +0200 (CEST)
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: <linux-fsdevel@vger.kernel.org>,
-	<linux-block@vger.kernel.org>,
-	Christoph Hellwig <hch@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	linux-nvme@lists.infradead.org,
-	Christoph Hellwig <hch@lst.de>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH 13/29] nvmet: Convert to bdev_open_by_path()
-Date: Wed, 27 Sep 2023 11:34:19 +0200
-Message-Id: <20230927093442.25915-13-jack@suse.cz>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20230818123232.2269-1-jack@suse.cz>
-References: <20230818123232.2269-1-jack@suse.cz>
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BEA13185A79C;
+	Wed, 27 Sep 2023 09:49:32 +0000 (UTC)
+Received: from fedora (unknown [10.72.120.2])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A1001678B;
+	Wed, 27 Sep 2023 09:49:29 +0000 (UTC)
+Date: Wed, 27 Sep 2023 17:49:24 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: "Ewan D. Milne" <emilne@redhat.com>
+Cc: linux-nvme@lists.infradead.org, tsong@purestorage.com,
+	jmeneghi@redhat.com, mlombard@redhat.com
+Subject: Re: [PATCH 1/3] block: introduce blk_queue_nr_active()
+Message-ID: <ZRP6pCFd8+mWpUcS@fedora>
+References: <20230925163123.16042-1-emilne@redhat.com>
+ <20230925163123.16042-2-emilne@redhat.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2246; i=jack@suse.cz; h=from:subject; bh=RxVKNNY4F2L4gdEmRf2gfv2YRojDzya85DrN24azQj4=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBlE/ccmTw9KbKfKkVfEbK7NpxvUcITk8/FTPWgLWbM +QsEi0mJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCZRP3HAAKCRCcnaoHP2RA2R5wB/ 9ojwH/fGDSVue4IQj5x/zVaP/MNwEkNe//OCjEg7erUnb+a3B3cUvSs9SkrV7emtix97qbs96ZAycC xcM1bXQ+7/QGjjefhAhcNAzrtWQTDXfcX9oigj8vaUE3q9lEIWXK45912dl5tQqa58NWAhOeX+lIKu DwC6eoEcF3Yr2UrsUPfB7027H8d6i8CeAu2E8FPTHJTSaCj8kjJj2q2kdrPPCXi/PmZErHcZi6zQdi 1ixGROW5hW114GanqgVP5JUspreDLNbvjKlxuE0780hTJo477LQJLlhRgfJXfq4FL2xtGp6GMR8fq2 Ztb+AsKujcsC+kSFCDBL4eFlLUv5Mr
-X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230925163123.16042-2-emilne@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230927_023447_455682_922EAB06 
-X-CRM114-Status: GOOD (  16.71  )
+X-CRM114-CacheID: sfid-20230927_024939_661777_D72CA9DF 
+X-CRM114-Status: UNSURE (   9.49  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,74 +83,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Convert nvmet to use bdev_open_by_path() and pass the handle around.
+On Mon, Sep 25, 2023 at 12:31:21PM -0400, Ewan D. Milne wrote:
+> Returns a count of the total number of active requests
+> in a queue.  For non-shared tags (the usual case) this is
+> the sum of nr_active from all of the hctxs.
 
-CC: linux-nvme@lists.infradead.org
-Acked-by: Christoph Hellwig <hch@lst.de>
-Acked-by: Christian Brauner <brauner@kernel.org>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-Signed-off-by: Jan Kara <jack@suse.cz>
----
- drivers/nvme/target/io-cmd-bdev.c | 20 +++++++++++---------
- drivers/nvme/target/nvmet.h       |  1 +
- 2 files changed, 12 insertions(+), 9 deletions(-)
+hctx->nr_active is only updated if BLK_MQ_F_TAG_QUEUE_SHARED is true
+and blk_mq_is_shared_tags() is false, so hctx->nr_active isn't
+available if BLK_MQ_F_TAG_QUEUE_SHARED is false(the usual case?).
 
-diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-index 468833675cc9..f11400a908f2 100644
---- a/drivers/nvme/target/io-cmd-bdev.c
-+++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -50,9 +50,10 @@ void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id)
- 
- void nvmet_bdev_ns_disable(struct nvmet_ns *ns)
- {
--	if (ns->bdev) {
--		blkdev_put(ns->bdev, NULL);
-+	if (ns->bdev_handle) {
-+		bdev_release(ns->bdev_handle);
- 		ns->bdev = NULL;
-+		ns->bdev_handle = NULL;
- 	}
- }
- 
-@@ -84,17 +85,18 @@ int nvmet_bdev_ns_enable(struct nvmet_ns *ns)
- 	if (ns->buffered_io)
- 		return -ENOTBLK;
- 
--	ns->bdev = blkdev_get_by_path(ns->device_path,
--			BLK_OPEN_READ | BLK_OPEN_WRITE, NULL, NULL);
--	if (IS_ERR(ns->bdev)) {
--		ret = PTR_ERR(ns->bdev);
-+	ns->bdev_handle = bdev_open_by_path(ns->device_path,
-+				BLK_OPEN_READ | BLK_OPEN_WRITE, NULL, NULL);
-+	if (IS_ERR(ns->bdev_handle)) {
-+		ret = PTR_ERR(ns->bdev_handle);
- 		if (ret != -ENOTBLK) {
--			pr_err("failed to open block device %s: (%ld)\n",
--					ns->device_path, PTR_ERR(ns->bdev));
-+			pr_err("failed to open block device %s: (%d)\n",
-+					ns->device_path, ret);
- 		}
--		ns->bdev = NULL;
-+		ns->bdev_handle = NULL;
- 		return ret;
- 	}
-+	ns->bdev = ns->bdev_handle->bdev;
- 	ns->size = bdev_nr_bytes(ns->bdev);
- 	ns->blksize_shift = blksize_bits(bdev_logical_block_size(ns->bdev));
- 
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 8cfd60f3b564..360e385be33b 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -58,6 +58,7 @@
- 
- struct nvmet_ns {
- 	struct percpu_ref	ref;
-+	struct bdev_handle	*bdev_handle;
- 	struct block_device	*bdev;
- 	struct file		*file;
- 	bool			readonly;
--- 
-2.35.3
+
+Thanks,
+Ming
 
 
