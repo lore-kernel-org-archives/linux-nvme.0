@@ -4,80 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0992EE80AA1
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 Sep 2023 07:41:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2946E810A4
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 Sep 2023 08:31:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Nha255vNUUb3BKJIA9k4YNw9DwAU24wh8mxriM51OuA=; b=XQct9IpCj9a+NinrPqJ6sK9med
-	XkOYJHy4qzv16nfTPzWRsCZQJKLdTCdsSvTBWs3JGG6PVmV/4MBK7QRrsQUDm3u+mQMpMplMlJJpS
-	BZ39dt0kJS0SUCZImF39tGE/ZiE6/hKNha31jFhxptdj+QBF9DHVZWAxAKA79vi5VAln19NYGbJvt
-	rFt0vZAHd0BXK5IM16EBzUFXQk+2Ly10SnYeTlelbQKi/VwSNG8UFUiWQO1P35bkbm64gR9C+k3Vl
-	+y7AVX3euZ63w0LcCMt9DlvMhX4X9j5J6//NPGVD5NnegQmAEbs746lfWEhkEen56JrAWbY7LfDPW
-	e5baRSGA==;
+	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=XkLOlB/fLQrEQVTKT6JDT5oln6zFCOPQfvb7GwxI434=; b=nWgh2FybjezURVGDSr9owbhWnK
+	pdJT8BKcGU5dnfy/qZDMS8Nc34TB7brsvZOaE3oPvH0USfvLB4ET+/OKSYul5tpaLrwR44zfvk4Pc
+	5u+zfMj+mXtWnBTpWe2ib9I15ZlNjLV6ulZS3Jr3D9+Qj1YxE2PzhyDP0MIqsq8L4PqvBPy1I3eBW
+	X8r3Q5a1BGajKyX3BV/pzi8g0PQzqmXRmR8MGAUcmV+fJ1SxEs3irrIGIP/Lm8vuI1JbQ8/5nHZEd
+	nQ8IorAL/ARQZmmlzQV5MEsmlpZScpdnO4Ip6S+NPRktGO087ArUgXWd/z1wQvM9jEuKHGZTZUjmr
+	1Y3f47Bg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qlPB0-000D8L-2a;
-	Wed, 27 Sep 2023 07:41:42 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1qlPx3-000LPf-2o;
+	Wed, 27 Sep 2023 08:31:21 +0000
+Received: from mail.socialglobal.pl ([51.195.90.253])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qlPAx-000D7R-3B
+	id 1qlPx1-000LOz-2I
 	for linux-nvme@lists.infradead.org;
-	Wed, 27 Sep 2023 07:41:41 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E043E2189C;
-	Wed, 27 Sep 2023 07:41:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1695800497; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Nha255vNUUb3BKJIA9k4YNw9DwAU24wh8mxriM51OuA=;
-	b=UWjuYQZAwBJFqHxYTXn9uUi0j3sfNHEdb0+HWd8WnhkdRK3TqIml1ky6tCXFEnKFuS9ZX7
-	QcWfkJigceZ2UlwmJAV2h2qLAZVTmjP5taI4nKI6B3SzzOmKjEdG5I5w2VMa95eIvl+9TB
-	ja2saZWOS82Za3Ug2EjgjqzhbHCIUjg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1695800497;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Nha255vNUUb3BKJIA9k4YNw9DwAU24wh8mxriM51OuA=;
-	b=64axTb6DiC9Lp+mN/wa2iGnowZpXj/3/MSafR3XIdGEU0WZ22WR69GFLV/B6qGGtqsQnsA
-	wFqrkyeFRp0YwDAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8A2AD1338F;
-	Wed, 27 Sep 2023 07:41:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id gV/wHrHcE2V9TgAAMHmgww
-	(envelope-from <hare@suse.de>); Wed, 27 Sep 2023 07:41:37 +0000
-Message-ID: <5df9a1f8-fb2d-4819-88a8-a3f3c32cdab5@suse.de>
-Date: Wed, 27 Sep 2023 09:41:36 +0200
+	Wed, 27 Sep 2023 08:31:21 +0000
+Received: by mail.socialglobal.pl (Postfix, from userid 1002)
+	id 4E33F22382; Wed, 27 Sep 2023 08:31:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=socialglobal.pl;
+	s=mail; t=1695803478;
+	bh=XwhyqI/moZPDJ7KCfcA6Gip8fA7ZKcg5SWsKuF/26zk=;
+	h=Date:From:To:Subject:From;
+	b=LF7mWoFA8OOvgrBLtnkYa5VPM3Yumj7mi2PMvIUZ3uGyXusqOt79k7JhqpeyvsLIf
+	 XRb81mi2aAHKG+EN6wIi4W+nLXQ0qvcu1qt0Hq9IEU08+osfEctTRA/bpZapDaTtQy
+	 sAYewK/WDGxQz88M/tmyQpThm1J+JnPEZMl4zwa46VODYR0NA4/I27kSm2sH6E4Yap
+	 tlCz5aDjrrBG2xDtnBZ6HzMjb1jJXpj3pP/wgPDw6Acxa29Qj2W9Vq+Z9Ch1kXvVm+
+	 c083EAbe9A7LLbaBmqJ+0MULMomvU8QcWWtFzd/A3LpSXVuG1xbfyfXehgfCvJSkpF
+	 iEQQxsNX8Qf4Q==
+Received: by mail.socialglobal.pl for <linux-nvme@lists.infradead.org>; Wed, 27 Sep 2023 08:30:56 GMT
+Message-ID: <20230927075535-0.1.8p.2yrmt.0.7di7bq6hen@socialglobal.pl>
+Date: Wed, 27 Sep 2023 08:30:56 GMT
+From: "Dominik Perkowski" <dominik.perkowski@socialglobal.pl>
+To: <linux-nvme@lists.infradead.org>
+Subject: Pozycjonowanie- informacja
+X-Mailer: mail.socialglobal.pl
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] nvme-multipath: add "use_nonoptimized" module option
-Content-Language: en-US
-To: "Ewan D. Milne" <emilne@redhat.com>, linux-nvme@lists.infradead.org
-Cc: tsong@purestorage.com, jmeneghi@redhat.com, mlombard@redhat.com
-References: <20230925163123.16042-1-emilne@redhat.com>
- <20230925163123.16042-4-emilne@redhat.com>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20230925163123.16042-4-emilne@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230927_004140_169414_31286290 
-X-CRM114-Status: GOOD (  12.20  )
+X-CRM114-CacheID: sfid-20230927_013119_904193_53854472 
+X-CRM114-Status: UNSURE (   2.26  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,36 +67,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/25/23 18:31, Ewan D. Milne wrote:
-> Setting nvme_core.use_nonoptimized=true will cause the path
-> selector to treat optimized and nonoptimized paths equally.
-> 
-> This is because although an NVMe fabrics target device may report
-> an unoptimized ANA state, it is possible that other factors such
-> as fabric latency are a large factor in the I/O service time.  And,
-> throughput may improve overall if nonoptimized ports are also used.
-> 
-> Signed-off-by: Ewan D. Milne <emilne@redhat.com>
-> ---
->   drivers/nvme/host/multipath.c | 22 +++++++++++++++++++---
->   1 file changed, 19 insertions(+), 3 deletions(-)
-> 
-No. Please don't.
+Dzie=C5=84 dobry,=20
 
-There's a reason why controllers specify paths as 'active/optimized' or 
-'active/non-optimized'. If they had wanted us to use all paths they 
-would have put them into the same group.
-They tend to get very unhappy if you start using them at the same time.
-(Triggering failover etc.)
+jaki=C5=9B czas temu zg=C5=82osi=C5=82a si=C4=99 do nas firma, kt=C3=B3re=
+j strona internetowa nie pozycjonowa=C5=82a si=C4=99 wysoko w wyszukiwarc=
+e Google.=20
 
-Cheers,
+Na podstawie wykonanego przez nas audytu SEO zoptymalizowali=C5=9Bmy tre=C5=
+=9Bci na stronie pod k=C4=85tem wcze=C5=9Bniej opracowanych s=C5=82=C3=B3=
+w kluczowych. Nasz wewn=C4=99trzny system codziennie analizuje prawid=C5=82=
+owe dzia=C5=82anie witryny.  Dzi=C4=99ki indywidualnej strategii, firma z=
+dobywa coraz wi=C4=99cej Klient=C3=B3w. =20
 
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
+Czy chcieliby Pa=C5=84stwo zwi=C4=99kszy=C4=87 liczb=C4=99 os=C3=B3b odwi=
+edzaj=C4=85cych stron=C4=99 internetow=C4=85 firmy? M=C3=B3g=C5=82bym prz=
+edstawi=C4=87 ofert=C4=99?=20
 
+
+Pozdrawiam serdecznie,
+Dominik Perkowski
 
