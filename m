@@ -4,121 +4,105 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BDDE0E728C0
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Sep 2023 15:46:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 813BDE728C1
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Sep 2023 15:47:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=8yq/EWr5xgyIq2expGTOm/a8E50tdoL6jyUvlCURtkA=; b=C57rgmHTliuDFUd8DFJh4eAKRV
-	w5Q8ry4yCm0iTMUTBKnWgmIYeMTS2iJDoTzj5AFyb6l5pHjVZwOz8SzmDfP36QnLPaOZuQEfDszEa
-	Nf8CH4dgL0Y+q0hK1Zyye911QX2QjubdUAs7So9Q8RkPzLzzCXgE8exAOF6HnINkOYCL8al25Zd3V
-	x/RtXNlAzvaQXnpqrwH1hCxBj/mWt3MMn0+X8ZFbc1DRgdNIeF75iFzY7b/xwPUcp9LUUSEy/QzUo
-	yLooA90jVBjGMjX50gae4b6R0WxOmgLbF7NQQJ2uuK6u+8LH088EmyN4GTvyNNYyeQp6OejvNeuaQ
-	jwzY5OLQ==;
+	Content-Type:In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Wwk46okUDVQfnnelgDDAXJI2PyNHcNwKe3ka13udWbU=; b=O9iQT400xV1x0+uNJNDKFmxb4y
+	vLINJceNl4bvhxzYTM+rUQuS6IHtPzYKMjvJepzOSZILMh/cAU/c9Bc8QydWI+HEqzzQP8rloJntr
+	XkgQ/iAQrMgbKirpxL80yr6s/hpS3j+CUGz9U/u51HhF3X+8/x1xKlIX6rB17te39seggHrdcLT3g
+	0IB3vq+ITcij9cvTMBLTwwanUmzhoFNWUSQJM7D8RWuYW0Pbg8p0KDcGrtkkf4OUNKeC1kmlergJW
+	YoUHkX+cz2Sp4Orb9Gc6dqx9dGyxsnmCt+WOZxTxde/wHw2gmbMmGTWc6P2LZF/GbnGNB+vTTjQkI
+	hb3gH1VA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qmFhb-008EIx-2X;
-	Fri, 29 Sep 2023 15:46:51 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1qmFhc-008EJ7-24;
+	Fri, 29 Sep 2023 15:46:52 +0000
+Received: from mail-lj1-x230.google.com ([2a00:1450:4864:20::230])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qlQwR-000U3t-16;
-	Wed, 27 Sep 2023 09:34:51 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 967601FD5E;
-	Wed, 27 Sep 2023 09:34:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1695807283; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=8yq/EWr5xgyIq2expGTOm/a8E50tdoL6jyUvlCURtkA=;
-	b=AFBlD5DhZEt1NESHiYyz8SkegLzofp7eJ1WULrYqvNawr6FwYRs8YvfnxMMuueLH4oaPAr
-	4/E8CfUtgD9JCSYdgqDNPTGf3WDqWggCkDqswdM4bg88sfMPDeWHH5NIlB2Bfj+JpMt9FG
-	ZcOWlzLEUXG/bpJ8Kbaqy4vRi+qRmpA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1695807283;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=8yq/EWr5xgyIq2expGTOm/a8E50tdoL6jyUvlCURtkA=;
-	b=mg4W9cwL1b35dhDAXFy+IpXoqDtwwHWZKy46oqV5YDeY2A866tqG4ZHrqCDezVtTxVLjRN
-	B2SqzI+xFxiJavDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 779CF13A74;
-	Wed, 27 Sep 2023 09:34:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id YqW3HDP3E2X+EgAAMHmgww
-	(envelope-from <jack@suse.cz>); Wed, 27 Sep 2023 09:34:43 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id DAA33A07C9; Wed, 27 Sep 2023 11:34:42 +0200 (CEST)
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: <linux-fsdevel@vger.kernel.org>,
-	<linux-block@vger.kernel.org>,
-	Christoph Hellwig <hch@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	Alasdair Kergon <agk@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Chao Yu <chao@kernel.org>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Dave Kleikamp <shaggy@kernel.org>,
-	David Sterba <dsterba@suse.com>,
-	dm-devel@redhat.com,
-	drbd-dev@lists.linbit.com,
-	Gao Xiang <xiang@kernel.org>,
-	Jack Wang <jinpu.wang@ionos.com>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	jfs-discussion@lists.sourceforge.net,
-	Joern Engel <joern@lazybastard.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Kent Overstreet <kent.overstreet@gmail.com>,
-	linux-bcache@vger.kernel.org,
-	linux-btrfs@vger.kernel.org,
-	linux-erofs@lists.ozlabs.org,
-	linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-mm@kvack.org,
-	linux-mtd@lists.infradead.org,
-	linux-nfs@vger.kernel.org,
-	linux-nilfs@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	linux-pm@vger.kernel.org,
-	linux-raid@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	"Md. Haris Iqbal" <haris.iqbal@ionos.com>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Minchan Kim <minchan@kernel.org>,
-	ocfs2-devel@oss.oracle.com,
-	reiserfs-devel@vger.kernel.org,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Song Liu <song@kernel.org>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	target-devel@vger.kernel.org,
-	Ted Tso <tytso@mit.edu>,
-	Trond Myklebust <trond.myklebust@hammerspace.com>,
-	xen-devel@lists.xenproject.org
-Subject: [PATCH v4 0/29] block: Make blkdev_get_by_*() return handle
-Date: Wed, 27 Sep 2023 11:34:06 +0200
-Message-ID: <20230818123232.2269-1-jack@suse.cz>
-X-Mailer: git-send-email 2.35.3
+	id 1qlVOA-0017WS-37
+	for linux-nvme@lists.infradead.org;
+	Wed, 27 Sep 2023 14:19:44 +0000
+Received: by mail-lj1-x230.google.com with SMTP id 38308e7fff4ca-2bfe9447645so40486351fa.0
+        for <linux-nvme@lists.infradead.org>; Wed, 27 Sep 2023 07:19:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1695824379; x=1696429179; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Wwk46okUDVQfnnelgDDAXJI2PyNHcNwKe3ka13udWbU=;
+        b=oNj82EpmRdLE+QjKVOLuZR3vpuxzBH+4CbUwaz/yEBDapZXM4kEYJnCdA5686CfDFq
+         N6jfNemW0ASOwPTE26lHpU5LjorohE1shQI8ARmKJmhFfT67qJ1U4AHnD/YS1SmjzRiq
+         q8A23w2qv8+uTnH50qgQe9hqgp5zNYmMd1SDM2mJTE4VjCA7i5bvC8OANjzX40/aC2SD
+         zxBFkGjWWvmYDCnVpzFipv55jHcL17jFfNj6YF37OhIoyjWyn7J82GLwuQJwgQz9D/WH
+         f9mhGofND9ZDtefUwhwfyYX8YWjS3P/E9cWuTUY8JASIKXzr0yI0YMfC+K1sIYpxWMHe
+         jhhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695824379; x=1696429179;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wwk46okUDVQfnnelgDDAXJI2PyNHcNwKe3ka13udWbU=;
+        b=c6DzWcJf3PLFVkEF8KE7qn6Li6pSVs2HEAMGkTyWcbhcnxldlvJnXtVOTyxm1SDQy0
+         KSyN081PQ6JuE9ymisfXQ/+t7jUZB+Cj1sO/ONiD7j5qGPmHXjy/GEya15M80MYEzz83
+         PWwVE3gYRntYNeX13Xp+UMfC741Hf1UXhy0d5WpMltHy5XGFuzNxZy97IQWTkoGlTRcO
+         mljt7DMvHDARn1LW9fuyGuidvlmWAMa4eSTkadTFYRReGQNpK05MFj++QI4JJItkL27Y
+         i4AQzb4kOuNLaVZwa5hYIzVdrl08zhLYbeTpyAIj1kz6cQ2o7dps9yPehwBTPNco5r9p
+         I1ag==
+X-Gm-Message-State: AOJu0Yw2mTD0/oA01oqj4YgqSxuZGutn3U5/EvwynI3jXASEyF3Cql5y
+	k5oZ4PSrxHDFDkANn2/f3NO4Ag==
+X-Google-Smtp-Source: AGHT+IExVCqrFIxKzo43T8FMa/9T5rz6/xdccYRyI4cqxFk27k3RqgKqbk6x0v1Y5TMyg8NtKFdEkg==
+X-Received: by 2002:a05:651c:3cf:b0:2b6:cd7f:5ea8 with SMTP id f15-20020a05651c03cf00b002b6cd7f5ea8mr1801740ljp.1.1695824378667;
+        Wed, 27 Sep 2023 07:19:38 -0700 (PDT)
+Received: from [172.20.13.88] ([45.147.210.162])
+        by smtp.gmail.com with ESMTPSA id mh2-20020a170906eb8200b00992b2c55c67sm9370253ejb.156.2023.09.27.07.19.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 27 Sep 2023 07:19:37 -0700 (PDT)
+Message-ID: <9cc59d88-4b77-4e56-ae54-737baca1d435@kernel.dk>
+Date: Wed, 27 Sep 2023 08:19:36 -0600
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3761; i=jack@suse.cz; h=from:subject:message-id; bh=szriGynEGZ/XhMNms+k06ASpRGig2ulDzrbrydRWx/Q=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBlE/cIrHCVKGuvNFZzgT9xiRfuRKr6Es2Qs4om7G7p jp8k2rmJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCZRP3CAAKCRCcnaoHP2RA2XGWB/ 4+O+K19fPnUyIouL+A+izJvDBxQbTCWLdn5TEMu5YdIMbi0dvnwAfknt+NWIhJaTQX2oqlgt3Z+UIT peMYb+jQZabj8X4xHMMy3Sfq64tRwodJHlZby5Ux9AfTZe49zDp4M4B3yxQqarEhmz6e4FJUGDaSej vcJmLz6AuSnYuAh4QK/3jCXQrEElZRTjarZjfbunWocM/2dQ7CB+rOSwKJcRMoDpqntU8QyArxca4l q6I2pBMNjnYMgjtG+ABGSBtTrj87TuJSTB3V8qtI38sfCYjMVVEoQiJKuUm1GMh2sPOFelwVMXMCJH mKs8UbSjcFd3wsbJXc8EOKLxzYparl
-X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+From: Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH v4 0/29] block: Make blkdev_get_by_*() return handle
+To: Jan Kara <jack@suse.cz>
+Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
+ linux-block@vger.kernel.org, Christoph Hellwig <hch@infradead.org>,
+ Jan Kara <jack@suse.cz>, Alasdair Kergon <agk@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Anna Schumaker <anna@kernel.org>,
+ Chao Yu <chao@kernel.org>, Christian Borntraeger
+ <borntraeger@linux.ibm.com>, "Darrick J. Wong" <djwong@kernel.org>,
+ Dave Kleikamp <shaggy@kernel.org>, David Sterba <dsterba@suse.com>,
+ dm-devel@redhat.com, drbd-dev@lists.linbit.com, Gao Xiang
+ <xiang@kernel.org>, Jack Wang <jinpu.wang@ionos.com>,
+ Jaegeuk Kim <jaegeuk@kernel.org>, jfs-discussion@lists.sourceforge.net,
+ Joern Engel <joern@lazybastard.org>, Joseph Qi
+ <joseph.qi@linux.alibaba.com>, Kent Overstreet <kent.overstreet@gmail.com>,
+ linux-bcache@vger.kernel.org, linux-btrfs@vger.kernel.org,
+ linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net, linux-mm@kvack.org,
+ linux-mtd@lists.infradead.org, linux-nfs@vger.kernel.org,
+ linux-nilfs@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-pm@vger.kernel.org, linux-raid@vger.kernel.org,
+ linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-xfs@vger.kernel.org, "Md. Haris Iqbal" <haris.iqbal@ionos.com>,
+ Mike Snitzer <snitzer@kernel.org>, Minchan Kim <minchan@kernel.org>,
+ ocfs2-devel@oss.oracle.com, reiserfs-devel@vger.kernel.org,
+ Sergey Senozhatsky <senozhatsky@chromium.org>, Song Liu <song@kernel.org>,
+ Sven Schnelle <svens@linux.ibm.com>, target-devel@vger.kernel.org,
+ Ted Tso <tytso@mit.edu>, Trond Myklebust <trond.myklebust@hammerspace.com>,
+ xen-devel@lists.xenproject.org
+References: <20230818123232.2269-1-jack@suse.cz>
+Content-Language: en-US
+In-Reply-To: <20230818123232.2269-1-jack@suse.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230927_023447_545545_C160429B 
-X-CRM114-Status: GOOD (  15.56  )
+X-CRM114-CacheID: sfid-20230927_071943_008810_9CD1E0A2 
+X-CRM114-Status: GOOD (  18.15  )
 X-Mailman-Approved-At: Fri, 29 Sep 2023 08:46:50 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -133,99 +117,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
-Message-ID: <20230927093406.OpxCgq9aOTZTaMZLd-xlD1VuUh07MB4-v308nbLCgxo@z>
 
-Hello,
+On Wed, Sep 27, 2023 at 3:34?AM Jan Kara <jack@suse.cz> wrote:
+>
+> Hello,
+>
+> this is a v3 of the patch series which implements the idea of blkdev_get_by_*()
 
-this is a v3 of the patch series which implements the idea of blkdev_get_by_*()
-calls returning bdev_handle which is then passed to blkdev_put() [1]. This
-makes the get and put calls for bdevs more obviously matching and allows us to
-propagate context from get to put without having to modify all the users
-(again!). In particular I need to propagate used open flags to blkdev_put() to
-be able count writeable opens and add support for blocking writes to mounted
-block devices. I'll send that series separately.
+v4?
 
-The series is based on Btrfs tree's for-next branch [2] as of today as the
-series depends on Christoph's changes to btrfs device handling.  Patches have
-passed some reasonable testing - I've tested block changes, md, dm, bcache,
-xfs, btrfs, ext4, swap. More testing or review is always welcome. Thanks! I've
-pushed out the full branch to:
+> calls returning bdev_handle which is then passed to blkdev_put() [1]. This
+> makes the get and put calls for bdevs more obviously matching and allows us to
+> propagate context from get to put without having to modify all the users
+> (again!). In particular I need to propagate used open flags to blkdev_put() to
+> be able count writeable opens and add support for blocking writes to mounted
+> block devices. I'll send that series separately.
+>
+> The series is based on Btrfs tree's for-next branch [2] as of today as the
+> series depends on Christoph's changes to btrfs device handling.  Patches have
+> passed some reasonable testing - I've tested block changes, md, dm, bcache,
+> xfs, btrfs, ext4, swap. More testing or review is always welcome. Thanks! I've
+> pushed out the full branch to:
+>
+> git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git bdev_handle
+>
+> to ease review / testing. Christian, can you pull the patches to your tree
+> to get some exposure in linux-next as well? Thanks!
 
-git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git bdev_handle
+For the block bits:
 
-to ease review / testing. Christian, can you pull the patches to your tree
-to get some exposure in linux-next as well? Thanks!
+Acked-by: Jens Axboe <axboe@kernel.dk>
 
-Changes since v3:
-* Rebased on top on btrfs tree
+-- 
+Jens Axboe
 
-Changes since v2:
-* Rebased on top of current vfs tree
-* Added some acks
-* Reflected minor nits from Christoph
-* Added missing conversion of blkdev_put() calls in cramfs and erofs
-* Fixed possible leak of bdev handle in xfs if logdev is the same as fs dev
-
-Changes since v1:
-* Rebased on top of current vfs tree
-* Renamed final functions to bdev_open_by_*() and bdev_release()
-* Fixed detection of exclusive open in blkdev_ioctl() and blkdev_fallocate()
-* Fixed swap conversion to properly reinitialize swap_info->bdev_handle
-* Fixed xfs conversion to not oops with rtdev without logdev
-* Couple other minor fixups
-
-								Honza
-
-[1] https://lore.kernel.org/all/ZJGNsVDhZx0Xgs2H@infradead.org
-[2] git://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-
-CC: Alasdair Kergon <agk@redhat.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Anna Schumaker <anna@kernel.org>
-CC: Chao Yu <chao@kernel.org>
-CC: Christian Borntraeger <borntraeger@linux.ibm.com>
-CC: Coly Li <colyli@suse.de
-CC: "Darrick J. Wong" <djwong@kernel.org>
-CC: Dave Kleikamp <shaggy@kernel.org>
-CC: David Sterba <dsterba@suse.com>
-CC: dm-devel@redhat.com
-CC: drbd-dev@lists.linbit.com
-CC: Gao Xiang <xiang@kernel.org>
-CC: Jack Wang <jinpu.wang@ionos.com>
-CC: Jaegeuk Kim <jaegeuk@kernel.org>
-CC: jfs-discussion@lists.sourceforge.net
-CC: Joern Engel <joern@lazybastard.org>
-CC: Joseph Qi <joseph.qi@linux.alibaba.com>
-CC: Kent Overstreet <kent.overstreet@gmail.com>
-CC: linux-bcache@vger.kernel.org
-CC: linux-btrfs@vger.kernel.org
-CC: linux-erofs@lists.ozlabs.org
-CC: <linux-ext4@vger.kernel.org>
-CC: linux-f2fs-devel@lists.sourceforge.net
-CC: linux-mm@kvack.org
-CC: linux-mtd@lists.infradead.org
-CC: linux-nfs@vger.kernel.org
-CC: linux-nilfs@vger.kernel.org
-CC: linux-nvme@lists.infradead.org
-CC: linux-pm@vger.kernel.org
-CC: linux-raid@vger.kernel.org
-CC: linux-s390@vger.kernel.org
-CC: linux-scsi@vger.kernel.org
-CC: linux-xfs@vger.kernel.org
-CC: "Md. Haris Iqbal" <haris.iqbal@ionos.com>
-CC: Mike Snitzer <snitzer@kernel.org>
-CC: Minchan Kim <minchan@kernel.org>
-CC: ocfs2-devel@oss.oracle.com
-CC: reiserfs-devel@vger.kernel.org
-CC: Sergey Senozhatsky <senozhatsky@chromium.org>
-CC: Song Liu <song@kernel.org>
-CC: Sven Schnelle <svens@linux.ibm.com>
-CC: target-devel@vger.kernel.org
-CC: Ted Tso <tytso@mit.edu>
-CC: Trond Myklebust <trond.myklebust@hammerspace.com>
-CC: xen-devel@lists.xenproject.org
-
-Previous versions:
-Link: http://lore.kernel.org/r/20230629165206.383-1-jack@suse.cz # v1
-Link: http://lore.kernel.org/r/20230810171429.31759-1-jack@suse.cz # v2
 
