@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 123F4E732DB
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Sep 2023 15:10:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 392E0E732DB
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 Sep 2023 15:11:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
 	Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kb+JC9muH3kFhCfV/0Ao2pYydNUjg+JOFsILFFJL5sQ=; b=ju9T2pk6nTNo7+2quJF1cNwmgh
-	zS+3XDkQv7+Gxu0SK+5B0uFx/ATmn+T0omaQxoF9+MMO+gi8wwStKfj3GW/XaWJg3oSSasrJxIGxj
-	Fz4Lfq1i7KMmQzLoKol7r92Dfl57tKw9r7e5BL0M/Ryv4BjQgTFNsy9wc/PNE984p0C3xhHqwOQSz
-	z+DPMl8qIiuRTA74xPU4CyRrSef57WccuiTvKwHCF27d190F4qaJNMyPZ7I1YC6PtB69iGzvKBd6W
-	5YZUhOfyte4fkfXF8+tQS/mD8kDmwAlxsZQIWALeB4BHUHOvdqzcu4rKRHTSu595ieurwB8BBFaIH
-	s2iVFT3g==;
+	bh=EwL0zXrEmgJTQEZs5C2U6XlTUfZvvLmWNNYhiSz9ozg=; b=Xui3QjxxumZ96WxiI3ptmwnm7y
+	rqlZ+K1VXUHLnQ0MAJ2FHOh0S4oW9QsKX9RhqG4UdK/+MXxcFrqfP50S2dGcghVURM8QvWSN0nX0H
+	MaFJrxFaqAMmvRmouMCleUkg58VSLbGR5NTWYevB6bYmVJgZw+tcQ24cYcZt5u7tnH935XQOsVn7i
+	AsHn4ftQexxc2KdMy2Afh7giRKb6/SEB3UtrcCJAsRqviLd1TlpSBCkOJS9qLurHkLg7bfUUPBdXs
+	Bzc+JV2RWqAc8w7wC+AD65oWBzgMOeiyTkPXTHhvdz959IA28i5kdXFekbVTNcDlcCGO5C4gKPf6L
+	tbj8+1rg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qlsfG-005GMx-1S;
-	Thu, 28 Sep 2023 15:10:54 +0000
-Received: from mail-bn8nam12on2062d.outbound.protection.outlook.com ([2a01:111:f400:fe5b::62d] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+	id 1qlsff-005GjR-2P;
+	Thu, 28 Sep 2023 15:11:19 +0000
+Received: from mail-co1nam11on20610.outbound.protection.outlook.com ([2a01:111:f400:7eab::610] helo=NAM11-CO1-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qlsfC-005GH4-2S
+	id 1qlsfV-005GOc-2Q
 	for linux-nvme@lists.infradead.org;
-	Thu, 28 Sep 2023 15:10:52 +0000
+	Thu, 28 Sep 2023 15:11:18 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=giszrx1hzB8VRaZqZOkTM+359ek5IWqPk6BTSPFGUKX3aLt5Jlo6ZXkAPwIttHwbaoCHtMCuDmu9RwarNWoZcdJgKfje+r7WpwJySxIbyFAI9ex92OLVcjGk4rhlMVFrfP0FvjMKgHl3+dKrMjGExefF3VvXa7kH0JQVFM3WydTsBhyKFMnHNweC1/GMER75jpUXoDYdpKyA785KSQ9T/ylWxXkzhRV8Aopb8bB14ih2++RxyFStZZFSJAe/lwetG0w768qbiXW3RRRm3dl2ZGcQorvMaVYrmcqGwrqh0VmXsmMIFfiKhZroVm+ADy0tPoVDYpp9YqkovyLrdoa8MQ==
+ b=JazB6uGpU/upxliqdI9pelY+dhxeg/hHKJW2OWLGF4VohTdKNTEJ44Ra7Cu0CZZ1Q1Giyhxv+hmT5nOBfTY6Ja3EB4O5X9XBqph1q5gN5A6YLxUtVT6C+6c7ptj6tc7NluROjAcuCRKUb7Umn+82bfH1qYr/fyjSyy/U7hLsRdryPVngKzOBFvM/gf6byb2vfsXwyKIhqzD0I47rbuaPL3MOqAA6/RKWJT+v0XpE1hREV5tfRnvt9rBAo4ilo2+y5+Z8FJOSdPq4mXrSEqCxgFek7wFuEtRZlYSRcPJd2BEwEBTgmeD+O0SAT85TksJ03g0jU77+/2GDDuDiBiHrQQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kb+JC9muH3kFhCfV/0Ao2pYydNUjg+JOFsILFFJL5sQ=;
- b=PTQek/KElJZYLEhCnLLVirzu2/W++9s7m7EwHYgqkmQI6bjmiUFGoS/s0hj5GXOvvw1PMEoAZeZhTHtS42yKONW2yE1RZunBSIIDcAtnFmkHJdqtPRX25tuo3V88g+seCmhzsvc8lDQoRl/FwfWIv6sPXtc/xgrPcalCyKfRK2CMUGYLrsZN3/4gIL3SHd5Y9taPLNJRQ4J3dEcr+MQ2bSvk0WNAPP6oufp3MWzqgnz5hCAl4iDKPbjvcAoiV77pVTsE+r1/iieQcvmOY2BA4X3LQYyaplvpQTBXXCkUZrN4tWSp8iiFCRrKn08psVhHx7VTfQkknhZ7HrJnyL6iFQ==
+ bh=EwL0zXrEmgJTQEZs5C2U6XlTUfZvvLmWNNYhiSz9ozg=;
+ b=CKgc7bZyXmdqXNpJY/a/8M4xvR20ilinEIvtLWuxB9qRIXj7fN2ppLAr1gaoK0oXRGnnx3FaBJNIWQBpUbs75fjM2JHBvLqTcz8gjVy7SImBFCbBVghcGi1zs7inwlaaoRjslKoxKUS3T32nqsRlT+2ginDWSkqxyEd3F3xtljWFDEyHrPHI90FNqLNUCw4cQClvN85uX0J/O2azeTLbTvVfCZC/YYcz2chrByut4hGm2dfE3BxUTxNLhHqQoS/8PACuSlgJropR6Lfz5TCa1KKsyQ+MUJuUvVhloA3StCt47M7bx7JapQrfz1/1mtqX410cH8dxLAY4lYBESkbxJw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kb+JC9muH3kFhCfV/0Ao2pYydNUjg+JOFsILFFJL5sQ=;
- b=ElwAyR1WSoiAjLnW3lfSAnzPIs8IDxeV4lenHWt0keZsOxiVHOE8C4TO+yI/HXFds28MEQY0vr34CxK2BhecshEQE+/sRhzk/puDfMdCIFOY37skSKj74kBrs+7Lw8p42P1fITvjmRcXCyK4ISPXGlOEBAYNCtHnJOM0HCSNfHa23OTY08aaqMPMXKFZQ12a6tKc+TRlftSDyBN2DMpHKWjOjrNhTohfRGm6xjzreTLXCAJBAzQtOp5SmfSsjTzrLwUcJ4UEGDTIM4c34G9vtm4JPHCx/7Xb7cRR/vLXtFcRnmiZaLDozqw5glX/Wvh/qFyYb6WqxKIUHcgsgLdeXQ==
+ bh=EwL0zXrEmgJTQEZs5C2U6XlTUfZvvLmWNNYhiSz9ozg=;
+ b=G5rGzo/H/kppZUckvXputQmuHb4aUPGsMknaOhktxsliOaqoDWLUoBx6t0omUJqmiOJnWw4o0TRWZ/0VsGdJAzKxc2+J9rafLls9e4Gj5uaAzi/m+E9q5aBWFuMg+P5Rr4rgZ30EQKGnVZlai9rVJ4hyMBgL5VQUOXB+IRulxOCDipUC5YtlMF0cpFd7MpB2zapfwLc4g0zNTj1xPXDx6r1FgalWmUVXa3clXEaRVycNOpwVo/0ThAgvFUz5TPT5SpnCTUtz0J+KX4zdR65v9tj7gX0auoe1sAwbcL4EoDCYtRimYtovWvx4rCBTQaMUDAy3R9dAHnev6qt5Sa3+3Q==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
- by DM4PR12MB5359.namprd12.prod.outlook.com (2603:10b6:5:39e::24) with
+ by PH0PR12MB7930.namprd12.prod.outlook.com (2603:10b6:510:283::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.28; Thu, 28 Sep
- 2023 15:10:44 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.24; Thu, 28 Sep
+ 2023 15:10:57 +0000
 Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
  ([fe80::54a7:525f:1e2a:85b1]) by SJ1PR12MB6075.namprd12.prod.outlook.com
  ([fe80::54a7:525f:1e2a:85b1%4]) with mapi id 15.20.6838.016; Thu, 28 Sep 2023
- 15:10:44 +0000
+ 15:10:57 +0000
 From: Aurelien Aptel <aaptel@nvidia.com>
 To: linux-nvme@lists.infradead.org,
 	netdev@vger.kernel.org,
@@ -63,77 +63,77 @@ To: linux-nvme@lists.infradead.org,
 	chaitanyak@nvidia.com,
 	davem@davemloft.net,
 	kuba@kernel.org
-Cc: Boris Pismenny <borisp@nvidia.com>,
+Cc: Or Gerlitz <ogerlitz@nvidia.com>,
 	aaptel@nvidia.com,
 	aurelien.aptel@gmail.com,
 	smalin@nvidia.com,
 	malin1024@gmail.com,
-	ogerlitz@nvidia.com,
 	yorayz@nvidia.com,
+	borisp@nvidia.com,
 	galshalom@nvidia.com,
 	mgurtovoy@nvidia.com
-Subject: [PATCH v16 06/20] nvme-tcp: Add DDP data-path
-Date: Thu, 28 Sep 2023 15:09:40 +0000
-Message-Id: <20230928150954.1684-7-aaptel@nvidia.com>
+Subject: [PATCH v16 08/20] nvme-tcp: Deal with netdevice DOWN events
+Date: Thu, 28 Sep 2023 15:09:42 +0000
+Message-Id: <20230928150954.1684-9-aaptel@nvidia.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230928150954.1684-1-aaptel@nvidia.com>
 References: <20230928150954.1684-1-aaptel@nvidia.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: FR4P281CA0081.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:cd::14) To SJ1PR12MB6075.namprd12.prod.outlook.com
+X-ClientProxiedBy: FR4P281CA0046.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:cc::9) To SJ1PR12MB6075.namprd12.prod.outlook.com
  (2603:10b6:a03:45e::8)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|DM4PR12MB5359:EE_
-X-MS-Office365-Filtering-Correlation-Id: fcf8f90c-d53e-4fab-ddd1-08dbc035166a
+X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|PH0PR12MB7930:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0fab989e-1a6a-42a0-6f8a-08dbc0351e38
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RmBJS6GNsB9OCODPrMZOIpDlbDevGOkhRXCjwUOnnkV5okI34A+ooosWwLUAUKiDiyExRf7gDbNzD+0yV4oKryqjfE8U+dP3e1ihpl2I2jr+mlfmpUXIhOv7gBg8dbxsLnFysy50HqORokOrUldiu3viihDiWoI9y2eITBMA0b04sOyS0Sci43ZWA3n6Epp5DEpc2pUyIXlGF8FcktjZeWsb1YwSrLokMSdOrRlc21JexnIac/LN911EZ1/1byJqk49ywhTZ6Rz7OkH7lZELqeuqlNS0HdYAAi+Epy+WoQISff5c1/CiGobzpWyOWmckcaD9WG6NK3b3fL3iQ8tmyG3f2JX4EeybcqVztm6dhYGfwF/2U41+YclOhsGT/L+cfrTkKtzy8BiDry2a0UlWiGwS0kYNWsG3bwxIW5xaUcJqH8XXnkNBuDInTEXBnvF+rDS9BnxOqzU7b47tt1gdoqM/Eabjk3iI/+X16WQ1gf+WJP8NgqtPbXTgJzcbXfXi33HfxTL1UeDr5Vqh2ToYI+DjTKadZkKtc62aQeF+QBZvTcZhO4r6oxhwY2zrtdBM
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(346002)(376002)(396003)(366004)(136003)(230922051799003)(1800799009)(64100799003)(186009)(451199024)(2906002)(86362001)(107886003)(6512007)(1076003)(2616005)(36756003)(478600001)(6666004)(6486002)(6506007)(38100700002)(83380400001)(26005)(7416002)(8676002)(8936002)(4326008)(5660300002)(66476007)(41300700001)(66556008)(66946007)(316002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: GPRq/+XtBKccP6POyKqT2G1GrhxVS7K0YDFL28WuPzZNWQUZx4pDIvNBOIhvaEVfGX0sr1cvC53jBewOH87KVSs1Nqz8yh2vTUFxcBTvkkdhmba1aVTuz0Gc8yh7pkt65RSAiYeh4OEWLa3GyNMA6pHXZgN7Q66UUNj6kGUvNSRGFOWfU+UHTHp/5Kabnnga92/WeDthPcd1TaTHGNDWfJMBRetfxq5crGhNh45rLdbktc6GSQVo6bAhnq3JXGKVZUE/wdks9uSxS3BNv8NXaMc3cT+chPcqRpblszCoJmhK6pfnmfbm+DNB3biFz+T9yJhiBnG07EyxXBfQMcwIJZFZdxxx9ZshwIXkyaUqc2nDEfIuVErNQCbf3YJRakL1tATSm5AMc/8nb7QPfvE/qMRVqwnFdsAd+bxSQJnNhmHIBefVfBuO0Zyu51vDQuHIwjtxB+ou5VIMl9SjnFCSFm0OOWeAZd5z4TeiU4kNArBxpcU/r74F2VZmnDKIEqBDf+GEEYX42oWVOcfCVQqSd7ZTLrTwmRhJfV21x1rYUJd7ruA79nZLOWE1DU4V56yx
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(346002)(136003)(376002)(39860400002)(366004)(230922051799003)(1800799009)(186009)(64100799003)(451199024)(6666004)(38100700002)(478600001)(66556008)(316002)(66476007)(66946007)(6512007)(107886003)(2616005)(1076003)(6486002)(26005)(6506007)(8676002)(36756003)(7416002)(8936002)(41300700001)(2906002)(4326008)(5660300002)(83380400001)(86362001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ekIWLgxWZNiD/Jd4UB/770Wdmz8n7pwuH1nK7j/MciXKMY+cNmBaOmKPdxN0?=
- =?us-ascii?Q?3lO31S4ssyYlpm4Oy3rk4wJ6GI3tQV/Jgk3TCGWg4iMfl6Z+FHIiEdHvRcKp?=
- =?us-ascii?Q?zrhqNUNNITcxC9qjAQoyJrRRL2lFRSqU7JJIHFYTy/jwBvnM6nPg1JnuylXn?=
- =?us-ascii?Q?umgEGlOShRvpGAWRlD0mIVYa8qqLRAfQDp8qBEsucV2DWifwqlhS8E28l6TK?=
- =?us-ascii?Q?yLZuim2spQ0V5oEhjY1k29RKHrFCVZH7yhE5jYCE0unBXuPj9E56wTbsSXns?=
- =?us-ascii?Q?qkJ+wrwWb5byH1NZFKMppzevtqxPm5PRAaHPfZL6wim05eehwos4ckci4/tm?=
- =?us-ascii?Q?p3webJsj2xlQK4id2GgGS7nTj2OziknZPa3V43kcCQToeGuon8Xwrd0oC/64?=
- =?us-ascii?Q?Ep/oOgvbrkF5P2ky3RnXmXZFpFpEfWvyTRAqJYPKdZ4+PL3GFChXzuiNQJsU?=
- =?us-ascii?Q?snMG6twlLUd/ITqB+j76J/4Jt7lWrdXPVBeUBeL9TvpLJEkAPeneXs+Phqj7?=
- =?us-ascii?Q?Zy89GkITO75FIqklplzwycyXl+JKRJopl5MJxKwMFo2xP5PQy6NzQjzzm+9v?=
- =?us-ascii?Q?+60rdG72HWTMyZuidWeqI21AdcqOO12CX0PU9vTRG0e2lXKwhmCuqkqEDeI8?=
- =?us-ascii?Q?YQvlR7gbR5ILF7F41CzQUxisaRB39NkS/qMtvOhHe3PlRKUKmq+jRFZywyJ+?=
- =?us-ascii?Q?PshowBC96APatLnlqeZYvlFeJpzEQByAOcawzo9isIuZcgxscd8Tcmg4Qd4w?=
- =?us-ascii?Q?6SR3/WsXwquSzUVGCw94+esUzSm9ZF/5hny9HRsNamjX0FG7JWIQeroYs+oD?=
- =?us-ascii?Q?+XmX1OsHhcykPrwrvY+AE0XypH6WJwqRB5P6Acx4MYotnaVUMEGXHathe1lL?=
- =?us-ascii?Q?411vS0ynBJ27eXVa8DD1diXWwGvYmNiYWAGl9AEsilcLzSNAhLhz8iEMw4o/?=
- =?us-ascii?Q?LGhJ656OWOUOT1txSugXieZ7rzq3rUJFkIx8UsZfpPTj3QjH5IXxwXNYYc0u?=
- =?us-ascii?Q?AQMPL7v6uGjXmVKduOrNYtg+T8xTIGynxsoT4xw9D4CZ7y7DzAgyoxfal7J8?=
- =?us-ascii?Q?zP9GsWKaalLfYURStxB0JMxnU5EcIzXvpX+HG741lUtVjAY6/S7gXVh7lKJf?=
- =?us-ascii?Q?J0SLXxMPNPbZmosDS2GZn0Z9Wv2vPvAq0TtAXyVPpdIJNOpBmI7CWwMirVFq?=
- =?us-ascii?Q?5tOdigrhQRSwJfqxKKzrHvfD/NN+SN99ewMak9tUxE9cf4cbzKMF983gSgKk?=
- =?us-ascii?Q?U6pxpoN9ePpORcSNkP7wwA/3JTiUAfYd7In/G6Etcgeg/+S38GI2KXRM3v5x?=
- =?us-ascii?Q?sWP2quAiVpXfkoE/mZ22eARbTIkxse/tDtHXBgdffDn9KHMQ7iBognspVbvw?=
- =?us-ascii?Q?+ET3eZ8A7nUPngSQMIMu/dwSDClVcy31fjXcu2ze3cmRJKkNfeF10zAcaaGi?=
- =?us-ascii?Q?e1MHZ6mbI2Pnd4Tjcr/Kblvt5WM47pf5UVu5Dv4tJyqFl/d0uqaYF7UP5Ovk?=
- =?us-ascii?Q?Doo1L86Wd7ymbKhCsRWRmPAHkmIvI5aHnELWliWUjUeZYtK86F6OSOQY3h6D?=
- =?us-ascii?Q?Ejj++4r5Liw7UWqhRNQW55LtN3GgCkb/4ochUJsI?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zPUfgX8rg+Cd86/H4hiZBJf2m99LzR6gyDRT5IghkRShthbnaMEzjc0v1b18?=
+ =?us-ascii?Q?iKa1MY4f5ygIQQeQ441p/yFnELtn+2WCtn6YRG1KsFfDwBtNVPBp9Z94j09r?=
+ =?us-ascii?Q?MRoPoSdpLsuCeldgWg52bd35iGG1frZ55okTmf5yeWMyBchQpz7EiTpJpFM1?=
+ =?us-ascii?Q?9orjVcVKZLjl13L6lxOZ6Wvah5rLPtVssbq8h225NdMigpsuNHZIIHdjkFjM?=
+ =?us-ascii?Q?YJQHqugb/kzkRmMJVDLtjoZGk+otPKivJJYur/VKyIE91i2X7B3wSqaXvOZW?=
+ =?us-ascii?Q?v6Lc6KpqkwZDqzKTEu9JvvieIeKNNUFWNp97tUd2cAbOpk2bF61+cJiXalrX?=
+ =?us-ascii?Q?wwytsoHUm4r3O3+NsqJwCdiV7YzRpcjCTlK2PYY5E/38NNTg9B1tIYYGbcFB?=
+ =?us-ascii?Q?zOqZRVU3yu78yZwDUEXbNEIAjIuaM5idwIYVigGq/DL1g+rIQIbWRKB2XS8G?=
+ =?us-ascii?Q?RsCLOfuzlla0hfDZp4+px40NoZgO0UPmf/hYeMZrrDDl4TIXX3UB3guOAWG3?=
+ =?us-ascii?Q?YCBMjjIdpCYXHXXpdx6b8jIpk5UHc6c2kUhI7RIDFmEMtl5PFWCekVKFv36Z?=
+ =?us-ascii?Q?F/yRAN1bqCHnzvBoBJoRE8FR/xiWjFz8VyWJz0RKiXaAgLxy9UWn96jfFmo4?=
+ =?us-ascii?Q?nPAtvobg+6abcpINXTEqftmm99P1WpO4HV8dTMwZtrDO4xmckepSKnYd2XFv?=
+ =?us-ascii?Q?me+/ll031BYN3LbKPicJvec5oYJp3kW3CE/7hwhr0NS4Mjis1Yplh1/MwbvD?=
+ =?us-ascii?Q?7I8weEFM1vUnUHfkezqxE5npgLVgvtPnuZMlEAzjyM7AyRtGm+1adzk+RXLy?=
+ =?us-ascii?Q?5LxN04bZwzRcCEa+QN3sX2mXEeHQyl4TAesn9Uyqpq7T11BEEO6UduhHW90g?=
+ =?us-ascii?Q?vLSOReDl7a66LJEQ3tLR7k/UCp9w9h7jy694JLETLWBG7N2Hn6iKtMQrD0/2?=
+ =?us-ascii?Q?M0saBpzKxoGHfman1dr7t46XJMQOxfJadTIkfxHMapBvRPCJGDJGVmArxOtp?=
+ =?us-ascii?Q?0EyoUNACd0EjVe5hI0qjlYfZzzugzRC0SkAey3avsh8+b2elq6tlwtFIif6+?=
+ =?us-ascii?Q?cE9kdb8EaT3pvwZWMiWxyJ94kafpreYNXO30wumxPXtNhUXqoXUYi9H9t4Wt?=
+ =?us-ascii?Q?mXEaoB/Znia1d2MlU4qNBInQxuq9aOpQJgx/mLxt+xax0WfKoQKfyG9Hhe3Y?=
+ =?us-ascii?Q?H4D5JsGoWt21yyNXbjuPU6MkzV7qyLAVUMGmCWlCx/UPGdbuw72SuPPM/PZg?=
+ =?us-ascii?Q?JqPskOlqocit4kx6iCj647swYTR/9zppBtM6Q6jR1ofdGNqBpmnBiiZRVrfg?=
+ =?us-ascii?Q?CMk1Iu6R21+1OKJVrSS6TN2wAVVr+8gAEfImfJmq+b9Xdp+4t1L7tdHtdpWl?=
+ =?us-ascii?Q?sdWIabgng1d74EfAMCfsfW/d37dMKNd2EZvPb4Fj+tOq6k0ZlmiKesNh1cxW?=
+ =?us-ascii?Q?JopEL7qAFzSki8ZIUXFNuXbBnU9foszPmIrzmfYCzNVW2R80kNR8udw7k4vC?=
+ =?us-ascii?Q?7eqADZy8R+DrTiSls0DqwnxmW1K/kT5+57DJ8aRkzO18TwwzHrdIu3Gw0W1g?=
+ =?us-ascii?Q?KcGRH7IPHjLEG0cow3sq1Q3ZFM70otaFJzicKjN9?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fcf8f90c-d53e-4fab-ddd1-08dbc035166a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0fab989e-1a6a-42a0-6f8a-08dbc0351e38
 X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2023 15:10:44.6930
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2023 15:10:57.7218
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Xen6lJ5zHdU5Wb8eulFFIabO9rsSGpnZDGTLY7CVmgXT/xVI0C+s8eUwIpiCH8GNqegVXDsBGZEX0k9XRG2k7g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5359
+X-MS-Exchange-CrossTenant-UserPrincipalName: QnajaTjKdlX33mrEGx1VEo+vWIuiEVXU3e9iYroJAceJ++mvq3pXa6AW1EOSpSJ63wGVoErasleYYtPJQBw+Ow==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7930
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230928_081050_816209_35B240D5 
-X-CRM114-Status: GOOD (  18.91  )
+X-CRM114-CacheID: sfid-20230928_081109_889624_F9A90D30 
+X-CRM114-Status: GOOD (  19.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -148,212 +148,120 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Boris Pismenny <borisp@nvidia.com>
+From: Or Gerlitz <ogerlitz@nvidia.com>
 
-Introduce the NVMe-TCP DDP data-path offload.
-Using this interface, the NIC hardware will scatter TCP payload directly
-to the BIO pages according to the command_id in the PDU.
-To maintain the correctness of the network stack, the driver is expected
-to construct SKBs that point to the BIO pages.
+For ddp setup/teardown and resync, the offloading logic
+uses HW resources at the NIC driver such as SQ and CQ.
 
-The data-path interface contains two routines: setup/teardown.
-The setup provides the mapping from command_id to the request buffers,
-while the teardown removes this mapping.
+These resources are destroyed when the netdevice does down
+and hence we must stop using them before the NIC driver
+destroys them.
 
-For efficiency, we introduce an asynchronous nvme completion, which is
-split between NVMe-TCP and the NIC driver as follows:
-NVMe-TCP performs the specific completion, while NIC driver performs the
-generic mq_blk completion.
+Use netdevice notifier for that matter -- offloaded connections
+are stopped before the stack continues to call the NIC driver
+close ndo.
 
+We use the existing recovery flow which has the advantage
+of resuming the offload once the connection is re-set.
+
+This also buys us proper handling for the UNREGISTER event
+b/c our offloading starts in the UP state, and down is always
+there between up to unregister.
+
+Signed-off-by: Or Gerlitz <ogerlitz@nvidia.com>
 Signed-off-by: Boris Pismenny <borisp@nvidia.com>
 Signed-off-by: Ben Ben-Ishay <benishay@nvidia.com>
-Signed-off-by: Or Gerlitz <ogerlitz@nvidia.com>
 Signed-off-by: Yoray Zack <yorayz@nvidia.com>
 Signed-off-by: Shai Malin <smalin@nvidia.com>
 Signed-off-by: Aurelien Aptel <aaptel@nvidia.com>
 Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/tcp.c | 111 ++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 106 insertions(+), 5 deletions(-)
+ drivers/nvme/host/tcp.c | 41 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
 diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 604649c29838..655f73dacc09 100644
+index 49975e8e7cde..783e51b0e178 100644
 --- a/drivers/nvme/host/tcp.c
 +++ b/drivers/nvme/host/tcp.c
-@@ -112,6 +112,13 @@ struct nvme_tcp_request {
- 	size_t			offset;
- 	size_t			data_sent;
- 	enum nvme_tcp_send_state state;
-+
-+#ifdef CONFIG_ULP_DDP
-+	bool			offloaded;
-+	struct ulp_ddp_io	ddp;
-+	__le16			ddp_status;
-+	union nvme_result	result;
-+#endif
- };
+@@ -216,6 +216,7 @@ struct nvme_tcp_ctrl {
  
- enum nvme_tcp_queue_flags {
-@@ -336,10 +343,72 @@ static struct net_device *nvme_tcp_get_ddp_netdev_with_limits(
+ static LIST_HEAD(nvme_tcp_ctrl_list);
+ static DEFINE_MUTEX(nvme_tcp_ctrl_mutex);
++static struct notifier_block nvme_tcp_netdevice_nb;
+ static struct workqueue_struct *nvme_tcp_wq;
+ static const struct blk_mq_ops nvme_tcp_mq_ops;
+ static const struct blk_mq_ops nvme_tcp_admin_mq_ops;
+@@ -3021,6 +3022,32 @@ static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
+ 	return ERR_PTR(ret);
  }
  
- static bool nvme_tcp_resync_request(struct sock *sk, u32 seq, u32 flags);
-+static void nvme_tcp_ddp_teardown_done(void *ddp_ctx);
- static const struct ulp_ddp_ulp_ops nvme_tcp_ddp_ulp_ops = {
- 	.resync_request		= nvme_tcp_resync_request,
-+	.ddp_teardown_done	= nvme_tcp_ddp_teardown_done,
- };
++static int nvme_tcp_netdev_event(struct notifier_block *this,
++				 unsigned long event, void *ptr)
++{
++#ifdef CONFIG_ULP_DDP
++	struct net_device *ndev = netdev_notifier_info_to_dev(ptr);
++	struct nvme_tcp_ctrl *ctrl;
++
++	switch (event) {
++	case NETDEV_GOING_DOWN:
++		mutex_lock(&nvme_tcp_ctrl_mutex);
++		list_for_each_entry(ctrl, &nvme_tcp_ctrl_list, list) {
++			if (ndev == ctrl->ddp_netdev)
++				nvme_tcp_error_recovery(&ctrl->ctrl);
++		}
++		mutex_unlock(&nvme_tcp_ctrl_mutex);
++		flush_workqueue(nvme_reset_wq);
++		/*
++		 * The associated controllers teardown has completed,
++		 * ddp contexts were also torn down so we should be
++		 * safe to continue...
++		 */
++	}
++#endif
++	return NOTIFY_DONE;
++}
++
+ static struct nvmf_transport_ops nvme_tcp_transport = {
+ 	.name		= "tcp",
+ 	.module		= THIS_MODULE,
+@@ -3035,6 +3062,8 @@ static struct nvmf_transport_ops nvme_tcp_transport = {
  
-+static void nvme_tcp_teardown_ddp(struct nvme_tcp_queue *queue,
-+				  struct request *rq)
-+{
-+	struct net_device *netdev = queue->ctrl->ddp_netdev;
-+	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
-+
-+	ulp_ddp_teardown(netdev, queue->sock->sk, &req->ddp, rq);
-+	sg_free_table_chained(&req->ddp.sg_table, SG_CHUNK_SIZE);
-+}
-+
-+static void nvme_tcp_ddp_teardown_done(void *ddp_ctx)
-+{
-+	struct request *rq = ddp_ctx;
-+	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
-+
-+	if (!nvme_try_complete_req(rq, req->ddp_status, req->result))
-+		nvme_complete_rq(rq);
-+}
-+
-+static void nvme_tcp_setup_ddp(struct nvme_tcp_queue *queue,
-+			       struct request *rq)
-+{
-+	struct net_device *netdev = queue->ctrl->ddp_netdev;
-+	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+ static int __init nvme_tcp_init_module(void)
+ {
 +	int ret;
 +
-+	if (rq_data_dir(rq) != READ ||
-+	    queue->ctrl->ddp_threshold > blk_rq_payload_bytes(rq))
-+		return;
-+
-+	/*
-+	 * DDP offload is best-effort, errors are ignored.
-+	 */
-+
-+	req->ddp.command_id = nvme_cid(rq);
-+	req->ddp.sg_table.sgl = req->ddp.first_sgl;
-+	ret = sg_alloc_table_chained(&req->ddp.sg_table,
-+				     blk_rq_nr_phys_segments(rq),
-+				     req->ddp.sg_table.sgl, SG_CHUNK_SIZE);
-+	if (ret)
-+		goto err;
-+	req->ddp.nents = blk_rq_map_sg(rq->q, rq, req->ddp.sg_table.sgl);
-+
-+	ret = ulp_ddp_setup(netdev, queue->sock->sk, &req->ddp);
+ 	BUILD_BUG_ON(sizeof(struct nvme_tcp_hdr) != 8);
+ 	BUILD_BUG_ON(sizeof(struct nvme_tcp_cmd_pdu) != 72);
+ 	BUILD_BUG_ON(sizeof(struct nvme_tcp_data_pdu) != 24);
+@@ -3049,8 +3078,19 @@ static int __init nvme_tcp_init_module(void)
+ 	if (!nvme_tcp_wq)
+ 		return -ENOMEM;
+ 
++	nvme_tcp_netdevice_nb.notifier_call = nvme_tcp_netdev_event;
++	ret = register_netdevice_notifier(&nvme_tcp_netdevice_nb);
 +	if (ret) {
-+		sg_free_table_chained(&req->ddp.sg_table, SG_CHUNK_SIZE);
-+		goto err;
++		pr_err("failed to register netdev notifier\n");
++		goto out_free_workqueue;
 +	}
 +
-+	/* if successful, sg table is freed in nvme_tcp_teardown_ddp() */
-+	req->offloaded = true;
-+
-+	return;
-+err:
-+	WARN_ONCE(ret, "ddp setup failed (queue 0x%x, cid 0x%x, ret=%d)",
-+		  nvme_tcp_queue_id(queue),
-+		  nvme_cid(rq),
-+		  ret);
-+}
-+
- static int nvme_tcp_offload_socket(struct nvme_tcp_queue *queue)
- {
- 	struct ulp_ddp_config config = {.type = ULP_DDP_NVME};
-@@ -460,6 +529,10 @@ static int nvme_tcp_offload_socket(struct nvme_tcp_queue *queue)
- static void nvme_tcp_unoffload_socket(struct nvme_tcp_queue *queue)
- {}
- 
-+static void nvme_tcp_setup_ddp(struct nvme_tcp_queue *queue,
-+			       struct request *rq)
-+{}
-+
- static void nvme_tcp_resync_response(struct nvme_tcp_queue *queue,
- 				     struct sk_buff *skb, unsigned int offset)
- {}
-@@ -735,6 +808,26 @@ static void nvme_tcp_error_recovery(struct nvme_ctrl *ctrl)
- 	queue_work(nvme_reset_wq, &to_tcp_ctrl(ctrl)->err_work);
- }
- 
-+static void nvme_tcp_complete_request(struct request *rq,
-+				      __le16 status,
-+				      union nvme_result result,
-+				      __u16 command_id)
-+{
-+#ifdef CONFIG_ULP_DDP
-+	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
-+
-+	if (req->offloaded) {
-+		req->ddp_status = status;
-+		req->result = result;
-+		nvme_tcp_teardown_ddp(req->queue, rq);
-+		return;
-+	}
-+#endif
-+
-+	if (!nvme_try_complete_req(rq, status, result))
-+		nvme_complete_rq(rq);
-+}
-+
- static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
- 		struct nvme_completion *cqe)
- {
-@@ -754,10 +847,9 @@ static int nvme_tcp_process_nvme_cqe(struct nvme_tcp_queue *queue,
- 	if (req->status == cpu_to_le16(NVME_SC_SUCCESS))
- 		req->status = cqe->status;
- 
--	if (!nvme_try_complete_req(rq, req->status, cqe->result))
--		nvme_complete_rq(rq);
-+	nvme_tcp_complete_request(rq, req->status, cqe->result,
-+				  cqe->command_id);
- 	queue->nr_cqe++;
--
+ 	nvmf_register_transport(&nvme_tcp_transport);
  	return 0;
- }
- 
-@@ -955,10 +1047,13 @@ static int nvme_tcp_recv_pdu(struct nvme_tcp_queue *queue, struct sk_buff *skb,
- 
- static inline void nvme_tcp_end_request(struct request *rq, u16 status)
- {
-+	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
-+	struct nvme_tcp_queue *queue = req->queue;
-+	struct nvme_tcp_data_pdu *pdu = (void *)queue->pdu;
- 	union nvme_result res = {};
- 
--	if (!nvme_try_complete_req(rq, cpu_to_le16(status << 1), res))
--		nvme_complete_rq(rq);
-+	nvme_tcp_complete_request(rq, cpu_to_le16(status << 1), res,
-+				  pdu->command_id);
- }
- 
- static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
-@@ -1265,6 +1360,9 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
- 	else
- 		msg.msg_flags |= MSG_EOR;
- 
-+	if (test_bit(NVME_TCP_Q_OFF_DDP, &queue->flags))
-+		nvme_tcp_setup_ddp(queue, blk_mq_rq_from_pdu(req));
 +
- 	if (queue->hdr_digest && !req->offset)
- 		nvme_tcp_hdgst(queue->snd_hash, pdu, sizeof(*pdu));
++out_free_workqueue:
++	destroy_workqueue(nvme_tcp_wq);
++	return ret;
+ }
  
-@@ -2566,6 +2664,9 @@ static blk_status_t nvme_tcp_setup_cmd_pdu(struct nvme_ns *ns,
- 	if (ret)
- 		return ret;
+ static void __exit nvme_tcp_cleanup_module(void)
+@@ -3058,6 +3098,7 @@ static void __exit nvme_tcp_cleanup_module(void)
+ 	struct nvme_tcp_ctrl *ctrl;
  
-+#ifdef CONFIG_ULP_DDP
-+	req->offloaded = false;
-+#endif
- 	req->state = NVME_TCP_SEND_CMD_PDU;
- 	req->status = cpu_to_le16(NVME_SC_SUCCESS);
- 	req->offset = 0;
+ 	nvmf_unregister_transport(&nvme_tcp_transport);
++	unregister_netdevice_notifier(&nvme_tcp_netdevice_nb);
+ 
+ 	mutex_lock(&nvme_tcp_ctrl_mutex);
+ 	list_for_each_entry(ctrl, &nvme_tcp_ctrl_list, list)
 -- 
 2.34.1
 
