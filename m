@@ -4,53 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7587AE80ABE
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Sep 2023 11:49:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 67A05E71D42
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Sep 2023 14:58:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:MIME-Version:Date:Message-ID:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=cLt2kr0AqIeZjybsIBp0cVqY2jCdcqbQoh7el6T0NwA=; b=dqLLJuoOeK9IkB
-	3KXyS/dRwdjpOQ0rlbjq0QHI56XhuPoOPrVytaY+wKIrHfGc0Qd1qr5kwhiq8guNLojd2be2sU1ss
-	+XPpWD+z6GXGPtFahYAq7KQwpnSrNuJT/UStbQ+hyUbTeO7aCVazMiLBeISd9vnlBRiCRkPGlUUH/
-	fdE44G00XrCw97Ve0zJoW02qdcfvwrFywjPUd/cfeHQhGIQaG8+WW9lju+O4493jRih8NP05b1f7q
-	mkbWsZ6um2t/nhwQP0Z6ois6P4JgY4a8Rd5EcWmwqdaLc8qSde1Dt6x01fpFHrZ3SeCixilJtEqhf
-	DIKkiSIk130IHrED6YqA==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=za8EzqdYzUyppdLLpiPtivTza7p59Ioizqu+gaqUd3g=; b=kC/l+kUExl+jdQbzX9cThOg2Bt
+	vfMGbrr40j+/B8n8Y3rGtx/LxpYOaNdH+SEOB9lEGJ81e4JDS2gslzchhpYV0buAHDVVkZEqMBZgZ
+	eKwy9SXdPt18pPPzfzIXl6/Dz1XFvFypOAVXFP85CNaCdXQT7Z+wyCOGwe1u3YaDBtRw4mYfUH52i
+	WPDuHZLqVSH9CH3TYftmDUeHAqSrhNwvnTH0hm0rhMX/W/eKUhqeqDlZaU2ghh7g6OWmflsXnwbr5
+	MCM1fhvLsGpx9e978ua/d/LInlvdCHQcY7fts6FiVSNDofV4p3f72aXJ3OGS1PDKaU6Q/E76Er9Lj
+	TgNFGmpQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qmC01-007qId-33;
-	Fri, 29 Sep 2023 11:49:37 +0000
-Received: from wp530.webpack.hosteurope.de ([80.237.130.52])
+	id 1qmEwr-0087PN-2Q;
+	Fri, 29 Sep 2023 14:58:33 +0000
+Received: from mail-pl1-f178.google.com ([209.85.214.178])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qmBzv-007qHY-1q
+	id 1qmEwo-0087NW-0s
 	for linux-nvme@lists.infradead.org;
-	Fri, 29 Sep 2023 11:49:36 +0000
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1qmBzq-0005kV-8i; Fri, 29 Sep 2023 13:49:26 +0200
-Message-ID: <9d6bb342-0a09-4ec5-99d7-81e095ff5cee@leemhuis.info>
-Date: Fri, 29 Sep 2023 13:49:25 +0200
+	Fri, 29 Sep 2023 14:58:31 +0000
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1c5cd27b1acso127971635ad.2
+        for <linux-nvme@lists.infradead.org>; Fri, 29 Sep 2023 07:58:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695999507; x=1696604307;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=za8EzqdYzUyppdLLpiPtivTza7p59Ioizqu+gaqUd3g=;
+        b=bQ5PwwraP40WC0+31TrCuuT3IWH4eAfLhxib4Tlu3Pmq33CeAPfddjLCKNtf8Nbhd2
+         ShXVCBV3pAU0EPfMduzn0sLwH/+m4MrjAW+Xxj6DKi4Wtdfn3enSB9YHIl3XtSA7SaQ+
+         fJVPyRgGh4w8AB86cm27I6HAjuriZiInZ8aB+7NU6NKr6HiTAV5c1ehUEzaF/empJxSH
+         hLNbfD5WOBPbQLGIN04EjP9ubwZQbSnyjrmt1nmAhgHIkMJV8fjdIcwmoLhv/9I+Y1lS
+         YhVfvJEiAbnDRk7Kbukdg+C7WCsnk8FvT09VNvNWVRDRAKWnVz4FEgEqO4h7Pq0naxfp
+         hxrA==
+X-Gm-Message-State: AOJu0YzimihQqo4qk4VgfpxcVnsVSrmrId10mna4HfeXMoSLOzDzgkvh
+	DaFvs7gXbDqtvXLghppLZd0=
+X-Google-Smtp-Source: AGHT+IG5sgVITHE7nR5diwLXn/2VF45vvGKMJi6rof6uCdXanJ/bkpRzf92xSKeM2Bi/n6Pno9YC+w==
+X-Received: by 2002:a17:902:d34b:b0:1bb:9b29:20d9 with SMTP id l11-20020a170902d34b00b001bb9b2920d9mr4928956plk.20.1695999506875;
+        Fri, 29 Sep 2023 07:58:26 -0700 (PDT)
+Received: from [192.168.51.14] (c-73-231-117-72.hsd1.ca.comcast.net. [73.231.117.72])
+        by smtp.gmail.com with ESMTPSA id iy3-20020a170903130300b001b9d335223csm13018814plb.26.2023.09.29.07.58.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 Sep 2023 07:58:26 -0700 (PDT)
+Message-ID: <378f6c3b-5c4d-4df8-ae1e-e8abb9ee47a3@acm.org>
+Date: Fri, 29 Sep 2023 07:58:23 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: Possible nvme regression in 6.4.11
-Content-Language: en-US, de-DE
-To: linux-kernel@vger.kernel.org
-Cc: linux-nvme@lists.infradead.org,
- Linux Regressions <regressions@lists.linux.dev>
-References: <5f968b95-6b1c-4d6f-aac7-5d54f66834a8@sapience.com>
- <ZN2NUIg3k5VgMg63@debian.me>
-From: "Linux regression tracking #update (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-In-Reply-To: <ZN2NUIg3k5VgMg63@debian.me>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH 00/21] block atomic writes
+Content-Language: en-US
+To: John Garry <john.g.garry@oracle.com>, axboe@kernel.dk, kbusch@kernel.org,
+ hch@lst.de, sagi@grimberg.me, jejb@linux.ibm.com,
+ martin.petersen@oracle.com, djwong@kernel.org, viro@zeniv.linux.org.uk,
+ brauner@kernel.org, chandan.babu@oracle.com, dchinner@redhat.com
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
+ linux-api@vger.kernel.org
+References: <20230929102726.2985188-1-john.g.garry@oracle.com>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20230929102726.2985188-1-john.g.garry@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1695988171;932a8bb3;
-X-HE-SMSGID: 1qmBzq-0005kV-8i
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20230929_044931_771278_B1C4B4D4 
-X-CRM114-Status: UNSURE (   7.19  )
+X-CRM114-CacheID: sfid-20230929_075830_310929_4252C02C 
+X-CRM114-Status: UNSURE (   7.90  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -63,30 +84,22 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 17.08.23 05:00, Bagas Sanjaya wrote:
-> On Wed, Aug 16, 2023 at 04:39:34PM -0400, Genes Lists wrote:
+On 9/29/23 03:27, John Garry wrote:
+> The atomic writes feature requires dedicated HW support, like
+> SCSI WRITE_ATOMIC_16 command.
 
-> Thanks for the regression report. I'm adding it to regzbot:
-> 
-> #regzbot ^introduced: 101bd907b4244a
-> #regzbot title: can't change Samsung SSD power state due to ASPM mode checking
-> #regzbot monitor: https://bugzilla.kernel.org/show_bug.cgi?id=217802
+This is not correct. Log-structured filesystems can implement atomic
+writes without support for atomic writes in the block device(s) used
+by the filesystem. See also the F2FS_IOC_*_ATOMIC_WRITE ioctls. This
+being said, I hope that atomic write support will be added in the
+block layer and also that a single interface will be supported by all
+filesystems.
 
-Fix is in Gregs tree and hopefully soon in mainline:
+Thanks,
 
-#regzbot fix: 0e4cac557531a4
-#regzbot ignore-activity
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-That page also explains what to do if mails like this annoy you.
-
-
+Bart.
 
 
