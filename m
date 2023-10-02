@@ -4,86 +4,199 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42BB3E784A6
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Oct 2023 01:59:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F650E7849A
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Oct 2023 09:52:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BliMUyDY6TdGsdsHhFCchIpb2ceyTe9AM0oB943jUhY=; b=4lCKZXXYTY14igHI8Hf6psRlQk
-	tq0fSI8/rogp6ARAHj6Ru6ol9bHH+POZJrhcsLEGZRBYa3mm4bSMS/C2mixoPhG7v2XNnSjZb2S7k
-	tk+M2O2cgJK++pnTAJVlFRTwgCOENIRUgz/INd9GzRdYQwRTxIcj+UgfuKKd7/NQhD0Vr20Noi+FD
-	BzJ/fbEqx25ADPxSzIcwORv7og3mONi01D7z1QhS9ddOW3Aub/6Z9aVzTv3ocxN8kl17BoVUaG8G7
-	iSd4jvDPj4A4TLK7b5oOFR+AyHaeKsoSrBFnE+yyLa8y7nZM0zVUSgNsnZJ93uq42tPtUk3jHijQ4
-	lBnV8kww==;
+	bh=6umPiMACbWstwB0R3nxuB9n5O3TqnVVUkqaOzxmeX1s=; b=HKfwJiq0LGkqaDs6DXt80VeIo5
+	Whv3kpBIjSOV9fhiNjtlew4oLxrQaBEslh+AJDJhb9jpGgs13cBRP8yrzM+gwlNarEOewnF+kQBag
+	2/H2GlPX72xxrVfO+kQwKcAzG4XJbWzU+GnK8eNg9t6RoGfSvRG8rQiC5D628WpRJXHtqf9l6c/Xk
+	aS4AEBtYHdvC4fl98Gzg7UZ2DTYjl8SH2aQKcBvwV6LlQCdD3RhbrcmJzIdhA+zH2vi9nwvzfMGWW
+	y9d4fjy/1kfrqpTFuCsjnAsrPmTAMi9qNCyvIN9uxm95ITKkJsnXmNnHLwX+w6gVwTFlF5I6fTv22
+	0S6cl4eQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qn8DX-00BpSc-0S;
-	Mon, 02 Oct 2023 01:59:27 +0000
-Received: from mgamail.intel.com ([134.134.136.20])
+	id 1qnFau-00CGm3-2N;
+	Mon, 02 Oct 2023 09:52:04 +0000
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qn8DS-00BpRn-0s
+	id 1qnFar-00CGlh-2V
 	for linux-nvme@lists.infradead.org;
-	Mon, 02 Oct 2023 01:59:23 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696211962; x=1727747962;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=W88JVX1gXyO0U29l0jTJHljfHkuQ/YgOQ/ZzLImDnS0=;
-  b=Z/y+Hk6frjdjw3jkmSDUITFyiDSHwW2lm8y2mBE5e57GIFniXzFmll8m
-   Ymg7YYKiHeEVjjiDPs941H35xQn+IpfFR1C+L/fgpeaUozC0OflbqsIhF
-   LMa2MadWdg/EPnBbp/SZb+fjv+kX3Dcc4hvP1B0eNMuAmtyzZl4odMf1A
-   DBL0Row7iwh17aRmJWVj2AijQMbMPQJy0p9SjE4jXgAZROWW0BgNUNrWl
-   z5N+Z9OuSkgQEC3UajzElMk3ABS7BYL+JylhB92gEgxwCHkZIHaa+WiIN
-   z6GwD+IGG/61occviLRbEx/stiF2Drjn5nyeZnVxOmvZWQDylQFFZSR+W
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="372920008"
-X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; 
-   d="scan'208";a="372920008"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2023 18:59:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10850"; a="840862065"
-X-IronPort-AV: E=Sophos;i="6.03,193,1694761200"; 
-   d="scan'208";a="840862065"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 01 Oct 2023 18:59:13 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qn8DG-0005fl-1j;
-	Mon, 02 Oct 2023 01:59:10 +0000
-Date: Mon, 2 Oct 2023 09:58:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
-	Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
-	Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, martin.petersen@oracle.com,
-	linux-scsi@vger.kernel.org, nitheshshetty@gmail.com,
-	anuj1072538@gmail.com, gost.dev@samsung.com, mcgrof@kernel.org,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Hannes Reinecke <hare@suse.de>, Anuj Gupta <anuj20.g@samsung.com>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v16 08/12] nvmet: add copy command support for bdev and
- file ns
-Message-ID: <202310020910.TaSOIepO-lkp@intel.com>
-References: <20230920080756.11919-9-nj.shetty@samsung.com>
+	Mon, 02 Oct 2023 09:52:03 +0000
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3928XSHf006444;
+	Mon, 2 Oct 2023 09:51:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2023-03-30;
+ bh=6umPiMACbWstwB0R3nxuB9n5O3TqnVVUkqaOzxmeX1s=;
+ b=UecrV1l3QCw9HKEToQUIHm0kvj43Ovtj/JkRVn7a7PYpwp6nl+kcE96p/G+tlx9Wc7Fz
+ QA2YMEDizvl4BJm5EQxwotsbOANbpql2lRDZk71h0MuqATwbqysDe3RaXok6bgOD4lLB
+ Y8cbTbktYnDV6eqTB8KUezMvMrjAfKLpx9X4L+S0zBY5xuq5M09/0ok50CL0dL/Yz2mr
+ 954BsUyJ4+DGBLcsZnb9K41llAyZvui9Ov2ALQlU36bFu1soz1mqBI+ZwLoQYsa3GFVv
+ dTauCeB/Hjyu8BxAlamT+ZTUfnjHyxiYSMC8SJ537cKh7Gzyh+P5AjHdgv7zeSeedEv2 Sw== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3tebqdt5he-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 02 Oct 2023 09:51:45 +0000
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 3929XZIL032873;
+	Mon, 2 Oct 2023 09:51:44 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2103.outbound.protection.outlook.com [104.47.58.103])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3tea44bh13-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 02 Oct 2023 09:51:44 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NQa7Ji7E5QehjKLgo5KFWlOWswvDbmIHzV9TIhIya/zqIMjRJz7uvdguUI5DdkIiZ7rgPIAE50N++0DumogiXa7CDgFnM0NWtiQ3fLsodNy/H2xBpL6u7NX/N1VgSSe3sxfceaq9/EW0SKOVG3xlksgA088qoXD+KHnqPkcYjnpSmRIgSOYurywvLAh9WIR/6Q9vmiiK6DWXDyfYLK9/FqNJNRaEhZYlG/AJiG1mPBicTfR1xc3c9KTO3xdCS4go2i3fR/kH0tn7Rrged2FOENfcZSCKmMQJhewZ39k4KW076HFJmwAQdoxj8botjm8ChxLcrX9Kp23pWvGI7AVSzA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6umPiMACbWstwB0R3nxuB9n5O3TqnVVUkqaOzxmeX1s=;
+ b=gIOeDxKK1EDnYd+u6Gq10IDWkbSWWOLrK9teIQkPuHs5a5hSE6ALbzK8jvPtqTJODAZbzAGeIn4ZtrMEvoxoUkcVoz9nmcgnOnT49bF6OyGmOETR0y+C/k6RkWOKeu0qb5+sASQ11BizTMtlTfWEEoLKuzssffF6yZjS816Pk2g0KRtGkR1bSsx57+dLU5TiHukGLgJeip6l/UqkgU+2odlEOr/Y1zeYDlDWhVtY87YiSokCcXHsxzhCSS8hFxVrdmug1Eo76JdYh/EdIMGLXMLMaWIAd615IdRUjVfQMCffXgZufqH6N6zne9BBdLtta5XP8JVh/ffofDxKkYxcDQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6umPiMACbWstwB0R3nxuB9n5O3TqnVVUkqaOzxmeX1s=;
+ b=XwhYgPpLGu7BV7UvReJCzeZSIQnURguaU1f+ctlimddTlUP30wmNKweY3ZVzBJo75ZLpaZpyQACPlhav6YsXfjq5Mgrskg9I70/IWwa92aH7rAB0wEkZZjCt0JWKvFncYpQcdCX3kwFvAYGnAcFC284Og10YZ8N+dRYdlSeeZq8=
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com (2603:10b6:5:212::20)
+ by IA1PR10MB6855.namprd10.prod.outlook.com (2603:10b6:208:424::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.22; Mon, 2 Oct
+ 2023 09:51:42 +0000
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::ebfd:c49c:6b8:6fce]) by DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::ebfd:c49c:6b8:6fce%7]) with mapi id 15.20.6838.030; Mon, 2 Oct 2023
+ 09:51:42 +0000
+Message-ID: <d3a8b9b0-b24c-a002-e77d-56380ee785a5@oracle.com>
+Date: Mon, 2 Oct 2023 10:51:36 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH 03/21] fs/bdev: Add atomic write support info to statx
+Content-Language: en-US
+To: Bart Van Assche <bvanassche@acm.org>, Eric Biggers <ebiggers@kernel.org>
+Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+        jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
+        viro@zeniv.linux.org.uk, brauner@kernel.org, chandan.babu@oracle.com,
+        dchinner@redhat.com, linux-block@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        tytso@mit.edu, jbongio@google.com, linux-api@vger.kernel.org,
+        Prasad Singamsetty <prasad.singamsetty@oracle.com>
+References: <20230929102726.2985188-1-john.g.garry@oracle.com>
+ <20230929102726.2985188-4-john.g.garry@oracle.com>
+ <20230929224922.GB11839@google.com>
+ <b9c266d2-d5d6-4294-9a95-764641e295b4@acm.org>
+From: John Garry <john.g.garry@oracle.com>
+Organization: Oracle Corporation
+In-Reply-To: <b9c266d2-d5d6-4294-9a95-764641e295b4@acm.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AS4P195CA0047.EURP195.PROD.OUTLOOK.COM
+ (2603:10a6:20b:65a::24) To DM6PR10MB4313.namprd10.prod.outlook.com
+ (2603:10b6:5:212::20)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230920080756.11919-9-nj.shetty@samsung.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR10MB4313:EE_|IA1PR10MB6855:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7cc33479-68a5-49f3-ccaf-08dbc32d2e6e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: scAtgw77mEOv/IEPfNFh/YVMrinCyzXh6k/Rxr38ZwvYhEd81hLILSES4w92YJ2tIvX67Y5ul7m8h4/DahulNle6YIK1JXZTYRNV2kfhLf1IaJg0b+xV26SMb0m/f86o2g13PxSOiQql4EpPBw1CVShAesZOrYaX32WkKx2bUSAigmzVi5I9S1cZFcq2RFcOmwajuy1NFR//qufdly5sEF6btJebD0fefIQWd4rPrMnSMZ+d/tiyD0ZKnhwQ4c2q+/etouINFR9P3kTi4AfqOvaHNijCqeOdVaIjP+kCFwzzq6i/WJYCy7yCe49orQ9mrzFvkx1rpA/K2teNydhQvE4OygWWXAibfpbyw4g00TYf0R7ZTbcQNA/UiSXogMyOMuClvx7ZhJA5UgmDSLKziHKkNMsyJWeKFGuW/A8BgKDP9op7yWT4Iyj9ikf2TgLyjbPrsJ4t8XGITg0pipLrXjBmK6d+s2v+fwW9QyaCjogjRDT1QZGwzvNhSiaOdNK3AOPJp4g8BymYwQ6C7QhI+BlBuAGMsndHKpcTBxLouNldvvSdQCJ+Q0UNTger+G7KDd6COJmj7beZJwEr1xbAmKa/7v2ApSFBPMmi7/jQADkuGG0HMbn+yj3pE721TFyyKZgyzf89VJozAsHvLT9GIg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4313.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(376002)(396003)(136003)(366004)(39860400002)(230922051799003)(451199024)(64100799003)(1800799009)(186009)(31686004)(66946007)(66476007)(41300700001)(5660300002)(66556008)(7416002)(8676002)(4326008)(8936002)(316002)(110136005)(2616005)(83380400001)(38100700002)(2906002)(478600001)(6486002)(107886003)(6506007)(6512007)(53546011)(31696002)(86362001)(36916002)(6666004)(26005)(36756003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dVluRG1WclJyMFpKc0VTZ2kySHBZVk4zcnVpUDQrWDdCeGVjVHhuR3Vvem9Z?=
+ =?utf-8?B?TGE4djZhOVdVNHNSOVBjYXpnSmFDbjFrcWg2eCt0Z3VyQXV0QzErOGhCeWJM?=
+ =?utf-8?B?Qnhrd0FTaTRWT2Y0MklTUnZzeWlMcGFJTHJsVUg5UW4rVDJFS0tRMlNoTDg0?=
+ =?utf-8?B?VDJhckFHLzVRT3ArUzVBamFKY01uUFN1SWwrbDM3MVIvcHFPOE5DZ1lSWk55?=
+ =?utf-8?B?SHBiT3hrR29ialEySTFDUm5SM3hQaGZ6VmttNnRaZkZGaDhzdDNQeXlwejdr?=
+ =?utf-8?B?SXhQYzVoTzQ2YnFrTHJwM3RRWUxuSXRsd2xBa00ydG9GdHBXeHQ1Sm1KMGdD?=
+ =?utf-8?B?UWRmOFhHYmJpTFByRHR4c013NGZkeFpuclkrSEx1clp6L2lJNUcwb0VzUGZo?=
+ =?utf-8?B?eWdaZDhKMk83cjVQTDFDS2NvZHpKY3VRTUZpUVBsOGVKdTdUV01SK0lKNjY4?=
+ =?utf-8?B?THpXSUtlRnhUUllSTEEwWlQ1RkpxcVU5Q05DYktnK0lBOUdpakxVbWttQXBC?=
+ =?utf-8?B?ZzZaVEFCMVJCZVM1NTZGVm9GWWh0MDBKS2MwNVlDWU5TbGdGZ3pGZ2s2elZJ?=
+ =?utf-8?B?VTdOUTczRFgzMllTOUw4YVJjVWdONnJFMDdFREdRbmJ6QzFYbThzNVNweE1T?=
+ =?utf-8?B?RU1uWW14Nnd6bDBPZ3c0V2tIOThlbURyRHNVaTlNcmRwUC8weDFxNGUvNjZy?=
+ =?utf-8?B?VzA0MDdxSzhzNkZqV2ZITU12SzRyKzRjL2NxSExKaWNzWXhueWZLQ0lEN0Jt?=
+ =?utf-8?B?NnQ3NFVVdzFtOGNZUDFOZ0Q3WTVOSUZmRmFqZW5pTkI3OGg4dncwU1RRdWVk?=
+ =?utf-8?B?UE9jRytKNTFQaXdOaGRDbXE3MTAySk1MSXZldlRpbXhTc05FZEhUVDNndTQz?=
+ =?utf-8?B?ZUh5UjBlV1dNNy9tWlBUSWRSajZ2MEVJZmZSSWRxYjJEMUlGcVBPRVJjcTNn?=
+ =?utf-8?B?Sml4TFBjQXBZcVZuc0xlMm1rK1pVajczR0ZaY0lNVUY2aGtjaGVXMUNsOUZy?=
+ =?utf-8?B?WjdiK29EZXBFMlZzTVN2NEJENXg2T3A3QW0rbjBLUkgxVUIyQWp3YTg3aGJS?=
+ =?utf-8?B?cUYxM0Q0akFyTGszNXlpbUt2d1ZOODAyZ1FpbXZZRTVEeDd1TUFZWHpvRU9S?=
+ =?utf-8?B?WlZCR3llSkMwUDZzcW1kVFJrMUFkOXlrT1hoM1o2NWhMbm91OTh4OEJNeFBk?=
+ =?utf-8?B?MDd6Tm1DQ3RtNmpTT1dMQzJqSGVUcDBZbGI3VGRGWUtlekQ3NUw3VkFhKzhw?=
+ =?utf-8?B?M2VvcW5CRW16WDF3UVNyVVZvcDE4VmswaHJLZmNkOFFEbS9rVFkxS2tSN2pR?=
+ =?utf-8?B?MjR3OVFqVUtJSzNnTFR5Z3Y1dTIrVVRwWlFpUWlmaWNVbWFoT1ZRcG9oTmRy?=
+ =?utf-8?B?RVE4Z3A5UU9JWVl6RHhhdGptRjZTandDZGgvZG1jaWg3TkRIL1dvUitkWWpO?=
+ =?utf-8?B?K0JHTnNkck5TcmZ0TnZmaDlSOWdnZTVYWnVXMjU4NEZqd2ZYWFliaTFTUzBL?=
+ =?utf-8?B?enZVZFpYbDhwL1pZMk1XK05SZ1pweTBUNURuU05UVStNdDdwckF5L1hkbzUr?=
+ =?utf-8?B?QjA3TkJ2TGVWai9ULy9KZEFKYnpJQXlBQjRhRW9SOHltcGs2SjhWaXZvUkRo?=
+ =?utf-8?B?R1NWNHZITzNWaXEzUDJhcnh1eWM0NTVqZWorY3BWYi9MMlVWK1lWWWhaK0cy?=
+ =?utf-8?B?SUZHKzBZRXZQUnBDQkF2MzYrUFNBS0cyWUNqVTE0enhXb1FtSHRqQmZYTWZq?=
+ =?utf-8?B?Mmg3QWtJdS93U2xoMXFKbzU1Z1FrSmgzbWwweXhXamFGUWxiNlZyVkVMU0Nx?=
+ =?utf-8?B?TThiNmQ1ZUFMdmNnSk9zMnd5SEtqZFY2SWRjMDZiVHB1bVhEOXJRaUYzMWxQ?=
+ =?utf-8?B?Y25xS2ZLMkoxMUZYRnJIUE5aZHBKdkNSR3RlMW5wUVBvZEJjUkl1SGV0dFdZ?=
+ =?utf-8?B?T0dFZENnREpzb3VPSDFhSkluWDJhdXZvcGRQTjlTVHN6QzZYWWIyUmM0eDRr?=
+ =?utf-8?B?Znk0NWNkbUNUNFBnZUhjMTRlcDhDSXNZR1doTXpUeGY0TFo4T2MzSkVWeklS?=
+ =?utf-8?B?Nzd2aXZpUmkydFEwRTQrUU9zYSt3Q1MrZ1AzM2ErMW42c29tR3pUSTlwL2FM?=
+ =?utf-8?Q?9ZR2XeTn3knHr5RRFDs4svvpI?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?utf-8?B?bE15dXdMVzVoU3c1eGpCQzhpeE1YZktUdElZUWZmYUJqNWRieHkzWTFPZ2xq?=
+ =?utf-8?B?enFETm5ML1FwVjkwMWtFa2xvSWZpbVhoVXNrTmtKbXlPTWMrT1N5emVFVS9O?=
+ =?utf-8?B?YWZkSjJCQUFBOU94bm9rMFQ5TGRUbDNyYkdnbEEwY1l3dHZKaUNkelQ2ZUNh?=
+ =?utf-8?B?MGZlUFgzakVJdGg2V1YwZFdMeXJRV0l4bHR0dnQ4M2pjNlFVL3kxVUdKeVhk?=
+ =?utf-8?B?MjRiem5NNnRHNktMTTN1OGdWK0NoZG15dk9mdGprdlpub2xZM1dla0RtK0kv?=
+ =?utf-8?B?WDlTSytyRFN0Wjg4UEVsZFRlTWFmVGt2Z295a1NWZStRMERxM3k2bHhLYnly?=
+ =?utf-8?B?WG92VzVzS2prQkNMOUFVcE1CaVc2RktLN2duaCs4YlRWZGlzWElSQk53VDBQ?=
+ =?utf-8?B?cHptR244U001bmZIZVgwMEZjVW1QZkVnUEF2MG13NnM4WUFZTDVpSmV1QkR5?=
+ =?utf-8?B?S3BPdktsa1RJTzluSUUrTFIrNXJyY3liYVB4d3ZGNTdYRVFTR2xGdWNHSkpn?=
+ =?utf-8?B?aGhYTnNKQUozOWhUTHc1UEpxdVExRDhSb1Y0Q0lSNWhjMW43Q2N6Q0hSR1Vu?=
+ =?utf-8?B?bW5rY2t6eXI3S2dyWnJsOTFYeEwxeXpWZTk0TmNuMDRjMXZBem9yNlNRaHpJ?=
+ =?utf-8?B?dm12ZUdoYVJxTFlYOGg5ZzFnOU5JWDdDTHlra0FOdisvRE53N1BJSGxXRGJl?=
+ =?utf-8?B?aVRaY1N0SVRpSndYRUY3NE56TGhDNDdSWE02RDliZGkyZkxpa3k1dEF4ZWJj?=
+ =?utf-8?B?ZGNibEZiYjZFeHh5VjhFTytwa2ppUlVRa3g3SlhQcktwME10S2V3WDdESmo0?=
+ =?utf-8?B?RjdhRGJ4WWg2RVBQcGRaR3RCZ1F6ZUgxMDVZSW0vVDZCVW8yd01XUE82MTgy?=
+ =?utf-8?B?T3dyeHJSb1E1WkJ1T3JPQU5nT3R1SHVXVUlWVnEwbnpxS0VVL2NaYVR0YTVE?=
+ =?utf-8?B?SmFXMUJlZXFENGJYdllKcXVEM2NlMGRlN2ZmZFhIc1l0dHN6N0ZzOVNBWE9D?=
+ =?utf-8?B?dlBCZ1M5QnpNcTVwZHNjSVB3V290RTBMNHJCVjJIRmZBbFA3ZFAxNEdHTHF3?=
+ =?utf-8?B?dm9majZEMmllWCt2aEtmRDVqZnFtTmFYWk5zUXRFdmVISzlHSEh6M0dxeTMy?=
+ =?utf-8?B?TFFma3FndTk5VjFXSjhyZnpURmp6YzhMYXZKTWFsK0QybVFiU0FwZVQxYkdX?=
+ =?utf-8?B?VnVhZWc0ayt6OXVxcW1jRFZrN0xvcE41ejR5dW9QeUgrcXNzVmVtTVJwbVNB?=
+ =?utf-8?B?eW93YzNCbUV5OGhJcEdQL0I2Zm80dERXdFR5STNSN2YxYUFURnRUcGo3aWZR?=
+ =?utf-8?B?SEw1ek5jN25LQ1BGYnRnWnZndk92QkpDK3htVy9MN3JJanJWZ1NqdWVOY0FN?=
+ =?utf-8?B?dWk3TlB6R3lNTFVweFNWTlNBd25mdXdQU0xzOWtWWVdPTGtSZkc1WFlMUkI4?=
+ =?utf-8?B?Q2ZUelZIQ0tPSHRWSzYvNGZrdHlDODdraVYycEhUaEhHZVltQnp0T1h1bGEr?=
+ =?utf-8?Q?VP/KFA=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7cc33479-68a5-49f3-ccaf-08dbc32d2e6e
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4313.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2023 09:51:42.5804
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: F9yLnI5HdSQ1Q+X5rp5aMBSm0/dHLgYWGnYegHETYerQdxK0y1RTcSxMKj+rgboMQuJDPZkhPIlrpjstGhHrEA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR10MB6855
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-02_03,2023-09-28_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 malwarescore=0
+ adultscore=0 suspectscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2310020072
+X-Proofpoint-GUID: gobsr6150qKNK-asCfwGgfnMvqbRxr0f
+X-Proofpoint-ORIG-GUID: gobsr6150qKNK-asCfwGgfnMvqbRxr0f
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231001_185922_372451_CA5565BD 
-X-CRM114-Status: GOOD (  14.82  )
+X-CRM114-CacheID: sfid-20231002_025202_249338_E7930463 
+X-CRM114-Status: GOOD (  22.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,76 +211,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Nitesh,
+On 01/10/2023 14:23, Bart Van Assche wrote:
+> On 9/29/23 15:49, Eric Biggers wrote:
+>> On Fri, Sep 29, 2023 at 10:27:08AM +0000, John Garry wrote:
+>>> diff --git a/include/uapi/linux/stat.h b/include/uapi/linux/stat.h
+>>> index 7cab2c65d3d7..c99d7cac2aa6 100644
+>>> --- a/include/uapi/linux/stat.h
+>>> +++ b/include/uapi/linux/stat.h
+>>> @@ -127,7 +127,10 @@ struct statx {
+>>>       __u32    stx_dio_mem_align;    /* Memory buffer alignment for 
+>>> direct I/O */
+>>>       __u32    stx_dio_offset_align;    /* File offset alignment for 
+>>> direct I/O */
+>>>       /* 0xa0 */
+>>> -    __u64    __spare3[12];    /* Spare space for future expansion */
+>>> +    __u32    stx_atomic_write_unit_max;
+>>> +    __u32    stx_atomic_write_unit_min;
+>>
+>> Maybe min first and then max?  That seems a bit more natural, and a 
+>> lot of the
+>> code you've written handle them in that order.
 
-kernel test robot noticed the following build warnings:
+ok, I think it's fine to reorder
 
-[auto build test WARNING on 7fc7222d9680366edeecc219c21ca96310bdbc10]
+>>
+>>> +#define STATX_ATTR_WRITE_ATOMIC        0x00400000 /* File supports 
+>>> atomic write operations */
+>>
+>> How would this differ from stx_atomic_write_unit_min != 0?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nitesh-Shetty/block-Introduce-queue-limits-and-sysfs-for-copy-offload-support/20230920-170132
-base:   7fc7222d9680366edeecc219c21ca96310bdbc10
-patch link:    https://lore.kernel.org/r/20230920080756.11919-9-nj.shetty%40samsung.com
-patch subject: [PATCH v16 08/12] nvmet: add copy command support for bdev and file ns
-config: i386-randconfig-061-20231002 (https://download.01.org/0day-ci/archive/20231002/202310020910.TaSOIepO-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231002/202310020910.TaSOIepO-lkp@intel.com/reproduce)
+Yeah, I suppose that we can just not set this for the case of 
+stx_atomic_write_unit_min == 0.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310020910.TaSOIepO-lkp@intel.com/
+> 
+> Is it even possible that stx_atomic_write_unit_min == 0? My understanding
+> is that all Linux filesystems rely on the assumption that writing a single
+> logical block either succeeds or does not happen, even if a power failure
+> occurs between writing and reading a logical block.
+> 
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/nvme/target/io-cmd-bdev.c:498:30: sparse: sparse: restricted __le16 degrades to integer
->> drivers/nvme/target/io-cmd-bdev.c:514:41: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted blk_status_t [usertype] blk_sts @@     got int [assigned] [usertype] ret @@
-   drivers/nvme/target/io-cmd-bdev.c:514:41: sparse:     expected restricted blk_status_t [usertype] blk_sts
-   drivers/nvme/target/io-cmd-bdev.c:514:41: sparse:     got int [assigned] [usertype] ret
+Maybe they do rely on this, but is it particularly interesting?
 
-vim +498 drivers/nvme/target/io-cmd-bdev.c
+BTW, I would not like to provide assurances that every storage media 
+produced writes logical blocks atomically.
 
-   478	
-   479	/*
-   480	 * At present we handle only one range entry, since copy offload is aligned with
-   481	 * copy_file_range, only one entry is passed from block layer.
-   482	 */
-   483	static void nvmet_bdev_execute_copy(struct nvmet_req *rq)
-   484	{
-   485		struct nvme_copy_range range;
-   486		struct nvme_command *cmd = rq->cmd;
-   487		ssize_t ret;
-   488		off_t dst, src;
-   489	
-   490		u16 status;
-   491	
-   492		status = nvmet_copy_from_sgl(rq, 0, &range, sizeof(range));
-   493		if (status)
-   494			goto err_rq_complete;
-   495	
-   496		dst = le64_to_cpu(cmd->copy.sdlba) << rq->ns->blksize_shift;
-   497		src = le64_to_cpu(range.slba) << rq->ns->blksize_shift;
- > 498		rq->copy_len = (range.nlb + 1) << rq->ns->blksize_shift;
-   499	
-   500		if (bdev_max_copy_sectors(rq->ns->bdev)) {
-   501			ret = blkdev_copy_offload(rq->ns->bdev, dst, src, rq->copy_len,
-   502						  nvmet_bdev_copy_endio,
-   503						  (void *)rq, GFP_KERNEL);
-   504		} else {
-   505			ret = blkdev_copy_emulation(rq->ns->bdev, dst,
-   506						    rq->ns->bdev, src, rq->copy_len,
-   507						    nvmet_bdev_copy_endio,
-   508						    (void *)rq, GFP_KERNEL);
-   509		}
-   510		if (ret == -EIOCBQUEUED)
-   511			return;
-   512	
-   513		rq->cqe->result.u32 = cpu_to_le32(0);
- > 514		status = blk_to_nvme_status(rq, ret);
-   515	err_rq_complete:
-   516		nvmet_req_complete(rq, status);
-   517	}
-   518	
+Thanks,
+John
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
