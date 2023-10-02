@@ -4,70 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4382DE784AC
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Oct 2023 13:08:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB4B9E7490F
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Oct 2023 18:39:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:From:Subject
-	:Message-ID:In-Reply-To:Date:MIME-Version:Reply-To:Cc:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=rorPIP5j5NnvLe/VG3SBvJuviukORjr0ptic0PGw4zI=; b=CUYaXID00Iyzut
-	fYDC6arsShKtaXJe+aeNO/mEi06dLkV/kiScFrrpiF6Or68Z1itxtMO8plAKWXW1e09LeZ9yz+jNo
-	MRooxhde26U3WvsWPulYvw5fuyDN71yk70zFFM6CZcQKajX9da0ZrLofukGNo/cBYHTMfiNHUXxfh
-	+2P5wrCNF4Kb2zaot6oaN6j3ST4dxirIZbUDpNX5BsQPaTL8Kmw/AGHW/jYegRu8Ew4pAjYFTgA/i
-	trlZOvkFvrcv/P7J2CMS31EThPJSpiyx+IsAeHAWv3BWCyCMBuI2UF8UcGOrPi6rzBLxIq5pBJAYc
-	oj/sIa+zxUQlQeqsCsiw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Gc60tErHmFLa/ojhrllX+rIN4q7yH7L/FhjXgxWfjlA=; b=yC5ZydB31+R/3OD5frSwa2sJXW
+	i130vcshN8XOzcSFahcQjNczPs9P9tYOpnDhE3XKexwCHdEdmwFGTZS2I9kGdAWztWXVB5DeckKGZ
+	13sDPirCco4vM2ET0vxni32D9GzPZ6enYgX0XBXlJyR8EWH6Qxc5xojPlHJH5ou9Y9EO6vA3tEDxd
+	WSXRuRtP+tLSGVIN0bMYjDXYD8cbZsmeUB9VTogij+vdYPNSbfp2dc41KGlLCQsZW17wg7ciCaXkq
+	w8O5BlUMmM5HqyitjOwZKQvv688EY5thAaVBwO4C1gc65brBiAFb6XaN0jfG6+AqF+wTcNd0PoXHN
+	EsJYhYRA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qnIf6-00ClEV-1h;
-	Mon, 02 Oct 2023 13:08:36 +0000
-Received: from mail-oa1-f71.google.com ([209.85.160.71])
+	id 1qnNp4-00DE6h-2z;
+	Mon, 02 Oct 2023 18:39:14 +0000
+Received: from mail-yw1-f177.google.com ([209.85.128.177])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qnIf3-00ClDk-0R
+	id 1qnNp1-00DE50-2M
 	for linux-nvme@lists.infradead.org;
-	Mon, 02 Oct 2023 13:08:35 +0000
-Received: by mail-oa1-f71.google.com with SMTP id 586e51a60fabf-1dc580ed1e4so33828552fac.1
-        for <linux-nvme@lists.infradead.org>; Mon, 02 Oct 2023 06:08:29 -0700 (PDT)
+	Mon, 02 Oct 2023 18:39:13 +0000
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-59f6e6b7600so1044247b3.3
+        for <linux-nvme@lists.infradead.org>; Mon, 02 Oct 2023 11:39:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696252109; x=1696856909;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
+        d=1e100.net; s=20230601; t=1696271945; x=1696876745;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rorPIP5j5NnvLe/VG3SBvJuviukORjr0ptic0PGw4zI=;
-        b=bL4Vl8XSynEoulUkDFM4NTFo9lY163KCwlTpXK5ayCEs2PtSAjgZGAGOZkV6S5pDq6
-         xcOHNQMCygPPkmzSLqeOsn0lvDo4fyO0Onsj2NvpRBN/WejISYd+DXo71Q4bF98A1NPo
-         j0ir7dOZIBMSh5kKQPqoNVLspA/aUC3DmECMdWWcwdN+SyyRKxvW5EWf+zuOGQ0hfeFF
-         Pozgd0S0N9DJk8AXsqQSXsUS7nH37RRFtD8F3v6FpbXXzPHoN58FUOqcDPhAL3+giWbc
-         X+S2tKb5IeDb7KJaakhrfIPw9ph5n9iy+Umas2PBEAEP6vjJpThC1MJ1PVgVkq0w1BIT
-         IK9Q==
-X-Gm-Message-State: AOJu0YwWzqFEKgALrXdkd6U9suzsYHe4hz0FZh0TAqkCBVK+DzSyx/8y
-	iTxUljh5pYnferxhBGFOf+7uvhkUuHXuJuUrN3ujdMHMIRha
-X-Google-Smtp-Source: AGHT+IH15olfXP89zOaUgPnZ+A3LWHTnmJnCU4ut1cZEZzpYg/G4sHkoNl3GWJ2A8/7WTnzttgIAQ3N4O8oSXKkeG9zcRAHK4fyE
+        bh=Gc60tErHmFLa/ojhrllX+rIN4q7yH7L/FhjXgxWfjlA=;
+        b=fHkVl3iwGbWBfCPHZUYhnoP2vgwLf848O4Qb49Cl+QV6BEJwjzWpE0Q4pnieAxB+qy
+         5l5OyvlmHI7VN8k9TF265DHZR2KfH5FHHHEMQgaa0RYX7KE95u4xYWKKylogE/khNO2x
+         pGruUqshevzQptZcTVEncpmdBO6LMp0G2LTZ77U7Th6ny2TNcJQrVljONSfMMMaNTgST
+         lErDCFYyxv5ojn3xPwPudR+gQc5oSUjdavVT0ajAbD5H7PaN1InHHKDice4w+7QggZuH
+         4x8pPhQSvV9zEO27Cbr7ad6qY31xPNPLNzL1geT5+v7Rm/YRnMfqIjQNZ+JVdZj5+9vL
+         nPgw==
+X-Gm-Message-State: AOJu0YxXotnwP66kGfP0Qg5ES172rnob/Q/yb77Id5XEbkHai7sgiEeg
+	8gevdX4YqTzqFkuaMNCd248=
+X-Google-Smtp-Source: AGHT+IESVNBLm8WCa7rBouLG5qA3ZmN61xUw/sb/SYnK4ixQ5LUHtH5fDdM+JtbnGYgfpHa7GLtSKA==
+X-Received: by 2002:a25:c748:0:b0:ced:6134:7606 with SMTP id w69-20020a25c748000000b00ced61347606mr10978974ybe.30.1696271944617;
+        Mon, 02 Oct 2023 11:39:04 -0700 (PDT)
+Received: from ?IPV6:2620:15c:211:201:6ad7:f663:5f97:db57? ([2620:15c:211:201:6ad7:f663:5f97:db57])
+        by smtp.gmail.com with ESMTPSA id o9-20020a639a09000000b0056c2f1a2f6bsm19484421pge.41.2023.10.02.11.39.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Oct 2023 11:39:03 -0700 (PDT)
+Message-ID: <2c929105-7c7f-43c5-a105-42d1813d0e29@acm.org>
+Date: Mon, 2 Oct 2023 11:39:00 -0700
 MIME-Version: 1.0
-X-Received: by 2002:a05:6870:5aad:b0:1c0:e7d3:3b2d with SMTP id
- dt45-20020a0568705aad00b001c0e7d33b2dmr4872328oab.7.1696252109232; Mon, 02
- Oct 2023 06:08:29 -0700 (PDT)
-Date: Mon, 02 Oct 2023 06:08:29 -0700
-In-Reply-To: <000000000000c4c9d405f2643e01@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000006ba21a0606bb78f9@google.com>
-Subject: Re: [syzbot] [bridge?] possible deadlock in br_multicast_rcv (3)
-From: syzbot <syzbot+d7b7f1412c02134efa6d@syzkaller.appspotmail.com>
-To: amcohen@nvidia.com, axboe@fb.com, bridge@lists.linux-foundation.org, 
-	davem@davemloft.net, dsahern@kernel.org, edumazet@google.com, hch@lst.de, 
-	hdanton@sina.com, idosch@nvidia.com, ivecera@redhat.com, jiri@resnulli.us, 
-	kbusch@kernel.org, kuba@kernel.org, lengchao@huawei.com, 
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	llvm@lists.linux.dev, nathan@kernel.org, ndesaulniers@google.com, 
-	netdev@vger.kernel.org, pabeni@redhat.com, razor@blackwall.org, 
-	roopa@nvidia.com, sagi@grimberg.me, syzkaller-bugs@googlegroups.com, 
-	trix@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 03/21] fs/bdev: Add atomic write support info to statx
+Content-Language: en-US
+To: John Garry <john.g.garry@oracle.com>, Eric Biggers <ebiggers@kernel.org>
+Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+ jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
+ viro@zeniv.linux.org.uk, brauner@kernel.org, chandan.babu@oracle.com,
+ dchinner@redhat.com, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, tytso@mit.edu,
+ jbongio@google.com, linux-api@vger.kernel.org,
+ Prasad Singamsetty <prasad.singamsetty@oracle.com>
+References: <20230929102726.2985188-1-john.g.garry@oracle.com>
+ <20230929102726.2985188-4-john.g.garry@oracle.com>
+ <20230929224922.GB11839@google.com>
+ <b9c266d2-d5d6-4294-9a95-764641e295b4@acm.org>
+ <d3a8b9b0-b24c-a002-e77d-56380ee785a5@oracle.com>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <d3a8b9b0-b24c-a002-e77d-56380ee785a5@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231002_060833_176900_670F8374 
-X-CRM114-Status: UNSURE (   4.53  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20231002_113911_792556_AF426E09 
+X-CRM114-Status: GOOD (  14.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,26 +91,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-syzbot has bisected this issue to:
+On 10/2/23 02:51, John Garry wrote:
+> On 01/10/2023 14:23, Bart Van Assche wrote:
+>> Is it even possible that stx_atomic_write_unit_min == 0? My 
+>> understanding is that all Linux filesystems rely on the assumption 
+>> that writing a single logical block either succeeds or does not 
+>> happen, even if a power failure occurs between writing and reading 
+>> a logical block.
+> 
+> Maybe they do rely on this, but is it particularly interesting?
+> 
+> BTW, I would not like to provide assurances that every storage media 
+> produced writes logical blocks atomically.
 
-commit 0ae3eb7b4611207e140e9772398b9f88b72d6839
-Author: Amit Cohen <amcohen@nvidia.com>
-Date:   Mon Feb 1 19:47:49 2021 +0000
+Neither the SCSI SBC standard nor the NVMe standard defines a "minimum
+atomic write unit". So why to introduce something in the Linux kernel
+that is not defined in common storage standards?
 
-    netdevsim: fib: Perform the route programming in a non-atomic context
+I propose to leave out stx_atomic_write_unit_min from
+struct statx and also to leave out atomic_write_unit_min_sectors from
+struct queue_limits. My opinion is that we should not support block
+devices in the Linux kernel that do not write logical blocks atomically.
+Block devices that do not write logical blocks atomically are not
+compatible with Linux kernel journaling filesystems. Additionally, I'm
+not sure it's even possible to write a journaling filesystem for such 
+block devices.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=13afdae6680000
-start commit:   2faac9a98f01 Merge tag 'keys-fixes-20230321' of git://git...
-git tree:       upstream
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=106fdae6680000
-console output: https://syzkaller.appspot.com/x/log.txt?x=17afdae6680000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=aaa4b45720ca0519
-dashboard link: https://syzkaller.appspot.com/bug?extid=d7b7f1412c02134efa6d
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14aea34ec80000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13001e91c80000
+Thanks,
 
-Reported-by: syzbot+d7b7f1412c02134efa6d@syzkaller.appspotmail.com
-Fixes: 0ae3eb7b4611 ("netdevsim: fib: Perform the route programming in a non-atomic context")
-
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+Bart.
 
