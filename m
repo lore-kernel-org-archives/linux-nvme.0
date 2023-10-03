@@ -4,89 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3C53E75421
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Oct 2023 04:24:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 090DBE75420
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Oct 2023 04:34:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tRj24ayrhAkntLHqRcMnTUmDF9ooyeDw7/Fu4VWKcjU=; b=mP8lfTt0pxmU4IvWLfXELXYG3R
-	35PmExe8zOnL18MAszyHN7AzPh8O2D9LXPeSBtbc1nnS/nNpVzEWinjZYFDK679xVRA7GHzswmbW0
-	iZpftVXtRAD7pQ1G+jBv8uXwfbomWLVidTl9cIXdME/G9UF5/ie391Q85N9uhM10QT440FqwjYyHs
-	7Y7f2eKhMNmibbONopdV7YA5jp2HrDE2/rSVH2fqsZjW1i49evanVs2e0NbYq+Iskv7VfizPUUsFd
-	cdTbiqPIHzBqP/wp1L+K8TxHVPKkkq2WJAygGyRn4EDu6LRpl2W2UkYS6PFuJBGTHq5NnO6N2hM7u
-	rZt58/vQ==;
+	bh=+xysvb7UXDgrvMeyvIHjhvvDF8mxwwGkkX/MDtZn8IY=; b=Mixusli5zACq+brppuAwd66Gto
+	tnASAcR7fd8Ncf89N1put62A7uA+Pvq0a+ImZQLn8ZW3zIHV5Ec97x7WK8e6CMX0fYCPJrBog1bOF
+	FzUPNnvsU6TF7kULCLzwcr/RFTkO/Wi+ydyoCusFOdwD/c1xzK2I8rsM/9eXtmLAZDUiQdjh2KybV
+	3UjddPTPB3Y3jmLK3tAY5BdUvmyaFMzCTLORUnlu1dsRLhUqkN4e9NM7STStbpoNou5oEFo2dzgjq
+	IBaYMb6doVzCyLbZfbStOQuWfBX/Gt6jPrt14CEkjbKpp8zi9OX+JPVA6sdyxCvr91QiJdHG3dGbz
+	ZKXManQw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qnWxU-00DmQf-2e;
-	Tue, 03 Oct 2023 04:24:32 +0000
-Received: from mail-oo1-xc30.google.com ([2607:f8b0:4864:20::c30])
+	id 1qnX73-00DmxY-2p;
+	Tue, 03 Oct 2023 04:34:25 +0000
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qnWxR-00DmPg-2e
+	id 1qnX70-00Dmwg-2v
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Oct 2023 04:24:31 +0000
-Received: by mail-oo1-xc30.google.com with SMTP id 006d021491bc7-57b64731334so274990eaf.1
-        for <linux-nvme@lists.infradead.org>; Mon, 02 Oct 2023 21:24:28 -0700 (PDT)
+	Tue, 03 Oct 2023 04:34:24 +0000
+Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1c3cbfa40d6so3705355ad.1
+        for <linux-nvme@lists.infradead.org>; Mon, 02 Oct 2023 21:34:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1696307067; x=1696911867; darn=lists.infradead.org;
+        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1696307661; x=1696912461; darn=lists.infradead.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tRj24ayrhAkntLHqRcMnTUmDF9ooyeDw7/Fu4VWKcjU=;
-        b=a4WYfZ/5UH07Y6TQ24lPP+kPmpNthmU3t0ZaH0ybzAu2vY51EacV8KyJMuQFWfNYGX
-         EGWXcMTCU8ty6kSfHB8UpHx82DiWjwilyj6mTxmfr33x9tkAGKKQfIBYCxalDzFz9SBB
-         78NRz9GEjDkpWHvXxsVS76KvmLpPyTYv38qSXzWjxGlU0FFq0dYlDiqPCmAi2E3ztQb7
-         dgWLfsV7/SLXD/q4DMNm3qK7s8PELsElb8f4K6uKpCvWbL1Vz19tYPnvxY7E4Ifyn3vO
-         +XqgB6K1kZg0ED1KufNqduu9G9Qe29FsnruCYigGJ/+5UMjTQhhFVlV5FWLPWBRwURB9
-         obYw==
+        bh=+xysvb7UXDgrvMeyvIHjhvvDF8mxwwGkkX/MDtZn8IY=;
+        b=iRki1J9MQ0diC0BACocGBv70lDcdKjPVAePY4T11KirQXxpdZ3WB2P6kkNcb4fAYhK
+         Q8auPLVb92w3bKZ1Aw4LiJvGAC5nCiEqTTc6intrll4AE21B+qZh6jUgYtE0yFBi0fy5
+         uiTBpgvCEjFC82ajEo4Dc/RU3tA2uvnuQxSUhwRnyc9QXDwjV5fSSptP626iiXnh9NQt
+         l61uLtUamn3IlB08OEISJgYN3YWlgWfIj7tXMLdA1UYZAJpR1ApeuTQywI8//7Iq4AZ3
+         aD8YZhM3j/zRbHtNUWu9q2BcduOhzylOSg0h7ipN4UChiBxnXtr1hV0RFPEtonhSrXRM
+         9edg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696307067; x=1696911867;
+        d=1e100.net; s=20230601; t=1696307661; x=1696912461;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tRj24ayrhAkntLHqRcMnTUmDF9ooyeDw7/Fu4VWKcjU=;
-        b=kqkCyePI1q4xoR7gF60+2s2I82f5cY4FgvJ8pZ9v1VWwrG5PBgyJ6QUTGIIGw5aP6q
-         PPlSZzHzhbdB16GSlxzv1FQ7wckWjLUA2NedR9bdAQ+fAT7zHRCsebC6H36P1iN/ypRo
-         YyJKMJTkBA91Jnma+B/C8YAzu/vJmvd+n2fGzxTDwd0+Wt36A68CRPzqsICo3kBPv0Xn
-         K9Mm5CjMBH+R/IbIdLCO13fxNvtELqVjFDR6uSL/S2eNC4i5A1FGR5Xq9YE5AlgkPUZI
-         C0YC6WzIhcJ9lao/9budeKRJJ6UX1PSY9dhsi0QiXP8BxgpyLxOJ1akFpsJ4aKTkN+zP
-         K8oQ==
-X-Gm-Message-State: AOJu0YzhBwKWCGiRNrDOJQoUNat9yRH6HgJQSjdzPukARCZYwuEy8aji
-	82X4nUinh5iQYmgg/OfSBCB67A==
-X-Google-Smtp-Source: AGHT+IF9/GeW581UAr9N/tYBG4MpUKg3lZZswuTJjzX9kHgNxMQY4rk20R8BKOaIH9/L9F4V8Y44rA==
-X-Received: by 2002:a05:6358:7204:b0:133:4ce:4e8c with SMTP id h4-20020a056358720400b0013304ce4e8cmr17340586rwa.29.1696307067412;
-        Mon, 02 Oct 2023 21:24:27 -0700 (PDT)
+        bh=+xysvb7UXDgrvMeyvIHjhvvDF8mxwwGkkX/MDtZn8IY=;
+        b=xTae46d1nNKIh/1vo7eMhc7WTPFM4adoo3Xxr4loUHxVAvvJATL/oKpQq3pWHBpzPB
+         yR0+/q1mJFgM3EDtmR965026x9bwZxsDTaTdaBqBoT0pn2l7j89mW/SzbsAeIwM9xDNt
+         rWkt3ocrQlLdsNpoP2O5iFRoY9/0cDwBglkQxSX1sAIk3rAqA1r2s5hjcdFMMuHGAzGj
+         bthB/yO9P0rYgD8MhGyryynK+CxdRZNZpxj6Z6u5AHR5PnzcbtHMf7vMUJKhmgos4A2l
+         FxOJUg8VHbBJIGnDiV/Nzm2bPklLwJvGGpI4XiIAL5f1aF4E5ZO8g9s515Hlz08UatFW
+         i64g==
+X-Gm-Message-State: AOJu0Yz7gEehU4xOd+11j+g2Sg10Z8P6AZSMCIwmjaJW2j0mbqM//fOT
+	F+J8rWVdeHeejR+io7KoXoTHfw==
+X-Google-Smtp-Source: AGHT+IEM0jhYe8OIyJVgIN1aZyptyxQiXDtplBZuTljT0XzOVBrzHoD7FYZACjKGOsHLvoVZ/wOOew==
+X-Received: by 2002:a17:902:9b8e:b0:1c6:845:27c5 with SMTP id y14-20020a1709029b8e00b001c6084527c5mr13417148plp.61.1696307661424;
+        Mon, 02 Oct 2023 21:34:21 -0700 (PDT)
 Received: from dread.disaster.area (pa49-180-20-59.pa.nsw.optusnet.com.au. [49.180.20.59])
-        by smtp.gmail.com with ESMTPSA id r25-20020aa78b99000000b006933f657db3sm320573pfd.21.2023.10.02.21.24.26
+        by smtp.gmail.com with ESMTPSA id ji17-20020a170903325100b001c444106bcasm341059plb.46.2023.10.02.21.34.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Oct 2023 21:24:26 -0700 (PDT)
+        Mon, 02 Oct 2023 21:34:20 -0700 (PDT)
 Received: from dave by dread.disaster.area with local (Exim 4.96)
 	(envelope-from <david@fromorbit.com>)
-	id 1qnWxL-008kjp-29;
-	Tue, 03 Oct 2023 15:24:23 +1100
-Date: Tue, 3 Oct 2023 15:24:23 +1100
+	id 1qnX6w-008l4e-0d;
+	Tue, 03 Oct 2023 15:34:18 +1100
+Date: Tue, 3 Oct 2023 15:34:18 +1100
 From: Dave Chinner <david@fromorbit.com>
-To: John Garry <john.g.garry@oracle.com>
-Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-	jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
-	viro@zeniv.linux.org.uk, brauner@kernel.org,
-	chandan.babu@oracle.com, dchinner@redhat.com,
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: John Garry <john.g.garry@oracle.com>, axboe@kernel.dk,
+	kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, jejb@linux.ibm.com,
+	martin.petersen@oracle.com, viro@zeniv.linux.org.uk,
+	brauner@kernel.org, chandan.babu@oracle.com, dchinner@redhat.com,
 	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
 	linux-api@vger.kernel.org
-Subject: Re: [PATCH 16/21] fs: iomap: Atomic write support
-Message-ID: <ZRuXd/iG1kyeFQDh@dread.disaster.area>
+Subject: Re: [PATCH 11/21] fs: xfs: Don't use low-space allocator for
+ alignment > 1
+Message-ID: <ZRuZymVoFI7EUjbS@dread.disaster.area>
 References: <20230929102726.2985188-1-john.g.garry@oracle.com>
- <20230929102726.2985188-17-john.g.garry@oracle.com>
+ <20230929102726.2985188-12-john.g.garry@oracle.com>
+ <ZRtrap9v9xJrf6nq@dread.disaster.area>
+ <20231003030010.GE21298@frogsfrogsfrogs>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230929102726.2985188-17-john.g.garry@oracle.com>
+In-Reply-To: <20231003030010.GE21298@frogsfrogsfrogs>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231002_212429_861544_1CDB7600 
-X-CRM114-Status: GOOD (  48.64  )
+X-CRM114-CacheID: sfid-20231002_213423_255551_2C7CE908 
+X-CRM114-Status: GOOD (  26.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,234 +104,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Sep 29, 2023 at 10:27:21AM +0000, John Garry wrote:
-> Add flag IOMAP_ATOMIC_WRITE to indicate to the FS that an atomic write
-> bio is being created and all the rules there need to be followed.
+On Mon, Oct 02, 2023 at 08:00:10PM -0700, Darrick J. Wong wrote:
+> On Tue, Oct 03, 2023 at 12:16:26PM +1100, Dave Chinner wrote:
+> > On Fri, Sep 29, 2023 at 10:27:16AM +0000, John Garry wrote:
+> > > The low-space allocator doesn't honour the alignment requirement, so don't
+> > > attempt to even use it (when we have an alignment requirement).
+> > > 
+> > > Signed-off-by: John Garry <john.g.garry@oracle.com>
+> > > ---
+> > >  fs/xfs/libxfs/xfs_bmap.c | 4 ++++
+> > >  1 file changed, 4 insertions(+)
+> > > 
+> > > diff --git a/fs/xfs/libxfs/xfs_bmap.c b/fs/xfs/libxfs/xfs_bmap.c
+> > > index 30c931b38853..328134c22104 100644
+> > > --- a/fs/xfs/libxfs/xfs_bmap.c
+> > > +++ b/fs/xfs/libxfs/xfs_bmap.c
+> > > @@ -3569,6 +3569,10 @@ xfs_bmap_btalloc_low_space(
+> > >  {
+> > >  	int			error;
+> > >  
+> > > +	/* The allocator doesn't honour args->alignment */
+> > > +	if (args->alignment > 1)
+> > > +		return 0;
+> > > +
+> > 
+> > How does this happen?
+> > 
+> > The earlier failing aligned allocations will clear alignment before
+> > we get here....
 > 
-> It is the task of the FS iomap iter callbacks to ensure that the mapping
-> created adheres to those rules, like size is power-of-2, is at a
-> naturally-aligned offset, etc.
-
-The mapping being returned by the filesystem can span a much greater
-range than the actual IO needs - the iomap itself is not guaranteed
-to be aligned to anything in particular, but the IO location within
-that map can still conform to atomic IO constraints. See how
-iomap_sector() calculates the actual LBA address of the IO from
-the iomap and the current file position the IO is being done at.
-
-hence I think saying "the filesysetm should make sure all IO
-alignment adheres to atomic IO rules is probably wrong. The iomap
-layer doesn't care what the filesystem does, all it cares about is
-whether the IO can be done given the extent map that was returned to
-it.
-
-Indeed, iomap_dio_bio_iter() is doing all these alignment checks for
-normal DIO reads and writes which must be logical block sized
-aligned. i.e. this check:
-
-        if ((pos | length) & (bdev_logical_block_size(iomap->bdev) - 1) ||
-            !bdev_iter_is_aligned(iomap->bdev, dio->submit.iter))
-                return -EINVAL;
-
-Hence I think that atomic IO units, which are similarly defined by
-the bdev, should be checked at the iomap layer, too. e.g, by
-following up with:
-
-	if ((dio->iocb->ki_flags & IOCB_ATOMIC) &&
-	    ((pos | length) & (bdev_atomic_unit_min(iomap->bdev) - 1) ||
-	     !bdev_iter_is_atomic_aligned(iomap->bdev, dio->submit.iter))
-		return -EINVAL;
-
-At this point, filesystems don't really need to know anything about
-atomic IO - if they've allocated a large contiguous extent (e.g. via
-fallocate()), then RWF_ATOMIC will just work for the cases where the
-block device supports it...
-
-This then means that stuff like XFS extent size hints only need to
-check when the hint is set that it is aligned to the underlying
-device atomic IO constraints. Then when it sees the IOMAP_ATOMIC
-modifier, it can fail allocation if it can't get extent size hint
-aligned allocation.
-
-IOWs, I'm starting to think this doesn't need any change to the
-on-disk format for XFS - it can be driven entirely through two
-dynamic mechanisms:
-
-1. (IOMAP_WRITE | IOMAP_ATOMIC) requests from the direct IO layer
-which causes mapping/allocation to fail if it can't allocate (or
-map) atomic IO compatible extents for the IO.
-
-2. FALLOC_FL_ATOMIC preallocation flag modifier to tell fallocate()
-to force alignment of all preallocated extents to atomic IO
-constraints.
-
-This doesn't require extent size hints at all. The filesystem can
-query the bdev at mount time, store the min/max atomic write sizes,
-and then use them for all requests that have _ATOMIC modifiers set
-on them.
-
-With iomap doing the same "get the atomic constraints from the bdev"
-style lookups for per-IO file offset and size checking, I don't
-think we actually need extent size hints or an on-disk flag to force
-extent size hint alignment.
-
-That doesn't mean extent size hints can't be used - it just means
-that extent size hints have to be constrained to being aligned to
-atomic IOs (e.g. extent size hint must be an integer multiple of the
-max atomic IO size). This then acts as a modifier for _ATOMIC
-context allocations, much like it is a modifier for normal
-allocations now.
-
-> In iomap_dio_bio_iter(), ensure that for a non-dsync iocb that the mapping
-> is not dirty nor unmapped.
->
-> A write should only produce a single bio, so error when it doesn't.
-
-I comment on both these things below.
-
+> I was thinking the predicate should be xfs_inode_force_align(ip) to save
+> me/us from thinking about all the other weird ways args->alignment could
+> end up 1.
 > 
-> Signed-off-by: John Garry <john.g.garry@oracle.com>
-> ---
->  fs/iomap/direct-io.c  | 26 ++++++++++++++++++++++++--
->  fs/iomap/trace.h      |  3 ++-
->  include/linux/iomap.h |  1 +
->  3 files changed, 27 insertions(+), 3 deletions(-)
-> 
-> diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
-> index bcd3f8cf5ea4..6ef25e26f1a1 100644
-> --- a/fs/iomap/direct-io.c
-> +++ b/fs/iomap/direct-io.c
-> @@ -275,10 +275,11 @@ static inline blk_opf_t iomap_dio_bio_opflags(struct iomap_dio *dio,
->  static loff_t iomap_dio_bio_iter(const struct iomap_iter *iter,
->  		struct iomap_dio *dio)
->  {
-> +	bool atomic_write = iter->flags & IOMAP_ATOMIC_WRITE;
->  	const struct iomap *iomap = &iter->iomap;
->  	struct inode *inode = iter->inode;
->  	unsigned int fs_block_size = i_blocksize(inode), pad;
-> -	loff_t length = iomap_length(iter);
-> +	const loff_t length = iomap_length(iter);
->  	loff_t pos = iter->pos;
->  	blk_opf_t bio_opf;
->  	struct bio *bio;
-> @@ -292,6 +293,13 @@ static loff_t iomap_dio_bio_iter(const struct iomap_iter *iter,
->  	    !bdev_iter_is_aligned(iomap->bdev, dio->submit.iter))
->  		return -EINVAL;
->  
-> +	if (atomic_write && !iocb_is_dsync(dio->iocb)) {
-> +		if (iomap->flags & IOMAP_F_DIRTY)
-> +			return -EIO;
-> +		if (iomap->type != IOMAP_MAPPED)
-> +			return -EIO;
-> +	}
+> 	/* forced-alignment means we don't use low mode */
+> 	if (xfs_inode_force_align(ip))
+> 		return -ENOSPC;
 
-How do we get here without space having been allocated for the
-write?
+See the email I just wrote about not needing per-inode on-disk state
+or even extent size hints for doing allocation for atomic IO. Atomic
+write unit alignment is a device parameter (similar to stripe unit)
+that applies to context specific allocation requests - it's not an
+inode property as such....
 
-Perhaps what this is trying to do is make RWF_ATOMIC only be valid
-into written space? I mean, this will fail with preallocated space
-(IOMAP_UNWRITTEN) even though we still have exactly the RWF_ATOMIC
-all-or-nothing behaviour guaranteed after a crash because of journal
-recovery behaviour. i.e. if the unwritten conversion gets written to
-the journal, the data will be there. If it isn't written to the
-journal, then the space remains unwritten and there's no data across
-that entire range....
+Cheers,
 
-So I'm not really sure that either of these checks are valid or why
-they are actually needed....
-
-> +
->  	if (iomap->type == IOMAP_UNWRITTEN) {
->  		dio->flags |= IOMAP_DIO_UNWRITTEN;
->  		need_zeroout = true;
-> @@ -381,6 +389,9 @@ static loff_t iomap_dio_bio_iter(const struct iomap_iter *iter,
->  					  GFP_KERNEL);
->  		bio->bi_iter.bi_sector = iomap_sector(iomap, pos);
->  		bio->bi_ioprio = dio->iocb->ki_ioprio;
-> +		if (atomic_write)
-> +			bio->bi_opf |= REQ_ATOMIC;
-> +
->  		bio->bi_private = dio;
->  		bio->bi_end_io = iomap_dio_bio_end_io;
->  
-> @@ -397,6 +408,12 @@ static loff_t iomap_dio_bio_iter(const struct iomap_iter *iter,
->  		}
->  
->  		n = bio->bi_iter.bi_size;
-> +		if (atomic_write && n != length) {
-> +			/* This bio should have covered the complete length */
-> +			ret = -EINVAL;
-> +			bio_put(bio);
-> +			goto out;
-
-Why? The actual bio can be any length that meets the aligned
-criteria between min and max, yes? So it's valid to split a
-RWF_ATOMIC write request up into multiple min unit sized bios, is it
-not? I mean, that's the whole point of the min/max unit setup, isn't
-it? That the max sized write only guarantees that it will tear at
-min unit boundaries, not within those min unit boundaries? If
-I've understood this correctly, then why does this "single bio for
-large atomic write" constraint need to exist?
-
-
-> +		}
->  		if (dio->flags & IOMAP_DIO_WRITE) {
->  			task_io_account_write(n);
->  		} else {
-> @@ -554,6 +571,8 @@ __iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
->  	struct blk_plug plug;
->  	struct iomap_dio *dio;
->  	loff_t ret = 0;
-> +	bool is_read = iov_iter_rw(iter) == READ;
-> +	bool atomic_write = (iocb->ki_flags & IOCB_ATOMIC) && !is_read;
-
-This does not need to be done here, because....
-
->  
->  	trace_iomap_dio_rw_begin(iocb, iter, dio_flags, done_before);
->  
-> @@ -579,7 +598,7 @@ __iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
->  	if (iocb->ki_flags & IOCB_NOWAIT)
->  		iomi.flags |= IOMAP_NOWAIT;
->  
-> -	if (iov_iter_rw(iter) == READ) {
-> +	if (is_read) {
->  		/* reads can always complete inline */
->  		dio->flags |= IOMAP_DIO_INLINE_COMP;
->  
-> @@ -605,6 +624,9 @@ __iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
->  		if (iocb->ki_flags & IOCB_DIO_CALLER_COMP)
->  			dio->flags |= IOMAP_DIO_CALLER_COMP;
->  
-> +		if (atomic_write)
-> +			iomi.flags |= IOMAP_ATOMIC_WRITE;
-
-.... it is only checked once in the write path, so
-
-		if (iocb->ki_flags & IOCB_ATOMIC)
-			iomi.flags |= IOMAP_ATOMIC;
-
-> +
->  		if (dio_flags & IOMAP_DIO_OVERWRITE_ONLY) {
->  			ret = -EAGAIN;
->  			if (iomi.pos >= dio->i_size ||
-> diff --git a/fs/iomap/trace.h b/fs/iomap/trace.h
-> index c16fd55f5595..f9932733c180 100644
-> --- a/fs/iomap/trace.h
-> +++ b/fs/iomap/trace.h
-> @@ -98,7 +98,8 @@ DEFINE_RANGE_EVENT(iomap_dio_rw_queued);
->  	{ IOMAP_REPORT,		"REPORT" }, \
->  	{ IOMAP_FAULT,		"FAULT" }, \
->  	{ IOMAP_DIRECT,		"DIRECT" }, \
-> -	{ IOMAP_NOWAIT,		"NOWAIT" }
-> +	{ IOMAP_NOWAIT,		"NOWAIT" }, \
-> +	{ IOMAP_ATOMIC_WRITE,	"ATOMIC" }
-
-We already have an IOMAP_WRITE flag, so IOMAP_ATOMIC is the modifier
-for the write IO behaviour (like NOWAIT), not a replacement write
-flag.
-
--Dave.
+Dave.
 -- 
 Dave Chinner
 david@fromorbit.com
