@@ -4,58 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77F8DE7AD7C
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Oct 2023 16:40:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13D08E7AD7F
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Oct 2023 16:45:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JjOvJviiB1YciK0Ddc9QDsHo4Z5SKKOd0Z6vFwPd3F0=; b=cgLapvCFlwWrlpPywfDI3dHsZ5
-	qwsjjXEvUPYnwv2h2bs5ZIx7ObNiXhUaCZtea282tMivR5waQ4Lm01xbgO8ChB6XtgM+95ijTKpt6
-	Ij9rakjzhxVHAvGom/4iy+CcTo1lTy3Jw89fD7eUQzV6EMqk5/D74IfoanJlxvHKpEXhHPgK5hmok
-	rLrYdaBwqmBGDf1grQ2pFNkhtUkPcL29QBGr5Za2o1zDRePogZXQCiGis3RctqsBjxDIpIGdPq977
-	01xoTqTaQ31VvmQlaw4Y54totMMVX/CprwwSP/+MtydREPib/94xFDgzzyD6/UzQPQe57oRkklxIN
-	bqHT2nfw==;
+	bh=FXhSrsitouTtG4jnIpF6WlTXUJWU1AdtRoPHLHegjNE=; b=mvGlSKE8XRr8ZvM+zINHWSbqfr
+	JMzEaGPrsUG6FqrHhi03q5AHyq+XnB/zqEN6df2zrVMImr1YqoEHxyT9wJqbj8i5Y7WZ+UWAxBNkJ
+	YNKvBSeWUt596BVEJoo6INgK6AP3v5R9+fDTqpDJKpjL3lUg+QoFBrZvy9No8MxfqFWW2qISwnj+V
+	66XZJu9GQV7a6kZBNd1xxFJ7ZF4hiDK/d09lPdzO/xGVSZU0KEWq3xfdtq/iQn1DpIH/ve9u3NZBB
+	SDrfITyb6J5r5uEAOSqm6BHToXQmA/ATqFXtsMC1cbgK38oAkFDrrSSzLEl/4ZoutCYsqYT/0LI5T
+	8nYtE+wQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qniS4-00Eytv-1W;
-	Tue, 03 Oct 2023 16:40:52 +0000
-Received: from mail-pf1-f180.google.com ([209.85.210.180])
+	id 1qniWd-00EzR8-1c;
+	Tue, 03 Oct 2023 16:45:35 +0000
+Received: from mail-pj1-f53.google.com ([209.85.216.53])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qniS2-00Eyt3-2E
+	id 1qniWa-00EzQc-2I
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Oct 2023 16:40:51 +0000
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6910ea9cddbso902932b3a.0
-        for <linux-nvme@lists.infradead.org>; Tue, 03 Oct 2023 09:40:48 -0700 (PDT)
+	Tue, 03 Oct 2023 16:45:33 +0000
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2774874c3daso842956a91.1
+        for <linux-nvme@lists.infradead.org>; Tue, 03 Oct 2023 09:45:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696351248; x=1696956048;
+        d=1e100.net; s=20230601; t=1696351532; x=1696956332;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JjOvJviiB1YciK0Ddc9QDsHo4Z5SKKOd0Z6vFwPd3F0=;
-        b=RoAYuuCE5NgpT+Qj/4XLCDdyzzopg24+HQluQ7g8AQA8+AIydpvKg9m3D0zam4tI43
-         +q3fThrBQeFITmd0c7OaeRCvt58/C+gnd3foxrDWCz3oigoSPPhFdwBAZQKja9wASDMZ
-         wq/ROSSRN9Gf8ewWdiCdlxF9CuSFHyNk+UWzHfrAiWzydWJm/6G7xzm2txqX+B3IC2Ru
-         kosGB973MRRheZyYQDJsXs2yJ025broOrCakT2Tj3JJUHOjaS3CEKEkyWg2cusUoMG0k
-         WCxyZJeCAKqTZ0WjEt/+DH9N/7cxyRD+X1ALLtGa1qKexMiCPp9RoYeFfFgIypJcNmRL
-         6gZg==
-X-Gm-Message-State: AOJu0Yz3uj7ajB0PHSfdeI2j/j3n1yvibPa9858n4tjPmFrUm8qS5nnx
-	wjtSLJB7sq5DCcAJPpkZ+ds=
-X-Google-Smtp-Source: AGHT+IEkJC0j4q3G/j/OwL01WVjZmfBkxBT8BYOG8ftBNdCmA9VmlrrpSaGbeLg8MIWvhWr115Wo0Q==
-X-Received: by 2002:a05:6a20:6a23:b0:160:57a6:7eea with SMTP id p35-20020a056a206a2300b0016057a67eeamr17004575pzk.37.1696351247970;
-        Tue, 03 Oct 2023 09:40:47 -0700 (PDT)
+        bh=FXhSrsitouTtG4jnIpF6WlTXUJWU1AdtRoPHLHegjNE=;
+        b=YRi5gH1W2JICAG2oOji03XnsbnTMtqsubvydjNegRoj5n/dFNzz1POeKxC9eNZ0Qi+
+         eh1sfoulLee/5glLIJ+GccYpy9s8rfEdxf5qx5iETgegOs+fnkOJ4gdgCba6k8/Y18xA
+         ARKu3Y1deVmkQZOZcHC4LjHsqhodyC33qFzQH1R9vv4wU6CwR/zsAe/e65syBAHyx5vN
+         wuuItHb4YRRVDANhD3lRsw4lj1Nl9Fk2SDYjzSz8v/fr2BLaN4LXcywO/ywMHrDzRoUJ
+         eyXbt/j6TULyHAw5zGrBAls+FAmKtK/tPahEG22Ce6lrBMKA8DxS19QB6+0YXMu5Uu9+
+         rWrw==
+X-Gm-Message-State: AOJu0YwnmihhCxg16ht9QRW6caEjt7ymb6P9mvIon6F0xtgwnxaXKRnn
+	TEWjfeiU7LBilFVN4c2cXpk=
+X-Google-Smtp-Source: AGHT+IEwC8qVv1+tkY+wONdL32+rPKEpsbXoCH+j3Wnz44caGKeaCpNY+K3ZBdFDu5Ezk2vd0L3+eQ==
+X-Received: by 2002:a17:90a:5d18:b0:26b:4a9e:3c7e with SMTP id s24-20020a17090a5d1800b0026b4a9e3c7emr14066923pji.4.1696351531639;
+        Tue, 03 Oct 2023 09:45:31 -0700 (PDT)
 Received: from ?IPV6:2620:15c:211:201:fc96:5ba7:a6f5:b187? ([2620:15c:211:201:fc96:5ba7:a6f5:b187])
-        by smtp.gmail.com with ESMTPSA id v9-20020a170902b7c900b001c41e1e9ca7sm1790448plz.215.2023.10.03.09.40.46
+        by smtp.gmail.com with ESMTPSA id e59-20020a17090a6fc100b0026b70d2a8a2sm1719463pjk.29.2023.10.03.09.45.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Oct 2023 09:40:47 -0700 (PDT)
-Message-ID: <7f031c7a-1830-4331-86f9-4d5fbca94b8a@acm.org>
-Date: Tue, 3 Oct 2023 09:40:45 -0700
+        Tue, 03 Oct 2023 09:45:30 -0700 (PDT)
+Message-ID: <8e2f4aeb-e00e-453a-9658-b1c4ae352084@acm.org>
+Date: Tue, 3 Oct 2023 09:45:28 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/21] block: Add atomic write operations to request_queue
- limits
+Subject: Re: [PATCH 10/21] block: Add fops atomic write support
 Content-Language: en-US
 To: John Garry <john.g.garry@oracle.com>, axboe@kernel.dk, kbusch@kernel.org,
  hch@lst.de, sagi@grimberg.me, jejb@linux.ibm.com,
@@ -64,16 +63,20 @@ To: John Garry <john.g.garry@oracle.com>, axboe@kernel.dk, kbusch@kernel.org,
 Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
  linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
- linux-api@vger.kernel.org, Himanshu Madhani <himanshu.madhani@oracle.com>
+ linux-api@vger.kernel.org
 References: <20230929102726.2985188-1-john.g.garry@oracle.com>
- <20230929102726.2985188-2-john.g.garry@oracle.com>
+ <20230929102726.2985188-11-john.g.garry@oracle.com>
+ <17ee1669-5830-4ead-888d-a6a4624b638a@acm.org>
+ <5d26fa3b-ec34-bc39-ecfe-4616a04977ca@oracle.com>
+ <b7a6f380-c6fa-45e0-b727-ba804c6684e4@acm.org>
+ <1adeff8e-e2fe-7dc3-283e-4979f9bd6adc@oracle.com>
 From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20230929102726.2985188-2-john.g.garry@oracle.com>
+In-Reply-To: <1adeff8e-e2fe-7dc3-283e-4979f9bd6adc@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231003_094050_753486_1525D2A4 
-X-CRM114-Status: GOOD (  11.91  )
+X-CRM114-CacheID: sfid-20231003_094532_750509_4FFD053A 
+X-CRM114-Status: GOOD (  10.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,26 +91,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/29/23 03:27, John Garry wrote:
-> +What:		/sys/block/<disk>/atomic_write_unit_min_bytes
-> +Date:		May 2023
-> +Contact:	Himanshu Madhani <himanshu.madhani@oracle.com>
-> +Description:
-> +		[RO] This parameter specifies the smallest block which can
-> +		be written atomically with an atomic write operation. All
-> +		atomic write operations must begin at a
-> +		atomic_write_unit_min boundary and must be multiples of
-> +		atomic_write_unit_min. This value must be a power-of-two.
+On 10/3/23 01:37, John Garry wrote:
+> I don't think that is_power_of_2(write length) is specific to XFS.
 
-I have two comments about these descriptions:
-- Referring to "atomic writes" only is not sufficient. It should be
-   explained that in this context "atomic" means "indivisible" only and
-   also that there are no guarantees that the data written by an atomic
-   write will survive a power failure. See also the difference between
-   the NVMe parameters AWUN and AWUPF.
-- atomic_write_unit_min_bytes will always be the logical block size so I
-   don't think it is useful to make the block layer track this value nor
-   to export this value through sysfs.
+I think this is specific to XFS. Can you show me the F2FS code that 
+restricts the length of an atomic write to a power of two? I haven't 
+found it. The only power-of-two check that I found in F2FS is the 
+following (maybe I overlooked something):
+
+$ git grep -nH is_power fs/f2fs
+fs/f2fs/super.c:3914:	if (!is_power_of_2(zone_sectors)) {
 
 Thanks,
 
