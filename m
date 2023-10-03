@@ -4,68 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9CF1FE776E9
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Oct 2023 01:16:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1DDCBE776ED
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Oct 2023 01:43:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BB3iEMAprkU5w0PW0FKGJedlQe7dl0je9yUM666sRNU=; b=K1642OaY2HTVrUPEs1aPCnNM13
-	2VDtSYVWbCbLv4Hg/wbtcWutcBA3SW52XsqkYUPU60DURG+ff+i7CYFA2H4gkgj5OMotg7SNEqh0C
-	drdOs4bXlbgrx/gdilVMkwcrevipU6kaMsmmgqlcVqcfzWHkOUXnXe5VhDT0k/1uakaSwLrG5OekB
-	TLJ7OlBZn24dVSkPlpNGrjrMXC2Z1VcZy8h2noYgSvlD26xe5cjFU1U+/X3qPDAZU+zfSJBcT1D+1
-	OwOcofzTllI/ClYMyCbqE94ZwNP8+aNhQnkps4UejkWPiJ+nIHK2nUDls4Y5g4CaKbCHvl9iAjVSV
-	rJn46uCw==;
+	bh=8V805m7ttXbTthUXmXdTXgnda0hJbi48S1GO+p1UKEU=; b=h6KqsqFCIwE5Qsg3r6P4gaabf+
+	ei4RWtqH+uQo7DJK1KNT/sTAVibpIE0MjqFlUktGryD8Agx97VbfeYfzmq81zAHKWo0++LT3jqHcZ
+	xiXGrBaUyWgIfGZVKMCBfZZDMJsWEc6a9PyHRsvbyYNCxDxbiormvYbegcFMbWdY2ak1iEe/E4rZL
+	zvdrapXWaZdYJeqB4iZ3mfIwEoHIlmnjXpO2A9i2q9iI2/o+e+6sk6ChcV212lnuYi5d8x0Ltsq1q
+	LIIimr6Y+ItGX5l7TCvaBIOdMVa+L1kYryuKQx+bXxcDBBKjp6Fsc9ICvSIp0nW/R3f0Do8T8l2Bj
+	gywnNNlA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qnU1e-00DcQO-0I;
-	Tue, 03 Oct 2023 01:16:38 +0000
-Received: from mail-ua1-x930.google.com ([2607:f8b0:4864:20::930])
+	id 1qnURB-00DdgS-2h;
+	Tue, 03 Oct 2023 01:43:01 +0000
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qnU1Z-00DcPK-2z
+	id 1qnUR8-00DdfE-18
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Oct 2023 01:16:35 +0000
-Received: by mail-ua1-x930.google.com with SMTP id a1e0cc1a2514c-7b0a16f0338so178153241.0
-        for <linux-nvme@lists.infradead.org>; Mon, 02 Oct 2023 18:16:32 -0700 (PDT)
+	Tue, 03 Oct 2023 01:42:59 +0000
+Received: by mail-pg1-x531.google.com with SMTP id 41be03b00d2f7-584bfb14c59so233979a12.0
+        for <linux-nvme@lists.infradead.org>; Mon, 02 Oct 2023 18:42:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1696295791; x=1696900591; darn=lists.infradead.org;
+        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1696297376; x=1696902176; darn=lists.infradead.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BB3iEMAprkU5w0PW0FKGJedlQe7dl0je9yUM666sRNU=;
-        b=xb1NmmnsyX5nnu0puPZfu8jKVXxLKBIJXmQyBXg/fF8Yqd/bwLK2QJEJ10IjHP/ukt
-         jTIOdvCcrxF9KucuRKvnSBxQYjz7f0rHqe0tHIP7kWyCSDjkxm6KufeDMqHmWVUHeBR3
-         AdjkH47pRIDEVZa8BQVz010Q36Uq+V2hTRgIVEw/U0wEWY1Y5eyNzSoN0ut14yxU6s5+
-         Sptdhqrb6u7X7vW1HpMudqk1UT1w8/M6MafTAI7my3vnORF7gmbadSRQT50xw4lFxt4a
-         WGm+Xm98UmHeY93m2SPoOoyuHJkubFtbQt3esJWjqxWX9e4tMg/wrTyOqc253CtxYBlr
-         lXHw==
+        bh=8V805m7ttXbTthUXmXdTXgnda0hJbi48S1GO+p1UKEU=;
+        b=2SOVbTQXfZBOORJU4yTzFOLgBjbbpe/BkvhSbP0LrwlN1ldZxbZ2oLQTcBbNzPGbdj
+         GftE1lYIE+K3MONUAdeChBMW+oeZPrnGttU8hq3xWNF+cJc9Mkw7HzLXNqtX/NIch4b7
+         iMmkbBZ7aCTekvtt2jgiq9JrOhH8lgv469pm+IA6or74IENBkjsgpvL+LX7e2CFlI0Hm
+         vIl5m05VEB/YSifdL5kY7Wg2Y98tPcvxfpzW1WIAJ5qDI76UznMRyTPS8PyBXrq7UR9d
+         EQ6ee7Lps8lKuguqN2ET845Leklu4ZBKt9INifzuePasjAX0KJU6WTA5UCQCo05lQNYf
+         cCDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696295791; x=1696900591;
+        d=1e100.net; s=20230601; t=1696297376; x=1696902176;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BB3iEMAprkU5w0PW0FKGJedlQe7dl0je9yUM666sRNU=;
-        b=gCpMpW7YMaPGfLNS8q9qDQfT1gkiVanFfjfqnV0Je1lmRI24C9K1YM8uVHQUMzBtxc
-         gI2MQ/fFQJlCQNJSx79P6Upx0PXGL7Xxr2TbbviC5XXK6IvcH4rc7zYpM17a6lifiJab
-         MDcwWywtPhj2jsPwNV2DD5bnk9fLgWdXwhj3KXajuoXZJO+ohJs/29/lSoMFq8DrVZBF
-         o8gbQkEBYgtYvU7eNHXbWEI+c6P8Us1baKLgKO8MhJPiINpBnUApv6tV5WgskTTFEUSp
-         awkX1RQDrw/U8yJiVKgX1fsf+tg+/lurX1+Z5Ui2e4zs0roqRjb/zjETOYiP2A27L+tM
-         zt4A==
-X-Gm-Message-State: AOJu0YxnCQySxu7pPSxruJFVtHCisgu5ZxLjvQ0Z4wf/4Q6XZyspszhS
-	gsC3iCtts4qunLG0anOUgUnMCQ==
-X-Google-Smtp-Source: AGHT+IE35X8Sz7vQVe8EdhhrT+0QOjqYkjnQDhJaF4R5rYBMaePmI4d2ce5eF4SjFNEwfyHeQyalJQ==
-X-Received: by 2002:a1f:4ac1:0:b0:49a:b737:4dfa with SMTP id x184-20020a1f4ac1000000b0049ab7374dfamr9143255vka.4.1696295791419;
-        Mon, 02 Oct 2023 18:16:31 -0700 (PDT)
+        bh=8V805m7ttXbTthUXmXdTXgnda0hJbi48S1GO+p1UKEU=;
+        b=NaZmQcukB/F3QKQYhuTpd8g8WmEqX4qbiABMk9DXAbfSKh7jIsc4V7itHzbUzQsM5R
+         PAvbOxO39TxWdBkJTUmHeSafHRh6NWzAqwxVb4vjGDMqowd9B6Zph4DAQZyOrl5jPMGL
+         mZb9K2TMviJH3L8ieNL7vPCv1FxP7C1Ghh+ZFYtXMPQ5OQKNFXCX+h5zMLL1TElmKRHm
+         rTDe+fQ/WnOIeBnLd5SKJqmcWAFF3PDHlmlmSJ+VwzEKTwLr4Ye5gNIRKgLqfRyJEIjm
+         CMjoASl9fRthoE5vvqQU84Ne9YuJWefKais6Xu3Q2NVZelACce1k/EDZ+eLP/11FbJ4r
+         0IFg==
+X-Gm-Message-State: AOJu0YwJPKGgCTsuoe0FfLMOwZ8LZGfxnGkqUL+i2zB6MqiDM+6fMitD
+	hY6vdMt4whZsuYh3JMgo72xOTg==
+X-Google-Smtp-Source: AGHT+IH1MMBNEn/3axN7rieR3Ka9rd9cKkhqHZcuCTJaLw3uXvLw0daIzmInBxIrIYUS3hte/ESRZw==
+X-Received: by 2002:a05:6a20:734a:b0:15d:641b:57b6 with SMTP id v10-20020a056a20734a00b0015d641b57b6mr12536153pzc.5.1696297376470;
+        Mon, 02 Oct 2023 18:42:56 -0700 (PDT)
 Received: from dread.disaster.area (pa49-180-20-59.pa.nsw.optusnet.com.au. [49.180.20.59])
-        by smtp.gmail.com with ESMTPSA id 11-20020a17090a004b00b00273fc850342sm7572762pjb.20.2023.10.02.18.16.30
+        by smtp.gmail.com with ESMTPSA id w9-20020a1709026f0900b001b895336435sm133951plk.21.2023.10.02.18.42.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Oct 2023 18:16:30 -0700 (PDT)
+        Mon, 02 Oct 2023 18:42:56 -0700 (PDT)
 Received: from dave by dread.disaster.area with local (Exim 4.96)
 	(envelope-from <david@fromorbit.com>)
-	id 1qnU1S-008hIN-36;
-	Tue, 03 Oct 2023 12:16:26 +1100
-Date: Tue, 3 Oct 2023 12:16:26 +1100
+	id 1qnUR3-008hoD-0v;
+	Tue, 03 Oct 2023 12:42:53 +1100
+Date: Tue, 3 Oct 2023 12:42:53 +1100
 From: Dave Chinner <david@fromorbit.com>
 To: John Garry <john.g.garry@oracle.com>
 Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
@@ -76,18 +76,18 @@ Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
 	linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
 	linux-api@vger.kernel.org
-Subject: Re: [PATCH 11/21] fs: xfs: Don't use low-space allocator for
- alignment > 1
-Message-ID: <ZRtrap9v9xJrf6nq@dread.disaster.area>
+Subject: Re: [PATCH 13/21] fs: xfs: Make file data allocations observe the
+ 'forcealign' flag
+Message-ID: <ZRtxnc7LpOlxZnON@dread.disaster.area>
 References: <20230929102726.2985188-1-john.g.garry@oracle.com>
- <20230929102726.2985188-12-john.g.garry@oracle.com>
+ <20230929102726.2985188-14-john.g.garry@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230929102726.2985188-12-john.g.garry@oracle.com>
+In-Reply-To: <20230929102726.2985188-14-john.g.garry@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231002_181634_191102_89AA96D4 
-X-CRM114-Status: GOOD (  17.94  )
+X-CRM114-CacheID: sfid-20231002_184258_414167_6DE2E76C 
+X-CRM114-Status: GOOD (  34.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,32 +102,135 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Sep 29, 2023 at 10:27:16AM +0000, John Garry wrote:
-> The low-space allocator doesn't honour the alignment requirement, so don't
-> attempt to even use it (when we have an alignment requirement).
+On Fri, Sep 29, 2023 at 10:27:18AM +0000, John Garry wrote:
+> From: "Darrick J. Wong" <djwong@kernel.org>
 > 
+> The existing extsize hint code already did the work of expanding file
+> range mapping requests so that the range is aligned to the hint value.
+> Now add the code we need to guarantee that the space allocations are
+> also always aligned.
+> 
+> XXX: still need to check all this with reflink
+> 
+> Signed-off-by: Darrick J. Wong <djwong@kernel.org>
+> Co-developed-by: John Garry <john.g.garry@oracle.com>
 > Signed-off-by: John Garry <john.g.garry@oracle.com>
 > ---
->  fs/xfs/libxfs/xfs_bmap.c | 4 ++++
->  1 file changed, 4 insertions(+)
+>  fs/xfs/libxfs/xfs_bmap.c | 22 +++++++++++++++++-----
+>  fs/xfs/xfs_iomap.c       |  4 +++-
+>  2 files changed, 20 insertions(+), 6 deletions(-)
 > 
 > diff --git a/fs/xfs/libxfs/xfs_bmap.c b/fs/xfs/libxfs/xfs_bmap.c
-> index 30c931b38853..328134c22104 100644
+> index 328134c22104..6c864dc0a6ff 100644
 > --- a/fs/xfs/libxfs/xfs_bmap.c
 > +++ b/fs/xfs/libxfs/xfs_bmap.c
-> @@ -3569,6 +3569,10 @@ xfs_bmap_btalloc_low_space(
+> @@ -3328,6 +3328,19 @@ xfs_bmap_compute_alignments(
+>  		align = xfs_get_cowextsz_hint(ap->ip);
+>  	else if (ap->datatype & XFS_ALLOC_USERDATA)
+>  		align = xfs_get_extsz_hint(ap->ip);
+> +
+> +	/*
+> +	 * xfs_get_cowextsz_hint() returns extsz_hint for when forcealign is
+> +	 * set as forcealign and cowextsz_hint are mutually exclusive
+> +	 */
+> +	if (xfs_inode_forcealign(ap->ip) && align) {
+> +		args->alignment = align;
+> +		if (stripe_align % align)
+> +			stripe_align = align;
+> +	} else {
+> +		args->alignment = 1;
+> +	}
+
+This smells wrong.
+
+If a filesystem has a stripe unit set (hence stripe_align is
+non-zero) then any IO that crosses stripe unit boundaries will not
+be atomic - they will require multiple IOs to different devices.
+
+Hence if the filesystem has a stripe unit set, then all forced
+alignment hints for atomic IO *must* be an exact integer divider
+of the stripe unit. hence when an atomic IO bundle is aligned, the
+atomic boundaries within the bundle always fall on a stripe unit
+boundary and never cross devices.
+
+IOWs, for a striped filesystem, the maximum size/alignment for a
+single atomic IO unit is the stripe unit.
+
+This should be enforced when the forced align flag is set on the
+inode (i.e. from the ioctl)
+
+
+> +
+>  	if (align) {
+>  		if (xfs_bmap_extsize_align(mp, &ap->got, &ap->prev, align, 0,
+>  					ap->eof, 0, ap->conv, &ap->offset,
+> @@ -3423,7 +3436,6 @@ xfs_bmap_exact_minlen_extent_alloc(
+>  	args.minlen = args.maxlen = ap->minlen;
+>  	args.total = ap->total;
+>  
+> -	args.alignment = 1;
+>  	args.minalignslop = 0;
+>  
+>  	args.minleft = ap->minleft;
+> @@ -3469,6 +3481,7 @@ xfs_bmap_btalloc_at_eof(
 >  {
+>  	struct xfs_mount	*mp = args->mp;
+>  	struct xfs_perag	*caller_pag = args->pag;
+> +	int			orig_alignment = args->alignment;
 >  	int			error;
 >  
-> +	/* The allocator doesn't honour args->alignment */
-> +	if (args->alignment > 1)
-> +		return 0;
-> +
+>  	/*
+> @@ -3543,10 +3556,10 @@ xfs_bmap_btalloc_at_eof(
+>  
+>  	/*
+>  	 * Allocation failed, so turn return the allocation args to their
+> -	 * original non-aligned state so the caller can proceed on allocation
+> -	 * failure as if this function was never called.
+> +	 * original state so the caller can proceed on allocation failure as
+> +	 * if this function was never called.
+>  	 */
+> -	args->alignment = 1;
+> +	args->alignment = orig_alignment;
+>  	return 0;
+>  }
 
-How does this happen?
+Urk. Not sure that is right, it's certainly a change of behaviour.
 
-The earlier failing aligned allocations will clear alignment before
-we get here....
+> @@ -3694,7 +3707,6 @@ xfs_bmap_btalloc(
+>  		.wasdel		= ap->wasdel,
+>  		.resv		= XFS_AG_RESV_NONE,
+>  		.datatype	= ap->datatype,
+> -		.alignment	= 1,
+>  		.minalignslop	= 0,
+>  	};
+>  	xfs_fileoff_t		orig_offset;
+> diff --git a/fs/xfs/xfs_iomap.c b/fs/xfs/xfs_iomap.c
+> index 18c8f168b153..70fe873951f3 100644
+> --- a/fs/xfs/xfs_iomap.c
+> +++ b/fs/xfs/xfs_iomap.c
+> @@ -181,7 +181,9 @@ xfs_eof_alignment(
+>  		 * If mounted with the "-o swalloc" option the alignment is
+>  		 * increased from the strip unit size to the stripe width.
+>  		 */
+> -		if (mp->m_swidth && xfs_has_swalloc(mp))
+> +		if (xfs_inode_forcealign(ip))
+> +			align = xfs_get_extsz_hint(ip);
+> +		else if (mp->m_swidth && xfs_has_swalloc(mp))
+>  			align = mp->m_swidth;
+>  		else if (mp->m_dalign)
+>  			align = mp->m_dalign;
+
+Ah. Now I see. This abuses the stripe alignment code to try to
+implement this new inode allocation alignment restriction, rather
+than just making the extent size hint alignment mandatory....
+
+Yeah, this can be done better... :)
+
+As it is, I have been working on a series that reworks all this
+allocator code to separate out the aligned IO from the exact EOF
+allocation case to help clean this up for better perag selection
+during allocation. I think that needs to be done first before we go
+making the alignment code more intricate like this....
 
 -Dave.
 -- 
