@@ -4,67 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE0E4E776D6
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Oct 2023 22:51:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8EEAAE776DA
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Oct 2023 00:11:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5Ck/RFcYWer/HpIsPz2yVQ0D/pp+iIEB3VIsQrHC7DA=; b=ZKhyRamRt31o8Tn3vk3FG47o8f
-	RbIq7NkCyO9wLhw3BLtBWvHygkYMgrZFoUfocieWTZTq9zX2H6rrsEYcfnfYx+tatqhVs1VrZDA3n
-	4rsYd7+FK5jf4BgoU5zAdhNtvEWNrMe6Z8Ew4QivtxzX+cXYkZucrRUJdHK3CLv6JNK7PcsQFjWiF
-	zZfQI5HSBxlLk8WE27Ss15CjJzbdVk8mbjZ1NkUgdgUitqb2rH+XKp5e7hppMDWv2PAI0zUD+5TzD
-	8ifTtanDjQFWv9EcP80n3yrWyCeCyv856h5SBxRR19yS8Q3TDlhJP6QHbuVmB3AzihUhjhB86IzkJ
-	gweLSvfg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Ks1xegmL9smUxtsS+SMxje7YFeTJohysqIN7y13aErc=; b=V2vFJSyMdyjOFtAavzDBcbSzUb
+	H1cPZjxNql/s7FDz/frp1vl2rS/zPZDwQyHWQ8kcQTDUEbtasRlb3CXsr/KzOzhtei8sJxZrr9q2d
+	2sQEpEhKmVV6/0DI9t4NL9EN99K3RxscAH0C4JLyeUrco4JvMykGyuwk70rLdkaVwnnNrkmqyOkU3
+	EAGE5gdf9dGQSY8fgK0gns3se6WH6ghPylkhDVLXwRifepLbBJfHi+MYxwkid5b7jRL31TwJAexMH
+	CwTOE9kgJYD/EpFelDuTIxxXqMJcdFTzXX22HevES6sS9n/htJSov+AjgfUlBDa7Il2ldcGc+bX6I
+	sIgZavjQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qnRkf-00DTxJ-38;
-	Mon, 02 Oct 2023 22:50:57 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1qnT0i-00DZ74-2K;
+	Tue, 03 Oct 2023 00:11:36 +0000
+Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qnRkb-00DTvg-17
+	id 1qnT0d-00DZ6W-18
 	for linux-nvme@lists.infradead.org;
-	Mon, 02 Oct 2023 22:50:56 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by ams.source.kernel.org (Postfix) with ESMTP id DE56DB81689;
-	Mon,  2 Oct 2023 22:50:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04535C433C8;
-	Mon,  2 Oct 2023 22:50:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1696287051;
-	bh=EcTJa+PR680qpcWHsiMUeaqOdORB94EtacTE7leHuW4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=a6XxXmRA0+dUcG7H509G8/9uBhjEXxmfyV2Dk4iQaPWMO7ZWyW8eLOTzD2kT+Okr/
-	 sGWS+kPe7FQCpR5zpIez6GqPPKtenghyybtzHt78rPpQt0e6+r0e0JUJO7AyezLfAK
-	 s23w5ZDnE49M5I23U0GVG4WXs2xNexBzh1aV0qtsuqriBtS0KCCvl2AB93bozUVPwZ
-	 Fy3zwa3qHro4ggbtFAC8lqkyZ0sMl3n2Y/GL4FPzTTRsHMS0JAAbjzq+YgyD5ACCgj
-	 SuEz1MLvphmPavk2qiir6nAwuagBo6+44PI92PkCBUoGuNxY2Zj8Pu2/2JMSJZzdvo
-	 pYbvpkenZoHdA==
-Date: Mon, 2 Oct 2023 15:50:48 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: John Garry <john.g.garry@oracle.com>, axboe@kernel.dk,
-	kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, jejb@linux.ibm.com,
-	martin.petersen@oracle.com, djwong@kernel.org,
-	viro@zeniv.linux.org.uk, brauner@kernel.org,
-	chandan.babu@oracle.com, dchinner@redhat.com, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	tytso@mit.edu, jbongio@google.com, linux-api@vger.kernel.org
-Subject: Re: [PATCH 09/21] block: Add checks to merging of atomic writes
-Message-ID: <20231002225048.GA558147@dev-arch.thelio-3990X>
-References: <20230929102726.2985188-10-john.g.garry@oracle.com>
- <202309302100.L6ynQWub-lkp@intel.com>
+	Tue, 03 Oct 2023 00:11:34 +0000
+Received: by mail-oi1-x22b.google.com with SMTP id 5614622812f47-3ae5ce4a4ceso238307b6e.1
+        for <linux-nvme@lists.infradead.org>; Mon, 02 Oct 2023 17:11:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696291888; x=1696896688; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ks1xegmL9smUxtsS+SMxje7YFeTJohysqIN7y13aErc=;
+        b=TAN0WAfnW20zd6hMO8L7wuIbqmKb8TLxVomP4I07v8R8xxOQRa/rkTBL/jvSMvlDfT
+         Ka1qWlchnKhxZSgjjnKUpzpC+rmB4jaQeGiAIoq3MQmwGjutfl1obahc9fgcYQ3sUP8D
+         CRYjIflD9saVPzfX1U7rFa4fzNJSs//nWazzygWdCNTXxvK+6RyRShXHuyCjUUzAbtmQ
+         ZKjUYp1UBUuaSRMOz9vrOthDArOoeHmiEgBEEv/1Vu3+sqjmNeHRuUdMiawGFZoljU9u
+         4pCz+1UiOhXTGkPpQm2o07TnP0o3IELik++zAR/VJ0xPUlgmrZGrWTSlt3DwsiJWEj0R
+         4yjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696291888; x=1696896688;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ks1xegmL9smUxtsS+SMxje7YFeTJohysqIN7y13aErc=;
+        b=uAZPPWbjJNx/ikGXZqe65MSl8PFlM0PXjwAwkwAOW9YYGncW38nHjhWjtGj6yRmckQ
+         mEK8vqbFvd5VZ4W1i5cfE5BtNJISZq/zxcfZefqiw376DrstHXHQXpwiHkDvSGhFYax6
+         TQ5Z7XusxnaRrs5V9THxP8pwcKfFCzXqZ8mNlTFD6k6Z7hakUWDF6hpHb6jMmdMuWKRt
+         Z2bmHzG6cJzkzttogiTGicqhJCEfWLMTv7iUnzMr++8FVEMe4NlH+TycdTQNRMZMzEPy
+         /JX6XQXjgRLMG89ayfwXQrP7VXgwlRIOhTcWoh00LJFqlOm5j+Y1vdFrQzBnQ1e/58HT
+         h+Yw==
+X-Gm-Message-State: AOJu0YzOTM+v22qZI1XJPfN8Uv1sMCedaaRf6m7fVhJb7yjKouFoxFKN
+	DoIZS7/CxgStb043e2b4768=
+X-Google-Smtp-Source: AGHT+IFTWba9eUFM3rjM4kgPEDm8MwKiMQMbS/JQZLLX2yNC3re1qyZgQ3d34guFhNkiV6jeZKnnUg==
+X-Received: by 2002:a05:6808:13c1:b0:3a9:a334:907e with SMTP id d1-20020a05680813c100b003a9a334907emr16317500oiw.16.1696291888591;
+        Mon, 02 Oct 2023 17:11:28 -0700 (PDT)
+Received: from localhost.localdomain ([2804:1b3:a743:e840:d142:20bb:769e:e427])
+        by smtp.gmail.com with ESMTPSA id m123-20020a633f81000000b00578f697b277sm47192pga.5.2023.10.02.17.11.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Oct 2023 17:11:28 -0700 (PDT)
+From: Lucas Gabriel <git.send.mail@gmail.com>
+X-Google-Original-From: Lucas Gabriel <g@11xx.org>
+To: felixonmars@archlinux.org
+Cc: highenthalpyh@gmail.com,
+	kbusch@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	xuwd1@hotmail.com,
+	Lucas Gabriel <g@11xx.org>
+Subject: [PATCH] nvme-pci: Add quirk for Netac NV7000-T
+Date: Mon,  2 Oct 2023 21:11:19 -0300
+Message-ID: <20231003001119.384377-1-g@11xx.org>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20230907183605.631347-1-felixonmars@archlinux.org>
+References: <20230907183605.631347-1-felixonmars@archlinux.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202309302100.L6ynQWub-lkp@intel.com>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231002_155053_671302_E0D918B3 
-X-CRM114-Status: GOOD (  16.40  )
+X-CRM114-CacheID: sfid-20231002_171131_409017_70D812E0 
+X-CRM114-Status: GOOD (  11.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,44 +96,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Sep 30, 2023 at 09:40:30PM +0800, kernel test robot wrote:
-> Hi John,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on xfs-linux/for-next]
-> [also build test ERROR on axboe-block/for-next mkp-scsi/for-next jejb-scsi/for-next linus/master v6.6-rc3 next-20230929]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/John-Garry/block-Add-atomic-write-operations-to-request_queue-limits/20230929-184542
-> base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
-> patch link:    https://lore.kernel.org/r/20230929102726.2985188-10-john.g.garry%40oracle.com
-> patch subject: [PATCH 09/21] block: Add checks to merging of atomic writes
-> config: mips-mtx1_defconfig (https://download.01.org/0day-ci/archive/20230930/202309302100.L6ynQWub-lkp@intel.com/config)
-> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230930/202309302100.L6ynQWub-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202309302100.L6ynQWub-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> ld.lld: error: undefined symbol: __moddi3
->    >>> referenced by blk-merge.c
->    >>>               block/blk-merge.o:(ll_back_merge_fn) in archive vmlinux.a
->    >>> referenced by blk-merge.c
->    >>>               block/blk-merge.o:(ll_back_merge_fn) in archive vmlinux.a
->    >>> referenced by blk-merge.c
->    >>>               block/blk-merge.o:(bio_attempt_front_merge) in archive vmlinux.a
->    >>> referenced 3 more times
+Same problem with Netac NV7000-T that also uses the MAXIO MAP1602 controller.
 
-This does not appear to be clang specific, I can reproduce it with GCC
-12.3.0 and the same configuration target.
+Adding the NVME_QUIRK_DELAY_BEFORE_CHK_RDY quirk solves it:
+---
+ drivers/nvme/host/pci.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Cheers,
-Nathan
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 2f57da12d983..d44a69b1548a 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3430,6 +3430,8 @@ static const struct pci_device_id nvme_id_table[] = {
+ 		.driver_data = NVME_QUIRK_DISABLE_WRITE_ZEROES, },
+ 	{ PCI_DEVICE(0x1f40, 0x1202),   /* Netac Technologies Co. NV3000 NVMe SSD */
+ 		.driver_data = NVME_QUIRK_BOGUS_NID, },
++	{ PCI_DEVICE(0x1f40, 0x1602),   /* Netac Technologies Co. NV7000-T NVMe SSD */
++		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
+ 	{ PCI_DEVICE(0x1f40, 0x5236),   /* Netac Technologies Co. NV7000 NVMe SSD */
+ 		.driver_data = NVME_QUIRK_BOGUS_NID, },
+ 	{ PCI_DEVICE(0x1e4B, 0x1001),   /* MAXIO MAP1001 */
+-- 
+2.42.0
+
 
