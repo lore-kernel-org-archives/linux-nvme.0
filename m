@@ -4,79 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13D08E7AD7F
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Oct 2023 16:45:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3F1FE7AD78
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Oct 2023 16:46:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FXhSrsitouTtG4jnIpF6WlTXUJWU1AdtRoPHLHegjNE=; b=mvGlSKE8XRr8ZvM+zINHWSbqfr
-	JMzEaGPrsUG6FqrHhi03q5AHyq+XnB/zqEN6df2zrVMImr1YqoEHxyT9wJqbj8i5Y7WZ+UWAxBNkJ
-	YNKvBSeWUt596BVEJoo6INgK6AP3v5R9+fDTqpDJKpjL3lUg+QoFBrZvy9No8MxfqFWW2qISwnj+V
-	66XZJu9GQV7a6kZBNd1xxFJ7ZF4hiDK/d09lPdzO/xGVSZU0KEWq3xfdtq/iQn1DpIH/ve9u3NZBB
-	SDrfITyb6J5r5uEAOSqm6BHToXQmA/ATqFXtsMC1cbgK38oAkFDrrSSzLEl/4ZoutCYsqYT/0LI5T
-	8nYtE+wQ==;
+	bh=RWGSFLvn3PrkusXh7MBceL7AtiQ/tilWHf4r3zGln5Y=; b=k94iVMCm1JIuo5kgDrekwYINcq
+	+Cy/mBY2YiWkZZYyufzswYsCVUNA4x+aZ8h3ajSM7qqtXFB84efCcQ9aiM+7aJeKhB+wzoPRGmqRj
+	odTOjxd+kbfrulnmqWulkgL4gJdmTiXb80M0Rh5eJPrcDQS0+hHM6gB+IYRc0vNCOpf2HkE25k61t
+	6V8vExC1wH+cOpOI8uxdJGdcXwiLLSHJM6sUQK34sXzyZcRXfALyf4tmFPP6ikzdGKrH8ub/WdXxk
+	FiEC+zh0DwR3WROpLze1P1BgMH39rcNPgaS604I1r4OkfimCBcCmqj/x+dAuIEB/pOZDgwjJ9hcxP
+	Woe+UESg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qniWd-00EzR8-1c;
-	Tue, 03 Oct 2023 16:45:35 +0000
-Received: from mail-pj1-f53.google.com ([209.85.216.53])
+	id 1qniXk-00EzdL-0t;
+	Tue, 03 Oct 2023 16:46:44 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qniWa-00EzQc-2I
+	id 1qniXh-00Ezc8-2Q
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Oct 2023 16:45:33 +0000
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2774874c3daso842956a91.1
-        for <linux-nvme@lists.infradead.org>; Tue, 03 Oct 2023 09:45:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696351532; x=1696956332;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FXhSrsitouTtG4jnIpF6WlTXUJWU1AdtRoPHLHegjNE=;
-        b=YRi5gH1W2JICAG2oOji03XnsbnTMtqsubvydjNegRoj5n/dFNzz1POeKxC9eNZ0Qi+
-         eh1sfoulLee/5glLIJ+GccYpy9s8rfEdxf5qx5iETgegOs+fnkOJ4gdgCba6k8/Y18xA
-         ARKu3Y1deVmkQZOZcHC4LjHsqhodyC33qFzQH1R9vv4wU6CwR/zsAe/e65syBAHyx5vN
-         wuuItHb4YRRVDANhD3lRsw4lj1Nl9Fk2SDYjzSz8v/fr2BLaN4LXcywO/ywMHrDzRoUJ
-         eyXbt/j6TULyHAw5zGrBAls+FAmKtK/tPahEG22Ce6lrBMKA8DxS19QB6+0YXMu5Uu9+
-         rWrw==
-X-Gm-Message-State: AOJu0YwnmihhCxg16ht9QRW6caEjt7ymb6P9mvIon6F0xtgwnxaXKRnn
-	TEWjfeiU7LBilFVN4c2cXpk=
-X-Google-Smtp-Source: AGHT+IEwC8qVv1+tkY+wONdL32+rPKEpsbXoCH+j3Wnz44caGKeaCpNY+K3ZBdFDu5Ezk2vd0L3+eQ==
-X-Received: by 2002:a17:90a:5d18:b0:26b:4a9e:3c7e with SMTP id s24-20020a17090a5d1800b0026b4a9e3c7emr14066923pji.4.1696351531639;
-        Tue, 03 Oct 2023 09:45:31 -0700 (PDT)
-Received: from ?IPV6:2620:15c:211:201:fc96:5ba7:a6f5:b187? ([2620:15c:211:201:fc96:5ba7:a6f5:b187])
-        by smtp.gmail.com with ESMTPSA id e59-20020a17090a6fc100b0026b70d2a8a2sm1719463pjk.29.2023.10.03.09.45.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Oct 2023 09:45:30 -0700 (PDT)
-Message-ID: <8e2f4aeb-e00e-453a-9658-b1c4ae352084@acm.org>
-Date: Tue, 3 Oct 2023 09:45:28 -0700
+	Tue, 03 Oct 2023 16:46:43 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id A048F612D7;
+	Tue,  3 Oct 2023 16:46:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE218C433C7;
+	Tue,  3 Oct 2023 16:46:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1696351600;
+	bh=b9xYQ/SIeRx1steUhZNvfdYjdKSQQNxP5+nQLygoX8M=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Eis379LSrq4moB6PeZW1RvAM4nhf0sZKfGfS3cT0rK95JV6R/CGaRr8qFu1aVUFAv
+	 2j34VOtmyC12+JgmRgtoZAB7ILlBAt9i66WpxuDKol2q+ozw+BwLnonx0y2OeyM1ss
+	 Ow+qqzB+OHQfuoXujya8AA8Ui3j5w2iIY251ByO2wkC5JxjTLfgbL3B2gt0Z2uWxUq
+	 G88Q8VARki+3hHa8tl3rWmSYAymOI0RN8mQw6nrpXE2G3GwfiDJJvqKgQZIRJStemV
+	 AXmIjwo9mABdKrd3v8UZXnPpONgWF57z1h+YIkVo1yLky67eiBc19PqntINn8fkYE9
+	 KK0mNobKeWoaQ==
+From: sj@kernel.org
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org,
+	Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
+	zahavi.alon@gmail.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] nvmet-tcp: Fix a possible UAF in queue intialization setup
+Date: Tue,  3 Oct 2023 16:46:37 +0000
+Message-Id: <20231003164638.2526-1-sj@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231002105428.226515-1-sagi@grimberg.me>
+References: 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/21] block: Add fops atomic write support
-Content-Language: en-US
-To: John Garry <john.g.garry@oracle.com>, axboe@kernel.dk, kbusch@kernel.org,
- hch@lst.de, sagi@grimberg.me, jejb@linux.ibm.com,
- martin.petersen@oracle.com, djwong@kernel.org, viro@zeniv.linux.org.uk,
- brauner@kernel.org, chandan.babu@oracle.com, dchinner@redhat.com
-Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
- linux-api@vger.kernel.org
-References: <20230929102726.2985188-1-john.g.garry@oracle.com>
- <20230929102726.2985188-11-john.g.garry@oracle.com>
- <17ee1669-5830-4ead-888d-a6a4624b638a@acm.org>
- <5d26fa3b-ec34-bc39-ecfe-4616a04977ca@oracle.com>
- <b7a6f380-c6fa-45e0-b727-ba804c6684e4@acm.org>
- <1adeff8e-e2fe-7dc3-283e-4979f9bd6adc@oracle.com>
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <1adeff8e-e2fe-7dc3-283e-4979f9bd6adc@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231003_094532_750509_4FFD053A 
-X-CRM114-Status: GOOD (  10.49  )
+X-CRM114-CacheID: sfid-20231003_094641_863241_499A5367 
+X-CRM114-Status: GOOD (  22.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,18 +75,68 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/3/23 01:37, John Garry wrote:
-> I don't think that is_power_of_2(write length) is specific to XFS.
+Hello,
 
-I think this is specific to XFS. Can you show me the F2FS code that 
-restricts the length of an atomic write to a power of two? I haven't 
-found it. The only power-of-two check that I found in F2FS is the 
-following (maybe I overlooked something):
+On Mon, 2 Oct 2023 13:54:28 +0300 Sagi Grimberg <sagi@grimberg.me> wrote:
 
-$ git grep -nH is_power fs/f2fs
-fs/f2fs/super.c:3914:	if (!is_power_of_2(zone_sectors)) {
+> From Alon:
+> "Due to a logical bug in the NVMe-oF/TCP subsystem in the Linux kernel,
+> a malicious user can cause a UAF and a double free, which may lead to
+> RCE (may also lead to an LPE in case the attacker already has local
+> privileges)."
+> 
+> Hence, when a queue initialization fails after the ahash requests are
+> allocated, it is guaranteed that the queue removal async work will be
+> called, hence leave the deallocation to the queue removal.
+> 
+> Also, be extra careful not to continue processing the socket, so set
+> queue rcv_state to NVMET_TCP_RECV_ERR upon a socket error.
+> 
+> Reported-by: Alon Zahavi <zahavi.alon@gmail.com>
+> Tested-by: Alon Zahavi <zahavi.alon@gmail.com>
+> Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
+
+Would it be better to add Fixes: and Cc: stable lines?
+
 
 Thanks,
+SJ
 
-Bart.
+> ---
+>  drivers/nvme/target/tcp.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+> index 97d07488072d..d840f996eb82 100644
+> --- a/drivers/nvme/target/tcp.c
+> +++ b/drivers/nvme/target/tcp.c
+> @@ -372,6 +372,7 @@ static void nvmet_tcp_fatal_error(struct nvmet_tcp_queue *queue)
+>  
+>  static void nvmet_tcp_socket_error(struct nvmet_tcp_queue *queue, int status)
+>  {
+> +	queue->rcv_state = NVMET_TCP_RECV_ERR;
+>  	if (status == -EPIPE || status == -ECONNRESET)
+>  		kernel_sock_shutdown(queue->sock, SHUT_RDWR);
+>  	else
+> @@ -910,15 +911,11 @@ static int nvmet_tcp_handle_icreq(struct nvmet_tcp_queue *queue)
+>  	iov.iov_len = sizeof(*icresp);
+>  	ret = kernel_sendmsg(queue->sock, &msg, &iov, 1, iov.iov_len);
+>  	if (ret < 0)
+> -		goto free_crypto;
+> +		return ret; /* queue removal will cleanup */
+>  
+>  	queue->state = NVMET_TCP_Q_LIVE;
+>  	nvmet_prepare_receive_pdu(queue);
+>  	return 0;
+> -free_crypto:
+> -	if (queue->hdr_digest || queue->data_digest)
+> -		nvmet_tcp_free_crypto(queue);
+> -	return ret;
+>  }
+>  
+>  static void nvmet_tcp_handle_req_failure(struct nvmet_tcp_queue *queue,
+> -- 
+> 2.41.0
+> 
+> 
 
