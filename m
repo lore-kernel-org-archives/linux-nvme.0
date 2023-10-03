@@ -4,80 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3803AE8FDB1
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Oct 2023 20:12:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D304BE8FDBF
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Oct 2023 23:25:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pxSZGmmjNVXQJSnzeq0G7a7BTzv04odKA1GngTIRTAo=; b=mNn8aVgIMXUD1TDTbhqV2LduvT
-	vtMSV7ex5hbVmQUHuOAcgU5B28Y2STa1wQrNYxLrhfY5SCIqIMMGoBc2I1x7Qi7vzlhMWWupybCp2
-	ym+Y2mkycx8u2StBaooxCM9lLooOk0BIXNey9gEnfsTfaYqzV9StvBaIg4DMhhBfxN+Ns7MllMxaz
-	S7mZ3US/MuqCBY0upTtyVyamhNrN8rL6hKpitBOm59PtYlQk4YE+PfEa4VHwO2j3ZuFgqAcLwb1EG
-	y1wC6aNYHylN0XaIDzXJD+uczcS/+vY8FSRirjGWcYNTI3hY6xzysG0kpJXKMn7s6IjElw1CUzEAW
-	YMkKD70A==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=WklzNBegPgB5uEE+/qy7qfvk7e8XBByJu1huJ3exKM8=; b=W9uVGK/vja6u1FrsB83kD6ocYP
+	ydXcD0m2f8mWBoaCsUqTktLc1segHC/fxkjU6lhuk8gUmBJoBvGMn4VAvnfRgGY3GcvEDsCpmSdUt
+	FFDb8OZdPoDC5VsMMv42+5Dd2iZbXVjrC31fziowLKC2RQov7FQB3eCto/T9yl3pAXaY5KJmhbpP6
+	yFBuy3R4CB7H4nNyCJ6g3kH5M4gjCEmmD3SiA/QCQ1ZieXsF7URqyhUmEZou+gjZLdqn6u1CVUbhX
+	YCq6Rh4kGRXAtPg/rdATD+LoCxeMjpQ0iBHbz+StryYGfJG1tPN+FraOzZ145BVw3SGsM2mmkUCIf
+	FyvvmGog==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qnll7-00FEUH-0Z;
-	Tue, 03 Oct 2023 20:12:45 +0000
-Received: from domac.alu.unizg.hr ([161.53.235.3] helo=domac.alu.hr)
+	id 1qnolX-00FYo8-32;
+	Tue, 03 Oct 2023 23:25:23 +0000
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qnll4-00FES7-2A
+	id 1qnolV-00FYmX-1N
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Oct 2023 20:12:44 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by domac.alu.hr (Postfix) with ESMTP id 37B5360173;
-	Tue,  3 Oct 2023 22:12:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
-	t=1696363954; bh=3amMaq29morJQRBmN64tOmRcaqhD62RaH1xvx+cR1e0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=b7wJT2lQaOePEHifofzZV4vw7ihkuu9WfSDvCIfMaTAHwyaAP1yZvEuJQYwrdr0EV
-	 S4324oclvyMrQ+HMr8g8wDXW++BMOymZoTu4Cj865Q6J3tsEGCZKtnDWoaWwd5CzE6
-	 AQkUAaFiqWKtabtiZFaS4oZ2OiPdcF5FAGMUemqAw0vTMtdSa3Vg+nWDx4WslAX23q
-	 Jc8/wv6nrpugFYDP7OWVyoMk/jroBqZvRVLoOpMbAAVZNu7OkCLiA0CqBWeOUyVVXJ
-	 ZFM2Qq7ycfzYYrEWOd4kAVFs0dNS3Q4pb05oKlTF9rY8DD0CUklHxe2vNawHT1snjH
-	 HCtfeVIa9XxnA==
-X-Virus-Scanned: Debian amavisd-new at domac.alu.hr
-Received: from domac.alu.hr ([127.0.0.1])
-	by localhost (domac.alu.hr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id hTZSUGvs4RVA; Tue,  3 Oct 2023 22:12:32 +0200 (CEST)
-Received: from [192.168.1.6] (78-3-40-17.adsl.net.t-com.hr [78.3.40.17])
-	by domac.alu.hr (Postfix) with ESMTPSA id 9D98F6016E;
-	Tue,  3 Oct 2023 22:12:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
-	t=1696363952; bh=3amMaq29morJQRBmN64tOmRcaqhD62RaH1xvx+cR1e0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=mOLmS3EywplYJ7mYRpFqCh3womwAu8/RGYwouma+OP4IVjJIss7Ug5n1WqZDjQuIB
-	 pEcBfv6PDsWEXF2/7eku6xfABnSgkxxeVPXbVrxxgv+w7j1xcu2deIOI+dax/tGbSr
-	 IYkfGO8jrv4SB9oaf3Gg1/M6cnLOim98N+dUnDPqmRJlKIPLRzvB0V8bGo0qakCLpK
-	 Sq/pEtpa6hdgKamh4K+1ZHai7LPLIH37twRn6JZZ/YWDZKftKzaV+UpbWpASuYdWJ8
-	 ucnagf4Pwfbb1rJxF6c+TRoPeB8PW4D/UE8im0n8o+fwphF/N+rT28DG+o6UNb1/gl
-	 flLSLXJhycC5g==
-Message-ID: <d7ff01cf-6681-4470-a6d1-d7d1081edef1@alu.unizg.hr>
-Date: Tue, 3 Oct 2023 22:12:29 +0200
+	Tue, 03 Oct 2023 23:25:22 +0000
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-68bed2c786eso1134328b3a.0
+        for <linux-nvme@lists.infradead.org>; Tue, 03 Oct 2023 16:25:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1696375516; x=1696980316; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WklzNBegPgB5uEE+/qy7qfvk7e8XBByJu1huJ3exKM8=;
+        b=clr3jdmjuSSrTRBkSdyGGQHqgiW+doXlnZdVHcHK3Q9zKfrY87T65+Nl66AKcUBb6n
+         2+ImmtzmA8HVCEvxLrjnrsUnQeZ9WDVhiDPOMe1Y3wiGfCBO1ePQiAWvDRqEPERzSnNj
+         2b1U00+umCOI1YFap4Lvulj2lbIPOeZwwlzeE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696375516; x=1696980316;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WklzNBegPgB5uEE+/qy7qfvk7e8XBByJu1huJ3exKM8=;
+        b=ZhVWA+ov5IOCAetJNcLNq2g7YyCKREIVmMwAkZseeSF8xCumTX1GPpMsvLx6kebeET
+         SVDnaIadF5/5U50Q4nh16tcOgdp09YeQkMkGHIAul0Rg2axqUqqeugVnL4RrQMVNy5Jb
+         UJ3u0lvn0cIvFRQXA3IFjE4CyXgeyI5GQ/77SJrRHr8yWIFraLJwIQ0CN8L83jNEJwo0
+         9LILHmGh3YPKToVr8bHQZqeRfKftPS1DlxFoUfKfysHvRWzHXhCCzqxTnH8usr83cPez
+         gc56HtEO3paKPnNeQGxHlwvEC/q5Db2nuFJCrlThVaNi9Rm5NSCuxkixrpAbQm0wocmH
+         8B6Q==
+X-Gm-Message-State: AOJu0Yxq56NVSi/Q8ZFvoXwhylringbUe+04lhvMneGvppIITkFpSsvW
+	WDnOlzH639VkeEq1SBMyY2nsZw==
+X-Google-Smtp-Source: AGHT+IFl++NjbnmUViIRhL35xEk4qT1W55vhw9500eQEtSz35fzgRPo8LMRfK60rOfBTWrFsvpIK1Q==
+X-Received: by 2002:a05:6a00:1592:b0:68f:cf6f:e212 with SMTP id u18-20020a056a00159200b0068fcf6fe212mr945019pfk.20.1696375516672;
+        Tue, 03 Oct 2023 16:25:16 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id d8-20020aa78688000000b0068fece22469sm1911902pfo.4.2023.10.03.16.25.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Oct 2023 16:25:16 -0700 (PDT)
+From: Kees Cook <keescook@chromium.org>
+To: James Smart <james.smart@broadcom.com>
+Cc: Kees Cook <keescook@chromium.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	linux-nvme@lists.infradead.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Tom Rix <trix@redhat.com>,
+	linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH] nvmet-fc: Annotate struct nvmet_fc_tgt_queue with __counted_by
+Date: Tue,  3 Oct 2023 16:25:11 -0700
+Message-Id: <20231003232511.work.459-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: BUG: KCSAN: data-race in folio_batch_move_lru / mpage_read_end_io
-Content-Language: en-US
-To: Matthew Wilcox <willy@infradead.org>
-Cc: linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- linux-mm@kvack.org, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-References: <cbb9d596-43ac-bad4-b6f6-8c13f95d244e@alu.unizg.hr>
- <ZPCpQQVTtlB0FA5A@casper.infradead.org>
- <ZPs8+sLv5oaubrKj@casper.infradead.org>
- <22a42774-ebe1-081a-c9b9-e11f4d74bc3a@alu.unizg.hr>
- <ZQhkfIqwcuTrKxK+@casper.infradead.org>
-From: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
-In-Reply-To: <ZQhkfIqwcuTrKxK+@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1347; i=keescook@chromium.org;
+ h=from:subject:message-id; bh=ByABuAYNlIfLs+7c20JDBpw/8yvTeM5CPvmgxbAXfYw=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlHKLXpRHdUq+lFLSfO9gJWqiFNgTu8fSB9J2BJ
+ zZ8tvEohwaJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZRyi1wAKCRCJcvTf3G3A
+ JgoeEACsVLmbCD8bMb+riXBw2TqwsW891pJ49jgwyOXsxUB/C3ZZ7ENjEQN6LGSkaLdqYzfmWwi
+ YDaW6EbTBn5KcSU1Hw4F1S2hC/yfbryopBQFy7UUPJ1h97vHG1WklXODb15HTcpXnqdzPEExmFI
+ 2XHy7Ynrdw038ZEWiX437eAzH5XQ6D+7IiuBD6qIBDzeXsD6/bfd+vuujGpp7IhVhhhDuEKxeW8
+ xte4TTr+fKEK5gpyPsViXn0Om67AzEfyUzWP9jm56AzQ44uFSs/BaIvbDhk4pCkaExfdjsLn1hr
+ TnQLubChT6GFHgF1ibh3aQbAWU8JvDFhf0hfOjFO3HaLF0QpoAzjTyfC0LJjZq90mWYCsbujmT2
+ fB2KG03D9y3Zx8RiEvhC51j18hMf+2VF7qoFhtccckeg48gvmFTFgwUtuXwiM1xQB1YfThnFj+o
+ DH71gvobUcMNBsnE3QIGtog5q6ctnfm3DnLqskdz/HRisn521b6p8EHKrt2f7Ue1x5XfYDQc5dG
+ bog1lOJ/LORrJEZs/cd6yndXzT6vd7boBB5i51/cwGXbSlSA/qTBo4c1Qlhv0U8pJPplNY5ZSx2
+ jyZXfX8030a4B+JGxqoaiUJjYqySNBjwHDUPVdQA0BmeUkDgeQ3HHlTErvAlLJMwAf9s3Sk+VXC
+ d4vCaB3 AqjDvhAw==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231003_131242_887342_52F1D588 
-X-CRM114-Status: GOOD (  24.46  )
+X-CRM114-CacheID: sfid-20231003_162521_506669_43DB0EB4 
+X-CRM114-Status: GOOD (  14.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,60 +110,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Prepare for the coming implementation by GCC and Clang of the __counted_by
+attribute. Flexible array members annotated with __counted_by can have
+their accesses bounds-checked at run-time via CONFIG_UBSAN_BOUNDS (for
+array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
+functions).
 
+As found with Coccinelle[1], add __counted_by for struct nvmet_fc_tgt_queue.
 
-On 9/18/23 16:53, Matthew Wilcox wrote:
-> On Mon, Sep 18, 2023 at 02:15:05PM +0200, Mirsad Todorovac wrote:
->>> This is what I'm currently running with, and it doesn't trigger.
->>> I'd expect it to if we were going to hit the KCSAN bug.
->>>
->>> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
->>> index 0c5be12f9336..d22e8798c326 100644
->>> --- a/mm/page_alloc.c
->>> +++ b/mm/page_alloc.c
->>> @@ -4439,6 +4439,7 @@ struct page *__alloc_pages(gfp_t gfp, unsigned int order, int preferred_nid,
->>>    	page = __alloc_pages_slowpath(alloc_gfp, order, &ac);
->>>    out:
->>> +	VM_BUG_ON_PAGE(page && (page->flags & (PAGE_FLAGS_CHECK_AT_PREP &~ (1 << PG_head))), page);
->>>    	if (memcg_kmem_online() && (gfp & __GFP_ACCOUNT) && page &&
->>>    	    unlikely(__memcg_kmem_charge_page(page, gfp, order) != 0)) {
->>>    		__free_pages(page, order);
->>
->> Hi,
->>
->> Caught another instance of this bug involving folio_batch_move_lru: I don't seem that I can make it
->> happen reliably by the nature of the data racing conditions if I understood them well.
-> 
-> Were you running with this patch at the time, or was this actually
-> vanilla?  The problem is that, if my diagnosis is correct, both of the
-> tasks mentioned are victims; we have a prematurely freed page.  While
-> btrfs is clearly a user, it may not be btrfs's fault that the
-> page was also allocated as an anon page.
-> 
-> I'm trying to gather more data, and running with this patch will give
-> us more -- because it'll dump the entire struct page instead of just
-> the page->flags, like KCSAN is currently doing.
+Cc: James Smart <james.smart@broadcom.com>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>
+Cc: Chaitanya Kulkarni <kch@nvidia.com>
+Cc: linux-nvme@lists.infradead.org
+Link: https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci [1]
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ drivers/nvme/target/fc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-As my learning curve adapts, I seem to be more aware of what you are talking about.
-
-I still have to learn to cope with patches, diffs, fixes and pulls all together and
-consistent.
-
-Sometimes I feel like in the BORG maturation chamber when I try to learn the Linux kernel,
-and I wonder if this is the Author of my story trying to make up "for the years that locust
-had eaten". Or is it that I am just losing the plot.
-
-I learn that I was conceited and not respecting the work you guys have done in thirty years
-I wasted for one reason or another: objective difficulties and personal weaknesses.
-
-Forgive me this moment of truth.
-
-I certainly feel more motivated to catch the real culprit, rather than just the symptoms.
-
-I will rebuild with your patch again and try to reproduce the problem.
-
-Best regards
-Mirsad Todorovac
-
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 1ab6601fdd5c..0fa2d658cdeb 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -146,7 +146,7 @@ struct nvmet_fc_tgt_queue {
+ 	struct workqueue_struct		*work_q;
+ 	struct kref			ref;
+ 	struct rcu_head			rcu;
+-	struct nvmet_fc_fcp_iod		fod[];		/* array of fcp_iods */
++	struct nvmet_fc_fcp_iod		fod[] __counted_by(sqsize); /* array of fcp_iods */
+ } __aligned(sizeof(unsigned long long));
+ 
+ struct nvmet_fc_hostport {
+-- 
+2.34.1
 
 
