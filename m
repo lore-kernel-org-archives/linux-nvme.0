@@ -4,83 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7E67FE92718
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Oct 2023 17:10:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B05FE92725
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Oct 2023 18:02:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Mau3Ytqwy7TZu9wwYpopAHbH4XlNKRL4d1UxE9xBpfw=; b=i3FxzVCMCBfXPWQ4jLO8pWWtqX
-	iksVQaj+EYf4Uhqb3bo8b+Zgwl34UqkJjCnmMOTaA+S5kFq2U+IHzzcfGz9n0b0WEfrA7Kfc6qobf
-	a3vnMlqrcOccYSuumRHa2eArCH7Dt0L7JRkiYnaOAe7qXEg6gIxOHyE49mR+yVIITTVnFlJY+ZvMk
-	o95r+V9F7rCAvao3jocuDXIP5ekDLUT7UFKkQZrt6D6/lvlyWTEFXqXaDMkaluHQRy+smlUK8KVbo
-	x0fDjIotw5lobcqUbgKTuKe/zY3F+zyZLGp/j53btGFbPQ8QMvAjz44z5nnN2yrfFdqMeBQa6qV1t
-	VUhusKiQ==;
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=76a8YQ0hLV5bUIBYfne2+TIqNG1r6p78CzGnl00LQkI=; b=DLBFN+3XMAQVt+C5tIL1xwC8Ih
+	ZsiPAydfJT3hKmB+OVsKqM5tzp396zY35bjxMn7zOYdY3S3CGoXz0p88kQb+GsYeMadza0I54qCbC
+	uHJYAS35zsXb7p9gJMlf9B9hC3Q06ic0x8POUxQNku9Rbt0E/CI7yS14YMamf76AS83a6jrCpQl1S
+	0fQC9IQ723lTj3N48qOhPKVinWpPxM8t8xzvvaRHyZmfLeFp9dy7AwuhRxIDKq9YsLjkU5AKaZblP
+	rm66SQnn4jPwuK6Y884io45Sy0cnep5BhfCYCCHIsP2V/74roFyxncHbwR+TlcHRLzeQtPsJS02jJ
+	m0zzUxNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qoRsC-004AhY-2H;
-	Thu, 05 Oct 2023 17:10:52 +0000
-Received: from mail-pf1-f180.google.com ([209.85.210.180])
+	id 1qoSgA-004FAS-1f;
+	Thu, 05 Oct 2023 18:02:30 +0000
+Received: from mail-pg1-f177.google.com ([209.85.215.177])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qoRsA-004Afx-0h
+	id 1qoSg8-004FA7-0F
 	for linux-nvme@lists.infradead.org;
-	Thu, 05 Oct 2023 17:10:51 +0000
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6910ea9cddbso1048696b3a.0
-        for <linux-nvme@lists.infradead.org>; Thu, 05 Oct 2023 10:10:48 -0700 (PDT)
+	Thu, 05 Oct 2023 18:02:29 +0000
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-565e395e7a6so754026a12.0
+        for <linux-nvme@lists.infradead.org>; Thu, 05 Oct 2023 11:02:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696525848; x=1697130648;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        d=1e100.net; s=20230601; t=1696528945; x=1697133745;
+        h=content-transfer-encoding:in-reply-to:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Mau3Ytqwy7TZu9wwYpopAHbH4XlNKRL4d1UxE9xBpfw=;
-        b=gkdL54encBS27xyFRD9RFxQAhrtwZGY6C/5l8QTK1yGhw/Xh4ucT39SCSyOmwdd+H5
-         WGuRxcgBX8bEBXmh7SP+5l9zK8XTpaSqV+/Swdk9QgFAMeN2EUZ6suqUo/craJGd1KSs
-         N23wnZS6cWO0MxqfdWFUvvhFr+T2qIOB6biRoX1ECzXXh60VL6TKdnFiWVJA07+jVGqi
-         hD2eImKNfinXV5L2asx8QPKn8Tocwrue2QLx5NUmIvwcGrmXGi0QX+7/PU3W5dbXYj/4
-         56S5dGSS802bdnxtJ60AvqwksmYr12jQuBrIG1mAnPvZuVhsTeDTxNA+mX0KwIYCpPCu
-         LswA==
-X-Gm-Message-State: AOJu0YzyfBNg4fdwCUgz2+ai0UGfqdgmxLCfJIR7INdfqNfgRRtq5fam
-	aFYW5sGOM5//d0rPGivaMsY=
-X-Google-Smtp-Source: AGHT+IGnVdp8oICK4V8pUUfksO9nmUjiTQt7WLAzT5URUjUrgm7Kl0ihNxBLzaBBJ2yggv4nt+XNYg==
-X-Received: by 2002:a05:6a00:1410:b0:68b:eb3d:8030 with SMTP id l16-20020a056a00141000b0068beb3d8030mr6024179pfu.1.1696525847811;
-        Thu, 05 Oct 2023 10:10:47 -0700 (PDT)
+        bh=76a8YQ0hLV5bUIBYfne2+TIqNG1r6p78CzGnl00LQkI=;
+        b=JWGhMbaDRFKmEQPycJDiPsT3xAAOiMoHM0Mz/qqW6HqNDfIg23T+pkGNGEpcerKO9o
+         wJiWdvjrtYEYDXj2S6bIvraNabg4tE7x5T02/anx3agC49dZsT9cxgj3USpJqtBPucVB
+         LuaS8sdS93pd4rIG8n+AuXg8sC3YweP6B7nLfQcEFkZCmWSwuo9bfB7Puv1CDY4Tf27G
+         QbsXb8GC3fm/uzXF9ow2OOSKdjaUgTf+kXGnaGuSSczLjQatVXqQZAZk4FnOsQNz7ipl
+         O5TGZFu7mAqvlpsNXqmN+300yOKVPWyTxPCPTw62E78pE+8zMZFPc2ogt5sjXnzOd/q0
+         lq8w==
+X-Gm-Message-State: AOJu0YyvIPqP9QT0aM89ekPOKmxdleqBy6yHaOlc5Yfh2xgtNg5tRjYs
+	FdW808ndVI7l2FNAPt20doQ=
+X-Google-Smtp-Source: AGHT+IEtxhx8Df6oc23r6vTVfpi0GCljdCBIuAHJXI9tx/vfH9rfZ3EhYCygbBmPeUDVC2fu0Q7kog==
+X-Received: by 2002:a17:90a:9d82:b0:269:621e:a673 with SMTP id k2-20020a17090a9d8200b00269621ea673mr5809723pjp.1.1696528945326;
+        Thu, 05 Oct 2023 11:02:25 -0700 (PDT)
 Received: from ?IPV6:2620:15c:211:201:ca3e:70ef:bad:2f? ([2620:15c:211:201:ca3e:70ef:bad:2f])
-        by smtp.gmail.com with ESMTPSA id t16-20020a63b250000000b00565eb4fa8d1sm1641495pgo.16.2023.10.05.10.10.46
+        by smtp.gmail.com with ESMTPSA id mp3-20020a17090b190300b00267d9f4d340sm3897773pjb.44.2023.10.05.11.02.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Oct 2023 10:10:47 -0700 (PDT)
-Message-ID: <a2077ddf-9a8f-4101-aeb9-605d6dee3c6e@acm.org>
-Date: Thu, 5 Oct 2023 10:10:45 -0700
+        Thu, 05 Oct 2023 11:02:24 -0700 (PDT)
+Message-ID: <6b267348-7548-4cb5-a62a-284c6750aeae@acm.org>
+Date: Thu, 5 Oct 2023 11:02:23 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/21] block: Add fops atomic write support
+Subject: Re: [PATCH blktests] nvme/rc: fix rdma driver check
 Content-Language: en-US
-To: "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: John Garry <john.g.garry@oracle.com>, axboe@kernel.dk, kbusch@kernel.org,
- hch@lst.de, sagi@grimberg.me, jejb@linux.ibm.com, djwong@kernel.org,
- viro@zeniv.linux.org.uk, brauner@kernel.org, chandan.babu@oracle.com,
- dchinner@redhat.com, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, tytso@mit.edu,
- jbongio@google.com, linux-api@vger.kernel.org
-References: <20230929102726.2985188-1-john.g.garry@oracle.com>
- <20230929102726.2985188-11-john.g.garry@oracle.com>
- <17ee1669-5830-4ead-888d-a6a4624b638a@acm.org>
- <5d26fa3b-ec34-bc39-ecfe-4616a04977ca@oracle.com>
- <b7a6f380-c6fa-45e0-b727-ba804c6684e4@acm.org>
- <yq1lecktuoo.fsf@ca-mkp.ca.oracle.com>
- <db6a950b-1308-4ca1-9f75-6275118bdcf5@acm.org>
- <yq1h6n7rume.fsf@ca-mkp.ca.oracle.com>
- <34c08488-a288-45f9-a28f-a514a408541d@acm.org>
- <yq1ttr6qoqp.fsf@ca-mkp.ca.oracle.com>
+To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
+References: <20231005080242.292291-1-shinichiro.kawasaki@wdc.com>
 From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <yq1ttr6qoqp.fsf@ca-mkp.ca.oracle.com>
+In-Reply-To: <20231005080242.292291-1-shinichiro.kawasaki@wdc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231005_101050_252809_07E64816 
-X-CRM114-Status: GOOD (  10.65  )
+X-CRM114-CacheID: sfid-20231005_110228_135302_ECD4F9C4 
+X-CRM114-Status: GOOD (  17.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,28 +80,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/4/23 11:17, Martin K. Petersen wrote:
+On 10/5/23 01:02, Shin'ichiro Kawasaki wrote:
+> Since the commit 4824ac3f5c4a ("Skip tests based on SKIP_REASON, not
+> return value"), blktests no longer checks return values of _have_foo
+> helpers. Instead, it checks if _have_foo helpers set SKIP_REASON, which
+> was renamed to SKIP_REASONS later, to judge test case skip. If two
+> _have_foo helpers are chained with ||, the skip check does not work as
+> expected since one of the helper may set SKIP_REASONS even when the
+> other does not set. Such chain with || is done in _nvme_requires() to
+> check rdma drivers.
 > 
-> Hi Bart!
+> To fix the check, do not chain the helper functions with || operator.
+> Instead, refer $use_rxe to call only the required function.
 > 
->> In other words, also for the above example it is guaranteed that 
->> writes of a single logical block (512 bytes) are atomic, no matter
->> what value is reported as the ATOMIC TRANSFER LENGTH GRANULARITY.
+> Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+> ---
+>   tests/nvme/rc | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> There is no formal guarantee that a disk drive sector 
-> read-modify-write operation results in a readable sector after a 
-> power failure. We have definitely seen blocks being mangled in the 
-> field.
+> diff --git a/tests/nvme/rc b/tests/nvme/rc
+> index 1ec9eb6..bac2db7 100644
+> --- a/tests/nvme/rc
+> +++ b/tests/nvme/rc
+> @@ -44,7 +44,11 @@ _nvme_requires() {
+>   		_have_driver nvmet-rdma
+>   		_have_configfs
+>   		_have_program rdma
+> -		_have_driver rdma_rxe || _have_driver siw
+> +		if [ -n "$use_rxe" ]; then
+> +			_have_driver rdma_rxe
+> +		else
+> +			_have_driver siw
+> +		fi
+>   		;;
+>   	fc)
+>   		_have_driver nvme-fc
 
-Aren't block devices expected to use a capacitor that provides enough
-power to handle power failures cleanly?
-
-How about blacklisting block devices that mangle blocks if a power
-failure occurs? I think such block devices are not compatible with
-journaling filesystems nor with log-structured filesystems.
-
-Thanks,
-
-Bart.
-
+Reviewed-by: Bart Van Assche <bvanassche@acm.org>
 
