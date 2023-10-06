@@ -4,193 +4,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 525FDE94139
-	for <linux-nvme@archiver.kernel.org>; Sat,  7 Oct 2023 01:21:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E17E1E95A8D
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Oct 2023 03:58:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	In-Reply-To:Date:References:Message-ID:From:Subject:Cc:To:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rIK8PNthw7jR8VfP37/YuoEu1vfIO3oTGBCGhd8uCMc=; b=QF16g3kzdgaGcHsEI6vgYUewtL
-	5a9542uY+v1eafaW8iPSQehnkRUIMPmLNZd9Kx1mLVlgtnmNVH975kkOL1EzfuD8goRx3J6rydnGJ
-	olzKRfN2lPtZSIZuyiFjtUIEc8LM1yzWzdHFzItG1S0P/9d+70zb0oSLkSy4WW3pwJA3FF0t1NTEC
-	RKsCigS2Yfwf7fFgODpceZknd8Li1qeyl+IGiW7xCCGYgJdBdnOpe9rsPFgAnfrTTi7iEfXwH1OQF
-	b0rN0B4TPchUfRolUAAhydlvds7UJ0fGV0qDt5YUg/qLcqkaIIAaiAp5qi21ITJJJlsREpF+kOeMr
-	1363+row==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=66RnzGW075jp+6jf5N9yCQS6VbcfbkyM8+NJckzV1XU=; b=vKIZGLDbhDHE1h1C/JGeblvotr
+	OXyHMeQWwNjK+le6crAapYjEfWX+kXEDXJ8bYrUh8Ma21AA3FurMw1zuzjFNDKltuOn2XuzHiDc91
+	KYNsmugWxXfWv4zEEE+Fg+v4j8BwGpygYtXLVRXPE7xqL/HmrxsYpEeTjfzOKWcO4V8G1irgJupZD
+	uMA/k4vwMWvp2wR6Xg+xxP34ieYsKGOySQ3AyYcivf9jnSkwlfgYH8snOS8PVVszRz9tq4YDmQAkx
+	pS8MjTYSwblN/EQM5/fXx4CaxYf1QY7Cq8o4Q4lu+yGyrRdDHwhTOIHxD80ceDOLIoXG4MaR2pTGv
+	JbCApY7A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qow0g-006kLi-2W;
-	Sat, 07 Oct 2023 01:21:38 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1qphPQ-009j8S-0m;
+	Mon, 09 Oct 2023 03:58:20 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qow0e-006kKb-1M
+	id 1qphPH-009j7g-1o
 	for linux-nvme@lists.infradead.org;
-	Sat, 07 Oct 2023 01:21:37 +0000
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 396LOv1K027285;
-	Sat, 7 Oct 2023 01:21:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
- from : message-id : references : date : in-reply-to : content-type :
- mime-version; s=corp-2023-03-30;
- bh=rIK8PNthw7jR8VfP37/YuoEu1vfIO3oTGBCGhd8uCMc=;
- b=RrIjdUoTiIAbg24w+fDQRi71HxNRBUMOc1yzHg9/8mU7jO7nSRJCv27CU0bGjOzIx36d
- MDHj5jneNVUIoNt+kJ2l8xyQhj8sP3rDkxg4wzd+s9tZBaXG5hz8B7iuBHnChVBxC8FI
- 63QFuhDQZPZQVJ2WofjYPJx9aW/zMhWWfqnIPmSSFQVH3aS/CzMi7vo5WDpdCgCwvIWg
- kXi+uywmS7g3pLrCygH4BwjDvqGkDJ+20NE4s4mCKyylfZNGKeYiK1jw5LCch6HtxvUs
- D1OfXgzynCnwWQPAXcCthzv/hDgbCiPZo+CccKlMASPrbRL7GynH4SpnIy+ELALRSznB Xw== 
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3tec7vmuxw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 07 Oct 2023 01:21:10 +0000
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 396M6WxK002848;
-	Sat, 7 Oct 2023 01:21:09 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2174.outbound.protection.outlook.com [104.47.59.174])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3tea4bb5h3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 07 Oct 2023 01:21:09 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a4UW1DoNF0pUmsfEcAm5UWN65hB43RF4UtoEQROhT8q/BREvDBqc7eB/tlnw1WAkYA6LDEJJRjWpH1CQdu60ICdgvz8aOXgMfhDtBxKbZ8wt2xFEwC0wVFEw1gPMwysJA403V5wGkXjWXtgmqnnnCbgXnS3+MUhkRPYAOWE+EJjmt7oeHZTakpwI0u00nEJe8qbDwqAjYKvH9JTsQTi1k4oXmpCGBdqHVSRGKyEpzG6U1Il8Z7yM6HYnwXLVuCObg7GckfiHiqvRlC4nINfIGzsQE4iWMfNiLdIsGycLO094u1EDABVPnMVYcWvFeRYoNsH+bkDtO7bp0xKADpiJNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rIK8PNthw7jR8VfP37/YuoEu1vfIO3oTGBCGhd8uCMc=;
- b=UWrU0exc83aqmd9s4VDU/ER4A93YumWu1IhRNmN+piZcCH0Ah19KAwkGFoMHXGRDrfZWa2w371Y8dPtG2w3sESDq+SmBxN0+ZhdDbz1RtO9k/jW+87jTRAv+w7JaVOm4y9GOMctmUGt+/aZuOzfAY8a48Euvwq/7UGN/N+KxQhpvzT5Xl50tt4mO1aepwRQuRXTdgxHRURpkbyeexb6GbJoSHQPzSUAVkdDgOiLcsNSXmDbUUQz+mQ23u9ZSWHT+R9wDHL2hyoneDFwfSY9BL7ZAVerwMsZk3gXD/BSj//kmmc/uZryV1OmE3hMNsBXS4LVYiWR7pTDL/JYVGHiaJA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rIK8PNthw7jR8VfP37/YuoEu1vfIO3oTGBCGhd8uCMc=;
- b=VAJExmUWQpzVHhZX3pF48REFQwEfEzPTYMuzJ2FLcnYb3b2vJND0YFKrX1KImNl0SsPRt3/ggjpq4W5K3AoosidBrFa58uqE9hVOdEbkyWFcVLQOHaCmkm5XmsGV5Q/RvmqEyNLXrO2oXGdf/t2oJJiNy6rTQ0KuOT/AP8Jg+Xc=
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
- by CO1PR10MB4723.namprd10.prod.outlook.com (2603:10b6:303:9c::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.26; Sat, 7 Oct
- 2023 01:21:05 +0000
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::1ae3:44f0:f5b:2383]) by PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::1ae3:44f0:f5b:2383%4]) with mapi id 15.20.6838.033; Sat, 7 Oct 2023
- 01:21:05 +0000
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: Dave Chinner <david@fromorbit.com>,
-        "Martin K. Petersen"
- <martin.petersen@oracle.com>,
-        John Garry <john.g.garry@oracle.com>, axboe@kernel.dk,
-        kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, jejb@linux.ibm.com,
-        djwong@kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org,
-        chandan.babu@oracle.com, dchinner@redhat.com,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH 10/21] block: Add fops atomic write support
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <yq1v8bjpaz5.fsf@ca-mkp.ca.oracle.com>
-References: <5d26fa3b-ec34-bc39-ecfe-4616a04977ca@oracle.com>
-	<b7a6f380-c6fa-45e0-b727-ba804c6684e4@acm.org>
-	<yq1lecktuoo.fsf@ca-mkp.ca.oracle.com>
-	<db6a950b-1308-4ca1-9f75-6275118bdcf5@acm.org>
-	<yq1h6n7rume.fsf@ca-mkp.ca.oracle.com>
-	<34c08488-a288-45f9-a28f-a514a408541d@acm.org>
-	<yq1ttr6qoqp.fsf@ca-mkp.ca.oracle.com>
-	<a2077ddf-9a8f-4101-aeb9-605d6dee3c6e@acm.org>
-	<ZR86Z1OcO52a4BtH@dread.disaster.area>
-	<d976868a-d32c-43d1-b5da-ebbc4c8de468@acm.org>
-	<ZR+NiYIuKzEilkW3@dread.disaster.area>
-	<2bb2a4d0-4f1f-45f1-9196-f5d0d8ee1878@acm.org>
-Date: Fri, 06 Oct 2023 21:21:01 -0400
-In-Reply-To: <2bb2a4d0-4f1f-45f1-9196-f5d0d8ee1878@acm.org> (Bart Van Assche's
-	message of "Fri, 6 Oct 2023 10:22:08 -0700")
-Content-Type: text/plain
-X-ClientProxiedBy: BY3PR05CA0028.namprd05.prod.outlook.com
- (2603:10b6:a03:254::33) To PH0PR10MB4759.namprd10.prod.outlook.com
- (2603:10b6:510:3d::12)
+	Mon, 09 Oct 2023 03:58:15 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20231009035802epoutp020d54ded40d545c02a9e486c617bd4982~MVFSq-jpM0695506955epoutp02w
+	for <linux-nvme@lists.infradead.org>; Mon,  9 Oct 2023 03:58:02 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20231009035802epoutp020d54ded40d545c02a9e486c617bd4982~MVFSq-jpM0695506955epoutp02w
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1696823882;
+	bh=66RnzGW075jp+6jf5N9yCQS6VbcfbkyM8+NJckzV1XU=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=uP9hs+7+369RgeZMxGsyuiywTHPTJDLqnrXPAJlcYoQAysECrHAaAzUNRvvNhP6Ep
+	 tB1xIbdpN9w8f/qE13+2jSE1tmG54ztVdsFbw+THfOn85dnwpuii15DH8P9X4m14BT
+	 hyOOUqfoRNWjce+1ePK6GqQ0sDJ0/BnrEg/clENc=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20231009035801epcas5p401f28b9ac90606cea5f12dcb11d5de1f~MVFSFSqO30118601186epcas5p4R;
+	Mon,  9 Oct 2023 03:58:01 +0000 (GMT)
+Received: from epcpadp4 (unknown [182.195.40.18]) by epsnrtp2.localdomain
+	(Postfix) with ESMTP id 4S3lcT40pTz4x9Pt; Mon,  9 Oct 2023 03:58:01 +0000
+	(GMT)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20231006135322epcas5p1c9acf38b04f35017181c715c706281dc~LiRPEIHz11084510845epcas5p1x;
+	Fri,  6 Oct 2023 13:53:22 +0000 (GMT)
+Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20231006135322epsmtrp22c420b2d1fc904f8488b40101ff4d97f~LiRPDafSS3163131631epsmtrp2a;
+	Fri,  6 Oct 2023 13:53:22 +0000 (GMT)
+X-AuditID: b6c32a28-001ff700000021c9-e1-652011527c3e
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	1C.FA.08649.25110256; Fri,  6 Oct 2023 22:53:22 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.99.41.245]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20231006135320epsmtip2301b167209b42d8b4e6a5a713580c630~LiRNOFpKt1516815168epsmtip26;
+	Fri,  6 Oct 2023 13:53:20 +0000 (GMT)
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: hch@lst.de, kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org, vincentfu@gmail.com,
+	ankit.kumar@samsung.com, joshiiitr@gmail.com, cpgs@samsung.com, Kanchan
+	Joshi <joshi.k@samsung.com>, stable@vger.kernel.org, Vincent Fu
+	<vincent.fu@samsung.com>
+Subject: [PATCH v3] nvme: fix memory corruption for passthrough metadata
+Date: Fri,  6 Oct 2023 19:17:06 +0530
+Message-Id: <1891546521.01696823881551.JavaMail.epsvc@epcpadp4>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR10MB4759:EE_|CO1PR10MB4723:EE_
-X-MS-Office365-Filtering-Correlation-Id: be72003f-dd07-4637-16f4-08dbc6d3ad15
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vZafzDzlPaH3JtINiokgetvNu4064tpGO/utw7w8CYlANt5H5BJTqLJ3SUFSNCw2gmdngKnEaSFeyZ9uDENZ7phejCrb5Sl69Rpd420RkfsOpAhTIqHPwREieRjxnffwhln4vzXeks0P8DYUGl65nsCnVaek+kiYjxG6sAl8A7udVp3P6ow/nDF4j6As+FMrkcyV17znLl6Aq7Se5ZK8d1s+XHJALb5bnGd3/gDKcnE9LLLBS5b1uiv7M+hNwBPnHsHrxZffKSojKSRN6lTe25BVAMUDoQcRSjiDbQtrQHsgKugclYDi8epEgEhDNEfm4/4o7pIJd/1pbcR/JtLa4Ur2Vzmta+ic8r5JSOFqgPYmvirehmLtrNi7HV9nC0FCQRbAPu58LVEoQc5f4RfNNH+mhUtG43WypCsRKOe0OhW0yAHq4o5URpkXpKDPFPSCE19Fk5EdnDcYYv2i+e/9y7tOsgS8+as/BtNizLNq1lH7kbh651a3LjRU1mMCcsD9Tpw2PoWFwINkSjT9ThDCMadrHdui6hLGacX/ztExRBB/LrrXjLk6tcoMS7peU481
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4759.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(396003)(136003)(39860400002)(346002)(366004)(230922051799003)(451199024)(1800799009)(186009)(64100799003)(6512007)(6506007)(6486002)(478600001)(36916002)(83380400001)(5660300002)(6666004)(38100700002)(86362001)(6916009)(2906002)(4326008)(26005)(54906003)(8936002)(41300700001)(8676002)(66556008)(66946007)(316002)(7416002)(66476007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Lr1Fzinal5iFPnKt0k8/VGcG7fdIHJcuzrw/VIT41AMu9cSPFSp984OYPJwt?=
- =?us-ascii?Q?1AIRyQlekBfMarznW+JCBZ6MOsEQlxkBzauhx/r9An0pSmr/arW9Lf5PEfOB?=
- =?us-ascii?Q?Ghkma/+hfTzKJJYtYvws+ClQtOc/CjTsEN9HtXBZxngVjfi26/NYI62YuOkd?=
- =?us-ascii?Q?1lJW/maj6hgysnuGNVlhos6yYsbbE0yxPf0284S7yADG655o1WsyTgZIsQtw?=
- =?us-ascii?Q?XBeIGBHBGEYigCCZlnp8Jr7njT3EKI9EovYsm8dsrZDKjzFz5Uu/62nCFZRx?=
- =?us-ascii?Q?hdRSJaBCHZCE1QMM6LRnxGIXJr4WYWgvM4Bl12VeejJJTjft2ETTzSefeFii?=
- =?us-ascii?Q?k0ATJxlmo8iKemfcyzzgDqs/lxjrWiJVMH7aGepMnlizNhJP2fUjA63lHgjS?=
- =?us-ascii?Q?77hIX3TmtHGP1X6JMVSbkaKyxkggrU27exnBfwACCl42oaeQTO8MKE5Ur/55?=
- =?us-ascii?Q?dpUiS5gZJirUhJnNAHTSwo1kLtw/L31+2IP53FtKthYs1F13F5MBKfPO1T2o?=
- =?us-ascii?Q?fjxdy3GhRkFe2xZI9Hvn+Wbjpl5lOAQnJ5VsHM0l/pZfwcXr10MDDHA7VBWH?=
- =?us-ascii?Q?o1fU25ptJUkMcJFgS2oTOdZoco124YS26wWRO+wYlm/lSXqIuQHursh+YLXc?=
- =?us-ascii?Q?cZ4j8W3ZBjATV9yc7RHFtTn8/ZO5QcZCW1YrO+acDhkQv2vUGs0FgnAc5Pqb?=
- =?us-ascii?Q?yCj2yz4hbsnfeYwAXhrf9Rio46FIR0sdkabCEpHpnWqCeloxvB1pNnBIDQ82?=
- =?us-ascii?Q?6Fqrg73AjZayR2eSXf5DUqwNNjLxAf/kNLf1TteL8/PnzF+4SWKcFcb8Ps8Q?=
- =?us-ascii?Q?gjnp9KAWDMlqDjDjll4boHOhtrDLXh0WQoy9SoMrswvqrPoHuePGVpQZLy8H?=
- =?us-ascii?Q?IwXA8s90bCq4382RZRMOY6xQep+XmoHqcaiV3xMnbpr+JfdYXLlMCAXcSZjU?=
- =?us-ascii?Q?n5GIzFaREpIe1flB5oGQfCtehW5xZN72M2schix7e5xKs+pKmL5tzKYqr2QR?=
- =?us-ascii?Q?PWgWwlIPMRuxxhXa6DHTIAXpowjgi9tACpc29taIYWs1mpK4wxn8wpkwmHkt?=
- =?us-ascii?Q?QQvlVPaNhPvsWUbsbgbIsxdImIYgg62FdeiTIRrh93Gh/lLcuSQRmjkiqpXl?=
- =?us-ascii?Q?TA5z/uyPxzl/6DwtrpDtn3mxLlrUL3yg0OZbzbmqUssUyz+u9KXMhY+eu3up?=
- =?us-ascii?Q?k/1bpccZSE/xWcn1GQkhfAfPr7vD/qKMBKnWinzT3mfdJPFfKOqC/QY32d0a?=
- =?us-ascii?Q?EM0gyYwSx6Ga14N6vant5Gye4AAZbSQCKu7zhTzzTiu51KfFBGV6N+rLbcv+?=
- =?us-ascii?Q?jEVpFzcmAmqTdUT8Xtg1st9zpCudJCWo0vPvovkgLI5nI7iq9f9sXIfvwMxU?=
- =?us-ascii?Q?GGnKV2JKHylhb4jAe8RXBThqRlyu+IcYp8JDdW5/Ru4e3BmJ4cIRF/6hH6L8?=
- =?us-ascii?Q?aJkARqw1iEXWXLVTXv709hMo8EsNHFOYBdsEHDygt+GLoicjdoC8AN9F4m+6?=
- =?us-ascii?Q?qDB/ARoEBmLeGYuzU1TbS9+FYpGupLt6MSzhO3jEay4w5PCl9O99WYKHMW3Q?=
- =?us-ascii?Q?Y+IA3tTk8WpiFMgRKg90/GsoRSYg0f7/XDZ2X5IoEge8jrGSP/mJGL+m4ulM?=
- =?us-ascii?Q?uA=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?us-ascii?Q?+OBehmAcD3hA0p6MrHUCW3AZ2LCo5Tp3fgtvINqyEbtwMfpxVS+gsof1xqnh?=
- =?us-ascii?Q?Nq89ipDlg6IG5kCzxi58hLSlTv8ICrZee120oFIug6ADLNCiLaOwX+lzqGyI?=
- =?us-ascii?Q?wuZi2dp6KS2LCp02NZ1/jMFtoxSoE+DS8vooQHxOB1qoORCMjyt3W2v7IfhT?=
- =?us-ascii?Q?aoPuDkaZrSLcpgabudBGLCztZpsa+/hQQQegTpkeZ8n3/bcBhZnU+lHX0FbR?=
- =?us-ascii?Q?mhLYzEqrgJi1xAlb51qPCIzSAQi78ItudLePpw6Gxdmn5AvPRFt9562N8Vg/?=
- =?us-ascii?Q?gcVUi6eShZAoaoglU5XayBG5z1Gl/CCbc5InXryvhvumvOgP1tor9vXa35ZQ?=
- =?us-ascii?Q?g7BV4LlzCpsTDUtaOm7olw2n3cswJlVSSsNJXL2qXQN+SesTm0l6vDx67+ER?=
- =?us-ascii?Q?uP85KwGSt7mF9648FxuL+f8JrQK6jB/23Xh3d/phM9Q/ZN/Ux2/G6c/MLorw?=
- =?us-ascii?Q?nT4Ck28exiAyCk7TXWDzk7js6odG0oVxwc94tRtpxqKBe5Kq+sIRFGm0ZXi1?=
- =?us-ascii?Q?FmdveVWQhoGr0OHB/GMIqW8w1/+TZQJCAJnaSP5ryyYZ4fRZCf2sosHuKF5u?=
- =?us-ascii?Q?HPAglldVpgvrbcE/MVSxbeuUOnmbP08y8fPFk5CTrI2ADN0Q79mT142vVMGr?=
- =?us-ascii?Q?qvZQRDKQADOndznIrO/hQNRyUAn+khK+D3g3AjBu+BdY+c1whKu9Ivztapqw?=
- =?us-ascii?Q?a+joY5x3yuhTMUo3BPirYbOfuatx4m5M5aNGqywHX9+Oj0QzwtunziPknQQ2?=
- =?us-ascii?Q?aGbeJSN9v4QZhCGqwSBbfREuB3D3bSYK5UTVJI3T8JWik7XAqH6nZc8eY33G?=
- =?us-ascii?Q?9kGLXLe0d7fwMKKFBV4C2i3zoC8t4yvhOKa5v0Zvlr6NdzV023ahREf90LSJ?=
- =?us-ascii?Q?OoC+hqISdKwgWjD3ijQXO06zRIBwdZ2Qv9/hVfAH+/J87rijz6yxqHAirJy3?=
- =?us-ascii?Q?fjyrJUmSgHA0EXTMxh4VrS8JznAKI444671SvIpcKwNsXhJkBtv1VileTsBP?=
- =?us-ascii?Q?0IvFHgpn3PcWcHFPyyTm4E/CkHhPDgvcIQ+x3AuaTEjJjch06BNHASOxHjPM?=
- =?us-ascii?Q?8tToa8RTY2TlCEIoYqafhZZYMBHChZoEPoA/t1pmIPcNGunY4UfMGORTNaWm?=
- =?us-ascii?Q?pZR6/n2sQ2R78VVQ3cKawm3SIiPD0A+y3g=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: be72003f-dd07-4637-16f4-08dbc6d3ad15
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2023 01:21:04.8857
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: J03RGdSiODHXBtst2jGEjYyyniq3+PMuvUmsW+uH3AoSoyzvk77OzwutfFd0a+1XRBRMGF951KGXxijG4fYGrmpQj1Ze8ewoCOoqOCgXNbE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4723
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-06_15,2023-10-06_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxlogscore=999 mlxscore=0
- spamscore=0 malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2309180000
- definitions=main-2310070009
-X-Proofpoint-ORIG-GUID: xfE5TN4amzWvVkkR4AN_Bgag1VWsvMg-
-X-Proofpoint-GUID: xfE5TN4amzWvVkkR4AN_Bgag1VWsvMg-
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrALMWRmVeSWpSXmKPExsWy7bCSvG6QoEKqwecGRYs1V36zW6y+289m
+	8fKQpsXK1UeZLI7+f8tmcf7tYSaLSYeuMVrMX/aU3WLd6/csFgs2PmK0eNzdwWixoU3Qgcdj
+	56y77B7n721k8bh8ttRj06pONo/NS+o9dt9sYPPo27KK0ePzJrkAjigum5TUnMyy1CJ9uwSu
+	jP+9agV/DSvWv3nL1sDYpNnFyMkhIWAiMW3eWuYuRi4OIYHdjBI/dz9nhUiISzRf+8EOYQtL
+	rPz3HMwWEvjIKHH7v3gXIwcHm4CmxIXJpSBhEQEviXmzF7CA2MwCzxkl9uznALGFBTwk1s3t
+	YASxWQRUJU7NOQxm8wpYSNxe0csCMV5eYual7+wQcUGJkzOfQM2Rl2jeOpt5AiPfLCSpWUhS
+	CxiZVjFKphYU56bnJhsWGOallusVJ+YWl+al6yXn525iBAe6lsYOxnvz/+kdYmTiYDzEKMHB
+	rCTCm94gkyrEm5JYWZValB9fVJqTWnyIUZqDRUmc13DG7BQhgfTEktTs1NSC1CKYLBMHp1QD
+	08a75x5otOa0zV683zUwNUc59HnCvd/SIRkWfcyhEZzrX+que3dpwc8lXW4ry2YqahXyTZxW
+	HbHt01SlPcKpfLvnGt1Nb4qOfKZypVf8ns6HbebzD3EvCtqds/HkGefVP7Muv3GqVW1aX9H7
+	suBU4ilP4yW1zz5/mTlT4mPLuxVbVp8WXe3gfDK3PIlDRZbB+o2dqEX2ayHTbu1/KwXuLuNv
+	2c92a9uX53eOnH5SyW9548vBsvOHVCx0yj8nVZ6aZSqYmXfv8q2efZy1TvKiptWe0572Pw87
+	ZVl/R2fLrg3n+iaWc7peZmkP2SzP+Pq7Xde8uJN/6p9zvrQXrH2pnMfycUXogev9k9Y81Mmf
+	8EWJpTgj0VCLuag4EQC9YqOA4wIAAA==
+X-CMS-MailID: 20231006135322epcas5p1c9acf38b04f35017181c715c706281dc
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+X-CPGSPASS: Y
+X-Hop-Count: 3
+X-CMS-RootMailID: 20231006135322epcas5p1c9acf38b04f35017181c715c706281dc
+References: <CGME20231006135322epcas5p1c9acf38b04f35017181c715c706281dc@epcas5p1.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231006_182136_474397_46AFA9C5 
-X-CRM114-Status: GOOD (  15.63  )
+X-CRM114-CacheID: sfid-20231008_205812_881172_21E21034 
+X-CRM114-Status: GOOD (  23.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -205,47 +112,176 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+User can specify a smaller meta buffer than what the device is
+wired to update/access. Kernel makes a copy of the meta buffer into
+which the device does DMA.
+As a result, the device overwrites the unrelated kernel memory, causing
+random kernel crashes.
 
-Bart,
+Same issue is possible for extended-lba case also. When user specifies a
+short unaligned buffer, the kernel makes a copy and uses that for DMA.
 
-> The above implies that this parameter will always be equal to the
-> logical block size.
+Detect these situations for sync/uring passthrough, and bail out.
 
-It does not. Being able to write each individual block in an I/O without
-tearing does not imply that a device can write two blocks as a single
-atomic operation.
+Fixes: 456cba386e94 ("nvme: wire-up uring-cmd support for io-passthru on char-device")
+Cc: stable@vger.kernel.org
 
-> Writes to a single physical block happen atomically. If there are
-> multiple logical blocks per physical block, the block device must
-> serialize read/modify/write cycles internally.
+Reported-by: Vincent Fu <vincent.fu@samsung.com>
+Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+---
 
-This is what SBC has to say:
+Changes since v2:
+- Handle extended-lba case: short unaligned buffer IO
+- Reduce the scope of check to only well-known commands
+- Do not check early. Move it deeper so that check gets executed less
+  often
+- Combine two patches into one.
 
-"If any write command that is not an atomic write command, does not
-complete successfully (e.g., the command completed with CHECK CONDITION
-status, or the command was being processed at the time of a power loss
-or an incorrect demount of a removable medium), then any data in the
-logical blocks referenced by the LBAs specified by that command is
-indeterminate."
+Changes since v1:
+- Revise the check to exclude PRACT=1 case
 
-SBC defines "atomic write command" like this:
+Random crash example:
 
-"An atomic write command performs one or more atomic write operations.
- The following write commands are atomic write commands:
+[ 6815.014478] general protection fault, probably for non-canonical address 0x70e3cdbe9133b7a6: 0000 [#1] PREEMPT SMP PTI
+[ 6815.014505] CPU: 1 PID: 434 Comm: systemd-timesyn Tainted: G           OE      6.4.0-rc3+ #5
+[ 6815.014516] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.16.2-0-gea1b7a073390-prebuilt.qemu.org 04/01/2014
+[ 6815.014522] RIP: 0010:__kmem_cache_alloc_node+0x100/0x440
+[ 6815.014551] Code: 48 85 c0 0f 84 fb 02 00 00 41 83 ff ff 74 10 48 8b 00 48 c1 e8 36 41 39 c7 0f 85 e5 02 00 00 41 8b 45 28 49 8b 7d 00 4c 01 e0 <48> 8b 18 48 89 c1 49 33 9d b8 00 00 00 4c 89 e0 48 0f c9 48 31 cb
+[ 6815.014559] RSP: 0018:ffffb510c0577d18 EFLAGS: 00010216
+[ 6815.014569] RAX: 70e3cdbe9133b7a6 RBX: ffff8a9ec1042300 RCX: 0000000000000010
+[ 6815.014575] RDX: 00000000048b0001 RSI: 0000000000000dc0 RDI: 0000000000037060
+[ 6815.014581] RBP: ffffb510c0577d58 R08: ffffffffb9ffa280 R09: 0000000000000000
+[ 6815.014586] R10: ffff8a9ecbcab1f0 R11: 0000000000000000 R12: 70e3cdbe9133b79e
+[ 6815.014591] R13: ffff8a9ec1042300 R14: 0000000000000dc0 R15: 00000000ffffffff
+[ 6815.014597] FS:  00007fce590d6940(0000) GS:ffff8a9f3dd00000(0000) knlGS:0000000000000000
+[ 6815.014604] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 6815.014609] CR2: 00005579abbb6498 CR3: 000000000d9b0000 CR4: 00000000000006e0
+[ 6815.014622] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[ 6815.014627] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[ 6815.014632] Call Trace:
+[ 6815.014650]  <TASK>
+[ 6815.014655]  ? apparmor_sk_alloc_security+0x40/0x80
+[ 6815.014673]  kmalloc_trace+0x2a/0xa0
+[ 6815.014684]  apparmor_sk_alloc_security+0x40/0x80
+[ 6815.014694]  security_sk_alloc+0x3f/0x60
+[ 6815.014703]  sk_prot_alloc+0x75/0x110
+[ 6815.014712]  sk_alloc+0x31/0x200
+[ 6815.014721]  inet_create+0xd8/0x3a0
+[ 6815.014734]  __sock_create+0x11b/0x220
+[ 6815.014749]  __sys_socket_create.part.0+0x49/0x70
+[ 6815.014756]  ? __secure_computing+0x94/0xf0
+[ 6815.014768]  __sys_socket+0x3c/0xc0
+[ 6815.014776]  __x64_sys_socket+0x1a/0x30
+[ 6815.014783]  do_syscall_64+0x3b/0x90
+[ 6815.014794]  entry_SYSCALL_64_after_hwframe+0x72/0xdc
+[ 6815.014804] RIP: 0033:0x7fce59aa795b
 
- a) WRITE ATOMIC (16) (see 5.48); and
- b) WRITE ATOMIC (32) (see 5.49)."
+ drivers/nvme/host/ioctl.c | 76 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 76 insertions(+)
 
-You will note that none of the regular WRITE commands appear in that
-list.
-
-Now, in practice we obviously rely heavily on the fact that most devices
-are implemented in a sane fashion which doesn't mess up individual
-logical blocks on power fail. But the spec does not guarantee this; it
-is device implementation dependent. And again, we have seen both hard
-disk drives and SSDs that cause collateral damage to an entire physical
-block when power is lost at the wrong time.
-
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index d8ff796fd5f2..8147750beff4 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -158,6 +158,67 @@ static struct request *nvme_alloc_user_request(struct request_queue *q,
+ 	return req;
+ }
+ 
++static inline bool nvme_nlb_in_cdw12(u8 opcode)
++{
++	switch (opcode) {
++	case nvme_cmd_read:
++	case nvme_cmd_write:
++	case nvme_cmd_compare:
++	case nvme_cmd_zone_append:
++		return true;
++	}
++	return false;
++}
++
++static bool nvme_validate_passthru_meta(struct nvme_ns *ns,
++					struct nvme_command *c,
++					__u32 meta_len,
++					unsigned data_len)
++{
++	/*
++	 * User may specify smaller meta-buffer with a larger data-buffer.
++	 * Driver allocated meta buffer will also be small.
++	 * Device can do larger dma into that, overwriting unrelated kernel
++	 * memory.
++	 * For extended lba case, if user provides a short unaligned buffer,
++	 * the device will corrupt kernel memory.
++	 * Avoid running into corruption in both situations.
++	 */
++	bool ext_lba = ns->features & NVME_NS_EXT_LBAS;
++	u16 nlb, control;
++	unsigned dlen, mlen;
++
++	/* Exclude commands that do not have nlb in cdw12 */
++	if (!nvme_nlb_in_cdw12(c->common.opcode))
++		return true;
++
++	control = upper_16_bits(le32_to_cpu(c->common.cdw12));
++	/* Exclude when meta transfer from/to host is not done */
++	if (control & NVME_RW_PRINFO_PRACT && ns->ms == ns->pi_size)
++		return true;
++
++	nlb = lower_16_bits(le32_to_cpu(c->common.cdw12));
++	mlen = (nlb + 1) * ns->ms;
++
++	/* sanity for interleaved buffer */
++	if (ext_lba) {
++		dlen = (nlb + 1) << ns->lba_shift;
++		if (data_len < (dlen + mlen))
++			goto out_false;
++		return true;
++	}
++	/* sanity for separate meta buffer */
++	if (meta_len < mlen)
++		goto out_false;
++
++	return true;
++
++out_false:
++	dev_err(ns->ctrl->device,
++		"%s: metadata length is small!\n", current->comm);
++	return false;
++}
++
+ static int nvme_map_user_request(struct request *req, u64 ubuffer,
+ 		unsigned bufflen, void __user *meta_buffer, unsigned meta_len,
+ 		u32 meta_seed, void **metap, struct io_uring_cmd *ioucmd,
+@@ -194,6 +255,12 @@ static int nvme_map_user_request(struct request *req, u64 ubuffer,
+ 		bio_set_dev(bio, bdev);
+ 
+ 	if (bdev && meta_buffer && meta_len) {
++		if (!nvme_validate_passthru_meta(ns, nvme_req(req)->cmd,
++					meta_len, bufflen)) {
++			ret = -EINVAL;
++			goto out_unmap;
++		}
++
+ 		meta = nvme_add_user_metadata(req, meta_buffer, meta_len,
+ 				meta_seed);
+ 		if (IS_ERR(meta)) {
+@@ -203,6 +270,15 @@ static int nvme_map_user_request(struct request *req, u64 ubuffer,
+ 		*metap = meta;
+ 	}
+ 
++	/* guard another case when kernel memory is being used */
++	if (bio->bi_private && ns && ns->features & NVME_NS_EXT_LBAS) {
++		if (!nvme_validate_passthru_meta(ns, nvme_req(req)->cmd,
++					meta_len, bufflen)) {
++			ret = -EINVAL;
++			goto out_unmap;
++		}
++	}
++
+ 	return ret;
+ 
+ out_unmap:
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+2.25.1
+
+
 
