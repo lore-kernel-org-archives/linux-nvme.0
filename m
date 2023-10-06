@@ -4,66 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32B6AE81DE9
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Oct 2023 12:21:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B8CE3E81E1B
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Oct 2023 17:23:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=k8v2EFpF8HyNHuws9xn1C1NszHsygabYOlbE0VQUixk=; b=WMp4QpdNcHKiotYPAF8WFD2GRp
-	wErj9UY72EiIfVJ+YEQfF5Z7uQt9zQefLgXDSds+9uA7xEu4/Z6ZV0njCrpmgtoi9XLF1omqXYzI1
-	PR3Ee2QyRM24egPO8VkDzzokP2CzQunSXHmDngIyBqB/7rHEjDhB5RiTNCB0y3BAtszGSpDtd4K/F
-	b4bndnpAHJHc2MNo2LnZGXprxBMMYbNVDbS72h0qJgyy//yQX2Wu2P6i5ASn2EiqWE59UghemG9dj
-	Owmn/biU3h6Aiu06FAO9HgkUamG1WhVj0acZpYAI/H+tQ2XrPP7091SBC/OTj3/4UblizIDydR78u
-	FuGcWXoQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=UEjTiQOqZq/tiyoM37CeUZKubVviy0Hfhp5dRvbPE0c=; b=CR7LtXkk3yZQWMEP1gLO755DvL
+	faiGjJZbXKdRNUHrlp8ykYKhfreQqURJ52rA2Vaon9zvt2YtS0IxVTj5PdgZTAKz3hfpNha6ASpSs
+	oVuh8A+sRkGv5gCzNFQm6NBymL2Yv/OCtIntEhLSCFB/mcdeIO95jaUAOpwK+bV2U2XdUEHwxQaQH
+	NHqdUD1qJlvzcgzuRZ9fZ28Mj6nk4V6eLLXxVkoxUOW777Y3SiIw0QPdloGZ2JmcYiDsbY40OYa9t
+	oszovtguerEs6B28mR3oCAm5lL13Rih3ibKSCZoBcrERW9ldK5goQzhmVYL1yznw0EQ/aMVYDeYDY
+	kx0VHdOQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qojpO-005lat-0o;
-	Fri, 06 Oct 2023 12:21:10 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1qooWm-006FDV-2t;
+	Fri, 06 Oct 2023 17:22:16 +0000
+Received: from mail-pf1-f181.google.com ([209.85.210.181])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qojpL-005laD-0M
+	id 1qooWk-006FBm-01
 	for linux-nvme@lists.infradead.org;
-	Fri, 06 Oct 2023 12:21:08 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by ams.source.kernel.org (Postfix) with ESMTP id 36321B828F7;
-	Fri,  6 Oct 2023 12:21:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62803C433C8;
-	Fri,  6 Oct 2023 12:21:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1696594864;
-	bh=eEAGMHnLPIv/m3ngBpVNSfrVjCGlhTK1953WUjSor24=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bTXbTRgNaMfuCwMIoA/eYL/Ty2cOHyVRkujckTVIVasdng3pdpgrF5iCuClH+EUSZ
-	 H10CTbO4yMuEIY5W+wYDXPHgfwcU96fYY6TOdxEo4bUm3dkM0rtwbc5OKECSdesUUl
-	 9QWWmlTX4Uz0C5qxd4RyhDOibmyK2L3kI5hSbPr/U5jVFxDt2VflX/pNiVuZaJcNrA
-	 Qc+/vQIM/x4SplFOUOV6Y++ujNO7WYs4Dg60vWukRQutYUIIFLpvLc/h31vPcysN04
-	 S8HAWiT/vaz35WwZFYo1xTmxvf8jYJqDkmTfxm+hGzHYQ87y6WpR8mtaZ/ohB6wH8n
-	 0KaRBx8WLSsCw==
-Date: Fri, 6 Oct 2023 08:21:03 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Greg KH <gregkh@linuxfoundation.org>, sj@kernel.org,
-	linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>,
-	zahavi.alon@gmail.com, stable@vger.kernel.org
-Subject: Re: [PATCH] nvmet-tcp: Fix a possible UAF in queue intialization
- setup
-Message-ID: <ZR_7rzhMCkKAUN_x@sashalap>
-References: <20231003164638.2526-1-sj@kernel.org>
- <1ed79a61-0e74-7264-cb70-c65531cf60e2@grimberg.me>
- <2023100445-twisted-everyone-be72@gregkh>
- <01901640-fc6d-5d15-3aa0-9f4586ba5141@grimberg.me>
+	Fri, 06 Oct 2023 17:22:15 +0000
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6910ea9cca1so2024840b3a.1
+        for <linux-nvme@lists.infradead.org>; Fri, 06 Oct 2023 10:22:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696612932; x=1697217732;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UEjTiQOqZq/tiyoM37CeUZKubVviy0Hfhp5dRvbPE0c=;
+        b=mPxabFWiN1SriW/Udojz+na2PVoew7qir0tD1L01G52JWeNOmp4yjudfpI7Sg126am
+         Iwtg3UNKwRU8zVIScqfcoW+5MrwXOQ8a8l+55QVDs9y7P4A82R4g9laLEf1O/CmOEm2J
+         hZtJefOt8m3ACmamZNb/z1iXYWGJlNshzxNxHE8hPeN0JY8ohEboxFsRpiACyaK8PyuZ
+         tYWzygb/sD8ItS1844DvrdDE84/TjCnKzLu1vtSrWiX/xqeWxvwjcvwvDebeSK9Gbj/2
+         7Tz/bJ9Wc6cFfZIpNAW2E8WPGgdv86bTVE4Qm/oCNCeruJ3wu7o68YizyLfcT0bYVTu9
+         Ja0Q==
+X-Gm-Message-State: AOJu0Ywcf55PUmAis9kuokT28kVLMh5Si7RgK4cmLhZ0L4EcUkLz5ymX
+	hwWdTMm7DGOyU5bZPsh6VcI=
+X-Google-Smtp-Source: AGHT+IERDatMvRwiT/bQ534S3NzSEl+A3niSuO3D+OTniQoBISPNSqc1StabEZo+erszyh/gqRzPcg==
+X-Received: by 2002:a05:6a20:12d6:b0:153:4ea6:d127 with SMTP id v22-20020a056a2012d600b001534ea6d127mr10425406pzg.18.1696612931891;
+        Fri, 06 Oct 2023 10:22:11 -0700 (PDT)
+Received: from ?IPV6:2620:15c:211:201:ebdb:ae30:148c:2f33? ([2620:15c:211:201:ebdb:ae30:148c:2f33])
+        by smtp.gmail.com with ESMTPSA id q17-20020a62e111000000b0069327d0b491sm1719291pfh.195.2023.10.06.10.22.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Oct 2023 10:22:10 -0700 (PDT)
+Message-ID: <2bb2a4d0-4f1f-45f1-9196-f5d0d8ee1878@acm.org>
+Date: Fri, 6 Oct 2023 10:22:08 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <01901640-fc6d-5d15-3aa0-9f4586ba5141@grimberg.me>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 10/21] block: Add fops atomic write support
+Content-Language: en-US
+To: Dave Chinner <david@fromorbit.com>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
+ John Garry <john.g.garry@oracle.com>, axboe@kernel.dk, kbusch@kernel.org,
+ hch@lst.de, sagi@grimberg.me, jejb@linux.ibm.com, djwong@kernel.org,
+ viro@zeniv.linux.org.uk, brauner@kernel.org, chandan.babu@oracle.com,
+ dchinner@redhat.com, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, tytso@mit.edu,
+ jbongio@google.com, linux-api@vger.kernel.org
+References: <5d26fa3b-ec34-bc39-ecfe-4616a04977ca@oracle.com>
+ <b7a6f380-c6fa-45e0-b727-ba804c6684e4@acm.org>
+ <yq1lecktuoo.fsf@ca-mkp.ca.oracle.com>
+ <db6a950b-1308-4ca1-9f75-6275118bdcf5@acm.org>
+ <yq1h6n7rume.fsf@ca-mkp.ca.oracle.com>
+ <34c08488-a288-45f9-a28f-a514a408541d@acm.org>
+ <yq1ttr6qoqp.fsf@ca-mkp.ca.oracle.com>
+ <a2077ddf-9a8f-4101-aeb9-605d6dee3c6e@acm.org>
+ <ZR86Z1OcO52a4BtH@dread.disaster.area>
+ <d976868a-d32c-43d1-b5da-ebbc4c8de468@acm.org>
+ <ZR+NiYIuKzEilkW3@dread.disaster.area>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <ZR+NiYIuKzEilkW3@dread.disaster.area>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231006_052107_301434_E02E185E 
-X-CRM114-Status: GOOD (  17.08  )
+X-CRM114-CacheID: sfid-20231006_102214_041456_4E0170A5 
+X-CRM114-Status: GOOD (  13.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,58 +97,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 04, 2023 at 04:25:13PM +0300, Sagi Grimberg wrote:
->
->>>>Hello,
->>>>
->>>>On Mon, 2 Oct 2023 13:54:28 +0300 Sagi Grimberg <sagi@grimberg.me> wrote:
->>>>
->>>>>  From Alon:
->>>>>"Due to a logical bug in the NVMe-oF/TCP subsystem in the Linux kernel,
->>>>>a malicious user can cause a UAF and a double free, which may lead to
->>>>>RCE (may also lead to an LPE in case the attacker already has local
->>>>>privileges)."
->>>>>
->>>>>Hence, when a queue initialization fails after the ahash requests are
->>>>>allocated, it is guaranteed that the queue removal async work will be
->>>>>called, hence leave the deallocation to the queue removal.
->>>>>
->>>>>Also, be extra careful not to continue processing the socket, so set
->>>>>queue rcv_state to NVMET_TCP_RECV_ERR upon a socket error.
->>>>>
->>>>>Reported-by: Alon Zahavi <zahavi.alon@gmail.com>
->>>>>Tested-by: Alon Zahavi <zahavi.alon@gmail.com>
->>>>>Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
->>>>
->>>>Would it be better to add Fixes: and Cc: stable lines?
->>>
->>>This issue existed since the introduction of the driver, I am not sure
->>>it applies cleanly that far back...
->>>
->>>I figured that the description and Reported-by tag will trigger stable
->>>kernel pick up...
->>
->><formletter>
->>
->>This is not the correct way to submit patches for inclusion in the
->>stable kernel tree.  Please read:
->>     https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
->>for how to do this properly.
->>
->></formletter>
->
->I could have sworn to have seen patches that did not have stable CCd
->nor a Fixes tag and was picked up for stable kernels :)
->But I guess those were either hallucinations or someone sending patches
->to stable...
+On 10/5/23 21:31, Dave Chinner wrote:
+> Then I don't see what your concern is.
+> 
+> Single sector writes are guaranteed atomic and have been for as long 
+> as I've worked in this game. OTOH, multi-sector writes are not 
+> guaranteed to be atomic - they can get torn on sector boundaries, but
+> the individual sectors within that write are guaranteed to be 
+> all-or-nothing.
+> 
+> Any hardware device that does not guarantee single sector write 
+> atomicity (i.e. tears in the middle of a sector) is, by definition, 
+> broken. And we all know that broken hardware means nothing in the 
+> storage stack works as it should, so I just don't see what point you 
+> are trying to make...
 
-That happens, but there are no guarantees around it.
+Do you agree that the above implies that it is not useful in patch 01/21
+of this series to track atomic_write_unit_min_bytes in the block layer
+nor to export this information to user space? The above implies that
+this parameter will always be equal to the logical block size. Writes to
+a single physical block happen atomically. If there are multiple logical
+blocks per physical block, the block device must serialize 
+read/modify/write cycles internally.
 
-If you really want for a patch to land in stable, and want to know if
-for some reason it didn't, the only way to do it is with an explicit
-stable tag. Otherwise it's just "best effort".
-
--- 
 Thanks,
-Sasha
+
+Bart.
 
