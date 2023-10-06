@@ -4,68 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77A4AE92FE0
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Oct 2023 17:23:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 778E8E81E1F
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Oct 2023 17:52:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=eQS0SwKleWlKTGMBVjIy6xSCLN+QgwAp5UZ/+It4xPc=; b=AZ3+bsZ7jEdqq8yL9QlZAf3By2
-	Kf0zcWSCouWrmjwyOHRo7AoJIYyhKBYNSYpnik+3+4T2xUUcZqDdJ7LVCUsdmilFIZUrQ3y9mA8wA
-	N9DhQWUfLkyuu0g46TNBbOppnFTZrJCJ8zNRyHIy2gXZsRw0EogFENVxKFtJrCUBMmjv9wpB0AFyV
-	Wr3JXfUI/2c1+mThNH/4rkBpRTemW3hs4AzE3RCC/eyqy57GNYJucqS/YTgwik97aQHEvaEApUVcg
-	rWyQWww7g5AcM7x1RxmuMlZRexJt0iNEBaGgVsBPbb7Gj5/+iD5Z/ywHX6Ew1POpkNRgZTOFKqBFD
-	B1jR+Epg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=BnL6IcDEF/I+SFfFl9VQ/bBGtLZVeE0oEvuHjO2kHpI=; b=lBqax7ep9fRcAAuxfVWqyFPk6n
+	rtfk82U6QgcOQuPDKVOPg6p6tAD8oCbtvmf0aTAYFCmo5lNcexe2rKEwylLSnfs+Uurb2+oxDIRqX
+	AIgPA/0DA/WDusl+moI8le6S22xvWepLAHIFNxr+TiacvgIfLS8Y5DRRY/jXFXXTvmDhNf0MQkUgy
+	3EKKkl/QUdpCkl2wqoFBK1cxIgnXMntf5tOxoDGhUuT4cxQEqyRxZaTf90wVhZYfEhWq3DicKo4v/
+	CchXPVMkCzZ9hmpWBECB3AKDBz4JK+BlxxKD4ZTvJ87a1P9NdrYrbGGy1WlziNnxzK6fsHdIXFeHi
+	pjTSttuA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qooXU-006FKS-2U;
-	Fri, 06 Oct 2023 17:23:00 +0000
-Received: from mgamail.intel.com ([192.198.163.7])
+	id 1qop0M-006H1O-0h;
+	Fri, 06 Oct 2023 17:52:50 +0000
+Received: from mail-pl1-f180.google.com ([209.85.214.180])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qooXR-006FIm-2T
+	id 1qop0J-006H0f-0O
 	for linux-nvme@lists.infradead.org;
-	Fri, 06 Oct 2023 17:22:59 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696612978; x=1728148978;
-  h=date:from:to:cc:subject:message-id;
-  bh=DqdoKJvNAlV4Z1l6GxP9bCRekP5OPv4g4fJif/uNhXs=;
-  b=g4Ok++ZCuNc/6PodB9AYGGZYaNXJk8p1DPu/IdNgeyfCuRl5CclYJMMm
-   JqNCvG0Q078pE8zFXQRFCxm0OjMDUup0WdI5kTwxW6TZ3NYPZ8pPVNhgc
-   UpsprlxX/WYXl/TQURw/TQ/aeyPDyMGbXpPUB3n6RbDm5aE/Kg6p4MTS1
-   LdJuORFW/DOFoLbKuKKSXOQbsxrHCJ0D0aTpa7k2He0CdkmrFN+7XtZhN
-   96S67Fi9fbvWt0J6TpAFKOJwWKuM721wfIDYjVWbrMePctTH7ofxzy+A2
-   CXr/t7V892mtsF16u0/xTA5vbuDXuWZY2o/Tf5M8re1qzpo9l5vcbnbt0
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="5348264"
-X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; 
-   d="scan'208";a="5348264"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2023 10:22:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="755921839"
-X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; 
-   d="scan'208";a="755921839"
-Received: from lkp-server01.sh.intel.com (HELO 8a3a91ad4240) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 06 Oct 2023 10:22:23 -0700
-Received: from kbuild by 8a3a91ad4240 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qooWr-0003Sz-2G;
-	Fri, 06 Oct 2023 17:22:21 +0000
-Date: Sat, 07 Oct 2023 01:22:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.6] BUILD SUCCESS
- b04c1a798cfdf32966c70dc0e359df39a7e1ab0a
-Message-ID: <202310070100.YxdYBWnM-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Fri, 06 Oct 2023 17:52:48 +0000
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1c888b3a25aso14600975ad.0
+        for <linux-nvme@lists.infradead.org>; Fri, 06 Oct 2023 10:52:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696614765; x=1697219565;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BnL6IcDEF/I+SFfFl9VQ/bBGtLZVeE0oEvuHjO2kHpI=;
+        b=PpN/npoc/W463e3zB7XIdvW3nduo1eXqRy2qWXknf5C36s5d4kcV2NY3QdY1ecnv77
+         uSl3YKSM+0FUUaxNk7/Cq7h01MuY7VrghWEAuVcMryBEgm2gFuu/MDaAYrFuSO6GyB8Q
+         +7O/0+1JuK8a5vTEN9rhDb55hRdJ/rKGGAkY9D+cFiKyMkIg+fJX4C4XtJbQQ0kG0I/M
+         qukB+JmzB/itz0rm41hkQKz/BmijaXP2oLj9aygwtNkt9NpPIotaLgHm0d4wSRAwvZMN
+         sccMk90TPnz5HFzE8rH393p8E6NTSXCb4waJa9JfXBAZG68d5nHk9mjmBSKpLpoxD7Kp
+         5cXw==
+X-Gm-Message-State: AOJu0YyME+SxaH19NMJaytdOuKBU5Tyza7xppc26K+tUlOPbyymvcSeR
+	4gYI0B+FoQkmfRc9tNlAsQM=
+X-Google-Smtp-Source: AGHT+IFEfu6krZRMMNdIjI9SRnksIybRzXbtBBjNfKK1W53oKfdtvx2+WeKkXpi7mnUPNlqRrPCVhw==
+X-Received: by 2002:a17:90b:4a12:b0:274:6503:26d with SMTP id kk18-20020a17090b4a1200b002746503026dmr8363179pjb.33.1696614765149;
+        Fri, 06 Oct 2023 10:52:45 -0700 (PDT)
+Received: from ?IPV6:2620:15c:211:201:ebdb:ae30:148c:2f33? ([2620:15c:211:201:ebdb:ae30:148c:2f33])
+        by smtp.gmail.com with ESMTPSA id v5-20020a17090a0c8500b00256b67208b1sm6168825pja.56.2023.10.06.10.52.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Oct 2023 10:52:43 -0700 (PDT)
+Message-ID: <a7a24914-4940-4a23-b439-bc8f0ad99212@acm.org>
+Date: Fri, 6 Oct 2023 10:52:40 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 18/21] scsi: sd: Support reading atomic properties from
+ block limits VPD
+Content-Language: en-US
+To: John Garry <john.g.garry@oracle.com>, axboe@kernel.dk, kbusch@kernel.org,
+ hch@lst.de, sagi@grimberg.me, jejb@linux.ibm.com,
+ martin.petersen@oracle.com, djwong@kernel.org, viro@zeniv.linux.org.uk,
+ brauner@kernel.org, chandan.babu@oracle.com, dchinner@redhat.com
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
+ linux-api@vger.kernel.org
+References: <20230929102726.2985188-1-john.g.garry@oracle.com>
+ <20230929102726.2985188-19-john.g.garry@oracle.com>
+ <2e5af8a4-f2e1-4c2e-bd0b-14cc9894b48e@acm.org>
+ <53bfe07e-e125-7a69-4f89-481c10e0959e@oracle.com>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <53bfe07e-e125-7a69-4f89-481c10e0959e@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231006_102257_813690_94B8C3D3 
-X-CRM114-Status: UNSURE (   5.59  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20231006_105247_162042_FF905B75 
+X-CRM114-Status: GOOD (  14.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,105 +90,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.6
-branch HEAD: b04c1a798cfdf32966c70dc0e359df39a7e1ab0a  nvmet-tcp: Fix a possible UAF in queue intialization setup
+On 10/2/23 04:27, John Garry wrote:
+> On 29/09/2023 18:54, Bart Van Assche wrote:
+>> On 9/29/23 03:27, John Garry wrote:
+>>> +static void sd_config_atomic(struct scsi_disk *sdkp)
+>>> +{
+>>> +    unsigned int logical_block_size = sdkp->device->sector_size;
+>>> +    struct request_queue *q = sdkp->disk->queue;
+>>> +
+>>> +    if (sdkp->max_atomic) {
+>>
+>> Please use the "return early" style here to keep the indentation
+>> level in this function low.
+> 
+> ok, fine.
+> 
+>>
+>>> +        unsigned int max_atomic = max_t(unsigned int,
+>>> +            rounddown_pow_of_two(sdkp->max_atomic),
+>>> +            rounddown_pow_of_two(sdkp->max_atomic_with_boundary));
+>>> +        unsigned int unit_min = sdkp->atomic_granularity ?
+>>> +            rounddown_pow_of_two(sdkp->atomic_granularity) :
+>>> +            physical_block_size_sectors;
+>>> +        unsigned int unit_max = max_atomic;
+>>> +
+>>> +        if (sdkp->max_atomic_boundary)
+>>> +            unit_max = min_t(unsigned int, unit_max,
+>>> +                rounddown_pow_of_two(sdkp->max_atomic_boundary));
+>>
+>> Why does "rounddown_pow_of_two()" occur in the above code?
+> 
+> I assume that you are talking about all the code above to calculate 
+> atomic write values for the device.
+> 
+> The reason is that atomic write unit min and max are always a power-of-2 
+> - see rules described earlier - as so that we why we rounddown to a 
+> power-of-2.
 
-elapsed time: 1457m
+ From SBC-5: "The ATOMIC ALIGNMENT field indicates the required alignment
+of the starting LBA in an atomic write command. If the ATOMIC ALIGNMENT
+field is set to 0000_0000h, then there is no alignment requirement for
+atomic write commands.
 
-configs tested: 85
-configs skipped: 2
+The ATOMIC TRANSFER LENGTH GRANULARITY field indicates the minimum
+transfer length for an atomic write command. Atomic write operations are
+required to have a transfer length that is a multiple of the atomic
+transfer length granularity. An ATOMIC TRANSFER LENGTH GRANULARITY field
+set to 0000_0000h indicates that there is no atomic transfer length
+granularity requirement."
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+I think the above means that it is wrong to round down the ATOMIC
+TRANSFER LENGTH GRANULARITY or the ATOMIC BOUNDARY values.
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20231006   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64                              defconfig   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
+Thanks,
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Bart.
+
 
