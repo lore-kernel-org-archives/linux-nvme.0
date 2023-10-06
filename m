@@ -4,85 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B8CE3E81E1B
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Oct 2023 17:23:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77A4AE92FE0
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Oct 2023 17:23:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UEjTiQOqZq/tiyoM37CeUZKubVviy0Hfhp5dRvbPE0c=; b=CR7LtXkk3yZQWMEP1gLO755DvL
-	faiGjJZbXKdRNUHrlp8ykYKhfreQqURJ52rA2Vaon9zvt2YtS0IxVTj5PdgZTAKz3hfpNha6ASpSs
-	oVuh8A+sRkGv5gCzNFQm6NBymL2Yv/OCtIntEhLSCFB/mcdeIO95jaUAOpwK+bV2U2XdUEHwxQaQH
-	NHqdUD1qJlvzcgzuRZ9fZ28Mj6nk4V6eLLXxVkoxUOW777Y3SiIw0QPdloGZ2JmcYiDsbY40OYa9t
-	oszovtguerEs6B28mR3oCAm5lL13Rih3ibKSCZoBcrERW9ldK5goQzhmVYL1yznw0EQ/aMVYDeYDY
-	kx0VHdOQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=eQS0SwKleWlKTGMBVjIy6xSCLN+QgwAp5UZ/+It4xPc=; b=AZ3+bsZ7jEdqq8yL9QlZAf3By2
+	Kf0zcWSCouWrmjwyOHRo7AoJIYyhKBYNSYpnik+3+4T2xUUcZqDdJ7LVCUsdmilFIZUrQ3y9mA8wA
+	N9DhQWUfLkyuu0g46TNBbOppnFTZrJCJ8zNRyHIy2gXZsRw0EogFENVxKFtJrCUBMmjv9wpB0AFyV
+	Wr3JXfUI/2c1+mThNH/4rkBpRTemW3hs4AzE3RCC/eyqy57GNYJucqS/YTgwik97aQHEvaEApUVcg
+	rWyQWww7g5AcM7x1RxmuMlZRexJt0iNEBaGgVsBPbb7Gj5/+iD5Z/ywHX6Ew1POpkNRgZTOFKqBFD
+	B1jR+Epg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qooWm-006FDV-2t;
-	Fri, 06 Oct 2023 17:22:16 +0000
-Received: from mail-pf1-f181.google.com ([209.85.210.181])
+	id 1qooXU-006FKS-2U;
+	Fri, 06 Oct 2023 17:23:00 +0000
+Received: from mgamail.intel.com ([192.198.163.7])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qooWk-006FBm-01
+	id 1qooXR-006FIm-2T
 	for linux-nvme@lists.infradead.org;
-	Fri, 06 Oct 2023 17:22:15 +0000
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6910ea9cca1so2024840b3a.1
-        for <linux-nvme@lists.infradead.org>; Fri, 06 Oct 2023 10:22:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696612932; x=1697217732;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UEjTiQOqZq/tiyoM37CeUZKubVviy0Hfhp5dRvbPE0c=;
-        b=mPxabFWiN1SriW/Udojz+na2PVoew7qir0tD1L01G52JWeNOmp4yjudfpI7Sg126am
-         Iwtg3UNKwRU8zVIScqfcoW+5MrwXOQ8a8l+55QVDs9y7P4A82R4g9laLEf1O/CmOEm2J
-         hZtJefOt8m3ACmamZNb/z1iXYWGJlNshzxNxHE8hPeN0JY8ohEboxFsRpiACyaK8PyuZ
-         tYWzygb/sD8ItS1844DvrdDE84/TjCnKzLu1vtSrWiX/xqeWxvwjcvwvDebeSK9Gbj/2
-         7Tz/bJ9Wc6cFfZIpNAW2E8WPGgdv86bTVE4Qm/oCNCeruJ3wu7o68YizyLfcT0bYVTu9
-         Ja0Q==
-X-Gm-Message-State: AOJu0Ywcf55PUmAis9kuokT28kVLMh5Si7RgK4cmLhZ0L4EcUkLz5ymX
-	hwWdTMm7DGOyU5bZPsh6VcI=
-X-Google-Smtp-Source: AGHT+IERDatMvRwiT/bQ534S3NzSEl+A3niSuO3D+OTniQoBISPNSqc1StabEZo+erszyh/gqRzPcg==
-X-Received: by 2002:a05:6a20:12d6:b0:153:4ea6:d127 with SMTP id v22-20020a056a2012d600b001534ea6d127mr10425406pzg.18.1696612931891;
-        Fri, 06 Oct 2023 10:22:11 -0700 (PDT)
-Received: from ?IPV6:2620:15c:211:201:ebdb:ae30:148c:2f33? ([2620:15c:211:201:ebdb:ae30:148c:2f33])
-        by smtp.gmail.com with ESMTPSA id q17-20020a62e111000000b0069327d0b491sm1719291pfh.195.2023.10.06.10.22.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Oct 2023 10:22:10 -0700 (PDT)
-Message-ID: <2bb2a4d0-4f1f-45f1-9196-f5d0d8ee1878@acm.org>
-Date: Fri, 6 Oct 2023 10:22:08 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/21] block: Add fops atomic write support
-Content-Language: en-US
-To: Dave Chinner <david@fromorbit.com>
-Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
- John Garry <john.g.garry@oracle.com>, axboe@kernel.dk, kbusch@kernel.org,
- hch@lst.de, sagi@grimberg.me, jejb@linux.ibm.com, djwong@kernel.org,
- viro@zeniv.linux.org.uk, brauner@kernel.org, chandan.babu@oracle.com,
- dchinner@redhat.com, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, tytso@mit.edu,
- jbongio@google.com, linux-api@vger.kernel.org
-References: <5d26fa3b-ec34-bc39-ecfe-4616a04977ca@oracle.com>
- <b7a6f380-c6fa-45e0-b727-ba804c6684e4@acm.org>
- <yq1lecktuoo.fsf@ca-mkp.ca.oracle.com>
- <db6a950b-1308-4ca1-9f75-6275118bdcf5@acm.org>
- <yq1h6n7rume.fsf@ca-mkp.ca.oracle.com>
- <34c08488-a288-45f9-a28f-a514a408541d@acm.org>
- <yq1ttr6qoqp.fsf@ca-mkp.ca.oracle.com>
- <a2077ddf-9a8f-4101-aeb9-605d6dee3c6e@acm.org>
- <ZR86Z1OcO52a4BtH@dread.disaster.area>
- <d976868a-d32c-43d1-b5da-ebbc4c8de468@acm.org>
- <ZR+NiYIuKzEilkW3@dread.disaster.area>
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <ZR+NiYIuKzEilkW3@dread.disaster.area>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+	Fri, 06 Oct 2023 17:22:59 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696612978; x=1728148978;
+  h=date:from:to:cc:subject:message-id;
+  bh=DqdoKJvNAlV4Z1l6GxP9bCRekP5OPv4g4fJif/uNhXs=;
+  b=g4Ok++ZCuNc/6PodB9AYGGZYaNXJk8p1DPu/IdNgeyfCuRl5CclYJMMm
+   JqNCvG0Q078pE8zFXQRFCxm0OjMDUup0WdI5kTwxW6TZ3NYPZ8pPVNhgc
+   UpsprlxX/WYXl/TQURw/TQ/aeyPDyMGbXpPUB3n6RbDm5aE/Kg6p4MTS1
+   LdJuORFW/DOFoLbKuKKSXOQbsxrHCJ0D0aTpa7k2He0CdkmrFN+7XtZhN
+   96S67Fi9fbvWt0J6TpAFKOJwWKuM721wfIDYjVWbrMePctTH7ofxzy+A2
+   CXr/t7V892mtsF16u0/xTA5vbuDXuWZY2o/Tf5M8re1qzpo9l5vcbnbt0
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="5348264"
+X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; 
+   d="scan'208";a="5348264"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2023 10:22:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="755921839"
+X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; 
+   d="scan'208";a="755921839"
+Received: from lkp-server01.sh.intel.com (HELO 8a3a91ad4240) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 06 Oct 2023 10:22:23 -0700
+Received: from kbuild by 8a3a91ad4240 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qooWr-0003Sz-2G;
+	Fri, 06 Oct 2023 17:22:21 +0000
+Date: Sat, 07 Oct 2023 01:22:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.6] BUILD SUCCESS
+ b04c1a798cfdf32966c70dc0e359df39a7e1ab0a
+Message-ID: <202310070100.YxdYBWnM-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231006_102214_041456_4E0170A5 
-X-CRM114-Status: GOOD (  13.01  )
+X-CRM114-CacheID: sfid-20231006_102257_813690_94B8C3D3 
+X-CRM114-Status: UNSURE (   5.59  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,30 +80,105 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/5/23 21:31, Dave Chinner wrote:
-> Then I don't see what your concern is.
-> 
-> Single sector writes are guaranteed atomic and have been for as long 
-> as I've worked in this game. OTOH, multi-sector writes are not 
-> guaranteed to be atomic - they can get torn on sector boundaries, but
-> the individual sectors within that write are guaranteed to be 
-> all-or-nothing.
-> 
-> Any hardware device that does not guarantee single sector write 
-> atomicity (i.e. tears in the middle of a sector) is, by definition, 
-> broken. And we all know that broken hardware means nothing in the 
-> storage stack works as it should, so I just don't see what point you 
-> are trying to make...
+tree/branch: git://git.infradead.org/nvme.git nvme-6.6
+branch HEAD: b04c1a798cfdf32966c70dc0e359df39a7e1ab0a  nvmet-tcp: Fix a possible UAF in queue intialization setup
 
-Do you agree that the above implies that it is not useful in patch 01/21
-of this series to track atomic_write_unit_min_bytes in the block layer
-nor to export this information to user space? The above implies that
-this parameter will always be equal to the logical block size. Writes to
-a single physical block happen atomically. If there are multiple logical
-blocks per physical block, the block device must serialize 
-read/modify/write cycles internally.
+elapsed time: 1457m
 
-Thanks,
+configs tested: 85
+configs skipped: 2
 
-Bart.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20231006   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
