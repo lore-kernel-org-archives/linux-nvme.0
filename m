@@ -4,55 +4,102 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6920EE95A91
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Oct 2023 07:36:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6C658CD6114
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Oct 2023 17:36:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=JBV4b8UUo1MSngn/QBoedt1Dv52bT8rWeq4R22MtJMs=; b=HeS+x7uH/D499XX/s6ht+0so7A
-	MqR1T/NF51OQQY0mt4W97B+jBw/CsNrCPQJbpdNmRkVsjItnLA5jK2k3ALmThkDv3t54bFuKyP8Kh
-	Jl4dBzh1YditlhEvfODYMJ3763XppvJxE6a97N2TbJ3iCaTg3+Xp+WHP4PXRpYR/QQZsBbfkRX6t+
-	oTLPSNMFrtfivDa1Xik9bEv1hBxXuRV5/wgVl11f+X1+ywVifmjD/oLgMjMFuOZDJRG889NLGKEXp
-	VtqfHk8+27GpP3LOIzsyvw7V4zq+j988eeuJS0Vu8o8U5CnSDdhZLKuoKENFXPOuXD2PbuqnprqXw
-	w6GVIL7Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Xi617DcefGnHb/bK65tXDagtKynJEYTzaRlrSLA38JM=; b=OTE1LayT17vEXYnuPW9iDyxh04
+	VWRBjB6jSkAC5qn42ksVpjtdIXzzp0kfz/5fRDjrJ35WKv0QUZUzlySAoEal2Bd2Jkvnvt8LR3PJL
+	hlyBrhyUMMLVONstHTrN8sBLOUvZJbLZqpk98JgT/37rgRHvA1jEFxRIRBFyF8rFP2yyFWEjvnjzG
+	qQRtN1Ve7aCgzineEq/pSAx3qWNsIPN/INIwdUO5PS2qhGPSYtF/qfZr3cLXav6wiW8M1dWVk1y+p
+	ZtLp93gOjJAivsgCUJ9+zNHDAA72RA+1bRK0hVHOi8MsJbiSR20tffnTpO8ornxkJtBh3HaKJerFy
+	6KSjU36Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qpkoh-009uMT-23;
-	Mon, 09 Oct 2023 07:36:39 +0000
-Received: from mail.venturelinkbiz.com ([51.195.119.142])
+	id 1qpuB3-00BJe2-1W;
+	Mon, 09 Oct 2023 17:36:21 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qpkod-009uLb-1W
-	for linux-nvme@lists.infradead.org;
-	Mon, 09 Oct 2023 07:36:38 +0000
-Received: by mail.venturelinkbiz.com (Postfix, from userid 1002)
-	id 1BB7045767; Mon,  9 Oct 2023 07:36:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=venturelinkbiz.com;
-	s=mail; t=1696836986;
-	bh=JBV4b8UUo1MSngn/QBoedt1Dv52bT8rWeq4R22MtJMs=;
-	h=Date:From:To:Subject:From;
-	b=drkjLsn0lg9+gBts0e0zZxM/X+T7mmSEjRsai1IdTuAIfUwOsn9kownjH/ifVYETx
-	 /9ojOeBZeq0OVjHbv3Cp08gAqV9rGjxTExJc+8bvJSn/nPwrKTf+xPC8EequMPNIUm
-	 JUSdwffh1/A498REyZSCvFR/u1sd85fONWv3iqTrMG7KStP3/+8bgtlLpys9jCKBq6
-	 U3WUISXWNAdbfX8ZNsLjVpu1+bQz4oYPU31HKIdUE075whtGpL7Vz/qE+r4B30pcZM
-	 mwtd4tDDPyNlkoeuyvDEKxWPFSAgMF32UOcc85qieH3mgMsF2Y1IsmsTcnzPzLcQHK
-	 R3M4EwGZjsi5w==
-Received: by mail.venturelinkbiz.com for <linux-nvme@lists.infradead.org>; Mon,  9 Oct 2023 07:36:06 GMT
-Message-ID: <20231009064500-0.1.2v.7ye7.0.08ple5lrat@venturelinkbiz.com>
-Date: Mon,  9 Oct 2023 07:36:06 GMT
-From: "Michal Rmoutil" <michal.rmoutil@venturelinkbiz.com>
-To: <linux-nvme@lists.infradead.org>
-Subject: =?UTF-8?Q?Efektivn=C3=AD_sledov=C3=A1n=C3=AD_a_optimalizace_v=C3=BDroby_pro_va=C5=A1i_spole=C4=8Dnost?=
-X-Mailer: mail.venturelinkbiz.com
+	id 1qpu6s-00BIay-2B;
+	Mon, 09 Oct 2023 17:32:04 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by ams.source.kernel.org (Postfix) with ESMTP id DAFC7B81644;
+	Mon,  9 Oct 2023 17:32:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E99C5C433C7;
+	Mon,  9 Oct 2023 17:31:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1696872720;
+	bh=XDeMdfLHaRv+b+MlRUUeKv/nia38YeOU/WDZx5uPdgo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=n7htfkkYUR12EIz1FfiE1jX2eFvUEHVFPryxLjmFbPuCO63JBXFgzZFBrFSr8POoM
+	 nOqBt8Ex9K985cGV6+qhK/D41SCIeSdiXbcUvI9IgH95SuKRTpkX2tFZxU1fggV/Co
+	 h4FDmqr5W2gDoU8y1iBRT+VGpOLpUw9MzF+NINbA=
+Date: Mon, 9 Oct 2023 19:31:56 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Max Kellermann <max.kellermann@ionos.com>
+Cc: Jens Axboe <axboe@kernel.dk>, "Rafael J. Wysocki" <rafael@kernel.org>,
+	Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
+	James Morse <james.morse@arm.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Robert Richter <rric@kernel.org>, Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Leon Romanovsky <leon@kernel.org>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Alessandro Zummo <a.zummo@towertech.it>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@linaro.org>,
+	James Clark <james.clark@arm.com>, Leo Yan <leo.yan@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Peter Zijlstra <peterz@infradead.org>, Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Bjorn Helgaas <bhelgaas@google.com>, Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
+	Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Sebastian Reichel <sre@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	"James E.J. Bottomley" <jejb@linux.ibm.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-edac@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	nvdimm@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+	linux-leds@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org,
+	linux-scsi@vger.kernel.org
+Subject: Re: [PATCH 6/7] fs/sysfs/group: make attribute_group pointers const
+Message-ID: <2023100944-fancied-garter-f09b@gregkh>
+References: <20231009165741.746184-1-max.kellermann@ionos.com>
+ <20231009165741.746184-6-max.kellermann@ionos.com>
+ <2023100921-that-jasmine-2240@gregkh>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2023100921-that-jasmine-2240@gregkh>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231009_003636_260418_3E6706F9 
-X-CRM114-Status: UNSURE (   2.04  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20231009_103203_023822_70A4F71B 
+X-CRM114-Status: GOOD (  17.72  )
+X-Mailman-Approved-At: Mon, 09 Oct 2023 10:36:16 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,30 +114,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Dobr=C3=A9 r=C3=A1no,
+On Mon, Oct 09, 2023 at 07:25:57PM +0200, Greg Kroah-Hartman wrote:
+> On Mon, Oct 09, 2023 at 06:57:39PM +0200, Max Kellermann wrote:
+> > This allows passing arrays of const pointers.  The goal is to make
+> > lots of global variables "const" to allow them to live in the
+> > ".rodata" section.
+> 
+> I'm all for doing this type of work, but this is going to be rough.  You
+> sent patch 6/7 that hit almost all subsystems at once :(
 
-m=C3=A1te mo=C5=BEnost sledovat stav ka=C5=BEd=C3=A9ho stroje a v=C3=BDro=
-bn=C3=ADho procesu z kancel=C3=A1=C5=99e, konferen=C4=8Dn=C3=AD m=C3=ADst=
-nosti nebo dokonce z domova =C4=8Di na cest=C3=A1ch =E2=80=93 na va=C5=A1=
-em telefonu?
+The way to do this right is one-subsystem-at-a-time, right?  Why not
+start there, doing it cleanly, and then at the end, change the driver
+core and then just the subsystem pointers?  That should be much simpler,
+easier to review and verify, and many more changes (and probably take a
+kernel release or two to get through.)
 
-Poskytujeme rychle implementovateln=C3=BD a snadno pou=C5=BEiteln=C3=BD n=
-=C3=A1stroj, kter=C3=BD zachyt=C3=AD i n=C4=9Bkolikasekundov=C3=BD mikrop=
-rostoj a okam=C5=BEit=C4=9B p=C5=99epo=C4=8D=C3=ADt=C3=A1 vyu=C5=BEit=C3=AD=
- stroje v kontextu dan=C3=A9 v=C3=BDrobn=C3=AD zak=C3=A1zky.
+thanks,
 
-Kdykoli vid=C3=ADte stav objedn=C3=A1vky a jste informov=C3=A1ni o p=C5=99=
-=C3=ADpadn=C3=A9m sn=C3=AD=C5=BEen=C3=AD efektivity. Syst=C3=A9m s=C3=A1m=
- analyzuje data a p=C5=99ipravuje cenn=C3=A9 reporty, co=C5=BE oper=C3=A1=
-tor=C5=AFm umo=C5=BE=C5=88uje soust=C5=99edit se na v=C3=BDrobn=C3=AD c=C3=
-=ADl.
-
-C=C3=ADl je jednoduch=C3=BD: jeden pohled =E2=80=93 cel=C3=A1 tov=C3=A1rn=
-a. =C4=8Cek=C3=A1m na odpov=C4=9B=C4=8F, jestli vid=C3=ADte mo=C5=BEnost =
-vyu=C5=BEit=C3=AD takov=C3=A9ho n=C3=A1stroje ve va=C5=A1=C3=AD firm=C4=9B=
-=2E
-
-
-Pozdravy
-Michal Rmoutil
+greg k-h
 
