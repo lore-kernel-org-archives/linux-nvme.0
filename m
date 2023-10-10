@@ -4,45 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 132F6CD8CAD
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Oct 2023 17:13:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40580CD8CA9
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Oct 2023 17:13:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
 	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6oBS52kXTW8VyMeuo/eU26iRKvLPjflBsh8RcFclwiA=; b=4MVnIUsu/ylJWNmgT71ZwQnKVY
-	vwIQW4OxMCZghi0QuyEG/vyuUT5Pzy459tlB+k3+cDpmz4yPNCg/Kk97nsB+sC460ieMZf+NybgGI
-	3EmlqJykOZsSbjjVkoqA5+8YY+kp7QoJQre58nMmiXUDI8mV3SveTZqcrm3cVIZYPsPUNkYc8gf0p
-	jDn8ajPK6kTg6auT1SgiQngTwdeesoFotpLBdaiYpTSSHNGqHpJBXzMVpeEAsQV+B7SiQsmKRkJTf
-	88Fc9SayFr7wyBZAmwzsHVKvnsQZa0WO3PZ/JXx3Hfzidyh/JAtprJAZeiuHz8y9z8Pg5kNlYcffI
-	qfY2/7Ew==;
+	bh=PbPxT1sSvRyDQp/e9n/Bbj4wr5MrWyZ0fFUXG4UTN3U=; b=q/JcNRD24sAAUk5IWng6cfqOVH
+	Ok0Bm+pTtk3uAiiy7izn9MCUST2FLQ65XPDRmIkk9HueXbpVy8F/fvPGY/wufu9iv5RCZatHoQq6l
+	dz3aUa8rTtja46Yyn/oNDhV3r29jJAtcfK7MVjRxMGkAbvKA1HYSUWl+HCYnQI5b2zAOc3LGmr62U
+	mRNxbvd/1sjnlTqk0pAgfxmVZIVA6p1xdLBWgdtfx0KieIu15OaNtjXzzgvD/+ReuNr7AjkgZ53bu
+	XlBA5Jo5aFydh9UgoepIz8CO+Vf9o6HtsOEmupWORLTBW8A+XLd8X0L679JpLtI54g0HG10QWLhN0
+	mpj1yhhw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qqGHw-00DpZE-0E;
-	Tue, 10 Oct 2023 17:12:56 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1qqGHu-00DpYt-2e;
+	Tue, 10 Oct 2023 17:12:54 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qq6gr-00CeT0-2w;
-	Tue, 10 Oct 2023 06:58:06 +0000
+	id 1qq5lw-00CVyH-0A;
+	Tue, 10 Oct 2023 05:59:15 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id B5B28CE1C36;
-	Tue, 10 Oct 2023 06:57:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C42CCC433C8;
-	Tue, 10 Oct 2023 06:57:57 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 6BB7D614E4;
+	Tue, 10 Oct 2023 05:59:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCCE0C433C8;
+	Tue, 10 Oct 2023 05:59:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1696921079;
-	bh=EYuUNIt6jJRwYBy0E3p0Vk5Y1cHFfh6ehg6kHTfAyUU=;
+	s=korg; t=1696917551;
+	bh=S2Vq73dxgI8Hax8ZDzPktuJJ9WTcUpUL+/KM/V79r44=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=zzQU1pwcQ/CneY+FW5FxMonJkZiI86OeSlFhEhdRj/hvvySkkTG2K8Sk51p8M1RuX
-	 NA8xXufVqn3K4h0T1GP7rVOn7ryC3K4n6YeVOhjVhWQYEIJa6ayQXO2ZChu8j2BCF+
-	 i7dawBqEH7KL0R9NbBls/UV6Yg3YejnrOELbQ5Mk=
-Date: Tue, 10 Oct 2023 08:57:55 +0200
+	b=Kg+lbBI2WFWTfw1g2nP0OCMspsLaEmhAGl8iOsaj2cy/oJfzG7zS6LdyTH+rgqFJW
+	 sxCvDQ6Jwy3j0Ae58keCkT9pNIKZqzy2q0BM7QcmVrgaG+duK+v7nL5BaVefquSsO4
+	 loMdrlwL5KeekjdN5/LA2S/AHzLoLV9Rn2EfXKfI=
+Date: Tue, 10 Oct 2023 07:59:07 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Joe Perches <joe@perches.com>
-Cc: Max Kellermann <max.kellermann@ionos.com>,
-	Guenter Roeck <linux@roeck-us.net>, Jens Axboe <axboe@kernel.dk>,
+To: Max Kellermann <max.kellermann@ionos.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, Jens Axboe <axboe@kernel.dk>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
 	James Morse <james.morse@arm.com>,
@@ -89,20 +88,19 @@ Cc: Max Kellermann <max.kellermann@ionos.com>,
 	linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org,
 	linux-scsi@vger.kernel.org
 Subject: Re: [PATCH 6/7] fs/sysfs/group: make attribute_group pointers const
-Message-ID: <2023101041-giggle-refried-5b8c@gregkh>
+Message-ID: <2023101025-yogurt-masses-47da@gregkh>
 References: <20231009165741.746184-1-max.kellermann@ionos.com>
  <20231009165741.746184-6-max.kellermann@ionos.com>
  <264fa39d-aed6-4a54-a085-107997078f8d@roeck-us.net>
  <CAKPOu+8k2x1CucWSzoouts0AfMJk+srJXWWf3iWVOeY+fWkOpQ@mail.gmail.com>
- <f511170fe61d7e7214a3a062661cf4103980dad6.camel@perches.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <f511170fe61d7e7214a3a062661cf4103980dad6.camel@perches.com>
+In-Reply-To: <CAKPOu+8k2x1CucWSzoouts0AfMJk+srJXWWf3iWVOeY+fWkOpQ@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231009_235802_304964_E0BC95DE 
-X-CRM114-Status: GOOD (  23.64  )
+X-CRM114-CacheID: sfid-20231009_225912_185481_DD46EFF2 
+X-CRM114-Status: GOOD (  20.16  )
 X-Mailman-Approved-At: Tue, 10 Oct 2023 10:12:54 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -118,32 +116,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Oct 09, 2023 at 11:48:10PM -0700, Joe Perches wrote:
-> On Mon, 2023-10-09 at 22:05 +0200, Max Kellermann wrote:
-> > On Mon, Oct 9, 2023 at 7:24 PM Guenter Roeck <linux@roeck-us.net> wrote:
-> > > Also, I don't know why checkpatch is happy with all the
-> > > 
-> > >         const struct attribute_group *const*groups;
-> > > 
-> > > instead of
-> > > 
-> > >         const struct attribute_group *const *groups;
-> > 
-> > I found out that checkpatch has no check for this at all; it does
-> > complain about such lines, but only for local variables. But that
-> > warning is actually a bug, because this is a check for unary
-> > operators: it thinks the asterisk is a dereference operator, not a
-> > pointer declaration, and complains that the unary operator must be
-> > preceded by a space. Thus warnings on local variable are only correct
-> > by coincidence, not by design.
-> > 
-> > Inside structs or parameters (where my coding style violations can be
-> > found), it's a different context and thus checkpatch doesn't apply the
-> > rules for unary operators.
+On Mon, Oct 09, 2023 at 10:05:55PM +0200, Max Kellermann wrote:
+> On Mon, Oct 9, 2023 at 7:24 PM Guenter Roeck <linux@roeck-us.net> wrote:
+> > Also, I don't know why checkpatch is happy with all the
+> >
+> >         const struct attribute_group *const*groups;
+> >
+> > instead of
+> >
+> >         const struct attribute_group *const *groups;
 > 
-> My opinion is that const use in the kernel should almost
-> always have whitespace before and after it except when
-> preceded by a open parenthesis or a newline.
+> I found out that checkpatch has no check for this at all; it does
+> complain about such lines, but only for local variables. But that
+> warning is actually a bug, because this is a check for unary
+> operators: it thinks the asterisk is a dereference operator, not a
+> pointer declaration, and complains that the unary operator must be
+> preceded by a space. Thus warnings on local variable are only correct
+> by coincidence, not by design.
+> 
+> Inside structs or parameters (where my coding style violations can be
+> found), it's a different context and thus checkpatch doesn't apply the
+> rules for unary operators.
 
-I totally agree.
+Ok, checkpatch support isn't always required, we can notice that changes
+like this obviously are not sane and shouldn't be allowed just by
+reading them :)
+
+thanks,
+
+greg k-h
 
