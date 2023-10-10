@@ -4,66 +4,106 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A53A6CD8CA5
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Oct 2023 15:31:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 132F6CD8CAD
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Oct 2023 17:13:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=09GpVoCevDd/xVWyhyTzBkuEBctNnVAPCJqz/mOEa6Q=; b=lcgMOiEv3PVDhosF3I4irmJ6G5
-	qnpksvNW7XE4B9EJHDkxyoJNzv0m+99E2n360NJQw6VOQIAdxtMyMtz+J3QE7cRmBXmsVWZZFEA1b
-	3sjeJx5nkIy/B9RwVThYg4v/kQ3rukgg9ylpG2YNfLwMZk/K45NmOrirfMNLfTPVaa9+j3cTBNGYi
-	EAMnePVOOnetubVn+fwnldb2V50KIrzv25fBUJEJuR+7jITe+QjVv5tOc5s7zKUcaz2AWl93teX6Z
-	kpi8huh7VeP0TWDZGU6kz89AKFHSJ13OKlKpa0CLZGYMbePZo+FW1giDaD7dda5Tzi8NzZlMU0Wi7
-	NEzhs6Lg==;
+	bh=6oBS52kXTW8VyMeuo/eU26iRKvLPjflBsh8RcFclwiA=; b=4MVnIUsu/ylJWNmgT71ZwQnKVY
+	vwIQW4OxMCZghi0QuyEG/vyuUT5Pzy459tlB+k3+cDpmz4yPNCg/Kk97nsB+sC460ieMZf+NybgGI
+	3EmlqJykOZsSbjjVkoqA5+8YY+kp7QoJQre58nMmiXUDI8mV3SveTZqcrm3cVIZYPsPUNkYc8gf0p
+	jDn8ajPK6kTg6auT1SgiQngTwdeesoFotpLBdaiYpTSSHNGqHpJBXzMVpeEAsQV+B7SiQsmKRkJTf
+	88Fc9SayFr7wyBZAmwzsHVKvnsQZa0WO3PZ/JXx3Hfzidyh/JAtprJAZeiuHz8y9z8Pg5kNlYcffI
+	qfY2/7Ew==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qqEhq-00DgpB-29;
-	Tue, 10 Oct 2023 15:31:34 +0000
-Received: from usmailhost21.kioxia.com ([12.0.68.226] helo=SJSMAIL01.us.kioxia.com)
+	id 1qqGHw-00DpZE-0E;
+	Tue, 10 Oct 2023 17:12:56 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qqEhl-00Dgo8-2Q
-	for linux-nvme@lists.infradead.org;
-	Tue, 10 Oct 2023 15:31:32 +0000
-Received: from SJSMAIL01.us.kioxia.com (10.90.133.90) by
- SJSMAIL01.us.kioxia.com (10.90.133.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Tue, 10 Oct 2023 08:31:23 -0700
-Received: from SJSMAIL01.us.kioxia.com ([fe80::500:e96f:c1b5:4bf7]) by
- SJSMAIL01.us.kioxia.com ([fe80::500:e96f:c1b5:4bf7%5]) with mapi id
- 15.01.2507.032; Tue, 10 Oct 2023 08:31:23 -0700
-From: Clay Mayers <Clay.Mayers@kioxia.com>
-To: Kanchan Joshi <joshiiitr@gmail.com>, Christoph Hellwig <hch@lst.de>
-CC: Kanchan Joshi <joshi.k@samsung.com>, "kbusch@kernel.org"
-	<kbusch@kernel.org>, "axboe@kernel.dk" <axboe@kernel.dk>, "sagi@grimberg.me"
-	<sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "vincentfu@gmail.com"
-	<vincentfu@gmail.com>, "ankit.kumar@samsung.com" <ankit.kumar@samsung.com>,
-	"cpgs@samsung.com" <cpgs@samsung.com>, "stable@vger.kernel.org"
-	<stable@vger.kernel.org>, Vincent Fu <vincent.fu@samsung.com>
-Subject: RE: [PATCH v3] nvme: fix memory corruption for passthrough metadata
-Thread-Topic: [PATCH v3] nvme: fix memory corruption for passthrough metadata
-Thread-Index: AQHZ+mUoyARmXOgbpk2IO8jh/ea3FbBDHFYAgABiuAD//5dbYA==
-Date: Tue, 10 Oct 2023 15:31:23 +0000
-Message-ID: <8a0e5f41559646d9b505b11386142b55@kioxia.com>
-References: <CGME20231006135322epcas5p1c9acf38b04f35017181c715c706281dc@epcas5p1.samsung.com>
- <1891546521.01696823881551.JavaMail.epsvc@epcpadp4>
- <20231010074634.GA6514@lst.de>
- <CA+1E3r+2Ce4BCZ2feJX37e1-dtvpZtY6ajiaO_orn8Airu2Bqg@mail.gmail.com>
-In-Reply-To: <CA+1E3r+2Ce4BCZ2feJX37e1-dtvpZtY6ajiaO_orn8Airu2Bqg@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.93.77.43]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	id 1qq6gr-00CeT0-2w;
+	Tue, 10 Oct 2023 06:58:06 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id B5B28CE1C36;
+	Tue, 10 Oct 2023 06:57:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C42CCC433C8;
+	Tue, 10 Oct 2023 06:57:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1696921079;
+	bh=EYuUNIt6jJRwYBy0E3p0Vk5Y1cHFfh6ehg6kHTfAyUU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=zzQU1pwcQ/CneY+FW5FxMonJkZiI86OeSlFhEhdRj/hvvySkkTG2K8Sk51p8M1RuX
+	 NA8xXufVqn3K4h0T1GP7rVOn7ryC3K4n6YeVOhjVhWQYEIJa6ayQXO2ZChu8j2BCF+
+	 i7dawBqEH7KL0R9NbBls/UV6Yg3YejnrOELbQ5Mk=
+Date: Tue, 10 Oct 2023 08:57:55 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Joe Perches <joe@perches.com>
+Cc: Max Kellermann <max.kellermann@ionos.com>,
+	Guenter Roeck <linux@roeck-us.net>, Jens Axboe <axboe@kernel.dk>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
+	James Morse <james.morse@arm.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Robert Richter <rric@kernel.org>, Jean Delvare <jdelvare@suse.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Alessandro Zummo <a.zummo@towertech.it>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@linaro.org>,
+	James Clark <james.clark@arm.com>, Leo Yan <leo.yan@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Peter Zijlstra <peterz@infradead.org>, Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Bjorn Helgaas <bhelgaas@google.com>, Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
+	Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Sebastian Reichel <sre@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	"James E.J. Bottomley" <jejb@linux.ibm.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-edac@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	nvdimm@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+	linux-leds@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org,
+	linux-scsi@vger.kernel.org
+Subject: Re: [PATCH 6/7] fs/sysfs/group: make attribute_group pointers const
+Message-ID: <2023101041-giggle-refried-5b8c@gregkh>
+References: <20231009165741.746184-1-max.kellermann@ionos.com>
+ <20231009165741.746184-6-max.kellermann@ionos.com>
+ <264fa39d-aed6-4a54-a085-107997078f8d@roeck-us.net>
+ <CAKPOu+8k2x1CucWSzoouts0AfMJk+srJXWWf3iWVOeY+fWkOpQ@mail.gmail.com>
+ <f511170fe61d7e7214a3a062661cf4103980dad6.camel@perches.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f511170fe61d7e7214a3a062661cf4103980dad6.camel@perches.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231010_083129_793380_2D047B90 
-X-CRM114-Status: GOOD (  39.95  )
+X-CRM114-CacheID: sfid-20231009_235802_304964_E0BC95DE 
+X-CRM114-Status: GOOD (  23.64  )
+X-Mailman-Approved-At: Tue, 10 Oct 2023 10:12:54 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,71 +118,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gVHVlc2RheSwgT2N0b2JlciAxMCwgMjAyMyA2OjQwIEFNIEthbmNoYW4gSm9zaGkgPGpvc2hp
-LmtAc2Ftc3VuZy5jb20+IHdyb3RlOg0KPiANCj4gT24gVHVlLCBPY3QgMTAsIDIwMjMgYXQgMTox
-NuKAr1BNIENocmlzdG9waCBIZWxsd2lnIDxoY2hAbHN0LmRlPiB3cm90ZToNCj4gPg0KPiA+IE9u
-IEZyaSwgT2N0IDA2LCAyMDIzIGF0IDA3OjE3OjA2UE0gKzA1MzAsIEthbmNoYW4gSm9zaGkgd3Jv
-dGU6DQo+ID4gPiBTYW1lIGlzc3VlIGlzIHBvc3NpYmxlIGZvciBleHRlbmRlZC1sYmEgY2FzZSBh
-bHNvLiBXaGVuIHVzZXIgc3BlY2lmaWVzIGENCj4gPiA+IHNob3J0IHVuYWxpZ25lZCBidWZmZXIs
-IHRoZSBrZXJuZWwgbWFrZXMgYSBjb3B5IGFuZCB1c2VzIHRoYXQgZm9yIERNQS4NCj4gPg0KPiA+
-IEkgZmFpbCB0byB1bmRlcnN0YW5kIHRoZSBleHRlbnQgTEJBIGNhc2UsIGFuZCBhbHNvIGZyb20g
-bG9va2luZyBhdCB0aGUNCj4gPiBjb2RlIG1peGluZyBpdCB1cCB3aXRoIHZhbGlkYXRpb24gb2Yg
-dGhlIG1ldGFkYXRhX2xlbiBzZWVtcyB2ZXJ5DQo+ID4gY29uZnVzaW9uLiAgQ2FuIHlvdSB0cnkg
-dG8gY2xlYXJseSBleHBsYWluIGl0IGFuZCBtYXliZSBzcGxpdCBpdCBpbnRvIGENCj4gPiBzZXBh
-cmF0ZSBwYXRjaD8NCj4gDQo+IFRoZSBjYXNlIGlzIGZvciB0aGUgc2luZ2xlIGludGVybGVhdmVk
-IGJ1ZmZlciB3aXRoIGJvdGggZGF0YSBhbmQNCj4gbWV0YWRhdGEuIFdoZW4gdGhlIGRyaXZlciBz
-ZW5kcyB0aGlzIGJ1ZmZlciB0byBibGtfcnFfbWFwX3VzZXJfaW92KCksDQo+IGl0IG1heSBtYWtl
-IGEgY29weSBvZiBpdC4NCj4gVGhpcyBrZXJuZWwgYnVmZmVyIHdpbGwgYmUgdXNlZCBmb3IgRE1B
-IHJhdGhlciB0aGFuIHVzZXIgYnVmZmVyLiBJZg0KPiB0aGUgdXNlci1idWZmZXIgaXMgc2hvcnQs
-IHRoZSBrZXJuZWwgYnVmZmVyIGlzIGFsc28gc2hvcnQuDQo+IA0KPiBEb2VzIHRoaXMgZXhwbGFu
-YXRpb24gaGVscD8NCj4gSSBjYW4gbW92ZSB0aGUgcGFydCB0byBhIHNlcGFyYXRlIHBhdGNoLg0K
-PiANCj4gPiA+IEZpeGVzOiA0NTZjYmEzODZlOTQgKCJudm1lOiB3aXJlLXVwIHVyaW5nLWNtZCBz
-dXBwb3J0IGZvciBpby1wYXNzdGhydSBvbg0KPiBjaGFyLWRldmljZSIpDQo+ID4NCj4gPiBJcyB0
-aGlzIHJlYWxseSBpb191cmluZyBzcGVjaWZpYz8gIEkgdGhpbmsgd2UgYWxzbyBoYWQgdGhlIHNh
-bWUgaXNzdWUNCj4gPiBiZWZvcmUgYW5kIHRoaXMgc2hvdWxkIGdvIGJhY2sgdG8gYWRkaW5nIG1l
-dGFkYXRhIHN1cHBvcnQgdG8gdGhlDQo+ID4gZ2VuZXJhbCBwYXNzdGhyb3VnaCBpb2N0bD8NCj4g
-DQo+IFllcywgbm90IGlvX3VyaW5nIHNwZWNpZmljLg0KPiBKdXN0IHRoYXQgSSB3YXMgbm90IHN1
-cmUgb24gKGkpIHdoZXRoZXIgdG8gZ28gYmFjayB0aGF0IGZhciBpbg0KPiBoaXN0b3J5LCBhbmQg
-KGlpKSB3aGF0IHBhdGNoIHRvIHRhZy4NCj4gDQo+ID4gPiArc3RhdGljIGlubGluZSBib29sIG52
-bWVfbmxiX2luX2NkdzEyKHU4IG9wY29kZSkNCj4gPiA+ICt7DQo+ID4gPiArICAgICBzd2l0Y2gg
-KG9wY29kZSkgew0KPiA+ID4gKyAgICAgY2FzZSBudm1lX2NtZF9yZWFkOg0KPiA+ID4gKyAgICAg
-Y2FzZSBudm1lX2NtZF93cml0ZToNCj4gPiA+ICsgICAgIGNhc2UgbnZtZV9jbWRfY29tcGFyZToN
-Cj4gPiA+ICsgICAgIGNhc2UgbnZtZV9jbWRfem9uZV9hcHBlbmQ6DQo+ID4gPiArICAgICAgICAg
-ICAgIHJldHVybiB0cnVlOw0KPiA+ID4gKyAgICAgfQ0KPiA+ID4gKyAgICAgcmV0dXJuIGZhbHNl
-Ow0KPiA+ID4gK30NCj4gPg0KPiA+IE5pdHBpY2s6IEkgZmluZCBpdCBuaWNlciB0byByZWFkIHRv
-IGhhdmUgYSBzd2l0Y2ggdGhhdCBjYXRjaGVzDQo+ID4gZXZlcnl0aGluZyB3aXRoIGEgZGVmYXVs
-dCBzdGF0ZW1lbnQgaW5zdGVhZCBvZiBmYWxsaW5nIG91dCBvZiBpdA0KPiA+IGZvciBjaGVja3Mg
-bGlrZSB0aGlzLiAgSXQncyBub3QgbWFraW5nIGFueSBkaWZmZXJlbnQgaW4gcHJhY3RpY2UNCj4g
-PiBidXQganVzdCByZWFkcyBhIGxpdHRsZSBuaWNlci4NCj4gDQo+IFN1cmUsIEkgY2FuIGNoYW5n
-ZSBpdC4NCj4gDQoNCldoYXQgaWYgdGhlIG5zIHVzZWQgdGhlIEtWIENTPyAgU3RvcmUgYW5kIHJl
-dHJpZXZlIGFyZSB0aGUgc2FtZQ0Kb3AgY29kZXMgYXMgbnZtZV9jbWRfd3JpdGUgYW5kIG52bWVf
-Y21kX3JlYWQuDQoNCj4gPiA+ICsgICAgIC8qIEV4Y2x1ZGUgY29tbWFuZHMgdGhhdCBkbyBub3Qg
-aGF2ZSBubGIgaW4gY2R3MTIgKi8NCj4gPiA+ICsgICAgIGlmICghbnZtZV9ubGJfaW5fY2R3MTIo
-Yy0+Y29tbW9uLm9wY29kZSkpDQo+ID4gPiArICAgICAgICAgICAgIHJldHVybiB0cnVlOw0KPiA+
-DQo+ID4gU28gd2UgY2FuIHN0aWxsIGdldCBleGFjdGx5IHRoZSBzYW1lIGNvcnJ1cHRpb24gZm9y
-IGFsbCBjb21tYW5kcyB0aGF0DQo+ID4gYXJlIG5vdCBrbm93bj8gIFRoYXQncyBub3QgYSB2ZXJ5
-IHNhZmUgd2F5IHRvIGRlYWwgd2l0aCB0aGUgaXNzdWUuLg0KPiANCj4gR2l2ZW4gdGhlIHdheSB0
-aGluZ3MgYXJlIGluIE5WTWUsIEkgZG8gbm90IGZpbmQgYSBiZXR0ZXIgd2F5Lg0KPiBNYXliZSBh
-bm90aGVyIGRheSBmb3IgY29tbWFuZHMgdGhhdCBkbyAob3IgY2FuIGRvKSB0aGluZ3MgdmVyeQ0K
-PiBkaWZmZXJlbnRseSBmb3IgbmxiIGFuZCBQSSByZXByZXNlbnRhdGlvbi4NCj4NCj4gPiA+ICsg
-ICAgIGNvbnRyb2wgPSB1cHBlcl8xNl9iaXRzKGxlMzJfdG9fY3B1KGMtPmNvbW1vbi5jZHcxMikp
-Ow0KPiA+ID4gKyAgICAgLyogRXhjbHVkZSB3aGVuIG1ldGEgdHJhbnNmZXIgZnJvbS90byBob3N0
-IGlzIG5vdCBkb25lICovDQo+ID4gPiArICAgICBpZiAoY29udHJvbCAmIE5WTUVfUldfUFJJTkZP
-X1BSQUNUICYmIG5zLT5tcyA9PSBucy0+cGlfc2l6ZSkNCj4gPiA+ICsgICAgICAgICAgICAgcmV0
-dXJuIHRydWU7DQo+ID4gPiArDQo+ID4gPiArICAgICBubGIgPSBsb3dlcl8xNl9iaXRzKGxlMzJf
-dG9fY3B1KGMtPmNvbW1vbi5jZHcxMikpOw0KPiA+DQo+ID4gSSdkIHVzZSB0aGUgcncgZmllbGQg
-b2YgdGhlIHVuaW9uIGFuZCB0aGUgdHlwZWQgY29udHJvbCBhbmQgbGVuZ3RoDQo+ID4gZmllbGRz
-IHRvIGNsZWFuIHRoaXMgdXAgYSBiaXQuDQo+ID4NCj4gPiA+ICAgICAgIGlmIChiZGV2ICYmIG1l
-dGFfYnVmZmVyICYmIG1ldGFfbGVuKSB7DQo+ID4gPiArICAgICAgICAgICAgIGlmICghbnZtZV92
-YWxpZGF0ZV9wYXNzdGhydV9tZXRhKG5zLCBudm1lX3JlcShyZXEpLT5jbWQsDQo+ID4gPiArICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG1ldGFfbGVuLCBidWZmbGVuKSkgew0K
-PiA+ID4gKyAgICAgICAgICAgICAgICAgICAgIHJldCA9IC1FSU5WQUw7DQo+ID4gPiArICAgICAg
-ICAgICAgICAgICAgICAgZ290byBvdXRfdW5tYXA7DQo+ID4gPiArICAgICAgICAgICAgIH0NCj4g
-PiA+ICsNCj4gPiA+ICAgICAgICAgICAgICAgbWV0YSA9IG52bWVfYWRkX3VzZXJfbWV0YWRhdGEo
-cmVxLCBtZXRhX2J1ZmZlciwgbWV0YV9sZW4sDQo+ID4NCj4gPiBJJ2QgbW92ZSB0aGUgY2hlY2sg
-aW50byBudm1lX2FkZF91c2VyX21ldGFkYXRhIHRvIGtlZXAgaXQgb3V0IG9mIHRoZQ0KPiA+IGhv
-dCBwYXRoLg0KPiA+DQo+ID4gRllJOiBoZXJlIGlzIHdoYXQgSSdkIGRvIGZvciB0aGUgZXh0ZXJu
-YWwgbWV0YWRhdGEgb25seSBjYXNlOg0KPiANCj4gU2luY2UgeW91IGhhdmUgaW1wcm92aXNlZCBj
-b21tZW50cyB0b28sIEkgbWF5IGp1c3QgdXNlIHRoaXMgZm9yIHRoZQ0KPiBuZXh0IGl0ZXJhdGlv
-bi4NCg==
+On Mon, Oct 09, 2023 at 11:48:10PM -0700, Joe Perches wrote:
+> On Mon, 2023-10-09 at 22:05 +0200, Max Kellermann wrote:
+> > On Mon, Oct 9, 2023 at 7:24 PM Guenter Roeck <linux@roeck-us.net> wrote:
+> > > Also, I don't know why checkpatch is happy with all the
+> > > 
+> > >         const struct attribute_group *const*groups;
+> > > 
+> > > instead of
+> > > 
+> > >         const struct attribute_group *const *groups;
+> > 
+> > I found out that checkpatch has no check for this at all; it does
+> > complain about such lines, but only for local variables. But that
+> > warning is actually a bug, because this is a check for unary
+> > operators: it thinks the asterisk is a dereference operator, not a
+> > pointer declaration, and complains that the unary operator must be
+> > preceded by a space. Thus warnings on local variable are only correct
+> > by coincidence, not by design.
+> > 
+> > Inside structs or parameters (where my coding style violations can be
+> > found), it's a different context and thus checkpatch doesn't apply the
+> > rules for unary operators.
+> 
+> My opinion is that const use in the kernel should almost
+> always have whitespace before and after it except when
+> preceded by a open parenthesis or a newline.
+
+I totally agree.
 
