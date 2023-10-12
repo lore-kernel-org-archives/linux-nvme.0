@@ -4,59 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78B5ACDB46E
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Oct 2023 15:09:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E98DDCDB46E
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Oct 2023 15:09:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wNJVV5+/IPl9X6qWoMFoH/v9vdJQWuTP8SOsjEWwiy8=; b=pTkA0n+pyb/I74OKpCJ6mA2Y3O
-	x9bXnv13nWxI5G1g+DDPOs9Y7j5z4WE5wU5IQo3nYH2xCbA8LjePXtRN5Pu1jWEGT1iSzj0K43HL+
-	YBvfIPsCWkfqJGfZYRMto86VMU3lMl1ko9GmsxTXsFirJB9HoyA1i5JeHZkzVFkwPHBSIi06ZWD/v
-	2XxVnYWRpEeNwxqTWbRLzL6r1BAlm8aObdXREs57q/7X53c0fFdzebsniht5RFwQFp2zMsaTh1o0P
-	8JuN+TDbTprdkySB/Jb8Dd/0K4mgKiIWLA0S3mWNYBIUSwb/WRIC9APTgs50lFJDyq1s1mSh0iAl3
-	I5INVbIg==;
+	bh=1yLyFPGUVtgh+v8Zo9UVXQeElyTLx5pPyC4oQYNiC8Q=; b=Hkcs7+H5OoEYDif/q1Alaq0RDy
+	s7k+dafBjP+Xjj4bfxZw4oovXjI0cF3+5oyTrkdfhUMiQgZ8a51mBOQYVrZryto36KRrEgQhxhYsx
+	Tly6MN/gz9hYXBQu6wPwSXKEGDUVyLQ4jXCnfKBoMuk/YeJ4PlUd81oBHuCO+x2ncpAEtvkK3Dsxj
+	6aCw2PXfQmy9MkZMsOukEmVGlmdMu9MKBBGTj1YaH+o+JjlOxHsZGG5zZobRKV9FXuJjLlKtAjLwf
+	9cf6sZ/jB8+xJaA56mZE5f1iJOu/b+9S4mUUjFeGQ+g5enDTa/gdZKbQxy60kgf05JPudgmuTImRE
+	Wm6/HYng==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qqxJa-001FmF-0S;
-	Thu, 12 Oct 2023 15:09:30 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1qqxJr-001Fop-18;
+	Thu, 12 Oct 2023 15:09:47 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qqxJU-001Fl1-1K
+	id 1qqxJn-001Fnp-1H
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Oct 2023 15:09:28 +0000
+	Thu, 12 Oct 2023 15:09:44 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 9205ACE2912;
-	Thu, 12 Oct 2023 15:09:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F54BC433C8;
-	Thu, 12 Oct 2023 15:09:21 +0000 (UTC)
+	by ams.source.kernel.org (Postfix) with ESMTP id 712ADB8243E;
+	Thu, 12 Oct 2023 15:09:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C39EC433C9;
+	Thu, 12 Oct 2023 15:09:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697123362;
-	bh=Wr0ndcQUHYxoAwTptPi86bdrPTdYxMQUIlAkGaiGK44=;
+	s=k20201202; t=1697123380;
+	bh=Rs8LElwAuvrTfQCZitXNskOQ0hGGNl1dod8VKC/cgJM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KKu5zmrb5pjO0cc9uTPWdr8dJACwyM6HEREntnyBM0+Gyyg1P8vtjV8acdN/bZOcx
-	 HDWAHOnc3628ELs1ULtR+P803cQFFSfe2jPGtx3AMwxV3jRgJu0P4xp3izGTwY7nrT
-	 cb3Ji/MsxbJckueZXLMeMlUMgolwQ3Lq2YUl7SyfvyaQtGmSV4gj573melqOIVE+wK
-	 zEpFGaiN702/DJPRJm7irdCHgzbievpbWy1o+ZGnPPTEIXXWo59F/IRhCCe2XyQRK7
-	 iYGbLAFRNLdp9ahASUYHnWN84GLemOJjVkFYQuBATu6n5tniDDd35b83lYT6C6nUsr
-	 IBa22guGMKF8A==
-Date: Thu, 12 Oct 2023 09:09:19 -0600
+	b=s8brhgkFFRNJjWzbekYGgwnXleWEq/2xzPqxndmEQHe77ivWKunuSqcUFU4Nthmmx
+	 MKhC/fXbeSyS2woPxHxBxFDkM53Bac8w3pwkDvSqXMUujWUfZxjA0uZ8mg4R2ehMgw
+	 ObmfFwyNvR1ozxW75FK6R6qgiyeZUpjFi4YAUIkco7FWVK+J6ZjTEn1GnEXYMDMCv2
+	 hRnhJ+rJEoKm6ROyV68xg8vrPLRRcKUfAp566USj2TVnS2J0QLD5qKM8KYPyRaZqk6
+	 eK+VtonHuXKsJECFiFXLNiFgEfe7k8oJ+i5WFqKbg0NMcK+acCDSr6uxg1JTylbye2
+	 zCt3MY319tydQ==
+Date: Thu, 12 Oct 2023 09:09:38 -0600
 From: Keith Busch <kbusch@kernel.org>
 To: Hannes Reinecke <hare@suse.de>
 Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvmet-tcp: use 'spin_lock_bh' for state_lock()
-Message-ID: <ZSgMH3uNeccez5Gf@kbusch-mbp.dhcp.thefacebook.com>
-References: <20231012125954.58709-1-hare@suse.de>
+	linux-nvme@lists.infradead.org, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] nvme: rework NVME_AUTH Kconfig selection
+Message-ID: <ZSgMMstTesnlVvT7@kbusch-mbp.dhcp.thefacebook.com>
+References: <20231012122248.44813-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231012125954.58709-1-hare@suse.de>
+In-Reply-To: <20231012122248.44813-1-hare@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231012_080924_662171_D067D721 
-X-CRM114-Status: GOOD (  11.04  )
+X-CRM114-CacheID: sfid-20231012_080943_691001_64ECAAFC 
+X-CRM114-Status: UNSURE (   9.22  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,17 +72,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Oct 12, 2023 at 02:59:54PM +0200, Hannes Reinecke wrote:
-> nvmet_tcp_schedule_release_queue() is called from socket state
-> change callbacks, which may be called from an softirq context.
-> So use 'spin_lock_bh' to avoid a spin lock warning.
+On Thu, Oct 12, 2023 at 02:22:48PM +0200, Hannes Reinecke wrote:
+> Having a single Kconfig symbol NVME_AUTH conflates the selection
+> of the authentication functions from nvme/common and nvme/host,
+> causing kbuild robot to complain when building the nvme target
+> only. So introduce a Kconfig symbol NVME_HOST_AUTH for the nvme
+> host bits and use NVME_AUTH for the common functions only.
+> And move the CRYPTO selection into nvme/common to make it
+> easier to read.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202310120733.TlPOVeJm-lkp@intel.com/
+> Signed-off-by: Hannes Reinecke <hare@suse.de>
 
-Doh, I missed you already sent this fix:
-
-  http://lists.infradead.org/pipermail/linux-nvme/2023-August/041593.html
-
-I can apply it on nvme-6.7, though this feels like a fix that can go in
-now. Depending on which way we go, it will cause a merge conflict for
-either stable or the next merge window. Do you have a preference? I'd
-just do 6.7 if you don't care.
+Applie on nvme-6.7, thanks!
 
