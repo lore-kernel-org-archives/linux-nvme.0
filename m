@@ -4,99 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2D082CDB483
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Oct 2023 16:33:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CE55DCDB47E
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Oct 2023 16:44:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=xjo9Xl3dXS4rFlLLnUY7vOZqEKJrLj4p7tYgG9NZ6xs=; b=fljFgf5DbbvVygCPDD+7yyrjRC
-	rQWse2AybnjMcnFAq8Bi/v5lUz1ACVHsCOKLt171F9aPuodUIB3Nr02psBvb4Rh8fKH617H4DErAh
-	aYp1mSBjjUBZxoO4AiA+z+x3VFctGR4xzF5mzlenKN7Wy1r5iy19PGQhO5XiMNh6VuVt0axII0UiE
-	fGVL94/lMYQngnQ2PEFEqwVABcESXSaXC42pEISs7w/i5zvS/ASD8ew9Csj4T6Y0yQ3ur7/bjOUce
-	OFhLPLX5AzfS8Hk+faHBDzOuTQ9QCBrLuCenjY3hsYAjir0V/ceweKQShfkM7BwOqZv+PjXZudTUa
-	Q7gCcV0g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=e1GnV6uCDMzgzvtZ3/KmT9QmzkIW0FvWBx8gE+q2uNg=; b=PmzCCiFykRHNSGUmqR3gMSmwFg
+	x3lPQgYq/gN5guKNzN4xvfqCLZ4Ria+xmVEWup2+sb8vRv0UT77iDNs/peVE4YdQc2uxFz1VX0vgn
+	8ChItj2RVoWQXWWLTtWifc47k+oJ6xSyT9bC6XhB0Lm+VfLecbY3BByjk9KmZQp7+WRfB35eNkFo/
+	BjZaXN2p3S77i3B/FHRscyDHuM3dkmeT8lqC/hT5fazI3HF5wIPmtOViceJFAxeWsAGUM1hkWaPpH
+	53SZzd8hkpwB9qAgZnMBu1nwcNhNSEcvi/Guho8QP3hu1bz7lzoFA+bf5lgdGlL7Q952/3EUFMK7n
+	ekc50Ifw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qrL6A-003sVB-0K;
-	Fri, 13 Oct 2023 16:33:14 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1qrLGY-003u4r-21;
+	Fri, 13 Oct 2023 16:43:58 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qrL66-003sU7-1W
+	id 1qrLGT-003u4G-2A
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Oct 2023 16:33:12 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 01D0F21A1E;
-	Fri, 13 Oct 2023 16:33:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1697214789; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=xjo9Xl3dXS4rFlLLnUY7vOZqEKJrLj4p7tYgG9NZ6xs=;
-	b=c54Z3lYA/WQevQjKlzJYBqGQ+CWNEFTivoPhZOC+JOfO4RVGKUy7FriAzbXBTz0Xd2vAZA
-	TPBb6dVBSmRTChW3H6pUmJpUSUYTa7Wu8sh+qg2JfMaWMagKF4kp+hih32wzKQlBiOtoFa
-	7Ns01pr7LMKxXQs7NvyYUBOuSQcCqyg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1697214789;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=xjo9Xl3dXS4rFlLLnUY7vOZqEKJrLj4p7tYgG9NZ6xs=;
-	b=ueCXVZSaVgSQ2tMcdMu/yMoWL7Y1ZxV0amB9SSNDvB7ZjY0qwUi4qvC15PnZ8Yed1Qq6Fu
-	uYwl7yfC2q+2S+DA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D98D01358F;
-	Fri, 13 Oct 2023 16:33:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id LvkPNURxKWU/bQAAMHmgww
-	(envelope-from <dwagner@suse.de>); Fri, 13 Oct 2023 16:33:08 +0000
-From: Daniel Wagner <dwagner@suse.de>
-To: linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org,
-	Keith Busch <kbusch@kernel.org>,
+	Fri, 13 Oct 2023 16:43:57 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id CEFD5CE3119;
+	Fri, 13 Oct 2023 16:43:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EF32C433C8;
+	Fri, 13 Oct 2023 16:43:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697215431;
+	bh=fNhicONj1ekrnfRc2uQFmE8uC7unApfdctES3UAtqYs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WbTDyQbr7+0/56UsczyfBJ8nS3mFVQfES2Fe83+LMZe5j1B5lOx2W038HcUClejtm
+	 OgErDdh+Zh+hBfoRY9TWRdiVjemnIixGyvLKiL1MiEO6+Ry9NA7GeGe0iMpx4OwOPy
+	 G1camTGX7s3RX/+fQ/0S6dT36Bi0BWm2ljexKCnkVZskzMx6OumyGtHVl0dD2Kd3MX
+	 eswvh/CcBP6KhRFj2ee72GMUZNL+W9SAZ27nPgM/23pnZR1jKXTVar2itkaoYlflhv
+	 MehZM8WTZPCeJNiRZvUFGVIKmrpmt6FsA6+Cb1dvvLgcSW3Gz5e8duc1s6/vtu7zX4
+	 evd7rsRxp77DQ==
+Date: Fri, 13 Oct 2023 10:43:48 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Daniel Wagner <dwagner@suse.de>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
 	Christoph Hellwig <hch@lst.de>,
 	Niklas Cassel <Niklas.Cassel@wdc.com>,
-	Daniel Wagner <dwagner@suse.de>,
 	Kenji Tomonaga <tkenbo@gmail.com>
-Subject: [PATCH v2] nvme: update firmware version after commit
-Date: Fri, 13 Oct 2023 18:34:20 +0200
-Message-ID: <20231013163420.3097-1-dwagner@suse.de>
-X-Mailer: git-send-email 2.42.0
+Subject: Re: [PATCH v2] nvme: update firmware version after commit
+Message-ID: <ZSlzxGx8k9pgkhDk@kbusch-mbp>
+References: <20231013163420.3097-1-dwagner@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [0.85 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 R_MISSING_CHARSET(2.50)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 NEURAL_HAM_LONG(-3.00)[-1.000];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-1.00)[-1.000];
-	 RCPT_COUNT_SEVEN(0.00)[7];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_COUNT_TWO(0.00)[2];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.05)[60.48%];
-	 FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,lst.de,wdc.com,suse.de,gmail.com]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231013163420.3097-1-dwagner@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231013_093310_655686_F0879009 
-X-CRM114-Status: GOOD (  11.25  )
+X-CRM114-CacheID: sfid-20231013_094353_883777_669BBE9D 
+X-CRM114-Status: UNSURE (   9.45  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,58 +74,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The firmware version sysfs entry needs to be updated after a successfully
-firmware activation.
+On Fri, Oct 13, 2023 at 06:34:20PM +0200, Daniel Wagner wrote:
+>  	if (nvme_get_log(ctrl, NVME_NSID_ALL, NVME_LOG_FW_SLOT, 0, NVME_CSI_NVM,
+> -			log, sizeof(*log), 0))
+> +			 log, sizeof(*log), 0)) {
+>  		dev_warn(ctrl->device, "Get FW SLOT INFO log error\n");
+> +		goto out_free_log;
+> +	}
+> +
+> +	afi = le64_to_cpu(log->afi);
+> +	if (afi & 0x30) {
 
-nvme-cli stopped issuing an Identify Controller command to list the
-current firmware information and relies on sysfs showing the current
-firmware version.
+That should be 'afi & 0x70'.
 
-Reported-by: Kenji Tomonaga <tkenbo@gmail.com>
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
----
+> +		dev_info(ctrl->device,
+> +			 "Firmware is activated after next Controller Level Reset\n");
+> +		goto out_free_log;
+> +	}
+> +
+> +	memcpy(ctrl->subsys->firmware_rev, &log->frs[afi & 0x3],
 
-Only compile tested. So you might want to wait until I am back from my vacation.
-
- drivers/nvme/host/core.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 21783aa2ee8e..686478555585 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4067,14 +4067,29 @@ static bool nvme_ctrl_pp_status(struct nvme_ctrl *ctrl)
- static void nvme_get_fw_slot_info(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_fw_slot_info_log *log;
-+	u64 afi;
- 
- 	log = kmalloc(sizeof(*log), GFP_KERNEL);
- 	if (!log)
- 		return;
- 
- 	if (nvme_get_log(ctrl, NVME_NSID_ALL, NVME_LOG_FW_SLOT, 0, NVME_CSI_NVM,
--			log, sizeof(*log), 0))
-+			 log, sizeof(*log), 0)) {
- 		dev_warn(ctrl->device, "Get FW SLOT INFO log error\n");
-+		goto out_free_log;
-+	}
-+
-+	afi = le64_to_cpu(log->afi);
-+	if (afi & 0x30) {
-+		dev_info(ctrl->device,
-+			 "Firmware is activated after next Controller Level Reset\n");
-+		goto out_free_log;
-+	}
-+
-+	memcpy(ctrl->subsys->firmware_rev, &log->frs[afi & 0x3],
-+		sizeof(ctrl->subsys->firmware_rev));
-+
-+out_free_log:
- 	kfree(log);
- }
- 
--- 
-2.42.0
-
+and 'afi & 0x7'.
 
