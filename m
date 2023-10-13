@@ -4,49 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A9F7DCDB482
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Oct 2023 15:47:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 01718CDB47E
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Oct 2023 15:49:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cPQFYRIHU2n6BXrsJ6duiQ+AL5Lo2AwHu/Lf9m6YWPE=; b=QTfNsj1jDc2LM9q3J8X9C12iqU
-	FxRUKdr2DwMHpcKfqhTJaHfgNQqaNJqcMkOdOWO6M+vvVO6qRbLzzQYKHBBIMQFHIQTOK2t3x3k+Z
-	QfSQk7af9tdW9afDo2eUkx6Lc/ne2UnrLBdHFHUdc56eGpbYvHPNOLb0Za0yeSz2hx74kIR6hGNq0
-	C0zH8cAlQCXdUijL7gSN9NmIb/isyJDdxKXrLiZKs/0RYXWFgI90SL+mdipi83VvhCyfX1Xxo+lzP
-	KtyeAbQ36MlK1r16iFL0YMdc0Gw5uSzU8cFpMRBwNsyBTGmxqdwQHET4jRcMGJmSF7mxfFYAPkOLM
-	/J9fcO4w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=RY9ha662dMRdgDKgeDR6bWDA5rzh9HIx7b6R+adtLzk=; b=LqBbwWMejkTcboJr2iMRWao9WJ
+	XKVrY8dW43F3X5KjkrOVhmyGsmhrcSDLqZjP4inYXdaavZN7PMoSJ2Lnj2eaVSSRAB/6lMlaRfvcu
+	rensQolLrHKQ2bQ3yQfG99gvv1TjeY+0D14I1zFitBIttTTsrnDHiUntu3GeyWIf94fUKwtC6zLzz
+	abgM801Z2YkPMRvWifLcjwpWSLMzAAVDBUrS0ug0LtVoVmkOnxjycHUFEnw0OkJFaNklZ6OeYmbSG
+	qtgGd7uvH4D/tsHV3wm70wx2CbIAcNzNxGxtMVbOGea1jwECEiTU4Mu0cyURWN7pPGDwyj400o1/N
+	LSXK9exw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qrKNp-003iTi-2F;
-	Fri, 13 Oct 2023 15:47:25 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1qrKQA-003ir3-20;
+	Fri, 13 Oct 2023 15:49:50 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qrKNm-003iSs-10
+	id 1qrKQ8-003iq5-16
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Oct 2023 15:47:24 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id AEF3B6732A; Fri, 13 Oct 2023 17:47:08 +0200 (CEST)
-Date: Fri, 13 Oct 2023 17:47:08 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	axboe@kernel.dk, sagi@grimberg.me, linux-nvme@lists.infradead.org,
-	vincentfu@gmail.com, ankit.kumar@samsung.com, joshiiitr@gmail.com,
-	stable@vger.kernel.org, Vincent Fu <vincent.fu@samsung.com>
-Subject: Re: [PATCH v4] nvme: fix corruption for passthrough meta/data
-Message-ID: <20231013154708.GA17455@lst.de>
-References: <CGME20231013052157epcas5p3dc0698c56f9846191d315fa8d33ccb5c@epcas5p3.samsung.com> <20231013051458.39987-1-joshi.k@samsung.com> <20231013052612.GA6423@lst.de> <8c755915-2366-28ff-ffd4-be17d797557c@samsung.com> <ZSlL-6Oa5J9duahR@kbusch-mbp> <3438f3b8-f7d4-f0bd-44ef-7efb09ed6151@samsung.com>
+	Fri, 13 Oct 2023 15:49:49 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id E9B78CE3126;
+	Fri, 13 Oct 2023 15:49:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 668FDC433C8;
+	Fri, 13 Oct 2023 15:49:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697212184;
+	bh=rL5Fm1PuaW8VrEFnpvxPh1+LUIYB9ldBEMINcVZ90yw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=EbhGZ/jMIp/K3p6Ir5ISnKZ5s+LJvSaOIFL2iIvuk3dhLrIW4EurbsZG10SNH/hw0
+	 EV/I1P0vVvP2gn4KwxY8xr6GxSQooVciFLa/FelH+Yqn8zAMxcF/uTERVoix4szTeu
+	 BQ/mbnq1UJVRBPbUrdjPItWplu1R3l0Nbm4Id5rI2bZrRNgTz815WWC7VBMQIvbwO/
+	 tDcbmSRqT3+hwMllZ134tx8vE1JdjQBiz6CQL0qcHBP1d9w4aqvRdwmC4db/01c3vn
+	 NiRs4PwUjy+Hp5ZkzKywuuUnwM0PBW8Nl8/pqReM1Z/Yxib57HxgrOgfIkStKYxwHn
+	 ali4KPt0+Nscg==
+Date: Fri, 13 Oct 2023 08:49:42 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Aurelien Aptel <aaptel@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
+ sagi@grimberg.me, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
+ chaitanyak@nvidia.com, davem@davemloft.net, aurelien.aptel@gmail.com,
+ smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
+ yorayz@nvidia.com, borisp@nvidia.com, galshalom@nvidia.com,
+ mgurtovoy@nvidia.com
+Subject: Re: [PATCH v16 00/20] nvme-tcp receive offloads
+Message-ID: <20231013084942.4ddc2b90@kernel.org>
+In-Reply-To: <20230928150954.1684-1-aaptel@nvidia.com>
+References: <20230928150954.1684-1-aaptel@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3438f3b8-f7d4-f0bd-44ef-7efb09ed6151@samsung.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231013_084722_523626_BD753A71 
-X-CRM114-Status: GOOD (  14.17  )
+X-CRM114-CacheID: sfid-20231013_084948_560642_A572171E 
+X-CRM114-Status: UNSURE (   8.45  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,18 +76,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Oct 13, 2023 at 08:41:54PM +0530, Kanchan Joshi wrote:
-> It seems we will have two limitations with this approach - (i) sgl for 
-> the external metadata buffer, and (ii) using sgl for data-transfer will 
-> reduce the speed of passthrough io, perhaps more than what can happen 
-> using the checks. And if we make the sgl opt-in, that means leaving the 
-> hole for the case when this was not chosen.
+On Thu, 28 Sep 2023 15:09:34 +0000 Aurelien Aptel wrote:
+> The next iteration of our nvme-tcp receive offload series.
+> This submission was rebased on top of net-next.
+> 
+> Previous submission (v15):
+> https://lore.kernel.org/netdev/d761c2de-fea3-cbd0-ced8-cee91a670552@grimberg.me/T/
+> 
+> The changes are also available through git:
+> Repo: https://github.com/aaptel/linux.git branch nvme-rx-offload-v16
+> Web: https://github.com/aaptel/linux/tree/nvme-rx-offload-v16
+> 
+> The NVMe-TCP offload was presented in netdev 0x16 (video available):
+> - https://netdevconf.info/0x16/session.html?NVMeTCP-Offload-%E2%80%93-Implementation-and-Performance-Gains
+> - https://youtu.be/W74TR-SNgi4
 
-The main limitation is that the device needs to support SGLs, and
-we need to as well (we currently don't for metadata).  But for any
-non-stupid workload SGLs should be at least as fast if not faster
-with modern hardware.  But I see no way out.
-
-Now can we please get a patch to disable the unprivileged passthrough
-ASAP to fix this probably exploitable hole?  Or should I write one?
+FTR you need an explicit Ack from Eric on the TCP and skb parts.
 
