@@ -4,83 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E572CCDB47E
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Oct 2023 05:51:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8E68DCDB47E
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Oct 2023 06:25:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2EQLiRaX/YffqZzPXqXx314gzGVTb/3QHRDs3oVcvjY=; b=lJK1ZUEVX4cPxmBOuerT4wfMdm
-	x6rraEuFZaSsOibLPNHTmbu3tECiYNkNIIqtI7VsLuFGXWsvFePsywZlExpC9DIfTJ9co1toh8Y/W
-	nvy/MW6DgxaFrfMAjYv1M/TsBXBoIOp/uQaq6+22NX9RyuzQnC+D6PUaPG4bK2ukxzKzEglNGEeNz
-	HWj4wbHc4HXIp1NQBgaLVWn2ziPUUqi0m7Uey0fr+Ka1ivT3b3S+rk6c71lR6rHB6MB9Y1xnit/HQ
-	Uku1RUy15SCpGcCCHDOs8mDCV7sZ8hn4UV4LMosSFtPqtKI08t3BCQFAWWqCFEHcMpwt04shJN+kG
-	0rzStR/A==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=T9TmIodEecjXhOeeyVrpi/lTsL8WIjPMSwLYTMa8tvQ=; b=vNnw/2Hkmv6ALQIz8xVZ/1vrgd
+	x5i2QuJ9aJoHTiRULhOHYzWG4zYFhHZvxQeUMOiUAKvf8+zHYMZfdu7UiOixsFF2xKwYG6NNU1jnn
+	JxhwdOHwHmtDjoB7sNiMMl+P3pcYfni2uO+FwO3Z+PNKOJE+lSpCAvPfj93Rwrnl7Uq+fTpMVaUIw
+	tc63h+RRuTDFOg6TLz8Nrj9gD5XG4meb7e+OCPFARkcu39JathU9wy142eOw92a8X9glght+rH2wn
+	wDxz1LAIvOelA84vd7RhMqo/aLVx7YEzcjPM+A3JjS6PE6TvUTsOC/mqmdJy6fu0jJWlvMp20Pxo8
+	kUZk5BUw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qrB4x-002Xwd-1G;
-	Fri, 13 Oct 2023 05:51:19 +0000
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+	id 1qrBbv-002aUm-22;
+	Fri, 13 Oct 2023 06:25:23 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qrB4v-002Xw4-1I
+	id 1qrBbs-002aTr-01
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Oct 2023 05:51:18 +0000
-Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-405505b07dfso18134875e9.0
-        for <linux-nvme@lists.infradead.org>; Thu, 12 Oct 2023 22:51:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697176270; x=1697781070; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2EQLiRaX/YffqZzPXqXx314gzGVTb/3QHRDs3oVcvjY=;
-        b=WHOyq2xh8mebZ9UOUnKdaYdf/K9EgZUsbUu3TQ0hAQ6GqWnnpZ+Q0ALZFCscPDsJxV
-         zeedFeoZMBXlZqwhE568yyBKHDwJOCDDshAaMXgIW/A07cLLYA19mS06D/eefexvh/wl
-         4osayRfGzbfZoZ5h1PDjdq2xg0US7gcCwl/v+B13O6PwyWGHaHKhbE22PNSLyvWK46/a
-         JVxR7GwHNMz+7FSd+1d2ebGYJLgcTspO8FHLi5g7Zks+jW0m2Vcwiwxv+lWizVgOI6GK
-         UZd5YRpq90KTRSicnOgiBZcgqZiSLL3CnsHOnJlasx+b1SNnj/6d8ZcAtzNknedjKund
-         ryUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697176270; x=1697781070;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2EQLiRaX/YffqZzPXqXx314gzGVTb/3QHRDs3oVcvjY=;
-        b=qyPwy33xEC7Nkmq/waxygZrYyMHSUOinFHId7rYNkl6oL8h4c/UXyZ+qWz4xogwkf/
-         SOjkLr2CHF1yDM16NJA2+PEQaXRJUefVtzqPYORGyf6L84UnuJAN9sTF6PEEaf5VMBGm
-         Mc0Xde4QG7V3xXem/hRyfxbg2ftF34KOu/3YweJyjypR2T5Ky9odkZLz8DBGhM1SSNLk
-         MFvawbpJY6ORGqGesMGeMy0qrZ/zGLjg5/hfrdIqCrXBpcgVvRllv9gkgRdKWKhREsf+
-         55vdLDoSgmbjswX89AWjWQDblFEOWoPt2cwj4en7enmhAabdDcfaG1LLSpuWmqPasWku
-         G5ZQ==
-X-Gm-Message-State: AOJu0YwS2LQVkYmjhSrZOTnSMwrMHJV7daVpZ0H2AGSTE5iDx5lzV7Zc
-	4pOT5FCe5Sz8+n8FDP+5ssNI2t0jWrfOxkP5VT8=
-X-Google-Smtp-Source: AGHT+IHkI2kWCM7Bq5gbR/LxmGFIC+e7T2WpxA61ilAcHEMybrkDb0r5fV/J8slOb0gLYbNBxvDEt96kdNvF0VSrcPs=
-X-Received: by 2002:a05:6000:71e:b0:329:2649:ced5 with SMTP id
- bs30-20020a056000071e00b003292649ced5mr24730387wrb.32.1697176269992; Thu, 12
- Oct 2023 22:51:09 -0700 (PDT)
+	Fri, 13 Oct 2023 06:25:21 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7F27E2188E;
+	Fri, 13 Oct 2023 06:25:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1697178313; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=T9TmIodEecjXhOeeyVrpi/lTsL8WIjPMSwLYTMa8tvQ=;
+	b=JLCLMy6wswunI8hU6sPbjwoP/t0Ty/c1IeLSfXcWEuOBv28FvZWwfXG+kGX0L0Wl2ItZdD
+	S3PaaGn1Jf6TSo1slBFf0sxtePdCdMP1uQXZ5fBfPCT6GRl4eaHvwuaBNC9Q1lFgsfbWyE
+	3X81qg0HtXKG5100/xI+weOypjXniQI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1697178313;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=T9TmIodEecjXhOeeyVrpi/lTsL8WIjPMSwLYTMa8tvQ=;
+	b=7AjiLkauuPFUix9b7kF2COHEbA56vaqruZLElPf2aJkyNCInFjhKjCW81fMGi8QcLuAW3b
+	PJuVEysxjDJ3ihBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 713BE138EF;
+	Fri, 13 Oct 2023 06:25:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id bkqXG8niKGX/NwAAMHmgww
+	(envelope-from <dwagner@suse.de>); Fri, 13 Oct 2023 06:25:13 +0000
+From: Daniel Wagner <dwagner@suse.de>
+To: linux-nvme@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Daniel Wagner <dwagner@suse.de>
+Subject: [PATCH] nvme: update firmware version after commit
+Date: Fri, 13 Oct 2023 08:26:23 +0200
+Message-ID: <20231013062623.6745-1-dwagner@suse.de>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-References: <CGME20231006135322epcas5p1c9acf38b04f35017181c715c706281dc@epcas5p1.samsung.com>
- <1891546521.01696823881551.JavaMail.epsvc@epcpadp4> <20231010074634.GA6514@lst.de>
- <CA+1E3r+2Ce4BCZ2feJX37e1-dtvpZtY6ajiaO_orn8Airu2Bqg@mail.gmail.com>
- <20231011050254.GA32444@lst.de> <ZSbVuuE8YxgwpqM8@kbusch-mbp.dhcp.thefacebook.com>
- <20231012043652.GA1368@lst.de> <ZSgRWrcw1FFw3XRJ@kbusch-mbp.dhcp.thefacebook.com>
- <CA+1E3r+gEPQgaieuwNXuXSDp5LHCQpUa8KFc80za4L9e88bUhg@mail.gmail.com> <20231013043806.GA5797@lst.de>
-In-Reply-To: <20231013043806.GA5797@lst.de>
-From: Kanchan Joshi <joshiiitr@gmail.com>
-Date: Fri, 13 Oct 2023 11:20:45 +0530
-Message-ID: <CA+1E3rL8GtKBaRHLh1qYQNffbUpKHMAmBk226nR1LLSiKhfbGQ@mail.gmail.com>
-Subject: Re: [PATCH v3] nvme: fix memory corruption for passthrough metadata
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, Kanchan Joshi <joshi.k@samsung.com>, axboe@kernel.dk, 
-	sagi@grimberg.me, linux-nvme@lists.infradead.org, vincentfu@gmail.com, 
-	ankit.kumar@samsung.com, cpgs@samsung.com, stable@vger.kernel.org, 
-	Vincent Fu <vincent.fu@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spamd-Result: default: False [0.50 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 R_MISSING_CHARSET(2.50)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 RCPT_COUNT_FIVE(0.00)[5];
+	 NEURAL_HAM_LONG(-3.00)[-1.000];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-1.00)[-1.000];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_COUNT_TWO(0.00)[2];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.40)[77.76%]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231012_225117_445059_7621EDAE 
-X-CRM114-Status: GOOD (  18.27  )
+X-CRM114-CacheID: sfid-20231012_232520_211371_F33FD1C0 
+X-CRM114-Status: GOOD (  10.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,30 +107,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Oct 13, 2023 at 10:08=E2=80=AFAM Christoph Hellwig <hch@lst.de> wro=
-te:
->
-> On Fri, Oct 13, 2023 at 07:49:19AM +0530, Kanchan Joshi wrote:
-> > > precedent to start doing it.
-> > In my mind, this was about dealing with the specific case when the
-> > kernel memory is being used for device DMA.
-> > We have just two cases: (i) separate meta buffer, and (ii) bounce
-> > buffer for data (+metadata).
-> > I had not planned sanity checks for user inputs for anything beyond tha=
-t.
-> > As opposed to being preventive (in all cases), it was about failing
-> > only when we are certain that DMA will take place and it will corrupt
-> > kernel memory.
-> >
-> > In the long-term, it may be possible for the path to do away with
-> > memory copies. The checks can disappear with that.
->
-> As soon as the user buffer is unaligned we need to bounce buffer,
-> including for the data buffer.
+The firmware version sysfs entry needs to be updated after a successfully
+firmware activation.
 
-Yes, but that also sprinkles a bunch of checks and goes against the
-theme of  and doing as minimal as possible (at least for passthrough).
-Had the plain buffer (potentially unaligned) gone down, either it
-would have worked or the device would not like it and user space would
-have got the error anyway. No?
+nvme-cli stopped issuing an Identify Controller command to list the
+current firmware information and relies on sysfs showing the current
+firmware version.
+
+Signed-off-by: Daniel Wagner <dwagner@suse.de>
+---
+ drivers/nvme/host/core.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 62612f87aafa..bb15d878e8a2 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4079,6 +4079,20 @@ static void nvme_get_fw_slot_info(struct nvme_ctrl *ctrl)
+ 	kfree(log);
+ }
+ 
++static void nvme_update_firmware_rev(struct nvme_ctrl *ctrl)
++{
++	struct nvme_id_ctrl *id;
++	int ret;
++
++	ret = nvme_identify_ctrl(ctrl, &id);
++	if (ret) {
++		dev_warn(ctrl->device, "Identify Controller failed (%d)\n", ret);
++		return;
++	}
++	memcpy(ctrl->subsys->firmware_rev, id->fr,
++	       sizeof(ctrl->subsys->firmware_rev));
++}
++
+ static void nvme_fw_act_work(struct work_struct *work)
+ {
+ 	struct nvme_ctrl *ctrl = container_of(work,
+@@ -4109,6 +4123,7 @@ static void nvme_fw_act_work(struct work_struct *work)
+ 	nvme_unquiesce_io_queues(ctrl);
+ 	/* read FW slot information to clear the AER */
+ 	nvme_get_fw_slot_info(ctrl);
++	nvme_update_firmware_rev(ctrl);
+ 
+ 	queue_work(nvme_wq, &ctrl->async_event_work);
+ }
+-- 
+2.42.0
+
 
