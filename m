@@ -4,127 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F38C8CDB47E
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Oct 2023 05:37:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E572CCDB47E
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Oct 2023 05:51:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KFKMEg2XvMXKK/E1o39l+C0+QC+Wp+czd9E2G8mf2k4=; b=M5GbtXsaIPvwl2W5Ntb91bOwJf
-	YxJJtNmD7qMbTMLFztaQkeCE19zWIQqQHh3nqYyT3LdkjjuYqGMHJr9uKoCtJbCsdiOaj0l7SEO9U
-	4Wfyx7svkphFLf+LZW7SETjJ02y9gihjVb/iK78X+ChVhqOilEoTk0ARXWuk9abWU83NeTd2tw5/R
-	WGA9OqxDrwNRjEcp1dDtv6BOr4FHPSk7EfnR8ligalTzoqcZlVudU9m/WSBozbRjTYo+i/q/wSNuS
-	AScLEivLDpvYcCEWW4M34/BmxQF63f0I3nf60wMQZdXc7RVPEgN2UFTd6KxAyTIehg5B5FZW7l4l+
-	NmZqIk5g==;
+	bh=2EQLiRaX/YffqZzPXqXx314gzGVTb/3QHRDs3oVcvjY=; b=lJK1ZUEVX4cPxmBOuerT4wfMdm
+	x6rraEuFZaSsOibLPNHTmbu3tECiYNkNIIqtI7VsLuFGXWsvFePsywZlExpC9DIfTJ9co1toh8Y/W
+	nvy/MW6DgxaFrfMAjYv1M/TsBXBoIOp/uQaq6+22NX9RyuzQnC+D6PUaPG4bK2ukxzKzEglNGEeNz
+	HWj4wbHc4HXIp1NQBgaLVWn2ziPUUqi0m7Uey0fr+Ka1ivT3b3S+rk6c71lR6rHB6MB9Y1xnit/HQ
+	Uku1RUy15SCpGcCCHDOs8mDCV7sZ8hn4UV4LMosSFtPqtKI08t3BCQFAWWqCFEHcMpwt04shJN+kG
+	0rzStR/A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qrAs0-002Wz8-13;
-	Fri, 13 Oct 2023 05:37:56 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1qrB4x-002Xwd-1G;
+	Fri, 13 Oct 2023 05:51:19 +0000
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qrArx-002Wyi-2g
+	id 1qrB4v-002Xw4-1I
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Oct 2023 05:37:55 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20231013053749epoutp02c6a66a539594bdb4a0f9bde471b4d6c9~NlBj-TjnR3057730577epoutp02A
-	for <linux-nvme@lists.infradead.org>; Fri, 13 Oct 2023 05:37:49 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20231013053749epoutp02c6a66a539594bdb4a0f9bde471b4d6c9~NlBj-TjnR3057730577epoutp02A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1697175469;
-	bh=KFKMEg2XvMXKK/E1o39l+C0+QC+Wp+czd9E2G8mf2k4=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=SGklsgosiGYw0zTITkTbAIEPYhdpAcUzvArtCnv+z29QU67Q3+FOb4fnSVdFwKmYW
-	 C6bcI5BIWo3BxpN8bEaPalzS/j47+Y/g/h24ILfqLdjyWNdsDgkixjpt5IbyNo2I1f
-	 EgDlmCP85mBA2de5Zfm2GPQ1ezx9yppxhZRY/meY=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20231013053748epcas5p4c579089351a52bcca5f6f19fbca62f52~NlBjKmMYR3091430914epcas5p4B;
-	Fri, 13 Oct 2023 05:37:48 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.177]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4S6Fdl0c3Mz4x9QF; Fri, 13 Oct
-	2023 05:37:47 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	D8.C6.09635.AA7D8256; Fri, 13 Oct 2023 14:37:47 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20231013053746epcas5p346f83c8f2f5360fb24016203488f0d93~NlBhQheci2512425124epcas5p3-;
-	Fri, 13 Oct 2023 05:37:46 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20231013053746epsmtrp23d6557ad0989eedf81042ed6b6b01b4a~NlBhPPmv01860218602epsmtrp28;
-	Fri, 13 Oct 2023 05:37:46 +0000 (GMT)
-X-AuditID: b6c32a4b-2f5ff700000025a3-f2-6528d7aa3a88
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	2F.69.08788.AA7D8256; Fri, 13 Oct 2023 14:37:46 +0900 (KST)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20231013053744epsmtip11757947b0611679a48617ddb63693022~NlBfQIhCj2323823238epsmtip1a;
-	Fri, 13 Oct 2023 05:37:44 +0000 (GMT)
-Message-ID: <7f576621-7288-1b06-9694-8bc0b6ad1813@samsung.com>
-Date: Fri, 13 Oct 2023 11:07:43 +0530
+	Fri, 13 Oct 2023 05:51:18 +0000
+Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-405505b07dfso18134875e9.0
+        for <linux-nvme@lists.infradead.org>; Thu, 12 Oct 2023 22:51:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697176270; x=1697781070; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2EQLiRaX/YffqZzPXqXx314gzGVTb/3QHRDs3oVcvjY=;
+        b=WHOyq2xh8mebZ9UOUnKdaYdf/K9EgZUsbUu3TQ0hAQ6GqWnnpZ+Q0ALZFCscPDsJxV
+         zeedFeoZMBXlZqwhE568yyBKHDwJOCDDshAaMXgIW/A07cLLYA19mS06D/eefexvh/wl
+         4osayRfGzbfZoZ5h1PDjdq2xg0US7gcCwl/v+B13O6PwyWGHaHKhbE22PNSLyvWK46/a
+         JVxR7GwHNMz+7FSd+1d2ebGYJLgcTspO8FHLi5g7Zks+jW0m2Vcwiwxv+lWizVgOI6GK
+         UZd5YRpq90KTRSicnOgiBZcgqZiSLL3CnsHOnJlasx+b1SNnj/6d8ZcAtzNknedjKund
+         ryUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697176270; x=1697781070;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2EQLiRaX/YffqZzPXqXx314gzGVTb/3QHRDs3oVcvjY=;
+        b=qyPwy33xEC7Nkmq/waxygZrYyMHSUOinFHId7rYNkl6oL8h4c/UXyZ+qWz4xogwkf/
+         SOjkLr2CHF1yDM16NJA2+PEQaXRJUefVtzqPYORGyf6L84UnuJAN9sTF6PEEaf5VMBGm
+         Mc0Xde4QG7V3xXem/hRyfxbg2ftF34KOu/3YweJyjypR2T5Ky9odkZLz8DBGhM1SSNLk
+         MFvawbpJY6ORGqGesMGeMy0qrZ/zGLjg5/hfrdIqCrXBpcgVvRllv9gkgRdKWKhREsf+
+         55vdLDoSgmbjswX89AWjWQDblFEOWoPt2cwj4en7enmhAabdDcfaG1LLSpuWmqPasWku
+         G5ZQ==
+X-Gm-Message-State: AOJu0YwS2LQVkYmjhSrZOTnSMwrMHJV7daVpZ0H2AGSTE5iDx5lzV7Zc
+	4pOT5FCe5Sz8+n8FDP+5ssNI2t0jWrfOxkP5VT8=
+X-Google-Smtp-Source: AGHT+IHkI2kWCM7Bq5gbR/LxmGFIC+e7T2WpxA61ilAcHEMybrkDb0r5fV/J8slOb0gLYbNBxvDEt96kdNvF0VSrcPs=
+X-Received: by 2002:a05:6000:71e:b0:329:2649:ced5 with SMTP id
+ bs30-20020a056000071e00b003292649ced5mr24730387wrb.32.1697176269992; Thu, 12
+ Oct 2023 22:51:09 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
-	Gecko/20100101 Thunderbird/91.8.1
-Subject: Re: [PATCH v4] nvme: fix corruption for passthrough meta/data
-Content-Language: en-US
+References: <CGME20231006135322epcas5p1c9acf38b04f35017181c715c706281dc@epcas5p1.samsung.com>
+ <1891546521.01696823881551.JavaMail.epsvc@epcpadp4> <20231010074634.GA6514@lst.de>
+ <CA+1E3r+2Ce4BCZ2feJX37e1-dtvpZtY6ajiaO_orn8Airu2Bqg@mail.gmail.com>
+ <20231011050254.GA32444@lst.de> <ZSbVuuE8YxgwpqM8@kbusch-mbp.dhcp.thefacebook.com>
+ <20231012043652.GA1368@lst.de> <ZSgRWrcw1FFw3XRJ@kbusch-mbp.dhcp.thefacebook.com>
+ <CA+1E3r+gEPQgaieuwNXuXSDp5LHCQpUa8KFc80za4L9e88bUhg@mail.gmail.com> <20231013043806.GA5797@lst.de>
+In-Reply-To: <20231013043806.GA5797@lst.de>
+From: Kanchan Joshi <joshiiitr@gmail.com>
+Date: Fri, 13 Oct 2023 11:20:45 +0530
+Message-ID: <CA+1E3rL8GtKBaRHLh1qYQNffbUpKHMAmBk226nR1LLSiKhfbGQ@mail.gmail.com>
+Subject: Re: [PATCH v3] nvme: fix memory corruption for passthrough metadata
 To: Christoph Hellwig <hch@lst.de>
-Cc: kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, vincentfu@gmail.com,
-	ankit.kumar@samsung.com, joshiiitr@gmail.com, stable@vger.kernel.org,
+Cc: Keith Busch <kbusch@kernel.org>, Kanchan Joshi <joshi.k@samsung.com>, axboe@kernel.dk, 
+	sagi@grimberg.me, linux-nvme@lists.infradead.org, vincentfu@gmail.com, 
+	ankit.kumar@samsung.com, cpgs@samsung.com, stable@vger.kernel.org, 
 	Vincent Fu <vincent.fu@samsung.com>
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <20231013052612.GA6423@lst.de>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrKJsWRmVeSWpSXmKPExsWy7bCmlu7q6xqpBr3HGS3WXPnNbrH6bj+b
-	xcrVR5kszr89zGQx6dA1Rov5y56yW6x7/Z7FYsHGR4wWj7s7GC02tAk6cHnsnHWX3eP8vY0s
-	HpfPlnpsWtXJ5rF5Sb3H7psNbB59W1YxenzeJBfAEZVtk5GamJJapJCal5yfkpmXbqvkHRzv
-	HG9qZmCoa2hpYa6kkJeYm2qr5OIToOuWmQN0oZJCWWJOKVAoILG4WEnfzqYov7QkVSEjv7jE
-	Vim1ICWnwKRArzgxt7g0L10vL7XEytDAwMgUqDAhO+PDgTtsBSeYK6bdusnWwPiSqYuRk0NC
-	wETi2Lm17F2MXBxCArsZJXZ2XGaFcD4xSsya3sIE4XxjlDh44xMbTMuTfd8ZIRJ7GSX2Tu5i
-	hnDeMkocaT3FCFLFK2AnMX/aZxYQm0VAVWL+wZ9sEHFBiZMzn4DFRQWSJH5dnQNWLyzgJjFl
-	9RJmEJtZQFzi1pP5YAeKCChJPH11lhEifo9RYuFt8y5GDg42AU2JC5NLQcKcAtoSu3e/Y4Eo
-	kZfY/nYO2D0SAls4JF5f+sMOUi8h4CLRti4C4gFhiVfHt7BD2FISn9/thXosWeLSzHPQcCmR
-	eLznIJRtL9F6qp8ZZAwz0Nr1u/QhVvFJ9P5+wgQxnVeio00IolpR4t6kp6wQtrjEwxlLoGwP
-	iR2bb7NAQmo1o8SiFauZJzAqzEIKlFlInp+F5JtZCJsXMLKsYpRMLSjOTU8tNi0wzksth8d3
-	cn7uJkZw+tXy3sH46MEHvUOMTByMhxglOJiVRHhnx2mkCvGmJFZWpRblxxeV5qQWH2I0BcbO
-	RGYp0eR8YAbIK4k3NLE0MDEzMzOxNDYzVBLnfd06N0VIID2xJDU7NbUgtQimj4mDU6qBKbLm
-	tHtZCVfPxp1FvFu3HBQ5bsJhe+xe1ySBua3fDML09rwSCDDl3BDLbDSxZsmT+KUSJjPiurVa
-	f28u/n/yAc/qsN8LS1n+uLSkCTFkH/hj4X9kTYQWG6f051n3v6auTe+wDNuuvrjquqH2V4M/
-	L8RbBRcnX5BL3cRmz8Pht/Zi7prCvm0yGX197p6n5xX+j954oMSO0fazt8GkeR+3fZbS/WPW
-	HNI6K5eTTfVtZ/2lPUwvAqa63xVw/mXUa9v0KWCrZpDVTv4JgQUyBXfWGtavL/EO/PNo3g/7
-	Oa9TNB+6e75ofrXwjV9GzsO6X6EsjAbropIdTLc4cbB+KpM35tsbfpLzQ+2X9Nernq5QYinO
-	SDTUYi4qTgQAKKJCkkgEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprMIsWRmVeSWpSXmKPExsWy7bCSnO6q6xqpBj/OqVusufKb3WL13X42
-	i5WrjzJZnH97mMli0qFrjBbzlz1lt1j3+j2LxYKNjxgtHnd3MFpsaBN04PLYOesuu8f5extZ
-	PC6fLfXYtKqTzWPzknqP3Tcb2Dz6tqxi9Pi8SS6AI4rLJiU1J7MstUjfLoEr48OBO2wFJ5gr
-	pt26ydbA+JKpi5GTQ0LAROLJvu+MXYxcHEICuxklLq/5ygKREJdovvaDHcIWllj57zk7RNFr
-	Rokdn1+wgSR4Bewk5k/7DNbAIqAqMf/gT6i4oMTJmU/A4qICSRJ77jeCbRMWcJOYsnoJM4jN
-	DLTg1pP5YHERASWJp6/Ogl3BLHCPUeLul51Q21YzStyZ9wtoEgcHm4CmxIXJpSANnALaErt3
-	v2OBGGQm0bW1ixHClpfY/nYO8wRGoVlI7piFZN8sJC2zkLQsYGRZxSiZWlCcm55bbFhglJda
-	rlecmFtcmpeul5yfu4kRHG9aWjsY96z6oHeIkYmD8RCjBAezkgjv7DiNVCHelMTKqtSi/Pii
-	0pzU4kOM0hwsSuK83173pggJpCeWpGanphakFsFkmTg4pRqYdLJWLPZiP3NgG8OGtBPOmreE
-	5p23Oh0d88l0z0Ojo0IGPQrcM/dXWFzN2/c1zGNTbpPKvBjr99l7Pkr99Mlaa3CKVebDN2tT
-	r18iisWsNk8XPzw1u+fvszg1Ya0Gxhcn/+252ZJ86fPyW+VnvuwKNuIxTV3Rnv6eT3GtFFt+
-	vVuZiuX2nfGBde5fZld4ek2e93PLjSr7K3kSZhLW4t6zmaoe/BbaU+bDf8ZBsKN21+PVk51P
-	HMzvevrV8uHaa1v0OdkaTx/fcWLx5GkaMm+DGErOpJSejgpl74+ReHCp8bscz4e8XofifUFe
-	bkYlhQankyT1zpzatjlq9gqxAzICzOvKVmvFaDIGlyzd03RViaU4I9FQi7moOBEA1gxYNCYD
-	AAA=
-X-CMS-MailID: 20231013053746epcas5p346f83c8f2f5360fb24016203488f0d93
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20231013052157epcas5p3dc0698c56f9846191d315fa8d33ccb5c
-References: <CGME20231013052157epcas5p3dc0698c56f9846191d315fa8d33ccb5c@epcas5p3.samsung.com>
-	<20231013051458.39987-1-joshi.k@samsung.com> <20231013052612.GA6423@lst.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231012_223754_208080_A8CE327B 
-X-CRM114-Status: GOOD (  12.13  )
+X-CRM114-CacheID: sfid-20231012_225117_445059_7621EDAE 
+X-CRM114-Status: GOOD (  18.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -139,16 +95,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/13/2023 10:56 AM, Christoph Hellwig wrote:
-> On Fri, Oct 13, 2023 at 10:44:58AM +0530, Kanchan Joshi wrote:
->> Changes since v3:
->> - Block only unprivileged user
-> 
-> That's not really what at least I had in mind.  I'd much rather
-> completely disable unprivileged passthrough for now as an easy
-> backportable patch.  
+On Fri, Oct 13, 2023 at 10:08=E2=80=AFAM Christoph Hellwig <hch@lst.de> wro=
+te:
+>
+> On Fri, Oct 13, 2023 at 07:49:19AM +0530, Kanchan Joshi wrote:
+> > > precedent to start doing it.
+> > In my mind, this was about dealing with the specific case when the
+> > kernel memory is being used for device DMA.
+> > We have just two cases: (i) separate meta buffer, and (ii) bounce
+> > buffer for data (+metadata).
+> > I had not planned sanity checks for user inputs for anything beyond tha=
+t.
+> > As opposed to being preventive (in all cases), it was about failing
+> > only when we are certain that DMA will take place and it will corrupt
+> > kernel memory.
+> >
+> > In the long-term, it may be possible for the path to do away with
+> > memory copies. The checks can disappear with that.
+>
+> As soon as the user buffer is unaligned we need to bounce buffer,
+> including for the data buffer.
 
-As you deem fit, but I think even this will be bakported upto the patch 
-that introduced unprivileged passthrough.
-
+Yes, but that also sprinkles a bunch of checks and goes against the
+theme of  and doing as minimal as possible (at least for passthrough).
+Had the plain buffer (potentially unaligned) gone down, either it
+would have worked or the device would not like it and user space would
+have got the error anyway. No?
 
