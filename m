@@ -4,166 +4,120 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49189CDB47E
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Oct 2023 20:37:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04CA7CDB465
+	for <linux-nvme@archiver.kernel.org>; Sat, 14 Oct 2023 09:07:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Su6gYTtqB/TIjJTrdGRVgIHtAnZ2PAeGzvzQpFjuTvs=; b=GaSTsPy+xRpzTdMXI2Ywq3XnzM
-	f+g5QkSOohVDLpMpCD0X9QHFrPB7BSKfwLH5wYPky5F5peLW9tMZ+eNH4+Bba7r8MahzJn86/nbuA
-	odh6s0SdAD6hTs7A8R48yFUjscOeTNEwvuQcMhowKDWcob63BdpM9AWUPCXR8WSxXFfuiTKsfc3pK
-	490XpDHcTrZGXR6wJ9cOkfb2ej5Zci46bK9nyQzEVDD19DQEx+bRu1bp8n+kE5gOyGeE4f4Kku+mS
-	W+mtl2p77qD88Qms6Ig5LccvpXo3B4cx5MVI7Mssty/Jkw0dkQKiRpuYDOK/TTP4QLhGPiB+Kel7g
-	HVkthfrA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=cN2GOby8lDlEBpV9poSzMDgk7asWJxtNeyOw+cYQA64=; b=yRIeiJrhKDQ4rhjZNbBP2wlpc2
+	+3jj6LF4UA/CyQlz2YxPBUXBsJ8ywhOwuZO6HDDhwQbZnQafkIE7BwcvJtMYphPLqKvheaFB5GG7i
+	yfa/sLzkuCRUZhDrMYHrBqbBliNsZjGlmBlpemPD9C0xQsKHC0WlZN+BiVnOVEnBg5XzrJdA+CHQC
+	kMQ3BHaro8nT7XaXNu07VNuMO8crfVgS9Oe5DESXcKrfepMiP2fA8a/ZzqhoyUS4d0Jx5qD/cshgO
+	co0fYj2glzSlNs56IdwbL3gMMsNhNWNRPy02vcRVJo92W4rI7NjR03ifKFsf85Wz3/oj0d6SPI8b0
+	l0EpV+Ig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qrOug-004Eob-37;
-	Fri, 13 Oct 2023 20:37:38 +0000
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	id 1qracb-0050zb-06;
+	Sat, 14 Oct 2023 09:07:45 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qrOue-004Eo4-1d
+	id 1qracT-0050z2-1i
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Oct 2023 20:37:37 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1697229456; x=1728765456;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=cs/WEr9zjLMZGb09W4qW54rtWgSUzSmVTLxf1JGMD48=;
-  b=oPQ7+zRnv8LAaDnkE8srEuYnzAnyDumeImj+IRd5zsI+TNKMmBt8IJBw
-   oyRfe1XMdEpEaf830zS2KEl+SUimeDt3MgHvHPJsgVUOAPmaLqPIZh+H+
-   +9RqWorRCB0k1SVmKJc8irrQV1DmClnwvfyPZp8Yzz24u2lULioRL9yUA
-   lvq1ba1uKul8xfsT7JeBPFZ/9VKx4TXbWisj/9F/V5m/KmCrHz+V7KSEb
-   J7MREormDR+lU07Wys2ZilK+AbUey+M/VLrJkPHEzwBLHbcGpmx5Z6k1d
-   2W01mDpSgQ9u+8j8poZuY89cCrvqGG1wtGGWBz0Z3aWPP1t4T4Nffe8Xs
-   w==;
-X-CSE-ConnectionGUID: OVDFoFTYSKauE/XLA0QJcg==
-X-CSE-MsgGUID: 9y+L3/5DQo2I/sMmAGLgFg==
-X-IronPort-AV: E=Sophos;i="6.03,223,1694707200"; 
-   d="scan'208";a="244604752"
-Received: from mail-bn7nam10lp2100.outbound.protection.outlook.com (HELO NAM10-BN7-obe.outbound.protection.outlook.com) ([104.47.70.100])
-  by ob1.hgst.iphmx.com with ESMTP; 14 Oct 2023 04:37:34 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BeekGxLczENq4zGnIb5NaUEaUkFpYR6a//fS1SQrHeRTyEy2UImILi+D6ZTYNAPZNXfytCfp0veunrc8PEX25ck5FswNfrfWjCIc5Ow3cfhwiKQ6zfwfjMF0uiPiBJOeVp8Sz9hq6ocoiqIlnIn/CW5noRn5fhddKDNHbblvevLlmisdOmD9gVf+KGGoeZ+3RXfcd8DEZQGDWEON1ynO8cFCLY4btPNnYy0PaPcdJ0uYxNAcw6u0M6mJXN0LOlyXuVdr+v+pU/1LlwVfbnUrSrWaCSsYJ0lldIP5M7RrjaVwhJg45lOUII5UBa7BnFeBKLcp77huw5x6RxBwfmPXXQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Su6gYTtqB/TIjJTrdGRVgIHtAnZ2PAeGzvzQpFjuTvs=;
- b=QpQWY54hUHRgZehn60LpsCNS6i35IiX3JxU1Jo9qpZeAvhBJJiGffg0fwxJJYpFA9n0p1vzbcPmTDCJz09m6AqjOa69HQSJ9CwlPmZonKgk3tbyWNw4aesQLY5N5qzhDN4y87ryzdSNqx9wXobNIV0Tjs9vM8WzCe6jP1kVajGLpYWqHCeX4TLdZ19sPIYS8bFEEmQFHrDtvko6S1udAEzcCgV+zJHQhA855NzISnzujZS1L+6MCNtQIkQeO4yM5LUWxUbN60q/3smo5DCvBaQMTvYCk0TWjd6QoD4U47yXwV5QO8XLuiJIRq+g9CnlPUmSxQb0tbljgxHc6S5cYYA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Su6gYTtqB/TIjJTrdGRVgIHtAnZ2PAeGzvzQpFjuTvs=;
- b=eot3QORDpuTcNJnFzmGC9o3g8Jhi2tCaIR00F8CJzVr2VgNZWgINMRkJ4e/mkoYb+k205iu5PFHDQULrkcLUxjhzydFS79EA70dF5KcgG8eUVhiasrPdsvJ7iZa0U+9f3/rktfQHbZhFJYZhIidvjgwRQL8rjUj4GvrMFpSST9g=
-Received: from MN2PR04MB6272.namprd04.prod.outlook.com (2603:10b6:208:e0::27)
- by DM6PR04MB7113.namprd04.prod.outlook.com (2603:10b6:5:24e::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.29; Fri, 13 Oct
- 2023 20:37:32 +0000
-Received: from MN2PR04MB6272.namprd04.prod.outlook.com
- ([fe80::6fb5:ecb:1ea0:3b1d]) by MN2PR04MB6272.namprd04.prod.outlook.com
- ([fe80::6fb5:ecb:1ea0:3b1d%6]) with mapi id 15.20.6886.028; Fri, 13 Oct 2023
- 20:37:32 +0000
-From: Niklas Cassel <Niklas.Cassel@wdc.com>
-To: Keith Busch <kbusch@kernel.org>
-CC: Daniel Wagner <dwagner@suse.de>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, Christoph Hellwig <hch@lst.de>, Kenji
- Tomonaga <tkenbo@gmail.com>
-Subject: Re: [PATCH v2] nvme: update firmware version after commit
-Thread-Topic: [PATCH v2] nvme: update firmware version after commit
-Thread-Index: AQHZ/fL8/I5yjhJHTEW4R44mU62q7LBH7PoAgABBTYA=
-Date: Fri, 13 Oct 2023 20:37:32 +0000
-Message-ID: <ZSmqi7Va4CkpQ4zl@x1-carbon>
-References: <20231013163420.3097-1-dwagner@suse.de>
- <ZSlzxGx8k9pgkhDk@kbusch-mbp>
-In-Reply-To: <ZSlzxGx8k9pgkhDk@kbusch-mbp>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN2PR04MB6272:EE_|DM6PR04MB7113:EE_
-x-ms-office365-filtering-correlation-id: 002a9fe0-43a1-4499-f275-08dbcc2c39c8
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: qOOyzRJodQjtvQesuAAaozqeQzKu/eO6aDbwfo5xSWsrf0Dsol2IqmO2HyvqtUM+PQTTzBhH5HlYm0absiEgDoGWOQXxFlZMzM8lu84vejrIKZeKhUCRFPxyjH5YF/smt6Cv0+4t5Yfo3pfdnltOQic1YL/6PI/X2MtIpYuo+bLY6NoKyWSBCIs0etdwWLGHgjsJq9j62IOku4XC7nwALBqql+ARDmqVrgppjNRncixejxQsoEeabPU5OMio2bQbZep7pwtB/k2wFw27dorDFfT5eFVZCKSf9ipIFVia4vC2m9xOdX+L04W8tanxMKZXc0OQ0QAPVzhFzaLz8bQeJ0PSTMFcvg/WU7e362PL/mjXimS0zMdUxXy/wUl9k/PfG7fa9q2aYrqRpkBquLns9CqtBz2DZjGsQ9jkGbXoxg5Pc801LdjzMT1tTbZ7Pi8lEyIEZCfA3zVujEG3FBNV9+zmxvM/U6upbnJc/SwGWrBGsMQk5UuoOsgqJFNYBlsXPYdyP2zPVSj5D20wC1lNdJwzxUK27oTGFayNg6yXC/kvmyewoK3B3LxFgilJnl8Z2IsGs9I4BsCClRMTqLTEs6FDOY8duvTOK8Ew5TzlGCF9hJLnIKCLzcy7t/ZPAIny
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR04MB6272.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(376002)(346002)(396003)(366004)(39860400002)(136003)(230922051799003)(64100799003)(186009)(1800799009)(451199024)(66946007)(66556008)(91956017)(64756008)(76116006)(66446008)(54906003)(66476007)(316002)(5660300002)(41300700001)(478600001)(6916009)(6486002)(6506007)(6512007)(9686003)(8936002)(4326008)(2906002)(4744005)(8676002)(86362001)(82960400001)(38070700005)(38100700002)(122000001)(71200400001)(26005)(33716001)(83380400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?WXNde5035Dafh7yGF+HiouswCRNwjitEgZRc9G556sqclHqV4fFekYURf0mD?=
- =?us-ascii?Q?n8NDqU/NP1EOYrSisxJvjFvLDq/VZn/r3qHcBweAlpVZ/QDmXaAk0lVQI6t4?=
- =?us-ascii?Q?CThMjYenE5P3uQBuOaqcA0cntEsa1zquW8fPAoILywMmuPH1lXaY4URuOapm?=
- =?us-ascii?Q?VtJSMRZ0I+BqXDOnFBzWITfkfVsPOa65seTTb6XArD+zqCFVjE8NBZeV05bY?=
- =?us-ascii?Q?C0w8qdM1mURn6LSmAZFC9D3Rkvz7J0noYSyI9lf/U0wBUibO0EARB7od8D8n?=
- =?us-ascii?Q?uXkV4JHcDJCmIS7HvO7CkyqoWD7aoSznzz+SvuLG8kPMa7tVYqOpWfO64dqy?=
- =?us-ascii?Q?yXylgsybUcKEaDTxSeF842/CCtSmMuCAX/vVntzU+ccnfAg284Z3oHu5mf8u?=
- =?us-ascii?Q?x4NsNKZG3uVuWUvnMsh8h7/RTctKgAIWvfVPeF9yhbqrd8rcO4MvuNnNsVgs?=
- =?us-ascii?Q?j0LVpCaWA2gTa1ogGU84d/a4h3jiyHenPOH02XbP0n61uXTPAxsd1gmLkatD?=
- =?us-ascii?Q?HmmYMpTtj7rmS64yz/bG4hFw132P17yN2p/RLAeNxHlhRBdb5sSGiZNcqbh2?=
- =?us-ascii?Q?yV90w5tjAQuyFpuIZ0iZIJ4fRgGYSB+CYCK/yQ5jiFiq3a0BL9jSH8kUw7oB?=
- =?us-ascii?Q?xzD6p+EaEkQTPVGoU+cpcLjTKTVegxepE8Vc5MpKAqPwTUzo9fOgCubOaqwt?=
- =?us-ascii?Q?mxFqk0qkwov4h3rvI9bQjzdmUhrcFPk8GIj/xbw+1iT7Ec3z4ejGYCguJ+Vw?=
- =?us-ascii?Q?cFWawGyFrTyiNN7IdJXerIQAlbIsssthqK/jyyMpKaD/zNYONjG2YdBa58L+?=
- =?us-ascii?Q?+VUPHOH1AMgzqeK+sz6NYOOAPBNDVlk0gIrxryVB2JyCyIrOxiCtwEKrm6/v?=
- =?us-ascii?Q?mJ9DvftWBgzFSEmv58gAWX3b2JJkMZKxLGT101ZnDP7WwKx2x9BRWc4O7Pwo?=
- =?us-ascii?Q?2g3BvIlptnofwFywnFSQHsMjdbzMT5zl32yfo6rZIUQKaG8WSxjCsIphH45T?=
- =?us-ascii?Q?lUzETLkPCAo4zwQbVccYJ5vi6rokVDd4CNBF9xczSZqBbrtkxiWNnXLYCk+O?=
- =?us-ascii?Q?Tx3o2Ycs7vIIBSiehQ+XwfOzcc/yBCNfGdAOuqpMyfUXMgWxchce16mSYiUj?=
- =?us-ascii?Q?mkSmeb5iUN/r8hW+KQp+beqLxYChd4pZSeskewH0Ziq6ZGwX7cNH1oQ7Nysz?=
- =?us-ascii?Q?Ra96lhA7C/JlwVqqy0/0fB8jl3I8M4n+FyTSP90jkKfElPwK3MQ1w2/c9NGz?=
- =?us-ascii?Q?ZUeZH3w7cc8NTOQIrfVbkPeIYJpCmFfPfzMKUwO+R01Kb3BQPZ+pgAw9S9Ob?=
- =?us-ascii?Q?jbeHMDlHURultsDFbvtRGK+4CXSlKcQIB5XuCJovGF1G8S5NEAkNbXtKuJA9?=
- =?us-ascii?Q?s/qs3D2tGUbJ1aKNn58BvRYuxFvR4ZZFt1JPFGnCvDlzUCS3w+rl0MFLI3wt?=
- =?us-ascii?Q?oqd/jyP60shHL24r4myBvyPp0MTsu6JkBiNWl+FUxqoNpi1JreX3vYJJT8/6?=
- =?us-ascii?Q?94SOH9m4bc54tR8Pq+yu5+i6zyWHsoZhnMN1j4WyEeJR5suSDDY+0gtJJQr7?=
- =?us-ascii?Q?8Cui+6cNc52OPNsLIa2DojZ3ysoO2ZCGhDNVgJl/fUPpJ2FwJxjy/jliVgjR?=
- =?us-ascii?Q?Fw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <AC92A94F3476C5469B045F9419EF02C1@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	Sat, 14 Oct 2023 09:07:40 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20231014090727epoutp045818e468e393692677b2e34f36fd3368~N7h4Mls8r1226812268epoutp04s
+	for <linux-nvme@lists.infradead.org>; Sat, 14 Oct 2023 09:07:27 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20231014090727epoutp045818e468e393692677b2e34f36fd3368~N7h4Mls8r1226812268epoutp04s
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1697274447;
+	bh=cN2GOby8lDlEBpV9poSzMDgk7asWJxtNeyOw+cYQA64=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=BIktCPBN//KUmyWMYswxjDSc5yK1tsjlTDxo4r+NTjfmRYdsr/S0BoaggOD8FcLna
+	 67fg/UKze3JzF0OlNxVE/1t6SKLNB7n6aT1R4YMKZmmEoFdwf9fitDYsdrMBo/oAfl
+	 iD0B9lCT7vgR7bHIpnffQ3WlG0IP9Kfe68fiYBZA=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20231014090726epcas5p4f3a1dc3e7bafab256dad3fa661e85447~N7h3mh99j0455204552epcas5p4N;
+	Sat, 14 Oct 2023 09:07:26 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.181]) by
+	epsnrtp2.localdomain (Postfix) with ESMTP id 4S6yF94Xl9z4x9Pt; Sat, 14 Oct
+	2023 09:07:25 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	92.8A.09949.D4A5A256; Sat, 14 Oct 2023 18:07:25 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20231014090724epcas5p443807b5d724c97645a8a85fc627bf1ad~N7h1Yr1yP0455204552epcas5p4J;
+	Sat, 14 Oct 2023 09:07:24 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20231014090724epsmtrp174804e18954d3a9e78e6a0157f07cb92~N7h1X-ODF2247122471epsmtrp1I;
+	Sat, 14 Oct 2023 09:07:24 +0000 (GMT)
+X-AuditID: b6c32a49-98bff700000026dd-26-652a5a4da822
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	42.FC.08742.C4A5A256; Sat, 14 Oct 2023 18:07:24 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.99.41.245]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20231014090722epsmtip1434e79cb14dbf5a01eabd1e64ba6beb8~N7hzOE-kt2472424724epsmtip18;
+	Sat, 14 Oct 2023 09:07:21 +0000 (GMT)
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: hch@lst.de, kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org, vincentfu@gmail.com,
+	ankit.kumar@samsung.com, joshiiitr@gmail.com, Kanchan Joshi
+	<joshi.k@samsung.com>, stable@vger.kernel.org
+Subject: [PATCH] nvme: remove unprivileged passthrough support
+Date: Sat, 14 Oct 2023 14:31:08 +0530
+Message-Id: <20231014090108.128809-1-joshi.k@samsung.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?us-ascii?Q?DXA8MfSVIsuHFiO/0jDU7sxw4zkZFkAAPOeBwAfxEVAj+3J+kxRWBhWk4pcG?=
- =?us-ascii?Q?QmZEVsPhtatpkQjchYtVdb84MmznJQtD5N2QsqTkrdhyvenL3OTP9Di4miJk?=
- =?us-ascii?Q?FBeKchpYTKgaP6JUaqvHepxy7ts0hsars1fca2uGvyMSUNL/dtFp2vOScHJ4?=
- =?us-ascii?Q?vrhJWOfrKws61PE13BXiMMk9ULkr/3CTobhruQA46B5qtYNqfT218daCxD03?=
- =?us-ascii?Q?9yW802zBw8X9hd9H5pm1ag6tNTU0VmOe4cdFieYEq3kSrfLUM9X2hwY7xuEl?=
- =?us-ascii?Q?9pChffQJ7orGiC5wZJSFFUYZaQENyZTjrYCagQrXWcYDsbBWsHbqzRsJjT6C?=
- =?us-ascii?Q?43s4av6PGaWxy5PNh+Kev1LoyR66PUCuhF2enwuNIhwzRNy2s8pp29JXsJQU?=
- =?us-ascii?Q?c9DcIcCMCnFKpqbU/vHHdmhqyhrj44JbN+F6j5Kwr55mpR7iS3rumE2uu4aM?=
- =?us-ascii?Q?aIT464R8G/e/jJdWFTI6ylqLpYFQY9AQOdBFE6M9/3BLcLkLOZ3gzffd3fa7?=
- =?us-ascii?Q?14xgcWt5+qzdfi2T4tFOXzrtM4XkYAhFOPVpYy7jn3rSKgDeLBMeozHGBt3l?=
- =?us-ascii?Q?PLeHLaPEvNyjXUZpUpOorcAuWdjoygQfAYWAHDTO+mv3XErOWI1T1tiMDjGZ?=
- =?us-ascii?Q?/xLD013vE6h8V9P+DY426b5UmL5Q4IZ4MejN8DXxSFojkEvE68sRHLpJ0JfE?=
- =?us-ascii?Q?myrsvLpWfeHsqy4CGeyseI1HyQjuOzn87BBJYAyKGs3V9bP4ws/XtCU7N/P1?=
- =?us-ascii?Q?M1Cd1A1yLGy8lYx+cbSEHnbYJNHGEvvlMNKnyevDrjwF5zMuaZlbwycJZrJl?=
- =?us-ascii?Q?X6tetRSA8QYGCSDfsN7tKlG1bLIy7YFj682/i6aBjHeTA3xkKxllN8gzVkvJ?=
- =?us-ascii?Q?4nGfWD2cbZIgOdAqPjrmYjIoGdt2Y0vPx3v0SsPkJXQuLeCMr5DtAKj0TOFz?=
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR04MB6272.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 002a9fe0-43a1-4499-f275-08dbcc2c39c8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Oct 2023 20:37:32.2789
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Y+To8SKA8VpSEK46B3CzSUMFnm0oJodwKjgQFgmH8ckaFT3WfDcZLEnvI5uXFO7ugxMv4pI4zyUVZYDWo7pTpw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB7113
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprIJsWRmVeSWpSXmKPExsWy7bCmuq5vlFaqQdstWYs1V36zW6y+289m
+	sXL1USaLo//fslmcf3uYyWLSoWuMFvOXPWW3WPf6PYvFgo2PGC02tAk6cHnsnHWX3eP8vY0s
+	HpfPlnpsWtXJ5rF5Sb3H7psNbB59W1YxenzeJBfAEZVtk5GamJJapJCal5yfkpmXbqvkHRzv
+	HG9qZmCoa2hpYa6kkJeYm2qr5OIToOuWmQN0oZJCWWJOKVAoILG4WEnfzqYov7QkVSEjv7jE
+	Vim1ICWnwKRArzgxt7g0L10vL7XEytDAwMgUqDAhO2NR0xnGgo25FQ1Tv7M2MK6J7GLk5JAQ
+	MJGYuqKXvYuRi0NIYDejxNp5K1ggnE+MEhMm3YFyvjFKtLW8Z4Np+fJnLTNEYi+jxLspp5gg
+	nM+MEhfn3WXsYuTgYBPQlLgwuRSkQUTARaLh3xtGkBpmgWWMEk0HNjOCJIQF7CTeHj7DBlLP
+	IqAqcXCeC0iYV8BSYvqXp+wQy+QlZl76zg4RF5Q4OfMJC4jNDBRv3job7AgJgb/sElNn7WGE
+	aHCRaFrWxAxhC0u8Or4FapCUxMv+Nig7WeLSzHNMEHaJxOM9B6Fse4nWU/3MIPcwA92/fpc+
+	xC4+id7fT5hAwhICvBIdbUIQ1YoS9yY9ZYWwxSUezlgCZXtI7Dj8EcwWEoiV+PDoPvMERrlZ
+	SD6YheSDWQjLFjAyr2KUTC0ozk1PLTYtMMxLLYfHZXJ+7iZGcNrU8tzBePfBB71DjEwcjIcY
+	JTiYlUR4Z8dppArxpiRWVqUW5ccXleakFh9iNAWG6kRmKdHkfGDiziuJNzSxNDAxMzMzsTQ2
+	M1QS533dOjdFSCA9sSQ1OzW1ILUIpo+Jg1OqgYnttMvJDOHV/LfNjrVz3/zde3bDqnnB0ie3
+	6XRt2nb5iAxrkZTGsfjPXvNbtgY9lbrTuPa9443CKXMl3zC86+UNVcx5fpKP64THp7nfm//9
+	vf9edNH5qFwF7ssGdjv7ErIeOC1KYrhTxPAkNe3PqtDb/L+mW/8sULhwY8vK6vQ1W1q27ngU
+	XJDhpJX403ft8sSw6g+3cs58LX48005wwsT0wynv3n1y171rkL9l66pGljPN50OkzpiFlT1Q
+	a9Pf/IKFP/PcK5OZBWI5968J7Pm3I/q7TlH2iUuqVbVfJx1lt55rs2RisvsW3z75l5kJz5+Z
+	a34w3mqbvU3x0dzPYYJ1F6dXh5+o+vU4Zy+Tpcx9JZbijERDLeai4kQA7PzWWiQEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrJLMWRmVeSWpSXmKPExsWy7bCSnK5PlFaqwb1jwhZrrvxmt1h9t5/N
+	YuXqo0wWR/+/ZbM4//Ywk8WkQ9cYLeYve8puse71exaLBRsfMVpsaBN04PLYOesuu8f5extZ
+	PC6fLfXYtKqTzWPzknqP3Tcb2Dz6tqxi9Pi8SS6AI4rLJiU1J7MstUjfLoErY1HTGcaCjbkV
+	DVO/szYwronsYuTkkBAwkfjyZy1zFyMXh5DAbkaJCycOM0MkxCWar/1gh7CFJVb+e84OUfSR
+	UWLqxvksXYwcHGwCmhIXJpeC1IgIeEnMm72ABaSGWWANo8TPpytYQRLCAnYSbw+fYQOpZxFQ
+	lTg4zwUkzCtgKTH9y1Oo+fISMy99Z4eIC0qcnPmEBcRmBoo3b53NPIGRbxaS1CwkqQWMTKsY
+	JVMLinPTc4sNCwzzUsv1ihNzi0vz0vWS83M3MYJDW0tzB+P2VR/0DjEycTAeYpTgYFYS4Z0d
+	p5EqxJuSWFmVWpQfX1Sak1p8iFGag0VJnFf8RW+KkEB6YklqdmpqQWoRTJaJg1OqgWm2VvLx
+	gwautgknPlw4OXuCxDaPPKO+jzL85ZoPnx56/b5RpVTs6ZlrJ1IOsbFP23OD1z1V5C2TP/fq
+	14uOCqT8UbLr4/TzXHw0XsiSf8oCLu+kdyol5gceJhuYscfV/FjM+XmF509tu43xNxc+YPv0
+	5tcc47pl25+Ua700XPvu1tqHZhdm3La8s+e609Wd9/b/8Lzw8RXf9MlMsyaXBy2t/DnB9WlN
+	+NHuY/e0NxhOruXZ0LcrpvddUlfs/L6XByYvkPzzZs6qtE2rD6YJmCo17ctJ51zxPv8Wz/+5
+	ks4zXV1dfVfffLO7na96hnj+z4tLFi5fdaDG0P7Bn7sJl+M8cqSPBJT2uF7abHnMza8tToml
+	OCPRUIu5qDgRACnfiAPcAgAA
+X-CMS-MailID: 20231014090724epcas5p443807b5d724c97645a8a85fc627bf1ad
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20231014090724epcas5p443807b5d724c97645a8a85fc627bf1ad
+References: <CGME20231014090724epcas5p443807b5d724c97645a8a85fc627bf1ad@epcas5p4.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231013_133736_626210_A33E9671 
-X-CRM114-Status: GOOD (  12.36  )
+X-CRM114-CacheID: sfid-20231014_020738_311116_0D7E9B74 
+X-CRM114-Status: GOOD (  27.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -178,23 +132,408 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Oct 13, 2023 at 10:43:48AM -0600, Keith Busch wrote:
-> On Fri, Oct 13, 2023 at 06:34:20PM +0200, Daniel Wagner wrote:
-> >  	if (nvme_get_log(ctrl, NVME_NSID_ALL, NVME_LOG_FW_SLOT, 0, NVME_CSI_N=
-VM,
-> > -			log, sizeof(*log), 0))
-> > +			 log, sizeof(*log), 0)) {
-> >  		dev_warn(ctrl->device, "Get FW SLOT INFO log error\n");
-> > +		goto out_free_log;
-> > +	}
-> > +
-> > +	afi =3D le64_to_cpu(log->afi);
+Passthrough has got a hole that can be exploited to cause kernel memory
+corruption. This is about making the device do larger DMA into
+short meta/data buffer owned by kernel [1].
 
-BTW, this field is a single byte, so there should be no need to
-use *_to_cpu() on this. (Byte order is only important when the
-field is more than one byte.)
+As a stopgap measure, disable the support of unprivileged passthrough.
 
+This patch brings back coarse-granular CAP_SYS_ADMIN checks by reverting
+following patches:
 
-Kind regards,
-Niklas=
+- 7d9d7d59d44 ("nvme: replace the fmode_t argument to the nvme ioctl handlers with a simple bool")
+- 313c08c72ee ("nvme: don't allow unprivileged passthrough on partitions")
+- 6f99ac04c46 ("nvme: consult the CSE log page for unprivileged passthrough")
+- ea43fceea41 ("nvme: allow unprivileged passthrough of Identify Controller")
+- e4fbcf32c86 ("nvme: identify-namespace without CAP_SYS_ADMIN")
+- 855b7717f44 ("nvme: fine-granular CAP_SYS_ADMIN for nvme io commands")
+
+[1] https://lore.kernel.org/linux-nvme/20231013051458.39987-1-joshi.k@samsung.com/
+
+CC: stable@vger.kernel.org # 6.2
+Fixes <855b7717f44b1> ("nvme: fine-granular CAP_SYS_ADMIN for nvme io commands")
+
+Suggested-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+---
+ drivers/nvme/host/ioctl.c | 159 ++++++++------------------------------
+ include/linux/nvme.h      |   2 -
+ 2 files changed, 34 insertions(+), 127 deletions(-)
+
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index d8ff796fd5f2..788b36e7915a 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -10,80 +10,8 @@
+ 
+ enum {
+ 	NVME_IOCTL_VEC		= (1 << 0),
+-	NVME_IOCTL_PARTITION	= (1 << 1),
+ };
+ 
+-static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
+-		unsigned int flags, bool open_for_write)
+-{
+-	u32 effects;
+-
+-	if (capable(CAP_SYS_ADMIN))
+-		return true;
+-
+-	/*
+-	 * Do not allow unprivileged passthrough on partitions, as that allows an
+-	 * escape from the containment of the partition.
+-	 */
+-	if (flags & NVME_IOCTL_PARTITION)
+-		return false;
+-
+-	/*
+-	 * Do not allow unprivileged processes to send vendor specific or fabrics
+-	 * commands as we can't be sure about their effects.
+-	 */
+-	if (c->common.opcode >= nvme_cmd_vendor_start ||
+-	    c->common.opcode == nvme_fabrics_command)
+-		return false;
+-
+-	/*
+-	 * Do not allow unprivileged passthrough of admin commands except
+-	 * for a subset of identify commands that contain information required
+-	 * to form proper I/O commands in userspace and do not expose any
+-	 * potentially sensitive information.
+-	 */
+-	if (!ns) {
+-		if (c->common.opcode == nvme_admin_identify) {
+-			switch (c->identify.cns) {
+-			case NVME_ID_CNS_NS:
+-			case NVME_ID_CNS_CS_NS:
+-			case NVME_ID_CNS_NS_CS_INDEP:
+-			case NVME_ID_CNS_CS_CTRL:
+-			case NVME_ID_CNS_CTRL:
+-				return true;
+-			}
+-		}
+-		return false;
+-	}
+-
+-	/*
+-	 * Check if the controller provides a Commands Supported and Effects log
+-	 * and marks this command as supported.  If not reject unprivileged
+-	 * passthrough.
+-	 */
+-	effects = nvme_command_effects(ns->ctrl, ns, c->common.opcode);
+-	if (!(effects & NVME_CMD_EFFECTS_CSUPP))
+-		return false;
+-
+-	/*
+-	 * Don't allow passthrough for command that have intrusive (or unknown)
+-	 * effects.
+-	 */
+-	if (effects & ~(NVME_CMD_EFFECTS_CSUPP | NVME_CMD_EFFECTS_LBCC |
+-			NVME_CMD_EFFECTS_UUID_SEL |
+-			NVME_CMD_EFFECTS_SCOPE_MASK))
+-		return false;
+-
+-	/*
+-	 * Only allow I/O commands that transfer data to the controller or that
+-	 * change the logical block contents if the file descriptor is open for
+-	 * writing.
+-	 */
+-	if (nvme_is_write(c) || (effects & NVME_CMD_EFFECTS_LBCC))
+-		return open_for_write;
+-	return true;
+-}
+-
+ /*
+  * Convert integer values from ioctl structures to user pointers, silently
+  * ignoring the upper bits in the compat case to match behaviour of 32-bit
+@@ -335,8 +263,7 @@ static bool nvme_validate_passthru_nsid(struct nvme_ctrl *ctrl,
+ }
+ 
+ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+-		struct nvme_passthru_cmd __user *ucmd, unsigned int flags,
+-		bool open_for_write)
++			struct nvme_passthru_cmd __user *ucmd)
+ {
+ 	struct nvme_passthru_cmd cmd;
+ 	struct nvme_command c;
+@@ -344,6 +271,8 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	u64 result;
+ 	int status;
+ 
++	if (!capable(CAP_SYS_ADMIN))
++		return -EACCES;
+ 	if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
+ 		return -EFAULT;
+ 	if (cmd.flags)
+@@ -364,9 +293,6 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	c.common.cdw14 = cpu_to_le32(cmd.cdw14);
+ 	c.common.cdw15 = cpu_to_le32(cmd.cdw15);
+ 
+-	if (!nvme_cmd_allowed(ns, &c, 0, open_for_write))
+-		return -EACCES;
+-
+ 	if (cmd.timeout_ms)
+ 		timeout = msecs_to_jiffies(cmd.timeout_ms);
+ 
+@@ -383,14 +309,16 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ }
+ 
+ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+-		struct nvme_passthru_cmd64 __user *ucmd, unsigned int flags,
+-		bool open_for_write)
++			struct nvme_passthru_cmd64 __user *ucmd,
++			unsigned int flags)
+ {
+ 	struct nvme_passthru_cmd64 cmd;
+ 	struct nvme_command c;
+ 	unsigned timeout = 0;
+ 	int status;
+ 
++	if (!capable(CAP_SYS_ADMIN))
++		return -EACCES;
+ 	if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
+ 		return -EFAULT;
+ 	if (cmd.flags)
+@@ -411,9 +339,6 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	c.common.cdw14 = cpu_to_le32(cmd.cdw14);
+ 	c.common.cdw15 = cpu_to_le32(cmd.cdw15);
+ 
+-	if (!nvme_cmd_allowed(ns, &c, flags, open_for_write))
+-		return -EACCES;
+-
+ 	if (cmd.timeout_ms)
+ 		timeout = msecs_to_jiffies(cmd.timeout_ms);
+ 
+@@ -563,6 +488,9 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	void *meta = NULL;
+ 	int ret;
+ 
++	if (!capable(CAP_SYS_ADMIN))
++		return -EACCES;
++
+ 	c.common.opcode = READ_ONCE(cmd->opcode);
+ 	c.common.flags = READ_ONCE(cmd->flags);
+ 	if (c.common.flags)
+@@ -584,9 +512,6 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	c.common.cdw14 = cpu_to_le32(READ_ONCE(cmd->cdw14));
+ 	c.common.cdw15 = cpu_to_le32(READ_ONCE(cmd->cdw15));
+ 
+-	if (!nvme_cmd_allowed(ns, &c, 0, ioucmd->file->f_mode & FMODE_WRITE))
+-		return -EACCES;
+-
+ 	d.metadata = READ_ONCE(cmd->metadata);
+ 	d.addr = READ_ONCE(cmd->addr);
+ 	d.data_len = READ_ONCE(cmd->data_len);
+@@ -643,13 +568,13 @@ static bool is_ctrl_ioctl(unsigned int cmd)
+ }
+ 
+ static int nvme_ctrl_ioctl(struct nvme_ctrl *ctrl, unsigned int cmd,
+-		void __user *argp, bool open_for_write)
++		void __user *argp)
+ {
+ 	switch (cmd) {
+ 	case NVME_IOCTL_ADMIN_CMD:
+-		return nvme_user_cmd(ctrl, NULL, argp, 0, open_for_write);
++		return nvme_user_cmd(ctrl, NULL, argp);
+ 	case NVME_IOCTL_ADMIN64_CMD:
+-		return nvme_user_cmd64(ctrl, NULL, argp, 0, open_for_write);
++		return nvme_user_cmd64(ctrl, NULL, argp, 0);
+ 	default:
+ 		return sed_ioctl(ctrl->opal_dev, cmd, argp);
+ 	}
+@@ -674,14 +599,16 @@ struct nvme_user_io32 {
+ #endif /* COMPAT_FOR_U64_ALIGNMENT */
+ 
+ static int nvme_ns_ioctl(struct nvme_ns *ns, unsigned int cmd,
+-		void __user *argp, unsigned int flags, bool open_for_write)
++		void __user *argp)
+ {
++	unsigned int flags = 0;
++
+ 	switch (cmd) {
+ 	case NVME_IOCTL_ID:
+ 		force_successful_syscall_return();
+ 		return ns->head->ns_id;
+ 	case NVME_IOCTL_IO_CMD:
+-		return nvme_user_cmd(ns->ctrl, ns, argp, flags, open_for_write);
++		return nvme_user_cmd(ns->ctrl, ns, argp);
+ 	/*
+ 	 * struct nvme_user_io can have different padding on some 32-bit ABIs.
+ 	 * Just accept the compat version as all fields that are used are the
+@@ -696,39 +623,32 @@ static int nvme_ns_ioctl(struct nvme_ns *ns, unsigned int cmd,
+ 		flags |= NVME_IOCTL_VEC;
+ 		fallthrough;
+ 	case NVME_IOCTL_IO64_CMD:
+-		return nvme_user_cmd64(ns->ctrl, ns, argp, flags,
+-				       open_for_write);
++		return nvme_user_cmd64(ns->ctrl, ns, argp, flags);
+ 	default:
+ 		return -ENOTTY;
+ 	}
+ }
+ 
+-int nvme_ioctl(struct block_device *bdev, blk_mode_t mode,
++int nvme_ioctl(struct block_device *bdev, fmode_t mode,
+ 		unsigned int cmd, unsigned long arg)
+ {
+ 	struct nvme_ns *ns = bdev->bd_disk->private_data;
+-	bool open_for_write = mode & BLK_OPEN_WRITE;
+ 	void __user *argp = (void __user *)arg;
+-	unsigned int flags = 0;
+-
+-	if (bdev_is_partition(bdev))
+-		flags |= NVME_IOCTL_PARTITION;
+ 
+ 	if (is_ctrl_ioctl(cmd))
+-		return nvme_ctrl_ioctl(ns->ctrl, cmd, argp, open_for_write);
+-	return nvme_ns_ioctl(ns, cmd, argp, flags, open_for_write);
++		return nvme_ctrl_ioctl(ns->ctrl, cmd, argp);
++	return nvme_ns_ioctl(ns, cmd, argp);
+ }
+ 
+ long nvme_ns_chr_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+ {
+ 	struct nvme_ns *ns =
+ 		container_of(file_inode(file)->i_cdev, struct nvme_ns, cdev);
+-	bool open_for_write = file->f_mode & FMODE_WRITE;
+ 	void __user *argp = (void __user *)arg;
+ 
+ 	if (is_ctrl_ioctl(cmd))
+-		return nvme_ctrl_ioctl(ns->ctrl, cmd, argp, open_for_write);
+-	return nvme_ns_ioctl(ns, cmd, argp, 0, open_for_write);
++		return nvme_ctrl_ioctl(ns->ctrl, cmd, argp);
++	return nvme_ns_ioctl(ns, cmd, argp);
+ }
+ 
+ static int nvme_uring_cmd_checks(unsigned int issue_flags)
+@@ -792,8 +712,7 @@ int nvme_ns_chr_uring_cmd_iopoll(struct io_uring_cmd *ioucmd,
+ }
+ #ifdef CONFIG_NVME_MULTIPATH
+ static int nvme_ns_head_ctrl_ioctl(struct nvme_ns *ns, unsigned int cmd,
+-		void __user *argp, struct nvme_ns_head *head, int srcu_idx,
+-		bool open_for_write)
++		void __user *argp, struct nvme_ns_head *head, int srcu_idx)
+ 	__releases(&head->srcu)
+ {
+ 	struct nvme_ctrl *ctrl = ns->ctrl;
+@@ -801,7 +720,7 @@ static int nvme_ns_head_ctrl_ioctl(struct nvme_ns *ns, unsigned int cmd,
+ 
+ 	nvme_get_ctrl(ns->ctrl);
+ 	srcu_read_unlock(&head->srcu, srcu_idx);
+-	ret = nvme_ctrl_ioctl(ns->ctrl, cmd, argp, open_for_write);
++	ret = nvme_ctrl_ioctl(ns->ctrl, cmd, argp);
+ 
+ 	nvme_put_ctrl(ctrl);
+ 	return ret;
+@@ -811,14 +730,9 @@ int nvme_ns_head_ioctl(struct block_device *bdev, blk_mode_t mode,
+ 		unsigned int cmd, unsigned long arg)
+ {
+ 	struct nvme_ns_head *head = bdev->bd_disk->private_data;
+-	bool open_for_write = mode & BLK_OPEN_WRITE;
+ 	void __user *argp = (void __user *)arg;
+ 	struct nvme_ns *ns;
+ 	int srcu_idx, ret = -EWOULDBLOCK;
+-	unsigned int flags = 0;
+-
+-	if (bdev_is_partition(bdev))
+-		flags |= NVME_IOCTL_PARTITION;
+ 
+ 	srcu_idx = srcu_read_lock(&head->srcu);
+ 	ns = nvme_find_path(head);
+@@ -831,10 +745,9 @@ int nvme_ns_head_ioctl(struct block_device *bdev, blk_mode_t mode,
+ 	 * deadlock when deleting namespaces using the passthrough interface.
+ 	 */
+ 	if (is_ctrl_ioctl(cmd))
+-		return nvme_ns_head_ctrl_ioctl(ns, cmd, argp, head, srcu_idx,
+-					       open_for_write);
++		return nvme_ns_head_ctrl_ioctl(ns, cmd, argp, head, srcu_idx);
+ 
+-	ret = nvme_ns_ioctl(ns, cmd, argp, flags, open_for_write);
++	ret = nvme_ns_ioctl(ns, cmd, argp);
+ out_unlock:
+ 	srcu_read_unlock(&head->srcu, srcu_idx);
+ 	return ret;
+@@ -843,7 +756,6 @@ int nvme_ns_head_ioctl(struct block_device *bdev, blk_mode_t mode,
+ long nvme_ns_head_chr_ioctl(struct file *file, unsigned int cmd,
+ 		unsigned long arg)
+ {
+-	bool open_for_write = file->f_mode & FMODE_WRITE;
+ 	struct cdev *cdev = file_inode(file)->i_cdev;
+ 	struct nvme_ns_head *head =
+ 		container_of(cdev, struct nvme_ns_head, cdev);
+@@ -857,10 +769,9 @@ long nvme_ns_head_chr_ioctl(struct file *file, unsigned int cmd,
+ 		goto out_unlock;
+ 
+ 	if (is_ctrl_ioctl(cmd))
+-		return nvme_ns_head_ctrl_ioctl(ns, cmd, argp, head, srcu_idx,
+-				open_for_write);
++		return nvme_ns_head_ctrl_ioctl(ns, cmd, argp, head, srcu_idx);
+ 
+-	ret = nvme_ns_ioctl(ns, cmd, argp, 0, open_for_write);
++	ret = nvme_ns_ioctl(ns, cmd, argp);
+ out_unlock:
+ 	srcu_read_unlock(&head->srcu, srcu_idx);
+ 	return ret;
+@@ -909,8 +820,7 @@ int nvme_dev_uring_cmd(struct io_uring_cmd *ioucmd, unsigned int issue_flags)
+ 	return ret;
+ }
+ 
+-static int nvme_dev_user_cmd(struct nvme_ctrl *ctrl, void __user *argp,
+-		bool open_for_write)
++static int nvme_dev_user_cmd(struct nvme_ctrl *ctrl, void __user *argp)
+ {
+ 	struct nvme_ns *ns;
+ 	int ret;
+@@ -934,7 +844,7 @@ static int nvme_dev_user_cmd(struct nvme_ctrl *ctrl, void __user *argp,
+ 	kref_get(&ns->kref);
+ 	up_read(&ctrl->namespaces_rwsem);
+ 
+-	ret = nvme_user_cmd(ctrl, ns, argp, 0, open_for_write);
++	ret = nvme_user_cmd(ctrl, ns, argp);
+ 	nvme_put_ns(ns);
+ 	return ret;
+ 
+@@ -946,17 +856,16 @@ static int nvme_dev_user_cmd(struct nvme_ctrl *ctrl, void __user *argp,
+ long nvme_dev_ioctl(struct file *file, unsigned int cmd,
+ 		unsigned long arg)
+ {
+-	bool open_for_write = file->f_mode & FMODE_WRITE;
+ 	struct nvme_ctrl *ctrl = file->private_data;
+ 	void __user *argp = (void __user *)arg;
+ 
+ 	switch (cmd) {
+ 	case NVME_IOCTL_ADMIN_CMD:
+-		return nvme_user_cmd(ctrl, NULL, argp, 0, open_for_write);
++		return nvme_user_cmd(ctrl, NULL, argp);
+ 	case NVME_IOCTL_ADMIN64_CMD:
+-		return nvme_user_cmd64(ctrl, NULL, argp, 0, open_for_write);
++		return nvme_user_cmd64(ctrl, NULL, argp, 0);
+ 	case NVME_IOCTL_IO_CMD:
+-		return nvme_dev_user_cmd(ctrl, argp, open_for_write);
++		return nvme_dev_user_cmd(ctrl, argp);
+ 	case NVME_IOCTL_RESET:
+ 		if (!capable(CAP_SYS_ADMIN))
+ 			return -EACCES;
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 26dd3f859d9d..df3e2c619448 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -642,7 +642,6 @@ enum {
+ 	NVME_CMD_EFFECTS_CCC		= 1 << 4,
+ 	NVME_CMD_EFFECTS_CSE_MASK	= GENMASK(18, 16),
+ 	NVME_CMD_EFFECTS_UUID_SEL	= 1 << 19,
+-	NVME_CMD_EFFECTS_SCOPE_MASK	= GENMASK(31, 20),
+ };
+ 
+ struct nvme_effects_log {
+@@ -834,7 +833,6 @@ enum nvme_opcode {
+ 	nvme_cmd_zone_mgmt_send	= 0x79,
+ 	nvme_cmd_zone_mgmt_recv	= 0x7a,
+ 	nvme_cmd_zone_append	= 0x7d,
+-	nvme_cmd_vendor_start	= 0x80,
+ };
+ 
+ #define nvme_opcode_name(opcode)	{ opcode, #opcode }
+-- 
+2.25.1
+
 
