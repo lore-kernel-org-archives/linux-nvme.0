@@ -4,95 +4,102 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 197DECDB465
-	for <linux-nvme@archiver.kernel.org>; Sat, 14 Oct 2023 09:11:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6EA2CCDB465
+	for <linux-nvme@archiver.kernel.org>; Sat, 14 Oct 2023 11:41:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:From:References:
+	Cc:To:Subject:MIME-Version:Date:Message-ID:Content-Type:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=g4SMTb693pxutFd1rZmtdpkvzw7HxP/4Iwdp4VvcK2E=; b=pLFpw8FvaVJskLi3DBMG5Q1WXI
-	iYtR3xT+MzWNHLrPeel7MHnQp0ItyoYqV9MmeLKdQNEO/rxPUrk1TRdQ01cP5mGGUhnO1OHuqmKhD
-	DRpxgDeUlqHK1vq/ZXb8zjzayCpNN36atHxCc9oZelg7Osdng06coYd4QAdxaBGTkwLH/1PM0vuFd
-	WcSXIuUmDYCkF1+ziceu5BV3T+p2bAAggY203u60Z/qA9o5lpgC33CfbFQVPSppt81g6iUwbuFZ12
-	cNDzjPez07WXM7631aP9rRXP9pxRXi9kBw+Euu2oa6yaBv5sv2OXSP1a6qK5rSTaV5kEruEXm3CBu
-	hT8gMw4Q==;
+	bh=swyR2lTh8IorHFfM8C13WnAzd7dyD+cQ+Ci3iwRaodk=; b=00WWdqI00ZcLnt9RkdTwoXCBN2
+	bnfdLQfzICIjO7EDY0k9Ov7s8wxku8HxkZ/LuBexaMxx/0e1p5Y37FN5c21VfXC9VygrDZsgtTG1v
+	BqbNusPiq44RB/EMmwHkonBhTCQ6KB28K+o4e/nnKHwDdXyn5u6cBlunZ59gDG8JuYMoP5awikleX
+	vKaaDhWxFo60ePRzMlYxF4xP2MYhH+n79qdXaULixnlhZEMAuBe9iS76mg1wwBNf+CXlo1UhFZc+n
+	TptxPKvxfDaQcCMk6r8F2/3vCAbkM50ed1lDNMyFJmJe67JJyVClK3dKichN8ZohFUdnavPo1ZBnC
+	J4ndMAXA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qrafx-0051EV-1s;
-	Sat, 14 Oct 2023 09:11:13 +0000
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19])
+	id 1qrd17-005HrM-0f;
+	Sat, 14 Oct 2023 11:41:13 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qrafr-0051Cr-2M
+	id 1qrd13-005HqW-1M
 	for linux-nvme@lists.infradead.org;
-	Sat, 14 Oct 2023 09:11:12 +0000
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.west.internal (Postfix) with ESMTP id 8DE7532009C4;
-	Sat, 14 Oct 2023 05:10:59 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Sat, 14 Oct 2023 05:11:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1697274659; x=1697361059; bh=g4
-	SMTb693pxutFd1rZmtdpkvzw7HxP/4Iwdp4VvcK2E=; b=a02Nj30JQimAFgcwCb
-	muVUYQKSNq2/JIdErFTo6DT1NI4rZITa0vw7cUfCVv8sPp5NBRNxoZY3kvRZE2yD
-	HES7CwAaMmZOj6Wsn+jamlyqZUzctF4axsTcq6eUZSxF3AVAiiHthAXc6myGu/yF
-	h+dT29LA0IWy7WOCYITwAftE12iVUps8IrbiV9qicvGvFk2VcXWwqhoYd/dNQ9Ic
-	oC7JgeWv6IE72mNef7wU+XWIz6AvUAeSMfFIInE9VkmS6e8FbKR+GgW09zDFoqOJ
-	CY2f0cOoF2KbBHftktLtWYXm3tWhOUTt8GvB+3dUzEFHy6OYG+qfyMI0xotV0GgS
-	CyTw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1697274659; x=1697361059; bh=g4SMTb693pxut
-	Fd1rZmtdpkvzw7HxP/4Iwdp4VvcK2E=; b=MO3Cj6pY7uUHeDvlpuVp1R4uGRZaO
-	amnRcaaLEI27h/ES/3oT4MBySUGqgV4ewxFvZOn4t3L0LikQtmMM6DW9mMszBTlt
-	1DNyYRNt/JtVFXcq6ujwIqKNhHfelx9y7qh+OHb27eVnd4yHpdeidivpLX4R028p
-	xydsP4J5dsfh7X+bvPRamug/kPoVM+1NUYVbx0ZPEN8DJCoM2tc9LXrzHFfHFfZH
-	Te23sSQ1EfiN7oanMNTI1d9hFa1AGZLWudkSwosh5pcSfnomUYuHTm00MfxSY078
-	hgTbD4con7FfLv8bN8HFCNpAlUsmPGcz9rZGj2L2EFNj4cN2w6uNZX6fA==
-X-ME-Sender: <xms:IlsqZVN7kUVV9sIbn9_vwGA5DAyIduecOjzheQTPDuQZnjF6cPwWqQ>
-    <xme:IlsqZX8wOEbjAv3qizbxugjIyGaYLEDRHylSHCkSO35J93vLa5pvN8xf76Z0jdA7A
-    EGwQbrAs4Z_sg>
-X-ME-Received: <xmr:IlsqZUQY8y8Z8avkMko--egK1f6gnlOwJ0GyveMh79Asemgm9W1X89IpxvQRC-v7frqPIbuClmlBOZ8L8D1sVoBa9pI4kaU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrieehgddufecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
-    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeegheeuhe
-    fgtdeluddtleekfeegjeetgeeikeehfeduieffvddufeefleevtddtvdenucffohhmrghi
-    nhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
-    hmrghilhhfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
-X-ME-Proxy: <xmx:IlsqZRvZ4W1NieaDaq3k4Ry1BdqRZMQjeA5yN7uuXNlEtXpE3czk1A>
-    <xmx:IlsqZdd2X31z0I0u2Uxg9t2_NVMFGE3WZ_a7ASyIaxDjPkAoF1K3lw>
-    <xmx:IlsqZd1fhadJLaEfVRMKcvJq_AYZI6OpEZb0uNTAStb-8pLv8hL-0g>
-    <xmx:I1sqZQU2Kx3FrxPJwjkl1OnEVi2DV8dUtP-eVjCwS4tltpa3O7orDA>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 14 Oct 2023 05:10:58 -0400 (EDT)
-Date: Sat, 14 Oct 2023 11:10:56 +0200
-From: Greg KH <greg@kroah.com>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: hch@lst.de, kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, vincentfu@gmail.com,
-	ankit.kumar@samsung.com, joshiiitr@gmail.com,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] nvme: remove unprivileged passthrough support
-Message-ID: <2023101437-external-paddling-8786@gregkh>
-References: <CGME20231014090724epcas5p443807b5d724c97645a8a85fc627bf1ad@epcas5p4.samsung.com>
- <20231014090108.128809-1-joshi.k@samsung.com>
+	Sat, 14 Oct 2023 11:41:11 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5E22F1F747;
+	Sat, 14 Oct 2023 11:41:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1697283662; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=swyR2lTh8IorHFfM8C13WnAzd7dyD+cQ+Ci3iwRaodk=;
+	b=lHv2HGmEIbiSnD8IeqYFs0NE3ypXxAXBCxRqG0phGtB3ACvPzLAfsNLtibQ7BEwxfJuJnW
+	pikLdhRzstO+2l4Ho2fFlNSxMcIwLuob7eshnUKWBUMctMmn6HvxtDSthMeUZds2pJcd29
+	FLSk62r6JCohpiZvxxq0d9rlcbs7yyw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1697283662;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=swyR2lTh8IorHFfM8C13WnAzd7dyD+cQ+Ci3iwRaodk=;
+	b=uoG65aEXLqAVdqCahP/zjAb1O7Xh0ZgVc3+mXTA5TT2qqMrqI8B9Gj2wZZfppJwmfDBQuQ
+	wlv1jGZkzMJq0VBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C79C51377D;
+	Sat, 14 Oct 2023 11:41:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id gI7tLE1+KmWzNAAAMHmgww
+	(envelope-from <hare@suse.de>); Sat, 14 Oct 2023 11:41:01 +0000
+Content-Type: multipart/mixed; boundary="------------sd071ddh80l3B60XbrvgK1kn"
+Message-ID: <c60d34b1-5e2f-4b32-8519-c4a4ff89060a@suse.de>
+Date: Sat, 14 Oct 2023 13:41:01 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231014090108.128809-1-joshi.k@samsung.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] nvme-auth: use transformed key size to create resp
+Content-Language: en-US
+To: Mark O'Donovan <shiftee@posteo.net>, linux-kernel@vger.kernel.org
+Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de,
+ axboe@kernel.dk, kbusch@kernel.org, Akash Appaiah <Akash.Appaiah@dell.com>
+References: <20231013202827.2262708-1-shiftee@posteo.net>
+ <20231013202827.2262708-2-shiftee@posteo.net>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20231013202827.2262708-2-shiftee@posteo.net>
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spamd-Result: default: False [-9.99 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 XM_UA_NO_VERSION(0.01)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%];
+	 MIME_GOOD(-0.10)[multipart/mixed,text/plain,text/x-patch];
+	 HAS_ATTACHMENT(0.00)[];
+	 REPLY(-4.00)[];
+	 MIME_BASE64_TEXT_BOGUS(1.00)[];
+	 NEURAL_HAM_LONG(-3.00)[-1.000];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-1.00)[-1.000];
+	 MIME_BASE64_TEXT(0.10)[];
+	 RCPT_COUNT_SEVEN(0.00)[8];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+,1:+,2:+];
+	 RCVD_COUNT_TWO(0.00)[2];
+	 RCVD_TLS_ALL(0.00)[];
+	 MID_RHS_MATCH_FROM(0.00)[]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231014_021108_135622_77FF1DF7 
-X-CRM114-Status: UNSURE (   9.59  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20231014_044109_756453_A39E9180 
+X-CRM114-Status: GOOD (  26.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,29 +114,150 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Oct 14, 2023 at 02:31:08PM +0530, Kanchan Joshi wrote:
-> Passthrough has got a hole that can be exploited to cause kernel memory
-> corruption. This is about making the device do larger DMA into
-> short meta/data buffer owned by kernel [1].
-> 
-> As a stopgap measure, disable the support of unprivileged passthrough.
-> 
-> This patch brings back coarse-granular CAP_SYS_ADMIN checks by reverting
-> following patches:
-> 
-> - 7d9d7d59d44 ("nvme: replace the fmode_t argument to the nvme ioctl handlers with a simple bool")
-> - 313c08c72ee ("nvme: don't allow unprivileged passthrough on partitions")
-> - 6f99ac04c46 ("nvme: consult the CSE log page for unprivileged passthrough")
-> - ea43fceea41 ("nvme: allow unprivileged passthrough of Identify Controller")
-> - e4fbcf32c86 ("nvme: identify-namespace without CAP_SYS_ADMIN")
-> - 855b7717f44 ("nvme: fine-granular CAP_SYS_ADMIN for nvme io commands")
-> 
-> [1] https://lore.kernel.org/linux-nvme/20231013051458.39987-1-joshi.k@samsung.com/
-> 
-> CC: stable@vger.kernel.org # 6.2
-> Fixes <855b7717f44b1> ("nvme: fine-granular CAP_SYS_ADMIN for nvme io commands")
+This is a multi-part message in MIME format.
+--------------sd071ddh80l3B60XbrvgK1kn
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Nit, this should be:
-Fixes: 855b7717f44b1 ("nvme: fine-granular CAP_SYS_ADMIN for nvme io commands")
+On 10/13/23 22:28, Mark O'Donovan wrote:
+> This does not change current behaviour as the driver currently
+> verifies that the secret size is the same size as the length of
+> the transformation hash.
+> 
+> Co-developed-by: Akash Appaiah <Akash.Appaiah@dell.com>
+> Signed-off-by: Akash Appaiah <Akash.Appaiah@dell.com>
+> Signed-off-by: Mark O'Donovan <shiftee@posteo.net>
+> ---
+>   drivers/nvme/host/auth.c | 11 ++++++++++-
+>   1 file changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+> index daf5d144a8ea..e7d478d17b06 100644
+> --- a/drivers/nvme/host/auth.c
+> +++ b/drivers/nvme/host/auth.c
+> @@ -418,6 +418,14 @@ static int nvme_auth_set_dhchap_failure2_data(struct nvme_ctrl *ctrl,
+>   	return size;
+>   }
+>   
+> +static int nvme_auth_dhchap_transformed_key_len(struct nvme_dhchap_key *key)
+> +{
+> +	if (key->hash)
+> +		return nvme_auth_hmac_hash_len(key->hash);
+> +
+> +	return key->len;
+> +}
+> +
+>   static int nvme_auth_dhchap_setup_host_response(struct nvme_ctrl *ctrl,
+>   		struct nvme_dhchap_queue_context *chap)
+>   {
+> @@ -442,7 +450,8 @@ static int nvme_auth_dhchap_setup_host_response(struct nvme_ctrl *ctrl,
+>   	}
+>   
+>   	ret = crypto_shash_setkey(chap->shash_tfm,
+> -			chap->host_response, ctrl->host_key->len);
+> +			chap->host_response,
+> +			nvme_auth_dhchap_transformed_key_len(ctrl->host_key));
+>   	if (ret) {
+>   		dev_warn(ctrl->device, "qid %d: failed to set key, error %d\n",
+>   			 chap->qid, ret);
 
+Hmm. Yeah, hash size vs secret size always gets me.
+However, wouldn't it be better to return the key size from
+nvme_auth_transform_key and us that directly?
+(cf the attached patch)
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
+Myers, Andrew McDonald, Martje Boudien Moerman
+
+--------------sd071ddh80l3B60XbrvgK1kn
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0001-nvme-auth-use-length-of-the-transformed-key.patch"
+Content-Disposition: attachment;
+ filename="0001-nvme-auth-use-length-of-the-transformed-key.patch"
+Content-Transfer-Encoding: base64
+
+RnJvbSAxNGFjMDZhNTg2YzQ0Y2ExODZiNTI3MDA5NWY1NTFmM2JkYjc3ZjE4IE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBIYW5uZXMgUmVpbmVja2UgPGhhcmVAc3VzZS5kZT4K
+RGF0ZTogU2F0LCAxNCBPY3QgMjAyMyAxMzozNzozMSArMDIwMApTdWJqZWN0OiBbUEFUQ0hd
+IG52bWUtYXV0aDogdXNlIGxlbmd0aCBvZiB0aGUgdHJhbnNmb3JtZWQga2V5CgpUaGUga2V5
+IGxlbmd0aCBmb3IgZ2VuZXJhdGluZyB0aGUgaG9zdCByZXNwb25zZSBpcyB0aGUgbGVuZ3Ro
+Cm9mIHRoZSB0cmFuc2Zvcm1lZCBob3N0IHJlc3BvbnNlLCB3aGljaCBtYXkgYmUgZGlmZmVy
+ZW50IGZyb20KdGhlIGxlbmd0aCBvZiBob3N0IGtleS4KClNpZ25lZC1vZmYtYnk6IEhhbm5l
+cyBSZWluZWNrZSA8aGFyZUBzdXNlLmRlPgotLS0KIGRyaXZlcnMvbnZtZS9jb21tb24vYXV0
+aC5jIHwgOSArKysrKysrLS0KIGRyaXZlcnMvbnZtZS9ob3N0L2F1dGguYyAgIHwgNyArKysr
+Ky0tCiBpbmNsdWRlL2xpbnV4L252bWUtYXV0aC5oICB8IDMgKystCiAzIGZpbGVzIGNoYW5n
+ZWQsIDE0IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9udm1lL2NvbW1vbi9hdXRoLmMgYi9kcml2ZXJzL252bWUvY29tbW9uL2F1dGguYwpp
+bmRleCBkOTBlNGYwYzA4YjcuLmRkNWYxYTIyMWY1MiAxMDA2NDQKLS0tIGEvZHJpdmVycy9u
+dm1lL2NvbW1vbi9hdXRoLmMKKysrIGIvZHJpdmVycy9udm1lL2NvbW1vbi9hdXRoLmMKQEAg
+LTIyOSw3ICsyMjksOCBAQCB2b2lkIG52bWVfYXV0aF9mcmVlX2tleShzdHJ1Y3QgbnZtZV9k
+aGNoYXBfa2V5ICprZXkpCiB9CiBFWFBPUlRfU1lNQk9MX0dQTChudm1lX2F1dGhfZnJlZV9r
+ZXkpOwogCi11OCAqbnZtZV9hdXRoX3RyYW5zZm9ybV9rZXkoc3RydWN0IG52bWVfZGhjaGFw
+X2tleSAqa2V5LCBjaGFyICpucW4pCit1OCAqbnZtZV9hdXRoX3RyYW5zZm9ybV9rZXkoc3Ry
+dWN0IG52bWVfZGhjaGFwX2tleSAqa2V5LCBjaGFyICpucW4sCisJCQkgICAgc2l6ZV90ICp0
+cmFuc2Zvcm1lZF9sZW4pCiB7CiAJY29uc3QgY2hhciAqaG1hY19uYW1lOwogCXN0cnVjdCBj
+cnlwdG9fc2hhc2ggKmtleV90Zm07CkBAIC0yNDMsNiArMjQ0LDggQEAgdTggKm52bWVfYXV0
+aF90cmFuc2Zvcm1fa2V5KHN0cnVjdCBudm1lX2RoY2hhcF9rZXkgKmtleSwgY2hhciAqbnFu
+KQogCX0KIAlpZiAoa2V5LT5oYXNoID09IDApIHsKIAkJdHJhbnNmb3JtZWRfa2V5ID0ga21l
+bWR1cChrZXktPmtleSwga2V5LT5sZW4sIEdGUF9LRVJORUwpOworCQlpZiAodHJhbnNmb3Jt
+ZWRfa2V5KQorCQkJKnRyYW5zZm9ybWVkX2xlbiA9IGtleS0+bGVuOwogCQlyZXR1cm4gdHJh
+bnNmb3JtZWRfa2V5ID8gdHJhbnNmb3JtZWRfa2V5IDogRVJSX1BUUigtRU5PTUVNKTsKIAl9
+CiAJaG1hY19uYW1lID0gbnZtZV9hdXRoX2htYWNfbmFtZShrZXktPmhhc2gpOwpAQCAtMjYz
+LDcgKzI2Niw4IEBAIHU4ICpudm1lX2F1dGhfdHJhbnNmb3JtX2tleShzdHJ1Y3QgbnZtZV9k
+aGNoYXBfa2V5ICprZXksIGNoYXIgKm5xbikKIAkJZ290byBvdXRfZnJlZV9rZXk7CiAJfQog
+Ci0JdHJhbnNmb3JtZWRfa2V5ID0ga3phbGxvYyhjcnlwdG9fc2hhc2hfZGlnZXN0c2l6ZShr
+ZXlfdGZtKSwgR0ZQX0tFUk5FTCk7CisJKnRyYW5zZm9ybWVkX2xlbiA9IGNyeXB0b19zaGFz
+aF9kaWdlc3RzaXplKGtleV90Zm0pOworCXRyYW5zZm9ybWVkX2tleSA9IGt6YWxsb2MoKnRy
+YW5zZm9ybWVkX2xlbiwgR0ZQX0tFUk5FTCk7CiAJaWYgKCF0cmFuc2Zvcm1lZF9rZXkpIHsK
+IAkJcmV0ID0gLUVOT01FTTsKIAkJZ290byBvdXRfZnJlZV9zaGFzaDsKQEAgLTI5NCw2ICsy
+OTgsNyBAQCB1OCAqbnZtZV9hdXRoX3RyYW5zZm9ybV9rZXkoc3RydWN0IG52bWVfZGhjaGFw
+X2tleSAqa2V5LCBjaGFyICpucW4pCiBvdXRfZnJlZV90cmFuc2Zvcm1lZF9rZXk6CiAJa2Zy
+ZWVfc2Vuc2l0aXZlKHRyYW5zZm9ybWVkX2tleSk7CiBvdXRfZnJlZV9zaGFzaDoKKwkqdHJh
+bnNmb3JtZWRfbGVuID0gMDsKIAlrZnJlZShzaGFzaCk7CiBvdXRfZnJlZV9rZXk6CiAJY3J5
+cHRvX2ZyZWVfc2hhc2goa2V5X3RmbSk7CmRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvaG9z
+dC9hdXRoLmMgYi9kcml2ZXJzL252bWUvaG9zdC9hdXRoLmMKaW5kZXggZGFmNWQxNDRhOGVh
+Li45MjliMzc1MDJmMTIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvbnZtZS9ob3N0L2F1dGguYwor
+KysgYi9kcml2ZXJzL252bWUvaG9zdC9hdXRoLmMKQEAgLTQwLDYgKzQwLDcgQEAgc3RydWN0
+IG52bWVfZGhjaGFwX3F1ZXVlX2NvbnRleHQgewogCXU4ICpjdHJsX2tleTsKIAl1OCAqaG9z
+dF9rZXk7CiAJdTggKnNlc3Nfa2V5OworCWludCBob3N0X3Jlc3BvbnNlX2xlbjsKIAlpbnQg
+Y3RybF9rZXlfbGVuOwogCWludCBob3N0X2tleV9sZW47CiAJaW50IHNlc3Nfa2V5X2xlbjsK
+QEAgLTQzMCwxMCArNDMxLDEyIEBAIHN0YXRpYyBpbnQgbnZtZV9hdXRoX2RoY2hhcF9zZXR1
+cF9ob3N0X3Jlc3BvbnNlKHN0cnVjdCBudm1lX2N0cmwgKmN0cmwsCiAKIAlpZiAoIWNoYXAt
+Pmhvc3RfcmVzcG9uc2UpIHsKIAkJY2hhcC0+aG9zdF9yZXNwb25zZSA9IG52bWVfYXV0aF90
+cmFuc2Zvcm1fa2V5KGN0cmwtPmhvc3Rfa2V5LAotCQkJCQkJY3RybC0+b3B0cy0+aG9zdC0+
+bnFuKTsKKwkJCQkJCWN0cmwtPm9wdHMtPmhvc3QtPm5xbiwKKwkJCQkJCSZjaGFwLT5ob3N0
+X3Jlc3BvbnNlX2xlbik7CiAJCWlmIChJU19FUlIoY2hhcC0+aG9zdF9yZXNwb25zZSkpIHsK
+IAkJCXJldCA9IFBUUl9FUlIoY2hhcC0+aG9zdF9yZXNwb25zZSk7CiAJCQljaGFwLT5ob3N0
+X3Jlc3BvbnNlID0gTlVMTDsKKwkJCWNoYXAtPmhvc3RfcmVzcG9uc2VfbGVuID0gMDsKIAkJ
+CXJldHVybiByZXQ7CiAJCX0KIAl9IGVsc2UgewpAQCAtNDQyLDcgKzQ0NSw3IEBAIHN0YXRp
+YyBpbnQgbnZtZV9hdXRoX2RoY2hhcF9zZXR1cF9ob3N0X3Jlc3BvbnNlKHN0cnVjdCBudm1l
+X2N0cmwgKmN0cmwsCiAJfQogCiAJcmV0ID0gY3J5cHRvX3NoYXNoX3NldGtleShjaGFwLT5z
+aGFzaF90Zm0sCi0JCQljaGFwLT5ob3N0X3Jlc3BvbnNlLCBjdHJsLT5ob3N0X2tleS0+bGVu
+KTsKKwkJCWNoYXAtPmhvc3RfcmVzcG9uc2UsIGNoYXAtPmhvc3RfcmVzcG9uc2VfbGVuKTsK
+IAlpZiAocmV0KSB7CiAJCWRldl93YXJuKGN0cmwtPmRldmljZSwgInFpZCAlZDogZmFpbGVk
+IHRvIHNldCBrZXksIGVycm9yICVkXG4iLAogCQkJIGNoYXAtPnFpZCwgcmV0KTsKZGlmZiAt
+LWdpdCBhL2luY2x1ZGUvbGludXgvbnZtZS1hdXRoLmggYi9pbmNsdWRlL2xpbnV4L252bWUt
+YXV0aC5oCmluZGV4IGRjYjgwMzAwNjJkZC4uNzJmNTk2MzJiZjM4IDEwMDY0NAotLS0gYS9p
+bmNsdWRlL2xpbnV4L252bWUtYXV0aC5oCisrKyBiL2luY2x1ZGUvbGludXgvbnZtZS1hdXRo
+LmgKQEAgLTI3LDcgKzI3LDggQEAgdTggbnZtZV9hdXRoX2htYWNfaWQoY29uc3QgY2hhciAq
+aG1hY19uYW1lKTsKIHN0cnVjdCBudm1lX2RoY2hhcF9rZXkgKm52bWVfYXV0aF9leHRyYWN0
+X2tleSh1bnNpZ25lZCBjaGFyICpzZWNyZXQsCiAJCQkJCSAgICAgIHU4IGtleV9oYXNoKTsK
+IHZvaWQgbnZtZV9hdXRoX2ZyZWVfa2V5KHN0cnVjdCBudm1lX2RoY2hhcF9rZXkgKmtleSk7
+Ci11OCAqbnZtZV9hdXRoX3RyYW5zZm9ybV9rZXkoc3RydWN0IG52bWVfZGhjaGFwX2tleSAq
+a2V5LCBjaGFyICpucW4pOwordTggKm52bWVfYXV0aF90cmFuc2Zvcm1fa2V5KHN0cnVjdCBu
+dm1lX2RoY2hhcF9rZXkgKmtleSwgY2hhciAqbnFuLAorCQkJICAgIHNpemVfdCAqdHJhbnNm
+b3JtZWRfbGVuKTsKIGludCBudm1lX2F1dGhfZ2VuZXJhdGVfa2V5KHU4ICpzZWNyZXQsIHN0
+cnVjdCBudm1lX2RoY2hhcF9rZXkgKipyZXRfa2V5KTsKIGludCBudm1lX2F1dGhfYXVnbWVu
+dGVkX2NoYWxsZW5nZSh1OCBobWFjX2lkLCB1OCAqc2tleSwgc2l6ZV90IHNrZXlfbGVuLAog
+CQkJCSAgdTggKmNoYWxsZW5nZSwgdTggKmF1Zywgc2l6ZV90IGhsZW4pOwotLSAKMi4zNS4z
+Cgo=
+
+--------------sd071ddh80l3B60XbrvgK1kn--
 
