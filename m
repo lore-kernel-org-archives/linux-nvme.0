@@ -4,51 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 45E45CDB465
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Oct 2023 05:47:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8AE7DCDB465
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Oct 2023 05:56:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FNZqBNhUVo/x95BL9oUFX3uZRSSBLvHPnYvzlPg/o3E=; b=VWSdyM23t8rPKnwxuiI6jf6isH
-	JyiN6b+1vvRM7r37ZsoByU7SDLVjlgTIHasdC+A6M1/015inA6p61n6nHMBv18QHF67FHfIhCr0cu
-	/Y/7BNdTBkvKoaDu09E2riR6coRK1IftHF02mrZxvqcmc7B/wprpSdxu6VBHUpcVDGvfj3IOxneEA
-	A3L/LpeBnKmaZgyWzaoep484yG5wSso2AIBhSZZ0rXe6iCuCmMkwKDl17l+0ZdtilmNh5tyQZr3Zb
-	h4RLUwNQkGrtaZcwnoKMSGgL1ud/rmBVNMzLB1vMo+TOajKDXYbwLJgin4IDH8d24H5t6L2w7C0kX
-	2pjRXuCg==;
+	bh=aGay0HMidIwvIDa8IQFiBzwZwAzN4hLo0QPU8H323mk=; b=AvvLa1wxdTjwaCOc0EXNPRz7jH
+	U0u6QBrF9bHVVLHdP50S1AaWpXut2v/BYFOLZVTCNSW/8IdNAm1Wd1j0OtYltQGr5oWn32JAAY8If
+	1h23jo5Q7xR3e5efRRtd7tC1R4R8KZh6bgp1DjtFRjhkbqf1tkCg+8Cx9yZcL/7rbGxKuIQFrQdCE
+	j8oqi5ed7fnYuoYjR0n/EVXFaf1SupUA42+wiGwcA37A6RVZ8YsCLIlvdi4zpLw0wRGYeB8fr3R44
+	oCDYB0P1mgK1egVqZ1Bh1xZapVQ+1aA5578OstY0VYdz+C4WJIE/8Qbsir0qqPakIgvDHgxWx0Iaj
+	yWYyhPgw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qsGRL-008QVo-1f;
-	Mon, 16 Oct 2023 05:46:55 +0000
-Received: from verein.lst.de ([213.95.11.211])
-	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qsGRI-008QU5-0Y
-	for linux-nvme@lists.infradead.org;
-	Mon, 16 Oct 2023 05:46:54 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 197936732A; Mon, 16 Oct 2023 07:46:48 +0200 (CEST)
-Date: Mon, 16 Oct 2023 07:46:47 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Kanchan Joshi <joshiiitr@gmail.com>
-Cc: Christoph Hellwig <hch@lst.de>, Kanchan Joshi <joshi.k@samsung.com>,
-	Keith Busch <kbusch@kernel.org>, axboe@kernel.dk, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, vincentfu@gmail.com,
-	ankit.kumar@samsung.com, stable@vger.kernel.org,
-	Vincent Fu <vincent.fu@samsung.com>
-Subject: Re: [PATCH v4] nvme: fix corruption for passthrough meta/data
-Message-ID: <20231016054647.GA26170@lst.de>
-References: <CGME20231013052157epcas5p3dc0698c56f9846191d315fa8d33ccb5c@epcas5p3.samsung.com> <20231013051458.39987-1-joshi.k@samsung.com> <20231013052612.GA6423@lst.de> <8c755915-2366-28ff-ffd4-be17d797557c@samsung.com> <ZSlL-6Oa5J9duahR@kbusch-mbp> <3438f3b8-f7d4-f0bd-44ef-7efb09ed6151@samsung.com> <20231013154708.GA17455@lst.de> <CA+1E3rKaUW0YN+bphe9n26ZRTX1rq6M0z7Hpc=zLOJE1AER9hw@mail.gmail.com>
+	id 1qsGaq-008Tai-1q;
+	Mon, 16 Oct 2023 05:56:44 +0000
+Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+	id 1qsGao-008Ta2-0S;
+	Mon, 16 Oct 2023 05:56:42 +0000
+Date: Sun, 15 Oct 2023 22:56:42 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Maurizio Lombardi <mlombard@redhat.com>
+Cc: hare@suse.de, sagi@grimberg.me, kch@nvidia.com,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvmet-auth: complete a request only after freeing the
+ dhchap pointers
+Message-ID: <ZSzQmlEBkcJQ0P24@infradead.org>
+References: <20231013094239.332235-1-mlombard@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CA+1E3rKaUW0YN+bphe9n26ZRTX1rq6M0z7Hpc=zLOJE1AER9hw@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231015_224652_350079_DE090CFF 
-X-CRM114-Status: UNSURE (   9.66  )
-X-CRM114-Notice: Please train this message.
+In-Reply-To: <20231013094239.332235-1-mlombard@redhat.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,12 +52,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Oct 16, 2023 at 12:49:45AM +0530, Kanchan Joshi wrote:
-> OTOH, this patch implemented a software-only way out. There are some
-> checks, but someone (either SW or HW) has to do those to keep things
-> right.
+On Fri, Oct 13, 2023 at 11:42:39AM +0200, Maurizio Lombardi wrote:
+> -	nvmet_req_complete(req, status);
+>  	if (req->sq->dhchap_step != NVME_AUTH_DHCHAP_MESSAGE_SUCCESS2 &&
+>  	    req->sq->dhchap_step != NVME_AUTH_DHCHAP_MESSAGE_FAILURE2) {
+>  		unsigned long auth_expire_secs = ctrl->kato ? ctrl->kato : 120;
+>  
+>  		mod_delayed_work(system_wq, &req->sq->auth_expired_work,
+>  				 auth_expire_secs * HZ);
+> +
+> +		nvmet_req_complete(req, status);
+>  		return;
+>  	}
+>  	/* Final states, clear up variables */
+>  	nvmet_auth_sq_free(req->sq);
+>  	if (req->sq->dhchap_step == NVME_AUTH_DHCHAP_MESSAGE_FAILURE2)
+>  		nvmet_ctrl_fatal_error(ctrl);
+> +	nvmet_req_complete(req, status);
 
-It only verifies it to the read/write family of commands by
-interpreting these commands.  It still leaves a wide hole for any
-other command.
+I'd be tempted to use a goto here to have a single completion path.
+
+>  }
+>  
+>  static int nvmet_auth_challenge(struct nvmet_req *req, void *d, int al)
+> @@ -514,11 +516,14 @@ void nvmet_execute_auth_receive(struct nvmet_req *req)
+>  	kfree(d);
+>  done:
+>  	req->cqe->result.u64 = 0;
+> -	nvmet_req_complete(req, status);
+> +
+>  	if (req->sq->dhchap_step == NVME_AUTH_DHCHAP_MESSAGE_SUCCESS2)
+>  		nvmet_auth_sq_free(req->sq);
+>  	else if (req->sq->dhchap_step == NVME_AUTH_DHCHAP_MESSAGE_FAILURE1) {
+>  		nvmet_auth_sq_free(req->sq);
+>  		nvmet_ctrl_fatal_error(ctrl);
+> +		nvmet_req_complete(req, status);
+> +		return;
+>  	}
+> +	nvmet_req_complete(req, status);
+
+And this looks really odd to me.  Why do a manual complete and return
+in the branch just to skip the complete right after it?
 
