@@ -4,63 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A2580CDB465
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Oct 2023 08:55:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9ED18CDB465
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Oct 2023 08:57:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tnluNFbmab5ay4tuYvNxqBLAyNMV6NJXc75I3P7Oxok=; b=c+mFkGnUp58Nchw3kO2W02rbVQ
-	N3Sq4PjAXsC23v+vtVk+njQP41ldWwwoqc7TpdoXluSU7fofC+wGOB/cnU9Delr7pgyCZoE23vlzT
-	YeO2nKYJvM8Yk0rfARcrbbuVFLipirUPeSlZb6tv0rV0J48Vd3pZ+BMI/5kgx+LyIlgPoDDzkIGfG
-	lfH7d4b7+mCwQRkSa32hy3D52QnYg54X+3gkIuniU96mBN92XmNOaSoFMnkN+FfiHEquYpGrFTM3D
-	+y9WAKhSO4gPszgarmRvknhidiusqsXH4VjsZZX94fRag8w5L7YthcqNE309Myc2C+SfucdP7q3VX
-	sSQAZ1KQ==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=dZUE3Z5gEAdTYpsICV+v1ype6V/m6s1n6fA5c3g9VNo=; b=28FAOuxavJXn9N7HltXCzfm0zY
+	zXo2p3LOelMcbcm2x8sIAp6FkUwGsZhHpbjomLEUzwzLPP5+nzZortUQrseIqgRULRtKDRK/l6Ya4
+	HgiQGy7FoFUoG/R4/S+Jhq3Is4OVPrVxV7N+zQQQe2FoOsX561o6SDaSP+MYAEZtEi83GEzuGv9gW
+	91bhYzus8PLhieB3Squm8zypHyDodKqZhwDu6n2EVkuNoneyy2EPGe3m4ZTGxRKDtIBHoz5uuMYoV
+	AATrooCEltvlJ6bX2Q5XVWAxrtJQJLeDaWIHhULd5w8K+SpBEqhXu8/weLAWgLyc6BuceL596t9TH
+	VuioXGYg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qsJNX-008uGU-2p;
-	Mon, 16 Oct 2023 08:55:11 +0000
-Received: from mout02.posteo.de ([185.67.36.66])
+	id 1qsJPk-008uPR-05;
+	Mon, 16 Oct 2023 08:57:28 +0000
+Received: from mout01.posteo.de ([185.67.36.65])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qsJNV-008uEZ-04
+	id 1qsJPh-008uOo-29
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Oct 2023 08:55:10 +0000
+	Mon, 16 Oct 2023 08:57:27 +0000
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id 324F7240101
-	for <linux-nvme@lists.infradead.org>; Mon, 16 Oct 2023 10:55:00 +0200 (CEST)
+	by mout01.posteo.de (Postfix) with ESMTPS id 0B49424002A
+	for <linux-nvme@lists.infradead.org>; Mon, 16 Oct 2023 10:57:22 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-	t=1697446503; bh=lcNO8RF8USGnm28CYJPW25RzcPZaulI87Ufu5MZHyDw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:
+	t=1697446643; bh=VvG7lAdIJ52HfYW9RRUqb2VWt1HKenPkukM7Qd9aHuI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:
 	 Content-Transfer-Encoding:From;
-	b=ZuMb11FjDdRmUE0axVeJ4HLJ3ZQbvSswZremwJ03NnMz84KR75watyOali/Lf6fXT
-	 rNrxxhYt4IWFhHoQ2775EXnmWTgwY6xJjdoDEbP7Ab6Es6e5R7yZRWllkxU+6HHl+R
-	 MTIoaHXuevY5OA38mG9VpVNkW3b10VB/ZoccpuZS+V6R2vM5kHAvww7mL5Vq8utmDx
-	 liP9iUveXXtx8KxrGRj2XDpubImQgma5dVUuKjirlqsPMiNCH4iN34+UhARnEPvTqA
-	 +W1LaRGrhMO6/R38KACq91VBGn7bOqrTtvf6YGgXFtI+HbM28c55gQquk6gJCDXYcv
-	 CKz8r1H0FL3Nw==
+	b=NWQPHzLRMTR8Pk9DeYLyi5vyXdcN3/zuTOUOsGu0LORvfL3DwNV/KR/7y3ixlG2TV
+	 exAbr7yqfQGmG0Chov20evhIvg3PLXiKIlbDW5aS1/eYCX8Ji6kfYoQkjkBYD+wE7k
+	 F4xZG+Bu58iWow4t+N3FkrL1226F0uOy09kmrzhdnvVMEpqdwp0QUE0zGwB4UtIao1
+	 8cUlkBUR2AM70ppAjjZApdpBU71C3BdCDweV3/eZYBlijH04Y3FjoNdIHhejXfoyhG
+	 2ZOZucDHE+uAFNV1ajbCRMw3uKJU09qEtEhXxtA7ve6gXGsEtfMxbpHthje+zx291u
+	 mUpKtCPMTnhpw==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4S89st09KMz9rxY;
-	Mon, 16 Oct 2023 10:54:57 +0200 (CEST)
-Message-ID: <7e3e0394-c644-4f7c-b7c8-849d459b3931@posteo.net>
-Date: Mon, 16 Oct 2023 08:54:57 +0000
-MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] nvme-auth: use transformed key size to create resp
-Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, linux-kernel@vger.kernel.org
-Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de,
- axboe@kernel.dk, kbusch@kernel.org, Akash Appaiah <Akash.Appaiah@dell.com>
-References: <20231013202827.2262708-1-shiftee@posteo.net>
- <20231013202827.2262708-2-shiftee@posteo.net>
- <c60d34b1-5e2f-4b32-8519-c4a4ff89060a@suse.de>
+	by submission (posteo.de) with ESMTPSA id 4S89wc6Cx8z9rxR;
+	Mon, 16 Oct 2023 10:57:20 +0200 (CEST)
 From: Mark O'Donovan <shiftee@posteo.net>
-In-Reply-To: <c60d34b1-5e2f-4b32-8519-c4a4ff89060a@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: linux-kernel@vger.kernel.org
+Cc: linux-nvme@lists.infradead.org,
+	sagi@grimberg.me,
+	hch@lst.de,
+	axboe@kernel.dk,
+	kbusch@kernel.org,
+	hare@suse.de,
+	Mark O'Donovan <shiftee@posteo.net>
+Subject: [PATCH v2 0/2] Remove secret-size restrictions for hashes
+Date: Mon, 16 Oct 2023 08:57:13 +0000
+Message-Id: <20231016085715.3068974-1-shiftee@posteo.net>
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231016_015509_200996_90FDEABA 
-X-CRM114-Status: GOOD (  17.39  )
+X-CRM114-CacheID: sfid-20231016_015725_841806_DEDB2053 
+X-CRM114-Status: UNSURE (   7.44  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,62 +75,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 14/10/2023 12:41, Hannes Reinecke wrote:
-> On 10/13/23 22:28, Mark O'Donovan wrote:
->> This does not change current behaviour as the driver currently
->> verifies that the secret size is the same size as the length of
->> the transformation hash.
->>
->> Co-developed-by: Akash Appaiah <Akash.Appaiah@dell.com>
->> Signed-off-by: Akash Appaiah <Akash.Appaiah@dell.com>
->> Signed-off-by: Mark O'Donovan <shiftee@posteo.net>
->> ---
->>   drivers/nvme/host/auth.c | 11 ++++++++++-
->>   1 file changed, 10 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
->> index daf5d144a8ea..e7d478d17b06 100644
->> --- a/drivers/nvme/host/auth.c
->> +++ b/drivers/nvme/host/auth.c
->> @@ -418,6 +418,14 @@ static int nvme_auth_set_dhchap_failure2_data(struct nvme_ctrl *ctrl,
->>       return size;
->>   }
->> +static int nvme_auth_dhchap_transformed_key_len(struct nvme_dhchap_key *key)
->> +{
->> +    if (key->hash)
->> +        return nvme_auth_hmac_hash_len(key->hash);
->> +
->> +    return key->len;
->> +}
->> +
->>   static int nvme_auth_dhchap_setup_host_response(struct nvme_ctrl *ctrl,
->>           struct nvme_dhchap_queue_context *chap)
->>   {
->> @@ -442,7 +450,8 @@ static int nvme_auth_dhchap_setup_host_response(struct nvme_ctrl *ctrl,
->>       }
->>       ret = crypto_shash_setkey(chap->shash_tfm,
->> -            chap->host_response, ctrl->host_key->len);
->> +            chap->host_response,
->> +            nvme_auth_dhchap_transformed_key_len(ctrl->host_key));
->>       if (ret) {
->>           dev_warn(ctrl->device, "qid %d: failed to set key, error %d\n",
->>                chap->qid, ret);
-> 
-> Hmm. Yeah, hash size vs secret size always gets me.
-> However, wouldn't it be better to return the key size from
-> nvme_auth_transform_key and us that directly?
-> (cf the attached patch)
-> 
-> Cheers,
-> 
-> Hannes
+This relates to the hash functions used to transform the secret.
+The kernel currently restricts us to using secrets equal in size
+to the transformation hash function they use.
+e.g. 32 byte secrets with the SHA-256(32 byte) hash function.
 
-Hi Hannes,
+This restriction is not required by the spec and means
+incompatibility with more permissive implementations.
 
-I gave this a try and it ended up being easier to put it in struct nvme_dhchap_key.
-V2 also does the nvme target code, and this means the length is stored in the same place.
-Let me know if this works for you.
+With these patches the example secret from the spec should now
+be permitted with any of the following:
+DHHC-1:00:ia6zGodOr4SEG0Zzaw398rpY0wqipUWj4jWjUh4HWUz6aQ2n:
+DHHC-1:01:ia6zGodOr4SEG0Zzaw398rpY0wqipUWj4jWjUh4HWUz6aQ2n:
+DHHC-1:02:ia6zGodOr4SEG0Zzaw398rpY0wqipUWj4jWjUh4HWUz6aQ2n:
+DHHC-1:03:ia6zGodOr4SEG0Zzaw398rpY0wqipUWj4jWjUh4HWUz6aQ2n:
 
-Thanks,
-Mark
+Note: Secrets are still restricted to 32,48 or 64 bits.
+
+
+Mark O'Donovan (2):
+  nvme-auth: use transformed key size to create resp
+  nvme-auth: allow mixing of secret and hash lengths
+
+ drivers/nvme/common/auth.c | 14 +++++---------
+ drivers/nvme/host/auth.c   |  4 ++--
+ drivers/nvme/target/auth.c |  4 ++--
+ include/linux/nvme-auth.h  |  3 ++-
+ 4 files changed, 11 insertions(+), 14 deletions(-)
+
+-- 
+2.39.2
+
 
