@@ -4,146 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D445CDB474
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Oct 2023 09:14:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65E3CCDB465
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Oct 2023 18:29:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/6b/m69bH1hakX2IpOenUNDtnfqIWjaPHpWXTg/L9nU=; b=Zc6YhPbJmG/qKnAd+2oSdqfFjm
-	pZHEpA8sHl1fZM1sUyj1QisWaWU8RSpOAH5GF/XtYskqno7dZ9VUl/P2lBsWTiFvAVb1tGEmk3vJd
-	H8iOoGQ6mKKI2EXCVJCZV2EP4yCwEym2KGS6V43zcrnha3n3k2Y6pDFFSiKZLFDw87eazw8CtaiHi
-	/G+nbLc67KV6t2zJo95VDaW21L8ZE9xqA1S2Ri/dafxBiKHoYZUokE+9E+8bvbK9mhUjGc+RqIK6b
-	0xgL6B91mM5tJHhP04vRqyEKQ61oP9Up6kosLGpElCQk68Yp9v48hqk4NqbLv4XppCDkbM188HrkB
-	nW8aeD7A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=M0/VrizS9CCegosfaWQFO4TGW+PXLFiE7zXI5x3qtAY=; b=0apGOKhXFdvaAWg+olz82B9lQd
+	lbbK4Aj0EXIYyAGSTgx/R9iH6OY69dUcYkWtT65rb57rxsD/9ZmXLu4z5AC8LKlsd9pPALYzCTtLr
+	mVd5qom320WC76MDib6+kKCQ0lS31g+yPbtVn7lrwQhDchPmH/YcIj4CcvrZvj1VJhDh/9/xzeFto
+	eRh3lPvnULL0wx3ICGkCVSQM6en46Fdi3vDBNzIQa19xok+YiL0snQt7XnrgX92rWEBbnxjwsUhUF
+	D+nu6hDNe22y6XMRSRcWUaoTk+wZhry7fN3wJyJ35RXuK6PilZizO3bCkWFLEttzle05Fau5hOlKI
+	zc3xCuLQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qsJgV-008xTa-1c;
-	Mon, 16 Oct 2023 09:14:47 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1qsSLO-00AKRO-1r;
+	Mon, 16 Oct 2023 18:29:34 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qsJgT-008xRo-0B
+	id 1qsSLI-00AKQn-37
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Oct 2023 09:14:46 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1D9801FDB2;
-	Mon, 16 Oct 2023 09:14:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1697447680; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=/6b/m69bH1hakX2IpOenUNDtnfqIWjaPHpWXTg/L9nU=;
-	b=f9phY6EIY+MbW9wGgElShUsMyEblD9HWMBvpGeD0QhEYo/Um748DhPQsyvF2FUCKkF+aMS
-	vxCL7bA2fntPh0OqDx+ebIcbC7nwVBZZQjeN+0OiagN/buW5sIfVnFCoEzlZueNXDaT4pf
-	mznv8f4NXdxJ8Kyz8/Xa/YZvaIHwSqk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1697447680;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=/6b/m69bH1hakX2IpOenUNDtnfqIWjaPHpWXTg/L9nU=;
-	b=ubq71oT52tA5Z+/oU4d1X9E9Q9ju7ewEhMVDr0+GsWu83l5zOEpaTsuHSiKcbimMBn+UA3
-	QsRK70JLfZ2mqLAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CFEEE138EF;
-	Mon, 16 Oct 2023 09:14:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id cEK1MP/+LGWYKwAAMHmgww
-	(envelope-from <hare@suse.de>); Mon, 16 Oct 2023 09:14:39 +0000
-Message-ID: <4fb894c2-653b-48c7-be48-5eeb3978063c@suse.de>
-Date: Mon, 16 Oct 2023 11:14:38 +0200
+	Mon, 16 Oct 2023 18:29:31 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id D7074CE1929;
+	Mon, 16 Oct 2023 18:29:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7650CC433C8;
+	Mon, 16 Oct 2023 18:29:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697480966;
+	bh=yuGWXVbbEcuLeJ7Extuqjbdhidvv8Ij/CY/GCaXH430=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jn8xE6pqedjuHU8T69hr6m/q0c4n4YsWH67r+Qkch+x4Fm2VJ1iTMHcTXaV4HfEZa
+	 xMaNxPY2giJFKQOXl+3Urk046fGsnAv4bEYhFUjbRVDa8m0yhCg1Wk6LNXBwhL94s8
+	 WiPiSO+x2ScDiZN7gKppUKGJ6l+nEDI98DDS2ph6sNeElAhbE4sxVq4xx6IXc8jgOO
+	 82hMbCu51Ld8NwxEuoCkZ26WEkGlFsXWizFKnwRXtl45uH8X2h9XiJxunog18lTRZG
+	 4NNb6KkfDZM7I+6A+H2BLFuvGcgpKb3YkdiKrLOxk0TUVKdew5TeVtgimnhxbM/haE
+	 0T5gZS272sstA==
+Date: Mon, 16 Oct 2023 12:29:23 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Kanchan Joshi <joshiiitr@gmail.com>
+Cc: Christoph Hellwig <hch@lst.de>, Kanchan Joshi <joshi.k@samsung.com>,
+	axboe@kernel.dk, sagi@grimberg.me, linux-nvme@lists.infradead.org,
+	vincentfu@gmail.com, ankit.kumar@samsung.com,
+	stable@vger.kernel.org, Vincent Fu <vincent.fu@samsung.com>
+Subject: Re: [PATCH v4] nvme: fix corruption for passthrough meta/data
+Message-ID: <ZS2BA_Oj4kcwRbiY@kbusch-mbp.dhcp.thefacebook.com>
+References: <CGME20231013052157epcas5p3dc0698c56f9846191d315fa8d33ccb5c@epcas5p3.samsung.com>
+ <20231013051458.39987-1-joshi.k@samsung.com>
+ <20231013052612.GA6423@lst.de>
+ <8c755915-2366-28ff-ffd4-be17d797557c@samsung.com>
+ <ZSlL-6Oa5J9duahR@kbusch-mbp>
+ <3438f3b8-f7d4-f0bd-44ef-7efb09ed6151@samsung.com>
+ <20231013154708.GA17455@lst.de>
+ <CA+1E3r+gSWvN3VR38Uu=rHLy=9+iC-G5ta2sXq6LEXTG+OK_-g@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] nvme-auth: use transformed key size to create resp
-To: Mark O'Donovan <shiftee@posteo.net>, linux-kernel@vger.kernel.org
-Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de,
- axboe@kernel.dk, kbusch@kernel.org, Akash Appaiah <Akash.Appaiah@dell.com>
-References: <20231016085715.3068974-1-shiftee@posteo.net>
- <20231016085715.3068974-2-shiftee@posteo.net>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-Autocrypt: addr=hare@suse.de; keydata=
- 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
- YwtooKEemPj2lg==
-In-Reply-To: <20231016085715.3068974-2-shiftee@posteo.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spamd-Result: default: False [-2.09 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 XM_UA_NO_VERSION(0.01)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 BAYES_HAM(-0.00)[35.98%];
-	 MIME_GOOD(-0.10)[text/plain];
-	 REPLY(-4.00)[];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-1.00)[-1.000];
-	 NEURAL_SPAM_LONG(3.00)[1.000];
-	 RCPT_COUNT_SEVEN(0.00)[8];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_COUNT_TWO(0.00)[2];
-	 RCVD_TLS_ALL(0.00)[];
-	 MID_RHS_MATCH_FROM(0.00)[]
+In-Reply-To: <CA+1E3r+gSWvN3VR38Uu=rHLy=9+iC-G5ta2sXq6LEXTG+OK_-g@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231016_021445_266747_C528CA37 
-X-CRM114-Status: GOOD (  17.05  )
+X-CRM114-CacheID: sfid-20231016_112929_369595_DCE66BA6 
+X-CRM114-Status: GOOD (  27.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -158,57 +81,308 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/16/23 10:57, Mark O'Donovan wrote:
-> This does not change current behaviour as the driver currently
-> verifies that the secret size is the same size as the length of
-> the transformation hash.
+On Sat, Oct 14, 2023 at 12:05:17AM +0530, Kanchan Joshi wrote:
+> On Fri, Oct 13, 2023 at 9:17 PM Christoph Hellwig <hch@lst.de> wrote:
+> > But I see no way out.
+> > Now can we please get a patch to disable the unprivileged passthrough
+> > ASAP to fix this probably exploitable hole?  Or should I write one?
 > 
-> Co-developed-by: Akash Appaiah <Akash.Appaiah@dell.com>
-> Signed-off-by: Akash Appaiah <Akash.Appaiah@dell.com>
-> Signed-off-by: Mark O'Donovan <shiftee@posteo.net>
-> ---
-> V1 -> V2: support target implementation and controller secrets also
-> 
->   drivers/nvme/common/auth.c | 6 +++++-
->   drivers/nvme/host/auth.c   | 4 ++--
->   drivers/nvme/target/auth.c | 4 ++--
->   include/linux/nvme-auth.h  | 3 ++-
->   4 files changed, 11 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
-> index d90e4f0c08b7..26a7fbdf4d55 100644
-> --- a/drivers/nvme/common/auth.c
-> +++ b/drivers/nvme/common/auth.c
-> @@ -243,6 +243,8 @@ u8 *nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn)
->   	}
->   	if (key->hash == 0) {
->   		transformed_key = kmemdup(key->key, key->len, GFP_KERNEL);
-> +		if (transformed_key)
-> +			key->transformed_len = key->len;
->   		return transformed_key ? transformed_key : ERR_PTR(-ENOMEM);
+> I can write. I was waiting to see whether Keith has any different
+> opinion on the route that v4 takes.
 
-Hmm. But now we're inconsistent.
-The input structure 'key' doesn't know (nor does care) if the key has 
-been transformed; the transformation itself is returned in a different 
-structure.
+Sorry for the delay, I had some trouble with my test machine last week.
 
-If we were to go that way the it'll be better to return a 'struct 
-nvme_dhchap_key' from nvme_auth_transform_key(), which will then 
-encapsulate the data and the correct length.
+It sounds like the kernel memory is the only reason for the concern, and
+you don't really care if we're corrupting user memory. If so, let's just
+use that instead of kernel bounce buffers. (Minor digression, the
+current bounce 'buf' is leaking kernel memory on reads since it doesn't
+zero it).
 
-Which probably is not a bad idea, seeing that a key transform really 
-should generate a new key.
+Anyway, here's a diff that maps userspace buffer for "integrity"
+payloads and tests okay on my side. It enforces that you can't cross
+virtual page boundaries, so you can't corrupt anything outside your vma.
+The allocation error handling isn't here, but it's just a proof of
+concept right now.
 
-Hmm?
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		           Kernel Storage Architect
-hare@suse.de			                  +49 911 74053 688
-SUSE Software Solutions Germany GmbH, Frankenstr. 146, 90461 Nürnberg
-Managing Directors: I. Totev, A. Myers, A. McDonald, M. B. Moerman
-(HRB 36809, AG Nürnberg)
-
+---
+diff --git a/block/bio-integrity.c b/block/bio-integrity.c
+index ec8ac8cf6e1b9..f591ba0771d87 100644
+--- a/block/bio-integrity.c
++++ b/block/bio-integrity.c
+@@ -91,6 +91,19 @@ struct bio_integrity_payload *bio_integrity_alloc(struct bio *bio,
+ }
+ EXPORT_SYMBOL(bio_integrity_alloc);
+ 
++void bio_integrity_unmap_user(struct bio_integrity_payload *bip)
++{
++	struct bvec_iter iter;
++	struct bio_vec bv;
++	bool dirty = bio_data_dir(bip->bip_bio) == READ;
++
++	bip_for_each_vec(bv, bip, iter) {
++		if (dirty && !PageCompound(bv.bv_page))
++			set_page_dirty_lock(bv.bv_page);
++		unpin_user_page(bv.bv_page);
++	}
++}
++
+ /**
+  * bio_integrity_free - Free bio integrity payload
+  * @bio:	bio containing bip to be freed
+@@ -105,6 +118,8 @@ void bio_integrity_free(struct bio *bio)
+ 
+ 	if (bip->bip_flags & BIP_BLOCK_INTEGRITY)
+ 		kfree(bvec_virt(bip->bip_vec));
++	if (bip->bip_flags & BIP_INTEGRITY_USER)
++		bio_integrity_unmap_user(bip);;
+ 
+ 	__bio_integrity_free(bs, bip);
+ 	bio->bi_integrity = NULL;
+@@ -160,6 +175,47 @@ int bio_integrity_add_page(struct bio *bio, struct page *page,
+ }
+ EXPORT_SYMBOL(bio_integrity_add_page);
+ 
++int bio_integrity_map_user(struct bio *bio, void __user *ubuf, unsigned int len,
++			   u32 seed, u32 maxvecs)
++{
++	struct request_queue *q = bdev_get_queue(bio->bi_bdev);
++	unsigned long align = q->dma_pad_mask | queue_dma_alignment(q);
++	struct page *stack_pages[UIO_FASTIOV];
++	size_t offset = offset_in_page(ubuf);
++	struct page **pages = stack_pages;
++	struct bio_integrity_payload *bip;
++	unsigned long ptr = (uintptr_t)ubuf;
++	int npages, ret, p;
++	u32 bytes;
++
++	if (ptr & align)
++		return -EINVAL;
++
++	bip = bio_integrity_alloc(bio, GFP_KERNEL, maxvecs);
++	if (IS_ERR(bip))
++		return PTR_ERR(bip);
++
++	ret = pin_user_pages_fast(ptr, UIO_FASTIOV, FOLL_WRITE, pages);
++	if (unlikely(ret < 0))
++		return ret;
++
++	npages = ret;
++	bytes = min_t(u32, len, PAGE_SIZE - offset);
++	for (p = 0; p < npages; p++) {
++		ret = bio_integrity_add_page(bio, pages[p], bytes, offset);
++		if (ret != bytes)
++			return -EINVAL;
++		len -= ret;
++		offset = 0;
++		bytes = min_t(u32, len, PAGE_SIZE);
++	}
++
++	bip->bip_iter.bi_sector = seed;
++	bip->bip_flags |= BIP_INTEGRITY_USER;
++	return 0;
++}
++EXPORT_SYMBOL(bio_integrity_map_user);
++
+ /**
+  * bio_integrity_process - Process integrity metadata for a bio
+  * @bio:	bio to generate/verify integrity metadata for
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index d8ff796fd5f21..06d6bba8ed637 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -96,52 +96,18 @@ static void __user *nvme_to_user_ptr(uintptr_t ptrval)
+ 	return (void __user *)ptrval;
+ }
+ 
+-static void *nvme_add_user_metadata(struct request *req, void __user *ubuf,
++static int nvme_add_user_metadata(struct request *req, void __user *ubuf,
+ 		unsigned len, u32 seed)
+ {
+-	struct bio_integrity_payload *bip;
+-	int ret = -ENOMEM;
+-	void *buf;
+ 	struct bio *bio = req->bio;
++	int ret;
+ 
+-	buf = kmalloc(len, GFP_KERNEL);
+-	if (!buf)
+-		goto out;
+-
+-	ret = -EFAULT;
+-	if ((req_op(req) == REQ_OP_DRV_OUT) && copy_from_user(buf, ubuf, len))
+-		goto out_free_meta;
+-
+-	bip = bio_integrity_alloc(bio, GFP_KERNEL, 1);
+-	if (IS_ERR(bip)) {
+-		ret = PTR_ERR(bip);
+-		goto out_free_meta;
+-	}
+-
+-	bip->bip_iter.bi_sector = seed;
+-	ret = bio_integrity_add_page(bio, virt_to_page(buf), len,
+-			offset_in_page(buf));
+-	if (ret != len) {
+-		ret = -ENOMEM;
+-		goto out_free_meta;
+-	}
++	ret = bio_integrity_map_user(bio, ubuf, len, seed, 1);
++	if (ret)
++		return ret;
+ 
+ 	req->cmd_flags |= REQ_INTEGRITY;
+-	return buf;
+-out_free_meta:
+-	kfree(buf);
+-out:
+-	return ERR_PTR(ret);
+-}
+-
+-static int nvme_finish_user_metadata(struct request *req, void __user *ubuf,
+-		void *meta, unsigned len, int ret)
+-{
+-	if (!ret && req_op(req) == REQ_OP_DRV_IN &&
+-	    copy_to_user(ubuf, meta, len))
+-		ret = -EFAULT;
+-	kfree(meta);
+-	return ret;
++	return 0;
+ }
+ 
+ static struct request *nvme_alloc_user_request(struct request_queue *q,
+@@ -160,14 +126,12 @@ static struct request *nvme_alloc_user_request(struct request_queue *q,
+ 
+ static int nvme_map_user_request(struct request *req, u64 ubuffer,
+ 		unsigned bufflen, void __user *meta_buffer, unsigned meta_len,
+-		u32 meta_seed, void **metap, struct io_uring_cmd *ioucmd,
+-		unsigned int flags)
++		u32 meta_seed, struct io_uring_cmd *ioucmd, unsigned int flags)
+ {
+ 	struct request_queue *q = req->q;
+ 	struct nvme_ns *ns = q->queuedata;
+ 	struct block_device *bdev = ns ? ns->disk->part0 : NULL;
+ 	struct bio *bio = NULL;
+-	void *meta = NULL;
+ 	int ret;
+ 
+ 	if (ioucmd && (ioucmd->flags & IORING_URING_CMD_FIXED)) {
+@@ -194,13 +158,10 @@ static int nvme_map_user_request(struct request *req, u64 ubuffer,
+ 		bio_set_dev(bio, bdev);
+ 
+ 	if (bdev && meta_buffer && meta_len) {
+-		meta = nvme_add_user_metadata(req, meta_buffer, meta_len,
++		ret = nvme_add_user_metadata(req, meta_buffer, meta_len,
+ 				meta_seed);
+-		if (IS_ERR(meta)) {
+-			ret = PTR_ERR(meta);
++		if (ret)
+ 			goto out_unmap;
+-		}
+-		*metap = meta;
+ 	}
+ 
+ 	return ret;
+@@ -221,7 +182,6 @@ static int nvme_submit_user_cmd(struct request_queue *q,
+ 	struct nvme_ns *ns = q->queuedata;
+ 	struct nvme_ctrl *ctrl;
+ 	struct request *req;
+-	void *meta = NULL;
+ 	struct bio *bio;
+ 	u32 effects;
+ 	int ret;
+@@ -233,7 +193,7 @@ static int nvme_submit_user_cmd(struct request_queue *q,
+ 	req->timeout = timeout;
+ 	if (ubuffer && bufflen) {
+ 		ret = nvme_map_user_request(req, ubuffer, bufflen, meta_buffer,
+-				meta_len, meta_seed, &meta, NULL, flags);
++				meta_len, meta_seed, NULL, flags);
+ 		if (ret)
+ 			return ret;
+ 	}
+@@ -245,9 +205,6 @@ static int nvme_submit_user_cmd(struct request_queue *q,
+ 	ret = nvme_execute_rq(req, false);
+ 	if (result)
+ 		*result = le64_to_cpu(nvme_req(req)->result.u64);
+-	if (meta)
+-		ret = nvme_finish_user_metadata(req, meta_buffer, meta,
+-						meta_len, ret);
+ 	if (bio)
+ 		blk_rq_unmap_user(bio);
+ 	blk_mq_free_request(req);
+@@ -450,7 +407,6 @@ struct nvme_uring_cmd_pdu {
+ 	u32 nvme_status;
+ 	union {
+ 		struct {
+-			void *meta; /* kernel-resident buffer */
+ 			void __user *meta_buffer;
+ 		};
+ 		u64 result;
+@@ -478,9 +434,6 @@ static void nvme_uring_task_meta_cb(struct io_uring_cmd *ioucmd,
+ 
+ 	result = le64_to_cpu(nvme_req(req)->result.u64);
+ 
+-	if (pdu->meta_len)
+-		status = nvme_finish_user_metadata(req, pdu->u.meta_buffer,
+-					pdu->u.meta, pdu->meta_len, status);
+ 	if (req->bio)
+ 		blk_rq_unmap_user(req->bio);
+ 	blk_mq_free_request(req);
+@@ -560,7 +513,6 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	struct request *req;
+ 	blk_opf_t rq_flags = REQ_ALLOC_CACHE;
+ 	blk_mq_req_flags_t blk_flags = 0;
+-	void *meta = NULL;
+ 	int ret;
+ 
+ 	c.common.opcode = READ_ONCE(cmd->opcode);
+@@ -608,7 +560,7 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	if (d.addr && d.data_len) {
+ 		ret = nvme_map_user_request(req, d.addr,
+ 			d.data_len, nvme_to_user_ptr(d.metadata),
+-			d.metadata_len, 0, &meta, ioucmd, vec);
++			d.metadata_len, 0, ioucmd, vec);
+ 		if (ret)
+ 			return ret;
+ 	}
+@@ -623,7 +575,6 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	pdu->meta_len = d.metadata_len;
+ 	req->end_io_data = ioucmd;
+ 	if (pdu->meta_len) {
+-		pdu->u.meta = meta;
+ 		pdu->u.meta_buffer = nvme_to_user_ptr(d.metadata);
+ 		req->end_io = nvme_uring_cmd_end_io_meta;
+ 	} else {
+diff --git a/include/linux/bio.h b/include/linux/bio.h
+index 41d417ee13499..965382e62f137 100644
+--- a/include/linux/bio.h
++++ b/include/linux/bio.h
+@@ -324,6 +324,7 @@ enum bip_flags {
+ 	BIP_CTRL_NOCHECK	= 1 << 2, /* disable HBA integrity checking */
+ 	BIP_DISK_NOCHECK	= 1 << 3, /* disable disk integrity checking */
+ 	BIP_IP_CHECKSUM		= 1 << 4, /* IP checksum */
++	BIP_INTEGRITY_USER	= 1 << 5, /* Integrity payload is user address */
+ };
+ 
+ /*
+@@ -720,6 +721,7 @@ static inline bool bioset_initialized(struct bio_set *bs)
+ 
+ extern struct bio_integrity_payload *bio_integrity_alloc(struct bio *, gfp_t, unsigned int);
+ extern int bio_integrity_add_page(struct bio *, struct page *, unsigned int, unsigned int);
++extern int bio_integrity_map_user(struct bio *bio, void __user *ubuf, unsigned int len, u32 seed, u32 maxvecs);
+ extern bool bio_integrity_prep(struct bio *);
+ extern void bio_integrity_advance(struct bio *, unsigned int);
+ extern void bio_integrity_trim(struct bio *);
+@@ -789,6 +791,12 @@ static inline int bio_integrity_add_page(struct bio *bio, struct page *page,
+ 	return 0;
+ }
+ 
++static inline int bio_integrity_map_user(struct bio *bio, void __user *ubuf,
++					 unsigned int len, u32 seed, u32 maxvecs)
++{
++	return -EINVAL
++}
++
+ #endif /* CONFIG_BLK_DEV_INTEGRITY */
+ 
+ /*
+--
 
