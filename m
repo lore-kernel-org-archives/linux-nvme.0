@@ -4,83 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79788CDB465
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Oct 2023 20:41:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DDF68CDB465
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Oct 2023 20:51:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YfsDvzRYGiS5ZGFgJs//6rK6tev3a6zeqag/0Ikuq8s=; b=uZbsS9d0MZifCixEN1EXsVmdlF
-	6juGrk6Dl7zl1Xf+blIEOMJgbSIc40w/FnG1trLO4z/mb0xxZaStqQlG/+8JE9mng+wguLW8DXd2j
-	ietjfzAjMHlX9H67+UgnnLemEST7m6xqTVKqTc3VIxDkcyPJx/xV0XiR5tBqk/XBLXCBlm9J6sDEx
-	i6BIyw6DJAPy3vs/vZWmiIwolbwXDpyi80B3SM9hgebEcploIGZJCflmkHGD6qeydm7/2LrcZbVs8
-	vAxkv73LW+CaLLrHTUAchTiilDUze/0XYzTGg0nFSvBr+C5vKlwTX7LPoNa5OHoApm2Vdn7L39TFy
-	Gy/7650A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=6iO8ZezL8FazPnqf0asG4mXbjAoTpx1AXLK2AZ7nc7U=; b=aw9otitU62fx8o0EDyNxk2x5Da
+	njDdqK8Xrr2Wg4SZkC3L65EjP42Lr5eDpGonC3I2PEC22bXaSZwwqpZceA93SCzreKPbjaSyPtSmj
+	Wv2XeUmfnqVfH8OlhVRnCoaxYC5SlhzzSKzDqkXSknPOG8VlX5yEhTQj7G6Cak5BiLWdWy/RKYjqT
+	Ws0qyy0R2g891aizJbHf51cOTFsjKtnedyBwYXN+XVnmVN5e2ksz1X4bsdC30OP2Pk2sdqQPllNot
+	4U0N9E68PSh5nNe5zlRJjlbzSqwh41s6x3XweBnCynI+Sm+CM5pgSce1zM6HpCyXW6n5lQWVWrnFP
+	oIwjU+uA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qsUPT-00AW4g-03;
-	Mon, 16 Oct 2023 20:41:55 +0000
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+	id 1qsUYv-00AX7q-2z;
+	Mon, 16 Oct 2023 20:51:41 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qsUPQ-00AW3B-0i
+	id 1qsUYt-00AX7Q-37
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Oct 2023 20:41:53 +0000
-Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1ca79b731f1so2820855ad.0
-        for <linux-nvme@lists.infradead.org>; Mon, 16 Oct 2023 13:41:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1697488909; x=1698093709; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YfsDvzRYGiS5ZGFgJs//6rK6tev3a6zeqag/0Ikuq8s=;
-        b=tRSbKruAIvcpSRQvLuQgBkuNlEvo1MMJQbAAAkrMVtGY+HQS6OvWoMPpGrgWCa55tU
-         gP0/qSaGIauyfII7QvPNpDugcvH+7dbZjBQGaJala1OgnurIjPdJBD68diNIacrD/YnS
-         0U3/FWie6sfZ5jwajuKYjz+Qy8+IIcUDzaIlJ6KfNxLViJYiqJ7zibcClbY61aWUe+iU
-         z3Vy+QbA+IhO6BfuFZAdaRDGIiGG7UZinz6mIw0wUD9i8BoJ3cVUpSy0vAmmFNQWpWEh
-         FP9rdQ+Nu6IM4F0LqofohyGMmVeXzsSlQS5zrBOzLhppo8dzbsX8JEj2SnGXuqDxnjXM
-         QSFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697488909; x=1698093709;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YfsDvzRYGiS5ZGFgJs//6rK6tev3a6zeqag/0Ikuq8s=;
-        b=h5B/tcXofTKa+J/TCm9qaNcU/mb9/Ad2EC5QnZEGwsu+Urq7cbELaymfmPfgk1SUnD
-         nkC5Caj/IZDHQiOzHU84ww61aDDkwP15wJFAEdtyUiMuBgwFJBa/KfJdZikaRNuvaegH
-         wqW+xT68UDXUM9vFWq6HQwtXuH/zki1Mr0MKgYm63LyHEu7M0242daEuxtfiU2U2YQjD
-         bixb8TNTXsaG2T+xhwTCUx3M2plHZ66Z672NW8hO04MdWyXiPmSL+gENSnNxIvWB9dFs
-         P//5UXkch2XxZXmbXzToeNQwfOhCm4VOBOQ2I77XW+m8AmIqNqYPUp0qqmBpYfj4qPjL
-         kybg==
-X-Gm-Message-State: AOJu0YzKByhqOxV23o2Yb/rDugoq/fycrMRDMVbChLkxaUDsaKlZgbmD
-	N+1oRfwg2gOgTTBq7rLUstk2S5e1kF1GRgs3r1QGOw==
-X-Google-Smtp-Source: AGHT+IH6MjfoPFn/OOzdCFovcg3ZZY0spCOMVm9aqHLZqLyqVZS8L0OxU8eKdKK0pXZlhxhIQrmkhQ==
-X-Received: by 2002:a17:903:30c4:b0:1c3:a4f2:7c99 with SMTP id s4-20020a17090330c400b001c3a4f27c99mr373893plc.4.1697488909241;
-        Mon, 16 Oct 2023 13:41:49 -0700 (PDT)
-Received: from [192.168.1.136] ([198.8.77.194])
-        by smtp.gmail.com with ESMTPSA id jj6-20020a170903048600b001c5fc291ef9sm41343plb.209.2023.10.16.13.41.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Oct 2023 13:41:48 -0700 (PDT)
-Message-ID: <e04eec37-ec31-4c35-bf26-acbf90fda43d@kernel.dk>
-Date: Mon, 16 Oct 2023 14:41:47 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme: sanitize metadata bounce buffer for reads
-Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>
+	Mon, 16 Oct 2023 20:51:41 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id E1F76CE1478;
+	Mon, 16 Oct 2023 20:51:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00DBAC433C7;
+	Mon, 16 Oct 2023 20:51:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697489494;
+	bh=hQVThwfGta628Xf1mTyQEpyhuKTeMN6klO0wO5mT9R0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rEsAWZls2b+hAjVWYx9e6MjcUbY6bd8b70+i57nk3ZEZMHXqtomWD6zqFgkesAB0n
+	 kj64wLKxGh3dMcuVc/EwJY/looScrzROdtIpC9w4DqRVHvtAm4YMflBEActI06D1Y2
+	 wxYDK5GDp+dV01hP4kpffEBbBHwsPCM62dcZ4vkvqMQzekorhA/fENVnD4++7ogW+0
+	 GvX58+KPP7JMmfuvD3GdrG2oANc5rF2c3sjyj47soA+gRNuXER3Xo6PYwFklioi33I
+	 wb/JX3FvCs/I6mPd/SrpTdFfV+IHJfJ6cCFcd/x8B1YFjCXglM+JkE8loYma7ibmxs
+	 RESf8XAOUzYgA==
+Date: Mon, 16 Oct 2023 14:51:31 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>
 Cc: Keith Busch <kbusch@meta.com>, hch@lst.de,
- linux-nvme@lists.infradead.org, sagi@grimberg.me
+	linux-nvme@lists.infradead.org, sagi@grimberg.me
+Subject: Re: [PATCH] nvme: sanitize metadata bounce buffer for reads
+Message-ID: <ZS2iU5T0O0ve29EV@kbusch-mbp.dhcp.thefacebook.com>
 References: <20231016202124.2957213-1-kbusch@meta.com>
  <90fd6d9e-5bcf-40d8-b85b-9d33c91406b6@kernel.dk>
  <ZS2dmakCEln97UNi@kbusch-mbp.dhcp.thefacebook.com>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <ZS2dmakCEln97UNi@kbusch-mbp.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <e04eec37-ec31-4c35-bf26-acbf90fda43d@kernel.dk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e04eec37-ec31-4c35-bf26-acbf90fda43d@kernel.dk>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231016_134152_259058_957F4F9C 
-X-CRM114-Status: GOOD (  13.00  )
+X-CRM114-CacheID: sfid-20231016_135140_207417_8C8CC25B 
+X-CRM114-Status: GOOD (  11.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,36 +74,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/16/23 2:31 PM, Keith Busch wrote:
-> On Mon, Oct 16, 2023 at 02:25:11PM -0600, Jens Axboe wrote:
->> On 10/16/23 2:21 PM, Keith Busch wrote:
->>>  	if ((req_op(req) == REQ_OP_DRV_OUT) && copy_from_user(buf, ubuf, len))
->>>  		goto out_free_meta;
->>> +	else
->>> +		memset(buf, 0, len);
->>
->> Do you need this else?
+On Mon, Oct 16, 2023 at 02:41:47PM -0600, Jens Axboe wrote:
+> It still looks wrong to me. If it's writing to the drive AND we fail
+> copying in data, -EFAULT. But the opposite of that isn't that it's a
+> read from device.
 > 
-> The 'if' condition just above copies user data into the 'buf', so yes,
-> we need the else to separate how buf is initialized for each direction.
+> 	if (req_op(req) == REQ_OP_DRV_OUT) {
+> 		ret = -EFAULT;
+> 		if (copy_from_user(buf, ubuf, len))
+> 			goto out_free_meta;
+> 	} else {
+> 		memset(buf, 0, len);
+> 	}
+> 
+> would look more readable, as it splits it on direction, rather than on
+> direction and the status of the copy. And follows the normal idioms for
+> erroring on the copy condition.
 
-It still looks wrong to me. If it's writing to the drive AND we fail
-copying in data, -EFAULT. But the opposite of that isn't that it's a
-read from device.
-
-	if (req_op(req) == REQ_OP_DRV_OUT) {
-		ret = -EFAULT;
-		if (copy_from_user(buf, ubuf, len))
-			goto out_free_meta;
-	} else {
-		memset(buf, 0, len);
-	}
-
-would look more readable, as it splits it on direction, rather than on
-direction and the status of the copy. And follows the normal idioms for
-erroring on the copy condition.
-
--- 
-Jens Axboe
-
+Thanks! When you put it that way, the mistake was clear! Fixing for v2.
 
