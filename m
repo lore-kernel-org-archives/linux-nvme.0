@@ -4,65 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6A92ECDB474
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Oct 2023 23:00:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E5DE0CDB465
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Oct 2023 23:07:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OSC4OqzGHzcULJXJ/8NqxHOleZXGKL7MkBDE6WCb9PQ=; b=JO5qF3Z5OzJiobaW3182UnVIKH
-	4Iku84jxtal3JDGCCrXcvEjK84tKOLtfCkVXELJ852AyeFg7qGHk52DpaEDeWkWACSbuHNyCKcGj3
-	WaDNFqAQYfJU22JD25yFEfHZBuIS++LttZ7MWF9JSB0X7uNPxGaDEdbcfz6qVZWy1CIboc0Fepi4x
-	3naQdY577z9EDTe2ytmnuiMNO7tJzjGKKJxyGwyPmXi1at/zKd7NRjlbNoTG0MnfyBOwtR05fgcVl
-	GzVeUNqriFzZUzSpXWy2xw4/TzqmWDFzyoZd713RK6sA3OyYdAQsjAn5PqA3ICnE/IuyCckhf1iVt
-	oNG08LLw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=nixF1y6B0gHE1SsfORYh58tyf8DkdCMVjyZE3C/vDIU=; b=ezjtumvPJxMyB0qg/xcMmHZeRO
+	j6kaZTLY6sE4Dt356cN6j7nHZe0OnKS2OpFt8XZWDekmtra7nz7IJ98y1HyG+LiRsWMupoJT586hf
+	5uTDqzQb4LuaSh+w+7Y0CbtewcvzVFNcw9Co1DEuTcklBL5Xa2X9xPJC7Vo3lvg4vlg1UyRXugKcy
+	pAxKxqpfIhTkdHpNkQe997oSE75Qai08XrO0j+3x5O14WwCM19q26CyBPPf4s0D2NbcqMBGudwN49
+	m0Sa9117dxHM7fp/1zZ1w6H/YfKr7CfP3SJzxS1yfGSUlCQHsywQdtOCSBI3Fo166Qkvopm0l83ys
+	0CN0oTHw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qsWZA-00AmT1-0M;
-	Mon, 16 Oct 2023 23:00:04 +0000
-Received: from mout01.posteo.de ([185.67.36.65])
+	id 1qsWfy-00Anmg-0V;
+	Mon, 16 Oct 2023 23:07:06 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qsWZ5-00AmPy-2O
+	id 1qsWfv-00Anlo-0R
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Oct 2023 23:00:02 +0000
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 4F25324002B
-	for <linux-nvme@lists.infradead.org>; Tue, 17 Oct 2023 00:59:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-	t=1697497197; bh=HAdzU0up7R6jFB/6QiUAp2Zvie9qM6pmoMBSC5nkdz0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:
-	 Content-Transfer-Encoding:From;
-	b=XOzt2uybwjqRufkhDrjRkVhq3FXIKouvhv5h3DR/SE36569YBsI8DLr0EP1NrE3re
-	 z6QC5tWaAIJmr1XSFSOBvUhM6jrvy6uUpw80OM1E2xS76EajXyw0LuG6NEnnarmj4v
-	 Ln+vTFb4LXpzeuDzklYOAxrvu5G4KmkMWeHDeR5u5NrmxitAHzs/cqpeNYwBAde8Yr
-	 j5eSV2mXi3XxyZ4OxHqgdbJymFk6YXxAqlfiP748XXC9RXR1is/M+P0LyG8oMF4Rnr
-	 d5wIx8TXriE/6kXRgktxug34T67i6hDbECbm5a8f2fgA05N1gNMq7GCXtmBMxn2vn6
-	 Rk0etAiWUyksA==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4S8Xcq5CBlz9rxH;
-	Tue, 17 Oct 2023 00:59:55 +0200 (CEST)
-From: Mark O'Donovan <shiftee@posteo.net>
-To: linux-kernel@vger.kernel.org
-Cc: linux-nvme@lists.infradead.org,
-	sagi@grimberg.me,
-	hch@lst.de,
-	axboe@kernel.dk,
-	kbusch@kernel.org,
-	hare@suse.de,
-	Mark O'Donovan <shiftee@posteo.net>,
-	Akash Appaiah <Akash.Appaiah@dell.com>
-Subject: [PATCH v3 2/3] nvme-auth: use transformed key size to create resp
-Date: Mon, 16 Oct 2023 22:58:56 +0000
-Message-Id: <20231016225857.3085234-3-shiftee@posteo.net>
-In-Reply-To: <20231016225857.3085234-1-shiftee@posteo.net>
-References: <20231016225857.3085234-1-shiftee@posteo.net>
+	Mon, 16 Oct 2023 23:07:04 +0000
+Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39GMfEJW032691
+	for <linux-nvme@lists.infradead.org>; Mon, 16 Oct 2023 16:07:00 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=s2048-2021-q4;
+ bh=nixF1y6B0gHE1SsfORYh58tyf8DkdCMVjyZE3C/vDIU=;
+ b=c4pixI9DlvihdRss5lbSOpT4x0d6ng77zdn8vTgUc12pInaK8ZufFpOtLDyUdBPRqQDF
+ skeRvYCcO0z/rgZ0aDlYtlYtIGahNOlQRKV9OYmHaYpvH/WBZsLEHSaV4yz5JgfHRqBj
+ PLK6EwmJ7QzCfQxYgM56EoGhLZ5AYdI8+p3TkR8cUlBN0ulx72EIfAJxh6KSQEjVWKgA
+ rbJwkjTPrBOsVxjfyIULmVZ167bc4NinzFvCgKMec3Xved0qrIlOmm0pxXNpWMUpVtFJ
+ ezxjitWLRqz7m5N88z31JLxnGm0RZojpCnG891D3nngkaiZ6WkLyqy4TzmDaBxt4oNVH PA== 
+Received: from mail.thefacebook.com ([163.114.132.120])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3tsbx8135v-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Mon, 16 Oct 2023 16:07:00 -0700
+Received: from twshared15247.17.frc2.facebook.com (2620:10d:c085:108::4) by
+ mail.thefacebook.com (2620:10d:c085:11d::8) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Mon, 16 Oct 2023 16:06:59 -0700
+Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
+	id 000E4204A247D; Mon, 16 Oct 2023 16:06:28 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <hch@lst.de>, <linux-nvme@lists.infradead.org>
+CC: <sagi@grimberg.me>, <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>
+Subject: [PATCHv2] nvme: sanitize metadata bounce buffer for reads
+Date: Mon, 16 Oct 2023 16:06:25 -0700
+Message-ID: <20231016230625.3792823-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: zQkyhHmaxjMEQCq6EgO4dO-KOCyTxakN
+X-Proofpoint-ORIG-GUID: zQkyhHmaxjMEQCq6EgO4dO-KOCyTxakN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-16_13,2023-10-12_01,2023-05-22_02
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231016_160000_098891_8B501BEB 
-X-CRM114-Status: GOOD (  16.06  )
+X-CRM114-CacheID: sfid-20231016_160703_393768_18EF07AC 
+X-CRM114-Status: GOOD (  15.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,279 +82,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This does not change current behaviour as the driver currently
-verifies that the secret size is the same size as the length of
-the transformation hash.
+From: Keith Busch <kbusch@kernel.org>
 
-Co-developed-by: Akash Appaiah <Akash.Appaiah@dell.com>
-Signed-off-by: Akash Appaiah <Akash.Appaiah@dell.com>
-Signed-off-by: Mark O'Donovan <shiftee@posteo.net>
+User can request more metadata bytes than the device will write. Ensure
+kernel buffer is initialized so we are not leaking unsanitized memory on
+the completion's copy-out.
+
+Fixes: 0b7f1f26f95a51a ("nvme: use the block layer for userspace passthro=
+ugh metadata")
+Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
-V1 -> V2: support target implementation and controller secrets also
-V2 -> V3: return key from nvme_auth_transform_key
+v1->v2:
 
- drivers/nvme/common/auth.c | 18 ++++++++++--------
- drivers/nvme/host/auth.c   | 30 +++++++++++++++---------------
- drivers/nvme/target/auth.c | 30 ++++++++++++++++--------------
- include/linux/nvme-auth.h  |  2 +-
- 4 files changed, 42 insertions(+), 38 deletions(-)
+  correctly split data direction handling (axboe)
 
-diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
-index 225fc474e34a..647931acc1ba 100644
---- a/drivers/nvme/common/auth.c
-+++ b/drivers/nvme/common/auth.c
-@@ -233,20 +233,21 @@ void nvme_auth_free_key(struct nvme_dhchap_key *key)
- }
- EXPORT_SYMBOL_GPL(nvme_auth_free_key);
- 
--u8 *nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn)
-+struct nvme_dhchap_key *nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn)
- {
- 	const char *hmac_name;
- 	struct crypto_shash *key_tfm;
- 	struct shash_desc *shash;
--	u8 *transformed_key;
--	int ret;
-+	struct nvme_dhchap_key *transformed_key;
-+	int ret, key_len;
- 
- 	if (!key || !key->key) {
- 		pr_warn("No key specified\n");
- 		return ERR_PTR(-ENOKEY);
- 	}
- 	if (key->hash == 0) {
--		transformed_key = kmemdup(key->key, key->len, GFP_KERNEL);
-+		key_len = sizeof(*key) + key->len;
-+		transformed_key = kmemdup(key, key_len, GFP_KERNEL);
- 		return transformed_key ? transformed_key : ERR_PTR(-ENOMEM);
- 	}
- 	hmac_name = nvme_auth_hmac_name(key->hash);
-@@ -257,7 +258,7 @@ u8 *nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn)
- 
- 	key_tfm = crypto_alloc_shash(hmac_name, 0, 0);
- 	if (IS_ERR(key_tfm))
--		return (u8 *)key_tfm;
-+		return (void *)key_tfm;
- 
- 	shash = kmalloc(sizeof(struct shash_desc) +
- 			crypto_shash_descsize(key_tfm),
-@@ -267,7 +268,8 @@ u8 *nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn)
- 		goto out_free_key;
- 	}
- 
--	transformed_key = kzalloc(crypto_shash_digestsize(key_tfm), GFP_KERNEL);
-+	key_len = crypto_shash_digestsize(key_tfm);
-+	transformed_key = nvme_auth_alloc_key(key_len, key->hash);
- 	if (!transformed_key) {
- 		ret = -ENOMEM;
- 		goto out_free_shash;
-@@ -286,7 +288,7 @@ u8 *nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn)
- 	ret = crypto_shash_update(shash, "NVMe-over-Fabrics", 17);
- 	if (ret < 0)
- 		goto out_free_transformed_key;
--	ret = crypto_shash_final(shash, transformed_key);
-+	ret = crypto_shash_final(shash, transformed_key->key);
- 	if (ret < 0)
- 		goto out_free_transformed_key;
- 
-@@ -296,7 +298,7 @@ u8 *nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn)
- 	return transformed_key;
- 
- out_free_transformed_key:
--	kfree_sensitive(transformed_key);
-+	nvme_auth_free_key(transformed_key);
- out_free_shash:
- 	kfree(shash);
- out_free_key:
-diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-index daf5d144a8ea..de1390d705dc 100644
---- a/drivers/nvme/host/auth.c
-+++ b/drivers/nvme/host/auth.c
-@@ -23,6 +23,7 @@ struct nvme_dhchap_queue_context {
- 	struct nvme_ctrl *ctrl;
- 	struct crypto_shash *shash_tfm;
- 	struct crypto_kpp *dh_tfm;
-+	struct nvme_dhchap_key *transformed_key;
- 	void *buf;
- 	int qid;
- 	int error;
-@@ -36,7 +37,6 @@ struct nvme_dhchap_queue_context {
- 	u8 c1[64];
- 	u8 c2[64];
- 	u8 response[64];
--	u8 *host_response;
- 	u8 *ctrl_key;
- 	u8 *host_key;
- 	u8 *sess_key;
-@@ -428,12 +428,12 @@ static int nvme_auth_dhchap_setup_host_response(struct nvme_ctrl *ctrl,
- 	dev_dbg(ctrl->device, "%s: qid %d host response seq %u transaction %d\n",
- 		__func__, chap->qid, chap->s1, chap->transaction);
- 
--	if (!chap->host_response) {
--		chap->host_response = nvme_auth_transform_key(ctrl->host_key,
-+	if (!chap->transformed_key) {
-+		chap->transformed_key = nvme_auth_transform_key(ctrl->host_key,
- 						ctrl->opts->host->nqn);
--		if (IS_ERR(chap->host_response)) {
--			ret = PTR_ERR(chap->host_response);
--			chap->host_response = NULL;
-+		if (IS_ERR(chap->transformed_key)) {
-+			ret = PTR_ERR(chap->transformed_key);
-+			chap->transformed_key = NULL;
- 			return ret;
- 		}
- 	} else {
-@@ -442,7 +442,7 @@ static int nvme_auth_dhchap_setup_host_response(struct nvme_ctrl *ctrl,
- 	}
- 
- 	ret = crypto_shash_setkey(chap->shash_tfm,
--			chap->host_response, ctrl->host_key->len);
-+			chap->transformed_key->key, chap->transformed_key->len);
- 	if (ret) {
- 		dev_warn(ctrl->device, "qid %d: failed to set key, error %d\n",
- 			 chap->qid, ret);
-@@ -508,19 +508,19 @@ static int nvme_auth_dhchap_setup_ctrl_response(struct nvme_ctrl *ctrl,
- 		struct nvme_dhchap_queue_context *chap)
- {
- 	SHASH_DESC_ON_STACK(shash, chap->shash_tfm);
--	u8 *ctrl_response;
-+	struct nvme_dhchap_key *transformed_key;
- 	u8 buf[4], *challenge = chap->c2;
- 	int ret;
- 
--	ctrl_response = nvme_auth_transform_key(ctrl->ctrl_key,
-+	transformed_key = nvme_auth_transform_key(ctrl->ctrl_key,
- 				ctrl->opts->subsysnqn);
--	if (IS_ERR(ctrl_response)) {
--		ret = PTR_ERR(ctrl_response);
-+	if (IS_ERR(transformed_key)) {
-+		ret = PTR_ERR(transformed_key);
- 		return ret;
- 	}
- 
- 	ret = crypto_shash_setkey(chap->shash_tfm,
--			ctrl_response, ctrl->ctrl_key->len);
-+			transformed_key->key, transformed_key->len);
- 	if (ret) {
- 		dev_warn(ctrl->device, "qid %d: failed to set key, error %d\n",
- 			 chap->qid, ret);
-@@ -586,7 +586,7 @@ static int nvme_auth_dhchap_setup_ctrl_response(struct nvme_ctrl *ctrl,
- out:
- 	if (challenge != chap->c2)
- 		kfree(challenge);
--	kfree(ctrl_response);
-+	nvme_auth_free_key(transformed_key);
- 	return ret;
- }
- 
-@@ -648,8 +648,8 @@ static int nvme_auth_dhchap_exponential(struct nvme_ctrl *ctrl,
- 
- static void nvme_auth_reset_dhchap(struct nvme_dhchap_queue_context *chap)
- {
--	kfree_sensitive(chap->host_response);
--	chap->host_response = NULL;
-+	nvme_auth_free_key(chap->transformed_key);
-+	chap->transformed_key = NULL;
- 	kfree_sensitive(chap->host_key);
- 	chap->host_key = NULL;
- 	chap->host_key_len = 0;
-diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
-index 4dcddcf95279..84f3ab1f9d02 100644
---- a/drivers/nvme/target/auth.c
-+++ b/drivers/nvme/target/auth.c
-@@ -267,7 +267,8 @@ int nvmet_auth_host_hash(struct nvmet_req *req, u8 *response,
- 	struct shash_desc *shash;
- 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
- 	const char *hash_name;
--	u8 *challenge = req->sq->dhchap_c1, *host_response;
-+	u8 *challenge = req->sq->dhchap_c1;
-+	struct nvme_dhchap_key *transformed_key;
- 	u8 buf[4];
- 	int ret;
- 
-@@ -291,14 +292,14 @@ int nvmet_auth_host_hash(struct nvmet_req *req, u8 *response,
- 		goto out_free_tfm;
- 	}
- 
--	host_response = nvme_auth_transform_key(ctrl->host_key, ctrl->hostnqn);
--	if (IS_ERR(host_response)) {
--		ret = PTR_ERR(host_response);
-+	transformed_key = nvme_auth_transform_key(ctrl->host_key, ctrl->hostnqn);
-+	if (IS_ERR(transformed_key)) {
-+		ret = PTR_ERR(transformed_key);
- 		goto out_free_tfm;
- 	}
- 
--	ret = crypto_shash_setkey(shash_tfm, host_response,
--				  ctrl->host_key->len);
-+	ret = crypto_shash_setkey(shash_tfm, transformed_key->key,
-+				  transformed_key->len);
- 	if (ret)
- 		goto out_free_response;
- 
-@@ -365,7 +366,7 @@ int nvmet_auth_host_hash(struct nvmet_req *req, u8 *response,
- 		kfree(challenge);
- 	kfree(shash);
- out_free_response:
--	kfree_sensitive(host_response);
-+	nvme_auth_free_key(transformed_key);
- out_free_tfm:
- 	crypto_free_shash(shash_tfm);
- 	return 0;
-@@ -378,7 +379,8 @@ int nvmet_auth_ctrl_hash(struct nvmet_req *req, u8 *response,
- 	struct shash_desc *shash;
- 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
- 	const char *hash_name;
--	u8 *challenge = req->sq->dhchap_c2, *ctrl_response;
-+	u8 *challenge = req->sq->dhchap_c2;
-+	struct nvme_dhchap_key *transformed_key;
- 	u8 buf[4];
- 	int ret;
- 
-@@ -402,15 +404,15 @@ int nvmet_auth_ctrl_hash(struct nvmet_req *req, u8 *response,
- 		goto out_free_tfm;
- 	}
- 
--	ctrl_response = nvme_auth_transform_key(ctrl->ctrl_key,
-+	transformed_key = nvme_auth_transform_key(ctrl->ctrl_key,
- 						ctrl->subsysnqn);
--	if (IS_ERR(ctrl_response)) {
--		ret = PTR_ERR(ctrl_response);
-+	if (IS_ERR(transformed_key)) {
-+		ret = PTR_ERR(transformed_key);
- 		goto out_free_tfm;
- 	}
- 
--	ret = crypto_shash_setkey(shash_tfm, ctrl_response,
--				  ctrl->ctrl_key->len);
-+	ret = crypto_shash_setkey(shash_tfm, transformed_key->key,
-+				  transformed_key->len);
- 	if (ret)
- 		goto out_free_response;
- 
-@@ -474,7 +476,7 @@ int nvmet_auth_ctrl_hash(struct nvmet_req *req, u8 *response,
- 		kfree(challenge);
- 	kfree(shash);
- out_free_response:
--	kfree_sensitive(ctrl_response);
-+	nvme_auth_free_key(transformed_key);
- out_free_tfm:
- 	crypto_free_shash(shash_tfm);
- 	return 0;
-diff --git a/include/linux/nvme-auth.h b/include/linux/nvme-auth.h
-index df96940be930..fd8f69183d55 100644
---- a/include/linux/nvme-auth.h
-+++ b/include/linux/nvme-auth.h
-@@ -28,7 +28,7 @@ struct nvme_dhchap_key *nvme_auth_extract_key(unsigned char *secret,
- 					      u8 key_hash);
- void nvme_auth_free_key(struct nvme_dhchap_key *key);
- struct nvme_dhchap_key *nvme_auth_alloc_key(u32 len, u8 hash);
--u8 *nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn);
-+struct nvme_dhchap_key *nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn);
- int nvme_auth_generate_key(u8 *secret, struct nvme_dhchap_key **ret_key);
- int nvme_auth_augmented_challenge(u8 hmac_id, u8 *skey, size_t skey_len,
- 				  u8 *challenge, u8 *aug, size_t hlen);
--- 
-2.39.2
+ drivers/nvme/host/ioctl.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index 788b36e7915ab..eb2ef3e149614 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -36,9 +36,13 @@ static void *nvme_add_user_metadata(struct request *re=
+q, void __user *ubuf,
+ 	if (!buf)
+ 		goto out;
+=20
+-	ret =3D -EFAULT;
+-	if ((req_op(req) =3D=3D REQ_OP_DRV_OUT) && copy_from_user(buf, ubuf, le=
+n))
+-		goto out_free_meta;
++	if (req_op(req) =3D=3D REQ_OP_DRV_OUT) {
++		ret =3D -EFAULT;
++		if (copy_from_user(buf, ubuf, len))
++			goto out_free_meta;
++	} else {
++		memset(buf, 0, len);
++	}
+=20
+ 	bip =3D bio_integrity_alloc(bio, GFP_KERNEL, 1);
+ 	if (IS_ERR(bip)) {
+--=20
+2.34.1
 
 
