@@ -4,61 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2F8BCDB465
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Oct 2023 18:41:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3E58CDB465
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Oct 2023 20:22:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xlKcsQW08f7wS5oCE30WCfk+aFZs2vCRfqV0C91RGLA=; b=hw8lbp/S2KJJXvjv34fwkjhRel
-	ApA/2Eui+NweIQrlrOX5QLQdE+Je921K/V43kBTsU56w6oOV3NMI1OeQy2ee/Y3eu1A1h9Jt5VUx6
-	5DpHpRdGCZal9Dq1TQQP5aHFxMf/PXJ6bhgtYzvIXKj9H33/TIcYqEKf48Gu1tE3aGiebydcn5UoQ
-	UIW4dWBEyafBZMEiE59Nns+YIcHODKOUVbYurPBRtluFCbMCXJRw/iag1U0j2pPaU6KJ+wpVizIwG
-	b7oasHY/Y1l7UJpmBBbCA2lZY5fAF00LRRtDBzCgkVM2m5a9O3+N7FdYZxBDFN+wCK+lmo63u6nMG
-	mKKIR4hA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=xnVDL8Ylug7++TvbNeswlaasDFrEm33OPoh5lNEGIeg=; b=Jm9fxluvmkTZek3ispXhTPM+N6
+	LQJZZ/6U2DaEKaAnncst6JP69kJwuSX4diXHFpE9FkUE8ILCISitwGRxfzySgj7pNMNjME7dA7HKS
+	5yR4jvl2ncSbrKbBShRaxiCi0dM7Efi22XDnVdUl+grFxPJTVrLBaJyEjkKY1eJEtGNu/SVChXjP/
+	ZepeWe4ceM/OQnvZKXFsomk3B8mYykDJJfxA5GS/blovQMy81KGWIIHyzENMxn3K4d1EhrXChy78S
+	+722lbGaz48bGTs8e6LZ7+GySOulXJAwLahNpMjPfScQ4oAglDsZLi0ZtUgJBXYVu68aEJhx7ADOJ
+	IHerqT7Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qsSX9-00ALe9-1k;
-	Mon, 16 Oct 2023 18:41:43 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1qsU6B-00AUKM-1s;
+	Mon, 16 Oct 2023 20:21:59 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qsSX7-00ALdY-10
+	id 1qsU65-00AUJr-1e
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Oct 2023 18:41:42 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 6B7F261121;
-	Mon, 16 Oct 2023 18:41:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 833DAC433C7;
-	Mon, 16 Oct 2023 18:41:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697481700;
-	bh=4lLBztM/xqv8MyrTOgkSgKcP2BzPDhrLJvms1pcmm50=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=h8ovcYnalVcdKBkp84orNs+pZE+ZWUzik3f9rQoZqsY+CeBfcdO3Gvcpm9bELelxd
-	 JzhNxOQ9djLJZZFhqBYP4xDxiQhTaZe9zR12Gap5QiK9ew/Jh/UTJXtE0UcQgB3adp
-	 EXVQ5Bes8tScK2YuGeUXEYiwfXTsFWAAvjIeWvv90/gqZNE+p+1Z7gBCxIA1igriEu
-	 zDTQj7ZlKdeGl2yPnwR7JxVfmE6eFgN0p25nQUaFRjrd++Q0D94DRPLugUTZ971oS4
-	 OekCDSgosnjbnO+Dv1XPdWseEClHst9u9VB08Jfo1CLeIJQKFUpszeuc1hoNhG7Ltr
-	 WNSefOdr+6k9A==
-Date: Mon, 16 Oct 2023 12:41:37 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: hch@lst.de, axboe@kernel.dk, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, gost.dev@samsung.com,
-	vincentfu@gmail.com, stable@vger.kernel.org
-Subject: Re: [PATCH v2] nvme: remove unprivileged passthrough support
-Message-ID: <ZS2D4VixIYfMQMwg@kbusch-mbp.dhcp.thefacebook.com>
-References: <CGME20231016061151epcas5p1a0e18162b362ffbea754157e99f88995@epcas5p1.samsung.com>
- <20231016060519.231880-1-joshi.k@samsung.com>
+	Mon, 16 Oct 2023 20:21:55 +0000
+Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39GIAcIE024938
+	for <linux-nvme@lists.infradead.org>; Mon, 16 Oct 2023 13:21:50 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=s2048-2021-q4;
+ bh=xnVDL8Ylug7++TvbNeswlaasDFrEm33OPoh5lNEGIeg=;
+ b=Xl/Ie7SfeDVa0abxLVuNCzgdmAA/jsNNv3QoVzfJtwk1hlRvhge8awcRLzfdQVsGPJfL
+ M2YTs7hUV7KjA/aqKCQ/93HLjcWZzjiDKCcX4qjSbyKwDY2P9QkLlHT1OpCTkMXJmQ+y
+ e5FYZRej1iMek6DgjkpGtMqJoiMVRBDS8A8CvsWC3jXbIcQ0iGpokfvpaTdCfIkmp3nk
+ OD4g2PBMifjz1SMT8Wk/dJnO9UZgKBqLwbDq6YUmb4en8bkziJGGCKZMqkvZ7cKszznL
+ 5+ob8Pla34pu9c+5yVy+OL3rUEqgTemUGeRDEoYRoMTb1Jjl4KRDEAdPftGzOkmyTu4U ug== 
+Received: from mail.thefacebook.com ([163.114.132.120])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3ts80vt407-7
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Mon, 16 Oct 2023 13:21:49 -0700
+Received: from twshared11154.02.ash8.facebook.com (2620:10d:c085:108::4) by
+ mail.thefacebook.com (2620:10d:c085:11d::8) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Mon, 16 Oct 2023 13:21:49 -0700
+Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
+	id D1BA52048758D; Mon, 16 Oct 2023 13:21:29 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <hch@lst.de>, <linux-nvme@lists.infradead.org>
+CC: <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>
+Subject: [PATCH] nvme: sanitize metadata bounce buffer for reads
+Date: Mon, 16 Oct 2023 13:21:24 -0700
+Message-ID: <20231016202124.2957213-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231016060519.231880-1-joshi.k@samsung.com>
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: al7as0K6bADRYi13FSneNypvdu33j-_4
+X-Proofpoint-ORIG-GUID: al7as0K6bADRYi13FSneNypvdu33j-_4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-16_10,2023-10-12_01,2023-05-22_02
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231016_114141_394168_7EAB2143 
-X-CRM114-Status: GOOD (  11.51  )
+X-CRM114-CacheID: sfid-20231016_132153_683177_A85582A7 
+X-CRM114-Status: GOOD (  14.56  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,32 +82,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Oct 16, 2023 at 11:35:19AM +0530, Kanchan Joshi wrote:
-> Passthrough has got a hole that can be exploited to cause kernel memory
-> corruption. This is about making the device do larger DMA into
-> short meta/data buffer owned by kernel [1].
-> 
-> As a stopgap measure, disable the support of unprivileged passthrough.
-> 
-> This patch brings back coarse-granular CAP_SYS_ADMIN checks by reverting
-> following patches:
-> 
-> - 7d9d7d59d44 ("nvme: replace the fmode_t argument to the nvme ioctl handlers with a simple bool")
-> - 313c08c72ee ("nvme: don't allow unprivileged passthrough on partitions")
-> - 6f99ac04c46 ("nvme: consult the CSE log page for unprivileged passthrough")
-> - ea43fceea41 ("nvme: allow unprivileged passthrough of Identify Controller")
-> - e4fbcf32c86 ("nvme: identify-namespace without CAP_SYS_ADMIN")
-> - 855b7717f44 ("nvme: fine-granular CAP_SYS_ADMIN for nvme io commands")
-> 
-> [1] https://lore.kernel.org/linux-nvme/20231013051458.39987-1-joshi.k@samsung.com/
-> 
-> CC: stable@vger.kernel.org # 6.2
-> Fixes: 855b7717f44b1 ("nvme: fine-granular CAP_SYS_ADMIN for nvme io commands")
-> 
-> Suggested-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
+From: Keith Busch <kbusch@kernel.org>
 
+User can request more metadata bytes than the device will write. Ensure
+kernel buffer is initialized so we're not leaking unsanitized memory on
+the copy-out.
 
-Applied for nvme-6.6.
+Fixes: 0b7f1f26f95a51a ("nvme: use the block layer for userspace passthro=
+ugh metadata")
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/ioctl.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index 788b36e7915ab..154eb7c944e76 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -39,6 +39,8 @@ static void *nvme_add_user_metadata(struct request *req=
+, void __user *ubuf,
+ 	ret =3D -EFAULT;
+ 	if ((req_op(req) =3D=3D REQ_OP_DRV_OUT) && copy_from_user(buf, ubuf, le=
+n))
+ 		goto out_free_meta;
++	else
++		memset(buf, 0, len);
+=20
+ 	bip =3D bio_integrity_alloc(bio, GFP_KERNEL, 1);
+ 	if (IS_ERR(bip)) {
+--=20
+2.34.1
+
 
