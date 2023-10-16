@@ -4,65 +4,146 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8438ECDB465
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Oct 2023 08:57:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D445CDB474
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Oct 2023 09:14:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9g8elNNSZrtscpGJBTobmscrbBNZtu0NhCoovM6FFsY=; b=Uz4WJuKLJ1LyYt9BIBDnMQUua/
-	9XN74EkQw6gkBm0g+KI7xgaLCnBN2JZcIp0/21vmHIPOCHDalaUtcoUql85AdLgIh8u5S4bUSsiG/
-	pzicrmzdldnlK3gS8LgO6u2JIykYNcTltGVWW/U/V2iKJKYwBSd5YKvgpwC1SgLiqbUQ8TibXu/w2
-	u2/nUWsAYjqcUummoPUNFySB6NZIwZZhcwfXF8iQD/uZ7PKWL3i87mRoGB5hn6xoCnSnBLTDJVQjF
-	g87wm3ZfO7p1tOKBDtDP+YJ+LzV402rfB/NSvvOO9MwmOZy7x84tMVGWrX5G1gpy/NLao4OxsXwTA
-	r2wIgXQg==;
+	bh=/6b/m69bH1hakX2IpOenUNDtnfqIWjaPHpWXTg/L9nU=; b=Zc6YhPbJmG/qKnAd+2oSdqfFjm
+	pZHEpA8sHl1fZM1sUyj1QisWaWU8RSpOAH5GF/XtYskqno7dZ9VUl/P2lBsWTiFvAVb1tGEmk3vJd
+	H8iOoGQ6mKKI2EXCVJCZV2EP4yCwEym2KGS6V43zcrnha3n3k2Y6pDFFSiKZLFDw87eazw8CtaiHi
+	/G+nbLc67KV6t2zJo95VDaW21L8ZE9xqA1S2Ri/dafxBiKHoYZUokE+9E+8bvbK9mhUjGc+RqIK6b
+	0xgL6B91mM5tJHhP04vRqyEKQ61oP9Up6kosLGpElCQk68Yp9v48hqk4NqbLv4XppCDkbM188HrkB
+	nW8aeD7A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qsJPn-008uR2-1Z;
-	Mon, 16 Oct 2023 08:57:31 +0000
-Received: from mout01.posteo.de ([185.67.36.65])
+	id 1qsJgV-008xTa-1c;
+	Mon, 16 Oct 2023 09:14:47 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qsJPj-008uPJ-2i
+	id 1qsJgT-008xRo-0B
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Oct 2023 08:57:30 +0000
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 7ADD524002E
-	for <linux-nvme@lists.infradead.org>; Mon, 16 Oct 2023 10:57:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-	t=1697446646; bh=brODLvvYvkikrtNYqrnX6Dobqx5VOdIf75/P3TBpnxg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:
-	 Content-Transfer-Encoding:From;
-	b=rz2yLfYBh0V5kX5rXYaSPuirzbRNh3TlARKEGFpk83Z1fEDqOkk8uoQwvUZ2x2R2p
-	 7qhvUaxbbH8yOVvpm/7NqoMuQNdbF7qlPkPPB5dJultfzwkHORlLOfC7uRcNmzcOPU
-	 gH0JZykB4FMxUM9dLD1RhEW1ThK80mIHB/yNX15jfxTFFXyRoFeCP4v/YIEduB/y1b
-	 CE4a5IYhGK8guUXD+Db0sLNpS//yv2MnCyZtNGmrrFr7jD2PoLfQBHJBDrSsHTsUXY
-	 cbAIl/2u7voMpgBUyE2AMdH9wwbrLx4NEogU379p2bVQKrLLBamF3JbjrKpjG6D1Fd
-	 iJhgi/ZQPfdDw==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4S89wh1bVBz9rxj;
-	Mon, 16 Oct 2023 10:57:24 +0200 (CEST)
-From: Mark O'Donovan <shiftee@posteo.net>
-To: linux-kernel@vger.kernel.org
-Cc: linux-nvme@lists.infradead.org,
-	sagi@grimberg.me,
-	hch@lst.de,
-	axboe@kernel.dk,
-	kbusch@kernel.org,
-	hare@suse.de,
-	Mark O'Donovan <shiftee@posteo.net>,
-	Akash Appaiah <Akash.Appaiah@dell.com>
-Subject: [PATCH v2 2/2] nvme-auth: allow mixing of secret and hash lengths
-Date: Mon, 16 Oct 2023 08:57:15 +0000
-Message-Id: <20231016085715.3068974-3-shiftee@posteo.net>
-In-Reply-To: <20231016085715.3068974-1-shiftee@posteo.net>
-References: <20231016085715.3068974-1-shiftee@posteo.net>
+	Mon, 16 Oct 2023 09:14:46 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1D9801FDB2;
+	Mon, 16 Oct 2023 09:14:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1697447680; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=/6b/m69bH1hakX2IpOenUNDtnfqIWjaPHpWXTg/L9nU=;
+	b=f9phY6EIY+MbW9wGgElShUsMyEblD9HWMBvpGeD0QhEYo/Um748DhPQsyvF2FUCKkF+aMS
+	vxCL7bA2fntPh0OqDx+ebIcbC7nwVBZZQjeN+0OiagN/buW5sIfVnFCoEzlZueNXDaT4pf
+	mznv8f4NXdxJ8Kyz8/Xa/YZvaIHwSqk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1697447680;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=/6b/m69bH1hakX2IpOenUNDtnfqIWjaPHpWXTg/L9nU=;
+	b=ubq71oT52tA5Z+/oU4d1X9E9Q9ju7ewEhMVDr0+GsWu83l5zOEpaTsuHSiKcbimMBn+UA3
+	QsRK70JLfZ2mqLAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CFEEE138EF;
+	Mon, 16 Oct 2023 09:14:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id cEK1MP/+LGWYKwAAMHmgww
+	(envelope-from <hare@suse.de>); Mon, 16 Oct 2023 09:14:39 +0000
+Message-ID: <4fb894c2-653b-48c7-be48-5eeb3978063c@suse.de>
+Date: Mon, 16 Oct 2023 11:14:38 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] nvme-auth: use transformed key size to create resp
+To: Mark O'Donovan <shiftee@posteo.net>, linux-kernel@vger.kernel.org
+Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de,
+ axboe@kernel.dk, kbusch@kernel.org, Akash Appaiah <Akash.Appaiah@dell.com>
+References: <20231016085715.3068974-1-shiftee@posteo.net>
+ <20231016085715.3068974-2-shiftee@posteo.net>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+Autocrypt: addr=hare@suse.de; keydata=
+ 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
+ YwtooKEemPj2lg==
+In-Reply-To: <20231016085715.3068974-2-shiftee@posteo.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spamd-Result: default: False [-2.09 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 XM_UA_NO_VERSION(0.01)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 BAYES_HAM(-0.00)[35.98%];
+	 MIME_GOOD(-0.10)[text/plain];
+	 REPLY(-4.00)[];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-1.00)[-1.000];
+	 NEURAL_SPAM_LONG(3.00)[1.000];
+	 RCPT_COUNT_SEVEN(0.00)[8];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_COUNT_TWO(0.00)[2];
+	 RCVD_TLS_ALL(0.00)[];
+	 MID_RHS_MATCH_FROM(0.00)[]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231016_015728_019050_C100D360 
-X-CRM114-Status: GOOD (  10.09  )
+X-CRM114-CacheID: sfid-20231016_021445_266747_C528CA37 
+X-CRM114-Status: GOOD (  17.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,47 +158,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-We can now use any of the secret transformation hashes with a
-secret, regardless of the secret size.
-e.g. a 32 byte key with the SHA-512(64 byte) hash.
+On 10/16/23 10:57, Mark O'Donovan wrote:
+> This does not change current behaviour as the driver currently
+> verifies that the secret size is the same size as the length of
+> the transformation hash.
+> 
+> Co-developed-by: Akash Appaiah <Akash.Appaiah@dell.com>
+> Signed-off-by: Akash Appaiah <Akash.Appaiah@dell.com>
+> Signed-off-by: Mark O'Donovan <shiftee@posteo.net>
+> ---
+> V1 -> V2: support target implementation and controller secrets also
+> 
+>   drivers/nvme/common/auth.c | 6 +++++-
+>   drivers/nvme/host/auth.c   | 4 ++--
+>   drivers/nvme/target/auth.c | 4 ++--
+>   include/linux/nvme-auth.h  | 3 ++-
+>   4 files changed, 11 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
+> index d90e4f0c08b7..26a7fbdf4d55 100644
+> --- a/drivers/nvme/common/auth.c
+> +++ b/drivers/nvme/common/auth.c
+> @@ -243,6 +243,8 @@ u8 *nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn)
+>   	}
+>   	if (key->hash == 0) {
+>   		transformed_key = kmemdup(key->key, key->len, GFP_KERNEL);
+> +		if (transformed_key)
+> +			key->transformed_len = key->len;
+>   		return transformed_key ? transformed_key : ERR_PTR(-ENOMEM);
 
-The example secret from the spec should now be permitted with
-any of the following:
-DHHC-1:00:ia6zGodOr4SEG0Zzaw398rpY0wqipUWj4jWjUh4HWUz6aQ2n:
-DHHC-1:01:ia6zGodOr4SEG0Zzaw398rpY0wqipUWj4jWjUh4HWUz6aQ2n:
-DHHC-1:02:ia6zGodOr4SEG0Zzaw398rpY0wqipUWj4jWjUh4HWUz6aQ2n:
-DHHC-1:03:ia6zGodOr4SEG0Zzaw398rpY0wqipUWj4jWjUh4HWUz6aQ2n:
+Hmm. But now we're inconsistent.
+The input structure 'key' doesn't know (nor does care) if the key has 
+been transformed; the transformation itself is returned in a different 
+structure.
 
-Note: Secrets are still restricted to 32,48 or 64 bits.
+If we were to go that way the it'll be better to return a 'struct 
+nvme_dhchap_key' from nvme_auth_transform_key(), which will then 
+encapsulate the data and the correct length.
 
-Co-developed-by: Akash Appaiah <Akash.Appaiah@dell.com>
-Signed-off-by: Akash Appaiah <Akash.Appaiah@dell.com>
-Signed-off-by: Mark O'Donovan <shiftee@posteo.net>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
----
- drivers/nvme/common/auth.c | 8 --------
- 1 file changed, 8 deletions(-)
+Which probably is not a bad idea, seeing that a key transform really 
+should generate a new key.
 
-diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
-index 26a7fbdf4d55..712178e1fb02 100644
---- a/drivers/nvme/common/auth.c
-+++ b/drivers/nvme/common/auth.c
-@@ -187,14 +187,6 @@ struct nvme_dhchap_key *nvme_auth_extract_key(unsigned char *secret,
- 		goto out_free_secret;
- 	}
- 
--	if (key_hash > 0 &&
--	    (key_len - 4) != nvme_auth_hmac_hash_len(key_hash)) {
--		pr_err("Mismatched key len %d for %s\n", key_len,
--		       nvme_auth_hmac_name(key_hash));
--		ret = -EINVAL;
--		goto out_free_secret;
--	}
--
- 	/* The last four bytes is the CRC in little-endian format */
- 	key_len -= 4;
- 	/*
+Hmm?
+
+Cheers,
+
+Hannes
 -- 
-2.39.2
+Dr. Hannes Reinecke		           Kernel Storage Architect
+hare@suse.de			                  +49 911 74053 688
+SUSE Software Solutions Germany GmbH, Frankenstr. 146, 90461 Nürnberg
+Managing Directors: I. Totev, A. Myers, A. McDonald, M. B. Moerman
+(HRB 36809, AG Nürnberg)
 
 
