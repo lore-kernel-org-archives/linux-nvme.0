@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B5FFCDB485
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Oct 2023 17:09:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12B35CDB483
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Oct 2023 17:09:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1CjRhlbtf72LlTj1tReTtOMU4yLQZpKUBea6K5hsqBE=; b=njv09pvPX3mdhlPbXwgQ/YPQjQ
-	6BN7UAD5hKWIch/YJS6/nmGM+b10paEsBw047MqZ4s9VB98CGIGz0FIUcpIoNXne7DYiBrmWpql67
-	jcPe5Y3Bih87PF+Iut4ex0RGP46O/nEGWbL0AGmC9VXtg8Kn7Gf11pIckxeKX5PfsRLVZFzlIj4Sz
-	2S39Z1WTXd6H1XdxvbUiT1KubyUoQ5WCJ/Uovtqgt0jsKE3whheiYNoKRV2Vs+EbyqfC3NMC/DG45
-	InTx0QoKr9/ga+PTSsP7rKCbfAGSFfRZuewHuHG1sTYimuIma2EREYlFVtv+Amt8oV0+yATU1Y7Ux
-	7msUQZ/Q==;
+	bh=TexFNDVeTBrtl14S2U2gJCltTKAQzntVEalOs/i1BXI=; b=SUR3c21KuBvEGsm2F43zw/v26L
+	YRXIF/sj3ZxEbHeaA5bYdKNjQq8KcixVTyFTnxFBI0/wOsP6OuIt2D4XLnqssfa29ONumO4UpE5pB
+	XbI3WKxlhOQk9Qtenlvw3XHHTTxqiGCHwImYamXlfWPAhVn6/cf9xnYL0yoIWDpqE7urdBTyQ9+Pd
+	ddc8wZZQ2wMC/AMYVBsY0Hf8JQhXqgFZh0IOZJlZkoorDKRPR3+vRKZe2ExYQPOPiRS3jp7O8fRnF
+	P1AtuaFk1UhErPI8CJWln0K/yesSH2U/d8jPe83X/d2Ye2Vn9czmRFHuIyvLyInYHVuEnTTZHN1Sd
+	B7dZcvJw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qsnZh-00Csup-28;
-	Tue, 17 Oct 2023 17:09:45 +0000
+	id 1qsnZg-00Cstf-0y;
+	Tue, 17 Oct 2023 17:09:44 +0000
 Received: from mout01.posteo.de ([185.67.36.65])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qsnZd-00Css7-0r
+	id 1qsnZb-00Csr2-0Y
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Oct 2023 17:09:42 +0000
+	Tue, 17 Oct 2023 17:09:41 +0000
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id D4E5E24002E
-	for <linux-nvme@lists.infradead.org>; Tue, 17 Oct 2023 19:09:39 +0200 (CEST)
+	by mout01.posteo.de (Postfix) with ESMTPS id 5CE49240028
+	for <linux-nvme@lists.infradead.org>; Tue, 17 Oct 2023 19:09:37 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-	t=1697562579; bh=VhFfYCOEPT+rQAMLdIS9Syy14aQ3ZPiksMBM2z4L0Z8=;
+	t=1697562577; bh=NF1r+NLg51G1dFzc0PzoVKjUyD6Riw2yYir+JcEjJhY=;
 	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:
 	 Content-Transfer-Encoding:From;
-	b=qpTo/dRWSsIHISjTrVctNufscbV1CNniMJ5LjgwNIqzQmVsyuV75LwZwNF2sAyTQD
-	 eiLz2YtLOgM/2HFraFk3p94m8k5HWtfMBhm50TXMAnu147Fu5Wd50XZEyuK4rjpuRl
-	 qLlUNJ0FwUDgL5f7/ROIPoo1Ry6Gf1KjmWbnHBtay30GIuH1YJkxb2mIF/qdpunegh
-	 W+bjIY913fRHySr082FMt0L+gf634GXU191Bp2NmU/fUm131NA1V/R6JAoQQkDuwtY
-	 0fw/TfGOIFmNfJchUQlSD/Ay5kofCZ6/e1M+bg4AuCqRg8pqWbwm1d6kT/FE66k6u6
-	 DGGIhfsvjZzeQ==
+	b=QIzeHAFnXABFpH8xmay3ntYWPKL4KEEv1raICjR7XjnQQSqakku+vsK1tRjHEOUXL
+	 xunTwLUqdm0GmvFjZOJykA+J/jH8YvQYEiW/obveAemRFCnfevfxSgqVeeQEWC3SAe
+	 pPat4vWUmhXORM/4RqlUhswGVxetZ8uHoPHF1ffAW0aSpnnD1kwnhwnrcq+WcjUdO+
+	 DN7kFuiDGfMOW3wSXuNB9NMOa4UytiLbEMNoYUDTjZxfmAIPFD5WCZVJdLXOKSumhT
+	 JB4L0MVN47rvFS7g/bv2y7nFr59JF71VTVA6EFxRrldaxySXzgvep+2EtzbH1MAmgC
+	 zcJGQQJhY/H5g==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4S90pB2sFMz9rxW;
-	Tue, 17 Oct 2023 19:09:38 +0200 (CEST)
+	by submission (posteo.de) with ESMTPSA id 4S90p76xy3z9rxb;
+	Tue, 17 Oct 2023 19:09:35 +0200 (CEST)
 From: Mark O'Donovan <shiftee@posteo.net>
 To: linux-kernel@vger.kernel.org
 Cc: linux-nvme@lists.infradead.org,
@@ -53,16 +53,16 @@ Cc: linux-nvme@lists.infradead.org,
 	hare@suse.de,
 	Mark O'Donovan <shiftee@posteo.net>,
 	Akash Appaiah <Akash.Appaiah@dell.com>
-Subject: [PATCH v5 3/3] nvme-auth: allow mixing of secret and hash lengths
-Date: Tue, 17 Oct 2023 17:09:19 +0000
-Message-Id: <20231017170919.30358-4-shiftee@posteo.net>
+Subject: [PATCH v5 1/3] nvme-auth: alloc nvme_dhchap_key as single buffer
+Date: Tue, 17 Oct 2023 17:09:17 +0000
+Message-Id: <20231017170919.30358-2-shiftee@posteo.net>
 In-Reply-To: <20231017170919.30358-1-shiftee@posteo.net>
 References: <20231017170919.30358-1-shiftee@posteo.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231017_100941_471551_38C0DDBA 
-X-CRM114-Status: GOOD (  10.22  )
+X-CRM114-CacheID: sfid-20231017_100939_497602_7BF009C1 
+X-CRM114-Status: GOOD (  11.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,46 +77,127 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-We can now use any of the secret transformation hashes with a
-secret, regardless of the secret size.
-e.g. a 32 byte key with the SHA-512(64 byte) hash.
-
-The example secret from the spec should now be permitted with
-any of the following:
-DHHC-1:00:ia6zGodOr4SEG0Zzaw398rpY0wqipUWj4jWjUh4HWUz6aQ2n:
-DHHC-1:01:ia6zGodOr4SEG0Zzaw398rpY0wqipUWj4jWjUh4HWUz6aQ2n:
-DHHC-1:02:ia6zGodOr4SEG0Zzaw398rpY0wqipUWj4jWjUh4HWUz6aQ2n:
-DHHC-1:03:ia6zGodOr4SEG0Zzaw398rpY0wqipUWj4jWjUh4HWUz6aQ2n:
-
-Note: Secrets are still restricted to 32,48 or 64 bits.
-
 Co-developed-by: Akash Appaiah <Akash.Appaiah@dell.com>
 Signed-off-by: Akash Appaiah <Akash.Appaiah@dell.com>
 Signed-off-by: Mark O'Donovan <shiftee@posteo.net>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/common/auth.c | 8 --------
- 1 file changed, 8 deletions(-)
+V2 -> V3: initial version
+
+V3 -> V4: added function to get size of key struct
+
+V4 -> V5: removed newly redundant check found by kernel test robot
+
+ drivers/nvme/common/auth.c | 37 +++++++++++++++++++++++++------------
+ include/linux/nvme-auth.h  |  4 +++-
+ 2 files changed, 28 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
-index f954aeb647a5..a8e87dfbeab2 100644
+index d90e4f0c08b7..16a071448d54 100644
 --- a/drivers/nvme/common/auth.c
 +++ b/drivers/nvme/common/auth.c
-@@ -190,14 +190,6 @@ struct nvme_dhchap_key *nvme_auth_extract_key(unsigned char *secret,
- 		goto out_free_secret;
- 	}
+@@ -150,6 +150,14 @@ size_t nvme_auth_hmac_hash_len(u8 hmac_id)
+ }
+ EXPORT_SYMBOL_GPL(nvme_auth_hmac_hash_len);
  
--	if (key_hash > 0 &&
--	    (key_len - 4) != nvme_auth_hmac_hash_len(key_hash)) {
--		pr_err("Mismatched key len %d for %s\n", key_len,
--		       nvme_auth_hmac_name(key_hash));
--		ret = -EINVAL;
--		goto out_free_secret;
++u32 nvme_auth_key_struct_size(u32 key_len)
++{
++	struct nvme_dhchap_key key;
++
++	return struct_size(&key, key, key_len);
++}
++EXPORT_SYMBOL_GPL(nvme_auth_key_struct_size);
++
+ struct nvme_dhchap_key *nvme_auth_extract_key(unsigned char *secret,
+ 					      u8 key_hash)
+ {
+@@ -163,14 +171,9 @@ struct nvme_dhchap_key *nvme_auth_extract_key(unsigned char *secret,
+ 	p = strrchr(secret, ':');
+ 	if (p)
+ 		allocated_len = p - secret;
+-	key = kzalloc(sizeof(*key), GFP_KERNEL);
++	key = nvme_auth_alloc_key(allocated_len, 0);
+ 	if (!key)
+ 		return ERR_PTR(-ENOMEM);
+-	key->key = kzalloc(allocated_len, GFP_KERNEL);
+-	if (!key->key) {
+-		ret = -ENOMEM;
+-		goto out_free_key;
 -	}
--
- 	/* The last four bytes is the CRC in little-endian format */
- 	key_len -= 4;
- 	/*
+ 
+ 	key_len = base64_decode(secret, allocated_len, key->key);
+ 	if (key_len < 0) {
+@@ -213,19 +216,29 @@ struct nvme_dhchap_key *nvme_auth_extract_key(unsigned char *secret,
+ 	key->hash = key_hash;
+ 	return key;
+ out_free_secret:
+-	kfree_sensitive(key->key);
+-out_free_key:
+-	kfree(key);
++	nvme_auth_free_key(key);
+ 	return ERR_PTR(ret);
+ }
+ EXPORT_SYMBOL_GPL(nvme_auth_extract_key);
+ 
++struct nvme_dhchap_key *nvme_auth_alloc_key(u32 len, u8 hash)
++{
++	u32 num_bytes = nvme_auth_key_struct_size(len);
++	struct nvme_dhchap_key *key = kzalloc(num_bytes, GFP_KERNEL);
++
++	if (key) {
++		key->len = len;
++		key->hash = hash;
++	}
++	return key;
++}
++EXPORT_SYMBOL_GPL(nvme_auth_alloc_key);
++
+ void nvme_auth_free_key(struct nvme_dhchap_key *key)
+ {
+ 	if (!key)
+ 		return;
+-	kfree_sensitive(key->key);
+-	kfree(key);
++	kfree_sensitive(key);
+ }
+ EXPORT_SYMBOL_GPL(nvme_auth_free_key);
+ 
+@@ -237,7 +250,7 @@ u8 *nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn)
+ 	u8 *transformed_key;
+ 	int ret;
+ 
+-	if (!key || !key->key) {
++	if (!key) {
+ 		pr_warn("No key specified\n");
+ 		return ERR_PTR(-ENOKEY);
+ 	}
+diff --git a/include/linux/nvme-auth.h b/include/linux/nvme-auth.h
+index dcb8030062dd..a5ae9abe1ef6 100644
+--- a/include/linux/nvme-auth.h
++++ b/include/linux/nvme-auth.h
+@@ -9,9 +9,9 @@
+ #include <crypto/kpp.h>
+ 
+ struct nvme_dhchap_key {
+-	u8 *key;
+ 	size_t len;
+ 	u8 hash;
++	u8 key[];
+ };
+ 
+ u32 nvme_auth_get_seqnum(void);
+@@ -24,9 +24,11 @@ const char *nvme_auth_digest_name(u8 hmac_id);
+ size_t nvme_auth_hmac_hash_len(u8 hmac_id);
+ u8 nvme_auth_hmac_id(const char *hmac_name);
+ 
++u32 nvme_auth_key_struct_size(u32 key_len);
+ struct nvme_dhchap_key *nvme_auth_extract_key(unsigned char *secret,
+ 					      u8 key_hash);
+ void nvme_auth_free_key(struct nvme_dhchap_key *key);
++struct nvme_dhchap_key *nvme_auth_alloc_key(u32 len, u8 hash);
+ u8 *nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn);
+ int nvme_auth_generate_key(u8 *secret, struct nvme_dhchap_key **ret_key);
+ int nvme_auth_augmented_challenge(u8 hmac_id, u8 *skey, size_t skey_len,
 -- 
 2.39.2
 
