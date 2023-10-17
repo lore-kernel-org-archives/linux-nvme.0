@@ -4,65 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4321DCDB485
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Oct 2023 10:53:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 628C0CDB474
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Oct 2023 13:46:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IDt+mgVfuhyxZ5dvfBdvzae2yr69d+KBrhUPcgyPjVs=; b=aaK3nTg54yvFRjDVYrXPppruCA
-	cVMxva7vpRbwkCCuMdsYdomfIZvQA6DC7KWC/rdYiM5vvZuyQ3qWVRTkY1Erxv+AoWI2EM4nvQeKT
-	o0J8Ees0n0prpvnQxUhSzs7cxWYywMQdKhn3qCgcRhN4w1el+YAW8oCRcW1G9oalr/9MfxxaX8871
-	vgxFlC/Ma75EgTdP/5ecBVavLuFUIbkpUlHryo/Q6Or7ePvPcara/cUEF26eN1WIREmvLFEHjqhJa
-	hMP2Emlj9s/3i5mdMlwejYJbLZGR0Y7P1AhfemyO8tM8harrelquBI/ZKXYsDzf/yESlzejn9MMsg
-	4OLYBBCw==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=llBO4VJkGXQj8hOL1bcGabqgVmJeQ9Y3aXqlLxmu0rM=; b=lgPhWPXdX79AFMNrbU5/WsAmqa
+	BEpGtp0R51wficmVnhWfUUr9uD6Gm9Ok8WXX/CarMFcPnfVfljAsWbCsF+BKCrJzpdIOrUfBMyLii
+	tBRqHx70Q1gMIk7zzWtwYH84Q+4jHTLSvnN62ke1id+jXGS2LTAiUXXIAz7scLCKalL+HpW+sdTC/
+	Eb9xy+pJWqFIv7KQbhQXRlDdERHs0afHYcomFZw8pzLbXAFMQHrSVvikGfC3wGjNNkNaUOoF/HKB7
+	8X04mfIwOL7tSu2wX5OeTu7NYqqQJdU4q1YAy6CcGoeIjZdnPxKWlBSRymniA17YlUnyj4pSWeBIK
+	zEtOSTdw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qshhO-00C8AX-1r;
-	Tue, 17 Oct 2023 10:53:18 +0000
-Received: from mout01.posteo.de ([185.67.36.65])
+	id 1qskOT-00CS9r-11;
+	Tue, 17 Oct 2023 13:45:57 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qshhK-00C87t-2Y
+	id 1qskOQ-00CS8j-0h
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Oct 2023 10:53:16 +0000
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id BC82A24002B
-	for <linux-nvme@lists.infradead.org>; Tue, 17 Oct 2023 12:53:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-	t=1697539989; bh=lsy+EhwM0egrnNd594n9n/ct9m5wTrzR71bElFpZ94U=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:
-	 Content-Transfer-Encoding:From;
-	b=e/kUvJBrE9XQjkWg4mB+G8loffnIDHUGXNACJOHKMvtWuInUcnqR2GVUd6Uapssyo
-	 4ia7d7ncpNFG9OMO/wVHMKEFzfTb0CS4tvlD8SlKHEb/2CUlYdD6q44jN3ULMkcbq+
-	 cY8kuXWPPqOShOfEkUFMxe5rKKcVE8/P9evvY3OsgEftfnVwOF2uGqIt5Mt1LslW+E
-	 iodVSBOd7q141g3QfxSXJGhBdxWgy0k+u+niEt7vIKSARKKoG/Nk62CtGn5btdqMyo
-	 Li8dBk7RpT1hdcf9U16bXVGN6B6zR5gCYN6dVLrqN8q2qEz8CCQZV4DjR2/odfE3ss
-	 wIfbrSz6EYcHQ==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4S8rRm1HLHz6ty1;
-	Tue, 17 Oct 2023 12:53:08 +0200 (CEST)
-From: Mark O'Donovan <shiftee@posteo.net>
-To: linux-kernel@vger.kernel.org
-Cc: linux-nvme@lists.infradead.org,
-	sagi@grimberg.me,
-	hch@lst.de,
-	axboe@kernel.dk,
-	kbusch@kernel.org,
-	hare@suse.de,
-	Mark O'Donovan <shiftee@posteo.net>,
-	Akash Appaiah <Akash.Appaiah@dell.com>
-Subject: [PATCH v4 2/3] nvme-auth: use transformed key size to create resp
-Date: Tue, 17 Oct 2023 10:52:50 +0000
-Message-Id: <20231017105251.3274652-3-shiftee@posteo.net>
-In-Reply-To: <20231017105251.3274652-1-shiftee@posteo.net>
-References: <20231017105251.3274652-1-shiftee@posteo.net>
+	Tue, 17 Oct 2023 13:45:55 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out1.suse.de (Postfix) with ESMTP id E728B21D0B;
+	Tue, 17 Oct 2023 13:45:38 +0000 (UTC)
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+	by relay2.suse.de (Postfix) with ESMTP id B01852D433;
+	Tue, 17 Oct 2023 13:45:38 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 16045)
+	id CD79051EBEB4; Tue, 17 Oct 2023 15:45:38 +0200 (CEST)
+From: Hannes Reinecke <hare@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH] nvme: start keep-alive after admin queue setup
+Date: Tue, 17 Oct 2023 15:45:35 +0200
+Message-Id: <20231017134535.137780-1-hare@suse.de>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spamd-Bar: ++
+Authentication-Results: smtp-out1.suse.de;
+	dkim=none;
+	dmarc=none;
+	spf=softfail (smtp-out1.suse.de: 149.44.160.134 is neither permitted nor denied by domain of hare@suse.de) smtp.mailfrom=hare@suse.de
+X-Rspamd-Server: rspamd2
+X-Spamd-Result: default: False [2.49 / 50.00];
+	 ARC_NA(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 R_MISSING_CHARSET(2.50)[];
+	 NEURAL_HAM_LONG(-3.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DMARC_NA(0.20)[suse.de];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 R_SPF_SOFTFAIL(0.60)[~all:c];
+	 RCPT_COUNT_FIVE(0.00)[5];
+	 TO_MATCH_ENVRCPT_SOME(0.00)[];
+	 VIOLATED_DIRECT_SPF(3.50)[];
+	 MX_GOOD(-0.01)[];
+	 NEURAL_HAM_SHORT(-1.00)[-1.000];
+	 MID_CONTAINS_FROM(1.00)[];
+	 RWL_MAILSPIKE_GOOD(0.00)[149.44.160.134:from];
+	 RCVD_NO_TLS_LAST(0.10)[];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 R_DKIM_NA(0.20)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_COUNT_TWO(0.00)[2];
+	 BAYES_HAM(-3.00)[100.00%]
+X-Rspamd-Queue-Id: E728B21D0B
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231017_035315_139798_0500546B 
-X-CRM114-Status: GOOD (  15.62  )
+X-CRM114-CacheID: sfid-20231017_064554_432202_805FFED2 
+X-CRM114-Status: GOOD (  11.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,288 +94,191 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This does not change current behaviour as the driver currently
-verifies that the secret size is the same size as the length of
-the transformation hash.
+Setting up I/O queues might take quite some time on larger and/or
+busy setups, so KATO might expire before all I/O queues could be
+set up.
+Fix this by starting keep-alive right after the admin queue is
+operational.
 
-Co-developed-by: Akash Appaiah <Akash.Appaiah@dell.com>
-Signed-off-by: Akash Appaiah <Akash.Appaiah@dell.com>
-Signed-off-by: Mark O'Donovan <shiftee@posteo.net>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
-V1 -> V2: support target implementation and controller secrets also
-V2 -> V3: return key from nvme_auth_transform_key
-V3 -> V4: use helper to get key struct len, added ERR_CAST
+ drivers/nvme/host/apple.c  |  4 +++-
+ drivers/nvme/host/core.c   |  4 ++--
+ drivers/nvme/host/fc.c     |  1 +
+ drivers/nvme/host/pci.c    | 18 +++++++++++-------
+ drivers/nvme/host/rdma.c   |  1 +
+ drivers/nvme/host/tcp.c    |  1 +
+ drivers/nvme/target/loop.c |  1 +
+ 7 files changed, 20 insertions(+), 10 deletions(-)
 
- drivers/nvme/common/auth.c | 23 ++++++++++++++---------
- drivers/nvme/host/auth.c   | 30 +++++++++++++++---------------
- drivers/nvme/target/auth.c | 31 +++++++++++++++++--------------
- include/linux/nvme-auth.h  |  3 ++-
- 4 files changed, 48 insertions(+), 39 deletions(-)
-
-diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
-index 984f4320aca3..f9e7ed8e729d 100644
---- a/drivers/nvme/common/auth.c
-+++ b/drivers/nvme/common/auth.c
-@@ -242,21 +242,25 @@ void nvme_auth_free_key(struct nvme_dhchap_key *key)
- }
- EXPORT_SYMBOL_GPL(nvme_auth_free_key);
- 
--u8 *nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn)
-+struct nvme_dhchap_key *nvme_auth_transform_key(
-+		struct nvme_dhchap_key *key, char *nqn)
- {
- 	const char *hmac_name;
- 	struct crypto_shash *key_tfm;
- 	struct shash_desc *shash;
--	u8 *transformed_key;
--	int ret;
-+	struct nvme_dhchap_key *transformed_key;
-+	int ret, key_len;
- 
- 	if (!key || !key->key) {
- 		pr_warn("No key specified\n");
- 		return ERR_PTR(-ENOKEY);
- 	}
- 	if (key->hash == 0) {
--		transformed_key = kmemdup(key->key, key->len, GFP_KERNEL);
--		return transformed_key ? transformed_key : ERR_PTR(-ENOMEM);
-+		key_len = nvme_auth_key_struct_size(key->len);
-+		transformed_key = kmemdup(key, key_len, GFP_KERNEL);
-+		if (!transformed_key)
-+			return ERR_PTR(-ENOMEM);
-+		return transformed_key;
- 	}
- 	hmac_name = nvme_auth_hmac_name(key->hash);
- 	if (!hmac_name) {
-@@ -266,7 +270,7 @@ u8 *nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn)
- 
- 	key_tfm = crypto_alloc_shash(hmac_name, 0, 0);
- 	if (IS_ERR(key_tfm))
--		return (u8 *)key_tfm;
-+		return ERR_CAST(key_tfm);
- 
- 	shash = kmalloc(sizeof(struct shash_desc) +
- 			crypto_shash_descsize(key_tfm),
-@@ -276,7 +280,8 @@ u8 *nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn)
- 		goto out_free_key;
- 	}
- 
--	transformed_key = kzalloc(crypto_shash_digestsize(key_tfm), GFP_KERNEL);
-+	key_len = crypto_shash_digestsize(key_tfm);
-+	transformed_key = nvme_auth_alloc_key(key_len, key->hash);
- 	if (!transformed_key) {
- 		ret = -ENOMEM;
- 		goto out_free_shash;
-@@ -295,7 +300,7 @@ u8 *nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn)
- 	ret = crypto_shash_update(shash, "NVMe-over-Fabrics", 17);
- 	if (ret < 0)
- 		goto out_free_transformed_key;
--	ret = crypto_shash_final(shash, transformed_key);
-+	ret = crypto_shash_final(shash, transformed_key->key);
- 	if (ret < 0)
- 		goto out_free_transformed_key;
- 
-@@ -305,7 +310,7 @@ u8 *nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn)
- 	return transformed_key;
- 
- out_free_transformed_key:
--	kfree_sensitive(transformed_key);
-+	nvme_auth_free_key(transformed_key);
- out_free_shash:
- 	kfree(shash);
- out_free_key:
-diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-index daf5d144a8ea..de1390d705dc 100644
---- a/drivers/nvme/host/auth.c
-+++ b/drivers/nvme/host/auth.c
-@@ -23,6 +23,7 @@ struct nvme_dhchap_queue_context {
- 	struct nvme_ctrl *ctrl;
- 	struct crypto_shash *shash_tfm;
- 	struct crypto_kpp *dh_tfm;
-+	struct nvme_dhchap_key *transformed_key;
- 	void *buf;
- 	int qid;
- 	int error;
-@@ -36,7 +37,6 @@ struct nvme_dhchap_queue_context {
- 	u8 c1[64];
- 	u8 c2[64];
- 	u8 response[64];
--	u8 *host_response;
- 	u8 *ctrl_key;
- 	u8 *host_key;
- 	u8 *sess_key;
-@@ -428,12 +428,12 @@ static int nvme_auth_dhchap_setup_host_response(struct nvme_ctrl *ctrl,
- 	dev_dbg(ctrl->device, "%s: qid %d host response seq %u transaction %d\n",
- 		__func__, chap->qid, chap->s1, chap->transaction);
- 
--	if (!chap->host_response) {
--		chap->host_response = nvme_auth_transform_key(ctrl->host_key,
-+	if (!chap->transformed_key) {
-+		chap->transformed_key = nvme_auth_transform_key(ctrl->host_key,
- 						ctrl->opts->host->nqn);
--		if (IS_ERR(chap->host_response)) {
--			ret = PTR_ERR(chap->host_response);
--			chap->host_response = NULL;
-+		if (IS_ERR(chap->transformed_key)) {
-+			ret = PTR_ERR(chap->transformed_key);
-+			chap->transformed_key = NULL;
- 			return ret;
- 		}
- 	} else {
-@@ -442,7 +442,7 @@ static int nvme_auth_dhchap_setup_host_response(struct nvme_ctrl *ctrl,
- 	}
- 
- 	ret = crypto_shash_setkey(chap->shash_tfm,
--			chap->host_response, ctrl->host_key->len);
-+			chap->transformed_key->key, chap->transformed_key->len);
- 	if (ret) {
- 		dev_warn(ctrl->device, "qid %d: failed to set key, error %d\n",
- 			 chap->qid, ret);
-@@ -508,19 +508,19 @@ static int nvme_auth_dhchap_setup_ctrl_response(struct nvme_ctrl *ctrl,
- 		struct nvme_dhchap_queue_context *chap)
- {
- 	SHASH_DESC_ON_STACK(shash, chap->shash_tfm);
--	u8 *ctrl_response;
-+	struct nvme_dhchap_key *transformed_key;
- 	u8 buf[4], *challenge = chap->c2;
- 	int ret;
- 
--	ctrl_response = nvme_auth_transform_key(ctrl->ctrl_key,
-+	transformed_key = nvme_auth_transform_key(ctrl->ctrl_key,
- 				ctrl->opts->subsysnqn);
--	if (IS_ERR(ctrl_response)) {
--		ret = PTR_ERR(ctrl_response);
-+	if (IS_ERR(transformed_key)) {
-+		ret = PTR_ERR(transformed_key);
- 		return ret;
- 	}
- 
- 	ret = crypto_shash_setkey(chap->shash_tfm,
--			ctrl_response, ctrl->ctrl_key->len);
-+			transformed_key->key, transformed_key->len);
- 	if (ret) {
- 		dev_warn(ctrl->device, "qid %d: failed to set key, error %d\n",
- 			 chap->qid, ret);
-@@ -586,7 +586,7 @@ static int nvme_auth_dhchap_setup_ctrl_response(struct nvme_ctrl *ctrl,
+diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+index 596bb11eeba5..a434eb2a7129 100644
+--- a/drivers/nvme/host/apple.c
++++ b/drivers/nvme/host/apple.c
+@@ -1123,7 +1123,7 @@ static void apple_nvme_reset_work(struct work_struct *work)
+ 	dev_dbg(anv->dev, "Creating IOCQ");
+ 	ret = apple_nvme_create_cq(anv);
+ 	if (ret)
+-		goto out;
++		goto out_stop;
+ 	dev_dbg(anv->dev, "Creating IOSQ");
+ 	ret = apple_nvme_create_sq(anv);
+ 	if (ret)
+@@ -1162,6 +1162,8 @@ static void apple_nvme_reset_work(struct work_struct *work)
+ 	apple_nvme_remove_sq(anv);
+ out_remove_cq:
+ 	apple_nvme_remove_cq(anv);
++ out_stop:
++	nvme_stop_keep_alive(&anv->ctrl);
  out:
- 	if (challenge != chap->c2)
- 		kfree(challenge);
--	kfree(ctrl_response);
-+	nvme_auth_free_key(transformed_key);
- 	return ret;
+ 	dev_warn(anv->ctrl.device, "Reset failure status: %d\n", ret);
+ 	nvme_change_ctrl_state(&anv->ctrl, NVME_CTRL_DELETING);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 62612f87aafa..7c689752b360 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3200,6 +3200,8 @@ int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl, bool was_suspended)
+ 	clear_bit(NVME_CTRL_DIRTY_CAPABILITY, &ctrl->flags);
+ 	ctrl->identified = true;
+ 
++	nvme_start_keep_alive(ctrl);
++
+ 	return 0;
  }
+ EXPORT_SYMBOL_GPL(nvme_init_ctrl_finish);
+@@ -4344,8 +4346,6 @@ EXPORT_SYMBOL_GPL(nvme_stop_ctrl);
  
-@@ -648,8 +648,8 @@ static int nvme_auth_dhchap_exponential(struct nvme_ctrl *ctrl,
- 
- static void nvme_auth_reset_dhchap(struct nvme_dhchap_queue_context *chap)
+ void nvme_start_ctrl(struct nvme_ctrl *ctrl)
  {
--	kfree_sensitive(chap->host_response);
--	chap->host_response = NULL;
-+	nvme_auth_free_key(chap->transformed_key);
-+	chap->transformed_key = NULL;
- 	kfree_sensitive(chap->host_key);
- 	chap->host_key = NULL;
- 	chap->host_key_len = 0;
-diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
-index 4dcddcf95279..3ddbc3880cac 100644
---- a/drivers/nvme/target/auth.c
-+++ b/drivers/nvme/target/auth.c
-@@ -267,7 +267,8 @@ int nvmet_auth_host_hash(struct nvmet_req *req, u8 *response,
- 	struct shash_desc *shash;
- 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
- 	const char *hash_name;
--	u8 *challenge = req->sq->dhchap_c1, *host_response;
-+	u8 *challenge = req->sq->dhchap_c1;
-+	struct nvme_dhchap_key *transformed_key;
- 	u8 buf[4];
- 	int ret;
+-	nvme_start_keep_alive(ctrl);
+-
+ 	nvme_enable_aen(ctrl);
  
-@@ -291,14 +292,15 @@ int nvmet_auth_host_hash(struct nvmet_req *req, u8 *response,
- 		goto out_free_tfm;
+ 	/*
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index a15b37750d6e..b46b49d010d6 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -3203,6 +3203,7 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ 	dev_warn(ctrl->ctrl.device,
+ 		"NVME-FC{%d}: create_assoc failed, assoc_id %llx ret %d\n",
+ 		ctrl->cnum, ctrl->association_id, ret);
++	nvme_stop_keep_alive(&ctrl->ctrl);
+ 	/* send a Disconnect(association) LS to fc-nvme target */
+ 	nvme_fc_xmt_disconnect_assoc(ctrl);
+ 	spin_lock_irqsave(&ctrl->lock, flags);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 60a08dfe8d75..97a86e7d8d27 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2731,11 +2731,11 @@ static void nvme_reset_work(struct work_struct *work)
+ 
+ 	result = nvme_setup_host_mem(dev);
+ 	if (result < 0)
+-		goto out;
++		goto out_stop;
+ 
+ 	result = nvme_setup_io_queues(dev);
+ 	if (result)
+-		goto out;
++		goto out_stop;
+ 
+ 	/*
+ 	 * Freeze and update the number of I/O queues as thos might have
+@@ -2764,7 +2764,7 @@ static void nvme_reset_work(struct work_struct *work)
+ 		dev_warn(dev->ctrl.device,
+ 			"failed to mark controller live state\n");
+ 		result = -ENODEV;
+-		goto out;
++		goto out_stop;
  	}
  
--	host_response = nvme_auth_transform_key(ctrl->host_key, ctrl->hostnqn);
--	if (IS_ERR(host_response)) {
--		ret = PTR_ERR(host_response);
-+	transformed_key = nvme_auth_transform_key(ctrl->host_key,
-+						  ctrl->hostnqn);
-+	if (IS_ERR(transformed_key)) {
-+		ret = PTR_ERR(transformed_key);
- 		goto out_free_tfm;
+ 	nvme_start_ctrl(&dev->ctrl);
+@@ -2772,6 +2772,8 @@ static void nvme_reset_work(struct work_struct *work)
+ 
+  out_unlock:
+ 	mutex_unlock(&dev->shutdown_lock);
++ out_stop:
++	nvme_stop_keep_alive(&dev->ctrl);
+  out:
+ 	/*
+ 	 * Set state to deleting now to avoid blocking nvme_wait_reset(), which
+@@ -3021,17 +3023,17 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 
+ 	result = nvme_init_ctrl_finish(&dev->ctrl, false);
+ 	if (result)
+-		goto out_disable;
++		goto out_stop;
+ 
+ 	nvme_dbbuf_dma_alloc(dev);
+ 
+ 	result = nvme_setup_host_mem(dev);
+ 	if (result < 0)
+-		goto out_disable;
++		goto out_stop;
+ 
+ 	result = nvme_setup_io_queues(dev);
+ 	if (result)
+-		goto out_disable;
++		goto out_stop;
+ 
+ 	if (dev->online_queues > 1) {
+ 		nvme_alloc_io_tag_set(&dev->ctrl, &dev->tagset, &nvme_mq_ops,
+@@ -3046,7 +3048,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 		dev_warn(dev->ctrl.device,
+ 			"failed to mark controller live state\n");
+ 		result = -ENODEV;
+-		goto out_disable;
++		goto out_stop;
  	}
  
--	ret = crypto_shash_setkey(shash_tfm, host_response,
--				  ctrl->host_key->len);
-+	ret = crypto_shash_setkey(shash_tfm, transformed_key->key,
-+				  transformed_key->len);
- 	if (ret)
- 		goto out_free_response;
- 
-@@ -365,7 +367,7 @@ int nvmet_auth_host_hash(struct nvmet_req *req, u8 *response,
- 		kfree(challenge);
- 	kfree(shash);
- out_free_response:
--	kfree_sensitive(host_response);
-+	nvme_auth_free_key(transformed_key);
- out_free_tfm:
- 	crypto_free_shash(shash_tfm);
+ 	pci_set_drvdata(pdev, dev);
+@@ -3056,6 +3058,8 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	flush_work(&dev->ctrl.scan_work);
  	return 0;
-@@ -378,7 +380,8 @@ int nvmet_auth_ctrl_hash(struct nvmet_req *req, u8 *response,
- 	struct shash_desc *shash;
- 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
- 	const char *hash_name;
--	u8 *challenge = req->sq->dhchap_c2, *ctrl_response;
-+	u8 *challenge = req->sq->dhchap_c2;
-+	struct nvme_dhchap_key *transformed_key;
- 	u8 buf[4];
- 	int ret;
  
-@@ -402,15 +405,15 @@ int nvmet_auth_ctrl_hash(struct nvmet_req *req, u8 *response,
- 		goto out_free_tfm;
++out_stop:
++	nvme_stop_keep_alive(&dev->ctrl);
+ out_disable:
+ 	nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
+ 	nvme_dev_disable(dev, true);
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 337a624a537c..f51597c0730f 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1077,6 +1077,7 @@ static int nvme_rdma_setup_ctrl(struct nvme_rdma_ctrl *ctrl, bool new)
+ 		nvme_rdma_free_io_queues(ctrl);
  	}
- 
--	ctrl_response = nvme_auth_transform_key(ctrl->ctrl_key,
-+	transformed_key = nvme_auth_transform_key(ctrl->ctrl_key,
- 						ctrl->subsysnqn);
--	if (IS_ERR(ctrl_response)) {
--		ret = PTR_ERR(ctrl_response);
-+	if (IS_ERR(transformed_key)) {
-+		ret = PTR_ERR(transformed_key);
- 		goto out_free_tfm;
+ destroy_admin:
++	nvme_stop_keep_alive(&ctrl->ctrl);
+ 	nvme_quiesce_admin_queue(&ctrl->ctrl);
+ 	blk_sync_queue(ctrl->ctrl.admin_q);
+ 	nvme_rdma_stop_queue(&ctrl->queues[0]);
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 7eeaa71d1177..cd4e9a295b9e 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -2288,6 +2288,7 @@ static int nvme_tcp_setup_ctrl(struct nvme_ctrl *ctrl, bool new)
+ 		nvme_tcp_destroy_io_queues(ctrl, new);
  	}
- 
--	ret = crypto_shash_setkey(shash_tfm, ctrl_response,
--				  ctrl->ctrl_key->len);
-+	ret = crypto_shash_setkey(shash_tfm, transformed_key->key,
-+				  transformed_key->len);
- 	if (ret)
- 		goto out_free_response;
- 
-@@ -474,7 +477,7 @@ int nvmet_auth_ctrl_hash(struct nvmet_req *req, u8 *response,
- 		kfree(challenge);
- 	kfree(shash);
- out_free_response:
--	kfree_sensitive(ctrl_response);
-+	nvme_auth_free_key(transformed_key);
- out_free_tfm:
- 	crypto_free_shash(shash_tfm);
- 	return 0;
-diff --git a/include/linux/nvme-auth.h b/include/linux/nvme-auth.h
-index a5ae9abe1ef6..c1d0bc5d9624 100644
---- a/include/linux/nvme-auth.h
-+++ b/include/linux/nvme-auth.h
-@@ -29,7 +29,8 @@ struct nvme_dhchap_key *nvme_auth_extract_key(unsigned char *secret,
- 					      u8 key_hash);
- void nvme_auth_free_key(struct nvme_dhchap_key *key);
- struct nvme_dhchap_key *nvme_auth_alloc_key(u32 len, u8 hash);
--u8 *nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn);
-+struct nvme_dhchap_key *nvme_auth_transform_key(
-+				struct nvme_dhchap_key *key, char *nqn);
- int nvme_auth_generate_key(u8 *secret, struct nvme_dhchap_key **ret_key);
- int nvme_auth_augmented_challenge(u8 hmac_id, u8 *skey, size_t skey_len,
- 				  u8 *challenge, u8 *aug, size_t hlen);
+ destroy_admin:
++	nvme_stop_keep_alive(ctrl);
+ 	nvme_quiesce_admin_queue(ctrl);
+ 	blk_sync_queue(ctrl->admin_q);
+ 	nvme_tcp_stop_queue(ctrl, 0);
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index 48d5df054cd0..3bf469f33777 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -466,6 +466,7 @@ static void nvme_loop_reset_ctrl_work(struct work_struct *work)
+ out_destroy_io:
+ 	nvme_loop_destroy_io_queues(ctrl);
+ out_destroy_admin:
++	nvme_stop_keep_alive(&ctrl->ctrl);
+ 	nvme_loop_destroy_admin_queue(ctrl);
+ out_disable:
+ 	dev_warn(ctrl->ctrl.device, "Removing after reset failure\n");
 -- 
-2.39.2
+2.35.3
 
 
