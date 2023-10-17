@@ -4,68 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 23FC1CDB474
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Oct 2023 08:29:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DEF8ECDB483
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Oct 2023 10:53:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=IIafFf8ed1lbS8MxKlKVkoZxiXAXl3pQ184eRL6NAy4=; b=xlebfvQ5lxD8SEHkpjORIa/Svq
-	y95Bx1WIGNN1YWCyJM8EXd6xpNklWiKdpIsfPyD5smhYocSGtd5i8jP0qBGYtYC3JxGeUzoBnl5FX
-	6xreso41Kp7n+wwKX8ys7cuQTOKlSjgPUDgnvWkvyEH1wu9YvoF33LfwrLwgEvm24JFwfjRzu4+zn
-	rW7Grw11hYfOiM+wNHC+gfNMfq/mhI+zmWiBW5QFlGA1d9O18kC1ZxjNhSb/BpX7w2okXkxHc1AUv
-	MDkFNna+W8H1fXiOVVxDA6MmmXt/BJ7F7X5c6jDp8olbEV/0VroZh5HebQ5NOEkaQM9ft3cdZg+Qy
-	10rF8sNQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=oHPRNRXaBXnP0hKN6x717ORPsdbjv/XJtSjT888Zphg=; b=FUYyO3zdHoE7iS0Hqq1DiaE1MU
+	9XhjMAU2E+/uuyuWRssyoZAap+tzKHNbt0DZFYD99zbdswvlEz4q+Au/v+GKO6Pu7qzIvIB09l7bj
+	7KVyiSHiLytyNiAeaQYq/g1MHGnFFVF2/EJ9Ejra1AmUtpeQUgb3zIoDolksWSJQwCvhZYzBqtIMM
+	14zRTAw2xi1tpya9YpcBLZn958cYDfMAppmm+Eb52i54gZqf2qHDnGCdh4Pnary24KyC6TIbArflq
+	O97LtkxCE+PtAxj0vtiyb+UmEy5pjQz//5vV/1GU14yMYMYOvNE7FUmZA+EP0e1K/NTXd2Yx86yW0
+	euIapX/Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qsfRi-00Bg6f-0c;
-	Tue, 17 Oct 2023 08:28:58 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1qshhM-00C89U-1A;
+	Tue, 17 Oct 2023 10:53:16 +0000
+Received: from mout01.posteo.de ([185.67.36.65])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qsfRe-00Bg5e-2S
+	id 1qshhJ-00C87k-0z
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Oct 2023 08:28:56 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1697531332;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=IIafFf8ed1lbS8MxKlKVkoZxiXAXl3pQ184eRL6NAy4=;
-	b=bF3jm18ZJaTj9jtA2++PWms9A9iMf1q4lAZ66GtRDDlpyoE+WtK9KYrfRnLT7C6i6+Cg/8
-	bOt6F5ywMCUAwhGnrJME9/ghxbmU4vEF8GQlTYkvhOJvp0TiYX89kaI5+BfkeGj91mqq6o
-	bjahU0qiMApzFPC1gM7HlPzIJYVbdd8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-321-khdIn2RPNaq01yGkCQNQaA-1; Tue, 17 Oct 2023 04:28:48 -0400
-X-MC-Unique: khdIn2RPNaq01yGkCQNQaA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7295B185A79B;
-	Tue, 17 Oct 2023 08:28:48 +0000 (UTC)
-Received: from kalibr.redhat.com (unknown [10.47.238.104])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 06C2E492BEE;
-	Tue, 17 Oct 2023 08:28:46 +0000 (UTC)
-From: Maurizio Lombardi <mlombard@redhat.com>
-To: hare@suse.de
-Cc: sagi@grimberg.me,
-	kch@nvidia.com,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH V2] nvmet-auth: complete a request only after freeing the dhchap pointers
-Date: Tue, 17 Oct 2023 10:28:45 +0200
-Message-Id: <20231017082845.545085-1-mlombard@redhat.com>
+	Tue, 17 Oct 2023 10:53:14 +0000
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 956AD24002A
+	for <linux-nvme@lists.infradead.org>; Tue, 17 Oct 2023 12:53:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+	t=1697539987; bh=MLzZUl/+BHQHydxEN9HgZzS0VH6NylU05183B2OuUXA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:
+	 Content-Transfer-Encoding:From;
+	b=eV44l1Vxi5z6Z7TNlLCHy0v74F8mtYkWDKBQm0hXL8vbaH6kQHGsB2ILpTU4GHIRu
+	 OsAAHLuzKAnJcW/YsjnuxmwLrJqBeZn0HruXVTKYXrNq4S15Mpza6bxkH+sSIANjmW
+	 PeKpDCWemL53SUCWZQWmZpwDF2kDy+/uo9IQ3tJheqdR1nuDWfCpVtz7SK7a74U+/U
+	 YGyL5NURq8y3xxzRqjgGBqtY4dbni/vLzF+7+nqlFu1S0fA6tJoY1OL8BA7w3Stp1K
+	 SUfW2vQwBBhwbXyUd5YcEpu1Sv+Il0OqNUEP9YP2hwK+GpuMqWOai5iJ7kbBHnVzhk
+	 dCPjJKfiq9bMA==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4S8rRh5V1hz6tv5;
+	Tue, 17 Oct 2023 12:53:04 +0200 (CEST)
+From: Mark O'Donovan <shiftee@posteo.net>
+To: linux-kernel@vger.kernel.org
+Cc: linux-nvme@lists.infradead.org,
+	sagi@grimberg.me,
+	hch@lst.de,
+	axboe@kernel.dk,
+	kbusch@kernel.org,
+	hare@suse.de,
+	Mark O'Donovan <shiftee@posteo.net>
+Subject: [PATCH v4 0/3] Remove secret-size restrictions for hashes
+Date: Tue, 17 Oct 2023 10:52:48 +0000
+Message-Id: <20231017105251.3274652-1-shiftee@posteo.net>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231017_012854_891366_9EEB5669 
-X-CRM114-Status: GOOD (  13.56  )
+X-CRM114-CacheID: sfid-20231017_035313_485931_0F015C9C 
+X-CRM114-Status: UNSURE (   7.97  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,97 +75,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-It may happen that the work to destroy a queue
-(for example nvmet_tcp_release_queue_work()) is started while
-an auth-send or auth-receive command is still completing.
+This relates to the hash functions used to transform the secret.
+The kernel currently restricts us to using secrets equal in size
+to the transformation hash function they use.
+e.g. 32 byte secrets with the SHA-256(32 byte) hash function.
 
-nvmet_sq_destroy() will block, waiting for all the references
-to the sq to be dropped, the last reference is then
-dropped when nvmet_req_complete() is called.
+This restriction is not required by the spec and means
+incompatibility with more permissive implementations.
 
-When this happens, both nvmet_sq_destroy() and
-nvmet_execute_auth_send()/_receive() will free the dhchap pointers by
-calling nvmet_auth_sq_free().
-Since there isn't any lock, the two threads may race against each other,
-causing double frees and memory corruptions, as reported by KASAN.
+With these patches the example secret from the spec should now
+be permitted with any of the following:
+DHHC-1:00:ia6zGodOr4SEG0Zzaw398rpY0wqipUWj4jWjUh4HWUz6aQ2n:
+DHHC-1:01:ia6zGodOr4SEG0Zzaw398rpY0wqipUWj4jWjUh4HWUz6aQ2n:
+DHHC-1:02:ia6zGodOr4SEG0Zzaw398rpY0wqipUWj4jWjUh4HWUz6aQ2n:
+DHHC-1:03:ia6zGodOr4SEG0Zzaw398rpY0wqipUWj4jWjUh4HWUz6aQ2n:
 
-Reproduced by stress blktests nvme/041 nvme/042 nvme/043
+Note: Secrets are still restricted to 32,48 or 64 bits.
 
- nvme nvme2: qid 0: authenticated with hash hmac(sha512) dhgroup ffdhe4096
- ==================================================================
- BUG: KASAN: double-free in kfree+0xec/0x4b0
+v1:
+- Initial submission
 
- Call Trace:
-  <TASK>
-  kfree+0xec/0x4b0
-  nvmet_auth_sq_free+0xe1/0x160 [nvmet]
-  nvmet_execute_auth_send+0x482/0x16d0 [nvmet]
-  process_one_work+0x8e5/0x1510
+v2:
+- Added transformed_len as member of struct nvme_dhchap_key
 
- Allocated by task 191846:
-  __kasan_kmalloc+0x81/0xa0
-  nvmet_auth_ctrl_sesskey+0xf6/0x380 [nvmet]
-  nvmet_auth_reply+0x119/0x990 [nvmet]
+v3:
+- Return a struct nvme_dhchap_key from nvme_auth_transform_key()
 
- Freed by task 143270:
-  kfree+0xec/0x4b0
-  nvmet_auth_sq_free+0xe1/0x160 [nvmet]
-  process_one_work+0x8e5/0x1510
+v4:
+- added helper to caclulate key struct size using struct_size()
+- Break up lines which were too long
+- Replace ternary operator with if
+- Add missing ERR_CAST()
 
-Fix this bug by calling nvmet_req_complete() only after freeing the
-pointers, so we will prevent the race by holding the sq reference.
+Mark O'Donovan (3):
+  nvme-auth: alloc nvme_dhchap_key as single buffer
+  nvme-auth: use transformed key size to create resp
+  nvme-auth: allow mixing of secret and hash lengths
 
-V2: remove redundant code 
+ drivers/nvme/common/auth.c | 66 ++++++++++++++++++++++----------------
+ drivers/nvme/host/auth.c   | 30 ++++++++---------
+ drivers/nvme/target/auth.c | 31 ++++++++++--------
+ include/linux/nvme-auth.h  |  7 ++--
+ 4 files changed, 75 insertions(+), 59 deletions(-)
 
-Fixes: db1312dd9548 ("nvmet: implement basic In-Band Authentication")
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
----
- drivers/nvme/target/fabrics-cmd-auth.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/nvme/target/fabrics-cmd-auth.c b/drivers/nvme/target/fabrics-cmd-auth.c
-index 586458f765f1..1d9854484e2e 100644
---- a/drivers/nvme/target/fabrics-cmd-auth.c
-+++ b/drivers/nvme/target/fabrics-cmd-auth.c
-@@ -333,19 +333,21 @@ void nvmet_execute_auth_send(struct nvmet_req *req)
- 			 __func__, ctrl->cntlid, req->sq->qid,
- 			 status, req->error_loc);
- 	req->cqe->result.u64 = 0;
--	nvmet_req_complete(req, status);
- 	if (req->sq->dhchap_step != NVME_AUTH_DHCHAP_MESSAGE_SUCCESS2 &&
- 	    req->sq->dhchap_step != NVME_AUTH_DHCHAP_MESSAGE_FAILURE2) {
- 		unsigned long auth_expire_secs = ctrl->kato ? ctrl->kato : 120;
- 
- 		mod_delayed_work(system_wq, &req->sq->auth_expired_work,
- 				 auth_expire_secs * HZ);
--		return;
-+		goto complete;
- 	}
- 	/* Final states, clear up variables */
- 	nvmet_auth_sq_free(req->sq);
- 	if (req->sq->dhchap_step == NVME_AUTH_DHCHAP_MESSAGE_FAILURE2)
- 		nvmet_ctrl_fatal_error(ctrl);
-+
-+complete:
-+	nvmet_req_complete(req, status);
- }
- 
- static int nvmet_auth_challenge(struct nvmet_req *req, void *d, int al)
-@@ -514,11 +516,12 @@ void nvmet_execute_auth_receive(struct nvmet_req *req)
- 	kfree(d);
- done:
- 	req->cqe->result.u64 = 0;
--	nvmet_req_complete(req, status);
-+
- 	if (req->sq->dhchap_step == NVME_AUTH_DHCHAP_MESSAGE_SUCCESS2)
- 		nvmet_auth_sq_free(req->sq);
- 	else if (req->sq->dhchap_step == NVME_AUTH_DHCHAP_MESSAGE_FAILURE1) {
- 		nvmet_auth_sq_free(req->sq);
- 		nvmet_ctrl_fatal_error(ctrl);
- 	}
-+	nvmet_req_complete(req, status);
- }
 -- 
-2.39.3
+2.39.2
 
 
