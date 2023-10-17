@@ -4,57 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 539F7CDB474
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Oct 2023 21:06:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9F9F4CDB474
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Oct 2023 21:09:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
 	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=xcU1Y/b7wQ+Q+U9Y++jxI9j1aCMx/rjAvO1txZaqVHY=; b=UXnFCCpSjqSS14mJEjKqCsbiVb
-	m98OOGYkskJZG1/SrO8vcTa7qnPjJjp8ORCOGRp2Fz+Z7hn3vX0cDgy+YZIuWo8zy/FNMB3dEkigy
-	NWpp9jKJ9EUn8yv8z99q7eLDetIB1Nx7RpOugqQyVcl+x+M3xmVCv4kDaLdId5Ph+IywhS8LrWfkR
-	9aXUv4yyDutK8aOGxTpojWN9TTEWqgkQkYB6ew6EpwDcxITLHdNc5UPT1dkyX1Er9r14ZEHzsGF6d
-	/7sZZ1++oC0fPhU2hfbkniFaOge5JIh2slBGgY6w72y+eiLhKCvQtMvTRskTByv4QLeNtvw/rbWaH
-	fZSpj4pA==;
+	bh=QcAV0sVN+EOXN8pT7cy/8bK3xnXMTx5EIcV2REN+Vq8=; b=mlRzLoVKizkJ+RHWKNwOmSb8dj
+	ClJkH+j5RGHDecDb5edkR/e2eiSMcKXFKE12XCO9lBti6ClsSth2ttYN2FGCxVm+XN0Gf9YjdsZYN
+	YsKr6GPMe8pD0/c5rhk7G9g7AcjhN+9P2Xf7d2jlsqWst9aOSLOqQr3b14sx8JlXPRgG6fsiAqHl+
+	+trx6Y/nLy/JDujTCLRSiLTxpgJmLFOmyU4fQ4mk5eDPzUCN/FujcMxvOZu54LNNvsWAj4Z7q2T9L
+	XP5c5vE0/ZMLrebkO73Eir13Q+2v//KI0Iqmr6+C2fAGuxpC5n8MEUnFl6IeFRYgyZ9YvgmCirNoD
+	fmpPNeSw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qsrH0-00DGcY-04;
-	Tue, 17 Oct 2023 21:06:42 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1qsrJQ-00DGlh-1k;
+	Tue, 17 Oct 2023 21:09:12 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qsrGx-00DGcD-1J
+	id 1qsrJN-00DGlB-1v
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Oct 2023 21:06:40 +0000
+	Tue, 17 Oct 2023 21:09:11 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 690CE61626;
-	Tue, 17 Oct 2023 21:06:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4193C433C8;
-	Tue, 17 Oct 2023 21:06:34 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id AF1C3CE220C;
+	Tue, 17 Oct 2023 21:09:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97098C433C7;
+	Tue, 17 Oct 2023 21:09:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697576795;
-	bh=Cpe0cEPzKxf/KUNb8bPHPZwgQygXO3D2qJAcPo8+FJM=;
+	s=k20201202; t=1697576945;
+	bh=cqp4SL3P2n8rhnRRxKwrS2fTt1A+Y7o1Hz6EwLMaf7E=;
 	h=Date:From:To:Cc:Subject:From;
-	b=thh3Sp1xeOOm7w1RQOUFOwGLtFPIh0O/CqIYQFc2UHL/7Vm8W2dM/lByx+O8+jlkT
-	 FuQwJfCGFOiK48SfOee3Y0Cq/V2Q5Hb4mOXvq0Qbapv3f3LOBecFYkpAxCDKt4yeZ6
-	 rO8hGWc8nDj/SIaXs7MSxlVGtw8y62WrqYKyeRYWUl/CBoGLWlOJMksBs02ewBOiWI
-	 XRdasy6+ILS5DyQD0YY/rtatDgaam3kW0+gPzLC+JHUABGRCXrYPTHO1ciAOE8nU3J
-	 9rhA2U9M6EbWsKUR/G4ncEDTUK0YtqBXoeOhlNSVY34b/9RtyYejEBKYvQy6WWY1gT
-	 rPDniaG7cxhpg==
-Date: Tue, 17 Oct 2023 15:06:32 -0600
+	b=cGgyDAioLge9IuIBzuGRRlLJkmdxJ7/K6OrexKhWjs714dzeJY5bYgb5//ukJaePF
+	 BWIsSbZ/5aKv79/WASPHJYRAeEqR0uelJYdm1V59klLEzZFUYDu2ntYnuhk7ThpSms
+	 TXi+X+HohEM8g5irarlzGvNjSXYz/TdF10lTmf8mznH/k7frruKQIJ/v9ouA3qECeh
+	 EiLPJaKwxcOU1izXHXTVbIVqsd6DEhyF2hIjeobaQyEaAR7VSRelP175X8QvaHLllQ
+	 oMPNygTF7AelsVrN53oe2p5HfIZLrsDudlowG/dfE9M/YVqaJ+OlDSO5uBCLvAC/9Y
+	 SulXCeUhNynDA==
+Date: Tue, 17 Oct 2023 15:09:03 -0600
 From: Keith Busch <kbusch@kernel.org>
 To: axboe@kernel.dk
 Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
-Subject: [GIT PULL] nvme fixes for Linux 6.6
-Message-ID: <ZS73WKIh0TnckwK6@kbusch-mbp>
+Subject: [GIT PULL] nvme updates for Linux 6.7
+Message-ID: <ZS7376V7Q6-6cgxD@kbusch-mbp>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231017_140639_488318_C800EC09 
-X-CRM114-Status: UNSURE (   7.90  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20231017_140909_985371_5A169C16 
+X-CRM114-Status: GOOD (  10.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,53 +68,82 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The following changes since commit 07a1141ff170ff5d4f9c4fbb0453727ab48096e5:
+The following changes since commit 5e9b7cfc209b84d135993b8cb75ea383f24b2bba:
 
-  nbd: don't call blk_mark_disk_dead nbd_clear_sock_ioctl (2023-10-03 18:27:44 -0600)
+  aoe: replace strncpy with strscpy (2023-10-03 18:23:48 -0600)
 
 are available in the Git repository at:
 
-  git://git.infradead.org/nvme.git tags/nvme-6.6-2023-10-17
+  git://git.infradead.org/nvme.git tags/nvme-6.7-2023-10-17
 
-for you to fetch changes up to 1ca5b644f79b0d357c6df148c634940db685f471:
+for you to fetch changes up to 32445526d836f827ea7e74ef933610b531d239df:
 
-  nvme-pci: add BOGUS_NID for Intel 0a54 device (2023-10-17 13:50:28 -0700)
-
-----------------------------------------------------------------
-nvme fixes for Linux 6.6
-
- - nvme-rdma queue fix (Maurizio)
- - nvmet-auth double free fix (Maurizio)
- - nvme-tcp use-after-free fix (Sagi)
- - nvme-auth data direction fix (Martin)
- - nvme passthrough priviledge restriction reinstated (Kanchan)
- - nvme passthrough metadata sanitization (Keith)
- - nvme bogus identifiers for multi-controller ssd (Keith)
+  nvme-auth: allow mixing of secret and hash lengths (2023-10-17 13:57:55 -0700)
 
 ----------------------------------------------------------------
-Kanchan Joshi (1):
-      nvme: remove unprivileged passthrough support
+nvme updates for Linux 6.7
 
-Keith Busch (2):
-      nvme: sanitize metadata bounce buffer for reads
-      nvme-pci: add BOGUS_NID for Intel 0a54 device
+ - nvme-auth updates (Mark)
+ - nvme-tcp tls (Hannes)
+ - nvme-fc annotaions (Kees)
 
-Martin Wilck (1):
-      nvme-auth: use chap->s2 to indicate bidirectional authentication
+----------------------------------------------------------------
+Hannes Reinecke (20):
+      nvme-keyring: register '.nvme' keyring
+      nvme-keyring: define a 'psk' keytype
+      nvme: add TCP TSAS definitions
+      nvme-tcp: add definitions for TLS cipher suites
+      nvme-keyring: implement nvme_tls_psk_default()
+      security/keys: export key_lookup()
+      nvme-tcp: allocate socket file
+      nvme-tcp: enable TLS handshake upcall
+      nvme-tcp: control message handling for recvmsg()
+      nvme-tcp: improve icreq/icresp logging
+      nvme-fabrics: parse options 'keyring' and 'tls_key'
+      nvmet: make TCP sectype settable via configfs
+      nvmet-tcp: make nvmet_tcp_alloc_queue() a void function
+      nvmet-tcp: allocate socket file
+      nvmet: Set 'TREQ' to 'required' when TLS is enabled
+      nvmet-tcp: enable TLS handshake upcall
+      nvmet-tcp: control messages for recvmsg()
+      nvmet-tcp: peek icreq before starting TLS
+      nvme: rework NVME_AUTH Kconfig selection
+      nvmet-tcp: use 'spin_lock_bh' for state_lock()
 
-Maurizio Lombardi (2):
-      nvme-rdma: do not try to stop unallocated queues
-      nvmet-auth: complete a request only after freeing the dhchap pointers
+Kees Cook (1):
+      nvmet-fc: Annotate struct nvmet_fc_tgt_queue with __counted_by
 
-Sagi Grimberg (1):
-      nvmet-tcp: Fix a possible UAF in queue intialization setup
+Mark O'Donovan (3):
+      nvme-auth: alloc nvme_dhchap_key as single buffer
+      nvme-auth: use transformed key size to create resp
+      nvme-auth: allow mixing of secret and hash lengths
 
- drivers/nvme/host/auth.c               |   4 ++--
- drivers/nvme/host/ioctl.c              | 169 +++++++++++++++++++++++++++++++++++++++++--------------------------------------------------------------------------------------------------------------------------------
- drivers/nvme/host/pci.c                |   3 ++-
- drivers/nvme/host/rdma.c               |   3 +++
- drivers/nvme/target/fabrics-cmd-auth.c |   9 ++++++---
- drivers/nvme/target/tcp.c              |   7 ++-----
- include/linux/nvme.h                   |   2 --
- 7 files changed, 56 insertions(+), 141 deletions(-)
+ drivers/nvme/common/Kconfig    |  13 +++++++++++++
+ drivers/nvme/common/Makefile   |   3 ++-
+ drivers/nvme/common/auth.c     |  68 +++++++++++++++++++++++++++++++++++++----------------------------
+ drivers/nvme/common/keyring.c  | 182 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/Kconfig      |  24 ++++++++++++++++-------
+ drivers/nvme/host/Makefile     |   2 +-
+ drivers/nvme/host/auth.c       |  30 ++++++++++++++---------------
+ drivers/nvme/host/core.c       |  14 ++++++++++----
+ drivers/nvme/host/fabrics.c    |  67 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ drivers/nvme/host/fabrics.h    |   9 +++++++++
+ drivers/nvme/host/nvme.h       |   5 +++--
+ drivers/nvme/host/sysfs.c      |  27 +++++++++++++++++++++++---
+ drivers/nvme/host/tcp.c        | 184 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----------
+ drivers/nvme/target/Kconfig    |  22 +++++++++++++++------
+ drivers/nvme/target/auth.c     |  31 ++++++++++++++++--------------
+ drivers/nvme/target/configfs.c | 128 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---
+ drivers/nvme/target/fc.c       |   3 ++-
+ drivers/nvme/target/nvmet.h    |  11 +++++++++++
+ drivers/nvme/target/tcp.c      | 338 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-------------------------------
+ include/linux/key.h            |   1 +
+ include/linux/nvme-auth.h      |   7 +++++--
+ include/linux/nvme-keyring.h   |  36 +++++++++++++++++++++++++++++++++++
+ include/linux/nvme-tcp.h       |   6 ++++++
+ include/linux/nvme.h           |  10 ++++++++++
+ security/keys/key.c            |   1 +
+ 25 files changed, 1090 insertions(+), 132 deletions(-)
+ create mode 100644 drivers/nvme/common/keyring.c
+ create mode 100644 include/linux/nvme-keyring.h
 
