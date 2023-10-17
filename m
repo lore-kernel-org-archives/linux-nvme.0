@@ -4,80 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13985CDB474
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Oct 2023 21:21:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 23735CDB474
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Oct 2023 21:21:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7CKFsGVCHwOUEvbNokOpZJVitLmlkJlYmyI5G2cqFY4=; b=YiiA+3xP/cZqNIGN682U3wJkZN
-	ncU1J5mybmToHRws3yMo+nnF1KEAufKqdWz/CrH2VA+xRP0hqEzN03WNC2RyMuIKFcmlwSi7AaAEd
-	LdkaECpxLdlpFdGWJq6kW962SIwst3DNNUSZOfUuyILj1kia8LJICe8GhSnla3iUED+GaPesL2K07
-	EWFDM214CbeVuub7O5kP+UA/V5Aj234cUtui6NJkZhfPI5yJu2ltgKmH9HU3+wE4DTSgb6jZfQVlg
-	AsQpMpKxyZRwB8vtLy7IeV6wbB9EG3X4/gog0GON7KCBYfWFrSwDndnOA+JsLC29ophAQpXXium9y
-	0nadAvgQ==;
+	bh=woZ/KZQPlnIyuAgXoRWnrGIgnE0ehbTdZeFjYuXTHg4=; b=caxtFafTe32GJLjBjim1ChPvhj
+	+UKDlO7ZS0kDY4ed7N4lpXMArSZyv2GBnaR6z/z9LHZCEdNQj13GX7lXyeRr5kGm0tgPTp8iXemqI
+	9iWFlpUILl2P2GIzBkfnSGEpcpZvQIWS2m2dyp7Uptr1ebeZG0JvGQmZMTgc4OpMKUagb6JLdDQyU
+	jul+ylpJzmgtXc7LjAK2Ph82BKn13PqN6t65ure3qMSIxPW41ekEseVatFyWqq0JAlXV9COytRz0k
+	AwFya/4Rm4hrONyvk4TCjS9+ki/SekU4IjMQsipRjg+9/CzksEOgjgPlgaOG6UJVZTZYMWqXuUxv8
+	ge3dlL6Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qsrUr-00DHsz-2C;
-	Tue, 17 Oct 2023 21:21:01 +0000
-Received: from mail-il1-x134.google.com ([2607:f8b0:4864:20::134])
+	id 1qsrV4-00DHuB-26;
+	Tue, 17 Oct 2023 21:21:14 +0000
+Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qsrUn-00DHsX-1t
+	id 1qsrV2-00DHtj-07
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Oct 2023 21:21:00 +0000
-Received: by mail-il1-x134.google.com with SMTP id e9e14a558f8ab-35291dbf7efso8379535ab.1
-        for <linux-nvme@lists.infradead.org>; Tue, 17 Oct 2023 14:20:56 -0700 (PDT)
+	Tue, 17 Oct 2023 21:21:13 +0000
+Received: by mail-io1-xd2e.google.com with SMTP id ca18e2360f4ac-7a2874d2820so78035039f.1
+        for <linux-nvme@lists.infradead.org>; Tue, 17 Oct 2023 14:21:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1697577656; x=1698182456; darn=lists.infradead.org;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1697577671; x=1698182471; darn=lists.infradead.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=7CKFsGVCHwOUEvbNokOpZJVitLmlkJlYmyI5G2cqFY4=;
-        b=nlCs3wIc+kId7dIlfE2NgGUqseA76hh9FrdXJDQM2TiJrpXp35h8c8YqKbNLlrRrSV
-         Sk+msdZmGjSIiicgd1MZtrImYpNR+b2T9R1tUkvn19lytAxA042AVC228DUQ0H7kuBMv
-         l7KX9EHTBx8vOnKi4lp6d4YE3nYmyNkhv02kcdhj1YZybpKFfKnrClow1mB0mw6k4bQo
-         7qX4ecFUdMCOqxEYGG2bHffqrkvee6xsXp1gaSV3dqWkV1UhA1oY2SYWVB2K4BsuP+/o
-         EclshsU0CGVBTXgCS8cFIC0HcgTZpyTaEIj1+5ei+92qVcbPfrWLXSQeAZ9J5RxVPNIc
-         HvNw==
+        bh=woZ/KZQPlnIyuAgXoRWnrGIgnE0ehbTdZeFjYuXTHg4=;
+        b=xiugu0dy9xuq+3cSePBc0kUf+Vpip6FcWwc4IfLmIOGbL28B8M90fh1kxG03n7CwLE
+         jFd+kTaCLnTJD2R2vhgtHqwsMI8IzLwyoJ/xqkTmmklbHveEVfWrYYoIwoOnPIIhJphZ
+         dkN5vZamHmpY8+k3GxULAndLIe+afwfq7L8pyLhRZiQEYOqYxHJXoyQNGXUbf/6XcNit
+         2H46mu7qNtOl+kph62fucGGHE9JLagcSFxRef5Y6JGmo9JSd0aI7gd8KlmTXnSWiiZwg
+         QSceSqHEZ+9BcvR/khr++nv/14b+KHFMgBgIRhOLorJfPpk4+MkuVXy1/Xh5fKylADOj
+         LyuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697577656; x=1698182456;
+        d=1e100.net; s=20230601; t=1697577671; x=1698182471;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7CKFsGVCHwOUEvbNokOpZJVitLmlkJlYmyI5G2cqFY4=;
-        b=vo2qmy3rS9GcrDf/BzE8Qk7K4rod01okf2WDLdLa4ZBiUcsQVmUaM2ch89ohTn1HTR
-         vuPT7RDACdrqTjRKKah0MkUt9AJXeaUvYyUk8T9J1mU4O4zWyYSGRb8JKsgZfgvwqL5x
-         EClGw/wiV3JCLqkZCMKUBhnLTpD5bTW7DpFCkW5I6h/BAoXkC0VD4yoKam54TZ0cHqFQ
-         ie6w1l9510qa0QFNy3bc31CJv6j5JvV4QIjMsaq8cbyXsteaOgGF90Kbn3FVEbCCUcO+
-         ThBDaCQLmakQlUqaEijFek3GEjcBy1Bd3WiClVAygVmnJyyS9LtorJNh/Yy6htdnT7DQ
-         voXQ==
-X-Gm-Message-State: AOJu0Yyx/8lFVGOQQBS7ZJeEIdCOIo1rsfKJ+NpsVoot96ca6TVXWWAl
-	njPp5iihhYPEUYEiz6F2yLZj4w==
-X-Google-Smtp-Source: AGHT+IHKIcqYsfbQfJe4jN7woanzZLmONejbjPw83G9/biVZ2NnKWa5oum4PN+nesb4iNEgT7K8eHg==
-X-Received: by 2002:a5e:9404:0:b0:792:8011:22f with SMTP id q4-20020a5e9404000000b007928011022fmr3617426ioj.0.1697577655746;
-        Tue, 17 Oct 2023 14:20:55 -0700 (PDT)
+        bh=woZ/KZQPlnIyuAgXoRWnrGIgnE0ehbTdZeFjYuXTHg4=;
+        b=HF2ze9f5oiJIAK4XLgTChZm9WNWDzqrqwMdQ+AA+d41B5DiMLAqCr2oGJoHwbUJvGx
+         Iw3+fxK6JGoULLygnCStnXJFRXOu2uZ29wuSALFdUsWrdxe7Re7yPJyqqb3nNaooABzI
+         ElFWEnohcUzV4NUFDrdjTZd9jJQiBsuOoZ9yssyRGXbkRwCFOGu5wnimvpr1P1XUH7zS
+         9Wz0vJRmjYJuEMI0imh/0G7knLTyzt2/Qnzpt88AVeKsHP4Li7Lq0coQZAOXdgFUz2Hl
+         UxX/Fqi2C0+chAK39f/GfH/vZghzKVnoowboFHdF/Ny9wcPZ2Ug8p+tO9WBRCVh183+2
+         u+Tg==
+X-Gm-Message-State: AOJu0Yzt5wsas/zp7wLG91VV9Ldn0WEDubHyZvg2rY5470hsBoeHJzjS
+	sM0JgH9HQbhsDUay2qlIK5K8eq6HUYAUxZhTKzPpwg==
+X-Google-Smtp-Source: AGHT+IHqrf+H2LRfDm1l4y4nqZaHpFw+1uCLCuZbWTbFfIBxtm/2Mmnvb5tNsl4gMtpIxvOtvyqY0A==
+X-Received: by 2002:a05:6602:340f:b0:790:958e:a667 with SMTP id n15-20020a056602340f00b00790958ea667mr4421362ioz.2.1697577670942;
+        Tue, 17 Oct 2023 14:21:10 -0700 (PDT)
 Received: from [192.168.1.94] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id y3-20020a029503000000b00418a5e0e93esm743606jah.162.2023.10.17.14.20.55
+        by smtp.gmail.com with ESMTPSA id y3-20020a029503000000b00418a5e0e93esm743606jah.162.2023.10.17.14.21.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Oct 2023 14:20:55 -0700 (PDT)
-Message-ID: <06b77d0e-06fd-496f-8d7c-4c3eb0b5b94c@kernel.dk>
-Date: Tue, 17 Oct 2023 15:20:53 -0600
+        Tue, 17 Oct 2023 14:21:10 -0700 (PDT)
+Message-ID: <7e806e61-94d4-4756-b37d-050a8cfb04b5@kernel.dk>
+Date: Tue, 17 Oct 2023 15:21:10 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL] nvme fixes for Linux 6.6
+Subject: Re: [GIT PULL] nvme updates for Linux 6.7
 Content-Language: en-US
 To: Keith Busch <kbusch@kernel.org>
 Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
-References: <ZS73WKIh0TnckwK6@kbusch-mbp>
+References: <ZS7376V7Q6-6cgxD@kbusch-mbp>
 From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <ZS73WKIh0TnckwK6@kbusch-mbp>
+In-Reply-To: <ZS7376V7Q6-6cgxD@kbusch-mbp>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231017_142057_840511_9A31099C 
-X-CRM114-Status: GOOD (  10.13  )
+X-CRM114-CacheID: sfid-20231017_142112_076720_87F049D0 
+X-CRM114-Status: GOOD (  10.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,34 +92,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/17/23 3:06 PM, Keith Busch wrote:
-> The following changes since commit 07a1141ff170ff5d4f9c4fbb0453727ab48096e5:
+On 10/17/23 3:09 PM, Keith Busch wrote:
+> The following changes since commit 5e9b7cfc209b84d135993b8cb75ea383f24b2bba:
 > 
->   nbd: don't call blk_mark_disk_dead nbd_clear_sock_ioctl (2023-10-03 18:27:44 -0600)
+>   aoe: replace strncpy with strscpy (2023-10-03 18:23:48 -0600)
 > 
 > are available in the Git repository at:
 > 
->   git://git.infradead.org/nvme.git tags/nvme-6.6-2023-10-17
+>   git://git.infradead.org/nvme.git tags/nvme-6.7-2023-10-17
 > 
-> for you to fetch changes up to 1ca5b644f79b0d357c6df148c634940db685f471:
+> for you to fetch changes up to 32445526d836f827ea7e74ef933610b531d239df:
 > 
->   nvme-pci: add BOGUS_NID for Intel 0a54 device (2023-10-17 13:50:28 -0700)
+>   nvme-auth: allow mixing of secret and hash lengths (2023-10-17 13:57:55 -0700)
 > 
 > ----------------------------------------------------------------
-> nvme fixes for Linux 6.6
+> nvme updates for Linux 6.7
 > 
->  - nvme-rdma queue fix (Maurizio)
->  - nvmet-auth double free fix (Maurizio)
->  - nvme-tcp use-after-free fix (Sagi)
->  - nvme-auth data direction fix (Martin)
->  - nvme passthrough priviledge restriction reinstated (Kanchan)
->  - nvme passthrough metadata sanitization (Keith)
->  - nvme bogus identifiers for multi-controller ssd (Keith)
+>  - nvme-auth updates (Mark)
+>  - nvme-tcp tls (Hannes)
+>  - nvme-fc annotaions (Kees)
 
 Pulled, thanks.
 
 -- 
 Jens Axboe
-
 
 
