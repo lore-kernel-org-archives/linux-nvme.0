@@ -4,94 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D366CCDB482
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Oct 2023 21:35:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B470CDB47E
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Oct 2023 22:49:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uTgw2muMI+UU2c4fSk87Tgy6ScuQmc6FTz3A4nRWa5s=; b=ZfjWnZiUi/SbE9fwtDqplHvg4G
-	c+jJXpIZPzLYFdjVWhpLdui0vE40XktI7Gn05Tnoiamb8GoxU6PiLi36uuo4ucAEeGydWDf209iTi
-	lTVal26KdEI0yvHKRk9M3jDsOSzCUjswu/GvVyQ3K/5/FzhyrtB6SR/lX0sGJQSAZ6Gw+OIVVX3ps
-	nlwpxGSEEhXNOxmIY44egvMRKSGoor2qIfzQgCMEhrDaczCKVXZxJ5bLJXY1z3LkIDcgOlZTGtVyJ
-	B2p9UbCWJb0K5MksKiUP8BqSVmMTplNEF8LPnM+tkCkX+DrQZqQJ/jGOejU5skhCCSyvJH58CiJJF
-	DQbDVUlA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:From:
+	Subject:Message-ID:Mime-Version:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=2bSQ7qSQqMVz/tkx7lIyl6/3Dlp40FjkhjBtPKLDoWc=; b=JtOJrRAov1Xh6nQsdueDMIta3z
+	zsoZxpwVo4PLQ9wXz0AHvsEZuztHk+iiOc8dYDDJzi+8r1Kl7PFlrg2gh2Oudr+j/eu1x3JbJiYWZ
+	cGV7GR1tIeXSuCQm+LZZaiK0QxE+NpWWs+sCCUQru7eVwguf6KIMdAoj8S6LssVaUmcrM3s/6w2pJ
+	GQLcSHhOuIZR1CeWm+UErd5j3Mvq2kqFTrV7fs4Ov+fbbuiK04f1JFI8Ysxc8ffhfUr8ol+1c5/xb
+	Dxb4jVRpal2LfW5SpzB8GkJreI9g1FRKWNRmsoUt5ugHOWhpOIErxIXH2NIFQxDYP0PAGHeFklvAP
+	so3zYVcw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qtEC6-00Fkbd-08;
-	Wed, 18 Oct 2023 21:35:10 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1qtFLU-00FqyB-0e;
+	Wed, 18 Oct 2023 22:48:56 +0000
+Received: from mail-yw1-x1149.google.com ([2607:f8b0:4864:20::1149])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qtEC4-00FkYQ-1d
-	for linux-nvme@bombadil.infradead.org;
-	Wed, 18 Oct 2023 21:35:08 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=uTgw2muMI+UU2c4fSk87Tgy6ScuQmc6FTz3A4nRWa5s=; b=nylrJV4fJLpYRXMJAbzJ2iD2dz
-	g9xTIg7DgfitjpVOPm+rUfL7QxOFUGyN+QcUDwzRxzatTGvcD946S+N5BcB4bOvtZZXX5m8HTQo60
-	X0kNzLWnw2iYc50DNlN6Usx+tCtGoiijrjtMThQvZnRZDkXsd6TIh8WtMvbnEKQeEvnPTIgh5vPc0
-	b1XuewbrAcv/zIo7ccHr52vNCRyt8P67NtcAA9HWxilh6ayH2NjJos5Za+8q/BgPIJLRN3G+UX4zC
-	U5yrrhvQP4UxFcI8/e4V0ygQcOP/HDWolq+SDQ7/u6VMLh4Cejwsdt7RtrrZtIvU5MsC3IEoQ+et0
-	n2/v4dbQ==;
-Received: from mail-oo1-xc2b.google.com ([2607:f8b0:4864:20::c2b])
-	by casper.infradead.org with esmtps (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1qtEBz-003EQ5-Je
-	for linux-nvme@lists.infradead.org; Wed, 18 Oct 2023 21:35:06 +0000
-Received: by mail-oo1-xc2b.google.com with SMTP id 006d021491bc7-582050ce2d8so55294eaf.0
-        for <linux-nvme@lists.infradead.org>; Wed, 18 Oct 2023 14:35:01 -0700 (PDT)
+	id 1qtFLR-00Fqxk-08
+	for linux-nvme@lists.infradead.org;
+	Wed, 18 Oct 2023 22:48:55 +0000
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-5a7d1816bccso112154787b3.1
+        for <linux-nvme@lists.infradead.org>; Wed, 18 Oct 2023 15:48:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1697664899; x=1698269699; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uTgw2muMI+UU2c4fSk87Tgy6ScuQmc6FTz3A4nRWa5s=;
-        b=SaxiTYP5oAo5ACEBdTqJNu9I2JKm/QaDPdL+tyZhIhE+doaPvifKzppqTfu1SRTcrt
-         LgAkdfiA3uYTXasCrLBCIqUKvyVIDx/DLT2kEshsMLQ72dhTVXoq0EvuHv8r47rP7rbt
-         FiitrDKyryzyFNYvunntbrd7RoxaD2GAX8d1S+XO6PA/KW5KiUNHtlx4vtUXcrBOhfNn
-         2QUGjKRq9DjeCJ6HltnIppuf+ie7bVD8+R6KvvINMrpG1QzLPUc9Wb9SPiC76oqOEwnl
-         j19S2dbgnnl45TKSWmfeK7bJYaKSmkA8vJmjzLiHOCzddHQ4br5ud2I2vjYyWhB8xeAu
-         Kx7w==
+        d=google.com; s=20230601; t=1697669330; x=1698274130; darn=lists.infradead.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=2bSQ7qSQqMVz/tkx7lIyl6/3Dlp40FjkhjBtPKLDoWc=;
+        b=oV6pPD5SCeO2yRoKtJyqmJ+wKr7WyimVR6yN5piQPC+i4bc1dl/9FHxehD8sqlHe+J
+         qX47p7NFXbqdkB41/orrhjH3g4Oulm/zQWX93Q9cINvt48/L9E4riZgvdEVb+GVuPIPP
+         60EU04W3x3PmogXQ/MVOgfsvTnTc1TSsyzMhkpCJXUU/CsVfECNFXzFfZDJaPSxp6zTv
+         EyicfeZwjNgL6VsLhXl4I1YBzwPvm+VIe8wVCGoYB5xlaLx8R7JCm7Wy3OJKG2XPNegu
+         vHTD+hgLhT9ODclaVyhAFXKAJGiOMkMDm/Lc0rhv2QJuj4qggx8KHR9xdFKKEjN1f7eq
+         AApQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697664899; x=1698269699;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uTgw2muMI+UU2c4fSk87Tgy6ScuQmc6FTz3A4nRWa5s=;
-        b=JAir/XdAd5exFthez7hYIvLM7l8wnxC9yrMn5jiCWyLhWU4COjX2xFzH+xxCpnZ3yG
-         Dg+avPlZtI3zj7am1J++3dWhIj7S85HawdoHl1VjdciAKMNgTFzcsX7ZMx0fCQn1FOH5
-         ZZMt+ls/bKnJDA/pHYeIAeXbIbRJnc5FSuE0CSV/4qp9cJyBZARIyLo7N/1NlBIn8M5g
-         VsvrSXAoGcRVs+1CzTsvf11ehSSfrwV2awMIiINFt6N+bqlMxZStmv5zkDOHLXZ7Xl2M
-         phMbJ5qBn8bBxxoUKJ8OE+uBipPBok2XkLSVXFI8ccIcrK5wQ8pBTqbwdW7pDLYMbTDN
-         1NYA==
-X-Gm-Message-State: AOJu0Yywn1sG9uxa1+ehL164TN2GlqL1VuG2LlsLYstHyBBLbKJW+wPP
-	gM1KLBjDmb0KAF201hcYvsgH0g==
-X-Google-Smtp-Source: AGHT+IGEEr3yZKDbXwLHJ8HFhCdZlAHoMLHSOqsFa9P5+RabA3flDtKAqUYuLb8XEpxWm43GBRwcug==
-X-Received: by 2002:a05:6358:71b:b0:166:d909:74e with SMTP id e27-20020a056358071b00b00166d909074emr357519rwj.0.1697664898712;
-        Wed, 18 Oct 2023 14:34:58 -0700 (PDT)
-Received: from [192.168.1.136] ([198.8.77.194])
-        by smtp.gmail.com with ESMTPSA id k9-20020aa790c9000000b006be047268d5sm3921729pfk.174.2023.10.18.14.34.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Oct 2023 14:34:58 -0700 (PDT)
-Message-ID: <da26d8c0-46b5-4a0d-8c8f-e924cec88e6b@kernel.dk>
-Date: Wed, 18 Oct 2023 15:34:57 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL REDO] nvme fixes for Linux 6.6
-Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de
-References: <ZTBLFYbo8iuhF9kZ@kbusch-mbp>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <ZTBLFYbo8iuhF9kZ@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        d=1e100.net; s=20230601; t=1697669330; x=1698274130;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2bSQ7qSQqMVz/tkx7lIyl6/3Dlp40FjkhjBtPKLDoWc=;
+        b=OoWioyVhTTNh8wPtLgQ/uEOX/qxoenkaW5V7GaHgTgXSRzcumvywnFjCUFpxEWzDV5
+         yORWn4gD1f7o1TVMWNcqvLyk57u3SMk/k8r4J2Dr90M0GsJmYb9lyfKN06f+e0cpx/AU
+         KsA33R7ocbZegQ0YUMJ9/UKmB71G/uAPv4DJ2y6SasEOlezTertYkhTGcgVnI5QFV6jm
+         RY1Dh9MIn+HNYZsS3Xf1ivh3BjA3viVHsLyrDwvJKXjFWTFZ1ie0ajYM5tb7oXZGMM5n
+         DmEZ7yg4jLJvP8fFHlcoWqtzWuasXwdnEXWBeNrn61Zqf02Vuk+fh9PLXEg+0EKak8MT
+         GPHQ==
+X-Gm-Message-State: AOJu0YySxaCdt7ZQwLmjwUsnfNNGGhiacaQaskq6FwRJmYazZ3tDTzHa
+	8LGQIClYkDzdX2InIKKkFTQCZ9+r3qLiItpmtQ==
+X-Google-Smtp-Source: AGHT+IGqdbWqQ7PEH4cUhxYJPzQti8rdqGeesI2OpR3f/9GfHYGXO/4kPNJHLV8sRzDs+qy+E+CBZAMToF2ahSILCA==
+X-Received: from jstitt-linux1.c.googlers.com ([fda3:e722:ac3:cc00:2b:ff92:c0a8:23b5])
+ (user=justinstitt job=sendgmr) by 2002:a81:5217:0:b0:57a:118a:f31 with SMTP
+ id g23-20020a815217000000b0057a118a0f31mr15075ywb.7.1697669330350; Wed, 18
+ Oct 2023 15:48:50 -0700 (PDT)
+Date: Wed, 18 Oct 2023 22:48:49 +0000
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIANBgMGUC/x3NMQ6DMAxA0asgz7VEDFRpr1IxhGDAQwOyUdQKc
+ Xcixrf8f4CxChu8qwOUs5isqcA9KohLSDOjjMVANTWudh5t1xS3P44qmdUw5S/jstqOUxhUomH E1j2p84Goe3kopU15kt99+fTneQF0i0XsdQAAAA==
+X-Developer-Key: i=justinstitt@google.com; a=ed25519; pk=tC3hNkJQTpNX/gLKxTNQKDmiQl6QjBNCGKJINqAdJsE=
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1697669329; l=2668;
+ i=justinstitt@google.com; s=20230717; h=from:subject:message-id;
+ bh=eTZl8RLmSTRi1g6HBFXiHkDVcGwMrh/QN3Blnb4tlGM=; b=NqNL716tMxkz9di1bgPcw2w6eC4c776nurW+wFygYEOGZYbyCCVOYleoxDFKohV9u1XrQ7RvN
+ UxB6tgf9Ik5CsmgFtVwMYknNxVzD3Jah1eF23yTnA5oMSFhciN+z9AP
+X-Mailer: b4 0.12.3
+Message-ID: <20231018-strncpy-drivers-nvme-host-fabrics-c-v1-1-b6677df40a35@google.com>
+Subject: [PATCH] nvme-fabrics: replace deprecated strncpy with strscpy
+From: Justin Stitt <justinstitt@google.com>
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-hardening@vger.kernel.org, Justin Stitt <justinstitt@google.com>
+Content-Type: text/plain; charset="utf-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231018_223503_771944_FAF7EC7F 
-X-CRM114-Status: GOOD (  11.17  )
+X-CRM114-CacheID: sfid-20231018_154853_082643_AF608AB7 
+X-CRM114-Status: GOOD (  15.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,36 +93,76 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/18/23 3:16 PM, Keith Busch wrote:
-> The previous contained a patch that needs additional consideration. This
-> pull request is the same as before, minus the non-root passthrough
-> revert.
-> 
-> The following changes since commit 07a1141ff170ff5d4f9c4fbb0453727ab48096e5:
-> 
->   nbd: don't call blk_mark_disk_dead nbd_clear_sock_ioctl (2023-10-03 18:27:44 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-6.6-2023-10-18
-> 
-> for you to fetch changes up to 5c3f4066462a5f6cac04d3dd81c9f551fabbc6c7:
-> 
->   nvme-pci: add BOGUS_NID for Intel 0a54 device (2023-10-18 14:08:39 -0700)
-> 
-> ----------------------------------------------------------------
-> nvme fixes for Linux 6.6
-> 
->  - nvme-rdma queue fix (Maurizio)
->  - nvmet-auth double free fix (Maurizio)
->  - nvme-tcp use-after-free fix (Sagi)
->  - nvme-auth data direction fix (Martin)
->  - nvme passthrough metadata sanitization (Keith)
->  - nvme bogus identifiers for multi-controller ssd (Keith)
+strncpy() is deprecated for use on NUL-terminated destination strings
+[1] and as such we should prefer more robust and less ambiguous string
+interfaces.
 
-Pulled, thanks.
+We expect both data->subsysnqn and data->hostnqn to be NUL-terminated
+based on their usage with format specifier ("%s"):
+fabrics.c:
+322: dev_err(ctrl->device,
+323:   "%s, subsysnqn \"%s\"\n",
+324:   inv_data, data->subsysnqn);
+...
+349: dev_err(ctrl->device,
+350: 	 "Connect for subsystem %s is not allowed, hostnqn: %s\n",
+351: 	 data->subsysnqn, data->hostnqn);
 
--- 
-Jens Axboe
+Moreover, there's no need to NUL-pad since `data` is zero-allocated
+already in fabrics.c:
+383: data = kzalloc(sizeof(*data), GFP_KERNEL);
+... therefore any further NUL-padding is rendered useless.
+
+Considering the above, a suitable replacement is `strscpy` [2] due to
+the fact that it guarantees NUL-termination on the destination buffer
+without unnecessarily NUL-padding.
+
+I opted not to switch NVMF_NQN_SIZE to sizeof(data->xyz) because the
+size is defined as:
+|       /* NQN names in commands fields specified one size */
+|       #define NVMF_NQN_FIELD_LEN	256
+
+... while NVMF_NQN_SIZE is defined as:
+|       /* However the max length of a qualified name is another size */
+|       #define NVMF_NQN_SIZE		223
+
+Since 223 seems pretty magic, I'm not going to touch it.
+
+Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
+Link: https://manpages.debian.org/testing/linux-manual-4.8/strscpy.9.en.html [2]
+Link: https://github.com/KSPP/linux/issues/90
+Cc: linux-hardening@vger.kernel.org
+Signed-off-by: Justin Stitt <justinstitt@google.com>
+---
+Note: build-tested only.
+
+Found with: $ rg "strncpy\("
+---
+ drivers/nvme/host/fabrics.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 8175d49f2909..57aad3ce311a 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -386,8 +386,8 @@ static struct nvmf_connect_data *nvmf_connect_data_prep(struct nvme_ctrl *ctrl,
+ 
+ 	uuid_copy(&data->hostid, &ctrl->opts->host->id);
+ 	data->cntlid = cpu_to_le16(cntlid);
+-	strncpy(data->subsysnqn, ctrl->opts->subsysnqn, NVMF_NQN_SIZE);
+-	strncpy(data->hostnqn, ctrl->opts->host->nqn, NVMF_NQN_SIZE);
++	strscpy(data->subsysnqn, ctrl->opts->subsysnqn, NVMF_NQN_SIZE);
++	strscpy(data->hostnqn, ctrl->opts->host->nqn, NVMF_NQN_SIZE);
+ 
+ 	return data;
+ }
+
+---
+base-commit: 58720809f52779dc0f08e53e54b014209d13eebb
+change-id: 20231018-strncpy-drivers-nvme-host-fabrics-c-416258a22598
+
+Best regards,
+--
+Justin Stitt <justinstitt@google.com>
 
 
