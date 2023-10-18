@@ -4,82 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79B90CDB47E
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Oct 2023 18:40:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 625B9CDB47E
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Oct 2023 19:06:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Jrap/YtB/Sd8Wus7hHKRx+7IUNmLTOe1yzTe7Ucyy5s=; b=ut4dhdMimdP50/3rHZy0rM0XDH
-	376ld+pBqKLHAFcakxPpWoZA7AjBViXnVKmK5axcip9vFp7m2igy4B9+e5rRdD6aamzYOpWVI86MX
-	TNuliEfyaC4diHItolCTKA55iUbnvGauqS/rfqe5kGEl9wXJOrsHUfVhmoXR25OOykK4FxqEOuYVv
-	erA6ou0B+oTIXGzCiu/MjAXY+zNn0i9+gBbTOrqzB1BepuOhg8Iglx/ZPbYFoe/2gcIHKaK+ngiRZ
-	gJSlPlkxpnPIgHl6GwZLAm0VQdJAlTeWUlNyWT9poYO/+4HhT/wveOKui7d3JH76VhAwM0dWefrr/
-	Tm6C+vWw==;
+	bh=0lcjfcAxdk5Wm/hZPKJ7a4MTu0A8XP8H21xpAEIkZ74=; b=rz3sLymJqyvvLohVyWi3LpEA3+
+	u6TR4b50VWhbLRN3RT7hRCZSxsbNpM0BWC0FKHu1pObcBoUBDwSXJgdLntLJ082E2//KbyPmKIBjX
+	bqTZcuZBaXeTR7poJsJXE9AOC8dT0C5jvxSNZEU7FxScDM7PLDYUrRIXik63G2nBDqYa1qz/qeCUg
+	QMRjdSo+wtb/gRkzDAB6+v6lsPpqM+RybfMY7oZCPfS+jZfJQ6InkO51hr6Czfi0XBl7VZBqLRIT4
+	pa3zHpcuU+4OaH6heNeJ2vvDE7tYlvdFgzOT5fZeuYnlwrgeoQ2oX3/FibRIMmslWVIEQvgEdCtAb
+	t8oDVFRw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qtBTJ-00FTmG-0A;
-	Wed, 18 Oct 2023 18:40:45 +0000
-Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d])
+	id 1qtBsR-00FW1Q-2D;
+	Wed, 18 Oct 2023 19:06:43 +0000
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qtBTE-00FTl8-1E
+	id 1qtBsN-00FW10-3D
 	for linux-nvme@lists.infradead.org;
-	Wed, 18 Oct 2023 18:40:43 +0000
-Received: by mail-io1-xd2d.google.com with SMTP id ca18e2360f4ac-79fab2caf70so58654539f.1
-        for <linux-nvme@lists.infradead.org>; Wed, 18 Oct 2023 11:40:38 -0700 (PDT)
+	Wed, 18 Oct 2023 19:06:42 +0000
+Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-407c3adef8eso17163415e9.2
+        for <linux-nvme@lists.infradead.org>; Wed, 18 Oct 2023 12:06:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1697654437; x=1698259237; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Jrap/YtB/Sd8Wus7hHKRx+7IUNmLTOe1yzTe7Ucyy5s=;
-        b=a5C7aFg5j97lF9rV1jTvukTOHG4Nf7ZR2tjzQUeOBNbI47RqfEM1C6dEc+hCAhAwta
-         GwprDFAdaziUQ90plEWIiatd6qY68DsmUMeHkrhGoNsNKzxKQVO0rQmZckeDmr79938N
-         QlE/kHBRCX9FKpPoVF+XTBN/cfTfXwfneF372nE1XdzlmK9k1rVu5wZqdgh4lT2v+v7o
-         SFeHwJtavKQWSLuz6qAOtD3d1sWk6k6XW++qhribozNWpr6zlyIZdi+/gUqCwfUOcWKn
-         UMOtE4tRX++ggdcWkxjaPX6igmfehak/joqOkUowmENwFCAx4V9VMUz0H+E81FjO+VzG
-         tf/Q==
+        d=gmail.com; s=20230601; t=1697655996; x=1698260796; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0lcjfcAxdk5Wm/hZPKJ7a4MTu0A8XP8H21xpAEIkZ74=;
+        b=dz8RAJ6NfgVxu8rRBj2gcf7aln/lK8pVOjjurRSbhwmMhKD5X920B3j0POpTDLDo6F
+         O8BJy5iCPRnYLCdJJVE70v1DTBZLxy+pmjabzIx+xPD/CE1VTAx5shrphCRgKdi3Dqda
+         PPCgKqAKsTFG/PCHwM7TbiwzNyGaEjEwkkaZmtGfrMpxcskQn/1P/J5s2ZRlkdcRw+VT
+         IgXFboorMbb/9PSM+S258A1PX5dheyQK0M+NnpuqTt7U9lHEHUrdEZKA7y22LBdW9T7b
+         HPVJVd58YURdkq1HiYn9f/rQaJ06OmN0Ori6S2UYOT+0OmQXTYVJAOeOm4ih+bCwqk+n
+         XPvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697654437; x=1698259237;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Jrap/YtB/Sd8Wus7hHKRx+7IUNmLTOe1yzTe7Ucyy5s=;
-        b=HKLK0OrinhE2axITMPTpMfH2AEUOi0hhGYcxdz5dzBr36p5HuyL8flW5Fnah+I3gpF
-         8kDN0jYV4MyGHlVnvnXL6h5BIQucR3X9Jc9gEHzwTBStvx+Wz9E6uICealOcxIaTAtZ3
-         +SAonNgJTpFzKiCIz7bMqqrrKO/jTO5+4/jsWCKiUlt8/OB5bD2RxPFFKw2R3grqeSIi
-         hhBOIDfJb3Va091N1KuxyQmVPdky4ulgqLwlQge+EF4mDZo2xtDE7W1dYvQr8k0DLrTf
-         pqBpvNmXAamjUcNsxwt63ftcbyQTSKUh6DdO8cnmwkWYh84hSYcw/e+bW9XuLpQ76/+6
-         i0Ig==
-X-Gm-Message-State: AOJu0YxdzLPg/cVvh3O1OpYyHHCY63ZzOruwwpCEnbws3mBmbusBB3YG
-	cN3OadsGIj5jhvg95Kld8Le/bg==
-X-Google-Smtp-Source: AGHT+IF/mw2nhMnShefoRjeknfThW7m2powVt1fzQRugKjjDxEyb9jncdBW+U6Mw21aiUl3At14ZmA==
-X-Received: by 2002:a92:d2ca:0:b0:34f:a4f0:4fc4 with SMTP id w10-20020a92d2ca000000b0034fa4f04fc4mr162371ilg.2.1697654437401;
-        Wed, 18 Oct 2023 11:40:37 -0700 (PDT)
-Received: from [192.168.1.94] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id s5-20020a92cbc5000000b0035797ea96f7sm1298810ilq.9.2023.10.18.11.40.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Oct 2023 11:40:36 -0700 (PDT)
-Message-ID: <2f6cdecc-d51b-4cbf-a0dd-ccd22fac8a98@kernel.dk>
-Date: Wed, 18 Oct 2023 12:40:35 -0600
+        d=1e100.net; s=20230601; t=1697655996; x=1698260796;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0lcjfcAxdk5Wm/hZPKJ7a4MTu0A8XP8H21xpAEIkZ74=;
+        b=cVbmsN8hWYDJPZhukWueGZH9a2QTHouO0SU2Laagj7I2rZWS9MbWrMC6hyAOCbIxDs
+         lL+qTrMs3UFpwrI/TdLmpVJJFYBllEmDvq83VBTKtIZLMTWfY8dJBXTZpQ5eMbexBKtn
+         5B7g1FzGUz4/B37HZ2zhJOraeZimBfGlUh3h3OEZwYf4xSi+HFXVVarZIfjKlYWadH4G
+         DW1L08hu9ekPnPHmI5uX+GaO5yck0hVP+8tUukoqRSwQcEy4VQDpZQhU+CpcRcdstL7g
+         ItkLIY+Yq3dXuXgJzklg8tSDrjNn6BszqebYv1cVqXvSMuDmEZy39y2qMEEK+yK139is
+         MX3w==
+X-Gm-Message-State: AOJu0YwD2FxMAx4OXVWluXzQDhf46Vs0wNkdeAVpomqtC6uFYfklRKOv
+	vZN38WJdTsL3syrpyibPGve3hSaQg+1QSsYpjyA=
+X-Google-Smtp-Source: AGHT+IHAHP8my+4eNHIBftoXGIG+6Ht58IJ87C0Q6uOyN9bIdqXEUFMVsmzfQb/N8hnWvtquw1ShebqzN5SyI6u5ukI=
+X-Received: by 2002:adf:ea45:0:b0:32d:9701:90e5 with SMTP id
+ j5-20020adfea45000000b0032d970190e5mr4854482wrn.34.1697655995630; Wed, 18 Oct
+ 2023 12:06:35 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] Unprivileged sgl-only passthrough
-Content-Language: en-US
-To: Kanchan Joshi <joshi.k@samsung.com>, hch@lst.de, kbusch@kernel.org,
- sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org, gost.dev@samsung.com, joshiiitr@gmail.com
 References: <CGME20231018183620epcas5p26ab74bdd1f2739ef3ec1ee2431329dc4@epcas5p2.samsung.com>
- <20231018183003.41174-1-joshi.k@samsung.com>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20231018183003.41174-1-joshi.k@samsung.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <20231018183003.41174-1-joshi.k@samsung.com> <2f6cdecc-d51b-4cbf-a0dd-ccd22fac8a98@kernel.dk>
+In-Reply-To: <2f6cdecc-d51b-4cbf-a0dd-ccd22fac8a98@kernel.dk>
+From: Kanchan Joshi <joshiiitr@gmail.com>
+Date: Thu, 19 Oct 2023 00:36:09 +0530
+Message-ID: <CA+1E3rJks2GVqNJ_YrUv4g78oNTHc9zkHc7-myPLOGp1U2mJJA@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Unprivileged sgl-only passthrough
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Kanchan Joshi <joshi.k@samsung.com>, hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, 
+	linux-nvme@lists.infradead.org, gost.dev@samsung.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231018_114040_608153_A9710CF6 
-X-CRM114-Status: GOOD (  10.87  )
+X-CRM114-CacheID: sfid-20231018_120640_055420_45AB193B 
+X-CRM114-Status: GOOD (  16.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,24 +89,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/18/23 12:30 PM, Kanchan Joshi wrote:
-> Patch 1: Prep. Adds the meta-transfer ability in nvme-pci
-> Patch 2: Enables fine-granular passthrough with the change that i/o
-> commands can transfer the data only via SGL.
-> 
-> Requirement:
-> - Prepared against block 6.6 tree.
-> - The patch in uring-passthrough failure handling is required to see the
->   submission failure (if any)
->   https://lore.kernel.org/linux-nvme/20231018135718.28820-1-joshi.k@samsung.com/
+On Thu, Oct 19, 2023 at 12:10=E2=80=AFAM Jens Axboe <axboe@kernel.dk> wrote=
+:
+>
+> On 10/18/23 12:30 PM, Kanchan Joshi wrote:
+> > Patch 1: Prep. Adds the meta-transfer ability in nvme-pci
+> > Patch 2: Enables fine-granular passthrough with the change that i/o
+> > commands can transfer the data only via SGL.
+> >
+> > Requirement:
+> > - Prepared against block 6.6 tree.
+> > - The patch in uring-passthrough failure handling is required to see th=
+e
+> >   submission failure (if any)
+> >   https://lore.kernel.org/linux-nvme/20231018135718.28820-1-joshi.k@sam=
+sung.com/
+>
+> I didn't have time to follow the previous discussion, but what's the
+> reasoning behind allowing it for SGL only?
 
-I didn't have time to follow the previous discussion, but what's the
-reasoning behind allowing it for SGL only? IIRC, we do have an inline
-vec for a small number of vecs, so presumably this would not hit
-alloc+free for each IO? But even so, I would imagine that SGL is slower
-than PRP? Do we know how much?
+This was a solution that emerged while discussing how best to fill the
+DMA corruption hole for passthrough.
+With SGL, the buffer length (data/buffer) sanity checks are done by
+the SSD and it fails the IO rather than doing extra transfer.
 
--- 
-Jens Axboe
+> IIRC, we do have an inline
+> vec for a small number of vecs, so presumably this would not hit
+> alloc+free for each IO?
 
+16b dma_pool_alloc/free for each IO that involves metadata. This is to
+keep the nvme-sgl that points to the metadata buffer.
+Hopefully some ideas can emerge (during the review) to see if we can
+do away with it.
+
+>But even so, I would imagine that SGL is slower
+> than PRP? Do we know how much?
+
+I do not know at the moment. Plan is to evaluate this soon.
+
+BTW, SGL-only mode is for unprivileged users only. For root, it
+remains the same as before (prp or sgl depending on the data-transfer
+length).
 
