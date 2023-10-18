@@ -4,168 +4,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B517FCDB47E
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Oct 2023 18:05:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 293D2CDB47E
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Oct 2023 18:36:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vqBMZ/B2LC1WvliMgQCS0OWYFMH6uQMvE8clwvDX99s=; b=sm1DqCJax0f9oQnEmPK0/ItFCN
-	x/0eUasRSPSXvJRG5/z/Ybtneniq50LBfP44VHoi/BCdEez5MulAxseB4mBRCYAAt9/ZpC2u8e1mu
-	GBpFjeCEFrhfXS1rVb1PPrYMRIFdCaJomn3+UQ6Vhepp+Ftbcn9tFejAkwW2EcySRahqPqY8G4GoH
-	/kepJ34Cyjlp8CMUWDeaG4a8nCCCLIsaHiuGA1RpqXsTQ0Wvcw6AgRd/rObPo5Spaobmb0oODDClH
-	VibQC2baBMvoU6Q35XHBvhqpsT4T7TCIjANqc0kYlt2shSOb5XW52zkkA9Rr9yH3f0So5inhigsW7
-	u3YEGXEg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=qf7Zl7qsLHIoMCFqm9qSB6HgRK8245PlROzZtjcq5w8=; b=GvwuTxKJgi9usZ6GI4mgaM7Ig/
+	DRmIONnRZi/i4G4xL6HOEN+OUlNF7/XI6f40mQZW/zER4ImE400rDrIBoCt7Sk/+GKs1bAl59iY2W
+	UeR9R46KvgCvqhWdXuAeg/utG2Dc+xRkPvXg1oHTDzEuwpLsk4+VN3ytAFmKgeAHctGDFGqOMchYY
+	jc79KnMew9BUgKbkIk3e54wF8z3hyk82oIhYgXbSSU5s2VaPEm48G53lamhsU2Rc0bidASU+/qqgG
+	IpY2f8kYfDxz4qYsi4N64TXkFSG3C0rJWsESFnYoqmwEysiOLe/LtSCM6iCx78bjZsgFxygPOlHv5
+	6DVaI0Sg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qtAvQ-00FPBR-0n;
-	Wed, 18 Oct 2023 18:05:44 +0000
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	id 1qtBPL-00FTCK-33;
+	Wed, 18 Oct 2023 18:36:39 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qtAvL-00FP9v-36
+	id 1qtBPH-00FT9N-1Z
 	for linux-nvme@lists.infradead.org;
-	Wed, 18 Oct 2023 18:05:42 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1697652340; x=1729188340;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=mi6KAl2xSE2tXlIJECdlmWe4oY+4uE/t+tcRYj03hAk=;
-  b=NU73V3PR7GL+WYWjuQughciOzOjpsQwAqxkCSzow0KUMDI0/0HSr6hS0
-   K++qwj6G5IqdOHPv236t/g8Xw0v4WTIn1ra9/pRaOKIaEHCxziHLhRA9j
-   KoZ1Cbd5i8/4dVHrNfhHq6WR+Wq60DUzRoGt1azhbU9nNFOJNKMfZjnoo
-   Gt53T75QvJi9q4Pomf/gBUv5BZOJ4v0vTsGreD0dCrYc2gNcF0hvvKe7C
-   GRKwhPiSvyNw+JaBlLVcu+24V/uW8tHq6XR6Ue4SZrnmC6qd8Ky1dnLZE
-   JxjNMZyNb79Z5LQXBoS/kpRXDCsVoysbJCNoZFt8MEFM1MlNwfieFzODn
-   Q==;
-X-CSE-ConnectionGUID: IlQ4LIpZSs+GdDLePR/PkQ==
-X-CSE-MsgGUID: ocfbHsZiQ3qZc+AH4wPgJg==
-X-IronPort-AV: E=Sophos;i="6.03,235,1694707200"; 
-   d="scan'208";a="54513"
-Received: from mail-bn7nam10lp2100.outbound.protection.outlook.com (HELO NAM10-BN7-obe.outbound.protection.outlook.com) ([104.47.70.100])
-  by ob1.hgst.iphmx.com with ESMTP; 19 Oct 2023 02:05:33 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hv56xXrk6RUd1x7z24sxKsacgDMTsR84BmpDm1F3FK1AGYstTatkSc7F++bmXjSOhYT5L4NLX+hHaR6yJ2MkSQAIeqMesE89oqWLju+7qlz8KIR1IU9ZWmJYgKIYQy8UN+HQLv7a/OL4nFAEBRC5L4fm783BnUxmj4NAEMRc3tK/tezzpr1trk4oFHg/c5ZQ5s/sWojxBq1z+eZ0os+HIgMMGu/XObj4PPOqV1mM9PbWPkO6EaIznadvj7HGPTPAD/VwnC97cZgoCrQrBibacor9LwftoPBDekkdrjG9q1SZZAfu9W9XKNOnnB53YEPsH78bkYBGebpo4RntSTZhbA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vqBMZ/B2LC1WvliMgQCS0OWYFMH6uQMvE8clwvDX99s=;
- b=jhByaXYXG4YwKfucLa+VAokdjdEFToXFSgk/88Gu4h5d4oXaOJhSgBwCX/b6n4ZLmX7ole+aR+fz6iVOWm1aJhUaIrm/Rbra8YHXnWUBZMuek9kJuLN8uVcqyntDtNdku2km5oIKGfEE75oglAzgiZbr18gk/EBTi9OagPA73XpLplHo9LarIXIpL5UOPqI2ytWxvvYcrAnn1V+KBN0QxHMxO+lHysJidv1hkekP4+E/jO5PRO9z46u15XnPJ9NvA/AOYNV3kaJWbCMtIb0GKWMZvbcRkUkExoz1bdRZ1D1Z1n1GstpGVexGBbvSnxcVR/TekacI4bCISlwMl+y/1A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vqBMZ/B2LC1WvliMgQCS0OWYFMH6uQMvE8clwvDX99s=;
- b=GDH5LrNRmcPQeARDILL0ATng1/c3LL+YwhJCUJvtvpTyb1mp6AkHvq+dMd4BCMGBL42GBPpx6IU3ckhnwUuvf/JWsL453miv4Tw2jOoUPTcP2lb5jRsJNzCqOczF+REKRuOMsBYBp1VEd/v4cvdnpT+weUHmPwXPBZK46rd8qSs=
-Received: from MN2PR04MB6272.namprd04.prod.outlook.com (2603:10b6:208:e0::27)
- by IA0PR04MB8836.namprd04.prod.outlook.com (2603:10b6:208:486::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.20; Wed, 18 Oct
- 2023 18:05:30 +0000
-Received: from MN2PR04MB6272.namprd04.prod.outlook.com
- ([fe80::6fb5:ecb:1ea0:3b1d]) by MN2PR04MB6272.namprd04.prod.outlook.com
- ([fe80::6fb5:ecb:1ea0:3b1d%6]) with mapi id 15.20.6907.022; Wed, 18 Oct 2023
- 18:05:30 +0000
-From: Niklas Cassel <Niklas.Cassel@wdc.com>
-To: Kanchan Joshi <joshi.k@samsung.com>
-CC: "hch@lst.de" <hch@lst.de>, "kbusch@kernel.org" <kbusch@kernel.org>,
-	"axboe@kernel.dk" <axboe@kernel.dk>, "sagi@grimberg.me" <sagi@grimberg.me>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"joshiiitr@gmail.com" <joshiiitr@gmail.com>, Anuj Gupta
-	<anuj20.g@samsung.com>
-Subject: Re: [PATCH] nvme: fix error-handling for io_uring nvme-passthrough
-Thread-Topic: [PATCH] nvme: fix error-handling for io_uring nvme-passthrough
-Thread-Index: AQHaAe2ujrF/TjwVp0qh5zSMbNZdtQ==
-Date: Wed, 18 Oct 2023 18:05:30 +0000
-Message-ID: <ZTAeaY6V5DgaiNI0@x1-carbon>
-References: <CGME20231018140334epcas5p128c55c56fb9203a19479cbf86175a1d6@epcas5p1.samsung.com>
- <20231018135718.28820-1-joshi.k@samsung.com>
-In-Reply-To: <20231018135718.28820-1-joshi.k@samsung.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN2PR04MB6272:EE_|IA0PR04MB8836:EE_
-x-ms-office365-filtering-correlation-id: 17ec8a2f-9ce8-4016-a82b-08dbd004d0de
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: zkX5zYHj/me5r0c7OScO9+BEWykIbXMLE3AwWFH6qe06rKn0sPf/lt1kQeGasaVE/V2s3N/3+wzEbp0pncDuhG6jKnAc4B2Z7zGa5tN+0Kn3tSI3lxvLkzKVuTYqL4REHLdTo14wnHiFgJ5YUoMEWY6EYFLEYbNK8JcuYLJyL5WKITOaP9YyD1xyxZFIUOkiSDPV25aVK+Qh+pFAtfwSLXOoZ66k34mN7jgzwvQZeHrgS3Z9QVdnJp6idgEnnatSoZbF+MHUwW8l6Kr86VjXPEAI2lnjrKn4YgpamoXTqrDZTaIivsnPp/FKhu8kr9xnYKWW9wxCDkgnqEQOyh0OI8sq7ebDkQ7QogBqtBw86O1nPjwYkC4j0i7Qii0Yx4AvxUjRWe/7/jjse+3yXYtq1AaJ+1enzBHn1sk8Rtzpz+tVCd/o9suJbDT22sC62smlAmTIS61AJ4v8vWNQ+sAZGzyrlwlgRGgYpnfaYNsG+S/XJ5bcXLM7Y/bMDdhhoRkakU5dF8ryKT5UezjcbwnyJAtOAkJnBimKEf0uIfREgYkJb28FogaJhcf2L8ms3N+ir/kA5h0x89GReFAnf+xrrGpzFAweZfJJzOAsNo8/Xbk=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR04MB6272.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(346002)(366004)(376002)(136003)(39860400002)(396003)(230922051799003)(451199024)(64100799003)(186009)(1800799009)(6486002)(8676002)(33716001)(122000001)(83380400001)(8936002)(38100700002)(316002)(26005)(4326008)(66556008)(66946007)(71200400001)(76116006)(966005)(6506007)(91956017)(54906003)(6512007)(64756008)(6916009)(66476007)(66446008)(9686003)(478600001)(82960400001)(2906002)(86362001)(38070700005)(41300700001)(5660300002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Pi+R50RbnsQWtNRfvFpS2xWBhm5/lLM1l8dDtebtFdJS30FkIBpzhOyxAByQ?=
- =?us-ascii?Q?KZrJz4fDWqym4ZATsAI+CCLq2FUo4VwGgkvFKAukcmgdbWKE27bij8r0/17E?=
- =?us-ascii?Q?uw7xksE82qeUuh6RvFHt/YCK+5pAG/VvJg8n0zRoTndkeNcBpFlpNV0BcYWq?=
- =?us-ascii?Q?6MNyWXasfNCAMkk0RPlB8h9WZyUmPKr0a8fEAvrChcwNxYMDPJhEzKNciS2F?=
- =?us-ascii?Q?lZNXbySbtFpNItuTRo9XlzdVVqGai7gyaPodrKl+JRqIlt7Bl+Th1fjO7MvW?=
- =?us-ascii?Q?nXGnNTenhBeMpBZabnxvzOYma0SI2SBeLjKTt9eAmOhttMSDUgQ14/Dwq0/o?=
- =?us-ascii?Q?Y5Palwx3ea0fNXRX/jtp4OmL8lyJaA0Ms0qONdhGCdqPjWgen+F7/zGcl6Jv?=
- =?us-ascii?Q?BgpA4YHIUKjDUkiYBq/r/t+LMpHJX9F4uR7dMXKcttTNrHC9H4cXdMPrWOVe?=
- =?us-ascii?Q?WS9U68kI84kYsDkh7PmTGqcq5WV8S/WMQYCpyTCWWqNwNVRceTSyYWE28yYA?=
- =?us-ascii?Q?iI913DmjQuvMbNzATMVlLzyEUyaj8KZpLjTngCKqyyTFpjlFRoOhYdSvRHB2?=
- =?us-ascii?Q?3cjDtc8164XcufG0M49RcHKR7s03nXvFKbbjon6pHcVabjaVSfs1kkJWiYr8?=
- =?us-ascii?Q?wlqFQ5lC2l0Jc4Ahburr5vhQ4F4v12b/0nGAQXNunitkXCOrgYZVp35fO5+a?=
- =?us-ascii?Q?v75KtytRfdZmhEuCRFDp04gKvCnDENfrhnnQDG/FgJ2XQxq4Jg/NRDKkOR9X?=
- =?us-ascii?Q?QJloAf49qB/1apbQ/fReIdArMBG8LEAeI6g/22ZQd0guH9xQ6VmzesO9NCpB?=
- =?us-ascii?Q?G30zuR1eRYAc+agNurdGDT+IBDqWq6Oks9NiSdI15+/pMHtXuWUCB6/79ySA?=
- =?us-ascii?Q?IwPadKcJmRi45xS8zlJPAd8p2nT5wFJIFxRitgSuC4ZlBirT8rb5NGuYrqFy?=
- =?us-ascii?Q?eZEgJzBN7WUnvlEV+eL7lXDr3TvHl6YDW7ym1FKecwz2ctkMTPILJ3opUf+l?=
- =?us-ascii?Q?hbC/GTDaAh0YbcflwZunXdr06rtlMbjI4iDCFNogAynoJHzoNX9nFXwx1fb6?=
- =?us-ascii?Q?ETdc0wbZ5CBLh3cVkVixV4TJJRDGmrYVFfFVvO0GN4ZV+PjjM0C3DTtxvwco?=
- =?us-ascii?Q?EMSRfZLgX+yyqU2mEOWUbTzqwocWe0iA+evrK/N6p3xFByuJktF0lQKoskmU?=
- =?us-ascii?Q?5ex0fJX5gv0qRR2kjqx5sSHdtRQMauGgImRGcQO6fkicwDDn9z65p16vcS+n?=
- =?us-ascii?Q?wwPeh7/ZRTukW35fPZXiambYHzflam6st+dH0uT3C42FyLelX2EgXudvdDTR?=
- =?us-ascii?Q?5jlLLJic079mhHI8OpjZeA12FOFe+ue2Rs9HbeMtY3Eiq5Ob/U24iuyxFxTp?=
- =?us-ascii?Q?SoB3+kYp18ZyhPcLfhUJCIIqVGvEK/6TCTupoczW/8FUdejhjZ5PKx2Rb1Nm?=
- =?us-ascii?Q?KzZqPQYtXs9I6OETkoK0xyqf2ImEYtv2Nzh4vlLNVnQKh5Bl2K8c7o6ydMCx?=
- =?us-ascii?Q?EtxxZRst8rX6a2vOUQClwHJPkCxsxQRI5yKRruOPMjssroKxGqQwK6ezFO6c?=
- =?us-ascii?Q?27nNtMRDpa/nbW/Tp0RGTmRlp0AvkkyR24P6RvvGoDKQXPFxE+fHm9pZL3Vw?=
- =?us-ascii?Q?JA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <7FB03B196CF60A4B8C871F886D302238@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	Wed, 18 Oct 2023 18:36:38 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20231018183628epoutp04e7aeaff2438bf1df351603992eddca69~PR310vxLo0976709767epoutp04C
+	for <linux-nvme@lists.infradead.org>; Wed, 18 Oct 2023 18:36:28 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20231018183628epoutp04e7aeaff2438bf1df351603992eddca69~PR310vxLo0976709767epoutp04C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1697654188;
+	bh=qf7Zl7qsLHIoMCFqm9qSB6HgRK8245PlROzZtjcq5w8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=pAORbHFWx/9PHxR0TMlH5s/oEeOkf/216lEDod5/0wodB3mzJ3EvV8vdIqE1bb7NM
+	 XcWvCIGpn0hhkzeeJHjuLixbTrg7514FBlPGuLBjPiY78RP10nCcCN3hyZlNAvTmnY
+	 V7kpZcifNfUsNKKJhFR7LgeNs5CERk3G28CmQYGA=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20231018183628epcas5p28d0177442067b66a18734136e19109c2~PR31RHfdb1864818648epcas5p2D;
+	Wed, 18 Oct 2023 18:36:28 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.176]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4S9fgt3b8Qz4x9Pv; Wed, 18 Oct
+	2023 18:36:26 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	94.A9.09672.AA520356; Thu, 19 Oct 2023 03:36:26 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20231018183625epcas5p4d79f229a097cc083c2a2d2c77f6a5bb9~PR3zIxzP20493504935epcas5p4x;
+	Wed, 18 Oct 2023 18:36:25 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20231018183625epsmtrp2522b6b5131a9eaf8d046a6f9ab880e90~PR3zIJRpd0438704387epsmtrp2r;
+	Wed, 18 Oct 2023 18:36:25 +0000 (GMT)
+X-AuditID: b6c32a4b-60bfd700000025c8-2c-653025aa1c5a
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	B0.DA.08817.9A520356; Thu, 19 Oct 2023 03:36:25 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.99.41.245]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20231018183624epsmtip123149749b6e134014a26e4efb1fdb7fb~PR3x16QbK1269912699epsmtip1H;
+	Wed, 18 Oct 2023 18:36:24 +0000 (GMT)
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: hch@lst.de, kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org, gost.dev@samsung.com,
+	joshiiitr@gmail.com, Kanchan Joshi <joshi.k@samsung.com>
+Subject: [PATCH 1/2] nvme-pci: meta-transfer via sgl
+Date: Thu, 19 Oct 2023 00:00:02 +0530
+Message-Id: <20231018183003.41174-2-joshi.k@samsung.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20231018183003.41174-1-joshi.k@samsung.com>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?us-ascii?Q?6bHftWB8Xma8lbuG1uxPEEjN+gyV4Pr5k3k3LgdkWrfNFb+DVR42Lrq9c6YC?=
- =?us-ascii?Q?2T3ed/dqKobo3sZZdUZWGwoWYBlktsyDuxOXdu/v5EdEcs50O1PShXez0NKK?=
- =?us-ascii?Q?7rNAYfpdpUTz4LZKJ4HumDq/kYxB4NCfwUrFEEM42XgjafAGge3CEn0CYDed?=
- =?us-ascii?Q?rjuK2Rxj+fGkLDY6yvGYUamXh3kg1o6cni18RvOHO1gAngga0BKnkr1+YgnR?=
- =?us-ascii?Q?ctToF06yRCtuqjr7VK9J1c5hRISiRH6F4qYHNRLp8kqIohtpqqIxcy9HRfR1?=
- =?us-ascii?Q?c1ZAbt6a6Psp5Ge5EvIv65sTZTPaSn+JhgfubWU4lOguSrpzsA9B5ZmfeS1A?=
- =?us-ascii?Q?a2kh7GgDN6YFmuDmB4RM9+E2m950HRq49sgXFx3vZqZNk8H1BQmrP8bXOdCR?=
- =?us-ascii?Q?Ug5BlGGS6r4ZxzgmVKMD6cb9H35Ntk59mJHf3GSo92RAsDaMuvZKOueWzd7i?=
- =?us-ascii?Q?Da+hrBKt4NTlYsSqp6aRNPKDPByhz91IOptnzZY1iF+SexClb8/tYqxU2rJW?=
- =?us-ascii?Q?CRb5Mh8Vgdzk6SWBc3PkNfWzrtfIUxoBvy6vi0Fsw2pUiMYuI9tva2oP1Wzs?=
- =?us-ascii?Q?ZUWhoU6l4O1Mlxo9CvoacXlUBxgzoI+vWb6CmiBfpN98d5wkJko65fXdIL0p?=
- =?us-ascii?Q?HSndSUBga66pNS/UT/Up7ekCzXEXsipK9g4AyE5X6dmHRSImEZpZ9iaq78kP?=
- =?us-ascii?Q?5XF7Bgm3Zz6ScbgPj664sJNCxDTdvIWoUN32JtxzZYBG085p0iYuAsoUvreS?=
- =?us-ascii?Q?AdDma7k2g9GJGs0Ue7wBTOUr9nHw0ufdgsP+ZAl9qHrHHCqBAaNXmqGtIpkz?=
- =?us-ascii?Q?tTBq3BiqL3HF8Us7vtoKkAZmHISCFIEOkWeWCi8antxR/9fOTjk9a9WSa4wt?=
- =?us-ascii?Q?4ewu59P8QC+KTzY/LJKf0FRUPx8rUn9Pyz4CObYJKChL5ffDTV7Qd/+xDQ5Z?=
- =?us-ascii?Q?veMkTtS/Wz7pyC6IjITWAA=3D=3D?=
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR04MB6272.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 17ec8a2f-9ce8-4016-a82b-08dbd004d0de
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Oct 2023 18:05:30.5402
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Nswmg1F/NK1Uda5eepsjyDnCsqBf+ql78EvmAgvMEL529LGqUUV7ow/PqV9UQf4/hViy05Z2SwOdMtZFH/vqwg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR04MB8836
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupnk+LIzCtJLcpLzFFi42LZdlhTXXeVqkGqweFFkhar7/azWdw8sJPJ
+	YuXqo0wWR/+/ZbM4//Ywk8WkQ9cYLeYve8puse71exYHDo+ds+6ye5y/t5HF4/LZUo9NqzrZ
+	PDYvqffYfbOBzaNvyyrGAPaobJuM1MSU1CKF1Lzk/JTMvHRbJe/geOd4UzMDQ11DSwtzJYW8
+	xNxUWyUXnwBdt8wcoKOUFMoSc0qBQgGJxcVK+nY2RfmlJakKGfnFJbZKqQUpOQUmBXrFibnF
+	pXnpenmpJVaGBgZGpkCFCdkZK39rFhzWqzhxcDtbA+MMtS5GTg4JAROJm0/nMILYQgK7GSX+
+	rvfoYuQCsj8xSuzbcpkNwvnGKPGjbT4jTMeVExuZIBJ7GSU2vrgL5XxmlJh95ilLFyMHB5uA
+	psSFyaUgDSICLhIN/96ANTMLlEgcmDWRFcQWBhrUNbmHCcRmEVCVmNb3FszmFbCQWHfqHzPE
+	MnmJmZe+s4PYnAKWEjP7dzFC1AhKnJz5hAViprxE89bZzCA3SAh8ZZf4NukOK0Szi8SJ89/Y
+	IWxhiVfHt0DZUhKf3+1lg7CTJS7NPMcEYZdIPN5zEMq2l2g91c8M8gsz0C/rd+lD7OKT6P39
+	hAkkLCHAK9HRJgRRrShxb9JTqK3iEg9nLIGyPSSuXbjKCAmeHkaJg303GScwys9C8sIsJC/M
+	Qti2gJF5FaNkakFxbnpqsWmBcV5qOTxak/NzNzGCU6aW9w7GRw8+6B1iZOJgPMQowcGsJMKb
+	HqyTKsSbklhZlVqUH19UmpNafIjRFBjGE5mlRJPzgUk7ryTe0MTSwMTMzMzE0tjMUEmc93Xr
+	3BQhgfTEktTs1NSC1CKYPiYOTqkGJm7trtjlWnn70mw3uwX+//2Yw+OUQ4Xjn7KSDzvvtQna
+	CfLX/Ezkv3Q5zLM4iHdn8xunlAwLr7oW1cmXZFKNurrWWBYtWXQ7h3F22HpDloWSKTaqpgdt
+	Qg8UqiSx3OOxyudY8vyJz8u8IOn30m/c/8x8UPL/uuucS1NipS44rVbZqHVpS1RqhOrllG3x
+	qd93GMbKlYq0rc7mUOGbWPk9IEbKZasSzwI91t7y85Ps36scEs44f3T50qk8oS8yV27+zBF7
+	yOat3+oLy+p8tdaeVeiYmtTRc/J145n+uD/837nlImcnhxlNkXaKfDana9br9Zw/NA6UOJ0Q
+	1tCo3rrAIz5Lk5PDgZGh53XG5XtKLMUZiYZazEXFiQCHsyEgIgQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrILMWRmVeSWpSXmKPExsWy7bCSnO5KVYNUg9WLNS1W3+1ns7h5YCeT
+	xcrVR5ksjv5/y2Zx/u1hJotJh64xWsxf9pTdYt3r9ywOHB47Z91l9zh/byOLx+WzpR6bVnWy
+	eWxeUu+x+2YDm0ffllWMAexRXDYpqTmZZalF+nYJXBkrf2sWHNarOHFwO1sD4wy1LkZODgkB
+	E4krJzYygdhCArsZJXo2aEDExSWar/1gh7CFJVb+e84OUfORUeJom08XIwcHm4CmxIXJpSBh
+	EQEviXmzF7CA2MwCFRL/X79kBLGFgcZ3Te4BG88ioCoxre8tmM0rYCGx7tQ/Zojx8hIzL30H
+	G88pYCkxs38XI8QqC4mP77ZC1QtKnJz5BGq+vETz1tnMExgFZiFJzUKSWsDItIpRMrWgODc9
+	t9iwwCgvtVyvODG3uDQvXS85P3cTIzjUtbR2MO5Z9UHvECMTB+MhRgkOZiUR3vRgnVQh3pTE
+	yqrUovz4otKc1OJDjNIcLErivN9e96YICaQnlqRmp6YWpBbBZJk4OKUamAK73kiceaFZvuPX
+	n7ctMQcFdSx8nPzqNPULjk22eRmw1Kxt26VKPZZjR9yO2JQ9W/vZbNHx6DkfV55P31qiI6V8
+	6l7w2hjFHS17pU9Lvuli+Z4qdTrIJSuI1UVo+bW7bO/PH9o9l/X7pBM/fDVmFn5J3fJX7bAI
+	Q9K5oHvZD874PpylY3h54p3KluD22MVVzMluKw//6tLofi2+4cCE3THsp5V+qr2QeHf9XrVz
+	5+Y0N2+l/G9G24/w1+pz9ccoNEZqHfjMEPKlODn51TJZ6U8BFTvFemuu3lr8LC5UfdsftWXM
+	uisj9y+cvqyrdeqtqBDnrUz3Zzmuv7Oy5oqazgXlzb1WR7c5PIx/Y/9RRlGJpTgj0VCLuag4
+	EQAuyUxh5AIAAA==
+X-CMS-MailID: 20231018183625epcas5p4d79f229a097cc083c2a2d2c77f6a5bb9
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20231018183625epcas5p4d79f229a097cc083c2a2d2c77f6a5bb9
+References: <20231018183003.41174-1-joshi.k@samsung.com>
+	<CGME20231018183625epcas5p4d79f229a097cc083c2a2d2c77f6a5bb9@epcas5p4.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231018_110540_149194_8DDE8720 
-X-CRM114-Status: GOOD (  23.02  )
+X-CRM114-CacheID: sfid-20231018_113635_848241_59949A63 
+X-CRM114-Status: GOOD (  22.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -180,51 +133,182 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello Kanchan,
+Introduce the ability to transfer the metadata buffer using sgl.
+Also add a nvme request flag 'NVME_REQ_FORCE_SGL' that mandates both
+data and meta transfer via sgl.
 
-On Wed, Oct 18, 2023 at 07:27:18PM +0530, Kanchan Joshi wrote:
-> From: Anuj Gupta <anuj20.g@samsung.com>
->=20
-> Driver may return an error before submitting the command to the device.
-> Ensure that such error is propagated up.
->=20
-> Fixes: 456cba386e94 ("nvme: wire-up uring-cmd support for io-passthru on =
-char-device.")
->
+This is a prepatory patch to enable unprivileged passthrough via SGL.
 
-Why do you have an empty line between the Fixes and the Signed-off-by ?
-(I noticed this on some of your other patches as well.)
+Suggested-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+---
+ drivers/nvme/host/nvme.h |  6 ++++
+ drivers/nvme/host/pci.c  | 63 ++++++++++++++++++++++++++++++++++++----
+ 2 files changed, 64 insertions(+), 5 deletions(-)
 
-I don't think there is supposed to be any empty lines between the tags.
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index f35647c470af..58f8efe1ace9 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -184,6 +184,7 @@ enum {
+ 	NVME_REQ_CANCELLED		= (1 << 0),
+ 	NVME_REQ_USERCMD		= (1 << 1),
+ 	NVME_MPATH_IO_STATS		= (1 << 2),
++	NVME_REQ_FORCE_SGL		= (1 << 3),
+ };
+ 
+ static inline struct nvme_request *nvme_req(struct request *req)
+@@ -1043,6 +1044,11 @@ static inline void nvme_start_request(struct request *rq)
+ 	blk_mq_start_request(rq);
+ }
+ 
++static inline bool nvme_ctrl_meta_sgl_supported(struct nvme_ctrl *ctrl)
++{
++	return ctrl->sgls & (1 << 19);
++}
++
+ static inline bool nvme_ctrl_sgl_supported(struct nvme_ctrl *ctrl)
+ {
+ 	return ctrl->sgls & ((1 << 0) | (1 << 1));
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 3f0c9ee09a12..1907b1c9919a 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -123,6 +123,7 @@ struct nvme_dev {
+ 	struct device *dev;
+ 	struct dma_pool *prp_page_pool;
+ 	struct dma_pool *prp_small_pool;
++	struct dma_pool *meta_sgl_pool;
+ 	unsigned online_queues;
+ 	unsigned max_qid;
+ 	unsigned io_queues[HCTX_MAX_TYPES];
+@@ -236,6 +237,8 @@ struct nvme_iod {
+ 	unsigned int dma_len;	/* length of single DMA segment mapping */
+ 	dma_addr_t first_dma;
+ 	dma_addr_t meta_dma;
++	dma_addr_t meta_dma_sg;
++	struct nvme_sgl_desc	*meta_sgl;
+ 	struct sg_table sgt;
+ 	union nvme_descriptor list[NVME_MAX_NR_ALLOCATIONS];
+ };
+@@ -772,18 +775,23 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+ 	blk_status_t ret = BLK_STS_RESOURCE;
+ 	int rc;
++	bool force_sgl = nvme_req(req)->flags & NVME_REQ_FORCE_SGL;
++
++	if (force_sgl && !nvme_ctrl_sgl_supported(&dev->ctrl))
++		return BLK_STS_IOERR;
+ 
+ 	if (blk_rq_nr_phys_segments(req) == 1) {
+ 		struct nvme_queue *nvmeq = req->mq_hctx->driver_data;
+ 		struct bio_vec bv = req_bvec(req);
+ 
+ 		if (!is_pci_p2pdma_page(bv.bv_page)) {
+-			if (bv.bv_offset + bv.bv_len <= NVME_CTRL_PAGE_SIZE * 2)
++			if (!force_sgl &&
++			    bv.bv_offset + bv.bv_len <= NVME_CTRL_PAGE_SIZE * 2)
+ 				return nvme_setup_prp_simple(dev, req,
+ 							     &cmnd->rw, &bv);
+ 
+-			if (nvmeq->qid && sgl_threshold &&
+-			    nvme_ctrl_sgl_supported(&dev->ctrl))
++			if (nvmeq->qid && nvme_ctrl_sgl_supported(&dev->ctrl)
++			    && (sgl_threshold || force_sgl))
+ 				return nvme_setup_sgl_simple(dev, req,
+ 							     &cmnd->rw, &bv);
+ 		}
+@@ -806,7 +814,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 		goto out_free_sg;
+ 	}
+ 
+-	if (nvme_pci_use_sgls(dev, req, iod->sgt.nents))
++	if (force_sgl || nvme_pci_use_sgls(dev, req, iod->sgt.nents))
+ 		ret = nvme_pci_setup_sgls(dev, req, &cmnd->rw);
+ 	else
+ 		ret = nvme_pci_setup_prps(dev, req, &cmnd->rw);
+@@ -825,13 +833,44 @@ static blk_status_t nvme_map_metadata(struct nvme_dev *dev, struct request *req,
+ 		struct nvme_command *cmnd)
+ {
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
++	bool force_sgl = nvme_req(req)->flags & NVME_REQ_FORCE_SGL;
++	blk_status_t ret;
+ 
+ 	iod->meta_dma = dma_map_bvec(dev->dev, rq_integrity_vec(req),
+ 			rq_dma_dir(req), 0);
+ 	if (dma_mapping_error(dev->dev, iod->meta_dma))
+ 		return BLK_STS_IOERR;
+-	cmnd->rw.metadata = cpu_to_le64(iod->meta_dma);
++
++	if (!force_sgl) {
++		cmnd->rw.metadata = cpu_to_le64(iod->meta_dma);
++		return BLK_STS_OK;
++	}
++
++	if (!nvme_ctrl_meta_sgl_supported(&dev->ctrl)) {
++		WARN_ONCE(1, "controller does not support meta sgl.");
++		ret = BLK_STS_IOERR;
++		goto out_unmap;
++	}
++
++	iod->meta_sgl = dma_pool_alloc(dev->meta_sgl_pool, GFP_KERNEL,
++				       &iod->meta_dma_sg);
++	if (!iod->meta_sgl) {
++		ret = BLK_STS_IOERR;
++		goto out_unmap;
++	}
++
++	iod->meta_sgl->addr = cpu_to_le64(iod->meta_dma);
++	iod->meta_sgl->length = cpu_to_le32(rq_integrity_vec(req)->bv_len);
++	iod->meta_sgl->type = NVME_SGL_FMT_DATA_DESC << 4;
++	cmnd->rw.metadata = cpu_to_le64(iod->meta_dma_sg);
++	cmnd->rw.flags = NVME_CMD_SGL_METASEG;
++
+ 	return BLK_STS_OK;
++
++out_unmap:
++	dma_unmap_page(dev->dev, iod->meta_dma,
++			rq_integrity_vec(req)->bv_len, rq_dma_dir(req));
++	return ret;
+ }
+ 
+ static blk_status_t nvme_prep_rq(struct nvme_dev *dev, struct request *req)
+@@ -968,6 +1007,11 @@ static __always_inline void nvme_pci_unmap_rq(struct request *req)
+ 
+ 		dma_unmap_page(dev->dev, iod->meta_dma,
+ 			       rq_integrity_vec(req)->bv_len, rq_dma_dir(req));
++
++		if (nvme_req(req)->flags & NVME_REQ_FORCE_SGL)
++			dma_pool_free(dev->meta_sgl_pool,
++				      (void *)iod->meta_sgl,
++				      iod->meta_dma_sg);
+ 	}
+ 
+ 	if (blk_rq_nr_phys_segments(req))
+@@ -2644,6 +2688,14 @@ static int nvme_setup_prp_pools(struct nvme_dev *dev)
+ 		dma_pool_destroy(dev->prp_page_pool);
+ 		return -ENOMEM;
+ 	}
++	/* for metadata sgl */
++	dev->meta_sgl_pool = dma_pool_create("meta sg 16", dev->dev, 16, 16, 0);
++	if (!dev->meta_sgl_pool) {
++		dma_pool_destroy(dev->prp_page_pool);
++		dma_pool_destroy(dev->prp_small_pool);
++		return -ENOMEM;
++	}
++
+ 	return 0;
+ }
+ 
+@@ -2651,6 +2703,7 @@ static void nvme_release_prp_pools(struct nvme_dev *dev)
+ {
+ 	dma_pool_destroy(dev->prp_page_pool);
+ 	dma_pool_destroy(dev->prp_small_pool);
++	dma_pool_destroy(dev->meta_sgl_pool);
+ }
+ 
+ static int nvme_pci_alloc_iod_mempool(struct nvme_dev *dev)
+-- 
+2.25.1
 
-> Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
-> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-> ---
->  drivers/nvme/host/ioctl.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-> index d8ff796fd5f2..53987df6ea7c 100644
-> --- a/drivers/nvme/host/ioctl.c
-> +++ b/drivers/nvme/host/ioctl.c
-> @@ -508,8 +508,11 @@ static enum rq_end_io_ret nvme_uring_cmd_end_io(stru=
-ct request *req,
->  	req->bio =3D pdu->bio;
->  	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
->  		pdu->nvme_status =3D -EINTR;
-> -	else
-> +	else {
->  		pdu->nvme_status =3D nvme_req(req)->status;
-> +		if (!pdu->nvme_status)
-> +			pdu->nvme_status =3D blk_status_to_errno(err);
-> +	}
-
-The kernel coding standard says that you should have braces on the if,
-even if it is a single line statement, when you have brances on the else:
-https://www.kernel.org/doc/html/latest/process/coding-style.html#placing-br=
-aces-and-spaces
-
-
-Kind regards,
-Niklas=
 
