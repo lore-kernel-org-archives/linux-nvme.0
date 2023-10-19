@@ -4,103 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8615DCDB465
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Oct 2023 13:08:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 790ADCDB465
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Oct 2023 13:34:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UFaD2/Bbp7fdLDpcfhgbioHg29f6K9cRBet8ttleAFc=; b=onSFxpRxAUEeTN7bZ4UYHAYSee
-	uvs4OicelPUgC2MQJmpkk+fSHWsKf7V+IMsNOyYrI0nvRvmgyXYkpnuOHlqGYMtV6XfvjMiCdTJqu
-	NgcXrUjTM1gz2ZMJCZHZ6+jiEVqC5oGoFuzbt6Fqal0lMTk70m1b/xGOKSiuMFUsz8MkmLkrZdqks
-	9HDgMsDbLVlVKIJjBDpJA/Ybt5NPfgzG075jBan0zPqg3YqbB8DqzW/Ac/paM7VhoxLF5b5PXc87z
-	AhfLXATvX0YyDuSql5n8S4y5tRN7nhU3CZsfAcuUWdFevwXi9f7LDmXephJa6giivV3QIc2f54grr
-	LFly4Eag==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=YJSffSoa0BaxBczKgkCrrJHxVgWn9WTUBOwBuAsh8EY=; b=0h25c45iRyMx9KyDTC4vND3D76
+	RxLiJbcn6WPdj7kRASBeRHVX+12mM9a3KYjOvTGxnTcCt/Q4oKNTfWNrYSWNUiMNYJjK0YFEc/TXP
+	myH2DaoQe0GwKD8HTY3wmM3EhvrmBlQL7hE3an5hVJ9BqD/Jb6CwEfRSBXZVNzWVmevG6rkVsJPHr
+	4Jg0dHBucE7INjpgzT6mLeMwmEK6PfZ44nXCNAwtWYOdYb67OnTOFMNIgrNqxi2+GQXdrc8i/Wy/Z
+	ALnzhKIiy8spI3A2AJ+KCDwjCzMQGFvEJqVnabGirQ3QlJWtbtgrFMzRkav8hlJHdKsfvHXUzPkJX
+	XFosfaCw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qtSkn-00HUFE-2r;
-	Thu, 19 Oct 2023 13:07:57 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1qtTAQ-00HX71-2t;
+	Thu, 19 Oct 2023 13:34:26 +0000
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qtSkl-00HUEn-0B
+	id 1qtTAN-00HX6U-1q
 	for linux-nvme@lists.infradead.org;
-	Thu, 19 Oct 2023 13:07:56 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8327C1FD76;
-	Thu, 19 Oct 2023 13:07:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1697720873; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UFaD2/Bbp7fdLDpcfhgbioHg29f6K9cRBet8ttleAFc=;
-	b=zBk9ziKTkIOHUjvMyz8Vujc2NpeNgUaOOfFa7ZYI53YhgdiIvdoszUFD9BY7/6rZp9rlza
-	c9EG8oGYCwg0Bgv4b7XA86Mltes7d3FRnJLcqtfBNuUr/cCXmnE6i4taX1RUPGIPvDIu7a
-	mLt4NRjBwdhi7XPXnLx4irPJ2Io8FW4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1697720873;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UFaD2/Bbp7fdLDpcfhgbioHg29f6K9cRBet8ttleAFc=;
-	b=qaHMvMs/aVFfBcI2Q9XIHiJQTvsSiIDfL+g5+hgXl2AzpPw5elviSAiqFirCBxKXcplkV8
-	940NgAhd/5xeryAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 343101357F;
-	Thu, 19 Oct 2023 13:07:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id WOecCikqMWUnVAAAMHmgww
-	(envelope-from <hare@suse.de>); Thu, 19 Oct 2023 13:07:53 +0000
-Message-ID: <09ea6825-e73e-44a7-8540-ea92907eb858@suse.de>
-Date: Thu, 19 Oct 2023 15:07:53 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvmet-tcp: do not try to cancel uninitialized
- tls_handshake_tmo_work
-Content-Language: en-US
-To: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
- Yi Zhang <yi.zhang@redhat.com>, linux-nvme@lists.infradead.org,
- Maurizio Lombardi <mlombard@redhat.com>
-References: <20231019125336.138578-1-hare@suse.de>
- <61a4991d-1ad3-4c7e-8629-ac3100a0f745@kernel.dk>
+	Thu, 19 Oct 2023 13:34:24 +0000
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out2.suse.de (Postfix) with ESMTP id 7588C1F38C;
+	Thu, 19 Oct 2023 13:34:21 +0000 (UTC)
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+	by relay2.suse.de (Postfix) with ESMTP id 385782C55D;
+	Thu, 19 Oct 2023 13:34:21 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 16045)
+	id 5E97851EC0FF; Thu, 19 Oct 2023 15:34:21 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <61a4991d-1ad3-4c7e-8629-ac3100a0f745@kernel.dk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	Yi Zhang <yi.zhang@redhat.com>,
+	linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@suse.de>,
+	Maurizio Lombardi <mlombard@redhat.com>
+Subject: [PATCHv2] nvmet-tcp: do not try to cancel uninitialized tls_handshake_tmo_work
+Date: Thu, 19 Oct 2023 15:34:17 +0200
+Message-Id: <20231019133417.23440-1-hare@suse.de>
+X-Mailer: git-send-email 2.35.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spamd-Bar: ++
 Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spamd-Result: default: False [-7.08 / 50.00];
+	dkim=none;
+	dmarc=none;
+	spf=softfail (smtp-out2.suse.de: 149.44.160.134 is neither permitted nor denied by domain of hare@suse.de) smtp.mailfrom=hare@suse.de
+X-Rspamd-Server: rspamd2
+X-Spamd-Result: default: False [2.62 / 50.00];
 	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 XM_UA_NO_VERSION(0.01)[];
+	 RWL_MAILSPIKE_GOOD(0.00)[149.44.160.134:from];
 	 FROM_HAS_DN(0.00)[];
 	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 BAYES_HAM(-2.99)[99.94%];
-	 MIME_GOOD(-0.10)[text/plain];
+	 R_MISSING_CHARSET(2.50)[];
 	 NEURAL_HAM_LONG(-3.00)[-1.000];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DMARC_NA(0.20)[suse.de];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 R_SPF_SOFTFAIL(0.60)[~all:c];
+	 TO_MATCH_ENVRCPT_SOME(0.00)[];
+	 VIOLATED_DIRECT_SPF(3.50)[];
+	 MX_GOOD(-0.01)[];
 	 NEURAL_HAM_SHORT(-1.00)[-1.000];
 	 RCPT_COUNT_SEVEN(0.00)[7];
+	 MID_CONTAINS_FROM(1.00)[];
+	 RCVD_NO_TLS_LAST(0.10)[];
 	 FROM_EQ_ENVFROM(0.00)[];
+	 R_DKIM_NA(0.20)[];
 	 MIME_TRACE(0.00)[0:+];
 	 RCVD_COUNT_TWO(0.00)[2];
-	 RCVD_TLS_ALL(0.00)[];
-	 MID_RHS_MATCH_FROM(0.00)[]
+	 BAYES_HAM(-2.87)[99.45%]
+X-Rspamd-Queue-Id: 7588C1F38C
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231019_060755_246694_16B8C8AD 
-X-CRM114-Status: GOOD (  10.83  )
+X-CRM114-CacheID: sfid-20231019_063423_757267_1AC89079 
+X-CRM114-Status: UNSURE (   8.45  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,23 +97,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/19/23 15:01, Jens Axboe wrote:
-> On 10/19/23 6:53 AM, Hannes Reinecke wrote:
->> The TLS handshake timeout workqueue is only initialized if TLS
->> is configured, so we shouldn't try to de-initialize it
->> unconditionally.
-> 
-> What about the one in nvmet_tcp_tls_handshake_done()?
-> 
-That already is encapsulated by the config variable, so nothing to be 
-done here.
+The TLS handshake timeout workqueue is only initialized if TLS
+is configured, so we shouldn't try to de-initialize it
+unconditionally.
 
-> Please include a fixes line.
-> 
-Oh, sure.
+Fixes: 675b453e0241 ("nvmet-tcp: enable TLS handshake upcall")
+Suggested-by: Maurizio Lombardi <mlombard@redhat.com>
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ drivers/nvme/target/tcp.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Cheers,
-
-Hannes
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 4336fe048e43..e155bcaa42fa 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -1587,7 +1587,9 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
+ 	mutex_unlock(&nvmet_tcp_queue_mutex);
+ 
+ 	nvmet_tcp_restore_socket_callbacks(queue);
++#ifdef CONFIG_NVME_TARGET_TCP_TLS
+ 	cancel_delayed_work_sync(&queue->tls_handshake_tmo_work);
++#endif
+ 	cancel_work_sync(&queue->io_work);
+ 	/* stop accepting incoming data */
+ 	queue->rcv_state = NVMET_TCP_RECV_ERR;
+-- 
+2.35.3
 
 
