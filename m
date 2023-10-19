@@ -4,66 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 63E94CDB484
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Oct 2023 12:04:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3CB7CDB482
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Oct 2023 12:04:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
 	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WyEZwCEcMZEgd+uPDvb2WQHlAKDzDTA2b4v6jEJOw5k=; b=URZTwzoCzugC1ouKRZeh9Aod+R
-	WnclIM24im+ZhR0iSTNmEDlDwE+iCCLRnNt0SB8LvzHp0mRey6WttZswMUxtv+79wXWYI4n1qMTYb
-	d8AVyaU1wtImCd4POAnpXiMoDfbHdw39MhAYZeqoMclSde3nXHvBkCZBTnGJVIc8L1SZS4rkCmX3v
-	2A/VAfoUiXjYl14POJFQ3KT3b0AyZPbaLyvvXd+dhPCzxR0yW85BYIZ51zr2eV6nU1DMWz3Dd2JNH
-	CdhQdihWStvX7i/V6jzHD82K2g4iT+OobeFgkbMQPJtWRZyV54mDb7RTelPbyhYaAzuxgPGOH40gK
-	rDqeUjEw==;
+	bh=WRb5UebBvbY1xsMYZIZvAmNJpBcvY4g9cTSXPzDv7NY=; b=Wxyp4vCQwKxWtnM1w004UMC9PZ
+	rDBNBKu/WNQLMMiCeLs3xeueOT1ZbxMEEZ/+3rR6Zg6RCRYd0ht1/KMpHr894a4amiQ4u7kfcswAz
+	48v1eBdmY+DKkEx8xctNrpf9Hxit9lgXJW20CZCtB4EeLNKuwVQrHFqwAezOvZ+RLE9YQX/9p+/Dc
+	b4Yw9SA2iIHFWZpVOAxbnx/1PTsJ09s1AK5uKbXrCF2jJTu5/ylcRbGNS1tpaeoAURg9XCf0cGuZc
+	l2ZYtp818AvjdHQA0qqZAJA20cSINGwgtd4Mtd4m6CjdpKmbIyDhHQdQ7XAYj1irpiplCWsjvPxE9
+	n1mR4aGg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qtRl8-00HFst-0u;
-	Thu, 19 Oct 2023 12:04:14 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1qtRlC-00HFwQ-1I;
+	Thu, 19 Oct 2023 12:04:18 +0000
+Received: from mailout1.samsung.com ([203.254.224.24])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qtRl4-00HFoW-1w
+	id 1qtRl8-00HFsI-1R
 	for linux-nvme@lists.infradead.org;
-	Thu, 19 Oct 2023 12:04:12 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20231019120408epoutp022eca7be1b4d69bd531ab4a05396fd1df~PgKkcM7x22729327293epoutp02w
-	for <linux-nvme@lists.infradead.org>; Thu, 19 Oct 2023 12:04:08 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20231019120408epoutp022eca7be1b4d69bd531ab4a05396fd1df~PgKkcM7x22729327293epoutp02w
+	Thu, 19 Oct 2023 12:04:16 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20231019120412epoutp01099b5bff6811d5c27a9321d6c39bebec~PgKofWKy82660526605epoutp01m
+	for <linux-nvme@lists.infradead.org>; Thu, 19 Oct 2023 12:04:12 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20231019120412epoutp01099b5bff6811d5c27a9321d6c39bebec~PgKofWKy82660526605epoutp01m
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1697717048;
-	bh=WyEZwCEcMZEgd+uPDvb2WQHlAKDzDTA2b4v6jEJOw5k=;
+	s=mail20170921; t=1697717052;
+	bh=WRb5UebBvbY1xsMYZIZvAmNJpBcvY4g9cTSXPzDv7NY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dpB5VAyLh2w6dyA/2YUmJl/6JWe52S3MiUwSIq8sHPoL9b3r/gxrSIza+bBTzVTeY
-	 Fc2pwcxdcVnsSlT2pBXDOLwTlOAxojfv5GUFoP3p88Uf2VY5MiP2mNmg2njJVWh74k
-	 yM1iZdxyuwN8zC2YAcY9vI64ThnymqaQUHdFERUI=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	b=l9kXyZA01NEQvEoLklbSfUIHi58bUKSEbX0gp+bGFNT+eUfW7xwQmEfYDQd1aaFaT
+	 gPJi/vnX/aoyyhxbEt+NsIejN4FzgRAp3Ed0i/lCBDBfqvPWZQByedk6Is8KM2QuGk
+	 +K2MrMtCMpMxmNymAOqSSonPYm0rdJKOciCLx2oU=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
 	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20231019120407epcas5p2f1c529c296e63180f5848cbe11a535ea~PgKkB9THD0651406514epcas5p2n;
-	Thu, 19 Oct 2023 12:04:07 +0000 (GMT)
-Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.175]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4SB5wk18s5z4x9Px; Thu, 19 Oct
-	2023 12:04:06 +0000 (GMT)
+	20231019120411epcas5p22ef9512956a82b118280209dff7c334c~PgKn1cIU20651406514epcas5p2x;
+	Thu, 19 Oct 2023 12:04:11 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.180]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4SB5wp34jmz4x9Ps; Thu, 19 Oct
+	2023 12:04:10 +0000 (GMT)
 Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
-	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	3A.73.08567.63B11356; Thu, 19 Oct 2023 21:04:06 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20231019110904epcas5p4028e52ae5c6cefbb73a63f36d7f225e5~PfafYtRX22423124231epcas5p4H;
-	Thu, 19 Oct 2023 11:09:04 +0000 (GMT)
-Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20231019110904epsmtrp2989081c25c3dde0f27403aeba46f8ea3~PfafV-tTY1629616296epsmtrp2V;
-	Thu, 19 Oct 2023 11:09:04 +0000 (GMT)
-X-AuditID: b6c32a44-3abff70000002177-33-65311b36bb14
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	23.88.10009.A3B11356; Thu, 19 Oct 2023 21:04:10 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20231019110914epcas5p2ce15c70c6f443895bb458dfbdcc50e3b~PfaoryLJd0518805188epcas5p24;
+	Thu, 19 Oct 2023 11:09:14 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20231019110914epsmtrp15aa5ab9511ae4a9c05a6e2716dbfecb7~PfaopVnvm2693626936epsmtrp1E;
+	Thu, 19 Oct 2023 11:09:14 +0000 (GMT)
+X-AuditID: b6c32a4a-ff1ff70000002719-2d-65311b3a36a3
 Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	05.67.07368.05E01356; Thu, 19 Oct 2023 20:09:04 +0900 (KST)
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	EE.C9.08755.A5E01356; Thu, 19 Oct 2023 20:09:14 +0900 (KST)
 Received: from green245.sa.corp.samsungelectronics.net (unknown
 	[107.99.41.245]) by epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20231019110900epsmtip19922c5e976f68e719c2e85f492299e40~PfacF3Tkv2963429634epsmtip15;
-	Thu, 19 Oct 2023 11:09:00 +0000 (GMT)
+	20231019110910epsmtip1f1eb25b3163831303f673e11c1294f9e~PfalPVO2s2856028560epsmtip1M;
+	Thu, 19 Oct 2023 11:09:10 +0000 (GMT)
 From: Nitesh Shetty <nj.shetty@samsung.com>
 To: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
 	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
@@ -73,69 +73,69 @@ To: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
 	Brauner <brauner@kernel.org>
 Cc: martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
 	nitheshshetty@gmail.com, anuj1072538@gmail.com, gost.dev@samsung.com,
-	mcgrof@kernel.org, Anuj Gupta <anuj20.g@samsung.com>, Hannes Reinecke
-	<hare@suse.de>, Nitesh Shetty <nj.shetty@samsung.com>,
+	mcgrof@kernel.org, Nitesh Shetty <nj.shetty@samsung.com>, Hannes Reinecke
+	<hare@suse.de>, Anuj Gupta <anuj20.g@samsung.com>,
 	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v17 05/12] fs/read_write: Enable copy_file_range for block
- device.
-Date: Thu, 19 Oct 2023 16:31:33 +0530
-Message-Id: <20231019110147.31672-6-nj.shetty@samsung.com>
+Subject: [PATCH v17 06/12] fs, block: copy_file_range for def_blk_ops for
+ direct block device
+Date: Thu, 19 Oct 2023 16:31:34 +0530
+Message-Id: <20231019110147.31672-7-nj.shetty@samsung.com>
 X-Mailer: git-send-email 2.35.1.500.gb896f729e2
 In-Reply-To: <20231019110147.31672-1-nj.shetty@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Ta0xTZxj2O+dwemBhHAvED8g2UuccGi5F6D4cINmIOXGYsUk2M63YlZNC
-	gLbpBTeBjCq3gRREx0IHchkOAbkMEAG5uKpcp6AEsITLCIVN2SDIxnBEGKVl89/zPN/7Pu/l
-	y0vh3HyOMxUlVbEKqSiGR9oQTXfc9roLXPis14ObBKrt68LR0l9rBDqX8wJHVRPZJJq/8wwg
-	4+00gIpLCwlkuN2CobbSXAxVVN3DUK5+BKDZYR2G2sf2o5LUMgK1tfcSaKi1gERFP8xyUOZo
-	M4nKu9cx9DhnFqBmowagprUiHNXMLxKoZ8wFDbzotgpyYlp0ExxmYPJHghm6r2bqK78mmYay
-	r5jfGvIBc8uQRDLfay9ZMVnnF0hmaXaMYBY7hklG21gJmIb+eGa5/nWm3vgHFmr3WbR/JCuK
-	YBWurFQsi4iSSgJ4HxwLfz/cV+DFd+f7oXd4rlJRLBvACw4JdT8cFbO5DZ5rnChGvSmFipRK
-	nmegv0KmVrGukTKlKoDHyiNi5D5yD6UoVqmWSjykrOog38vL23cz8HR05IZmzkq+YPvFQtc0
-	JwkMvpIBrClI+8D+vktWGcCG4tK3ACxPfsIxk2cAap4uW8gKgDOXH4HtlMmCHstDO4BTORuk
-	maRgMPkXzWYURZH0fti/QZl0BzoFh53jvwMTwekrOJzbKN6ysqfD4MA/PYQJE/QeuJq3sYVt
-	6YNwYsbAMRlB2hNmT+00ydb0u7AusxQ3h+yEvfnGrXCcfgOev/EdbvKHdIM1HP35IWZuNRim
-	LqWTZmwPn3Y3cszYGS4vtFv0M7Di8jXSnJwMoG5UZ5nzEEzpy8ZNTeC0G6xt9TTLr8Fv+mow
-	c+FXYdaa0VLLFjZf2ca74fXaYou/Exz5W2PBDKy+brCsTgtgY2EpJwe46l4aSPfSQLr/SxcD
-	vBI4sXJlrIQV+8r5UvbMf/8slsXWg60b2RfcDB4XrXvoAUYBPYAUznOw3cN4sVzbCNGXZ1mF
-	LFyhjmGVeuC7ufCLuLOjWLZ5ZFJVON/Hz8tHIBD4+B0Q8Hm7bOdTCiO4tESkYqNZVs4qtvMw
-	yto5CSMTKsbShTfj0tr0u20W16kbZxOm/Ts6Z5rCrj483GKYqcQ6j9iVXPs2bmg6t7BBNBT3
-	Zu0BXQ6VHMiELVfrqneECIJWdgm1R8sKqjXC5+XJ6R7yvB0nuKTqXmKtDhpia8R+dp8Lh2Pf
-	K/JNJ+7H6/3ZqrdWuUJJXUFg3ZPjDs7ejqM2b8cfT76bpdZ2Sz/9STB6KskxoDg16JTxtPUF
-	e88HLtPcjAvkyKBEPP7xVGDe87I/jecy42VXB+3cLs5rJ1HHaqnw6K8nV/TK8Y9SMvaeTJ+b
-	6WsLKfnkWOp6WvddXxet96HWjZrRE7mLa13lg4N52eSjXvuMhAryw0RqRpHII5SRIv4+XKEU
-	/QtMTKkLrAQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrLIsWRmVeSWpSXmKPExsWy7bCSnG4An2GqQetKAYv1p44xW3z8+pvF
-	omnCX2aL1Xf72SxeH/7EaPHkQDujxYJFc1ksbh7YyWSxZ9EkJouVq48yWUw6dI3R4unVWUwW
-	e29pWyxsW8JisWfvSRaLy7vmsFnMX/aU3aL7+g42i+XH/zFZ3JjwlNFix5NGRottv+czW6x7
-	/Z7F4sQtaYvzf4+zOkh67Jx1l93j/L2NLB6Xz5Z6bFrVyeaxeUm9x4vNMxk9dt9sYPNY3DeZ
-	1aO3+R2bx8ent1g83u+7yubRt2UVo8fm09UenzfJeWx68pYpgD+KyyYlNSezLLVI3y6BK+N/
-	4zPWgne8Fe+OPWRvYLzA3cXIySEhYCJxb84J9i5GLg4hgd2MEk/7P7JBJCQllv09wgxhC0us
-	/PccqqiZSeLmumagIg4ONgFtidP/OUDiIgL9zBLv/k5nAnGYBdYwS1y5OhOsSFggSKLxcTTI
-	IBYBVYkf0/6zgNi8AlYSdx/fZAcpkRDQl+i/LwgS5hSwltjQvQhsrxBQyYMFj9khygUlTs58
-	AtbKLCAv0bx1NvMERoFZSFKzkKQWMDKtYpRMLSjOTc9NNiwwzEst1ytOzC0uzUvXS87P3cQI
-	jnEtjR2M9+b/0zvEyMTBeIhRgoNZSYRX1cMgVYg3JbGyKrUoP76oNCe1+BCjNAeLkjiv4YzZ
-	KUIC6YklqdmpqQWpRTBZJg5OqQYmpSu/VuloSHa4LjSXTuP/u6l21TbeOalH3ymez+blNZ3A
-	fKrvTGGb9Mo7sx1MgvrmzVf5yKqT2MV+v4dxYdb2BNdEqTK5FqPFXs8+VcwofrpebWJF1pfn
-	d//YJQkvfnDzwC67kwHVLJekSyNft1jfKQw/cMbzxwyRSkbB0xU6vNf+Jjce7Erf90L/nvUJ
-	n4cKKt9D+KQeH3gt8/NMd0LGFb7fHlt/tF0UcX4851C2eoOWyY5s64U/2H/9TQg+Zf1O98D6
-	61t6eQ6z5V9eyNN9Mj+Pb+2SBV9viDW/uS64cmr9siel3gEzNP+sKmZ1nrUr7O3hdQmz/X2C
-	LyQmthYIvDhb8yzX6vXrFyfaZUveKrEUZyQaajEXFScCAHuzOrxgAwAA
-X-CMS-MailID: 20231019110904epcas5p4028e52ae5c6cefbb73a63f36d7f225e5
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Tf1DTZRzH7/l+v3wZHOQXlHiAIlpRhwZsMsYDiRYQfQ/JozjupK5ba3xv
+	EGPb7Ye/OGskg4L4kSLlEuRXJSBMQHT8Ug4OECiX4RAQlGhUxgLFUytC2tgo/3s97+f9fH49
+	92Hhnl86+7IypCpGIRVK2KQrcb4/6MXgKD8uw8kZ8UL6kUEc3b2/QqCPS1dx1DhTQqKF/mWA
+	zL35AFXVVBBosrcDQ901RzFU3ziAoaN94wDNm3QY6pnahqrz6gjU3TNMoLHOkyQ69c28Myq8
+	biDRt0OPMDRROg+QwZwD0PmVUzhqXlgi0OUpP2RcHXJ6xYfu0M0408abLQQ99r2abm34lKTb
+	6j6if2s7AeiuSQ1J1xYfc6KLjiyS9N35KYJeumgi6eJzDYBuG82m77X6063mP7CkTW9n7khn
+	hGmMIoCRimRpGVJxNHt3siBWEM7ncIO5kSiCHSAVZjHR7LjEpOD4DIl1GuyAfUKJ2iolCZVK
+	dujOHQqZWsUEpMuUqmg2I0+TyHnyEKUwS6mWikOkjCqKy+FsD7ca38tM79CXEvKuTQfG+yec
+	NGDIrQC4sCDFg7MtuaAAuLI8qS4ANYYBzH5YBrC1vNFx8wBAY3GT88aTqa9LHK4eq6t+wuHS
+	YrBurcCpALBYJLUNjq6xbPoWSovDS9OWdRNOVeKwbW4Is4XaTAngvbnadSaoQHj56jhuY3cq
+	Cl57aCZtgSAVCktuedhkF+pleLawxmHxgMMnzISNceoZeKT9K9xend4Flk+52zkOrhqPk3be
+	DH8fOufowBfeLslz8H5YX3aatNUGqVwAddd1wH6xC2pHSnBbDTgVBPWdoXb5aXh8pBmz530C
+	Fq2YMbvuDg2VG/wcPKOvcuT1geMPcxxMw/zuWtw+rGIAqyt+dCoFAbrH+tE91o/u/9RVAG8A
+	PoxcmSVmlOHy7VJm/3/fLJJltYL1FdmaYAA/zd4J6QMYC/QByMLZW9wDaQ7j6Z4mPHiIUcgE
+	CrWEUfaBcOu8P8d9vUQy645JVQIuL5LD4/P5vMgwPpft7b6grUjzpMRCFZPJMHJGsfEOY7n4
+	arDA+wq/l3im1JQ/E7Wu7YpiZWZ+P2HInTi0WzOWGfbPjZUEy8+E5P2K9Gn1a4NxM+bUFBn/
+	+SZvPPuNZJk68DOT56x3UPThH67yjW5k+YctB/19nuL9agram31peizwwgeFu8QxX9Qslp9+
+	fbLmTm/UDRD1i9xkaXoQvT9OoP/EjI1yJpdl1c/GJ1fs3JNS5t+8p/dVkQb6BlfclKfGuzat
+	RqyFXbl1MvH2cNSZ2PIn+zhBktQX/l4pU3U3Dx6WLl57dzHmkXhfzlmvY5YDosV3EpKuRFiM
+	xMBFUV/LtPjNTh/GQwR7aFGMUIH2trtJ5zrGv5uojC3S/rWUx3kr74JlpoZNKNOF3K24Qin8
+	F0tvCoSrBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Rf0yMcRzHfZ/nueee4vR0Ud9kzOGPfrvV1ndqYWP7zkz+YCw/T/f0Y666
+	3an8mo4sXHQpOneVcgkdI3c5/VD6gVIahlMtMV2JViQUdsV1s/Xfe+/X6/P+58OQwg5qAZOQ
+	tJ9TJElkItqVsjSLFgVGzxVzK/pKBeh222MSjf74Q6HjOXYS3XirodFQ8zeAbA0nASoxFFGo
+	q6GaQPcNuQQqv/GIQLlNVoD6X+sJVNftjy5nXqHQ/bonFHpZU0ij4qv9fJT1popG11omCdSZ
+	0w9Qle0YQJY/xSS6NfSFQq3dPuiZvYW32htX69/y8bPeOxR+2ZGCTcbTNDZfSceDZh3AtV0q
+	Gpdm5/Hw2YwRGo/2d1P4S/1rGmdXGgE2tx/GY6ZF2GQbJja5RbtGSDlZQiqnCI7c4xpffTuH
+	kte6HbA2d/JUoGWOGrgwkA2F3WUaQg1cGSFbC+DP5jLCCbzhVftD0pk9YPnkR75TyiBgQ/kr
+	Sg0Yhmb9YfsU4+jnsRoSjti108cke5OElUUCR/Zgd0KtTk87MsUuh60vrNOjAnYlfDVuox07
+	kA2GmnfujtqFDYcVWYZpRfhPeV/Sx3fq7vCJzkY55xfDjLsFZA5g9TOQfgYqAYQReHNyZWJc
+	olIsFydxaUFKSaIyJSkuKCY50QSmP+7nWwXuGb8GNQGCAU0AMqRonmA5XsEJBVLJwUOcInm3
+	IkXGKZuAD0OJvAReg2elQjZOsp/bx3FyTvGfEozLAhXhNuI1NejzaX4NSzTamJDUcfGP0dKb
+	wQb+0EDMwajaUE+eprBodo1w9oFrq7OnNvd9t2SZQ3SPCqKLZe6B9b5hPbzWM1FHOn1jFqdd
+	Prr3xZ6QwPW9po7Y4g3Lkj/4fmoHlp6e86q1wgo7E65VrGLurnsw4RkwFpL5OW/8QSTlucYD
+	k5Fbon5fP9VaCEXb3KwXWe1zz7S8tfk/F3ZIpem/s0+MqFPFlnMXvubPN3g3cuqA6qW/rBvb
+	XM5N+OsEk70V28K045mz8hsrP8/dWmD3T9hQEGEuO2luM3/bnb5lSay8bGBX0NPJdONA5PPH
+	YadllyRLJ4ZptH2H34l420fVXhGljJeI/UiFUvIXeN3BjGADAAA=
+X-CMS-MailID: 20231019110914epcas5p2ce15c70c6f443895bb458dfbdcc50e3b
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 X-Sendblock-Type: REQ_APPROVE
 CMS-TYPE: 105P
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20231019110904epcas5p4028e52ae5c6cefbb73a63f36d7f225e5
+X-CMS-RootMailID: 20231019110914epcas5p2ce15c70c6f443895bb458dfbdcc50e3b
 References: <20231019110147.31672-1-nj.shetty@samsung.com>
-	<CGME20231019110904epcas5p4028e52ae5c6cefbb73a63f36d7f225e5@epcas5p4.samsung.com>
+	<CGME20231019110914epcas5p2ce15c70c6f443895bb458dfbdcc50e3b@epcas5p2.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231019_050410_990059_EBBF3EA7 
-X-CRM114-Status: GOOD (  18.11  )
+X-CRM114-CacheID: sfid-20231019_050414_823181_953595C2 
+X-CRM114-Status: GOOD (  20.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,47 +150,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Anuj Gupta <anuj20.g@samsung.com>
-
-This is a prep patch. Allow copy_file_range to work for block devices.
-Relaxing generic_copy_file_checks allows us to reuse the existing infra,
-instead of adding a new user interface for block copy offload.
-Change generic_copy_file_checks to use ->f_mapping->host for both inode_in
-and inode_out. Allow block device in generic_file_rw_checks.
+For direct block device opened with O_DIRECT, use copy_file_range to
+issue device copy offload, or use generic_copy_file_range in case
+device copy offload capability is absent or the device files are not open
+with O_DIRECT.
 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
 Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
 ---
- fs/read_write.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ block/fops.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/fs/read_write.c b/fs/read_write.c
-index 4771701c896b..f0f52bf48f57 100644
---- a/fs/read_write.c
-+++ b/fs/read_write.c
-@@ -1405,8 +1405,8 @@ static int generic_copy_file_checks(struct file *file_in, loff_t pos_in,
- 				    struct file *file_out, loff_t pos_out,
- 				    size_t *req_count, unsigned int flags)
- {
--	struct inode *inode_in = file_inode(file_in);
--	struct inode *inode_out = file_inode(file_out);
-+	struct inode *inode_in = file_in->f_mapping->host;
-+	struct inode *inode_out = file_out->f_mapping->host;
- 	uint64_t count = *req_count;
- 	loff_t size_in;
- 	int ret;
-@@ -1708,7 +1708,9 @@ int generic_file_rw_checks(struct file *file_in, struct file *file_out)
- 	/* Don't copy dirs, pipes, sockets... */
- 	if (S_ISDIR(inode_in->i_mode) || S_ISDIR(inode_out->i_mode))
- 		return -EISDIR;
--	if (!S_ISREG(inode_in->i_mode) || !S_ISREG(inode_out->i_mode))
-+	if (!S_ISREG(inode_in->i_mode) && !S_ISBLK(inode_in->i_mode))
-+		return -EINVAL;
-+	if ((inode_in->i_mode & S_IFMT) != (inode_out->i_mode & S_IFMT))
- 		return -EINVAL;
+diff --git a/block/fops.c b/block/fops.c
+index 73e42742543f..662d36a251a3 100644
+--- a/block/fops.c
++++ b/block/fops.c
+@@ -735,6 +735,30 @@ static ssize_t blkdev_read_iter(struct kiocb *iocb, struct iov_iter *to)
+ 	return ret;
+ }
  
- 	if (!(file_in->f_mode & FMODE_READ) ||
++static ssize_t blkdev_copy_file_range(struct file *file_in, loff_t pos_in,
++				      struct file *file_out, loff_t pos_out,
++				      size_t len, unsigned int flags)
++{
++	struct block_device *in_bdev = I_BDEV(bdev_file_inode(file_in));
++	struct block_device *out_bdev = I_BDEV(bdev_file_inode(file_out));
++	ssize_t copied = 0;
++
++	if ((in_bdev == out_bdev) && bdev_max_copy_sectors(in_bdev) &&
++	    (file_in->f_iocb_flags & IOCB_DIRECT) &&
++	    (file_out->f_iocb_flags & IOCB_DIRECT)) {
++		copied = blkdev_copy_offload(in_bdev, pos_in, pos_out, len,
++					     NULL, NULL, GFP_KERNEL);
++		if (copied < 0)
++			copied = 0;
++	} else {
++		copied = generic_copy_file_range(file_in, pos_in + copied,
++						 file_out, pos_out + copied,
++						 len - copied, flags);
++	}
++
++	return copied;
++}
++
+ #define	BLKDEV_FALLOC_FL_SUPPORTED					\
+ 		(FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE |		\
+ 		 FALLOC_FL_ZERO_RANGE | FALLOC_FL_NO_HIDE_STALE)
+@@ -839,6 +863,7 @@ const struct file_operations def_blk_fops = {
+ 	.splice_read	= filemap_splice_read,
+ 	.splice_write	= iter_file_splice_write,
+ 	.fallocate	= blkdev_fallocate,
++	.copy_file_range = blkdev_copy_file_range,
+ };
+ 
+ static __init int blkdev_init(void)
 -- 
 2.35.1.500.gb896f729e2
 
