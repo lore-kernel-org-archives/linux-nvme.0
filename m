@@ -4,54 +4,138 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F257CCDB482
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Oct 2023 12:01:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 318F7CDB465
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Oct 2023 12:04:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=p1Z08uY9OGVA+D31Z41vTFCn4cG4kScVQCZmJx/DDro=; b=rL8NqD0Rokp1pbJj9ZgWetHIXv
-	qBRzLbeRZnvDe94jm8tactHdT3mr+38zaGQeZeyxickJiI48n4R6jzl48UGaCGu1qJ6qyH2A5dIXb
-	tHU1kbuDAVbIJKomszu7E2cR6yAb+aNkFcNe4tuQP5rOfZOLFqEXkEqWsS54n9AInL4o0vlJGpseD
-	Il59a05Yj1lZNzUOl0ZFP7GvJj8TBE3E9fN1WW2/DzdQos4eqkRQatTON28CX9Gr0m7LjsxPMBHJr
-	tSD47z6OXtcd24oKJE4c8CDALwLSB9meFnyudeRmxklZHhsqCice6ef9oLluQhQ58dHXpWU4WS2IE
-	tRRY3o6w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Pnjs48GpM2fNI5vQ32r+zx38m0Ym/uFN2UPMQUh9Xn4=; b=RzUmOzxh+iKnBie3gZkMUn4qVT
+	ZOIybIVsKWrX8i8hBxrxL4vEK4xVxVtOUDtuZGRPbNCsyu565j2FQSup6+nk6kwfIQGlFBukRfG2l
+	VL69LnuUAW0uSGOiwGiWPFuH7qIw4bTpd6CcfXI54cVueD0Akw1hnoaX/g+RINvz9Nalmej2Z0Wv6
+	mbqwoiJAxJSzpsCeNPYFbVws/fL/LvR8eZTf7bPFSVqoK9TfPfXDijN9z6YgNNkPQ6xPvJU5pQ7qw
+	/mequnC+jycjcSNRAItozLsgIGJikkMipzvlr14PwYgmeAB1dadqtr1NP0hiS8LzisM7D8aCNwEGe
+	smZurknA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qtRii-00HF1e-13;
-	Thu, 19 Oct 2023 12:01:44 +0000
-Received: from ded1.1wt.eu ([163.172.96.212] helo=1wt.eu)
-	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qtRie-00HF0j-0Q
+	id 1qtRkv-00HFiT-0D;
+	Thu, 19 Oct 2023 12:04:01 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
+	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
+	id 1qtRkr-00HFfX-0d
 	for linux-nvme@lists.infradead.org;
-	Thu, 19 Oct 2023 12:01:42 +0000
-Received: (from willy@localhost)
-	by mail.home.local (8.17.1/8.17.1/Submit) id 39JC0qTV004618;
-	Thu, 19 Oct 2023 14:00:52 +0200
-Date: Thu, 19 Oct 2023 14:00:52 +0200
-From: Willy Tarreau <w@1wt.eu>
-To: Alexey Dobriyan <adobriyan@gmail.com>
-Cc: Kees Cook <keescook@chromium.org>, Christoph Hellwig <hch@lst.de>,
-        Justin Stitt <justinstitt@google.com>, Keith Busch <kbusch@kernel.org>,
-        Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
-        linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-hardening@vger.kernel.org, ksummit@lists.linux.dev
-Subject: Re: the nul-terminated string helper desk chair rearrangement
-Message-ID: <ZTEadLq8UFrxsHr/@1wt.eu>
-References: <20231018-strncpy-drivers-nvme-host-fabrics-c-v1-1-b6677df40a35@google.com>
- <20231019054642.GF14346@lst.de>
- <202310182248.9E197FFD5@keescook>
- <ZTDUYSBS7AO9pAgm@1wt.eu>
- <50ad206e-8a6a-4223-8050-0880e2b1581c@p183>
+	Thu, 19 Oct 2023 12:03:59 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20231019120353epoutp0201bed7341a2a29cf0c4fdc6f6cf5e3f4~PgKWxIzJC2727627276epoutp02W
+	for <linux-nvme@lists.infradead.org>; Thu, 19 Oct 2023 12:03:53 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20231019120353epoutp0201bed7341a2a29cf0c4fdc6f6cf5e3f4~PgKWxIzJC2727627276epoutp02W
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1697717033;
+	bh=Pnjs48GpM2fNI5vQ32r+zx38m0Ym/uFN2UPMQUh9Xn4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=hNMIyW0Oq3/gGpQGpRI0tjVbaNSM8+QLf+o4o1288jicIa1X8wQILVUQAJvaciOaD
+	 aEKXBw4RwrQUWomhnd7uF8jLaUY/k+CW5yt0ej7pWd/73OnIYvYX3h2ASNGOkR3Nha
+	 ySdBTyi0kSuTFBsaGUV8dC+oFdQnbxj9JK3DdXKM=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20231019120353epcas5p2c3d376275f88aa749617249515d4aaba~PgKWSn9ME0651406514epcas5p2_;
+	Thu, 19 Oct 2023 12:03:53 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.182]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4SB5wR2W7jz4x9Ps; Thu, 19 Oct
+	2023 12:03:51 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	41.78.10009.72B11356; Thu, 19 Oct 2023 21:03:51 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20231019110822epcas5p4e09aab7295e48ef885f82dbd0576a584~PfZ4p1gfs2520825208epcas5p4Q;
+	Thu, 19 Oct 2023 11:08:22 +0000 (GMT)
+Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20231019110822epsmtrp23bd0179aca24fb5d4f8cc84fff709c52~PfZ4oxCrn1571815718epsmtrp27;
+	Thu, 19 Oct 2023 11:08:22 +0000 (GMT)
+X-AuditID: b6c32a4a-261fd70000002719-f5-65311b271e9e
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	FA.57.07368.62E01356; Thu, 19 Oct 2023 20:08:22 +0900 (KST)
+Received: from green245.sa.corp.samsungelectronics.net (unknown
+	[107.99.41.245]) by epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20231019110819epsmtip16145c708b1f5884719ace0f791f0c46c~PfZ1SRj0v0329303293epsmtip1W;
+	Thu, 19 Oct 2023 11:08:19 +0000 (GMT)
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
+	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	dm-devel@lists.linux.dev, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
+	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
+	<kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
+	Brauner <brauner@kernel.org>
+Cc: martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
+	nitheshshetty@gmail.com, anuj1072538@gmail.com, gost.dev@samsung.com,
+	mcgrof@kernel.org, Nitesh Shetty <nj.shetty@samsung.com>, Hannes Reinecke
+	<hare@suse.de>, Kanchan Joshi <joshi.k@samsung.com>, Anuj Gupta
+	<anuj20.g@samsung.com>, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
+Subject: [PATCH v17 01/12] block: Introduce queue limits and sysfs for
+ copy-offload support
+Date: Thu, 19 Oct 2023 16:31:29 +0530
+Message-Id: <20231019110147.31672-2-nj.shetty@samsung.com>
+X-Mailer: git-send-email 2.35.1.500.gb896f729e2
+In-Reply-To: <20231019110147.31672-1-nj.shetty@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <50ad206e-8a6a-4223-8050-0880e2b1581c@p183>
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xTVxzHPfe2t4UMvKDEw2Mb6eIMGGgLLRxA3IZs3Lm5sJltkcRAR69A
+	oKX0wWNEBZGRoTzksYVO3qCzbMAAGQ87CKxDIQRN5TmtQ1uDMvGFLAjCWq5s/vf5fc/vffLj
+	4s4VHDduglxNK+WSJB5hz+oc9PL22eUupAV9xtdQy/AfOHr8bIWFThS/wFHTzSICzQ8+Acjc
+	nwdQTV0lC033d2PoUl0Jhi40GTBkWH9AoJKBCYAs41oM6Wd2o9pvGljokv4KCxl7zhKo+pyF
+	g05NdhHo/NAahqaKLQB1mbMB6lypxlHz/EMWujzjjsZeDLHfdaO6tTc51JjpFxZlHNVQbbpv
+	Caq94Tg1114BqN7pLIKqLyxlUwU5CwT12DLDoh7+Nk5QhR06QLWPZFJP296g2swPsMitUYl7
+	4mmJlFZ60vLYZGmCPC6U99HB6H3R4gCB0EcYhAJ5nnKJjA7lhX8c6fNBQpJ1JTzPVEmSxipF
+	SlQqHn/vHmWyRk17xier1KE8WiFNUogUviqJTKWRx/nKaXWwUCDwE1sdYxLjFwuPKvJC042l
+	XVgW6PDPB3ZcSIrgdfP3bBs7k70Arpjs84G9lZ8A2FBgZDPGEoBL8yfYmxHZc6dx5kEPYOl1
+	I4cxcjFYdOZnkA+4XILcDUfWuTZ9O5mLw74bfwObgZODODTU3iZsqbaRh+E1XS3LxixyJzy/
+	vr5RwoEMhrrFCY4tEST5sOiWk022I0Ng66k6nHFxglcqzBuhOPkmzLn4A85012sH524cYTgc
+	3mpaAAxvg/eHOjgMu8GnC3qC4TR4oexHwtYbJE8CqJ3Uvgx4B+YOF+G2HnDSC7b08Bn5dVg+
+	3IwxdR1hwYoZY3QH2FW1yW/Bn1pqXuZ3hRP/ZBPMKBS89quMWXUhgJ1lMcXAU/vKNNpXptH+
+	X7gG4DrgSitUsjhaJVb4yem0/744NlnWBjZuxHt/F5j965HvAMC4YABALs7b7rCTEtDODlJJ
+	xte0MjlaqUmiVQNAbN32GdzNJTbZemRydbRQFCQQBQQEiIL8A4S8HQ7zuZVSZzJOoqYTaVpB
+	KzfjMK6dWxb2SeJ7xzLGAqdNgdPL1fYHx5Pq6QgQM2gWHPuiLurstL7xHsfv7mBeS6X45LJv
+	rirlfZf8xv0iOHDo9NUD/Zfl37X0e/eIQ6bTymcMRepnLL7Hc3VV+fA5wYe3W8M8UiJ+t+Ol
+	uejxYFeZwvGuMGdf5dU7zWt7/1yV10RPugateFlmY3UGfmoZ5vXoXubUVxxhRv9ShiakJHNh
+	6lPp0P1JpUxbuMAbVWRUGcq2fnbEaa1wzDLL9rCw3zbZOzaOHz4eMdPa1jdSZxLVL0fJF1dz
+	/MJGy74U+aZWrzr5hx+6M7ZlKDh+hyw0rDhFpVz4fNfRuAPpfGV3uqn7+Zb8MveL+TyWKl4i
+	9MaVKsm/7stzqawEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrIIsWRmVeSWpSXmKPExsWy7bCSnK4an2GqQcMHdYv1p44xW3z8+pvF
+	omnCX2aL1Xf72SxeH/7EaPHkQDujxYJFc1ksbh7YyWSxZ9EkJouVq48yWRz9/5bNYtKha4wW
+	T6/OYrLYe0vbYmHbEhaLPXtPslhc3jWHzWL+sqfsFt3Xd7BZLD/+j8nixoSnjBY7njQyWmz7
+	PZ/ZYt3r9ywWJ25JW5z/e5zVQcpj56y77B7n721k8bh8ttRj06pONo/NS+o9Xmyeyeix+2YD
+	m8fivsmsHr3N79g8Pj69xeLxft9VNo++LasYPTafrvb4vEnOY9OTt0wB/FFcNimpOZllqUX6
+	dglcGV/6agvabSsuT97B1MC4xbiLkZNDQsBEovFFD3MXIxeHkMBuRomlx36yQyQkJZb9PcIM
+	YQtLrPz3nB2iqJlJ4tnx30AJDg42AW2J0/85QOIiAv3MEu/+TmcCcZgFLjNLTFt4hBGkSFgg
+	WuL/WkOQQSwCqhLL//9nBbF5BawkVn25xg5SIiGgL9F/XxAkzClgLbGhexHYXiGgkgcLHrND
+	lAtKnJz5hAXEZhaQl2jeOpt5AqPALCSpWUhSCxiZVjFKphYU56bnJhsWGOallusVJ+YWl+al
+	6yXn525iBMe6lsYOxnvz/+kdYmTiYDzEKMHBrCTCq+phkCrEm5JYWZValB9fVJqTWnyIUZqD
+	RUmc13DG7BQhgfTEktTs1NSC1CKYLBMHp1QD08mbnuafNYTf982rcOHdHagd3H95gYJsesr3
+	hfq3hXc1/vU7HLX162/tysQNHyXmPTzPoXAzi2vx4urV/bJ+i3y6z/K7TVhq0v78pZpS+myW
+	pN/vlerfrln6JyepOuN3fKucenOhwtSb/w7//rxv6zWz+BOSLxJ7PnnZpO7Yd/9LfPbbJcoH
+	fs/x4Z+t2r88q1/J3XJPoFIvb3fhyY+TZx1e9WVTSndvl8K9WUvsP757ECC+mmFHkw9n/rRg
+	0Xv/LTzSD8acrPx2fJaToceJc0+dbXetkfO8WGMpuU6fdYGj8cXWdVsWBp2bKWlv7cqZ9zy2
+	58JqXzd1r8zVRbF5swPf8z+0Xy0bc//QTS0mbSWW4oxEQy3mouJEAF6pBXxkAwAA
+X-CMS-MailID: 20231019110822epcas5p4e09aab7295e48ef885f82dbd0576a584
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20231019110822epcas5p4e09aab7295e48ef885f82dbd0576a584
+References: <20231019110147.31672-1-nj.shetty@samsung.com>
+	<CGME20231019110822epcas5p4e09aab7295e48ef885f82dbd0576a584@epcas5p4.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231019_050140_764662_3DB18793 
-X-CRM114-Status: GOOD (  50.87  )
+X-CRM114-CacheID: sfid-20231019_050357_557078_AE8D892C 
+X-CRM114-Status: GOOD (  24.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,128 +150,216 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Oct 19, 2023 at 02:40:52PM +0300, Alexey Dobriyan wrote:
-> On Thu, Oct 19, 2023 at 09:01:53AM +0200, Willy Tarreau wrote:
-> > On Wed, Oct 18, 2023 at 11:01:54PM -0700, Kees Cook wrote:
-> > > On Thu, Oct 19, 2023 at 07:46:42AM +0200, Christoph Hellwig wrote:
-> > > > On Wed, Oct 18, 2023 at 10:48:49PM +0000, Justin Stitt wrote:
-> > > > > strncpy() is deprecated for use on NUL-terminated destination strings
-> > > > > [1] and as such we should prefer more robust and less ambiguous string
-> > > > > interfaces.
-> > > > 
-> > > > If we want that we need to stop pretendening direct manipulation of
-> > > > nul-terminate strings is a good idea.  I suspect the churn of replacing
-> > > > one helper with another, maybe slightly better, one probably
-> > > > introduces more bugs than it fixes.
-> > > > 
-> > > > If we want to attack the issue for real we need to use something
-> > > > better.
-> > > > 
-> > > > lib/seq_buf.c is a good start for a lot of simple cases that just
-> > > > append to strings including creating complex ones.  Kent had a bunch
-> > > > of good ideas on how to improve it, but couldn't be convinced to
-> > > > contribute to it instead of duplicating the functionality which
-> > > > is a bit sad, but I think we need to switch to something like
-> > > > seq_buf that actually has a counted string instead of all this messing
-> > > > around with the null-terminated strings.
-> > > 
-> > > When doing more complex string creation, I agree. I spent some time
-> > > doing this while I was looking at removing strcat() and strlcat(); this
-> > > is where seq_buf shines. (And seq_buf is actually both: it maintains its
-> > > %NUL termination _and_ does the length counting.) The only thing clunky
-> > > about it was initialization, but all the conversions I experimented with
-> > > were way cleaner using seq_buf.
-> > (...)
-> > 
-> > I also agree. I'm using several other schemes based on pointer+length in
-> > other projects and despite not being complete in terms of API (due to the
-> > slow migration of old working code), over time it proves much easier to
-> > use and requires far less controls.
-> > 
-> > With NUL-teminated strings you need to perform checks for each and every
-> > operation. When the length is known and controlled, most often you can
-> > get rid of many tests on intermediate operations and perform a check at
-> > the end, thus you end up with less "if" and "goto fail" in the code,
-> > because the checks are no longer for "not crashing nor introducing
-> > vulnerabilities", but just "returning a correct result", which can often
-> > be detected more easily.
-> > 
-> > Another benefit I found by accident is that when you need to compare some
-> > tokens against multiple ones (say some keywords for example), it becomes
-> > much faster than strcmp()-based if/else series because in this case you
-> > start by comparing lengths instead of comparing contents. And when your
-> > macros allow you to constify string constants, the compiler will replace
-> > long "if" series with checks against constant values, and may even arrange
-> > them as a tree since all are constants, sometimes mixing with the first
-> > char as the discriminator. Typically on the test below I observe a 10x
-> > speedup at -O3 and ~5x at -O2 when I convert this:
-> > 
-> > 	if (!strcmp(name, "host") ||
-> > 	    !strcmp(name, "content-length") ||
-> > 	    !strcmp(name, "connection") ||
-> > 	    !strcmp(name, "proxy-connection") ||
-> > 	    !strcmp(name, "keep-alive") ||
-> > 	    !strcmp(name, "upgrade") ||
-> > 	    !strcmp(name, "te") ||
-> > 	    !strcmp(name, "transfer-encoding"))
-> > 		return 1;
-> > 
-> > to this:
-> > 
-> > 	if (isteq(name, ist("host")) ||
-> > 	    isteq(name, ist("content-length")) ||
-> > 	    isteq(name, ist("connection")) ||
-> > 	    isteq(name, ist("proxy-connection")) ||
-> > 	    isteq(name, ist("keep-alive")) ||
-> > 	    isteq(name, ist("upgrade")) ||
-> > 	    isteq(name, ist("te")) ||
-> > 	    isteq(name, ist("transfer-encoding")))
-> > 		return 1;
-> > 
-> > The code is larger but when compiled at -Os, it instead becomes smaller.
-> > 
-> > Another interesting property I'm using in the API above, that might or
-> > might not apply there is that for most archs we care about, functions
-> > can take a struct of two words passed as registers, and can return
-> > such a struct as a pair of registers as well. This allows to chain
-> > functions by passing one function's return as the argument to another
-> > one, which is what users often want to do to avoid intermediate
-> > variables.
-> 
-> Chaining should be nice cherry on top for very specific cases but certainly
-> not promoted or advertised. Deleting intermediate variables promotes
-> implementation-defined behaviour because of unspecified order of evaluation
-> of function arguments. Second, debuggers still operate with lines in mind,
-> so jumping to the next statement written like this
-> 
-> 	f(g(), h())
-> 
-> can be problematic.
+Add device limits as sysfs entries,
+	- copy_max_bytes (RW)
+	- copy_max_hw_bytes (RO)
 
-It obviously depends what these functions do, but that remains true for
-lots of other use cases applying to a shared memory location, if that's
-the case. Also it happens that a lot of string functions that are used
-as arguments to other ones are in fact lookups, skip, trim etc which
-only manipulate the pointer and the length and not the contents.
+Above limits help to split the copy payload in block layer.
+copy_max_bytes: maximum total length of copy in single payload.
+copy_max_hw_bytes: Reflects the device supported maximum limit.
 
-> Intermediate variables are much less of a problem now
-> that -Wdeclaration-after-statement has been finally abolished! They don't
-> consume LOC anymore.
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+---
+ Documentation/ABI/stable/sysfs-block | 23 ++++++++++++++++++
+ block/blk-settings.c                 | 24 +++++++++++++++++++
+ block/blk-sysfs.c                    | 36 ++++++++++++++++++++++++++++
+ include/linux/blkdev.h               | 13 ++++++++++
+ 4 files changed, 96 insertions(+)
 
-Intermediate variables declared after statements remain an abomination
-which turn a visual lookup from O(indent_levels) to O(lines) because
-normally you only have to quickly glance a the previous opening brace
-and if you don't find, you repeat, but with them you have to visually
-scan every single line. They're now allowed for macros and iterators
-which can make a good use of them but it's not a reason for abusing
-them in code supposed to be reviewable by humans.
+diff --git a/Documentation/ABI/stable/sysfs-block b/Documentation/ABI/stable/sysfs-block
+index 1fe9a553c37b..96ba701e57da 100644
+--- a/Documentation/ABI/stable/sysfs-block
++++ b/Documentation/ABI/stable/sysfs-block
+@@ -155,6 +155,29 @@ Description:
+ 		last zone of the device which may be smaller.
+ 
+ 
++What:		/sys/block/<disk>/queue/copy_max_bytes
++Date:		August 2023
++Contact:	linux-block@vger.kernel.org
++Description:
++		[RW] This is the maximum number of bytes that the block layer
++		will allow for a copy request. This is always smaller or
++		equal to the maximum size allowed by the hardware, indicated by
++		'copy_max_hw_bytes'. An attempt to set a value higher than
++		'copy_max_hw_bytes' will truncate this to 'copy_max_hw_bytes'.
++		Writing '0' to this file will disable offloading copies for this
++		device, instead copy is done via emulation.
++
++
++What:		/sys/block/<disk>/queue/copy_max_hw_bytes
++Date:		August 2023
++Contact:	linux-block@vger.kernel.org
++Description:
++		[RO] This is the maximum number of bytes that the hardware
++		will allow for single data copy request.
++		A value of 0 means that the device does not support
++		copy offload.
++
++
+ What:		/sys/block/<disk>/queue/crypto/
+ Date:		February 2022
+ Contact:	linux-block@vger.kernel.org
+diff --git a/block/blk-settings.c b/block/blk-settings.c
+index 0046b447268f..4441711ac364 100644
+--- a/block/blk-settings.c
++++ b/block/blk-settings.c
+@@ -59,6 +59,8 @@ void blk_set_default_limits(struct queue_limits *lim)
+ 	lim->zoned = BLK_ZONED_NONE;
+ 	lim->zone_write_granularity = 0;
+ 	lim->dma_alignment = 511;
++	lim->max_copy_hw_sectors = 0;
++	lim->max_copy_sectors = 0;
+ }
+ 
+ /**
+@@ -82,6 +84,8 @@ void blk_set_stacking_limits(struct queue_limits *lim)
+ 	lim->max_dev_sectors = UINT_MAX;
+ 	lim->max_write_zeroes_sectors = UINT_MAX;
+ 	lim->max_zone_append_sectors = UINT_MAX;
++	lim->max_copy_hw_sectors = UINT_MAX;
++	lim->max_copy_sectors = UINT_MAX;
+ }
+ EXPORT_SYMBOL(blk_set_stacking_limits);
+ 
+@@ -183,6 +187,22 @@ void blk_queue_max_discard_sectors(struct request_queue *q,
+ }
+ EXPORT_SYMBOL(blk_queue_max_discard_sectors);
+ 
++/*
++ * blk_queue_max_copy_hw_sectors - set max sectors for a single copy payload
++ * @q:	the request queue for the device
++ * @max_copy_sectors: maximum number of sectors to copy
++ */
++void blk_queue_max_copy_hw_sectors(struct request_queue *q,
++				   unsigned int max_copy_sectors)
++{
++	if (max_copy_sectors > (BLK_COPY_MAX_BYTES >> SECTOR_SHIFT))
++		max_copy_sectors = BLK_COPY_MAX_BYTES >> SECTOR_SHIFT;
++
++	q->limits.max_copy_hw_sectors = max_copy_sectors;
++	q->limits.max_copy_sectors = max_copy_sectors;
++}
++EXPORT_SYMBOL_GPL(blk_queue_max_copy_hw_sectors);
++
+ /**
+  * blk_queue_max_secure_erase_sectors - set max sectors for a secure erase
+  * @q:  the request queue for the device
+@@ -578,6 +598,10 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
+ 	t->max_segment_size = min_not_zero(t->max_segment_size,
+ 					   b->max_segment_size);
+ 
++	t->max_copy_sectors = min(t->max_copy_sectors, b->max_copy_sectors);
++	t->max_copy_hw_sectors = min(t->max_copy_hw_sectors,
++				     b->max_copy_hw_sectors);
++
+ 	t->misaligned |= b->misaligned;
+ 
+ 	alignment = queue_limit_alignment_offset(b, start);
+diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
+index 63e481262336..4840e21adefa 100644
+--- a/block/blk-sysfs.c
++++ b/block/blk-sysfs.c
+@@ -199,6 +199,37 @@ static ssize_t queue_discard_zeroes_data_show(struct request_queue *q, char *pag
+ 	return queue_var_show(0, page);
+ }
+ 
++static ssize_t queue_copy_hw_max_show(struct request_queue *q, char *page)
++{
++	return sprintf(page, "%llu\n", (unsigned long long)
++		       q->limits.max_copy_hw_sectors << SECTOR_SHIFT);
++}
++
++static ssize_t queue_copy_max_show(struct request_queue *q, char *page)
++{
++	return sprintf(page, "%llu\n", (unsigned long long)
++		       q->limits.max_copy_sectors << SECTOR_SHIFT);
++}
++
++static ssize_t queue_copy_max_store(struct request_queue *q, const char *page,
++				    size_t count)
++{
++	unsigned long max_copy;
++	ssize_t ret = queue_var_store(&max_copy, page, count);
++
++	if (ret < 0)
++		return ret;
++
++	if (max_copy & (queue_logical_block_size(q) - 1))
++		return -EINVAL;
++
++	max_copy >>= SECTOR_SHIFT;
++	q->limits.max_copy_sectors = min_t(unsigned int, max_copy,
++					   q->limits.max_copy_hw_sectors);
++
++	return count;
++}
++
+ static ssize_t queue_write_same_max_show(struct request_queue *q, char *page)
+ {
+ 	return queue_var_show(0, page);
+@@ -517,6 +548,9 @@ QUEUE_RO_ENTRY(queue_nr_zones, "nr_zones");
+ QUEUE_RO_ENTRY(queue_max_open_zones, "max_open_zones");
+ QUEUE_RO_ENTRY(queue_max_active_zones, "max_active_zones");
+ 
++QUEUE_RO_ENTRY(queue_copy_hw_max, "copy_max_hw_bytes");
++QUEUE_RW_ENTRY(queue_copy_max, "copy_max_bytes");
++
+ QUEUE_RW_ENTRY(queue_nomerges, "nomerges");
+ QUEUE_RW_ENTRY(queue_rq_affinity, "rq_affinity");
+ QUEUE_RW_ENTRY(queue_poll, "io_poll");
+@@ -633,6 +667,8 @@ static struct attribute *queue_attrs[] = {
+ 	&queue_discard_max_entry.attr,
+ 	&queue_discard_max_hw_entry.attr,
+ 	&queue_discard_zeroes_data_entry.attr,
++	&queue_copy_hw_max_entry.attr,
++	&queue_copy_max_entry.attr,
+ 	&queue_write_same_max_entry.attr,
+ 	&queue_write_zeroes_max_entry.attr,
+ 	&queue_zone_append_max_entry.attr,
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index eef450f25982..7548f1685ee9 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -309,6 +309,9 @@ struct queue_limits {
+ 	unsigned int		discard_alignment;
+ 	unsigned int		zone_write_granularity;
+ 
++	unsigned int		max_copy_hw_sectors;
++	unsigned int		max_copy_sectors;
++
+ 	unsigned short		max_segments;
+ 	unsigned short		max_integrity_segments;
+ 	unsigned short		max_discard_segments;
+@@ -893,6 +896,8 @@ extern void blk_queue_chunk_sectors(struct request_queue *, unsigned int);
+ extern void blk_queue_max_segments(struct request_queue *, unsigned short);
+ extern void blk_queue_max_discard_segments(struct request_queue *,
+ 		unsigned short);
++extern void blk_queue_max_copy_hw_sectors(struct request_queue *q,
++					  unsigned int max_copy_sectors);
+ void blk_queue_max_secure_erase_sectors(struct request_queue *q,
+ 		unsigned int max_sectors);
+ extern void blk_queue_max_segment_size(struct request_queue *, unsigned int);
+@@ -1211,6 +1216,14 @@ static inline unsigned int bdev_discard_granularity(struct block_device *bdev)
+ 	return bdev_get_queue(bdev)->limits.discard_granularity;
+ }
+ 
++/* maximum copy offload length, this is set to 128MB based on current testing */
++#define BLK_COPY_MAX_BYTES		(1 << 27)
++
++static inline unsigned int bdev_max_copy_sectors(struct block_device *bdev)
++{
++	return bdev_get_queue(bdev)->limits.max_copy_sectors;
++}
++
+ static inline unsigned int
+ bdev_max_secure_erase_sectors(struct block_device *bdev)
+ {
+-- 
+2.35.1.500.gb896f729e2
 
-> > All this to say that length-based strings do offer quite a lot of
-> > benefits over the long term.
-> 
-> As long as they are named kstring :-) Or std_string, he-he.
-
-That point is the last of my concerns ;-)
-
-Willy
 
