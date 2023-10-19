@@ -4,52 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A2AFBCDB483
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Oct 2023 07:02:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 431B4CDB465
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Oct 2023 07:10:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=POYUbV85mJmwsgyUe7yXLNQlTMLHgXWAa14Vl8HA5yk=; b=b7cm1QV92CZUNoojFWRw2ebgYG
-	3rDKPFhOQdbvJF/mCehLTi7Ntl5jeVfm1iFfTauwgeBt9E6GyqSGd9LjbUfrKqwQLDszn/WR1IsiN
-	Iq9+05YVYXnJXW5h2d8ais//qtHHAeX35roIzhyB3VCqCwcicokDveKR+xUiMJltWZiDuSCRqh8+Y
-	7BbcdK/0PxFhy51cahe2UQGDp6ipNwnmsQe4f6DS5t/4noxRNix1DP2tz41HMjMAa3i/R82HNVY43
-	l7rtKcHsGVK7emvnDumL+kDVu0RFgNyFlXILGy1tIg1C4AhmWfI8jleqLTzWuTheSVm5lwksU2q/d
-	iDnYV0rg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=jaIDociwPi0biv0GwgN4RLcwAH/6H4qEBY/7UhYwGOk=; b=arz+lGUPt3qclOP4tojDiNK7cW
+	8DZndyzoTl7t5acQDdJd2WqyWU8Jkzvnbrp0OuO78LsCcrtS/uhh1kZYlp8YwB/mvdxc1hYmaKjkK
+	TiAcs3rCUBT2nMHOIa6Z1ZjyBx1loOdJzzKLiRtOgio1dXlGh+W9vXabY97fNAlXZKvesuQLDbAYu
+	fwacSgwsXxdJ9FMuz0lcvvwH0rTqRlI1J7pVUbYE/N65WJ7rZhyJE+W9/o9kCF3ALTeGefXLcwqrO
+	86mZ3WyAy3PO2AgxXmftK7ObtdqaisY9X3ZvdFL6VBJLvJYr5dl+6JMIONVI/x9G2o2aSIEc1fGF8
+	XIaOSNtQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qtN3P-00GZ4m-0B;
-	Thu, 19 Oct 2023 07:02:47 +0000
-Received: from ded1.1wt.eu ([163.172.96.212] helo=1wt.eu)
-	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qtN3K-00GZ4M-1J
+	id 1qtNAi-00Ga0i-0Q;
+	Thu, 19 Oct 2023 07:10:20 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
+	id 1qtNAg-00Ga0M-0p
 	for linux-nvme@lists.infradead.org;
-	Thu, 19 Oct 2023 07:02:46 +0000
-Received: (from willy@localhost)
-	by mail.home.local (8.17.1/8.17.1/Submit) id 39J71rZ9000896;
-	Thu, 19 Oct 2023 09:01:53 +0200
-Date: Thu, 19 Oct 2023 09:01:53 +0200
-From: Willy Tarreau <w@1wt.eu>
-To: Kees Cook <keescook@chromium.org>
-Cc: Christoph Hellwig <hch@lst.de>, Justin Stitt <justinstitt@google.com>,
-        Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-        Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        ksummit@lists.linux.dev
-Subject: Re: the nul-terminated string helper desk chair rearrangement
-Message-ID: <ZTDUYSBS7AO9pAgm@1wt.eu>
-References: <20231018-strncpy-drivers-nvme-host-fabrics-c-v1-1-b6677df40a35@google.com>
- <20231019054642.GF14346@lst.de>
- <202310182248.9E197FFD5@keescook>
+	Thu, 19 Oct 2023 07:10:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1697699415;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jaIDociwPi0biv0GwgN4RLcwAH/6H4qEBY/7UhYwGOk=;
+	b=Inr59XQOZDi0N/ryyDbOhOAO0oH/IeS7xjX4M5+9xewr3e+16kbxJCKs+QpuQjAA63o5Mj
+	+wqocYkb9LGjnVfbhl+LEawuAo46iYw0geFVhxJ1oB5AzZJhdijB0eceK1uZQxeVPdxhdc
+	Mws5JCw+n0ErCIpkmXCN2sRIut8xLY8=
+Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
+ [209.85.217.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-286-InFVmRecOrq_bz2KBZf-Hg-1; Thu, 19 Oct 2023 03:10:04 -0400
+X-MC-Unique: InFVmRecOrq_bz2KBZf-Hg-1
+Received: by mail-vs1-f70.google.com with SMTP id ada2fe7eead31-457d4020f0fso1934331137.0
+        for <linux-nvme@lists.infradead.org>; Thu, 19 Oct 2023 00:10:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697699404; x=1698304204;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jaIDociwPi0biv0GwgN4RLcwAH/6H4qEBY/7UhYwGOk=;
+        b=aYP/QJVU0aUeaGJ9qL2s3OW0wg8A5RTP853nWN+1ZCARNcysMhsp5n5gLDswxdAcJA
+         tbnBBEVqX/T6eA4J118YqWY4ubtBXlSeCjzelbN5g/ewuuZ4CGjxOa4rnWIFPrw0Nc6O
+         C3AV9Dw3ocNQawe19N/rV5zspsuc7yY1oOFalnlOJX/AxWxqT8uLiskXzetRWBWkIOMI
+         SD3eYoa4mVKya4fIURiyXz0XuxwDFDtyi6JMhv5CegpW8bAMMY7Gs3IL6AKzvspnC/uT
+         I7o/r4CDka5/4cx2uSegv9+ZuZ2xL/Mzk/3BjRxWedOTqFKcv1HjTwaxS28pMLdquW2Y
+         4HsQ==
+X-Gm-Message-State: AOJu0Yz33Kd76li5IM/11XfjFiCw9nvQ+jQ201rkCdEtR7QVPA5xtUXq
+	WDJ5W0wAjwXCnXYnZC89j2szoyBh3UEAUsojqmA/ug2t8XH8rbLuPDRUwaWCiRDkDzmkrLtqydc
+	Z9GbFQ6hJFi2EhhbAvkmr6ZWBlWVMQRC6l8D9GUdQiuU=
+X-Received: by 2002:a67:cc1b:0:b0:457:e862:8bc1 with SMTP id q27-20020a67cc1b000000b00457e8628bc1mr1097643vsl.2.1697699404033;
+        Thu, 19 Oct 2023 00:10:04 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFiznte4nV3Qz5eLEjzHTAX0XxQ1Z/pH24A9aFObBXkDWSwWhMqdMFsK7Z60rk7nBpeChy7ZvXXKSggSm963NU=
+X-Received: by 2002:a67:cc1b:0:b0:457:e862:8bc1 with SMTP id
+ q27-20020a67cc1b000000b00457e8628bc1mr1097636vsl.2.1697699403769; Thu, 19 Oct
+ 2023 00:10:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202310182248.9E197FFD5@keescook>
+References: <CAHj4cs_Lprbh1zWsJ2yT6+qhNoqjrGDrBgx+XOYvU9SLpmLTtw@mail.gmail.com>
+ <ZS_wgTeyndh1WjTI@kbusch-mbp> <CAHj4cs_FiGXKySrgv-DvGTr3AFLwE-TgWzMCn+v3mgSUfhQYxg@mail.gmail.com>
+In-Reply-To: <CAHj4cs_FiGXKySrgv-DvGTr3AFLwE-TgWzMCn+v3mgSUfhQYxg@mail.gmail.com>
+From: Maurizio Lombardi <mlombard@redhat.com>
+Date: Thu, 19 Oct 2023 09:09:52 +0200
+Message-ID: <CAFL455kTFgx++rYHoUda_rXY2f12MOMwKsB75NewZukH7E3ceg@mail.gmail.com>
+Subject: Re: [bug report][bisected] blktests nvme/tcp failed on the latest linux-block/for-next
+To: Yi Zhang <yi.zhang@redhat.com>
+Cc: Keith Busch <kbusch@kernel.org>, linux-block <linux-block@vger.kernel.org>, 
+	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, 
+	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>, Hannes Reinecke <hare@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231019_000244_031088_2BC05CA8 
-X-CRM114-Status: GOOD (  31.44  )
+X-CRM114-CacheID: sfid-20231019_001018_385544_EFD198C8 
+X-CRM114-Status: UNSURE (   8.57  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,94 +99,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 18, 2023 at 11:01:54PM -0700, Kees Cook wrote:
-> On Thu, Oct 19, 2023 at 07:46:42AM +0200, Christoph Hellwig wrote:
-> > On Wed, Oct 18, 2023 at 10:48:49PM +0000, Justin Stitt wrote:
-> > > strncpy() is deprecated for use on NUL-terminated destination strings
-> > > [1] and as such we should prefer more robust and less ambiguous string
-> > > interfaces.
-> > 
-> > If we want that we need to stop pretendening direct manipulation of
-> > nul-terminate strings is a good idea.  I suspect the churn of replacing
-> > one helper with another, maybe slightly better, one probably
-> > introduces more bugs than it fixes.
-> > 
-> > If we want to attack the issue for real we need to use something
-> > better.
-> > 
-> > lib/seq_buf.c is a good start for a lot of simple cases that just
-> > append to strings including creating complex ones.  Kent had a bunch
-> > of good ideas on how to improve it, but couldn't be convinced to
-> > contribute to it instead of duplicating the functionality which
-> > is a bit sad, but I think we need to switch to something like
-> > seq_buf that actually has a counted string instead of all this messing
-> > around with the null-terminated strings.
-> 
-> When doing more complex string creation, I agree. I spent some time
-> doing this while I was looking at removing strcat() and strlcat(); this
-> is where seq_buf shines. (And seq_buf is actually both: it maintains its
-> %NUL termination _and_ does the length counting.) The only thing clunky
-> about it was initialization, but all the conversions I experimented with
-> were way cleaner using seq_buf.
-(...)
+=C4=8Dt 19. 10. 2023 v 7:29 odes=C3=ADlatel Yi Zhang <yi.zhang@redhat.com> =
+napsal:
+>
+> Hi Hannes
+> Bisect shows it was introduced from this commit:
+>
+> commit 675b453e024154dd547921c6e6d5b58747ba7e0e
+> Author: Hannes Reinecke <hare@suse.de>
+> Date:   Thu Aug 24 16:39:23 2023 +0200
+>
+>     nvmet-tcp: enable TLS handshake upcall
 
-I also agree. I'm using several other schemes based on pointer+length in
-other projects and despite not being complete in terms of API (due to the
-slow migration of old working code), over time it proves much easier to
-use and requires far less controls.
+st 18. 10. 2023 v 16:08 odes=C3=ADlatel Yi Zhang <yi.zhang@redhat.com> naps=
+al:
+>
+> [ 5161.405594] ODEBUG: assert_init not available (active state 0)
+> [ 5161.521808] Workqueue: nvmet-wq nvmet_tcp_release_queue_work [nvmet_tc=
+p]
+> [ 5161.697797]  __timer_delete+0x70/0x170
+> [ 5161.701550]  ? __pfx___timer_delete+0x10/0x10
+> [ 5161.705907]  ? __mutex_lock+0x741/0x14b0
+> [ 5161.709833]  ? try_to_grab_pending+0x70/0x80
+> [ 5161.714105]  ? rcu_is_watching+0x11/0xb0
+> [ 5161.718032]  try_to_grab_pending+0x46/0x80
+> [ 5161.722132]  __cancel_work_timer+0xa0/0x460
+> [ 5161.726318]  ? mutex_lock_io_nested+0x1273/0x1310
+> [ 5161.731024]  ? __pfx___cancel_work_timer+0x10/0x10
+> [ 5161.735816]  ? do_raw_write_trylock+0xb5/0x190
+> [ 5161.740260]  ? __pfx_do_raw_write_trylock+0x10/0x10
+> [ 5161.745141]  ? rcu_is_watching+0x11/0xb0
+> [ 5161.749066]  ? trace_irq_enable.constprop.0+0x13d/0x180
+> [ 5161.754292]  ? __pfx_sk_stream_write_space+0x10/0x10
+> [ 5161.759258]  nvmet_tcp_release_queue_work+0x2db/0x1350 [nvmet_tcp]
 
-With NUL-teminated strings you need to perform checks for each and every
-operation. When the length is known and controlled, most often you can
-get rid of many tests on intermediate operations and perform a check at
-the end, thus you end up with less "if" and "goto fail" in the code,
-because the checks are no longer for "not crashing nor introducing
-vulnerabilities", but just "returning a correct result", which can often
-be detected more easily.
+Maybe the problem is that nvmet_tcp_release_queue_work() always calls
+cancel_delayed_work_sync() against the tls_handshake_tmo_work timer,
+but the latter is initialized only if
+CONFIG_NVME_TARGET_TCP_TLS is defined.
 
-Another benefit I found by accident is that when you need to compare some
-tokens against multiple ones (say some keywords for example), it becomes
-much faster than strcmp()-based if/else series because in this case you
-start by comparing lengths instead of comparing contents. And when your
-macros allow you to constify string constants, the compiler will replace
-long "if" series with checks against constant values, and may even arrange
-them as a tree since all are constants, sometimes mixing with the first
-char as the discriminator. Typically on the test below I observe a 10x
-speedup at -O3 and ~5x at -O2 when I convert this:
+Maurizio
 
-	if (!strcmp(name, "host") ||
-	    !strcmp(name, "content-length") ||
-	    !strcmp(name, "connection") ||
-	    !strcmp(name, "proxy-connection") ||
-	    !strcmp(name, "keep-alive") ||
-	    !strcmp(name, "upgrade") ||
-	    !strcmp(name, "te") ||
-	    !strcmp(name, "transfer-encoding"))
-		return 1;
-
-to this:
-
-	if (isteq(name, ist("host")) ||
-	    isteq(name, ist("content-length")) ||
-	    isteq(name, ist("connection")) ||
-	    isteq(name, ist("proxy-connection")) ||
-	    isteq(name, ist("keep-alive")) ||
-	    isteq(name, ist("upgrade")) ||
-	    isteq(name, ist("te")) ||
-	    isteq(name, ist("transfer-encoding")))
-		return 1;
-
-The code is larger but when compiled at -Os, it instead becomes smaller.
-
-Another interesting property I'm using in the API above, that might or
-might not apply there is that for most archs we care about, functions
-can take a struct of two words passed as registers, and can return
-such a struct as a pair of registers as well. This allows to chain
-functions by passing one function's return as the argument to another
-one, which is what users often want to do to avoid intermediate
-variables.
-
-All this to say that length-based strings do offer quite a lot of
-benefits over the long term.
-
-Willy
 
