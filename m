@@ -4,68 +4,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2EEC1C00A98
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Oct 2023 13:07:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 94AE0C001DF
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Oct 2023 13:35:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
+	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vGXv66eZ0wMRoaEtzxxK0+b9veWNLthpxNxvzTx435I=; b=fUwykimNS90mO6FAMVLtX9xP/I
-	n/QSOeOkUyEVDni5m0YScv7Oso2pXKJUdzdW1XB+nxAnueL5h+7E2Okpm50KYvJK0dcGHQTU9Iiud
-	SUcxQsD31ABZZyDkR5Tx+KcgIByd5gCv5oyIaVNBfJ0B3KnTwkb/oU0bxi1r8Gp+bVtyhhfOSLmei
-	sDOuctinKT6RyQAzNTgVgH2CSKr+vVacizXAYa2UEU6eSkSnZ2Y6TiI8OCKM0p/9l/tcqmAczRoQ5
-	2o8Yn62jrzObp8g6ut6tmKikCzCS+QCORgIcZZh/0wnLSW18m18uyGJSy4g3NzG1ow9D06UW8UI4/
-	Oys3ziAg==;
+	bh=Jejw9wtDoVLplLb+m/ZA6nO/eHIp9kv3ko9Om7pUWxE=; b=LVYio4nMdlu5UfgTLip2NP0DqM
+	GgGhsmuAHWvwSzWF+jsnYkwtNlkEedPyhksbwW/GPaT1JoeDuH8ThUHjTP2nZ6qlq9VPJPGzXKZRJ
+	qTcXJLEy2UpSfbGsF6tZb/M8SdCcfGDsUWhHj26cub11yqFirduJDT0MeVX+uQFTjU0U2rXbkCNwU
+	hT4o5MOMnlZ9fUpIW/8zown8sS4eDLYVMhI2oRwJFCVKQ1U2Rqh6vmimDiQ0fSZY/iulWU37n7/aN
+	84q9W0YL8hdyyYNaD7pT7oat7LANI8oaF7V/Jd71Mo6nMraA0H/UK6u+N4xEZQBKUXYpcG0k8v88a
+	RbcEqrRw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qtpDv-002KJp-1F;
-	Fri, 20 Oct 2023 13:07:31 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1qtpen-002NkC-0U;
+	Fri, 20 Oct 2023 13:35:17 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qtpDq-002KHa-0h
+	id 1qtpei-002NiM-1g
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Oct 2023 13:07:28 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 67A8C6217A;
-	Fri, 20 Oct 2023 13:07:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CE90C433C9;
-	Fri, 20 Oct 2023 13:07:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697807245;
-	bh=wNQVb7PLDPRN/789KQQ8f4+mbdFALdcAtpqplVs0G9k=;
+	Fri, 20 Oct 2023 13:35:15 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20231020133505epoutp043b56d4ceefd84d9ee445eb07dae0f2c3~P1DRAyrF01086810868epoutp04n
+	for <linux-nvme@lists.infradead.org>; Fri, 20 Oct 2023 13:35:05 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20231020133505epoutp043b56d4ceefd84d9ee445eb07dae0f2c3~P1DRAyrF01086810868epoutp04n
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1697808905;
+	bh=Jejw9wtDoVLplLb+m/ZA6nO/eHIp9kv3ko9Om7pUWxE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JpRPnE5M2ye+1dOqHuel9GcdgmwuyV5hS2C7vr04oOI1DvF7WXPXKybloPw3+mD4u
-	 IRjbnZLvlFcchjX2BRjLF3i+Zw1vvLYrCfk1keITwRDF4VbaCyc1ONgJntwn4OCSWZ
-	 PEcHDWpEkFcDXDFypGcTfgoVI/iCMaJChPMeQ6QQ8osUx5VDIdUZN3IujbWafwyoSJ
-	 zIPzGc6+gJXS3i0W7wERZXO+RHgz+sY0AnLeg8BpHCzygUoPGRs0fmnTit3CdCeVpB
-	 O2NhSYdQmPRsKmyTs6/EVyL7hWBYQAsRpMbP59+KVXL2GOTlZilJxcAHUVEjWphne+
-	 Jnco2n6lpng5w==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Hannes Reinecke <hare@suse.de>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Mike Christie <michael.christie@oracle.com>,
-	Uday Shankar <ushankar@purestorage.com>,
-	David Howells <dhowells@redhat.com>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] nvme: keyring: fix conditional compilation
-Date: Fri, 20 Oct 2023 15:05:37 +0200
-Message-Id: <20231020130644.485649-2-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231020130644.485649-1-arnd@kernel.org>
-References: <20231020130644.485649-1-arnd@kernel.org>
+	b=XSwPPNmyLJ8Uf+I+rFwENnLgqpNtlqujhZ/asTr07/IeMyJjwmcP/0soM+skfQd6a
+	 Lig/KFyC/I0QiLOD+6GtGoQfxigZ4UhATafMlAb0i3J3k7RrZ9HDy3n4kxZlZP5u6d
+	 y094hfhdPaAekgq1IRIc25+TVNgq0KrF7SP3VC/k=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20231020133505epcas5p21345f83bf7ede0c7852b8946e01d0b0a~P1DQpgFMX2234922349epcas5p2v;
+	Fri, 20 Oct 2023 13:35:05 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.182]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4SBlvC3q1Nz4x9Pw; Fri, 20 Oct
+	2023 13:35:03 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	6B.27.09634.70282356; Fri, 20 Oct 2023 22:35:03 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20231020133502epcas5p28066460555ccecce446e57f3578568d0~P1DODXmyF0543305433epcas5p2g;
+	Fri, 20 Oct 2023 13:35:02 +0000 (GMT)
+Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20231020133502epsmtrp261e7517c213cba3efcff683dc490eb30~P1DOCnuVJ0487504875epsmtrp27;
+	Fri, 20 Oct 2023 13:35:02 +0000 (GMT)
+X-AuditID: b6c32a49-159fd700000025a2-f7-653282074997
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	7C.40.07368.60282356; Fri, 20 Oct 2023 22:35:02 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.99.41.245]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20231020133500epsmtip184a5fb56ffebf4fc456e98aea2e10de8~P1DMxdGYq2267622676epsmtip1h;
+	Fri, 20 Oct 2023 13:35:00 +0000 (GMT)
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: hch@lst.de, kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org, gost.dev@samsung.com,
+	joshiiitr@gmail.com, Kanchan Joshi <joshi.k@samsung.com>
+Subject: [PATCH v2 1/3] nvme: flag to force SGL
+Date: Fri, 20 Oct 2023 18:58:35 +0530
+Message-Id: <20231020132837.151037-2-joshi.k@samsung.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20231020132837.151037-1-joshi.k@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprAJsWRmVeSWpSXmKPExsWy7bCmhi57k1GqwdxJkhar7/azWdw8sJPJ
+	YuXqo0wWR/+/ZbM4//Ywk8WkQ9cYLeYve8puse71exYHDo+ds+6ye5y/t5HF4/LZUo9NqzrZ
+	PDYvqffYfbOBzaNvyyrGAPaobJuM1MSU1CKF1Lzk/JTMvHRbJe/geOd4UzMDQ11DSwtzJYW8
+	xNxUWyUXnwBdt8wcoKOUFMoSc0qBQgGJxcVK+nY2RfmlJakKGfnFJbZKqQUpOQUmBXrFibnF
+	pXnpenmpJVaGBgZGpkCFCdkZ2+c+ZylYzFox5+sn9gbGZSxdjJwcEgImEusuvWTsYuTiEBLY
+	zSixbOtTVgjnE6PEk8sNUJlvjBLbFtxjhGn5v/MkVGIvo8TVjfuYIJzPjBJn/j5n72Lk4GAT
+	0JS4MLkUpEFEwEWi4d8bsGZmgRKJA7MmsoLYwgL6Eq2fpoDdwSKgKnHg7UuwGl4BS4nPF7dB
+	LZOXmHnpO9hITgErieXvSiFKBCVOznzCAjFSXqJ562xmkBMkBH6yS8z+MZ8JotdFYuX2a+wQ
+	trDEq+NboGwpic/v9rJB2MkSl2aeg6ovkXi85yCUbS/ReqqfGWQvM9Ar63fpQ+zik+j9/YQJ
+	JCwhwCvR0SYEUa0ocW/SU1YIW1zi4YwlULaHxNzuLdDQ6WWU+P30OdsERvlZSF6YheSFWQjb
+	FjAyr2KUTC0ozk1PLTYtMMxLLYfHa3J+7iZGcNLU8tzBePfBB71DjEwcjIcYJTiYlUR4VT0M
+	UoV4UxIrq1KL8uOLSnNSiw8xmgKDeCKzlGhyPjBt55XEG5pYGpiYmZmZWBqbGSqJ875unZsi
+	JJCeWJKanZpakFoE08fEwSnVwDSRT7FqSVVo8if9NQvOHrSREf2877fCl5w9a7VTvjL9mvKR
+	u/HozrC21hfTNZMK9wfJuClE5K+eZWHsz8v24sziSUdM3yRe2MxlfSvvRtkhR+eQfA+3mc1b
+	DxcfvHNR+WTH16P5i17Kiv+LTNGpOr3GNn2Svv7syKMmFns1jS0PPwnZdDJp49alVw5odWZv
+	m11R+4hF7tKf8nDW+Vn365U5WZlOKYkHTJxooWb8wudv8+3CjVfmn9v7JLhdNbf4RtrB5LiE
+	Lsagx2+Y195N8dh6fWLetV16Evd9r1/yO5fiZTV1oneeyibLkD1Tvi79tr7mSe/2v8nKO+Xu
+	Gafq7JvPWtjxtOqPQfv9LwIaQg+VWIozEg21mIuKEwEWCS+CIwQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrMLMWRmVeSWpSXmKPExsWy7bCSnC5bk1GqwcSPrBar7/azWdw8sJPJ
+	YuXqo0wWR/+/ZbM4//Ywk8WkQ9cYLeYve8puse71exYHDo+ds+6ye5y/t5HF4/LZUo9NqzrZ
+	PDYvqffYfbOBzaNvyyrGAPYoLpuU1JzMstQifbsEroztc5+zFCxmrZjz9RN7A+Myli5GTg4J
+	AROJ/ztPMnYxcnEICexmlOhu3sYKkRCXaL72gx3CFpZY+e85O0TRR0aJF3MuA3VwcLAJaEpc
+	mFwKUiMi4CUxb/YCsKHMAhUS/1+/ZASxhQX0JVo/TQGLswioShx4CxHnFbCU+HxxGyPEfHmJ
+	mZe+s4OM5BSwklj+DmykEFBJ4/25bBDlghInZz6BGi8v0bx1NvMERoFZSFKzkKQWMDKtYpRM
+	LSjOTc9NNiwwzEst1ytOzC0uzUvXS87P3cQIDnctjR2M9+b/0zvEyMTBeIhRgoNZSYRX1cMg
+	VYg3JbGyKrUoP76oNCe1+BCjNAeLkjiv4YzZKUIC6YklqdmpqQWpRTBZJg5OqQYmXrcPXHMc
+	ytY9TORdu4Ml3IXzdlTVzYTrFsXVX17KM27PKdedc6r05fxFhtdkdN8E5KQpKD7cn8BhFXjk
+	UKlJW77R9Y9TtdhWmNy6v8Qh+spesxap4H33tr029NTMib38h/fuSv4Nhq352akPi80eBvqZ
+	pb+19Hpi2JB2/GZELeeJAp9dmYuOuGX/PFc1x/7o8oCphdNMPYVMdyie/brQ/ugmbcei04Ec
+	X8tmdwnlz3BbtXuD1OHUvIn7Vmp57egMVOC6vPvy99idv040Kn20D6q57jtJ959g64+ZHVMj
+	uWTPzY7fdbJcYp6CZ0P4sjaFsJN7qqVTNu6Tkflv2pr0li08pfTSBumzWlP0PjEqsRRnJBpq
+	MRcVJwIANKwZVeYCAAA=
+X-CMS-MailID: 20231020133502epcas5p28066460555ccecce446e57f3578568d0
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20231020133502epcas5p28066460555ccecce446e57f3578568d0
+References: <20231020132837.151037-1-joshi.k@samsung.com>
+	<CGME20231020133502epcas5p28066460555ccecce446e57f3578568d0@epcas5p2.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231020_060727_209558_5B83C011 
-X-CRM114-Status: GOOD (  21.19  )
+X-CRM114-CacheID: sfid-20231020_063512_882288_9E1C9895 
+X-CRM114-Status: GOOD (  12.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,131 +133,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+Add a nvme request flag 'NVME_REQ_FORCE_SGL' that mandates both
+data and meta transfer via sgl. This is a prep patch.
 
-The keyring and auth functions can be called from both the host and
-the target side and are controlled by Kconfig options for each of the
-combinations, but the declarations are controlled by #ifdef checks
-on the shared Kconfig symbols.
-
-This leads to link failures in combinations where one of the frontends
-is built-in and the other one is a module, and the keyring code
-ends up in a module that is not reachable from the builtin code:
-
-ld: drivers/nvme/host/core.o: in function `nvme_core_exit':
-core.c:(.exit.text+0x4): undefined reference to `nvme_keyring_exit'
-ld: drivers/nvme/host/core.o: in function `nvme_core_init':
-core.c:(.init.text+0x94): undefined reference to `nvme_keyring_init
-
-ld: drivers/nvme/host/tcp.o: in function `nvme_tcp_setup_ctrl':
-tcp.c:(.text+0x4c18): undefined reference to `nvme_tls_psk_default'
-
-Address this by adding compile-time checks around the callers where
-needed, based on whether the functionality is actually used for
-the target and host side, respectively.
-
-In Kconfig, this requires changing the 'select NVME_KEYRING'
-since the keyring calls are done from the host core module,
-which may be built-in even when the tcp front-end is in a loadable
-module.
-
-Fixes: be8e82caa6859 ("nvme-tcp: enable TLS handshake upcall")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
 ---
- drivers/nvme/host/Kconfig      |  2 +-
- drivers/nvme/host/core.c       | 16 +++++++++++-----
- drivers/nvme/host/tcp.c        |  2 +-
- drivers/nvme/target/configfs.c |  2 +-
- 4 files changed, 14 insertions(+), 8 deletions(-)
+ drivers/nvme/host/nvme.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
-index 8fe2dd619e80e..2d53c23f0a483 100644
---- a/drivers/nvme/host/Kconfig
-+++ b/drivers/nvme/host/Kconfig
-@@ -2,6 +2,7 @@
- config NVME_CORE
- 	tristate
- 	select BLK_DEV_INTEGRITY_T10 if BLK_DEV_INTEGRITY
-+	select NVME_KEYRING if NVME_TCP_TLS
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 39a90b7cb125..141e1b1a897a 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -184,6 +184,7 @@ enum {
+ 	NVME_REQ_CANCELLED		= (1 << 0),
+ 	NVME_REQ_USERCMD		= (1 << 1),
+ 	NVME_MPATH_IO_STATS		= (1 << 2),
++	NVME_REQ_FORCE_SGL		= (1 << 3),
+ };
  
- config BLK_DEV_NVME
- 	tristate "NVM Express block device"
-@@ -95,7 +96,6 @@ config NVME_TCP
- config NVME_TCP_TLS
- 	bool "NVMe over Fabrics TCP TLS encryption support"
- 	depends on NVME_TCP
--	select NVME_KEYRING
- 	select NET_HANDSHAKE
- 	select KEYS
- 	help
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 62612f87aafa2..ac92534f6da90 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4724,16 +4724,20 @@ static int __init nvme_core_init(void)
- 		result = PTR_ERR(nvme_ns_chr_class);
- 		goto unregister_generic_ns;
- 	}
--	result = nvme_keyring_init();
-+	if (IS_ENABLED(CONFIG_NVME_TCP_TLS))
-+		result = nvme_keyring_init();
- 	if (result)
- 		goto destroy_ns_chr;
--	result = nvme_init_auth();
-+
-+	if (IS_ENABLED(CONFIG_NVME_HOST_AUTH))
-+		result = nvme_init_auth();
- 	if (result)
- 		goto keyring_exit;
- 	return 0;
- 
- keyring_exit:
--	nvme_keyring_exit();
-+	if (IS_ENABLED(CONFIG_NVME_TCP_TLS))
-+		nvme_keyring_exit();
- destroy_ns_chr:
- 	class_destroy(nvme_ns_chr_class);
- unregister_generic_ns:
-@@ -4756,8 +4760,10 @@ static int __init nvme_core_init(void)
- 
- static void __exit nvme_core_exit(void)
- {
--	nvme_exit_auth();
--	nvme_keyring_exit();
-+	if (IS_ENABLED(CONFIG_NVME_HOST_AUTH))
-+		nvme_exit_auth();
-+	if (IS_ENABLED(CONFIG_NVME_TCP_TLS))
-+		nvme_keyring_exit();
- 	class_destroy(nvme_ns_chr_class);
- 	class_destroy(nvme_subsys_class);
- 	class_destroy(nvme_class);
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 4714a902f4caa..e2b90789c0407 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1915,7 +1915,7 @@ static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
- 	int ret;
- 	key_serial_t pskid = 0;
- 
--	if (ctrl->opts->tls) {
-+	if (IS_ENABLED(CONFIG_NVME_TCP_TLS) && ctrl->opts->tls) {
- 		if (ctrl->opts->tls_key)
- 			pskid = key_serial(ctrl->opts->tls_key);
- 		else
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 9eed6e6765eaa..e307a044b1a1b 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -1893,7 +1893,7 @@ static struct config_group *nvmet_ports_make(struct config_group *group,
- 		return ERR_PTR(-ENOMEM);
- 	}
- 
--	if (nvme_keyring_id()) {
-+	if (IS_ENABLED(CONFIG_NVME_TARGET_TCP_TLS) && nvme_keyring_id()) {
- 		port->keyring = key_lookup(nvme_keyring_id());
- 		if (IS_ERR(port->keyring)) {
- 			pr_warn("NVMe keyring not available, disabling TLS\n");
+ static inline struct nvme_request *nvme_req(struct request *req)
 -- 
-2.39.2
+2.25.1
 
 
