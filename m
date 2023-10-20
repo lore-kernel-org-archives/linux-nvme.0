@@ -4,47 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7E2A5C0032E
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Oct 2023 14:26:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A0BEC07480
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Oct 2023 14:26:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=RWnVFl4yTMpGAhcxxisIXernnNmulU9evsnDUECP5nA=; b=xfKZC/PocKgj2co3FiG94k9sYe
-	10VgSxGnWQNN8/Q4T4u0S9b5yvDZEIhVLojIkL0/c3Qxe2DU3C+LYmVYPq0XfPoWxSqt8LAhaH2VE
-	k3s3EBiyutPWXY8lfMlEtfLc017cbVsaw4UJzuOSIle8KQd5oJC5+RA1jqOVSNqkVV6TFbaUcABkz
-	QtZbIkK2cM2eUxF7pywEG4E8ZYLsZ4QPX4ntrf7azwGM+LZE97LMSpsCxkIAMOHsNvFNoGefnblfr
-	wMhN/4x5EDOeSCUeOekV6BSQrnFmLegiZekEYSaLluUZI0UUmISYuSIp5stLnRIfFblRGRcRs/VBt
-	s43kfcjw==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=6wsXzd67JzTmoSq/T9Ijtn3SUPXHL/EhV/xwzZUmo9w=; b=sZ7odb+f6axyStLOh24MtdpKDU
+	SUraQmEJaGh2p5asgyiyuGKX4srRYoYdFyvXC4YXUY8mYH96wOtmHy0uVxvR5Efpszp61m4txrx+f
+	2L77gNbXyFOlOqHwUGrbnzvbdzfzeLtBJ48evLOjiitBc3veoDR+40CfbPQjWKm08hLjDcpASmaAw
+	cFoIHbKz56FaAk4RpOpfpH7j5A/SBwAk2TkSdjs+qLbA4nruFDHx0X7Nv4PS+XUn8TiPTV7LcNMI/
+	AFvbXsFq3b/KbT95xI3OSX80V5oA6EghZeFvD3oN1bnu1AIvRkn7auijgyVcV9Ziw0XEGIzCN/JMQ
+	vcIs62Cg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qtqS4-002UOB-31;
-	Fri, 20 Oct 2023 14:26:12 +0000
+	id 1qtqS5-002UOh-2T;
+	Fri, 20 Oct 2023 14:26:13 +0000
 Received: from smtp-out1.suse.de ([195.135.220.28])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qtqRw-002UKe-1b
+	id 1qtqRw-002UKf-1b
 	for linux-nvme@lists.infradead.org;
 	Fri, 20 Oct 2023 14:26:10 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id 569EB21A2B;
+	by smtp-out1.suse.de (Postfix) with ESMTP id 5659421A2A;
 	Fri, 20 Oct 2023 14:26:02 +0000 (UTC)
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 1D4342C8A7;
+	by relay2.suse.de (Postfix) with ESMTP id 1D3872C8A3;
 	Fri, 20 Oct 2023 14:26:02 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id 4070451EC18D; Fri, 20 Oct 2023 16:26:02 +0200 (CEST)
+	id 4581151EC18F; Fri, 20 Oct 2023 16:26:02 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 0/4] nvme: start keep-alive after admin queue setup
-Date: Fri, 20 Oct 2023 16:25:56 +0200
-Message-Id: <20231020142600.47246-1-hare@suse.de>
+Subject: [PATCH 1/4] nvme-fc: add missing quiesce in nvme_fc_create_association()
+Date: Fri, 20 Oct 2023 16:25:57 +0200
+Message-Id: <20231020142600.47246-2-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20231020142600.47246-1-hare@suse.de>
+References: <20231020142600.47246-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spamd-Bar: +++++
@@ -75,12 +77,11 @@ X-Spamd-Result: default: False [5.49 / 50.00];
 	 R_DKIM_NA(0.20)[];
 	 MIME_TRACE(0.00)[0:+];
 	 RCVD_COUNT_TWO(0.00)[2];
-	 BAYES_HAM(-0.00)[38.47%]
-X-Rspamd-Queue-Id: 569EB21A2B
+	 BAYES_HAM(-0.00)[31.56%]
+X-Rspamd-Queue-Id: 5659421A2A
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231020_072604_761889_55AB6CF0 
-X-CRM114-Status: UNSURE (   8.92  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20231020_072604_689898_72A85604 
+X-CRM114-Status: GOOD (  10.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,35 +96,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+nvme_fc_create_association() is calling nvme_unquiesce_admin_queue(),
+but does not quiesce the queue upon failure.
 
-Setting up I/O queues might take quite some time on larger and/or
-busy setups, so KATO might expire on the admin queue before all
-I/O queues can be setup.
-This patchset fixes this issue by moving the calls to starting
-and stopping KATO into the quiesce/unquiesce functions.
-That requires some refactoring/alignment with some transport
-drivers which do not always quiesce and unquiesce the admin
-queue.
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ drivers/nvme/host/fc.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-As usual, comments and reviews are welcome.
-
-Hannes Reinecke (4):
-  nvme-fc: add missing quiesce in nvme_fc_create_association()
-  nvme-pci: unquiesce admin queue before nvme_init_ctrl_finish()
-  nvme-loop: quiesce admin queue on failure
-  nvme: start keep-alive after admin queue setup
-
- drivers/nvme/host/apple.c  |  4 ++--
- drivers/nvme/host/core.c   |  7 ++++---
- drivers/nvme/host/fc.c     | 16 +++++++++-------
- drivers/nvme/host/nvme.h   |  2 +-
- drivers/nvme/host/pci.c    |  9 ++++++---
- drivers/nvme/host/rdma.c   |  6 +++---
- drivers/nvme/host/tcp.c    |  6 +++---
- drivers/nvme/target/loop.c |  6 ++++--
- 8 files changed, 32 insertions(+), 24 deletions(-)
-
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index a15b37750d6e..17b6c9238d68 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -3135,7 +3135,7 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ 	if (!ret && test_bit(ASSOC_FAILED, &ctrl->flags))
+ 		ret = -EIO;
+ 	if (ret)
+-		goto out_disconnect_admin_queue;
++		goto out_quiesce_admin_queue;
+ 
+ 	/* sanity checks */
+ 
+@@ -3144,7 +3144,7 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ 		dev_err(ctrl->ctrl.device, "icdoff %d is not supported!\n",
+ 				ctrl->ctrl.icdoff);
+ 		ret = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
+-		goto out_disconnect_admin_queue;
++		goto out_quiesce_admin_queue;
+ 	}
+ 
+ 	/* FC-NVME supports normal SGL Data Block Descriptors */
+@@ -3152,7 +3152,7 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ 		dev_err(ctrl->ctrl.device,
+ 			"Mandatory sgls are not supported!\n");
+ 		ret = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
+-		goto out_disconnect_admin_queue;
++		goto out_quiesce_admin_queue;
+ 	}
+ 
+ 	if (opts->queue_size > ctrl->ctrl.maxcmd) {
+@@ -3199,6 +3199,8 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ 
+ out_term_aen_ops:
+ 	nvme_fc_term_aen_ops(ctrl);
++out_quiesce_admin_queue:
++	nvme_quiesce_admin_queue(&ctrl->ctrl);
+ out_disconnect_admin_queue:
+ 	dev_warn(ctrl->ctrl.device,
+ 		"NVME-FC{%d}: create_assoc failed, assoc_id %llx ret %d\n",
 -- 
 2.35.3
 
