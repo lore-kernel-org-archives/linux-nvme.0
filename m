@@ -4,63 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B9FF2C0032E
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Oct 2023 20:55:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 229A9C004C0
+	for <linux-nvme@archiver.kernel.org>; Sat, 21 Oct 2023 03:54:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=tXSalXvPuq/SSBwy0ViW12ZD+oxeFn6MswNcmwXX9OM=; b=gcLs+ttanXE0XjptnJUUy74pcC
-	djGlbWAIhtDKn1nAUDdTIIOdzwXVaV6Ijo67DW+m7dgctspY2BqqP9dttGRyrJzWfxIzfO9YD3dWd
-	BeQZladnnFMxxm1YUV+ZDM1GHTF6g4AnSuqXBje0P3Z9h5rJPJfwII2w25mEvhgWXyEmW0rSeP8Ns
-	H3QpcCGcuhYhqbiOmqDb6J/QlWvNoB7Ee17qDU5ffTkg7RM7nnYjYqJXZZva7Uvbd9QhMZU+aHhly
-	iouQunze0ff4APLaSx2fcdL9zq6Sx4sJysTbyIsMmIzB27n4oXT9D6hynbNmfAgX00pqizMQl7RzM
-	U6wFOScA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=RjnVLFOXlRo5qH1/fk48z+XiPGxw16E5fHXtwa4n7Gk=; b=wBPUCG9N+CMP5mrMMPDIIwQsQy
+	g46lVuuuQ2j1MjzPydtLB0lb6uBQ8D1Wfg61xXjPFYmeX+Vb/yL9R0e3wTJg/xAPqt66SdpNhndro
+	C56Xwh7JQtX4xDQ5CksokhyHq/ZYAX8fZ0MTMqXUY/3vAiZ76S2zv8GOyzSvUkxQW5BG0XoUyR0pE
+	xlgTvuq/FNkM5ks8XLlPIxruN3l7WEiHq05vjjE1hDg1iBHtgt99jiT8Zzrkv0cKIQUQ5DPmx8I1P
+	fNn81POJh78sC19JVfA4l6iM0oYT4FCBZJH4VEXFuv/ld6IuO5sULRPG81i5tNarmjhRRn4+5ruP7
+	ouOWvnfA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qtwWr-00310g-2Z;
-	Fri, 20 Oct 2023 20:55:33 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1qu33u-003Ryr-2H;
+	Sat, 21 Oct 2023 03:54:06 +0000
+Received: from mgamail.intel.com ([192.55.52.151])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qtwWo-00310C-10
+	id 1qu33m-003Rxz-0c
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Oct 2023 20:55:32 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 63BAFCE3C06;
-	Fri, 20 Oct 2023 20:55:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 930A3C433C9;
-	Fri, 20 Oct 2023 20:55:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697835327;
-	bh=pqAnNpLnRYyc9mirZPzq0fGpNVhIfyv0i6ob1O0TYEY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=teoDx26kCkKhU64yPqkQjnjQGd6WwtX4AXDHUdoTmZYw5Z7vNevsQoDmGTlIB1HOu
-	 AK5wPdfI0TwN3ASVLuT8S1QXyz6CMtT+h+vzHkmSitsXipIPLsXBOuWPFWXpqcmQwW
-	 7heY6ib2CKT41je8NiwCUl0AOMIe3o9t4vP6zcZEDw+2ZvbFaPih6Wfhps4+xqqVmY
-	 IFUngDltsfj3DBzZVZDAGUdUE+7W1naPm0l9Xlo+9amUUXwAsNb4NTSplzt9xdC347
-	 kdViY/t6LLF39mBpqV8YE2xrJtevgcOxMFOlIWEC665OrgbgnuYBwjB9/PHvzcp2ns
-	 aVzS1eSg4Yz2g==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Hannes Reinecke <hare@suse.de>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] [v2] nvme: keyring: fix conditional compilation
-Date: Fri, 20 Oct 2023 22:54:43 +0200
-Message-Id: <20231020205521.3577821-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+	Sat, 21 Oct 2023 03:54:02 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697860438; x=1729396438;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KSNO7vOH2xYOL/+j22XGMf283vnlJoT1CRb7A5owLFQ=;
+  b=oJZY0lzZe9mRu+V3a5om7YBtUNRwmCzwgNpT/j4JlK/lCj4DzsllTFqk
+   B5LgvbdIaxyuhJaHj1GKByPU9+jOENRUG7T+TMgivQqbF6r7ifH/S/XA2
+   iTLBxMKEgTom3mq8swce6f7pWbqGEaZ528H63YTyb5A8zXu22lkxuVUoH
+   7PqW/TmqJGkaRe3bzciG3OhDYjxvxRbDFutBRRUjOvOp3tCtFEvnzPFnA
+   RV+pnoFlG2A+WrRZixEE5z+3li9/ls6ST6g8376WWdPPf8WQtHESLBqfm
+   z9W2iV+wYUbOLkOcHYsCAjA5CwJd2mrkL0/rgEA4I4hQl7t9aSGSTSp0e
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="366836731"
+X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
+   d="scan'208";a="366836731"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 20:53:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="823451798"
+X-IronPort-AV: E=Sophos;i="6.03,239,1694761200"; 
+   d="scan'208";a="823451798"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 20 Oct 2023 20:53:47 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qu33Y-0004Na-2Z;
+	Sat, 21 Oct 2023 03:53:44 +0000
+Date: Sat, 21 Oct 2023 11:53:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, io-uring@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, axboe@kernel.dk, hch@lst.de,
+	joshi.k@samsung.com, martin.petersen@oracle.com,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH 1/4] block: bio-integrity: add support for user buffers
+Message-ID: <202310211117.qmDPOVfI-lkp@intel.com>
+References: <20231018151843.3542335-2-kbusch@meta.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231018151843.3542335-2-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231020_135530_726633_25893504 
-X-CRM114-Status: GOOD (  23.97  )
+X-CRM114-CacheID: sfid-20231020_205358_244649_EE1B9F23 
+X-CRM114-Status: GOOD (  11.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,247 +86,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+Hi Keith,
 
-The keyring and auth functions can be called from both the host and
-the target side and are controlled by Kconfig options for each of the
-combinations, but the declarations are controlled by #ifdef checks
-on the shared Kconfig symbols.
+kernel test robot noticed the following build errors:
 
-This leads to link failures in combinations where one of the frontends
-is built-in and the other one is a module, and the keyring code
-ends up in a module that is not reachable from the builtin code:
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.6-rc6 next-20231020]
+[cannot apply to axboe-block/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-ld: drivers/nvme/host/core.o: in function `nvme_core_exit':
-core.c:(.exit.text+0x4): undefined reference to `nvme_keyring_exit'
-ld: drivers/nvme/host/core.o: in function `nvme_core_init':
-core.c:(.init.text+0x94): undefined reference to `nvme_keyring_init
+url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/block-bio-integrity-add-support-for-user-buffers/20231018-232704
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20231018151843.3542335-2-kbusch%40meta.com
+patch subject: [PATCH 1/4] block: bio-integrity: add support for user buffers
+config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20231021/202310211117.qmDPOVfI-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231021/202310211117.qmDPOVfI-lkp@intel.com/reproduce)
 
-ld: drivers/nvme/host/tcp.o: in function `nvme_tcp_setup_ctrl':
-tcp.c:(.text+0x4c18): undefined reference to `nvme_tls_psk_default'
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310211117.qmDPOVfI-lkp@intel.com/
 
-aarch64-linux-ld: drivers/nvme/target/configfs.o: in function `nvmet_ports_make':
-configfs.c:(.text+0x3c0c): undefined reference to `nvme_keyring_id'
+All errors (new ones prefixed by >>):
 
-Address this by wrapping the keyring code in stub functions that are
-used exclusively by one or the other side. In the more complicated auth
-interface, this is done in the separate drivers/nvme/{host,target}/auth.c
-that are conditionally compiled, as well as through large #ifdef blocks,
-but for the simpler keyring interface, it is sufficient to just wrap these
-four functions to ensure that they are only called when the feature is
-enabled in its caller.
+   In file included from include/linux/blkdev.h:17:0,
+                    from init/main.c:85:
+   include/linux/bio.h: In function 'bio_integrity_map_user':
+>> include/linux/bio.h:798:1: error: expected ';' before '}' token
+    }
+    ^
+--
+   In file included from include/linux/blkdev.h:17:0,
+                    from lib/vsprintf.c:47:
+   include/linux/bio.h: In function 'bio_integrity_map_user':
+>> include/linux/bio.h:798:1: error: expected ';' before '}' token
+    }
+    ^
+   lib/vsprintf.c: In function 'va_format':
+   lib/vsprintf.c:1682:2: warning: function 'va_format' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+     buf += vsnprintf(buf, end > buf ? end - buf : 0, va_fmt->fmt, va);
+     ^~~
 
-In Kconfig, this requires changing the 'select NVME_KEYRING' since the
-keyring calls are done from the host and target core module, which may
-be built-in even when the tcp front-end is in a loadable module.
 
-Fixes: be8e82caa6859 ("nvme-tcp: enable TLS handshake upcall")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
-Instead of keying the calls off the Kconfig symbols, replace
-the broken stub helpers with separate ones for host and target
----
- drivers/nvme/host/Kconfig      |  2 +-
- drivers/nvme/host/core.c       |  6 ++--
- drivers/nvme/host/tcp.c        |  4 +--
- drivers/nvme/target/Kconfig    |  2 +-
- drivers/nvme/target/configfs.c |  4 +--
- include/linux/nvme-keyring.h   | 56 +++++++++++++++++++++++++++++-----
- 6 files changed, 57 insertions(+), 17 deletions(-)
+vim +798 include/linux/bio.h
 
-diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
-index 8fe2dd619e80e..2d53c23f0a483 100644
---- a/drivers/nvme/host/Kconfig
-+++ b/drivers/nvme/host/Kconfig
-@@ -2,6 +2,7 @@
- config NVME_CORE
- 	tristate
- 	select BLK_DEV_INTEGRITY_T10 if BLK_DEV_INTEGRITY
-+	select NVME_KEYRING if NVME_TCP_TLS
- 
- config BLK_DEV_NVME
- 	tristate "NVM Express block device"
-@@ -95,7 +96,6 @@ config NVME_TCP
- config NVME_TCP_TLS
- 	bool "NVMe over Fabrics TCP TLS encryption support"
- 	depends on NVME_TCP
--	select NVME_KEYRING
- 	select NET_HANDSHAKE
- 	select KEYS
- 	help
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 62612f87aafa2..c06fea3f8940a 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4724,7 +4724,7 @@ static int __init nvme_core_init(void)
- 		result = PTR_ERR(nvme_ns_chr_class);
- 		goto unregister_generic_ns;
- 	}
--	result = nvme_keyring_init();
-+	result = nvme_host_keyring_init();
- 	if (result)
- 		goto destroy_ns_chr;
- 	result = nvme_init_auth();
-@@ -4733,7 +4733,7 @@ static int __init nvme_core_init(void)
- 	return 0;
- 
- keyring_exit:
--	nvme_keyring_exit();
-+	nvme_host_keyring_exit();
- destroy_ns_chr:
- 	class_destroy(nvme_ns_chr_class);
- unregister_generic_ns:
-@@ -4757,7 +4757,7 @@ static int __init nvme_core_init(void)
- static void __exit nvme_core_exit(void)
- {
- 	nvme_exit_auth();
--	nvme_keyring_exit();
-+	nvme_host_keyring_exit();
- 	class_destroy(nvme_ns_chr_class);
- 	class_destroy(nvme_subsys_class);
- 	class_destroy(nvme_class);
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 4714a902f4caa..7e4a878b95383 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1585,7 +1585,7 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
- 	int ret;
- 	struct tls_handshake_args args;
- 	unsigned long tmo = tls_handshake_timeout * HZ;
--	key_serial_t keyring = nvme_keyring_id();
-+	key_serial_t keyring = nvme_host_keyring_id();
- 
- 	dev_dbg(nctrl->device, "queue %d: start TLS with key %x\n",
- 		qid, pskid);
-@@ -1919,7 +1919,7 @@ static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
- 		if (ctrl->opts->tls_key)
- 			pskid = key_serial(ctrl->opts->tls_key);
- 		else
--			pskid = nvme_tls_psk_default(ctrl->opts->keyring,
-+			pskid = nvme_host_tls_psk_default(ctrl->opts->keyring,
- 						      ctrl->opts->host->nqn,
- 						      ctrl->opts->subsysnqn);
- 		if (!pskid) {
-diff --git a/drivers/nvme/target/Kconfig b/drivers/nvme/target/Kconfig
-index 31633da9427c7..e5cdf92c628d0 100644
---- a/drivers/nvme/target/Kconfig
-+++ b/drivers/nvme/target/Kconfig
-@@ -6,6 +6,7 @@ config NVME_TARGET
- 	depends on CONFIGFS_FS
- 	select BLK_DEV_INTEGRITY_T10 if BLK_DEV_INTEGRITY
- 	select SGL_ALLOC
-+	select NVME_KEYRING if NVME_TARGET_TCP_TLS
- 	help
- 	  This enabled target side support for the NVMe protocol, that is
- 	  it allows the Linux kernel to implement NVMe subsystems and
-@@ -87,7 +88,6 @@ config NVME_TARGET_TCP
- config NVME_TARGET_TCP_TLS
- 	bool "NVMe over Fabrics TCP target TLS encryption support"
- 	depends on NVME_TARGET_TCP
--	select NVME_KEYRING
- 	select NET_HANDSHAKE
- 	select KEYS
- 	help
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 9eed6e6765eaa..337de8da1c178 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -1893,8 +1893,8 @@ static struct config_group *nvmet_ports_make(struct config_group *group,
- 		return ERR_PTR(-ENOMEM);
- 	}
- 
--	if (nvme_keyring_id()) {
--		port->keyring = key_lookup(nvme_keyring_id());
-+	if (nvme_target_keyring_id()) {
-+		port->keyring = key_lookup(nvme_target_keyring_id());
- 		if (IS_ERR(port->keyring)) {
- 			pr_warn("NVMe keyring not available, disabling TLS\n");
- 			port->keyring = NULL;
-diff --git a/include/linux/nvme-keyring.h b/include/linux/nvme-keyring.h
-index 6cc0696625f36..6da4cda7f2f45 100644
---- a/include/linux/nvme-keyring.h
-+++ b/include/linux/nvme-keyring.h
-@@ -6,8 +6,7 @@
- #ifndef _NVME_KEYRING_H
- #define _NVME_KEYRING_H
- 
--#if IS_ENABLED(CONFIG_NVME_KEYRING)
--
-+/* internal helpers only, don't call directly */
- key_serial_t nvme_tls_psk_default(struct key *keyring,
- 		const char *hostnqn, const char *subnqn);
- 
-@@ -15,22 +14,63 @@ key_serial_t nvme_keyring_id(void);
- int nvme_keyring_init(void);
- void nvme_keyring_exit(void);
- 
--#else
-+static inline key_serial_t nvme_host_tls_psk_default(struct key *keyring,
-+		const char *hostnqn, const char *subnqn)
-+{
-+	if (IS_ENABLED(CONFIG_NVME_TCP_TLS))
-+		return nvme_tls_psk_default(keyring, hostnqn, subnqn);
-+
-+	return 0;
-+}
-+static inline key_serial_t nvme_host_keyring_id(void)
-+{
-+	if (IS_ENABLED(CONFIG_NVME_TCP_TLS))
-+		return nvme_keyring_id();
-+
-+	return 0;
-+}
-+static inline int nvme_host_keyring_init(void)
-+{
-+	if (IS_ENABLED(CONFIG_NVME_TCP_TLS))
-+		return nvme_keyring_init();
-+
-+	return 0;
-+}
-+static inline void nvme_host_keyring_exit(void)
-+{
-+	if (IS_ENABLED(CONFIG_NVME_TCP_TLS))
-+		nvme_keyring_exit();
-+}
- 
--static inline key_serial_t nvme_tls_psk_default(struct key *keyring,
-+static inline key_serial_t nvme_target_tls_psk_default(struct key *keyring,
- 		const char *hostnqn, const char *subnqn)
- {
-+	if (IS_ENABLED(CONFIG_NVME_TARGET_TCP_TLS))
-+		return nvme_host_tls_psk_default(keyring, hostnqn, subnqn);
-+
- 	return 0;
- }
--static inline key_serial_t nvme_keyring_id(void)
-+
-+static inline key_serial_t nvme_target_keyring_id(void)
- {
-+	if (IS_ENABLED(CONFIG_NVME_TARGET_TCP_TLS))
-+		return nvme_keyring_id();
-+
- 	return 0;
- }
--static inline int nvme_keyring_init(void)
-+
-+static inline int nvme_target_keyring_init(void)
- {
-+	if (IS_ENABLED(CONFIG_NVME_TCP_TLS))
-+		return nvme_keyring_init();
-+
- 	return 0;
- }
--static inline void nvme_keyring_exit(void) {}
- 
--#endif /* !CONFIG_NVME_KEYRING */
-+static inline void nvme_target_keyring_exit(void)
-+{
-+	if (IS_ENABLED(CONFIG_NVME_TARGET_TCP_TLS))
-+		nvme_keyring_exit();
-+}
-+
- #endif /* _NVME_KEYRING_H */
+   793	
+   794	static inline int bio_integrity_map_user(struct bio *bio, void __user *ubuf,
+   795						 unsigned int len, u32 seed, u32 maxvecs)
+   796	{
+   797		return -EINVAL
+ > 798	}
+   799	
+
 -- 
-2.39.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
