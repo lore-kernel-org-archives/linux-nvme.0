@@ -4,68 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 491F2C001E0
-	for <linux-nvme@archiver.kernel.org>; Sat, 21 Oct 2023 06:02:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 98681C001DF
+	for <linux-nvme@archiver.kernel.org>; Sun, 22 Oct 2023 11:52:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=stZNHB1sSquQnOTAg0GYg47TQtE40CejhgFeuhtHJ0A=; b=sNBmV3+jkeM869sOnYl9kmroA0
-	TX1dm0G8kg4FlXTTA3RZ37V/EjK+tH/2nUtgf0phpVxcGbT4iHj6F8W+LZf9X9w0LwTgOwwp888ld
-	xFtajLHkQ0ya44Bey4JiRYSObqQbAAYqZQJqZJw0NRB6b0guTfpSz8GrvVHapZWhk8R2VJcyY86w4
-	OTBqO4hLs7sjtCr4oLxGB5JmdWzpWopNa+rtIMrgvx8UbGoqRerLW56VihkVGlfXheF2mm4oohsxB
-	ETybUObFu3vB+83jXTv26miJ5c4n19lH8u1a7EcNsDe5hltZZSsVP/Onb8FALjpNSVwLfGuYUYCWi
-	mMumTqLA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Yu881yYXyoibZGlqhfa0c14Aaqd+EE343VwkGJoLvm4=; b=s7osGqZ8vJTtriyGF82knvAJH5
+	ydNsCUMt000zIOHhHj64nJzXtBPCK1EqrSuL1C7TnMuyKrRcajVqo7ro6Ui0n/vaWno2L8GtzvzW/
+	KphyRjAihZRxIRzRubCglhLLnbmWGo794loeWOEreZA5GJBzclAzgHuzxNJ7LLCbParnmY3oi/pFe
+	R9vTUbOtzGBkMeGigxbWwiuNlV93RKRitWOZKkPyws1eFzczPb5As+CeliB2Jk4gNCHfInZT5m1k1
+	AAGXq8nAub7d5qi81GDV2FXqzxToyaYrDfe3nXmfJjHkAZ4ag36l645FhZuOe1UJX98HO1TutTRjF
+	rmbFTUlQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qu53t-003Xb4-0g;
-	Sat, 21 Oct 2023 06:02:13 +0000
-Received: from mgamail.intel.com ([192.55.52.136])
+	id 1quX07-005QMf-0r;
+	Sun, 22 Oct 2023 11:52:11 +0000
+Received: from mgamail.intel.com ([192.55.52.120])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qu53n-003XZe-0e
+	id 1quX00-005QLy-2w
 	for linux-nvme@lists.infradead.org;
-	Sat, 21 Oct 2023 06:02:11 +0000
+	Sun, 22 Oct 2023 11:52:06 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697868127; x=1729404127;
-  h=date:from:to:cc:subject:message-id;
-  bh=OOw+z+AGYSnSukDET6mF5jMxROE/EALPkXculVF8ofM=;
-  b=A2v9w1TBquWiNGKX52JNWaSUaBfl2YWPyjKHuPK4imu3aTq4xTldM1tB
-   5iz45yiKLdMvf+ps9+0Z/ouOi0SMLkQ4oLyq0pnUj+LXomsX3N/Jd3KVU
-   Qcr8mkc/V9ewSyrv6J8glddi8Y3pwylBcI9Jrs4H7H3B+vCU0FGICozkF
-   o5dIHmRQDj7FapKaql5uzTlUbQCZ8q2moKupvwVxIS4ex13sAi3/jEWIf
-   5lWJ048hAYUphn4hPyzLo3UAAJ0NuAU8r+HyHSQhd2QW3NsJgh0U/5eUf
-   JCOBJQsRYL5wparxKqdWy7eQwfUS2Sn+LGYqrNCtHoKgk8frpAOPLsktY
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="365948389"
-X-IronPort-AV: E=Sophos;i="6.03,240,1694761200"; 
-   d="scan'208";a="365948389"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2023 23:01:52 -0700
+  t=1697975524; x=1729511524;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BdVZ+C8tN+qekt7Hl3QUHfu9nPna5/5VggjFolJCjy8=;
+  b=lR7TCoswjoIWClFqHlhxnkRRtO4yIPttIDlnZLWtJR85RzFYdKEZihoi
+   QoJHJF4nn8NnoQdS66+k72asauP06MLh1oxgC1IRBYimpPIBugJCLN7zR
+   N30ECw4Vr9CszNK1QRclS8ja9vRlaYQ3JtFcNgTY4duQwRe6EqMqZPjaW
+   QmdQdI6uSh6/IclHeiRjC5UObFvGJKAPSNbz4z1WgSPMeRM4jrvhXorIV
+   HCslWkwJ0hO8v66E0/PYRe99x1EhpxcGM/VDRbp2iq0VCfY6bNmUx6Tvo
+   U4YlnVwPvkDjrWUzwqI/TdUmPwvxQJVzu+J2LgCL2zNjUYKnClySwBGOn
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="385578989"
+X-IronPort-AV: E=Sophos;i="6.03,242,1694761200"; 
+   d="scan'208";a="385578989"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2023 04:52:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10869"; a="1088946278"
-X-IronPort-AV: E=Sophos;i="6.03,240,1694761200"; 
-   d="scan'208";a="1088946278"
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="792851290"
+X-IronPort-AV: E=Sophos;i="6.03,242,1694761200"; 
+   d="scan'208";a="792851290"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 20 Oct 2023 23:01:51 -0700
+  by orsmga001.jf.intel.com with ESMTP; 22 Oct 2023 04:51:54 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qu53V-0004U2-0e;
-	Sat, 21 Oct 2023 06:01:49 +0000
-Date: Sat, 21 Oct 2023 14:01:33 +0800
+	id 1quWzo-0005vq-0d;
+	Sun, 22 Oct 2023 11:51:52 +0000
+Date: Sun, 22 Oct 2023 19:51:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.6] BUILD SUCCESS
- 5c3f4066462a5f6cac04d3dd81c9f551fabbc6c7
-Message-ID: <202310211430.XM7Jc8U6-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
+	Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>, dm-devel@lists.linux.dev,
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, martin.petersen@oracle.com,
+	linux-scsi@vger.kernel.org, nitheshshetty@gmail.com,
+	anuj1072538@gmail.com, gost.dev@samsung.com, mcgrof@kernel.org,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	Hannes Reinecke <hare@suse.de>, Anuj Gupta <anuj20.g@samsung.com>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v17 08/12] nvmet: add copy command support for bdev and
+ file ns
+Message-ID: <202310221915.PYH9XadG-lkp@intel.com>
+References: <20231019110147.31672-9-nj.shetty@samsung.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231019110147.31672-9-nj.shetty@samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231020_230207_288943_20DE8C4B 
-X-CRM114-Status: UNSURE (   5.01  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20231022_045205_023903_F7ACE4A5 
+X-CRM114-Status: GOOD (  13.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,150 +98,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.6
-branch HEAD: 5c3f4066462a5f6cac04d3dd81c9f551fabbc6c7  nvme-pci: add BOGUS_NID for Intel 0a54 device
+Hi Nitesh,
 
-elapsed time: 3362m
+kernel test robot noticed the following build warnings:
 
-configs tested: 132
-configs skipped: 2
+[auto build test WARNING on 213f891525c222e8ed145ce1ce7ae1f47921cb9c]
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+url:    https://github.com/intel-lab-lkp/linux/commits/Nitesh-Shetty/block-Introduce-queue-limits-and-sysfs-for-copy-offload-support/20231019-200658
+base:   213f891525c222e8ed145ce1ce7ae1f47921cb9c
+patch link:    https://lore.kernel.org/r/20231019110147.31672-9-nj.shetty%40samsung.com
+patch subject: [PATCH v17 08/12] nvmet: add copy command support for bdev and file ns
+config: i386-randconfig-062-20231022 (https://download.01.org/0day-ci/archive/20231022/202310221915.PYH9XadG-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231022/202310221915.PYH9XadG-lkp@intel.com/reproduce)
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20231019   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                   randconfig-001-20231019   gcc  
-arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20231019   gcc  
-i386         buildonly-randconfig-002-20231019   gcc  
-i386         buildonly-randconfig-003-20231019   gcc  
-i386         buildonly-randconfig-004-20231019   gcc  
-i386         buildonly-randconfig-005-20231019   gcc  
-i386         buildonly-randconfig-006-20231019   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20231019   gcc  
-i386                  randconfig-002-20231019   gcc  
-i386                  randconfig-003-20231019   gcc  
-i386                  randconfig-004-20231019   gcc  
-i386                  randconfig-005-20231019   gcc  
-i386                  randconfig-006-20231019   gcc  
-i386                  randconfig-011-20231019   gcc  
-i386                  randconfig-012-20231019   gcc  
-i386                  randconfig-013-20231019   gcc  
-i386                  randconfig-014-20231019   gcc  
-i386                  randconfig-015-20231019   gcc  
-i386                  randconfig-016-20231019   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20231019   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                 randconfig-001-20231019   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20231019   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                 randconfig-001-20231019   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-001-20231019   gcc  
-x86_64       buildonly-randconfig-002-20231019   gcc  
-x86_64       buildonly-randconfig-003-20231019   gcc  
-x86_64       buildonly-randconfig-004-20231019   gcc  
-x86_64       buildonly-randconfig-005-20231019   gcc  
-x86_64       buildonly-randconfig-006-20231019   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20231019   gcc  
-x86_64                randconfig-002-20231019   gcc  
-x86_64                randconfig-003-20231019   gcc  
-x86_64                randconfig-004-20231019   gcc  
-x86_64                randconfig-005-20231019   gcc  
-x86_64                randconfig-006-20231019   gcc  
-x86_64                randconfig-011-20231020   gcc  
-x86_64                randconfig-012-20231020   gcc  
-x86_64                randconfig-013-20231020   gcc  
-x86_64                randconfig-014-20231020   gcc  
-x86_64                randconfig-015-20231020   gcc  
-x86_64                randconfig-016-20231020   gcc  
-x86_64                randconfig-071-20231020   gcc  
-x86_64                randconfig-072-20231020   gcc  
-x86_64                randconfig-073-20231020   gcc  
-x86_64                randconfig-074-20231020   gcc  
-x86_64                randconfig-075-20231020   gcc  
-x86_64                randconfig-076-20231020   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310221915.PYH9XadG-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/nvme/target/io-cmd-bdev.c:498:30: sparse: sparse: restricted __le16 degrades to integer
+
+vim +498 drivers/nvme/target/io-cmd-bdev.c
+
+   478	
+   479	/*
+   480	 * At present we handle only one range entry, since copy offload is aligned with
+   481	 * copy_file_range, only one entry is passed from block layer.
+   482	 */
+   483	static void nvmet_bdev_execute_copy(struct nvmet_req *rq)
+   484	{
+   485		struct nvme_copy_range range;
+   486		struct nvme_command *cmd = rq->cmd;
+   487		ssize_t ret;
+   488		off_t dst, src;
+   489	
+   490		u16 status;
+   491	
+   492		status = nvmet_copy_from_sgl(rq, 0, &range, sizeof(range));
+   493		if (status)
+   494			goto err_rq_complete;
+   495	
+   496		dst = le64_to_cpu(cmd->copy.sdlba) << rq->ns->blksize_shift;
+   497		src = le64_to_cpu(range.slba) << rq->ns->blksize_shift;
+ > 498		rq->copy_len = (range.nlb + 1) << rq->ns->blksize_shift;
+   499	
+   500		if (bdev_max_copy_sectors(rq->ns->bdev)) {
+   501			ret = blkdev_copy_offload(rq->ns->bdev, dst, src, rq->copy_len,
+   502						  nvmet_bdev_copy_endio,
+   503						  (void *)rq, GFP_KERNEL);
+   504		} else {
+   505			ret = blkdev_copy_emulation(rq->ns->bdev, dst,
+   506						    rq->ns->bdev, src, rq->copy_len,
+   507						    nvmet_bdev_copy_endio,
+   508						    (void *)rq, GFP_KERNEL);
+   509		}
+   510		if (ret == -EIOCBQUEUED)
+   511			return;
+   512	
+   513		rq->cqe->result.u32 = cpu_to_le32(0);
+   514		status = errno_to_nvme_status(rq, ret);
+   515	err_rq_complete:
+   516		nvmet_req_complete(rq, status);
+   517	}
+   518	
 
 -- 
 0-DAY CI Kernel Test Service
