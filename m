@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2E170C004C0
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Oct 2023 14:00:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8E1FC001E0
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Oct 2023 14:00:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QnAjvfjWFnCpRxuxioGHpQr5KpcVIkWFE2DSEbIq2A4=; b=hkMAgk39SUGrSE0xrx3TWbP3Oo
-	xxSLYVSW0qf2eIc/FiUD9icy3EqgxHoTG6pqzXY8x7GUpvDyqgVtsGq8k7x/h9vrQJMnqFfB+88oL
-	d4IYIsSsTCV5L+rDaM4UhsZO5qdV/ZqEH3f49KmzsFI7G5y8F4Rc+tImO+htM7Ha6+jWM64y1Wl76
-	iM7vp5Kd12rD23rTHv6Lf49hKKzqtKn6eE33fl37zYQxmntv5boPf2cvW7T9k/043sbg2YjcV0L09
-	VsDbhJElXXUAjbjCqn/vnUhkVF5klnUMOhBA9L8jJ4VrB85LY499AKds/strIoTtFP/34ZB+j3nt3
-	w24hWtUQ==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=pq71ZFQSmqDBvaHKCanMYuz149NpjN7yRS2IvpkR2UA=; b=VbCpYWO+xuikMibV1wCjEKndLB
+	ufgJ+HYD/i6e7sLsoRataw9GJdJi9tc6NZhymITOlGl3cApXwsQUIDvtQOv6iESQQuOMNAcHGoIB6
+	m9zlfBFo+4DSc4k8CHjrlckbGw4+oQegVjJ3iYICbpdvaglouZ4bAgnpttJzViEk/YZrd0qXaMKR1
+	4MZlsYjSVB4ppthls7uzmWzrZWkGMF+o9M6hTjcGMHF5a64DEXZ2hJmDCIxnqX++Q4GkqeRFNlTWn
+	wB/qFVu/P5wlASrSc439IZ2JTQEDCzjdRWhtuBaqjGOO4LLYVwUOMCIlLUnxj+L4pz8+nNekAXwz3
+	jr9Zp18A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1quvTm-007UdI-00;
-	Mon, 23 Oct 2023 14:00:26 +0000
-Received: from mout01.posteo.de ([185.67.36.65])
+	id 1quvTl-007Ubr-19;
+	Mon, 23 Oct 2023 14:00:25 +0000
+Received: from mout02.posteo.de ([185.67.36.66])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1quvTg-007Ub0-1z
+	id 1quvTf-007Ub1-1M
 	for linux-nvme@lists.infradead.org;
-	Mon, 23 Oct 2023 14:00:21 +0000
+	Mon, 23 Oct 2023 14:00:20 +0000
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 6756C24002D
-	for <linux-nvme@lists.infradead.org>; Mon, 23 Oct 2023 16:00:15 +0200 (CEST)
+	by mout02.posteo.de (Postfix) with ESMTPS id 86B70240101
+	for <linux-nvme@lists.infradead.org>; Mon, 23 Oct 2023 16:00:12 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-	t=1698069615; bh=Fig6sNGtNPtLEqdibiKwrPwhe4ldPvHG+L+Zwf6xQc0=;
+	t=1698069615; bh=iFQQRi702AynL/9DH88qNRr40fv94tsGYlUkbNd2M+0=;
 	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:
 	 Content-Transfer-Encoding:From;
-	b=qpGm7DQ7F5jjomuPr+/Fq4TA4UceNKtt5zNG8KACUt/gWWCQh5ca7oRofj833f3ns
-	 1HcLzNJTLA36h4OiLeGfZrMxFSS1JrGY/EM4Hom0Y93KKvUANBnV+B8AlZYG0/Nyq7
-	 R6bAdpqL6ZfKMCbQhsj3RUkaFR6M/q+B/lKgFElW/AkZ/W6uPvp/CA1BGxG9hpLfpG
-	 c2JHS8QGRKILvD5891iRTr37j8dE0OoihV0den5o1fu1xVbBpZ2RGG1GeFzRiI3p2m
-	 5s1cg8cGfKOKfCh2mke5k0YJ6cMdeawc8rq3XHZc55qgeoqU6ExdQ4OJOA9uJALo/7
-	 BA+8zCZTEQ2Iw==
+	b=XvmYhdNgbZZYfFbdCu0To32qGlkoy5oIVF9wbccHD3r+8r/lK9TDK9gJdjy4KVyde
+	 GXkC2QPoOosyb4CMOKAPyqyNi7NekN9f09QRaFudBKWYFHXSBqx1X70KKiZwtZ2yOT
+	 WM/PJy2uzGhYOuai4PuxZCew5C5/JfQ70vkVxfhyiZFpXnXdUwNai1qRjvH2DGcShE
+	 fEbf98KcmtOnZKM0E7ZtnjWo5HLIO4GhvBCqtpEgOIRqffsl4lcQ8Qjoc9WpucP367
+	 ANE6M+txzFfBdFEBPMTDcyRK9sJwji23Al0p93t2M537PF7/6i4SgvAGfSGGBqjCie
+	 P6WRb0xKBTWpw==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4SDcJt0HvNz6tsB;
-	Mon, 23 Oct 2023 16:00:13 +0200 (CEST)
+	by submission (posteo.de) with ESMTPSA id 4SDcJp23Dnz6tvl;
+	Mon, 23 Oct 2023 16:00:10 +0200 (CEST)
 From: Mark O'Donovan <shiftee@posteo.net>
 To: linux-kernel@vger.kernel.org
 Cc: linux-nvme@lists.infradead.org,
@@ -52,16 +52,15 @@ Cc: linux-nvme@lists.infradead.org,
 	kbusch@kernel.org,
 	hare@suse.de,
 	Mark O'Donovan <shiftee@posteo.net>
-Subject: [PATCH v2 1/3] nvme-auth: auth success1 msg always includes resp
-Date: Mon, 23 Oct 2023 14:00:01 +0000
-Message-Id: <20231023140003.58019-2-shiftee@posteo.net>
-In-Reply-To: <20231023140003.58019-1-shiftee@posteo.net>
-References: <20231023140003.58019-1-shiftee@posteo.net>
+Subject: [PATCH v2 0/3] nvme-tcp: always set valid seq_num in dhchap reply
+Date: Mon, 23 Oct 2023 14:00:00 +0000
+Message-Id: <20231023140003.58019-1-shiftee@posteo.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231023_070020_803633_09AB41CB 
-X-CRM114-Status: GOOD (  12.79  )
+X-CRM114-CacheID: sfid-20231023_070019_629476_46EA9DA6 
+X-CRM114-Status: UNSURE (   8.13  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,54 +75,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In cases where RVALID is false, the response is still transmitted,
-but is cleared to zero.
+The first patch is a small unrelated fix which makes it clear that the
+response data section of the Success1 message is not optional.
 
-Relevant extract from the spec:
-Response R2, if valid (i.e., if the RVALID field is set to 01h),
-cleared to 0h otherwise
+The second patch removes use of the host sequence number (S2) as an
+indicator of bi-directional authentication.
 
-Signed-off-by: Mark O'Donovan <shiftee@posteo.net>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+The third patch causes us to always set the host sequence number (S2)
+to a non-zero value instead of the 0 value reserved for the secure
+channel feature.
 
----
-v1: used incorrect prefix nvme-tcp
-v2: rebase on latest git
+Mark O'Donovan (3):
+  nvme-auth: auth success1 msg always includes resp
+  nvme-auth: add flag for bi-directional auth
+  nvme-auth: always set valid seq_num in dhchap reply
 
- drivers/nvme/host/auth.c | 5 +----
- include/linux/nvme.h     | 2 +-
- 2 files changed, 2 insertions(+), 5 deletions(-)
+ drivers/nvme/host/auth.c | 13 ++++++-------
+ include/linux/nvme.h     |  2 +-
+ 2 files changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-index 064592a5d546..e0fc33d41baa 100644
---- a/drivers/nvme/host/auth.c
-+++ b/drivers/nvme/host/auth.c
-@@ -339,10 +339,7 @@ static int nvme_auth_process_dhchap_success1(struct nvme_ctrl *ctrl,
- 		struct nvme_dhchap_queue_context *chap)
- {
- 	struct nvmf_auth_dhchap_success1_data *data = chap->buf;
--	size_t size = sizeof(*data);
--
--	if (chap->s2)
--		size += chap->hash_len;
-+	size_t size = sizeof(*data) + chap->hash_len;
- 
- 	if (size > CHAP_BUF_SIZE) {
- 		chap->status = NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 26dd3f859d9d..8d8df9c15b74 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -1722,7 +1722,7 @@ struct nvmf_auth_dhchap_success1_data {
- 	__u8		rsvd2;
- 	__u8		rvalid;
- 	__u8		rsvd3[7];
--	/* 'hl' bytes of response value if 'rvalid' is set */
-+	/* 'hl' bytes of response value */
- 	__u8		rval[];
- };
- 
+
+base-commit: 05d3ef8bba77c1b5f98d941d8b2d4aeab8118ef1
 -- 
 2.39.2
 
