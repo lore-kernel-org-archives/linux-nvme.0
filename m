@@ -4,102 +4,104 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 94681C00A8F
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Oct 2023 05:30:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 89203C07545
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Oct 2023 05:43:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HsXBny3VyY1NtZC8aBRc59dG1U7MZYuotXskuapWv+M=; b=YyoV7FANWdpsGunBmzH+1zt/wJ
-	xTObHNyIfD2ahGrAPPLnCHs1PN5j7qa0/JBxpfWedYW7DuUR3b/KlHPfH4vzOVFLCibMU2havAmRH
-	ocLSzviS8/alxqw/DwEOb53/bEweNc+SQg9MqgekfhZDmtW9FwrutcQntFJZTfLIUosERaK6iY4nU
-	s2gzoDW+Ol4Ya0zX4cTK5sISUsaW3aecVYvPpq8YgkeE0uXLRh967xFd8W8auw5FgRR9E+fDuZ4la
-	uqHUxhiUWAg8///SO8H8hUghy2Z0QQLc4IFuz5v/6EoV6g2QAqumtREijmPVPghKGfE3y5VloBKMn
-	YSQIn6uw==;
+	bh=M3q/wHoucHzK03Le3y+14uam2vn5MVvx1mT8tW+PXkI=; b=VPn+WDN0vkugnlbPbFg7C02DAe
+	cEYeVZYXmBZ9xKdKFhq+guWOZoIMJdkNsoVvIxZ4U7XFral1znschUMRv+fTSz54z8owncNv60Y1S
+	JeMlUe0ZsHv/1gk4UqlsGzDZoo2rlsfOLVKcrwP5cj6793n80nYyn9KLD+UGGHasKA2sGd90raatf
+	Tzbz+7C2KFlwZj6PJjf6pToumRxGbLT8ElcGsM8tWnFV4lD+K0IhRRaVRV+QV9JCYfJwlTrrOMd+6
+	C+IA0tforwAWLmmA0vwVUui7jQTAG6zuVUemy2PmNzR91GMSWKu1vu21Rsh5NMbKLW2etf8109kUu
+	XnEsCZPg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qv9zu-008tR2-1v;
-	Tue, 24 Oct 2023 05:30:34 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1qvACD-008uT8-0y;
+	Tue, 24 Oct 2023 05:43:17 +0000
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qv9zr-008tQc-2f
+	id 1qvACA-008uSI-1L
 	for linux-nvme@lists.infradead.org;
-	Tue, 24 Oct 2023 05:30:33 +0000
+	Tue, 24 Oct 2023 05:43:16 +0000
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 5650621B65;
-	Tue, 24 Oct 2023 05:30:30 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 42DE221220;
+	Tue, 24 Oct 2023 05:43:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1698125430; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1698126192; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=HsXBny3VyY1NtZC8aBRc59dG1U7MZYuotXskuapWv+M=;
-	b=fyfcRqg4laVWzE+9rK3DZ1QrqZkpmUPqvQOUi+BGjpXWLs8AfD4ksh7UsWeyq/zBHkK609
-	GssnhmrPgZONoqMuneUCxCvInW/vHKjxZDo/uINZ7LdfTFXyMKQMynnFIUztc4QENmX6yr
-	FFmfAE4RnnuaRDox7DrpS1nDQ8+Ap1o=
+	bh=M3q/wHoucHzK03Le3y+14uam2vn5MVvx1mT8tW+PXkI=;
+	b=WqbG4lyEHmOraqyPq1VSdPmW2qI8prUIdp8i7Wym5hz1ntXkQx103WTALQTgHNGDUMkNYs
+	qY8YCoUtVuyBthmHxPfgthexZ9c3eGn1tbU75nVICaCmcs71ySJz70UHLvhM/GsMf0FGHs
+	XSHnPuA+nAUwCHEX7KPcaO4LI2K+9LI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1698125430;
+	s=susede2_ed25519; t=1698126192;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=HsXBny3VyY1NtZC8aBRc59dG1U7MZYuotXskuapWv+M=;
-	b=trdSOgeE0k3w5G5Ht25IedDNNgjBJe5XXriK0JWd/SKznDVhuapfZrBvS4GMhJxjs8ptXR
-	uQTDFX4z4/Z46GAQ==
+	bh=M3q/wHoucHzK03Le3y+14uam2vn5MVvx1mT8tW+PXkI=;
+	b=iwN0Xd4zyR4vTT0/Hn8PFqkGOZK57z3UVgvwxBJJu0YOViuUT7QOLfcBNT3BIAhdzXy5gZ
+	KtvR6SPlRxJdT5AA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 32ED01391F;
-	Tue, 24 Oct 2023 05:30:30 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 104E21391F;
+	Tue, 24 Oct 2023 05:43:12 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id pE1dBnZWN2V5BgAAMHmgww
-	(envelope-from <hare@suse.de>); Tue, 24 Oct 2023 05:30:30 +0000
-Message-ID: <afd51c19-7b3e-4f0b-8872-4eb3ebd32296@suse.de>
-Date: Tue, 24 Oct 2023 07:30:29 +0200
+	id P924AnBZN2VCDQAAMHmgww
+	(envelope-from <hare@suse.de>); Tue, 24 Oct 2023 05:43:12 +0000
+Message-ID: <ce187671-ea90-4d97-b323-70f275c09649@suse.de>
+Date: Tue, 24 Oct 2023 07:43:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] nvme: start keep-alive after admin queue setup
+Subject: Re: blktests: running nvme and srp tests with real RDMA hardware
 Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org
-References: <20231020142600.47246-1-hare@suse.de>
- <ZTKdFHTw3949UKTv@kbusch-mbp> <94326b59-60c1-4d0b-863b-cec0f9bfe1ac@suse.de>
- <ZTb-1XJyQfLrSC1a@kbusch-mbp>
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>
+Cc: Daniel Wagner <dwagner@suse.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Bart Van Assche <bvanassche@acm.org>
+References: <vaijnbobhxyz4nkk2csv3nfhnpeupbudakcn3qgmo7o6vii4x5@rfnfdll6iloo>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <ZTb-1XJyQfLrSC1a@kbusch-mbp>
+In-Reply-To: <vaijnbobhxyz4nkk2csv3nfhnpeupbudakcn3qgmo7o6vii4x5@rfnfdll6iloo>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Authentication-Results: smtp-out1.suse.de;
 	none
-X-Spamd-Result: default: False [-6.78 / 50.00];
+X-Spamd-Result: default: False [-6.13 / 50.00];
 	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 TO_DN_EQ_ADDR_SOME(0.00)[];
 	 XM_UA_NO_VERSION(0.01)[];
 	 FROM_HAS_DN(0.00)[];
-	 RCPT_COUNT_THREE(0.00)[4];
 	 TO_DN_SOME(0.00)[];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 BAYES_HAM(-2.04)[95.29%];
 	 MIME_GOOD(-0.10)[text/plain];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
 	 NEURAL_HAM_LONG(-3.00)[-1.000];
-	 BAYES_HAM(-2.69)[98.66%];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	 NEURAL_HAM_SHORT(-1.00)[-1.000];
+	 RCPT_COUNT_SEVEN(0.00)[7];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
 	 RCVD_COUNT_TWO(0.00)[2];
 	 RCVD_TLS_ALL(0.00)[];
 	 MID_RHS_MATCH_FROM(0.00)[]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231023_223032_017534_9715F3A4 
-X-CRM114-Status: GOOD (  15.23  )
+X-CRM114-CacheID: sfid-20231023_224314_603089_98E682D6 
+X-CRM114-Status: GOOD (  11.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,29 +116,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/24/23 01:16, Keith Busch wrote:
-> On Mon, Oct 23, 2023 at 11:54:37AM +0200, Hannes Reinecke wrote:
->> But we start keep alive unconditionally nowadays; each and every
->> host driver (including PCI) is calling into nvme_start_ctrl(),
->> which calls nvme_start_keep_alive() without any checks.
+On 10/24/23 04:59, Shinichiro Kawasaki wrote:
+> Hello blktests users,
 > 
-> I see nvme_start_keep_alive() is always called, but that checks
-> 'ctrl->kato' which will always be 0 for PCI.
->   
-But it also means we don't have to check for fabrics here...
-
->> Be it as it may, tying it into the state transition won't work
->> as the 'CONNECTING' state is entered _before_ any queues are setup,
->> so starting keep-alive here would be too early.
+> As of today, software RDMA driver "siw" or "rdma_rxe" is used to run "nvme"
+> group with nvme_trtype=rdma or "srp" (scsi rdma protocol) group. Now it is
+> suggested to run the test groups with real RDMA hardware to run tests in
+> more realistic conditions. A GitHub pull request is under review to support
+> it [1]. If you are interested in, please take a look and comment.
 > 
-> That's just IO eueues, right? Keep-alive is an admin command, and the
-> admin queue should be up in the CONNECTING state.
+> [1] https://github.com/osandov/blktests/pull/86
 
-Nope. 'loop' creates the admin queue after setting the status to 
-'CONNECTING'. So there is no clear rule when 'CONNECTING' is entered.
-
-There is a valid point to be made to enter 'CONNECTING' only when the
-admin queue is setup, but currently that's not the case.
+Just commented on it. What we really need is the functionality to run 
+against pre-configured controllers (ie specify the controller NQN and 
+NSID and do not call into nvmetcli); when running on real HW we 
+typically cannot control the target, so we need to be able to specify
+a preconfigured namespace.
 
 Cheers,
 
