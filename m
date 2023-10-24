@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5794EC00A8F
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0BA2EC07545
 	for <linux-nvme@archiver.kernel.org>; Tue, 24 Oct 2023 06:13:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,50 +12,50 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ah5OtBUiwoRItzC2a2gSMcNwP6kgbe7wjB18gWEeey8=; b=QbFeXdg1L5geaLfcby0c+KCz1b
-	jXeOlymidxdTSj5xnw6eXzXwMTIojdl2z4ot5L51tgg6AC/4GZHgPHXpB3zmyjCDfgei4yyowAxAh
-	EgIAMhNuYMazI3HzcUpOTE+UbF++1EGk7X4o5jFr8kCPqyb7PrC8KK8Y2qioU3G+UXjP0tiWrSWEI
-	09OvW69pcTjcZq0xdc2COf4TWisb2L6uopDvqzR9pVy7w0ukrVFOKtUrrrDEETD19ByPtppouzWUP
-	yj1pHQN4PJWRW+Lk5jjYCQiaI2yGKzco7b7mNVU2SF57K3ijq7nMyMs3eUFpliFHeBiKiB2kqxs3l
-	QMsU4+iQ==;
+	bh=zaigyb9FXrMSSdei/I/NavoMuzjJn0TOXq6wT5pppgU=; b=eayQUL5QGp7IGGEMKILc/6EZqz
+	BjP9LzzI9RBHvXwAfvKmb6q3cr2XchK1eDFjPL1Np9lz5HU2hdzrUij1QCyWkb82l03QzyBZqOWZp
+	C0O+9atJGiv5xvEjmVympabHxcSRCtvsUg/XUPALR4v++2dDaUsgGoXErizVZuCrocr4p4++8KaLi
+	UjiQV3YFLA9Quye7bFB4rzchYROHdM3OF8l6sTZcmfkMGL6MgK+CP64RdbSx/OClTgn2kx9btkCeE
+	BvY+dg9Lz5A6mybcGvPNWrzXGRQWRbVQ8CdZsUtApB2QON2NX7bahZe7EvV9n0rgBvMFd2guuzchI
+	f6KuCz+Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qvAfj-008x6n-2N;
-	Tue, 24 Oct 2023 06:13:47 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
-	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qvAfg-008x4d-2F
-	for linux-nvme@lists.infradead.org;
+	id 1qvAfh-008x61-39;
 	Tue, 24 Oct 2023 06:13:45 +0000
+Received: from smtp-out1.suse.de ([195.135.220.28])
+	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
+	id 1qvAfd-008x4a-1t
+	for linux-nvme@lists.infradead.org;
+	Tue, 24 Oct 2023 06:13:43 +0000
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id E04141FE5F;
+	by smtp-out1.suse.de (Postfix) with ESMTP id DFE1621869;
 	Tue, 24 Oct 2023 06:13:38 +0000 (UTC)
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 12B8C2D104;
+	by relay2.suse.de (Postfix) with ESMTP id 1DC082D106;
 	Tue, 24 Oct 2023 06:13:38 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id 4061E51EC3D7; Tue, 24 Oct 2023 08:13:38 +0200 (CEST)
+	id 4853551EC3D9; Tue, 24 Oct 2023 08:13:38 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 1/3] nvme-tcp: avoid open-coding nvme_tcp_teardown_admin_queue()
-Date: Tue, 24 Oct 2023 08:13:35 +0200
-Message-Id: <20231024061337.35621-2-hare@suse.de>
+Subject: [PATCH 2/3] nvme-loop: always quiesce and cancel commands before destroying admin q
+Date: Tue, 24 Oct 2023 08:13:36 +0200
+Message-Id: <20231024061337.35621-3-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20231024061337.35621-1-hare@suse.de>
 References: <20231024061337.35621-1-hare@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Bar: +++
-Authentication-Results: smtp-out2.suse.de;
+X-Spamd-Bar: +++++
+Authentication-Results: smtp-out1.suse.de;
 	dkim=none;
 	dmarc=none;
-	spf=softfail (smtp-out2.suse.de: 149.44.160.134 is neither permitted nor denied by domain of hare@suse.de) smtp.mailfrom=hare@suse.de
+	spf=softfail (smtp-out1.suse.de: 149.44.160.134 is neither permitted nor denied by domain of hare@suse.de) smtp.mailfrom=hare@suse.de
 X-Rspamd-Server: rspamd2
-X-Spamd-Result: default: False [3.67 / 50.00];
+X-Spamd-Result: default: False [5.49 / 50.00];
 	 ARC_NA(0.00)[];
 	 FROM_HAS_DN(0.00)[];
 	 TO_DN_SOME(0.00)[];
@@ -77,11 +77,11 @@ X-Spamd-Result: default: False [3.67 / 50.00];
 	 R_DKIM_NA(0.20)[];
 	 MIME_TRACE(0.00)[0:+];
 	 RCVD_COUNT_TWO(0.00)[2];
-	 BAYES_HAM(-1.82)[93.93%]
-X-Rspamd-Queue-Id: E04141FE5F
+	 BAYES_HAM(-0.00)[29.89%]
+X-Rspamd-Queue-Id: DFE1621869
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231023_231344_882975_51579D28 
-X-CRM114-Status: UNSURE (   8.44  )
+X-CRM114-CacheID: sfid-20231023_231341_797230_FFB8F6A9 
+X-CRM114-Status: UNSURE (   9.20  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -97,31 +97,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_tcp_setup_ctrl() has an open-coded version of
-nvme_tcp_teardown_admin_queue().
+Once ->init_ctrl_finish() is called there may be commands outstanding,
+so we should quiesce the admin queue and cancel all commands prior
+to call nvme_loop_destroy_admin_queue().
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/host/tcp.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ drivers/nvme/target/loop.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 4714a902f4ca..e98076392b69 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -2236,11 +2236,7 @@ static int nvme_tcp_setup_ctrl(struct nvme_ctrl *ctrl, bool new)
- 		nvme_tcp_destroy_io_queues(ctrl, new);
- 	}
- destroy_admin:
--	nvme_quiesce_admin_queue(ctrl);
--	blk_sync_queue(ctrl->admin_q);
--	nvme_tcp_stop_queue(ctrl, 0);
--	nvme_cancel_admin_tagset(ctrl);
--	nvme_tcp_destroy_admin_queue(ctrl, new);
-+	nvme_tcp_teardown_admin_queue(ctrl, false);
- 	return ret;
- }
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index 48d5df054cd0..9cb434c58075 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -466,6 +466,8 @@ static void nvme_loop_reset_ctrl_work(struct work_struct *work)
+ out_destroy_io:
+ 	nvme_loop_destroy_io_queues(ctrl);
+ out_destroy_admin:
++	nvme_quiesce_admin_queue(&ctrl->ctrl);
++	nvme_cancel_admin_tagset(&ctrl->ctrl);
+ 	nvme_loop_destroy_admin_queue(ctrl);
+ out_disable:
+ 	dev_warn(ctrl->ctrl.device, "Removing after reset failure\n");
+@@ -600,6 +602,8 @@ static struct nvme_ctrl *nvme_loop_create_ctrl(struct device *dev,
+ 	return &ctrl->ctrl;
  
+ out_remove_admin_queue:
++	nvme_quiesce_admin_queue(&ctrl->ctrl);
++	nvme_cancel_admin_tagset(&ctrl->ctrl);
+ 	nvme_loop_destroy_admin_queue(ctrl);
+ out_free_queues:
+ 	kfree(ctrl->queues);
 -- 
 2.35.3
 
