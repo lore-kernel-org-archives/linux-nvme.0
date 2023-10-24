@@ -4,107 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE2F1C25B47
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Oct 2023 06:51:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6321CC00A8F
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Oct 2023 07:08:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Pau3+0/NlGfzN9CKQqjt2HZnTXnCBU9sg9VtB1cLmgk=; b=UpaVTaoPaftJwm59GITjf8KoNi
-	eQP0+aEI+7yrtM0FeuZJT10NungmlC3bONXEjelhI/kl4cInpchdCY5ME8C/vqZWK0LlKWSaAqbdg
-	CaWqB8F2wySSqsc70kd6dEwr9xtIQXwFyN+bJ2XGOYqeDDXJty7EdMdINJS9vaxdt8b3NOlCS4ABN
-	pfqbM/EB3Bjc/pnlJaAp0I6LEP8wJcAqPFTvit9s0UMr9M5KY78pi+m/wFuNKVr7yhOrhqhqSTr0B
-	Mx3aOPlN2yJ8L6TWEB37W7Sz+pRjSoqzh3JvI7vj0585Nr0OAZCWieDOScTULaOiLnHtuW34e62Rp
-	rwaXDjNw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=qHl/gTL2TD8JhbGUTV/3Jap8t1AfGGr5PHeWNdjOgng=; b=lcJutiBWCHTtQ1WBAq72AxUQjl
+	lV3GZpntRe9HE6zKOu0ASJZxyjKqI2Bg+J0IEwYtn/qcRigP4ZjQLq1pBjlIEn2VQMmvKU9ALnCKi
+	KHO+RsrAQhSyPyEEQEUftOlYp170toyMG44iejtvSM7/XbOpKzgpJP/tyF7fSMf+VHjcwjgYbl1mq
+	lPBm/qruGQHS+SnKFQn56+g+V3T2g7fB/psCvyNvyU7RW056msY3nVvqqUbGvn4MGNtw/zO+sdIHy
+	RgdwW+lQzrn3T1DKpIOu0kS0XSwwBqXECg5ol+2+kE9CVQBDJtDiky0WB9adf6yuZWB5FVUbii9QZ
+	kkVKFYNw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qvBGY-00916j-1I;
-	Tue, 24 Oct 2023 06:51:50 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1qvBWI-0092aF-0B;
+	Tue, 24 Oct 2023 07:08:06 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qvBGV-00915r-0o
+	id 1qvBWF-0092ZW-2t
 	for linux-nvme@lists.infradead.org;
-	Tue, 24 Oct 2023 06:51:48 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id F21091FE62;
-	Tue, 24 Oct 2023 06:51:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1698130304; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Pau3+0/NlGfzN9CKQqjt2HZnTXnCBU9sg9VtB1cLmgk=;
-	b=IzyLFtugKO/iNGNt92HdpOTQnrsAC8YBcdKV4hr55PD+vm5QPZg9y2bDyqnTwxNdmMRcWV
-	mf0ku1vBhTHWShPn8AOZ1jswFDaaklt9Ibhvv1ODz7zflIZuMIF3gEdLCfVwB0xI/TPbox
-	PAz9U3PywIZ9LKBjv+MnVSGwSjWC3I0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1698130304;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Pau3+0/NlGfzN9CKQqjt2HZnTXnCBU9sg9VtB1cLmgk=;
-	b=FoIPCbxl1AfgJMZUJD6LHheQsYUwgsaWl1S1VWp6B3+jtXHcCqYhLJ50MxJjIAk8yF4VCE
-	uBgcwPIFSItmkJBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BC4BE1391C;
-	Tue, 24 Oct 2023 06:51:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id PEnWLH9pN2UvLwAAMHmgww
-	(envelope-from <hare@suse.de>); Tue, 24 Oct 2023 06:51:43 +0000
-Message-ID: <bc532b70-e286-4fa0-848b-bd837abc73a5@suse.de>
-Date: Tue, 24 Oct 2023 08:51:43 +0200
+	Tue, 24 Oct 2023 07:08:05 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 312F767373; Tue, 24 Oct 2023 09:08:00 +0200 (CEST)
+Date: Tue, 24 Oct 2023 09:07:59 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Kanchan Joshi <joshi.k@samsung.com>,
+	axboe@kernel.dk, sagi@grimberg.me, linux-nvme@lists.infradead.org,
+	gost.dev@samsung.com, vincentfu@gmail.com, stable@vger.kernel.org
+Subject: Re: [PATCH v2] nvme: remove unprivileged passthrough support
+Message-ID: <20231024070759.GE9847@lst.de>
+References: <CGME20231016061151epcas5p1a0e18162b362ffbea754157e99f88995@epcas5p1.samsung.com> <20231016060519.231880-1-joshi.k@samsung.com> <ZS2D4VixIYfMQMwg@kbusch-mbp.dhcp.thefacebook.com> <ZTBNfDzxD3D8loMm@kbusch-mbp> <20231019050411.GA14044@lst.de> <ZTKN7f7kzydfiwb2@kbusch-mbp> <20231023054456.GB11272@lst.de> <ZTaOzORdmFwxCW1c@kbusch-mbp>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: blktests: running nvme and srp tests with real RDMA hardware
-Content-Language: en-US
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>
-Cc: Daniel Wagner <dwagner@suse.de>, Sagi Grimberg <sagi@grimberg.me>,
- Bart Van Assche <bvanassche@acm.org>
-References: <vaijnbobhxyz4nkk2csv3nfhnpeupbudakcn3qgmo7o6vii4x5@rfnfdll6iloo>
- <ce187671-ea90-4d97-b323-70f275c09649@suse.de>
- <4bdf4031-5f14-4cb1-92d3-7ae106a4a73f@nvidia.com>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <4bdf4031-5f14-4cb1-92d3-7ae106a4a73f@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spamd-Result: default: False [-7.09 / 50.00];
-	 ARC_NA(0.00)[];
-	 TO_DN_EQ_ADDR_SOME(0.00)[];
-	 XM_UA_NO_VERSION(0.01)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 NEURAL_HAM_LONG(-3.00)[-1.000];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-1.00)[-1.000];
-	 RCPT_COUNT_SEVEN(0.00)[8];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_COUNT_TWO(0.00)[2];
-	 RCVD_TLS_ALL(0.00)[];
-	 MID_RHS_MATCH_FROM(0.00)[]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZTaOzORdmFwxCW1c@kbusch-mbp>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231023_235147_447759_0C60A1B5 
-X-CRM114-Status: GOOD (  15.86  )
+X-CRM114-CacheID: sfid-20231024_000804_080274_F69896BD 
+X-CRM114-Status: GOOD (  19.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -119,57 +60,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/24/23 07:55, Chaitanya Kulkarni wrote:
-> On 10/23/23 22:43, Hannes Reinecke wrote:
->> On 10/24/23 04:59, Shinichiro Kawasaki wrote:
->>> Hello blktests users,
->>>
->>> As of today, software RDMA driver "siw" or "rdma_rxe" is used to run
->>> "nvme"
->>> group with nvme_trtype=rdma or "srp" (scsi rdma protocol) group. Now
->>> it is
->>> suggested to run the test groups with real RDMA hardware to run tests in
->>> more realistic conditions. A GitHub pull request is under review to
->>> support
->>> it [1]. If you are interested in, please take a look and comment.
->>>
->>> [1] https://github.com/osandov/blktests/pull/86
->>
->> Just commented on it. What we really need is the functionality to run
->> against pre-configured controllers (ie specify the controller NQN and
->> NSID and do not call into nvmetcli); when running on real HW we
->> typically cannot control the target, so we need to be able to specify
->> a preconfigured namespace.
->>
->> Cheers,
->>
->> Hannes
+On Mon, Oct 23, 2023 at 09:18:36AM -0600, Keith Busch wrote:
+> On Mon, Oct 23, 2023 at 07:44:56AM +0200, Christoph Hellwig wrote:
+> > Yes, you need someone with root access to change the device node
+> > persmissions.  But we allowed that under the assumption it is safe
+> > to do so, which it turns out it is not.
 > 
-> What format you think use to accept the pre configured namespace ?
-> thinking out loudly Can relay and we use nvmetcli config file somehow
-> for local loop back setup ?
+> Okay, iiuc, while we have to opt-in to allow this hole, we need another
+> option for users to set to allow this usage because it's not safe.
 > 
-Ideally I would hide it behind the call to '_setup_nvmet' / 
-'_nvmet_target_setup' / '_nvmet_target_cleanup'.
-We already have 'def_subsysnqn', which should be set to the
-pre-provisioned NQN. We clearly need a 'def_nsid', but that
-should be easily done.
+> Here are two options I have considered for unpriveledged access, please
+> let me know if you have others or thoughts.
+> 
+>   Restrict access for processes with CAP_SYS_RAWIO, which can be granted
+>   to non-root users. This cap is already used in scsi subsystem, too.
 
-Biggest problem here will be the 'out' files. Most of them record the
-default NQN, so if we allow to change that the tests will break.
-How can we abstract away from that?
+Well, that's sensible in general.
 
-Maybe it's a good exercise even with the current codebase; just
-set 'def_subsysnqn' to something else and watch what breaks ...
+>   A per nvme-generic namespace sysfs attribute that only root can toggle
+>   that would override any caps and just rely on access permissions.
 
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
-
+And that I'm not confident about as long as we can only use the broken
+PRP scheme on NVMe.
 
