@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 03DABC25B47
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Oct 2023 10:51:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07037C25B47
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Oct 2023 10:51:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=xTMGiIf9BvcjDTMlnBhMDXLdKdTkxQrxNd4R2wPfqL8=; b=K6drm2aCOHIZMZoMcotx0iOgJ4
-	P1lVqjPGiIt+sgf8rbbFRosuCE+L5kbulvz4bjZ6RaA0WfJ84GbY1+yoUtulKwYYszqgggGvdGslk
-	Q8MwE8j4Pei/lhNx3IozQT07BCwKMgn/gtRLsuT2ceHtgSVbCammS+i+ZUt/t5JRZaJFT0K3C9ml5
-	VgwZgQVx6mz84ERNf+hb7VwtR5AS9bj2F4GWVj57qevSZRrMGMCm/dBl/8PcC/r8spw7uAMc8PT/W
-	Aju4VRRjvVSmv0sbq0Z07C+dJV/TQj3egy05F68zIYE/8rjD88Ij5AzG0K3Ep2i8trjRKPnyNmPUS
-	ZFnfzEaA==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=JJl2pNGus+zmZZ2QAVuG7fmdoEEDiypT/1RRzJ57qyw=; b=d37gGa0Evz+1lQCY61JXsTj8sS
+	5geXHBRATEkHzmK954gQkza2qzMFfhNyDTAZzr/nleuS3hknsn6fe4Tj2xa2P6wl+QoTd6cLH47vO
+	uaZR/CAL7Isee3XrdD9LmFteizaAiZp09R8bT+QuBAENEdq+E5iAiFNfhzNMe82m8dc7LheyHNitY
+	IktzqkytLZo+UlVW6qCJMhSJP22GIztFR5HS6KinzCLOThrmkwWbfLGjEoqlhfZi4+8NeL3s+uUOU
+	joq2SY7gnGV4oh8gM3stVABnAbIv0NjTXDxZP/qjNktUpSGeJOLK2uMwTFd0cSvUcNEJNq0oxEFzD
+	l4bFCZdQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qvbUI-00C7JD-0E;
-	Wed, 25 Oct 2023 10:51:46 +0000
+	id 1qvbUM-00C7KG-0s;
+	Wed, 25 Oct 2023 10:51:50 +0000
 Received: from mout02.posteo.de ([185.67.36.66])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qvbUF-00C7HR-33
+	id 1qvbUG-00C7HX-0R
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Oct 2023 10:51:45 +0000
+	Wed, 25 Oct 2023 10:51:46 +0000
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id 38DEE240103
-	for <linux-nvme@lists.infradead.org>; Wed, 25 Oct 2023 12:51:37 +0200 (CEST)
+	by mout02.posteo.de (Postfix) with ESMTPS id CDBE6240103
+	for <linux-nvme@lists.infradead.org>; Wed, 25 Oct 2023 12:51:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-	t=1698231098; bh=0FIw4YJi8aEpRPqIX3rgKn5FpRFYwb1qqUHkTAzLsjs=;
+	t=1698231100; bh=YFBxTR0zvXLVBvSBdoAtunK27N4nE0w7KBv3zsHx+dg=;
 	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:
 	 Content-Transfer-Encoding:From;
-	b=ewWc+fvryAkPURvNf09ookvNOU0cLZIF8Ake76dylPBepOa2hRTOzLUnkcGMmYD2q
-	 pHysgkghxNSsVaC3uOR2+zCYpDdwhlAIPQQSxOSeWNr3BdlWF7FWm2QBorfMMVBygm
-	 3yxKsJhrOWbt93TGkkU4B9ADtOLuKR+hVujTbRIRekhpC7xw10eyi+DMWP4g4Fvr7E
-	 5c11mmtVU4qjstY1kCMO8b783kO6N0cyCk7tPFfYmOwrEqe5d3BsnVurW63gfPBPus
-	 PzoZnpC26XNV15S5sMrML28ESbJbMASmeIdVEMbdifYX9bfzYpELikM9nTWpe7R8+z
-	 5hcH5q2J4CFbQ==
+	b=G8WLzTYnOQwb7L+Iv+qxQD7cF8gI3zQa/zQtvHCVopa5UOWp9r25c4qNwV1PCbo6t
+	 xLPFuZbjtcV+DZYqzuoigK6kvE1K3DF1aijVZw1lTMMKj1ws4eCl47jJo0wBaCiiyG
+	 XG2tgjwqvWJAEi2Aakg/8T2gYwmycF/AXHn9mVOM+8VQANW1zUWNG6WTGegs8JaWl5
+	 ZwpM8jY69Uyy8BJFSmF51482P7BrruWNJPx9HY1RFqEshKuwrCRnAtSCt1c3kWEDDr
+	 GRrbhRcKeeAXyso/8YSJlhraX2gHHivkvZxhXOrb3eTzKWferG+Am/ZcchZz4dMbPb
+	 IsZ5TbDbFYsEA==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4SFm2G6rRLz9rxB;
-	Wed, 25 Oct 2023 12:51:34 +0200 (CEST)
+	by submission (posteo.de) with ESMTPSA id 4SFm2M3kRBz9rxL;
+	Wed, 25 Oct 2023 12:51:39 +0200 (CEST)
 From: Mark O'Donovan <shiftee@posteo.net>
 To: linux-kernel@vger.kernel.org
 Cc: linux-nvme@lists.infradead.org,
@@ -52,15 +52,16 @@ Cc: linux-nvme@lists.infradead.org,
 	kbusch@kernel.org,
 	hare@suse.de,
 	Mark O'Donovan <shiftee@posteo.net>
-Subject: [PATCH v3 0/3] nvme-tcp: always set valid seq_num in dhchap reply
-Date: Wed, 25 Oct 2023 10:51:22 +0000
-Message-Id: <20231025105125.134443-1-shiftee@posteo.net>
+Subject: [PATCH v3 3/3] nvme-auth: always set valid seq_num in dhchap reply
+Date: Wed, 25 Oct 2023 10:51:25 +0000
+Message-Id: <20231025105125.134443-4-shiftee@posteo.net>
+In-Reply-To: <20231025105125.134443-1-shiftee@posteo.net>
+References: <20231025105125.134443-1-shiftee@posteo.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231025_035144_133581_0ACC7125 
-X-CRM114-Status: UNSURE (   8.79  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20231025_035144_342067_2CA76B84 
+X-CRM114-Status: GOOD (  13.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,32 +76,66 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The first patch is a small unrelated fix which makes it clear that the
-response data section of the Success1 message is not optional.
+Currently a seqnum of zero is sent during uni-directional
+authentication. The zero value is reserved for the secure channel
+feature which is not yet implemented.
 
-The second patch removes use of the host sequence number (S2) as an
-indicator of bi-directional authentication.
+Relevant extract from the spec:
+The value 0h is used to indicate that bidirectional authentication
+is not performed, but a challenge value C2 is carried in order to
+generate a pre-shared key (PSK) for subsequent establishment of a
+secure channel
 
-The third patch causes us to always set the host sequence number (S2)
-to a non-zero value instead of the 0 value reserved for the secure
-channel feature.
+Signed-off-by: Mark O'Donovan <shiftee@posteo.net>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
-v1: original submission
-v2: rebased + added dedicated variable for bi-directional auth
-v3: nvme-target code now reads seq-num
+---
+v1: used incorrect prefix nvme-tcp
+v2: added spec extract to commit message
+v3: read the seq-num in nvme-target code
 
-Mark O'Donovan (3):
-  nvme-auth: auth success1 msg always includes resp
-  nvme-auth: add flag for bi-directional auth
-  nvme-auth: always set valid seq_num in dhchap reply
+ drivers/nvme/host/auth.c               | 3 +--
+ drivers/nvme/target/fabrics-cmd-auth.c | 2 +-
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
- drivers/nvme/host/auth.c               | 13 ++++++-------
- drivers/nvme/target/fabrics-cmd-auth.c |  2 +-
- include/linux/nvme.h                   |  2 +-
- 3 files changed, 8 insertions(+), 9 deletions(-)
-
-
-base-commit: 4f82870119a46b0d04d91ef4697ac4977a255a9d
+diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+index 8558a02865ac..7f6b2e99a78c 100644
+--- a/drivers/nvme/host/auth.c
++++ b/drivers/nvme/host/auth.c
+@@ -316,15 +316,14 @@ static int nvme_auth_set_dhchap_reply_data(struct nvme_ctrl *ctrl,
+ 		chap->bi_directional = true;
+ 		get_random_bytes(chap->c2, chap->hash_len);
+ 		data->cvalid = 1;
+-		chap->s2 = nvme_auth_get_seqnum();
+ 		memcpy(data->rval + chap->hash_len, chap->c2,
+ 		       chap->hash_len);
+ 		dev_dbg(ctrl->device, "%s: qid %d ctrl challenge %*ph\n",
+ 			__func__, chap->qid, (int)chap->hash_len, chap->c2);
+ 	} else {
+ 		memset(chap->c2, 0, chap->hash_len);
+-		chap->s2 = 0;
+ 	}
++	chap->s2 = nvme_auth_get_seqnum();
+ 	data->seqnum = cpu_to_le32(chap->s2);
+ 	if (chap->host_key_len) {
+ 		dev_dbg(ctrl->device, "%s: qid %d host public key %*ph\n",
+diff --git a/drivers/nvme/target/fabrics-cmd-auth.c b/drivers/nvme/target/fabrics-cmd-auth.c
+index 1d9854484e2e..eb7785be0ca7 100644
+--- a/drivers/nvme/target/fabrics-cmd-auth.c
++++ b/drivers/nvme/target/fabrics-cmd-auth.c
+@@ -163,11 +163,11 @@ static u16 nvmet_auth_reply(struct nvmet_req *req, void *d)
+ 		pr_debug("%s: ctrl %d qid %d challenge %*ph\n",
+ 			 __func__, ctrl->cntlid, req->sq->qid, data->hl,
+ 			 req->sq->dhchap_c2);
+-		req->sq->dhchap_s2 = le32_to_cpu(data->seqnum);
+ 	} else {
+ 		req->sq->authenticated = true;
+ 		req->sq->dhchap_c2 = NULL;
+ 	}
++	req->sq->dhchap_s2 = le32_to_cpu(data->seqnum);
+ 
+ 	return 0;
+ }
 -- 
 2.39.2
 
