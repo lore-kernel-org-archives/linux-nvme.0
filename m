@@ -4,103 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC6AFC25B47
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Oct 2023 10:56:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30426C25B47
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Oct 2023 12:16:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zeDWim+JScQgSjn6RlSH0KxhQY+Tl4p6+kd8bxOPMlY=; b=NuYpVYqdjfG1SkUl9MWbyBjHYG
-	cgcfNH1bMY4sKKUvMcLgNKKdBDwsSmLxUXzHlMb/ERw83PQISrtAwAR2LKBEiswOTjqhb6ERp0SgN
-	EgWA4K7LSahcttEncFbjW8lx+/uJoGoSkVRs0Evf4e2fS8ZjqcOUO2MOcffDKPza3vbkWGhddP/sw
-	bR4PeMvRrU//SmmiTtecCyLGDwLc6rDJF2sSZ41aMovfZX82e5+ZXLfSmG4U/d0f/dXOPY8OSp+oI
-	ooO1VtYb91tj4GtBtQhlrhzWRs2yOq28J9jMhR2tDAZNMPQButZEsatdTAQRHtVbOH7VHgLSFpmHd
-	RnO9Awyw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Subject:Cc:To:
+	From:Date:References:In-Reply-To:Message-Id:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=fNw9+b/Rv6pGAdSK+4nGBgAIWQCyInIRXWS4ldHD6gM=; b=bn0DYBW24zaHPHuPGuEvVifemj
+	vaTkbUs3BD0DCzp4Vj3dWwKVqMH9xfGi+oifEcpma7z5IRKyZlICdhyc0d/ksivU1Y8PhJ9nLyibR
+	EJcoey1uU0ymJXZXEn9kNGZ5ffwcKanSHdqVSnHLxc2y5irQZiXWbzyEI6yOpVKx/XElBNLWjoNT5
+	0Fg0ovb0z2e6wV8vgBzksEH7DGz6jWPep/wb3REoKAp6yqqbmf+WlpzDf0G+FBsgOQmnkI2GscqHO
+	lHglamWvcOCJEZeHrEGG5Sx0p1eK6dB6K1ttF3Apm7TzwMLxcwsKf0aqgfjDKesM4PdSNdfqD4VxH
+	NvTghb3Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qvbZ9-00C87B-1k;
-	Wed, 25 Oct 2023 10:56:47 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1qvcoI-00CHPI-34;
+	Wed, 25 Oct 2023 12:16:30 +0000
+Received: from out1-smtp.messagingengine.com ([66.111.4.25])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qvbZ6-00C86g-1s
+	id 1qvcoF-00CHOD-2C
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Oct 2023 10:56:45 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0B4FF21DA9;
-	Wed, 25 Oct 2023 10:56:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1698231402; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zeDWim+JScQgSjn6RlSH0KxhQY+Tl4p6+kd8bxOPMlY=;
-	b=NXnheQZXRctRq2m3ZlyuWmkmoLDpA+qf06DJJuynTTtgtq+EDmb1eph14FuwoRMIhoqcfF
-	a7MLqTF3hRYZqtSjhtLegBBFCN3B2KrP4HA4dP1HkMrrO29pQW2LmGlJZmVMUlxcNaUpLe
-	0eYMBpZCGQf6mAOtl1hA/2yeG9xi82M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1698231402;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zeDWim+JScQgSjn6RlSH0KxhQY+Tl4p6+kd8bxOPMlY=;
-	b=BAukHQ5a4vx/UD9JbN9yEXKEZACAjqqhFIAKD0uHEtu8bKWjkF4jkDLUCemLRHWKuuLPyf
-	ZE4pzjFKIS9dfIDA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DC40C13524;
-	Wed, 25 Oct 2023 10:56:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id SAINNWn0OGVfSgAAMHmgww
-	(envelope-from <hare@suse.de>); Wed, 25 Oct 2023 10:56:41 +0000
-Message-ID: <70ec751d-8aba-42b4-861c-e7e17c4a7476@suse.de>
-Date: Wed, 25 Oct 2023 12:56:41 +0200
+	Wed, 25 Oct 2023 12:16:29 +0000
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id BD8955C03A9;
+	Wed, 25 Oct 2023 08:16:23 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Wed, 25 Oct 2023 08:16:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1698236183; x=1698322583; bh=fN
+	w9+b/Rv6pGAdSK+4nGBgAIWQCyInIRXWS4ldHD6gM=; b=n/Wxk4eX36AiGOHJoS
+	2d+9MRqXyvFwujXdRKPND/2KoGlvoUnMeqbYDl0G8mbjd3m49shbXOdhQMkDQH9L
+	bwXSa3JW7QJdaZNPWvvOvVHI1snYrZHnIAdpTuXHrI9pUd7L6HY8MBd5a4HlYuEn
+	m3RBkakmQY7IX/6qgAIi/w/IzxZwX6+Z3EAyewCWAW03GyJXCFIB5fH41uIk1rce
+	4Pj8az7p0WJQypu7JP5peUfouRoDP+wmAy5QFnJ8YrUY7zcuLf8+mkY63euZan3j
+	Zrc738iv7c+rOj/jwK+vFRBmPMqSBPBendjYmrzD/wx8UTJlSZrJHsVMJeSJrs4D
+	bF+Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; t=1698236183; x=1698322583; bh=fNw9+b/Rv6pGA
+	dSK+4nGBgAIWQCyInIRXWS4ldHD6gM=; b=la+cF0tuSlRe6J26SszHFsglE8nDq
+	LhDTA2rN0QEe9LB8BpnijcqXhb95OTWEeSaOD6LOZquoKwy/moighg73TagjkBKc
+	Gxb/2GqJQOyQ033jcYhlIAHEsGxs5AoANRLsYyOLARTdjO01UZREEZppy1dNkq5b
+	1t4gsLD1Vf4T3Fs4OnOLsD5HlhtdYkuGdAVOVellJYFRTmr9GtogzVN0n020x+g8
+	8pdd8WSfuRG9an8UqEn8FJDX4smG7uyY07sfo4hEmo++7rx53yh+p4VXvZDWNmM/
+	dsDGGm5tDQB2sRUg3SIWBYT6XmltjdmY++SogauHAHNNfiIUg7YnFa8iA==
+X-ME-Sender: <xms:Fwc5Zcvmh4gOnmTFuRSu5JSIYbl-otbGbBjz1ym4qsDRPqw1bMULaQ>
+    <xme:Fwc5ZZfCUVBY8Ox1970NeBWzHpklAZ7IkWDvsbSbfb6hr1wcpAAEcgRubH-nZsAar
+    A_tTGiCOrMhWKpG8rM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrledtgdeglecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeegteeihfejvdfhfeffhfdvvddvfffgtedvteeigfehhfehudffleejueduvdel
+    gfenucffohhmrghinhepphgrshhtvggsihhnrdgtohhmnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:Fwc5ZXzcN_QWk0__krfJjGKcYVbYYmHk2IPloOe1mENcc6DKakfzrg>
+    <xmx:Fwc5ZfO0EzsDMFWEhKFXJKljtZC7RntjiIzcrj33NQ3RCuDzj-5T0w>
+    <xmx:Fwc5Zc8hPqIeO3g2EzDDLKe89ynwb-n0bwOSLhiWEDH7-lW9gjRwTg>
+    <xmx:Fwc5ZeL5t7GMxzA43w8xs7gxYeXe1_hw2ALGg5-qNXQ3TL0lLwi5uA>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 1B71BB6008D; Wed, 25 Oct 2023 08:16:23 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1048-g9229b632c5-fm-20231019.001-g9229b632
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/3] nvme-auth: always set valid seq_num in dhchap
- reply
-Content-Language: en-US
-To: Mark O'Donovan <shiftee@posteo.net>, linux-kernel@vger.kernel.org
-Cc: linux-nvme@lists.infradead.org, sagi@grimberg.me, hch@lst.de,
- axboe@kernel.dk, kbusch@kernel.org
-References: <20231025105125.134443-1-shiftee@posteo.net>
- <20231025105125.134443-4-shiftee@posteo.net>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20231025105125.134443-4-shiftee@posteo.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [-11.04 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 XM_UA_NO_VERSION(0.01)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 BAYES_HAM(-2.95)[99.80%];
-	 MIME_GOOD(-0.10)[text/plain];
-	 REPLY(-4.00)[];
-	 NEURAL_HAM_LONG(-3.00)[-1.000];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-1.00)[-1.000];
-	 RCPT_COUNT_SEVEN(0.00)[7];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_COUNT_TWO(0.00)[2];
-	 RCVD_TLS_ALL(0.00)[];
-	 MID_RHS_MATCH_FROM(0.00)[]
+Message-Id: <24b5d8da-3804-4761-b480-69f1b5577fc0@app.fastmail.com>
+In-Reply-To: <4591215b-6ffa-4a74-8966-3ad0a3b9c239@suse.de>
+References: <20231025081253.113738-1-hare@suse.de>
+ <20231025081253.113738-3-hare@suse.de>
+ <2d945ecf-6313-488e-bed4-26d87df0f61e@app.fastmail.com>
+ <4591215b-6ffa-4a74-8966-3ad0a3b9c239@suse.de>
+Date: Wed, 25 Oct 2023 14:16:01 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Hannes Reinecke" <hare@suse.de>, "Christoph Hellwig" <hch@lst.de>
+Cc: "Keith Busch" <kbusch@kernel.org>, "Sagi Grimberg" <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 2/2] nvme: keyring: fix conditional compilation
+Content-Type: text/plain
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231025_035644_808989_507A967E 
-X-CRM114-Status: GOOD (  11.72  )
+X-CRM114-CacheID: sfid-20231025_051628_182745_DA73D67D 
+X-CRM114-Status: GOOD (  21.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,30 +106,102 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/25/23 12:51, Mark O'Donovan wrote:
-> Currently a seqnum of zero is sent during uni-directional
-> authentication. The zero value is reserved for the secure channel
-> feature which is not yet implemented.
-> 
-> Relevant extract from the spec:
-> The value 0h is used to indicate that bidirectional authentication
-> is not performed, but a challenge value C2 is carried in order to
-> generate a pre-shared key (PSK) for subsequent establishment of a
-> secure channel
-> 
-> Signed-off-by: Mark O'Donovan <shiftee@posteo.net>
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> 
-> ---
-> v1: used incorrect prefix nvme-tcp
-> v2: added spec extract to commit message
-> v3: read the seq-num in nvme-target code
-> 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+On Wed, Oct 25, 2023, at 11:11, Hannes Reinecke wrote:
+> On 10/25/23 10:20, Arnd Bergmann wrote:
+>> On Wed, Oct 25, 2023, at 10:12, Hannes Reinecke wrote:
+>>> From: Arnd Bergmann <arnd@arndb.de>
+>>>
+>>> The keyring and auth functions can be called from both the host and
+>>> the target side and are controlled by Kconfig options for each of the
+>>> combinations, but the declarations are controlled by #ifdef checks
+>>> on the shared Kconfig symbols.
+>>>
+>>> This leads to link failures in combinations where one of the frontends
+>>> is built-in and the other one is a module, and the keyring code
+>>> ends up in a module that is not reachable from the builtin code:
+>>>
+>>> ld: drivers/nvme/host/core.o: in function `nvme_core_exit':
+>>> core.c:(.exit.text+0x4): undefined reference to `nvme_keyring_exit'
+>>> ld: drivers/nvme/host/core.o: in function `nvme_core_init':
+>>> core.c:(.init.text+0x94): undefined reference to `nvme_keyring_init
+>>>
+>>> ld: drivers/nvme/host/tcp.o: in function `nvme_tcp_setup_ctrl':
+>>> tcp.c:(.text+0x4c18): undefined reference to `nvme_tls_psk_default'
+>>>
+>>> Address this by moving nvme_auth_init()/nvme_auth_exit() into
+>>> module init/exit functions for the keyring module.
+>>>
+>>> Fixes: be8e82caa6859 ("nvme-tcp: enable TLS handshake upcall")
+>>> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+>>> Signed-off-by: Hannes Reinecke <hare@suse.de>
+>> 
+>> Your patch looks good to me, and I think this fixes a
+>> separate problem with missing the initialization of the
+>> keyring when the kernel has only the target driver but
+>> no host support, but it has nothing to do with the changelog
+>> I wrote above and does not fix the build regression
+>> I described.
+>> 
+> Hmm. Can you send me the .config file (or the config options for NVMe 
+> where there failure occurred)? I tried the configurations mentioned, and 
+> it worked for me.
+> But apparently I didn't get the right combination...
 
-Cheers,
+Sorry if my explanations were not clear enough. The two
+broken cases can be triggered using:
 
-Hannes
+https://pastebin.com/aVQ1UbTv
+CONFIG_NVME_KEYRING=m
+CONFIG_NVME_AUTH=m
+CONFIG_NVME_CORE=y
+CONFIG_NVME_MULTIPATH=y
+CONFIG_NVME_VERBOSE_ERRORS=y
+CONFIG_NVME_FABRICS=y
+CONFIG_NVME_FC=y
+CONFIG_NVME_TCP=y
+# CONFIG_NVME_TCP_TLS is not set
+# CONFIG_NVME_HOST_AUTH is not set
+CONFIG_NVME_TARGET=m
+# CONFIG_NVME_TARGET_PASSTHRU is not set
+# CONFIG_NVME_TARGET_LOOP is not set
+CONFIG_NVME_TARGET_FC=m
+CONFIG_NVME_TARGET_FCLOOP=m
+CONFIG_NVME_TARGET_TCP=m
+CONFIG_NVME_TARGET_TCP_TLS=y
+CONFIG_NVME_TARGET_AUTH=y
+ld: drivers/nvme/host/tcp.o: in function `nvme_tcp_setup_ctrl':
+tcp.c:(.text+0x1099): undefined reference to `nvme_tls_psk_default'
 
+and
 
+https://pastebin.com/jXQ71vn9
+CONFIG_NVME_KEYRING=m
+CONFIG_NVME_AUTH=m
+CONFIG_NVME_CORE=m
+CONFIG_NVME_MULTIPATH=y
+CONFIG_NVME_VERBOSE_ERRORS=y
+CONFIG_NVME_FABRICS=m
+CONFIG_NVME_FC=m
+CONFIG_NVME_TCP=m
+CONFIG_NVME_TCP_TLS=y
+CONFIG_NVME_HOST_AUTH=y
+CONFIG_NVME_TARGET=y
+# CONFIG_NVME_TARGET_LOOP is not set
+CONFIG_NVME_TARGET_FC=m
+CONFIG_NVME_TARGET_FCLOOP=m
+CONFIG_NVME_TARGET_TCP=y
+# CONFIG_NVME_TARGET_TCP_TLS is not set
+# CONFIG_NVME_TARGET_AUTH is not set
+ld: drivers/nvme/target/configfs.o: in function `nvmet_ports_make':
+configfs.c:(.text+0x13b8): undefined reference to `nvme_keyring_id'
+
+The problem is the same in each case: one of the two callers
+(target or host) is set to =m and enables keyring support, while
+the other one is built-in but doesn't use the keyring. This
+leads to the keyring code being built as a loadable module, but
+include/linux/nvme-keyring.h contains broken stub functions
+that lead to it still getting referenced from the built-in
+code.
+
+     Arnd
 
