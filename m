@@ -4,45 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EB323C25B6B
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Oct 2023 20:22:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1CA9BC25B47
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Oct 2023 05:21:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wNTOQPV73Hy7MLtPhY+UIEup4Hnv+7LNNm+Nm3DMl9s=; b=2RdQy4fLUjPWhxy01CpBlSNiLD
-	hz1O5XMRoeyTKX12hga2kNuUBZAgE3oMdsBwSy2JQUOH5m2pCHExP80TDURNTzI474/4MUvBMZziS
-	zjeMKmzhf/8nRkavWyrS+5ZdDE1wB8PHaWJ+e5NGzqNSpGMo5n0Wnm58CqFvbK8fyaW3L61UNrBhe
-	6Xu211aJfcNtbfWoQkQeW7CBdg2mhnJib4nXRUISl4MO312NGInfe0hCWLFt3G2sAKQ2B+MuhbUxK
-	r8EWYcJBa/IWnjAvmpbagVtfEhV3kQYG+ffqCwnW+IqZkMXr7LnTvObM288tmvbwor3m6GwMT6K6J
-	UUCoZvVA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=CU/hrZCmyP7/rDRYrSuHFtS7uN9bEnPWtIo5RDKsd4Q=; b=3PTxspLdvsHBUC39D+FEe8P+BX
+	QyTmc3GCr8Z9D2Tvk1mpAV864tcET7w0rFs9OnnvMJc0lip2j5mEaWlhuMLwWTP72ZrZKJ1yt7BYY
+	ole+Y8QZg3g6QZ5/gKnRTjBFKHwH9nvZjt35mKzk8IU5ozIPtpy87MMyobYnhGVOWCdt9gQV97KSw
+	VeiHroDrPBq1uvOY+cUQtshkzg5k7bxGsVBukW4L9oQ2wDApSfkiQ5MaUHoV9f2z0O2iwTuQny8RI
+	BpoFFoSu2Ca8qTKmfwlhKgPIOZIx2TZJMSQYqjruTOQ5y4QBW68hj6VB6TR+2RY7pDOtnAxjTYMyb
+	htHIXc4w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qw6sM-00F7Oe-22;
-	Thu, 26 Oct 2023 20:22:42 +0000
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1qw6sK-00F7OL-16;
-	Thu, 26 Oct 2023 20:22:40 +0000
-Message-ID: <8edd2ee3-13a1-4873-bb59-46727c0914ea@infradead.org>
-Date: Thu, 26 Oct 2023 13:22:39 -0700
+	id 1qwFHh-00FcAq-18;
+	Fri, 27 Oct 2023 05:21:25 +0000
+Received: from verein.lst.de ([213.95.11.211])
+	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
+	id 1qwFHe-00FcAQ-0K
+	for linux-nvme@lists.infradead.org;
+	Fri, 27 Oct 2023 05:21:23 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 8FEE568AFE; Fri, 27 Oct 2023 07:21:18 +0200 (CEST)
+Date: Fri, 27 Oct 2023 07:21:18 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Arnd Bergmann <arnd@arndb.de>, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 2/2] nvme: keyring: fix conditional compilation
+Message-ID: <20231027052118.GB7885@lst.de>
+References: <20231026130804.142586-1-hare@suse.de> <20231026130804.142586-3-hare@suse.de> <b138c4c5-9b49-4338-a79a-2f77a13381e8@app.fastmail.com> <d497429d-a1a2-4bf4-a958-3865294d9f2e@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: linux-next: Tree for Oct 26 (drivers/nvme/host/core.c)
-Content-Language: en-US
-To: Stephen Rothwell <sfr@canb.auug.org.au>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, sagi@grimberg.me
-References: <20231026152213.13c2382f@canb.auug.org.au>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20231026152213.13c2382f@canb.auug.org.au>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d497429d-a1a2-4bf4-a958-3865294d9f2e@suse.de>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20231026_222122_320120_0FA446CA 
+X-CRM114-Status: GOOD (  16.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -57,47 +60,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Thu, Oct 26, 2023 at 04:20:12PM +0200, Hannes Reinecke wrote:
+> Host Target Keyring
+> n    n      n
+> n    m      m
+> n    y      y
+> m    n      m
+> m    m      m
+> m    y      y
+> y    n      y
+> y    m      y
+> y    y      y
+>
+> So we're correct in 75% of all cases :-)
+> And before we trying to figure out some weird complex kconfig syntax
+> to get all cases correct I prefer the easy solution.
+> Plus it has the benefit that the keyring is avialable right from the
+> start, so you can pre-provision keys even before nvme is loaded.
 
+in the 75% of cases that don't really matter, as 99% of all setups
+have nvme and nvmet built modular, and for that you now build code
+into the kernel for no good reason at all.
 
-On 10/25/23 21:22, Stephen Rothwell wrote:
-> Hi all,
-> 
-> Changes since 20231025:
-> 
+FYI, what's I've done a lot in the past for such simple helper is
+to not have a Kconfig symbol at all, but let the Makefile handle
+it.
 
-on S390, with:
+A
 
-#
-# NVME Support
-#
-CONFIG_NVME_COMMON=m
-CONFIG_NVME_KEYRING=y
-CONFIG_NVME_AUTH=y
-CONFIG_NVME_CORE=y
-CONFIG_BLK_DEV_NVME=y
-# CONFIG_NVME_MULTIPATH is not set
-CONFIG_NVME_VERBOSE_ERRORS=y
-CONFIG_NVME_HWMON=y
-CONFIG_NVME_FABRICS=y
-CONFIG_NVME_FC=y
-CONFIG_NVME_TCP=m
-CONFIG_NVME_TCP_TLS=y
-# CONFIG_NVME_HOST_AUTH is not set
-CONFIG_NVME_TARGET=m
-# CONFIG_NVME_TARGET_PASSTHRU is not set
-# CONFIG_NVME_TARGET_LOOP is not set
-# CONFIG_NVME_TARGET_FC is not set
-# CONFIG_NVME_TARGET_TCP is not set
-CONFIG_NVME_TARGET_AUTH=y
-# end of NVME Support
+obj-$(CONFIG_MOD1)	+= mod1.o mod-common.o
+obj-$(CONFIG_MOD2)	+= mod2.o mod-common.o
 
+will actually do the right thing here without much complicated
+boilerplate.
 
-s390-linux-ld: drivers/nvme/host/core.o: in function `nvme_core_exit':
-drivers/nvme/host/core.c:4760:(.exit.text+0x1e): undefined reference to `nvme_keyring_exit'
-s390-linux-ld: drivers/nvme/host/core.o: in function `nvme_core_init':
-drivers/nvme/host/core.c:4727:(.init.text+0x122): undefined reference to `nvme_keyring_init'
-
-
--- 
-~Randy
 
