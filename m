@@ -4,59 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92B9FC25B72
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Oct 2023 18:20:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3423C25B6F
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Oct 2023 18:20:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2MEE7cRzsGfeMnNn2eY3zHEqVKk2sJ/zEGUF3QOFPSY=; b=kgm+ezh5LUb1H10SQiaFeQPUxJ
-	mFjCBaNxKPax+CRP/RvYv/1i2kPoQHHNXJ+1h1LhGlhy7bmujDYMv2WKfpmU3CC0ehPoYUZ5uBODk
-	V2FUbu0oOrVHn/r+/sRF/ZU63cfQxfBJUQ32s0EpB5O2iOLFHkAoYsPLm1g2lLVPzWzVcinoavzn2
-	Yvj9f5Rq3+rFu8WX6XtsujGuSx/3WQvUUelSjyI8isEQyD+9OSjBRA3Ghx52snFX0J0xgmqAOp6tf
-	JT9oGTJ9YC78Ik6eYup8pV4PMi8OpDyGU3gncYFeF0hgf8Tu9KXjRPKjpIpa/OXQq7GsoL4zkP4ek
-	XK6xxzxg==;
+	bh=PeYXdDD9BDy0e7ssYNWuuSlwKOHdUA7B3s3SZXstLZY=; b=EEy0BcEUdkxiq2+5a8RrC5rfaV
+	2PHz/kmJmHOD5gAI/00QqqD0osXh5bghXlc2acz2tiy2w2gzDMPc5VRTHb4zQ9Pek+dU630KOzHdT
+	0sO1JNXV2kCpjO368kGLTy+TM2pqMAasEk9QBCmPg0ishVwejnv0MhG8ZecIWPchBacajZtia5MY5
+	Uwuos7EVaqdNT1xMFi0EeCOsSLPjW9oSt/z8CyPKkLklVMWJeUByx+NehsrNryYpe/GiWWOtieuFe
+	lDRmFVvKwUDpFcry2/L21UJ1ZzPCorIzDQum5tk7E+QMAb28miajB3XjBCLux9i0n5mtsf1erRGog
+	sjv4jFOg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qwRRI-00Gw7v-1o;
-	Fri, 27 Oct 2023 18:20:08 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
+	id 1qwRRO-00GwAr-1E;
+	Fri, 27 Oct 2023 18:20:14 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qwRRD-00Gw4x-1g
+	id 1qwRRL-00Gw93-0G
 	for linux-nvme@lists.infradead.org;
-	Fri, 27 Oct 2023 18:20:04 +0000
-Received: from pps.filterd (m0109331.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39RE5bRM006325
-	for <linux-nvme@lists.infradead.org>; Fri, 27 Oct 2023 11:20:02 -0700
+	Fri, 27 Oct 2023 18:20:12 +0000
+Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39RE5mPA006170
+	for <linux-nvme@lists.infradead.org>; Fri, 27 Oct 2023 11:20:10 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=s2048-2021-q4;
- bh=2MEE7cRzsGfeMnNn2eY3zHEqVKk2sJ/zEGUF3QOFPSY=;
- b=KWJuyjy+x/LAlqbRsk/xsVlv18Yc6lOYqXbkvmdkogqh3LaxyJvQCkcCMpkkAL2J+w2q
- Y9iFu8NYxIpFxKbdlN/zh1dOvERifnzPnRiOfuvrmfvz/LvBbdIoOZWI1YPtk0e7tvEb
- UMjsjsYWwfD2ByiMzztD6IGABzDeDLrDuddVlCMGKP0OGEuZ69bdc+74ngUA+guITMC+
- zUNsvzjzeVvz0gKLGDdPjV4fpUAJdRkUc32RM3g97Jq0JlI16DxZ55mBfY+mjpsjyyBB
- 4F/QKsDzPFX2BAA2+NGNPcy89nQ7dvnmivsrIgRoNRMl6sQCwHz5ESLi12llCWAB5Dwp TA== 
-Received: from maileast.thefacebook.com ([163.114.130.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3u0c4pu421-1
+ bh=PeYXdDD9BDy0e7ssYNWuuSlwKOHdUA7B3s3SZXstLZY=;
+ b=k2984Iyczg58uKzsKECSyrffc0HQFOwZWyt7tuvyBhhpolnpp4JTmLB4+JY5I7u2P7v1
+ OQk8DtfrJlpQ5Xe5WDZ50V7F+EwdcCTJ/6jlBX2cLSEIiCW+LCr5eeL5WzVmm1lTmyBu
+ nimJJaVB8yttwM3v6Sl66PBx2+6dONYftN+QjZSr2mcDr9JRtxcgdfyhZpcgbfUJXvTA
+ WaHdQGyqdzoyXJolIRrGVCcZaK+qKT1ArhH5BLnPaXqGR+3lf/E8aRbu5RMx7/fgFQF/
+ avfN9pPIKvwZbU7pVhCUZI1BJJ3YvDdENteK1DfloUYKoO++3My6rtks2qhbC7mlCZy5 eA== 
+Received: from mail.thefacebook.com ([163.114.132.120])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3tywry0fu4-19
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Fri, 27 Oct 2023 11:20:02 -0700
-Received: from twshared9012.02.ash9.facebook.com (2620:10d:c0a8:1b::2d) by
- mail.thefacebook.com (2620:10d:c0a8:82::b) with Microsoft SMTP Server
+	for <linux-nvme@lists.infradead.org>; Fri, 27 Oct 2023 11:20:10 -0700
+Received: from twshared15991.38.frc1.facebook.com (2620:10d:c085:108::8) by
+ mail.thefacebook.com (2620:10d:c085:21d::8) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Fri, 27 Oct 2023 11:20:01 -0700
+ 15.1.2507.34; Fri, 27 Oct 2023 11:20:04 -0700
 Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
-	id 837F820D093C8; Fri, 27 Oct 2023 11:19:50 -0700 (PDT)
+	id 4268A20D093C1; Fri, 27 Oct 2023 11:19:50 -0700 (PDT)
 From: Keith Busch <kbusch@meta.com>
 To: <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
         <io-uring@vger.kernel.org>
 CC: <axboe@kernel.dk>, <hch@lst.de>, <joshi.k@samsung.com>,
         <martin.petersen@oracle.com>, Keith Busch <kbusch@kernel.org>
-Subject: [PATCHv2 4/4] io_uring: remove uring_cmd cookie
-Date: Fri, 27 Oct 2023 11:19:29 -0700
-Message-ID: <20231027181929.2589937-5-kbusch@meta.com>
+Subject: [PATCHv2 1/4] block: bio-integrity: directly map user buffers
+Date: Fri, 27 Oct 2023 11:19:26 -0700
+Message-ID: <20231027181929.2589937-2-kbusch@meta.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231027181929.2589937-1-kbusch@meta.com>
 References: <20231027181929.2589937-1-kbusch@meta.com>
@@ -64,14 +64,14 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-GUID: N5RPGl4gKYiAkrBx5IObTedaMDCEvV-J
-X-Proofpoint-ORIG-GUID: N5RPGl4gKYiAkrBx5IObTedaMDCEvV-J
+X-Proofpoint-ORIG-GUID: wCurnQT0z-ZIJkdaFIkUItN231KtQ3mn
+X-Proofpoint-GUID: wCurnQT0z-ZIJkdaFIkUItN231KtQ3mn
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-10-27_17,2023-10-27_01,2023-05-22_02
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231027_112003_672141_416AFA9C 
-X-CRM114-Status: GOOD (  16.33  )
+X-CRM114-CacheID: sfid-20231027_112011_130723_F823E07C 
+X-CRM114-Status: GOOD (  30.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,46 +88,296 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Keith Busch <kbusch@kernel.org>
 
-No more users of this field.
+Passthrough commands that utilize metadata currently need to bounce the
+user space buffer through the kernel. Add support for mapping user space
+directly so that we can avoid this costly overhead. This is similiar to
+how the normal bio data payload utilizes user addresses with
+bio_map_user_iov().
+
+If the user address can't directly be used for reasons like too many
+segments or address unalignement, fallback to a copy of the user vec
+while keeping the user address pinned for the IO duration so that it
+can safely be copied on completion in any process context.
 
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- include/linux/io_uring.h | 8 ++------
- io_uring/uring_cmd.c     | 1 -
- 2 files changed, 2 insertions(+), 7 deletions(-)
+ block/bio-integrity.c | 195 ++++++++++++++++++++++++++++++++++++++++++
+ include/linux/bio.h   |   9 ++
+ 2 files changed, 204 insertions(+)
 
-diff --git a/include/linux/io_uring.h b/include/linux/io_uring.h
-index fe23bf88f86fa..9e6ce6d4ab51f 100644
---- a/include/linux/io_uring.h
-+++ b/include/linux/io_uring.h
-@@ -32,12 +32,8 @@ enum io_uring_cmd_flags {
- struct io_uring_cmd {
- 	struct file	*file;
- 	const struct io_uring_sqe *sqe;
--	union {
--		/* callback to defer completions to task context */
--		void (*task_work_cb)(struct io_uring_cmd *cmd, unsigned);
--		/* used for polled completion */
--		void *cookie;
--	};
-+	/* callback to defer completions to task context */
-+	void (*task_work_cb)(struct io_uring_cmd *cmd, unsigned);
- 	u32		cmd_op;
- 	u32		flags;
- 	u8		pdu[32]; /* available inline for free use */
-diff --git a/io_uring/uring_cmd.c b/io_uring/uring_cmd.c
-index acbc2924ecd21..b39ec25c36bc3 100644
---- a/io_uring/uring_cmd.c
-+++ b/io_uring/uring_cmd.c
-@@ -182,7 +182,6 @@ int io_uring_cmd(struct io_kiocb *req, unsigned int i=
-ssue_flags)
- 			return -EOPNOTSUPP;
- 		issue_flags |=3D IO_URING_F_IOPOLL;
- 		req->iopoll_completed =3D 0;
--		WRITE_ONCE(ioucmd->cookie, NULL);
- 	}
+diff --git a/block/bio-integrity.c b/block/bio-integrity.c
+index ec8ac8cf6e1b9..7f9d242ad79df 100644
+--- a/block/bio-integrity.c
++++ b/block/bio-integrity.c
+@@ -91,6 +91,37 @@ struct bio_integrity_payload *bio_integrity_alloc(stru=
+ct bio *bio,
+ }
+ EXPORT_SYMBOL(bio_integrity_alloc);
 =20
- 	ret =3D file->f_op->uring_cmd(ioucmd, issue_flags);
++static void bio_integrity_unmap_user(struct bio_integrity_payload *bip)
++{
++	bool dirty =3D bio_data_dir(bip->bip_bio) =3D=3D READ;
++	struct bio_vec *copy =3D bip->copy_vec;
++	struct bvec_iter iter;
++	struct bio_vec bv;
++
++	if (copy) {
++		unsigned short nr_vecs =3D bip->bip_max_vcnt;
++		size_t bytes =3D bip->bip_iter.bi_size;
++		void *buf =3D bvec_virt(bip->bip_vec);
++
++		if (dirty) {
++			struct iov_iter iter;
++
++			iov_iter_bvec(&iter, ITER_DEST, copy, nr_vecs, bytes);
++			WARN_ON(copy_to_iter(buf, bytes, &iter) !=3D bytes);
++		}
++
++		memcpy(bip->bip_vec, copy, nr_vecs * sizeof(*copy));
++		kfree(copy);
++		kfree(buf);
++	}
++
++	bip_for_each_vec(bv, bip, iter) {
++		if (dirty && !PageCompound(bv.bv_page))
++			set_page_dirty_lock(bv.bv_page);
++		unpin_user_page(bv.bv_page);
++	}
++}
++
+ /**
+  * bio_integrity_free - Free bio integrity payload
+  * @bio:	bio containing bip to be freed
+@@ -105,6 +136,8 @@ void bio_integrity_free(struct bio *bio)
+=20
+ 	if (bip->bip_flags & BIP_BLOCK_INTEGRITY)
+ 		kfree(bvec_virt(bip->bip_vec));
++	else if (bip->bip_flags & BIP_INTEGRITY_USER)
++		bio_integrity_unmap_user(bip);
+=20
+ 	__bio_integrity_free(bs, bip);
+ 	bio->bi_integrity =3D NULL;
+@@ -160,6 +193,168 @@ int bio_integrity_add_page(struct bio *bio, struct =
+page *page,
+ }
+ EXPORT_SYMBOL(bio_integrity_add_page);
+=20
++static int bio_integrity_copy_user(struct bio *bio, struct bio_vec *bvec=
+,
++				   int nr_vecs, unsigned int len,
++				   unsigned int direction, u32 seed)
++{
++	struct bio_integrity_payload *bip;
++	struct bio_vec *copy_vec =3D NULL;
++	struct iov_iter iter;
++	void *buf;
++	int ret;
++
++	/* if bvec is on the stack, we need to allocate a copy for the completi=
+on */
++	if (nr_vecs <=3D UIO_FASTIOV) {
++		copy_vec =3D kcalloc(sizeof(*bvec), nr_vecs, GFP_KERNEL);
++		if (!copy_vec)
++			return -ENOMEM;
++		memcpy(copy_vec, bvec, nr_vecs * sizeof(*bvec));
++	}
++
++	buf =3D kmalloc(len, GFP_KERNEL);
++	if (!buf)
++		goto free_copy;
++
++	if (direction =3D=3D ITER_SOURCE) {
++		iov_iter_bvec(&iter, direction, bvec, nr_vecs, len);
++		if (!copy_from_iter_full(buf, len, &iter)) {
++			ret =3D -EFAULT;
++			goto free_buf;
++		}
++	} else {
++		memset(buf, 0, len);
++	}
++
++	/*
++	 * We just need one vec for this bip, but we need to preserve the
++	 * number of vecs in the user bvec for the completion handling, so use
++	 * nr_vecs.
++	 */
++	bip =3D bio_integrity_alloc(bio, GFP_KERNEL, nr_vecs);
++	if (IS_ERR(bip)) {
++		ret =3D PTR_ERR(bip);
++		goto free_buf;
++	}
++
++	ret =3D bio_integrity_add_page(bio, virt_to_page(buf), len,
++				     offset_in_page(buf));
++	if (ret !=3D len) {
++		ret =3D -ENOMEM;
++		goto free_bip;
++	}
++
++	bip->bip_flags |=3D BIP_INTEGRITY_USER;
++	bip->copy_vec =3D copy_vec ?: bvec;
++	return 0;
++free_bip:
++	bio_integrity_free(bio);
++free_buf:
++	kfree(buf);
++free_copy:
++	kfree(copy_vec);
++	return ret;
++}
++
++int bio_integrity_map_user(struct bio *bio, void __user *ubuf, unsigned =
+int len,
++			   u32 seed)
++{
++	struct request_queue *q =3D bdev_get_queue(bio->bi_bdev);
++	unsigned long offs, align =3D q->dma_pad_mask | queue_dma_alignment(q);
++	int ret, direction, nr_vecs, i, j, folios =3D 0;
++	struct bio_vec stack_vec[UIO_FASTIOV];
++	struct bio_vec bv, *bvec =3D stack_vec;
++	struct page *stack_pages[UIO_FASTIOV];
++	struct page **pages =3D stack_pages;
++	struct bio_integrity_payload *bip;
++	struct iov_iter iter;
++	struct bvec_iter bi;
++	u32 bytes;
++
++	if (bio_integrity(bio))
++		return -EINVAL;
++	if (len >> SECTOR_SHIFT > queue_max_hw_sectors(q))
++		return -E2BIG;
++
++	if (bio_data_dir(bio) =3D=3D READ)
++		direction =3D ITER_DEST;
++	else
++		direction =3D ITER_SOURCE;
++
++	iov_iter_ubuf(&iter, direction, ubuf, len);
++	nr_vecs =3D iov_iter_npages(&iter, BIO_MAX_VECS + 1);
++	if (nr_vecs > BIO_MAX_VECS)
++		return -E2BIG;
++	if (nr_vecs > UIO_FASTIOV) {
++		bvec =3D kcalloc(sizeof(*bvec), nr_vecs, GFP_KERNEL);
++		if (!bvec)
++			return -ENOMEM;
++		pages =3D NULL;
++	}
++
++	bytes =3D iov_iter_extract_pages(&iter, &pages, len, nr_vecs, 0, &offs)=
+;
++	if (unlikely(bytes < 0)) {
++		ret =3D  bytes;
++		goto free_bvec;
++	}
++
++	for (i =3D 0; i < nr_vecs; i =3D j) {
++		size_t size =3D min_t(size_t, bytes, PAGE_SIZE - offs);
++		struct folio *folio =3D page_folio(pages[i]);
++
++		bytes -=3D size;
++		for (j =3D i + 1; j < nr_vecs; j++) {
++			size_t next =3D min_t(size_t, PAGE_SIZE, bytes);
++
++			if (page_folio(pages[j]) !=3D folio ||
++			    pages[j] !=3D pages[j - 1] + 1)
++				break;
++			unpin_user_page(pages[j]);
++			size +=3D next;
++			bytes -=3D next;
++		}
++
++		bvec_set_page(&bvec[folios], pages[i], size, offs);
++		offs =3D 0;
++		folios++;
++	}
++
++	if (pages !=3D stack_pages)
++		kvfree(pages);
++
++	if (folios > queue_max_integrity_segments(q) ||
++	    !iov_iter_is_aligned(&iter, align, align)) {
++		ret =3D bio_integrity_copy_user(bio, bvec, folios, len,
++					      direction, seed);
++		if (ret)
++			goto release_pages;
++		return 0;
++	}
++
++	bip =3D bio_integrity_alloc(bio, GFP_KERNEL, folios);
++	if (IS_ERR(bip)) {
++		ret =3D PTR_ERR(bip);
++		goto release_pages;
++	}
++
++	memcpy(bip->bip_vec, bvec, folios * sizeof(*bvec));
++	if (bvec !=3D stack_vec)
++		kfree(bvec);
++
++	bip->bip_flags |=3D BIP_INTEGRITY_USER;
++	bip->copy_vec =3D NULL;
++	return 0;
++
++release_pages:
++	bi.bi_size =3D len;
++	for_each_bvec(bv, bvec, bi, bi)
++		unpin_user_page(bv.bv_page);
++free_bvec:
++	if (bvec !=3D stack_vec)
++		kfree(bvec);
++	return ret;
++}
++EXPORT_SYMBOL_GPL(bio_integrity_map_user);
++
+ /**
+  * bio_integrity_process - Process integrity metadata for a bio
+  * @bio:	bio to generate/verify integrity metadata for
+diff --git a/include/linux/bio.h b/include/linux/bio.h
+index 41d417ee13499..2b4a0de838ed1 100644
+--- a/include/linux/bio.h
++++ b/include/linux/bio.h
+@@ -324,6 +324,7 @@ enum bip_flags {
+ 	BIP_CTRL_NOCHECK	=3D 1 << 2, /* disable HBA integrity checking */
+ 	BIP_DISK_NOCHECK	=3D 1 << 3, /* disable disk integrity checking */
+ 	BIP_IP_CHECKSUM		=3D 1 << 4, /* IP checksum */
++	BIP_INTEGRITY_USER	=3D 1 << 5, /* Integrity payload is user address */
+ };
+=20
+ /*
+@@ -342,6 +343,7 @@ struct bio_integrity_payload {
+=20
+ 	struct work_struct	bip_work;	/* I/O completion */
+=20
++	struct bio_vec		*copy_vec;	/* for bounce buffering */
+ 	struct bio_vec		*bip_vec;
+ 	struct bio_vec		bip_inline_vecs[];/* embedded bvec array */
+ };
+@@ -720,6 +722,7 @@ static inline bool bioset_initialized(struct bio_set =
+*bs)
+=20
+ extern struct bio_integrity_payload *bio_integrity_alloc(struct bio *, g=
+fp_t, unsigned int);
+ extern int bio_integrity_add_page(struct bio *, struct page *, unsigned =
+int, unsigned int);
++extern int bio_integrity_map_user(struct bio *, void __user *, unsigned =
+int, u32);
+ extern bool bio_integrity_prep(struct bio *);
+ extern void bio_integrity_advance(struct bio *, unsigned int);
+ extern void bio_integrity_trim(struct bio *);
+@@ -789,6 +792,12 @@ static inline int bio_integrity_add_page(struct bio =
+*bio, struct page *page,
+ 	return 0;
+ }
+=20
++static inline int bio_integrity_map_user(struct bio *bio, void __user *u=
+buf,
++					 unsigned int len, u32 seed)
++{
++	return -EINVAL
++}
++
+ #endif /* CONFIG_BLK_DEV_INTEGRITY */
+=20
+ /*
 --=20
 2.34.1
 
