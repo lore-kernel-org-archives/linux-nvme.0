@@ -4,72 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2090BC25B67
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Oct 2023 07:09:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3A54C25B67
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Oct 2023 07:09:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:In-Reply-To:Date:References:Subject:Cc:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=o7H7QSHlCPD9A7O5XZYfMPPXmpLVeyrGndbX7Mquujk=; b=isj7H+Xj7D0QgIh2cUaCM5MiMH
-	WedLehFhB4GdUQs/QSod1PFhqBp0hOEKECB0ZqOFtO8C0CW0jYa6kzOpTapfW+Bsxli3p9Ztb9VBX
-	QnaFs0gohTqYSbSxx6iEH53jkuAq0rIO+pOhsVUAHqeevTt4xS2aGkZvnKXVQVUzM9cx6NuQPEm18
-	eoB1MdN6V4XyvMNNldaByoFSqjG0ANhKfQ8hrBQe9e7Kc4cgbbxKPzOBtb01ne5JZ80qWGXBrwmOr
-	VAo+6X375hhWpioctkhbPkpiEx5XzdJmeYnJxLNm4hDKWneOriuu/rRXxER/Ceey/Y6MP95sxuV0m
-	f3emJ6FQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=xZPoKy/32kD9TK86P4LFHbN697d0ba1K8lTZLC735wI=; b=av9Wh7sf+cBybVejvStCOmttUd
+	F3JjgVQqSYczQLrjN+tK9qbBQ6QhCGz/ZiCBhKqfrIInGzk/x+ubdudRHqVnPSmaxJgdmA8Bsm03F
+	raYb8f+RGLCEQPa9OjWv7NIGOrL6jBkYeYfJ9WUgZLPM8bG6v1VK3bxIdfFRwbOA5lNgXnwP4ua1W
+	9oZzYpmWARzdPpyMZxqolrDrLhEsGZSxSenwjACeFtEMNnIHjhe5UTiy9IrqqetrRx3PeuN4qQq7W
+	/Jk0QVfcXJ7FmbYx7dTgCgQxR3JqKfhFbO3C7fkZRNyIKG6BbKRzFTvmnwnPvv/WqSzYwSOGUkpDW
+	1Bq6cYXQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qwGxr-00FjsZ-26;
-	Fri, 27 Oct 2023 07:09:03 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1qwGyg-00Fk6l-1h;
+	Fri, 27 Oct 2023 07:09:54 +0000
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qwGxo-00FjqH-0I
+	id 1qwGyd-00Fk67-2M
 	for linux-nvme@lists.infradead.org;
-	Fri, 27 Oct 2023 07:09:01 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by ams.source.kernel.org (Postfix) with ESMTP id A3A57B80B7E;
-	Fri, 27 Oct 2023 07:08:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98FB8C433C7;
-	Fri, 27 Oct 2023 07:08:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698390538;
-	bh=5WPvMZXHj6SnWHKzmjOCyWmBTsevR5RWBT42u2tYT6Y=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=djguQmPRxLNmjYP9HHUj67/uEd0zfx8KeWVkiz51AIIpYw2lVH8qW0B0MfbRpUIje
-	 pLMOnDUaSzl386rS4fNWyfCgOeKql4iaRefnSH/kI+FVAQpkkZCMg8hov4dFdILjul
-	 dR3cUtJP2hF2h42zhQlsXvQCJhrobipu1HPqu90ilKmuDpqKFMemvGiECLBlxdyaBC
-	 T6N1ZSbC2tYoRhhYmIbdtxYWULzyhqeqkzZzN46peCq7r9cGKFs3j2UaIgQ60dIlPg
-	 Gjn4IcKGoXoNZoHAyQJZfHbpDDcCtF60mGs4pQROGMlEwgaN1hFfZsBxI5KZa9cEJg
-	 2/5rGVP9O4Rfg==
-From: Kalle Valo <kvalo@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Steven Rostedt <rostedt@goodmis.org>,  James Bottomley
- <James.Bottomley@HansenPartnership.com>,  Christoph Hellwig <hch@lst.de>,
-  Kees Cook <keescook@chromium.org>,  Justin Stitt
- <justinstitt@google.com>,  Keith Busch <kbusch@kernel.org>,  Jens Axboe
- <axboe@kernel.dk>,  Sagi Grimberg <sagi@grimberg.me>,
-  linux-nvme@lists.infradead.org,  linux-kernel@vger.kernel.org,
-  linux-hardening@vger.kernel.org,  ksummit@lists.linux.dev
-Subject: Re: the nul-terminated string helper desk chair rearrangement
-References: <20231018-strncpy-drivers-nvme-host-fabrics-c-v1-1-b6677df40a35@google.com>
-	<20231019054642.GF14346@lst.de> <202310182248.9E197FFD5@keescook>
-	<20231020044645.GC11984@lst.de>
-	<CAFhGd8o8FaD-3rkBAhEXhc8XqpUk_cLqNwyfpndVuSxDOei_gA@mail.gmail.com>
-	<202310201127.DA7EDAFE4D@keescook> <20231026100148.GA26941@lst.de>
-	<710149630eb010b18b69e161d02502bc3b648173.camel@HansenPartnership.com>
-	<20231026095235.760f5546@gandalf.local.home>
-	<874jid8one.fsf@meer.lwn.net>
-Date: Fri, 27 Oct 2023 10:08:53 +0300
-In-Reply-To: <874jid8one.fsf@meer.lwn.net> (Jonathan Corbet's message of "Thu,
-	26 Oct 2023 08:05:41 -0600")
-Message-ID: <87bkckczju.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+	Fri, 27 Oct 2023 07:09:53 +0000
+Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-32ddfb38c02so1198173f8f.3
+        for <linux-nvme@lists.infradead.org>; Fri, 27 Oct 2023 00:09:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698390589; x=1698995389; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xZPoKy/32kD9TK86P4LFHbN697d0ba1K8lTZLC735wI=;
+        b=Vb2UOXuJ7XDs3aCnlQeci+v5SylQENhW8phvV+ydh+HNz6b0EhaFX5avMPsmyHB+uB
+         7sF5U0D2ouh83pNvndUqEx98LLacRZjdE09QJelL2aPc6hoAJzPsn0FZLP32DR5cIfXp
+         D3FOC0kckGNGGV74mXdMS8uvzKeoS8YcXUd6M0W+PJh8KNsCD11D/tUiFWRpqcVt0dU5
+         HJghcOBCjizduGGWbB0eF1HaeODW24BUz4ypNJ44B2g8tOjIy8qnH4jtSkhH0TprO0NS
+         211sd8z/VLHzFU+TxZKfBil66HGz7aUa3t2Sg0ihpdb6cUHKDC44I70lSVQ9VRKMCpeV
+         dSjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698390589; x=1698995389;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xZPoKy/32kD9TK86P4LFHbN697d0ba1K8lTZLC735wI=;
+        b=eYgNxybt+X2hSsNhvEVCkL50DPIKAws0XyFRRd4TMgqcNmM+7U2Bw/m9gT1Y+I1JW8
+         xb6nkWiz3JrOl+eG4cE9fKWetD8+Fq9Tm+CARKi11KRftyhpqvrpmJ+/0gYym6mmbYs/
+         fS/9lG1ib2PyQPQVHPcM+fRdYfI8ZUnz+LkwM/QJTxye1oCQugo9+wUNce2peE7O20d4
+         dcuV1yWpSBR/62SjaCpFfmoL/9M51GY/iXmST6lOcgIn5o0uveJBvC5PjP4MWQall9L3
+         H+yKxLCPKJBTt2GOg/vFN5+GqGhD9u7di3uEn8SXBATLgwJBHz2VdDKR3r5pDJOQz31T
+         w8pQ==
+X-Gm-Message-State: AOJu0Yxy9O75ugRYxlKuGjiryiIZcZnxBcjFShVvxqTEZe3AnuoZWdNl
+	ZfvU548s91MvN9Hh2CNa8mygaUUNjcAgTmvXvc4=
+X-Google-Smtp-Source: AGHT+IF01OB0Jby2mK/tN88u5K9Rlr0RZoeviolDpclBjhYuB5Lnu0XGEJoSIP1m0B5VdJ4ky9LA7tjpeDc3tnbjI20=
+X-Received: by 2002:adf:e4c4:0:b0:32d:804c:15d1 with SMTP id
+ v4-20020adfe4c4000000b0032d804c15d1mr1515310wrm.47.1698390589010; Fri, 27 Oct
+ 2023 00:09:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <CGME20231013052157epcas5p3dc0698c56f9846191d315fa8d33ccb5c@epcas5p3.samsung.com>
+ <20231013051458.39987-1-joshi.k@samsung.com> <20231013052612.GA6423@lst.de>
+ <8c755915-2366-28ff-ffd4-be17d797557c@samsung.com> <ZSlL-6Oa5J9duahR@kbusch-mbp>
+ <3438f3b8-f7d4-f0bd-44ef-7efb09ed6151@samsung.com> <20231013154708.GA17455@lst.de>
+ <CA+1E3rKaUW0YN+bphe9n26ZRTX1rq6M0z7Hpc=zLOJE1AER9hw@mail.gmail.com>
+ <20231016054647.GA26170@lst.de> <CA+1E3rKcN=bOw3613XWKm_NqPS=dGOz43g4zwwQG_pRQSWkH_w@mail.gmail.com>
+ <ZTqA--6dDYJ76Gyk@kbusch-mbp.dhcp.thefacebook.com>
+In-Reply-To: <ZTqA--6dDYJ76Gyk@kbusch-mbp.dhcp.thefacebook.com>
+From: Kanchan Joshi <joshiiitr@gmail.com>
+Date: Fri, 27 Oct 2023 12:39:22 +0530
+Message-ID: <CA+1E3rJsb-8M_fE-PGrvAkzwHN6PLZPSYXJpZhRtn6hOipK8cA@mail.gmail.com>
+Subject: Re: [PATCH v4] nvme: fix corruption for passthrough meta/data
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Kanchan Joshi <joshi.k@samsung.com>, axboe@kernel.dk, sagi@grimberg.me, 
+	linux-nvme@lists.infradead.org, vincentfu@gmail.com, ankit.kumar@samsung.com, 
+	stable@vger.kernel.org, Vincent Fu <vincent.fu@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231027_000900_283920_0E6B86A5 
-X-CRM114-Status: GOOD (  10.09  )
+X-CRM114-CacheID: sfid-20231027_000951_768257_C0F64233 
+X-CRM114-Status: GOOD (  19.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,26 +95,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Jonathan Corbet <corbet@lwn.net> writes:
-
-> Steven Rostedt <rostedt@goodmis.org> writes:
+On Thu, Oct 26, 2023 at 8:38=E2=80=AFPM Keith Busch <kbusch@kernel.org> wro=
+te:
 >
->> On Thu, 26 Oct 2023 07:39:44 -0400
->> James Bottomley <James.Bottomley@HansenPartnership.com> wrote:
->>
->>> While it's nice in theory to have everything documented, it's not much
->>> use if no one can actually find the information ...
->>
->> Does kerneldoc provide an automated index?
+> On Thu, Oct 26, 2023 at 08:03:30PM +0530, Kanchan Joshi wrote:
+> > On Mon, Oct 16, 2023 at 11:16=E2=80=AFAM Christoph Hellwig <hch@lst.de>=
+ wrote:
+> > >
+> > > On Mon, Oct 16, 2023 at 12:49:45AM +0530, Kanchan Joshi wrote:
+> > > > OTOH, this patch implemented a software-only way out. There are som=
+e
+> > > > checks, but someone (either SW or HW) has to do those to keep thing=
+s
+> > > > right.
+> > >
+> > > It only verifies it to the read/write family of commands by
+> > > interpreting these commands.  It still leaves a wide hole for any
+> > > other command.
+> >
+> > Can you please explain for what command do you see the hole? I am
+> > trying to see if it is really impossible to fix this hole for good.
+> >
+> > We only need to check for specific io commands of the NVM/ZNS command
+> > set that can do extra DMA.
 >
-> If you go to https://www.kernel.org/doc/html/latest/
+> The spec defines a few commands that may use MPTR, but most of the
+> possible opcodes that could use it are not defined in spec. You'd have
+> to break forward compatibility through this interface for non-root users
+> by limiting its use to only the known opcodes and reject everything
+> else.
 
-BTW there's now a shorter URL for this whic is really nice:
-
-https://docs.kernel.org/
-
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+I see. Future commands. Looks like every solution involves non-root
+users to face some form of inconvenience.
 
