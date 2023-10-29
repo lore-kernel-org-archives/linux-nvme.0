@@ -4,95 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3E1AC25B70
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Oct 2023 18:32:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B795AC4332F
+	for <linux-nvme@archiver.kernel.org>; Sun, 29 Oct 2023 05:02:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wL6rsP27kyhBgPNjGAE37z4bXgSpgcwn8+JkklueuV4=; b=dRzEeultgQ99s++sMLTd1nPVJi
-	4LaIIKsG/iQT9+OGKVdASD7hQiq41KQA+0CMlFf4fm0Cvx6XyEwpXecK1HMYfNHr050FBMSoBkfVr
-	fJgwKSHyaZ9GhwhdCTxUlbVntVjenywnA07T2N+lOn49mxEUJUvY5WgCpkouqWDpxi7p5WaE35m9+
-	slDdvKOltVNCmTaCxneUH3QT3yCfd+A0RgTyg0v2qYIzgPdv3I8/Fdt8LbmV4aSuKRRYpiiG9TV7U
-	oiGxGrKENattIq7TMK77pVZ7zGFy1RSbMr6Rar2ZrcIZnk+4MvVwzfliamd3OcDuc9D/jaUIlIShF
-	ZqB7UCpg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=8/2to7sxCZ/NumPWBHJ3HDLNhOoBHDROHfNECentdcE=; b=aCQvoNHt/pd0yHN+ttstdXqnkq
+	gngbSD2qxXJ6t4DnFs/yr1M4qM37Q3ipiEv1uUpkcRSLe9I1CTRZAKDjc2U4ADHG6i3GoUYY/Pu1B
+	wIZganvMrKYbbHXLusE2XOTEiw/6HMK+I7zcTbjJd+w+jNzVVz7MH4heUoHKEZbFprVz8+iy258WQ
+	9qunYb6M/BVs9cyHcheeLfQx7E4XCC12Hma9xlbbruGrNbKSB1KupJNXbLaJFWqdb6lTqtaU+IMJV
+	qWvMvm82InjPOzSaKh0UIUhnOPOLPguvijqv17PswObRHQ8lDChODFjAk8RMOjVINK0EBACX+6534
+	HsAiPoAw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qwRdK-00H1NR-1b;
-	Fri, 27 Oct 2023 18:32:34 +0000
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
+	id 1qwxwK-001C9O-1u;
+	Sun, 29 Oct 2023 05:02:20 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qwRdH-00H1KR-12
+	id 1qwxwA-001C5M-2u
 	for linux-nvme@lists.infradead.org;
-	Fri, 27 Oct 2023 18:32:32 +0000
-Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-9a6190af24aso384838566b.0
-        for <linux-nvme@lists.infradead.org>; Fri, 27 Oct 2023 11:32:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698431547; x=1699036347; darn=lists.infradead.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=wL6rsP27kyhBgPNjGAE37z4bXgSpgcwn8+JkklueuV4=;
-        b=b6zVuMHyfDQEH/VmBuDKyefyn4iYVU1IpRRlps6lvWkE+6HA2ytBS5xorCt+ENkzno
-         LX3ZmRy/tqPTOleXgNVv7o2SKuEKYIGkwhcIW8C6Yj6DgrmjhjprB5GVDUbiB4jqL8Nd
-         i8HCdz6ptuA7M6Gd93FvggfxMlHOUlc02mqF09CVnMuCTAnr55yXDtF6xGJTF0CepKLf
-         Gs3k0Z23YaI6X3vzb6qUelh0szi9HmXaIdap7sJ1xYPa0ziUnIhaWl4egYNWIdf5V62C
-         j8YzDeFZnmJ4tUFQianesxeeVTFHDPfGuNObA5a9cxGZXxmA78A408RMfO7dy2035bW4
-         3oBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698431547; x=1699036347;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wL6rsP27kyhBgPNjGAE37z4bXgSpgcwn8+JkklueuV4=;
-        b=k0GfW+iHkrgv5YvYqjK7nkODoUy0LURputUtnAHf1S24bm4XYcbIfCMfdnEr0l2T26
-         sCgyp9yBg6jfYC2/nuosWuTtSNJFt7eYsNMWX67AsVbCclMGIf6N5BKTjeiW32kwrN2g
-         dwj0o4O/i4v6ZtZHYnU2hNaf7SS3HbcOCv66bOejOpHSrpPWL/h4B3fpZ7cx+woOCNQd
-         xjvmmqEVe4Vp05i3SM4bJWUdoO0Cp4ns8uXlgymzdKBL5imKfa8WcM9znGeGbw7cnkL/
-         shCc4bAi2veF1wARLRthD7eITPjtGLUFylwtlETtPCAaPWKdqJiN5C1DyeVhcj4RZej9
-         Q7nQ==
-X-Gm-Message-State: AOJu0Yw51eJhvfTSQ+yCJX+SnaLyiTov8zv5ds5k0PKHYczYMyKEIICL
-	b0e0S+LceUyrAhomo/1xVCkarwqkhzgo
-X-Google-Smtp-Source: AGHT+IEseHwXORBr9sJ631o9racXkSS0mpkOkeFDiKUjuXjwWnaaKLPyzrP3KLBhmO4nUsL9dB9gVw==
-X-Received: by 2002:a17:907:31c1:b0:9bd:a165:7822 with SMTP id xf1-20020a17090731c100b009bda1657822mr2862145ejb.47.1698431546635;
-        Fri, 27 Oct 2023 11:32:26 -0700 (PDT)
-Received: from p183 ([46.53.253.206])
-        by smtp.gmail.com with ESMTPSA id gt11-20020a170906f20b00b009bd9ac83a9fsm1571360ejb.152.2023.10.27.11.32.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Oct 2023 11:32:26 -0700 (PDT)
-Date: Fri, 27 Oct 2023 21:32:24 +0300
-From: Alexey Dobriyan <adobriyan@gmail.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	Christoph Hellwig <hch@lst.de>, Kees Cook <keescook@chromium.org>,
-	Justin Stitt <justinstitt@google.com>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	ksummit@lists.linux.dev
-Subject: Re: the nul-terminated string helper desk chair rearrangement
-Message-ID: <c9dd71ba-bb29-4e2d-b8cc-d49d493ffb32@p183>
-References: <20231018-strncpy-drivers-nvme-host-fabrics-c-v1-1-b6677df40a35@google.com>
- <20231019054642.GF14346@lst.de>
- <202310182248.9E197FFD5@keescook>
- <20231020044645.GC11984@lst.de>
- <CAFhGd8o8FaD-3rkBAhEXhc8XqpUk_cLqNwyfpndVuSxDOei_gA@mail.gmail.com>
- <202310201127.DA7EDAFE4D@keescook>
- <20231026100148.GA26941@lst.de>
- <710149630eb010b18b69e161d02502bc3b648173.camel@HansenPartnership.com>
- <20231026095235.760f5546@gandalf.local.home>
- <CAMuHMdV9CcjGkpF=FGe_U5XtbF08bKTEYkPSxArO1zBwnug0Wg@mail.gmail.com>
+	Sun, 29 Oct 2023 05:02:12 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 06734CE0B86;
+	Sun, 29 Oct 2023 05:01:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0155CC433C8;
+	Sun, 29 Oct 2023 05:01:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1698555717;
+	bh=H3TBMwFvCfUQgoAGADY26kx++WBeBqiO7bxMskx7gEc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=VuCBLEMNOHwXeidEirGT6xTXDB2Ob2Pq66i9fh0+ThmJdmlhzHufY71R6xija2WFV
+	 aad+OLamPGQ8qQQeQfFsIFOLCARklnzEy1udetiblVbRTPcQbXnwD644c0erqxdVj4
+	 h9I5u+oIa86KorcPCRoAFMhcS4RajaLGWA8JxKOf3gSaBYraBzQxoKPYy33xhPTDrG
+	 dZGW7WTRbi8vbdh65c8VB9UnCIpzKGkJaiMyGxewdyo7KxGpdyvgqs0ef2nUqIE/74
+	 4YXXsf0/38eCw1+NXSs7exhnaryGu/T0enrJB+OIVVGtc8yzH7J6b4Csj8RW4eXLtI
+	 O5GbgqWQNW7mw==
+From: Eric Biggers <ebiggers@kernel.org>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org
+Cc: linux-crypto@vger.kernel.org
+Subject: [PATCH] nvme-auth: use crypto_shash_tfm_digest()
+Date: Sat, 28 Oct 2023 22:00:40 -0700
+Message-ID: <20231029050040.154563-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdV9CcjGkpF=FGe_U5XtbF08bKTEYkPSxArO1zBwnug0Wg@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231027_113231_361607_3ADB499F 
-X-CRM114-Status: GOOD (  21.19  )
+X-CRM114-CacheID: sfid-20231028_220211_136732_8BCE1E40 
+X-CRM114-Status: GOOD (  11.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,45 +72,92 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Oct 26, 2023 at 03:59:28PM +0200, Geert Uytterhoeven wrote:
-> Hi Steven,
-> 
-> On Thu, Oct 26, 2023 at 3:52 PM Steven Rostedt <rostedt@goodmis.org> wrote:
-> > On Thu, 26 Oct 2023 07:39:44 -0400
-> > James Bottomley <James.Bottomley@HansenPartnership.com> wrote:
-> >
-> > > While it's nice in theory to have everything documented, it's not much
-> > > use if no one can actually find the information ...
-> >
-> > Does kerneldoc provide an automated index? That is, if we had a single file
-> > that had every function in the kernel that is documented, with the path to
-> > the file that documents it, it would make finding documentation much
-> > simpler.
-> >
-> > Maybe it already does? Which would mean we need a way to find the index too!
-> 
-> ctags?
+From: Eric Biggers <ebiggers@google.com>
 
-ctags is a tool from previous century. It doesn't help that "make tags"
-is single-threaded. It needs constant babysitting (loop-like macros,
-ignore attibute annotations which masquerade as identifiers). I think
-"make tags" became much slower because ignore-list is one giant regexp
-which only grows bigger.
+Simplify nvme_auth_augmented_challenge() by using
+crypto_shash_tfm_digest() instead of an alloc+init+update+final
+sequence.  This should also improve performance.
 
-> Although "git grep" is faster (assumed you use the "correct" search
-> pattern, which can sometimes be challenging, indeed).
+Signed-off-by: Eric Biggers <ebiggers@google.com>
+---
+ drivers/nvme/common/auth.c | 23 ++---------------------
+ 1 file changed, 2 insertions(+), 21 deletions(-)
 
-I tried QT Creator indexing at some point (which is parallel), it needs
-to be told that headers are C not C++. I didn't find a way to tell it
-that .c files are C too but F2 jumped to definitions quite well.
-Also hovering over identifier/name works (being IDE it understands
-popular doc styles).
+diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
+index d90e4f0c08b7..54cffbc24b4a 100644
+--- a/drivers/nvme/common/auth.c
++++ b/drivers/nvme/common/auth.c
+@@ -324,21 +324,20 @@ static int nvme_auth_hash_skey(int hmac_id, u8 *skey, size_t skey_len, u8 *hkey)
+ 			 skey_len);
+ 
+ 	crypto_free_shash(tfm);
+ 	return ret;
+ }
+ 
+ int nvme_auth_augmented_challenge(u8 hmac_id, u8 *skey, size_t skey_len,
+ 		u8 *challenge, u8 *aug, size_t hlen)
+ {
+ 	struct crypto_shash *tfm;
+-	struct shash_desc *desc;
+ 	u8 *hashed_key;
+ 	const char *hmac_name;
+ 	int ret;
+ 
+ 	hashed_key = kmalloc(hlen, GFP_KERNEL);
+ 	if (!hashed_key)
+ 		return -ENOMEM;
+ 
+ 	ret = nvme_auth_hash_skey(hmac_id, skey,
+ 				  skey_len, hashed_key);
+@@ -352,43 +351,25 @@ int nvme_auth_augmented_challenge(u8 hmac_id, u8 *skey, size_t skey_len,
+ 		ret = -EINVAL;
+ 		goto out_free_key;
+ 	}
+ 
+ 	tfm = crypto_alloc_shash(hmac_name, 0, 0);
+ 	if (IS_ERR(tfm)) {
+ 		ret = PTR_ERR(tfm);
+ 		goto out_free_key;
+ 	}
+ 
+-	desc = kmalloc(sizeof(struct shash_desc) + crypto_shash_descsize(tfm),
+-		       GFP_KERNEL);
+-	if (!desc) {
+-		ret = -ENOMEM;
+-		goto out_free_hash;
+-	}
+-	desc->tfm = tfm;
+-
+ 	ret = crypto_shash_setkey(tfm, hashed_key, hlen);
+ 	if (ret)
+-		goto out_free_desc;
+-
+-	ret = crypto_shash_init(desc);
+-	if (ret)
+-		goto out_free_desc;
+-
+-	ret = crypto_shash_update(desc, challenge, hlen);
+-	if (ret)
+-		goto out_free_desc;
++		goto out_free_hash;
+ 
+-	ret = crypto_shash_final(desc, aug);
+-out_free_desc:
+-	kfree_sensitive(desc);
++	ret = crypto_shash_tfm_digest(tfm, challenge, hlen, aug);
+ out_free_hash:
+ 	crypto_free_shash(tfm);
+ out_free_key:
+ 	kfree_sensitive(hashed_key);
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(nvme_auth_augmented_challenge);
+ 
+ int nvme_auth_gen_privkey(struct crypto_kpp *dh_tfm, u8 dh_gid)
+ {
 
-It can be made to work reasonably well provided that you did "make
-allmodconfig" and added few header locations. clangd parses like compiler,
-not like human and kernel uses a lot of CONFIG defines so some config
-must be chosen.
+base-commit: 2af9b20dbb39f6ebf9b9b6c090271594627d818e
+-- 
+2.42.0
 
-But I need to recheck all this stuff now that new version was propagated
-to distros. It should be better (and less segfaulty :-)
 
