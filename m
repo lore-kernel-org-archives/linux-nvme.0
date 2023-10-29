@@ -4,56 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 22C2FC4332F
-	for <linux-nvme@archiver.kernel.org>; Sun, 29 Oct 2023 22:55:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8FD5BC4167D
+	for <linux-nvme@archiver.kernel.org>; Sun, 29 Oct 2023 22:57:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VnfjelIRcRQGFkmbP6BHKNsUVYDFFuyyun2R9/zsNco=; b=DTOhIXpfSyyZ242bbkzlUbkcDZ
-	v8o0FHY/mP+meU+dLXnZ9HWUptfI/D358FhqHdfu8dBfBvWajYfj/eKagGpZJDWvz+MQg2tUz29lI
-	fPLOdifHHcGpuQgrIKh5M5ZPXg03iCv8csJGsirWb1EMsFsWZ2jl68VLf9J9EOJu90/nn2VnN8UUa
-	IwFCIKr3moUoNTBydfis+eRp3oETBPSJ1o+VIutJQ3ijtOMCs+IRMMAiA1sWLLcqw26KY5PTWET4N
-	8N4JDVMJwY9/2kCV0gLifo3AC3kotZjOuodtsGrDX1ssME+1Bs+/SlEk8YiKwMHl+862kdJAzDDhG
-	do+L0GZw==;
+	bh=XVRa/paZjY4JI6D5R2GtaW6ggxUs6/91ZTchEqwug8k=; b=DwvOzpJM9T5GbbNkpbKmgMiXGR
+	k+ehJxXkOC4ZUR3OmUqcwTAPKiDYLu12Mcdmyb4r3nLroHTE3dHWplg3/l2BRfH0iE4MvwqeQncPc
+	NG6yD6nmzDl3KbmtcMRfioY1ffXgS5xwsHRORBT1qhJ1zqAGtb8PPm8lVsRkGjjIc8HcDw3RiobqO
+	Yy4RBSKNQ7ZOEUUEbxG6kIjYr8Im2y/MQkYe+5cLhFtXecblXAJbqAU1YWA+5vr8+mxYujQGMZODV
+	QZMC4KQbTM8CHvENXPYI5qamRCgeo22Y/m/GA3YDgJOkLxH+ukLlPTLU7cd3RVr5ztSzV9S1Xd2pF
+	w5SiC+YA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qxEgc-002DYo-1X;
-	Sun, 29 Oct 2023 22:55:14 +0000
+	id 1qxEiR-002Dwi-1c;
+	Sun, 29 Oct 2023 22:57:07 +0000
 Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qxEgX-002DXG-2v
+	id 1qxEiO-002Dw2-3A
 	for linux-nvme@lists.infradead.org;
-	Sun, 29 Oct 2023 22:55:11 +0000
+	Sun, 29 Oct 2023 22:57:06 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 38531CE08CE;
-	Sun, 29 Oct 2023 22:55:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 774F3C433C7;
-	Sun, 29 Oct 2023 22:55:06 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 5D6C3CE1197;
+	Sun, 29 Oct 2023 22:57:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5FE9C433AD;
+	Sun, 29 Oct 2023 22:57:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698620107;
-	bh=d6+abDYEVtUova+KDIxPln5hjytDhkyGRBLx/ZCBVSg=;
+	s=k20201202; t=1698620222;
+	bh=havvXX1A3BkDIs9BfHus35uF0tNKO/3fYel0i7hDJaM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tLI2pk3rXZYqXzS8vVVvtravK8O9ghccPpV4wMtH6tXrQIDbqb4KoPf69Vtr/huM2
-	 XHka7c4OsQgvJyv7T4wwZfOp2ODibDUjJuFyLQFYwcmi6uZB/zIvUqX/TK/b+JgrAP
-	 jLL0lUtIK4Ov/Kz2ZzXKNu2RfCVJPakBd6xnFkStQazO22uxkS3fd7CLUqh4Dhst9U
-	 apjLvQS1t05nf9Uay/G/RMu+J810xOHfi+1hNwn/dK7yowioSAU6HQxbAlvK3NsDdD
-	 vNS2MxlKSBCxTzA6npDC/vuSmUT70up8d/yN9yGhUq1IXZxq2UtRGo0tM+UD5ctmO0
-	 X0UD1NnXUMNzg==
+	b=BaJ3XRfUAJkLqqJ0kCDiR5yPykXIT7TvqrjAHWkSg7kVuX0eaqPEvDRTghJMzRrzx
+	 rxepF6NAU7qOMrRxYBS9nQ0Y0EpzCHJgffHvNoP+wbj/Q5tYgiymkOfBkRne4boVDZ
+	 Oky/crIfyKCdqVU38jTG91bai7vaZlZQUo5h64+kLGVx+3pFbvBc8jLO0tomvsoSnN
+	 q6PLCknKKavCDJ699Nx6KZy2LVnXTDHMEH/qcJg7y6OIqjC7kB9ptz4u3coyziTbq2
+	 gk09M+a6lTA6DA1Plfd8MGo174YkoC9q+7bkC3zXa1GM7YN/bH1HND8UER4C8SBeaw
+	 jwXIOK0CGiQrQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Maurizio Lombardi <mlombard@redhat.com>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Yi Zhang <yi.zhang@redhat.com>,
-	Keith Busch <kbusch@kernel.org>,
+Cc: Keith Busch <kbusch@kernel.org>,
+	welsh@cassens.com,
 	Sasha Levin <sashal@kernel.org>,
+	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.5 17/52] nvme-rdma: do not try to stop unallocated queues
-Date: Sun, 29 Oct 2023 18:53:04 -0400
-Message-ID: <20231029225441.789781-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.5 49/52] nvme-pci: add BOGUS_NID for Intel 0a54 device
+Date: Sun, 29 Oct 2023 18:53:36 -0400
+Message-ID: <20231029225441.789781-49-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231029225441.789781-1-sashal@kernel.org>
 References: <20231029225441.789781-1-sashal@kernel.org>
@@ -63,8 +62,8 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.5.9
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231029_155510_158347_EA220E3C 
-X-CRM114-Status: UNSURE (   9.03  )
+X-CRM114-CacheID: sfid-20231029_155705_188925_79B24B61 
+X-CRM114-Status: UNSURE (   9.93  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -80,46 +79,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Maurizio Lombardi <mlombard@redhat.com>
+From: Keith Busch <kbusch@kernel.org>
 
-[ Upstream commit 3820c4fdc247b6f0a4162733bdb8ddf8f2e8a1e4 ]
+[ Upstream commit 5c3f4066462a5f6cac04d3dd81c9f551fabbc6c7 ]
 
-Trying to stop a queue which hasn't been allocated will result
-in a warning due to calling mutex_lock() against an uninitialized mutex.
+These ones claim cmic and nmic capable, so need special consideration to ignore
+their duplicate identifiers.
 
- DEBUG_LOCKS_WARN_ON(lock->magic != lock)
- WARNING: CPU: 4 PID: 104150 at kernel/locking/mutex.c:579
-
- Call trace:
-  RIP: 0010:__mutex_lock+0x1173/0x14a0
-  nvme_rdma_stop_queue+0x1b/0xa0 [nvme_rdma]
-  nvme_rdma_teardown_io_queues.part.0+0xb0/0x1d0 [nvme_rdma]
-  nvme_rdma_delete_ctrl+0x50/0x100 [nvme_rdma]
-  nvme_do_delete_ctrl+0x149/0x158 [nvme_core]
-
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Tested-by: Yi Zhang <yi.zhang@redhat.com>
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=217981
+Reported-by: welsh@cassens.com
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/rdma.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/nvme/host/pci.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 337a624a537ce..a7fea4cbacd75 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -638,6 +638,9 @@ static void __nvme_rdma_stop_queue(struct nvme_rdma_queue *queue)
- 
- static void nvme_rdma_stop_queue(struct nvme_rdma_queue *queue)
- {
-+	if (!test_bit(NVME_RDMA_Q_ALLOCATED, &queue->flags))
-+		return;
-+
- 	mutex_lock(&queue->queue_lock);
- 	if (test_and_clear_bit(NVME_RDMA_Q_LIVE, &queue->flags))
- 		__nvme_rdma_stop_queue(queue);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 347cb5daebc3c..3f0c9ee09a12b 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3329,7 +3329,8 @@ static const struct pci_device_id nvme_id_table[] = {
+ 	{ PCI_VDEVICE(INTEL, 0x0a54),	/* Intel P4500/P4600 */
+ 		.driver_data = NVME_QUIRK_STRIPE_SIZE |
+ 				NVME_QUIRK_DEALLOCATE_ZEROES |
+-				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
++				NVME_QUIRK_IGNORE_DEV_SUBNQN |
++				NVME_QUIRK_BOGUS_NID, },
+ 	{ PCI_VDEVICE(INTEL, 0x0a55),	/* Dell Express Flash P4600 */
+ 		.driver_data = NVME_QUIRK_STRIPE_SIZE |
+ 				NVME_QUIRK_DEALLOCATE_ZEROES, },
 -- 
 2.42.0
 
