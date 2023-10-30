@@ -4,66 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7CACFC4167B
-	for <linux-nvme@archiver.kernel.org>; Sun, 29 Oct 2023 23:00:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C9B30C4332F
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Oct 2023 06:15:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Fc2EyzO7BPPPf5BE59eBOQEfLrVQtLjD8n1LUwv+7mM=; b=sqkamfCG6C7kkrenOL1G98LsZQ
-	+C4DlwMDJOjh6BkU0itZlyQswjRqb5dD9nQYVP23INhChhlzWnNTCQ5XnM1R29oSO4HhA78DxpRCP
-	AQSYzenH+0AW8/PHWEWFx3lEm0ivFPcWU2EEJm61JkhHm7qsav+eks3yery1W+wWwIR+3nsCUJZqa
-	JZyAI5ANkHcItvPW6Obbcgq0xFso/eqtFKMDvXmRRLMTvrOc766AdMAoSFKG4xkvPewGeId/uDX/4
-	k3wEAAns77gCzYJQuQzzJ7ztH2wbdHqBemMFIzoMXQ/MggofBKTIeQ5QXJNd2PjgE3kJEtPhAUWCL
-	6J+erEjw==;
+	bh=Bp8Ruapeyw6Jqhg32Pkaoo5eG4QqBWWc2DVZjypxJ4Y=; b=wG655/iBRCVwGhgt6gQVxRkzug
+	3Thl4VKyl9w+qvjuZk7fUCWYZymVkx/sKOWJfgfWeX1jwO/8dKdcIAiRI09OfnsNDgNxpGn3v3pEs
+	LDBhLIjVuXHAKEoBr6FiKUG5vJLopntyl3eEG01oD3MEtmXXEB3R+Tcxm9Ux60HckG1K7tuCDzc+y
+	RX1+IJbIw14gBVqD31kf7YDo9VcG/JYpiJB5gmge9oYaQh4dhz03cLD2qqZ3ZxM/ST5bkNSwguraL
+	sW9s9UyHupi8UgVlqItEx6iG9pWFYQ6UMEid4k8okIEEzR3aIPUN5b2mlQxP2G3pEvR/kzt7GYj9g
+	cRG9rhyw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qxEm0-002F0b-2Q;
-	Sun, 29 Oct 2023 23:00:48 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1qxLZ0-002eDE-03;
+	Mon, 30 Oct 2023 06:15:50 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qxElx-002EzH-2v
+	id 1qxLYt-002eBw-2l
 	for linux-nvme@lists.infradead.org;
-	Sun, 29 Oct 2023 23:00:47 +0000
+	Mon, 30 Oct 2023 06:15:45 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 0641660EDE;
-	Sun, 29 Oct 2023 23:00:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15529C116B9;
-	Sun, 29 Oct 2023 23:00:43 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 8628FCE0FA6;
+	Mon, 30 Oct 2023 06:15:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 259E8C433C7;
+	Mon, 30 Oct 2023 06:15:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698620444;
-	bh=H6PU+qPOGDb+0My74bBCeQDqCXkrfPF8NgoiYUtkxUk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=C31wEaJTHlQfPJ2i7ms4VFhxmTfCumgUVO1BJeGFhHgLfc6yEIJI17QSPf+NdxYE8
-	 dnTf/X8iYcFpoK13+AcO98Deyaa6wMXpga22a+IO84TzM63rA1pff2Q8yJxflxX2mV
-	 7lWlt9nvfwSPIizzwoTFjeTXiJJL1O3PdxmwlWO3OaGMMkhm38DSWFxf/n+rN+2Gm6
-	 vGGDz06xepwWnIRA9lXxc+dYEHuagEDOHv2n2QxKg8F8/yZan28uXrbYh4oTM/2KvM
-	 sCk+u7ZjsHe8wb0dUOEjmJZymv3JCpk8H+R6H8ozJlUMg9CSnBHCHoc8OUXbze9DBA
-	 lOX85HR0CnRPw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Keith Busch <kbusch@kernel.org>,
-	welsh@cassens.com,
-	Sasha Levin <sashal@kernel.org>,
-	sagi@grimberg.me,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.10 16/16] nvme-pci: add BOGUS_NID for Intel 0a54 device
-Date: Sun, 29 Oct 2023 19:00:02 -0400
-Message-ID: <20231029230014.792490-16-sashal@kernel.org>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231029230014.792490-1-sashal@kernel.org>
-References: <20231029230014.792490-1-sashal@kernel.org>
+	s=k20201202; t=1698646535;
+	bh=+AjgvHo7u4AjcdW78I1WaXMZlIBlola+cFHDPGBHpLs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=qka4v1v3TyipegT6yuUPK+zMEbXj2mOvJPm6FMIwyhH/OUY185zUFNuhbk0WTBVLa
+	 LZ4U95ZVFc7qgyY8zg+uenVqOToKnTx7NJr0uB85+lnTpCQEDgHkllI0PAmABjXPKN
+	 +IwfKalWj7nbET8SqqZ8zJNaxDFb5UFgYUkgU+Yl7t6X0FQG6Hs123PLqyNwdMKY1e
+	 daOP/OfRMcCks5guz5FB0ExqBk1/Oq7dfP1W7uRjoUIZthTS0MRtJjOWbkoThkmvel
+	 LaiDM3fH7G4IXEfkJuh19p+oLV1WSAJNsXovyncphbkNSRLC2+NI4k8Y0e3ZF34iIQ
+	 2o0kmFbl5XG3g==
+Date: Sun, 29 Oct 2023 23:15:33 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Aurelien Aptel <aaptel@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
+ sagi@grimberg.me, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
+ chaitanyak@nvidia.com, davem@davemloft.net, aurelien.aptel@gmail.com,
+ smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
+ yorayz@nvidia.com, borisp@nvidia.com, galshalom@nvidia.com,
+ mgurtovoy@nvidia.com, edumazet@google.com
+Subject: Re: [PATCH v18 00/20] nvme-tcp receive offloads
+Message-ID: <20231029231533.79dcb9ef@kernel.org>
+In-Reply-To: <20231027122755.205334-1-aaptel@nvidia.com>
+References: <20231027122755.205334-1-aaptel@nvidia.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.199
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231029_160045_983729_D0493A41 
-X-CRM114-Status: GOOD (  10.04  )
+X-CRM114-CacheID: sfid-20231029_231544_089192_63C6B3AA 
+X-CRM114-Status: UNSURE (   6.96  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,36 +76,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+On Fri, 27 Oct 2023 12:27:35 +0000 Aurelien Aptel wrote:
+> The next iteration of our nvme-tcp receive offload series.
+> The main change is the move of the capabilities from the netdev to the driver.
 
-[ Upstream commit 5c3f4066462a5f6cac04d3dd81c9f551fabbc6c7 ]
-
-These ones claim cmic and nmic capable, so need special consideration to ignore
-their duplicate identifiers.
-
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=217981
-Reported-by: welsh@cassens.com
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/nvme/host/pci.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 9c67ebd4eac38..970a1b374a669 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3181,7 +3181,8 @@ static const struct pci_device_id nvme_id_table[] = {
- 	{ PCI_VDEVICE(INTEL, 0x0a54),	/* Intel P4500/P4600 */
- 		.driver_data = NVME_QUIRK_STRIPE_SIZE |
- 				NVME_QUIRK_DEALLOCATE_ZEROES |
--				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
-+				NVME_QUIRK_IGNORE_DEV_SUBNQN |
-+				NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_VDEVICE(INTEL, 0x0a55),	/* Dell Express Flash P4600 */
- 		.driver_data = NVME_QUIRK_STRIPE_SIZE |
- 				NVME_QUIRK_DEALLOCATE_ZEROES, },
+Patches 15-17 never made it to the list :(
+Please note that net-next is closed for the duration of the merge
+window.
 -- 
-2.42.0
-
+pw-bot: cr
 
