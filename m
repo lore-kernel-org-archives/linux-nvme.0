@@ -4,76 +4,125 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DCA55C4332F
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Oct 2023 15:59:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2D3CC4332F
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Oct 2023 21:03:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ZeP5LZNPVgCOVDKGuBqMoGJSW7piHcySROsgnm697W0=; b=P6EUkqCsl0GIp0zAgadY4OiVWs
-	DFLMII1ClE2V0eXhb6Mvl9iD56nQBS/eV1K7/zwmVbbEd/wspKs7D2p7rOjG/2P7iqeLP7Qf3yh4f
-	kLTm0weKEW+yKWx/CF5YdF4ev4Ojeu2rxUl5Tg9icw0u7+8zU4uQEXsgYRG7fGleqsxKqWJBZPR0u
-	LNhuHHnoN5Z2FaLMCUanXdifmzeEjpj7ocdkI1WUeHq9vrl/Tm7j/ridpsU3KipFQJl5SrQngTt2B
-	KLLuzJxrK3AidcGNCpnEW/vkNTJ/cGJgYbDunQ0o7la0Vl+bjd+UTZnIioNsx/oaWEzj8RiAv02Hq
-	VA9jGOMA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=8eCXBZsJBL9I/lOGkGe8XqFHXC8BSImI/VO6wmHTQBY=; b=jcG3jinRck9+8J+ds7uZ7QVxcw
+	XUCwDVAPEFSOBZbUTWThEyG4ee+KsIqM/r8rD6erQuN01tXww5b2sMUo/lOh7g49WkiVu7erZHp2n
+	mhb6AItiLDg/V4g8w7FaP091xYOHiMCwwcdFtQshdm0DRwT9SHVuRekGnHiB3+WgqXa1hi6i+/Pol
+	tyRHk8YQ2ENhoz5EXOkFQJkXpIUfFe1Vqr5J8JC4eXFxMEQDEBQub2Sx80MjymG4CYtEMCBp+RJsr
+	WGBl/VDL2YMN1228e5YTrd3/Bh00PswILP6Ns2wFe7zupT4ZkDqgZDtSXl/peiNUyLz0UC2lBk/JE
+	jFuDaI8A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qxUfe-003aru-35;
-	Mon, 30 Oct 2023 15:59:18 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1qxZPd-0042Vj-1H;
+	Mon, 30 Oct 2023 21:03:05 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qxUfb-003arI-2v
+	id 1qxZPZ-0042Ux-0a
 	for linux-nvme@lists.infradead.org;
-	Mon, 30 Oct 2023 15:59:17 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4B1DA210E7;
-	Mon, 30 Oct 2023 15:59:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1698681552; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=ZeP5LZNPVgCOVDKGuBqMoGJSW7piHcySROsgnm697W0=;
-	b=J44VmEqcZrDXMGx1wOc89obvtxfjsdVZFguVq7pP3N+MPb0pe0B/voCzU/h48z6UYLdqAd
-	JrrwBBdSJ51wGxjcU52tTozeIPOTIeYO6K83LJsE13UrBkjW7gzzBTIHZuleo5PHBsWSPr
-	mc4LXuvDuRtO7cv1vo31gEo+5jM37Wc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1698681552;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=ZeP5LZNPVgCOVDKGuBqMoGJSW7piHcySROsgnm697W0=;
-	b=YL7UvprAyY6BY8MIOhFh0wB9Pj1IPK/1X6jXBIm7IGrFc6sByhq8KnPHL77tJtfMmX9QmM
-	b2DtEclQYbF7nDCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3D9F3138EF;
-	Mon, 30 Oct 2023 15:59:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id HV0FD9DSP2WufAAAMHmgww
-	(envelope-from <dwagner@suse.de>); Mon, 30 Oct 2023 15:59:12 +0000
-From: Daniel Wagner <dwagner@suse.de>
-To: linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org,
-	Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Niklas Cassel <Niklas.Cassel@wdc.com>,
-	Daniel Wagner <dwagner@suse.de>,
-	Kenji Tomonaga <tkenbo@gmail.com>
-Subject: [PATCH v3] nvme: update firmware version after commit
-Date: Mon, 30 Oct 2023 17:00:44 +0100
-Message-ID: <20231030160044.20355-1-dwagner@suse.de>
-X-Mailer: git-send-email 2.42.0
+	Mon, 30 Oct 2023 21:03:04 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20231030210253epoutp024f906a9f19ee6aaf0e2e9d5da9da6a0b~S-nG7gk6M2179921799epoutp02X
+	for <linux-nvme@lists.infradead.org>; Mon, 30 Oct 2023 21:02:53 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20231030210253epoutp024f906a9f19ee6aaf0e2e9d5da9da6a0b~S-nG7gk6M2179921799epoutp02X
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1698699773;
+	bh=8eCXBZsJBL9I/lOGkGe8XqFHXC8BSImI/VO6wmHTQBY=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=INGASIcmlC5+ta2gStSasFM3iHgwVsbgPOG7bqiY13y46GLAVsKBl+xVizsAiExmu
+	 1C2jme1dXVav36c4tSAf5NqsltnGhvfcfqvbqDIjRjB7H1QPd8GI205ppUu/H9pXAV
+	 yrLbXu6OOOXSDWk4lJGXq/c5MPvCfNr5DMw4suuY=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+	20231030210253epcas5p1bd3269f4c24ca0d33a8074072c1e1242~S-nGubahH2211122111epcas5p1c;
+	Mon, 30 Oct 2023 21:02:53 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.174]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4SK5MH6qYTz4x9Ps; Mon, 30 Oct
+	2023 21:02:51 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	79.58.09672.BF910456; Tue, 31 Oct 2023 06:02:51 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20231030210251epcas5p2bcf20c995a255486b31b6f629d921114~S-nEtKBK61658216582epcas5p22;
+	Mon, 30 Oct 2023 21:02:51 +0000 (GMT)
+Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20231030210251epsmtrp1ee74188dc1ae9b9f77d4aa2d890994b4~S-nEseWf30804108041epsmtrp18;
+	Mon, 30 Oct 2023 21:02:51 +0000 (GMT)
+X-AuditID: b6c32a4b-60bfd700000025c8-0e-654019fbeefb
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	84.2F.07368.BF910456; Tue, 31 Oct 2023 06:02:51 +0900 (KST)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20231030210249epsmtip20c158f4820578006aaf2a7c8f7b4e651~S-nC40Or_2706627066epsmtip20;
+	Mon, 30 Oct 2023 21:02:49 +0000 (GMT)
+Message-ID: <c3a946f4-b2f8-c800-1573-1f87c9d637d7@samsung.com>
+Date: Tue, 31 Oct 2023 02:32:48 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+	Gecko/20100101 Thunderbird/91.8.1
+Subject: Re: [PATCHv2 1/4] block: bio-integrity: directly map user buffers
+Content-Language: en-US
+To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, io-uring@vger.kernel.org
+Cc: axboe@kernel.dk, hch@lst.de, martin.petersen@oracle.com, Keith Busch
+	<kbusch@kernel.org>
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <20231027181929.2589937-2-kbusch@meta.com>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrCJsWRmVeSWpSXmKPExsWy7bCmuu5vSYdUg9/PjSxW3+1ns1i5+iiT
+	xbvWcywWkw5dY7Q4c3Uhi8XeW9oW85c9ZbdYfvwfkwOHx+WzpR6bVnWyeWxeUu+x+2YDm8e5
+	ixUeH5/eYvH4vEkugD0q2yYjNTEltUghNS85PyUzL91WyTs43jne1MzAUNfQ0sJcSSEvMTfV
+	VsnFJ0DXLTMH6CIlhbLEnFKgUEBicbGSvp1NUX5pSapCRn5xia1SakFKToFJgV5xYm5xaV66
+	Xl5qiZWhgYGRKVBhQnbG9219LAWXVCu2bN3C2sB4RLaLkZNDQsBEYvXcVtYuRi4OIYHdjBIn
+	pq1lg3A+MUosv3EZKvONUWLC2svsMC2tN5sYIRJ7GSXOztwFVfWWUeLu9nbmLkYODl4BO4kj
+	L3NATBYBVYm/TaIgvbwCghInZz5hAbFFBZIkfl2dwwhiCwt4Sdxu/M4KYjMLiEvcejKfCcQW
+	EaiS6Jv2kw0iHiex9MgMsOlsApoSFyaXgoQ5BcwlfpzeAVUiL7H97RxmkGskBGZySHQ++sEE
+	cbOLxKzDq6DuF5Z4dXwLlC0l8bK/DcpOlrg08xxUfYnE4z0HoWx7idZT/WB7mYH2rt+lD7GL
+	T6L39xMmkLCEAK9ER5sQRLWixL1JT1khbHGJhzOWQNkeEq933IKG2nZGia9X3rBOYFSYhRQq
+	s5B8PwvJO7MQNi9gZFnFKJlaUJybnlpsWmCcl1oOj+7k/NxNjODkquW9g/HRgw96hxiZOBgP
+	MUpwMCuJ8DI72qQK8aYkVlalFuXHF5XmpBYfYjQFxs5EZinR5Hxges8riTc0sTQwMTMzM7E0
+	NjNUEud93To3RUggPbEkNTs1tSC1CKaPiYNTqoGpJb7AKrzL567w49fVqhPe3LsQ5PvneUSJ
+	YfRk5j8lmXnWZzr/XKk5YCBXX6Iau9jXS/zfvErV0izbwywvRW3urS3f9bxvs+YJ997+nkUO
+	tTXZZUt7K7ZfUExRfvTA1ePE3hsunzN+RHcv+bTkXWuPpPwv3Z+ZC5wjJu89tyYpKvfd6v0S
+	93Qkq8PsNxyKu9Zj1x/EsGvSK4Wpz3kKkt+9/m78j8//UMqyOqnjs+1eclj8X3rzzcW1rz0u
+	b9C/HpBz4Ze2aWRvYZmJvNmimII+1mgjxaMPPl8JLtnoUt4c9tn7Kl+mam6t6a2Lrz+VX3Yo
+	T9i+JfjdfZOeKT1pizUN7ar3eKTVSh66OVuSx1qJpTgj0VCLuag4EQDPIm41NwQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrPLMWRmVeSWpSXmKPExsWy7bCSvO5vSYdUgy/nJC1W3+1ns1i5+iiT
+	xbvWcywWkw5dY7Q4c3Uhi8XeW9oW85c9ZbdYfvwfkwOHx+WzpR6bVnWyeWxeUu+x+2YDm8e5
+	ixUeH5/eYvH4vEkugD2KyyYlNSezLLVI3y6BK+P7tj6WgkuqFVu2bmFtYDwi28XIySEhYCLR
+	erOJsYuRi0NIYDejxPtNbSwQCXGJ5ms/2CFsYYmV/56D2UICrxklelrquhg5OHgF7CSOvMwB
+	MVkEVCX+NomCVPAKCEqcnPkEbIqoQJLEnvuNTCC2sICXxO3G76wgNjPQ9FtP5oPFRQSqJPb/
+	OMsEEY+T+H8JpB7knO2MEjvvLWMEmc8moClxYXIpSA2ngLnEj9M72CDqzSS6tnYxQtjyEtvf
+	zmGewCg0C8kZs5Csm4WkZRaSlgWMLKsYJVMLinPTc5MNCwzzUsv1ihNzi0vz0vWS83M3MYLj
+	SEtjB+O9+f/0DjEycTAeYpTgYFYS4WV2tEkV4k1JrKxKLcqPLyrNSS0+xCjNwaIkzms4Y3aK
+	kEB6YklqdmpqQWoRTJaJg1OqgSkt/dBrw9Wtut+En83oUdz63eCRVgHXu68sZZ+bLKxYt0zx
+	LTg/W/Xm5nT2tUX3GBy25rVuberZLbxGW8K0RmBRT4SSxUa3c5NUbWJ9HHYX/G7brp8QGiSu
+	0uAsFXlQ/1JD6HunuYtyah6uLag3WqnvZ19sEv/m/cpNPfYx6TIic00dmwTWCdw7z3XVuC3f
+	/etXH1Wn4LMSl9k13ieH3JOVv9Omz/rO+QPTZPkFBj7My/MDo7931TwX1t9mJyl6hrN53f/v
+	kyftO/HqmM/HZyctWYqsleryIl6ItryaldKl8O/ouTXcswX2uCld/rbu7NyQFeHO35kkVq6c
+	PWvqVH+7/E8TH1pm6/5O8HnipcRSnJFoqMVcVJwIAFbpAtwSAwAA
+X-CMS-MailID: 20231030210251epcas5p2bcf20c995a255486b31b6f629d921114
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20231027182017epcas5p1fb1f91bc876d9bc1b1229c012bcd1ea2
+References: <20231027181929.2589937-1-kbusch@meta.com>
+	<CGME20231027182017epcas5p1fb1f91bc876d9bc1b1229c012bcd1ea2@epcas5p1.samsung.com>
+	<20231027181929.2589937-2-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231030_085916_086757_D5DB3162 
-X-CRM114-Status: GOOD (  11.54  )
+X-CRM114-CacheID: sfid-20231030_140302_483163_A430BC9C 
+X-CRM114-Status: GOOD (  29.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,65 +137,155 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The firmware version sysfs entry needs to be updated after a successfully
-firmware activation.
+On 10/27/2023 11:49 PM, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
+> 
+> Passthrough commands that utilize metadata currently need to bounce the
+> user space buffer through the kernel. Add support for mapping user space
+> directly so that we can avoid this costly overhead. This is similiar to
+> how the normal bio data payload utilizes user addresses with
+> bio_map_user_iov().
+> 
+> If the user address can't directly be used for reasons like too many
+> segments or address unalignement, fallback to a copy of the user vec
+> while keeping the user address pinned for the IO duration so that it
+> can safely be copied on completion in any process context.
+> 
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
+> ---
+>   block/bio-integrity.c | 195 ++++++++++++++++++++++++++++++++++++++++++
+>   include/linux/bio.h   |   9 ++
+>   2 files changed, 204 insertions(+)
+> 
+> diff --git a/block/bio-integrity.c b/block/bio-integrity.c
+> index ec8ac8cf6e1b9..7f9d242ad79df 100644
+> --- a/block/bio-integrity.c
+> +++ b/block/bio-integrity.c
+> @@ -91,6 +91,37 @@ struct bio_integrity_payload *bio_integrity_alloc(struct bio *bio,
+>   }
+>   EXPORT_SYMBOL(bio_integrity_alloc);
+>   
+> +static void bio_integrity_unmap_user(struct bio_integrity_payload *bip)
+> +{
+> +	bool dirty = bio_data_dir(bip->bip_bio) == READ;
+> +	struct bio_vec *copy = bip->copy_vec;
+> +	struct bvec_iter iter;
+> +	struct bio_vec bv;
+> +
+> +	if (copy) {
+> +		unsigned short nr_vecs = bip->bip_max_vcnt;
+> +		size_t bytes = bip->bip_iter.bi_size;
+> +		void *buf = bvec_virt(bip->bip_vec);
+> +
+> +		if (dirty) {
+> +			struct iov_iter iter;
+> +
+> +			iov_iter_bvec(&iter, ITER_DEST, copy, nr_vecs, bytes);
+> +			WARN_ON(copy_to_iter(buf, bytes, &iter) != bytes);
+> +		}
+> +
+> +		memcpy(bip->bip_vec, copy, nr_vecs * sizeof(*copy));
+> +		kfree(copy);
+> +		kfree(buf);
+> +	}
+> +
+> +	bip_for_each_vec(bv, bip, iter) {
+> +		if (dirty && !PageCompound(bv.bv_page))
+> +			set_page_dirty_lock(bv.bv_page);
+> +		unpin_user_page(bv.bv_page);
+> +	}
+> +}
 
-nvme-cli stopped issuing an Identify Controller command to list the
-current firmware information and relies on sysfs showing the current
-firmware version.
-
-Reported-by: Kenji Tomonaga <tkenbo@gmail.com>
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
----
-
-Only compile tested. Asked for testing.
-
-changes:
-
-v3:
-  - use afi variable directly, no _to_cpu helper
-  - fix bit mask size
-
-v2:
-  - use fw slot info instead issuing another identify controller command
-  - https://lore.kernel.org/linux-nvme/20231013163420.3097-1-dwagner@suse.de
-
-v1:
-  - initial version
-  - https://lore.kernel.org/linux-nvme/20231013062623.6745-1-dwagner@suse.de/
+Leak here, page-unpinning loop will not execute for the common (i.e., 
+no-copy) case...
 
 
- drivers/nvme/host/core.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+> +int bio_integrity_map_user(struct bio *bio, void __user *ubuf, unsigned int len,
+> +			   u32 seed)
+> +{
+> +	struct request_queue *q = bdev_get_queue(bio->bi_bdev);
+> +	unsigned long offs, align = q->dma_pad_mask | queue_dma_alignment(q);
+> +	int ret, direction, nr_vecs, i, j, folios = 0;
+> +	struct bio_vec stack_vec[UIO_FASTIOV];
+> +	struct bio_vec bv, *bvec = stack_vec;
+> +	struct page *stack_pages[UIO_FASTIOV];
+> +	struct page **pages = stack_pages;
+> +	struct bio_integrity_payload *bip;
+> +	struct iov_iter iter;
+> +	struct bvec_iter bi;
+> +	u32 bytes;
+> +
+> +	if (bio_integrity(bio))
+> +		return -EINVAL;
+> +	if (len >> SECTOR_SHIFT > queue_max_hw_sectors(q))
+> +		return -E2BIG;
+> +
+> +	if (bio_data_dir(bio) == READ)
+> +		direction = ITER_DEST;
+> +	else
+> +		direction = ITER_SOURCE;
+> +
+> +	iov_iter_ubuf(&iter, direction, ubuf, len);
+> +	nr_vecs = iov_iter_npages(&iter, BIO_MAX_VECS + 1);
+> +	if (nr_vecs > BIO_MAX_VECS)
+> +		return -E2BIG;
+> +	if (nr_vecs > UIO_FASTIOV) {
+> +		bvec = kcalloc(sizeof(*bvec), nr_vecs, GFP_KERNEL);
+> +		if (!bvec)
+> +			return -ENOMEM;
+> +		pages = NULL;
+> +	}
+> +
+> +	bytes = iov_iter_extract_pages(&iter, &pages, len, nr_vecs, 0, &offs);
+> +	if (unlikely(bytes < 0)) {
+> +		ret =  bytes;
+> +		goto free_bvec;
+> +	}
+> +
+> +	for (i = 0; i < nr_vecs; i = j) {
+> +		size_t size = min_t(size_t, bytes, PAGE_SIZE - offs);
+> +		struct folio *folio = page_folio(pages[i]);
+> +
+> +		bytes -= size;
+> +		for (j = i + 1; j < nr_vecs; j++) {
+> +			size_t next = min_t(size_t, PAGE_SIZE, bytes);
+> +
+> +			if (page_folio(pages[j]) != folio ||
+> +			    pages[j] != pages[j - 1] + 1)
+> +				break;
+> +			unpin_user_page(pages[j]);
+> +			size += next;
+> +			bytes -= next;
+> +		}
+> +
+> +		bvec_set_page(&bvec[folios], pages[i], size, offs);
+> +		offs = 0;
+> +		folios++;
+> +	}
+> +
+> +	if (pages != stack_pages)
+> +		kvfree(pages);
+> +
+> +	if (folios > queue_max_integrity_segments(q) ||
+> +	    !iov_iter_is_aligned(&iter, align, align)) {
+> +		ret = bio_integrity_copy_user(bio, bvec, folios, len,
+> +					      direction, seed);
+> +		if (ret)
+> +			goto release_pages;
+> +		return 0;
+> +	}
+> +
+> +	bip = bio_integrity_alloc(bio, GFP_KERNEL, folios);
+> +	if (IS_ERR(bip)) {
+> +		ret = PTR_ERR(bip);
+> +		goto release_pages;
+> +	}
+> +
+> +	memcpy(bip->bip_vec, bvec, folios * sizeof(*bvec));
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 37b6fa746662..e8511bff78d2 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4053,8 +4053,21 @@ static void nvme_get_fw_slot_info(struct nvme_ctrl *ctrl)
- 		return;
- 
- 	if (nvme_get_log(ctrl, NVME_NSID_ALL, NVME_LOG_FW_SLOT, 0, NVME_CSI_NVM,
--			log, sizeof(*log), 0))
-+			 log, sizeof(*log), 0)) {
- 		dev_warn(ctrl->device, "Get FW SLOT INFO log error\n");
-+		goto out_free_log;
-+	}
-+
-+	if (log->afi & 0x70) {
-+		dev_info(ctrl->device,
-+			 "Firmware is activated after next Controller Level Reset\n");
-+		goto out_free_log;
-+	}
-+
-+	memcpy(ctrl->subsys->firmware_rev, &log->frs[log->afi & 0x7],
-+		sizeof(ctrl->subsys->firmware_rev));
-+
-+out_free_log:
- 	kfree(log);
- }
- 
--- 
-2.42.0
+Because with this way of copying, bip->bip_iter.bi_size will remain zero.
 
+Second, is it fine not to have those virt-alignment checks that are done 
+by bvec_gap_to_prev() when the pages are added using 
+bio_integrity_add_page()?
 
