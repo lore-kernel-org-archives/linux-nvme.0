@@ -4,61 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A7592C4167D
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Oct 2023 15:02:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B71EC4332F
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Oct 2023 15:03:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JSWVnBF2dLcqQxv/l5drzVHSE9YKSk6saMu5opCior0=; b=Bip46bGl8uYA9AcbjX3dZ2Bf5E
-	KJIDhx5RJ8oNmDZlr4A/0As4HBswFlnzWIz4LxdcCxZk8LKlsMaLqO/3s6JnY8EMIMkjdUERp3yxf
-	JE88SNgtwHX5D6fF3l8LiP8VeCb6lvNsTY/8wmNr22IkExdIZlbUSVtvIMAPe4+xxwDUA0sNFqXUx
-	i3HrAOnsSesilPM+mZylKaykC6zh5+h6SMNfxIPCjq4PcGGBmCVmx51ODdNJJe8UCVgDAOQLC7ZXU
-	1nbm3ANCPGA3Xs2ybgwnCWz4DihxbGibhcJcZLVMIwPnwX2p/bqPkeMJrUAcwQV3oV+U1FIFMUwgn
-	nvBNyF7w==;
+	bh=FsHp93QXvHsHxlWc3TDgYmS83zu4knkqaWNm259CP/g=; b=WtJilz4vKdOrMqyoS7LAegXsIC
+	F8Kc/OqnR11nOuoWbcrk/RwQKWQcUYroKCsCgIdiLaIMF6OdtaJakg/M9bdCeE30kAscrJx7bOGpL
+	jtO6JA77ltrUJZQK/U+3HitfZzw/Yc69UFtdyJQlHzDTIDFtKMm43w3irbBjiHsS7Tj1aOAlZDYkK
+	L4mU9XlS9DTGb2J3JNwBLLkR5xpvEwobDFKouF2qSMdBy1f+BBTyt7Za/Va0R9ywEUDTEIJVTpyh8
+	eywhOZz9ANACJJ1MA0iaHc352iArqKfsp4N0FESO0vAPOyjTRRTnRcCvQ4k1ZcCpku5LAY+UEKmvY
+	Dn6ID1bw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qxTn5-003WuQ-09;
-	Mon, 30 Oct 2023 15:02:55 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1qxTnK-003Wy0-2b;
+	Mon, 30 Oct 2023 15:03:10 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qxTn0-003WsG-2E
+	id 1qxTnI-003Wx3-2L
 	for linux-nvme@lists.infradead.org;
-	Mon, 30 Oct 2023 15:02:52 +0000
+	Mon, 30 Oct 2023 15:03:09 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by ams.source.kernel.org (Postfix) with ESMTP id 180ACB80781;
-	Mon, 30 Oct 2023 15:02:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFC11C433C7;
-	Mon, 30 Oct 2023 15:02:47 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id B8C3260AF6;
+	Mon, 30 Oct 2023 15:03:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00FFBC433C8;
+	Mon, 30 Oct 2023 15:03:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698678168;
-	bh=HZ3Ha4rMhluR/cnIvD4+pZKPzbOWuqqbVllRMsRZcNQ=;
+	s=k20201202; t=1698678187;
+	bh=yycAgp2NnUVNke1Fr3RlVfSDjyPhoJ5zWLXggicfNK8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=b90S/syrmiFfKANW1rMs6SDRfIVVQqjZZxL7UiiJksBYlm9MTD8zenrtE70wqr0BD
-	 LhZoBkxLKim2fybQa9nrVdd5MdYlV2aLs7RkJJ5dpNuwayc7Cl7taCAnM7jNRMqG65
-	 FGYfgLunpPsD9xmP8jsRumpV5xXBP3Dw5SwwgHSdVzMqntVNXtvGjrq5ZaxqNiDDaf
-	 hAVeFtM+dTqqdhSSHHSkab/Aqzn5PIsqFxwZluHqGFLRsdboDRAiQTXmUmYK8oDzna
-	 O8rTWHvU521mPhLxfZwtqqrHiyIYw9+vsEtpHPB6v3OxJ3IHq8AgmRt0issMqOaNQS
-	 aUBksnbFS2nMw==
-Date: Mon, 30 Oct 2023 09:02:45 -0600
+	b=aishvX/EedZSTyi6JKlva9cX/u8ikxWV036JVb5w2p/pKZaPjrgFzGfI7/gqNM4HM
+	 qmgt1GaDsjHrPVST0yixiR2OBVUnsHRxNa21hhdMMGkNise/VJrPc6J92tUuaRhUGh
+	 KAVmIJuYdSEr6BRorUfavzUYM6G6kPa2gDADwcHijFYkZjdff+F4HfwCJ5SRc/xR5L
+	 2wOjDcrpSeaWOpb5e7L1+5vPfGwdenjHv2KtgkhgCC9lTgFbS3aTLTqzCcXWNB83+t
+	 FXp7pmyGZBooAyKZYiaZDxbgFyAUOJ4J0rehIA3TlynLMUY34jUTNCbgHmLWmuUSrh
+	 8H4YVT0bjtRjg==
+Date: Mon, 30 Oct 2023 09:03:05 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Eric Biggers <ebiggers@kernel.org>
 Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v2] nvme-tcp: Fix a memory leak
-Message-ID: <ZT_Flc9XuDdB9clo@kbusch-mbp.dhcp.thefacebook.com>
-References: <7f132cc47e627d63ddb084f3d0fcad10956d1e35.1698677322.git.christophe.jaillet@wanadoo.fr>
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+	linux-crypto@vger.kernel.org
+Subject: Re: [PATCH] nvme-auth: use crypto_shash_tfm_digest()
+Message-ID: <ZT_FqTrckF3TOc7U@kbusch-mbp.dhcp.thefacebook.com>
+References: <20231029050040.154563-1-ebiggers@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7f132cc47e627d63ddb084f3d0fcad10956d1e35.1698677322.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20231029050040.154563-1-ebiggers@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231030_080250_856632_788DDF16 
-X-CRM114-Status: GOOD (  10.39  )
+X-CRM114-CacheID: sfid-20231030_080308_808944_7E68948B 
+X-CRM114-Status: GOOD (  10.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,14 +72,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Oct 30, 2023 at 03:49:28PM +0100, Christophe JAILLET wrote:
-> All error handling path end to the error handling path, except this one.
-> Go to the error handling branch as well here, otherwise 'icreq' and
-> 'icresp' will leak.
+On Sat, Oct 28, 2023 at 10:00:40PM -0700, Eric Biggers wrote:
+> From: Eric Biggers <ebiggers@google.com>
 > 
-> Fixes: 2837966ab2a8 ("nvme-tcp: control message handling for recvmsg()")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Simplify nvme_auth_augmented_challenge() by using
+> crypto_shash_tfm_digest() instead of an alloc+init+update+final
+> sequence.  This should also improve performance.
+> 
+> Signed-off-by: Eric Biggers <ebiggers@google.com>
 
 Thanks, applied to nvme-6.7.
 
