@@ -4,49 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9C592C4167D
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Oct 2023 14:52:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B68D4C4332F
+	for <linux-nvme@archiver.kernel.org>; Mon, 30 Oct 2023 14:54:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GJq5bgXVmNmvKiogsB2Na6l2XOJypl7t213tMVsC5XY=; b=MwpJZwRH/mNo5Fyx2iQZQ9XBKy
-	fp07enDtOrEkjpc+WDRdld7yESdP4z01V+Cq1MVD0o/g7deAwNxgiMahSsWvh0mmUi7sYtKMZoo/q
-	dUPSqLoU1XBAGO5dnuJ/H/GdrrTYT+GNp39UddQ6PBqkcrhjRNXLgdGWprDW+bxwseUd2refa0H1T
-	UC5rN2d+WOikW5NJG8Vo/T2qQpZgboV4YvI5JPBGTAc9ub9HzRYb37HHcBWErbP+Ipx2PPS9dmEdc
-	2BRkj9peSD9d68p2FwGzH3dRGegSvo3OmZ0sFkBw1MOTAZm1d+y5GgZMWr5jNYBmxKVF+gYddLCMv
-	CBJtKA+w==;
+	bh=vs4D/kqzw/eF/3nuRjb6imrkdJRO+iFoa+UL3OeOFuo=; b=FOoLJoeaay07CEMB2J4icVKGTu
+	9RLHuOVNb2pnRw+o/nrz3T46aIBfFOf0VigybcNj6R5udlvhqRcmo/fAUXgLvhZF4qzaXZeCxuJAi
+	FPm3Kc1SAK5LMEd54dPJUa2xZJ/7cEbt7PdlKlUPmGRW1HRHxqSc+ygKd/LYq0FmkWi9We1jA3C6B
+	SlwD4R86nTeff78OCLMb045O0HmgWTzail49F26l4BJTsUSkB2TAk3wLKD4fGggCA0NmWFjHTABy2
+	HbeOtVp/F6nyYx6RCylFvrMkJVtAMxQfM6zG5Rx/eqHC9NgLnLGZTslat2jxU44stVJqV/6tZUsGq
+	Q3wljeug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qxTd8-003VyL-07;
-	Mon, 30 Oct 2023 14:52:38 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1qxTeh-003W7C-1M;
+	Mon, 30 Oct 2023 14:54:15 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qxTd5-003VwR-1G
+	id 1qxTef-003W66-0C
 	for linux-nvme@lists.infradead.org;
-	Mon, 30 Oct 2023 14:52:36 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 321FD6732A; Mon, 30 Oct 2023 15:52:20 +0100 (CET)
-Date: Mon, 30 Oct 2023 15:52:20 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Hannes Reinecke <hare@suse.de>, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v2] nvme-tcp: Fix a memory leak
-Message-ID: <20231030145220.GA28484@lst.de>
-References: <7f132cc47e627d63ddb084f3d0fcad10956d1e35.1698677322.git.christophe.jaillet@wanadoo.fr>
+	Mon, 30 Oct 2023 14:54:14 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by ams.source.kernel.org (Postfix) with ESMTP id B5912B80D0D;
+	Mon, 30 Oct 2023 14:54:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DF88C433C8;
+	Mon, 30 Oct 2023 14:54:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1698677650;
+	bh=IGxZ3WXFE2g5LtHStC1maMx/25lkQzHmz4Iz8FrsjIo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=arfIcr1PLhx/XBZRkqc8eMahg/eKkqQyCDFGPdP6in7tfw5XcRfMMl8bfFUk2FOj1
+	 h8JVbT0koyb35oGfarOrJkvw2R6sMStxMzsy3ogdG41x2Q92IXU1HTdw7HgdM5nmeu
+	 wRp5iGcfJA55otgY73SSniYNAUCI8z6xnTR2lgiBYMv69zkQnT9G0Y7aXWoFJbmk0/
+	 gfOgUAEaBwQe90fG1ty89wyGgbw4M88i5rCaAikuwtuxNsQqvLwVD/a/VsNoQMdRtV
+	 iX73Ao8pJP8YCJ2ZMZ2bdw6vDlHRKSaTkzAz+QnrvivIR6FRgbZAGd3v853YOXXlHR
+	 39FuqgD23s7/Q==
+Date: Mon, 30 Oct 2023 08:54:07 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Pankaj Raghav <p.raghav@samsung.com>
+Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, io-uring@vger.kernel.org,
+	axboe@kernel.dk, hch@lst.de, joshi.k@samsung.com,
+	martin.petersen@oracle.com
+Subject: Re: [PATCHv2 1/4] block: bio-integrity: directly map user buffers
+Message-ID: <ZT_Dj9Df07bCntQQ@kbusch-mbp.dhcp.thefacebook.com>
+References: <20231027181929.2589937-1-kbusch@meta.com>
+ <20231027181929.2589937-2-kbusch@meta.com>
+ <CGME20231030144050eucas1p12ede963088687846d9b02a27d7da525e@eucas1p1.samsung.com>
+ <20231030144047.yrwejvdyyi4vo62m@localhost>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7f132cc47e627d63ddb084f3d0fcad10956d1e35.1698677322.git.christophe.jaillet@wanadoo.fr>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20231030144047.yrwejvdyyi4vo62m@localhost>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231030_075235_572516_0D19E374 
-X-CRM114-Status: GOOD (  11.87  )
+X-CRM114-CacheID: sfid-20231030_075413_277644_49FC4385 
+X-CRM114-Status: GOOD (  11.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,13 +76,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good:
+On Mon, Oct 30, 2023 at 03:40:47PM +0100, Pankaj Raghav wrote:
+> > +	int ret;
+> > +
+> > +	/* if bvec is on the stack, we need to allocate a copy for the completion */
+> > +	if (nr_vecs <= UIO_FASTIOV) {
+> > +		copy_vec = kcalloc(sizeof(*bvec), nr_vecs, GFP_KERNEL);
+> > +		if (!copy_vec)
+> > +			return -ENOMEM;
+> > +		memcpy(copy_vec, bvec, nr_vecs * sizeof(*bvec));
+> > +	}
+> > +
+> > +	buf = kmalloc(len, GFP_KERNEL);
+> > +	if (!buf)
+> > +		goto free_copy;
+> 
+> ret is not set to -ENOMEM here.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-
-> Personally I prefer v1. Pick the one you prefer :)
-
-I think we should be consistent with one style or another in a
-given function.  Otherwise I wouldn't even have mentioned it.
-
+Indeed, thanks for pointing that out. I'll wait a bit longer before
+posting a v3.
 
