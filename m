@@ -4,82 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F056DC4167B
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 Oct 2023 07:10:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D493C4332F
+	for <linux-nvme@archiver.kernel.org>; Tue, 31 Oct 2023 08:21:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fuhTPF2nGxyW2WW8m2ohxcVL9tICIUEqav9y02554yw=; b=0IB1uu094GbPCfSmIxPIWDGphr
-	7hmJDMIckD+ZwmFQisQyMGZWRg6+QZdGzP6e55d8kKZ3xJHTzeI9+8Nr/a9z46lMSaeyjvnaX5jyR
-	mvaLUtN56funrl+EbOrcynZCZKXmGKI5UgHAb+7RIPwpRYkvQKbFZTDg4hquFmt3g9rOw2AxAKGzz
-	o90Qb0NkQyKyMAw+AdgypuX20iLHgrYQhXP45VMPwu0TNOhczUYDtsaA4gTCuBnr9sAzoSPsw+gT5
-	tv8i8aOYVeXg300faG898UkvNnz2wzIlPYYmf6rOBlS97512npW05tZSJVYCXlwoINDZ+DqN/ahGm
-	XTR1/hDA==;
+	Content-Type:Subject:From:Cc:To:MIME-Version:Date:Message-ID:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=59ItUKeKAfQl6Pm0GuI2gI2GpUNLzTXJ8v/99uj7RTc=; b=JASZu7PbrnqMlYqBAEXwJVoDVb
+	RTD3SSz6qllqAmxm+81+nehSYaqYXPumyR81pVvTW8BHw5SmUFRRbTQrV9+LxqMQHBZ+3m57sadCf
+	qMC1NIxtESIxkJ4LMer2QoEw5rHIA1E1RQpxc95mSkJeg8qH6rqgC0VAusi3k4x/kUzyGCRx2vRcW
+	AeA1x/4wP0f3pHzrNHSsBVHEhhoy6FoCzUkcsfXW296cPiawyM0IsAvfduGixQD+w2moANYHw0rw3
+	sAx7XFA1NRdffKqjpZ5s74on6K9FSsWsl7jJ6hSDiAPHy0KgFsnhbsR1sP3Y7oRNtxCIzG8SGpZUU
+	pFEgLbow==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qxisx-004fSQ-2k;
-	Tue, 31 Oct 2023 07:09:59 +0000
-Received: from smtp-out1.suse.de ([195.135.220.28])
+	id 1qxk0G-004kud-0V;
+	Tue, 31 Oct 2023 08:21:36 +0000
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qxisr-004fS3-1P
+	id 1qxk08-004ktq-1R
 	for linux-nvme@lists.infradead.org;
-	Tue, 31 Oct 2023 07:09:54 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id AD1B02186E;
-	Tue, 31 Oct 2023 07:09:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1698736190; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fuhTPF2nGxyW2WW8m2ohxcVL9tICIUEqav9y02554yw=;
-	b=P9McitVuq1lNXVZ9peFtsmlQM2/3ghmEVt6dIFBxtBnFgaSpGV2CrqGlIb3HbzahU02XVM
-	XNrNl+D8crFFmffS+PBRhpg80iyP8tPihueYno/UuahSN+zRaR471K/ylxY6KTSqUKvCAm
-	s/Av0yBhaGP/9kr1sHa1KYxh0BBDLqw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1698736190;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fuhTPF2nGxyW2WW8m2ohxcVL9tICIUEqav9y02554yw=;
-	b=UEo3p3f6U6i9QABLiWbDd/xSpw5kQ8ZRBZ61UtTPVpo92rY8GNXyQEhjtbOKmNmIACXhu9
-	pXuL2SVY7CrCTDDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1BF46138EF;
-	Tue, 31 Oct 2023 07:09:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id lSeMAj6oQGW7FwAAMHmgww
-	(envelope-from <hare@suse.de>); Tue, 31 Oct 2023 07:09:50 +0000
-Message-ID: <28a41bf1-661b-47e3-8b7e-65cb64a0b8bc@suse.de>
-Date: Tue, 31 Oct 2023 08:09:51 +0100
+	Tue, 31 Oct 2023 08:21:34 +0000
+Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-6bd96cfb99cso4701381b3a.2
+        for <linux-nvme@lists.infradead.org>; Tue, 31 Oct 2023 01:21:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698740486; x=1699345286; darn=lists.infradead.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=59ItUKeKAfQl6Pm0GuI2gI2GpUNLzTXJ8v/99uj7RTc=;
+        b=MafYtrFTWranD9N5iE1gOPQimxtd3fZwD4pqlT6P5CBVTcNp6iyWmk30mO/rmSy9Nz
+         bF8QEia2utIShvQMQpgvdj9rAy+aRGIRnNXhXgKkZV6QCuvnNewjlbcCzKGyfEs86MSY
+         LztGEH7YKRxXI5OpmpmceMRGaArd95S1Bim0WeWO977IIjfsQ9Aeoq8e5uWywDK8R3R7
+         TrBpcsZqW1wjmNiy4yuEJCIcm4DZvTjieIjG7Ww0+jCyBQsIR6APM9riPQiom5SFHIT2
+         1K6WIPixGZPT/K5FJV+v5QKsdwX5RFoayloXehbEyFTThqLAQHqV2rKFJz9NwqD9HEK7
+         IHqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698740486; x=1699345286;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=59ItUKeKAfQl6Pm0GuI2gI2GpUNLzTXJ8v/99uj7RTc=;
+        b=IF2P7+d19jnJuXKYCcQ+bEsr2cnuoMqKRwna7gJ+MR7RbUkLuYqGfy5rB/6j035CfC
+         Qffy2IcAfIcD3sy5x70uKVHRJD26bKJi5c4MEP8mR3bSs+mchRLWh4JoOk//9aJ9Wnfz
+         SQGS+l6bC+WJYvEuCJ1UnoVzQ7kJUgWOzpzvAtygNrVH0pExdjoWOEuw0z6hgzfvOdb8
+         QttanbYuM6C2Ll0zZLhXR6wBCpLxWVxIOM7n6Ak2tOq16+fzzOdcl3OTQHY1v1sdgrJf
+         q2QBdYFXsUg6mYE7wdZHaduC96bA9UaVIq+yHyQ1QdsbffYJxtYdf04uHsIls3ofH/gx
+         30dQ==
+X-Gm-Message-State: AOJu0YzA7hRqRK+vknEJPzs6fO4SypiBNl1Ws2afxPfX4AaOGI63dmmG
+	JVwFr7uoQre1D0esypzx+BM=
+X-Google-Smtp-Source: AGHT+IHHBHVRJNDBt0RAGcu/t+Q6uNYCEvGjtPkxGzeePph6Ndp8DOdzVsRjMIOiIjmUcvhZ8C81LQ==
+X-Received: by 2002:a05:6a21:7747:b0:180:f227:57f3 with SMTP id bc7-20020a056a21774700b00180f22757f3mr1149592pzc.60.1698740485779;
+        Tue, 31 Oct 2023 01:21:25 -0700 (PDT)
+Received: from [192.168.0.106] ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id fi18-20020a056a00399200b0068fb8080939sm733810pfb.65.2023.10.31.01.21.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 31 Oct 2023 01:21:25 -0700 (PDT)
+Message-ID: <0e784280-02bb-4e0e-a5ae-4e0a40ea4c51@gmail.com>
+Date: Tue, 31 Oct 2023 15:21:20 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme-tcp: Fix a memory leak
 Content-Language: en-US
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- linux-nvme@lists.infradead.org
-References: <f9420cde9afdc5af40bf8a8d5aa9184a9b5da729.1698614556.git.christophe.jaillet@wanadoo.fr>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <f9420cde9afdc5af40bf8a8d5aa9184a9b5da729.1698614556.git.christophe.jaillet@wanadoo.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Regressions <regressions@lists.linux.dev>,
+ Linux NVMe <linux-nvme@lists.infradead.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Christoph Hellwig <hch@lst.de>, gloriouseggroll@gmail.com
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Fwd: Regression: Kernel 6.4 rc1 and higher causes Steam Deck to fail
+ to wake from suspend (bisected)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231031_000953_637907_CC6960F3 
-X-CRM114-Status: GOOD (  16.72  )
+X-CRM114-CacheID: sfid-20231031_012128_484687_45A0EA2F 
+X-CRM114-Status: GOOD (  20.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,42 +94,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/29/23 22:22, Christophe JAILLET wrote:
-> All error handling path end to the error handling path, except this one.
-> Go to the error handling branch as well here, otherwise 'icreq' and
-> 'icresp' will leak.
+Hi,
+
+I notice a regression report on Bugzilla [1]. Quoting from it:
+
+> On Kernel 6.4 rc1 and higher if you put the Steam Deck into suspend then press the power button again it will not wake up. 
 > 
-> Fixes: 2837966ab2a8 ("nvme-tcp: control message handling for recvmsg()")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
->   drivers/nvme/host/tcp.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+> I don't have a clue as to -why- this commit breaks wake from suspend on steam deck, but it does. Bisected to:
 > 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 4714a902f4ca..3c35c37112e6 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -1429,7 +1429,8 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
->   		if (ctype != TLS_RECORD_TYPE_DATA) {
->   			pr_err("queue %d: unhandled TLS record %d\n",
->   			       nvme_tcp_queue_id(queue), ctype);
-> -			return -ENOTCONN;
-> +			ret = -ENOTCONN;
-> +			goto free_icresp;
->   		}
->   	}
->   	ret = -EINVAL;
+> ```
+> 1ad11eafc63ac16e667853bee4273879226d2d1b is the first bad commit
+> commit 1ad11eafc63ac16e667853bee4273879226d2d1b
+> Author: Bjorn Helgaas <bhelgaas@google.com>
+> Date:   Tue Mar 7 14:32:43 2023 -0600
+> 
+>     nvme-pci: drop redundant pci_enable_pcie_error_reporting()
+>     
+>     pci_enable_pcie_error_reporting() enables the device to send ERR_*
+>     Messages.  Since f26e58bf6f54 ("PCI/AER: Enable error reporting when AER is
+>     native"), the PCI core does this for all devices during enumeration, so the
+>     driver doesn't need to do it itself.
+>     
+>     Remove the redundant pci_enable_pcie_error_reporting() call from the
+>     driver.  Also remove the corresponding pci_disable_pcie_error_reporting()
+>     from the driver .remove() path.
+>     
+>     Note that this only controls ERR_* Messages from the device.  An ERR_*
+>     Message may cause the Root Port to generate an interrupt, depending on the
+>     AER Root Error Command register managed by the AER service driver.
+>     
+>     Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+>     Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+>     Signed-off-by: Christoph Hellwig <hch@lst.de>
+> 
+>  drivers/nvme/host/pci.c | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
+> ```
+> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=linux-6.4.y&id=1ad11eafc63ac16e667853bee4273879226d2d1b
+> 
+> Reverting that commit by itself on top of 6.5.9 (stable) allows it to wake from suspend properly.
 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+See Bugzilla for the full thread.
 
-Cheers,
+Anyway, I'm adding this regression to regzbot:
 
-Hannes
+#regression introduced: 1ad11eafc63ac1 https://bugzilla.kernel.org/show_bug.cgi?id=218090
+#regression title: Steam Deck fails to wake from suspend due to pci_enable_pcie_error_reporting() removal
+
+Thanks.
+
+[1]: https://bugzilla.kernel.org/show_bug.cgi?id=218090
+
 -- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
-
+An old man doll... just what I always wanted! - Clara
 
