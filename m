@@ -4,81 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4151AC4167D
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Nov 2023 10:33:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 84261C4167B
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Nov 2023 11:23:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4LND6pygnTiRuGktVfN0qPhX33LLpGay79d++fXYO8g=; b=siRNjIrbcwZ4cGh7eg7rLFW1s6
-	VZH5LmchJLJUEijiRnjwugDRZC/O9Hbo3pixZtNFSWfG00D/58IA7ZOVSbb3DH0V3YKrCTZ8wvCwR
-	+C1SSGTpKkWuiCwIiaopLEXVTIIAdZJ15gNP2WLDHUj10ssaDTy9ni8Wq6N+PURr73RPjW9xn5LmK
-	fA7Ss2mw41KnhEZpG0JHquPJOnuW0PoNMd5/HBW47jwQSgG5ljuk1JpSfCyD1rCSIA8iixaaxuyuM
-	AGXnZlAOf/fYFVjzidLsVsdQErT5nDkqBfIV3ngPW9nOwMOzU2MJkREuVMTRMs3musfpe/G5IVnA3
-	paKOunZw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=EeFxVPDwX8rUrPW3tfvqgv2hmUJKD8elj+/gexXEcLQ=; b=ag0CBxAWQj+NquJeBKj9qHzygC
+	+tYMdgD+mtWpYiCz8H4LmA8b6MKN6b8LkC9ke3CgmTat0fUprErZiHlxdB2XlU7QDo50YLjOlXmy6
+	n5iSxfIL1zkD6NNn4B2Wy7jnmQE/FTcsdtqkkU9/COgWxrXRakiCRkrezxO9kiYvlhHoZxFdHyqO4
+	4rp2W4iMZ/+wGqC/7ZkASYqoal30N0yNtFcKOSddjAizcVXgWzxAh0K7nMJMjfD9tmSJ6fJZOE35d
+	1As4o6w2FMCXQn/1qwkwc8HRki2mYz1y/SNDd951E+pVj4u7OaCHZKapeHnZD6p0aVc/z1JKcWXIy
+	9snBOvhg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qy8XD-007CFM-21;
-	Wed, 01 Nov 2023 10:33:15 +0000
-Received: from smtp-out2.suse.de ([195.135.220.29])
+	id 1qy9Jp-007GMd-1d;
+	Wed, 01 Nov 2023 11:23:29 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qy8X8-007CEd-14
+	id 1qy9Jm-007GLd-0t
 	for linux-nvme@lists.infradead.org;
-	Wed, 01 Nov 2023 10:33:14 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2078A1F750;
-	Wed,  1 Nov 2023 10:33:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1698834789; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
+	Wed, 01 Nov 2023 11:23:27 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1698837804;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4LND6pygnTiRuGktVfN0qPhX33LLpGay79d++fXYO8g=;
-	b=qRa/2X7F0+04i75mZxJSYU/ccJu7yvxsYkToFOd9mxFkxJgQ/q5Z69oe4wU3zHHDWE192n
-	2E8b5KB1t+atv+4IrnV4hbkqlj3Kx6oKvwMy8Y2M89Grhukdzi+qY8yuxOsKH+cA/DtnpW
-	RQMISgXB4dXtZ8kKfESP2TSxbou6ap8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1698834789;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4LND6pygnTiRuGktVfN0qPhX33LLpGay79d++fXYO8g=;
-	b=fSCPunYTrUVc4h4OaOPu3mLpuu0hXreTUQhcHxQ9XgDGAxw6bbsD2QJ1onZF7MMvSV81pg
-	/5hpAK3oIb+tKyAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	bh=EeFxVPDwX8rUrPW3tfvqgv2hmUJKD8elj+/gexXEcLQ=;
+	b=ZJ6Mr80b1Wpee15bUpuhuvJEehAQ+LRkMCSo9nAlbTnYJ828flLwCeoYFbeaz5bktt32mQ
+	9FhP1H41CF7SqUH2DI2Q2emorsMe8/XwcTniyANOG/3ftI68VMxaOS556Sxxpw5NH1nCys
+	Y55Yltek1h1BK/WiV83ERA6X5N+igto=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-661-NeK5-0WEMAKRnchMuU24-g-1; Wed,
+ 01 Nov 2023 07:23:19 -0400
+X-MC-Unique: NeK5-0WEMAKRnchMuU24-g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DC33D1348D;
-	Wed,  1 Nov 2023 10:33:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 76X5M2QpQmUdIwAAMHmgww
-	(envelope-from <hare@suse.de>); Wed, 01 Nov 2023 10:33:08 +0000
-Message-ID: <d1d179ea-ae0f-497a-a2af-f1c60cf90362@suse.de>
-Date: Wed, 1 Nov 2023 11:33:08 +0100
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 20AD63811F2F;
+	Wed,  1 Nov 2023 11:23:18 +0000 (UTC)
+Received: from fedora (unknown [10.72.120.3])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 842BD10F4C;
+	Wed,  1 Nov 2023 11:23:09 +0000 (UTC)
+Date: Wed, 1 Nov 2023 19:23:05 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Ming Lei <tom.leiming@gmail.com>,
+	Marek =?iso-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
+	Jan Kara <jack@suse.cz>, Mikulas Patocka <mpatocka@redhat.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Michal Hocko <mhocko@suse.com>, stable@vger.kernel.org,
+	regressions@lists.linux.dev, Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>, dm-devel@lists.linux.dev,
+	linux-mm@kvack.org, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Subject: Re: Intermittent storage (dm-crypt?) freeze - regression 6.4->6.5
+Message-ID: <ZUI1GSSL4vdsFVHq@fedora>
+References: <20231030155603.k3kejytq2e4vnp7z@quack3>
+ <ZT/e/EaBIkJEgevQ@mail-itl>
+ <98aefaa9-1ac-a0e4-fb9a-89ded456750@redhat.com>
+ <ZUB5HFeK3eHeI8UH@mail-itl>
+ <20231031140136.25bio5wajc5pmdtl@quack3>
+ <ZUEgWA5P8MFbyeBN@mail-itl>
+ <CACVXFVOEWDyzasS7DWDvLOhC3Hr6qOn5ks3HLX+fbRYCxYv26w@mail.gmail.com>
+ <ZUG0gcRhUlFm57qN@mail-itl>
+ <ZUHE52SznRaZQxnG@fedora>
+ <ab02413f-4bf2-4d92-baf7-62fbd106f5df@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: blktests failures with v6.6
-Content-Language: en-US
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>
-References: <6qycihftrxsdvuvpsvmkbe2swy5u2isrtu6jiyf3khzusdzilc@34kda7iutwdq>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <6qycihftrxsdvuvpsvmkbe2swy5u2isrtu6jiyf3khzusdzilc@34kda7iutwdq>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <ab02413f-4bf2-4d92-baf7-62fbd106f5df@suse.de>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231101_033310_512880_93A3F576 
-X-CRM114-Status: GOOD (  12.48  )
+X-CRM114-CacheID: sfid-20231101_042326_404001_7C3C87E3 
+X-CRM114-Status: GOOD (  39.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,59 +100,112 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/1/23 05:09, Shinichiro Kawasaki wrote:
-> Hi all,
-> 
-> I ran the latest blktests (git hash: 3f75e6241f6b) with v6.6 kernel, and obseved
-> four failures below. They are all known for months.
-> 
-> As for the two other failures observed with v6.6-rc1 kernel [1], they are no
-> longer observed with v6.6 kernel. Good.
-> 
-> [1] https://lore.kernel.org/linux-block/u4g3jh6dnowouthos3tdex2pflzo3hat55e5dc4j6pul3a3uov@y2axtbiura2q/
-> 
-> List of failures
-> ================
-> #1: block/011
-> #2: nvme/003 (fabrics transport)
-> #3: nvme/* (fc transport)
-> #4: srp/002, 011 (rdma_rxe driver)
-> 
-> Failure description
-> ===================
-> 
-> #1: block/011
-> 
->     The test case fails with NVME devices due to lockdep WARNING "possible
->     circular locking dependency detected". Reported in Sep/2022 [2]. In LSF
->     2023, it was noted that this failure should be fixed.
-> 
->     Also, it was found recently that this test case still causes failure of
->     following tests. Fix work is ongoing [3].
-> 
->     [2] https://lore.kernel.org/linux-block/20220930001943.zdbvolc3gkekfmcv@shindev/
->     [3] https://github.com/kawasaki/blktests/commit/f540cbb0eeb66e2c76a88efbe65a2b59d55630fd
-> 
-> #2: nvme/003 (fabrics transport)
-> 
->     When nvme test group is run with trtype=rdma or tcp, the test case fails
->     due to lockdep WARNING "possible circular locking dependency detected".
->     Reported in May/2023. Fix discussions were held [4][5].
-> 
->     [4] https://lore.kernel.org/linux-nvme/20230511150321.103172-1-bvanassche@acm.org/
->     [5] https://lore.kernel.org/linux-nvme/5cb63b10-72ab-4b7c-7574-48583ea8ffd1@grimberg.me/
-> 
-Just send a patchset which should resolve these issues.
-Can you test with them?
+On Wed, Nov 01, 2023 at 11:15:02AM +0100, Hannes Reinecke wrote:
+> On 11/1/23 04:24, Ming Lei wrote:
+> > On Wed, Nov 01, 2023 at 03:14:22AM +0100, Marek Marczykowski-Górecki wrote:
+> > > On Wed, Nov 01, 2023 at 09:27:24AM +0800, Ming Lei wrote:
+> > > > On Tue, Oct 31, 2023 at 11:42 PM Marek Marczykowski-Górecki
+> > > > <marmarek@invisiblethingslab.com> wrote:
+> > > > > 
+> > > > > On Tue, Oct 31, 2023 at 03:01:36PM +0100, Jan Kara wrote:
+> > > > > > On Tue 31-10-23 04:48:44, Marek Marczykowski-Górecki wrote:
+> > > > > > > Then tried:
+> > > > > > >   - PAGE_ALLOC_COSTLY_ORDER=4, order=4 - cannot reproduce,
+> > > > > > >   - PAGE_ALLOC_COSTLY_ORDER=4, order=5 - cannot reproduce,
+> > > > > > >   - PAGE_ALLOC_COSTLY_ORDER=4, order=6 - freeze rather quickly
+> > > > > > > 
+> > > > > > > I've retried the PAGE_ALLOC_COSTLY_ORDER=4,order=5 case several times
+> > > > > > > and I can't reproduce the issue there. I'm confused...
+> > > > > > 
+> > > > > > And this kind of confirms that allocations > PAGE_ALLOC_COSTLY_ORDER
+> > > > > > causing hangs is most likely just a coincidence. Rather something either in
+> > > > > > the block layer or in the storage driver has problems with handling bios
+> > > > > > with sufficiently high order pages attached. This is going to be a bit
+> > > > > > painful to debug I'm afraid. How long does it take for you trigger the
+> > > > > > hang? I'm asking to get rough estimate how heavy tracing we can afford so
+> > > > > > that we don't overwhelm the system...
+> > > > > 
+> > > > > Sometimes it freezes just after logging in, but in worst case it takes
+> > > > > me about 10min of more or less `tar xz` + `dd`.
+> > > > 
+> > > > blk-mq debugfs is usually helpful for hang issue in block layer or
+> > > > underlying drivers:
+> > > > 
+> > > > (cd /sys/kernel/debug/block && find . -type f -exec grep -aH . {} \;)
+> > > > 
+> > > > BTW,  you can just collect logs of the exact disks if you know what
+> > > > are behind dm-crypt,
+> > > > which can be figured out by `lsblk`, and it has to be collected after
+> > > > the hang is triggered.
+> > > 
+> > > dm-crypt lives on the nvme disk, this is what I collected when it
+> > > hanged:
+> > > 
+> > ...
+> > > nvme0n1/hctx4/cpu4/default_rq_list:000000000d41998f {.op=READ, .cmd_flags=, .rq_flags=IO_STAT, .state=idle, .tag=65, .internal_tag=-1}
+> > > nvme0n1/hctx4/cpu4/default_rq_list:00000000d0d04ed2 {.op=READ, .cmd_flags=, .rq_flags=IO_STAT, .state=idle, .tag=70, .internal_tag=-1}
+> > 
+> > Two requests stays in sw queue, but not related with this issue.
+> > 
+> > > nvme0n1/hctx4/type:default
+> > > nvme0n1/hctx4/dispatch_busy:9
+> > 
+> > non-zero dispatch_busy means BLK_STS_RESOURCE is returned from
+> > nvme_queue_rq() recently and mostly.
+> > 
+> > > nvme0n1/hctx4/active:0
+> > > nvme0n1/hctx4/run:20290468
+> > 
+> > ...
+> > 
+> > > nvme0n1/hctx4/tags:nr_tags=1023
+> > > nvme0n1/hctx4/tags:nr_reserved_tags=0
+> > > nvme0n1/hctx4/tags:active_queues=0
+> > > nvme0n1/hctx4/tags:bitmap_tags:
+> > > nvme0n1/hctx4/tags:depth=1023
+> > > nvme0n1/hctx4/tags:busy=3
+> > 
+> > Just three requests in-flight, two are in sw queue, another is in hctx->dispatch.
+> > 
+> > ...
+> > 
+> > > nvme0n1/hctx4/dispatch:00000000b335fa89 {.op=WRITE, .cmd_flags=NOMERGE, .rq_flags=DONTPREP|IO_STAT, .state=idle, .tag=78, .internal_tag=-1}
+> > > nvme0n1/hctx4/flags:alloc_policy=FIFO SHOULD_MERGE
+> > > nvme0n1/hctx4/state:SCHED_RESTART
+> > 
+> > The request staying in hctx->dispatch can't move on, and nvme_queue_rq()
+> > returns -BLK_STS_RESOURCE constantly, and you can verify with
+> > the following bpftrace when the hang is triggered:
+> > 
+> > 	bpftrace -e 'kretfunc:nvme_queue_rq  { @[retval, kstack]=count() }'
+> > 
+> > It is very likely that memory allocation inside nvme_queue_rq()
+> > can't be done successfully, then blk-mq just have to retry by calling
+> > nvme_queue_rq() on the above request.
+> > 
+> And that is something I've been wondering (for quite some time now):
+> What _is_ the appropriate error handling for -ENOMEM?
 
-Cheers,
+It is just my guess.
 
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
+Actually it shouldn't fail since the sgl allocation is backed with
+memory pool, but there is also dma pool allocation and dma mapping.
+
+> At this time, we assume it to be a retryable error and re-run the queue
+> in the hope that things will sort itself out.
+
+It should not be hard to figure out why nvme_queue_rq() can't move on.
+
+> But if they don't we're stuck.
+> Can we somehow figure out if we make progress during submission, and (at
+> least) issue a warning once we detect a stall?
+
+It needs counting on request retry, and people often hate to add something
+to request or bio in fast path. Also this kind of issue is easy to show
+in blk-mq debugfs or bpftrace.
+
+
+Thanks, 
+Ming
 
 
