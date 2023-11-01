@@ -4,88 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 84261C4167B
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Nov 2023 11:23:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6478AC4167D
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Nov 2023 11:45:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EeFxVPDwX8rUrPW3tfvqgv2hmUJKD8elj+/gexXEcLQ=; b=ag0CBxAWQj+NquJeBKj9qHzygC
-	+tYMdgD+mtWpYiCz8H4LmA8b6MKN6b8LkC9ke3CgmTat0fUprErZiHlxdB2XlU7QDo50YLjOlXmy6
-	n5iSxfIL1zkD6NNn4B2Wy7jnmQE/FTcsdtqkkU9/COgWxrXRakiCRkrezxO9kiYvlhHoZxFdHyqO4
-	4rp2W4iMZ/+wGqC/7ZkASYqoal30N0yNtFcKOSddjAizcVXgWzxAh0K7nMJMjfD9tmSJ6fJZOE35d
-	1As4o6w2FMCXQn/1qwkwc8HRki2mYz1y/SNDd951E+pVj4u7OaCHZKapeHnZD6p0aVc/z1JKcWXIy
-	9snBOvhg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=Y4qWGKy+pZQgc4neiYZ4RrQ6V3aKkuJqNqueZsPc9Fk=; b=hv9nxu98wh8KPU
+	3sDrCl4fTw5wDBImJi/P71v7H64s4jLpDv5D0mETzv3Ekepw3gPy01Z0kVpJAFUX2lA/Cgfw8A3uN
+	F8lsY1Sg0HQgYp0FHFkUCJHM+sSx7Pu3D3bxerq3Ylblk7hCq9CKb0Wd1KlFn8EshJga50AkBnmI8
+	6bPtMP72JppX95l4zHO5Fm/aCggbp03/XNDTkRU5LAGaUOg3kAhdm/dHvXtulqP04MidvjAIm+yxx
+	+5yf59OgOYGBjh9XdSrI6k5V9pBLuwdHLLNU9A3641l6hGtXxnT6Z9VpL2nF7iMg3L8pG63EYagMb
+	RxdJlbj3Rrx5WlwXxp9A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qy9Jp-007GMd-1d;
-	Wed, 01 Nov 2023 11:23:29 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1qy9fO-007I2K-0e;
+	Wed, 01 Nov 2023 11:45:46 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qy9Jm-007GLd-0t
+	id 1qy9fL-007I1h-35
 	for linux-nvme@lists.infradead.org;
-	Wed, 01 Nov 2023 11:23:27 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1698837804;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EeFxVPDwX8rUrPW3tfvqgv2hmUJKD8elj+/gexXEcLQ=;
-	b=ZJ6Mr80b1Wpee15bUpuhuvJEehAQ+LRkMCSo9nAlbTnYJ828flLwCeoYFbeaz5bktt32mQ
-	9FhP1H41CF7SqUH2DI2Q2emorsMe8/XwcTniyANOG/3ftI68VMxaOS556Sxxpw5NH1nCys
-	Y55Yltek1h1BK/WiV83ERA6X5N+igto=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-661-NeK5-0WEMAKRnchMuU24-g-1; Wed,
- 01 Nov 2023 07:23:19 -0400
-X-MC-Unique: NeK5-0WEMAKRnchMuU24-g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 20AD63811F2F;
-	Wed,  1 Nov 2023 11:23:18 +0000 (UTC)
-Received: from fedora (unknown [10.72.120.3])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 842BD10F4C;
-	Wed,  1 Nov 2023 11:23:09 +0000 (UTC)
-Date: Wed, 1 Nov 2023 19:23:05 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Ming Lei <tom.leiming@gmail.com>,
-	Marek =?iso-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
-	Jan Kara <jack@suse.cz>, Mikulas Patocka <mpatocka@redhat.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Michal Hocko <mhocko@suse.com>, stable@vger.kernel.org,
-	regressions@lists.linux.dev, Alasdair Kergon <agk@redhat.com>,
-	Mike Snitzer <snitzer@kernel.org>, dm-devel@lists.linux.dev,
-	linux-mm@kvack.org, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: Re: Intermittent storage (dm-crypt?) freeze - regression 6.4->6.5
-Message-ID: <ZUI1GSSL4vdsFVHq@fedora>
-References: <20231030155603.k3kejytq2e4vnp7z@quack3>
- <ZT/e/EaBIkJEgevQ@mail-itl>
- <98aefaa9-1ac-a0e4-fb9a-89ded456750@redhat.com>
- <ZUB5HFeK3eHeI8UH@mail-itl>
- <20231031140136.25bio5wajc5pmdtl@quack3>
- <ZUEgWA5P8MFbyeBN@mail-itl>
- <CACVXFVOEWDyzasS7DWDvLOhC3Hr6qOn5ks3HLX+fbRYCxYv26w@mail.gmail.com>
- <ZUG0gcRhUlFm57qN@mail-itl>
- <ZUHE52SznRaZQxnG@fedora>
- <ab02413f-4bf2-4d92-baf7-62fbd106f5df@suse.de>
+	Wed, 01 Nov 2023 11:45:45 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 7A2C5611CE;
+	Wed,  1 Nov 2023 11:45:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F09E1C433C7;
+	Wed,  1 Nov 2023 11:45:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1698839143;
+	bh=uRdXVaNPSlmlco16plmQ5T/iCvBKB01tajwUhNVdG/g=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=RPoaNCBh+5fWMFs+UXqnfKgZH7T4yKQK6DTDbUkzeIY5Wt0e1UVOXzqawPZnLhVxl
+	 dFmYdGqgRQZDNKi8x2I4n1FnaR3qFsPSHO1Rwqrz8AbK/t/1mbqRXJLPIvMj1Ctmp1
+	 PG8bon32+33rlzgcCY6y3ZdQGNRmCtyMlowB56lJ+oMeOUBQZHjkiJRvd7h5Zqbkik
+	 6lTjUGPSERr1/WzpjN+In6K8tIBIfXBTE/NFbRZaOfzDoamWJCpJvGaN3N651KcICo
+	 UEytFq27OCxmWI0OUmPMZOF4jB883M7OfExPK/5Cr/sLru00NZICixp6lpb6SHDlaY
+	 6SeEXPqji8vvg==
+Date: Wed, 1 Nov 2023 06:45:41 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Regressions <regressions@lists.linux.dev>,
+	Linux NVMe <linux-nvme@lists.infradead.org>,
+	linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+	gloriouseggroll@gmail.com
+Subject: Re: Fwd: Regression: Kernel 6.4 rc1 and higher causes Steam Deck to
+ fail to wake from suspend (bisected)
+Message-ID: <20231101114541.GA43502@bhelgaas>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ab02413f-4bf2-4d92-baf7-62fbd106f5df@suse.de>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
+In-Reply-To: <0e784280-02bb-4e0e-a5ae-4e0a40ea4c51@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231101_042326_404001_7C3C87E3 
-X-CRM114-Status: GOOD (  39.73  )
+X-CRM114-CacheID: sfid-20231101_044544_078684_A288C444 
+X-CRM114-Status: GOOD (  24.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,112 +75,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Nov 01, 2023 at 11:15:02AM +0100, Hannes Reinecke wrote:
-> On 11/1/23 04:24, Ming Lei wrote:
-> > On Wed, Nov 01, 2023 at 03:14:22AM +0100, Marek Marczykowski-Górecki wrote:
-> > > On Wed, Nov 01, 2023 at 09:27:24AM +0800, Ming Lei wrote:
-> > > > On Tue, Oct 31, 2023 at 11:42 PM Marek Marczykowski-Górecki
-> > > > <marmarek@invisiblethingslab.com> wrote:
-> > > > > 
-> > > > > On Tue, Oct 31, 2023 at 03:01:36PM +0100, Jan Kara wrote:
-> > > > > > On Tue 31-10-23 04:48:44, Marek Marczykowski-Górecki wrote:
-> > > > > > > Then tried:
-> > > > > > >   - PAGE_ALLOC_COSTLY_ORDER=4, order=4 - cannot reproduce,
-> > > > > > >   - PAGE_ALLOC_COSTLY_ORDER=4, order=5 - cannot reproduce,
-> > > > > > >   - PAGE_ALLOC_COSTLY_ORDER=4, order=6 - freeze rather quickly
-> > > > > > > 
-> > > > > > > I've retried the PAGE_ALLOC_COSTLY_ORDER=4,order=5 case several times
-> > > > > > > and I can't reproduce the issue there. I'm confused...
-> > > > > > 
-> > > > > > And this kind of confirms that allocations > PAGE_ALLOC_COSTLY_ORDER
-> > > > > > causing hangs is most likely just a coincidence. Rather something either in
-> > > > > > the block layer or in the storage driver has problems with handling bios
-> > > > > > with sufficiently high order pages attached. This is going to be a bit
-> > > > > > painful to debug I'm afraid. How long does it take for you trigger the
-> > > > > > hang? I'm asking to get rough estimate how heavy tracing we can afford so
-> > > > > > that we don't overwhelm the system...
-> > > > > 
-> > > > > Sometimes it freezes just after logging in, but in worst case it takes
-> > > > > me about 10min of more or less `tar xz` + `dd`.
-> > > > 
-> > > > blk-mq debugfs is usually helpful for hang issue in block layer or
-> > > > underlying drivers:
-> > > > 
-> > > > (cd /sys/kernel/debug/block && find . -type f -exec grep -aH . {} \;)
-> > > > 
-> > > > BTW,  you can just collect logs of the exact disks if you know what
-> > > > are behind dm-crypt,
-> > > > which can be figured out by `lsblk`, and it has to be collected after
-> > > > the hang is triggered.
-> > > 
-> > > dm-crypt lives on the nvme disk, this is what I collected when it
-> > > hanged:
-> > > 
-> > ...
-> > > nvme0n1/hctx4/cpu4/default_rq_list:000000000d41998f {.op=READ, .cmd_flags=, .rq_flags=IO_STAT, .state=idle, .tag=65, .internal_tag=-1}
-> > > nvme0n1/hctx4/cpu4/default_rq_list:00000000d0d04ed2 {.op=READ, .cmd_flags=, .rq_flags=IO_STAT, .state=idle, .tag=70, .internal_tag=-1}
-> > 
-> > Two requests stays in sw queue, but not related with this issue.
-> > 
-> > > nvme0n1/hctx4/type:default
-> > > nvme0n1/hctx4/dispatch_busy:9
-> > 
-> > non-zero dispatch_busy means BLK_STS_RESOURCE is returned from
-> > nvme_queue_rq() recently and mostly.
-> > 
-> > > nvme0n1/hctx4/active:0
-> > > nvme0n1/hctx4/run:20290468
-> > 
-> > ...
-> > 
-> > > nvme0n1/hctx4/tags:nr_tags=1023
-> > > nvme0n1/hctx4/tags:nr_reserved_tags=0
-> > > nvme0n1/hctx4/tags:active_queues=0
-> > > nvme0n1/hctx4/tags:bitmap_tags:
-> > > nvme0n1/hctx4/tags:depth=1023
-> > > nvme0n1/hctx4/tags:busy=3
-> > 
-> > Just three requests in-flight, two are in sw queue, another is in hctx->dispatch.
-> > 
-> > ...
-> > 
-> > > nvme0n1/hctx4/dispatch:00000000b335fa89 {.op=WRITE, .cmd_flags=NOMERGE, .rq_flags=DONTPREP|IO_STAT, .state=idle, .tag=78, .internal_tag=-1}
-> > > nvme0n1/hctx4/flags:alloc_policy=FIFO SHOULD_MERGE
-> > > nvme0n1/hctx4/state:SCHED_RESTART
-> > 
-> > The request staying in hctx->dispatch can't move on, and nvme_queue_rq()
-> > returns -BLK_STS_RESOURCE constantly, and you can verify with
-> > the following bpftrace when the hang is triggered:
-> > 
-> > 	bpftrace -e 'kretfunc:nvme_queue_rq  { @[retval, kstack]=count() }'
-> > 
-> > It is very likely that memory allocation inside nvme_queue_rq()
-> > can't be done successfully, then blk-mq just have to retry by calling
-> > nvme_queue_rq() on the above request.
-> > 
-> And that is something I've been wondering (for quite some time now):
-> What _is_ the appropriate error handling for -ENOMEM?
+[+cc linux-pci]
 
-It is just my guess.
+On Tue, Oct 31, 2023 at 03:21:20PM +0700, Bagas Sanjaya wrote:
+> Hi,
+> 
+> I notice a regression report on Bugzilla [1]. Quoting from it:
+> 
+> > On Kernel 6.4 rc1 and higher if you put the Steam Deck into suspend then press the power button again it will not wake up. 
+> > 
+> > I don't have a clue as to -why- this commit breaks wake from suspend on steam deck, but it does. Bisected to:
+> > 
+> > ```
+> > 1ad11eafc63ac16e667853bee4273879226d2d1b is the first bad commit
+> > commit 1ad11eafc63ac16e667853bee4273879226d2d1b
+> > Author: Bjorn Helgaas <bhelgaas@google.com>
+> > Date:   Tue Mar 7 14:32:43 2023 -0600
+> > 
+> >     nvme-pci: drop redundant pci_enable_pcie_error_reporting()
+> >     
+> >     pci_enable_pcie_error_reporting() enables the device to send ERR_*
+> >     Messages.  Since f26e58bf6f54 ("PCI/AER: Enable error reporting when AER is
+> >     native"), the PCI core does this for all devices during enumeration, so the
+> >     driver doesn't need to do it itself.
+> >     
+> >     Remove the redundant pci_enable_pcie_error_reporting() call from the
+> >     driver.  Also remove the corresponding pci_disable_pcie_error_reporting()
+> >     from the driver .remove() path.
+> >     
+> >     Note that this only controls ERR_* Messages from the device.  An ERR_*
+> >     Message may cause the Root Port to generate an interrupt, depending on the
+> >     AER Root Error Command register managed by the AER service driver.
+> >     
+> >     Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+> >     Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+> >     Signed-off-by: Christoph Hellwig <hch@lst.de>
+> > 
+> >  drivers/nvme/host/pci.c | 6 +-----
+> >  1 file changed, 1 insertion(+), 5 deletions(-)
+> > ```
+> > https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=linux-6.4.y&id=1ad11eafc63ac16e667853bee4273879226d2d1b
+> > 
+> > Reverting that commit by itself on top of 6.5.9 (stable) allows it to wake from suspend properly.
+> 
+> See Bugzilla for the full thread.
+> 
+> Anyway, I'm adding this regression to regzbot:
+> 
+> #regression introduced: 1ad11eafc63ac1 https://bugzilla.kernel.org/show_bug.cgi?id=218090
+> #regression title: Steam Deck fails to wake from suspend due to pci_enable_pcie_error_reporting() removal
+> 
+> Thanks.
+> 
+> [1]: https://bugzilla.kernel.org/show_bug.cgi?id=218090
 
-Actually it shouldn't fail since the sgl allocation is backed with
-memory pool, but there is also dma pool allocation and dma mapping.
-
-> At this time, we assume it to be a retryable error and re-run the queue
-> in the hope that things will sort itself out.
-
-It should not be hard to figure out why nvme_queue_rq() can't move on.
-
-> But if they don't we're stuck.
-> Can we somehow figure out if we make progress during submission, and (at
-> least) issue a warning once we detect a stall?
-
-It needs counting on request retry, and people often hate to add something
-to request or bio in fast path. Also this kind of issue is easy to show
-in blk-mq debugfs or bpftrace.
-
-
-Thanks, 
-Ming
-
+Thanks, I requested some dmesg logs and lspci output to help debug
+this.
 
