@@ -4,63 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6478AC4167D
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Nov 2023 11:45:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E203BC4332F
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Nov 2023 12:31:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	References:Message-ID:In-Reply-To:Subject:cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=Y4qWGKy+pZQgc4neiYZ4RrQ6V3aKkuJqNqueZsPc9Fk=; b=hv9nxu98wh8KPU
-	3sDrCl4fTw5wDBImJi/P71v7H64s4jLpDv5D0mETzv3Ekepw3gPy01Z0kVpJAFUX2lA/Cgfw8A3uN
-	F8lsY1Sg0HQgYp0FHFkUCJHM+sSx7Pu3D3bxerq3Ylblk7hCq9CKb0Wd1KlFn8EshJga50AkBnmI8
-	6bPtMP72JppX95l4zHO5Fm/aCggbp03/XNDTkRU5LAGaUOg3kAhdm/dHvXtulqP04MidvjAIm+yxx
-	+5yf59OgOYGBjh9XdSrI6k5V9pBLuwdHLLNU9A3641l6hGtXxnT6Z9VpL2nF7iMg3L8pG63EYagMb
-	RxdJlbj3Rrx5WlwXxp9A==;
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=a5UIfMBVdGIbdKNzRDMLvhiScyxGbvuh4NifZMx02eQ=; b=hWPhbo2uORwI4Lyal0Cg5KAuMm
+	FiIq5y9+ysmh3t98VOLLgJKNNKG5op5EKa32nmTfAtfqO3qvXUpj/lPui52wYHKgr4BUTWRXaZuCq
+	t4jOALLLRwTMXZFqt249QqInT2xgCQw1rd8l4NetGAqF5fvdf5vd9MCxitIt1sKlMrqpHw3dXA16y
+	aGOx7rnFg7TuOpir55iDT8raUzuV3o96H4sydb3MokcnQ1l7+j/i3eIOqj7si+owPRO+d3wZvk8M5
+	lZBbHSLJrsNtFxJu0bkCFvqe178qGm9XqKDVldqPXn1b+P63yffqLTdmqoyPy8E2GqmEctTW3vaqp
+	HCgNogYw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qy9fO-007I2K-0e;
-	Wed, 01 Nov 2023 11:45:46 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1qyANL-007UVA-36;
+	Wed, 01 Nov 2023 12:31:11 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qy9fL-007I1h-35
+	id 1qyA9N-007P2n-0L
 	for linux-nvme@lists.infradead.org;
-	Wed, 01 Nov 2023 11:45:45 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 7A2C5611CE;
-	Wed,  1 Nov 2023 11:45:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F09E1C433C7;
-	Wed,  1 Nov 2023 11:45:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698839143;
-	bh=uRdXVaNPSlmlco16plmQ5T/iCvBKB01tajwUhNVdG/g=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=RPoaNCBh+5fWMFs+UXqnfKgZH7T4yKQK6DTDbUkzeIY5Wt0e1UVOXzqawPZnLhVxl
-	 dFmYdGqgRQZDNKi8x2I4n1FnaR3qFsPSHO1Rwqrz8AbK/t/1mbqRXJLPIvMj1Ctmp1
-	 PG8bon32+33rlzgcCY6y3ZdQGNRmCtyMlowB56lJ+oMeOUBQZHjkiJRvd7h5Zqbkik
-	 6lTjUGPSERr1/WzpjN+In6K8tIBIfXBTE/NFbRZaOfzDoamWJCpJvGaN3N651KcICo
-	 UEytFq27OCxmWI0OUmPMZOF4jB883M7OfExPK/5Cr/sLru00NZICixp6lpb6SHDlaY
-	 6SeEXPqji8vvg==
-Date: Wed, 1 Nov 2023 06:45:41 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Regressions <regressions@lists.linux.dev>,
-	Linux NVMe <linux-nvme@lists.infradead.org>,
-	linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
-	gloriouseggroll@gmail.com
-Subject: Re: Fwd: Regression: Kernel 6.4 rc1 and higher causes Steam Deck to
- fail to wake from suspend (bisected)
-Message-ID: <20231101114541.GA43502@bhelgaas>
+	Wed, 01 Nov 2023 12:16:46 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1698841003;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=a5UIfMBVdGIbdKNzRDMLvhiScyxGbvuh4NifZMx02eQ=;
+	b=aZ5mEXzxW8/GXvcWV22XW6XEVVcUUYsiJy2VvSbnZE/m0hrDOahBJhGV8GLDIetUFI1vLy
+	nD1tOHm1m5vekifavTUGz37hyayt5LE0nTFZyJ07ITCchI01okVR9jJJd0tim1tsZv7CN0
+	xEacZrM0LPOEctKBBIDvzET2qIOjmbs=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-633-rsj5tSE7PqiyMazlfvH37A-1; Wed,
+ 01 Nov 2023 08:16:40 -0400
+X-MC-Unique: rsj5tSE7PqiyMazlfvH37A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1C7E02803022;
+	Wed,  1 Nov 2023 12:16:38 +0000 (UTC)
+Received: from file1-rdu.file-001.prod.rdu2.dc.redhat.com (unknown [10.11.5.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id EA5C11121309;
+	Wed,  1 Nov 2023 12:16:37 +0000 (UTC)
+Received: by file1-rdu.file-001.prod.rdu2.dc.redhat.com (Postfix, from userid 12668)
+	id D85C230C2A86; Wed,  1 Nov 2023 12:16:37 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by file1-rdu.file-001.prod.rdu2.dc.redhat.com (Postfix) with ESMTP id D3EFE3FB77;
+	Wed,  1 Nov 2023 13:16:37 +0100 (CET)
+Date: Wed, 1 Nov 2023 13:16:37 +0100 (CET)
+From: Mikulas Patocka <mpatocka@redhat.com>
+To: Hannes Reinecke <hare@suse.de>
+cc: Ming Lei <tom.leiming@gmail.com>, 
+    =?ISO-8859-15?Q?Marek_Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>, 
+    Jan Kara <jack@suse.cz>, Vlastimil Babka <vbabka@suse.cz>, 
+    Andrew Morton <akpm@linux-foundation.org>, 
+    Matthew Wilcox <willy@infradead.org>, Michal Hocko <mhocko@suse.com>, 
+    stable@vger.kernel.org, regressions@lists.linux.dev, 
+    Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, 
+    dm-devel@lists.linux.dev, linux-mm@kvack.org, linux-block@vger.kernel.org, 
+    linux-nvme@lists.infradead.org, ming.lei@redhat.com
+Subject: Re: Intermittent storage (dm-crypt?) freeze - regression 6.4->6.5
+In-Reply-To: <ab02413f-4bf2-4d92-baf7-62fbd106f5df@suse.de>
+Message-ID: <fd2e3ba-d681-4856-3d50-9f63a2fcb0a8@redhat.com>
+References: <ZT+wDLwCBRB1O+vB@mail-itl> <a2a8dbf6-d22e-65d0-6fab-b9cdf9ec3320@redhat.com> <20231030155603.k3kejytq2e4vnp7z@quack3> <ZT/e/EaBIkJEgevQ@mail-itl> <98aefaa9-1ac-a0e4-fb9a-89ded456750@redhat.com> <ZUB5HFeK3eHeI8UH@mail-itl> <20231031140136.25bio5wajc5pmdtl@quack3>
+ <ZUEgWA5P8MFbyeBN@mail-itl> <CACVXFVOEWDyzasS7DWDvLOhC3Hr6qOn5ks3HLX+fbRYCxYv26w@mail.gmail.com> <ZUG0gcRhUlFm57qN@mail-itl> <ZUHE52SznRaZQxnG@fedora> <ab02413f-4bf2-4d92-baf7-62fbd106f5df@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0e784280-02bb-4e0e-a5ae-4e0a40ea4c51@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231101_044544_078684_A288C444 
-X-CRM114-Status: GOOD (  24.55  )
+X-CRM114-CacheID: sfid-20231101_051645_220430_7837C83D 
+X-CRM114-Status: GOOD (  11.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,60 +92,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-[+cc linux-pci]
 
-On Tue, Oct 31, 2023 at 03:21:20PM +0700, Bagas Sanjaya wrote:
-> Hi,
-> 
-> I notice a regression report on Bugzilla [1]. Quoting from it:
-> 
-> > On Kernel 6.4 rc1 and higher if you put the Steam Deck into suspend then press the power button again it will not wake up. 
-> > 
-> > I don't have a clue as to -why- this commit breaks wake from suspend on steam deck, but it does. Bisected to:
-> > 
-> > ```
-> > 1ad11eafc63ac16e667853bee4273879226d2d1b is the first bad commit
-> > commit 1ad11eafc63ac16e667853bee4273879226d2d1b
-> > Author: Bjorn Helgaas <bhelgaas@google.com>
-> > Date:   Tue Mar 7 14:32:43 2023 -0600
-> > 
-> >     nvme-pci: drop redundant pci_enable_pcie_error_reporting()
-> >     
-> >     pci_enable_pcie_error_reporting() enables the device to send ERR_*
-> >     Messages.  Since f26e58bf6f54 ("PCI/AER: Enable error reporting when AER is
-> >     native"), the PCI core does this for all devices during enumeration, so the
-> >     driver doesn't need to do it itself.
-> >     
-> >     Remove the redundant pci_enable_pcie_error_reporting() call from the
-> >     driver.  Also remove the corresponding pci_disable_pcie_error_reporting()
-> >     from the driver .remove() path.
-> >     
-> >     Note that this only controls ERR_* Messages from the device.  An ERR_*
-> >     Message may cause the Root Port to generate an interrupt, depending on the
-> >     AER Root Error Command register managed by the AER service driver.
-> >     
-> >     Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
-> >     Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-> >     Signed-off-by: Christoph Hellwig <hch@lst.de>
-> > 
-> >  drivers/nvme/host/pci.c | 6 +-----
-> >  1 file changed, 1 insertion(+), 5 deletions(-)
-> > ```
-> > https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=linux-6.4.y&id=1ad11eafc63ac16e667853bee4273879226d2d1b
-> > 
-> > Reverting that commit by itself on top of 6.5.9 (stable) allows it to wake from suspend properly.
-> 
-> See Bugzilla for the full thread.
-> 
-> Anyway, I'm adding this regression to regzbot:
-> 
-> #regression introduced: 1ad11eafc63ac1 https://bugzilla.kernel.org/show_bug.cgi?id=218090
-> #regression title: Steam Deck fails to wake from suspend due to pci_enable_pcie_error_reporting() removal
-> 
-> Thanks.
-> 
-> [1]: https://bugzilla.kernel.org/show_bug.cgi?id=218090
 
-Thanks, I requested some dmesg logs and lspci output to help debug
-this.
+On Wed, 1 Nov 2023, Hannes Reinecke wrote:
+
+> And that is something I've been wondering (for quite some time now):
+> What _is_ the appropriate error handling for -ENOMEM?
+> At this time, we assume it to be a retryable error and re-run the queue
+> in the hope that things will sort itself out.
+> But if they don't we're stuck.
+> Can we somehow figure out if we make progress during submission, and (at
+> least) issue a warning once we detect a stall?
+
+The appropriate way is to use mempools. mempool_alloc (with 
+__GFP_DIRECT_RECLAIM) can't ever fail.
+
+But some kernel code does GFP_NOIO allocations in the I/O path and the 
+authors hope that they get away with it.
+
+Mikulas
+
 
