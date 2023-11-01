@@ -4,146 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4C287C4332F
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Nov 2023 04:10:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6ADE3C4332F
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Nov 2023 10:15:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:Message-ID:Date:Subject:To:
-	From:Reply-To:Cc:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=pfx0hXZeSWu+Uqvbs6TrZsy9cJhGCHfUgrulaPn2iKQ=; b=T184Gry2GJCA0LuBYhfR7SNPvZ
-	1jL2/YJ6rtzZ4aJXghN7e/3TONr2C5ak/lNuhEhL2MgDrH/3G4eQS5h42ysAqBDUcFa/Ey7yEygg1
-	CHU3172mcLWNqXccXkndLyynnhTwQVQRxAETzqEmHGbLyMKQqeDpGM+nZD+/yVOwixG7QKHaPURRs
-	nWnUN9BypXaV4h3iwMhIpTqwl+0tTDdq0/fy4BCdxWubiKOkMgIr2Am48BMi2MaQPVLa4k1OAW2SN
-	cbyZd+mSNr1xum8ecJdeyJwwfvbH0Eh9D32dt8Bi8GBz9xGDrklrO5nwUOrPUIsc7/1pINKkV7wXW
-	Nnk6y52A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9jjfndRN0o/qN0WgqtkcVkame02NBTvybODA5DUFQdM=; b=GRwIHrRDkQK4t+/CRuYYnOqCwf
+	cXdfLMR1rrd+yjRRv8s5DsSYZ4kyB/gfVvgq5+jd4V3gRXg2uKhBCGQia0VA8wOz+utmDiDNo0Tpv
+	CYHKM1/diXNN3x2rCTSNM8jLILjroojrTLc1qCMF8BUZ/pPWiMx7e9QPtoXeqRGI+FP/MEOKjAVNr
+	cbq+usFXWbNvdovcjsfRMrQ4ZxYvOtfhrUok+hE+w1eQYl4RlwDyv1D138MNsVlZsTUb9UkJL5NR0
+	dBw9uJTcCj6zPxU6cTDNdDmhQZePoXBhtbIEgVMM1Rv0UvRSbDShI4nsFYS73FnQSFUuJZSo4d3Uu
+	MEoXn2Aw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qy2YF-006cna-1c;
-	Wed, 01 Nov 2023 04:09:55 +0000
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	id 1qy8Fo-0073Ey-3B;
+	Wed, 01 Nov 2023 10:15:16 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qy2Y9-006cm0-1i
+	id 1qy8Fg-00738h-0h
 	for linux-nvme@lists.infradead.org;
-	Wed, 01 Nov 2023 04:09:54 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1698811789; x=1730347789;
-  h=from:to:subject:date:message-id:content-id:
-   content-transfer-encoding:mime-version;
-  bh=5WgMviH4BcJ4UlWkS9Ei4+No1NDgff3MmSG/UenmKLA=;
-  b=CmxCSLBCPWRjqvzuimvDQ4oAnvKcjAYl63zgeczEZcCQNESRsx+G35Zv
-   G3ZoKXl7hOnlf71dBaQ5DkiZPxLb7AENLdVoSlHW48NcKo6BY5yBS1sTj
-   cMpr/37XSDFLiwEiE6RsPSrUpw+jrceYyU608GB2bB5363SjJTQ2saydL
-   TuP4Eh8A4+evQfNSLP0mtUMjorySl5KzUQwh0DYgen6JxeHC72f0IexVd
-   TffDudRQF1a6lzAiR8Tnu6N7Vxa3pM4yT2SFfNqyS4VnIEaPjHtwHa1zm
-   unRtENOcOZNcksFpn6H4qwhklV2jTzJOcMdazxnk8T0nX97evhofty0+T
-   A==;
-X-CSE-ConnectionGUID: +WGJ7+pJSBSEtgzAlYKXRQ==
-X-CSE-MsgGUID: 3yxtEuRDSJ+E5yHUesxGdg==
-X-IronPort-AV: E=Sophos;i="6.03,267,1694707200"; 
-   d="scan'208";a="1095226"
-Received: from mail-dm6nam11lp2169.outbound.protection.outlook.com (HELO NAM11-DM6-obe.outbound.protection.outlook.com) ([104.47.57.169])
-  by ob1.hgst.iphmx.com with ESMTP; 01 Nov 2023 12:09:42 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RNLUHxFL5fJz0vtUftrl995OYofACvn8BCeZtDZ2dQR5OkYJADyCswXDgzltM1fk0Ti5vUcC3T2Dc7RiFH+GWRRWgxKhxJ71fqRvmguM/oD7ZGt3WUpikr3AJFbcV3Hi8VOSJDHsDXJSDzb+aqrIFIDtW5WlZG4T8kZd56f5zTNmafcf0jos1lFl3w+KDuoR8xLo5JhKiMO/A0d33xrMe4VEzlR/XCD1pvRgSRitkzPKJ2pZtdrPLfKGzu/JGHh80x5cpOT6SZM52EHchXpfBBdOt3wgTuXo9pjeVAVC5ZkJr7l7GnfodfezziW9UvxY0jJXyXeouPHY0qxMy48S7Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pfx0hXZeSWu+Uqvbs6TrZsy9cJhGCHfUgrulaPn2iKQ=;
- b=EHr9FpwWireE2i7xdYI5EqJ0WhMULs8n6yxJYTak4iiCaaqVn51sCZWEyya4qnNtZTAD57LoFce95H659RFqoa2X9xtup46iwJqQxOIM3xhgkdzSELep5XgvnQucXyxda8NtgT761fmZnkLgfkffAPovMycvb1bm/NikTiGGC4Ab/bCU10PTZv1FC56dkIh85dozEBIGAZb0y9046/GkX9I2UHfnkjEzC8MilgKl1Bku+BUBedd9pu3xp5mu0vR0q/yRyAtev+TBaPsn1y8rTfB9acDHV4rM8vCeOoVwjCRBhcwpFjFuLQaijRe3/gdFrpAtYltVVBrOALHbofgnDw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pfx0hXZeSWu+Uqvbs6TrZsy9cJhGCHfUgrulaPn2iKQ=;
- b=LMyw2gloKw9va1ydvVvlxQk6OttqIh+6H61PJdWoNDoMUM4TvTdjZndGa84koia/btvfAmzvVv811WX/su1Q3J3e80TbOrfKtDOtMDY/7LID+7lntBKl5x51P4eMTHPj9cTh+k/3ojfMFcOuEAr3FDDzZbtBr6IHUoX9off5O/w=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- SJ0PR04MB8514.namprd04.prod.outlook.com (2603:10b6:a03:4e6::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.22; Wed, 1 Nov
- 2023 04:09:39 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::2256:4ad2:cd2b:dc9e]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::2256:4ad2:cd2b:dc9e%3]) with mapi id 15.20.6954.019; Wed, 1 Nov 2023
- 04:09:38 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>
-Subject: blktests failures with v6.6
-Thread-Topic: blktests failures with v6.6
-Thread-Index: AQHaDHk7/Y1dbpXpUkmaEvYMjkxaWw==
-Date: Wed, 1 Nov 2023 04:09:38 +0000
-Message-ID: <6qycihftrxsdvuvpsvmkbe2swy5u2isrtu6jiyf3khzusdzilc@34kda7iutwdq>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|SJ0PR04MB8514:EE_
-x-ms-office365-filtering-correlation-id: e8584477-b580-420e-1724-08dbda905dde
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ocYP7tuSrMV0n63mygGTtJ9U7J+QQvRG6RCXYNt8ByCEDpRiew7GlFL36y4DijbOLPJkITIpopz6IwGp+UXMT3ZHNOkcPQQ2XE32tjd9z7mK/VQN3RghE6z7JAPlLdIO6xHd3CBk83dU42Zedy6L0BzLAxGcVYqUghFJ6xuyhwkdkq978ZOiu0iHuZ+yUnm1/fq7/nKImP+1AO2/o9yBNfaFqjHhMyiSaw3R3cyJj6cq0ydlMJwFji91EaVFV3u1p4jBpYSJMNMzzsAOFtAn7VU8KNWVCJE8Zjw8KwC4rEpIddL+f0eolo3POIeUkhfDbqmzjWruhLX7NoMZaKDzkfehC1ZZHsja3Y70AoYXH005gvMOnoIkHOlbhWHAJ4AElepkBk/WYPqa/0nx9VJuD/+JaCVUYt2Ae1uH6MM0qY7mKLPY+lOlTGd3w+/J0i7qe5Q9pZx5iSxuv/hDOdApe9tSd8VTKBASL1R5tkBrr8UFQPDQLm/yPpfnq70mlxHSFFyQOy4e69tzdfWEfZSix73ZV8A5HfFO5SGDegfPsLGAVfkMrnq9VD/m8lYrrOkK/roXWfu+upPSuVfNezmjEuexMdaI4gbolLWzSqV4lVkEPFRdXCOoFe1ilUCQMlYla91ktTns9dCc2oGccAu76II0AhXCBexBuv4LjtoVgx8JVUJdFV3xoFOyBvMsjZnB
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(366004)(39860400002)(346002)(396003)(136003)(376002)(230273577357003)(230173577357003)(230922051799003)(451199024)(186009)(1800799009)(64100799003)(26005)(6506007)(71200400001)(38100700002)(82960400001)(38070700009)(33716001)(122000001)(86362001)(83380400001)(9686003)(6512007)(316002)(41300700001)(64756008)(66476007)(66446008)(66946007)(44832011)(66556008)(6486002)(5660300002)(2906002)(76116006)(110136005)(91956017)(8676002)(478600001)(966005)(8936002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?PC3af2y7i9l+DnkiZhNUfCOYancBfs26aIYxvhC3GSP38Tjeko5yc0/WQDZC?=
- =?us-ascii?Q?xhqOpT5U0siYZ0XDPYunguCcgaZsbYFAm66gpDpWhJ9EY7pA6v5oWmz87yJF?=
- =?us-ascii?Q?mMAofm4SaXppTByQbtXvfyfTHPPnIuKdQFh6hXS0sa39HLDA5FG6+eb8VO+d?=
- =?us-ascii?Q?I+3TY73bFiH9N0lnuTSfYdecWkixgtbiJP3nti54cxfnXFpRLOyxtezkMS2e?=
- =?us-ascii?Q?3u0ZDBOkk96IhGoLc2+gfOxYsSqOfQVxBGduXdKrK2z7J6tC78dpwKw48JZv?=
- =?us-ascii?Q?hQI3ZCyi7DyOvm1fcqP4OV1WMLWWPL2IHstbsSsiYji656MMwdmcYQKPdI7W?=
- =?us-ascii?Q?hJ4DhMQ76FFwRjGKtt1HZG++hUVPMzlWOOsfKjWEGLIuLpxzfRmJWbyxZ6Ef?=
- =?us-ascii?Q?kurFRXJlCX0zslziwwvoN5lIJMKt/TnaRThxdMezh4hBH/M1SEF0RHbI7j1T?=
- =?us-ascii?Q?r0TbQ+096M+lkpzR0ovpOz7wOV8AJCHrt/4e6EmKJJJ/f+YGMIABZaCz6YMy?=
- =?us-ascii?Q?V/7drvdiSQ3DvaJs54NxtiBgkL5OhnK6UmwBeZzblYLg8Nc0C915xjdkW0Kh?=
- =?us-ascii?Q?hMZq0UZp4+4TJWD3znaS9dbLJ9Ds80feEcVjNc4mG4ejCJiKJnoyT/gJcSyi?=
- =?us-ascii?Q?+WAHoNstroxhWDtoD0mQFM3dXLihtYqD6H5NuAoTlilcB4b+YsJlMNbVgaFx?=
- =?us-ascii?Q?5LN9E5vg78XLfhkJ3BobWYbxV2IHwCtkgIU4MIs1rxhMdblR4zL9KwqU4+bx?=
- =?us-ascii?Q?6Radzm2zOxnaCk/8WAPCo8McUmRaL9acTh9qxreawmBSOJHTZVyVvcGBIvaF?=
- =?us-ascii?Q?VMhKbr5/FkyBA+ADggihmSM4x4Hwyul5oXHrdNtYyyfCAoUvz17Szo85vqcV?=
- =?us-ascii?Q?7ZPA2G9ah4UnLpBPBmXyS7i1Q3Zpt1FBO6am8EXOJe7bnO/3LyL2lAIByrpA?=
- =?us-ascii?Q?zWpY3AMrTdfEWfGmP/1wHTpYEtCM+lGhRBx+nA3rPgy+xlK62YySIgAodyUj?=
- =?us-ascii?Q?5WQ24MlBdJKxCdsNR3y/W3qhkqRyFZsk98/bdZOzK3MjswCusMjF0TlLwR66?=
- =?us-ascii?Q?8uyZKUStML1b7eVsgPIRCwPoYFZct9p2q7YYHv+AVL4kOSv7IebOm9WX8RiK?=
- =?us-ascii?Q?oq8gfnO1ruwxIi1x2u6nH05C4f4YuqpjprX12AvYUc1ATG1W6e1HGYhPER6g?=
- =?us-ascii?Q?Gve6eVBhb+ujR3KGwzyh6CT8CeTShsQeWyo317pmH6eSBjBNOrqCuEfmi4AD?=
- =?us-ascii?Q?+yHNUDEwvp6WXdcaXM20ivS8ZLh9GgDRiv8A+fjEZzsgJR+z3TrPv9UI8EM6?=
- =?us-ascii?Q?6gEodLGzHlda/unzd5uO8ZWB09yHE7gVJZNc8Rf1IWI9wYJTsG9XzLEbXLHo?=
- =?us-ascii?Q?DCGIU6w/e9q162X9QxO5eytfkwM/+O0bfSKQ7TmBMoPCA2djbZt0VcJofGec?=
- =?us-ascii?Q?7QAEH+hMG1oJ5PnwXi5IYniChav1ziX70kgro0eVK7zpVR/rpyFUxWfPIgBQ?=
- =?us-ascii?Q?z3oHQRbTzAGLaMlS6mB71FAx9g8h5EopLwIDO+JwMR2vCXVTNjJGWMcCNrzc?=
- =?us-ascii?Q?hyGd5GuSBtv86rMc/jNlK3EoQRnD2SXbABJlvQCBGi9O0mhmtoRZvMa2hbM3?=
- =?us-ascii?Q?cRwUDdnN+Jm5Rr5JXYiqiK0=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <A1C943B30AD71C4DBA01A9A319AEA696@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	Wed, 01 Nov 2023 10:15:12 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B28341F74D;
+	Wed,  1 Nov 2023 10:15:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1698833704; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9jjfndRN0o/qN0WgqtkcVkame02NBTvybODA5DUFQdM=;
+	b=JBrOF4N+H7Qu68rgXIVpiR4ij70g9zGB4RB2XwdJTf9uHOMn1LSON24WmYk6DmjD9/juzp
+	q5pHyWnCi8n4KVVn4jYMiJoaOe3x/rdleeCkZnIvzhtyf+onXKJoMs9E/VUeEB/jtWok5g
+	IYQ8IOVD9xWipD4chrwK72kEDtPtOuo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1698833704;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9jjfndRN0o/qN0WgqtkcVkame02NBTvybODA5DUFQdM=;
+	b=b83TNYrCuySV4g9tpLH7UrvpqfJGJ9NVzmB5hA8RmFun7QJ+jVo/tD9DOF1USrlTG9hFqA
+	8U6fVqecOGuBhhDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 41DD41348D;
+	Wed,  1 Nov 2023 10:15:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 5ZCsDCclQmVCGwAAMHmgww
+	(envelope-from <hare@suse.de>); Wed, 01 Nov 2023 10:15:03 +0000
+Message-ID: <ab02413f-4bf2-4d92-baf7-62fbd106f5df@suse.de>
+Date: Wed, 1 Nov 2023 11:15:02 +0100
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: NgB3f9KgmcjQhV8wGiddncWDAwahT72AIFJqyDPwFwiAu5n6NaQvVRwELpqeODxPvoh1bjPM5lddZPEIX7/lKLbQatfUZZ4SrKRRKcZ3VNX6jT3mRW7/xGXkPASGuCC8aptw9w9fCsYnGuxuZKbVgRZUJM9fe8RTU8Mwzm5188px9/qQm0pVu3ijt705qAdNtcsZXCo14m5uzaDruDdKb9PK6RS8a5S1CKTT19dolgCauPBrpryGjOZiPLdFmHd4wgmwNlWX3o5eefbEoK1frNVylfU3Tx2S9WgmSXLkmtSPAy9YN7Hbf138U4lrVGONZT/2nXtrFXcPYP4H9MYLo2iS4ETt5TMx4zyCR41v1ACh2ayyvaMK179ecUKdU3DIqv8DCaH8YG7CE7Q+NMSLKjN8L24R2mNp9HNFaLXBqxdaaglTKvNpEYK6W6dX3RR1m6RdJxw0R6zNYCWeUuoJaH632O5q9AiO7x8U8NG1HOCGhI82OJiA3fDRa+cajzBtgx2vR1s1d/aD0g8lPcTwspgnDXPpSU8bCJpdIJT/fo4zCbNDbmn2lf26+fsGuc77iZFXZxkJrzpkBpxxz4lfgCLsJKlCYFeVkGNDUkgPtYrdJ0vLeDByobaAGYoQFjgIky/rJuruKsrYLSo4FUUgWGwWNykuOK7XQ/oe+MMRFR4xbifGFUidEztoHKYStmzqbA3012QSW7DPvFLkvGfWKOuw9KL4v+1frYF1QGhoGJ7NBgZJEeeWjOhUfoLNlPPhv0N6MWxCYkUMFIoExHiG+9u7dw42A9glyTWpYyiqDH68Lb5cP5M1PbD4eG7XYE09J+OoGxORRK0a4eY+dHcg+Q==
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e8584477-b580-420e-1724-08dbda905dde
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Nov 2023 04:09:38.7594
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rEz3mSifRNlaFKtps0zkFt3/0yE9/Vn+04foL6aLkOJQH11wFO37jvooJJbB96pw+msTsx0jGTrT05oEXMD3zG7Hh/kLfZjKyUIRdNSub/A=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR04MB8514
+User-Agent: Mozilla Thunderbird
+Subject: Re: Intermittent storage (dm-crypt?) freeze - regression 6.4->6.5
+Content-Language: en-US
+To: Ming Lei <tom.leiming@gmail.com>,
+ =?UTF-8?Q?Marek_Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>
+Cc: Jan Kara <jack@suse.cz>, Mikulas Patocka <mpatocka@redhat.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Andrew Morton <akpm@linux-foundation.org>,
+ Matthew Wilcox <willy@infradead.org>, Michal Hocko <mhocko@suse.com>,
+ stable@vger.kernel.org, regressions@lists.linux.dev,
+ Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+ dm-devel@lists.linux.dev, linux-mm@kvack.org, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, ming.lei@redhat.com
+References: <ZT+wDLwCBRB1O+vB@mail-itl>
+ <a2a8dbf6-d22e-65d0-6fab-b9cdf9ec3320@redhat.com>
+ <20231030155603.k3kejytq2e4vnp7z@quack3> <ZT/e/EaBIkJEgevQ@mail-itl>
+ <98aefaa9-1ac-a0e4-fb9a-89ded456750@redhat.com> <ZUB5HFeK3eHeI8UH@mail-itl>
+ <20231031140136.25bio5wajc5pmdtl@quack3> <ZUEgWA5P8MFbyeBN@mail-itl>
+ <CACVXFVOEWDyzasS7DWDvLOhC3Hr6qOn5ks3HLX+fbRYCxYv26w@mail.gmail.com>
+ <ZUG0gcRhUlFm57qN@mail-itl> <ZUHE52SznRaZQxnG@fedora>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <ZUHE52SznRaZQxnG@fedora>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231031_210949_828828_E3D2DAEB 
-X-CRM114-Status: UNSURE (   9.15  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20231101_031508_564951_55DA25C7 
+X-CRM114-Status: GOOD (  26.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -158,71 +104,104 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+On 11/1/23 04:24, Ming Lei wrote:
+> On Wed, Nov 01, 2023 at 03:14:22AM +0100, Marek Marczykowski-Górecki wrote:
+>> On Wed, Nov 01, 2023 at 09:27:24AM +0800, Ming Lei wrote:
+>>> On Tue, Oct 31, 2023 at 11:42 PM Marek Marczykowski-Górecki
+>>> <marmarek@invisiblethingslab.com> wrote:
+>>>>
+>>>> On Tue, Oct 31, 2023 at 03:01:36PM +0100, Jan Kara wrote:
+>>>>> On Tue 31-10-23 04:48:44, Marek Marczykowski-Górecki wrote:
+>>>>>> Then tried:
+>>>>>>   - PAGE_ALLOC_COSTLY_ORDER=4, order=4 - cannot reproduce,
+>>>>>>   - PAGE_ALLOC_COSTLY_ORDER=4, order=5 - cannot reproduce,
+>>>>>>   - PAGE_ALLOC_COSTLY_ORDER=4, order=6 - freeze rather quickly
+>>>>>>
+>>>>>> I've retried the PAGE_ALLOC_COSTLY_ORDER=4,order=5 case several times
+>>>>>> and I can't reproduce the issue there. I'm confused...
+>>>>>
+>>>>> And this kind of confirms that allocations > PAGE_ALLOC_COSTLY_ORDER
+>>>>> causing hangs is most likely just a coincidence. Rather something either in
+>>>>> the block layer or in the storage driver has problems with handling bios
+>>>>> with sufficiently high order pages attached. This is going to be a bit
+>>>>> painful to debug I'm afraid. How long does it take for you trigger the
+>>>>> hang? I'm asking to get rough estimate how heavy tracing we can afford so
+>>>>> that we don't overwhelm the system...
+>>>>
+>>>> Sometimes it freezes just after logging in, but in worst case it takes
+>>>> me about 10min of more or less `tar xz` + `dd`.
+>>>
+>>> blk-mq debugfs is usually helpful for hang issue in block layer or
+>>> underlying drivers:
+>>>
+>>> (cd /sys/kernel/debug/block && find . -type f -exec grep -aH . {} \;)
+>>>
+>>> BTW,  you can just collect logs of the exact disks if you know what
+>>> are behind dm-crypt,
+>>> which can be figured out by `lsblk`, and it has to be collected after
+>>> the hang is triggered.
+>>
+>> dm-crypt lives on the nvme disk, this is what I collected when it
+>> hanged:
+>>
+> ...
+>> nvme0n1/hctx4/cpu4/default_rq_list:000000000d41998f {.op=READ, .cmd_flags=, .rq_flags=IO_STAT, .state=idle, .tag=65, .internal_tag=-1}
+>> nvme0n1/hctx4/cpu4/default_rq_list:00000000d0d04ed2 {.op=READ, .cmd_flags=, .rq_flags=IO_STAT, .state=idle, .tag=70, .internal_tag=-1}
+> 
+> Two requests stays in sw queue, but not related with this issue.
+> 
+>> nvme0n1/hctx4/type:default
+>> nvme0n1/hctx4/dispatch_busy:9
+> 
+> non-zero dispatch_busy means BLK_STS_RESOURCE is returned from
+> nvme_queue_rq() recently and mostly.
+> 
+>> nvme0n1/hctx4/active:0
+>> nvme0n1/hctx4/run:20290468
+> 
+> ...
+> 
+>> nvme0n1/hctx4/tags:nr_tags=1023
+>> nvme0n1/hctx4/tags:nr_reserved_tags=0
+>> nvme0n1/hctx4/tags:active_queues=0
+>> nvme0n1/hctx4/tags:bitmap_tags:
+>> nvme0n1/hctx4/tags:depth=1023
+>> nvme0n1/hctx4/tags:busy=3
+> 
+> Just three requests in-flight, two are in sw queue, another is in hctx->dispatch.
+> 
+> ...
+> 
+>> nvme0n1/hctx4/dispatch:00000000b335fa89 {.op=WRITE, .cmd_flags=NOMERGE, .rq_flags=DONTPREP|IO_STAT, .state=idle, .tag=78, .internal_tag=-1}
+>> nvme0n1/hctx4/flags:alloc_policy=FIFO SHOULD_MERGE
+>> nvme0n1/hctx4/state:SCHED_RESTART
+> 
+> The request staying in hctx->dispatch can't move on, and nvme_queue_rq()
+> returns -BLK_STS_RESOURCE constantly, and you can verify with
+> the following bpftrace when the hang is triggered:
+> 
+> 	bpftrace -e 'kretfunc:nvme_queue_rq  { @[retval, kstack]=count() }'
+> 
+> It is very likely that memory allocation inside nvme_queue_rq()
+> can't be done successfully, then blk-mq just have to retry by calling
+> nvme_queue_rq() on the above request.
+> 
+And that is something I've been wondering (for quite some time now):
+What _is_ the appropriate error handling for -ENOMEM?
+At this time, we assume it to be a retryable error and re-run the queue
+in the hope that things will sort itself out.
+But if they don't we're stuck.
+Can we somehow figure out if we make progress during submission, and (at 
+least) issue a warning once we detect a stall?
 
-I ran the latest blktests (git hash: 3f75e6241f6b) with v6.6 kernel, and ob=
-seved
-four failures below. They are all known for months.
+Cheers,
 
-As for the two other failures observed with v6.6-rc1 kernel [1], they are n=
-o
-longer observed with v6.6 kernel. Good.
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
+Myers, Andrew McDonald, Martje Boudien Moerman
 
-[1] https://lore.kernel.org/linux-block/u4g3jh6dnowouthos3tdex2pflzo3hat55e=
-5dc4j6pul3a3uov@y2axtbiura2q/
-
-List of failures
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-#1: block/011
-#2: nvme/003 (fabrics transport)
-#3: nvme/* (fc transport)
-#4: srp/002, 011 (rdma_rxe driver)
-
-Failure description
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-#1: block/011
-
-   The test case fails with NVME devices due to lockdep WARNING "possible
-   circular locking dependency detected". Reported in Sep/2022 [2]. In LSF
-   2023, it was noted that this failure should be fixed.
-
-   Also, it was found recently that this test case still causes failure of
-   following tests. Fix work is ongoing [3].
-
-   [2] https://lore.kernel.org/linux-block/20220930001943.zdbvolc3gkekfmcv@=
-shindev/
-   [3] https://github.com/kawasaki/blktests/commit/f540cbb0eeb66e2c76a88efb=
-e65a2b59d55630fd
-
-#2: nvme/003 (fabrics transport)
-
-   When nvme test group is run with trtype=3Drdma or tcp, the test case fai=
-ls
-   due to lockdep WARNING "possible circular locking dependency detected".
-   Reported in May/2023. Fix discussions were held [4][5].
-
-   [4] https://lore.kernel.org/linux-nvme/20230511150321.103172-1-bvanassch=
-e@acm.org/
-   [5] https://lore.kernel.org/linux-nvme/5cb63b10-72ab-4b7c-7574-48583ea8f=
-fd1@grimberg.me/
-
-#3: nvme/* (fc transport)
-
-   With trtype=3Dfc configuration, test run on nvme test group hangs. Danie=
-l is
-   driving fix work.
-
-#4: srp/002, 011 (rdma_rxe driver)
-
-   Test process hang is observed occasionally. Reported to the relevant mai=
-ling
-   lists in Aug/2023 [6]. Blktests was modified to change default driver fr=
-om
-   rdma_rxe to siw to avoid impacts on blktests users. Root cause is not ye=
-t
-   understood. Bob and Bart have spent time to chase it down (Thank you).
-
-   [6] https://lore.kernel.org/linux-rdma/18a3ae8c-145b-4c7f-a8f5-67840feeb=
-98c@acm.org/T/#mee9882c2cfd0cfff33caa04e75418576f4c7a789=
 
