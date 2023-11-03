@@ -4,49 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 63B86C4332F
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 Nov 2023 14:05:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 364FEC4167D
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 Nov 2023 14:22:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=U2e73cmBDm/yr0/trFD+4OnowXeka72n8zInu0EDWWM=; b=Ip6+YV1IdVPuprUs105AiOxsYz
-	11jFYR6va6OnGiyDL4CxYQvZ/vvGT/JlgvUGRbmgbzscNM9P5q2B7dFTcTgLhk7ibuGwbRdiimxWh
-	DpjVHDcRnUCaZpGfm9EDr2IjRdYxOjYs5aAyFGURAhhIOBDrpIF75UAQFw6GFky9OgAmVIAoI1IVJ
-	aIlkAqQ9zl+3lVBRxfM1TBKwdUIjVpsBjxuXmcAt6Cx4UhJ976qWWeLT/BdV6r/d9VAy1VZongCm7
-	UvEU5z8zZ45NlLWUE33kgnnhbJ30u/d3K2cyTh/q8FhCmd3vmGi1EC3g06kv+tVF8vyGrZtOG78fl
-	ZZQ3APxg==;
+	bh=OLQ0poeG2hTbjPAwCdQl/GpYvsYsztDaO+xenptZW2I=; b=Xa3RuY6skwBoXFHXXNbwq87O2T
+	Sa7NcVc+kdVFUPJQEOwhxSm384lkYnvZIBSzck14w/Wy1CyXg6lXTtygVj3tdT4qF98T2wd+Bo33I
+	PBZ4fnazqGiZDVr3sAKFAFh5Asdpnv27mqxyhD0iZxqeqVnxoZzNjBRR+Epic32cbO0hWmxTEkl6b
+	xgmntBbE/D0L5BBE3ETV5GorJzcLxznMyZg6g/BrkDh1VVVLl6isCaJeOzZ3kv2AIrb2FAwa2AYgq
+	ZgNai1f91WzxADWDBUvQcmCpoge9rqFglzoidLQO6gwJoxvh07w8GgcH6k3KnyGhiFh816rLO5d0K
+	IDNJPnFg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qyunb-00BXb2-1q;
-	Fri, 03 Nov 2023 14:05:23 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1qyv43-00BZL2-28;
+	Fri, 03 Nov 2023 14:22:23 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qyunW-00BXaX-0S
+	id 1qyv40-00BZKI-2J
 	for linux-nvme@lists.infradead.org;
-	Fri, 03 Nov 2023 14:05:19 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id B8C4E67373; Fri,  3 Nov 2023 15:05:14 +0100 (CET)
-Date: Fri, 3 Nov 2023 15:05:14 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
-	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Subject: Re: [PATCH 1/2] nvmet-rdma: avoid circular locking dependency on
- install_queue()
-Message-ID: <20231103140514.GA2395@lst.de>
-References: <20231102141903.66515-1-hare@suse.de> <20231102141903.66515-2-hare@suse.de> <20231103082305.GA17096@lst.de> <69b6f873-f8a1-482b-a739-b47da6e98cec@suse.de> <20231103091952.GA18200@lst.de> <e09869f2-193b-4f03-a12f-2a7f6c24d537@suse.de>
+	Fri, 03 Nov 2023 14:22:22 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id EC1B2CE2293;
+	Fri,  3 Nov 2023 14:22:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BED2CC433C7;
+	Fri,  3 Nov 2023 14:22:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1699021334;
+	bh=i4n+Ca8lHKiU8bKf7X1drUsWnYBFo6sjVmEhJySGhLc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lBqtSDCsfrF7qq6D7S2hdg43EUXJkXtETu1ye6NCHLfGWUk5WFYCsZrUuYLqAsCG1
+	 RFAFUs7K4GLdJK2NtMq9QdY9FWmbKwh1RcGWD6uf6w5GCk5YfS6pfJ7H6rO5/0O84X
+	 WE1GGVz9XFPH42p9ClNiUBdTvuZG5JPovtUIPVNHyWJfcvARVmnRiLtNisMK+M6JYO
+	 D1uAxNFEnuVvkamh3TYXPwYoS2xMnQL+NXtUFscHQrryhTKFX06y2oEfTKUd5JTp7Q
+	 VEhFhuoYTTwYOfN0q4fzcAO16+d1NjbYo0dMXA6MeyfWwadRjGFOiZ56gR1cZSdtCF
+	 770S+I+gJJoRA==
+Date: Fri, 3 Nov 2023 08:22:11 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, Niklas Cassel <Niklas.Cassel@wdc.com>,
+	Kenji Tomonaga <tkenbo@gmail.com>
+Subject: Re: [PATCH v3] nvme: update firmware version after commit
+Message-ID: <ZUUCE88vOi6Wj69a@kbusch-mbp.dhcp.thefacebook.com>
+References: <20231030160044.20355-1-dwagner@suse.de>
+ <ZUEmlRnBVr9LGDnF@kbusch-mbp.dhcp.thefacebook.com>
+ <y32ounthrv2uuedtriy73oir5m7k5ryupzytd2x5wn436bcrj7@7xalhdepjyk6>
+ <20231103135857.GA1871@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e09869f2-193b-4f03-a12f-2a7f6c24d537@suse.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20231103135857.GA1871@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231103_070518_318315_F73FF7B1 
-X-CRM114-Status: GOOD (  11.55  )
+X-CRM114-CacheID: sfid-20231103_072220_943923_F573B0FE 
+X-CRM114-Status: GOOD (  19.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,11 +75,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> According to 777dc82395de ("nvmet-rdma: occasionally flush ongoing 
-> controller teardown") this is just for reducing the memory footprint.
-> Wonder if we need to bother, and whether it won't be better to remove
-> the whole thing entirely.
+On Fri, Nov 03, 2023 at 02:58:57PM +0100, Christoph Hellwig wrote:
+> On Fri, Nov 03, 2023 at 01:11:02PM +0100, Daniel Wagner wrote:
+> > This particular firmware seem to interpret afi one based, while
+> > the this patch assumes it is zero based
+> 
+> >   Active Firmware Info (AFI): Specifies information about the active
+> >                               firmware revision.
+> > 
+> >   Bit 7    is reserved.
+> >   Bits 6:4 indicates the firmware slot that is going to be activated
+> >            at the next Controller Level Reset. If this field is 0h,
+> >            then the controller does not indicate the firmware slot that
+> >            is going to be activated at the next Controller Level Reset.
+> >   Bit 3    is reserved.
+> >   Bits 2:0 indicates the firmware slot from which the actively running
+> >            firmware revision was loaded.
+> > 
+> > 
+> > It's not clear to me if afi bits 2:0 is zero or one based. Bits 6:4
+> > indicate to be 1 based.
+> 
+> All 0's based (what a stupid term..) fields in NVMe are explicitly
+> marked as such.  And even if that wasn't the case I'd very much
+> expect the same encoding for the two sub-fields.
 
-Well, Sagi added it, so I'll let him chime in on the usefulness.
+Yeah, it's just the firmware slot number, taken literally. AFI = 1 means
+slot 1, AFI = 2 means slot 2, etc... Slot 0 either has special meaning
+(firmware commit SF field, or fw log AFI bits 6:4), or is reserved
+value, like in Identify Controller FRMW.NOFS, and has no place in the FW
+Slot Info log page.
 
+Our first slot in the log page is defined as slot one, so we have to
+subtract one from the AFI field to index into the slot array. I messed
+up for not catching that earlier, but thanks for pointing it out now.
 
