@@ -4,67 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ACC65C4167B
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 Nov 2023 14:19:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4672C4332F
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 Nov 2023 08:23:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=PJapYrFiAMmv362BFUxi1ucwnmZqU7rS0CcfdNqddxc=; b=ED7MeklMapu1/+F6isqMDpJQNa
-	cp1b0XgAwdXUPN0nLJYBenB4MfrRXziSHzd1vIwLI/ZYgb0bfWVmcBXfuw2BAkTd7tkBwa+3pdjx4
-	YipqyL2jEPNk/CkT1dn3U7p0d2BY3M9gk/MIoSrerZFqvGGAMCJ47WEuj1ucG/Z9PQo8HJfhfEzhL
-	BMEnylg4ap1VY4PLy0I+J3h0+0aFwuMpTjYxDDJjRJxstia17QTWDtch28K2qv1rBUBocumupZH9o
-	X/s0eHpifcX2phrItZFDf8s0dfh4OGB+pDEgrQp/x2QMtnzQ4A29q8sh8UfoQXnUuytVVTelJlj7A
-	6DS4aO4g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=QMjfKMTJ6h8tydJeU13gi6c5mCCUp4VI53AIm0nHTRQ=; b=D/HSRcdcXbHOBOg8SjorlRGgG2
+	gbdZvoRcdIMQiXr2sja6BnvxGL5BOyLNRxxMr6+9SHdoKaoJM+yRgM7iMcj9T0ZhbNUXKAUSNpC2O
+	zUZvF287vaROMS8jIZaU2M/skVuJh2ZhHpoxYvpOFx2oShPHmPyJO85S0LuXxtK/3lOKqUlO/kIjP
+	Pv9puPLhCi/Gc0zU7Yk7dDfLoKS6NNTierMl/xqBJoyXUCm3fI8i/C5dA9iL1bU0o6eJpnU8J7M2w
+	5hyz2cY9hE7oVlrahuXx+AHIeWDaxIKWBxVtaTHSdYLZqhKJKpa8jf7oh6BKOIgdkOPimEgo/PnKJ
+	xsN9wNZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qyYXY-009cpI-1Y;
-	Thu, 02 Nov 2023 14:19:20 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1qypSd-00AyVV-0d;
+	Fri, 03 Nov 2023 08:23:23 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qyYXS-009cnx-0J
+	id 1qypSX-00AyTr-2M
 	for linux-nvme@lists.infradead.org;
-	Thu, 02 Nov 2023 14:19:18 +0000
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id E0DA91F8C8;
-	Thu,  2 Nov 2023 14:19:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1698934746; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=PJapYrFiAMmv362BFUxi1ucwnmZqU7rS0CcfdNqddxc=;
-	b=Yk1hx803T+TX/ZgKNToPKkHRNnuZt8SNP3XFyKI/5qzr4w+kF7yIlA652f7WTDrAdItUyB
-	YJ7y16B7rVdXFoN3HKw+RB5hWi9p5aqlFtpmP5XTcgLN8ndastes7shV4+A/flGiQPxgLu
-	IY4JHcxIP98pxAo7wKpbL0wtzI1nSHA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1698934746;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=PJapYrFiAMmv362BFUxi1ucwnmZqU7rS0CcfdNqddxc=;
-	b=Oenu1J9eXXRNaAK5td+7bcRTDP7gXS7uCgaSGKyNS1tNcvnEN4Z19ckEPa8ClhLcgFQk3D
-	BbKxHSwFf4ilZtCA==
-Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 99E552C8AE;
-	Thu,  2 Nov 2023 14:19:06 +0000 (UTC)
-Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id C55AB51ECABB; Thu,  2 Nov 2023 15:19:06 +0100 (CET)
-From: Hannes Reinecke <hare@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCHv2 0/2] nvmet: avoid circular locking warning
-Date: Thu,  2 Nov 2023 15:19:01 +0100
-Message-Id: <20231102141903.66515-1-hare@suse.de>
-X-Mailer: git-send-email 2.35.3
+	Fri, 03 Nov 2023 08:23:21 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 2D7DB67373; Fri,  3 Nov 2023 09:23:06 +0100 (CET)
+Date: Fri, 3 Nov 2023 09:23:05 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: Re: [PATCH 1/2] nvmet-rdma: avoid circular locking dependency on
+ install_queue()
+Message-ID: <20231103082305.GA17096@lst.de>
+References: <20231102141903.66515-1-hare@suse.de> <20231102141903.66515-2-hare@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231102141903.66515-2-hare@suse.de>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231102_071914_281110_6D43D8DE 
-X-CRM114-Status: UNSURE (   9.91  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20231103_012317_929443_255380A1 
+X-CRM114-Status: GOOD (  14.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,30 +61,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvmet-rdma and nvmet-tcp trigger a circular locking warning when
-tearing down; reason is a call to 'flush_workqueue' when creating
-a new controller which tries to cover for the fact that old controller
-instances might be in the process of tearing down.
-However, this is pure speculation as we don't know (and don't check)
-if there really _are_ controllers in shutdown.
-And even if there were, that should be short-lived, and would have been
-resolved by connecting just a tad later.
-So this patch returns 'controller busy' if we really find ourselves in this
-situation, allowing the caller to reconnect later.
+On Thu, Nov 02, 2023 at 03:19:02PM +0100, Hannes Reinecke wrote:
+> nvmet_rdma_install_queue() is driven from the ->io_work workqueue
+> function, but will call flush_workqueue() which might trigger
+> ->release_work() which in itself calls flush_work on ->io_work.
+> 
+> To avoid that move the check for any pending queue disconnects
+> to the 'install_queue()' callback. This replicates what the tcp
+> code is already doing, and also allows us to return a
+> 'controller busy' connect response until all disconnects
+> are completed.
 
-Changes to the original version:
-- Update the rdma patch to implement 'install_queue()'
-- Include suggestions from Jens Axboe
+So what are hosts going to do when they see NVME_SC_CONNECT_CTRL_BUSY?
 
-Hannes Reinecke (2):
-  nvmet-rdma: avoid circular locking dependency on install_queue()
-  nvmet-tcp: avoid circular locking dependency on install_queue()
-
- drivers/nvme/target/rdma.c | 24 +++++++++++++++++++-----
- drivers/nvme/target/tcp.c  | 13 +++++++++++--
- 2 files changed, 30 insertions(+), 7 deletions(-)
-
--- 
-2.35.3
-
+I see no special casing for it in our host side code.
 
