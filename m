@@ -4,49 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 60CEAC4332F
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 Nov 2023 13:59:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 63B86C4332F
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 Nov 2023 14:05:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DO6xt+8UaXSfIekXCYnHWzjjj/SoZBInVpsXJN5LjXk=; b=l59jerTjuD8rOzE5RnCpz+bhvp
-	APDLX51DH4saAR8KXQBr3P3stTIQlEyvG2f704MyLtVfOusKcZ6BwbDI679EAsJAPtu5NuUK4i4M+
-	fhx9tmvLDElbq38WWJngnBEnBbCXOcAKj/4fmETkygYabghT14veGluDgvgoKsoweunKJV7NhO6u9
-	f3EciGCpKwJhXEMVo8nbMVjMz8rTEIYiuowlqtMuiqzISikVEQB3fBSjYfxf5CWpNhct8ejixcqh8
-	rfMQESfiv1KfFydNv0jxIIHKWPUhj6Zxas4HcZuC8NSvjNkMo6bD+qOUpB5s+Eqllzjj7i9omsHFs
-	Mq0QkKVg==;
+	bh=U2e73cmBDm/yr0/trFD+4OnowXeka72n8zInu0EDWWM=; b=Ip6+YV1IdVPuprUs105AiOxsYz
+	11jFYR6va6OnGiyDL4CxYQvZ/vvGT/JlgvUGRbmgbzscNM9P5q2B7dFTcTgLhk7ibuGwbRdiimxWh
+	DpjVHDcRnUCaZpGfm9EDr2IjRdYxOjYs5aAyFGURAhhIOBDrpIF75UAQFw6GFky9OgAmVIAoI1IVJ
+	aIlkAqQ9zl+3lVBRxfM1TBKwdUIjVpsBjxuXmcAt6Cx4UhJ976qWWeLT/BdV6r/d9VAy1VZongCm7
+	UvEU5z8zZ45NlLWUE33kgnnhbJ30u/d3K2cyTh/q8FhCmd3vmGi1EC3g06kv+tVF8vyGrZtOG78fl
+	ZZQ3APxg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qyuha-00BWee-26;
-	Fri, 03 Nov 2023 13:59:10 +0000
+	id 1qyunb-00BXb2-1q;
+	Fri, 03 Nov 2023 14:05:23 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qyuhX-00BWdi-3C
+	id 1qyunW-00BXaX-0S
 	for linux-nvme@lists.infradead.org;
-	Fri, 03 Nov 2023 13:59:09 +0000
+	Fri, 03 Nov 2023 14:05:19 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id EC89867373; Fri,  3 Nov 2023 14:58:57 +0100 (CET)
-Date: Fri, 3 Nov 2023 14:58:57 +0100
+	id B8C4E67373; Fri,  3 Nov 2023 15:05:14 +0100 (CET)
+Date: Fri, 3 Nov 2023 15:05:14 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
-	Niklas Cassel <Niklas.Cassel@wdc.com>,
-	Kenji Tomonaga <tkenbo@gmail.com>
-Subject: Re: [PATCH v3] nvme: update firmware version after commit
-Message-ID: <20231103135857.GA1871@lst.de>
-References: <20231030160044.20355-1-dwagner@suse.de> <ZUEmlRnBVr9LGDnF@kbusch-mbp.dhcp.thefacebook.com> <y32ounthrv2uuedtriy73oir5m7k5ryupzytd2x5wn436bcrj7@7xalhdepjyk6>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: Re: [PATCH 1/2] nvmet-rdma: avoid circular locking dependency on
+ install_queue()
+Message-ID: <20231103140514.GA2395@lst.de>
+References: <20231102141903.66515-1-hare@suse.de> <20231102141903.66515-2-hare@suse.de> <20231103082305.GA17096@lst.de> <69b6f873-f8a1-482b-a739-b47da6e98cec@suse.de> <20231103091952.GA18200@lst.de> <e09869f2-193b-4f03-a12f-2a7f6c24d537@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <y32ounthrv2uuedtriy73oir5m7k5ryupzytd2x5wn436bcrj7@7xalhdepjyk6>
+In-Reply-To: <e09869f2-193b-4f03-a12f-2a7f6c24d537@suse.de>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231103_065908_171170_DABB3C9B 
-X-CRM114-Status: GOOD (  17.34  )
+X-CRM114-CacheID: sfid-20231103_070518_318315_F73FF7B1 
+X-CRM114-Status: GOOD (  11.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,27 +61,11 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Nov 03, 2023 at 01:11:02PM +0100, Daniel Wagner wrote:
-> This particular firmware seem to interpret afi one based, while
-> the this patch assumes it is zero based
+> According to 777dc82395de ("nvmet-rdma: occasionally flush ongoing 
+> controller teardown") this is just for reducing the memory footprint.
+> Wonder if we need to bother, and whether it won't be better to remove
+> the whole thing entirely.
 
->   Active Firmware Info (AFI): Specifies information about the active
->                               firmware revision.
-> 
->   Bit 7    is reserved.
->   Bits 6:4 indicates the firmware slot that is going to be activated
->            at the next Controller Level Reset. If this field is 0h,
->            then the controller does not indicate the firmware slot that
->            is going to be activated at the next Controller Level Reset.
->   Bit 3    is reserved.
->   Bits 2:0 indicates the firmware slot from which the actively running
->            firmware revision was loaded.
-> 
-> 
-> It's not clear to me if afi bits 2:0 is zero or one based. Bits 6:4
-> indicate to be 1 based.
+Well, Sagi added it, so I'll let him chime in on the usefulness.
 
-All 0's based (what a stupid term..) fields in NVMe are explicitly
-marked as such.  And even if that wasn't the case I'd very much
-expect the same encoding for the two sub-fields.
 
