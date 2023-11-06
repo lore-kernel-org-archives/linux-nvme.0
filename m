@@ -4,67 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54E58C4332F
-	for <linux-nvme@archiver.kernel.org>; Sat,  4 Nov 2023 11:31:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54E1AC4332F
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Nov 2023 05:40:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=qED24wz1NnAdMOW+dQRdu/yHjpx88inLhQv2WF1npwk=; b=H1q3jDUeTf1/gUR+6fkEn/ENKM
-	M1OY8H9nNAnKx/6cm+Rkmbps0wOyzhncDpQC6k4GNkXmkoEqA9tOTn51XPxJuc3YSozllK0Yjpm7E
-	pCnzGLkvnOx+dzph02uE2QolBrjyxgag4dah8tFVNqEq4kgcwPjAOBUirdxxhM0wZSJK6YIRklOAx
-	fDMMRuyUlePZeobNaIkVfafRiuvCNlu0qNDC+BTmmW3wP82Y/tW0kEeL4IXVOaZ24vvz4TDoy+w8a
-	L/rpOHih+mnTA9KeiKPyWOy16KXjRD1PTQw/NvX9Azjf9qkPQPe0ppRAd9QAEQosy9az4rG5HtcJX
-	SH3My4qA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=mu+81MaI5SnAIUsfN5Tcp/FOO/84RycrEprnhwELJnU=; b=waR3zyRFIIIBwU658i6XnwmLnc
+	FXlvP75K/5NmnjkRZv0r//uWv30QnD+aPZx+mUU9mKGWqnbMPlyRtlUftiZBAV4YAwGlpT39+NOVA
+	h3rrda4woaAPbE56MOnuI1hqCtiO4jz/Ir8KcX5rvcQp/3LBreI8MwA7guvGYd5INoE6/jQjiRX5N
+	TAO5sQ4ic3VY8kf2uLvZxHAHZSvurs3jKnPkW+9vMU9Hpyn64tMgBCjg+yo3Wa71QqEkT2M9k76Xy
+	x/uMh/oNbHKLt/OJRKwaveWRzoBPUmznMWa81bdDeFvkO4Cc7bwQPWoBXlSc4aJRCKHlSCEoPUFpq
+	nMfGTGJA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1qzEs4-00DM79-2u;
-	Sat, 04 Nov 2023 11:31:20 +0000
-Received: from mgamail.intel.com ([192.198.163.7])
+	id 1qzsLr-00Ftfx-2q;
+	Mon, 06 Nov 2023 05:40:43 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1qzEs1-00DM6Y-1g
+	id 1qzsLk-00Ftfb-1C
 	for linux-nvme@lists.infradead.org;
-	Sat, 04 Nov 2023 11:31:19 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699097477; x=1730633477;
-  h=date:from:to:cc:subject:message-id;
-  bh=TqnCzlp4hoB/F8PNo8nlqn53hmeCJyYpsnwN8IH4Tfk=;
-  b=Jo2d+BgPYvwcSQbJDhBstJplytdnGMZbKYlgroNszjADoj+lktxzJG7f
-   ivGCEDfqxMEPaK6oTFlhXIhqicn65zziUorL34hM7qMVz3ot4o4fkrFjU
-   TDcsFKTYLVWrpjYpPeWSsDFJl2zsIX9CV2QpivgNip30kg/fF4jwp6ATR
-   vYViNOGoKdNUFkPVUlvsNxJaLZJFuFOnhsQs9gfTMUk9dw2TcJCSOhQSo
-   Ji1OWnGtPxZxslGrD3FhFnQlJnIHoq3hGTKQ363sGZEhRSpe1r/ZrL+RG
-   B+HJ2a488EoSAmvxp2jZVLMzYQKjQvYyHojqWH1GKTIoSpJUUfc46dOjD
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="10614358"
-X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="10614358"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 04:31:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="796868561"
-X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="796868561"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 04 Nov 2023 04:31:13 -0700
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qzEru-000471-2p;
-	Sat, 04 Nov 2023 11:31:10 +0000
-Date: Sat, 04 Nov 2023 19:30:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.7] BUILD SUCCESS
- f902880636fa72884bc1a5ad02c13cab200b79e0
-Message-ID: <202311041943.6GIuONNT-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Mon, 06 Nov 2023 05:40:39 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20231106054028epoutp0414bbe9e767b70170d472429e0d24f151~U8iukzRqk1214912149epoutp04Y
+	for <linux-nvme@lists.infradead.org>; Mon,  6 Nov 2023 05:40:28 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20231106054028epoutp0414bbe9e767b70170d472429e0d24f151~U8iukzRqk1214912149epoutp04Y
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1699249228;
+	bh=mu+81MaI5SnAIUsfN5Tcp/FOO/84RycrEprnhwELJnU=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=IfdbpRqcodgE68NUVnpDZQ4UeyBMfZamn1vcdOYOtHLYw8Vxs/w0i6jlE3obg7ATH
+	 lKtbNFAGgYxDsgO2mUt9GmKghzMB0hjfK2HnpGALhLn12jDeie3vKbCYrDbtXZpHR0
+	 5VT1mOAjLrEA3fo/OqUc9+5hNHV9WxEuMM6w6bSI=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20231106054028epcas5p2a70abc382c6df51083d8e86f35457cff~U8iuNDnGZ1537515375epcas5p2x;
+	Mon,  6 Nov 2023 05:40:28 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.182]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4SP0Yk75DKz4x9QB; Mon,  6 Nov
+	2023 05:40:26 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	9D.FF.09634.A4C78456; Mon,  6 Nov 2023 14:40:26 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20231106054026epcas5p1ea97344659b603e2cdacfa95af6077a2~U8ishyItM1930419304epcas5p1T;
+	Mon,  6 Nov 2023 05:40:26 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20231106054026epsmtrp1229cb93dcd80efcd4f50dfd3faa0a499~U8ishORWA2543625436epsmtrp1w;
+	Mon,  6 Nov 2023 05:40:26 +0000 (GMT)
+X-AuditID: b6c32a49-159fd700000025a2-13-65487c4a4fde
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	F9.C3.08817.A4C78456; Mon,  6 Nov 2023 14:40:26 +0900 (KST)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20231106054025epsmtip1b6d91fdf0b22132e641e498ac7d4d85f~U8irTIfok0843108431epsmtip1L;
+	Mon,  6 Nov 2023 05:40:25 +0000 (GMT)
+Message-ID: <17543a8f-d1cf-e158-3208-afedab7c539d@samsung.com>
+Date: Mon, 6 Nov 2023 11:10:24 +0530
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+	Gecko/20100101 Thunderbird/91.8.1
+Subject: Re: [PATCH v2] nvme: fix error-handling for io_uring
+ nvme-passthrough
+Content-Language: en-US
+To: hch@lst.de, kbusch@kernel.org, axboe@kernel.dk, Niklas.Cassel@wdc.com
+Cc: linux-nvme@lists.infradead.org, gost.dev@samsung.com,
+	joshiiitr@gmail.com, Anuj Gupta <anuj20.g@samsung.com>
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <20231018192430.43606-1-joshi.k@samsung.com>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrKJsWRmVeSWpSXmKPExsWy7bCmuq5XjUeqwbYWK4umCX+ZLVbf7Wez
+	uHlgJ5PFytVHmSzOvz3MZDHp0DVGi/nLnrJbPPjzmN2Bw2PnrLvsHpfPlnpsWtXJ5rF5Sb3H
+	7psNbB59W1YxerQf6GYKYI/KtslITUxJLVJIzUvOT8nMS7dV8g6Od443NTMw1DW0tDBXUshL
+	zE21VXLxCdB1y8wBOkpJoSwxpxQoFJBYXKykb2dTlF9akqqQkV9cYquUWpCSU2BSoFecmFtc
+	mpeul5daYmVoYGBkClSYkJ2xtOMWc4Fixde53awNjGJdjJwcEgImErP6bjCC2EICuxklvt6t
+	hLA/MUrMu63RxcgFZH9jlNh+YTc7TMOPfbsYIRJ7GSW2PvkM5bxllGjc/wtsFK+AncTDNT/A
+	bBYBFYm2WR1QcUGJkzOfsIDYogJJEr+uzgGLCwsESNxs+8UEYjMLiEvcejIfzBYR8JTounSN
+	HSJeJNH8bDFzFyMHB5uApsSFyaUgYU4BS4kT91+wQJTIS2x/O4cZ5B4JgZkcEot77rJAXO0i
+	MX/LEWYIW1ji1fEtUN9ISbzsb4OykyUuzTzHBGGXSDzecxDKtpdoPdUPtpcZaO/6XfoQu/gk
+	en8/YQIJSwjwSnS0CUFUK0rcm/SUFcIWl3g4YwmU7SHxZMp8FkhQ9TBKLLm7hHUCo8IspFCZ
+	heT7WUjemYWweQEjyypGydSC4tz01GLTAsO81HJ4ZCfn525iBKdXLc8djHcffNA7xMjEwXiI
+	UYKDWUmE96+9R6oQb0piZVVqUX58UWlOavEhRlNg9ExklhJNzgcm+LySeEMTSwMTMzMzE0tj
+	M0Mlcd7XrXNThATSE0tSs1NTC1KLYPqYODilGphYi7sjphz7o+vILbc87U+VmNTZjS7vDnd8
+	r7TnuMF8MLnJaNX0vzvPcSzWT/0wWVFlQ6RqoKBskbdhtqHcaUaRpEs36mfq9rpMP3s6XXfq
+	m7nKv06+Xjfbv/ynkM0DW9n2I/+/7Nv6T9rM9WT+jXjNb54BE46uM1n06Rnr8a8zT25I33gt
+	cXWqS1FXju1l579zcyrsJQ5FNNf3crJ/1fp/cPr+E1OlZT7Kn2XNXZnfq3TjTY56xS3lDbPK
+	rSde3rVisZmC/lv3F8IrDlzapP9Lk6vgpYjvIfnI/VMUNoifPcFro/PG9s7cJeHakdvUOM5v
+	4L93c8+DD/eeqB70eRx66ADTxsBdjLrRWUfiYkPnKrEUZyQaajEXFScCAIReDYg4BAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpmkeLIzCtJLcpLzFFi42LZdlhJTterxiPVoPuwhEXThL/MFqvv9rNZ
+	3Dywk8li5eqjTBbn3x5msph06BqjxfxlT9ktHvx5zO7A4bFz1l12j8tnSz02repk89i8pN5j
+	980GNo++LasYPdoPdDMFsEdx2aSk5mSWpRbp2yVwZSztuMVcoFjxdW43awOjWBcjJ4eEgInE
+	j327GLsYuTiEBHYzShzsXM0MkRCXaL72gx3CFpZY+e85O0TRa0aJC5uWM4IkeAXsJB6u+QFm
+	swioSLTN6oCKC0qcnPmEBcQWFUiS2HO/kQnEFhbwk/jdeowVxGYGWnDryXywuIiAp0TXpWvs
+	EPEiiR/HHrFALOthlOh41QtUxMHBJqApcWFyKUgNp4ClxIn7L1gg6s0kurZ2MULY8hLb385h
+	nsAoNAvJGbOQrJuFpGUWkpYFjCyrGCVTC4pz03OLDQuM8lLL9YoTc4tL89L1kvNzNzGC40lL
+	awfjnlUf9A4xMnEwHmKU4GBWEuH9a++RKsSbklhZlVqUH19UmpNafIhRmoNFSZz32+veFCGB
+	9MSS1OzU1ILUIpgsEwenVAMT97WH4VfX7mW0lWUOvioq2v4va77TJUEv4ztCF7ZyOqQraMaH
+	Vp/psLI5fzrnseXOTwZvJu3bkBPe4b5fpbqw3bp13ZQsxQyJ2zW7V5X/bfPS/lrXsGiZ09FO
+	mwC+nCSrzkPre7TNbhyPqjrQNtNabbaL65orF10uyS9eZXb99ZVHhVNW54i47718hCnIuy11
+	x+tFjGuqGQ4srG9qv+0nuWuC5ezHde3znyUbR0n9Y7XTe7U8JcO2ZYFL4Ltze8Pj7dMmOfek
+	cbA/Oxzh6eJT7xe69+6DILkta5deyn69c2+M/+GPO24yz33/3ds2e96Bd3zmf9WemcwoWih4
+	v2tPkFaad4foc0/XiqLLbt+UWIozEg21mIuKEwFrsuXXFgMAAA==
+X-CMS-MailID: 20231106054026epcas5p1ea97344659b603e2cdacfa95af6077a2
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20231018193056epcas5p404b1fb38d3e9037862703690336d2d10
+References: <CGME20231018193056epcas5p404b1fb38d3e9037862703690336d2d10@epcas5p4.samsung.com>
+	<20231018192430.43606-1-joshi.k@samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231104_043117_605455_6A68CBCD 
-X-CRM114-Status: UNSURE (   6.08  )
+X-CRM114-CacheID: sfid-20231105_214037_053049_6DEAD1BC 
+X-CRM114-Status: UNSURE (   7.34  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -80,190 +137,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.7
-branch HEAD: f902880636fa72884bc1a5ad02c13cab200b79e0  nvme: update firmware version after commit
+Keith,
 
-Warning ids grouped by kconfigs:
+Can this be picked?
 
-gcc_recent_errors
-|-- arm64-randconfig-003-20231101
-|   |-- arch-arm64-kvm-debug.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|   |-- arch-arm64-kvm-guest.c:warning:Excess-function-parameter-kvm-description-in-kvm_arch_vcpu_ioctl_set_guest_debug
-|   |-- arch-arm64-kvm-guest.c:warning:Excess-function-parameter-kvm_guest_debug-description-in-kvm_arch_vcpu_ioctl_set_guest_debug
-|   |-- arch-arm64-kvm-guest.c:warning:Function-parameter-or-member-dbg-not-described-in-kvm_arch_vcpu_ioctl_set_guest_debug
-|   |-- arch-arm64-kvm-guest.c:warning:Function-parameter-or-member-vcpu-not-described-in-kvm_arm_num_regs
-|   |-- arch-arm64-kvm-pmu-emul.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|   |-- arch-arm64-kvm-sys_regs.c:warning:Excess-function-parameter-run-description-in-kvm_handle_cp_32
-|   |-- arch-arm64-kvm-sys_regs.c:warning:Excess-function-parameter-run-description-in-kvm_handle_cp_64
-|   |-- arch-arm64-kvm-sys_regs.c:warning:Function-parameter-or-member-global-not-described-in-kvm_handle_cp_32
-|   |-- arch-arm64-kvm-sys_regs.c:warning:Function-parameter-or-member-global-not-described-in-kvm_handle_cp_64
-|   |-- arch-arm64-kvm-sys_regs.c:warning:Function-parameter-or-member-nr_global-not-described-in-kvm_handle_cp_32
-|   |-- arch-arm64-kvm-sys_regs.c:warning:Function-parameter-or-member-nr_global-not-described-in-kvm_handle_cp_64
-|   |-- arch-arm64-kvm-sys_regs.c:warning:Function-parameter-or-member-params-not-described-in-kvm_handle_cp_32
-|   |-- arch-arm64-kvm-sys_regs.c:warning:Function-parameter-or-member-rd-not-described-in-arm64_check_features
-|   |-- arch-arm64-kvm-sys_regs.c:warning:Function-parameter-or-member-vcpu-not-described-in-arm64_check_features
-|   |-- arch-arm64-kvm-vgic-vgic-init.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|   |-- arch-arm64-kvm-vgic-vgic-irqfd.c:warning:Function-parameter-or-member-e-not-described-in-vgic_irqfd_set_irq
-|   |-- arch-arm64-kvm-vgic-vgic-irqfd.c:warning:Function-parameter-or-member-irq_source_id-not-described-in-kvm_arch_set_irq_inatomic
-|   |-- arch-arm64-kvm-vgic-vgic-irqfd.c:warning:Function-parameter-or-member-kvm-not-described-in-kvm_arch_set_irq_inatomic
-|   |-- arch-arm64-kvm-vgic-vgic-irqfd.c:warning:Function-parameter-or-member-line_status-not-described-in-kvm_set_msi
-|   |-- arch-arm64-kvm-vgic-vgic-its.c:warning:Function-parameter-or-member-ite_esz-not-described-in-vgic_its_save_ite
-|   |-- arch-arm64-kvm-vgic-vgic-its.c:warning:Function-parameter-or-member-its-not-described-in-vgic_its_restore_device_tables
-|   |-- arch-arm64-kvm-vgic-vgic-its.c:warning:Function-parameter-or-member-its-not-described-in-vgic_its_restore_ite
-|   |-- arch-arm64-kvm-vgic-vgic-its.c:warning:Function-parameter-or-member-its-not-described-in-vgic_its_save_collection_table
-|   |-- arch-arm64-kvm-vgic-vgic-its.c:warning:Function-parameter-or-member-opaque-not-described-in-scan_its_table
-|   `-- arch-arm64-kvm-vgic-vgic-its.c:warning:expecting-prototype-for-entry_fn_t().-Prototype-was-for-int()-instead
-|-- i386-randconfig-005-20231101
-|   |-- kernel-rcu-rcutorture.c:warning:variable-completed-set-but-not-used
-|   `-- kernel-rcu-rcutorture.c:warning:variable-started-set-but-not-used
-|-- i386-randconfig-006-20231101
-|   `-- drivers-platform-x86-think-lmi.c:warning:s-directive-argument-is-null
-|-- x86_64-buildonly-randconfig-001-20231101
-|   `-- drivers-spi-spi-pic32-sqi.c:warning:pic32_sqi_of_ids-defined-but-not-used
-|-- x86_64-buildonly-randconfig-002-20231101
-|   `-- kernel-stackleak.c:warning:no-previous-prototype-for-stackleak_track_stack
-`-- x86_64-buildonly-randconfig-003-20231101
-    |-- drivers-clk-clk-cdce925.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
-    |-- drivers-iommu-intel-dmar.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
-    `-- drivers-nvme-target-trace.h:warning:strncpy-specified-bound-depends-on-the-length-of-the-source-argument
-
-elapsed time: 5078m
-
-configs tested: 126
-configs skipped: 2
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20231101   gcc  
-arc                   randconfig-002-20231101   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-002-20231101   gcc  
-arm64                 randconfig-003-20231101   gcc  
-arm64                 randconfig-004-20231101   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20231101   gcc  
-csky                  randconfig-002-20231101   gcc  
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20231101   gcc  
-i386         buildonly-randconfig-002-20231101   gcc  
-i386         buildonly-randconfig-003-20231101   gcc  
-i386         buildonly-randconfig-004-20231101   gcc  
-i386         buildonly-randconfig-005-20231101   gcc  
-i386         buildonly-randconfig-006-20231101   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20231101   gcc  
-i386                  randconfig-002-20231101   gcc  
-i386                  randconfig-003-20231101   gcc  
-i386                  randconfig-004-20231101   gcc  
-i386                  randconfig-005-20231101   gcc  
-i386                  randconfig-006-20231101   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20231101   gcc  
-loongarch             randconfig-002-20231101   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20231101   gcc  
-nios2                 randconfig-002-20231101   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20231101   gcc  
-parisc                randconfig-002-20231101   gcc  
-parisc64                            defconfig   gcc  
-powerpc               randconfig-001-20231101   gcc  
-powerpc               randconfig-002-20231101   gcc  
-powerpc               randconfig-003-20231101   gcc  
-powerpc64             randconfig-001-20231101   gcc  
-powerpc64             randconfig-002-20231101   gcc  
-powerpc64             randconfig-003-20231101   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                 randconfig-001-20231101   gcc  
-riscv                 randconfig-002-20231101   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20231101   gcc  
-s390                  randconfig-002-20231101   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-001-20231101   gcc  
-x86_64       buildonly-randconfig-002-20231101   gcc  
-x86_64       buildonly-randconfig-003-20231101   gcc  
-x86_64       buildonly-randconfig-004-20231101   gcc  
-x86_64       buildonly-randconfig-005-20231101   gcc  
-x86_64       buildonly-randconfig-006-20231101   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20231101   gcc  
-x86_64                randconfig-002-20231101   gcc  
-x86_64                randconfig-003-20231101   gcc  
-x86_64                randconfig-004-20231101   gcc  
-x86_64                randconfig-005-20231101   gcc  
-x86_64                randconfig-006-20231101   gcc  
-x86_64                randconfig-011-20231101   gcc  
-x86_64                randconfig-012-20231101   gcc  
-x86_64                randconfig-013-20231101   gcc  
-x86_64                randconfig-014-20231101   gcc  
-x86_64                randconfig-015-20231101   gcc  
-x86_64                randconfig-016-20231101   gcc  
-x86_64                randconfig-076-20231101   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
