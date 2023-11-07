@@ -4,90 +4,136 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5D6EC4332F
-	for <linux-nvme@archiver.kernel.org>; Tue,  7 Nov 2023 04:10:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7D30AC4332F
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 Nov 2023 04:36:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Message-ID:Subject:Cc:To:From:Date:MIME-Version:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=CFrk7let83bVBNwsUVD/Ie2SkONdVXOar69FggpFX64=; b=fyoPxUxOo6bMQJmkzbzZ1ISCXE
-	4EkNajaoO1P/qXwnvBpkur9upO791wP0yy8hGuJbAMR1YMvu49Th/xW58SEpOO67LQ+xkztYqGrhl
-	rwsJ/S7G7NuBiNbM600ye4d+8E3exkkkFUuqZ8YmCLutW01BG1JZuLfOupOn/qkw2yeoA9E51I1lv
-	FR6wN4k8TDUkvSKnyWwUEbL1Q+SdCP8ntzl22ePr5aiyaONOE7vVWtsdiebNGjJZFOuze8A+hVIj6
-	R2qv5WyEOO51gz8H/kFW49WxgFiB5y+jw0nG/RBoO7Ni77JYgeFjSR0McPLSjaVPhQK53W32DDpzn
-	q/sch9YQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=zbOjtEG4O+F9owv0b8PDQN9T6+crQytK7FrGdubi6PQ=; b=3cRnl5E6OY5q7CSQrtGNF+3fc2
+	JJWqvMQUyZ6i94cU0kuhtTM73KiW6wFQEdftZXFvLlFn5+CXHCecq2N19ebVexuJZ7A1/FrULC3S4
+	6dYMUO2uwLkSBq9pwCT7RiRl8AolPQ1C40KdDFAY2CL82hvy1uC7hEdjev8M3BhcVcThVGtDK8yAG
+	anb0JsXsB1AKYr6sfPB85jg0NrXmuuQvnXOKQvzadKtAbIcaqCTbt1/bfZELdoQ57x+zRQBREGs0b
+	f2CgMcqxGwM/qV9qisR0S1i4qjvqkXSJCR8mLQj8fNjtDeKUiMtcdnux9NaRSV3Bi1BWKR762ayhZ
+	srwVSyfA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r0DQP-000U9b-0e;
-	Tue, 07 Nov 2023 04:10:49 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1r0DpY-000WDk-0O;
+	Tue, 07 Nov 2023 04:36:48 +0000
+Received: from mail-bn8nam11on20601.outbound.protection.outlook.com ([2a01:111:f400:7eae::601] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r0DQM-000U8U-0U
+	id 1r0DpV-000WCg-1h
 	for linux-nvme@lists.infradead.org;
-	Tue, 07 Nov 2023 04:10:47 +0000
-Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3A72mQBP006460
-	for <linux-nvme@lists.infradead.org>; Tue, 7 Nov 2023 04:10:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=mime-version : date :
- from : to : cc : subject : message-id : content-type :
- content-transfer-encoding; s=pp1;
- bh=CFrk7let83bVBNwsUVD/Ie2SkONdVXOar69FggpFX64=;
- b=o/hbfj/K7rVkN/HlIsHNWicGL2rHoiHOho1mWoa4TnO3c0z8ta08CVzknXtQJOFXVcml
- htamDGKP138DT5ih7qnr3TXLVfRwIsiQ2b+fQwhQ8+EpYhS0hmeEbsUWJD36qCr9l70h
- QuoJRdY2X9y2swP8MzuawsdUJBfJvZW2yaVHddBSVAfVkdqPWb2OiWvd8XOXq8b6fQZx
- OhvIwOwkD3CJ1HkSVT1lAfvQSkl5Yz1l3kEcjQjh1fbxQ8hxACweC/duP9odPyNvM9Fv
- lIYjteIAKLI3xgqmwoAWivElyGFZJh5W/VvVsMO1Xhxazfm3Oxwbm9CoFFH0Eg8yYs9k yA== 
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3u7cry23jw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Tue, 07 Nov 2023 04:10:41 +0000
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3A72cGEv016959
-	for <linux-nvme@lists.infradead.org>; Tue, 7 Nov 2023 04:10:36 GMT
-Received: from smtprelay01.wdc07v.mail.ibm.com ([172.16.1.68])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 3u6301nj9c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Tue, 07 Nov 2023 04:10:36 +0000
-Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
-	by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 3A74AYo420513428
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 7 Nov 2023 04:10:34 GMT
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 284575805C;
-	Tue,  7 Nov 2023 04:10:34 +0000 (GMT)
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DC1B05805D;
-	Tue,  7 Nov 2023 04:10:33 +0000 (GMT)
-Received: from ltc.linux.ibm.com (unknown [9.5.196.140])
-	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Tue,  7 Nov 2023 04:10:33 +0000 (GMT)
+	Tue, 07 Nov 2023 04:36:46 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=i9pJ4N4pEiqURpi5JFLqTliswZJSHLicHIJVXDxovQ3adH1KlQ7g4Qd1o7q0/zncn5+AgyVDd1iXgl7uOlYcLYfQpW4bbX66PhrqA9keTN86PP0frJDz3jyCSfm1Lur1E4nKBNhuWdwmPaCDrv+QflNg+oM6YdjdGhxPZVpkB06aSh7RcWfdU87ylu75bIjmdamJ8sO3gqX6foEAKRtGDM+WscXexQUMQqOGl9MA8V0zjhcSlGuVxFUXRNqGlZwbAMu6+UQK82pwSFFYYDLp3kK/12dlxdoczoXctpBzOGrGf77uNJCAvP81R30pLI3Wg8J6d/w9R4unG/Ai7x3FoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zbOjtEG4O+F9owv0b8PDQN9T6+crQytK7FrGdubi6PQ=;
+ b=ca9FywhDtyjHu4BqFpXVdh+c9N/C7Mwvzot0kHn9OPiaw8nyWBO3mCNVpfMOTTJTZNOzvO2IZt+Efc2IYorivdQ3bwlry+Mqz2cWC9alR4O+JfT+AOJ9ZnJ1UvLEUiqJ1aZQqitbnNa5I05+YoQ41lsT8R4IzRGnoQyrooy7q/DLeVGTBkOV8xpt1GSk0jvB5U4M6k791/bq7WI7ZVcQuL1VgtwjLHKkzdRgse5ssASHvjOr1Yl+3vq3GuhH8Ty54/SzR8T1wZgYM/ukvh6gxZQbp35wTtUcuafVAo2VM4moAzFazyatCuxasGhy3OM+hbshbiubs1cgXaxUDAKQdA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zbOjtEG4O+F9owv0b8PDQN9T6+crQytK7FrGdubi6PQ=;
+ b=odGMDGSlXijaJJf2LtkegSlAg30L/9t85j2eyFqB3ipl1YutaRwYr8/wPTdpjCPCo5oZValctJJMO+3MGA2R0SGXJLcc/kcBvUqM47ewN/oElSwLQYOV1vr03VqlKuSzRBVJbz1ZONz/DeHQb7BRgyoN96Jv79rEdeyJ2YbN3ePFbm79+ooDSy64ar0P8DgPucG2c3+icSuzR+VZ9GndAcQW/IFlifSs6GMesauV7E4V8mWTfUKp2lGKrWl8BXmes0WFwV/7x0i2SiYVGfxU+oBhd9YxO1a7tkM5IPotdH2MKgiywIiw4NkWFfyihzY3gtp3GMx1HYcUrOT0+EQiHQ==
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
+ by SA1PR12MB6995.namprd12.prod.outlook.com (2603:10b6:806:24e::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.29; Tue, 7 Nov
+ 2023 04:36:35 +0000
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::ccfe:928d:3fbc:8781]) by LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::ccfe:928d:3fbc:8781%4]) with mapi id 15.20.6954.027; Tue, 7 Nov 2023
+ 04:36:34 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Wen Xiong <wenxiong@linux.ibm.com>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: Saw I/O errors while delete/create/attach a namespace on nvme
+ device.
+Thread-Topic: Saw I/O errors while delete/create/attach a namespace on nvme
+ device.
+Thread-Index: AQHaETCHjxO/cJJwokGzfIBBYOwSybBuRZgA
+Date: Tue, 7 Nov 2023 04:36:34 +0000
+Message-ID: <96ca907c-12b6-4bd7-a1ec-5186a228ba3b@nvidia.com>
+References: <ee222a8c6574d754d7e6355591e1a06a@linux.ibm.com>
+In-Reply-To: <ee222a8c6574d754d7e6355591e1a06a@linux.ibm.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|SA1PR12MB6995:EE_
+x-ms-office365-filtering-correlation-id: 4f4903ad-cc0a-42fa-03d0-08dbdf4b1f71
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: fPVrJThi+77LhGrikP3lQGa46f1cmMiPVdKgp8t2iBKTqubtVSAEdMiOcyFnKAxaSdBCwT39CCBxkloUtwMqbsJ2bVu4FjMVn5ff7VH7ZnumDWKcJqxBfdoD6mbEWkZxFltcV2GvF30vSP56pTLo0oRYRVDNF46Y8s89xac7CPOqWobdtQ/NQj7XAYVgvjHqwqXzdaWfD3kxzwcEmfRw7JLQ/6gvKQ2ERPQm0/2W0yrxVtaUHUmyw8gZKPgKVSpDv1M7ohiNEBTqTEpr+HGXX6Ewl3VOxo2oCTHKwDd/OFtyNyCaXsDalwC1n82m3qm9p3NPsvOpkvZ6mKsnk4lF4i/MlIAlQj8XyIBkUEa8I0Q3s9praXpai1kNczTAW1mipJaW0W/b9xYh4OJrZ5rnHqtnrYgPxsFV47JS52cFDOi5MuU22Yz5Bv3wmzIg045QK4z3/I1SqJfAt3MOzvMhxxUlQg0tLk0WA/nbV3oj2sO658Bo9rfRuXNStTPuFAJTAmSkTTq7cabE6h4Wvt/2KXlKv40vo1aoUcvNQkX9CfOyjVOMzkFGtJP1q/jabFLvzGvBgxSKqG3prREpHPsqpqaMQRO8+mr6B/iPu2GK8WMjex2kEuU4noKEW1z6HulouQ7nHd7m0tllf/qiYYPMQC0SJdokewDMBo7qB9cJ7R6rPwtKdutAqAqjiBm/cyQB
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(39860400002)(366004)(376002)(346002)(136003)(230922051799003)(186009)(1800799009)(64100799003)(451199024)(2906002)(26005)(4744005)(83380400001)(38100700002)(38070700009)(86362001)(31696002)(36756003)(122000001)(53546011)(6506007)(6512007)(41300700001)(6486002)(478600001)(76116006)(71200400001)(66946007)(91956017)(66556008)(66476007)(8936002)(6916009)(316002)(64756008)(4326008)(8676002)(66446008)(2616005)(31686004)(5660300002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?b3pIRUhQSWtRMWhZSVdhUHUzRS9ITmRpV05JZjQwajFMNWpqZFFWd2RXcmR4?=
+ =?utf-8?B?VUpySkcwaTFCQzdaeHUrR2xMNFdPTVpFWFZiZXVKUUFHRFZnK3hTOE0xT2wv?=
+ =?utf-8?B?alNJS0g1RmpDZ2RlNHNZR1MwcFkrTUlJV3h1dk9rYytYZHFZWW1Ta2tDd29P?=
+ =?utf-8?B?VFlVWFd3NGpFeWJFQzVUZm1mT1VDalV3V2I1LzB5bWdlN3hEdmN6bG1DK3RB?=
+ =?utf-8?B?T1NWZFlLNnBQUWt5eFYwc3ZrcXVMNmNRc3dPN1prcmUwN3FUZno1Wi9XdGNr?=
+ =?utf-8?B?OThRVTZLbzYwRTJLTG94UkdYdWU4alAvMFkxa2d1aUlJMFVGZmY4NStFaldy?=
+ =?utf-8?B?bmsvMVozdVpSSjVJb0tsZ1dRblRwcHN3ODFlUlA4TUJHY2pHQUVSenNiZ2Jt?=
+ =?utf-8?B?K3pDVE14SkJ4YVFtMmd4cTRSczBlYkw1ZDlqK0Vxc0MwRHFNYlRMeUZXNCtZ?=
+ =?utf-8?B?dlFNajEyVGVyV2JpS29GVWpHemw5eFA0OE12Qk05VjROcTV6dXB1UjhKakdW?=
+ =?utf-8?B?VzRtYlBTdnk1dldHZHhvcGhiMnUvNTY0OExGbVZ1cHhvUkc0TzB0NXlnbThz?=
+ =?utf-8?B?RFdwSEhBaUUwYTYvV3I3NUFvRDJnYlZIQWhhMEdJUkpDL3poZi9RMkVodjJO?=
+ =?utf-8?B?clVrWk95SkcxVlp4WC82VFc1ZUN3YW0wYUxCdFpPK2Q3WEpjNFRpanQ3aGRy?=
+ =?utf-8?B?aERvL1VsTmtWbFdzMzlkTTNrMUo0elFtY3VDd1p4QVh2b2YvM1NoZDBtbmh2?=
+ =?utf-8?B?UC9lcXVwd09pZkNGNCtBejRMUWlraTE1U0hsbnVkSEF4Y3NxcVZoZEc2VGRy?=
+ =?utf-8?B?M2hmaDk1ZW45Z2NqdnhuSk5nSHlQbGJTYmpwMGQwd1ROOHhwQUFKUE5BN0Mr?=
+ =?utf-8?B?Rnp1cVpYZjBkN3pnRElJRS9BcXRHMFdaQytDbFZwSkNuZG5mb2NhNmpMNmds?=
+ =?utf-8?B?cm1EdWpkRzAvOTJEQnJzcjNrSHZmUEFGMXkwaU5lbkZ1Y1VLWmVseEhYUW1X?=
+ =?utf-8?B?R0RXTG1rNVhhcVdRZVMxVXAzREU3TnptZGg0Zk9mY21mcUVEQ1RWVmRNNXJs?=
+ =?utf-8?B?dG0vMm5SZ055cnpnL3RSZ1EzU2lSM290TlFicWJnK01FdXRHMTUxMFJ3M2Uw?=
+ =?utf-8?B?ZTdHWVNmLzRYZEZNRFFkeTcvRTZubXhBbUhMQWE1UVpjTE1QSnlLUzN5VjRI?=
+ =?utf-8?B?cE1Ga2xENFdNM1Q1YzJsK1lyVVJsNklIWm83Nkp4Uk1DME1ibEVybFhPV1ps?=
+ =?utf-8?B?Z0NEcWxFTTZ2SHBaTGtzaEE2ODZwaHFDNUhXenlYZ3JQNnlvc3lBOTVYQ2Jx?=
+ =?utf-8?B?VVVRTmJITkI1RTdsdkxPNVJ1YzdiL0NLQjZVbzBadnBPTkdmME85cE9yN2Jq?=
+ =?utf-8?B?eE9DbXJ5d1JzOVFGNnhoUDV3MXlkeGtLU0ZMcWdkMXlCTytGUzBIU2hCT3Y4?=
+ =?utf-8?B?RlYxZFNTL3pkSkVuTVZMU0E4ZnE4a0llanVlQ2lCVllEemRiZVBEeHM0ODJF?=
+ =?utf-8?B?VU9ObmJSTTcxbFVPTjdSdnZIUE0rMWlJNE83VWV4ZjlVeUhBTUUzK2JvbHZZ?=
+ =?utf-8?B?QitkOUJkblh2Z1dlajk3cUxQZUxSMERuL3R1RlJpZGpSNG1rNmJYMVM2YkFF?=
+ =?utf-8?B?TjloRkZQY0xFc0dYQlVoVDBZY3dTUllMT1BTRTY5QllSWHV5bTRQN3ZTNWN0?=
+ =?utf-8?B?YXZ2SFF0VEEvTHVKSXdBRnEzU0pOdTV0MkcvOTI0Vk1JRDdWZzdlNks4VUpK?=
+ =?utf-8?B?SjRXZmdtcHRLQkFtbXVCaE1oOW9QY09Udm15Qm9sWENrSHM4N1BldnJxY0pU?=
+ =?utf-8?B?STdydHBYUm1CNEkxNXJTNm9yZWdhUnNMemhOMm9wTlAxVXhsZ0NreU5uajRs?=
+ =?utf-8?B?amcxOVo1b3JtdC9jdC9QM0NvaitraGdmNU5obkFyK0NLUi9ZYkNMQXpqaXZK?=
+ =?utf-8?B?cFI1OG9OVGlVSG9FZ3lCVTFnUjJaaC9ESzNjMmROM3gwT3pHNDNpMFdBcjZt?=
+ =?utf-8?B?dVh4RG85c2FIVFJVbEU3d1FZbVg5SVd2Tm9MSnAzR0hrQjZkTXg5ZWQ3UllN?=
+ =?utf-8?B?UlMvSG9tYUE0QXNqS013M0Rqc2lsODkwTHBzSFZmcmxFMzZSSy82U08yOUpE?=
+ =?utf-8?Q?/GsG3uFaQAyqPBz73q/iXPZBe?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <C6C2F6872AD17A469FC34BFB31F76056@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Date: Mon, 06 Nov 2023 22:10:33 -0600
-From: Wen Xiong <wenxiong@linux.ibm.com>
-To: linux-nvme@lists.infradead.org
-Cc: Wenxiong <wenxiong@us.ibm.com>
-Subject: Saw I/O errors while delete/create/attach a namespace on nvme device.
-Message-ID: <ee222a8c6574d754d7e6355591e1a06a@linux.ibm.com>
-X-Sender: wenxiong@linux.ibm.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: bOJ7BCA_w8p1ihayIcN4gBYimW6dEmdV
-X-Proofpoint-ORIG-GUID: bOJ7BCA_w8p1ihayIcN4gBYimW6dEmdV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-06_15,2023-11-02_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 adultscore=0
- priorityscore=1501 mlxlogscore=441 mlxscore=0 spamscore=0 clxscore=1011
- bulkscore=0 suspectscore=0 malwarescore=0 impostorscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2310240000 definitions=main-2311070034
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4f4903ad-cc0a-42fa-03d0-08dbdf4b1f71
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Nov 2023 04:36:34.5629
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: jfigvGctJfmoU1JmrNZcbz64fI8iDjBMe4zytiIjk7ACD9NEbLj2NDhfs1HyKfqIdLTyfk4CyWMq8h+rWespvg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6995
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231106_201046_443315_632AC8D6 
-X-CRM114-Status: GOOD (  16.52  )
+X-CRM114-CacheID: sfid-20231106_203645_739791_DFA670BB 
+X-CRM114-Status: UNSURE (   9.67  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,46 +148,11 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi All,
-
-I am working on new nvme device and found this: nguid is changed while 
-delete/create/attach a namespace, we saw some error messages in linux 
-log.
-
-Should we see these errors messages since recreating namespaces or are 
-there some issues in error path?
-
-# dmesg
-[10524.330156] nvme nvme0: rescanning namespaces.
-[10524.338810] nvme nvme0: identifiers changed for nsid 1
-[10524.343448] block nvme0n1: no usable path - requeuing I/O
-[10524.480468] block nvme0n1: no available path - failing I/O
-[10524.480497] block nvme0n1: no available path - failing I/O
-[10524.480501] Buffer I/O error on dev nvme0n1, logical block 781402912, 
-async page read
-[10524.480508] block nvme0n1: no available path - failing I/O
-[10524.480510] Buffer I/O error on dev nvme0n1, logical block 781402913, 
-async page read
-[10524.480515] block nvme0n1: no available path - failing I/O
-[10524.480517] Buffer I/O error on dev nvme0n1, logical block 781402914, 
-async page read
-[10524.480524] block nvme0n1: no available path - failing I/O
-[10524.480525] Buffer I/O error on dev nvme0n1, logical block 781402915, 
-async page read
-[10524.480528] block nvme0n1: no available path - failing I/O
-[10524.480529] Buffer I/O error on dev nvme0n1, logical block 781402916, 
-async page read
-[10524.480531] block nvme0n1: no available path - failing I/O
-[10524.480535] Buffer I/O error on dev nvme0n1, logical block 781402917, 
-async page read
-[10524.480539] block nvme0n1: no available path - failing I/O
-[10524.480541] Buffer I/O error on dev nvme0n1, logical block 781402918, 
-async page read
-[10524.480546] block nvme0n1: no available path - failing I/O
-[10524.480548] Buffer I/O error on dev nvme0n1, logical block 781402919, 
-async page read
-
-Thanks for your help
-Wendy
-
+T24gMTEvNi8yMyAyMDoxMCwgV2VuIFhpb25nIHdyb3RlOg0KPiBIaSBBbGwsDQo+DQo+IEkgYW0g
+d29ya2luZyBvbiBuZXcgbnZtZSBkZXZpY2UgYW5kIGZvdW5kIHRoaXM6IG5ndWlkIGlzIGNoYW5n
+ZWQgd2hpbGUgDQo+IGRlbGV0ZS9jcmVhdGUvYXR0YWNoIGEgbmFtZXNwYWNlLCB3ZSBzYXcgc29t
+ZSBlcnJvciBtZXNzYWdlcyBpbiBsaW51eCBsb2cuDQoNCg0KUGxlYXNlIHByb3ZpZGUgdGhlIGRl
+dGFpbGVkIHN0ZXBzIGZyb20gc3RhcnQgd2hpY2ggaGFzIGxlYWQgdG8gdGhpcw0KYmVoYXZpb3Is
+IGFsc28gcGxlYXNlIHByb3ZpZGUgZ2l0IHJlcG8vYnJhbmNoL2JyYW5jaCBoZWFkIHRoYXQgeW91
+DQphcmUgdXNpbmcuDQoNCi1jaw0KDQoNCg==
 
