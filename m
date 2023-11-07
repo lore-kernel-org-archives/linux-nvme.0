@@ -4,127 +4,137 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3EDA5C4332F
-	for <linux-nvme@archiver.kernel.org>; Tue,  7 Nov 2023 10:25:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17E93C4167D
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 Nov 2023 10:25:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=l9+nqALNvgS2e3VhhHqIFbejhxk5Xtdy+ePOfXRPj9E=; b=zzqqcKvCGlOZhU9QOS+u5inTfY
-	47RSku7POVCsNBLvV+C5k/ORUovtXOUW7v9VYCgVjkdb3+HrkNyP02PyS7xaRcWTj4C+DFyFjQxUT
-	Q4oDtvTae9A/ofXeOd9Vms1OF2QCVoiK9UevAfMAh3MctyjIOafPKuvK8CLCK5hzerb7dnuitw6xA
-	8arzl2cn5F9UYGUeGpUBqVmWUfzb+iQPC3LzByUky5oYMlpZer7FTtQg/l/qA/gJH2Lzfs0aNI3sX
-	u1yxk2HFx2EsTBXINrl555RL8zAy6mCl7YLyvQNZ5Yr55KUS93BKdTLO9pF4k9ge21Lec2Nibe5YU
-	o2wxeUYg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=A0EB8oUaIR4twEPyWFrm2gftg+BbVbAgg9EJRU2GRfk=; b=om+CdYtjDEjGj3+/Wpy1Gu5BR7
+	CIDlGc6NTd/tpBpMA2htzWMIlxpRU4Bta/R2YRHqqffYT6HAq/fj8n6gNSkh9d2XOX9G6ruuvM6iT
+	EvqKFjKEQOcHPiy+pnBXqLDHltecUeClcQj+aH17+r1j7EOK4edlj8XFAoGhFtXkq8aO8mjhRbz61
+	esU6OlkdggURF1Gdwnkfibz/yJ+Cr3+jIuNKtWuk4WYWpWb6Mr4gaJ4naOlQzFcVmvYObxSyPezhA
+	d5BXefLIlBi/QuKlRQB5tiYHIB+ni4wNVp5oX+VQcVMG98Yj6RffyWjmisGpGf2WXGDvCkCsXVOz1
+	PxKc4ZBA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r0JH2-0012Zs-2h;
-	Tue, 07 Nov 2023 10:25:32 +0000
-Received: from mailout3.samsung.com ([203.254.224.33])
+	id 1r0JH9-0012da-2M;
+	Tue, 07 Nov 2023 10:25:39 +0000
+Received: from mail-dm6nam12on2061c.outbound.protection.outlook.com ([2a01:111:f400:fe59::61c] helo=NAM12-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r0JGz-0012ZA-2A
+	id 1r0JH7-0012bm-1l
 	for linux-nvme@lists.infradead.org;
-	Tue, 07 Nov 2023 10:25:31 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20231107102520epoutp03ed6eccea6efead5b1672bd6ba839b2c3~VUEuyLFbl1941019410epoutp03P
-	for <linux-nvme@lists.infradead.org>; Tue,  7 Nov 2023 10:25:20 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20231107102520epoutp03ed6eccea6efead5b1672bd6ba839b2c3~VUEuyLFbl1941019410epoutp03P
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1699352720;
-	bh=l9+nqALNvgS2e3VhhHqIFbejhxk5Xtdy+ePOfXRPj9E=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=C/lZpXEju96c8HUOnmqqyDUwdqP/Jfh6taz2Xp37LfB34YqNRu329Y8jtDvjEKL7W
-	 rJXQNegxhdskJD3PU62iqRpeIcjg2NyJu4w21zef1CkNphSYLwm/zPRwQlajgfU3xx
-	 vTSeGPI0J2drz4MRNA537YAlMnYX1WozrkKzwvZ0=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20231107102520epcas5p4e2b6305bdf694794affcc9d3f005a516~VUEunhQcC1558915589epcas5p4B;
-	Tue,  7 Nov 2023 10:25:20 +0000 (GMT)
-Received: from epsmgec5p1-new.samsung.com (unknown [182.195.38.179]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4SPkqx1g9Rz4x9Q1; Tue,  7 Nov
-	2023 10:25:17 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmgec5p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	CB.4B.19369.D801A456; Tue,  7 Nov 2023 19:25:17 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20231107102516epcas5p4eba405b7fe0ab3deb5286c36ef4e44d3~VUErbRGiD0520905209epcas5p47;
-	Tue,  7 Nov 2023 10:25:16 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20231107102516epsmtrp1e04180ed0999c0306e3ed9c2fc9fe77c~VUEraZ9Fx2891428914epsmtrp19;
-	Tue,  7 Nov 2023 10:25:16 +0000 (GMT)
-X-AuditID: b6c32a50-9e1ff70000004ba9-a6-654a108db3ff
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	6C.67.08817.C801A456; Tue,  7 Nov 2023 19:25:16 +0900 (KST)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20231107102515epsmtip1341bef91daf5aa842339591f871cd878~VUEqN5hZ_3269332693epsmtip16;
-	Tue,  7 Nov 2023 10:25:15 +0000 (GMT)
-Message-ID: <1067f03f-e89b-4fc8-58bb-0b83b6c5c91d@samsung.com>
-Date: Tue, 7 Nov 2023 15:55:14 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
-	Gecko/20100101 Thunderbird/91.8.1
-Subject: Re: [PATCHv2 1/4] block: bio-integrity: directly map user buffers
+	Tue, 07 Nov 2023 10:25:38 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Xmk04qXzND5InZTVsmq11uvh7s64eWoADth9beCwFbbNw7uRGWxm6IrESiJUaMGZdIa4o/n1PQ8VZHctVs0LidECzPPfdHRZ+cGWhSEUTCB888xiBhnfK07TGwaIgY/5De+eMe6OEwCmwHcz3plLC2Z8a998xRqWBlicTmhew2arrbMgHZN68tQSsVoExsyYrXI6zBSVt/i+KV1mOX3KYs80WOT3lPHBEyyxMGV09mfDnERoiQhW/CW1T6tmqEUvw58a6aj84LgdQvWnIgfWm0qterJ/ox9fb1eP16ipeVO+RO1y+/r+65l0QWVhdpxyNJ7vTs237B/l82vIyauEPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=A0EB8oUaIR4twEPyWFrm2gftg+BbVbAgg9EJRU2GRfk=;
+ b=awq4z/OkmOEzMjg32CSKHpPr6AlamB8UXBwn3LrS4R9vGZBLQaSEf9a1uy622Hw8PUwQwT9z0dHFK2exq5YNFtbEXzfdzPeeurlQVs7knTNgmElUzPWvOKoxqGXS7cJLRHYgOvUlpYTG1Z1WfuTyT6HnRcxZYl/HXVsTSotU3+k9A1e7Gg8dCKciXepkUYvvfhrdRzDOQHgIVy1Y7LycCjzKVBbe7K2FDHUibB/2l0l/GDI5zo31CykNtEgPR3naMInAEuwpGQXqfkJsMOcsUJKd5ySbzigcWNVhqxbRCo/AwLHuXq/KS0xp65TZj0rIwUSt1FQuchgqpp1YcEla8w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A0EB8oUaIR4twEPyWFrm2gftg+BbVbAgg9EJRU2GRfk=;
+ b=swCHyevFD0DmZ2jZQSPHyuCLQghL9hcLWPRA8rtFGJVv8wXembmsnjkOO4J/18ZLVFIRNbDKVDgiZPyRJQoLD4xryG1R8k/YoNMUVgyWLsjNLq+JhFJ8FZac9l3HAwNJ9CsJeX8+EriWTtUGbFJp7G+ECLnzihGeMJHew2U5ViIP6zi0bIqpaGIhm0nWfPChV4I1HMAa6CDvIGTO3JfUcZElRG81UEAAshblmZs6aPP8y3SDhEiWe0NgPNvXllNduKj94RBz7TV+ThxdzBiYLKbd6WvRch1o+3ikYdPt1I8fb/tAeBuqwhJ88MR5YdMxhyiGP79mSFwHtyIcXQVnFw==
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
+ by DS7PR12MB5789.namprd12.prod.outlook.com (2603:10b6:8:74::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.29; Tue, 7 Nov
+ 2023 10:25:28 +0000
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::ccfe:928d:3fbc:8781]) by LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::ccfe:928d:3fbc:8781%4]) with mapi id 15.20.6954.027; Tue, 7 Nov 2023
+ 10:25:22 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Christoph Hellwig <hch@infradead.org>, Wen Xiong <wenxiong@linux.ibm.com>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	Wenxiong <wenxiong@us.ibm.com>
+Subject: Re: Saw I/O errors while delete/create/attach a namespace on nvme
+ device.
+Thread-Topic: Saw I/O errors while delete/create/attach a namespace on nvme
+ device.
+Thread-Index: AQHaETCHjxO/cJJwokGzfIBBYOwSybBujk8AgAAYvQA=
+Date: Tue, 7 Nov 2023 10:25:22 +0000
+Message-ID: <299987e5-ffb8-461c-9228-cad7e17cc542@nvidia.com>
+References: <ee222a8c6574d754d7e6355591e1a06a@linux.ibm.com>
+ <ZUn70pL+YV0adqd0@infradead.org>
+In-Reply-To: <ZUn70pL+YV0adqd0@infradead.org>
+Accept-Language: en-US
 Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>
-Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, io-uring@vger.kernel.org, axboe@kernel.dk,
-	hch@lst.de, martin.petersen@oracle.com
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <ZUkAH258Ts0caQ5W@kbusch-mbp.dhcp.thefacebook.com>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrKJsWRmVeSWpSXmKPExsWy7bCmhm6vgFeqwZRZbBar7/azWaxcfZTJ
-	4l3rORaLSYeuMVqcubqQxWLvLW2L+cueslssP/6PyYHD4/LZUo9NqzrZPDYvqffYfbOBzePc
-	xQqPj09vsXh83iQXwB6VbZORmpiSWqSQmpecn5KZl26r5B0c7xxvamZgqGtoaWGupJCXmJtq
-	q+TiE6DrlpkDdJGSQlliTilQKCCxuFhJ386mKL+0JFUhI7+4xFYptSAlp8CkQK84Mbe4NC9d
-	Ly+1xMrQwMDIFKgwITvj6eWqgh6Oiukv+hgbGOexdTFyckgImEhsW3KdsYuRi0NIYA+jxJ6/
-	75khnE+MEp8fXWeHcL4xSlxfuoYJpuX57O9sEIm9jBLHNtxlB0kICbxllFjwzAnE5hWwk2h4
-	1ga2g0VARWL+rNnsEHFBiZMzn7CA2KICSRK/rs5hBLGFBbwkbjd+ZwWxmQXEJW49mQ+2TERA
-	WeLu/JmsIMuYBbYySmx4NReomYODTUBT4sLkUpAaTgF7icebHzJB9MpLbH87hxni0JkcEscX
-	OULYLhJn162G+llY4tXxLewQtpTEy/42KDtZ4tLMc1BPlkg83nMQyraXaD3Vzwyylhlo7fpd
-	+hCr+CR6fz9hAglLCPBKdLQJQVQrStyb9JQVwhaXeDhjCZTtIfH44VVosC1kkrj7YT3zBEaF
-	WUihMgvJ97OQfDMLYfMCRpZVjFKpBcW56anJpgWGunmp5fD4Ts7P3cQITq9aATsYV2/4q3eI
-	kYmD8RCjBAezkgjvX3uPVCHelMTKqtSi/Pii0pzU4kOMpsD4mcgsJZqcD0zweSXxhiaWBiZm
-	ZmYmlsZmhkrivK9b56YICaQnlqRmp6YWpBbB9DFxcEo1MAV27v0p8mVXwW6BWynfjFacEzfb
-	q6/Qpm/UoKUqquzJneEh2ax11mB+7EZR+bD8hWynrvO0+fCc/bij2Fn9xgFBo+QZ+9a4bv81
-	T62ha93/4pDlGYH+pqVs+qeeeDEuzOpzKdBOaJsqcOn84+v3fV0kds7w9p2Qet79Zl7vYlEd
-	D441PsvW8vFe2jf9wA1xNuENDo6aIoxnTmwQOB5+2OtNmNCUfQYrGeSb83bbrBTKDLrkvFbf
-	RkkyOktD9Enlolla6hys+9ODtFYeyxKUDTvxNv2vo/yks9XfuHv/Fxf+/XDnKIemwRPeIrEn
-	OYfkjSJ0pPZcf+PJ/aBcfsLL17+mLW6VZY51it86/98UJZbijERDLeai4kQAwgBfczgEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpikeLIzCtJLcpLzFFi42LZdlhJTrdHwCvV4F2fnsXqu/1sFitXH2Wy
-	eNd6jsVi0qFrjBZnri5ksdh7S9ti/rKn7BbLj/9jcuDwuHy21GPTqk42j81L6j1232xg8zh3
-	scLj49NbLB6fN8kFsEdx2aSk5mSWpRbp2yVwZTy9XFXQw1Ex/UUfYwPjPLYuRk4OCQETieez
-	vwPZXBxCArsZJa583c4OkRCXaL72A8oWllj57zk7RNFrRolTP1YwgyR4BewkGp61gU1iEVCR
-	mD9rNjtEXFDi5MwnLCC2qECSxJ77jUwgtrCAl8Ttxu+sIDYz0IJbT+aDxUUElCXuzp/JCrKA
-	WWAro8TyU3tZILYtZJJ4+vsG0FQODjYBTYkLk0tBGjgF7CUeb37IBDHITKJraxcjhC0vsf3t
-	HOYJjEKzkNwxC8m+WUhaZiFpWcDIsopRMrWgODc9t9iwwCgvtVyvODG3uDQvXS85P3cTIzia
-	tLR2MO5Z9UHvECMTB+MhRgkOZiUR3r/2HqlCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeb+97k0R
-	EkhPLEnNTk0tSC2CyTJxcEo1MF1WervL/n/F56Oij8LEijR0n8/VuH+W/993rYLT68VPcWhP
-	KriXwK+6+tbihw42XA6aiZW6WjO9TnBbxM66r8GY5/ZV0++Kvwbv7Zq2tJMzXv5P1P75I/2U
-	zD49r8dO+d0emVFHFpvLF7cZbDNSrft5+U9RK3f0/aMeRVoZS04qCDT7r8++F+NcvSxpd/Hd
-	/AQW9TYztrTfXytzGc2MPT8tqRPZUzHX3yF45rndK04Hzkor3BiQ/D2iZtnFQk+/ue/C5oUX
-	tq+JP8dVfOTD4ptvE34alui9fqjmIK/yP1OQVZnV7aODZLOTwOXtq3h2vNk7V5GXc2LV5LOF
-	1fvOuDv5CJqHz5nY4WS47vpDJZbijERDLeai4kQAPrjlkhUDAAA=
-X-CMS-MailID: 20231107102516epcas5p4eba405b7fe0ab3deb5286c36ef4e44d3
-X-Msg-Generator: CA
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|DS7PR12MB5789:EE_
+x-ms-office365-filtering-correlation-id: 90cb1e1d-0378-48e1-cd31-08dbdf7bd98f
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 4przhLLxqstl+NrPqM9Y73dzkfrFzB++gc4iNJwn6D/u6Aod8q1moNnuJ1R/JQ2R6wW7A43YsEOC649mpIbXwMCcG9GdBW9cXMGaBXJnfsGF8PjqCbXOqYsgppn3tzHUSVsHKgufTc2AEkM6TfyLLGNMsvoDzDUI/cNBRMxkbHBAR5VgW97uvl8l/g24yR74es/KtJGmtFGoxnmKCR/88A5YBfSeW76Xnv1BYMKADqJZfp5nBuL+ql8yHhjfFVLQRgz89ZKJ2+InPMcXIQ4pQLT8RRovgE9Vkbq9ZHvTxN+fWXJoJOtSRagi/DtKaVVkas9tNL7Tg/PSJYHRjDUbeUUhBxgFDU/6RPmTZ9AFMH043zCDs3Pa9fUHWmKBlhx+dfyS3eHlDZ6OPkJX50xJr9oMiOhE+S08AwD9hcGfd0r4GxU5StPqOlL8Tr33MbPeKVZP81VDFjtZj3vKNIuyLJCI8gsxXPWQdSlebkHoY5HUZD8rThCdKDlkEKAKOnACaevFErPonEpgDJ+UtUugyuR1OMPsFfInsOWOtLmzLRRmbGDY7q8VWA8UTFkMYKQs+JZ4b6aWiIwby+How0YC3BRwi6xwVkPi4+P+vf7hM7uoZqTKBSJxQNF6YRxBn4er3NDCagAtsdk2VErqvtyt1IcZM02hjBdauOQ3qSkhntsPlGIlZ86XG/sKsBIqcyHl0AoZYRCf8keQGKjt2u3leg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(396003)(39860400002)(376002)(346002)(366004)(230922051799003)(186009)(64100799003)(1800799009)(451199024)(31686004)(38070700009)(36756003)(83380400001)(53546011)(8676002)(6512007)(6486002)(8936002)(4326008)(6506007)(71200400001)(2616005)(26005)(478600001)(66556008)(66946007)(110136005)(76116006)(54906003)(64756008)(91956017)(66446008)(66476007)(316002)(86362001)(31696002)(38100700002)(2906002)(41300700001)(5660300002)(122000001)(21314003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?eEVIQWVmUTVQZXRQY20rVitUV3JVWTdmUG9KcWVXWUJweEhvdnlqaEJsUHZF?=
+ =?utf-8?B?V3ZBTWRIY1R5ZjZsd1E5NjVTendoSEY5dGdXeC9VTGwveGdFVDg5T0tlbmhO?=
+ =?utf-8?B?N0E5cGtrQ2tuT1VUWElEbC8rM0xCSzQ0c2xSaE15TWVrQXhDcjRiV09yaW5F?=
+ =?utf-8?B?Njg2S3g0OGNHMFFxZWQzMGZFb2NYT1VBaGw3UDJrZE5GVnExN28rU1RjWktK?=
+ =?utf-8?B?NklVNUxmMGI4ZUptWlRQZW5OZUtXd2FIOUpXL1FmaDNIVkVDVDI0dWRvSWps?=
+ =?utf-8?B?THVWQk1mUTFWWDVrR011cFMyVFJoRUQ5NVRDbkZZOHdacTZqNzhGOVJhN2JG?=
+ =?utf-8?B?Y1FMSUVSaGhkY1MvRVYzOVFzdThteVFNOFgxZlZtN1M4anYvb2NtaUVyZ2d3?=
+ =?utf-8?B?T2lkOTVML2xtNjgzb1l3QkRpTlp2eVBhM011OGpQQks4Uk0xQXVQSzRmOUxX?=
+ =?utf-8?B?N1RmVVgyeHF0Um1ia2J6SE9Eb3Iva2ZjMG8xcGxpMFhUZllVSlZ0Qnp3WTQ3?=
+ =?utf-8?B?ajN1WjhhaGJVTlRzN0tTSkRLLzlTejJja1E0ZEpjYjZBVy91dkNORTY0cFpK?=
+ =?utf-8?B?b3RLOUY4b1l5VWh3YnBEUnR2ang3Mm11eG4xZFR5K2hqaGc4Y3k5Zk1lRys1?=
+ =?utf-8?B?TWFPTTBBWnBQN3l0cU1qSWhTbGtkRzBwY09va2kxbll3ZTBVSFV0SkF3N3JM?=
+ =?utf-8?B?ZCtWVDZaYUd3a0t2TUtHMjJHRTQ3N0NJNmd1c0V0S0k5dlUvUkd4Skg2SUZC?=
+ =?utf-8?B?blFKSHB0ekM1K2o5cUxER3NlOU9PTjVBVDFXSi9USzN3cHpDYkJrQVF4aVln?=
+ =?utf-8?B?WHlZUkNnRVZZc2xOUmw3a3RKbm8yWXJnbnQ3dEN5aDhLWHBadnY1bWRpeVpR?=
+ =?utf-8?B?U1JNb3Y0UWdxeFlHemQ5MzBHK3J1TWxZRVhpWHhlaU1KaTc1NnBBSUVmVWpQ?=
+ =?utf-8?B?alhhQWlxZi9INHB3ZDlQZncrWXRONTJUWDhUVUQyZGx1emNiNVJhWk1uT3BI?=
+ =?utf-8?B?bCthLy9oeVgvSlJPVW82azJLK3hDUTlHYUR0REtOKzJhNHhmaTZCY2doVnk3?=
+ =?utf-8?B?cCtsejBLVnZnYjdUMHpsSmZqcnY4d1d5WUd3M1ExYzhxRXZrcUxhWHRhRXhT?=
+ =?utf-8?B?ODVQYW9SM3NhK1NZNnBsaHFOZW5HRlZmOEMyR2tRR2owSUduNlNCZDVLUFYv?=
+ =?utf-8?B?ZEl3eG1kZG1lVXluYVhsTVVocll2RmJLSGNWYTB4NUVnSUppTUNRdlhQc1Rw?=
+ =?utf-8?B?RW5EV3B3VDRPVTA3WkVSRXpEOXNQa0lRQXpDaGIrUmZ0Z000YXNNdk8xbkd0?=
+ =?utf-8?B?UDUrcDN2cTc5YkovWC9tVmUrOFdtbWVHRkUrdURlNmIzdE5nb2FsNzc5Rk1V?=
+ =?utf-8?B?ZnV3THFzb0VmWFFBcUpCd0VvS3FSZXJ4cXcraU1NZmFsQUx2bXUra1FWQTQ3?=
+ =?utf-8?B?ZkVQZldJZnB1YU5zNCtCZGNhZ1NwNnc2bzJ2UEFtSWN4TTJaZFVDMTZTVzIy?=
+ =?utf-8?B?dmxSVG5kK2t0RU91bW50Tmw0Y2lseWRaZ2RWcHVOOU5vWFJrWVYyMlpHYjVX?=
+ =?utf-8?B?Z1dZNGZHUTU4LysxUURDZHNNYjFJYWxRNzFxRUFoTEFBYTQ0SVh0VVBEZUdx?=
+ =?utf-8?B?MVJrR1VCYUZkQzRqZ0dYa0p2dUtzekV3ZXRjc04xZTYvNys5OGJOWElScHYw?=
+ =?utf-8?B?SDV0bHIvc2FvY1RsWE9ZMEFyZGJmRVFqTXI0YTQydEp2K1MxZnRqSGVmNWRB?=
+ =?utf-8?B?bkEya1BuVHRmSDFUbkdCQXpmSVZWZ0RSMnZKeXFFTS94TUtFbGd5QVNjMC9Z?=
+ =?utf-8?B?bEJJN3lhRTltUyt3alVsZ3RhWHlzekN4cWZ2YkJtS0VNR1hmK0NTcUIveU5i?=
+ =?utf-8?B?bHM0MUxMWVFISCtpZjJhZzBFcUdET1hFUmNidWlaTkJnQ1E2dlcwSHV0alc1?=
+ =?utf-8?B?YTlSWmdPSEVyYlU2V2V5Q1h4ZW1YOU1YZnpoOGtsMThhdnI1RHVuUUdTbWZ5?=
+ =?utf-8?B?cUFKK1VEbXJpbEJVYVhpM3lFQjRFMlVTR0wzdEpxdnF1dWxwZUNIOUQybm5E?=
+ =?utf-8?B?MzdBTWc4bjNnYStpbjZwbjlBbFFoL3luWlJjMnplRS9xMDJ6L1RYd1pIT01I?=
+ =?utf-8?Q?iGEAoyf7YfjuMMg5ZaJQAfS4+?=
 Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20231027182010epcas5p36bcf271f93f821055206b2e04b3019a6
-References: <20231027181929.2589937-1-kbusch@meta.com>
-	<CGME20231027182010epcas5p36bcf271f93f821055206b2e04b3019a6@epcas5p3.samsung.com>
-	<20231027181929.2589937-2-kbusch@meta.com>
-	<40ac82f5-ce1b-6f49-3609-1aff496ae241@samsung.com>
-	<ZUkAH258Ts0caQ5W@kbusch-mbp.dhcp.thefacebook.com>
+Content-ID: <97FD7A8C594FC344A23E2EDEADE1B8BA@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 90cb1e1d-0378-48e1-cd31-08dbdf7bd98f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Nov 2023 10:25:22.6550
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: g2mv7hUKGrnNBu9Yi8MylgCRmjuX8FaXOg5NkoLuHDDQifMdjTHVVfKI+xOz/EvQ6rlp9vV3H0rAv6aXXDgB3g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5789
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231107_022530_183339_6B897AB2 
-X-CRM114-Status: GOOD (  15.08  )
+X-CRM114-CacheID: sfid-20231107_022537_587630_E8A5A99B 
+X-CRM114-Status: GOOD (  18.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -139,30 +149,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/6/2023 8:32 PM, Keith Busch wrote:
-> On Mon, Nov 06, 2023 at 11:18:03AM +0530, Kanchan Joshi wrote:
->> On 10/27/2023 11:49 PM, Keith Busch wrote:
->>> +	for (i = 0; i < nr_vecs; i = j) {
->>> +		size_t size = min_t(size_t, bytes, PAGE_SIZE - offs);
->>> +		struct folio *folio = page_folio(pages[i]);
->>> +
->>> +		bytes -= size;
->>> +		for (j = i + 1; j < nr_vecs; j++) {
->>> +			size_t next = min_t(size_t, PAGE_SIZE, bytes);
->>> +
->>> +			if (page_folio(pages[j]) != folio ||
->>> +			    pages[j] != pages[j - 1] + 1)
->>> +				break;
->>> +			unpin_user_page(pages[j]);
->>
->> Is this unpin correct here?
-> 
-> Should be. The pages are bound to the folio, so this doesn't really
-> unpin the user page. It just drops a reference, and the folio holds the
-> final reference to the contiguous pages, which is released on
-> completion. 
-
-But the completion is still going to see multiple pages and not one 
-(folio). The bip_for_each_vec loop is going to drop the reference again.
-I suspect it is not folio-aware.
+T24gMTEvNy8yMyAwMDo1NiwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6DQo+IE9uIE1vbiwgTm92
+IDA2LCAyMDIzIGF0IDEwOjEwOjMzUE0gLTA2MDAsIFdlbiBYaW9uZyB3cm90ZToNCj4+IEhpIEFs
+bCwNCj4+DQo+PiBJIGFtIHdvcmtpbmcgb24gbmV3IG52bWUgZGV2aWNlIGFuZCBmb3VuZCB0aGlz
+OiBuZ3VpZCBpcyBjaGFuZ2VkIHdoaWxlDQo+PiBkZWxldGUvY3JlYXRlL2F0dGFjaCBhIG5hbWVz
+cGFjZSwgd2Ugc2F3IHNvbWUgZXJyb3IgbWVzc2FnZXMgaW4gbGludXggbG9nLg0KPj4NCj4+IFNo
+b3VsZCB3ZSBzZWUgdGhlc2UgZXJyb3JzIG1lc3NhZ2VzIHNpbmNlIHJlY3JlYXRpbmcgbmFtZXNw
+YWNlcyBvciBhcmUgdGhlcmUNCj4+IHNvbWUgaXNzdWVzIGluIGVycm9yIHBhdGg/DQo+IFdoYXQg
+ZXhhY3RseSBhcmUgeW91IGRvaW5nPyAgVG8gdGhlIExpbnV4IGhvc3QgY29kZSB0aGlzIGxvb2tz
+IGxpa2UgdGhlDQo+IE5HVUlEIGNoYW5nZWQgZm9yIGFuIGV4aXN0aW5nIG5hbWVzcGFjZS4gIEFy
+ZSB5b3UgZGVsZXRpbmcgYW5kDQo+IHJlY3JlYXRpbmcgbnNpZDEgcmFwaWRseSBhbmQgdGhlIGNv
+bnRyb2xsZXIgaXMgYXNzaWduaW5nIGEgZGlmZmVyZW50DQo+IG5ndWlkPw0KPg0KPg0KDQpleGFj
+dGx5ICJpZGVudGlmaWVycyBjaGFuZ2VkIGZvciBuc2lkIFhYWCIgY29tZXMgZnJvbSBudm1lX3Zh
+bGlkYXRlX25zKCkNCmFuZCB0aGUgb25seSBjYWxsZXIgaXMgbnZtZV9zY2FuX25zKCkgd2hlcmUg
+bnMgaXMgcHJlc2VudCwgc28gc2NhbiBucw0KZm91bmQgdGhlIG5hbWVzcGFjZSBhbmQgbnZtZV9u
+c19pZHNfZWFxdWFsKCkgcmV0dXJuZWQgYW4gZXJyb3IgaGVuY2UgMm5kIA0KcHJpbnQNCm1lc3Nh
+Z2UsIGJ1dCBhcyBzYWlkIGVhcmxpZXIgd2UgcmVhbGx5IG5lZWQgdG8gc2VlIHRoZSBleGFjdCBz
+dGVwcyAuLi4NCg0KVG8gY2hlY2sgZXhhY3RseSB3aGljaCBpZCBpcyBwcm9ibGVtYXRpYyBzb21l
+dGhpbmcgbGlrZSBpbiBbMV0gY2FuIGJlDQp1c2VkLCB0b3RhbGx5IHVudGVzdGVkIC4uLg0KDQot
+Y2sNCg0KWzFdDQoNCmRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvaG9zdC9jb3JlLmMgYi9kcml2
+ZXJzL252bWUvaG9zdC9jb3JlLmMNCmluZGV4IDc1YTFiNThhN2E0My4uODQ2NTFjOTIyNTQ4IDEw
+MDY0NA0KLS0tIGEvZHJpdmVycy9udm1lL2hvc3QvY29yZS5jDQorKysgYi9kcml2ZXJzL252bWUv
+aG9zdC9jb3JlLmMNCkBAIC0xNzQ5LDEwICsxNzQ5LDIzIEBAIHN0YXRpYyB2b2lkIG52bWVfY29u
+ZmlnX2Rpc2NhcmQoc3RydWN0IGdlbmRpc2sgDQoqZGlzaywgc3RydWN0IG52bWVfbnMgKm5zKQ0K
+DQogwqBzdGF0aWMgYm9vbCBudm1lX25zX2lkc19lcXVhbChzdHJ1Y3QgbnZtZV9uc19pZHMgKmEs
+IHN0cnVjdCANCm52bWVfbnNfaWRzICpiKQ0KIMKgew0KLcKgwqDCoMKgwqDCoCByZXR1cm4gdXVp
+ZF9lcXVhbCgmYS0+dXVpZCwgJmItPnV1aWQpICYmDQotwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBtZW1jbXAoJmEtPm5ndWlkLCAmYi0+bmd1aWQsIHNpemVvZihhLT5uZ3VpZCkpID09IDAg
+JiYNCi3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG1lbWNtcCgmYS0+ZXVpNjQsICZiLT5l
+dWk2NCwgc2l6ZW9mKGEtPmV1aTY0KSkgPT0gMCAmJg0KLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgYS0+Y3NpID09IGItPmNzaTsNCivCoMKgwqDCoMKgwqAgaWYgKHV1aWRfZXF1YWwoJmEt
+PnV1aWQsICZiLT51dWlkKSA9PSBmYWxzZSkgew0KK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgcHJfaW5mbygidXVpZCBtaXNtYXRjaFxuIik7DQorwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCByZXR1cm4gZmFsc2U7DQorwqDCoMKgwqDCoMKgIH0NCivCoMKgwqDCoMKgwqAgaWYgKG1l
+bWNtcCgmYS0+bmd1aWQsICZiLT5uZ3VpZCwgc2l6ZW9mKGEtPm5ndWlkKSkgIT0gMCkgew0KK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcHJfaW5mbygibmd1aWQgbWlzbWF0Y2hcbiIpOw0K
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIGZhbHNlOw0KK8KgwqDCoMKgwqDC
+oCB9DQorwqDCoMKgwqDCoMKgIGlmIChtZW1jbXAoJmEtPmV1aTY0LCAmYi0+ZXVpNjQsIHNpemVv
+ZihhLT5ldWk2NCkpICE9IDApIHsNCivCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHByX2lu
+Zm8oImV1aWQ2NCBtaXNtYWF0Y2hcbiIpOw0KK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+cmV0dXJuIGZhbHNlOw0KK8KgwqDCoMKgwqDCoCB9DQorwqDCoMKgwqDCoMKgIGlmIChhLT5jc2kg
+IT0gYi0+Y3NpKSB7DQorwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBwcl9pbmZvKCJjc2kg
+bWlzbWF0Y2hcbiIpOw0KK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIGZhbHNl
+Ow0KK8KgwqDCoMKgwqDCoCB9DQorwqDCoMKgwqDCoMKgIHJldHVybiB0cnVlOw0KIMKgfQ0KDQog
+wqBzdGF0aWMgaW50IG52bWVfaW5pdF9tcyhzdHJ1Y3QgbnZtZV9ucyAqbnMsIHN0cnVjdCBudm1l
+X2lkX25zICppZCkNCg0KDQo=
 
