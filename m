@@ -4,61 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A951DC4332F
-	for <linux-nvme@archiver.kernel.org>; Tue,  7 Nov 2023 22:14:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 34E63C4332F
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 Nov 2023 23:35:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AQzyvHkxhjVgJkVGx7d1Cci9yhyiDl0vAQA8cx52MGY=; b=ib28trHgzTf0nn91+CS28hai6o
-	/cD37i9g6J+0D1ryjj2hHMITj6S5+U41jaDNiuTev5EWVXOlOgW65+yUE/++8p/b6nvnTHsoFCj5I
-	vpPpV23glJiQGbpqegmF5/RMapJM2tVLgDBJ3WtrUqLLoa6kfq9JIN9h/SnDXhsBSyBRGrMAzESEc
-	GKefeJqbpKez8aF8pk+OtEugo8NCPsVhvDMaoK5bcafpcZu5ApBonOjhXH6aG6Nad0zDa9o7cMsG9
-	bldKCOaOfir/V9PhnoaW07d2hBcEgop9IWtIOJI1ebHtrMA28t6f0FgStnNoQC4GVCAr+OhuLN/oe
-	wRSo87zQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=d/htFtEdYYuufVafz95ApUj6yn3ltGDpk3/pYODHJ54=; b=JfHRrf/IyyI3rBStm6EQLSUZYV
+	5yCmTkeLYNiyq7QQCYcItSLqcuq0v3ov7/ro5nv9bborSm+wHix9wlVXxRvgI9tI9NKRz3wRmsooZ
+	0HdpxgPW1dmQlOVx74feW33kyY4dI17FoIjxE55Gc2Au1htJ8XQNLoVvZ6iPAg8lX1X3OsBnTwcKo
+	n+xsAshsvh2XT49Nxs3d7u9Dvgf1+GyYR+O8XoneI4jJnnAnrH9zuGOWuGCgiVEGLw6y5ABUdsGN3
+	AClTxqELRm2K4I48WmBnj3GFk4UHUjsvYmI2WcTrhOikw2GGoQTvtAQWGr1ywGGsY4DlJoeqvtbAN
+	rst7g8mw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r0ULK-002We7-0Y;
-	Tue, 07 Nov 2023 22:14:42 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1r0Vb5-002dRH-0s;
+	Tue, 07 Nov 2023 23:35:03 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r0ULH-002Wdf-1Y
+	id 1r0Vb1-002dQa-0q
 	for linux-nvme@lists.infradead.org;
-	Tue, 07 Nov 2023 22:14:40 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 991E3CE0FAA;
-	Tue,  7 Nov 2023 22:14:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9501AC433C8;
-	Tue,  7 Nov 2023 22:14:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699395276;
-	bh=AQzyvHkxhjVgJkVGx7d1Cci9yhyiDl0vAQA8cx52MGY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=txpJKczeNIjxzSjCvDPZ4JUtK2wwB9jk83CVAWde5ndnYkAQ9MPm+4Ki8uEG0fHLe
-	 bMGSFjW7OFYcU32RApKJ1SEME1dY4H520VJj40EHVjt+rghWcrl2d06L5D+DvDcDqG
-	 lmOWznVwrqslyN6xOqE2G9yU8gJoATG8U0eFA2qGKpDALp2rEwY7MGoEi81FKmKMDQ
-	 aO/O8mVcypkhErSKKKR43vgQ9XhuuZKkUUEfoxmcgz+XNvmPk59zjUJgaGRt9slZCB
-	 w2AK8IomkwOnd6b7XTqp/WJu6pypUyxx+HEPkCSguAdertPyiJQ+wxSBtjbKKI3CaS
-	 dKQg1jHs/pflA==
-Date: Tue, 7 Nov 2023 15:14:34 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Ewan Milne <emilne@redhat.com>
-Cc: linux-nvme@lists.infradead.org, tsong@purestorage.com
+	Tue, 07 Nov 2023 23:35:00 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1699400097;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=d/htFtEdYYuufVafz95ApUj6yn3ltGDpk3/pYODHJ54=;
+	b=dtH2+Ypux3qaT39xsGIxB6/52eyQ8D49FIdLg+spluwwMX/oXzUTaiIm1Mpkc5AroY1c+D
+	g5h/f+yJsx13movpumUCb60iZ0cxscF4xWAbciSXkrBlorFP30PN6VULlYJTtf3cXtQT/B
+	gSRJELf/PEoXNLzURVSgVra6tSPJ9es=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-461-PJ5_UjbhOMOPXGA56zRJjA-1; Tue,
+ 07 Nov 2023 18:32:54 -0500
+X-MC-Unique: PJ5_UjbhOMOPXGA56zRJjA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 90EDA28EC102;
+	Tue,  7 Nov 2023 23:32:54 +0000 (UTC)
+Received: from [10.22.10.156] (unknown [10.22.10.156])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 4C860502A;
+	Tue,  7 Nov 2023 23:32:54 +0000 (UTC)
+Message-ID: <d87cff63-a0da-43ca-979d-38657b351511@redhat.com>
+Date: Tue, 7 Nov 2023 18:32:54 -0500
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/3] nvme: multipath: Implemented new iopolicy
  "queue-depth"
-Message-ID: <ZUq2yp6-LB8lY7Lj@kbusch-mbp.dhcp.thefacebook.com>
+To: Ewan Milne <emilne@redhat.com>, Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: "tsong@purestorage.com" <tsong@purestorage.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
 References: <20231107212331.9413-1-emilne@redhat.com>
- <ZUqw82QlbgXhDwpr@kbusch-mbp.dhcp.thefacebook.com>
- <CAGtn9rmaF8GEFjnnZuM_k6fPxGDAooQrN-7W8bHay1cXqK5Zxg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGtn9rmaF8GEFjnnZuM_k6fPxGDAooQrN-7W8bHay1cXqK5Zxg@mail.gmail.com>
+ <e7b8ee83-c63d-4b65-b446-2bdbac0084e4@nvidia.com>
+ <CAGtn9rnEqs0OKeg52+UCwkvU2kiVkMKDXe-pxDUHn-77i5e9sQ@mail.gmail.com>
+From: John Meneghini <jmeneghi@redhat.com>
+Organization: RHEL Core Storge Team
+In-Reply-To: <CAGtn9rnEqs0OKeg52+UCwkvU2kiVkMKDXe-pxDUHn-77i5e9sQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231107_141439_690348_2D5502FF 
-X-CRM114-Status: GOOD (  10.31  )
+X-CRM114-CacheID: sfid-20231107_153459_392314_4AA548D9 
+X-CRM114-Status: GOOD (  16.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,15 +89,65 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 07, 2023 at 05:01:22PM -0500, Ewan Milne wrote:
-> The patch uses the existing flag NVME_MPATH_IO_STATS in the request
-> for simplicity to see if an atomic_inc() was performed before doing the _dec().
-> If we really need to keep the count for passthrough requests (maybe we do)
-> then we would need another flag.
+Here are the slides with the performance numbers I presented at ALPSS.
 
-Oh, I see.
+https://people.redhat.com/jmeneghi/ALPSS_2023/NVMe_QD_Multipathing.pdf
 
-I didn't think you wanted to tie path selection to whether or not the
-disk stats are enabled (and maybe you don't?), so that's why I thought
-we needed another flag for this.
+This is the same information I posted in:
+
+https://lists.infradead.org/pipermail/linux-nvme/2023-September/042371.html
+
+/John
+
+On 11/7/23 16:56, Ewan Milne wrote:
+> Yes, we have some graphs.  John M. presented them at ALPSS and there were
+> some earlier ones at LSF/MM.  I'll see if I can put up the latest set
+> for download.
+> 
+> The basic issue is that with round-robin, requests for most/all of the
+> tagset space
+> can end up on a path that is responding slowly, so we see a
+> significant imbalance
+> in path utilization.
+> 
+> 
+> -Ewan
+> 
+> On Tue, Nov 7, 2023 at 4:46 PM Chaitanya Kulkarni <chaitanyak@nvidia.com> wrote:
+>>
+>> On 11/7/23 13:23, Ewan D. Milne wrote:
+>>> The existing iopolicies are inefficient in some cases, such as
+>>> the presence of a path with high latency. The round-robin
+>>> policy would use that path equally with faster paths, which
+>>> results in sub-optimal performance.
+>>
+>> do you have performance numbers for such case ?
+>>
+>>> The queue-depth policy instead sends I/O requests down the path
+>>> with the least amount of requests in its request queue. Paths
+>>> with lower latency will clear requests more quickly and have less
+>>> requests in their queues compared to "bad" paths. The aim is to
+>>> use those paths the most to bring down overall latency.
+>>>
+>>> This implementation adds an atomic variable to the nvme_ctrl
+>>> struct to represent the queue depth. It is updated each time a
+>>> request specific to that controller starts or ends.
+>>>
+>>> [edm: patch developed by Thomas Song @ Pure Storage, fixed whitespace
+>>>         and compilation warnings, updated MODULE_PARM description, and
+>>>         fixed potential issue with ->current_path[] being used]
+>>>
+>>> Co-developed-by: Thomas Song <tsong@purestorage.com>
+>>> Signed-off-by: Ewan D. Milne <emilne@redhat.com>
+>>> ---
+>>>
+>>
+>> any performance comparison that shows the difference ?
+>>
+>> -ck
+>>
+>>
+> 
+> 
+
 
