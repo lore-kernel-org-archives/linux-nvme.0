@@ -4,84 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E17E3C4332F
-	for <linux-nvme@archiver.kernel.org>; Tue,  7 Nov 2023 21:56:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3E0B8C4167D
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 Nov 2023 22:01:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=E4AIIfQ2XOyOysDBTT2wa7o4CsNHTT/WlgwWYh1K0Dc=; b=UssDkArvx3W6mp8sMXjEShU6f3
-	1kLfPm08sIOM0uEyV56yAtkH6k7vy90EIc5EHVJOmYoI5wGMcrGFU4HCOOlwVrvltWA+jaEI9jteF
-	E2Aof7Kdgm6wKkk1xkFaepZZNiRWUQjXI+OWA0lExxYDbnbo+JsV1vscUiuaDcx+LGSYC4QWUWWJu
-	imxmGOwdzYXHEWSsgt5CFag4tERRTzuswNB1s9eCUXIVOH+irX13mJvy3uOvYmrP6uyUK8w+PYKUE
-	WiZcYOVdwodm/vNi3VjLOsiSHooJyjboGZBBC45gZ+yfIarJGOTj3NfnqVq2g38JeJSVe6fUfyQO3
-	C5k1y7Hg==;
+	bh=egv6CSfXRAqvwVAbljj7Cl4RIv2xTtJtsZuAJJbX1Eo=; b=A9+qFFXuFfM3W+J3K+5b5AGeMt
+	FU3tFvZFZb4hjjnJdZ6aeKxEYoRnfg4x9sHyliYQaGhrfCaI8y7wJwoJtxHbsS+ieSaFhdI0F26YG
+	HD4YdhGe+Ta2ZuAUYOW6qtdZYdzQ/S9H26Ld1Ylgs0QsSA8hsm9ZDG3m3antVIpFsSXdvaBS5dMjd
+	cQTy5cXqYpBc95eHVZ/vHC+HYU1LMsddPgt0MWIcoDZXj1LRLRFwNV6Et+rCR3Sr15zaK0zVF4MJS
+	UVlcLeP4EfjN++khffxwJK+jMzSJaykscEQASEQbeyLpwIUuQTvLLOsBfzpPKO63aicEz0ZDyooyr
+	s3Ji3yWw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r0U3j-002U3F-2n;
-	Tue, 07 Nov 2023 21:56:31 +0000
+	id 1r0U8i-002VSJ-1s;
+	Tue, 07 Nov 2023 22:01:40 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r0U3h-002U2k-0S
+	id 1r0U8g-002VRt-17
 	for linux-nvme@lists.infradead.org;
-	Tue, 07 Nov 2023 21:56:30 +0000
+	Tue, 07 Nov 2023 22:01:39 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1699394188;
+	s=mimecast20190719; t=1699394497;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=E4AIIfQ2XOyOysDBTT2wa7o4CsNHTT/WlgwWYh1K0Dc=;
-	b=OWARoDzkRh54j7yWjmpX78cbEYyXXP1Gke+TzdJDK3ssBuxMIBaHkxhd7GwxpgsnmYCWqs
-	RqII/5l0nXjQI7o/h9HYaNdb19heiiFX9918qFKY3XNMgtauNfnddRh7Rf512UH0vIYwdJ
-	PIeHgw9WOFQVfC9KW3sSYKocIXH6Td8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=egv6CSfXRAqvwVAbljj7Cl4RIv2xTtJtsZuAJJbX1Eo=;
+	b=PXGU0s8Fp900RiPfuBTpXg7TA3KHkyfDMcBDPYWGcjt4COX/8Ez/x8Sy8MrVyts9Fa0zs0
+	SVy9UNRK3C+1TdLXSkT2ngN3laB8uP3vct3qdV7/ITRegecy8rb8ZL7NARnnAzAJxw5WPn
+	CN64rAKJsjQiHEVlSz84Tzt6pK5WhQE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-394-YbchL1ZUMP2hXS9ZQMSEQQ-1; Tue, 07 Nov 2023 16:56:26 -0500
-X-MC-Unique: YbchL1ZUMP2hXS9ZQMSEQQ-1
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-408508aa81cso40563135e9.3
-        for <linux-nvme@lists.infradead.org>; Tue, 07 Nov 2023 13:56:26 -0800 (PST)
+ us-mta-472--fCXtFogMLa7AJzfvvsbNw-1; Tue, 07 Nov 2023 17:01:35 -0500
+X-MC-Unique: -fCXtFogMLa7AJzfvvsbNw-1
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4091c9bdb8eso883235e9.1
+        for <linux-nvme@lists.infradead.org>; Tue, 07 Nov 2023 14:01:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699394185; x=1699998985;
+        d=1e100.net; s=20230601; t=1699394494; x=1699999294;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=E4AIIfQ2XOyOysDBTT2wa7o4CsNHTT/WlgwWYh1K0Dc=;
-        b=F1RmuYPhygJ7d2GjCQRCiTwSAMIXK04OWOghQ5gCP5F88KZx1e4aeuP9w+uwjDgD+V
-         Z7fQvzwQ9eueKeh10mGQV2LZDDeG8GhwKQ/zIEps9Ny/wB7cSzCtb5g9qA5ZnD0lZ+qY
-         VbE2tYOT7gW0FzybsnTiS7dtLOM1l/BFD8TRUKSo76/jx7T6P3dysihoqlzbtr0XPiit
-         gw4ljAuJAIBlUpo9tjJWGJOWS9SJjzobyNAiGhIK1Y24Lz+dcr1JY2UViG9GXBmSaEnY
-         Mg9kTDImw1Q3t89evk6LA4NH7buzp/v7Gxmw5NasNj3J5A1F9Kc45tWhteL7pYVN8RLn
-         U3DA==
-X-Gm-Message-State: AOJu0YyCt9Gp+zavRXcNPJgOateY1aKNpoISFaR0wAJnfK7TAP69k3Nr
-	uOTs4kNYrI9UQtWE2XtEhUBZjf8ZMegOjf67s5z+tokTNOERf5ITyZPHIpBEWGnYnpBMvlJZHLh
-	rfzY0+B/LrQ7YqsdLxCWY7H5G52gpohzW5LWycLlKXV4=
-X-Received: by 2002:a5d:64a6:0:b0:32f:c29e:583a with SMTP id m6-20020a5d64a6000000b0032fc29e583amr9880wrp.56.1699394185625;
-        Tue, 07 Nov 2023 13:56:25 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEXeKKQlTh8DzBqJLbb5l7WyncaK99O8ZQaUH8oc97FDZHE0XFNzQMiQini/fNNXkMlYBAw8zxgsWuhn5gnvN8=
-X-Received: by 2002:a5d:64a6:0:b0:32f:c29e:583a with SMTP id
- m6-20020a5d64a6000000b0032fc29e583amr9872wrp.56.1699394185346; Tue, 07 Nov
- 2023 13:56:25 -0800 (PST)
+        bh=egv6CSfXRAqvwVAbljj7Cl4RIv2xTtJtsZuAJJbX1Eo=;
+        b=SXY9h8/pEFgVnshq93I+luuHe/pL/z1pK/oZO8Z21aS8RmpoKYqFXMSlHyVgzQc6bM
+         GS4KIfWg2/tjA680sEwp/iLY19y2GQlyXQqPQADvUh72+utpFW/xKsjIr2fU9QHOCrpy
+         BA/ExxdBBoiix7tgpjKKIPJPpft/0qOqWV4EaAl0aAkEVmP3vDsU/snkqDw9n+tDg4SZ
+         Ds91uL15vGGBgIGlpAhIrsXMdUIfDRR2fiXAECjNprj0++QNRutKcuxW5wqAlTwoqmI1
+         jsGruo0aCygF77qdeFk4CfJa+gaM5TTlpXIMTvvnCqZClZC5+UmIGUjOJotPnd4ssYYq
+         0Crg==
+X-Gm-Message-State: AOJu0Yw/WXUeBrI9N40m9jCZxX+McX5duDzUDnuRfg9PG1GGdkrbArLm
+	sKL0ZU8GK4w107kfdwq5Y8lB5yC4OQGMrACJEz45yJCHkazeX2xm0Gf1hNe0cm+Ul+khM89rdGt
+	U+saGPNUDPDnBCx/GO9ffnZucoOyrjlc7SkMhaLsYltY=
+X-Received: by 2002:a05:600c:3104:b0:407:3e94:bcca with SMTP id g4-20020a05600c310400b004073e94bccamr60552wmo.1.1699394494145;
+        Tue, 07 Nov 2023 14:01:34 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFpxm28WwdVMF5/yaDwz3hkcd+4C/MiCxyNKrhJ7O5galDPuDmXjlGXrh00/YU9OEEEUGjAAIU6IKUMUUCQkQ8=
+X-Received: by 2002:a05:600c:3104:b0:407:3e94:bcca with SMTP id
+ g4-20020a05600c310400b004073e94bccamr60536wmo.1.1699394493822; Tue, 07 Nov
+ 2023 14:01:33 -0800 (PST)
 MIME-Version: 1.0
-References: <20231107212331.9413-1-emilne@redhat.com> <e7b8ee83-c63d-4b65-b446-2bdbac0084e4@nvidia.com>
-In-Reply-To: <e7b8ee83-c63d-4b65-b446-2bdbac0084e4@nvidia.com>
+References: <20231107212331.9413-1-emilne@redhat.com> <ZUqw82QlbgXhDwpr@kbusch-mbp.dhcp.thefacebook.com>
+In-Reply-To: <ZUqw82QlbgXhDwpr@kbusch-mbp.dhcp.thefacebook.com>
 From: Ewan Milne <emilne@redhat.com>
-Date: Tue, 7 Nov 2023 16:56:14 -0500
-Message-ID: <CAGtn9rnEqs0OKeg52+UCwkvU2kiVkMKDXe-pxDUHn-77i5e9sQ@mail.gmail.com>
+Date: Tue, 7 Nov 2023 17:01:22 -0500
+Message-ID: <CAGtn9rmaF8GEFjnnZuM_k6fPxGDAooQrN-7W8bHay1cXqK5Zxg@mail.gmail.com>
 Subject: Re: [PATCH 1/3] nvme: multipath: Implemented new iopolicy "queue-depth"
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: "tsong@purestorage.com" <tsong@purestorage.com>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, tsong@purestorage.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231107_135629_247423_47747B0F 
-X-CRM114-Status: GOOD (  21.71  )
+X-CRM114-CacheID: sfid-20231107_140138_458476_04E4BEFA 
+X-CRM114-Status: GOOD (  16.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,53 +95,53 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Yes, we have some graphs.  John M. presented them at ALPSS and there were
-some earlier ones at LSF/MM.  I'll see if I can put up the latest set
-for download.
+The patch uses the existing flag NVME_MPATH_IO_STATS in the request
+for simplicity to see if an atomic_inc() was performed before doing the _de=
+c().
+If we really need to keep the count for passthrough requests (maybe we do)
+then we would need another flag.
 
-The basic issue is that with round-robin, requests for most/all of the
-tagset space
-can end up on a path that is responding slowly, so we see a
-significant imbalance
-in path utilization.
+The reason to use the atomic_dec_if_positive() in the 2nd patch and set the
+nr_active to zero when changing the iopolicy is so that if e.g. someone cha=
+nges
+the iopolicy repeatedly while requests are in-flight the counter will
+work properly.
 
+(I have a test case and another path to make the nr_active counter
+visible in sysfs,
+btw, if that would be useful.)
 
 -Ewan
 
-On Tue, Nov 7, 2023 at 4:46=E2=80=AFPM Chaitanya Kulkarni <chaitanyak@nvidi=
-a.com> wrote:
+On Tue, Nov 7, 2023 at 4:49=E2=80=AFPM Keith Busch <kbusch@kernel.org> wrot=
+e:
 >
-> On 11/7/23 13:23, Ewan D. Milne wrote:
-> > The existing iopolicies are inefficient in some cases, such as
-> > the presence of a path with high latency. The round-robin
-> > policy would use that path equally with faster paths, which
-> > results in sub-optimal performance.
->
-> do you have performance numbers for such case ?
->
-> > The queue-depth policy instead sends I/O requests down the path
-> > with the least amount of requests in its request queue. Paths
-> > with lower latency will clear requests more quickly and have less
-> > requests in their queues compared to "bad" paths. The aim is to
-> > use those paths the most to bring down overall latency.
+> On Tue, Nov 07, 2023 at 04:23:29PM -0500, Ewan D. Milne wrote:
+> >  void nvme_mpath_default_iopolicy(struct nvme_subsystem *subsys)
+> >  {
+> > @@ -130,6 +133,7 @@ void nvme_mpath_start_request(struct request *rq)
+> >       if (!blk_queue_io_stat(disk->queue) || blk_rq_is_passthrough(rq))
+> >               return;
 > >
-> > This implementation adds an atomic variable to the nvme_ctrl
-> > struct to represent the queue depth. It is updated each time a
-> > request specific to that controller starts or ends.
-> >
-> > [edm: patch developed by Thomas Song @ Pure Storage, fixed whitespace
-> >        and compilation warnings, updated MODULE_PARM description, and
-> >        fixed potential issue with ->current_path[] being used]
-> >
-> > Co-developed-by: Thomas Song <tsong@purestorage.com>
-> > Signed-off-by: Ewan D. Milne <emilne@redhat.com>
-> > ---
-> >
+> > +     atomic_inc(&ns->ctrl->nr_active);
 >
-> any performance comparison that shows the difference ?
+> Did you intend to skip counting nr_active if disk stats are not enabled,
+> or if it's a passthough command?
 >
-> -ck
+> Also, we should restrict the atomics for other new IO Depth  policy.
 >
+> >       nvme_req(rq)->flags |=3D NVME_MPATH_IO_STATS;
+> >       nvme_req(rq)->start_time =3D bdev_start_io_acct(disk->part0, req_=
+op(rq),
+> >                                                     jiffies);
+> > @@ -142,6 +146,8 @@ void nvme_mpath_end_request(struct request *rq)
+> >
+> >       if (!(nvme_req(rq)->flags & NVME_MPATH_IO_STATS))
+> >               return;
+> > +
+> > +     atomic_dec(&ns->ctrl->nr_active);
+>
+> And if disk stats were disabled, this dec isn't paired with an inc.
 >
 
 
