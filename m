@@ -4,46 +4,42 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87A60C4332F
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Nov 2023 07:15:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DCA2DC4332F
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Nov 2023 08:09:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Q+VzSZjrSbem0gdn+rH6aoiwcXleso9/Sn9flXWccpo=; b=dfzlp55PgkcZoF4HUqxwjijZnU
-	Coc+qKIWTOyk+KA8zX/B5KT/9VPe1t6dLEpG2K+OPNMMAEw1QxMOGBxUocGgllDaGw1RK8yscLdh2
-	S0OCV4CHA8fMEf8Q/ATVMY7IArWhnU1HbF8BfK/lJzl30QZx3sEPrX0jKauVor2YmF05Da3MmhTGa
-	Fcmiqx9TwWKrJSWEEGOzKWvIJvm9pyjW1tCbO8E2LyAZsFqElWD9nu3uGkSe97BNujlBW857BOMZp
-	rE9ro99bOpNgwuH7mCWk4eWNJjj4XP559LXyKp181D44MWUTeWJNntXYTUjq4FP+cGxJxlmSGaPsG
-	Bmb/qZZw==;
+	bh=QPaa7MF0dhTULqLGYThaKMtJPg5WPSzu68f+oYIVSbQ=; b=qdUPOXU1nMiaXmMnCP3ZMHH9zk
+	KzjdVKe3nKRuIwIM0JLLuteXbSnX5aVUIeFlbWEjz3FowajIfxXsA3H763Avs9IL3jSkVuMdvto5O
+	Ntyz4hyciGQVeJIRFFXZi5yZZt+Th2R1nlcGQucw5QEujQQYUOOg8dot19Y996DF+IzSx4Ze6hc4G
+	s9AeLXzq8OxsuCsvFLrTyh45ge9MTLQne/UoI7mCgKct3smKOPaYTulObwMhiwk84n1wXhVLSHy0q
+	KGaS7/wKLoHStgJt9JlsgZ7TfKYdXyi9GT7lFzwL8z1FVUzsGEQMQvM5ba++GMwM+gRtfCdA+p1gi
+	khuUl0ng==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r0cmZ-003A3U-1h;
-	Wed, 08 Nov 2023 07:15:23 +0000
+	id 1r0dd0-003FVO-2a;
+	Wed, 08 Nov 2023 08:09:34 +0000
 Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
-	id 1r0cmY-003A30-1F;
-	Wed, 08 Nov 2023 07:15:22 +0000
-Date: Tue, 7 Nov 2023 23:15:22 -0800
+	id 1r0dcz-003FVC-2P;
+	Wed, 08 Nov 2023 08:09:33 +0000
+Date: Wed, 8 Nov 2023 00:09:33 -0800
 From: Christoph Hellwig <hch@infradead.org>
 To: Keith Busch <kbusch@kernel.org>
-Cc: Wen Xiong <wenxiong@linux.ibm.com>,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	linux-nvme@lists.infradead.org, Wenxiong <wenxiong@us.ibm.com>
-Subject: Re: Saw I/O errors while delete/create/attach a namespace on nvme
- device.
-Message-ID: <ZUs1iu2/qRkNPWH/@infradead.org>
-References: <ee222a8c6574d754d7e6355591e1a06a@linux.ibm.com>
- <ZUn70pL+YV0adqd0@infradead.org>
- <299987e5-ffb8-461c-9228-cad7e17cc542@nvidia.com>
- <dd07dbc043e38a7a4dcaee0b6d2835ec@linux.ibm.com>
- <ZUpVOYvgmFzXEK0y@kbusch-mbp.dhcp.thefacebook.com>
+Cc: "Ewan D. Milne" <emilne@redhat.com>, linux-nvme@lists.infradead.org,
+	tsong@purestorage.com
+Subject: Re: [PATCH 2/3] nvme: multipath: only update ctrl->nr_active when
+ using queue-depth iopolicy
+Message-ID: <ZUtCPeDYRaGszXnE@infradead.org>
+References: <20231107212331.9413-1-emilne@redhat.com>
+ <20231107212331.9413-2-emilne@redhat.com>
+ <ZUqx7JoyPG1QxYeY@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZUpVOYvgmFzXEK0y@kbusch-mbp.dhcp.thefacebook.com>
+In-Reply-To: <ZUqx7JoyPG1QxYeY@kbusch-mbp.dhcp.thefacebook.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -58,33 +54,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 07, 2023 at 08:18:17AM -0700, Keith Busch wrote:
-> Are you running these commands in quick succession? There should be a
-> "rescanning namespaces" message right after the 'detach-ns' command, and
-> before subsequent 'attach-ns' command. It looks here that the rescan
-> didn't run until after the 'attach-ns' occured. Instead of tearing down
-> the original, the driver just sees the namespace it previously knew
-> about has changed unexpectedly; the processing for the namespace removal
-> didn't happen prior to the attach-ns command.
-
-Yep.
-
+On Tue, Nov 07, 2023 at 02:53:48PM -0700, Keith Busch wrote:
+> On Tue, Nov 07, 2023 at 04:23:30PM -0500, Ewan D. Milne wrote:
+> > The atomic updates of ctrl->nr_active are unnecessary when using
+> > numa or round-robin iopolicy, so avoid that cost on a per-request basis.
+> > Clear nr_active when changing iopolicy and do not decrement below zero.
+> > (This handles changing the iopolicy while requests are in flight.)
 > 
-> > [  149.578714] nguid mismatch
-> > [  149.578719] nvme nvme0: identifiers changed for nsid 1
-> > [  149.582291] block nvme0n1: no usable path - requeuing I/O
-> > [  149.722140] block nvme0n1: no available path - failing I/O
-> > [  149.722157] block nvme0n1: no available path - failing I/O
-> 
-> If you drop all open references to /dev/nvme0n1, then the handle should
-> get deleted, and a manual rescan after that should get your new
-> namespace visible.
+> Oh, here's restricting it to that policy. Any reason not to fold it in
+> the first one?
 
-I fear we still need to handle this somehow.  For actual per-spec
-namespce management we'll just need to snoop the namespace management
-commands and update the ns_head membership.  For out of band management
-there's not much we can do as-is.  A good addition to the spec would
-be to add the concept of a namespace generation that is incremented
-every time the nsid is reused.
+It should, and I agree with all the other comments.
+
+But I'm also pretty deeply unhappy with the whole thing.  This is a
+controller-wise atomic taken for every I/O.  How slow are the subsystems
+people want to use it for?  And is a global max active really the
+right measure, or would e a per-cpu, or at least batched per-cpu as
+used by the percpu counters by a better option?
 
 
