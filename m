@@ -4,56 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 02FC3C4332F
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Nov 2023 16:15:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4060FC4332F
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Nov 2023 16:20:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=AqkC5oxMQzwCqHYhLAoKAZIEP3LZ0MpzDT9sse2lnE0=; b=ZZhMHHF03Kl36m8DSLuf066T4h
-	xYWdJed7cOwNf097aBHXLz6io7CEyl0TmKEy9+koa+73eE9+1FaY/bY0zLrAwMmI8DGWbaSRsPJzt
-	qUyizM0e9XhN9q/8alxYylpjwAUkAxihcChg6zsWWeRTdRgTZR8gHkSfFWabamalisoXntZzcV2T9
-	h4ISI3/NmwhUhBNuOx8pMYUaWeB3FrA1siP7MbkUIfNpFs9Du+zwsYWSn9iqu9r+uQavyGIW/ZS6R
-	U1HrPJBOEJeerOd+kTc8IYhdnnjmusrJCBWO2HboKuL3HFac6u5weIjZLNHXvIlKUOqNLKbfUVa6X
-	e6vziDIQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=x6N7aXY0visQOIXZ8UGjSzyhz665XWKI2a8tunkGXSQ=; b=q6GGykUtahmpjv8umK5u69dfRk
+	FFEda0IcxyYJ2Raykvfi01yRTyxtjJoc4SUZIAND+JYbmXgW59lo46MlWu9i9vge+vRIMuIYKJiie
+	H7rY03LeilOWFCgP3nXMmzlDjA+2jtnpl0qtKRwBEWhvZCRAFBQc49qViKV+LhFW0W/s1a6crPJPl
+	mxykG1asUMzqyuF83LyRjlYdEiIyltgc2ZfXSDbddOh0LR6kreJHx+v/U3swceBRRu++nh79e4nud
+	/O790uB3UKBBEVj71f531q6C6RwT4tzva/xnVfaRBGtdhj2WYX3iapJREaTp2WjR2GOl7GGWMVgJ9
+	yrlL2MPQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r0lDR-004H4G-2K;
-	Wed, 08 Nov 2023 16:15:41 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1r0lI2-004HjG-2i;
+	Wed, 08 Nov 2023 16:20:26 +0000
+Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r0lDP-004H3x-0z
+	id 1r0lHz-004HhU-35
 	for linux-nvme@lists.infradead.org;
-	Wed, 08 Nov 2023 16:15:40 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 6D1566155E;
-	Wed,  8 Nov 2023 16:15:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD9B1C433C7;
-	Wed,  8 Nov 2023 16:15:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699460138;
-	bh=c4O+OOVwoTENc5zPJctFY2uQG4i85h6fJRCiy9MHC2U=;
-	h=Date:From:To:Cc:Subject:From;
-	b=DPuxTmvM3EUFqY6hANv5IQY3DVFOq2LbhJvQjrEWAVnmuz98apC5P0Yp2gjQ9+PG9
-	 1GV2gSaC9Nf9wLKHggXEeHZbeKSUC9aOP5aKKpyp+UDcKN2EkwySsGNxSytIZx0ME8
-	 vFnCvMniyHAHJp2Sr21TdTXZXzlvz2gS6xwgHd0n8ck7EVmEFXBBr+Yee3THLxR2Ol
-	 Bg40Bl7srB/2tZxMUKRtn+QuNy6ZA8hWKGTwh56zFF/Iy8mTfMxKuAKmWFqDdizX94
-	 i5lx0jdPiQ0UGHkcdP4x7OxknPNx1Z16Jp3yJ5bsSn17cVM7kUZ4o2SjUM5qgJ5JTD
-	 nhXAIBWR+h9Ow==
-Date: Wed, 8 Nov 2023 09:15:35 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: axboe@kernel.dk
-Cc: linux-nvme@lists.infradead.org, hch@lst.de
-Subject: [GIT PULL] nvme fixes for 6.7
-Message-ID: <ZUu0J09yJmK72bKa@kbusch-mbp.dhcp.thefacebook.com>
+	Wed, 08 Nov 2023 16:20:25 +0000
+Received: by mail-il1-x12c.google.com with SMTP id e9e14a558f8ab-3593d2018bfso5541895ab.0
+        for <linux-nvme@lists.infradead.org>; Wed, 08 Nov 2023 08:20:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1699460421; x=1700065221; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=x6N7aXY0visQOIXZ8UGjSzyhz665XWKI2a8tunkGXSQ=;
+        b=YQ0IkUgN4haPCyHKuU1WVNX7nsS5fIiunogfB4fIXxeBj6+p7kDYmIWKRWGXgE6qQ4
+         t6e6s55Zh0Km1rLLSsj8dwy2MrPQ5+r44cIeQcW4fOqiuKsu5dwpiixBjqTZR9zk3UZ+
+         ILr96P29aq0fTpAStQG9dZZxAv4YTdYMKiu2j8AdBGpYvJS0hUyEPq0rNKbwyoY/rN28
+         chDnIzff2vQZ/HweE/n3x8yqzRFrwc4MY3vqa/66iTyd5vde8j5jlST7UabYBV1xdb/c
+         spf0l+A0keCnNy6O+UJjpLG7GQ8vX+TJ9n1J9d4WQewTbHBCuJXKWjmKPU4dS5foffu9
+         klTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699460421; x=1700065221;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=x6N7aXY0visQOIXZ8UGjSzyhz665XWKI2a8tunkGXSQ=;
+        b=fvi0ea9c2DOiprOahw2qFmriA5uk+r03txPp3zHvCqCGG2s19IGalEfo4B/Z/WyvDx
+         smNJKNrCsz80TQ7es7klnr9oOfPQ69SnP9RT8+yD/BjadNAvllrVxAXPNMjFFGd7fM2v
+         8X12wX9hcD/f7jahHTVUmKoL6T9/1u+Uy7xa81IcAm3rXtTOhIDOTFQhPh8ONfu0TgAv
+         gDqLE2RLP7hHFm7mbudQCg8jVeQ7giXCCdDOMjJzk6MLkHFbXzhCkKOvKsbk8f1PJPVY
+         FXMloGURohi5/9W2m6ZXPa9C6waSoL59gZSWrM1/lslX0Z7rgGkmLimgjJszcVnB6Jku
+         fMAA==
+X-Gm-Message-State: AOJu0YwXfMNol6ZdYmRtSe7QtFpGIhx3DanIBKQbul/+CqRFFUzk3mbT
+	DnUdxzMsIQtmHCuGrVXUWzskzQ==
+X-Google-Smtp-Source: AGHT+IHJeFZ84gLYA2Wg/3BogHMaq6vD7IQ/sKZjHFt1G9RyEBd8BlnA18tGItEDeg5n7ntmcNJomA==
+X-Received: by 2002:a92:2e0b:0:b0:359:9c0:de81 with SMTP id v11-20020a922e0b000000b0035909c0de81mr2482115ile.2.1699460421664;
+        Wed, 08 Nov 2023 08:20:21 -0800 (PST)
+Received: from [192.168.1.116] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id d1-20020a056e020be100b0035267e68782sm3768594ilu.22.2023.11.08.08.20.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Nov 2023 08:20:21 -0800 (PST)
+Message-ID: <b7624859-fe70-4f59-8aa3-8bd00307dd04@kernel.dk>
+Date: Wed, 8 Nov 2023 09:20:20 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [GIT PULL] nvme fixes for 6.7
+Content-Language: en-US
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de
+References: <ZUu0J09yJmK72bKa@kbusch-mbp.dhcp.thefacebook.com>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <ZUu0J09yJmK72bKa@kbusch-mbp.dhcp.thefacebook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231108_081539_406072_86D0479B 
-X-CRM114-Status: UNSURE (   8.33  )
+X-CRM114-CacheID: sfid-20231108_082023_990660_576FCB93 
+X-CRM114-Status: UNSURE (   9.50  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -69,72 +93,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The following changes since commit d2f51b3516dade79269ff45eae2a7668ae711b25:
+On 11/8/23 9:15 AM, Keith Busch wrote:
+> The following changes since commit d2f51b3516dade79269ff45eae2a7668ae711b25:
+> 
+>   Merge tag 'rtc-6.7' of git://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux (2023-11-05 18:49:40 -0800)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.infradead.org/nvme.git tags/nvme-6.7-2023-11-8
+> 
+> for you to fetch changes up to 706add13676da7ad213b65e92b94af5efc8c4131:
+> 
+>   nvme: keyring: fix conditional compilation (2023-11-08 08:07:08 -0800)
+> 
+> ----------------------------------------------------------------
+> nvme fixes for 6.7
+> 
+>  - nvme keyring config compile fixes (Hannes and Arnd)
+>  - fabrics keep alive fixes (Hannes)
+>  - tcp authentication fixes (Mark)
+>  - io_uring_cmd error handling fix (Anuj)
+>  - stale firmware attribute fix (Daniel)
+>  - tcp memory leak (Christophe)
+>  - cytpo library usage simplification (Eric)
 
-  Merge tag 'rtc-6.7' of git://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux (2023-11-05 18:49:40 -0800)
+Pulled, thanks.
 
-are available in the Git repository at:
-
-  git://git.infradead.org/nvme.git tags/nvme-6.7-2023-11-8
-
-for you to fetch changes up to 706add13676da7ad213b65e92b94af5efc8c4131:
-
-  nvme: keyring: fix conditional compilation (2023-11-08 08:07:08 -0800)
-
-----------------------------------------------------------------
-nvme fixes for 6.7
-
- - nvme keyring config compile fixes (Hannes and Arnd)
- - fabrics keep alive fixes (Hannes)
- - tcp authentication fixes (Mark)
- - io_uring_cmd error handling fix (Anuj)
- - stale firmware attribute fix (Daniel)
- - tcp memory leak (Christophe)
- - cytpo library usage simplification (Eric)
-
-----------------------------------------------------------------
-Anuj Gupta (1):
-      nvme: fix error-handling for io_uring nvme-passthrough
-
-Arnd Bergmann (1):
-      nvme: common: make keyring and auth separate modules
-
-Christophe JAILLET (1):
-      nvme-tcp: Fix a memory leak
-
-Daniel Wagner (1):
-      nvme: update firmware version after commit
-
-Eric Biggers (1):
-      nvme-auth: use crypto_shash_tfm_digest()
-
-Hannes Reinecke (4):
-      nvme-tcp: avoid open-coding nvme_tcp_teardown_admin_queue()
-      nvme-loop: always quiesce and cancel commands before destroying admin q
-      nvme: start keep-alive after admin queue setup
-      nvme: keyring: fix conditional compilation
-
-Mark O'Donovan (3):
-      nvme-auth: auth success1 msg always includes resp
-      nvme-auth: add flag for bi-directional auth
-      nvme-auth: always set valid seq_num in dhchap reply
-
- drivers/nvme/Makefile                  |  2 +-
- drivers/nvme/common/Kconfig            |  7 ++-----
- drivers/nvme/common/Makefile           |  7 ++++---
- drivers/nvme/common/auth.c             | 23 ++---------------------
- drivers/nvme/common/keyring.c          | 11 +++++++----
- drivers/nvme/host/Kconfig              |  2 --
- drivers/nvme/host/auth.c               | 13 ++++++-------
- drivers/nvme/host/core.c               | 30 ++++++++++++++++++------------
- drivers/nvme/host/fc.c                 |  6 ++++++
- drivers/nvme/host/ioctl.c              |  7 +++++--
- drivers/nvme/host/tcp.c                |  9 +++------
- drivers/nvme/target/Kconfig            |  2 --
- drivers/nvme/target/fabrics-cmd-auth.c |  2 +-
- drivers/nvme/target/loop.c             |  4 ++++
- include/linux/nvme-keyring.h           | 10 +---------
- include/linux/nvme.h                   |  2 +-
- 16 files changed, 61 insertions(+), 76 deletions(-)
+-- 
+Jens Axboe
 
 
