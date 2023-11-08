@@ -4,81 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4060FC4332F
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Nov 2023 16:20:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87CB6C4332F
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Nov 2023 16:58:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=x6N7aXY0visQOIXZ8UGjSzyhz665XWKI2a8tunkGXSQ=; b=q6GGykUtahmpjv8umK5u69dfRk
-	FFEda0IcxyYJ2Raykvfi01yRTyxtjJoc4SUZIAND+JYbmXgW59lo46MlWu9i9vge+vRIMuIYKJiie
-	H7rY03LeilOWFCgP3nXMmzlDjA+2jtnpl0qtKRwBEWhvZCRAFBQc49qViKV+LhFW0W/s1a6crPJPl
-	mxykG1asUMzqyuF83LyRjlYdEiIyltgc2ZfXSDbddOh0LR6kreJHx+v/U3swceBRRu++nh79e4nud
-	/O790uB3UKBBEVj71f531q6C6RwT4tzva/xnVfaRBGtdhj2WYX3iapJREaTp2WjR2GOl7GGWMVgJ9
-	yrlL2MPQ==;
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=/BzemWBtc0TeP34laM8MtrN8mHgGRvRTcRB7Cd5shEM=; b=05bF1+Nnv7Cc6iwff4afTcP6Ak
+	jyFoQ0A0glqNLVvHiRS5Szno9UX+Yun/5zJB4bW1fMXRH8teqy83zKyO+UTjwcmz3Hf9Tuvc3+O5Z
+	twP7/+mfkq2iseiYB1/Fg55e0f/0XkvGLnJazG3Sy3HBJwZrlFwTQ9D0NQfouCxBcCm2BH0gKE2eF
+	Y8guV9SyYUfG4fYH7VE5nMYRcFJL23/YmLRMbxdOPsBlTsSvzeKFTiy3R46fiW81DeUIrrL+8S4SQ
+	DEYfHJtHyjKDLo8K9DH1p3YGydD/fXhSRtQYFvDCrk2cHTOva0qj1lMWHyzH/XxSoM2gAeAuz+nbE
+	atbiKUyA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r0lI2-004HjG-2i;
-	Wed, 08 Nov 2023 16:20:26 +0000
-Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c])
+	id 1r0lt9-004Lvx-2a;
+	Wed, 08 Nov 2023 16:58:47 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r0lHz-004HhU-35
+	id 1r0lt6-004Lux-2J
 	for linux-nvme@lists.infradead.org;
-	Wed, 08 Nov 2023 16:20:25 +0000
-Received: by mail-il1-x12c.google.com with SMTP id e9e14a558f8ab-3593d2018bfso5541895ab.0
-        for <linux-nvme@lists.infradead.org>; Wed, 08 Nov 2023 08:20:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1699460421; x=1700065221; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=x6N7aXY0visQOIXZ8UGjSzyhz665XWKI2a8tunkGXSQ=;
-        b=YQ0IkUgN4haPCyHKuU1WVNX7nsS5fIiunogfB4fIXxeBj6+p7kDYmIWKRWGXgE6qQ4
-         t6e6s55Zh0Km1rLLSsj8dwy2MrPQ5+r44cIeQcW4fOqiuKsu5dwpiixBjqTZR9zk3UZ+
-         ILr96P29aq0fTpAStQG9dZZxAv4YTdYMKiu2j8AdBGpYvJS0hUyEPq0rNKbwyoY/rN28
-         chDnIzff2vQZ/HweE/n3x8yqzRFrwc4MY3vqa/66iTyd5vde8j5jlST7UabYBV1xdb/c
-         spf0l+A0keCnNy6O+UJjpLG7GQ8vX+TJ9n1J9d4WQewTbHBCuJXKWjmKPU4dS5foffu9
-         klTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699460421; x=1700065221;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=x6N7aXY0visQOIXZ8UGjSzyhz665XWKI2a8tunkGXSQ=;
-        b=fvi0ea9c2DOiprOahw2qFmriA5uk+r03txPp3zHvCqCGG2s19IGalEfo4B/Z/WyvDx
-         smNJKNrCsz80TQ7es7klnr9oOfPQ69SnP9RT8+yD/BjadNAvllrVxAXPNMjFFGd7fM2v
-         8X12wX9hcD/f7jahHTVUmKoL6T9/1u+Uy7xa81IcAm3rXtTOhIDOTFQhPh8ONfu0TgAv
-         gDqLE2RLP7hHFm7mbudQCg8jVeQ7giXCCdDOMjJzk6MLkHFbXzhCkKOvKsbk8f1PJPVY
-         FXMloGURohi5/9W2m6ZXPa9C6waSoL59gZSWrM1/lslX0Z7rgGkmLimgjJszcVnB6Jku
-         fMAA==
-X-Gm-Message-State: AOJu0YwXfMNol6ZdYmRtSe7QtFpGIhx3DanIBKQbul/+CqRFFUzk3mbT
-	DnUdxzMsIQtmHCuGrVXUWzskzQ==
-X-Google-Smtp-Source: AGHT+IHJeFZ84gLYA2Wg/3BogHMaq6vD7IQ/sKZjHFt1G9RyEBd8BlnA18tGItEDeg5n7ntmcNJomA==
-X-Received: by 2002:a92:2e0b:0:b0:359:9c0:de81 with SMTP id v11-20020a922e0b000000b0035909c0de81mr2482115ile.2.1699460421664;
-        Wed, 08 Nov 2023 08:20:21 -0800 (PST)
-Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id d1-20020a056e020be100b0035267e68782sm3768594ilu.22.2023.11.08.08.20.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Nov 2023 08:20:21 -0800 (PST)
-Message-ID: <b7624859-fe70-4f59-8aa3-8bd00307dd04@kernel.dk>
-Date: Wed, 8 Nov 2023 09:20:20 -0700
+	Wed, 08 Nov 2023 16:58:46 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1699462721;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/BzemWBtc0TeP34laM8MtrN8mHgGRvRTcRB7Cd5shEM=;
+	b=OsOoywt0hjfZRt+RdUYNr5jByVyldkwQgEhA+L8XGAN4wrtouz1XaBXGQ5AjI7ZAZYdGsk
+	w+EZ27VUzliy2N5OL0S+p09s2EsQZ37B9iCd5TZVlTbPXPW5fk9DF65j59xXF8CmiKNo/i
+	GSMWMBP/glTPoFSLGKyh3aFrSUU446w=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-588-C_Q0W_bVMS-yOXLFW9kZvA-1; Wed, 08 Nov 2023 11:58:39 -0500
+X-MC-Unique: C_Q0W_bVMS-yOXLFW9kZvA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 35AFC185A781
+	for <linux-nvme@lists.infradead.org>; Wed,  8 Nov 2023 16:58:39 +0000 (UTC)
+Received: from [10.22.10.156] (unknown [10.22.10.156])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 134C41C060AE;
+	Wed,  8 Nov 2023 16:58:39 +0000 (UTC)
+Message-ID: <86d4f9cb-f041-4e1a-9294-f410ab094fa1@redhat.com>
+Date: Wed, 8 Nov 2023 11:58:38 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL] nvme fixes for 6.7
+Subject: Re: [PATCH 2/3] nvme: multipath: only update ctrl->nr_active when
+ using queue-depth iopolicy
+To: linux-nvme@lists.infradead.org
+References: <20231107212331.9413-1-emilne@redhat.com>
+ <20231107212331.9413-2-emilne@redhat.com>
+ <ZUqx7JoyPG1QxYeY@kbusch-mbp.dhcp.thefacebook.com>
+ <ZUtCPeDYRaGszXnE@infradead.org>
+From: John Meneghini <jmeneghi@redhat.com>
+Organization: RHEL Core Storge Team
+In-Reply-To: <ZUtCPeDYRaGszXnE@infradead.org>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.7
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de
-References: <ZUu0J09yJmK72bKa@kbusch-mbp.dhcp.thefacebook.com>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <ZUu0J09yJmK72bKa@kbusch-mbp.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231108_082023_990660_576FCB93 
-X-CRM114-Status: UNSURE (   9.50  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20231108_085844_830681_BB494B72 
+X-CRM114-Status: GOOD (  11.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,33 +88,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/8/23 9:15 AM, Keith Busch wrote:
-> The following changes since commit d2f51b3516dade79269ff45eae2a7668ae711b25:
-> 
->   Merge tag 'rtc-6.7' of git://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux (2023-11-05 18:49:40 -0800)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-6.7-2023-11-8
-> 
-> for you to fetch changes up to 706add13676da7ad213b65e92b94af5efc8c4131:
-> 
->   nvme: keyring: fix conditional compilation (2023-11-08 08:07:08 -0800)
-> 
-> ----------------------------------------------------------------
-> nvme fixes for 6.7
-> 
->  - nvme keyring config compile fixes (Hannes and Arnd)
->  - fabrics keep alive fixes (Hannes)
->  - tcp authentication fixes (Mark)
->  - io_uring_cmd error handling fix (Anuj)
->  - stale firmware attribute fix (Daniel)
->  - tcp memory leak (Christophe)
->  - cytpo library usage simplification (Eric)
+On 11/8/23 03:09, Christoph Hellwig wrote:
+> But I'm also pretty deeply unhappy with the whole thing. This is a controller-wise atomic taken for every I/O. How slow are the 
+> subsystems people want to use it for?
 
-Pulled, thanks.
+This would never be useful with PCIe subsystems which all have latency/response times in the 10s of microseconds range.
 
--- 
-Jens Axboe
+This is really only useful with Fibre channel and TCP attached subsystems. We have several enterprise class storage arrays here 
+in our lab at Red Hat - all with multiple 32GB FC and 100Gbps TCP connections. Based on our own private performance analysis of 
+these devices they have latency/response times in 10s of milliseconds range... at best... and the performance bottle necks are 
+in the storage arrays, not in the fabrics. Even some of the RDMA attached storage arrays are slow. These devices have trouble 
+scaling up performance... so they they scale-out instead, adding more and more paths and controllers to different domains in 
+their subsystems.
+
+I am not concerned about the addition of one atomic counter with these use cases. In a grand scheme of things, when using an 
+nvme-of attached storage array, the trade offs are worth it.  Besides, if you've dived into the TCP socket layer you'll see 
+there are plenty of atomic counters in the data path already.  This is the main use case which needs QD scheduling - nvme/tcp - 
+where latency can build up in the connection as well as in the storage array.
+
+/John
 
 
