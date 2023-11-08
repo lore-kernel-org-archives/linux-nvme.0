@@ -4,137 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40845C4332F
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Nov 2023 10:03:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 82654C4332F
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Nov 2023 11:03:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RneDlRs2NNs4JxbAdK80Vg5+JXq96QbKWPYwbSnODRo=; b=1gHlAd7ngYBSsjUh9974VLE7OA
-	VjlZ142Gen+RLI0c0Ft5lzBIbJgJnl7fhCDVLHymD9A/3PQfWMEU2KAynrTYLtHrF34RDvlxnMiq0
-	PCeuJeCk0ZxYtRtF9kpsZawGm6ZBYLvoxtq91/RuVPRPNVsTAd5lv5IebyqYdOrku4N38CtRKMcwP
-	hCJ4FMeFoNFa9GefNUXraTBFRNY1l9JmU0sU9pHqx+jCI7g06yhry7LcGLzBCM1SexGBZikUTgAUu
-	GaNnLPNDpNvwZ+xAho2WifOoM31D+6wZkG58XxBSEEXoPmF9+n/9y+GFKhC5g3FfQ3HGivFkIBRNo
-	sgVTdFbA==;
+	bh=pWBwZN22MI/EGprrEPMqtlpHhvJBn1XE7tgsfrpoGiY=; b=hsEJHnAcm+zT1PiGuEmJhxYdDz
+	Wg4X9F/BiqsdIgZ2m2VlxfP25Zt9bskLGDcVPKb7zknjfcBsel19c1QtlOkC9QC9yfV3U00HgcsZH
+	8mFzkHRFcTHdp7V7u0e0LFuSpargZfmeQWrqLl7W2CshTQl/l6+EaGMbDlW0+Sg7QpJdKHPjWfu3W
+	eaN1hvOoZsaqhuf3U3Wpy4+rLQ0ZvStu3+IWj13JEySP+sPBVR9b1XX7mjQcK8EqCM8PuXC3w03Ky
+	MyNxQk/iLUt0g5kNuGsOw4WfGCRB+Db4rx2odqX9r37Azvj7WMx+Djz0kA6HGEeygb4Ob75rkvF/Y
+	GV4JGgPQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r0fOq-003PRS-0j;
-	Wed, 08 Nov 2023 10:03:04 +0000
-Received: from mail-bn1nam02on20624.outbound.protection.outlook.com ([2a01:111:f400:7eb2::624] helo=NAM02-BN1-obe.outbound.protection.outlook.com)
+	id 1r0gKr-003W5x-0g;
+	Wed, 08 Nov 2023 11:03:01 +0000
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r0fOm-003PQw-2i
+	id 1r0gKm-003W4v-2T
 	for linux-nvme@lists.infradead.org;
-	Wed, 08 Nov 2023 10:03:02 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cPK03CQKxp0zUjqssbABfLJh4XFDPIBg1ULOpmnUGfJ2fPxpsDNQ4YfDyqX9ZiCRsY7HGJFuP6xz4rX1CmlB70QMsbQ/Gj42uVPNT7F8cUU1AOeO4ZXjeD0rnO4MKWuCJ/PTnwlW5uI8gymfzcCVKeC400I7PULqSoWnLwneG7gAVQe3bczLupFbDyY8FcNynyDy3MiciFnF6nwWnqt85JVOIMLTt6DK5iAyr/+3BxJLn2cX3BTkKU9us0M9pA3MjrI/+NKDzezO5Zp2iC7TyWuk7/PyHnCJwZlX7eD41NLIFz3ulBCTBAOMGHYTEdnByDj10E7aCBGrVCnt+Pyhew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RneDlRs2NNs4JxbAdK80Vg5+JXq96QbKWPYwbSnODRo=;
- b=epFOpE8FpXwMOpYWNWdHhHUMWM8f54bVdvqT9ORjeaPNu1u7ywDn45BDySwcdMAOTrtx3Rnt+JdZqT6yGQAENc7QlD3Y+IJ2nihuied8fZcUgPI4W3hH0mBWvsvzj7tfH73EUSLc9bCHwrGqr3VdmfSkztXFZ5F25JFL6hi253rQy4lv2on1TuYWriO7CRRPQQJ386XIdq36KJVM8dYazyo+PaooVcya3TxqqzapqhDxV8EALkE2N7KQlIjj+lMuF5cilA75CQXAE5NXbaR+HbQltS7vxQLIltAcUSTpsbbw2DKlrxumfR6ugvsHiNm4B01yM4C5nKgmmFggscemBQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RneDlRs2NNs4JxbAdK80Vg5+JXq96QbKWPYwbSnODRo=;
- b=WVLeitT4nGk5xDkZ88x5kuzbSOSC2top3uBl0YqjvfiB+zo+i48Cs5FoS7eLg5WWj9Z7yV/WyPmh7fIw9iPTA9+agBddk8FLAmqyb0VlKjqv2dRt5UZFGeMgN5KDAqZXpoKbSA3CsdfmcVXKeejHHlo52TGb0UGk3pWXPjRt1X1lwzIKC3rn9/7VOq13oPh9PGIs9DRpBwFEUXyfOuVkX9KVYOZiiuEYMSoGhIrm7y/pr/a+W4R6ebgD6vF6eRJ+E8+jSAawrblJdx8TKt/UVbYyp38SPxVpWZMKm2fu8/lMnjOu5hU+X3osr8bSp7rnfoh8Ctb6tJpXhjbR/BPLKA==
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
- by CY5PR12MB6203.namprd12.prod.outlook.com (2603:10b6:930:24::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.29; Wed, 8 Nov
- 2023 10:02:51 +0000
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::efb1:c686:d73d:2762]) by LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::efb1:c686:d73d:2762%7]) with mapi id 15.20.6977.018; Wed, 8 Nov 2023
- 10:02:51 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Alon Zahavi <zahavi.alon@gmail.com>
-CC: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [Bug Report] NVMe-oF/TCP - Slab OOB Read in `nvmet_ctrl_find_get`
-Thread-Topic: [Bug Report] NVMe-oF/TCP - Slab OOB Read in
- `nvmet_ctrl_find_get`
-Thread-Index: AQHaELZzBoRn8E2uo0yWhrH10lGud7BwHqkAgAAEQgCAABEdgA==
-Date: Wed, 8 Nov 2023 10:02:50 +0000
-Message-ID: <7942920c-b3f8-4f52-b6a4-78a3cef2cba7@nvidia.com>
-References: <CAK5usQuJ=-1wt5LxHnWtrS_3iOeG-TWy9D88WA1EHSVv+hUNJQ@mail.gmail.com>
- <1dd5331f-626c-4503-9323-77de0b0db886@nvidia.com>
- <CAK5usQsOP+4oV3YEcNN6Oe6_kBqP_u=e1DggJvNanH3qDG8+wA@mail.gmail.com>
-In-Reply-To: <CAK5usQsOP+4oV3YEcNN6Oe6_kBqP_u=e1DggJvNanH3qDG8+wA@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|CY5PR12MB6203:EE_
-x-ms-office365-filtering-correlation-id: 3f8d187c-f601-45aa-7c5c-08dbe041de48
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Tijmhp3WW1YsE0mjgfdr1nDB0uyrs4FdMy8sx5QTsnMBmVTPXVktrY3Uhy1n6P1j3nbCiwG2iYTCXXpA7GhfctVzke/l+Sd53QMu4QC5HopVTt4k9aJUD++Pc8xfkaDlm68pFq4zjDq4W/1WDmWtyQtm0iVqMF5WZXeqnq98ddemLhj5VsxASJ6ajExlqo/kQ2ylBhZEBLk9/9VfyQHlVItViiPEp3sU+Usp+TvdqXN1YaVaX8yithfZmHE/OQm28pLJrPjP1K+WSzF5mzsAmk7hkc/LifGa3qp/UFuWj/WyPVQaucRHT9PM9p1aiQe6n7XnfP+NaUizS8p2gyghjbmaGamM2fCr+NgB0v3AAB2Kw7u86iDZhwmInA/CvA05s+K/PqRmka6jzwM4zRePkrAGNPmQDuJaE3mxjuiM7VPHuT5LwtwqKRA4HI1qb1BuC9bX98PR7Yku3HQUXZk50q94tUdXXiXGTN/Ya9Pmb2s0tIyv5XtW0DE4HUV3eGg3/tXtYQMrp+YrYT3LDyuWwAj/TS7vmlvMNV9KhJVQW1i5E5PxJNQOGQF3WgLzZCWH2AVJMBoYhPivNvFnOsnyEpOGG8fqhlxHSI0ovSZMWnxi1KU14kuQjX1ldSssGD+PFRR6OScb+3+o16N08vCIgESx6w4x9kl8QH4HybphIz8E9lQfFJ6gu6oy6fLIjeUErn/c5cCaCZbCTaodVZ8IVw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(376002)(39860400002)(346002)(366004)(136003)(230922051799003)(451199024)(64100799003)(186009)(1800799009)(36756003)(6506007)(2616005)(71200400001)(31696002)(53546011)(26005)(6512007)(86362001)(91956017)(66946007)(66476007)(66556008)(76116006)(66446008)(6916009)(38070700009)(316002)(54906003)(64756008)(4326008)(8676002)(8936002)(83380400001)(31686004)(38100700002)(2906002)(478600001)(6486002)(5660300002)(122000001)(41300700001)(81973001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?R2xrU2xlcWFGSmROVXpaY2lZUDYzdU9zYUNjK1c2R2pna2ZldlZ4SlZia1or?=
- =?utf-8?B?S1pHeUVyVzJxa0xUaVdpVVpjMGc0UWlFSHZRMzRSQmt0T1Vxb0Q4OXM0a2xQ?=
- =?utf-8?B?alEwQ2dEMGoxMkFDK0wwZUpzU3BSemxOVHlsZFkyaTlQK21xcjhDNjlwMko5?=
- =?utf-8?B?bUtBdGFiZnU4NEpEanBsOWx3aDYrOXdGNXc4YkRlQ09BTTV0K2VTbUlEVDUx?=
- =?utf-8?B?ZThReXY0cU9aZHhTMlVzTnVERmZrenFHaS84Y2JnNkoyNnVuVnlsRHRwUkw3?=
- =?utf-8?B?WTcybVB4WkpVVTVaaGNBRlk1c3NTMHgza0JmVmV5V0w0SzM1Y2xGZjBVK0VL?=
- =?utf-8?B?VHV4cHdUN0dhbkJDSFA0Y09IaHhwOEl0SGY2MU1zOUZaMllQdnhTYTg4bFJp?=
- =?utf-8?B?NzhqbGhwVDhDdFRPTjlqUUtJREt4SkU4bFNkZmc3NmFobzk2V1QvVlhDYTl3?=
- =?utf-8?B?T2Z3MG9QU1B4ZzkyWmlmWVBjMU1JOE5yT3V6RXhpazZGQXlWT1Y1ekVJS3hk?=
- =?utf-8?B?aCtTZGgxNWpWcWhPcnl3cXRwQW9ZZERYckdwM0MrYmVkOEwrQW9venEwRFJC?=
- =?utf-8?B?dktWSjRJMjhCMXJtY0FXTFFKNEVCSE4zVm5Xa2RFSVFvUzFLTlF3TlN4VU9S?=
- =?utf-8?B?SUlwU2R6RmZBWGFCY2tFN29QOExjRG5oTmgyS1dCSS9iaHNlcVJ1c0hzU0JV?=
- =?utf-8?B?YVM3aUFyNmZSRk5Hd0tqSXBLN0tRK1A4ZGl0TlVQQjF2L2plbHhadDI4b2hD?=
- =?utf-8?B?bHVzN2NQbDNQaVkyK3IrbWFEK1dlRW5kZVdpTmpPV0ZGOUo0bDA5cXdvTmp0?=
- =?utf-8?B?MExOWEdRMiszeFNVc3pSY0IrdE5lcmhiTkFsTVFZcXNPVUdBeHU3cTcvaTg2?=
- =?utf-8?B?U2RZL3BMZVhncklhbndyQWZNSFBDQlRWaGYxY3FxZXlYZ1MwNk5iWjdBSUhl?=
- =?utf-8?B?SUl2eXREdWt4dmRKeUZ4SmRYbkNZcThOdVFWbEM4K041M1JTZEVtcnpsZ1JZ?=
- =?utf-8?B?K1lzYTV1TEdiMWdCMVo3RHRPMzdiOFJhT09jRE5KT1FEWXZLTjg0eS9NZklk?=
- =?utf-8?B?d3lLZTgwMVJrZlBnZmU0Um1MYks5c2NrNjd4UGpDQUNnREVvck8rV2MwSkE4?=
- =?utf-8?B?U3NNSnFwOUFYU0twd3RkaEJyU09PKzFlS1NiWHQzbFBZZlk5eVJEVmFNVGdM?=
- =?utf-8?B?dnFxOVZzM0F0K0FWZjU0dFZPemkzMy9Bem1KNVp6UXlwYmNEalRnYjFpK2h4?=
- =?utf-8?B?cEhqMStLbk8zWGZMdE9TQjluWlB1VlMrcjlkb1FoWGxYWmZtU3JKZWNCN1BP?=
- =?utf-8?B?R3RCL0dZSmZUbzl6dFMwZThBcCt6eU1ZYnFJOUlva2NXTUR0SjVkcmNNM2cy?=
- =?utf-8?B?d0oySFkrVFp0aDZkWVpVNDdtUGx3b1ZBbE0zZHhRSjJNVUI0S2VLZForZmlr?=
- =?utf-8?B?d1lMU3pIVEUvQUFwS3llMzZ3eXk3M0xiaS9PcmtLakRVaHdsUVlTcittNks1?=
- =?utf-8?B?ekdmTlJKci8zZHQyTGl5dC9ibG1oYnZ3MHlUazhSQ2o1TU9HUTdQNXM3enp0?=
- =?utf-8?B?WTNCeXZQNGtURmxCTnQ4N2hBSDRYdUZPclMzNlJkS0JnSWVVOVNpc0JJTkpC?=
- =?utf-8?B?SjcrbnhIWkJraWUzQVdhUE9NNFg4ZFNJSmFWaFVSVk16U1AxWGdhb1ZETDBL?=
- =?utf-8?B?emFqcWFBWTNNR3cvSWdHM2xGYVdMeEx1dktVQ3hQTEIyTHJTaHVQTEVFWTFI?=
- =?utf-8?B?RHozd3Y5VUFQSlRsbW94UjJUR0d0K29sTkR5ZjcvTnVSSnlLdm9TaW9SWHFM?=
- =?utf-8?B?WmR4b2tyTHRwU2xFSmpBa0hlOUt1NFppVW1rUzhCMHR2ZU5SaWU3ZkczZ0Zq?=
- =?utf-8?B?Tkp4VGVNMUVqQlNTUk8vTmkzTnZUK3g4d2dHSkhvQ1NoQWlTd1pPWkplRUly?=
- =?utf-8?B?dGZLVFFZTVlWeU1HK2huWW5wNkpJTXZSd0ZXNEg0b0U0Yi9OZGR1eTNsdlFm?=
- =?utf-8?B?YmVxRUpxVjNaTytLRVNETXV6WlpBL2RBYlUrZHY5VUJVYURVNXA3SGlvSmtZ?=
- =?utf-8?B?YVF0d1JVMzN0ZG5vMXYzTGdnaWtIN2paUkd5VmxmTGxtVWczQlNUVXdZbUxp?=
- =?utf-8?Q?sxfHAFK/p6v5YnQ6wgHAqAlUV?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <6AC20F5994F7294FA606813CB5D194F2@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	Wed, 08 Nov 2023 11:02:58 +0000
+Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-54394328f65so11336046a12.3
+        for <linux-nvme@lists.infradead.org>; Wed, 08 Nov 2023 03:02:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699441370; x=1700046170; darn=lists.infradead.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=pWBwZN22MI/EGprrEPMqtlpHhvJBn1XE7tgsfrpoGiY=;
+        b=GoOJhY7Zt2o7HlIu4dolcNQpsbZXI6SpzVJqTSX8wubpWggfzfE0kULetLgNDB8sqr
+         dXJf/Ab0igh+uPvWMkWV2DLXyyoAr8y2mzQYiPXq5drUDfYzNIJxEzynaaf7R2IFzNuu
+         GBxLmf1TUMSrCnRCTncZ7e0PnGDNak6RSVmAwvCThQFP4mKKhR9xEUMHXFqy/V+K2AD6
+         gwjPcBirq1lt7sToV4b2tjrMaX4dmHGuwlJDXQ8KmnhOwdTmXlWiWo7FPvgv+Tb82214
+         WnjqAoG3gz87cEd7Ak0N3MpgBoK4DhdoNTQJBerQJv7sphpwI9FU+0AtGTS8EUdTOMUq
+         74TQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699441370; x=1700046170;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pWBwZN22MI/EGprrEPMqtlpHhvJBn1XE7tgsfrpoGiY=;
+        b=WKEEY2W9gJhdTlFXe386zxV6qyBo6M/WqMMEWa6McRMWo8HH2Kb/9Fem3lOf3KhByF
+         i3QNyvzaPLr035Y0OTuc7V0uLfgWNWtZW8Nx8zA8ufF/7eDO47z4Yw1aUfTb0/hvsEyI
+         EZtJzcVjf91GTDa9Z8jvHGF2/T3x4s70XGHOOneiCbP7EKQJpaOMm3DKG8xAHwXQInt8
+         /9T76IXisBBdPKYNFID3jONU1w0DAivDKQvn1nwCUtSGlSM2QoLyht7dt3p7SeWEAcK/
+         cyNAcm6L4kWH88ZRyini+AVpmImuTdK4TG95nuy/zlP0pN3ORtXd6WlB6TDzzUwb147y
+         syGQ==
+X-Gm-Message-State: AOJu0YxwhShLw4MLYRgsGdZ60Uqrqbfp2MF/nv5vPLx+3kZcz3ooQQPA
+	ZGq6fW0x9KVFnHhBXQfg3Bdd4zFFGoeRSOClJhfrDgqrW3A0qoZv
+X-Google-Smtp-Source: AGHT+IFitgMTWilhJnTu0yFDWKls8jyorWy8sEpN+FTTlK/GCXXxtpOWeMkgSF7XGgLpdK0XWjMdzekClFkZ1xmFkSc=
+X-Received: by 2002:a17:907:9802:b0:9ad:e180:16e3 with SMTP id
+ ji2-20020a170907980200b009ade18016e3mr1145985ejc.37.1699441370048; Wed, 08
+ Nov 2023 03:02:50 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f8d187c-f601-45aa-7c5c-08dbe041de48
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Nov 2023 10:02:50.9610
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3RgcGZuYa6tEBVeGkfFlbrQRM8+aUnzP95jFf6AzLy3ECNL3BoqDF7geQ7zoYsqOZezwLPH6KTW32skl1dc1fA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6203
+References: <CAK5usQuJ=-1wt5LxHnWtrS_3iOeG-TWy9D88WA1EHSVv+hUNJQ@mail.gmail.com>
+ <1dd5331f-626c-4503-9323-77de0b0db886@nvidia.com> <CAK5usQsOP+4oV3YEcNN6Oe6_kBqP_u=e1DggJvNanH3qDG8+wA@mail.gmail.com>
+ <7942920c-b3f8-4f52-b6a4-78a3cef2cba7@nvidia.com>
+In-Reply-To: <7942920c-b3f8-4f52-b6a4-78a3cef2cba7@nvidia.com>
+From: Alon Zahavi <zahavi.alon@gmail.com>
+Date: Wed, 8 Nov 2023 13:02:38 +0200
+Message-ID: <CAK5usQu_mi68_ChP4OckVmY42djdPx8L3hGg7_Jj0fa1yQ2mPw@mail.gmail.com>
+Subject: Re: [Bug Report] NVMe-oF/TCP - Slab OOB Read in `nvmet_ctrl_find_get`
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231108_020300_974843_E2E512CD 
-X-CRM114-Status: GOOD (  21.92  )
+X-CRM114-CacheID: sfid-20231108_030256_834260_F9428A3E 
+X-CRM114-Status: GOOD (  33.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -149,140 +88,192 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMTEvOC8yMyAwMTowMSwgQWxvbiBaYWhhdmkgd3JvdGU6DQo+IE9uIFdlZCwgOCBOb3YgMjAy
-MyBhdCAxMDo0NiwgQ2hhaXRhbnlhIEt1bGthcm5pIDxjaGFpdGFueWFrQG52aWRpYS5jb20+IHdy
-b3RlOg0KPj4NCj4+PiAjIyBSb290IENhdXNlDQo+Pj4gQXMgZXhwbGFpbmVkIGFib3ZlLCB0aGUg
-cm9vdCBjYXVzZSBmb3IgdGhpcyBidWcgaXMgdGhlIGZhY3QgdGhhdCB0aGVyZQ0KPj4+IGFyZSBu
-byBOVUxMIHRlcm1pbmF0b3JzIHRvIHRoZSBzdHJpbmdzIGluIHRoZSBvYmplY3QgcmVwcmVzZW50
-aW5nIHRoZQ0KPj4+IGBzdHJ1Y3QgbnZtZl9jb25uZWN0X2RhdGFgLg0KPj4gQ2FuIHlvdSBzZWUg
-aWYgdGhpcyB3b3JrcyBmb3IgeW91ID8gaXQgc2hvdWxkIGF0IGxlYXN0IHRha2UgY2FyZSBvZiB0
-aGUNCj4+IHN1YnN5c25xbiBhbmQgaG9zdG5xbiBiZWluZyBhY2Nlc3NlZCBhcyBOVUxMIHRlcm1p
-bmF0ZWQgc3RyaW5nLg0KPj4NCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL252bWUvdGFyZ2V0L2Nv
-cmUuYyBiL2RyaXZlcnMvbnZtZS90YXJnZXQvY29yZS5jDQo+PiBpbmRleCAzOTM1MTY1MDQ4ZTcu
-LjU2OTA0NmI2YTI2OSAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvbnZtZS90YXJnZXQvY29yZS5j
-DQo+PiArKysgYi9kcml2ZXJzL252bWUvdGFyZ2V0L2NvcmUuYw0KPj4gQEAgLTEyMzUsMTMgKzEy
-MzUsMTkgQEAgc3RydWN0IG52bWV0X2N0cmwgKm52bWV0X2N0cmxfZmluZF9nZXQoY29uc3QNCj4+
-IGNoYXIgKnN1YnN5c25xbiwNCj4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgY29uc3QgY2hhciAqaG9zdG5xbiwgdTE2IGNudGxpZCwNCj4+ICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgc3RydWN0IG52bWV0X3JlcSAqcmVxKQ0KPj4gICAg
-ew0KPj4gKyAgICAgICBjaGFyIHN1YnN5c25xbl9zdHJbTlZNRl9OUU5fU0laRSArIDFdID0geyAw
-IH07DQo+PiArICAgICAgIGNoYXIgaG9zdG5xbl9zdHJbTlZNRl9OUU5fU0laRSArIDFdID0geyAw
-IH07DQo+PiAgICAgICAgICAgc3RydWN0IG52bWV0X2N0cmwgKmN0cmwgPSBOVUxMOw0KPj4gICAg
-ICAgICAgIHN0cnVjdCBudm1ldF9zdWJzeXMgKnN1YnN5czsNCj4+DQo+PiAtICAgICAgIHN1YnN5
-cyA9IG52bWV0X2ZpbmRfZ2V0X3N1YnN5cyhyZXEtPnBvcnQsIHN1YnN5c25xbik7DQo+PiArICAg
-ICAgIC8qIHN1YnN5c25xbiAmIGhvc3RucW4gbWF5IG5vdCBiZSBOVUxMIHRlcm5pbWF0ZWQgKi8N
-Cj4+ICsgICAgICAgc3RybmNweShzdWJzeXNucW5fc3RyLCBzdWJzeXNucW4sIE5WTUZfTlFOX1NJ
-WkUpOw0KPj4gKyAgICAgICBzdHJuY3B5KGhvc3RucW5fc3RyLCBob3N0bnFuLCBOVk1GX05RTl9T
-SVpFKTsNCj4+ICsNCj4+ICsgICAgICAgc3Vic3lzID0gbnZtZXRfZmluZF9nZXRfc3Vic3lzKHJl
-cS0+cG9ydCwgc3Vic3lzbnFuX3N0cik7DQo+PiAgICAgICAgICAgaWYgKCFzdWJzeXMpIHsNCj4+
-ICAgICAgICAgICAgICAgICAgIHByX3dhcm4oImNvbm5lY3QgcmVxdWVzdCBmb3IgaW52YWxpZCBz
-dWJzeXN0ZW0gJXMhXG4iLA0KPj4gLSAgICAgICAgICAgICAgICAgICAgICAgc3Vic3lzbnFuKTsN
-Cj4+ICsgICAgICAgICAgICAgICAgICAgICAgIHN1YnN5c25xbl9zdHIpOw0KPj4gICAgICAgICAg
-ICAgICAgICAgcmVxLT5jcWUtPnJlc3VsdC51MzIgPSBJUE9fSUFUVFJfQ09OTkVDVF9EQVRBKHN1
-YnN5c25xbik7DQo+PiAgICAgICAgICAgICAgICAgICBnb3RvIG91dDsNCj4+ICAgICAgICAgICB9
-DQo+PiBAQCAtMTI0OSw3ICsxMjU1LDcgQEAgc3RydWN0IG52bWV0X2N0cmwgKm52bWV0X2N0cmxf
-ZmluZF9nZXQoY29uc3QgY2hhcg0KPj4gKnN1YnN5c25xbiwNCj4+ICAgICAgICAgICBtdXRleF9s
-b2NrKCZzdWJzeXMtPmxvY2spOw0KPj4gICAgICAgICAgIGxpc3RfZm9yX2VhY2hfZW50cnkoY3Ry
-bCwgJnN1YnN5cy0+Y3RybHMsIHN1YnN5c19lbnRyeSkgew0KPj4gICAgICAgICAgICAgICAgICAg
-aWYgKGN0cmwtPmNudGxpZCA9PSBjbnRsaWQpIHsNCj4+IC0gICAgICAgICAgICAgICAgICAgICAg
-IGlmIChzdHJuY21wKGhvc3RucW4sIGN0cmwtPmhvc3RucW4sDQo+PiBOVk1GX05RTl9TSVpFKSkg
-ew0KPj4gKyAgICAgICAgICAgICAgICAgICAgICAgaWYgKHN0cm5jbXAoaG9zdG5xbl9zdHIsIGN0
-cmwtPmhvc3RucW4sDQo+PiBOVk1GX05RTl9TSVpFKSkgew0KPj4gICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIHByX3dhcm4oImhvc3RucW4gbWlzbWF0Y2guXG4iKTsNCj4+ICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjb250aW51ZTsNCj4+ICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgfQ0KPj4gQEAgLTEyNjMsNyArMTI2OSw3IEBAIHN0cnVjdCBudm1ldF9jdHJs
-ICpudm1ldF9jdHJsX2ZpbmRfZ2V0KGNvbnN0IGNoYXINCj4+ICpzdWJzeXNucW4sDQo+Pg0KPj4g
-ICAgICAgICAgIGN0cmwgPSBOVUxMOyAvKiBjdHJsIG5vdCBmb3VuZCAqLw0KPj4gICAgICAgICAg
-IHByX3dhcm4oImNvdWxkIG5vdCBmaW5kIGNvbnRyb2xsZXIgJWQgZm9yIHN1YnN5cyAlcyAvIGhv
-c3QgJXNcbiIsDQo+PiAtICAgICAgICAgICAgICAgY250bGlkLCBzdWJzeXNucW4sIGhvc3RucW4p
-Ow0KPj4gKyAgICAgICAgICAgICAgIGNudGxpZCwgc3Vic3lzbnFuX3N0ciwgaG9zdG5xbl9zdHIp
-Ow0KPj4gICAgICAgICAgIHJlcS0+Y3FlLT5yZXN1bHQudTMyID0gSVBPX0lBVFRSX0NPTk5FQ1Rf
-REFUQShjbnRsaWQpOw0KPj4NCj4+ICAgIGZvdW5kOg0KPj4NCj4+DQo+PiAtY2sNCj4+DQo+Pg0K
-PiBCZWZvcmUgSSBjaGVjayBpdCBJIHNob3VsZCBzYXkgdGhhdCB0aGUgc2FtZSBidWcgb2NjdXJz
-IGluIG90aGVyDQo+IGZ1bmN0aW9ucyBhcyB3ZWxsLg0KPiBGb3IgZXhhbXBsZSBpbiBgbnZtZXRf
-YWxsb2NfY3RybCgpYCB0aGVyZSBpcyB0aGUgc2FtZSBwcmludC4NCj4NCg0KeWVzIGl0IGhhcyBz
-YW1lIHBhdHRlcm4gYW5kIHdpbGwgbmVlZCBhIHNhbWUgZml4IGhlcmUgaXMgYW4gdXBkYXRlZA0K
-cGF0Y2ggd2l0aCBudm1ldF9hbGxvY19jdHJsKCkgZml4IDotDQoNCg0KZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvbnZtZS90YXJnZXQvY29yZS5jIGIvZHJpdmVycy9udm1lL3RhcmdldC9jb3JlLmMNCmlu
-ZGV4IDM5MzUxNjUwNDhlNy4uNWMxYTcxZDE2ZGY3IDEwMDY0NA0KLS0tIGEvZHJpdmVycy9udm1l
-L3RhcmdldC9jb3JlLmMNCisrKyBiL2RyaXZlcnMvbnZtZS90YXJnZXQvY29yZS5jDQpAQCAtMTIz
-NSwxMyArMTIzNSwxOSBAQCBzdHJ1Y3QgbnZtZXRfY3RybCAqbnZtZXRfY3RybF9maW5kX2dldChj
-b25zdCANCmNoYXIgKnN1YnN5c25xbiwNCiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNvbnN0IGNoYXIg
-Kmhvc3RucW4sIHUxNiBjbnRsaWQsDQogwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgbnZtZXRf
-cmVxICpyZXEpDQogwqB7DQorwqDCoMKgwqDCoMKgIGNoYXIgc3Vic3lzbnFuX3N0cltOVk1GX05R
-Tl9TSVpFICsgMV0gPSB7IDAgfTsNCivCoMKgwqDCoMKgwqAgY2hhciBob3N0bnFuX3N0cltOVk1G
-X05RTl9TSVpFICsgMV0gPSB7IDAgfTsNCiDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgbnZtZXRfY3Ry
-bCAqY3RybCA9IE5VTEw7DQogwqDCoMKgwqDCoMKgwqAgc3RydWN0IG52bWV0X3N1YnN5cyAqc3Vi
-c3lzOw0KDQotwqDCoMKgwqDCoMKgIHN1YnN5cyA9IG52bWV0X2ZpbmRfZ2V0X3N1YnN5cyhyZXEt
-PnBvcnQsIHN1YnN5c25xbik7DQorwqDCoMKgwqDCoMKgIC8qIHN1YnN5c25xbiAmIGhvc3RucW4g
-bWF5IG5vdCBiZSBOVUxMIHRlcm5pbWF0ZWQgKi8NCivCoMKgwqDCoMKgwqAgc3RybmNweShzdWJz
-eXNucW5fc3RyLCBzdWJzeXNucW4sIE5WTUZfTlFOX1NJWkUpOw0KK8KgwqDCoMKgwqDCoCBzdHJu
-Y3B5KGhvc3RucW5fc3RyLCBob3N0bnFuLCBOVk1GX05RTl9TSVpFKTsNCisNCivCoMKgwqDCoMKg
-wqAgc3Vic3lzID0gbnZtZXRfZmluZF9nZXRfc3Vic3lzKHJlcS0+cG9ydCwgc3Vic3lzbnFuX3N0
-cik7DQogwqDCoMKgwqDCoMKgwqAgaWYgKCFzdWJzeXMpIHsNCiDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgcHJfd2FybigiY29ubmVjdCByZXF1ZXN0IGZvciBpbnZhbGlkIHN1YnN5c3Rl
-bSAlcyFcbiIsDQotwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-c3Vic3lzbnFuKTsNCivCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCBzdWJzeXNucW5fc3RyKTsNCiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmVxLT5j
-cWUtPnJlc3VsdC51MzIgPSBJUE9fSUFUVFJfQ09OTkVDVF9EQVRBKHN1YnN5c25xbik7DQogwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGdvdG8gb3V0Ow0KIMKgwqDCoMKgwqDCoMKgIH0N
-CkBAIC0xMjQ5LDcgKzEyNTUsNyBAQCBzdHJ1Y3QgbnZtZXRfY3RybCAqbnZtZXRfY3RybF9maW5k
-X2dldChjb25zdCBjaGFyIA0KKnN1YnN5c25xbiwNCiDCoMKgwqDCoMKgwqDCoCBtdXRleF9sb2Nr
-KCZzdWJzeXMtPmxvY2spOw0KIMKgwqDCoMKgwqDCoMKgIGxpc3RfZm9yX2VhY2hfZW50cnkoY3Ry
-bCwgJnN1YnN5cy0+Y3RybHMsIHN1YnN5c19lbnRyeSkgew0KIMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCBpZiAoY3RybC0+Y250bGlkID09IGNudGxpZCkgew0KLcKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIChzdHJuY21wKGhvc3RucW4sIGN0cmwt
-Pmhvc3RucW4sIA0KTlZNRl9OUU5fU0laRSkpIHsNCivCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAoc3RybmNtcChob3N0bnFuX3N0ciwgY3RybC0+aG9zdG5x
-biwgDQpOVk1GX05RTl9TSVpFKSkgew0KIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHByX3dhcm4oImhvc3RucW4gbWlzbWF0Y2gu
-XG4iKTsNCiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBjb250aW51ZTsNCiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIH0NCkBAIC0xMjYzLDcgKzEyNjksNyBAQCBzdHJ1Y3QgbnZtZXRfY3Ry
-bCAqbnZtZXRfY3RybF9maW5kX2dldChjb25zdCBjaGFyIA0KKnN1YnN5c25xbiwNCg0KIMKgwqDC
-oMKgwqDCoMKgIGN0cmwgPSBOVUxMOyAvKiBjdHJsIG5vdCBmb3VuZCAqLw0KIMKgwqDCoMKgwqDC
-oMKgIHByX3dhcm4oImNvdWxkIG5vdCBmaW5kIGNvbnRyb2xsZXIgJWQgZm9yIHN1YnN5cyAlcyAv
-IGhvc3QgJXNcbiIsDQotwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjbnRsaWQsIHN1YnN5
-c25xbiwgaG9zdG5xbik7DQorwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjbnRsaWQsIHN1
-YnN5c25xbl9zdHIsIGhvc3RucW5fc3RyKTsNCiDCoMKgwqDCoMKgwqDCoCByZXEtPmNxZS0+cmVz
-dWx0LnUzMiA9IElQT19JQVRUUl9DT05ORUNUX0RBVEEoY250bGlkKTsNCg0KIMKgZm91bmQ6DQpA
-QCAtMTM1OCwyNSArMTM2NCwzMiBAQCBzdGF0aWMgdm9pZCBudm1ldF9mYXRhbF9lcnJvcl9oYW5k
-bGVyKHN0cnVjdCANCndvcmtfc3RydWN0ICp3b3JrKQ0KIMKgdTE2IG52bWV0X2FsbG9jX2N0cmwo
-Y29uc3QgY2hhciAqc3Vic3lzbnFuLCBjb25zdCBjaGFyICpob3N0bnFuLA0KIMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgbnZtZXRfcmVxICpyZXEsIHUzMiBrYXRvLCBzdHJ1
-Y3QgbnZtZXRfY3RybCAqKmN0cmxwKQ0KIMKgew0KK8KgwqDCoMKgwqDCoCBjaGFyIHN1YnN5c25x
-bl9zdHJbTlZNRl9OUU5fU0laRSArIDFdID0geyAwIH07DQorwqDCoMKgwqDCoMKgIGNoYXIgaG9z
-dG5xbl9zdHJbTlZNRl9OUU5fU0laRSArIDFdID0geyAwIH07DQogwqDCoMKgwqDCoMKgwqAgc3Ry
-dWN0IG52bWV0X3N1YnN5cyAqc3Vic3lzOw0KIMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBudm1ldF9j
-dHJsICpjdHJsOw0KIMKgwqDCoMKgwqDCoMKgIGludCByZXQ7DQogwqDCoMKgwqDCoMKgwqAgdTE2
-IHN0YXR1czsNCg0KIMKgwqDCoMKgwqDCoMKgIHN0YXR1cyA9IE5WTUVfU0NfQ09OTkVDVF9JTlZB
-TElEX1BBUkFNIHwgTlZNRV9TQ19ETlI7DQotwqDCoMKgwqDCoMKgIHN1YnN5cyA9IG52bWV0X2Zp
-bmRfZ2V0X3N1YnN5cyhyZXEtPnBvcnQsIHN1YnN5c25xbik7DQorDQorwqDCoMKgwqDCoMKgIC8q
-IHN1YnN5c25xbiAmIGhvc3RucW4gbWF5IG5vdCBiZSBOVUxMIHRlcm5pbWF0ZWQgKi8NCivCoMKg
-wqDCoMKgwqAgc3RybmNweShzdWJzeXNucW5fc3RyLCBzdWJzeXNucW4sIE5WTUZfTlFOX1NJWkUp
-Ow0KK8KgwqDCoMKgwqDCoCBzdHJuY3B5KGhvc3RucW5fc3RyLCBob3N0bnFuLCBOVk1GX05RTl9T
-SVpFKTsNCisNCivCoMKgwqDCoMKgwqAgc3Vic3lzID0gbnZtZXRfZmluZF9nZXRfc3Vic3lzKHJl
-cS0+cG9ydCwgc3Vic3lzbnFuX3N0cik7DQogwqDCoMKgwqDCoMKgwqAgaWYgKCFzdWJzeXMpIHsN
-CiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcHJfd2FybigiY29ubmVjdCByZXF1ZXN0
-IGZvciBpbnZhbGlkIHN1YnN5c3RlbSAlcyFcbiIsDQotwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgc3Vic3lzbnFuKTsNCivCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzdWJzeXNucW5fc3RyKTsNCiDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgcmVxLT5jcWUtPnJlc3VsdC51MzIgPSBJUE9fSUFUVFJfQ09OTkVDVF9E
-QVRBKHN1YnN5c25xbik7DQogwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJlcS0+ZXJy
-b3JfbG9jID0gb2Zmc2V0b2Yoc3RydWN0IG52bWVfY29tbW9uX2NvbW1hbmQsIA0KZHB0cik7DQog
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGdvdG8gb3V0Ow0KIMKgwqDCoMKgwqDCoMKg
-IH0NCg0KIMKgwqDCoMKgwqDCoMKgIGRvd25fcmVhZCgmbnZtZXRfY29uZmlnX3NlbSk7DQotwqDC
-oMKgwqDCoMKgIGlmICghbnZtZXRfaG9zdF9hbGxvd2VkKHN1YnN5cywgaG9zdG5xbikpIHsNCivC
-oMKgwqDCoMKgwqAgaWYgKCFudm1ldF9ob3N0X2FsbG93ZWQoc3Vic3lzLCBob3N0bnFuX3N0cikp
-IHsNCiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcHJfaW5mbygiY29ubmVjdCBieSBo
-b3N0ICVzIGZvciBzdWJzeXN0ZW0gJXMgbm90IA0KYWxsb3dlZFxuIiwNCi3CoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBob3N0bnFuLCBzdWJzeXNucW4pOw0KK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGhvc3RucW5fc3RyLCBz
-dWJzeXNucW5fc3RyKTsNCiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmVxLT5jcWUt
-PnJlc3VsdC51MzIgPSBJUE9fSUFUVFJfQ09OTkVDVF9EQVRBKGhvc3RucW4pOw0KIMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB1cF9yZWFkKCZudm1ldF9jb25maWdfc2VtKTsNCiDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RhdHVzID0gTlZNRV9TQ19DT05ORUNUX0lOVkFM
-SURfSE9TVCB8IE5WTUVfU0NfRE5SOw0KDQotY2sNCg0KDQo=
+On Wed, 8 Nov 2023 at 12:02, Chaitanya Kulkarni <chaitanyak@nvidia.com> wrote:
+>
+> On 11/8/23 01:01, Alon Zahavi wrote:
+> > On Wed, 8 Nov 2023 at 10:46, Chaitanya Kulkarni <chaitanyak@nvidia.com> wrote:
+> >>
+> >>> ## Root Cause
+> >>> As explained above, the root cause for this bug is the fact that there
+> >>> are no NULL terminators to the strings in the object representing the
+> >>> `struct nvmf_connect_data`.
+> >> Can you see if this works for you ? it should at least take care of the
+> >> subsysnqn and hostnqn being accessed as NULL terminated string.
+> >>
+> >> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> >> index 3935165048e7..569046b6a269 100644
+> >> --- a/drivers/nvme/target/core.c
+> >> +++ b/drivers/nvme/target/core.c
+> >> @@ -1235,13 +1235,19 @@ struct nvmet_ctrl *nvmet_ctrl_find_get(const
+> >> char *subsysnqn,
+> >>                                          const char *hostnqn, u16 cntlid,
+> >>                                          struct nvmet_req *req)
+> >>    {
+> >> +       char subsysnqn_str[NVMF_NQN_SIZE + 1] = { 0 };
+> >> +       char hostnqn_str[NVMF_NQN_SIZE + 1] = { 0 };
+> >>           struct nvmet_ctrl *ctrl = NULL;
+> >>           struct nvmet_subsys *subsys;
+> >>
+> >> -       subsys = nvmet_find_get_subsys(req->port, subsysnqn);
+> >> +       /* subsysnqn & hostnqn may not be NULL ternimated */
+> >> +       strncpy(subsysnqn_str, subsysnqn, NVMF_NQN_SIZE);
+> >> +       strncpy(hostnqn_str, hostnqn, NVMF_NQN_SIZE);
+> >> +
+> >> +       subsys = nvmet_find_get_subsys(req->port, subsysnqn_str);
+> >>           if (!subsys) {
+> >>                   pr_warn("connect request for invalid subsystem %s!\n",
+> >> -                       subsysnqn);
+> >> +                       subsysnqn_str);
+> >>                   req->cqe->result.u32 = IPO_IATTR_CONNECT_DATA(subsysnqn);
+> >>                   goto out;
+> >>           }
+> >> @@ -1249,7 +1255,7 @@ struct nvmet_ctrl *nvmet_ctrl_find_get(const char
+> >> *subsysnqn,
+> >>           mutex_lock(&subsys->lock);
+> >>           list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
+> >>                   if (ctrl->cntlid == cntlid) {
+> >> -                       if (strncmp(hostnqn, ctrl->hostnqn,
+> >> NVMF_NQN_SIZE)) {
+> >> +                       if (strncmp(hostnqn_str, ctrl->hostnqn,
+> >> NVMF_NQN_SIZE)) {
+> >>                                   pr_warn("hostnqn mismatch.\n");
+> >>                                   continue;
+> >>                           }
+> >> @@ -1263,7 +1269,7 @@ struct nvmet_ctrl *nvmet_ctrl_find_get(const char
+> >> *subsysnqn,
+> >>
+> >>           ctrl = NULL; /* ctrl not found */
+> >>           pr_warn("could not find controller %d for subsys %s / host %s\n",
+> >> -               cntlid, subsysnqn, hostnqn);
+> >> +               cntlid, subsysnqn_str, hostnqn_str);
+> >>           req->cqe->result.u32 = IPO_IATTR_CONNECT_DATA(cntlid);
+> >>
+> >>    found:
+> >>
+> >>
+> >> -ck
+> >>
+> >>
+> > Before I check it I should say that the same bug occurs in other
+> > functions as well.
+> > For example in `nvmet_alloc_ctrl()` there is the same print.
+> >
+>
+> yes it has same pattern and will need a same fix here is an updated
+> patch with nvmet_alloc_ctrl() fix :-
+>
+>
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index 3935165048e7..5c1a71d16df7 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -1235,13 +1235,19 @@ struct nvmet_ctrl *nvmet_ctrl_find_get(const
+> char *subsysnqn,
+>                                         const char *hostnqn, u16 cntlid,
+>                                         struct nvmet_req *req)
+>   {
+> +       char subsysnqn_str[NVMF_NQN_SIZE + 1] = { 0 };
+> +       char hostnqn_str[NVMF_NQN_SIZE + 1] = { 0 };
+>          struct nvmet_ctrl *ctrl = NULL;
+>          struct nvmet_subsys *subsys;
+>
+> -       subsys = nvmet_find_get_subsys(req->port, subsysnqn);
+> +       /* subsysnqn & hostnqn may not be NULL ternimated */
+> +       strncpy(subsysnqn_str, subsysnqn, NVMF_NQN_SIZE);
+> +       strncpy(hostnqn_str, hostnqn, NVMF_NQN_SIZE);
+> +
+> +       subsys = nvmet_find_get_subsys(req->port, subsysnqn_str);
+>          if (!subsys) {
+>                  pr_warn("connect request for invalid subsystem %s!\n",
+> -                       subsysnqn);
+> +                       subsysnqn_str);
+>                  req->cqe->result.u32 = IPO_IATTR_CONNECT_DATA(subsysnqn);
+>                  goto out;
+>          }
+> @@ -1249,7 +1255,7 @@ struct nvmet_ctrl *nvmet_ctrl_find_get(const char
+> *subsysnqn,
+>          mutex_lock(&subsys->lock);
+>          list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
+>                  if (ctrl->cntlid == cntlid) {
+> -                       if (strncmp(hostnqn, ctrl->hostnqn,
+> NVMF_NQN_SIZE)) {
+> +                       if (strncmp(hostnqn_str, ctrl->hostnqn,
+> NVMF_NQN_SIZE)) {
+>                                  pr_warn("hostnqn mismatch.\n");
+>                                  continue;
+>                          }
+> @@ -1263,7 +1269,7 @@ struct nvmet_ctrl *nvmet_ctrl_find_get(const char
+> *subsysnqn,
+>
+>          ctrl = NULL; /* ctrl not found */
+>          pr_warn("could not find controller %d for subsys %s / host %s\n",
+> -               cntlid, subsysnqn, hostnqn);
+> +               cntlid, subsysnqn_str, hostnqn_str);
+>          req->cqe->result.u32 = IPO_IATTR_CONNECT_DATA(cntlid);
+>
+>   found:
+> @@ -1358,25 +1364,32 @@ static void nvmet_fatal_error_handler(struct
+> work_struct *work)
+>   u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+>                  struct nvmet_req *req, u32 kato, struct nvmet_ctrl **ctrlp)
+>   {
+> +       char subsysnqn_str[NVMF_NQN_SIZE + 1] = { 0 };
+> +       char hostnqn_str[NVMF_NQN_SIZE + 1] = { 0 };
+>          struct nvmet_subsys *subsys;
+>          struct nvmet_ctrl *ctrl;
+>          int ret;
+>          u16 status;
+>
+>          status = NVME_SC_CONNECT_INVALID_PARAM | NVME_SC_DNR;
+> -       subsys = nvmet_find_get_subsys(req->port, subsysnqn);
+> +
+> +       /* subsysnqn & hostnqn may not be NULL ternimated */
+> +       strncpy(subsysnqn_str, subsysnqn, NVMF_NQN_SIZE);
+> +       strncpy(hostnqn_str, hostnqn, NVMF_NQN_SIZE);
+> +
+> +       subsys = nvmet_find_get_subsys(req->port, subsysnqn_str);
+>          if (!subsys) {
+>                  pr_warn("connect request for invalid subsystem %s!\n",
+> -                       subsysnqn);
+> +                       subsysnqn_str);
+>                  req->cqe->result.u32 = IPO_IATTR_CONNECT_DATA(subsysnqn);
+>                  req->error_loc = offsetof(struct nvme_common_command,
+> dptr);
+>                  goto out;
+>          }
+>
+>          down_read(&nvmet_config_sem);
+> -       if (!nvmet_host_allowed(subsys, hostnqn)) {
+> +       if (!nvmet_host_allowed(subsys, hostnqn_str)) {
+>                  pr_info("connect by host %s for subsystem %s not
+> allowed\n",
+> -                       hostnqn, subsysnqn);
+> +                       hostnqn_str, subsysnqn_str);
+>                  req->cqe->result.u32 = IPO_IATTR_CONNECT_DATA(hostnqn);
+>                  up_read(&nvmet_config_sem);
+>                  status = NVME_SC_CONNECT_INVALID_HOST | NVME_SC_DNR;
+>
+> -ck
+>
+>
+
+I think that although those patches will fix the bug in the two
+functions we talked about, the non-terminated strings are still stored
+in the `struct nvmf_connect_data` object.
+This can cause major security bugs in the future. Moreover, handling
+this kind of copy of strings before each time we use `subsysnqn` or
+`sysnqn` is taking resources and time.
+For example, in `nvmf_connect_data_prep()` it uses
+`strncpy(data->subsysnqn, ctrl->opts->subsysnqn, NVMF_NQN_SIZE);` to
+copy the subsysnqn to the object, with NVMF_NQN_SIZE as the max size.
+
+Is it possible to add a NULL terminator after each time we use
+`nvmet_copy_from_sgl()` to copy from an SGL to `struct
+nvmf_connect_data` object?
+Also, I think `nvmet_copy_from_sgl()` should be considered as unsafe
+when using it to copy strings, as it doesn't check for NULL
+termination.
+
+Thanks,
+Alon.
 
