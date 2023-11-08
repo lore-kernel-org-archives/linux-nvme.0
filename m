@@ -4,76 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87CB6C4332F
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Nov 2023 16:58:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C80B6C4332F
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Nov 2023 17:19:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/BzemWBtc0TeP34laM8MtrN8mHgGRvRTcRB7Cd5shEM=; b=05bF1+Nnv7Cc6iwff4afTcP6Ak
-	jyFoQ0A0glqNLVvHiRS5Szno9UX+Yun/5zJB4bW1fMXRH8teqy83zKyO+UTjwcmz3Hf9Tuvc3+O5Z
-	twP7/+mfkq2iseiYB1/Fg55e0f/0XkvGLnJazG3Sy3HBJwZrlFwTQ9D0NQfouCxBcCm2BH0gKE2eF
-	Y8guV9SyYUfG4fYH7VE5nMYRcFJL23/YmLRMbxdOPsBlTsSvzeKFTiy3R46fiW81DeUIrrL+8S4SQ
-	DEYfHJtHyjKDLo8K9DH1p3YGydD/fXhSRtQYFvDCrk2cHTOva0qj1lMWHyzH/XxSoM2gAeAuz+nbE
-	atbiKUyA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=c5F8kMntyFbtyyZ5q4UaNNtaqSNSXsuGzAds0G+FSNI=; b=zKMBOVP1pN2qsGlL3HN6SMePd3
+	qFH32EKXYO3AE3M4VmUEA6Z79uJxmZJ6VePVZfVRlGVJW6wvW6uDkAJzQTwr3c/If804kYkzs4GVm
+	zujL4NpQeG32YnRHEHbJXgL6RQD5Hei5l8cCLuLts3nS3LpSuLn3RyVhyyKo6ih/Ynma6JSOxS+cX
+	qMTmrGxNv2gE8pA77lEXwA36nkPCNFrtI7nA1ij3iccgEanbSUMcfX9REpGUp7xMwmc1CBZ1C2gaI
+	WvW3vfQ/1M201nJyxadMhld3wEDjPQNBSb8Z38/2f/PpPLbyVppuWcW9tGjHExEelJNuMpMKNIWnu
+	/ILXtvDQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r0lt9-004Lvx-2a;
-	Wed, 08 Nov 2023 16:58:47 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1r0mDQ-004ObC-3A;
+	Wed, 08 Nov 2023 17:19:45 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r0lt6-004Lux-2J
+	id 1r0mDO-004Oaa-2H
 	for linux-nvme@lists.infradead.org;
-	Wed, 08 Nov 2023 16:58:46 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1699462721;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/BzemWBtc0TeP34laM8MtrN8mHgGRvRTcRB7Cd5shEM=;
-	b=OsOoywt0hjfZRt+RdUYNr5jByVyldkwQgEhA+L8XGAN4wrtouz1XaBXGQ5AjI7ZAZYdGsk
-	w+EZ27VUzliy2N5OL0S+p09s2EsQZ37B9iCd5TZVlTbPXPW5fk9DF65j59xXF8CmiKNo/i
-	GSMWMBP/glTPoFSLGKyh3aFrSUU446w=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-588-C_Q0W_bVMS-yOXLFW9kZvA-1; Wed, 08 Nov 2023 11:58:39 -0500
-X-MC-Unique: C_Q0W_bVMS-yOXLFW9kZvA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 35AFC185A781
-	for <linux-nvme@lists.infradead.org>; Wed,  8 Nov 2023 16:58:39 +0000 (UTC)
-Received: from [10.22.10.156] (unknown [10.22.10.156])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 134C41C060AE;
-	Wed,  8 Nov 2023 16:58:39 +0000 (UTC)
-Message-ID: <86d4f9cb-f041-4e1a-9294-f410ab094fa1@redhat.com>
-Date: Wed, 8 Nov 2023 11:58:38 -0500
+	Wed, 08 Nov 2023 17:19:44 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 1EEA6CE1117;
+	Wed,  8 Nov 2023 17:19:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C447BC433C8;
+	Wed,  8 Nov 2023 17:19:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1699463980;
+	bh=8WcnBJph0nMP59ZVY5tLRagWAAWuVVxQRfQlzNm6mRI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fdg0tia1FBXF/KLhUIKMag4zrdSAYyQ+HQSZVYM9Qv4uAR0Cx5ol1WoZiqYgcBWU8
+	 eDSTN0qYHoVkwsZc8Bh25K2gzGUP/GumjOZ20y15Ig3SK1Efz4SYck8IL5+g7qnxki
+	 aPFDxwJ22kM6hNCuwVWQAZQANymORWWF9dXjnVP75M9G6ypqVqgfqadlWYWe1tWwpf
+	 NAnlHre/NYaEQOCTpP7cD5B741VlO6PnAfmMWK1OAwPWfOjRyIkkPnQPjznhfsSqsh
+	 VE2ZkGBNis9L333ci426+aYSN9nxn1ZY7mxZPUT5/7ij+9VX2e+5ycGLRl80odVeiY
+	 T4d+3Q9R0y1kA==
+Date: Wed, 8 Nov 2023 10:19:37 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Kanchan Joshi <joshi.k@samsung.com>
+Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, io-uring@vger.kernel.org,
+	axboe@kernel.dk, hch@lst.de, martin.petersen@oracle.com
+Subject: Re: [PATCHv2 1/4] block: bio-integrity: directly map user buffers
+Message-ID: <ZUvDKbe87fhYajcT@kbusch-mbp.dhcp.thefacebook.com>
+References: <20231027181929.2589937-1-kbusch@meta.com>
+ <CGME20231027182010epcas5p36bcf271f93f821055206b2e04b3019a6@epcas5p3.samsung.com>
+ <20231027181929.2589937-2-kbusch@meta.com>
+ <40ac82f5-ce1b-6f49-3609-1aff496ae241@samsung.com>
+ <ZUkAH258Ts0caQ5W@kbusch-mbp.dhcp.thefacebook.com>
+ <1067f03f-e89b-4fc8-58bb-0b83b6c5c91d@samsung.com>
+ <ZUpS150ojGIJ-bkP@kbusch-mbp.dhcp.thefacebook.com>
+ <3e14f4c8-482d-df2c-f802-ebc74bd12664@samsung.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] nvme: multipath: only update ctrl->nr_active when
- using queue-depth iopolicy
-To: linux-nvme@lists.infradead.org
-References: <20231107212331.9413-1-emilne@redhat.com>
- <20231107212331.9413-2-emilne@redhat.com>
- <ZUqx7JoyPG1QxYeY@kbusch-mbp.dhcp.thefacebook.com>
- <ZUtCPeDYRaGszXnE@infradead.org>
-From: John Meneghini <jmeneghi@redhat.com>
-Organization: RHEL Core Storge Team
-In-Reply-To: <ZUtCPeDYRaGszXnE@infradead.org>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.7
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3e14f4c8-482d-df2c-f802-ebc74bd12664@samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231108_085844_830681_BB494B72 
-X-CRM114-Status: GOOD (  11.59  )
+X-CRM114-CacheID: sfid-20231108_091942_917527_C8CC6A96 
+X-CRM114-Status: GOOD (  23.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,24 +79,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/8/23 03:09, Christoph Hellwig wrote:
-> But I'm also pretty deeply unhappy with the whole thing. This is a controller-wise atomic taken for every I/O. How slow are the 
-> subsystems people want to use it for?
+On Wed, Nov 08, 2023 at 05:45:19PM +0530, Kanchan Joshi wrote:
+> On 11/7/2023 8:38 PM, Keith Busch wrote:
+> > On Tue, Nov 07, 2023 at 03:55:14PM +0530, Kanchan Joshi wrote:
+> >> On 11/6/2023 8:32 PM, Keith Busch wrote:
+> >>> On Mon, Nov 06, 2023 at 11:18:03AM +0530, Kanchan Joshi wrote:
+> >>>> On 10/27/2023 11:49 PM, Keith Busch wrote:
+> >>>>> +	for (i = 0; i < nr_vecs; i = j) {
+> >>>>> +		size_t size = min_t(size_t, bytes, PAGE_SIZE - offs);
+> >>>>> +		struct folio *folio = page_folio(pages[i]);
+> >>>>> +
+> >>>>> +		bytes -= size;
+> >>>>> +		for (j = i + 1; j < nr_vecs; j++) {
+> >>>>> +			size_t next = min_t(size_t, PAGE_SIZE, bytes);
+> >>>>> +
+> >>>>> +			if (page_folio(pages[j]) != folio ||
+> >>>>> +			    pages[j] != pages[j - 1] + 1)
+> >>>>> +				break;
+> >>>>> +			unpin_user_page(pages[j]);
+> >>>>
+> >>>> Is this unpin correct here?
+> >>>
+> >>> Should be. The pages are bound to the folio, so this doesn't really
+> >>> unpin the user page. It just drops a reference, and the folio holds the
+> >>> final reference to the contiguous pages, which is released on
+> >>> completion.
+> >>
+> >> But the completion is still going to see multiple pages and not one
+> >> (folio). The bip_for_each_vec loop is going to drop the reference again.
+> >> I suspect it is not folio-aware.
+> > 
+> > The completion unpins once per bvec, not individual pages. The setup
+> > creates multipage bvecs with only one pin remaining per bvec for all of
+> > the bvec's pages. If a page can't be merged into the current bvec, then
+> > that page is not unpinned and becomes the first page of to the next
+> > bvec.
+> > 
+> 
+> Here is a test program [2] that creates this scenario.
+> Single 8KB+16b read on a 4KB+8b formatted namespace. It prepares 
+> meta-buffer out of a huge-page in a way that it spans two regular 4K pages.
+> With this, I see more unpins than expected.
 
-This would never be useful with PCIe subsystems which all have latency/response times in the 10s of microseconds range.
-
-This is really only useful with Fibre channel and TCP attached subsystems. We have several enterprise class storage arrays here 
-in our lab at Red Hat - all with multiple 32GB FC and 100Gbps TCP connections. Based on our own private performance analysis of 
-these devices they have latency/response times in 10s of milliseconds range... at best... and the performance bottle necks are 
-in the storage arrays, not in the fabrics. Even some of the RDMA attached storage arrays are slow. These devices have trouble 
-scaling up performance... so they they scale-out instead, adding more and more paths and controllers to different domains in 
-their subsystems.
-
-I am not concerned about the addition of one atomic counter with these use cases. In a grand scheme of things, when using an 
-nvme-of attached storage array, the trade offs are worth it.  Besides, if you've dived into the TCP socket layer you'll see 
-there are plenty of atomic counters in the data path already.  This is the main use case which needs QD scheduling - nvme/tcp - 
-where latency can build up in the connection as well as in the storage array.
-
-/John
-
+I understand now. The bip_for_each_bvec is using single page vector
+iterators. Will fix it up for next time.
 
