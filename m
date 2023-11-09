@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4144C4332F
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Nov 2023 15:26:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8FBBC4167B
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Nov 2023 15:36:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/BNh6VJF2AIFwXWOX4IJA6gSXH9mmZtBDBpz22quQJQ=; b=uSIXcU3fH1q6Hk6Z1Og97eRikL
-	w1V21P1vMycPZYI3ZCit4rYwFfmybCqGtG038bxDTJKgKGG8Kxc+SBsxokRi1wPrP6ZJC0VQU/2Hy
-	pQMcIW6O13YP+nInkUrwE4mbCaELe07CwxjPQG5BqUNb9maOAZ9HOsNLVML4lMZ6yKfpOgVpfujkV
-	daWjCV94ZQ2Ed1Thp3lMil4K93RUJrxVtdni4qLn+MY1IHHdT0nWfUugLSvOQQAeIduuxEhwvvvJC
-	J0pueZUkX2Up8sYBJUDXZKPhBPrg7bPr6Td0fboBPeHnE9ckkkDBcaJm5RGLKdWS0QfXTK0Drt90f
-	NgN28QYQ==;
+	bh=SMQAwb8UWtsIyMfWjlsf1jELD0xy0Eh+rkitcCN6FZo=; b=1GTW1YUzYksKQCwTyf128r49X8
+	NQWKVwwCdfLUklv5wWoPwGqXLKK9NSTuL2qnAWgqlGRsDTJPhYi4u4eD/lRS2pLmVIfU51R9FKtuL
+	WYGVMHMBynytCBMd92uzdv4YDVl8wbab6ZWCkE+cXZE+PVYWKNoJqYn/s6LQrVJi+eqh0n/THANhC
+	6PVNAPw6AvyLLdvw6fApgHP9yvDjPrk9y+lWYqSBu8qiw+9VWIuDEr2eVSqcd/qMDH2e3XqOf5pNu
+	fgzqalH4PGhfGbq7/49M7xgz7DYPfbzrDo064y3JUvoPnLYQK1/4Hbw0oaZNthqIFAAU+lDz8NVum
+	VnI4pFog==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r16vG-006aNR-2Q;
-	Thu, 09 Nov 2023 15:26:22 +0000
+	id 1r174l-006bLZ-2Q;
+	Thu, 09 Nov 2023 15:36:11 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r16vD-006aMZ-0o
+	id 1r174i-006bKT-2G
 	for linux-nvme@lists.infradead.org;
-	Thu, 09 Nov 2023 15:26:20 +0000
+	Thu, 09 Nov 2023 15:36:09 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 67A9F67373; Thu,  9 Nov 2023 16:26:15 +0100 (CET)
-Date: Thu, 9 Nov 2023 16:26:15 +0100
+	id 4BBF667373; Thu,  9 Nov 2023 16:36:04 +0100 (CET)
+Date: Thu, 9 Nov 2023 16:36:03 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: John Garry <john.g.garry@oracle.com>
 Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
@@ -39,18 +39,18 @@ Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
 	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
-	linux-api@vger.kernel.org
-Subject: Re: [PATCH 17/21] fs: xfs: iomap atomic write support
-Message-ID: <20231109152615.GB1521@lst.de>
-References: <20230929102726.2985188-1-john.g.garry@oracle.com> <20230929102726.2985188-18-john.g.garry@oracle.com>
+	linux-api@vger.kernel.org, Alan Adamson <alan.adamson@oracle.com>
+Subject: Re: [PATCH 21/21] nvme: Support atomic writes
+Message-ID: <20231109153603.GA2188@lst.de>
+References: <20230929102726.2985188-1-john.g.garry@oracle.com> <20230929102726.2985188-22-john.g.garry@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230929102726.2985188-18-john.g.garry@oracle.com>
+In-Reply-To: <20230929102726.2985188-22-john.g.garry@oracle.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231109_072619_429197_2F641AB0 
-X-CRM114-Status: GOOD (  15.55  )
+X-CRM114-CacheID: sfid-20231109_073608_886019_532E7B6D 
+X-CRM114-Status: GOOD (  13.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,24 +65,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Sep 29, 2023 at 10:27:22AM +0000, John Garry wrote:
-> Ensure that when creating a mapping that we adhere to all the atomic
-> write rules.
-> 
-> We check that the mapping covers the complete range of the write to ensure
-> that we'll be just creating a single mapping.
-> 
-> Currently minimum granularity is the FS block size, but it should be
-> possibly to support lower in future.
+> +			if (le16_to_cpu(id->nabspf))
+> +				boundary = (le16_to_cpu(id->nabspf) + 1) * bs;
+> +
+> +			if (is_power_of_2(boundary) || !boundary) {
+> +				blk_queue_atomic_write_max_bytes(disk->queue, atomic_bs);
+> +				blk_queue_atomic_write_unit_min_sectors(disk->queue, 1);
+> +				blk_queue_atomic_write_unit_max_sectors(disk->queue,
+> +									atomic_bs / bs);
+> +				blk_queue_atomic_write_boundary_bytes(disk->queue, boundary);
+> +			} else {
+> +				dev_err(ns->ctrl->device, "Unsupported atomic boundary=0x%x\n",
+> +					boundary);
+> +			}
 
-I really dislike how this forces aligned allocations.  Aligned
-allocations are a nice optimization to offload some of the work
-to the storage hard/firmware, but we need to support it in general.
-And I think with out of place writes into the COW fork, and atomic
-transactions to swap it in we can do that pretty easily.
+Please figure out a way to split the atomic configuration into a
+helper and avoid all those crazy long lines,  preferable also avoid
+the double calls to the block helpers as well while you're at it.
 
-That should also allow to get rid of the horrible forcealign mode,
-as we can still try align if possible and just fall back to the
-out of place writes.
-
+Also I really want a check in the NVMe I/O path that any request
+with the atomic flag set actually adhers to the limits to at least
+partially paper over the annoying lack of a separate write atomic
+command in nvme.
 
