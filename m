@@ -4,54 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D03FC4332F
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Nov 2023 06:29:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C20EFC4332F
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Nov 2023 06:38:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sBAjKQAagp85y8dwN4jl/DtlnXYFyVjaHB0W4evQhAw=; b=KlEsyR/CRIcavUPMrrBhhzibRH
-	2oR2JBmse6w+AUK/TInD0GahC0RzFul/R96CokesGJJBxIiOUZII6dTFbP2yjmFJCCctJ/dMGv6/0
-	i2HE6IG/1qKntVxwjCuS/nU8ERtZp0jP56DmoToBJnD/u71zxThkDkjUJZc5wGMVGcZuey5jUOWr6
-	5ceV2U71QCBnztO79TKboe4LgGXgC+n0BpyXyESB2tnSplcVmDKDD1cYt0OlkhOJh0/ZXAiyfRtfG
-	AdbtJs2xfmqoJuBJC1MrFUC55z0AjVuqsqyzfL82tQ5NBJqARgfE8hrOApByjtLb84CpFkJj6lCLE
-	njkvdkCA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=TGgugDKm1htkFQDY4rDy5r6Emtsv/dppbBD5OmmLID8=; b=b2Oi63z5VL06F0MXvB3wMxdRIh
+	59B/0evnDQOozeICxXiAj4hI7QmMcj3lvHOluLFc+FNRFWQCLDhAx5BhyBEngKrrXm7DWiq5MnOWB
+	WdQ/sab0wROBttC1QcLpZ6nnJLWTd06TfxG8vcigFRRrKrKj3m7sNYSVJq/OHd/7bSvoFGTNhxHwF
+	B+wQU1iPolHtLdHnEvHXSUSHE22FN+lAg9Mut5VgCvW5qFsfhLIETbFVOldRGfmzN7SJiuPjulCrQ
+	p2VIFMd+aSqHuhnyFJA0tZgUUqUuSuNKpGvGghWvgoCnjQnqffeWCQVWgtmzPXyXiosWjWu5eLxT0
+	Eczk8JTg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r1L1b-007xlV-1H;
-	Fri, 10 Nov 2023 06:29:51 +0000
-Received: from verein.lst.de ([213.95.11.211])
-	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r1L1Y-007xku-2w
-	for linux-nvme@lists.infradead.org;
-	Fri, 10 Nov 2023 06:29:50 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 6FB5467373; Fri, 10 Nov 2023 07:29:44 +0100 (CET)
-Date: Fri, 10 Nov 2023 07:29:44 +0100
+	id 1r1LAA-007yki-31;
+	Fri, 10 Nov 2023 06:38:42 +0000
+Received: from 2a02-8389-2341-5b80-39d3-4735-9a3c-88d8.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:39d3:4735:9a3c:88d8] helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1r1LA9-007ykX-04;
+	Fri, 10 Nov 2023 06:38:41 +0000
 From: Christoph Hellwig <hch@lst.de>
-To: John Garry <john.g.garry@oracle.com>
-Cc: Christoph Hellwig <hch@lst.de>, Matthew Wilcox <willy@infradead.org>,
-	axboe@kernel.dk, kbusch@kernel.org, sagi@grimberg.me,
-	jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
-	viro@zeniv.linux.org.uk, brauner@kernel.org,
-	chandan.babu@oracle.com, dchinner@redhat.com,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
-	linux-api@vger.kernel.org, Alan Adamson <alan.adamson@oracle.com>
-Subject: Re: [PATCH 21/21] nvme: Support atomic writes
-Message-ID: <20231110062944.GC26516@lst.de>
-References: <20230929102726.2985188-1-john.g.garry@oracle.com> <20230929102726.2985188-22-john.g.garry@oracle.com> <20231109153603.GA2188@lst.de> <ZUz98KriiLsM8oQd@casper.infradead.org> <20231109154619.GA3491@lst.de> <61b25fe8-22ae-c299-3225-ca835b337d41@oracle.com>
+To: sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org,
+	Alon Zahavi <zahavi.alon@gmail.com>
+Subject: [PATCH] nvmet: nul-terminate the NQNs passed in the connect command
+Date: Fri, 10 Nov 2023 07:38:37 +0100
+Message-Id: <20231110063837.810134-1-hch@lst.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <61b25fe8-22ae-c299-3225-ca835b337d41@oracle.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231109_222949_090787_4522503A 
-X-CRM114-Status: GOOD (  20.40  )
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,34 +50,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Nov 09, 2023 at 07:08:40PM +0000, John Garry wrote:
->>> send a write that crossed the atomic write limit, but the drive wouldn't
->>> guarantee that it was atomic except at the atomic write boundary.
->>> Eg with an AWUN of 16kB, you could send five 16kB writes, combine them
->>> into a single 80kB write, and if the power failed midway through, the
->>> drive would guarantee that it had written 0, 16kB, 32kB, 48kB, 64kB or
->>> all 80kB.  Not necessarily in order; it might have written bytes 16-32kB,
->>> 64-80kB and not the other three.
->
-> I didn't think that there are any atomic write guarantees at all if we ever 
-> exceed AWUN or AWUPF or cross the atomic write boundary (if any).
+The host and subsystem NQNs are passed in the connect command payload and
+interpreted as nul-terminated strings.  Ensure they actually are
+nul-terminated before using them.
 
-You're quoting a few mails before me, but I agree.
+Fixes: a07b4970f464 "nvmet: add a generic NVMe target")
+Reported-by: Alon Zahavi <zahavi.alon@gmail.com>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/nvme/target/fabrics-cmd.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
->> I can see some use for that, but I'm really worried that debugging
->> problems in the I/O merging and splitting will be absolute hell.
->
-> Even if bios were merged for NVMe the total request length still should not 
-> exceed AWUPF. However a check can be added to ensure this for a submitted 
-> atomic write request.
+diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
+index 43b5bd8bb6a52d..0920fe7ce4ac99 100644
+--- a/drivers/nvme/target/fabrics-cmd.c
++++ b/drivers/nvme/target/fabrics-cmd.c
+@@ -244,6 +244,8 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
+ 		goto out;
+ 	}
+ 
++	d->subsysnqn[NVMF_NQN_FIELD_LEN] = '\0';
++	d->hostnqn[NVMF_NQN_FIELD_LEN] = '\0';
+ 	status = nvmet_alloc_ctrl(d->subsysnqn, d->hostnqn, req,
+ 				  le32_to_cpu(c->kato), &ctrl);
+ 	if (status)
+@@ -313,6 +315,8 @@ static void nvmet_execute_io_connect(struct nvmet_req *req)
+ 		goto out;
+ 	}
+ 
++	d->subsysnqn[NVMF_NQN_FIELD_LEN] = '\0';
++	d->hostnqn[NVMF_NQN_FIELD_LEN] = '\0';
+ 	ctrl = nvmet_ctrl_find_get(d->subsysnqn, d->hostnqn,
+ 				   le16_to_cpu(d->cntlid), req);
+ 	if (!ctrl) {
+-- 
+2.39.2
 
-Yes.
-
-> As for splitting, it is not permitted for atomic writes and only a single 
-> bio is permitted to be created per write. Are more integrity checks 
-> required?
-
-I'm more worried about the problem where we accidentally add a split.
-The whole bio merge/split path is convoluted and we had plenty of
-bugs in the past by not looking at all the correct flags or opcodes.
 
