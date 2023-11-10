@@ -4,75 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4FB98C4332F
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Nov 2023 15:49:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3A26C4332F
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Nov 2023 16:37:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MT38o5Ae3OJBcTJQStAk3qjyADcvfwQVOXoScD5ddQA=; b=d23xv4OyOF4wEKKrTv6daLzTFb
-	Z1IvyfJH19txiqEsptor5yeRmUAqypfLsjUKRrhxA9PKElme9Xp8c61krABqq1uqclsp+cjI0COgx
-	oCSQI0Qvb3JETmlts07hHY4ESi6iSLgVJCaQMn7vDM+0Pmv4X0jJodd7QJ/XUbOW1MwhEMb56a54u
-	tqOO+VnvXghnS3INHx+jgIjvXSjqL8+8vid6u808HqoFurQQEzNDZANXaRdCLiDiITBNDb4WJNl7K
-	r0pTii2fA9EQz+vXueBzZ+a+yZykZL7Ja+6Td8u1iY+a8nPelP0lkb/bitGm+AXWtIGuiRBpXMTVR
-	2esh7YGw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:To:From:
+	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=uZGjmS+sMvLNdWhJ4DQKQWcIXB+jZtkds07mJ8cy31M=; b=cEOXkFOnaYwOiI
+	DrywGu+T4uNB72Z4bsioUjiXMKGF1FdQaYWi58JvMKrmo1Zwpopzmwe/SQrpLP7NgH/q4l43nXZDE
+	kI9Y1cANSaRqnlrqiBwimb518Ix5dijC5CJIdq4MR8z1rt815cAoxT3s9oihalvb06/jkMTMWlfYu
+	IxmEaaSXpcUzruvBAvtB8bVnKBQxiRX9JkGbLADzdclkQPr3IJZK0jNqFYdzHoS3IL8vaA5AzmEu3
+	hyPgcuwAu+mACAjp/H2GZOch5tmZLjBy4xevkqnfuXzVWGloQkvrpEqHMPwT2OJx2m9DGEXbWBLuU
+	ryWLwhev6E9DekoOndZA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r1Tkv-0092nM-2y;
-	Fri, 10 Nov 2023 15:49:13 +0000
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
+	id 1r1UVc-0095cv-2P;
+	Fri, 10 Nov 2023 16:37:28 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r1Tkt-0092mT-16
+	id 1r1UVa-0095cW-15
 	for linux-nvme@lists.infradead.org;
-	Fri, 10 Nov 2023 15:49:12 +0000
-Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-9e623356e59so131296966b.0
-        for <linux-nvme@lists.infradead.org>; Fri, 10 Nov 2023 07:49:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699631349; x=1700236149; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MT38o5Ae3OJBcTJQStAk3qjyADcvfwQVOXoScD5ddQA=;
-        b=JoUhZ24cfVnYSgeiz6S7p933KNAFg6rcv+OoRydi/sWnn/NXKvU2B3samYkW87N4W3
-         HUd0gokcl7oWU3BBlWg5Z598Olu4koI4L3jnWE5WGx0ko5T5LNLavbT41xtt9lVm2fT5
-         iWKqYa+8yH1FEekWeI1Rjfgu4dWy5Z1PPZfm8PPzh5dQ3B05JOEZeIhxgw0jdRVLKQRN
-         0SJhvhyQjmunvI1/2ki7/aK4UjHIwZaZL5GT88dbKwgw6+K1Fdmwg9wbfQfZbjNRNI6J
-         zCYzaIDBXWfetF8xuU8nWGmvketOSdxeob4CrW2cdVMTMY2UP0X1ioLILlKFqHbWfeHa
-         2kgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699631349; x=1700236149;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MT38o5Ae3OJBcTJQStAk3qjyADcvfwQVOXoScD5ddQA=;
-        b=HFQHN5423jmQrbe39V6xLdoZ1uFRiQulLjz3jFaqLhDOQMc759agX4PX5QMIb56NiA
-         EOVLypoWMgFokkNr7dpRwgYzq4Q8hEa/oAVnQxZJkpKRLX/wv5UvjWNHZP1cEoEHD9qG
-         UHoM33Ow/cviDUGrzDfVmPF7nALFaYAZ7M6o0OocujQrMlb9PZqe4Pnv1JV5NBiVygCZ
-         7MROJCK4fn0nHklBLJ6e37hvp2XbmizktQ7DFTiYe5HVVkvSE99KkIfZHtPRThpIiai1
-         aH/Tt1dJC1PgWKNmt/xHWBbziEsxTB/CmKo4+e33oBfeyMiQ0bei9/nL3xCY1WBj4COz
-         vTdw==
-X-Gm-Message-State: AOJu0YxkalBwIBw1+0XVkwefhVVxMpa7OzilNwf/W6pOC5+W8mkJ8DfP
-	8cjL3kLU0A0Vm+5P3CkIhtlW9FgAqNAJr8kQi2/Cv3iYSDw=
-X-Google-Smtp-Source: AGHT+IFZRv/gmhNe3vmqGv3joy7cIQNamOM4EejfBBc6YPAA4CgEFoe7xZ7wu4IsYvBOZ2Mht/Jx+be+m+T9TBDItzQ=
-X-Received: by 2002:a17:906:64f:b0:9e6:59d5:7a86 with SMTP id
- t15-20020a170906064f00b009e659d57a86mr1362381ejb.57.1699631349023; Fri, 10
- Nov 2023 07:49:09 -0800 (PST)
+	Fri, 10 Nov 2023 16:37:27 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1699634244;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=uZGjmS+sMvLNdWhJ4DQKQWcIXB+jZtkds07mJ8cy31M=;
+	b=YGo0gcrezaqKgK6I/bVhMnrL4OJYASO90Ok6dvoyUGmiM609egj5Pmpt4fmxz0k2Ialedi
+	vpvDdRazTjM7ja4Qc4aePP/LTDuQsHJr0kAYn2eEiF1YSdKBEYEKH3MvDuA180/zwaQnPH
+	gxPJc0iXBRSxx6GNMth8iPbkZG/BaOA=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-68-H5gdnGgqMYKzF1ynGzHFPA-1; Fri,
+ 10 Nov 2023 11:37:21 -0500
+X-MC-Unique: H5gdnGgqMYKzF1ynGzHFPA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 67D5E38C6161
+	for <linux-nvme@lists.infradead.org>; Fri, 10 Nov 2023 16:37:21 +0000 (UTC)
+Received: from emilne.bos.redhat.com (unknown [10.18.25.205])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 5498D492BFA
+	for <linux-nvme@lists.infradead.org>; Fri, 10 Nov 2023 16:37:21 +0000 (UTC)
+From: "Ewan D. Milne" <emilne@redhat.com>
+To: linux-nvme@lists.infradead.org
+Subject: [PATCH] nvme: check for valid data from from nvme_identify_ns() before using it
+Date: Fri, 10 Nov 2023 11:37:21 -0500
+Message-Id: <20231110163721.15292-1-emilne@redhat.com>
 MIME-Version: 1.0
-References: <20231110063837.810134-1-hch@lst.de> <CADUfDZpp4hen-K4zZZM_W1_2XaOomW-5aEDzaOXLyNv9Q3ZnEg@mail.gmail.com>
-In-Reply-To: <CADUfDZpp4hen-K4zZZM_W1_2XaOomW-5aEDzaOXLyNv9Q3ZnEg@mail.gmail.com>
-From: Alon Zahavi <zahavi.alon@gmail.com>
-Date: Fri, 10 Nov 2023 17:48:57 +0200
-Message-ID: <CAK5usQvxAyC3LJ4OnqerS1P0JpbfFr9uRZmq6Jb4QhaB7AQCoQ@mail.gmail.com>
-Subject: Re: [PATCH] nvmet: nul-terminate the NQNs passed in the connect command
-To: Caleb Sander <csander@purestorage.com>
-Cc: Christoph Hellwig <hch@lst.de>, sagi@grimberg.me, linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.10
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231110_074911_378764_D0EC1105 
-X-CRM114-Status: GOOD (  20.33  )
+X-CRM114-CacheID: sfid-20231110_083726_467000_851E95DC 
+X-CRM114-Status: GOOD (  11.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,72 +78,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, 10 Nov 2023 at 17:37, Caleb Sander <csander@purestorage.com> wrote:
->
-> Won't this overrun the subsysnqn and hostnqn fields? Writing to
-> subsysnqn[NVMF_NQN_FIELD_LEN] will clobber the first char of hostnqn:
-> struct nvmf_connect_data {
->         uuid_t hostid;
->         __le16 cntlid;
->         char resv4[238];
->         char subsysnqn[NVMF_NQN_FIELD_LEN];
->         char hostnqn[NVMF_NQN_FIELD_LEN];
->         char resv5[256];
-> };
->
-> I think clearing the previous byte (index NVMF_NQN_FIELD_LEN - 1)
-> would work. The spec requires NQNs to be under 223 bytes anyways, so
-> they should never take up the whole field.
->
+When scanning namespaces, it is possible to get valid data from the first
+call to nvme_identify_ns() in nvme_alloc_ns(), but not from the second
+call in nvme_update_ns_info_block().  In particular, if the NSID becomes
+inactive between the two commands, a storage device may return a buffer
+filled with zero as per 4.1.5.1.  In this case, we can get a kernel crash
+due to a divide-by-zero in blk_stack_limits() because ns->lba_shift will
+be set to zero.
 
-True.
-We should zero the byte in the `NVMF_NQN_SIZE` index, making the
-fields their real size.
-Changing the patch from `d->subsysnqn[NVMF_NQN_FIELD_LEN] =3D '\0';` to
-`d->subsysnqn[NVMF_NQN_SIZE] =3D '\0';`
+PID: 326      TASK: ffff95fec3cd8000  CPU: 29   COMMAND: "kworker/u98:10"
+ #0 [ffffad8f8702f9e0] machine_kexec at ffffffff91c76ec7
+ #1 [ffffad8f8702fa38] __crash_kexec at ffffffff91dea4fa
+ #2 [ffffad8f8702faf8] crash_kexec at ffffffff91deb788
+ #3 [ffffad8f8702fb00] oops_end at ffffffff91c2e4bb
+ #4 [ffffad8f8702fb20] do_trap at ffffffff91c2a4ce
+ #5 [ffffad8f8702fb70] do_error_trap at ffffffff91c2a595
+ #6 [ffffad8f8702fbb0] exc_divide_error at ffffffff928506e6
+ #7 [ffffad8f8702fbd0] asm_exc_divide_error at ffffffff92a00926
+    [exception RIP: blk_stack_limits+434]
+    RIP: ffffffff92191872  RSP: ffffad8f8702fc80  RFLAGS: 00010246
+    RAX: 0000000000000000  RBX: ffff95efa0c91800  RCX: 0000000000000001
+    RDX: 0000000000000000  RSI: 0000000000000001  RDI: 0000000000000001
+    RBP: 00000000ffffffff   R8: ffff95fec7df35a8   R9: 0000000000000000
+    R10: 0000000000000000  R11: 0000000000000001  R12: 0000000000000000
+    R13: 0000000000000000  R14: 0000000000000000  R15: ffff95fed33c09a8
+    ORIG_RAX: ffffffffffffffff  CS: 0010  SS: 0018
+ #8 [ffffad8f8702fce0] nvme_update_ns_info_block at ffffffffc06d3533 [nvme_core]
+ #9 [ffffad8f8702fd18] nvme_scan_ns at ffffffffc06d6fa7 [nvme_core]
 
-> On Thu, Nov 9, 2023 at 10:45=E2=80=AFPM Christoph Hellwig <hch@lst.de> wr=
-ote:
-> >
-> > The host and subsystem NQNs are passed in the connect command payload a=
-nd
-> > interpreted as nul-terminated strings.  Ensure they actually are
-> > nul-terminated before using them.
-> >
-> > Fixes: a07b4970f464 "nvmet: add a generic NVMe target")
-> > Reported-by: Alon Zahavi <zahavi.alon@gmail.com>
-> > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> > ---
-> >  drivers/nvme/target/fabrics-cmd.c | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fa=
-brics-cmd.c
-> > index 43b5bd8bb6a52d..0920fe7ce4ac99 100644
-> > --- a/drivers/nvme/target/fabrics-cmd.c
-> > +++ b/drivers/nvme/target/fabrics-cmd.c
-> > @@ -244,6 +244,8 @@ static void nvmet_execute_admin_connect(struct nvme=
-t_req *req)
-> >                 goto out;
-> >         }
-> >
-> > +       d->subsysnqn[NVMF_NQN_FIELD_LEN] =3D '\0';
-> > +       d->hostnqn[NVMF_NQN_FIELD_LEN] =3D '\0';
-> >         status =3D nvmet_alloc_ctrl(d->subsysnqn, d->hostnqn, req,
-> >                                   le32_to_cpu(c->kato), &ctrl);
-> >         if (status)
-> > @@ -313,6 +315,8 @@ static void nvmet_execute_io_connect(struct nvmet_r=
-eq *req)
-> >                 goto out;
-> >         }
-> >
-> > +       d->subsysnqn[NVMF_NQN_FIELD_LEN] =3D '\0';
-> > +       d->hostnqn[NVMF_NQN_FIELD_LEN] =3D '\0';
-> >         ctrl =3D nvmet_ctrl_find_get(d->subsysnqn, d->hostnqn,
-> >                                    le16_to_cpu(d->cntlid), req);
-> >         if (!ctrl) {
-> > --
-> > 2.39.2
-> >
-> >
+This happened when the check for valid data was moved out of nvme_identify_ns()
+into one of the callers.  Fix this by checking in both callers.
+
+Fixes: 0dd6fff2aad4 ("nvme: bring back auto-removal of deleted namespaces during sequential scan")
+Cc: stable@vger.kernel.org
+Signed-off-by: Ewan D. Milne <emilne@redhat.com>
+---
+ drivers/nvme/host/core.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 88b54cdcbd68..ae35b19cd562 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2027,6 +2027,12 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 	if (ret)
+ 		return ret;
+ 
++	if (id->ncap == 0) {
++		/* namespace not allocated or attached */
++		info->is_removed = true;
++		return -ENODEV;
++	}
++
+ 	blk_mq_freeze_queue(ns->disk->queue);
+ 	lbaf = nvme_lbaf_index(id->flbas);
+ 	ns->lba_shift = id->lbaf[lbaf].ds;
+-- 
+2.20.1
+
 
