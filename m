@@ -4,155 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7698FC48BF9
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Nov 2023 14:33:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0C11EC2BB3F
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Nov 2023 18:55:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6TWw6dCrLQFvz0U4jHFlhd+ep7Qhp78Qs3StvaM5cWk=; b=vXOKJIiGIi/UZ+/av7miWmZTpn
-	r6OiM1CdnG5IizTamB1F2ZnL/EWeyuU8PgNXb/sEWck6gSIs8KMERORNCAHZF2OYBJAJ5yeXh+cF2
-	zZAvt0tfyEKvtDNU5X6hzFnWrEBfxLAt0gV+ETP+yeCSeWztMLlHm8/jtFEQItqviRVBZAaYla2Pc
-	+YePyubIqn69fIn5sCGeGiZOEnBxEpwMdddPrVU+M3WPpsM8uJhR1mXIAXlj9sjDOy4StMyS0wMfo
-	K3G+DFBVd/r6b+rdaVzxSiZImJEKlNV+ARz+aE2VaO0nN1XMohXRT4fCklbOZhr6sM+m6WviDVCMF
-	TZrUzj6w==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=iiqeEd+SqdqCRIn1p4O2vFaLNnvzT4PHHcDNR7I1Uik=; b=ZU6WFwhjGqe9XMC9tkPTAaWW9E
+	jBRN484fJ4YHIimxC6EY99Onaf+zKm+m1RY8ZLb/duRJvSKN32MBdIs8HZUIEMTrb3CdwYurP3BhA
+	bHyWOP8bKzqd/mvGflAdF+cIpsS4Y5umYcdo5D6QxAKruVDb4AKDJAbh9CFWAQmdKJNmgbZ5jf7wO
+	033asw+CvLi50+KLEKT2sn2k6d+q+FSk8i2Vv3GzQev7xPXymSomtYBrG7l8zCOJcXYc4hye7fGZD
+	cXw+hEdBAS0lLVJ7w4d0Klc3ULfYfgFkUXXjFW7dwbdTYbGBEVuJ4vAHHIOcwDgBYQALT/93g5tCm
+	cg6x35Kg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r3Gwq-0010v6-2U;
-	Wed, 15 Nov 2023 14:32:56 +0000
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+	id 1r3L2P-001XkD-0Y;
+	Wed, 15 Nov 2023 18:54:57 +0000
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r3Gwn-0010u3-33
+	id 1r3L2M-001Xjg-0X
 	for linux-nvme@lists.infradead.org;
-	Wed, 15 Nov 2023 14:32:55 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DF967204E3;
-	Wed, 15 Nov 2023 14:32:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1700058770; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=6TWw6dCrLQFvz0U4jHFlhd+ep7Qhp78Qs3StvaM5cWk=;
-	b=VCS33Wqvw4+hcjTZbdhBjpyyE7PwJpzZutI8CYbC/iwXhFQPkgNul0taC/Zn7R//yFqXlV
-	aPdty0FhH+ysxtH0zXQHUF+mjE4VtoNFj5yZjxhceKB+ayJ4FCHtA8QSKIuqGmKf15X6YO
-	1GeOdd50sUDtPHWzuFcll+0xf7apluI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1700058770;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=6TWw6dCrLQFvz0U4jHFlhd+ep7Qhp78Qs3StvaM5cWk=;
-	b=Rkm1qBDw/eLExI5LQT+r11WR/AM+qWG6SjZfLC/GlHmqfki7UcACaQggpOe9Dy50MkOy1n
-	knjaODFOmAEi7ZAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6BE2513592;
-	Wed, 15 Nov 2023 14:32:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id uA06GZLWVGV2YgAAMHmgww
-	(envelope-from <hare@suse.de>); Wed, 15 Nov 2023 14:32:50 +0000
-Message-ID: <fd9a0f77-116d-4eb6-ab3b-8af08dda878e@suse.de>
-Date: Wed, 15 Nov 2023 15:32:50 +0100
+	Wed, 15 Nov 2023 18:54:55 +0000
+Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-6bf03b98b9bso881605b3a.1
+        for <linux-nvme@lists.infradead.org>; Wed, 15 Nov 2023 10:54:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1700074489; x=1700679289; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iiqeEd+SqdqCRIn1p4O2vFaLNnvzT4PHHcDNR7I1Uik=;
+        b=DKNwm5vmISsCL1p7VaBO7jaOKHs+rofEb8MvS6MOcptaUbI7ihTlPQkQrkFOyiIKCT
+         Hq1O/xPBI1v+nK5Ihims8dR4vpSl/xp5fC6PJj79339ZBDsttCPDaoH80EIt9DAqLNcH
+         yqtQYFK1pewmxPRSD4dc6GThEOdDOK2Bg7yRphGVMCawjLPMRmPvGtyEVnjPATcZHQnn
+         VAOhk2qFSqp37Z5on3KFI93eW/Cvr8h+fPC5t1xYNKq3dNv8OhMXJDm22vslypoajDVL
+         jhj0BGavvuDAyr7diDY+XCYgk/IHXWa5AuiinTW+mrFL7eSfKFKf5neN3+0FLySJAzlf
+         uzKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700074489; x=1700679289;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iiqeEd+SqdqCRIn1p4O2vFaLNnvzT4PHHcDNR7I1Uik=;
+        b=KN7j04YTqz/S0IEdbkDWxlf9ToEuL+mj7Li7z/uIrvnW1nNl2inrmpIS6boOPhUjM/
+         IT7Z3M8WEbycJrPOTRWIbp9Cd3fdgtAw89qXO+UpniYQS05FhwlCLuuTSthB5WCWoeEp
+         HqioOmQf6XEWAs1V7ty4xa86956i4M+knkKvQPfw6TsI83ytdD+tffj7W2vxyHS2Tp2J
+         Rtk5UdJzdNHGljmC3jJpeASFQ8lJVcSQxiWWF3x8hoq7S8uzJV1tuXh1uzLF8PXiUsxG
+         wHbBKJwnJOhijtp+M3gWcB1FtPu7xdgiDjM0NtZp+v9NC/Mhn7VnO0FdHjrX/R+o3Fex
+         VnJg==
+X-Gm-Message-State: AOJu0YwcfZJJhASdm3pMUcBTaeJt3mFHrTIvKY4SJVsT9tNGRy6M98bb
+	zDxBTosH50XxD1BZumtNmRxvOQ==
+X-Google-Smtp-Source: AGHT+IFrsJNWu2MFPbDjYv0LhdHK4l5b2SYr5UhYuqVcCzDEwqaElgEDRvuUN1Pjw2T0f7b/VS3Hrw==
+X-Received: by 2002:a05:6a00:1f1a:b0:68c:44ed:fb6 with SMTP id be26-20020a056a001f1a00b0068c44ed0fb6mr9560276pfb.16.1700074488956;
+        Wed, 15 Nov 2023 10:54:48 -0800 (PST)
+Received: from dev-yzhong.dev.purestorage.com ([208.88.159.129])
+        by smtp.googlemail.com with ESMTPSA id e17-20020a056a001a9100b006c39efc97b3sm3099012pfv.113.2023.11.15.10.54.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Nov 2023 10:54:48 -0800 (PST)
+From: Yuanyuan Zhong <yzhong@purestorage.com>
+To: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	randyj@purestorage.com,
+	hcoutinho@purestorage.com,
+	Yuanyuan Zhong <yzhong@purestorage.com>
+Subject: [PATCH] nvme-core: remove head->effects to fix use-after-free
+Date: Wed, 15 Nov 2023 11:54:39 -0700
+Message-Id: <20231115185439.2616073-1-yzhong@purestorage.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH blktests 2/2] nvme/{041,042,043,044,045}: require kernel
- config NVME_HOST_AUTH
-Content-Language: en-US
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Yi Zhang <yi.zhang@redhat.com>
-References: <20231115055220.2656965-1-shinichiro.kawasaki@wdc.com>
- <20231115055220.2656965-3-shinichiro.kawasaki@wdc.com>
- <447d68cc-91d1-4d17-aec6-0105d3b188c5@suse.de>
- <xikiwdcssvdc2dvozscny73e7pxcdf7b7qx7oys34ote4cv4qo@3msll2uqsz7y>
- <ebf8d5ed-1fe6-4962-a363-5b11cd01bd70@suse.de>
- <bkd22lp42ewpp6u7lws2alcbfzjzt6yp7m3ou2ugdukiyuwqt5@pjnxq5uqnjlc>
-From: Hannes Reinecke <hare@suse.de>
-Autocrypt: addr=hare@suse.de; keydata=
- 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
- YwtooKEemPj2lg==
-In-Reply-To: <bkd22lp42ewpp6u7lws2alcbfzjzt6yp7m3ou2ugdukiyuwqt5@pjnxq5uqnjlc>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spamd-Result: default: False [-11.09 / 50.00];
-	 ARC_NA(0.00)[];
-	 TO_DN_EQ_ADDR_SOME(0.00)[];
-	 XM_UA_NO_VERSION(0.01)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%];
-	 MIME_GOOD(-0.10)[text/plain];
-	 REPLY(-4.00)[];
-	 RCPT_COUNT_FIVE(0.00)[5];
-	 NEURAL_HAM_LONG(-3.00)[-1.000];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-1.00)[-1.000];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_COUNT_TWO(0.00)[2];
-	 RCVD_TLS_ALL(0.00)[];
-	 MID_RHS_MATCH_FROM(0.00)[]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231115_063254_153535_842E635A 
-X-CRM114-Status: GOOD (  20.49  )
+X-CRM114-CacheID: sfid-20231115_105454_301010_722F21A7 
+X-CRM114-Status: GOOD (  15.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -167,76 +94,126 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/15/23 15:18, Daniel Wagner wrote:
-> On Wed, Nov 15, 2023 at 09:20:28AM +0100, Hannes Reinecke wrote:
->>> I agree that kernel version dependency is not the best. As another solution,
->>> I considered introducing a helper function _kernel_option_exists() which
->>> checks if one of strings "# CONFIG_NVME_HOST_AUTH is not set" or
->>> "# CONFIG_NVME_HOST_AUTH=[ym]" exists in kernel config files. With this, we
->>> can do as follows:
->>>
->>>     _kernel_option_exists NVME_HOST_AUTH && _have_kernel_option NVME_HOST_AUTH
->>>
->>> This assumes that one of the strings always exists in kernel configs. I was not
->>> sure about the assumption, then chose the way to check kernel version. (Any
->>> advice on this assumption will be appreciated...)
->>
->> None of this is really a good solution. Probably we should strive to make
->> nvme-cli handling this situation correctly; after all, it would know if the
->> fabrics option is supported or not.
-> 
-> nvme-cli is detecting if a feature is present by reading
-> /dev/nvme-fabrics. I think we should do something similar in blktest
-> but not by calling nvme-cli in the _require() block. Though we don't
-> have to rely on nvme-cli. We can do something like this:
-> 
-> 
-> diff --git a/tests/nvme/045 b/tests/nvme/045
-> index 1eb1032a3b93..954f96bedd5a 100755
-> --- a/tests/nvme/045
-> +++ b/tests/nvme/045
-> @@ -17,6 +17,7 @@ requires() {
->          _have_kernel_option NVME_TARGET_AUTH
->          _require_nvme_trtype_is_fabrics
->          _require_nvme_cli_auth
-> +       _require_kernel_nvme_feature dhchap_ctrl_secret
->          _have_driver dh_generic
->   }
-> 
-> diff --git a/tests/nvme/rc b/tests/nvme/rc
-> index 1cff522d8543..67b812cf0c66 100644
-> --- a/tests/nvme/rc
-> +++ b/tests/nvme/rc
-> @@ -155,6 +155,17 @@ _require_nvme_cli_auth() {
->          return 0
->   }
-> 
-> +_require_kernel_nvme_feature() {
-> +       local feature="$1"
-> +
-> +       if ! [ -f /dev/nvme-fabrics ]; then
-> +               return 1;
-> +       fi
-> +
-> +       grep "${feature}" /dev/nvme-fabrics
-> +       return $?
-> +}
-> +
->   _test_dev_nvme_ctrl() {
->          echo "/dev/char/$(cat "${TEST_DEV_SYSFS}/device/dev")"
->   }
-> 
-Exactly.
-Far better :-)
+The head->effects stores a pointer to the controller's Command Sets
+Supported and Effects log. When the namespace head is shared by multiple
+controllers, if the particular controller is removed, dereferencing
+head->effects causes use-after-free:
 
-Cheers,
+[  227.820066] ==================================================================
+[  227.820069] BUG: KFENCE: use-after-free read in nvme_command_effects+0x1f/0x90 [nvme_core]
 
-Hannes
+[  227.820091] Use-after-free read at 0x00000000c02dadcf (in kfence-#0):
+[  227.820094]  nvme_command_effects+0x1f/0x90 [nvme_core]
+[  227.820107]  nvme_passthru_start+0x19/0x80 [nvme_core]
+[  227.820121]  nvme_submit_user_cmd+0xc7/0x170 [nvme_core]
+[  227.820136]  nvme_user_cmd.constprop.16+0x152/0x1d0 [nvme_core]
+[  227.820149]  nvme_ns_head_ioctl+0x92/0x140 [nvme_core]
+[  227.820162]  blkdev_ioctl+0x1c5/0x280
+[  227.820169]  __x64_sys_ioctl+0x93/0xd0
+[  227.820174]  do_syscall_64+0x45/0xf0
+[  227.820177]  entry_SYSCALL_64_after_hwframe+0x6e/0x76
+
+[  227.820182] kfence-#0: 0x000000000fac1d5d-0x00000000a28a73c3, size=4096, cache=kmalloc-4k
+
+[  227.820185] allocated by task 2559 on cpu 3 at 188.703118s:
+[  227.820233]  __kmem_cache_alloc_node+0x3c9/0x410
+[  227.820236]  kmalloc_trace+0x2a/0xa0
+[  227.820238]  nvme_get_effects_log+0x68/0xd0 [nvme_core]
+[  227.820251]  nvme_init_identify+0x5ef/0x640 [nvme_core]
+[  227.820263]  nvme_init_ctrl_finish+0x8d/0x250 [nvme_core]
+[  227.820275]  nvme_tcp_setup_ctrl+0x1ce/0x710 [nvme_tcp]
+[  227.820281]  nvme_tcp_create_ctrl+0x359/0x450 [nvme_tcp]
+[  227.820286]  nvmf_dev_write+0x203/0x3b0 [nvme_fabrics]
+[  227.820292]  vfs_write+0xd2/0x3d0
+[  227.820294]  ksys_write+0x5d/0xd0
+[  227.820297]  do_syscall_64+0x45/0xf0
+[  227.820298]  entry_SYSCALL_64_after_hwframe+0x6e/0x76
+
+[  227.820302] freed by task 2521 on cpu 28 at 220.115945s:
+[  227.820329]  nvme_free_ctrl+0xa6/0x260 [nvme_core]
+[  227.820342]  device_release+0x37/0x90
+[  227.820345]  kobject_release+0x57/0x120
+[  227.820347]  nvme_sysfs_delete+0x39/0x50 [nvme_core]
+[  227.820360]  kernfs_fop_write_iter+0x144/0x1e0
+[  227.820362]  vfs_write+0x25f/0x3d0
+[  227.820364]  ksys_write+0x5d/0xd0
+[  227.820366]  do_syscall_64+0x45/0xf0
+[  227.820368]  entry_SYSCALL_64_after_hwframe+0x6e/0x76
+
+Fix this by removing head->effects. Use the Commands Supported and Effects log
+in ctrl->cels directly.
+
+Fixes: be93e87e7802 ("nvme: support for multiple Command Sets Supported and Effects log pages")
+Signed-off-by: Yuanyuan Zhong <yzhong@purestorage.com>
+Reviewed-by: Randy Jennings <randyj@purestorage.com>
+Reviewed-by: Hamilton Coutinho <hcoutinho@purestorage.com>
+---
+ drivers/nvme/host/core.c | 17 ++++++++---------
+ drivers/nvme/host/nvme.h |  1 -
+ 2 files changed, 8 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 88b54cdcbd68..14fdc2de3a75 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1085,7 +1085,9 @@ u32 nvme_command_effects(struct nvme_ctrl *ctrl, struct nvme_ns *ns, u8 opcode)
+ 	u32 effects = 0;
+ 
+ 	if (ns) {
+-		effects = le32_to_cpu(ns->head->effects->iocs[opcode]);
++		struct nvme_effects_log	*cel = xa_load(&ctrl->cels, ns->head->ids.csi);
++
++		effects = le32_to_cpu(cel->iocs[opcode]);
+ 		if (effects & ~(NVME_CMD_EFFECTS_CSUPP | NVME_CMD_EFFECTS_LBCC))
+ 			dev_warn_once(ctrl->device,
+ 				"IO command:%02x has unusual effects:%08x\n",
+@@ -2872,7 +2874,8 @@ static int nvme_get_effects_log(struct nvme_ctrl *ctrl, u8 csi,
+ 
+ 	xa_store(&ctrl->cels, csi, cel, GFP_KERNEL);
+ out:
+-	*log = cel;
++	if (log)
++		*log = cel;
+ 	return 0;
+ }
+ 
+@@ -3388,13 +3391,6 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
+ 	head->shared = info->is_shared;
+ 	kref_init(&head->ref);
+ 
+-	if (head->ids.csi) {
+-		ret = nvme_get_effects_log(ctrl, head->ids.csi, &head->effects);
+-		if (ret)
+-			goto out_cleanup_srcu;
+-	} else
+-		head->effects = ctrl->effects;
+-
+ 	ret = nvme_mpath_alloc_disk(ctrl, head);
+ 	if (ret)
+ 		goto out_cleanup_srcu;
+@@ -3779,6 +3775,9 @@ static void nvme_scan_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	if (ret || !info.is_ready)
+ 		return;
+ 
++	if (info.ids.csi && nvme_get_effects_log(ctrl, info.ids.csi, NULL))
++		return;
++
+ 	ns = nvme_find_get_ns(ctrl, nsid);
+ 	if (ns) {
+ 		nvme_validate_ns(ns, &info);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 39a90b7cb125..38298c072ec3 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -445,7 +445,6 @@ struct nvme_ns_head {
+ 	struct kref		ref;
+ 	bool			shared;
+ 	int			instance;
+-	struct nvme_effects_log *effects;
+ 
+ 	struct cdev		cdev;
+ 	struct device		cdev_device;
 -- 
-Dr. Hannes Reinecke		           Kernel Storage Architect
-hare@suse.de			                  +49 911 74053 688
-SUSE Software Solutions Germany GmbH, Frankenstr. 146, 90461 Nürnberg
-Managing Directors: I. Totev, A. Myers, A. McDonald, M. B. Moerman
-(HRB 36809, AG Nürnberg)
+2.34.1
 
 
