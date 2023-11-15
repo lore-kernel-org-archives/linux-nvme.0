@@ -4,152 +4,151 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B865C07548
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Nov 2023 07:46:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DDFAEC07548
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Nov 2023 08:20:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=D+7LxjsQZGYdsPxWiNQILKJcySUlxSI6B80W3Rp98Zs=; b=EbCGj5a5OwOuzrnanw2fD1MLdV
-	J+sEsVdsLV02YIhNEL5m2wKnHCdIfWdbz/NvZxSXFL1wP2eRH26ibnD+6S/vD7mU1HenVgDn8tIUZ
-	dmj/x2xBTZ5bEkuiQPkKC67LNrA5j/mjOrHhZkitkcXIYlrjlZd6xT6MzmjwPWleuHbRxvlwVhjbU
-	FXxuydlw4h0ggT1kTKu99RdsybHR+H/wiH3SGY/mjXDQlS3KQ9zm8CcyGXZOrm67I3Zh/Rs9ikRJ2
-	dsZbW6gNoXW71I1R2ie0gbpK2XouX4kIWDbVQ9+fEHe71NnSzML87BvQkVtUei+LEvvLx8TNZFClo
-	PwYZeZEQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=2XpCbkyLYeBKuEVBivN5OPh7kqWMuPysm684/WUKUiA=; b=Luu0mPS+MMTmrChuwsa9eL1sGU
+	PfxuoIFGoA499EHCDrXSZxxSHCGbqoKEyt9+h/rFVP9qOcNrezJB1RlSPQSqciZnOseTRjg5e4xhQ
+	2eHkEWwF+1WrZWwldVJpl3rpvs5cQKDhMZ3KTY29Z9NB58LCdQlvTg573saeDO+aWn/iRbHO5sVxB
+	IC5tNIy9rx0qaePLijmzEphwn7cPogTMjyd5tWqFOjnWVNFp5iAavoYwmHPhs5SprNTj6DTEr9L4G
+	4JTch0JlACDjoh+A/UXWyNfawrbCca34rNvBJ9IMbaGKyYHNBny8IRG1cwJNdsr6Nkt2HVEb+EMhV
+	zDJZ8Vxw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r3Abb-000BDG-0v;
-	Wed, 15 Nov 2023 07:46:35 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1r3B8V-000Dis-0T;
+	Wed, 15 Nov 2023 08:20:35 +0000
+Received: from smtp-out2.suse.de ([195.135.220.29])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r3AbY-000BBp-32
+	id 1r3B8S-000DiJ-1u
 	for linux-nvme@lists.infradead.org;
-	Wed, 15 Nov 2023 07:46:34 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1700034392; x=1731570392;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=PFzekGstVAZSDal6kGYymb61VEk6/JwIGF+aEr3j7rk=;
-  b=LfzoQwRKaSvdlNUREP0tI2SMmrDkLajIuNMD+IAL6lU8rEGCsEYQ7OBx
-   rnV9tATqJfzWcYbUpSMGe6bJ9HcoiyUytne1sBecO7Z53rwniCwtcHov5
-   EUv9OJzG0RkNuYAdUwQIO8C/Z9i/Fi2YQ1LngqJ6YK8uiLiGqybhLJGQ9
-   yQdxzMr/lG1swaKGFS9XgBdVYB9nLvG5XhuAUhB1NnGWg4rMJrR/o0Auw
-   UFd+wzFCUfSfOzgFg1vHfgYWutqtfGHVAjBjySisWOH0a1Tz5ct/bGn+1
-   0MOpgRmDzEtdVURIO1wTXK7bIjW7XndJfBVA3MdnxDW48R7R4/qgqLPKs
-   w==;
-X-CSE-ConnectionGUID: 4Zwnhe2sQJesT6kOlI51gQ==
-X-CSE-MsgGUID: 3beCNnYQQdOZ03is3uIRvg==
-X-IronPort-AV: E=Sophos;i="6.03,304,1694707200"; 
-   d="scan'208";a="2307161"
-Received: from mail-dm3nam02lp2041.outbound.protection.outlook.com (HELO NAM02-DM3-obe.outbound.protection.outlook.com) ([104.47.56.41])
-  by ob1.hgst.iphmx.com with ESMTP; 15 Nov 2023 15:46:21 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ejQiKfeUeK/3WD9xxaiDf2bklb/VJh9dw6H3jYb4Gg3P8xTawasDow+cCeZybKc6S5bL/5J+gbmxSr5NsVPV4ALCzbgfo4F91FNUC9qENKF3MMTmZg8fkUvfAE009DimkEXS0SZV6ELM4PdsuJuQPQx81alF/67e4vzDAOnXvQ99HsrRK5kUpWRqI5wwaTae0B8E800HBgaf24RkjFeXuvkDDUAlq4Fje832rOqEBcjT01/Y2prmB6kCZPw4ICdj71u2pQP1fkLHBLv25NEkMD8dqJOZsEueuYOJQ9WvCD9R5njhU3QVnKHYiK/30o8EAQ9j7dezPTLiwhRBWSpRjg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D+7LxjsQZGYdsPxWiNQILKJcySUlxSI6B80W3Rp98Zs=;
- b=LVK7uFqvsEqkOMLvGLNvR8eMPFI965ZvUDlLKfnXBGcLI4pDnk6M1iuJU6tcYko+OSrX+Tx1OzfvBgtDB0o0Gu1Duo7wkFhum6t0G6jWlyEhLDNFgoEhtWqXFqn5ggLpyPidMKvsHqU5Ku32PKG+n+4Lrd3MEs900b7PkKgtX23Cm3o05H08MYJ/DpRtG/Zx1Vj9V8qVII9PcanQxRljnqEfr2kTVpccO+/YB+Aj3VQizcM2G06M0wWmORu1FzrUsibNv6S0VPO1+FKSXQp8QX4hIaWu8lJsFRA+6PM4tpbTSWzyglWs8otyirwEOOnho+pc6CdxNiEejY5cqJ0P4w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D+7LxjsQZGYdsPxWiNQILKJcySUlxSI6B80W3Rp98Zs=;
- b=IQSKSDCcxdniyLW5I/y+AfouS4+AQB19bXtIaUdsQ49NawhxAMLvrcv66ugJhoiI5OgysMjO4z3i/zsdGunoC1RvKWrXSqOqwAxEKhX5N+zk0d/W021fVZ3uA+6dpDS6zo8YV4fgv7Mc92EiDLZQXnRRBJggqz1eDuS9cCMEsYo=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- CH2PR04MB7080.namprd04.prod.outlook.com (2603:10b6:610:9f::21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7002.18; Wed, 15 Nov 2023 07:46:19 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::81a9:5f87:e955:16b4]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::81a9:5f87:e955:16b4%3]) with mapi id 15.20.7002.019; Wed, 15 Nov 2023
- 07:46:19 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Hannes Reinecke <hare@suse.de>
-CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Yi Zhang
-	<yi.zhang@redhat.com>
+	Wed, 15 Nov 2023 08:20:34 +0000
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 31C241F8B2;
+	Wed, 15 Nov 2023 08:20:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1700036429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=2XpCbkyLYeBKuEVBivN5OPh7kqWMuPysm684/WUKUiA=;
+	b=aL9ePSvlQGrl2znx6pIIcCPdiiBTajZ0lYkx3mE7xumVrLY2so91T5QtT3cj7kjhPczoE3
+	VOxdfHSzoOM40pfOfdSSYwgSds8wkMWXUHZDgR4HeoX8L7zECMdJYS8cwHH40Srg+TE5K8
+	dtxAY1PSPF6YQtdhGt5pcyiubeaTlBY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1700036429;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=2XpCbkyLYeBKuEVBivN5OPh7kqWMuPysm684/WUKUiA=;
+	b=rDFkQHnZQeiqJGfRIAdFaaHxdf6S9BgI17HoIM65UoEtpxIBhKhETR4Ityd6PRgGB6gnCC
+	i3b7UCyeVCgmkeBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 25AEA13592;
+	Wed, 15 Nov 2023 08:20:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 1xC4CE1/VGUzDAAAMHmgww
+	(envelope-from <hare@suse.de>); Wed, 15 Nov 2023 08:20:29 +0000
+Message-ID: <ebf8d5ed-1fe6-4962-a363-5b11cd01bd70@suse.de>
+Date: Wed, 15 Nov 2023 09:20:28 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH blktests 2/2] nvme/{041,042,043,044,045}: require kernel
  config NVME_HOST_AUTH
-Thread-Topic: [PATCH blktests 2/2] nvme/{041,042,043,044,045}: require kernel
- config NVME_HOST_AUTH
-Thread-Index: AQHaF4fs31V751Pswky+3T/QxhjUILB64sUAgAAdzQA=
-Date: Wed, 15 Nov 2023 07:46:19 +0000
-Message-ID: <xikiwdcssvdc2dvozscny73e7pxcdf7b7qx7oys34ote4cv4qo@3msll2uqsz7y>
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Yi Zhang <yi.zhang@redhat.com>
 References: <20231115055220.2656965-1-shinichiro.kawasaki@wdc.com>
  <20231115055220.2656965-3-shinichiro.kawasaki@wdc.com>
  <447d68cc-91d1-4d17-aec6-0105d3b188c5@suse.de>
-In-Reply-To: <447d68cc-91d1-4d17-aec6-0105d3b188c5@suse.de>
-Accept-Language: en-US
+ <xikiwdcssvdc2dvozscny73e7pxcdf7b7qx7oys34ote4cv4qo@3msll2uqsz7y>
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|CH2PR04MB7080:EE_
-x-ms-office365-filtering-correlation-id: b4169b45-dec5-4605-5311-08dbe5aef4ab
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: IGvxhjVXHlWuSCdRKoBeMR2FQ4TTgkHuz/uqV/jUFI/4eaEfwK7QHPlp8Mv9wcxcz6DAu2D8OGo/UCYwlXu3+fx/JKMwrqyFlr0gmuTMLgyp19V7NF7y5WSsXAFlWrVoLTix2ttYqxBaGYmJJvxJISuOZc+WvvyRtueiTZbOaQ98we6z5ZFpauwd8cFw6WEq6Sc2gIvjR+BpMcfxu+PYVsoGdQIDtug3ZtNeUgb71cWLvN0spVPBPkvWShE+p0ONAocSWg9LE5+Lk0bw0hpz04dBRC4qdvHik45WDcdIOL/WqT5yPuifEw67yH8l27BlYm9XeAeB/N+DF3vwMQLGMiZ9YnBVaqm0HmRABcXLroZrCGHqTMPCQEI9VsoCz8SJd/z0/q64KzQiBe0sEn/0X4zlQhj5ryx/PSKXdkm9nwjp0SeKsX5trLpkVR8BChdy0tYEibMquZr4I7/iK+fZQLcI+4tQS4kJ/+OWaWsO5l40ubulty5cX9bhcAoRPJninCNdopi0jAu7FUIaONDyhfqcnD3c+lyIKqv48uY5/2AadoZuDoGfBF24ldoi+tVoSFEmICFHM6uFWfTaB0kXQDELfQAwWqBeVLekucMepHk+VlhwZvtdAQI0G6sH/AfO
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(376002)(346002)(136003)(39860400002)(366004)(396003)(230922051799003)(1800799009)(451199024)(64100799003)(186009)(6486002)(478600001)(2906002)(6512007)(9686003)(6506007)(86362001)(91956017)(5660300002)(71200400001)(44832011)(6916009)(316002)(64756008)(54906003)(66556008)(66446008)(66476007)(76116006)(4326008)(8676002)(66946007)(8936002)(33716001)(38100700002)(38070700009)(83380400001)(41300700001)(26005)(82960400001)(122000001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?j2pfx7KukpgjB4SzAd3Izw+O88LOKDCs9PiOjwi+674cLIVc2SnZaNCoNrLJ?=
- =?us-ascii?Q?rSuORYumTf8B9H9HQBGvkzdNNE0JneDhIgKX01cj9WF0CyPYKTqhdBPssWY1?=
- =?us-ascii?Q?Lls8PlSaKYcemkjcaSMmHoNMxc+pv9P5DQi39iC/D1ci7a36I2h+7pGqb0Lf?=
- =?us-ascii?Q?fFjUEuCzFAlljCF2ZanOHi+dyGvLytgJ96CmwaipRV53McRgrTP56hgZX+va?=
- =?us-ascii?Q?SQtlNUAXerLbLVjk/5qzvTr977MrBikxIezTFuwaWr35aPQy6wsqvp4GJB1t?=
- =?us-ascii?Q?J5s5I6EFJ/wYP16NH0FFlbRp1LQPd6JE6yQde24SPdctHuJLAU/9UenegjEc?=
- =?us-ascii?Q?RwkQPHV4fm5Cg4UuljE5A7WDxJh2R1mqZGSe0QM213HvvOFLqReQ5mtZMIYN?=
- =?us-ascii?Q?Lys8RzjjhzF/0mZ0joDwwkFcpkjNwYlmCuf+ZL3ui2vHBfS/71WBq8Q81zrq?=
- =?us-ascii?Q?jdVKQJKtRDiGf9ISTUxSK4LqgLrkTgIXSS1JQzbVNBY/eVNGC25UpATcG0EH?=
- =?us-ascii?Q?jlycGpMT1cIu6FhWhQ8yr7bnwaKlRSCMGEbrkh2FCc/u9Dg6B1eEuHOqMwpn?=
- =?us-ascii?Q?ISOjzoLwGzb1w4r5U36KOoQSPP4VCe8PHCA8DUJfuBPWrbALN0MJpC2nBFH9?=
- =?us-ascii?Q?SErQyDIUNFcHGDULK5tvRPHsaDMEftDftXj3fz2WLMvOs8sZpxcYbsjQnVGS?=
- =?us-ascii?Q?sAqJHwFM51A7+7DoNoSF70hM3LmmBRI4lpyi9xCOgA0mYxV0xASOOD37ZLlh?=
- =?us-ascii?Q?ZFQdSmZ6uUMAn6nPAEqFJU2IyiX3WnCg9M9eYbqVpII3pY1hPbaZfrqkPVE9?=
- =?us-ascii?Q?5cpcLwOKzHobV4/kRK3JHHirYM+qNpKm3F9B0M9FNG6YIn7zjdmGauKDjzt1?=
- =?us-ascii?Q?8lvUIx2aaJYz9kq8FXJYSsgb/pBBvK76hZxImzRpp2L4lygXdxOntCGMtTvc?=
- =?us-ascii?Q?r0JoKHyfKTv00aDQb7okU+78tnPeNXlRy1C7/tN0L3dWcouvsKPpDz1qT+gb?=
- =?us-ascii?Q?JA063vwQKbEqQknAehDClDWeNwrNTVlbZJbS/ig4Qo1x34kjznFz5x9KrMXX?=
- =?us-ascii?Q?iBMIP9gWwPla+sMZs09A93ysgfTxpVK0vtvD6DmanrlH4t0TyTD0BVvyYYDl?=
- =?us-ascii?Q?NymtJbjJuLHiGgGzRH0FC/sv2L+taVw+wNAAnG0uU7ryrMfmyC4XcfOwh4vV?=
- =?us-ascii?Q?MhaKcfAZtvQ31ojWAeXdIS+xtflgrfZud9W7zaQVBA51XSa/q38TlJhwA2/v?=
- =?us-ascii?Q?mo59zIaarU198QKerv2A7BJtu4lPEI8qffXTq74q4jvtgY3I9YQZx7ZkRrxv?=
- =?us-ascii?Q?bskbrr9HKfdoAwqXaxmdJgwPQSlOnnnKynUSl1zxO/U+AFV3/uuWHUSOtjza?=
- =?us-ascii?Q?nJnftPHmDaqXEZgxC6XAyq9Vno4LxMTyGsiWzk/b7IbyTMkGsEe7+jUTNxM1?=
- =?us-ascii?Q?izbYubrQeCXq1gg/CwuL7HVIXKa+MSicgu6X60E+PCThzJ359tspGZljOQJt?=
- =?us-ascii?Q?innwGiPzp8Li8XmG2UGKhtf7A11noLyh3jE0AtIk0/0o0fUC4/OQlszCiTaq?=
- =?us-ascii?Q?HQpouqlK8F25iZbJ6Vq1XhgKo87l+A7XlYrmZFzC3538Gt9vJyFAJy2rSV8I?=
- =?us-ascii?Q?E9oJnCbajfJgBNObPWdzpOU=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <E13180A69294CB44844181D29013A737@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: vlko1xqrDP8P6SWLmt73td4fKCt6E2aJlogGcN8zTucRTS5X1xlGTYEPtJGvHvt3crd37JQcEEw9FKeQKc5/Se9hh+QAcE9WMbpMx0NEvTjefbe29bD9pH017xmK5GqQn1G+CuSDk7iBeqx8akCy7k5cjGDzqb+KitqJTVRfpqPp7kZcVM0BxW3wQxqc+VonOk3y1pj6ol941/A3hxZk+Pl0ORDeZkxHOh0t9J+UCs+6GH+QRrlYjuF2piJhaIsfFECbVGkOoNIwQHU7VbaKZBDdnDJmosVAK7OUl+yKK0iqk4tvYpVSeEZjr+4crCHJAKRazdPfifHPLN7JhUrcVdvoRNpLOS938w1Ed5Nb9JaOJJma4lWxtq2IURYlmJ4aiJlVkfsJ2KTqz3V31EyCOFBzeBqb3jtFxxjTMGxel2NrIMdjBX/5rriyGenaO7NmHpC8xZbOy5LK9It7j2qorb73Mv8eBFHsEiRitbYgU9Vcaf+SLuMZXmV6N4pJ/0wADIdsnFMX1N44kDUS1gVzOQUCRsK+faUIW23+axdAtBkxa6EArE/3F9aX7JFqWWDvPFcHfEhTQVVHROlrcHwhMIatJNN8cUZkFCuH4HemwsoL7hck6r/yHqx0wbaG1E9lTFJxNi+tJOG2bqYJvkYEDUs8gweZGeJBCaJHqY4z3XvWo5sgnK30Xkt6vLzo+9G496c+Nk4rB+uZV+ni2jmLVEw0/Ox6t8UsnEc1C8hsY9663t4aqBShgXE4IStE6NZhHBamwm4jvLwGspJAGj+7R9H0qsoP17DnsyhZaAVK1YUMLxLdYVELueBD2e+7AB29QFH2UgFZTIoQ/EFLRNsl9X++F2UZVqp140f2PsvDtrF6ovISWXdduef9/wWeA3c0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b4169b45-dec5-4605-5311-08dbe5aef4ab
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Nov 2023 07:46:19.4670
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dFaoiRSWbbr9/cHUCo2kxlYBr/GB1nhxINcnNmavSLXU2VpUGoCuIstAQPwpU9+pU9vaTK/tmW285qsWx4iRlfin6tlNrIOx9pn7PJaUXGs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR04MB7080
+From: Hannes Reinecke <hare@suse.de>
+Autocrypt: addr=hare@suse.de; keydata=
+ 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
+ YwtooKEemPj2lg==
+In-Reply-To: <xikiwdcssvdc2dvozscny73e7pxcdf7b7qx7oys34ote4cv4qo@3msll2uqsz7y>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spamd-Result: default: False [-7.09 / 50.00];
+	 ARC_NA(0.00)[];
+	 TO_DN_EQ_ADDR_SOME(0.00)[];
+	 XM_UA_NO_VERSION(0.01)[];
+	 FROM_HAS_DN(0.00)[];
+	 RCPT_COUNT_THREE(0.00)[4];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%];
+	 NEURAL_HAM_LONG(-3.00)[-1.000];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-1.00)[-1.000];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_COUNT_TWO(0.00)[2];
+	 RCVD_TLS_ALL(0.00)[];
+	 MID_RHS_MATCH_FROM(0.00)[]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231114_234633_206118_6B8473B5 
-X-CRM114-Status: GOOD (  21.11  )
+X-CRM114-CacheID: sfid-20231115_002032_795772_93A34342 
+X-CRM114-Status: GOOD (  21.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -164,57 +163,65 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Nov 15, 2023 / 06:59, Hannes Reinecke wrote:
-[...]
-> > diff --git a/tests/nvme/045 b/tests/nvme/045
-> > index 1eb1032..126060c 100755
-> > --- a/tests/nvme/045
-> > +++ b/tests/nvme/045
-> > @@ -15,6 +15,7 @@ requires() {
-> >   	_have_loop
-> >   	_have_kernel_option NVME_AUTH
-> >   	_have_kernel_option NVME_TARGET_AUTH
-> > +	_kver_gt_or_eq 6 7 && _have_kernel_option NVME_HOST_AUTH
-> >   	_require_nvme_trtype_is_fabrics
-> >   	_require_nvme_cli_auth
-> >   	_have_driver dh_generic
->=20
-> Why do we need to check for the kernel version?
-> Any kernel not having the NVME_HOST_AUTH config symbol clearly will
-> have it unset, no?
-> I'd rather update _have_kernel_option to handle the case where
-> a config symbol is not present, treating it as unset.
+On 11/15/23 08:46, Shinichiro Kawasaki wrote:
+> On Nov 15, 2023 / 06:59, Hannes Reinecke wrote:
+> [...]
+>>> diff --git a/tests/nvme/045 b/tests/nvme/045
+>>> index 1eb1032..126060c 100755
+>>> --- a/tests/nvme/045
+>>> +++ b/tests/nvme/045
+>>> @@ -15,6 +15,7 @@ requires() {
+>>>    	_have_loop
+>>>    	_have_kernel_option NVME_AUTH
+>>>    	_have_kernel_option NVME_TARGET_AUTH
+>>> +	_kver_gt_or_eq 6 7 && _have_kernel_option NVME_HOST_AUTH
+>>>    	_require_nvme_trtype_is_fabrics
+>>>    	_require_nvme_cli_auth
+>>>    	_have_driver dh_generic
+>>
+>> Why do we need to check for the kernel version?
+>> Any kernel not having the NVME_HOST_AUTH config symbol clearly will
+>> have it unset, no?
+>> I'd rather update _have_kernel_option to handle the case where
+>> a config symbol is not present, treating it as unset.
+> 
+> At this point, _have_kernel_option() already handles NVME_HOST_AUTH as unset
+> when the kernel does not have the config symbol.
+> 
+>> That way we can drop the dependency on the kernel version (which, btw, is
+>> kinda pointless for the development branches anyway).
+> 
+> For the newer kernel, the test cases require NVME_HOST_AUTH is set. In other
+> words, the test cases are skipped when NVME_HOST_AUTH is unset. If we follow
+> your idea and drop the kernel version dependncy, the test cases will be skipped
+> on older kernels which do not have NVME_HOST_AUTH symbol. I wanted to allow
+> running the test cases on older kernels, then added the kernel version check.
+> 
+> I agree that kernel version dependency is not the best. As another solution,
+> I considered introducing a helper function _kernel_option_exists() which
+> checks if one of strings "# CONFIG_NVME_HOST_AUTH is not set" or
+> "# CONFIG_NVME_HOST_AUTH=[ym]" exists in kernel config files. With this, we
+> can do as follows:
+> 
+>    _kernel_option_exists NVME_HOST_AUTH && _have_kernel_option NVME_HOST_AUTH
+> 
+> This assumes that one of the strings always exists in kernel configs. I was not
+> sure about the assumption, then chose the way to check kernel version. (Any
+> advice on this assumption will be appreciated...)
 
-At this point, _have_kernel_option() already handles NVME_HOST_AUTH as unse=
-t
-when the kernel does not have the config symbol.
+None of this is really a good solution. Probably we should strive to 
+make nvme-cli handling this situation correctly; after all, it would 
+know if the fabrics option is supported or not.
+Daniel?
 
-> That way we can drop the dependency on the kernel version (which, btw, is
-> kinda pointless for the development branches anyway).
+Cheers,
 
-For the newer kernel, the test cases require NVME_HOST_AUTH is set. In othe=
-r
-words, the test cases are skipped when NVME_HOST_AUTH is unset. If we follo=
-w
-your idea and drop the kernel version dependncy, the test cases will be ski=
-pped
-on older kernels which do not have NVME_HOST_AUTH symbol. I wanted to allow
-running the test cases on older kernels, then added the kernel version chec=
-k.
+Hannes
+-- 
+Dr. Hannes Reinecke		           Kernel Storage Architect
+hare@suse.de			                  +49 911 74053 688
+SUSE Software Solutions Germany GmbH, Frankenstr. 146, 90461 Nürnberg
+Managing Directors: I. Totev, A. Myers, A. McDonald, M. B. Moerman
+(HRB 36809, AG Nürnberg)
 
-I agree that kernel version dependency is not the best. As another solution=
-,
-I considered introducing a helper function _kernel_option_exists() which
-checks if one of strings "# CONFIG_NVME_HOST_AUTH is not set" or
-"# CONFIG_NVME_HOST_AUTH=3D[ym]" exists in kernel config files. With this, =
-we
-can do as follows:
-
-  _kernel_option_exists NVME_HOST_AUTH && _have_kernel_option NVME_HOST_AUT=
-H
-
-This assumes that one of the strings always exists in kernel configs. I was=
- not
-sure about the assumption, then chose the way to check kernel version. (Any
-advice on this assumption will be appreciated...)=
 
