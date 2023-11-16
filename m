@@ -4,98 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BD92CC197A0
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Nov 2023 12:17:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2ED52C47071
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Nov 2023 19:13:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=49f5JUqGFben3q86pZffwvso36o9zIB88RW9YbLwa54=; b=Uez9dPLRdoHnmszNm4UGsoZcf9
-	FPaxHQvW7XfroMdofXX2nP4zWV4BvKd21YtgKWE0eqagsPjp4xS2v/tR00rOiRHe+Y8TZwv+2+tgE
-	AhEQAM5cAreUP+oE01l5U/zntcfauQZffpu1m9tgtFmYE7yRFI6STj5h198qUx4pLkL/rHkGHRzZZ
-	WaG1n3yEHM7Gd7njieC7F1rRAnNoE0Sw+yJIalOCaK6b97p4RZLN2Y3TGiQ31s7/HVJKiAyLa0OuC
-	yZUfoY0kMMBh2L1wFTA9satxiFVi7D4AEyLXfF7m0hhwCiI27wRlpQyLYNCu4tBLIJQeySgRF4lN+
-	za6sM1iw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=sPxNHo3ULcsNHonG1S3dXxZBWwtHJpSMfZE5XqJO15g=; b=jSCrBYChMEkKogyHfXEsQy2NuT
+	l3dhl7yORssF0mt3Tgq8Uk5uaWAJLYcVmpwLxYKwdVbATmOrJ2pa9vDpxrMABisQmyxnGl8bPya/e
+	SudCZwIChAcIKyiyjDSuYEHG96rhdQuV1m71vq77xPQhm3a67/SzNHZuZYqW93N6x0C9NcwJYTzNJ
+	uuXuxd/VN8+odSt25ey+sXbPZ8HV34wQI8hH8zR/NezBi8o4JlAZG3OiIj3F/mMgUmZpziPaMTW3M
+	w1wHKjdqZtO0/cYx/Y2rPGGL2dHerpvK8kxWikoVSILCB23gOUonJL4e0STrTZvLkbBxjRVf8mcn/
+	drW04uFg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r3bJS-003SaX-0O;
-	Thu, 16 Nov 2023 12:17:38 +0000
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+	id 1r3hnf-004Ry2-26;
+	Thu, 16 Nov 2023 19:13:15 +0000
+Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r3bJP-003Sa1-2F
+	id 1r3hnc-004Rwh-2k
 	for linux-nvme@lists.infradead.org;
-	Thu, 16 Nov 2023 12:17:36 +0000
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7CCEB22949;
-	Thu, 16 Nov 2023 12:17:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1700137053; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=49f5JUqGFben3q86pZffwvso36o9zIB88RW9YbLwa54=;
-	b=EgSFfle3H/+BWefnkEtEaM8zZmsjU5HxYd4++xWmietIBx8AhKTtYIZNA6ErlizXFhw07p
-	CGmYoiygh3joP0WEEUiVrPxDXxAEJSc5pRo7pvVaTu9QumGTDgsqVLW2c0xIHbsQbxcJ6Z
-	YZHNTZWEP39tNyF5emFp0EWfV1xUis8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1700137053;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=49f5JUqGFben3q86pZffwvso36o9zIB88RW9YbLwa54=;
-	b=RBa5Ukd5i507mTLgW6KzxquqcjTLsy1ixT8lDL66s+xoCebC+klmSHJ0fBXrD3pZ2ucXmV
-	eNJbnLRTrlGtDOBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6B57D1377E;
-	Thu, 16 Nov 2023 12:17:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id oMkhGl0IVmXeZgAAMHmgww
-	(envelope-from <dwagner@suse.de>); Thu, 16 Nov 2023 12:17:33 +0000
-Date: Thu, 16 Nov 2023 13:19:31 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, 
-	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Subject: Re: [PATCHv2] nvme: blank out authentication fabrics options if not
- configured
-Message-ID: <7qb75jmwohmeb7jqinaljio46iesdm45uy6codxfvviz7htcy2@zuh2lpinebn4>
-References: <20231116121435.17340-1-hare@suse.de>
+	Thu, 16 Nov 2023 19:13:14 +0000
+Received: by mail-qt1-x831.google.com with SMTP id d75a77b69052e-41b7fd8f458so6612131cf.0
+        for <linux-nvme@lists.infradead.org>; Thu, 16 Nov 2023 11:13:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1700161990; x=1700766790; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sPxNHo3ULcsNHonG1S3dXxZBWwtHJpSMfZE5XqJO15g=;
+        b=OcUVhVKsITpT5k3/WLe1VPCB1XfT4ZQzClWC8q8Z9L46LhXHQELXdrXYuVrtpbQ3cv
+         dEiPM4nVpZ+IufDDV4eABcUoELbWGx5tAPYfkiqVvJi4aT4XqIQtkdoLKOLv25w3Eb/W
+         7CSy1AM3zsK/iSWsmNWIFAdb0Z7fAR++BE81CmL7jvp4q8ww/jyEv2XUqDtdV4rDH7RQ
+         JLRCQj70j+ERzqQCXijBgJ8lOZg9NUd8bKvIcyu8mSMsvFmlPyKkRXBb0tDVshNWRMrn
+         sOruMZBuqM+SSZriWXoJ2HuqKj8qova1/krpiFlcftuGqCW2q24FKBTr5zUAVF0Oma9Z
+         3ukw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700161990; x=1700766790;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sPxNHo3ULcsNHonG1S3dXxZBWwtHJpSMfZE5XqJO15g=;
+        b=mv835iIhICdWDRfjvrzqfyQDuMYFZKlmGazYcDMHqgxqiHvztuYtpVM7h34Y1Ff1Ju
+         jQQgJJ3sI0/x2J6bnypeh5KUHpf2jMruxlsgYBE5DsvJ5Cvx/mj+qg4S0cYEzgVKn7HY
+         9ekM07rRvPz65/OV3H35txR3lhd7K9hyP3r2i5sPEOxb9BBMAcIDrJdWY5kA9vZayOER
+         Or7wzWpMN+4Two4sy37K+qiC0Xccm5b270LaYwySx6trUiM1OzI3diSIvCJ5ubXmhB6p
+         Rf25WNgnR6ZtAfQXEhHqnJFy+yqqpuzMYLRCCFS2WQxLxnJEnrRZeK9Q7EjJ2Y78utal
+         Ofmw==
+X-Gm-Message-State: AOJu0Yw3J+a9mx2Wj1xuu/u6gXtmz99rpVPMOMhZQO5UaD2y1SjpgolK
+	YYDc2RES0ojv26OcPT4vXpx6tH8NDLx8eg7hDOqSH1/Jvebn0bbIjDD/Xw==
+X-Google-Smtp-Source: AGHT+IHTcTjmLc+6xfRRk7irgDlKVNzX6sIipRK12iEvdBnagtqRWf+9rxO6g4dKAB73yESltnrs0a7UlctfM0jH7yU=
+X-Received: by 2002:a05:622a:56:b0:418:1f52:1421 with SMTP id
+ y22-20020a05622a005600b004181f521421mr11326596qtw.9.1700161990608; Thu, 16
+ Nov 2023 11:13:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231116121435.17340-1-hare@suse.de>
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [0.25 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 BAYES_SPAM(1.05)[82.11%];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCPT_COUNT_FIVE(0.00)[6];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 RCVD_COUNT_TWO(0.00)[2];
-	 RCVD_TLS_ALL(0.00)[]
+References: <20231115185439.2616073-1-yzhong@purestorage.com>
+ <69218380-45f0-41cc-8a65-50878d44219e@kernel.dk> <CA+AMecFkR0k9ofJt0_iHrPOvfMQ_ePv8QCPYy9m=U7xEjsNCKg@mail.gmail.com>
+ <ZVUiLr3g1_i5YmRQ@kbusch-mbp.dhcp.thefacebook.com> <CA+AMecH1TZc3zVm0OF1VwwTBCrLp9mZnOa5zw59yr_W0WbH_uw@mail.gmail.com>
+ <ZVWR4Rtr1N7IF6iQ@kbusch-mbp.dhcp.thefacebook.com>
+In-Reply-To: <ZVWR4Rtr1N7IF6iQ@kbusch-mbp.dhcp.thefacebook.com>
+From: Yuanyuan Zhong <yzhong@purestorage.com>
+Date: Thu, 16 Nov 2023 11:12:58 -0800
+Message-ID: <CA+AMecGH_yugc7YQX2tqMSKzsA-aJYJSVBOVjiyYcw994-_Zng@mail.gmail.com>
+Subject: Re: [PATCH] nvme-core: remove head->effects to fix use-after-free
+To: Keith Busch <kbusch@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, hch@lst.de, sagi@grimberg.me, 
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	randyj@purestorage.com, hcoutinho@purestorage.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231116_041735_885028_C5193578 
-X-CRM114-Status: GOOD (  10.21  )
+X-CRM114-CacheID: sfid-20231116_111312_987719_3E52634B 
+X-CRM114-Status: GOOD (  23.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,14 +92,53 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Nov 16, 2023 at 01:14:35PM +0100, Hannes Reinecke wrote:
-> If the config option NVME_HOST_AUTH is not selected we should not
-> accept the corresponding fabrics options. This allows userspace
-> to detect if NVMe authentication has been enabled for the kernel.
-> 
-> Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-> Fixes: f50fff73d620 ("nvme: implement In-Band authentication")
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
+On Wed, Nov 15, 2023 at 7:52=E2=80=AFPM Keith Busch <kbusch@kernel.org> wro=
+te:
+>
+> On Wed, Nov 15, 2023 at 02:44:04PM -0800, Yuanyuan Zhong wrote:
+> > On Wed, Nov 15, 2023 at 11:55=E2=80=AFAM Keith Busch <kbusch@kernel.org=
+> wrote:
+> > >
+> > > On Wed, Nov 15, 2023 at 11:21:53AM -0800, Yuanyuan Zhong wrote:
+> > > > On Wed, Nov 15, 2023 at 11:02=E2=80=AFAM Jens Axboe <axboe@kernel.d=
+k> wrote:
+> > > >
+> > > > Do you mean something like this? If not, can you please elaborate
+> > > > "when we need"?
+> > > > -               struct nvme_effects_log *cel =3D xa_load(&ctrl->cel=
+s, ns->head->ids.csi);
+> > > > +               struct nvme_effects_log *cel =3D (ns->head->ids.csi=
+ =3D=3D NVME_CSI_NVM) ?
+> > > > +                       ctrl->effects : xa_load(&ctrl->cels, ns->he=
+ad->ids.csi);
+> > > > Will it be good to change ctrl->effects to ctrl->effects[3] for
+> > > > already defined CSI?
+> > >
+> > > I suggest either re-assign the cached head->effects to one from a sti=
+ll
+> > > live controller when current path is removed, or move the saved effec=
+ts
+> > > to the subsystem instead of the controller. All controllers in the
+> > > subsystem should be reporting the same effects log anyway, so
+> > Is it specified in spec that all controllers in the subsystem
+> > should be reporting the same effects log?
+>
+> Yes, in section 5.16.1.6, "Commands Supported and Effects":
+>
+>   This log page is used to describe the commands that the controller
+>   supports and the effects of those commands on the state of the NVM
+>   subsystem.
+>
+> Oddly enough, Figure 202 says the scope of the log page is "Controller"
+> rather than "Subsystem". Sounds like ECN potential. You can memcmp the
+> effects log from each controller for a sanity check if you think some
+> subsystem controllers messed that up.
 
-Reviewed-by: Daniel Wagner <dwagner@suse.de>
+Yeah, it says scope is controller.
+I think it=E2=80=99s valid to start upgrading one controller in the subsyst=
+em
+to report different
+effects log, e.g. adding or revoking CSUPP for some opcode.
+If the saved effects log is kept in the subsystem, how to refresh it
+for the subsystem?
 
