@@ -4,58 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A348C072A2
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Nov 2023 03:29:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6BFAAC47071
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Nov 2023 03:52:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9N0bTTxlmLQZmCaZT+ohBEqtgaJuk9MEI4Wwgnd6A6c=; b=Ekq6okE9/+1z6Q/dsPH1tA2thu
-	37oI9j3AyF2pyd7tLzlBDvFzKjczt7g8It8KJbUj6QnqaJt4iATGa8FwkJXKyCY+oZrCK/9yYO036
-	bxS2XUf5tEOD8HKAYGK80K73kCMmmGF6mCfKvq5cm+nt8pTAGNfU7xjp27kIgcMBO1DaaGjLsmKMI
-	6qIkAmgv1IPFtbq5Td8OKefdB45pJkS3olJChW73q7R1cGZAu5GlaCrRU4zZNpeQRW4CndCi+31kr
-	Idl/rlhHTC2PxrXTQ+UG1if5t6VZ0zNXLM0WxJ0CFXC6zvMnsK8Hql02J7JefqYH/dXB8dNURBSBr
-	USs5OOLA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=d6V+qVKs+IlmLOQ9G25HtgwPuqZqRR9GDN+lvsFC3CU=; b=buB64JT22mg3q3Z7mS1L16+rqX
+	pynK3TqZjhHpcZlUc/d69LxbFX+v6AtZzamnvrmM3IjyrQQMByp13JuQP4H5vEJIOAKrs1JaHuYu1
+	3QLaV8eCx2WpeJxmiG3bblxfG5ndlxlvLWXmwYCaRZ6XNyTXy1WKPNUgWCgoMOz7FEIYOM9BmvO2P
+	I9riA9Q1YpDZ/3FmvWqzWA8Ip3eKZCgulhjq1xxsCbXtAp6sKW06upMt7/gAEcXCZtLXBVYogXXnj
+	aZOpmLKaujjdyfjTCxwcchHnlEZbkkeIfnCffjMq4ZcFlb2N5UJtB6u9Idlo8tK/arqio5iiySRJc
+	s+csvb/g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r3T3t-002JRC-1S;
-	Thu, 16 Nov 2023 03:29:01 +0000
-Received: from out-170.mta0.migadu.com ([2001:41d0:1004:224b::aa])
+	id 1r3TQL-002LIr-2t;
+	Thu, 16 Nov 2023 03:52:13 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r3T3o-002JPn-2R
+	id 1r3TQI-002LIP-2z
 	for linux-nvme@lists.infradead.org;
-	Thu, 16 Nov 2023 03:28:59 +0000
-Message-ID: <0af842c2-dec8-7e49-7528-e46bacdaa127@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1700105328;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9N0bTTxlmLQZmCaZT+ohBEqtgaJuk9MEI4Wwgnd6A6c=;
-	b=otkpDWNyL+05D6ot7/jR6PzV5ppMBtLWtvol2vd4HOtquLjNHqaXEZ5ccN5cUYZbGnSZf1
-	2YmEeEoevmZBSF98a8T77gNKW4CAwiPx4RZPuphCX3amAthBFd6RCdgVCbulDxwbJvuX8e
-	nXI9zy2MjHgRfASlQ3+HsYkJcKo/vC0=
-Date: Thu, 16 Nov 2023 11:28:39 +0800
+	Thu, 16 Nov 2023 03:52:12 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 39D42618AF;
+	Thu, 16 Nov 2023 03:52:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3B67C433C7;
+	Thu, 16 Nov 2023 03:52:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700106729;
+	bh=x/tld0bG24HZD0l3o5Zu81h7Zw9qVdRfNBu7baYafKc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JgW6pXb5S11/zVv3dFiPaQPNAQ7LQzEx0aSYl1R5/drSvRjxLu1sVWMos2Bk23hbh
+	 keeTI203WmYd4+Jd35/G7T4vuAt9zGhMfUVgCroU/W3rDKDmipf0FJJPUOnic3DDxd
+	 ZyGukv+jU28gNLtaPRelAnF+cVyUEaDNGg7jEx/DFzbVdJUPHDbzyN9cJmDRPhNj8X
+	 eyIfYhlJZZYs2Q3wXuNjo8Dzq+sqsiwulXJHo8jT/wBnGNt2ep60uTSwViuYbHMyIO
+	 PKlBN7xspTwuRoe2dwDdwot81CUjXCjXdrB/Z7kzjn3UDkLaGfW+EZqU+7x1zNAstp
+	 YC12tJ/2xW7ww==
+Date: Wed, 15 Nov 2023 22:52:01 -0500
+From: Keith Busch <kbusch@kernel.org>
+To: Yuanyuan Zhong <yzhong@purestorage.com>
+Cc: Jens Axboe <axboe@kernel.dk>, hch@lst.de, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	randyj@purestorage.com, hcoutinho@purestorage.com
+Subject: Re: [PATCH] nvme-core: remove head->effects to fix use-after-free
+Message-ID: <ZVWR4Rtr1N7IF6iQ@kbusch-mbp.dhcp.thefacebook.com>
+References: <20231115185439.2616073-1-yzhong@purestorage.com>
+ <69218380-45f0-41cc-8a65-50878d44219e@kernel.dk>
+ <CA+AMecFkR0k9ofJt0_iHrPOvfMQ_ePv8QCPYy9m=U7xEjsNCKg@mail.gmail.com>
+ <ZVUiLr3g1_i5YmRQ@kbusch-mbp.dhcp.thefacebook.com>
+ <CA+AMecH1TZc3zVm0OF1VwwTBCrLp9mZnOa5zw59yr_W0WbH_uw@mail.gmail.com>
 MIME-Version: 1.0
-Subject: Re: [Bug Report] NVMe-oF/TCP - NULL Pointer Dereference in
- `nvmet_tcp_execute_request`
-To: Alon Zahavi <zahavi.alon@gmail.com>, linux-nvme@lists.infradead.org
-Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
- Chaitanya Kulkarni <chaitanyak@nvidia.com>
-References: <CAK5usQtOYQoHdOnfYi24kDx+qmA98hDnV7XuH1N2oKd+PyPsBQ@mail.gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Guoqing Jiang <guoqing.jiang@linux.dev>
-In-Reply-To: <CAK5usQtOYQoHdOnfYi24kDx+qmA98hDnV7XuH1N2oKd+PyPsBQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <CA+AMecH1TZc3zVm0OF1VwwTBCrLp9mZnOa5zw59yr_W0WbH_uw@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231115_192857_491576_D942DE54 
-X-CRM114-Status: GOOD (  21.70  )
+X-CRM114-CacheID: sfid-20231115_195211_009335_8F3FC804 
+X-CRM114-Status: GOOD (  19.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,149 +77,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+On Wed, Nov 15, 2023 at 02:44:04PM -0800, Yuanyuan Zhong wrote:
+> On Wed, Nov 15, 2023 at 11:55 AM Keith Busch <kbusch@kernel.org> wrote:
+> >
+> > On Wed, Nov 15, 2023 at 11:21:53AM -0800, Yuanyuan Zhong wrote:
+> > > On Wed, Nov 15, 2023 at 11:02 AM Jens Axboe <axboe@kernel.dk> wrote:
+> > >
+> > > Do you mean something like this? If not, can you please elaborate
+> > > "when we need"?
+> > > -               struct nvme_effects_log *cel = xa_load(&ctrl->cels, ns->head->ids.csi);
+> > > +               struct nvme_effects_log *cel = (ns->head->ids.csi == NVME_CSI_NVM) ?
+> > > +                       ctrl->effects : xa_load(&ctrl->cels, ns->head->ids.csi);
+> > > Will it be good to change ctrl->effects to ctrl->effects[3] for
+> > > already defined CSI?
+> >
+> > I suggest either re-assign the cached head->effects to one from a still
+> > live controller when current path is removed, or move the saved effects
+> > to the subsystem instead of the controller. All controllers in the
+> > subsystem should be reporting the same effects log anyway, so
+> Is it specified in spec that all controllers in the subsystem
+> should be reporting the same effects log?
 
-On 11/6/23 21:39, Alon Zahavi wrote:
-> # Bug Overview
->
-> ## The Bug
-> There is a null-ptr-deref in `nvmet_tcp_execute_request`.
->
-> ## Bug Location
-> `drivers/nvme/target/tcp.c` in the function `nvmet_tcp_execute_request`.
->
-> ## Bug Class
-> Remote Denial of Service
->
-> ## Disclaimer:
-> This bug was found using Syzkaller with NVMe-oF/TCP added support.
->
-> # Technical Details
->
-> ## Kernel Report - NULL Pointer Dereference
-> ```
-> BUG: kernel NULL pointer dereference, address: 0000000000000000
-> #PF: supervisor instruction fetch in kernel mode
-> #PF: error_code(0x0010) - not-present page
-> PGD 800000003c2bc067 P4D 800000003c2bc067 PUD 3dfc5067 PMD 0
-> Oops: 0010 [#1] PREEMPT SMP KASAN PTI
-> CPU: 0 PID: 2363 Comm: kworker/0:1H Not tainted 6.5.0-rc1+ #4
-> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
-> Workqueue: nvmet_tcp_wq nvmet_tcp_io_work
-> RIP: 0010:0x0
-> Code: Unable to access opcode bytes at 0xffffffffffffffd6.
-> RSP: 0018:ffff888013b0fba8 EFLAGS: 00010246
-> RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-> RDX: ffff888013d50000 RSI: ffffffff833ddfe5 RDI: ffff88800e5a33e8
-> RBP: ffff888013b0fcf0 R08: 0000000000000001 R09: 0000000000000000
-> R10: 0000000000000000 R11: 0000000000000001 R12: ffff88800e5a33e8
-> R13: 0000000000000000 R14: ffff88800e5a33e0 R15: dffffc0000000000
-> FS:  0000000000000000(0000) GS:ffff88806cc00000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: ffffffffffffffd6 CR3: 0000000016faa003 CR4: 0000000000370ef0
-> Call Trace:
->   <TASK>
->   nvmet_tcp_execute_request drivers/nvme/target/tcp.c:578 [inline]
->   nvmet_tcp_try_recv_data drivers/nvme/target/tcp.c:1232 [inline]
->   nvmet_tcp_try_recv_one drivers/nvme/target/tcp.c:1312 [inline]
->   nvmet_tcp_try_recv drivers/nvme/target/tcp.c:1338 [inline]
->   nvmet_tcp_io_work+0x202a/0x2990 drivers/nvme/target/tcp.c:1388
->   process_one_work+0xb54/0x18b0 kernel/workqueue.c:2597
->   worker_thread+0x663/0x1300 kernel/workqueue.c:2748
->   kthread+0x357/0x460 kernel/kthread.c:389
->   ret_from_fork+0x29/0x50 arch/x86/entry/entry_64.S:308
->   </TASK>
-> Modules linked in:
-> CR2: 0000000000000000
-> ---[ end trace 0000000000000000 ]---
-> ```
->
-> ## Description
->
-> ### Tracing The Bug
-> In the call for `nvmet_tcp_execute_request` (see code block 1), there
-> is a call to `cmd->req.execute()`.
-> When executing the reproducer, the function pointer is pointing to
-> NULL, thus the BUG: Unable to handle NULL pointer dereference.
->
-> Code Block 1:
-> ```
-> static void nvmet_tcp_execute_request(struct nvmet_tcp_cmd *cmd)
-> {
->      if (unlikely(cmd->flags & NVMET_TCP_F_INIT_FAILED))
->          nvmet_tcp_queue_response(&cmd->req);
->      else
->          cmd->req.execute(&cmd->req);
-> }
-> ```
->
-> The reason why `cmd->req.execute` is NULL when we get into the
-> `nvmet_tcp_execute_request` function lies in the `nvmet_req_init`
-> function (drivers/nvme/target/core.c).
->
-> Code Block 2:
-> ```
-> bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
->                                   struct nvmet_sq *sq, const struct
-> nvmet_fabrics_ops *ops)
-> {
->      ...
->
->      if (unlikely(!req->sq->ctrl))
->          /* will return an error for any non-connect command: */
->          status = nvmet_parse_connect_cmd(req);
->      else if (likely(req->sq->qid != 0))
->          status = nvmet_parse_io_cmd(req);
->      else
->          status = nvmet_parse_admin_cmd(req);
->
->    ...
-> }
-> ```
->
-> In the `nvmet_parse_admin_cmd` and `nvmet_parse_connect_cmd`
-> functions, there are some assignments for `req->execute`.
-> For example, here is in code block 3, the assignment in
-> `nvmet_parse_connect_command` (drivers/nvme/target/fabrics-cmd.c).
->
-> Code Block 3:
-> ```
-> u16 nvmet_parse_connect_cmd(struct nvmet_req *req)
-> {
->      struct nvme_command *cmd = req->cmd;
->
->      ...
->
->      if (cmd->connect.qid == 0)
->          req->execute = nvmet_execute_admin_connect;
->      else
->          req->execute = nvmet_execute_io_connect;
->       return 0;
-> }
-> ```
->
-> ## Root Cause
-> When executing the reproducer the `nvmet_parse_connect_cmd` is not
-> being called, but execution is continuing to
-> `nvmet_tcp_execute_request` .
->
-> ## Reproducer
-> I am adding a reproducer generated by Syzkaller with some
-> optimizations and minor changes.
+Yes, in section 5.16.1.6, "Commands Supported and Effects":
 
-Could you try the change to see if it helps?
+  This log page is used to describe the commands that the controller
+  supports and the effects of those commands on the state of the NVM
+  subsystem.
 
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -1062,7 +1062,7 @@ static int nvmet_tcp_done_recv_pdu(struct 
-nvmet_tcp_queue *queue)
-le32_to_cpu(req->cmd->common.dptr.sgl.length));
-
-                 nvmet_tcp_handle_req_failure(queue, queue->cmd, req);
--               return 0;
-+               return -EAGAIN;
-         }
-
-Thanks,
-Guoqing
+Oddly enough, Figure 202 says the scope of the log page is "Controller"
+rather than "Subsystem". Sounds like ECN potential. You can memcmp the
+effects log from each controller for a sanity check if you think some
+subsystem controllers messed that up.
 
