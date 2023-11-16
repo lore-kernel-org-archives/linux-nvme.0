@@ -4,157 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 69CE5C072A2
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Nov 2023 03:03:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A348C072A2
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Nov 2023 03:29:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=e+QQBt3UGon0N6zo/nFNtQEBCXeUUjnQ/pkdyTQxvzk=; b=Ol9wuZ0BGO+4nFVQLcEWsmvNtk
-	OrC78Y++NxH0qqXms3OGARj4d6kgQ2xHUKxdC3Ew2dA4Oa7AjKsKQ6tCgZixNo7bRt4HmU/lc1Zho
-	uB+gjWMWh15iV6hJzUAtD+jeNLgNEBif/5x0pCiuDAXuWkkm3s8NkcgGIiZ8sQIERH1Gdp+UN7AyD
-	VYG6mcXLAp0Zko9lTuHSt1S1P8WycGNKPpBoME4wf5fYuIpmXz6jswgDG/Pu03A7I/GyEr6Ka1sfz
-	XIQxT3TBFb7wrKzoLhB3Ie+tqjHtYKb/lxprMLzd9q044iIViP3LJLSIjy2uFcyVVZmNgXHdVpKDg
-	qZpBNqcA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9N0bTTxlmLQZmCaZT+ohBEqtgaJuk9MEI4Wwgnd6A6c=; b=Ekq6okE9/+1z6Q/dsPH1tA2thu
+	37oI9j3AyF2pyd7tLzlBDvFzKjczt7g8It8KJbUj6QnqaJt4iATGa8FwkJXKyCY+oZrCK/9yYO036
+	bxS2XUf5tEOD8HKAYGK80K73kCMmmGF6mCfKvq5cm+nt8pTAGNfU7xjp27kIgcMBO1DaaGjLsmKMI
+	6qIkAmgv1IPFtbq5Td8OKefdB45pJkS3olJChW73q7R1cGZAu5GlaCrRU4zZNpeQRW4CndCi+31kr
+	Idl/rlhHTC2PxrXTQ+UG1if5t6VZ0zNXLM0WxJ0CFXC6zvMnsK8Hql02J7JefqYH/dXB8dNURBSBr
+	USs5OOLA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r3SfD-002Hm7-0J;
-	Thu, 16 Nov 2023 03:03:31 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1r3T3t-002JRC-1S;
+	Thu, 16 Nov 2023 03:29:01 +0000
+Received: from out-170.mta0.migadu.com ([2001:41d0:1004:224b::aa])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r3SfA-002Hl1-1H
+	id 1r3T3o-002JPn-2R
 	for linux-nvme@lists.infradead.org;
-	Thu, 16 Nov 2023 03:03:29 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1700103808; x=1731639808;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=oSYyCE5mIvCx8oH5Nl2+VMca3l/O7PmTLxsTiG9qAK8=;
-  b=UK5qhleEY7YkPQMjM7h7WMYVqudT+e3M8wlCsZ4+n8LvvcJVKIdceYnT
-   CVLZAiFoFJ64OfmMooz2yydOivfxkk5anXORBguSOXXxHccftbDv172dL
-   48aq3x4cNWcJmxgBVrh8G1Q7cDcW2PlGVg/+RiHaQRXiF90+F9HyL8xu1
-   Re0+OYW2fErnwMCn6ZLXzrvCOZkZYPeUffAcIj4HOoA4Zw88lYCpJauGK
-   U7AmDNPd5OlxTy0/v/e4/KiqRZ2Xld0hBSItdlnXaAcryRFfzxogYtA/t
-   fV9qmerMbzUAgDhY084Zf4XG7qJ/XD4nO702fHXT4CNKWWGqdaq+jQk7R
-   Q==;
-X-CSE-ConnectionGUID: ZkGhX99EQ/6gATnHkfPzgw==
-X-CSE-MsgGUID: vWNnDEWERDi45afH/dCCeg==
-X-IronPort-AV: E=Sophos;i="6.03,307,1694707200"; 
-   d="scan'208";a="2402016"
-Received: from mail-bn8nam12lp2168.outbound.protection.outlook.com (HELO NAM12-BN8-obe.outbound.protection.outlook.com) ([104.47.55.168])
-  by ob1.hgst.iphmx.com with ESMTP; 16 Nov 2023 11:03:22 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ifvxi7iSs9LmPdCvTPcI8Lk15hu45wWDrLNYv7kQbTsDaxqAsqXqEsE0KQOaoVhr7XWTKbz2YtiUUbLh7G0WRwKHGKQmXjQgn4GLp/0dyCdBC+tTnUmk/zAOtU5dnRkHma6L7f9GLUef5wyISFFIQbrawE8l+F1gU0rs6TAjC4nR2+u1QyOFOmSOqdAiI49bvaAA6d1dm1bp02emU43V8Zy9Hvkxt9wNkluRGDVU89oHW2r13iN7UYq5HokzLqudPgjY7Q8Ot0y1CBjr4/X6+6WM5/38KJAIE1NgFS4QsTuOFFZBsH6mmLN8sQj3RiiM5KRnBkHuVeC4ejERjDNVTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=e+QQBt3UGon0N6zo/nFNtQEBCXeUUjnQ/pkdyTQxvzk=;
- b=B4a+bqSOydewykpT6pzfEPZ6BQ14zFSFOAOlWjRReEfos8qaBf6zYgMMqoaJpTh9xZGXKSz0s8eo771kvsMUhddCmu4x4el9a6Ua0d0012jNzQK7F5HVNFGLyL/6ZNv+KXZ8wRhKBsIkKUF2cXnTy9DtiT+2TuUEXNGFDpYF3g3o6a0TNoClf4jLvU84pfKZYu0nZh01GUJFB5J7DlXdioJqwIPbRXSOpMrsJDO6Rr1iNrvgO2MMJrDrTlJrbcSW6Dd9piknlG6E1nIt0CBBkzZk2rxwNZRCyn5Ng2r1MnmBenNZpdIDLVawWbadRud/6OHQmr48GaAZNJo/rHWLvw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e+QQBt3UGon0N6zo/nFNtQEBCXeUUjnQ/pkdyTQxvzk=;
- b=CqBJYrW9NbGgIC2Ts1NmLRMQPXS0lHtczL+RQrueSehBML3D+OnFTwp0Ee+/PN9Ld22AFR1Hk8+eIrIRwzhZKxRcPi6vCrxZf3Z/xekmxLvbFGG1PPcwbniySNz1kNQObVw9DW3dDvytZNmMzyN/D+nJltA3+iQDgMHagfwzF1s=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- CO6PR04MB7891.namprd04.prod.outlook.com (2603:10b6:5:35b::21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6977.31; Thu, 16 Nov 2023 03:03:21 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::81a9:5f87:e955:16b4]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::81a9:5f87:e955:16b4%3]) with mapi id 15.20.7002.019; Thu, 16 Nov 2023
- 03:03:21 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Hannes Reinecke <hare@suse.de>
-CC: Daniel Wagner <dwagner@suse.de>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, Yi Zhang <yi.zhang@redhat.com>
-Subject: Re: [PATCH blktests 2/2] nvme/{041,042,043,044,045}: require kernel
- config NVME_HOST_AUTH
-Thread-Topic: [PATCH blktests 2/2] nvme/{041,042,043,044,045}: require kernel
- config NVME_HOST_AUTH
-Thread-Index: AQHaF4fs31V751Pswky+3T/QxhjUILB64sUAgAAdzQCAAAmMAIAAZAsAgAAD/wCAAMKJAIAADycA
-Date: Thu, 16 Nov 2023 03:03:20 +0000
-Message-ID: <3c5daxlrkpyf6l3asotx7gqczqo32ffzjjvfoobchvwq56c4hv@r4llw3v2msvl>
-References: <20231115055220.2656965-1-shinichiro.kawasaki@wdc.com>
- <20231115055220.2656965-3-shinichiro.kawasaki@wdc.com>
- <447d68cc-91d1-4d17-aec6-0105d3b188c5@suse.de>
- <xikiwdcssvdc2dvozscny73e7pxcdf7b7qx7oys34ote4cv4qo@3msll2uqsz7y>
- <ebf8d5ed-1fe6-4962-a363-5b11cd01bd70@suse.de>
- <bkd22lp42ewpp6u7lws2alcbfzjzt6yp7m3ou2ugdukiyuwqt5@pjnxq5uqnjlc>
- <fd9a0f77-116d-4eb6-ab3b-8af08dda878e@suse.de>
- <6fwo7puujh4dgoppilxwtg6t2d3sf7l7jp7ifyjprgj5litjtt@b6qoyootcnnr>
-In-Reply-To: <6fwo7puujh4dgoppilxwtg6t2d3sf7l7jp7ifyjprgj5litjtt@b6qoyootcnnr>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|CO6PR04MB7891:EE_
-x-ms-office365-filtering-correlation-id: 0e0433e7-a25d-4cee-8da3-08dbe6509715
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Ayx14xd7bFRZcfrxix/CbB/6arozGScCCS97EN/NLVNzVKW31lU2SmhzNmhZSsCNdbs5q5cj5ocEoXoTxw6UhN5JIXd+NWRjj3KPF2O1ToFzcLxCFEJsDCE6Y24ajX8Mt6ZwKVjqrPqJIb4uvxumZL156E8S62o3OB1kEScuhdHunLSP9SaEoihvPq7grscBe1DSJFPTxvqZbblPeJ8Vys7tcB2ApdWjaG8Y6lHhivoYzonacGQpOhbQfl0JK63Nr053DDYIzfIb59bzMF+UZwDdvqC7xIw4E89WRvZ5TCNLIxeLeqGFpLOK3MV7F+v4McvIeRNJ7DsAoUPfmYQLFfVv3rrv1ogva0+Y0148lNGRxgKWwcCbGYals2BaoVWWzRporLMz8BfoV6K+qL87XQ+xmpSsX4/Bjdf0I1r2XQkoW+sCIAQ91fNSFcA9GeSCYI+shyQE+G4Z5NMc3gisBa2XIFTPb/LMRta6kkp076FjL07ch1VVHAzmtSRKFgC4kPuDSkKIww++Og4E9WekHMFc/yqbByauS+vkV5r0ieCvkHwtPOu1BzOyTucim5TqLRvI3HW56LuyqIhKNQRSSjtWr97a0Q7J+mmZt/wO5osQKIwZCqUSTdhZ0ANOkv6Q
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(376002)(136003)(346002)(366004)(39860400002)(396003)(230922051799003)(186009)(64100799003)(1800799009)(451199024)(6506007)(26005)(33716001)(6512007)(86362001)(66476007)(54906003)(64756008)(66556008)(66446008)(91956017)(6916009)(66946007)(122000001)(38070700009)(38100700002)(9686003)(83380400001)(82960400001)(71200400001)(53546011)(6486002)(316002)(2906002)(5660300002)(76116006)(478600001)(41300700001)(8936002)(8676002)(4326008)(44832011);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?+BO3vKY/MtDtO/pPTxpCHXgg0h6nzkQC08JZ7m2NadNsrX+T0hY1SDvwY5pZ?=
- =?us-ascii?Q?bOIuy35oHp3TCbusmRHUGwEt10doLo5flctewcxZbN1HwBCUjriHdgGeNisC?=
- =?us-ascii?Q?y8W/DwJFfYG23+QRlv8LKbSaMor79sttnzd1Gj0APfZYUX2rnu2ncnazAYjq?=
- =?us-ascii?Q?0zJjJNOw/XR6wfdVrvXXWAZw9TjxIEV0fymtyEsXCfetruJ6+qyeFk5gmkT/?=
- =?us-ascii?Q?8nF8tuN+9TjCk98dBmRM2/+EAGZ8YISHlBhEpTtKTYb9fLkO1cD0FqIXt+bJ?=
- =?us-ascii?Q?/ISRqVndRL+kDUp3uLpycTjznbkXkHj3/ft84xogo2MP1OYyOvHNPM7csMa4?=
- =?us-ascii?Q?+mqam9oOKMhLkPwfL41xbjtbF3o+UNqzZbJK/6Fp+JIBm1xz9caQ/HvCK8I5?=
- =?us-ascii?Q?Bjc5m41movskLk6TbJhSIzbUthLWH/BwlNmyk9S1fv1d2+OMH8wy4SZ8GKNk?=
- =?us-ascii?Q?Nk3OEc8svhq1rwmdUc/4oFudQM+A7XJISNuR+U3st2X7Cd3OcBSq/C+5lHA4?=
- =?us-ascii?Q?0GhqeNA4r0Nrx4vjTqWW6Wrc6IQaz9MUv3v4KBM7sk4KTJYJT2NWXn6E4p/E?=
- =?us-ascii?Q?cRLThyTl6sdoc5xq1tsECcGtj5/8J/P5rL4AMQMWfVKgjTl5JELR172eZNpT?=
- =?us-ascii?Q?cGFf6zCpZ1YdJhEECuA07O/Jvl4KL6zEYK41VPkodFgiv6jyKziesmAphM6u?=
- =?us-ascii?Q?0Ee0pG4ypt7OnTQiGp83RIVcIb0xwOpdO7F6qAU3wKSiE9XopymCyxU1gTYW?=
- =?us-ascii?Q?j3mdhXRvtU4BzKMZAe/WFXtwObyARtb1crFe0Q2koBS8aNweFeTInplbBnCL?=
- =?us-ascii?Q?zcGfWh456hRzqpG0AURmfzv/rMGQUxddADaapA0beqMhFuKFMp/BGutktjdn?=
- =?us-ascii?Q?xBYD1gdByYoR9FsSmcaEB5whkHl/8FnVgtkpDAsC8V9R5SH/0je5PsWOwi/U?=
- =?us-ascii?Q?claiRp4LEYen9wksP+DSzEI0eMXWGayzlNQW0HpBv8aX1MVfDTSr8ADdiCzR?=
- =?us-ascii?Q?TB9VgAEQv4xFjZNEkLrYYItnKXdVbabvHNZaHHRUb8Ejx1qlyeh5kY4il8gx?=
- =?us-ascii?Q?8FZfl5/nanTUFbjTdl7QyR3XN+28wN+NghYdPI1wygqZ7iCn+O9pRkUmvq2e?=
- =?us-ascii?Q?+jt3VZtbR4ngtvytvMOKDzMffV52EBxVdwO/up7UpnuPtsjetEaL4+xIK57n?=
- =?us-ascii?Q?ysUNqnV8H+tfsaysyY65REUWTPs4DYR2hyjbdsIjuzwOf6mSBtc1MQvFPHtu?=
- =?us-ascii?Q?FtDCX//1zcEIKaNFrXuLOPPBBpCIceVJgCvjDWjtNBjKEPuaBXS4hPMhCjHP?=
- =?us-ascii?Q?kgYAtxEdH0zcWq4i+K3qSbBlCVDRcEMPMRFXSdsFqezD0Wk1tF5n30nT34cz?=
- =?us-ascii?Q?KQnXOUHLNBo6dMeanNbEStxSAJfiyYIagZzdsD2/0+LVzMw1pGbz/JbnmSt3?=
- =?us-ascii?Q?aDrPxvOkLhPDBFRc5HhWs6gkFOh8H6ifzCNwVZJd4+NYw9qXOM13/CDRJp0q?=
- =?us-ascii?Q?gXXwmwuTzFtS6u0Pojy9MV7nEREyDshLQbj12lDjZp8YCsuXrnVMZxCQvpT2?=
- =?us-ascii?Q?NALeQhXedjgpjqpkvRVxZD69f1oK0Z/T/8GISKyXoogAuZKLWFcBMqvqHvS9?=
- =?us-ascii?Q?/YYNNF4QgKFB7u/IGtk0eFY=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <2CBDF29C5720284CB120A0996AC00F6E@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	Thu, 16 Nov 2023 03:28:59 +0000
+Message-ID: <0af842c2-dec8-7e49-7528-e46bacdaa127@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1700105328;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9N0bTTxlmLQZmCaZT+ohBEqtgaJuk9MEI4Wwgnd6A6c=;
+	b=otkpDWNyL+05D6ot7/jR6PzV5ppMBtLWtvol2vd4HOtquLjNHqaXEZ5ccN5cUYZbGnSZf1
+	2YmEeEoevmZBSF98a8T77gNKW4CAwiPx4RZPuphCX3amAthBFd6RCdgVCbulDxwbJvuX8e
+	nXI9zy2MjHgRfASlQ3+HsYkJcKo/vC0=
+Date: Thu, 16 Nov 2023 11:28:39 +0800
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: guWQrW+kne8FaBStYtrV1mp8W/6Xccg0JEU/YaUAG2EP3QWSR4CYajnAcSgD+l+Kg4GtX/Yykm7U0fJ9k/zsNTEJXUAAEEgO+HoCCw2Ft+Lb1YN9KYynd5NQR3D1x2h9f3H/idO/hklZoSBrHDUK1aQbH9J7uvObKXsC2GKFdnRPxZZoinJQM61X8hVOznanbMINA/dBUJvKjs4ZwETTxPrMQxHgkhagWLWLmZ+35dRg+C+rNcTN/Jmzu+xi8rPklm+oifKv0WqI548py24eYuwFEX3dzJbAwoeh2ZQZv+QMh++S6Ak8hY9S6qgzBefCby/1wTIdDSgt6uBmaFMfGJRFE2itwyGhYwz0j9o+eRgQL1y/o8/f8l9FFeGOLwijDsGBSqOvdStrvJQTjYM8zYKOa60Mr8m6dflrY7zHPOlBSwEDLRH5ugofvzhg2Il/52xe6SYDyZIaG+PoED4Nb5C5KnCnz2jpBjvlmEUPS6/UBhK8yNxz4HBnC4w5BoSH28s8NXdyllk7R0U7hhh1LbT9R4eaB/74zNnJIlpXZHBwyjGcnhRD8NTREq12t1IxER8O9lhoz0B8Dva+jNhZXoYSnqtZObyFRm2f5ixzUZ6CIg4uTueOz6Jsj8hA1PjiMcGsYyEu7GZCE4PKqQ1t1PT1wq8BHyEe/TikkTTCVEwh9kKjmiZ0SAgyvsHnuwOHIQwr3LLkBubqgqeuLXKtqrLDLAhHRHGiNUHByXI6o/RNoLotWRzMikRVUS6UCbfTDQ2BXpd5xYtBpN8gzL38/GeAYARWuMaWESS28X4kLQSsDbajRea2yz8jPwhv+y+RLzQVLSiZj1kcz34LsjMD3qau+OGQj5vgk60W2EP/2cPM1OqMzgDjMt0/sm82fNJU
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0e0433e7-a25d-4cee-8da3-08dbe6509715
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Nov 2023 03:03:20.9254
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dEdS/ZHK2+ShXZMKE65tvyRNJzfwiZATuvbNhwfIP7CgHqv2NyoorT9DzYaN8pFXhotllw8f7Yz7m91BzfG4LLQ/eJUg3ZHznxj7an4M6y8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR04MB7891
+Subject: Re: [Bug Report] NVMe-oF/TCP - NULL Pointer Dereference in
+ `nvmet_tcp_execute_request`
+To: Alon Zahavi <zahavi.alon@gmail.com>, linux-nvme@lists.infradead.org
+Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
+ Chaitanya Kulkarni <chaitanyak@nvidia.com>
+References: <CAK5usQtOYQoHdOnfYi24kDx+qmA98hDnV7XuH1N2oKd+PyPsBQ@mail.gmail.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Guoqing Jiang <guoqing.jiang@linux.dev>
+In-Reply-To: <CAK5usQtOYQoHdOnfYi24kDx+qmA98hDnV7XuH1N2oKd+PyPsBQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231115_190328_516591_C600A4BC 
-X-CRM114-Status: GOOD (  22.31  )
+X-CRM114-CacheID: sfid-20231115_192857_491576_D942DE54 
+X-CRM114-Status: GOOD (  21.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -169,90 +70,149 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Nov 16, 2023 / 02:09, Shinichiro Kawasaki wrote:
-> On Nov 15, 2023 / 15:32, Hannes Reinecke wrote:
-> > On 11/15/23 15:18, Daniel Wagner wrote:
-[...]
-> > > diff --git a/tests/nvme/045 b/tests/nvme/045
-> > > index 1eb1032a3b93..954f96bedd5a 100755
-> > > --- a/tests/nvme/045
-> > > +++ b/tests/nvme/045
-> > > @@ -17,6 +17,7 @@ requires() {
-> > >          _have_kernel_option NVME_TARGET_AUTH
-> > >          _require_nvme_trtype_is_fabrics
-> > >          _require_nvme_cli_auth
-> > > +       _require_kernel_nvme_feature dhchap_ctrl_secret
->=20
-> The idea looked good and I checked /dev/nvme-fabrics content on kernel v6=
-.7-
-> rc1. But unfortunately, I found that /dev/nvme-fabrics content is same
-> regardless of the kernel config NVME_HOST_AUTH. I checked opt_tokens in
-> drivers/nvme/host/fabrics.c, and saw that "dhchap_ctrl_secret=3D%s" is no=
-t
-> surrounded with #ifdef CONFIG_NVME_HOST_AUTH. Should we add the #ifdef?
->=20
-> I tried to find out other differences that NVME_HOST_AUTH makes and visib=
-le
-> from userland. I found ctrl_dhchap_secret sysfs attribute of nvme devices=
- is
-> in #ifdef CONFIG_HOST_AUTH. But to find the attribute, it looks "nvme con=
-nect"
-> needs to happen before-hand. So the attribute does not look usable. Hmm.
+Hi,
 
-I rethought about the ctrl_dhchap_secret sysfs attribute, and came up with =
-an
-idea to set up nvme target without host key and do "nvme connect". (With ho=
-st
-key, nvme connect fails). Then check if the sysfs attributes exists or not.
+On 11/6/23 21:39, Alon Zahavi wrote:
+> # Bug Overview
+>
+> ## The Bug
+> There is a null-ptr-deref in `nvmet_tcp_execute_request`.
+>
+> ## Bug Location
+> `drivers/nvme/target/tcp.c` in the function `nvmet_tcp_execute_request`.
+>
+> ## Bug Class
+> Remote Denial of Service
+>
+> ## Disclaimer:
+> This bug was found using Syzkaller with NVMe-oF/TCP added support.
+>
+> # Technical Details
+>
+> ## Kernel Report - NULL Pointer Dereference
+> ```
+> BUG: kernel NULL pointer dereference, address: 0000000000000000
+> #PF: supervisor instruction fetch in kernel mode
+> #PF: error_code(0x0010) - not-present page
+> PGD 800000003c2bc067 P4D 800000003c2bc067 PUD 3dfc5067 PMD 0
+> Oops: 0010 [#1] PREEMPT SMP KASAN PTI
+> CPU: 0 PID: 2363 Comm: kworker/0:1H Not tainted 6.5.0-rc1+ #4
+> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+> Workqueue: nvmet_tcp_wq nvmet_tcp_io_work
+> RIP: 0010:0x0
+> Code: Unable to access opcode bytes at 0xffffffffffffffd6.
+> RSP: 0018:ffff888013b0fba8 EFLAGS: 00010246
+> RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+> RDX: ffff888013d50000 RSI: ffffffff833ddfe5 RDI: ffff88800e5a33e8
+> RBP: ffff888013b0fcf0 R08: 0000000000000001 R09: 0000000000000000
+> R10: 0000000000000000 R11: 0000000000000001 R12: ffff88800e5a33e8
+> R13: 0000000000000000 R14: ffff88800e5a33e0 R15: dffffc0000000000
+> FS:  0000000000000000(0000) GS:ffff88806cc00000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: ffffffffffffffd6 CR3: 0000000016faa003 CR4: 0000000000370ef0
+> Call Trace:
+>   <TASK>
+>   nvmet_tcp_execute_request drivers/nvme/target/tcp.c:578 [inline]
+>   nvmet_tcp_try_recv_data drivers/nvme/target/tcp.c:1232 [inline]
+>   nvmet_tcp_try_recv_one drivers/nvme/target/tcp.c:1312 [inline]
+>   nvmet_tcp_try_recv drivers/nvme/target/tcp.c:1338 [inline]
+>   nvmet_tcp_io_work+0x202a/0x2990 drivers/nvme/target/tcp.c:1388
+>   process_one_work+0xb54/0x18b0 kernel/workqueue.c:2597
+>   worker_thread+0x663/0x1300 kernel/workqueue.c:2748
+>   kthread+0x357/0x460 kernel/kthread.c:389
+>   ret_from_fork+0x29/0x50 arch/x86/entry/entry_64.S:308
+>   </TASK>
+> Modules linked in:
+> CR2: 0000000000000000
+> ---[ end trace 0000000000000000 ]---
+> ```
+>
+> ## Description
+>
+> ### Tracing The Bug
+> In the call for `nvmet_tcp_execute_request` (see code block 1), there
+> is a call to `cmd->req.execute()`.
+> When executing the reproducer, the function pointer is pointing to
+> NULL, thus the BUG: Unable to handle NULL pointer dereference.
+>
+> Code Block 1:
+> ```
+> static void nvmet_tcp_execute_request(struct nvmet_tcp_cmd *cmd)
+> {
+>      if (unlikely(cmd->flags & NVMET_TCP_F_INIT_FAILED))
+>          nvmet_tcp_queue_response(&cmd->req);
+>      else
+>          cmd->req.execute(&cmd->req);
+> }
+> ```
+>
+> The reason why `cmd->req.execute` is NULL when we get into the
+> `nvmet_tcp_execute_request` function lies in the `nvmet_req_init`
+> function (drivers/nvme/target/core.c).
+>
+> Code Block 2:
+> ```
+> bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
+>                                   struct nvmet_sq *sq, const struct
+> nvmet_fabrics_ops *ops)
+> {
+>      ...
+>
+>      if (unlikely(!req->sq->ctrl))
+>          /* will return an error for any non-connect command: */
+>          status = nvmet_parse_connect_cmd(req);
+>      else if (likely(req->sq->qid != 0))
+>          status = nvmet_parse_io_cmd(req);
+>      else
+>          status = nvmet_parse_admin_cmd(req);
+>
+>    ...
+> }
+> ```
+>
+> In the `nvmet_parse_admin_cmd` and `nvmet_parse_connect_cmd`
+> functions, there are some assignments for `req->execute`.
+> For example, here is in code block 3, the assignment in
+> `nvmet_parse_connect_command` (drivers/nvme/target/fabrics-cmd.c).
+>
+> Code Block 3:
+> ```
+> u16 nvmet_parse_connect_cmd(struct nvmet_req *req)
+> {
+>      struct nvme_command *cmd = req->cmd;
+>
+>      ...
+>
+>      if (cmd->connect.qid == 0)
+>          req->execute = nvmet_execute_admin_connect;
+>      else
+>          req->execute = nvmet_execute_io_connect;
+>       return 0;
+> }
+> ```
+>
+> ## Root Cause
+> When executing the reproducer the `nvmet_parse_connect_cmd` is not
+> being called, but execution is continuing to
+> `nvmet_tcp_execute_request` .
+>
+> ## Reproducer
+> I am adding a reproducer generated by Syzkaller with some
+> optimizations and minor changes.
 
-I quickly created a patch below, and it looks working. The check creates a =
-nvme
-target and affects the test system, then I think it should be done in test(=
-)
-rather than requires(). If there is no better idea, we can take this soluti=
-on.
+Could you try the change to see if it helps?
 
-diff --git a/tests/nvme/041 b/tests/nvme/041
-index d23f10a..28322e4 100755
---- a/tests/nvme/041
-+++ b/tests/nvme/041
-@@ -27,6 +27,10 @@ test() {
- 	local hostkey
- 	local ctrldev
-=20
-+	if ! _nvme_host_supports_dhchap_ctrl_secret; then
-+		return 1
-+	fi
-+
- 	hostkey=3D"$(nvme gen-dhchap-key -n ${def_subsysnqn} 2> /dev/null)"
- 	if [ -z "$hostkey" ] ; then
- 		echo "nvme gen-dhchap-key failed"
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index 1cff522..9e77d7a 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -1010,3 +1010,21 @@ _nvme_reset_ctrl() {
- _nvme_delete_ctrl() {
- 	echo 1 > /sys/class/nvme/"$1"/delete_controller
- }
-+
-+# Set up nvme target without hostkey and see if dhchap_ctrl_secret exists.
-+_nvme_host_supports_dhchap_ctrl_secret() {
-+	local ctrldev
-+	local ret=3D0
-+
-+	_nvmet_target_setup --hostkey ""
-+	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
-+	cdev=3D$(_find_nvme_dev "${def_subsysnqn}")
-+	if [[ -z $cdev || ! -e "/sys/class/nvme/${cdev}/dhchap_ctrl_secret" ]]; t=
-hen
-+		ret=3D1
-+		SKIP_REASONS+=3D("dhchap_ctrl_secret is not enabled (check CONFIG_NVME_H=
-OST_AUTH)")
-+	fi
-+	_nvme_disconnect_subsys "${def_subsysnqn}" > /dev/null 2>&1
-+	_nvmet_target_cleanup
-+
-+	return $ret
-+}=
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -1062,7 +1062,7 @@ static int nvmet_tcp_done_recv_pdu(struct 
+nvmet_tcp_queue *queue)
+le32_to_cpu(req->cmd->common.dptr.sgl.length));
+
+                 nvmet_tcp_handle_req_failure(queue, queue->cmd, req);
+-               return 0;
++               return -EAGAIN;
+         }
+
+Thanks,
+Guoqing
 
