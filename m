@@ -4,75 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 72F51C54FB9
-	for <linux-nvme@archiver.kernel.org>; Sun, 19 Nov 2023 19:30:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DF935C54FB9
+	for <linux-nvme@archiver.kernel.org>; Sun, 19 Nov 2023 22:19:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=h7cfm59rZe8jW4F6Afjicu9VpLPeOJrFGV9mEk6fLH0=; b=K5XrE1Sv8jc0cbo6oIc5okTgmN
-	QfWK/DgqXRZ/12S8yARuoYEzl8tuJIORxphZSw9Z71jtnNE5eKMOzgtm9z6CJEG9453BOg10qcIc7
-	9e1Hbc1cXgiCZQn7yJVrrDA8TybRLHmGdP3l6tuyLKduDpQU+cb2IMv27wO/4B6FPWHSPHURDln/l
-	GlycACX4KPWGbUisJ+enhvzQUf6qO1QmzU3UzM1/sFs6i8rT6PXkqqFABDnvf9DIlmWvmM2etnBfc
-	TstzlSHAIHf76jHCpfNgPBgkLSQ/MLjQ3rlK1K9FcUx8hvHzUBpolmgPhgc+gSjCrJ/GOMdV0Lhv2
-	5cbyLWww==;
+	bh=lOLdU5AjT+f/z/E1JIxjjqa99FArdycjucVty+qDDm4=; b=abdrGZG/HwSabOsGeuMZqpt/c+
+	ODjfiUFCQjJch+7SHFnEyX5iDx5n6iDIhWh2IIvTZ38o4UG9tD+paDNuvZnhzwteFlMK7oIH49SXr
+	k5ICmtu3YOJ23/WHzKNRrLfi8h+QMyf5eghLKURjTefRgBqyx6ZT8t2yuQdlqSfWsNai38cAAId46
+	GOcDDTabpWJjm81u081Pdh5oj1OILVjwoE5NFvJsz5JHowbasyWsX42lTnb1ICDFIpt8i0/v3jZuy
+	Te9v4VZAwItGPIaxFqSBBAG1emoY5DPV+IM+w8x7N8yyFZVsXXEQMRsW1bZU7SMfR+lJkvv/+98Gc
+	lZG0t1Tg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r4nUv-00AaPt-2q;
-	Sun, 19 Nov 2023 19:30:25 +0000
-Received: from mgamail.intel.com ([192.198.163.7])
+	id 1r4q87-00AlGH-1J;
+	Sun, 19 Nov 2023 22:19:03 +0000
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r4nUo-00AaOr-1N
+	id 1r4q84-00AlFs-0M
 	for linux-nvme@lists.infradead.org;
-	Sun, 19 Nov 2023 19:30:20 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700422218; x=1731958218;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Z52c+3QrrOwMzKRvT8pfIjueGEQNBpDqPu2dnBFnVFU=;
-  b=QFyiVOxWs/6Os5FXDay8S2kg3mKVPmfqYbEPZnYyHnDJkHVQ1SKIYOu/
-   xt2d0q52VXfhDEOc2J3Cjk4iluVxBrtJ8KabV8L2h8fb+3wR3+l6pltqq
-   SyPRw62sRsWxjXp2ycrHIwhPf+dnM0g5T5czfB5ZMHIy4F6JEw5V+HwQA
-   B8PdXSZ4zB06QE5zXkUMRLtg8LzTIE1Is2Zw9Fz1nhEqAklYcETYlsvdM
-   PELEk3ArG/qbo64s6Yc7p35rfsdgdeM+qdnHmIHi5Vf0m9ANytSKxiKei
-   CH4Ybh5IOZkJZJqQfULCg9+2EIBCwvO0LU3P9hkfDyRg07A4lghS4Ax3+
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="13071998"
-X-IronPort-AV: E=Sophos;i="6.04,212,1695711600"; 
-   d="scan'208";a="13071998"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2023 11:30:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="939608784"
-X-IronPort-AV: E=Sophos;i="6.04,212,1695711600"; 
-   d="scan'208";a="939608784"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 19 Nov 2023 11:30:10 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r4nUd-0005Td-2P;
-	Sun, 19 Nov 2023 19:30:07 +0000
-Date: Mon, 20 Nov 2023 03:29:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yuanyuan Zhong <yzhong@purestorage.com>, kbusch@kernel.org,
-	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me
-Cc: oe-kbuild-all@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, randyj@purestorage.com,
-	hcoutinho@purestorage.com, Yuanyuan Zhong <yzhong@purestorage.com>
-Subject: Re: [PATCH] nvme-core: remove head->effects to fix use-after-free
-Message-ID: <202311200305.oyZkQTJh-lkp@intel.com>
-References: <20231115185439.2616073-1-yzhong@purestorage.com>
+	Sun, 19 Nov 2023 22:19:01 +0000
+Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-9c603e2354fso712829166b.1
+        for <linux-nvme@lists.infradead.org>; Sun, 19 Nov 2023 14:18:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700432337; x=1701037137; darn=lists.infradead.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=lOLdU5AjT+f/z/E1JIxjjqa99FArdycjucVty+qDDm4=;
+        b=Lbv+RNIvnlhl+7g/M51vv7+vue2k/X8ti84y8bw6E7J0a/7xtNuWK32rJeHTsGuTFT
+         iEm1dWppRUL6sgabro4rFhVS9AeheqDhilS5HpbMuwoUkJTsNnFjXolcyU24e6lLZoaZ
+         IANkJlk7n5rNeUr+72f4lsi0FmbXaZzUdSonz5Wta+TDZHU0BKvB/CsD3FIzyhYgzAMy
+         5+DVP5zobjR2MIzva9K0+H8hxIRiOGO8Ews9DGVSHWa2spM9LWV3R7x5Y17n9/S1cvkm
+         Yo8HZSvmJQxuAMNdTUi3tJrDk/qqhP1f5Lh2CaOCoaeVXEMRJG88SYoSTxFeb51MyQC+
+         zV9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700432337; x=1701037137;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lOLdU5AjT+f/z/E1JIxjjqa99FArdycjucVty+qDDm4=;
+        b=thYOkEH9duLabVuPhPQ05rDAO8yQ0+bILtPKGjk1XfG89EUkSZBFntB+S7cws2Bwp1
+         azx6RE38dPhDpvtBmEyLN9938efmuiDBySSytQGGfcXXrzEnHqGqQtRP0jCW90v8QumC
+         lB8ZrLDn1b7Ws0ac1Ds8EvCnebMgV4mcoQOZM0l7IQzv7N7sUY4vwNByYzkP3tTLuAzx
+         F8xgK51ua/gU/Rwe9UAJDUJq7KWNVpIyzw9odILZ3atNK8acDVUfjDCXDGjK5w/ncKTz
+         ylJJypqUwSQhcVBIvPjWzBepntJ7jSe/8oixVArsRXzAIaUuzIMSC0FmJs6q/YH2s0kn
+         7f5w==
+X-Gm-Message-State: AOJu0YyUbeUNnnTgghgfxxgGzFDyUhW00sXzQv+Y6qYiAZUBCj79sP8b
+	3CWsC+jQM40PU3n/WDnbuevhIqUABMStF4iQbwY=
+X-Google-Smtp-Source: AGHT+IEHCoYG24SkReasaow442ABbitFSEIr/KMf35owGzjvfSWWgslY+6msnQ6znaU7MPcMSX9Imt+WtGN/lTHDwb8=
+X-Received: by 2002:a17:906:5341:b0:9fc:26ea:16b9 with SMTP id
+ j1-20020a170906534100b009fc26ea16b9mr286205ejo.23.1700432337270; Sun, 19 Nov
+ 2023 14:18:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231115185439.2616073-1-yzhong@purestorage.com>
+References: <CAK5usQtOYQoHdOnfYi24kDx+qmA98hDnV7XuH1N2oKd+PyPsBQ@mail.gmail.com>
+ <0af842c2-dec8-7e49-7528-e46bacdaa127@linux.dev>
+In-Reply-To: <0af842c2-dec8-7e49-7528-e46bacdaa127@linux.dev>
+From: Alon Zahavi <zahavi.alon@gmail.com>
+Date: Mon, 20 Nov 2023 00:18:46 +0200
+Message-ID: <CAK5usQsLOcKA55+hZJof2TCc4cZ3+FGqKa1ze9GyPVwDYCVjVg@mail.gmail.com>
+Subject: Re: [Bug Report] NVMe-oF/TCP - NULL Pointer Dereference in `nvmet_tcp_execute_request`
+To: Guoqing Jiang <guoqing.jiang@linux.dev>
+Cc: linux-nvme@lists.infradead.org, Sagi Grimberg <sagi@grimberg.me>, 
+	Christoph Hellwig <hch@lst.de>, Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231119_113018_737638_25263673 
-X-CRM114-Status: GOOD (  12.25  )
+X-CRM114-CacheID: sfid-20231119_141900_178375_0ED1BEC6 
+X-CRM114-Status: GOOD (  30.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,114 +87,167 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Yuanyuan,
+On Thu, 16 Nov 2023 at 05:28, Guoqing Jiang <guoqing.jiang@linux.dev> wrote:
+>
+> Hi,
+>
+> On 11/6/23 21:39, Alon Zahavi wrote:
+> > # Bug Overview
+> >
+> > ## The Bug
+> > There is a null-ptr-deref in `nvmet_tcp_execute_request`.
+> >
+> > ## Bug Location
+> > `drivers/nvme/target/tcp.c` in the function `nvmet_tcp_execute_request`.
+> >
+> > ## Bug Class
+> > Remote Denial of Service
+> >
+> > ## Disclaimer:
+> > This bug was found using Syzkaller with NVMe-oF/TCP added support.
+> >
+> > # Technical Details
+> >
+> > ## Kernel Report - NULL Pointer Dereference
+> > ```
+> > BUG: kernel NULL pointer dereference, address: 0000000000000000
+> > #PF: supervisor instruction fetch in kernel mode
+> > #PF: error_code(0x0010) - not-present page
+> > PGD 800000003c2bc067 P4D 800000003c2bc067 PUD 3dfc5067 PMD 0
+> > Oops: 0010 [#1] PREEMPT SMP KASAN PTI
+> > CPU: 0 PID: 2363 Comm: kworker/0:1H Not tainted 6.5.0-rc1+ #4
+> > Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+> > Workqueue: nvmet_tcp_wq nvmet_tcp_io_work
+> > RIP: 0010:0x0
+> > Code: Unable to access opcode bytes at 0xffffffffffffffd6.
+> > RSP: 0018:ffff888013b0fba8 EFLAGS: 00010246
+> > RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+> > RDX: ffff888013d50000 RSI: ffffffff833ddfe5 RDI: ffff88800e5a33e8
+> > RBP: ffff888013b0fcf0 R08: 0000000000000001 R09: 0000000000000000
+> > R10: 0000000000000000 R11: 0000000000000001 R12: ffff88800e5a33e8
+> > R13: 0000000000000000 R14: ffff88800e5a33e0 R15: dffffc0000000000
+> > FS:  0000000000000000(0000) GS:ffff88806cc00000(0000) knlGS:0000000000000000
+> > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > CR2: ffffffffffffffd6 CR3: 0000000016faa003 CR4: 0000000000370ef0
+> > Call Trace:
+> >   <TASK>
+> >   nvmet_tcp_execute_request drivers/nvme/target/tcp.c:578 [inline]
+> >   nvmet_tcp_try_recv_data drivers/nvme/target/tcp.c:1232 [inline]
+> >   nvmet_tcp_try_recv_one drivers/nvme/target/tcp.c:1312 [inline]
+> >   nvmet_tcp_try_recv drivers/nvme/target/tcp.c:1338 [inline]
+> >   nvmet_tcp_io_work+0x202a/0x2990 drivers/nvme/target/tcp.c:1388
+> >   process_one_work+0xb54/0x18b0 kernel/workqueue.c:2597
+> >   worker_thread+0x663/0x1300 kernel/workqueue.c:2748
+> >   kthread+0x357/0x460 kernel/kthread.c:389
+> >   ret_from_fork+0x29/0x50 arch/x86/entry/entry_64.S:308
+> >   </TASK>
+> > Modules linked in:
+> > CR2: 0000000000000000
+> > ---[ end trace 0000000000000000 ]---
+> > ```
+> >
+> > ## Description
+> >
+> > ### Tracing The Bug
+> > In the call for `nvmet_tcp_execute_request` (see code block 1), there
+> > is a call to `cmd->req.execute()`.
+> > When executing the reproducer, the function pointer is pointing to
+> > NULL, thus the BUG: Unable to handle NULL pointer dereference.
+> >
+> > Code Block 1:
+> > ```
+> > static void nvmet_tcp_execute_request(struct nvmet_tcp_cmd *cmd)
+> > {
+> >      if (unlikely(cmd->flags & NVMET_TCP_F_INIT_FAILED))
+> >          nvmet_tcp_queue_response(&cmd->req);
+> >      else
+> >          cmd->req.execute(&cmd->req);
+> > }
+> > ```
+> >
+> > The reason why `cmd->req.execute` is NULL when we get into the
+> > `nvmet_tcp_execute_request` function lies in the `nvmet_req_init`
+> > function (drivers/nvme/target/core.c).
+> >
+> > Code Block 2:
+> > ```
+> > bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
+> >                                   struct nvmet_sq *sq, const struct
+> > nvmet_fabrics_ops *ops)
+> > {
+> >      ...
+> >
+> >      if (unlikely(!req->sq->ctrl))
+> >          /* will return an error for any non-connect command: */
+> >          status = nvmet_parse_connect_cmd(req);
+> >      else if (likely(req->sq->qid != 0))
+> >          status = nvmet_parse_io_cmd(req);
+> >      else
+> >          status = nvmet_parse_admin_cmd(req);
+> >
+> >    ...
+> > }
+> > ```
+> >
+> > In the `nvmet_parse_admin_cmd` and `nvmet_parse_connect_cmd`
+> > functions, there are some assignments for `req->execute`.
+> > For example, here is in code block 3, the assignment in
+> > `nvmet_parse_connect_command` (drivers/nvme/target/fabrics-cmd.c).
+> >
+> > Code Block 3:
+> > ```
+> > u16 nvmet_parse_connect_cmd(struct nvmet_req *req)
+> > {
+> >      struct nvme_command *cmd = req->cmd;
+> >
+> >      ...
+> >
+> >      if (cmd->connect.qid == 0)
+> >          req->execute = nvmet_execute_admin_connect;
+> >      else
+> >          req->execute = nvmet_execute_io_connect;
+> >       return 0;
+> > }
+> > ```
+> >
+> > ## Root Cause
+> > When executing the reproducer the `nvmet_parse_connect_cmd` is not
+> > being called, but execution is continuing to
+> > `nvmet_tcp_execute_request` .
+> >
+> > ## Reproducer
+> > I am adding a reproducer generated by Syzkaller with some
+> > optimizations and minor changes.
+>
+> Could you try the change to see if it helps?
+>
+> --- a/drivers/nvme/target/tcp.c
+> +++ b/drivers/nvme/target/tcp.c
+> @@ -1062,7 +1062,7 @@ static int nvmet_tcp_done_recv_pdu(struct
+> nvmet_tcp_queue *queue)
+> le32_to_cpu(req->cmd->common.dptr.sgl.length));
+>
+>                  nvmet_tcp_handle_req_failure(queue, queue->cmd, req);
+> -               return 0;
+> +               return -EAGAIN;
+>          }
+>
+> Thanks,
+> Guoqing
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on hch-configfs/for-next]
-[also build test ERROR on linus/master v6.7-rc1 next-20231117]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yuanyuan-Zhong/nvme-core-remove-head-effects-to-fix-use-after-free/20231116-025616
-base:   git://git.infradead.org/users/hch/configfs.git for-next
-patch link:    https://lore.kernel.org/r/20231115185439.2616073-1-yzhong%40purestorage.com
-patch subject: [PATCH] nvme-core: remove head->effects to fix use-after-free
-config: powerpc-randconfig-r133-20231119 (https://download.01.org/0day-ci/archive/20231120/202311200305.oyZkQTJh-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20231120/202311200305.oyZkQTJh-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311200305.oyZkQTJh-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/nvme/host/zns.c:50:43: error: no member named 'effects' in 'struct nvme_ns_head'
-      50 |         struct nvme_effects_log *log = ns->head->effects;
-         |                                        ~~~~~~~~  ^
-   1 error generated.
-
-
-vim +50 drivers/nvme/host/zns.c
-
-240e6ee272c07a Keith Busch       2020-06-29   47  
-d525c3c0232216 Christoph Hellwig 2020-08-20   48  int nvme_update_zone_info(struct nvme_ns *ns, unsigned lbaf)
-240e6ee272c07a Keith Busch       2020-06-29   49  {
-240e6ee272c07a Keith Busch       2020-06-29  @50  	struct nvme_effects_log *log = ns->head->effects;
-d525c3c0232216 Christoph Hellwig 2020-08-20   51  	struct request_queue *q = ns->queue;
-240e6ee272c07a Keith Busch       2020-06-29   52  	struct nvme_command c = { };
-240e6ee272c07a Keith Busch       2020-06-29   53  	struct nvme_id_ns_zns *id;
-240e6ee272c07a Keith Busch       2020-06-29   54  	int status;
-240e6ee272c07a Keith Busch       2020-06-29   55  
-240e6ee272c07a Keith Busch       2020-06-29   56  	/* Driver requires zone append support */
-2f4c9ba23b887e Javier González   2020-12-01   57  	if ((le32_to_cpu(log->iocs[nvme_cmd_zone_append]) &
-240e6ee272c07a Keith Busch       2020-06-29   58  			NVME_CMD_EFFECTS_CSUPP)) {
-2f4c9ba23b887e Javier González   2020-12-01   59  		if (test_and_clear_bit(NVME_NS_FORCE_RO, &ns->flags))
-240e6ee272c07a Keith Busch       2020-06-29   60  			dev_warn(ns->ctrl->device,
-2f4c9ba23b887e Javier González   2020-12-01   61  				 "Zone Append supported for zoned namespace:%d. Remove read-only mode\n",
-2f4c9ba23b887e Javier González   2020-12-01   62  				 ns->head->ns_id);
-2f4c9ba23b887e Javier González   2020-12-01   63  	} else {
-2f4c9ba23b887e Javier González   2020-12-01   64  		set_bit(NVME_NS_FORCE_RO, &ns->flags);
-2f4c9ba23b887e Javier González   2020-12-01   65  		dev_warn(ns->ctrl->device,
-2f4c9ba23b887e Javier González   2020-12-01   66  			 "Zone Append not supported for zoned namespace:%d. Forcing to read-only mode\n",
-240e6ee272c07a Keith Busch       2020-06-29   67  			 ns->head->ns_id);
-240e6ee272c07a Keith Busch       2020-06-29   68  	}
-240e6ee272c07a Keith Busch       2020-06-29   69  
-240e6ee272c07a Keith Busch       2020-06-29   70  	/* Lazily query controller append limit for the first zoned namespace */
-240e6ee272c07a Keith Busch       2020-06-29   71  	if (!ns->ctrl->max_zone_append) {
-240e6ee272c07a Keith Busch       2020-06-29   72  		status = nvme_set_max_append(ns->ctrl);
-240e6ee272c07a Keith Busch       2020-06-29   73  		if (status)
-240e6ee272c07a Keith Busch       2020-06-29   74  			return status;
-240e6ee272c07a Keith Busch       2020-06-29   75  	}
-240e6ee272c07a Keith Busch       2020-06-29   76  
-240e6ee272c07a Keith Busch       2020-06-29   77  	id = kzalloc(sizeof(*id), GFP_KERNEL);
-240e6ee272c07a Keith Busch       2020-06-29   78  	if (!id)
-240e6ee272c07a Keith Busch       2020-06-29   79  		return -ENOMEM;
-240e6ee272c07a Keith Busch       2020-06-29   80  
-240e6ee272c07a Keith Busch       2020-06-29   81  	c.identify.opcode = nvme_admin_identify;
-240e6ee272c07a Keith Busch       2020-06-29   82  	c.identify.nsid = cpu_to_le32(ns->head->ns_id);
-240e6ee272c07a Keith Busch       2020-06-29   83  	c.identify.cns = NVME_ID_CNS_CS_NS;
-240e6ee272c07a Keith Busch       2020-06-29   84  	c.identify.csi = NVME_CSI_ZNS;
-240e6ee272c07a Keith Busch       2020-06-29   85  
-240e6ee272c07a Keith Busch       2020-06-29   86  	status = nvme_submit_sync_cmd(ns->ctrl->admin_q, &c, id, sizeof(*id));
-240e6ee272c07a Keith Busch       2020-06-29   87  	if (status)
-240e6ee272c07a Keith Busch       2020-06-29   88  		goto free_data;
-240e6ee272c07a Keith Busch       2020-06-29   89  
-240e6ee272c07a Keith Busch       2020-06-29   90  	/*
-240e6ee272c07a Keith Busch       2020-06-29   91  	 * We currently do not handle devices requiring any of the zoned
-240e6ee272c07a Keith Busch       2020-06-29   92  	 * operation characteristics.
-240e6ee272c07a Keith Busch       2020-06-29   93  	 */
-240e6ee272c07a Keith Busch       2020-06-29   94  	if (id->zoc) {
-240e6ee272c07a Keith Busch       2020-06-29   95  		dev_warn(ns->ctrl->device,
-240e6ee272c07a Keith Busch       2020-06-29   96  			"zone operations:%x not supported for namespace:%u\n",
-240e6ee272c07a Keith Busch       2020-06-29   97  			le16_to_cpu(id->zoc), ns->head->ns_id);
-a9e0e6bc728ebc Christoph Hellwig 2021-04-07   98  		status = -ENODEV;
-240e6ee272c07a Keith Busch       2020-06-29   99  		goto free_data;
-240e6ee272c07a Keith Busch       2020-06-29  100  	}
-240e6ee272c07a Keith Busch       2020-06-29  101  
-240e6ee272c07a Keith Busch       2020-06-29  102  	ns->zsze = nvme_lba_to_sect(ns, le64_to_cpu(id->lbafe[lbaf].zsze));
-240e6ee272c07a Keith Busch       2020-06-29  103  	if (!is_power_of_2(ns->zsze)) {
-240e6ee272c07a Keith Busch       2020-06-29  104  		dev_warn(ns->ctrl->device,
-240e6ee272c07a Keith Busch       2020-06-29  105  			"invalid zone size:%llu for namespace:%u\n",
-240e6ee272c07a Keith Busch       2020-06-29  106  			ns->zsze, ns->head->ns_id);
-a9e0e6bc728ebc Christoph Hellwig 2021-04-07  107  		status = -ENODEV;
-240e6ee272c07a Keith Busch       2020-06-29  108  		goto free_data;
-240e6ee272c07a Keith Busch       2020-06-29  109  	}
-240e6ee272c07a Keith Busch       2020-06-29  110  
-6b2bd274744e64 Christoph Hellwig 2022-07-06  111  	disk_set_zoned(ns->disk, BLK_ZONED_HM);
-240e6ee272c07a Keith Busch       2020-06-29  112  	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, q);
-982977df48179c Christoph Hellwig 2022-07-06  113  	disk_set_max_open_zones(ns->disk, le32_to_cpu(id->mor) + 1);
-982977df48179c Christoph Hellwig 2022-07-06  114  	disk_set_max_active_zones(ns->disk, le32_to_cpu(id->mar) + 1);
-240e6ee272c07a Keith Busch       2020-06-29  115  free_data:
-240e6ee272c07a Keith Busch       2020-06-29  116  	kfree(id);
-240e6ee272c07a Keith Busch       2020-06-29  117  	return status;
-240e6ee272c07a Keith Busch       2020-06-29  118  }
-240e6ee272c07a Keith Busch       2020-06-29  119  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Checked it.
+Although it seems useful to return some error here anyways, it doesn't
+help with the bug.
+The flow leading to the NULL deref doesn't reach this code at all,
+which is probably
+part of why it happens.
+The call trace looks like this:
+```
+ nvmet_tcp_execute_request drivers/nvme/target/tcp.c:578 [inline]
+ nvmet_tcp_try_recv_data drivers/nvme/target/tcp.c:1232 [inline]
+ nvmet_tcp_try_recv_one drivers/nvme/target/tcp.c:1312 [inline]
+ nvmet_tcp_try_recv drivers/nvme/target/tcp.c:1338 [inline]
+ nvmet_tcp_io_work+0x202a/0x2990 drivers/nvme/target/tcp.c:1388
+```
+so `nvmet_tcp_done_recv_pdu` is not called here.
 
