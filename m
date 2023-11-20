@@ -4,70 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A5FB6C54E76
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Nov 2023 10:50:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 89F51C54E76
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Nov 2023 10:56:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ztgXTSX1fFs8gSlnS3MUd56x2wEXRWT9XEgAbk7bP3k=; b=mOkO4QHr4QtEztZEMY6TiXILfK
-	zeGjm6BQbLydfof8JwvNz1TqMuVHl1y8a/wKDfmqNvU7Ys2dQZpH9RAXEbL1ZKj9zEYjFY/kYDbKc
-	5CFe0HDEaMG7aou6/qhmVvp9VOJT/WCjyNlxxiDdUN6TboLOeUjnK+NYaho1u2bG5JZDs5Yz8xKW+
-	ZnlqLfZsB02i2A3FXXZH6QSvyu9cL0211n5yBEnh/PaTJ5/Sgcvyv41babQ5XFRGkxX0TEy9mGy7H
-	AlTji4KuR2oJCfIRKTjHkXLNBX6CfLxfUMESPqI2raK4SpeseEaeAg/iv5lpQFX6SuwgQySEf6U+0
-	LmPlXVAg==;
+	bh=pVTShF6qC5wwpyOK0u7rJp2CeMFhjdYFg0T4J+LONJc=; b=Ta+T1qSqt5sskqfm169tQO15km
+	LWDNgoUIipfBbzAvjxPzrhiubWbRARXX2tM/TMEwfjVvbO+LEngrfHfcF/ba9/p0t/wm87AMPAD4+
+	d0wRdBYtkK4uguWDuu7HntwtEnQb5ZZUI2VUxFrtHtIwhSrnz76JEbL5XXNdLSTx8C947M5Hgnpy2
+	M+5zm1BrC2Sf6y6toM2ddFnTMI7dZp+OB9IXaqQXXN1ADXJ8UAXly9W8ZpnncqrY8st28oZtNqqpV
+	4Zvkw9381GUA0qqWNL43UR/kGxVJY/fnfKLd2R6aUHpTNhr1MedL+4W+nGNq+Qf5PQIHZ5MESbQtd
+	kS5VC4PA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r51rI-00Bp6P-1D;
-	Mon, 20 Nov 2023 10:50:28 +0000
-Received: from mail-ej1-f50.google.com ([209.85.218.50])
+	id 1r51xJ-00Bq9i-25;
+	Mon, 20 Nov 2023 10:56:41 +0000
+Received: from mail-wm1-f53.google.com ([209.85.128.53])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r51rC-00Bp5l-1f
+	id 1r51x7-00Bq4Y-36
 	for linux-nvme@lists.infradead.org;
-	Mon, 20 Nov 2023 10:50:24 +0000
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-9fde616b008so16302066b.1
-        for <linux-nvme@lists.infradead.org>; Mon, 20 Nov 2023 02:50:22 -0800 (PST)
+	Mon, 20 Nov 2023 10:56:38 +0000
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-408ffb55b35so4311495e9.1
+        for <linux-nvme@lists.infradead.org>; Mon, 20 Nov 2023 02:56:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700477421; x=1701082221;
+        d=1e100.net; s=20230601; t=1700477787; x=1701082587;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ztgXTSX1fFs8gSlnS3MUd56x2wEXRWT9XEgAbk7bP3k=;
-        b=dUHQZE11zTT7VBkdFLEVuPnaZTidph0/eZSqnFcNdWLXcWZPXjP4l38NRedLLjbOfp
-         HFQ/wgpfWlNjdwhE8fkfE9U91Pi1vvQftM7Yu6UfRCSCOIHwMI5uJrJ5FGxagdIxKtTP
-         o8dW4u2l3Jbc9ihZsbWGkpqpArIIx7+rCMssIRobfHSwbxG8XVyvJnwzEmBMWc+I+909
-         JW9e4vaRKkxo0tTYyFiEFoFOLGXGkFlDzHLadAxr6SNGDy7JShXV04gU6vPKwWkkRfQ6
-         XCgU2N+N02UJrxG0VajuDuKOMpe7BFZL7NGJ4CrsvYLDrymvr9OYZ4a2uXZjjnyvODXz
-         xBJg==
-X-Gm-Message-State: AOJu0YwrQFSijOvy95xYm75iXgK8MmavFdYrr8TIiLDdGMgu3LBos7DD
-	P4iKCR2xfNjGkqUnPIbBfD0=
-X-Google-Smtp-Source: AGHT+IHMTVpvE+mZlVa3lRcoRgojpw68w0Sld8ZxzAUZM7i+7sVHlT2+QGo8RM4x5yt1g/6Jl1UKEA==
-X-Received: by 2002:a17:906:10cf:b0:9e6:dfee:8154 with SMTP id v15-20020a17090610cf00b009e6dfee8154mr4509457ejv.3.1700477420832;
-        Mon, 20 Nov 2023 02:50:20 -0800 (PST)
+        bh=pVTShF6qC5wwpyOK0u7rJp2CeMFhjdYFg0T4J+LONJc=;
+        b=u7Hm2JIsuvyZqXTSqZY0GolwfTWMbaXiefSlAEYfAgSWJW5DXXad39H+jiPmxKd3v/
+         ueMvSluhul1Fk4/ahpu/laTfLjYZfyDOyKRa00Cw3DJYcCbwuWIDePFrhgeTpeDqWYeC
+         Ok0oRXtHDRxEK1L6zcqAwi7nR1t/r78xGd9ww/p0kSvcfW1KiEc899n/Nm/sX6O5op9y
+         PzF9jxeccARITUNTmuig/nc8ivBFpPmuY1J6zpbP0lREUBXNdpZqBNUpEZ97UHDJKgUl
+         Gf33AS2cpkjtnaHgVe5mKYcfWXm0GWBTlGXgh9OT6Pp4lES2Aj/wzLwDA33IsPlI2bF0
+         /3Yw==
+X-Gm-Message-State: AOJu0Yyv3mJ+YOYLIK5jSZZ2in4z552fV1mhibs1gWWgl65j1yd4UQOU
+	pSa2bcPq4/1b0mTXoCkcQFmud2vctP0=
+X-Google-Smtp-Source: AGHT+IEVNvwpW8wgS0rW4PmfV79jUbGXdECA9nU25MrG4B55Ld1qogt5E4fWM9QtAC/KW52WTsLETg==
+X-Received: by 2002:a05:600c:3c83:b0:40a:5268:bd8 with SMTP id bg3-20020a05600c3c8300b0040a52680bd8mr6133118wmb.0.1700477786989;
+        Mon, 20 Nov 2023 02:56:26 -0800 (PST)
 Received: from [192.168.64.177] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id m23-20020a1709062ad700b0099297782aa9sm3743631eje.49.2023.11.20.02.50.19
+        by smtp.gmail.com with ESMTPSA id q11-20020a05600c46cb00b00403b63e87f2sm13172659wmo.32.2023.11.20.02.56.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Nov 2023 02:50:20 -0800 (PST)
-Message-ID: <d972c5e5-523a-4b9a-83d5-ff8a1604139f@grimberg.me>
-Date: Mon, 20 Nov 2023 12:50:19 +0200
+        Mon, 20 Nov 2023 02:56:26 -0800 (PST)
+Message-ID: <69e7bbe4-b454-4941-90e2-2e6a4cf0f182@grimberg.me>
+Date: Mon, 20 Nov 2023 12:56:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [Bug Report] NVMe-oF/TCP - NULL Pointer Dereference in
- `nvmet_tcp_build_iovec`
+ `__nvmet_req_complete`
 Content-Language: en-US
-To: Alon Zahavi <zahavi.alon@gmail.com>, linux-nvme@lists.infradead.org
-Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>, Christoph Hellwig <hch@lst.de>
-References: <CAK5usQv0opo1n6VyysRD28VnML-V8tMD1YbZPUSJxth0gXR=SQ@mail.gmail.com>
- <CAK5usQtW2SNSjQpMWyvGVhVjU-y4cdjEn4DrA5xx2R-hjscn5g@mail.gmail.com>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ Alon Zahavi <zahavi.alon@gmail.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Cc: Christoph Hellwig <hch@lst.de>
+References: <CAK5usQuREC_n2dyTrv740v0PiddP2sdKKBqJG3kwbogZh+pv1Q@mail.gmail.com>
+ <e04cadc4-9f52-48e1-9e4e-90b8beb020ce@nvidia.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <CAK5usQtW2SNSjQpMWyvGVhVjU-y4cdjEn4DrA5xx2R-hjscn5g@mail.gmail.com>
+In-Reply-To: <e04cadc4-9f52-48e1-9e4e-90b8beb020ce@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231120_025022_553940_799D76F4 
-X-CRM114-Status: GOOD (  29.45  )
+X-CRM114-CacheID: sfid-20231120_025631_020650_CEE1F877 
+X-CRM114-Status: GOOD (  34.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,19 +86,15 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 11/15/23 11:35, Alon Zahavi wrote:
-> Just sending another reminder for this issue.
-> Until a fix for this there is a remote DoS that can be triggered.
-> 
-> On Mon, 6 Nov 2023 at 15:40, Alon Zahavi <zahavi.alon@gmail.com> wrote:
->>
+On 11/7/23 12:03, Chaitanya Kulkarni wrote:
+> On 11/6/23 05:41, Alon Zahavi wrote:
 >> # Bug Overview
 >>
 >> ## The Bug
->> A null-ptr-deref in `nvmet_tcp_build_iovec`.
+>> A null-ptr-deref in `__nvmet_req_complete`.
 >>
 >> ## Bug Location
->> `drivers/nvme/target/tcp.c` in the function `nvmet_tcp_build_iovec`.
+>> `drivers/nvme/target/core.c` in the function `__nvmet_req_complete`.
 >>
 >> ## Bug Class
 >> Remote Denial of Service
@@ -104,137 +102,87 @@ On 11/15/23 11:35, Alon Zahavi wrote:
 >> ## Disclaimer:
 >> This bug was found using Syzkaller with NVMe-oF/TCP added support.
 >>
-
-Hey Alon, thanks for the report.
-
 >> # Technical Details
 >>
 >> ## Kernel Report - NULL Pointer Dereference
->> ```
->> [  157.833470] BUG: kernel NULL pointer dereference, address:
->> 000000000000000c
->> [  157.833478] #PF: supervisor read access in kernel mode
->> [  157.833484] #PF: error_code(0x0000) - not-present page
->> [  157.833490] PGD 126e40067 P4D 126e40067 PUD 130d16067 PMD 0
->> [  157.833506] Oops: 0000 [#1] PREEMPT SMP NOPTI
->> [  157.833515] CPU: 3 PID: 3067 Comm: kworker/3:3H Kdump: loaded Not
->> tainted 6.5.0-rc1+ #5
->> [  157.833525] Hardware name: VMware, Inc. VMware Virtual
->> Platform/440BX Desktop Reference Platform, BIOS 6.00 11/12/2020
->> [  157.833532] Workqueue: nvmet_tcp_wq nvmet_tcp_io_work
->> [  157.833546] RIP: 0010:nvmet_tcp_build_pdu_iovec+0x7a/0x120
->> [  157.833558] Code: fe 44 89 a3 20 02 00 00 49 c1 e4 05 4c 03 63 30
->> 4c 89 75 d0 41 89 c6 e8 34 b8 18 ff 45 85 ff 0f 84 99 00 00 00 e8 06
->> bd 18 ff <41> 8b 74 24 0c 41 8b 44 24 08 4c 89 e7 49 8b 0c 24 89 f2 41
->> 89 75
->> [  157.833568] RSP: 0018:ffffc9001ab83c28 EFLAGS: 00010293
->> [  157.833576] RAX: 0000000000000000 RBX: ffff88812b9583e0 RCX: 0000000000000000
->> [  157.833584] RDX: ffff888131b10000 RSI: ffffffff82191dda RDI: ffffffff82191dcc
->> [  157.833591] RBP: ffffc9001ab83c58 R08: 0000000000000005 R09: 0000000000000000
->> [  157.833598] R10: 0000000000000007 R11: 0000000000000000 R12: 0000000000000000
->> [  157.833605] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000007
->> [  157.833612] FS:  0000000000000000(0000) GS:ffff888233f80000(0000)
->> knlGS:0000000000000000
->> [  157.833630] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->> [  157.833638] CR2: 000000000000000c CR3: 0000000122dd4002 CR4: 00000000007706e0
->> [  157.833659] PKRU: 55555554
->> [  157.833686] Call Trace:
->> [  157.833691]  <TASK>
->> [  157.833712]  ? show_regs+0x6e/0x80
->> [  157.833745]  ? __die+0x29/0x70
->> [  157.833757]  ? page_fault_oops+0x278/0x740
->> [  157.833784]  ? up+0x3b/0x70
->> [  157.833835]  ? do_user_addr_fault+0x63b/0x1040
->> [  157.833846]  ? __sanitizer_cov_trace_const_cmp4+0x1a/0x20
->> [  157.833862]  ? irq_work_queue+0x95/0xc0
->> [  157.833874]  ? exc_page_fault+0xcf/0x390
->> [  157.833889]  ? asm_exc_page_fault+0x2b/0x30
->> [  157.833925]  ? nvmet_tcp_build_pdu_iovec+0x7a/0x120
->> [  157.833958]  ? nvmet_tcp_build_pdu_iovec+0x6c/0x120
->> [  157.833971]  ? nvmet_tcp_build_pdu_iovec+0x7a/0x120
->> [  157.833998]  ? nvmet_tcp_build_pdu_iovec+0x7a/0x120
->> [  157.834011]  nvmet_tcp_try_recv_pdu+0x995/0x1310
->> [  157.834066]  nvmet_tcp_io_work+0xe6/0xd90
->> [  157.834081]  process_one_work+0x3da/0x870
->> [  157.834112]  worker_thread+0x67/0x640
->> [  157.834124]  kthread+0x164/0x1b0
->> [  157.834138]  ? __pfx_worker_thread+0x10/0x10
->> [  157.834148]  ? __pfx_kthread+0x10/0x10
->> [  157.834162]  ret_from_fork+0x29/0x50
->> [  157.834180]  </TASK>
->> ```
+>>
+>> BUG: kernel NULL pointer dereference, address: 0000000000000020
+>> #PF: supervisor read access in kernel mode
+>> #PF: error_code(0x0000) - not-present page
+>> PGD 0 P4D 0
+>> Oops: 0000 [#1] PREEMPT SMP NOPTI
+>> CPU: 2 PID: 31 Comm: kworker/2:0H Kdump: loaded Not tainted 6.5.0-rc1+ #5
+>> Hardware name: VMware, Inc. VMware Virtual Platform/440BX Desktop
+>> Reference Platform, BIOS 6.00 11/12/2020
+>> Workqueue: nvmet_tcp_wq nvmet_tcp_io_work
+>> RIP: 0010:__nvmet_req_complete+0x33/0x350 drivers/nvme/target/core.c:740
+>> Code: 41 57 41 56 41 55 41 54 49 89 fc 53 89 f3 48 83 ec 08 66 89 75
+>> d6 e8 dc cd 1a ff 4d 8b 6c 24 10 bf 01 00 00 00 4d 8b 74 24 20 <45> 0f
+>> b6 7d 20 44 89 fe e8 60 c8 1a ff 41 80 ff 01 0f 87 ef 75 96
+>> RSP: 0018:ffffc90000527c00 EFLAGS: 00010293
+>> RAX: 0000000000000000 RBX: 0000000000004002 RCX: 0000000000000000
+>> RDX: ffff888100c74880 RSI: ffffffff82170d04 RDI: 0000000000000001
+>> RBP: ffffc90000527c30 R08: 0000000000000001 R09: 0000000000000000
+>> R10: 0000000000000000 R11: 0000000000000000 R12: ffff8881292a13e8
+>> R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+>> FS:  0000000000000000(0000) GS:ffff888233f00000(0000) knlGS:0000000000000000
+>> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>> CR2: 0000000000000020 CR3: 0000000003c6a005 CR4: 00000000007706e0
+>> PKRU: 55555554
+>> Call Trace:
+>>    <TASK>
+>>    nvmet_req_complete+0x2c/0x40 drivers/nvme/target/core.c:761
+>>    nvmet_tcp_handle_h2c_data_pdu drivers/nvme/target/tcp.c:981
+>>    nvmet_tcp_done_recv_pdu drivers/nvme/target/tcp.c:1020
+>>    nvmet_tcp_try_recv_pdu+0x1132/0x1310 drivers/nvme/target/tcp.c:1182
+>>    nvmet_tcp_try_recv_one drivers/nvme/target/tcp.c:1306
+>>    nvmet_tcp_try_recv drivers/nvme/target/tcp.c:1338
+>>    nvmet_tcp_io_work+0xe6/0xd90 drivers/nvme/target/tcp.c:1388
+>>    process_one_work+0x3da/0x870 kernel/workqueue.c:2597
+>>    worker_thread+0x67/0x640 kernel/workqueue.c:2748
+>>    kthread+0x164/0x1b0 kernel/kthread.c:389
+>>    ret_from_fork+0x29/0x50 arch/x86/entry/entry_64.S:308
+>>    </TASK>
 >>
 >> ## Description
 >>
 >> ### Tracing The Bug
->> As written above, the bug occurs during the execution of
->> nvmet_tcp_build_iovec. Looking at the kernel logs report we can see
->> the exact line of code that triggers the bug.
+>> The bug occurs during the execution of __nvmet_req_complete. Looking
+>> in the report generated by syzkaller, we can see the exact line of
+>> code that triggers the bug.
 >>
 >> Code Block 1:
 >> ```
->> static void nvmet_tcp_build_pdu_iovec(struct nvmet_tcp_cmd *cmd)
+>> static void __nvmet_req_complete(struct nvmet_req *req, u16 status)
 >> {
->>    ...
->>    sg = &cmd->req.sg[cmd->sg_idx]; // #1
+>> struct nvmet_ns *ns = req->ns;
 >>
->>    while (length) {
->>      u32 iov_len = min_t(u32, length, sg->length - sg_offset); // #2
->>    ...
->>    }
->> ...
+>> if (!req->sq->sqhd_disabled) // 1
+>> nvmet_update_sq_head(req);
+>>
+>>     ..
 >> }
 >> ```
->> Breakdown:
 >>
->> 1. The variable `sg` is getting the value of  `&cmd->req.sg[cmd->sg_idx]`.
->> At the assembly level (intel flavor):
->> ```
->> mov    DWORD PTR [rbx+0x220], r12d     ; r12 holds the `cmd` address
->> add    r12, QWORD PTR [rbx+0x30]          ; adding the value of
->> `req.sg[cmd->sg_idx]`
->> ```
->>
->> However, `cmd->req.sg` is NULL at this point of execution thus `sg`
->> will point to `0 + cmd->sg_idx`, which will most likely be either 0x0
->> or 0x1, a non-accessible memory addresses.
->>
->> 2. After moving the address into `sg` the driver will dereference it
->> later, inside the while loop.
->> ```
->> mov    esi, DWORD PTR [r12+0xc]
->> ```
->> When getting here, `r12` will point into (probably) 0x0. This means
->> that the CPU will try to access the memory address 0xC and will
->> trigger a NULL pointer dereference.
->>
+>> In the first code block, we can see that there is a dereference of
+>> `req->sq` when checking the condition `if (!req->sq->sqhd_disabled)`.
+>> However, when executing the reproducer, `req->sq` is NULL. When trying
+>> to dereference it, the kernel triggers a panic.
 >>
 >> ## Root Cause
 >> `req` is initialized during `nvmet_req_init`. However, the sequence
->> that leads into `nvmet_tcp_build_iovec` does not contain any call for
+>> that leads into `__nvmet_req_complete` does not contain any call for
 >> `nvmet_req_init`, thus crashing the kernel with NULL pointer
 >> dereference. This flow of execution can also create a situation where
 >> an uninitialized memory address will be dereferenced, which has
 >> undefined behaviour.
-
-If req->sg was not allocated, we shouldn't build a corresponding iovec.
-There is a case where we encounter a failure where nvmet_req_init is
-not called, but instead nvmet_tcp_handle_req_failure is called and
-should properly initialize req->sg and the corresponding iovec.
-
-The intention is to drain the error request from the socket, or at
-least attempt to do so so the connection recovers.
-
-I'd be interested to know if this path (nvmet_tcp_handle_req_failure)
-is taken or there is something else going on....
-
 >>
 >> ## Reproducer
 >> I am adding a reproducer generated by Syzkaller with some
 >> optimizations and minor changes.
 >>
 >> ```
->> // autogenerated by syzkaller (https://github.com/google/syzkaller)
+>> // autogenerated by syzkaller (<https://github.com/google/syzkaller>)
 >>
 >> #define _GNU_SOURCE
 >>
@@ -264,121 +212,153 @@ is taken or there is something else going on....
 >>
 >> void loop(void)
 >> {
->>    intptr_t res = 0;
->>    res = syscall(__NR_socket, /*domain=*/2ul, /*type=*/1ul, /*proto=*/0);
->>    if (res != -1)
->>      r[0] = res;
->>    *(uint16_t*)0x20000100 = 2;
->>    *(uint16_t*)0x20000102 = htobe16(0x1144);
->>    *(uint32_t*)0x20000104 = htobe32(0x7f000001);
->>    syscall(__NR_connect, /*fd=*/r[0], /*addr=*/0x20000100ul, /*addrlen=*/0x10ul);
->>    *(uint8_t*)0x200001c0 = 0;
->>    *(uint8_t*)0x200001c1 = 0;
->>    *(uint8_t*)0x200001c2 = 0x80;
->>    *(uint8_t*)0x200001c3 = 0;
->>    *(uint32_t*)0x200001c4 = 0x80;
->>    *(uint16_t*)0x200001c8 = 0;
->>    *(uint8_t*)0x200001ca = 0;
->>    *(uint8_t*)0x200001cb = 0;
->>    *(uint32_t*)0x200001cc = 0;
->>    memcpy((void*)0x200001d0,
->>           "\xcf\xbf\x35\x86\xcf\xbf\x35\x86\xcf\xbf\x35\x86\xcf\xbf\x35\x86\xcf"
->>           "\xbf\x35\x86\xcf\xbf\x35\x86\xcf\xbf\x35\x86\xcf\xbf\x35\x86\xcf\xbf"
->>           "\x35\x86\xcf\xbf\x35\x86\xcf\xbf\x35\x86\xcf\xbf\x35\x86\xcf\xbf\x35"
->>           "\x86\xcf\xbf\x35\x86\xcf\xbf\x35\x86\xcf\xbf\x35\x86\xcf\xbf\x35\x86"
->>           "\xcf\xbf\x35\x86\xcf\xbf\x35\x86\xcf\xbf\x35\x86\xcf\xbf\x35\x86\xcf"
->>           "\xbf\x35\x86\xcf\xbf\x35\x86\xcf\xbf\x35\x86\xcf\xbf\x35\x86\xcf\xbf"
->>           "\x35\x86\xcf\xbf\x35\x86\xcf\xbf\x35\x86",
->>           112);
->>    syscall(__NR_sendto, /*fd=*/r[0], /*pdu=*/0x200001c0ul, /*len=*/0x80ul,
->>            /*f=*/0ul, /*addr=*/0ul, /*addrlen=*/0ul);
->>    *(uint8_t*)0x20000080 = 6;
->>    *(uint8_t*)0x20000081 = 3;
->>    *(uint8_t*)0x20000082 = 0x18;
->>    *(uint8_t*)0x20000083 = 0x1c;
->>    *(uint32_t*)0x20000084 = 2;
->>    *(uint16_t*)0x20000088 = 0x5d;
->>    *(uint16_t*)0x2000008a = 3;
->>    *(uint32_t*)0x2000008c = 0;
->>    *(uint32_t*)0x20000090 = 7;
->>    memcpy((void*)0x20000094, "\x83\x9e\x4f\x1a", 4);
->>    syscall(__NR_sendto, /*fd=*/r[0], /*pdu=*/0x20000080ul, /*len=*/0x80ul,
->>            /*f=*/0ul, /*addr=*/0ul, /*addrlen=*/0ul);
+>>     intptr_t res = 0;
+>>     res = syscall(__NR_socket, /*domain=*/2ul, /*type=*/1ul, /*proto=*/0);
+>>     if (res != -1)
+>>       r[0] = res;
+>>     *(uint16_t*)0x20000100 = 2;
+>>     *(uint16_t*)0x20000102 = htobe16(0x1144);
+>>     *(uint32_t*)0x20000104 = htobe32(0x7f000001);
+>>     syscall(__NR_connect, /*fd=*/r[0], /*addr=*/0x20000100ul, /*addrlen=*/0x10ul);
+>>     *(uint8_t*)0x200001c0 = 0;
+>>     *(uint8_t*)0x200001c1 = 0;
+>>     *(uint8_t*)0x200001c2 = 0x80;
+>>     *(uint8_t*)0x200001c3 = 0;
+>>     *(uint32_t*)0x200001c4 = 0x80;
+>>     *(uint16_t*)0x200001c8 = 0;
+>>     *(uint8_t*)0x200001ca = 0;
+>>     *(uint8_t*)0x200001cb = 0;
+>>     *(uint32_t*)0x200001cc = 0;
+>>     memcpy((void*)0x200001d0,
+>>            "\\xcf\\xbf\\x35\\x86\\xcf\\xbf\\x35\\x86\\xcf\\xbf\\x35\\x86\\xcf\\xbf\\x35\\x86\\xcf"
+>>            "\\xbf\\x35\\x86\\xcf\\xbf\\x35\\x86\\xcf\\xbf\\x35\\x86\\xcf\\xbf\\x35\\x86\\xcf\\xbf"
+>>            "\\x35\\x86\\xcf\\xbf\\x35\\x86\\xcf\\xbf\\x35\\x86\\xcf\\xbf\\x35\\x86\\xcf\\xbf\\x35"
+>>            "\\x86\\xcf\\xbf\\x35\\x86\\xcf\\xbf\\x35\\x86\\xcf\\xbf\\x35\\x86\\xcf\\xbf\\x35\\x86"
+>>            "\\xcf\\xbf\\x35\\x86\\xcf\\xbf\\x35\\x86\\xcf\\xbf\\x35\\x86\\xcf\\xbf\\x35\\x86\\xcf"
+>>            "\\xbf\\x35\\x86\\xcf\\xbf\\x35\\x86\\xcf\\xbf\\x35\\x86\\xcf\\xbf\\x35\\x86\\xcf\\xbf"
+>>            "\\x35\\x86\\xcf\\xbf\\x35\\x86\\xcf\\xbf\\x35\\x86",
+>>            112);
+>>     syscall(__NR_sendto, /*fd=*/r[0], /*pdu=*/0x200001c0ul, /*len=*/0x80ul,
+>>             /*f=*/0ul, /*addr=*/0ul, /*addrlen=*/0ul);
+>>     *(uint8_t*)0x20000080 = 6;
+>>     *(uint8_t*)0x20000081 = 3;
+>>     *(uint8_t*)0x20000082 = 0x18;
+>>     *(uint8_t*)0x20000083 = 0x1c;
+>>     *(uint32_t*)0x20000084 = 2;
+>>     *(uint16_t*)0x20000088 = 0x5d;
+>>     *(uint16_t*)0x2000008a = 3;
+>>     *(uint32_t*)0x2000008c = 0;
+>>     *(uint32_t*)0x20000090 = 7;
+>>     memcpy((void*)0x20000094, "\\x83\\x9e\\x4f\\x1a", 4);
+>>     syscall(__NR_sendto, /*fd=*/r[0], /*pdu=*/0x20000080ul, /*len=*/0x80ul,
+>>             /*f=*/0ul, /*addr=*/0ul, /*addrlen=*/0ul);
 >> }
 >> int main(void)
 >> {
->>    syscall(__NR_mmap, /*addr=*/0x1ffff000ul, /*len=*/0x1000ul, /*prot=*/0ul,
->>            /*flags=*/0x32ul, /*fd=*/-1, /*offset=*/0ul);
->>    syscall(__NR_mmap, /*addr=*/0x20000000ul, /*len=*/0x1000000ul, /*prot=*/7ul,
->>            /*flags=*/0x32ul, /*fd=*/-1, /*offset=*/0ul);
->>    syscall(__NR_mmap, /*addr=*/0x21000000ul, /*len=*/0x1000ul, /*prot=*/0ul,
->>            /*flags=*/0x32ul, /*fd=*/-1, /*offset=*/0ul);
->>    loop();
->>    return 0;
+>>     syscall(__NR_mmap, /*addr=*/0x1ffff000ul, /*len=*/0x1000ul, /*prot=*/0ul,
+>>             /*flags=*/0x32ul, /*fd=*/-1, /*offset=*/0ul);
+>>     syscall(__NR_mmap, /*addr=*/0x20000000ul, /*len=*/0x1000000ul, /*prot=*/7ul,
+>>             /*flags=*/0x32ul, /*fd=*/-1, /*offset=*/0ul);
+>>     syscall(__NR_mmap, /*addr=*/0x21000000ul, /*len=*/0x1000ul, /*prot=*/0ul,
+>>             /*flags=*/0x32ul, /*fd=*/-1, /*offset=*/0ul);
+>>     loop();
+>>     return 0;
 >> }
 >> ```
 >>
->> ### More information
->> When trying to reproduce the bug, this bug sometimes changes from a
->> null-ptr-deref into OOM (out of memory) panic.
->> This implies that there might be another memory corruption that also
->> happens before the dereferencing of NULL. I couldn't find the root
->> cause for the OOM bug. However, I am attaching the kernel log for that
->> bug below.
->> ```
->> [    2.075100] Out of memory and no killable processes...
->> [    2.075107] Kernel panic - not syncing: System is deadlocked on memory
->> [    2.075303] CPU: 0 PID: 22 Comm: kworker/u2:1 Not tainted 6.5.0-rc1+ #5
->> [    2.075428] Hardware name: VMware, Inc. VMware Virtual
->> Platform/440BX Desktop Reference Platform, BIOS 6.00 11/12/2020
->> [    2.075608] Workqueue: eval_map_wq tracer_init_tracefs_work_func
->> [    2.075733] Call Trace:
->> [    2.075786]  <TASK>
->> [    2.075836]  dump_stack_lvl+0xaa/0x110
->> [    2.075921]  dump_stack+0x19/0x20
->> [    2.075997]  panic+0x567/0x5b0
->> [    2.076075]  ? out_of_memory+0xb01/0xb10
->> [    2.076167]  out_of_memory+0xb0d/0xb10
->> [    2.076272]  __alloc_pages+0xe87/0x1220
->> [    2.076358]  ? mark_held_locks+0x4d/0x80
->> [    2.076467]  alloc_pages+0xd7/0x200
->> [    2.076552]  allocate_slab+0x37e/0x500
->> [    2.076636]  ? mark_held_locks+0x4d/0x80
->> [    2.076726]  ? __sanitizer_cov_trace_const_cmp4+0x1a/0x20
->> [    2.076806]  ___slab_alloc+0x9c6/0x1250
->> [    2.076806]  ? __d_alloc+0x3d/0x2f0
->> [    2.076806]  kmem_cache_alloc_lru+0x45e/0x5d0
->> [    2.076806]  ? kmem_cache_alloc_lru+0x45e/0x5d0
->> [    2.076806]  ? __d_alloc+0x3d/0x2f0
->> [    2.076806]  __d_alloc+0x3d/0x2f0
->> [    2.076806]  ? __d_alloc+0x3d/0x2f0
->> [    2.076806]  d_alloc_parallel+0x75/0x1040
->> [    2.076806]  ? lockdep_init_map_type+0x50/0x240
->> [    2.076806]  __lookup_slow+0xf4/0x2a0
->> [    2.076806]  lookup_one_len+0xde/0x100
->> [    2.076806]  start_creating+0xaf/0x180
->> [    2.076806]  tracefs_create_file+0xa2/0x260
->> [    2.076806]  trace_create_file+0x38/0x70
->> [    2.076806]  event_create_dir+0x4c0/0x6e0
->> [    2.076806]  __trace_early_add_event_dirs+0x57/0x100
->> [    2.076806]  event_trace_init+0xe4/0x160
->> [    2.076806]  tracer_init_tracefs_work_func+0x15/0x440
->> [    2.076806]  process_one_work+0x3da/0x870
->> [    2.076806]  worker_thread+0x67/0x640
->> [    2.076806]  kthread+0x164/0x1b0
->> [    2.076806]  ? __pfx_worker_thread+0x10/0x10
->> [    2.076806]  ? __pfx_kthread+0x10/0x10
->> [    2.076806]  ret_from_fork+0x29/0x50
->> [    2.076806]  </TASK>
->> [    2.076806] ---[ end Kernel panic - not syncing: System is
->> deadlocked on memory ]---
->> ```
->> In case you found out what caused the OOM, please let me know.
 >>
->> ## About this report
->> This report is almost identical to another report I sent to you, with
->> the title "[Bug Report] NVMe-oF/TCP - NULL Pointer Dereference in
->> __nvmet_req_complete". The root cause seems to be the same, and both
->> bugs sometimes cause OOM kernel panic. If you think those bugs should
->> be addressed as one, please let me know.
+> 
+> 
+> I'm not able to reproduce the problem [1], all I get is following error
+> once I setup a target with nvmeof TCP and run the above program :-
+> 
+> [22180.507777] nvmet_tcp: failed to allocate queue, error -107
+> 
+> Can you try following patch? full disclosure I've compile tested
+> and built this patch based on code inspection only :-
+
+Yes, it looks like we are missing the same handling when we get a
+malformed h2cdata pdu. If we want to gracefully fail it and keep the
+connection going, we need to properly handle the failure.
+
+Although, I didn't understand why should we try to intialize the request
+in this case? its a clear error at this point...
+
+> 
+> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+> index 92b74d0b8686..e35e8d79c66a 100644
+> --- a/drivers/nvme/target/tcp.c
+> +++ b/drivers/nvme/target/tcp.c
+> @@ -992,12 +992,26 @@ static int nvmet_tcp_handle_h2c_data_pdu(struct
+> nvmet_tcp_queue *queue)
+>           }
+> 
+>           if (le32_to_cpu(data->data_offset) != cmd->rbytes_done) {
+> +               struct nvme_command *nvme_cmd = &queue->pdu.cmd.cmd;
+> +               struct nvmet_req *req = &cmd->req;
+> +
+>                   pr_err("ttag %u unexpected data offset %u (expected %u)\n",
+>                           data->ttag, le32_to_cpu(data->data_offset),
+>                           cmd->rbytes_done);
+> -               /* FIXME: use path and transport errors */
+> -               nvmet_req_complete(&cmd->req,
+> -                       NVME_SC_INVALID_FIELD | NVME_SC_DNR);
+> +
+> +               memcpy(req->cmd, nvme_cmd, sizeof(*nvme_cmd));
+> +               if (unlikely(!nvmet_req_init(req, &queue->nvme_cq,
+> +                               &queue->nvme_sq, &nvmet_tcp_ops))) {
+> +                       pr_err("failed cmd %p id %d opcode %d, data_len:
+> %d\n",
+> +                               req->cmd, req->cmd->common.command_id,
+> +                               req->cmd->common.opcode,
+> + le32_to_cpu(req->cmd->common.dptr.sgl.length));
+> +                       nvmet_tcp_handle_req_failure(queue, cmd, req);
+> +               } else {
+> +                       /* FIXME: use path and transport errors */
+> +                       nvmet_req_complete(&cmd->req,
+> +                                       NVME_SC_INVALID_FIELD |
+> NVME_SC_DNR);
+> +               }
+>                   return -EPROTO;
+>           }
+> 
+> I'll try to reproduce these problems, else will ping you offline...
+> 
+> -ck
+> 
+> [1]
+> nvme (nvme-6.7) # nvme list
+> Node                  Generic               SN
+> Model                                    Namespace
+> Usage                      Format           FW Rev
+> --------------------- --------------------- --------------------
+> ---------------------------------------- ---------
+> -------------------------- ---------------- --------
+> /dev/nvme1n1          /dev/ng1n1            408a5a6db1e890944886
+> Linux                                    1           1.07  GB / 1.07
+> GB    512   B +  0 B   6.6.0nvm
+> /dev/nvme0n1          /dev/ng0n1            foo QEMU NVMe
+> Ctrl                           1           1.07  GB / 1.07  GB    512
+> B +  0 B   1.0
+> nvme (nvme-6.7) # cat /sys/kernel/config/nvmet/ports/0/addr_trtype
+> tcp
+> nvme (nvme-6.7) # cat /sys/kernel/config/nvmet/ports/0/addr_traddr
+> 127.0.0.1
+> nvme (nvme-6.7) # ./a.out
+> nvme (nvme-6.7) # dmesg  -c
+> [22106.230605] loop: module loaded
+> [22106.246494] run blktests nvme/004 at 2023-11-07 01:58:06
+> [22106.279272] loop0: detected capacity change from 0 to 2097152
+> [22106.294374] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+> [22106.302392] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
+> [22106.320146] nvmet: creating nvm controller 1 for subsystem
+> blktests-subsystem-1 for NQN
+> nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
+> [22106.320859] nvme nvme1: creating 48 I/O queues.
+> [22106.326035] nvme nvme1: mapped 48/0/0 default/read/poll queues.
+> [22106.336551] nvme nvme1: new ctrl: NQN "blktests-subsystem-1", addr
+> 127.0.0.1:4420
+> [22180.507777] nvmet_tcp: failed to allocate queue, error -107
+> 
+> 
 
