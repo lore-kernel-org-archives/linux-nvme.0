@@ -4,63 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9483CC5ACB3
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Nov 2023 02:49:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A385C5ACB3
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Nov 2023 02:49:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=929ihoyEoADD4fH8atUPdhqYQk/ZcwZcfXah4PbVtig=; b=GH5speGs1qnKZqb7CToOp/1PJR
-	l9tYMv1ayWnm6H+lm6AiC8sxbYYmnw+H3yIdInRl3IGU0wC/V2GhkjDz8Egn7qwIyAZ3BisWm+9CZ
-	lANAvwOdkLmqlE5qLnzI00gNxMEfEF7F1jY0rBRVmlZOlzLgWSQZq29VWb2Cg0a1WLA+l0EWabQX/
-	2xbci63186VdwWoXu8QVtjUnEx7sH6kVsJGwIqHgnFh4mPTiVLqNdD7sPFDr9maGC6kyHzuQjuYxJ
-	jrvplg4ixv+yHzedGz3RFcol9qBY9xPhr/FZtD/typRPtERsqvxJHdp7ujxemKhDErzPGzDzST7xZ
-	xEUTGxIw==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=UvZ5UrNbRia5Pn7IAvuuMMeEcSuHwydOvOMG7/izKCg=; b=qnOuvpx4N5Orn8bujnNno93JYh
+	jc0N7x+hdhi5DtaqK1DssxS4DZVY3fzX0kZSpkb4kUmS8oQc6enzLf3jnF/fKaLrgxBQI3ckld9sy
+	z8BnD7NHfR3CZN8kazvoKkvyt5tGJiSEt3TRiouqyCsHvw1vMjyQ99HRE1AuTvSiRvw9ZeQXDh07m
+	9FD0h3ApDlpBqj2I/R+QdchlN7DOyY/EYMKbAODA5TBkjJSB7KCJJs2x/wR+HW4MrHPjevNUidCso
+	aXQ6yc0mMDrYgzWm+XjA5gLgAcfjAvS/eUEJbCcIBbvtWsgyCsbYFp0nOGTu27KdizoXTc3xEmXAd
+	Q/utZdzw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r4uLz-00AyTO-1j;
-	Mon, 20 Nov 2023 02:49:39 +0000
+	id 1r4uM1-00AyTc-0p;
+	Mon, 20 Nov 2023 02:49:41 +0000
 Received: from esa4.hgst.iphmx.com ([216.71.154.42])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r4uLw-00AyQa-20
+	id 1r4uLw-00AyRn-1s
 	for linux-nvme@lists.infradead.org;
 	Mon, 20 Nov 2023 02:49:38 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
   t=1700448576; x=1731984576;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=EJjx07eaa3eOPS2MmLCRFA0098DB9H/f5+N2JcKQMLo=;
-  b=lm4uqeMrAS+raNSh3GjDENvlo0kdY9fVROxrPb3Dj5JEYDiBLZt7QTXB
-   LVbRLqKe0FJd4TbHhbAxNSp820/cK51nDNKlucTuzOiY+2pn82C/uvyme
-   Lb4UhYg+oHYOBzyal44omEY5QEbLbt+xLvw4PNY2AhZ65w89xnQq1nm1e
-   TM4l40k9PzU0mkNWHqyUOdCFHKGQjsG6KZLZ0VCtn9HQdzGnAi3mD1vnW
-   ffEGJWBcwFoPhhHWTZtTm4X2AiubhTxGKGQ7YgtpE/kJtJ6r8tm24V5P6
-   CgW8ub2jVrBpJTHMo65dA7nYpQLlsugQUOlNOGqWIFaOLdPDE/Rr7MYJa
-   Q==;
-X-CSE-ConnectionGUID: r/Q/fFUBTlScnpCERkaUow==
-X-CSE-MsgGUID: hhsBup+xQbyBarTlc+Ow7g==
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=i4Jq9ujSuw+tbJO/gE7VpPB4GEvE8wZu/dgRKJY3A04=;
+  b=hk7OCH7254UOUoW5CW9AJdHRbhOuBQGORLnsnfH9LuhkqzWstBo9KkCh
+   s6o7lgF0z0ZyrsQTwWb3UINwKgkGYUAU/8BO86C85qkdCbErOvSaOABgx
+   Hrdk70dfXPA5IOOMzvHvJCVuEKYrrF4JC3iB/dC4KBtgr/PCLLlMU7ocC
+   QFflsCj7ShFjhFDDi8w6g6BnffExhyHRRPhDQ8hOQ1NoJsNtjODspwz9E
+   +/nI+yj0VCzZVehh++9GGLkhYdspghOiFxSVwhB8/byhITBcB8NBd0bvY
+   vGQPGLPtGNGftDqLrbFHwVataOWYaIlFvrP2311woekasoaKpoR+W6dU7
+   A==;
+X-CSE-ConnectionGUID: U0f7rpxHQZWzrSDFCX0D5A==
+X-CSE-MsgGUID: Gbp7UFC+TaiEowexpMIiRw==
 X-IronPort-AV: E=Sophos;i="6.04,212,1695657600"; 
-   d="scan'208";a="2663715"
+   d="scan'208";a="2663717"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 20 Nov 2023 10:49:33 +0800
-IronPort-SDR: Jq2UQLTjH05s+aiTWAOOZnuCtg0HM4adnNmyOgxVsVVgqTDk9u/ZX/saiNo4zkdXPuYhYwWZxE
- mnwqucJLPKnSs4ush5N48WX4ih0yTmPcrRAsDQiwQCAfiHlgTQg1JxowyjdD9O/HwDmqbTfJs1
- wMz2c+9X/EUw1g994VknD3V0/gmZ3gJ/yCe2gJoq2iJjiHo13FBqK9lJHDjSXgud4ekWqeJYvx
- lKJ7LLfW0nVn6kHbzIWUK88/1n0lFNQWjIvpv2lapRyEPskpBiPGrcF1XXnR37gWg3//7QMt8+
- rUg=
+  by ob1.hgst.iphmx.com with ESMTP; 20 Nov 2023 10:49:35 +0800
+IronPort-SDR: 5BVW/m0QoWijY9hp12+VoNAzUtcMCB7vy73LmMawRLN745UWjAcpJn2ptyItVnmlroViLKwcWL
+ baqxXwVBlFVk/7dvUMoEjD5HpWWgFt09xDc8IjitGjJN7mWmq8c61WHK8ERZpHBHFyWh/VCB1O
+ DrquIraxCwmWESkVicamJOsbzkemHvO4wslN7dAEaW+7BQWPL71ZSV3UkVsIUBeCD80atPNlYo
+ hpF/Qi/5W+kL6A6qyNESoJHtW9Y7mi29e5C/RpROpSnm3To3TOLGKjc7LnDWcp2DtyratWNKcv
+ lXI=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 19 Nov 2023 18:00:54 -0800
-IronPort-SDR: wnUDoEhcIpZYbVJ9SHvH8Lg0lW3RA+bgddTHpZO5ooRQ1nVtFbemp0FXh5NkNksHOWIq4egR7/
- NCUOXD2DTray/rFGM2rQ4DL9r5e3o9f93e0M1HjGJ56aHqBRHkcL0lPegBHpOJf0VBbtN1ccoa
- fUhOpAOhZVo3yBwBL/vKPvKp4kdUA7o1V+cF6RRXXmdcp2vi45mp9x2OghPtdDmPV+KZFEjB5R
- FkXrPjI3cqpMJM4JkFaFvpo8IKkzbPUicF4Mm8uD79I/I/GpSu5YGuOyvsKTcQ18BZnwrX7gzF
- 3AM=
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 19 Nov 2023 18:00:56 -0800
+IronPort-SDR: LyAhL587kEd5mvoOmm30w330KTXV8mNMw880HxO4A6NL5WFwNQbjO1jB4TXSs17Xi6HHsF1KXW
+ J8WQtqzPnyrkAbpS8Iw7El8wcTUpx4VMdyaa+nrWaO6tudSUenOSZwDuCAW5/ahWC7ysqhkAx0
+ 8hOwAJYonEtAFEwDStaQ8gKF+xh45QgLMoVFBGeyLYI3gnd226fmKt1dAGNtlc6ZyFhEd+yKBg
+ C3V1qZel8zB79AqgKu+JYpuL/h37xn3ilcONbNxqi0gfzgK334c9sSYuDVuRqtrGvnz4cYOPoa
+ qng=
 WDCIronportException: Internal
 Received: from shindev.dhcp.fujisawa.hgst.com (HELO shindev.fujisawa.hgst.com) ([10.149.53.55])
-  by uls-op-cesaip02.wdc.com with ESMTP; 19 Nov 2023 18:49:32 -0800
+  by uls-op-cesaip02.wdc.com with ESMTP; 19 Nov 2023 18:49:34 -0800
 From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 To: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org
@@ -68,16 +68,17 @@ Cc: Yi Zhang <yi.zhang@redhat.com>,
 	Hannes Reinecke <hare@suse.de>,
 	Daniel Wagner <dwagern@suse.de>,
 	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Subject: [PATCH blktests v2 0/1] nvme: require kernel config NVME_HOST_AUTH
-Date: Mon, 20 Nov 2023 11:49:30 +0900
-Message-ID: <20231120024931.3076984-1-shinichiro.kawasaki@wdc.com>
+Subject: [PATCH blktests v2 1/1] nvme/{041,042,043,044,045}: check dhchap_ctrl_secret support by nvme-fabrics
+Date: Mon, 20 Nov 2023 11:49:31 +0900
+Message-ID: <20231120024931.3076984-2-shinichiro.kawasaki@wdc.com>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20231120024931.3076984-1-shinichiro.kawasaki@wdc.com>
+References: <20231120024931.3076984-1-shinichiro.kawasaki@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231119_184936_717342_2DC7D316 
-X-CRM114-Status: UNSURE (   8.92  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20231119_184936_712954_33387D27 
+X-CRM114-Status: GOOD (  13.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,22 +93,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Yi Zhang reported test cases for nvme authentication feature fail with
-linux-block/for-next kernel [1]. I observed the failures with kernel v6.7-rc1.
-Chris Leech pointed out that the test cases require kernel config option
-NVME_HOST_AUTH. This fix patch modifies the test cases to ensure the
-requirement. I added a Reviewed-by tag by Daneil per record on GitHub [2].
+The kernel commit d68006348288 ("nvme: rework NVME_AUTH Kconfig
+selection") in v6.7-rc1 introduced a new kernel config option
+NVME_HOST_AUTH. When the option is disabled, nvme test cases from 041 to
+045 fail because nvme-fabrics module does not support the feature
+dhchap_ctrl_secret.
 
-[1] https://lore.kernel.org/linux-block/CAHj4cs8yZ4-BXqTK4W0UsPpmc2ctCD=_mYiwuAuvcmgS3+KJ8g@mail.gmail.com/
-[2] https://github.com/kawasaki/blktests/commit/81110ce8056f16716d09774e6f237ea0393579e1
+To check the requirement, add _require_kernel_nvme_fabrics_feature()
+which refers /dev/nvme-fabrics and checks if the specified feature
+string is found or not. Call it to check dhchap_ctrl_secret support in
+require() of the test cases.
 
-Changes from v1:
-* Refer nvme-fabrics sysfs attribute to not rely on kernel version
+This change relies on the kernel commit 1697d7d4c5ef ("nvme: blank out
+authentication fabrics options if not configured").
 
-Shin'ichiro Kawasaki (1):
-  nvme/{041,042,043,044,045}: check dhchap_ctrl_secret support by
-    nvme-fabrics
-
+Suggested-by: Daniel Wagner <dwagner@suse.de>
+Suggested-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Daniel Wagner <dwagner@suse.de>
+Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+---
  tests/nvme/041 |  1 +
  tests/nvme/042 |  1 +
  tests/nvme/043 |  1 +
@@ -116,6 +120,93 @@ Shin'ichiro Kawasaki (1):
  tests/nvme/rc  | 16 ++++++++++++++++
  6 files changed, 21 insertions(+)
 
+diff --git a/tests/nvme/041 b/tests/nvme/041
+index d23f10a..c4588d7 100755
+--- a/tests/nvme/041
++++ b/tests/nvme/041
+@@ -14,6 +14,7 @@ requires() {
+ 	_have_loop
+ 	_have_kernel_option NVME_AUTH
+ 	_have_kernel_option NVME_TARGET_AUTH
++	_require_kernel_nvme_fabrics_feature dhchap_ctrl_secret
+ 	_require_nvme_trtype_is_fabrics
+ 	_require_nvme_cli_auth
+ }
+diff --git a/tests/nvme/042 b/tests/nvme/042
+index 9fda681..815d65e 100755
+--- a/tests/nvme/042
++++ b/tests/nvme/042
+@@ -14,6 +14,7 @@ requires() {
+ 	_have_loop
+ 	_have_kernel_option NVME_AUTH
+ 	_have_kernel_option NVME_TARGET_AUTH
++	_require_kernel_nvme_fabrics_feature dhchap_ctrl_secret
+ 	_require_nvme_trtype_is_fabrics
+ 	_require_nvme_cli_auth
+ }
+diff --git a/tests/nvme/043 b/tests/nvme/043
+index c6a0aa0..e65abb0 100755
+--- a/tests/nvme/043
++++ b/tests/nvme/043
+@@ -14,6 +14,7 @@ requires() {
+ 	_have_loop
+ 	_have_kernel_option NVME_AUTH
+ 	_have_kernel_option NVME_TARGET_AUTH
++	_require_kernel_nvme_fabrics_feature dhchap_ctrl_secret
+ 	_require_nvme_trtype_is_fabrics
+ 	_require_nvme_cli_auth
+ 	_have_driver dh_generic
+diff --git a/tests/nvme/044 b/tests/nvme/044
+index 7bd43f3..9ee0747 100755
+--- a/tests/nvme/044
++++ b/tests/nvme/044
+@@ -14,6 +14,7 @@ requires() {
+ 	_have_loop
+ 	_have_kernel_option NVME_AUTH
+ 	_have_kernel_option NVME_TARGET_AUTH
++	_require_kernel_nvme_fabrics_feature dhchap_ctrl_secret
+ 	_require_nvme_trtype_is_fabrics
+ 	_require_nvme_cli_auth
+ 	_have_driver dh_generic
+diff --git a/tests/nvme/045 b/tests/nvme/045
+index 1eb1032..be408b6 100755
+--- a/tests/nvme/045
++++ b/tests/nvme/045
+@@ -15,6 +15,7 @@ requires() {
+ 	_have_loop
+ 	_have_kernel_option NVME_AUTH
+ 	_have_kernel_option NVME_TARGET_AUTH
++	_require_kernel_nvme_fabrics_feature dhchap_ctrl_secret
+ 	_require_nvme_trtype_is_fabrics
+ 	_require_nvme_cli_auth
+ 	_have_driver dh_generic
+diff --git a/tests/nvme/rc b/tests/nvme/rc
+index 1cff522..3c4b2e1 100644
+--- a/tests/nvme/rc
++++ b/tests/nvme/rc
+@@ -155,6 +155,22 @@ _require_nvme_cli_auth() {
+ 	return 0
+ }
+ 
++_require_kernel_nvme_fabrics_feature() {
++	local feature="$1"
++
++	_have_driver nvme-fabrics || return 1
++
++	if ! [[ -r /dev/nvme-fabrics ]]; then
++		SKIP_REASONS+=("/dev/nvme-fabrics not available")
++		return 1;
++	fi
++	if ! grep -qe "${feature}" /dev/nvme-fabrics; then
++		SKIP_REASONS+=("nvme-fabrics does not support ${feature}")
++		return 1;
++	fi
++	return 0
++}
++
+ _test_dev_nvme_ctrl() {
+ 	echo "/dev/char/$(cat "${TEST_DEV_SYSFS}/device/dev")"
+ }
 -- 
 2.41.0
 
