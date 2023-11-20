@@ -4,83 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 69F29C197A0
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Nov 2023 23:19:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6CB61C197A0
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Nov 2023 23:32:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hnOBTCQ9+nRW7d7hGg7yNZ/aZJcC73wKnOgLg+ML2Mk=; b=r53OKWkunqWw8okPeXyMeTBs5j
-	hPMHkO1dZEVwiTB4vBQWBZc51BN495xge47F+Bgrj8tG6DL9OR15eUqqj7nTthJu1NYmkv/QOX/yD
-	BH6Ah9KyvXhg9BGQYm6gcpRXqYm3iP9F0ik8xeJRGgqXrBUzgFmIy8M39UGOmyVONKjbkW9JmV2iD
-	rE3yCx65ZTHz+XcotW1SsE9J+30nZr365cIt+ByhubaE1HShniFSG1zvmGnklv6TFynQWCmQE2UWT
-	B3mx6Zy64H2C3gAcTQZHEUTxftUeK6h54XhKdzSwC5NCP6KeyX8wgQ+DmyqS5yBHj+F1OJjOQpwnu
-	j/hxgY7g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=LivTIn+Mzfm4V76NAY22FThYk4d+bbOVIr11rT80ov4=; b=tr6wModnTaNxppxB3eHOMnDL/l
+	y1WD1FrA3v5glALiZXeF00/ffNOZ70ZCUbw9+rhfWkggVT/qfvAtJoSPAU05Zt1eKPzukPp4Th0j+
+	Be4eH1AblWYyqjU2YX+YKg366g4nGgJMLfNKzsOIDxCh8a1HlmY5VSMu3F7KxU/RHJ9OPNlhLl/16
+	U7ZMgRWblXIeWO1gvwvG5mhmuwCTaKeQjW4gotpXbpHNM1mCSwz+6iO5xaaTwFPBo4zNeMGLXhtlU
+	5Bk3M/UC9E1NMXjalmGENxGGyBpOmjX4smlAFBTGC4A53H9yXPnF4aynUz84ktyGcYaIMDYU9nkxM
+	TPbme6Ug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5DXp-00F2wd-17;
-	Mon, 20 Nov 2023 23:19:09 +0000
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+	id 1r5DkR-00F3sV-1e;
+	Mon, 20 Nov 2023 23:32:11 +0000
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5DXk-00F2vw-25
+	id 1r5DkO-00F3qs-2r
 	for linux-nvme@lists.infradead.org;
-	Mon, 20 Nov 2023 23:19:07 +0000
-Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1cc2b8deb23so10458405ad.1
-        for <linux-nvme@lists.infradead.org>; Mon, 20 Nov 2023 15:19:02 -0800 (PST)
+	Mon, 20 Nov 2023 23:32:10 +0000
+Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-3316ad2bee5so2247462f8f.1
+        for <linux-nvme@lists.infradead.org>; Mon, 20 Nov 2023 15:32:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1700522342; x=1701127142; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hnOBTCQ9+nRW7d7hGg7yNZ/aZJcC73wKnOgLg+ML2Mk=;
-        b=v5G7+Z+UF/YlLBbAKLenja0sj8g1joZjAeC69GBjI4+zolkj7buepbF6KjDbBkVaE0
-         D4WgBQW1f/I2ngsd1CsLprEz2tuUtZg5zM4wx/11BbGORgWm7FXYNbU2rM+UvYP9Voxs
-         eQWUEQF1S9QdJIM1DduOGfFqKYfdWUgdm8EI8l7BmFgx02p/AyR0EdhK3JWu104L8uOs
-         1jTXmkIf/5jQnPGauGyNcXQQizdMNGo4tOMfwUsDEHa88kPSYQxnBGeymW7bBnMQVyQx
-         UJyMDtJaUCLPxUv6FeKgD8z9XUVmflETr1ard291JZmwk8rwT0AI4zB4VGkz6yys2OPu
-         tIVA==
+        d=purestorage.com; s=google2022; t=1700523123; x=1701127923; darn=lists.infradead.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=LivTIn+Mzfm4V76NAY22FThYk4d+bbOVIr11rT80ov4=;
+        b=VdeIyNj51v461k4oKUjZyboptIhvkWHiFSg6oLW4JW5cj+aynRnBqG9Sib5S+R83mn
+         SQVTnRk5j0RZtoJ8yJmE7HIV44rYLlDluFYqhmU5DpGVm1UIw4Rq6ftPRc+4DcP68Xdp
+         2sqVz+RypYzovIzahkKBhVLCI3zIxbvFuWdRiBYn+ZY7VJdI2+MKqvEA/dGIBxR4byI0
+         IYF5OHhnHzaEchaaPS26kZ1quz85XkNKT2EqplE39Q/4/VAv7GJ7awBTCXH7ZIxq2VOE
+         xT2VDgl3uyAoIGu9A0aoTct5zc1R1xcHC+ig/qV5SO91lh7b6R1Ts5IxF5J0GaZn2jNH
+         aztQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700522342; x=1701127142;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hnOBTCQ9+nRW7d7hGg7yNZ/aZJcC73wKnOgLg+ML2Mk=;
-        b=ktx9gzxCfN2LxFWL5ZReCsMIlgQF/1dLo4pjP2CHmydMxBqIZBcYJ9K2u61HLnCvj8
-         Vl9tnt1fXCwgkJRSGguWk6yOZxn2Fx0U6qMIRQdyhVNXtQeCjmgiI8lsncsmj8fWRPWW
-         bUh+HwPY3IN6PLMIX9tL9VhnvTb1A5yd8zGl9lmV7KREnU+m6x2LKrq09gxdRO7ANENR
-         KsAFF2Z8G6qI2th7xFmJc774jg8H/3ZNuPfBcxm7lIrD7Wq/0XCSKY/01gnWmGmPm2DK
-         Wnpykhn0/LMksXu3z0cOy88qkjon1ikwks3UgtAtnRQRTBN7UQr0yVHXN2i16NX0NUda
-         LdPQ==
-X-Gm-Message-State: AOJu0YzS5upDvhkmSrUsf7+lobT6vGiWvNJ3qqurHuoVZcOfu5+o4f24
-	xpZGRQ+Tlq3Z0E+T9HRV/WWUExocXrdXQJDmUswjkQ==
-X-Google-Smtp-Source: AGHT+IEHr/jLVxb+HhXgXcdOLcZeWZ7nxeRgUVmob9UsD/JyCgmNIprja4FDgcnfkrYzUwMQ/r6zBw==
-X-Received: by 2002:a17:902:cec7:b0:1cc:3c2c:fa1a with SMTP id d7-20020a170902cec700b001cc3c2cfa1amr11754119plg.4.1700522342032;
-        Mon, 20 Nov 2023 15:19:02 -0800 (PST)
-Received: from [192.168.1.150] ([198.8.77.194])
-        by smtp.gmail.com with ESMTPSA id c10-20020a170902c1ca00b001cc55bcd0c1sm6605408plc.177.2023.11.20.15.19.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Nov 2023 15:19:01 -0800 (PST)
-Message-ID: <8f70b7bf-35c9-430b-a52d-ce7a11a20260@kernel.dk>
-Date: Mon, 20 Nov 2023 16:19:00 -0700
+        d=1e100.net; s=20230601; t=1700523123; x=1701127923;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LivTIn+Mzfm4V76NAY22FThYk4d+bbOVIr11rT80ov4=;
+        b=R5kwvJ2rlSGiL6IXD8Jjz3XzB9UAZHdI9Qfl911nsKxch/RwoRE+ViTzIrlIKcrKN8
+         var1FULVrMUcYtOtwRBOUQwmtIk9nSiZ82Ua1sfIaMMZoPR5ysf0vo22KpzFf3aS1abl
+         We5ivIc82XK0x9H/hUGjCCdcCJajmj26S0dLt/BZfTBON1G4Ox8mxBTqCskqCxtow8rO
+         GJGoyWTZFhcp9p5swXeikW9d/dty4ZRYZdWqspdMSq9GmQcnGt4u0LD5iyXqm2pfzdIi
+         RwoW0F4VodYaynB/e4gJ58wwFNSuISvn4Seqe9c6L/yb/8mStLNeaQcu3ecL6vNxe7wP
+         T6rA==
+X-Gm-Message-State: AOJu0YwwENrjgracONANDVnOeO+VBYC+pU9X6inRK8kwoRlT0RBIe/uY
+	AaVryLI3J/NlUxhg3GvMspy8SjVbUk0VVhZyXp/iuw==
+X-Google-Smtp-Source: AGHT+IHpcmPExtK67atdaxwWnyiYeCi6k+SQSH5bx2f3uKwQEOJG/Oh95gfg8c1enjKiPJ3dfOaOB0PThA1KqgZYN9o=
+X-Received: by 2002:a5d:67cb:0:b0:32d:a2a0:bd6c with SMTP id
+ n11-20020a5d67cb000000b0032da2a0bd6cmr5182381wrw.34.1700523123614; Mon, 20
+ Nov 2023 15:32:03 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv3 2/5] block: bio-integrity: directly map user buffers
-Content-Language: en-US
-To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, io-uring@vger.kernel.org
-Cc: hch@lst.de, joshi.k@samsung.com, martin.petersen@oracle.com,
- Keith Busch <kbusch@kernel.org>
-References: <20231120224058.2750705-1-kbusch@meta.com>
- <20231120224058.2750705-3-kbusch@meta.com>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20231120224058.2750705-3-kbusch@meta.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20231115185439.2616073-1-yzhong@purestorage.com>
+ <69218380-45f0-41cc-8a65-50878d44219e@kernel.dk> <CA+AMecFkR0k9ofJt0_iHrPOvfMQ_ePv8QCPYy9m=U7xEjsNCKg@mail.gmail.com>
+ <ZVUiLr3g1_i5YmRQ@kbusch-mbp.dhcp.thefacebook.com> <CA+AMecH1TZc3zVm0OF1VwwTBCrLp9mZnOa5zw59yr_W0WbH_uw@mail.gmail.com>
+ <ZVWR4Rtr1N7IF6iQ@kbusch-mbp.dhcp.thefacebook.com> <20231117132846.GB7867@lst.de>
+ <ZVeW-8cNNVOvNdaR@kbusch-mbp.dhcp.thefacebook.com> <20231120082346.GA11622@lst.de>
+ <2fc7ca93-3ad7-4127-b779-76c32f8d9124@grimberg.me>
+In-Reply-To: <2fc7ca93-3ad7-4127-b779-76c32f8d9124@grimberg.me>
+From: Randy Jennings <randyj@purestorage.com>
+Date: Mon, 20 Nov 2023 15:31:52 -0800
+Message-ID: <CAPpK+O2aitq+ubFRBtjOrUWjdRz=8x3Us9Am4_aVcSo4vAhLYA@mail.gmail.com>
+Subject: Re: [PATCH] nvme-core: remove head->effects to fix use-after-free
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, 
+	Yuanyuan Zhong <yzhong@purestorage.com>, Jens Axboe <axboe@kernel.dk>, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, hcoutinho@purestorage.com
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231120_151904_810052_1CF8A8F2 
-X-CRM114-Status: GOOD (  21.65  )
+X-CRM114-CacheID: sfid-20231120_153209_023864_67CF9B5F 
+X-CRM114-Status: GOOD (  10.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,64 +92,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/20/23 3:40 PM, Keith Busch wrote:
-> From: Keith Busch <kbusch@kernel.org>
-> 
-> Passthrough commands that utilize metadata currently bounce the user
-> space buffer through the kernel. Add support for mapping user space
-> directly so that we can avoid this costly overhead. This is similiar to
-> how the normal bio data payload utilizes user addresses with
-> bio_map_user_iov().
-> 
-> If the user address can't directly be used for reasons like too many
-> segments or address unalignement, fallback to a copy of the user vec
-> while keeping the user address pinned for the IO duration so that it
-> can safely be copied on completion in any process context.
-> 
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
-> ---
->  block/bio-integrity.c | 212 ++++++++++++++++++++++++++++++++++++++++++
->  include/linux/bio.h   |  12 +++
->  2 files changed, 224 insertions(+)
-> 
-> diff --git a/block/bio-integrity.c b/block/bio-integrity.c
-> index ec8ac8cf6e1b9..b761058bfb92f 100644
-> --- a/block/bio-integrity.c
-> +++ b/block/bio-integrity.c
-> @@ -91,6 +91,37 @@ struct bio_integrity_payload *bio_integrity_alloc(struct bio *bio,
->  }
->  EXPORT_SYMBOL(bio_integrity_alloc);
->  
-> +static void bio_integrity_unmap_user(struct bio_integrity_payload *bip)
-> +{
-> +	bool dirty = bio_data_dir(bip->bip_bio) == READ;
-> +	struct bvec_iter iter;
-> +	struct bio_vec bv;
-> +
-> +	if (bip->bip_flags & BIP_COPY_USER) {
-> +		unsigned short nr_vecs = bip->bip_max_vcnt - 1;
-> +		struct bio_vec *copy = bvec_virt(&bip->bip_vec[nr_vecs]);
-> +		size_t bytes = bip->bip_iter.bi_size;
-> +		void *buf = bvec_virt(bip->bip_vec);
-> +
-> +		if (dirty) {
-> +			struct iov_iter iter;
-> +
-> +			iov_iter_bvec(&iter, ITER_DEST, copy, nr_vecs, bytes);
-> +			WARN_ON_ONCE(copy_to_iter(buf, bytes, &iter) != bytes);
-> +		}
+>> It doesn't make sense for effects logs to be different per-controller
+>> for the same shared namespace. The spec doesn't seem to explicitly
+>> prevent that, but hints that all hosts should be seeing the same thing
+>> no matter which controller they're connected to:
+>
+> Also agreed as already indicated in the past mail.
 
-Minor nit, but I don't like hiding functions with side effects inside
-potentially debug statements. Would be better to do:
+Yuanyuan Zhong already pointed out a situation where the commands
+supported portion of the log page could be different.  When upgrading
+the subsystem, some controllers may be upgraded sooner than others.
+The upgrade could support new commands.
 
-	ret = copy_to_iter(buf, bytes, &iter);
-	WARN_ON_ONCE(ret != bytes);
+However, I would be surprised if the effects would be different for
+currently supported commands, unless a controller was not reporting
+effects before and starts reporting them.
 
-which is also easier to read, imho.
-
-Apart from that, looks good to me.
-
--- 
-Jens Axboe
-
+Sincerely,
+Randy Jennings
 
