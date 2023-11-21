@@ -4,63 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 39988C61D90
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Nov 2023 15:49:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8FFC7C61D85
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Nov 2023 16:11:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zp9CDf4lkflupK8DqC3rwLgLdSVS+T9huCMiRxeIR1w=; b=1tpBlPyEqmBd6O+54jKS8/bTEQ
-	1eNroK8OQr22gBiGNha3Gj7PwvTZ2BouNzIbFsZ5YoLFk3wVnaIKKxeWkSE2KKYZNENNc0/QVZDyY
-	9M8HsneYxZ5GWWFPKmHmgMHeJ2xC4gKJUjit3ADkImQNBDnyKKZHI5t4vOUOyPC7ovlfkttlAH615
-	CfyLkGxlQdAG8xfnySVmegYSdrjZLiI9JZuuHdfFJ7s62Wn8620Q5hA4IC7ob5lqOe5B5wtRncBAy
-	f8pArgPXMXUI42lhdUwezEhZya7U0zaYKiHd1lYULxZgG1fZZL0W/6wHD6oZ2Vty8T7uXjGnsZnxC
-	vSg3bbTg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=y7pnqI74NKLkaXfyd8GQP0kyMyA4yNmTqJMM3pVvHaM=; b=h8cAWSQ21ZMDcmAeP4O6Bd7RbM
+	L4LkXmIaDnN0wOSh2VgV0RC9/fV3I6n5K6hnWTAvuw3iVKOoXURe7njn7SPrnF+TSBSpdgHtyeY+i
+	8U1JXZDexH1eMtS0IBb8ZlYbAkY3uP+j+1C9WJSU6zsTwyxQkqAtjflcg5n4Xq0Do2+SwGCvyvAFg
+	tirJJRmysecrp1DazvT+kfvV/6lNoZ1ilt7mSGabaEQ/LvmUm4Y1MWyQTQ7Xqoko/ar/wVJTz99QJ
+	Wdr/0oOXjm/wmYF1otIZbEBC+xJZBqLLeARQwv7QRXl6jZz76Kf1S2IIO8AoATJTnp7w4VSNCVe5/
+	mk3NoD2g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5T0c-00HCdZ-2p;
-	Tue, 21 Nov 2023 15:49:54 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1r5TL7-00HFTw-1D;
+	Tue, 21 Nov 2023 16:11:05 +0000
+Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5T0a-00HCcE-2u
+	id 1r5TL4-00HFTD-2J
 	for linux-nvme@lists.infradead.org;
-	Tue, 21 Nov 2023 15:49:54 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id CDB92CE1C66;
-	Tue, 21 Nov 2023 15:49:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69FFBC433C8;
-	Tue, 21 Nov 2023 15:49:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700581788;
-	bh=w3W5UVYnDU5SknGmgkYDoqIuEo08Ln34K8LjDwMjRM0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JBKskHHZ9bM8ojDRB0pTKGpJrBDeIh1Pg4PcJFuKF07T7/obBuJbrK61V+lmPRF1l
-	 jqa3PPHIbOjoL20uWpX0GwAGOL/UxtMJekbQpC4xLuF175W5JdfsZcDDYeAmXdig10
-	 Nx5U/RN7eWJY1NbsRdEI+4nQ9rQjTvvci3cUWf2qtl3uMsKHhc+No+1P1A7YVNOOyR
-	 cEObz9yjYJmMwmgpX7iiV1P09YQqjixs/FXmPIAHAsAgw75f4khdZu2+a+dXgrZDrC
-	 UBWV9J6AIk7S/dFHFhE258fZg/fbnC5x8VrX82wkFm4R4swzvFja/M/bkVLDM3T0zk
-	 rjll7TU1zHriQ==
-Date: Tue, 21 Nov 2023 08:49:45 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, io-uring@vger.kernel.org,
-	axboe@kernel.dk, hch@lst.de, joshi.k@samsung.com,
-	martin.petersen@oracle.com
-Subject: Re: [PATCHv3 1/5] bvec: introduce multi-page bvec iterating
-Message-ID: <ZVzRmQ66yRDJWMiZ@kbusch-mbp>
-References: <20231120224058.2750705-1-kbusch@meta.com>
- <20231120224058.2750705-2-kbusch@meta.com>
- <ZVxsLYj9oH+j3RQ8@fedora>
+	Tue, 21 Nov 2023 16:11:03 +0000
+Received: by mail-oi1-x22d.google.com with SMTP id 5614622812f47-3b6cb515917so3835337b6e.1
+        for <linux-nvme@lists.infradead.org>; Tue, 21 Nov 2023 08:10:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700583057; x=1701187857; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y7pnqI74NKLkaXfyd8GQP0kyMyA4yNmTqJMM3pVvHaM=;
+        b=VaYfOErc8vmm/67OcCpKMqea0ypOSCNPT9zQBde04vgvA2wMZ60EVB5MdoLrslMzTu
+         H2hei5aQciaC0LWFdgdc9VN6mIg2phwLy6ehySxiTGS/eis9CK+xiL4j1MpOgynTTP6k
+         sdT2mh+E0b1xkhsAq51Lk9zFkkY1bLY/ciXsJS65rIEVn4P881Hep48vXdLmusAt5U8u
+         389uCO+LmcNyYnwZFUlTCGhMWSOnBMdFyzQwaEqySJmi461HwoVTdASG5DkWdi64RZha
+         hN5rpQPg3GT+GB8gDTPNAcBgy/lHuT37R3XtPsHjRnGTT0zdNkJuUlFcNcUVzd9O2k9E
+         DhXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700583057; x=1701187857;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=y7pnqI74NKLkaXfyd8GQP0kyMyA4yNmTqJMM3pVvHaM=;
+        b=S9obpglLiLkEU39LhQskDGKfycIupJoaxoCHQPwI8Nm1rKbSGLeu1DNzWSpN8fg6PW
+         MuuxrtG80JAQNUrjbFDH8foflfixIWbz8OafXeZlO9IeVGhD4JF8+53vytucyJPCx9XE
+         /Kyrj6tKuMJj+VFA0Xq1Wa6d1UbPKmryur4l3HQBVAIRW/AUb3pFyiTKyFbq/i8U8jKQ
+         dQG3htDC+mG8eBh4RoNL0E+gml6qVAur3qgEtcxG2wghR97tdSrd1aZ/XKtykR9+me/b
+         PSfsdLmjtUEzERZhVmCPT5RBmeMV7kP15EPvahtfY1ttt/RYx5yHcfbhOKNhy5Gxo4dd
+         rkxw==
+X-Gm-Message-State: AOJu0YyIlXxI2epDDuGzGKIrdOyd+KDn40jlz6qOCOjEmhuFRx1yS8w5
+	13arYRU0uSHmstGcCCqglHWDEYoi9BoJou9pxw==
+X-Google-Smtp-Source: AGHT+IFiRaCf/Q+x81UKnU4Wpey3wIOZJlFvG9RRGz5EHrrlf7aahHCnKG4nyEynHxf6qjGLknAONjzHifddupR97R0=
+X-Received: by 2002:a05:6359:d23:b0:16b:b8b1:f684 with SMTP id
+ gp35-20020a0563590d2300b0016bb8b1f684mr9672260rwb.22.1700583056876; Tue, 21
+ Nov 2023 08:10:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZVxsLYj9oH+j3RQ8@fedora>
+References: <20231120224058.2750705-1-kbusch@meta.com> <20231120224058.2750705-3-kbusch@meta.com>
+In-Reply-To: <20231120224058.2750705-3-kbusch@meta.com>
+From: Anuj gupta <anuj1072538@gmail.com>
+Date: Tue, 21 Nov 2023 21:40:20 +0530
+Message-ID: <CACzX3AvO2GSvwagd=PkxsG3uiKgT4vpiMzYA1RJOjEMQD=yN6A@mail.gmail.com>
+Subject: Re: [PATCHv3 2/5] block: bio-integrity: directly map user buffers
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	io-uring@vger.kernel.org, axboe@kernel.dk, hch@lst.de, joshi.k@samsung.com, 
+	martin.petersen@oracle.com, Keith Busch <kbusch@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231121_074953_116521_E3991005 
-X-CRM114-Status: GOOD (  16.40  )
+X-CRM114-CacheID: sfid-20231121_081102_779244_F2C4A748 
+X-CRM114-Status: GOOD (  10.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,36 +89,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 21, 2023 at 04:37:01PM +0800, Ming Lei wrote:
-> On Mon, Nov 20, 2023 at 02:40:54PM -0800, Keith Busch wrote:
-> > From: Keith Busch <kbusch@kernel.org>
-> > 
-> > Some bio_vec iterators can handle physically contiguous memory and have
-> > no need to split bvec consideration on page boundaries.
-> 
-> Then I am wondering why this helper is needed, and you can use each bvec
-> directly, which is supposed to be physically contiguous.
+On Tue, Nov 21, 2023 at 4:11=E2=80=AFAM Keith Busch <kbusch@meta.com> wrote=
+:
+>
+> From: Keith Busch <kbusch@kernel.org>
+>
+> Passthrough commands that utilize metadata currently bounce the user
+> space buffer through the kernel. Add support for mapping user space
+> directly so that we can avoid this costly overhead. This is similiar to
 
-It's just a helper function to iterate a generic bvec.
- 
-> > diff --git a/include/linux/bvec.h b/include/linux/bvec.h
-> > index 555aae5448ae4..9364c258513e0 100644
-> > --- a/include/linux/bvec.h
-> > +++ b/include/linux/bvec.h
-> > @@ -184,6 +184,12 @@ static inline void bvec_iter_advance_single(const struct bio_vec *bv,
-> >  		((bvl = bvec_iter_bvec((bio_vec), (iter))), 1);	\
-> >  	     bvec_iter_advance_single((bio_vec), &(iter), (bvl).bv_len))
-> >  
-> > +#define for_each_mp_bvec(bvl, bio_vec, iter, start)			\
-> > +	for (iter = (start);						\
-> > +	     (iter).bi_size &&						\
-> > +		((bvl = mp_bvec_iter_bvec((bio_vec), (iter))), 1);	\
-> > +	     bvec_iter_advance_single((bio_vec), &(iter), (bvl).bv_len))
-> > +
-> 
-> We already have bio_for_each_bvec() to iterate over (multipage)bvecs
-> from bio.
+Nit: s/similiar/similar
 
-Right, but we are not dealing with a bio here. We have a bip bvec
-instead, so can't use bio_for_each_bvec().
+ >  /**
+>   * bio_integrity_free - Free bio integrity payload
+>   * @bio:       bio containing bip to be freed
+> @@ -105,6 +136,8 @@ void bio_integrity_free(struct bio *bio)
+>
+>         if (bip->bip_flags & BIP_BLOCK_INTEGRITY)
+>                 kfree(bvec_virt(bip->bip_vec));
+> +       else if (bip->bip_flags & BIP_INTEGRITY_USER)
+> +               bio_integrity_unmap_user(bip);;
+
+Nit: extra semicolon here
+
+--
+Anuj Gupta
 
