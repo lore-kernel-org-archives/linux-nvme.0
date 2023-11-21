@@ -4,71 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 727D7C5ACB3
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Nov 2023 08:37:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8BB33C5ACB3
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Nov 2023 09:16:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wSnMEYxpnW5oiEx9Wxa+pu1+pouT4rSIR9cZCOvF7D0=; b=nyYbe5rtnTdqCHSnSlFZigTXFn
-	IlqhvqjhYzBhG/bKLnxpfo/1crOCaSFzeWOv63oo74O41dKSP3w27xoTzcfsGeOXzibVYcflr41I/
-	oTZ+VJONPAnoCjkK8DF16BipdTehBQn4kAfCtKSyfXRBtU0/5gi8mQJhfY32+kIAEU7+BYgS5P6AB
-	13IcTsSLGEwV9iO4FA023TibrBz1tIOx1Sjec/i43YUq/VyeuT4tOMf14QW/XkcduZEMEsh2lf856
-	Uc6JPBF+79IBPnORuQ/BRVv5aOWHsZPbx0ulQqn+/LP+7wSBcJIBkmRFUW73eqkCNOVn+W9XcnHW1
-	zlOtEShg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=XB/kzKXnf/yNI7qZKKTYdk4EutwHO/sinQoDAA0n5Lk=; b=pbG0ya3DNuMDOsdxNNICEOBP5o
+	rjs1lFxqNypJIP2a6nfDDTFQJLqbCIgZq3H4hqaUK8cVEjbADLhKllPrfn3MEUUB1a1SINZA/BFxu
+	P4I2BGmhBHHPERy6nZ9VdqbJZQO//VBZ1ZnwQ1nCkps9ZDRUVzYn7CEAKnk9zko47ce5CTUFmZEY5
+	Vg+zAJmRuhS0AR73xVECgg+z8K+1mIohMwkMMGtIP79aIddcdWVoCv5CKs7cmr2zvgillbC3ezXc9
+	s0yQPb8Fld4Wj1LzDCyZqqFDUXAZdhBaz9cgprSIBAj56FBPGuzz+HBq+/3ZrvGj53fDAmZJtxy3w
+	GG3ZLCmw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5MG3-00G1KI-0D;
-	Tue, 21 Nov 2023 08:37:23 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1r5Mrv-00G6a2-2F;
+	Tue, 21 Nov 2023 09:16:31 +0000
+Received: from mail-wm1-f45.google.com ([209.85.128.45])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5MFz-00G1JA-30
+	id 1r5Mrq-00G6Zi-1B
 	for linux-nvme@lists.infradead.org;
-	Tue, 21 Nov 2023 08:37:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1700555837;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wSnMEYxpnW5oiEx9Wxa+pu1+pouT4rSIR9cZCOvF7D0=;
-	b=J1eNeAXhnNGCyVK38bdofRwNen0s+liacKCgkTJb8hxNSmUsS8HTEe4SrxwiCzxMuKO/Yl
-	kCUX9F4G/5HqfJLv7xZP4+NXQTDO61NYBWSjHJG7ggC6CDVdYR0EsgiO/t6D7Wc8aowZl/
-	IwyqThvTQWd476lUUUmveaAUmQs66jc=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-652-bNWAcLLAM92l4peDpphzPA-1; Tue,
- 21 Nov 2023 03:37:13 -0500
-X-MC-Unique: bNWAcLLAM92l4peDpphzPA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D00FE3816B46;
-	Tue, 21 Nov 2023 08:37:11 +0000 (UTC)
-Received: from fedora (unknown [10.72.120.14])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 524BD492BFA;
-	Tue, 21 Nov 2023 08:37:05 +0000 (UTC)
-Date: Tue, 21 Nov 2023 16:37:01 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Keith Busch <kbusch@meta.com>
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
-	io-uring@vger.kernel.org, axboe@kernel.dk, hch@lst.de,
-	joshi.k@samsung.com, martin.petersen@oracle.com,
-	Keith Busch <kbusch@kernel.org>, ming.lei@redhat.com
-Subject: Re: [PATCHv3 1/5] bvec: introduce multi-page bvec iterating
-Message-ID: <ZVxsLYj9oH+j3RQ8@fedora>
-References: <20231120224058.2750705-1-kbusch@meta.com>
- <20231120224058.2750705-2-kbusch@meta.com>
+	Tue, 21 Nov 2023 09:16:30 +0000
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-40b2a85c99bso134925e9.0
+        for <linux-nvme@lists.infradead.org>; Tue, 21 Nov 2023 01:16:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700558184; x=1701162984;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XB/kzKXnf/yNI7qZKKTYdk4EutwHO/sinQoDAA0n5Lk=;
+        b=tMIYUq44WSKWvnG/lGDORWuhBhsiJ6C+VMnqYmLUrHJ03czp+q2qMw1Y1rFm1Nqb36
+         3drr09f25vAOZvmA/1EH97jdBrWEIGEoCsQ+cFwOdmcnfgH2+j60HsQpnW2QvMK9BT+H
+         Mepv3ESI2gjLoihU+EXFBwRd98k0D30FpJ9inwf/+6dqhdm8kJJmix+wZ8DGm187Sds/
+         J2Lw4wGAN6iJwh/sKQzYE1pVdVvy54di6NVCYcgiQ3T2LhLJfPnw+5veA+lCVSmyngGT
+         TDS9I/cWKVfpyffe+QPqQlN2qUa40WrC2D22gTt5TaM/E/bt60bst297v6cm11FC++fW
+         EoIA==
+X-Gm-Message-State: AOJu0YwIOuCWChxR9h2Fa3vcLtZnMsaFk3UtAnNJKVbHTerFlZ/MwRM0
+	3P+UyJmOoX21ayHkyasT3peYkw5CPRI=
+X-Google-Smtp-Source: AGHT+IEpt/DXcbENm2K/UaFajtt9RI3aVcfbeQOMXRceeWWsd4Izk7qdtTO1ScB4BOsDOo8EY42D+g==
+X-Received: by 2002:a05:600c:3ca7:b0:405:358c:ba75 with SMTP id bg39-20020a05600c3ca700b00405358cba75mr8720521wmb.0.1700558183996;
+        Tue, 21 Nov 2023 01:16:23 -0800 (PST)
+Received: from [192.168.64.177] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id bg6-20020a05600c3c8600b004090ca6d785sm16593352wmb.2.2023.11.21.01.16.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Nov 2023 01:16:23 -0800 (PST)
+Message-ID: <749b4676-d065-4395-bad6-f585261a1d97@grimberg.me>
+Date: Tue, 21 Nov 2023 11:16:22 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231120224058.2750705-2-kbusch@meta.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.10
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] nvme: start keep-alive after admin queue setup
+Content-Language: en-US
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20231024061337.35621-1-hare@suse.de>
+ <20231024061337.35621-4-hare@suse.de>
+ <a1ce2c2e-4f67-4271-ac67-5a1e8c5ebfb1@grimberg.me>
+ <337014e5-f564-4f0e-8c3c-298156aa82f3@suse.de>
+ <7401e53a-59b8-41d5-8055-600725ecee06@grimberg.me>
+ <c4539237-0740-4f92-a7d6-eebf825a66b0@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <c4539237-0740-4f92-a7d6-eebf825a66b0@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231121_003720_044901_B3E32569 
-X-CRM114-Status: GOOD (  15.43  )
+X-CRM114-CacheID: sfid-20231121_011628_994227_22EE3773 
+X-CRM114-Status: GOOD (  23.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,41 +85,90 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Nov 20, 2023 at 02:40:54PM -0800, Keith Busch wrote:
-> From: Keith Busch <kbusch@kernel.org>
+
+
+On 11/21/23 09:29, Hannes Reinecke wrote:
+> On 11/20/23 20:05, Sagi Grimberg wrote:
+>>
+>>
+>> On 11/20/23 18:01, Hannes Reinecke wrote:
+>>> On 11/20/23 14:39, Sagi Grimberg wrote:
+>>>>
+>>>>> Setting up I/O queues might take quite some time on larger and/or
+>>>>> busy setups, so KATO might expire before all I/O queues could be
+>>>>> set up.
+>>>>> Fix this by start keep alive from the ->init_ctrl_finish() callback,
+>>>>> and stopping it when calling nvme_cancel_admin_tagset().
+>>>>
+>>>> If this is a fix, the title should describe the issue it is fixing, and
+>>>> the body should say how it is fixing it.
+>>>>
+>>>>> Signed-off-by: Hannes Reinecke <hare@suse.de>
+>>>>> ---
+>>>>>   drivers/nvme/host/core.c | 6 +++---
+>>>>>   drivers/nvme/host/fc.c   | 6 ++++++
+>>>>>   2 files changed, 9 insertions(+), 3 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>>>>> index 62612f87aafa..f48b4f735d2d 100644
+>>>>> --- a/drivers/nvme/host/core.c
+>>>>> +++ b/drivers/nvme/host/core.c
+>>>>> @@ -483,6 +483,7 @@ EXPORT_SYMBOL_GPL(nvme_cancel_tagset);
+>>>>>   void nvme_cancel_admin_tagset(struct nvme_ctrl *ctrl)
+>>>>>   {
+>>>>> +    nvme_stop_keep_alive(ctrl);
+>>>>>       if (ctrl->admin_tagset) {
+>>>>>           blk_mq_tagset_busy_iter(ctrl->admin_tagset,
+>>>>>                   nvme_cancel_request, ctrl);
+>>>>
+>>>> There is a cross dependency here, now nvme_cancel_admin_tagset needs to
+>>>> have the keep-alive stopped first, which may be waiting on I/O, which
+>>>> needs to be cancelled...
+>>>>
+>>>> Keep in mind that kato can be arbitrarily long, and now this function
+>>>> may be blocked on this kato period.
+>>>>
+>>>> I also think that now the function is doing something that is more
+>>>> than simply cancelling the inflight admin tagset, as it is named.
+>>>>
+>>> I am having a hard time following this reasoning.
+>>> While I do accept that nvme_stop_keep_alive() might trigger I/O
+>>> (ie if the work queue has just been started when calling 
+>>> cancel_delayed_work), nvme_tcp_error_recovery_work() has this:
+>>>
+>>>      nvme_stop_keep_alive(ctrl);
+>>>      flush_work(&ctrl->async_event_work);
+>>>      nvme_tcp_teardown_io_queues(ctrl, false);
+>>>      /* unquiesce to fail fast pending requests */
+>>>      nvme_unquiesce_io_queues(ctrl);
+>>>      nvme_tcp_teardown_admin_queue(ctrl, false);
+>>>
+>>> and nvme_tcp_teardown_admin_queue() calls nvme_cancel_admin_tagset().
+>>> So by your above reasoning this code should be wrong, too.
+>>> What am I missing?
+>>
+>> Need to dig through the history, but it can most definitely move to
+>> after the teardown. It could be from the earlier days where the
+>> transport fencing was not as reliable particularly for admin requests.
 > 
-> Some bio_vec iterators can handle physically contiguous memory and have
-> no need to split bvec consideration on page boundaries.
-
-Then I am wondering why this helper is needed, and you can use each bvec
-directly, which is supposed to be physically contiguous.
-
+> Ah, no. We are both wrong. Colophon of cancel_delayed_work():
 > 
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
-> ---
->  include/linux/bvec.h | 6 ++++++
->  1 file changed, 6 insertions(+)
+>   * Note:
+>   * The work callback function may still be running on return, unless
+>   * it returns %true and the work doesn't re-arm itself.  Explicitly 
+> flush or
+>   * use cancel_delayed_work_sync() to wait on it.
 > 
-> diff --git a/include/linux/bvec.h b/include/linux/bvec.h
-> index 555aae5448ae4..9364c258513e0 100644
-> --- a/include/linux/bvec.h
-> +++ b/include/linux/bvec.h
-> @@ -184,6 +184,12 @@ static inline void bvec_iter_advance_single(const struct bio_vec *bv,
->  		((bvl = bvec_iter_bvec((bio_vec), (iter))), 1);	\
->  	     bvec_iter_advance_single((bio_vec), &(iter), (bvl).bv_len))
->  
-> +#define for_each_mp_bvec(bvl, bio_vec, iter, start)			\
-> +	for (iter = (start);						\
-> +	     (iter).bi_size &&						\
-> +		((bvl = mp_bvec_iter_bvec((bio_vec), (iter))), 1);	\
-> +	     bvec_iter_advance_single((bio_vec), &(iter), (bvl).bv_len))
-> +
+> Hence we won't be blocked by running I/O when calling 
+> nvme_stop_keep_alive().
+> So the correct syntax would indeed be calling nvme_stop_keep_alive()
+> first, and then disable/cancel the admin tagset (which will terminate
+> any outstanding keep-alive requests).
 
-We already have bio_for_each_bvec() to iterate over (multipage)bvecs
-from bio.
+Yes, you're correct. because keep-alive is not a sync command it
+won't block on io. However I still don't see why should we change
+where it exist today (i.e. the choice to move it to the odd location
+of nvme_cancel_admin_tagset).
 
-
-Thanks,
-Ming
-
+I agree that we can move start_keep_alive earlier.
 
