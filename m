@@ -4,77 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0D61C61D92
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Nov 2023 11:20:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 490ADC61D92
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Nov 2023 11:34:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qRD61Fh05unH/+bxrdESgIlZtQQo2p++4rA6EMaLGfE=; b=F6bvNciqv2APhnBshMCNbKu7Vf
-	TcDgy8VidW1wTpRkDa9l7XyYHxVFOEvO8ct9p47AdPd4WyxMbd4/T0fuO+QBbVy8qNFgKtXSBCg/j
-	OFd5i5PyS2VDFhj3vQ+qJJ8kFPSjt41Fk15VsJODa6TafLtCcSyk80d8C5EIYUGiMWmQFe4vIY+TY
-	dsiMRdhuIkJrUrQi86hoCCtKq62gGiy+dbEyqkJuZ71VtgPrhOnkbZyLcMwvLUZdovUUTMnwIMJd4
-	XRnw9nV6smGM4S5BaiSUJRZC/ttbeCiDZZYsESf1xz1YACLNR9FgxPKgNcNXJS/2I9gJ9xMHSTXBE
-	IBFmPJng==;
+	bh=8HWknQm3EdTZNY7c/PjrmdU44Zs8ztB+zscA1hwOtqI=; b=HaZXTza0+s+AjgnS4kedr96DHw
+	a+ld0BUTm5BGlEOTPreDs24lm2IB34/FdmFUwiP4GUNMF5xg5HTfBi1dauIRDJH3QBEU12lweHZpu
+	KtrKQ4KEjWS6pFYU0WuaSrQASu7agEJ+tJhRQixKcow8WudNkQhKcPgIfO3HJVZl55UEXCQj+0lZ3
+	ofhxL1ndXZ8mgn1K4+S7FA6RIixfQsCPwCk0MJv7/+iJ90EAIqGDZJw4a9wc/vY1FPfJvaTAa9bwJ
+	pXRV3JV9Fbfs4OWdwiE7PAE2LDIWY5WeWqrZV/65N1gdmyQw9C5HbOANHED5vuzjF8CXGg8k5vBxC
+	gjquXtAw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5OoH-00GQ23-1W;
-	Tue, 21 Nov 2023 11:20:53 +0000
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632])
+	id 1r5P1H-00GYjJ-2T;
+	Tue, 21 Nov 2023 11:34:19 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5OoD-00GPyH-33
+	id 1r5P1E-00GYgC-1k
 	for linux-nvme@lists.infradead.org;
-	Tue, 21 Nov 2023 11:20:51 +0000
-Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-a00191363c1so210028966b.0
-        for <linux-nvme@lists.infradead.org>; Tue, 21 Nov 2023 03:20:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700565645; x=1701170445; darn=lists.infradead.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qRD61Fh05unH/+bxrdESgIlZtQQo2p++4rA6EMaLGfE=;
-        b=T5Qf0NlZhAKrF5Pe2LK4uhMYwMVDerQ/a3JVFZvXFDOwziViDjexwHSAoyQSe1pUfU
-         ybH/qQLgvQSb5c7k2R+cKaRW+9Nobf9+BVkJnFC93CW7Du1lUemooaOX0ih430mNMmnq
-         PqVxp89Lcw7d87ohXFy3LhyHuO4+bkKQgKRDj5gdmpJ3Qfh89rT3V2MsjteWzoX6Mbh3
-         2MG9GLP3/gXV3Q9qwnAj8OaXGYvKFRUrbqrpjX2nOj7IaHrwAwcnBpdcxFeJ8xc+cWdd
-         g5ES8RmcGirDVW8O082WcNbV3RONvEjdodUMrK1SLA2qko2eP7uTH1J1u87ZyYfv47p3
-         y+uA==
+	Tue, 21 Nov 2023 11:34:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1700566454;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8HWknQm3EdTZNY7c/PjrmdU44Zs8ztB+zscA1hwOtqI=;
+	b=DLQKZjvBLwuA01+MGlWXQPBIdGOBJBh4txziNlIyh2selC2sGSdo89+NuPI7jZdE83omu1
+	ETG1WEzAgNn7R05WlILBjKoxb8Fydz+8zYKNhL1lCoMwWpdAvYfEZfdqH6VMPKGqcUA1ZQ
+	OWYmcTWec4qzKOTOQwZXFSaY7Q4EF3I=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-654-AD0XpHbUOMOzf0_AOq-HsA-1; Tue, 21 Nov 2023 06:34:12 -0500
+X-MC-Unique: AD0XpHbUOMOzf0_AOq-HsA-1
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-33174557ed4so1718593f8f.1
+        for <linux-nvme@lists.infradead.org>; Tue, 21 Nov 2023 03:34:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700565645; x=1701170445;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qRD61Fh05unH/+bxrdESgIlZtQQo2p++4rA6EMaLGfE=;
-        b=fg9m3tyZ03BpJi+ZL7duUbUq5TsH0C5eSgG3UyTnyQ4gvfOvx7m/v9FukJZ4dKwGFV
-         lnX43XHROx0wxk1zbtTA7u6vufrFGaPqIjGJpJcnIlI63sIL0vhpCbfb8ws5/mbCcr9G
-         Wz0sx9tTh4uQhodFY/qloi08r1Sknn57EhhAmxUZqnFPSrLuGuX/astlRRsyv57b/hAa
-         sdqKzh9EFom6Yl7geTLTM1JNUIFGhHLrE7XBIP+UYs8OghLYu/+2xKrEw2kYnz8dMds4
-         pNpVpWQdUwHAJnfTr7aWEGlVlzZE8MKUOACPzHXvgXJs9PIbz4Y/QlZMDNF94FkWKJcA
-         rEKA==
-X-Gm-Message-State: AOJu0YzbVXJf3ghrj+wxAF1t8giap63Nmh5r2vego9ce57jySssaC6WK
-	1VnRfm9bLE2Zdkob3pojHr2wymL/JtB6UpwVT4GWCSXnH6VdaRPs
-X-Google-Smtp-Source: AGHT+IHd81VfeE/RsBptozrOUkjDda7QZLB9DVCrA1lOm9ImQ2kPFdIgzItjBKPvAB4nTEywhcAxfkKsjh7TezVMpeE=
-X-Received: by 2002:a17:907:91d7:b0:9fe:6546:6cd2 with SMTP id
- h23-20020a17090791d700b009fe65466cd2mr3574479ejz.32.1700565645097; Tue, 21
- Nov 2023 03:20:45 -0800 (PST)
+        d=1e100.net; s=20230601; t=1700566451; x=1701171251;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8HWknQm3EdTZNY7c/PjrmdU44Zs8ztB+zscA1hwOtqI=;
+        b=l5kLtf923IXEDmwt0neWlCWMMjqpjaMv4fM2DarHXZdygBsU3HzQom/iCU5io8ikQ0
+         ynqCGG2YSBtPBlQuOKm/03tNEd7FtmTmDxRUGxUnY3Kclb1cpnxGHgcWOhYu+Ht4MPbk
+         RCfX6WfJhsB82vyHpSBmm/MiOkM3E/WWVFF/OkNe8mtRvo0DWDzxkoztXWh+XPj0bUYw
+         nKVq1AJI2jDGx2hzsC3LskTLgoG2eldXuD21b3PTlgRE+YSUGA18u2AkjRi2IybhyRKf
+         MgMwBRaWIIs9QddVs0iWr+lBgvlNzdfx4tWjbl1t1cnLBgNn5Jq7E0hy4MUiGlYipI6p
+         zJhA==
+X-Gm-Message-State: AOJu0YxVVUACXARfq2va6YHQis2JLS3RaDOyXSw3M4XfYDWE1pTbIPMS
+	yehLUTs8BO3G/7WPc+0LVzFcvqFGNl5ikLmaRESExLhgrS/8z+L1CHwYI3t5ovu8Krzs2qD3pgC
+	V6BibQuB1KCV/hF/AUk6JGWe8EGykQRSFIe9mePHzG27AEwian6c=
+X-Received: by 2002:a5d:634e:0:b0:32d:c792:fcaf with SMTP id b14-20020a5d634e000000b0032dc792fcafmr1754532wrw.26.1700566451660;
+        Tue, 21 Nov 2023 03:34:11 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFyiGG1O2+ixgWIcc03nWV7+tsxRIMaecgqtFnyOVP79uqnyACvYe0PANf4Eq6xdVMzOafkhqbm1RsQFSSI/5Y=
+X-Received: by 2002:a5d:634e:0:b0:32d:c792:fcaf with SMTP id
+ b14-20020a5d634e000000b0032dc792fcafmr1754517wrw.26.1700566451247; Tue, 21
+ Nov 2023 03:34:11 -0800 (PST)
 MIME-Version: 1.0
-References: <CAK5usQv0opo1n6VyysRD28VnML-V8tMD1YbZPUSJxth0gXR=SQ@mail.gmail.com>
- <CAK5usQtW2SNSjQpMWyvGVhVjU-y4cdjEn4DrA5xx2R-hjscn5g@mail.gmail.com>
- <d972c5e5-523a-4b9a-83d5-ff8a1604139f@grimberg.me> <CAK5usQvU67+NugSh-mr3PVQWLxSv8Du=CLZueDk4r4tgNAXGDw@mail.gmail.com>
- <a1556159-5224-4cf1-b6bd-81875dba9b6e@grimberg.me>
-In-Reply-To: <a1556159-5224-4cf1-b6bd-81875dba9b6e@grimberg.me>
-From: Alon Zahavi <zahavi.alon@gmail.com>
-Date: Tue, 21 Nov 2023 13:20:33 +0200
-Message-ID: <CAK5usQupQgYoyav2itYADv2XVooMptqqswW8cTkuoMkRpjapwQ@mail.gmail.com>
-Subject: Re: [Bug Report] NVMe-oF/TCP - NULL Pointer Dereference in `nvmet_tcp_build_iovec`
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org, Chaitanya Kulkarni <chaitanyak@nvidia.com>, 
-	Christoph Hellwig <hch@lst.de>
+References: <20231110163721.15292-1-emilne@redhat.com>
+In-Reply-To: <20231110163721.15292-1-emilne@redhat.com>
+From: Ewan Milne <emilne@redhat.com>
+Date: Tue, 21 Nov 2023 06:34:00 -0500
+Message-ID: <CAGtn9rmMLQfsocZvWJnnekRxfL2_s3oDYcUNTy3M0c2d8UYYfg@mail.gmail.com>
+Subject: Re: [PATCH] nvme: check for valid data from from nvme_identify_ns()
+ before using it
+To: linux-nvme@lists.infradead.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231121_032049_996906_68A52FF7 
-X-CRM114-Status: GOOD (  39.33  )
+X-CRM114-CacheID: sfid-20231121_033416_672542_6B5A847D 
+X-CRM114-Status: GOOD (  21.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,194 +95,78 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, 21 Nov 2023 at 11:26, Sagi Grimberg <sagi@grimberg.me> wrote:
->
->
->
-> On 11/20/23 17:29, Alon Zahavi wrote:
-> > On Mon, 20 Nov 2023 at 12:50, Sagi Grimberg <sagi@grimberg.me> wrote:
-> >>
-> >>
-> >>
-> >> On 11/15/23 11:35, Alon Zahavi wrote:
-> >>> Just sending another reminder for this issue.
-> >>> Until a fix for this there is a remote DoS that can be triggered.
-> >>>
-> >>> On Mon, 6 Nov 2023 at 15:40, Alon Zahavi <zahavi.alon@gmail.com> wrote:
-> >>>>
-> >>>> # Bug Overview
-> >>>>
-> >>>> ## The Bug
-> >>>> A null-ptr-deref in `nvmet_tcp_build_iovec`.
-> >>>>
-> >>>> ## Bug Location
-> >>>> `drivers/nvme/target/tcp.c` in the function `nvmet_tcp_build_iovec`.
-> >>>>
-> >>>> ## Bug Class
-> >>>> Remote Denial of Service
-> >>>>
-> >>>> ## Disclaimer:
-> >>>> This bug was found using Syzkaller with NVMe-oF/TCP added support.
-> >>>>
-> >>
-> >> Hey Alon, thanks for the report.
-> >>
-> >>>> # Technical Details
-> >>>>
-> >>>> ## Kernel Report - NULL Pointer Dereference
-> >>>> ```
-> >>>> [  157.833470] BUG: kernel NULL pointer dereference, address:
-> >>>> 000000000000000c
-> >>>> [  157.833478] #PF: supervisor read access in kernel mode
-> >>>> [  157.833484] #PF: error_code(0x0000) - not-present page
-> >>>> [  157.833490] PGD 126e40067 P4D 126e40067 PUD 130d16067 PMD 0
-> >>>> [  157.833506] Oops: 0000 [#1] PREEMPT SMP NOPTI
-> >>>> [  157.833515] CPU: 3 PID: 3067 Comm: kworker/3:3H Kdump: loaded Not
-> >>>> tainted 6.5.0-rc1+ #5
-> >>>> [  157.833525] Hardware name: VMware, Inc. VMware Virtual
-> >>>> Platform/440BX Desktop Reference Platform, BIOS 6.00 11/12/2020
-> >>>> [  157.833532] Workqueue: nvmet_tcp_wq nvmet_tcp_io_work
-> >>>> [  157.833546] RIP: 0010:nvmet_tcp_build_pdu_iovec+0x7a/0x120
-> >>>> [  157.833558] Code: fe 44 89 a3 20 02 00 00 49 c1 e4 05 4c 03 63 30
-> >>>> 4c 89 75 d0 41 89 c6 e8 34 b8 18 ff 45 85 ff 0f 84 99 00 00 00 e8 06
-> >>>> bd 18 ff <41> 8b 74 24 0c 41 8b 44 24 08 4c 89 e7 49 8b 0c 24 89 f2 41
-> >>>> 89 75
-> >>>> [  157.833568] RSP: 0018:ffffc9001ab83c28 EFLAGS: 00010293
-> >>>> [  157.833576] RAX: 0000000000000000 RBX: ffff88812b9583e0 RCX: 0000000000000000
-> >>>> [  157.833584] RDX: ffff888131b10000 RSI: ffffffff82191dda RDI: ffffffff82191dcc
-> >>>> [  157.833591] RBP: ffffc9001ab83c58 R08: 0000000000000005 R09: 0000000000000000
-> >>>> [  157.833598] R10: 0000000000000007 R11: 0000000000000000 R12: 0000000000000000
-> >>>> [  157.833605] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000007
-> >>>> [  157.833612] FS:  0000000000000000(0000) GS:ffff888233f80000(0000)
-> >>>> knlGS:0000000000000000
-> >>>> [  157.833630] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> >>>> [  157.833638] CR2: 000000000000000c CR3: 0000000122dd4002 CR4: 00000000007706e0
-> >>>> [  157.833659] PKRU: 55555554
-> >>>> [  157.833686] Call Trace:
-> >>>> [  157.833691]  <TASK>
-> >>>> [  157.833712]  ? show_regs+0x6e/0x80
-> >>>> [  157.833745]  ? __die+0x29/0x70
-> >>>> [  157.833757]  ? page_fault_oops+0x278/0x740
-> >>>> [  157.833784]  ? up+0x3b/0x70
-> >>>> [  157.833835]  ? do_user_addr_fault+0x63b/0x1040
-> >>>> [  157.833846]  ? __sanitizer_cov_trace_const_cmp4+0x1a/0x20
-> >>>> [  157.833862]  ? irq_work_queue+0x95/0xc0
-> >>>> [  157.833874]  ? exc_page_fault+0xcf/0x390
-> >>>> [  157.833889]  ? asm_exc_page_fault+0x2b/0x30
-> >>>> [  157.833925]  ? nvmet_tcp_build_pdu_iovec+0x7a/0x120
-> >>>> [  157.833958]  ? nvmet_tcp_build_pdu_iovec+0x6c/0x120
-> >>>> [  157.833971]  ? nvmet_tcp_build_pdu_iovec+0x7a/0x120
-> >>>> [  157.833998]  ? nvmet_tcp_build_pdu_iovec+0x7a/0x120
-> >>>> [  157.834011]  nvmet_tcp_try_recv_pdu+0x995/0x1310
-> >>>> [  157.834066]  nvmet_tcp_io_work+0xe6/0xd90
-> >>>> [  157.834081]  process_one_work+0x3da/0x870
-> >>>> [  157.834112]  worker_thread+0x67/0x640
-> >>>> [  157.834124]  kthread+0x164/0x1b0
-> >>>> [  157.834138]  ? __pfx_worker_thread+0x10/0x10
-> >>>> [  157.834148]  ? __pfx_kthread+0x10/0x10
-> >>>> [  157.834162]  ret_from_fork+0x29/0x50
-> >>>> [  157.834180]  </TASK>
-> >>>> ```
-> >>>>
-> >>>> ## Description
-> >>>>
-> >>>> ### Tracing The Bug
-> >>>> As written above, the bug occurs during the execution of
-> >>>> nvmet_tcp_build_iovec. Looking at the kernel logs report we can see
-> >>>> the exact line of code that triggers the bug.
-> >>>>
-> >>>> Code Block 1:
-> >>>> ```
-> >>>> static void nvmet_tcp_build_pdu_iovec(struct nvmet_tcp_cmd *cmd)
-> >>>> {
-> >>>>     ...
-> >>>>     sg = &cmd->req.sg[cmd->sg_idx]; // #1
-> >>>>
-> >>>>     while (length) {
-> >>>>       u32 iov_len = min_t(u32, length, sg->length - sg_offset); // #2
-> >>>>     ...
-> >>>>     }
-> >>>> ...
-> >>>> }
-> >>>> ```
-> >>>> Breakdown:
-> >>>>
-> >>>> 1. The variable `sg` is getting the value of  `&cmd->req.sg[cmd->sg_idx]`.
-> >>>> At the assembly level (intel flavor):
-> >>>> ```
-> >>>> mov    DWORD PTR [rbx+0x220], r12d     ; r12 holds the `cmd` address
-> >>>> add    r12, QWORD PTR [rbx+0x30]          ; adding the value of
-> >>>> `req.sg[cmd->sg_idx]`
-> >>>> ```
-> >>>>
-> >>>> However, `cmd->req.sg` is NULL at this point of execution thus `sg`
-> >>>> will point to `0 + cmd->sg_idx`, which will most likely be either 0x0
-> >>>> or 0x1, a non-accessible memory addresses.
-> >>>>
-> >>>> 2. After moving the address into `sg` the driver will dereference it
-> >>>> later, inside the while loop.
-> >>>> ```
-> >>>> mov    esi, DWORD PTR [r12+0xc]
-> >>>> ```
-> >>>> When getting here, `r12` will point into (probably) 0x0. This means
-> >>>> that the CPU will try to access the memory address 0xC and will
-> >>>> trigger a NULL pointer dereference.
-> >>>>
-> >>>>
-> >>>> ## Root Cause
-> >>>> `req` is initialized during `nvmet_req_init`. However, the sequence
-> >>>> that leads into `nvmet_tcp_build_iovec` does not contain any call for
-> >>>> `nvmet_req_init`, thus crashing the kernel with NULL pointer
-> >>>> dereference. This flow of execution can also create a situation where
-> >>>> an uninitialized memory address will be dereferenced, which has
-> >>>> undefined behaviour.
-> >>
-> >> If req->sg was not allocated, we shouldn't build a corresponding iovec.
-> >> There is a case where we encounter a failure where nvmet_req_init is
-> >> not called, but instead nvmet_tcp_handle_req_failure is called and
-> >> should properly initialize req->sg and the corresponding iovec.
-> >>
-> >> The intention is to drain the error request from the socket, or at
-> >> least attempt to do so so the connection recovers.
-> >>
-> >> I'd be interested to know if this path (nvmet_tcp_handle_req_failure)
-> >> is taken or there is something else going on....
-> >>
-> >
-> > Looking at some other kernel reports (an example below) for the same
-> > issue I can see that the call for `nvmet_tcp_build_pdu_iovec` is
-> > executed during `nvmet_tcp_handle_h2c_data_pdu`.
-> > The call for `nvmet_tcp_handle_h2c_data_pdu` is just too early, and
-> > does not have the required checks before calling
-> > `nvmet_tcp_build_pdu_iovec` later.
->
-> Yes, as Chaitnaya pointed out, we are missing proper error handling when
-> the host sends a malformed h2cdata pdu.
->
-> >
-> > ```
-> > Call Trace:
-> >   <TASK>
-> >   nvmet_tcp_handle_h2c_data_pdu drivers/nvme/target/tcp.c:988 [inline]
-> >   nvmet_tcp_done_recv_pdu drivers/nvme/target/tcp.c:1020 [inline]
-> >   nvmet_tcp_try_recv_pdu+0xddf/0x1cb0 drivers/nvme/target/tcp.c:1182
-> >   nvmet_tcp_try_recv_one drivers/nvme/target/tcp.c:1306 [inline]
-> >   nvmet_tcp_try_recv drivers/nvme/target/tcp.c:1338 [inline]
-> >   nvmet_tcp_io_work+0x109/0x1510 drivers/nvme/target/tcp.c:1388
-> >   process_one_work+0x725/0xdc0 kernel/workqueue.c:2597
-> >   worker_thread+0x3e2/0x9f0 kernel/workqueue.c:2748
-> >   kthread+0x201/0x250 kernel/kthread.c:389
-> >   ret_from_fork+0x29/0x50 arch/x86/entry/entry_64.S:308
-> >   </TASK>
-> > ```
-> > BTW this is the same root cause of another bug I reported -
-> > NVMe-oF/TCP - NULL Pointer Dereference in `__nvmet_req_complete`
-> > (https://lore.kernel.org/linux-nvme/CAK5usQuk-R1auf3_WSgKK6UAO5qeo9zjeWxEB-Wxs2JvFhgLVA@mail.gmail.com/T/#t)
->
-> So I take it as this issue covers all the outstanding reports? I've lost
-> a bit of track catching up on a long backlog of threads.
+Keith / Christoph-
 
-This issue covers only two bug reports I sent - this one, and
-https://lore.kernel.org/linux-nvme/CAK5usQuk-R1auf3_WSgKK6UAO5qeo9zjeWxEB-Wxs2JvFhgLVA@mail.gmail.com/T/#t
-There is a third report that doesn't seem related.
+Can you take a look at this fix please?  I've got someone
+getting this crash fairly reliably, their customers are vulnerable.
+
+-Ewan
+
+On Fri, Nov 10, 2023 at 11:39=E2=80=AFAM Ewan D. Milne <emilne@redhat.com> =
+wrote:
+>
+> When scanning namespaces, it is possible to get valid data from the first
+> call to nvme_identify_ns() in nvme_alloc_ns(), but not from the second
+> call in nvme_update_ns_info_block().  In particular, if the NSID becomes
+> inactive between the two commands, a storage device may return a buffer
+> filled with zero as per 4.1.5.1.  In this case, we can get a kernel crash
+> due to a divide-by-zero in blk_stack_limits() because ns->lba_shift will
+> be set to zero.
+>
+> PID: 326      TASK: ffff95fec3cd8000  CPU: 29   COMMAND: "kworker/u98:10"
+>  #0 [ffffad8f8702f9e0] machine_kexec at ffffffff91c76ec7
+>  #1 [ffffad8f8702fa38] __crash_kexec at ffffffff91dea4fa
+>  #2 [ffffad8f8702faf8] crash_kexec at ffffffff91deb788
+>  #3 [ffffad8f8702fb00] oops_end at ffffffff91c2e4bb
+>  #4 [ffffad8f8702fb20] do_trap at ffffffff91c2a4ce
+>  #5 [ffffad8f8702fb70] do_error_trap at ffffffff91c2a595
+>  #6 [ffffad8f8702fbb0] exc_divide_error at ffffffff928506e6
+>  #7 [ffffad8f8702fbd0] asm_exc_divide_error at ffffffff92a00926
+>     [exception RIP: blk_stack_limits+434]
+>     RIP: ffffffff92191872  RSP: ffffad8f8702fc80  RFLAGS: 00010246
+>     RAX: 0000000000000000  RBX: ffff95efa0c91800  RCX: 0000000000000001
+>     RDX: 0000000000000000  RSI: 0000000000000001  RDI: 0000000000000001
+>     RBP: 00000000ffffffff   R8: ffff95fec7df35a8   R9: 0000000000000000
+>     R10: 0000000000000000  R11: 0000000000000001  R12: 0000000000000000
+>     R13: 0000000000000000  R14: 0000000000000000  R15: ffff95fed33c09a8
+>     ORIG_RAX: ffffffffffffffff  CS: 0010  SS: 0018
+>  #8 [ffffad8f8702fce0] nvme_update_ns_info_block at ffffffffc06d3533 [nvm=
+e_core]
+>  #9 [ffffad8f8702fd18] nvme_scan_ns at ffffffffc06d6fa7 [nvme_core]
+>
+> This happened when the check for valid data was moved out of nvme_identif=
+y_ns()
+> into one of the callers.  Fix this by checking in both callers.
+>
+> Fixes: 0dd6fff2aad4 ("nvme: bring back auto-removal of deleted namespaces=
+ during sequential scan")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Ewan D. Milne <emilne@redhat.com>
+> ---
+>  drivers/nvme/host/core.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 88b54cdcbd68..ae35b19cd562 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2027,6 +2027,12 @@ static int nvme_update_ns_info_block(struct nvme_n=
+s *ns,
+>         if (ret)
+>                 return ret;
+>
+> +       if (id->ncap =3D=3D 0) {
+> +               /* namespace not allocated or attached */
+> +               info->is_removed =3D true;
+> +               return -ENODEV;
+> +       }
+> +
+>         blk_mq_freeze_queue(ns->disk->queue);
+>         lbaf =3D nvme_lbaf_index(id->flbas);
+>         ns->lba_shift =3D id->lbaf[lbaf].ds;
+> --
+> 2.20.1
+>
+>
+
 
