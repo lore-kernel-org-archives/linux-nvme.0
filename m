@@ -4,61 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 39680C61D85
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Nov 2023 18:14:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4D30C61D85
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Nov 2023 00:44:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gp6T1/K4P2YcZV58xGc81WtCX4oMtCfL9UgT1h7hBNA=; b=WtmWvj88nduaZbk5BCtuOodpjF
-	nWn25g7qk9+esLXUU2IU2XuIzoQUeqfh5hpR02nbw0wggIJoe6Q9azhTZuHwRydSCOBAulNkd0n6O
-	DxL5prRsRjhjQ7bSW5bmm61pUgfCWAvudBCXmfhVLs9rAlplWOv8OWu5w6znqvvCX+KmkRD79lWpg
-	iS749VBrWNOjKraB91Mi6Sj79FjnTqnkTLQDHE/ZWITzceX2uoZBW+8JNzBAXn2GKXikXPwGaoCg/
-	SHM7TZxc5AAJBC/dj2uYLohPgkIlqYBFwG+Dqo65t7Zrd3oDUab4+KDBfbELFPKIQQ+TciMYp9jZY
-	5pnPMIcA==;
+	bh=8EYyCryX7PBKswSadGF3aphue0eBdpRNIdFAo5BTQRU=; b=w5ougLEFfidO8UC/N7KImW7BBW
+	OCkQ6uX7IuN4RERHrpi5/Io+eUlMaUgk7gmAPbyCjZF/OwAWAwrLQLbeKvwPN6DaGGW7lwDd0lapM
+	yiY5EANRNr55SDRhvJmCujxjNYb7voAduY15mUj+sDjsa30IzLwSsLp6wypPZAU3kL3EGGQDOPu9v
+	8PhCpEHvJSOZgHN+hwlAJj24Dup3ybtaAGDYfwgkIUUkqkULv86YmwBtzF9ZBHTaJEcbbspHo8KeH
+	S9KVBQ5yT1TepZYbCApzfrPZirNFAb95H4HTO3on8WDIGIQS/wvyNFVYWrCj2MVdi1yBDF/8yjZ1c
+	rxpsO5EQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5VG4-00HSkT-04;
-	Tue, 21 Nov 2023 18:14:00 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1r5bLe-000LcY-0x;
+	Wed, 22 Nov 2023 00:44:10 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5VG1-00HSjz-1f
+	id 1r5bLZ-000Lc0-0t
 	for linux-nvme@lists.infradead.org;
-	Tue, 21 Nov 2023 18:13:58 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by ams.source.kernel.org (Postfix) with ESMTP id 58964B821E7;
-	Tue, 21 Nov 2023 18:13:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D9B6C433C8;
-	Tue, 21 Nov 2023 18:13:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700590429;
-	bh=m+huApgYyngIgWn8TxM+6VO8JYElxMWaEAlQ144wvj8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qRI4lGoANvAN34i6GpOonnSejPoN73uTehu6IDrjZMlR+3HwLKFMA4XC/mNpb0nbz
-	 IN9fH3a2qj7FV7f9HkmC6Nym3PmUJScjyFHsduK75FBtQehlXqXLE0q5tyH/ktpvx8
-	 uk3iHM+f3NjzobyyClsEPXknf7uvTViMNTH+L3BgGUEaYQ9aIOIeB3aSbT3AG3bVj/
-	 38MjiwbMpmbmY6kgQC6yYoRxp6QgETsAsVqcV0ZmwkhRj+SuQp9SA0ViV8khih7T+A
-	 lbCzO0KfkUjQd/zvV4/T6G8Qs0uX2zgOXc7mk6ZED+Rsjryt0Iu95qcrKE1QUTzGJr
-	 50W3YdqXOhezQ==
-Date: Tue, 21 Nov 2023 11:13:47 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Ewan Milne <emilne@redhat.com>
-Cc: linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvme: check for valid data from from nvme_identify_ns()
- before using it
-Message-ID: <ZVzzW0P6CtataBLK@kbusch-mbp>
-References: <20231110163721.15292-1-emilne@redhat.com>
- <CAGtn9rmMLQfsocZvWJnnekRxfL2_s3oDYcUNTy3M0c2d8UYYfg@mail.gmail.com>
- <CAGtn9rkynCF1De25--d39D0o2Eh2QV4aDLOxaRYrw2m1ouu_4g@mail.gmail.com>
+	Wed, 22 Nov 2023 00:44:06 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1700613844;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8EYyCryX7PBKswSadGF3aphue0eBdpRNIdFAo5BTQRU=;
+	b=Gx7+uJumHVkKVd3zfeVk/Q1Rhl+QCHo2AInIPLlPBTAMLeRJRaFAh0fD5k8ppvrZ72ssTY
+	vaYNCoQykX6EZVnauNK+39fxvbckXnhjRgoWj7nLdD6mSQ+nG1M/czOdaE/sxbE50L279K
+	HaQda4mEl3ERx6tFJBNj5p9XgeGz7hQ=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-586-Y5BE8AH3Ofu_IuaI0chxBA-1; Tue,
+ 21 Nov 2023 19:43:59 -0500
+X-MC-Unique: Y5BE8AH3Ofu_IuaI0chxBA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D3B4B1C05191;
+	Wed, 22 Nov 2023 00:43:58 +0000 (UTC)
+Received: from fedora (unknown [10.72.120.8])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2EBA31C060AE;
+	Wed, 22 Nov 2023 00:43:52 +0000 (UTC)
+Date: Wed, 22 Nov 2023 08:43:48 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, io-uring@vger.kernel.org,
+	axboe@kernel.dk, hch@lst.de, joshi.k@samsung.com,
+	martin.petersen@oracle.com, ming.lei@redhat.com
+Subject: Re: [PATCHv3 1/5] bvec: introduce multi-page bvec iterating
+Message-ID: <ZV1OxMPsJYq7Tyaw@fedora>
+References: <20231120224058.2750705-1-kbusch@meta.com>
+ <20231120224058.2750705-2-kbusch@meta.com>
+ <ZVxsLYj9oH+j3RQ8@fedora>
+ <ZVzRmQ66yRDJWMiZ@kbusch-mbp>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAGtn9rkynCF1De25--d39D0o2Eh2QV4aDLOxaRYrw2m1ouu_4g@mail.gmail.com>
+In-Reply-To: <ZVzRmQ66yRDJWMiZ@kbusch-mbp>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.7
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231121_101357_686426_E6848672 
-X-CRM114-Status: GOOD (  13.72  )
+X-CRM114-CacheID: sfid-20231121_164405_405652_CCBE06CF 
+X-CRM114-Status: GOOD (  16.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,20 +85,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 21, 2023 at 06:49:35AM -0500, Ewan Milne wrote:
-> Oh, never mind, I see it.  Just didn't see anything on the list.  Sorry.
+On Tue, Nov 21, 2023 at 08:49:45AM -0700, Keith Busch wrote:
+> On Tue, Nov 21, 2023 at 04:37:01PM +0800, Ming Lei wrote:
+> > On Mon, Nov 20, 2023 at 02:40:54PM -0800, Keith Busch wrote:
+> > > From: Keith Busch <kbusch@kernel.org>
+> > > 
+> > > Some bio_vec iterators can handle physically contiguous memory and have
+> > > no need to split bvec consideration on page boundaries.
+> > 
+> > Then I am wondering why this helper is needed, and you can use each bvec
+> > directly, which is supposed to be physically contiguous.
+> 
+> It's just a helper function to iterate a generic bvec.
 
-Is it? I don't see it in any of the staging or upstream trees, but thank
-you for pinging me on the patch.
+I just look into patch 3 about the use, seems what you need is for_each_bvec_all(),
+which is safe & efficient to use when freeing the host data(bio or bip), but can't
+be used in split bio/bip, in which the generic iterator is needed.
 
-> > > @@ -2027,6 +2027,12 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
-> > >         if (ret)
-> > >                 return ret;
-> > >
-> > > +       if (id->ncap == 0) {
-> > > +               /* namespace not allocated or attached */
-> > > +               info->is_removed = true;
-> > > +               return -ENODEV;
+And you can open-code it in bio_integrity_unmap_user():
 
-The concept sounds good, though you are leaking 'id' in the new error case.
+for (i = 0; i < bip->bip_vcnt; i++) {
+	struct bio_vec *v = &bip->bip_vec[i];
+
+	...
+}
+
+Thanks,
+Ming
+
 
