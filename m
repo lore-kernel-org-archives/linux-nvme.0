@@ -4,86 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5EDEC61D92
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Nov 2023 07:45:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CD26EC072A2
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Nov 2023 08:16:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9CfBPwRcV1wRU6URO6m8qJZonHz7TrhMtvHYwD07ad0=; b=jTvlKt1EWl407oIBC4tkZWi92I
-	KEVeYSVPtXraUVvb05G3sqofGE18C/bjL/XmqByQ+jE/0JAutEsd9iBpwjxVwsvyfZMs9T0EvubWT
-	QwoZqkMOO/VuMN87FxGP3a5w3/bE9c10AV+uH3B1etK3VFWaDtaSWYjJjy41IeKAO9M/NvGudvoPr
-	TepG2hqaTc8r7r9vaNwJrHsjK5UtSw1Vmmxao4/3iessyH017zQsfz6QKQ+gCWXGvKbFW8K0/RGic
-	dM2j+GsWVYOT0jp2cnIicg9X1bplSlp69mD6aRWjHGhrcsB9yQYcTRmiZVFn7Fg3EeRBQY89raBZ2
-	nXjMxdjw==;
+	bh=8ziLR05YIx1r62isXzLrBu7JOOcJX+hqwhS06gWzmbg=; b=oAGrlqtJPxNcJGznB3Eud6Bxaf
+	fvPhvCJ6jH/67lsAysUcSNWyDH8Rp2homgP0z9MBxc+RptoAigoRMKOxPDNUWJPT1e2mX4dKyNMam
+	ST+jbeYHkOdAuwMPXCuMIaRAD7eu/FI/sNnFVrFX2NDUASwMYsXPSiOBa0v2FY+pE4R3xUZWfFPFC
+	Gc3IHvC2noaDu29XjrWXImyZexVe8Tq07mwl53hYEvi4mIhH9EQR4tY4/MFVPllO5GBF0cpIWVTSU
+	oIO9BjmHU8HkxTtT97feDxkUheiji78KglaKjHkbTnJQExMBdqi+qAhbVcjiIi0udoCjtSLnS9dyj
+	Sw9rvIgA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5hvG-000xHv-0C;
-	Wed, 22 Nov 2023 07:45:22 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1r5iPD-0011k8-1V;
+	Wed, 22 Nov 2023 08:16:19 +0000
+Received: from mail-wr1-f44.google.com ([209.85.221.44])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5hvD-000xGP-03
+	id 1r5iPA-0011jZ-0S
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 Nov 2023 07:45:20 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1700639116;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9CfBPwRcV1wRU6URO6m8qJZonHz7TrhMtvHYwD07ad0=;
-	b=U9+kTZ5TStTGnepYp2ivySubhSEeAEQo48xsNJPbAyTl7QaNyWsrJgbDNW55RflewiMU8Z
-	N+7YYUB9bY1tkPW1FJt1tRx4gE3r0Dgcj1spH+ojIkHMR7PYiwHBaUDRdRjpT1sqaqj217
-	igKJtospLWYoARhj5vlNLa/vEB3e1gE=
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
- [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-377-S3Qwyv6QNta1Cq5O4O_2dQ-1; Wed, 22 Nov 2023 02:45:15 -0500
-X-MC-Unique: S3Qwyv6QNta1Cq5O4O_2dQ-1
-Received: by mail-vk1-f197.google.com with SMTP id 71dfb90a1353d-4abebcbc81bso2381618e0c.2
-        for <linux-nvme@lists.infradead.org>; Tue, 21 Nov 2023 23:45:15 -0800 (PST)
+	Wed, 22 Nov 2023 08:16:17 +0000
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-32f9baca5bcso1385246f8f.0
+        for <linux-nvme@lists.infradead.org>; Wed, 22 Nov 2023 00:16:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700639115; x=1701243915;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9CfBPwRcV1wRU6URO6m8qJZonHz7TrhMtvHYwD07ad0=;
-        b=geN6euizoC5lLBEvm+irxskFEA2jJKJ5LnhYc3p1oprjpnOFWgW/8WTTk/FyXzFdX4
-         Qjoa0W6E+pYG5aiwRkLSSKVOJWdxx0NYk6CtcExV+Mogl3rpcjcm+V30NLG1C2ihPu3h
-         LtwxmG7ErppFmcYb/DEWMGgOWCZ5l10S59q0h1PK06BhVD9kFvh3irxp/9WbzQt2OO5S
-         pfynk56qwx7TneUQS5KWJ1t99NhiR1KJOGOQg6sAbsSGnK8su/yCeXxfWA7bhTP+8J/3
-         fLMfr3fQ2ec9lS7OsxKA+ADqoZNBDSAi5FsB5fohepjeZPFxv28GW4IYfZIm0BVoYtNV
-         9YVg==
-X-Gm-Message-State: AOJu0YwZ9heRLWWlME0ne/TH6wRLJDsAHL8LxDGFrbBUwF9zpjlqASep
-	8BeXpkBfg1ne69AWmVc8YeDgafqAlXP6nKX//g7Q2JmdFdvgornSv1hgYID7N88RkEWYQ5DRrGg
-	B9J2TIw5uojH87HWuTQUXZ+RNjWW5u6aZ60Z/nrXuF/A=
-X-Received: by 2002:a1f:dfc4:0:b0:49a:1a56:945c with SMTP id w187-20020a1fdfc4000000b0049a1a56945cmr1838079vkg.13.1700639114798;
-        Tue, 21 Nov 2023 23:45:14 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGJ1gSHsrpwaAVJzd400W01NjsKU1MUoUBj2HaraSiWfaAjANlamZmWJt/NyxUOwRMLgxyXI77dpXFIZs9w5r8=
-X-Received: by 2002:a1f:dfc4:0:b0:49a:1a56:945c with SMTP id
- w187-20020a1fdfc4000000b0049a1a56945cmr1838067vkg.13.1700639114496; Tue, 21
- Nov 2023 23:45:14 -0800 (PST)
+        d=1e100.net; s=20230601; t=1700640973; x=1701245773;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8ziLR05YIx1r62isXzLrBu7JOOcJX+hqwhS06gWzmbg=;
+        b=KuS+tRAlZHf2Fb7Vtt7naFFGbsHvUJqnrMymfwCV0x+ZAQNFKkrOvSzUWjceWi4Uhn
+         7sj/53pO/NIzjyf+6kwDachRtojKCzACrq1pv19QtQROh+OVMJkIZ5jIBRxM0y6/vgr2
+         NEvmaJm1V9JSQuaNQV7M3vkFkuSrRDND7jE+MeMOGhDOgQaFKY4jLt+JWfPXsGrpmEgz
+         znYIU3KuwJtRQ5hBsVOz8UNU0lwpa4Mnfc59P6r0qm9szooNVwtTn8OJ08hPoFMcwZR7
+         ASffV9Y2oVmPNxtsH3IpgdnKspjevkonzZ1w+e8Xpt3tN2jsUaoj55by/ryKk9R811Jg
+         LSiw==
+X-Gm-Message-State: AOJu0YyukrEOugSkE36arwSn2f6L5b669hrwKgFj2rKvHkUiS7rLd+ot
+	PEWYsvBc0Ai6Okl0xQgpMLR8eZkQ6qo=
+X-Google-Smtp-Source: AGHT+IH2HuJ4PeFu+755KSp58z0JpoNT2Feq8wum7ttizJHVfy+PJvgoVOxoqfGiawOwhwu3suj1Ug==
+X-Received: by 2002:a05:600c:600f:b0:40b:2078:b8e4 with SMTP id az15-20020a05600c600f00b0040b2078b8e4mr1233366wmb.1.1700640972801;
+        Wed, 22 Nov 2023 00:16:12 -0800 (PST)
+Received: from [192.168.64.177] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id f22-20020a1c6a16000000b004068de50c64sm1327439wmc.46.2023.11.22.00.16.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Nov 2023 00:16:11 -0800 (PST)
+Message-ID: <cb505cf1-598b-4e81-8f5b-2240e1ee6cc0@grimberg.me>
+Date: Wed, 22 Nov 2023 10:16:09 +0200
 MIME-Version: 1.0
-References: <20231110163721.15292-1-emilne@redhat.com> <CAGtn9rmMLQfsocZvWJnnekRxfL2_s3oDYcUNTy3M0c2d8UYYfg@mail.gmail.com>
- <CAGtn9rkynCF1De25--d39D0o2Eh2QV4aDLOxaRYrw2m1ouu_4g@mail.gmail.com> <ZVzzW0P6CtataBLK@kbusch-mbp>
-In-Reply-To: <ZVzzW0P6CtataBLK@kbusch-mbp>
-From: Maurizio Lombardi <mlombard@redhat.com>
-Date: Wed, 22 Nov 2023 08:45:02 +0100
-Message-ID: <CAFL455kC=UuTV=sAxDYNPj9X4y=ex2ND41VXv6Wv0KLWfNcm3w@mail.gmail.com>
-Subject: Re: [PATCH] nvme: check for valid data from from nvme_identify_ns()
- before using it
-To: Keith Busch <kbusch@kernel.org>
-Cc: Ewan Milne <emilne@redhat.com>, linux-nvme@lists.infradead.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme: move nvme_stop_keep_alive() back to original
+ position
+Content-Language: en-US
+To: Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>
+Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org
+References: <20231121080103.23355-1-hare@suse.de>
+ <be1195e3-2fca-4d68-8222-45f97a72a349@grimberg.me>
+ <87313f89-cdd5-4511-87c3-816f545c4e60@suse.de> <ZVzuEX4_nXf3B82h@kbusch-mbp>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <ZVzuEX4_nXf3B82h@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231121_234519_124746_24D99E1F 
-X-CRM114-Status: UNSURE (   6.35  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20231122_001616_181320_3FCB9C5F 
+X-CRM114-Status: GOOD (  12.65  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,14 +83,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-=C3=BAt 21. 11. 2023 v 19:14 odes=C3=ADlatel Keith Busch <kbusch@kernel.org=
-> napsal:
-> The concept sounds good, though you are leaking 'id' in the new error cas=
-e.
->
 
-We have the same problem in the nvme_ns_info_from_identify() function.
+>>>> Stopping keep-alive not only stops the keep-alive workqueue,
+>>>> but also needs to be synchronized with I/O termination as we
+>>>> must not send a keep-alive command after all I/O had been
+>>>> terminated.
+>>>> So to avoid any regressions move the call to stop_keep_alive()
+>>>> back to its original position and ensure that keep-alive is
+>>>> correctly stopped failing to setup the admin queue.
+>>>>
+>>>> Fixes: 4733b65d82bd ("nvme: start keep-alive after admin queue setup")
+>>>
+>>> It should be folded in I guess. I suggest to either suggest an
+>>> alternative phrasing of the patch or resend an alternative patch
+>>> set.
+>>>
+>> Well, the original patch has already been merged to the nvme-6.7 tree,
+>> so I've attached the 'Fixes' tag.
+>> But let me know how you'd like to play it.
+> 
+> It's not just in nvme-6.7; it's merged upstream too. We can't squash it
+> now, so is it okay to apply this update as-is for the next pull request?
+> I'm going to send the next one out tomorrow before US holiday.
 
-Maurizio
-
+Right, I didn't reach the PR email that was sent. Lets send the patch
+as is. You can add my:
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
