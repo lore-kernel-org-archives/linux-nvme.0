@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52C58C61D97
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Nov 2023 22:47:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 24372C61D9C
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Nov 2023 22:47:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qsUVpK7HlOI/alQSigdp1G103zNHyTMbEL0zYM2mhEk=; b=rrTHRLrBnRHQB0A6VhEPDF4BV6
-	H0Ec9+CcEqmEOwjKDk1mV/oSvUmNNLuBJZ+mA0tJSQSFWGcLjOYIDOhDQjPigV+SVxcE1tX2jRUUY
-	MFctBN0+cItJFJBvOk8yFCPy8BW0zEibDoyWKMJsaPGrgvEi8TrGQiTDBXlAyoZW1ebaBYwLWNi6H
-	016gcUIHAHZWvbkcO//PZuzoWWBL0OONow+lG7k/6cUhrWXetAXSxAdNw8lIinJL0l6r3cmKdMjm+
-	Hj4PipgBPAT/uMQoS7E+2cQTAGhiAWuWPKpfkYVlNWC6IGqkQgVDiSNkId1B/2W5yexKdACsclWl8
-	ikOxIoxw==;
+	bh=NnRIlJI6Jdmd79h9TxFEwIOw5Gi77BWCazL0INdTA4s=; b=FmjIRlf5Ap7bL40OUe20pH73xP
+	2vib2/gQkhQcV2FcTLBSfSjkMWKENNMwf2QMgKAIXKP6PcUdsoQHKFKnZwC9eBhd2x+935hVi1cSf
+	/xy+KnqOwmU+7AAVsL5vZHvDN4puYYrY/PSRzFaO877BpuSs1wxrdBNcbrGgAC74X3lZ9rpD+XisX
+	ipznkzSYR2/F+DwwxG7KHu0OXvquEWOcqZ9G6fn9ljBGUkvz0RRUG0Hs5R3dApD9b2bB5k4L3p2nD
+	C/3xAtU4d6vK6YxX/9Ost5CiOj/D99wm0xpaBaRc9s4UKfK2GUC0zFSNVxa45TF1CpWfWvEksPVLm
+	D95H4Lfg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5w0P-003Enp-2U;
-	Wed, 22 Nov 2023 22:47:37 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1r5w0K-003EmA-3B;
+	Wed, 22 Nov 2023 22:47:32 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5w0M-003EmK-2t
+	id 1r5w0I-003Eku-0E
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 Nov 2023 22:47:36 +0000
+	Wed, 22 Nov 2023 22:47:31 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by ams.source.kernel.org (Postfix) with ESMTP id C2243B829FA;
-	Wed, 22 Nov 2023 22:47:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5ADF4C433CA;
+	by dfw.source.kernel.org (Postfix) with ESMTP id 38FC861FA0;
 	Wed, 22 Nov 2023 22:47:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B1FDC433C7;
+	Wed, 22 Nov 2023 22:47:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700693251;
-	bh=9ZYZZkr3I5hnymOVMd0KFdtSw5PNdjLQfrciVWD6egI=;
+	s=k20201202; t=1700693248;
+	bh=zAaMHwAz6fQIMNy0cpFdvF6MYVuva8LCFObd/51W7U4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=g0Ll4JW9tS/EGX5GtWauX3N3e0xBMe2+rvzFXjJizYae6g08d5AOtIUQdHAYH4r3j
-	 miRPhXbgooUsZmqDaFwTIzizmKrjwCvSL6EsAjpWFXVaB1JOMlqq+Id82oY9eJWD79
-	 MiyaP8PV6qFHRPchKcdC0wxoXcbOutpDU85RFFRiHVckcMqOZaR93oQj4+/8yGlhP/
-	 HDiEzsRWpQZ3suv0Ed6pqdU8CJ6tn0lcmC5PBh3DKwbln5NrzA5wnGi0csKYTIHb9o
-	 AouSbelHAd+ju3CJkgO7Tld8h5ecegxq5WwoxE/x5v3xY0Hfw3QAobcADR+4LearDf
-	 Zy7uciJ+6VNwg==
+	b=o9ASBCAxjepYSLCKpUhXqOTcz8HeeVQG9sJv//XEYxWgYrMZO5tnjra4JeXJZ6+xu
+	 a/gXdFIsEm9KLJvYS4P2s9yLX4eBX0GTq18NjC/79OAuUSjXqihSeEsuz/jXu/7l+O
+	 0tFo1EYPYxovDTaRaXJ5hNqWdN9ds0cEd0FFzGRuRPtuAormWPk2aUDiRE2EGCl/Zv
+	 KEd0NI+TOy59khYiULMv+fT2nLAqhqlNI+YMNS1J3lavvcMwH2/GuitmY6F/VIXS1/
+	 J3HBYsTuW+ZXE/jrw1uyIqBcwjGyv+xEpr8IQ6kAa2z7+F2dvfpcMIezbJtI5h8GWb
+	 /h1X7fs6VAVUw==
 From: Arnd Bergmann <arnd@kernel.org>
 To: linux-nvme@lists.infradead.org
 Cc: Arnd Bergmann <arnd@arndb.de>,
@@ -51,17 +51,17 @@ Cc: Arnd Bergmann <arnd@arndb.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	Chaitanya Kulkarni <kch@nvidia.com>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/3] nvme: target: fix Kconfig select statements
-Date: Wed, 22 Nov 2023 23:47:18 +0100
-Message-Id: <20231122224719.4042108-3-arnd@kernel.org>
+Subject: [PATCH v3 1/3] nvme: target: fix nvme_keyring_id() references
+Date: Wed, 22 Nov 2023 23:47:17 +0100
+Message-Id: <20231122224719.4042108-2-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231122224719.4042108-1-arnd@kernel.org>
 References: <20231122224719.4042108-1-arnd@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231122_144735_079402_6EAF21F9 
-X-CRM114-Status: GOOD (  15.35  )
+X-CRM114-CacheID: sfid-20231122_144730_149547_651EFADB 
+X-CRM114-Status: GOOD (  15.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,48 +78,35 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-When the NVME target code is built-in but its TCP frontend is a loadable
-module, enabling keyring support causes a link failure:
+In configurations without CONFIG_NVME_TARGET_TCP_TLS, the keyring
+code might not be available, or using it will result in a runtime
+failure:
 
 x86_64-linux-ld: vmlinux.o: in function `nvmet_ports_make':
 configfs.c:(.text+0x100a211): undefined reference to `nvme_keyring_id'
 
-The problem is that CONFIG_NVME_TARGET_TCP_TLS is a 'bool' symbol that
-depends on the tristate CONFIG_NVME_TARGET_TCP, so any 'select' from
-it inherits the state of the tristate symbol rather than the intended
-CONFIG_NVME_TARGET one that contains the actual call.
-
-The same thing is true for CONFIG_KEYS, which itself is required for
-NVME_KEYRING.
+Add a check to ensure we only check the keyring if there is a chance
+of it being used, which avoids both the runtime and link-time
+problems.
 
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/nvme/target/Kconfig | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/nvme/target/configfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/Kconfig b/drivers/nvme/target/Kconfig
-index 31633da9427c..e1ebc73f3e5e 100644
---- a/drivers/nvme/target/Kconfig
-+++ b/drivers/nvme/target/Kconfig
-@@ -4,6 +4,8 @@ config NVME_TARGET
- 	tristate "NVMe Target support"
- 	depends on BLOCK
- 	depends on CONFIGFS_FS
-+	select NVME_KEYRING if NVME_TARGET_TCP_TLS
-+	select KEYS if NVME_TARGET_TCP_TLS
- 	select BLK_DEV_INTEGRITY_T10 if BLK_DEV_INTEGRITY
- 	select SGL_ALLOC
- 	help
-@@ -87,9 +89,7 @@ config NVME_TARGET_TCP
- config NVME_TARGET_TCP_TLS
- 	bool "NVMe over Fabrics TCP target TLS encryption support"
- 	depends on NVME_TARGET_TCP
--	select NVME_KEYRING
- 	select NET_HANDSHAKE
--	select KEYS
- 	help
- 	  Enables TLS encryption for the NVMe TCP target using the netlink handshake API.
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 9eed6e6765ea..e307a044b1a1 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -1893,7 +1893,7 @@ static struct config_group *nvmet_ports_make(struct config_group *group,
+ 		return ERR_PTR(-ENOMEM);
+ 	}
  
+-	if (nvme_keyring_id()) {
++	if (IS_ENABLED(CONFIG_NVME_TARGET_TCP_TLS) && nvme_keyring_id()) {
+ 		port->keyring = key_lookup(nvme_keyring_id());
+ 		if (IS_ERR(port->keyring)) {
+ 			pr_warn("NVMe keyring not available, disabling TLS\n");
 -- 
 2.39.2
 
