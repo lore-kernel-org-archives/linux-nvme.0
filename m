@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BBEBFC61D9C
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BFB11C61DA7
 	for <linux-nvme@archiver.kernel.org>; Wed, 22 Nov 2023 22:47:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Hy/fP4Hyoq2fjOGKs/yhwBv466AETF7kDVfomVKGqZg=; b=0/Ss3C+USb45g/9/Wj2bm/iqaw
-	NqNSYTMfxnQRcHyVhirdU744xYQF1IHz9LQDmoH7j000yB/ppUm5/YTivOR22yklwV4qWugZV+juX
-	UPL7wvhptDiSRcVfZ20f37DB9GqrBLYK1EF41t0fOSUMvpRQB/78ScLCWIqGnuNNiH6NGpOkVROHR
-	JwBt5nDztYY9rcE+VzjOTmqqwNLpsLgIbVNYZ5xKVLk8dOhi8M4fOo2654ThbVtK7M6Mgp6cyQrSW
-	HN6x4xyPO49WiacEWP4yks6S99fCvf7plS6MTetDlC6vdYz4CqZYxAx+U6nMobag+RoD8NdVg68Wo
-	8PMYEWjg==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=JI/BqbO1pOnR61A8G8D6LVJbbo761e1uRVzurya7wlY=; b=4Fbx1sxM3WhzT8Rvx1sUZl/9MQ
+	3jPEIWxwteYS6p9pCoTCe9GNkwX+DfIG+LtRzcZIm2yc04QWsoSScZpgeQqbM1ng8K3KUDWPNZqN0
+	1OM1ZXW3cDYGn+JYM94cT7Py/VcfiDN95/OaravooJujjLFohh7OLCGOfS3ah+mG0NJFx8T7ewBZs
+	dUtnLoqSHhOa0nD54WraG3DAVtAR8q96xrY05fncJO0PMbt7HRNDENVGgfgm3x+8PA7ElHmeGQsUE
+	woqCdRsL8xE747NVlpDPNNUdJTJYBLssBa+kAZNaOlamg3EbtuSuY6PlazNZlN1KmJEhubcLlZGvt
+	rbnxjYyg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5w0K-003Elx-15;
-	Wed, 22 Nov 2023 22:47:32 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1r5w0T-003Epi-1r;
+	Wed, 22 Nov 2023 22:47:41 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5w0H-003Ekt-24
+	id 1r5w0Q-003Emz-1C
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 Nov 2023 22:47:31 +0000
+	Wed, 22 Nov 2023 22:47:40 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 66725CE1F1B;
-	Wed, 22 Nov 2023 22:47:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1099C433C9;
-	Wed, 22 Nov 2023 22:47:24 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 4F0C1CE25FC;
+	Wed, 22 Nov 2023 22:47:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8338C433C8;
+	Wed, 22 Nov 2023 22:47:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700693246;
-	bh=SHbQMMey11hjBP8yxns0NPFvAu9Nr0TqmQigEjIJlYM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=U4rkAg4i2SQA52TT1dNYTVXHK/TLxnH9GwQW7J98OUhJQxyRkAsdV5WDO/jSphGJ2
-	 QS3mj5Vg7rHPwsMFNggbk+eqZ3+T+s0QHnYLOQ1mPBJkzBZ9Dic8RCRqRcSS8jaGdJ
-	 grEY/6irykIEN0RaEdTasyRkrWZhAT/eRRtq+lIwXlhLEFbZ95RWp5o9hmHtiGpHVy
-	 +tpUVcppJHU9TOnOZVTb0gBTQYZLG1wm0on5IgrN46LefIOdKrg0D/WsEbM4HzW/gD
-	 yHdfI6l/FUaRPzMLUxUilHHxPMBAgb/7CLHPXpu7GwHpllrhCtMJOAPYAJmsBDYUG4
-	 X/JFSvJIRQLYQ==
+	s=k20201202; t=1700693253;
+	bh=tirI9jsS9I0Ud4YA2mWLBGFR/GeO4TdPnDgDvqDAWOM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=dHYYuw2Wf0mGECKQiIvqxUVhZPskvK0mCYfcFhSgc0GheH7K4LDEEx/OLTMgXZC6b
+	 dQRfBZQJEAiyh7mObHD9Z+6o+FgJuRXhzWT3+yzlzJOdlG+0oPL27TzHtMwsNifDXh
+	 FHRzr/VHPAErPKMr0Rn9jSrdRrTswxZyTyzUtrXDEMtuGcYKROKjBJlhE5SnI8W8ID
+	 Co8i1z550dK8PYv1WvnvxqTjIx274e0N4gL/9e5vz6si9j7+WlZy/Z4djJmXpl/H0D
+	 wCPmwHkR/mj/Ty3H36D5p3FunNWHvVlgf+icJrtHBlreSQJHpm3EVMyOiXlKzMU5tU
+	 VdoGWdkEuzk1Q==
 From: Arnd Bergmann <arnd@kernel.org>
 To: linux-nvme@lists.infradead.org
 Cc: Arnd Bergmann <arnd@arndb.de>,
@@ -51,15 +51,17 @@ Cc: Arnd Bergmann <arnd@arndb.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	Chaitanya Kulkarni <kch@nvidia.com>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/3] nvme link failure fixes
-Date: Wed, 22 Nov 2023 23:47:16 +0100
-Message-Id: <20231122224719.4042108-1-arnd@kernel.org>
+Subject: [PATCH v3 3/3] nvme: tcp: fix compile-time checks for TLS mode
+Date: Wed, 22 Nov 2023 23:47:19 +0100
+Message-Id: <20231122224719.4042108-4-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231122224719.4042108-1-arnd@kernel.org>
+References: <20231122224719.4042108-1-arnd@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231122_144729_936064_94633645 
-X-CRM114-Status: GOOD (  13.08  )
+X-CRM114-CacheID: sfid-20231122_144738_770703_179E4C73 
+X-CRM114-Status: GOOD (  22.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,33 +78,145 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-There are still a couple of link failures that I tried to address
-with a previous patch. I've split up the missing bits into smaller
-patches and tried to explain the bugs in more detail.
+When CONFIG_NVME_KEYRING is enabled as a loadable module, but the TCP
+host code is built-in, it fails to link:
 
-With these applied, randconfig builds work again. Please either
-merge them or treat them as bug reports and find a different fix,
-I won't do another version.
+arm-linux-gnueabi-ld: drivers/nvme/host/tcp.o: in function `nvme_tcp_setup_ctrl':
+tcp.c:(.text+0x1940): undefined reference to `nvme_tls_psk_default'
 
-Arnd Bergmann (3):
-  nvme: target: fix nvme_keyring_id() references
-  nvme: target: fix Kconfig select statements
-  nvme: tcp: fix compile-time checks for TLS mode
+The problem is that the compile-time conditionals are inconsistent here,
+using a mix of #ifdef CONFIG_NVME_TCP_TLS, IS_ENABLED(CONFIG_NVME_TCP_TLS)
+and IS_ENABLED(CONFIG_NVME_KEYRING) checks, with CONFIG_NVME_KEYRING
+controlling whether the implementation is actually built.
 
- drivers/nvme/host/tcp.c        | 31 ++++++++++++++-----------------
- drivers/nvme/target/Kconfig    |  4 ++--
- drivers/nvme/target/configfs.c |  2 +-
- 3 files changed, 17 insertions(+), 20 deletions(-)
+Change it to use IS_ENABLED(CONFIG_NVME_KEYRING) checks consistently,
+which should help readability and make it less error-prone. Combining
+it with the check for the ctrl->opts->tls flag lets the compiler drop
+all the TLS code in configurations without this feature, which also
+helps runtime behavior in addition to avoiding the link failure.
 
+To make it possible for the compiler to build the dead code, both
+the tls_handshake_timeout variable and the TLS specific members
+of nvme_tcp_queue need to be moved out of the #ifdef block as well,
+but at least the former of these gets optimized out again.
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/nvme/host/tcp.c | 31 ++++++++++++++-----------------
+ 1 file changed, 14 insertions(+), 17 deletions(-)
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 89661a9cf850..ee7aa8478cfb 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -36,11 +36,11 @@ static int so_priority;
+ module_param(so_priority, int, 0644);
+ MODULE_PARM_DESC(so_priority, "nvme tcp socket optimize priority");
+ 
+-#ifdef CONFIG_NVME_TCP_TLS
+ /*
+  * TLS handshake timeout
+  */
+ static int tls_handshake_timeout = 10;
++#ifdef CONFIG_NVME_TCP_TLS
+ module_param(tls_handshake_timeout, int, 0644);
+ MODULE_PARM_DESC(tls_handshake_timeout,
+ 		 "nvme TLS handshake timeout in seconds (default 10)");
+@@ -161,10 +161,8 @@ struct nvme_tcp_queue {
+ 	struct ahash_request	*snd_hash;
+ 	__le32			exp_ddgst;
+ 	__le32			recv_ddgst;
+-#ifdef CONFIG_NVME_TCP_TLS
+ 	struct completion       tls_complete;
+ 	int                     tls_err;
+-#endif
+ 	struct page_frag_cache	pf_cache;
+ 
+ 	void (*state_change)(struct sock *);
+@@ -207,6 +205,14 @@ static inline int nvme_tcp_queue_id(struct nvme_tcp_queue *queue)
+ 	return queue - queue->ctrl->queues;
+ }
+ 
++static inline bool nvme_tcp_tls(struct nvme_ctrl *ctrl)
++{
++	if (!IS_ENABLED(CONFIG_NVME_TCP_TLS))
++		return 0;
++
++	return ctrl->opts->tls;
++}
++
+ static inline struct blk_mq_tags *nvme_tcp_tagset(struct nvme_tcp_queue *queue)
+ {
+ 	u32 queue_idx = nvme_tcp_queue_id(queue);
+@@ -1412,7 +1418,7 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
+ 	memset(&msg, 0, sizeof(msg));
+ 	iov.iov_base = icresp;
+ 	iov.iov_len = sizeof(*icresp);
+-	if (queue->ctrl->ctrl.opts->tls) {
++	if (nvme_tcp_tls(&queue->ctrl->ctrl)) {
+ 		msg.msg_control = cbuf;
+ 		msg.msg_controllen = sizeof(cbuf);
+ 	}
+@@ -1424,7 +1430,7 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
+ 		goto free_icresp;
+ 	}
+ 	ret = -ENOTCONN;
+-	if (queue->ctrl->ctrl.opts->tls) {
++	if (nvme_tcp_tls(&queue->ctrl->ctrl)) {
+ 		ctype = tls_get_record_type(queue->sock->sk,
+ 					    (struct cmsghdr *)cbuf);
+ 		if (ctype != TLS_RECORD_TYPE_DATA) {
+@@ -1548,7 +1554,6 @@ static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
+ 	queue->io_cpu = cpumask_next_wrap(n - 1, cpu_online_mask, -1, false);
+ }
+ 
+-#ifdef CONFIG_NVME_TCP_TLS
+ static void nvme_tcp_tls_done(void *data, int status, key_serial_t pskid)
+ {
+ 	struct nvme_tcp_queue *queue = data;
+@@ -1625,14 +1630,6 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
+ 	}
+ 	return ret;
+ }
+-#else
+-static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
+-			      struct nvme_tcp_queue *queue,
+-			      key_serial_t pskid)
+-{
+-	return -EPROTONOSUPPORT;
+-}
+-#endif
+ 
+ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
+ 				key_serial_t pskid)
+@@ -1759,7 +1756,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
+ 	}
+ 
+ 	/* If PSKs are configured try to start TLS */
+-	if (pskid) {
++	if (IS_ENABLED(CONFIG_NVME_TCP_TLS) && pskid) {
+ 		ret = nvme_tcp_start_tls(nctrl, queue, pskid);
+ 		if (ret)
+ 			goto err_init_connect;
+@@ -1916,7 +1913,7 @@ static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
+ 	int ret;
+ 	key_serial_t pskid = 0;
+ 
+-	if (ctrl->opts->tls) {
++	if (nvme_tcp_tls(ctrl)) {
+ 		if (ctrl->opts->tls_key)
+ 			pskid = key_serial(ctrl->opts->tls_key);
+ 		else
+@@ -1949,7 +1946,7 @@ static int __nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
+ {
+ 	int i, ret;
+ 
+-	if (ctrl->opts->tls && !ctrl->tls_key) {
++	if (nvme_tcp_tls(ctrl) && !ctrl->tls_key) {
+ 		dev_err(ctrl->device, "no PSK negotiated\n");
+ 		return -ENOKEY;
+ 	}
 -- 
 2.39.2
-
-Cc: Keith Busch <kbusch@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>
-Cc: Chaitanya Kulkarni <kch@nvidia.com>
-Cc: linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org
 
 
