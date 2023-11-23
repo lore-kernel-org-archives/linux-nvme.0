@@ -4,94 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6790C5AD4C
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Nov 2023 06:25:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30DA2C61D85
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 Nov 2023 09:05:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Subject:Cc:To:
-	From:Date:References:In-Reply-To:Message-Id:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/6WiKh+BjmdjXgEeTZ2JO9etMpJThQQYsX1jFQdOsOo=; b=CJ3MGxRbyZYnngGc1iDbSrDEhV
-	xuKfhyNRKxABXO+DYsfdmQ5iNV9u3y0ltFD+V3/AX88p/KjKjguaRoxhahdkvi6ZLTy2GpYEi7Nkh
-	RDQEbYZS4/VJDFg2ghw+Oer5vIdAY1m+SQNmxTv4b+cJ4wtC8y8Ve6qHzjsXYX5H00WgnaRR3L808
-	BJGTye2/8HCIx8mf053YR9RBzMxe0ltVT26xXin6dUuSSToc77wGf5wQFbiiw5b9/+wO223qMDu2/
-	ImY+K9ERtVYlh1OLUI5VfJA+x88lHyVq1T858QvVmhKGBDZB3THxZpqkV4ukDosdY/lPpNELl/NSb
-	jT44K66Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=bX9HY8J/QSIqiFO0Pa0EhqdDZFQhOgbTj29TI6Qx/Ng=; b=oZHIA4XSQdFkJYgYVhaH7ufdUL
+	U+1RVDHRggAfZixvhA1B4DmFM/C0VcvDSDVl9IeOPY9GQ5i06CMh+zOtMNtQYvWIUlGmIfk7F+QT1
+	Lzu0cnPUJSnGbMK33mAJX7ExjC5aTOnDLbdy7Dadlm9bUE9r79yVrm+c6raTbRhy9KOxgZZqhzuQf
+	Qtqt90djYeMKBFeJi90vcRD7xBZTZppW1sdsLL661QuoWBZ8UHHf1prXJd8iH3CWqXxMaK60i8piO
+	nKxECVNdppzX3wtru9xopjSPUs+8gpTCz16e4L8mq+ShLz+1zHl58069yND+oCJlrjjSOb2fr8oZ4
+	Go1i2vFg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r639r-003tlU-16;
-	Thu, 23 Nov 2023 06:25:51 +0000
-Received: from out3-smtp.messagingengine.com ([66.111.4.27])
+	id 1r65eY-004DHe-2y;
+	Thu, 23 Nov 2023 09:05:42 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r639o-003tjP-19
+	id 1r65eV-004DH4-1L
 	for linux-nvme@lists.infradead.org;
-	Thu, 23 Nov 2023 06:25:50 +0000
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id ED13A5C0162;
-	Thu, 23 Nov 2023 01:25:40 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Thu, 23 Nov 2023 01:25:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1700720740; x=1700807140; bh=/6
-	WiKh+BjmdjXgEeTZ2JO9etMpJThQQYsX1jFQdOsOo=; b=4hrkdbgSg3UCa9qwM3
-	q/pxx10fKttOlC11umZccw6vL+w7As257e9kAF9zbTxjSl+TsUFK881HwT91dt+K
-	Ferxb4dxDOQrhJyH6yesSDN69VLZWO+grxZhfbXO39sIQrHh3iKcLtnSEuFlNqqG
-	tEB5q06UxsU+z/+doVhO79DiRFHWe41BbPtgH6Tj/dclh5d2cSllQ4K3Q/L7J4Yj
-	D4lgjHEfgS8qFCL/g+JwRYyz+uUswcay5DPrPcTdfA2t2+aXCpg0TFV82H/6Gi1R
-	3ZOAtH9mZDzsMJkC83E44ZVBlYloqZ7jUpJFo/BzsR5jV/95lzUjfEh9sgPQsY4Y
-	9I2Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1700720740; x=1700807140; bh=/6WiKh+BjmdjX
-	gEeTZ2JO9etMpJThQQYsX1jFQdOsOo=; b=fjWeuEwEa+pCOU5mE/9NDjRE2Da/e
-	J5Rn+G5bg+QmDQoab3/1IZtKa9R+c3d5PT6vUF6WXAIYwUP0FV9GcmoyE4HYtzgM
-	M4muRjbNnQB/8obisWZO8Rfp+ACAsQqeWInPCZ+Zq3oa1IU9rFLR0uhhTLKyGx4E
-	Wf56VsNBXeL4xYM/bQy4L2qRGOxMqfKiZUIddMtWwuiaNSnL3ENzH5lVb2R9EhHW
-	S0g3WtfTD1MI3J4YMFHoVL2esNslDDodwYAvDn5e/Iyg5WjXbvYX8LmZpFkhQez0
-	nZMB7lJ/9Mt+jlfkAoRnD0kNuSFap3+PMe8yZUzDzwtwnwjXfYrxpuUSQ==
-X-ME-Sender: <xms:ZPBeZffSV2Tsn9FnExJq4DEqDLZuSexON6Bu7CfX_33uQC8N7Oh-UQ>
-    <xme:ZPBeZVPZmJbMIY5ThGYVdUU2PvXjhZQSt-Nuq1Zg-kRKqvgfYbcNA4mI5XmD31Q1w
-    gCjqWLbK5-XMdT7VmE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudehvddgleegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:ZPBeZYhyObxWcSetOpSyArW4zgov8PrcQ4q7v66qrREMPT1OHaSxqw>
-    <xmx:ZPBeZQ9gn4tRp0Ce7IHahAHWDbKL7mJfpHvjOIaycYlpAK3H36jD2w>
-    <xmx:ZPBeZbskQW8-rR8bnl-wR-LdwGLAgThSyWZQp1OZxUnIcpmg07CGXA>
-    <xmx:ZPBeZRUEbXz7S3I0scUZzeHzmkSu1BDpTcVOdo2lLoK2ujW2tQ5axA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 66535B60089; Thu, 23 Nov 2023 01:25:40 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-1234-gac66594aae-fm-20231122.001-gac66594a
+	Thu, 23 Nov 2023 09:05:40 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1700730334;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bX9HY8J/QSIqiFO0Pa0EhqdDZFQhOgbTj29TI6Qx/Ng=;
+	b=N7rwlR3VVAmO9UWDZdt9z31ImPpKjThxxNNcD6nlp+KMnNL8OqboXvnAgN6wcoA3+c0kOd
+	BGNHHBLC8ooS/jI4mBCJ4hRLIG/S4fCUuz7RZM1TPWhDKkKOjmb+WTBwbR8xSqRPDgb/2L
+	PGhLIvFv8g7aoJM94nmRsQJV7RJBjkY=
+Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
+ [209.85.221.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-510-NpqtVvvaOjCPLmWz6xPYjA-1; Thu, 23 Nov 2023 04:05:32 -0500
+X-MC-Unique: NpqtVvvaOjCPLmWz6xPYjA-1
+Received: by mail-vk1-f199.google.com with SMTP id 71dfb90a1353d-4abebcbc81bso224535e0c.2
+        for <linux-nvme@lists.infradead.org>; Thu, 23 Nov 2023 01:05:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700730332; x=1701335132;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bX9HY8J/QSIqiFO0Pa0EhqdDZFQhOgbTj29TI6Qx/Ng=;
+        b=h+kNGxcy02bf7763POhI4WH7XUV8cXaR/L6KCDgSKzBB8kiLhaxjn8/xoIHFAsv8D+
+         RB1elByXkDLuEpKq0cdEcSn4o7twUP3yh3gBj51fp4en8oFVXF/4f57QygxyJKIMYMxN
+         +8upIo+MtAx+3lehgA5M4GCrYmFDtQWn3KyghwmEc3e+Q5B5KG/GlGBNyzqv/ZNnaODE
+         JOEaHFzzgECgMdkTpSGiBixtIFNENM8tpp7kXkENeKBdtB3GA+aheaxK6bsqmaR3586/
+         P+WOlsxT2UYTrxlBFzlgFcYWaEbHRgQXk2BvLJqWsBZ56cwehAA9MAgyvch90J3Y8w5a
+         9YYA==
+X-Gm-Message-State: AOJu0YxuG9NfrZN8nuRDISTCyu6OEYX89AX8Txuqg0qQcBm0isG+yPqR
+	40bjOd2z+55yvoWveLNMr2fEP6TMJSB0JMUh+qs4mbz6NogWrrknwUAwrBMakBq/VAkHAJVCoax
+	Eocc8IuQVk4wiMnLUOez/Y1vSGtHuSLwWBnxNP8U96m0=
+X-Received: by 2002:a1f:da82:0:b0:495:c10c:ec39 with SMTP id r124-20020a1fda82000000b00495c10cec39mr5064336vkg.2.1700730332262;
+        Thu, 23 Nov 2023 01:05:32 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IF2vqdFdPzZkQgCl3XpgtS0LbgivShQhQNCLGTAHVaaYnkILc16iwRulyESeyA4eDgGe8SBHNXTui6fZm1OhLI=
+X-Received: by 2002:a1f:da82:0:b0:495:c10c:ec39 with SMTP id
+ r124-20020a1fda82000000b00495c10cec39mr5064324vkg.2.1700730331977; Thu, 23
+ Nov 2023 01:05:31 -0800 (PST)
 MIME-Version: 1.0
-Message-Id: <a9ef56fa-725f-4d18-b408-ce0ba13c2d6e@app.fastmail.com>
-In-Reply-To: <ca200ed6-a70e-401e-b862-f690368e0266@kernel.dk>
-References: <20231122224719.4042108-1-arnd@kernel.org>
- <ca200ed6-a70e-401e-b862-f690368e0266@kernel.dk>
-Date: Thu, 23 Nov 2023 07:25:13 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Jens Axboe" <axboe@kernel.dk>, "Arnd Bergmann" <arnd@kernel.org>,
- linux-nvme@lists.infradead.org
-Cc: "Keith Busch" <kbusch@kernel.org>, "Christoph Hellwig" <hch@lst.de>,
- "Sagi Grimberg" <sagi@grimberg.me>, "Chaitanya Kulkarni" <kch@nvidia.com>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/3] nvme link failure fixes
-Content-Type: text/plain
+References: <20231110163721.15292-1-emilne@redhat.com> <CAGtn9rmMLQfsocZvWJnnekRxfL2_s3oDYcUNTy3M0c2d8UYYfg@mail.gmail.com>
+ <CAGtn9rkynCF1De25--d39D0o2Eh2QV4aDLOxaRYrw2m1ouu_4g@mail.gmail.com>
+ <ZVzzW0P6CtataBLK@kbusch-mbp> <CAFL455kC=UuTV=sAxDYNPj9X4y=ex2ND41VXv6Wv0KLWfNcm3w@mail.gmail.com>
+ <ZV4st9iwMgJSC01Q@kbusch-mbp.dhcp.thefacebook.com>
+In-Reply-To: <ZV4st9iwMgJSC01Q@kbusch-mbp.dhcp.thefacebook.com>
+From: Maurizio Lombardi <mlombard@redhat.com>
+Date: Thu, 23 Nov 2023 10:05:20 +0100
+Message-ID: <CAFL455=kP6fRa_0DJwqJyW0Ys0nt+y-jKN_6nhyrbEG-pdn9+g@mail.gmail.com>
+Subject: Re: [PATCH] nvme: check for valid data from from nvme_identify_ns()
+ before using it
+To: Keith Busch <kbusch@kernel.org>
+Cc: Ewan Milne <emilne@redhat.com>, linux-nvme@lists.infradead.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231122_222548_840300_70AF5E1B 
-X-CRM114-Status: GOOD (  14.50  )
+X-CRM114-CacheID: sfid-20231123_010539_548239_97D005DC 
+X-CRM114-Status: UNSURE (   9.88  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,35 +100,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Nov 23, 2023, at 02:42, Jens Axboe wrote:
-> On 11/22/23 3:47 PM, Arnd Bergmann wrote:
->> From: Arnd Bergmann <arnd@arndb.de>
->> 
->> There are still a couple of link failures that I tried to address
->> with a previous patch. I've split up the missing bits into smaller
->> patches and tried to explain the bugs in more detail.
->> 
->> With these applied, randconfig builds work again. Please either
->> merge them or treat them as bug reports and find a different fix,
->> I won't do another version.
+st 22. 11. 2023 v 17:31 odes=C3=ADlatel Keith Busch <kbusch@kernel.org> nap=
+sal:
 >
-> Applied, but had to hand-apply hunk 9 of patch 3 due to a previous
-> attempt at this:
+> >
+> > We have the same problem in the nvme_ns_info_from_identify() function.
 >
-> commit 23441536b63677cb2ed9b1637d8ca70315e44bd0
-> Author: Hannes Reinecke <hare@suse.de>
-> Date:   Tue Nov 14 14:18:21 2023 +0100
+> Indeed you are correct. Would you like to send the patch for it? This
+> patch will also need a v2 to incorporate the same.
 >
->     nvme-tcp: only evaluate 'tls' option if TLS is selected
 
-Ok, thanks for merging my changes! The commit from Hannes
-is what I had in my v1 for this, and it was a correct fix
-as well, my patch 3/3 was just a more elaborate way to do
-the same thing that I did since Hannes did not like my
-version at first.
+Ok, I will send it later today.
 
-The 23441536b6 commit was not in linux-next yesterday, so
-it looks like our patches crossed paths on the same day.
+Maurizio
 
-     Arnd
 
