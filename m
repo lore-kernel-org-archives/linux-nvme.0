@@ -4,123 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48719C61D85
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Nov 2023 18:17:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 86D56C61D85
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 Nov 2023 20:05:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=boZ+Cj1J5VHKo8ljoASTIiF1YNfM7uxAE2r7pkFxkQ8=; b=4VkbkhrUdaKxXHIyrsN4lMIr5c
-	FWsTWk1mMWNiL495Dmcn6oqlF+kPFVosJnNOmWXWLHmdKxGPVuEdb3sFdyfrGOhydmECRutW8k+lY
-	I2VcsBEvmkXiqh3DFuaiPfmjL5hPo2EDa888KAzLVh+zaBcLSLIxhH1Ws6Q8TlBHCyTUkQCWNelmw
-	Hlb4IJI1k13yNTsggKhXYZ28BW+aSCSkjPhbyrk/qZ0S2St5zQydG7j8dfl+hvYx2/BPNsy7TVuyj
-	vadZsx/Rlypvmel7yxeovvvFLnb3gBqL/biPpas3K5CCsSzCthYbPMuE50yU6fd9ktYlF7BLsgm4J
-	tUz6qohg==;
+	bh=RSloKbp86UiyOswV753VKR+ULy2TcPDIFU6JTx1BHg8=; b=eokTpORHY2wTCLtsexOEnW3c9i
+	1CxQwuqx6YCH2oprvC5nO6eZpXleV0o0om7Zw0uy9RmOZwlYxrJXJ5YS8aCUZkW3GeMkGGE+Q/fWc
+	bee5Hj6JdLLibjl03RntjDs0D6b9Igl7wW/4ViPFspsbwpsFxrgk+3X61bcYvR/6brZtgl1AvNamK
+	ZFFmDTwNLHk5miLJA6j4HYuc8UqdDzq+1+SM2ndfrkXh+d0e2BqjQPt7kn361G88hH20p3wTOmnMt
+	p7NL6xaq5Is+fse4F3S9YoN8b7BcNiFwqZAFXfsN/RvI9vM7kILcpVpvFvo7XQO1+ra+NLQzoy97Z
+	Mr1u6d1g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r6EGv-005UxD-39;
-	Thu, 23 Nov 2023 18:17:53 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1r6Fwd-005ffn-1k;
+	Thu, 23 Nov 2023 20:05:03 +0000
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r6EGs-005Uw8-31
+	id 1r6Fwa-005fdm-05
 	for linux-nvme@lists.infradead.org;
-	Thu, 23 Nov 2023 18:17:52 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20231123181740epoutp04a52d782f5a0b8d812f61bac8b2b602d6~aU1sq9HVE1778517785epoutp04c
-	for <linux-nvme@lists.infradead.org>; Thu, 23 Nov 2023 18:17:40 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20231123181740epoutp04a52d782f5a0b8d812f61bac8b2b602d6~aU1sq9HVE1778517785epoutp04c
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1700763460;
-	bh=boZ+Cj1J5VHKo8ljoASTIiF1YNfM7uxAE2r7pkFxkQ8=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=VfHHV+5Wo64dYI1HJLtgv2TvfnZbaCublP8fxsLVX6DftEKxR8ovfLroxpoJdPV2e
-	 9LAUfJYwnvvlZxZ5LpBZHbUYDqZTFon2fnwsHthfjFaEl2/pk77TqAFVfqYJKbwT+q
-	 e1od39r3HIi6Rjm/Da+IJNcQ12il3kQLiV0oq7IU=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20231123181739epcas5p127a69cb42fcda3c42680f5bf6a935308~aU1sFSiqG0039700397epcas5p1Q;
-	Thu, 23 Nov 2023 18:17:39 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.179]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4SbmYZ3G0hz4x9Pv; Thu, 23 Nov
-	2023 18:17:38 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
-	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	84.F7.09672.2479F556; Fri, 24 Nov 2023 03:17:38 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20231123181737epcas5p3b61420060d23ce7c454a9a5798ac01d2~aU1qZk4pS2141821418epcas5p3c;
-	Thu, 23 Nov 2023 18:17:37 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20231123181737epsmtrp29270dfba3ad8cb29b6dc985cb7707695~aU1qWeEXJ2197021970epsmtrp2M;
-	Thu, 23 Nov 2023 18:17:37 +0000 (GMT)
-X-AuditID: b6c32a4b-60bfd700000025c8-a6-655f9742ded4
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	B6.EC.08817.1479F556; Fri, 24 Nov 2023 03:17:37 +0900 (KST)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20231123181736epsmtip1c1ed365d71a33c569a7b29da74d1ef8a~aU1plEpyc0932709327epsmtip15;
-	Thu, 23 Nov 2023 18:17:36 +0000 (GMT)
-Message-ID: <48134197-75d1-5a4a-c992-5c60a91644ea@samsung.com>
-Date: Thu, 23 Nov 2023 23:47:36 +0530
+	Thu, 23 Nov 2023 20:05:01 +0000
+Received: by mail-pg1-x536.google.com with SMTP id 41be03b00d2f7-55b5a37acb6so226957a12.0
+        for <linux-nvme@lists.infradead.org>; Thu, 23 Nov 2023 12:04:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1700769898; x=1701374698; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RSloKbp86UiyOswV753VKR+ULy2TcPDIFU6JTx1BHg8=;
+        b=QJvRsjMXEu3VbjA2A8Sd3SRm2eXmG9EuiKy1DePJluIt00594TVf2sPdrzvZD1cFo7
+         IDNC/O9MkKiAw4LJ/e8XI4sKjqmlihQLefzN2Z9oCLEBjiA9WKooixoOF225MRxPohN4
+         w+yIqbg/EwPK4Oubaa+xEMbDOOBwPz8pVUrWG40qKWD2kEhmhkXqNVbdgnK0No0CFUoU
+         IEH0mnohxq5+vHVSvscFymmIFsje7l/WKtvhyWi9OC13M5LIUWwR/bT0dEiN6sRwtQw5
+         bIF86StlDP2FQ/lLOGNfo+CM5HakpeTXHpEPXa/NMkj4jokZ/ouieHoiKBWOUBKLGkF0
+         SKVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700769898; x=1701374698;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RSloKbp86UiyOswV753VKR+ULy2TcPDIFU6JTx1BHg8=;
+        b=iz9V04nic7xp7mQYHZpwV0EcBnTv8QX84xgHOM7B38L3uFdWMHaxYrT/kzsGxstmB5
+         K3+mAl7ZUK3UDJsP2u75PYNs3Yfrs5sgFX02KhPH6nqnVuAViL9GNAMNqLN9zPR+0qpl
+         Iy7++EZpZQQjyL7ilY8G6TzIVC/E2ZDMaSjGrZMRVc6Y9MStHVXwwWk42pPkHTgJ92pZ
+         PDyZHbPfqc1ZaoHe4UiqxlIBpEmgd/8bf4TZ+JoQfcNoO8TDBXGy0ug8n2XD+LWHs3c2
+         JWNIk/Gnvt+CfKBiZ91Ywl42kyFK3UHspaU8j/+w4X03ror69zSr/95RDAlcxDkhIfgj
+         w50A==
+X-Gm-Message-State: AOJu0YwoWT0FxNZ1BHUUZAUEkvRQpUS303L5wxRUlbVY//OsJX0Oaf7J
+	9SEPsAE3L1204Lb/gMzj/XjHt0zMCqfjfmdskH9Ajw==
+X-Google-Smtp-Source: AGHT+IFkd3TNIFngcpqmaOP6yzGlh39X9sE8ua0oX03sz71V9GSS4EYsfgihju9WseoKWmkyNlYZlA==
+X-Received: by 2002:a05:6a20:e11a:b0:185:a0eb:8574 with SMTP id kr26-20020a056a20e11a00b00185a0eb8574mr901433pzb.5.1700769897643;
+        Thu, 23 Nov 2023 12:04:57 -0800 (PST)
+Received: from [192.168.1.150] ([198.8.77.194])
+        by smtp.gmail.com with ESMTPSA id z12-20020aa791cc000000b006c0316485f9sm1604516pfa.64.2023.11.23.12.04.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Nov 2023 12:04:57 -0800 (PST)
+Message-ID: <dd7290ed-800f-4523-864d-45b5c2dc93cf@kernel.dk>
+Date: Thu, 23 Nov 2023 13:04:56 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
-	Gecko/20100101 Thunderbird/91.8.1
-Subject: Re: [PATCH] nvme-core: fix a memory leak in
- nvme_ns_info_from_identify()
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/3] nvme link failure fixes
 Content-Language: en-US
-To: Maurizio Lombardi <mlombard@redhat.com>, kbusch@kernel.org
-Cc: linux-nvme@lists.infradead.org, emilne@redhat.com
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <20231123140741.411735-1-mlombard@redhat.com>
+To: Arnd Bergmann <arnd@arndb.de>, Arnd Bergmann <arnd@kernel.org>,
+ linux-nvme@lists.infradead.org
+Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ linux-kernel@vger.kernel.org
+References: <20231122224719.4042108-1-arnd@kernel.org>
+ <ca200ed6-a70e-401e-b862-f690368e0266@kernel.dk>
+ <a9ef56fa-725f-4d18-b408-ce0ba13c2d6e@app.fastmail.com>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <a9ef56fa-725f-4d18-b408-ce0ba13c2d6e@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrLKsWRmVeSWpSXmKPExsWy7bCmuq7T9PhUg/mrRCyWrYy2mHToGqPF
-	/GVP2S1OT9vM7MDisWlVJ5vH5iX1Hu/3XWULYI7KtslITUxJLVJIzUvOT8nMS7dV8g6Od443
-	NTMw1DW0tDBXUshLzE21VXLxCdB1y8wBWqakUJaYUwoUCkgsLlbSt7Mpyi8tSVXIyC8usVVK
-	LUjJKTAp0CtOzC0uzUvXy0stsTI0MDAyBSpMyM5Y0jCdrSC94vHJa+wNjGFdjJwcEgImEl+v
-	TGfsYuTiEBLYzSgx681xNgjnE6PE5+YuFgjnG6NE35UDzDAtBxb8ZIVI7GWUWLBsNTuE85ZR
-	4vqR24wgVbwCdhJ/e7cygdgsAqoSZ5e8Z4KIC0qcnPmEBcQWFUiS+HV1Dli9sECwREf7V1YQ
-	m1lAXOLWk/lg9SJAc74/eAwVN5VY+uMFUD0HB5uApsSFyaUgYU4BK4m3X7YxQpTIS2x/O4cZ
-	5B4JgWvsEpcWbGWHuNpFon/aNRYIW1ji1fEtUHEpic/v9rJB2MkSl2aeY4KwSyQe7zkIZdtL
-	tJ7qZwbZywy0d/0ufYhdfBK9v58wgYQlBHglOtqEIKoVJe5NesoKYYtLPJyxhBWixENi1boC
-	kLCQQC+jxOptEhMYFWYhhcksJL/PQvLMLIS9CxhZVjFKphYU56anFpsWGOellsMjOzk/dxMj
-	OB1qee9gfPTgg94hRiYOxkOMEhzMSiK8W9hjUoV4UxIrq1KL8uOLSnNSiw8xmgIjZyKzlGhy
-	PjAh55XEG5pYGpiYmZmZWBqbGSqJ875unZsiJJCeWJKanZpakFoE08fEwSnVwMQ4cRL/hFNM
-	v7re+utfUt/rXp6mpSKle87gnJPrG48P6f1BavrxblryfzvM1tReFTqv4LU72GJFtPB9hvvu
-	Gww+mv366r/qVn89s5XRkyfR+ox3M/NC1ewX173VfxnCXJGaFPBM5eiWubYWrC+Xz+WVuFyQ
-	/7M6KHLK30WmZ8+/idz6YV/Ooyo/e2OJhIDTm1ymehzRqTtwxOhAc/iK3TGNggvymBbf6OQp
-	LYzoFNFuFN/S0/9pegj/++9Ji2eI7ZGfaGmsNquuuOlI8zMvtRhRlubwwGl1W7vdpdbtnW3A
-	Z9Z90LXqP8M669mbp068+NfMZ1d7EFPbd0f53xNOLhX0fhyweN2mCIa75x/YKbEUZyQaajEX
-	FScCAD+CHzgQBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrNLMWRmVeSWpSXmKPExsWy7bCSnK7j9PhUg5WfNC2WrYy2mHToGqPF
-	/GVP2S1OT9vM7MDisWlVJ5vH5iX1Hu/3XWULYI7isklJzcksSy3St0vgyljSMJ2tIL3i8clr
-	7A2MYV2MnBwSAiYSBxb8ZO1i5OIQEtjNKPHuxXQmiIS4RPO1H+wQtrDEyn/P2SGKXjNKfJpz
-	GSzBK2An8bd3K1gDi4CqxNkl75kg4oISJ2c+YQGxRQWSJPbcbwSLCwsES3S0f2UFsZmBFtx6
-	Mh8sLgI05/uDx1BxU4mlP14wQizrZZRoO9kHVMTBwSagKXFhcilIDaeAlcTbL9sYIerNJLq2
-	dkHZ8hLb385hnsAoNAvJGbOQrJuFpGUWkpYFjCyrGCVTC4pz03OLDQuM8lLL9YoTc4tL89L1
-	kvNzNzGCw19LawfjnlUf9A4xMnEwHmKU4GBWEuHdwh6TKsSbklhZlVqUH19UmpNafIhRmoNF
-	SZz32+veFCGB9MSS1OzU1ILUIpgsEwenVAPTlDDzjuTNKz6tv/f3SayLnZSW3Me0eu3z/5/p
-	S14TTpu+qLTH5pd6aXSxeuCJf77OASqFn/76vPf/Y6YUdcj02eZMYd/gZTc36H8qe6YprBI0
-	g9Uk3qrPwi4seUrUl1+JW/vMO2r2uhxrroiq6tqxc3FlbZxGSfm9m0YhZjFhHfdkr5gpF3ts
-	Ov5Q59zG2wpMr2+UFGZ2ya5hXZ83zaNPh6Pj0j+t8505fzYft2IQcDzCn2uRrBrCvOHBgR7t
-	4uBChz0Md5OFuSv+T/N4fNpBXu3vujPNl7R88n+ILP89+cfKK8lJVRVrtJf82B6sPbUlrW/i
-	E20RX13hjIpzwdu2twgpJ6fda0l1V/G7pcRSnJFoqMVcVJwIAEOVwNfuAgAA
-X-CMS-MailID: 20231123181737epcas5p3b61420060d23ce7c454a9a5798ac01d2
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20231123141207epcas5p124343b534f2b31b0f79f42de2d25dd9e
-References: <CGME20231123141207epcas5p124343b534f2b31b0f79f42de2d25dd9e@epcas5p1.samsung.com>
-	<20231123140741.411735-1-mlombard@redhat.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231123_101751_417808_98F5E1D6 
-X-CRM114-Status: UNSURE (   6.92  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20231123_120500_065862_842D7591 
+X-CRM114-Status: GOOD (  17.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,8 +97,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/23/2023 7:37 PM, Maurizio Lombardi wrote:
+On 11/22/23 11:25 PM, Arnd Bergmann wrote:
+> On Thu, Nov 23, 2023, at 02:42, Jens Axboe wrote:
+>> On 11/22/23 3:47 PM, Arnd Bergmann wrote:
+>>> From: Arnd Bergmann <arnd@arndb.de>
+>>>
+>>> There are still a couple of link failures that I tried to address
+>>> with a previous patch. I've split up the missing bits into smaller
+>>> patches and tried to explain the bugs in more detail.
+>>>
+>>> With these applied, randconfig builds work again. Please either
+>>> merge them or treat them as bug reports and find a different fix,
+>>> I won't do another version.
+>>
+>> Applied, but had to hand-apply hunk 9 of patch 3 due to a previous
+>> attempt at this:
+>>
+>> commit 23441536b63677cb2ed9b1637d8ca70315e44bd0
+>> Author: Hannes Reinecke <hare@suse.de>
+>> Date:   Tue Nov 14 14:18:21 2023 +0100
+>>
+>>     nvme-tcp: only evaluate 'tls' option if TLS is selected
+> 
+> Ok, thanks for merging my changes! The commit from Hannes
+> is what I had in my v1 for this, and it was a correct fix
+> as well, my patch 3/3 was just a more elaborate way to do
+> the same thing that I did since Hannes did not like my
+> version at first.
+> 
+> The 23441536b6 commit was not in linux-next yesterday, so
+> it looks like our patches crossed paths on the same day.
 
-Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
+yeah, it was just recently merged, which is probably why it wasn't there
+yet and you didn't see it. Not a big deal, easy enough to resolve - just
+wanted to make sure you knew about it. It should all be heading upstream
+shortly, just sent out the pull.
+
+-- 
+Jens Axboe
 
 
