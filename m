@@ -4,68 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4849C61DF7
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Nov 2023 14:07:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97D40C5AD4C
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 Nov 2023 14:55:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=5xY844QwWxCW4Za/rW0Y7BsRrTKzMu+7Ex975e/nRQg=; b=r+nZNhorY2rHlbBNtGZN1oPFps
-	4jT3k/t0EPEPQvGPrqy7mGHCI8yl6OzdtuXNi86hktUUDAwXYO0x0vKgt6XFWh5wEKZ2vYKWGtJOa
-	y+HDgj3lH+L6Afyn0zWXGmoxcHJ2VCZ9Pjs8Dztk1ExZDHziH9oeJHftMN4P+L7MVO3crQc6f2eLe
-	GRYkFeJBz9ao6VzoOH/XYRo2/fwvYyyGGd3erz7wDgDRIn1zKeRvSqr63sHw+K0apPK5AnuZiM2vT
-	iM4O7CX8ITnQZhYSmhrCrQL5fz7xWCCnc77uuW6ekkzWAZVeT15gZ69AxqPgmnBJql6+VLSBZ+3yH
-	oNG8zG+w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=h2L9RZQCLrY6hnoGQSRaHIShkzJvXSmWVmVciwD8dPI=; b=TZoIi50j/8eIJk9IcFKpI+dry8
+	sJmn1Mr5z+7khz4wG7LzXerEV7MmZKTnRErQXyYm9jMjPJ9YCMZk7jCBwwemFq/sOCbdWBvJ209s3
+	0qS2oReiwFBdXi3NNvvivqlBURRhTO7gD1RrhgH4/hQqEOK1xtPlYUBPc/fOZXu3jIzfxakO8BtUl
+	mlqB17K1GfPpK/KqwvIIiaACv4WqK7F470BA1tsSmrNHgS+RxXqqA3rm2rszjy8DsY8wz5mlAXY1g
+	XTIcqIxcpPiDPrcvSQWumvDM0PNDxxB1/Gh4wqwl99loHlbgNSgaYAkplMLssSoFwDb9Vx/VSHJ/s
+	YdOsLBzg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r6AN1-004yhF-0T;
-	Thu, 23 Nov 2023 14:07:55 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1r6B6i-0055AJ-04;
+	Thu, 23 Nov 2023 14:55:08 +0000
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r6AMy-004yg7-0R
+	id 1r6B6e-00559Y-2Q
 	for linux-nvme@lists.infradead.org;
-	Thu, 23 Nov 2023 14:07:53 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1700748468;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=5xY844QwWxCW4Za/rW0Y7BsRrTKzMu+7Ex975e/nRQg=;
-	b=eVU+yUh3aMgW21QabCeD+6QaGatWbeV61xiXSQkdrh5QKU1UuO7Suq6xo9DxskpXhwTxkq
-	uP59kShzoqCTleLi0QFUBsBPe2zMG/rfYMmMxtVQjHIEsv18gg+BIeKQcDjyj0tRnwtqVN
-	myrvVYyURsQUwQ9tHQ3CPvM+2MBSYzA=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-392-tmDmRQr9OKaw_Iiw-ikQvw-1; Thu,
- 23 Nov 2023 09:07:44 -0500
-X-MC-Unique: tmDmRQr9OKaw_Iiw-ikQvw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6CC991C05135;
-	Thu, 23 Nov 2023 14:07:44 +0000 (UTC)
-Received: from kalibr.redhat.com (unknown [10.47.238.37])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 3880A492BFA;
-	Thu, 23 Nov 2023 14:07:42 +0000 (UTC)
-From: Maurizio Lombardi <mlombard@redhat.com>
-To: kbusch@kernel.org
-Cc: linux-nvme@lists.infradead.org,
-	emilne@redhat.com
-Subject: [PATCH] nvme-core: fix a memory leak in nvme_ns_info_from_identify()
-Date: Thu, 23 Nov 2023 15:07:41 +0100
-Message-Id: <20231123140741.411735-1-mlombard@redhat.com>
+	Thu, 23 Nov 2023 14:55:06 +0000
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1cc2b8deb23so1702265ad.1
+        for <linux-nvme@lists.infradead.org>; Thu, 23 Nov 2023 06:55:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1700751303; x=1701356103; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h2L9RZQCLrY6hnoGQSRaHIShkzJvXSmWVmVciwD8dPI=;
+        b=W4LKePetgv6G90LmMlj+crVeE+mRszNXIvRdYDiRtg4eW6pIkIoKmkoUKpmbun0bFH
+         Tw2Bd8lT0+ntZxpuO5mqnEfzbYaUwvL4pQf+f6emGOFQ5Txfd6lZrYd9o4CJJ69vbCBK
+         zJYB0RAdFO4pfeqXbHt/GOtUwnJDyVMyd+WNTy7bbIcr7u53fnfDPXN5nDTmWHQEvuWl
+         sMz4kupcuNfH3cMn+h2t/5Lc1VpMNz/OatLRUClKOeuJEwqoYuybS3EGS6mfjMDbnAvi
+         9iL7de6nWGGRSG4M2iQCX0QIO2tHxaPThlNeSnJzx+mGbA8loiNY0RolbU8HFiDUb1PU
+         52kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700751303; x=1701356103;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=h2L9RZQCLrY6hnoGQSRaHIShkzJvXSmWVmVciwD8dPI=;
+        b=jtnfi0vfiEWzCzoxJgHssoFf1JBxj0FBTUdi8EbPffYFtxYUYCwrOgyJrpDybNf5ks
+         jchBCLw6CovO39YSkIfvdRL+Zl3dDEtEpAERQeOeUlwrx03xU084jEh6584B9WGgLnIA
+         s8AgAMLSv0cnAIv2enbZJ9Icsxaw7ogwqJoKZHQLJL/E1aiY8+8335sJsIxyPxwzx541
+         cAQa2Gkg8gYbF3nGpqBRLowR+2l/NIvdNA6Nh0uLJ3kXT66zLDCd78Qi+nsNHLnwNQ7h
+         XQUGfD1tBneUMTjSRZIJ5EKayC8drSykUGC2ErTuC+TIBb6vYD8WAl3ZRIHSyVglKvdR
+         fzpQ==
+X-Gm-Message-State: AOJu0Ywzlbo/r3jj7Csi1Mb6O734uwkP/707wumaNIpaEuzMY8oVxlJT
+	J5ZwIA5qZstPUuBGL5To5FKsEQ==
+X-Google-Smtp-Source: AGHT+IFQYMG+AU20J3AxvuSv1xousG7ERMkfwLb9nS1M6laQRLzK1D3gA3xh7TZXiTiUPbrUtQ9S6A==
+X-Received: by 2002:a17:902:e808:b0:1cf:732d:fc0d with SMTP id u8-20020a170902e80800b001cf732dfc0dmr6296045plg.1.1700751302634;
+        Thu, 23 Nov 2023 06:55:02 -0800 (PST)
+Received: from [127.0.0.1] ([198.8.77.194])
+        by smtp.gmail.com with ESMTPSA id b11-20020a170902d50b00b001acae9734c0sm1443035plg.266.2023.11.23.06.55.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Nov 2023 06:55:02 -0800 (PST)
+From: Jens Axboe <axboe@kernel.dk>
+To: linux-nvme@lists.infradead.org, Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Keith Busch <kbusch@kernel.org>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+ Chaitanya Kulkarni <kch@nvidia.com>, linux-kernel@vger.kernel.org
+In-Reply-To: <20231122224719.4042108-1-arnd@kernel.org>
+References: <20231122224719.4042108-1-arnd@kernel.org>
+Subject: Re: [PATCH v3 0/3] nvme link failure fixes
+Message-Id: <170075130149.89858.13911253468594961473.b4-ty@kernel.dk>
+Date: Thu, 23 Nov 2023 07:55:01 -0700
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.10
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-26615
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231123_060752_244266_17C8A62A 
-X-CRM114-Status: GOOD (  10.97  )
+X-CRM114-CacheID: sfid-20231123_065505_011262_2CB6B6E2 
+X-CRM114-Status: GOOD (  11.15  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,41 +93,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In case of error, free the nvme_id_ns structure that was allocated
-by nvme_identify_ns().
 
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
----
- drivers/nvme/host/core.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+On Wed, 22 Nov 2023 23:47:16 +0100, Arnd Bergmann wrote:
+> There are still a couple of link failures that I tried to address
+> with a previous patch. I've split up the missing bits into smaller
+> patches and tried to explain the bugs in more detail.
+> 
+> With these applied, randconfig builds work again. Please either
+> merge them or treat them as bug reports and find a different fix,
+> I won't do another version.
+> 
+> [...]
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 88b54cdcbd68..d7f90a4475d5 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1480,7 +1480,8 @@ static int nvme_ns_info_from_identify(struct nvme_ctrl *ctrl,
- 	if (id->ncap == 0) {
- 		/* namespace not allocated or attached */
- 		info->is_removed = true;
--		return -ENODEV;
-+		ret = -ENODEV;
-+		goto error;
- 	}
- 
- 	info->anagrpid = id->anagrpid;
-@@ -1498,8 +1499,10 @@ static int nvme_ns_info_from_identify(struct nvme_ctrl *ctrl,
- 		    !memchr_inv(ids->nguid, 0, sizeof(ids->nguid)))
- 			memcpy(ids->nguid, id->nguid, sizeof(ids->nguid));
- 	}
-+
-+error:
- 	kfree(id);
--	return 0;
-+	return ret;
- }
- 
- static int nvme_ns_info_from_id_cs_indep(struct nvme_ctrl *ctrl,
+Applied, thanks!
+
+[1/3] nvme: target: fix nvme_keyring_id() references
+      commit: d78abcbabe7e98bb4baa4dea87550806944790ed
+[2/3] nvme: target: fix Kconfig select statements
+      commit: 65e2a74c44ddfa174b700f5da2d1d29b4ba6639b
+[3/3] nvme: tcp: fix compile-time checks for TLS mode
+      commit: 0e6c4fe782e683ff55a27fbb10e9c6b5c241533b
+
+Best regards,
 -- 
-2.39.3
+Jens Axboe
+
+
 
 
