@@ -4,150 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B60C1C61D97
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Nov 2023 01:50:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19C95C61DF4
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Nov 2023 11:01:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5IXGPuXsfE5GPn3fVSVBxaS0TM48KF0cpp07ITnziI0=; b=muwCH13qaUSnoTqtqEgAsM7Zbb
-	Xi6ttyv1N6JmAKr9MGExKwm8KdHap9Iq88TPrNFoTj/IWbBP7Dfd+ad2doF999RrC5s7LR5yoi0be
-	sQNn+1ZfRMKBd8OF5J7GHe61unL4S55gCHh3sGa6vAkptJila/OQCALx94VnnGD5RYEz91P6wZxMK
-	Jqz+1NTHTc1TxmVOf1fNpFSf82IAlzdBMkThiS09QyDXJPTmQchK4Sl2VGacdAxQMFZ6+OI3D8Tkq
-	iVZ0k5sJEhe+gkPjIHXuHbjaXDuDpAIGKppugJgpwNaOY5tHDrVoKtyjcjCxJd764xK+jz+/NgMGt
-	tUBwKrIA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=GJbtKBfTKB4hFt9ZR21n3O7fy2MsYYkj3X/qob5fBY4=; b=PFBpwey70p5xzVALnQ9nzhpoiA
+	NA8lNnhSm+SF9OkukRn8mndUxWwFrpx9zS9vP4ejU8POcYIaunVf3e+nh691WP5VV1KodKBMjhXaK
+	XtKhZjQsLOKgcyqCSlSIPlpqejFZE9fsRNgGOlwnmYXWeDTGpTZBpSFK3YeB14O8zmJPu8/+CkPzs
+	KPi8szQ892saXBJlm5rGXJeSaWxSrWySc6KUh+eS28K7EoWnNWKfKf9pj3fBnDgkejKRn33LWRZEc
+	P8luj21jpE72PIZGcdtn4n1RAyuFVkrfFalSOMxnBc2VNtnNUynRDSfoysbEPgbcfagwNXuDup1mq
+	HtdY77DA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r6LKO-005wj5-2e;
-	Fri, 24 Nov 2023 01:49:56 +0000
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	id 1r6Tvj-006vo1-0w;
+	Fri, 24 Nov 2023 11:01:03 +0000
+Received: from mgamail.intel.com ([192.55.52.115])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r6LKK-005wik-0E
+	id 1r6Tvf-006vm1-2D
 	for linux-nvme@lists.infradead.org;
-	Fri, 24 Nov 2023 01:49:53 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1700790592; x=1732326592;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=45GBciuhPtn+bfBg0jKNiSIjQdjckwoAs3fTDjFolrY=;
-  b=hay6YNtwG+jIkbPJQC+PUUIYD9dHQMWnPxlLLiTuR/KiacPA+rUeNRZo
-   SzBQEhkOMjld2JdbLv0RVdmDvRr8nBbCyXbOb9ZWusydYRGDXGB1INeUS
-   ppf3FVu3Ghh80XQz/prcLHcTqmhxe6dfQzNHUb0e3Au4v2atwzhGSyr6/
-   v5ceoU2xpIY33Dtacksb0DUD+niq0K9syy3ghEGMLimME3xOMa1ezIKGM
-   TbbGzO9EUTMk5yXEMuB05BavgmvZuBZn2cxuZPZecMT+WOWntX3kKCRPw
-   +nhlCNHplJjQz5JEv3Oqqj2MMbM5tG+iiXnD6s5Vu/M0a+r4wTFyeCPYE
-   g==;
-X-CSE-ConnectionGUID: nwnkPOSYQqaLCSw6o6QHQA==
-X-CSE-MsgGUID: f/0VGD5HQpSpnXjAfxrTow==
-X-IronPort-AV: E=Sophos;i="6.04,223,1695657600"; 
-   d="scan'208";a="3054256"
-Received: from mail-mw2nam12lp2040.outbound.protection.outlook.com (HELO NAM12-MW2-obe.outbound.protection.outlook.com) ([104.47.66.40])
-  by ob1.hgst.iphmx.com with ESMTP; 24 Nov 2023 09:49:48 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YTp/gbUEwNimm/LjGoaMu92Sop1ftHCEybSyqWv4EYvMgRoqiit+N9dIB8PGqHEgW037KfEhDhrgumKrbtcEQChXHOr63t5PRWzdAftkpn54LpXKQVUftKr0OOMLtPzgdqQFu05DF/wNWMd3Hf3raU7kWynfwH4wKz9Ym/6vwOfRIaH+l5rJIAycSr8JTNTvBFZEQRqzRf+9FxkPtwc8mheN2g3fxXpszlR999L2fwc46hcjFKhVt+5aFFhx5vvmplAQ12liiXk9ueMFYt1XT+DHBkSF3zDylDM4gprcZZqUE0mJXo4xad5fGW6o9EnssWmuW2Zlx/d+ToVGJVCLyQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5IXGPuXsfE5GPn3fVSVBxaS0TM48KF0cpp07ITnziI0=;
- b=iyuFKohxCtJmG7sldHQqeI6KCWfF2wGI6Tu7Pnqyn4SAE8SZunpYi6zhFpnduxatGj34peWmNZroi18DfxN3oX8U85YPXV8i8aY0vZ6q4/sjzfK2c3Lxd/1+3zYUWDobr1CIzVj27gHo+tXPcGmDFrYS7cHnjTbfjfLieE1ts6W6MfL7HfqImFoLqM1jKosgThMXjukzrVL8QWk6iIoLbOvuVVZKzYkATS99y+JzeukS3tVKJajuryWRP6A4Dkse6bmkrZCbsISU6O7KSYGXf2nClyWd4AWJIrar8poHuy94+KES30JyrK5kKDpzSy54AJNoK8wQlKvrosSFM1Dzaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5IXGPuXsfE5GPn3fVSVBxaS0TM48KF0cpp07ITnziI0=;
- b=jYCpbWp/6Yi7GpJ/pp7m9JJZcHbIMf+ubo/91NvXtm+geTNTR6zC4l6557+1e4j6Yl++MBLNjE3i9r0iGoXdFaV2tAe8RkknxnyD6JUxjfWTa7IijHSoqCpKpD7AprbaNTme3jWjkofauo3UbIteL5Yn/dXq2b15ETwe3f2X+EI=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- BL3PR04MB8185.namprd04.prod.outlook.com (2603:10b6:208:348::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.21; Fri, 24 Nov
- 2023 01:49:45 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::81a9:5f87:e955:16b4]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::81a9:5f87:e955:16b4%3]) with mapi id 15.20.7025.020; Fri, 24 Nov 2023
- 01:49:45 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-CC: Hannes Reinecke <hare@suse.de>, Daniel Wagner <dwagern@suse.de>
-Subject: Re: [PATCH blktests v2 0/2] nvme: Allow for pre-defined UUID and
- subsystem NQN
-Thread-Topic: [PATCH blktests v2 0/2] nvme: Allow for pre-defined UUID and
- subsystem NQN
-Thread-Index: AQHaGU5s5pFxTsmg5Uq+A9PHsLgNI7CIvk+A
-Date: Fri, 24 Nov 2023 01:49:45 +0000
-Message-ID: <u5cuywj53ajm4of47vg4w4m73ms643xq32qjxsq4hjegxtsvso@fhfq6pjzkgvk>
-References: <20231117120550.2993743-1-shinichiro.kawasaki@wdc.com>
-In-Reply-To: <20231117120550.2993743-1-shinichiro.kawasaki@wdc.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|BL3PR04MB8185:EE_
-x-ms-office365-filtering-correlation-id: 849e4818-39ef-4573-6cec-08dbec8fa281
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 2c+qJiVfJDKFXNCYzgQA+D61ZNxl6wLKLjl2/kaPfM03mPFAlqXJf4rzBeYnW9/xoimZLGXXPPyfk1Oh6LaiK3HUjo2DnrLiEn6EwVsrA3qJC7FZ6HT8ba+ho4G2lXOfyLxckgbxVXdFRqe/CvkUqB24D0vTDv0wcK4Ac02cexhNZ8jKaydSwbGKvv+clLke/gzwg5LgRhd6mJFoOITHUSKtnsdRenkDVbTRjOh2qd+xlsVbIJ8ofJpGLPyCcw2GmC8+OHrZn5DT+iybUU2qaPIP4sLhO2gxTiuWSahGaoEDBjAkZVTVKO0Pli/JTHLshSG+sdpSQCUU7cQIbbh9BbctkYRH/UPh3iGjmZZUbIIPralZDGKll+1OL/zrBAyOmyZyx0TNGr07rNqqYFtKzvD6j1SGftDDmwcFCjayufnvn0x4EWcr4d6zrMCl3PDR0Eb+2L2P/XgREUYriduOdaDYtKD+NhYNMTVz3ogUoLR5B6tAWDS+pzpgL+KC9714IMarNASkR4vXA/wjyGdooB3wLxdMElGwiaVgV9gUAovzR7BNr6BysRvWaq5akFYZIA9zeRl0kMsiw6BfQ+uwc/fD2Xd4KErZTb9k4RWQJUw=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(39860400002)(376002)(396003)(366004)(136003)(346002)(230922051799003)(1800799012)(186009)(64100799003)(451199024)(110136005)(91956017)(76116006)(38100700002)(83380400001)(966005)(6486002)(478600001)(71200400001)(316002)(66946007)(66556008)(66476007)(66446008)(64756008)(54906003)(9686003)(6512007)(6506007)(82960400001)(4326008)(8676002)(8936002)(5660300002)(2906002)(122000001)(44832011)(4744005)(26005)(41300700001)(86362001)(38070700009)(33716001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?dp5wz+0xtpl9OdkjLk58Qbszm3JBOK5vVFyq9bBXdFpxiHbVvR/AwjMfL6tK?=
- =?us-ascii?Q?9iwKrhr9OxPPql2nyVjRteuPC5HCBCD4j67mkrgwylq44wztUhmdiBzQtIA3?=
- =?us-ascii?Q?5p8txiwgpNlO7MHOv5EsttJDvFHb5qj4jg4UTaMkzAoKlo+dpbFrqJl4qZGH?=
- =?us-ascii?Q?drbooQfiv3XJwbHT6IM/YmOSUy5gaZRJIiOy7vaq0PWmGjGDYKtCreE9ytZC?=
- =?us-ascii?Q?z5Nu6lPu+wh0V+TGyeNg6CxzQxGegeOfYJl5Y8jvDMJvPhTXAK3fBUf1c4bY?=
- =?us-ascii?Q?qjaWNcapPaTr1iiOsgGX5haIM865Fqs5wp/mF1vpmwgOqiz9CuWA6G2aPMN4?=
- =?us-ascii?Q?Ulfk8uI1GxcgmX5Kp4mVEjbPYqrvzENexuhKkdwa4DZLxpb+wli/mTPi5oWy?=
- =?us-ascii?Q?TTYnmSY0DmM3Fmsg9s/K9KBsWp21zKWXGJgtvGjL+yqdhp13nL0U2PW31DXu?=
- =?us-ascii?Q?BJmVpl7Z7Bs6vflg5H2sc0zh4EFnxP2TR9FW7H2KE8r3K6y4vB+rj6mXX7IQ?=
- =?us-ascii?Q?v5+v1URaUr6sizcw1PjaEf0l+QmfB8X6XCSnm1UhGxxsBf//0gcm8CO+blaJ?=
- =?us-ascii?Q?LNstDsU+i1li1eUxpmFcO3AOKQIdwFh5Yffx1hcuLV7QXdF+08U+QpSGbreI?=
- =?us-ascii?Q?tHBrFR7L29qfQVozVVC7E9KIvE+8U1u4K8hIKp2vecgrqRkr2PcYc22jHmxn?=
- =?us-ascii?Q?vAsXwepl8x9gKvEmTPHgkqA1PCrCwXsB5NPmGgDAxm98IOtdRD7HJkLor5sN?=
- =?us-ascii?Q?G2wDutwFPii8nArvg91p0tAyn+j+FuWPFbIGckK+4AId9rV2bT7yjtuF1t7B?=
- =?us-ascii?Q?8rK3qB9zk8D6DIDqT+/Mykxzm8yHLsc0qUNYqNzJ+TdMOALHCVGbBbcy7v0e?=
- =?us-ascii?Q?wxhy30xdCwGhaxWebRQIk6Zq2CtYj387LUFLoQ+dmHUJkdCIvrYQs4YeUD63?=
- =?us-ascii?Q?f+zrgnW0tPUvqJ+TJ8Vvkr0pl96/1ghEG1RFS1ZoFZxSCHsWau+k4VF5swRZ?=
- =?us-ascii?Q?dL38FVunRoDs9+vmAY/tilVBFv3JN3ugdizP3yM5UoS6gp6F7Q6Pwafwy23j?=
- =?us-ascii?Q?4vfhGtj8tBf40U6OG29SO5kNIRgG4HEZIGk0ZAXgMsRFEhplj3LdApLHcKnk?=
- =?us-ascii?Q?uLkRKulSSlNiE/6hFCz9vwDp9z5PyQMg3DthuYI1Wv045QqrLzGOhI7mMEEr?=
- =?us-ascii?Q?f3Ff852GOU19kP8yrUucu4hZXpD5tWwCI8xjTGs3HOV7b43B/b4l6Rnp0j5c?=
- =?us-ascii?Q?ZiNl6iixYG404E0o0FKufb+6xGWB0IagO9hp0lE9yQzRZLG6iib39D4OpuQO?=
- =?us-ascii?Q?PoFVfDOrUtzUQT0vT1ONZXcM+eBNcplqUJgfj0q/uNRNsGLsvracO7Mie/0y?=
- =?us-ascii?Q?gG5y5QdGjsPnw5nfQPABV/DA2hI1YJ6MNDyu2n261jqBADoLPy8rN8lQhE8u?=
- =?us-ascii?Q?dZqPURyGqDyGAXDy+r3Xf6JwWGVGEJga1tvOLckBv5GORNdx6nSFncDwqMro?=
- =?us-ascii?Q?TPAjvU2QdQcL4TZsxeWztR0cEP2xihhUGMVIExqtoyEVcStTX2aalDUlHmPV?=
- =?us-ascii?Q?tGopzlv5g2SSTR1wL1w3AWCWOgi8yFkqC+D3NwTwjINVnmwBrg4x3lMaNQuj?=
- =?us-ascii?Q?G1i21rcqXrh55nzsu2wuck4=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <8A73C54B2BBF9D49A1BD0B59AB5093AD@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: hRXZHUZza8bACMt6QZL55mSwOW6vVt04Il08/bdb+BT+Geh+p65ui+FWnJo7CpSvuxlG2VUWq35f40rJ44c9RQ1NtE7VhVFXaC6PLo+yziWXz5E2ADccP2Y7waTRHPAp09hsp8ue7/je/p8HOJeRlBGHLVqFm5R8OJIWzLW1UgylJC5DfFc8+qcs/ye8i3Wkh58Z66LENBCWYHC5m64ZQjQGqXNHDcZvZoHKRD2av62r46I7QIORDlI/KSTfZzmrkejPTR8i0EbjzSVcFvcUoAUwgkfQ/CKPZIaYgdKC2EHjsOvwiOU3h7uf5wgu9wyuEMvcoXDWv6plVI0cAf7LOqqhNoeKbumLVLp423qnuY7frkEXy2shaICRWexq10pY64gTsmGV6qoNQjDihhePRrMbFPRzN+KXHoAKOkepo5bkObPJmnzP0N/UUA6eZyW/N4LNObcW2uj/9aOtPii/Ptf/1WAwMFnAAVp1RVycm+LJ4D//ZuafxSsa/l/uCSZPeYwul3bmFaMN1CvEorjJnn7Os0fdzLZEEMU1T/yC+RvAPIldkq3PWf1rCMer1bca0EQLhRtwaTrFVcgBCo3QGHSiyO9ycPdKFTCRkukZNXxC/qn4DuiqidxFY8PmRX7/C7E+VxwH1+AY2lauXXdDHq1O7m7tEvxR6NpuYAvcR/vWVpybqNiluY2alePaXZ2Sm3aefGgYXk9fyWkBFg3LrEgnlGCxPaNLl9iqm6SWlE9VSZ9QqlgnQjXWIzZH/y+chcjeb9Kppoih3HYZsYat+hstHapKPNHZqRW30PJs/3dk4u5ZXA+hB1HIh5VLIrUwbDU8JWaOgeql8mMsJbXmxBI+q9HGCvwyWBnulkZor0Q=
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 849e4818-39ef-4573-6cec-08dbec8fa281
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Nov 2023 01:49:45.3739
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: pR/9n+5JHNrst1qAutQRifz8kwA4UyQbOKWQw+avfSewV6b16NkP07sbtTXdOISeVb2Vl9sQnpZFYXL98gax9CkJe1u7h358B+V1pVXakxY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR04MB8185
+	Fri, 24 Nov 2023 11:01:01 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700823659; x=1732359659;
+  h=date:from:to:cc:subject:message-id;
+  bh=lQjxn/iJKVHoAOA2sqdWR/22bfOlPUDOdVlQDsLbzU4=;
+  b=iHPiL1qRzMvJIOy1eJrNf7V1eXnQI+27qhmKbRxVFWvEpvKsyUaj+DXl
+   mo6QrALH+xwcm/ufzYTi8qTLSuZxlJpjZpzh59WgPSz337zA4swHrzoPy
+   TbE537LvkD7L1+JlQnrCIcPXaeDzANxdI3XZUQAAho9bgiTtzk17NGXpO
+   2sfDkHlHwHkQaBEsATrMC5KwowmOc91JNL4+DwVB+fr887o58Qzh2uThJ
+   EB533lmoPt8swy9TtCYDZY6VdO+NVdT0JwUVz8KvAW9c4gsAh3jEppnGE
+   Z+7XZGRO5txyc2rLPMS7M+hv/voWpEEtLmW2IiU07Lr9mObACAIzj/guD
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="392171814"
+X-IronPort-AV: E=Sophos;i="6.04,223,1695711600"; 
+   d="scan'208";a="392171814"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 03:00:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,223,1695711600"; 
+   d="scan'208";a="8935845"
+Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 24 Nov 2023 03:00:47 -0800
+Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r6TvR-0002Zu-11;
+	Fri, 24 Nov 2023 11:00:45 +0000
+Date: Fri, 24 Nov 2023 18:59:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.7] BUILD SUCCESS
+ 3af755a46881c32fecaecfdeaf3a8f0a869deca5
+Message-ID: <202311241854.ncafoKaS-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231123_174952_204122_A528B781 
-X-CRM114-Status: GOOD (  11.47  )
+X-CRM114-CacheID: sfid-20231124_030059_745752_F7340C5A 
+X-CRM114-Status: UNSURE (   5.60  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -162,24 +79,231 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Nov 17, 2023 / 21:05, Shin'ichiro Kawasaki wrote:
-> In the discussion to run nvme test group with real RDMA hardware, Hannes =
-pointed
-> out that pre-defined UUID and subsystem NQN will be obstacles. To address=
- them,
-> he created two patches in a PR [1]. I post the patches here for review by=
- linux-
-> nvme and linux-block members.
->=20
-> [1] https://github.com/osandov/blktests/pull/127
->=20
-> Changes from v1:
-> * 2nd patch: remove only subsystem NQN part from the "nvme disconnect" ou=
-tput
->=20
-> Hannes Reinecke (2):
->   nvme: do not print UUID to log files
->   nvme: do not print subsystem NQN to stdout
+tree/branch: git://git.infradead.org/nvme.git nvme-6.7
+branch HEAD: 3af755a46881c32fecaecfdeaf3a8f0a869deca5  nvme: move nvme_stop_keep_alive() back to original position
 
-FYI, I've applied this series. Thanks!=
+Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- csky-randconfig-001-20231124
+|   `-- drivers-nvme-target-trace.h:warning:strncpy-specified-bound-depends-on-the-length-of-the-source-argument
+|-- csky-randconfig-002-20231124
+|   |-- drivers-nvme-target-trace.h:warning:strncpy-specified-bound-depends-on-the-length-of-the-source-argument
+|   |-- kernel-rcu-rcutorture.c:warning:variable-completed-set-but-not-used
+|   `-- kernel-rcu-rcutorture.c:warning:variable-started-set-but-not-used
+|-- i386-buildonly-randconfig-002-20231123
+|   `-- kernel-stackleak.c:warning:no-previous-prototype-for-stackleak_track_stack
+|-- i386-buildonly-randconfig-004-20231123
+|   |-- kernel-rcu-rcutorture.c:warning:variable-completed-set-but-not-used
+|   `-- kernel-rcu-rcutorture.c:warning:variable-started-set-but-not-used
+|-- i386-buildonly-randconfig-005-20231123
+|   `-- drivers-spi-spi-pic32-sqi.c:warning:pic32_sqi_of_ids-defined-but-not-used
+|-- microblaze-allmodconfig
+|   `-- drivers-nvme-target-trace.h:warning:strncpy-specified-bound-depends-on-the-length-of-the-source-argument
+|-- microblaze-allyesconfig
+|   `-- drivers-nvme-target-trace.h:warning:strncpy-specified-bound-depends-on-the-length-of-the-source-argument
+|-- openrisc-allmodconfig
+|   `-- drivers-nvme-target-trace.h:warning:strncpy-specified-bound-depends-on-the-length-of-the-source-argument
+|-- openrisc-allyesconfig
+|   `-- drivers-nvme-target-trace.h:warning:strncpy-specified-bound-depends-on-the-length-of-the-source-argument
+|-- parisc-allmodconfig
+|   |-- drivers-clk-clk-cdce925.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   `-- drivers-nvme-target-trace.h:warning:strncpy-specified-bound-depends-on-the-length-of-the-source-argument
+|-- parisc-allyesconfig
+|   |-- drivers-clk-clk-cdce925.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   `-- drivers-nvme-target-trace.h:warning:strncpy-specified-bound-depends-on-the-length-of-the-source-argument
+|-- parisc-randconfig-001-20231124
+|   `-- drivers-nvme-target-trace.h:warning:strncpy-specified-bound-depends-on-the-length-of-the-source-argument
+|-- riscv-allmodconfig
+|   `-- drivers-clk-clk-cdce925.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|-- s390-randconfig-002-20231124
+|   `-- drivers-nvme-target-trace.h:warning:strncpy-specified-bound-depends-on-the-length-of-the-source-argument
+|-- sh-randconfig-002-20231124
+|   |-- kernel-rcu-rcutorture.c:warning:variable-completed-set-but-not-used
+|   `-- kernel-rcu-rcutorture.c:warning:variable-started-set-but-not-used
+|-- x86_64-buildonly-randconfig-002-20231123
+|   |-- drivers-platform-x86-think-lmi.c:warning:s-directive-argument-is-null
+|   `-- kernel-stackleak.c:warning:no-previous-prototype-for-stackleak_track_stack
+|-- x86_64-buildonly-randconfig-004-20231123
+|   |-- drivers-iommu-intel-dmar.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- kernel-rcu-rcutorture.c:warning:variable-completed-set-but-not-used
+|   |-- kernel-rcu-rcutorture.c:warning:variable-started-set-but-not-used
+|   `-- kernel-stackleak.c:warning:no-previous-prototype-for-stackleak_track_stack
+|-- x86_64-buildonly-randconfig-005-20231123
+|   `-- kernel-stackleak.c:warning:no-previous-prototype-for-stackleak_track_stack
+|-- x86_64-defconfig
+|   `-- drivers-iommu-intel-dmar.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|-- x86_64-randconfig-011-20231123
+|   `-- drivers-clk-clk-cdce925.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|-- x86_64-randconfig-014-20231123
+|   `-- kernel-stackleak.c:warning:no-previous-prototype-for-stackleak_track_stack
+|-- x86_64-randconfig-015-20231123
+|   |-- drivers-iommu-intel-dmar.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   `-- kernel-stackleak.c:warning:no-previous-prototype-for-stackleak_track_stack
+|-- x86_64-randconfig-072-20231123
+|   `-- kernel-stackleak.c:warning:no-previous-prototype-for-stackleak_track_stack
+`-- x86_64-randconfig-074-20231123
+    `-- drivers-platform-x86-think-lmi.c:warning:s-directive-argument-is-null
+clang_recent_errors
+|-- arm-randconfig-002-20231124
+|   |-- kernel-rcu-rcutorture.c:warning:variable-completed-set-but-not-used
+|   `-- kernel-rcu-rcutorture.c:warning:variable-started-set-but-not-used
+|-- arm64-randconfig-004-20231124
+|   |-- arch-arm64-kvm-debug.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|   |-- arch-arm64-kvm-guest.c:warning:Excess-function-parameter-kvm-description-in-kvm_arch_vcpu_ioctl_set_guest_debug
+|   |-- arch-arm64-kvm-guest.c:warning:Excess-function-parameter-kvm_guest_debug-description-in-kvm_arch_vcpu_ioctl_set_guest_debug
+|   |-- arch-arm64-kvm-guest.c:warning:Function-parameter-or-member-dbg-not-described-in-kvm_arch_vcpu_ioctl_set_guest_debug
+|   |-- arch-arm64-kvm-guest.c:warning:Function-parameter-or-member-vcpu-not-described-in-kvm_arm_num_regs
+|   |-- arch-arm64-kvm-pmu-emul.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|   |-- arch-arm64-kvm-sys_regs.c:warning:Excess-function-parameter-run-description-in-kvm_handle_cp_32
+|   |-- arch-arm64-kvm-sys_regs.c:warning:Excess-function-parameter-run-description-in-kvm_handle_cp_64
+|   |-- arch-arm64-kvm-sys_regs.c:warning:Function-parameter-or-member-global-not-described-in-kvm_handle_cp_32
+|   |-- arch-arm64-kvm-sys_regs.c:warning:Function-parameter-or-member-global-not-described-in-kvm_handle_cp_64
+|   |-- arch-arm64-kvm-sys_regs.c:warning:Function-parameter-or-member-nr_global-not-described-in-kvm_handle_cp_32
+|   |-- arch-arm64-kvm-sys_regs.c:warning:Function-parameter-or-member-nr_global-not-described-in-kvm_handle_cp_64
+|   |-- arch-arm64-kvm-sys_regs.c:warning:Function-parameter-or-member-params-not-described-in-kvm_handle_cp_32
+|   |-- arch-arm64-kvm-vgic-vgic-init.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|   |-- arch-arm64-kvm-vgic-vgic-irqfd.c:warning:Function-parameter-or-member-e-not-described-in-vgic_irqfd_set_irq
+|   |-- arch-arm64-kvm-vgic-vgic-irqfd.c:warning:Function-parameter-or-member-irq_source_id-not-described-in-kvm_arch_set_irq_inatomic
+|   |-- arch-arm64-kvm-vgic-vgic-irqfd.c:warning:Function-parameter-or-member-kvm-not-described-in-kvm_arch_set_irq_inatomic
+|   |-- arch-arm64-kvm-vgic-vgic-irqfd.c:warning:Function-parameter-or-member-line_status-not-described-in-kvm_set_msi
+|   |-- arch-arm64-kvm-vgic-vgic-its.c:warning:Function-parameter-or-member-ite_esz-not-described-in-vgic_its_save_ite
+|   |-- arch-arm64-kvm-vgic-vgic-its.c:warning:Function-parameter-or-member-its-not-described-in-vgic_its_restore_device_tables
+|   |-- arch-arm64-kvm-vgic-vgic-its.c:warning:Function-parameter-or-member-its-not-described-in-vgic_its_restore_ite
+|   |-- arch-arm64-kvm-vgic-vgic-its.c:warning:Function-parameter-or-member-its-not-described-in-vgic_its_save_collection_table
+|   |-- arch-arm64-kvm-vgic-vgic-its.c:warning:Function-parameter-or-member-opaque-not-described-in-scan_its_table
+|   `-- arch-arm64-kvm-vgic-vgic-its.c:warning:expecting-prototype-for-entry_fn_t().-Prototype-was-for-int()-instead
+|-- hexagon-randconfig-001-20231124
+|   |-- kernel-rcu-rcutorture.c:warning:variable-completed-set-but-not-used
+|   `-- kernel-rcu-rcutorture.c:warning:variable-started-set-but-not-used
+`-- powerpc-randconfig-003-20231124
+    |-- kernel-rcu-rcutorture.c:warning:variable-completed-set-but-not-used
+    `-- kernel-rcu-rcutorture.c:warning:variable-started-set-but-not-used
+
+elapsed time: 2532m
+
+configs tested: 113
+configs skipped: 1
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+arc                   randconfig-001-20231124   gcc  
+arc                   randconfig-002-20231124   gcc  
+arm                   randconfig-001-20231124   clang
+arm                   randconfig-002-20231124   clang
+arm                   randconfig-003-20231124   clang
+arm                   randconfig-004-20231124   clang
+arm64                 randconfig-001-20231124   clang
+arm64                 randconfig-002-20231124   clang
+arm64                 randconfig-003-20231124   clang
+arm64                 randconfig-004-20231124   clang
+csky                  randconfig-001-20231124   gcc  
+csky                  randconfig-002-20231124   gcc  
+hexagon               randconfig-001-20231124   clang
+hexagon               randconfig-002-20231124   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20231123   gcc  
+i386         buildonly-randconfig-002-20231123   gcc  
+i386         buildonly-randconfig-003-20231123   gcc  
+i386         buildonly-randconfig-004-20231123   gcc  
+i386         buildonly-randconfig-005-20231123   gcc  
+i386         buildonly-randconfig-006-20231123   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231123   gcc  
+i386                  randconfig-002-20231123   gcc  
+i386                  randconfig-003-20231123   gcc  
+i386                  randconfig-004-20231123   gcc  
+i386                  randconfig-005-20231123   gcc  
+i386                  randconfig-006-20231123   gcc  
+i386                  randconfig-011-20231123   clang
+i386                  randconfig-012-20231123   clang
+i386                  randconfig-013-20231123   clang
+i386                  randconfig-014-20231123   clang
+i386                  randconfig-015-20231123   clang
+i386                  randconfig-016-20231123   clang
+loongarch                        allmodconfig   gcc  
+loongarch             randconfig-001-20231124   gcc  
+loongarch             randconfig-002-20231124   gcc  
+m68k                             allmodconfig   gcc  
+m68k                             allyesconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                       allyesconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                 randconfig-001-20231124   gcc  
+nios2                 randconfig-002-20231124   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20231124   gcc  
+parisc                randconfig-002-20231124   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   clang
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc               randconfig-001-20231124   clang
+powerpc               randconfig-002-20231124   clang
+powerpc               randconfig-003-20231124   clang
+powerpc64             randconfig-001-20231124   clang
+powerpc64             randconfig-002-20231124   clang
+powerpc64             randconfig-003-20231124   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   clang
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20231124   clang
+riscv                 randconfig-002-20231124   clang
+riscv                          rv32_defconfig   clang
+s390                  randconfig-001-20231124   gcc  
+s390                  randconfig-002-20231124   gcc  
+sh                    randconfig-001-20231124   gcc  
+sh                    randconfig-002-20231124   gcc  
+sparc64               randconfig-001-20231124   gcc  
+sparc64               randconfig-002-20231124   gcc  
+um                    randconfig-001-20231124   clang
+um                    randconfig-002-20231124   clang
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20231123   gcc  
+x86_64       buildonly-randconfig-002-20231123   gcc  
+x86_64       buildonly-randconfig-003-20231123   gcc  
+x86_64       buildonly-randconfig-004-20231123   gcc  
+x86_64       buildonly-randconfig-005-20231123   gcc  
+x86_64       buildonly-randconfig-006-20231123   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20231123   clang
+x86_64                randconfig-002-20231123   clang
+x86_64                randconfig-003-20231123   clang
+x86_64                randconfig-004-20231123   clang
+x86_64                randconfig-005-20231123   clang
+x86_64                randconfig-006-20231123   clang
+x86_64                randconfig-011-20231123   gcc  
+x86_64                randconfig-012-20231123   gcc  
+x86_64                randconfig-013-20231123   gcc  
+x86_64                randconfig-014-20231123   gcc  
+x86_64                randconfig-015-20231123   gcc  
+x86_64                randconfig-016-20231123   gcc  
+x86_64                randconfig-071-20231123   gcc  
+x86_64                randconfig-072-20231123   gcc  
+x86_64                randconfig-073-20231123   gcc  
+x86_64                randconfig-074-20231123   gcc  
+x86_64                randconfig-075-20231123   gcc  
+x86_64                randconfig-076-20231123   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                randconfig-001-20231124   gcc  
+xtensa                randconfig-002-20231124   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
