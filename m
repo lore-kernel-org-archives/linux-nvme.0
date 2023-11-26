@@ -4,62 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26B00C61D97
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Nov 2023 20:57:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B09F4C4167B
+	for <linux-nvme@archiver.kernel.org>; Sun, 26 Nov 2023 12:55:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=jfjvoxjM5f50l15PkwYK+W31izBUXsyXN9vp6wQSga4=; b=EqsemObnf01Z0eRWOKFACGsiNo
-	U+xi8ZkBAXOpuBp5gvU7OH8wVTf+4JzfnrqSwBCVxr926B51zPNrLKXCx8s8gxF2bLGPqxsp41tg7
-	7uxcTve7y1A39Ha4C0FoI0wmHyCP/8AiFtBD1JTxk7zrsPLollMVfw/un7QTZsVcKC/B9aDwwDunM
-	aveWWf1emLW3A1Xo0ha+iYEnUCTRCY3pbHqphwHzE8TRH/bpzSvZWRov2jZChH1etWjK9Twtclw43
-	88RKM9vqpIC8G0JgOEuS0ZYthbM3XrazZgkhbu2v0MtTboUe0EJYMZrkLngrOMOh92t8d5FYuvdUF
-	D0101BvQ==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=DsrhF12WEZ5dzHpJfMFS0sMO/r
+	rSyIcTvdyvQF01N0BttU1kx7aO9aMz67LfwGYQ9nxxJBddtyMAtLncjygyXm6ofO0I9kXYxt//BfT
+	4H7wL0LQwlo63LZyCOkI7XG1Y2zOyN+gKVVtG1R1G8vsitROwCc8SDPz7oE6m4Fsu5Q+fYXJ5dAio
+	XHpoXvdNQ2/LE9w3pD4P01vQltvEGnFssXJMg57qfHYAjr0C8zLyvJhp2qyzV0Esku/6+TA7hpQvK
+	w1O8cBc7aF9ZUN4dFkIV/m3ZAU8QGtAsPLF/B6qfqiFmCUxiuV3+t3qr3CJqc2vy8B+sc9tpK6Nq7
+	xScq42pQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r6dEu-0083Bb-0Y;
-	Fri, 24 Nov 2023 20:57:28 +0000
-Received: from mout02.posteo.de ([185.67.36.66])
+	id 1r7Efc-00BEqb-36;
+	Sun, 26 Nov 2023 12:55:32 +0000
+Received: from mail-wr1-f41.google.com ([209.85.221.41])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r6dEq-0083As-1w
+	id 1r7EfX-00BEp9-2F
 	for linux-nvme@lists.infradead.org;
-	Fri, 24 Nov 2023 20:57:26 +0000
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id DD60C240104
-	for <linux-nvme@lists.infradead.org>; Fri, 24 Nov 2023 21:57:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-	t=1700859438; bh=VUY/r48iuYNklA3pOPBW8jilcpXCwFMRejWJXce3tks=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:
-	 Content-Transfer-Encoding:From;
-	b=ATwDadX1/5k2Zv9OtETrV/kpzy03/jc89TOifHaP7JU/FWHtiGOkoCiSZz3d/NBL6
-	 mZEL4wBs20g4K2+C97PEQWM14oeMm434q52x2ViKkqQK4v68S1eCP2l3MJOmLZuK3h
-	 KIa1tM+yrCSr3D4fbhYvvr6diYqIvy8t9uBjv+TNlbkumjBs6gD1tFrMzrSssYRIBD
-	 F140F3BWnZmfMn3/Va5bXLT9EdsuCxAkDqKo8zRL6ril3YWIPY/nuHAqcg0NsqTLO8
-	 QFHfxB7vHGX6e/ZgIzhvI2uxH4PmzwY663VFposVvBs12atc7dwSoXAio+60zGbgRM
-	 iBMDy0+85lQoQ==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4ScS3H31gWz9rxR;
-	Fri, 24 Nov 2023 21:57:15 +0100 (CET)
-From: Mark O'Donovan <shiftee@posteo.net>
-To: linux-kernel@vger.kernel.org
-Cc: linux-nvme@lists.infradead.org,
-	sagi@grimberg.me,
-	hch@lst.de,
-	axboe@kernel.dk,
-	kbusch@kernel.org,
-	hare@suse.de,
-	Mark O'Donovan <shiftee@posteo.net>
-Subject: [PATCH RESEND] nvme: fine-tune sending of first keep-alive
-Date: Fri, 24 Nov 2023 20:56:59 +0000
-Message-Id: <20231124205659.523248-1-shiftee@posteo.net>
+	Sun, 26 Nov 2023 12:55:28 +0000
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3316d855828so677971f8f.0
+        for <linux-nvme@lists.infradead.org>; Sun, 26 Nov 2023 04:55:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701003325; x=1701608125;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+        b=Pgu3mi8nyTYPYZDLhWF+9aihA6yhL+HFgiIPLhf3KxC25zGKlBpxeglbljawuR46x/
+         42W9BCgzBauUXsj/REC88cW09SUmqBneD9fYEDiGeyL0cx8ugq3roOrZHKn86aE0igAW
+         FPgXJX2NRLd4ikXHvGpBBGNfLawufPEBQLlAwypQkKV1K3cctz1vleFcePkoOfDfhUsi
+         LuXAhkGjyZeEmuVJ+jWmeerqi/V1fucehDP7khySytBj2DUMDMlUAljhZPrkOQybNRZc
+         WLaARk4RYPYoYqrFDvWDd1ScsYAOVPgHAs/jBZbN7Gzr1cT+I9bDVU4+n0KmcM8xfZH+
+         S1ng==
+X-Gm-Message-State: AOJu0YysfeXr2ZcEOprUN8NG+2CHVTSpY2ONPvGZyDF54w3E0dMxP/5d
+	trRVmviR9kiZei4gzA0kVsJMeXh2mww=
+X-Google-Smtp-Source: AGHT+IGBw6B9rUECVBwX8uMZpbmnJuR1HR1p7f+AtesU7kD9bhcYOJOaHXzLDT91Tz/6N/d7P1jIbQ==
+X-Received: by 2002:a5d:64c2:0:b0:32f:7d22:6311 with SMTP id f2-20020a5d64c2000000b0032f7d226311mr6570482wri.6.1701003324766;
+        Sun, 26 Nov 2023 04:55:24 -0800 (PST)
+Received: from [10.100.102.14] (46-117-95-192.bb.netvision.net.il. [46.117.95.192])
+        by smtp.gmail.com with ESMTPSA id s15-20020adf978f000000b00332d41f0798sm9294435wrb.29.2023.11.26.04.55.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 26 Nov 2023 04:55:23 -0800 (PST)
+Message-ID: <017b9e39-f9cc-4c16-9d24-fbc9c819b9a6@grimberg.me>
+Date: Sun, 26 Nov 2023 14:55:21 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme-core: fix a memory leak in
+ nvme_ns_info_from_identify()
+To: Maurizio Lombardi <mlombard@redhat.com>, kbusch@kernel.org
+Cc: linux-nvme@lists.infradead.org, emilne@redhat.com
+References: <20231123140741.411735-1-mlombard@redhat.com>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20231123140741.411735-1-mlombard@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231124_125724_838614_01E27031 
-X-CRM114-Status: GOOD (  12.66  )
+X-CRM114-CacheID: sfid-20231126_045527_756594_27802152 
+X-CRM114-Status: UNSURE (   4.54  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,53 +82,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Keep-alive commands are sent half-way through the kato period.
-This normally works well but fails when the keep-alive system is
-started when we are more than half way through the kato.
-This can happen on larger setups or due to host delays.
-With this change we now time the initial keep-alive command from
-the controller initialisation time, rather than the keep-alive
-mechanism activation time.
-
-Signed-off-by: Mark O'Donovan <shiftee@posteo.net>
----
- drivers/nvme/host/core.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 46a4c9c5ea96..8bf24c1cd8bb 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1192,8 +1192,16 @@ static unsigned long nvme_keep_alive_work_period(struct nvme_ctrl *ctrl)
- 
- static void nvme_queue_keep_alive_work(struct nvme_ctrl *ctrl)
- {
--	queue_delayed_work(nvme_wq, &ctrl->ka_work,
--			   nvme_keep_alive_work_period(ctrl));
-+	unsigned long now = jiffies;
-+	unsigned long delay = nvme_keep_alive_work_period(ctrl);
-+	unsigned long ka_next_check_tm = ctrl->ka_last_check_time + delay;
-+
-+	if (time_after(now, ka_next_check_tm))
-+		delay = 0;
-+	else
-+		delay = ka_next_check_tm - now;
-+
-+	queue_delayed_work(nvme_wq, &ctrl->ka_work, delay);
- }
- 
- static enum rq_end_io_ret nvme_keep_alive_end_io(struct request *rq,
-@@ -4471,6 +4479,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	INIT_DELAYED_WORK(&ctrl->failfast_work, nvme_failfast_work);
- 	memset(&ctrl->ka_cmd, 0, sizeof(ctrl->ka_cmd));
- 	ctrl->ka_cmd.common.opcode = nvme_admin_keep_alive;
-+	ctrl->ka_last_check_time = jiffies;
- 
- 	BUILD_BUG_ON(NVME_DSM_MAX_RANGES * sizeof(struct nvme_dsm_range) >
- 			PAGE_SIZE);
-
-base-commit: 5b7ad877e4d81f8904ce83982b1ba5c6e83deccb
--- 
-2.39.2
-
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
