@@ -4,85 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E1B4C4167B
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Nov 2023 20:54:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36FA3C4167B
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Nov 2023 20:57:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nrVYVydZbyRGYPHj4jJ2zvO5RbpjbPIEOTYbXLBhDfA=; b=ToNORFLxHmyEnwC/+oLIVKRjuK
-	v11Cf1jukzujM/zrFlWStSY9yf9igJWTeVuAcHfbBJ8AVi19Zc1gou5VffyXN+rYW6HniDOxjz32B
-	JZ/+paHsl75SCYZj4Zo/C1zi8tNbyd1F7PCzmc7UHGx7S0+H/4uVcA4OxBrFJmcG+M0CRxLsQSJpd
-	uCnHDqNyFoBVM0EnPbP8o8zlBGgnwQyho8fTHWCI1fh2J1mchfBg8RWQN3X1dzufdmsI/fbOiwMEe
-	fGFI5svTS7Xa9O4nOv4LaUMeo0hVkW0M0ri21tjgF0ab7t5/mMZVPaO30a/s/J8QQvk9hEBdMtqVV
-	oSyFvqxg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=635Tb7OWqWjp7K8/1QqQkX9XgoNYSa2ACkHTIsOb9tg=; b=3sBWtwBhd5b+gpjUUSYjFST8rh
+	JFzSoi4Cac3FT7eVfe62iPjKwlVU1i3ufkzaAU3qyPIzjQC2mm3GiBgr3hKTvBgtSLUH4n5RAueXZ
+	o6Kl9WkHgB36Plua6YPSsag+qIXDyEkWebDi/JByhP4IjlAkyly2tmydwBKK42qAhrrAwRFSv7/DC
+	LDkruktJvtY97Ck9XL3xok3CEebp9fDHQtc8CyggDapaurkEbeJ+hLgFEZMIcHoPJZACtkuVTZQC/
+	sq2XqWTbvzVGoPYO4XbZEwiTOrfbp0NlDk1rdkqWSu7dAJcIpeCD4qH7V5mR9PRI4nBmgd+p8nwI7
+	Fa6f3cNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r7icQ-003TG7-3D;
-	Mon, 27 Nov 2023 20:54:15 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1r7if9-003TS3-0u;
+	Mon, 27 Nov 2023 20:57:03 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r7icM-003TFh-39
+	id 1r7if6-003TRb-1s
 	for linux-nvme@lists.infradead.org;
-	Mon, 27 Nov 2023 20:54:12 +0000
+	Mon, 27 Nov 2023 20:57:01 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701118447;
+	s=mimecast20190719; t=1701118619;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nrVYVydZbyRGYPHj4jJ2zvO5RbpjbPIEOTYbXLBhDfA=;
-	b=elPh19CNeZAnrUBiE9JXzzBnFiyo3JjrqGd69MB4N+NUlYgRnBkmcqEICbTvvVDKP+gABY
-	/z2OFxx0Wn1Nxqu7XcsPYZvoqsh1TtnrACFuyhDOHl4TFQM23TuDn1ALdWbFJBtOwoGGWo
-	xtZKF4YlWfrlg4EZZgJHCn0Q0DXvA+4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=635Tb7OWqWjp7K8/1QqQkX9XgoNYSa2ACkHTIsOb9tg=;
+	b=eewlV8g00A7ZnJ0Mc1qVnoYc9ysP67OsPuBTaT+hned0GlhNRRYqw/kwN0MRqElrEn1KLt
+	IbY+9Jx5CyA/HM5bkTpQhH5PlGtcbj0V4ps9lwN+kgGrJEh3HSg+6br1/xBqKsnjB0gChY
+	+bCk2UZMiI7iJ/VolJZFIxg5Ek45aos=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-371-cBYGQWuoMlyF9x0VMTEK8Q-1; Mon, 27 Nov 2023 15:54:06 -0500
-X-MC-Unique: cBYGQWuoMlyF9x0VMTEK8Q-1
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-332ee20a3f0so2428468f8f.0
-        for <linux-nvme@lists.infradead.org>; Mon, 27 Nov 2023 12:54:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701118425; x=1701723225;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nrVYVydZbyRGYPHj4jJ2zvO5RbpjbPIEOTYbXLBhDfA=;
-        b=n3Fy3ef760EiRFflb7xTvVNvXigq5THbinbwOynkXj2tm9DqXZ+G0O03O9RtTe7+l8
-         1aw0vYS/hVXtnIAaWomAF6AlxIR+ysz6S6obbYoazs3AXuxwEnBAzNWPAsfqDWKK2AyI
-         zxMm3CsvVN+gHg/5Ua69jJNXQCktlVLCEfhmVFs+iYNzt3E/o2KAYlA4p3eL/gje0Uoh
-         uB+G2AKA/yQ5yRj6kQXfN3Z8z9/YXHKH0JBV8ndU6S/31R6cSGAzAgARRdBNIZgnFS+m
-         F4Q8eAx/6DtqAWhX1krwEorA8IttycO6xQkq38DlC0XQfPwEJnsoM1p/Usu7iDfZ2i0N
-         1B4A==
-X-Gm-Message-State: AOJu0YyXY/nuUiyoZu8wcmKljslqp5gMO5ZSn0HzAiMoyNQZod36Aotp
-	kfhaVR2PAY7sUD2oaKXZjwbOW0LrF1zqFPZETYhXYltuqvYkNUEK8ASlL4Y4jrBj0UBLdUPtw66
-	hl0Uq1LpCUuVLANWZKeUf7BNtZhubstQ7J4kTOFgF9cY=
-X-Received: by 2002:a5d:49d1:0:b0:32d:9d99:d0a5 with SMTP id t17-20020a5d49d1000000b0032d9d99d0a5mr8579005wrs.5.1701118425347;
-        Mon, 27 Nov 2023 12:53:45 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEhxZjfyUCU56h7kF5M3MofC8prEy8sT5V67Fj2awR5wnpc0pAYSPwxA6fHVcewN5JiyghmtNm8HvmFOFskTvE=
-X-Received: by 2002:a5d:49d1:0:b0:32d:9d99:d0a5 with SMTP id
- t17-20020a5d49d1000000b0032d9d99d0a5mr8578998wrs.5.1701118425036; Mon, 27 Nov
- 2023 12:53:45 -0800 (PST)
+ us-mta-530-16toDcxGPmqHRiapOu0yGA-1; Mon, 27 Nov 2023 15:56:57 -0500
+X-MC-Unique: 16toDcxGPmqHRiapOu0yGA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 49067810FC0;
+	Mon, 27 Nov 2023 20:56:57 +0000 (UTC)
+Received: from emilne.bos.redhat.com (unknown [10.18.25.205])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 2D8E62166B26;
+	Mon, 27 Nov 2023 20:56:57 +0000 (UTC)
+From: "Ewan D. Milne" <emilne@redhat.com>
+To: linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org
+Subject: [PATCH v2] nvme: check for valid data from from nvme_identify_ns() before using it
+Date: Mon, 27 Nov 2023 15:56:57 -0500
+Message-Id: <20231127205657.25950-1-emilne@redhat.com>
 MIME-Version: 1.0
-References: <20231110163721.15292-1-emilne@redhat.com> <CAGtn9rmMLQfsocZvWJnnekRxfL2_s3oDYcUNTy3M0c2d8UYYfg@mail.gmail.com>
- <CAGtn9rkynCF1De25--d39D0o2Eh2QV4aDLOxaRYrw2m1ouu_4g@mail.gmail.com> <ZVzzW0P6CtataBLK@kbusch-mbp>
-In-Reply-To: <ZVzzW0P6CtataBLK@kbusch-mbp>
-From: Ewan Milne <emilne@redhat.com>
-Date: Mon, 27 Nov 2023 15:53:32 -0500
-Message-ID: <CAGtn9rmcHUG4TEVh1zzGPmGAGnpsp9UrO5tT0gysVznhxDz2Zg@mail.gmail.com>
-Subject: Re: [PATCH] nvme: check for valid data from from nvme_identify_ns()
- before using it
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231127_125411_118875_1E2B960E 
-X-CRM114-Status: GOOD (  17.58  )
+X-CRM114-CacheID: sfid-20231127_125700_687584_EEABD3D6 
+X-CRM114-Status: GOOD (  12.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,39 +79,74 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 21, 2023 at 1:14=E2=80=AFPM Keith Busch <kbusch@kernel.org> wro=
-te:
->
-> On Tue, Nov 21, 2023 at 06:49:35AM -0500, Ewan Milne wrote:
-> > Oh, never mind, I see it.  Just didn't see anything on the list.  Sorry=
-.
->
-> Is it? I don't see it in any of the staging or upstream trees, but thank
-> you for pinging me on the patch.
+When scanning namespaces, it is possible to get valid data from the first
+call to nvme_identify_ns() in nvme_alloc_ns(), but not from the second
+call in nvme_update_ns_info_block().  In particular, if the NSID becomes
+inactive between the two commands, a storage device may return a buffer
+filled with zero as per 4.1.5.1.  In this case, we can get a kernel crash
+due to a divide-by-zero in blk_stack_limits() because ns->lba_shift will
+be set to zero.
 
-Sorry, I wasn't clear.  I hadn't seen any replies to my original patch
-on the list, but
-I saw a rather long time of receiving nothing from linux-nvme, so I wasn't =
-sure
-if my original mail went anywhere.  But I found it on the archive.
+PID: 326      TASK: ffff95fec3cd8000  CPU: 29   COMMAND: "kworker/u98:10"
+ #0 [ffffad8f8702f9e0] machine_kexec at ffffffff91c76ec7
+ #1 [ffffad8f8702fa38] __crash_kexec at ffffffff91dea4fa
+ #2 [ffffad8f8702faf8] crash_kexec at ffffffff91deb788
+ #3 [ffffad8f8702fb00] oops_end at ffffffff91c2e4bb
+ #4 [ffffad8f8702fb20] do_trap at ffffffff91c2a4ce
+ #5 [ffffad8f8702fb70] do_error_trap at ffffffff91c2a595
+ #6 [ffffad8f8702fbb0] exc_divide_error at ffffffff928506e6
+ #7 [ffffad8f8702fbd0] asm_exc_divide_error at ffffffff92a00926
+    [exception RIP: blk_stack_limits+434]
+    RIP: ffffffff92191872  RSP: ffffad8f8702fc80  RFLAGS: 00010246
+    RAX: 0000000000000000  RBX: ffff95efa0c91800  RCX: 0000000000000001
+    RDX: 0000000000000000  RSI: 0000000000000001  RDI: 0000000000000001
+    RBP: 00000000ffffffff   R8: ffff95fec7df35a8   R9: 0000000000000000
+    R10: 0000000000000000  R11: 0000000000000001  R12: 0000000000000000
+    R13: 0000000000000000  R14: 0000000000000000  R15: ffff95fed33c09a8
+    ORIG_RAX: ffffffffffffffff  CS: 0010  SS: 0018
+ #8 [ffffad8f8702fce0] nvme_update_ns_info_block at ffffffffc06d3533 [nvme_core]
+ #9 [ffffad8f8702fd18] nvme_scan_ns at ffffffffc06d6fa7 [nvme_core]
 
->
-> > > > @@ -2027,6 +2027,12 @@ static int nvme_update_ns_info_block(struct =
-nvme_ns *ns,
-> > > >         if (ret)
-> > > >                 return ret;
-> > > >
-> > > > +       if (id->ncap =3D=3D 0) {
-> > > > +               /* namespace not allocated or attached */
-> > > > +               info->is_removed =3D true;
-> > > > +               return -ENODEV;
->
-> The concept sounds good, though you are leaking 'id' in the new error cas=
-e.
->
+This happened when the check for valid data was moved out of nvme_identify_ns()
+into one of the callers.  Fix this by checking in both callers.
 
-I will send a v2 to correct this, Maurizio has fixed the other caller.
+v2: call kfree() on nvme_id_ns struct in error path
 
--Ewan
+Fixes: 0dd6fff2aad4 ("nvme: bring back auto-removal of deleted namespaces during sequential scan")
+Cc: stable@vger.kernel.org
+Signed-off-by: Ewan D. Milne <emilne@redhat.com>
+---
+ drivers/nvme/host/core.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index af94d067ac14..a55c2a774b9c 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2040,6 +2040,13 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 	if (ret)
+ 		return ret;
+ 
++	if (id->ncap == 0) {
++		/* namespace not allocated or attached */
++		info->is_removed = true;
++		ret = -ENODEV;
++		goto error;
++	}
++
+ 	blk_mq_freeze_queue(ns->disk->queue);
+ 	lbaf = nvme_lbaf_index(id->flbas);
+ 	ns->lba_shift = id->lbaf[lbaf].ds;
+@@ -2101,6 +2108,8 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 		set_bit(NVME_NS_READY, &ns->flags);
+ 		ret = 0;
+ 	}
++
++error:
+ 	kfree(id);
+ 	return ret;
+ }
+-- 
+2.20.1
 
 
