@@ -4,57 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D981C07E97
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Nov 2023 21:06:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 085FBC07CA9
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Nov 2023 21:06:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=04BEZCsgFxLlwbKcZQ4v+Sn5suFkH2WZj27LJ7UUDV4=; b=cOHRwiJgAGNOGghmEw4rCVoR7L
-	jZd4CcAZbU4QheaG3gf9C/4TJ3zHX/Oq2z2TU3qgR/0sKUjSxeY+/ixVMIdaxGwXffi2IQRc2noJi
-	wh7B8icaqw0N08NYc3vQ/QyBNquIlXZUHho90Edk9jTgoQVa89ITs5wN+2vzmcLFTSmjmikD6HmmX
-	td9zucUEcB4gnQTgfC6nq2iyehGCz/o5GCrZ2DOtSgMATSBxXudPERBxgvUljGfcYd2JRJdFTAQWU
-	Lwv1ET18k8w+stY+G00Eg68WStdxUDE2CEjV8z3qc+Tz34BkT1pJE6nm8+w8TG43b5PakkksiI+F2
-	rlSlqiSw==;
+	bh=RCLGsdK08V2JSkB++Kk5WqTtal6TleYOsqquF177v7I=; b=E0FFgVF6OP7EkjW8rLKq9+kKvd
+	7N4g8eoUO8H70s/DdURfvZf7WsVDk5a5nt7AVIJJH/o4f9aSeXGJxleIDTar6jV4u6zw/jiQp6qpw
+	ig9fYpUopnPcKknqsaOW1AnEQiIk2d3uKWqnciLqT/w3nNOXGk7uqMofy8VyDuF4N1fkydB+4EH9x
+	ZZF/OBIKrqF7h3jQ3+PYwEwFmnpqcwKTylu1MbLfb/WesU7SgxLFzS64Ow8Dgiu9FRRwtIwOTkQpV
+	HFyYpKLXoETs+TaPsglJARv8iWE60pWRyXA6PDbiatDgIQlPKi4ndd5SkAi+Hx/spMyog278mf+wP
+	zcOQHmEA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r85I6-006LGf-0o;
-	Tue, 28 Nov 2023 21:06:46 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1r85I9-006LIX-1q;
+	Tue, 28 Nov 2023 21:06:49 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r85I2-006LDR-2t
+	id 1r85I5-006LFa-1u
 	for linux-nvme@lists.infradead.org;
-	Tue, 28 Nov 2023 21:06:44 +0000
+	Tue, 28 Nov 2023 21:06:47 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 6445A61782;
-	Tue, 28 Nov 2023 21:06:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4328EC433C8;
-	Tue, 28 Nov 2023 21:06:41 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 122DC61931;
+	Tue, 28 Nov 2023 21:06:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03D64C433CB;
+	Tue, 28 Nov 2023 21:06:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701205602;
-	bh=J2EZoT5nf42IyT+2nOUc2PQyHkSw27y/9C6HWxKjDDU=;
+	s=k20201202; t=1701205604;
+	bh=K2JVbDHeoqX+MlOIFHC1DfxUy2I0OtEKxFLemGaGLwc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bLW2QL62+GM3PzvPxGZoNIVOCBC0lNRTZXSjl2Cch+21OQvi+JGdD+qdc3FjUlyqr
-	 9qmWfapct6SO2YY1oY0e6WDUbKhMw1RdbTCYsRZhzqAA68GUxzfC+eSwim09l6RE0d
-	 O0a+efKl/VuB0u/CjbiTevq9g73bUSVA1+awSJPooBN6/XkUQMtfCxaUVkxhP5kg5H
-	 4vpGnfFqV3cRZfFdGBuKNVMEZTXwZHNGYSNdkd7NQD5SrsMczEdI9A/ZylPGnuRLtL
-	 1i4hdPcT6/b6+rN+YtpiT/Yt6AosYp2OM/9L+melhdYSJkhzE3PIUbOfQ1JJimh9hZ
-	 wkKB2LtvLMXKg==
+	b=scYo0i5qZ9sgH8BnNo+91WVZzGkO39iRiLsp5Lx2zZsJDqPloH7NWQp3gK60zjOyn
+	 pT8dNEprWLAnVChnZ5DUst2MK4w8nmgbNCLGJAXFXVkYZeoJGAK4uonHdFASTGXUXb
+	 LG20CQ4Zvt8l1lpMK7Ag80sgD1b/KkTlonan6u9d183G7S+KkxM0z3TFktz1slINQJ
+	 xsFxZ6HZVxLUJc12ForFiXHInutG4tRKyzjiZSeHRiEtE6AG9X1Z7dIjINAv6Ty1a8
+	 Mua1MfBzHAyv4m5XVw2dEflFjfpWX8vUd9n97ZiVQXxoPuUOEpSn+Lmfh0fcqj9afs
+	 kFuWHv7VPQOow==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Mark O'Donovan <shiftee@posteo.net>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Hannes Reinecke <hare@suse.de>,
+Cc: Hannes Reinecke <hare@suse.de>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.6 14/40] nvme-auth: unlock mutex in one place only
-Date: Tue, 28 Nov 2023 16:05:20 -0500
-Message-ID: <20231128210615.875085-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 16/40] nvme: catch errors from nvme_configure_metadata()
+Date: Tue, 28 Nov 2023 16:05:22 -0500
+Message-ID: <20231128210615.875085-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231128210615.875085-1-sashal@kernel.org>
 References: <20231128210615.875085-1-sashal@kernel.org>
@@ -64,8 +62,8 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.3
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231128_130642_974969_FB9479DE 
-X-CRM114-Status: GOOD (  10.53  )
+X-CRM114-CacheID: sfid-20231128_130645_707666_7C629F50 
+X-CRM114-Status: GOOD (  13.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,38 +78,81 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Mark O'Donovan <shiftee@posteo.net>
+From: Hannes Reinecke <hare@suse.de>
 
-[ Upstream commit 616add70bfdc0274a253e84fc78155c27aacde91 ]
+[ Upstream commit cd9aed606088d36a7ffff3e808db4e76b1854285 ]
 
-Signed-off-by: Mark O'Donovan <shiftee@posteo.net>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+nvme_configure_metadata() is issuing I/O, so we might incur an I/O
+error which will cause the connection to be reset.
+But in that case any further probing will race with reset and
+cause UAF errors.
+So return a status from nvme_configure_metadata() and abort
+probing if there was an I/O error.
+
+Signed-off-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/auth.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/nvme/host/core.c | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-index 064592a5d546a..cc02a95a50c9a 100644
---- a/drivers/nvme/host/auth.c
-+++ b/drivers/nvme/host/auth.c
-@@ -758,12 +758,11 @@ static void nvme_queue_auth_work(struct work_struct *work)
- 		__func__, chap->qid);
- 	mutex_lock(&ctrl->dhchap_auth_mutex);
- 	ret = nvme_auth_dhchap_setup_host_response(ctrl, chap);
-+	mutex_unlock(&ctrl->dhchap_auth_mutex);
- 	if (ret) {
--		mutex_unlock(&ctrl->dhchap_auth_mutex);
- 		chap->error = ret;
- 		goto fail2;
- 	}
--	mutex_unlock(&ctrl->dhchap_auth_mutex);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 21783aa2ee8e1..5e314a8fb9407 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1813,16 +1813,18 @@ static int nvme_init_ms(struct nvme_ns *ns, struct nvme_id_ns *id)
+ 	return ret;
+ }
  
- 	/* DH-HMAC-CHAP Step 3: send reply */
- 	dev_dbg(ctrl->device, "%s: qid %d send reply\n",
+-static void nvme_configure_metadata(struct nvme_ns *ns, struct nvme_id_ns *id)
++static int nvme_configure_metadata(struct nvme_ns *ns, struct nvme_id_ns *id)
+ {
+ 	struct nvme_ctrl *ctrl = ns->ctrl;
++	int ret;
+ 
+-	if (nvme_init_ms(ns, id))
+-		return;
++	ret = nvme_init_ms(ns, id);
++	if (ret)
++		return ret;
+ 
+ 	ns->features &= ~(NVME_NS_METADATA_SUPPORTED | NVME_NS_EXT_LBAS);
+ 	if (!ns->ms || !(ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
+-		return;
++		return 0;
+ 
+ 	if (ctrl->ops->flags & NVME_F_FABRICS) {
+ 		/*
+@@ -1831,7 +1833,7 @@ static void nvme_configure_metadata(struct nvme_ns *ns, struct nvme_id_ns *id)
+ 		 * remap the separate metadata buffer from the block layer.
+ 		 */
+ 		if (WARN_ON_ONCE(!(id->flbas & NVME_NS_FLBAS_META_EXT)))
+-			return;
++			return 0;
+ 
+ 		ns->features |= NVME_NS_EXT_LBAS;
+ 
+@@ -1858,6 +1860,7 @@ static void nvme_configure_metadata(struct nvme_ns *ns, struct nvme_id_ns *id)
+ 		else
+ 			ns->features |= NVME_NS_METADATA_SUPPORTED;
+ 	}
++	return 0;
+ }
+ 
+ static void nvme_set_queue_limits(struct nvme_ctrl *ctrl,
+@@ -2031,7 +2034,11 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 	ns->lba_shift = id->lbaf[lbaf].ds;
+ 	nvme_set_queue_limits(ns->ctrl, ns->queue);
+ 
+-	nvme_configure_metadata(ns, id);
++	ret = nvme_configure_metadata(ns, id);
++	if (ret < 0) {
++		blk_mq_unfreeze_queue(ns->disk->queue);
++		goto out;
++	}
+ 	nvme_set_chunk_sectors(ns, id);
+ 	nvme_update_disk_info(ns->disk, ns, id);
+ 
 -- 
 2.42.0
 
