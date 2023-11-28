@@ -4,67 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BE9F1C4167B
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Nov 2023 19:03:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8E342C4167B
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Nov 2023 19:10:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JV6zvHc7DgjYjuSRPUTOq/76cABMWlfRuPIwbT9BFxQ=; b=HtzaWTavgcAQ6vTXPAA0mTrhHp
-	Hc4ZAocyCSlHwGfXEQ4ovK0iFY9A3IP12KNOsngWy5j10M5/VL4jgSmNCTKbDNtspfqsVcmx5O4ZM
-	0NID+mzMft5+7J5db0Jo9ICg3OSrQNr+xj7sZbk9kvA/2L71eGCyT+3M+Jt696NclfgT1SRCvj8Jk
-	xcAb2yflAXXZAJeVbu2a0tg10XbnQ1ifpCopZzbjy5OiJLpG7CwoJW7xg8T6YJX1CYkh85RovXRv8
-	mov96ox/ZbSnwDwhezBhcrzIENdgj1Ch4foVHvDQQ9m3BZ3eAsJbsHTu7L8MGkrppk4y1mdq05gyE
-	7XswkkZg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=HkJhq7XwCqokpeMhVk+ENGQd/7AIzYa5NLVERDlYbl4=; b=C/tj6ftUyYUja9dsJiTMFvTDgt
+	0h/hXtJ5AQHmGkYBkJtvmNZXd8rxwQEHwgt/h4YNlDG9bzH/wp43N5DozrR3i0WOuxLqiygX06/kG
+	vsw4LM16VpeK6gFARJjED6P11XSdR7tZtJ5z2Xq3d9g6VvqinpeayRvhpft2QuzNHo6MVX58ijqU1
+	k9PJsM46hnt3chf8wV3Eep64dFimzsvDvtfyvYFgP2DgY8165YPqXBNkAPNYuoE9KgEQNCzeR6IE0
+	O2n+ygQJawjmjwubyB47hOJFXluAoVy43Vw1GjOVVFDlFGthlH42pF0q/7FdYJifiaR8M+IZkQwfA
+	rnHQ0lbg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r83MP-0067vG-2w;
-	Tue, 28 Nov 2023 19:03:05 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1r83Tf-0068RH-1b;
+	Tue, 28 Nov 2023 19:10:35 +0000
+Received: from mail-il1-x133.google.com ([2607:f8b0:4864:20::133])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r83MN-0067uX-15
+	id 1r83Tc-0068Qr-1C
 	for linux-nvme@lists.infradead.org;
-	Tue, 28 Nov 2023 19:03:04 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by ams.source.kernel.org (Postfix) with ESMTP id 1308BB83B87;
-	Tue, 28 Nov 2023 19:03:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3BF7C433C8;
-	Tue, 28 Nov 2023 19:03:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701198181;
-	bh=2SQ8nvZfspwKy1et1VHxsaVcIH7exyr+AqAnPoaC4q0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qIqofS+xJmG1Hdyo9mOGQ7WWhrSLt7JnhNRiAWWhDW2eqrXLV0YqBF8x+IAXTCBAY
-	 7SrHq5chBNn6+yG3xBeuSrOzyGVYcEB2MOLhc+OJ6mszIcKIjAU3cD7YSGSZNHvExx
-	 iYqofMI4dh+xkcF3HxISDhGdR35hcd14Lnhulw9kOXo0S9mSOVFlhtqbtXjSLHpy9K
-	 aKYswY96frh8VpfXZaUrbK9KqE3eOtZffK5w2EIBqGQpwhV1YcGJFW44LTBc9wTKsF
-	 cYf0Hnp6I6V7NSC/Lx3cziaEoI3BJc7dUG/e1U+YupqvYDFQzK8tpsFpJJWR96lSdv
-	 FOFUi6jQo9ODg==
-Date: Tue, 28 Nov 2023 12:02:58 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Sagi Grimberg <sagi@grimberg.me>,
-	Hannes Reinecke <hare@suse.de>
-Subject: Re: [RFC v1] nvme: add cse, ds, ms, nsze and nuse to sysfs
-Message-ID: <ZWY5YkYJ4Pf0meiD@kbusch-mbp.dhcp.thefacebook.com>
-References: <20231127103208.25748-1-dwagner@suse.de>
- <20231127141857.GA25833@lst.de>
- <ZWS5dM5FzTMr5ftO@kbusch-mbp.dhcp.thefacebook.com>
- <20231127155649.GA1403@lst.de>
- <ZWTEFvYbI1bFTXyZ@kbusch-mbp.dhcp.thefacebook.com>
- <20231127163333.GA2273@lst.de>
- <ZWTH85bmw0cdePXf@kbusch-mbp.dhcp.thefacebook.com>
- <20231128130508.GA8221@lst.de>
+	Tue, 28 Nov 2023 19:10:33 +0000
+Received: by mail-il1-x133.google.com with SMTP id e9e14a558f8ab-35ccfc5323aso3172145ab.1
+        for <linux-nvme@lists.infradead.org>; Tue, 28 Nov 2023 11:10:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1701198630; x=1701803430; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HkJhq7XwCqokpeMhVk+ENGQd/7AIzYa5NLVERDlYbl4=;
+        b=MczZAUxLE8eltipaHESq9qslMLUyDpVIomcxld5rRCd1INiVK3vjktrjyAIEXcfXLv
+         2Ksxsv5P9NubfgLuz0b4ssVk5ChMsKyn3cRAJYKREIUP3MPUXVGgSNn0XgkdE6dxSzT0
+         ups/mfshjJzxK7kQHAbTdMUB/zeKp1MVHHwvkPyqK3HWFNtc1kdipBNWYCGMQ1XE01U0
+         uJZBKQdjbOJJAgiDaJFNwCE9kulMcEb3B0f7skMoLpxxmhDmWpjX+hraUU20cKhxD+TW
+         cMoAw/W87QYW25vXQ+HS8Z5a+wkOT0Tf54caQ1KyAbRaxxsRUQJ70ebmOFqS2BqZlHzq
+         le7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701198630; x=1701803430;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HkJhq7XwCqokpeMhVk+ENGQd/7AIzYa5NLVERDlYbl4=;
+        b=CZHJrlADA2jrN5fetC4vVQe69jNGAxVWGH3cl5bua9mvcjQOg2UaRBcMCBkf1AjW79
+         ZIZxZI7QNnM+vMqtBY1xOOec5jEonufcV5DskdW46WC4U+7YuQ0OzGJYiTYWcmNKQOXx
+         /d6BfdDUGrthzeHxB0OGXAxZQzGntd4vrgCGYvpCY0EtiGxvhAUJ5kzKskNIVf0w5dev
+         qtRw3x4C3WIBDlK3OjuivS9y2Bm0FMlK19OWKYbqAbnbhFNHCqI5FCTs3l33SbbldLQ5
+         YL0UVvfGpWp6Jvjv11w1roX+goUiTBQoamD0ZFi22TuzBgD+5jEhA7A4ejX1aSJsta5W
+         Nr6Q==
+X-Gm-Message-State: AOJu0YzF78eYL55l8m3T02sQO8QEEVdi3e2DCktiEDicYc5oGcccNW3v
+	zkyJIpZfHNugfM7PrBiPyRdEIg==
+X-Google-Smtp-Source: AGHT+IHjHJf1IyzsoYR7Fz7yxWCzsa6rAkAS60Dj7NGX3qUxs/xLp898wG/8O8owhsvUNu/IrWAK2Q==
+X-Received: by 2002:a92:c84b:0:b0:35c:baec:750c with SMTP id b11-20020a92c84b000000b0035cbaec750cmr7940911ilq.1.1701198630532;
+        Tue, 28 Nov 2023 11:10:30 -0800 (PST)
+Received: from [192.168.1.116] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id bz10-20020a056e02268a00b0035ccce14fa6sm1576660ilb.87.2023.11.28.11.10.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Nov 2023 11:10:29 -0800 (PST)
+Message-ID: <276e4ae6-a591-43d1-a80e-e07dc72b33d4@kernel.dk>
+Date: Tue, 28 Nov 2023 12:10:29 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231128130508.GA8221@lst.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme-core: check for too small lba shift
+Content-Language: en-US
+To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org
+Cc: hch@lst.de, sagi@grimberg.me, Keith Busch <kbusch@kernel.org>
+References: <20231128173955.339941-1-kbusch@meta.com>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20231128173955.339941-1-kbusch@meta.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231128_110303_510200_5E777C15 
-X-CRM114-Status: GOOD (  21.49  )
+X-CRM114-CacheID: sfid-20231128_111032_409349_1461EB58 
+X-CRM114-Status: UNSURE (   9.31  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,39 +93,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 28, 2023 at 02:05:08PM +0100, Christoph Hellwig wrote:
-> On Mon, Nov 27, 2023 at 09:46:43AM -0700, Keith Busch wrote:
-> > > 
-> > > Yes.  But does it care about the tuple size, or the actual size of the
-> > > metadata field even if is bigger than the PI tuple?
-> > 
-> > tuple_size is the same value as metadata size regardless of PI usage.
-> > See nvme_init_integrity() for how this driver sets it:
-> > 
-> > 	integrity.tuple_size = ns->ms;
+On 11/28/23 10:39 AM, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
 > 
-> Yes, for the case where we actually support integrity in the kernel
-> for a given device.  But if the device has a metadata size larger than
-> the PI size we still support it, and just let the device strip/insert
-> the PI.
+> The block layer doesn't support logical block sizes smaller than 512
+> bytes. The nvme spec doesn't support that small either, but the driver
+> isn't checking to make sure the device responded with usable data.
+> Failing to catch this will result in a kernel bug, either from a
+> division by zero when stacking, or a zero length bio.
 
-I'm pretty sure that isn't right. We already support PI regardless of
-the metadata size as long as the PI field is in the first 8 bytes.
-Strip/insert doesn't even work if metadata is larger than a PI field.
-For any metadata case where PI isn't used, the driver requests
-allocating an empty buffer for the purpose.
+Reviewed-by: Jens Axboe <axboe@kernel.dk>
 
-> And if nvme-cli wants to report detailed information about
-> the namespace it probably needs to report the actual metadata size
-> as the tuple size won't be reported given that we're never initializing
-> the kernel PI support.
+-- 
+Jens Axboe
 
-I don't understand. For any namespace with a metadata size, even if the
-namespace format doesn't have PI support, we still register an
-"integrity" profile with no-ops to get that unused buffer just so the
-block layer can access the format. We alyways set the tuple_size to the
-namespace metadata-size so the kernel buffer is correctly sized.
 
-This all works as long as the metadata is separate (not extended) and
-kernel has CONFIG_BLK_DEV_INTEGRITY.
 
