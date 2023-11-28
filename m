@@ -4,76 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26ABDC4167B
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Nov 2023 22:28:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70942C4167B
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Nov 2023 22:57:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vFnUfQv67t7xbN71IcefHQtSZrJP7dhwSFWfi58914A=; b=IJ96K4ZKUsFXChKuBKTF767hXN
-	N5J4EkBpOM949N0s8GcOoyY7QlLUrcyrnX7xjoWLtzDHpBdTt4fbIDlPWaESdDli40CIDE6AyITU4
-	dPXckXKmnzYSg6zcditivI8DgjFz6weYaKb/F7Q57rOODW2yduySt7DfgG2pt9GOpv9VOfEcatMb8
-	vtBFmrR08b3UQPtP5aWMPxQ8qy2wTrULMbLX9uatdEzSLaoWVuWjJDWsMaVinWeylv5nhNIVCHWpM
-	q7GuG84y7i4KtUK8NgO133y742BQTU90PL1s2CFkwWQvG1bULaiFfEnyv783HMAwucS8rhkSgBp1B
-	5DPso+Fg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=E3oXap9H1DL2KXqdmeRtA1BkafvfC2bDwZ8dHbvZ1JE=; b=o4kOnq0DcPCm3xczPBCX60AkXr
+	b4UlmxVRkKl0YEBtAWIFbLuT7mwD4ie2NGm96ew1byHZ7CQ2zXSyj1j4sKUXEzGZfI9nJ++0g9nnH
+	dFobXvAweSGf43iHI8vm0Y0hEXkWdoMYTCs4LJiHT4oNyXNNEw0Ji6Si0OIPjVMJuwHQC9v2wfZIa
+	MmoI4Yx+jfCbEOflXeryTUyMAjb1AT06uusowOhAzTpwgD8I66cfHsIa+xiOLS6ayhq2eSfkYGIk7
+	V3JTA89E7LD1vmyhfVF7y8hOID/O6gmUsUUMK30Jiyofvxt1vIL+fllc47yEbg1ZeFOoKZ6C3OeOJ
+	IdQZCwRw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r86Z7-006UKp-2B;
-	Tue, 28 Nov 2023 22:28:25 +0000
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	id 1r871Q-006XOs-2X;
+	Tue, 28 Nov 2023 22:57:40 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r86Z4-006UGf-2d
+	id 1r871N-006XON-2S
 	for linux-nvme@lists.infradead.org;
-	Tue, 28 Nov 2023 22:28:24 +0000
-Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3ASGXAao028213
-	for <linux-nvme@lists.infradead.org>; Tue, 28 Nov 2023 14:28:17 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=s2048-2021-q4;
- bh=vFnUfQv67t7xbN71IcefHQtSZrJP7dhwSFWfi58914A=;
- b=mXPaWhGvmt2q0tqVzFmX8cv550MXSSNVLcOpjBN8HUmfqliQoWNVmhWfkr3X/fqiHDu4
- gmR84TKQ78jyQ9erB+MFlQZRho9MVcSR7nemp+wRYyLIvv1ZaaURv4m6TYT5yo1LF1Ek
- f5rH5p7jXrfiwZnH5FQjRuiJ3dWsw+73Qm37FLmLI0KL2KBckNFMwr+IOnpq3WxhNOvi
- 62L5LMg6/LER/Wl7gaCRIVh7aR26z6SELgwN++9ZN0nq9fDhlrNYgvKWvRFvLoU8Ayn+
- O21ngcKdAzxF99SFjrl0zoiAxEpbp4Z3bDzb3rfW0mBa5xpqY6svpTgSutZy7hf1hhBS /w== 
-Received: from mail.thefacebook.com ([163.114.132.120])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3un6j7q3ps-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Tue, 28 Nov 2023 14:28:17 -0800
-Received: from twshared15991.38.frc1.facebook.com (2620:10d:c085:108::4) by
- mail.thefacebook.com (2620:10d:c085:21d::8) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Tue, 28 Nov 2023 14:28:07 -0800
-Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
-	id 9BC6C2252F0C5; Tue, 28 Nov 2023 14:27:53 -0800 (PST)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
-        <io-uring@vger.kernel.org>
-CC: <axboe@kernel.dk>, <hch@lst.de>, <joshi.k@samsung.com>,
-        <martin.petersen@oracle.com>, <ming.lei@redhat.com>,
-        Keith Busch
-	<kbusch@kernel.org>
-Subject: [PATCHv4 2/4] nvme: use bio_integrity_map_user
-Date: Tue, 28 Nov 2023 14:27:50 -0800
-Message-ID: <20231128222752.1767344-3-kbusch@meta.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231128222752.1767344-1-kbusch@meta.com>
-References: <20231128222752.1767344-1-kbusch@meta.com>
+	Tue, 28 Nov 2023 22:57:39 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1701212253;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E3oXap9H1DL2KXqdmeRtA1BkafvfC2bDwZ8dHbvZ1JE=;
+	b=BpGY6ekWw/cpSx/7aaT9MWLPWHZsLF/b9hdUHCm0CKYuq+Il+0Azx2l9FLI/nJLx3Zen4Z
+	5xjyxRRescTwn+vLGZYO1vASyZq1MtwhMiUB7vl7SKCpILt2sA1ubuN9Tl8lZLR56tBjAx
+	btGhyq1LtxZxBmK83KJKQbzerX6K/N4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-131-WKx1iQaPOfi9NHvWEEt1ZQ-1; Tue, 28 Nov 2023 17:57:32 -0500
+X-MC-Unique: WKx1iQaPOfi9NHvWEEt1ZQ-1
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4083717431eso35278065e9.1
+        for <linux-nvme@lists.infradead.org>; Tue, 28 Nov 2023 14:57:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701212251; x=1701817051;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=E3oXap9H1DL2KXqdmeRtA1BkafvfC2bDwZ8dHbvZ1JE=;
+        b=tiUx7g1Sz1AAk22ZzHpk/XQnKTR+uRFVXljeG1KH0ph1CW73dqwFCkEi/r0/IGp+cu
+         hvnrnd1ZYv6040oyE4Z3zQ0CLwnzrRYyoRT8xAMhr07xXC3T3rDV9abHmtsU9UuOWzBJ
+         w9edYhBYpgleXzBuP84IHaumA+WX//0553AeW+QjDcJMJOjxD7IBGaackuEA6EbHh3dp
+         WKtZE/J+Svl652xJ6JVVMC6PJRnUHelYFFV+kUaHqROHWtHHnpMxvTwCpIWVre3aApI5
+         DStI9yPLYieIDE/iqKWoj4jx/zJovxAzqojHek9YckXo8pK+GT4M0WGsIpChViy1f0zU
+         kHaQ==
+X-Gm-Message-State: AOJu0Yx/+1vUVJ7xGx7mCy8uVftbgJRSA46/C27VoyF/3UmvH0YDGP9a
+	W/F5HPSwH2xiKlLpULqMKTMK325EOtPh4IvMPP4V7MJmePW0/VYUPLSAFhq1z34EszSsCCiHjzJ
+	HoPGxWELdWt/X8U6DQEiOlkzuBzX0sZ+zhaDNy3/I4++YpLklvbk=
+X-Received: by 2002:a05:600c:4e94:b0:40b:4c36:f80 with SMTP id f20-20020a05600c4e9400b0040b4c360f80mr2458013wmq.32.1701212251088;
+        Tue, 28 Nov 2023 14:57:31 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGrlXAcfpMY96hkscs+7OE2DInsvAEAm9VPHqq6tebI2n6eTl/Uiw7oiqgUn9QALMRz2Ms17VIRexNfm3Itbp4=
+X-Received: by 2002:a05:600c:4e94:b0:40b:4c36:f80 with SMTP id
+ f20-20020a05600c4e9400b0040b4c360f80mr2458006wmq.32.1701212250749; Tue, 28
+ Nov 2023 14:57:30 -0800 (PST)
 MIME-Version: 1.0
+References: <20231127205657.25950-1-emilne@redhat.com> <ZWUSILjL_6fJXPgk@kbusch-mbp.dhcp.thefacebook.com>
+ <CAGtn9r=KZOmxJLGNp1bu_2HRF_nuGUmJanubNVA=Je=v19Uh=Q@mail.gmail.com> <ZWYkG3qh3N-HT7hx@kbusch-mbp.dhcp.thefacebook.com>
+In-Reply-To: <ZWYkG3qh3N-HT7hx@kbusch-mbp.dhcp.thefacebook.com>
+From: Ewan Milne <emilne@redhat.com>
+Date: Tue, 28 Nov 2023 17:57:18 -0500
+Message-ID: <CAGtn9rnpapdZRiTjq4tuUVfbN9z6Vhk3UHqC7s2-uhJbAdhZ7w@mail.gmail.com>
+Subject: Re: [PATCH v2] nvme: check for valid data from from
+ nvme_identify_ns() before using it
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: VzP8EPz8SecZrQJCfjaXI5lZ1lb5ChE5
-X-Proofpoint-ORIG-GUID: VzP8EPz8SecZrQJCfjaXI5lZ1lb5ChE5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-28_24,2023-11-27_01,2023-05-22_02
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231128_142822_871656_0AB702FD 
-X-CRM114-Status: GOOD (  23.27  )
+X-CRM114-CacheID: sfid-20231128_145737_893404_CE2AC2CB 
+X-CRM114-Status: GOOD (  20.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,354 +97,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+Sure, the kernel should not crash regardless of what any device reports,
+especially an external one.
 
-Map user metadata buffers directly. Now that the bio tracks the
-metadata, nvme doesn't need special metadata handling and tracking with
-callbacks and additional fields in the pdu.
+The _identify_ns() divide by zero happened because the NVMe spec
+says a page of zeroes can be returned if a namespace isn't configured.
+I'm not really sure why the spec didn't require a nonzero status code.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/ioctl.c | 197 ++++++--------------------------------
- 1 file changed, 29 insertions(+), 168 deletions(-)
+-Ewan
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 529b9954d2b8c..32c9bcf491a33 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -96,58 +96,6 @@ static void __user *nvme_to_user_ptr(uintptr_t ptrval)
- 	return (void __user *)ptrval;
- }
-=20
--static void *nvme_add_user_metadata(struct request *req, void __user *ub=
-uf,
--		unsigned len, u32 seed)
--{
--	struct bio_integrity_payload *bip;
--	int ret =3D -ENOMEM;
--	void *buf;
--	struct bio *bio =3D req->bio;
--
--	buf =3D kmalloc(len, GFP_KERNEL);
--	if (!buf)
--		goto out;
--
--	if (req_op(req) =3D=3D REQ_OP_DRV_OUT) {
--		ret =3D -EFAULT;
--		if (copy_from_user(buf, ubuf, len))
--			goto out_free_meta;
--	} else {
--		memset(buf, 0, len);
--	}
--
--	bip =3D bio_integrity_alloc(bio, GFP_KERNEL, 1);
--	if (IS_ERR(bip)) {
--		ret =3D PTR_ERR(bip);
--		goto out_free_meta;
--	}
--
--	bip->bip_iter.bi_sector =3D seed;
--	ret =3D bio_integrity_add_page(bio, virt_to_page(buf), len,
--			offset_in_page(buf));
--	if (ret !=3D len) {
--		ret =3D -ENOMEM;
--		goto out_free_meta;
--	}
--
--	req->cmd_flags |=3D REQ_INTEGRITY;
--	return buf;
--out_free_meta:
--	kfree(buf);
--out:
--	return ERR_PTR(ret);
--}
--
--static int nvme_finish_user_metadata(struct request *req, void __user *u=
-buf,
--		void *meta, unsigned len, int ret)
--{
--	if (!ret && req_op(req) =3D=3D REQ_OP_DRV_IN &&
--	    copy_to_user(ubuf, meta, len))
--		ret =3D -EFAULT;
--	kfree(meta);
--	return ret;
--}
--
- static struct request *nvme_alloc_user_request(struct request_queue *q,
- 		struct nvme_command *cmd, blk_opf_t rq_flags,
- 		blk_mq_req_flags_t blk_flags)
-@@ -164,14 +112,12 @@ static struct request *nvme_alloc_user_request(stru=
-ct request_queue *q,
-=20
- static int nvme_map_user_request(struct request *req, u64 ubuffer,
- 		unsigned bufflen, void __user *meta_buffer, unsigned meta_len,
--		u32 meta_seed, void **metap, struct io_uring_cmd *ioucmd,
--		unsigned int flags)
-+		u32 meta_seed, struct io_uring_cmd *ioucmd, unsigned int flags)
- {
- 	struct request_queue *q =3D req->q;
- 	struct nvme_ns *ns =3D q->queuedata;
- 	struct block_device *bdev =3D ns ? ns->disk->part0 : NULL;
- 	struct bio *bio =3D NULL;
--	void *meta =3D NULL;
- 	int ret;
-=20
- 	if (ioucmd && (ioucmd->flags & IORING_URING_CMD_FIXED)) {
-@@ -193,18 +139,17 @@ static int nvme_map_user_request(struct request *re=
-q, u64 ubuffer,
-=20
- 	if (ret)
- 		goto out;
-+
- 	bio =3D req->bio;
--	if (bdev)
-+	if (bdev) {
- 		bio_set_dev(bio, bdev);
--
--	if (bdev && meta_buffer && meta_len) {
--		meta =3D nvme_add_user_metadata(req, meta_buffer, meta_len,
--				meta_seed);
--		if (IS_ERR(meta)) {
--			ret =3D PTR_ERR(meta);
--			goto out_unmap;
-+		if (meta_buffer && meta_len) {
-+			ret =3D bio_integrity_map_user(bio, meta_buffer, meta_len,
-+						     meta_seed);
-+			if (ret)
-+				goto out_unmap;
-+			req->cmd_flags |=3D REQ_INTEGRITY;
- 		}
--		*metap =3D meta;
- 	}
-=20
- 	return ret;
-@@ -225,7 +170,6 @@ static int nvme_submit_user_cmd(struct request_queue =
-*q,
- 	struct nvme_ns *ns =3D q->queuedata;
- 	struct nvme_ctrl *ctrl;
- 	struct request *req;
--	void *meta =3D NULL;
- 	struct bio *bio;
- 	u32 effects;
- 	int ret;
-@@ -237,7 +181,7 @@ static int nvme_submit_user_cmd(struct request_queue =
-*q,
- 	req->timeout =3D timeout;
- 	if (ubuffer && bufflen) {
- 		ret =3D nvme_map_user_request(req, ubuffer, bufflen, meta_buffer,
--				meta_len, meta_seed, &meta, NULL, flags);
-+				meta_len, meta_seed, NULL, flags);
- 		if (ret)
- 			return ret;
- 	}
-@@ -249,9 +193,6 @@ static int nvme_submit_user_cmd(struct request_queue =
-*q,
- 	ret =3D nvme_execute_rq(req, false);
- 	if (result)
- 		*result =3D le64_to_cpu(nvme_req(req)->result.u64);
--	if (meta)
--		ret =3D nvme_finish_user_metadata(req, meta_buffer, meta,
--						meta_len, ret);
- 	if (bio)
- 		blk_rq_unmap_user(bio);
- 	blk_mq_free_request(req);
-@@ -446,19 +387,10 @@ struct nvme_uring_data {
-  * Expect build errors if this grows larger than that.
-  */
- struct nvme_uring_cmd_pdu {
--	union {
--		struct bio *bio;
--		struct request *req;
--	};
--	u32 meta_len;
--	u32 nvme_status;
--	union {
--		struct {
--			void *meta; /* kernel-resident buffer */
--			void __user *meta_buffer;
--		};
--		u64 result;
--	} u;
-+	struct request *req;
-+	struct bio *bio;
-+	u64 result;
-+	int status;
- };
-=20
- static inline struct nvme_uring_cmd_pdu *nvme_uring_cmd_pdu(
-@@ -467,31 +399,6 @@ static inline struct nvme_uring_cmd_pdu *nvme_uring_=
-cmd_pdu(
- 	return (struct nvme_uring_cmd_pdu *)&ioucmd->pdu;
- }
-=20
--static void nvme_uring_task_meta_cb(struct io_uring_cmd *ioucmd,
--				    unsigned issue_flags)
--{
--	struct nvme_uring_cmd_pdu *pdu =3D nvme_uring_cmd_pdu(ioucmd);
--	struct request *req =3D pdu->req;
--	int status;
--	u64 result;
--
--	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
--		status =3D -EINTR;
--	else
--		status =3D nvme_req(req)->status;
--
--	result =3D le64_to_cpu(nvme_req(req)->result.u64);
--
--	if (pdu->meta_len)
--		status =3D nvme_finish_user_metadata(req, pdu->u.meta_buffer,
--					pdu->u.meta, pdu->meta_len, status);
--	if (req->bio)
--		blk_rq_unmap_user(req->bio);
--	blk_mq_free_request(req);
--
--	io_uring_cmd_done(ioucmd, status, result, issue_flags);
--}
--
- static void nvme_uring_task_cb(struct io_uring_cmd *ioucmd,
- 			       unsigned issue_flags)
- {
-@@ -499,8 +406,7 @@ static void nvme_uring_task_cb(struct io_uring_cmd *i=
-oucmd,
-=20
- 	if (pdu->bio)
- 		blk_rq_unmap_user(pdu->bio);
--
--	io_uring_cmd_done(ioucmd, pdu->nvme_status, pdu->u.result, issue_flags)=
-;
-+	io_uring_cmd_done(ioucmd, pdu->status, pdu->result, issue_flags);
- }
-=20
- static enum rq_end_io_ret nvme_uring_cmd_end_io(struct request *req,
-@@ -509,53 +415,24 @@ static enum rq_end_io_ret nvme_uring_cmd_end_io(str=
-uct request *req,
- 	struct io_uring_cmd *ioucmd =3D req->end_io_data;
- 	struct nvme_uring_cmd_pdu *pdu =3D nvme_uring_cmd_pdu(ioucmd);
-=20
--	req->bio =3D pdu->bio;
--	if (nvme_req(req)->flags & NVME_REQ_CANCELLED) {
--		pdu->nvme_status =3D -EINTR;
--	} else {
--		pdu->nvme_status =3D nvme_req(req)->status;
--		if (!pdu->nvme_status)
--			pdu->nvme_status =3D blk_status_to_errno(err);
--	}
--	pdu->u.result =3D le64_to_cpu(nvme_req(req)->result.u64);
-+	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
-+		pdu->status =3D -EINTR;
-+	else
-+		pdu->status =3D nvme_req(req)->status;
-+	pdu->result =3D le64_to_cpu(nvme_req(req)->result.u64);
-=20
- 	/*
- 	 * For iopoll, complete it directly.
- 	 * Otherwise, move the completion to task work.
- 	 */
--	if (blk_rq_is_poll(req)) {
--		WRITE_ONCE(ioucmd->cookie, NULL);
-+	if (blk_rq_is_poll(req))
- 		nvme_uring_task_cb(ioucmd, IO_URING_F_UNLOCKED);
--	} else {
-+	else
- 		io_uring_cmd_do_in_task_lazy(ioucmd, nvme_uring_task_cb);
--	}
-=20
- 	return RQ_END_IO_FREE;
- }
-=20
--static enum rq_end_io_ret nvme_uring_cmd_end_io_meta(struct request *req=
-,
--						     blk_status_t err)
--{
--	struct io_uring_cmd *ioucmd =3D req->end_io_data;
--	struct nvme_uring_cmd_pdu *pdu =3D nvme_uring_cmd_pdu(ioucmd);
--
--	req->bio =3D pdu->bio;
--	pdu->req =3D req;
--
--	/*
--	 * For iopoll, complete it directly.
--	 * Otherwise, move the completion to task work.
--	 */
--	if (blk_rq_is_poll(req)) {
--		WRITE_ONCE(ioucmd->cookie, NULL);
--		nvme_uring_task_meta_cb(ioucmd, IO_URING_F_UNLOCKED);
--	} else {
--		io_uring_cmd_do_in_task_lazy(ioucmd, nvme_uring_task_meta_cb);
--	}
--
--	return RQ_END_IO_NONE;
--}
--
- static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 		struct io_uring_cmd *ioucmd, unsigned int issue_flags, bool vec)
- {
-@@ -567,7 +444,6 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, =
-struct nvme_ns *ns,
- 	struct request *req;
- 	blk_opf_t rq_flags =3D REQ_ALLOC_CACHE;
- 	blk_mq_req_flags_t blk_flags =3D 0;
--	void *meta =3D NULL;
- 	int ret;
-=20
- 	c.common.opcode =3D READ_ONCE(cmd->opcode);
-@@ -615,27 +491,16 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl=
-, struct nvme_ns *ns,
- 	if (d.addr && d.data_len) {
- 		ret =3D nvme_map_user_request(req, d.addr,
- 			d.data_len, nvme_to_user_ptr(d.metadata),
--			d.metadata_len, 0, &meta, ioucmd, vec);
-+			d.metadata_len, 0, ioucmd, vec);
- 		if (ret)
- 			return ret;
- 	}
-=20
--	if (blk_rq_is_poll(req)) {
--		ioucmd->flags |=3D IORING_URING_CMD_POLLED;
--		WRITE_ONCE(ioucmd->cookie, req);
--	}
--
- 	/* to free bio on completion, as req->bio will be null at that time */
- 	pdu->bio =3D req->bio;
--	pdu->meta_len =3D d.metadata_len;
-+	pdu->req =3D req;
- 	req->end_io_data =3D ioucmd;
--	if (pdu->meta_len) {
--		pdu->u.meta =3D meta;
--		pdu->u.meta_buffer =3D nvme_to_user_ptr(d.metadata);
--		req->end_io =3D nvme_uring_cmd_end_io_meta;
--	} else {
--		req->end_io =3D nvme_uring_cmd_end_io;
--	}
-+	req->end_io =3D nvme_uring_cmd_end_io;
- 	blk_execute_rq_nowait(req, false);
- 	return -EIOCBQUEUED;
- }
-@@ -786,16 +651,12 @@ int nvme_ns_chr_uring_cmd_iopoll(struct io_uring_cm=
-d *ioucmd,
- 				 struct io_comp_batch *iob,
- 				 unsigned int poll_flags)
- {
--	struct request *req;
--	int ret =3D 0;
--
--	if (!(ioucmd->flags & IORING_URING_CMD_POLLED))
--		return 0;
-+	struct nvme_uring_cmd_pdu *pdu =3D nvme_uring_cmd_pdu(ioucmd);
-+	struct request *req =3D pdu->req;
-=20
--	req =3D READ_ONCE(ioucmd->cookie);
- 	if (req && blk_rq_is_poll(req))
--		ret =3D blk_rq_poll(req, iob, poll_flags);
--	return ret;
-+		return blk_rq_poll(req, iob, poll_flags);
-+	return 0;
- }
- #ifdef CONFIG_NVME_MULTIPATH
- static int nvme_ns_head_ctrl_ioctl(struct nvme_ns *ns, unsigned int cmd,
---=20
-2.34.1
+On Tue, Nov 28, 2023 at 12:32=E2=80=AFPM Keith Busch <kbusch@kernel.org> wr=
+ote:
+>
+> On Tue, Nov 28, 2023 at 11:10:29AM -0500, Ewan Milne wrote:
+> > > Interestingly enough, I think this is the same as what was recently
+> > > reported here:
+> > >
+> > >   https://bugzilla.kernel.org/show_bug.cgi?id=3D218186
+> > >
+> >
+> > Yes, from the stack trace and BZ comments it looks like it.
+>
+> Slightly related, there's nothing stopping a device from reporting a
+> bogus LBA shift value. We're only checking for "too big", but neglect to
+> check for too small, and may similiarly shift off to a division by 0. We
+> might need a check like this too:
+>
+> ---
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index a55c2a774b9c4..8bf78f876f7ac 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -1903,7 +1903,7 @@ static void nvme_update_disk_info(struct gendisk *d=
+isk,
+>          * The block layer can't support LBA sizes larger than the page s=
+ize
+>          * yet, so catch this early and don't allow block I/O.
+>          */
+> -       if (ns->lba_shift > PAGE_SHIFT) {
+> +       if (ns->lba_shift > PAGE_SHIFT || ns->lba_shift < SECTOR_SHIFT) {
+>                 capacity =3D 0;
+>                 bs =3D (1 << 9);
+>         }
+> --
+>
 
 
