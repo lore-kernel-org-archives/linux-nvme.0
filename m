@@ -4,53 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CDCDEC4167B
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Nov 2023 06:22:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5131C07E98
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Nov 2023 08:19:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=85td8lfeKN6qjBLmZIKTnsiFfWCuq1Xuhwm1YzEO3Qs=; b=DpNOlo0SLmTwwF1kNNect/BKhl
-	WEagrrTcyGARWzWs7/NO2PjY0y9PCRJ40XPpm4czEpM8rUGNVsCL+Q9CM2/p+BdRjVcQbcEVVcuUL
-	W0IwgB3/gWsCvgspjw1GVpsSnpmHQzoI06gj0XGeEKBRxh5aLNHy9dsbxhRl/zFF88fVadgBmEEy+
-	ujgP+DSON+el533MarEa7laGopYuG3eu48M3I1KappHMooripjTQCYMjD0O26UNCUhKeTXr0z1z9G
-	1Oj1Aqb//+FhIiM46M2Wp395nh+ei8yH0mM2VkOT3kIPMF1+bMrXSaLT4i6zWCYIu59kyk22LjM8q
-	XBt+5soQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=xhtMDEPVeCkzMMr9t+QFUn/frIx4jqPqIJXFe1KAaNs=; b=ZKgDPdKeBunhP7/2C79unODKzb
+	+690mgwRcNu2XZEt7kJ1lyfugOtFWWoOp8enl1U8eCyIZFwXdikm17vGcSKWuczdukA8mkb9VJRq/
+	3ojUCeTkye1iCo0Tcwg6yIJlgwl08Kaqy+IyjQdGUQdXrTyz6Gr0gf4XW9NnF+UbggtICYJWxrQaK
+	nvozIfirJHzp2FXfXLkQSEsFWZxDY79UtJuJm9G03QvyAP5R1K1e/P+9tXe56yFrwUkAXIRU29mY6
+	NEuaVYia7B9XOEd+QgqP3ZI2H9/yEBh44lC/iKloY3oRYLT0BKRtM3xUJzDRq6ZR8Wrau34XzLhPu
+	pC7dNAOQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r7rUW-004Feq-1x;
-	Tue, 28 Nov 2023 06:22:40 +0000
-Received: from out30-99.freemail.mail.aliyun.com ([115.124.30.99])
+	id 1r7tJh-004W7e-17;
+	Tue, 28 Nov 2023 08:19:37 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r7rUT-004FeF-0z
+	id 1r7tJe-004W6s-1x
 	for linux-nvme@lists.infradead.org;
-	Tue, 28 Nov 2023 06:22:38 +0000
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046050;MF=yaoma@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0VxJbmTM_1701152551;
-Received: from 30.178.66.233(mailfrom:yaoma@linux.alibaba.com fp:SMTPD_---0VxJbmTM_1701152551)
-          by smtp.aliyun-inc.com;
-          Tue, 28 Nov 2023 14:22:33 +0800
-Message-ID: <65b0c372-b308-46dd-c2f2-a5ddb50adb10@linux.alibaba.com>
-Date: Tue, 28 Nov 2023 14:22:27 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.1
-Subject: Re: [PATCH] nvme: fix deadlock between reset and scan
-Content-Language: en-US
+	Tue, 28 Nov 2023 08:19:36 +0000
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 52CEC2195A;
+	Tue, 28 Nov 2023 08:19:32 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 3F0DE133B5;
+	Tue, 28 Nov 2023 08:19:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id hMfuDZSiZWWbPQAAn2gu4w
+	(envelope-from <dwagner@suse.de>); Tue, 28 Nov 2023 08:19:32 +0000
+Date: Tue, 28 Nov 2023 09:21:45 +0100
+From: Daniel Wagner <dwagner@suse.de>
 To: Keith Busch <kbusch@kernel.org>
-Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- kanie@linux.alibaba.com
-References: <1700737213-110685-1-git-send-email-yaoma@linux.alibaba.com>
- <ZWTa0DJmcLKHRWWC@kbusch-mbp.dhcp.thefacebook.com>
-From: yaoma <yaoma@linux.alibaba.com>
-In-Reply-To: <ZWTa0DJmcLKHRWWC@kbusch-mbp.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>
+Subject: Re: [RFC v1] nvme: add cse, ds, ms, nsze and nuse to sysfs
+Message-ID: <n57gxockmm4iqt53olerr52rgxg3mvgdp4wfshyci2r7dohxfg@22mqtj3ya3g3>
+References: <20231127103208.25748-1-dwagner@suse.de>
+ <20231127141857.GA25833@lst.de>
+ <ZWS5dM5FzTMr5ftO@kbusch-mbp.dhcp.thefacebook.com>
+ <20231127155649.GA1403@lst.de>
+ <ZWTEFvYbI1bFTXyZ@kbusch-mbp.dhcp.thefacebook.com>
+ <20231127163333.GA2273@lst.de>
+ <ZWTH85bmw0cdePXf@kbusch-mbp.dhcp.thefacebook.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZWTH85bmw0cdePXf@kbusch-mbp.dhcp.thefacebook.com>
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Rspamd-Server: rspamd2
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	 REPLY(-4.00)[]
+X-Rspamd-Queue-Id: 52CEC2195A
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231127_222237_499716_343BD84B 
-X-CRM114-Status: GOOD (  13.51  )
+X-CRM114-CacheID: sfid-20231128_001934_803762_BCA4D087 
+X-CRM114-Status: GOOD (  19.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,44 +84,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Keith Busch
+On Mon, Nov 27, 2023 at 09:46:43AM -0700, Keith Busch wrote:
+> On Mon, Nov 27, 2023 at 05:33:33PM +0100, Christoph Hellwig wrote:
+> > On Mon, Nov 27, 2023 at 09:30:14AM -0700, Keith Busch wrote:
+> > > > > Should this even be an nvme specific attribute? I thought we should have
+> > > > > blk-integrity.c report its 'tuple_size' attribute instead. That should
+> > > > > work as long as we're not dealing with extended metadata at least, but
+> > > > > that's kind of a special format that doesn't have block layer support.
+> > > > 
+> > > > Reporting the tuple size is a good idea.  But is that enough for
+> > > > the existing nvme-cli use case?
 
-Thanks for your reply.
+'nvme list' is just listening the block size and the meta size in the
+'Format' field. So nothing really crazy going on:
 
-The idea to avoid such a deadlock between nvme_reset and nvme_scan is to 
-ensure that no namespace can be added to ctrl->namespaces after 
-nvme_start_freeze has already been called. We can achieve this goal by 
-assessing the ctrl->state after we have already acquired the 
-ctrl->namespaces_rwsem lock, to decide whether to add the namespace to 
-the list or not.
-1. After we determine that ctrl->state is LIVE, it may be immediately 
-changed to another state. However, since we have already acquired the 
-lock, other tasks cannot access ctrl->namespace, so we can still safely 
-add the namespace to the list. After acquiring the lock, 
-nvme_start_freeze will freeze all ns->q in the list, including any newly 
-added namespaces.
-2. Before the completion of nvme_reset, ctrl->state will not be changed 
-to LIVE, so we will not add any more namespaces to the list. All ns->q 
-in the list is frozen, so nvme_wait_freeze can exit normally.
+  Usage                      Format
+  -------------------------- ----------------
+  343.33  GB / 512.11  GB    512   B +  0 B
 
+nvme-cli commands like 'nmve ns-id' etc will always issue a command so
+that is not a concern. It's just the libnvme nvme_scan_topology() call
+which should stop issuing any commands.
 
-On 2023/11/28 02:07, Keith Busch wrote:
-> On Thu, Nov 23, 2023 at 07:00:13PM +0800, Bitao Hu wrote:
->> @@ -3631,6 +3631,11 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
->>   		goto out_unlink_ns;
->>   
->>   	down_write(&ctrl->namespaces_rwsem);
->> +	/* preventing adding ns during resetting */
->> +	if (unlikely(ctrl->state != NVME_CTRL_LIVE)) {
-> 
-> We can't rely on ctrl->state for preventing deadlocks. Reading unlocked
-> ctrl->state is often used, but should be considered advisory-only since
-> the state could change immediatly after reading it.
-> 
->> +		up_write(&ctrl->namespaces_rwsem);
->> +		goto out_unlink_ns;
->> +	}
->>   	nvme_ns_add_to_ctrl_list(ns);
->>   	up_write(&ctrl->namespaces_rwsem);
->>   	nvme_get_ctrl(ctrl);
+I'll add the missing tuple_size to the integrity sysfs dir in this case.
+
+> > > nvme-cli currently queries with admin passthrough identify command, so
+> > > adding a new attribute won't break that. I assume Daniel would have it
+> > > fallback to that same command for backward compatibilty if a desired
+> > > sysfs attribute doesn't exist.
+
+Yes, a fallback will exist. There is no need to break existing users.
+
+In summary, the only missing entries are
+
+ - csi
+ - tuple_size
+ - nuse
 
