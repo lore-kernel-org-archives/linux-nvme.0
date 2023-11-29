@@ -4,50 +4,129 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11960C4167B
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Nov 2023 02:13:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DEC74C4167B
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Nov 2023 03:36:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:MIME-Version:Content-Type:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=p+9sYREg2BPZL95FPlWusSMtZCxPdw5aX0oNnElc4EQ=; b=jxBHmCAramWTVGzb3LUrM5c37N
-	DNHJ/DpxQNIyhQm60Q7O/a5A6qiewKbtBE89330yuSl07Qby/+kgsAp6CH5itZlpR3c5GHYLq6AV2
-	kzwO+rIIDqRT8cJSfQkignDAGD6V6NsZ+GZzl+2NTHN2fMfTWkPViL26Ce/XOQfr2sZ2evEo++NJs
-	N74dJ/bRYMWG5EhXmSASekfS82flc/APrNhOC9eLvrtKqao5IRkdElAGMpa6BpVjD3n0eDU0n9O4b
-	1am12ry1wYJm+Hn4AHFzf+WOCmO9tZQEnV6lVXAg7H8GtSSyzUIEBjwzQFSLadrAIbc6yDMuzLqWo
-	Zh6CSLmA==;
+	bh=/WaH6IK/Rfh6jZJ/G83i6v0SV3kGzQkyWCRANtlqumo=; b=l+zuSlknkwsSMnl/u+4EUEt21Q
+	mGCCbFrKATd2OrmpZQSs9BwSn5RLPBgQ20MldthKbbnFhIqaDQzSNQ74JwLXeZOS8WR9Q1L8siMtz
+	N/vu0iVDWV3/ecp+IBoE1pA/EcvrZM0h6Hlkxuzbk6zKzOnDNJTVpMo4So4Vlt49fK/tW9JdQUcJo
+	R2aiGBAnNXWVe4TTk3CpnOn0T3/Y6jZD1kSx95AXsd++xAqgAn/INZzxqAnfNOQYiUjc0HTHuoIS6
+	ZGmQh9RblrUTRPN/0m8YJ3uEfi2DdlDuVRLHOXlTVIfhny9vafvmsO93pSMBSEVCnSZQZBUBsMfj2
+	895DxXbw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r8WYq-009jWZ-2D;
-	Thu, 30 Nov 2023 02:13:52 +0000
-Received: from out30-98.freemail.mail.aliyun.com ([115.124.30.98])
+	id 1r8XqP-009qmy-0D;
+	Thu, 30 Nov 2023 03:36:05 +0000
+Received: from mailout1.samsung.com ([203.254.224.24])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r8WYn-009jVp-0G
+	id 1r8XqI-009qla-2U
 	for linux-nvme@lists.infradead.org;
-	Thu, 30 Nov 2023 02:13:50 +0000
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046059;MF=yaoma@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0VxPhLPY_1701310417;
-Received: from localhost(mailfrom:yaoma@linux.alibaba.com fp:SMTPD_---0VxPhLPY_1701310417)
-          by smtp.aliyun-inc.com;
-          Thu, 30 Nov 2023 10:13:43 +0800
-From: Bitao Hu <yaoma@linux.alibaba.com>
-To: sagi@grimberg.me,
-	kbusch@kernel.org
-Cc: axboe@kernel.dk,
-	hch@lst.de,
-	kanie@linux.alibaba.com,
-	linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH v2] nvme: fix deadlock between reset and scan
-Date: Thu, 30 Nov 2023 10:13:37 +0800
-Message-Id: <1701310417-301-1-git-send-email-yaoma@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <c47a0edd-7437-4c21-b7cf-f969ff85bf78@grimberg.me>
-References: <c47a0edd-7437-4c21-b7cf-f969ff85bf78@grimberg.me>
+	Thu, 30 Nov 2023 03:36:02 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20231130033548epoutp013ec022cde8119d0bff269e7c4e4d8d6b~cSUu_Bnn32624426244epoutp01-
+	for <linux-nvme@lists.infradead.org>; Thu, 30 Nov 2023 03:35:48 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20231130033548epoutp013ec022cde8119d0bff269e7c4e4d8d6b~cSUu_Bnn32624426244epoutp01-
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1701315348;
+	bh=/WaH6IK/Rfh6jZJ/G83i6v0SV3kGzQkyWCRANtlqumo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=WK3PKD1BItYWEZ9tb3goSwLB/aAEd68CWvqMkPiUe6/jOGqx6JxLkNxZsbTcdvjYM
+	 iNxq/yznUP3ipWavOp1prGTbSbkskMrveRDwWOzg/n6PzQNvM6zQguWFiPtubh34/d
+	 wbkUcHBxRgjRDZ13F06Cng9pJ60Oh7hDX1ggE0wA=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+	20231130033548epcas5p18300b72735a92bf19048b3756f643cf0~cSUuMUTBk0076600766epcas5p1z;
+	Thu, 30 Nov 2023 03:35:48 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.180]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4Sghfp5Z1Jz4x9Q0; Thu, 30 Nov
+	2023 03:35:46 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	6D.B5.09634.21308656; Thu, 30 Nov 2023 12:35:46 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20231129160110epcas5p4913da50d344becbe1fde0c076d1e1c3d~cI2O8sIA51449514495epcas5p4y;
+	Wed, 29 Nov 2023 16:01:10 +0000 (GMT)
+Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20231129160110epsmtrp22fa9234405d24364f4660074cf38c6bc~cI2O72s1D2435724357epsmtrp2K;
+	Wed, 29 Nov 2023 16:01:10 +0000 (GMT)
+X-AuditID: b6c32a49-eebff700000025a2-33-65680312b377
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
+	9E.7A.18939.64067656; Thu, 30 Nov 2023 01:01:10 +0900 (KST)
+Received: from green245 (unknown [107.99.41.245]) by epsmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20231129160108epsmtip15276ccd6c632ab09a58b12fdc7bba6fe~cI2NPSQPe2199321993epsmtip1c;
+	Wed, 29 Nov 2023 16:01:08 +0000 (GMT)
+Date: Wed, 29 Nov 2023 21:24:51 +0530
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph
+	Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, James Smart
+	<james.smart@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>,
+	error27@gmail.com, gost.dev@samsung.com, nitheshshetty@gmail.com,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] nvme: prevent potential spectre v1 gadget
+Message-ID: <20231129155451.ropb4udx6w4xmytb@green245>
+MIME-Version: 1.0
+In-Reply-To: <b94b300b-8c09-4246-bd98-95f7b4291c49@suswa.mountain>
+User-Agent: NeoMutt/20171215
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrAJsWRmVeSWpSXmKPExsWy7bCmlq4Qc0aqwZ0DQhar7/azWXyY18pu
+	8WiZn8XNAzuZLFauPspksXvhRyaLSYeuMVo8vTqLyeLyrjlsFvOXPWW32PGkkdFi3ev3LA48
+	HrPun2Xz2DnrLrvH+XsbWTwuny312LSqk83jzrU9bB6bl9R77L7ZwObR2/yOzaNvyypGj8+b
+	5AK4o7JtMlITU1KLFFLzkvNTMvPSbZW8g+Od403NDAx1DS0tzJUU8hJzU22VXHwCdN0yc4BO
+	V1IoS8wpBQoFJBYXK+nb2RTll5akKmTkF5fYKqUWpOQUmBToFSfmFpfmpevlpZZYGRoYGJkC
+	FSZkZ/Tski44y1HxaP4t5gbGnexdjJwcEgImEnN2/WDqYuTiEBLYzSix6/hCNgjnE6PE558n
+	mOGctgnr4FpWr2hgh0jsZJRY8/8VlPOMUaJpfzMbSBWLgKrExhP3gBIcHGwC2hKn/3OAhEUE
+	dCT+/Z3MAlLPLHCDSWL/mR+sIAlhASeJe09fMIHYvAJmEku3HGKFsAUlTs58wgIyhxOo5sHk
+	dJCwqICMxIylX8GukxA4wCGxb+ZONojrXCQarh+HsoUlXh3fAnW1lMTnd3uh4uUSK6esYINo
+	bmGUmHV9FiNEwl6i9VQ/M4jNLJAhsXLyIai4rMTUU+uYIOJ8Er2/nzBBxHkldsyDsZUl1qxf
+	ALVAUuLa90Yo20Oi6/8laKB+ZZS4vq6dfQKj/Cwkz81Csg/CtpLo/NDEOgvoaWYBaYnl/zgg
+	TE2J9bv0FzCyrmKUTC0ozk1PLTYtMMxLLYfHeHJ+7iZGcNLW8tzBePfBB71DjEwcjIcYJTiY
+	lUR4rz9NTxXiTUmsrEotyo8vKs1JLT7EaAqMrInMUqLJ+cC8kVcSb2hiaWBiZmZmYmlsZqgk
+	zvu6dW6KkEB6YklqdmpqQWoRTB8TB6dUA1O16oOzL5d5dMgwlMb05m1e6KYcn/+Cc9tOa67f
+	O4p6rJa88Hd/arFcdMbZ3TKnXvLo8z7jFOlJ3zC3nmE2l2Nq1pbETzNudFkUTFd0bQ2vjru+
+	4rL2QhtRvqDmRzdDJad9/pShxTzT6zVbx4ddFzc+C9585MV3FRufT+WPN1w4t1Bv9gOzF1sP
+	2fXsORiVG+ZeaO5ePufA5WtCLBx/p2bbeNqa/Hq3SfnUhJwI/p3uYV3N3MLGWpIGi4NPt7UG
+	RAgKTf6S+OjRgms/Wf19br88+saq5Sr/o5DIoxcSbXWk88123FnCpbcqppH/gahN0C3Howa/
+	6xzun+t9I7+6elbz1WsHy6TLGYTeL9zI2aLEUpyRaKjFXFScCABT7UiDYwQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuphkeLIzCtJLcpLzFFi42LZdlhJTtctIT3VoKlNzGL13X42iw/zWtkt
+	Hi3zs7h5YCeTxcrVR5ksdi/8yGQx6dA1RounV2cxWVzeNYfNYv6yp+wWO540Mlqse/2exYHH
+	Y9b9s2weO2fdZfc4f28ji8fls6Uem1Z1snncubaHzWPzknqP3Tcb2Dx6m9+xefRtWcXo8XmT
+	XAB3FJdNSmpOZllqkb5dAlfG76N/2Qr+s1Zs/LuBuYGxlbWLkZNDQsBEYvWKBvYuRi4OIYHt
+	jBJT1y2BSkhKLPt7hBnCFpZY+e85VNETRolfG68zgSRYBFQlNp64B5Tg4GAT0JY4/Z8DJCwi
+	oCPx7+9kFhCbWeAWk8TcJ2ogtrCAk8S9py/AWnkFzCSWbjnECjHzK6PE+od7GCESghInZz6B
+	ajaTmLf5ITPIfGYBaYnl/zhATE6gOQ8mp4NUiArISMxY+pV5AqPgLCTNs5A0z0JoXsDIvIpR
+	NLWgODc9N7nAUK84Mbe4NC9dLzk/dxMjOMK0gnYwLlv/V+8QIxMH4yFGCQ5mJRFevY/JqUK8
+	KYmVValF+fFFpTmpxYcYpTlYlMR5lXM6U4QE0hNLUrNTUwtSi2CyTBycUg1MoZeeNmnWpvdH
+	vl7I25C+wdD3Ro/6XcdZJzrCguNYsoNcvu/+z8yq3nNRrE/ZhPmKhJd2WtonF+fXi7tCoz5e
+	5HI/7Vkt78tvqNxo3O6stTjDOrHsVUJGj78QT0XS8qev7klG/K8qtHZTOnHRXsY8KKnmaJeC
+	zOsbu3x3M7EvX+JbzvjuWnlNSbfpo7RXcxL1Imw1ml+5lCzT2N98+qnQ27ve22d+0twxIUr/
+	yPPDTjM3ftW1Sjtz9o5h3QMGH79FPEK6/Dv9u//NXygvbTLr5+x/SZnezLUTlWOXuXzRMj5+
+	6VfNqY9Rtd+f++/bsJBV6IOJk+wJt54Lz9fYPti6IPPJV4mKfwaV5kdmGimxFGckGmoxFxUn
+	AgCMvymGHwMAAA==
+X-CMS-MailID: 20231129160110epcas5p4913da50d344becbe1fde0c076d1e1c3d
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----E2FLEX3VNKXZtTxXMF9-IQsaSIEoxQsaU5Vw1-qQHlNadj4Z=_1b44d_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20231128123634epcas5p201af168ff4ef4a8a129e5448bccca1a6
+References: <20231128122958.2235-1-nj.shetty@samsung.com>
+	<CGME20231128123634epcas5p201af168ff4ef4a8a129e5448bccca1a6@epcas5p2.samsung.com>
+	<20231128122958.2235-2-nj.shetty@samsung.com>
+	<b94b300b-8c09-4246-bd98-95f7b4291c49@suswa.mountain>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231129_181349_274015_9C4EFBC7 
-X-CRM114-Status: GOOD (  13.46  )
+X-CRM114-CacheID: sfid-20231129_193600_258335_A8EED48C 
+X-CRM114-Status: GOOD (  17.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,164 +141,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-If controller reset occurs when allocating namespace, both
-nvme_reset_work and nvme_scan_work will hang, as shown below.
+------E2FLEX3VNKXZtTxXMF9-IQsaSIEoxQsaU5Vw1-qQHlNadj4Z=_1b44d_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-Test Scripts:
+On 29/11/23 12:27PM, Dan Carpenter wrote:
+>On Tue, Nov 28, 2023 at 05:59:57PM +0530, Nitesh Shetty wrote:
+>> This patch fixes the smatch warning, "nvmet_ns_ana_grpid_store() warn:
+>> potential spectre issue 'nvmet_ana_group_enabled' [w] (local cap)"
+>> Prevent the contents of kernel memory from being leaked to  user space
+>> via speculative execution by using array_index_nospec.
+>>
+>> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+>> ---
+>
+>When it comes to adding array_index_nospec(), then I don't know enough
+>about it to comment.
+>
+Upon smatch's warning, I referred to kernel documentation[1].
+Using array_index_nospec should avoid memory leak.
 
-    for ((t=1;t<=128;t++))
-    do
-    nsid=`nvme create-ns /dev/nvme1 -s 14537724 -c 14537724 -f 0 -m 0 \
-    -d 0 | awk -F: '{print($NF);}'`
-    nvme attach-ns /dev/nvme1 -n $nsid -c 0
-    done
-    nvme reset /dev/nvme1
+Thank you,
+Nitesh Shetty
 
-We will find that both nvme_reset_work and nvme_scan_work hung:
+[1] https://www.kernel.org/doc/Documentation/speculation.txt
 
-    INFO: task kworker/u249:4:17848 blocked for more than 120 seconds.
-    "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this
-    message.
-    task:kworker/u249:4  state:D stack:    0 pid:17848 ppid:     2
-    flags:0x00000028
-    Workqueue: nvme-reset-wq nvme_reset_work [nvme]
-    Call trace:
-    __switch_to+0xb4/0xfc
-    __schedule+0x22c/0x670
-    schedule+0x4c/0xd0
-    blk_mq_freeze_queue_wait+0x84/0xc0
-    nvme_wait_freeze+0x40/0x64 [nvme_core]
-    nvme_reset_work+0x1c0/0x5cc [nvme]
-    process_one_work+0x1d8/0x4b0
-    worker_thread+0x230/0x440
-    kthread+0x114/0x120
-    INFO: task kworker/u249:3:22404 blocked for more than 120 seconds.
-    "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this
-    message.
-    task:kworker/u249:3  state:D stack:    0 pid:22404 ppid:     2
-    flags:0x00000028
-    Workqueue: nvme-wq nvme_scan_work [nvme_core]
-    Call trace:
-    __switch_to+0xb4/0xfc
-    __schedule+0x22c/0x670
-    schedule+0x4c/0xd0
-    rwsem_down_write_slowpath+0x32c/0x98c
-    down_write+0x70/0x80
-    nvme_alloc_ns+0x1ac/0x38c [nvme_core]
-    nvme_validate_or_alloc_ns+0xbc/0x150 [nvme_core]
-    nvme_scan_ns_list+0xe8/0x2e4 [nvme_core]
-    nvme_scan_work+0x60/0x500 [nvme_core]
-    process_one_work+0x1d8/0x4b0
-    worker_thread+0x260/0x440
-    kthread+0x114/0x120
-    INFO: task nvme:28428 blocked for more than 120 seconds.
-    "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this
-    message.
-    task:nvme            state:D stack:    0 pid:28428 ppid: 27119
-    flags:0x00000000
-    Call trace:
-    __switch_to+0xb4/0xfc
-    __schedule+0x22c/0x670
-    schedule+0x4c/0xd0
-    schedule_timeout+0x160/0x194
-    do_wait_for_common+0xac/0x1d0
-    __wait_for_common+0x78/0x100
-    wait_for_completion+0x24/0x30
-    __flush_work.isra.0+0x74/0x90
-    flush_work+0x14/0x20
-    nvme_reset_ctrl_sync+0x50/0x74 [nvme_core]
-    nvme_dev_ioctl+0x1b0/0x250 [nvme_core]
-    __arm64_sys_ioctl+0xa8/0xf0
-    el0_svc_common+0x88/0x234
-    do_el0_svc+0x7c/0x90
-    el0_svc+0x1c/0x30
-    el0_sync_handler+0xa8/0xb0
-    el0_sync+0x148/0x180
+------E2FLEX3VNKXZtTxXMF9-IQsaSIEoxQsaU5Vw1-qQHlNadj4Z=_1b44d_
+Content-Type: text/plain; charset="utf-8"
 
-The reason for the hang is that nvme_reset_work occurs while nvme_scan_work
-is still running. nvme_scan_work may add new ns into ctrl->namespaces
-list after nvme_reset_work frozen all ns->q in ctrl->namespaces list.
-The newly added ns is not frozen, so nvme_wait_freeze will wait forever.
-Unfortunately, ctrl->namespaces_rwsem is held by nvme_reset_work, so
-nvme_scan_work will also wait forever. Now we are deadlocked!
 
-PROCESS1                         PROCESS2
-==============                   ==============
-nvme_scan_work
-  ...                            nvme_reset_work
-  nvme_validate_or_alloc_ns        nvme_dev_disable
-    nvme_alloc_ns                    nvme_start_freeze
-     down_write                      ...
-     nvme_ns_add_to_ctrl_list        ...
-     up_write                      nvme_wait_freeze
-    ...                              down_read
-    nvme_alloc_ns                    blk_mq_freeze_queue_wait
-     down_write
-
-Fix by marking the ctrl with say NVME_CTRL_FROZEN flag set in
-nvme_start_freeze and cleared in nvme_unfreeze. Then the scan can check
-it before adding the new namespace (under the namespaces_rwsem).
-
-Signed-off-by: Bitao Hu <yaoma@linux.alibaba.com>
----
-v1 -> v2:
-As per the review comments given by Sagi Grimberg and Keith Busch,
-did below changes in v2,
-- Add NVME_CTRL_FROZEN nvme_ctrl_flags
-- Check ctrl->flags before adding the new namespace (under the namespaces_rwsem), rather than rely on ctrl->state
----
- drivers/nvme/host/core.c | 10 ++++++++++
- drivers/nvme/host/nvme.h |  1 +
- 2 files changed, 11 insertions(+)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 62612f8..89181c7 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3631,6 +3631,14 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
- 		goto out_unlink_ns;
- 
- 	down_write(&ctrl->namespaces_rwsem);
-+	/*
-+	 * Ensure that no namespaces are added to the ctrl list after the queues
-+	 * are frozen, thereby avoiding a deadlock between scan and reset.
-+	 */
-+	if (test_bit(NVME_CTRL_FROZEN, &ctrl->flags)) {
-+		up_write(&ctrl->namespaces_rwsem);
-+		goto out_unlink_ns;
-+	}
- 	nvme_ns_add_to_ctrl_list(ns);
- 	up_write(&ctrl->namespaces_rwsem);
- 	nvme_get_ctrl(ctrl);
-@@ -4540,6 +4548,7 @@ void nvme_unfreeze(struct nvme_ctrl *ctrl)
- 	list_for_each_entry(ns, &ctrl->namespaces, list)
- 		blk_mq_unfreeze_queue(ns->queue);
- 	up_read(&ctrl->namespaces_rwsem);
-+	clear_bit(NVME_CTRL_FROZEN, &ctrl->flags);
- }
- EXPORT_SYMBOL_GPL(nvme_unfreeze);
- 
-@@ -4573,6 +4582,7 @@ void nvme_start_freeze(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_ns *ns;
- 
-+	set_bit(NVME_CTRL_FROZEN, &ctrl->flags);
- 	down_read(&ctrl->namespaces_rwsem);
- 	list_for_each_entry(ns, &ctrl->namespaces, list)
- 		blk_freeze_queue_start(ns->queue);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 39a90b7..07b57df 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -251,6 +251,7 @@ enum nvme_ctrl_flags {
- 	NVME_CTRL_STOPPED		= 3,
- 	NVME_CTRL_SKIP_ID_CNS_CS	= 4,
- 	NVME_CTRL_DIRTY_CAPABILITY	= 5,
-+	NVME_CTRL_FROZEN		= 6,
- };
- 
- struct nvme_ctrl {
--- 
-1.8.3.1
-
+------E2FLEX3VNKXZtTxXMF9-IQsaSIEoxQsaU5Vw1-qQHlNadj4Z=_1b44d_--
 
