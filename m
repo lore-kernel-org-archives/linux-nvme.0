@@ -4,82 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A9B49C4167B
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Nov 2023 03:51:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0223CC4167B
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Nov 2023 04:50:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GUuC8gmccFu/nKM8R+kjHIWL8qoOP89qIn1cnxzJqQk=; b=TzfG2VLRxMzhQV6BCOjo8kpT5Y
-	6X+p87asOt8E2DfKyhDmKCUKhFX3uPc1mfs9A1TMqZYKMDWNvkw0U/8vn8Gz1bEF4yU/gpbt2qcN5
-	2UXP18eDlmEVzhXzE2XiRsYzNacGgWTLMploNIizsdSxRzjR0wHomypFw1v3EU9//elBhcXcyTq7A
-	cnirfCMU0Jx3yyHFRNyWkLvMDDnmP/GzFoLUv6k4n6kA5N3MLnm2x6Gv/3ohvAT7ybiSsaEiVcuJi
-	1F52XJuxjl4MWEGn2axDXaV5e7Pan8Be4xfsgnq1diXiZiM7t7lmvqJLTiMuz7Mc6uJ0phm5WUH3b
-	QnWg7L1w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=pn8bVRWgc1IEKZ+kqp12XPWGp5BdNhv/nVZfqrOEwQc=; b=Svp7WU/i5+wSxypGo7oxcpdHki
+	Q3g1dk8NtP1rSsD25T+mqgDYGXM3Jj9nqqnWzFXBG8XctQxyeMKrkxQKiZM3S8LvKoxngr2JIAMJ7
+	J7sBVbJmcPW7wENCYdcp8RkaF+eBuaURPa4ZZYqtYB1UISmHZaA5KEWNkQ5RlU3SohTJmLds4WUc/
+	NlIdWD+/Q9teVLQcK0J552NEuWDoFaiPaJ+AI9/xGgCHmxh7X9o0b8xkSt5OmQ7hLED3L5KX3plzL
+	6tVs3J7OhTqSABCGD0GUTpJakASexI1wLWK/HfmgSsNTpf2ra6P4e/ZHJqriq5bAgSTYoD0rReyPk
+	lfjiuZ1Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r8Bbd-006xTc-0b;
-	Wed, 29 Nov 2023 03:51:21 +0000
-Received: from exvmail3.hynix.com ([166.125.252.90] helo=invmail3.skhynix.com)
-	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r8BbY-006xSA-0Q
+	id 1r8CWS-0073Jc-1Y;
+	Wed, 29 Nov 2023 04:50:04 +0000
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
+	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
+	id 1r8CWP-0073Iy-1f
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 Nov 2023 03:51:19 +0000
-X-AuditID: a67dfc59-bd5ff7000001c92b-ec-6566b52f734f
-Received: from hymail23.hynixad.com (10.156.135.53) by hymail15.hynixad.com
- (10.156.135.45) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.986.42; Wed, 29 Nov
- 2023 12:51:11 +0900
-Received: from hymail23.hynixad.com ([10.156.135.53]) by hymail23.hynixad.com
- ([10.156.135.53]) with mapi id 15.02.0986.042; Wed, 29 Nov 2023 12:51:11
- +0900
-From: "hardaway.tseng@sk.com" <hardaway.tseng@sk.com>
-To: Keith Busch <kbusch@kernel.org>, =?utf-8?B?SmltIExpbiDmnpflv5fono0=?=
-	<jim.lin@siliconmotion.com>, =?utf-8?B?RGF2aWQgWWVoIOiRieWvsOiejQ==?=
-	<david.yeh@siliconmotion.com>
-CC: Jim.Lin <jim.chihjung.lin@gmail.com>, "axboe@kernel.dk" <axboe@kernel.dk>,
-	"hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	=?utf-8?B?Q0ogQ2hlbiDpmbPnvqTlgpE=?= <cj.chen@siliconmotion.com>,
-	"sangan.han@sk.com" <sangan.han@sk.com>, "ives.lu@sk.com" <ives.lu@sk.com>
-Subject: RE: [PATCH] nvme-pci: disable write zeroes for SK Hynix BC901
-Thread-Topic: [PATCH] nvme-pci: disable write zeroes for SK Hynix BC901
-Thread-Index: AQHaIabItSYv0AoU6E61/0TaLKTrOLCOdLOAgAHxkXD//3BOAIAAn7Ag
-Date: Wed, 29 Nov 2023 03:51:11 +0000
-Message-ID: <c03b56fe9d984ad398355088667cc91a@sk.com>
-References: <20231128025737.53026-1-jim.lin@siliconmotion.com>
- <SEYPR01MB4341EFAA7D4B563BFF903B45FDBCA@SEYPR01MB4341.apcprd01.prod.exchangelabs.com>
- <71aae1b4cb0441d0940a5e536f4ffce0@sk.com>
- <ZWaBULOgInxbp6JQ@kbusch-mbp.dhcp.thefacebook.com>
-In-Reply-To: <ZWaBULOgInxbp6JQ@kbusch-mbp.dhcp.thefacebook.com>
-Accept-Language: zh-TW, en-US, ko-KR
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.31.8.108]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	Wed, 29 Nov 2023 04:50:02 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1701233402; x=1732769402;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=u8gKFMK6rNrSpsrlCQWFOzXV07XXeccFQKI9wIynHp0=;
+  b=RFnvgrWCxM+gEb5yY6rFFfcA524pT4MlirBdkLkRX1dBPrn67EkGaEZD
+   cGsfkd71Ja9N6+Ll+UG64xar/wjNPGxc2LtxsIqwGesdX1qq2jOZAzqIu
+   1EIiEMc3RRuO0G/Vt5RA0EsFalgbEGH+HMfgYNI29i/CXMhhqG6GpdxGH
+   +F6Zo+Nim5aNibMf7rIVfc2VX9XiVekFewGJCvrMNeFbXy9k3PzR7LP1o
+   KHJgHKv1Vx3d136rI8uKRuaKAaP5ktdw3gWWf2GiNouP5KbvDw+OOSJbT
+   hXPjT3wUbd0N/8BqYf8ncpaN7AKhD8GVWSv4C4f3SDaSUdSsc7NDZxXE/
+   g==;
+X-CSE-ConnectionGUID: NHEsEAgQTbmwfJXssCwxeA==
+X-CSE-MsgGUID: 1dA5uKeRSe+gV3DCOXxPbA==
+X-IronPort-AV: E=Sophos;i="6.04,234,1695657600"; 
+   d="scan'208";a="3729058"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 29 Nov 2023 12:49:53 +0800
+IronPort-SDR: HZOaABRuNo2DAPio6tHlAJ4Y1qN1BdM4cyPKYpCSNyaH3dO9ZzGSGCxgHPEpZllItnP4Gbd917
+ 0TymBCO0+wmg==
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 28 Nov 2023 19:55:22 -0800
+IronPort-SDR: od9YXuBIqsHpYnbznTfp2rX1pamDTqlaXwNOXXhpOGlW/K0tnOUvwwpDjeMZ2HNNwlHqdJPpAK
+ qlNTr7M6rDBA==
+WDCIronportException: Internal
+Received: from shindev.dhcp.fujisawa.hgst.com (HELO shindev.fujisawa.hgst.com) ([10.149.53.55])
+  by uls-op-cesaip02.wdc.com with ESMTP; 28 Nov 2023 20:49:52 -0800
+From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@suse.de>
+Cc: Keith Busch <kbusch@kernel.org>,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: [PATCH] nvme: improve NVME_HOST_AUTH and NVME_TARGET_AUTH config descriptions
+Date: Wed, 29 Nov 2023 13:49:51 +0900
+Message-ID: <20231129044951.610759-1-shinichiro.kawasaki@wdc.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrIIsWRmVeSWpSXmKPExsXC9ZZnka7+1rRUgz/bdC1W3+1ns/jxZy+L
-	xZedl9ksVq4+ymRx+eIqFosr93+zWkw6dI3RYv6yp+wW616/Z3Hg9Ng56y67x/l7G1k8Lp8t
-	9di0qpPNY/OSeo/dNxvYPJ7ff8oWwB7FZZOSmpNZllqkb5fAlXH9SxNbwTGxikcretgbGP+I
-	djFycEgImEjM/ZzdxcjFISTwmlFi95ZzzBDOAkaJq4cXs3YxcnKwCZhKdGx+xgKSEBHYyCgx
-	8cAHdpAEs8BKZokVPWUgtrCAm8TPE78ZQWwRAXeJxrdtzBC2m8SSw4/B4iwCqhIb9u4AG8oL
-	NPTy5zY2iG3fGSVunf0CNpRTwF5iy6ltLCA2o4CKxPvDzxkhlolLnLvYClYjISAgsWTPeWYI
-	W1Ti5eN/rBC2gsSLV1uZQF5jFtCUWL9LH6JVUWJK90N2iL2CEidnPmGBKJeUOLjiBssERrFZ
-	SDbMQuiehaR7FpLuBYwsqxhFMvPKchMzc4z1irMzKvMyK/SS83M3MQIjdlntn8gdjN8uBB9i
-	FOBgVOLhdbiWmirEmlhWXJl7iFGCg1lJhFfvY3KqEG9KYmVValF+fFFpTmrxIUZpDhYlcV6j
-	b+UpQgLpiSWp2ampBalFMFkmDk6pBsba6MLJFjUtAas4Qt47Plw4XyVx/Y3MNavLWJYxZwh2
-	vr/K7bPz98fp+dv+nG65+lPm+amM6QHK8hculGvEGhzocUx6ePqrc4W3sA5XTXCPQvatHfqV
-	5z5cZf/JmXRHOljw97bE3uhwCyuj8zZnYh3y/Y4snvk/Tu/V5w+rKucUM124Jnee77oSS3FG
-	oqEWc1FxIgDfvO631AIAAA==
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231128_195116_300149_8A80DE45 
-X-CRM114-Status: GOOD (  11.69  )
+X-CRM114-CacheID: sfid-20231128_205001_573886_F2FD358F 
+X-CRM114-Status: UNSURE (   9.72  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,41 +84,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-SGkgS2VpdGgsDQoNClRoYW5rcyBmb3IgaGVhZCB1cCBDaHJpc3RvcGgncyBxdWVzdGlvbnMhDQpP
-dXIgdGVhbSB3aWxsIGhlbHAgdXMgdG8gYW5zd2VyIHRoZW0uDQoNCkhpIEppbSBhbmQgRGF2aWQs
-DQpUaGFua3MgZm9yIHlvdXIgc3VwcG9ydCENCg0KDQpUaGFua3MgJiBSZWdhcmRzLA0KSGFyZGF3
-YXkuDQoNCg0KSGFyZGF3YXkgVHNlbmcvIFNyLiBNYW5hZ2VyIHwgU04tRkFRRSB8IFNLIGh5bml4
-IFNlbWljb25kdWN0b3IgVGFpd2FuDQpBZGRyZXNzOiAxMEYuIE5vLiAzMDgsIFpoaWZ1IFJkLiwg
-WmhvbmdzaGFuIERpc3QuLCBUYWlwZWkgQ2l0eSAxMDQ2NiwgVGFpd2FuDQpPZmZpY2UgOiArODg2
-LTItMzUxOC0yMzEzLyBGYXg6ICs4ODYtMi0zNTE4LTIzNjYvIE1vYmlsZTogKzg4Ni05MTktODAz
-LTQ1OA0KRW1haWw6IGhhcmRhd2F5LnRzZW5nQHNrLmNvbQ0KDQpTSyBoeW5peCBDb25maWRlbnRp
-YWwNCuKAnFRoaXMgZS1tYWlsIG1heSBjb250YWluIGNvbmZpZGVudGlhbCBhbmQvb3IgcHJpdmls
-ZWdlZCBpbmZvcm1hdGlvbi4gSWYgeW91IGFyZSBub3QgdGhlIGludGVuZGVkIHJlY2lwaWVudChv
-ciBoYXZlIHJlY2VpdmVkIHRoaXMgZS1tYWlsIGluIGVycm9yKSwgcGxlYXNlIG5vdGlmeSB0aGUg
-c2VuZGVyIGltbWVkaWF0ZWx5IGFuZCBkZXN0cm95IHRoaXMgZS1tYWlsLiBBbnkgdW5hdXRob3Jp
-emVkIGNvcHlpbmcsIGRpc2Nsb3N1cmUgb3IgZGlzdHJpYnV0aW9uIG9mIHRoZSBtYXRlcmlhbCBp
-biB0aGlzIGUtbWFpbCBpcyBzdHJpY3RseSBmb3JiaWRkZW4u4oCdDQoNCg0KLS0tLS1PcmlnaW5h
-bCBNZXNzYWdlLS0tLS0NCkZyb206IEtlaXRoIEJ1c2NoIDxrYnVzY2hAa2VybmVsLm9yZz4gDQpT
-ZW50OiBXZWRuZXNkYXksIE5vdmVtYmVyIDI5LCAyMDIzIDg6MTAgQU0NClRvOiBIYXJkYXdheSAo
-U2hpaCBIdW5nKSBUc2VuZyBTS0hZVCA8aGFyZGF3YXkudHNlbmdAc2suY29tPg0KQ2M6IEppbSBM
-aW4g5p6X5b+X6J6NIDxqaW0ubGluQHNpbGljb25tb3Rpb24uY29tPjsgSmltLkxpbiA8amltLmNo
-aWhqdW5nLmxpbkBnbWFpbC5jb20+OyBheGJvZUBrZXJuZWwuZGs7IGhjaEBsc3QuZGU7IHNhZ2lA
-Z3JpbWJlcmcubWU7IGxpbnV4LW52bWVAbGlzdHMuaW5mcmFkZWFkLm9yZzsgbGludXgta2VybmVs
-QHZnZXIua2VybmVsLm9yZzsgQ0ogQ2hlbiDpmbPnvqTlgpEgPGNqLmNoZW5Ac2lsaWNvbm1vdGlv
-bi5jb20+OyBEYXZpZCBZZWgg6JGJ5a+w6J6NIDxkYXZpZC55ZWhAc2lsaWNvbm1vdGlvbi5jb20+
-OyDtlZzsg4HslYgoSEFOIFNBTkdBTikg64yA66eM67KV7J24IDxzYW5nYW4uaGFuQHNrLmNvbT47
-IEl2ZXMoSHN1ZWggSHNpZW4pIEx1IFNLSFlUIDxpdmVzLmx1QHNrLmNvbT4NClN1YmplY3Q6IFJl
-OiBbUEFUQ0hdIG52bWUtcGNpOiBkaXNhYmxlIHdyaXRlIHplcm9lcyBmb3IgU0sgSHluaXggQkM5
-MDENCg0KT24gVHVlLCBOb3YgMjgsIDIwMjMgYXQgMTE6NTE6NDJQTSArMDAwMCwgaGFyZGF3YXku
-dHNlbmdAc2suY29tIHdyb3RlOg0KPiBIaSBLZWl0aCwgSmltIGFuZCB0ZWFtLA0KPiANCj4gVGhh
-bmtzIGZvciBlZmZvcnRzIQ0KPiANCj4gVGhpcyBpcyBIYXJkYXdheSBmcm9tIFNLIGh5bml4LCB0
-aGlzIHNvZnR3YXJlIGNoYW5nZSBoYXMgYmVlbiB0ZXN0ZWQgYW5kIHZlcmlmaWVkIGJ5IE9ETSBD
-b21wYWwsIHRoZSB0ZXN0aW5nIHJlc3VsdCBpcyBwYXNzLCB0aGVyZWZvcmUsIHdlIHdvdWxkIGxp
-a2UgdG8gYXBwbHkgdGhpcyB1cGRhdGUuDQoNCkdyZWF0LCB0aGFua3MgZm9yIGNvbmZpcm1pbmcu
-IEkndmUgZ290IHRoaXMgcXVldWVkIHVwIGludGVybmFsbHksIGJ1dCB3YW50IHRvIGNoZWNrIGlm
-IENocmlzdG9waCdzIHF1ZXN0aW9uIGNvdWxkIGxlYWQgdG8gYSBiZXR0ZXIgb3V0Y29tZSBmb3Ig
-ZXZlcnlvbmUuIEZvciByZWZlcmVuY2UsIGFza2VkIGhlcmU6DQoNCiAgaHR0cHM6Ly9saXN0cy5p
-bmZyYWRlYWQub3JnL3BpcGVybWFpbC9saW51eC1udm1lLzIwMjMtTm92ZW1iZXIvMDQzMjk4Lmh0
-bWwNCg0KSWYgeW91IHdlcmUgYWxyZWFkeSB0ZXN0aW5nIGNsb3NlIHRvIHVwc3RyZWFtLCA2LjIg
-b3IgbmV3ZXIsIHRoZW4gdGhpcyBwYXRjaCBpcyBhbHJlYWR5IHRoZSBiZXN0IG9wdGlvbi4NCg==
+Currently two similar config options NVME_HOST_AUTH and NVME_TARGET_AUTH
+have almost same descriptions. It is confusing to choose them in
+menuconfig. Improve the descriptions to distinguish them.
+
+Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+---
+ drivers/nvme/host/Kconfig   | 5 +++--
+ drivers/nvme/target/Kconfig | 5 +++--
+ 2 files changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
+index 8fe2dd619e80..b309c8be720f 100644
+--- a/drivers/nvme/host/Kconfig
++++ b/drivers/nvme/host/Kconfig
+@@ -107,11 +107,12 @@ config NVME_TCP_TLS
+ 	  If unsure, say N.
+ 
+ config NVME_HOST_AUTH
+-	bool "NVM Express over Fabrics In-Band Authentication"
++	bool "NVMe over Fabrics In-Band Authentication in host side"
+ 	depends on NVME_CORE
+ 	select NVME_AUTH
+ 	help
+-	  This provides support for NVMe over Fabrics In-Band Authentication.
++	  This provides support for NVMe over Fabrics In-Band Authentication in
++	  host side.
+ 
+ 	  If unsure, say N.
+ 
+diff --git a/drivers/nvme/target/Kconfig b/drivers/nvme/target/Kconfig
+index e1ebc73f3e5e..872dd1a0acd8 100644
+--- a/drivers/nvme/target/Kconfig
++++ b/drivers/nvme/target/Kconfig
+@@ -99,10 +99,11 @@ config NVME_TARGET_TCP_TLS
+ 	  If unsure, say N.
+ 
+ config NVME_TARGET_AUTH
+-	bool "NVMe over Fabrics In-band Authentication support"
++	bool "NVMe over Fabrics In-band Authentication in target side"
+ 	depends on NVME_TARGET
+ 	select NVME_AUTH
+ 	help
+-	  This enables support for NVMe over Fabrics In-band Authentication
++	  This enables support for NVMe over Fabrics In-band Authentication in
++	  target side.
+ 
+ 	  If unsure, say N.
+-- 
+2.43.0
+
 
