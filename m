@@ -4,64 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11315C07CB1
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Nov 2023 09:27:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 63F89C4167B
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Nov 2023 12:15:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cV3cidTfYmhmSEmql6w0XpvkQP5KN8Xk5Nui+lMKWpM=; b=wfT0lWbYJLfatSz03QIl/kMsOQ
-	SWtjAllZyKWADORWjY1083lIfJ90/ktV9YB+C+VdWnC/llp1jygWeauyV4VwvK9dJTJOLUJHkWnGg
-	prlEuUridwuwl6Q399sEGeRad584qkNhkHS4boa2WOZlyu7BQHkKMHTsjO0zNPYfmYYCOUntaKK0r
-	JcKpsUwAzRarUEM/SLgFr0xE6t0k9wJgEuoZHoLVcy3HD/UaIc1T3Me5VzlmuLlGL6Tvv+rRFO2Xk
-	fushRY8m5pGjb6fj4SbHKcenhTIFEK17pqQp2j1j5Weu7UjMgnNJzo+QBImKO+SDjxiWR1fOPqFR/
-	Im5mjLjw==;
+	bh=rCBpwoGJiILtrBeFVDdliZqEf7BsITxGWUPpTBUG2Fg=; b=u7XfeZBuxNXZGhpAopBgccYwSY
+	1uX607kfdKFyC/3oidC/1faSrreiGS2JO874GXQEjKEAkiXqQqSI0V9QKWDMtgrGKv5B24p6OSnOH
+	OjA5jYxUAiln8gAcoGtU9s8YhbIMdQftJllvQwPNV4gOmNTKilcdUIRtctPHh4t8cBcVO1NcUNZmG
+	S0ZmSNb6x1Jt5riwHqyIKT3zhj1Q9E8035FOvcvynhoKknXH5YejyDZplwFtM3wBfCRo8Z+sv/0/f
+	g24E5CNbsDa3RxlinQ4NmaIE4Z/BypNLKLUBfODjvQFSfqhjzDrXnKmsoxDgD9ztlO+bDUDCzXPOK
+	TLTI8dcg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r8GrN-007dYA-00;
-	Wed, 29 Nov 2023 09:27:57 +0000
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+	id 1r8JTH-008GgC-0V;
+	Wed, 29 Nov 2023 12:15:15 +0000
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r8GrK-007dWp-1b
+	id 1r8JTD-008GeU-2E
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 Nov 2023 09:27:55 +0000
-Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-40b54261442so2274525e9.1
-        for <linux-nvme@lists.infradead.org>; Wed, 29 Nov 2023 01:27:53 -0800 (PST)
+	Wed, 29 Nov 2023 12:15:12 +0000
+Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-40b474c925bso21519395e9.3
+        for <linux-nvme@lists.infradead.org>; Wed, 29 Nov 2023 04:15:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701250072; x=1701854872; darn=lists.infradead.org;
+        d=linaro.org; s=google; t=1701260109; x=1701864909; darn=lists.infradead.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cV3cidTfYmhmSEmql6w0XpvkQP5KN8Xk5Nui+lMKWpM=;
-        b=UqMxAWsYMMp4fk5v6VKm0BVwfbWq1U8mAZwpgLcj3qdcQMY09E/JB6h7YDTG/yVxjo
-         Ioa0SOVZeB4f/hINnDPcq8bwMWtl3L08pDIBAp6UbhP0qNZHvXRVLVcmO65uSV66hagW
-         3aWoowii9eNA7/j+zOsi4X+K3FK4p6bera7hRKqzQqlfrC6nL0Bb+UGax3OMcTLqTM2W
-         MjEBraBkLaHliLsrVNsBKds+2W01O1qxiEqRIJxQ+z+cOFEfdjnF/8aXVrvhOqDYVSvD
-         VYr8LuM8VODa9kvnAHupw/m6hYypGUUgqc/GczOAQA6P3g4eaJrpnoHsF/mdduDMfWpl
-         dAaw==
+        bh=rCBpwoGJiILtrBeFVDdliZqEf7BsITxGWUPpTBUG2Fg=;
+        b=D7FIWgRu8alch35g7BA5NaMO7bqY9MmrH1rbkjXqt0TxjWbU1KjZMollICYnVrV8ye
+         9LwkkPqloyznHr6B/zuhjd64A7O5IlQlkJrlNrosAt3t1tATZN6oow2em9CruBToHiKd
+         HbsJNQs6TvpncD4oHt9WD3/9i3gGRZ9cmIJiJ+hkyOmGQcfGplSwRjCg2akUe5S+KfEX
+         u+0eKzKo75fa5nqVw1EuUWd9c4t5Kh2G9PnxpbzAVesKzqJhTNlc3s9TJFf+Da6hFrC4
+         xL3FdHlx8i13jghbiW/CnQCLmR56ztJsoMdie0H1RpzsqI21X3ZOKPSlpJalx1R7JQzJ
+         ljlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701250072; x=1701854872;
+        d=1e100.net; s=20230601; t=1701260109; x=1701864909;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cV3cidTfYmhmSEmql6w0XpvkQP5KN8Xk5Nui+lMKWpM=;
-        b=KaFfkTwHABqw3HvQLaXNJ+JCGSPh7n1tkx+exQsxt/3CQ4F6LcnudD5Pg8ndkJFKe/
-         SrX4Uc27i87l8a5VtHP14pzwkBzx2DoarOht8DiMQ467t9V8xT8z7clmr/3fJpk8P3+L
-         wox8w7Ey7xhO0QcAynsMes6+XGkXiADvnlu+1ZTWYXv+ACcDZ/LESHvSg2+z5uDn5Jzx
-         rjsPSev/Q3Sw2AIeLJvZeuJQ1f/vm4jVq8N4GiiVYzkRHXm8ttLWPD9GrRsPfDx3fBP3
-         nygm3evPIhQp9qpvmSXLWxS76l0lBjhaOqEpSP+hFF5UCjlffXQX7S2KJSc24Ti4B7VT
-         mA8Q==
-X-Gm-Message-State: AOJu0YxFJKLBsKZ9oSXULDMdsgpWPfx6lpfhcM7Z27rPlqRJeJEo8QZI
-	chZZS+92pnbclrY7y4PVdUDWTg==
-X-Google-Smtp-Source: AGHT+IHzeJKMk7WsQi+AyV6Jd4iYFuZOhQ4zg5yYm8Obs7Iu0VnUJhTR/zfpZ5TmSWIfoCzkEkWPQA==
-X-Received: by 2002:a05:600c:4e94:b0:40b:4bd3:f8e2 with SMTP id f20-20020a05600c4e9400b0040b4bd3f8e2mr3616704wmq.22.1701250072542;
-        Wed, 29 Nov 2023 01:27:52 -0800 (PST)
+        bh=rCBpwoGJiILtrBeFVDdliZqEf7BsITxGWUPpTBUG2Fg=;
+        b=IZJdc+SCjJfGBtdP0LYo63PlpzgXsjr5bV3d3YdnaEHYne5+jochg3uSUwXYMUvCpK
+         XY7TGebdBPcSjJa111MRRVqDd78qQLT5crF2M2oseZnLSXKpeCp5RE54gLOdajgrzemm
+         TanV4TsT5UapbhZ7ZGmoHFzvPP6j8Bx3b6dXgF7o4co/xGDuFrE01CKtR7fuXKQ9BGfL
+         q36e0xKw3u3I5QmoIxZQEp/xNHRJft49s/CsExGFYaojWqmwB2bNLdtMmcQPHUU9e576
+         L3areaMQ4eYCqfp3qfB125HmzW3SRV84QIcnV5ZJ3OS4XOUlRpy8zkTJVZikejQzZN7U
+         WX+g==
+X-Gm-Message-State: AOJu0Yx+Wvvx5yLH9DUBokg8ASxX3kci+0slkKgkrwa58FsKvtT1mSkv
+	DTThwWLu5jNQbHOamaZwUD0KRQ==
+X-Google-Smtp-Source: AGHT+IHXCZHVhiQsTBCF+dOLPeMR4tIn2HFIvymCl/DwP/ulwlloLviT1YfcyxEG0XVEw2fGIxfBKg==
+X-Received: by 2002:a05:600c:19ce:b0:40a:3750:46ff with SMTP id u14-20020a05600c19ce00b0040a375046ffmr13264013wmq.11.1701260108810;
+        Wed, 29 Nov 2023 04:15:08 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id r14-20020a05600c458e00b0040a4751efaasm1517697wmo.17.2023.11.29.01.27.51
+        by smtp.gmail.com with ESMTPSA id t17-20020a05600c451100b00407460234f9sm2014318wmo.21.2023.11.29.04.15.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Nov 2023 01:27:52 -0800 (PST)
-Date: Wed, 29 Nov 2023 12:27:47 +0300
+        Wed, 29 Nov 2023 04:15:08 -0800 (PST)
+Date: Wed, 29 Nov 2023 15:15:04 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Nitesh Shetty <nj.shetty@samsung.com>
 Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
@@ -70,18 +70,19 @@ Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
 	Chaitanya Kulkarni <kch@nvidia.com>, error27@gmail.com,
 	gost.dev@samsung.com, nitheshshetty@gmail.com,
 	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] nvme: prevent potential spectre v1 gadget
-Message-ID: <b94b300b-8c09-4246-bd98-95f7b4291c49@suswa.mountain>
-References: <20231128122958.2235-1-nj.shetty@samsung.com>
- <CGME20231128123634epcas5p201af168ff4ef4a8a129e5448bccca1a6@epcas5p2.samsung.com>
- <20231128122958.2235-2-nj.shetty@samsung.com>
+Subject: Re: [PATCH 1/2] nvme: Update type from size_t to u16 for
+ opts->queue_size
+Message-ID: <c72789ac-9b3b-4857-b50b-a175027cb0bf@suswa.mountain>
+References: <CGME20231128123622epcas5p4940679fbbafdf0da802deea3e531f850@epcas5p4.samsung.com>
+ <20231128122958.2235-1-nj.shetty@samsung.com>
+ <0cd6862e-8037-40b3-9fde-b7f10d66e31c@suswa.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231128122958.2235-2-nj.shetty@samsung.com>
+In-Reply-To: <0cd6862e-8037-40b3-9fde-b7f10d66e31c@suswa.mountain>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231129_012754_538838_2834E436 
-X-CRM114-Status: GOOD (  13.02  )
+X-CRM114-CacheID: sfid-20231129_041511_736874_BC0255BD 
+X-CRM114-Status: GOOD (  18.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,19 +97,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 28, 2023 at 05:59:57PM +0530, Nitesh Shetty wrote:
-> This patch fixes the smatch warning, "nvmet_ns_ana_grpid_store() warn:
-> potential spectre issue 'nvmet_ana_group_enabled' [w] (local cap)"
-> Prevent the contents of kernel memory from being leaked to  user space
-> via speculative execution by using array_index_nospec.
-> 
-> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
-> ---
+On Wed, Nov 29, 2023 at 12:26:24PM +0300, Dan Carpenter wrote:
+> The ctrl->ops assignment happens in nvme_init_ctrl() and it should have
+> been easy to track.  I am not sure what went wrong there.  I'll take a
+> look at that and fix it.
 
-When it comes to adding array_index_nospec(), then I don't know enough
-about it to comment.
+I suspect on your system you don't have the cross function DB built so
+it's not aware what happens in nvme_init_ctrl() or the other function I
+mentioned.
+
+On my system there is too much data so it isn't parsed.
+1) When there is too much data it should just mark ctrl->ops as unknown
+2) I should try to consolidate the data.  I should just mark all of
+   ctrl->ctrl_device as unknown instead of recording any of the struct
+   members individually.  There might also be stuff that isn't used like
+   ctrl->namespaces_rwsem internals.
+3) On my system, I have 2187 bogus entries that say we removed an item
+   from a list.
+
+Probably any of these fixes would silence the false positive but it
+would be better to do all three.
+
+If you don't have the cross function database though, you're probably
+out of luck.  There are always going to be more false positives if you
+don't have the cross function information.
 
 regards,
 dan carpenter
-
 
