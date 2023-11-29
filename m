@@ -4,125 +4,126 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7146C4167B
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Nov 2023 13:57:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 61EC7C4167B
+	for <linux-nvme@archiver.kernel.org>; Wed, 29 Nov 2023 15:19:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=B9XNqtLvsRJtrzMjiIvC8O9vDwIWDuR/s/9ezsWp9E4=; b=tKjonsRCrZBX2CyFgvWKnOsphX
-	1UQqYJz53K1Mv1BVP2Xlea1vX/wnJAf3lGawr+MCXsA+9YJ/GVhwpFAnbQtYhob1PIfhXO2/mT9fU
-	bM0Abo0bpMa/3d8MTfIrnKGzlfMpQT79eOiXWdzl0cl8iMveMn2S/P+Pkl9PLYEUQoGiaa/CPu+4z
-	1UKhTgPrPhSwtWuUB1H0IOie/jUs46yalsPNKDCBuoUQG9s3abmgtRz3XH1b9z7VabdQqTKB43LEZ
-	D3xld1pgw56xMA5HXtz4cdH2IanaKnZaxGvy78Fk8oqgJ8hlDnIVPc0iDpOjTkmh84ksVnCw24mgn
-	RVfSU0wg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=4WvZQlJKQWwe5V6ifxQTDiKTdRNLQS9jsVWt6sNngvM=; b=WLgaeY1edp9UpQQj4oYKhT4b+u
+	6OFG4O8IDpPwr7eobh1VJRqygRa4i1KszI/fnG3h9ny0EWp+Jmz+Fdd+xiZzORubrC8XQLO0nrAkI
+	JXJgk9J6AUknzvuoidOKiC2dMr7b/PnBnVSA1Bj993PEQqfeE4j5wUSU1enwRI0BhgQ8WYkDF3Hv9
+	3xFr76tl4GgreGFqe5/650HrN53xTk7EvdLOdfdHiYyejgqLBGCxdr6Dets0oAijtul6LSNkT26qB
+	efFoB+zCzJLuwMW8Q+jNSNNHkKOkTsiFHOZp1nuY+kuYGGRloX/8aIpvIFRb58NdNJ4HPmSekH9hC
+	tzZATc+A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r8L3x-008Y52-07;
-	Wed, 29 Nov 2023 13:57:13 +0000
-Received: from mail-dm6nam12on20625.outbound.protection.outlook.com ([2a01:111:f400:fe59::625] helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+	id 1r8ML7-008jDB-0v;
+	Wed, 29 Nov 2023 15:19:01 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r8L3s-008Y4C-32
+	id 1r8ML3-008jC5-0E
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 Nov 2023 13:57:10 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OO+cckbu1jPl6UdQYFxyiz0Exd2mDduSwfNASd6oyBxqclr7WBjfJxDjeW5cAU5l31TJ2S2du/r3f54/ib+R7iwoTaG6iEkw9TTMtbMSkG1fvXZWRk8qB0iZsdJZr2e5timlMlAiuln8OaA8lSGQRvtz6uuWVKp+1L20FfxISSowzBftx+gWPkEHWqTZ8B6+rIJu7diqX9ic6/43gSWTzgIH4KQT6hBCG1UPsBlI6ttU/PQlZtwNpb9jBzTiurJsyU/KeIwAP/CvmX3U6d1/nXfEXRUKnPWHKKCOLjh2clz9ckIUlRwYfmAiYQRboxquy9TvGr/RoLjpwKQ4h4pCEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=B9XNqtLvsRJtrzMjiIvC8O9vDwIWDuR/s/9ezsWp9E4=;
- b=fSbZsitZO2l5tfijUa414Ng1pGCdAeaE7klR3AcwWyNoSrTmmwNjIBBkTuwiT18sIrnEHCzQyHqGNQFNUk3+cU8oxJ06wfyHEdVeWevCyZXWOJqMofBP4mW0ZZTkpZrq5mHIPrhRl4/TzXQjxf16N5u4d8wL7MKuTdtis7on1VHOJXvNjbZPALYfokEIPpZD27WY3Bcp5XVAE5wwyucfhF874lWVPa2ydcpBFYIpHS8F5bQUkgQa0+zvJWK6RNstpTIOsJ5U/j9BsGx3ZvU6y6vMMUn0hcLiur74MQt2+YE5i7Sm1YnHdPlR+9UIid1qmgPq7xbh+AP8cc4mls4wzQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B9XNqtLvsRJtrzMjiIvC8O9vDwIWDuR/s/9ezsWp9E4=;
- b=SVlD+smdC7rkMHETAh1U3iyVPiaird0+xZ3diICEGkmS829wQAne6QA/1neTgPGLrGy180yL3reruiYSY+1xUFfwEivosJXRgiGnxIlzAkXQBBSalfdxKsKZhAg+RFJzYwvUanGl4l5ThWPzv3qiYe8bnJeU10RU3tPktJX4WkQBJpRt7lhFfBzMlUUSMMEuIpZeMO9OT31QMbrQszFPMXeLqSjYw/o4orkRjb+ygY1K/s08p3vNuWq3JAFC5wUhXZh7LekUnUh7fHybXwP5eTNZBby88g+TRCnz79+KHovVd7RbgyEwPeV1TbWWTIM77Y1w+f4x48r2XT2jHeIp+w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
- by MN0PR12MB5811.namprd12.prod.outlook.com (2603:10b6:208:377::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.23; Wed, 29 Nov
- 2023 13:56:58 +0000
-Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
- ([fe80::eb39:938e:7503:c21e]) by SJ1PR12MB6075.namprd12.prod.outlook.com
- ([fe80::eb39:938e:7503:c21e%3]) with mapi id 15.20.7046.023; Wed, 29 Nov 2023
- 13:56:58 +0000
-From: Aurelien Aptel <aaptel@nvidia.com>
-To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
- netdev@vger.kernel.org, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
- chaitanyak@nvidia.com, davem@davemloft.net, kuba@kernel.org
-Cc: Yoray Zack <yorayz@nvidia.com>, aurelien.aptel@gmail.com,
- smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
- borisp@nvidia.com, galshalom@nvidia.com, mgurtovoy@nvidia.com
-Subject: Re: [PATCH v20 07/20] nvme-tcp: RX DDGST offload
-In-Reply-To: <bc6ec871-de51-477a-b27f-4d516e5bc3e1@grimberg.me>
-References: <20231122134833.20825-1-aaptel@nvidia.com>
- <20231122134833.20825-8-aaptel@nvidia.com>
- <bc6ec871-de51-477a-b27f-4d516e5bc3e1@grimberg.me>
-Date: Wed, 29 Nov 2023 15:56:54 +0200
-Message-ID: <253jzq0irx5.fsf@nvidia.com>
-Content-Type: text/plain
-X-ClientProxiedBy: FR4P281CA0145.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b8::18) To SJ1PR12MB6075.namprd12.prod.outlook.com
- (2603:10b6:a03:45e::8)
+	Wed, 29 Nov 2023 15:19:00 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20231129151847epoutp04e5c0687656ee67865831bfee58365ece~cIROi4kCk2136521365epoutp04P
+	for <linux-nvme@lists.infradead.org>; Wed, 29 Nov 2023 15:18:47 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20231129151847epoutp04e5c0687656ee67865831bfee58365ece~cIROi4kCk2136521365epoutp04P
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1701271127;
+	bh=4WvZQlJKQWwe5V6ifxQTDiKTdRNLQS9jsVWt6sNngvM=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=CIMD3gZqiPEXa4rMP/OeY9Lgp5ecai4A3+vH44spvdoTVcACqKGXxJrTlySbxIFSx
+	 dTC1QQZYIrBr2kw1L+BWKIOvTrN6ApHAdd4au0o9ZXIcobKKspaNfpr0fZL4YBI3bH
+	 BZKuj1c83/VCfa/4iQNsq2H4JkYqF1/wZKKLBCw8=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+	20231129151846epcas5p1553aa66fe005e2c707b0665a2dcedacf~cIRNrXxNR0861108611epcas5p1q;
+	Wed, 29 Nov 2023 15:18:46 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.179]) by
+	epsnrtp2.localdomain (Postfix) with ESMTP id 4SgNJN5BDdz4x9Pt; Wed, 29 Nov
+	2023 15:18:44 +0000 (GMT)
+Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	2C.3D.09672.45657656; Thu, 30 Nov 2023 00:18:44 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20231129151844epcas5p4695d8ac3b14714aa793b527259299144~cIRLXurN22405624056epcas5p4h;
+	Wed, 29 Nov 2023 15:18:44 +0000 (GMT)
+Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20231129151844epsmtrp1f71926f102ae5550208ce53dc9e0bf79~cIRLXDOyG0031600316epsmtrp1S;
+	Wed, 29 Nov 2023 15:18:44 +0000 (GMT)
+X-AuditID: b6c32a4b-39fff700000025c8-f8-6567565437d5
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	65.89.07368.35657656; Thu, 30 Nov 2023 00:18:43 +0900 (KST)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20231129151842epsmtip1126d0a3df825a035a24bb43f22f1e340~cIRJ-p-DB0302803028epsmtip1f;
+	Wed, 29 Nov 2023 15:18:42 +0000 (GMT)
+Message-ID: <249c59bb-794b-f8ec-c4e7-17308ecf7f2a@samsung.com>
+Date: Wed, 29 Nov 2023 20:48:41 +0530
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|MN0PR12MB5811:EE_
-X-MS-Office365-Filtering-Correlation-Id: cc5da57a-2fdf-43cd-da7f-08dbf0e30e01
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JYKBUnXl6UuVTFwTNg+isLh1Zo7Ge3S5Px3nj3thxmGRLQ0a9nld789Lcfu0lyx5jY6ngNNbFGshKHfQMC5Rz975dYRCqQA1WkQxZcRpgPcYWZo94iLA1UjJs+FZNM5NeAwZEqiY8KM96IDG8NYyTaYGCwFOqi4E1PdMMKmfve1aPEbYiGOoKiMco+GqqP2+RE1TkmhgDEaWrAkzh9ipA4fewTNhdo/eDE09Ag5vTtkG2Th3eqBs91nFzebmekJrLv440FtCMGsppXIzFz14Q+oICSo7CZleHvh8OibV/N58NU9bHHapNgKs/voXy5NmfNe2jAmNkhHTLy8KPQgOLa6P6HF6HIzIEmgRtygE5U5dv7UGUV9VMrqMPCC6zVReCmw6j9UUFgbWHWeH8uMBn4Z6DezpF0ClvWyLeSaocg1nu6YXIDRGA/oOhnoXR+P3kUbFhXxt4/N/wf6OMFySuQPtPaIEBYDidCRxBditWOBoyq5wwl6dz/FaRlFNhpDJgZLlDFO3woReWYehEIqDI2JO2w2eD1tmOiFZERAP15Adqdd4wSTO5mLJxdD0yjWm
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(366004)(39860400002)(396003)(346002)(136003)(230922051799003)(451199024)(186009)(64100799003)(1800799012)(83380400001)(26005)(107886003)(2616005)(66476007)(66946007)(66556008)(7416002)(316002)(2906002)(4326008)(8676002)(8936002)(5660300002)(86362001)(41300700001)(6506007)(6666004)(36756003)(6512007)(478600001)(6486002)(38100700002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8eVEfg3m96OzTqgeQubECudGdbhRCfq9x0SZ6GQpP0/oqU+2/XBv/QutVy5G?=
- =?us-ascii?Q?kQ9O9MsItDI7SdTwBcL765RRD8aalVXyYEUQcp0vEAev6fNu0xcpatMZKAmJ?=
- =?us-ascii?Q?qEGusOdFVMcYufdtkiyk8hIrE7F7e3Z2dZyMlzRu2Csmw+2E0oHFi1irvE7n?=
- =?us-ascii?Q?m4Gjlb++2K5ysk26IY3NJujMGmxBZfdTAFleog7lvcnOTzVsXuLFki0fe6M2?=
- =?us-ascii?Q?BRTsbrUKPmFeKulQdIz15OTi76Usn3G0/m2QRj4b+AlA29kqrBODT/s12V1h?=
- =?us-ascii?Q?CGfMDvXFg8wzMNPqPtTmEGSmRqXz2DssklUIUPQVo8rJM9B54EFqh3Qn8u2r?=
- =?us-ascii?Q?SpThChLK457kc2O67WwK8+YDz09W+Erw7qw/vGVE1t/xUGKOaO08V1jI6BNB?=
- =?us-ascii?Q?jZ3VVCFQac6vQYpeQYKAwPLA8uS7Bjw7qNlDfSIrimWfIEnW/fQSAGDVZC/0?=
- =?us-ascii?Q?0RIuLoUxHyHwzyOa89qiEkKMAsPsfZaZoqdUpuSwuFE2r9e1gX9f/KekXwyr?=
- =?us-ascii?Q?ZtyKzi7IXxokSioL1JuP88fCr0B4n/MeW2LLgpzkwjSFcQ4uiyX8QrFgzkag?=
- =?us-ascii?Q?eUFKimRLsBdQx8wzMTrcMkWuyU7Tl8eXsZNkPWvrYyt3Mv8AwMJLNQLw/y7M?=
- =?us-ascii?Q?H2mEiTfYPPdOYEBl2+cUPxZmQuvsNV7ILAgzYLX63EaqkMbRgGfgaSzAhGMT?=
- =?us-ascii?Q?SLycdaSKXk2Yxd0/zu9ENFC4McsDGdIJX9AgNcCIK33KQJCfEsVBNqXQtiBH?=
- =?us-ascii?Q?ITa2Ew3Yp3kyW/1MzvHn9l4KIq6n14yHOHG8PmgQUdasWw7OVSmZWGlj91fe?=
- =?us-ascii?Q?TBtEOYKDRpbqlRHnKttkZjLzTqMtifuOipg5Gc12WmDpq/U4HJgbCfPPg8mg?=
- =?us-ascii?Q?T84rD1D2g2mo8x/vhEb1qCNKAbD02f4q6AQGAbxDiRr+FKFCKfLuo3d6d83J?=
- =?us-ascii?Q?eTDiWvNmulNc0SVxA6p7gxAH8z+J0wQQuanxmK/RqT7bNW/zTNvMMuOmPSr0?=
- =?us-ascii?Q?1bMRQin3EFL7O4ykZ14pHXJL2o/E5F2W+2NLtGRWenoYEEkYhQ1iFRHm0j7Q?=
- =?us-ascii?Q?OXwBhN13Ms5u66N83b0PEWiVucUt1QHh+BPt5BeP61jQxaClPgvKBVHuLwFe?=
- =?us-ascii?Q?1VCpKjcifLOndUfZ+rdbGwk64w5saXdldvGA9VHsfoaQKOl7+NlM2uJ9dxYd?=
- =?us-ascii?Q?d6pLXS2Qvu4hm+yl77QOIzYsSzn0LiiSCV88II/LJuGNPC6Y9nBzAnY3ukxW?=
- =?us-ascii?Q?HcW50deOOdLMa3FTtB39R3e0rqi4wKBR3lI3U5QTJoIP5bFXpVnUqX0h/hwr?=
- =?us-ascii?Q?ZiU6TfqbkFZ7afWUt84+/ybeR13xnVL+QT06E1LkcjSMpd/WLyOhK7RhQvOL?=
- =?us-ascii?Q?1/DwA0i28gZgn/jtXBDQxJ67CIGD6DcxZ2VZEAMxPXRP7OuXihr6Gr5WqcWa?=
- =?us-ascii?Q?m5+M1KvNp+JVV3wVEabuBg/NaEJ8Kigqm2wuq+RtIoNDuO6hLqauiBwFbz5C?=
- =?us-ascii?Q?MLnEnsO5WnYeJvu/+w7FHq3VkNF0ZpUGZyX+Z+QsHK94ThmPfKnPmEDDPDtJ?=
- =?us-ascii?Q?HsV/5DYT2iMw4A3rLE3XF8EvjKFjreCeO9j7W6VD?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc5da57a-2fdf-43cd-da7f-08dbf0e30e01
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Nov 2023 13:56:58.7413
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OMAw0VWpdfDnKlQ5jZpyazRvNINh2586kOEvh0I++z0KiVWigLcohbDXrwQOgm3zLfrx5t3fQRmMZTtM7R5kRw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5811
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+	Gecko/20100101 Thunderbird/91.8.1
+Subject: Re: [PATCHv4 1/4] block: bio-integrity: directly map user buffers
+Content-Language: en-US
+To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, io-uring@vger.kernel.org
+Cc: axboe@kernel.dk, hch@lst.de, martin.petersen@oracle.com,
+	ming.lei@redhat.com, Keith Busch <kbusch@kernel.org>
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <20231128222752.1767344-2-kbusch@meta.com>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrDJsWRmVeSWpSXmKPExsWy7bCmpm5IWHqqwbM+DYvVd/vZLFauPspk
+	8a71HIvFpEPXGC3OXF3IYrH3lrbF/GVP2S2WH//HZHFocjOTA6fH5bOlHptWdbJ5bF5S77H7
+	ZgObx7mLFR4fn95i8Xi/7yqbx+dNcgEcUdk2GamJKalFCql5yfkpmXnptkrewfHO8aZmBoa6
+	hpYW5koKeYm5qbZKLj4Bum6ZOUC3KSmUJeaUAoUCEouLlfTtbIryS0tSFTLyi0tslVILUnIK
+	TAr0ihNzi0vz0vXyUkusDA0MjEyBChOyM26t28tcsI25onPHc6YGxntMXYwcHBICJhI7dtd2
+	MXJxCAnsZpQ4NWstE4TziVFi+9L/LBDON0aJHx3vGbsYOcE6PnT9ZYVI7AVKtO+DannLKLHg
+	0m2wubwCdhK7L7iDNLAIqEr0nfrADGLzCghKnJz5hAXEFhVIkvh1dQ7YUGEBL4nnWxaBxZkF
+	xCVuPZnPBGKLCFRJ9E37yQYRL5a437GbFWQ8m4CmxIXJpSAmp4C5xNfWYogKeYntb+cwg1wj
+	IbCSQ+L65TVQN7tIPPh9jhXCFpZ4dXwLO4QtJfGyvw3KTpa4NPMcE4RdIvF4z0Eo216i9VQ/
+	M8guZqC163fpQ+zik+j9/QQaiLwSHW1CENWKEvcmPYXaJC7xcMYSVogSD4krW+wg4bSdUeLB
+	hLNMExgVZiGFySwkv89C8s0shMULGFlWMUqmFhTnpqcWmxYY56WWwyM7OT93EyM42Wp572B8
+	9OCD3iFGJg7GQ4wSHMxKIrx6H5NThXhTEiurUovy44tKc1KLDzGaAiNnIrOUaHI+MN3nlcQb
+	mlgamJiZmZlYGpsZKonzvm6dmyIkkJ5YkpqdmlqQWgTTx8TBKdXA5J/yZoHb/ISG8r7c33fy
+	LaMXXPHibbVTnFxU3J9o+fyOWI7WgS/fdsrcYnztFHFW8F3wAQfXQ877PkadrdbxZrz4NOHV
+	sjp/7bBr8+pfXWer+2s9xdDFUfHLo2XOnxPmTDhzKULQs+ioa3VocurxZ30hLdvYmDjspDYr
+	r/hXtKCDxSRTa1erWoyc65mUd85cZ5t7T07aLdCcHudpq7f838/XE+zuf+8Xu3PEwTFEsInX
+	UvbKTEf29KeWYvv9sr9PPN6ziPt2a0bN7Q8/uoVSA2eJuPfrHGy/omYg8UpTc2Jd47vjX6W3
+	VBu9+8K5NveHUaKnx99v7/PYON2DQpiypsYefGMsNfvpo67yX4ZKLMUZiYZazEXFiQBRkQ69
+	PwQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupgkeLIzCtJLcpLzFFi42LZdlhJTjc4LD3VYM0yM4vVd/vZLFauPspk
+	8a71HIvFpEPXGC3OXF3IYrH3lrbF/GVP2S2WH//HZHFocjOTA6fH5bOlHptWdbJ5bF5S77H7
+	ZgObx7mLFR4fn95i8Xi/7yqbx+dNcgEcUVw2Kak5mWWpRfp2CVwZt9btZS7YxlzRueM5UwPj
+	PaYuRk4OCQETiQ9df1m7GLk4hAR2M0psXPaIDSIhLtF87Qc7hC0ssfLfczBbSOA1o8SS/aVd
+	jBwcvAJ2ErsvuIOEWQRUJfpOfWAGsXkFBCVOznzCAmKLCiRJ7LnfCLZLWMBL4vmWRWBxZqDx
+	t57MB4uLCFRJ7P9xlglkJLNAscTNxZYQ52xnlHjz5gUzSJxNQFPiwmSwrZwC5hJfW4shpphJ
+	dG3tYoSw5SW2v53DPIFRaBaSI2YhWTYLScssJC0LGFlWMUqmFhTnpucmGxYY5qWW6xUn5haX
+	5qXrJefnbmIER5aWxg7Ge/P/6R1iZOJgPMQowcGsJMKr9zE5VYg3JbGyKrUoP76oNCe1+BCj
+	NAeLkjiv4YzZKUIC6YklqdmpqQWpRTBZJg5OqQYm5Xh1mZllqy8+KLJo0z3APdnwXdCUHcIz
+	/L+Ez4hxkelYxKVi5TnxjueBOR2N4n0+f1mmyvi/PPWO5fG3//622wLc0mJ00ytrHRdNSM1W
+	msIz32lH+gYmE/VT2uU5iVdXi79bLRt/ecHOTy3TlMovzFnUZNchKPK39Z8qd8rKib3MiyMe
+	N88qC8tdqMXIGlNnurT1CNPznY+jl70Q+sj3493BvcfPfv7o//nPn5fVF4Qffuz/pFYYcjI/
+	8MCetSFPl7z5ern0a20p2wKl8xXH5CS4HkaVpm3pnPLhlF7oJudZDb/2WPeXTfDkCpb++1Az
+	SXrNxKuvQwwDjb4dmLHu/Yow571a1d1P38eUe7kFKLEUZyQaajEXFScCAKSpYlgbAwAA
+X-CMS-MailID: 20231129151844epcas5p4695d8ac3b14714aa793b527259299144
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20231128222827epcas5p19beb5067fa55290aef73f96dee91c4ec
+References: <20231128222752.1767344-1-kbusch@meta.com>
+	<CGME20231128222827epcas5p19beb5067fa55290aef73f96dee91c4ec@epcas5p1.samsung.com>
+	<20231128222752.1767344-2-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231129_055708_986565_E4A7E874 
-X-CRM114-Status: UNSURE (   9.87  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20231129_071857_770356_2CD955D4 
+X-CRM114-Status: GOOD (  11.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -137,43 +138,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Sagi Grimberg <sagi@grimberg.me> writes:
->> +static void nvme_tcp_ddp_ddgst_recalc(struct ahash_request *hash,
->> +                                   struct request *rq,
->> +                                   __le32 *ddgst)
->> +{
->> +     struct nvme_tcp_request *req;
->> +
->> +     if (!rq)
->> +             return;
->
-> How is this even possible? And what happens down the road if this is
-> indeed a null rq?
+On 11/29/2023 3:57 AM, Keith Busch wrote:
+> If the user address can't directly be used for reason, like too many
+> segments or address unalignement, fallback to a copy of the user vec
+> while keeping the user address pinned for the IO duration so that it
+> can safely be copied on completion in any process context.
 
-You are correct, this isn't possible. We can see the req is fetched
-earlier in nvme_tcp_recv_pdu() so it must exist.
-We will remove it.
-
->> +
->> +     req = blk_mq_rq_to_pdu(rq);
->> +     ahash_request_set_crypt(hash, req->ddp.sg_table.sgl, (u8 *)ddgst,
->> +                             req->data_len);
->> +     crypto_ahash_digest(hash);
->> +}
->> +
->>   static bool nvme_tcp_resync_request(struct sock *sk, u32 seq, u32 flags);
->>   static void nvme_tcp_ddp_teardown_done(void *ddp_ctx);
->>   static const struct ulp_ddp_ulp_ops nvme_tcp_ddp_ulp_ops = {
->> @@ -430,6 +459,8 @@ static void nvme_tcp_setup_ddp(struct nvme_tcp_queue *queue,
->>   static int nvme_tcp_offload_socket(struct nvme_tcp_queue *queue)
->>   {
->>       struct ulp_ddp_config config = {.type = ULP_DDP_NVME};
->> +     bool offload_ddgst_rx = ulp_ddp_is_cap_active(queue->ctrl->ddp_netdev,
->> +                                                   ULP_DDP_CAP_NVME_TCP_DDGST_RX);
->
-> Not sure a local variable is needed here.
-
-Ok we will remove it.
-
-Thanks
+The pinning requirement is only for read. But code keeps user-memory 
+pinned for write too. Is there any reason?
 
