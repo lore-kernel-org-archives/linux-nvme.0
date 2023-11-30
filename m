@@ -4,131 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 46E6DC4167B
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Nov 2023 10:46:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 90E8FC10DAA
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Nov 2023 13:42:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lpgEsMM2Swvg3aWvWDgBIjROc0YAnhJPoTFrtHmNBas=; b=ypCnSRNQZgtyRhV/OYXyDN2LK5
-	7YmDf9Z9z0A5g0BBidwSMOzlQKwxWcZ3gVi00LNCaOp9rAvJdPrKq2bxVk4lh5qbhQvvdeEYa7TQs
-	QnHukCpIDDq/oKsD9fdJN9PDrl3JSUe27AXlZUWIwrklJx2owKNrE8QHrY6weMDrAru54C97myo3p
-	T8hGzHstxJB+Dc3Rnj1yGusxqH87tfAAgtPl0ODoJNN5E3n5iYXjVje5L1fbySXEJVlgksNmn/gmB
-	/HVgAUtH18sHvY5gUbu7dSXHfHdpmGZyFDl9XSZbIafcy5g9kzW+MkqzID0GXyl2mczP72t9Qeq+k
-	1oC+ZkCQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=fCN2UULtCxJ77nN9Gh/qq3eEdgixchxKMaOJIrf1zbs=; b=UEZGJHyQKhN6KZPNw/pvleuCZp
+	4/xHUIK2jpugbnzaY+RYwXCbess+9tZGiras2bSX26ZY1tqNqJLcbwNPMel24LE1ZhpftmpkDFJQe
+	8uIdIw5CeAyJzuAIXMLsz6VkA8qAvK1jHmuN3efj+HCXeMyXaFy98nwYY5TWwJ+szYbs9msWekCqL
+	UbgAbA1cM180Z/d7OwtIXJAPcVJleObzDq7zDlpKscWo8r4IjNzkX47NbvsSO3YD/Tlob1/3fi+Qk
+	ezr1OoYRsbdG8v/Id86Hq9e33HV77z+ldts3SW3AFrCDdgriuT/L8w+j1eNjqpXYRdZoaQQHaWYXH
+	L1o0Iy8w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r8eYo-00AUxS-34;
-	Thu, 30 Nov 2023 10:46:22 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1r8hJ2-00AzCC-2Q;
+	Thu, 30 Nov 2023 13:42:16 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r8eYk-00AUw9-2g
+	id 1r8hIz-00AzB3-33
 	for linux-nvme@lists.infradead.org;
-	Thu, 30 Nov 2023 10:46:21 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20231130104615epoutp02228ad7298794e57d87bdb7f858c9ddce~cYMjanjsn2561225612epoutp02b
-	for <linux-nvme@lists.infradead.org>; Thu, 30 Nov 2023 10:46:15 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20231130104615epoutp02228ad7298794e57d87bdb7f858c9ddce~cYMjanjsn2561225612epoutp02b
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1701341175;
-	bh=lpgEsMM2Swvg3aWvWDgBIjROc0YAnhJPoTFrtHmNBas=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=aX/mTHd52yazZ0fVOGdAMHrHMzV1sOBUPEJ39XncxAk+DD/A6ZOcHNal5N5V5CuiV
-	 R9sEpHijEI3xf5h+YAG+OpgNaYFUDJg8MzyWBHS3ep7EORxjDDYTltqadAdeYdk0b9
-	 LCXHXuNrjgsu1kVK0THsgmaytNOr+F+NY+TLk9Rg=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20231130104614epcas5p4066dfac30dd7d7f508c37a82fe514f22~cYMi9C1Wv0879608796epcas5p4N;
-	Thu, 30 Nov 2023 10:46:14 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.177]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4SgtCT2Vs2z4x9Q0; Thu, 30 Nov
-	2023 10:46:13 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	66.86.09634.5F768656; Thu, 30 Nov 2023 19:46:13 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20231130100343epcas5p2cf91a2057fb56503ed604d431b9706e7~cXnbQcdDd3068030680epcas5p2M;
-	Thu, 30 Nov 2023 10:03:43 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20231130100343epsmtrp1b7576c37b0bacd63c50947fe06e6cbc5~cXnbPjBlG2224222242epsmtrp1g;
-	Thu, 30 Nov 2023 10:03:43 +0000 (GMT)
-X-AuditID: b6c32a49-eebff700000025a2-25-656867f5934d
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	78.12.08755.FFD58656; Thu, 30 Nov 2023 19:03:43 +0900 (KST)
-Received: from green245 (unknown [107.99.41.245]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20231130100341epsmtip26face0ab34efd61492c11e79007cb557~cXnZcgsEv0093700937epsmtip2E;
-	Thu, 30 Nov 2023 10:03:41 +0000 (GMT)
-Date: Thu, 30 Nov 2023 15:27:17 +0530
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph
-	Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, James Smart
-	<james.smart@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>,
-	error27@gmail.com, gost.dev@samsung.com, nitheshshetty@gmail.com,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] nvme: Update type from size_t to u16 for
- opts->queue_size
-Message-ID: <20231130095717.f2pcf6op3mjd3vtk@green245>
+	Thu, 30 Nov 2023 13:42:15 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id D3D0961EC5;
+	Thu, 30 Nov 2023 13:42:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51575C433C8;
+	Thu, 30 Nov 2023 13:42:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701351732;
+	bh=0KgDrt6HsA220G09WFZrtKcT8dUupa/s+ucvUg7fDgI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=iS41tlLSVwLHjGl0Q3kMItYWs9WeXh7stoAoAheE1B14XsDKQV5/prFhpsynZCS7p
+	 P9jva72ArPmpS2cFgBz3M6FHsIQ2Rc3z3v0auxGcosWLZpjiKBWpl8eM9ZujJy+QXT
+	 TpxzewxMzxUMD8uqLZDaXDNSia8Q9q8eARCf+yDptrzIulNytrrDWIYnTmwSX3/Sw+
+	 JcJeXQpu8YQGGn11iZBuWskHI9kJJZJ+TwB6Y/mplxee8Joo3ZkQlcO8U/w4xbBAoe
+	 jBtS7BfMrbnz0FIqtBptr2OZCuQW5fGYkkr8EvDTDH8VdBmFuUbHJTP3ZvyQONv7Ml
+	 iqulb3zWaqmOg==
+From: hare@kernel.org
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH] nvme-rdma: fix nvme_ctrl_state() conversion
+Date: Thu, 30 Nov 2023 14:42:10 +0100
+Message-Id: <20231130134210.133103-1-hare@kernel.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-In-Reply-To: <74306015-9e99-4703-b578-1d235dc725d5@suswa.mountain>
-User-Agent: NeoMutt/20171215
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrLJsWRmVeSWpSXmKPExsWy7bCmlu7X9IxUg7MrBC1W3+1ns/gwr5Xd
-	4tEyP4ubB3YyWaxcfZTJYvfCj0wWkw5dY7R4enUWk8XlXXPYLOYve8puseNJI6PFutfvWRx4
-	PGbdP8vmsXPWXXaP8/c2snhcPlvqsWlVJ5vHnWt72Dw2L6n32H2zgc2jt/kdm0ffllWMHp83
-	yQVwR2XbZKQmpqQWKaTmJeenZOal2yp5B8c7x5uaGRjqGlpamCsp5CXmptoqufgE6Lpl5gCd
-	rqRQlphTChQKSCwuVtK3synKLy1JVcjILy6xVUotSMkpMCnQK07MLS7NS9fLSy2xMjQwMDIF
-	KkzIzjh9XLTgA3vF9aUxDYyX2LoYOTkkBEwkOr6dYe9i5OIQEtjNKPF84RUmkISQwCdGiZk3
-	gyAS3xglTl1oY4fp+PDxHzNEYi+jxM+VB6DanzFKnH92Aqidg4NFQFXiRFMQiMkmoC1x+j8H
-	SK+IgI7Ev7+TWUDKmQVuMEnsP/ODFSQhLBAiMev5RDaQel4BM4llJ9VAwrwCghInZz5hAbE5
-	BZwkWhqvMYLYogIyEjOWfgW7QULgDIfE9o1PWCGOc5HYvPQ6C4QtLPHq+Baoo6UkXvbDPFAu
-	sXLKCjaI5hZGiVnXZzFCJOwlWk/1M4PYzAIZEtN/L4caKisx9dQ6Jog4n0Tv7ydMEHFeiR3z
-	YGxliTXrF0DDVFLi2vdGKNtD4v7Xi0yQAFrFJLFp3jHGCYzys5B8NwvJPgjbSqLzQxOQzQFk
-	S0ss/8cBYWpKrN+lv4CRdRWjZGpBcW56arFpgWFeajk8upPzczcxgtO1lucOxrsPPugdYmTi
-	YDzEKMHBrCTCe/1peqoQb0piZVVqUX58UWlOavEhRlNgXE1klhJNzgdmjLySeEMTSwMTMzMz
-	E0tjM0Mlcd7XrXNThATSE0tSs1NTC1KLYPqYODilGpiMXj+2WCwTfaUom8/shuwpl5NSJQon
-	p9r85RN+y32tozaKS0B7u4tbk/iWk/Ghbjye4nNLujadLoyO5766QCDIjdvgsbb2Y8etx53P
-	Sh185pGffLDok+WUzww6TSGnmJSmPdi/KK5K/WIfl5fAjTlH6y7flnVef5p9bVvTerWrzT4L
-	+0vdwn0OJh30nsIdM29py+PJbX6ii8JVz7Yc7Db4ZnZz/ykvhyQJxcerkl2LjbgaROrrrj2S
-	yHuWb8U3Z8M3jxvH4rZJ/yzi3cj44MIMhufMbvnBp169by95pDDF1OpZwrdSo1J/ITNx/SXT
-	ZM9xvPjFMMVJjkehT+bjI8vFU31itNP/pIvKsTFUKbEUZyQaajEXFScCAAQJA+dgBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupnkeLIzCtJLcpLzFFi42LZdlhJXvd/bEaqwZqfMhar7/azWXyY18pu
-	8WiZn8XNAzuZLFauPspksXvhRyaLSYeuMVo8vTqLyeLyrjlsFvOXPWW32PGkkdFi3ev3LA48
-	HrPun2Xz2DnrLrvH+XsbWTwuny312LSqk83jzrU9bB6bl9R77L7ZwObR2/yOzaNvyypGj8+b
-	5AK4o7hsUlJzMstSi/TtErgyts/4yVSwiLVi+bLrbA2M81i6GDk5JARMJD58/MfcxcjFISSw
-	m1Hi+JdmJoiEpMSyv0eYIWxhiZX/nrNDFD1hlDj/uRXI4eBgEVCVONEUBGKyCWhLnP7PAVIu
-	IqAj8e/vZLD5zAK3mCTmPlEDsYUFQiRmPZ/IBlLOK2AmseykGsTEVUwSO05fYQWp4RUQlDg5
-	8wlUr5nEvM0PmUHqmQWkJZb/AxvPKeAk0dJ4jRHEFhWQkZix9CvzBEbBWUi6ZyHpnoXQvYCR
-	eRWjZGpBcW56brFhgWFearlecWJucWleul5yfu4mRnCcaWnuYNy+6oPeIUYmDsZDjBIczEoi
-	vNefpqcK8aYkVlalFuXHF5XmpBYfYpTmYFES5xV/0ZsiJJCeWJKanZpakFoEk2Xi4JRqYGr9
-	nB7r+vTllRzvgjz2vrOfF204VbbjmJcQ/8mnzAcKOgvNmHdfuTUr0P2jzEajs39/OoSnZpkK
-	HD2XKZbu6SZSdtzxzs+MM/LZgaa8Xb1RBmqNRznWTHu6mIHdcZL1Qxe3pN9vJ/geOjj/R9aN
-	s7a7GNNbXwjvZsmYVXdlr9jy65NknmTf0a18WVDRf3PHzhfBPVv8dZ2vn8kRbVB2PP5359ql
-	Sz2z7SyvaphUmfTb75A99mz+H/sd5aFHH3zZ0u3ZLcLWaLP42KT1ZZN5l4rO3CTg8bggadLV
-	R46ep+Y7+4Rcl99xd63H4z8Bch1mPv+EC/qzZNp4DFv3m6oem1lVdPzHQ9uLEzgm/wvaHK7E
-	UpyRaKjFXFScCADHkMh4IgMAAA==
-X-CMS-MailID: 20231130100343epcas5p2cf91a2057fb56503ed604d431b9706e7
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="-----X5GTQUX7iz43IUoMshLy-onBunNFM-CI2iAV9v.t35zL_Zv=_1fcc9_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20231128123622epcas5p4940679fbbafdf0da802deea3e531f850
-References: <CGME20231128123622epcas5p4940679fbbafdf0da802deea3e531f850@epcas5p4.samsung.com>
-	<20231128122958.2235-1-nj.shetty@samsung.com>
-	<0cd6862e-8037-40b3-9fde-b7f10d66e31c@suswa.mountain>
-	<20231129104837.arls2gn3wttiqiff@green245>
-	<74306015-9e99-4703-b578-1d235dc725d5@suswa.mountain>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231130_024619_180899_376C9FC6 
-X-CRM114-Status: GOOD (  16.18  )
+X-CRM114-CacheID: sfid-20231130_054214_046072_363A8327 
+X-CRM114-Status: GOOD (  13.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -143,30 +71,66 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
--------X5GTQUX7iz43IUoMshLy-onBunNFM-CI2iAV9v.t35zL_Zv=_1fcc9_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+From: Hannes Reinecke <hare@suse.de>
 
-On 30/11/23 10:07AM, Dan Carpenter wrote:
->On Wed, Nov 29, 2023 at 04:18:37PM +0530, Nitesh Shetty wrote:
->> Thank you for this insight.
->> I ran smatch on complete kernel using smatch's test_kernel.sh
->> I was unaware of this smbd.py option. I will explore this.
->
->The ./smatch_scripts/build_kernel_data.sh command creates the cross
->function db.  It takes a while though.  And it's probably better to
->run it a few times because every time you run it the call tree chains
->get one call longer.  I run it every night against the latest
->linux-next.
->
-I was not aware of repeated runs and chaining, will use repeat runs next time.
+The argument to nvme_ctrl_state() is 'struct nvme_ctrl'.
 
-Thank you,
-Nitesh Shetty
+Fixes: b59ea0f40072 ("nvme: introduce helper function to get ctrl state")
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ drivers/nvme/host/rdma.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
--------X5GTQUX7iz43IUoMshLy-onBunNFM-CI2iAV9v.t35zL_Zv=_1fcc9_
-Content-Type: text/plain; charset="utf-8"
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 0ef2ac67d2ae..81e2621169e5 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -984,7 +984,7 @@ static void nvme_rdma_free_ctrl(struct nvme_ctrl *nctrl)
+ 
+ static void nvme_rdma_reconnect_or_remove(struct nvme_rdma_ctrl *ctrl)
+ {
+-	enum nvme_ctrl_state state = nvme_ctrl_state(ctrl);
++	enum nvme_ctrl_state state = nvme_ctrl_state(&ctrl->ctrl);
+ 
+ 	/* If we are resetting/deleting then do nothing */
+ 	if (state != NVME_CTRL_CONNECTING) {
+@@ -1060,7 +1060,7 @@ static int nvme_rdma_setup_ctrl(struct nvme_rdma_ctrl *ctrl, bool new)
+ 		 * unless we're during creation of a new controller to
+ 		 * avoid races with teardown flow.
+ 		 */
+-		enum nvme_ctrl_state state = nvme_ctrl_state(ctrl);
++		enum nvme_ctrl_state state = nvme_ctrl_state(&ctrl->ctrl);
+ 
+ 		WARN_ON_ONCE(state != NVME_CTRL_DELETING &&
+ 			     state != NVME_CTRL_DELETING_NOIO);
+@@ -1132,7 +1132,7 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
+ 
+ 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING)) {
+ 		/* state change failure is ok if we started ctrl delete */
+-		enum nvme_ctrl_state state = nvme_ctrl_state(ctrl);
++		enum nvme_ctrl_state state = nvme_ctrl_state(&ctrl->ctrl);
+ 
+ 		WARN_ON_ONCE(state != NVME_CTRL_DELETING &&
+ 			     state != NVME_CTRL_DELETING_NOIO);
+@@ -1167,7 +1167,7 @@ static void nvme_rdma_wr_error(struct ib_cq *cq, struct ib_wc *wc,
+ 	struct nvme_rdma_queue *queue = wc->qp->qp_context;
+ 	struct nvme_rdma_ctrl *ctrl = queue->ctrl;
+ 
+-	if (nvme_ctrl_state(ctrl) == NVME_CTRL_LIVE)
++	if (nvme_ctrl_state(&ctrl->ctrl) == NVME_CTRL_LIVE)
+ 		dev_info(ctrl->ctrl.device,
+ 			     "%s for CQE 0x%p failed with status %s (%d)\n",
+ 			     op, wc->wr_cqe,
+@@ -1950,7 +1950,7 @@ static enum blk_eh_timer_return nvme_rdma_timeout(struct request *rq)
+ 	dev_warn(ctrl->ctrl.device, "I/O %d QID %d timeout\n",
+ 		 rq->tag, nvme_rdma_queue_idx(queue));
+ 
+-	if (nvme_ctrl_state(ctrl) != NVME_CTRL_LIVE) {
++	if (nvme_ctrl_state(&ctrl->ctrl) != NVME_CTRL_LIVE) {
+ 		/*
+ 		 * If we are resetting, connecting or deleting we should
+ 		 * complete immediately because we may block controller
+-- 
+2.35.3
 
-
--------X5GTQUX7iz43IUoMshLy-onBunNFM-CI2iAV9v.t35zL_Zv=_1fcc9_--
 
