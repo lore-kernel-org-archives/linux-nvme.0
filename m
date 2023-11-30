@@ -4,68 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0ECC3C4167B
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Nov 2023 00:16:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11960C4167B
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Nov 2023 02:13:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:MIME-Version:Content-Type:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YQqpuGsZIItErENZLmCBFPntp1ZyTZMptB60KCMJ3Oo=; b=ki+KrRPNcRDHlLtA+dt6YR0kfs
-	gDPSVqIekNWYKUUv5BA3YRRwfC7JC9TTtzMCJcwVerxKEnCOZioopC/QWPHDwsr8wSYagsLePApCv
-	gqpC0qskVVRDwoFdfukigcXg+hvIeeTsMZALdya9opHZh51Nc92NNhekulIu+m/25sBFtHf6JDWGx
-	AWL98T9yV5fmxe8BioFC1KmfiWINZA/rMsXabWehn9sAALSRDO5ptgRJ2JB2brWfPZjbOb3dAaXJ0
-	iMcJ/xMotyqOWdG5Tnv6N9z30ZF6PUyuQovr2FVhkYgG9eIVUEQHBB7Lhn/F6wxYybsZrz4ljsGgs
-	HibqfvBA==;
+	bh=p+9sYREg2BPZL95FPlWusSMtZCxPdw5aX0oNnElc4EQ=; b=jxBHmCAramWTVGzb3LUrM5c37N
+	DNHJ/DpxQNIyhQm60Q7O/a5A6qiewKbtBE89330yuSl07Qby/+kgsAp6CH5itZlpR3c5GHYLq6AV2
+	kzwO+rIIDqRT8cJSfQkignDAGD6V6NsZ+GZzl+2NTHN2fMfTWkPViL26Ce/XOQfr2sZ2evEo++NJs
+	N74dJ/bRYMWG5EhXmSASekfS82flc/APrNhOC9eLvrtKqao5IRkdElAGMpa6BpVjD3n0eDU0n9O4b
+	1am12ry1wYJm+Hn4AHFzf+WOCmO9tZQEnV6lVXAg7H8GtSSyzUIEBjwzQFSLadrAIbc6yDMuzLqWo
+	Zh6CSLmA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r8UjV-009Z67-16;
-	Thu, 30 Nov 2023 00:16:45 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1r8WYq-009jWZ-2D;
+	Thu, 30 Nov 2023 02:13:52 +0000
+Received: from out30-98.freemail.mail.aliyun.com ([115.124.30.98])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r8UjR-009Z5c-1v
+	id 1r8WYn-009jVp-0G
 	for linux-nvme@lists.infradead.org;
-	Thu, 30 Nov 2023 00:16:43 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701303396;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YQqpuGsZIItErENZLmCBFPntp1ZyTZMptB60KCMJ3Oo=;
-	b=S09AF+O8sX6mvWDA4BVVOS3STrxO3UKbp+cDHRmmgItXUpDFmvHmmlaf9eINW81Hqbrykh
-	3iM1vAQeouM7L84VDz2elE/TXfp9QWXdFSedd6+KiKUjKhRQCV9ZwnWmyPu9NEbsDxlX5P
-	i0Yl8446lcAgss5fD8QO/MSoF1AiGvU=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-479-IKpE6fieOauYI4Awx4BZPw-1; Wed,
- 29 Nov 2023 19:16:32 -0500
-X-MC-Unique: IKpE6fieOauYI4Awx4BZPw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 64EE31C05AE1;
-	Thu, 30 Nov 2023 00:16:32 +0000 (UTC)
-Received: from fedora (unknown [10.72.120.5])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id F3EA5112130A;
-	Thu, 30 Nov 2023 00:16:28 +0000 (UTC)
-Date: Thu, 30 Nov 2023 08:16:24 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: "Raphael S. Carvalho" <raphaelsc@scylladb.com>
-Cc: guazhang@redhat.com, hch@lst.de, linux-block@vger.kernel.org,
+	Thu, 30 Nov 2023 02:13:50 +0000
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046059;MF=yaoma@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0VxPhLPY_1701310417;
+Received: from localhost(mailfrom:yaoma@linux.alibaba.com fp:SMTPD_---0VxPhLPY_1701310417)
+          by smtp.aliyun-inc.com;
+          Thu, 30 Nov 2023 10:13:43 +0800
+From: Bitao Hu <yaoma@linux.alibaba.com>
+To: sagi@grimberg.me,
+	kbusch@kernel.org
+Cc: axboe@kernel.dk,
+	hch@lst.de,
+	kanie@linux.alibaba.com,
+	linux-kernel@vger.kernel.org,
 	linux-nvme@lists.infradead.org
-Subject: Re: About 'nvme-pci: fix DMA direction of unmapping integrity data'
-Message-ID: <ZWfUWPsJ7AAOzqHR@fedora>
-References: <CAKhLTr2PjPnNDccbc8OMy3fSc_U1Dk7GS+UWLUkj0zWwzcp4zw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKhLTr2PjPnNDccbc8OMy3fSc_U1Dk7GS+UWLUkj0zWwzcp4zw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
+Subject: [PATCH v2] nvme: fix deadlock between reset and scan
+Date: Thu, 30 Nov 2023 10:13:37 +0800
+Message-Id: <1701310417-301-1-git-send-email-yaoma@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <c47a0edd-7437-4c21-b7cf-f969ff85bf78@grimberg.me>
+References: <c47a0edd-7437-4c21-b7cf-f969ff85bf78@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231129_161641_727441_DCA7ECAC 
-X-CRM114-Status: GOOD (  12.48  )
+X-CRM114-CacheID: sfid-20231129_181349_274015_9C4EFBC7 
+X-CRM114-Status: GOOD (  13.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,49 +62,164 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Nov 29, 2023 at 11:56:50AM -0300, Raphael S. Carvalho wrote:
-> I am observing a problem where disk writes are apparently being
-> misdirected. File system metadata ends up in file data range for
-> example.
+If controller reset occurs when allocating namespace, both
+nvme_reset_work and nvme_scan_work will hang, as shown below.
 
-Please raise one report in linux-block or linux-nvme if you are asking
-for help, and include the following info:
+Test Scripts:
 
-1) kernel release version
+    for ((t=1;t<=128;t++))
+    do
+    nsid=`nvme create-ns /dev/nvme1 -s 14537724 -c 14537724 -f 0 -m 0 \
+    -d 0 | awk -F: '{print($NF);}'`
+    nvme attach-ns /dev/nvme1 -n $nsid -c 0
+    done
+    nvme reset /dev/nvme1
 
-2) related drivers or device, nvme or scsi, or dm/md, and how to setup
-the device
+We will find that both nvme_reset_work and nvme_scan_work hung:
 
-3) filesystem
+    INFO: task kworker/u249:4:17848 blocked for more than 120 seconds.
+    "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this
+    message.
+    task:kworker/u249:4  state:D stack:    0 pid:17848 ppid:     2
+    flags:0x00000028
+    Workqueue: nvme-reset-wq nvme_reset_work [nvme]
+    Call trace:
+    __switch_to+0xb4/0xfc
+    __schedule+0x22c/0x670
+    schedule+0x4c/0xd0
+    blk_mq_freeze_queue_wait+0x84/0xc0
+    nvme_wait_freeze+0x40/0x64 [nvme_core]
+    nvme_reset_work+0x1c0/0x5cc [nvme]
+    process_one_work+0x1d8/0x4b0
+    worker_thread+0x230/0x440
+    kthread+0x114/0x120
+    INFO: task kworker/u249:3:22404 blocked for more than 120 seconds.
+    "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this
+    message.
+    task:kworker/u249:3  state:D stack:    0 pid:22404 ppid:     2
+    flags:0x00000028
+    Workqueue: nvme-wq nvme_scan_work [nvme_core]
+    Call trace:
+    __switch_to+0xb4/0xfc
+    __schedule+0x22c/0x670
+    schedule+0x4c/0xd0
+    rwsem_down_write_slowpath+0x32c/0x98c
+    down_write+0x70/0x80
+    nvme_alloc_ns+0x1ac/0x38c [nvme_core]
+    nvme_validate_or_alloc_ns+0xbc/0x150 [nvme_core]
+    nvme_scan_ns_list+0xe8/0x2e4 [nvme_core]
+    nvme_scan_work+0x60/0x500 [nvme_core]
+    process_one_work+0x1d8/0x4b0
+    worker_thread+0x260/0x440
+    kthread+0x114/0x120
+    INFO: task nvme:28428 blocked for more than 120 seconds.
+    "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this
+    message.
+    task:nvme            state:D stack:    0 pid:28428 ppid: 27119
+    flags:0x00000000
+    Call trace:
+    __switch_to+0xb4/0xfc
+    __schedule+0x22c/0x670
+    schedule+0x4c/0xd0
+    schedule_timeout+0x160/0x194
+    do_wait_for_common+0xac/0x1d0
+    __wait_for_common+0x78/0x100
+    wait_for_completion+0x24/0x30
+    __flush_work.isra.0+0x74/0x90
+    flush_work+0x14/0x20
+    nvme_reset_ctrl_sync+0x50/0x74 [nvme_core]
+    nvme_dev_ioctl+0x1b0/0x250 [nvme_core]
+    __arm64_sys_ioctl+0xa8/0xf0
+    el0_svc_common+0x88/0x234
+    do_el0_svc+0x7c/0x90
+    el0_svc+0x1c/0x30
+    el0_sync_handler+0xa8/0xb0
+    el0_sync+0x148/0x180
 
-4) exact reproduction steps
+The reason for the hang is that nvme_reset_work occurs while nvme_scan_work
+is still running. nvme_scan_work may add new ns into ctrl->namespaces
+list after nvme_reset_work frozen all ns->q in ctrl->namespaces list.
+The newly added ns is not frozen, so nvme_wait_freeze will wait forever.
+Unfortunately, ctrl->namespaces_rwsem is held by nvme_reset_work, so
+nvme_scan_work will also wait forever. Now we are deadlocked!
 
-5) expected result
+PROCESS1                         PROCESS2
+==============                   ==============
+nvme_scan_work
+  ...                            nvme_reset_work
+  nvme_validate_or_alloc_ns        nvme_dev_disable
+    nvme_alloc_ns                    nvme_start_freeze
+     down_write                      ...
+     nvme_ns_add_to_ctrl_list        ...
+     up_write                      nvme_wait_freeze
+    ...                              down_read
+    nvme_alloc_ns                    blk_mq_freeze_queue_wait
+     down_write
 
-6) actual result, such as how you conclude that WRITE is misdirected
+Fix by marking the ctrl with say NVME_CTRL_FROZEN flag set in
+nvme_start_freeze and cleared in nvme_unfreeze. Then the scan can check
+it before adding the new namespace (under the namespaces_rwsem).
 
-BTW, is it similar with the following one?
+Signed-off-by: Bitao Hu <yaoma@linux.alibaba.com>
+---
+v1 -> v2:
+As per the review comments given by Sagi Grimberg and Keith Busch,
+did below changes in v2,
+- Add NVME_CTRL_FROZEN nvme_ctrl_flags
+- Check ctrl->flags before adding the new namespace (under the namespaces_rwsem), rather than rely on ctrl->state
+---
+ drivers/nvme/host/core.c | 10 ++++++++++
+ drivers/nvme/host/nvme.h |  1 +
+ 2 files changed, 11 insertions(+)
 
-https://bugzilla.kernel.org/show_bug.cgi?id=218158
-
-> 
-> I am not completely certain about the problem "nvme-pci: fix DMA
-> direction of unmapping integrity data" is trying to fix, could you
-> please describe a bit more what the problem is?
-
-dma_unmap_page() should use DMA_TO_DEVICE or DMA_FROM_DEVICE, instead
-of block request dir(READ or WRITE), and the issue is actually one
-dma-debug warning.
-
-And block request buffer or IO direction isn't supposed to change in its
-lifetime, and dma-debug code check if page map & unmap direction is same.
-
-> 
-> Can it cause silent data corruption?
-
-No.
-
-Thanks,
-Ming
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 62612f8..89181c7 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3631,6 +3631,14 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
+ 		goto out_unlink_ns;
+ 
+ 	down_write(&ctrl->namespaces_rwsem);
++	/*
++	 * Ensure that no namespaces are added to the ctrl list after the queues
++	 * are frozen, thereby avoiding a deadlock between scan and reset.
++	 */
++	if (test_bit(NVME_CTRL_FROZEN, &ctrl->flags)) {
++		up_write(&ctrl->namespaces_rwsem);
++		goto out_unlink_ns;
++	}
+ 	nvme_ns_add_to_ctrl_list(ns);
+ 	up_write(&ctrl->namespaces_rwsem);
+ 	nvme_get_ctrl(ctrl);
+@@ -4540,6 +4548,7 @@ void nvme_unfreeze(struct nvme_ctrl *ctrl)
+ 	list_for_each_entry(ns, &ctrl->namespaces, list)
+ 		blk_mq_unfreeze_queue(ns->queue);
+ 	up_read(&ctrl->namespaces_rwsem);
++	clear_bit(NVME_CTRL_FROZEN, &ctrl->flags);
+ }
+ EXPORT_SYMBOL_GPL(nvme_unfreeze);
+ 
+@@ -4573,6 +4582,7 @@ void nvme_start_freeze(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_ns *ns;
+ 
++	set_bit(NVME_CTRL_FROZEN, &ctrl->flags);
+ 	down_read(&ctrl->namespaces_rwsem);
+ 	list_for_each_entry(ns, &ctrl->namespaces, list)
+ 		blk_freeze_queue_start(ns->queue);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 39a90b7..07b57df 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -251,6 +251,7 @@ enum nvme_ctrl_flags {
+ 	NVME_CTRL_STOPPED		= 3,
+ 	NVME_CTRL_SKIP_ID_CNS_CS	= 4,
+ 	NVME_CTRL_DIRTY_CAPABILITY	= 5,
++	NVME_CTRL_FROZEN		= 6,
+ };
+ 
+ struct nvme_ctrl {
+-- 
+1.8.3.1
 
 
