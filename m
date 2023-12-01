@@ -4,56 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4DEF0C07E97
-	for <linux-nvme@archiver.kernel.org>; Fri,  1 Dec 2023 16:02:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96D23C4167B
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 Dec 2023 16:10:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=G+bQuGu8WtmRHY5nrATL/CVUjD35rrBxJ8NTr0oEC1c=; b=1CDqWRbYYotDJITuUFx558oTeU
-	nrKpLQhwj4rXTNZlDQFiKvBaZcMRAmZ6DvD5F3OwTLWbTf0lo3xL5S4l3jx8DeUSbo/DNkMtAV3ZK
-	Bhp25XvJyt0PA1zv27wiWi5T/SgT1RqkxovviEslB21zL1O3rEzIILGItSX/nhpQEyFIXMyytkAyP
-	tmp3KrVLeTZT0X6hisVf7rWWuJjQ4FtgRVm+uOXP8M84jGUxlLLOwd5+Vvwid6v0tDiNUiR1zwRsH
-	2Etu+FQuJEiUVygYzP2tvUK1YmSgdeYEYw3PyyManEYoX1rBN4+3ySiqB4/iFcwjgDpEoRBQ3r9J3
-	eTV0XDaA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=w/gluQhDC+XWPt+o76s2TZeLugCA4A5lkimzSvF4U9A=; b=zLL1G1XqlrS7Yq5X9ZGc73eA7/
+	QmVUR5Ja3mwbqCJPbEMSX1ij4C3U6yr4vKC+jKCrmazWCq/LfaTFPIAaOIMnU6r3nHfjybpgKUyMq
+	bBdykyCLq7Sj/1z/ri0YK+UXt+daZycmy9Kl6DnLNRYY28wHv+bhdHH2HFTUy2bcUYsCjR63f5dQM
+	yvNg2eig1ALtbx7Wz22W0R9lxWpkLp9+AfJobwxIxaAqkvrkEtC/KThEky8s/3eQQMd3zoq6s5O+0
+	7vVwkM5+YSEWQ5GFJ6HV4wXTuM1xAdadRcmYRrCq+5FTSOZa8sIxtY/3iLM6oSunRZa9uzkl2S/aC
+	hAiqH3+w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r95yE-00E6dU-39;
-	Fri, 01 Dec 2023 16:02:26 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1r965W-00E7av-0v;
+	Fri, 01 Dec 2023 16:09:58 +0000
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r95y9-00E6d1-2U
+	id 1r965R-00E7Zo-2w
 	for linux-nvme@lists.infradead.org;
-	Fri, 01 Dec 2023 16:02:23 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by ams.source.kernel.org (Postfix) with ESMTP id 0434EB82252;
-	Fri,  1 Dec 2023 16:02:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D24AC433C7;
-	Fri,  1 Dec 2023 16:02:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701446539;
-	bh=vdzlr/tDy0aRnkM4UXdzOsMiuS9zBdi7lGH2MIOiB5A=;
-	h=Date:From:To:Cc:Subject:From;
-	b=dPGRLVmPAJdvp85DCpgSJxiUuX185th4y+qbPzlHPKZ7XR5KPozPMhCm87wIMEZPb
-	 Mwnvj+/7HxkV83TLXghUvijCj/JF+DPuaA3totM24BXzP5Mv1UaLvxDYL/kPc9i5vT
-	 py7F75DNfHks8y4l27vR8St+tLeKo9OXCcQYZW0S6xZBNcQBOzbdh/F1JcEFEalvwD
-	 no4ngrB7NgKdR2uUCWeKcFfmRSjfu43bw5VgHB6gFs0yGzcZx5Wgou5Isvh6pvwJDS
-	 yOkgWP5OHSJ/6HPsxt9xrW6DBkIfwN/OpsiudrIgPRwxTwmB6qZuFb8/oS60l1MLRV
-	 /fRZV4+2FFVrw==
-Date: Fri, 1 Dec 2023 09:02:16 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: axboe@kernel.dk
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
-Subject: [GIT PULL] nvme fixes for Linux 6.7
-Message-ID: <ZWoDiHfUgBs0riE6@kbusch-mbp>
+	Fri, 01 Dec 2023 16:09:56 +0000
+Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-1d056adf504so1633605ad.0
+        for <linux-nvme@lists.infradead.org>; Fri, 01 Dec 2023 08:09:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1701446990; x=1702051790; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=w/gluQhDC+XWPt+o76s2TZeLugCA4A5lkimzSvF4U9A=;
+        b=u4YpfKnys+7WvZFHI+SpImU2NpbrnpOS3PLWUIruUu89kwZ5VZ6p3Xs+ZWUy/9Kfzw
+         OEiUA/hRKdohxFziYitbONeLzD658e+ek+Kz5a5LLyOkEu4W5R+M0ZROWU8v3ppRc7L9
+         r7OfpgGyGSN8WKzvYHBbCNiu2IqzHKYe30cqlewgSQ/1jL5cXqqX8e+i7sRb2FsLBI8Z
+         pBTmfxpfZ4sIh3fUvkHjdAx5V49Od+dvk+S+iCkCueuajDnQJnqP3qU2XLj0Sxt7flu1
+         6US8UCRGaoUBSfb/pWB1WQWtbP3CsMdRO2S8PevIdlmrVUB3kjb8wY9eFCdCGHY8mv90
+         2zPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701446990; x=1702051790;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=w/gluQhDC+XWPt+o76s2TZeLugCA4A5lkimzSvF4U9A=;
+        b=pVU0Xj8L9dzIsUQmOYI284GF5NFshnm4du9cdGFAFC9tzh/5yyuQSoTqsSh/xsFl5V
+         f/2k8eXLD/3dBNrEAj7nfBodJZzxcD9utAuwty3Of2fSNsZ6AVnjsfVIT+m1FBqHrxJx
+         JVE223gsr/i2NitRo/nqu49Z3gFweUKBP4e3+6qxJ0qxQKPkSugcM/w5eRnQfSJwz79d
+         4DvF+9DBmZj19M4pFx6h3QgrT180YIn4iFiH0QvV2K4qpYlyZkh79dVQ/IiHLparX60B
+         QwXbzuZmUvD1g+QQrxM8W5BmTEbikZJ6EjUxM1yaTbHuxY3ZUirtqXXFtEJXuVVYbW+P
+         h3MA==
+X-Gm-Message-State: AOJu0YyJmEiOjtKssdGdGl/4d8H+/gIbkPyOa9iYQcHJBbc2off4oHwL
+	TrHzFvNRW15VgBHPSbnou9vTzQ==
+X-Google-Smtp-Source: AGHT+IF6q9DLOGUzoBLTstbr/9R+YWB6JmwLryMk/hTpyyHlfghMcy+42dcEq7JrtcX48XzNx/KIGA==
+X-Received: by 2002:a17:90b:713:b0:283:5405:9e90 with SMTP id s19-20020a17090b071300b0028354059e90mr25441238pjz.3.1701446990331;
+        Fri, 01 Dec 2023 08:09:50 -0800 (PST)
+Received: from [192.168.1.150] ([198.8.77.194])
+        by smtp.gmail.com with ESMTPSA id 1-20020a17090a19c100b00280070a2613sm5681943pjj.51.2023.12.01.08.09.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 Dec 2023 08:09:49 -0800 (PST)
+Message-ID: <5d0261cd-8499-4c07-b4aa-13195f4c0d35@kernel.dk>
+Date: Fri, 1 Dec 2023 09:09:48 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [GIT PULL] nvme fixes for Linux 6.7
+Content-Language: en-US
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
+References: <ZWoDiHfUgBs0riE6@kbusch-mbp>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <ZWoDiHfUgBs0riE6@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231201_080221_974020_18541AA3 
-X-CRM114-Status: UNSURE (   6.07  )
+X-CRM114-CacheID: sfid-20231201_080954_174408_460A3474 
+X-CRM114-Status: UNSURE (   8.76  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -69,37 +93,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The following changes since commit bb6cc253861bd5a7cf8439e2118659696df9619f:
+On 12/1/23 9:02 AM, Keith Busch wrote:
+> The following changes since commit bb6cc253861bd5a7cf8439e2118659696df9619f:
+> 
+>   bcache: revert replacing IS_ERR_OR_NULL with IS_ERR (2023-11-24 09:39:03 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.infradead.org/nvme.git tags/nvme-6.7-2023-12-01
+> 
+> for you to fetch changes up to 74fbc88e161424b3b96a22b23a8e3e1edab9d05c:
+> 
+>   nvme-core: check for too small lba shift (2023-12-01 07:49:50 -0800)
+> 
+> ----------------------------------------------------------------
+> nvme fixes for Linux 6.7
+> 
+>  - Invalid namespace identification error handling (Marizio, Ewan, Keith)
+>  - Fabrics keep-alive tuning (Mark)
 
-  bcache: revert replacing IS_ERR_OR_NULL with IS_ERR (2023-11-24 09:39:03 -0700)
+Pulled, thanks.
 
-are available in the Git repository at:
+-- 
+Jens Axboe
 
-  git://git.infradead.org/nvme.git tags/nvme-6.7-2023-12-01
 
-for you to fetch changes up to 74fbc88e161424b3b96a22b23a8e3e1edab9d05c:
-
-  nvme-core: check for too small lba shift (2023-12-01 07:49:50 -0800)
-
-----------------------------------------------------------------
-nvme fixes for Linux 6.7
-
- - Invalid namespace identification error handling (Marizio, Ewan, Keith)
- - Fabrics keep-alive tuning (Mark)
-
-----------------------------------------------------------------
-Ewan D. Milne (1):
-      nvme: check for valid nvme_identify_ns() before using it
-
-Keith Busch (1):
-      nvme-core: check for too small lba shift
-
-Mark O'Donovan (1):
-      nvme: fine-tune sending of first keep-alive
-
-Maurizio Lombardi (1):
-      nvme-core: fix a memory leak in nvme_ns_info_from_identify()
-
- drivers/nvme/host/core.c | 34 ++++++++++++++++++++++++++++------
- 1 file changed, 28 insertions(+), 6 deletions(-)
 
