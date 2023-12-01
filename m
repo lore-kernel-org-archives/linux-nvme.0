@@ -4,81 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C7CAC4167B
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Nov 2023 23:10:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 701DAC4167B
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 Dec 2023 09:27:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=f4Apnf4bphlPjhBLPjGlt4jDUFtIcbFPTaAGw2Bwtrs=; b=t1OgrNXujBDFBG96YzLUSeUVGI
-	CGCsnO5HSamS+oCvoRS0GwLmGn4Mr0dnwb+SS/56eFG88A6X+ydcZKwQ7YCaKEsr/N7ZN3w58KMIM
-	1jpa/90Udxt/NuBaaxnLbytMcUHnx7PYXCSlMuDCFm7MhCrvssvKH7kv/QcfWtE8gfrBmCACAOLld
-	EmBr/4GR7e9zx/npygHQC6N3s5m+ZZYwjou+1veesSE2VcsH+ThOF8h0gJXBWEWIBmAzdfVhj188F
-	2sfG8c43zjmNYzYxn3lVO68DADyKI0u9H/3NTzsES+HI07HbfYx2lvM6cwfYRqye9vvEMpyG4XUjw
-	18FpCk7Q==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=WOtDxc+0CUVH1bgxuNgGLc6i5JbaWlWpPk+72gmy0nQ=; b=dfeh/6lLbTC2BBc8zvOGisU6ii
+	jUGNAH+SP7FKrizNcoN3Ohhgnb2kcJbJ7tRfb8fk72t6rh6AIYQ1/WMvliwIi/xRRK9r8c5HjZ1un
+	Gkji1srE96ykjnnfTNfk5FOZxdyqqGsglXXojZ3fMXaKSAcs3C3YO18SMjNbonIihL1Y2y25LKS4i
+	abvrZWsXLjxlR648idecN96bETl9/L9JsAiVSjwp6MXKiH5mSQFnI02rWjBN25cZ1cak1MamxK1zl
+	xGf1WYvSIRqT9KCI2vMb936E2x7faH74k8S4jwXHxSaR5Xke3ZJ8mTqN1n5s5S60AK+J2X2pho/A8
+	VeOKPR3A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r8qAR-00C86R-36;
-	Thu, 30 Nov 2023 23:09:59 +0000
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d])
+	id 1r8zoP-00D5UB-1y;
+	Fri, 01 Dec 2023 09:27:53 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r8qAP-00C85k-2M
+	id 1r8zoM-00D5Sb-2B
 	for linux-nvme@lists.infradead.org;
-	Thu, 30 Nov 2023 23:09:58 +0000
-Received: by mail-pg1-x52d.google.com with SMTP id 41be03b00d2f7-5c1b6fc5426so194154a12.1
-        for <linux-nvme@lists.infradead.org>; Thu, 30 Nov 2023 15:09:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1701385796; x=1701990596; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=f4Apnf4bphlPjhBLPjGlt4jDUFtIcbFPTaAGw2Bwtrs=;
-        b=iPpzr/x87Ve7208klAeLEOioPdQKKT1H0iBhuZsGUxnLeA0xFJ7fazWJZ5uxKotBKq
-         D5+XMiCEZoF2YX2rJ1CfGkUY/2q3zydA2ep18h9M2jjuk67mnVnW0jMrBkhPbKUoF4E2
-         EHFjNN9DZLL9rLTED28bYKLv0Izi9ZiNYXhF8Iwv4VCKFNBMvesxyN/0qJXcnXw28lqj
-         5kgyQIiDoFQGzBO1vp7J/tOIIjjwdH3bjcEu9yKHYCq1wbLL5PM+bWItvxcmMrEee6+t
-         Fj4VqL0eshs8xlJR316Thg3MbP4q29BJDQ6YechiNoM8eEHD1eB27i3wx4slZIro4ClM
-         DoFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701385796; x=1701990596;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=f4Apnf4bphlPjhBLPjGlt4jDUFtIcbFPTaAGw2Bwtrs=;
-        b=UFwqiG5lsWkeeYTq69gr93EPLgUpUuWOe/D4ye3lPhTVlT12XIrWmd4I26q17tC8XT
-         jnjPPtdceAO4WGoNOFIvbSrlMG+uBxneF7Qgkig5XJYU+f+lwZt0N7lyXNUhHcavZAfc
-         3QYqR+T4MsMsX59vAdwXVR1EDKNSxLgwrt+nM7ydbjE7eSQeizO+p0uic5hV4VTxa+S2
-         NzHXGBSSR1OSN/dETTagbbVxS/AAQOSM3VQnrjfqGP05dlv/C9iWqkl8QKQ+IjkwY/8U
-         uIKdEOmImh4YrK+XEJSSdyhTp+/SKBVs4yxPB+ZJweGUWht5zQvC43Zuk1UoqTRMdhw2
-         CglQ==
-X-Gm-Message-State: AOJu0Yy6vuH1t3gsalYRLxYN/0lHb9RP1ajayZKVuSePfVc6F1SpU2QQ
-	q4Ce3TlIryQuGEnUmbU5tunSNQ==
-X-Google-Smtp-Source: AGHT+IHqjo5dzVNi162u3rOS8bW91cKTJV44L/VXsuTy9clWrsB/eWTG2BXBa3UO8XRzRCmlg0dMww==
-X-Received: by 2002:a05:6a20:5482:b0:18d:4821:f785 with SMTP id i2-20020a056a20548200b0018d4821f785mr2796005pzk.4.1701385796333;
-        Thu, 30 Nov 2023 15:09:56 -0800 (PST)
-Received: from [192.168.1.150] ([198.8.77.194])
-        by smtp.gmail.com with ESMTPSA id fn8-20020a056a002fc800b006c7c6ae3755sm1717443pfb.80.2023.11.30.15.09.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Nov 2023 15:09:55 -0800 (PST)
-Message-ID: <48212850-89e7-42d4-bd9a-93d0c35bc38f@kernel.dk>
-Date: Thu, 30 Nov 2023 16:09:54 -0700
+	Fri, 01 Dec 2023 09:27:52 +0000
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6DAD621C3E;
+	Fri,  1 Dec 2023 09:27:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1701422866; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=WOtDxc+0CUVH1bgxuNgGLc6i5JbaWlWpPk+72gmy0nQ=;
+	b=dSU/z05URucCogX6a95hB/5PICcSlu/D5r7y6UaiH2YwO58AHna24Prpx3p5oocfr4QqZ8
+	542O2gKNAL+2j3mj+41WSJCtXixNydmHuxP8Al7rHOILSH6L8wHXDmXG2Otd2fG+S1+NLH
+	6eRItJGUob9JyIQ8RMOvvzUY/hu/Vt4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1701422866;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=WOtDxc+0CUVH1bgxuNgGLc6i5JbaWlWpPk+72gmy0nQ=;
+	b=FlIzCByVIt2Es8zV7fh8DvnbmGHKBD5ByyJ3yAP0J+DGex8F+DNxhlDxKuzPULKrVxmiim
+	133dIuUe826VGhBQ==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 5C41013928;
+	Fri,  1 Dec 2023 09:27:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id Uh0XFRKnaWULZgAAn2gu4w
+	(envelope-from <dwagner@suse.de>); Fri, 01 Dec 2023 09:27:46 +0000
+From: Daniel Wagner <dwagner@suse.de>
+To: linux-nvme@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Hannes Reinecke <hare@suse.de>,
+	Daniel Wagner <dwagner@suse.de>
+Subject: [RFC v2 0/3] nvme: add csi, ms and nuse to sysfs
+Date: Fri,  1 Dec 2023 10:27:32 +0100
+Message-ID: <20231201092735.28592-1-dwagner@suse.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme-ioctl: move capable() admin check to the end
-Content-Language: en-US
-To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
- hch@lst.de, sagi@grimberg.me
-Cc: Keith Busch <kbusch@kernel.org>
-References: <20231130201919.2486553-1-kbusch@meta.com>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20231130201919.2486553-1-kbusch@meta.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spamd-Result: default: False [3.90 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 R_MISSING_CHARSET(2.50)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 RCPT_COUNT_SEVEN(0.00)[7];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.00)[12.67%]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231130_150957_771857_98EEF5C1 
-X-CRM114-Status: UNSURE (   8.05  )
+X-CRM114-CacheID: sfid-20231201_012750_865391_11D805D4 
+X-CRM114-Status: UNSURE (   9.69  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -94,16 +110,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/30/23 1:19 PM, Keith Busch wrote:
-> From: Keith Busch <kbusch@kernel.org>
-> 
-> This can be an expensive call on some distros. Move it to the end after
-> checking the cheaper ways to determine if the command is allowed.
+I've moved all ns id info to nvms_ns_head in this version as we discussed in v1
+(hope I understood it right). The change was pretty much straightforward except for 
 
-Reviewed-by: Jens Axboe <axboe@kernel.dk>
+  nvme_mpath_clear_current_path
+  nvme_mpath_revalidate_paths
+  nvme_failover_req
+
+where there is need to access a nvme_ns pointer again. I've tested this change
+with the nvme-pci and nvme-tcp transport so far.
+
+Thanks,
+Daniel
+
+libnvme changes:
+  https://github.com/igaw/libnvme/tree/tree-no-cmd
+  
+changes:
+
+v2:
+ - moved ns id data to nvme_ns_head
+ - dropped ds, nsze
+
+v1:
+ - initial version
+ - https://lore.kernel.org/linux-nvme/20231127103208.25748-1-dwagner@suse.de/
+
+Daniel Wagner (3):
+  nvme: lookup ctrl from request instead from namespace
+  nvme: move ns id info to struct nvme_ns_head
+  nvme: add csi, ms and nuse to sysfs
+
+ drivers/nvme/host/apple.c      |   4 +-
+ drivers/nvme/host/core.c       | 191 +++++++++++++++++----------------
+ drivers/nvme/host/fc.c         |   4 +-
+ drivers/nvme/host/ioctl.c      |  20 ++--
+ drivers/nvme/host/multipath.c  |  40 +++----
+ drivers/nvme/host/nvme.h       |  57 +++++-----
+ drivers/nvme/host/rdma.c       |  10 +-
+ drivers/nvme/host/sysfs.c      |  24 +++++
+ drivers/nvme/host/tcp.c        |   8 +-
+ drivers/nvme/host/zns.c        |  30 +++---
+ drivers/nvme/target/loop.c     |   4 +-
+ drivers/nvme/target/passthru.c |   8 +-
+ 12 files changed, 216 insertions(+), 184 deletions(-)
 
 -- 
-Jens Axboe
-
+2.43.0
 
 
