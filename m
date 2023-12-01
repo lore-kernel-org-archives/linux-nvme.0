@@ -4,63 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0302AC07E97
-	for <linux-nvme@archiver.kernel.org>; Fri,  1 Dec 2023 09:28:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 665B0C10F04
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 Dec 2023 09:28:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sQwzdTYvrRv6kwmyIfzY+Auo3yOb/qjcABHg72uxOp8=; b=Ex80Cjx3NguCj6WjoN69crMlSp
-	GFbsm+UW4VmezXbRrs/DmaZMUea7ebWVkCUrSIdtC1LJ6OAdUrsBHeCNCEQ1RB9JI6pm9usFVsqWM
-	xJEatdhB6uAONjGFcKyHJBHHOf7IxdfVmqpA2zo9kr8vGMR/w8bQ5sFYQffxev+opl2keWHIwdWex
-	T1ystCUlpS7WzbbJ7KHA0GpFU1EjEwSK617pRYoOQdlhAjtLsc51J/C7If/Wy+W/1M1a1RfXbR4vI
-	T88e4PemT/QnRQyf0AgXQx60fYBsHoCmLD7bhxfVEGCDwczLeeS0pVGlCG9Dy1LDQlFTDMXNLPc8Z
-	2ZqwgpiQ==;
+	bh=fkc5UQmZbcBUbNRn9VLW++X90Qjbh2OojrbXDmLxlsA=; b=5EnOJzKwzBflZ+971lvXGKjqns
+	VteidI/sbXInTP8ir//0Kh2laQeq0vIZHvOCmGzKx1TrrVp25xiwYOeQnoUTLu7lV19bVmxiRt5pI
+	I6Y6HanauOTbBhCHoIt19bKKYqQyGnQnpMHRmmvDrhpVU4kbKw1X9EJWwhxxV8m3grbMmC35LzBf/
+	GmWc/vQOTU5WKynIetJECDihpM20tIjd/g9VbEX/vRKvPvJXxn9uJIGDZSYB9Wk96Hwbo8ObC0rbZ
+	/txakJVDKpam8T95a8Gwg5uw6YKZMr8haAEXccJowJ2nq42Cpr7TllnIBU3+VqJaB3rT2AhaQPZDJ
+	Sggpc/JA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r8zoR-00D5Ub-0N;
-	Fri, 01 Dec 2023 09:27:55 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1r8zoO-00D5U4-31;
+	Fri, 01 Dec 2023 09:27:52 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r8zoN-00D5Sh-1X
+	id 1r8zoM-00D5Sc-27
 	for linux-nvme@lists.infradead.org;
-	Fri, 01 Dec 2023 09:27:53 +0000
+	Fri, 01 Dec 2023 09:27:52 +0000
 Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6934D1FD66;
-	Fri,  1 Dec 2023 09:27:48 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 156B721C3F;
+	Fri,  1 Dec 2023 09:27:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1701422868; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1701422867; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sQwzdTYvrRv6kwmyIfzY+Auo3yOb/qjcABHg72uxOp8=;
-	b=h9galPa2C+0p7I+D8lvp9bH8FnGklhot5gehpiYeTyxRa2Oez7FV3aemn1mQJzkUVe0BIO
-	/SPOg/SzRc1+X8BRpk495JNnbmX65Py4zEW+9jU1a/bdPvczh+2WIiquzPSbvzAj4J7GbA
-	FenU/BJ17jybUhZrloeAxa8FcFxA5Jk=
+	bh=fkc5UQmZbcBUbNRn9VLW++X90Qjbh2OojrbXDmLxlsA=;
+	b=1ZVFa38pdPtRvAC5/DIScZ2yVwNBE1gpgzErhVtgLROxIX4+Ww5NgSETm/zruqpaPctHt8
+	Ltgs6zTze7dkvXSJxJeqUYNgccz2to34Ozxp2th4a0fTPAxqi5V86VbmyzNMeu61fxuFt4
+	OWqkE/yPEkpAZTG7+xLIgVOlAUGfX0M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1701422868;
+	s=susede2_ed25519; t=1701422867;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sQwzdTYvrRv6kwmyIfzY+Auo3yOb/qjcABHg72uxOp8=;
-	b=fdIxNGC76hOGaO75uyt2pUAucI2fsflbx30GV3uhdgnok4QaVk0YkJd+ewgwmmNbH6To9L
-	W+wWRFQuMV5HK7CQ==
+	bh=fkc5UQmZbcBUbNRn9VLW++X90Qjbh2OojrbXDmLxlsA=;
+	b=yH/6L59LeseuS28t1fhEfN05DSn8KMOBlSi+7LsOJZN0ELWgiYnePD3l1x6Jsl7zunPood
+	bW1GiHk1fSzUSKDQ==
 Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 574F913928;
-	Fri,  1 Dec 2023 09:27:48 +0000 (UTC)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 0346F13928;
+	Fri,  1 Dec 2023 09:27:46 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id +1yfExSnaWUbZgAAn2gu4w
-	(envelope-from <dwagner@suse.de>); Fri, 01 Dec 2023 09:27:48 +0000
+	id NDYFOxKnaWUPZgAAn2gu4w
+	(envelope-from <dwagner@suse.de>); Fri, 01 Dec 2023 09:27:46 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org,
@@ -69,30 +69,29 @@ Cc: linux-kernel@vger.kernel.org,
 	Sagi Grimberg <sagi@grimberg.me>,
 	Hannes Reinecke <hare@suse.de>,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [RFC v2 3/3] nvme: add csi, ms and nuse to sysfs
-Date: Fri,  1 Dec 2023 10:27:35 +0100
-Message-ID: <20231201092735.28592-4-dwagner@suse.de>
+Subject: [RFC v2 1/3] nvme: lookup ctrl from request instead from namespace
+Date: Fri,  1 Dec 2023 10:27:33 +0100
+Message-ID: <20231201092735.28592-2-dwagner@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231201092735.28592-1-dwagner@suse.de>
 References: <20231201092735.28592-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
+Authentication-Results: smtp-out1.suse.de;
 	none
-X-Spamd-Result: default: False [-3.30 / 50.00];
+X-Spamd-Result: default: False [-3.10 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
 	 FROM_HAS_DN(0.00)[];
 	 TO_DN_SOME(0.00)[];
-	 R_MISSING_CHARSET(2.50)[];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 R_MISSING_CHARSET(2.50)[];
 	 MIME_GOOD(-0.10)[text/plain];
 	 REPLY(-4.00)[];
 	 BROKEN_CONTENT_TYPE(1.50)[];
 	 NEURAL_HAM_LONG(-1.00)[-1.000];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
 	 RCPT_COUNT_SEVEN(0.00)[7];
 	 MID_CONTAINS_FROM(1.00)[];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
@@ -101,8 +100,8 @@ X-Spamd-Result: default: False [-3.30 / 50.00];
 	 RCVD_TLS_ALL(0.00)[];
 	 BAYES_HAM(-3.00)[100.00%]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231201_012751_694236_DEA64B7C 
-X-CRM114-Status: GOOD (  13.17  )
+X-CRM114-CacheID: sfid-20231201_012750_868825_19AB4A84 
+X-CRM114-Status: GOOD (  16.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,88 +116,65 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-libnvme is using the sysfs for enumarating the nvme resources. Though
-there are few missing attritbutes in the sysfs. For these libnvme issues
-commands during discovering.
-
-As the kernel already knows all these attributes and we would like to
-avoid libnvme to issue commands all the time, expose these missing
-attributes.
-
-TODO: update nuse on request
+In preparation to use struct nvme_ns_head pointers instead of a struct
+nvme_ns pointers, get the the ctrl pointer from a request. The reason is
+that there is no easy and fast way to lookup the ctrl from struct
+nvme_ns_head.
 
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 ---
- drivers/nvme/host/core.c  |  1 +
- drivers/nvme/host/nvme.h  |  1 +
- drivers/nvme/host/sysfs.c | 24 ++++++++++++++++++++++++
- 3 files changed, 26 insertions(+)
+ drivers/nvme/host/core.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index bcc5fefb53a8..8aa744356468 100644
+index d699f0c8b13e..900c045fcae0 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -2057,6 +2057,7 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
- 	blk_mq_freeze_queue(ns->disk->queue);
- 	lbaf = nvme_lbaf_index(id->flbas);
- 	ns->head->lba_shift = id->lbaf[lbaf].ds;
-+	ns->head->nuse = le64_to_cpu(id->nuse);
- 	nvme_set_queue_limits(ns->ctrl, ns->queue);
+@@ -769,6 +769,7 @@ static blk_status_t nvme_setup_discard(struct nvme_ns *ns, struct request *req,
+ 		struct nvme_command *cmnd)
+ {
+ 	unsigned short segments = blk_rq_nr_discard_segments(req), n = 0;
++	struct nvme_ctrl *ctrl = nvme_req(req)->ctrl;
+ 	struct nvme_dsm_range *range;
+ 	struct bio *bio;
  
- 	ret = nvme_configure_metadata(ns, id);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 1ad2539df6fe..3a2395bf8025 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -456,6 +456,7 @@ struct nvme_ns_head {
- 	u16 pi_size;
- 	u16 sgs;
- 	u32 sws;
-+	u64 nuse;
- 	u8 pi_type;
- 	u8 guard_type;
- #ifdef CONFIG_BLK_DEV_ZONED
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index c6b7fbd4d34d..555e8842f0d4 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -114,12 +114,36 @@ static ssize_t nsid_show(struct device *dev, struct device_attribute *attr,
- }
- static DEVICE_ATTR_RO(nsid);
+@@ -786,10 +787,10 @@ static blk_status_t nvme_setup_discard(struct nvme_ns *ns, struct request *req,
+ 		 * discard page. If that's also busy, it's safe to return
+ 		 * busy, as we know we can make progress once that's freed.
+ 		 */
+-		if (test_and_set_bit_lock(0, &ns->ctrl->discard_page_busy))
++		if (test_and_set_bit_lock(0, &ctrl->discard_page_busy))
+ 			return BLK_STS_RESOURCE;
  
-+static ssize_t csi_show(struct device *dev, struct device_attribute *attr,
-+		char *buf)
-+{
-+	return sysfs_emit(buf, "%d\n", dev_to_ns_head(dev)->ids.csi);
-+}
-+static DEVICE_ATTR_RO(csi);
+-		range = page_address(ns->ctrl->discard_page);
++		range = page_address(ctrl->discard_page);
+ 	}
+ 
+ 	if (queue_max_discard_segments(req->q) == 1) {
+@@ -815,8 +816,8 @@ static blk_status_t nvme_setup_discard(struct nvme_ns *ns, struct request *req,
+ 	}
+ 
+ 	if (WARN_ON_ONCE(n != segments)) {
+-		if (virt_to_page(range) == ns->ctrl->discard_page)
+-			clear_bit_unlock(0, &ns->ctrl->discard_page_busy);
++		if (virt_to_page(range) == ctrl->discard_page)
++			clear_bit_unlock(0, &ctrl->discard_page_busy);
+ 		else
+ 			kfree(range);
+ 		return BLK_STS_IOERR;
+@@ -861,9 +862,11 @@ static void nvme_set_ref_tag(struct nvme_ns *ns, struct nvme_command *cmnd,
+ static inline blk_status_t nvme_setup_write_zeroes(struct nvme_ns *ns,
+ 		struct request *req, struct nvme_command *cmnd)
+ {
++	struct nvme_ctrl *ctrl = nvme_req(req)->ctrl;
 +
-+static ssize_t metadata_bytes_show(struct device *dev, struct device_attribute *attr,
-+		char *buf)
-+{
-+	return sysfs_emit(buf, "%d\n", dev_to_ns_head(dev)->ms);
-+}
-+static DEVICE_ATTR_RO(metadata_bytes);
-+
-+static ssize_t nuse_show(struct device *dev, struct device_attribute *attr,
-+		char *buf)
-+{
-+	return sysfs_emit(buf, "%llu\n", dev_to_ns_head(dev)->nuse);
-+}
-+static DEVICE_ATTR_RO(nuse);
-+
- static struct attribute *nvme_ns_id_attrs[] = {
- 	&dev_attr_wwid.attr,
- 	&dev_attr_uuid.attr,
- 	&dev_attr_nguid.attr,
- 	&dev_attr_eui.attr,
-+	&dev_attr_csi.attr,
- 	&dev_attr_nsid.attr,
-+	&dev_attr_metadata_bytes.attr,
-+	&dev_attr_nuse.attr,
- #ifdef CONFIG_NVME_MULTIPATH
- 	&dev_attr_ana_grpid.attr,
- 	&dev_attr_ana_state.attr,
+ 	memset(cmnd, 0, sizeof(*cmnd));
+ 
+-	if (ns->ctrl->quirks & NVME_QUIRK_DEALLOCATE_ZEROES)
++	if (ctrl->quirks & NVME_QUIRK_DEALLOCATE_ZEROES)
+ 		return nvme_setup_discard(ns, req, cmnd);
+ 
+ 	cmnd->write_zeroes.opcode = nvme_cmd_write_zeroes;
 -- 
 2.43.0
 
