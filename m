@@ -4,104 +4,126 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 665B0C10F04
-	for <linux-nvme@archiver.kernel.org>; Fri,  1 Dec 2023 09:28:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 02802C4167B
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 Dec 2023 10:44:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fkc5UQmZbcBUbNRn9VLW++X90Qjbh2OojrbXDmLxlsA=; b=5EnOJzKwzBflZ+971lvXGKjqns
-	VteidI/sbXInTP8ir//0Kh2laQeq0vIZHvOCmGzKx1TrrVp25xiwYOeQnoUTLu7lV19bVmxiRt5pI
-	I6Y6HanauOTbBhCHoIt19bKKYqQyGnQnpMHRmmvDrhpVU4kbKw1X9EJWwhxxV8m3grbMmC35LzBf/
-	GmWc/vQOTU5WKynIetJECDihpM20tIjd/g9VbEX/vRKvPvJXxn9uJIGDZSYB9Wk96Hwbo8ObC0rbZ
-	/txakJVDKpam8T95a8Gwg5uw6YKZMr8haAEXccJowJ2nq42Cpr7TllnIBU3+VqJaB3rT2AhaQPZDJ
-	Sggpc/JA==;
+	bh=egIVlxYXEj5QnAKhPNSwlLp6xcM1kV8clB570m+Tw8g=; b=oJmZnw0c3YlK822aI4JQZI5McA
+	WgG2/znKNr8O5fVs5Mgm8lz7s3dyc6h5MoQ3GWjc3qxGBUNt1e44JWaqV0aztqMJtCvU0aOZBrfN/
+	HlhPw0I319Xm/wt64D3JukooY7aMFbNcM7mUC5aXtkEbjQJQLDJ89T5fFBCjTc2s0+rHjNmDpK3I7
+	sgemth8HNaw7gQsYGpQNG5HqvbPvjAkO999E86FCQUWM+Eb2zcDERfT1lVG2+VZtS8AHw/VoXX1/Y
+	5+APSJf0LtfSSVB2qmSXqAIWS+DUudwYpVS5B20BleDLibtgaV2cRttKJowzet5evJzrW3eokSGd1
+	hXkXxXCQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r8zoO-00D5U4-31;
-	Fri, 01 Dec 2023 09:27:52 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1r9106-00DF5X-0z;
+	Fri, 01 Dec 2023 10:44:02 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r8zoM-00D5Sc-27
+	id 1r9101-00DF4A-0P
 	for linux-nvme@lists.infradead.org;
-	Fri, 01 Dec 2023 09:27:52 +0000
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 156B721C3F;
-	Fri,  1 Dec 2023 09:27:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1701422867; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fkc5UQmZbcBUbNRn9VLW++X90Qjbh2OojrbXDmLxlsA=;
-	b=1ZVFa38pdPtRvAC5/DIScZ2yVwNBE1gpgzErhVtgLROxIX4+Ww5NgSETm/zruqpaPctHt8
-	Ltgs6zTze7dkvXSJxJeqUYNgccz2to34Ozxp2th4a0fTPAxqi5V86VbmyzNMeu61fxuFt4
-	OWqkE/yPEkpAZTG7+xLIgVOlAUGfX0M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1701422867;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fkc5UQmZbcBUbNRn9VLW++X90Qjbh2OojrbXDmLxlsA=;
-	b=yH/6L59LeseuS28t1fhEfN05DSn8KMOBlSi+7LsOJZN0ELWgiYnePD3l1x6Jsl7zunPood
-	bW1GiHk1fSzUSKDQ==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 0346F13928;
-	Fri,  1 Dec 2023 09:27:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id NDYFOxKnaWUPZgAAn2gu4w
-	(envelope-from <dwagner@suse.de>); Fri, 01 Dec 2023 09:27:46 +0000
-From: Daniel Wagner <dwagner@suse.de>
-To: linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org,
-	Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Hannes Reinecke <hare@suse.de>,
-	Daniel Wagner <dwagner@suse.de>
-Subject: [RFC v2 1/3] nvme: lookup ctrl from request instead from namespace
-Date: Fri,  1 Dec 2023 10:27:33 +0100
-Message-ID: <20231201092735.28592-2-dwagner@suse.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231201092735.28592-1-dwagner@suse.de>
-References: <20231201092735.28592-1-dwagner@suse.de>
+	Fri, 01 Dec 2023 10:44:01 +0000
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20231201104351epoutp04c262d9a9be1a9258cfee61c6091676ba~crzwYanUt2507925079epoutp04B
+	for <linux-nvme@lists.infradead.org>; Fri,  1 Dec 2023 10:43:51 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20231201104351epoutp04c262d9a9be1a9258cfee61c6091676ba~crzwYanUt2507925079epoutp04B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1701427431;
+	bh=egIVlxYXEj5QnAKhPNSwlLp6xcM1kV8clB570m+Tw8g=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=C/7HDy4Q5Ul4IvmFtf9j6ARYMnpmwLIbpNvQn1AB5KavI2Q+3pXSlN65eejcDwE8c
+	 wDYQWEqJU4F8JLhj+OfCERo647aTDWcxm2aNVOQm3fY77Gw4B9tTevR9Rz6M5+aQrP
+	 zrw1wG84nPTnG9CtBne7A+xDZl2RDP+y0ZF3J5rg=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+	20231201104351epcas5p114a813d9e6702b1162567bb4320c5e0a~crzwDLIXQ2725827258epcas5p17;
+	Fri,  1 Dec 2023 10:43:51 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.177]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4ShV6D1WNVz4x9Px; Fri,  1 Dec
+	2023 10:43:48 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	EE.46.09634.4E8B9656; Fri,  1 Dec 2023 19:43:48 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20231201104347epcas5p440b836f5c8c55ea7a21b51a14e27064a~crzsljt4e1349813498epcas5p4n;
+	Fri,  1 Dec 2023 10:43:47 +0000 (GMT)
+Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20231201104347epsmtrp12963b5d4f454e9b4bf8e9f0f862bbc04~crzsk7RPT1441014410epsmtrp1P;
+	Fri,  1 Dec 2023 10:43:47 +0000 (GMT)
+X-AuditID: b6c32a49-159fd700000025a2-68-6569b8e4d305
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
+	72.28.18939.3E8B9656; Fri,  1 Dec 2023 19:43:47 +0900 (KST)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20231201104346epsmtip2e2197d5ca067bf0872757e9181cd068d~crzrTU1ee0888808888epsmtip2W;
+	Fri,  1 Dec 2023 10:43:46 +0000 (GMT)
+Message-ID: <e3c2d527-3927-7efe-a61f-ff7e5af95d83@samsung.com>
+Date: Fri, 1 Dec 2023 16:13:45 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [-3.10 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 R_MISSING_CHARSET(2.50)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 REPLY(-4.00)[];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCPT_COUNT_SEVEN(0.00)[7];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+	Gecko/20100101 Thunderbird/91.8.1
+Subject: Re: [PATCHv5 0/4] block integrity: directly map user space
+ addresses
+Content-Language: en-US
+To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, io-uring@vger.kernel.org
+Cc: axboe@kernel.dk, hch@lst.de, martin.petersen@oracle.com,
+	ming.lei@redhat.com, Keith Busch <kbusch@kernel.org>
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <20231130215309.2923568-1-kbusch@meta.com>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrHJsWRmVeSWpSXmKPExsWy7bCmlu6THZmpBm9aOC1W3+1ns1i5+iiT
+	xbvWcywWkw5dY7Q4c3Uhi8XeW9oW85c9ZbdYfvwfk8Whyc1MDpwel8+Wemxa1cnmsXlJvcfu
+	mw1sHucuVnh8fHqLxeP9vqtsHp83yQVwRGXbZKQmpqQWKaTmJeenZOal2yp5B8c7x5uaGRjq
+	GlpamCsp5CXmptoqufgE6Lpl5gDdpqRQlphTChQKSCwuVtK3synKLy1JVcjILy6xVUotSMkp
+	MCnQK07MLS7NS9fLSy2xMjQwMDIFKkzIzmh6eoOl4Bd3xfdHd9kbGG9zdDFyckgImEi8fdDO
+	2sXIxSEksJtR4urnw8wQzidGiUnndzKCVIE5x9awwXRcuniPDaJoJ6PE/80zoDreMkp0nZ/M
+	DlLFK2AnsenqKzCbRUBFYuHrg1BxQYmTM5+wgNiiAkkSv67OAdsgLOAvcf3pBTCbWUBc4taT
+	+UwgtohAlUTftJ9sEPFiifsdu4Fu5eBgE9CUuDC5FCTMKWAu8eLZOnaIEnmJ7W/ngN0jIbCU
+	Q2LR5PeMIPUSAi4SN3ZpQDwgLPHq+BZ2CFtK4mV/G5SdLHFp5jkmCLtE4vGeg1C2vUTrqX5m
+	kDHMQGvX79KHWMUn0fv7CRPEdF6JjjYhiGpFiXuTnrJC2OISD2csgbI9JC78+w4NqS5GidmP
+	u9knMCrMQgqUWUien4Xkm1kImxcwsqxilEwtKM5NTy02LTDMSy2HR3dyfu4mRnDC1fLcwXj3
+	wQe9Q4xMHIyHGCU4mJVEeK8/TU8V4k1JrKxKLcqPLyrNSS0+xGgKjJ2JzFKiyfnAlJ9XEm9o
+	YmlgYmZmZmJpbGaoJM77unVuipBAemJJanZqakFqEUwfEwenVAPTbsvFX66df/z7A8dOG0+B
+	pKJ7LZZ/595s27h94S2ja5/aS4QVt3xZd4D3vv8enq0JM6LLel/re0RulVh0zPzAURsLxoNB
+	PnkZTIwlMk+ObvN2efvYLmZCWxf3X3mtTwyLlaJqC47O6crhZVVs++bK85QvVKqMa8V3hZsT
+	W8QWWdUzbRL/ILfq9EPD7U2SyT919dZ+a1HdWRT9wPq9sImUt7ZYwgPhLxMezExrW3hPOL1n
+	xappL1r/HVvydWqPLOOcsi67yEu/znd/nKhwcYeATOb82yVswf/2yVfkmL8ze7I8Qer7wtd7
+	FXzttN4WTLjZ6xfJ8bDmopDnqzOqacvWbd788lFLFW+giLti1dLjSizFGYmGWsxFxYkAgWV7
+	CEEEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpjkeLIzCtJLcpLzFFi42LZdlhJXvfxjsxUg9nndSxW3+1ns1i5+iiT
+	xbvWcywWkw5dY7Q4c3Uhi8XeW9oW85c9ZbdYfvwfk8Whyc1MDpwel8+Wemxa1cnmsXlJvcfu
+	mw1sHucuVnh8fHqLxeP9vqtsHp83yQVwRHHZpKTmZJalFunbJXBlND29wVLwi7vi+6O77A2M
+	tzm6GDk5JARMJC5dvMfWxcjFISSwnVFi54u1rBAJcYnmaz/YIWxhiZX/nrNDFL1mlJhweCUz
+	SIJXwE5i09VXYEUsAioSC18fZIeIC0qcnPmEBcQWFUiS2HO/kamLkYNDWMBX4sTWRJAwM9D8
+	W0/mM4HYIgJVEvt/nAUrYRYolri52BJiVRejxNZvl1lA4mwCmhIXJpeClHMKmEu8eLaOHWKM
+	mUTX1i5GCFteYvvbOcwTGIVmITliFpJts5C0zELSsoCRZRWjaGpBcW56bnKBoV5xYm5xaV66
+	XnJ+7iZGcFRpBe1gXLb+r94hRiYOxkOMEhzMSiK815+mpwrxpiRWVqUW5ccXleakFh9ilOZg
+	URLnVc7pTBESSE8sSc1OTS1ILYLJMnFwSjUwRYlMr9vyXkPk4LcFF3c0haa+zF6fcXZiXsY+
+	jQ1qmssa5B4aC81zFLwtWPlwZobCVGZtpe25K7tubjvRW9j1Z9+0lsDvC+5+P6ijqCbCqv9i
+	/4m+7eVtwmdSDp5pYQ+1+PFLiL+JJcg5b933rVHbop7XRQpt1fh99a97+xeugFmzG/fZrZCJ
+	/cn3a3VR6WoHWc3P8uUPAy3OFJ1WMW3Jf/NmA3vxGwW9hcU/a/ZyvPqj03W/uyDN/5T87KDz
+	Rk+MDz24avVbM+fwim1i2nHV678KbayfNzcwyGfxNc8y4UXLz5R//P53laxg5H3VZbPm72uM
+	P7rcRoXbVKb9xlnRa+/vsbPNe5fx58AZrQ1XVZVYijMSDbWYi4oTATvayTkZAwAA
+X-CMS-MailID: 20231201104347epcas5p440b836f5c8c55ea7a21b51a14e27064a
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20231130215715epcas5p33208ca14e69a68402c04e5c743135e6c
+References: <CGME20231130215715epcas5p33208ca14e69a68402c04e5c743135e6c@epcas5p3.samsung.com>
+	<20231130215309.2923568-1-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231201_012750_868825_19AB4A84 
-X-CRM114-Status: GOOD (  16.13  )
+X-CRM114-CacheID: sfid-20231201_024358_649956_D68CD52A 
+X-CRM114-Status: GOOD (  11.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,66 +138,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In preparation to use struct nvme_ns_head pointers instead of a struct
-nvme_ns pointers, get the the ctrl pointer from a request. The reason is
-that there is no easy and fast way to lookup the ctrl from struct
-nvme_ns_head.
+On 12/1/2023 3:23 AM, Keith Busch wrote:
+> From: Keith Busch<kbusch@kernel.org>
 
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
----
- drivers/nvme/host/core.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+This causes a regression (existed in previous version too).
+System freeze on issuing single read/write io that used to work fine 
+earlier:
+fio -iodepth=1 -rw=randread -ioengine=io_uring_cmd -cmd_type=nvme 
+-bs=4096 -numjobs=1 -size=4096 -filename=/dev/ng0n1 -md_per_io_size=8 
+-name=pt
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index d699f0c8b13e..900c045fcae0 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -769,6 +769,7 @@ static blk_status_t nvme_setup_discard(struct nvme_ns *ns, struct request *req,
- 		struct nvme_command *cmnd)
- {
- 	unsigned short segments = blk_rq_nr_discard_segments(req), n = 0;
-+	struct nvme_ctrl *ctrl = nvme_req(req)->ctrl;
- 	struct nvme_dsm_range *range;
- 	struct bio *bio;
- 
-@@ -786,10 +787,10 @@ static blk_status_t nvme_setup_discard(struct nvme_ns *ns, struct request *req,
- 		 * discard page. If that's also busy, it's safe to return
- 		 * busy, as we know we can make progress once that's freed.
- 		 */
--		if (test_and_set_bit_lock(0, &ns->ctrl->discard_page_busy))
-+		if (test_and_set_bit_lock(0, &ctrl->discard_page_busy))
- 			return BLK_STS_RESOURCE;
- 
--		range = page_address(ns->ctrl->discard_page);
-+		range = page_address(ctrl->discard_page);
- 	}
- 
- 	if (queue_max_discard_segments(req->q) == 1) {
-@@ -815,8 +816,8 @@ static blk_status_t nvme_setup_discard(struct nvme_ns *ns, struct request *req,
- 	}
- 
- 	if (WARN_ON_ONCE(n != segments)) {
--		if (virt_to_page(range) == ns->ctrl->discard_page)
--			clear_bit_unlock(0, &ns->ctrl->discard_page_busy);
-+		if (virt_to_page(range) == ctrl->discard_page)
-+			clear_bit_unlock(0, &ctrl->discard_page_busy);
- 		else
- 			kfree(range);
- 		return BLK_STS_IOERR;
-@@ -861,9 +862,11 @@ static void nvme_set_ref_tag(struct nvme_ns *ns, struct nvme_command *cmnd,
- static inline blk_status_t nvme_setup_write_zeroes(struct nvme_ns *ns,
- 		struct request *req, struct nvme_command *cmnd)
- {
-+	struct nvme_ctrl *ctrl = nvme_req(req)->ctrl;
-+
- 	memset(cmnd, 0, sizeof(*cmnd));
- 
--	if (ns->ctrl->quirks & NVME_QUIRK_DEALLOCATE_ZEROES)
-+	if (ctrl->quirks & NVME_QUIRK_DEALLOCATE_ZEROES)
- 		return nvme_setup_discard(ns, req, cmnd);
- 
- 	cmnd->write_zeroes.opcode = nvme_cmd_write_zeroes;
--- 
-2.43.0
+This is because we pin one bvec during submission, but unpin 4 on 
+completion. bio_integrity_unpin_bvec() uses bip->bip_max_vcnt, which is 
+set to 4 (equal to BIO_INLINE_VECS) in this case.
 
+To use bip_max_vcnt the way this series uses, we need below patch/fix:
+
+diff --git a/block/bio-integrity.c b/block/bio-integrity.c
+index 674a2c80454b..feef615e2c9c 100644
+--- a/block/bio-integrity.c
++++ b/block/bio-integrity.c
+@@ -69,15 +69,15 @@ struct bio_integrity_payload 
+*bio_integrity_alloc(struct bio *bio,
+
+         memset(bip, 0, sizeof(*bip));
+
++       /* always report as many vecs as asked explicitly, not inline 
+vecs */
++       bip->bip_max_vcnt = nr_vecs;
+         if (nr_vecs > inline_vecs) {
+-               bip->bip_max_vcnt = nr_vecs;
+                 bip->bip_vec = bvec_alloc(&bs->bvec_integrity_pool,
+                                           &bip->bip_max_vcnt, gfp_mask);
+                 if (!bip->bip_vec)
+                         goto err;
+         } else {
+                 bip->bip_vec = bip->bip_inline_vecs;
+-               bip->bip_max_vcnt = inline_vecs;
+         }
+
+         bip->bip_bio = bio;
 
