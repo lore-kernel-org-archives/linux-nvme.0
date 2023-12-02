@@ -4,129 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 88CD0C4167B
-	for <linux-nvme@archiver.kernel.org>; Sat,  2 Dec 2023 02:04:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D16A2C4167B
+	for <linux-nvme@archiver.kernel.org>; Sat,  2 Dec 2023 14:58:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=P5TDp1eFwhjr7q0Iypgf0mBYQviKb+chbTzPZKkIGrU=; b=XxaI2F29k+OKZyUUleHLg+rxyJ
-	eCqZjjl9lUXHDiYFBWAcr4N11UFq/DAG8vNBSveYu3F/hZXO+X8WFDM+NLru5dv2Uctndy4rtUex9
-	NsdeFBoc+kGAeftMFjRz6XiPN8FvE9+WGd9RE3mmBk2PQy1G4ECtaIRfv0svp+362qAwMzWRSu5z1
-	2spbeDpUVy1fbPgbki+D7BiDkrmVmL1X3QaQXTILmx6knir6f7kES4m/3ZvUlZFTGLJcK4t/yR9UQ
-	CFGn98HoDh2ovHTS/4YpGJMfFp2c8vbBGiCN61RV2k6mFtKLwpWTFoA5jhZEKZ+2/xw4tOJElknas
-	b4daUl9g==;
+	bh=XW1UgdrkcqxXWOvmhkp24/Qp8+IcQ4Iq6pEPuTKK3Ww=; b=whqiHh8gKNvkNYo5Hixjn5q/i9
+	904aXYO6lUP2k1XllVk2fNCOzsRD0CnHewdyal4uXr5PffjLzkZSQVABhB53FusZQzEshTlU22siZ
+	7OxXFdNhI8Gopmus9cgwAZgPpo+vD4rx0nwnBoKKRdoeMXi1vCVJA1CIwwN0+ptj4o5XSpiL+rtI2
+	4tHhu5u/sjYJclwiJ/bPzZ7t3HbfzOGb1mBjeiD09kZpwCAcIp+v9vvYeiWNTdbDNaUesyQUcdxF2
+	qZD5Ob8XXKaKyB/HM+SAS9Gm0lpSoWtyouXRiHR1iHKMygvxRstLZwB7iggDnoWec+u7qRnmxWcTr
+	7dtZjU9w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r9FMu-00F0vQ-1U;
-	Sat, 02 Dec 2023 02:04:32 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1r9RS6-00FoxP-0F;
+	Sat, 02 Dec 2023 14:58:42 +0000
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r9FMq-00F0uh-0R
+	id 1r9RRz-00Fox1-2A
 	for linux-nvme@lists.infradead.org;
-	Sat, 02 Dec 2023 02:04:30 +0000
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20231202020418epoutp02e03134c540716583031932cd9fa08024~c4XZ05XmG1980519805epoutp02f
-	for <linux-nvme@lists.infradead.org>; Sat,  2 Dec 2023 02:04:18 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20231202020418epoutp02e03134c540716583031932cd9fa08024~c4XZ05XmG1980519805epoutp02f
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1701482658;
-	bh=P5TDp1eFwhjr7q0Iypgf0mBYQviKb+chbTzPZKkIGrU=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=KYGrijg80ScXHYMnKpQp95OeZ0CfflvUvlAIvj1aT/v3HpwDvMEZxajRS2Dpsiq+z
-	 6LpVxV3j5bCrWAX7Pp978hgWfvgPmNpj0XckV4N2AlDbReNizaT235jKIbq4T9SIrJ
-	 lfrhCDjH+SX1ewwWdGrTim96xMVeZqG7U+i4/UCc=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20231202020417epcas5p3839d57574bf5dbd6c357b4a457d438c7~c4XY-PQVf1450414504epcas5p3m;
-	Sat,  2 Dec 2023 02:04:17 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.177]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4ShtXH3hWDz4x9Pt; Sat,  2 Dec
-	2023 02:04:15 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	7A.9A.09634.F909A656; Sat,  2 Dec 2023 11:04:15 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20231202020415epcas5p1b81b1df4c3a05ce89c7371d538d6b4c3~c4XXH8RK60211902119epcas5p1T;
-	Sat,  2 Dec 2023 02:04:15 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20231202020415epsmtrp105b1d3663c3c07c55a9383c2b00d58f5~c4XXHOxRW1292012920epsmtrp1Y;
-	Sat,  2 Dec 2023 02:04:15 +0000 (GMT)
-X-AuditID: b6c32a49-159fd700000025a2-55-656a909f3977
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	4C.74.08817.F909A656; Sat,  2 Dec 2023 11:04:15 +0900 (KST)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20231202020413epsmtip12cb9e212a10606e27250f6a34c403060~c4XVcgn7f1341613416epsmtip1F;
-	Sat,  2 Dec 2023 02:04:13 +0000 (GMT)
-Message-ID: <2fe7b3e3-3481-3a67-88f8-13e47ceba545@samsung.com>
-Date: Sat, 2 Dec 2023 07:34:12 +0530
+	Sat, 02 Dec 2023 14:58:40 +0000
+Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1cc13149621so8187915ad.1
+        for <linux-nvme@lists.infradead.org>; Sat, 02 Dec 2023 06:58:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1701529113; x=1702133913; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XW1UgdrkcqxXWOvmhkp24/Qp8+IcQ4Iq6pEPuTKK3Ww=;
+        b=ymxx7YM+KOc2boYBJ+8KD49GKgVGRSafBcNBDnpRjJrF5BKSknxp1DoVh9jY4iC5g6
+         2f3a0smnoCcpx3j5CTFlCRyCsFGJEK7jF/8E0K6So8W4d76Y4oPczPI80MXvwfrSWbGb
+         leXRIbjlr7neygwr9lZ8UtV7e502Qxz+ONAEux05htt+21T/9eBKbatWd3jMdO/Pb0qr
+         q0bWgo2sdXoE0pLG8lALzkLqbZyrFWVf80r1AeK+UtVU01uVndYCiviRiL0c3mbWJl1F
+         UgMJuSxaSvbca303IzUXpa7EkerU977tDyM8HDqYAhIl5XmRYhS/GdPeLiW/ajSFRl+m
+         Gglg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701529113; x=1702133913;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XW1UgdrkcqxXWOvmhkp24/Qp8+IcQ4Iq6pEPuTKK3Ww=;
+        b=n2qczFhdNEJnXGPH693Ddk4tNjVGYE03pXe1c7lFU+41GcYUDUrVa4ZpBafWpL7139
+         vyQNKN9TKJqRb4bp/VSPxUZkKPG/oCSLNLTJWyZ/33gmKIOCQzbJ0n1zUxL/+VS8Wem2
+         2uCRS1HHuzbJuP12qaVlHDX0Y0oMYlWh05jDrjHxGSUMFdhDG2vYzhzVjYe9WOCNyEBZ
+         RYqhROgUYJbpTiYXMCBRVDQqQF7lxx1lF36Ptxiwyn/YvXeK3iMGOY2Rh8Rl/CqCM5Do
+         aE0GqoxTv3yiyBM7qiGFKMcaw5UOu2c5NLC0Mm40+7ze/ZAmeaL3mGvAIGTg3c00Q1HI
+         PBGQ==
+X-Gm-Message-State: AOJu0YwWbZNENF/wWHbjAJfzp7Iuf99UoeMVzy897rSd8KrrwUjjVtEl
+	7k0XUfECxFu9M5yYToqHSDwNDg==
+X-Google-Smtp-Source: AGHT+IEdYA1zBSx0/GweJouqcxEpYNoCqs4MttA1Lpvc82tGgIMit/GYbebWL74MRUmEp33KNYAP4g==
+X-Received: by 2002:a05:6a20:72a3:b0:18b:fece:ff60 with SMTP id o35-20020a056a2072a300b0018bfeceff60mr31298181pzk.1.1701529113460;
+        Sat, 02 Dec 2023 06:58:33 -0800 (PST)
+Received: from [10.0.0.185] (50-255-6-74-static.hfc.comcastbusiness.net. [50.255.6.74])
+        by smtp.gmail.com with ESMTPSA id s5-20020a17090aad8500b002853349e490sm6784095pjq.34.2023.12.02.06.58.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 02 Dec 2023 06:58:32 -0800 (PST)
+Message-ID: <f04ad3dd-05a1-4cef-b837-9c51a18fdc7c@kernel.dk>
+Date: Sat, 2 Dec 2023 07:58:31 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
-	Gecko/20100101 Thunderbird/91.8.1
-Subject: Re: [PATCHv5 0/4] block integrity: directly map user space
- addresses
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv5 0/4] block integrity: directly map user space addresses
 Content-Language: en-US
-To: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>
+To: Kanchan Joshi <joshi.k@samsung.com>, Keith Busch <kbusch@kernel.org>
 Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, io-uring@vger.kernel.org, hch@lst.de,
-	martin.petersen@oracle.com, ming.lei@redhat.com
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <ac5e99c6-7297-4c56-8f3c-98755c58092b@kernel.dk>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPJsWRmVeSWpSXmKPExsWy7bCmlu78CVmpBl/bZSxW3+1ns1i5+iiT
-	xbvWcywWkw5dY7Q4c3Uhi8XeW9oW85c9ZbdYfvwfk8Whyc1MDpwel8+Wemxa1cnmsXlJvcfu
-	mw1sHucuVnh8fHqLxeP9vqtsHp83yQVwRGXbZKQmpqQWKaTmJeenZOal2yp5B8c7x5uaGRjq
-	GlpamCsp5CXmptoqufgE6Lpl5gDdpqRQlphTChQKSCwuVtK3synKLy1JVcjILy6xVUotSMkp
-	MCnQK07MLS7NS9fLSy2xMjQwMDIFKkzIzli49D9bQQtrxYIjS1gbGP8ydzFyckgImEjMWHKE
-	pYuRi0NIYDejxIZnR5kgnE+MEnfvXIVyvjFKdE5eyQjT8mzudRYQW0hgL6PExsVSEEVvGSUe
-	7fnGCpLgFbCT2NTzlQnEZhFQkeg9dZUNIi4ocXLmE7BmUYEkiV9X54ANFRbwl7j+9AKYzSwg
-	LnHryXywXhEBR4mHf9rB7mMW2Mko8WPnRaBBHBxsApoSFyaXgtRwCthKPH7WwwrRKy+x/e0c
-	ZpB6CYGVHBJP34BczQHkuEjcn6YG8YCwxKvjW9ghbCmJl/1tUHayxKWZ55gg7BKJx3sOQtn2
-	Eq2n+plBxjADrV2/Sx9iFZ9E7+8nTBDTeSU62oQgqhUl7k16ygphi0s8nLEEyvaQuPDvOzMk
-	qDYwSUzdsZ9xAqPCLKRQmYXk+1lIvpmFsHkBI8sqRsnUguLc9NRi0wLDvNRyeHwn5+duYgSn
-	XC3PHYx3H3zQO8TIxMF4iFGCg1lJhPf60/RUId6UxMqq1KL8+KLSnNTiQ4ymwOiZyCwlmpwP
-	TPp5JfGGJpYGJmZmZiaWxmaGSuK8r1vnpggJpCeWpGanphakFsH0MXFwSjUwTT/+7ye3aIlD
-	tdtN6zL9P88cmq5yGV6oWXjQpzhzqu1Ejm0Jp97mKVSxcTz5eKOa+xxT+cFdLJxlzLvebKoT
-	2MFY/i4ok984aelCvufN1ac04g/f3RCTt9Fg+mfBbzkbby2fGf5uTV2rjlD9QnMDtk9CbNN+
-	eM5jrRJ8s4O95etXIdkpU1zeCB09djDwvOkJloof6f/SOZZ5L7gasNei5YiU3+mF52axTHPZ
-	62D7/uj+i6f9j5SK/eu7s+714RCDsp8h1lr/BGbVHTV++jyT83hx4NQFvzdckZqY+mX/TJ5H
-	y9NPKMxZaVQtvnty19Ijt+vTr1UWXfkcc4/p7+/wb4U/NZe87XeuXu843U2ct0yJpTgj0VCL
-	uag4EQDxLJ7lQgQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuphkeLIzCtJLcpLzFFi42LZdlhJTnf+hKxUgyUtbBar7/azWaxcfZTJ
-	4l3rORaLSYeuMVqcubqQxWLvLW2L+cueslssP/6PyeLQ5GYmB06Py2dLPTat6mTz2Lyk3mP3
-	zQY2j3MXKzw+Pr3F4vF+31U2j8+b5AI4orhsUlJzMstSi/TtErgyFi79z1bQwlqx4MgS1gbG
-	v8xdjJwcEgImEs/mXmfpYuTiEBLYzShxp2U5E0RCXKL52g92CFtYYuW/5+wQRa8ZJebNvMQC
-	kuAVsJPY1PMVrIFFQEWi99RVNoi4oMTJmU/AakQFkiT23G8EquHgEBbwlTixNREkzAw0/9aT
-	+WCtIgKOEg//tIMdwSywk1Gio/s/G8SyDUwSHUv2M4M0swloSlyYXArSwClgK/H4WQ8rxCAz
-	ia6tXYwQtrzE9rdzmCcwCs1CcsYsJPtmIWmZhaRlASPLKkbJ1ILi3PTcYsMCo7zUcr3ixNzi
-	0rx0veT83E2M4AjT0trBuGfVB71DjEwcjIcYJTiYlUR4rz9NTxXiTUmsrEotyo8vKs1JLT7E
-	KM3BoiTO++11b4qQQHpiSWp2ampBahFMlomDU6qB6Vy9kovIj/cm6uaCF0Tmn42K91a/+v/C
-	XNGXzyr74o5JOr96tkGp9+Oi3/aLNwQe3MX7YcJOubYHwqcedn05+ELJ5377VPXfIceuC4Ub
-	W8b4fSh446mvu8KEa7/TNFardi+FWXXFLT621sxzlz7e5PZ1zeYdq5xnP/nRNPH0Xten3ae6
-	BOoqu6OcgkKm292q/ql9Xk33eFr1msN+Gw4lqi06pur7XTvLW3PeWd9Nb4ujxQ68yYisT1y0
-	50jBpj4Rr1nsay7s5jL1kq7zrdKfvUtz6YqGxx8+u9ywv16exDZho3hgrupn/66ijbYbHstX
-	qLiIxa+cdW+NjDFLjRxPak70nfpFFj/PsjOL/2R0VmIpzkg01GIuKk4EAJ+ssKMfAwAA
-X-CMS-MailID: 20231202020415epcas5p1b81b1df4c3a05ce89c7371d538d6b4c3
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20231130215715epcas5p33208ca14e69a68402c04e5c743135e6c
+ linux-nvme@lists.infradead.org, io-uring@vger.kernel.org, hch@lst.de,
+ martin.petersen@oracle.com, ming.lei@redhat.com
 References: <CGME20231130215715epcas5p33208ca14e69a68402c04e5c743135e6c@epcas5p3.samsung.com>
-	<20231130215309.2923568-1-kbusch@meta.com>
-	<e3c2d527-3927-7efe-a61f-ff7e5af95d83@samsung.com>
-	<ZWopLQWBIUGBad3z@kbusch-mbp> <ZWpjBCF4KueqKlPN@kbusch-mbp>
-	<ac5e99c6-7297-4c56-8f3c-98755c58092b@kernel.dk>
+ <20231130215309.2923568-1-kbusch@meta.com>
+ <e3c2d527-3927-7efe-a61f-ff7e5af95d83@samsung.com>
+ <ZWopLQWBIUGBad3z@kbusch-mbp> <ZWpjBCF4KueqKlPN@kbusch-mbp>
+ <ac5e99c6-7297-4c56-8f3c-98755c58092b@kernel.dk>
+ <2fe7b3e3-3481-3a67-88f8-13e47ceba545@samsung.com>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <2fe7b3e3-3481-3a67-88f8-13e47ceba545@samsung.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231201_180428_854558_F91A277C 
-X-CRM114-Status: GOOD (  13.34  )
+X-CRM114-CacheID: sfid-20231202_065836_066535_34699C98 
+X-CRM114-Status: GOOD (  13.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -141,19 +99,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/2/2023 7:01 AM, Jens Axboe wrote:
->> Jens already applied the latest series for the next merge. We can append
->> this or fold atop, or back it out and we can rework it for another
->> version. No rush; for your patch:
-> I folded this into the original to avoid the breakage, even if it wasn't
-> a huge concern for this particular issue. But it's close enough to
-> merging, figured we may as well do that rather than have a fixup patch.
+On 12/1/23 7:04 PM, Kanchan Joshi wrote:
+> On 12/2/2023 7:01 AM, Jens Axboe wrote:
+>>> Jens already applied the latest series for the next merge. We can append
+>>> this or fold atop, or back it out and we can rework it for another
+>>> version. No rush; for your patch:
+>> I folded this into the original to avoid the breakage, even if it wasn't
+>> a huge concern for this particular issue. But it's close enough to
+>> merging, figured we may as well do that rather than have a fixup patch.
+>>
+>> Please check the end result, both for-next and for-6.8/block are updated
+>> now.
 > 
-> Please check the end result, both for-next and for-6.8/block are updated
-> now.
+> Looks good to me.
+> May not matter now, so a symbolic
+> Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
 
-Looks good to me.
-May not matter now, so a symbolic
-Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
+It still matters imho, because this thread is linked in the commit. So
+even for the cases where I don't amend a commit to insert reviewed-bu
+etc, I still think it's nice to have in the linked thread.
+
+Ditto for the fixup - it's referenced in the original commit, and the
+link will show you what that fixup was.
+
+-- 
+Jens Axboe
 
 
