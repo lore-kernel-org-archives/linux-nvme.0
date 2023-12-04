@@ -4,87 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D16A2C4167B
-	for <linux-nvme@archiver.kernel.org>; Sat,  2 Dec 2023 14:58:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0937C07E97
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Dec 2023 02:30:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XW1UgdrkcqxXWOvmhkp24/Qp8+IcQ4Iq6pEPuTKK3Ww=; b=whqiHh8gKNvkNYo5Hixjn5q/i9
-	904aXYO6lUP2k1XllVk2fNCOzsRD0CnHewdyal4uXr5PffjLzkZSQVABhB53FusZQzEshTlU22siZ
-	7OxXFdNhI8Gopmus9cgwAZgPpo+vD4rx0nwnBoKKRdoeMXi1vCVJA1CIwwN0+ptj4o5XSpiL+rtI2
-	4tHhu5u/sjYJclwiJ/bPzZ7t3HbfzOGb1mBjeiD09kZpwCAcIp+v9vvYeiWNTdbDNaUesyQUcdxF2
-	qZD5Ob8XXKaKyB/HM+SAS9Gm0lpSoWtyouXRiHR1iHKMygvxRstLZwB7iggDnoWec+u7qRnmxWcTr
-	7dtZjU9w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=tJPC9DmNEur0ykkO9N98kEn1eLUMAn1MYmT0jUvM8c4=; b=aohgU5ZMdD+ml0p+UDlcjnB+KE
+	0mlEMXgM6chkp+mnAPkZ6bu3xO1xE/s/zYFYwARPqtbSyzB0oMacAgAnGqXi907tzjulFFRrxHrJj
+	vpY76U3knVXcPmpUjuyGk73VE8nC1Fz8voKbgQUWhPi1SxX60YOpRhFE5mvYIII0ikUrnD70yYSQD
+	Gq05PEBEMReEwXW42KFzbN9BpzIXhKKwoxzQ4HrFEtcR9A0Ol5s7I8K08mhJb10sm5cN8Yhy2HY2V
+	Ysdb1eovMkCZR3wKJjF44TzRVLoV+turFM8Ise9wHq4vOePRO6aqicEA3LpjuXd5uZ/H9E5QJz9YN
+	uGbOyJOA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1r9RS6-00FoxP-0F;
-	Sat, 02 Dec 2023 14:58:42 +0000
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
+	id 1r9yjP-002qF0-33;
+	Mon, 04 Dec 2023 02:30:47 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1r9RRz-00Fox1-2A
+	id 1r9yjJ-002qD0-2n
 	for linux-nvme@lists.infradead.org;
-	Sat, 02 Dec 2023 14:58:40 +0000
-Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1cc13149621so8187915ad.1
-        for <linux-nvme@lists.infradead.org>; Sat, 02 Dec 2023 06:58:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1701529113; x=1702133913; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XW1UgdrkcqxXWOvmhkp24/Qp8+IcQ4Iq6pEPuTKK3Ww=;
-        b=ymxx7YM+KOc2boYBJ+8KD49GKgVGRSafBcNBDnpRjJrF5BKSknxp1DoVh9jY4iC5g6
-         2f3a0smnoCcpx3j5CTFlCRyCsFGJEK7jF/8E0K6So8W4d76Y4oPczPI80MXvwfrSWbGb
-         leXRIbjlr7neygwr9lZ8UtV7e502Qxz+ONAEux05htt+21T/9eBKbatWd3jMdO/Pb0qr
-         q0bWgo2sdXoE0pLG8lALzkLqbZyrFWVf80r1AeK+UtVU01uVndYCiviRiL0c3mbWJl1F
-         UgMJuSxaSvbca303IzUXpa7EkerU977tDyM8HDqYAhIl5XmRYhS/GdPeLiW/ajSFRl+m
-         Gglg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701529113; x=1702133913;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XW1UgdrkcqxXWOvmhkp24/Qp8+IcQ4Iq6pEPuTKK3Ww=;
-        b=n2qczFhdNEJnXGPH693Ddk4tNjVGYE03pXe1c7lFU+41GcYUDUrVa4ZpBafWpL7139
-         vyQNKN9TKJqRb4bp/VSPxUZkKPG/oCSLNLTJWyZ/33gmKIOCQzbJ0n1zUxL/+VS8Wem2
-         2uCRS1HHuzbJuP12qaVlHDX0Y0oMYlWh05jDrjHxGSUMFdhDG2vYzhzVjYe9WOCNyEBZ
-         RYqhROgUYJbpTiYXMCBRVDQqQF7lxx1lF36Ptxiwyn/YvXeK3iMGOY2Rh8Rl/CqCM5Do
-         aE0GqoxTv3yiyBM7qiGFKMcaw5UOu2c5NLC0Mm40+7ze/ZAmeaL3mGvAIGTg3c00Q1HI
-         PBGQ==
-X-Gm-Message-State: AOJu0YwWbZNENF/wWHbjAJfzp7Iuf99UoeMVzy897rSd8KrrwUjjVtEl
-	7k0XUfECxFu9M5yYToqHSDwNDg==
-X-Google-Smtp-Source: AGHT+IEdYA1zBSx0/GweJouqcxEpYNoCqs4MttA1Lpvc82tGgIMit/GYbebWL74MRUmEp33KNYAP4g==
-X-Received: by 2002:a05:6a20:72a3:b0:18b:fece:ff60 with SMTP id o35-20020a056a2072a300b0018bfeceff60mr31298181pzk.1.1701529113460;
-        Sat, 02 Dec 2023 06:58:33 -0800 (PST)
-Received: from [10.0.0.185] (50-255-6-74-static.hfc.comcastbusiness.net. [50.255.6.74])
-        by smtp.gmail.com with ESMTPSA id s5-20020a17090aad8500b002853349e490sm6784095pjq.34.2023.12.02.06.58.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 Dec 2023 06:58:32 -0800 (PST)
-Message-ID: <f04ad3dd-05a1-4cef-b837-9c51a18fdc7c@kernel.dk>
-Date: Sat, 2 Dec 2023 07:58:31 -0700
+	Mon, 04 Dec 2023 02:30:43 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1701657038;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tJPC9DmNEur0ykkO9N98kEn1eLUMAn1MYmT0jUvM8c4=;
+	b=Y0gAh+1iSQVJgmqWqFNBGTv86lEbrPEsw15zKRetbISocRtcHLhBtrxWLf76IQKwuMgwMl
+	qYHQCW0wTgTiE7RT6oLjoIBUztW/lVpL3yW322H8hLDYMRCrKlPM20EZ05e7VG01YwCwh4
+	qYRXqcCxZY5t85G8Fr8uxxBrIF+ZazY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-517-kyPI3YZUPXWYIekSdoIZ4Q-1; Sun, 03 Dec 2023 21:30:32 -0500
+X-MC-Unique: kyPI3YZUPXWYIekSdoIZ4Q-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 384798007B3;
+	Mon,  4 Dec 2023 02:30:31 +0000 (UTC)
+Received: from fedora (unknown [10.72.120.8])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1AF4A492BFE;
+	Mon,  4 Dec 2023 02:30:18 +0000 (UTC)
+Date: Mon, 4 Dec 2023 10:30:14 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: John Garry <john.g.garry@oracle.com>
+Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+	jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
+	viro@zeniv.linux.org.uk, brauner@kernel.org,
+	chandan.babu@oracle.com, dchinner@redhat.com,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
+	linux-api@vger.kernel.org, ming.lei@redhat.com
+Subject: Re: [PATCH 10/21] block: Add fops atomic write support
+Message-ID: <ZW05th/c0sNbM2Zf@fedora>
+References: <20230929102726.2985188-1-john.g.garry@oracle.com>
+ <20230929102726.2985188-11-john.g.garry@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv5 0/4] block integrity: directly map user space addresses
-Content-Language: en-US
-To: Kanchan Joshi <joshi.k@samsung.com>, Keith Busch <kbusch@kernel.org>
-Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, io-uring@vger.kernel.org, hch@lst.de,
- martin.petersen@oracle.com, ming.lei@redhat.com
-References: <CGME20231130215715epcas5p33208ca14e69a68402c04e5c743135e6c@epcas5p3.samsung.com>
- <20231130215309.2923568-1-kbusch@meta.com>
- <e3c2d527-3927-7efe-a61f-ff7e5af95d83@samsung.com>
- <ZWopLQWBIUGBad3z@kbusch-mbp> <ZWpjBCF4KueqKlPN@kbusch-mbp>
- <ac5e99c6-7297-4c56-8f3c-98755c58092b@kernel.dk>
- <2fe7b3e3-3481-3a67-88f8-13e47ceba545@samsung.com>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <2fe7b3e3-3481-3a67-88f8-13e47ceba545@samsung.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230929102726.2985188-11-john.g.garry@oracle.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.10
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231202_065836_066535_34699C98 
-X-CRM114-Status: GOOD (  13.26  )
+X-CRM114-CacheID: sfid-20231203_183041_996541_FF711782 
+X-CRM114-Status: GOOD (  19.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,30 +87,69 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/1/23 7:04 PM, Kanchan Joshi wrote:
-> On 12/2/2023 7:01 AM, Jens Axboe wrote:
->>> Jens already applied the latest series for the next merge. We can append
->>> this or fold atop, or back it out and we can rework it for another
->>> version. No rush; for your patch:
->> I folded this into the original to avoid the breakage, even if it wasn't
->> a huge concern for this particular issue. But it's close enough to
->> merging, figured we may as well do that rather than have a fixup patch.
->>
->> Please check the end result, both for-next and for-6.8/block are updated
->> now.
+On Fri, Sep 29, 2023 at 10:27:15AM +0000, John Garry wrote:
+> Add support for atomic writes, as follows:
+> - Ensure that the IO follows all the atomic writes rules, like must be
+>   naturally aligned
+> - Set REQ_ATOMIC
 > 
-> Looks good to me.
-> May not matter now, so a symbolic
-> Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
+> Signed-off-by: John Garry <john.g.garry@oracle.com>
+> ---
+>  block/fops.c | 42 +++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 41 insertions(+), 1 deletion(-)
+> 
+> diff --git a/block/fops.c b/block/fops.c
+> index acff3d5d22d4..516669ad69e5 100644
+> --- a/block/fops.c
+> +++ b/block/fops.c
+> @@ -41,6 +41,29 @@ static bool blkdev_dio_unaligned(struct block_device *bdev, loff_t pos,
+>  		!bdev_iter_is_aligned(bdev, iter);
+>  }
+>  
+> +static bool blkdev_atomic_write_valid(struct block_device *bdev, loff_t pos,
+> +			      struct iov_iter *iter)
+> +{
+> +	unsigned int atomic_write_unit_min_bytes =
+> +			queue_atomic_write_unit_min_bytes(bdev_get_queue(bdev));
+> +	unsigned int atomic_write_unit_max_bytes =
+> +			queue_atomic_write_unit_max_bytes(bdev_get_queue(bdev));
+> +
+> +	if (!atomic_write_unit_min_bytes)
+> +		return false;
 
-It still matters imho, because this thread is linked in the commit. So
-even for the cases where I don't amend a commit to insert reviewed-bu
-etc, I still think it's nice to have in the linked thread.
+The above check should have be moved to limit setting code path.
 
-Ditto for the fixup - it's referenced in the original commit, and the
-link will show you what that fixup was.
+> +	if (pos % atomic_write_unit_min_bytes)
+> +		return false;
+> +	if (iov_iter_count(iter) % atomic_write_unit_min_bytes)
+> +		return false;
+> +	if (!is_power_of_2(iov_iter_count(iter)))
+> +		return false;
+> +	if (iov_iter_count(iter) > atomic_write_unit_max_bytes)
+> +		return false;
+> +	if (pos % iov_iter_count(iter))
+> +		return false;
 
--- 
-Jens Axboe
+I am a bit confused about relation between atomic_write_unit_max_bytes and
+atomic_write_max_bytes.
+
+Here the max IO length is limited to be <= atomic_write_unit_max_bytes,
+so looks userspace can only submit IO with write-atomic-unit naturally
+aligned IO(such as, 4k, 8k, 16k, 32k, ...), but these user IOs are
+allowed to be merged to big one if naturally alignment is respected and
+the merged IO size is <= atomic_write_max_bytes.
+
+Is my understanding right? If yes, I'd suggest to document the point,
+and the last two checks could be change to:
+
+	/* naturally aligned */
+	if (pos % iov_iter_count(iter))
+		return false;
+
+	if (iov_iter_count(iter) > atomic_write_max_bytes)
+		return false;
+
+Thanks, 
+Ming
 
 
