@@ -4,89 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 478E9C4167B
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Dec 2023 10:41:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B9A3BC4167B
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Dec 2023 10:56:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8VPDwl0vy+BhYy6g17v5zjugi2q1o+523xZfGYoBFyU=; b=NhUXUEnL3cjFWkueTb3B2kaK6Z
-	E7Vw/wv1qVGgQ+kILSO3s5wO8QlnyT4nxXYWKR8Df1NsWhMxLlwHStpFrsMDRQSDEl3CdAi1II+/8
-	2uEHzBMgJek9k7KwmvIJfTVbIKJgAulgzQeDdYTd3K/sbviGFFi0Qu4d3bym+CKwutWB1sonniN/I
-	pfXcDNbCKUSbY4dLzBUjhCaTSLH7wl+mFeA2lHsooSo67qrGJ+zFLPP6M6jyRsWWRyAg6HZ9I2tvN
-	B+Kp98dVUe+MG7IA01idbXHOTLfmAQdjnJNI9NHSt183aUseAumpuBdJhlcIonTbEyCsoHnL/2oax
-	Bh2ms02A==;
+	bh=iKuxUm4EpqkG8l1uBiyIY5KmFP9UqU1KqJjWbZ5s9PU=; b=Ne02beQKDASdPQ0ljyVv24INgI
+	nZlZlASLELAybcRwzG0YbY02NXIfLu9SZSFpFpzAlXeFqEbu7kQx8zcgZHVj25m8LoByG+nv0kChW
+	PVqxm0rlmsohI3YtiAjUPWQVxXccxz/1zwX4ZS1FRz/PFVaj0CNxchD7jpJjFsiO988KV7TZ5mAeX
+	npuWEHCkEK6tdaJ7rTvgCGf5TZPSYRRNZne6nlg6j78RUNKMmBRJZOSo2648kZIEaKMkOHCigFjFn
+	eAf8KROsFOlFf64eh1Nx61x8ThUmtIr6C7eNsEtiQzumCukh5Rz3B5Tay+0r1TjsevdK2tLG7wIc+
+	djUDoHhA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rA6Oe-003ZD7-30;
-	Mon, 04 Dec 2023 10:41:53 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1rA6cp-003bSq-2j;
+	Mon, 04 Dec 2023 10:56:31 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rA6OX-003ZBi-3B
+	id 1rA6cS-003bE4-2q
 	for linux-nvme@lists.infradead.org;
-	Mon, 04 Dec 2023 10:41:51 +0000
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
+	Mon, 04 Dec 2023 10:56:30 +0000
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 481AC1F8A8;
-	Mon,  4 Dec 2023 10:41:40 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9F75722078;
+	Mon,  4 Dec 2023 10:56:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1701687366; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iKuxUm4EpqkG8l1uBiyIY5KmFP9UqU1KqJjWbZ5s9PU=;
+	b=ggMcWY4xiP4cbTQR6eX9yvQ38Vb80UnvkiqWuIDcorOddKQTdoPsbddAjoBO6b07JCeXwc
+	sDrJXq1POkgPKBOTP3uYe9uurILUKmgm3ohE0TeJkrZrW+AVZD7yMVMum4ih7+meVKNWMw
+	tjd5PoHxZBxR7ek3ANLfUSi/UOaJJdA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1701687366;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iKuxUm4EpqkG8l1uBiyIY5KmFP9UqU1KqJjWbZ5s9PU=;
+	b=bV3HaQkbbJFTQPHg/xu7uzhYVvCi9eSFnZM+bBessVGQatSzYoTGWcW9OJzsQ529ICKFBv
+	hzVogOWoiT1fHFAQ==
 Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 363D8139E2;
-	Mon,  4 Dec 2023 10:41:40 +0000 (UTC)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 8B79813588;
+	Mon,  4 Dec 2023 10:56:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id Iv7CC+SsbWUhRQAAn2gu4w
-	(envelope-from <dwagner@suse.de>); Mon, 04 Dec 2023 10:41:40 +0000
-Date: Mon, 4 Dec 2023 11:41:39 +0100
+	id BuCaIEawbWWASQAAn2gu4w
+	(envelope-from <dwagner@suse.de>); Mon, 04 Dec 2023 10:56:06 +0000
+Date: Mon, 4 Dec 2023 11:56:05 +0100
 From: Daniel Wagner <dwagner@suse.de>
-To: Christoph Hellwig <hch@lst.de>
+To: Sagi Grimberg <sagi@grimberg.me>
 Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Hannes Reinecke <hare@suse.de>
 Subject: Re: [RFC v2 2/3] nvme: move ns id info to struct nvme_ns_head
-Message-ID: <27uglzkgku6qeaaodmyb3sudajrkibjiapsg4hjuxy57hohauv@hnpb5zbedyrv>
+Message-ID: <v7ixirgnem6tlk7zcirhkazkrswx26yfuq7xxwxnvicyueqvn4@ubhf4axlztc5>
 References: <20231201092735.28592-1-dwagner@suse.de>
  <20231201092735.28592-3-dwagner@suse.de>
- <20231204075134.GB29377@lst.de>
+ <24805050-82d3-4704-98ff-1909213abbbc@grimberg.me>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231204075134.GB29377@lst.de>
-X-Spamd-Bar: +++++++++
-Authentication-Results: smtp-out2.suse.de;
-	dkim=none;
-	dmarc=fail reason="No valid SPF, No valid DKIM" header.from=suse.de (policy=none);
-	spf=softfail (smtp-out2.suse.de: 2a07:de40:b281:104:10:150:64:98 is neither permitted nor denied by domain of dwagner@suse.de) smtp.mailfrom=dwagner@suse.de
-X-Rspamd-Server: rspamd2
-X-Spamd-Result: default: False [9.94 / 50.00];
+In-Reply-To: <24805050-82d3-4704-98ff-1909213abbbc@grimberg.me>
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spamd-Result: default: False [-0.79 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
 	 FROM_HAS_DN(0.00)[];
 	 TO_DN_SOME(0.00)[];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
 	 MIME_GOOD(-0.10)[text/plain];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 R_SPF_SOFTFAIL(4.60)[~all:c];
 	 RCPT_COUNT_FIVE(0.00)[6];
 	 RCVD_COUNT_THREE(0.00)[3];
-	 MX_GOOD(-0.01)[];
-	 NEURAL_SPAM_LONG(2.65)[0.757];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.19)[-0.964];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
-	 R_DKIM_NA(2.20)[];
 	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
 	 RCVD_TLS_ALL(0.00)[];
-	 DMARC_POLICY_SOFTFAIL(0.10)[suse.de : No valid SPF, No valid DKIM,none]
-X-Rspamd-Queue-Id: 481AC1F8A8
+	 BAYES_HAM(-0.00)[22.63%]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231204_024146_198756_EF686C34 
-X-CRM114-Status: GOOD (  21.83  )
+X-CRM114-CacheID: sfid-20231204_025609_205898_E01ECA05 
+X-CRM114-Status: GOOD (  18.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,66 +110,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Dec 04, 2023 at 08:51:34AM +0100, Christoph Hellwig wrote:
-> > +static void nvme_set_ref_tag(struct nvme_ns_head *head, struct nvme_command *cmnd,
-> 
-> .. and here.  I'm going to stop now, please also fix up all other
-> places.
-
-Sure, I'll update the patch accordingly.
-
-> >  void nvme_failover_req(struct request *req)
-> >  {
-> > -	struct nvme_ns *ns = req->q->queuedata;
-> > +	struct nvme_ns_head *head = req->q->queuedata;
-> > +	struct nvme_ctrl *ctrl = nvme_req(req)->ctrl;
-> > +	struct nvme_ns *ns;
-> >  	u16 status = nvme_req(req)->status & 0x7ff;
-> >  	unsigned long flags;
-> >  	struct bio *bio;
-> >  
-> > -	nvme_mpath_clear_current_path(ns);
-> > +	nvme_mpath_clear_current_path(head);
-> >  
-> >  	/*
-> >  	 * If we got back an ANA error, we know the controller is alive but not
-> >  	 * ready to serve this namespace.  Kick of a re-read of the ANA
-> >  	 * information page, and just try any other available path for now.
-> >  	 */
-> > -	if (nvme_is_ana_error(status) && ns->ctrl->ana_log_buf) {
-> > +	if (nvme_is_ana_error(status) && ctrl->ana_log_buf) {
-> > +		ns = nvme_find_get_ns(ctrl, head->ns_id);
-> 
-> This looks unrelated.
-
-The problem I try to address here is, that we need the ns pointer to
-access the ns->flags for ANA state. Given that
-nvme_mpath_clear_current_path really wants the ns pointer as well, we
-need something like this at the beginning of this function.
-
-As I said, I didn't find any other way to get get from the head pointer
-to the ns pointer and this function is the only place where this is
-actually necessary to do (avoiding the list scan in nvme_find_get_ns).
-
-> 
+On Mon, Dec 04, 2023 at 10:30:52AM +0200, Sagi Grimberg wrote:
 > > -bool nvme_mpath_clear_current_path(struct nvme_ns *ns)
 > > +bool nvme_mpath_clear_current_path(struct nvme_ns_head *head)
-> >  {
+> >   {
 > > -	struct nvme_ns_head *head = ns->head;
-> >  	bool changed = false;
-> >  	int node;
-> >  
+> >   	bool changed = false;
+> >   	int node;
 > > @@ -181,7 +183,7 @@ bool nvme_mpath_clear_current_path(struct nvme_ns *ns)
-> >  		goto out;
-> >  
-> >  	for_each_node(node) {
+> >   		goto out;
+> >   	for_each_node(node) {
 > > -		if (ns == rcu_access_pointer(head->current_path[node])) {
 > > +		if (head == rcu_access_pointer(head->current_path[node])->head) {
+> >   			rcu_assign_pointer(head->current_path[node], NULL);
+> >   			changed = true;
+> >   		}
 > 
-> and this can't work.  We need to check the actual ns for the path
-> selection, as that's kindof the point.
+> I'm not sure about this one.
+> 
+> This is changing the behavior of the function. Previously  it only
+> cleared the current_path if it was directed to ns, now it will if the
+> current_path has the same head, which is always the case isn't it?
+> 
+> I'm unsure to why this change is needed?
 
-Okay, makes sense. I'll drop this.
+As Christoph pointed out we really need to check the ns pointer. I tried
+to workaound not to use nvme_ctrl_find_ns. Anyway, I'll drop this hunk
+here.
 
 Thanks,
 Daniel
