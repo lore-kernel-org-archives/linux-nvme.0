@@ -4,75 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0BC41C4167B
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Dec 2023 19:22:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7546AC4167B
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Dec 2023 19:33:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:In-Reply-To:Date:References:Subject:Cc:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CuE3wvKVXZ5LaoLyCftMFlpvjjYLnjdW2HQklzJBS80=; b=l+0IGklrnCNCuf8Zr0hB7SzUKO
-	dLwlEY7G2emWGxapOvFKV1vAKOPrU5cbRpbyGuyX0NCvInBgKIhQf/PgU7qFzXzJ2FNWr8AardF9z
-	ILGm/+7VzDs6GVOWjKlVqAdCA0OTOPRdI2/gqJ+/1ZbXuld2ChtNwVPWOWNn2nP/lU2pqrFFNkK4Z
-	C0vP+EGFBGVA/Yee8mi/zkqgGe9ONVG2INQAPmp03uPNCMq0qYo8l2pWXn3bhhnpOFDLr1k8uHkrX
-	3QVu9KLrgd97WMSqo1qWac0+a10BYHLgk0W0LKRX248s+UTYEYpiM7pZcVP5Ftcw+xIyd9H3ZrnLO
-	R89PKgHQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=VPLyZ99seCPicBCXDZB9lqIEFSMnRlWV8gcxMk/enRM=; b=dSHa/zUpehCR6ZLSM84kYgVILn
+	dvtfkMAmY3B5kskCnApE9ui2vA1TDhEeMvxe8r6HGb3yRH3uFq0ybu/x1FPWwqrt2g/ibSUBkY/Mk
+	Efg7+OxBXAT8RJCd5HRpXmuTTqqPt+rMXP4hNXxQiypNQ4KHY303NdMqrVZRJCqBBP5m65YHzQlyZ
+	xTLyuAUrQdKfMVv7U7XdV9bEb3zFAt1/zxlbCtpDimytyVzpbYszH3cFcQSDfEmqQXPC9K7xbpXGF
+	6PdO+g4JzYOTOz8drZe0xz4oJx9h1e6c519E1rjjEwj+DjuPfcU56+gX0Akh5/Douyh3nGIiT+N7M
+	8xI8Nt5A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rAEWW-005RQG-1I;
-	Mon, 04 Dec 2023 19:22:32 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1rAEh0-005SW0-24;
+	Mon, 04 Dec 2023 19:33:22 +0000
+Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rAEWT-005RPv-26
+	id 1rAEgw-005SVW-1v
 	for linux-nvme@lists.infradead.org;
-	Mon, 04 Dec 2023 19:22:30 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701717748;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CuE3wvKVXZ5LaoLyCftMFlpvjjYLnjdW2HQklzJBS80=;
-	b=FtBtaw4TogWy3o+P9uq3xCSalSzxJUWQOl9rXxRgc5FyKgRcfGcGMOgmMBA0uaHWd+uirq
-	/yBmRCvTe78EJVJePUGUrn3Z8brvhHbY2ggbGhHi+5kNf3bwSTki7NUquDGTlWG3ahr7nK
-	ONUK63pnueuoNwhglZ4bOcK1CFxeg9M=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-567-fjyfe8TTMMa5a8OWjU-AOQ-1; Mon, 04 Dec 2023 14:22:24 -0500
-X-MC-Unique: fjyfe8TTMMa5a8OWjU-AOQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A1D41811E7D;
-	Mon,  4 Dec 2023 19:22:23 +0000 (UTC)
-Received: from segfault.usersys.redhat.com (unknown [10.22.10.39])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id BF464492BFC;
-	Mon,  4 Dec 2023 19:22:22 +0000 (UTC)
-From: Jeff Moyer <jmoyer@redhat.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Keith Busch <kbusch@meta.com>,  linux-nvme@lists.infradead.org,
-  io-uring@vger.kernel.org,  hch@lst.de,  sagi@grimberg.me,
-  asml.silence@gmail.com,  Keith Busch <kbusch@kernel.org>,
-  linux-security-module@vger.kernel.org
-Subject: Re: [PATCH 1/2] iouring: one capable call per iouring instance
-References: <20231204175342.3418422-1-kbusch@meta.com>
-	<x49zfypstdx.fsf@segfault.usersys.redhat.com>
-	<9c1ee0ee-ccae-4013-83f4-92a2af7bdf42@kernel.dk>
-X-PGP-KeyID: 1F78E1B4
-X-PGP-CertKey: F6FE 280D 8293 F72C 65FD  5A58 1FF8 A7CA 1F78 E1B4
-Date: Mon, 04 Dec 2023 14:22:22 -0500
-In-Reply-To: <9c1ee0ee-ccae-4013-83f4-92a2af7bdf42@kernel.dk> (Jens Axboe's
-	message of "Mon, 4 Dec 2023 12:01:38 -0700")
-Message-ID: <x49sf4hsrgx.fsf@segfault.usersys.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+	Mon, 04 Dec 2023 19:33:20 +0000
+Received: by mail-il1-x131.google.com with SMTP id e9e14a558f8ab-35d7e22ccfeso316685ab.0
+        for <linux-nvme@lists.infradead.org>; Mon, 04 Dec 2023 11:33:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1701718395; x=1702323195; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VPLyZ99seCPicBCXDZB9lqIEFSMnRlWV8gcxMk/enRM=;
+        b=VPxZ/XmU+bnIRaI53kEKXQ4rb14kQS+5BnLru8yb4au5JwvDHCq8772+j3B8OoRpjS
+         QZXo5IDASj4k0Xwj8uiPqnFazX6IA39bwtJ9JrngVk61N3LSVEQs1Gw9C1l+UWdmveZ0
+         SZc9phtKw9AG12gzyZdWT/L7aIvBBZ6X9qJPOEfvruYypR6juq4/lR0vBTSmT+0sbPSg
+         wB6kEVZPHOQUubichQ8/lUdPe1YMsTajN5+NYClFlk1Ikqk0xeW6hOD+lQ7/Yc1S9nCA
+         qVsfcH9eqCHMerC8FDB3eVOoIVqWC1hWWzbFcWFYVEXfzoe7K0GrhfApkMVsBAPhD+Qn
+         pPNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701718395; x=1702323195;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VPLyZ99seCPicBCXDZB9lqIEFSMnRlWV8gcxMk/enRM=;
+        b=CTFh3M9EJVx96tKNmrHlpxA1AyfrawiQOQwTKHeQ4iWxu9pH35VMZsUHENpf+bXR0B
+         ZbZh7iFu5HTl/Y6Cce4CPaQogYmHQPgJmSwhYambwvWaJ9iq1GKUJCaVRwKXWvw5GY2j
+         lVrczo2DAj7UWC1zQtQkLckLZiz9WZrBmAjmylLepVEM363QhYUpXiMwz0tiaHWCq6w2
+         F1uQ/L8YMp/moVmRwAR9V0FNKRJgQJIqRto4UVgYdLt0auCVXoo6t8DWbduJIzfxVbxv
+         UfLNpjd2TSqSSTZ6Sixio0DzyT/pyUAaLbZILqBbr3wdGnaPpQF3GhC4mtOC5e71BKrP
+         m96w==
+X-Gm-Message-State: AOJu0YxM6lppHXkxCm6rtACawOThvcrbln3wL4S/P7lfieW4yxAYIY86
+	6wIlc2OQH8if7iHIkDSYa+ghYg==
+X-Google-Smtp-Source: AGHT+IGkrKaGiFhAp7oK0f4BIQy2oFELmC3jxP+vwpzj8s/Gl4T3A6gIJhi/I7plWsz2YyH/VgUi4A==
+X-Received: by 2002:a05:6602:2245:b0:7b3:5be5:fa55 with SMTP id o5-20020a056602224500b007b35be5fa55mr33072956ioo.2.1701718395387;
+        Mon, 04 Dec 2023 11:33:15 -0800 (PST)
+Received: from [192.168.1.116] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id y14-20020a6be50e000000b007b35a715c92sm2857601ioc.24.2023.12.04.11.33.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Dec 2023 11:33:14 -0800 (PST)
+Message-ID: <aac915ff-6726-4463-985e-9401228404ca@kernel.dk>
+Date: Mon, 4 Dec 2023 12:33:13 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.10
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] iouring: one capable call per iouring instance
+Content-Language: en-US
+To: Jeff Moyer <jmoyer@redhat.com>
+Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
+ io-uring@vger.kernel.org, hch@lst.de, sagi@grimberg.me,
+ asml.silence@gmail.com, Keith Busch <kbusch@kernel.org>,
+ linux-security-module@vger.kernel.org
+References: <20231204175342.3418422-1-kbusch@meta.com>
+ <x49zfypstdx.fsf@segfault.usersys.redhat.com>
+ <9c1ee0ee-ccae-4013-83f4-92a2af7bdf42@kernel.dk>
+ <x49sf4hsrgx.fsf@segfault.usersys.redhat.com>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <x49sf4hsrgx.fsf@segfault.usersys.redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231204_112229_798987_C2970380 
-X-CRM114-Status: GOOD (  14.68  )
+X-CRM114-CacheID: sfid-20231204_113318_698431_3706C521 
+X-CRM114-Status: GOOD (  12.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,28 +98,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Jens Axboe <axboe@kernel.dk> writes:
+On 12/4/23 12:22 PM, Jeff Moyer wrote:
+> Jens Axboe <axboe@kernel.dk> writes:
+> 
+>> On 12/4/23 11:40 AM, Jeff Moyer wrote:
+>>> Finally, as Jens mentioned, I would expect dropping priviliges to, you
+>>> know, drop privileges.  I don't think a commit message is going to be
+>>> enough documentation for a change like this.
+>>
+>> Only thing I can think of here is to cache the state in
+>> task->io_uring->something, and then ensure those are invalidated
+>> whenever caps change.
+> 
+> I looked through the capable() code, and there is no way that I could
+> find to be notified of changes.
 
-> On 12/4/23 11:40 AM, Jeff Moyer wrote:
->> Finally, as Jens mentioned, I would expect dropping priviliges to, you
->> know, drop privileges.  I don't think a commit message is going to be
->> enough documentation for a change like this.
->
-> Only thing I can think of here is to cache the state in
-> task->io_uring->something, and then ensure those are invalidated
-> whenever caps change.
+Right, what I meant is that you'd need to add an io_uring_cap_change()
+or something that gets called, and that iterates the rings associated
+with that task and clears the flag. Ugly...
 
-I looked through the capable() code, and there is no way that I could
-find to be notified of changes.
-
-> It's one of those cases where that's probably only done once, but we
-> do need to be able to catch it. Not convinced that caching it at ring
-> creation is sane enough, even if it is kind of like opening devices
-> before privs are dropped where you could not otherwise re-open them
-> later on.
-
-Agreed.
-
--Jeff
+-- 
+Jens Axboe
 
 
