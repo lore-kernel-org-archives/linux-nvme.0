@@ -4,64 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2EA01C10DC3
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Dec 2023 19:37:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6BD8C10DC3
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Dec 2023 20:34:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=T096P/jea/v20EQLmzAQnOtNCLktAjXGBuowm+Xu4Gc=; b=h6gR+7Azmw5s6Z1EKE+jtD52Po
-	D+0ENgITxeRg8KxqQUARwkrrDVHCxtE6E8TH5NfmBf3DkRckQIrbCN56/gglTophh3Igu6bls/0rh
-	7yV0gCnnDYDeG97uxWMpXGkTcw9WF/6yE8yhyop1eyHQLI+3hxoCsqcPniJHXnjstyYagrwe8rHrS
-	uwQurBqovTk3EhFE8lgtspffH+vXSYgTqifiG25a+smgWr2KgLiiv7fJarro7fM+fK3xAlYloJvoX
-	jZ9rnLyqBBC0vyY7noKWgRi5tDIqu9sO9Obxj7RACP8jquyv/4NsnHy3Zi7BbA0knQZh44X90JG0o
-	sfMopmiQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=y3dQK/4SI4uKBoyoixXgNBT4eBRRVpPRrR9Ivd3efDU=; b=BkKzIhOu0bqNB/Kr9T9hCIcu0X
+	0FyCnM3MmdfcuL9gc+1nuaYZDcJVmDG7N/lc4CDj9LXS5AIofodUM/w0PqLHoTzKblzosFhu/pbrg
+	voM5ucqQVqO6nN+HuEs/u29FOb+EFFvEZTNC64lPoADeW1+1w3OKK4+R20Empq/nKinXsxWFGo+7N
+	60KJIHIAOq0JnrR/RjLlFCreuY3drXdWKbv9jGOVhtNxQ/2iPwwu5r9m/jisySYTLtrVBzWrZLb2Z
+	bbGgxiaUjtDUjFGIFstO8JsHtt6zWqCqZMFsOwgOUG0n/gcypStOBdSBqhMBNqGx4EWpF61VqTGM4
+	1WRY7aZA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rAElI-005T8C-1a;
-	Mon, 04 Dec 2023 19:37:48 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1rAFdr-005Yw9-1z;
+	Mon, 04 Dec 2023 20:34:11 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rAElD-005T76-0h
+	id 1rAFdo-005YvF-2e
 	for linux-nvme@lists.infradead.org;
-	Mon, 04 Dec 2023 19:37:47 +0000
+	Mon, 04 Dec 2023 20:34:10 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 68D1E61240;
-	Mon,  4 Dec 2023 19:37:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70582C433C7;
-	Mon,  4 Dec 2023 19:37:41 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 2CEDC6134A;
+	Mon,  4 Dec 2023 20:34:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAD05C433B6;
+	Mon,  4 Dec 2023 20:34:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701718662;
-	bh=0B6qI7yaImDylh0YMgRVbhCUJKzhgt+Boa80ygB2x2M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Kxw+4Sa5aWZsRGjXXiOHaG8CDEWcJlA5x5hnxHIRWPRej0cwRs6208xvHr8NityLR
-	 D2YPCyfYf3HvefW47SdvcmD5BSKOg6C/ltGeCDMJvEiK3N0Wdr95QzjjZn2SVQ4yZo
-	 XnyB8Girl3wrr+wuOzERc2oVoM9PtUBJcpC6fja9bcXjNXhCCYaQ0t6DAtrWFyVxKv
-	 biwGmCx6zcNSHB0JcW3IK3VxmOXYBgjBUTWTAhWbW0PnCSl5PZrtvhp404vXqWSPb4
-	 BEYrnvI+Hi4pZdTD6rr4hBcRTxkjBV5wVNcJp3N3lPSNkC6NJjP5rY2ePXEflOqIJv
-	 KdiE3phqDFmSw==
-Date: Mon, 4 Dec 2023 12:37:38 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Jeff Moyer <jmoyer@redhat.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@meta.com>,
-	linux-nvme@lists.infradead.org, io-uring@vger.kernel.org,
-	hch@lst.de, sagi@grimberg.me, asml.silence@gmail.com,
-	linux-security-module@vger.kernel.org
-Subject: Re: [PATCH 1/2] iouring: one capable call per iouring instance
-Message-ID: <ZW4qggTr44dWT4ft@kbusch-mbp>
-References: <20231204175342.3418422-1-kbusch@meta.com>
- <x49zfypstdx.fsf@segfault.usersys.redhat.com>
- <9c1ee0ee-ccae-4013-83f4-92a2af7bdf42@kernel.dk>
- <x49sf4hsrgx.fsf@segfault.usersys.redhat.com>
+	s=k20201202; t=1701722048;
+	bh=eTg1VInLU4qMeGqYVspdg5OJ9xCuQsygjmP3eMfpLw0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=SikVv5/lKGTVVs0ZQoPjUxLchz13rMa+0NbQE8AuYKGceATteFqAE1XW5JFTCOF61
+	 BdGdK6Rk4PxkiOBczkwRmE5F7tDqZ187i5wD4vsvrmEhrU8zT8iOamEVdqyTWfftcT
+	 ZEY8L8LCgigUqTOy4wA4bjdSxwjOU3v2uKcRbPYMCaVYNgxtZd9tZk/eIiOeQkfE3C
+	 sPYiSHj/7+ad4DnEegVr01mG8s8kHgtowoBUDP+3v61bQ+lIM+iQcgSReOZy1OO+C+
+	 qdh6TLO5ECW+iKOjja+y9BZiC6DbH8MDfdz5kHKakuIunN59CkQOsY7RkKkmI7ecpB
+	 LT5SZxmD+3WRg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Maurizio Lombardi <mlombard@redhat.com>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.6 20/32] nvme-core: fix a memory leak in nvme_ns_info_from_identify()
+Date: Mon,  4 Dec 2023 15:32:40 -0500
+Message-ID: <20231204203317.2092321-20-sashal@kernel.org>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231204203317.2092321-1-sashal@kernel.org>
+References: <20231204203317.2092321-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <x49sf4hsrgx.fsf@segfault.usersys.redhat.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.6.4
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231204_113746_046310_3508E389 
-X-CRM114-Status: GOOD (  13.79  )
+X-CRM114-CacheID: sfid-20231204_123408_912731_4FEF8DA2 
+X-CRM114-Status: GOOD (  11.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,21 +79,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Dec 04, 2023 at 02:22:22PM -0500, Jeff Moyer wrote:
-> Jens Axboe <axboe@kernel.dk> writes:
-> 
-> > On 12/4/23 11:40 AM, Jeff Moyer wrote:
-> >> Finally, as Jens mentioned, I would expect dropping priviliges to, you
-> >> know, drop privileges.  I don't think a commit message is going to be
-> >> enough documentation for a change like this.
-> >
-> > Only thing I can think of here is to cache the state in
-> > task->io_uring->something, and then ensure those are invalidated
-> > whenever caps change.
-> 
-> I looked through the capable() code, and there is no way that I could
-> find to be notified of changes.
+From: Maurizio Lombardi <mlombard@redhat.com>
 
-Something like LSM_HOOK_INIT on 'capset', but needs to work without
-CONFIG_SECURITY.
+[ Upstream commit e3139cef8257fcab1725441e2fd5fd0ccb5481b1 ]
+
+In case of error, free the nvme_id_ns structure that was allocated
+by nvme_identify_ns().
+
+Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/nvme/host/core.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 21783aa2ee8e1..b4521deb1c716 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1479,7 +1479,8 @@ static int nvme_ns_info_from_identify(struct nvme_ctrl *ctrl,
+ 	if (id->ncap == 0) {
+ 		/* namespace not allocated or attached */
+ 		info->is_removed = true;
+-		return -ENODEV;
++		ret = -ENODEV;
++		goto error;
+ 	}
+ 
+ 	info->anagrpid = id->anagrpid;
+@@ -1497,8 +1498,10 @@ static int nvme_ns_info_from_identify(struct nvme_ctrl *ctrl,
+ 		    !memchr_inv(ids->nguid, 0, sizeof(ids->nguid)))
+ 			memcpy(ids->nguid, id->nguid, sizeof(ids->nguid));
+ 	}
++
++error:
+ 	kfree(id);
+-	return 0;
++	return ret;
+ }
+ 
+ static int nvme_ns_info_from_id_cs_indep(struct nvme_ctrl *ctrl,
+-- 
+2.42.0
+
 
