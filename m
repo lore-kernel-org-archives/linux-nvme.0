@@ -4,62 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7503C4167B
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Dec 2023 18:58:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 01AFBC4167B
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Dec 2023 19:01:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rbnp364VejAOhHEWXNEjinbIt3s/fy4dlXsrFO/iHpo=; b=Q8/tnec94aYfH4hxxoISpy+aqp
-	JXSCbd0B62YKHl4ZKnl6poxRdoZ1bDhDwb5wRNM+FglB+DAOjo8IsFtA5QBebZyqnrEAhr3ptyoB5
-	Vnb0itbnGWrSXJfmS6pVp4uhwzqFkq0f3YtsTxrQr8WAVjDhAWppzQFxJSjoMZS4vqZOzgcGYMFd6
-	YMjSfXVPamwd8y7cadAAXs+HS6maLH10DobUKbZ/ujmG1Xl6QPFhi1h9V3tWzOm1pnyL4+JbQ743j
-	JajWBlAeEbjtLYjFPKmo707DnxVf4KO1H0u0OBtFa66/oPWNaedl0t8tepFr6VlMm250lquxMDxMh
-	XZ/P4TWA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=KModFUjISk9lPDaAIevH39bme1IjL/Al+Yhj9dt8OqE=; b=Au49+yxDx1PcGhU25Gs85J201J
+	UI7H/mk+XOegw9BaJv4ydXWxWbbkzu1bWx38UX5XV9reL7F+QDwtdN+lyslFGOKajs2+O84Z4M4hf
+	NXLCt4lob7Amre56Qs7+qbX5ktLVMNWHuTr3YD78DXe57TmNjulcYv8jZRgPOMai2jsIYh5VGgyaK
+	G3qHPUuwVmUYiyaQCHKUV3E5Io23hmFZ469jrY4uedzcq+F8XJ+b+isOzTbT+GgeNwpZSHF9gpaoe
+	6TjPBC7aX/2faM0GDp2I+bVekY81lO3hn4cZXfKI8vUXli1TXpVbPCpqYzZXnQVgqrGtYLxDbQRxu
+	JEKbrKkg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rAE8q-005OEh-2X;
-	Mon, 04 Dec 2023 18:58:04 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1rAECQ-005Ow0-0d;
+	Mon, 04 Dec 2023 19:01:46 +0000
+Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rAE8m-005OBh-2M
+	id 1rAECL-005OvH-2U
 	for linux-nvme@lists.infradead.org;
-	Mon, 04 Dec 2023 18:58:03 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by ams.source.kernel.org (Postfix) with ESMTP id 37B20B811A3;
-	Mon,  4 Dec 2023 18:57:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AC67C433C7;
-	Mon,  4 Dec 2023 18:57:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701716278;
-	bh=aPVj9XXl+eRYnePRnmQ+vWxwVHPDe57ND1UdEZVfc00=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Br4L24tPwBBeQzb7SaBAjh5gs52tLThxz5a9xZZf3Ih+92YiX6JVVf2u55xvtfDt5
-	 CtOWxn08iOEd2/lIMP5A5NEf5bn0S5YMqmmLN0P90rOkkeZITdqRINxGI4vAYnW4Zq
-	 7A2CVx0syvQH8uuc6wBJFMzPc2KI6udtjMiRqb8Wp0LWorMlx53vfAzD5M7PRXiFkJ
-	 /d0NEHAD+ZANV+j3CUwESxkzhAa6YxibLNUA9PZLPThYBV4v9iWeVLQguYZWNrGnOR
-	 88Nk+4GtrS2cBbqr2zRl/fCaWLOJv/f3ZbtWrLfU7GhlTtyfqtfZgyTfeJSDLQ4fmT
-	 QObQoZRZMZweg==
-Date: Mon, 4 Dec 2023 11:57:55 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Jeff Moyer <jmoyer@redhat.com>
-Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
-	io-uring@vger.kernel.org, axboe@kernel.dk, hch@lst.de,
-	sagi@grimberg.me, asml.silence@gmail.com,
-	linux-security-module@vger.kernel.org
+	Mon, 04 Dec 2023 19:01:44 +0000
+Received: by mail-il1-x131.google.com with SMTP id e9e14a558f8ab-35d7e22ccfeso267815ab.0
+        for <linux-nvme@lists.infradead.org>; Mon, 04 Dec 2023 11:01:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1701716501; x=1702321301; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KModFUjISk9lPDaAIevH39bme1IjL/Al+Yhj9dt8OqE=;
+        b=bGiKh7yWogarmQVwBcuSBMTItwVJMA+/hM6L1wskuBzAleHTwluq93c88mzJ6maH3f
+         bPq8osjT9vSmIvic/JsljLfrsAWPWfVxdjzus0AoZ+VLNpTzcbx06BDCuSpFe+g7v3+q
+         r7bCGh2BbqCO14WlLKMVSWklAb8DeWNfM1gVC7j6p/tFmtN4jHUug43FJr8OmSz7Ykrb
+         mnGb9tT5kKRlT7BZhoDHWIayFEmxY3b2puDYpujiH0cdYvX8TLJ9OJD7dxZoD70mnFG1
+         5hxk+txMqv1OL7PLcjw4kGLTwgTSdT0eJYin9z2uTx0itK3pcFTezTJq7YkzzEQSB03B
+         ftvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701716501; x=1702321301;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KModFUjISk9lPDaAIevH39bme1IjL/Al+Yhj9dt8OqE=;
+        b=K1Ue/ndBmFlfqIaXHYy6hHjE4oOo1HHy2yEZ4tnrkGGt/isKM1g9S63vGNODU9DXhv
+         9kCrMCXNhXdVorh5klRamZsWW4EccbyamyOU4g7k3ccLjdwINy9de6MkWfRtOKDwrZ5h
+         Kg9fqAag5gyDKEDwQaOLc/nOtVikhttOKMl8HRXVqpb/mKVXrhGlyiYb/0g7q2Nt9mbb
+         x0A8cuL3+0AIfK195LbFAo+48A4g05IgEcP+mp2vANTsZ6ZYUzP2P4xBN073f7VVjwf1
+         2KA4x+lO5L6Y44awkXYT562ftzmHPV3/97Q/H2pb9MVRGxeqGsELfXfIk/sIsauk7rMu
+         KuTw==
+X-Gm-Message-State: AOJu0Yzxc6s/Ga7R8VBn3Bx5Va1Xbhj8dkutaA9Rh0ZLURzdxpG0Yvgv
+	6tRu2446v37ZRFH0qRB+eMRCeg==
+X-Google-Smtp-Source: AGHT+IEt2MMR+yxdjujJW2KLoxn/yZExW+eo2d1nv1y7A48SjFpuY0W3NiElWjAJPk/nnbhIfFVFZg==
+X-Received: by 2002:a92:cdae:0:b0:35d:607a:d943 with SMTP id g14-20020a92cdae000000b0035d607ad943mr6603235ild.2.1701716500958;
+        Mon, 04 Dec 2023 11:01:40 -0800 (PST)
+Received: from [192.168.1.116] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id h4-20020a056e02052400b0035cb655bafesm70728ils.45.2023.12.04.11.01.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Dec 2023 11:01:40 -0800 (PST)
+Message-ID: <9c1ee0ee-ccae-4013-83f4-92a2af7bdf42@kernel.dk>
+Date: Mon, 4 Dec 2023 12:01:38 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/2] iouring: one capable call per iouring instance
-Message-ID: <ZW4hM0H6pjbCpIg9@kbusch-mbp>
+Content-Language: en-US
+To: Jeff Moyer <jmoyer@redhat.com>, Keith Busch <kbusch@meta.com>
+Cc: linux-nvme@lists.infradead.org, io-uring@vger.kernel.org, hch@lst.de,
+ sagi@grimberg.me, asml.silence@gmail.com, Keith Busch <kbusch@kernel.org>,
+ linux-security-module@vger.kernel.org
 References: <20231204175342.3418422-1-kbusch@meta.com>
  <x49zfypstdx.fsf@segfault.usersys.redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+From: Jens Axboe <axboe@kernel.dk>
 In-Reply-To: <x49zfypstdx.fsf@segfault.usersys.redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231204_105800_912727_FC3DE852 
-X-CRM114-Status: GOOD (  18.64  )
+X-CRM114-CacheID: sfid-20231204_110142_163185_6BF4083E 
+X-CRM114-Status: UNSURE (   9.58  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,43 +96,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Dec 04, 2023 at 01:40:58PM -0500, Jeff Moyer wrote:
-> I added a CC: linux-security-module@vger
-> Keith Busch <kbusch@meta.com> writes:
-> > From: Keith Busch <kbusch@kernel.org>
-> >
-> > The uring_cmd operation is often used for privileged actions, so drivers
-> > subscribing to this interface check capable() for each command. The
-> > capable() function is not fast path friendly for many kernel configs,
-> > and this can really harm performance. Stash the capable sys admin
-> > attribute in the io_uring context and set a new issue_flag for the
-> > uring_cmd interface.
-> 
-> I have a few questions.  What privileged actions are performance
-> sensitive? I would hope that anything requiring privileges would not
-> be in a fast path (but clearly that's not the case).
-
-Protocol specifics that don't have a generic equivalent. For example,
-NVMe FDP is reachable only through the uring_cmd and ioctl interfaces,
-but you use it like normal reads and writes so has to be as fast as the
-generic interfaces.
-
-The same interfaces can be abused, so access needs to be restricted.
-
-> What performance benefits did you measure with this patch set in place
-> (and on what workloads)? 
-
-Quite a bit. Here's a random read high-depth workload on a single
-device test:
-
-Before: 970k IOPs
-After: 1750k IOPs
-
-> What happens when a ring fd is passed to another process?
-> 
+On 12/4/23 11:40 AM, Jeff Moyer wrote:
 > Finally, as Jens mentioned, I would expect dropping priviliges to, you
 > know, drop privileges.  I don't think a commit message is going to be
 > enough documentation for a change like this.
 
-Yeah, point taken.
+Only thing I can think of here is to cache the state in
+task->io_uring->something, and then ensure those are invalidated
+whenever caps change. It's one of those cases where that's probably only
+done once, but we do need to be able to catch it. Not convinced that
+caching it at ring creation is sane enough, even if it is kind of like
+opening devices before privs are dropped where you could not otherwise
+re-open them later on.
+
+-- 
+Jens Axboe
+
 
