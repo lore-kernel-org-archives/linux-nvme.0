@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DAAC6C10DC3
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Dec 2023 20:36:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A7480C4167B
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Dec 2023 20:36:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9z5jCdx+T26EZ6+OvAfcMwIiIuYVlZE6gfVJ36qpWH4=; b=tXmrU+IaddMaXwkS9D26/lni9x
-	vrBntZ5ELqOEVHrIvEKOLoqoHBsiQzFTqsKCDuKDRahTK9t6rGcYA/WLJ4b1TekiMRLJ50z5u6qb6
-	/kTinq+FxrdIS9piIfxLwC/TmGykoL4g2/1XbbzEi7g+AfmhlMSOUViTqHfCIa8v3dGDMSufOXNT2
-	k57UFr8pPbLC/gXW2tqPvmVAEngLPhtGrvT5c2fA0heIa0WnB3QabibFaVrWfKPyymkF8fgmSGllD
-	dT/14Glaan1iNb0EBB0vPB5Yqp5Kxb3H64Ry5sVmiRdHV2Ks9W8LyvJIfRmh3ZT0A92mHLibr2FSz
-	VTMY1aDg==;
+	bh=PM27PAfG7N3tq3PvZPp3AmMgg9FnExVz6vqiMb9KbAQ=; b=crh1//V3V/uYoj9bL6B8K5ypsm
+	fS9/uhHHYS+DO/N7X5wuUTSfzRh1evYY1dpvwnFG3OXFhfMqdYp91nrqqk5vsXrtHQsxDJ9FLyVTj
+	tCh5hlIDxGlB/qHwjDoihUwlr02rqd4HCiHrHQLxfJ22XNlyYzuk/ugZlsMkwakpN5dFqHCpowjhn
+	vnFP3N3xT0nSFC0eEhPm+bCzIlBJfzNSQpB0ZmF+vWh4D5A6vtob2C1fyYftQYRXAEwctXyS1aCu8
+	d+8nsYVBzSJQsQxPkT7dKzVyJAYAJrmioh9exUP8V+zH2qrS6EUCvMtTHctopI95tO5PRKGSwF3Zp
+	SDRB1L7Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rAFfn-005Zed-0e;
-	Mon, 04 Dec 2023 20:36:11 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1rAFgU-005Zt6-1p;
+	Mon, 04 Dec 2023 20:36:54 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rAFfj-005Zbe-2W
+	id 1rAFgR-005Zrd-2V
 	for linux-nvme@lists.infradead.org;
-	Mon, 04 Dec 2023 20:36:09 +0000
+	Mon, 04 Dec 2023 20:36:53 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by ams.source.kernel.org (Postfix) with ESMTP id 7922EB81213;
-	Mon,  4 Dec 2023 20:36:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86B45C43397;
-	Mon,  4 Dec 2023 20:36:04 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 21195CE0FAE;
+	Mon,  4 Dec 2023 20:36:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1256FC433C7;
+	Mon,  4 Dec 2023 20:36:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701722166;
-	bh=xT+cBc7QfYA6bGC+1nskdoROx+HjWk63kF5Ysn7A7/A=;
+	s=k20201202; t=1701722209;
+	bh=0Uw/zavGDB+yqmgm6cBofHy/Obvi54hCkp2nOZFDehI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fTt8GQw56nN4TvKyOvKh9/T0S78ZZW5j8kcUS8UpESkSmmGUzxXR0ir1NG1uwTWjV
-	 oFcqUJUnBNwbwrSYSKD8o4SBwYUowz2jMh+wWRGkdQA7ibdcSmTVnmAH1UP3Gw7Lod
-	 Q0vXhFYBwvzk170REKK4/+/KKCUPTTMUI6ziWX4C6xjFp8S1yRLrjUdYCOWsI2S9o/
-	 66zPlUOU6fo8Y4BWJFeRNOP1ryHCeTGU+NiyjXOiiwqUTkVLaypZrwSu1Q7KIgquG/
-	 IQebcGONIkRiH+MJFEj3FLmhR50ClZ/xyJlVNN0zietzCAiG3NDBvRwVNMV7Gp9yCT
-	 HnnhZCtbLT2Zg==
+	b=hk/hZW9czKxT9As29akHpjgSKvj9cUL9EqaV+L5/PMXLVpzB2VP6mGItIrcmBkj49
+	 4+m5fodcD+Wcdw9cRLOVB7iG+KuI9GFnK8gbqgEoh5K57EPIsCgvsythDP3LLuc/1z
+	 PlyMZOYhe/Jgscluu7RCXuLlkAgl0dCBF5/sONnQSHDvB6ZMR2OZgmMPFrVhG3Fmb9
+	 QspuU2CbyP+InE1fO349/Zz0D3sF03jRHmT9Kw6ZcR+Z6I6DVWnkQGhp9V1FXoWVj7
+	 jvlcx/Iy5LpVfaTsEF6wfhgvnCKmndBzF6Mtbugd4c0/xScF2qsqu/TsfjB4IZtcl8
+	 uzcUeTgHr4X7A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -50,20 +50,20 @@ Cc: Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.1 17/17] nvme-core: check for too small lba shift
-Date: Mon,  4 Dec 2023 15:35:02 -0500
-Message-ID: <20231204203514.2093855-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 10/10] nvme-core: check for too small lba shift
+Date: Mon,  4 Dec 2023 15:36:07 -0500
+Message-ID: <20231204203616.2094529-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231204203514.2093855-1-sashal@kernel.org>
-References: <20231204203514.2093855-1-sashal@kernel.org>
+In-Reply-To: <20231204203616.2094529-1-sashal@kernel.org>
+References: <20231204203616.2094529-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.65
+X-stable-base: Linux 5.15.141
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231204_123607_977310_F63818DF 
-X-CRM114-Status: GOOD (  13.60  )
+X-CRM114-CacheID: sfid-20231204_123651_992383_C09903FF 
+X-CRM114-Status: GOOD (  13.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,10 +96,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 0590c0b81fca9..b0db3b54d69a3 100644
+index 98a7649a0f061..8f06e5c1706ba 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1922,9 +1922,10 @@ static void nvme_update_disk_info(struct gendisk *disk,
+@@ -1846,9 +1846,10 @@ static void nvme_update_disk_info(struct gendisk *disk,
  
  	/*
  	 * The block layer can't support LBA sizes larger than the page size
