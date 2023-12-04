@@ -4,75 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 25F9FC4167B
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Dec 2023 10:20:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A398C46CA0
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Dec 2023 10:25:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4zCq79c6DdSRZRWz6ryhsp/B4g9Ll6mwG44eDtG8qFo=; b=OTs6Rur9v8kqZ31Ko6a67v459z
-	HQDU+OsAKCUT4dI8KCItB4eC9WIkWJstUf1x1YIF1BqInoweiGXunK59RtPm+pu3xgvsQT5gYafxa
-	EM5iHF344yai+g1DK5NM+C+9663ioMax1VaW/BlwlvikZKveE4CQs8Ddgg+ZgBdqCQeM7SnJf8uBx
-	GNp8iMI5DsHE3HDuSB8Et1MiudhoZAr3x8MFcv5sa2uXLBvxw869sTdi3P5N2BFXngnYSFYZonDh/
-	Uj1ih1qKm5qrRXXV5kZybFjahfZYwfkQsyb98Innuo4EfVNSeApClhd6KjNbJ4MsW8uGySVuV4xkx
-	g5XZTMcw==;
+	bh=Exl52A+JFELSda2Osmbv9y7XFUMKErDg9l9CNqylhQA=; b=wrSIPuZxfIeM3T+OSKnwkkC1xr
+	MpEt4kZ/PuiEk8qod4hcQJbZ/KUPPgFpuTYWNoqt/+93XAoL3DdaLyUDjDFrqRAyS3LjKs9/cKqZf
+	IZR8MlqYsf1qirscM3LrOoQ8gqVwdl2ZWK1LA/euF9zXdV8n7jbbcD8pTymq+JHU2o/d2g4Hk9jAQ
+	oO4rPkS0q+ttpX+syai+2iDWJ8ia2bzZzNgi+7L/yimDltNYKQw/wvPbYRM5HimRKQlXYmkZb7IwN
+	I+swoKGmhVkgI/4/lw/1dXF/tzBimiuGveypmkukhpHZb7r0rIskEqb/C/eXYsOU6yZzfKEBRkfT7
+	RdQtIRvQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rA63c-003VpO-2z;
-	Mon, 04 Dec 2023 10:20:08 +0000
-Received: from mail-wm1-f50.google.com ([209.85.128.50])
+	id 1rA69D-003XM5-0I;
+	Mon, 04 Dec 2023 10:25:55 +0000
+Received: from mail-lf1-f50.google.com ([209.85.167.50])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rA63T-003Vol-0r
+	id 1rA68y-003XJf-36
 	for linux-nvme@lists.infradead.org;
-	Mon, 04 Dec 2023 10:20:06 +0000
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40b4ff0f254so7786575e9.1
-        for <linux-nvme@lists.infradead.org>; Mon, 04 Dec 2023 02:19:57 -0800 (PST)
+	Mon, 04 Dec 2023 10:25:52 +0000
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-50bf5398755so124331e87.0
+        for <linux-nvme@lists.infradead.org>; Mon, 04 Dec 2023 02:25:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701685196; x=1702289996;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+        d=1e100.net; s=20230601; t=1701685539; x=1702290339;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4zCq79c6DdSRZRWz6ryhsp/B4g9Ll6mwG44eDtG8qFo=;
-        b=fN/MT9OwWupjlwP5mNAHpbI49XTdlpvOnCfdvFWmE1fkLd+JkNM/dluTxgTkQnhsNN
-         vtiBqt1ROx0dIpRq6cyrEY2AyQaGzPU/VliZ6wepvraOtlEUYUxAJ09UcohTRgu3nZMD
-         KPtr7PnlvwOAI6fc9MEu/nWskDdTfFBhj99n+Bmu8zWebUAcER3pRhWukdl3unEzM5xX
-         WNUACNd0GVUd97l+yYR9u+izFPXxHTVk6LUkaSebyv3ZM9KZWwgoxQmC1AzcN3Eh0ojw
-         4IMMQ0Zf6XI1WQkAmIoMBEcTwp7oCDjR04mSvYbhIBnS3QSux3N9bpuSlsM/62db1BTA
-         9wtg==
-X-Gm-Message-State: AOJu0YwkFNORO0NAreCAqjlUhOBSadnqE6z0C8ox1LcltlDCWSum3HcU
-	Z7m+dEXNGeBhtdY8yivpGUM=
-X-Google-Smtp-Source: AGHT+IFhqwRVTvwK/yXdFm+3VB3g0XSLsCaZIOgXKcbC094VaYXrluQJCRdeR3X9ZDs1HQ3bZssXMA==
-X-Received: by 2002:a05:600c:5115:b0:40b:2971:4b73 with SMTP id o21-20020a05600c511500b0040b29714b73mr8446045wms.2.1701685196023;
-        Mon, 04 Dec 2023 02:19:56 -0800 (PST)
+        bh=Exl52A+JFELSda2Osmbv9y7XFUMKErDg9l9CNqylhQA=;
+        b=iWIy3OA+QVkPGDBKaVBMTzOkShat5T5rQWnLcWI3fI7qI5m9gKYbXHkYV6UbW7kqNM
+         D5qsPXcqdzbFK07rJE0xG7j8ay2tAWLCL3ppvA8tgi5fNCzTu7/UnT0Njzmwe2e5Ifrs
+         rSmRh3O0tor6EON7foiEdAHzpI/pKNr7Rq8HtHsi408gSwI1yWyb4Kgqlu071ywQ9Vcy
+         qrXoF1JGmPWLwnyLkplSpSU8pzZI+QccT6YOr1yh9WGerNWloG2CrxV/HBETMW3L0Tib
+         BRSjWNfi84efm6JFqTJtlsfJfZoZQWnSoMRXhaNL5aucrzntns+/fND3IaLMteJdxCnX
+         G29A==
+X-Gm-Message-State: AOJu0Yy3aabGeLNTPK9kPyxq5uzC720iBB3T3gA0gem3AHLiq/geJ/n3
+	gGtMN5thUYEXVGAaR24KoC0dlyNddwM=
+X-Google-Smtp-Source: AGHT+IFivPb3rstVll13tEVLX/C3h5FUwmUtaRnOBOtPxXeAcdBBNFDd7fGXrb1J8qGPWBEvJfj5nQ==
+X-Received: by 2002:a05:6512:281c:b0:50b:fcd4:97e8 with SMTP id cf28-20020a056512281c00b0050bfcd497e8mr649755lfb.6.1701685538835;
+        Mon, 04 Dec 2023 02:25:38 -0800 (PST)
 Received: from [192.168.64.177] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id j11-20020a05600c190b00b0040b47c69d08sm18061978wmq.18.2023.12.04.02.19.55
+        by smtp.gmail.com with ESMTPSA id fc12-20020a05600c524c00b0040b400711f5sm18276120wmb.7.2023.12.04.02.25.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Dec 2023 02:19:55 -0800 (PST)
-Message-ID: <52bd0ef3-b91e-492e-8117-41a290b6cfe6@grimberg.me>
-Date: Mon, 4 Dec 2023 12:19:54 +0200
+        Mon, 04 Dec 2023 02:25:37 -0800 (PST)
+Message-ID: <ef031aaa-e89f-4a66-b85b-28515db0800e@grimberg.me>
+Date: Mon, 4 Dec 2023 12:25:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] nvmet-rdma: avoid circular locking dependency on
- install_queue()
+Subject: Re: [PATCH] nvme: add namespace paths links
 Content-Language: en-US
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20230908065717.92207-1-hare@suse.de>
+ <70d9fb1e-07f8-d130-4308-f279c36ddc24@grimberg.me>
+ <dd985619-7486-4ef7-9904-36e1d056767b@suse.de>
+ <44f7eb6a-2dd5-b487-afeb-88b7e64d8a12@grimberg.me>
+ <31a44658-4a3a-43db-a99c-451c655dfb4a@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-To: Christoph Hellwig <hch@lst.de>, Hannes Reinecke <hare@suse.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-References: <20231102141903.66515-1-hare@suse.de>
- <20231102141903.66515-2-hare@suse.de> <20231103082305.GA17096@lst.de>
- <69b6f873-f8a1-482b-a739-b47da6e98cec@suse.de>
- <20231103091952.GA18200@lst.de>
- <e09869f2-193b-4f03-a12f-2a7f6c24d537@suse.de> <20231103140514.GA2395@lst.de>
- <d5ef550d-91da-4135-959d-e10f153514a0@grimberg.me>
-In-Reply-To: <d5ef550d-91da-4135-959d-e10f153514a0@grimberg.me>
+In-Reply-To: <31a44658-4a3a-43db-a99c-451c655dfb4a@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231204_021959_387896_B00319B0 
-X-CRM114-Status: GOOD (  17.69  )
+X-CRM114-CacheID: sfid-20231204_022541_087001_97913610 
+X-CRM114-Status: GOOD (  17.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,32 +86,79 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 11/20/23 15:48, Sagi Grimberg wrote:
-> 
->>> According to 777dc82395de ("nvmet-rdma: occasionally flush ongoing
->>> controller teardown") this is just for reducing the memory footprint.
->>> Wonder if we need to bother, and whether it won't be better to remove
->>> the whole thing entirely.
+On 9/12/23 17:04, Hannes Reinecke wrote:
+> On 9/12/23 14:55, Sagi Grimberg wrote:
 >>
->> Well, Sagi added it, so I'll let him chime in on the usefulness.
+>>>>> It is really annoying to always have to loop through the entire
+>>>>> /sys/block directory just to find the namespace path links for
+>>>>> a single namespace in libnvme/nvme-cli.
+>>>>> So provide links to the namespace paths for efficient lookup.
+>>>>>
+>>>>> Signed-off-by: Hannes Reinecke <hare@suse.de>
+>>>>> ---
+>>>>>   drivers/nvme/host/core.c      |  3 +++
+>>>>>   drivers/nvme/host/multipath.c | 10 ++++++++++
+>>>>>   2 files changed, 13 insertions(+)
+>>>>>
+>>>>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>>>>> index 37b6fa746662..88933838e067 100644
+>>>>> --- a/drivers/nvme/host/core.c
+>>>>> +++ b/drivers/nvme/host/core.c
+>>>>> @@ -3681,6 +3681,9 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+>>>>>       if (!nvme_ns_head_multipath(ns->head))
+>>>>>           nvme_cdev_del(&ns->cdev, &ns->cdev_device);
+>>>>> +    else
+>>>>> +        sysfs_remove_link(&disk_to_dev(ns->head->disk)->kobj,
+>>>>> +                  ns->disk->disk_name);
+>>>>>       del_gendisk(ns->disk);
+>>>>>       down_write(&ns->ctrl->namespaces_rwsem);
+>>>>> diff --git a/drivers/nvme/host/multipath.c 
+>>>>> b/drivers/nvme/host/multipath.c
+>>>>> index 0a88d7bdc5e3..9dd0be645dad 100644
+>>>>> --- a/drivers/nvme/host/multipath.c
+>>>>> +++ b/drivers/nvme/host/multipath.c
+>>>>> @@ -875,6 +875,16 @@ void nvme_mpath_add_disk(struct nvme_ns *ns, 
+>>>>> __le32 anagrpid)
+>>>>>       if (blk_queue_is_zoned(ns->queue) && ns->head->disk)
+>>>>>           ns->head->disk->nr_zones = ns->disk->nr_zones;
+>>>>>   #endif
+>>>>> +    if (ns->head->disk) {
+>>>>
+>>>> Why are the two conditions not identical?
+>>>>
+>>> Which two?
+>>
+>> ns->head->disk and nvme_ns_head_multipath()
+>>
+> How can we have one without the other? I thought that both are mutually 
+> dependent .. but yeah, we should be using 'nvme_ns_head_multipath()' here.
 > 
-> While I don't like having nvmet arbitrarily replying busy and instead
-> have lockdep simply just accept that its not a deadlock here, but we can
-> simply just sidetrack it as proposed I guess.
+>>>
+>>>>> +        int ret;
+>>>>> +
+>>>>> +        ret = sysfs_create_link(&disk_to_dev(ns->head->disk)->kobj,
+>>>>> +                    &disk_to_dev(ns->disk)->kobj,
+>>>>> +                    ns->disk->disk_name);
+>>>>> +        if (ret)
+>>>>> +            dev_warn(ns->ctrl->device,
+>>>>> +                 "failed to create namespace path link\n");
+>>>>> +    }
+>>>>>   }
+>>>>>   void nvme_mpath_shutdown_disk(struct nvme_ns_head *head)
+>>>>
+>>>> What will these links be used for?
+>>>
+>>> Mapping for nvme-cli, as explained in the description.
+>>> Clearly it doesn't do it _now_, but once the patch is in we can
+>>> simplify nvme-cli to take advantage of it.
+>>
+>> you mean for nvme list -v ?
+>>
+>> Don't really mind having it, but would want to hear from others as
+>> well.
 > 
-> But Hannes, this is on the other extreme.. Now every connect that nvmet
-> gets, if there is even a single queue that is disconnecting (global
-> scope), then the host is denied. Lets give it a sane backlog.
-> We use rdma_listen backlog of 128, so maybe stick with this magic
-> number... This way we are busy only if more than 128 queues are tearing
-> down to prevent the memory footprint from exploding, and hopefully it is
-> rare enough that the normal host does not see an arbitrary busy
-> rejection.
-> 
-> Same comment for nvmet-tcp.
+> Ok.
 
-Hey Hannes, anything happened with this one?
-
-Overall I think that the approach is fine, but I do think
-that we need a backlog for it.
+Hey Hannes,
+Has this gone anywhere?
 
