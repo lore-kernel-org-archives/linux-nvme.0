@@ -4,106 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C9FF1C4167B
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Dec 2023 11:19:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A5B76C4167B
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Dec 2023 11:38:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=unX34RTz8yQkfewglLolxRiW/Bzi6nSBSeVd6fBHu5I=; b=m+s4rm0dd90oMxJTKuRoUV401M
-	CK+WQNeyaKANGqAhl17Uo97DUi4NgaR2V2Argy1My73e1V6ukBIAfH2QPUWm2hqvk6a4YnhHtgxrw
-	KlDztRzUkfSC1wmmockHMYBBWI98gsITSHUluOnYJYD99dGgRHJXdA5J6T94uvtNRcatfAiTN+mAm
-	BishgDAeUeH63xRZdc3Yi/GuoD6tilvO2VcLOVpI5qG5J1gXgRRrszg0hbBYDp352oLvrH/MG0rAa
-	xfijzsBKmjj1EGSUWrJbWZU8tgUGW6nCKCFNi9TGBUfn5nU/FUtGCxwbkNjZcb1a8ydU2wKlCEDCH
-	fOxRzWlA==;
+	bh=IrXOffj1Hp+RLQR48x0d/VtSSuTva+E78WvTBadULyE=; b=zmEHzYgUrC4s8IS9ioVjryigRo
+	6O9aV49LXsjEl2vQwInxYk4bS2NEHC6IWUbGmXfeGWroPpnRyKTg3FefVozmSUNKQ8jvWun5SuIiz
+	RbWmOTL6mg3KVXn9QN3oEvHOawZADNoYv191ipF7TsTJpu5Tl5jzycCycJDFqiPrII5oq1cLETwFy
+	9I/gBNLYS34WF5EBT2T8IXBIt5LGxTvE87YqvcWxHEx4Zm9DOYIsgT4nWF4BSL2aMuujpooZwJW41
+	qygKmjkUZzrcp/t7TxwdaSTb21gq7Mgogwst3Ta42kyQ2CCfyQVTMClBs8ejNzkxn95n7DJ3n7AUs
+	3dSMJMpw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rA6z3-003dd8-2N;
-	Mon, 04 Dec 2023 11:19:29 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1rA7HF-003ezL-25;
+	Mon, 04 Dec 2023 11:38:17 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rA6yy-003dbd-2p
+	id 1rA7H7-003etX-38
 	for linux-nvme@lists.infradead.org;
-	Mon, 04 Dec 2023 11:19:27 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	Mon, 04 Dec 2023 11:38:15 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A52A6220A3;
-	Mon,  4 Dec 2023 11:19:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1701688761; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=unX34RTz8yQkfewglLolxRiW/Bzi6nSBSeVd6fBHu5I=;
-	b=fJACGdzSQ+sAxuyDWD1VKzb8z9S3FZjFl/+1ved20AFcVdN7GzY99lTErDXoUHNinQmoJE
-	i92wItPhFtXHq4BD8lAxJjoiRuvPsQF+VGmOextfHj2NMOqoqbXFCLFnwF2ykr26hjKSUZ
-	50+3PS1BtEfMAxVCW+jbsCMYL1a2PBg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1701688761;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=unX34RTz8yQkfewglLolxRiW/Bzi6nSBSeVd6fBHu5I=;
-	b=0lOfd7kQAgFTkXDBcigwgApFUkepJK3oxKSefncxXy6buLofFRm1hulGuBd3MxSd0+5WWm
-	dM4aUaiORVWycXAg==
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7CE7C1F8A6;
+	Mon,  4 Dec 2023 11:37:36 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 790FA1398A;
-	Mon,  4 Dec 2023 11:19:21 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 498D1139AA;
+	Mon,  4 Dec 2023 11:37:36 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sZqRG7m1bWVaawAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 04 Dec 2023 11:19:21 +0000
-Message-ID: <3095351b-f163-4b4c-8f37-145bab624a68@suse.de>
-Date: Mon, 4 Dec 2023 12:19:21 +0100
+	id MOT5DwC6bWUpcgAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 04 Dec 2023 11:37:36 +0000
+Message-ID: <765a21bd-e876-4e0f-a5ff-dd25fa7265fa@suse.de>
+Date: Mon, 4 Dec 2023 12:37:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme: add namespace paths links
+Subject: Re: [PATCH 0/3] nvme-tcp: start error recovery after KATO
 Content-Language: en-US
 To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20230908065717.92207-1-hare@suse.de>
- <70d9fb1e-07f8-d130-4308-f279c36ddc24@grimberg.me>
- <dd985619-7486-4ef7-9904-36e1d056767b@suse.de>
- <44f7eb6a-2dd5-b487-afeb-88b7e64d8a12@grimberg.me>
- <31a44658-4a3a-43db-a99c-451c655dfb4a@suse.de>
- <ef031aaa-e89f-4a66-b85b-28515db0800e@grimberg.me>
+References: <20230908100049.80809-1-hare@suse.de>
+ <1cea7a75-8397-126c-8a2e-8e08948237b1@grimberg.me>
+ <691e717b-daf0-458c-bbd7-be6c8ffa8f7e@suse.de>
+ <16908ba7-73d1-0cb4-6724-caaad7468d37@grimberg.me>
+ <116f765d-a94e-4da7-ba81-9f9c7dec04b7@suse.de>
+ <349c1dbe-82c3-f5e8-2158-211772e73771@grimberg.me>
+ <b7b72df8-917c-4d4e-8440-47f85c50973d@grimberg.me>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <ef031aaa-e89f-4a66-b85b-28515db0800e@grimberg.me>
+In-Reply-To: <b7b72df8-917c-4d4e-8440-47f85c50973d@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [-4.28 / 50.00];
-	 ARC_NA(0.00)[];
+X-Spamd-Bar: ++++
+Authentication-Results: smtp-out2.suse.de;
+	dkim=none;
+	dmarc=fail reason="No valid SPF, No valid DKIM" header.from=suse.de (policy=none);
+	spf=softfail (smtp-out2.suse.de: 2a07:de40:b281:104:10:150:64:97 is neither permitted nor denied by domain of hare@suse.de) smtp.mailfrom=hare@suse.de
+X-Rspamd-Server: rspamd2
+X-Spamd-Result: default: False [4.05 / 50.00];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 ARC_NA(0.00)[];
 	 XM_UA_NO_VERSION(0.01)[];
 	 FROM_HAS_DN(0.00)[];
 	 RCPT_COUNT_THREE(0.00)[4];
 	 TO_DN_SOME(0.00)[];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
 	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 R_SPF_SOFTFAIL(4.60)[~all];
 	 BAYES_HAM(-3.00)[100.00%];
 	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.19)[-0.942];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
+	 MX_GOOD(-0.01)[];
+	 NEURAL_SPAM_LONG(0.25)[0.073];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
+	 R_DKIM_NA(2.20)[];
 	 MIME_TRACE(0.00)[0:+];
 	 RCVD_TLS_ALL(0.00)[];
-	 MID_RHS_MATCH_FROM(0.00)[]
+	 MID_RHS_MATCH_FROM(0.00)[];
+	 DMARC_POLICY_SOFTFAIL(0.10)[suse.de : No valid SPF, No valid DKIM,none]
+X-Rspamd-Queue-Id: 7CE7C1F8A6
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231204_031925_086151_FB06ADD2 
-X-CRM114-Status: GOOD (  16.39  )
+X-CRM114-CacheID: sfid-20231204_033810_262950_91904F6F 
+X-CRM114-Status: GOOD (  23.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -118,90 +108,99 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/4/23 11:25, Sagi Grimberg wrote:
+On 12/4/23 11:30, Sagi Grimberg wrote:
 > 
-> 
-> On 9/12/23 17:04, Hannes Reinecke wrote:
->> On 9/12/23 14:55, Sagi Grimberg wrote:
->>>
->>>>>> It is really annoying to always have to loop through the entire
->>>>>> /sys/block directory just to find the namespace path links for
->>>>>> a single namespace in libnvme/nvme-cli.
->>>>>> So provide links to the namespace paths for efficient lookup.
+>>>>>>> Hi all,
+>>>>>>>
+>>>>>>> there have been some very insistent reports of data corruption
+>>>>>>> with certain target implementations due to command retries.
 >>>>>>
->>>>>> Signed-off-by: Hannes Reinecke <hare@suse.de>
->>>>>> ---
->>>>>>   drivers/nvme/host/core.c      |  3 +++
->>>>>>   drivers/nvme/host/multipath.c | 10 ++++++++++
->>>>>>   2 files changed, 13 insertions(+)
+>>>>>> None of which were reported on this list...
 >>>>>>
->>>>>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->>>>>> index 37b6fa746662..88933838e067 100644
->>>>>> --- a/drivers/nvme/host/core.c
->>>>>> +++ b/drivers/nvme/host/core.c
->>>>>> @@ -3681,6 +3681,9 @@ static void nvme_ns_remove(struct nvme_ns *ns)
->>>>>>       if (!nvme_ns_head_multipath(ns->head))
->>>>>>           nvme_cdev_del(&ns->cdev, &ns->cdev_device);
->>>>>> +    else
->>>>>> +        sysfs_remove_link(&disk_to_dev(ns->head->disk)->kobj,
->>>>>> +                  ns->disk->disk_name);
->>>>>>       del_gendisk(ns->disk);
->>>>>>       down_write(&ns->ctrl->namespaces_rwsem);
->>>>>> diff --git a/drivers/nvme/host/multipath.c 
->>>>>> b/drivers/nvme/host/multipath.c
->>>>>> index 0a88d7bdc5e3..9dd0be645dad 100644
->>>>>> --- a/drivers/nvme/host/multipath.c
->>>>>> +++ b/drivers/nvme/host/multipath.c
->>>>>> @@ -875,6 +875,16 @@ void nvme_mpath_add_disk(struct nvme_ns *ns, 
->>>>>> __le32 anagrpid)
->>>>>>       if (blk_queue_is_zoned(ns->queue) && ns->head->disk)
->>>>>>           ns->head->disk->nr_zones = ns->disk->nr_zones;
->>>>>>   #endif
->>>>>> +    if (ns->head->disk) {
+>>>>> Correct. I can ask them to post their finding here if that would 
+>>>>> make a difference.
 >>>>>
->>>>> Why are the two conditions not identical?
->>>>>
->>>> Which two?
->>>
->>> ns->head->disk and nvme_ns_head_multipath()
->>>
->> How can we have one without the other? I thought that both are 
->> mutually dependent .. but yeah, we should be using 
->> 'nvme_ns_head_multipath()' here.
->>
+>>>>>>> Problem here is that for TCP we're starting error recovery
+>>>>>>> immediately after either a command timeout or a (local) link loss.
+>>>>>>
+>>>>>> It does so only in one occasion, when the user triggered a
+>>>>>> reset_controller. a command timeout is greater than the default
+>>>>>> kato (6 times in fact), was this the case where the issue was
+>>>>>> observed? If so, the timeout handler should probably just wait
+>>>>>> the kato remaining time.
+>>>>>>
+>>>>> Nothing to do with reset_controller.
+>>>>> The problem really is in nvme_tcp_state_change(), which will 
+>>>>> blindly start error recovery (and a subsequent command retry) 
+>>>>> whenever the local link drops.
 >>>>
->>>>>> +        int ret;
->>>>>> +
->>>>>> +        ret = sysfs_create_link(&disk_to_dev(ns->head->disk)->kobj,
->>>>>> +                    &disk_to_dev(ns->disk)->kobj,
->>>>>> +                    ns->disk->disk_name);
->>>>>> +        if (ret)
->>>>>> +            dev_warn(ns->ctrl->device,
->>>>>> +                 "failed to create namespace path link\n");
->>>>>> +    }
->>>>>>   }
->>>>>>   void nvme_mpath_shutdown_disk(struct nvme_ns_head *head)
->>>>>
->>>>> What will these links be used for?
+>>>> That is incorrect. A link drop does not trigger a socket state change.
+>>>> a state change is triggered for specific socket states
+>>>> (see net/ipv4/tcp.c for description of socket states).
 >>>>
->>>> Mapping for nvme-cli, as explained in the description.
->>>> Clearly it doesn't do it _now_, but once the patch is in we can
->>>> simplify nvme-cli to take advantage of it.
+>>>> These are a set of states that describes local and remote sides
+>>>> shutting down (or a TIME_WAIT). The cases where the host
+>>>> triggers error recovery without the controller acknowledging it
+>>>> (in case the link is down) are FIN_WAIT1/2, and these happen
+>>>> when the user triggers a controller reset/disconnect.
+>>>>
+>>>> In the other circumstances, we'll see a TCP_CLOSE/CLOSE_WAIT/CLOSING
+>>>> which should indicate the controller acknowledged the shutdown.
+>>>>
 >>>
->>> you mean for nvme list -v ?
+>>> Ah, now. It's really neither.
+>>> Complaint from the customer was that we are retrying commands without 
+>>> waiting for KATO. Actual claim was that we're retrying more-or-less 
+>>> immediately.
 >>>
->>> Don't really mind having it, but would want to hear from others as
->>> well.
+>>> So, the problem here is not the first command running into a timeout;
+>>> the problem really is with the _subsequent_ commands running into a 
+>>> timeout (cf my comments to patch 1/3).
+>>> The first command will set the status to RESETTING and start error 
+>>> recovery, all fine. But all _other_ commands will be aborted directly,
+>>> causing them to be retried immediately without any delay.
 >>
->> Ok.
-> 
-> Hey Hannes,
-> Has this gone anywhere?
+>> This is still unclear to me.
+>> The default io timeout is 30s, which is 6 times larger than the
+>> default kato. So effectively we are hitting a case where we waited
+>> 6 kato periods, and with your patch we are waiting 7 kato periods?
+>>
+>> There is a disconnect for me here.
+>>
+>> Can you please clarify:
+>> 1. what is your kato?
+>> 2. what is your io timeout?
+>> 3. was the controller RESETTING state triggered from kato? or
+>>     from io timeout?
+>>     if the latter, it indicates that kato is higher than io timeout,
+>>     otherwise the transport is perfectly fine, and this is essentially
+>>     a controller io that is taking longer than the host io timeout?
+>>
+>> Do you have some trace that points out how a command is sent down to
+>> the controller (successfully arrives to the controller) the network goes
+>> down, and the io is retried before kato expires?
+>>
+>> What is unclear to me here, is how kato expires, but the controller
+>> continues to process commands.
+>>
 
-Sadly, no. Everyone said "Yeah, good idea, but let's wait for the 
-others." I _dearly_ would love to have it as it will simplify the
-logic in nvme-cli/libnvme drastically.
-Shall I repost?
+Argument here is that there is a race window between command timeout
+triggering (ie the call to nvme_tcp_timeout()) and scheduling of the
+'err_work' workqueue function. If you have a burst of commands all
+expiring at roughly the same time the first command will set the 
+controller state to 'RESETTING', and schedule the 'err_work' workqueue
+function.
+The second command will timing out _before_ err_work is scheduled,
+will see the RESETTING state in nvme_tcp_timeout(), and directly
+complete and retry (via nvme_tcp_complete_timed_out()) without
+waiting for KATO.
+That is the issue the customer had been seing, and that is what is
+causing data corruption on their end.
+
+This patchset is an attempt to fix this issue.
+We'd be happy to pick up this thread, it just had been pushed back
+internally as we put in a band-aid for that customer in our kernels...
+
 
 Cheers,
 
