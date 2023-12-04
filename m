@@ -4,73 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2986CC4167B
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Dec 2023 10:31:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 478E9C4167B
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Dec 2023 10:41:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Blh8R+DZHQqg0VNsYqLFshvKMxOUOp6tWfK4aXPYcns=; b=s/1pjMV7B7ihEakDIiG8APa0fg
-	LFW9hmDs046vUVQAbpqxn/0pbCPgHpvDYaWWwDTm+S9BGV8G+kL7/1eYl39TDvCW+r0ZmUCVg7RjZ
-	B9iAWoqR8/stMU73ZqSNF+z3g2JyOxeZoATsLDKiwIWJ/gzsDG9P5wuPotjNy3FYCMO/WGTSr3BEB
-	pEVo3ZuvH7UBfPYx0HQL1yP9n0JObFhhmugVJt2HOUKeFrfpYm+vBPHv5/XKjcky4K0/O5AXzZGoD
-	szVq26nwkrvcoBne3sFtsIm56kmUrcFk6GVIOix5AyxmcuZzfyzZjYmk+FEk/Tk7xkzhJTTuho9pO
-	wSQ2TkUg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=8VPDwl0vy+BhYy6g17v5zjugi2q1o+523xZfGYoBFyU=; b=NhUXUEnL3cjFWkueTb3B2kaK6Z
+	E7Vw/wv1qVGgQ+kILSO3s5wO8QlnyT4nxXYWKR8Df1NsWhMxLlwHStpFrsMDRQSDEl3CdAi1II+/8
+	2uEHzBMgJek9k7KwmvIJfTVbIKJgAulgzQeDdYTd3K/sbviGFFi0Qu4d3bym+CKwutWB1sonniN/I
+	pfXcDNbCKUSbY4dLzBUjhCaTSLH7wl+mFeA2lHsooSo67qrGJ+zFLPP6M6jyRsWWRyAg6HZ9I2tvN
+	B+Kp98dVUe+MG7IA01idbXHOTLfmAQdjnJNI9NHSt183aUseAumpuBdJhlcIonTbEyCsoHnL/2oax
+	Bh2ms02A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rA6EK-003XrP-1D;
-	Mon, 04 Dec 2023 10:31:12 +0000
-Received: from mail-ej1-f50.google.com ([209.85.218.50])
+	id 1rA6Oe-003ZD7-30;
+	Mon, 04 Dec 2023 10:41:53 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rA6E0-003Xp3-1S
+	id 1rA6OX-003ZBi-3B
 	for linux-nvme@lists.infradead.org;
-	Mon, 04 Dec 2023 10:31:10 +0000
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a19b04d54b8so67684366b.1
-        for <linux-nvme@lists.infradead.org>; Mon, 04 Dec 2023 02:30:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701685847; x=1702290647;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Blh8R+DZHQqg0VNsYqLFshvKMxOUOp6tWfK4aXPYcns=;
-        b=WXSCGOPvB1kiwLPEpckpEyZL26czU8kc5pnABJh9aM/sLctRINy3tOB53qNiWM3Y+4
-         QI291IdkU6Segnyj0hYRyxo7bYCu4bgVgV6FDWd665f+590ddQyikcPFk7pt1Zer4UYF
-         7FupmojEVb4L5h4X+FgV0K/O6WtmaBviMAJYAvSKD+LPLn2AEQUMWGZBZRMLMXK8Hjl0
-         F/JzitvK7yB08bk7glFs0Vddv00hWAOntYjr56k5sjLPA9nQ0lB55tNIdyfwwz/qFc9L
-         Rh2Uc2ui9YnnfD/f74wkOIOcEpeWjYVIygloOF0r3kDlEnYV6Y4qJTaD/H/PSL4o4z47
-         NDWA==
-X-Gm-Message-State: AOJu0YwJeHIXTJo/d+JWgRBB3nt4BzhLsBOmcXCc5glDKKG39uMfVR9o
-	n1vcSV6bGzaAMZk1sk1yjilxctl3LG8=
-X-Google-Smtp-Source: AGHT+IHd/YWvOtjIDR3s9n+aZ6XudDIIFlg+aXr+r4kFaT6nwVgbT3r6yhr/ID6OVI2Faw+lDgxnHA==
-X-Received: by 2002:a17:907:390:b0:a01:b9bd:87a with SMTP id ss16-20020a170907039000b00a01b9bd087amr8157373ejb.7.1701685847300;
-        Mon, 04 Dec 2023 02:30:47 -0800 (PST)
-Received: from [192.168.64.177] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id uz14-20020a170907118e00b00a0104d5758dsm5104334ejb.50.2023.12.04.02.30.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Dec 2023 02:30:46 -0800 (PST)
-Message-ID: <b7b72df8-917c-4d4e-8440-47f85c50973d@grimberg.me>
-Date: Mon, 4 Dec 2023 12:30:45 +0200
+	Mon, 04 Dec 2023 10:41:51 +0000
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 481AC1F8A8;
+	Mon,  4 Dec 2023 10:41:40 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 363D8139E2;
+	Mon,  4 Dec 2023 10:41:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id Iv7CC+SsbWUhRQAAn2gu4w
+	(envelope-from <dwagner@suse.de>); Mon, 04 Dec 2023 10:41:40 +0000
+Date: Mon, 4 Dec 2023 11:41:39 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>
+Subject: Re: [RFC v2 2/3] nvme: move ns id info to struct nvme_ns_head
+Message-ID: <27uglzkgku6qeaaodmyb3sudajrkibjiapsg4hjuxy57hohauv@hnpb5zbedyrv>
+References: <20231201092735.28592-1-dwagner@suse.de>
+ <20231201092735.28592-3-dwagner@suse.de>
+ <20231204075134.GB29377@lst.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] nvme-tcp: start error recovery after KATO
-Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20230908100049.80809-1-hare@suse.de>
- <1cea7a75-8397-126c-8a2e-8e08948237b1@grimberg.me>
- <691e717b-daf0-458c-bbd7-be6c8ffa8f7e@suse.de>
- <16908ba7-73d1-0cb4-6724-caaad7468d37@grimberg.me>
- <116f765d-a94e-4da7-ba81-9f9c7dec04b7@suse.de>
- <349c1dbe-82c3-f5e8-2158-211772e73771@grimberg.me>
-In-Reply-To: <349c1dbe-82c3-f5e8-2158-211772e73771@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231204075134.GB29377@lst.de>
+X-Spamd-Bar: +++++++++
+Authentication-Results: smtp-out2.suse.de;
+	dkim=none;
+	dmarc=fail reason="No valid SPF, No valid DKIM" header.from=suse.de (policy=none);
+	spf=softfail (smtp-out2.suse.de: 2a07:de40:b281:104:10:150:64:98 is neither permitted nor denied by domain of dwagner@suse.de) smtp.mailfrom=dwagner@suse.de
+X-Rspamd-Server: rspamd2
+X-Spamd-Result: default: False [9.94 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 R_SPF_SOFTFAIL(4.60)[~all:c];
+	 RCPT_COUNT_FIVE(0.00)[6];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 MX_GOOD(-0.01)[];
+	 NEURAL_SPAM_LONG(2.65)[0.757];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 R_DKIM_NA(2.20)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 DMARC_POLICY_SOFTFAIL(0.10)[suse.de : No valid SPF, No valid DKIM,none]
+X-Rspamd-Queue-Id: 481AC1F8A8
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231204_023052_488118_BAFB3355 
-X-CRM114-Status: GOOD (  28.25  )
+X-CRM114-CacheID: sfid-20231204_024146_198756_EF686C34 
+X-CRM114-Status: GOOD (  21.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,95 +101,67 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Mon, Dec 04, 2023 at 08:51:34AM +0100, Christoph Hellwig wrote:
+> > +static void nvme_set_ref_tag(struct nvme_ns_head *head, struct nvme_command *cmnd,
+> 
+> .. and here.  I'm going to stop now, please also fix up all other
+> places.
 
->>>>>> Hi all,
->>>>>>
->>>>>> there have been some very insistent reports of data corruption
->>>>>> with certain target implementations due to command retries.
->>>>>
->>>>> None of which were reported on this list...
->>>>>
->>>> Correct. I can ask them to post their finding here if that would 
->>>> make a difference.
->>>>
->>>>>> Problem here is that for TCP we're starting error recovery
->>>>>> immediately after either a command timeout or a (local) link loss.
->>>>>
->>>>> It does so only in one occasion, when the user triggered a
->>>>> reset_controller. a command timeout is greater than the default
->>>>> kato (6 times in fact), was this the case where the issue was
->>>>> observed? If so, the timeout handler should probably just wait
->>>>> the kato remaining time.
->>>>>
->>>> Nothing to do with reset_controller.
->>>> The problem really is in nvme_tcp_state_change(), which will blindly 
->>>> start error recovery (and a subsequent command retry) whenever the 
->>>> local link drops.
->>>
->>> That is incorrect. A link drop does not trigger a socket state change.
->>> a state change is triggered for specific socket states
->>> (see net/ipv4/tcp.c for description of socket states).
->>>
->>> These are a set of states that describes local and remote sides
->>> shutting down (or a TIME_WAIT). The cases where the host
->>> triggers error recovery without the controller acknowledging it
->>> (in case the link is down) are FIN_WAIT1/2, and these happen
->>> when the user triggers a controller reset/disconnect.
->>>
->>> In the other circumstances, we'll see a TCP_CLOSE/CLOSE_WAIT/CLOSING
->>> which should indicate the controller acknowledged the shutdown.
->>>
->>
->> Ah, now. It's really neither.
->> Complaint from the customer was that we are retrying commands without 
->> waiting for KATO. Actual claim was that we're retrying more-or-less 
->> immediately.
->>
->> So, the problem here is not the first command running into a timeout;
->> the problem really is with the _subsequent_ commands running into a 
->> timeout (cf my comments to patch 1/3).
->> The first command will set the status to RESETTING and start error 
->> recovery, all fine. But all _other_ commands will be aborted directly,
->> causing them to be retried immediately without any delay.
-> 
-> This is still unclear to me.
-> The default io timeout is 30s, which is 6 times larger than the
-> default kato. So effectively we are hitting a case where we waited
-> 6 kato periods, and with your patch we are waiting 7 kato periods?
-> 
-> There is a disconnect for me here.
-> 
-> Can you please clarify:
-> 1. what is your kato?
-> 2. what is your io timeout?
-> 3. was the controller RESETTING state triggered from kato? or
->     from io timeout?
->     if the latter, it indicates that kato is higher than io timeout,
->     otherwise the transport is perfectly fine, and this is essentially
->     a controller io that is taking longer than the host io timeout?
-> 
-> Do you have some trace that points out how a command is sent down to
-> the controller (successfully arrives to the controller) the network goes
-> down, and the io is retried before kato expires?
-> 
-> What is unclear to me here, is how kato expires, but the controller
-> continues to process commands.
-> 
->>>> And that error recover does _not_ wait for KATO, but rather
->>>> causes an immediate retry.
->>>
->>> We can't blindly wait for KATO. If the controller saw the socket
->>> closure, there is no point waiting kato.
->>>
->> Agreed. So we should be marking out FIN_WAIT1 as that one requiring us
->> to wait for KATO.
-> 
-> You can't do that, that will wait on FIN_WAIT1 for every queue.
+Sure, I'll update the patch accordingly.
 
-Hey Hannes,
+> >  void nvme_failover_req(struct request *req)
+> >  {
+> > -	struct nvme_ns *ns = req->q->queuedata;
+> > +	struct nvme_ns_head *head = req->q->queuedata;
+> > +	struct nvme_ctrl *ctrl = nvme_req(req)->ctrl;
+> > +	struct nvme_ns *ns;
+> >  	u16 status = nvme_req(req)->status & 0x7ff;
+> >  	unsigned long flags;
+> >  	struct bio *bio;
+> >  
+> > -	nvme_mpath_clear_current_path(ns);
+> > +	nvme_mpath_clear_current_path(head);
+> >  
+> >  	/*
+> >  	 * If we got back an ANA error, we know the controller is alive but not
+> >  	 * ready to serve this namespace.  Kick of a re-read of the ANA
+> >  	 * information page, and just try any other available path for now.
+> >  	 */
+> > -	if (nvme_is_ana_error(status) && ns->ctrl->ana_log_buf) {
+> > +	if (nvme_is_ana_error(status) && ctrl->ana_log_buf) {
+> > +		ns = nvme_find_get_ns(ctrl, head->ns_id);
+> 
+> This looks unrelated.
 
-Can you comment where this went?
+The problem I try to address here is, that we need the ns pointer to
+access the ns->flags for ANA state. Given that
+nvme_mpath_clear_current_path really wants the ns pointer as well, we
+need something like this at the beginning of this function.
 
-I'd like us to see how to progress to resolve this (assuming this
-is still an issue).
+As I said, I didn't find any other way to get get from the head pointer
+to the ns pointer and this function is the only place where this is
+actually necessary to do (avoiding the list scan in nvme_find_get_ns).
+
+> 
+> > -bool nvme_mpath_clear_current_path(struct nvme_ns *ns)
+> > +bool nvme_mpath_clear_current_path(struct nvme_ns_head *head)
+> >  {
+> > -	struct nvme_ns_head *head = ns->head;
+> >  	bool changed = false;
+> >  	int node;
+> >  
+> > @@ -181,7 +183,7 @@ bool nvme_mpath_clear_current_path(struct nvme_ns *ns)
+> >  		goto out;
+> >  
+> >  	for_each_node(node) {
+> > -		if (ns == rcu_access_pointer(head->current_path[node])) {
+> > +		if (head == rcu_access_pointer(head->current_path[node])->head) {
+> 
+> and this can't work.  We need to check the actual ns for the path
+> selection, as that's kindof the point.
+
+Okay, makes sense. I'll drop this.
+
+Thanks,
+Daniel
 
