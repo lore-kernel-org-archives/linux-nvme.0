@@ -4,61 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 105E0C4167B
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Dec 2023 07:07:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CF01FC4167B
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Dec 2023 07:38:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7zYl4LS3T10+mH2eMvuncSlyObsGJiGiQzZLsqGZMz0=; b=jFAlRTPoJ7rNPsLTr8ma3Xbr0R
-	rWwsrjICZ79xceEhHCjEY/SKjqR1fkrO0N4GC+iIJVHc9LxFA5ye2qq76a9SVUkZUNmNV7qA1UThn
-	hVQhWA0qIT1DcYV4QRlPVsik70PN+k1r85RWt8A8Bd71PZX32DsS+jEgua4tUwOz6ZNSXmS29C1GG
-	QWdDZQ7BWOSvpr9kt71T566hwAXgsTCCb6XaWmdEJLENe5ebGSW/lorys90KLgFEIDsDi1ZnNONk3
-	xplUun6jghLmU70AmB7MIliwgOyVnt5aXs78tTVWh9KUIPvnMs2Cs7ckp0Wd4tE5MULywASysdKYD
-	91BKujZA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=oB10QVTe+c+CgYOvy5QxnjWt08lgOt1hzLXeNOFE9D0=; b=fINI5SzOuWR3W3RMr136mDpSDH
+	EL1UD1uxJmHOKmN9UxLnDXflhJWI9a2grhWIeCTnLg5WkzhY5gqhdVJZ4cgQh5tU0eoVo4bMybT2j
+	YD/iD4ycOYGyo2jfupDL56v8Z93ZGbEpZs77onolx6yMahee9v4EDoiP5S5WgauK6Sx5XqRr2GZ6D
+	qkkQR2t8+pJvLV+2/Icg9OZ0/Bj5wmxCXioqn6KcUmeue7GN+opmQ/WgRYyenqVsLj8iUvWTC5qvj
+	2Sto1lLy6ykbWiQxY0slwpt17qfpOwMoe/NSQJyawNLDkTi2rGEQ2Y4Lzc3gSinEIJ/8xEr0b75WX
+	wkLaGC5A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rAPWN-006T6e-2E;
-	Tue, 05 Dec 2023 07:07:07 +0000
-Received: from mail-m127159.xmail.ntesmail.com ([115.236.127.159])
+	id 1rAQ0F-006Wiy-1I;
+	Tue, 05 Dec 2023 07:37:59 +0000
+Received: from out30-97.freemail.mail.aliyun.com ([115.124.30.97])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rAPWJ-006T5P-36
+	id 1rAQ0B-006Wht-2m
 	for linux-nvme@lists.infradead.org;
-	Tue, 05 Dec 2023 07:07:05 +0000
-Received: from [192.168.182.216] (unknown [110.185.170.227])
-	by mail-m3161.qiye.163.com (Hmail) with ESMTPA id 2CB79440395;
-	Tue,  5 Dec 2023 15:06:28 +0800 (CST)
-Message-ID: <8d53e40d-a725-4fb4-805e-1d1e009f83c4@easystack.cn>
-Date: Tue, 5 Dec 2023 15:06:27 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Should NVME_SC_INVALID_NS be translated to BLK_STS_IOERR instead
- of BLK_STS_NOTSUPP so that multipath(both native and dm) can failover on the
- failure?
-To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@fb.com>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org, peng.xiao@easystack.cn
-References: <9b1589fb-6f47-40bb-8aa6-22ae61145de4@easystack.cn>
- <ZW6pJAm9wgqj1HEW@kbusch-mbp> <20231205044035.GA28685@lst.de>
- <ZW6yskpdzy8uAp3u@kbusch-mbp>
-From: Jirong Feng <jirong.feng@easystack.cn>
-In-Reply-To: <ZW6yskpdzy8uAp3u@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFJQjdXWS1ZQUlXWQ8JGhUIEh9ZQVlDHkseVkwaGkhOQh9MT0hOGFUZERMWGhIXJBQOD1
-	lXWRgSC1lBWUpKS1VKQ05VSkxLVUlJTFlXWRYaDxIVHRRZQVlPS0hVSk1PSUxOVUpLS1VKQktLWQ
-	Y+
-X-HM-Tid: 0a8c38ccb37800a1kurm2cb79440395
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6K006SBw6NzE6ThwwPBIyFDAw
-	OBhPCShVSlVKTEtKTE5CQkNCS0NCVTMWGhIXVRESCRQVHFUdHhUcOx4aCAIIDxoYEFUYFUVZV1kS
-	C1lBWUpKS1VKQ05VSkxLVUlJTFlXWQgBWUFITk9DNwY+
+	Tue, 05 Dec 2023 07:37:57 +0000
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045192;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0VxtSWoL_1701761865;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0VxtSWoL_1701761865)
+          by smtp.aliyun-inc.com;
+          Tue, 05 Dec 2023 15:37:51 +0800
+From: Guixin Liu <kanie@linux.alibaba.com>
+To: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH 2/2] nvme-fabrics: check ioccsz and iorcsz
+Date: Tue,  5 Dec 2023 15:37:40 +0800
+Message-Id: <1701761860-17623-2-git-send-email-kanie@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1701761860-17623-1-git-send-email-kanie@linux.alibaba.com>
+References: <1701761860-17623-1-git-send-email-kanie@linux.alibaba.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231204_230704_197048_10EDE670 
-X-CRM114-Status: GOOD (  17.22  )
+X-CRM114-CacheID: sfid-20231204_233756_052044_670F96DE 
+X-CRM114-Status: UNSURE (   8.44  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,41 +61,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-As far as I know, according to current implementation of function 
-nvmet_parse_io_cmd() in drivers/nvme/target/core.c, nvmet_req_find_ns() 
-is called before nvmet_check_ana_state(), so I believe currently nvmet 
-is returning NVME_SC_INVALID_NS once namespace is disabled no matter if 
-ANA is supported. In nvmet, a disabled namespace acts like it does not 
-exist. nvmet_check_ana_state() requires req->ns, which is assigned in 
-nvmet_req_find_ns(). If namespace is unknown, nvmet can't know the state 
-of its ana group either.
+Make sure that ioccsz and iorcsz returned by target
+are correct before use it.
 
-So, to be better up to the specification, nvmet does need to 
-differentiate a namespace is disabled or non-existent?
+Per 2.0a base NVMe spec:
+I/O Queue Command Capsule Supported Size (IOCCSZ): This field defines
+the maximum I/O command capsule size in 16 byte units. The minimum value
+that shall be indicated is 4 corresponding to 64 bytes.
+I/O Queue Response Capsule Supported Size (IORCSZ): This field defines
+the maximum I/O response capsule size in 16 byte units. The minimum
+value that shall be indicated is 1 corresponding to 16 bytes.
 
-Moreover, even if nvmet returns NVME_SC_INVALID_FIELD to the host, the 
-status code is still translated to BLK_STS_NOTSUPP, multipath won't 
-retry either...
+Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+---
+ drivers/nvme/host/core.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 4da6ee6..87db4a9 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3043,6 +3043,20 @@ static int nvme_check_ctrl_fabric_info(struct nvme_ctrl *ctrl, struct nvme_id_ct
+ 		return -EINVAL;
+ 	}
+ 
++	if (ctrl->ioccsz < 4) {
++		dev_err(ctrl->device,
++			"I/O queue command capsule supported size %d < 4\n",
++			ctrl->ioccsz);
++		return -EINVAL;
++	}
++
++	if (ctrl->iorcsz < 1) {
++		dev_err(ctrl->device,
++			"I/O queue response capsule supported size %d < 1\n",
++			ctrl->iorcsz);
++		return -EINVAL;
++	}
++
+ 	return 0;
+ }
+ 
+-- 
+1.8.3.1
 
-在 2023/12/5 13:18, Keith Busch 写道:
-> On Tue, Dec 05, 2023 at 05:40:35AM +0100, Christoph Hellwig wrote:
->> On Mon, Dec 04, 2023 at 09:37:56PM -0700, Keith Busch wrote:
->>> So the controller through that path used to be able to access the
->>> Namespace, then suddenly lost ability to do so, but some other path can
->>> still access it if we retry on a failover/alternate path? I think your
->>> target is returning the wrong error code. It should be SCT/SC 303h,
->>> Asymmetric Access Persistent Loss (NVME_SC_ANA_TRANSITION), for what
->>> you're describing.
->> Yes, assuming ANA is actually supported by the controllers..
-> Even without ANA, "Invalid Namespace" is still the wrong status code
-> when dynamic namespace attachement is supported. If the namespace still
-> exists in the subsystem but not attached to the controller processing a
-> command (i.e. "inactive"), the return needs be Invalid Field in Command:
->
->    Specifying an inactive namespace identifier (refer to section 3.2.1.4)
->    in a command that uses the namespace identifier shall cause the
->    controller to abort the command with a status code of Invalid Field in
->    Command
->
 
