@@ -4,79 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79D85C4167B
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Dec 2023 01:46:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D44AEC4167B
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Dec 2023 03:54:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=R1C3Q/KwQSqG9yP6ISOd9Cb0ee81aaiJLrsTwyDo8cI=; b=XyGTdAt7eo8IGfBQV1oO7QKyEg
-	+cqORsqeTPUzPrYOI0UsZyzUWzqfwtbGD9UEJ9tqiCArmS+IA9AXKfE4pLdJPdX+tlIP0yENpUCPx
-	ks+UoSF2pAG0PHkYPUTP46HwXO1fuPtxXT6Wb7jAFtBAsp9vHeHPHncG1tl/8tN/JlHYeR+cpVA72
-	7cNQwTE6TRnDRruc391+gn+e5pldR5HRwZUPjzOST9m+Y2Bt/Fc42ixysTlv+WVvf6cs8cqeImTE7
-	ixx/LGJGGs1EO5gQcG0Gr3+rhY/0QN7Wcty+9SQ2V0ePBbB/rv8ApxQAsiMyB6zjPJZKV7r6+IDg6
-	8L9Gjy3w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nqTehZqASvH0w82WQkqFGmSV+0gBviKhvVievtguwgU=; b=2wwP57Cu2VACbJTgkkO/wD+Cxm
+	NKYMPFHvtGNe2YkRcAZTa006hZ7SAviko8KZ81AFgnxgoIzLV5uS/3+k314so6fUwUJ/GZMxu2W+5
+	BYMZPuw9WxIukfQqcbGZxpf5MPqIDyaGMBbaGZyWgnsy9RKBRh57CQ263XqEsjtFr0Onh1cnhpwjZ
+	HhRfSKPR9w1SiVWHgjNWLA2FDSbmJ9p8kBHkLKdEO9WKKPIKFtM9gUivQToZVdr4rU51aJFbxPvuf
+	9xnTlpOZP8wBdEC/6wqEl9+YcRFa2yzIZisFnCe9RHMnPd5rRhJctoADZiOSyiHrlNg+KNDYlNfu1
+	fHoiXl+g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rAKVv-005ysY-0B;
-	Tue, 05 Dec 2023 01:46:19 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1rAMWK-006AUG-1W;
+	Tue, 05 Dec 2023 03:54:52 +0000
+Received: from mail-m17222.xmail.ntesmail.com ([45.195.17.222])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rAKVr-005yrn-1e
+	id 1rAMWC-006ASV-0L
 	for linux-nvme@lists.infradead.org;
-	Tue, 05 Dec 2023 01:46:17 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701740772;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=R1C3Q/KwQSqG9yP6ISOd9Cb0ee81aaiJLrsTwyDo8cI=;
-	b=aHTsMDcm4xTFAoMYMlThRWdntol+2tPV5rqoHBqFlGxqThbz8VYhzVkoTTeoHecJ++cLpO
-	TdDtbon7vcTpvxftT0i6w3St4kAFeqg9J581WomjBzAJB3vFENvQ3GmewimMD8eB8vPVq/
-	jNTdZtT/yHdXwe+kKUDE6Yh9oWXTwic=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-394-wLc8U6qJMbyT2DZnFWgRjQ-1; Mon, 04 Dec 2023 20:46:09 -0500
-X-MC-Unique: wLc8U6qJMbyT2DZnFWgRjQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 242C785A5B5;
-	Tue,  5 Dec 2023 01:46:08 +0000 (UTC)
-Received: from fedora (unknown [10.72.120.8])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6BB08C1596F;
-	Tue,  5 Dec 2023 01:45:58 +0000 (UTC)
-Date: Tue, 5 Dec 2023 09:45:53 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: John Garry <john.g.garry@oracle.com>
-Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-	jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
-	viro@zeniv.linux.org.uk, brauner@kernel.org,
-	chandan.babu@oracle.com, dchinner@redhat.com,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
-	linux-api@vger.kernel.org
-Subject: Re: [PATCH 10/21] block: Add fops atomic write support
-Message-ID: <ZW6A0R04Gk/04EHj@fedora>
-References: <20230929102726.2985188-1-john.g.garry@oracle.com>
- <20230929102726.2985188-11-john.g.garry@oracle.com>
- <ZW05th/c0sNbM2Zf@fedora>
- <03a87103-0721-412c-92f5-9fd605dc0c74@oracle.com>
- <ZW3DracIEH7uTyEA@fedora>
- <bd639010-2ad7-4379-ba0a-64b5f6ebec41@oracle.com>
+	Tue, 05 Dec 2023 03:54:46 +0000
+Received: from [192.168.182.216] (unknown [110.185.170.227])
+	by mail-m3161.qiye.163.com (Hmail) with ESMTPA id B718D440246;
+	Tue,  5 Dec 2023 11:54:00 +0800 (CST)
+Message-ID: <830cf59b-d1bc-4238-b9e2-29317fc65492@easystack.cn>
+Date: Tue, 5 Dec 2023 11:54:00 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bd639010-2ad7-4379-ba0a-64b5f6ebec41@oracle.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
+User-Agent: Mozilla Thunderbird
+Subject: Re: Should NVME_SC_INVALID_NS be translated to BLK_STS_IOERR instead
+ of BLK_STS_NOTSUPP so that multipath(both native and dm) can failover on the
+ failure?
+To: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org, peng.xiao@easystack.cn
+References: <9b1589fb-6f47-40bb-8aa6-22ae61145de4@easystack.cn>
+ <b769ab2f-e4dd-47a2-9e20-af9b16c21dff@grimberg.me>
+From: Jirong Feng <jirong.feng@easystack.cn>
+In-Reply-To: <b769ab2f-e4dd-47a2-9e20-af9b16c21dff@grimberg.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFJQjdXWS1ZQUlXWQ8JGhUIEh9ZQVkZTkNMVkwaTk9DHR5JS0IZHlUZERMWGhIXJBQOD1
+	lXWRgSC1lBWUpKS1VKQ05VSkxLVUlJTFlXWRYaDxIVHRRZQVlPS0hVSk1PSUxOVUpLS1VKQktLWQ
+	Y+
+X-HM-Tid: 0a8c381c806b00a1kurmb718d440246
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Pgw6SRw*LDEwFRw5KU8CLEoB
+	KThPCh1VSlVKTEtKTE9DT09KQ0tPVTMWGhIXVRESCRQVHFUdHhUcOx4aCAIIDxoYEFUYFUVZV1kS
+	C1lBWUpKS1VKQ05VSkxLVUlJTFlXWQgBWUFOS0hINwY+
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231204_174615_619285_4C51212D 
-X-CRM114-Status: GOOD (  34.47  )
+X-CRM114-CacheID: sfid-20231204_195444_345235_77742600 
+X-CRM114-Status: GOOD (  22.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,123 +72,80 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Dec 04, 2023 at 01:13:55PM +0000, John Garry wrote:
-> 
-> > > 
-> > > I added this here (as opposed to the caller), as I was not really worried
-> > > about speeding up the failure path. Are you saying to call even earlier in
-> > > submission path?
-> > atomic_write_unit_min is one hardware property, and it should be checked
-> > in blk_queue_atomic_write_unit_min_sectors() from beginning, then you
-> > can avoid this check every other where.
-> 
-> ok, but we still need to ensure in the submission path that the block device
-> actually supports atomic writes - this was the initial check.
+Hi Sagi,
 
-Then you may add one helper bdev_support_atomic_write().
+On the one hand, in multipath's perspective, if one path fails with 
+NVME_SC_INVALID_NS, does that mean namespaces in all other paths are 
+invalid either? if not, perhaps a retry on another path also makes 
+sense. If so, I'm afraid there's no much choice but only io error 
+despite of the semantical mismatch...
 
-> 
-> > 
-> > > > > +	if (pos % atomic_write_unit_min_bytes)
-> > > > > +		return false;
-> > > > > +	if (iov_iter_count(iter) % atomic_write_unit_min_bytes)
-> > > > > +		return false;
-> > > > > +	if (!is_power_of_2(iov_iter_count(iter)))
-> > > > > +		return false;
-> > > > > +	if (iov_iter_count(iter) > atomic_write_unit_max_bytes)
-> > > > > +		return false;
-> > > > > +	if (pos % iov_iter_count(iter))
-> > > > > +		return false;
-> > > > I am a bit confused about relation between atomic_write_unit_max_bytes and
-> > > > atomic_write_max_bytes.
-> > > I think that naming could be improved. Or even just drop merging (and
-> > > atomic_write_max_bytes concept) until we show it to improve performance.
-> > > 
-> > > So generally atomic_write_unit_max_bytes will be same as
-> > > atomic_write_max_bytes, however it could be different if:
-> > > a. request queue nr hw segments or other request queue limits needs to
-> > > restrict atomic_write_unit_max_bytes
-> > > b. atomic_write_unit_max_bytes does not need to be a power-of-2 and
-> > > atomic_write_max_bytes does. So essentially:
-> > > atomic_write_unit_max_bytes = rounddown_pow_of_2(atomic_write_max_bytes)
-> > > 
-> > plug merge often improves sequential IO perf, so if the hardware supports
-> > this way, I think 'atomic_write_max_bytes' should be supported from the
-> > beginning, such as:
-> > 
-> > - user space submits sequential N * (4k, 8k, 16k, ...) atomic writes, all can
-> > be merged to single IO request, which is issued to driver.
-> > 
-> > Or
-> > 
-> > - user space submits sequential 4k, 4k, 8k, 16K, 32k, 64k atomic writes, all can
-> > be merged to single IO request, which is issued to driver.
-> 
-> Right, we do expect userspace to use a fixed block size, but we give scope
-> in the API to use variable size.
+On the other hand, it seems there's no soft way to disable a namespace 
+in nvmet for now. To do so, nvmet needs to differentiate if a namespace 
+is disabled or non-existent but it just does not. After that, we might 
+need a new nvme status code for disabled namespace, like 
+NVME_SC_DISABLED_NS I guess? and translate it to BLK_STS_OFFLINE which 
+is considered to be a path error in blk_path_error()?
 
-Maybe it is enough to just take atomic_write_unit_min_bytes
-only, and allow length to be N * atomic_write_unit_min_bytes.
+Regards,
 
-But it may violate atomic write boundary?
+Jirong
 
-> 
-> > 
-> > The hardware should recognize unit size by start LBA, and check if length is
-> > valid, so probably the interface might be relaxed to:
-> > 
-> > 1) start lba is unit aligned, and this unit is in the supported unit
-> > range(power_2 in [unit_min, unit_max])
-> > 
-> > 2) length needs to be:
-> > 
-> > - N * this_unit_size
-> > - <= atomic_write_max_bytes
-> 
-> Please note that we also need to consider:
-> - any atomic write boundary (from NVMe)
-
-Can you provide actual NVMe boundary value?
-
-Firstly natural aligned write won't cross boundary, so boundary should
-be >= write_unit_max, see blow code from patch 10/21:
-
-+static bool bio_straddles_atomic_write_boundary(loff_t bi_sector,
-+				unsigned int bi_size,
-+				unsigned int boundary)
-+{
-+	loff_t start = bi_sector << SECTOR_SHIFT;
-+	loff_t end = start + bi_size;
-+	loff_t start_mod = start % boundary;
-+	loff_t end_mod = end % boundary;
-+
-+	if (end - start > boundary)
-+		return true;
-+	if ((start_mod > end_mod) && (start_mod && end_mod))
-+		return true;
-+
-+	return false;
-+}
-+
-
-Then if the WRITE size is <= boundary, the above function should return
-false, right? Looks like it is power_of(2) & aligned atomic_write_max_bytes?
-
-> - virt boundary (from NVMe)
-
-virt boundary is applied on bv_offset and bv_len, and NVMe's virt
-bounary is (4k - 1), it shouldn't be one issue in reality.
-
-> 
-> And, as I mentioned elsewhere, I am still not 100% comfortable that we don't
-> pay attention to regular max_sectors_kb...
-
-max_sectors_kb should be bigger than atomic_write_max_bytes actually,
-then what is your concern?
-
-
-
-Thanks,
-Ming
-
+在 2023/12/4 16:47, Sagi Grimberg 写道:
+>
+>> Hi all,
+>>
+>> I have two storage servers, each of which has an NVMe SSD. Recently 
+>> I'm trying nvmet-tcp with DRBD, steps are:
+>> 1. Configure DRBD for the two SSDs in two-primary mode, so that each 
+>> server can accept IO on DRBD device.
+>> 2. On each server, add the corresponding DRBD device to nvmet 
+>> subsystem with same device uuid, so that multipath on the host side 
+>> can group them into one device(My fabric type is tcp).
+>> 3. On client host, nvme discover & connect the both servers, making 
+>> sure DM multipath device is generated, and both paths are online.
+>> 4. Execute fio randread on DM device continuously.
+>> 5. On the server whose multipath status is active, under nvmet 
+>> namespace configfs directory, execute "echo 0 > enable" to disable 
+>> the namespace.
+>> what I expect is that IO can be automatically retried and switched to 
+>> the other storage server by multipath, fio goes on. But actually I 
+>> see an "Operation not supported" error, and fio fails and stops. I've 
+>> also tried iSCSI target, after I delete mapped lun from acl, fio 
+>> continues running without any error.
+>>
+>> My kernel version is 4.18.0-147.5.1(rhel 8.1). After checked out the 
+>> kernel code, I found that:
+>> 1. On target side, nvmet returns NVME_SC_INVALID_NS to host due to 
+>> namespace not found.
+>> 2. On host side, nvme driver translates this error to BLK_STS_NOTSUPP 
+>> for block layer.
+>> 3. Multipath calls for function blk_path_error() to decide whether to 
+>> retry.
+>> 4. In function blk_path_error(), BLK_STS_NOTSUPP is not considered to 
+>> be a path error, so it returns false, multipath will not retry.
+>> I've also checked out the master branch from origin, it's almost the 
+>> same. In iSCSI target, the process is similar, the only difference is 
+>> that TCM_NON_EXISTENT_LUN will be translated to BLK_STS_IOERR, which 
+>> is considered to be a path error in function blk_path_error().
+>>
+>> So my question is as the subject...Is it reasonable to translate 
+>> NVME_SC_INVALID_NS to BLK_STS_IOERR just like what iSCSI target does? 
+>> Should multipath failover on this error?
+>
+> The host issued IO to a non-existing namespace. Semantically it is not
+> an IO error in the sense that its retryable.
+>
+> btw, AFAICT TCM_NON_EXISTENT_LUN does return an ILLEGAL_REQUEST however
+> the host chooses to ignore the particular additional sense specifically.
+>
+> While I guess similar behavior could be done in nvme, the question is
+> why is a non-existent namespace failure a retryable error? the namespace
+> is gone...
+>
+> Thoughts?
+>
+> Perhaps what you are seeking is a soft way to disable a namespace based
+> on your test case?
+>
 
