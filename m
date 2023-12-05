@@ -4,68 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC89BC4167B
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Dec 2023 12:56:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DDA7AC4167B
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Dec 2023 13:59:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XEiWuC5sh0azayVc1A+xmmLJgJg/MsGs9Nd/taIUf78=; b=Z0/6gjc1LCk84FpC7E+3Cnk6CB
-	E8ZQBBoZkMhJ1tLw0d2Zk3JYtRP0YqFYLSYC2DaNIDM5rV6aoyI/LtLWdcDgTRQDuZ/GIB/A7dveH
-	hfyjxCSNmk/gvOlUA6yuBV/fQcg8edj3wcV5gkev7j+rpJsFUIz1s6knB3Q0QJS/fvEMZShtNkQ8n
-	W2bfUEYOOnckARpi+o59CjG9aYXcvAqDK+qz4ltZ6BMb4Mi0QaekdxU928TSlRDhjeN6bFYCn86m1
-	j7pXzd5eLQITbVLDK2sECAtwImjeO7gWW50aQccc+4V159lOye7cVv3cAU2MLTrSbODRtr07XtaNw
-	5wY/fX1Q==;
+	bh=79PD3d2kumFOy7A9eRn22aWg7Y9KfDQNCF0FEIsFKv8=; b=CYVPGUiIG3VcK4lZwlxHJ45fLk
+	mDjmiXdIUUSbGfXtIUZYX1zUbUVzkODF0w0Ht1nhjA1PRJ3HwmcL+49/dBwQ3YxeLGRsia1uQZJWe
+	PoRuzO7oRYa7USpFXsaLGk3AKAmF8pTi6/5ImeRmD0mgsQSEjPeJ5+nd8syPRnVd5kcDIIXBb665Q
+	/hDX1demedGXykl/N+fpwKz3nOdzi81LMGi0nd28YDYQJML0E7Bk6oxkrN3HIl2sUiLuU09ap09iJ
+	8l6ldWpp6f97JQ+QuQZ/dmoXUv7q2YHD+VAuQRdHEnWF68EU0GjVn0fwzdSr+JNdUWozXDphQtS+X
+	GyLh2vqw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rAUyL-007S3O-0E;
-	Tue, 05 Dec 2023 12:56:21 +0000
-Received: from szxga08-in.huawei.com ([45.249.212.255])
+	id 1rAVxS-007YQS-01;
+	Tue, 05 Dec 2023 13:59:30 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rAThd-0078lK-0V;
-	Tue, 05 Dec 2023 11:35:03 +0000
-Received: from dggpemm500005.china.huawei.com (unknown [172.30.72.54])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Skyz163TSz1Q65P;
-	Tue,  5 Dec 2023 19:31:09 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- dggpemm500005.china.huawei.com (7.185.36.74) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 5 Dec 2023 19:34:55 +0800
-From: Yunsheng Lin <linyunsheng@huawei.com>
-To: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Yunsheng Lin
-	<linyunsheng@huawei.com>, Jeroen de Borst <jeroendb@google.com>, Praveen
- Kaligineedi <pkaligineedi@google.com>, Shailend Chand <shailend@google.com>,
-	Eric Dumazet <edumazet@google.com>, Felix Fietkau <nbd@nbd.name>, John
- Crispin <john@phrozen.org>, Sean Wang <sean.wang@mediatek.com>, Mark Lee
-	<Mark-MC.Lee@mediatek.com>, Lorenzo Bianconi <lorenzo@kernel.org>, Matthias
- Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
-	<sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, "Michael S. Tsirkin"
-	<mst@redhat.com>, Jason Wang <jasowang@redhat.com>, Andrew Morton
-	<akpm@linux-foundation.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>, <linux-nvme@lists.infradead.org>,
-	<kvm@vger.kernel.org>, <virtualization@lists.linux.dev>, <linux-mm@kvack.org>
-Subject: [PATCH net-next 5/6] net: introduce page_frag_cache_drain()
-Date: Tue, 5 Dec 2023 19:34:43 +0800
-Message-ID: <20231205113444.63015-6-linyunsheng@huawei.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20231205113444.63015-1-linyunsheng@huawei.com>
-References: <20231205113444.63015-1-linyunsheng@huawei.com>
+	id 1rAVxO-007YQ1-2G
+	for linux-nvme@lists.infradead.org;
+	Tue, 05 Dec 2023 13:59:28 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1701784765;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=79PD3d2kumFOy7A9eRn22aWg7Y9KfDQNCF0FEIsFKv8=;
+	b=HESmTL+fIZ+Qls44yXRTQjd1r+njpDvMONvQ81oEwLH6KyhIP1xsGItTDxznMplfArpLBV
+	8gCEMqPWmDyz/YZC5wFTQ6wo4+F+zzxvuAYly5xlH5/9QMuZ1nE1eQtzOsOgeB3+3Z6cp3
+	YnkFMXMe0tiXRr7DykGjzcJMJnNfNIM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-80-uCsCU4nHN_ezAkIn8k7hWw-1; Tue, 05 Dec 2023 08:59:24 -0500
+X-MC-Unique: uCsCU4nHN_ezAkIn8k7hWw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E090885A58C;
+	Tue,  5 Dec 2023 13:59:22 +0000 (UTC)
+Received: from fedora (unknown [10.72.120.3])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A5A8492BC7;
+	Tue,  5 Dec 2023 13:59:12 +0000 (UTC)
+Date: Tue, 5 Dec 2023 21:59:08 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: John Garry <john.g.garry@oracle.com>
+Cc: Christoph Hellwig <hch@lst.de>, axboe@kernel.dk, kbusch@kernel.org,
+	sagi@grimberg.me, jejb@linux.ibm.com, martin.petersen@oracle.com,
+	djwong@kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org,
+	chandan.babu@oracle.com, dchinner@redhat.com,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
+	linux-api@vger.kernel.org
+Subject: Re: [PATCH 17/21] fs: xfs: iomap atomic write support
+Message-ID: <ZW8srC5hTWOGF5ts@fedora>
+References: <20230929102726.2985188-1-john.g.garry@oracle.com>
+ <20230929102726.2985188-18-john.g.garry@oracle.com>
+ <20231109152615.GB1521@lst.de>
+ <a50a16ca-d4b9-a4d8-4230-833d82752bd2@oracle.com>
+ <c78bcca7-8f09-41c7-adf0-03b42cde70d6@oracle.com>
+ <20231128135619.GA12202@lst.de>
+ <e4fb6875-e552-45aa-b193-58f15d9a786c@oracle.com>
+ <20231204134509.GA25834@lst.de>
+ <a87d48a7-f2a8-40ae-8d9b-e4534ccc29b1@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.69.192.56]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemm500005.china.huawei.com (7.185.36.74)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a87d48a7-f2a8-40ae-8d9b-e4534ccc29b1@oracle.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231205_033501_565299_C0EAEB98 
-X-CRM114-Status: GOOD (  14.36  )
-X-Mailman-Approved-At: Tue, 05 Dec 2023 04:56:20 -0800
+X-CRM114-CacheID: sfid-20231205_055926_810074_07A9629C 
+X-CRM114-Status: GOOD (  29.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,189 +94,69 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When draining a page_frag_cache, most user are doing
-the similar steps, so introduce an API to avoid code
-duplication.
+On Mon, Dec 04, 2023 at 03:19:15PM +0000, John Garry wrote:
+> On 04/12/2023 13:45, Christoph Hellwig wrote:
+> > On Tue, Nov 28, 2023 at 05:42:10PM +0000, John Garry wrote:
+> > > ok, fine, it would not be required for XFS with CoW. Some concerns still:
+> > > a. device atomic write boundary, if any
+> > > b. other FSes which do not have CoW support. ext4 is already being used for
+> > > "atomic writes" in the field - see dubious amazon torn-write prevention.
+> > 
+> > What is the 'dubious amazon torn-write prevention'?
+> 
+> https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/storage-twp.html
+> 
+> AFAICS, this is without any kernel changes, so no guarantee of unwanted
+> splitting or merging of bios.
+> 
+> Anyway, there will still be !CoW FSes which people want to support.
+> 
+> > 
+> > > About b., we could add the pow-of-2 and file offset alignment requirement
+> > > for other FSes, but then need to add some method to advertise that
+> > > restriction.
+> > 
+> > We really need a better way to communicate I/O limitations anyway.
+> > Something like XFS_IOC_DIOINFO on steroids.
+> > 
+> > > Sure, but to me it is a concern that we have 2x paths to make robust a.
+> > > offload via hw, which may involve CoW b. no HW support, i.e. CoW always
+> > 
+> > Relying just on the hardware seems very limited, especially as there is
+> > plenty of hardware that won't guarantee anything larger than 4k, and
+> > plenty of NVMe hardware without has some other small limit like 32k
+> > because it doesn't support multiple atomicy mode.
+> 
+> So what would you propose as the next step? Would it to be first achieve
+> atomic write support for XFS with HW support + CoW to ensure contiguous
+> extents (and without XFS forcealign)?
+> 
+> > 
+> > > And for no HW support, if we don't follow the O_ATOMIC model of committing
+> > > nothing until a SYNC is issued, would we allocate, write, and later free a
+> > > new extent for each write, right?
+> > 
+> > Yes. Then again if you do data journalling you do that anyway, and as
+> > one little project I'm doing right now shows that data journling is
+> > often the fastest thing we can do for very small writes.
+> 
+> Ignoring FSes, then how is this supposed to work for block devices? We just
+> always need HW support, right?
 
-Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
----
- drivers/net/ethernet/google/gve/gve_main.c | 11 ++---------
- drivers/net/ethernet/mediatek/mtk_wed_wo.c | 17 ++---------------
- drivers/nvme/host/tcp.c                    |  7 +------
- drivers/nvme/target/tcp.c                  |  4 +---
- drivers/vhost/net.c                        |  4 +---
- include/linux/gfp.h                        |  2 ++
- mm/page_alloc.c                            | 10 ++++++++++
- 7 files changed, 19 insertions(+), 36 deletions(-)
+Looks the HW support could be minimized, just like what Google and Amazon did,
+16KB physical block size with proper queue limit setting.
 
-diff --git a/drivers/net/ethernet/google/gve/gve_main.c b/drivers/net/ethernet/google/gve/gve_main.c
-index 619bf63ec935..d976190b0f4d 100644
---- a/drivers/net/ethernet/google/gve/gve_main.c
-+++ b/drivers/net/ethernet/google/gve/gve_main.c
-@@ -1278,17 +1278,10 @@ static void gve_unreg_xdp_info(struct gve_priv *priv)
- 
- static void gve_drain_page_cache(struct gve_priv *priv)
- {
--	struct page_frag_cache *nc;
- 	int i;
- 
--	for (i = 0; i < priv->rx_cfg.num_queues; i++) {
--		nc = &priv->rx[i].page_cache;
--		if (nc->va) {
--			__page_frag_cache_drain(virt_to_page(nc->va),
--						nc->pagecnt_bias);
--			nc->va = NULL;
--		}
--	}
-+	for (i = 0; i < priv->rx_cfg.num_queues; i++)
-+		page_frag_cache_drain(&priv->rx[i].page_cache);
- }
- 
- static int gve_open(struct net_device *dev)
-diff --git a/drivers/net/ethernet/mediatek/mtk_wed_wo.c b/drivers/net/ethernet/mediatek/mtk_wed_wo.c
-index 7ffbd4fca881..df0a3ceaf59b 100644
---- a/drivers/net/ethernet/mediatek/mtk_wed_wo.c
-+++ b/drivers/net/ethernet/mediatek/mtk_wed_wo.c
-@@ -286,7 +286,6 @@ mtk_wed_wo_queue_free(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
- static void
- mtk_wed_wo_queue_tx_clean(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
- {
--	struct page *page;
- 	int i;
- 
- 	for (i = 0; i < q->n_desc; i++) {
-@@ -298,19 +297,12 @@ mtk_wed_wo_queue_tx_clean(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
- 		entry->buf = NULL;
- 	}
- 
--	if (!q->cache.va)
--		return;
--
--	page = virt_to_page(q->cache.va);
--	__page_frag_cache_drain(page, q->cache.pagecnt_bias);
--	memset(&q->cache, 0, sizeof(q->cache));
-+	page_frag_cache_drain(&q->cache);
- }
- 
- static void
- mtk_wed_wo_queue_rx_clean(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
- {
--	struct page *page;
--
- 	for (;;) {
- 		void *buf = mtk_wed_wo_dequeue(wo, q, NULL, true);
- 
-@@ -320,12 +312,7 @@ mtk_wed_wo_queue_rx_clean(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
- 		skb_free_frag(buf);
- 	}
- 
--	if (!q->cache.va)
--		return;
--
--	page = virt_to_page(q->cache.va);
--	__page_frag_cache_drain(page, q->cache.pagecnt_bias);
--	memset(&q->cache, 0, sizeof(q->cache));
-+	page_frag_cache_drain(&q->cache);
- }
- 
- static void
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index d79811cfa0ce..1c85e1398e4e 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1344,7 +1344,6 @@ static int nvme_tcp_alloc_async_req(struct nvme_tcp_ctrl *ctrl)
- 
- static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
- {
--	struct page *page;
- 	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
- 	struct nvme_tcp_queue *queue = &ctrl->queues[qid];
- 	unsigned int noreclaim_flag;
-@@ -1355,11 +1354,7 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
- 	if (queue->hdr_digest || queue->data_digest)
- 		nvme_tcp_free_crypto(queue);
- 
--	if (queue->pf_cache.va) {
--		page = virt_to_head_page(queue->pf_cache.va);
--		__page_frag_cache_drain(page, queue->pf_cache.pagecnt_bias);
--		queue->pf_cache.va = NULL;
--	}
-+	page_frag_cache_drain(&queue->pf_cache);
- 
- 	noreclaim_flag = memalloc_noreclaim_save();
- 	/* ->sock will be released by fput() */
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 4cc27856aa8f..11237557cfc5 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -1576,7 +1576,6 @@ static void nvmet_tcp_free_cmd_data_in_buffers(struct nvmet_tcp_queue *queue)
- 
- static void nvmet_tcp_release_queue_work(struct work_struct *w)
- {
--	struct page *page;
- 	struct nvmet_tcp_queue *queue =
- 		container_of(w, struct nvmet_tcp_queue, release_work);
- 
-@@ -1600,8 +1599,7 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
- 	if (queue->hdr_digest || queue->data_digest)
- 		nvmet_tcp_free_crypto(queue);
- 	ida_free(&nvmet_tcp_queue_ida, queue->idx);
--	page = virt_to_head_page(queue->pf_cache.va);
--	__page_frag_cache_drain(page, queue->pf_cache.pagecnt_bias);
-+	page_frag_cache_drain(&queue->pf_cache);
- 	kfree(queue);
- }
- 
-diff --git a/drivers/vhost/net.c b/drivers/vhost/net.c
-index 805e11d598e4..4b2fcb228a0a 100644
---- a/drivers/vhost/net.c
-+++ b/drivers/vhost/net.c
-@@ -1386,9 +1386,7 @@ static int vhost_net_release(struct inode *inode, struct file *f)
- 	kfree(n->vqs[VHOST_NET_VQ_RX].rxq.queue);
- 	kfree(n->vqs[VHOST_NET_VQ_TX].xdp);
- 	kfree(n->dev.vqs);
--	if (n->pf_cache.va)
--		__page_frag_cache_drain(virt_to_head_page(n->pf_cache.va),
--					n->pf_cache.pagecnt_bias);
-+	page_frag_cache_drain(&n->pf_cache);
- 	kvfree(n);
- 	return 0;
- }
-diff --git a/include/linux/gfp.h b/include/linux/gfp.h
-index bbd75976541e..03ba079655d3 100644
---- a/include/linux/gfp.h
-+++ b/include/linux/gfp.h
-@@ -316,6 +316,8 @@ extern void *page_frag_alloc_align(struct page_frag_cache *nc,
- 				   unsigned int fragsz, gfp_t gfp_mask,
- 				   unsigned int align);
- 
-+void page_frag_cache_drain(struct page_frag_cache *nc);
-+
- static inline void *page_frag_alloc(struct page_frag_cache *nc,
- 			     unsigned int fragsz, gfp_t gfp_mask)
- {
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 083e0c38fb62..5a0e68edcb05 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -4716,6 +4716,16 @@ void __page_frag_cache_drain(struct page *page, unsigned int count)
- }
- EXPORT_SYMBOL(__page_frag_cache_drain);
- 
-+void page_frag_cache_drain(struct page_frag_cache *nc)
-+{
-+	if (!nc->va)
-+		return;
-+
-+	__page_frag_cache_drain(virt_to_head_page(nc->va), nc->pagecnt_bias);
-+	nc->va = NULL;
-+}
-+EXPORT_SYMBOL(page_frag_cache_drain);
-+
- void *page_frag_alloc_align(struct page_frag_cache *nc,
- 		      unsigned int fragsz, gfp_t gfp_mask,
- 		      unsigned int align)
--- 
-2.33.0
+Now seems it is easy to make such device with ublk-loop by:
+
+- use one backing disk with 16KB/32KB/.. physical block size
+- expose proper physical bs & chunk_sectors & max sectors queue limit
+
+Then any 16KB aligned direct WRITE with N*16KB length(N in [1, 8] with 256
+chunk_sectors) can be atomic-write.
+
+
+
+Thanks,
+Ming
 
 
