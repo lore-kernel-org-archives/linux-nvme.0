@@ -4,68 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 90390C4167B
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Dec 2023 17:12:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D931C4167B
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Dec 2023 17:17:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=YjDIrzpjhuINOmJ1YFsWlz4+bpY58YC9nrJ1f5Z480w=; b=og25YB7LLGoPQW+OxEjG3Don6y
-	Cfek/2xdd9GNxH9x50cB6HlcA7d6BQWIO+Qnu0fIfzl4Jip/T4UIwHcfh+Aq1uAa6OJRdNwz2jSN0
-	Pfudq5+isU5XDk9TwINN1gm71wo030DZ+N90cG2rIHsvbCv6GX0L4duw8EYDZMqg3lvEn6NQS+NvS
-	FKApsauiFSsUapLVFKP1Xqh0sbgmzxVeptFWUpdXYErM9i6RM8xDWllAu0Gd88DNUKsX8e19OuIN8
-	ICpinw3VtM0wkT5v5cb31s7IN97KIFXOoGekGqmuFJ0KXtwNKxrN6/V9JqYZA3IhigSJnmkeWMMbI
-	IuLWGpEg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=waunzxouAu+EhVCebQmRlGhPFC3Fc2GsLS9nml3O+7Q=; b=CDItzXFAceQcNvGc3lI3X89n2J
+	PFDurnnWK1oV+LQZ2UAcdE51E5vwJwWtRQ8la9N5ovU/cn3lNAJda4QCVIfALHIT3VWuly7gxayMc
+	wANJVhqyt/1LuBZYHmE8yseD+u48qUoNBLBZC0HnJlCOb40fhXzwZLAEBpbhEczZ5CQeifjnWMtlk
+	EHIiSsmHZnOu/Kxuc3ikvmd5+NIlM41SS1TJhh+IlrfEq3pel5h6zimcHzkKu+nHBbvtnjlgNIXXG
+	pwcUUIgGvw5rKXpzK0ONnDBOJPplJ6tNpePFD6/OIRg80j9NM8u5uROjGw6rojdx3tvTgtdS4+ZEP
+	uV0ehbXQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rAYxw-0080JL-1q;
-	Tue, 05 Dec 2023 17:12:12 +0000
-Received: from mgamail.intel.com ([134.134.136.24])
+	id 1rAZ3D-00814k-02;
+	Tue, 05 Dec 2023 17:17:39 +0000
+Received: from mail.tuxedocomputers.com ([157.90.84.7])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rAYxt-0080HX-29
+	id 1rAZ3A-008141-0I
 	for linux-nvme@lists.infradead.org;
-	Tue, 05 Dec 2023 17:12:11 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701796329; x=1733332329;
-  h=date:from:to:cc:subject:message-id;
-  bh=TpsBhWu/DIsqi+hYzCLBVhXiJ3NDZ2MmuQ6CNXXXwYk=;
-  b=ALV6hIDbRLE1cVLgFmGJafD92O+SpZHkAr1zWcDxuAD2luARG3CVDkbt
-   l8WijS5XIIFjllvosAGaD8uz5ZWdguuC2adszp+JuaoKFmlBQLJt+Hfy8
-   VIe4dhJM1ayuG7wDZJR+0kzvIoKuFRauO9A1kuM1kbCyfVl1+If+fHyn2
-   oQbAouwGDEPsuQ+CL2R+Nok9etULNRGzZfCeKdhXWKRRNVv/DuCeTouuP
-   t42HYKEnCLVzaXjquDy33kOrfVvG3l64hJkxqVNw340+lwqCJrCuVOjpg
-   RKm9VZVOt6ZvwejcReVsGVvPhqtU57Ruqnbi3kvZNi2JokwSpMhUSrWQM
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="396719417"
-X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="396719417"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 09:09:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="1018278434"
-X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="1018278434"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 09:09:05 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rAYut-0009QF-0k;
-	Tue, 05 Dec 2023 17:09:03 +0000
-Date: Wed, 06 Dec 2023 01:08:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.7] BUILD SUCCESS
- 839a40d1e730977d4448d141fa653517c2959a88
-Message-ID: <202312060128.WxlOz810-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Tue, 05 Dec 2023 17:17:37 +0000
+Received: from [192.168.42.20] (p5de457e6.dip0.t-ipconnect.de [93.228.87.230])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 01B7C2FC01FB;
+	Tue,  5 Dec 2023 18:17:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1701796648;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=waunzxouAu+EhVCebQmRlGhPFC3Fc2GsLS9nml3O+7Q=;
+	b=BDy8Ub4llOR5f3HkIivg25SIFVoVgVyNtDJQs4Zk2UpJnMmgz8oRbfTvpIObN8NfcR9ZL6
+	RmLKAC/D7/Va+XxBt2meQFz8oVupjFgnMjC9+AvwVNDubJHdURZjm4TFpHQcR7+JD3t6sb
+	utDdS8KhuUB4OPVHyi+6y2TPeowmOOY=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <12d32e8e-e20b-4023-8299-39d2a69c0cd9@tuxedocomputers.com>
+Date: Tue, 5 Dec 2023 18:17:25 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme-pci: Add sleep quirk for Kingston drives
+Content-Language: en-US
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Cc: Georg Gottleuber <ggo@tuxedocomputers.com>,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20230920085210.22573-1-wse@tuxedocomputers.com>
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <20230920085210.22573-1-wse@tuxedocomputers.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231205_091209_829345_D4B7B09A 
-X-CRM114-Status: UNSURE (   4.83  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20231205_091736_307139_3362198D 
+X-CRM114-Status: GOOD (  23.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,156 +75,80 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.7
-branch HEAD: 839a40d1e730977d4448d141fa653517c2959a88  nvme: fix deadlock between reset and scan
+Hi,
 
-elapsed time: 1453m
+Am 20.09.23 um 10:52 schrieb Werner Sembach:
+> From: Georg Gottleuber <ggo@tuxedocomputers.com>
+>
+> Some Kingston NV1 and A2000 are wasting a lot of power on specific TUXEDO
+> platforms in s2idle sleep if 'Simple Suspend' is used.
+>
+> This patch applies a new quirk 'Force No Simple Suspend' to achieve a
+> low power sleep without 'Simple Suspend'.
+>
+> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+> Signed-off-by: Georg Gottleuber <ggo@tuxedocomputers.com>
+> Cc: <stable@vger.kernel.org>
 
-configs tested: 136
-configs skipped: 1
+Want to leave a gentle bump here. Any issues with this patch?
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Kind regards,
 
-tested configs:
-alpha                            allyesconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                   randconfig-001-20231205   gcc  
-arc                   randconfig-002-20231205   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                      footbridge_defconfig   gcc  
-arm                       imx_v4_v5_defconfig   clang
-arm                   randconfig-001-20231205   gcc  
-arm                   randconfig-002-20231205   gcc  
-arm                   randconfig-003-20231205   gcc  
-arm                   randconfig-004-20231205   gcc  
-arm64                 randconfig-001-20231205   gcc  
-arm64                 randconfig-002-20231205   gcc  
-arm64                 randconfig-003-20231205   gcc  
-arm64                 randconfig-004-20231205   gcc  
-csky                             allmodconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20231205   gcc  
-csky                  randconfig-002-20231205   gcc  
-hexagon                          allmodconfig   clang
-hexagon                          allyesconfig   clang
-hexagon               randconfig-001-20231205   clang
-hexagon               randconfig-002-20231205   clang
-i386                             allmodconfig   clang
-i386                              allnoconfig   clang
-i386                             allyesconfig   clang
-i386         buildonly-randconfig-001-20231205   gcc  
-i386         buildonly-randconfig-002-20231205   gcc  
-i386         buildonly-randconfig-003-20231205   gcc  
-i386         buildonly-randconfig-004-20231205   gcc  
-i386         buildonly-randconfig-005-20231205   gcc  
-i386         buildonly-randconfig-006-20231205   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20231205   gcc  
-i386                  randconfig-002-20231205   gcc  
-i386                  randconfig-003-20231205   gcc  
-i386                  randconfig-004-20231205   gcc  
-i386                  randconfig-005-20231205   gcc  
-i386                  randconfig-006-20231205   gcc  
-i386                  randconfig-011-20231205   clang
-i386                  randconfig-012-20231205   clang
-i386                  randconfig-013-20231205   clang
-i386                  randconfig-014-20231205   clang
-i386                  randconfig-015-20231205   clang
-i386                  randconfig-016-20231205   clang
-loongarch                        allmodconfig   gcc  
-loongarch             randconfig-001-20231205   gcc  
-loongarch             randconfig-002-20231205   gcc  
-m68k                             allmodconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                          amiga_defconfig   gcc  
-m68k                       m5475evb_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                       allyesconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                        vocore2_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                 randconfig-001-20231205   gcc  
-nios2                 randconfig-002-20231205   gcc  
-openrisc                         allyesconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                randconfig-001-20231205   gcc  
-parisc                randconfig-002-20231205   gcc  
-powerpc                          allmodconfig   clang
-powerpc                          allyesconfig   clang
-powerpc                     ksi8560_defconfig   clang
-powerpc               randconfig-001-20231205   gcc  
-powerpc               randconfig-002-20231205   gcc  
-powerpc               randconfig-003-20231205   gcc  
-powerpc64             randconfig-001-20231205   gcc  
-powerpc64             randconfig-002-20231205   gcc  
-powerpc64             randconfig-003-20231205   gcc  
-riscv                            allmodconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                    nommu_virt_defconfig   clang
-riscv                 randconfig-001-20231205   gcc  
-riscv                 randconfig-002-20231205   gcc  
-riscv                          rv32_defconfig   clang
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                          debug_defconfig   gcc  
-s390                  randconfig-001-20231205   clang
-s390                  randconfig-002-20231205   clang
-sh                               alldefconfig   gcc  
-sh                               allmodconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                        edosk7705_defconfig   gcc  
-sh                               j2_defconfig   gcc  
-sh                          r7780mp_defconfig   gcc  
-sh                    randconfig-001-20231205   gcc  
-sh                    randconfig-002-20231205   gcc  
-sh                        sh7757lcr_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64               randconfig-001-20231205   gcc  
-sparc64               randconfig-002-20231205   gcc  
-um                               allmodconfig   clang
-um                               allyesconfig   clang
-um                    randconfig-001-20231205   gcc  
-um                    randconfig-002-20231205   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20231205   gcc  
-x86_64       buildonly-randconfig-002-20231205   gcc  
-x86_64       buildonly-randconfig-003-20231205   gcc  
-x86_64       buildonly-randconfig-004-20231205   gcc  
-x86_64       buildonly-randconfig-005-20231205   gcc  
-x86_64       buildonly-randconfig-006-20231205   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20231205   clang
-x86_64                randconfig-002-20231205   clang
-x86_64                randconfig-003-20231205   clang
-x86_64                randconfig-004-20231205   clang
-x86_64                randconfig-005-20231205   clang
-x86_64                randconfig-006-20231205   clang
-x86_64                randconfig-011-20231205   gcc  
-x86_64                randconfig-012-20231205   gcc  
-x86_64                randconfig-013-20231205   gcc  
-x86_64                randconfig-014-20231205   gcc  
-x86_64                randconfig-015-20231205   gcc  
-x86_64                randconfig-016-20231205   gcc  
-x86_64                randconfig-071-20231205   gcc  
-x86_64                randconfig-072-20231205   gcc  
-x86_64                randconfig-073-20231205   gcc  
-x86_64                randconfig-074-20231205   gcc  
-x86_64                randconfig-075-20231205   gcc  
-x86_64                randconfig-076-20231205   gcc  
-x86_64                          rhel-8.3-rust   clang
-xtensa                randconfig-001-20231205   gcc  
-xtensa                randconfig-002-20231205   gcc  
+Werner Sembach
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> ---
+>   drivers/nvme/host/nvme.h |  5 +++++
+>   drivers/nvme/host/pci.c  | 16 +++++++++++++++-
+>   2 files changed, 20 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index f35647c470afa..74f74b459f5fa 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -156,6 +156,11 @@ enum nvme_quirks {
+>   	 * No temperature thresholds for channels other than 0 (Composite).
+>   	 */
+>   	NVME_QUIRK_NO_SECONDARY_TEMP_THRESH	= (1 << 19),
+> +
+> +	/*
+> +	 * Disables simple suspend/resume path.
+> +	 */
+> +	NVME_QUIRK_FORCE_NO_SIMPLE_SUSPEND	= (1 << 20),
+>   };
+>   
+>   /*
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 347cb5daebc3c..b4e6f0d21a44c 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2903,6 +2903,18 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
+>   		if ((dmi_match(DMI_BOARD_VENDOR, "LENOVO")) &&
+>   		     dmi_match(DMI_BOARD_NAME, "LNVNB161216"))
+>   			return NVME_QUIRK_SIMPLE_SUSPEND;
+> +	} else if (pdev->vendor == 0x2646 && (pdev->device == 0x2263 ||
+> +		   pdev->device == 0x500f)) {
+> +		/*
+> +		 * Exclude some Kingston NV1 and A2000 devices from
+> +		 * NVME_QUIRK_SIMPLE_SUSPEND. Do a full suspend to save a
+> +		 * lot fo energy with s2idle sleep on some TUXEDO platforms.
+> +		 */
+> +		if (dmi_match(DMI_BOARD_NAME, "NS5X_NS7XAU") ||
+> +		    dmi_match(DMI_BOARD_NAME, "NS5x_7xAU") ||
+> +		    dmi_match(DMI_BOARD_NAME, "NS5x_7xPU") ||
+> +		    dmi_match(DMI_BOARD_NAME, "PH4PRX1_PH6PRX1"))
+> +			return NVME_QUIRK_FORCE_NO_SIMPLE_SUSPEND;
+>   	}
+>   
+>   	return 0;
+> @@ -2933,7 +2945,9 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
+>   	dev->dev = get_device(&pdev->dev);
+>   
+>   	quirks |= check_vendor_combination_bug(pdev);
+> -	if (!noacpi && acpi_storage_d3(&pdev->dev)) {
+> +	if (!noacpi &&
+> +	    !(quirks & NVME_QUIRK_FORCE_NO_SIMPLE_SUSPEND) &&
+> +	    acpi_storage_d3(&pdev->dev)) {
+>   		/*
+>   		 * Some systems use a bios work around to ask for D3 on
+>   		 * platforms that support kernel managed suspend.
 
