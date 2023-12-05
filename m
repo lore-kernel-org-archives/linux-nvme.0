@@ -4,64 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 06062C4167B
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Dec 2023 05:18:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B4776C07E97
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Dec 2023 05:26:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iYzrF0kcZn1C6ks5RVenRKfzxmbKwzw2JsRSQsWyh30=; b=iBuVNOj/fHQukyY0DFmfl3yIS0
-	LlNWdOj6H3FhOPUJhsFbn+OCZuaVQJYIeFQ5SmdEjneqaMIy5rqldzwzGKhZQLfVVdV02fBHxEpaM
-	3PN2QfkuKM9X2tfuYkZhvJ+TsYyfYHIJgMNabOrGdeWAmJlFk8FcmeUYKFnZhMUROk3qLtqKe3RHu
-	0LLC2vNOt5pWshB4l5hOd0blKEkSzsDKcxdzs1Y4/nRR5ZRun4r/1yetUdrhe44zThyvoH4HBAujX
-	CRh3E4/InjengOY3xD8gwJy0wLUbPjuSexHoUwWc6n5fpetiTw6LeBzbzXhdToPP0bdBrbN1Dzit2
-	4LKpsgsQ==;
+	bh=UItdnX8ajj27d5Qso73kxc+PaX4o0omDbnZKQK9rTcs=; b=p0NTpcHWXNXM/Zzb7Gt33h1FHB
+	ku2dBlxr0xmG8rvyZld9ZUtixepAwN20aY0z1hvurJD91p0alZsylAY5tX+yd25bh2qBqD9RORd3Y
+	MzuWav1nPD0MmcDmxVIpuc3wd3dqpWLQ51BeoJQP7sloGb9NkR+8EKDPypxpGNyByDOHscdTwJR1m
+	mb7Y7QLchPxJyo4h+DE258mWytEcRhWL9j6njNK6hKYiwCiKcKr5IreQ4q5L7p4xAO45U6xIFtccd
+	LL+xFJB2nMGFRXTWStjR6LPTdO4skanFH+agJw3L4F7hdVOcs3zolb4viOFRHGUlcQi9wmFiEFW7F
+	aePfwADg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rANpa-006ILf-0C;
-	Tue, 05 Dec 2023 05:18:50 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1rANwa-006JKf-2t;
+	Tue, 05 Dec 2023 05:26:04 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rANpX-006ILB-1V
+	id 1rANwW-006JJo-32
 	for linux-nvme@lists.infradead.org;
-	Tue, 05 Dec 2023 05:18:48 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id ECFFB6153B;
-	Tue,  5 Dec 2023 05:18:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D047C433C7;
-	Tue,  5 Dec 2023 05:18:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701753525;
-	bh=2FU6xI2SxCz20fD3myDqT4SfMmnFzzLWyDDKaxBN2Yo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CewyGbOX3f3XXXj3P6GDe9dt1spkWc/AkGpIzQovEE62XQwqudxmhOhqzgwhlrBsQ
-	 HiM+ZHhbtmYz472FLGZ+xNKrNZgCmWIMmMB1bPj0/z3ymWc3V5esnR1A9IHYIlBjVx
-	 A5oC/GaxLSnsbUTO15w7je5u1sNDdJxCq6wE+dN0HcN78FZ9SVWvYAZatT2em0znPl
-	 cfQaZUaCbKkj+lltd4xOkHo9tmI0OAvW3LLETwM5OX5baaNqvOuxTL1NZBATFGuNsR
-	 rtU1C92vkZvACHxE8CI12h1lnFwLURaJ+K4law3lIn9evBu6GRyqFHFBEDUfwbtrv0
-	 xwE91TGLyoGJw==
-Date: Mon, 4 Dec 2023 22:18:42 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jirong Feng <jirong.feng@easystack.cn>, Jens Axboe <axboe@fb.com>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
-	peng.xiao@easystack.cn
-Subject: Re: Should NVME_SC_INVALID_NS be translated to BLK_STS_IOERR instead
- of BLK_STS_NOTSUPP so that multipath(both native and dm) can failover on the
- failure?
-Message-ID: <ZW6yskpdzy8uAp3u@kbusch-mbp>
-References: <9b1589fb-6f47-40bb-8aa6-22ae61145de4@easystack.cn>
- <ZW6pJAm9wgqj1HEW@kbusch-mbp>
- <20231205044035.GA28685@lst.de>
+	Tue, 05 Dec 2023 05:26:03 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1701753959;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UItdnX8ajj27d5Qso73kxc+PaX4o0omDbnZKQK9rTcs=;
+	b=jUiBXp7ifC4WP/hmb5hNLnH4sQhGATD+2gQeF0JIV+IZEN6/ZRalvveDRUGeB/AUq8bPSG
+	12Nwh9dk/iE+Cb/NzjQCWqpmA9LrJID7vLihzpJf703o8UaCpmo9UXex021k4MmK5TIeC6
+	0BLJfYhmp5gmxC+jTXyQAGV/0s3358Q=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-630-VYnt0zC1PLC1jjSTgEIXlA-1; Tue,
+ 05 Dec 2023 00:25:56 -0500
+X-MC-Unique: VYnt0zC1PLC1jjSTgEIXlA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 700411C068DE;
+	Tue,  5 Dec 2023 05:25:55 +0000 (UTC)
+Received: from fedora (unknown [10.72.120.3])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F6671C060AF;
+	Tue,  5 Dec 2023 05:25:48 +0000 (UTC)
+Date: Tue, 5 Dec 2023 13:25:44 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Jeff Moyer <jmoyer@redhat.com>, Keith Busch <kbusch@meta.com>,
+	linux-nvme@lists.infradead.org, io-uring@vger.kernel.org,
+	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+	asml.silence@gmail.com, linux-security-module@vger.kernel.org,
+	Kanchan Joshi <joshi.k@samsung.com>
+Subject: Re: [PATCH 1/2] iouring: one capable call per iouring instance
+Message-ID: <ZW60WPf/hmAUoxPv@fedora>
+References: <20231204175342.3418422-1-kbusch@meta.com>
+ <x49zfypstdx.fsf@segfault.usersys.redhat.com>
+ <ZW4hM0H6pjbCpIg9@kbusch-mbp>
+ <ZW6jjiq9wXHm5d10@fedora>
+ <ZW6nmR2ytIBApXE0@kbusch-mbp>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231205044035.GA28685@lst.de>
+In-Reply-To: <ZW6nmR2ytIBApXE0@kbusch-mbp>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.7
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231204_211847_575261_A26F9AC8 
-X-CRM114-Status: GOOD (  17.16  )
+X-CRM114-CacheID: sfid-20231204_212601_076560_7A655061 
+X-CRM114-Status: GOOD (  29.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,24 +87,69 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Dec 05, 2023 at 05:40:35AM +0100, Christoph Hellwig wrote:
-> On Mon, Dec 04, 2023 at 09:37:56PM -0700, Keith Busch wrote:
-> > So the controller through that path used to be able to access the
-> > Namespace, then suddenly lost ability to do so, but some other path can
-> > still access it if we retry on a failover/alternate path? I think your
-> > target is returning the wrong error code. It should be SCT/SC 303h,
-> > Asymmetric Access Persistent Loss (NVME_SC_ANA_TRANSITION), for what
-> > you're describing.
+On Mon, Dec 04, 2023 at 09:31:21PM -0700, Keith Busch wrote:
+> On Tue, Dec 05, 2023 at 12:14:22PM +0800, Ming Lei wrote:
+> > On Mon, Dec 04, 2023 at 11:57:55AM -0700, Keith Busch wrote:
+> > > On Mon, Dec 04, 2023 at 01:40:58PM -0500, Jeff Moyer wrote:
+> > > > I added a CC: linux-security-module@vger
+> > > > Keith Busch <kbusch@meta.com> writes:
+> > > > > From: Keith Busch <kbusch@kernel.org>
+> > > > >
+> > > > > The uring_cmd operation is often used for privileged actions, so drivers
+> > > > > subscribing to this interface check capable() for each command. The
+> > > > > capable() function is not fast path friendly for many kernel configs,
+> > > > > and this can really harm performance. Stash the capable sys admin
+> > > > > attribute in the io_uring context and set a new issue_flag for the
+> > > > > uring_cmd interface.
+> > > > 
+> > > > I have a few questions.  What privileged actions are performance
+> > > > sensitive? I would hope that anything requiring privileges would not
+> > > > be in a fast path (but clearly that's not the case).
+> > > 
+> > > Protocol specifics that don't have a generic equivalent. For example,
+> > > NVMe FDP is reachable only through the uring_cmd and ioctl interfaces,
+> > > but you use it like normal reads and writes so has to be as fast as the
+> > > generic interfaces.
+> > 
+> > But normal read/write pt command doesn't require ADMIN any more since 
+> > commit 855b7717f44b ("nvme: fine-granular CAP_SYS_ADMIN for nvme io commands"),
+> > why do you have to pay the cost of checking capable(CAP_SYS_ADMIN)?
 > 
-> Yes, assuming ANA is actually supported by the controllers..
+> Good question. The "capable" check had always been first so even with
+> the relaxed permissions, it was still paying the price. I have changed
+> that order in commit staged here (not yet upstream):
+> 
+>   http://git.infradead.org/nvme.git/commitdiff/7be866b1cf0bf1dfa74480fe8097daeceda68622
 
-Even without ANA, "Invalid Namespace" is still the wrong status code
-when dynamic namespace attachement is supported. If the namespace still
-exists in the subsystem but not attached to the controller processing a
-command (i.e. "inactive"), the return needs be Invalid Field in Command:
+With this change, I guess you shouldn't see the following big gap, right?
 
-  Specifying an inactive namespace identifier (refer to section 3.2.1.4)
-  in a command that uses the namespace identifier shall cause the
-  controller to abort the command with a status code of Invalid Field in
-  Command
+> Before: 970k IOPs
+> After: 1750k IOPs
+
+> 
+> Note that only prevents the costly capable() check if the inexpensive
+> checks could make a determination. That's still not solving the problem
+> long term since we aim for forward compatibility where we have no idea
+> which opcodes, admin identifications, or vendor specifics could be
+> deemed "safe" for non-root users in the future, so those conditions
+> would always fall back to the more expensive check that this patch was
+> trying to mitigate for admin processes.
+
+Not sure I get the idea, it is related with nvme's permission model for
+user pt command, and:
+
+1) it should be always checked in entry of nvme user pt command
+
+2) only the following two types of commands require ADMIN, per commit
+855b7717f44b ("nvme: fine-granular CAP_SYS_ADMIN for nvme io commands")
+
+    - any admin-cmd is not allowed
+    - vendor-specific and fabric commmand are not allowed
+
+Can you provide more details why the expensive check can't be avoided for
+fast read/write user IO commands?
+
+Thanks, 
+Ming
+
 
