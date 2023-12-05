@@ -4,126 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 772BDC4167B
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Dec 2023 16:21:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 90390C4167B
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Dec 2023 17:12:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VqJy3avQ+AZ7p4d6JxDtpGbwd1txWQN29W2AQEGmFiI=; b=N6dZWWL76vjopJPFkzfwFW8Fic
-	EmGnyFRgrWsBCqFIrTPR3Jr85Xky1UV2z6wRPOZx7X6Qt+NQsGlfPmvPfQ/RF+9HBKTDxpAye31vS
-	8vlbgNxSvN9GjeOngqUxgHJJM7ijZUxBIXo7aTqobahD9rsS6jz3OrcsU39lYMTH4ct45d3oWI5FT
-	o4dYiYYZ2AAWd2dyOUS+4MMHa8EbIKCNGp+qj4r3MC4sltJywjEwIgMYV1DBPA5BYrcxrvPdDuhOD
-	lC9oz224MKQ5I5kMhQBpXRKDuNIyF+JQf+BCIJypHVBpSvcFQ0xTwxJtdamA38FpL5x/dqUHWByhq
-	T4aL/jvw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=YjDIrzpjhuINOmJ1YFsWlz4+bpY58YC9nrJ1f5Z480w=; b=og25YB7LLGoPQW+OxEjG3Don6y
+	Cfek/2xdd9GNxH9x50cB6HlcA7d6BQWIO+Qnu0fIfzl4Jip/T4UIwHcfh+Aq1uAa6OJRdNwz2jSN0
+	Pfudq5+isU5XDk9TwINN1gm71wo030DZ+N90cG2rIHsvbCv6GX0L4duw8EYDZMqg3lvEn6NQS+NvS
+	FKApsauiFSsUapLVFKP1Xqh0sbgmzxVeptFWUpdXYErM9i6RM8xDWllAu0Gd88DNUKsX8e19OuIN8
+	ICpinw3VtM0wkT5v5cb31s7IN97KIFXOoGekGqmuFJ0KXtwNKxrN6/V9JqYZA3IhigSJnmkeWMMbI
+	IuLWGpEg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rAYAx-007rcQ-0F;
-	Tue, 05 Dec 2023 16:21:35 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1rAYxw-0080JL-1q;
+	Tue, 05 Dec 2023 17:12:12 +0000
+Received: from mgamail.intel.com ([134.134.136.24])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rAYAs-007rbs-0s
+	id 1rAYxt-0080HX-29
 	for linux-nvme@lists.infradead.org;
-	Tue, 05 Dec 2023 16:21:33 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20231205162124epoutp02f997790ff2cc0a0e8f1a9b2bfe6868e5~d_-nCVWhB0210302103epoutp02t
-	for <linux-nvme@lists.infradead.org>; Tue,  5 Dec 2023 16:21:24 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20231205162124epoutp02f997790ff2cc0a0e8f1a9b2bfe6868e5~d_-nCVWhB0210302103epoutp02t
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1701793284;
-	bh=VqJy3avQ+AZ7p4d6JxDtpGbwd1txWQN29W2AQEGmFiI=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=j0ANLU4aVbEMnYY8NMLd6Mpt2D55SLqfYuzpdeVq2qCKtGmUpwfmyFSig8U4Fer77
-	 vSfrk24w4kzqFw8GJw5uUpn8m1BKJfiUT6qsIYJ9yNSQ025xcy9hoY2nCK3TLt9wI5
-	 3rQNmvzrlwTcWoQLPeq7wC903Xy+2Y9mjXK19RbU=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20231205162124epcas5p2f38d7da907923122f4f06ba35b84cb74~d_-mzj3_D0290202902epcas5p2t;
-	Tue,  5 Dec 2023 16:21:24 +0000 (GMT)
-Received: from epsmgec5p1-new.samsung.com (unknown [182.195.38.174]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4Sl5Pt2JKcz4x9Pp; Tue,  5 Dec
-	2023 16:21:22 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmgec5p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	82.F3.19369.20E4F656; Wed,  6 Dec 2023 01:21:22 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20231205162121epcas5p2c410526ed459a8e739c81fc6fe3ef4e5~d_-kgVKK70290202902epcas5p2o;
-	Tue,  5 Dec 2023 16:21:21 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20231205162121epsmtrp2d2b1675e7f05671d09cdc5b4fb2a12e7~d_-kfn_Zu1992219922epsmtrp2p;
-	Tue,  5 Dec 2023 16:21:21 +0000 (GMT)
-X-AuditID: b6c32a50-c99ff70000004ba9-08-656f4e027a0e
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	C0.BD.08817.10E4F656; Wed,  6 Dec 2023 01:21:21 +0900 (KST)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20231205162120epsmtip1b87bf7198a027ac080d4088336b41d06~d_-jR7RXN2618226182epsmtip1e;
-	Tue,  5 Dec 2023 16:21:20 +0000 (GMT)
-Message-ID: <4cc1ba06-ecfd-b351-962e-27042767657e@samsung.com>
-Date: Tue, 5 Dec 2023 21:51:13 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
-	Gecko/20100101 Thunderbird/91.8.1
-Subject: Re: [PATCH 1/2] iouring: one capable call per iouring instance
-Content-Language: en-US
-To: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@meta.com>,
-	linux-nvme@lists.infradead.org, io-uring@vger.kernel.org
-Cc: hch@lst.de, sagi@grimberg.me, asml.silence@gmail.com, Keith Busch
-	<kbusch@kernel.org>
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <a387fd6a-7d4c-49e0-bb89-be129b10781c@kernel.dk>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrJJsWRmVeSWpSXmKPExsWy7bCmpi6TX36qwY43PBZzVm1jtFh9t5/N
-	YuXqo0wW71rPsVhMOnSN0eLM1YUsFvOXPWW3WPf6PYsDh8fOWXfZPc7f28jicflsqcemVZ1s
-	HpuX1HvsvtnA5nHuYoXH501yARxR2TYZqYkpqUUKqXnJ+SmZeem2St7B8c7xpmYGhrqGlhbm
-	Sgp5ibmptkouPgG6bpk5QHcpKZQl5pQChQISi4uV9O1sivJLS1IVMvKLS2yVUgtScgpMCvSK
-	E3OLS/PS9fJSS6wMDQyMTIEKE7IzJr+4y1rwhqdi5QKWBsa1XF2MnBwSAiYSjzYsZOxi5OIQ
-	EtjDKLFv6gp2COcTo8SfLd9YIJxvjBL/O/qYuhg5wFp2X/eCiO9llFh4dhFU0VtGiQNt5xlB
-	5vIK2Em8ObmDDaSBRUBF4u8mQ4iwoMTJmU9YQGxRgSSJX1fnMIKUCAu4S3RM8QUJMwuIS9x6
-	Mp8JxBYRqJbY03CBDSIeLXGmczlYOZuApsSFyaUgYU4BW4mOq/2sECXyEtvfzmEGuUZCYCmH
-	xLmmGSwQX7pITFtxmRHCFpZ4dXwLO4QtJfH53V42CDtZ4tLMc0wQdonE4z0HoWx7idZT/cwg
-	e5mB9q7fpQ+xi0+i9/cTaIjwSnS0CUFUK0rcm/SUFcIWl3g4YwmU7SEx89wMVnio7dj2jWUC
-	o8IspECZheT7WUjemYWweQEjyypGqdSC4tz01GTTAkPdvNRyeGwn5+duYgSnWa2AHYyrN/zV
-	O8TIxMF4iFGCg1lJhHferexUId6UxMqq1KL8+KLSnNTiQ4ymwNiZyCwlmpwPTPR5JfGGJpYG
-	JmZmZiaWxmaGSuK8r1vnpggJpCeWpGanphakFsH0MXFwSjUw6epdXGW3s7pZ8mvjJ4+dTScs
-	IooCLPPTU94I3voqJt+YEr1X4uYZtQQNdaPcn4y/+I/7Jmwt3VIl8YunNOuF3/KZH3TUcl9+
-	XeduLXtLZDIP49mUa2Y8O4TT670atnCtvVnifH1CMQPrlzwN4+Y6f0eTX9H7dn+5qH3rmOnD
-	4lLPsFBl7Vv7L8/blLy1/5T4FFb2l86fZmyM80ucP6du999gZ2Hd71LC3yNKzn+7ZFG3STv0
-	xM55cjFrKk12i8i6mn/U3byk+6PfjGPM7NqmhXG1YW+j1NwOdj3glb427cPOvS9n7K+5xcAR
-	++CtYdAL5hfTpv3kXLxtac3LbvOLD9cHnNzudZchg3Hi6wpGJZbijERDLeai4kQAU+inajwE
-	AAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmphkeLIzCtJLcpLzFFi42LZdlhJTpfRLz/VYOdnBYs5q7YxWqy+289m
-	sXL1USaLd63nWCwmHbrGaHHm6kIWi/nLnrJbrHv9nsWBw2PnrLvsHufvbWTxuHy21GPTqk42
-	j81L6j1232xg8zh3scLj8ya5AI4oLpuU1JzMstQifbsErozJL+6yFrzhqVi5gKWBcS1XFyMH
-	h4SAicTu615djFwcQgK7GSW2vF7N1sXICRQXl2i+9oMdwhaWWPnvOTtE0WtGic7VOxhBErwC
-	dhJvTu5gAxnEIqAi8XeTIURYUOLkzCcsILaoQJLEnvuNTCAlwgLuEh1TfEHCzEDjbz2ZzwRi
-	iwhUSyw/+5AZIh4tsaK1jw1i1V5GiY7Lc1lAetkENCUuTC4FqeEUsJXouNrPClFvJtG1tYsR
-	wpaX2P52DvMERqFZSK6YhWTdLCQts5C0LGBkWcUomVpQnJueW2xYYJSXWq5XnJhbXJqXrpec
-	n7uJERxRWlo7GPes+qB3iJGJg/EQowQHs5II77xb2alCvCmJlVWpRfnxRaU5qcWHGKU5WJTE
-	eb+97k0REkhPLEnNTk0tSC2CyTJxcEo1MImGLU1szHePubr7kO2qY+EhznkJV+zWPGrSbcw+
-	cXHJXsuWY949PNJCe+axCmh6z21WOFm/d5do88cGEfX93cHea6tnPtfQuPvjyMzXLJ/cSmZb
-	pBcJTdsyqdnxT9ny41umyty54RY3VVfxUcorYWF24WWffpqIvPvX98Fjw9EDE284zjY25pmu
-	MEOWuYPHuiqB/y6zXGbMaefCp/d2Oi59Z7vs9gOpqK6oH+pLv5UfnC40Z6LJtvtqJ7k3agS/
-	Z55kIXLO8BZXYOHd2gqlA0V/xBsf+utXGxlumz5l9/Od306FTjCUdNg3c1nxpOAKxhb57PPR
-	fvoeYTO2cS2UPXZU5dbZXY/P7hD9ZJ/k+FuJpTgj0VCLuag4EQB7xFK1FwMAAA==
-X-CMS-MailID: 20231205162121epcas5p2c410526ed459a8e739c81fc6fe3ef4e5
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20231204180804epcas5p30002c71ae22125ae84549258d1cf6fe5
-References: <20231204175342.3418422-1-kbusch@meta.com>
-	<CGME20231204180804epcas5p30002c71ae22125ae84549258d1cf6fe5@epcas5p3.samsung.com>
-	<a387fd6a-7d4c-49e0-bb89-be129b10781c@kernel.dk>
+	Tue, 05 Dec 2023 17:12:11 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701796329; x=1733332329;
+  h=date:from:to:cc:subject:message-id;
+  bh=TpsBhWu/DIsqi+hYzCLBVhXiJ3NDZ2MmuQ6CNXXXwYk=;
+  b=ALV6hIDbRLE1cVLgFmGJafD92O+SpZHkAr1zWcDxuAD2luARG3CVDkbt
+   l8WijS5XIIFjllvosAGaD8uz5ZWdguuC2adszp+JuaoKFmlBQLJt+Hfy8
+   VIe4dhJM1ayuG7wDZJR+0kzvIoKuFRauO9A1kuM1kbCyfVl1+If+fHyn2
+   oQbAouwGDEPsuQ+CL2R+Nok9etULNRGzZfCeKdhXWKRRNVv/DuCeTouuP
+   t42HYKEnCLVzaXjquDy33kOrfVvG3l64hJkxqVNw340+lwqCJrCuVOjpg
+   RKm9VZVOt6ZvwejcReVsGVvPhqtU57Ruqnbi3kvZNi2JokwSpMhUSrWQM
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="396719417"
+X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
+   d="scan'208";a="396719417"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 09:09:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="1018278434"
+X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
+   d="scan'208";a="1018278434"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 09:09:05 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rAYut-0009QF-0k;
+	Tue, 05 Dec 2023 17:09:03 +0000
+Date: Wed, 06 Dec 2023 01:08:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.7] BUILD SUCCESS
+ 839a40d1e730977d4448d141fa653517c2959a88
+Message-ID: <202312060128.WxlOz810-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231205_082131_774905_E9545405 
-X-CRM114-Status: GOOD (  16.48  )
+X-CRM114-CacheID: sfid-20231205_091209_829345_D4B7B09A 
+X-CRM114-Status: UNSURE (   4.83  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -138,42 +80,156 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/4/2023 11:35 PM, Jens Axboe wrote:
-> On 12/4/23 10:53 AM, Keith Busch wrote:
->> diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
->> index 1d254f2c997de..4aa10b64f539e 100644
->> --- a/io_uring/io_uring.c
->> +++ b/io_uring/io_uring.c
->> @@ -3980,6 +3980,7 @@ static __cold int io_uring_create(unsigned entries, struct io_uring_params *p,
->>   		ctx->syscall_iopoll = 1;
->>   
->>   	ctx->compat = in_compat_syscall();
->> +	ctx->sys_admin = capable(CAP_SYS_ADMIN);
->>   	if (!ns_capable_noaudit(&init_user_ns, CAP_IPC_LOCK))
->>   		ctx->user = get_uid(current_user());
-> Hmm, what happens if the app starts as eg root for initialization
-> purposes and drops caps after? That would have previously have caused
-> passthrough to fail, but now it will work.
+tree/branch: git://git.infradead.org/nvme.git nvme-6.7
+branch HEAD: 839a40d1e730977d4448d141fa653517c2959a88  nvme: fix deadlock between reset and scan
 
+elapsed time: 1453m
 
-Does it sound any better if this 'super ring' type of ability is asked 
-explicitly by a setup flag say IORING_SETUP_CAPABLE_ONCE.
-It does not change the old behavior. It also implies that capable user 
-knows what it asked for, so no need to keep things in sync if the 
-process drops caps after ring setup is done.
+configs tested: 136
+configs skipped: 1
 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
-index 4aa10b64f539..589e614144b6 100644
---- a/io_uring/io_uring.c
-+++ b/io_uring/io_uring.c
-@@ -3981,6 +3981,8 @@ static __cold int io_uring_create(unsigned 
-entries, struct io_uring_params *p,
+tested configs:
+alpha                            allyesconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                   randconfig-001-20231205   gcc  
+arc                   randconfig-002-20231205   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                      footbridge_defconfig   gcc  
+arm                       imx_v4_v5_defconfig   clang
+arm                   randconfig-001-20231205   gcc  
+arm                   randconfig-002-20231205   gcc  
+arm                   randconfig-003-20231205   gcc  
+arm                   randconfig-004-20231205   gcc  
+arm64                 randconfig-001-20231205   gcc  
+arm64                 randconfig-002-20231205   gcc  
+arm64                 randconfig-003-20231205   gcc  
+arm64                 randconfig-004-20231205   gcc  
+csky                             allmodconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20231205   gcc  
+csky                  randconfig-002-20231205   gcc  
+hexagon                          allmodconfig   clang
+hexagon                          allyesconfig   clang
+hexagon               randconfig-001-20231205   clang
+hexagon               randconfig-002-20231205   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20231205   gcc  
+i386         buildonly-randconfig-002-20231205   gcc  
+i386         buildonly-randconfig-003-20231205   gcc  
+i386         buildonly-randconfig-004-20231205   gcc  
+i386         buildonly-randconfig-005-20231205   gcc  
+i386         buildonly-randconfig-006-20231205   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231205   gcc  
+i386                  randconfig-002-20231205   gcc  
+i386                  randconfig-003-20231205   gcc  
+i386                  randconfig-004-20231205   gcc  
+i386                  randconfig-005-20231205   gcc  
+i386                  randconfig-006-20231205   gcc  
+i386                  randconfig-011-20231205   clang
+i386                  randconfig-012-20231205   clang
+i386                  randconfig-013-20231205   clang
+i386                  randconfig-014-20231205   clang
+i386                  randconfig-015-20231205   clang
+i386                  randconfig-016-20231205   clang
+loongarch                        allmodconfig   gcc  
+loongarch             randconfig-001-20231205   gcc  
+loongarch             randconfig-002-20231205   gcc  
+m68k                             allmodconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                          amiga_defconfig   gcc  
+m68k                       m5475evb_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                       allyesconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                        vocore2_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                 randconfig-001-20231205   gcc  
+nios2                 randconfig-002-20231205   gcc  
+openrisc                         allyesconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                randconfig-001-20231205   gcc  
+parisc                randconfig-002-20231205   gcc  
+powerpc                          allmodconfig   clang
+powerpc                          allyesconfig   clang
+powerpc                     ksi8560_defconfig   clang
+powerpc               randconfig-001-20231205   gcc  
+powerpc               randconfig-002-20231205   gcc  
+powerpc               randconfig-003-20231205   gcc  
+powerpc64             randconfig-001-20231205   gcc  
+powerpc64             randconfig-002-20231205   gcc  
+powerpc64             randconfig-003-20231205   gcc  
+riscv                            allmodconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                    nommu_virt_defconfig   clang
+riscv                 randconfig-001-20231205   gcc  
+riscv                 randconfig-002-20231205   gcc  
+riscv                          rv32_defconfig   clang
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                          debug_defconfig   gcc  
+s390                  randconfig-001-20231205   clang
+s390                  randconfig-002-20231205   clang
+sh                               alldefconfig   gcc  
+sh                               allmodconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                        edosk7705_defconfig   gcc  
+sh                               j2_defconfig   gcc  
+sh                          r7780mp_defconfig   gcc  
+sh                    randconfig-001-20231205   gcc  
+sh                    randconfig-002-20231205   gcc  
+sh                        sh7757lcr_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64               randconfig-001-20231205   gcc  
+sparc64               randconfig-002-20231205   gcc  
+um                               allmodconfig   clang
+um                               allyesconfig   clang
+um                    randconfig-001-20231205   gcc  
+um                    randconfig-002-20231205   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20231205   gcc  
+x86_64       buildonly-randconfig-002-20231205   gcc  
+x86_64       buildonly-randconfig-003-20231205   gcc  
+x86_64       buildonly-randconfig-004-20231205   gcc  
+x86_64       buildonly-randconfig-005-20231205   gcc  
+x86_64       buildonly-randconfig-006-20231205   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20231205   clang
+x86_64                randconfig-002-20231205   clang
+x86_64                randconfig-003-20231205   clang
+x86_64                randconfig-004-20231205   clang
+x86_64                randconfig-005-20231205   clang
+x86_64                randconfig-006-20231205   clang
+x86_64                randconfig-011-20231205   gcc  
+x86_64                randconfig-012-20231205   gcc  
+x86_64                randconfig-013-20231205   gcc  
+x86_64                randconfig-014-20231205   gcc  
+x86_64                randconfig-015-20231205   gcc  
+x86_64                randconfig-016-20231205   gcc  
+x86_64                randconfig-071-20231205   gcc  
+x86_64                randconfig-072-20231205   gcc  
+x86_64                randconfig-073-20231205   gcc  
+x86_64                randconfig-074-20231205   gcc  
+x86_64                randconfig-075-20231205   gcc  
+x86_64                randconfig-076-20231205   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                randconfig-001-20231205   gcc  
+xtensa                randconfig-002-20231205   gcc  
 
-         ctx->compat = in_compat_syscall();
-+       if (ctx->flags & IORING_SETUP_CAPABLE_ONCE && 
-capable(CAP_SYS_ADMIN))
-+               ctx->sys_admin = 1;
-         if (!ns_capable_noaudit(&init_user_ns, CAP_IPC_LOCK))
-                 ctx->user = get_uid(current_user());
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
