@@ -4,56 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 075F7C4167B
-	for <linux-nvme@archiver.kernel.org>; Wed,  6 Dec 2023 12:59:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 302FDC4167B
+	for <linux-nvme@archiver.kernel.org>; Wed,  6 Dec 2023 15:32:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=QY2K1/YQxAlSWF47sl9r9mh6hui04/UAdmJGCH2Qmj4=; b=oH5/DBI5URGYwVrQhVgpyVUaoc
-	SWWhvEtn1cqAcCZklL5MWZ9xOLtqtoSNjzCaUbpVIIj5JWoSVS7tY7D19iGVFwwGPOof4ggT1rD3g
-	G/Dywu48rDFhSaCoISDL/5Qfli5kPF4z/svpBC3D+OmCe1s9XZ0bJ6XOfeDncORGc2+8KMVR9Q/CW
-	ag3/UVRvMI510/ihe5qB+/bAWhWfTw8wVECjOWSxQHDffivF17LKZYXXScmsVIkrZUBCLB+R3LkjI
-	V2peGJcFSPhAFgO/b33FaKnem+Tnf5mLkc2d7lBQNxLMUhRTfhaWBaN+lL1Acrla60dSDu+Lh/gn7
-	KcEl4b6w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=HbXWWctyqiPOqHmHbyqkaXrSpJqT5SrM2tPXrmIvafI=; b=UG3bxpv1C3PZUt6sF8zpCsj3hw
+	ZM1lSOeIVVFWqySEuHmDMgiSSxQBYEHTuUrroR6S0/Byokp4oMq2BnyBSOUAZjzRfL7P0mzGWYbNP
+	tb7z8Q5oLauPWimu3UjONFivrW+kJF4tbrAbhF7CyHx0XaY8kH7s1thPuaufoQlY6UxduFC+5hjHw
+	w85QjGYxIyoK2hsygBiqIeuoJsDnlUkMAQMNi70PUqpJm1iC4qVC3yTTgT7ydJ9Q0XNBdvEJh/U4x
+	/5vde2nbkf1FTE83V/5ZlR02ZOXKDw3VMUgKeBOHbl9joKpKblDQDcK3T1tPrUJICfFvPuzs5fLun
+	DDtgk+PA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rArUN-00AKyp-2m;
-	Wed, 06 Dec 2023 12:58:55 +0000
-Received: from forward100b.mail.yandex.net ([178.154.239.147])
+	id 1rAtsZ-00AdEe-1K;
+	Wed, 06 Dec 2023 15:32:03 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rArUJ-00AKv7-2f
+	id 1rAtsV-00AdDh-0Z
 	for linux-nvme@lists.infradead.org;
-	Wed, 06 Dec 2023 12:58:54 +0000
-Received: from mail-nwsmtp-smtp-production-main-91.myt.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-91.myt.yp-c.yandex.net [IPv6:2a02:6b8:c12:2a7:0:640:d5ba:0])
-	by forward100b.mail.yandex.net (Yandex) with ESMTP id 6861560ADC;
-	Wed,  6 Dec 2023 15:58:37 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-91.myt.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id awbwOREoAuQ0-uRSLF4Fp;
-	Wed, 06 Dec 2023 15:58:36 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
-	t=1701867516; bh=QY2K1/YQxAlSWF47sl9r9mh6hui04/UAdmJGCH2Qmj4=;
-	h=Message-ID:Date:Cc:Subject:To:From;
-	b=XJiCztpqrON8fzSNXl/QRtqS0C9e1Hs5OjxqqU61FB/dvmz25bm9j8qeuEeZBD6rW
-	 aU5XJsuxwjJdYJL/UfKdTlG6kDqy5oTksGplqhJzJ9j9FLK4wvaJyYM7c1V9O+WfAB
-	 tb3wwIqRqVxs0k+KGcR4py8BvlsbM2S1rpXk2E6M=
-Authentication-Results: mail-nwsmtp-smtp-production-main-91.myt.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
-From: Dmitry Antipov <dmantipov@yandex.ru>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>,
-	linux-nvme@lists.infradead.org,
-	Dmitry Antipov <dmantipov@yandex.ru>
-Subject: [PATCH] nvme: fix fortify warnings
-Date: Wed,  6 Dec 2023 15:56:57 +0300
-Message-ID: <20231206125711.619739-1-dmantipov@yandex.ru>
-X-Mailer: git-send-email 2.43.0
+	Wed, 06 Dec 2023 15:32:00 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 888EF61D55;
+	Wed,  6 Dec 2023 15:31:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77FA1C433C7;
+	Wed,  6 Dec 2023 15:31:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701876718;
+	bh=hAqLNmw1CUfJ61iCun+b5KBpjW9OiI64D5DKsIg/2B0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GTmU6kHKUVBNZbTEGud+JA0mzs+8si27WjOy2KPVoJWYTiTW5RXUCHFEIQAHHJWDU
+	 mHpbhVvMzsIpqDSzpqQtFtkUMzTi0vC779plDPuAH1lKgmZz2YjLPpgBlD5omS40K4
+	 JzrDMkx0k5XlPQHgDoRuXUPPcDke/D6VK5oaeRo7kAjKf/CddpHGC4RzFR009LXE4j
+	 TtQBOapJ4WWYkuAyGMSE2nAV35S2ABsD4qhxJXKiptIGjBsd2lGFQLiP/dfs1Z4WHO
+	 UFTph6l6OdP14Clz5qFzU3DSWlqGMOXbU8aTDEgvEAGzneuXxMuVAaBB3iqj/1+yZf
+	 dlflsS7oX59oQ==
+Date: Wed, 6 Dec 2023 08:31:54 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Jeff Moyer <jmoyer@redhat.com>, Keith Busch <kbusch@meta.com>,
+	linux-nvme@lists.infradead.org, io-uring@vger.kernel.org,
+	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+	asml.silence@gmail.com, linux-security-module@vger.kernel.org,
+	Kanchan Joshi <joshi.k@samsung.com>
+Subject: Re: [PATCH 1/2] iouring: one capable call per iouring instance
+Message-ID: <ZXCT6mpt2Tq0k-Nw@kbusch-mbp>
+References: <20231204175342.3418422-1-kbusch@meta.com>
+ <x49zfypstdx.fsf@segfault.usersys.redhat.com>
+ <ZW4hM0H6pjbCpIg9@kbusch-mbp>
+ <ZW6jjiq9wXHm5d10@fedora>
+ <ZW6nmR2ytIBApXE0@kbusch-mbp>
+ <ZW60WPf/hmAUoxPv@fedora>
+ <ZW9FhsBXdPlN6qrU@kbusch-mbp>
+ <ZW/loVJu0+11+boh@fedora>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZW/loVJu0+11+boh@fedora>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231206_045852_646081_1CCCA0F6 
-X-CRM114-Status: GOOD (  11.56  )
+X-CRM114-CacheID: sfid-20231206_073159_260222_87C31380 
+X-CRM114-Status: GOOD (  20.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,67 +81,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When compiling with gcc version 14.0.0 20231129 (experimental) and
-CONFIG_FORTIFY_SOURCE=y, I've noticed the following warnings:
+On Wed, Dec 06, 2023 at 11:08:17AM +0800, Ming Lei wrote:
+> On Tue, Dec 05, 2023 at 08:45:10AM -0700, Keith Busch wrote:
+> > 
+> > It's not necessarily about the read/write passthrough commands. It's for
+> > commands we don't know about today. Do we want to revisit this problem
+> > every time spec provides another operation? Are vendor unique solutions
+> > not allowed to get high IOPs access?
+> 
+> Except for read/write, what other commands are performance sensitive?
 
-...
-In function 'strncpy',
-    inlined from '__assign_req_name' at drivers/nvme/target/trace.h:56:2:
-./include/linux/fortify-string.h:68:33: warning: '__builtin_strncpy' specified
-bound depends on the length of the source argument [-Wstringop-truncation]
-   68 | #define __underlying_strncpy    __builtin_strncpy
-      |                                 ^
-./include/linux/fortify-string.h:147:16: note: in expansion of macro
-'__underlying_strncpy'
-  147 |         return __underlying_strncpy(p, q, size);
-      |                ^~~~~~~~~~~~~~~~~~~~
-...
-
-and:
-
-...
-In function 'fortify_memcpy_chk',
-    inlined from 'perf_trace_nvmet_req_init' at drivers/nvme/target/trace.h:61:1:
-./include/linux/fortify-string.h:588:25: warning: call to '__read_overflow2_field'
-declared with attribute warning: detected read beyond size of field (2nd parameter);
-maybe use struct_group()? [-Wattribute-warning]
-  588 |                         __read_overflow2_field(q_size_field, size);
-      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-...
-
-So replace unsafe and deprecated 'strncpy()' with 'strscpy()' and
-pass 'struct_group(cdws,...)' member of 'struct nvme_common_command'
-to 'memcpy()' (just like it's done in host/trace.h).
-
-Fixes: 5c629dc9609d ("nvme: use struct group for generic command dwords")
-Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
----
- drivers/nvme/target/trace.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/target/trace.h b/drivers/nvme/target/trace.h
-index 6109b3806b12..2d5e75643e6e 100644
---- a/drivers/nvme/target/trace.h
-+++ b/drivers/nvme/target/trace.h
-@@ -53,7 +53,7 @@ static inline void __assign_req_name(char *name, struct nvmet_req *req)
- 		return;
- 	}
+It varies by command set, but this question is irrelevant. I'm not
+interested in gatekeeping the fast path.
  
--	strncpy(name, req->ns->device_path,
-+	strscpy(name, req->ns->device_path,
- 		min_t(size_t, DISK_NAME_LEN, strlen(req->ns->device_path)));
- }
- #endif
-@@ -85,7 +85,7 @@ TRACE_EVENT(nvmet_req_init,
- 		__entry->flags = cmd->common.flags;
- 		__entry->nsid = le32_to_cpu(cmd->common.nsid);
- 		__entry->metadata = le64_to_cpu(cmd->common.metadata);
--		memcpy(__entry->cdw10, &cmd->common.cdw10,
-+		memcpy(__entry->cdw10, &cmd->common.cdws,
- 			sizeof(__entry->cdw10));
- 	),
- 	TP_printk("nvmet%s: %sqid=%d, cmdid=%u, nsid=%u, flags=%#x, "
--- 
-2.43.0
+> > Secondly, some people have rediscovered you can abuse this interface to
+> > corrupt kernel memory, so there are considerations to restricting this
+> 
+> Just wondering why ADMIN won't corrupt kernel memory, and only normal
+> user can, looks it is kernel bug instead of permission related issue.
 
+Admin can corrupt memory as easily as a normal user through this
+interface. We just don't want such capabilities to be available to
+regular users.
+
+And it's a user bug: user told the kernel to map buffer of size X, but
+the device transfers size Y into it. Kernel can't do anything about that
+(other than remove the interface, but such an action will break many
+existing users) because we fundamentally do not know the true transfer
+size of a random command. Many NVMe commands don't explicitly encode
+transfer lengths, so disagreement between host and device on implicit
+lengths risk corruption. It's a protocol "feature".
+
+> > to CAP_SYS_ADMIN anyway, so there's no cheap check available today if we
+> > have to go that route.
+> 
+> If capable(CAP_SYS_ADMIN) is really slow, I am wondering why not
+> optimize it in task_struct?
+
+That's an interesting point to look into. I was hoping to not touch such
+a common struct, but I'm open to all options.
 
