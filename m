@@ -4,91 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 35A95C10DC3
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Dec 2023 10:53:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB27DC4167B
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Dec 2023 12:17:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=oF3zc6A/Fr0rUjYTo8lr4Lp3ap8uHtyUKBtRNSFAnnM=; b=HBouS1lUVwdFNBfytUXmC1Zjti
-	g2rIz4BxGpGcc+ERJtrDmWDTjTOYDj+Bam43vTK9r0OthLvHWRB9j92al8xqJcwwiqN+nhW1dnRL+
-	gjHFnU98eyDTD6JDAbjzDjhHtiU3jJORjJA7UWPLcdQ87+hmBisgyJFgnd3+tIWl9pU5zmuRL+yrV
-	6K9jBkwfIksXX2KjugAzzg8HTIgq6TbtLx7ClZ5Dz+EJoM14JGNTBVARjNOSlxrALWswynO1mO12g
-	kO6GalMi18QmhHp8e4YG4snd3X4dFtOC2gm6QSl4XkKANtgJ77GtcQXPvTVm7t4iNKWUgRFLwxV23
-	aYvqh/2g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=g7gouQvWx6QNoqOIMmyI0JWOcykZkfTMcDroLrlbiFs=; b=GPNAAgTO5onrOHU9I+cnAXWweZ
+	hpl9HavyoznpmwkZrNXvycDV+B9IVkYmWHEzziWDam4OKjMwUPyk9JtdteK0CsEuSC2m/sClhyzCe
+	DEYVEko6oKdxp+QC739lxDdw5s/RP5xxi0HE618zYpVbtiis+X3HmKzk86kfM9rOxEsT64iuEzIG1
+	iGXBeyMrNEbJ1vVsK6IPVH+o0T6O95WIW5YetM3zj7aQhL9xNOJShDf+JW6EXyy4PbM9qi/AfmxTH
+	qwm4BEj/vhXwzE+VhDtmje3FCmfaz5Eo5wcFPPLKmENME3PPCzOhhXtWKlCQO1sNDYd2K+XO7DQ9q
+	puq/jgaA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rBC0L-00CW2g-0G;
-	Thu, 07 Dec 2023 10:53:17 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1rBDJp-00ClRN-1T;
+	Thu, 07 Dec 2023 12:17:29 +0000
+Received: from mail-ej1-f42.google.com ([209.85.218.42])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rBC0I-00CW0X-13
+	id 1rBDJm-00ClQw-0u
 	for linux-nvme@lists.infradead.org;
-	Thu, 07 Dec 2023 10:53:16 +0000
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2E43E1F8C4;
-	Thu,  7 Dec 2023 10:53:08 +0000 (UTC)
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 1A786139E3;
-	Thu,  7 Dec 2023 10:53:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id aVn4BBSkcWXqXwAAn2gu4w
-	(envelope-from <dwagner@suse.de>); Thu, 07 Dec 2023 10:53:08 +0000
-Date: Thu, 7 Dec 2023 11:53:07 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH v3 3/4] nvme: move ns id info to struct nvme_ns_head
-Message-ID: <xpbwa63z7w6fa7mykmhhd56vdm3746y2x7vvtp5xj2st5aupvz@4rrj7gxzu66c>
-References: <20231206081244.32733-1-dwagner@suse.de>
- <20231206081244.32733-4-dwagner@suse.de>
- <20231206085436.GB24484@lst.de>
+	Thu, 07 Dec 2023 12:17:28 +0000
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a1d48f0223dso22600066b.0
+        for <linux-nvme@lists.infradead.org>; Thu, 07 Dec 2023 04:17:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701951442; x=1702556242;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=g7gouQvWx6QNoqOIMmyI0JWOcykZkfTMcDroLrlbiFs=;
+        b=PFsvxrLww6KEeSQYw1H5rEI4EsWobnwEbJe0S+A/VA9FQrldixaaWhrY4a4tEuPGzq
+         nGYZouwTdDrwuqcMcEm8tx32SOotGklPkNjNrWBZJN1feHLWE7kQD+opP4jRIoxeBo9G
+         jI0M61Nv88uU4EGuES5OmmmH5lQTFFuDJDAsizwmhcicv22C/boB70wgluHdHX3TorBs
+         3r/dKSvzjps09MCp4FVG391IV7A7gTTeEW6CgFpsTN8pEvYTbcp0gSgfJDN9obiOWaDe
+         kXXSZyPmq8t6Mo3XsUUeg8AMEdMQBIewcNSog2zYVd6FSZe1YY4eHAL9LiQelcDmQrgU
+         wDwQ==
+X-Gm-Message-State: AOJu0Ywu8vsggB80tkpcK4VPZdaSO8gQKCxdsNgVXcBqi39Sl7B018VM
+	NgfPEVIT5cUbGKaxLAvCnYXl9TdlQzs=
+X-Google-Smtp-Source: AGHT+IG/ZehdKc4ncVAO8hgBFj83zLRk5vHXRZs+huqwDtv4oqF8iikN/dd2r6H5D+zOLIm/3qmLsQ==
+X-Received: by 2002:a17:906:7f08:b0:a1d:1c71:8158 with SMTP id d8-20020a1709067f0800b00a1d1c718158mr3066093ejr.4.1701951441926;
+        Thu, 07 Dec 2023 04:17:21 -0800 (PST)
+Received: from [192.168.64.177] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id e12-20020a170906314c00b009c5c5c2c5a4sm748946eje.219.2023.12.07.04.17.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Dec 2023 04:17:21 -0800 (PST)
+Message-ID: <5a3aa3ce-65f5-4be4-a4af-04a4dc7c998f@grimberg.me>
+Date: Thu, 7 Dec 2023 14:17:19 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231206085436.GB24484@lst.de>
-X-Spamd-Bar: ++++++++++++++++++
-Authentication-Results: smtp-out2.suse.de;
-	dkim=none;
-	dmarc=fail reason="No valid SPF, No valid DKIM" header.from=suse.de (policy=none);
-	spf=softfail (smtp-out2.suse.de: 2a07:de40:b281:104:10:150:64:98 is neither permitted nor denied by domain of dwagner@suse.de) smtp.mailfrom=dwagner@suse.de
-X-Rspamd-Server: rspamd2
-X-Spamd-Result: default: False [18.89 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_SPAM_SHORT(3.00)[1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 BAYES_SPAM(5.10)[100.00%];
-	 R_SPF_SOFTFAIL(4.60)[~all:c];
-	 RCPT_COUNT_FIVE(0.00)[6];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 MX_GOOD(-0.01)[];
-	 NEURAL_SPAM_LONG(3.50)[1.000];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 R_DKIM_NA(2.20)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 DMARC_POLICY_SOFTFAIL(0.10)[suse.de : No valid SPF, No valid DKIM,none]
-X-Rspamd-Queue-Id: 2E43E1F8C4
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] nvmet-rdma: avoid circular locking dependency on
+ install_queue()
+Content-Language: en-US
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <69b6f873-f8a1-482b-a739-b47da6e98cec@suse.de>
+ <20231103091952.GA18200@lst.de>
+ <e09869f2-193b-4f03-a12f-2a7f6c24d537@suse.de> <20231103140514.GA2395@lst.de>
+ <d5ef550d-91da-4135-959d-e10f153514a0@grimberg.me>
+ <52bd0ef3-b91e-492e-8117-41a290b6cfe6@grimberg.me>
+ <c261fe62-e8e6-4470-b9e2-3047fd4c3d99@suse.de>
+ <9ca33803-e2ca-4550-8d6e-1e64219fb3d9@grimberg.me>
+ <e3fa3584-47e3-4712-a2ce-7fc59e603898@suse.de>
+ <8cb5e071-385a-4332-af97-cef4ddfb4720@grimberg.me>
+ <6nmywu5e44fkypykg27lctjmmd6ottw4t53cxgt2rmdlqgvem2@4vi5v4pbmgsv>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <6nmywu5e44fkypykg27lctjmmd6ottw4t53cxgt2rmdlqgvem2@4vi5v4pbmgsv>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231207_025314_530404_045EBB47 
-X-CRM114-Status: GOOD (  19.90  )
+X-CRM114-CacheID: sfid-20231207_041726_338556_78C8B47A 
+X-CRM114-Status: UNSURE (   9.81  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,158 +93,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Dec 06, 2023 at 09:54:36AM +0100, Christoph Hellwig wrote:
-> On Wed, Dec 06, 2023 at 09:12:43AM +0100, Daniel Wagner wrote:
-> > Move the namesapce info to struct nvme_ns_head, because it's the same
-> > for all associated namespaces.
-> > 
-> > The head pointer is accessible from the ns pointer so we could just
-> > update all places with ns->x to ns->head->x. While this is okay for the
-> > slow path,
+
+>> Yes I think so, we already place a listen backlog, so maybe we can reuse
+>> that as NVME_TCP_BACKLOG or something. The same should apply to nvme-rdma.
 > 
-> Do you have any data to show that it matters?  All the I/O command
-> setup functions already access the ns_head for ->ns_id, so looking
-> at more fields can't really make any difference.
+> Thanks for the discussion. FYI, I modified the patches by Hannes to reflect the
+> discussion above [1][2]. With these, I confirmed the lockdep WARN disappears,
+> and saw no regression in my blktests runs. Looks good. Will test again when
+> formal patches come out.
+> 
+> [1] https://github.com/kawasaki/linux/commit/dc58819d07b02bd54dbcd5b15d2600a517fcbbff
+> [2] https://github.com/kawasaki/linux/commit/20fb65d145152562d0e11a9c8065e64405c31b0d
 
-I've splitted the patch so that the first patch just moves the variables
-around and changes ns->x to ns->head->x ('patched'). Then I changed the
-layout of nvme_ns_head, so that all variables used in nvme_setup_rw()
-are in one cacheline ('cache line optimized') and the last change is
-passing the nvme_ns_head pointer around ('use nvme_ns_head directly')
-
-I assume that nvme_setup_rw is the function which is used most and thus
-I've tried to benchmark nvme_setup_rw with issuing 4k reads. I am sure
-my benchmark setup is not perfect but well that's what I have.
-
-Anyway, the results are pointing towards that moving the variables to
-nvme_ns_head has a slight performance impact but that can be more than
-mitigated by optimizing the cacheline access. The change to use
-nvme_ns_head directly seems to eat up all the cacheline optimization
-gains again.
-
-'patched' layout:
-
-struct nvme_ns_head {
-	struct list_head           list;                 /*     0    16 */
-	struct srcu_struct         srcu;                 /*    16    72 */
-	/* --- cacheline 1 boundary (64 bytes) was 24 bytes ago --- */
-	struct nvme_subsystem *    subsys;               /*    88     8 */
-	unsigned int               ns_id;                /*    96     4 */
-	struct nvme_ns_ids         ids;                  /*   100    41 */
-
-	/* XXX 3 bytes hole, try to pack */
-
-	/* --- cacheline 2 boundary (128 bytes) was 16 bytes ago --- */
-	struct list_head           entry;                /*   144    16 */
-	struct kref                ref;                  /*   160     4 */
-	bool                       shared;               /*   164     1 */
-
-	/* XXX 3 bytes hole, try to pack */
-
-	int                        instance;             /*   168     4 */
-
-	/* XXX 4 bytes hole, try to pack */
-
-	struct nvme_effects_log *  effects;              /*   176     8 */
-	int                        lba_shift;            /*   184     4 */
-	u16                        ms;                   /*   188     2 */
-	u16                        pi_size;              /*   190     2 */
-	/* --- cacheline 3 boundary (192 bytes) --- */
-	u16                        sgs;                  /*   192     2 */
-
-	/* XXX 2 bytes hole, try to pack */
-
-	u32                        sws;                  /*   196     4 */
-	u64                        nuse;                 /*   200     8 */
-	u8                         pi_type;              /*   208     1 */
-	u8                         guard_type;           /*   209     1 */
-
-	/* XXX 6 bytes hole, try to pack */
-
-	u64                        zsze;                 /*   216     8 */
-	unsigned long              features;             /*   224     8 */
-	struct ratelimit_state     rs_nuse;              /*   232   104 */
-	/* --- cacheline 5 boundary (320 bytes) was 16 bytes ago --- */
-
-[...]
-}
-
-
-'cacheline optimized' layout:
-
-struct nvme_ns_head {
-	struct list_head           list;                 /*     0    16 */
-	struct srcu_struct         srcu;                 /*    16    72 */
-	/* --- cacheline 1 boundary (64 bytes) was 24 bytes ago --- */
-	struct nvme_subsystem *    subsys;               /*    88     8 */
-	struct nvme_ns_ids         ids;                  /*    96    41 */
-
-	/* XXX 7 bytes hole, try to pack */
-
-	/* --- cacheline 2 boundary (128 bytes) was 16 bytes ago --- */
-	struct list_head           entry;                /*   144    16 */
-	struct kref                ref;                  /*   160     4 */
-	bool                       shared;               /*   164     1 */
-
-	/* XXX 3 bytes hole, try to pack */
-
-	int                        instance;             /*   168     4 */
-
-	/* XXX 4 bytes hole, try to pack */
-
-	struct nvme_effects_log *  effects;              /*   176     8 */
-	u64                        nuse;                 /*   184     8 */
-	/* --- cacheline 3 boundary (192 bytes) --- */
-	unsigned int               ns_id;                /*   192     4 */
-	int                        lba_shift;            /*   196     4 */
-	u16                        ms;                   /*   200     2 */
-	u16                        pi_size;              /*   202     2 */
-	u8                         pi_type;              /*   204     1 */
-	u8                         guard_type;           /*   205     1 */
-	u16                        sgs;                  /*   206     2 */
-	u32                        sws;                  /*   208     4 */
-[...]
-}
-
-fio test job:
-  [global]
-  name=nvme-read
-  time_based
-  ramp_time=30
-  runtime=120
-  readwrite=read
-  bs=4k
-  ioengine=io_uring
-  direct=1
-  numjobs=4
-  iodepth=64
-  group_reporting=1[nvme0]
-  new_group
-  filename=/dev/nvme0n1
-  cpus_allowed=1-4
-  cpus_allowed_policy=split
-
-  [nvme0]
-  new_group
-  filename=/dev/nvme0n1
-
-bandwidth
-      'baseline'  'patched'  'cache line optimized' 'use nvme_ns_head directly'
-      1608        1632       1613                   1618
-      1608        1610       1634                   1618
-      1623        1639       1642                   1646
-      1638        1610       1640                   1619
-      1637        1611       1642                   1620
-avg   1622.8      1620.4     1634.2                 1624.2
-stdev 14.75       14.01      12.29                  12.21
-
-ios
-      'baseline'  'patched'  'cache line optimized' 'use nvme_ns_head directly'
-      65626946    66735998   66268893               66458877
-      65641469    66041634   66888910               66384526
-      66012335    66904002   67132768               67329550
-      66589757    66013222   67132053               66491121
-      66569213    66033040   67132075               66474708
-avg   66087944    66345579.2 66910939.8             66627756.4
-stdev 474608.24   437260.67  374068.50              394426.34
+Can you/Hannes please submit them?
 
