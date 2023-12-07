@@ -4,80 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB27DC4167B
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Dec 2023 12:17:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36DDDC10F04
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Dec 2023 12:36:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=g7gouQvWx6QNoqOIMmyI0JWOcykZkfTMcDroLrlbiFs=; b=GPNAAgTO5onrOHU9I+cnAXWweZ
-	hpl9HavyoznpmwkZrNXvycDV+B9IVkYmWHEzziWDam4OKjMwUPyk9JtdteK0CsEuSC2m/sClhyzCe
-	DEYVEko6oKdxp+QC739lxDdw5s/RP5xxi0HE618zYpVbtiis+X3HmKzk86kfM9rOxEsT64iuEzIG1
-	iGXBeyMrNEbJ1vVsK6IPVH+o0T6O95WIW5YetM3zj7aQhL9xNOJShDf+JW6EXyy4PbM9qi/AfmxTH
-	qwm4BEj/vhXwzE+VhDtmje3FCmfaz5Eo5wcFPPLKmENME3PPCzOhhXtWKlCQO1sNDYd2K+XO7DQ9q
-	puq/jgaA==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=y0U8KZeCA6s4bpvZ3Ttl3mLxygRB+RMYkcn6DEWuK94=; b=bak6cvi9vNA1DBBpucbtI+MYoJ
+	+o5zYtpPTWajuwv5YmgUtQOKbb1jKMjrtl6u2LDzWBusnnPlX72OrZxCsvnZJiddYMubxEvWwqCO7
+	LpsgjCv+C7e2Kj2FvPRIuLaVImjkRlwo7TGIZ2PLakVs16uHlD72s5b7qUI3/3zSik2gQ3Zwf1dT7
+	I9d+NlXUs6+GAbERNpkufUbquD2+C7xBrZMHj2uMmEsN6pmJbb4njeAjKqFNGyYdm2slb29sNNstq
+	xb2BloKh36Et54dfK3XoirgTbbYeAvU9aTlHlPxJ5uB4yOrOORkyesQu26rhw/EwHS93pwPSO5LUV
+	MhNBrvWQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rBDJp-00ClRN-1T;
-	Thu, 07 Dec 2023 12:17:29 +0000
-Received: from mail-ej1-f42.google.com ([209.85.218.42])
+	id 1rBDcI-00Cnsa-2m;
+	Thu, 07 Dec 2023 12:36:34 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rBDJm-00ClQw-0u
+	id 1rBDcF-00Cnr3-2a
 	for linux-nvme@lists.infradead.org;
-	Thu, 07 Dec 2023 12:17:28 +0000
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a1d48f0223dso22600066b.0
-        for <linux-nvme@lists.infradead.org>; Thu, 07 Dec 2023 04:17:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701951442; x=1702556242;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=g7gouQvWx6QNoqOIMmyI0JWOcykZkfTMcDroLrlbiFs=;
-        b=PFsvxrLww6KEeSQYw1H5rEI4EsWobnwEbJe0S+A/VA9FQrldixaaWhrY4a4tEuPGzq
-         nGYZouwTdDrwuqcMcEm8tx32SOotGklPkNjNrWBZJN1feHLWE7kQD+opP4jRIoxeBo9G
-         jI0M61Nv88uU4EGuES5OmmmH5lQTFFuDJDAsizwmhcicv22C/boB70wgluHdHX3TorBs
-         3r/dKSvzjps09MCp4FVG391IV7A7gTTeEW6CgFpsTN8pEvYTbcp0gSgfJDN9obiOWaDe
-         kXXSZyPmq8t6Mo3XsUUeg8AMEdMQBIewcNSog2zYVd6FSZe1YY4eHAL9LiQelcDmQrgU
-         wDwQ==
-X-Gm-Message-State: AOJu0Ywu8vsggB80tkpcK4VPZdaSO8gQKCxdsNgVXcBqi39Sl7B018VM
-	NgfPEVIT5cUbGKaxLAvCnYXl9TdlQzs=
-X-Google-Smtp-Source: AGHT+IG/ZehdKc4ncVAO8hgBFj83zLRk5vHXRZs+huqwDtv4oqF8iikN/dd2r6H5D+zOLIm/3qmLsQ==
-X-Received: by 2002:a17:906:7f08:b0:a1d:1c71:8158 with SMTP id d8-20020a1709067f0800b00a1d1c718158mr3066093ejr.4.1701951441926;
-        Thu, 07 Dec 2023 04:17:21 -0800 (PST)
-Received: from [192.168.64.177] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id e12-20020a170906314c00b009c5c5c2c5a4sm748946eje.219.2023.12.07.04.17.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Dec 2023 04:17:21 -0800 (PST)
-Message-ID: <5a3aa3ce-65f5-4be4-a4af-04a4dc7c998f@grimberg.me>
-Date: Thu, 7 Dec 2023 14:17:19 +0200
+	Thu, 07 Dec 2023 12:36:33 +0000
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B418E1FB4F;
+	Thu,  7 Dec 2023 12:36:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1701952589; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=y0U8KZeCA6s4bpvZ3Ttl3mLxygRB+RMYkcn6DEWuK94=;
+	b=f5FwqGfDBOy9U8Z5u646KUAOKbJKexPpijr70f5wK+g9ldn1oY2LYDIdyu/mKe6EA5YoHr
+	h+CjFjdCEjFIi3D+urRsKN71SbYI8hVlzREiQCd8e3m82mzsQ4chMlJFc1jYZ1K204oTWB
+	2Y3wSHWD29i0ZbQ+HMnJ5E+ri2XNIQA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1701952589;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=y0U8KZeCA6s4bpvZ3Ttl3mLxygRB+RMYkcn6DEWuK94=;
+	b=Awk6IWJEr42CiZbc7ZAQBL5MvV3Do3xHG8iHwDiENL7OK+O7wOqa/+jl27vwI/cI5xcAYN
+	cfCZZEyqIGoDCqBA==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id A09C9139E3;
+	Thu,  7 Dec 2023 12:36:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id dZXCJU28cWXzAgAAn2gu4w
+	(envelope-from <dwagner@suse.de>); Thu, 07 Dec 2023 12:36:29 +0000
+From: Daniel Wagner <dwagner@suse.de>
+To: linux-nvme@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Hannes Reinecke <hare@suse.de>,
+	Daniel Wagner <dwagner@suse.de>
+Subject: [PATCH v4 0/4] nvme: add csi, ms and nuse to sysfs
+Date: Thu,  7 Dec 2023 13:36:20 +0100
+Message-ID: <20231207123624.29959-1-dwagner@suse.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] nvmet-rdma: avoid circular locking dependency on
- install_queue()
-Content-Language: en-US
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <69b6f873-f8a1-482b-a739-b47da6e98cec@suse.de>
- <20231103091952.GA18200@lst.de>
- <e09869f2-193b-4f03-a12f-2a7f6c24d537@suse.de> <20231103140514.GA2395@lst.de>
- <d5ef550d-91da-4135-959d-e10f153514a0@grimberg.me>
- <52bd0ef3-b91e-492e-8117-41a290b6cfe6@grimberg.me>
- <c261fe62-e8e6-4470-b9e2-3047fd4c3d99@suse.de>
- <9ca33803-e2ca-4550-8d6e-1e64219fb3d9@grimberg.me>
- <e3fa3584-47e3-4712-a2ce-7fc59e603898@suse.de>
- <8cb5e071-385a-4332-af97-cef4ddfb4720@grimberg.me>
- <6nmywu5e44fkypykg27lctjmmd6ottw4t53cxgt2rmdlqgvem2@4vi5v4pbmgsv>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <6nmywu5e44fkypykg27lctjmmd6ottw4t53cxgt2rmdlqgvem2@4vi5v4pbmgsv>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spamd-Result: default: False [2.44 / 50.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 R_MISSING_CHARSET(2.50)[];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_SEVEN(0.00)[7];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 BAYES_HAM(-1.26)[89.74%];
+	 ARC_NA(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 RCVD_TLS_ALL(0.00)[]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231207_041726_338556_78C8B47A 
-X-CRM114-Status: UNSURE (   9.81  )
+X-CRM114-CacheID: sfid-20231207_043631_992034_D6F71641 
+X-CRM114-Status: UNSURE (   8.65  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -93,17 +111,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+As already reported in v3, the nvme_ns_head change was not gaining us anything.
+Instead a simple repacking of nvme_ns gives better performance. Thus these
+patches are gone. 
 
->> Yes I think so, we already place a listen backlog, so maybe we can reuse
->> that as NVME_TCP_BACKLOG or something. The same should apply to nvme-rdma.
-> 
-> Thanks for the discussion. FYI, I modified the patches by Hannes to reflect the
-> discussion above [1][2]. With these, I confirmed the lockdep WARN disappears,
-> and saw no regression in my blktests runs. Looks good. Will test again when
-> formal patches come out.
-> 
-> [1] https://github.com/kawasaki/linux/commit/dc58819d07b02bd54dbcd5b15d2600a517fcbbff
-> [2] https://github.com/kawasaki/linux/commit/20fb65d145152562d0e11a9c8065e64405c31b0d
+Thanks,
+Daniel
 
-Can you/Hannes please submit them?
+libnvme changes:
+  https://github.com/igaw/libnvme/tree/tree-no-cmd
+  
+changes:
+v4:
+ - drop 'use nvme_ns_head instead nvme_ns' patches
+ - ratelimit nuse update per namespace not globally
+ - rename ns attribute group
+ - added non-multipath nuse update logic
+ - added cacheline optimization
+
+v3:
+ - cut overlong lines shorter
+ - fixed disk (queuedata) initialization order
+ - more testing with blktest
+ - added nuse ratelimit
+ - added reviewed tags
+ - https://lore.kernel.org/linux-nvme/20231206081244.32733-1-dwagner@suse.de/
+
+v2:
+ - moved ns id data to nvme_ns_head
+ - dropped ds, nsze
+ - https://lore.kernel.org/linux-nvme/20231201092735.28592-1-dwagner@suse.de/
+
+v1:
+ - initial version
+ - https://lore.kernel.org/linux-nvme/20231127103208.25748-1-dwagner@suse.de/
+
+Daniel Wagner (4):
+  nvme: move ns id info to struct nvme_ns_head
+  nvme: rename ns attribute group
+  nvme: add csi, ms and nuse to sysfs
+  nvme: repack struct nvme_ns_head
+
+ drivers/nvme/host/core.c      |  87 ++++++++++++++--------------
+ drivers/nvme/host/ioctl.c     |   8 +--
+ drivers/nvme/host/multipath.c |   2 +-
+ drivers/nvme/host/nvme.h      |  38 +++++++------
+ drivers/nvme/host/rdma.c      |   2 +-
+ drivers/nvme/host/sysfs.c     | 103 +++++++++++++++++++++++++++++++---
+ drivers/nvme/host/zns.c       |  17 +++---
+ 7 files changed, 179 insertions(+), 78 deletions(-)
+
+-- 
+2.43.0
+
 
