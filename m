@@ -4,81 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 240D0C4167B
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Dec 2023 01:02:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 688F3C4167B
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Dec 2023 01:11:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=a+rXWANny0uHO6nzvjRs3/MCtnMqv7CRSnXsSEhy7sY=; b=4qihnKeYeiSudtep9BdzYvEB5s
-	67swMuBZI+D+BYSYb/Yc6ZSFSSNPFFaMeUfsnjoKe4CDZFGPCq8G6ct4QQh+CzuXrUt7XtiodEDLq
-	4ll4oYMtQruBDG//DNvqnY5wdsqHuHxzF1eg6zLgW25tYQoHbWtFaoTRW4LzuFpXuXz/TtZaeD2Bg
-	tRTw2+haX2N7e8S79N/q7W4mJE2oz95gHUtwKNV2Uj4N2AbojIimyVnmMLFCnmhXsKM2iCUN5pAOM
-	eznVxZga+M5PMW4QRNUnJS1JyZsFgHm4m5t9qfNHcMfBZBGPp4kFjsjhZO3D/nM5OibdVmFvG9u61
-	9L8o/GGw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ExJdtbKmNQpxsox6HxA6icn3NiLLvZaWuFWfZqOZ2U4=; b=buHDV78Ar1S9DDaq8GlI9QvTb1
+	I9jsAK58IhP3yliuvAHyYXfUEdgK1JPV0jKQyytk/OFwReS6TAl18IaWUNYeTod7YSbENruK5JC3u
+	4ogrr0oLA7Fa8yMZA/WJHV7Jttffx4KheB2oPWzLqgkBjM4tLs20K+jf4YzSQCW1hK9MPozYNY/o+
+	sxAGTVhOD9k6O3xscAOuxkGCD22nr+uf4YqjE4VMcsvmUzGICBiLHAnBlKlNks1LA6XR6QZhfYfxv
+	7ymSqpnqEEisFJhuv9YlqQOBSv+CGeGv854YAwHtHINAUs1Doy0QW5yrQ/tE4tHsP5JKQjB9V+/kt
+	0f5XNe6w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rB2m0-00BbZ2-32;
-	Thu, 07 Dec 2023 01:01:52 +0000
-Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134])
+	id 1rB2vL-00BcQQ-0C;
+	Thu, 07 Dec 2023 01:11:31 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rB2ly-00BbYg-1y
+	id 1rB2vH-00BcPM-0v
 	for linux-nvme@lists.infradead.org;
-	Thu, 07 Dec 2023 01:01:51 +0000
-Received: by mail-lf1-x134.google.com with SMTP id 2adb3069b0e04-50be58a751cso115492e87.2
-        for <linux-nvme@lists.infradead.org>; Wed, 06 Dec 2023 17:01:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701910908; x=1702515708; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=a+rXWANny0uHO6nzvjRs3/MCtnMqv7CRSnXsSEhy7sY=;
-        b=bKjypXXuBvBFRmy8Owcq1IA4icX64vwcLr89T88wosdgf/PehDTi+QKUEKHnSWhzEr
-         KYWNjrAJHnkIJgYVpnHgwgzdOpkTTKqMLjdWDYRi++YtD8iChVO41qBW3VHT4ZSip5oz
-         uc3sGdSsZfqg1qFAHrgE89gwpsg8I1oI8V8IMoSQx3aDB/61Q3WDHmzo33c25AG8a9G0
-         VPMhEO7nFV5BDsN3FgnfAm3HpfP0M7B+2pr2tOo5BAk8dp+do/9FGuYB5YSFVk+/HTHH
-         uubM50BpRq10hONAwPciNvogw7XeldQjVhKWh9J5z7sCX4rqVqvvltB2IqJUVMM1tdSg
-         cGjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701910908; x=1702515708;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=a+rXWANny0uHO6nzvjRs3/MCtnMqv7CRSnXsSEhy7sY=;
-        b=IzHafdC0r/pqXN0Fa8KX3nJSd4XqEWIxelzShhuMQEW5gywbTD3ohproBqljUGddAB
-         4Xkb8SoMRRedInHhDMDFC/VACNqBAuxyI/5Vxp4Y4Xv6ILZTF8nehVVRj6Q11iWDL29v
-         wt800K29LCzBugpKuuH9UFeZerLRryofciyAoRf1j0gM3Hvy07gNOt1RNbwZ6ep7Dcko
-         x8IKXf/UUXQBRYroJCSZPmg/KwBksEUNrOhcsPpUNX07madLN3MYdQrN4BtVFB9KfL5S
-         ef/28pgj/V6MWlGpWsoTyMm8tarPXv37sOxe3my37SsXao5EwN4dTFHVmYYHln1ZuNqU
-         viFw==
-X-Gm-Message-State: AOJu0Yw+O86S0CbnlSB3OfNxjVM/6ReTsqF8edHIq7r7O5L+cVXwNQEl
-	e09SC7YdLRxzY2RpWxn7eg/PH3rOaXFHLG1VFDY=
-X-Google-Smtp-Source: AGHT+IHzckmNKtnZ6eOoTsOs5qzRVqSfymWQafrRaRBqut1JkaNqKTmN853YKpOXutnsE06Us3WYqsyaEY388hz5RGY=
-X-Received: by 2002:ac2:44d6:0:b0:50b:e750:dd99 with SMTP id
- d22-20020ac244d6000000b0050be750dd99mr1007855lfm.38.1701910907996; Wed, 06
- Dec 2023 17:01:47 -0800 (PST)
-MIME-Version: 1.0
-References: <20231120083559.285174-1-ming.lei@redhat.com> <ZXEUyH/38KeATuF4@yury-ThinkPad>
- <20231206165453.613dbe57555f41ab4b9b0acc@linux-foundation.org>
-In-Reply-To: <20231206165453.613dbe57555f41ab4b9b0acc@linux-foundation.org>
-From: Yury Norov <yury.norov@gmail.com>
-Date: Wed, 6 Dec 2023 17:01:36 -0800
-Message-ID: <CAAH8bW-F6-uRHQ=c-C2pez365DbdRWn3izB9EmfBzvS+UHG3-A@mail.gmail.com>
+	Thu, 07 Dec 2023 01:11:28 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1701911484;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ExJdtbKmNQpxsox6HxA6icn3NiLLvZaWuFWfZqOZ2U4=;
+	b=f3N5Pg6dMQfsRAmdGpmaAFeUKG7+FqSttdBXxT7hQRxa0c4CjsThN635GF9dVVmsj7H2M6
+	2SsqHMsrkyEb73y7wuLKI/wl5oB5IMxGDDWxQz3Nf9eZaTQX2p8EJ2AP6cmaaMQY+G0411
+	oJ91x2YCikfIGY3/vHVDcLTwOapjPBo=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-609-MjrAbh1mMma7D6M1fsK8pQ-1; Wed,
+ 06 Dec 2023 20:11:21 -0500
+X-MC-Unique: MjrAbh1mMma7D6M1fsK8pQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF34E283780C;
+	Thu,  7 Dec 2023 01:11:20 +0000 (UTC)
+Received: from fedora (unknown [10.72.120.12])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 238F7492BC6;
+	Thu,  7 Dec 2023 01:11:13 +0000 (UTC)
+Date: Thu, 7 Dec 2023 09:11:09 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-kernel@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	Yi Zhang <yi.zhang@redhat.com>, Guangwu Zhang <guazhang@redhat.com>,
+	Chengming Zhou <zhouchengming@bytedance.com>,
+	Jens Axboe <axboe@kernel.dk>
 Subject: Re: [PATCH V4 resend] lib/group_cpus.c: avoid to acquire cpu hotplug
  lock in group_cpus_evenly
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Ming Lei <ming.lei@redhat.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	linux-kernel@vger.kernel.org, Keith Busch <kbusch@kernel.org>, 
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, 
-	Yi Zhang <yi.zhang@redhat.com>, Guangwu Zhang <guazhang@redhat.com>, 
-	Chengming Zhou <zhouchengming@bytedance.com>, Jens Axboe <axboe@kernel.dk>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Message-ID: <ZXEbrXwzkNMrg+bH@fedora>
+References: <20231120083559.285174-1-ming.lei@redhat.com>
+ <ZXEUyH/38KeATuF4@yury-ThinkPad>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZXEUyH/38KeATuF4@yury-ThinkPad>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231206_170150_691094_8AB418DB 
-X-CRM114-Status: GOOD (  13.67  )
+X-CRM114-CacheID: sfid-20231206_171127_422350_C9D527EA 
+X-CRM114-Status: GOOD (  38.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,23 +87,134 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Dec 6, 2023 at 4:54=E2=80=AFPM Andrew Morton <akpm@linux-foundation=
-.org> wrote:
->
-> On Wed, 6 Dec 2023 16:41:44 -0800 Yury Norov <yury.norov@gmail.com> wrote=
-:
->
-> > Although, it's not related to this patch directly. So, if you fix
-> > zalloc_cpumask_var(), the patch looks good to me.
-> >
-> > Reviewed-by: Yury Norov <yury.norov@gmail.com>
->
-> Thanks.
->
-> I just moved this into mm.git's non-rebasing mm-hotfixes-stable branch,
-> so I'd prefer not to have to redo it at this stage.
->
-> Let's do these things (with which I agree) as a followup patch, please.
+On Wed, Dec 06, 2023 at 04:41:44PM -0800, Yury Norov wrote:
+> Hi Ming,
+> 
+> On Mon, Nov 20, 2023 at 04:35:59PM +0800, Ming Lei wrote:
+> > group_cpus_evenly() could be part of storage driver's error handler,
+> > such as nvme driver, when may happen during CPU hotplug, in which
+> > storage queue has to drain its pending IOs because all CPUs associated
+> > with the queue are offline and the queue is becoming inactive. And
+> > handling IO needs error handler to provide forward progress.
+> > 
+> > Then dead lock is caused:
+> > 
+> > 1) inside CPU hotplug handler, CPU hotplug lock is held, and blk-mq's
+> > handler is waiting for inflight IO
+> > 
+> > 2) error handler is waiting for CPU hotplug lock
+> > 
+> > 3) inflight IO can't be completed in blk-mq's CPU hotplug handler because
+> > error handling can't provide forward progress.
+> > 
+> > Solve the deadlock by not holding CPU hotplug lock in group_cpus_evenly(),
+> > in which two stage spreads are taken: 1) the 1st stage is over all present
+> > CPUs; 2) the end stage is over all other CPUs.
+> > 
+> > Turns out the two stage spread just needs consistent 'cpu_present_mask', and
+> > remove the CPU hotplug lock by storing it into one local cache. This way
+> > doesn't change correctness, because all CPUs are still covered.
+> > 
+> > Cc: Keith Busch <kbusch@kernel.org>
+> > Cc: linux-nvme@lists.infradead.org
+> > Cc: linux-block@vger.kernel.org
+> > Reported-by: Yi Zhang <yi.zhang@redhat.com>
+> > Reported-by: Guangwu Zhang <guazhang@redhat.com>
+> > Tested-by: Guangwu Zhang <guazhang@redhat.com>
+> > Reviewed-by: Chengming Zhou <zhouchengming@bytedance.com>
+> > Reviewed-by: Jens Axboe <axboe@kernel.dk>
+> > Signed-off-by: Ming Lei <ming.lei@redhat.com>
+> > ---
+> >  lib/group_cpus.c | 22 ++++++++++++++++------
+> >  1 file changed, 16 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/lib/group_cpus.c b/lib/group_cpus.c
+> > index aa3f6815bb12..ee272c4cefcc 100644
+> > --- a/lib/group_cpus.c
+> > +++ b/lib/group_cpus.c
+> > @@ -366,13 +366,25 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
+> >  	if (!masks)
+> >  		goto fail_node_to_cpumask;
+> >  
+> > -	/* Stabilize the cpumasks */
+> > -	cpus_read_lock();
+> >  	build_node_to_cpumask(node_to_cpumask);
+> >  
+> > +	/*
+> > +	 * Make a local cache of 'cpu_present_mask', so the two stages
+> > +	 * spread can observe consistent 'cpu_present_mask' without holding
+> > +	 * cpu hotplug lock, then we can reduce deadlock risk with cpu
+> > +	 * hotplug code.
+> > +	 *
+> > +	 * Here CPU hotplug may happen when reading `cpu_present_mask`, and
+> > +	 * we can live with the case because it only affects that hotplug
+> > +	 * CPU is handled in the 1st or 2nd stage, and either way is correct
+> > +	 * from API user viewpoint since 2-stage spread is sort of
+> > +	 * optimization.
+> > +	 */
+> > +	cpumask_copy(npresmsk, data_race(cpu_present_mask));
+> 
+> Now that you initialize the npresmsk explicitly, you can allocate it
+> using alloc_cpumask_var().
 
-Sure, I can do that, and append to my series.
+Indeed, but this way is actually before this patch, and not related with
+this fix.
+
+> 
+> The same actually holds for nmsk too, and even before this patch. Maybe
+> fix it in a separate prepending patch?
+
+Yeah, 'nmsk' is similar with 'npresmsk', and it is not fix, just one
+optimization.
+
+group_cpus_evenly() is only run in slow path, so this kind of
+micro-optimization is not urgent and should be done in standalone
+patch, and even we can live with it.
+
+> 
+> > +
+> >  	/* grouping present CPUs first */
+> >  	ret = __group_cpus_evenly(curgrp, numgrps, node_to_cpumask,
+> > -				  cpu_present_mask, nmsk, masks);
+> > +				  npresmsk, nmsk, masks);
+> >  	if (ret < 0)
+> >  		goto fail_build_affinity;
+> >  	nr_present = ret;
+> > @@ -387,15 +399,13 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps)
+> >  		curgrp = 0;
+> >  	else
+> >  		curgrp = nr_present;
+> > -	cpumask_andnot(npresmsk, cpu_possible_mask, cpu_present_mask);
+> > +	cpumask_andnot(npresmsk, cpu_possible_mask, npresmsk);
+> >  	ret = __group_cpus_evenly(curgrp, numgrps, node_to_cpumask,
+> >  				  npresmsk, nmsk, masks);
+> 
+> The first thing the helper does is checking if nprepmask is empty.
+> cpumask_andnot() returns false in that case. So, assuming that present
+> cpumask in the previous call can't be empty, we can save few cycles if
+> drop corresponding check in the helper and do like this:
+>         
+> 	if (cpumask_andnot(npresmsk, cpu_possible_mask, npresmsk) == 0) {
+>                 nr_others = 0;
+>                 goto fail_build_affinity;
+>         }
+> 
+>   	ret = __group_cpus_evenly(curgrp, numgrps, node_to_cpumask,
+>   				  npresmsk, nmsk, masks);
+> 
+> Although, it's not related to this patch directly. So, if you fix
+> zalloc_cpumask_var(), the patch looks good to me.
+
+I'd rather not make things complicated, as mentioned this API is only
+run in slow path.
+
+> 
+> Reviewed-by: Yury Norov <yury.norov@gmail.com>
+
+Thanks for the review!
+
+
+Thanks, 
+Ming
+
 
