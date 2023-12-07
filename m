@@ -4,61 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8B13C4167B
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Dec 2023 16:45:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 048CDC4167B
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Dec 2023 17:00:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RWOFC6IBNyaY+k69wH5pBEtEPXyyRGXMkoHVwyv4/m4=; b=0HjJ8glTuaIO9f/WzDfrcnt+8f
-	iJQ9U1uKhvrK6K4LNxBRavcLNtrd5Try8HQ/0EEucm1GtA6kmnRFvTbwsoqhYJcBRR5gPKaAFqoZY
-	ZlINocy/JcSy2Qedhr0Vf69mgu/pL3M0V/SFJkYGo4Zxktq32uSc7ZpEuivEWPd9svqtliqQL2e2K
-	8dJC4BEqzrlqFQOGh7oRkh5AaCzjxSt4FskOg6bOQN/jJMA55PWya8fiuOdoSw3cl5yvM5sbFd+CZ
-	nMN7So1X/wWKBSk0YJH+vNhnEZV+FYKpdzVz2SlzOglE9ITzGip9qUBrOALvH8nx3cnSghlGge/KC
-	7FLs1X3g==;
+	bh=OLCSibMyzPJyDMrC13IEe5TSwMOpnh1gXITCNgapoEU=; b=qxQ2cWRcbDcevGGFnMkpYQImWo
+	1jzmRec1GXb6np0Yzq4WqO569WXPRaLVhrguECAf3UxCsDroRugzWOuXXDbIOi8LI913UV4tfH7OU
+	ymFbCC1p1rM/N67keO2OWb/ikq1+5sBed43ywpy+wVasIwCl591H3WhFVbnPj1CJUlCDIg3WPfLtj
+	4M3y7IlAppammHePSisGMp8UEW85I3L2zCwDHlermrVUFtHgJfvtllQl3N0Aef7lLZkMk4EhWuCT/
+	92DUSQuSf/Fs1ATyMLgcDxn66FVZyKOaY2U+oFuN1ChkeoMtH6vQ6yYO5IP68RKxh7Q/0awVN1vbM
+	PmxOnDyA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rBHUm-00DRCY-2s;
-	Thu, 07 Dec 2023 16:45:04 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1rBHjY-00DSxE-2k;
+	Thu, 07 Dec 2023 17:00:20 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rBHUk-00DRBp-0K
+	id 1rBHjW-00DSwp-2m
 	for linux-nvme@lists.infradead.org;
-	Thu, 07 Dec 2023 16:45:03 +0000
+	Thu, 07 Dec 2023 17:00:20 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 5720661D5F;
-	Thu,  7 Dec 2023 16:45:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85FEDC433C7;
-	Thu,  7 Dec 2023 16:45:00 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id C7F52CE229F;
+	Thu,  7 Dec 2023 17:00:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B5EDC433C7;
+	Thu,  7 Dec 2023 17:00:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701967501;
-	bh=r+2jjC0f0ebNBy1BCSaTbfdEHy6BgmMv/wALzLuGFfI=;
+	s=k20201202; t=1701968416;
+	bh=OLCSibMyzPJyDMrC13IEe5TSwMOpnh1gXITCNgapoEU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=O56R/5dxnNuijI23Fdx2eClph/7XUdaH7+xQVKceIHKqtHIUa8zQ3HuzXiQxzW/Cn
-	 l+66bW9N17S2w5Tx9CeE8OfpgcfehGmlSYAtcF1/NNoEvCQ2ErSUDrJGPsxiQZ/XDv
-	 i+kSR00V0rPvGaZqdv5iy9d4a9xTQFEb2I56bxvg4POZz2R9ZvVLeoApwmqgE0Fb5X
-	 BvZXqy9c2cF5A9I1R0UBVSeqZWiuzyxnRHpWChxNzv9A+5nuzQeUYtnU5W1yyDy0Mc
-	 5NEZFKc0baTll7ZqT8PgeEoGoP1X1EWkwREJswtHCIdMn7PqIhvhdMymJppy0wKYQo
-	 zgFY37u9FLN/Q==
-Date: Thu, 7 Dec 2023 09:44:58 -0700
+	b=KUUoG6fG9mLK1UFSbZrdcTkR+0Wx+SUw8Q+NFi7WnYvDWNmVVFkoxsQhgiBtTADca
+	 WXL9SpxVhqMQs6vGYgRK6kfC20KGyCWfTSEL3PyBNWQHdCJleLujmfVoeLAs2LG8T4
+	 HI4P3k8BFjiwhYsrjRtieYSvGhLMhkp/oUGZlzHcU7fegu0QxSlfw9GLQ8pVPsfIRr
+	 Lehjo9Wvmjfpk3uS9/b9lo7/RSbadoBZ7IPJ0Ktfw1RyQ9kMhiYrRydOTazW+ulXlA
+	 iBfyn5syAEPhvMuZ7ngHhLs7wzVSg7uDEtKjVACZS7ypJ46ZO+QXFfxDEhCp7oj7L3
+	 7gueV4J4yaE5A==
+Date: Thu, 7 Dec 2023 10:00:12 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH v4 3/4] nvme: add csi, ms and nuse to sysfs
-Message-ID: <ZXH2is7F56nRlGqd@kbusch-mbp>
-References: <20231207123624.29959-1-dwagner@suse.de>
- <20231207123624.29959-4-dwagner@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Georg Gottleuber <g.gottleuber@tuxedocomputers.com>,
+	Werner Sembach <wse@tuxedocomputers.com>,
+	Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
+	Georg Gottleuber <ggo@tuxedocomputers.com>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvme-pci: Add sleep quirk for Kingston drives
+Message-ID: <ZXH6HOpgBoUlnxFu@kbusch-mbp>
+References: <20230920085210.22573-1-wse@tuxedocomputers.com>
+ <12d32e8e-e20b-4023-8299-39d2a69c0cd9@tuxedocomputers.com>
+ <20231206092420.GA27348@lst.de>
+ <c930e543-7dab-4559-95d2-270b8df38f3b@tuxedocomputers.com>
+ <20231207152048.GA20561@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231207123624.29959-4-dwagner@suse.de>
+In-Reply-To: <20231207152048.GA20561@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231207_084502_198171_2FFE4356 
-X-CRM114-Status: UNSURE (   8.62  )
+X-CRM114-CacheID: sfid-20231207_090019_072132_22B1B5F9 
+X-CRM114-Status: UNSURE (   6.18  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -74,20 +79,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Dec 07, 2023 at 01:36:23PM +0100, Daniel Wagner wrote:
-> @@ -3418,6 +3419,7 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
->  	head->ns_id = info->nsid;
->  	head->ids = info->ids;
->  	head->shared = info->is_shared;
-> +	ratelimit_state_init(&head->rs_nuse, 5 * HZ, 1);
->  	kref_init(&head->ref);
-
-I think we need to add:
-
-	ratelimit_set_flags(&head->rs_nuse, RATELIMIT_MSG_ON_RELEASE);	
-
-So that we don't get periodic messages like:
-
-	[   60.469730] ns_head_update_nuse: 39 callbacks suppressed
-	[  159.532901] ns_head_update_nuse: 1999 callbacks suppressed
+Thanks, applied for nvme-6.7
 
