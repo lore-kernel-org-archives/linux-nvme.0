@@ -4,73 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D3D02C10DCE
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Dec 2023 10:53:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2848BC10F05
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Dec 2023 10:53:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=6Zx4HAi3MJCgNFhjRTmgq2e0WGxIXkyuLgVhCxu8ER4=; b=tON1jjAqTUNmgezt26gv551DPO
-	mzmoWVlb2Tp4y4ao1coRaxHte2vncKmkpqsaK+JIGBBZiHClV6B7TxGGaDz0vNpthMfszlEMZEv/V
-	LgwXt5Lu/+KJUT5jOAawdeTZ6EjL0wZ53iOUZjt65TG9J/Bsc4fFoDaq4XTnfcYVeuKYQrHJ2LR6P
-	aAYrNW3aOpQ0w4YstEpvtTNfADAzGp3R6Udodg4nZ8aat0tS4PI1rgkaJiLhUDf3sa6yqCsG9cm9i
-	uTWGMTPdFUVuTyF4Lu+ENGRvCHYiU0G7ZUxsCHCcy3jYdtvmmqCsVhO3IRhRCPM1YfPROQhPXv8L8
-	aNAyVOZg==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=hWczCS20tTRrwDpvwe8/CSLdZ7ac/VDOdxeHB+SKxMI=; b=XjRGpON1PV6ZLy83Y2Yea0K2Gl
+	kvuAZoD1sUpz7KyNYiI6TfiWYquAASyp4UzpE5Gqw02ntYmlAdvb9Xx/rlJGiPXlD0bkbDvDb5V28
+	ZiJRZ9HND7SyiSXTI4mgod1ubhnI0UCefg8dkfwt3FR77kC/H8x1Bufna4QH1Q5TbFxFHLOJx5NQ7
+	hrFaDEAiz0OOusjsIajCQZ9L8Z9f/lnxC/i9gn8NQuOx/SbRCtOhycXf/m0TUmN9vil7izRZNbTB6
+	vMwK+hL60Xha5OHwY7vXmCH3kbCyBp0kkkM6EubwUIMkBLT8MuRDJ+QKE6rlyVlgCKoxlCoiKnISn
+	XIC/uIwg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rBYUT-00FIdl-0h;
-	Fri, 08 Dec 2023 10:53:53 +0000
+	id 1rBYUU-00FIeU-0E;
+	Fri, 08 Dec 2023 10:53:54 +0000
 Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rBYUM-00FIZs-1N
+	id 1rBYUM-00FIaC-0s
 	for linux-nvme@lists.infradead.org;
 	Fri, 08 Dec 2023 10:53:49 +0000
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DEC0421188;
-	Fri,  8 Dec 2023 10:53:41 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E80F72118E;
+	Fri,  8 Dec 2023 10:53:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1702032822; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=6Zx4HAi3MJCgNFhjRTmgq2e0WGxIXkyuLgVhCxu8ER4=;
-	b=RsM65RxuZ6KhnsXcJTF2e2b6V4QR+YE9Vpt3JG3588WOLNGuB564xU9WIcUxF3AemyyLFo
-	3ZJtxIv6T4wexY2IdLb9hWoXJtEX6hqo3Ed2jyMp0QkR/hV9EI6n9+EfDoQu4oeLO/j9dP
-	x6gRH67YwfTuKVgBuyVmwe+ITwtMJlA=
+	t=1702032825; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hWczCS20tTRrwDpvwe8/CSLdZ7ac/VDOdxeHB+SKxMI=;
+	b=IHsm223H1P1U4r7Eji/BGR5s099PArvMt8Gt/UMckdqQ7fWZ5ViIzcaI42LRbcujlktYqs
+	+3n7Xkr1vX0GKT/lFGuWNtQyHgo86y3Lm/jQzeosRNO38rH9/IdkzqMC2pjamH1FgjGxz2
+	r7x2sM7zGcqca+beePCj2/kTkUHAK68=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1702032822;
+	s=susede2_ed25519; t=1702032825;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=6Zx4HAi3MJCgNFhjRTmgq2e0WGxIXkyuLgVhCxu8ER4=;
-	b=z9ziEXhl7MuZz6oxhcmGhYOBJOQPPJhPPkJPgIFPaAqVKoFoPPPDauT0uscSKBgfRIcXbu
-	22phbi0vZgNTQaCA==
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hWczCS20tTRrwDpvwe8/CSLdZ7ac/VDOdxeHB+SKxMI=;
+	b=Ljd9YXXO1FdfrOmzNuF5RVlvmEY365GmBqsz9tREmTnchGd4XuQIU3n9qnnzoEB3I6YVVs
+	nIa2NZ94sFx6XJCA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1702032821; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=6Zx4HAi3MJCgNFhjRTmgq2e0WGxIXkyuLgVhCxu8ER4=;
-	b=k+A13JlbZTevnEwzRtZOvgLGvMpi5AFZtYRF/yqpUr/Xv1hFLcLawFYIyq37oE4gCZvnWG
-	5uj9wS2lB9GntbdzMqflUCDPPjei4vGIPuziiMQDvYhcPycnI9tt0l61M/uEoWLtWsvbjf
-	axWPIcz+qKKYhta6BR6JfZ5na49aUI8=
+	t=1702032824; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hWczCS20tTRrwDpvwe8/CSLdZ7ac/VDOdxeHB+SKxMI=;
+	b=FYg1nsf/pUHgyWqOw9QdWXvHGxahOsmrtwSJchtojW1QLeleRvxgm0g6DNiNPGB3x2H3Zg
+	SBpaO8W2tXdVvlBAPpNBeLsXOS63B5smMjPQuluQdmQ5K/NzqZX4X5kVkAtlQ5uicZqNVf
+	sm9k7coB1OPlydS1OugGArrC/BARyRI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1702032821;
+	s=susede2_ed25519; t=1702032824;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=6Zx4HAi3MJCgNFhjRTmgq2e0WGxIXkyuLgVhCxu8ER4=;
-	b=K2Soa8xnuHMJGI690socST+ObCRivTV0kP1mykMJ4tC+GQHxh0+40N5wVbprkVB77usy/Q
-	5C1LL1WM0mEQAJCw==
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hWczCS20tTRrwDpvwe8/CSLdZ7ac/VDOdxeHB+SKxMI=;
+	b=k5AveeftcK6eLCcRnmk5qr09Ze+8kxs/x925wKJJSVibB9ABJoJx7FR4fJ2u6majrKtj1y
+	Mvcq9Td0iA5rM7AQ==
 Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id C0C5B138FF;
-	Fri,  8 Dec 2023 10:53:41 +0000 (UTC)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id D6347138FF;
+	Fri,  8 Dec 2023 10:53:44 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id +maaLbX1cmUtVgAAn2gu4w
-	(envelope-from <dwagner@suse.de>); Fri, 08 Dec 2023 10:53:41 +0000
+	id gNviMrj1cmU7VgAAn2gu4w
+	(envelope-from <dwagner@suse.de>); Fri, 08 Dec 2023 10:53:44 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org,
@@ -79,52 +87,38 @@ Cc: linux-kernel@vger.kernel.org,
 	Sagi Grimberg <sagi@grimberg.me>,
 	Hannes Reinecke <hare@suse.de>,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH v5 0/6] nvme: add csi, ms and nuse to sysfs
-Date: Fri,  8 Dec 2023 11:53:31 +0100
-Message-ID: <20231208105337.23409-1-dwagner@suse.de>
+Subject: [PATCH v5 5/6] nvme: add csi, ms and nuse to sysfs
+Date: Fri,  8 Dec 2023 11:53:36 +0100
+Message-ID: <20231208105337.23409-6-dwagner@suse.de>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20231208105337.23409-1-dwagner@suse.de>
+References: <20231208105337.23409-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.29 / 50.00];
+X-Spamd-Result: default: False [1.90 / 50.00];
+	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 BAYES_SPAM(5.10)[100.00%];
+	 FROM_HAS_DN(0.00)[];
 	 TO_DN_SOME(0.00)[];
 	 R_MISSING_CHARSET(2.50)[];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 R_SPF_SOFTFAIL(0.00)[~all:c];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 DMARC_POLICY_ALLOW(0.00)[suse.de,none];
-	 RCPT_COUNT_SEVEN(0.00)[7];
-	 MX_GOOD(-0.01)[];
-	 DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 ARC_NA(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 FROM_HAS_DN(0.00)[];
-	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
 	 MIME_GOOD(-0.10)[text/plain];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 WHITELIST_DMARC(-7.00)[suse.de:D:+];
+	 RCPT_COUNT_SEVEN(0.00)[7];
 	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
 	 RCVD_TLS_ALL(0.00)[];
-	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:98:from]
-X-Spamd-Bar: /
-X-Rspamd-Server: rspamd1
-X-Rspamd-Queue-Id: DEC0421188
+	 BAYES_HAM(-3.00)[100.00%]
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=k+A13Jlb;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=K2Soa8xn;
-	spf=softfail (smtp-out1.suse.de: 2a07:de40:b281:104:10:150:64:98 is neither permitted nor denied by domain of dwagner@suse.de) smtp.mailfrom=dwagner@suse.de;
-	dmarc=pass (policy=none) header.from=suse.de
+	none
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231208_025346_635779_DBC2117E 
-X-CRM114-Status: UNSURE (   9.94  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20231208_025346_490241_56C3D0F3 
+X-CRM114-Status: GOOD (  21.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -139,77 +133,205 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-I've added two new refactoring patches which convert a bunch of functions to
-accpet nvme_ns_head instead of nvme_ns. Though I've left out the conversion of
-nvme_update_ns_info_block because there are still users of nvme_ns deeper down
-the callchain.
+libnvme is using the sysfs for enumarating the nvme resources. Though
+there are few missing attritbutes in the sysfs. For these libnvme issues
+commands during discovering.
 
-Besides this I've addressed all comments from v4, remove debug output, silence
-ratelimit messages and revert the nvme_ns_head coversion in
-nvme_zns_alloc_report_buffer.
+As the kernel already knows all these attributes and we would like to
+avoid libnvme to issue commands all the time, expose these missing
+attributes.
 
-The benchmark numbers are still roughly the same and all blktests for all
-transports pass with this change. My previous claim in v3 that something is
-broken for rdma turned out it's my test that setup was b0rken.
+The nuse value is updated on request because the nuse is a volatile
+value. Since any user can read the sysfs attribute, a very simple rate
+limit is added (update once every 5 seconds). A more sophisticated
+update strategy can be added later if there is actually a need for it.
 
-Thanks,
-Daniel
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Daniel Wagner <dwagner@suse.de>
+---
+ drivers/nvme/host/core.c  |  6 ++-
+ drivers/nvme/host/nvme.h  |  6 +++
+ drivers/nvme/host/sysfs.c | 85 +++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 96 insertions(+), 1 deletion(-)
 
-libnvme changes:
-  https://github.com/igaw/libnvme/tree/tree-no-cmd
-  
-changes:
-v5:
- - reverted trigger happy conversion to nvme_ns_head in
-   nvme_zns_alloc_report_buffer
- - removed debug output
- - added refactoring patches
- - ratelimit silence suppress messages
- - added reviewed tags
-
-v4:
- - drop 'use nvme_ns_head instead nvme_ns' patches
- - ratelimit nuse update per namespace not globally
- - rename ns attribute group
- - added non-multipath nuse update logic
- - added cacheline optimization
- - https://lore.kernel.org/linux-nvme/20231207123624.29959-1-dwagner@suse.de/
-
-v3:
- - cut overlong lines shorter
- - fixed disk (queuedata) initialization order
- - more testing with blktest
- - added nuse ratelimit
- - added reviewed tags
- - https://lore.kernel.org/linux-nvme/20231206081244.32733-1-dwagner@suse.de/
-
-v2:
- - moved ns id data to nvme_ns_head
- - dropped ds, nsze
- - https://lore.kernel.org/linux-nvme/20231201092735.28592-1-dwagner@suse.de/
-
-v1:
- - initial version
- - https://lore.kernel.org/linux-nvme/20231127103208.25748-1-dwagner@suse.de/
-
-
-Daniel Wagner (6):
-  nvme: move ns id info to struct nvme_ns_head
-  nvme: refactor ns info helpers
-  nvme: refactor ns info setup function
-  nvme: rename ns attribute group
-  nvme: add csi, ms and nuse to sysfs
-  nvme: repack struct nvme_ns_head
-
- drivers/nvme/host/core.c      | 168 ++++++++++++++++++----------------
- drivers/nvme/host/ioctl.c     |   8 +-
- drivers/nvme/host/multipath.c |   2 +-
- drivers/nvme/host/nvme.h      |  44 +++++----
- drivers/nvme/host/rdma.c      |   4 +-
- drivers/nvme/host/sysfs.c     |  99 ++++++++++++++++++--
- drivers/nvme/host/zns.c       |  35 +++----
- 7 files changed, 233 insertions(+), 127 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index c537914b75e3..3138cbb3b380 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -20,6 +20,7 @@
+ #include <linux/ptrace.h>
+ #include <linux/nvme_ioctl.h>
+ #include <linux/pm_qos.h>
++#include <linux/ratelimit.h>
+ #include <asm/unaligned.h>
+ 
+ #include "nvme.h"
+@@ -1459,7 +1460,7 @@ static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl,
+ 	return status;
+ }
+ 
+-static int nvme_identify_ns(struct nvme_ctrl *ctrl, unsigned nsid,
++int nvme_identify_ns(struct nvme_ctrl *ctrl, unsigned nsid,
+ 			struct nvme_id_ns **id)
+ {
+ 	struct nvme_command c = { };
+@@ -2061,6 +2062,7 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 	blk_mq_freeze_queue(ns->disk->queue);
+ 	lbaf = nvme_lbaf_index(id->flbas);
+ 	ns->head->lba_shift = id->lbaf[lbaf].ds;
++	ns->head->nuse = le64_to_cpu(id->nuse);
+ 	nvme_set_queue_limits(ns->ctrl, ns->queue);
+ 
+ 	ret = nvme_configure_metadata(ns->ctrl, ns->head, id);
+@@ -3423,6 +3425,8 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
+ 	head->ns_id = info->nsid;
+ 	head->ids = info->ids;
+ 	head->shared = info->is_shared;
++	ratelimit_state_init(&head->rs_nuse, 5 * HZ, 1);
++	ratelimit_set_flags(&head->rs_nuse, RATELIMIT_MSG_ON_RELEASE);
+ 	kref_init(&head->ref);
+ 
+ 	if (head->ids.csi) {
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index b783b37328fa..8912292720d4 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -16,6 +16,7 @@
+ #include <linux/rcupdate.h>
+ #include <linux/wait.h>
+ #include <linux/t10-pi.h>
++#include <linux/ratelimit_types.h>
+ 
+ #include <trace/events/block.h>
+ 
+@@ -456,6 +457,7 @@ struct nvme_ns_head {
+ 	u16			pi_size;
+ 	u16			sgs;
+ 	u32			sws;
++	u64			nuse;
+ 	u8			pi_type;
+ 	u8			guard_type;
+ #ifdef CONFIG_BLK_DEV_ZONED
+@@ -463,6 +465,8 @@ struct nvme_ns_head {
+ #endif
+ 	unsigned long		features;
+ 
++	struct ratelimit_state	rs_nuse;
++
+ 	struct cdev		cdev;
+ 	struct device		cdev_device;
+ 
+@@ -867,6 +871,8 @@ int nvme_ns_chr_uring_cmd(struct io_uring_cmd *ioucmd,
+ 		unsigned int issue_flags);
+ int nvme_ns_head_chr_uring_cmd(struct io_uring_cmd *ioucmd,
+ 		unsigned int issue_flags);
++int nvme_identify_ns(struct nvme_ctrl *ctrl, unsigned nsid,
++		struct nvme_id_ns **id);
+ int nvme_getgeo(struct block_device *bdev, struct hd_geometry *geo);
+ int nvme_dev_uring_cmd(struct io_uring_cmd *ioucmd, unsigned int issue_flags);
+ 
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+index d682d0a667a0..3cfae0c3af76 100644
+--- a/drivers/nvme/host/sysfs.c
++++ b/drivers/nvme/host/sysfs.c
+@@ -114,12 +114,97 @@ static ssize_t nsid_show(struct device *dev, struct device_attribute *attr,
+ }
+ static DEVICE_ATTR_RO(nsid);
+ 
++static ssize_t csi_show(struct device *dev, struct device_attribute *attr,
++		char *buf)
++{
++	return sysfs_emit(buf, "%d\n", dev_to_ns_head(dev)->ids.csi);
++}
++static DEVICE_ATTR_RO(csi);
++
++static ssize_t metadata_bytes_show(struct device *dev,
++		struct device_attribute *attr, char *buf)
++{
++	return sysfs_emit(buf, "%d\n", dev_to_ns_head(dev)->ms);
++}
++static DEVICE_ATTR_RO(metadata_bytes);
++
++static int ns_head_update_nuse(struct nvme_ns_head *head)
++{
++	struct nvme_id_ns *id;
++	struct nvme_ns *ns;
++	int srcu_idx, ret = -EWOULDBLOCK;
++
++	/* Avoid issuing commands too often by rate limiting the update */
++	if (!__ratelimit(&head->rs_nuse))
++		return 0;
++
++	srcu_idx = srcu_read_lock(&head->srcu);
++	ns = nvme_find_path(head);
++	if (!ns)
++		goto out_unlock;
++
++	ret = nvme_identify_ns(ns->ctrl, head->ns_id, &id);
++	if (ret)
++		goto out_unlock;
++
++	head->nuse = le64_to_cpu(id->nuse);
++	kfree(id);
++
++out_unlock:
++	srcu_read_unlock(&head->srcu, srcu_idx);
++	return ret;
++}
++
++static int ns_update_nuse(struct nvme_ns *ns)
++{
++	struct nvme_id_ns *id;
++	int ret;
++
++	/* Avoid issuing commands too often by rate limiting the update. */
++	if (!__ratelimit(&ns->head->rs_nuse))
++		return 0;
++
++	ret = nvme_identify_ns(ns->ctrl, ns->head->ns_id, &id);
++	if (ret)
++		goto out_free_id;
++
++	ns->head->nuse = le64_to_cpu(id->nuse);
++
++out_free_id:
++	kfree(id);
++
++	return ret;
++}
++
++static ssize_t nuse_show(struct device *dev, struct device_attribute *attr,
++		char *buf)
++{
++	struct nvme_ns_head *head = dev_to_ns_head(dev);
++	struct gendisk *disk = dev_to_disk(dev);
++	struct block_device *bdev = disk->part0;
++	int ret;
++
++	if (IS_ENABLED(CONFIG_NVME_MULTIPATH) &&
++	    bdev->bd_disk->fops == &nvme_ns_head_ops)
++		ret = ns_head_update_nuse(head);
++	else
++		ret = ns_update_nuse(bdev->bd_disk->private_data);
++	if (ret)
++		return ret;
++
++	return sysfs_emit(buf, "%llu\n", head->nuse);
++}
++static DEVICE_ATTR_RO(nuse);
++
+ static struct attribute *nvme_ns_attrs[] = {
+ 	&dev_attr_wwid.attr,
+ 	&dev_attr_uuid.attr,
+ 	&dev_attr_nguid.attr,
+ 	&dev_attr_eui.attr,
++	&dev_attr_csi.attr,
+ 	&dev_attr_nsid.attr,
++	&dev_attr_metadata_bytes.attr,
++	&dev_attr_nuse.attr,
+ #ifdef CONFIG_NVME_MULTIPATH
+ 	&dev_attr_ana_grpid.attr,
+ 	&dev_attr_ana_state.attr,
 -- 
 2.43.0
 
