@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2848BC10F05
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 674D6C10F09
 	for <linux-nvme@archiver.kernel.org>; Fri,  8 Dec 2023 10:53:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,73 +12,73 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hWczCS20tTRrwDpvwe8/CSLdZ7ac/VDOdxeHB+SKxMI=; b=XjRGpON1PV6ZLy83Y2Yea0K2Gl
-	kvuAZoD1sUpz7KyNYiI6TfiWYquAASyp4UzpE5Gqw02ntYmlAdvb9Xx/rlJGiPXlD0bkbDvDb5V28
-	ZiJRZ9HND7SyiSXTI4mgod1ubhnI0UCefg8dkfwt3FR77kC/H8x1Bufna4QH1Q5TbFxFHLOJx5NQ7
-	hrFaDEAiz0OOusjsIajCQZ9L8Z9f/lnxC/i9gn8NQuOx/SbRCtOhycXf/m0TUmN9vil7izRZNbTB6
-	vMwK+hL60Xha5OHwY7vXmCH3kbCyBp0kkkM6EubwUIMkBLT8MuRDJ+QKE6rlyVlgCKoxlCoiKnISn
-	XIC/uIwg==;
+	bh=4FBiDaOFzP8RLJjbUw4tyCylAQX06GbRBT0ixmFvMiM=; b=pN/XJ+g+9hFpVxLU4GyMYkUIb8
+	ImuN35Lycog82WS/McNIVTVxG1c0Fc5oStDusOuqY8haEZhIjS5YTzWtlJ+Y6TsxPh7m+vGrNeF/8
+	7ndLJM8Fb8AMOxIeALJtg1NAe06LKc6Q6n0/owkOtOf53x5wKZIvOahgo6W1i0sBjvNME0eGffr9O
+	k9fsLzknw81ICRIgfra3Qo9t70zV/sSYeOg0uEhOJNakWZnJKuoO39qc5G6xzSS3/sqmzMc73HIo7
+	6q15wsCYFdnpJ9LySXZSUWp+6S+bVZF6+WmrnG9oPS4rYcJ1kQlMvvRSaWj/H70JNxap7cryArayT
+	4hKw2a1Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rBYUU-00FIeU-0E;
+	id 1rBYUU-00FIex-2Y;
 	Fri, 08 Dec 2023 10:53:54 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rBYUM-00FIaC-0s
+	id 1rBYUM-00FIaA-1z
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Dec 2023 10:53:49 +0000
+	Fri, 08 Dec 2023 10:53:50 +0000
 Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E80F72118E;
-	Fri,  8 Dec 2023 10:53:44 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B0DAB2118D;
+	Fri,  8 Dec 2023 10:53:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1702032825; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1702032823; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hWczCS20tTRrwDpvwe8/CSLdZ7ac/VDOdxeHB+SKxMI=;
-	b=IHsm223H1P1U4r7Eji/BGR5s099PArvMt8Gt/UMckdqQ7fWZ5ViIzcaI42LRbcujlktYqs
-	+3n7Xkr1vX0GKT/lFGuWNtQyHgo86y3Lm/jQzeosRNO38rH9/IdkzqMC2pjamH1FgjGxz2
-	r7x2sM7zGcqca+beePCj2/kTkUHAK68=
+	bh=4FBiDaOFzP8RLJjbUw4tyCylAQX06GbRBT0ixmFvMiM=;
+	b=Yrn/Ettdd2uAK4Hp3j7LSZxcFDmQ6BNHa8J/GRiW9YE5gt/NBdN81zY4G2n6HHdK/ndzqa
+	JfwJANI7d3eR3ur3qsWD0KMtIGADyuUvU+JrIifB9YsHh6FQb19XqmECdxc9YWwuGZpVqm
+	UDSOg1bGZKtdlvx9pdCdz3YvPCRUtpY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1702032825;
+	s=susede2_ed25519; t=1702032823;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hWczCS20tTRrwDpvwe8/CSLdZ7ac/VDOdxeHB+SKxMI=;
-	b=Ljd9YXXO1FdfrOmzNuF5RVlvmEY365GmBqsz9tREmTnchGd4XuQIU3n9qnnzoEB3I6YVVs
-	nIa2NZ94sFx6XJCA==
+	bh=4FBiDaOFzP8RLJjbUw4tyCylAQX06GbRBT0ixmFvMiM=;
+	b=ekL8eaKY1UUk+hYG/myghSVMWc+sSa/bBjv34/xBh5FZyr6sduBhrBcLKOirtteLdzCzq2
+	wNv+JmXZzj3+LPDw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1702032824; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1702032823; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hWczCS20tTRrwDpvwe8/CSLdZ7ac/VDOdxeHB+SKxMI=;
-	b=FYg1nsf/pUHgyWqOw9QdWXvHGxahOsmrtwSJchtojW1QLeleRvxgm0g6DNiNPGB3x2H3Zg
-	SBpaO8W2tXdVvlBAPpNBeLsXOS63B5smMjPQuluQdmQ5K/NzqZX4X5kVkAtlQ5uicZqNVf
-	sm9k7coB1OPlydS1OugGArrC/BARyRI=
+	bh=4FBiDaOFzP8RLJjbUw4tyCylAQX06GbRBT0ixmFvMiM=;
+	b=Yrn/Ettdd2uAK4Hp3j7LSZxcFDmQ6BNHa8J/GRiW9YE5gt/NBdN81zY4G2n6HHdK/ndzqa
+	JfwJANI7d3eR3ur3qsWD0KMtIGADyuUvU+JrIifB9YsHh6FQb19XqmECdxc9YWwuGZpVqm
+	UDSOg1bGZKtdlvx9pdCdz3YvPCRUtpY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1702032824;
+	s=susede2_ed25519; t=1702032823;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hWczCS20tTRrwDpvwe8/CSLdZ7ac/VDOdxeHB+SKxMI=;
-	b=k5AveeftcK6eLCcRnmk5qr09Ze+8kxs/x925wKJJSVibB9ABJoJx7FR4fJ2u6majrKtj1y
-	Mvcq9Td0iA5rM7AQ==
+	bh=4FBiDaOFzP8RLJjbUw4tyCylAQX06GbRBT0ixmFvMiM=;
+	b=ekL8eaKY1UUk+hYG/myghSVMWc+sSa/bBjv34/xBh5FZyr6sduBhrBcLKOirtteLdzCzq2
+	wNv+JmXZzj3+LPDw==
 Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id D6347138FF;
-	Fri,  8 Dec 2023 10:53:44 +0000 (UTC)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 94F6A138FF;
+	Fri,  8 Dec 2023 10:53:43 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id gNviMrj1cmU7VgAAn2gu4w
-	(envelope-from <dwagner@suse.de>); Fri, 08 Dec 2023 10:53:44 +0000
+	id DYfcIrf1cmU3VgAAn2gu4w
+	(envelope-from <dwagner@suse.de>); Fri, 08 Dec 2023 10:53:43 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org,
@@ -87,9 +87,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Sagi Grimberg <sagi@grimberg.me>,
 	Hannes Reinecke <hare@suse.de>,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH v5 5/6] nvme: add csi, ms and nuse to sysfs
-Date: Fri,  8 Dec 2023 11:53:36 +0100
-Message-ID: <20231208105337.23409-6-dwagner@suse.de>
+Subject: [PATCH v5 3/6] nvme: refactor ns info setup function
+Date: Fri,  8 Dec 2023 11:53:34 +0100
+Message-ID: <20231208105337.23409-4-dwagner@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231208105337.23409-1-dwagner@suse.de>
 References: <20231208105337.23409-1-dwagner@suse.de>
@@ -117,8 +117,8 @@ X-Spamd-Result: default: False [1.90 / 50.00];
 Authentication-Results: smtp-out1.suse.de;
 	none
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231208_025346_490241_56C3D0F3 
-X-CRM114-Status: GOOD (  21.34  )
+X-CRM114-CacheID: sfid-20231208_025346_973580_93036562 
+X-CRM114-Status: GOOD (  23.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,205 +133,345 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-libnvme is using the sysfs for enumarating the nvme resources. Though
-there are few missing attritbutes in the sysfs. For these libnvme issues
-commands during discovering.
+Use nvme_ns_head instead of nvme_ns where possible. This reduces the
+coupling between the different data structures.
 
-As the kernel already knows all these attributes and we would like to
-avoid libnvme to issue commands all the time, expose these missing
-attributes.
-
-The nuse value is updated on request because the nuse is a volatile
-value. Since any user can read the sysfs attribute, a very simple rate
-limit is added (update once every 5 seconds). A more sophisticated
-update strategy can be added later if there is actually a need for it.
-
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 ---
- drivers/nvme/host/core.c  |  6 ++-
- drivers/nvme/host/nvme.h  |  6 +++
- drivers/nvme/host/sysfs.c | 85 +++++++++++++++++++++++++++++++++++++++
- 3 files changed, 96 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 107 +++++++++++++++++++--------------------
+ drivers/nvme/host/zns.c  |  16 +++---
+ 2 files changed, 62 insertions(+), 61 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index c537914b75e3..3138cbb3b380 100644
+index f0fe41afc958..2468076d64c6 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -20,6 +20,7 @@
- #include <linux/ptrace.h>
- #include <linux/nvme_ioctl.h>
- #include <linux/pm_qos.h>
-+#include <linux/ratelimit.h>
- #include <asm/unaligned.h>
- 
- #include "nvme.h"
-@@ -1459,7 +1460,7 @@ static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl,
- 	return status;
+@@ -1678,14 +1678,14 @@ int nvme_getgeo(struct block_device *bdev, struct hd_geometry *geo)
  }
  
--static int nvme_identify_ns(struct nvme_ctrl *ctrl, unsigned nsid,
-+int nvme_identify_ns(struct nvme_ctrl *ctrl, unsigned nsid,
- 			struct nvme_id_ns **id)
+ #ifdef CONFIG_BLK_DEV_INTEGRITY
+-static void nvme_init_integrity(struct gendisk *disk, struct nvme_ns *ns,
+-				u32 max_integrity_segments)
++static void nvme_init_integrity(struct gendisk *disk,
++		struct nvme_ns_head *head, u32 max_integrity_segments)
  {
+ 	struct blk_integrity integrity = { };
+ 
+-	switch (ns->head->pi_type) {
++	switch (head->pi_type) {
+ 	case NVME_NS_DPS_PI_TYPE3:
+-		switch (ns->head->guard_type) {
++		switch (head->guard_type) {
+ 		case NVME_NVM_NS_16B_GUARD:
+ 			integrity.profile = &t10_pi_type3_crc;
+ 			integrity.tag_size = sizeof(u16) + sizeof(u32);
+@@ -1703,7 +1703,7 @@ static void nvme_init_integrity(struct gendisk *disk, struct nvme_ns *ns,
+ 		break;
+ 	case NVME_NS_DPS_PI_TYPE1:
+ 	case NVME_NS_DPS_PI_TYPE2:
+-		switch (ns->head->guard_type) {
++		switch (head->guard_type) {
+ 		case NVME_NVM_NS_16B_GUARD:
+ 			integrity.profile = &t10_pi_type1_crc;
+ 			integrity.tag_size = sizeof(u16);
+@@ -1724,26 +1724,26 @@ static void nvme_init_integrity(struct gendisk *disk, struct nvme_ns *ns,
+ 		break;
+ 	}
+ 
+-	integrity.tuple_size = ns->head->ms;
++	integrity.tuple_size = head->ms;
+ 	blk_integrity_register(disk, &integrity);
+ 	blk_queue_max_integrity_segments(disk->queue, max_integrity_segments);
+ }
+ #else
+-static void nvme_init_integrity(struct gendisk *disk, struct nvme_ns *ns,
+-				u32 max_integrity_segments)
++static void nvme_init_integrity(struct gendisk *disk,
++		struct nvme_ns_head *head, u32 max_integrity_segments)
+ {
+ }
+ #endif /* CONFIG_BLK_DEV_INTEGRITY */
+ 
+-static void nvme_config_discard(struct gendisk *disk, struct nvme_ns *ns)
++static void nvme_config_discard(struct nvme_ctrl *ctrl, struct gendisk *disk,
++		struct nvme_ns_head *head)
+ {
+-	struct nvme_ctrl *ctrl = ns->ctrl;
+ 	struct request_queue *queue = disk->queue;
+ 	u32 size = queue_logical_block_size(queue);
+ 
+-	if (ctrl->dmrsl && ctrl->dmrsl <= nvme_sect_to_lba(ns->head, UINT_MAX))
++	if (ctrl->dmrsl && ctrl->dmrsl <= nvme_sect_to_lba(head, UINT_MAX))
+ 		ctrl->max_discard_sectors =
+-			nvme_lba_to_sect(ns->head, ctrl->dmrsl);
++			nvme_lba_to_sect(head, ctrl->dmrsl);
+ 
+ 	if (ctrl->max_discard_sectors == 0) {
+ 		blk_queue_max_discard_sectors(queue, 0);
+@@ -1774,21 +1774,21 @@ static bool nvme_ns_ids_equal(struct nvme_ns_ids *a, struct nvme_ns_ids *b)
+ 		a->csi == b->csi;
+ }
+ 
+-static int nvme_init_ms(struct nvme_ns *ns, struct nvme_id_ns *id)
++static int nvme_init_ms(struct nvme_ctrl *ctrl, struct nvme_ns_head *head,
++		struct nvme_id_ns *id)
+ {
+ 	bool first = id->dps & NVME_NS_DPS_PI_FIRST;
+ 	unsigned lbaf = nvme_lbaf_index(id->flbas);
+-	struct nvme_ctrl *ctrl = ns->ctrl;
  	struct nvme_command c = { };
-@@ -2061,6 +2062,7 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
- 	blk_mq_freeze_queue(ns->disk->queue);
- 	lbaf = nvme_lbaf_index(id->flbas);
+ 	struct nvme_id_ns_nvm *nvm;
+ 	int ret = 0;
+ 	u32 elbaf;
+ 
+-	ns->head->pi_size = 0;
+-	ns->head->ms = le16_to_cpu(id->lbaf[lbaf].ms);
++	head->pi_size = 0;
++	head->ms = le16_to_cpu(id->lbaf[lbaf].ms);
+ 	if (!(ctrl->ctratt & NVME_CTRL_ATTR_ELBAS)) {
+-		ns->head->pi_size = sizeof(struct t10_pi_tuple);
+-		ns->head->guard_type = NVME_NVM_NS_16B_GUARD;
++		head->pi_size = sizeof(struct t10_pi_tuple);
++		head->guard_type = NVME_NVM_NS_16B_GUARD;
+ 		goto set_pi;
+ 	}
+ 
+@@ -1797,11 +1797,11 @@ static int nvme_init_ms(struct nvme_ns *ns, struct nvme_id_ns *id)
+ 		return -ENOMEM;
+ 
+ 	c.identify.opcode = nvme_admin_identify;
+-	c.identify.nsid = cpu_to_le32(ns->head->ns_id);
++	c.identify.nsid = cpu_to_le32(head->ns_id);
+ 	c.identify.cns = NVME_ID_CNS_CS_NS;
+ 	c.identify.csi = NVME_CSI_NVM;
+ 
+-	ret = nvme_submit_sync_cmd(ns->ctrl->admin_q, &c, nvm, sizeof(*nvm));
++	ret = nvme_submit_sync_cmd(ctrl->admin_q, &c, nvm, sizeof(*nvm));
+ 	if (ret)
+ 		goto free_data;
+ 
+@@ -1811,13 +1811,13 @@ static int nvme_init_ms(struct nvme_ns *ns, struct nvme_id_ns *id)
+ 	if (nvme_elbaf_sts(elbaf))
+ 		goto free_data;
+ 
+-	ns->head->guard_type = nvme_elbaf_guard_type(elbaf);
+-	switch (ns->head->guard_type) {
++	head->guard_type = nvme_elbaf_guard_type(elbaf);
++	switch (head->guard_type) {
+ 	case NVME_NVM_NS_64B_GUARD:
+-		ns->head->pi_size = sizeof(struct crc64_pi_tuple);
++		head->pi_size = sizeof(struct crc64_pi_tuple);
+ 		break;
+ 	case NVME_NVM_NS_16B_GUARD:
+-		ns->head->pi_size = sizeof(struct t10_pi_tuple);
++		head->pi_size = sizeof(struct t10_pi_tuple);
+ 		break;
+ 	default:
+ 		break;
+@@ -1826,25 +1826,25 @@ static int nvme_init_ms(struct nvme_ns *ns, struct nvme_id_ns *id)
+ free_data:
+ 	kfree(nvm);
+ set_pi:
+-	if (ns->head->pi_size && (first || ns->head->ms == ns->head->pi_size))
+-		ns->head->pi_type = id->dps & NVME_NS_DPS_PI_MASK;
++	if (head->pi_size && (first || head->ms == head->pi_size))
++		head->pi_type = id->dps & NVME_NS_DPS_PI_MASK;
+ 	else
+-		ns->head->pi_type = 0;
++		head->pi_type = 0;
+ 
+ 	return ret;
+ }
+ 
+-static int nvme_configure_metadata(struct nvme_ns *ns, struct nvme_id_ns *id)
++static int nvme_configure_metadata(struct nvme_ctrl *ctrl,
++		struct nvme_ns_head *head, struct nvme_id_ns *id)
+ {
+-	struct nvme_ctrl *ctrl = ns->ctrl;
+ 	int ret;
+ 
+-	ret = nvme_init_ms(ns, id);
++	ret = nvme_init_ms(ctrl, head, id);
+ 	if (ret)
+ 		return ret;
+ 
+-	ns->head->features &= ~(NVME_NS_METADATA_SUPPORTED | NVME_NS_EXT_LBAS);
+-	if (!ns->head->ms || !(ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
++	head->features &= ~(NVME_NS_METADATA_SUPPORTED | NVME_NS_EXT_LBAS);
++	if (!head->ms || !(ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
+ 		return 0;
+ 
+ 	if (ctrl->ops->flags & NVME_F_FABRICS) {
+@@ -1856,7 +1856,7 @@ static int nvme_configure_metadata(struct nvme_ns *ns, struct nvme_id_ns *id)
+ 		if (WARN_ON_ONCE(!(id->flbas & NVME_NS_FLBAS_META_EXT)))
+ 			return 0;
+ 
+-		ns->head->features |= NVME_NS_EXT_LBAS;
++		head->features |= NVME_NS_EXT_LBAS;
+ 
+ 		/*
+ 		 * The current fabrics transport drivers support namespace
+@@ -1867,8 +1867,8 @@ static int nvme_configure_metadata(struct nvme_ns *ns, struct nvme_id_ns *id)
+ 		 * Note, this check will need to be modified if any drivers
+ 		 * gain the ability to use other metadata formats.
+ 		 */
+-		if (ctrl->max_integrity_segments && nvme_ns_has_pi(ns->head))
+-			ns->head->features |= NVME_NS_METADATA_SUPPORTED;
++		if (ctrl->max_integrity_segments && nvme_ns_has_pi(head))
++			head->features |= NVME_NS_METADATA_SUPPORTED;
+ 	} else {
+ 		/*
+ 		 * For PCIe controllers, we can't easily remap the separate
+@@ -1877,9 +1877,9 @@ static int nvme_configure_metadata(struct nvme_ns *ns, struct nvme_id_ns *id)
+ 		 * We allow extended LBAs for the passthrough interface, though.
+ 		 */
+ 		if (id->flbas & NVME_NS_FLBAS_META_EXT)
+-			ns->head->features |= NVME_NS_EXT_LBAS;
++			head->features |= NVME_NS_EXT_LBAS;
+ 		else
+-			ns->head->features |= NVME_NS_METADATA_SUPPORTED;
++			head->features |= NVME_NS_METADATA_SUPPORTED;
+ 	}
+ 	return 0;
+ }
+@@ -1902,11 +1902,11 @@ static void nvme_set_queue_limits(struct nvme_ctrl *ctrl,
+ 	blk_queue_write_cache(q, vwc, vwc);
+ }
+ 
+-static void nvme_update_disk_info(struct gendisk *disk,
+-		struct nvme_ns *ns, struct nvme_id_ns *id)
++static void nvme_update_disk_info(struct nvme_ctrl *ctrl, struct gendisk *disk,
++		struct nvme_ns_head *head, struct nvme_id_ns *id)
+ {
+-	sector_t capacity = nvme_lba_to_sect(ns->head, le64_to_cpu(id->nsze));
+-	u32 bs = 1U << ns->head->lba_shift;
++	sector_t capacity = nvme_lba_to_sect(head, le64_to_cpu(id->nsze));
++	u32 bs = 1U << head->lba_shift;
+ 	u32 atomic_bs, phys_bs, io_opt = 0;
+ 
+ 	/*
+@@ -1914,8 +1914,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
+ 	 * or smaller than a sector size yet, so catch this early and don't
+ 	 * allow block I/O.
+ 	 */
+-	if (ns->head->lba_shift > PAGE_SHIFT ||
+-	    ns->head->lba_shift < SECTOR_SHIFT) {
++	if (head->lba_shift > PAGE_SHIFT || head->lba_shift < SECTOR_SHIFT) {
+ 		capacity = 0;
+ 		bs = (1 << 9);
+ 	}
+@@ -1932,7 +1931,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
+ 		if (id->nsfeat & NVME_NS_FEAT_ATOMICS && id->nawupf)
+ 			atomic_bs = (1 + le16_to_cpu(id->nawupf)) * bs;
+ 		else
+-			atomic_bs = (1 + ns->ctrl->subsys->awupf) * bs;
++			atomic_bs = (1 + ctrl->subsys->awupf) * bs;
+ 	}
+ 
+ 	if (id->nsfeat & NVME_NS_FEAT_IO_OPT) {
+@@ -1958,20 +1957,20 @@ static void nvme_update_disk_info(struct gendisk *disk,
+ 	 * I/O to namespaces with metadata except when the namespace supports
+ 	 * PI, as it can strip/insert in that case.
+ 	 */
+-	if (ns->head->ms) {
++	if (head->ms) {
+ 		if (IS_ENABLED(CONFIG_BLK_DEV_INTEGRITY) &&
+-		    (ns->head->features & NVME_NS_METADATA_SUPPORTED))
+-			nvme_init_integrity(disk, ns,
+-					    ns->ctrl->max_integrity_segments);
+-		else if (!nvme_ns_has_pi(ns->head))
++		    (head->features & NVME_NS_METADATA_SUPPORTED))
++			nvme_init_integrity(disk, head,
++					    ctrl->max_integrity_segments);
++		else if (!nvme_ns_has_pi(head))
+ 			capacity = 0;
+ 	}
+ 
+ 	set_capacity_and_notify(disk, capacity);
+ 
+-	nvme_config_discard(disk, ns);
++	nvme_config_discard(ctrl, disk, head);
+ 	blk_queue_max_write_zeroes_sectors(disk->queue,
+-					   ns->ctrl->max_zeroes_sectors);
++					   ctrl->max_zeroes_sectors);
+ }
+ 
+ static bool nvme_ns_is_readonly(struct nvme_ns *ns, struct nvme_ns_info *info)
+@@ -2064,13 +2063,13 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
  	ns->head->lba_shift = id->lbaf[lbaf].ds;
-+	ns->head->nuse = le64_to_cpu(id->nuse);
  	nvme_set_queue_limits(ns->ctrl, ns->queue);
  
- 	ret = nvme_configure_metadata(ns->ctrl, ns->head, id);
-@@ -3423,6 +3425,8 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
- 	head->ns_id = info->nsid;
- 	head->ids = info->ids;
- 	head->shared = info->is_shared;
-+	ratelimit_state_init(&head->rs_nuse, 5 * HZ, 1);
-+	ratelimit_set_flags(&head->rs_nuse, RATELIMIT_MSG_ON_RELEASE);
- 	kref_init(&head->ref);
+-	ret = nvme_configure_metadata(ns, id);
++	ret = nvme_configure_metadata(ns->ctrl, ns->head, id);
+ 	if (ret < 0) {
+ 		blk_mq_unfreeze_queue(ns->disk->queue);
+ 		goto out;
+ 	}
+ 	nvme_set_chunk_sectors(ns, id);
+-	nvme_update_disk_info(ns->disk, ns, id);
++	nvme_update_disk_info(ns->ctrl, ns->disk, ns->head, id);
  
- 	if (head->ids.csi) {
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index b783b37328fa..8912292720d4 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -16,6 +16,7 @@
- #include <linux/rcupdate.h>
- #include <linux/wait.h>
- #include <linux/t10-pi.h>
-+#include <linux/ratelimit_types.h>
+ 	if (ns->head->ids.csi == NVME_CSI_ZNS) {
+ 		ret = nvme_update_zone_info(ns, lbaf);
+@@ -2100,7 +2099,7 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
  
- #include <trace/events/block.h>
- 
-@@ -456,6 +457,7 @@ struct nvme_ns_head {
- 	u16			pi_size;
- 	u16			sgs;
- 	u32			sws;
-+	u64			nuse;
- 	u8			pi_type;
- 	u8			guard_type;
- #ifdef CONFIG_BLK_DEV_ZONED
-@@ -463,6 +465,8 @@ struct nvme_ns_head {
- #endif
- 	unsigned long		features;
- 
-+	struct ratelimit_state	rs_nuse;
-+
- 	struct cdev		cdev;
- 	struct device		cdev_device;
- 
-@@ -867,6 +871,8 @@ int nvme_ns_chr_uring_cmd(struct io_uring_cmd *ioucmd,
- 		unsigned int issue_flags);
- int nvme_ns_head_chr_uring_cmd(struct io_uring_cmd *ioucmd,
- 		unsigned int issue_flags);
-+int nvme_identify_ns(struct nvme_ctrl *ctrl, unsigned nsid,
-+		struct nvme_id_ns **id);
- int nvme_getgeo(struct block_device *bdev, struct hd_geometry *geo);
- int nvme_dev_uring_cmd(struct io_uring_cmd *ioucmd, unsigned int issue_flags);
- 
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index d682d0a667a0..3cfae0c3af76 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -114,12 +114,97 @@ static ssize_t nsid_show(struct device *dev, struct device_attribute *attr,
+ 	if (nvme_ns_head_multipath(ns->head)) {
+ 		blk_mq_freeze_queue(ns->head->disk->queue);
+-		nvme_update_disk_info(ns->head->disk, ns, id);
++		nvme_update_disk_info(ns->ctrl, ns->head->disk, ns->head, id);
+ 		set_disk_ro(ns->head->disk, nvme_ns_is_readonly(ns, info));
+ 		nvme_mpath_revalidate_paths(ns);
+ 		blk_stack_limits(&ns->head->disk->queue->limits,
+diff --git a/drivers/nvme/host/zns.c b/drivers/nvme/host/zns.c
+index ded52ab05424..56b27aabcad9 100644
+--- a/drivers/nvme/host/zns.c
++++ b/drivers/nvme/host/zns.c
+@@ -148,7 +148,8 @@ static void *nvme_zns_alloc_report_buffer(struct nvme_ns *ns,
+ 	return NULL;
  }
- static DEVICE_ATTR_RO(nsid);
  
-+static ssize_t csi_show(struct device *dev, struct device_attribute *attr,
-+		char *buf)
-+{
-+	return sysfs_emit(buf, "%d\n", dev_to_ns_head(dev)->ids.csi);
-+}
-+static DEVICE_ATTR_RO(csi);
-+
-+static ssize_t metadata_bytes_show(struct device *dev,
-+		struct device_attribute *attr, char *buf)
-+{
-+	return sysfs_emit(buf, "%d\n", dev_to_ns_head(dev)->ms);
-+}
-+static DEVICE_ATTR_RO(metadata_bytes);
-+
-+static int ns_head_update_nuse(struct nvme_ns_head *head)
-+{
-+	struct nvme_id_ns *id;
-+	struct nvme_ns *ns;
-+	int srcu_idx, ret = -EWOULDBLOCK;
-+
-+	/* Avoid issuing commands too often by rate limiting the update */
-+	if (!__ratelimit(&head->rs_nuse))
-+		return 0;
-+
-+	srcu_idx = srcu_read_lock(&head->srcu);
-+	ns = nvme_find_path(head);
-+	if (!ns)
-+		goto out_unlock;
-+
-+	ret = nvme_identify_ns(ns->ctrl, head->ns_id, &id);
-+	if (ret)
-+		goto out_unlock;
-+
-+	head->nuse = le64_to_cpu(id->nuse);
-+	kfree(id);
-+
-+out_unlock:
-+	srcu_read_unlock(&head->srcu, srcu_idx);
-+	return ret;
-+}
-+
-+static int ns_update_nuse(struct nvme_ns *ns)
-+{
-+	struct nvme_id_ns *id;
-+	int ret;
-+
-+	/* Avoid issuing commands too often by rate limiting the update. */
-+	if (!__ratelimit(&ns->head->rs_nuse))
-+		return 0;
-+
-+	ret = nvme_identify_ns(ns->ctrl, ns->head->ns_id, &id);
-+	if (ret)
-+		goto out_free_id;
-+
-+	ns->head->nuse = le64_to_cpu(id->nuse);
-+
-+out_free_id:
-+	kfree(id);
-+
-+	return ret;
-+}
-+
-+static ssize_t nuse_show(struct device *dev, struct device_attribute *attr,
-+		char *buf)
-+{
-+	struct nvme_ns_head *head = dev_to_ns_head(dev);
-+	struct gendisk *disk = dev_to_disk(dev);
-+	struct block_device *bdev = disk->part0;
-+	int ret;
-+
-+	if (IS_ENABLED(CONFIG_NVME_MULTIPATH) &&
-+	    bdev->bd_disk->fops == &nvme_ns_head_ops)
-+		ret = ns_head_update_nuse(head);
-+	else
-+		ret = ns_update_nuse(bdev->bd_disk->private_data);
-+	if (ret)
-+		return ret;
-+
-+	return sysfs_emit(buf, "%llu\n", head->nuse);
-+}
-+static DEVICE_ATTR_RO(nuse);
-+
- static struct attribute *nvme_ns_attrs[] = {
- 	&dev_attr_wwid.attr,
- 	&dev_attr_uuid.attr,
- 	&dev_attr_nguid.attr,
- 	&dev_attr_eui.attr,
-+	&dev_attr_csi.attr,
- 	&dev_attr_nsid.attr,
-+	&dev_attr_metadata_bytes.attr,
-+	&dev_attr_nuse.attr,
- #ifdef CONFIG_NVME_MULTIPATH
- 	&dev_attr_ana_grpid.attr,
- 	&dev_attr_ana_state.attr,
+-static int nvme_zone_parse_entry(struct nvme_ns *ns,
++static int nvme_zone_parse_entry(struct nvme_ctrl *ctrl,
++				 struct nvme_ns_head *head,
+ 				 struct nvme_zone_descriptor *entry,
+ 				 unsigned int idx, report_zones_cb cb,
+ 				 void *data)
+@@ -156,20 +157,20 @@ static int nvme_zone_parse_entry(struct nvme_ns *ns,
+ 	struct blk_zone zone = { };
+ 
+ 	if ((entry->zt & 0xf) != NVME_ZONE_TYPE_SEQWRITE_REQ) {
+-		dev_err(ns->ctrl->device, "invalid zone type %#x\n",
++		dev_err(ctrl->device, "invalid zone type %#x\n",
+ 				entry->zt);
+ 		return -EINVAL;
+ 	}
+ 
+ 	zone.type = BLK_ZONE_TYPE_SEQWRITE_REQ;
+ 	zone.cond = entry->zs >> 4;
+-	zone.len = ns->head->zsze;
+-	zone.capacity = nvme_lba_to_sect(ns->head, le64_to_cpu(entry->zcap));
+-	zone.start = nvme_lba_to_sect(ns->head, le64_to_cpu(entry->zslba));
++	zone.len = head->zsze;
++	zone.capacity = nvme_lba_to_sect(head, le64_to_cpu(entry->zcap));
++	zone.start = nvme_lba_to_sect(head, le64_to_cpu(entry->zslba));
+ 	if (zone.cond == BLK_ZONE_COND_FULL)
+ 		zone.wp = zone.start + zone.len;
+ 	else
+-		zone.wp = nvme_lba_to_sect(ns->head, le64_to_cpu(entry->wp));
++		zone.wp = nvme_lba_to_sect(head, le64_to_cpu(entry->wp));
+ 
+ 	return cb(&zone, idx, data);
+ }
+@@ -214,7 +215,8 @@ int nvme_ns_report_zones(struct nvme_ns *ns, sector_t sector,
+ 			break;
+ 
+ 		for (i = 0; i < nz && zone_idx < nr_zones; i++) {
+-			ret = nvme_zone_parse_entry(ns, &report->entries[i],
++			ret = nvme_zone_parse_entry(ns->ctrl, ns->head,
++						    &report->entries[i],
+ 						    zone_idx, cb, data);
+ 			if (ret)
+ 				goto out_free;
 -- 
 2.43.0
 
