@@ -4,57 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF7A4C10DC3
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Dec 2023 13:53:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73946C4167B
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Dec 2023 13:53:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SVYY9ThSMtNblzGKmezJniyoNnnyJaFuUKhEmfrkbCU=; b=gNEN8PKOn02ky9xCFD0snZ32XC
-	E7/SFnkqIwqYedrjxj9yjAZl/YTK/q2NSXfHGh1K6IbZoYj6jL82HVWCsAD4Hz0PK/3d04L6aAH9D
-	LPCSHmgcDXs9cTzIXJ1DWKw3vpEa/XCqscqGEpeNDp+g1EurhqvwhdZKVO52rAOWuyzbqr+YRMCz/
-	+cBlyVD6wnvZL1tKOyJdXSidNXN3eVEpAsLe5eL/IxpLxTbXZo5LL3EAeVQLZE+t6eD46kiUwFFrw
-	r+xPf0thP+JHIQkpSQabEq6cHpPZvPQGzwjkuPfaxrVx+fOjAhkTvHGFpWuL5IuHc7YYUoqD9KbG8
-	No+YssCg==;
+	bh=O+LzMZIVnyf7j7/+aK78J5MQ1ua7yeC/oUKsM77fkZ0=; b=2d86DHvbQR+XmoHo1C7QBPkO6k
+	L7GS3YpNUM84FWOHKUo6xsqDJ5obMyzZuUOnsVsJpdGW6wRFx3U3X9INXucNiZzYxAhyWUD1respQ
+	EBY8ojcRu7HdnVPBjyFwZfL6icwPljwA+jP8KwHbnRf3gKvwk+UwLowO3kX5imfFoKFln3C7nf/Hj
+	x8LmmPQQ94ad9sTRhkTlC7glocWQW0VO+LNvGaGPiu7dIoxhZ3HOGL1iouecN2SWngPsZvJyJquzx
+	fknxaF915LcrbotHiHNB8ltK9DqlSW5vIlJ+jiF27AwjIz/2VJYvqYmfnIGfxWwpXnDbm7WlaQwPu
+	JG9i0yxw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rCgj3-0051el-1l;
-	Mon, 11 Dec 2023 13:53:37 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1rCgj6-0051gK-0E;
+	Mon, 11 Dec 2023 13:53:40 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rCgip-0051Wq-0N
+	id 1rCgip-0051W8-37
 	for linux-nvme@lists.infradead.org;
-	Mon, 11 Dec 2023 13:53:28 +0000
+	Mon, 11 Dec 2023 13:53:29 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 89BA8612AF;
-	Mon, 11 Dec 2023 13:53:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33EADC433C7;
-	Mon, 11 Dec 2023 13:53:21 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id F2ECF612AB;
+	Mon, 11 Dec 2023 13:53:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE0E4C43391;
+	Mon, 11 Dec 2023 13:53:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702302802;
-	bh=1EcZc7LK85IRptVlTFpO7CbCNcbwhl3ThtWuK26SezA=;
+	s=k20201202; t=1702302800;
+	bh=5PfvYngP914UoFoqeziwA++GC230K70pLi1A6QnVh1I=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=BMZEiPwKtCGq5xyBLLCNt6t8HdQjmI7sFZkoZwu3vVeAsI2YKOZTUyWo0ZfwmqALl
-	 AwQwFQZtz1ApGDmxE5TySgx/mayreZUcKjMQfPUt/bPYN552zCSfCc6kHGy6VHExP3
-	 S5lCo2PKvRfKON2yPItwzSzPHQGEfglt4v0T/IAU4Eua4KoKKH/lQl0SEVFJ+yJQl4
-	 30Qqcx6oNdF99h7lQAvuJZmD20RhY1XWlF2A5hFH6+hScieLR36XiADMM7GQXqoO61
-	 kUthYyUqpO65Z29KMyYwVvYM3Oy7LPPm8/zl6Offvc6BO+uw1KYbdGQnrC0eG2LaN2
-	 vbU0pdYMBDm7A==
+	b=sT2ytsi//ttMwWtngR8z/TjFe9xYS1XrkT+GTWghX7po/f/uRDIw4lwT2vKohIe1E
+	 U8UL5WaKRpGJynj0ekfaYKVvhTl1Dc7e42emHaRD4VVKz+TniKNfhdRTB+/grGLbjf
+	 /G/PA4ad8au57FDk/TcMFYgrdnHxoiV9MuBTWJaIYfGnJe841PMS3/GccgZpBk4isw
+	 sb9x3o32zLkPjDUVUkcVDtSiZGD1ZT4pBMf9EBP+0ZQ4WlmKNuKJgycm5vlt0+zK+H
+	 ahdc29nwoxgqPghlALQIfFSBdVaLbY0oR8ngCDkHzUmLzL3R/lP3Vx08SVpXnJlq8T
+	 zN2ccyJvDhJJg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Bitao Hu <yaoma@linux.alibaba.com>,
-	Guixin Liu <kanie@linux.alibaba.com>,
-	Sagi Grimberg <sagi@grimberg.me>,
+Cc: Nitesh Shetty <nj.shetty@samsung.com>,
 	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	kch@nvidia.com,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.6 34/47] nvme: fix deadlock between reset and scan
-Date: Mon, 11 Dec 2023 08:50:35 -0500
-Message-ID: <20231211135147.380223-34-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 33/47] nvme: prevent potential spectre v1 gadget
+Date: Mon, 11 Dec 2023 08:50:34 -0500
+Message-ID: <20231211135147.380223-33-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231211135147.380223-1-sashal@kernel.org>
 References: <20231211135147.380223-1-sashal@kernel.org>
@@ -77,166 +77,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Bitao Hu <yaoma@linux.alibaba.com>
+From: Nitesh Shetty <nj.shetty@samsung.com>
 
-[ Upstream commit 839a40d1e730977d4448d141fa653517c2959a88 ]
+[ Upstream commit 20dc66f2d76b4a410df14e4675e373b718babc34 ]
 
-If controller reset occurs when allocating namespace, both
-nvme_reset_work and nvme_scan_work will hang, as shown below.
+This patch fixes the smatch warning, "nvmet_ns_ana_grpid_store() warn:
+potential spectre issue 'nvmet_ana_group_enabled' [w] (local cap)"
+Prevent the contents of kernel memory from being leaked to  user space
+via speculative execution by using array_index_nospec.
 
-Test Scripts:
-
-    for ((t=1;t<=128;t++))
-    do
-    nsid=`nvme create-ns /dev/nvme1 -s 14537724 -c 14537724 -f 0 -m 0 \
-    -d 0 | awk -F: '{print($NF);}'`
-    nvme attach-ns /dev/nvme1 -n $nsid -c 0
-    done
-    nvme reset /dev/nvme1
-
-We will find that both nvme_reset_work and nvme_scan_work hung:
-
-    INFO: task kworker/u249:4:17848 blocked for more than 120 seconds.
-    "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this
-    message.
-    task:kworker/u249:4  state:D stack:    0 pid:17848 ppid:     2
-    flags:0x00000028
-    Workqueue: nvme-reset-wq nvme_reset_work [nvme]
-    Call trace:
-    __switch_to+0xb4/0xfc
-    __schedule+0x22c/0x670
-    schedule+0x4c/0xd0
-    blk_mq_freeze_queue_wait+0x84/0xc0
-    nvme_wait_freeze+0x40/0x64 [nvme_core]
-    nvme_reset_work+0x1c0/0x5cc [nvme]
-    process_one_work+0x1d8/0x4b0
-    worker_thread+0x230/0x440
-    kthread+0x114/0x120
-    INFO: task kworker/u249:3:22404 blocked for more than 120 seconds.
-    "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this
-    message.
-    task:kworker/u249:3  state:D stack:    0 pid:22404 ppid:     2
-    flags:0x00000028
-    Workqueue: nvme-wq nvme_scan_work [nvme_core]
-    Call trace:
-    __switch_to+0xb4/0xfc
-    __schedule+0x22c/0x670
-    schedule+0x4c/0xd0
-    rwsem_down_write_slowpath+0x32c/0x98c
-    down_write+0x70/0x80
-    nvme_alloc_ns+0x1ac/0x38c [nvme_core]
-    nvme_validate_or_alloc_ns+0xbc/0x150 [nvme_core]
-    nvme_scan_ns_list+0xe8/0x2e4 [nvme_core]
-    nvme_scan_work+0x60/0x500 [nvme_core]
-    process_one_work+0x1d8/0x4b0
-    worker_thread+0x260/0x440
-    kthread+0x114/0x120
-    INFO: task nvme:28428 blocked for more than 120 seconds.
-    "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this
-    message.
-    task:nvme            state:D stack:    0 pid:28428 ppid: 27119
-    flags:0x00000000
-    Call trace:
-    __switch_to+0xb4/0xfc
-    __schedule+0x22c/0x670
-    schedule+0x4c/0xd0
-    schedule_timeout+0x160/0x194
-    do_wait_for_common+0xac/0x1d0
-    __wait_for_common+0x78/0x100
-    wait_for_completion+0x24/0x30
-    __flush_work.isra.0+0x74/0x90
-    flush_work+0x14/0x20
-    nvme_reset_ctrl_sync+0x50/0x74 [nvme_core]
-    nvme_dev_ioctl+0x1b0/0x250 [nvme_core]
-    __arm64_sys_ioctl+0xa8/0xf0
-    el0_svc_common+0x88/0x234
-    do_el0_svc+0x7c/0x90
-    el0_svc+0x1c/0x30
-    el0_sync_handler+0xa8/0xb0
-    el0_sync+0x148/0x180
-
-The reason for the hang is that nvme_reset_work occurs while nvme_scan_work
-is still running. nvme_scan_work may add new ns into ctrl->namespaces
-list after nvme_reset_work frozen all ns->q in ctrl->namespaces list.
-The newly added ns is not frozen, so nvme_wait_freeze will wait forever.
-Unfortunately, ctrl->namespaces_rwsem is held by nvme_reset_work, so
-nvme_scan_work will also wait forever. Now we are deadlocked!
-
-PROCESS1                         PROCESS2
-==============                   ==============
-nvme_scan_work
-  ...                            nvme_reset_work
-  nvme_validate_or_alloc_ns        nvme_dev_disable
-    nvme_alloc_ns                    nvme_start_freeze
-     down_write                      ...
-     nvme_ns_add_to_ctrl_list        ...
-     up_write                      nvme_wait_freeze
-    ...                              down_read
-    nvme_alloc_ns                    blk_mq_freeze_queue_wait
-     down_write
-
-Fix by marking the ctrl with say NVME_CTRL_FROZEN flag set in
-nvme_start_freeze and cleared in nvme_unfreeze. Then the scan can check
-it before adding the new namespace (under the namespaces_rwsem).
-
-Signed-off-by: Bitao Hu <yaoma@linux.alibaba.com>
-Reviewed-by: Guixin Liu <kanie@linux.alibaba.com>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/host/core.c | 10 ++++++++++
- drivers/nvme/host/nvme.h |  1 +
- 2 files changed, 11 insertions(+)
+ drivers/nvme/target/configfs.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 4e7bda7749caa..d5bfb6db5a1cc 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3641,6 +3641,14 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
- 		goto out_unlink_ns;
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 907143870da52..01b2a3d1a5e6c 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -17,6 +17,7 @@
+ #endif
+ #include <crypto/hash.h>
+ #include <crypto/kpp.h>
++#include <linux/nospec.h>
  
- 	down_write(&ctrl->namespaces_rwsem);
-+	/*
-+	 * Ensure that no namespaces are added to the ctrl list after the queues
-+	 * are frozen, thereby avoiding a deadlock between scan and reset.
-+	 */
-+	if (test_bit(NVME_CTRL_FROZEN, &ctrl->flags)) {
-+		up_write(&ctrl->namespaces_rwsem);
-+		goto out_unlink_ns;
-+	}
- 	nvme_ns_add_to_ctrl_list(ns);
- 	up_write(&ctrl->namespaces_rwsem);
- 	nvme_get_ctrl(ctrl);
-@@ -4550,6 +4558,7 @@ void nvme_unfreeze(struct nvme_ctrl *ctrl)
- 	list_for_each_entry(ns, &ctrl->namespaces, list)
- 		blk_mq_unfreeze_queue(ns->queue);
- 	up_read(&ctrl->namespaces_rwsem);
-+	clear_bit(NVME_CTRL_FROZEN, &ctrl->flags);
- }
- EXPORT_SYMBOL_GPL(nvme_unfreeze);
+ #include "nvmet.h"
  
-@@ -4583,6 +4592,7 @@ void nvme_start_freeze(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_ns *ns;
+@@ -509,6 +510,7 @@ static ssize_t nvmet_ns_ana_grpid_store(struct config_item *item,
  
-+	set_bit(NVME_CTRL_FROZEN, &ctrl->flags);
- 	down_read(&ctrl->namespaces_rwsem);
- 	list_for_each_entry(ns, &ctrl->namespaces, list)
- 		blk_freeze_queue_start(ns->queue);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 68313148e6ed5..bc6d6eabab66b 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -251,6 +251,7 @@ enum nvme_ctrl_flags {
- 	NVME_CTRL_STOPPED		= 3,
- 	NVME_CTRL_SKIP_ID_CNS_CS	= 4,
- 	NVME_CTRL_DIRTY_CAPABILITY	= 5,
-+	NVME_CTRL_FROZEN		= 6,
- };
+ 	down_write(&nvmet_ana_sem);
+ 	oldgrpid = ns->anagrpid;
++	newgrpid = array_index_nospec(newgrpid, NVMET_MAX_ANAGRPS);
+ 	nvmet_ana_group_enabled[newgrpid]++;
+ 	ns->anagrpid = newgrpid;
+ 	nvmet_ana_group_enabled[oldgrpid]--;
+@@ -1700,6 +1702,7 @@ static struct config_group *nvmet_ana_groups_make_group(
+ 	grp->grpid = grpid;
  
- struct nvme_ctrl {
+ 	down_write(&nvmet_ana_sem);
++	grpid = array_index_nospec(grpid, NVMET_MAX_ANAGRPS);
+ 	nvmet_ana_group_enabled[grpid]++;
+ 	up_write(&nvmet_ana_sem);
+ 
 -- 
 2.42.0
 
