@@ -4,62 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 27938C10F05
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Dec 2023 14:03:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B3F5C10DC3
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Dec 2023 14:11:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8HvifziDC7Cmc6xpikxOVQVX2lFSCNWxAlkAC6i4Tcc=; b=eAI8tqL0QvjfVI1XHoTrUgGAjj
-	FpCr7E36lf9pRfFE3zDJZFEdQ07x7j5PrXJEk8HD2y3KcHuxyG8CnkTrPatGPO6CYQ7i8GWGfWuzJ
-	Lmd2Bdus1KR4cNa2YFjeKRgE8MYMbTJINj1G8P0N8alDLSP6HaNQu+h/gJ0EK9P0VGbg0HDoam++M
-	cieK7uBKfrHbLQdm+i7LWblbs6YEcI8KWvVZtHsBa0YVyqu+9gn+hD3b6cmotFSuwr2bMHujw57uO
-	ZwLft9tR4VGdzuETe3QGhw3E3oKGXmxOHXol6CH1FfwRZWOLE3npxc0AeJ6tGw+5sRdMjxoi1Fy5e
-	G6R4an5A==;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=bfz2u3ymnz2F918MYeQaTCLoVB
+	tBp0uH+pJGxcPFXLEvUXjQ4YM2C2+RllYxsLJrxwA1z4uZ3TeUu0N1ZcNjuk6BOdmcpJZfXkrO7lD
+	iqlwRmH5Ns/ONSWaFGXvPfFkv6CHZQ5UpDU2FQpH5XLL5xpB1VgUKo5/AHaxQPwn0KsSRBHg4FvCv
+	xqKIgOZLlBdPntec96JWPFbCx1JtCtRmZD3uWFp1VJf7+WZVC0AI9s6kbcieaQt9PQfgFqeM8o/IH
+	dz72ctHjgLAOE2vyZY/yxUXP3jm+fafyryMxfwqKQzHf474pdj12d/VLJP1p4ATfAJxTMY+yiwji/
+	WHmUHY0g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rCgsT-0054zD-0b;
-	Mon, 11 Dec 2023 14:03:21 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1rCh01-0057aM-0s;
+	Mon, 11 Dec 2023 14:11:09 +0000
+Received: from mail-ej1-f48.google.com ([209.85.218.48])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rCgrv-0054qJ-1b
+	id 1rCgzs-0057VI-0P
 	for linux-nvme@lists.infradead.org;
-	Mon, 11 Dec 2023 14:03:08 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by ams.source.kernel.org (Postfix) with ESMTP id 152D4B80E6A;
-	Mon, 11 Dec 2023 14:02:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E8F4C433C9;
-	Mon, 11 Dec 2023 14:02:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702303365;
-	bh=W0dgYjgyezEIWv6mifXWfWGlfmcw5yAAe0M93lsc+24=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RpzgFko5YP2lxus8lYeUTt+hjwV5feJwNdEzAfFufiKtBwasccaZb49z4Gx2hLm9u
-	 m4yT1ljHnx79K69H1c0j32NDs6Nn1BfQPWdOS3b6uUhizCLeqx+Rx2lZ6KVrtlO/oj
-	 3kSyraF7GCKjvG+ZrZLZfJW4sqd8JRAFexnK0EAZhv1ON8CUawON/G1/F2jGz5MSwR
-	 8SC6YkIWv9L5XLKKnuC3KcYn+EwSzaOB5xt591lNTQKoxJT9tRX1u95xsq0RrocsG1
-	 5SAyKGcA69HVWUKHoc+PqDltIWNzepJu7146El7eIgrFBf6WVnbD/OPrm4G0R0bRHo
-	 HqGROUogD7coA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Sasha Levin <sashal@kernel.org>,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.4 10/12] nvme: introduce helper function to get ctrl state
-Date: Mon, 11 Dec 2023 09:02:03 -0500
-Message-ID: <20231211140219.392379-10-sashal@kernel.org>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231211140219.392379-1-sashal@kernel.org>
-References: <20231211140219.392379-1-sashal@kernel.org>
+	Mon, 11 Dec 2023 14:11:07 +0000
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a1f8313c781so70392966b.0
+        for <linux-nvme@lists.infradead.org>; Mon, 11 Dec 2023 06:10:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702303858; x=1702908658;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+        b=oMcVhebHzPtbv/trSI8n973BfVGMLsYerK9nFthA0ir6QWKTd/yIwK5YVO/2fZ5+33
+         BnQZAq9zzK80qpTRo9YwAIeGQJrHmoaAjxZDFH7IxEnllV9zfFvznrjASIz4bfQ+CSMm
+         MYxBi9wNzh5ShHfn73TgEGa3G/nq9yB4W3KixLCK3zq/9i8zQFIrrN0c5V3wPTdGpIOV
+         y6dMDOAdzdcyObdaw0W4eLCbznqL3XHZC7LQ3TDj49QpCJG4dZaozVivrKI6gG1qMZK0
+         Hz/FOSbXtN+ZjTUsJ2dAK+agFnn5Ywhio5yljQ44K0R0e9yMmDJ9n0ADYZQ+1tmTdz38
+         bPLA==
+X-Gm-Message-State: AOJu0YzX047ERv7q7VcOzNusoxDnTOnlZSBgF4s+c20ytfaYHJvq6v+K
+	onNjj/VqHbE/ploeOZfHf4g=
+X-Google-Smtp-Source: AGHT+IHVqNvEl5nemxeja2GAZginjIfzvHQEC1QMHqmZ4M4FEH5Zc6C8z9Gwn7boEv27GmqhgYLolw==
+X-Received: by 2002:a17:907:a70f:b0:a1d:1c71:8158 with SMTP id vw15-20020a170907a70f00b00a1d1c718158mr4523094ejc.4.1702303857521;
+        Mon, 11 Dec 2023 06:10:57 -0800 (PST)
+Received: from [10.100.102.14] (46-117-87-214.bb.netvision.net.il. [46.117.87.214])
+        by smtp.gmail.com with ESMTPSA id ss27-20020a170907c01b00b00a1d9afe42f0sm4865920ejc.35.2023.12.11.06.10.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Dec 2023 06:10:57 -0800 (PST)
+Message-ID: <cc00e4c6-16bb-4f52-979a-490d9dab86d4@grimberg.me>
+Date: Mon, 11 Dec 2023 16:10:56 +0200
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.4.263
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] nvmet-rdma: avoid circular locking dependency on
+ install_queue()
+Content-Language: en-US
+To: hare@kernel.org
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>,
+ Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+References: <20231208125321.165819-1-hare@kernel.org>
+ <20231208125321.165819-3-hare@kernel.org>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20231208125321.165819-3-hare@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20231211_061100_211209_3B148827 
+X-CRM114-Status: UNSURE (   5.36  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,39 +85,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
-
-[ Upstream commit 5c687c287c46fadb14644091823298875a5216aa ]
-
-The controller state is typically written by another CPU, so reading it
-should ensure no optimizations are taken. This is a repeated pattern in
-the driver, so start with adding a convenience function that returns the
-controller state with READ_ONCE().
-
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/nvme/host/nvme.h | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 17c0d6ae3eeeb..c492d7d323987 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -292,6 +292,11 @@ struct nvme_ctrl {
- 	struct nvme_fault_inject fault_inject;
- };
- 
-+static inline enum nvme_ctrl_state nvme_ctrl_state(struct nvme_ctrl *ctrl)
-+{
-+	return READ_ONCE(ctrl->state);
-+}
-+
- enum nvme_iopolicy {
- 	NVME_IOPOLICY_NUMA,
- 	NVME_IOPOLICY_RR,
--- 
-2.42.0
-
 
