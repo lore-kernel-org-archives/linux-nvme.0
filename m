@@ -4,88 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8495CC4167B
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Dec 2023 14:11:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7BBDC10F05
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Dec 2023 14:15:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=XSTXXGcBTWJqhwidDqJPShl0dV
-	mhBacIqC+jbUgskOTO+boBdjGz+4y5CiKWt//nC+TlOQaJeUCz3go0jHw3XCLMcjn1H+HsxueMeLb
-	G3NiDtzVnJPzZxS50udJMG/nCUInYJCjyDrD10EPzLuedHLgVmuDqVGXMcRIjCvKAbTZ5d8GFO6sV
-	CfGTSVkWOWl4hpem13+qBaLBfaHd6SKFDfyIa30uTD2mUXpcND/w8/CKWGtcDSQKYIbUnhz3qP421
-	skYrhNJUM83tI+iIt0hdpXY2EBdOC1urFqKrCIilQ+wUohIOvnhUicOA+AWEXiM60c264t6Lg5FMx
-	KO2bRzbA==;
+	bh=92yOTtIWSiuO5GjYl8OhndPI60c1XT8wi+EoHUgOj2I=; b=jxKQKTvjMfKnYBt+wnplgXyYPR
+	1guMOaJxE8Yn2QIny5ygSMnbsrXPRLIXlPsUXPr3kt8CwbUhSetIsSka0F+Y22jRar+EMFUsJ+/xl
+	wEpIcqjEC3bz8nH8tkgxYxiY7tdtykN5EAw1+yvSsr7+PJQ0gHWna55M7ybWbU/SFHfrYThddx+o0
+	KwKYM5J//zjNxyZ++o4M5OHUu0Zaib1e9nOVIr2+QWaBjEHbw6Hz4aqIYoXIqwP2dJ9eDXq70Vlkr
+	Pg4Pm+zWTcKgaV1OQ28Oqf3kjGGj2/xoAdaPHPcGzAfE2wY90PYjIA4CILsOBsX3ljbQzoWemxKi/
+	b3tX0/1A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rCh00-0057Z9-0D;
-	Mon, 11 Dec 2023 14:11:08 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1rCh4D-0058sU-1g;
+	Mon, 11 Dec 2023 14:15:30 +0000
+Received: from mail-ed1-f51.google.com ([209.85.208.51])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rCgzt-0057W5-0L
-	for linux-nvme@bombadil.infradead.org;
-	Mon, 11 Dec 2023 14:11:01 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=e740SlBEmf/ZhQNLA0SQkpomWd
-	s8vPtaMfx0LUKGaUbwMoH1hGKujnKJmhHS6PYq1/sxz4oh3ld+/+TdUosjyG6YMnv7YFxa4aOBrB5
-	Xz3eWIT4hchQo3xxSID02ny/HW1PhISKHDD/aQ5ID1h3LD/Qjg1DuFVl77jTlIuE5X9zqcgclenOm
-	/TOt1hD3sWc+1S/zrggY8ReuE04HeWJi6bcppBsjJswiw5lWYXh/xAoDwlT2Qrz90L+Hv6Ana+rzs
-	kbh6JMx6Hnw87ma0FyiMtRR4ArvCs9TZfAKJVZnr4xa52wPYoLh56J0c0po+lAExDXly5RPJs2G/c
-	kXN7V7QA==;
-Received: from mail-ej1-f44.google.com ([209.85.218.44])
-	by desiato.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rCgzo-0086uC-26
+	id 1rCh43-0058pI-0B
 	for linux-nvme@lists.infradead.org;
-	Mon, 11 Dec 2023 14:11:00 +0000
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a1c6c8d2ecdso109417366b.0
-        for <linux-nvme@lists.infradead.org>; Mon, 11 Dec 2023 06:10:53 -0800 (PST)
+	Mon, 11 Dec 2023 14:15:21 +0000
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-54cd1274c42so1270377a12.1
+        for <linux-nvme@lists.infradead.org>; Mon, 11 Dec 2023 06:15:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702303852; x=1702908652;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1702304117; x=1702908917;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=sLikxH+/lGeox1WmYaMYRyigFHF2J1Pw0fy+uwzIj8ySoXsw8/gd4CntSNnq5fkHjJ
-         OYqEyEFrvHNGYi2Sg/Ki0cWAkFaReSYH/dIdY2upwJ8nKSkX8pHVWhkgE8Y/xxgpuQUs
-         Jff+UnWxpzYZ/bWJTrH1H/m2c+/DzdOTInNcfRl+jlin1GhH6hIwGwNIpMPeGuwbrgUB
-         NWrUIoz/eBCFSJlzGRB+tpW+2/hJN/mDIyeQefEpVGgapgi+zh+dKHNa2OoEDH3B4Ue/
-         Pa10PPDJePS6ZO7yEq1OlLcmNpibItu+FkQ/1fZXZvNIbecGnp5AFfrGjY84erNPc3AE
-         Vbsw==
-X-Gm-Message-State: AOJu0YwN8s3n3ZuPghYEYTpw/ESkOhmZ081JfZ4zm40vg4R3XCrr0bTf
-	VCUq+HL/wISwWiW7+2EjspM=
-X-Google-Smtp-Source: AGHT+IGk0Zdc5hNw2VZ8AUU4r1X/2kuerrAVLGHD2LxgWEzWJvS6mqyVytrp6y1HvLmhML40QsKFzQ==
-X-Received: by 2002:a17:907:d384:b0:a1c:897e:fd9b with SMTP id vh4-20020a170907d38400b00a1c897efd9bmr5163559ejc.6.1702303852482;
-        Mon, 11 Dec 2023 06:10:52 -0800 (PST)
+        bh=92yOTtIWSiuO5GjYl8OhndPI60c1XT8wi+EoHUgOj2I=;
+        b=e8i60Lde0l8nxljayc/FbyO3DRHi8xflmZUYwDOMUBHwkgeyBJIN7Qn9a+Lrds5GBC
+         3nzaZ++lH3yNXR8HBvqBiTI0tQBA8lqF4KZR/87LO7U2AtuCpXhwxUQeV1ELVBQQYd3w
+         augnpbTknn4zjyLBd1ymYllhDe1Ju2xdZ92J3pkTowvf1vZ46rNvNOHpbdFBSWFBeJ7b
+         yOE29Fu8VVw/VuFCVsFuhGUVRghSagadP9SY5l9LR2uHCPyxyr3wKx2y1geb84U9mokQ
+         pfoBSPmk/nSgPZj/YCGhGjl4SzNPP/pQcO0lsvTMYnFtfErj899KaHMmxvWGvJNEqBoT
+         cfDw==
+X-Gm-Message-State: AOJu0Yzvq4DYvIh5NjL8cgr3F7y6cQB2ZFpE+NWjFzHf0gkBsS/GBed5
+	aOVzT7+5MWlnMiee0DNzky/aGD+v0o4=
+X-Google-Smtp-Source: AGHT+IFwKfwhm355JqjXM2hf5vCtQHvlxPuL4epwVL51iclj/OIfi/ihp+R7owVfr0Sj8hhkWrRFcA==
+X-Received: by 2002:a17:907:d404:b0:a01:b8e5:d4b7 with SMTP id vi4-20020a170907d40400b00a01b8e5d4b7mr3928384ejc.1.1702304116940;
+        Mon, 11 Dec 2023 06:15:16 -0800 (PST)
 Received: from [10.100.102.14] (46-117-87-214.bb.netvision.net.il. [46.117.87.214])
-        by smtp.gmail.com with ESMTPSA id ss27-20020a170907c01b00b00a1d9afe42f0sm4865920ejc.35.2023.12.11.06.10.51
+        by smtp.gmail.com with ESMTPSA id vb2-20020a170907d04200b00a1f72df5617sm4444504ejc.141.2023.12.11.06.15.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Dec 2023 06:10:51 -0800 (PST)
-Message-ID: <bd367ba4-0e2e-4e7a-81c6-695fc18607f1@grimberg.me>
-Date: Mon, 11 Dec 2023 16:10:49 +0200
+        Mon, 11 Dec 2023 06:15:16 -0800 (PST)
+Message-ID: <f7a25a88-a928-40f2-ba52-3c74356e58cd@grimberg.me>
+Date: Mon, 11 Dec 2023 16:15:15 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] nvmet-tcp: avoid circular locking dependency on
- install_queue()
-To: hare@kernel.org
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>,
- Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-References: <20231208125321.165819-1-hare@kernel.org>
- <20231208125321.165819-2-hare@kernel.org>
+Subject: Re: [PATCH] nvmet: implement unique discovery NQN
 Content-Language: en-US
+To: hare@kernel.org, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Hannes Reinecke <hare@suse.de>
+References: <20231211081033.14529-1-hare@kernel.org>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20231208125321.165819-2-hare@kernel.org>
+In-Reply-To: <20231211081033.14529-1-hare@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231211_141056_776881_69C1BEEE 
-X-CRM114-Status: UNSURE (   5.37  )
-X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,5 +78,100 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+So it also responds for the default discovery-nqn?
+
+On 12/11/23 10:10, hare@kernel.org wrote:
+> From: Hannes Reinecke <hare@suse.de>
+> 
+> Add a configfs attribute 'discovery_nqn' in the 'nvmet' configfs
+> directory to specify the unique discovery NQN.
+> 
+> Signed-off-by: Hannes Reinecke <hare@suse.de>
+> ---
+>   drivers/nvme/target/configfs.c | 45 ++++++++++++++++++++++++++++++++++
+>   drivers/nvme/target/core.c     |  7 ++++++
+>   2 files changed, 52 insertions(+)
+> 
+> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+> index d937fe05129e..88911d0cd057 100644
+> --- a/drivers/nvme/target/configfs.c
+> +++ b/drivers/nvme/target/configfs.c
+> @@ -1587,6 +1587,11 @@ static struct config_group *nvmet_subsys_make(struct config_group *group,
+>   		return ERR_PTR(-EINVAL);
+>   	}
+>   
+> +	if (sysfs_streq(name, nvmet_disc_subsys->subsysnqn)) {
+> +		pr_err("can't create subsystem using unique discovery NQN\n");
+> +		return ERR_PTR(-EINVAL);
+> +	}
+> +
+>   	subsys = nvmet_subsys_alloc(name, NVME_NQN_NVME);
+>   	if (IS_ERR(subsys))
+>   		return ERR_CAST(subsys);
+> @@ -2131,7 +2136,47 @@ static const struct config_item_type nvmet_hosts_type = {
+>   
+>   static struct config_group nvmet_hosts_group;
+>   
+> +static ssize_t nvmet_root_discovery_nqn_show(struct config_item *item,
+> +					     char *page)
+> +{
+> +	return sprintf(page, "%s\n", nvmet_disc_subsys->subsysnqn);
+> +}
+> +
+> +static ssize_t nvmet_root_discovery_nqn_store(struct config_item *item,
+> +		const char *page, size_t count)
+> +{
+> +	size_t len;
+> +	struct list_head *entry;
+> +
+> +	len = strcspn(page, "\n");
+> +	if (!len || len > NVMF_NQN_FIELD_LEN - 1)
+> +		return -EINVAL;
+> +
+> +	down_write(&nvmet_config_sem);
+> +	list_for_each(entry, &nvmet_subsystems_group.cg_children) {
+> +		struct config_item *item = container_of(entry, struct config_item, ci_entry);
+> +		if (!strncmp(config_item_name(item), page, len)) {
+> +			pr_err("duplicate NQN %s\n", config_item_name(item));
+> +			up_write(&nvmet_config_sem);
+> +			return -EINVAL;
+> +		}
+> +	}
+> +	memset(nvmet_disc_subsys->subsysnqn, 0, NVMF_NQN_FIELD_LEN);
+> +	memcpy(nvmet_disc_subsys->subsysnqn, page, len);
+> +	up_write(&nvmet_config_sem);
+> +
+> +	return len;
+> +}
+> +
+> +CONFIGFS_ATTR(nvmet_root_, discovery_nqn);
+> +
+> +static struct configfs_attribute *nvmet_root_attrs[] = {
+> +	&nvmet_root_attr_discovery_nqn,
+> +	NULL,
+> +};
+> +
+>   static const struct config_item_type nvmet_root_type = {
+> +	.ct_attrs		= nvmet_root_attrs,
+>   	.ct_owner		= THIS_MODULE,
+>   };
+>   
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index 3935165048e7..9c028bbedb45 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -1530,6 +1530,13 @@ static struct nvmet_subsys *nvmet_find_get_subsys(struct nvmet_port *port,
+>   	}
+>   
+>   	down_read(&nvmet_config_sem);
+> +	if (!strncmp(nvmet_disc_subsys->subsysnqn, subsysnqn,
+> +				NVMF_NQN_SIZE)) {
+> +		if (kref_get_unless_zero(&nvmet_disc_subsys->ref)) {
+> +			up_read(&nvmet_config_sem);
+> +			return nvmet_disc_subsys;
+> +		}
+> +	}
+>   	list_for_each_entry(p, &port->subsystems, entry) {
+>   		if (!strncmp(p->subsys->subsysnqn, subsysnqn,
+>   				NVMF_NQN_SIZE)) {
 
