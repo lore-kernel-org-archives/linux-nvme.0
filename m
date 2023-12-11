@@ -4,75 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 145FBC4167B
-	for <linux-nvme@archiver.kernel.org>; Sat,  9 Dec 2023 02:28:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42AC7C4167B
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Dec 2023 08:10:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZAI0NuHLd7A7hcfMNmxQThYQE6RIisLpIwIrNRbX2Ig=; b=Ru0MKIL6rirRgy9ph9hKDjqXjE
-	f3AqTgMTxN1a4wTDckf8L69qXPvtYo7gL5/DykpmwoN6hY0vMUkQ9RMSzS3UGZ/Th+AnJHW6a40c+
-	Br7pK5owxEkHYXRu7pvOYy7WBrEZxQxnI9ZHd76Kdf4WjC/6vh0oWLVgvGyzrt81Q9syppUR693nO
-	75COfL8/9OlnaE65UDjgPevktKph6yMN6F24tCR10JNFR8vRc1gnUxbV8LCphc9R/iLxPsRqWI/JN
-	hFfhWaehR6vaZUYn9jyzdq6UhQzSQOXuyH7FBoUnjjYPa9gh/kGs4zKmn7e45xLnO4QjhkCUJvJD1
-	4g7rrqAQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=wzW7vhyR+SA+b7LKRuIoGzFtYhJyv2cAsvsHbsB1KVY=; b=S90WYiJzp9EHxZNHF91wXIOxWF
+	oWyxSxpo+gVuD4h3fAKvWXUkLoMGXj9Fe1TIiDj8giLNL0b3KHgBnlseF3mD6G9f1aQ1bkKwkB4mE
+	PPKhj28mfNBdD6kQRBZi/cD8+7KuqCQP63Vw/I9ZsJx7nE0WUmmP+kRrVPhOmJDUCKkmEZzwc688b
+	bDo6FJ/dvELrK8Z3yGR2PDOXUruofwqHNuV3W4CSfaSV0fcVed8ACooChf/7h/nlRY/mTDCmjQE29
+	x9DFN5ONggcjNYixDhpJC2e+dkpFHZh1sri/E4Hf2WveTkFCMlBExltlzZoKJxqVOKQ8UH964jWBL
+	HH4umPTQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rBn4P-00Gxth-07;
-	Sat, 09 Dec 2023 02:27:57 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1rCbND-004JVh-1q;
+	Mon, 11 Dec 2023 08:10:43 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rBn4M-00Gxso-0X
+	id 1rCbN8-004JV9-0o
 	for linux-nvme@lists.infradead.org;
-	Sat, 09 Dec 2023 02:27:55 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1702088868;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZAI0NuHLd7A7hcfMNmxQThYQE6RIisLpIwIrNRbX2Ig=;
-	b=dcROS5EL9NIOldX0Ji7PEoD6+w0rLlvOGTXyfwprM8bMGhAqNIviJq/AU2Fy95R7BPhZiU
-	JmwiaRKmdG3HyNr5N+d9tUXkKYpW59XyCRKLGdjcfbK7/KYWt65FiqnlcoJndGzDHmWRLk
-	+LodwA/OuQ9e2atMd7CtK4Txw9XO9Jo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-117-uIlvz8xnOAONWZ2y1JLgnw-1; Fri, 08 Dec 2023 21:27:43 -0500
-X-MC-Unique: uIlvz8xnOAONWZ2y1JLgnw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1757F805844;
-	Sat,  9 Dec 2023 02:27:43 +0000 (UTC)
-Received: from fedora (unknown [10.72.120.4])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 773B4492BC6;
-	Sat,  9 Dec 2023 02:27:37 +0000 (UTC)
-Date: Sat, 9 Dec 2023 10:27:32 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org,
-	Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, Yi Zhang <yi.zhang@redhat.com>,
-	Guangwu Zhang <guazhang@redhat.com>,
-	Chengming Zhou <zhouchengming@bytedance.com>,
-	Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH V4 resend] lib/group_cpus.c: avoid to acquire cpu hotplug
- lock in group_cpus_evenly
-Message-ID: <ZXPQlIREBiX46trU@fedora>
-References: <20231120083559.285174-1-ming.lei@redhat.com>
- <20231120120059.ef0614c2295b2102100cb56e@linux-foundation.org>
- <20231206151246.99bbf0f253b85f053bea9199@linux-foundation.org>
+	Mon, 11 Dec 2023 08:10:39 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 9356961006;
+	Mon, 11 Dec 2023 08:10:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B76AAC433C8;
+	Mon, 11 Dec 2023 08:10:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702282234;
+	bh=xtHmn7VwQ6bfnKleLvKv7W+cdnipOZxo4744LWotqj4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=nzeA+gPMLe5J0bqILoQfZU1iWK8ai/gmolkJBC3Ji+NLDzuSA04MK87O0h1406y3T
+	 TvZnFmzq2IN6tLfGf4Rw3cFVKQoAEWi8xXx2IzKot30VszG4W6TMy1koM+TObVe+Pg
+	 1RCx3pSODrnLqmcdFZiEpjbmFRTx33rXhoUnpKhXqWtHBhiRrbBYADSl2PJAcIKXes
+	 x8UazYHMWlQ4uEvo34qZx9P9w5/pySPAIge1afEgjVbaiG3qlstQ6qaED42k4gXiJ7
+	 5gYDyd/SWROsNLcb1dtwf18RFzYud5x4ixriKN4awycLw5dbWQ8Zpdj1sm+h9UIqh+
+	 eQaomVqR5l8gw==
+From: hare@kernel.org
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH] nvmet: implement unique discovery NQN
+Date: Mon, 11 Dec 2023 09:10:33 +0100
+Message-Id: <20231211081033.14529-1-hare@kernel.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231206151246.99bbf0f253b85f053bea9199@linux-foundation.org>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231208_182754_302688_8CEB12C9 
-X-CRM114-Status: GOOD (  27.46  )
+X-CRM114-CacheID: sfid-20231211_001038_394439_9B5E304F 
+X-CRM114-Status: GOOD (  11.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,58 +71,100 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Dec 06, 2023 at 03:12:46PM -0800, Andrew Morton wrote:
-> On Mon, 20 Nov 2023 12:00:59 -0800 Andrew Morton <akpm@linux-foundation.org> wrote:
-> 
-> > On Mon, 20 Nov 2023 16:35:59 +0800 Ming Lei <ming.lei@redhat.com> wrote:
-> > 
-> > > group_cpus_evenly() could be part of storage driver's error handler,
-> > > such as nvme driver, when may happen during CPU hotplug, in which
-> > > storage queue has to drain its pending IOs because all CPUs associated
-> > > with the queue are offline and the queue is becoming inactive. And
-> > > handling IO needs error handler to provide forward progress.
-> > > 
-> > > Then dead lock is caused:
-> > > 
-> > > 1) inside CPU hotplug handler, CPU hotplug lock is held, and blk-mq's
-> > > handler is waiting for inflight IO
-> > > 
-> > > 2) error handler is waiting for CPU hotplug lock
-> > > 
-> > > 3) inflight IO can't be completed in blk-mq's CPU hotplug handler because
-> > > error handling can't provide forward progress.
-> > > 
-> > > Solve the deadlock by not holding CPU hotplug lock in group_cpus_evenly(),
-> > > in which two stage spreads are taken: 1) the 1st stage is over all present
-> > > CPUs; 2) the end stage is over all other CPUs.
-> > > 
-> > > Turns out the two stage spread just needs consistent 'cpu_present_mask', and
-> > > remove the CPU hotplug lock by storing it into one local cache. This way
-> > > doesn't change correctness, because all CPUs are still covered.
-> > 
-> > I'm not sure what is the intended merge path for this, but I can do lib/.
-> > 
-> > Do you think that a -stable backport is needed?  It sounds that way.
-> > 
-> > If so, are we able to identify a suitable Fixes: target?  That would
-> > predate f7b3ea8cf72f3 ("genirq/affinity: Move group_cpus_evenly() into
-> > lib/").  
-> 
-> No?  I think this predates 428e211641ed8 ("genirq/affinity: Replace
-> deprecated CPU-hotplug functions." also.
-> 
-> I'll slap a cc:stable on it and I'll let you and the -stable
-> maintainers figure it out.
+From: Hannes Reinecke <hare@suse.de>
 
-The issue should be introduced since 3ee0ce2a54df ("genirq/affinity: Use get/put_online_cpus
-around cpumask operations") in v4.8, but the logic has been changed a lot, so
-may take some effort to backport to longterm stables.
+Add a configfs attribute 'discovery_nqn' in the 'nvmet' configfs
+directory to specify the unique discovery NQN.
 
-The issue is reported from RH QA test, in which both cpu hotplug and
-nvme error recovering are triggered at same time, and easy to duplicate
-in QE lab, but may be hard to trigger in production environment.
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ drivers/nvme/target/configfs.c | 45 ++++++++++++++++++++++++++++++++++
+ drivers/nvme/target/core.c     |  7 ++++++
+ 2 files changed, 52 insertions(+)
 
-Thanks, 
-Ming
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index d937fe05129e..88911d0cd057 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -1587,6 +1587,11 @@ static struct config_group *nvmet_subsys_make(struct config_group *group,
+ 		return ERR_PTR(-EINVAL);
+ 	}
+ 
++	if (sysfs_streq(name, nvmet_disc_subsys->subsysnqn)) {
++		pr_err("can't create subsystem using unique discovery NQN\n");
++		return ERR_PTR(-EINVAL);
++	}
++
+ 	subsys = nvmet_subsys_alloc(name, NVME_NQN_NVME);
+ 	if (IS_ERR(subsys))
+ 		return ERR_CAST(subsys);
+@@ -2131,7 +2136,47 @@ static const struct config_item_type nvmet_hosts_type = {
+ 
+ static struct config_group nvmet_hosts_group;
+ 
++static ssize_t nvmet_root_discovery_nqn_show(struct config_item *item,
++					     char *page)
++{
++	return sprintf(page, "%s\n", nvmet_disc_subsys->subsysnqn);
++}
++
++static ssize_t nvmet_root_discovery_nqn_store(struct config_item *item,
++		const char *page, size_t count)
++{
++	size_t len;
++	struct list_head *entry;
++
++	len = strcspn(page, "\n");
++	if (!len || len > NVMF_NQN_FIELD_LEN - 1)
++		return -EINVAL;
++
++	down_write(&nvmet_config_sem);
++	list_for_each(entry, &nvmet_subsystems_group.cg_children) {
++		struct config_item *item = container_of(entry, struct config_item, ci_entry);
++		if (!strncmp(config_item_name(item), page, len)) {
++			pr_err("duplicate NQN %s\n", config_item_name(item));
++			up_write(&nvmet_config_sem);
++			return -EINVAL;
++		}
++	}
++	memset(nvmet_disc_subsys->subsysnqn, 0, NVMF_NQN_FIELD_LEN);
++	memcpy(nvmet_disc_subsys->subsysnqn, page, len);
++	up_write(&nvmet_config_sem);
++
++	return len;
++}
++
++CONFIGFS_ATTR(nvmet_root_, discovery_nqn);
++
++static struct configfs_attribute *nvmet_root_attrs[] = {
++	&nvmet_root_attr_discovery_nqn,
++	NULL,
++};
++
+ static const struct config_item_type nvmet_root_type = {
++	.ct_attrs		= nvmet_root_attrs,
+ 	.ct_owner		= THIS_MODULE,
+ };
+ 
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 3935165048e7..9c028bbedb45 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -1530,6 +1530,13 @@ static struct nvmet_subsys *nvmet_find_get_subsys(struct nvmet_port *port,
+ 	}
+ 
+ 	down_read(&nvmet_config_sem);
++	if (!strncmp(nvmet_disc_subsys->subsysnqn, subsysnqn,
++				NVMF_NQN_SIZE)) {
++		if (kref_get_unless_zero(&nvmet_disc_subsys->ref)) {
++			up_read(&nvmet_config_sem);
++			return nvmet_disc_subsys;
++		}
++	}
+ 	list_for_each_entry(p, &port->subsystems, entry) {
+ 		if (!strncmp(p->subsys->subsysnqn, subsysnqn,
+ 				NVMF_NQN_SIZE)) {
+-- 
+2.35.3
 
 
