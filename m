@@ -4,79 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA1CBC4332F
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Dec 2023 18:10:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DB3F7C4332F
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Dec 2023 01:26:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=4DvNWg8xxVpBf3eNii3gmW2LZW9Z8Ffh/DHKXZIoFOM=; b=JCXNqtGQSt7SPjrkrakYgFfjhC
-	44cVYcmv5Mw1DAsqnU1mQqnVbbB0RZwYXm+0EtXq6fUqkicY7LqDnA+Wv+JOh9zUULWp/FHzrfcOh
-	LQMeWx47IM9okIujUG5H3kGzOzuyouH6kq0njdBBDaQOJwvSQrKDLZrY9xVA6eKOUBbmZOSEgYzVX
-	8AWtfKVhjN3bLwaZvZ+WAdcflNEmVHJLHVYAnsICYJXdIwvP6bq6DvmGYG3Au/kVTEF7TFyDj1zy3
-	nTPWSgUZb5nawTCabjFnetEFdsfvtiMOdkPHCXrVD+v3yv/D2N4Ov/nFe7QP1sY1+FrdPtGmvrT10
-	V/DDarWg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=7+Fi662eTBH61l7dziQI31ojIowi0xTylG+eKXF8CnY=; b=tVQj3pJt5nHfsVBz8Blk4AQA6X
+	Zsvgvs17MBgiOkQVfNqSx5+dQBADaiV4JKO5VfBehCNm3qr6eltJbqacxxWPRmWzlqnY3tv/BSDL1
+	JRLDCP2mTbMNQNJ6DGDouAV5RGqLUsDARw0K9IpDlBtIv+Fru0IheLck4/b+OkN4X+Ih7pjhylc8E
+	LeFYr08znN8X8Xa07BxWyGKaREmLydehpztS7ZRIqM/PGUr5BQbZzNRDYbBk+U636M+JEM8anPyk+
+	YmskAOpzychhaRQhgWCu1ldFHB65V1kvDLu9VDD5B2Xw51arvpEX0TMdfrvo8PKRzwF2O79G86Jd8
+	cUQaP1lw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rD7CW-00CSgN-2q;
-	Tue, 12 Dec 2023 18:09:48 +0000
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
+	id 1rDE0j-00DJGY-1N;
+	Wed, 13 Dec 2023 01:26:05 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rD7CT-00CSfd-1s
+	id 1rDE0g-00DJFw-0u
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 Dec 2023 18:09:46 +0000
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-6ce76f0748fso3787192b3a.2
-        for <linux-nvme@lists.infradead.org>; Tue, 12 Dec 2023 10:09:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ciq.com; s=s1; t=1702404583; x=1703009383; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4DvNWg8xxVpBf3eNii3gmW2LZW9Z8Ffh/DHKXZIoFOM=;
-        b=NqcJ5OM1s2PeR0tIVFb0RAW6b1rtxCFuZrBygTQdP0YZOLgQAnyZS51qjSRY2puM1Z
-         vvo7KfkR8peHrZrfI9ob1G1HU0IEMtBRCLYbncDkg6rVjqqPc03jT22ON90LnwUtXklV
-         RIZmtb56+q3r3xhvVpZqXcP53Vy0sawMJT0euUzXcbzQcR5ZSmPe7wAiQ1A9ORrMsPVr
-         ry5bZYTK7TWip0W1DOhBiHedag3cKB8ZKU36CZe0GskT/h2KYtxmBNHBeyaHgLSFnScR
-         zsfCdLQk5PsVKOvR8kmtYkHfGLCXjnbIqPg84UGpgWnsiN3ajn1ohWrjQ7sZK58VU5jo
-         HyzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702404583; x=1703009383;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4DvNWg8xxVpBf3eNii3gmW2LZW9Z8Ffh/DHKXZIoFOM=;
-        b=BKUiozWVhVXvrW7jfvnFBzzds4ODGWDhs+zHeJMC6PuIqDYUtO3uQPERB0sV62TXEE
-         pPYZlzCYck9unQwADamkV0nKdpBGAA85J0QRiXjH6YXwSa5t7eBqH3eoMnoFWOr11z+1
-         0kF/27wmHIwgv3Rw1OpwTiH5t6ASrLCriC+8eJgA6IY+No3FckjXFre97N/2GSzZLI4U
-         eOQpEVnfsOfMZvs++rP/fMvTDcTFhs24bjfVkxV8Nzpsiorq0za3eZFLCJMHKU5RKe63
-         4SqdvjOtIzF5nfyYpI3auBZNKqLAF2CSSJGmuc+Q7dDvAAtJxewF+kiVTLRBcwY5u4qG
-         uYkw==
-X-Gm-Message-State: AOJu0YyuZsC4Pm42BRQyjvDAvFp30b9qc0XdW9kBqNox2N3yZTdUJmYS
-	GDFr561gUQHpy5m1isQAUHHL4g==
-X-Google-Smtp-Source: AGHT+IFmTPY4Y8G0VXdpaaGQryBm/BRf9k6z7UIP8JSnlcfVUkpx66o1BEIyiixqhSCU+H04zRNOfg==
-X-Received: by 2002:a05:6a20:3d26:b0:18a:fbd1:8e1b with SMTP id y38-20020a056a203d2600b0018afbd18e1bmr3811875pzi.26.1702404583385;
-        Tue, 12 Dec 2023 10:09:43 -0800 (PST)
-Received: from localhost.localdomain (50-76-39-125-ip-static.hfc.comcastbusiness.net. [50.76.39.125])
-        by smtp.gmail.com with ESMTPSA id x3-20020a636303000000b005a9b20408a7sm8419861pgb.23.2023.12.12.10.09.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Dec 2023 10:09:43 -0800 (PST)
-From: Jeremy Allison <jallison@ciq.com>
-To: jallison@ciq.com,
-	jra@samba.org,
-	tansuresh@google.com,
-	hch@lst.de
-Cc: linux-nvme@lists.infradead.org
-Subject: Make NVME shutdown async
-Date: Tue, 12 Dec 2023 10:09:35 -0800
-Message-Id: <20231212180938.397403-1-jallison@ciq.com>
-X-Mailer: git-send-email 2.39.3
+	Wed, 13 Dec 2023 01:26:04 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1702430758;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7+Fi662eTBH61l7dziQI31ojIowi0xTylG+eKXF8CnY=;
+	b=dChUCaQxmLUbiX6MxpsnVJl89hPiD7B91DgQlB3pSbJbKwiucufzodQoSPdgK1gEf2dU03
+	+7L9iENbwRtDZ4juX06iOoJwbznicxfG2b2vSpRNk8DBdujU44nlKgRT2e6Z5Pr7xROi5l
+	eOKp19LuULGlwHLMustnio8gapDaFZY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-664-C7-uyY69MkKS7aFFTyZZzQ-1; Tue, 12 Dec 2023 20:25:52 -0500
+X-MC-Unique: C7-uyY69MkKS7aFFTyZZzQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D1ED9833B41;
+	Wed, 13 Dec 2023 01:25:51 +0000 (UTC)
+Received: from fedora (unknown [10.72.116.39])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B04C3C25;
+	Wed, 13 Dec 2023 01:25:42 +0000 (UTC)
+Date: Wed, 13 Dec 2023 09:25:38 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: John Garry <john.g.garry@oracle.com>
+Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+	jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
+	jack@suse.cz, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	tytso@mit.edu, jbongio@google.com, linux-scsi@vger.kernel.org,
+	jaswin@linux.ibm.com, bvanassche@acm.org,
+	Himanshu Madhani <himanshu.madhani@oracle.com>
+Subject: Re: [PATCH v2 01/16] block: Add atomic write operations to
+ request_queue limits
+Message-ID: <ZXkIEnQld577uHqu@fedora>
+References: <20231212110844.19698-1-john.g.garry@oracle.com>
+ <20231212110844.19698-2-john.g.garry@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231212110844.19698-2-john.g.garry@oracle.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231212_100945_625051_55E07168 
-X-CRM114-Status: UNSURE (   6.92  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20231212_172602_410956_62B9B4FA 
+X-CRM114-Status: GOOD (  32.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,37 +89,183 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This is a rebased update and resend of a patchset originally
-written by Tanjore Suresh <tansuresh@google.com> to make
-shutdown of nvme devices asynchronous. Minor changes
-made to use an enum shutdown_type instead of an
-integer flag.
+On Tue, Dec 12, 2023 at 11:08:29AM +0000, John Garry wrote:
+> From: Himanshu Madhani <himanshu.madhani@oracle.com>
+> 
+> Add the following limits:
+> - atomic_write_boundary_bytes
+> - atomic_write_max_bytes
+> - atomic_write_unit_max_bytes
+> - atomic_write_unit_min_bytes
+> 
+> All atomic writes limits are initialised to 0 to indicate no atomic write
+> support. Stacked devices are just not supported either for now.
+> 
+> Signed-off-by: Himanshu Madhani <himanshu.madhani@oracle.com>
+> #jpg: Heavy rewrite
+> Signed-off-by: John Garry <john.g.garry@oracle.com>
+> ---
+>  Documentation/ABI/stable/sysfs-block | 47 ++++++++++++++++++++++
+>  block/blk-settings.c                 | 60 ++++++++++++++++++++++++++++
+>  block/blk-sysfs.c                    | 33 +++++++++++++++
+>  include/linux/blkdev.h               | 37 +++++++++++++++++
+>  4 files changed, 177 insertions(+)
+> 
+> diff --git a/Documentation/ABI/stable/sysfs-block b/Documentation/ABI/stable/sysfs-block
+> index 1fe9a553c37b..ba81a081522f 100644
+> --- a/Documentation/ABI/stable/sysfs-block
+> +++ b/Documentation/ABI/stable/sysfs-block
+> @@ -21,6 +21,53 @@ Description:
+>  		device is offset from the internal allocation unit's
+>  		natural alignment.
+>  
+> +What:		/sys/block/<disk>/atomic_write_max_bytes
+> +Date:		May 2023
+> +Contact:	Himanshu Madhani <himanshu.madhani@oracle.com>
+> +Description:
+> +		[RO] This parameter specifies the maximum atomic write
+> +		size reported by the device. This parameter is relevant
+> +		for merging of writes, where a merged atomic write
+> +		operation must not exceed this number of bytes.
+> +		The atomic_write_max_bytes may exceed the value in
+> +		atomic_write_unit_max_bytes if atomic_write_max_bytes
+> +		is not a power-of-two or atomic_write_unit_max_bytes is
+> +		limited by some queue limits, such as max_segments.
+> +
+> +
+> +What:		/sys/block/<disk>/atomic_write_unit_min_bytes
+> +Date:		May 2023
+> +Contact:	Himanshu Madhani <himanshu.madhani@oracle.com>
+> +Description:
+> +		[RO] This parameter specifies the smallest block which can
+> +		be written atomically with an atomic write operation. All
+> +		atomic write operations must begin at a
+> +		atomic_write_unit_min boundary and must be multiples of
+> +		atomic_write_unit_min. This value must be a power-of-two.
+> +
+> +
+> +What:		/sys/block/<disk>/atomic_write_unit_max_bytes
+> +Date:		January 2023
+> +Contact:	Himanshu Madhani <himanshu.madhani@oracle.com>
+> +Description:
+> +		[RO] This parameter defines the largest block which can be
+> +		written atomically with an atomic write operation. This
+> +		value must be a multiple of atomic_write_unit_min and must
+> +		be a power-of-two.
+> +
+> +
+> +What:		/sys/block/<disk>/atomic_write_boundary_bytes
+> +Date:		May 2023
+> +Contact:	Himanshu Madhani <himanshu.madhani@oracle.com>
+> +Description:
+> +		[RO] A device may need to internally split I/Os which
+> +		straddle a given logical block address boundary. In that
+> +		case a single atomic write operation will be processed as
+> +		one of more sub-operations which each complete atomically.
+> +		This parameter specifies the size in bytes of the atomic
+> +		boundary if one is reported by the device. This value must
+> +		be a power-of-two.
+> +
+>  
+>  What:		/sys/block/<disk>/diskseq
+>  Date:		February 2021
+> diff --git a/block/blk-settings.c b/block/blk-settings.c
+> index 0046b447268f..d151be394c98 100644
+> --- a/block/blk-settings.c
+> +++ b/block/blk-settings.c
+> @@ -59,6 +59,10 @@ void blk_set_default_limits(struct queue_limits *lim)
+>  	lim->zoned = BLK_ZONED_NONE;
+>  	lim->zone_write_granularity = 0;
+>  	lim->dma_alignment = 511;
+> +	lim->atomic_write_unit_min_sectors = 0;
+> +	lim->atomic_write_unit_max_sectors = 0;
+> +	lim->atomic_write_max_sectors = 0;
+> +	lim->atomic_write_boundary_sectors = 0;
 
-Currently the Linux nvme driver shutdown code steps
-through each connected drive, sets the NVME_CC_SHN_NORMAL
-(normal shutdown) flag and then polls the given drive
-waiting for the response NVME_CSTS_SHST_CMPLT flag
-(shutdown complete).
+Can we move the four into single structure and setup them in single
+API? Then cross-validation can be done in this API.
 
-Each drive is taking around 13 seconds to respond to this.
+>  }
+>  
+>  /**
+> @@ -183,6 +187,62 @@ void blk_queue_max_discard_sectors(struct request_queue *q,
+>  }
+>  EXPORT_SYMBOL(blk_queue_max_discard_sectors);
+>  
+> +/**
+> + * blk_queue_atomic_write_max_bytes - set max bytes supported by
+> + * the device for atomic write operations.
+> + * @q:  the request queue for the device
+> + * @size: maximum bytes supported
+> + */
+> +void blk_queue_atomic_write_max_bytes(struct request_queue *q,
+> +				      unsigned int bytes)
+> +{
+> +	q->limits.atomic_write_max_sectors = bytes >> SECTOR_SHIFT;
+> +}
+> +EXPORT_SYMBOL(blk_queue_atomic_write_max_bytes);
 
-The customer has 20+ drives on the box so this time adds
-up on shutdown when the nvme driver is being shut down.
+What if driver doesn't call it but driver supports atomic write?
 
-This patchset changes shutdown to proceed in parallel,
-so the NVME_CC_SHN_NORMAL (normal shutdown) flag is
-sent to all drives first, and then it polls waiting
-for the NVME_CSTS_SHST_CMPLT flag (shutdown complete)
-for all drives.
+I guess the default max sectors should be atomic_write_unit_max_sectors
+if the feature is enabled.
 
-In the specific customer case it reduces the NVME
-shutdown time from over 300 seconds to around 15
-seconds.
+> +
+> +/**
+> + * blk_queue_atomic_write_boundary_bytes - Device's logical block address space
+> + * which an atomic write should not cross.
+> + * @q:  the request queue for the device
+> + * @bytes: must be a power-of-two.
+> + */
+> +void blk_queue_atomic_write_boundary_bytes(struct request_queue *q,
+> +					   unsigned int bytes)
+> +{
+> +	q->limits.atomic_write_boundary_sectors = bytes >> SECTOR_SHIFT;
+> +}
+> +EXPORT_SYMBOL(blk_queue_atomic_write_boundary_bytes);
 
-Thanks for your consideration,
+Default atomic_write_boundary_sectors should be
+atomic_write_unit_max_sectors in case of atomic write?
 
-Jeremy Allison.
-CIQ / Samba Team.
+> +
+> +/**
+> + * blk_queue_atomic_write_unit_min_sectors - smallest unit that can be written
+> + * atomically to the device.
+> + * @q:  the request queue for the device
+> + * @sectors: must be a power-of-two.
+> + */
+> +void blk_queue_atomic_write_unit_min_sectors(struct request_queue *q,
+> +					     unsigned int sectors)
+> +{
+> +	struct queue_limits *limits = &q->limits;
+> +
+> +	limits->atomic_write_unit_min_sectors = sectors;
+> +}
+> +EXPORT_SYMBOL(blk_queue_atomic_write_unit_min_sectors);
 
+atomic_write_unit_min_sectors should be >= (physical block size >> 9)
+given the minimized atomic write unit is physical sector for all disk.
+
+> +
+> +/*
+> + * blk_queue_atomic_write_unit_max_sectors - largest unit that can be written
+> + * atomically to the device.
+> + * @q: the request queue for the device
+> + * @sectors: must be a power-of-two.
+> + */
+> +void blk_queue_atomic_write_unit_max_sectors(struct request_queue *q,
+> +					     unsigned int sectors)
+> +{
+> +	struct queue_limits *limits = &q->limits;
+> +
+> +	limits->atomic_write_unit_max_sectors = sectors;
+> +}
+> +EXPORT_SYMBOL(blk_queue_atomic_write_unit_max_sectors);
+
+atomic_write_unit_max_sectors should be >= atomic_write_unit_min_sectors.
+
+
+Thanks, 
+Ming
 
 
