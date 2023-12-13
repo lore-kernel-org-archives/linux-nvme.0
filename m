@@ -4,59 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5EB9BC4332F
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Dec 2023 22:41:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C984EC4332F
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Dec 2023 23:05:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wLS95/q6CIXMvIMITS04vQS9H1jDLILf6Z6vEqk8Tao=; b=BNevBfc6FPx/RHsx8g70kYEgGE
-	l42SWLEp23J+11hICoujgpAhHpAhsbZEB0ZHpJDpcMyeLsCnfY340Cr0zPjXzCjyxJU3GrBbswsMS
-	YD958VrCANY3vqHd9cutEwJJf8vFjErXwa2ibZ3a9jN89encTd/6I6jdWc3ebTBUZluUfuqyoTMKp
-	171W7uio2o2o/JZ42L+O05O8xV35GK6Scs064uIq/4KUYZojVr76sKj+N7E1L0vm4HrmC5BJmXKa2
-	pd4xMtZt+R8SRAm3uyQ31zu3uZELprbzZnw0ezFnqeir0XyNggDgyoGltTMDiehILQU5Amc5rBNx5
-	Boi8977A==;
+	bh=4C7lxDybtEbHFpCOIX1tviJcEv9i9MKUadPfgPvrd2A=; b=XW4u73/U5lg39iP6FZVMl4ksMy
+	BrozhsEWb0yH0XTe54rK+4TqTRcj5Uz5BpfkzkHlDb5bhk9dMrJKXHkuSUzGml4qoJ2pG5Qp/lhJ7
+	kCMH/z1q+/sjGL/tc5NUhqLdjm3HCbQUNm2r6AmlQ1UOYBh4s0+1P8vvaKbIUwPfvQ4mExB7cWTn7
+	I4zqCO8N+zc8esMmalO+W2stPRQT91L9T9irck6yGOdR5c4XqEwx/VbyFMsPn41MjN/Z9R/72gZ47
+	fg9ZwzGf+8iZbnNo3yxcI2v34ceJ1wUJa6akU+Ce7t+Z+tfuwqjEEAWZ8s+04qBiFjw0sLVJxIA3Y
+	gqWbjGeQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rDXuR-00G9GZ-2Z;
-	Wed, 13 Dec 2023 22:40:55 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1rDYIV-00GCoQ-1S;
+	Wed, 13 Dec 2023 23:05:47 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rDXuO-00G9G8-2D
+	id 1rDYIT-00GCnw-0j
 	for linux-nvme@lists.infradead.org;
-	Wed, 13 Dec 2023 22:40:54 +0000
+	Wed, 13 Dec 2023 23:05:46 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 97525CE1378;
-	Wed, 13 Dec 2023 22:40:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B866DC433C8;
-	Wed, 13 Dec 2023 22:40:49 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id C324C61F47;
+	Wed, 13 Dec 2023 23:05:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40449C433C7;
+	Wed, 13 Dec 2023 23:05:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702507249;
-	bh=TyMld8/hwt0istjsH7futOvalzBHIyEluVP6FcMDrDc=;
+	s=k20201202; t=1702508739;
+	bh=4C7lxDybtEbHFpCOIX1tviJcEv9i9MKUadPfgPvrd2A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=khoVgTxdKvWdusV1ueZnQpUDcyTYrNKXUcpsrhvTqRMYjLLz0zWVDq2huaMEWsl7P
-	 MLS9F8PSbTYjxPamGTtl7/s3cWX4woFnOZLhKyuH76KtUw54+i2V4uawpq2NX3guIW
-	 piE1uK4V9OOYXeMAkNjfH6t4Pu5XzoK91kodkSpn7jx/lBIyuKX7xwpHBEpVE+TIn+
-	 Igl++pLst3TD+iowW+vZI/eT7J5Hcu4NAhEpgmpLwG+qTqXmcnLkVef2aQBmrOT5/M
-	 PLD7NubE9fr9M/ZIaG9zZrVAUjj7vRMDtTXibZCsuK6ndlWqj0BG002eYpa1Ciq7z5
-	 j1XjESLVgY9Qw==
-Date: Wed, 13 Dec 2023 14:40:48 -0800
+	b=lLPGZVrIMjhmTQjTxcJfLbTsxIenqedaE/F7ekXqv+3XXR1W/X6Qsgw3Iz3VQPz6+
+	 95/m/KPDWfmNx4OU8JkLZI6p4VRtpMt/uYGczG15goCbkLpNgt+Hrv0OtEgnEalOEN
+	 vcDYWmnRADQAy7BBmABIqAcLw2k08OrY1oiATLnoj3h5DdrTPBuWmS8Fo53Cohw+Nw
+	 FmIKMuvtfaNJtwzAYgdcfGDP4hxszCAY8Ogw+xTbvjd/jShV1DeAB4IqCqJbsWpW34
+	 GzkjPTyeZXKAYQ2a4MM/b1SdCSbzW+BsK7GDmVCwvCWywsbd01qp+fRnERVroxV2cE
+	 j4Z4Q7AYBqhKA==
+Date: Wed, 13 Dec 2023 15:05:37 -0800
 From: Keith Busch <kbusch@kernel.org>
-To: Jeff Johnson <jeff.johnson@aeoncomputing.com>
-Cc: linux-nvme@lists.infradead.org
-Subject: Re: Advice appreciated - attempting data recovery on Intel Optane
- H10 (CSTS=0x0?)
-Message-ID: <ZXoy8N6Qw5x-DifR@kbusch-mbp>
-References: <CAFCYAseYeXvTTRaC_Mmcbo34Lqd=YApa6-VU93Vz3yPW4Rbr8w@mail.gmail.com>
+To: Guixin Liu <kanie@linux.alibaba.com>
+Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 0/5] *** bugfixes and code refactoring for nvme target ***
+Message-ID: <ZXo4wSw7LutFA43a@kbusch-mbp>
+References: <1702449172-8920-1-git-send-email-kanie@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAFCYAseYeXvTTRaC_Mmcbo34Lqd=YApa6-VU93Vz3yPW4Rbr8w@mail.gmail.com>
+In-Reply-To: <1702449172-8920-1-git-send-email-kanie@linux.alibaba.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231213_144052_922747_B4F821B9 
-X-CRM114-Status: GOOD (  19.02  )
+X-CRM114-CacheID: sfid-20231213_150545_331520_FC8166E2 
+X-CRM114-Status: UNSURE (   5.03  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,37 +72,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Dec 08, 2023 at 06:12:28PM -0800, Jeff Johnson wrote:
-> Greetings,
-> 
-> Seeking wisdom, many thanks to anyone who stops to read and more if
-> you have advice.
-> 
-> I'm attempting data recovery on a odd little SSD Intel built called
-> the H10. It is an M.2 NVMe SSD with two controllers and two different
-> flash devices. The M.2 is bifurcated from x4 into x2x2 with a
-> different controller and flash device behind each x2.
-> 
-> I was able to access the low side x2 (lanes 0-1) that connected to the
-> 32GB 3dXpoint flash device. It was a cache so not much valuable data.
-> 
-> I had to do some lab gymnastics to access the high side x2 but I was
-> successful. Now I can see the other controller and the link speed and
-> width are fine but it won't initialize. Basically I had to disable
-> PCIe spread spectrum in the system BIOS and use kapton tape to mask
-> out PCIe xmt&rcv lanes for lanes 0 & 1 so the high side x2 lanes 2-3
-> were the only lanes the root complex saw and connected. Crazy I know
-> but it worked.
-> 
-> Rocky 9.3, 5.14.0-362.8.1.el9_3.x86_64
-> [   12.077360] nvme nvme0: pci function 0000:06:00.0
-> [   72.080442] nvme nvme0: Device not ready; aborting initialisation, CSTS=0x0
-
-The command line tools require admin queue availability at a minimum, so
-this isn't going to work.
-
-I think you need a special PCIe port with a bifurcated retimer. I'm
-guessing the nand side requires the optane side up in order to complete
-some internal initialization. Perhaps it's sharing the power provided by
-the other lanes.
+Reviewed patches 2 and 3 applied to nvme-6.8. Thanks!
 
