@@ -4,79 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 16640C4332F
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Dec 2023 12:29:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04F4DC4167D
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Dec 2023 12:50:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pQFnI7fDR+1BAkKjvQWdPrG/WDERRoUrQCJ/FGh+Rlo=; b=mc082UhdSmxf1ifGUQoiyCo2+R
-	7wb4sDXk7qIbMZPfclh1f1JstPOBOKfQzmHy3TIcJF+LxYhUdEPTZUtfB9L3Bvc04cyHOUvMIRC2x
-	qK9LnHfCA15nJxEfwVN3VW/puBJcLIHxNa59Brge5yLvITPqUHdHDQMdD35xi2+RW+2ZQ4SE9nsNi
-	E4KQ7nIYgQWRdR9WqWqZfKzwchKQdvkTA8Q3kvzLTHOWdJH+M/jBFkJqpbtKMMNC3ovqPWdcwF43a
-	vRDacFPis0HgvtofH0drAjKiWDBJWcJslE+lf9BhGIhAQ+CAui2JTXCaYoCf0DmmRLWHJWZjZr4Sa
-	PO+glHOw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=hLhcztgY3BTkz5uriTBvQzIn5YMAhUVL4l50H8Z0dNU=; b=GnspAaxJUfWxKyAfVNhQ0prqUF
+	dGxmGPI6dXXQLyHiOtrDIE3zh2pFT/IjYX6eVn9Nn43HYhuBSk2MUx4B+ChvnF/IrbSfH7650GwhZ
+	5Wmtm/wvrbhoE+p2TI8aaRy+ES4fn1voQGq7Dlz9UVsdC5WG21RLCd6Dj0kkb1tymGsuyU5v8032w
+	wTTuvykv0Psor7qufOh4Chd0kGEhMlxHRnJIhjvG/ewvmQ9VQKpCEkNC7qUIxuQEExZatJuykZm/L
+	GXrKwtNYZUfPvMY+d/Nnd8L2KmaTM5na1fQNVlhH9ow3r/gRRJf4AmKIJHReOirYzyDfHwHWoye+E
+	hqep3oLw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rDOML-00EapO-1x;
-	Wed, 13 Dec 2023 12:29:05 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1rDOgs-00EeV4-0O;
+	Wed, 13 Dec 2023 12:50:18 +0000
+Received: from out30-124.freemail.mail.aliyun.com ([115.124.30.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rDOMI-00EaoY-24
+	id 1rDOga-00EeAK-1W
 	for linux-nvme@lists.infradead.org;
-	Wed, 13 Dec 2023 12:29:04 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1702470539;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pQFnI7fDR+1BAkKjvQWdPrG/WDERRoUrQCJ/FGh+Rlo=;
-	b=DPyeZfaH9Yu7Kzn5W6aRgsBUjcQMmCdVFur0/1zzaoLCGsO15g2SYfhq9YqnzEHr973wg8
-	axKxCwLeGcO1ysVLDaZ629gxOmID7PPR4VttGTtg1Uex2TOMUcS2qAY9OKxLRYi/cRwKzw
-	+id5QF32vzrbRb5W/C5RnDYSxXXa880=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-445-5O6-tQb-PP2YT148se2a5g-1; Wed, 13 Dec 2023 07:28:53 -0500
-X-MC-Unique: 5O6-tQb-PP2YT148se2a5g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1A11585A58A;
-	Wed, 13 Dec 2023 12:28:52 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.126])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 80AAA1121312;
-	Wed, 13 Dec 2023 12:28:42 +0000 (UTC)
-Date: Wed, 13 Dec 2023 20:28:38 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: John Garry <john.g.garry@oracle.com>
-Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-	jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
-	jack@suse.cz, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	tytso@mit.edu, jbongio@google.com, linux-scsi@vger.kernel.org,
-	jaswin@linux.ibm.com, bvanassche@acm.org,
-	Himanshu Madhani <himanshu.madhani@oracle.com>
-Subject: Re: [PATCH v2 01/16] block: Add atomic write operations to
- request_queue limits
-Message-ID: <ZXmjdnIqGHILTfQN@fedora>
-References: <20231212110844.19698-1-john.g.garry@oracle.com>
- <20231212110844.19698-2-john.g.garry@oracle.com>
- <ZXkIEnQld577uHqu@fedora>
- <36ee54b4-b8d5-4b3c-81a0-cc824b6ef68e@oracle.com>
+	Wed, 13 Dec 2023 12:50:01 +0000
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R771e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046049;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0VyR9rm8_1702471793;
+Received: from 30.178.83.96(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0VyR9rm8_1702471793)
+          by smtp.aliyun-inc.com;
+          Wed, 13 Dec 2023 20:49:54 +0800
+Message-ID: <2999415d-f1db-4796-b558-95237daa2586@linux.alibaba.com>
+Date: Wed, 13 Dec 2023 20:49:52 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <36ee54b4-b8d5-4b3c-81a0-cc824b6ef68e@oracle.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] nvmet: fix wrong error handling approach in
+ nvmet_install_queue
+Content-Language: en-GB
+To: Christoph Hellwig <hch@lst.de>
+Cc: sagi@grimberg.me, kch@nvidia.com, linux-nvme@lists.infradead.org
+References: <1702449172-8920-1-git-send-email-kanie@linux.alibaba.com>
+ <1702449172-8920-2-git-send-email-kanie@linux.alibaba.com>
+ <20231213084319.GB6184@lst.de>
+From: Guixin Liu <kanie@linux.alibaba.com>
+In-Reply-To: <20231213084319.GB6184@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231213_042902_774242_8ECE10B1 
-X-CRM114-Status: GOOD (  36.64  )
+X-CRM114-CacheID: sfid-20231213_045000_691628_059CDF7B 
+X-CRM114-Status: UNSURE (   7.24  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,165 +65,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Dec 13, 2023 at 09:13:48AM +0000, John Garry wrote:
-> > > +
-> > >   What:		/sys/block/<disk>/diskseq
-> > >   Date:		February 2021
-> > > diff --git a/block/blk-settings.c b/block/blk-settings.c
-> > > index 0046b447268f..d151be394c98 100644
-> > > --- a/block/blk-settings.c
-> > > +++ b/block/blk-settings.c
-> > > @@ -59,6 +59,10 @@ void blk_set_default_limits(struct queue_limits *lim)
-> > >   	lim->zoned = BLK_ZONED_NONE;
-> > >   	lim->zone_write_granularity = 0;
-> > >   	lim->dma_alignment = 511;
-> > > +	lim->atomic_write_unit_min_sectors = 0;
-> > > +	lim->atomic_write_unit_max_sectors = 0;
-> > > +	lim->atomic_write_max_sectors = 0;
-> > > +	lim->atomic_write_boundary_sectors = 0;
-> > 
-> > Can we move the four into single structure
-> 
-> There is no precedent for a similar structure in struct queue_limits. So
-> would only passing a structure to the blk-settings.c API be ok?
 
-Yes, this structure is part of the new API.
+在 2023/12/13 16:43, Christoph Hellwig 写道:
+> On Wed, Dec 13, 2023 at 02:32:48PM +0800, Guixin Liu wrote:
+>> In the nvmet_install_queue() function, do not set the ctrl pointer
+>> to NULL if the sqsize check fails.
+> Can you explain why it is wrong, and why not doing it is desirable?
 
-> 
-> > and setup them in single
-> > API? Then cross-validation can be done in this API.
-> 
-> I suppose so, if you think that it is better.
-> 
-> We rely on the driver to provide sound values. I suppose that we can
-> sanitize them also (in a single API).
+If a queue which is already connected, then receive a connect cmd with 
+sqsize=0, it will set the
 
-Please make the interface correct from beginning, and one good API is
-helpful for both sides, such as isolating problems, easy to locate
-bug, abstracting common logic, ...
-
-And relying on API users is absolutely not good design.
-
-> 
-> > 
-> > >   }
-> > >   /**
-> > > @@ -183,6 +187,62 @@ void blk_queue_max_discard_sectors(struct request_queue *q,
-> > >   }
-> > >   EXPORT_SYMBOL(blk_queue_max_discard_sectors);
-> > > +/**
-> > > + * blk_queue_atomic_write_max_bytes - set max bytes supported by
-> > > + * the device for atomic write operations.
-> > > + * @q:  the request queue for the device
-> > > + * @size: maximum bytes supported
-> > > + */
-> > > +void blk_queue_atomic_write_max_bytes(struct request_queue *q,
-> > > +				      unsigned int bytes)
-> > > +{
-> > > +	q->limits.atomic_write_max_sectors = bytes >> SECTOR_SHIFT;
-> > > +}
-> > > +EXPORT_SYMBOL(blk_queue_atomic_write_max_bytes);
-> > 
-> > What if driver doesn't call it but driver supports atomic write?
-> 
-> We rely on the driver to do this. Any basic level of testing will show an
-> issue if they don't.
-
-Software quality depends on good requirement analysis, design and
-implementation, instead of test.
-
-Simply you can not cover all possibilities in test.
-
-> 
-> > 
-> > I guess the default max sectors should be atomic_write_unit_max_sectors
-> > if the feature is enabled.
-> 
-> Sure. If we have a single API to set all values, then we don't need to worry
-> about this (assuming the values are filled in properly).
-> 
-> > 
-> > > +
-> > > +/**
-> > > + * blk_queue_atomic_write_boundary_bytes - Device's logical block address space
-> > > + * which an atomic write should not cross.
-> > > + * @q:  the request queue for the device
-> > > + * @bytes: must be a power-of-two.
-> > > + */
-> > > +void blk_queue_atomic_write_boundary_bytes(struct request_queue *q,
-> > > +					   unsigned int bytes)
-> > > +{
-> > > +	q->limits.atomic_write_boundary_sectors = bytes >> SECTOR_SHIFT;
-> > > +}
-> > > +EXPORT_SYMBOL(blk_queue_atomic_write_boundary_bytes);
-> > 
-> > Default atomic_write_boundary_sectors should be
-> > atomic_write_unit_max_sectors in case of atomic write?
-> 
-> Having atomic_write_boundary_sectors default to
-> atomic_write_unit_max_sectors is effectively same as a default of 0.
-> 
-> > 
-> > > +
-> > > +/**
-> > > + * blk_queue_atomic_write_unit_min_sectors - smallest unit that can be written
-> > > + * atomically to the device.
-> > > + * @q:  the request queue for the device
-> > > + * @sectors: must be a power-of-two.
-> > > + */
-> > > +void blk_queue_atomic_write_unit_min_sectors(struct request_queue *q,
-> > > +					     unsigned int sectors)
-> > > +{
-> > > +	struct queue_limits *limits = &q->limits;
-> > > +
-> > > +	limits->atomic_write_unit_min_sectors = sectors;
-> > > +}
-> > > +EXPORT_SYMBOL(blk_queue_atomic_write_unit_min_sectors);
-> > 
-> > atomic_write_unit_min_sectors should be >= (physical block size >> 9)
-> > given the minimized atomic write unit is physical sector for all disk.
-> 
-> For SCSI, we have a granularity VPD value, and when set we pay attention to
-> that. If not, we use the phys block size.
-> 
-> For NVMe, we use the logical block size. For physical block size, that can
-> be greater than the logical block size for npwg set, and I don't think it's
-> suitable use that as minimum atomic write unit.
-
-I highly suspect it is wrong to use logical block size as minimum
-support atomic write unit, given physical block size is supposed to
-be the minimum atomic write unit.
-
-> 
-> Anyway, I am not too keen on sanitizing this value in this way.
-> 
-> > 
-> > > +
-> > > +/*
-> > > + * blk_queue_atomic_write_unit_max_sectors - largest unit that can be written
-> > > + * atomically to the device.
-> > > + * @q: the request queue for the device
-> > > + * @sectors: must be a power-of-two.
-> > > + */
-> > > +void blk_queue_atomic_write_unit_max_sectors(struct request_queue *q,
-> > > +					     unsigned int sectors)
-> > > +{
-> > > +	struct queue_limits *limits = &q->limits;
-> > > +
-> > > +	limits->atomic_write_unit_max_sectors = sectors;
-> > > +}
-> > > +EXPORT_SYMBOL(blk_queue_atomic_write_unit_max_sectors);
-> > 
-> > atomic_write_unit_max_sectors should be >= atomic_write_unit_min_sectors.
-> > 
-> 
-> Again, we rely on the driver to provide sound values. However, as mentioned,
-> we can sanitize.
-
-Relying on driver to provide sound value is absolutely bad design from API
-viewpoint.
-
-Thanks,
-Ming
+req->sq->ctrl to NULL and break the queue.
 
 
