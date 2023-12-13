@@ -4,172 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9C5F4C4332F
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Dec 2023 13:16:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 386F7C4167D
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Dec 2023 13:27:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5F6ZgsHhYrKTZrI5OfEpzulPN4fi6IC+cj4/9ljBqGw=; b=OG/Mnw5QYMG5tj+OBbzO5UK0YC
-	W+KhMlb0hSN5CN65ZXTT6P7arzh2R06CejciaPhDU8ExNxlgx0Q/0VSIlis1RyhbMXIyInX1dj4Lf
-	kihUi4Dj0jE2NyilvfRSgB8NmBaMrSbnVAehW7Ce0k2drsljpCuAzfe4AOSlpbbhJcfoj+ZAPtUpQ
-	Cmgbbu64ep6o2MJ9PO2UJkYxFETDGX/g0gBBX545elnw5Xgo5uat94CzjXR+Fminx0tiQrtdcbPJD
-	zRkIRzaGhntQBPAKnnaBB8K2Vi/kjnuIQcQKA/ClAdZ85qLLHjbpt3/o2wBwDMePfAFwiN0Z/YeV3
-	zt+hRI5g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=RLLCnFxSjgbjKhp11T+FrcGAjFXb9MIq6VnAfHNc0fU=; b=NYD2P2u+Af8mzwLHyGd5E1r3yv
+	RAwFjJaV9uaOxsPht/4t49VSCRim2B8hAaG7GY3/+YucX+SXlgF6/6InyLDZ4EnhOkqA0cBdzOGx3
+	23FNsD/JoZi1lSOt5dPUDRNkmV8Rgkpz+xVDv5mQHWqhWnFBaK/TYl3IKTmEX+6Z0c5Wz1VEpFZzs
+	kQLO5s61BvxoiQep7bxoYT1xYg9kBIn9CpjATPHy2epoLzfEoXJ8qgcnWTYMpPIERieZOncOjUSl5
+	ENB8ZO3mPCs+DZGUQObciD1aQN/DWVPWmxFxnZPzH7SbCZnQp9UoxhJbu6uIp+mhsfCcD4wC6Iycm
+	zxuR41BA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rDP5s-00ElZ6-2b;
-	Wed, 13 Dec 2023 13:16:08 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1rDPGk-00Enmr-1l;
+	Wed, 13 Dec 2023 13:27:22 +0000
+Received: from mail-wm1-f51.google.com ([209.85.128.51])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rDP5q-00ElXI-03
+	id 1rDPGh-00Enkv-0f
 	for linux-nvme@lists.infradead.org;
-	Wed, 13 Dec 2023 13:16:07 +0000
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3BDCsQvJ032170;
-	Wed, 13 Dec 2023 13:15:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2023-11-20;
- bh=5F6ZgsHhYrKTZrI5OfEpzulPN4fi6IC+cj4/9ljBqGw=;
- b=BWNlDQDo7CbsMw0hcCQRgA8Sl8cHLo7iqrFOOjNwn0BTlQ837GG5kuLwCQTSGqRIZzLX
- DzrCcb6m8seX4jOvFlAh85v22sMcgeHIlOPoYjtVFLvEhvccNZhPh2GOFSK6q2d6amjl
- IRqLEE0habGiw3YS3NriC5g7lvtLCtlSWgGah1X0KIY3VowWuLJVKtPRTI8VS+qtGPcF
- RS9EuGuBnAsLbryM2CawhiRaFNMWghDeBBJdPH39PTxOGhyO8Xc/SR9KISrm4jXmUTPY
- IDC49BImw9/l2vHdpMOrmhTpbAi9VUBU3SnO9k3vGnPioYlwH/TLQUKWBuBMQKbyK4qR bw== 
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3uwfrrpjv2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 13 Dec 2023 13:15:48 +0000
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 3BDBsVf7012849;
-	Wed, 13 Dec 2023 13:15:47 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3uvep88kwe-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 13 Dec 2023 13:15:47 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=noSizzjjkLiUvPDV38/5DMwJ6K3vWOfNz29fVmv7nXGTbVs/3HhYuiZG8SHxr5/WTr3soolvKTnr1SMeNu6VFOzSERK7M/VqmSeu87n6LSQRtnfSbv1W4wNWP0jU/U8AN+9gODercr0J2ihoLUGmHy3Lt83vNcR8EWj4YsBb/CNmnC8qUXMgQ5Q+ukiQY06jGA0gjm7NZq/tER9MWRp4//6bG1KG/A9TSIlwBH7Zso0P7snR+b1u62fi5mdtrU8yBfhFMd2qnihWgdqRwUTa6zQtrkwfS6MM/A63iEQFLPFx/xw811kTkQ8pMKqWDqGFJcx+HIm8TsR5TxtyJmPGiA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5F6ZgsHhYrKTZrI5OfEpzulPN4fi6IC+cj4/9ljBqGw=;
- b=nhfEQ/AKVywT2jMb+zfi2Ido70lDis8lBre9Bu6gE/WllNsa90V0n03VUyMZAXbBQz5DmoTT8ciWcxlgVBg4ca0wwMWhgGr6s+DRHUJwz+EIKR4szodZOW3Zy5gfY76LSIb/5yjdL0e3yM5ksDV47ro3VadvK+wf2MqyxLCMKP3AnzXTktn8MWCx3g1lt8UMDO+sOdGuwZpEX8OlQZW4UOprH8tZHdI8AHn/j+xYsU+isPfyXXyNNqD7EiWCYsb5sNkA+7vbd7j5hFlkIxPMUqAbTW/7LdDNxRQjG5+vsH+BUFxxvpXrrAtdMlWhQlX3Q/KSzLZvo9V1/XB5lQCP/Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5F6ZgsHhYrKTZrI5OfEpzulPN4fi6IC+cj4/9ljBqGw=;
- b=oA42xaX29HmmJdhyHerXSrbs1FeKTqkP2u2jVfw8x71PPiWw6yyZ3gEPaYzEHgNFFC0TorbKX1xeL/KvBLaEyi0kfr/pp5D7CqUZ35yXP878QmeTt0zFp9Sns50UQ7JwG9+P71gh134hDBY7gdmKF3t1mSURm2dNNM9lE5HavZg=
-Received: from DM6PR10MB4313.namprd10.prod.outlook.com (2603:10b6:5:212::20)
- by CH0PR10MB5081.namprd10.prod.outlook.com (2603:10b6:610:c2::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.26; Wed, 13 Dec
- 2023 13:15:44 +0000
-Received: from DM6PR10MB4313.namprd10.prod.outlook.com
- ([fe80::102a:f31:30c6:3187]) by DM6PR10MB4313.namprd10.prod.outlook.com
- ([fe80::102a:f31:30c6:3187%4]) with mapi id 15.20.7091.022; Wed, 13 Dec 2023
- 13:15:44 +0000
-Message-ID: <267f7b59-fbdf-4c88-bf6f-596de09ba831@oracle.com>
-Date: Wed, 13 Dec 2023 13:15:39 +0000
+	Wed, 13 Dec 2023 13:27:21 +0000
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40c362efc2dso8341825e9.0
+        for <linux-nvme@lists.infradead.org>; Wed, 13 Dec 2023 05:27:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702474037; x=1703078837;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RLLCnFxSjgbjKhp11T+FrcGAjFXb9MIq6VnAfHNc0fU=;
+        b=MNqmVORTTTCgv6Bey7YcJg4JdXIBwAIAULtdDVzAkysnUOJ+WPx4qU9t8b2CwPei5S
+         PkUfydtpgTPIjMDDtRoZlabKMDsc8EU6VlAMWF5agPe+4FBIzx0AqqRHSURryV66erVX
+         GYqtphF15HQGynWEu+hs7X5MIHguAqYdscrmYUN4fZNiEfAi/y+Y8CWc/KBKLFeSliwY
+         NHwtN1fd5mlMJgw/NndgWNgVeB7UzK+DfD1u0IRoBh3/Uv80Ufu2pdSO/MldIFxDq2Rg
+         nI5W25rOm2/FmpEsxwEz1Dy8VuQG78jfozG77KmvlIZ/1bG9k297aTVaDgdSWtjszIsm
+         3rzw==
+X-Gm-Message-State: AOJu0YyuoEGme2RP/ZiDramsqRP9ZfK+fmjEUjlB9PCWV5Ot6LDj6bMi
+	IqT4KPlhK+ChtG2zJUheMVg=
+X-Google-Smtp-Source: AGHT+IGlYu20kDkfLBD60u6084b9Pe/sfXzrFP7hNG8aQNo5PQFwTMGueZdK0aH1lLM3B2OFxaRn+A==
+X-Received: by 2002:a05:600c:1c0d:b0:40a:771f:6a56 with SMTP id j13-20020a05600c1c0d00b0040a771f6a56mr9723287wms.4.1702474036308;
+        Wed, 13 Dec 2023 05:27:16 -0800 (PST)
+Received: from [192.168.64.177] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id bi11-20020a05600c3d8b00b0040c2963e5f3sm20289168wmb.38.2023.12.13.05.27.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Dec 2023 05:27:15 -0800 (PST)
+Message-ID: <bf20cb2a-0985-467b-842b-6b5fd752f14b@grimberg.me>
+Date: Wed, 13 Dec 2023 15:27:12 +0200
+MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 04/16] fs: Increase fmode_t size
+Subject: Re: [PATCH v5 1/6] nvme: move ns id info to struct nvme_ns_head
 Content-Language: en-US
-To: Christian Brauner <brauner@kernel.org>
-Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-        jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
-        viro@zeniv.linux.org.uk, dchinner@redhat.com, jack@suse.cz,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
-        linux-scsi@vger.kernel.org, ming.lei@redhat.com, jaswin@linux.ibm.com,
-        bvanassche@acm.org
-References: <20231212110844.19698-1-john.g.garry@oracle.com>
- <20231212110844.19698-5-john.g.garry@oracle.com>
- <20231213-gurte-beeren-e71ff21c3c03@brauner>
-From: John Garry <john.g.garry@oracle.com>
-Organization: Oracle Corporation
-In-Reply-To: <20231213-gurte-beeren-e71ff21c3c03@brauner>
+To: Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Hannes Reinecke <hare@suse.de>
+References: <20231208105337.23409-1-dwagner@suse.de>
+ <20231208105337.23409-2-dwagner@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20231208105337.23409-2-dwagner@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0633.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:294::20) To DM6PR10MB4313.namprd10.prod.outlook.com
- (2603:10b6:5:212::20)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR10MB4313:EE_|CH0PR10MB5081:EE_
-X-MS-Office365-Filtering-Correlation-Id: 93cd994a-7030-42c3-3c0f-08dbfbdd9d1a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: e9jFuOf6DNtG/RWSDlvZIFm5exbCrKPTXOr911joHhEPbWLXOvRDmbpFwgM14BDSxsnIl8iAI0k9SBYZBeMG5Zj9M88GHBt1XgFiVCol8PBNBRruoR53HWOSEQGRhK71q9pI2OENy0oaZ/jqywVeR2UH62VeaxYGbyBVjVHzSKqsEiZdBbmFOoBmIvbvABTKbNMIynhEP3eID4eBkJjpK3xQ1vlTdVJiBcMxCg0Udh+KvBoRGnvEzpx2jGH8rqgbQy/So1nss8oYd61ToJCQcmwrVGrM0l+AImGEVI5ISYAHZlNDE2CWDAenPrMhRtgLo2aM+WgBZ7ahTcR9UTmwhBQ6OD5BDrAJr+HrZ35j7wvU1GwFkg5NhSe0bTjIo87yYUZYImFpyPZw+ixCpowSDmcIJCZbKyjUxBymyOrmcS6mKc3VpJGNNFoVL+Vim/MMDOlvbFPKmyyd64PKDnInPMBhYgCBA7VMKhXgGkHYcck2BB3pe39SPNLoAshSeOYpkD6oOpVAAZkf+GOwIS/5hBfY0p60sD982OtQVZpV01eeq9tBsf1fLgaebWbab50wM0/xjj9AEs/LlzNHr3BgoxPYTsMaJicBOySwnf+VwxgLm0e3aJWS6CxPdbE/JkX1vRwPRB291beTtEFf75wvpg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4313.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(396003)(39860400002)(136003)(366004)(230922051799003)(451199024)(1800799012)(186009)(64100799003)(31686004)(66899024)(2616005)(26005)(36916002)(6666004)(6512007)(6506007)(31696002)(86362001)(38100700002)(36756003)(5660300002)(8936002)(7416002)(8676002)(4326008)(83380400001)(66476007)(6916009)(66556008)(66946007)(41300700001)(2906002)(6486002)(316002)(53546011)(478600001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?blhxOXpaVUhzS3ZVcUpONkkwOUNpMTZMNjRFM2xIS0M2ZmRxWVFpbHpmV3d3?=
- =?utf-8?B?Q0N1MmtCeGZia3FVbmtBa0JjR3ZORlVhS3Jyc1pBa1pxdi92Vm1COWFzMzRK?=
- =?utf-8?B?eHAxR1hzY2VkVG1IZ3ZUTytKU2tEd0hka3BYYSs0SHdnQmJBUVlJbHJTQkc1?=
- =?utf-8?B?Nm1RdmkwT3ZRUjBlUnhXM000V0t5Ritvd0Q1YytXNmhFcGpYZ1Y0TjBsSXJ0?=
- =?utf-8?B?UHQ0NXZhY0ovbGNGR3d0ZDhrUHJ0V1B4RU9yUndtenVmUFl6Z2V0Tlo5Tjll?=
- =?utf-8?B?UWVvOWVFOFVEbUUySEoxVml6RGpNWFcvT1ovZGU3RDFJSnVpajlzd1lOZFAx?=
- =?utf-8?B?TG5NNGRYYXlidm9yazJMT09wWWtKK1lqdVBIWkt5czVKV1p2OGxYK1RvRERi?=
- =?utf-8?B?U1U5MUZDekxsb3BZcDRCT0tIT253V0RGWWpGa3lpRDM3MXdEcWk5QnRlRjVt?=
- =?utf-8?B?eWNRb3djMkpMNG8vMzh1bTRCNUYzTHM5dDlHZ1k4R0praWZTdjN2WlA2N3pk?=
- =?utf-8?B?MXRNVjVZUC9LTUQyTjhjSEFnZXMrZFQ0R3Bvc2hsVEx3NWloS1kvZ2ZUYWJH?=
- =?utf-8?B?dVFDRS90U3FpMk82OG9mZWpyelN2VlpLN0djR2hFNVBmeU9YamZUQ095VnZM?=
- =?utf-8?B?cUovNHBscG5lZGpMWGhQaUg4M1RDbWZWWm9naVgxV3BsVFNVekJtSWxleTg0?=
- =?utf-8?B?aTE2OXhERVcrNk82MjRVT2J5cW10TDlRYmNUUmFIYVJocXJvalVFRXZ4K2Uy?=
- =?utf-8?B?SjFXNyttcU5xcDdvUno5KzVWMkc3aFNqMDI5cjVGclJ2MkltZ0ZXbFFaYVBp?=
- =?utf-8?B?V3MxaFRYOGx2VUxuT1R4QTFmdXR4Q2lhVXl6SEF1eFNpRGVZVnMwK2dNdU9U?=
- =?utf-8?B?a0dnZXJtSHY4UmUrNG5JdEpreHZ4c1lKQnBjWjl2VEE2c0ZpRWVmU0ExZE1Z?=
- =?utf-8?B?Zi9KNVRPcklFS1RITXNrQ3MwN0NueTBWTWZlUjlZVUQ0cjdMVnRIbVErdUJG?=
- =?utf-8?B?TUtmYjZ5NTgxVXgzMmM4SGs2M2ZUQW1CRnkvcnBWN1hKOWtwWE8wRW8yZ0Vt?=
- =?utf-8?B?V01RVE5nd05PT2xYdDhUOXQzRnc2REI3bitIOE1ld2d3TnhnRmFGVEp2cHBC?=
- =?utf-8?B?U0RiTGRMTmplL0Vhajl2eVNQNWJZV2dDcVU0RE1Ea2M5TE8vczZjai81bmQw?=
- =?utf-8?B?dzVvbHdWOGRkK0ZTMWFhN2tEUTJZczhzV0VlaFhxSU9EVUlIZGtFSmZnMk5S?=
- =?utf-8?B?eEJUMzVaREk0YkhQMTgzb1ZaM2xRRlN3akhCWi85bEVYVlZ1Z1JjOFF3Qkdp?=
- =?utf-8?B?K01DRmxFUjl1OUwvZEVHWmYxNERqZklDV0dOU2R1cXRqcGJ4Ti9mdkRJYlV0?=
- =?utf-8?B?cW1tNytsK29CeVBWM3BHNkZ3U3ROc1U1emVEVjA5UDVLQURpQTNKbUdhOXBu?=
- =?utf-8?B?U2JVcnhiaU0yVUxIcjdPa0N6aTExZTg5ekVLRjMxaTBETHlKa0d6elVlM1dt?=
- =?utf-8?B?YkRCRHZDU0QwL2FMM0NVZ0pzWjJWbVcxR2NEVG15NWpVMXNrRllqcXJTWmxM?=
- =?utf-8?B?akYxdnorVDlEZGVFa0RuUS91aDk4eis4MmQ1aWVadVltSkhQK2ZicDZySnht?=
- =?utf-8?B?aWJZMXA1QlUxZXdUUlkxVWdWZTM3R3FHTWN2Zk1wa0Vhc3JhanVVcEs3VG4z?=
- =?utf-8?B?RTRZa1VSWkpoaVMvc245d0FadGtNOW9udDVraGVaVGZ4MndVMTRkYXFXU3F2?=
- =?utf-8?B?YmFJUjZnRG5VN1hONENtOGNpc2F6eXYvY3hmQ3pjcTlNN0dPemFpVzdQU0Jm?=
- =?utf-8?B?c3M2YVBMSTl3am5acVZEWnpSeVZ2Ti9kbmdIMXFBdzdKOEJHL25vd3hZMHBH?=
- =?utf-8?B?dkpQeU0wc0IyWllpNzAvQXZPMDdqSjBNTjltMkY3ZXp2VXJ6d0xpRzhrTzEw?=
- =?utf-8?B?K21DcGhZOEdNRVlzZjc0UTRmeGU4REFvTGxJbUhtckJTU05kYW4rRFRjZGtK?=
- =?utf-8?B?ZkNhelI4Q0hjT1lzbjJpa2Zjb0EvVFUyOHM2Mzd1ZGNxdjhBUGlickczK3Uz?=
- =?utf-8?B?enJDRE4vUWdoWjRpaWpYam9vaG5kaVcwb0U5dkN4YjBhU2p6N1N4TmkzbTYy?=
- =?utf-8?Q?TwIUbJc9agb0hWe6onP/8Twk1?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: tZcNXUFFTmDZZ02gbPVDvhC2SqFzG1Bu3QL7i+wRevbodOz2qv+cPgGirVb6Z7AYbucoIpAWXgUimAuJnj9wybA9/TEirz8O17vX6ndJnpuQHCseDok3AqbggUmFvBUkPJseu92wpUckxg5lVeNF40g7nEVo6AyLLqQ5hi/wO1saNF530VcqscT+UDnge+wNjNWpAKB72ps25n3n9ajr5bDfIps7PYHwlH0+4DuZJtYYX4Me8PjZKTmoedO3+cFibx/sACPd+c74f8Hrqt/W/KhwmlSp8JX6jxlrFUE26xHN3OxzUcAD3FGX09NBf5BBMjOIPquAtaeNlzJlOG/6qF/jot8KfXV0waH4htawlh1UF0QjA5gBAIENza7q0a5u5HstFkoExBcTtXGDy4idhftJPihKv+apmVgj9Lwa3EQwiuq1GA7aug59W0phoqy6PtUT/2w2VaUqWf5day/5lp26DklhcuulAQ+88AGNUHWfXudV+G16fRHx+TKhD4DiWCKORMShls2I2YdtsQ/WOIk2ubyBZhADDi29Scfk1Ebwsq7KaOwiDUpGTnSMGuhC6cFHTXrKIBzP1bL3FDjC3xWOqPMObwP/CBG6Pcn1VhU=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 93cd994a-7030-42c3-3c0f-08dbfbdd9d1a
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4313.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2023 13:15:44.7228
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JoOHaDy4RT3nr/NSE/I/wjlRC1NDX7V90x/i4WZ5Vyjlwf6X105CsXRCAabvd7m0cCsi+IrqG8KGWeU1s0CDUQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR10MB5081
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-13_05,2023-12-13_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 bulkscore=0 spamscore=0
- mlxscore=0 adultscore=0 phishscore=0 malwarescore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
- definitions=main-2312130097
-X-Proofpoint-GUID: 7FNnPwsG0gkBY_hWnZtMrnTpeLQF0lJ_
-X-Proofpoint-ORIG-GUID: 7FNnPwsG0gkBY_hWnZtMrnTpeLQF0lJ_
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231213_051606_190496_6664AF35 
-X-CRM114-Status: GOOD (  19.72  )
+X-CRM114-CacheID: sfid-20231213_052719_245762_82391839 
+X-CRM114-Status: GOOD (  30.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -184,57 +82,461 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 13/12/2023 13:02, Christian Brauner wrote:
-> On Tue, Dec 12, 2023 at 11:08:32AM +0000, John Garry wrote:
->> Currently all bits are being used in fmode_t.
->>
->> To allow for further expansion, increase from unsigned int to unsigned
->> long.
->>
->> Since the dma-buf driver prints the file->f_mode member, change the print
->> as necessary to deal with the larger size.
->>
->> Signed-off-by: John Garry <john.g.garry@oracle.com>
->> ---
->>   drivers/dma-buf/dma-buf.c | 2 +-
->>   include/linux/types.h     | 2 +-
->>   2 files changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
->> index 21916bba77d5..a5227ae3d637 100644
->> --- a/drivers/dma-buf/dma-buf.c
->> +++ b/drivers/dma-buf/dma-buf.c
->> @@ -1628,7 +1628,7 @@ static int dma_buf_debug_show(struct seq_file *s, void *unused)
->>   
->>   
->>   		spin_lock(&buf_obj->name_lock);
->> -		seq_printf(s, "%08zu\t%08x\t%08x\t%08ld\t%s\t%08lu\t%s\n",
->> +		seq_printf(s, "%08zu\t%08x\t%08lx\t%08ld\t%s\t%08lu\t%s\n",
->>   				buf_obj->size,
->>   				buf_obj->file->f_flags, buf_obj->file->f_mode,
->>   				file_count(buf_obj->file),
->> diff --git a/include/linux/types.h b/include/linux/types.h
->> index 253168bb3fe1..49c754fde1d6 100644
->> --- a/include/linux/types.h
->> +++ b/include/linux/types.h
->> @@ -153,7 +153,7 @@ typedef u32 dma_addr_t;
->>   
->>   typedef unsigned int __bitwise gfp_t;
->>   typedef unsigned int __bitwise slab_flags_t;
->> -typedef unsigned int __bitwise fmode_t;
->> +typedef unsigned long __bitwise fmode_t;
+
+
+On 12/8/23 12:53, Daniel Wagner wrote:
+> Move the namesapce info to struct nvme_ns_head, because it's the same
+> for all associated namespaces.
 > 
-> As Jan said, that's likely a bad idea. There's a bunch of places that
-> assume fmode_t is 32bit. So not really a change we want to make if we
-> can avoid it.
+> Signed-off-by: Daniel Wagner <dwagner@suse.de>
+> ---
+>   drivers/nvme/host/core.c  | 81 ++++++++++++++++++++-------------------
+>   drivers/nvme/host/ioctl.c |  8 ++--
+>   drivers/nvme/host/nvme.h  | 28 +++++++-------
+>   drivers/nvme/host/rdma.c  |  2 +-
+>   drivers/nvme/host/zns.c   | 17 ++++----
+>   5 files changed, 70 insertions(+), 66 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index d699f0c8b13e..72908e622049 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -312,12 +312,12 @@ static void nvme_log_error(struct request *req)
+>   	struct nvme_request *nr = nvme_req(req);
+>   
+>   	if (ns) {
+> -		pr_err_ratelimited("%s: %s(0x%x) @ LBA %llu, %llu blocks, %s (sct 0x%x / sc 0x%x) %s%s\n",
+> +		pr_err_ratelimited("%s: %s(0x%x) @ LBA %llu, %u blocks, %s (sct 0x%x / sc 0x%x) %s%s\n",
+>   		       ns->disk ? ns->disk->disk_name : "?",
+>   		       nvme_get_opcode_str(nr->cmd->common.opcode),
+>   		       nr->cmd->common.opcode,
+> -		       (unsigned long long)nvme_sect_to_lba(ns, blk_rq_pos(req)),
+> -		       (unsigned long long)blk_rq_bytes(req) >> ns->lba_shift,
+> +		       nvme_sect_to_lba(ns, blk_rq_pos(req)),
+> +		       blk_rq_bytes(req) >> ns->head->lba_shift,
+>   		       nvme_get_error_status_str(nr->status),
+>   		       nr->status >> 8 & 7,	/* Status Code Type */
+>   		       nr->status & 0xff,	/* Status Code */
+> @@ -794,7 +794,7 @@ static blk_status_t nvme_setup_discard(struct nvme_ns *ns, struct request *req,
+>   
+>   	if (queue_max_discard_segments(req->q) == 1) {
+>   		u64 slba = nvme_sect_to_lba(ns, blk_rq_pos(req));
+> -		u32 nlb = blk_rq_sectors(req) >> (ns->lba_shift - 9);
+> +		u32 nlb = blk_rq_sectors(req) >> (ns->head->lba_shift - 9);
+>   
+>   		range[0].cattr = cpu_to_le32(0);
+>   		range[0].nlb = cpu_to_le32(nlb);
+> @@ -803,7 +803,7 @@ static blk_status_t nvme_setup_discard(struct nvme_ns *ns, struct request *req,
+>   	} else {
+>   		__rq_for_each_bio(bio, req) {
+>   			u64 slba = nvme_sect_to_lba(ns, bio->bi_iter.bi_sector);
+> -			u32 nlb = bio->bi_iter.bi_size >> ns->lba_shift;
+> +			u32 nlb = bio->bi_iter.bi_size >> ns->head->lba_shift;
+>   
+>   			if (n < segments) {
+>   				range[n].cattr = cpu_to_le32(0);
+> @@ -841,7 +841,7 @@ static void nvme_set_ref_tag(struct nvme_ns *ns, struct nvme_command *cmnd,
+>   	u64 ref48;
+>   
+>   	/* both rw and write zeroes share the same reftag format */
+> -	switch (ns->guard_type) {
+> +	switch (ns->head->guard_type) {
 
-ok, understood.
+I think that the whole PI stuff needs to be taken with a bit more
+consideration because if not all paths agree on the pi (as we have
+hbas with fabrics) we can't just override or do a logical or on
+the capabilities/attributes.
 
-Some strictly unnecessary bits in f_mode could be recycled (if there 
-were any), but this issue will prob come up again.
-
-Could it be considered to add an extended fmode_t member in struct file?
-
-Thanks,
-John
+>   	case NVME_NVM_NS_16B_GUARD:
+>   		cmnd->rw.reftag = cpu_to_le32(t10_pi_ref_tag(req));
+>   		break;
+> @@ -871,15 +871,16 @@ static inline blk_status_t nvme_setup_write_zeroes(struct nvme_ns *ns,
+>   	cmnd->write_zeroes.slba =
+>   		cpu_to_le64(nvme_sect_to_lba(ns, blk_rq_pos(req)));
+>   	cmnd->write_zeroes.length =
+> -		cpu_to_le16((blk_rq_bytes(req) >> ns->lba_shift) - 1);
+> +		cpu_to_le16((blk_rq_bytes(req) >> ns->head->lba_shift) - 1);
+>   
+> -	if (!(req->cmd_flags & REQ_NOUNMAP) && (ns->features & NVME_NS_DEAC))
+> +	if (!(req->cmd_flags & REQ_NOUNMAP) &&
+> +	    (ns->head->features & NVME_NS_DEAC))
+>   		cmnd->write_zeroes.control |= cpu_to_le16(NVME_WZ_DEAC);
+>   
+>   	if (nvme_ns_has_pi(ns)) {
+>   		cmnd->write_zeroes.control |= cpu_to_le16(NVME_RW_PRINFO_PRACT);
+>   
+> -		switch (ns->pi_type) {
+> +		switch (ns->head->pi_type) {
+>   		case NVME_NS_DPS_PI_TYPE1:
+>   		case NVME_NS_DPS_PI_TYPE2:
+>   			nvme_set_ref_tag(ns, cmnd, req);
+> @@ -912,12 +913,13 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
+>   	cmnd->rw.cdw3 = 0;
+>   	cmnd->rw.metadata = 0;
+>   	cmnd->rw.slba = cpu_to_le64(nvme_sect_to_lba(ns, blk_rq_pos(req)));
+> -	cmnd->rw.length = cpu_to_le16((blk_rq_bytes(req) >> ns->lba_shift) - 1);
+> +	cmnd->rw.length =
+> +		cpu_to_le16((blk_rq_bytes(req) >> ns->head->lba_shift) - 1);
+>   	cmnd->rw.reftag = 0;
+>   	cmnd->rw.apptag = 0;
+>   	cmnd->rw.appmask = 0;
+>   
+> -	if (ns->ms) {
+> +	if (ns->head->ms) {
+>   		/*
+>   		 * If formated with metadata, the block layer always provides a
+>   		 * metadata buffer if CONFIG_BLK_DEV_INTEGRITY is enabled.  Else
+> @@ -930,7 +932,7 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
+>   			control |= NVME_RW_PRINFO_PRACT;
+>   		}
+>   
+> -		switch (ns->pi_type) {
+> +		switch (ns->head->pi_type) {
+>   		case NVME_NS_DPS_PI_TYPE3:
+>   			control |= NVME_RW_PRINFO_PRCHK_GUARD;
+>   			break;
+> @@ -1676,9 +1678,9 @@ static void nvme_init_integrity(struct gendisk *disk, struct nvme_ns *ns,
+>   {
+>   	struct blk_integrity integrity = { };
+>   
+> -	switch (ns->pi_type) {
+> +	switch (ns->head->pi_type) {
+>   	case NVME_NS_DPS_PI_TYPE3:
+> -		switch (ns->guard_type) {
+> +		switch (ns->head->guard_type) {
+>   		case NVME_NVM_NS_16B_GUARD:
+>   			integrity.profile = &t10_pi_type3_crc;
+>   			integrity.tag_size = sizeof(u16) + sizeof(u32);
+> @@ -1696,7 +1698,7 @@ static void nvme_init_integrity(struct gendisk *disk, struct nvme_ns *ns,
+>   		break;
+>   	case NVME_NS_DPS_PI_TYPE1:
+>   	case NVME_NS_DPS_PI_TYPE2:
+> -		switch (ns->guard_type) {
+> +		switch (ns->head->guard_type) {
+>   		case NVME_NVM_NS_16B_GUARD:
+>   			integrity.profile = &t10_pi_type1_crc;
+>   			integrity.tag_size = sizeof(u16);
+> @@ -1717,7 +1719,7 @@ static void nvme_init_integrity(struct gendisk *disk, struct nvme_ns *ns,
+>   		break;
+>   	}
+>   
+> -	integrity.tuple_size = ns->ms;
+> +	integrity.tuple_size = ns->head->ms;
+>   	blk_integrity_register(disk, &integrity);
+>   	blk_queue_max_integrity_segments(disk->queue, max_integrity_segments);
+>   }
+> @@ -1776,11 +1778,11 @@ static int nvme_init_ms(struct nvme_ns *ns, struct nvme_id_ns *id)
+>   	int ret = 0;
+>   	u32 elbaf;
+>   
+> -	ns->pi_size = 0;
+> -	ns->ms = le16_to_cpu(id->lbaf[lbaf].ms);
+> +	ns->head->pi_size = 0;
+> +	ns->head->ms = le16_to_cpu(id->lbaf[lbaf].ms);
+>   	if (!(ctrl->ctratt & NVME_CTRL_ATTR_ELBAS)) {
+> -		ns->pi_size = sizeof(struct t10_pi_tuple);
+> -		ns->guard_type = NVME_NVM_NS_16B_GUARD;
+> +		ns->head->pi_size = sizeof(struct t10_pi_tuple);
+> +		ns->head->guard_type = NVME_NVM_NS_16B_GUARD;
+>   		goto set_pi;
+>   	}
+>   
+> @@ -1803,13 +1805,13 @@ static int nvme_init_ms(struct nvme_ns *ns, struct nvme_id_ns *id)
+>   	if (nvme_elbaf_sts(elbaf))
+>   		goto free_data;
+>   
+> -	ns->guard_type = nvme_elbaf_guard_type(elbaf);
+> -	switch (ns->guard_type) {
+> +	ns->head->guard_type = nvme_elbaf_guard_type(elbaf);
+> +	switch (ns->head->guard_type) {
+>   	case NVME_NVM_NS_64B_GUARD:
+> -		ns->pi_size = sizeof(struct crc64_pi_tuple);
+> +		ns->head->pi_size = sizeof(struct crc64_pi_tuple);
+>   		break;
+>   	case NVME_NVM_NS_16B_GUARD:
+> -		ns->pi_size = sizeof(struct t10_pi_tuple);
+> +		ns->head->pi_size = sizeof(struct t10_pi_tuple);
+>   		break;
+>   	default:
+>   		break;
+> @@ -1818,10 +1820,10 @@ static int nvme_init_ms(struct nvme_ns *ns, struct nvme_id_ns *id)
+>   free_data:
+>   	kfree(nvm);
+>   set_pi:
+> -	if (ns->pi_size && (first || ns->ms == ns->pi_size))
+> -		ns->pi_type = id->dps & NVME_NS_DPS_PI_MASK;
+> +	if (ns->head->pi_size && (first || ns->head->ms == ns->head->pi_size))
+> +		ns->head->pi_type = id->dps & NVME_NS_DPS_PI_MASK;
+>   	else
+> -		ns->pi_type = 0;
+> +		ns->head->pi_type = 0;
+>   
+>   	return ret;
+>   }
+> @@ -1835,8 +1837,8 @@ static int nvme_configure_metadata(struct nvme_ns *ns, struct nvme_id_ns *id)
+>   	if (ret)
+>   		return ret;
+>   
+> -	ns->features &= ~(NVME_NS_METADATA_SUPPORTED | NVME_NS_EXT_LBAS);
+> -	if (!ns->ms || !(ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
+> +	ns->head->features &= ~(NVME_NS_METADATA_SUPPORTED | NVME_NS_EXT_LBAS);
+> +	if (!ns->head->ms || !(ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
+>   		return 0;
+>   
+>   	if (ctrl->ops->flags & NVME_F_FABRICS) {
+> @@ -1848,7 +1850,7 @@ static int nvme_configure_metadata(struct nvme_ns *ns, struct nvme_id_ns *id)
+>   		if (WARN_ON_ONCE(!(id->flbas & NVME_NS_FLBAS_META_EXT)))
+>   			return 0;
+>   
+> -		ns->features |= NVME_NS_EXT_LBAS;
+> +		ns->head->features |= NVME_NS_EXT_LBAS;
+>   
+>   		/*
+>   		 * The current fabrics transport drivers support namespace
+> @@ -1860,7 +1862,7 @@ static int nvme_configure_metadata(struct nvme_ns *ns, struct nvme_id_ns *id)
+>   		 * gain the ability to use other metadata formats.
+>   		 */
+>   		if (ctrl->max_integrity_segments && nvme_ns_has_pi(ns))
+> -			ns->features |= NVME_NS_METADATA_SUPPORTED;
+> +			ns->head->features |= NVME_NS_METADATA_SUPPORTED;
+>   	} else {
+>   		/*
+>   		 * For PCIe controllers, we can't easily remap the separate
+> @@ -1869,9 +1871,9 @@ static int nvme_configure_metadata(struct nvme_ns *ns, struct nvme_id_ns *id)
+>   		 * We allow extended LBAs for the passthrough interface, though.
+>   		 */
+>   		if (id->flbas & NVME_NS_FLBAS_META_EXT)
+> -			ns->features |= NVME_NS_EXT_LBAS;
+> +			ns->head->features |= NVME_NS_EXT_LBAS;
+>   		else
+> -			ns->features |= NVME_NS_METADATA_SUPPORTED;
+> +			ns->head->features |= NVME_NS_METADATA_SUPPORTED;
+>   	}
+>   	return 0;
+>   }
+> @@ -1898,7 +1900,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
+>   		struct nvme_ns *ns, struct nvme_id_ns *id)
+>   {
+>   	sector_t capacity = nvme_lba_to_sect(ns, le64_to_cpu(id->nsze));
+> -	u32 bs = 1U << ns->lba_shift;
+> +	u32 bs = 1U << ns->head->lba_shift;
+>   	u32 atomic_bs, phys_bs, io_opt = 0;
+>   
+>   	/*
+> @@ -1906,7 +1908,8 @@ static void nvme_update_disk_info(struct gendisk *disk,
+>   	 * or smaller than a sector size yet, so catch this early and don't
+>   	 * allow block I/O.
+>   	 */
+> -	if (ns->lba_shift > PAGE_SHIFT || ns->lba_shift < SECTOR_SHIFT) {
+> +	if (ns->head->lba_shift > PAGE_SHIFT ||
+> +	    ns->head->lba_shift < SECTOR_SHIFT) {
+>   		capacity = 0;
+>   		bs = (1 << 9);
+>   	}
+> @@ -1949,9 +1952,9 @@ static void nvme_update_disk_info(struct gendisk *disk,
+>   	 * I/O to namespaces with metadata except when the namespace supports
+>   	 * PI, as it can strip/insert in that case.
+>   	 */
+> -	if (ns->ms) {
+> +	if (ns->head->ms) {
+>   		if (IS_ENABLED(CONFIG_BLK_DEV_INTEGRITY) &&
+> -		    (ns->features & NVME_NS_METADATA_SUPPORTED))
+> +		    (ns->head->features & NVME_NS_METADATA_SUPPORTED))
+>   			nvme_init_integrity(disk, ns,
+>   					    ns->ctrl->max_integrity_segments);
+>   		else if (!nvme_ns_has_pi(ns))
+> @@ -2052,7 +2055,7 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+>   
+>   	blk_mq_freeze_queue(ns->disk->queue);
+>   	lbaf = nvme_lbaf_index(id->flbas);
+> -	ns->lba_shift = id->lbaf[lbaf].ds;
+> +	ns->head->lba_shift = id->lbaf[lbaf].ds;
+>   	nvme_set_queue_limits(ns->ctrl, ns->queue);
+>   
+>   	ret = nvme_configure_metadata(ns, id);
+> @@ -2078,7 +2081,7 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+>   	 * do not return zeroes.
+>   	 */
+>   	if ((id->dlfeat & 0x7) == 0x1 && (id->dlfeat & (1 << 3)))
+> -		ns->features |= NVME_NS_DEAC;
+> +		ns->head->features |= NVME_NS_DEAC;
+>   	set_disk_ro(ns->disk, nvme_ns_is_readonly(ns, info));
+>   	set_bit(NVME_NS_READY, &ns->flags);
+>   	blk_mq_unfreeze_queue(ns->disk->queue);
+> diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+> index 529b9954d2b8..feee9cf50670 100644
+> --- a/drivers/nvme/host/ioctl.c
+> +++ b/drivers/nvme/host/ioctl.c
+> @@ -283,10 +283,10 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+>   		return -EINVAL;
+>   	}
+>   
+> -	length = (io.nblocks + 1) << ns->lba_shift;
+> +	length = (io.nblocks + 1) << ns->head->lba_shift;
+>   
+>   	if ((io.control & NVME_RW_PRINFO_PRACT) &&
+> -	    ns->ms == sizeof(struct t10_pi_tuple)) {
+> +	    ns->head->ms == sizeof(struct t10_pi_tuple)) {
+>   		/*
+>   		 * Protection information is stripped/inserted by the
+>   		 * controller.
+> @@ -296,11 +296,11 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+>   		meta_len = 0;
+>   		metadata = NULL;
+>   	} else {
+> -		meta_len = (io.nblocks + 1) * ns->ms;
+> +		meta_len = (io.nblocks + 1) * ns->head->ms;
+>   		metadata = nvme_to_user_ptr(io.metadata);
+>   	}
+>   
+> -	if (ns->features & NVME_NS_EXT_LBAS) {
+> +	if (ns->head->features & NVME_NS_EXT_LBAS) {
+>   		length += meta_len;
+>   		meta_len = 0;
+>   	} else if (meta_len) {
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index 578e6d311bc9..1ebe6a9b42c9 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -451,6 +451,17 @@ struct nvme_ns_head {
+>   	bool			shared;
+>   	int			instance;
+>   	struct nvme_effects_log *effects;
+> +	int			lba_shift;
+> +	u16			ms;
+> +	u16			pi_size;
+> +	u16			sgs;
+> +	u32			sws;
+> +	u8			pi_type;
+> +	u8			guard_type;
+> +#ifdef CONFIG_BLK_DEV_ZONED
+> +	u64			zsze;
+> +#endif
+> +	unsigned long		features;
+>   
+>   	struct cdev		cdev;
+>   	struct device		cdev_device;
+> @@ -492,17 +503,6 @@ struct nvme_ns {
+>   	struct kref kref;
+>   	struct nvme_ns_head *head;
+>   
+> -	int lba_shift;
+> -	u16 ms;
+> -	u16 pi_size;
+> -	u16 sgs;
+> -	u32 sws;
+> -	u8 pi_type;
+> -	u8 guard_type;
+> -#ifdef CONFIG_BLK_DEV_ZONED
+> -	u64 zsze;
+> -#endif
+> -	unsigned long features;
+>   	unsigned long flags;
+>   #define NVME_NS_REMOVING	0
+>   #define NVME_NS_ANA_PENDING	2
+> @@ -519,7 +519,7 @@ struct nvme_ns {
+>   /* NVMe ns supports metadata actions by the controller (generate/strip) */
+>   static inline bool nvme_ns_has_pi(struct nvme_ns *ns)
+>   {
+> -	return ns->pi_type && ns->ms == ns->pi_size;
+> +	return ns->head->pi_type && ns->head->ms == ns->head->pi_size;
+>   }
+>   
+>   struct nvme_ctrl_ops {
+> @@ -653,7 +653,7 @@ static inline int nvme_reset_subsystem(struct nvme_ctrl *ctrl)
+>    */
+>   static inline u64 nvme_sect_to_lba(struct nvme_ns *ns, sector_t sector)
+>   {
+> -	return sector >> (ns->lba_shift - SECTOR_SHIFT);
+> +	return sector >> (ns->head->lba_shift - SECTOR_SHIFT);
+>   }
+>   
+>   /*
+> @@ -661,7 +661,7 @@ static inline u64 nvme_sect_to_lba(struct nvme_ns *ns, sector_t sector)
+>    */
+>   static inline sector_t nvme_lba_to_sect(struct nvme_ns *ns, u64 lba)
+>   {
+> -	return lba << (ns->lba_shift - SECTOR_SHIFT);
+> +	return lba << (ns->head->lba_shift - SECTOR_SHIFT);
+>   }
+>   
+>   /*
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 81e2621169e5..fc0df91e6b36 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -1423,7 +1423,7 @@ static int nvme_rdma_map_sg_pi(struct nvme_rdma_queue *queue,
+>   		goto mr_put;
+>   
+>   	nvme_rdma_set_sig_attrs(blk_get_integrity(bio->bi_bdev->bd_disk), c,
+> -				req->mr->sig_attrs, ns->pi_type);
+> +				req->mr->sig_attrs, ns->head->pi_type);
+>   	nvme_rdma_set_prot_checks(c, &req->mr->sig_attrs->check_mask);
+>   
+>   	ib_update_fast_reg_key(req->mr, ib_inc_rkey(req->mr->rkey));
+> diff --git a/drivers/nvme/host/zns.c b/drivers/nvme/host/zns.c
+> index ec8557810c21..fa9e8f664ae7 100644
+> --- a/drivers/nvme/host/zns.c
+> +++ b/drivers/nvme/host/zns.c
+> @@ -11,7 +11,7 @@ int nvme_revalidate_zones(struct nvme_ns *ns)
+>   {
+>   	struct request_queue *q = ns->queue;
+>   
+> -	blk_queue_chunk_sectors(q, ns->zsze);
+> +	blk_queue_chunk_sectors(q, ns->head->zsze);
+>   	blk_queue_max_zone_append_sectors(q, ns->ctrl->max_zone_append);
+>   
+>   	return blk_revalidate_disk_zones(ns->disk, NULL);
+> @@ -99,11 +99,12 @@ int nvme_update_zone_info(struct nvme_ns *ns, unsigned lbaf)
+>   		goto free_data;
+>   	}
+>   
+> -	ns->zsze = nvme_lba_to_sect(ns, le64_to_cpu(id->lbafe[lbaf].zsze));
+> -	if (!is_power_of_2(ns->zsze)) {
+> +	ns->head->zsze =
+> +		nvme_lba_to_sect(ns, le64_to_cpu(id->lbafe[lbaf].zsze));
+> +	if (!is_power_of_2(ns->head->zsze)) {
+>   		dev_warn(ns->ctrl->device,
+>   			"invalid zone size:%llu for namespace:%u\n",
+> -			ns->zsze, ns->head->ns_id);
+> +			ns->head->zsze, ns->head->ns_id);
+>   		status = -ENODEV;
+>   		goto free_data;
+>   	}
+> @@ -128,7 +129,7 @@ static void *nvme_zns_alloc_report_buffer(struct nvme_ns *ns,
+>   				   sizeof(struct nvme_zone_descriptor);
+>   
+>   	nr_zones = min_t(unsigned int, nr_zones,
+> -			 get_capacity(ns->disk) >> ilog2(ns->zsze));
+> +			 get_capacity(ns->disk) >> ilog2(ns->head->zsze));
+>   
+>   	bufsize = sizeof(struct nvme_zone_report) +
+>   		nr_zones * sizeof(struct nvme_zone_descriptor);
+> @@ -162,7 +163,7 @@ static int nvme_zone_parse_entry(struct nvme_ns *ns,
+>   
+>   	zone.type = BLK_ZONE_TYPE_SEQWRITE_REQ;
+>   	zone.cond = entry->zs >> 4;
+> -	zone.len = ns->zsze;
+> +	zone.len = ns->head->zsze;
+>   	zone.capacity = nvme_lba_to_sect(ns, le64_to_cpu(entry->zcap));
+>   	zone.start = nvme_lba_to_sect(ns, le64_to_cpu(entry->zslba));
+>   	if (zone.cond == BLK_ZONE_COND_FULL)
+> @@ -196,7 +197,7 @@ int nvme_ns_report_zones(struct nvme_ns *ns, sector_t sector,
+>   	c.zmr.zrasf = NVME_ZRASF_ZONE_REPORT_ALL;
+>   	c.zmr.pr = NVME_REPORT_ZONE_PARTIAL;
+>   
+> -	sector &= ~(ns->zsze - 1);
+> +	sector &= ~(ns->head->zsze - 1);
+>   	while (zone_idx < nr_zones && sector < get_capacity(ns->disk)) {
+>   		memset(report, 0, buflen);
+>   
+> @@ -220,7 +221,7 @@ int nvme_ns_report_zones(struct nvme_ns *ns, sector_t sector,
+>   			zone_idx++;
+>   		}
+>   
+> -		sector += ns->zsze * nz;
+> +		sector += ns->head->zsze * nz;
+>   	}
+>   
+>   	if (zone_idx > 0)
 
