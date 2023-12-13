@@ -4,71 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4DE93C4332F
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Dec 2023 14:22:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B9D62C4332F
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Dec 2023 14:46:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=60s1itEh0fi8jYfRHj4Z8XgU75FRK5h7qs+1v8Fmlzg=; b=FMopE/oee72jWDL4G/tZwlkgq8
-	7enqs2e7nHjkf/JxqXYA9O5o0AOhG+2ZPa6atdwjSYlvw7e6kctAPazkDxDkKFTD3g8um5ap2MohS
-	2jCszRx9+NnGUt49WvNJrcxA8tDIXA+Qenu1JU3AjGrVa2HNBTl/kqP+KHf3UHMOb5/HZ63PeGtno
-	jyOtIHW2OnF3I0n2utGwGnbjb0KG9xX5gkRkhM/dubhzUip8RT8kWs8SGTp0vmnvbIzqK5CP6iF/9
-	iGbTI9/Fgn+zjFQ/nTpaP0pju8IBBDFm4vqE8Vx7DgCCePGDwDpziSAy3Ou9PuBozJ2HzFsHXNGBT
-	M+8oOfig==;
+	bh=RJKnfzyzyEQaXBcdN+jnFLQABa9yl2KfuisahfbwSlU=; b=mWXIZYL/mN2ozUNpYUcKxdc023
+	r9YG9aEJlvm+ExkmEy0cKWWEb2Pri8okrjKnuJ3SpkyxZC4k2qpN7Fn0xH4t7jwQJt0tyizPO0xRy
+	3urPXHQ9+S54Trs5LPAKohWjqD9V6QRafP47p96r2P839DtaTjLPH9aLhxY51VoRTPMKP1jZcogp0
+	H7p/4U/xKvK0EiZ7a4APmQFH18Ecwe9m3BFJkFcF1xNJnm99yCVN0yDd/heYglSH/sDAPm6hseItC
+	eswvIc8lDH50U+eOJ75XUcnCUEIRsMrsfp4iwqTobDSikdlTNQry4J1unE1hzuJ7sRTPZ8g2JWKrC
+	W2bANE7Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rDQ7q-00F1pY-13;
-	Wed, 13 Dec 2023 14:22:14 +0000
-Received: from mail-ot1-f43.google.com ([209.85.210.43])
+	id 1rDQVI-00F5SW-2v;
+	Wed, 13 Dec 2023 14:46:28 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rDQ7n-00F1nl-20
+	id 1rDPTq-00Er4f-1D
+	for linux-nvme@bombadil.infradead.org;
+	Wed, 13 Dec 2023 13:40:54 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=RJKnfzyzyEQaXBcdN+jnFLQABa9yl2KfuisahfbwSlU=; b=T1qYm0sUZBu9UdYtH4dKKyGkmw
+	pOww2bay6TtVY+nYOlyfczZqywu9Nco5fWg56KQMuhAvYysJQJG7B4DuvTclS/E98eEnx+0ET0jk7
+	jMJ5HRhpGARzMJ0BC9dSEHOFjj4zB8MN7s3DkAof4gbANWa+G4DaaLlSa9uK0Zt5lt1U4+9exYuoE
+	FfaAk2v1nkEoMlwDAm6fNX09kpv9kybvLba4D/FduB1fctfhTo48XcnY61INXYaxt39IX6gyyp2mD
+	uJBiFAsI8hVdlYpLDrLlhprTXyRuIL1eDyrw6KNgEe5pvf2oH0PrACeCkNVvs0NRn8PED8IlW4XyG
+	Guaa8Tgw==;
+Received: from mail-ej1-f51.google.com ([209.85.218.51])
+	by desiato.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
+	id 1rDPTl-0096j3-1t
 	for linux-nvme@lists.infradead.org;
-	Wed, 13 Dec 2023 14:22:13 +0000
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-6d9d6f8485eso900340a34.0
-        for <linux-nvme@lists.infradead.org>; Wed, 13 Dec 2023 06:22:10 -0800 (PST)
+	Wed, 13 Dec 2023 13:40:52 +0000
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a1cc518c5bbso219981966b.1
+        for <linux-nvme@lists.infradead.org>; Wed, 13 Dec 2023 05:40:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702477329; x=1703082129;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+        d=1e100.net; s=20230601; t=1702474847; x=1703079647;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=60s1itEh0fi8jYfRHj4Z8XgU75FRK5h7qs+1v8Fmlzg=;
-        b=H5NLbpFm8w+CEsdTmBIDXw9ymryDqcuf42Xta76BPxQCknvYEt3m0q1XBdPLeomBRr
-         /HYtqqaalgCSmMWOXYSxi8VIqzSMiWAlQhfqlJrhFpEHXgQMGAUNsBb69ED5k68tbDio
-         mgbY2gaXK80AFyyPNHesylnQ11u1n48H6GQdRDIdq6nvn/Hcl19EmLXPYDHV/2UGCBIa
-         sNRicFk70BydL7QXdeoOXfezBvSBP6W1IiHSVCrNF+8DcZtw/q3h4KMvqavxXbpsZ+k0
-         OM4Yes5o+RoJ4MIcg7yjNFf7mfCrbuESw61P/83CDKAEckKRVfRcnPj+QrFWXB+UUrp0
-         obhA==
-X-Gm-Message-State: AOJu0YxOltN1fyzjcmHFDdvDY7RLCCcxDLUEu6ossXdZjMTn1oGzjWDd
-	yYC4Yy89UMjZT4oGonuFEnsK8VsfP6U=
-X-Google-Smtp-Source: AGHT+IF1CwlQaZSm2OZsJ0C9efi1LIBAmReScpKd8fSp5sxjQzXQmORTY5pvkL9TQVC2HDAnPo13+A==
-X-Received: by 2002:a05:6871:208c:b0:1fb:19d6:8715 with SMTP id ry12-20020a056871208c00b001fb19d68715mr14490671oab.4.1702477329303;
-        Wed, 13 Dec 2023 06:22:09 -0800 (PST)
+        bh=RJKnfzyzyEQaXBcdN+jnFLQABa9yl2KfuisahfbwSlU=;
+        b=NRwZGiY1r1B8iArB+UgUD4MhrX00UmX4vsB4I9xLT31gZvXBwi05Re/gYkHgQtSsfv
+         c7Yu43rKybVpWWhO3wEcYwWbGTMFmwOeegqcxfjBgcIXMr9Lly6k/90JQSHGx/E2L6kw
+         1k2RMiu0tx/yT5USU0BpF8JXJsSr2WjA5zoTugZkamoGIKm84NJqpCthKeBQGqzlUjet
+         pBqbwJURbo+/MwZqwKltmSnBja4tD/Z9EUDYe43ya5qMUktfNyhrA+uTTVheqh9AYI1o
+         tfrmr5dkXZssHdpTznrHO4bLXa3fiqbKsoQadqwaMm5PW9iokt4qdXxHauwB+GkSzoJ8
+         vvxg==
+X-Gm-Message-State: AOJu0YzopMH3RMBfa8pAwH1LzPCoxn8bpN2+4iy4/gQ1Ko2vHRcWRv6G
+	lBKmFG2j1idjgLbyfk9u+9QlNThTmzw=
+X-Google-Smtp-Source: AGHT+IHSIG2JrGvEU8taQncs/5kxJkoD0Nrw5y01/fbw6hnXBdaviPPdh3h5/riPgMszYtWJGWWMGQ==
+X-Received: by 2002:a17:907:c317:b0:a1d:5c72:3be2 with SMTP id tl23-20020a170907c31700b00a1d5c723be2mr8370959ejc.7.1702474846772;
+        Wed, 13 Dec 2023 05:40:46 -0800 (PST)
 Received: from [192.168.64.177] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id dt48-20020a05620a47b000b0077f401aab62sm4523039qkb.125.2023.12.13.06.22.04
+        by smtp.gmail.com with ESMTPSA id vw12-20020a170907a70c00b00a1c904675cfsm7740917ejc.29.2023.12.13.05.40.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Dec 2023 06:22:08 -0800 (PST)
-Message-ID: <97a36f84-3004-4af3-a04f-841c9fa8a8a4@grimberg.me>
-Date: Wed, 13 Dec 2023 16:22:01 +0200
+        Wed, 13 Dec 2023 05:40:46 -0800 (PST)
+Message-ID: <b6169317-4714-4240-87ab-3e80b2aac2c4@grimberg.me>
+Date: Wed, 13 Dec 2023 15:40:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] nvme: avoid deadlock warning in sync_io_queues() path
+Subject: Re: [RFC] nvmet: configfs: use ctrl->instance to track passthru
+ subsystems
 Content-Language: en-US
+To: Evan Burgess <evan.burgess@seagate.com>, Christoph Hellwig <hch@lst.de>,
+ Chaitanya Kulkarni <kch@nvidia.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <SN7PR20MB6609903F74075383EC400BFC808FA@SN7PR20MB6609.namprd20.prod.outlook.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- linux-nvme@lists.infradead.org
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@infradead.org>
-References: <20231213051704.783490-1-shinichiro.kawasaki@wdc.com>
- <e286d88f-5006-4878-a05b-a0c877ef78d0@grimberg.me>
-In-Reply-To: <e286d88f-5006-4878-a05b-a0c877ef78d0@grimberg.me>
+In-Reply-To: <SN7PR20MB6609903F74075383EC400BFC808FA@SN7PR20MB6609.namprd20.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231213_062211_677510_3FFD53D6 
-X-CRM114-Status: GOOD (  17.83  )
+X-CRM114-CacheID: sfid-20231213_134049_937607_0774BBDD 
+X-CRM114-Status: GOOD (  13.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,31 +99,29 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
->> The commit c0feea594e05 ("workqueue: don't skip lockdep work dependency
->> in cancel_work_sync()") restored a lockdep check and it triggered
->> deadlock warning in sync_io_queues() path. This function locks
->> namespaces_rwsem for read to traverse the namespace list and calls
->> blk_sync_queue() for each namespace. blk_sync_queue() calls
->> cancel_work_sync() to wait for nvme_timeout() completion which has paths
->> to lock the namespaces_rwsem again for read. These two locks are both
->> for read, but it can cause deadlock when another task has a lock for
->> write. Hence, the deadlock warning was reported.
->>
->> To avoid the deadlock warning, guard the namespace list by SRCU in place
->> of the namespaces_rwsem. This avoids the deadlock by the two read locks
->> since writes by other tasks do not stop the reads.
+> To prevent enabling more than one passthrough subsystem per NVMe
+> controller, passthru.c maintains an xarray indexed by cntlid values.
+> An nvmet subsystem cannot enable passthrough via configfs if its
+> passthru_ctrl->cntlid value is already accounted for by the xarray.
 > 
-> Based on the report this is triggered from the pci shutdown code path?
-> I think the problem is that there is a dev disable running together
-> with a reset (driven from the timeout handler). Perhaps this should
-> be addressed.
+> However, according to the NVMe base spec (rev 2.0c, p.145), "The
+> Controller ID (CNTLID) value returned in the Identify Controller data
+> structure may be used to uniquely identify a controller within an NVM
+> subsystem," meaning that cntlid values are not guaranteed to be
+> globally unique across multiple subsystems. Instead, the cntlid only
+> uniquely identifies multiple controllers _within_ a subsystem.
 > 
-> I don't think that making the namespaces lock an srcu helps us here.
+> As a result, multiple unique & valid NVMe targets can be blocked from
+> enabling passthrough at the same time if their controllers share cntlid
+> values, a behavior (seemingly) allowed by the spec. This could be
+> remedied by indexing the xarray with passthru_ctrl->instance values,
+> which are allocated per controller by IDA and thus should act as truly
+> unique controller identifiers.
+> 
+> I have seen this issue in practice, but have found a suspicious lack of
+> corroboration across this ML and elsewhere (so far). So, I am not
+> discounting a possible misunderstanding of the spec and/or code here.
 
-Just read the correspondence on the report. If this is just lockdep
-false positive, then I don't think we need to change the namespaces
-rwsem.
-
-Can't there be some annotation that we can do to teach lockdep that
-this one is a false positive?
+You are correct AFAICT.
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
