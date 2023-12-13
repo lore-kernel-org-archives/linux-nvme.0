@@ -4,70 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1725CC4332F
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Dec 2023 13:28:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0BAFC4332F
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Dec 2023 13:28:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=eErnRtkqSjdfJvRjbcJ+OmIoi33KHHgxwyuDSUKhEhg=; b=V3AINk21fX+AIePaot+0kNcpbm
-	KDU+48SvIvA0aEMVAWbUw1EpGbLUrHT1uheTzeeNrQvxzEVQMAhD/8kKTNRQvfSXPyN3pqB3hkYVq
-	zEaA/r8v2Ro5BwEM86RANOGOKY5ErxWwhVusuvk5MnRHK8mUNaX0cykRszC5H6PVvEQnBgBkjlsK+
-	aNDU8H+H2YGwEMajDBWLhe2fhxbnrVveFtYAXPEWWt/FAvKExPvRVqNI+puNXtyPJcTJ7kDStaQs0
-	pGZZQI5Y1Ur7EZKx8WFfRGbgUv8XVILrFbwKJVihm9RXRzmgAc8nnfc0s644WYRb3o+aOXFdb1LL2
-	5ADVukCw==;
+	bh=3GpY0Sui/xdAtuYAxQCzYA4TDxdQVSm04ypmrZ12oNg=; b=XuUuyNn9rz2Rd2+j4VgkxFV7+A
+	EToKLKafiNOLHP4U3IwVEPyDdCsIJJm5W9D1vp1dDwBiubSLhtS/vLunYhD63TVOEtWKQ9KSJTEH4
+	d+yGZ/NaKYCXYNceMRs9UYYGima0Bzi4hTxiwWATHkAee2BjrJYMLTYnQwvs94HUy+cPfBcbrC3Dh
+	7kWHxKP2dHid7c61dr9XVbZuf0BrNiBxo6Wthp3P8VGRNW3fgqYGIvzCVJeH5apbme9P35rovlgkA
+	k779DO6wC2zLNSmPGuFJNJsw7rSdXQIc0RM08gmuJ66NVyVCFrIHxVKs3YS2eWGmjRof9nxPh4Bc0
+	pSswjAqA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rDPHW-00Eo1E-28;
-	Wed, 13 Dec 2023 13:28:10 +0000
-Received: from mail-lj1-f171.google.com ([209.85.208.171])
+	id 1rDPIB-00EoA1-1S;
+	Wed, 13 Dec 2023 13:28:51 +0000
+Received: from mail-wm1-f54.google.com ([209.85.128.54])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rDPHU-00Enzv-0y
+	id 1rDPI8-00Eo9C-2n
 	for linux-nvme@lists.infradead.org;
-	Wed, 13 Dec 2023 13:28:09 +0000
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2c9ebc04891so16450731fa.0
-        for <linux-nvme@lists.infradead.org>; Wed, 13 Dec 2023 05:28:06 -0800 (PST)
+	Wed, 13 Dec 2023 13:28:49 +0000
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40c2655da63so10220205e9.1
+        for <linux-nvme@lists.infradead.org>; Wed, 13 Dec 2023 05:28:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702474085; x=1703078885;
+        d=1e100.net; s=20230601; t=1702474125; x=1703078925;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eErnRtkqSjdfJvRjbcJ+OmIoi33KHHgxwyuDSUKhEhg=;
-        b=E5hCVy4wzsqgu3q5QZLtSW4A6ZRhZEDpeztaNITIVSuMghxdfMoZx4vynyvf+HNHlb
-         IE5tGBpq+/HCYhsI3QATokCs7Nq4Qy/Q1dfy6a3C1Fupu7HtADaBDDzqWUodBD9Yk8d6
-         EiRh9yMmgi2WNzPTQ0zyUcrOHb5RqNRKnBsqq27k3oYH5p59oMiZVVkV95oOw5lGolRy
-         Eoq97te1RDe+vwTkktqgU4W+RSrsf/O9pkdVcuT6Cvi++cKk+/NDKsi7QPGVmwQlnLio
-         rYQcQELP+b1957cC3hELXmXYe70d5Nnj5p/U89ko5c2ruqPDNRqFJr34vof/b2x6dWCP
-         QLuA==
-X-Gm-Message-State: AOJu0YwDT5fMzmDqSeN1bKYmj4nZ9H8+/PZz/mLE/WEH/6QpF7r6qsz0
-	x7AeZuu9CaWzKEF18MlT+SEOkSNjD2o=
-X-Google-Smtp-Source: AGHT+IHIdfqgPrBDe9HzL/ucELKCUDsg0E+3xJX36t59OjStb+i5K8u+Zg+GaNLar/wj3HORNMO92g==
-X-Received: by 2002:a2e:bc23:0:b0:2c9:edfa:f7a0 with SMTP id b35-20020a2ebc23000000b002c9edfaf7a0mr8853783ljf.1.1702474085305;
-        Wed, 13 Dec 2023 05:28:05 -0800 (PST)
+        bh=3GpY0Sui/xdAtuYAxQCzYA4TDxdQVSm04ypmrZ12oNg=;
+        b=cQQJ0PMI2PfGbdmzxOahdLxulwLOWljgs7IjX1r9Aw5Na/QNVWaGdb66GbiIj+hQb4
+         YEbn/ekcLeAmxtTWXa4ZEQdIYRckL9qYY8SX7XW08pJ8JZl0cwDP3h4hf9EImHADVhJG
+         jrknLEY5j0/ErnzBanwpyXITWIqCr/CqutKxWt9JqF7JJJffD87NpyWwnztcanlIiJVB
+         taxsljQ42jk1Ael1nIJMEGVCD7VF6dcR/p36njZb6VAc4B+rQI0kIJWkBaRF/skcUvo3
+         tJg2FEp6eUTYF6PbzMhBEcOJP4yMGudE4DanSPdqIxL+MA1Z0XmhqXz2eWnmhIe4hP7B
+         d9gA==
+X-Gm-Message-State: AOJu0YwzpTCiL2oXT37nFvJwOnYk7f7MSB/S2tjj8jMnlHKMruWr9JC8
+	7Ipd46tW+m3tTxF99JkjvVo=
+X-Google-Smtp-Source: AGHT+IH6lOEW2PUSy+Pz9w6k9x6hHoNgKmh1Z+Gv16j8L0ACg4SEls3uKWjT/rH1rGxO3WlZ2zJP7w==
+X-Received: by 2002:a05:600c:1c9d:b0:408:3836:525f with SMTP id k29-20020a05600c1c9d00b004083836525fmr9742267wms.1.1702474124959;
+        Wed, 13 Dec 2023 05:28:44 -0800 (PST)
 Received: from [192.168.64.177] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id bi11-20020a05600c3d8b00b0040c2963e5f3sm20289168wmb.38.2023.12.13.05.28.03
+        by smtp.gmail.com with ESMTPSA id bi11-20020a05600c3d8b00b0040c2963e5f3sm20289168wmb.38.2023.12.13.05.28.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Dec 2023 05:28:05 -0800 (PST)
-Message-ID: <8467c511-c251-4e8a-a7f7-3c8c5dd062ab@grimberg.me>
-Date: Wed, 13 Dec 2023 15:28:03 +0200
+        Wed, 13 Dec 2023 05:28:44 -0800 (PST)
+Message-ID: <f50c8a61-7523-4750-b884-cb06bd59fe3e@grimberg.me>
+Date: Wed, 13 Dec 2023 15:28:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/6] nvme: refactor ns info helpers
+Subject: Re: [PATCH v5 3/6] nvme: refactor ns info setup function
 Content-Language: en-US
 To: Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
  Christoph Hellwig <hch@lst.de>, Hannes Reinecke <hare@suse.de>
 References: <20231208105337.23409-1-dwagner@suse.de>
- <20231208105337.23409-3-dwagner@suse.de>
+ <20231208105337.23409-4-dwagner@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20231208105337.23409-3-dwagner@suse.de>
+In-Reply-To: <20231208105337.23409-4-dwagner@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231213_052808_342302_1ED84C2F 
-X-CRM114-Status: UNSURE (   4.87  )
+X-CRM114-CacheID: sfid-20231213_052848_902721_1ABB6DCE 
+X-CRM114-Status: UNSURE (   4.75  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -83,7 +83,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Same comment on PI.
+Same on the PI comment.
 
 Other than that,
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
