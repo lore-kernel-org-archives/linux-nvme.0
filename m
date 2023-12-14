@@ -4,145 +4,136 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A611C4332F
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Dec 2023 13:58:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C938C4332F
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Dec 2023 14:31:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:Message-ID:Date:Subject:CC:
-	To:From:Reply-To:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=UbwLnoTpzNGSMrdt/cQQqVkou15qoKEWNqpJ1/x/EdA=; b=oGgBsAbmpAwnN4p0RL0ORO+yp7
-	bvRnoykKjnjfMCwYp32Jc2UUM0AcVmyqoXS0Vv8YJu6tEtX3+rY4/kkooeYOqY5ruCVba/EdlfFUU
-	R2iCW1X+aJZlmOBTnvIgI58saN6oBdI/K2HCo0qWlSuRPgWsc+jV63PbdxSA8ei7oNuHC7V3MpgUR
-	JEQ3Dkbkv9qbNmDWR9bNrdza7LiZfm8eX45hDRcy/QGb9J+HasVlm9sCHnsRbot5k/v/RTiu/NtkT
-	aVXIMAlB/TKuObzfbyWGUmutl5zuqG1W2vdcCIe7ieh84ZvsoKz5WbMH1vtOzWBX2XivWVJqFOCPD
-	mqLVmlrg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9f9wo7q1N4LBRai4Nj2wbo6zIznzFZVgTLxXBbGDdbI=; b=ZeG7GcJkUCEZVsPcTD3wBfVFt3
+	yXoowUsv08LixKHhQXNKVWuQFc12v1d3/i2yxsr3kFgU9+Cp8Set6KTazYjjt8v1rob7L4dzMtyzE
+	ozdUvyGgLWAdiqiWnuzE/nE2a4NblNkkzGACjvwt1+rUTVi5Q2qzxnc3bTGINhohcbVlN/qhs+HkL
+	xYELzvx2XPEXojpuTAefhSHnFhqwkZR/4gMtdZ2ZcfyQCwyveFs7R+Yq0DoWa8DnQXV99oJsNGYP/
+	YjwfM0NLou14yw1kFkdRMCBq9sMF28XBDY51pwEu9oAqMUGnoFfW1+UzdzvR4vOmIRn93F0yFDqw0
+	BMjR+ucw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rDmEP-000UQM-22;
-	Thu, 14 Dec 2023 13:58:29 +0000
-Received: from esa3.hgst.iphmx.com ([216.71.153.141])
+	id 1rDmkT-000YJx-2f;
+	Thu, 14 Dec 2023 14:31:37 +0000
+Received: from mail-co1nam11on20600.outbound.protection.outlook.com ([2a01:111:f403:2416::600] helo=NAM11-CO1-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rDmEM-000UPT-1r
+	id 1rDlko-000Nor-0n
 	for linux-nvme@lists.infradead.org;
-	Thu, 14 Dec 2023 13:58:28 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1702562306; x=1734098306;
-  h=from:to:cc:subject:date:message-id:content-id:
-   content-transfer-encoding:mime-version;
-  bh=dqv6mwYLsRE7qoqAaDfx+wi/6JVrJTaVfN2KtI0v4kY=;
-  b=IBnz/Sn35MLLOWAPUpyevb6AyXiyAbt7NLcedDrMSKHi+UWhbvOSgsl+
-   9hf2UMd0bFP83VQ7qqO2iY/KZcZIao3AUNQoCZe9Maw+IKIPb4DyUk7gf
-   mNJUDzkq6xJTapMyTY3TSHUEMVdUhS8jOEejpeMk3jAVqTyl6jLpnWWtx
-   hLx72gDBw31OUsL8DuGz/cZpAk54uqwi+QA5bAlxS63bFSSaCRXrunLMA
-   HA0fN21a7IwRke+ZjacmIhUKbvKTybBxRSjVKnOgU3EbAUDOR82WPG5XD
-   TwG4hRQ1Iok8gOWKvay/fIRIgcz7CypjAF766JanK5KiMBjSKaqKBxk6e
-   Q==;
-X-CSE-ConnectionGUID: YDHGa/u7RtCQ01fmDhIw2w==
-X-CSE-MsgGUID: AXYjH+62Q0eJIVZmamPM6A==
-X-IronPort-AV: E=Sophos;i="6.04,275,1695657600"; 
-   d="scan'208";a="4817793"
-Received: from mail-mw2nam10lp2101.outbound.protection.outlook.com (HELO NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.101])
-  by ob1.hgst.iphmx.com with ESMTP; 14 Dec 2023 21:56:08 +0800
+	Thu, 14 Dec 2023 13:28:03 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Kjo4I4fkFEU9sqwyB9AqxIlSSfFb1RVkcnBW9ZUWUKp3HL0TqjJ6EVcshGLW+xZhMCI0FEnl++nD64X0gDFHWT/mHcUAyk+Tm1Fv+JOW1HAmfUGNQv1+yXpIETBgYieEJ/BlJ9f897T5KAZ2eyAhaIVx9dXw2HCJZu2t4pbE3EvCbSLJqRZRnOPerE66B/dic32unXvdaB83qh4yc8MVOFJPnsuT0ZN70FoBjcMsDdh9CryaHo9Xrk3P/WT+k9RHnhRJP2KTJv4DlMMxuykwAnYW+hZJzP6QPEKr7XPEvHzLgTUb6e3GNO9RjatWloENCtojXifDvRoRo+zWT3/5iw==
+ b=g4tfZhKD29YHoxkkPmilzz2SHzLs9DyZfHeKA1TW9D/G09GZ7VA/cOoi2w+I9Biu6cq9AlaYPKCAFQlhLhjX8lo0a2mkyhEfUxFoOKs65xVWQ+898zWwSppXSKWL1f8VQlyLwgBP/f9uWkqQKdMmXE3u+8vkTtiDEPDESPdOetSXni2aX4JeoAkzGObNIp+REyckHSTi1wlISX/TWj3Zau8GtSi2WSB8B6wHwadLCYf5RffP2l1NynII+YSMgL9+MlHne/fK1wu68AgCdy3TfsxnKq+qwmk8qz9gKS7FEhrXSTN+8lbWfV1nhe6xlqPLraW7x/TZiF00BRhxezyGgg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UbwLnoTpzNGSMrdt/cQQqVkou15qoKEWNqpJ1/x/EdA=;
- b=STPHtYa+Viz3enHzf3WSH5CoqmzipMliAGKJuaZKYAqJOAHnAfQohdsqdUTasGCZjixr1n2f+jjgw1gYo1u02Ncmhantzo6BUGQTrec6fdDAkdC8Tp5tzMtrkcB+NYmHxR4D/SKYeoqBx7pfpOeTJdGKkA0YbbMZvcsh3qbKOpAbEbFN7ChZ2u+jfqw8Lck3AF1IiU1rjMiuLztzu4Uuv9Lvz/G5Eb9imzuSeRBE8rNdMv/yew8Q2jmn8jqEJrTrrfuNCg57LtDBZHpHKXfLBiqjwk/hnDlMflcfwo9SgguaTU8idF1Bdhsnl5WQ6gnBzCY87UeUi56tGINxKG+PKw==
+ bh=9f9wo7q1N4LBRai4Nj2wbo6zIznzFZVgTLxXBbGDdbI=;
+ b=QgxSrgmYERth91vUJARweg+tGTKZo8905+OC3pPUI8sNbMp66V27+oWy/b3BfHVTRX32AEHwdCjolsCkXM20fyp70c8MN6UMA78FaZkg8RP8zytqEWXHflOf4lTq0wQbp8aWHEGQ3PwWjRQTyfm5oxb/POJCqASEWlqU1NeJY+VYtG0ZNSH6376cbhn4xSKx+217/McQHtzW2W6+VuckNVhzyYi1yobGTLJznGLfW8SEy+wEkt0Enbtndndc21J1Hm1X46u50dFoOYQFffefqT7yCPEnTMdqQ2VDPPjdODHIATWutOUSu6SAJ6JZeG9Tv/zy80ugQKMGf4otzDsWKA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UbwLnoTpzNGSMrdt/cQQqVkou15qoKEWNqpJ1/x/EdA=;
- b=LJoSWVAa18uAm/ubqvm7UKXyymu/YDr5tMvfKPlR36TtQ6ePduw0muvXIeVMk22AH8YPrjNSuuonwZwKhd8MMNTmJ4Z8w25dUiqZtD37FYyiXDChKypnpG3JuY2qsM+dJ4NuJ7G1BzLHRcR8BwS9XNaqPG4SYjoKXfjrZWn8HbE=
-Received: from MN2PR04MB6272.namprd04.prod.outlook.com (2603:10b6:208:e0::27)
- by BN0PR04MB8096.namprd04.prod.outlook.com (2603:10b6:408:144::12) with
+ bh=9f9wo7q1N4LBRai4Nj2wbo6zIznzFZVgTLxXBbGDdbI=;
+ b=f2tXrZS6biGD/jFGMA3DrjRfxHhnh0fYF9cVtK662BViQhWUlh4pmXpfIvctp2p2AwmDzAVbz2LiWRom7D948pQZ9Lr4Gm2S4o32+CHt+nxxaYWKlTCACtzGe6mEtw2cD+yTtqiKW+0uVULsIuJg5xw7We7e15Nw0hBBsEXJoSydtcStQMXMYo55O3h2A2yi9AGCb4HshudV2ip2u38zA0yIPBbup/6ip1hJK9EtaNAhHVbHp4tfAQaBQZJx3sg1bcElSGK1EH/pgGIFs+dwB0uC9OOflVTczhJpfiXr5d7UV9scwxzbYUeHvJ3n+IjV0UO4YICXq139OOc5YOPvHA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
+ by CY5PR12MB6348.namprd12.prod.outlook.com (2603:10b6:930:f::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.28; Thu, 14 Dec
- 2023 13:56:05 +0000
-Received: from MN2PR04MB6272.namprd04.prod.outlook.com
- ([fe80::ffca:609a:2e2:8fa0]) by MN2PR04MB6272.namprd04.prod.outlook.com
- ([fe80::ffca:609a:2e2:8fa0%4]) with mapi id 15.20.7091.028; Thu, 14 Dec 2023
- 13:56:05 +0000
-From: Niklas Cassel <Niklas.Cassel@wdc.com>
-To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-CC: Kamaljit Singh <Kamaljit.Singh1@wdc.com>, Shinichiro Kawasaki
-	<shinichiro.kawasaki@wdc.com>, Damien Le Moal <dlemoal@kernel.org>
-Subject: parallel nvme format
-Thread-Topic: parallel nvme format
-Thread-Index: AQHaLpVHqt1AbKF3cUaSa/U7/bTugQ==
-Date: Thu, 14 Dec 2023 13:56:05 +0000
-Message-ID: <ZXsJdJxDXEbCmSec@x1-carbon>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN2PR04MB6272:EE_|BN0PR04MB8096:EE_
-x-ms-office365-filtering-correlation-id: 9e27c3a0-db6a-477b-fd0e-08dbfcac6a68
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: jqesI86R0CwMQnyRcqHYgjv0ysZ1FtfrFyOqxHgwKmMsekN1gVXlI0Yt97BUjnfGwx6ByU1bIywC5FemQ6/ux+LnHbIqs/dUk/te+8Q4nm0h+rooZdWXC9Oeu1DS7WD1N0PZeUz3I+8WCuEMJ6MvPWsUE94d2L6Uqeq3B6NSS6OMLDcN4mXO7SdZSpH9jL3LQsqi8sJal5Csgjcgy3FWUr2YthBC85PUKx4huET20zZZfbAh7LhvSbktbQXnFTKpFkcf56UMVMbnjpYGyDk9K05LtMwpLy7giHgLTjz7RpUSUjixruQwvHrKdF5Au6eWOgj+2JPJ4b6OjqWlHhNsSyl6d4L/BTd4kMWQzMM+UlSS34jLWxf3u56Y8hAxFUzUlrW+SQn+0L7X5mIlvJdfdSIFiKqATqcUDPxrq9Lhg9oVPK8405isz649nW0rEOHD1UlJBaVuvLMhPTTEFmp3oCCI5IEAVCEjHUcrb4EagQZfJv6Lc2yj8y+ZdqWoqKNwslrwp09FoMKe+UTgYynxeYl1Vp1QWhWy4NT+HkU8hFvBvvwQwbhBLctPf0o/7fu27ducA2BnK6iAGO6TJBv15sf6iz9JD/NM6avszMA2LExaGLEF16yEKNYji//7a0t1d2OxietkpfYtX9dhem7eLQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR04MB6272.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(376002)(396003)(136003)(346002)(366004)(39860400002)(230922051799003)(1800799012)(186009)(64100799003)(451199024)(478600001)(6512007)(9686003)(6486002)(76116006)(66446008)(122000001)(64756008)(54906003)(6916009)(66476007)(66556008)(66946007)(38100700002)(91956017)(3480700007)(71200400001)(82960400001)(26005)(83380400001)(6506007)(7116003)(316002)(8676002)(4326008)(8936002)(86362001)(2906002)(33716001)(41300700001)(5660300002)(38070700009)(133083001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?xobX+6n4aWPsYFnn5bUINolUQmSxGajw9aYA5b/6P7WIOp+AMVwspfSHJvut?=
- =?us-ascii?Q?r0Rb33yM0XbnZrfm43afl8Ub9lX0M8z2XgYEgcNtbFKTFalYtyW9qXAX/ERG?=
- =?us-ascii?Q?iNulz9Ms8pbnXMhWOkU0A0369MPPiwvGwQZ1E28QdzKbIGimrMpRuf70U+GN?=
- =?us-ascii?Q?5KrfqOlovmFz7pGZiMtqlRugYfQriastnQgVLAB4igeTFgCDYajNsGB3prev?=
- =?us-ascii?Q?IWw2TN+qJeyer87oSClefWi1B1rxcS6jP9A4eT/DU0LnpRky5khgbsDE3iQw?=
- =?us-ascii?Q?NSfeOlBEqt9JyNiina10kyy7y1A86xcdlP0rW/OZyrzgLvDyLzMwBoOP6bW7?=
- =?us-ascii?Q?n5Izx8shC8LVsrhBYjSYV2a6mIgSb7GKjkRdbo9PeQj9+t7P/pnC2rD62eTK?=
- =?us-ascii?Q?emr+fxalHyJGBaCZMl0hvB1xyNZDQMnN9I8LXpIiKpyP5qSzqDMA9X68V/TI?=
- =?us-ascii?Q?tMSU+8lnDoqT9wd2TNUq99GnwUSQncQEq3WnPdtR4al+8UWH5Vkk0D4SmbB6?=
- =?us-ascii?Q?VqZ8euoUXIwWJbim7DqSbz632yndhVm3CbxA7vlDIEj2deZm2hzuE/Xztsp0?=
- =?us-ascii?Q?+csEbE8XloFf9GHZHk352yBsYdrqJahzosW6OTypkEs7F63vzKgxkuFXE5Wh?=
- =?us-ascii?Q?n8tXXAKu7kDUssuANBxEcPH0YZSZ0wPniuQwBVL76yADGn0tSHsryelM5B/s?=
- =?us-ascii?Q?jqXXWU8g9iRs8F0Gogte/LdD/+5p+Ayl1/DeUUJHANKT9QBhedXdDWYJZ0pY?=
- =?us-ascii?Q?xjT5sIB7FHGQDUl+j52ZG5dQ1ehbXx+ePHuFSsMFASD/hS/1Z6RY+BnxbOoz?=
- =?us-ascii?Q?SvYduWv5V3iqdOjXTnichdhnFF22ldMJJ2jI3eG7/59FOUiL0FRPKf+Am887?=
- =?us-ascii?Q?1NC5/yXH4SUlVLBenjvIVeEkOpjSJyriCll1vqkdyMRSpgAk9VuOJxHVyXSl?=
- =?us-ascii?Q?vJIUA9dolPBQrkR7u3fxEp94HHkjeeen21g5SLbGv1OLi5qY3Y79+7XK42wB?=
- =?us-ascii?Q?pkOd3CeojuTau7MptDgObJHx4f8gbAFwYsquqQO0FhApHn0cl1oA7CbMzLbK?=
- =?us-ascii?Q?3XrnynfGk8C0FqY7sxeBd9HRxTz6qfklXtXVpNhpAV7hJQ0sjXnLoc0hKkL4?=
- =?us-ascii?Q?ey2PG7mwv3A+F6bEGyuCFZQUivbynjYDyfZiombLu2+PRvG29w9mxZmpQSc0?=
- =?us-ascii?Q?u7FCG42P1NbWT2AGDxOl1bSSdfJVUTzfYG4ogp7mFcAmnqwFhDXyBajwltqy?=
- =?us-ascii?Q?ZLPZc/OlZ9OGpG4T5pytx7ae3aXjrlX5COP3VCl6JmAzRT3yqMNc7A4gBFAq?=
- =?us-ascii?Q?DHZaeXSxoSSoPD4yWDMDpwhivg038r3Xy88HJGbNVvuyJs/CDuF9SJzlej7k?=
- =?us-ascii?Q?zC7ZYZCtT7rQ8Q1fPTGu9UwCNH3l+hqbvFQtGi/pxm8r7iFJ5fhLswszQphh?=
- =?us-ascii?Q?Y7bN8KRP/aEk3UEnVxiMkDM+R9IhXjvpC/qOUPYTL60vaB5zKfvs5zpqLkIr?=
- =?us-ascii?Q?4g5b62oQPbTmXKY6M7nO7v5oiknhwYgRQNFQ7eup+n9u4RE5WWmLkcHFWs3W?=
- =?us-ascii?Q?2yzMPYFuXhq/iHzv86G5KE6MElbaXvn7Ey0qj7+qU+Hu9QiMtmwZ/MJpnx51?=
- =?us-ascii?Q?fg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <2D083FF8B1D60C4A96E5425F70295D78@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ 2023 13:27:50 +0000
+Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
+ ([fe80::eb39:938e:7503:c21e]) by SJ1PR12MB6075.namprd12.prod.outlook.com
+ ([fe80::eb39:938e:7503:c21e%3]) with mapi id 15.20.7091.028; Thu, 14 Dec 2023
+ 13:27:50 +0000
+From: Aurelien Aptel <aaptel@nvidia.com>
+To: linux-nvme@lists.infradead.org,
+	netdev@vger.kernel.org,
+	sagi@grimberg.me,
+	hch@lst.de,
+	kbusch@kernel.org,
+	axboe@fb.com,
+	chaitanyak@nvidia.com,
+	davem@davemloft.net,
+	kuba@kernel.org
+Cc: aaptel@nvidia.com,
+	aurelien.aptel@gmail.com,
+	smalin@nvidia.com,
+	malin1024@gmail.com,
+	ogerlitz@nvidia.com,
+	yorayz@nvidia.com,
+	borisp@nvidia.com,
+	galshalom@nvidia.com,
+	mgurtovoy@nvidia.com
+Subject: [PATCH v21 15/20] net/mlx5e: NVMEoTCP, use KLM UMRs for buffer registration
+Date: Thu, 14 Dec 2023 13:26:18 +0000
+Message-Id: <20231214132623.119227-16-aaptel@nvidia.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231214132623.119227-1-aaptel@nvidia.com>
+References: <20231214132623.119227-1-aaptel@nvidia.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: FR4P281CA0418.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:d0::13) To SJ1PR12MB6075.namprd12.prod.outlook.com
+ (2603:10b6:a03:45e::8)
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: oZ8cPggfzbXX7u1UZ2NITgVNg7JAR+X4ClHz5nUrxMe55zquP+BhwPWUZyKrlilji50jfosgmF4i26xD9ldrBY3kCWvbRUInerGUf4KNxH45zh3VV9ql9J+Wtt9sLfuoN/GHZHCbpGh8daUF79vW0XV0qvk35N45rZb/g+KbOEQI3k4kZqxp2fNCFLxZAM/HpGAPhUnY9Ns/L4yPBf1g4dSRT1Zgo11kKLtaASygD2GLwj7YdOq+Az9FyFy4H06UhUbXsHTV5x/iNajQpM+gk26M4GCFkh2fY9OJt9BM2NgDk1KeBCuZgfBWpUWb6cLvE6SYyxzZJbbzymmjLItNVgKnG96GHSdP/VZGurbVaR4BN+375355XQNLYakuP8y8wHWW/kGnYa5ENChb6HkBwfdd+DpRUICmqqxL+EOel7KxuLU6Jhwwl6vmqg1C6eqUrSSbg+bnM4BzgQqMb+dBrn5tWRzJFJmMcVTe+LAjTWS5h1TNMauhRj/459a9MZ3VYhVMitfaOcM1vzghbh/nlJGg+NDBgismr4yEa3NWmptkpKxiWkenYzSx1MeWRELNjKSMBtWazu+WWgH/rVQUlbtzQB3eUVKewxOiIky/Cw/vQNYU++JCjYMcA7WgpzLb
-X-OriginatorOrg: wdc.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|CY5PR12MB6348:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8b2daaec-635a-4ad8-49dc-08dbfca877f1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9QAlGxOOGa77evbO1mXnf4g/2ogV+GZmm9z/aZaFcUM0gXJpcbWgEcbkt/YdGbHOJkfhy9sj9eVhjSYw14D7PyyDyX4YdB7ZgNs/DK6uYO6NLOjIQve4a6bOl81bnnd1OvqlVv5aa1CQTzDX6b+7i2QId1U+OM5Xp1svssi3+moiRlr41/Drdakar3ciF9IcP3wAyO2VmP+pUO64YenqlVK1Twrw1zoIDg6yeeZSBaZftlbbkS2SEIftMBaELryxMnOGZCuMy3l+F8Ws4eUdlVzRjXEmfKg05creIMhXrIUnTeLhtstvYdlaZDvQQ7p27Mv1CPS/3kZ5uiPE1HScORnLLkDqJgmCdvyvcV904YY7G2ktTOcXTBYygpdlKiJiWlswzaHd20U7r1OIkocAy0m3cbjuEndM2jy3dM4Vi6xtyNMdMCpz21IHJGT6OTxM2AZIPlA99htYOVmUEl+flrqPPGsHisQrEXF1hQS98sMgZVLEBJkj/FGWRTMqH7XAP7SEJ6RPJlJljQqocPRWoeIckkjuanE8AcjxxZSU8uoE5yQXMlkR2y64M6P4WmIa
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(136003)(396003)(366004)(346002)(39860400002)(230922051799003)(451199024)(64100799003)(186009)(1800799012)(36756003)(41300700001)(83380400001)(38100700002)(316002)(7416002)(5660300002)(26005)(107886003)(1076003)(86362001)(8936002)(4326008)(2616005)(6512007)(478600001)(6486002)(2906002)(8676002)(6666004)(6506007)(66556008)(66476007)(66946007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?F93tFYXe8IvoNEYJKXlSaudo9m3MYqJWOOS2AQxQ8S7GnsHzn6ZgsmVyuAab?=
+ =?us-ascii?Q?SJMQEgN6wqJuOle8ciXi9N+38p8/Jfja866pyuSF5pBj3FI2EvcNHdXLUIGh?=
+ =?us-ascii?Q?gUT7AC+ZwiAMQnsBhT5BkHvZZ4Sq/6xzqVjIbOvJfmVmuc/tTaWwLGsvVqhD?=
+ =?us-ascii?Q?00bBGAYoFh6Im2DEueM+yMqDPR3lufAan37LjHtxNYd6M8ZAJpWMWcPdAOJ5?=
+ =?us-ascii?Q?dODKJe/cv76258wxO9hztm7gXud+N7P5qu+AIr0RFNMyUk/HtplEOdCLmdEs?=
+ =?us-ascii?Q?833yZSszo7XVJMewsuvfQrYvenbrdvjrfIA/cqKtc3NGORhkS9LUHBqw7Za9?=
+ =?us-ascii?Q?+YKReGH6hGekOP2W20NJ91yzbZYbBQ7C1rp8jvLSB3zS7BxrOxRiOHLcyNKZ?=
+ =?us-ascii?Q?SlGmeSG+Jfi7VatSnR/H44ohW5gZINwa5wEFbEPnPnb/wn7CE0aQD0lwFsl2?=
+ =?us-ascii?Q?mNrzXvFmgopQ+c65QBlt5j6haq3vz9giYgb/pRXys1PUNGcoJHaJ6c7sq++f?=
+ =?us-ascii?Q?Q+/pcCaFoALxvxOAmFcs/lClwlGOJ/PLmUR9MTw0a4X+QyRi7q543I2/SHbv?=
+ =?us-ascii?Q?PIMxJDR86+S+e+JS9yTSH6u3skwOm61+A4lX8+HxB2Y4Q1Ibx+h6K/5kBtJm?=
+ =?us-ascii?Q?9pci3FOmnA7B0TEbJh/DjrI4gyFpdl7KvRqo0/Z1FFrPSmpNTYu3G7WwqY6R?=
+ =?us-ascii?Q?LgQIgmwQRi1nRDigyZDRboRSEMOlTHhqGwoYRbfm5laeWwR1P5KPmG14BYiF?=
+ =?us-ascii?Q?WvHPXIcdldIAgnsQAd7yeKLlpW5cdaiAHNuF7f8nYp+brOsEuYLMJRjwjggK?=
+ =?us-ascii?Q?P2O9We5EkLgXpP3z5SRQt9AZ9rNVhNUSvtLFiQpVTGvjHaZxdHLU4gHA6FPU?=
+ =?us-ascii?Q?PBRujavYYjoPQplldZvQSvIg6HO1lqPaoMeCXekjeaYPvVTXqX3UmNQOXqDb?=
+ =?us-ascii?Q?cUt1pw6IjeM1+RzSKIj1XsuDKgXHM9ImFaK0xvaRBc9F9CdZORdKgXSjjQ3j?=
+ =?us-ascii?Q?6SA+CbdK+94kHGN8E+pB2j37ho0huNMaJuv748EFWMfVch/AkH+LZq3qweWB?=
+ =?us-ascii?Q?CTfte/luY5f09WnFLYgDYLtfsyeVwMCEJzjSJJsbbqXyEsR2cAwZP9ewr2QS?=
+ =?us-ascii?Q?8d19lfZUMyvYv5lliDa2zToK5cQbaY/YZczMXGTxYJnNV/yHU3dS46P5Ok1+?=
+ =?us-ascii?Q?b1zSL3ErqWqNWgOSkyQqU4NtWHi+PKzBTqNCaFvOgTmYCNX4ArZON9etrtj/?=
+ =?us-ascii?Q?e9PdyBBfAzQ3j/v2CB5s2/w1WTLKXwpSqB5jVcMiZB0JIb4dFhjtScj4jwTc?=
+ =?us-ascii?Q?DrWNPRZb5FEPuWUMkj79imEMw988Evw/4GjJiGEwFbXRG61UHvI9Ch3Lwxk5?=
+ =?us-ascii?Q?8XvwnrTFD9aA6Jv6PIGJgg8wpuqNzB2fEvBWJu3cMbdrqEAFa3/L374c1bgs?=
+ =?us-ascii?Q?NX7sfC0BndvAnS77vcxo4z1QdtwpCYhGjLXBYVyMSrLguFr5ffTba1J5OnRl?=
+ =?us-ascii?Q?CJcsczPZhl53Ae/Pm0vwLprWxaoEfWL/n3pYc5ePB0Pg9SuzSMzPRZjWL3kS?=
+ =?us-ascii?Q?Gg0jyOF72/k/iuFMogeG3vLB623qBE3zh+AQBH5O?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8b2daaec-635a-4ad8-49dc-08dbfca877f1
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR04MB6272.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9e27c3a0-db6a-477b-fd0e-08dbfcac6a68
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Dec 2023 13:56:05.2649
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Dec 2023 13:27:50.1271
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 5yv7U72q9UIotMYRNtNHNfHR9uXq78Szg3xsy7r0N8Ztgy073+Hh8Gv2Tbk4Te1K+/ulhVd85MpQwOStFRFQsg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR04MB8096
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CdvnqoOS2uuFUMYPEj7Bae2Digo9HuMbxxvYwfJ5GYtBzBEmDi1PE62RRsCTk+uQr7UJE0Mp32htC7x3DTZ0og==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6348
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231214_055826_684983_E3747B5A 
-X-CRM114-Status: GOOD (  16.51  )
+X-CRM114-CacheID: sfid-20231214_052754_321410_93B3F9D9 
+X-CRM114-Status: GOOD (  20.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -157,125 +148,279 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello guys,
+From: Ben Ben-Ishay <benishay@nvidia.com>
 
-We have observed the following on linux stable v6.6.x.
+NVMEoTCP offload uses buffer registration for ddp operation.
+Every request comprises from SG list that might consist from elements
+with multiple combination sizes, thus the appropriate way to perform
+buffer registration is with KLM UMRs.
 
-(We tried to backport commit 839a40d1e730 ("nvme: fix deadlock between rese=
-t
-and scan"), but it didn't fix the problem.)
+UMR stands for user-mode memory registration, it is a mechanism to alter
+address translation properties of MKEY by posting WorkQueueElement
+aka WQE on send queue.
 
+MKEY stands for memory key, MKEY are used to describe a region in memory
+that can be later used by HW.
 
-What happens is that we are formatting 8 different namespaces in parallel.
+KLM stands for {Key, Length, MemVa}, KLM_MKEY is indirect MKEY that
+enables to map multiple memory spaces with different sizes in unified MKEY.
+KLM UMR is a UMR that use to update a KLM_MKEY.
 
-[Wed Nov 29 16:43:56 2023] INFO: task nvme:18411 blocked for more than 120 =
-seconds.
-[Wed Nov 29 16:43:56 2023]       Not tainted 6.6.2 #1
-[Wed Nov 29 16:43:56 2023] "echo 0 > /proc/sys/kernel/hung_task_timeout_sec=
-s"
-+disables this message.
-[Wed Nov 29 16:43:56 2023] task:nvme            state:D stack:0     pid:184=
-11
-+ppid:18405  flags:0x00004000
-[Wed Nov 29 16:43:56 2023] Call Trace:
-[Wed Nov 29 16:43:56 2023]  <TASK>
-[Wed Nov 29 16:43:56 2023]  __schedule+0x34a/0xef0
-[Wed Nov 29 16:43:56 2023]  ? preempt_count_add+0x7c/0xc0
-[Wed Nov 29 16:43:56 2023]  ? _raw_spin_lock_irqsave+0x29/0x60
-[Wed Nov 29 16:43:56 2023]  schedule+0x6b/0xf0
-[Wed Nov 29 16:43:56 2023]  schedule_timeout+0x233/0x290
-[Wed Nov 29 16:43:56 2023]  ? __timer_delete_sync+0x31/0x50  =20
-[Wed Nov 29 16:43:56 2023]  ? schedule_timeout+0x1a3/0x290
-[Wed Nov 29 16:43:56 2023]  wait_for_completion+0x8b/0x140
-[Wed Nov 29 16:43:56 2023]  __flush_work+0x139/0x240
-[Wed Nov 29 16:43:56 2023]  ? __pfx_wq_barrier_func+0x10/0x10
-[Wed Nov 29 16:43:56 2023]  flush_work+0x10/0x20
-[Wed Nov 29 16:43:56 2023]  nvme_passthru_end+0x60/0x170 [nvme_core]
-[Wed Nov 29 16:43:56 2023]  nvme_submit_user_cmd+0x162/0x170 [nvme_core]
-[Wed Nov 29 16:43:56 2023]  nvme_user_cmd.constprop.0+0x156/0x1d0 [nvme_cor=
-e]
-[Wed Nov 29 16:43:56 2023]  nvme_dev_ioctl+0x12c/0x2a0 [nvme_core]
-[Wed Nov 29 16:43:56 2023]  __x64_sys_ioctl+0x95/0xd0
-[Wed Nov 29 16:43:56 2023]  do_syscall_64+0x38/0x90
-[Wed Nov 29 16:43:56 2023]  entry_SYSCALL_64_after_hwframe+0x6e/0xd8
+Nothing needs to be done on memory registration completion and this
+notification is expensive so we add a wrapper to be able to ring the
+doorbell without generating any.
 
-flush_work() waits for more that 120 seconds on scan_work getting completed=
-,
-but even after 120 seconds, scan_work hasn't completed.
+Signed-off-by: Ben Ben-Ishay <benishay@nvidia.com>
+Signed-off-by: Boris Pismenny <borisp@nvidia.com>
+Signed-off-by: Or Gerlitz <ogerlitz@nvidia.com>
+Signed-off-by: Yoray Zack <yorayz@nvidia.com>
+Signed-off-by: Aurelien Aptel <aaptel@nvidia.com>
+Reviewed-by: Tariq Toukan <tariqt@nvidia.com>
+---
+ .../net/ethernet/mellanox/mlx5/core/en/txrx.h |  16 ++-
+ .../mellanox/mlx5/core/en_accel/nvmeotcp.c    | 123 ++++++++++++++++++
+ .../mlx5/core/en_accel/nvmeotcp_utils.h       |  25 ++++
+ .../net/ethernet/mellanox/mlx5/core/en_rx.c   |   4 +
+ 4 files changed, 165 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp_utils.h
 
-Inspecting nvme_scan_work(), the only thing that can cause it to not return
-after 120 seconds, is if it is waiting on mutex_lock() to get the scan mute=
-x.
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/txrx.h b/drivers/net/ethernet/mellanox/mlx5/core/en/txrx.h
+index cdd7fbf218ae..294fdcdb0f6c 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en/txrx.h
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en/txrx.h
+@@ -50,6 +50,9 @@ enum mlx5e_icosq_wqe_type {
+ 	MLX5E_ICOSQ_WQE_SET_PSV_TLS,
+ 	MLX5E_ICOSQ_WQE_GET_PSV_TLS,
+ #endif
++#ifdef CONFIG_MLX5_EN_NVMEOTCP
++	MLX5E_ICOSQ_WQE_UMR_NVMEOTCP,
++#endif
+ };
+ 
+ /* General */
+@@ -256,10 +259,10 @@ static inline u16 mlx5e_icosq_get_next_pi(struct mlx5e_icosq *sq, u16 size)
+ }
+ 
+ static inline void
+-mlx5e_notify_hw(struct mlx5_wq_cyc *wq, u16 pc, void __iomem *uar_map,
+-		struct mlx5_wqe_ctrl_seg *ctrl)
++__mlx5e_notify_hw(struct mlx5_wq_cyc *wq, u16 pc, void __iomem *uar_map,
++		  struct mlx5_wqe_ctrl_seg *ctrl, u8 cq_update)
+ {
+-	ctrl->fm_ce_se |= MLX5_WQE_CTRL_CQ_UPDATE;
++	ctrl->fm_ce_se |= cq_update;
+ 	/* ensure wqe is visible to device before updating doorbell record */
+ 	dma_wmb();
+ 
+@@ -273,6 +276,13 @@ mlx5e_notify_hw(struct mlx5_wq_cyc *wq, u16 pc, void __iomem *uar_map,
+ 	mlx5_write64((__be32 *)ctrl, uar_map);
+ }
+ 
++static inline void
++mlx5e_notify_hw(struct mlx5_wq_cyc *wq, u16 pc, void __iomem *uar_map,
++		struct mlx5_wqe_ctrl_seg *ctrl)
++{
++	__mlx5e_notify_hw(wq, pc, uar_map, ctrl, MLX5_WQE_CTRL_CQ_UPDATE);
++}
++
+ static inline void mlx5e_cq_arm(struct mlx5e_cq *cq)
+ {
+ 	struct mlx5_core_cq *mcq;
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.c b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.c
+index 8f99534430f0..a9392f88bef5 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.c
+@@ -4,6 +4,7 @@
+ #include <linux/netdevice.h>
+ #include <linux/idr.h>
+ #include "en_accel/nvmeotcp.h"
++#include "en_accel/nvmeotcp_utils.h"
+ #include "en_accel/fs_tcp.h"
+ #include "en/txrx.h"
+ 
+@@ -19,6 +20,120 @@ static const struct rhashtable_params rhash_queues = {
+ 	.max_size = MAX_NUM_NVMEOTCP_QUEUES,
+ };
+ 
++static void
++fill_nvmeotcp_klm_wqe(struct mlx5e_nvmeotcp_queue *queue, struct mlx5e_umr_wqe *wqe, u16 ccid,
++		      u32 klm_entries, u16 klm_offset)
++{
++	struct scatterlist *sgl_mkey;
++	u32 lkey, i;
++
++	lkey = queue->priv->mdev->mlx5e_res.hw_objs.mkey;
++	for (i = 0; i < klm_entries; i++) {
++		sgl_mkey = &queue->ccid_table[ccid].sgl[i + klm_offset];
++		wqe->inline_klms[i].bcount = cpu_to_be32(sg_dma_len(sgl_mkey));
++		wqe->inline_klms[i].key = cpu_to_be32(lkey);
++		wqe->inline_klms[i].va = cpu_to_be64(sgl_mkey->dma_address);
++	}
++
++	for (; i < ALIGN(klm_entries, MLX5_UMR_KLM_NUM_ENTRIES_ALIGNMENT); i++) {
++		wqe->inline_klms[i].bcount = 0;
++		wqe->inline_klms[i].key = 0;
++		wqe->inline_klms[i].va = 0;
++	}
++}
++
++static void
++build_nvmeotcp_klm_umr(struct mlx5e_nvmeotcp_queue *queue, struct mlx5e_umr_wqe *wqe,
++		       u16 ccid, int klm_entries, u32 klm_offset, u32 len,
++		       enum wqe_type klm_type)
++{
++	u32 id = (klm_type == KLM_UMR) ? queue->ccid_table[ccid].klm_mkey :
++		 (mlx5e_tir_get_tirn(&queue->tir) << MLX5_WQE_CTRL_TIR_TIS_INDEX_SHIFT);
++	u8 opc_mod = (klm_type == KLM_UMR) ? MLX5_CTRL_SEGMENT_OPC_MOD_UMR_UMR :
++		MLX5_OPC_MOD_TRANSPORT_TIR_STATIC_PARAMS;
++	u32 ds_cnt = MLX5E_KLM_UMR_DS_CNT(ALIGN(klm_entries, MLX5_UMR_KLM_NUM_ENTRIES_ALIGNMENT));
++	struct mlx5_wqe_umr_ctrl_seg *ucseg = &wqe->uctrl;
++	struct mlx5_wqe_ctrl_seg *cseg = &wqe->ctrl;
++	struct mlx5_mkey_seg *mkc = &wqe->mkc;
++	u32 sqn = queue->sq.sqn;
++	u16 pc = queue->sq.pc;
++
++	cseg->opmod_idx_opcode = cpu_to_be32((pc << MLX5_WQE_CTRL_WQE_INDEX_SHIFT) |
++					     MLX5_OPCODE_UMR | (opc_mod) << 24);
++	cseg->qpn_ds = cpu_to_be32((sqn << MLX5_WQE_CTRL_QPN_SHIFT) | ds_cnt);
++	cseg->general_id = cpu_to_be32(id);
++
++	if (klm_type == KLM_UMR && !klm_offset) {
++		ucseg->mkey_mask = cpu_to_be64(MLX5_MKEY_MASK_XLT_OCT_SIZE |
++					       MLX5_MKEY_MASK_LEN | MLX5_MKEY_MASK_FREE);
++		mkc->xlt_oct_size = cpu_to_be32(ALIGN(len, MLX5_UMR_KLM_NUM_ENTRIES_ALIGNMENT));
++		mkc->len = cpu_to_be64(queue->ccid_table[ccid].size);
++	}
++
++	ucseg->flags = MLX5_UMR_INLINE | MLX5_UMR_TRANSLATION_OFFSET_EN;
++	ucseg->xlt_octowords = cpu_to_be16(ALIGN(klm_entries, MLX5_UMR_KLM_NUM_ENTRIES_ALIGNMENT));
++	ucseg->xlt_offset = cpu_to_be16(klm_offset);
++	fill_nvmeotcp_klm_wqe(queue, wqe, ccid, klm_entries, klm_offset);
++}
++
++static void
++mlx5e_nvmeotcp_fill_wi(struct mlx5e_icosq *sq, u32 wqebbs, u16 pi)
++{
++	struct mlx5e_icosq_wqe_info *wi = &sq->db.wqe_info[pi];
++
++	memset(wi, 0, sizeof(*wi));
++
++	wi->num_wqebbs = wqebbs;
++	wi->wqe_type = MLX5E_ICOSQ_WQE_UMR_NVMEOTCP;
++}
++
++static u32
++post_klm_wqe(struct mlx5e_nvmeotcp_queue *queue,
++	     enum wqe_type wqe_type,
++	     u16 ccid,
++	     u32 klm_length,
++	     u32 klm_offset)
++{
++	struct mlx5e_icosq *sq = &queue->sq;
++	u32 wqebbs, cur_klm_entries;
++	struct mlx5e_umr_wqe *wqe;
++	u16 pi, wqe_sz;
++
++	cur_klm_entries = min_t(int, queue->max_klms_per_wqe, klm_length - klm_offset);
++	wqe_sz = MLX5E_KLM_UMR_WQE_SZ(ALIGN(cur_klm_entries, MLX5_UMR_KLM_NUM_ENTRIES_ALIGNMENT));
++	wqebbs = DIV_ROUND_UP(wqe_sz, MLX5_SEND_WQE_BB);
++	pi = mlx5e_icosq_get_next_pi(sq, wqebbs);
++	wqe = MLX5E_NVMEOTCP_FETCH_KLM_WQE(sq, pi);
++	mlx5e_nvmeotcp_fill_wi(sq, wqebbs, pi);
++	build_nvmeotcp_klm_umr(queue, wqe, ccid, cur_klm_entries, klm_offset,
++			       klm_length, wqe_type);
++	sq->pc += wqebbs;
++	sq->doorbell_cseg = &wqe->ctrl;
++	return cur_klm_entries;
++}
++
++static void
++mlx5e_nvmeotcp_post_klm_wqe(struct mlx5e_nvmeotcp_queue *queue, enum wqe_type wqe_type,
++			    u16 ccid, u32 klm_length)
++{
++	struct mlx5e_icosq *sq = &queue->sq;
++	u32 klm_offset = 0, wqes, i;
++
++	wqes = DIV_ROUND_UP(klm_length, queue->max_klms_per_wqe);
++
++	spin_lock_bh(&queue->sq_lock);
++
++	for (i = 0; i < wqes; i++)
++		klm_offset += post_klm_wqe(queue, wqe_type, ccid, klm_length, klm_offset);
++
++	if (wqe_type == KLM_UMR) /* not asking for completion on ddp_setup UMRs */
++		__mlx5e_notify_hw(&sq->wq, sq->pc, sq->uar_map, sq->doorbell_cseg, 0);
++	else
++		mlx5e_notify_hw(&sq->wq, sq->pc, sq->uar_map, sq->doorbell_cseg);
++
++	spin_unlock_bh(&queue->sq_lock);
++}
++
+ static int
+ mlx5e_nvmeotcp_offload_limits(struct net_device *netdev,
+ 			      struct ulp_ddp_limits *limits)
+@@ -45,6 +160,14 @@ mlx5e_nvmeotcp_ddp_setup(struct net_device *netdev,
+ 			 struct sock *sk,
+ 			 struct ulp_ddp_io *ddp)
+ {
++	struct mlx5e_nvmeotcp_queue *queue;
++
++	queue = container_of(ulp_ddp_get_ctx(sk),
++			     struct mlx5e_nvmeotcp_queue, ulp_ddp_ctx);
++
++	/* Placeholder - map_sg and initializing the count */
++
++	mlx5e_nvmeotcp_post_klm_wqe(queue, KLM_UMR, ddp->command_id, 0);
+ 	return 0;
+ }
+ 
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp_utils.h b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp_utils.h
+new file mode 100644
+index 000000000000..6ef92679c5d0
+--- /dev/null
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp_utils.h
+@@ -0,0 +1,25 @@
++/* SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB */
++/* Copyright (c) 2023, NVIDIA CORPORATION & AFFILIATES. */
++#ifndef __MLX5E_NVMEOTCP_UTILS_H__
++#define __MLX5E_NVMEOTCP_UTILS_H__
++
++#include "en.h"
++
++#define MLX5E_NVMEOTCP_FETCH_KLM_WQE(sq, pi) \
++	((struct mlx5e_umr_wqe *)\
++	 mlx5e_fetch_wqe(&(sq)->wq, pi, sizeof(struct mlx5e_umr_wqe)))
++
++#define MLX5_CTRL_SEGMENT_OPC_MOD_UMR_NVMEOTCP_TIR_PROGRESS_PARAMS 0x4
++
++#define MLX5_CTRL_SEGMENT_OPC_MOD_UMR_TIR_PARAMS 0x2
++#define MLX5_CTRL_SEGMENT_OPC_MOD_UMR_UMR 0x0
++
++enum wqe_type {
++	KLM_UMR,
++	BSF_KLM_UMR,
++	SET_PSV_UMR,
++	BSF_UMR,
++	KLM_INV_UMR,
++};
++
++#endif /* __MLX5E_NVMEOTCP_UTILS_H__ */
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c b/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c
+index addf8905fc35..204a8137c1a0 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c
+@@ -1061,6 +1061,10 @@ int mlx5e_poll_ico_cq(struct mlx5e_cq *cq, int budget)
+ 			case MLX5E_ICOSQ_WQE_GET_PSV_TLS:
+ 				mlx5e_ktls_handle_get_psv_completion(wi, sq);
+ 				break;
++#endif
++#ifdef CONFIG_MLX5_EN_NVMEOTCP
++			case MLX5E_ICOSQ_WQE_UMR_NVMEOTCP:
++				break;
+ #endif
+ 			default:
+ 				netdev_WARN_ONCE(cq->netdev,
+-- 
+2.34.1
 
-
-What appears to be happening is:
-
-format command #1 completes and calls nvme_passthru_end(),
-nvme_passthru_end() calls:
-
-mutex_unlock(&ctrl->scan_lock);
-...
-nvme_queue_scan(ctrl);
-flush_work(&ctrl->scan_work);
-
-
-Directly after format command #1 unlocks the mutex,
-format command #2 will get the mutex in nvme_passthru_start().
-
-Format command #2 will release the mutex in nvme_passthru_end(),
-but only after the format command has completed.
-
-The default timeout for the nvme format command via nvme-cli is 600 seconds=
-,
-so it is easy to imagine that the format command will take longer than 120
-seconds.
-
-
-So the scan work at the end of format command #1 will eventually get to run=
-,
-but only after the second nvme format command has completed.
-(nvme_queue_scan() will finally be able to get the mutex, once
-nvme_passthru_end() for the second format command has released the mutex.)
-
-
-I don't think that formatting multiple namespaces in parallel is an
-unreasonable thing to do, so I do not think that we should scare our
-users with "hung task timeouts".
-
-
-
-My first though was that perhaps we could do something like:
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 46a4c9c5ea96..811d40cf23f6 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1113,6 +1113,7 @@ u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struc=
-t nvme_ns *ns, u8 opcode)
-         * effects say only one namespace is affected.
-         */
-        if (effects & NVME_CMD_EFFECTS_CSE_MASK) {
-+               flush_work(&ctrl->scan_work);
-                mutex_lock(&ctrl->scan_lock);
-                mutex_lock(&ctrl->subsys->lock);
-                nvme_mpath_start_freeze(ctrl->subsys);
-
-
-But that will not work, because it will still have a race window between th=
-e
-time nvme_passthru_end() has unlocked the mutex, and before
-nvme_passthru_end() has queued the scan work.
-
-I guess, in the case that nvme_passthru_end() has to perform a scan, we wan=
-t
-to unlock the scan mutex after nvme_passthru_end() has performed the scan,
-but right now nvme_queue_scan() will acquire the mutex (and is running on t=
-he
-workqueue)...
-
-Thoughts?
-
-
-Kind regards,
-Niklas=
 
