@@ -4,172 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 84051C41535
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Dec 2023 13:56:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E1A99C35274
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Dec 2023 14:31:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HOcllSFDm5uBn84BTbtPO2H/8kf+UUroRWy0vVY3hLA=; b=qjfGLXo5AjpcvuQEPcnZ3UGfw9
-	un28q7aJTRAqsrZ95XjgqI2sYO+Tscz5Sv0vB7f9w5BU3RWi6kpmsmwhHUaOBgDtUPNCMovFmaFWs
-	YUjKIDLJnV/ub0BPmx0nfsX3zXwQbTaQG3CK6NctHOSrEt6sBlAiF9aV9OeGWZ6d7RHxdv7OJmEIs
-	+9XdkGX7JZ/O+KuQcgoDzxp5zSsuFQLohE76+UlGsgIUk6XO36uOCh2SRxCjYiNF33sHFpefBHxAT
-	UrPwJMb800DORiITiD7oSMd+ij7U2w0KVjZaiGWRRBLyc71ddx8kNLOv59Djy2lTTS5r9RRVTZPXX
-	PFd4KCQw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=erKKb0H7SqC5E2Ri4hvjnBoK0v3Z/VHjHExpDsFsfS8=; b=OgzYsrL3+98NCeN3JR68ieQvWP
+	wt3YTE5wfB20ihhba0PigKZhqnU8H0xjXjJNNpGfkZnYZOlGbed67CNbk21ZIQcP/i1IJfHJE5IvS
+	GJ86Ff/ErdUeAZcQDWIfWNsdjbI1heIOHCnI2vOIWXNxhK/rBNMNfgZ3B4uMCR0iOcODDi6oQkqaf
+	d1X/8FqyFzdWkroWIq4qh9gll7sutcfPcxAl4a5XjNR067iE0LAfQwxj9qLELTTjoihv1y0Ub8LOP
+	rbm2k0dM4WPK1LzkQEo7l0BnV+Ksz5Ecy8YKkKx/8vPTIJF3/eKYqjspKqyWQqMeZeLQwIZZxsgAD
+	axblh8mw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rE8fY-003Rot-1R;
-	Fri, 15 Dec 2023 13:56:00 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1rE9EB-003ZGW-2q;
+	Fri, 15 Dec 2023 14:31:47 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rE8fU-003Ro8-3D
+	id 1rE9E8-003ZEw-0Q
 	for linux-nvme@lists.infradead.org;
-	Fri, 15 Dec 2023 13:55:58 +0000
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3BFDswvn027787;
-	Fri, 15 Dec 2023 13:55:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2023-11-20;
- bh=HOcllSFDm5uBn84BTbtPO2H/8kf+UUroRWy0vVY3hLA=;
- b=dgcU3H068h1oDt/XMxzB5wT1YfM6L4ueor/+yM58q+sS3QJDHbNB4Psp+GaWrEV1oIRN
- iekcnrd7VE5weNTfC6m6nE0lqPeIRSuCnJviB/akjMaaGAT/xhFIPgE+7uiGzqNy70RD
- mA2fuSP0XndToaeAyZf2VT8V5qSu25wZgN6qY7JmNadXNrFp4bnhubQlULpOQJNzqNJ2
- 6/zvuZMQM3KIumdkSza0EMEoQB3T36ivWH+sa0dVilrUkEOrEgrVpbabHyJaxL+OZHuv
- sdtrh8Z+DhexzDXmTlOYjeGaYwh2oexVud+vIn1JdbCKQALgguMLFPYP9XBukub+T2ts EA== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3uvf5cdejc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 15 Dec 2023 13:55:32 +0000
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 3BFD3uiQ013093;
-	Fri, 15 Dec 2023 13:55:30 GMT
-Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam02lp2040.outbound.protection.outlook.com [104.47.51.40])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3uvepj4ntt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 15 Dec 2023 13:55:30 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hfUcUSxIasI2e6ss0q7UINiU0QNHwzNj7NumnmPXr84s9OqzzWrzEC8JwG+/JsS4VewKKYgWotp7RuVum6DSNj7WlLXcuc7iyLdc/tWt7XaKxiwphl7Gp8q0TAbSu/yNkxqB4bAy7poNe8DQQSSDx9IDgmKV0eY3+UszYCBLfUQzjkEU0L+ujlVzV2tmNugMkrMZA2NSq9fKUPrRoKvae7gJZzDZakA3eFPTmL3HZKxcMFustQqDw82hiuvrqqwtSL/A0a/8nB/JFbyq13RF+UoUPS02OQiT7iQJzAdIhHu8woY/Z7PyYkfuOdTuc54tlubJiWeuldZ4Fw5jr14kWg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HOcllSFDm5uBn84BTbtPO2H/8kf+UUroRWy0vVY3hLA=;
- b=JtM+C8vyR4PH/ZNm3+EPtPy8Mx1UmlZnGEPNse6oMPcZWo4/9x0Zou/zCHCj9Y02XTvnyOK0K+yaps2HcFLx3MKQjE4TiS4VgADj1xZxgF0rY2FkbaoGkysxpVe/QhfGbP0TySfN2BPtrIP8ew1iHrXrv5zPy2BqPyyZibXGV1lY9aXybGAMy+lGQ2ooOd00kX56u8ay//HjAtXL2X0guM//jYRlf7qmNXMboM5SZYC6k0szoMDu9ndNO2Q4h9RowLLYu86UJ8O4b34zj7Cs8InqM08Uaijy8gYEhRXN4mcyDou3HA8WyLglfa2fTnbXHLj+LDitSkgjNFp0XoJLcA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HOcllSFDm5uBn84BTbtPO2H/8kf+UUroRWy0vVY3hLA=;
- b=pgySJ1gYF/MfWQtD3hyyf3QdZJh3291pyyij0ywJ7+EVy4J97TJfIRBPzuFRzp2ZiVa2ZA0fM/vMiwVXkTiznEDCF2k7roTU6O+C+UxI5+PGv1hwS6cSKeQcj16hRxiGInF/hktzkRCmRju3dstfvFrhgaOwg/vpSilqbfDGxt8=
-Received: from DM6PR10MB4313.namprd10.prod.outlook.com (2603:10b6:5:212::20)
- by PH0PR10MB4455.namprd10.prod.outlook.com (2603:10b6:510:36::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.28; Fri, 15 Dec
- 2023 13:55:28 +0000
-Received: from DM6PR10MB4313.namprd10.prod.outlook.com
- ([fe80::102a:f31:30c6:3187]) by DM6PR10MB4313.namprd10.prod.outlook.com
- ([fe80::102a:f31:30c6:3187%4]) with mapi id 15.20.7091.030; Fri, 15 Dec 2023
- 13:55:28 +0000
-Message-ID: <811039c5-8b46-4b99-9930-8494f5eaa2c4@oracle.com>
-Date: Fri, 15 Dec 2023 13:55:22 +0000
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 08/16] block: Limit atomic write IO size according to
- atomic_write_max_sectors
-To: Ming Lei <ming.lei@redhat.com>
-Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-        jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
-        viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
-        jack@suse.cz, linux-block@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        tytso@mit.edu, jbongio@google.com, linux-scsi@vger.kernel.org,
-        bvanassche@acm.org
-References: <20231212110844.19698-1-john.g.garry@oracle.com>
- <20231212110844.19698-9-john.g.garry@oracle.com> <ZXu5rykouOcNOSa1@fedora>
-Content-Language: en-US
-From: John Garry <john.g.garry@oracle.com>
-Organization: Oracle Corporation
-In-Reply-To: <ZXu5rykouOcNOSa1@fedora>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM8P189CA0018.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:218::23) To DM6PR10MB4313.namprd10.prod.outlook.com
- (2603:10b6:5:212::20)
+	Fri, 15 Dec 2023 14:31:45 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1702650701;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=erKKb0H7SqC5E2Ri4hvjnBoK0v3Z/VHjHExpDsFsfS8=;
+	b=VtYp1tAW5MsbqrBkFxff7J38L6xbJibO+/ZmtxTjSXqC5jJhqTZxODz9QdNmUabnZpjtdN
+	fhN/SHWJ6ubJpkEpUpnYUbG5yuBmQpRFEYzeDc9ixZKbA/s3EIjXmdGLaokk3dyzg031Uq
+	GUJO5RLL7hlOq8xGW4I+7cKACWkDhI4=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-561-KutriXVDME6j3DkW-cgdlw-1; Fri,
+ 15 Dec 2023 09:31:38 -0500
+X-MC-Unique: KutriXVDME6j3DkW-cgdlw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8A08D28EC103;
+	Fri, 15 Dec 2023 14:31:38 +0000 (UTC)
+Received: from kalibr.redhat.com (unknown [10.47.238.49])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 9C73840C6EB9;
+	Fri, 15 Dec 2023 14:31:37 +0000 (UTC)
+From: Maurizio Lombardi <mlombard@redhat.com>
+To: kbusch@kernel.org
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH] nvme-pci: fix sleeping function called from interrupt context
+Date: Fri, 15 Dec 2023 15:31:36 +0100
+Message-Id: <20231215143136.252497-1-mlombard@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR10MB4313:EE_|PH0PR10MB4455:EE_
-X-MS-Office365-Filtering-Correlation-Id: 31c94e64-9b33-4da6-6493-08dbfd757eb6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UXtOnl7EqoquGc+LU+Zq8aKZjSbw+vPUMXhLrJSPNSWpY6gwZsd/0sqoYAHviWVOJubvRw7WSeqJCTUNTJZ3EwCS+/C3r8dPriXqMmqadCnN18lmFIdkTBWoF1Zj6aM2AbbxMLgTHlz6dzeiR3ZHZNHFNjtDJ5g/0kaozqvTJi4kM89cu8zwZkns7WMgoaOnohvG0Ut20Uu7gOj2IQxfuT0VBmM+JujEDv+YBRgZ4fr82JRGNRQ55ZCitJCS7Pa3RhaiHfhd3xdF0Pp4FHzyfhTLocFnvw09Q+glcdSuBuHw0bCRa5m7LBULYnitom5iDP+nWuzSTWz0tP8CHCI6PGnsMW6CQG2U/hqsdm7YT2DCpdjzWig0Rm2sIQu4bsC+hQL933/N3b/axFvMmq3ag8ub1779Sk+6eVjIptVvNeOJ1O29Bl8gioShdKrLwhins8lda89AUffzweexZwKplwTurychvWAUwOriv699sR1ur8XbD+cVqzR6iytva62OgQS8cDdlJVWrw65yZAP/D2oSRxyiU6eBLwVQ+jrs6nd5N3EcP4uuWhFz6ozlMkLHdD18DtbW+lP+OJ8ogdNvqd60zLEDoN/r9Qn+Q7BBjwUi+vhmN+m9uE2RN1l1ms2awlzujW4ykeZOVoMX9tLG0g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4313.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(376002)(39860400002)(346002)(136003)(230922051799003)(64100799003)(1800799012)(451199024)(186009)(5660300002)(2616005)(26005)(7416002)(83380400001)(6486002)(2906002)(478600001)(316002)(6916009)(36756003)(66946007)(41300700001)(66476007)(66556008)(4326008)(53546011)(36916002)(8676002)(6512007)(8936002)(6666004)(6506007)(31686004)(86362001)(38100700002)(31696002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Yi8zQnpOQ0N5aU1vdTV4KzhSeVBsUjlCdEZqaXNxVm8yM0hyRzEzbWxpTndu?=
- =?utf-8?B?SnlqR2ROclgvaU44WmQ5S0xtQ0hoUXhPT1ZLenJzNTdIUnVWWGxUUkVJcFZu?=
- =?utf-8?B?UkgvT1lGWmpqVENxZUlyWVdmTmVXbElOSDIvb1EzVXRucWMySVN4OWpRdmV2?=
- =?utf-8?B?bWNTajgwL2FzZkFiZGJzT3J6TFNnbDNGbVZvNnEvSWxBa2JEakk0N1JNQ1Zi?=
- =?utf-8?B?b2d5WFIrNTM1U2p4b1UwQ2ZMWkh2WG9MaE9vK3pGcEJJQlRYQSthNWRCejAw?=
- =?utf-8?B?U2g2V3NYYjBWNE5QTHU5SklBNEEzcDBOM2Vha25wMGRYZmNkc2xKNXZydlBu?=
- =?utf-8?B?NHErTVh0WlVCck5FL2xOeHoydDJ4b3MyeFZqSjJ0eVBYNlBCbTlBY0pBRi94?=
- =?utf-8?B?M1BnVlJlVndWY1NvVG1Eb0hFa1ptcCtFeU1VWk9hazZadWhIMmFPY0lYdTky?=
- =?utf-8?B?TlY4L0FJYkhWZlNPaWU0RDRDdHBmcUpTeVdzZGZYdk5odXhCVUFZUUVNUExk?=
- =?utf-8?B?enQ0VkVBNVIxaXZvRnlZQVBhdlQ3eTI4L2pWZUwyUWtodCs1cGFuQmtGR2Fx?=
- =?utf-8?B?bzZBcHNXR2tNQlNmUjZETCtIUjJPR1ZEK1VDM0loamRzTEg1Wk9uSmh3NGFy?=
- =?utf-8?B?QVd0N1RqSjZlWm5DbmVldUpPVVRvZjVMMmk4Q0kzYVJ4RVJJU1c5TDNEeElW?=
- =?utf-8?B?ekZkZEJDcXF1b0RNK2l3QkFqU0tqTk5TME4zdUJQV1VRcHFTYkFMcXdoOEd0?=
- =?utf-8?B?Wmpsbll4MDFHbFUxdGc4OHYyekJMY2FQcG1yZ0VVN0xzY0MrVHg2NVhXWmV5?=
- =?utf-8?B?TEZLbnZyRVV4a01JSDJ3M24yT0JjU3lxNk1qd08xdS9TMC9KTDg4NTVkWFBP?=
- =?utf-8?B?NTBoNVBkSTYvRnFkNnRWWUZLVm1BUFpyaVRHWWZhdzlROHdJL1g3Q0hTRGcz?=
- =?utf-8?B?Uk8zZnhLSnVRRGdYdU1VeUw1UzZldjlnczJtUTdkTlBkK3J3OGtUSVhyU1lC?=
- =?utf-8?B?VXRrRnVuRktHcGFENFdNdGthaXFHejhlMFdKNTNXbkxmYXE5Z2lzNE1rb1Rw?=
- =?utf-8?B?UTU2Z1FaTm1UWVVpV3o4WHZSZXo3MVdSdVppcDVHTlJ1WHRCSXkybEd4Tm1q?=
- =?utf-8?B?dWQwNVp3Y0JLVFplMkw1d2V2ZDNMV0NiaTdLR0tLbU9RMFNrd1dsYjRoVkJo?=
- =?utf-8?B?ZW82SlpnV3MxeVN3Vm5aVVdYZXdmTWVPanRuWjVIRWRKdkxjWUdERk9xWFdG?=
- =?utf-8?B?b1ExdVEvTEZCRjBTcTY4SGtlbnBaaVA0am5qcU5VN0srZXNzQjNkbEcwOVVy?=
- =?utf-8?B?ek1LL1ZYTTNhVlp0b0gzMXdGblpYZ3FSdHd6eWdRT1Y5dDgrblVnN21DejFL?=
- =?utf-8?B?eFlSbE5kQTlwbUdGTGhHclhCSlFRbEN1dHpNSWdIT1ZDWThJZGtHVzNzMWRM?=
- =?utf-8?B?RnM4VnIwbHpSTVkyMGtFTmVrWUpycW5Td3RDVUpxbmJIUWlWMGRlNWZ1OWhh?=
- =?utf-8?B?Y0xrWkRoZEJzUDRQaFpYZTM1M3cxN0dJZm84VTJzTUM2c0RDa0RnNWFzSnRl?=
- =?utf-8?B?KzFSNGFFYWJzWWhINHhqTGRBK0ZUamJIampLUHpkL3hGRC9MZkpxUTNwcmpJ?=
- =?utf-8?B?TlQxN2JLMzJIUldROXNjOGhqUmtHMmxydnFuVUJSSFg3WHlmd25rUWM4a1p4?=
- =?utf-8?B?QllJSlM4aXZmd0JxU1FvNTNxb05YUnRBZDZIOFJ2bkp5TkF4NGtzRzc4bWZW?=
- =?utf-8?B?WXN0YWl0QXhETENpb0hwRnNYYjNabGZ3WG13bHo5Nk5uZjdIL0dmN0s4VDFG?=
- =?utf-8?B?YWdXTSsvNTBrc3BCMzcvTHZwM0ZFOGZzeDQyOWZQUzdtOTZaakdOQWx6RTQ1?=
- =?utf-8?B?aHdlaTk1Q1A1NlE1OURaRTRKQU9iL3ZDYStxc05waXlxNGxDZ3MzdnR0TjBP?=
- =?utf-8?B?QjlrMG1ya3hBNzh6cUROcFZMM0dneVZGZCtvRnFNdEF6ZXhSWC9BMlhndkZz?=
- =?utf-8?B?WEVOT2s5YkhHOXZRcm5IYjljUmoza1hFZ0lKa3NEOWNKdlRueHc4bURvQmUx?=
- =?utf-8?B?Rjh4SzFHYmhjVS9sUEhVMVlsUW5FNFhqWjBDeThVbVVtTTBzSFFxcHNXSnBk?=
- =?utf-8?Q?HHlH5mkbBVqD+6n28MLqGA/sz?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: rV0NBfs1rpwOywVpCf5Wcggejbo3H7HvYQ7RyYdB+HxaRK9HtG2qTfGPqTrM818bvNpliaIAMF+lV5SFi+9GkKCtwWxouUrvhOW6vOUAd3TAI8ajDDomM2pWdwqvuP3XQFVkREwjQ6w7CbvUTJi1RTH8OQdk7qiiIRZWdd17Ylg3znBfDelspq3OTny+CkkLTFpPwcF3zfwuRT9fJJblpjqK5DUEaSnlqdKjv0MKJHSE0aUu+VY6IMFyYdJ7BYs5p4pkQG4X5NNGmRA3fmNXrPcVVEn/lmKxtwRj0QuAbY7/+WXTeb6EDVW6WvxV8ji/4tVdS5j3ym2KjHb4bHsPZABC0oqKnHCjOpiBxphfq983qSiOAzauKAohEAD2Hm0GSjRC1nMxhPxAmktCf5UepZcyRfGu/e9EyfexCqfzu/9Ibp7v7QEGoG5T6+yFCUkObnSC0IoLhP54bNvVRXkuEaW6ifk/1JPyWsU2eLDTZxLdsLt963aZ3/WyvbHU8Hdm00sGqwM4uxqUo/g2yNiII358Jm2r1eh4n0sGBgBKe937t0PyDFcOdWiL1Zpx6UIcsRda6LrrggpuVeQwtkx4+Q62kR8PcVy1lJWawHrcjjo=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 31c94e64-9b33-4da6-6493-08dbfd757eb6
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4313.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2023 13:55:28.4774
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RvWlcCNgzyYXVDq6QkqeTQ0VhfQ3w+MGYgJB3rz8+PU/KeDO00+0IVE3tPd4/uEzgXUdaa+PbsZQiMXH6U4bLw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4455
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-15_08,2023-12-14_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxscore=0 suspectscore=0
- phishscore=0 adultscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
- definitions=main-2312150094
-X-Proofpoint-ORIG-GUID: JvGzuvL4ibmtkbZAh2DlHpPb2Y_XfM0V
-X-Proofpoint-GUID: JvGzuvL4ibmtkbZAh2DlHpPb2Y_XfM0V
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231215_055557_409163_16129AF0 
-X-CRM114-Status: GOOD (  32.73  )
+X-CRM114-CacheID: sfid-20231215_063144_268369_961E334F 
+X-CRM114-Status: GOOD (  13.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -184,97 +79,116 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 15/12/2023 02:27, Ming Lei wrote:
-> On Tue, Dec 12, 2023 at 11:08:36AM +0000, John Garry wrote:
->> Currently an IO size is limited to the request_queue limits max_sectors.
->> Limit the size for an atomic write to queue limit atomic_write_max_sectors
->> value.
->>
->> Signed-off-by: John Garry <john.g.garry@oracle.com>
->> ---
->>   block/blk-merge.c | 12 +++++++++++-
->>   block/blk.h       |  3 +++
->>   2 files changed, 14 insertions(+), 1 deletion(-)
->>
->> diff --git a/block/blk-merge.c b/block/blk-merge.c
->> index 0ccc251e22ff..8d4de9253fe9 100644
->> --- a/block/blk-merge.c
->> +++ b/block/blk-merge.c
->> @@ -171,7 +171,17 @@ static inline unsigned get_max_io_size(struct bio *bio,
->>   {
->>   	unsigned pbs = lim->physical_block_size >> SECTOR_SHIFT;
->>   	unsigned lbs = lim->logical_block_size >> SECTOR_SHIFT;
->> -	unsigned max_sectors = lim->max_sectors, start, end;
->> +	unsigned max_sectors, start, end;
->> +
->> +	/*
->> +	 * We ignore lim->max_sectors for atomic writes simply because
->> +	 * it may less than bio->write_atomic_unit, which we cannot
->> +	 * tolerate.
->> +	 */
->> +	if (bio->bi_opf & REQ_ATOMIC)
->> +		max_sectors = lim->atomic_write_max_sectors;
->> +	else
->> +		max_sectors = lim->max_sectors;
+the nvme_handle_cqe() interrupt handler calls nvme_complete_async_event()
+but the latter may call some blocking functions. Sleeping functions
+can't be called in interrupt context.
 
-Please note that I mentioned this issue in the cover letter, so you can 
-see some discussion there (if missed).
+BUG: sleeping function called from invalid context
+in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 0, name: swapper/15
+ Call Trace:
+ <IRQ>
+  __cancel_work_timer+0x31e/0x460
+  ? nvme_change_ctrl_state+0xcf/0x3c0 [nvme_core]
+  ? nvme_change_ctrl_state+0xcf/0x3c0 [nvme_core]
+  nvme_complete_async_event+0x365/0x480 [nvme_core]
+  nvme_poll_cq+0x262/0xe50 [nvme]
 
-> 
-> I can understand the trouble for write atomic from bio split, which
-> may simply split in the max_sectors boundary, however this change is
-> still too fragile:
-> 
-> 1) ->max_sectors may be set from userspace
-> - so this change simply override userspace setting
+Fix the bug by deferring the call to nvme_complete_async_event() to
+the nvme_wq workqueue, add a wait_queue to be sure there are no async
+events waiting to be completed before stopping the controller.
 
-yes
+Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+---
+ drivers/nvme/host/pci.c | 40 ++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 38 insertions(+), 2 deletions(-)
 
-> 
-> 2) otherwise ->max_sectors is same with ->max_hw_sectors:
-> 
-> - then something must be wrong in device side or driver side because
-> ->write_atomic_unit conflicts with ->max_hw_sectors, which is supposed
-> to be figured out before device is setup
-> 
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 61af7ff1a9d6..4ac3d3606c4f 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -139,6 +139,8 @@ struct nvme_dev {
+ 	u32 cmbsz;
+ 	u32 cmbloc;
+ 	struct nvme_ctrl ctrl;
++	wait_queue_head_t async_wq;
++	atomic_t async_completing;
+ 	u32 last_ps;
+ 	bool hmb;
+ 
+@@ -161,6 +163,13 @@ struct nvme_dev {
+ 	unsigned int nr_poll_queues;
+ };
+ 
++struct nvme_compl_async_data {
++	struct work_struct cmpl_work;
++	struct nvme_dev *dev;
++	union nvme_result result;
++	__le16 status;
++};
++
+ static int io_queue_depth_set(const char *val, const struct kernel_param *kp)
+ {
+ 	return param_set_uint_minmax(val, kp, NVME_PCI_MIN_QUEUE_SIZE,
+@@ -1008,6 +1017,20 @@ static inline struct blk_mq_tags *nvme_queue_tagset(struct nvme_queue *nvmeq)
+ 	return nvmeq->dev->tagset.tags[nvmeq->qid - 1];
+ }
+ 
++static void nvme_complete_async_event_work(struct work_struct *work)
++{
++	struct nvme_compl_async_data *data;
++	struct nvme_dev *dev;
++
++	data = container_of(work, struct nvme_compl_async_data, cmpl_work);
++	dev = data->dev;
++
++	nvme_complete_async_event(&dev->ctrl, data->status, &data->result);
++	atomic_dec(&dev->async_completing);
++	wake_up(&dev->async_wq);
++	kfree(data);
++}
++
+ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq,
+ 				   struct io_comp_batch *iob, u16 idx)
+ {
+@@ -1022,8 +1045,18 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq,
+ 	 * for them but rather special case them here.
+ 	 */
+ 	if (unlikely(nvme_is_aen_req(nvmeq->qid, command_id))) {
+-		nvme_complete_async_event(&nvmeq->dev->ctrl,
+-				cqe->status, &cqe->result);
++		struct nvme_compl_async_data *data;
++
++		data = kmalloc(sizeof(*data), GFP_ATOMIC);
++		if (!data)
++			return;
++
++		INIT_WORK(&data->cmpl_work, nvme_complete_async_event_work);
++		data->dev = nvmeq->dev;
++		data->status = cqe->status;
++		data->result = cqe->result;
++		atomic_inc(&nvmeq->dev->async_completing);
++		queue_work(nvme_wq, &data->cmpl_work);
+ 		return;
+ 	}
+ 
+@@ -2933,6 +2966,8 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
+ 	INIT_WORK(&dev->ctrl.reset_work, nvme_reset_work);
+ 	mutex_init(&dev->shutdown_lock);
+ 
++	init_waitqueue_head(&dev->async_wq);
++	atomic_set(&dev->async_completing, 0);
+ 	dev->nr_write_queues = write_queues;
+ 	dev->nr_poll_queues = poll_queues;
+ 	dev->nr_allocated_queues = nvme_max_io_queues(dev) + 1;
+@@ -3135,6 +3170,7 @@ static void nvme_remove(struct pci_dev *pdev)
+ 	}
+ 
+ 	flush_work(&dev->ctrl.reset_work);
++	wait_event(dev->async_wq, !atomic_read(&dev->async_completing));
+ 	nvme_stop_ctrl(&dev->ctrl);
+ 	nvme_remove_namespaces(&dev->ctrl);
+ 	nvme_dev_disable(dev, true);
+-- 
+2.39.3
 
-Right, so I think that it is proper to limit atomic_write_unit_max et al 
-to max_hw_sectors or whatever DMA engine device limits. I can make that 
-change.
-
-> 3) too big max_sectors may break driver or device, such as nvme-pci
-> aligns max_hw_sectors with DMA optimized mapping size
-> 
-> And there might be more(better) choices:
-> 
-> 1) make sure atomic write limit is respected when userspace updates
-> ->max_sectors
-
-My mind has been changed and I would say no and we can treat 
-atomic_write_unit_max as special. Indeed, max_sectors and 
-atomic_write_unit_max are complementary. If someone sets max_sectors to 
-4KB and then tries an atomic write of 16KB then they don't know what 
-they are doing.
-
-My original idea was to dynamically limit atomic_unit_unit_max et al to 
-max_sectors (so that max_sectors is always respected for atomic writes).
-
-As an alternative, how about we keep the value of atomic_unit_unit_max 
-static, but reject an atomic write if it exceeds max_sectors? It's not 
-too different than dynamically limiting atomic_unit_unit_max. But as 
-mentioned, it may be asking for trouble....
-
-> 
-> 2) when driver finds that atomic write limits conflict with other
-> existed hardware limits, fail or solve(such as reduce write atomic unit) the
-> conflict before queue is started; With single write atomic limits update API,
-> the conflict can be figured out earlier by block layer too.
-
-I think that we can do this, but I am not sure what other queue limits 
-may conflict (apart from max_sectors / max_sectors_hw). There is max 
-segment size, but we just rely on a single PAGE per iovec to evaluate 
-atomic_unit_unit_max, so should not be an issue.
-
-Thanks,
-John
 
