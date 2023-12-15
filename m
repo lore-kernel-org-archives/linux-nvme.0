@@ -4,66 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4821C4332F
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Dec 2023 23:37:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1CA09C4332F
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Dec 2023 00:04:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MXXaeQJQ5RQ6hdmj/dj0Fy28PI+9ZRzNYDojVYtXFPc=; b=YEx5eQl8iXrtfPvt3tYSVZ3jaU
-	6QC7EYacCNvB2xkZba/5jH9igY45668H9EwzFqlJZIri34gM3muQMYo507wilqOCvVsQMuXWYVyqQ
-	EenrwcfuSCogVUpKn99l1XaWrtC1y295+TdZ6MD2DYDhdoiX/R+ZJ1f/sPSiZqu3NNhxM/C/sQrp5
-	bgBx2Y2EosK7PHbvA9snNASfrkwTpR17gQitmtY+q20fKor7BzpLpDxlQJ5xrw7Cq9bZDkk5coqdR
-	qLOgEeY2f8AX0wZkdQGqVWw7YdK3d11XFvubpFS0I0gMyfAn/fE4m3GVtBUTDxB9Rm81czITDJ+aR
-	MQBNB78w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=5IU0zN3W+3kwULqxQV+6lpEfNpjR32EHUXbLbl5YqaM=; b=3PEwU1+5HIFgtUw/+jdOoT2aey
+	xlpBSLXa07Ql0YNUwqAMeIs0n76XS2J3g1lhodnaQRd49wKmLOAbGMsHRR4W9P3LgHrdhzv7C988X
+	p7rVRRj3YzXSAcZyvTYumruX0Bk40pTgtFgnD80xpEZlofYTeZ5H4xHdTu5PLVZN6ursTRiE3KZl/
+	eS4vTTzugM3zgvWaflgRKJ3WExcgxocCFS9CM3i19oNVKXGb6u89oGmHyqUFuyeoNBj5Qy/FnaPbP
+	Cwz66linpqk/VSYAxTbR6VA82iACwJlIScid8o1Egvv7prMYi6+BSxBTBlrOURUOzgKF9p2vVSRw3
+	NznCv72Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rDvH7-001ZAY-0I;
-	Thu, 14 Dec 2023 23:37:53 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1rDvgY-001bB6-1y;
+	Fri, 15 Dec 2023 00:04:10 +0000
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rDvH4-001Z9r-0U
+	id 1rDvgW-001bAU-0D
 	for linux-nvme@lists.infradead.org;
-	Thu, 14 Dec 2023 23:37:51 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 6C9D7623E2;
-	Thu, 14 Dec 2023 23:37:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8927C433C8;
-	Thu, 14 Dec 2023 23:37:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702597069;
-	bh=arX++frJmrhVDBP2RiMfCW8Qy/N8N1wmAEZ1Q3U+GDU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oUmcAv7ANzTll085d2olkDYJZayz2V19I3Hq5fFo/Qj8oThDR36ExwDwUssP/iJtx
-	 blHXQ2VRNk6TgeRIC18cnMympG8+P3SMT4mm57jBB70/035bQFb0wOkTS1j4XvvF8j
-	 /jumJ2Xf5unkPz8210m6RUrtmF4Wyc/6TFbH+Os6KDqdUds2nE4YxmUhbSzD0ZTURI
-	 BTvhZ/bLBY+3X1VNbPjzKpQHbU4y/9abCZ/r2PR6AMMcu1a7AIv1Mer3xAkTm4FxPO
-	 Fyu3Z4KXWujVNh1+FnItzOeYVU375v1MHiuSyb0D3SUnW8dYe/+EF50kSkPfEFTYCR
-	 7TLr4aiP/Ytnw==
-Date: Thu, 14 Dec 2023 15:37:47 -0800
-From: Keith Busch <kbusch@kernel.org>
-To: Kamaljit Singh <Kamaljit.Singh1@wdc.com>
-Cc: Niklas Cassel <Niklas.Cassel@wdc.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
-	Damien Le Moal <dlemoal@kernel.org>
-Subject: Re: parallel nvme format
-Message-ID: <ZXuRyk7IjbyzCQ3R@kbusch-mbp>
-References: <ZXsJdJxDXEbCmSec@x1-carbon>
- <ZXs5B8pYKTBLD1NH@kbusch-mbp>
- <ZXtx2EOnRUMLSjcu@x1-carbon>
- <ZXuGkmdgXwFKB_cY@kbusch-mbp>
- <ZXuK9YQVkhjwUTr6@kbusch-mbp>
- <BYAPR04MB4151B88FACA25A38C4C998FCBC8CA@BYAPR04MB4151.namprd04.prod.outlook.com>
+	Fri, 15 Dec 2023 00:04:09 +0000
+Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-6cef5220d07so35702b3a.2
+        for <linux-nvme@lists.infradead.org>; Thu, 14 Dec 2023 16:04:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ciq.com; s=s1; t=1702598644; x=1703203444; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5IU0zN3W+3kwULqxQV+6lpEfNpjR32EHUXbLbl5YqaM=;
+        b=ImXRVqzrZkaOmAA6MmGyeDDVYvgBI1iWAusseNxwvRm/4qrWz/Wc/pAHlfmfqgZCaM
+         dTJTonQh518zZg0+pdCG+lu0YBGATg5mMiR1EDspSrOMQg1daVI/I3ALE0OSKzlhV5uz
+         wf/1jqukcPjQCXDtm9Y4+fr6wVju/A7spg5GtyfehUFkRYGER0R8LzQTFVo2Zn/4mBCH
+         lQm0MZ13+20ZJITz172N/V6FjVCOPiBBItTCQx5AcQzk6hT/jK6l6Cx93DITmtkhqj4x
+         /gYZtCDWpDCVxYLTiZv6R5BPqKecHyG1fcNZ3QOmBdEio9NItuU7ecVk4E9lF7vGgYrV
+         hNDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702598644; x=1703203444;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5IU0zN3W+3kwULqxQV+6lpEfNpjR32EHUXbLbl5YqaM=;
+        b=Lsj6I6hQMTx0kcxAC3zR6eZ+BZ3oFkCp//FkPnbyj89+h+lBF+oLSINaTt5UzeJAGF
+         I38BGeH+ekyunsdiOQFM5AUFAC2egn6j9b7hUixpMXXLt5yREE7XoPtQ0w/qOivR+O2V
+         nGdw2+sLRikoO9g6fFTiOu4ADjXKhuTf2XnEOVW/WF7wjCG6ygG7Ofg2zpqEeMaDqi+e
+         3W8vljSyEy4Hz0+Ky929cyyR40sfwWG1guDLuJchgWpaqD4lFUjRGsrbiRqRynO4i3YN
+         vCAFzDKOaTFpo4BE30NH6SuV/zrSeG/2fB5yKiqPnNNVWXkHiSZjdI95YWfS77D9gbhL
+         aIdQ==
+X-Gm-Message-State: AOJu0Yy540xxcffCqO477FTdtS8x9a7M+xGowHFiow3Aj52ejdyKNHgL
+	WpwhUdq4ruEf7EfE6ZOHmX7+Zw==
+X-Google-Smtp-Source: AGHT+IHtYdbVsP4evH++rOhQdVcTGyHEm0dd556rhX/ZfW5pTb37OcPyYM8f3xDFxddMI10tsFKzSQ==
+X-Received: by 2002:a05:6a00:1749:b0:6ce:2732:1e07 with SMTP id j9-20020a056a00174900b006ce27321e07mr6199415pfc.65.1702598643653;
+        Thu, 14 Dec 2023 16:04:03 -0800 (PST)
+Received: from localhost.localdomain (50-76-39-125-ip-static.hfc.comcastbusiness.net. [50.76.39.125])
+        by smtp.gmail.com with ESMTPSA id c12-20020a62e80c000000b006ce7e497302sm12208524pfi.21.2023.12.14.16.04.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Dec 2023 16:04:03 -0800 (PST)
+From: Jeremy Allison <jallison@ciq.com>
+To: jallison@ciq.com,
+	jra@samba.org,
+	tansuresh@google.com,
+	hch@lst.de
+Cc: linux-nvme@lists.infradead.org,
+	gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	bhelgaas@google.com
+Subject: Make NVME shutdown async - version 2
+Date: Thu, 14 Dec 2023 16:03:55 -0800
+Message-Id: <20231215000358.1203338-1-jallison@ciq.com>
+X-Mailer: git-send-email 2.39.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BYAPR04MB4151B88FACA25A38C4C998FCBC8CA@BYAPR04MB4151.namprd04.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231214_153750_274825_EAF932CA 
-X-CRM114-Status: GOOD (  18.84  )
+X-CRM114-CacheID: sfid-20231214_160408_131462_AEF7D553 
+X-CRM114-Status: UNSURE (   7.79  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,75 +94,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Dec 14, 2023 at 11:27:57PM +0000, Kamaljit Singh wrote:
-> Hi Keith,
-> 
-> Good suggestions but we may need another change to check for NVME_CTRL_NEEDS_SCAN and kick-off nvme_scan_work later, to follow-up for the call that may have been skipped.
+This is version 2 of a rebased update and resend of a patchset
+originally written by Tanjore Suresh <tansuresh@google.com> to
+make shutdown of nvme devices asynchronous. Minor changes
+made to use an enum shutdown_type instead of an
+integer flag.
 
-Another check where? These are the only two paths that hold scan_lock,
-so if the initial scan was aborted because the other path was holding
-the lock, that path has to see that the needs rescan flag was set and
-requeue it.
+Changes from version 1:
 
-I guess there could be some user initiated scan or an AER triggered scan
-in a multipath+multihost setup that was aborted because of an admin
-command without ever explicitly setting the flag bit, so we could set it
-on trylock failure to make doubly sure it gets rekicked after the
-scan_lock is released:
+As requested by Sagi Grimberg <sagi@grimberg.me>, ensure
+that shutdown_pre is only called if shutdown_post is
+also defined.
 
-	if (!mutex_trylock(&ctrl->scan_lock)) {
-		set_bit(NVME_CTRL_NEEDS_RESCAN, &ctrl->flags);
-		return;
-	}
- 
-> > --- a/drivers/nvme/host/core.c
-> > +++ b/drivers/nvme/host/core.c
-> > @@ -1120,6 +1120,8 @@ u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns, u8 opcode)
-> >               nvme_start_freeze(ctrl);
-> >               nvme_wait_freeze(ctrl);
-> >       }
-> > +     if (effects & (NVME_CMD_EFFECTS_NIC | NVME_CMD_EFFECTS_NCC))
-> > +             set_bit(NVME_CTRL_NEEDS_RESCAN, &ctrl->flags);
-> >       return effects;
-> >  }
-> >  EXPORT_SYMBOL_NS_GPL(nvme_passthru_start, NVME_TARGET_PASSTHRU);
-> > @@ -1140,7 +1142,7 @@ void nvme_passthru_end(struct nvme_ctrl *ctrl, struct nvme_ns *ns, u32 effects,
-> >  "controller capabilities changed, reset may be required to take effect.\n");
-> >               }
-> >       }
-> > -     if (effects & (NVME_CMD_EFFECTS_NIC | NVME_CMD_EFFECTS_NCC)) {
-> > +     if (test_bit(NVME_CTRL_NEEDS_RESCAN, &ctrl->flags)) {
-> >               nvme_queue_scan(ctrl);
-> >               flush_work(&ctrl->scan_work);
-> >       }
-> > @@ -3945,7 +3947,14 @@ static void nvme_scan_work(struct work_struct *work)
-> >               nvme_clear_changed_ns_log(ctrl);
-> >       }
-> >
-> > -     mutex_lock(&ctrl->scan_lock);
-> > +     /*
-> > +      * Failure to acquire scan_lock means another thread will requeue this
-> > +      * work shortly
-> > +      */
-> > +     if (!mutex_trylock(&ctrl->scan_lock))
-> > +             return;
-> > +
-> > +     clear_bit(NVME_CTRL_NEEDS_RESCAN, &ctrl->flags);
-> >       if (nvme_ctrl_limited_cns(ctrl)) {
-> >               nvme_scan_ns_sequential(ctrl);
-> >       } else {
-> > diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> > index 39a90b7cb1254..79a71b6ae64fe 100644
-> > --- a/drivers/nvme/host/nvme.h
-> > +++ b/drivers/nvme/host/nvme.h
-> > @@ -251,6 +251,7 @@ enum nvme_ctrl_flags {
-> >       NVME_CTRL_STOPPED               = 3,
-> >       NVME_CTRL_SKIP_ID_CNS_CS        = 4,
-> >       NVME_CTRL_DIRTY_CAPABILITY      = 5,
-> > +     NVME_CTRL_NEEDS_RESCAN          = 6,
-> >  };
-> >
-> >  struct nvme_ctrl {
-> > --
-> >
+-------------------------------------------------------------
+Currently the Linux nvme driver shutdown code steps
+through each connected drive, sets the NVME_CC_SHN_NORMAL
+(normal shutdown) flag and then polls the given drive
+waiting for the response NVME_CSTS_SHST_CMPLT flag
+(shutdown complete).
+
+Each drive is taking around 13 seconds to respond to this.
+
+The customer has 20+ drives on the box so this time adds
+up on shutdown when the nvme driver is being shut down.
+
+This patchset changes shutdown to proceed in parallel,
+so the NVME_CC_SHN_NORMAL (normal shutdown) flag is
+sent to all drives first, and then it polls waiting
+for the NVME_CSTS_SHST_CMPLT flag (shutdown complete)
+for all drives.
+
+In the specific customer case it reduces the NVME
+shutdown time from over 300 seconds to around 15
+seconds.
+-------------------------------------------------------------
+
+Thanks for your consideration,
+
+Jeremy Allison.
+CIQ / Samba Team.
+
 
