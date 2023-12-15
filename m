@@ -4,84 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83BFEC4167D
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Dec 2023 00:04:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4C9E1C4332F
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Dec 2023 01:24:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Zu6Kv+piX5rsWT/XYfwYEdYL+zGX7UJzAJo4X8Rim6I=; b=OLJHgzN0QUc86DOcXqCrqgpvpb
-	IAf8urJVMb34X/ul37hZqIydHxbDqj1iIgOSP65eWo94fODmcMJ10oXgEVWHKdMhTHKS4oo/19q/O
-	Q3RCZD6q6N8H3JqFnVHdzlS4xpQXVP+Iw7NUIQBNgrAzU6CdPX4GIvLYZEYwruPBTxTnXW63IWHyJ
-	rBJHQ8kZNPa+JutsTG8Dqkj9Bun2/lEj1pxcrFAJki53W5uUr8NYuR0+lC5CyomfhUee60edBE4w6
-	oF9TScpZ8pu3Zdl0DNGm6j1ukx3EzbMjVjr4vLMU3nqtxObm3TNeTCYdZ6SIr3u+NZyzrTC5YHOg6
-	UEAwmk/w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=/8qazUIu6YJA2y3bggIBD5Y4wLxS94t2IlLhNIzB1/o=; b=Jhiz+qDpOhwqWYZkxryrR+4ufT
+	PKnY4l1buEIW3eSGMzcMqOCxud0xaseQ2ITbcVOfJwwv/6HtXqh8Gpgx+bfxOvLfwpxe/YlB2IJyQ
+	aYjwk7OqiCMdMgoi3YzV5HOPHK4rwJT+2ZaJ0B9w4I4JJlgc0G3RCBSbg1ELeNjHPwD45zDKqE/l/
+	DR8OaILlb59bv+BRj5m8Rf0NCzVFjvPgMEhASQxzzIDeMH8uvhoAS3Re1ciWW3YAVaPvXSM+8JD63
+	fthPWHgvKo8Ty9ycAhmEC9qvk/SeoJWRGaiWPtyVkJHANw+klq+aSc+BDDSM09mIe4W9Qb3NBhwhz
+	ZM3cf5kg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rDvga-001bBi-19;
-	Fri, 15 Dec 2023 00:04:12 +0000
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
+	id 1rDwwf-001hac-1p;
+	Fri, 15 Dec 2023 01:24:53 +0000
+Received: from mgamail.intel.com ([192.55.52.93])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rDvgX-001bAZ-1C
+	id 1rDwwb-001hZK-2X
 	for linux-nvme@lists.infradead.org;
-	Fri, 15 Dec 2023 00:04:10 +0000
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-6ce6dd83945so72777b3a.3
-        for <linux-nvme@lists.infradead.org>; Thu, 14 Dec 2023 16:04:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ciq.com; s=s1; t=1702598646; x=1703203446; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zu6Kv+piX5rsWT/XYfwYEdYL+zGX7UJzAJo4X8Rim6I=;
-        b=ovp+U9mPTqMduyJ7r8T9f3y2jsEzg9Tm+gl6Aeen2Lu//KfDPtLHOl9wrKL3YxcLlP
-         SsrHNRqkpBpDgcF6nx25v5f7lXZncfMN7/i1Tox/hmPkaF4DTGQVr6iR7QeT9uCBidIc
-         slGosvFGMbpgkGsVuENZRVCPLeQL5gvVQ56O6vDwj5+pr5IZnBkuPxxwpPJrIra616BU
-         ZrQ0i2301f1p7PNAXEzCaCxpJYljVjm736L0RRLxFpYJ967TBbDfPeBFRgZ4l29+keLx
-         I/NsJAAk8K3HMmWDvdflYzkV+qhlcsdZGgynEoBfRqDGdYnXulbtVTXFbUNiEBSTqdQf
-         TD7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702598646; x=1703203446;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Zu6Kv+piX5rsWT/XYfwYEdYL+zGX7UJzAJo4X8Rim6I=;
-        b=qJcdH4ZlTr0mSxP/+xarFMsQeufOL6Dz9/PbSsStl/7s4ulAukGNdqzeEpa0hrFIEA
-         Gk/Ll0ywuisJiLjExsQyA8dhseX5Qov6hvPQqXM2Fu6R+sh8X2r1cSu/nB6yCM3EFCpc
-         4iKxPfGoQIvXw0Rp6qUVrvMQRQH2GjtLl9Ub0IRkkGYNVHDzduB62QyDZNZSkXPSPM09
-         CYDpdJeD7ghnMrMw33UfBX1m0PScvsNGVn8PhECF+Pbdmj8ONXRrmRgazlXSqxsruPOK
-         U6AcaG4EdWOrGV7vgt0y6BZnwa57Bwk6OH5FG53b4ZzO0hUT/5laiqlg4sYKf3lCKCXi
-         mjcg==
-X-Gm-Message-State: AOJu0Yx+u77qgVhI5LC/hZL83H4sjKxLXRlzTExF1pnGVNXedaX6hihI
-	h53UVgMonYOSnu1slK9NkIdmFg==
-X-Google-Smtp-Source: AGHT+IH2W0xLul79H5a3wWsCPkFU2gPJC47oFQ0qrQwb16Mbjbq3DPQMBVxdazEDPAwAgLEUB0zINg==
-X-Received: by 2002:a05:6a00:6509:b0:6d0:dff8:39b3 with SMTP id hc9-20020a056a00650900b006d0dff839b3mr1998792pfb.58.1702598646274;
-        Thu, 14 Dec 2023 16:04:06 -0800 (PST)
-Received: from localhost.localdomain (50-76-39-125-ip-static.hfc.comcastbusiness.net. [50.76.39.125])
-        by smtp.gmail.com with ESMTPSA id c12-20020a62e80c000000b006ce7e497302sm12208524pfi.21.2023.12.14.16.04.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 16:04:05 -0800 (PST)
-From: Jeremy Allison <jallison@ciq.com>
-To: jallison@ciq.com,
-	jra@samba.org,
-	tansuresh@google.com,
-	hch@lst.de
-Cc: linux-nvme@lists.infradead.org,
-	gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	bhelgaas@google.com
-Subject: [PATCH 1/3] driver core: Support asynchronous driver shutdown
-Date: Thu, 14 Dec 2023 16:03:56 -0800
-Message-Id: <20231215000358.1203338-2-jallison@ciq.com>
-X-Mailer: git-send-email 2.39.3
-In-Reply-To: <20231215000358.1203338-1-jallison@ciq.com>
-References: <20231215000358.1203338-1-jallison@ciq.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+	Fri, 15 Dec 2023 01:24:51 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702603489; x=1734139489;
+  h=date:from:to:cc:subject:message-id;
+  bh=7lh9YOFkZvpiug0O+f6KpqO4AeKLbtr4AutoCwWl6R0=;
+  b=Zvv7f0DwB2Zn872p4DYh3qVlWp2GMe/vl91PW3NUoQp6sIlloRXTgL0N
+   exNrrqEQnu3nmijsjBZasK82OkGNCQ3T/lut2Rnic8hRrvHVDoDDSQMKw
+   VuZW/fry++QFikuOSo6Q8ixEaOnxlISiS9Jcw9So+joDYmcA0rQYS7VWT
+   LnrR2mVpjr/8YO3WVlruRJNORMcNYDWCsJwXMvEN4cWP4QzQdCOOfpKXB
+   XYjNeKHbfI92LVIyyBMERuvXpCQh48HZYz+YkwDiwm3MvoaymUhcmqPNz
+   n42tfUH7dc7376dAj76+3U25KqZ/dhv//n53WLj4wNutR5VpEi6D8XR0O
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="392389754"
+X-IronPort-AV: E=Sophos;i="6.04,277,1695711600"; 
+   d="scan'208";a="392389754"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 17:24:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="844938041"
+X-IronPort-AV: E=Sophos;i="6.04,277,1695711600"; 
+   d="scan'208";a="844938041"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 14 Dec 2023 17:24:48 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rDwwY-000Mw1-0p;
+	Fri, 15 Dec 2023 01:24:46 +0000
+Date: Fri, 15 Dec 2023 09:24:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.8] BUILD SUCCESS
+ 4ba8b3f7d368279d3d3bde788394c7f6b3e0c061
+Message-ID: <202312150909.PJf9E8WQ-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231214_160409_421570_859BACDC 
-X-CRM114-Status: GOOD (  20.14  )
+X-CRM114-CacheID: sfid-20231214_172449_832546_B93C7186 
+X-CRM114-Status: UNSURE (   6.60  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,121 +80,124 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Tanjore Suresh <tansuresh@google.com>
+tree/branch: git://git.infradead.org/nvme.git nvme-6.8
+branch HEAD: 4ba8b3f7d368279d3d3bde788394c7f6b3e0c061  nvmet: remove cntlid_min and cntlid_max check in nvmet_alloc_ctrl
 
-This changes the bus driver interface with additional entry points
-to enable devices to implement asynchronous shutdown. The existing
-synchronous interface to shutdown is unmodified and retained for
-backward compatibility. shutdown_pre is only called if a matching
-shutdown_post function is also registered, otherwise the synchronous
-synchronous interface is used.
+elapsed time: 1579m
 
-This changes the common device shutdown code to enable devices to
-participate in asynchronous shutdown implementation.
+configs tested: 104
+configs skipped: 0
 
-Signed-off-by: Tanjore Suresh <tansuresh@google.com>
-Signed-off-by: Jeremy Allison <jallison@ciq.com>
----
- drivers/base/core.c        | 41 +++++++++++++++++++++++++++++++++++++-
- include/linux/device/bus.h | 11 ++++++++++
- 2 files changed, 51 insertions(+), 1 deletion(-)
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index 67ba592afc77..a842d402a088 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -4725,6 +4725,7 @@ EXPORT_SYMBOL_GPL(device_change_owner);
- void device_shutdown(void)
- {
- 	struct device *dev, *parent;
-+	LIST_HEAD(async_shutdown_list);
- 
- 	wait_for_device_probe();
- 	device_block_probing();
-@@ -4769,7 +4770,16 @@ void device_shutdown(void)
- 				dev_info(dev, "shutdown_pre\n");
- 			dev->class->shutdown_pre(dev);
- 		}
--		if (dev->bus && dev->bus->shutdown) {
-+
-+		/* Only call shutdown_pre if a shutdown_post is also defined. */
-+		if (dev->bus && dev->bus->shutdown_pre &&
-+				dev->bus->shutdown_post) {
-+			if (initcall_debug)
-+				dev_info(dev, "shutdown_pre\n");
-+			dev->bus->shutdown_pre(dev);
-+			list_add(&dev->kobj.entry,
-+				&async_shutdown_list);
-+		} else if (dev->bus && dev->bus->shutdown) {
- 			if (initcall_debug)
- 				dev_info(dev, "shutdown\n");
- 			dev->bus->shutdown(dev);
-@@ -4789,6 +4799,35 @@ void device_shutdown(void)
- 		spin_lock(&devices_kset->list_lock);
- 	}
- 	spin_unlock(&devices_kset->list_lock);
-+
-+	/*
-+	 * Second pass spin for only devices, that have configured
-+	 * Asynchronous shutdown.
-+	 */
-+	while (!list_empty(&async_shutdown_list)) {
-+		dev = list_entry(async_shutdown_list.next, struct device,
-+				kobj.entry);
-+		parent = get_device(dev->parent);
-+		get_device(dev);
-+		/*
-+		 * Make sure the device is off the  list
-+		 */
-+		list_del_init(&dev->kobj.entry);
-+		if (parent)
-+			device_lock(parent);
-+		device_lock(dev);
-+		if (dev->bus && dev->bus->shutdown_post) {
-+			if (initcall_debug)
-+				dev_info(dev,
-+				"shutdown_post called\n");
-+			dev->bus->shutdown_post(dev);
-+		}
-+		device_unlock(dev);
-+		if (parent)
-+			device_unlock(parent);
-+		put_device(dev);
-+		put_device(parent);
-+	}
- }
- 
- /*
-diff --git a/include/linux/device/bus.h b/include/linux/device/bus.h
-index ae10c4322754..d49dae1a280c 100644
---- a/include/linux/device/bus.h
-+++ b/include/linux/device/bus.h
-@@ -48,6 +48,15 @@ struct fwnode_handle;
-  *		will never get called until they do.
-  * @remove:	Called when a device removed from this bus.
-  * @shutdown:	Called at shut-down time to quiesce the device.
-+ * @shutdown_pre:	Called at the shutdown-time to start the shutdown
-+ *			process on the device. This entry point will be called
-+ *			only when the bus driver has indicated it would like
-+ *			to participate in asynchronous shutdown completion
-+ *			and has also defined a shutdown_post function.
-+ * @shutdown_post:	Called at shutdown-time  to complete the shutdown
-+ *			process of the device. This entry point will be called
-+ *			only when the bus drive has indicated it would like to
-+ *			participate in the asynchronous shutdown completion.
-  *
-  * @online:	Called to put the device back online (after offlining it).
-  * @offline:	Called to put the device offline for hot-removal. May fail.
-@@ -90,6 +99,8 @@ struct bus_type {
- 	void (*sync_state)(struct device *dev);
- 	void (*remove)(struct device *dev);
- 	void (*shutdown)(struct device *dev);
-+	void (*shutdown_pre)(struct device *dev);
-+	void (*shutdown_post)(struct device *dev);
- 
- 	int (*online)(struct device *dev);
- 	int (*offline)(struct device *dev);
+tested configs:
+arc                   randconfig-001-20231215   gcc  
+arc                   randconfig-002-20231215   gcc  
+arm                           h3600_defconfig   gcc  
+arm                       omap2plus_defconfig   gcc  
+arm                   randconfig-001-20231215   clang
+arm                   randconfig-002-20231215   clang
+arm                   randconfig-003-20231215   clang
+arm                   randconfig-004-20231215   clang
+arm                       versatile_defconfig   clang
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20231215   clang
+arm64                 randconfig-002-20231215   clang
+arm64                 randconfig-003-20231215   clang
+arm64                 randconfig-004-20231215   clang
+csky                  randconfig-001-20231215   gcc  
+csky                  randconfig-002-20231215   gcc  
+hexagon               randconfig-001-20231215   clang
+hexagon               randconfig-002-20231215   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20231214   gcc  
+i386         buildonly-randconfig-002-20231214   gcc  
+i386         buildonly-randconfig-003-20231214   gcc  
+i386         buildonly-randconfig-004-20231214   gcc  
+i386         buildonly-randconfig-005-20231214   gcc  
+i386         buildonly-randconfig-006-20231214   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231214   gcc  
+i386                  randconfig-002-20231214   gcc  
+i386                  randconfig-003-20231214   gcc  
+i386                  randconfig-004-20231214   gcc  
+i386                  randconfig-005-20231214   gcc  
+i386                  randconfig-006-20231214   gcc  
+i386                  randconfig-011-20231214   clang
+i386                  randconfig-012-20231214   clang
+i386                  randconfig-013-20231214   clang
+i386                  randconfig-014-20231214   clang
+i386                  randconfig-015-20231214   clang
+i386                  randconfig-016-20231214   clang
+loongarch                        allmodconfig   gcc  
+loongarch             randconfig-001-20231215   gcc  
+loongarch             randconfig-002-20231215   gcc  
+m68k                             allmodconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                          atari_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                       allyesconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                         cobalt_defconfig   gcc  
+mips                 decstation_r4k_defconfig   gcc  
+mips                        omega2p_defconfig   clang
+nios2                            allmodconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                 randconfig-001-20231215   gcc  
+nios2                 randconfig-002-20231215   gcc  
+openrisc                         allyesconfig   gcc  
+parisc                           alldefconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                randconfig-001-20231215   gcc  
+parisc                randconfig-002-20231215   gcc  
+powerpc                          allmodconfig   clang
+powerpc                          allyesconfig   clang
+powerpc                      chrp32_defconfig   gcc  
+powerpc                        icon_defconfig   clang
+powerpc                    klondike_defconfig   gcc  
+powerpc               mpc834x_itxgp_defconfig   clang
+powerpc               randconfig-001-20231215   clang
+powerpc               randconfig-002-20231215   clang
+powerpc               randconfig-003-20231215   clang
+powerpc                     tqm5200_defconfig   clang
+powerpc64             randconfig-001-20231215   clang
+powerpc64             randconfig-002-20231215   clang
+powerpc64             randconfig-003-20231215   clang
+riscv                            allmodconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                 randconfig-001-20231215   clang
+riscv                 randconfig-002-20231215   clang
+riscv                          rv32_defconfig   clang
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                  randconfig-001-20231215   gcc  
+s390                  randconfig-002-20231215   gcc  
+sh                               allmodconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                    randconfig-001-20231215   gcc  
+sh                    randconfig-002-20231215   gcc  
+sh                           se7343_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64               randconfig-001-20231215   gcc  
+sparc64               randconfig-002-20231215   gcc  
+um                               allmodconfig   clang
+um                               allyesconfig   clang
+um                    randconfig-001-20231215   clang
+um                    randconfig-002-20231215   clang
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64                              defconfig   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                randconfig-001-20231215   gcc  
+xtensa                randconfig-002-20231215   gcc  
+
 -- 
-2.39.3
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
