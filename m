@@ -4,45 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D426C35274
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Dec 2023 15:53:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7354C35274
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Dec 2023 15:56:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AQ1RlV6Acfe2YPkTy/Cr+JCfIF5qXbTv3BiW+9J+M4o=; b=FqD1IGPjnrvhzuQjZykCwwUDvm
-	ns3IhZTTD/SewOzi1Hmt6/dzoVQDC4XIzAzXATyQqdqNojC5E+6j4HDrAzSgX98kKxysxqvH2bAHy
-	0pVYhUlMesCFaECMvIS9MwYlpbjRxhPNdGDA2S0ZDWY7MQjaaNaqY537qB7e9RE3RZaSKkbPQAXky
-	NX2xjxLIuwyt1c9xfY+vFntLR8xaBB4nky4p3HdUbFf10yeaUYu4QxS2Ponxg2Ihdr/dFq7UNQ6sY
-	EjQwy+PgUiWmxDp0656Jn8Q78dRJIJIKQXvD2ayENpSeeIUG6wW9y/vJCwmJwZ41d0hW7JQ7X5Z0C
-	1Se9nFJA==;
+	bh=MJ9W11dpS2QdHFN8Mkp+AZQ70TUdu4la3PZucmekhPg=; b=wIGvFHtFRT9vb9KDGReLZD86wz
+	vB3hlWjUJ3zd4I2tmq19NZR+L3AxfqPy2kEqTPVUC1Yfj5mzPUYxo0qA47lYw96Ie/BMcSMDK3e37
+	MP/8TIWT3Q0RsmH3own8BIC9aTnWFnG0Iho3BbCDkSGJUClz7d1T1jqKV5RCwMVMap5DdrlFNKrmr
+	T/KR1n/Hr9/LBBpBrcgSoJMfniP/0oMpQ3v/CRD2tb+ReErNLfaRktu0+CL5lVC68nqhJawwFNT/R
+	ErnWoOrEUI5vYf5sGyh7gYEZUIkAHveOExSBirBiJQrts5jY5vCy//JPBDyHhM2nvm78a+kkXtK5Z
+	lLDbJpQw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rFFwJ-00BJ8w-2h;
-	Mon, 18 Dec 2023 15:53:55 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1rFFyV-00BJfH-2E;
+	Mon, 18 Dec 2023 15:56:11 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rFFwH-00BJ7j-00
+	id 1rFFyR-00BJe3-2J
 	for linux-nvme@lists.infradead.org;
-	Mon, 18 Dec 2023 15:53:54 +0000
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
+	Mon, 18 Dec 2023 15:56:09 +0000
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 575EE1F445;
-	Mon, 18 Dec 2023 15:53:51 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1B3C71FD49;
+	Mon, 18 Dec 2023 15:56:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1702914966; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MJ9W11dpS2QdHFN8Mkp+AZQ70TUdu4la3PZucmekhPg=;
+	b=IvMCQetkPEO5Dzkze/zc4aOeAn6Dhn/CB0+bTm2N7DAq0YHW5eYbmw4QohuYp7d8m4WlwT
+	ZTcCFzRLkrFi4PVjKxN9o1V7fjA+plcDZu+S/sc4od2mI1ij8UeF1ONeuEe9amZb5ApZmE
+	O1FlSxZN6H4yJUKs0iBbbrsYTKVGcJA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1702914966;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MJ9W11dpS2QdHFN8Mkp+AZQ70TUdu4la3PZucmekhPg=;
+	b=lDuwQufKhNUx5cp6whAEwIvUvrqo9olKG3fcGEx/kmLETuO5egagr+66pCmauXwr4LuNtb
+	KoNxH7JrdVVqExDw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1702914966; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MJ9W11dpS2QdHFN8Mkp+AZQ70TUdu4la3PZucmekhPg=;
+	b=IvMCQetkPEO5Dzkze/zc4aOeAn6Dhn/CB0+bTm2N7DAq0YHW5eYbmw4QohuYp7d8m4WlwT
+	ZTcCFzRLkrFi4PVjKxN9o1V7fjA+plcDZu+S/sc4od2mI1ij8UeF1ONeuEe9amZb5ApZmE
+	O1FlSxZN6H4yJUKs0iBbbrsYTKVGcJA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1702914966;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MJ9W11dpS2QdHFN8Mkp+AZQ70TUdu4la3PZucmekhPg=;
+	b=lDuwQufKhNUx5cp6whAEwIvUvrqo9olKG3fcGEx/kmLETuO5egagr+66pCmauXwr4LuNtb
+	KoNxH7JrdVVqExDw==
 Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 4271D13BC8;
-	Mon, 18 Dec 2023 15:53:51 +0000 (UTC)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 09D4F13BC8;
+	Mon, 18 Dec 2023 15:56:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id 6iebDg9rgGXCAQAAn2gu4w
-	(envelope-from <dwagner@suse.de>); Mon, 18 Dec 2023 15:53:51 +0000
+	id PlYvAZZrgGVXAgAAn2gu4w
+	(envelope-from <dwagner@suse.de>); Mon, 18 Dec 2023 15:56:06 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org,
@@ -52,23 +88,39 @@ Cc: linux-kernel@vger.kernel.org,
 	James Smart <james.smart@broadcom.com>,
 	Hannes Reinecke <hare@suse.de>,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH v3 09/16] nvmet-fc: free queue and assoc directly
-Date: Mon, 18 Dec 2023 16:30:57 +0100
-Message-ID: <20231218153105.12717-10-dwagner@suse.de>
+Subject: [PATCH v3 10/16] nvmet-fc: hold reference on hostport match
+Date: Mon, 18 Dec 2023 16:30:58 +0100
+Message-ID: <20231218153105.12717-11-dwagner@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231218153105.12717-1-dwagner@suse.de>
 References: <20231218153105.12717-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [0.90 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 R_MISSING_CHARSET(2.50)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 REPLY(-4.00)[];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 RCPT_COUNT_SEVEN(0.00)[8];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.00)[26.58%]
 Authentication-Results: smtp-out2.suse.de;
 	none
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	 REPLY(-4.00)[]
-X-Rspamd-Queue-Id: 575EE1F445
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231218_075353_204633_5BA3B413 
-X-CRM114-Status: GOOD (  11.79  )
+X-CRM114-CacheID: sfid-20231218_075607_951884_2719A148 
+X-CRM114-Status: GOOD (  11.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,54 +135,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Neither struct nvmet_fc_tgt_queue nor struct nvmet_fc_tgt_assoc are data
-structure which are used in a RCU context. So there is no reason to
-delay the free operation.
+The hostport data structure is shared between the association, this why
+we keep track of the users via a refcount. So we should not decrement
+the refcount on a match and free the hostport several times.
+
+Reported by KASAN.
 
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 ---
- drivers/nvme/target/fc.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/nvme/target/fc.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index db992df13c73..0adf65154e27 100644
+index 0adf65154e27..fa7a6d2edd88 100644
 --- a/drivers/nvme/target/fc.c
 +++ b/drivers/nvme/target/fc.c
-@@ -145,7 +145,6 @@ struct nvmet_fc_tgt_queue {
- 	struct list_head		avail_defer_list;
- 	struct workqueue_struct		*work_q;
- 	struct kref			ref;
--	struct rcu_head			rcu;
- 	/* array of fcp_iods */
- 	struct nvmet_fc_fcp_iod		fod[] __counted_by(sqsize);
- } __aligned(sizeof(unsigned long long));
-@@ -170,7 +169,6 @@ struct nvmet_fc_tgt_assoc {
- 	struct nvmet_fc_tgt_queue __rcu	*queues[NVMET_NR_QUEUES + 1];
- 	struct kref			ref;
- 	struct work_struct		del_work;
--	struct rcu_head			rcu;
- };
- 
- 
-@@ -854,7 +852,7 @@ nvmet_fc_tgt_queue_free(struct kref *ref)
- 
- 	destroy_workqueue(queue->work_q);
- 
--	kfree_rcu(queue, rcu);
-+	kfree(queue);
- }
- 
- static void
-@@ -1187,8 +1185,8 @@ nvmet_fc_target_assoc_free(struct kref *ref)
- 	dev_info(tgtport->dev,
- 		"{%d:%d} Association freed\n",
- 		tgtport->fc_target_port.port_num, assoc->a_id);
--	kfree_rcu(assoc, rcu);
- 	nvmet_fc_tgtport_put(tgtport);
-+	kfree(assoc);
- }
- 
- static void
+@@ -1070,8 +1070,6 @@ nvmet_fc_alloc_hostport(struct nvmet_fc_tgtport *tgtport, void *hosthandle)
+ 		/* new allocation not needed */
+ 		kfree(newhost);
+ 		newhost = match;
+-		/* no new allocation - release reference */
+-		nvmet_fc_tgtport_put(tgtport);
+ 	} else {
+ 		newhost->tgtport = tgtport;
+ 		newhost->hosthandle = hosthandle;
 -- 
 2.43.0
 
