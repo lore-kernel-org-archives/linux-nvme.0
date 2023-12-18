@@ -4,71 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 57F51C35274
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Dec 2023 22:47:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0EBFEC35274
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Dec 2023 22:50:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ItAC93mzPRbOsC5mapF9CZFbE5Zcp9/a8gPgJt/huzI=; b=ywyx3zfBlovZ3RtrbUAFmDTr1L
-	4ad7qmohj9lJM6knPKwl5XwvWu1kKF6CsjfOxpJ4KFGRLEYWE2ci6vPNj4yVMwb0tKM20GdW/+wjf
-	zMQtQjF3tRvhRDUTBMRvxzT8sEPvT94CGlEC8V6LH7upRy3DdQBRoWvdMCYSWwuLXY3/Q6w+5oLb5
-	nw7bPUzJJt8Qq08Vig8Het2XPIX3PMAtdCeOtbhazKH8tc5Ep82g3NC0EzoNic7aEp/XZ6b3goUYQ
-	9YNP8FuygtCSpwj4uTcubrCYztzqQtP8ODm/1cqPgMVsJjw4pXvEsZx05XvWV4271dgVp7CZok6T+
-	UEaVxj3Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=wJaxHKiEDWdFU9vk0GHcuynbIe5J6XaL3nWABmQRXMs=; b=BGbxoODslxRzZBamdGwqLdY/xA
+	qjXzw41Jj/s9gfdETEiRdp5dODaRAeNyo+jjy8axyP68VXdDQM5QMWnlESjSKDl/Noe/oh0iRKcJ7
+	+KFBrh/DBd/IGU3ynpdu3DJcQSFgwX+5R/Jwlh/x1bLiLR/u5pSkf41BBgJkG/HPD630sgPxWEW3Q
+	WBzQtjBZkbp2ZvJA9OumuF5gWF6q9nR3lqCrnTT2iYldo6mGjU4I/DNV0k1cUaUOxn3vyYW6wiNxo
+	pKk2g1yVQZRxB6cqOfdHTDA7vHkQdqQraZC78HDwbxCj9/f5nLsAjudC+cEDQiu1mpezH0XLlTwaD
+	AUSUBMsw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rFMO0-00CFzW-2e;
-	Mon, 18 Dec 2023 22:46:56 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
+	id 1rFMRN-00CGQM-0D;
+	Mon, 18 Dec 2023 22:50:25 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rFMNx-00CFz5-0Y
+	id 1rFMRK-00CGPy-2k
 	for linux-nvme@lists.infradead.org;
-	Mon, 18 Dec 2023 22:46:54 +0000
-Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3BIMLQRI013052
-	for <linux-nvme@lists.infradead.org>; Mon, 18 Dec 2023 14:46:51 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=s2048-2021-q4;
- bh=ItAC93mzPRbOsC5mapF9CZFbE5Zcp9/a8gPgJt/huzI=;
- b=Y+qbPdZWB86kHqWgGdq4zmcTofRrwN9G/nPTQvjYcILOe8Jc/ks0LD258vMgbACa1JP0
- GE7xF+qju38JuV/aZ6ivPS8YRLbW3HBEc+UlSCn4kQcaEG7NDn5TRcHAcE6wG4tfs1fZ
- ZeOHnQg7yMVZdDA7MITkb556PV7OF1TXNBRr7he0m2lsGVIwnrByS5LVfMjkPSVP4vI4
- f9gL9kZqwm/NpK5xWhI0Z3td36jw7lND5RsEg4Y/8r54pvKgDlIuiSokPCUVZ/6fa7zI
- vC/uoxVi952AKQuyIxb6Pe8HGc84p2/EXJCrTUE4yulL3leeG5XRXg4geCpswABChmLP pw== 
-Received: from mail.thefacebook.com ([163.114.132.120])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3v2xt1r4af-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Mon, 18 Dec 2023 14:46:51 -0800
-Received: from twshared17205.35.frc1.facebook.com (2620:10d:c085:108::4) by
- mail.thefacebook.com (2620:10d:c085:21d::8) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Mon, 18 Dec 2023 14:46:49 -0800
-Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
-	id 879CB234981BF; Mon, 18 Dec 2023 14:46:35 -0800 (PST)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-nvme@lists.infradead.org>
-CC: <hch@lst.de>, <sagi@grimberg.me>, <axboe@kernel.dk>,
-        <chaitanyak@nvidia.com>, Keith Busch <kbusch@kernel.org>
-Subject: [PATCHv2] nvme-pci: enhance timeout kernel log
-Date: Mon, 18 Dec 2023 14:46:33 -0800
-Message-ID: <20231218224633.2963811-1-kbusch@meta.com>
-X-Mailer: git-send-email 2.34.1
+	Mon, 18 Dec 2023 22:50:24 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by ams.source.kernel.org (Postfix) with ESMTP id 365CFB811A5;
+	Mon, 18 Dec 2023 22:50:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F368FC433C7;
+	Mon, 18 Dec 2023 22:50:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702939820;
+	bh=XQ3Y2xlODgItuHUfk9LQWvZkE68Or3E774k7hEqz9uo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JMFtsEZLP9TInD4z1KBYZJn+HhHyQPZeKZ/uxCjFDfRQ4R41d0jWZCypmnLeNuUjl
+	 rpQWOCq+O7G6xURivgtJYluZ77NwNHUwxaqR7HEzI+vR2LeMn2fRcU0UViecTGXyfb
+	 90MQZqkN8OwSOOqlHvNg8anjBpO9H3nRknTsFTJe3xywUlve3pijecR5LQLKNdHQn4
+	 iWg0atuu68HLn+lXqA6M3kkpkGdT9YvDwGKExYdJqaUqoBS2WD0ajIzMcRih+uLXOB
+	 pnsYDAzMfJFStLjI5N0rkI2O9fd+rt1no7PzyMUtiO5tnG8C9cwoy9RJqin+9rAjvv
+	 nYGbbLi7tZJ3w==
+Date: Mon, 18 Dec 2023 15:50:16 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: John Garry <john.g.garry@oracle.com>, axboe@kernel.dk, sagi@grimberg.me,
+	jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
+	jack@suse.cz, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	tytso@mit.edu, jbongio@google.com, linux-scsi@vger.kernel.org,
+	ming.lei@redhat.com, jaswin@linux.ibm.com, bvanassche@acm.org
+Subject: Re: [PATCH v2 00/16] block atomic writes
+Message-ID: <ZYDMqCYedHUb3e6O@kbusch-mbp.dhcp.thefacebook.com>
+References: <20231212110844.19698-1-john.g.garry@oracle.com>
+ <20231212163246.GA24594@lst.de>
+ <b8b0a9d7-88d2-45a9-877a-ecc5e0f1e645@oracle.com>
+ <20231213154409.GA7724@lst.de>
+ <c729b03c-b1d1-4458-9983-113f8cd752cd@oracle.com>
+ <20231214143708.GA5331@lst.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: evE6B0rtjg2AU_X2jX6ZsniuYR3i3F32
-X-Proofpoint-ORIG-GUID: evE6B0rtjg2AU_X2jX6ZsniuYR3i3F32
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-18_15,2023-12-14_01,2023-05-22_02
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231214143708.GA5331@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231218_144653_329310_8352C4FF 
-X-CRM114-Status: GOOD (  14.18  )
+X-CRM114-CacheID: sfid-20231218_145023_189757_59A5A620 
+X-CRM114-Status: GOOD (  22.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,89 +82,135 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+On Thu, Dec 14, 2023 at 03:37:09PM +0100, Christoph Hellwig wrote:
+> On Wed, Dec 13, 2023 at 04:27:35PM +0000, John Garry wrote:
+> >>> Are there any patches yet for the change to always use SGLs for transfers
+> >>> larger than a single PRP?
+> >> No.
+> 
+> Here is the WIP version.  With that you'd need to make atomic writes
+> conditional on !ctrl->need_virt_boundary.
 
-Kernel configs don't necessarily have opcode decoding, and some opcodes
-are not even decodable. It is still interesting for debugging SSD issues
-to know what opcode is timing out, what request type it came from, and
-the data size (if applicable).
-
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
-v1->v2:
-
-  Even more verbose annotations in the messages (Jens and Chaitanya)
-
- drivers/nvme/host/pci.c | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 507bc149046dc..f71ec41489a73 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1284,6 +1284,7 @@ static enum blk_eh_timer_return nvme_timeout(struct=
- request *req)
- 	struct request *abort_req;
- 	struct nvme_command cmd =3D { };
- 	u32 csts =3D readl(dev->bar + NVME_REG_CSTS);
-+	u8 opcode;
-=20
- 	/* If PCI error recovery process is happening, we cannot reset or
- 	 * the recovery mechanism will surely fail.
-@@ -1310,7 +1311,7 @@ static enum blk_eh_timer_return nvme_timeout(struct=
- request *req)
-=20
- 	if (blk_mq_rq_state(req) !=3D MQ_RQ_IN_FLIGHT) {
- 		dev_warn(dev->ctrl.device,
--			 "I/O %d QID %d timeout, completion polled\n",
-+			 "I/O tag %d QID %d timeout, completion polled\n",
- 			 req->tag, nvmeq->qid);
- 		return BLK_EH_DONE;
- 	}
-@@ -1327,7 +1328,7 @@ static enum blk_eh_timer_return nvme_timeout(struct=
- request *req)
- 		fallthrough;
- 	case NVME_CTRL_DELETING:
- 		dev_warn_ratelimited(dev->ctrl.device,
--			 "I/O %d QID %d timeout, disable controller\n",
-+			 "I/O tag %d QID %d timeout, disable controller\n",
- 			 req->tag, nvmeq->qid);
- 		nvme_req(req)->flags |=3D NVME_REQ_CANCELLED;
- 		nvme_dev_disable(dev, true);
-@@ -1343,10 +1344,12 @@ static enum blk_eh_timer_return nvme_timeout(stru=
-ct request *req)
- 	 * command was already aborted once before and still hasn't been
- 	 * returned to the driver, or if this is the admin queue.
- 	 */
-+	opcode =3D nvme_req(req)->cmd->common.opcode;
- 	if (!nvmeq->qid || iod->aborted) {
- 		dev_warn(dev->ctrl.device,
--			 "I/O %d QID %d timeout, reset controller\n",
--			 req->tag, nvmeq->qid);
-+			 "I/O tag %d (opcode:%s %d) QID %d timeout, reset controller\n",
-+			 req->tag, nvme_opcode_str(nvmeq->qid, opcode, 0),
-+			 opcode, nvmeq->qid);
- 		nvme_req(req)->flags |=3D NVME_REQ_CANCELLED;
- 		goto disable;
- 	}
-@@ -1362,10 +1365,9 @@ static enum blk_eh_timer_return nvme_timeout(struc=
-t request *req)
- 	cmd.abort.sqid =3D cpu_to_le16(nvmeq->qid);
-=20
- 	dev_warn(nvmeq->dev->ctrl.device,
--		"I/O %d (%s) QID %d timeout, aborting\n",
--		 req->tag,
--		 nvme_get_opcode_str(nvme_req(req)->cmd->common.opcode),
--		 nvmeq->qid);
-+		 "I/O tag %d (opcode:%s %d) QID %d timeout, aborting req_op:%s(%u) siz=
-e:%u\n",
-+		 req->tag, nvme_get_opcode_str(opcode), opcode, nvmeq->qid,
-+		 blk_op_str(req_op(req)), req_op(req), blk_rq_bytes(req));
-=20
- 	abort_req =3D blk_mq_alloc_request(dev->ctrl.admin_q, nvme_req_op(&cmd)=
-,
- 					 BLK_MQ_REQ_NOWAIT);
---=20
-2.34.1
-
+This looks pretty good as-is!
+ 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 8ebdfd623e0f78..e04faffd6551fe 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -1889,7 +1889,8 @@ static void nvme_set_queue_limits(struct nvme_ctrl *ctrl,
+>  		blk_queue_max_hw_sectors(q, ctrl->max_hw_sectors);
+>  		blk_queue_max_segments(q, min_t(u32, max_segments, USHRT_MAX));
+>  	}
+> -	blk_queue_virt_boundary(q, NVME_CTRL_PAGE_SIZE - 1);
+> +	if (q == ctrl->admin_q || ctrl->need_virt_boundary)
+> +		blk_queue_virt_boundary(q, NVME_CTRL_PAGE_SIZE - 1);
+>  	blk_queue_dma_alignment(q, 3);
+>  	blk_queue_write_cache(q, vwc, vwc);
+>  }
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index e7411dac00f725..aa98794a3ec53d 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -262,6 +262,7 @@ enum nvme_ctrl_flags {
+>  struct nvme_ctrl {
+>  	bool comp_seen;
+>  	bool identified;
+> +	bool need_virt_boundary;
+>  	enum nvme_ctrl_state state;
+>  	spinlock_t lock;
+>  	struct mutex scan_lock;
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 61af7ff1a9d6ba..a8d273b475cb40 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -60,8 +60,7 @@ MODULE_PARM_DESC(max_host_mem_size_mb,
+>  static unsigned int sgl_threshold = SZ_32K;
+>  module_param(sgl_threshold, uint, 0644);
+>  MODULE_PARM_DESC(sgl_threshold,
+> -		"Use SGLs when average request segment size is larger or equal to "
+> -		"this size. Use 0 to disable SGLs.");
+> +		"Use SGLs when > 0. Use 0 to disable SGLs.");
+>  
+>  #define NVME_PCI_MIN_QUEUE_SIZE 2
+>  #define NVME_PCI_MAX_QUEUE_SIZE 4095
+> @@ -504,23 +503,6 @@ static void nvme_commit_rqs(struct blk_mq_hw_ctx *hctx)
+>  	spin_unlock(&nvmeq->sq_lock);
+>  }
+>  
+> -static inline bool nvme_pci_use_sgls(struct nvme_dev *dev, struct request *req,
+> -				     int nseg)
+> -{
+> -	struct nvme_queue *nvmeq = req->mq_hctx->driver_data;
+> -	unsigned int avg_seg_size;
+> -
+> -	avg_seg_size = DIV_ROUND_UP(blk_rq_payload_bytes(req), nseg);
+> -
+> -	if (!nvme_ctrl_sgl_supported(&dev->ctrl))
+> -		return false;
+> -	if (!nvmeq->qid)
+> -		return false;
+> -	if (!sgl_threshold || avg_seg_size < sgl_threshold)
+> -		return false;
+> -	return true;
+> -}
+> -
+>  static void nvme_free_prps(struct nvme_dev *dev, struct request *req)
+>  {
+>  	const int last_prp = NVME_CTRL_PAGE_SIZE / sizeof(__le64) - 1;
+> @@ -769,12 +751,14 @@ static blk_status_t nvme_setup_sgl_simple(struct nvme_dev *dev,
+>  static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+>  		struct nvme_command *cmnd)
+>  {
+> +	struct nvme_queue *nvmeq = req->mq_hctx->driver_data;
+>  	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+> +	bool sgl_supported = nvme_ctrl_sgl_supported(&dev->ctrl) &&
+> +			nvmeq->qid && sgl_threshold;
+>  	blk_status_t ret = BLK_STS_RESOURCE;
+>  	int rc;
+>  
+>  	if (blk_rq_nr_phys_segments(req) == 1) {
+> -		struct nvme_queue *nvmeq = req->mq_hctx->driver_data;
+>  		struct bio_vec bv = req_bvec(req);
+>  
+>  		if (!is_pci_p2pdma_page(bv.bv_page)) {
+> @@ -782,8 +766,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+>  				return nvme_setup_prp_simple(dev, req,
+>  							     &cmnd->rw, &bv);
+>  
+> -			if (nvmeq->qid && sgl_threshold &&
+> -			    nvme_ctrl_sgl_supported(&dev->ctrl))
+> +			if (sgl_supported)
+>  				return nvme_setup_sgl_simple(dev, req,
+>  							     &cmnd->rw, &bv);
+>  		}
+> @@ -806,7 +789,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+>  		goto out_free_sg;
+>  	}
+>  
+> -	if (nvme_pci_use_sgls(dev, req, iod->sgt.nents))
+> +	if (sgl_supported)
+>  		ret = nvme_pci_setup_sgls(dev, req, &cmnd->rw);
+>  	else
+>  		ret = nvme_pci_setup_prps(dev, req, &cmnd->rw);
+> @@ -3036,6 +3019,8 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>  	result = nvme_init_ctrl_finish(&dev->ctrl, false);
+>  	if (result)
+>  		goto out_disable;
+> +	if (!nvme_ctrl_sgl_supported(&dev->ctrl))
+> +		dev->ctrl.need_virt_boundary = true;
+>  
+>  	nvme_dbbuf_dma_alloc(dev);
+>  
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 81e2621169e5d3..416a9fbcccfc74 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -838,6 +838,7 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+>  	error = nvme_init_ctrl_finish(&ctrl->ctrl, false);
+>  	if (error)
+>  		goto out_quiesce_queue;
+> +	ctrl->ctrl.need_virt_boundary = true;
+>  
+>  	return 0;
+>  
 
