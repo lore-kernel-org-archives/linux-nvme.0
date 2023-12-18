@@ -4,53 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3DF23C35274
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Dec 2023 15:13:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 86606C35274
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Dec 2023 15:15:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VIMwQayTocIbXXFB3cUqn/KkHxtVXnjHRr7rf/O91JQ=; b=141kDPwGipiBzr/Z2LS8qezpEl
-	dXXaLAde+fiSm6dKaprrNi4I8Fnrz22EO5zTotvPzIIm8CB0YEC7XnRrukyrsf3ABwqZWED6SdrtL
-	qpjTLJdeh9zBp7dIZpee1i4ZePaYfjv1sFi3DidRIXwTK9QfZ4jLw1IQ92cTOMBZZ11CdBzpS0/uv
-	EjplihPvb1RwlDb0QyTMd8y0G2xpqD6BNdlVW78XQ9mylwWzh4SnfZF89YIZYHXsJIGe4Dpqe4zDe
-	rasYNfclIgF4lZ0xS0bWAXF/dnIYdbQAsI4sS/Yd7IWHlt4g8/KUEDmsxJTt9tvkMB05qixVcHx9I
-	cVnkFOlA==;
+	bh=izS/IC0DmM7mAVkkRJhi5lj7qvWeAq5t5HTYJWiY8a8=; b=XkTCt/jplhnBmQdRxYh4khWrhh
+	uJGXJGtCyGM+mwkI3va709/dRi57WV/Uy3lgC+HVRhp32ZJlTXdCqhA/wSq6PMrilwh01+6icec0i
+	V5hH3csYUHKX0YBAOjKQ7aVD4aB82t9QCmWyjD2F+p5zye4EGrUkYWoQvdaY06Tv9UJP2o2ShYyNq
+	8loX2U8dkcPhYlv7ODCtPAYe/VQ2Gr9Y2zdYHMDA2BH+spAycrhmyrEBVJZaEzO1acajS8hmPX4vU
+	J2NO3X8BADue8bvAns5W8oqkxMHNKQlJnV+thNdvXOmES1utzaQrgpnS2N+PH3AfUJYOIdvt/+6sj
+	fbpjmiSQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rFFJN-00BA8k-1N;
-	Mon, 18 Dec 2023 15:13:41 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1rFFLF-00BAko-1e;
+	Mon, 18 Dec 2023 15:15:37 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rFFJL-00BA6W-0S
+	id 1rFFLA-00BAhi-2V
 	for linux-nvme@lists.infradead.org;
-	Mon, 18 Dec 2023 15:13:40 +0000
+	Mon, 18 Dec 2023 15:15:34 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1702912417;
+	s=mimecast20190719; t=1702912531;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VIMwQayTocIbXXFB3cUqn/KkHxtVXnjHRr7rf/O91JQ=;
-	b=B37XvzobxiloQZS0Qf27HWpED4HeONyXLs0qgdtkDytvFJ5bM3t8U6VnFc5lxAxjk1up9W
-	WrxDJ4RLUbPyq1tS2bNWrDhvdNHGnEMm0BMaia51CasIOpMLFj9PDC/J8eJ3RhZYGigvdC
-	XUrdk95F3HTgwTcO0JLLfFrUsOlLcEQ=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-411-AAzmrDX_PsqPvqe0YWxGDA-1; Mon,
- 18 Dec 2023 10:13:33 -0500
-X-MC-Unique: AAzmrDX_PsqPvqe0YWxGDA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+	bh=izS/IC0DmM7mAVkkRJhi5lj7qvWeAq5t5HTYJWiY8a8=;
+	b=D5+3YC4rKmTL/Zuiux+puvj4Nj0P3y/sgruKcy11MQizppGBsnk+Xib56hXHRYWvAvap8E
+	hrJ06y4YI0UbT3ry/uAAOWvAPLmxCXPQQuGECPbY0/4dH9Iz3b2ixMMrxivNUv+vKGhgY5
+	sYp/3xNC/uPvMRffyXMpdZVCbEu9yy0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-390-7vC1SDkKNxiRJCk_pwFISA-1; Mon, 18 Dec 2023 10:15:24 -0500
+X-MC-Unique: 7vC1SDkKNxiRJCk_pwFISA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4E2DF1C3B648;
-	Mon, 18 Dec 2023 15:13:32 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 07FE487A380;
+	Mon, 18 Dec 2023 15:15:24 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.94])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id B3531492BC8;
-	Mon, 18 Dec 2023 15:13:31 +0000 (UTC)
-Date: Mon, 18 Dec 2023 10:13:30 -0500
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 7CED3C15968;
+	Mon, 18 Dec 2023 15:15:23 +0000 (UTC)
+Date: Mon, 18 Dec 2023 10:15:22 -0500
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Jens Axboe <axboe@kernel.dk>, Paolo Bonzini <pbonzini@redhat.com>,
@@ -60,19 +60,20 @@ Cc: Jens Axboe <axboe@kernel.dk>, Paolo Bonzini <pbonzini@redhat.com>,
 	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org,
 	linux-scsi@vger.kernel.org, linux-btrfs@vger.kernel.org,
 	linux-f2fs-devel@lists.sourceforge.net
-Subject: Re: [PATCH 1/5] virtio_blk: cleanup zoned device probing
-Message-ID: <20231218151330.GD12768@fedora>
+Subject: Re: [PATCH 2/5] virtio_blk: remove the broken zone revalidation
+ support
+Message-ID: <20231218151522.GE12768@fedora>
 References: <20231217165359.604246-1-hch@lst.de>
- <20231217165359.604246-2-hch@lst.de>
+ <20231217165359.604246-3-hch@lst.de>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="On1+GVONns+1Tsy+"
+	protocol="application/pgp-signature"; boundary="4eVxO+z2jfATvVXq"
 Content-Disposition: inline
-In-Reply-To: <20231217165359.604246-2-hch@lst.de>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
+In-Reply-To: <20231217165359.604246-3-hch@lst.de>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231218_071339_301791_72B6AD70 
-X-CRM114-Status: GOOD (  14.93  )
+X-CRM114-CacheID: sfid-20231218_071532_893347_C782C517 
+X-CRM114-Status: GOOD (  22.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,42 +89,57 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
---On1+GVONns+1Tsy+
+--4eVxO+z2jfATvVXq
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Dec 17, 2023 at 05:53:55PM +0100, Christoph Hellwig wrote:
-> Move reading and checking the zoned model from virtblk_probe_zoned_device
-> into the caller, leaving only the code to perform the actual setup for
-> host managed zoned devices in virtblk_probe_zoned_device.
+On Sun, Dec 17, 2023 at 05:53:56PM +0100, Christoph Hellwig wrote:
+> virtblk_revalidate_zones is called unconditionally from
+> virtblk_config_changed_work from the virtio config_changed callback.
 >=20
-> This allows to share the model reading and sharing between builds with
-> and without CONFIG_BLK_DEV_ZONED, and improve it for the
-> !CONFIG_BLK_DEV_ZONED case.
+> virtblk_revalidate_zones is a bit odd in that it re-clears the zoned
+> state for host aware or non-zoned devices, which isn't needed unless the
+> zoned mode changed - but a zone mode change to a host managed model isn't
+> handled at all, and virtio_blk also doesn't handle any other config
+> change except for a capacity change is handled (and even if it was
+> the upper layers above virtio_blk wouldn't handle it very well).
 >=20
+> But even the useful case of a size change that would add or remove
+> zones isn't handled properly as blk_revalidate_disk_zones expects the
+> device capacity to cover all zones, but the capacity is only updated
+> after virtblk_revalidate_zones.
+>=20
+> As this code appears to be entirely untested and is getting in the way
+> remove it for now, but it can be readded in a fixed version with
+> proper test coverage if needed.
+>=20
+> Fixes: 95bfec41bd3d ("virtio-blk: add support for zoned block devices")
+> Fixes: f1ba4e674feb ("virtio-blk: fix to match virtio spec")
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->  drivers/block/virtio_blk.c | 50 +++++++++++++++++---------------------
->  1 file changed, 22 insertions(+), 28 deletions(-)
+>  drivers/block/virtio_blk.c | 26 --------------------------
+>  1 file changed, 26 deletions(-)
+
+Fair enough.
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---On1+GVONns+1Tsy+
+--4eVxO+z2jfATvVXq
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmWAYZoACgkQnKSrs4Gr
-c8ghLggAkEix1k19H0+c3tEJu1E4EkpJgKqmkCFOamfXYjdMpZVQ2JUrrJra8skh
-+jn6R4S856v7Gq+lQBNU9/9y8U20DnbyRMRWTj6+PUM/4Gl1jeEoqBMsa4Nnp0eO
-5DU3brD2tHdYNth+52xs7kEUw4NK1nYMhiZll1jDXtUTPJFkUKlc7hKxH8pmkFbK
-hJRXzMDWQjo68HqPajZN2QcHndBeUxQbbc2RnlgglFRb8coXAy5R9A4thpi98CQl
-or40ftC6n7KNJxSCPDTOlUTQyh+ILbMVSrde4ApNmhmKlHSJiQHa4N/whdBVzdHc
-CGaO9fv06GfH0SrPsfvGTTLlVCj2og==
-=1h9j
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmWAYgoACgkQnKSrs4Gr
+c8j5vwf6AvyDGx3q65J+QlDbrJwPqdAlJ2qDdjwPYSEIgUmM+viNseFP/3psEz2K
+7bz3oZ0XXwQatvou0SAiQE8KeXitxdlYFTgJGCtnkyxzaBPZzdfSerjifJNpZhYY
+5XC8qXs4ZnecdqeGnEkUS+E4DOlZWL/n4VXz3V0fJAgezdOWZe8u8kkQjy4rcFXl
++UqpzgXjuXfTykIPkc0Ij4JFG8uuPCkkQdzTG4o4FcTQbtgS8i41Mp/4Ty1ft3B8
+PZTUAwJ8uEnRTwyLvTujtBinZOKg7EuosEoRjZJLIT0QwZFJGHJ4DxUyWwpy+Jso
+E9s7jtYaaslUg+4xTvCIUaaGuRBVkg==
+=W7fu
 -----END PGP SIGNATURE-----
 
---On1+GVONns+1Tsy+--
+--4eVxO+z2jfATvVXq--
 
 
