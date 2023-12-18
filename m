@@ -4,122 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DBE15C46CD3
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Dec 2023 16:09:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 284F0C35274
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Dec 2023 16:10:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pT1da3yYKXyrC7sy+ZTSZeuGrK+DTVOGLpaUNBqQiAI=; b=kH+oaU4+dcW4ZFJcgVsNA30Z4o
-	+CSWzXH/JZXzbLqr0eAfpjQFg3CIVsH3cAA6aycaQIPiLGNVHqflcCJBSN24z1TINCZSnjHj6KTS2
-	UvcZGZa/4nKabAcX4vhtChSmGg37+DgK/aF7+BEh27j5ZZOiOrzlBHhDOZIYELFUVbmIS84fD2Mkc
-	Kt5wAztBEt68USyEHgwYHFPQ/28yxGku4wtOlkXTQTvD5dD3cbxnDnaHbFwHJL+a+2oco7hcUDaBi
-	nK86b5FbBH9RVkSHQ3U9l/tN1wOCW0JDVbHqTe+cGzgogxIw2lpLf2xavDOrRi/ncDW09Job87Dyb
-	s6yiqyFA==;
+	bh=L5R99au8NJbb079tj5U7lHEWAwHW7p8PGZmVQ7WmYCk=; b=0qQjAapapsqMwuWFE5370h68LB
+	9pttjeQF073c1FfZg8/Hj29WwKwSjX9atw6pl1FcLdg0RX7bBtb0MFJmfNPgbKnZy30PqR6JF0H/9
+	0uAlXM6dDqMndgjo9XGabq11i+lktrIpT805+YA+PYg3o0VIlKUqkfwuIo3dfOyBml7MbHlwauk3N
+	v40fGEGJBFSkGk8za0Bj7CQ2a/uqKk1n3ul6VTP/0wmvfcwjsCugE6Ez2klKA+Xytr55EDEQwFvtF
+	t/iA2Ua7a/7KArP/i65cTtMzutDRGVVrbGMPBDMNONbLE2WYulkzjKf8jDQdPyUyH56PytgW+2Tvs
+	JGU9E29w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rFGBX-00BNYE-2g;
-	Mon, 18 Dec 2023 16:09:39 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1rFGCP-00BNlR-0m;
+	Mon, 18 Dec 2023 16:10:33 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rFGBU-00BNX9-2k
+	id 1rFGCL-00BNk9-0N
 	for linux-nvme@lists.infradead.org;
-	Mon, 18 Dec 2023 16:09:38 +0000
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 497601FD48;
-	Mon, 18 Dec 2023 16:09:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1702915775; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
+	Mon, 18 Dec 2023 16:10:30 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1702915827;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pT1da3yYKXyrC7sy+ZTSZeuGrK+DTVOGLpaUNBqQiAI=;
-	b=ImVs09QWr+H5axHHqzsCSVZgrRo1wpONoUbGbLKn22emcN2DmK6RgxkqBojHlJwzKGiooR
-	uM2ZqggbdV4evnTi6LwJrH3HwirHKzkeormRDNZPdTPHMTAJSimM4Bbytfuo4o8e59jClH
-	LIm0WUOcUnO87dpAJ4nsxuK2mp44tuE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1702915775;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pT1da3yYKXyrC7sy+ZTSZeuGrK+DTVOGLpaUNBqQiAI=;
-	b=ZcUJmiE4ulqboLe1YEFNrEmJ+MiR1Mnwj0xVeJUZmpjtsg1mlvgnpWCyv2fIK4oAIvajku
-	SD1vUzh2o6JWlzAg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1702915775; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pT1da3yYKXyrC7sy+ZTSZeuGrK+DTVOGLpaUNBqQiAI=;
-	b=ImVs09QWr+H5axHHqzsCSVZgrRo1wpONoUbGbLKn22emcN2DmK6RgxkqBojHlJwzKGiooR
-	uM2ZqggbdV4evnTi6LwJrH3HwirHKzkeormRDNZPdTPHMTAJSimM4Bbytfuo4o8e59jClH
-	LIm0WUOcUnO87dpAJ4nsxuK2mp44tuE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1702915775;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pT1da3yYKXyrC7sy+ZTSZeuGrK+DTVOGLpaUNBqQiAI=;
-	b=ZcUJmiE4ulqboLe1YEFNrEmJ+MiR1Mnwj0xVeJUZmpjtsg1mlvgnpWCyv2fIK4oAIvajku
-	SD1vUzh2o6JWlzAg==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 2F60613BD5;
-	Mon, 18 Dec 2023 16:09:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id NeRiCb9ugGVzBAAAn2gu4w
-	(envelope-from <dwagner@suse.de>); Mon, 18 Dec 2023 16:09:35 +0000
-From: Daniel Wagner <dwagner@suse.de>
-To: linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	James Smart <james.smart@broadcom.com>,
-	Hannes Reinecke <hare@suse.de>,
-	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH v3 16/16] nvmet-fc: take ref count on tgtport before delete assoc
-Date: Mon, 18 Dec 2023 16:31:04 +0100
-Message-ID: <20231218153105.12717-17-dwagner@suse.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231218153105.12717-1-dwagner@suse.de>
-References: <20231218153105.12717-1-dwagner@suse.de>
+	bh=L5R99au8NJbb079tj5U7lHEWAwHW7p8PGZmVQ7WmYCk=;
+	b=GrWMaS/q3tp/q6X7aNE7kYvBIgN67seZjMPaWSw1xlpJ5w67BUDRQL/P91H3bRklnGgk+G
+	8aYKQTRx6tTPZxrn1481OBbUisU7VAD68AE2LtlcldrwK2btgRldim1RPjvUemAi0QE/Pu
+	dBsw9dfdsTH6zzwsILcBFRtRQRvVecA=
+Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com
+ [209.85.160.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-38-jfmB1DokOXGN5P70h89XsA-1; Mon, 18 Dec 2023 11:10:26 -0500
+X-MC-Unique: jfmB1DokOXGN5P70h89XsA-1
+Received: by mail-oa1-f69.google.com with SMTP id 586e51a60fabf-203d1052e4dso914776fac.3
+        for <linux-nvme@lists.infradead.org>; Mon, 18 Dec 2023 08:10:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702915825; x=1703520625;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=L5R99au8NJbb079tj5U7lHEWAwHW7p8PGZmVQ7WmYCk=;
+        b=jNpf+IE5rTsJsUBImcVHNX33dKkJLI8w9Zb/7M1gT70Cn6IenV/YZCzirlL4tHL7AK
+         90GSBThoZigV/x9z4venaXiXmBiIJNIwR+NEBoBOFXaVMJDl3kpggHzX75Dbjg8iZ4zV
+         67F5s9M2F8kR24Fkt9jhJHoXCQT3RZNniW5B3wgDnUN2ejqbYnnSjkGCG0y3Pkl4TYgW
+         iSemGyyeHRuhuyD8a030xYMt2n6Nt5ThJikCtd776t0Wt2V6Rh6ExBQwL+AsPSStB9rN
+         IACt6pYhVxGUAQge5UzBRYtdOKXgZfX8CUBWBSGJizG01lJKben3r6sDtym7KZLvK17U
+         xx1A==
+X-Gm-Message-State: AOJu0Yzimv6xF7swD3d/ePYUT4WTiZ+aO97+ZzeaIN4oggro/H2huGjJ
+	l35NTUaReqmfGecEMrj+wknpkgOcmJ324oEKYhfbVIBeZ3UOvUnFi4ARNtQIeIa311Tz/OlH09E
+	aKm154KGo35odV0EO1JOAvEsib4u+aJmqSE7R3Vhjfts=
+X-Received: by 2002:a05:6870:3d8e:b0:203:d297:a711 with SMTP id lm14-20020a0568703d8e00b00203d297a711mr1363182oab.66.1702915825205;
+        Mon, 18 Dec 2023 08:10:25 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEoAVPoEADCU6TjYtAWpqQGANggJfJXkSkO1I0bREZXjGczCKhZxkL4FRuwG2AyDJYAXsvzFVBo7hHGGAwxPRI=
+X-Received: by 2002:a05:6870:3d8e:b0:203:d297:a711 with SMTP id
+ lm14-20020a0568703d8e00b00203d297a711mr1363172oab.66.1702915824969; Mon, 18
+ Dec 2023 08:10:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.90 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 R_MISSING_CHARSET(2.50)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 REPLY(-4.00)[];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCPT_COUNT_SEVEN(0.00)[8];
-	 MID_CONTAINS_FROM(1.00)[];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.00)[32.84%]
-Authentication-Results: smtp-out2.suse.de;
-	none
+References: <20231218153105.12717-1-dwagner@suse.de>
+In-Reply-To: <20231218153105.12717-1-dwagner@suse.de>
+From: Maurizio Lombardi <mlombard@redhat.com>
+Date: Mon, 18 Dec 2023 17:10:13 +0100
+Message-ID: <CAFL455mFwEfRF9VCCGHhHZVMt2tzr8f2qfFMAPGvufaU8zO4Gw@mail.gmail.com>
+Subject: Re: [PATCH v3 00/17] enable nvmet-fc for blktests
+To: Daniel Wagner <dwagner@suse.de>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>, 
+	James Smart <james.smart@broadcom.com>, Hannes Reinecke <hare@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231218_080937_034012_7A31509F 
-X-CRM114-Status: GOOD (  11.97  )
+X-CRM114-CacheID: sfid-20231218_081029_227403_F5EEF04F 
+X-CRM114-Status: GOOD (  10.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,96 +97,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-We have to ensure that the tgtport is not going away
-before be have remove all the associations.
+po 18. 12. 2023 v 16:34 odes=C3=ADlatel Daniel Wagner <dwagner@suse.de> nap=
+sal:
+>
+> Apropos KASAN, it still reports the problem from [1], so anyone who want =
+to run
+> this series needs to revert ee6fdc5055e9 ("nvme-fc: fix race between erro=
+r
+> recovery and creating association").
 
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
----
- drivers/nvme/target/fc.c | 31 +++++++++++++++++++++++--------
- 1 file changed, 23 insertions(+), 8 deletions(-)
+We hit this regression in RHEL too and we were forced to revert that
+commit, it's obviously buggy
+because it calls blocking functions with interrupts disabled.
+Please revert it.
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 30ba4ede333f..455d35ef97eb 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -1092,13 +1092,28 @@ nvmet_fc_alloc_hostport(struct nvmet_fc_tgtport *tgtport, void *hosthandle)
- }
- 
- static void
--nvmet_fc_delete_assoc(struct work_struct *work)
-+nvmet_fc_delete_assoc(struct nvmet_fc_tgt_assoc *assoc)
-+{
-+	nvmet_fc_delete_target_assoc(assoc);
-+	nvmet_fc_tgt_a_put(assoc);
-+}
-+
-+static void
-+nvmet_fc_delete_assoc_work(struct work_struct *work)
- {
- 	struct nvmet_fc_tgt_assoc *assoc =
- 		container_of(work, struct nvmet_fc_tgt_assoc, del_work);
-+	struct nvmet_fc_tgtport *tgtport = assoc->tgtport;
- 
--	nvmet_fc_delete_target_assoc(assoc);
--	nvmet_fc_tgt_a_put(assoc);
-+	nvmet_fc_delete_assoc(assoc);
-+	nvmet_fc_tgtport_put(tgtport);
-+}
-+
-+static void
-+nvmet_fc_schedule_delete_assoc(struct nvmet_fc_tgt_assoc *assoc)
-+{
-+	nvmet_fc_tgtport_get(assoc->tgtport);
-+	queue_work(nvmet_wq, &assoc->del_work);
- }
- 
- static struct nvmet_fc_tgt_assoc *
-@@ -1129,7 +1144,7 @@ nvmet_fc_alloc_target_assoc(struct nvmet_fc_tgtport *tgtport, void *hosthandle)
- 	assoc->a_id = idx;
- 	INIT_LIST_HEAD(&assoc->a_list);
- 	kref_init(&assoc->ref);
--	INIT_WORK(&assoc->del_work, nvmet_fc_delete_assoc);
-+	INIT_WORK(&assoc->del_work, nvmet_fc_delete_assoc_work);
- 	atomic_set(&assoc->terminating, 0);
- 
- 	while (needrandom) {
-@@ -1489,7 +1504,7 @@ __nvmet_fc_free_assocs(struct nvmet_fc_tgtport *tgtport)
- 	list_for_each_entry_rcu(assoc, &tgtport->assoc_list, a_list) {
- 		if (!nvmet_fc_tgt_a_get(assoc))
- 			continue;
--		queue_work(nvmet_wq, &assoc->del_work);
-+		nvmet_fc_schedule_delete_assoc(assoc);
- 		nvmet_fc_tgt_a_put(assoc);
- 	}
- 	rcu_read_unlock();
-@@ -1542,7 +1557,7 @@ nvmet_fc_invalidate_host(struct nvmet_fc_target_port *target_port,
- 			continue;
- 		assoc->hostport->invalid = 1;
- 		noassoc = false;
--		queue_work(nvmet_wq, &assoc->del_work);
-+		nvmet_fc_schedule_delete_assoc(assoc);
- 		nvmet_fc_tgt_a_put(assoc);
- 	}
- 	spin_unlock_irqrestore(&tgtport->lock, flags);
-@@ -1587,7 +1602,7 @@ nvmet_fc_delete_ctrl(struct nvmet_ctrl *ctrl)
- 		nvmet_fc_tgtport_put(tgtport);
- 
- 		if (found_ctrl) {
--			queue_work(nvmet_wq, &assoc->del_work);
-+			nvmet_fc_schedule_delete_assoc(assoc);
- 			nvmet_fc_tgt_a_put(assoc);
- 			return;
- 		}
-@@ -1894,7 +1909,7 @@ nvmet_fc_ls_disconnect(struct nvmet_fc_tgtport *tgtport,
- 		nvmet_fc_xmt_ls_rsp(tgtport, oldls);
- 	}
- 
--	queue_work(nvmet_wq, &assoc->del_work);
-+	nvmet_fc_schedule_delete_assoc(assoc);
- 	nvmet_fc_tgt_a_put(assoc);
- 
- 	return false;
--- 
-2.43.0
+Note: I have tried to fix it and close the race condition but it all
+became a bit too complex, also,
+I didn't have the opportunity to test it yet.
+http://bsdbackstore.eu/misc/0001-nvme-fc-fix-races-and-scheduling-while-ato=
+mic-bugs.patch
+
+Maurizio
 
 
