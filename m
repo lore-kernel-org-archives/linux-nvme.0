@@ -4,123 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 35B12C46CA2
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 Dec 2023 07:28:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EB188C41535
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 Dec 2023 07:32:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VqelnKv0tVzB6VlSVm1gTteiBO7HeyDucF1r8IuaQwU=; b=gQ8iBY+4vCQtNUEdidTuM5F4vj
-	rUjtr5358OeXUJ0qXfm3OgkgigZpvQcojh6VsOd9GRiKViBvpqWyeNLf62vn/Lp2ZxuDrguhXOY1M
-	F4YxpFBRztE3oaUptwC+Y2BbUzZ0wZF4JSONrsDR9qWFA3bflQNKfSeGTZJFCPj0yZdp7bn95AnZ3
-	cyw3/ovaC5rzoNhlRTGLOxiuCqEkuaU5TnyetbNGX+Rzaf7UyXSBb1d1ADjloaz5YoCoUwjVQr39D
-	xLKbMXfguwigF7+q8pEFwhrfkTVoU/SN+bLNAtrMAz1UK8SQBEgXepBVrP8bROTpHVCWpBazzEBkk
-	gPIcJhxw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:Subject:Cc:
+	To:From:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=CbzZaVwxeaoZX3VoBKZgbQvFfUJDB1Tzc26hE6/mkMs=; b=Oh52zBg0i7aLfVE3BBmcEUG1uC
+	FecLzRzRgtMRnnvCQQW3+7NxPuqll/cHOnhBd+eFfTVKavZM0Hb4Ti0/aN0ovJJ7xl4iHVXHTR3LK
+	c+kDuUronU01ZuRROJTk/w2pbujAvZ4rmbpAAoaMEgwyDzJDeaO+C9fUZmUzDr+qN5IGl3+U0WHYm
+	+M5jy5yyRpMO12NON/qVVnA0+uo0OYgDBHdH7rmJPmHR+VbmsT5QXk/4z21cb7ehjUefJGN+JRKaI
+	ALr2xKSxrb4jHusiSq9vZ9ItNktVhwW8jDn+dsz2D8svunpfC6bJY597KYSeUfjuZM3Ogkd6Ixf6a
+	lCi7Nujw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rFUX4-00D67X-3B;
-	Tue, 19 Dec 2023 07:28:51 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1rFUal-00D6lr-2T;
+	Tue, 19 Dec 2023 07:32:39 +0000
+Received: from out30-119.freemail.mail.aliyun.com ([115.124.30.119])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rFUX2-00D66X-3B
+	id 1rFUaj-00D6lH-06
 	for linux-nvme@lists.infradead.org;
-	Tue, 19 Dec 2023 07:28:50 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A6E20222ED;
-	Tue, 19 Dec 2023 07:28:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1702970923; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VqelnKv0tVzB6VlSVm1gTteiBO7HeyDucF1r8IuaQwU=;
-	b=n4AmZyspLQgSy+rpIt3kaad790YEwN+kk8t6vR1L31OietzSUojgXmjleSsmSS8eTDhPOX
-	E2WE0TxU+LQPefpWGDbeuOvuq6AiqFeT6djBnIrsdL4z2byvyl6686rTH0fYiH3c5s1dgH
-	r8W4TzURL/V6lE/9IDxzdhTRWTC8Wi4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1702970923;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VqelnKv0tVzB6VlSVm1gTteiBO7HeyDucF1r8IuaQwU=;
-	b=YvJBG/NgYZzXDXKaFe5Sg8yRz2QLRea30982x4rh7/sU4gzlwrjhGtXWQrqKVR1TZams/N
-	pTAhSzupSHtwr5AA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1702970923; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VqelnKv0tVzB6VlSVm1gTteiBO7HeyDucF1r8IuaQwU=;
-	b=n4AmZyspLQgSy+rpIt3kaad790YEwN+kk8t6vR1L31OietzSUojgXmjleSsmSS8eTDhPOX
-	E2WE0TxU+LQPefpWGDbeuOvuq6AiqFeT6djBnIrsdL4z2byvyl6686rTH0fYiH3c5s1dgH
-	r8W4TzURL/V6lE/9IDxzdhTRWTC8Wi4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1702970923;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VqelnKv0tVzB6VlSVm1gTteiBO7HeyDucF1r8IuaQwU=;
-	b=YvJBG/NgYZzXDXKaFe5Sg8yRz2QLRea30982x4rh7/sU4gzlwrjhGtXWQrqKVR1TZams/N
-	pTAhSzupSHtwr5AA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3630813AA6;
-	Tue, 19 Dec 2023 07:28:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 0OHtCitGgWVmcgAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 19 Dec 2023 07:28:43 +0000
-Message-ID: <00a5ab0d-a5a0-4bb5-819b-a9d51b814fc0@suse.de>
-Date: Tue, 19 Dec 2023 08:28:43 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 07/16] nvmet-fc: Release reference on target port
-Content-Language: en-US
-To: Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
- James Smart <james.smart@broadcom.com>
-References: <20231218153105.12717-1-dwagner@suse.de>
- <20231218153105.12717-8-dwagner@suse.de>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20231218153105.12717-8-dwagner@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [-7.48 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 XM_UA_NO_VERSION(0.01)[];
-	 TO_DN_SOME(0.00)[];
-	 REPLY(-4.00)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 NEURAL_HAM_SHORT(-0.20)[-0.982];
-	 RCPT_COUNT_SEVEN(0.00)[7];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_MATCH_FROM(0.00)[];
-	 BAYES_HAM(-2.20)[96.18%];
-	 ARC_NA(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 RCVD_TLS_ALL(0.00)[]
+	Tue, 19 Dec 2023 07:32:38 +0000
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R991e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046059;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0Vyq1GKU_1702971145;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0Vyq1GKU_1702971145)
+          by smtp.aliyun-inc.com;
+          Tue, 19 Dec 2023 15:32:30 +0800
+From: Guixin Liu <kanie@linux.alibaba.com>
+To: hch@lst.de,
+	sagi@grimberg.me,
+	kbusch@kernel.org,
+	kch@nvidia.com,
+	axboe@kernel.dk
+Cc: linux-nvme@lists.infradead.org
+Subject: [RFC PATCH V2 0/2] *** use rdma device capability to limit queue size  ***
+Date: Tue, 19 Dec 2023 15:32:23 +0800
+Message-Id: <1702971145-111009-1-git-send-email-kanie@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231218_232849_175633_FDCA1863 
-X-CRM114-Status: GOOD (  14.24  )
+X-CRM114-CacheID: sfid-20231218_233237_247297_E8EF188D 
+X-CRM114-Status: UNSURE (   7.21  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,37 +60,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/18/23 16:30, Daniel Wagner wrote:
-> In case we return early out of __nvmet_fc_finish_ls_req() we still have
-> to release the reference on the target port.
-> 
-> Signed-off-by: Daniel Wagner <dwagner@suse.de>
-> ---
->   drivers/nvme/target/fc.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-> index bda7a3009e85..28e432e62361 100644
-> --- a/drivers/nvme/target/fc.c
-> +++ b/drivers/nvme/target/fc.c
-> @@ -360,6 +360,7 @@ __nvmet_fc_finish_ls_req(struct nvmet_fc_ls_req_op *lsop)
->   
->   	if (!lsop->req_queued) {
->   		spin_unlock_irqrestore(&tgtport->lock, flags);
-> +		nvmet_fc_tgtport_put(tgtport);
->   		return;
->   	}
->   
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+Hi guys,
 
-Cheers,
+Currently, the queue size if nvme over rdma is limited with a depth
+of 128, we can use rdma device capability to limit it.
 
-Hannes
+Changes from v1 to v2:
+- use nvmet_ctrl's port to find rdma's nvmet_rdma_queue without change
+  get_max_queue_size's param.
+- additional clarification that the queue depth will be controlled within
+  1024, rather than being very large.
+
+Guixin Liu (2):
+  nvmet: rdma: utilize ib_device capability for setting max_queue_size
+  nvme: rdma: use ib_device's max_qp_wr to limit sqsize
+
+ drivers/nvme/host/rdma.c   | 14 ++++++++------
+ drivers/nvme/target/rdma.c | 17 ++++++++++++++++-
+ include/linux/nvme-rdma.h  |  2 +-
+ 3 files changed, 25 insertions(+), 8 deletions(-)
+
 -- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), GF: Ivo Totev, Andrew McDonald,
-Werner Knoblich
+1.8.3.1
 
 
