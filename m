@@ -4,75 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2E617C41535
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 Dec 2023 13:31:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 864D0C46CCD
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 Dec 2023 13:49:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zuGhO8i3ZiSAExfeQ5Od0dl4I/eaGPN8DqgVTFU9kew=; b=IN3pWNJMxtH4SY5gFhVy7Qc6+w
-	HEAcSYFo8Iorf6I2jiuIJwti2e4AtFv3VwVnJILVjwyrXH2WmaP1rEvYWLt/Jb1BGsuTK4qYlpcet
-	1KZqE047I9r+w99DdNVmhcHsO53TdQo0FEjrvIdLewGRwyk8uYPoJkfBZk7GTRoXVqaZh1QhLCMYo
-	BJx1ZaWWOAAOgzMrWl4ZR8T2YCmJwa0dZdCgkt3BuRhQoqFE5GXLIaCvwmOHjssEI8DEmXloDf2b/
-	EUYOtohIkdMuJF2CAWEWTKpah9Y1kHD9Qmu5s9uXRZ/z8zlV+3KUlacK1Tyyb7Y9SRsH1E+gL3vGW
-	FnTV0hGA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=8tZj8pdDLQnE952YO3Em4AiH6BrmYAqYHmtMDKLc3BQ=; b=YgyJKxGYm89zEHGpO2P2szsapw
+	4Guj49f5HpkjRIrJPiqXa110EtfCJjVsU6UTjdyo1mg7mkMIOwvxYc27HIJP4oea7VP6ssUMUXB34
+	6aF/59BF/UihTdNjNTCTLzY5idkPzgl4yH8oKAQlKVeMb2ePUsaNC13g7P0ZZ0Xk96U5KxcabSzK6
+	5YcPDPEjd9pGpKJRianExIaOu/W4ZfiUysvwQTRnY/W8VS+09+jeb/fizD4OmRNB1zWygP/iRwWz1
+	6Ipxkl55fvNjVqrVSnRR27lRaKPeKq0KT4CmW33MsMvkMCj1HpryFa0pI696N9NPaXCGbFMhxytIw
+	gZuCC1KQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rFaCA-00ECn6-2H;
-	Tue, 19 Dec 2023 13:31:38 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1rFaTT-00EEgw-24;
+	Tue, 19 Dec 2023 13:49:31 +0000
+Received: from mail-wm1-f41.google.com ([209.85.128.41])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rFZ21-00DzJQ-0T
-	for linux-nvme@bombadil.infradead.org;
-	Tue, 19 Dec 2023 12:17:05 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=zuGhO8i3ZiSAExfeQ5Od0dl4I/eaGPN8DqgVTFU9kew=; b=EEuhThj7thf/TUwMFDZdytzZjj
-	Ca3mSa7vBT+0kxWqCq87IVzohRysRTx3QOu05gQy4tYJgLpJGFyQEJLbbkp2qJi1HPO8aDtmQfvas
-	g1P0x7l85LuZXYnFxDrtjnni2idr/QD2LH9Bd6/KkOf1/JZfz5tvgi6XOz/Io2gwFz3LYW3oRDoub
-	WBhYuZeZHgTHF+TarsYsF2lfqDmYbHYK3El3+8GqUSsJ5p8W3r0xw3pzzJ8hciURaZ9eCJKqbnPv0
-	yp8xdqCFirl/bVNwXQaNLrAhH8z/Y4kpE8NI9DJvGI56Oy57G3xGr0yY8el2RUx8H6JPVSweLcx+r
-	FW5vTHRA==;
-Received: from verein.lst.de ([213.95.11.211])
-	by desiato.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rFZ1x-00DTy5-1D
+	id 1rFaTO-00EEgR-0T
 	for linux-nvme@lists.infradead.org;
-	Tue, 19 Dec 2023 12:17:03 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 01BCC68BFE; Tue, 19 Dec 2023 13:16:49 +0100 (CET)
-Date: Tue, 19 Dec 2023 13:16:49 +0100
-From: "hch@lst.de" <hch@lst.de>
-To: Damien Le Moal <dlemoal@kernel.org>
-Cc: Ed Tsai =?utf-8?B?KOiUoeWul+i7kik=?= <Ed.Tsai@mediatek.com>,
-	"Naohiro.Aota@wdc.com" <Naohiro.Aota@wdc.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"virtualization@lists.linux.dev" <virtualization@lists.linux.dev>,
-	"hch@lst.de" <hch@lst.de>,
-	"martin.petersen@oracle.com" <martin.petersen@oracle.com>,
-	"axboe@kernel.dk" <axboe@kernel.dk>,
-	Chun-Hung Wu =?utf-8?B?KOW3q+mnv+Wujyk=?= <Chun-hung.Wu@mediatek.com>,
-	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-	"dm-devel@lists.linux.dev" <dm-devel@lists.linux.dev>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"pbonzini@redhat.com" <pbonzini@redhat.com>,
-	"linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
-	"linux-f2fs-devel@lists.sourceforge.net" <linux-f2fs-devel@lists.sourceforge.net>,
-	"stefanha@redhat.com" <stefanha@redhat.com>
-Subject: Re: [PATCH 3/5] block: remove support for the host aware zone model
-Message-ID: <20231219121649.GA21736@lst.de>
-References: <20231217165359.604246-1-hch@lst.de> <20231217165359.604246-4-hch@lst.de> <b4d33dc359495c6227a3f20285566eed27718a14.camel@mediatek.com> <190f58f7-2ed6-46f8-af59-5e167a0bddeb@kernel.org> <f19c41b9ea990e6da734b6c81caeebb73fb60b29.camel@mediatek.com> <do3ekgymdpa4skyz5p3dp6qcqq7zuty73qrpmftszmffunnxpm@fyswyalaxzfq> <dbc4a5b4296effd88ba0ef939aa324df0969545c.camel@mediatek.com> <0a329050-0010-47cb-8c7b-a2f0863a21e8@kernel.org> <20231219103825.GB14379@lst.de>
+	Tue, 19 Dec 2023 13:49:29 +0000
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40d08be5fdbso7964595e9.1
+        for <linux-nvme@lists.infradead.org>; Tue, 19 Dec 2023 05:49:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702993764; x=1703598564;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8tZj8pdDLQnE952YO3Em4AiH6BrmYAqYHmtMDKLc3BQ=;
+        b=v0F7fwU2idUzJJ4p35+X5wM+DYgRFoOcoBF9QXD/RlEb024CLr+3TuYVVupEhMEKJs
+         8UQNwzqIEvbu4HW1cm4oK5X8dg6FELQ8/yiXpfOPdizv3YXHzOeqZbd0+n+EY1h/3tk/
+         OIiC9cwVtC4a7bSz0q0PLs5DkJ+FH9oCWXMVk6WGnOhvtRUO+EohJYMTonAcTgWULvHm
+         8Hlz0+UUiVv8rwOV/95+6OPNbWpbC1l+5P0+pva6Yq8silx+Tidpg0nsRiwlvQF7LP6S
+         9r5okCKAxMWATrdnj27fWKpxYJjlsjVbWmlbeDwGY8ktcGwlMnVdieanwx7hE5xc8Fai
+         rRFQ==
+X-Gm-Message-State: AOJu0YyRf/Ez6EeOVz8BKVuhpEOMHRCZ7pA20aX5aUpKNirTqUiy5yZf
+	BUAQOqrfeJI6KL8zhdSAW3U=
+X-Google-Smtp-Source: AGHT+IHOGRZKPIFjKeSeuchu0nQz4Pw85T43tA7noPyb/hi5B7KkXLBPbz5EQKF/3rO7RqMCohFkMw==
+X-Received: by 2002:a05:600c:1c1c:b0:40c:24d6:40a0 with SMTP id j28-20020a05600c1c1c00b0040c24d640a0mr22338885wms.3.1702993763893;
+        Tue, 19 Dec 2023 05:49:23 -0800 (PST)
+Received: from [192.168.64.177] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id a8-20020a05600c348800b0040b4b66110csm2972611wmq.22.2023.12.19.05.49.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Dec 2023 05:49:22 -0800 (PST)
+Message-ID: <4f3084d3-10ce-49b9-8219-70dbf504cd6a@grimberg.me>
+Date: Tue, 19 Dec 2023 15:49:18 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231219103825.GB14379@lst.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] driver core: Support asynchronous driver shutdown
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>, Jeremy Allison <jra@samba.org>
+Cc: Jeremy Allison <jallison@ciq.com>, tansuresh@google.com,
+ linux-nvme@lists.infradead.org, gregkh@linuxfoundation.org,
+ rafael@kernel.org, bhelgaas@google.com
+References: <20231215000358.1203338-1-jallison@ciq.com>
+ <20231215000358.1203338-2-jallison@ciq.com> <20231219053318.GA559@lst.de>
+ <ZYE1/xighk0dqjIY@jeremy-HP-Z840-Workstation> <20231219062102.GA1702@lst.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20231219062102.GA1702@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231219_121701_630046_C13EBBC7 
-X-CRM114-Status: GOOD (  14.18  )
+X-CRM114-CacheID: sfid-20231219_054926_185408_D0C22CBC 
+X-CRM114-Status: GOOD (  15.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,15 +84,27 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Dec 19, 2023 at 11:38:25AM +0100, hch@lst.de wrote:
-> > > It's very minor, so is okay to ignore my preference.
-> > 
-> > Send a patch on top of Christoph's series if you want to clean this up.
-> 
-> I'll need to respin anyway, so I'll look into incorporating the
-> suggestion.
 
-I did look into it and the iterate callbacks confuse the heck out of me.
-So I'm not going to touch them in non-trivial ways here and will leave
-it for follow on cleanups as needed.
+
+On 12/19/23 08:21, Christoph Hellwig wrote:
+> On Mon, Dec 18, 2023 at 10:19:43PM -0800, Jeremy Allison wrote:
+>>> Is there any reason to have a separate shutdown_pre method?
+>>> Especially with all the method wrapping in the driver core, yet
+>>> another method just keeps confusing everyone.
+>>
+>> Currently in the patch the existence of a shutdown_pre() method
+>> for a device causes it to be added to the async_shutdown_list
+>> which is walked to reap the completion status after all the
+>> calls to shutdown_pre().
+>>
+>> I could change this so that the existing shutdown() method
+>> is always called, and the device is only added to the async_shutdown_list
+>> if a shutdown_post() (or as requested below, shutdown_wait())
+>> method is defined for the device.
+> 
+> Yes, that's what I mean.
+
+I think its usually better to separate sync vs async interfaces. However
+I assume that the suggested interface exists elsewhere in the kernel, so
+its not a big deal.
 
