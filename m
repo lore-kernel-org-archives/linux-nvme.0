@@ -4,75 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DBEBCC41535
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 Dec 2023 20:00:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ED642C41535
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 Dec 2023 20:31:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5OHKczBwEN2aSdja3aatxPc+AcOcxLZ/vyrtt6MTQ0E=; b=qv0No38rDTgk1HgnYy0srX5hdZ
-	jGVIunpwziMs3RSFp6eg+zvmTjkDjjXR5EnCz5lYFH/tQzpx1G2eur3W502Tc9FEqL1LTG6tElyB0
-	w2eG8P7CR5rkxMGjVvv685t5PkaNzTe8kjy/kZ8PtElosTenzkCgrdTgp55gtQhmBm7Aq11GS7Gdc
-	PrRJ6kc4+9g94fMCi+ToAWSPlNgMSyOmxPv/pTHI5bZck145gf48UnzNvlz3xR2WP7NWXHPfpIlsd
-	NYePn3BjuOFhOJQ2FkPNi7+R6+L+c8+PjqHsx0rmA5IoqNyX4gqxzxx53Fr2V3eXXQD+7t8Ntcr9z
-	MruUxB7A==;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=dSSSazSY6MlNREwZLnRMD5Ut3x
+	GzHatk+UhylzsRumY12rBl/W1XAddf2x7hEzSX+ZeaexoqI/irWOM6tr5ewuZPoLI1bwLuLyqnIY3
+	CUgsMeqVbSH1Q6k4Goi4glQ2LRgKsTPgvPfifbjhyCb4PuVVYM9+ysScahvVRJDh6TEyP755CKChJ
+	U557f3filWaXpFjxLeH8d73zhBXcBFwIBDGPQla27KyseIkW5G/l/KxybDmHN+Q91qRBhQoDQSkP+
+	rT64vFogJFW9WdpkKnkWi+h2ldevpwrTy9NY2/sm6gvFIS9zpXoCXHUEuQQ3OadmtZMXd9oyGCyRo
+	XS7+HMww==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rFgG1-00FMiZ-1j;
-	Tue, 19 Dec 2023 20:00:01 +0000
-Received: from mail-wm1-f42.google.com ([209.85.128.42])
+	id 1rFgkK-00FPjD-1N;
+	Tue, 19 Dec 2023 20:31:20 +0000
+Received: from mail-lf1-f48.google.com ([209.85.167.48])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rFgFy-00FMhL-1O
+	id 1rFgkH-00FPhE-2C
 	for linux-nvme@lists.infradead.org;
-	Tue, 19 Dec 2023 19:59:59 +0000
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40c192f488cso9633255e9.1
-        for <linux-nvme@lists.infradead.org>; Tue, 19 Dec 2023 11:59:48 -0800 (PST)
+	Tue, 19 Dec 2023 20:31:19 +0000
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-50e25e5a4easo1130535e87.0
+        for <linux-nvme@lists.infradead.org>; Tue, 19 Dec 2023 12:31:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703015987; x=1703620787;
+        d=1e100.net; s=20230601; t=1703017876; x=1703622676;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5OHKczBwEN2aSdja3aatxPc+AcOcxLZ/vyrtt6MTQ0E=;
-        b=CAIGC2DEjdQLDmt/eL0eLXKg5EvbUuIVKzygOoqmwlUY29nnfAA4lM6CyV4eJHFbq1
-         MWJQsN+S+tnfefYqWhlvGlurQ7qiWr+pflIQxvwRui44R2jfEjq3i2d1IM5baH+YkWR4
-         rFSw1ox9ul0ykVXJUVnwW41ya9wzPHK63GTjttgL9ujZfvai/B4/hB6+EEYiHwZjliAG
-         3M1sBgGO+gFMXhoEDafB2L9vwF36G+1LImzqPaVLHd+4XYNFLAlgmZ5PUIZkT0NcgopC
-         s8O3YaLGY8dIKbQZZCxzMfCl1cO2U+LkKY9kecYyneG5Z4T8MJ7gUe4krkkh1tfFZpka
-         NC0A==
-X-Gm-Message-State: AOJu0YzC2L+3mQjghA0Qrbj+nzBf0rP/2X2MLFr43gDpaXQAols5yX/s
-	URa+YL93brpXny1z01ft9KA=
-X-Google-Smtp-Source: AGHT+IHur0oUc0ShrpjXt3gHpYyumdcJ/F9Uvb2kiWaiW1USfNtIAEYru/NVA01aKHvt2e216sDxzw==
-X-Received: by 2002:a05:600c:5110:b0:40c:6e2a:35e9 with SMTP id o16-20020a05600c511000b0040c6e2a35e9mr9042662wms.0.1703015987079;
-        Tue, 19 Dec 2023 11:59:47 -0800 (PST)
+        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+        b=OUxvzi0CmDCFukm7YAtoZ3Of/L2SJFvFP2nGymKCmHlVuBOc8WdxVie/cbF/O+eRHu
+         87YjTBYdetgFF9vjL35CtpjgsS5S9snkMZihGmczvQZgoZCGEWZHiybYf6xC32TESwgF
+         gG8a2/k4mVbPuT7zFEc8C6SDu8Ls92DSabiQ4nIcWtMMMXmNuvyyhGPBD/KFHP4dfodJ
+         9qKjKyrNtuXkJLalv1YPWcHk5rvXySQjnZR9UQzMx/jMckbxdL4wX6LPmiY0kttC7FSa
+         HANLOPS+d5R+HB9hGY0TY6ONFTi4zW2HLXtEL9hv1Y0+Bh/hoI4eMEkHnmzpdJ60jf6a
+         edeA==
+X-Gm-Message-State: AOJu0YxjfCrCt1+zS/SZxDIbP8nhLulnyIWjXMXQXKlOuKQPsoDsN3+Z
+	DTCBXcTIMqomVhJHlU1bsxCskIlMMOA=
+X-Google-Smtp-Source: AGHT+IGiq9EsSTa3nuYt4nm9N1Nu4Ul4UDrmP9dFsHKABPHbFB3zWoPe2pYuZExTIbqxLgdTnlS6vg==
+X-Received: by 2002:ac2:5ec4:0:b0:50e:337b:f316 with SMTP id d4-20020ac25ec4000000b0050e337bf316mr4893942lfq.1.1703017875430;
+        Tue, 19 Dec 2023 12:31:15 -0800 (PST)
 Received: from [10.100.102.67] (46-117-87-214.bb.netvision.net.il. [46.117.87.214])
-        by smtp.gmail.com with ESMTPSA id jb2-20020a05600c54e200b0040c4afa027csm4054284wmb.13.2023.12.19.11.59.45
+        by smtp.gmail.com with ESMTPSA id h4-20020a05600004c400b0033621fe3a29sm23809510wri.26.2023.12.19.12.31.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Dec 2023 11:59:46 -0800 (PST)
-Message-ID: <c566399b-04cb-4aea-beb8-230dbdc9ebf9@grimberg.me>
-Date: Tue, 19 Dec 2023 21:59:47 +0200
+        Tue, 19 Dec 2023 12:31:14 -0800 (PST)
+Message-ID: <2aa68966-8374-49ee-9a16-3a8b68672788@grimberg.me>
+Date: Tue, 19 Dec 2023 22:31:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: ioccsz and iorcsz check failing
+Subject: Re: [PATCH] nvme-fc: set numa_node after nvme_init_ctrl
 Content-Language: en-US
-To: Max Gurtovoy <mgurtovoy@nvidia.com>, Daniel Wagner <dwagner@suse.de>
-Cc: Keith Busch <kbusch@kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Christoph Hellwig <hch@lst.de>
-References: <6ib6nyftuap3ubf7uryt6sndmomfif47nkforsitadbda2pdkb@ie35lozrsiqf>
- <ZXyWKKhaDUpyOXsK@kbusch-mbp.dhcp.thefacebook.com>
- <74327ed0-63f6-4e9e-9d7c-2bf0eaf264d3@grimberg.me>
- <p5sosvqw3z4bajhhobw2eng73dfk6drbjgste4hrik3te4wie4@wxytk76vjlim>
- <0efbe093-6f9e-4026-92aa-3442bde68e7b@grimberg.me>
- <d2754a5a-8162-4e66-89ba-466127eb7d3a@nvidia.com>
+To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
+ james.smart@broadcom.com
+Cc: hch@lst.de, Keith Busch <kbusch@kernel.org>
+References: <20231219174934.20400-1-kbusch@meta.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <d2754a5a-8162-4e66-89ba-466127eb7d3a@nvidia.com>
+In-Reply-To: <20231219174934.20400-1-kbusch@meta.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231219_115958_464796_CE908960 
-X-CRM114-Status: GOOD (  13.44  )
+X-CRM114-CacheID: sfid-20231219_123117_717197_29DC0D88 
+X-CRM114-Status: UNSURE (   4.96  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,59 +82,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 12/19/23 19:24, Max Gurtovoy wrote:
->
->
-> On 18/12/2023 18:04, Sagi Grimberg wrote:
->>
->>>> Is anything else in the identify wrong, or is it just these
->>>> fabrics fields?
->>>
->>> So what I am seeing on the wire are a few fabrics commands (connect, 
->>> get
->>> property) followed by the nvme id ctrl command (opcode 0x6).
->>>
->>>   nvmet: nvmet_req_init:962
->>>   nvmet: nvmet_parse_admin_cmd:1011
->>>   nvmet: nvmet_parse_discovery_cmd:359 opcode 6
->>>
->>> This calls then nvmet_execute_disc_identify, so adding
->>>
->>> --- a/drivers/nvme/target/discovery.c
->>> +++ b/drivers/nvme/target/discovery.c
->>> @@ -249,6 +249,7 @@ static void nvmet_execute_disc_identify(struct 
->>> nvmet_req *req)
->>>   {
->>>          struct nvmet_ctrl *ctrl = req->sq->ctrl;
->>>          struct nvme_id_ctrl *id;
->>> +       u32 cmd_capsule_size;
->>>          u16 status = 0;
->>>
->>>          if (!nvmet_check_transfer_len(req, NVME_IDENTIFY_DATA_SIZE))
->>> @@ -289,6 +290,17 @@ static void nvmet_execute_disc_identify(struct 
->>> nvmet_req *req)
->>>                  id->sgls |= cpu_to_le32(1 << 2);
->>>          if (req->port->inline_data_size)
->>>                  id->sgls |= cpu_to_le32(1 << 20);
->>> +       /*
->>> +        * Max command capsule size is sqe + in-capsule data size.
->>> +        * Disable in-capsule data for Metadata capable controllers.
->>> +        */
->>> +       cmd_capsule_size = sizeof(struct nvme_command);
->>> +       if (!ctrl->pi_support)
->>> +               cmd_capsule_size += req->port->inline_data_size;
->>> +       id->ioccsz = cpu_to_le32(cmd_capsule_size / 16);
->>
->> Yes, this is the culprit. Nice that it exposed a bug.
->>
->> There is no in-capsule data for discovery controllers afaict.
->
-> Also, the discovery controllers can't support PI AFAIK.
-
-Indeed, we should simply set it to sizeof(struct nvme_command) / 16.
-
-It is true that for tcp transport we should add additional 8192 which
-is mandatory for nvme-tcp. But that can be done in an incremental patch.
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
