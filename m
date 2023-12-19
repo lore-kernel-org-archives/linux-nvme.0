@@ -4,70 +4,128 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8CBB2C46CA2
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 Dec 2023 07:59:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E1834C41535
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 Dec 2023 07:59:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=x0lkzN84DRIDmQOAtWoiQADrqRlGqZHQ/ALgaZqXTqA=; b=GHcbm7AvtDdUQc4/jX5i/dfM+w
-	p1R3GuQEaJciYFrCMUTIVoqp2p+7IqP48S4+RRf1kEpRaOCrMkSqszGNqCOWAMrbg5Tf8gXwy9V7a
-	UL3VhKx7oWUuLT+b4jny8FK4eCsl38zZblCfohEXS4nyK23TY0zWkq58Y3NH0g1GMBXR9q8nF8GlK
-	CVvD8VgNPhVk0nww2SMcqnRcXiXStqklaw0NdhW3R/jigwM8vjZ13NIcTky9As8UXQlyUSckKka9b
-	6GpRMcIRDcTsc5nWeQUYfx0H6ACCeS378q24ckwco+9zYvnXhQGlwPbHyCzL3hhMn3P38a6HSbM8g
-	k8/lsjTQ==;
+	bh=Tnay4DoOOY0mam4Tml11YvRfOpHCwJIlf0uwch/HJSo=; b=phH5Et7vzirPuCTFzZmpJK4/y7
+	x+OfEQC/7GVjXAEIVHk1eDdixtPKfyz7JZf2KY+VeAEOhuVZbAPRmYXjSe/OpGpF2boLUR5LDqtRR
+	+0ryKRodzIpky2MjtFhsV5Ft2QqhJ+C24gn760f1of1t/dx5k8eCeZCulvN/+ksaM04uAULlSGwI6
+	TO51sIte7eJaRK4kk4KbXDzu7+ssT+R2A/cT12dcoA5lxuBX2Ep24qQD+sh66yPzqaE8ZgKwHRGWf
+	QRKFFJLM9rVpfwEyCZ7lwswLchganlbaurUgBybeiqVnqcr945bABfOSYdUmYU+UGIgU7+AfJKp3l
+	pU+mihRg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rFV0W-00DDJV-1H;
-	Tue, 19 Dec 2023 07:59:16 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1rFV12-00DDbo-1j;
+	Tue, 19 Dec 2023 07:59:48 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rFV0T-00DDG9-0H
+	id 1rFV0z-00DDZN-2L
 	for linux-nvme@lists.infradead.org;
-	Tue, 19 Dec 2023 07:59:14 +0000
+	Tue, 19 Dec 2023 07:59:47 +0000
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8395021E5A;
-	Tue, 19 Dec 2023 07:59:11 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E8C671FD5C;
+	Tue, 19 Dec 2023 07:59:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1702972784; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tnay4DoOOY0mam4Tml11YvRfOpHCwJIlf0uwch/HJSo=;
+	b=16eGEn4yPSRWSqTJNkRSQp1dsivVScPsrCsq4z8bqAx+3Tk8PunuE96Z9/AZ/SCvkDvztS
+	ZxFj5C1DZQ0d+POf4vDSXL5x3mkv2iZJG7nYxcESvBtek016NtFVjziKrwhn5gsrB0YIa5
+	nYRj/rp8+ulO2WTY0RCu//8uOcH8Bhg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1702972784;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tnay4DoOOY0mam4Tml11YvRfOpHCwJIlf0uwch/HJSo=;
+	b=R+aha12PdVaJNUrDfTgiYJWba/r6s9gAH06pvxcN/Ic/vDZWfyaJsdrUkjZx+8NZALoetw
+	k1Q4qIBR8uvznTCw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1702972783; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tnay4DoOOY0mam4Tml11YvRfOpHCwJIlf0uwch/HJSo=;
+	b=PEYDvNQclWzq9hBY8wYZPWxKdO9D7d5BbKp1cfClPNdbMAcjWDWHNuUU1D+FU1t8hBS8cS
+	XzEZf9NyHeqDI3nnZoW0vWOHns/a8fB78SvxFYMxb94HCHcfgusKIGbFyDGveUlldrBa/H
+	Wp1KPyP8ea8ZzyoVf9lTJfgDO4Zm3Qc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1702972783;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tnay4DoOOY0mam4Tml11YvRfOpHCwJIlf0uwch/HJSo=;
+	b=QwcAvQuYyMlsLDBDEnyFt0ts3tQI8KFkp8w5BgHfATwAr9umcqK7ql0a2QbCPf3uP6Cohv
+	W2CE07eMZHVId2DA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2F8EE13AA6;
-	Tue, 19 Dec 2023 07:59:11 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8B66113AA6;
+	Tue, 19 Dec 2023 07:59:43 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id FI3uCE9NgWWyegAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 19 Dec 2023 07:59:11 +0000
-Message-ID: <725ba59a-68b3-471c-b88c-4515c0415209@suse.de>
-Date: Tue, 19 Dec 2023 08:59:10 +0100
+	id iPXHHm9NgWWyegAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 19 Dec 2023 07:59:43 +0000
+Message-ID: <20d7d09b-f08f-4ef2-b230-3d2426688efe@suse.de>
+Date: Tue, 19 Dec 2023 08:59:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 08/16] nvmet-fc: untangle cross refcounting objects
+Subject: Re: [PATCH v3 09/16] nvmet-fc: free queue and assoc directly
 Content-Language: en-US
 To: Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
  Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
  James Smart <james.smart@broadcom.com>
 References: <20231218153105.12717-1-dwagner@suse.de>
- <20231218153105.12717-9-dwagner@suse.de>
+ <20231218153105.12717-10-dwagner@suse.de>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20231218153105.12717-9-dwagner@suse.de>
+In-Reply-To: <20231218153105.12717-10-dwagner@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	 REPLY(-4.00)[]
-X-Rspamd-Queue-Id: 8395021E5A
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-5.02 / 50.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 XM_UA_NO_VERSION(0.01)[];
+	 TO_DN_SOME(0.00)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_SEVEN(0.00)[7];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_MATCH_FROM(0.00)[];
+	 BAYES_HAM(-2.72)[98.78%];
+	 ARC_NA(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 FROM_HAS_DN(0.00)[];
+	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 RCVD_TLS_ALL(0.00)[];
+	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=PEYDvNQc;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QwcAvQuY
+X-Rspamd-Queue-Id: E8C671FD5C
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231218_235913_268628_CC03A297 
-X-CRM114-Status: GOOD (  26.24  )
+X-CRM114-CacheID: sfid-20231218_235945_925136_F5CA140F 
+X-CRM114-Status: GOOD (  10.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,82 +141,16 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 12/18/23 16:30, Daniel Wagner wrote:
-> Associations take a refcount on queues, queues take a refcount on
-> associations.
-> 
-> The existing code lead to the situation that the target executes a
-> disconnect and the host triggers a reconnect immediately. The reconnect
-> command still finds an existing association and uses this. Though the
-> reconnect crashes later on because nvmet_fc_delete_target_assoc()
-> blindly goes ahead and removes resources while the reconnect code wants
-> to use it. The problem is that nvmet_fc_find_target_assoc() is able to
-> lookup an association which is being removed.
-> 
-> So the first thing to address nvmet_fc_find_target_queue() is to remove
-> the association out of the list and wait a RCU cycle and free resources
-> in the free function callback of the kref_put().
-> 
-> The live time of the queues are strictly bound to the lifetime of an
-> association. Thus we don't need to take reverse refcounts (queue ->
-> association).
-> 
-> Furthermore, streamline the cleanup code by using the workqueue for
-> delete the association in nvmet_fc_ls_disconnect. This ensures, that we
-> run through the same shutdown path in all non error cases.
-> 
-> Reproducer: nvme/003
+> Neither struct nvmet_fc_tgt_queue nor struct nvmet_fc_tgt_assoc are data
+> structure which are used in a RCU context. So there is no reason to
+> delay the free operation.
 > 
 > Signed-off-by: Daniel Wagner <dwagner@suse.de>
 > ---
->   drivers/nvme/target/fc.c | 83 +++++++++++++++++++---------------------
->   1 file changed, 40 insertions(+), 43 deletions(-)
+>   drivers/nvme/target/fc.c | 6 ++----
+>   1 file changed, 2 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-> index 28e432e62361..db992df13c73 100644
-> --- a/drivers/nvme/target/fc.c
-> +++ b/drivers/nvme/target/fc.c
-> @@ -166,6 +166,7 @@ struct nvmet_fc_tgt_assoc {
->   	struct nvmet_fc_hostport	*hostport;
->   	struct nvmet_fc_ls_iod		*rcv_disconn;
->   	struct list_head		a_list;
-> +	struct nvmet_fc_tgt_queue	*_queues[NVMET_NR_QUEUES + 1];
->   	struct nvmet_fc_tgt_queue __rcu	*queues[NVMET_NR_QUEUES + 1];
->   	struct kref			ref;
->   	struct work_struct		del_work;
-> @@ -803,14 +804,11 @@ nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
->   	if (!queue)
->   		return NULL;
->   
-> -	if (!nvmet_fc_tgt_a_get(assoc))
-> -		goto out_free_queue;
-> -
->   	queue->work_q = alloc_workqueue("ntfc%d.%d.%d", 0, 0,
->   				assoc->tgtport->fc_target_port.port_num,
->   				assoc->a_id, qid);
->   	if (!queue->work_q)
-> -		goto out_a_put;
-> +		goto out_free_queue;
->   
->   	queue->qid = qid;
->   	queue->sqsize = sqsize;
-> @@ -831,7 +829,8 @@ nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
->   	if (ret)
->   		goto out_fail_iodlist;
->   
-> -	WARN_ON(assoc->queues[qid]);
-> +	WARN_ON(assoc->_queues[qid]);
-> +	assoc->_queues[qid] = queue;
->   	rcu_assign_pointer(assoc->queues[qid], queue);
->   
-Is it really worth is using an rcu pointer here?
-In the end, creating and deleting queues for an association don't happen 
-that often, and involve some synchronization points anyway.
-IE the lifetime of the queue is actually bounded by the lifetime of the
-association itself, so if the association is valid the queues will be
-valid, too.
-
-With that reasoning can't we drop rcu above and use the array directly,
-delegating any synchronization to the association itself?
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
 Cheers,
 
