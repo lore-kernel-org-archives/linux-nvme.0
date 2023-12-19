@@ -4,117 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B50FC41535
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 Dec 2023 15:15:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 66DE2C46CCD
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 Dec 2023 15:18:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7e5XCCyINAJ+NzY1e0bqdj0ZqmCV70DZ2zp5UsU/L/o=; b=Pp9POPN5rI+EZpBQmSIzVtM9eN
-	zT/pWvTyntGSAVgQaKb+IJorRT1ljkuHo7w8We/X5339U8kDXdTXnKpD8DwVmKIZp8tf9MQNV5NAy
-	XEPUNBm/g3aPz+gigszV3zAUsvSaojoZLelXdd0vN2ZNFFO4OymNyVcWCDu6/pO5HEtRrKyiNnU3v
-	rz4BFDV256IrbDUcIpMQp5hrkt2HZ899nNbv4Is+3YYrO9XFxCrdLVkVq/K09CeE9f5/BWWqXiMSv
-	gSgcNTafOT6SPhGgKvT/E47i1uTMays2GmNm5DUUr+dQrwOBOiTi8Ol/sdFJuGVJ1Rxnno0LMdm5S
-	7yVpdCog==;
+	bh=xiAuXmgC8GVNW3XfE0yfuXdAqapU0a48/ad7W5fezDs=; b=yTATAM43BgTAn701qQ7LiGVFMb
+	rpWyVSkEeeLNSqcN4fphiyXf/+8lTU5pKDGtwKttGFJh/dbGFblwUER2CWtGv0wgXNfV38+h3FnKO
+	SMeEnyMWvsuOwoyeD1pemgHTq+43/7lUA24USE2L/LVsNvbZujulv+ZcxOPSr/7zh1y9E11hl6Jmd
+	SV3BNoLCK0pYjsDCsErpFPecIqhUx6UkXSXMFuOJWyLCVrzFCxY2L2S7y/8AM+DeJN6C/EJdNywnD
+	PMyBVkbGSOI9dYvnxQUxvbS6tHLCM+nATjp3OxkTDzO6NBTloXoVob1pEbRv9kQW8GwygWC2WC6N2
+	RKg6yCiA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rFboJ-00EWEN-0h;
-	Tue, 19 Dec 2023 15:15:07 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1rFbrF-00EWgq-2j;
+	Tue, 19 Dec 2023 15:18:09 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rFboG-00EWCe-39
+	id 1rFbrC-00EWfl-2z
 	for linux-nvme@lists.infradead.org;
-	Tue, 19 Dec 2023 15:15:06 +0000
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4AF4E1F7C9;
-	Tue, 19 Dec 2023 15:15:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1702998902; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7e5XCCyINAJ+NzY1e0bqdj0ZqmCV70DZ2zp5UsU/L/o=;
-	b=XccugP6V9mOSqAF3XMjc+FNyX8RyzRFKXkiS9xTrx3Kk3dsKooTXU1QtJyn2fsn9yNn6x/
-	HY7gu1MzDv/mNjDyNSepFtSpZjyT53Q0kSB3Yw5og6bzY7uS1SfZxsmOl4UmBgwv1XKpkk
-	Ors64/EJkLoNClSQR+pIf4V2IsJOheA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1702998902;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7e5XCCyINAJ+NzY1e0bqdj0ZqmCV70DZ2zp5UsU/L/o=;
-	b=548TD8ANtNA0cf5N0kK6iobtEySQVB71WWm72LLAHrEeJs7oaNoruMJp/y99lWtmEnxe27
-	8LOM8Cdn9GNVpjCA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1702998902; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7e5XCCyINAJ+NzY1e0bqdj0ZqmCV70DZ2zp5UsU/L/o=;
-	b=XccugP6V9mOSqAF3XMjc+FNyX8RyzRFKXkiS9xTrx3Kk3dsKooTXU1QtJyn2fsn9yNn6x/
-	HY7gu1MzDv/mNjDyNSepFtSpZjyT53Q0kSB3Yw5og6bzY7uS1SfZxsmOl4UmBgwv1XKpkk
-	Ors64/EJkLoNClSQR+pIf4V2IsJOheA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1702998902;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7e5XCCyINAJ+NzY1e0bqdj0ZqmCV70DZ2zp5UsU/L/o=;
-	b=548TD8ANtNA0cf5N0kK6iobtEySQVB71WWm72LLAHrEeJs7oaNoruMJp/y99lWtmEnxe27
-	8LOM8Cdn9GNVpjCA==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 36DF013B9B;
-	Tue, 19 Dec 2023 15:15:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id 9vLjC3azgWUyfgAAn2gu4w
-	(envelope-from <dwagner@suse.de>); Tue, 19 Dec 2023 15:15:02 +0000
-Date: Tue, 19 Dec 2023 16:15:01 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Hannes Reinecke <hare@suse.de>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Keith Busch <kbusch@kernel.org>, James Smart <james.smart@broadcom.com>
-Subject: Re: [PATCH v3 01/16] nvmet: report ioccsz and iorcsz for disc ctrl
-Message-ID: <zxwj5jupg7rlbtdrqloecw3ta4oybfguue5hrdlf2j3o35xusv@wp6kq4kujfli>
-References: <20231218153105.12717-1-dwagner@suse.de>
- <20231218153105.12717-2-dwagner@suse.de>
- <e0eb22cd-9959-44cb-b913-4c1be9a2a2f6@suse.de>
+	Tue, 19 Dec 2023 15:18:08 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id D046C68BFE; Tue, 19 Dec 2023 16:17:59 +0100 (CET)
+Date: Tue, 19 Dec 2023 16:17:59 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: John Garry <john.g.garry@oracle.com>
+Cc: Christoph Hellwig <hch@lst.de>, "Darrick J. Wong" <djwong@kernel.org>,
+	axboe@kernel.dk, kbusch@kernel.org, sagi@grimberg.me,
+	jejb@linux.ibm.com, martin.petersen@oracle.com,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
+	jack@suse.cz, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	tytso@mit.edu, jbongio@google.com, linux-scsi@vger.kernel.org,
+	ming.lei@redhat.com, jaswin@linux.ibm.com, bvanassche@acm.org
+Subject: Re: [PATCH v2 00/16] block atomic writes
+Message-ID: <20231219151759.GA4468@lst.de>
+References: <20231212110844.19698-1-john.g.garry@oracle.com> <20231212163246.GA24594@lst.de> <b8b0a9d7-88d2-45a9-877a-ecc5e0f1e645@oracle.com> <20231213154409.GA7724@lst.de> <c729b03c-b1d1-4458-9983-113f8cd752cd@oracle.com> <20231219051456.GB3964019@frogsfrogsfrogs> <20231219052121.GA338@lst.de> <76c85021-dd9e-49e3-80e3-25a17c7ca455@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e0eb22cd-9959-44cb-b913-4c1be9a2a2f6@suse.de>
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spamd-Result: default: False [-7.79 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 REPLY(-4.00)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_SEVEN(0.00)[7];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-2.99)[99.96%]
+In-Reply-To: <76c85021-dd9e-49e3-80e3-25a17c7ca455@oracle.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231219_071505_172071_4796DE85 
-X-CRM114-Status: UNSURE (   9.20  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20231219_071807_109667_AC3CC7E9 
+X-CRM114-Status: GOOD (  12.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -129,18 +66,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Dec 19, 2023 at 08:24:58AM +0100, Hannes Reinecke wrote:
-> > +	 * Disable in-capsule data for Metadata capable controllers.
-> > +	 */
-> > +	cmd_capsule_size = sizeof(struct nvme_command);
-> > +	if (!ctrl->pi_support)
-> > +		cmd_capsule_size += req->port->inline_data_size;
-> > +	id->ioccsz = cpu_to_le32(cmd_capsule_size / 16);
-> 
-> Why the division by 16?
+On Tue, Dec 19, 2023 at 12:41:37PM +0000, John Garry wrote:
+> How about something based on fcntl, like below? We will prob also require 
+> some per-FS flag for enabling atomic writes without HW support. That flag 
+> might be also useful for XFS for differentiating forcealign for atomic 
+> writes with just forcealign.
 
-The unit size is 16 bytes:
+I would have just exposed it through a user visible flag instead of
+adding yet another ioctl/fcntl opcode and yet another method.
 
-  I/O Queue Command Capsule Supported Size (IOCCSZ): This field defines the
-  maximum I/O command capsule size in 16 byte units.
+And yes, for anything that doesn't always support atomic writes it would
+need to be persisted.
 
