@@ -4,140 +4,134 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 874E1C41535
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Dec 2023 00:11:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A060EC41535
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 Dec 2023 00:50:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Cc:To:From:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
 	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Jym0fHmQjfpTa/qlqgBTSiF6pReYtygil3bsAMqaQ2c=; b=OcwwSYru1wCmdFHDxyfQR7SqoN
-	ipsDgXlrdbRSs/kfQozHQ9Oh2ysFh+RKAvH892Hn74g/9Huenzb/4wqDc4NimHydZzwrqYxUJAWoe
-	4GbAux93hvS5b2Pu5qZRioQ2mDK0/ET4cikNeHVNSOWo+jCLHcNdT1op1yxzUd+jRV4JPu6hHnFdG
-	jIsp1tPW2XBd14kmj5+QUatcDFbp1vj5NJ0z53y3GCx7Z9sGfG4CCu/3Ze0d4j43K0CpPQMgPTrdo
-	ckfxgHNnrWVVqAhHfxztrFLO4/4Lct8E6gs8eN1Ob5c5I+aDoj6wXOsLyyZ6QPGeLXd53m9V8TIew
-	1UINlXUw==;
+	bh=wKgtDuo4K64g8KjGqRWE9yfxiLByjiQiN0r54wPsLqU=; b=v93bBeEgT1NLyUEThI5bWd7UoD
+	UtfpxDky/bS6HUSvl/r1TkML6+NNMfQyQGCZ0+sbaHQLND9xCPHJNwusaq1gOm98EZMHRXYDl4zNn
+	5oVhHtxvlNWcsZrNUH826/lSbNEgmo0/f+E868OyJbBFooDMrashSZeUkTK+NtgUU3ho90y0KXjeE
+	dYpOMt439DVJLdL4K7WoOiK5WB6cv+JWW8EJmJP6GxtdYouZlngC4BwqfLdoPrMFcyek1LtdU+lgK
+	d6AxX2xltBmPg4fckuHV8I6JvJmPPIV0/tFg0c9v291tcxHzLYQn6x4assk4P09mWBJNcAyFPMIFo
+	1UA7EG1g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rFkAv-00FkFP-0w;
-	Wed, 20 Dec 2023 00:11:01 +0000
-Received: from mail-mw2nam10on20601.outbound.protection.outlook.com ([2a01:111:f403:2412::601] helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+	id 1rFknT-00FqFW-2e;
+	Wed, 20 Dec 2023 00:50:51 +0000
+Received: from mail-co1nam11on20601.outbound.protection.outlook.com ([2a01:111:f403:2416::601] helo=NAM11-CO1-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rFkAr-00FkEH-2q
+	id 1rFknR-00FqFC-1C
 	for linux-nvme@lists.infradead.org;
-	Wed, 20 Dec 2023 00:10:59 +0000
+	Wed, 20 Dec 2023 00:50:50 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BUYrn6rsKzcP/m2NldBZxp5zLzTrJxWMDeKtdp9BbvBn6hxTH3IO5NmBUWVsQgTv9hARu97My1JAsWuc8H7OfYtgN5GyObQBCpofVezOc+V9+2XWPgQwvE0XaZ+3lgLvrcITSt2tJ49Tc8Fb63i74R9Zre/sBlK9M2lEWQYNbCWzYKFCKkNEU0tRVyRPuBI4Tv3TGFwp+gXuznT8ocL1xk3PJRY2NiZSGFRQ5iucVzz22wIQbQydskOtCnPZL+ibeRoFoWbkO9aF60XOfstt3yi1wpEhboi9s9Kp/Yn3hm2pFrdGDB7Nowb8Afhk9Tzx0L8Ik4098iTbuo26bu9g3A==
+ b=ShrY5s2efz9TnKgOUh1KTLb/SxTUqDLSCRw8Cw0uhcltT0FvNFOdldS453MamocDj3BgFOmMctkAxfCjChcWb/cK+edB3cRk3g5IkJHUCb30fIkVjgDy8cERy9EQZFYVd9t4550qj9u8OtQM1QUT/1p5ucFDK7rWrwcUpZif9lsvpwzrlvVdHZ3WSNA7UOj41AJ1InlkSR6zi7yde/NUEvCl8U/StJ8l1dATfzTJqQo5b2Ea/Q/wdZgXP2MVxCq/qaOuK1WJ+n1m6FV8GmrXCdoxeNcUyEG2cGEbeYqjIfyiFQ2rZW1MQoayd8j+F4vQiabIh0HEolJvHhjzdY0XVg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Jym0fHmQjfpTa/qlqgBTSiF6pReYtygil3bsAMqaQ2c=;
- b=liDejTSM1zRTLyK2dGlrcIhAO/AYrouUGurFu7CGASxuKbJ9ZlMPCu+yq2/8yRRklXz4iXiqqazGKCDaVwi9XVmx1S0D+Qr3Cuckvl4O/BCS9CYEqTqimCPNoSjc+BxEn1Pbk8Xtyx1QTTF7hhHAji/6M29Syo8YIazI0o/L3yReCpMR7fY9mqypRQw0EXR9i/cYPEp3uz3ZO992HoiU3hKPqHofUscdi1Zq6YYFsxuhhy8zUkJ8L7tisyZfh3nvubsQqMhq75cFcV6+CE3S2scCF3GCociCPu9IS+7PKZYvgK7f12CKcvY5Sr5N1zEvYlu2NoYXnABLb4db6F8wpw==
+ bh=wKgtDuo4K64g8KjGqRWE9yfxiLByjiQiN0r54wPsLqU=;
+ b=B6aC/yqasMRIbY8Aj1YgKey1PTwZqxf0KfPFrbeDcrkQeR0QCffjwNMr3xPNPICCX0/b10elW3izijQKgIITr5UGpp1bOjxs5chPix+K0Tyx3PyLs/JQGHX1m8Br7s8cTXjxGPN3hpORps6HTMqTL6MX3VdZPya/ex63F/gzstu66TMxG8d05TSCfZ1/kmsUcm7i7VRsUQodHSGcbMqALMm0qjC2gfJG91/9g5vhS4JhIOEaJ2vEUJsCKi7EnQ5Sr4TsoAk7JmCFrfw6uIANzMhjM18+z23BwOXbDWtiScJr+txveYslLbZAMVn0eBqJDDellkNW+NsILLNcb4I8IA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Jym0fHmQjfpTa/qlqgBTSiF6pReYtygil3bsAMqaQ2c=;
- b=CAkRSRZfxWC5QDAgoTjMHjdJUASWTD9sdWzmK7CEERW8h8v69MmTu7dynnRwhKIO2MrLkRbSxI8mpp0IDC0QsPrgWc0sn2iwwDdRlDme7sZ7SYsbsDe1i7Xym1bxkpAA7WQ0IYoN0P5hHFcSssxYJN9cp6GTNIf9Q8htMFeqUWlsGKcsijx+WgA13lNYTLSUQyOYIPM+JOPsYgr+qIzUuZ2jS3XzHDu+URoYQNsWK0gvvOJy5LwjDRfQTllJnlCdnR4nuVR8n+QQihx+J20JhqXqY0TrU4vgeypkYp9CF52r+NcCUW9iQIDZJ75vtcAb5WtNDzS/Cyk4W1qJMKlOQQ==
+ bh=wKgtDuo4K64g8KjGqRWE9yfxiLByjiQiN0r54wPsLqU=;
+ b=iNjN6uOnMfE+6OVZyaNiPcBMSzC3CHOBe6g8gDo6/+Gp+g5B27+oaDMMGPWN9GYn6XfYmyv7xI5XhPuRXTTja5N+U/CDASjKBABz/soTVAwSqMtdk/s4PAHA/FP6UAivtV21RkwFZumIAeORYFnqLNVDqMCIx3S/WckbuKRR/gYJHHXbAqwAyDazSl4hVzEfKEaJMVg+SpBOp61CREz/4fZGuIKeA89JGShSjKHj0xwBDEHjFIX41fkh4ZHLpK/qXdNhZvfEPZCJtYuQItw/9oJNVeEBwEMtr8lv7adH+AoLcwNdaFJnuw6S65Jo4QvR2oz6I3vWNw9yna9pH8rz3g==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
- by IA0PR12MB8326.namprd12.prod.outlook.com (2603:10b6:208:40d::7) with
+ by DM4PR12MB7693.namprd12.prod.outlook.com (2603:10b6:8:103::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.38; Wed, 20 Dec
- 2023 00:10:48 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.18; Wed, 20 Dec
+ 2023 00:50:41 +0000
 Received: from DM4PR12MB5040.namprd12.prod.outlook.com
  ([fe80::6f3c:cedb:bf1e:7504]) by DM4PR12MB5040.namprd12.prod.outlook.com
  ([fe80::6f3c:cedb:bf1e:7504%4]) with mapi id 15.20.7091.034; Wed, 20 Dec 2023
- 00:10:48 +0000
-Message-ID: <a4ec22ae-c7b7-4583-a41d-52755eb5f301@nvidia.com>
-Date: Wed, 20 Dec 2023 02:10:42 +0200
+ 00:50:41 +0000
+Message-ID: <6a308db3-d487-413a-9ee9-9206463d6308@nvidia.com>
+Date: Wed, 20 Dec 2023 02:50:34 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: ioccsz and iorcsz check failing
+Subject: Re: [PATCH v3 01/16] nvmet: report ioccsz and iorcsz for disc ctrl
 Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>, Daniel Wagner <dwagner@suse.de>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+ James Smart <james.smart@broadcom.com>, Hannes Reinecke <hare@suse.de>
+References: <20231218153105.12717-1-dwagner@suse.de>
+ <20231218153105.12717-2-dwagner@suse.de> <20231219042717.GB30580@lst.de>
 From: Max Gurtovoy <mgurtovoy@nvidia.com>
-To: Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>
-Cc: Keith Busch <kbusch@kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Christoph Hellwig <hch@lst.de>
-References: <6ib6nyftuap3ubf7uryt6sndmomfif47nkforsitadbda2pdkb@ie35lozrsiqf>
- <ZXyWKKhaDUpyOXsK@kbusch-mbp.dhcp.thefacebook.com>
- <74327ed0-63f6-4e9e-9d7c-2bf0eaf264d3@grimberg.me>
- <p5sosvqw3z4bajhhobw2eng73dfk6drbjgste4hrik3te4wie4@wxytk76vjlim>
- <0efbe093-6f9e-4026-92aa-3442bde68e7b@grimberg.me>
- <d2754a5a-8162-4e66-89ba-466127eb7d3a@nvidia.com>
- <c566399b-04cb-4aea-beb8-230dbdc9ebf9@grimberg.me>
- <af03a48b-1084-4049-8cf7-a48088b3e5e2@nvidia.com>
-In-Reply-To: <af03a48b-1084-4049-8cf7-a48088b3e5e2@nvidia.com>
+In-Reply-To: <20231219042717.GB30580@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: LO6P265CA0008.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:339::18) To DM4PR12MB5040.namprd12.prod.outlook.com
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO2P265CA0056.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:60::20) To DM4PR12MB5040.namprd12.prod.outlook.com
  (2603:10b6:5:38b::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5040:EE_|IA0PR12MB8326:EE_
-X-MS-Office365-Filtering-Correlation-Id: a1503444-9a5d-475a-b3fb-08dc00f01e54
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5040:EE_|DM4PR12MB7693:EE_
+X-MS-Office365-Filtering-Correlation-Id: d3eeb3f2-73b0-41d1-4605-08dc00f5b090
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: U7tRRvtx/eBRnpDJ16FDn3X7oMxVSNyILapm7dhv3Qb4/KuxfuYEJx6PaDELxYvTGNzs6ZscKGqIeD4PZPDoj5y9zevmX/bciowb67ka4vBvupJ2vOw0DBb8JnxYVW2EARgoYqxvGqe92TzRzBqy+sGvA49ART4pbDNZkG6nUcha8Ld1UiisjoBnS3tdn/dWjX+eXPjykaieYQKIib1Tk7r0w+2Y9f3ZRdPKtvlQVAuzYC6+0nQUS3saS5zvPLECoDRlQYsmiDk+2QpwXZEq3KyKwFo6evkkfoMgHogeoVaYrchaeicTBnj1dvgHWNRnHkKEaQbqBDiAmBaBmDOT0vxyb4ohdrtBZbmqgvQLszM+rdsu5+TqwQoPcQVI4hdDNi4JnmfNF9oqL2NqVfJ9XUDFyM0p+6WsixA/2t69mmNAwJ9C4NV98RH/vUXa6mrkRZyiBRFsn0Ij2IlU6jq3BIPkjjtQf6sSZ7I5JjrgLZP3PmYxh7fI4vzDaXqpt5/khhiEfB0dwKYNuXdioFPSDZdoGAaE1J9/oZWhzXYLnHbU3KrzNoxV+oVr/u8vQeOzdGpJJa8n/okC84u9lunX2LEkOYQlclE5yiMsnryMWby3/14XqVNb13pxsfvcgiPpH2+m4F+m1SqxSbSmnboKRA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(39860400002)(376002)(396003)(346002)(136003)(230922051799003)(64100799003)(186009)(1800799012)(451199024)(26005)(2616005)(6506007)(6512007)(6666004)(53546011)(5660300002)(2906002)(83380400001)(478600001)(8676002)(8936002)(4326008)(110136005)(6486002)(66476007)(54906003)(66946007)(66556008)(316002)(38100700002)(41300700001)(86362001)(31696002)(36756003)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: WpUgH6thdFD2VamTfPKftFlj+IUn8cbV/055MjEohR4B6kJcd2Rd/GiZqtAAvxZfQMJjTuvvt87NeORWtH0tfn3HYxtWTnmCcCbcARCV03kzB43NoxIz15KAY5h+py1+/s4Wk3bNZp922rEoOW9NXxeNV610M1cg21y4EybAaY+KaJIH/hkaHIDBiIAoj+1OTU6WU4r8Zt64KL73mTn6/TpuxakahRyZXiEY+gWHw7BiNMSXK18avwev/dBbd3eAA4a3rM/z1Dqh76fUyaLiyVu5X9GJUS7scUzu66lfWLRuuMpq2W2USXEuR0RngxBgV9eJq5LFOG0uZuU/qcNJGgPV+cizp3IYOsJtZCOecWQgXEI9wiPJTgXYidAfNAeN36dXIeXFXpcEWa+6M6bXdHCFaY4VYZTbmQ4uuiE9foI3GVao/9pqSKLJ+Dx04ikEPfiSaMiX/t9CkkI8BKu7tNeyMzkz+cuyj9dnbMwSas+M07+mdUPBkjGleLRcCpmkyZnJvZFl9d1jIUwgdFgz8d7Ennmydqq+WZuHDBbkYHww1N74+1d6jsQZX0OHwkZopHnmS28dC/wV6r0Y52goJswZs85vMFyI/pnayAnaSPOGHToQgBDusjBnIZHMGN89LlnNtEnLQgsEogZnUfva1g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(396003)(376002)(366004)(39860400002)(346002)(230922051799003)(64100799003)(1800799012)(451199024)(186009)(110136005)(31686004)(4744005)(2906002)(5660300002)(4326008)(8936002)(8676002)(66476007)(66946007)(66556008)(6512007)(6506007)(6666004)(316002)(54906003)(86362001)(478600001)(31696002)(6486002)(83380400001)(53546011)(26005)(2616005)(41300700001)(38100700002)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q1VBMWRPc3JtRGRSMmdJTVNxWFBtN09Ta25QTUY0bjh6alNPUUhQY1FIVzRP?=
- =?utf-8?B?VFN1YWhBOStSUEN1bEdnc2dSa3pwaFJsaW5tR2h3UGZVWFJicERVSVE4S21K?=
- =?utf-8?B?YW1BVWUzVFp3ZERQenlVRmg3blBEQ3A1MStKaWdNc1d0NitvN1AyM280L3NE?=
- =?utf-8?B?cUhZbkVCa1VJU0ZwLzBCYVhXVXN4MlN5WDhpNWJIYWtNTDgzeTg4bHByM0pz?=
- =?utf-8?B?cndMYVJvNzgyU3NnSVVTUVVLdFY0QUJxVmhnQlNGYzEwRFNtSlJKdHhZMUE4?=
- =?utf-8?B?cC9pdWYzMmlyeVNBcWpGWG44UUNRb0p0TkZpd2E5TFJOSk9LZzNOSFY2TkJt?=
- =?utf-8?B?NzJ2cWZqVFpnZTVBSHk0UEszVzErK09pbk1LdGRMNEFnVVhXNjltSTRiREpI?=
- =?utf-8?B?T0lKQitrMmNBU1A1UHBwZ1UwYm41OUtxcStTU1VpTmt2WlhNTElGd2FyTmNO?=
- =?utf-8?B?bThVbUdJemZheHFxWEloQjAwVkpYQUkxVWVVWnUyWk96SFNLaVRWYlNUbHc5?=
- =?utf-8?B?K1lhdkdxU2N4ZGRaZEZEV3N1UUNXVkM2elROdnB5S1E5OG0rL29wRTQ0V0Nv?=
- =?utf-8?B?YkVKazB2b0NYMVpXS25TYmZhdlVjTHA0SmtMTUdVYXJ0SmtqQ2JsazNxUjRt?=
- =?utf-8?B?WjlmNjVEc2VpOU1tRmpyV1pQYXNoRGcwVjl5cWcxRnFHMG41TFJKZjZHTWM1?=
- =?utf-8?B?TVg4b3dqbFJrVnBZVTNDdmlaN3pzZ0hESFRpdjRuSy9vTVNZb3lhK3I5ZFpC?=
- =?utf-8?B?NjcyaHA5c2h1S0haclhDL2J5TmlMTFVZb2g0U0pZZW5GMTZoUU4xbU5sOUZQ?=
- =?utf-8?B?bU5ENzAvVXpkWTR5KzdnWmRzcFNQQjkrVjlNdEp0R2Y2TEdNY203MkE0Wjlt?=
- =?utf-8?B?NElhMFUySkRwS2x2Tms1V0k0MitTckdlTE1HajFPSUdvckEyVWNOb21tUmFK?=
- =?utf-8?B?R2lWc21JRkJTdXJpckg0c2oySWdLZUVkSzBRZ3N1d0t1K0lzSUVwOFBBV1hz?=
- =?utf-8?B?a0oxME9sVnJZMzdWS2ZmcG1PSlMrZDdQd3BPMWVyVnNLM0tTSnBRRDFNMXVQ?=
- =?utf-8?B?c1RaM24zNEFFV29Xa0h6a2FpOXk0elc3VGFaQzV4WHEycGRVYmowT1psV1lE?=
- =?utf-8?B?cThHTiszQWVmRlpza0FzcUFMQUVva1FUWllFSCtmUk5zYlB0TlRFaVZKMDFh?=
- =?utf-8?B?QjR3T0lRVG5ScVhXMmhNaGpBanRMVm1uUmhpZ3RGVkFLRFErKzA0aURHWVhu?=
- =?utf-8?B?WjdZeFlwU2dxL0VCWDE3NDVaZm1BNk1WR1Z2ZEo1UHdJYkNrdWJycGg2Ni8v?=
- =?utf-8?B?ekd3eDhQV1dKUVdEQ1V0YlB0SmpjZm5JRWxxNjFJYUgxb252WWhndG5SNy9B?=
- =?utf-8?B?Ylc2UzhNSWxWbW4yTHRNV3N3OVh4alViZ3RtMlpYZjhIa2lZdTNzSTl1cFdx?=
- =?utf-8?B?aUh5Ynp5em9YMVQwaDcyakR6TmRHYXZVQm1XSVN1WnNYbllaV0U3QWJXbXRR?=
- =?utf-8?B?YWx6UWptMEJQd0oyb1QyVG9DcnZhcWd6WUlBSjl5ZzFRejkraGpVd2xQNkQv?=
- =?utf-8?B?dGRpZWd4Z09JWlkrc3R2cDdXVWw0VEYybjFHdGtHUVFHNk9xcFBST0tUT2l1?=
- =?utf-8?B?OHFVWDJuVXBHVnN5REhOcjZFOFBEeW1DVjdCaGpuTStuVDVxamZXT3pQaHZq?=
- =?utf-8?B?UzJPWFUrVHpYam8wUkpaU1YwREkyS2JRMHNyWEFuWHdhdTVYWXZjOCtEamRw?=
- =?utf-8?B?eFJTR3ptRjFnc1Z3eVBpRFd4ZXM1ZldxS1hYeGtzcGorUEpsLzE2b05XbnRq?=
- =?utf-8?B?ZjBOQ3V3TVpiMFcrNGRNa2gvQkNnTXJjTzI2eHhGWE1sVmJ2WDlnUnJ1ODBj?=
- =?utf-8?B?bURtMXJ3d3Rjd2N3OUFsTVQxUHJqdjRDTmVCcTVCc1ArT1NEM3NTcFFlZFJk?=
- =?utf-8?B?WnBtTWI5bzkyTTAxZHV2aUhuR3l3RDVQR2YzRlA5YmFIOWphbUVPYlcvYUhT?=
- =?utf-8?B?V2RRVzg1a2ZWaTJNeEovWjVKV1dwc0dPVVlHVVFqbnc2NUJvU1RxZUhKOWdj?=
- =?utf-8?B?K05rOWxnQXRQZ2xpWEFCNjUweTRucU9vK2hoZkZHdjhhbVNOY0kyL1FBR1Jt?=
- =?utf-8?B?YTlreW00Z0lyUWF6bml1bzRhUUdhTi9Hdkozbng0RGEyU2pzY2pxZUVlM3Nn?=
- =?utf-8?B?bEE9PQ==?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Vk5PMUxwd0hDa3ZwcWx1OFh0WlBZQnR3VlpYMHY0R2YydFBHR3F4dWp3RzFm?=
+ =?utf-8?B?UU8raXcyQUFyWHpVY1lLTWl5ekVlbGcvMzNtbk1UOGRWM29ncFY4UThLdEc1?=
+ =?utf-8?B?Zk5MRXhqVHZtK1FuL3E0MTFRdlFxdU5nNTNwamV5UjMyNkUwZXRkeGNXNDBt?=
+ =?utf-8?B?MEc3SjlKRWxpZlFyWVZkNHBRTmJKU3RjMzVjSEdJUndkeVhoSHdFZDd3NXpF?=
+ =?utf-8?B?WlVVMVhOb3pvZng3UG50dFR5b0hxT0NnbDdrRUtBY1dwbVo1YTlJYlRNbmlS?=
+ =?utf-8?B?VFA2Q3FzYXkyc1ppSHlVbExORDhjV0Q5TFFCMmp1cmtjUFZwanVNRTVKYUho?=
+ =?utf-8?B?SEZnek9nMXRnK2tpbUpaQTYzSU41aGUzelc1Smc4WDQvQjh6V1dRemczVnQz?=
+ =?utf-8?B?Q3EyYVJ4NTJUNTZIWW5hb205VDc0Wmx2QUE1elNuSC9ZNUpJYXlYbFhMV3dG?=
+ =?utf-8?B?ejR0cjV0dVZCZVFNb3RydDZjVTRPcGlhSFoyWTYxdWxjYmVDRC9qY1pBQU9u?=
+ =?utf-8?B?SGowSzJKZ2grUk5hY3MwNzN5aGdTV3ZIdWt4NVJ5RnVHdUFmRDFRTnVNU0hz?=
+ =?utf-8?B?MHNOMG56bHRWTTk2OE93YUhDUUV4R1JiLzlyWnlqbnJhVUxhS08wRkNsbWNj?=
+ =?utf-8?B?QkNlK29aNEQ1dnByOVk1UERuMmJhM2c2a1NqZ3gwTlFLbDhadFVESkpDbWs0?=
+ =?utf-8?B?bTltSGU4bUpLbGN0eGtQZXBnbFJvbmEwc25rN2Ruc2Jrek5Ccmd1Q1JnTTBI?=
+ =?utf-8?B?dW9NbHBWMWY5L1Q3MFVWVFkxejJXOGZBZkhISEN1aW90NWlVZjZYVGkzd1Qz?=
+ =?utf-8?B?MEVNU2E0RlZSWUJqUGdONkdMSld3UW1JMSszMU5xQmh4aGFXY2VoQjRwaUpW?=
+ =?utf-8?B?dFQ2NEc3czhiVjgzclVGRmM2ckU2TW9xVE9pRlZTamo1djlGdTB6cGZFdUpm?=
+ =?utf-8?B?Wnd2WlRDN05JQ1NwRm9EbDQ1ZU5pYWsxYmtEVTRKekt2Mkx2cHF5QkVDOUl4?=
+ =?utf-8?B?MFpYanNmSWRTZ2JUNGVvcnR0TjZQQjZ2S295Zk0rTzVueGVwK0l1YlBRcWcy?=
+ =?utf-8?B?MXFJMlNGdVJPakZ6cHU1bzZ6NFMra1B1cm9ycTJoZEhwTURaTEhjYWxoeE5O?=
+ =?utf-8?B?Z0FxNDdQZ3RIaUdnUUxCazFZTko5bnJQdHZZUEFSdSt4OWpXamdYUzJ2bVJB?=
+ =?utf-8?B?S3pxcHYxL3h0cE1GQkRMc3NnbDB3SHFPVG9pZXBteTFsQmFwVVhPU3ZwcU9C?=
+ =?utf-8?B?eFJjUEZQelRjajBoZnhJbG5oQnhYNGJoYVZlZkhvb1hHcng5UGx2VDRQZFgr?=
+ =?utf-8?B?eFI3YkdPVmlKMERNRTh1WnpUSUxuQmZoTVlyR1R3TkFoL1RwOWhwRzNpVEJN?=
+ =?utf-8?B?Tnc0NHVBdUxjSVFlbUU5UDZESjJkNXVaeDJGNE5JaEVvYlI5TDlRa2Q0STc0?=
+ =?utf-8?B?andqdjZqMmhEYjFlTHdSMGxJOW5HRzVISzM3T0FJZFhlSXVHSVV3TGIzTEcr?=
+ =?utf-8?B?NVhIOHBHWjhpTFowNmdsR1dteDNtanp1SmhkNHpYMm4vNWtXNkozZk4vV3di?=
+ =?utf-8?B?b21ndVBGNkNQaDJRUnJBZzlFNE9KckF6R1lqMkVxWUFyb3ZZRHhUTnUxT1JZ?=
+ =?utf-8?B?NHF4M3ZjdTV3Ri92MnJQL3NPb1dMdUFaOUZJTW9aZk5vellUSkdiYnBNeVhI?=
+ =?utf-8?B?V3NpZEpYd3RMVUxMWDdlc0I5dEplZHVPRUNna2kyY3VWZkNmVUh0WTlvcTJT?=
+ =?utf-8?B?MDVzUVZWUHNoRkgzdXhJVXB1NU1iaXh5N2JSNmU0UkN0TVFCbVJ1bjUzOFF5?=
+ =?utf-8?B?a2IvYWlDYzZyNG54bS9rUFNyNnpxQ2ZPSDRQK2ZPRjIrS3F0YzFiS0hlV0Vx?=
+ =?utf-8?B?Z1YyUWhCQnRlc1BnNndreWhDLzdSdklsUk0vd1JuVFQwVThVNHpwRTdmNUpu?=
+ =?utf-8?B?elpLd3lHTVFlWE1HRnVaM21LYlI4OEkzVDRUL3Z4RjA2R2NTeXRWTU5iTndu?=
+ =?utf-8?B?WjFKZVJja21GS0UwRWFsWHZhMWEvUmFTcTZlL3BYNU45MWJyVkpwaSt1MzlQ?=
+ =?utf-8?B?K3dUMXl1Mi92bk9JZDJwaEI3eTJyZU5pejdZNWtsalcySDFXWW5ackRTS3B3?=
+ =?utf-8?B?RTNOSFJUeDkxbXAybU1GajBoOStFRTZ6Q05Fc3VvNkdwT2lvZkxyYUcwVlBn?=
+ =?utf-8?B?bGc9PQ==?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a1503444-9a5d-475a-b3fb-08dc00f01e54
+X-MS-Exchange-CrossTenant-Network-Message-Id: d3eeb3f2-73b0-41d1-4605-08dc00f5b090
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2023 00:10:48.2838
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2023 00:50:41.1624
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2J14dEqFs3zUecnba+H640j4XN6H38i+FVInxBLCmLccCdBkaixpeNreLfoFRcycudV4b1LmH7M/1Di0e2tLAQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8326
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9cikHssyZu7Mj8jQ9iugsnXRnlf6uNWKx/VXkSqr+mKtkGPDlUCHe1IYeaK0VX3PeHm4V+nuHHcl1i6OphOLCg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7693
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231219_161057_978720_85FDE890 
-X-CRM114-Status: GOOD (  32.24  )
+X-CRM114-CacheID: sfid-20231219_165049_435270_2A2FEF89 
+X-CRM114-Status: GOOD (  13.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -154,165 +148,20 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 20/12/2023 1:55, Max Gurtovoy wrote:
+On 19/12/2023 6:27, Christoph Hellwig wrote:
+> On Mon, Dec 18, 2023 at 04:30:49PM +0100, Daniel Wagner wrote:
+>> +	/*
+>> +	 * Max command capsule size is sqe + in-capsule data size.
+>> +	 * Disable in-capsule data for Metadata capable controllers.
 > 
-> 
-> On 19/12/2023 21:59, Sagi Grimberg wrote:
->>
->>
->> On 12/19/23 19:24, Max Gurtovoy wrote:
->>>
->>>
->>> On 18/12/2023 18:04, Sagi Grimberg wrote:
->>>>
->>>>>> Is anything else in the identify wrong, or is it just these
->>>>>> fabrics fields?
->>>>>
->>>>> So what I am seeing on the wire are a few fabrics commands (connect,
->>>>> get
->>>>> property) followed by the nvme id ctrl command (opcode 0x6).
->>>>>
->>>>>    nvmet: nvmet_req_init:962
->>>>>    nvmet: nvmet_parse_admin_cmd:1011
->>>>>    nvmet: nvmet_parse_discovery_cmd:359 opcode 6
->>>>>
->>>>> This calls then nvmet_execute_disc_identify, so adding
->>>>>
->>>>> --- a/drivers/nvme/target/discovery.c
->>>>> +++ b/drivers/nvme/target/discovery.c
->>>>> @@ -249,6 +249,7 @@ static void nvmet_execute_disc_identify(struct
->>>>> nvmet_req *req)
->>>>>    {
->>>>>           struct nvmet_ctrl *ctrl = req->sq->ctrl;
->>>>>           struct nvme_id_ctrl *id;
->>>>> +       u32 cmd_capsule_size;
->>>>>           u16 status = 0;
->>>>>
->>>>>           if (!nvmet_check_transfer_len(req, NVME_IDENTIFY_DATA_SIZE))
->>>>> @@ -289,6 +290,17 @@ static void nvmet_execute_disc_identify(struct
->>>>> nvmet_req *req)
->>>>>                   id->sgls |= cpu_to_le32(1 << 2);
->>>>>           if (req->port->inline_data_size)
->>>>>                   id->sgls |= cpu_to_le32(1 << 20);
->>>>> +       /*
->>>>> +        * Max command capsule size is sqe + in-capsule data size.
->>>>> +        * Disable in-capsule data for Metadata capable controllers.
->>>>> +        */
->>>>> +       cmd_capsule_size = sizeof(struct nvme_command);
->>>>> +       if (!ctrl->pi_support)
->>>>> +               cmd_capsule_size += req->port->inline_data_size;
->>>>> +       id->ioccsz = cpu_to_le32(cmd_capsule_size / 16);
->>>>
->>>> Yes, this is the culprit. Nice that it exposed a bug.
->>>>
->>>> There is no in-capsule data for discovery controllers afaict.
->>>
->>> Also, the discovery controllers can't support PI AFAIK.
->>
->> Indeed, we should simply set it to sizeof(struct nvme_command) / 16.
->>
->> It is true that for tcp transport we should add additional 8192 which
->> is mandatory for nvme-tcp. But that can be done in an incremental patch.
-> 
-> I'm not aware of additional 8k of mandatory size for nvme-tcp discovery 
-> controllers.
-> what is this needed for ?
-> 
-> I was re-thinking about this issue again and I think that the original 
-> patch that caused the problem that Daniel found is wrong from spec 
-> perspective and also breaks compatibility with linux target for no 
-> reason. And maybe with other targets as well.
-> 
-> A discovery controller according to the spec does not implement IO 
-> queues or expose namespaces. So why do we even check for IOCCSZ and 
-> IORCSZ for these controllers ?
-> It is also mentioned explicitly that these 2 fields are reserved for 
-> discovery controllers.
-> 
-> SPEC:
-> "
-> I/O Queue Command Capsule Supported Size (IOCCSZ): This field defines 
-> the maximum I/O command capsule size in 16 byte units. The minimum value 
-> that shall be indicated is 4 corresponding to 64 bytes.
-> 
-> I/O Queue Response Capsule Supported Size (IORCSZ): This field defines 
-> the maximum I/O response capsule size in 16 byte units. The minimum 
-> value that shall be indicated is 1 corresponding to 16 bytes.
-> "
-> 
-> I suggest the following untested code to fix *only* the host driver side:
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index ee2e4c49892d..89e01e6b5fe4 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -3068,14 +3068,14 @@ static int nvme_check_ctrl_fabric_info(struct 
-> nvme_ctrl *ctrl, struct nvme_id_ct
->                  return -EINVAL;
->          }
-> 
-> -       if (ctrl->ioccsz < 4) {
-> +       if (nvme_discovery_ctrl(ctrl) && ctrl->ioccsz < 4) {
->                  dev_err(ctrl->device,
->                          "I/O queue command capsule supported size %d < 
-> 4\n",
->                          ctrl->ioccsz);
->                  return -EINVAL;
->          }
-> 
-> -       if (ctrl->iorcsz < 1) {
-> +       if (nvme_discovery_ctrl(ctrl) && ctrl->iorcsz < 1) {
->                  dev_err(ctrl->device,
->                          "I/O queue response capsule supported size %d < 
-> 1\n",
->                          ctrl->iorcsz);
-> 
-> 
-> Daniel,
-> can you please test the above and if it works I'll send a fix with your 
-> Tested-By signature. We must have it merged to next 6.7 rc.
-> 
-> -Max.
+> A why on the disable would be useful here - the fact that it is disabled
+> is pretty obvious from the code.
 > 
 
-Daniel,
-I just saw that Caleb also noticed that it shouldn't be relevant for 
-discovery controllers. The mail got lost in the mailbox.
+We have another thread on this patch that I think is wrong since the 
+discovery controller shouldn't set these values according to the spec. 
+It is explicitly say that ioccsz and iorcsz are reserved for discovery 
+controllers.
 
-Anyway, I believe the initiator/host code should be updated for 6.7 and 
-must ignore these fields as the spec explicitly said it is reserved.
-For the target side, I prefer to keep it 0 for reserved fields since 
-this is the convention in all the specifications that I'm aware of.
-
-Sagi/Christoph,
-WDYT ?
-
-I have a small bug for above code so please use:
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index ee2e4c49892d..b218ac88fcf8 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3068,14 +3068,14 @@ static int nvme_check_ctrl_fabric_info(struct 
-nvme_ctrl *ctrl, struct nvme_id_ct
-                 return -EINVAL;
-         }
-
--       if (ctrl->ioccsz < 4) {
-+       if (!nvme_discovery_ctrl(ctrl) && ctrl->ioccsz < 4) {
-                 dev_err(ctrl->device,
-                         "I/O queue command capsule supported size %d < 
-4\n",
-                         ctrl->ioccsz);
-                 return -EINVAL;
-         }
-
--       if (ctrl->iorcsz < 1) {
-+       if (!nvme_discovery_ctrl(ctrl) && ctrl->iorcsz < 1) {
-                 dev_err(ctrl->device,
-                         "I/O queue response capsule supported size %d < 
-1\n",
-                         ctrl->iorcsz);
-
-
+I've sent a proposal to fix the initiator/host code.
 
