@@ -4,75 +4,123 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2F364C3DA6E
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Dec 2023 14:09:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 91BCFC3DA6E
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 Dec 2023 17:08:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:Cc:To:References:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EUpvZ7ImcN6iRBfQR5QrQA+ZGjPdmy3aiW0Hd3hcrnQ=; b=aUrPSBeFX9H8pUBt7KWjDiLcDm
-	ob/IDOiYbkPqFjgEUv+iGA7kTYwApFlnzKKwT3psHCf9u49OYVjoiILXqynJiWR1Zw0B6CCCNsGIm
-	SfUwDsfi32b2MvgsZgLo/NINu/EzB27tKTLUAWSWgbpc4d3k43yw5XZrfjbr/3IF8+PRucVCpikGh
-	PZh0TbshFitmB1X48of95OzST68VJ4UgTHhEZAIOot4+HgbvJ+6hE7lNaXkIVGNF4EA02zQMAb/qJ
-	MIHwd4ytCmS8dRlW8HFKXIYOUwonc+17gOurFSfSBDO5hdBpSLcK6cWLbpm8erZdkjEi6Rw9sM0sx
-	/1xmNgIA==;
+	bh=RJLiR52BvcvBcu+7KNu8szcQ3tFu3Q6j8/rxFOU/t94=; b=XYzIjvpoMa3jHs610qdSyUZO7i
+	6wg+IkpAHWbfnuHCIgQACfIsBaXSX7EN/OmFEJyA14Xwq7NP74BpSh0/WQHpM1ntuiktU0OvjyGDk
+	Ny2QTJBIpF87Yl5TTT70I3QeowfCHteGiB/w+4l0hENh2nef87/zuSAgiqarR1d+2vo3I4urbn2Te
+	WmvnUzvF29apo6H5mTA+lckVPwwgcUFguTLLgn8LkA7e0W7boGHzZ4TTQGefrclIq0aslzzMamO6P
+	xR5RVakxqBX7zjRDohv5EXc4koGsABZPliNa6jDdAg5ufaJVeO4vsgoBzv9u69T6UYpgTLUffjeTk
+	uYrZWzCQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rFxFx-0002hy-0j;
-	Wed, 20 Dec 2023 14:09:05 +0000
-Received: from www62.your-server.de ([213.133.104.62])
+	id 1rG03h-000XX3-2u;
+	Wed, 20 Dec 2023 17:08:37 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rFtnx-00GvIi-0W
+	id 1rFy6u-000AXu-1j
 	for linux-nvme@lists.infradead.org;
-	Wed, 20 Dec 2023 10:27:58 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=iogearbox.net; s=default2302; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:MIME-Version:Date:Message-ID:From:Cc:To:References:Subject:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=EUpvZ7ImcN6iRBfQR5QrQA+ZGjPdmy3aiW0Hd3hcrnQ=; b=MoLMUGgP4+KzLa7czzl6ONHYAl
-	0EqEtrZ0BILxZDz94BF+D9YBpP5rnTozkKaFIFBIuUYKU1xIZNU+pAxJpzqEYCv27vgA7swaWERo7
-	BfOZ1gkpo4x8Og2VMsUKVEDuUGtw7SaW+P6LQYY6LopglGIUD5U5BonG/EK/64C1pnE2tboUg4frK
-	RQfiRG4qlnoMpAqhY95ffzvQ4Oc+iEIjj12ezG9e1K2/lGLTQJO0DPj1WdeFk9d3bikVLFZE6nlZk
-	WiznGcVG3CXkV5mT5ZXM58GZymTsxR8/mura55GcV6XQuCIzFlJGEq03UCW5r/VksscUb6bk0txps
-	kgd+K/EA==;
-Received: from sslproxy02.your-server.de ([78.47.166.47])
-	by www62.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <daniel@iogearbox.net>)
-	id 1rFtOB-000Bvm-31; Wed, 20 Dec 2023 11:01:19 +0100
-Received: from [85.1.206.226] (helo=linux.home)
-	by sslproxy02.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <daniel@iogearbox.net>)
-	id 1rFtOA-0008Xz-Gj; Wed, 20 Dec 2023 11:01:18 +0100
-Subject: LSF/MM/BPF: 2024: Call for Proposals
-References: <7970ad75-ca6a-34b9-43ea-c6f67fe6eae6@iogearbox.net>
-To: lsf-pc@lists.linuxfoundation.org
-Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-nvme@lists.infradead.org, bpf@vger.kernel.org, netdev@vger.kernel.org,
- linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org
-From: Daniel Borkmann <daniel@iogearbox.net>
-X-Forwarded-Message-Id: <7970ad75-ca6a-34b9-43ea-c6f67fe6eae6@iogearbox.net>
-Message-ID: <4343d07b-b1b2-d43b-c201-a48e89145e5c@iogearbox.net>
-Date: Wed, 20 Dec 2023 11:01:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+	Wed, 20 Dec 2023 15:03:49 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 62EC2220A2;
+	Wed, 20 Dec 2023 15:03:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1703084624; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RJLiR52BvcvBcu+7KNu8szcQ3tFu3Q6j8/rxFOU/t94=;
+	b=k4BjIt91dMGqCUXdnUgbU9v4Se8mgR8EH6CysXIqHTQHdyxN2nTrqERsK+jVpMcTYvl9hs
+	RyRJTuyo7xahE7bD7UdVHa/Z6ERng05LDisfxFr2xmujvB+wZU690tf21+0IhsFto+l4gG
+	MrbS7H4mNYcoiVX9pU0sqyn9khMcs7k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1703084624;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RJLiR52BvcvBcu+7KNu8szcQ3tFu3Q6j8/rxFOU/t94=;
+	b=Qz/+RpKVDddZZfiR1WmP96tRunhs+naG5uu1rOTw4wmXAGVjc1PhLawAyzPvoi4otkzsbH
+	E2+65rcv98sayRAw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1703084624; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RJLiR52BvcvBcu+7KNu8szcQ3tFu3Q6j8/rxFOU/t94=;
+	b=k4BjIt91dMGqCUXdnUgbU9v4Se8mgR8EH6CysXIqHTQHdyxN2nTrqERsK+jVpMcTYvl9hs
+	RyRJTuyo7xahE7bD7UdVHa/Z6ERng05LDisfxFr2xmujvB+wZU690tf21+0IhsFto+l4gG
+	MrbS7H4mNYcoiVX9pU0sqyn9khMcs7k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1703084624;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RJLiR52BvcvBcu+7KNu8szcQ3tFu3Q6j8/rxFOU/t94=;
+	b=Qz/+RpKVDddZZfiR1WmP96tRunhs+naG5uu1rOTw4wmXAGVjc1PhLawAyzPvoi4otkzsbH
+	E2+65rcv98sayRAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1B181136A5;
+	Wed, 20 Dec 2023 15:03:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 63A/A1ACg2VDKwAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 20 Dec 2023 15:03:44 +0000
+Message-ID: <03ebbc5f-2ff5-4f3c-8c5b-544413c55257@suse.de>
+Date: Wed, 20 Dec 2023 16:03:43 +0100
 MIME-Version: 1.0
-In-Reply-To: <7970ad75-ca6a-34b9-43ea-c6f67fe6eae6@iogearbox.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla Thunderbird
+Subject: [LSF/MM/BPF TOPIC] Large block for I/O
 Content-Language: en-US
+To: lsf-pc@lists.linuxfoundation.org
+Cc: linux-mm@kvack.org, linux-block@vger.kernel.org,
+ linux-scsi@vger.kernel.org,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <7970ad75-ca6a-34b9-43ea-c6f67fe6eae6@iogearbox.net>
+ <4343d07b-b1b2-d43b-c201-a48e89145e5c@iogearbox.net>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <4343d07b-b1b2-d43b-c201-a48e89145e5c@iogearbox.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 0.103.10/27128/Tue Dec 19 10:36:48 2023)
+X-Spamd-Result: default: False [-2.50 / 50.00];
+	 ARC_NA(0.00)[];
+	 TO_DN_EQ_ADDR_SOME(0.00)[];
+	 XM_UA_NO_VERSION(0.01)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 BAYES_HAM(-2.41)[97.32%];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 RCPT_COUNT_FIVE(0.00)[5];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 MID_RHS_MATCH_FROM(0.00)[]
+Authentication-Results: smtp-out1.suse.de;
+	none
 X-Bad-Reply: References and In-Reply-To but no 'Re:' in Subject.
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231220_022757_224146_EDC12E31 
-X-CRM114-Status: GOOD (  18.73  )
-X-Mailman-Approved-At: Wed, 20 Dec 2023 06:09:04 -0800
+X-CRM114-CacheID: sfid-20231220_070348_745379_F13230D6 
+X-CRM114-Status: UNSURE (   8.51  )
+X-CRM114-Notice: Please train this message.
+X-Mailman-Approved-At: Wed, 20 Dec 2023 09:08:36 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,119 +135,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The annual Linux Storage, Filesystem, Memory Management, and BPF
-(LSF/MM/BPF) Summit for 2024 will be held from May 13 to May 15
-at the Hilton Salt Lake City Center in Salt Lake City, Utah, USA.
+Hi all,
 
-LSF/MM/BPF is an invitation-only technical workshop to map out
-improvements to the Linux storage, filesystem, BPF, and memory
-management subsystems that will make their way into the mainline
-kernel within the coming years.
+I would like to discuss
 
-LSF/MM/BPF 2024 will be a three day, stand-alone conference with
-four subsystem-specific tracks, cross-track discussions, as well
-as BoF and hacking sessions:
+Large blocks for I/O
 
-          https://events.linuxfoundation.org/lsfmmbpf/
+Since the presentation last year there has been quite some developments
+and improvements in some areas, but at the same time a lack of progress
+in other areas.
+In this presentation/discussion I would like to highlight the current
+state of affairs, existing pain points, and future directions of 
+development.
+It might be an idea to co-locate it with the MM folks as we do have
+quite some overlap with page-cache improvements and hugepage handling.
 
-On behalf of the committee I am issuing a call for agenda proposals
-that are suitable for cross-track discussion as well as technical
-subjects for the breakout sessions.
+Cheers,
 
-If advance notice is required for visa applications then please
-point that out in your proposal or request to attend, and submit
-the topic as soon as possible.
-
-We are asking that you please let us know you want to be invited
-by March 1, 2024. We realize that travel is an ever changing target,
-but it helps us to get an idea of possible attendance numbers.
-Clearly things can and will change, so consider the request to
-attend deadline more about planning and less about concrete plans.
-
-1) Fill out the following Google form to request attendance and
-suggest any topics for discussion:
-
-          https://forms.gle/TGCgBDH1x5pXiWFo7
-
-In previous years we have accidentally missed people's attendance
-requests because they either did not Cc lsf-pc@ or we simply missed
-them in the flurry of emails we get. Our community is large and our
-volunteers are busy, filling this out will help us to make sure we
-do not miss anybody.
-
-2) Proposals for agenda topics should ideally still be sent to the
-following lists to allow for discussion among your peers. This will
-help us figure out which topics are important for the agenda:
-
-          lsf-pc@lists.linux-foundation.org
-
-... and Cc the mailing lists that are relevant for the topic in
-question:
-
-          FS:     linux-fsdevel@vger.kernel.org
-          MM:     linux-mm@kvack.org
-          Block:  linux-block@vger.kernel.org
-          ATA:    linux-ide@vger.kernel.org
-          SCSI:   linux-scsi@vger.kernel.org
-          NVMe:   linux-nvme@lists.infradead.org
-          BPF:    bpf@vger.kernel.org
-
-Please tag your proposal with [LSF/MM/BPF TOPIC] to make it easier
-to track. In addition, please make sure to start a new thread for
-each topic rather than following up to an existing one. Agenda
-topics and attendees will be selected by the program committee,
-but the final agenda will be formed by consensus of the attendees
-on the day.
-
-3) This year we would also like to try and make sure we are
-including new members in the community that the program committee
-may not be familiar with. The Google form has an area for people to
-add required/optional attendees. Please encourage new members of the
-community to submit a request for an invite as well, but additionally
-if maintainers or long term community members could add nominees to
-the form it would help us make sure that new members get the proper
-consideration.
-
-For discussion leaders, slides and visualizations are encouraged to
-outline the subject matter and focus the discussions. Please refrain
-from lengthy presentations and talks in order for sessions to be
-productive; the sessions are supposed to be interactive, inclusive
-discussions.
-
-We are still looking into the virtual component. We will likely run
-something similar to what we did last year, but details on that will
-be forthcoming.
-
-2023: https://lwn.net/Articles/lsfmmbpf2023/
-
-2022: https://lwn.net/Articles/lsfmm2022/
-
-2019: https://lwn.net/Articles/lsfmm2019/
-
-2018: https://lwn.net/Articles/lsfmm2018/
-
-2017: https://lwn.net/Articles/lsfmm2017/
-
-2016: https://lwn.net/Articles/lsfmm2016/
-
-2015: https://lwn.net/Articles/lsfmm2015/
-
-2014: http://lwn.net/Articles/LSFMM2014/
-
-4) If you have feedback on last year's meeting that we can use to
-improve this year's, please also send that to:
-
-          lsf-pc@lists.linux-foundation.org
-
-Thank you on behalf of the program committee:
-
-          Amir Goldstein (Filesystems)
-          Jan Kara (Filesystems)
-          Martin K. Petersen (Storage)
-          Javier González (Storage)
-          Michal Hocko (MM)
-          Dan Williams (MM)
-          Daniel Borkmann (BPF)
-          Martin KaFai Lau (BPF)
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), GF: Ivo Totev, Andrew McDonald,
+Werner Knoblich
 
 
