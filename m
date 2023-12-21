@@ -4,151 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8A758C46CD8
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Dec 2023 22:47:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B06FBC46CCD
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Dec 2023 23:09:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Pvb7MfjxhflAFlTyS3xrsn3CQoP0HBbIVNA+ozK2lQ8=; b=AGUQlANr4XMJ3kiWbse19ALNq2
-	YzyinwrCL+RJHRaQYtQBqLjr4qeAm0ZFNSufrIVEW7Ot7ZNl2ReLXCohhF6Yod8tni+sqJWKUoIRc
-	M1iQ32l5csA9ci6Y6VIIUIC/rESDe3oyqvuvfa4d6sDt5jf/1dNwR/tLjR93BHm5UBzC1EaoOBIjW
-	gud5fbJd9/zyGV/yixmnGrECnaxRhyh37Jdv5hUIM1brmPPPA6UOCrVTUUrPwM/cu3WFgGe/AjXUF
-	x5YDTK+hKP6gcWYDT+85ca8qVxz0BOvN5miuataSmFRuEuEWv5qEZcu7FUiFBXCARmZYX2u7hU/r1
-	fd3wQqRw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=4tVNl501murmMsN/qXyHz+ThVtuujyLNGE9HUSAj3Qk=; b=apVP0wMXacuvVTIsMFekyhZwcu
+	uIyEK0tdRIjkPcVsxi68F1lcVrc4ZtleaKa5ym2XwjEhF3tjDHMMypdMQmkWafqzB/5IB3lMqwEFt
+	SUEAwld77H9wJQEBdF3PvPK8kLce9T9I2EXnhrPBz9rkH2MAJSVR4n9b6IeNMW+mgZLYZR+3e2AbX
+	S3vIzXQg4prOYFVboDQFr4957LPp4wRCDzkiVRwPBZ/edHk470v8nndwfuJF5QHWRuqQcMePTdpRu
+	YuJyIArs+GrT3B5353ReFDOW8Ytq78BC2LWNkmGi+no78XL7CbX+mQBDPY66KaY1kZQedUFcbQFaA
+	NIwMPODw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rGRor-004LLW-0z;
-	Thu, 21 Dec 2023 22:47:09 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1rGSAn-004OLJ-0d;
+	Thu, 21 Dec 2023 23:09:49 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rGQhu-004By7-2y
-	for linux-nvme@bombadil.infradead.org;
-	Thu, 21 Dec 2023 21:35:55 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=MIME-Version:Content-Type:
-	Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-	To:From:Sender:Reply-To:Content-ID:Content-Description;
-	bh=Pvb7MfjxhflAFlTyS3xrsn3CQoP0HBbIVNA+ozK2lQ8=; b=n1+pYLZ9Hy4QsQvNA/eONzRSWe
-	jt1ct4ZpZBiEO0tg3QSFBklhQLa0T1cBCVeDRpMaoNHAwNpuY0fp1Y8DvbCzJhIcWea70/ENBQVUP
-	3jgsjKTzQmxz2Aaai+Y/n5gjHLj0bEPig3ICRFG5bE946sSMLgOfAhPu2a0f3Euf1W9cVZ6XdJbdp
-	fOPejIhjLaD96PeLLsUJGTrZWkdO4ceq5Msbm6/O70ly3VkR776LXDuDMtzkPqR2XOH483Cj2dp8y
-	4iav3bAagk4ujhv+R7iE7if29oh7GJ20oFM8EQ9k/Ojb/5x9TUmsczCeosRw3qcWuBeUZVQ8kPZQf
-	c6YZ+GhQ==;
-Received: from mail-bn8nam12on20601.outbound.protection.outlook.com ([2a01:111:f400:fe5b::601] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
-	by desiato.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rGQhq-00EwB9-27
+	id 1rGSAj-004OKN-2w
 	for linux-nvme@lists.infradead.org;
-	Thu, 21 Dec 2023 21:35:53 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PRTq9+MFgLgdDCFclVjrmnYTVaFoT94o2co9uH1GCUD3wJsms5/8JctQMSuHl852uh66/kTeM0RBTs96AVwciNdcPO8RZQ0nXGe+JcDG1ZGsPTdW+Swwols6NyLjo2vrMTX80CG8+STpm658R2EL7n6fA1ID08HDVbkeN8ryc9AM255msk+xUtTXOSS6sfTEGF2e/Wp+usBa5kN0BzsWfjaoDfB1ZKtvVl7Zi2918beYjzYvVFeL4ykwpbsvUIDwtF7UUPlnQbtgIWkxC9N1AaBCZeFvYw9qDJPEv1S3kGBtxyEmB5ztLbYo7Tv9szG5jXnAp5TlGNIMp02nMPSnLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Pvb7MfjxhflAFlTyS3xrsn3CQoP0HBbIVNA+ozK2lQ8=;
- b=k/3aER4GmN2uEAsx7D3C9tirRxlZLv87m/xxL3se50YpI1BAtggow811OvwEa40Jy5zrfjcy0EpNvYDoda3ju6YuZnBS+mfvh0hhZA3HpZ425Ey5BmXx+raxfbfczyAzbzy5Yh0lPZbOYPJwhYiTnSMmOSszPqUhCAcmSB5ATy3vewPphIRwcsGJM3FT4FjICHv7ZuVKGuQLtfPjvIxmss3v1JX/sf2lnQAKel7MTO4DD3AdxjZLW3jk8p54RK16hqIybZoUtOb335PfynoqcPP2bXq9pLkZo0Ssd8K1rQtlFK2xHTAztLxo4lysv6WjfIUWhMCm6gfQYVR6G3wW3Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Pvb7MfjxhflAFlTyS3xrsn3CQoP0HBbIVNA+ozK2lQ8=;
- b=MfKkDqu6LEQdhxnXMpr5MmSM1BseM/v/HRY7K0NVfOA4w9Tn428wntI3aaQmmVJ7Jm1wInjPKI4lQUp36a0P8OkP+WnDkOZSkysRXOV/Wh6Ub33s7n+s3m2WvQm1syaTdUp9ENi/e57/CLm4vbxbDVf9Fz8KKgAGyTCgq5F2YKyf4kVskXtjczEUvo/MYVLrgcF/X6vvIzoLFK2J3ZHOkhWN3QrhErEkan36mtKdfi8VxLu4x0ytcEPkMXM1C2kc8WP2EoZDsJqJc7oBjimXERyyru9R3veNrgQqa+w5T3NCRcjNxFXYwy8HrgcNBX0hDYK3W9o08a32VDYqqQK7oA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
- by MW4PR12MB7481.namprd12.prod.outlook.com (2603:10b6:303:212::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.19; Thu, 21 Dec
- 2023 21:35:28 +0000
-Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
- ([fe80::eb39:938e:7503:c21e]) by SJ1PR12MB6075.namprd12.prod.outlook.com
- ([fe80::eb39:938e:7503:c21e%3]) with mapi id 15.20.7113.019; Thu, 21 Dec 2023
- 21:35:28 +0000
-From: Aurelien Aptel <aaptel@nvidia.com>
-To: linux-nvme@lists.infradead.org,
-	netdev@vger.kernel.org,
-	sagi@grimberg.me,
-	hch@lst.de,
-	kbusch@kernel.org,
-	axboe@fb.com,
-	chaitanyak@nvidia.com,
-	davem@davemloft.net,
-	kuba@kernel.org
-Cc: aaptel@nvidia.com,
-	aurelien.aptel@gmail.com,
-	smalin@nvidia.com,
-	malin1024@gmail.com,
-	ogerlitz@nvidia.com,
-	yorayz@nvidia.com,
-	borisp@nvidia.com,
-	galshalom@nvidia.com,
-	mgurtovoy@nvidia.com
-Subject: [PATCH v22 17/20] net/mlx5e: NVMEoTCP, ddp setup and resync
-Date: Thu, 21 Dec 2023 21:33:55 +0000
-Message-Id: <20231221213358.105704-18-aaptel@nvidia.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231221213358.105704-1-aaptel@nvidia.com>
-References: <20231221213358.105704-1-aaptel@nvidia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0436.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1a9::9) To SJ1PR12MB6075.namprd12.prod.outlook.com
- (2603:10b6:a03:45e::8)
+	Thu, 21 Dec 2023 23:09:47 +0000
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3BLMkIIE009506;
+	Thu, 21 Dec 2023 23:09:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2023-11-20; bh=4tVNl501murmMsN/qXyHz+ThVtuujyLNGE9HUSAj3Qk=;
+ b=jL9t2eZ7jt8st6masOW9gzTvHM4KI5qdtYBwBhntHBGTJUt8f88ZTitXexoD6hbIux2f
+ 50MptSe57iuQu3DWquwYO0O0n+zNJwiwX1ptYI3F0DHmuu2Ft7OaL0Fkw3Wx0ysZ24j9
+ hS4HBrWDJuyrLa88K5fI1/uM+GtBQdsOfW1J9n0Mtb34KE3cXSqSs4rmdgoCNeCwIt+Y
+ 1JuykLrL2yJxKq/N0B+DuQ8JBgLMscBXemoL0+ET9Wlca1YUoywTtkimtu7Qy2zlV5vq
+ BMt+5znNK0bcZGDYKW566RaBAT6WSU3P3hTo0dYiMETsxARsODN5QNRzKjZBa33glUIP 7w== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3v4atx2qw2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 21 Dec 2023 23:09:29 +0000
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 3BLM5Gx2025000;
+	Thu, 21 Dec 2023 23:09:28 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3v12bj6d6v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 21 Dec 2023 23:09:28 +0000
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3BLN9RdI038754;
+	Thu, 21 Dec 2023 23:09:27 GMT
+Received: from ca-dev94.us.oracle.com (ca-dev94.us.oracle.com [10.129.136.30])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3v12bj6d5h-1;
+	Thu, 21 Dec 2023 23:09:27 +0000
+From: Alan Adamson <alan.adamson@oracle.com>
+To: linux-nvme@lists.infradead.org
+Cc: alan.adamson@oracle.com, kch@nvidia.com, kbusch@kernel.org, hch@lst.de,
+        sagi@grimberg.me
+Subject: [RFC 0/1] nvme: Add NVMe LBA Fault Injection
+Date: Thu, 21 Dec 2023 15:10:42 -0800
+Message-Id: <20231221231043.3597368-1-alan.adamson@oracle.com>
+X-Mailer: git-send-email 2.39.3
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|MW4PR12MB7481:EE_
-X-MS-Office365-Filtering-Correlation-Id: 618b3db9-b024-4e03-b99c-08dc026cc020
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2qhqM64FksVde2EQfUP0zC0N+8POCrXmORVi83Fbl3UyqktIBTN9TXq1vbuyghvtDkRgILZM+oGi0O0yMarDCf5ZNNf1xmg/Xg3yKeRfPdKXx4z9tquY/ZumO2WcvhbaAI0ZiwfBY4pGe/qk49jsPOrwWKDx+85rYAcpJ5fR99y85MNEuLHoYcNbBB2ssp9KRn659tZxcNR8jktvNq53frbMXWKolM/Sc6VxFwFWJNTI2kD7TAjjcTxcz9xxuVpnvmaCsedbC0U9uRT8288SB043rV2CWHxqG5DcsKEPc3B9OqW95pA35SDFIBRCoKvujE/QtpvZ3LCZGS3h7aGw4VoVj4e2XMnC8r8zs9wfSUPMmAvMSlRIHwe5JGvkjdv87gNCb3Yj4/exql65jLel9Ld2yXKtU6kzQmb5knIzNUfFacJ6G52LpXX2d9EbA2Eq70hotChFuOl+S7GJ3tbxJ4Y6r9OuLHI6Rol13LCyqIKcGhV721g8vNyEtAlcZmrFmQcayMMZxg3AmnpEQnDHzdq5bAMkr7Yy7wqJg3/lunnlFSCAaNSiV1fQO1wUeu6rE35NhnGSWrg/MmZoEbsVfgeAGDKBgZzVQcBY7CbYnOM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(396003)(39860400002)(366004)(376002)(230922051799003)(64100799003)(186009)(451199024)(1800799012)(66946007)(8676002)(8936002)(66556008)(478600001)(66476007)(83380400001)(316002)(6666004)(7416002)(4326008)(6506007)(6512007)(6486002)(2906002)(2616005)(107886003)(26005)(1076003)(41300700001)(36756003)(5660300002)(86362001)(38100700002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/sMPbQPzEs1xGgMwfDUgwCekpMgvlU3YEHy+wQvgX28/73efokqeZFc/lW/S?=
- =?us-ascii?Q?eimU36fbKPpTElREHOBSXWFYqXyTwpXa3KGqQ0LrGioYvIIe0OIS0GoX5KGk?=
- =?us-ascii?Q?a/qIgOaKXr23DI1QxRZFH9eDMUxNsdGwBh8r1jBNIBp83Ww78dDs28yni/cm?=
- =?us-ascii?Q?5PgAQwd3SjSdOpN9D4mqx4iKRdkN5l0NOdq1DfSU1WjuECtKMkHExjQNeIaq?=
- =?us-ascii?Q?yz2r5cpg2DHiWk+oRhqMOixb7ymHRWgdi41nihR8SN7coKwyAcxP+82Ru6tw?=
- =?us-ascii?Q?CNxe15gveCPwg8x9DmSaPTJ06AoR230EDKTZu8uMxJfRlaBc4oaqNGflHdpK?=
- =?us-ascii?Q?MnlxlS81UyBkg50V22MMYsELsHFtnsAh+tfy2y9h3i+EI8RVCabz9jS4rb3l?=
- =?us-ascii?Q?+f+Tc2mo+q4Z55tm0Fn74jiiC/7kBzYVMvUyentfLVAWOYDKlbTtJH356hZo?=
- =?us-ascii?Q?pC8tOw+Sa11crr4Acwuzqfky2BuHEas8aGUxFnHwaag7g3kRInzzBWc9OCGy?=
- =?us-ascii?Q?8Iyo05dRzbUSNbwYY1kqsc19rch4atITs/lMHYyVsO6bb8O16aExrq6LuFUo?=
- =?us-ascii?Q?8qMisQCYk5imXaKThblxV+cj+H2/M7PcLmT805VyaVEc/nmkKD36odxg75FM?=
- =?us-ascii?Q?BpK9Unhb4HlPcl/dRtuWK0TrpWNrT+3xoNyqPrPHOO0i0uTYvqq5t8H85ZlL?=
- =?us-ascii?Q?2KdfLdUk7HfALZU7RrwDmx92DzyhM7hR39CFKe2iXa+WYK3gbnpbg6wJVQTN?=
- =?us-ascii?Q?l7fZWI1tg5Zffk5nJrAH7FJeDAAH+yMg60Z1kTgzHbSCEXvUNb45OqQPkUiL?=
- =?us-ascii?Q?iMI78wbXVtcnLmeGFPNzWcqohlJtEblsDgv2WI+b4CoU4NZB7i8l+Eu/nzhd?=
- =?us-ascii?Q?W5KmdWv7Qld2UwVVbIqCkAbZPC34ZrsZFPVAHejspTqbZbe0Wu1nruhDdtMD?=
- =?us-ascii?Q?TDbeebivjp2qLnTVZsyIDTn0d6DVJndE/isVKVPcifp+kYRLbAVZa4lueypv?=
- =?us-ascii?Q?cV4blL0/BhmE6+z0Mbf2Joa2R2OkUjFkFUDzpMOxQivhEzk8Jtm3g7Btm2Sm?=
- =?us-ascii?Q?jrDMXlS/uiC/+64f/P3RiJIxQ/IZ2jOkbRvQeubvB8pxDAnUiEr0YKG/I97I?=
- =?us-ascii?Q?7KxBIJUTNdn/0prjsRU+3x8xs9mMqIOW18Y91UyrMe/zdGuUObXtfs5z+Y9c?=
- =?us-ascii?Q?KoXbDRS+ksQFYzHJlGNdY3fOjHbPMErPwuA6M6Z2x8X2YL5ThEqbYzF0oB/K?=
- =?us-ascii?Q?T0nMA/+C3c6h6Ti2FUsxshX0u6pATKlB7oNWeAAttSpbbG+wib91BlmxL4jM?=
- =?us-ascii?Q?vID4qq8DFL9jRd7As88glKpIHwnflcCbwW9XxjYqkDJYf4H6yXY4CZ2CneY5?=
- =?us-ascii?Q?XYZG9Dgs++iDNGfnXUHcRPU+6cXf8LKoasU9wcVXfOPPtYSTDZ0a9tgScKB5?=
- =?us-ascii?Q?3g461pDGqtOzWjtTSMvkompdaKn2bceM+S8hbQ5d46MBXY1wBfHPKfBKVezM?=
- =?us-ascii?Q?wn0MV2WcqSPQpJn6BEvIqqK3N6Vr8xtbAIWQ6i6+cTvDc67sqJkWmN9Hb1kl?=
- =?us-ascii?Q?swE/f3mpOxuZ3v4agxNRwJIDUYCg7dSBDgulQrex?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 618b3db9-b024-4e03-b99c-08dc026cc020
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Dec 2023 21:35:28.4853
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wit0tarhBKq9onkCt37zVnvS5G9OaDdQQ8EnBKsp1Arbv7218ClAuQG8uFChuoifk/UvbnlWOfuw9S9F8t3gjg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7481
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-21_11,2023-12-21_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxscore=0 spamscore=0
+ adultscore=0 phishscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2312210177
+X-Proofpoint-ORIG-GUID: 9X1jF-5BRrQXE3Dw37ABy0wTkYta6zH-
+X-Proofpoint-GUID: 9X1jF-5BRrQXE3Dw37ABy0wTkYta6zH-
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231221_213550_947216_AFB8750C 
-X-CRM114-Status: GOOD (  24.95  )
+X-CRM114-CacheID: sfid-20231221_150946_131777_A5194937 
+X-CRM114-Status: GOOD (  21.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -163,219 +91,65 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Ben Ben-Ishay <benishay@nvidia.com>
+It has been requested that the NVMe fault injector be able to inject faults when accessing
+specific Logical Block Addresses (LBA).  This patch is built onto the existing fault
+injector to provide that ability to specify a LBA when setting up an injection fault.
 
-NVMEoTCP offload uses buffer registration for every NVME request to perform
-direct data placement. This is achieved by creating a NIC HW mapping
-between the CCID (command capsule ID) to the set of buffers that compose
-the request. The registration is implemented via MKEY for which we do
-fast/async mapping using KLM UMR WQE.
+If the fault injector is enabled, and the nvme driver is ready to send an IO or Admin command
+to NVMe hardware, the function should_fail() is called to determine if a fault should
+be injected instead of it being allowed to normally be issued.  The should_fail() function
+uses the fault injector attributes: probability, times, space, and interval to determine
+if a fault should be injected.  If it is determined a fault is to be injected, the request
+is immediately completed using the attribute: status.  If no fault is to be injected,
+the request is allowed to be issued to the hardware and completed normally.
 
-The buffer registration takes place when the ULP calls the ddp_setup op
-which is done before they send their corresponding request to the other
-side (e.g nvmf target). We don't wait for the completion of the
-registration before returning back to the ulp. The reason being that
-the HW mapping should be in place fast enough vs the RTT it would take
-for the request to be responded. If this doesn't happen, some IO may not
-be ddp-offloaded, but that doesn't stop the overall offloading session.
+If a LBA fault is setup, should_fail() is only called if the LBA falls within the range of
+blocks of a NVMe READ or WRITE command. If it does not fall with the range, should_fail()
+is not called and no fault would be injected.  If the LBA does fall within the range,
+should_fail() is called to determine if a fault should be injected.
 
-When the offloading HW gets out of sync with the protocol session, a
-hardware/software handshake takes place to resync. The ddp_resync op is the
-part of the handshake where the SW confirms to the HW that a indeed they
-identified correctly a PDU header at a certain TCP sequence number. This
-allows the HW to resume the offload.
+The LBA fault injector could be extended to also check command types (READ/WRITE).
 
-The 1st part of the handshake is when the HW identifies such sequence
-number in an arriving packet. A special mark is made on the completion
-(cqe) and then the mlx5 driver invokes the ddp resync_request callback
-advertised by the ULP in the ddp context - this is in downstream patch.
+Steps to setup a fault on a LBA access.
 
-Signed-off-by: Ben Ben-Ishay <benishay@nvidia.com>
-Signed-off-by: Boris Pismenny <borisp@nvidia.com>
-Signed-off-by: Or Gerlitz <ogerlitz@nvidia.com>
-Signed-off-by: Yoray Zack <yorayz@nvidia.com>
-Signed-off-by: Aurelien Aptel <aaptel@nvidia.com>
-Reviewed-by: Tariq Toukan <tariqt@nvidia.com>
----
- .../mellanox/mlx5/core/en_accel/nvmeotcp.c    | 146 +++++++++++++++++-
- 1 file changed, 144 insertions(+), 2 deletions(-)
+1. Setup the attributes: probability, times, and status according to
+the original NVMe fault injector.
 
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.c b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.c
-index 56969fe337e7..8644021b8996 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/nvmeotcp.c
-@@ -684,19 +684,156 @@ mlx5e_nvmeotcp_queue_teardown(struct net_device *netdev,
- 	mlx5e_nvmeotcp_put_queue(queue);
- }
- 
-+static bool
-+mlx5e_nvmeotcp_validate_small_sgl_suffix(struct scatterlist *sg, int sg_len, int mtu)
-+{
-+	int i, hole_size, hole_len, chunk_size = 0;
-+
-+	for (i = 1; i < sg_len; i++)
-+		chunk_size += sg_dma_len(&sg[i]);
-+
-+	if (chunk_size >= mtu)
-+		return true;
-+
-+	hole_size = mtu - chunk_size - 1;
-+	hole_len = DIV_ROUND_UP(hole_size, PAGE_SIZE);
-+
-+	if (sg_len + hole_len > MAX_SKB_FRAGS)
-+		return false;
-+
-+	return true;
-+}
-+
-+static bool
-+mlx5e_nvmeotcp_validate_big_sgl_suffix(struct scatterlist *sg, int sg_len, int mtu)
-+{
-+	int i, j, last_elem, window_idx, window_size = MAX_SKB_FRAGS - 1;
-+	int chunk_size = 0;
-+
-+	last_elem = sg_len - window_size;
-+	window_idx = window_size;
-+
-+	for (j = 1; j < window_size; j++)
-+		chunk_size += sg_dma_len(&sg[j]);
-+
-+	for (i = 1; i <= last_elem; i++, window_idx++) {
-+		chunk_size += sg_dma_len(&sg[window_idx]);
-+		if (chunk_size < mtu - 1)
-+			return false;
-+
-+		chunk_size -= sg_dma_len(&sg[i]);
-+	}
-+
-+	return true;
-+}
-+
-+/* This function makes sure that the middle/suffix of a PDU SGL meets the
-+ * restriction of MAX_SKB_FRAGS. There are two cases here:
-+ * 1. sg_len < MAX_SKB_FRAGS - the extreme case here is a packet that consists
-+ * of one byte from the first SG element + the rest of the SGL and the remaining
-+ * space of the packet will be scattered to the WQE and will be pointed by
-+ * SKB frags.
-+ * 2. sg_len => MAX_SKB_FRAGS - the extreme case here is a packet that consists
-+ * of one byte from middle SG element + 15 continuous SG elements + one byte
-+ * from a sequential SG element or the rest of the packet.
-+ */
-+static bool
-+mlx5e_nvmeotcp_validate_sgl_suffix(struct scatterlist *sg, int sg_len, int mtu)
-+{
-+	int ret;
-+
-+	if (sg_len < MAX_SKB_FRAGS)
-+		ret = mlx5e_nvmeotcp_validate_small_sgl_suffix(sg, sg_len, mtu);
-+	else
-+		ret = mlx5e_nvmeotcp_validate_big_sgl_suffix(sg, sg_len, mtu);
-+
-+	return ret;
-+}
-+
-+static bool
-+mlx5e_nvmeotcp_validate_sgl_prefix(struct scatterlist *sg, int sg_len, int mtu)
-+{
-+	int i, hole_size, hole_len, tmp_len, chunk_size = 0;
-+
-+	tmp_len = min_t(int, sg_len, MAX_SKB_FRAGS);
-+
-+	for (i = 0; i < tmp_len; i++)
-+		chunk_size += sg_dma_len(&sg[i]);
-+
-+	if (chunk_size >= mtu)
-+		return true;
-+
-+	hole_size = mtu - chunk_size;
-+	hole_len = DIV_ROUND_UP(hole_size, PAGE_SIZE);
-+
-+	if (tmp_len + hole_len > MAX_SKB_FRAGS)
-+		return false;
-+
-+	return true;
-+}
-+
-+/* This function is responsible to ensure that a PDU could be offloaded.
-+ * PDU is offloaded by building a non-linear SKB such that each SGL element is
-+ * placed in frag, thus this function should ensure that all packets that
-+ * represent part of the PDU won't exaggerate from MAX_SKB_FRAGS SGL.
-+ * In addition NVMEoTCP offload has one PDU offload for packet restriction.
-+ * Packet could start with a new PDU and then we should check that the prefix
-+ * of the PDU meets the requirement or a packet can start in the middle of SG
-+ * element and then we should check that the suffix of PDU meets the requirement.
-+ */
-+static bool
-+mlx5e_nvmeotcp_validate_sgl(struct scatterlist *sg, int sg_len, int mtu)
-+{
-+	int max_hole_frags;
-+
-+	max_hole_frags = DIV_ROUND_UP(mtu, PAGE_SIZE);
-+	if (sg_len + max_hole_frags <= MAX_SKB_FRAGS)
-+		return true;
-+
-+	if (!mlx5e_nvmeotcp_validate_sgl_prefix(sg, sg_len, mtu) ||
-+	    !mlx5e_nvmeotcp_validate_sgl_suffix(sg, sg_len, mtu))
-+		return false;
-+
-+	return true;
-+}
-+
- static int
- mlx5e_nvmeotcp_ddp_setup(struct net_device *netdev,
- 			 struct sock *sk,
- 			 struct ulp_ddp_io *ddp)
- {
-+	struct scatterlist *sg = ddp->sg_table.sgl;
-+	struct mlx5e_nvmeotcp_queue_entry *nvqt;
- 	struct mlx5e_nvmeotcp_queue *queue;
-+	struct mlx5_core_dev *mdev;
-+	int i, size = 0, count = 0;
- 
- 	queue = container_of(ulp_ddp_get_ctx(sk),
- 			     struct mlx5e_nvmeotcp_queue, ulp_ddp_ctx);
-+	mdev = queue->priv->mdev;
-+	count = dma_map_sg(mdev->device, ddp->sg_table.sgl, ddp->nents,
-+			   DMA_FROM_DEVICE);
-+
-+	if (count <= 0)
-+		return -EINVAL;
- 
--	/* Placeholder - map_sg and initializing the count */
-+	if (WARN_ON(count > mlx5e_get_max_sgl(mdev)))
-+		return -ENOSPC;
-+
-+	if (!mlx5e_nvmeotcp_validate_sgl(sg, count, READ_ONCE(netdev->mtu)))
-+		return -EOPNOTSUPP;
-+
-+	for (i = 0; i < count; i++)
-+		size += sg_dma_len(&sg[i]);
-+
-+	nvqt = &queue->ccid_table[ddp->command_id];
-+	nvqt->size = size;
-+	nvqt->ddp = ddp;
-+	nvqt->sgl = sg;
-+	nvqt->ccid_gen++;
-+	nvqt->sgl_length = count;
-+	mlx5e_nvmeotcp_post_klm_wqe(queue, KLM_UMR, ddp->command_id, count);
- 
--	mlx5e_nvmeotcp_post_klm_wqe(queue, KLM_UMR, ddp->command_id, 0);
- 	return 0;
- }
- 
-@@ -719,6 +856,11 @@ static void
- mlx5e_nvmeotcp_ddp_resync(struct net_device *netdev,
- 			  struct sock *sk, u32 seq)
- {
-+	struct mlx5e_nvmeotcp_queue *queue =
-+		container_of(ulp_ddp_get_ctx(sk), struct mlx5e_nvmeotcp_queue, ulp_ddp_ctx);
-+
-+	queue->after_resync_cqe = 1;
-+	mlx5e_nvmeotcp_rx_post_static_params_wqe(queue, seq);
- }
- 
- struct mlx5e_nvmeotcp_queue *
+echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
+echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
+echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/status
+
+2. Specify one or more LBAs: To configure a LBA, set the lba-inject-set
+attribute to the LBA.
+
+echo 0x22 > /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-set
+
+3. Enable the LBA injector: by setting the lba-inject-enable attribute
+to on.
+
+echo on > /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-enable
+
+To display the LBAs configured:
+
+cat /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-show
+LBA  Status
+22   1
+
+To stop injecting a fault on a LBA:
+
+echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-clear
+echo 0x22 > /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-set
+
+Alan Adamson (1):
+  nvme: Add NVMe LBA Fault Injection
+
+ .../fault-injection/nvme-fault-injection.rst  |  28 ++++
+ drivers/nvme/host/core.c                      |   4 +-
+ drivers/nvme/host/fault_inject.c              | 145 ++++++++++++++++--
+ drivers/nvme/host/nvme.h                      |  16 +-
+ 4 files changed, 178 insertions(+), 15 deletions(-)
+
 -- 
-2.34.1
+2.39.3
 
 
