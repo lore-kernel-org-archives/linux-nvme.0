@@ -4,63 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D043CC35274
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Dec 2023 17:03:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ECCAEC35274
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Dec 2023 17:19:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=trh8uV/SVrkJ/a2kKu3iP/8vvuOG9CFg3E0iPkNw4Ic=; b=Ef00hQ+q7hDd6QJF3glbws8YDV
-	IKlOHd+mk4ML1/q6aZhSXRVAPOAyS8vm/AaN3hCLWj5uON+ZOADk/EfOj8ElPuhWrzmvcX9TNW044
-	nwAWDJ9MghaXFRxUJ1yTqgTVCnNUIg804J3Rkh+CUoiEaZmCsvyJiBH+Ie3f5jlGYIhliAGqvZHXb
-	/ga0xHd7c8fguIvIlLFNNNcpThcAQbfUs3r8NB1prQdO0sZ9fPu0Rz52Gehi8uvUZ/wAjzjVV/Uoq
-	TqfHN2JjXIxitrOMYkSFoo2R/uvaeLgyoMDZCtUjkBtHD7j7ncIUd0kp3HCp/a+M+DN9vRhvWXvyU
-	FODS5ANw==;
+	bh=D6+BdsPcjPu0AJt/m/Revvb4dsRx5LixCpZ+hNDafqQ=; b=a9HGG4IL/OKBHyuee2/ESwyW9O
+	Dl1c6P/i+vHxPvkuNi6dnpkigmmi6lwwcXkt/JqqShouAKekO5Rl9VK5/AuPMAYXzV5FUk3DF/TUn
+	0GE1JXydhpRHCmP6kaH6hBaI7llo0BCRFkGuf6X5UG6u/oMKG+hk1+MjsGPqCIuXtNBIQoJ0s69oY
+	SOdLiaWD5u2aYu9zDralvbXYTLwDumM1RfzPjQVHBiixlXUUZ0NT/D6WO1NKuUpfLNOJ3sY9+gkt0
+	1VAlPd/sEWvy0aXfzhkT8+vnrEZRhKt9Wzu2qClXUQyb5m0ZOyuHhFvTUnULwprb8p1Do1gnBBAWU
+	C9V+EX4Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rGMSb-003aHl-0Y;
-	Thu, 21 Dec 2023 17:03:49 +0000
+	id 1rGMhg-003caZ-30;
+	Thu, 21 Dec 2023 17:19:24 +0000
 Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rGMSX-003aHI-36
+	id 1rGMhe-003cZK-2j
 	for linux-nvme@lists.infradead.org;
-	Thu, 21 Dec 2023 17:03:47 +0000
+	Thu, 21 Dec 2023 17:19:24 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 59A15CE1FF4;
-	Thu, 21 Dec 2023 17:03:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69EF2C433C8;
-	Thu, 21 Dec 2023 17:03:42 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 59531CE20A6;
+	Thu, 21 Dec 2023 17:19:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 141F6C433C7;
+	Thu, 21 Dec 2023 17:19:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703178223;
-	bh=Cjmw151Q8qHltXLXAPXD7l7NdX11QIL0kl2lAT+81DU=;
+	s=k20201202; t=1703179159;
+	bh=baSf0K4AkkJsUjW7EiL7QrwAKj6f6UaivcUDoX239jU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NUs1NUUKJn0oKififiJCXU1rcZouv/jYsUVf7jQmqsjnMyHOIoHoOIeNOrCHndB7t
-	 faW9/Sh65gCzmN7YvM3enGW7L6a6q+wD8Tvez+U9KzeNtcZe1K/Odb94DCMnARWbmc
-	 MssdnmpCXqfRUcwS+FfGPy9PehPHC53tFRVbI+0CnoanggKiy6wfMNJoIzkSu53uYG
-	 Iw1KfyAzWLjiGl/2q+ZhXMfxJ535zqukHiqCnRqxe2/s+OTwCmpL1/QIBsbIRdLM2+
-	 a/lScnBRvYLkgFePM43gDt6y/+F0A1jjajmvKAzEDbvQD6Q4hyE9+hotIZf7HUMKHD
-	 1ewSEPUR/pcZQ==
-Date: Thu, 21 Dec 2023 10:03:40 -0700
+	b=lwMPTolVrjPPGDQZPKWceXu2VhNb5P/Lfdp1tDNFqW2+Tw03f+ImCtRI3p5k7G1HD
+	 d13zUxTZwrxmDYLVfzwXRo/mmgf+gP9DFO6HD6GuzKv/WQNtDLWac5GypINJYKcnLa
+	 alEPNnp4v7aftyaTGyMw8DttNUTrPA0Xp0o88hTlbN5cFCJWvgYn+VXRH0u4qMWWer
+	 6WoTI/OigkWC2thQiGhU6T/W2W06jr3Yse5cQTN2f0sbiRk69bLzJFu0zEeog1uAIO
+	 Zl5KKt/65WPlgxfVIu1PQNzXV+qooME1Ul+m9+SasreiucLLWbyMQxi6/IP1y3ReqI
+	 g7pYqypjnE8pQ==
+Date: Thu, 21 Dec 2023 10:19:16 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, marcan@marcan.st, sven@svenpeter.dev,
-	axboe@kernel.dk, james.smart@broadcom.com, alyssa@rosenzweig.io,
-	asahi@lists.linux.dev, linux-nvme@lists.infradead.org,
-	kch@nvidia.com
-Subject: Re: [PATCH] nvme: don't set a virt_boundary unless needed
-Message-ID: <ZYRv7Fo6oCHgETyk@kbusch-mbp>
-References: <20231221084853.1175482-1-hch@lst.de>
- <155ec506-ede8-42c7-95f7-e8be32800a8d@grimberg.me>
- <20231221121746.GA17956@lst.de>
+To: Caleb Sander <csander@purestorage.com>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Max Gurtovoy <mgurtovoy@nvidia.com>,
+	dwagner@suse.de, hch@lst.de, linux-nvme@lists.infradead.org,
+	oren@nvdia.com
+Subject: Re: [PATCH 1/1] nvme-fabrics: don't check ioccsz/iorcsz for discovery
+Message-ID: <ZYRzlB1fc-N8Rs1x@kbusch-mbp>
+References: <20231220092745.35325-1-mgurtovoy@nvidia.com>
+ <573c2ad1-8407-4c8d-b31d-b89b16f0fea0@grimberg.me>
+ <CADUfDZrhPONOEK6xhbn3Uig4UZ+nwg0hDCRUziW8NA_g01raHQ@mail.gmail.com>
+ <5694a097-eec9-45af-8bf5-2e5d3963a03f@grimberg.me>
+ <CADUfDZo5zxgidqjt-OmQVzGXdoONvX=LV0dpm0rCsjjXPhnBpg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231221121746.GA17956@lst.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADUfDZo5zxgidqjt-OmQVzGXdoONvX=LV0dpm0rCsjjXPhnBpg@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231221_090346_192624_568F1301 
-X-CRM114-Status: GOOD (  17.03  )
+X-CRM114-CacheID: sfid-20231221_091923_052671_072B0BAD 
+X-CRM114-Status: GOOD (  13.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,28 +77,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Dec 21, 2023 at 01:17:46PM +0100, Christoph Hellwig wrote:
-> On Thu, Dec 21, 2023 at 11:30:38AM +0200, Sagi Grimberg wrote:
+On Thu, Dec 21, 2023 at 08:45:05AM -0500, Caleb Sander wrote:
+> On Thu, Dec 21, 2023 at 4:02 AM Sagi Grimberg <sagi@grimberg.me> wrote:
 > >
-> >> NVMe PRPs are a pain and force the expensive virt_boundary checking on
-> >> block layer, prevent secure passthrough and require scatter/gather I/O
-> >> to be split into multiple commands which is problematic for the upcoming
-> >> atomic write support.
 > >
-> > But is the threshold still correct? meaning for I/Os small enough the
-> > device will have lower performance? I'm not advocating that we keep it,
-> > but we should at least mention the tradeoff in the change log.
+> > > Why? As Max points out, the base NVMe spec says those fields are
+> > > reserved for discovery controllers.
+> >
+> > Oh, didn't understand that it was already the case, I thought
+> > that the intention was to made it as such. Can you point us
+> > to this part in the spec?
 > 
-> Chaitanya benchmarked it on the first generation of devices that
-> supported SGLs.  On the only SGL-enabled device I have there is no
-> performance penality for using SGLs on small transfer, but I'd love
-> to see numbers from other setups.
+> https://nvmexpress.org/wp-content/uploads/NVM-Express-Base-Specification-2.0c-2022.10.04-Ratified.pdf
+> Figure 275: Identify – Identify Controller Data Structure, I/O Command
+> Set Independent
+> Both fields IOCCSZ and IORCSZ have "R" in the "Disc" column,
+> indicating that they are reserved for discovery controllers.
 
-It's the larger transfers where it gets worse. To exaggerate the
-difference, consider send a 2MB write with virtually aligned but
-discontiguous user buffer: 512 folios.
-
-PRP fits in 1 prp_page_pool block.
-
-SGL needs 3 prp_page_pool blocks, tripling the command's memory usage.
+Sounds good to me. I've applied for nvme-6.8.
 
