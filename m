@@ -4,49 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 74993C35274
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Dec 2023 12:18:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C507FC35274
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Dec 2023 12:19:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=C0Cx7if/r000DXrkacvSbOKycx1Xl3mQUDt6OqhcFE4=; b=G/W7NxOizOlMU1SFMbN/3bbD/+
-	MqtiOQZNTyT4RQ7HMJcm0/dmvtVjX84xpos6WtnGGa22A5g9YVHyPpIoBCNN562yrT+zwGgJmFdQ5
-	OVko3dVU+1DHi7V40gBXWmNEX0/MSULhstoj2r2nRv6dPKnEs1Z4BiKfCUvWMSov8hShcrZddbZ2F
-	lmhvvy1NX/oa+j8hzTn7mcVcKAWc2xB9ym6IrLkggKheCxxh2xDbaJ7kCeoHiCXwQdm9A48teYugV
-	0uvkbeiSBhRCBNysFSl8zJvtdz3sL5R5kEehoLhuoxU0iFx7edMlaUhb0Al1OmtYFjk6sTFXaS0Qt
-	pc9OJKNQ==;
+	bh=5A8S23WWSyecM76/3jjUJRcPk+ICW0RSwrI8FWXI0Vo=; b=yNwWG2MT38Ld9UbrOH2vPFTrRv
+	LXDZr1Hsy81B/lwtXeyaAscTR5Dvbf0sucd0SbkkqgXSDtrINeOWQ/Y1Mg0yy27blslej/aZBRcp/
+	+pFCQxVC5yuAU0/mj6CWfRxNBu7l2auvJeCO3bdd+x7IKtgbDDUQKtWwZvfo4jRaM9ks4+7mal7T5
+	HbQXswj21yHqaSxh35a7622fC4FGOdf81fvGFfS2poVxGKZA7hOFxs9nc7EiRWsQQJVF31y+PTJ8m
+	a4zVTZ3G8nQy2FaGdiv89kzJgBSQjbgUpRmDm3X4ddxeE7O8HVy+TxB0m74i9v00vgL0luXwMOovx
+	IuELyKtg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rGHzy-002jNA-0n;
-	Thu, 21 Dec 2023 12:17:58 +0000
+	id 1rGI1T-002jSq-0v;
+	Thu, 21 Dec 2023 12:19:31 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rGHzu-002jMp-37
+	id 1rGI1Q-002jSS-17
 	for linux-nvme@lists.infradead.org;
-	Thu, 21 Dec 2023 12:17:56 +0000
+	Thu, 21 Dec 2023 12:19:29 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id AEAFE68BFE; Thu, 21 Dec 2023 13:17:46 +0100 (CET)
-Date: Thu, 21 Dec 2023 13:17:46 +0100
+	id 9193E68B05; Thu, 21 Dec 2023 13:19:25 +0100 (CET)
+Date: Thu, 21 Dec 2023 13:19:25 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Christoph Hellwig <hch@lst.de>, marcan@marcan.st, sven@svenpeter.dev,
-	kbusch@kernel.org, axboe@kernel.dk, james.smart@broadcom.com,
-	alyssa@rosenzweig.io, asahi@lists.linux.dev,
-	linux-nvme@lists.infradead.org, kch@nvidia.com
-Subject: Re: [PATCH] nvme: don't set a virt_boundary unless needed
-Message-ID: <20231221121746.GA17956@lst.de>
-References: <20231221084853.1175482-1-hch@lst.de> <155ec506-ede8-42c7-95f7-e8be32800a8d@grimberg.me>
+To: John Garry <john.g.garry@oracle.com>
+Cc: Christoph Hellwig <hch@lst.de>, "Darrick J. Wong" <djwong@kernel.org>,
+	axboe@kernel.dk, kbusch@kernel.org, sagi@grimberg.me,
+	jejb@linux.ibm.com, martin.petersen@oracle.com,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
+	jack@suse.cz, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	tytso@mit.edu, jbongio@google.com, linux-scsi@vger.kernel.org,
+	ming.lei@redhat.com, jaswin@linux.ibm.com, bvanassche@acm.org
+Subject: Re: [PATCH v2 00/16] block atomic writes
+Message-ID: <20231221121925.GB17956@lst.de>
+References: <b8b0a9d7-88d2-45a9-877a-ecc5e0f1e645@oracle.com> <20231213154409.GA7724@lst.de> <c729b03c-b1d1-4458-9983-113f8cd752cd@oracle.com> <20231219051456.GB3964019@frogsfrogsfrogs> <20231219052121.GA338@lst.de> <76c85021-dd9e-49e3-80e3-25a17c7ca455@oracle.com> <20231219151759.GA4468@lst.de> <fff50006-ccd2-4944-ba32-84cbb2dbd1f4@oracle.com> <20231221065031.GA25778@lst.de> <b60e39ce-04bf-4ff9-8879-d9e0cf5d84bd@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <155ec506-ede8-42c7-95f7-e8be32800a8d@grimberg.me>
+In-Reply-To: <b60e39ce-04bf-4ff9-8879-d9e0cf5d84bd@oracle.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231221_041755_151463_2D0931D6 
-X-CRM114-Status: GOOD (  22.76  )
+X-CRM114-CacheID: sfid-20231221_041928_524235_4DD902B8 
+X-CRM114-Status: GOOD (  19.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,52 +66,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Dec 21, 2023 at 11:30:38AM +0200, Sagi Grimberg wrote:
+On Thu, Dec 21, 2023 at 09:49:35AM +0000, John Garry wrote:
+> I noticed the NVMe patch to stop always setting virt boundary (thanks), but 
+> I am struggling for the wording for iovecs rules. I'd like to reuse 
+> iov_iter_is_aligned() to enforce any such rule.
 >
->> NVMe PRPs are a pain and force the expensive virt_boundary checking on
->> block layer, prevent secure passthrough and require scatter/gather I/O
->> to be split into multiple commands which is problematic for the upcoming
->> atomic write support.
+> I am thinking:
+> - ubuf / iovecs need to be PAGE-aligned
+> - each iovec needs to be length of multiple of PAGE_SIZE
 >
-> But is the threshold still correct? meaning for I/Os small enough the
-> device will have lower performance? I'm not advocating that we keep it,
-> but we should at least mention the tradeoff in the change log.
-
-Chaitanya benchmarked it on the first generation of devices that
-supported SGLs.  On the only SGL-enabled device I have there is no
-performance penality for using SGLs on small transfer, but I'd love
-to see numbers from other setups.
-
->> For nvme-rdma the virt boundary is always required, as RMDA MRs are just
->> as dumb as NVMe PRPs.
+> But that does not work for total length < PAGE_SIZE.
 >
-> That is actually device dependent. The driver can ask for a pool of
-> mrs with type IB_MR_TYPE_SG_GAPS if the device supports IBK_SG_GAPS_REG.
+> So then we could have:
+> - ubuf / iovecs need to be PAGE-aligned
+> - each iovec needs to be length of multiple of atomic_write_unit_min. If 
+> total length > PAGE_SIZE, each iovec also needs to be a multiple of 
+> PAGE_SIZE.
 >
-> See from ib_srp.c:
-> --
->        if (device->attrs.kernel_cap_flags & IBK_SG_GAPS_REG)
->                 mr_type = IB_MR_TYPE_SG_GAPS;
->         else
->                 mr_type = IB_MR_TYPE_MEM_REG;
-> --
+> I'd rather something simpler. Maybe it's ok.
 
-For that we'd need to support IB_MR_TYPE_SG_GAPS gaps first, which can
-be done as an incremental improvement.
-
->>   +	/*
->> +	 * nvme-apple always uses PRPs and thus needs to set a virt boundary.
->> +	 */
->> +	set_bit(NVME_CTRL_VIRT_BOUNDARY_IO, &anv->ctrl.flags);
->> +	set_bit(NVME_CTRL_VIRT_BOUNDARY_ADMIN, &anv->ctrl.flags);
->> +
->
-> Why two flags? Why can't the core just always set the blk virt boundary
-> on the admin request queue?
-
-It could, and given that the admin queue isn't performance critical it
-probably won't hurt in reality.  But why enforce a really weird limit
-on the queue if there is no reason for it?  The only transport that
-treats the admin queue different is PCIe, and that's just a spec
-oddity.
+If we decided to not support atomic writes on anything setting a virt
+boundary we don't have to care about the alignment of each vector,
+and IMHO we should do that as everything else would be a life in
+constant pain.  If we really have a use case for atomic writes on
+consumer NVMe devices we'll just have to limit it to a single iovec.
 
