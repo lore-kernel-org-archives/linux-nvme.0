@@ -4,72 +4,114 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 042EDC35274
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Dec 2023 09:02:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 72E46C35274
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Dec 2023 09:17:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rxUkTZ0H9oNZqMDbgBedHXxlXdrWLyaTXbBcHT/E2gw=; b=m17dDVxAUbJs7GiuqfO1XU1ocr
-	Q1u5LPKXZnlxO/0GbnaqbqDk3Tz1wZFBiHGw4dA9u3sJKK9MrJ1AwR+eGq6LkWtI9Nqyoml0YgzyY
-	9lEjiQhPxRtqCX7Wio5x2m3ZOq5jqqPU6/4X8nAsevCwpPhxjm3z5iYDGw8QffunbHpE0yJ33xZw3
-	GG5sYG6CBPegVfT5QSga3SK/9fCwf/KbvXwhge5QdTVCY001qgwpd3iNDG3jI7sfHWPaen5mpd7Sp
-	ypQjwn4N4m7kJaxhTqzoFlTMpb6mOjVPgdKB4W+sFAGKdDCFH+a7zd1ngJZJQZ0vauvmhkTWmyjSE
-	EfYsCqeg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=afsZBjEJLNrRami7LX1LeXszkJWNZ3H/aGbmJJOwZlM=; b=N8D1pwGIFaKUkdBtcj5hz0Z95F
+	Bg025D2dd2TGdSGStKu3XyG94eY9PFXUIop/7+1hsJCRPFizmoMPD++aXbuSpvArpjMgEkTHYzaft
+	CXrEBhAxKdebpNgS6hTKNPhm+/xPm3OrWsNAEirIutlOYdDz05rKsy/ViaCHPHgXjsQzLUkWHw25T
+	OLIIw9yftQd3f6IEhb/gonNGwi90J5eHR6sFy7OuXI23Inpi4/SQp1PkKSCjOLdZne9cyzHWWqi9c
+	GSl1Pw7vRu6RVjJnUJ6krM+aFgF2fLgtoU2nFfbaXbfQLw0W15y3VS8ZGcoSpKNI8DD6eLhZokG6z
+	U7D7Ijvg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rGEwY-0029Gi-0c;
-	Thu, 21 Dec 2023 09:02:14 +0000
-Received: from mail-lf1-f46.google.com ([209.85.167.46])
+	id 1rGFBR-002Dhh-18;
+	Thu, 21 Dec 2023 09:17:37 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rGEwV-0029D4-2g
+	id 1rGFBO-002Des-0m
 	for linux-nvme@lists.infradead.org;
-	Thu, 21 Dec 2023 09:02:12 +0000
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-50e558cd186so162854e87.1
-        for <linux-nvme@lists.infradead.org>; Thu, 21 Dec 2023 01:02:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703149326; x=1703754126;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rxUkTZ0H9oNZqMDbgBedHXxlXdrWLyaTXbBcHT/E2gw=;
-        b=iAV9tgJWijxehIkBOS1zFWcDcaWw6A0nObLZr+rUyrHKwBsVJj+Dxn1JwloWKsvg+J
-         3ciiJMFzmG1KBtGPT82RiPNsTTezKQedM6zrXQtmn2akUPOaRK0lHpbnHS32FfLywPNX
-         +VY0bV3NmVInd/dm/rmxtQvtNOX3fyrxq+Fy95PB/D9dpL/Q8u2W2AKiLHPtKYH6Neto
-         vuTCoRBXk/U1mLvnznUJBn2a39ttTQZVGzW26vkbSf8AsSWfQYNqXaLaAQsy4PGLobMN
-         gq+Dt/zCeLBEpXmbZdC8DgCkpt5Ga27J1rSClW1+HqDbAHR2ZCS8+LQQ69u/b0jZqAE3
-         pfZw==
-X-Gm-Message-State: AOJu0Yz2xM7QickXV1VifMNd4oyNKfWXeI9HBmBh6fW///vFCCsW5+nP
-	5ZW5MlRbCfg2KPxQyW3RkIQ=
-X-Google-Smtp-Source: AGHT+IEzykzZnKJHPGzfE+LAgBIH+sIyyUiaXKlen+nRvx4nKP6HxRNb76uOINoS1oZ+FzdYIy2BoA==
-X-Received: by 2002:a05:6512:b26:b0:50e:18e0:697 with SMTP id w38-20020a0565120b2600b0050e18e00697mr11911426lfu.6.1703149325688;
-        Thu, 21 Dec 2023 01:02:05 -0800 (PST)
-Received: from [10.100.102.14] (46-117-87-214.bb.netvision.net.il. [46.117.87.214])
-        by smtp.gmail.com with ESMTPSA id m20-20020a056000181400b00336815d826dsm1515029wrh.76.2023.12.21.01.02.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Dec 2023 01:02:05 -0800 (PST)
-Message-ID: <5694a097-eec9-45af-8bf5-2e5d3963a03f@grimberg.me>
-Date: Thu, 21 Dec 2023 11:02:03 +0200
+	Thu, 21 Dec 2023 09:17:35 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id F3BAF1FB5E;
+	Thu, 21 Dec 2023 09:17:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1703150250; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=afsZBjEJLNrRami7LX1LeXszkJWNZ3H/aGbmJJOwZlM=;
+	b=ZgGBLaUTZ35sdBmN9jxBqi+ypLe/Y7Lj8/0MAODO3Ue3wxzDDLga38e2V857u71DgEbbC+
+	V0HKyRC976bzKBJ3Ko00HyeHGvpXuw/7eNmYo2LkFwAIbc8UanIrpeLzUMIxjKnhqOv6Q1
+	suWc+Z2QybrJtPjj2K32HWBhCC93X5w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1703150250;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=afsZBjEJLNrRami7LX1LeXszkJWNZ3H/aGbmJJOwZlM=;
+	b=Rly12+U8wxzKyL98Ki48+s5PiiXsqV0wtep7Xwf7FBFlJmQs6S0pxFhMvJCn/7JSAm6uNN
+	fXaed7EDXbtES/CA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1703150250; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=afsZBjEJLNrRami7LX1LeXszkJWNZ3H/aGbmJJOwZlM=;
+	b=ZgGBLaUTZ35sdBmN9jxBqi+ypLe/Y7Lj8/0MAODO3Ue3wxzDDLga38e2V857u71DgEbbC+
+	V0HKyRC976bzKBJ3Ko00HyeHGvpXuw/7eNmYo2LkFwAIbc8UanIrpeLzUMIxjKnhqOv6Q1
+	suWc+Z2QybrJtPjj2K32HWBhCC93X5w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1703150250;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=afsZBjEJLNrRami7LX1LeXszkJWNZ3H/aGbmJJOwZlM=;
+	b=Rly12+U8wxzKyL98Ki48+s5PiiXsqV0wtep7Xwf7FBFlJmQs6S0pxFhMvJCn/7JSAm6uNN
+	fXaed7EDXbtES/CA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DEEA713725;
+	Thu, 21 Dec 2023 09:17:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Hmn+NKkChGX0LgAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Thu, 21 Dec 2023 09:17:29 +0000
+Date: Thu, 21 Dec 2023 10:15:15 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>, 
+	James Smart <james.smart@broadcom.com>, Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH v3 08/16] nvmet-fc: untangle cross refcounting objects
+Message-ID: <l3etc7ia7mx7fc6ko764amf56xrink2vyv3kdirzcuzwfls2nz@wy66e6t4oxbl>
+References: <20231218153105.12717-1-dwagner@suse.de>
+ <20231218153105.12717-9-dwagner@suse.de>
+ <20231219051648.GA32634@lst.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] nvme-fabrics: don't check ioccsz/iorcsz for discovery
-Content-Language: en-US
-To: Caleb Sander <csander@purestorage.com>
-Cc: Max Gurtovoy <mgurtovoy@nvidia.com>, dwagner@suse.de, kbusch@kernel.org,
- hch@lst.de, linux-nvme@lists.infradead.org, oren@nvdia.com
-References: <20231220092745.35325-1-mgurtovoy@nvidia.com>
- <573c2ad1-8407-4c8d-b31d-b89b16f0fea0@grimberg.me>
- <CADUfDZrhPONOEK6xhbn3Uig4UZ+nwg0hDCRUziW8NA_g01raHQ@mail.gmail.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <CADUfDZrhPONOEK6xhbn3Uig4UZ+nwg0hDCRUziW8NA_g01raHQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231219051648.GA32634@lst.de>
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spamd-Result: default: False [-0.89 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_SEVEN(0.00)[7];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.09)[64.28%]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231221_010211_867117_98219BE6 
-X-CRM114-Status: UNSURE (   6.58  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20231221_011734_456011_74802467 
+X-CRM114-Status: GOOD (  20.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,11 +126,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Tue, Dec 19, 2023 at 06:16:48AM +0100, Christoph Hellwig wrote:
+> On Mon, Dec 18, 2023 at 04:30:56PM +0100, Daniel Wagner wrote:
+> > The live time of the queues are strictly bound to the lifetime of an
+> 
+> > +	struct nvmet_fc_tgt_queue	*_queues[NVMET_NR_QUEUES + 1];
+> >  	struct nvmet_fc_tgt_queue __rcu	*queues[NVMET_NR_QUEUES + 1];
+> 
+> For magic prefixes we use __, not _ in Linux.  But having two arrays
+> of queues right next to each other, once with rcu annotation and one
+> not rings a bit far warning bell to me.  Why do we have both?  When
+> are we supposed to use either?  Why is FC different from rest?
 
-> Why? As Max points out, the base NVMe spec says those fields are
-> reserved for discovery controllers.
+This is my attempt to solve the problem that after NULLing the rcu
+pointer and wait for an RCU graceperiod I still need to cleanup the
+queues. Thus I need to keep hold on the queue pointers a bit longer.
+Indeed not so elegant.
 
-Oh, didn't understand that it was already the case, I thought
-that the intention was to made it as such. Can you point us
-to this part in the spec?
+I'm sure there is a better way to do it, I just didn't figure it out
+when I wrote this part. Any tips are highly welcomed how to solve this
+puzzle.
+
+> I really don't have any good answers as I don't know the code in the
+> FC transport very well, but I think this needs more work.
+
+Indeed, blktests still is able to run into a hanger. So not all problems
+are sovled but getting closer.
 
