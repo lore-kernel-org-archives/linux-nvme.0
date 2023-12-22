@@ -4,82 +4,134 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B6E1C46CCD
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Dec 2023 23:10:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 34944C46CD2
+	for <linux-nvme@archiver.kernel.org>; Fri, 22 Dec 2023 01:16:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5AbMtdYOGo1fhl+G42pKobVSmDePppHlBmE4stx7gHo=; b=du+1mArgxXYbmMiBHQjllM3iDI
-	NobKzoamMkUks1Nk+Z4VDJLchKIJoa+E7rYJFGPU4vG8ZdSegzctIRKjaRIqQhtOXnx5XbxoH+mmE
-	gG7MKMiDed3WJoayADLmMVYqlMO1JQL6E/7FrOj1X9j7W5NyEv/IYoLaOQcoyXzrKpu7K/hbx1ED+
-	fHvnSokWAb4f6Dr9Z/FMwvbMIHNtdunJYhrqb+R0rfBvtg8cgnBNide3dgNhY4MVBZ9IgICw99msi
-	VSFMqtdSTxTe5RrDbDS9ZOK4Nm3TUNWoCOP99CRy0aLqJlH0B36Bx6KKQZneJlJJ3EXI9KTucTAXf
-	HrZdICpw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:Cc:From:References:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=M0rO2AQ3CfmeTUZ8C2p8heY7uLvVF3isNvPX5EYJyNw=; b=mGKdIUJV8vtNvcSs4drzYWuov4
+	gXB3lb1M/ay1whvkbOuHow4sv+sSPYjY0jfbjxU8/A8eo4Smqg1eadtRNzML5Tvr1aPZ9AuP9G7wa
+	7rOIM8XmW7tl+zYhIhkQSEHlAacGPfDYZ2dEMBW4202xQNPkRDZqJBz3ynpELbFe5+syqBkPI4xIa
+	ImgPix/hzFzyX2Kh3ux4hR2wUGcZtQiKf3dPhZ/o9wqIe3ClpJ7/aIMfxEgwQTVtjcNdrNtSpPSUe
+	WY2sdaxXaINLKbBy6OC0SqIEkKHH/IiOcS3HYrN4H8JNg37zyiAEFS/CGMYn5TiEdEKlHRs3X9M+x
+	94NZHzGw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rGSBK-004OSh-2O;
-	Thu, 21 Dec 2023 23:10:22 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1rGU9i-004aOT-1A;
+	Fri, 22 Dec 2023 01:16:50 +0000
+Received: from mail-bn8nam11on20601.outbound.protection.outlook.com ([2a01:111:f400:7eae::601] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rGSBH-004OKF-1N
+	id 1rGU9f-004aO8-1J
 	for linux-nvme@lists.infradead.org;
-	Thu, 21 Dec 2023 23:10:21 +0000
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3BLMhnkr018248;
-	Thu, 21 Dec 2023 23:09:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2023-11-20;
- bh=5AbMtdYOGo1fhl+G42pKobVSmDePppHlBmE4stx7gHo=;
- b=EL4sr9BFtZYsP+WlrI1V57qsKxuomVywabYQF1gKiHlmcDitEfhELZksQb/aoqJoFtDl
- Q15RBzIGSfcNFjSe+8rwJKMNZ4nMlvL32BHeamXzsXyVKlxUL78RLsctWCy6CZVwFiHD
- o9s5+EZ3rhRhTwgXsgpKOpgv9V5X2EGG+FDoPMuX/hHMutGKyuMHALYApOUDGEALpFOu
- ZOEsiLkBDMqJn8DK1YBQ8/uFKZz1lFXz/uh5oCLAlmdctwvmXT6g7iq7bqxkH4JaaTWZ
- WVO0nQMoz7OePKuoKuwsZDNgRDOyTdtbBylWZTN4AbpurwZzvdeHhqZ4jnKeW6jvMfa1 qg== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3v13xdmku0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 21 Dec 2023 23:09:29 +0000
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 3BLMkIho024918;
-	Thu, 21 Dec 2023 23:09:29 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3v12bj6d80-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 21 Dec 2023 23:09:29 +0000
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3BLN9RdK038754;
-	Thu, 21 Dec 2023 23:09:28 GMT
-Received: from ca-dev94.us.oracle.com (ca-dev94.us.oracle.com [10.129.136.30])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3v12bj6d5h-2;
-	Thu, 21 Dec 2023 23:09:28 +0000
-From: Alan Adamson <alan.adamson@oracle.com>
-To: linux-nvme@lists.infradead.org
-Cc: alan.adamson@oracle.com, kch@nvidia.com, kbusch@kernel.org, hch@lst.de,
-        sagi@grimberg.me
-Subject: [RFC 1/1] nvme: Add NVMe LBA Fault Injection
-Date: Thu, 21 Dec 2023 15:10:43 -0800
-Message-Id: <20231221231043.3597368-2-alan.adamson@oracle.com>
-X-Mailer: git-send-email 2.39.3
-In-Reply-To: <20231221231043.3597368-1-alan.adamson@oracle.com>
-References: <20231221231043.3597368-1-alan.adamson@oracle.com>
-MIME-Version: 1.0
+	Fri, 22 Dec 2023 01:16:48 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nYAzhkvXXPu888kq5rCc+8VrJbK9zYLZGQZgPrI/eKISo9xjK5PIqm2tYzFKv0jf2o0PMxaJ2Z1+qpkWSOSdaI9bwHyqrLho8MkgqpWwNrcgMLqIuqv89vzF/ZUcNQ4cz6HGd/KGkMrPII50QwhYFrok9bvIQljrIfYq7sxd1cZzJS8DwMEaI2g8fftOSi83aNreG/13DTnlIJuPA694oAaB0wmdyagpD/vnrIJHJHQhfif7KfuEzeG6IGtKf+SGUJuJiwTOLDd8o8SS5rd62Tngp8pVa2wIfbgu6GBhKvdcpdtbxdho06hYu7QVepOq5JDOytgDDm5+BV5pCkjLIw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=M0rO2AQ3CfmeTUZ8C2p8heY7uLvVF3isNvPX5EYJyNw=;
+ b=I+gjNysoekp7RutqxaaE6pkvzHltz/8uomubgFnfzZPk5WI2PDjAe2lHJV1pwjXKpoKY6Lld/EOsKyPzW4nbV1cXFi6WhnTVCpjjAnxaH0WPdMoWb4ck3qA0gdPA+7gE+8B/lh2nXf0rXG9bI6YUgWCCqiAbz7SCfL3KaT1KhTUF5StVbGZWgNjR2Qgwd2IYPJzQu6Kyy2RMiRho5Lr1FRZQCDFXpsJgjnmQNC322WIaxPPF0JGZHRsZdOslkpPsc8LHvJs/yLOZUVy7ualSwhwhiQfSWrFjUgW+1tbWJuhXNqxmdBxHYWeRbHZSA+yBb64Fy1oPOKEge7zPO5PArw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=M0rO2AQ3CfmeTUZ8C2p8heY7uLvVF3isNvPX5EYJyNw=;
+ b=YDWoPXPfxW6MIoUIMyXSeAW0tR1VvPw7i1jyhG4rZXnORKxYTfaDR7hplmakMzthFNCxS4CrrntWJ6pLzi8fjQnqiBUuCCPCLmVwTNtMWNwdidWwtNY3KL8r6/waslWkWOs5jh4k5OaATFBml0MZvIKCghsBUTrCrLF7Bb4Fnfv1DxTuxyGTBS3/434Seqegcr03KgyWKWT6L8qygPHJ6K3ijQuNnUR9KMMOUHvdBczLNQUcnL+slnPRaJ8VBeV3bfVSvK4r+IbVipcEa/P/tZ9R0tfu/YJMA+AaXr/aYOb5Y8AE78pgPFFsH76xoQZS5oGtOQedDoBjKGAXZAOBcg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
+ by PH0PR12MB7791.namprd12.prod.outlook.com (2603:10b6:510:280::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.18; Fri, 22 Dec
+ 2023 01:16:34 +0000
+Received: from DM4PR12MB5040.namprd12.prod.outlook.com
+ ([fe80::6f3c:cedb:bf1e:7504]) by DM4PR12MB5040.namprd12.prod.outlook.com
+ ([fe80::6f3c:cedb:bf1e:7504%4]) with mapi id 15.20.7113.019; Fri, 22 Dec 2023
+ 01:16:34 +0000
+Message-ID: <8cfe55f2-4f2e-46f9-bbc8-5ab80d06f3d5@nvidia.com>
+Date: Fri, 22 Dec 2023 03:16:28 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme: don't set a virt_boundary unless needed
+Content-Language: en-US
+To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+ marcan@marcan.st, sven@svenpeter.dev, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, James Smart <james.smart@broadcom.com>
+References: <20231221084853.1175482-1-hch@lst.de>
+ <155ec506-ede8-42c7-95f7-e8be32800a8d@grimberg.me>
+From: Max Gurtovoy <mgurtovoy@nvidia.com>
+Cc: alyssa@rosenzweig.io, asahi@lists.linux.dev,
+ Chaitanya Kulkarni <kch@nvidia.com>
+In-Reply-To: <155ec506-ede8-42c7-95f7-e8be32800a8d@grimberg.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-21_11,2023-12-21_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxscore=0 spamscore=0
- adultscore=0 phishscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
- definitions=main-2312210177
-X-Proofpoint-GUID: rk_Gi3BjjfJGBGJYcdYKbaBi254vdk8n
-X-Proofpoint-ORIG-GUID: rk_Gi3BjjfJGBGJYcdYKbaBi254vdk8n
+X-ClientProxiedBy: LO4P123CA0204.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1a5::11) To DM4PR12MB5040.namprd12.prod.outlook.com
+ (2603:10b6:5:38b::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5040:EE_|PH0PR12MB7791:EE_
+X-MS-Office365-Filtering-Correlation-Id: ad452b7f-778c-40bb-6eed-08dc028ba315
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: x0doQ5Rl97ed3NDMs3iRfy5I20OwJHmzd5i6knIfodlIyFiqSJxaiD/7UB5IsDySreFEtBnuX0lwikv3gy4S7JHlD+ve6LeLSiMP+4WcPeSu9TEwxs5SNajy6hdXD8vKul6ZM+VL2NZI1drQzrY69Fu0BBkVE1P2Iu+O50vukn8g/OP8mMQgzHyru6k4WRLV7W0wZu70gWfWSqkIs6z7elNssNE+Vof+3oA0oxMa1P0RaC5MUpKTxNoVWrXkXbWNSu+0+HcWNWmMBXIdMc5Mf80/Lj8nn/qVGGPMnD0TVEYPzPMAxR6qPCfIlbD/SuXXZisgedRHV9uE6W0yIoOL8HA40kI91dgyv/oQkvbNKPW3E6VYxaqRbLsZwidlIaBkgHk9esPZHZDcSPL/1hHkuIbU/JYrFCabmPeu5q8bOA3384znetQLBtq7g83BimmS8Ugl221nr4nP43OVxG6Lx/gxn1bcoXyXXe/yf1aWDHnRW+HmgStvEleCPudgu54iKzsXjGa2vqFJglHYKaDIx+U8DfHPKDjBFqfL5DDiy49DAh+qfG4O+OsGXL7kxfszRHZ7Bnf26Kc+AWSgUbF50Q9CXgVtx/G1yDzFgEFLA7SBjkMVjJaQC0C77iWGY5b5O/ER5HLd98SDwb3jLkgjeg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(39860400002)(346002)(376002)(136003)(366004)(230922051799003)(451199024)(186009)(1800799012)(64100799003)(478600001)(6486002)(4326008)(38100700002)(5660300002)(110136005)(316002)(66476007)(66946007)(66556008)(8676002)(8936002)(26005)(83380400001)(2616005)(107886003)(31686004)(6666004)(53546011)(6506007)(6512007)(36756003)(31696002)(41300700001)(86362001)(2906002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OVUzUjB1MTVtcHBrcnlhS2kzUVBtNENnanZCMlVhb2QyakRLZGlrbXFXRmE4?=
+ =?utf-8?B?eGZiU29xRlFjR0I0TjExRHB3SWFPSEEyczZhQ3FlRWlxdHYzaVI0cFVLUlZK?=
+ =?utf-8?B?N2FxMS9EM3JzZ3lvejAyQnArdHNCcG1xcUU4RGxYcXl1bGVKZE1DQ0dvbFFz?=
+ =?utf-8?B?MXN5ZytReGJua3p3a2JWQUVLVHgxODhKVW04Qmg0a1poRCtLN05LbG9pa2Np?=
+ =?utf-8?B?WWVhcUdwZEp3dzk2d2lzZldnM2hQYVM1QmMwRy9TU2hUcjZzUW04Y3VLL2lX?=
+ =?utf-8?B?eFE1a1k1ZFNKN2RybE11eld3WXdKSFJzTUUzWVJUOTNXNG4rU0FyeGozVGZR?=
+ =?utf-8?B?TFRFbHFsSm5YWTBOc1pQTVp4WFVDeWE4d0cyTDAzdXJTMzYvRlA0TE5WZnZ6?=
+ =?utf-8?B?NEJteHVocFJORFpRVXpTblQzK3A1RElyMW51WFZrWFF6K2tWTGlLcm5LaTJE?=
+ =?utf-8?B?MU9hTEYzT3lhMU9Ra3MrSHhYZTVwSHhEam5qUFVibFdJU3g4akhvTlBCdEpx?=
+ =?utf-8?B?MHlTd0MzMkJKZE02Si91eVRERkJNV0k5UWJ5RU0yY0RoVUFtUkRiZXVHeHph?=
+ =?utf-8?B?eGtjOHl5K1huU3JRZk5HcXhab2JicVFFNE1DOFlVU2JPY0QxckowZWY0TzBD?=
+ =?utf-8?B?WnVwUmh6Z2hJSi9wSEdYaDAvb2lLdnJraEF1b2JVR1RnM2tDdmFGR0p2Tm90?=
+ =?utf-8?B?MXlSNGQ4OVNRb3RCcW9TbW80STU1NWMrNWJSQi9TUGJvWlY0R2J2ZjlldkJt?=
+ =?utf-8?B?VzZjSGNMM2xHcFNMQnprSHVtaDQ4OUN1VGNzQ0JxVjZLK1ErRm4xVHJKMS9J?=
+ =?utf-8?B?M0gyNW1WZDhWSGo4THhzaXF5WmM5cEs2NExXS29VM0RhS1g5dEd2S3lGNDAv?=
+ =?utf-8?B?dUpxRzd5NmpJSW41bG0wM3FhNXRSSThJRTJ6N3A2bEdUZXJqQTVNQlgxbkpO?=
+ =?utf-8?B?OUI4WW9ySTk1amU2dlduQ0VuRUl5L0FrK2UrUHJnUEVXMXphNnJFR1JXbDBh?=
+ =?utf-8?B?UExydTBxcGRpTmhMS3ZDdVlnVzJqTHkwSFFWQXZJcGZsQStyQk9ZLzZ2azA1?=
+ =?utf-8?B?a2NhbTBSTVpOVGE0TXBXOFBSSmdabDlHWHh4a2R6SCsxaWZrbmNZSDBXQkVy?=
+ =?utf-8?B?L29OUC9UYmtzZ2RiUDdsNS81c2Yrb2xNczAxZkhLMjVDUjZSMU5HeFJiZHFC?=
+ =?utf-8?B?SUtMNGJmdGZKbFFIQVdzUnk2NWtrbXgzcVNJeW1weHhrMkF3VVpKYjVvTlRi?=
+ =?utf-8?B?UXpQRVg3M0lnMkFnSWtJYlpwSzVDQVpLbXplb0gzK3Q3S0Ywa2I1bXVXcExk?=
+ =?utf-8?B?MWtCblpmN3g1WEtFOWhiVmVQS1hYNERwVWRDd2hWeE0rOXN1SlRtNWo4QVRD?=
+ =?utf-8?B?dTNhUVRvZ3FMM2FkUnEwQW5nTnRJQmxRYWJjZk9nTGxLKzR2SUdTSmJFQkYy?=
+ =?utf-8?B?UEU5WEVhQ3VLRU9ZME5jNzNDdVM3VGVzcU0ya3hieFNCTUJoZ2pmTDJqVHQ4?=
+ =?utf-8?B?ZzZJY21oSmNkbWp5U0x1N1lhdGxjdTc5akw2UEEwSnNVM3dRQ2pVbDBCMm55?=
+ =?utf-8?B?M1RKSlVtcERpS2hIWDBiWWd5NnFqdTZoK281d3RFd0hCQjRmMmZibmkrZEtw?=
+ =?utf-8?B?ZlU0azRIUkFBV2hTb2lGaTZOSmNRUU5QMi9CaXBMcE44MjN4c05YZHdGRkh6?=
+ =?utf-8?B?b1FRNFEycmVpUG9mSG8wRU5qY3FZaUgzb2dmdFVTbTlvVVNOenlnR3l6QzYr?=
+ =?utf-8?B?SzJyMjZBSzlsNE9FbWhoQXNTbEV3UjFVR2FRV2E5VHBsNm9XcnNPVFcvVjF3?=
+ =?utf-8?B?bU5KdlJVdC9MR1RCZC9jNlE3N0VWVTJ2cHNuL3BicTFBb3o2V2luTEttaVdI?=
+ =?utf-8?B?UzhDZkEyeWdBYWM0d1RDbE9IdFpMOFlBNGkzajVZcE8yU2VIVjJFcWlZZmhH?=
+ =?utf-8?B?S01ncWZLK09YU2NwNjVDWVYvc29GSURidjM1Q3RvQ2pxTlFmTThaUHNWNG0x?=
+ =?utf-8?B?Y3JVMlFUMkFZZUNPRDF2WS9XR1hHcmRnRkJhZEZ3MUJuRGpUdjI1MWpaVzk2?=
+ =?utf-8?B?K2IvNytGcTcrdW9NcW1weEJoYnlLOFJwTjg4eFBDNFlVTGJIMnA3dm9LSGFT?=
+ =?utf-8?Q?EZqziSL3PUiBDwdquvBUS8hxf?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ad452b7f-778c-40bb-6eed-08dc028ba315
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2023 01:16:34.2169
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JF5ietoMDfWCq7zH02RXt5HX2w+kdwzRPRtBXR7TLxWO2QZlGtWjo1gAr3I3rI4j0mxd7X9D5J9mOA4S5svr9A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7791
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231221_151019_604888_DA08C5C0 
-X-CRM114-Status: GOOD (  31.20  )
+X-CRM114-CacheID: sfid-20231221_171647_525879_A33E6DFE 
+X-CRM114-Status: GOOD (  34.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,355 +146,116 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add support for injecting a fault when reading or writing a specific
-Logical Block Address (LBA).
 
-Steps to setup a fault on a LBA access.
 
-1. Setup the attributes: probability, times, and status according to
-the original NVMe fault injector.
+On 21/12/2023 11:30, Sagi Grimberg wrote:
+> 
+>> NVMe PRPs are a pain and force the expensive virt_boundary checking on
+>> block layer, prevent secure passthrough and require scatter/gather I/O
+>> to be split into multiple commands which is problematic for the upcoming
+>> atomic write support.
+> 
+> But is the threshold still correct? meaning for I/Os small enough the
+> device will have lower performance? I'm not advocating that we keep it,
+> but we should at least mention the tradeoff in the change log.
+> 
+>> Fix the NVMe core to require an opt-in from the drivers for it.
+>>
+>> For nvme-apple it is always required as the driver only supports PRPs.
+>>
+>> For nvme-pci when SGLs are supported we'll always use them for data I/O
+>> that would require a virt_boundary.
+>>
+>> For nvme-rdma the virt boundary is always required, as RMDA MRs are just
+>> as dumb as NVMe PRPs.
+> 
+> That is actually device dependent. The driver can ask for a pool of
+> mrs with type IB_MR_TYPE_SG_GAPS if the device supports IBK_SG_GAPS_REG.
+> 
+> See from ib_srp.c:
+> -- 
+>         if (device->attrs.kernel_cap_flags & IBK_SG_GAPS_REG)
+>                  mr_type = IB_MR_TYPE_SG_GAPS;
+>          else
+>                  mr_type = IB_MR_TYPE_MEM_REG;
 
-echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
-echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
-echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/status
+For now, I prefer not using the IB_MR_TYPE_SG_GAPS MR in NVMe/RDMA since 
+in the case of virtual contiguous data buffers it is better to use 
+IB_MR_TYPE_MEM_REG. It gives much better performance. This is the reason 
+I didn't add IB_MR_TYPE_SG_GAPS MR support for NVMe/RDMA.
 
-2. Specify one or more LBAs: To configure a LBA, set the lba-inject-set
-attribute to the LBA.
+I actually had a plan to re-write the IB_MR_TYPE_SG_GAPS MR logic (or 
+create a new MR type) that will internally open 2 MRs so if the IO is 
+contiguous it will use the MTT/MEM_REG and if it isn't it will use the 
+KLM/SG_GAPS.
+This is how we implemented the SIG_MR but still didn't make it for the 
+IB_MR_TYPE_SG_GAPS MR.
 
-echo 0x22 > /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-set
+Actually, I think we should have the same logic in the NVMe PCI driver:
+if the IOs can be delivered as PRPs then the driver will prepare SQE 
+with PRP. Otherwise, driver will prepare SGL.
+I think that doing the check in the driver for each IO is not so bad and 
+devices will get benefit from it. Usually HW devices like to work with 
+contiguous buffers. If the buffers can't be mapped with PRPs, then the 
+HW will work a bit harder and use SGLs (it is better than doing a bounce 
+buffer in the block layer).
 
-3. Enable the LBA injector: by setting the lba-inject-enable attribute
-to on.
+I actually did a POC internally for NVMe/RDMA and created sg_gaps ib_mr 
+and mem_reg ib_mr and checked the buffers mapping for each IO and got a 
+big benefit if the buffers were discontig (used the sg_gaps mr). Also 
+the contig buffers performance didn't degraded because of the check of 
+the buffers mapping.
 
-echo on > /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-enable
+I created a fio flags that in purpose sends discontig IOs for my testing.
 
-To display the LBAs configured:
+WDYT ?
 
-cat /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-show
-LBA  Status
-22   1
 
-To stop injecting a fault on a LBA:
+> -- 
+> 
+>>
+>> For nvme-tcp and nvme-fc I set the flags for now because I don't
+>> understand the drivers fully, but I suspect the flags could be lifted.
+> 
+> tcp can absolutely omit virt boundaries.
+> 
+>> For nvme-loop the flag is never set as it doesn't have any requirements
+>> on the I/O format.
+>>
+>> Signed-off-by: Christoph Hellwig <hch@lst.de>
+>> ---
+>>   drivers/nvme/host/apple.c |  6 +++++
+>>   drivers/nvme/host/core.c  | 11 ++++++++-
+>>   drivers/nvme/host/fc.c    |  3 +++
+>>   drivers/nvme/host/nvme.h  |  4 +++
+>>   drivers/nvme/host/pci.c   | 52 ++++++++++++++++++++++-----------------
+>>   drivers/nvme/host/rdma.c  |  6 +++++
+>>   drivers/nvme/host/tcp.c   |  3 +++
+>>   7 files changed, 61 insertions(+), 24 deletions(-)
+>>
+>> diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+>> index 596bb11eeba5a9..a1afb54e3b4da8 100644
+>> --- a/drivers/nvme/host/apple.c
+>> +++ b/drivers/nvme/host/apple.c
+>> @@ -1116,6 +1116,12 @@ static void apple_nvme_reset_work(struct 
+>> work_struct *work)
+>>           goto out;
+>>       }
+>> +    /*
+>> +     * nvme-apple always uses PRPs and thus needs to set a virt 
+>> boundary.
+>> +     */
+>> +    set_bit(NVME_CTRL_VIRT_BOUNDARY_IO, &anv->ctrl.flags);
+>> +    set_bit(NVME_CTRL_VIRT_BOUNDARY_ADMIN, &anv->ctrl.flags);
+>> +
+> 
+> Why two flags? Why can't the core just always set the blk virt boundary
+> on the admin request queue?
 
-echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-clear
-echo 0x22 > /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-set
-
-Signed-off-by: Alan Adamson <alan.adamson@oracle.com>
----
- .../fault-injection/nvme-fault-injection.rst  |  28 ++++
- drivers/nvme/host/core.c                      |   4 +-
- drivers/nvme/host/fault_inject.c              | 145 ++++++++++++++++--
- drivers/nvme/host/nvme.h                      |  16 +-
- 4 files changed, 178 insertions(+), 15 deletions(-)
-
-diff --git a/Documentation/fault-injection/nvme-fault-injection.rst b/Documentation/fault-injection/nvme-fault-injection.rst
-index 1d4427890d75..e17f49886fc4 100644
---- a/Documentation/fault-injection/nvme-fault-injection.rst
-+++ b/Documentation/fault-injection/nvme-fault-injection.rst
-@@ -176,3 +176,31 @@ Message from dmesg::
-    secondary_startup_64+0xa4/0xb0
-   nvme nvme0: Could not set queue count (16385)
-   nvme nvme0: IO queues not created
-+
-+Example 4: Inject an error when reading or writing Logical Block Addrss (LBA) 0x22
-+----------------------------------------------------------------------------------
-+
-+::
-+
-+  echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
-+  echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
-+  echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/status
-+  echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/dont_retry
-+  echo 0x22 > /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-set
-+  cat /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-show
-+  LBA	Status
-+  21	1
-+
-+  echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-enable
-+  dd if=/dev/nvme0n1 of=/dev/null iflag=direct count=100
-+  dd: error reading '/dev/nvme0n1': Operation not supported
-+  33+0 records in
-+  33+0 records out
-+  16896 bytes (17 kB, 16 KiB) copied, 0.00711112 s, 2.4 MB/s
-+
-+  echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-clear
-+  echo 0x22 > /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-set
-+  cat /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-show
-+  LBA   Status
-+
-+  echo 0 > /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-enable
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 8ebdfd623e0f..435ef8b475c0 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3681,7 +3681,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
- 		nvme_add_ns_cdev(ns);
- 
- 	nvme_mpath_add_disk(ns, info->anagrpid);
--	nvme_fault_inject_init(&ns->fault_inject, ns->disk->disk_name);
-+	nvme_fault_inject_init(&ns->fault_inject, ns->disk->disk_name, 1);
- 
- 	return;
- 
-@@ -4548,7 +4548,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	dev_pm_qos_update_user_latency_tolerance(ctrl->device,
- 		min(default_ps_max_latency_us, (unsigned long)S32_MAX));
- 
--	nvme_fault_inject_init(&ctrl->fault_inject, dev_name(ctrl->device));
-+	nvme_fault_inject_init(&ctrl->fault_inject, dev_name(ctrl->device), 0);
- 	nvme_mpath_init_ctrl(ctrl);
- 	ret = nvme_auth_init_ctrl(ctrl);
- 	if (ret)
-diff --git a/drivers/nvme/host/fault_inject.c b/drivers/nvme/host/fault_inject.c
-index 1ba10a5c656d..81107ab66e21 100644
---- a/drivers/nvme/host/fault_inject.c
-+++ b/drivers/nvme/host/fault_inject.c
-@@ -5,6 +5,8 @@
-  * Copyright (c) 2018, Oracle and/or its affiliates
-  */
- 
-+#include <linux/kernel.h>
-+#include <linux/module.h>
- #include <linux/moduleparam.h>
- #include "nvme.h"
- 
-@@ -15,8 +17,88 @@ static DECLARE_FAULT_ATTR(fail_default_attr);
- static char *fail_request;
- module_param(fail_request, charp, 0000);
- 
-+static void nvme_free_lba_block(struct lba_blk *lba_block)
-+{
-+	list_del(&lba_block->node);
-+	kfree(lba_block);
-+}
-+
-+static void nvme_free_all_lba_blocks(struct nvme_fault_inject *fault_inj)
-+{
-+	struct lba_blk *lba_block;
-+	struct list_head *list_ptr, *tmp;
-+
-+	list_for_each_prev_safe(list_ptr, tmp, &fault_inj->lba_list) {
-+		lba_block = list_entry(list_ptr, struct lba_blk, node);
-+		list_del(list_ptr);
-+		kfree(lba_block);
-+	}
-+}
-+
-+static int nvme_lba_inject_set(void *data, u64 val)
-+{
-+	struct nvme_fault_inject *fault_inj = data;
-+	struct lba_blk *lba_block;
-+	int lba;
-+	int ret = 0;
-+
-+	lba =  val;
-+	mutex_lock(&fault_inj->lba_block_lock);
-+	if (fault_inj->lba_clear) {
-+		list_for_each_entry(lba_block,
-+		    &fault_inj->lba_list, node) {
-+			if (lba_block->lba == lba) {
-+				nvme_free_lba_block(lba_block);
-+				fault_inj->lba_clear = 0;
-+				mutex_unlock(&fault_inj->lba_block_lock);
-+				return ret;
-+			}
-+		}
-+		fault_inj->lba_clear = 0;
-+		mutex_unlock(&fault_inj->lba_block_lock);
-+		return ret;
-+	}
-+
-+	list_for_each_entry(lba_block, &fault_inj->lba_list, node) {
-+		if (lba_block->lba == lba) {
-+			lba_block->status = fault_inj->status;
-+			mutex_unlock(&fault_inj->lba_block_lock);
-+			return ret;
-+		}
-+	}
-+
-+	lba_block = kmalloc(sizeof(struct lba_blk), GFP_KERNEL);
-+	lba_block->lba = lba;
-+	lba_block->status = fault_inj->status;
-+
-+	list_add(&lba_block->node, &fault_inj->lba_list);
-+
-+	mutex_unlock(&fault_inj->lba_block_lock);
-+	return ret;
-+}
-+
-+static int nvme_lba_inject_show(struct seq_file *file, void *data)
-+{
-+	struct nvme_fault_inject *fault_inj = file->private;
-+	struct lba_blk *lba_block;
-+
-+	seq_printf(file, "LBA	Status\n");
-+	mutex_lock(&fault_inj->lba_block_lock);
-+	list_for_each_entry(lba_block, &fault_inj->lba_list, node) {
-+		seq_printf(file, "%llx	%x\n",
-+		    lba_block->lba, lba_block->status);
-+	}
-+	mutex_unlock(&fault_inj->lba_block_lock);
-+
-+	return 0;
-+}
-+
-+DEFINE_SHOW_ATTRIBUTE(nvme_lba_inject);
-+DEFINE_DEBUGFS_ATTRIBUTE(nvme_lba_inject_set_fops, NULL,
-+			 nvme_lba_inject_set, "%llu\n");
-+
- void nvme_fault_inject_init(struct nvme_fault_inject *fault_inj,
--			    const char *dev_name)
-+			    const char *dev_name, bool lba_inject)
- {
- 	struct dentry *dir, *parent;
- 	struct fault_attr *attr = &fault_inj->attr;
-@@ -41,15 +123,34 @@ void nvme_fault_inject_init(struct nvme_fault_inject *fault_inj,
- 	}
- 	fault_inj->parent = parent;
- 
-+	INIT_LIST_HEAD(&fault_inj->lba_list);
-+
- 	/* create debugfs for status code and dont_retry */
- 	fault_inj->status = NVME_SC_INVALID_OPCODE;
- 	fault_inj->dont_retry = true;
-+	fault_inj->lba_clear = 0;
-+	fault_inj->lba_inject_enable = false;
-+	mutex_init(&fault_inj->lba_block_lock);
-+
- 	debugfs_create_x16("status", 0600, dir,	&fault_inj->status);
- 	debugfs_create_bool("dont_retry", 0600, dir, &fault_inj->dont_retry);
-+	if (lba_inject) {
-+		debugfs_create_bool("lba-inject-clear", 0600, dir, &fault_inj->lba_clear);
-+		debugfs_create_bool("lba-inject-enable", 0600, dir,
-+		    &fault_inj->lba_inject_enable);
-+		debugfs_create_file("lba-inject-show", 0600, dir,
-+		    fault_inj, &nvme_lba_inject_fops);
-+		debugfs_create_file_unsafe("lba-inject-set", 0600, dir,
-+		    fault_inj, &nvme_lba_inject_set_fops);
-+	}
- }
- 
- void nvme_fault_inject_fini(struct nvme_fault_inject *fault_inject)
- {
-+        mutex_lock(&fault_inject->lba_block_lock);
-+	nvme_free_all_lba_blocks(fault_inject);
-+        mutex_unlock(&fault_inject->lba_block_lock);
-+
- 	/* remove debugfs directories */
- 	debugfs_remove_recursive(fault_inject->parent);
- }
-@@ -58,25 +159,47 @@ void nvme_should_fail(struct request *req)
- {
- 	struct gendisk *disk = req->q->disk;
- 	struct nvme_fault_inject *fault_inject = NULL;
-+	struct nvme_ns *ns = NULL;
-+	struct lba_blk *lba_block = NULL;
- 	u16 status;
- 
- 	if (disk) {
--		struct nvme_ns *ns = disk->private_data;
--
-+		ns = disk->private_data;
- 		if (ns)
- 			fault_inject = &ns->fault_inject;
- 		else
- 			WARN_ONCE(1, "No namespace found for request\n");
--	} else {
-+	} else
- 		fault_inject = &nvme_req(req)->ctrl->fault_inject;
--	}
- 
--	if (fault_inject && should_fail(&fault_inject->attr, 1)) {
--		/* inject status code and DNR bit */
--		status = fault_inject->status;
--		if (fault_inject->dont_retry)
--			status |= NVME_SC_DNR;
--		nvme_req(req)->status =	status;
-+	if (!fault_inject || !should_fail(&fault_inject->attr, 1))
-+		return;
-+
-+	mutex_lock(&fault_inject->lba_block_lock);
-+
-+	if (fault_inject->lba_inject_enable) {
-+		u64 req_lba_start, req_lba_end;
-+
-+		req_lba_start = blk_rq_pos(req);
-+		req_lba_end = req_lba_start + blk_rq_sectors(req) - 1;
-+
-+		list_for_each_entry(lba_block, &fault_inject->lba_list, node) {
-+			if ((lba_block->lba >= req_lba_start) &&
-+			    (lba_block->lba <= req_lba_end))
-+				goto inject_fault;
-+		}
-+
-+		mutex_unlock(&fault_inject->lba_block_lock);
-+		return;
- 	}
-+
-+inject_fault:
-+	mutex_unlock(&fault_inject->lba_block_lock);
-+
-+	/* inject status code and DNR bit */
-+	status = fault_inject->status;
-+	if (fault_inject->dont_retry)
-+		status |= NVME_SC_DNR;
-+	nvme_req(req)->status =	status;
- }
- EXPORT_SYMBOL_GPL(nvme_should_fail);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index e7411dac00f7..447ce832613c 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -16,6 +16,7 @@
- #include <linux/rcupdate.h>
- #include <linux/wait.h>
- #include <linux/t10-pi.h>
-+#include <linux/list.h>
- 
- #include <trace/events/block.h>
- 
-@@ -245,7 +246,11 @@ struct nvme_fault_inject {
- 	struct fault_attr attr;
- 	struct dentry *parent;
- 	bool dont_retry;	/* DNR, do not retry */
-+	bool lba_clear;
-+	bool lba_inject_enable;
- 	u16 status;		/* status code */
-+	struct mutex		lba_block_lock;
-+	struct list_head	lba_list;
- #endif
- };
- 
-@@ -484,6 +489,13 @@ enum nvme_ns_features {
- 	NVME_NS_DEAC,		/* DEAC bit in Write Zeores supported */
- };
- 
-+typedef struct lba_blk {
-+	u64			lba;
-+	u16			status;
-+	u32			times;
-+	struct list_head	node;
-+} lba_blk_t;
-+
- struct nvme_ns {
- 	struct list_head list;
- 
-@@ -621,12 +633,12 @@ static inline void nvme_print_device_info(struct nvme_ctrl *ctrl)
- 
- #ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
- void nvme_fault_inject_init(struct nvme_fault_inject *fault_inj,
--			    const char *dev_name);
-+			    const char *dev_name, bool lba_inject);
- void nvme_fault_inject_fini(struct nvme_fault_inject *fault_inject);
- void nvme_should_fail(struct request *req);
- #else
- static inline void nvme_fault_inject_init(struct nvme_fault_inject *fault_inj,
--					  const char *dev_name)
-+					  const char *dev_name, bool lba_inject)
- {
- }
- static inline void nvme_fault_inject_fini(struct nvme_fault_inject *fault_inj)
--- 
-2.39.3
-
+I also think that a single flag is good enough.
+> 
+>>       ret = nvme_init_ctrl_finish(&anv->ctrl, false);
+>>       if (ret)
+>>           goto out
+> 
 
