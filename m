@@ -4,66 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 01332C46CD2
-	for <linux-nvme@archiver.kernel.org>; Fri, 22 Dec 2023 15:11:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D9D7AC41535
+	for <linux-nvme@archiver.kernel.org>; Fri, 22 Dec 2023 15:18:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=K4h3y9RLdDXoV2ORCa7QwrDaDTIoSA8ARwOJuQ2fKSI=; b=34kgC4ABifIviBCtEVfHmSGeuU
-	9TBUkb05Vlmvc6CG+nfPX90D0BMzMAd9VWubLOH4EFQF8VebzuS2cLC9UWyGnTWdyZ5mtw28lPqp4
-	oBsYokdA6xTz9fyw1yVsdGjQ339PR8J2HPhOspwofn3c6bCjvgzreMJ69vipFZaNCCb/AXesameCx
-	nBkJuuayYZheuw1GCO8DAx0wQzULVd3CK8d/lCLlLVHyd/XbAi2crBB2YMDk9FKsEzvAmdET88Z0S
-	wgAILU/7iJmgcYlJI3t4mkIunWjUOQaKcXcw2nZlU01X6LhFqyuSoEAVYkLrtKABFa4pG8J0IZobQ
-	tLIsssVA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=v06VrrsfHctZds3fJG5t3pLadpYyzJd4a5KSqkYcs14=; b=n/vN8oWhuooaqtsHGpHiKFS/WG
+	rXXW551Hnug+6cLB1DhrkaoKhL/MpWUO47YyMUIuxNhXk8BUOooLL2m5c+PIc2t21aChDdUyuhMJ+
+	uXGzzPkXWkKbp8GgC1ME6RyTXMJSgdqyDpX4QYaAMmkx4gfujf3MefJdLGmMKhxQKPoMh4D4kIEzZ
+	kYhyQ3LZYq2gifwy64dwqGyOAMqkHU+xmLWXVeZ3cuEdPLU84VmGUNJou+vO6+L6KLJGrsqCrbwo8
+	ix9E/644sgzt905vYcJDE4hfKUVtOosYhp9RdXS1tVaoPlLBg4yR9gU1fxNt+oXoBDs96fBbG5f6y
+	F4s6HcbA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rGhB1-006CCr-1D;
-	Fri, 22 Dec 2023 15:11:03 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1rGhHn-006DZZ-1H;
+	Fri, 22 Dec 2023 15:18:03 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rGhAy-006CBa-20
+	id 1rGhHk-006DZ6-0I
 	for linux-nvme@lists.infradead.org;
-	Fri, 22 Dec 2023 15:11:02 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 64309CE20A5;
-	Fri, 22 Dec 2023 15:10:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4BE1C433C9;
-	Fri, 22 Dec 2023 15:10:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703257857;
-	bh=jj2Z4UzDBfG4TrpZAn+WY65WDkHUYpWkxVo4G50GhjE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IN66h3fddKRYluEoG8tMXspnU52/OIoPT8qyGxpDlX7QZplgwPhbNGKhyDYVB+ba3
-	 xfS+rS8Pbl0d4WyiJU6jtf5wUjxqbY33nnLOM/l0KfLJGcuJwXDw4TOs/G2D6LO+nN
-	 lI84IPiWYg6Q55aXY91lD9zWpSnBAWW9o7UsKcpvFWC5KvifnsjStyMJvLYvnI4TSU
-	 Wca1GQlsm4cd1tEDt1DV6MOyYXxYYJsM4DHt/yhC71QsefXtoX0B7rautzn7uU7fok
-	 3GubVzIH6YP1eiulSfcywSjiiIRVcyZT93OzPjbGTie+ClXeTgK3B16e0dSXVB6eiX
-	 Q9pDkFv2myIqA==
-Date: Fri, 22 Dec 2023 08:10:54 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Viacheslav Dubeyko <slava@dubeyko.com>
-Cc: Bart Van Assche <bvanassche@acm.org>, Hannes Reinecke <hare@suse.de>,
-	lsf-pc@lists.linuxfoundation.org, linux-mm@kvack.org,
-	linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [LSF/MM/BPF TOPIC] Large block for I/O
-Message-ID: <ZYWm_tMtfrKaNf3t@kbusch-mbp>
-References: <7970ad75-ca6a-34b9-43ea-c6f67fe6eae6@iogearbox.net>
- <4343d07b-b1b2-d43b-c201-a48e89145e5c@iogearbox.net>
- <03ebbc5f-2ff5-4f3c-8c5b-544413c55257@suse.de>
- <5c356222-fe9e-41b0-b7fe-218fbcde4573@acm.org>
- <BB694C7D-0000-4E2F-B26C-F0E719119B0C@dubeyko.com>
+	Fri, 22 Dec 2023 15:18:01 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1703258277;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=v06VrrsfHctZds3fJG5t3pLadpYyzJd4a5KSqkYcs14=;
+	b=GWF9DmfBaOJCcqoQCBMu7w1TStVpVcPxbjTuG3eOyIlt+mwKALkiGaVt51g4Vf3kivNRl+
+	b/3dyQ4q203XtUn+r7Jy7WiLGRdRBUfnUTD60ZEoRlaoTVpISe4gp1OsohkXKjfLqIf2YI
+	3dVqx6qbXmzg3CNSe6LqVEEF+d0K7Ik=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-630-9Q4UXb9sOyKlMQLDLBIwKQ-1; Fri, 22 Dec 2023 10:17:54 -0500
+X-MC-Unique: 9Q4UXb9sOyKlMQLDLBIwKQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B8F02185A780;
+	Fri, 22 Dec 2023 15:17:53 +0000 (UTC)
+Received: from kalibr.redhat.com (unknown [10.47.238.49])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id B1AEC2166B31;
+	Fri, 22 Dec 2023 15:17:51 +0000 (UTC)
+From: Maurizio Lombardi <mlombard@redhat.com>
+To: sagi@grimberg.me
+Cc: zahavi.alon@gmail.com,
+	hch@lst.de,
+	chaitanyak@nvidia.com,
+	linux-nvme@lists.infradead.org,
+	kbusch@kernel.org
+Subject: [PATCH V2 0/3] Fix some kernel panics due to the host sending invalid PDUs
+Date: Fri, 22 Dec 2023 16:17:47 +0100
+Message-Id: <20231222151750.655751-1-mlombard@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <BB694C7D-0000-4E2F-B26C-F0E719119B0C@dubeyko.com>
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231222_071101_007216_5327F261 
-X-CRM114-Status: GOOD (  28.51  )
+X-CRM114-CacheID: sfid-20231222_071800_201546_B503A013 
+X-CRM114-Status: UNSURE (   8.52  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,67 +84,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Dec 22, 2023 at 11:23:26AM +0300, Viacheslav Dubeyko wrote:
-> > On Dec 21, 2023, at 11:33 PM, Bart Van Assche <bvanassche@acm.org> wrote:
-> > I'm interested in this topic. But I'm wondering whether the disadvantages of
-> > large blocks will be covered? Some NAND storage vendors are less than
-> > enthusiast about increasing the logical block size beyond 4 KiB because it
-> > increases the size of many writes to the device and hence increases write
-> > amplification.
-> > 
-> 
-> I  am also interested in this discussion. Every SSD manufacturer carefully hides
-> the details of architecture and FTL´s behavior. I believe that switching on bigger
-> logical size (like 8KB, 16KB, etc) could be even better for SSD's internal mapping
-> scheme and erase blocks management. I assume that it could require significant
-> reworking the firmware and, potentially, ASIC logic. This could be the main pain
-> for SSD manufactures. Frankly speaking, I don´t see the direct relation between
-> increasing logical block size and increasing write amplification. If you have 16KB
-> logical block size on SSD side and file system will continue to use 4KB logical
-> block size, then, yes, I can see the problem. But if file system manages the space
-> in 16KB logical blocks and carefully issue the I/O requests of proper size, then
-> everything should be good. Again, FTL is simply trying to write logical blocks into
-> erase block. And we have, for example, 8MB erase block, then mapping and writing
-> 16KB logical blocks looks like more beneficial operation compared with 4KB logical
-> block.
+I used the reproducer that was published here:
+https://lore.kernel.org/linux-nvme/89a927a6-2baf-434a-b1d5-50fb99beca73@grimberg.me/T/#m57f25abc944dc706125fed02cb99d86b56c5d36e
 
-If the host really wants to write in small granularities, then larger
-block sizes just shifts the write amplification from the device to the
-host, which seems worse than letting the device deal with it.
+I didn't get the same call trace, however.
 
-I've done some early profiling on my fleet and there are definitely
-applications that overwhelming prefer larger writes. Those should be
-great candidates to use these kinds of logical block formats. It's
-already flash-friendly, but aligning filesystems and memory management
-to the same granularity is a nice plus.
+V2: Be sure the DATAL field is consistent with the packet size.
+    Add a third patch that cleans up the error code path.
 
-Other applications, though, still need 4k writes. Turning those to RMW
-on the host to modify 4k in the middle of a 16k block is obviously a bad
-fit.
+Maurizio Lombardi (3):
+  nvmet-tcp: Fix a kernel panic when host sends an invalid H2C PDU
+    length
+  nvmet-tcp: fix a crash in nvmet_req_complete()
+  nvmet-tcp: remove boilerplate code
 
-Anyway, your mileage may vary. This example BPF program provides an okay
-starting point for examining disk usage to see if large logical block
-sizes are a good fit for your application:
+ drivers/nvme/target/tcp.c | 24 +++++++++++++++++-------
+ 1 file changed, 17 insertions(+), 7 deletions(-)
 
-  https://github.com/iovisor/bpftrace/blob/master/tools/bitesize.bt
- 
-> So, I see more troubles on file systems side to support bigger logical
-> size. For example, we discussed the 8KB folio size support recently.
-> Matthew already shared the patch for supporting 8KB folio size, but
-> everything should be carefully tested. Also, I experienced the issue
-> with read ahead logic. For example, if I format my file system volume
-> with 32KB logical block, then read ahead logic returns to me 16KB
-> folios that was slightly surprising to me. So, I assume we can find a
-> lot of potential issues on file systems side for bigger logical size
-> from the point of view of efficiency of metadata and user data
-> operations.  Also, high-loaded systems could have fragmented memory
-> that could make the memory allocation more tricky operation. I mean
-> here that it could be not easy to allocate one big folio.
-> Log-structured file systems can easily aligned write I/O requests for
-> bigger logical size. But in-place update file systems can increase
-> write amplification for bigger logical size because of necessity to
-> flush bigger portion of data for small modification. However, FTL can
-> use delta-encoding and smart logic of compaction several logical
-> blocks into one NAND flash page. And, by the way, NAND flash page
-> usually is bigger than 4KB.
+-- 
+2.39.3
+
 
