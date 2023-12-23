@@ -4,68 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA369C3DA6E
-	for <linux-nvme@archiver.kernel.org>; Sat, 23 Dec 2023 15:47:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3E940C3DA6E
+	for <linux-nvme@archiver.kernel.org>; Sat, 23 Dec 2023 17:49:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=vvXwbfqMa4JS2rQDPJbQOhoqfmL4gf1mtd6RFC7Rva0=; b=g3UAWAl1zCezQVoTqOysvdXh7m
-	/RfQFY5hZXLe3yAWJpchA0r6mPZg4BEYnpAs3BFj7yks0Z7mx22EU/trAT9r5k2B9G64Lz9QNlJpY
-	96mxCeV7lQ7O65yiFYDkJHVsB0VS4MhjZM2WwUamNmUPo2cZ63v4jJ3Iuz61mNiJzkHYIFdk/45Fb
-	jO1yQjRq4w0QgsMTw1BztOBCdUaDwOMxuICxC4Bw//0ydK30Nwvgb9YKbYbXtKl1PfWbwh0/KyZ/y
-	J7WBgd/jaUjEyBrxHKudP2Ur4uonY+P32xB8WuNueKDBNaFowgfYR/jJL83o2XqDR7hsal7wf0/p4
-	SCkCODwA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=oVWpCvqkw7p8e7hj81Ymc/IdDENzeAIKkppF4B6qO+s=; b=PqviCLJAl5i5VXwhYDtnvVQ3S+
+	ITUj9JA6NKnxUrCKEUHkzcQ9Fj3zs2Psa6Xap9OxLv/5mYXh2mEXN1jK3bnFZQ4U930Cuak+mTpLD
+	e7+NYzM2l5LXcn6YDW5W/lhb2Yg1SaFjFWQCiElCxxjNfQBdjsOzD8o4YTPiR/BAmKroP4TlBru8e
+	exWJAyaY6nu0FS4qih+4VC0l3UOR9To1WZTk6GSeD58s3byuXDS/jiETU4/Gn0e+MOSVTyPMC0dMl
+	U+syE9m+wKDqGPL22YVo4KtCXvasDCJj6TdZfRAQ4QGmBVC3DoalqnxAKiGDjTvrbooLJHf4zHibg
+	0wBDp6Rg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rH4Dc-0087hR-15;
-	Sat, 23 Dec 2023 15:47:16 +0000
-Received: from mgamail.intel.com ([134.134.136.65])
+	id 1rH67N-008F6U-0X;
+	Sat, 23 Dec 2023 17:48:57 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rH4DV-0087h8-0Z
+	id 1rH67K-008F68-0i
 	for linux-nvme@lists.infradead.org;
-	Sat, 23 Dec 2023 15:47:10 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703346429; x=1734882429;
-  h=date:from:to:cc:subject:message-id;
-  bh=GhZYt5lIBhtkmVuS/Ny43uJXW1SPnk0efu8+04WsA4s=;
-  b=KjT2ZfmKtj/bfxLG3bANUuq+eanLNOSz6Nzqkh0dYTcp4LUPKGq4e7BA
-   iZDEbmBaUVJtNMX7r2daeNf92o2koT1q+QDYhrzx7GhY3ih6aGHnjDCLV
-   qgVtzmjnb0LEZ0ykZdPVCBjFyat6S5R9b9orFTAEuGoClfHbDpkbHzt1s
-   yHNhD1TCOrdcrblS6hAWUwVo++wHA6m1sIPBqEuIPYjVI7q47CN6N1cek
-   dnerS1cLS3BogK9BAplQDNB2hxGYm19LqQ5cVBFa7wgzo7wVigc0QELcS
-   IgCdhb009FXtdVjBlp6LprugaD36+pCIzW5l6feL8sKAsrsfDUgyldlpF
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10933"; a="400028102"
-X-IronPort-AV: E=Sophos;i="6.04,299,1695711600"; 
-   d="scan'208";a="400028102"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2023 07:47:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10933"; a="920967490"
-X-IronPort-AV: E=Sophos;i="6.04,299,1695711600"; 
-   d="scan'208";a="920967490"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 23 Dec 2023 07:46:59 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rH4DH-000BAF-0G;
-	Sat, 23 Dec 2023 15:46:56 +0000
-Date: Sat, 23 Dec 2023 23:46:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.8] BUILD SUCCESS
- 5d51dc8db10190661232741c93a141bdfc05f5ee
-Message-ID: <202312232317.iJ5OkjS4-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Sat, 23 Dec 2023 17:48:55 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by ams.source.kernel.org (Postfix) with ESMTP id F2ECAB80972;
+	Sat, 23 Dec 2023 17:48:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAA04C433C8;
+	Sat, 23 Dec 2023 17:48:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1703353731;
+	bh=03Mw3pTrVcalUFwXHgizomiqyu9j2TDfmFEEnJjsgSE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GAeXLlZEsG7ROdqI2PXNz8MBASajy2ZNVJ88sgC51YVXI0A1RuK4prwwUGUBCcKNA
+	 ZWvhbhh2RtVAO/X3fa7jKu197+ZctY+cgk0J5Y0Jxg5dFLQLGie1/NZOAq5Of0FwOY
+	 yUNUC0g0xz5Q3vO2cnMtKqXuhakspKlilGAFsPJa/RrpPkTCFZ9inDvUn1rsRNpgVB
+	 Dn9AC8x0JNbd7us27h5eIwDxpkXWX/+oSjqEOe2sWkxtwJfmOZJldEiqw9kbFwWXDB
+	 0CQQavMbPWhcvnsbnq8AecfdCU9kQfpzD5CF/kHglUhUPQdgFSKP5iqzjbHTVSwboB
+	 /1P4KefGIGucg==
+Date: Sat, 23 Dec 2023 17:48:45 +0000
+From: Simon Horman <horms@kernel.org>
+To: Aurelien Aptel <aaptel@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
+	sagi@grimberg.me, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
+	chaitanyak@nvidia.com, davem@davemloft.net, kuba@kernel.org,
+	aurelien.aptel@gmail.com, smalin@nvidia.com, malin1024@gmail.com,
+	ogerlitz@nvidia.com, yorayz@nvidia.com, borisp@nvidia.com,
+	galshalom@nvidia.com, mgurtovoy@nvidia.com
+Subject: Re: [PATCH v22 16/20] net/mlx5e: NVMEoTCP, queue init/teardown
+Message-ID: <20231223174845.GJ201037@kernel.org>
+References: <20231221213358.105704-1-aaptel@nvidia.com>
+ <20231221213358.105704-17-aaptel@nvidia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231221213358.105704-17-aaptel@nvidia.com>
+mlx5e_open_cqFrom: Simon Horman <horms@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231223_074709_293360_ACB868C3 
-X-CRM114-Status: UNSURE (   5.54  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20231223_094854_543575_B0045ACD 
+X-CRM114-Status: GOOD (  19.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,113 +77,99 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.8
-branch HEAD: 5d51dc8db10190661232741c93a141bdfc05f5ee  nvme-fc: set numa_node after nvme_init_ctrl
+On Thu, Dec 21, 2023 at 09:33:54PM +0000, Aurelien Aptel wrote:
+> From: Ben Ben-Ishay <benishay@nvidia.com>
+> 
+> Adds the ddp ops of sk_add, sk_del and offload limits.
+> 
+> When nvme-tcp establishes new queue/connection, the sk_add op is called.
+> We allocate a hardware context to offload operations for this queue:
+> - use a steering rule based on the connection 5-tuple to mark packets
+>   of this queue/connection with a flow-tag in their completion (cqe)
+> - use a dedicated TIR to identify the queue and maintain the HW context
+> - use a dedicated ICOSQ to maintain the HW context by UMR postings
+> - use a dedicated tag buffer for buffer registration
+> - maintain static and progress HW contexts by posting the proper WQEs.
+> 
+> When nvme-tcp teardowns a queue/connection, the sk_del op is called.
+> We teardown the queue and free the corresponding contexts.
+> 
+> The offload limits we advertise deal with the max SG supported.
+> 
+> [Re-enabled calling open/close icosq out of en_main.c]
+> 
+> Signed-off-by: Ben Ben-Ishay <benishay@nvidia.com>
+> Signed-off-by: Boris Pismenny <borisp@nvidia.com>
+> Signed-off-by: Or Gerlitz <ogerlitz@nvidia.com>
+> Signed-off-by: Yoray Zack <yorayz@nvidia.com>
+> Signed-off-by: Aurelien Aptel <aaptel@nvidia.com>
+> Reviewed-by: Tariq Toukan <tariqt@nvidia.com>
 
-elapsed time: 2762m
+...
 
-configs tested: 93
-configs skipped: 0
+> +static int
+> +mlx5e_nvmeotcp_build_icosq(struct mlx5e_nvmeotcp_queue *queue, struct mlx5e_priv *priv, int io_cpu)
+> +{
+> +	u16 max_sgl, max_klm_per_wqe, max_umr_per_ccid, sgl_rest, wqebbs_rest;
+> +	struct mlx5e_channel *c = priv->channels.c[queue->channel_ix];
+> +	struct mlx5e_sq_param icosq_param = {};
+> +	struct mlx5e_create_cq_param ccp = {};
+> +	struct dim_cq_moder icocq_moder = {};
+> +	struct mlx5e_icosq *icosq;
+> +	int err = -ENOMEM;
+> +	u16 log_icosq_sz;
+> +	u32 max_wqebbs;
+> +
+> +	icosq = &queue->sq;
+> +	max_sgl = mlx5e_get_max_sgl(priv->mdev);
+> +	max_klm_per_wqe = queue->max_klms_per_wqe;
+> +	max_umr_per_ccid = max_sgl / max_klm_per_wqe;
+> +	sgl_rest = max_sgl % max_klm_per_wqe;
+> +	wqebbs_rest = sgl_rest ? MLX5E_KLM_UMR_WQEBBS(sgl_rest) : 0;
+> +	max_wqebbs = (MLX5E_KLM_UMR_WQEBBS(max_klm_per_wqe) *
+> +		     max_umr_per_ccid + wqebbs_rest) * queue->size;
+> +	log_icosq_sz = order_base_2(max_wqebbs);
+> +
+> +	mlx5e_build_icosq_param(priv->mdev, log_icosq_sz, &icosq_param);
+> +	ccp.napi = &queue->qh.napi;
+> +	ccp.ch_stats = &priv->channel_stats[queue->channel_ix]->ch;
+> +	ccp.node = cpu_to_node(io_cpu);
+> +	ccp.ix = queue->channel_ix;
+> +
+> +	err = mlx5e_open_cq(priv, icocq_moder, &icosq_param.cqp, &ccp, &icosq->cq);
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Hi Aurelien and Ben,
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20231223   gcc  
-arc                   randconfig-002-20231223   gcc  
-arm                               allnoconfig   gcc  
-arm                                 defconfig   clang
-arm                   randconfig-001-20231223   clang
-arm                   randconfig-002-20231223   clang
-arm                   randconfig-003-20231223   clang
-arm                   randconfig-004-20231223   clang
-arm64                             allnoconfig   gcc  
-arm64                 randconfig-001-20231223   clang
-arm64                 randconfig-002-20231223   clang
-arm64                 randconfig-003-20231223   clang
-arm64                 randconfig-004-20231223   clang
-csky                              allnoconfig   gcc  
-csky                  randconfig-001-20231223   gcc  
-csky                  randconfig-002-20231223   gcc  
-hexagon               randconfig-001-20231223   clang
-hexagon               randconfig-002-20231223   clang
-i386                             allmodconfig   clang
-i386                              allnoconfig   clang
-i386                             allyesconfig   clang
-i386         buildonly-randconfig-001-20231223   clang
-i386         buildonly-randconfig-002-20231223   clang
-i386         buildonly-randconfig-003-20231223   clang
-i386         buildonly-randconfig-004-20231223   clang
-i386         buildonly-randconfig-005-20231223   clang
-i386         buildonly-randconfig-006-20231223   clang
-i386                                defconfig   gcc  
-i386                  randconfig-001-20231223   clang
-i386                  randconfig-002-20231223   clang
-i386                  randconfig-003-20231223   clang
-i386                  randconfig-004-20231223   clang
-i386                  randconfig-005-20231223   clang
-i386                  randconfig-006-20231223   clang
-i386                  randconfig-011-20231223   gcc  
-i386                  randconfig-012-20231223   gcc  
-i386                  randconfig-013-20231223   gcc  
-i386                  randconfig-014-20231223   gcc  
-i386                  randconfig-015-20231223   gcc  
-i386                  randconfig-016-20231223   gcc  
-loongarch             randconfig-001-20231223   gcc  
-loongarch             randconfig-002-20231223   gcc  
-m68k                             allmodconfig   gcc  
-nios2                 randconfig-001-20231223   gcc  
-nios2                 randconfig-002-20231223   gcc  
-openrisc                         allyesconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                randconfig-001-20231223   gcc  
-parisc                randconfig-002-20231223   gcc  
-powerpc                          allmodconfig   clang
-powerpc                          allyesconfig   clang
-powerpc               randconfig-001-20231223   clang
-powerpc               randconfig-002-20231223   clang
-powerpc               randconfig-003-20231223   clang
-powerpc64             randconfig-001-20231223   clang
-powerpc64             randconfig-002-20231223   clang
-powerpc64             randconfig-003-20231223   clang
-riscv                            allmodconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                 randconfig-001-20231223   clang
-riscv                 randconfig-002-20231223   clang
-riscv                          rv32_defconfig   clang
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                  randconfig-001-20231223   gcc  
-s390                  randconfig-002-20231223   gcc  
-sh                               allmodconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                    randconfig-001-20231223   gcc  
-sh                    randconfig-002-20231223   gcc  
-sparc                            allmodconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64               randconfig-001-20231223   gcc  
-sparc64               randconfig-002-20231223   gcc  
-um                               allmodconfig   clang
-um                               allyesconfig   clang
-um                    randconfig-001-20231223   clang
-um                    randconfig-002-20231223   clang
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   clang
-x86_64                              defconfig   gcc  
-x86_64                          rhel-8.3-rust   clang
-xtensa                randconfig-001-20231223   gcc  
-xtensa                randconfig-002-20231223   gcc  
+This doesn't seem to compile with gcc-13 with allmodconfig on x86_64:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+ .../nvmeotcp.c: In function 'mlx5e_nvmeotcp_build_icosq':
+ .../nvmeotcp.c:472:29: error: passing argument 1 of 'mlx5e_open_cq' from incompatible pointer type [-Werror=incompatible-pointer-types]
+   472 |         err = mlx5e_open_cq(priv, icocq_moder, &icosq_param.cqp, &ccp, &icosq->cq);
+       |                             ^~~~
+       |                             |
+       |                             struct mlx5e_priv *
+ In file included from .../nvmeotcp.h:9,
+                  from .../nvmeotcp.c:7:
+ ....h:1065:41: note: expected 'struct mlx5_core_dev *' but argument is of type 'struct mlx5e_priv *'
+  1065 | int mlx5e_open_cq(struct mlx5_core_dev *mdev, struct dim_cq_moder moder,
+       |                   ~~~~~~~~~~~~~~~~~~~~~~^~~~
+ cc1: all warnings being treated as errors
+
+> +	if (err)
+> +		goto err_nvmeotcp_sq;
+> +	err = mlx5e_open_icosq(c, &priv->channels.params, &icosq_param, icosq,
+> +			       mlx5e_nvmeotcp_icosq_err_cqe_work);
+> +	if (err)
+> +		goto close_cq;
+> +
+> +	spin_lock_init(&queue->sq_lock);
+> +	return 0;
+> +
+> +close_cq:
+> +	mlx5e_close_cq(&icosq->cq);
+> +err_nvmeotcp_sq:
+> +	return err;
+> +}
+
+...
 
