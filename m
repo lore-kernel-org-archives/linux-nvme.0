@@ -4,71 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29C7FC3DA6E
-	for <linux-nvme@archiver.kernel.org>; Mon, 25 Dec 2023 09:58:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ACF54C3DA6E
+	for <linux-nvme@archiver.kernel.org>; Mon, 25 Dec 2023 10:08:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6OMLfEPuyCSB3QeINwRatqoaMszzQalJ5WgjoX0+4LU=; b=YxgNvqDo+x0tEr5QqD7QmJq+7v
-	pqtcDf/Kez7gGUMDAQ/+L9W3vYqoZZAr8tNTRq5qaEsvzt5lcInrlvwdVk8IvoWzzS6ULqUKd8fKz
-	vp8qbZGXAks4Hu/d9AtMUbzakRLvq0KV6jNXk5D6Oh4pFJvCNo6W660zHitFL5Xt5STzCKbXiKiqe
-	NJnasSzDqgD4Wq9fS+kYn5k57AYDmp4+Yll52AnmNfMyUiesXMYzqnwR/EkKGdDbA0djGDBzW1jlK
-	5pn8oNcalrdwhnnW8jyr93bDBKMHeOhCRnrGkS2oPlJ2jKsrcACmcHhhP/If2VIxM6XVTGmReE8VG
-	6zTM5ZGw==;
+	bh=kx588i4yzmdYc9Oocn+w8D3CjoGy7wR8PfTjDxzWDnY=; b=QOtrTIxsgFwrksVk2VOnQVo1gE
+	vXTz6tCai6solaEKjejHKkLztfwUcnJOi+Gz0h+iGrCDyP+9Us5S1KGkQ7Gn/AZI/niou9f2OySqx
+	zbsdOYKTg50Z2bK8gPAD0mNHDI7zSPZS8z9td+BCP2VgQHzdOhkoQ6LHX4qd8OS8bmi5MJC8iA8NH
+	fr0C89eh1QWOivY/vIpIMzR3Skkne23dzitJX7HXheeMx2iNDiBsVttkfP5eXF+Nl4erLE/cXmyYs
+	ejDnSelLcp7JjpokSmkLSE7uuAZ/LenftFj2psRD0/EXlV+sZpaGVWBfxBAD78dr62/bfzKAJ14/Y
+	8oRaidBQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rHhiu-00AVDC-02;
-	Mon, 25 Dec 2023 09:58:12 +0000
-Received: from mail-wr1-f49.google.com ([209.85.221.49])
+	id 1rHhtE-00AW1k-3D;
+	Mon, 25 Dec 2023 10:08:53 +0000
+Received: from mail-wm1-f52.google.com ([209.85.128.52])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rHhiq-00AVCt-29
+	id 1rHhtC-00AW1G-2J
 	for linux-nvme@lists.infradead.org;
-	Mon, 25 Dec 2023 09:58:10 +0000
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3367f8757d0so656659f8f.1
-        for <linux-nvme@lists.infradead.org>; Mon, 25 Dec 2023 01:58:08 -0800 (PST)
+	Mon, 25 Dec 2023 10:08:52 +0000
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40d4ef21007so4992475e9.0
+        for <linux-nvme@lists.infradead.org>; Mon, 25 Dec 2023 02:08:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703498287; x=1704103087;
+        d=1e100.net; s=20230601; t=1703498926; x=1704103726;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6OMLfEPuyCSB3QeINwRatqoaMszzQalJ5WgjoX0+4LU=;
-        b=ORRFchajc7D9QVEKi0f4ZDVEwrjgwbOznB5/vucFGh09rn8wINC4Ef71hfrKj6Ake6
-         sYAFUDRGK1zHt1bPgarNl0sxmeOra4wr5WQ3/0hgyKABAslsudJ3TKNEYFm4L6G3wMZB
-         8smZEWafvHoCsViGk/OMnDAnkDSRg53fyJirexTxZ2PNacPZx636hO5+EtLSxqZjsBKJ
-         Z2PDMeYJo47PX/lgXkpH1/WZUS7LTDDc8iYNKZp9sqcensDzpGY8nOHJhR9lO6MsYlz3
-         QCT5NXWvBLnBLW7hPVWLNdqirZ533nts+Qd0Ody1OY2JZ9ezSm1SGj0UyCzldFeWg45u
-         GBeA==
-X-Gm-Message-State: AOJu0Yypb2otiROucDYi4aF6Le4ohZO0jYvQ7af6dOdpLY6rOx93UU7g
-	evX3ARyGjODlKdlx74JqsuY=
-X-Google-Smtp-Source: AGHT+IH8TXzVpTacHOTAqcwU9AgbFSlS7wCBHin2NbtU9tdWFZP2gWovXuY6MMlxWZv0N7rcw3o4OA==
-X-Received: by 2002:adf:e311:0:b0:336:62c0:5d6c with SMTP id b17-20020adfe311000000b0033662c05d6cmr6369657wrj.4.1703498287225;
-        Mon, 25 Dec 2023 01:58:07 -0800 (PST)
+        bh=kx588i4yzmdYc9Oocn+w8D3CjoGy7wR8PfTjDxzWDnY=;
+        b=snIuWmpsITga9MFlFFxCsFu0pVLBYWbNI7JR41E4lRxTumd314UdBjaPlPY7RMp+ec
+         p3/lYnvYa+ccHrmr/qhY5fX72Eu5Nb+PR4sQ+QVUaA+1M4gO3zEL9fck57EXGko3uM1b
+         OpJhSmyfifZHhPdLpwuLUNayeJAb/9zmR5bUQcK+Nvdbi4oCEgVYZRUJpjXy+FhORXnF
+         nslCm6vjQShCHr9bh5nn0juIZ18nUVL4pavUJTGHswNqqLqBAMe/sokH/YKDwKBwFSfD
+         IF2ca/jbhJO7oOsN3wSVaMLMBj44sqS3E0puTtvRIkOt/iDexV5moTP7YnI3pbkG0RK4
+         /umA==
+X-Gm-Message-State: AOJu0YzfZJY6GwQ/xeqU/meFDzRDfMj4Txxp+jf3vlmuRQmdMyQWtzHM
+	Mta/U5hhVKeVggjup3agyFg=
+X-Google-Smtp-Source: AGHT+IE9k4irEk8nSBKLXVXvh8jnlU0qiIkoxFAVJbqc6cVw6khHs/N2QvaHUgLvnirPqchknnn0/w==
+X-Received: by 2002:a05:600c:1c07:b0:40d:3dfb:1cbe with SMTP id j7-20020a05600c1c0700b0040d3dfb1cbemr7373379wms.2.1703498926162;
+        Mon, 25 Dec 2023 02:08:46 -0800 (PST)
 Received: from [192.168.64.172] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id l4-20020adff484000000b003366d04b050sm10046708wro.38.2023.12.25.01.58.05
+        by smtp.gmail.com with ESMTPSA id m18-20020a05600c4f5200b0040d547aa413sm5098154wmq.17.2023.12.25.02.08.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Dec 2023 01:58:06 -0800 (PST)
-Message-ID: <694ac9af-ac3b-41a0-a50d-abb89503d453@grimberg.me>
-Date: Mon, 25 Dec 2023 11:58:04 +0200
+        Mon, 25 Dec 2023 02:08:45 -0800 (PST)
+Message-ID: <0f126715-9b51-4e14-8cef-c999f8760e4e@grimberg.me>
+Date: Mon, 25 Dec 2023 12:08:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] nvme: Add two-pass shutdown support
+Subject: Re: [PATCH] nvme: don't set a virt_boundary unless needed
 Content-Language: en-US
-To: Jeremy Allison <jallison@ciq.com>, jra@samba.org, tansuresh@google.com,
- hch@lst.de, gregkh@linuxfoundation.org, rafael@kernel.org,
- bhelgaas@google.com
-Cc: linux-nvme@lists.infradead.org
-References: <20231221172257.2234320-1-jallison@ciq.com>
- <20231221172257.2234320-5-jallison@ciq.com>
+To: Max Gurtovoy <mgurtovoy@nvidia.com>, linux-nvme@lists.infradead.org,
+ Christoph Hellwig <hch@lst.de>, marcan@marcan.st, sven@svenpeter.dev,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ James Smart <james.smart@broadcom.com>
+Cc: alyssa@rosenzweig.io, asahi@lists.linux.dev,
+ Chaitanya Kulkarni <kch@nvidia.com>
+References: <20231221084853.1175482-1-hch@lst.de>
+ <155ec506-ede8-42c7-95f7-e8be32800a8d@grimberg.me>
+ <8cfe55f2-4f2e-46f9-bbc8-5ab80d06f3d5@nvidia.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20231221172257.2234320-5-jallison@ciq.com>
+In-Reply-To: <8cfe55f2-4f2e-46f9-bbc8-5ab80d06f3d5@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231225_015808_724690_46687D9F 
-X-CRM114-Status: GOOD (  30.77  )
+X-CRM114-CacheID: sfid-20231225_020850_753867_8D095357 
+X-CRM114-Status: GOOD (  31.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,166 +88,84 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 12/21/23 19:22, Jeremy Allison wrote:
-> This works with the two-pass shutdown mechanism setup for the PCI
-> drivers and participates to provide the shutdown_wait
-> method at the pci_driver structure level.
+On 12/22/23 03:16, Max Gurtovoy wrote:
 > 
-> Adds the new NVME_DISABLE_SHUTDOWN_ASYNC to enum shutdown_type.
-> Changes the nvme shutdown() method to set the
-> NVME_CC_SHN_NORMAL bit and then return to the caller when
-> requested by NVME_DISABLE_SHUTDOWN_ASYNC.
 > 
-> nvme_shutdown_wait() is added to call an internal
-> nvme_wait_for_shutdown_cmpl() function to synchronously
-> wait for the device to wait for the NVME_CSTS_SHST_CMPLT bit.
+> On 21/12/2023 11:30, Sagi Grimberg wrote:
+>>
+>>> NVMe PRPs are a pain and force the expensive virt_boundary checking on
+>>> block layer, prevent secure passthrough and require scatter/gather I/O
+>>> to be split into multiple commands which is problematic for the upcoming
+>>> atomic write support.
+>>
+>> But is the threshold still correct? meaning for I/Os small enough the
+>> device will have lower performance? I'm not advocating that we keep it,
+>> but we should at least mention the tradeoff in the change log.
+>>
+>>> Fix the NVMe core to require an opt-in from the drivers for it.
+>>>
+>>> For nvme-apple it is always required as the driver only supports PRPs.
+>>>
+>>> For nvme-pci when SGLs are supported we'll always use them for data I/O
+>>> that would require a virt_boundary.
+>>>
+>>> For nvme-rdma the virt boundary is always required, as RMDA MRs are just
+>>> as dumb as NVMe PRPs.
+>>
+>> That is actually device dependent. The driver can ask for a pool of
+>> mrs with type IB_MR_TYPE_SG_GAPS if the device supports IBK_SG_GAPS_REG.
+>>
+>> See from ib_srp.c:
+>> -- 
+>>         if (device->attrs.kernel_cap_flags & IBK_SG_GAPS_REG)
+>>                  mr_type = IB_MR_TYPE_SG_GAPS;
+>>          else
+>>                  mr_type = IB_MR_TYPE_MEM_REG;
 > 
-> This change speeds up the shutdown in a system which hosts
-> many controllers.
+> For now, I prefer not using the IB_MR_TYPE_SG_GAPS MR in NVMe/RDMA since 
+> in the case of virtual contiguous data buffers it is better to use 
+> IB_MR_TYPE_MEM_REG. It gives much better performance. This is the reason 
+> I didn't add IB_MR_TYPE_SG_GAPS MR support for NVMe/RDMA.
+
+I see. I guess it is not *that* trivial then.
+
+> I actually had a plan to re-write the IB_MR_TYPE_SG_GAPS MR logic (or 
+> create a new MR type) that will internally open 2 MRs so if the IO is 
+> contiguous it will use the MTT/MEM_REG and if it isn't it will use the 
+> KLM/SG_GAPS.
+> This is how we implemented the SIG_MR but still didn't make it for the 
+> IB_MR_TYPE_SG_GAPS MR.
+
+Sounds like a reasonable option. But doesn't think mean that the
+driver will need to scan the page scatterlist to determine what internal
+mr to use? Even a fallback mechanism can be affected by a given
+workload. Plus there is the cost of doubling the number of preallocated
+mrs.
+
+> Actually, I think we should have the same logic in the NVMe PCI driver:
+> if the IOs can be delivered as PRPs then the driver will prepare SQE 
+> with PRP. Otherwise, driver will prepare SGL.
+> I think that doing the check in the driver for each IO is not so bad and 
+> devices will get benefit from it. Usually HW devices like to work with 
+> contiguous buffers. If the buffers can't be mapped with PRPs, then the 
+> HW will work a bit harder and use SGLs (it is better than doing a bounce 
+> buffer in the block layer).
 > 
-> Signed-off-by: Jeremy Allison <jallison@ciq.com>
-> Signed-off-by: Tanjore Suresh <tansuresh@google.com>
-> ---
->   drivers/nvme/host/core.c | 29 +++++++++++++++++++++++++++--
->   drivers/nvme/host/nvme.h |  4 +++-
->   drivers/nvme/host/pci.c  | 24 ++++++++++++++++++++++--
->   3 files changed, 52 insertions(+), 5 deletions(-)
+> I actually did a POC internally for NVMe/RDMA and created sg_gaps ib_mr 
+> and mem_reg ib_mr and checked the buffers mapping for each IO and got a 
+> big benefit if the buffers were discontig (used the sg_gaps mr). Also 
+> the contig buffers performance didn't degraded because of the check of 
+> the buffers mapping.
 > 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index bc7040da8e74..2ebcd40106b7 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -2216,7 +2216,7 @@ int nvme_disable_ctrl(struct nvme_ctrl *ctrl, enum shutdown_type shutdown_type)
->   	int ret;
->   
->   	ctrl->ctrl_config &= ~NVME_CC_SHN_MASK;
-> -	if (shutdown_type == NVME_DISABLE_SHUTDOWN_SYNC)
-> +	if (shutdown_type != NVME_DISABLE_RESET)
->   		ctrl->ctrl_config |= NVME_CC_SHN_NORMAL;
->   	else
->   		ctrl->ctrl_config &= ~NVME_CC_ENABLE;
-> @@ -2225,10 +2225,24 @@ int nvme_disable_ctrl(struct nvme_ctrl *ctrl, enum shutdown_type shutdown_type)
->   	if (ret)
->   		return ret;
->   
-> -	if (shutdown_type == NVME_DISABLE_SHUTDOWN_SYNC) {
-> +	switch (shutdown_type) {
-> +	case NVME_DISABLE_SHUTDOWN_ASYNC:
-> +		/*
-> +		 * nvme_wait_for_shutdown_cmpl() will read the reply for this.
-> +		*/
-> +		return ret;
-> +	case NVME_DISABLE_SHUTDOWN_SYNC:
-> +		/*
-> +		 * Spin on the read of the control register.
-> +		 */
->   		return nvme_wait_ready(ctrl, NVME_CSTS_SHST_MASK,
->   				       NVME_CSTS_SHST_CMPLT,
->   				       ctrl->shutdown_timeout, "shutdown");
-> +	case NVME_DISABLE_RESET:
-> +		/*
-> +		 * Doing a reset here. Handle below.
-> +		 */
-> +		break;
->   	}
->   	if (ctrl->quirks & NVME_QUIRK_DELAY_BEFORE_CHK_RDY)
->   		msleep(NVME_QUIRK_DELAY_AMOUNT);
-> @@ -2237,6 +2251,17 @@ int nvme_disable_ctrl(struct nvme_ctrl *ctrl, enum shutdown_type shutdown_type)
->   }
->   EXPORT_SYMBOL_GPL(nvme_disable_ctrl);
->   
-> +int nvme_wait_for_shutdown_cmpl(struct nvme_ctrl *ctrl)
-> +{
-> +	ctrl->ctrl_config &= ~NVME_CC_SHN_MASK;
-> +	ctrl->ctrl_config |= NVME_CC_SHN_NORMAL;
+> I created a fio flags that in purpose sends discontig IOs for my testing.
+> 
+> WDYT ?
 
-Why is ctrl_config being set again?
+Sounds possible. However for rdma we probably want this transparent to
+the ulp such that all consumers can have this benefit. Also perhaps add
+this logic in the rdma core so other drivers can use it as well
+(although I don't know if any other rdma driver supports sg gaps
+anyways).
 
-> +
-> +	return nvme_wait_ready(ctrl, NVME_CSTS_SHST_MASK,
-> +			       NVME_CSTS_SHST_CMPLT,
-> +			       ctrl->shutdown_timeout, "shutdown");
-> +}
-> +EXPORT_SYMBOL_GPL(nvme_wait_for_shutdown_cmpl);
-
-Why export the symbol?
-
-> +
->   int nvme_enable_ctrl(struct nvme_ctrl *ctrl)
->   {
->   	unsigned dev_page_min;
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index d880f1ee08d4..adbff23532de 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -189,7 +189,8 @@ enum {
->   
->   enum shutdown_type {
->   	NVME_DISABLE_RESET = 0,
-> -	NVME_DISABLE_SHUTDOWN_SYNC = 1
-> +	NVME_DISABLE_SHUTDOWN_SYNC = 1,
-> +	NVME_DISABLE_SHUTDOWN_ASYNC = 2
->   };
->   
->   static inline struct nvme_request *nvme_req(struct request *req)
-> @@ -756,6 +757,7 @@ void nvme_cancel_admin_tagset(struct nvme_ctrl *ctrl);
->   bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
->   		enum nvme_ctrl_state new_state);
->   int nvme_disable_ctrl(struct nvme_ctrl *ctrl, enum shutdown_type shutdown_type);
-> +int nvme_wait_for_shutdown_cmpl(struct nvme_ctrl *ctrl);
->   int nvme_enable_ctrl(struct nvme_ctrl *ctrl);
->   int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
->   		const struct nvme_ctrl_ops *ops, unsigned long quirks);
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 77b015affb0b..9cb4436710dd 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -2586,7 +2586,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, enum shutdown_type shutdown_t
->   		 * Give the controller a chance to complete all entered requests
->   		 * if doing a safe shutdown.
->   		 */
-> -		if (!dead && (shutdown_type == NVME_DISABLE_SHUTDOWN_SYNC))
-> +		if (!dead && (shutdown_type != NVME_DISABLE_RESET))
->   			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
->   	}
->   
-> @@ -3100,7 +3100,26 @@ static void nvme_shutdown(struct pci_dev *pdev)
->   {
->   	struct nvme_dev *dev = pci_get_drvdata(pdev);
->   
-> -	nvme_disable_prepare_reset(dev, NVME_DISABLE_SHUTDOWN_SYNC);
-> +	nvme_disable_prepare_reset(dev, NVME_DISABLE_SHUTDOWN_ASYNC);
-> +}
-> +
-> +static void nvme_shutdown_wait(struct pci_dev *pdev)
-> +{
-> +	struct nvme_dev *dev = pci_get_drvdata(pdev);
-> +
-> +	mutex_lock(&dev->shutdown_lock);
-> +	nvme_wait_for_shutdown_cmpl(&dev->ctrl);
-
-If this is the only call-site? why not just open-code it here?
-
-> +
-> +	/*
-> +	 * The driver will not be starting up queues again if shutting down so
-> +	 * must flush all entered requests to their failed completion to avoid
-> +	 * deadlocking blk-mq hot-cpu notifier.
-> +	 */
-> +	nvme_unquiesce_io_queues(&dev->ctrl);
-> +	if (dev->ctrl.admin_q && !blk_queue_dying(dev->ctrl.admin_q))
-> +		nvme_unquiesce_admin_queue(&dev->ctrl);
-> +
-> +	mutex_unlock(&dev->shutdown_lock);
->   }
->   
->   /*
-> @@ -3492,6 +3511,7 @@ static struct pci_driver nvme_driver = {
->   	.probe		= nvme_probe,
->   	.remove		= nvme_remove,
->   	.shutdown	= nvme_shutdown,
-> +	.shutdown_wait  = nvme_shutdown_wait,
->   	.driver		= {
->   		.probe_type	= PROBE_PREFER_ASYNCHRONOUS,
->   #ifdef CONFIG_PM_SLEEP
+If this proves to be a good approach, pci can do something similar.
 
