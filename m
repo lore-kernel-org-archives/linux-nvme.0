@@ -4,139 +4,140 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E035C3DA6E
-	for <linux-nvme@archiver.kernel.org>; Mon, 25 Dec 2023 12:31:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B826C3DA6E
+	for <linux-nvme@archiver.kernel.org>; Mon, 25 Dec 2023 12:36:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
 	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
 	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=a3H2Xw5V5+qAJZi4tuOB1+uUPiiWV/IxecWAK8TYTSQ=; b=vI8AqJvaOZdDoQrOn0fYbUXU5J
-	9iXT44+2MyDava/uTCDtHX/G+f1U1yo1cxgfNfr4WexiJLD9Dc6m1dhKhDKKoODzY1ro4aPqnGvtK
-	cBYfiJCNgAqdilPYiso6h1R2cXLtAhtdN4nHcHOP69vFDExhcCocf7etBAurOEKpgvQMiNNho0BDs
-	VIxErpVfoG4+89avebgxFCO83y0dfW06z8i9OH+wRR0E8t5xeXM4iYgj1l831RkNbkLr6ei+Vj/58
-	92DCbPrA5K2nHeJrNSnyxx/0WWyyPz5+GY++QOEue6s+32jTG7GW1N4wi7Tk4o6FTViuEv57kgvPE
-	nbrKCh8Q==;
+	bh=4zoq/XFM4r5loYPcX0FVwy1mGC50VxMGIvUGmIfyvI4=; b=NvJMzpZDWwDum2zdS0J4+6z4QI
+	Ape/73S4UE/zBybBa7wHZsgC2qZwVsiUOXWfReXweH1w1FALdZxDl48Uqo0M8BFO/DMAbj8W1Vg0L
+	psDRrPX8LnkOerRcY9TX0t+WzvEq5GiuSJ4ICfTGQ+WXWtxgC85rMJHtZNZAycCRADB6GpFM7/4TM
+	1G324Im1HS6Y5qhDI/7k+gnjmHX8m1zvqon/spNARSFM0RmRq2c6sK53mBAyNVn3f05abzNnsdaZQ
+	Va7ARPgVM84NUCYSuha+8etrqhhWXsCHeY4v5e2TG1SbLOXc45KwvPLjGmlgM1n9BdQsrC8PoAlRK
+	C5WdOqCw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rHk76-00AqJH-1Y;
-	Mon, 25 Dec 2023 12:31:20 +0000
-Received: from mail-mw2nam12on20606.outbound.protection.outlook.com ([2a01:111:f400:fe5a::606] helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+	id 1rHkC8-00Ar0Y-13;
+	Mon, 25 Dec 2023 12:36:32 +0000
+Received: from mail-mw2nam12on20603.outbound.protection.outlook.com ([2a01:111:f400:fe5a::603] helo=NAM12-MW2-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rHk73-00AqIs-2M
+	id 1rHkC5-00Aqzj-08
 	for linux-nvme@lists.infradead.org;
-	Mon, 25 Dec 2023 12:31:19 +0000
+	Mon, 25 Dec 2023 12:36:30 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gypvQ7axem9ipsnCseqjC91QBHUcMSvIJvamnt6DmpQGclpbdfbfMo5PINz1b7N/d0tSPy4TQTwQ/GqpaL9ZFXGsXKe+oNTKHZHWznTdiMaUZft3w1RnoMF3klwD4g8Ghog3Gj4H40sylG01aHqcf5JNjybVjuq/SmuNBd+zhsGbpoo2YSCTZx2yanTkaLxTPolv1W40oaHpVo50c4Dv/JwO+xaVuZTbJjJQe6Ch3+jhUSxnJGIgcJH6PgkmOIlbhVdOTqEA+hPZouxayF2AeQXV2MlK8lp1p8GQJtd22/lAWbqcDW4iyMVw0gI7BTywauYf+yTnYNkdyZh7rJCkCQ==
+ b=fkiGw9J5b91umAQN91RrSMAFqNxiz06k78bXIzH7ZxwJxXvkzIdvOArLAu6vEXVuXEtmpOfNbgs4vjN0U0XZ2KCt2IVQKBwtKQOlB8jDKLSfX5zGctQxHQM00PxorZzLYRz9xd8v03Hf6t6t7tXilYNeX21tLAqqooE25EMn45NwSCxnLjwik920aZ+ar7PYrqE6rMkbAXl6rIL25XO4trsbyJw2Cl74rzL2EMMhEalgRcjFub0C0ziHq19Ad2fBhf5HbvjIvsnxzss+14l5of1kXM8zWbXHks9KMYfPhizj3Aq4AJOCgpmzXzxXHwES7GiJRnKQPh83vAyVgjtvEw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=a3H2Xw5V5+qAJZi4tuOB1+uUPiiWV/IxecWAK8TYTSQ=;
- b=fVZ4148GSb7ta9fgNKzGo7zXzD2CN/zSq7s/8dNrkQiM/qHsVR9b0RPw88VhGoxfnnpVGMna2lQ3zgpgHcSI3+aSRNx3p4cfD8ll49oVvNK6vG1yuuKXmpsijv8E1i21G5rytts9+punsZJ90mTXSj/oeZGuI5Ul8CHk1FLdE5lc/vCpKulrAHSU0etXD4wiudzIG/T5xu2NUbTygKUQiiqjbejd30MR/dtpXrb7hj2FCxMVZLPIdlcIbSL7/swTzerMA9fLrCnxMmiOf2oLbWH0KL28OTX08DcXPoldJRmz0hVd6bCBV6rejzh5h1fvNY0lB04B99scUkL/fKoaQA==
+ bh=4zoq/XFM4r5loYPcX0FVwy1mGC50VxMGIvUGmIfyvI4=;
+ b=Vw/RYsbmnHIvpCWdAYahmjRjBI48N3iJOx0lJwlL0KHg2LgcJUnslTTPnebKQ5pNd7+pzbesCnK5uslJAsA5XF64GyaUFpHI3B9r2CGngrH82N1J6B2ERcMKYxaRhuUgobmiXXABqPel1sOAonaW9cAJUIiz+9pT4WEF7VmGBKHIwWDfMb8IRxhFLKniA9oTXkIIlErWBheRlPxoLaysmmpwUDgWeyhMOWOWRw5wQV3wy2Hgn5OevXo9aEusL1l1fXsbOED1+4pKvPcqkfByCT94NRLJxuOG5e+H47vjEDmbLVHqREQoFOnWjVkzucCWWHWSrcJfU3ec2f4W400nhA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a3H2Xw5V5+qAJZi4tuOB1+uUPiiWV/IxecWAK8TYTSQ=;
- b=mEJQiFSZIFIrbIsT0rWXscxcn9itbmLClgb6MFTAKeQt8uu0t35gBH3i/CnuSda8K19FJlogH70UFA24+uOMGDAip3EoRmQFCCMjo3L2hJhhduqI3oqJM8Ee385xGma3TFSymR8m5ut859BKL9QjNHW23JhLI8Ms8m95AAUJHoctR5SQc/2jUKamNg8bBoeVa2g+j0TmTm6pxRHJL591ouoOrNxJep+YhOTP3XwqZKKFWXU9MOB1jfL6CgpjJlFcMX8chLrrm65uo0M5x9mKe0BwMvn4C50/x9FegYO3GFBYrdjro6EREKmbpXek3shgviaWOkUZ6XWGnHcp22a+6g==
+ bh=4zoq/XFM4r5loYPcX0FVwy1mGC50VxMGIvUGmIfyvI4=;
+ b=YdGgIy63JNWmg9bENOUruZPaCKW8FMYznVn6MJZEL8R/6S0JpGr9cMU8Vff9lOXV50Zs09+2QmFk1YpMpqoNHS1ragAe7vMC+QuqsEfi5A5YHnT9HpQrEibv6k0gc3OAqzAJURpJu5zTdpMpcMlgBWziHmLNis/fFbxk8DeTEYFlCGz33su9VLRmZBiuUHuP1SZbB/NWN9fi915kirYYKuNl55WwXwNttgI0+5nzM8HUvxCfmLMMyrvogAXcT38Bkc8OlRuLWdBD1R9731a/n19uPw5kBgxYJqNjIGxOjYTdXCRXvZzM1Hr2JJc6eVFhl51MEqvU7JAKfx7vxvcj6w==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
  by BN9PR12MB5082.namprd12.prod.outlook.com (2603:10b6:408:133::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.26; Mon, 25 Dec
- 2023 12:31:09 +0000
+ 2023 12:36:22 +0000
 Received: from DM4PR12MB5040.namprd12.prod.outlook.com
  ([fe80::6f3c:cedb:bf1e:7504]) by DM4PR12MB5040.namprd12.prod.outlook.com
  ([fe80::6f3c:cedb:bf1e:7504%4]) with mapi id 15.20.7113.026; Mon, 25 Dec 2023
- 12:31:08 +0000
-Message-ID: <d7f05b69-6a77-4b87-b864-4d35481cdd9e@nvidia.com>
-Date: Mon, 25 Dec 2023 14:31:00 +0200
+ 12:36:22 +0000
+Message-ID: <f4f4d62b-8f2e-460c-a393-ff2966c9ebd4@nvidia.com>
+Date: Mon, 25 Dec 2023 14:36:15 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme: don't set a virt_boundary unless needed
-To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
- Christoph Hellwig <hch@lst.de>, marcan@marcan.st, sven@svenpeter.dev,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- James Smart <james.smart@broadcom.com>
-Cc: alyssa@rosenzweig.io, asahi@lists.linux.dev,
- Chaitanya Kulkarni <kch@nvidia.com>
-References: <20231221084853.1175482-1-hch@lst.de>
- <155ec506-ede8-42c7-95f7-e8be32800a8d@grimberg.me>
- <8cfe55f2-4f2e-46f9-bbc8-5ab80d06f3d5@nvidia.com>
- <0f126715-9b51-4e14-8cef-c999f8760e4e@grimberg.me>
- <d5e688be-3419-4cf6-9bd9-bf2c1a6fb092@nvidia.com>
- <ef15a266-d1b6-406b-b956-91cab85e9a4c@grimberg.me>
+Subject: Re: [RFC PATCH V2 2/2] nvme: rdma: use ib_device's max_qp_wr to limit
+ sqsize
 Content-Language: en-US
+To: Sagi Grimberg <sagi@grimberg.me>, Guixin Liu <kanie@linux.alibaba.com>,
+ hch@lst.de, kbusch@kernel.org, kch@nvidia.com, axboe@kernel.dk
+Cc: linux-nvme@lists.infradead.org
+References: <1702971145-111009-1-git-send-email-kanie@linux.alibaba.com>
+ <1702971145-111009-3-git-send-email-kanie@linux.alibaba.com>
+ <82d16c8c-efef-41d2-b2ff-8ce8f5ac9b28@grimberg.me>
+ <92b53d3b-8ee6-42b1-a078-9b51886c6003@nvidia.com>
+ <77df6829-3a14-49a1-82e5-f3389ba47d86@grimberg.me>
+ <436efebd-ab7e-4b23-9be0-a316884552ca@linux.alibaba.com>
+ <d5c0a0d8-f67b-49de-bb25-a64c53be5345@nvidia.com>
+ <91dd2cb9-29ec-4727-818e-822cea788401@linux.alibaba.com>
+ <51a09c6d-d4b5-4edf-814c-08bc95640a2b@grimberg.me>
 From: Max Gurtovoy <mgurtovoy@nvidia.com>
-In-Reply-To: <ef15a266-d1b6-406b-b956-91cab85e9a4c@grimberg.me>
+In-Reply-To: <51a09c6d-d4b5-4edf-814c-08bc95640a2b@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: LO4P265CA0035.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2ae::11) To DM4PR12MB5040.namprd12.prod.outlook.com
+X-ClientProxiedBy: LO2P265CA0104.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:c::20) To DM4PR12MB5040.namprd12.prod.outlook.com
  (2603:10b6:5:38b::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM4PR12MB5040:EE_|BN9PR12MB5082:EE_
-X-MS-Office365-Filtering-Correlation-Id: 55ca0497-880f-497b-5884-08dc05455eda
+X-MS-Office365-Filtering-Correlation-Id: d6dc0331-ec9b-433c-e6b0-08dc05461a03
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1tgAX77FSIhHIjhpOZOISeg4qcJeSSpelOt0K2R1J5slkTMvaY71lPTHHUUxGRoNrUOl63dEsJ4qak2Z/b/CCcMWxiN5V+zEQH8FsIXcVmhGP02Am5sZFtdy6ZIxGHeL66K9kUZBtu1gfEHKvBXM755KYeO9e/6cotjZgFksuekIvy61kp1AnzdYvrXoaVccMsmH0wKQk/cVZUPHJyk4soDSxuxAw8gmACe56zv01u+jWx366d86PwDBZdJ0B2TojNragSg2ssWw8QglCo55DvHR+kZNpbBtKlrIAHX41g6cE8bepmkDkgGkmZzszjp2/ewQ9N1cCTmqBlLBCJ2O5gluH2OGolTrd3fDfPG//8Y+RSsQwObSYl4W8TCowXH0dhbs2DPDpyJwgepQqlA2iKdkGkszztClD0v6ueU8h3TrEDgc0EdTz9gs4SbyRGncAiS5ExmFJ6gCFDDmKShfIho3hM22a8y819lLiK523IfK5jUro4Yqlz3dGRbeu0OglD/K/1Ch0V0mDHbIPiyZnW2TXYPmhTDC7efCewPauQulre82T9ttKtve5yfHdMipTfhXX1nf2wi8byFGCtxx9omUagpTxDccFjDsCHQ+NbntShrMivX9qjfnH2IREF0S4ADanv1tAMeIvOMrVYVdGQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(376002)(136003)(39860400002)(396003)(366004)(230922051799003)(64100799003)(1800799012)(451199024)(186009)(8676002)(8936002)(5660300002)(2906002)(4326008)(7416002)(478600001)(53546011)(66556008)(66946007)(6512007)(6506007)(6666004)(66476007)(110136005)(316002)(6486002)(41300700001)(38100700002)(31696002)(26005)(2616005)(36756003)(107886003)(86362001)(83380400001)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: h3k1gFLRUM6SxjImGk1C6C73dYhhzk+ItQ2slWi2jjrvEYLKbk1XAMm0XBhUTnBJKrncxEZuuM+XFjDOH6WJQsoVMi1v7Rin6vSMTsiX/dj5TH4O3IXbOFp5NDx18gUBmVNnVrebV+HUtVl5uff5kCcoqatJJTpItbzz2yAU57Ld6Z/+XmqQkKcew0+wrLRYcs7dlWblKo3RgvGajW/HKeGuBdQQL+cAw0SDcblvj4sIxAI9cZULAyrp3RJ4q+GuqmO1GwGZECrtH6JadQpdWNDtd8MckxOAoLo/vwq1Dnmq4J8ak7bEVObOpuRWa04ulmQF+xFCrlMiaS721MFX+NuaFKbcbErBgnb5LOyGiVghpHTM+jaltdu9TUKqAPV01v1rr63LKBihv3Kq7LZy3tR29PEEn/KbkIRy1iht50YLZEXpMQ9rC45S8z5nPv6xA3fYjNFWBadh81QRmTC5HzjsuA5IePgH8ILb+G0T+whAVT8WwmnKvLhNmmt4Yc+HEOLcXbA0yQvt49lc/gHRTK6OyBay7ucY5UQahMoGo7orC9YXBS3bjGMhUq5PKW8l/ebwx1fRYekxNj8MNYLbAAYPCWXQ47mjJIHAcQU8GSG3QssyagcYWtCk4pBbi5rPLndAQ3UQVXdGWLMAkaqB9g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(376002)(136003)(39860400002)(396003)(366004)(230922051799003)(64100799003)(1800799012)(451199024)(186009)(8676002)(8936002)(5660300002)(2906002)(4326008)(478600001)(53546011)(66556008)(66946007)(6512007)(6506007)(6666004)(66476007)(110136005)(316002)(6486002)(41300700001)(38100700002)(31696002)(26005)(2616005)(36756003)(86362001)(83380400001)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eU1OcDVrbDVHQ216Njh0dS9MMTluYjhlQ0RZakxOdDZZaFJIcG9RVVc3YUc3?=
- =?utf-8?B?SUhsd3lWZFFlNTZyVmlHL01zVkpHU0hUWmdxVVNzVlRnQzdTZTFWTjZNWXg0?=
- =?utf-8?B?NE56V0d4S2N1TGk3cE1sM1kxUGgzaUo4SjlJVjJnUjNacEYvTlJMRnNmL2w5?=
- =?utf-8?B?OWdyMDBLZmxzRWw4YTZ3dVB3Mm5mNDF1ZERzVzBtZm1yWFZpanAzVThtaTFt?=
- =?utf-8?B?QW81MUoyQjR5Wm5vbWN6YW9MeW5ZTk9XdG1rT1ZIVzdEWHNyWFhCT3BvYzNS?=
- =?utf-8?B?OEwyU3NQdHI4SG9HSkxLNmZ0OUJPaDA4WklLcURpa0IrNUF3dFc3Znk3RmJE?=
- =?utf-8?B?dVBXTFBhRWhhd21sK0xJUmJNVFdmUGsrS1VPMVVDYno4QUZqZVVham4yU2dt?=
- =?utf-8?B?Q1A4UXZQdDJWSXRESnVURzBQQmZLSndrRjNJMFVyRERMY1NXb1FEdHhzNDk3?=
- =?utf-8?B?Z2xyL2tjUHNIbW1BMXprNkhaNHg5Q1JqbDZBUnB3bklwT3BXZFdVV091REtH?=
- =?utf-8?B?d2g0Q2NvMVVrYmpZYjMvSjBDOHgvVkRXRENhZHRkeW1CQUN1eHNaVi9MZnc2?=
- =?utf-8?B?cGFmSkdjZGw3aWFRUVNyaGZlcmJHaVZxRFFiNFE2VkJrU3pKZ0pIbnBYekNE?=
- =?utf-8?B?NHdLTkNOZW5VWk5HOE1GQ25wMG82QUZzNnJ3d2hNcFNxdDkwbEszZEhYbFJn?=
- =?utf-8?B?K0ZnMjVNL1MxZ2N2SDJYUkQ4b0h2NzdMRkFiak5PeXVmTHlNNVg5eDdRUTV1?=
- =?utf-8?B?R2s2N1c1bSt2UDByY1pxWHF5ZzdzQVl3ZTQ3ODBOaWs2ZlNkdENMeGxQYzY0?=
- =?utf-8?B?R3FyQm4yS2JZWTQ2ZDNlblJDVGZNTlh3SjVFVXJIbDJLKzcrVjNZZUtNMEkr?=
- =?utf-8?B?dk9SbHpXdkpHVXRkMnJHa2lxRGdzRmN5YU5kanFiLzVNdjF0S0Zjc2dMRjQw?=
- =?utf-8?B?OWVrZzJVN25IQzQ0eHViak5uQzRRU0tPRUQwTWF6a0U1YmtHSUhOK2dqRS9j?=
- =?utf-8?B?d0lEcVcvVFRNM01ic000Znk3QkxTTEQ4K2QxQmVkZTZaclIrL3JCcnljYjJl?=
- =?utf-8?B?RjZrbytsMkZUcEZFYSt1enAvU004MlJRQnplNlg4N3d2QUNGN1RqNlJMT3dE?=
- =?utf-8?B?NmpMZWNoV2pEWTVnM3VLWTh4ZVR6L0kveFI2aVZhUlU1aEU2NGFYd3QxSnha?=
- =?utf-8?B?UERRdDllWTdrSzFuYlVvWC9ZZjJJQS8wcWFwSGdwWTlFNkpmWWhpYnJPWWVq?=
- =?utf-8?B?MWRhOTZnaFlaRkg1Mm13cjFVT0JyU3p4ZW04anpSalNzQnVzY3dZYVdDNzBi?=
- =?utf-8?B?cUpicXFNWkczR3pXM0ZqODBkMjJZVmRVK25aeWFENG1pZmtPMXh6ZDR0bUg2?=
- =?utf-8?B?djZxVk9QZitHY2EvY0ROdjRoWDZlZlFVbHBad203cXlzSVQ3SkNVRi82VmNy?=
- =?utf-8?B?eFhQYk1KT0dhUUtZZWcyV2FRbnZqdjhNSmZqN2NiOWY2RHZzSGxQckZCQy9V?=
- =?utf-8?B?U2lWY3R4ZzFXUjBxMFAzUlUwemtiM2I3dEZ6SGlwcjRPZFlEL2RmcWp0ZGdO?=
- =?utf-8?B?ZkJHZWpRTThBbGVxVm9OVGxEcm9ZdlhuVFJyNERpdUZpT2diL2RiK1NpeWM3?=
- =?utf-8?B?MEs4cXNZRG5VRW9IaUZseWFmOVovQ1VSMlRMUndQcjF1NlJOTEtxZFlGZHND?=
- =?utf-8?B?d3k5eXlIWkVjczdCYXdUQ2llckhNOGRHOUYvR3JvLzNRVXJSSHkva1BJWnBH?=
- =?utf-8?B?SEJTQjNEU2NLRVZSWlFQQ2lHUmI3RmNFZEdIMGxMdTZVUEttNGFQTXRkRnNK?=
- =?utf-8?B?WkV5Z1ZHejFvUVdzdEQzQWlaYitIMStWSmU2VUd4U0VuR0poYkpVaGl2aVVU?=
- =?utf-8?B?dFJNZGQvSDhSLzA4b0dZNU5hL3JTVFBpcEJVeWh4dUZoaWc4bS8vV24xZTZU?=
- =?utf-8?B?S2NoSmw0OGVjQTBMWTJ5SmFnQnRta21YVUttdUg3UHF5M1hmT0JzN2FTcHJq?=
- =?utf-8?B?NkcxMFk1OHZNRHZ2bzRFNkhwQTNDbnhxNXZ6YmJQRVovWXdLNTNMTTRmQlJj?=
- =?utf-8?B?OFJNUm92RkJndGdmUVJKblhqQWs0TDNEQ0lKdnhxVXVFaUt6NTlCKy9HQ2dj?=
- =?utf-8?Q?ZzXDIpcbM97QoKJTzd6/zk8FS?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QUIyWDJsenJhcSs3MWV0WXZsUnY5LzRDUzlEWWhYbWQyWnlXV2p1YTN2OXZy?=
+ =?utf-8?B?SVUwYTdBRkUvajA2QUdIM2ZDREk2NzFqQXFCTnplSGRsRXBJOWg0K3F2dTZO?=
+ =?utf-8?B?bC9TU0hiNk5YOEVwWE5sYnpNMnJSSjBSYnlKdFNia2J4dlg3eEdKd3ROUXpk?=
+ =?utf-8?B?cElxd2d3VVdVNU1mRzhieE5QMmRoT29Cc0hadUplUDMyZHdSZG9pY0JrK21W?=
+ =?utf-8?B?b2RXMGtYYWlNN2JEYUFJazhCbmkyWElXSzVSU254UHdBWlA5dWJCZGIrSmpY?=
+ =?utf-8?B?ZkgzZFJ0eXl0aGU5MkttelYxYS8yZXdUak1oSGVrWWRxcUk2QUE2eTA0M08r?=
+ =?utf-8?B?Q1JHTjJaUFFXWDczYnQ4NDJHbitzT2xQQzVEWSs1NnNVUnFRM2lZY3dQMXVz?=
+ =?utf-8?B?Z0tac09zMXk1T3UvOHh5UFV1bktUYkpmRnNtZUEvc050Tnc1Yzdid091dW5I?=
+ =?utf-8?B?RFcrd2VVSWJNdDBpaWxuUUJBbnlyOU5uRnJDaXQ1d1N6RERYQVZERVJocXRI?=
+ =?utf-8?B?dldKWU9JVWdmSjl6Tmx3KzY5QmJ3WE8vOWpTSUxqTUsxTWpVekExbzN2Y21o?=
+ =?utf-8?B?aklsQVVaZytMUi8xdWJ2Yzl4SnBsdEcrSUNWYWFpb0xjT05yK2xXd3dUWWVo?=
+ =?utf-8?B?VUFxOXRzNmNSR24wZzBaNFlsa1JxWXZsVTZxTEFSZDI2Z3V3OU43bVFNd0xI?=
+ =?utf-8?B?dEFLTTNibUl4RmFtY0FSZ0VIMlBaa0VQSmdDaGJLV2NZazNYVnVCOGNXRVhB?=
+ =?utf-8?B?eWkvMFMxZDk1SFFzS2NSbUpVQUg2ek1KNFhyWnNMVmpPR0s1dG5BcDl4d0hE?=
+ =?utf-8?B?Um9ONDdzamprZ0syZ0lrdDltMzZhNzk3Smk1ZDMwenUyM1FpRnlQcit6WWd3?=
+ =?utf-8?B?WVN6U3orODczd2RscDJjOUJEbmYweGViWEdQNjVNVlE2dDM4dmg3Tmd2QVgr?=
+ =?utf-8?B?Rkh0Y1I4dXROSHd3WDBqUlBPSkhSRG84UXpLL2ZEdzE4MlBONlZOdzZhWkNi?=
+ =?utf-8?B?cTNSVk9rMGdHNTlHZWNmUHNaamVoVEtHZUxNSWVmQzl2K1A2U08ybjc3MGV3?=
+ =?utf-8?B?eWdtMFgxRUI2VGtERmcrZFRBdjZtZnVwWG1xdlNzcjh4ejhIQTRaRGFMdEhO?=
+ =?utf-8?B?cm5KUUFvaU1wVEk5TjRUaURFck1zV2RGb3dmNDZqVmlTR04yakFmNTZaeHl4?=
+ =?utf-8?B?dUNJSVpwU3RRenN4MGROMFU1RERPTnFabFduOHpDVHNjTG92cW9SNXdsWjh5?=
+ =?utf-8?B?d0tWemxYUE55REdaRlV0Y3JJZ3RZaVpZd0N3eXhmZE92R1A0Nk5MQVY1cWUv?=
+ =?utf-8?B?MFFkVFkvUWhTQUJxK2U1Q1kxeElhQ1k4clovYkMyV1AyMVlYcTY1TFBSNkFG?=
+ =?utf-8?B?RnA4M3lIZkxqaHFFTDNzdFkwNFVWSkhrOFk3MmxkeHEwcHJrdGZ1LzR5SjBr?=
+ =?utf-8?B?YmIvYzZlZXhDRm83WjhZNzNPMEplQnpvVngzdEJoQVhxWmIrWU5pbDhJWVJE?=
+ =?utf-8?B?QkVuUUxnNnhJU0tPVlBTTExsMGxKVkJVWk5kUGdGZHRTaDNHbDRRT1h2cmJi?=
+ =?utf-8?B?NDVpc3RrVFBEdU80V2ovTmR3VlU3alpacDZzVVh2QUhXTXBGNzJOZXIzMlYy?=
+ =?utf-8?B?cXhUbWgvWnZLc29tWFNtekhsZkpxWldPeklWN2tjZm1XQi9XbzdmcDlaUkRN?=
+ =?utf-8?B?eXNmRWxaOXl5N3FhQmx2NDZBbjdjbWV6b0ZHa0Q5VGRmRnVEUFdwQkQyMzR6?=
+ =?utf-8?B?VnRVeHpJZDM5TjZjQ3BHdjVJdzBXQXZDdU5aTkxhNVlYaHhHaW5zVEhLOE5i?=
+ =?utf-8?B?TlhzR3FVREQ2UXBiQVdPUTJ2LzNWYkk4R0dhK2dqc09FSXk4QkNVVTdlM2pQ?=
+ =?utf-8?B?OHhZOEgvbnBVbnRHM3VYS2pNbHoxWGNRSXVGSzdESTZ2ZWtPeWgyOGZMenZU?=
+ =?utf-8?B?Y1IrbWdKNzVaSGcvTk5Vck5NbndZMnFTK3FqT2hpYVVKWkZzeG9tcmZxNTM3?=
+ =?utf-8?B?QTQwVlpTSjhOM1BEQk9uZk5xMHhXNFp4QnJEdW4yWUlTZkNJRHY2YStzTTJV?=
+ =?utf-8?B?WlBJVDFLN20rbjVJUzJmS3FzMzZBQTJDUGFZMWhOMGRJOEFIMm5ZRTZ2RW1l?=
+ =?utf-8?Q?1cDNSmTO3qMrKSId3aUVnRQtr?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 55ca0497-880f-497b-5884-08dc05455eda
+X-MS-Exchange-CrossTenant-Network-Message-Id: d6dc0331-ec9b-433c-e6b0-08dc05461a03
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Dec 2023 12:31:08.4134
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Dec 2023 12:36:22.4638
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qID8WKrFXReWPUm+vWg9k3KOk4irnM51S0H1WJxCEB1FRWkZveBTwgtCqwht21Xvd3Mv3Bkiuq0v7L6c9A7iIg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: zyGd4wnxFvTOFHgveLSGuxnTbpprX9FRYmBWqzGv9mtmjgi4+jj5LjfR5b+xufFOc7NsPlMbt0jbqDgP/Pd0tw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5082
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231225_043117_832606_47229CF3 
-X-CRM114-Status: GOOD (  34.25  )
+X-CRM114-CacheID: sfid-20231225_043629_110467_2FCB85CD 
+X-CRM114-Status: GOOD (  23.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -153,141 +154,99 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 25/12/2023 12:44, Sagi Grimberg wrote:
+On 25/12/2023 10:59, Sagi Grimberg wrote:
 > 
-> 
-> On 12/25/23 12:36, Max Gurtovoy wrote:
->>
->>
->> On 25/12/2023 12:08, Sagi Grimberg wrote:
->>>
->>>
->>> On 12/22/23 03:16, Max Gurtovoy wrote:
->>>>
->>>>
->>>> On 21/12/2023 11:30, Sagi Grimberg wrote:
->>>>>
->>>>>> NVMe PRPs are a pain and force the expensive virt_boundary 
->>>>>> checking on
->>>>>> block layer, prevent secure passthrough and require scatter/gather 
->>>>>> I/O
->>>>>> to be split into multiple commands which is problematic for the 
->>>>>> upcoming
->>>>>> atomic write support.
->>>>>
->>>>> But is the threshold still correct? meaning for I/Os small enough the
->>>>> device will have lower performance? I'm not advocating that we keep 
->>>>> it,
->>>>> but we should at least mention the tradeoff in the change log.
->>>>>
->>>>>> Fix the NVMe core to require an opt-in from the drivers for it.
+>>>>>>>> @@ -1030,11 +1030,13 @@ static int nvme_rdma_setup_ctrl(struct 
+>>>>>>>> nvme_rdma_ctrl *ctrl, bool new)
+>>>>>>>>               ctrl->ctrl.opts->queue_size, ctrl->ctrl.sqsize + 1);
+>>>>>>>>       }
+>>>>>>>> -    if (ctrl->ctrl.sqsize + 1 > NVME_RDMA_MAX_QUEUE_SIZE) {
+>>>>>>>> +    ib_max_qsize = ctrl->device->dev->attrs.max_qp_wr /
+>>>>>>>> +            (NVME_RDMA_SEND_WR_FACTOR + 1);
+>>>>>>>
+>>>>>>> rdma_dev_max_qsize is a better name.
+>>>>>>>
+>>>>>>> Also, you can drop the RFC for the next submission.
+>>>>>>>
 >>>>>>
->>>>>> For nvme-apple it is always required as the driver only supports 
->>>>>> PRPs.
->>>>>>
->>>>>> For nvme-pci when SGLs are supported we'll always use them for 
->>>>>> data I/O
->>>>>> that would require a virt_boundary.
->>>>>>
->>>>>> For nvme-rdma the virt boundary is always required, as RMDA MRs 
->>>>>> are just
->>>>>> as dumb as NVMe PRPs.
+>>>>>> Sagi,
+>>>>>> I don't feel comfortable with these patches.
 >>>>>
->>>>> That is actually device dependent. The driver can ask for a pool of
->>>>> mrs with type IB_MR_TYPE_SG_GAPS if the device supports 
->>>>> IBK_SG_GAPS_REG.
+>>>>> Well, good that you're speaking up then ;)
 >>>>>
->>>>> See from ib_srp.c:
->>>>> -- 
->>>>>         if (device->attrs.kernel_cap_flags & IBK_SG_GAPS_REG)
->>>>>                  mr_type = IB_MR_TYPE_SG_GAPS;
->>>>>          else
->>>>>                  mr_type = IB_MR_TYPE_MEM_REG;
+>>>>>> First I would like to understand the need for it.
+>>>>>
+>>>>> I assumed that he stumbled on a device that did not support the
+>>>>> existing max of 128 nvme commands (which is 384 rdma wrs for the qp).
+>>>>>
+>>>> The situation is that I need a queue depth greater than 128.
+>>>>>> Second, the QP WR can be constructed from one or more WQEs and the 
+>>>>>> WQEs can be constructed from one or more WQEBBs. The max_qp_wr 
+>>>>>> doesn't take it into account.
+>>>>>
+>>>>> Well, it is not taken into account now either with the existing magic
+>>>>> limit in nvmet. The rdma limits reporting mechanism was and still is
+>>>>> unusable.
+>>>>>
+>>>>> I would expect a device that has different size for different work
+>>>>> items to report max_qp_wr accounting for the largest work element that
+>>>>> the device supports, so it is universally correct.
+>>>>>
+>>>>> The fact that max_qp_wr means the maximum number of slots is a qp and
+>>>>> at the same time different work requests can arbitrarily use any 
+>>>>> number
+>>>>> of slots without anyone ever knowing, makes it pretty much 
+>>>>> impossible to
+>>>>> use reliably.
+>>>>>
+>>>>> Maybe rdma device attributes need a new attribute called
+>>>>> universal_max_qp_wr that is going to actually be reliable and not
+>>>>> guess-work?
 >>>>
->>>> For now, I prefer not using the IB_MR_TYPE_SG_GAPS MR in NVMe/RDMA 
->>>> since in the case of virtual contiguous data buffers it is better to 
->>>> use IB_MR_TYPE_MEM_REG. It gives much better performance. This is 
->>>> the reason I didn't add IB_MR_TYPE_SG_GAPS MR support for NVMe/RDMA.
+>>>> I see, the max_qp_wr is not as reliable as I imagined. Is there any 
+>>>> another way to get a queue depth grater than 128
+>>>>
+>>>> instead of changing NVME_RDMA_MAX_QUEUE_SIZE?
+>>>>
 >>>
->>> I see. I guess it is not *that* trivial then.
+>>> When I added this limit to RDMA transports it was to avoid a 
+>>> situation that a QP will fail to be created if one will ask a large 
+>>> queue.
 >>>
->>>> I actually had a plan to re-write the IB_MR_TYPE_SG_GAPS MR logic 
->>>> (or create a new MR type) that will internally open 2 MRs so if the 
->>>> IO is contiguous it will use the MTT/MEM_REG and if it isn't it will 
->>>> use the KLM/SG_GAPS.
->>>> This is how we implemented the SIG_MR but still didn't make it for 
->>>> the IB_MR_TYPE_SG_GAPS MR.
+>>> I choose 128 since it was supported for all the RDMA adapters I've 
+>>> tested in my lab (mostly Mellanox adapters).
+>>> For this queue depth we found that the performance is good enough and 
+>>> it will not be improved if we will increase the depth.
 >>>
->>> Sounds like a reasonable option. But doesn't think mean that the
->>> driver will need to scan the page scatterlist to determine what internal
->>> mr to use? Even a fallback mechanism can be affected by a given
->>> workload. Plus there is the cost of doubling the number of preallocated
->>> mrs.
->>>
+>>> Are you saying that you have a device that can provide better 
+>>> performance with qdepth > 128 ?
+>>> What is the tested qdepth and what are the numbers you see with this 
+>>> qdepth ?
 >>
->> Scanning the scatterlist is done anyway for mapping purposes so I 
->> don't think it will affect the performance.
->> The cost of doubling the number of MRs is the what we need to pay to 
->> get optimal performance for contig and discontig IOs, I guess..
->>
->>>> Actually, I think we should have the same logic in the NVMe PCI driver:
->>>> if the IOs can be delivered as PRPs then the driver will prepare SQE 
->>>> with PRP. Otherwise, driver will prepare SGL.
->>>> I think that doing the check in the driver for each IO is not so bad 
->>>> and devices will get benefit from it. Usually HW devices like to 
->>>> work with contiguous buffers. If the buffers can't be mapped with 
->>>> PRPs, then the HW will work a bit harder and use SGLs (it is better 
->>>> than doing a bounce buffer in the block layer).
->>>>
->>>> I actually did a POC internally for NVMe/RDMA and created sg_gaps 
->>>> ib_mr and mem_reg ib_mr and checked the buffers mapping for each IO 
->>>> and got a big benefit if the buffers were discontig (used the 
->>>> sg_gaps mr). Also the contig buffers performance didn't degraded 
->>>> because of the check of the buffers mapping.
->>>>
->>>> I created a fio flags that in purpose sends discontig IOs for my 
->>>> testing.
->>>>
->>>> WDYT ?
->>>
->>> Sounds possible. However for rdma we probably want this transparent to
->>> the ulp such that all consumers can have this benefit. Also perhaps add
->>> this logic in the rdma core so other drivers can use it as well
->>> (although I don't know if any other rdma driver supports sg gaps
->>> anyways).
->>>
->>> If this proves to be a good approach, pci can do something similar.
->>
->> For RDMA, I plan to do it in the device driver (mlx5) layer and not 
->> the ib_core layer. It is unique to our implementation.
+>> Yeah, you are right, the improvement is small(about %1~2%), I do this 
+>> only for better benchmark,
 > 
-> Well, SG_GAPS is not intended to be a unique capability (although it is
-> today in practice I guess).
-
-The uniqueness I meant is to use 2 MRs/Mkeys to implement it. Maybe 
-there are devices that can do it in a single MR/mkey.
-
+> Well, it doesn't come for free, you are essentially doubling the queue
+> depth. I'm also assuming that you tested a single initiator and a
+> single queue?
 > 
+>> I still consist that using the capabilities of RDMA device to 
+>> determine the size of queue is a better choice, but now I change the
 >>
->> For the NVMe PCI case, I suggested doing it unrelated to the NVMe/RDMA 
->> solution. The NVMe/PCI is actually the device driver of the PCI device 
->> and the scanning of the scatterlist should happen in the device driver.
->> I suggest to try this solution since we always debating about 
->> thresholds and when to use SGLs.
->> Now that Christoph opens the gate for the driver to work with 
->> discontig IOs I believe that for *any* discontig IO we should use SGLs 
->> and for *any* contig IO we should use PRPs.
+>> NVME_RDMA_MAX_QUEUE_SIZE to 256 for bidding.
 > 
-> Why *any* contig IO? There are certainly cases where sgls would perform
-> better with sgls than prps I'd assume... For example if a large buffer
-> is physically contiguous (say a huge page)?
+> Still doesn't change the fact that its a pure guess-work if it is
+> supported by the device or not.
+> 
+> Are you even able to create that queue depth with DIF workloads?
+> 
+> Max, what is the maximum effective depth with DIF enabled?
 
-Yup, PRP is limited to MPS..
+I'll need to check it.
 
-There probably should be some capability added to NVMe Spec to help 
-drivers to decide the optimal IO PSDT to use.
-
-So I guess we can say for now:
-if scatterlist is discontig or data_size > sgl_threshold - use sgls
-else use PRPs
+I'll prepare some patches to allow RDMA queue_size to be 256 for non-pi 
+controllers anyway.
+I also would like to add another configfs entry to determine the max 
+queue size of a target port.
+hope to merge it for upcoming merge window.
 
