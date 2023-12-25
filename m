@@ -4,72 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 28095C3DA6E
-	for <linux-nvme@archiver.kernel.org>; Mon, 25 Dec 2023 09:20:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E6ACC3DA6E
+	for <linux-nvme@archiver.kernel.org>; Mon, 25 Dec 2023 09:21:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RfVrqt2734olqsQiYAdhKFpYTQ8WaXQ2R8q370Ut3XI=; b=DDv+U8VGYCISYWtLsEYpqgYinR
-	9d3N5s9G35aqMrFBgLBH6Wuqk2GpKuzde27ew/qcJFYSCthc54PchdZyxfpmKTC8PzLDMXYkgDppg
-	1EDaR9C9ik3pcztS7yZ6/JxqfI48j/sTK0v4ONo2YYnhB+MvaxU23OWPUEPNR3iJYyyrqe4C+T5IQ
-	kuxKASCQSWuXRxALpwnJkF3hrGGbBMdm9vqHhn8PBC0NXh2uGBS+bUSXF9zILQXP0w8ZS4CbN50Vq
-	Cazsz2AMT5NGMKfj3/l9rILQBWS4wdN30jZmU6uOFqo9Ry6buBisRZiAt2vJrpxD5eBYqeyLqnybt
-	ct/Wiu4A==;
+	bh=qFGbcFuvxj1oJJmvJkaRPM64VClsQEZ0ZoC3CaWjLw4=; b=Bpw9cnpQukrMebMAFuw1sr/8/J
+	mY4B6fOLiux9aFm0oL9fNG0zIvCTSV5d1MwVkwTfLpjwfYo+UCb2IAhy1GziOBtCrkdrsVnpPuaoJ
+	MpX8V/9UeIVeFNGQ9pItkqOSX7rjH8Bvk/H64ior5cY2bt4eXnLajD2eCjNpQkOH6joMDzT7kzKIM
+	g6UKXi2T3Qua3Qp4nTTwUJ7+dclMDRHDfpV+MVfF7JUuvc2dNbJ8HIsInEUqdAncQa5noHFfY9Tmu
+	oLf9N4kCB+ZlPg9aMlsp4jpNpLxvFXAqeWNPIRDaFfIC2QLMt6AwpKmnA3XbHz+p+7N5UtkwpANLM
+	swE9V+mA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rHh8d-00ASRX-17;
-	Mon, 25 Dec 2023 09:20:43 +0000
-Received: from mail-wr1-f54.google.com ([209.85.221.54])
+	id 1rHh91-00ASU9-1u;
+	Mon, 25 Dec 2023 09:21:07 +0000
+Received: from mail-wr1-f49.google.com ([209.85.221.49])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rHh8a-00ASR9-39
+	id 1rHh8z-00ASTg-0P
 	for linux-nvme@lists.infradead.org;
-	Mon, 25 Dec 2023 09:20:42 +0000
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3367f8757d0so652051f8f.1
-        for <linux-nvme@lists.infradead.org>; Mon, 25 Dec 2023 01:20:39 -0800 (PST)
+	Mon, 25 Dec 2023 09:21:06 +0000
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3367f8757d0so652110f8f.1
+        for <linux-nvme@lists.infradead.org>; Mon, 25 Dec 2023 01:21:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703496038; x=1704100838;
+        d=1e100.net; s=20230601; t=1703496062; x=1704100862;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RfVrqt2734olqsQiYAdhKFpYTQ8WaXQ2R8q370Ut3XI=;
-        b=kDSGA5fuWjFKuR0X61ggJv3uy6lVImmow+2/7/n2HK6kNL58+5vikagIM1v4/Gdv4b
-         ME4JTix7eX2bdkfPn5q+xCtIQB3PGJYds3znYQPnlfGZYiDXGJ4RcUz5CDFtnOogbwbn
-         40ghAjv1ZpxaU9pA3kMaI/PGS+Am9Ty3O2wt71xksXIWUYf6eiT7NTcJrzNGcjdq17CS
-         dEpYPT9bdlDpCvbbZwiPg7Zmb3J0K6ko067IFh3ebQA6HPLl8YppAO7o2T7VGnvdsOeo
-         gTFMDF3+Tg3UWFGW3y+PIGbDfhIplyC4AB/QcMvrZNRCGiLe7YfAZ5ruEdZCbxXjMo72
-         6hEg==
-X-Gm-Message-State: AOJu0Yw1sfbLWYmcAINp5HmO8z1xJDZDr2Lq07KzFSVMxhOBGgl0yM75
-	XCExIaniBYFa4D6rGWHmIyo=
-X-Google-Smtp-Source: AGHT+IF2vI5ZpST5f3uf4EayUZBIV2vxqzdSbaFVa4+yajOCYOz5QOcmfMOup5POVUYjZuObohk/2g==
-X-Received: by 2002:a05:600c:3584:b0:40d:5329:96a3 with SMTP id p4-20020a05600c358400b0040d532996a3mr3586405wmq.0.1703496037765;
-        Mon, 25 Dec 2023 01:20:37 -0800 (PST)
+        bh=qFGbcFuvxj1oJJmvJkaRPM64VClsQEZ0ZoC3CaWjLw4=;
+        b=KCMz93u9Yc5H331ragx60hlTN1FGhu8EWRNCApT2wui2NCY6641uD6XUKJOq4C6ljg
+         xZ1Qi1m9E5QJ0MU1d/CNCeGUXU3zft5I762Kv1kT5ieqNqOdW5KH5lwTsq4tywI9COtK
+         nxJZU5sYlBMHKQ0EmVQSJ4f3vGI3eu9t8W7OwWMRulMNLpwZI3ikYPKwi3sa8h/IxHDH
+         IvMEkQPNSE4FdfTi1FW0oJn4PAx2i4Ggm8+/QBIy3IA+dz/nKCDwRZ922Lp8G7is7ZGx
+         rKRAJseAWAbmXt1rUc1i5MmH1YHmSd/QjOaAPku8Uutz/9mHCjffdimaHvmVyKQj0Mp0
+         vZcg==
+X-Gm-Message-State: AOJu0YwlTkW5WVq6tdyUrAWa2/BI5pQwjZjk606xPP4NzLB8KF/6ST15
+	gQ4rS3zzm+9R/u1DgTQBcjA=
+X-Google-Smtp-Source: AGHT+IHFEtrsxSRtPl+040Ge40OVup+8/UVS7vRi0YeAGCOuZcAU2yOEVWhgCFYmHliAD/uNLiQAOg==
+X-Received: by 2002:a05:600c:3584:b0:40d:5329:96a3 with SMTP id p4-20020a05600c358400b0040d532996a3mr3587122wmq.0.1703496062269;
+        Mon, 25 Dec 2023 01:21:02 -0800 (PST)
 Received: from [192.168.64.172] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id f11-20020a05600c154b00b0040d556513d0sm4129139wmg.39.2023.12.25.01.20.35
+        by smtp.gmail.com with ESMTPSA id f11-20020a05600c154b00b0040d556513d0sm4129139wmg.39.2023.12.25.01.21.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Dec 2023 01:20:37 -0800 (PST)
-Message-ID: <22aa64db-f282-446a-b905-f93b590e6e24@grimberg.me>
-Date: Mon, 25 Dec 2023 11:20:35 +0200
+        Mon, 25 Dec 2023 01:21:01 -0800 (PST)
+Message-ID: <cc4f51f1-baec-4356-b297-62cd3d7db394@grimberg.me>
+Date: Mon, 25 Dec 2023 11:21:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme: don't set a virt_boundary unless needed
+Subject: Re: [PATCH 1/1] nvme-fabrics: don't check ioccsz/iorcsz for discovery
 Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
-Cc: marcan@marcan.st, sven@svenpeter.dev, axboe@kernel.dk,
- james.smart@broadcom.com, alyssa@rosenzweig.io, asahi@lists.linux.dev,
- linux-nvme@lists.infradead.org, kch@nvidia.com
-References: <20231221084853.1175482-1-hch@lst.de>
- <155ec506-ede8-42c7-95f7-e8be32800a8d@grimberg.me>
- <20231221121746.GA17956@lst.de> <ZYRv7Fo6oCHgETyk@kbusch-mbp>
+To: Caleb Sander <csander@purestorage.com>
+Cc: Max Gurtovoy <mgurtovoy@nvidia.com>, dwagner@suse.de, kbusch@kernel.org,
+ hch@lst.de, linux-nvme@lists.infradead.org, oren@nvdia.com
+References: <20231220092745.35325-1-mgurtovoy@nvidia.com>
+ <573c2ad1-8407-4c8d-b31d-b89b16f0fea0@grimberg.me>
+ <CADUfDZrhPONOEK6xhbn3Uig4UZ+nwg0hDCRUziW8NA_g01raHQ@mail.gmail.com>
+ <5694a097-eec9-45af-8bf5-2e5d3963a03f@grimberg.me>
+ <CADUfDZo5zxgidqjt-OmQVzGXdoONvX=LV0dpm0rCsjjXPhnBpg@mail.gmail.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <ZYRv7Fo6oCHgETyk@kbusch-mbp>
+In-Reply-To: <CADUfDZo5zxgidqjt-OmQVzGXdoONvX=LV0dpm0rCsjjXPhnBpg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231225_012041_032994_DEA53AFF 
-X-CRM114-Status: GOOD (  13.08  )
+X-CRM114-CacheID: sfid-20231225_012105_168806_1C34F9B3 
+X-CRM114-Status: UNSURE (   7.59  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,37 +87,18 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
->>>> NVMe PRPs are a pain and force the expensive virt_boundary checking on
->>>> block layer, prevent secure passthrough and require scatter/gather I/O
->>>> to be split into multiple commands which is problematic for the upcoming
->>>> atomic write support.
->>>
->>> But is the threshold still correct? meaning for I/Os small enough the
->>> device will have lower performance? I'm not advocating that we keep it,
->>> but we should at least mention the tradeoff in the change log.
+>>> Why? As Max points out, the base NVMe spec says those fields are
+>>> reserved for discovery controllers.
 >>
->> Chaitanya benchmarked it on the first generation of devices that
->> supported SGLs.  On the only SGL-enabled device I have there is no
->> performance penality for using SGLs on small transfer, but I'd love
->> to see numbers from other setups.
+>> Oh, didn't understand that it was already the case, I thought
+>> that the intention was to made it as such. Can you point us
+>> to this part in the spec?
 > 
-> It's the larger transfers where it gets worse. To exaggerate the
-> difference, consider send a 2MB write with virtually aligned but
-> discontiguous user buffer: 512 folios.
-> 
-> PRP fits in 1 prp_page_pool block.
-> 
-> SGL needs 3 prp_page_pool blocks, tripling the command's memory usage.
+> https://nvmexpress.org/wp-content/uploads/NVM-Express-Base-Specification-2.0c-2022.10.04-Ratified.pdf
+> Figure 275: Identify – Identify Controller Data Structure, I/O Command
+> Set Independent
+> Both fields IOCCSZ and IORCSZ have "R" in the "Disc" column,
+> indicating that they are reserved for discovery controllers.
 
-My assumption was that in large transfers the memory overhead is
-negligible and the controller dma streaming dominates the performance.
-The threshold was for minimum transfer to use sgls.
-
-In any event, I think that we are talking about theoretical gains/losses
-here. Unless anyone shows a real loss here, we should go with the
-simplicity.
-
-Theoretically the driver could add incremental optimizations if the
-request buffer can use either prp/sgl, but this is something that
-should be explored with real device(s) performance measurements I think.
+Thanks Caleb.
 
