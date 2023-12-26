@@ -4,126 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14E6FC46CD3
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Dec 2023 12:58:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 06A20C46CD3
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Dec 2023 13:28:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5IOAhfc9Iht6vG4YsCEHQZeJo3Rscdz+sfku0yfaaf8=; b=kaGSRTDh4JtvxLVakAqPGjNU5E
-	i+MAsie/G0PCqe5ePvyyeGsVjHdSIQjV+F4WVPWRQo4e0faTd1bNhdRSVTbikJNPiBO4T+GZK02y0
-	eJKJwqVBN1HX8zCF05I49rozopiM5P6D/OknX36JYGJ+LnqdCg73GM5u3J8kp81dEAcstNPVAtuIw
-	a/RAlROnYalHaJL2519NjAJs2M98IV6gsPcPasFcI19pDr6hf+r3pwYvIWwu8W27NszLnineoQSIF
-	5//1uK+DLe8TVVw6tdmVOTkeM9FrboipmFw5ckwLeS3N3Yqb/8YWVpVdQiLwMV0B2wGkDRHAjXm/p
-	ah/tMdxQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=FEhG8FtgFS6LVtXBHGtBhRiENoKCw9Iv8y2ZPo7tAqU=; b=dLvBbgpkPQpA2yIpJDprm6PKVi
+	Gv2D9WmyqO/y5Y573j5U60ciFyhoFfkry2ZLKr2KPYBlyP6jP9wjp3eRyEkPnYRPvmrwoh25qOTCa
+	qEF2V6BeY13VMs2DAX1EP3x8a1nI9k+s9q1zx+I33g8ljW5y57cF6tqnfxq6g2QA/XeK/8zvsRrQE
+	LqcAo5pvIN4tPBdUOJ5+cWrPwx6CnkAr+DuI9Y9Eot59tNKITcGAa48QRN1PJaS3uLu9DPjHCl+9X
+	GA+UabyB1b6ZwxSSF0N1IGALDOWuAdt27HqvootZURuJ+hdYezcvuQRx8wyh1A9UiJzpwMiyFODcT
+	U3ffnU3w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rI71L-00CyqW-0W;
-	Tue, 26 Dec 2023 12:58:55 +0000
-Received: from mail-mw2nam10on20600.outbound.protection.outlook.com ([2a01:111:f403:2412::600] helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+	id 1rI7UL-00D5nI-01;
+	Tue, 26 Dec 2023 13:28:53 +0000
+Received: from mail-m6033.netease.com ([210.79.60.33])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rI71H-00CynE-17
+	id 1rI7UH-00D5kc-1W
 	for linux-nvme@lists.infradead.org;
-	Tue, 26 Dec 2023 12:58:52 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PSV/qBLNJQEKhXs09AgS8KPu9B41vya1t28NoSZ8H/mfrvdWdcoJSMhl/JvHI1ZBxGgf3JCrqK7fp6z2GtZlneXWPf2u1LE7AHlVrUlvs9eFaxhteE8u6/jicnRvj/k0dftDHVtUZEhk7SxiIU70E82K0vsMSO1h5y2HgfF6WagEVQZqnGzvavPexZCjomCT/8ZpyqpJ349vmjPEM2Gn7jj9pS+LPV0D2UCnnTMEtO89PrxLGJxnsG9vohEdI8EXJ0TLVJ9YjVKhdQADBEIyNpdGz7TfZosDIt82djlrIRLXchflncuzflb3KShs+Iz3vmubtSe8CTA5jMBRdBI+wQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5IOAhfc9Iht6vG4YsCEHQZeJo3Rscdz+sfku0yfaaf8=;
- b=dPaz74SucYXqqItHp6bRajol+GKaFH7e/+/+Eb1UxYh6RhxWU+SBWMqgXfSdymvDYvDQ6ytMPEVB9KJ3+TrC/sxqZyoi1AnvcXNNI30J6Vbt0xeemUGHYPUJIwYRvua/IvmwyRNS1fvFGawafa1J9cSDQABjif3KRim5DCQJrG69612dUF/dSREsIKUJQt6BpTZQAhpG63QUbZGNjwIdNlVBb1zUBhirAUzvLjq8NfnaiNTw+pM7BDOUANLE2VCkm7wTW3GGULLajwv0pH09ZsKe6LTMjm7vFxSYDz+qjMUmmeDVQZF39jEQvRpZDh8GSLbd+o9vGHTmUpnLXx2vzQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5IOAhfc9Iht6vG4YsCEHQZeJo3Rscdz+sfku0yfaaf8=;
- b=AgU2RWsMT5+jj4YasBuPTrg6EuGROGTibMcvZel/tcU0IEAHcfihK74XhTNczq/oq7pWkSCujSKipmQma05cV9owfwhNmLcKIyb4qd9lOLbGNmJGCbu24eFjO11vVE+stLYaZDtmFt0R4p/iQpP32GLa+H2RkNSstIJ2q455jpjfXbX5nKENcQrq3snWMbVdvt2zIEVtE2QN9c6JLmB+TCRd9JaxfBangrMC9rJNVToG3R5aPcIH9AMeobjdU8Ste2uQDrDogv89o0WAnVm6Lo+3JW8wdHNgvo5T2rf2da0jvNRTYqlSnUiHiyFM9X7MwQpT5Vgu56K7GmBLDR5RBw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
- by BL0PR12MB4850.namprd12.prod.outlook.com (2603:10b6:208:1c5::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.27; Tue, 26 Dec
- 2023 12:58:34 +0000
-Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
- ([fe80::eb39:938e:7503:c21e]) by SJ1PR12MB6075.namprd12.prod.outlook.com
- ([fe80::eb39:938e:7503:c21e%3]) with mapi id 15.20.7113.026; Tue, 26 Dec 2023
- 12:58:34 +0000
-From: Aurelien Aptel <aaptel@nvidia.com>
-To: Simon Horman <horms@kernel.org>
-Cc: linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
- sagi@grimberg.me, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
- chaitanyak@nvidia.com, davem@davemloft.net, kuba@kernel.org,
- aurelien.aptel@gmail.com, smalin@nvidia.com, malin1024@gmail.com,
- ogerlitz@nvidia.com, yorayz@nvidia.com, borisp@nvidia.com,
- galshalom@nvidia.com, mgurtovoy@nvidia.com
-Subject: Re: [PATCH v22 16/20] net/mlx5e: NVMEoTCP, queue init/teardown
-In-Reply-To: <20231223174845.GJ201037@kernel.org>
-References: <20231221213358.105704-1-aaptel@nvidia.com>
- <20231221213358.105704-17-aaptel@nvidia.com>
- <20231223174845.GJ201037@kernel.org>
-Date: Tue, 26 Dec 2023 14:58:30 +0200
-Message-ID: <25334vpi0i1.fsf@nvidia.com>
-Content-Type: text/plain
-X-ClientProxiedBy: LO2P265CA0264.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:8a::36) To SJ1PR12MB6075.namprd12.prod.outlook.com
- (2603:10b6:a03:45e::8)
+	Tue, 26 Dec 2023 13:28:51 +0000
+Received: from [192.168.182.216] (unknown [110.185.170.227])
+	by smtp.qiye.163.com (Hmail) with ESMTPA id 27D4A4C0123;
+	Tue, 26 Dec 2023 21:28:00 +0800 (CST)
+Message-ID: <dda859d1-41f5-423c-a9e2-900a1573c3a9@easystack.cn>
+Date: Tue, 26 Dec 2023 21:27:59 +0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|BL0PR12MB4850:EE_
-X-MS-Office365-Filtering-Correlation-Id: 82917bca-4df4-45d2-4109-08dc06125e61
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rDk69XpnLaxY9w8+VpDg5mGGVPiXhQENye2a9GfrfnSWgvm6JF5P6w5IachTMx+iqbWusZF2SZUhLM6lox3bL7Hi8b1/RpunR4C5p5rfZM/jz0l2ZmgI9o8VzUlw34yfH0LEJ9q4SmCR3DZoxLJFoICob6ILDwVrQaZUtNROxcrCM46ssHYbMoOyBCUPski8EmEP+1xgBef5eyneXE5Y+q48hWRuCcxX9PEyGc21mpkGD1RnFSlcF+zcvU94UcqOCvhTs1VLZpUDYVyKxzwWheLwioJoWcHB3pU17M6EgS79C+LLw0FvPJGbBOlRpAMvr6LzrD/FZUuc5BWz9ZVQxcw5cCfmB0kMGB5ITiq9nKDNs3YsmouCa4Zor3aeVcIFzPDJrj8ijUkupCfzhwqY4BT7o6SUiYWJAWqcLjhWYFuZckMtkzbyUe8JnzEWlddoMLsDo6PdIBg1WNqH/t//ADes5IXz6c27lHrynyyD00upmnAWDCJQCClt/KrefA4zaAmbdQcJ5/w3KPu8qSCn46ToiaVB6xMoMjbaPf1tV8Y4zYQUXL2GUnQ/jrIzALgH
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(39850400004)(376002)(136003)(346002)(230922051799003)(451199024)(1800799012)(64100799003)(186009)(5660300002)(7416002)(2906002)(478600001)(26005)(2616005)(107886003)(38100700002)(6486002)(41300700001)(86362001)(558084003)(36756003)(316002)(66476007)(66556008)(66946007)(6916009)(6512007)(6506007)(6666004)(8936002)(4326008)(8676002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?soW01WwfiFgY3419lwLk3YslhWLzVLgGeyjQhySFA282scLNzFGDPHlktY6p?=
- =?us-ascii?Q?r4jnvVHUp/qiRAkEzArhm+UV/OYwKlYsNBZCSg0ifSaZ8dF0AYq/UC2MWRkR?=
- =?us-ascii?Q?e1d45WdrXVc/6xtYrQzVNdJJFCcobDewAC0PAdxbUQC/DZ/1J/50lUUvgmTC?=
- =?us-ascii?Q?pLAtkRUuFFcQa+SRhoSkZ0xr+ZhQlQwMStIXL715bBFjMHu6gmEqyJBI+s6S?=
- =?us-ascii?Q?na3OOUSjTr7tDyIDzdkCGG8PpHaRNNTv3wEKvxohvAmpXsiNm9YaJFYQoAha?=
- =?us-ascii?Q?Sjixkvuv5aBOW6cHimkqvSkYduEDfAk+QtUXZtZmLFRoD8OVYaL9u/M4GzlT?=
- =?us-ascii?Q?dvTWLSuTzzx/NHYtOz6LvD3oB+yrlohimrmIDRWE5QdaSbRTSqzi2q0ovCH5?=
- =?us-ascii?Q?tA5BVn1gXew7D3336spzky1aex3Q330W91JMMuO9aYPekkAlm4IZ2cJlB6uJ?=
- =?us-ascii?Q?pBn/3vuNHd62uJ10LvukMMMW1TyWS0JKOPmGQHa6M1BRVYTnr+ipv6snCjYe?=
- =?us-ascii?Q?nBHVwVwqr+bnJMqir3HVzVHJT/5PUWTcNP09T+EStACapWUkCm8yXeQLmqeE?=
- =?us-ascii?Q?guVGaLKygDVOa4VIKdVdaa3M7669Q2MLABM8J6P3FE+uL0PyCue4wtj+61Ub?=
- =?us-ascii?Q?tIN+R0ckMFdNsjkqt7xoriS5I6qP+EXuBPxaYEzNEIsAOnXVao8xwCMhPSKj?=
- =?us-ascii?Q?nnszEP3PqZ3Dfroq709DnKw0FwPVKVkUVPBCq7H1CoOGwmS7xTiczfB8KAmH?=
- =?us-ascii?Q?gWJfoT8pppJvQUgMU5yrJ0tGTq07lnBQ+U7fXpUiBTD/MY1aXNC85+O4c28o?=
- =?us-ascii?Q?Jl+qOFInW1j8Re4HQe2X7+gn5u7QFSxm40VHyY8khOy0WxoPv0PLPWriA4WA?=
- =?us-ascii?Q?3alhBbBhSZIW9I5gkICfCOT5CVkgGQwHdijNpFDGHtHTwAnhwR/hTGDnQENK?=
- =?us-ascii?Q?9a3I0G3AReCgxcLfhvXVd4b6B0Tg5jc5jnbM4HoXgXfR9cKvQu+54umayi3q?=
- =?us-ascii?Q?i/vnSPZtgrEnHTwTvBQ4iIARevX3GypFEgnTMkCG4UpcmgFeHK+oe4zsxfaf?=
- =?us-ascii?Q?wkfDdTumgR3lCdTM6g4SghEkn5n661ZdOvEsACnlA+HguMsc8FrMSbZckXXW?=
- =?us-ascii?Q?ptkuW1KY73agNzCEBaLnMX7ti8zL+uU8jaU8YvThCJTpE0bags1wlCHO1BwT?=
- =?us-ascii?Q?pwdeXl58H/E3zqB/ECfENC60ObhXxw520wWdY+NM95mZcgi+J/0UWOEpOA1C?=
- =?us-ascii?Q?dzK5TK5H3UJNIUN+N3PWmRkX8uKiqM+rthyKWXJYSk2hmgVHOYMIMlAH1tsb?=
- =?us-ascii?Q?GUWFwlK0vjp3rIVCct6bo6RYrYxMy5huBAPJ4srcRj0Ynldm6aKelkXC51PO?=
- =?us-ascii?Q?cxdQOAb9SewDszGLliLJ2cV+Skf0Kk39ydKP+W2IbOIhgTjsK6gdGiKR0LFp?=
- =?us-ascii?Q?9YlLXscYmIrOpQ3yg51kwQhMOwkZFMdjEpyS5VSeJo281qH5rt6OkvVLQO9o?=
- =?us-ascii?Q?3jcbVvRQ6oWnplN7UQtb9qjD8E4cWkJ4LUWpItogJzIUNKPMG+XHmp3v4SWJ?=
- =?us-ascii?Q?BhmdY4yl100qXPlqYBMsTuOp63usQb82DOAyFpih?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 82917bca-4df4-45d2-4109-08dc06125e61
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Dec 2023 12:58:34.4310
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Kv5phfsvyK133NsHwe1XQIa8MuN+/s9WiWsaaVcofMuaS5R3G9yXbjcm985gY4eo3dJSk3E4dChTL08harrAJQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4850
+User-Agent: Mozilla Thunderbird
+Subject: Re: Should NVME_SC_INVALID_NS be translated to BLK_STS_IOERR instead
+ of BLK_STS_NOTSUPP so that multipath(both native and dm) can failover on the
+ failure?
+From: Jirong Feng <jirong.feng@easystack.cn>
+To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>
+Cc: Jens Axboe <axboe@fb.com>, linux-nvme@lists.infradead.org,
+ peng.xiao@easystack.cn
+References: <9b1589fb-6f47-40bb-8aa6-22ae61145de4@easystack.cn>
+ <ZW6pJAm9wgqj1HEW@kbusch-mbp> <20231205044035.GA28685@lst.de>
+ <08f2c221-cca7-4d34-ab78-157d4eae4f68@grimberg.me>
+ <945fa17c-f1d0-4928-972b-da29ca5c95ec@easystack.cn>
+ <a99971dc-9157-4a0f-8fb7-5fa495434b99@grimberg.me>
+ <b8cd8de7-9167-4b8f-b255-c022376a7c9d@easystack.cn>
+In-Reply-To: <b8cd8de7-9167-4b8f-b255-c022376a7c9d@easystack.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFJQjdXWS1ZQUlXWQ8JGhUIEh9ZQVkaSBpMVhgeQ0JMTkkaSxofGVUZERMWGhIXJBQOD1
+	lXWRgSC1lBWUpKS1VKQ05VSkxLVUlJTFlXWRYaDxIVHRRZQVlPS0hVSk1PSUxOVUpLS1VKQktLWQ
+	Y+
+X-HM-Tid: 0a8ca64f8d52022ekunm27d4a4c0123
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Nwg6ORw5NDc3VixLEgw2KD8C
+	HAEaChZVSlVKTEtITkJMSUNKS0NNVTMWGhIXVRESCRQVHFUdHhUcOx4aCAIIDxoYEFUYFUVZV1kS
+	C1lBWUpKS1VKQ05VSkxLVUlJTFlXWQgBWUFCTktNNwY+
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20231226_045851_432145_179FFCA2 
-X-CRM114-Status: UNSURE (   4.63  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20231226_052849_769973_3C3EFB3B 
+X-CRM114-Status: GOOD (  12.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -138,13 +77,173 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Simon,
+I've tested the patch basing on kernel version 6.6.0. It seems not 
+working...
 
-Simon Horman <horms@kernel.org> writes:
-> This doesn't seem to compile with gcc-13 with allmodconfig on x86_64:
+here's my steps & results:
 
-The latest pull of mlx5 changes in netdev broke our patches. We will
-rebase and resubmit in the next merge window.
+1. create a VM and make & install kernel from source applying the patch.
 
-Thanks
+[root@fjr-nvmet-1 ~]# uname -r
+6.6.0-mytest+
+
+2. clone that VM.
+
+3. create a shared volume and attach to the both VMs.
+
+4. config nvmet as below:
+
+VM1:
+
+o- / 
+......................................................................................................................... 
+[...]
+   o- hosts 
+................................................................................................................... 
+[...]
+   o- ports 
+................................................................................................................... 
+[...]
+   | o- 1 ................................................ [trtype=tcp, 
+traddr=192.168.111.99, trsvcid=4420, inline_data_size=262144]
+   |   o- ana_groups 
+.......................................................................................................... 
+[...]
+   |   | o- 1 
+..................................................................................................... 
+[state=optimized]
+   |   o- referrals 
+........................................................................................................... 
+[...]
+   |   o- subsystems 
+.......................................................................................................... 
+[...]
+   |     o- 
+nqn.2014-08.org.nvmexpress:NVMf:uuid:cf4bb93c-949f-4532-a5c1-b8bd267a4e06 
+......................................... [...]
+   o- subsystems 
+.............................................................................................................. 
+[...]
+     o- 
+nqn.2014-08.org.nvmexpress:NVMf:uuid:cf4bb93c-949f-4532-a5c1-b8bd267a4e06 
+[version=1.3, allow_any=1, serial=308df2776344fdd17cba]
+       o- allowed_hosts 
+....................................................................................................... 
+[...]
+       o- namespaces 
+.......................................................................................................... 
+[...]
+         o- 1 .......................................... [path=/dev/vdc, 
+uuid=cf4bb93c-949f-4532-a5c1-b8bd267a4e06, grpid=1, enabled]
+
+VM2:
+
+o- / 
+......................................................................................................................... 
+[...]
+   o- hosts 
+................................................................................................................... 
+[...]
+   o- ports 
+................................................................................................................... 
+[...]
+   | o- 1 ............................................... [trtype=tcp, 
+traddr=192.168.111.111, trsvcid=4420, inline_data_size=262144]
+   |   o- ana_groups 
+.......................................................................................................... 
+[...]
+   |   | o- 1 
+..................................................................................................... 
+[state=optimized]
+   |   o- referrals 
+........................................................................................................... 
+[...]
+   |   o- subsystems 
+.......................................................................................................... 
+[...]
+   |     o- 
+nqn.2014-08.org.nvmexpress:NVMf:uuid:cf4bb93c-949f-4532-a5c1-b8bd267a4e06 
+......................................... [...]
+   o- subsystems 
+.............................................................................................................. 
+[...]
+     o- 
+nqn.2014-08.org.nvmexpress:NVMf:uuid:cf4bb93c-949f-4532-a5c1-b8bd267a4e06 
+[version=1.3, allow_any=1, serial=0dcf77d36826000cc5a0]
+       o- allowed_hosts 
+....................................................................................................... 
+[...]
+       o- namespaces 
+.......................................................................................................... 
+[...]
+         o- 1 .......................................... [path=/dev/vdc, 
+uuid=cf4bb93c-949f-4532-a5c1-b8bd267a4e06, grpid=1, enabled]
+
+5. create a host vm(CentOS 8.1, kernel version 
+4.18.0-147.3.1.el8_1.aarch64), config dm multipath
+
+[root@fjr-vm1 ~]# cat /etc/multipath/conf.d/nvme.conf
+devices {
+     device {
+                 vendor                  "NVME"
+                 product                 "Linux"
+                 path_selector           "round-robin 0"
+                 path_grouping_policy    failover
+                 uid_attribute           ID_SERIAL
+                 prio                    "ANA"
+                 path_checker            "none"
+                 #rr_min_io               100
+                 #rr_min_io_rq            "1"
+                 #fast_io_fail_tmo        15
+                 #dev_loss_tmo            600
+                 #rr_weight               uniform
+                 rr_weight               priorities
+                 failback                immediate
+                 no_path_retry           queue
+     }
+}
+
+
+6. connect nvme on host, finally it looks like:
+
+[root@fjr-vm1 ~]# nvme list
+Node             SN Model                                    Namespace 
+Usage                      Format           FW Rev
+---------------- -------------------- 
+---------------------------------------- --------- 
+-------------------------- ---------------- --------
+/dev/nvme0n1     0dcf77d36826000cc5a0 
+Linux                                    1         107.37  GB / 107.37  
+GB    512   B +  0 B   6.6.0-my
+/dev/nvme1n1     308df2776344fdd17cba 
+Linux                                    1         107.37  GB / 107.37  
+GB    512   B +  0 B   6.6.0-my
+
+[root@fjr-vm1 ~]# nvme list-subsys
+nvme-subsys0 - 
+NQN=nqn.2014-08.org.nvmexpress:NVMf:uuid:cf4bb93c-949f-4532-a5c1-b8bd267a4e06
+\
+  +- nvme0 tcp traddr=192.168.111.111 trsvcid=4420 live
+  +- nvme1 tcp traddr=192.168.111.99 trsvcid=4420 live
+
+[root@fjr-vm1 ~]# multipath -ll
+mpatha (Linux_0dcf77d36826000cc5a0) dm-0 NVME,Linux
+size=100G features='1 queue_if_no_path' hwhandler='0' wp=rw
+|-+- policy='round-robin 0' prio=50 status=active
+| `- 1:1:1:1 nvme1n1 259:1 active ready running
+`-+- policy='round-robin 0' prio=50 status=enabled
+   `- 0:1:1:1 nvme0n1 259:0 active ready running
+
+7. execute fio on host, and disable namespace on the vm corresponding to 
+nvme1, the same error goes again:
+
+fio: io_u error on file /dev/dm-0: Operation not supported: write 
+offset=14734594048, buflen=4096
+fio: io_u error on file /dev/dm-0: Operation not supported: write 
+offset=106607394816, buflen=4096
+fio: pid=16076, err=95/file:io_u.c:1747, func=io_u error, 
+error=Operation not supported
+
+
+
 
