@@ -4,35 +4,35 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D34B6C46CD3
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Dec 2023 08:59:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5596C46CD3
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Dec 2023 08:59:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3kZXvp/gPXFBeAnMUgrGHsnFZo9JvRkzCHnvmzGz364=; b=Oli2X5J6+/HEolEN3ih9O/Whn8
-	7+OvbjO/hqF2J5/0zHfQvEwqrknE0EMCsjeDGokUmx8hutmiiQx3f24elv/hZ/sxuTWxO5pCf90En
-	TucF7H9gLcvV3K4H0mfLoRH0xnpBpeAMqRaYNIXt5tUt7i/RZd7baKZiuMstLDx+1EJK1ks+sVv+B
-	ytS0MtFdelBUWDJixu0E2PEljUjUBeKsoiNDmvv/U+IJXwx60oPshbAnpwRVwN32QVlYrJs2NY3YT
-	ByA9X2DnwZfELeFjPizYv1ky0M/Rzn89erLHg59W976HeiVb2YCS7cx1gcTLwqepYwfm5qgHbNfey
-	yrSOMzew==;
+	bh=elqdaWbqyaqltl5Ygx+qXK9f+ginFO29Fda7oZPZ+ec=; b=3KQPGAjS4UWsd1T1/lMo20LYHo
+	XD6BcjO4iWmtR4yObR7cmqMGjLnfXZHhpbobvQ/ZMBK6g5cieQTABB7ZkBMxWH6Mxr9vCISv5l8Z5
+	I0NO0JC/UkaLqlR866Z68pszcJHvliD34n7Ynqxx4KTOcrO+TRdA6RROWazDtl7tTCLYgdpc7NPHt
+	H7g4xDfP5cvJTUi1qW0RymE+6DDgYUntDYFu7egYotJMvjoAQ19q6hq0bzdng2LLx+j0rcSHhE0yX
+	mj/+BwYDdOzMnW+c0Uz+8Z9MfgI7J79AV3cssAjfFD1wgNyLknKh4dwmwa6lObi/FVJspQpME8owQ
+	Ea/2z1VA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rI3HM-00Bw2D-0S;
-	Tue, 26 Dec 2023 08:59:12 +0000
+	id 1rI3HR-00Bw4u-0j;
+	Tue, 26 Dec 2023 08:59:17 +0000
 Received: from [89.144.222.247] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rI3HJ-00Bw0a-0E;
-	Tue, 26 Dec 2023 08:59:09 +0000
+	id 1rI3HO-00Bw1k-02;
+	Tue, 26 Dec 2023 08:59:15 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH 3/4] nvme: fix max_discard_sectors calculation
-Date: Tue, 26 Dec 2023 08:58:43 +0000
-Message-Id: <20231226085844.203878-4-hch@lst.de>
+Subject: [PATCH 4/4] nvme: simplify the max_discard_segments calculation
+Date: Tue, 26 Dec 2023 08:58:44 +0000
+Message-Id: <20231226085844.203878-5-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231226085844.203878-1-hch@lst.de>
 References: <20231226085844.203878-1-hch@lst.de>
@@ -52,82 +52,73 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-ctrl->max_discard_sectors stores a value that is potentially based of
-the DMRSL field in Identify Controller, which is in units of LBAs and
-thus dependent on the Format of a namespace.
+Just stash away the DMRL value in the nvme_ctrl struture, and leave
+all interpretation to nvme_config_discard, where we know DSM is
+supported by the time we're configuring the number of segments.
 
-Fix this by moving the calculation of max_discard_sectors entirely
-into nvme_config_discard and replacing the ctrl->max_discard_sectors
-value with a local variable so that the calculation is always
-namespace-specific.
-
-Fixes: 1a86924e4f46 ("nvme: fix interpretation of DMRSL")
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/core.c | 20 +++++++++-----------
- drivers/nvme/host/nvme.h |  1 -
- 2 files changed, 9 insertions(+), 12 deletions(-)
+ drivers/nvme/host/core.c | 13 +++++--------
+ drivers/nvme/host/nvme.h |  2 +-
+ 2 files changed, 6 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 6c52b0ab382c85..86b9a1c4876f5f 100644
+index 86b9a1c4876f5f..50818dbcfa1ae1 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1727,12 +1727,13 @@ static void nvme_config_discard(struct nvme_ctrl *ctrl, struct gendisk *disk,
- 		struct nvme_ns_head *head)
- {
- 	struct request_queue *queue = disk->queue;
-+	u32 max_discard_sectors;
- 
--	if (ctrl->dmrsl && ctrl->dmrsl <= nvme_sect_to_lba(head, UINT_MAX))
--		ctrl->max_discard_sectors =
--			nvme_lba_to_sect(head, ctrl->dmrsl);
--
--	if (ctrl->max_discard_sectors == 0) {
-+	if (ctrl->dmrsl && ctrl->dmrsl <= nvme_sect_to_lba(head, UINT_MAX)) {
-+		max_discard_sectors = nvme_lba_to_sect(head, ctrl->dmrsl);
-+	} else if (ctrl->oncs & NVME_CTRL_ONCS_DSM) {
-+		max_discard_sectors = UINT_MAX;
-+	} else {
- 		blk_queue_max_discard_sectors(queue, 0);
- 		return;
- 	}
-@@ -1750,7 +1751,7 @@ static void nvme_config_discard(struct nvme_ctrl *ctrl, struct gendisk *disk,
- 	if (queue->limits.max_discard_sectors)
+@@ -1752,7 +1752,10 @@ static void nvme_config_discard(struct nvme_ctrl *ctrl, struct gendisk *disk,
  		return;
  
--	blk_queue_max_discard_sectors(queue, ctrl->max_discard_sectors);
-+	blk_queue_max_discard_sectors(queue, max_discard_sectors);
- 	blk_queue_max_discard_segments(queue, ctrl->max_discard_segments);
+ 	blk_queue_max_discard_sectors(queue, max_discard_sectors);
+-	blk_queue_max_discard_segments(queue, ctrl->max_discard_segments);
++	if (ctrl->dmrl)
++		blk_queue_max_discard_segments(queue, ctrl->dmrl);
++	else
++		blk_queue_max_discard_segments(queue, NVME_DSM_MAX_RANGES);
  	queue->limits.discard_granularity = queue_logical_block_size(queue);
  
-@@ -2911,13 +2912,10 @@ static int nvme_init_non_mdts_limits(struct nvme_ctrl *ctrl)
+ 	if (ctrl->quirks & NVME_QUIRK_DEALLOCATE_ZEROES)
+@@ -2912,11 +2915,6 @@ static int nvme_init_non_mdts_limits(struct nvme_ctrl *ctrl)
  	struct nvme_id_ctrl_nvm *id;
  	int ret;
  
--	if (ctrl->oncs & NVME_CTRL_ONCS_DSM) {
--		ctrl->max_discard_sectors = UINT_MAX;
-+	if (ctrl->oncs & NVME_CTRL_ONCS_DSM)
- 		ctrl->max_discard_segments = NVME_DSM_MAX_RANGES;
--	} else {
--		ctrl->max_discard_sectors = 0;
-+	else
- 		ctrl->max_discard_segments = 0;
--	}
- 
+-	if (ctrl->oncs & NVME_CTRL_ONCS_DSM)
+-		ctrl->max_discard_segments = NVME_DSM_MAX_RANGES;
+-	else
+-		ctrl->max_discard_segments = 0;
+-
  	/*
  	 * Even though NVMe spec explicitly states that MDTS is not applicable
+ 	 * to the write-zeroes, we are cautious and limit the size to the
+@@ -2946,8 +2944,7 @@ static int nvme_init_non_mdts_limits(struct nvme_ctrl *ctrl)
+ 	if (ret)
+ 		goto free_data;
+ 
+-	if (id->dmrl)
+-		ctrl->max_discard_segments = id->dmrl;
++	ctrl->dmrl = id->dmrl;
+ 	ctrl->dmrsl = le32_to_cpu(id->dmrsl);
+ 	if (id->wzsl)
+ 		ctrl->max_zeroes_sectors = nvme_mps_to_sectors(ctrl, id->wzsl);
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 3dbd187896d8d8..9a698c49ea0364 100644
+index 9a698c49ea0364..297b80430f1b69 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -297,7 +297,6 @@ struct nvme_ctrl {
+@@ -297,13 +297,13 @@ struct nvme_ctrl {
  	u32 max_hw_sectors;
  	u32 max_segments;
  	u32 max_integrity_segments;
--	u32 max_discard_sectors;
- 	u32 max_discard_segments;
+-	u32 max_discard_segments;
  	u32 max_zeroes_sectors;
  #ifdef CONFIG_BLK_DEV_ZONED
+ 	u32 max_zone_append;
+ #endif
+ 	u16 crdt[3];
+ 	u16 oncs;
++	u8 dmrl;
+ 	u32 dmrsl;
+ 	u16 oacs;
+ 	u16 sqsize;
 -- 
 2.39.2
 
