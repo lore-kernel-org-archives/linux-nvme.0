@@ -4,70 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 10FADC47073
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 Jan 2024 11:18:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2D726C47073
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Jan 2024 11:20:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=nfJU76OBu48kgtfoZAb65OrrI1
-	0jLkeyDZFkget91bri/9H133mRhxsfGNEHQfS0XUUB5LTEAW6prWURUqXbP/OFbk7nY6CAnnYjv+E
-	h5oWVW/19hhohRYMtBLW6VX2SM33ryxmBNN7k1dLNv0aIWajoyTDXvCT1HFkVtgjYVrOhM/QplrUh
-	5SyvzIXUan8H70ITLO9hbcfiS1mUuELxFChQcEuB37/DTDtGMqfLZ8STnICnYjYWCnuk4rtITkN6L
-	04SNmqplzzT48vUMQKWBwAzwd6vkY51h7j7u3V17nJOt1FQbOut5aAfD4ZadQ8SnvE2u4uGwVD09B
-	/QgJCmCA==;
+	bh=YNK1NJAI1fkUW47cH9u4dB4Oh27DLMH5Z33vw6bc3n4=; b=nw9380MHbiwR5/CMGrdrbHsqPH
+	zRluWB45roErvB0NY3/sqR3EIEjvfA6IQFr/LcPc64OIRSF+TLDd5rb/NF/WXjrQPmsnCdX95wnwP
+	DrVDaOoK2wi4XeLKKuZ9gBdX0lsu+icGvTVvibqxmCQur73ELeOZvamBvd3g6LQPjqbxVUSdTDH3+
+	uJZTHUkd6UuPwPt8+/vOZVeAe6U+b47aCx5lSkqX2W7nSsSyTjHQONjO6+gmTMs1GuZODK41AeNvU
+	F4cbohKuHRjBe4mVz42b5AbQPyCmm3c2y8PJvTKDT45igQ5nNqE4H6dDEl7A4loo+za2N1WULrCpH
+	nwKmfAVA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rKGIv-005vmu-2E;
-	Mon, 01 Jan 2024 11:17:57 +0000
-Received: from mail-wm1-f43.google.com ([209.85.128.43])
+	id 1rKGL1-005vv9-25;
+	Mon, 01 Jan 2024 11:20:07 +0000
+Received: from mail-wm1-f51.google.com ([209.85.128.51])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rKGIs-005vmV-2p
+	id 1rKGKz-005vum-1S
 	for linux-nvme@lists.infradead.org;
-	Mon, 01 Jan 2024 11:17:56 +0000
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-40d2df9cc39so25502045e9.0
-        for <linux-nvme@lists.infradead.org>; Mon, 01 Jan 2024 03:17:51 -0800 (PST)
+	Mon, 01 Jan 2024 11:20:06 +0000
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40d5a733823so2626955e9.1
+        for <linux-nvme@lists.infradead.org>; Mon, 01 Jan 2024 03:20:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704107870; x=1704712670;
+        d=1e100.net; s=20230601; t=1704108003; x=1704712803;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=OdCJPtYOYsKYThoKucS7h70R4GYFpEB08eVKAJnpQ68BIR5wTIhBs4p2rDkxc5faeg
-         dP7y/FtvXNxJubX5QyTN8NH4PkeiR40CAK/xRgOkK/F0rWDvPkZomPGyCrqTx94ndy5g
-         wsMKLquCefbgSrabkY6/toDrydpRD5mzYgpbQwErBbdQrz+e9/uZZO6mIdLYKlXhklui
-         kHY3fSfualQg1jcxYKqUoAnf44jXq7/NUVIMxyHiSLrnB66K6IZpY9ciEA1E/sLoBD5B
-         LBTPfKsB+UdD0dHOW+B2r2X9okTDstEb9HNR5ne8M3YlrL4TViiRsp8DrdbuIE0ukPoW
-         FruQ==
-X-Gm-Message-State: AOJu0YwIl1XyAPgAqL5xqrvQMUH/9JSSO5eZ1Fm1QzmiGvtwystK52Q/
-	DmY52dKI7eT4JnEwzqwNHptDPzLWJzQ=
-X-Google-Smtp-Source: AGHT+IFFh+iLdgi9ii4BF/0FvnYI/ezwC3Crca9GFyucTIXsW73GzwUm7QQuLticwCSC1CXPnMdYgg==
-X-Received: by 2002:a05:600c:3581:b0:40d:5a39:b6de with SMTP id p1-20020a05600c358100b0040d5a39b6demr11588071wmq.1.1704107870218;
-        Mon, 01 Jan 2024 03:17:50 -0800 (PST)
+        bh=YNK1NJAI1fkUW47cH9u4dB4Oh27DLMH5Z33vw6bc3n4=;
+        b=FW1neUBDAPpnjlXwv8Zbl557sc0iykwww2/t3Tnn2gncLFEfzxj8IrwnjO3omZ7FzG
+         WwP0kpz5ML1t+YXs9QRKbIKliRLIN8R6vfaWR7nsYBkRAGHlTX3HVlrtl8cERJvUkZUk
+         yx/493wqPXkbpo4DLvASP+Fu7Wp4MJGrn+ARgd1LlKqm5TCgxNh1EhCEtTtWkQX8aNtT
+         apr99ymInsLIJZsF2yxb/SoQ0hrK3M+OCvXVC3AOPmV3ptVP7ow5JL+afSfoH09OJFss
+         nykci4vjOw8jimBLcIzq42GECqhR9afjiUgYjdDUdKfB+cB/tNC1iTM4VRLsuJ4KglBv
+         mNLw==
+X-Gm-Message-State: AOJu0YxAcs9wTHGZD14xqQMg6l9hYdaXLAXV7mb1UoAsn4OKzMO7xPqj
+	e+bEGM9iaXsd/H07AKuWcHc=
+X-Google-Smtp-Source: AGHT+IH4p5D72SBAIuDNYvVbZPWndxFuZB79QVlpRywXppI06DbeAV+Zae7DOIRX9XQrpZ7ODYCUlg==
+X-Received: by 2002:a05:600c:4f90:b0:40d:5ae4:726a with SMTP id n16-20020a05600c4f9000b0040d5ae4726amr10886363wmq.4.1704108003034;
+        Mon, 01 Jan 2024 03:20:03 -0800 (PST)
 Received: from [192.168.64.172] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id m2-20020a05600c4f4200b0040d5c58c41dsm20296850wmq.24.2024.01.01.03.17.49
+        by smtp.gmail.com with ESMTPSA id m2-20020a05600c4f4200b0040d5c58c41dsm20303033wmq.24.2024.01.01.03.20.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Jan 2024 03:17:49 -0800 (PST)
-Message-ID: <32918354-8837-453b-a677-f89b10f9e53e@grimberg.me>
-Date: Mon, 1 Jan 2024 13:17:48 +0200
+        Mon, 01 Jan 2024 03:20:02 -0800 (PST)
+Message-ID: <8dca8961-ead8-44d2-bc58-2be9edbe5d81@grimberg.me>
+Date: Mon, 1 Jan 2024 13:20:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] nvme: remove unused definition
+Subject: Re: [PATCH 03/10] nvme-fabrics: move queue size definitions to common
+ header
 Content-Language: en-US
 To: Max Gurtovoy <mgurtovoy@nvidia.com>, kbusch@kernel.org, hch@lst.de,
  linux-nvme@lists.infradead.org
-Cc: israelr@nvidia.com, kch@nvidia.com, hare@suse.de
-References: <20240101103527.8034-1-mgurtovoy@nvidia.com>
+Cc: kanie@linux.alibaba.com, oren@nvidia.com, israelr@nvidia.com,
+ kch@nvidia.com
+References: <20231231005249.18294-1-mgurtovoy@nvidia.com>
+ <20231231005249.18294-4-mgurtovoy@nvidia.com>
+ <41e49eb9-24e5-47c8-96a9-12d47cfe3367@grimberg.me>
+ <24453b86-800e-4a92-b78b-5fe7d92a9c8f@nvidia.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20240101103527.8034-1-mgurtovoy@nvidia.com>
+In-Reply-To: <24453b86-800e-4a92-b78b-5fe7d92a9c8f@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240101_031754_914448_661E1965 
-X-CRM114-Status: UNSURE (   5.56  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240101_032005_493347_C4AAA3CA 
+X-CRM114-Status: GOOD (  12.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,5 +86,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+
+>>> These definitions will be used by host and target fabrics drivers. Move
+>>> them to a common place.
+>>
+>> Don't see why these should in any way be common.
+> 
+> why not ?
+> why should we define these values separately for hosts and targets ?
+
+Because the host and the target are separate systems. Don't know why
+they should share the same defines for something like this.
+
+> 
+>>
+>>>
+>>> In the future we can introduce a common nvme-fabrics header to ease on
+>>> the maintenance of the global nvme.h header.
+>>
+>> nvme.h is the wrong place IMO.
+> 
+> I've mentioned that it will be better to create 
+> include/linux/nvme-fabrics.h file for common definitions for fabrics 
+> drivers.
+> But we can do it incrementally.
+
+I still think that nvme.h is the wrong place for this. But if others
+don't mind then fine.
 
