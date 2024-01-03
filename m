@@ -4,79 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F107C3DA6E
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Jan 2024 07:36:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DFF79C3DA6E
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Jan 2024 08:37:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:References:Message-ID:Date:Subject:CC:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	bh=pIbgn0+SU19Y3QXg4qY+N3AlrROffhoko+2HMCRj5+E=; b=i7cor/MHcBE5oHHvgIqjuw5JGE
-	PG9HorVYAoVaVneyIddOEgBdZGvbCkCed9XFxy52tW+hwjcLSKEry4s9E+gd5e+tpj3ANvHaYx5r3
-	NVbKY4N0AW85rnplFNmi/wiWOYyrr0X+3PCPBvDZ+2wRkzlmHpEGHxH6uzh9KWF1/VO/tDfFFxegp
-	xjMdPzK9YIe8wdoPjkjzB4jAx+kwuD9mp1faP8ytX0rJOFyyqyhBcfuvpVbd1KvzOaa3a8S64uJht
-	kLNguzu5ntnrd/ORX1BrW6ItXwRqoQLMpjPIAgPjuaprvOlM/T1UFkdOW/v40SODw6Lxcyld0w9Tk
-	EyFpqK1Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Y02JWI/K0q8R4/edCRp3hv3YCpmoDIJK/Py8rJC//fk=; b=3FZeGLEfNB0e3W82NNr9+WoBCO
+	TEU6irm24WNeOMJNkzBR+kc8+R4R2osLlSIYSlMZku2A5FTYb1CYs+yIp2oy1Fh0CFOA/70AlIaY+
+	ZNj8x9PmdR15HCgux2cCa7TfozoGfZwotCLD0niBBW+uqfINpy78PTRY83N91R0hchkXmkjPrpGy+
+	mBiLOwKBrpXN5Ebo+rj+3drIlhdLI0sPcOf9AkwsUWriloMG2K7sJuADG4OUUiInj4FqqKt6PWYMC
+	yx1+MFUOnJcz8+fnBNsd2uZIhdNqCx69fxGukAmJ04wEC15D9KI7i7U/GuciQoIUC/Q3l19jUL4hs
+	AZqIrY5w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rKvnk-009zfb-1o;
-	Wed, 03 Jan 2024 07:36:32 +0000
-Received: from exvmail4.skhynix.com ([166.125.252.92] helo=invmail4.hynix.com)
-	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rKvnf-009zex-0s
+	id 1rKwkH-00A5cM-16;
+	Wed, 03 Jan 2024 08:37:01 +0000
+Received: from mail-wr1-f44.google.com ([209.85.221.44])
+	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
+	id 1rKwkD-00A5aZ-1e
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 Jan 2024 07:36:30 +0000
-X-AuditID: a67dfc5b-d6dff70000001748-66-65950e6e8842
-Received: from hymail23.hynixad.com (10.156.135.53) by hymail14.hynixad.com
- (10.156.135.44) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.986.42; Wed, 3 Jan 2024
- 16:36:13 +0900
-Received: from hymail23.hynixad.com ([10.156.135.53]) by hymail23.hynixad.com
- ([10.156.135.53]) with mapi id 15.02.0986.042; Wed, 3 Jan 2024 16:36:08 +0900
-From: "hardaway.tseng@sk.com" <hardaway.tseng@sk.com>
-To: Keith Busch <kbusch@kernel.org>, =?utf-8?B?SmltIExpbiDmnpflv5fono0=?=
-	<jim.lin@siliconmotion.com>, =?utf-8?B?RGF2aWQgWWVoIOiRieWvsOiejQ==?=
-	<david.yeh@siliconmotion.com>
-CC: Jim.Lin <jim.chihjung.lin@gmail.com>, "axboe@kernel.dk" <axboe@kernel.dk>,
-	"hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	=?utf-8?B?Q0ogQ2hlbiDpmbPnvqTlgpE=?= <cj.chen@siliconmotion.com>,
-	"sangan.han@sk.com" <sangan.han@sk.com>, "ives.lu@sk.com" <ives.lu@sk.com>
-Subject: RE: [PATCH] nvme-pci: disable write zeroes for SK Hynix BC901
-Thread-Topic: [PATCH] nvme-pci: disable write zeroes for SK Hynix BC901
-Thread-Index: AQHaIabItSYv0AoU6E61/0TaLKTrOLCOdLOAgAHxkXD//3BOAIAAn7AggDd08+A=
-Date: Wed, 3 Jan 2024 07:36:07 +0000
-Message-ID: <bcc45d1d4c914707b81c54cba6f1917e@sk.com>
-References: <20231128025737.53026-1-jim.lin@siliconmotion.com>
- <SEYPR01MB4341EFAA7D4B563BFF903B45FDBCA@SEYPR01MB4341.apcprd01.prod.exchangelabs.com>
- <71aae1b4cb0441d0940a5e536f4ffce0@sk.com>
- <ZWaBULOgInxbp6JQ@kbusch-mbp.dhcp.thefacebook.com> 
-Accept-Language: zh-TW, en-US, ko-KR
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.31.8.108]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	Wed, 03 Jan 2024 08:36:59 +0000
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-33728f82a71so639085f8f.1
+        for <linux-nvme@lists.infradead.org>; Wed, 03 Jan 2024 00:36:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704271011; x=1704875811;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y02JWI/K0q8R4/edCRp3hv3YCpmoDIJK/Py8rJC//fk=;
+        b=xMaQb9na4rcRLiAJ5sxeVfQwkyeG9fb6VdC57qasoazpxnsZ5omFnfraYxielZf6Gu
+         abeRvVXAQYi2Nsjbq/sOYoQ+PtjJbxSI2lLwKwt2a8nN7ysFbmhjIir5O8Aso/35DgpH
+         Av5fKYAORAadUY7tZ3WUkxpk4z8PHK0SYIXzjlhACbUSHNcP77BKbl4AjLdFUGYbUFsJ
+         T6b5sSolDpZxX2+1VdSI2tJ4iEUo6TK5iu4QZc5LM7iLQxFkwK4jrL5/olKcIvq6udeP
+         GlRP0yrK8+eY6skV+aHkSiBsEx/cSDOkkHbRopt1MWz5u9CtG4ABDNpDkuI48IkqS/Pq
+         vN5w==
+X-Gm-Message-State: AOJu0Yytw4SKYg4X+7Gl2XaAXcTRQhDesW5MCGBtDMkMwi2gRXATxSpS
+	/McZHXWFcA/YpBKREYXCclc=
+X-Google-Smtp-Source: AGHT+IFVadnLsRoBOZD5nlQBbbK92RwvKXi47Gkt23+FCw3ObailQv0O8IZiHWLKgfNT/PmYKMBRdw==
+X-Received: by 2002:a05:600c:22ca:b0:40d:123a:50eb with SMTP id 10-20020a05600c22ca00b0040d123a50ebmr22442533wmg.3.1704271011025;
+        Wed, 03 Jan 2024 00:36:51 -0800 (PST)
+Received: from [192.168.64.172] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id d2-20020a05600c34c200b0040d61b1cecasm1578211wmq.33.2024.01.03.00.36.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Jan 2024 00:36:50 -0800 (PST)
+Message-ID: <c134b7f7-f5bf-4670-87be-0ef928145c65@grimberg.me>
+Date: Wed, 3 Jan 2024 10:36:46 +0200
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrMIsWRmVeSWpSXmKPExsXC9ZZnoW4e39RUg/27OSxW3+1ns/jxZy+L
-	xZedl9ksVq4+ymRx+eIqFosr93+zWkw6dI3RYv6yp+wW616/Z3Hg9Ng56y67x/l7G1k8Lp8t
-	9di0qpPNY/OSeo/dNxvYPJ7ff8oWwB7FZZOSmpNZllqkb5fAlbHoWy9LwQyTiqu9vUwNjG+M
-	uhg5OSQETCSudn9mB7GFBF4xStz669jFyAVkz2WUaOx6xgSSYBMwlejY/IwFJCEisJFRYuKB
-	D2AdzAIrmSVW9JSB2MICbhI/T/xmBLFFBNwlGt+2MUPYfhK3PzeB1bMIqEh8+zKBFcTmBRq6
-	f9onNohtPxglnh3oAitiBCp6f/g5I8QCcYlzF1vZIU4VkFiy5zwzhC0q8fLxP1YIW0Hixaut
-	QJdyANVrSqzfpQ/RqigxpfshO8QuQYmTM5+wQJRLShxccYNlAqPoLCQbZiF0z0LSPQtJ9wJG
-	llWMQpl5ZbmJmTkmehmVeZkVesn5uZsYgVG5rPZP9A7GTxeCDzEKcDAq8fAe+DU5VYg1say4
-	MvcQowQHs5II7/p1QCHelMTKqtSi/Pii0pzU4kOM0hwsSuK8Rt/KU4QE0hNLUrNTUwtSi2Cy
-	TBycUg2Mi9e6qOlaz5qxiXnNP40uwVnZ7j2ufvH1ZzQXq/wurYz4HV00793DxPshZouqfKWD
-	ji7Vmr5662Te2JnlYeE5myuaxI+1MLe7h2qsTSwUC8pQFGirKrKYLdV08KXL+pr4g2nHhW6k
-	7e3eKHRILEMzpiSp+Nfi0sKEYJsZz9Jv2u//2bwkaKcSS3FGoqEWc1FxIgABXpsaxgIAAA==
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/4] nvme: Add two-pass shutdown support
+Content-Language: en-US
+To: Jeremy Allison <jra@samba.org>
+Cc: Jeremy Allison <jallison@ciq.com>, tansuresh@google.com, hch@lst.de,
+ gregkh@linuxfoundation.org, rafael@kernel.org, bhelgaas@google.com,
+ linux-nvme@lists.infradead.org
+References: <20231221172257.2234320-1-jallison@ciq.com>
+ <20231221172257.2234320-5-jallison@ciq.com>
+ <694ac9af-ac3b-41a0-a50d-abb89503d453@grimberg.me>
+ <ZYt1o/n8qymZC65g@jeremy-HP-Z840-Workstation>
+ <e2001f25-ee04-4f34-823c-7647ab58da13@grimberg.me>
+ <ZZRP730tbkXNndZl@jeremy-HP-Z840-Workstation>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <ZZRP730tbkXNndZl@jeremy-HP-Z840-Workstation>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240102_233627_462297_7E5119E6 
-X-CRM114-Status: GOOD (  15.15  )
+X-CRM114-CacheID: sfid-20240103_003657_572314_0C7B8511 
+X-CRM114-Status: GOOD (  10.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,90 +87,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-SGVsbG8gS2VpdGgsDQoNCkhvcGUgZXZlcnl0aGluZyB5b3UgYXJlIGRvaW5nIGlzIHdlbGwhDQoN
-ClRoZXNlIGRheXMgb3VyIHRlYW1zIHRyaWVkIHNldmVyYWwgd2F5IHRvIGRvIGZ1cnRoZXIgdmVy
-aWZpY2F0aW9uIG9mIHRoaXMgZGlzYWJsZSB3cml0ZSB6ZXJvIHBhdGNoIGZvciBCQzkwMSwgbGV0
-IG1lIHN1bW1hcml6ZSBhcyBiZWxvdyA6DQoNCjEpCVRoZSBjaHJvbWUgaW1hZ2Ugd2l0aCB0aGlz
-IG5ldyB3cml0ZSB6ZXJvIGRpc2FibGUgY29kZSBidWlsdCB3aXRoIDUuMTUsIGhhcyBiZWVuIHZl
-cmlmaWVkIGFuZCBwYXNzZWQgKDwgMjBtaW4gbW9kZSBzd2l0Y2hpbmcgdGltZSkNCjIpCUR1ZSB0
-byBzb21lIGxpbWl0YXRpb25zLCBHb29nbGUgdGVhbSBjb3VsZG4ndCBidWlsZCBhIG5ldyBjaHJv
-bWUgaW1hZ2Ugd2l0aCB0aGUgc3VnZ2VzdGVkIDYuNSBvciBsYXRlciB2ZXJzaW9uICsgdGhpcyBk
-aXNhYmxlIHdyaXRlIHplcm8gcGF0Y2ggZm9yIHZlcmlmaWNhdGlvbiB0ZXN0Lg0KMykJVHJpZWQg
-dG8gYnVpbGQgaW1hZ2Ugd2l0aCA1LjE1ICsgZGlzYWJsZSB3cml0ZSB6ZXJvIHBhdGNoICsgREVB
-QyBtZXJnZWQsIHN5c3RlbSBjYW4gcnVuIGJ1dCB0aGUgdGVzdGluZyByZXN1bHQgaXMgZmFpbGVk
-ICg+IDIwbWluIG1vZGUgc3dpdGNoaW5nLCBhY3R1YWxseSAyN34yOW1pbnMpLg0KDQpBYm92ZSBp
-cyBhbGwgd2UgY291bGQgZG8gaGVyZSBmb3IgdGhlIHZlcmlmaWNhdGlvbiBvZiB0aGlzIHBhdGNo
-LCBjb3VsZCB5b3Ugc2hhcmUgdXMgeW91ciBjb21tZW50IG9yIHN1Z2dlc3Rpb24/IElzIGl0IHBv
-c3NpYmxlIHRvIG1lcmdlIGFuZCBkbyB1cHN0cmVhbSBmb3IgdGhpcyBwYXRjaD8NCg0KVGhhbmsg
-eW91IHNvIG11Y2ghDQoNCg0KVGhhbmtzICYgUmVnYXJkcywNCkhhcmRhd2F5Lg0KDQoNCkhhcmRh
-d2F5IFRzZW5nLyBTci4gTWFuYWdlciB8IFNOLUZBUUUgfCBTSyBoeW5peCBTZW1pY29uZHVjdG9y
-IFRhaXdhbg0KQWRkcmVzczogMTBGLiBOby4gMzA4LCBaaGlmdSBSZC4sIFpob25nc2hhbiBEaXN0
-LiwgVGFpcGVpIENpdHkgMTA0NjYsIFRhaXdhbiBPZmZpY2UgOiArODg2LTItMzUxOC0yMzEzLyBG
-YXg6ICs4ODYtMi0zNTE4LTIzNjYvIE1vYmlsZTogKzg4Ni05MTktODAzLTQ1OA0KRW1haWw6IGhh
-cmRhd2F5LnRzZW5nQHNrLmNvbQ0KDQpTSyBoeW5peCBDb25maWRlbnRpYWwNCuKAnFRoaXMgZS1t
-YWlsIG1heSBjb250YWluIGNvbmZpZGVudGlhbCBhbmQvb3IgcHJpdmlsZWdlZCBpbmZvcm1hdGlv
-bi4gSWYgeW91IGFyZSBub3QgdGhlIGludGVuZGVkIHJlY2lwaWVudChvciBoYXZlIHJlY2VpdmVk
-IHRoaXMgZS1tYWlsIGluIGVycm9yKSwgcGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVyIGltbWVkaWF0
-ZWx5IGFuZCBkZXN0cm95IHRoaXMgZS1tYWlsLiBBbnkgdW5hdXRob3JpemVkIGNvcHlpbmcsIGRp
-c2Nsb3N1cmUgb3IgZGlzdHJpYnV0aW9uIG9mIHRoZSBtYXRlcmlhbCBpbiB0aGlzIGUtbWFpbCBp
-cyBzdHJpY3RseSBmb3JiaWRkZW4u4oCdDQoNClRoYW5rcyAmIFJlZ2FyZHMsDQpIYXJkYXdheS4N
-Cg0KDQpIYXJkYXdheSBUc2VuZy8gU3IuIE1hbmFnZXIgfCBTTi1GQVFFIHwgU0sgaHluaXggU2Vt
-aWNvbmR1Y3RvciBUYWl3YW4NCkFkZHJlc3M6IDEwRi4gTm8uIDMwOCwgWmhpZnUgUmQuLCBaaG9u
-Z3NoYW4gRGlzdC4sIFRhaXBlaSBDaXR5IDEwNDY2LCBUYWl3YW4NCk9mZmljZSA6ICs4ODYtMi0z
-NTE4LTIzMTMvIEZheDogKzg4Ni0yLTM1MTgtMjM2Ni8gTW9iaWxlOiArODg2LTkxOS04MDMtNDU4
-DQpFbWFpbDogaGFyZGF3YXkudHNlbmdAc2suY29tDQoNClNLIGh5bml4IENvbmZpZGVudGlhbA0K
-4oCcVGhpcyBlLW1haWwgbWF5IGNvbnRhaW4gY29uZmlkZW50aWFsIGFuZC9vciBwcml2aWxlZ2Vk
-IGluZm9ybWF0aW9uLiBJZiB5b3UgYXJlIG5vdCB0aGUgaW50ZW5kZWQgcmVjaXBpZW50KG9yIGhh
-dmUgcmVjZWl2ZWQgdGhpcyBlLW1haWwgaW4gZXJyb3IpLCBwbGVhc2Ugbm90aWZ5IHRoZSBzZW5k
-ZXIgaW1tZWRpYXRlbHkgYW5kIGRlc3Ryb3kgdGhpcyBlLW1haWwuIEFueSB1bmF1dGhvcml6ZWQg
-Y29weWluZywgZGlzY2xvc3VyZSBvciBkaXN0cmlidXRpb24gb2YgdGhlIG1hdGVyaWFsIGluIHRo
-aXMgZS1tYWlsIGlzIHN0cmljdGx5IGZvcmJpZGRlbi7igJ0NCg0KDQotLS0tLU9yaWdpbmFsIE1l
-c3NhZ2UtLS0tLQ0KRnJvbTogSGFyZGF3YXkgKFNoaWggSHVuZykgVHNlbmcgU0tIWVQgDQpTZW50
-OiBXZWRuZXNkYXksIE5vdmVtYmVyIDI5LCAyMDIzIDExOjUxIEFNDQpUbzogJ0tlaXRoIEJ1c2No
-JyA8a2J1c2NoQGtlcm5lbC5vcmc+OyBKaW0gTGluIOael+W/l+iejSA8amltLmxpbkBzaWxpY29u
-bW90aW9uLmNvbT47IERhdmlkIFllaCDokYnlr7Dono0gPGRhdmlkLnllaEBzaWxpY29ubW90aW9u
-LmNvbT4NCkNjOiBKaW0uTGluIDxqaW0uY2hpaGp1bmcubGluQGdtYWlsLmNvbT47IGF4Ym9lQGtl
-cm5lbC5kazsgaGNoQGxzdC5kZTsgc2FnaUBncmltYmVyZy5tZTsgbGludXgtbnZtZUBsaXN0cy5p
-bmZyYWRlYWQub3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBDSiBDaGVuIOmZs+e+
-pOWCkSA8Y2ouY2hlbkBzaWxpY29ubW90aW9uLmNvbT47IO2VnOyDgeyViChIQU4gU0FOR0FOKSDr
-jIDrp4zrspXsnbggPHNhbmdhbi5oYW5Ac2suY29tPjsgSXZlcyhIc3VlaCBIc2llbikgTHUgU0tI
-WVQgPGl2ZXMubHVAc2suY29tPg0KU3ViamVjdDogUkU6IFtQQVRDSF0gbnZtZS1wY2k6IGRpc2Fi
-bGUgd3JpdGUgemVyb2VzIGZvciBTSyBIeW5peCBCQzkwMQ0KDQpIaSBLZWl0aCwNCg0KVGhhbmtz
-IGZvciBoZWFkIHVwIENocmlzdG9waCdzIHF1ZXN0aW9ucyENCk91ciB0ZWFtIHdpbGwgaGVscCB1
-cyB0byBhbnN3ZXIgdGhlbS4NCg0KSGkgSmltIGFuZCBEYXZpZCwNClRoYW5rcyBmb3IgeW91ciBz
-dXBwb3J0IQ0KDQoNClRoYW5rcyAmIFJlZ2FyZHMsDQpIYXJkYXdheS4NCg0KDQpIYXJkYXdheSBU
-c2VuZy8gU3IuIE1hbmFnZXIgfCBTTi1GQVFFIHwgU0sgaHluaXggU2VtaWNvbmR1Y3RvciBUYWl3
-YW4NCkFkZHJlc3M6IDEwRi4gTm8uIDMwOCwgWmhpZnUgUmQuLCBaaG9uZ3NoYW4gRGlzdC4sIFRh
-aXBlaSBDaXR5IDEwNDY2LCBUYWl3YW4gT2ZmaWNlIDogKzg4Ni0yLTM1MTgtMjMxMy8gRmF4OiAr
-ODg2LTItMzUxOC0yMzY2LyBNb2JpbGU6ICs4ODYtOTE5LTgwMy00NTgNCkVtYWlsOiBoYXJkYXdh
-eS50c2VuZ0Bzay5jb20NCg0KU0sgaHluaXggQ29uZmlkZW50aWFsDQrigJxUaGlzIGUtbWFpbCBt
-YXkgY29udGFpbiBjb25maWRlbnRpYWwgYW5kL29yIHByaXZpbGVnZWQgaW5mb3JtYXRpb24uIElm
-IHlvdSBhcmUgbm90IHRoZSBpbnRlbmRlZCByZWNpcGllbnQob3IgaGF2ZSByZWNlaXZlZCB0aGlz
-IGUtbWFpbCBpbiBlcnJvciksIHBsZWFzZSBub3RpZnkgdGhlIHNlbmRlciBpbW1lZGlhdGVseSBh
-bmQgZGVzdHJveSB0aGlzIGUtbWFpbC4gQW55IHVuYXV0aG9yaXplZCBjb3B5aW5nLCBkaXNjbG9z
-dXJlIG9yIGRpc3RyaWJ1dGlvbiBvZiB0aGUgbWF0ZXJpYWwgaW4gdGhpcyBlLW1haWwgaXMgc3Ry
-aWN0bHkgZm9yYmlkZGVuLuKAnQ0KDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9t
-OiBLZWl0aCBCdXNjaCA8a2J1c2NoQGtlcm5lbC5vcmc+DQpTZW50OiBXZWRuZXNkYXksIE5vdmVt
-YmVyIDI5LCAyMDIzIDg6MTAgQU0NClRvOiBIYXJkYXdheSAoU2hpaCBIdW5nKSBUc2VuZyBTS0hZ
-VCA8aGFyZGF3YXkudHNlbmdAc2suY29tPg0KQ2M6IEppbSBMaW4g5p6X5b+X6J6NIDxqaW0ubGlu
-QHNpbGljb25tb3Rpb24uY29tPjsgSmltLkxpbiA8amltLmNoaWhqdW5nLmxpbkBnbWFpbC5jb20+
-OyBheGJvZUBrZXJuZWwuZGs7IGhjaEBsc3QuZGU7IHNhZ2lAZ3JpbWJlcmcubWU7IGxpbnV4LW52
-bWVAbGlzdHMuaW5mcmFkZWFkLm9yZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsgQ0og
-Q2hlbiDpmbPnvqTlgpEgPGNqLmNoZW5Ac2lsaWNvbm1vdGlvbi5jb20+OyBEYXZpZCBZZWgg6JGJ
-5a+w6J6NIDxkYXZpZC55ZWhAc2lsaWNvbm1vdGlvbi5jb20+OyDtlZzsg4HslYgoSEFOIFNBTkdB
-Tikg64yA66eM67KV7J24IDxzYW5nYW4uaGFuQHNrLmNvbT47IEl2ZXMoSHN1ZWggSHNpZW4pIEx1
-IFNLSFlUIDxpdmVzLmx1QHNrLmNvbT4NClN1YmplY3Q6IFJlOiBbUEFUQ0hdIG52bWUtcGNpOiBk
-aXNhYmxlIHdyaXRlIHplcm9lcyBmb3IgU0sgSHluaXggQkM5MDENCg0KT24gVHVlLCBOb3YgMjgs
-IDIwMjMgYXQgMTE6NTE6NDJQTSArMDAwMCwgaGFyZGF3YXkudHNlbmdAc2suY29tIHdyb3RlOg0K
-PiBIaSBLZWl0aCwgSmltIGFuZCB0ZWFtLA0KPiANCj4gVGhhbmtzIGZvciBlZmZvcnRzIQ0KPiAN
-Cj4gVGhpcyBpcyBIYXJkYXdheSBmcm9tIFNLIGh5bml4LCB0aGlzIHNvZnR3YXJlIGNoYW5nZSBo
-YXMgYmVlbiB0ZXN0ZWQgYW5kIHZlcmlmaWVkIGJ5IE9ETSBDb21wYWwsIHRoZSB0ZXN0aW5nIHJl
-c3VsdCBpcyBwYXNzLCB0aGVyZWZvcmUsIHdlIHdvdWxkIGxpa2UgdG8gYXBwbHkgdGhpcyB1cGRh
-dGUuDQoNCkdyZWF0LCB0aGFua3MgZm9yIGNvbmZpcm1pbmcuIEkndmUgZ290IHRoaXMgcXVldWVk
-IHVwIGludGVybmFsbHksIGJ1dCB3YW50IHRvIGNoZWNrIGlmIENocmlzdG9waCdzIHF1ZXN0aW9u
-IGNvdWxkIGxlYWQgdG8gYSBiZXR0ZXIgb3V0Y29tZSBmb3IgZXZlcnlvbmUuIEZvciByZWZlcmVu
-Y2UsIGFza2VkIGhlcmU6DQoNCiAgaHR0cHM6Ly9saXN0cy5pbmZyYWRlYWQub3JnL3BpcGVybWFp
-bC9saW51eC1udm1lLzIwMjMtTm92ZW1iZXIvMDQzMjk4Lmh0bWwNCg0KSWYgeW91IHdlcmUgYWxy
-ZWFkeSB0ZXN0aW5nIGNsb3NlIHRvIHVwc3RyZWFtLCA2LjIgb3IgbmV3ZXIsIHRoZW4gdGhpcyBw
-YXRjaCBpcyBhbHJlYWR5IHRoZSBiZXN0IG9wdGlvbi4NCg==
+
+>>>> On 12/21/23 19:22, Jeremy Allison wrote:
+>>>>>  EXPORT_SYMBOL_GPL(nvme_disable_ctrl);
+>>>>> +int nvme_wait_for_shutdown_cmpl(struct nvme_ctrl *ctrl)
+>>>>> +{
+>>>>> +    ctrl->ctrl_config &= ~NVME_CC_SHN_MASK;
+>>>>> +    ctrl->ctrl_config |= NVME_CC_SHN_NORMAL;
+>>>>
+>>>> Why is ctrl_config being set again?
+>>>
+>>> Good catch. There's no need for that. I'll fix
+>>> in the next iteration, thanks !
+>>>
+>>>>> +EXPORT_SYMBOL_GPL(nvme_wait_for_shutdown_cmpl);
+>>>>
+>>>> Why export the symbol?
+>>>
+>>> nvme_wait_for_shutdown_cmpl() calls nvme_wait_ready(),
+>>> which is a static function defined in drivers/nvme/host/core.c.
+>>>
+>>> The only way to inline the functionality of 
+>>> nvme_wait_for_shutdown_cmpl()
+>>> into nvme_shutdown_wait() is to export nvme_wait_ready() instead.
+>>>
+>>> If you're OK with that I can remove the intermediate
+>>> function nvme_wait_for_shutdown_cmpl() (and indeed as
+>>> you've pointed out there's no need to set ctrl->ctrl_config
+>>> again).
+>>
+>> I think it is small enough to make it static inline in nvme.h
+> 
+> Sorry, just looking for some clarification here. Are
+> you talking about inlining nvme_wait_ready() ? There
+> are indeed larger functions already inlined in nvme.h.
+
+No, these wrappers are getting confusing.
+
+Exporting nvme_wait_ready and calling it from a static
+nvme_shutdown_wait in pci.c is fine I think.
 
