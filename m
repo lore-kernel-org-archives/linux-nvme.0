@@ -4,72 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 756EDC3DA6E
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Jan 2024 11:24:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6498EC47077
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Jan 2024 15:57:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=oviuIdbwpHiU2ahIm/k37qo7aWVIyhuMpnfFeXXXwGk=; b=HOaQB2GKrYLcQaPgBVeDcyAMF4
-	kwndJX+ErVNiQNjbzm6RJxYUPyVV1mKzBOhG3ZOG0j72I631OqBQmA9NHd+pI6REhTctVg2QaTG04
-	fXlXoGhhPYflPwqlJ8GpHqpc1HlphI7kwvY3/WHbmQsLAHpiZ61FeDB711pRfE4iusGr07W0oviCe
-	yk0ENUFY718dHRzYpyG1lIyBzC2HX9sBjulde6WeUfHqabDI6ahutk8Ur0wfUE4EYgv69sYjRdEJs
-	DOnIQ0uogiO8FSJKNULtjTo/8gkgxxnqWv75B8tVDRjHvlfbimLbiOLhFGRZllHH6EX4TWG4Zmtwd
-	qYfTPqow==;
+	bh=TLBb7DQUElgXNvrClvdksa5Uy8ZfaNeQxv6yIl0GIds=; b=ewmscE5IrZW4+OIKpjeXuz960m
+	9cbJqD2anU2ZL4UWII1FR70BQB1gf4Lwc8v4Ix6i5YHze/gtDI8X9iJ7HyHycFBFcaJ2y1+QJwKlz
+	W4SB84MpW9haPGN+CZc4wq4x3LKv2O4DXGMW6tB5HIjHwd0osuHKxNamDqp+q6TlOGPJo58WdOG9i
+	vtpNk4vlNWVtCcXpqEiD2AnlD4w5n4Qcj0SCtZYmiR+ccHtPVqWPpGHX+1Gi+usJhgDFPK8RIdCh2
+	rcO9w7RnXbZ+/irrOF/sPKdZvy+nK5Nwxetsd9O7zZ2ZXimcg3f+bA76zT78+lE2WBK6zvbrD0eBl
+	tPSjwvJA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rKzMT-00AVeV-1Q;
-	Wed, 03 Jan 2024 11:24:37 +0000
-Received: from mgamail.intel.com ([134.134.136.100])
+	id 1rL3cG-00BJRO-2L;
+	Wed, 03 Jan 2024 15:57:12 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rKzMQ-00AVdm-0O
+	id 1rL3cD-00BJQX-2S
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 Jan 2024 11:24:36 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704281074; x=1735817074;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hRjpOoUZZkcnKGVmrvB0UgnjF4/yqv+HzeHwo9bglBA=;
-  b=Jc3HEgJ7r92d077sa8VBJZqyNi/TpajsbkXURPdKnggo4W2JaGMp7njz
-   4nMdLPWR2gngmF//Hx/v3DzIOqzKy4Y/VGlNbCaHNAP95adqJD/VuheEJ
-   /n9Nr8h4CgSzfEI3kwXbZukzXOsxRfhDvXQxEcFIQrLyWckxyWcIT54ZJ
-   qzmP9WCT1bpHvF6ugKd+xw+MfQ7u9De6ej6UAdIV0IJJBhhsA7v+TkHEK
-   G0lPRND2K0P6V2JyGQ18Ubec9LQoCHTn0qjdqWgFBAam8TPwEKTIvagq7
-   /h21Rn9V99mjKBXaO6Wt32l3ROH0jB8P9ubjZZvy/OzgcuFZJ1/INf1r7
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="463398422"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; 
-   d="scan'208";a="463398422"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2024 03:24:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10941"; a="729762883"
-X-IronPort-AV: E=Sophos;i="6.04,327,1695711600"; 
-   d="scan'208";a="729762883"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 03 Jan 2024 03:24:20 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rKzMA-000M1K-0I;
-	Wed, 03 Jan 2024 11:24:18 +0000
-Date: Wed, 3 Jan 2024 19:23:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Guixin Liu <kanie@linux.alibaba.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-nvme@lists.infradead.org,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Christoph Hellwig <hch@lst.de>,
-	Liu Song <liusong@linux.alibaba.com>
-Subject: [linux-nvme:nvme-6.8 4/16] drivers/nvme/host/sysfs.c:42: undefined
- reference to `nvme_ns_head_ops'
-Message-ID: <202401031943.0N72Tkji-lkp@intel.com>
+	Wed, 03 Jan 2024 15:57:11 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 590A76126E;
+	Wed,  3 Jan 2024 15:57:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86B40C433C7;
+	Wed,  3 Jan 2024 15:57:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704297428;
+	bh=NpPuzQFBGbgeu9AeAOqJOV1DXdhIz90+Va4NzPBZOdM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=faOA7cXYIXfg6x8l7HMNTrgs7Nbr/DyiDw0mx6ONZ5H2KlMWcmx54k8Gx+Xwi16gz
+	 0W9fvhrfuIbCevzLuUA+4IV5SSRSCT6H45ldbvYJ1PU4d1/iTC4i/bkEJ7RdSwTgVR
+	 u80wcRWQnHpjXylTi3JdpOyLFKl40YElLrvZXuOje7RijnPVP+ba8RlX8Pel9U1c60
+	 CMIoa2ePFb37x0xNySPhjXmSf4fA/2yX4rvadYY3f2TMaBfcH9Rcyu6tJPljr2eDk9
+	 SbFnj04EgcDwbiNhlVlMB7E/gyHXO1s8J2mG2PVqX+Jh82+aABEsLsDdpTtBET5N3T
+	 H0N0q5+gvut8Q==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] nvmet: re-fix tracing strncpy() warning
+Date: Wed,  3 Jan 2024 16:56:55 +0100
+Message-Id: <20240103155702.4045835-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240103_032434_199510_77857C86 
-X-CRM114-Status: GOOD (  10.80  )
+X-CRM114-CacheID: sfid-20240103_075709_861907_A14E8DC8 
+X-CRM114-Status: GOOD (  11.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,43 +73,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree:   git://git.infradead.org/nvme.git nvme-6.8
-head:   3b99fc0cd3a7e44fb294d9f6c13173f3dadf4136
-commit: 44bc827e396809faa6a4e2dc9bd5f148373ce88b [4/16] nvme: introduce nvme_disk_is_ns_head helper
-config: i386-randconfig-015-20240103 (https://download.01.org/0day-ci/archive/20240103/202401031943.0N72Tkji-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240103/202401031943.0N72Tkji-lkp@intel.com/reproduce)
+From: Arnd Bergmann <arnd@arndb.de>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401031943.0N72Tkji-lkp@intel.com/
+An earlier patch had tried to address a warning about a string copy with
+missing zero termination:
 
-All errors (new ones prefixed by >>):
+drivers/nvme/target/trace.h:52:3: warning: ‘strncpy’ specified bound 32 equals destination size [-Wstringop-truncation]
 
-   ld: drivers/nvme/host/sysfs.o: in function `dev_to_ns_head':
->> drivers/nvme/host/sysfs.c:42: undefined reference to `nvme_ns_head_ops'
->> ld: drivers/nvme/host/sysfs.c:42: undefined reference to `nvme_ns_head_ops'
->> ld: drivers/nvme/host/sysfs.c:42: undefined reference to `nvme_ns_head_ops'
->> ld: drivers/nvme/host/sysfs.c:42: undefined reference to `nvme_ns_head_ops'
->> ld: drivers/nvme/host/sysfs.c:42: undefined reference to `nvme_ns_head_ops'
-   ld: drivers/nvme/host/sysfs.o:drivers/nvme/host/sysfs.c:42: more undefined references to `nvme_ns_head_ops' follow
+The new version causes a different warning with some compiler versions, notably
+gcc-9 and gcc-10, and also misses the zero padding that was apparently done
+intentionally in the original code:
 
+drivers/nvme/target/trace.h:56:2: error: 'strncpy' specified bound depends on the length of the source argument [-Werror=stringop-overflow=]
 
-vim +42 drivers/nvme/host/sysfs.c
+Change it to use strscpy_pad() with the original length, which will give
+a properly padded and zero-terminated string as well as avoiding the warning.
 
-    37	
-    38	static inline struct nvme_ns_head *dev_to_ns_head(struct device *dev)
-    39	{
-    40		struct gendisk *disk = dev_to_disk(dev);
-    41	
-  > 42		if (nvme_disk_is_ns_head(disk))
-    43			return disk->private_data;
-    44		return nvme_get_ns_from_dev(dev)->head;
-    45	}
-    46	
+Fixes: d86481e924a7 ("nvmet: use min of device_path and disk len")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/nvme/target/trace.h | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
+diff --git a/drivers/nvme/target/trace.h b/drivers/nvme/target/trace.h
+index 6109b3806b12..155334ddc13f 100644
+--- a/drivers/nvme/target/trace.h
++++ b/drivers/nvme/target/trace.h
+@@ -53,8 +53,7 @@ static inline void __assign_req_name(char *name, struct nvmet_req *req)
+ 		return;
+ 	}
+ 
+-	strncpy(name, req->ns->device_path,
+-		min_t(size_t, DISK_NAME_LEN, strlen(req->ns->device_path)));
++	strscpy_pad(name, req->ns->device_path, DISK_NAME_LEN);
+ }
+ #endif
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.2
+
 
