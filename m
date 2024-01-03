@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A9CAAC47074
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DEC1AC4707C
 	for <linux-nvme@archiver.kernel.org>; Wed,  3 Jan 2024 21:04:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,56 +12,56 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=F6yziNRMADXb6Xbc7EoaDYuLT/5Yskt47iL7Ob3sR+M=; b=XeWK5nEEV68qj7jN/QAr8SkHRS
-	0ElImm1TOUk7ak7tSyzVCrLzsG80+A1/v2f5WfmxMvOgqZ+aw7BSYpzUPTlP7iCpT4gQrsmPmPAWH
-	+fGu18xZtQQm1c7DreueX3i3uY9mIEFzXVOIUtU1xbApQlQsAUjqLzlvwWVRGXiOCb+q5EamSAjM/
-	2GM1Jy3bO5fBz06xV4EsZ2Ypj1bKTld1n1JcGLgXdVtNFZUsGzgkw0CJgrCqpO5nC0pGOyTeY4BlO
-	QlCyXYz9SHLlDzNuo4WeVUgUg/oapUimUxnXyAxNCa0txqiBZFNs9lprYn6wGB9N7IlOUvnvDbvf9
-	D9Fx70Bw==;
+	bh=zjJXf3dlVfBZpJFa4o7hrlYbSveCH4GtmYG943KOpVs=; b=pL1p0AehRTxxAqAa2Kh4BTRAAb
+	FYMEMNETv6MRqeteG3Ry6Iu67e7plPjAGg/WEIIc0CaQCdiq7eCTMbDBv0dng15ruWLiCofZwkwoY
+	eLGgd02hliJhIUukEmNRr9ilgd+7uvoHhzE2o65YzBqQPHJAlLyTjXe1bjFa/ObO23QCwV6xEyxIm
+	1QCxLNfG1GMmMqlnHj8EV3bAy4ES8V9rrShEbDQKDYUlE/+IjDiYoHekgpi+BzvVAPdNB8cB+38Dx
+	8MGOD+GquCmmyOpI6s3QpCZOvDHcTD6XDwE01vF/dx9ZxnfVUtaC5co+pQjJZpfHpJTgfi5SQaFm9
+	4bTga8kQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rL8PV-00C6oZ-17;
-	Wed, 03 Jan 2024 21:04:21 +0000
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
+	id 1rL8PS-00C6nk-3B;
+	Wed, 03 Jan 2024 21:04:18 +0000
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rL8PR-00C6n1-2c
+	id 1rL8PP-00C6mM-2l
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 Jan 2024 21:04:19 +0000
-Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1d3e84fded7so55025935ad.1
-        for <linux-nvme@lists.infradead.org>; Wed, 03 Jan 2024 13:04:17 -0800 (PST)
+	Wed, 03 Jan 2024 21:04:17 +0000
+Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-6d9cb95ddd1so2385705b3a.1
+        for <linux-nvme@lists.infradead.org>; Wed, 03 Jan 2024 13:04:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ciq.com; s=s1; t=1704315857; x=1704920657; darn=lists.infradead.org;
+        d=ciq.com; s=s1; t=1704315854; x=1704920654; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=F6yziNRMADXb6Xbc7EoaDYuLT/5Yskt47iL7Ob3sR+M=;
-        b=h1zo5hqcI+usVfb/9WrcrpMLChnNeFxZ7kIcrmK/PfIF0dlhBu04NPbBVoXIrv5c4a
-         fIuelI6pqlyetQLojlhfjhUZXwMHTkdWP0oUwVExxpxFD9RSjRR3t4DYVOIeHMqSek7v
-         CoCTeajgpt9FF5YnyBZyanlGRSl0AO1f/zSXdScr+igZC3S7KL80fHLbOOgU2e9IDoJQ
-         tj4Iw5fs5kvC33WeWFaI8EigcpBG3jb/90nvZJTSE548SChcyZ5IWjak3NbHO6ECa82G
-         lugXwukcDwbYmizVB50u71DfezesNLdeGcmDBwdMDAF94B3CcocBWU2LaS83ahTxfATK
-         5cmA==
+        bh=zjJXf3dlVfBZpJFa4o7hrlYbSveCH4GtmYG943KOpVs=;
+        b=C8ytWEWUmuifgkDum8T68Qmh8PCPDfEMLXw8MgD99sBpw2ocvz+J5itm0JQMiDMr+q
+         PeFNwhqsrkaMP7cgUCdcfjf6Z+0PBDR9rj/8LSrDNhXZmR6f2FhyRgOZ2Zxx3wpkz007
+         ekBekYZyd6QMZ5J7ENflNDa9EwYF/IpdjKH6N+1130x5fYXGUn3yIgJTVimSgdGQgR2n
+         O35Cm8Zqo6vTXcPVP4mnLGTJx1lGaJwIPiReTtYk8mji2AUMMcICY8HNJmlY3dvrmOsT
+         UefDbtUhlMbVZzNsI3MjxFj7TyTRaQUoMW9QI8UjpBnq9UF1xwQpyapaxXoadek7HuXU
+         4/Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704315857; x=1704920657;
+        d=1e100.net; s=20230601; t=1704315854; x=1704920654;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=F6yziNRMADXb6Xbc7EoaDYuLT/5Yskt47iL7Ob3sR+M=;
-        b=MKRu1wRy4N7RRDG0LYdhP78uLTjzr3ZA/f129c1q/RkPcfCBsTakWNzh5++hOFmJKu
-         UXpB+H1FH+HYEGPnuo8sN+K7bm9jziuFqNztbw5u+D60YapqcsK4wQrGqWwoOlzFJqoZ
-         YwNI6ryPuZt7sIbq3MM1dthKOYIq1DEHDfWxFE9ly8nFkFyH6XSNP1t6dFGf9sb7vgK5
-         eA5dlAqxa154V5SXAP1TCw80AWbyTiu0TQyWlcsnrS6GkAHaVSWuhfxzeFty/QnjsV6K
-         uMSefKS7aBM7qM8jcLUmrF9Cq05QXwVBbFRGFDcvhX1XcrTkgIuXScQK5w4262c5Y1kG
-         Iz2A==
-X-Gm-Message-State: AOJu0YyFoe0EEVpsj6x0q5SWUQ5QZRG3EG5hzWI6K49QQKzuvNKr5QqO
-	kJ7pVs7YiPhcnb3+NtIQULKrGQClskoh9A==
-X-Google-Smtp-Source: AGHT+IGErMIUUfAueItrrdIq0NURAGyMNG4ieku+zOjcvpv+csxrTuJN2qPt6+9pmQsjTkQ9BtHmwg==
-X-Received: by 2002:a17:903:22cf:b0:1d4:c316:e496 with SMTP id y15-20020a17090322cf00b001d4c316e496mr2652831plg.11.1704315856747;
-        Wed, 03 Jan 2024 13:04:16 -0800 (PST)
+        bh=zjJXf3dlVfBZpJFa4o7hrlYbSveCH4GtmYG943KOpVs=;
+        b=aY1BBCCpWf+IfXT6ptQzAeZB+Fe2GK1riY4UoTwB8M2SHpZFJak8tCANCpDYwqG5I4
+         4zS/u3n8917wqrBX7MpFZcBD0qm5rYkXTAenafpQzlW0opQQMtnIPYqneLcpfGnUeovz
+         iPphavvOxfIXqdaMZRTcQm63DIm7AZjlaB4TC0PkbH0h28RPntxXbeTVAr+nEQE4tXJo
+         EFXj2li58yWX6GnvfaNEqMa5DZuklKK3IK5/l2h550QghevtaHss8vzIUlr51B8s/e1A
+         fTlPJv/O6l7iPFTlhUWvBFtJP5iercrEmzBEeWzSS9p0fUZR8x/WKYIVQwsuGOYm1J1D
+         M+AA==
+X-Gm-Message-State: AOJu0YwMdKw9eLjOuoh2abCqJvVHeM5G4HT6IowByjBpxCFzTKcM/SBT
+	TA/eyfXKrr6u6AQOyOG7tWi+gRHv46MN7g==
+X-Google-Smtp-Source: AGHT+IHepTzUStQk6rdX4Q9DnD0Un04czqgLsROKf/7I8/goQH3KJz+GF9JvQenefS8YEanzIZ+S0w==
+X-Received: by 2002:a17:903:2983:b0:1d4:5282:f26a with SMTP id lm3-20020a170903298300b001d45282f26amr9617884plb.118.1704315854426;
+        Wed, 03 Jan 2024 13:04:14 -0800 (PST)
 Received: from localhost.localdomain (50-76-39-125-ip-static.hfc.comcastbusiness.net. [50.76.39.125])
-        by smtp.gmail.com with ESMTPSA id jj4-20020a170903048400b001d414a00fd9sm22505837plb.29.2024.01.03.13.04.15
+        by smtp.gmail.com with ESMTPSA id jj4-20020a170903048400b001d414a00fd9sm22505837plb.29.2024.01.03.13.04.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jan 2024 13:04:16 -0800 (PST)
+        Wed, 03 Jan 2024 13:04:14 -0800 (PST)
 From: Jeremy Allison <jallison@ciq.com>
 To: jallison@ciq.com,
 	jra@samba.org,
@@ -72,17 +72,17 @@ To: jallison@ciq.com,
 	bhelgaas@google.com,
 	sagi@grimberg.me
 Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH 3/5] nvme: Change 'bool shutdown' into an enum shutdown_type.
-Date: Wed,  3 Jan 2024 13:04:03 -0800
-Message-Id: <20240103210405.3593499-4-jallison@ciq.com>
+Subject: [PATCH 1/5] driver core: Support two-pass driver shutdown
+Date: Wed,  3 Jan 2024 13:04:01 -0800
+Message-Id: <20240103210405.3593499-2-jallison@ciq.com>
 X-Mailer: git-send-email 2.39.3
 In-Reply-To: <20240103210405.3593499-1-jallison@ciq.com>
 References: <20240103210405.3593499-1-jallison@ciq.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240103_130417_848723_4A1BAEBF 
-X-CRM114-Status: GOOD (  21.20  )
+X-CRM114-CacheID: sfid-20240103_130415_891437_094D28BE 
+X-CRM114-Status: GOOD (  20.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,329 +97,114 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Convert nvme_disable_ctrl() and nvme_dev_disable()
-inside drivers/nvme/host/pci.c to use this:
+From: Tanjore Suresh <tansuresh@google.com>
 
-bool shutdown = false == NVME_DISABLE_RESET
-bool shutdown = true == NVME_DISABLE_SHUTDOWN_SYNC.
+This changes the bus driver interface with an additional entry point
+to enable devices to implement two-pass shutdown. The existing
+synchronous interface to shutdown is called, and if a shutdown_wait
+method is defined the device is moved to an alternate list.
 
-This will make it easier to add a third request later:
-NVME_DISABLE_SHUTDOWN_ASNYC
+Once the shutdown method is called for all devices, the
+shutdown_wait method is then called synchronously for
+all devices on the alternate list.
 
-As nvme_disable_ctrl() is used outside of drivers/nvme/host/pci.c,
-convert the callers of nvme_disable_ctrl() to this convention too.
-
+Signed-off-by: Tanjore Suresh <tansuresh@google.com>
 Signed-off-by: Jeremy Allison <jallison@ciq.com>
 ---
- drivers/nvme/host/apple.c  |  4 ++--
- drivers/nvme/host/core.c   |  6 +++---
- drivers/nvme/host/nvme.h   |  7 +++++-
- drivers/nvme/host/pci.c    | 44 +++++++++++++++++++-------------------
- drivers/nvme/host/rdma.c   |  3 ++-
- drivers/nvme/host/tcp.c    |  3 ++-
- drivers/nvme/target/loop.c |  2 +-
- 7 files changed, 38 insertions(+), 31 deletions(-)
+ drivers/base/core.c        | 37 +++++++++++++++++++++++++++++++++++++
+ include/linux/device/bus.h |  6 +++++-
+ 2 files changed, 42 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-index 596bb11eeba5..764639ede41d 100644
---- a/drivers/nvme/host/apple.c
-+++ b/drivers/nvme/host/apple.c
-@@ -844,8 +844,8 @@ static void apple_nvme_disable(struct apple_nvme *anv, bool shutdown)
- 		 * NVMe disabled state, after a clean shutdown).
- 		 */
- 		if (shutdown)
--			nvme_disable_ctrl(&anv->ctrl, shutdown);
--		nvme_disable_ctrl(&anv->ctrl, false);
-+			nvme_disable_ctrl(&anv->ctrl, NVME_DISABLE_SHUTDOWN_SYNC);
-+		nvme_disable_ctrl(&anv->ctrl, NVME_DISABLE_RESET);
- 	}
- 
- 	WRITE_ONCE(anv->ioq.enabled, false);
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 50818dbcfa1a..e1b2facb7d6a 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2219,12 +2219,12 @@ static int nvme_wait_ready(struct nvme_ctrl *ctrl, u32 mask, u32 val,
- 	return ret;
- }
- 
--int nvme_disable_ctrl(struct nvme_ctrl *ctrl, bool shutdown)
-+int nvme_disable_ctrl(struct nvme_ctrl *ctrl, enum shutdown_type shutdown_type)
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 67ba592afc77..e1f4c54de3e1 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -4725,6 +4725,7 @@ EXPORT_SYMBOL_GPL(device_change_owner);
+ void device_shutdown(void)
  {
- 	int ret;
+ 	struct device *dev, *parent;
++	LIST_HEAD(shutdown_wait_list);
  
- 	ctrl->ctrl_config &= ~NVME_CC_SHN_MASK;
--	if (shutdown)
-+	if (shutdown_type == NVME_DISABLE_SHUTDOWN_SYNC)
- 		ctrl->ctrl_config |= NVME_CC_SHN_NORMAL;
- 	else
- 		ctrl->ctrl_config &= ~NVME_CC_ENABLE;
-@@ -2233,7 +2233,7 @@ int nvme_disable_ctrl(struct nvme_ctrl *ctrl, bool shutdown)
- 	if (ret)
- 		return ret;
- 
--	if (shutdown) {
-+	if (shutdown_type == NVME_DISABLE_SHUTDOWN_SYNC) {
- 		return nvme_wait_ready(ctrl, NVME_CSTS_SHST_MASK,
- 				       NVME_CSTS_SHST_CMPLT,
- 				       ctrl->shutdown_timeout, "shutdown");
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 6092cc361837..1a748640f2fb 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -187,6 +187,11 @@ enum {
- 	NVME_MPATH_IO_STATS		= (1 << 2),
- };
- 
-+enum shutdown_type {
-+	NVME_DISABLE_RESET = 0,
-+	NVME_DISABLE_SHUTDOWN_SYNC = 1
-+};
+ 	wait_for_device_probe();
+ 	device_block_probing();
+@@ -4769,10 +4770,17 @@ void device_shutdown(void)
+ 				dev_info(dev, "shutdown_pre\n");
+ 			dev->class->shutdown_pre(dev);
+ 		}
 +
- static inline struct nvme_request *nvme_req(struct request *req)
- {
- 	return blk_mq_rq_to_pdu(req);
-@@ -749,7 +754,7 @@ void nvme_cancel_tagset(struct nvme_ctrl *ctrl);
- void nvme_cancel_admin_tagset(struct nvme_ctrl *ctrl);
- bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 		enum nvme_ctrl_state new_state);
--int nvme_disable_ctrl(struct nvme_ctrl *ctrl, bool shutdown);
-+int nvme_disable_ctrl(struct nvme_ctrl *ctrl, enum shutdown_type shutdown_type);
- int nvme_enable_ctrl(struct nvme_ctrl *ctrl);
- int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 		const struct nvme_ctrl_ops *ops, unsigned long quirks);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index f27202680741..367e322dc818 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -108,7 +108,7 @@ MODULE_PARM_DESC(noacpi, "disable acpi bios quirks");
- struct nvme_dev;
- struct nvme_queue;
- 
--static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown);
-+static void nvme_dev_disable(struct nvme_dev *dev, enum shutdown_type shutdown_type);
- static void nvme_delete_io_queues(struct nvme_dev *dev);
- static void nvme_update_attrs(struct nvme_dev *dev);
- 
-@@ -1330,7 +1330,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req)
- 			 "I/O %d QID %d timeout, disable controller\n",
- 			 req->tag, nvmeq->qid);
- 		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
--		nvme_dev_disable(dev, true);
-+		nvme_dev_disable(dev, NVME_DISABLE_SHUTDOWN_SYNC);
- 		return BLK_EH_DONE;
- 	case NVME_CTRL_RESETTING:
- 		return BLK_EH_RESET_TIMER;
-@@ -1390,7 +1390,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req)
- 	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING))
- 		return BLK_EH_DONE;
- 
--	nvme_dev_disable(dev, false);
-+	nvme_dev_disable(dev, NVME_DISABLE_RESET);
- 	if (nvme_try_sched_reset(&dev->ctrl))
- 		nvme_unquiesce_io_queues(&dev->ctrl);
- 	return BLK_EH_DONE;
-@@ -1736,7 +1736,7 @@ static int nvme_pci_configure_admin_queue(struct nvme_dev *dev)
- 	 * commands to the admin queue ... and we don't know what memory that
- 	 * might be pointing at!
- 	 */
--	result = nvme_disable_ctrl(&dev->ctrl, false);
-+	result = nvme_disable_ctrl(&dev->ctrl, NVME_DISABLE_RESET);
- 	if (result < 0)
- 		return result;
- 
-@@ -2571,7 +2571,7 @@ static bool nvme_pci_ctrl_is_dead(struct nvme_dev *dev)
- 	return (csts & NVME_CSTS_CFS) || !(csts & NVME_CSTS_RDY);
- }
- 
--static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
-+static void nvme_dev_disable(struct nvme_dev *dev, enum shutdown_type shutdown_type)
- {
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	bool dead;
-@@ -2586,7 +2586,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 		 * Give the controller a chance to complete all entered requests
- 		 * if doing a safe shutdown.
- 		 */
--		if (!dead && shutdown)
-+		if (!dead && (shutdown_type == NVME_DISABLE_SHUTDOWN_SYNC))
- 			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
+ 		if (dev->bus && dev->bus->shutdown) {
+ 			if (initcall_debug)
+ 				dev_info(dev, "shutdown\n");
+ 			dev->bus->shutdown(dev);
++			/*
++			 * Only put the device on the shutdown_wait_list
++			 * if a shutdown_wait() method is also defined.
++			 */
++			if (dev->bus->shutdown_wait)
++				list_add(&dev->kobj.entry, &shutdown_wait_list);
+ 		} else if (dev->driver && dev->driver->shutdown) {
+ 			if (initcall_debug)
+ 				dev_info(dev, "shutdown\n");
+@@ -4789,6 +4797,35 @@ void device_shutdown(void)
+ 		spin_lock(&devices_kset->list_lock);
  	}
- 
-@@ -2594,7 +2594,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 
- 	if (!dead && dev->ctrl.queue_count > 0) {
- 		nvme_delete_io_queues(dev);
--		nvme_disable_ctrl(&dev->ctrl, shutdown);
-+		nvme_disable_ctrl(&dev->ctrl, shutdown_type);
- 		nvme_poll_irqdisable(&dev->queues[0]);
- 	}
- 	nvme_suspend_io_queues(dev);
-@@ -2612,7 +2612,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	 * must flush all entered requests to their failed completion to avoid
- 	 * deadlocking blk-mq hot-cpu notifier.
- 	 */
--	if (shutdown) {
-+	if (shutdown_type == NVME_DISABLE_SHUTDOWN_SYNC) {
- 		nvme_unquiesce_io_queues(&dev->ctrl);
- 		if (dev->ctrl.admin_q && !blk_queue_dying(dev->ctrl.admin_q))
- 			nvme_unquiesce_admin_queue(&dev->ctrl);
-@@ -2620,11 +2620,11 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	mutex_unlock(&dev->shutdown_lock);
- }
- 
--static int nvme_disable_prepare_reset(struct nvme_dev *dev, bool shutdown)
-+static int nvme_disable_prepare_reset(struct nvme_dev *dev, enum shutdown_type shutdown_type)
- {
- 	if (!nvme_wait_reset(&dev->ctrl))
- 		return -EBUSY;
--	nvme_dev_disable(dev, shutdown);
-+	nvme_dev_disable(dev, shutdown_type);
- 	return 0;
- }
- 
-@@ -2702,7 +2702,7 @@ static void nvme_reset_work(struct work_struct *work)
- 	 * moving on.
- 	 */
- 	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE)
--		nvme_dev_disable(dev, false);
-+		nvme_dev_disable(dev, NVME_DISABLE_RESET);
- 	nvme_sync_queues(&dev->ctrl);
- 
- 	mutex_lock(&dev->shutdown_lock);
-@@ -2780,7 +2780,7 @@ static void nvme_reset_work(struct work_struct *work)
- 	dev_warn(dev->ctrl.device, "Disabling device after reset failure: %d\n",
- 		 result);
- 	nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
--	nvme_dev_disable(dev, true);
-+	nvme_dev_disable(dev, NVME_DISABLE_SHUTDOWN_SYNC);
- 	nvme_sync_queues(&dev->ctrl);
- 	nvme_mark_namespaces_dead(&dev->ctrl);
- 	nvme_unquiesce_io_queues(&dev->ctrl);
-@@ -3058,7 +3058,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 
- out_disable:
- 	nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
--	nvme_dev_disable(dev, true);
-+	nvme_dev_disable(dev, NVME_DISABLE_SHUTDOWN_SYNC);
- 	nvme_free_host_mem(dev);
- 	nvme_dev_remove_admin(dev);
- 	nvme_dbbuf_dma_free(dev);
-@@ -3084,7 +3084,7 @@ static void nvme_reset_prepare(struct pci_dev *pdev)
- 	 * state as pci_dev device lock is held, making it impossible to race
- 	 * with ->remove().
- 	 */
--	nvme_disable_prepare_reset(dev, false);
-+	nvme_disable_prepare_reset(dev, NVME_DISABLE_RESET);
- 	nvme_sync_queues(&dev->ctrl);
- }
- 
-@@ -3100,7 +3100,7 @@ static void nvme_shutdown(struct pci_dev *pdev)
- {
- 	struct nvme_dev *dev = pci_get_drvdata(pdev);
- 
--	nvme_disable_prepare_reset(dev, true);
-+	nvme_disable_prepare_reset(dev, NVME_DISABLE_SHUTDOWN_SYNC);
+ 	spin_unlock(&devices_kset->list_lock);
++
++	/*
++	 * Second pass only for devices that have configured
++	 * a shutdown_wait() method.
++	 */
++	while (!list_empty(&shutdown_wait_list)) {
++		dev = list_entry(shutdown_wait_list.next, struct device,
++				kobj.entry);
++		parent = get_device(dev->parent);
++		get_device(dev);
++		/*
++		 * Make sure the device is off the  list
++		 */
++		list_del_init(&dev->kobj.entry);
++		if (parent)
++			device_lock(parent);
++		device_lock(dev);
++		if (dev->bus && dev->bus->shutdown_wait) {
++			if (initcall_debug)
++				dev_info(dev,
++				"shutdown_wait called\n");
++			dev->bus->shutdown_wait(dev);
++		}
++		device_unlock(dev);
++		if (parent)
++			device_unlock(parent);
++		put_device(dev);
++		put_device(parent);
++	}
  }
  
  /*
-@@ -3117,13 +3117,13 @@ static void nvme_remove(struct pci_dev *pdev)
+diff --git a/include/linux/device/bus.h b/include/linux/device/bus.h
+index ae10c4322754..5a36af80cabe 100644
+--- a/include/linux/device/bus.h
++++ b/include/linux/device/bus.h
+@@ -48,7 +48,10 @@ struct fwnode_handle;
+  *		will never get called until they do.
+  * @remove:	Called when a device removed from this bus.
+  * @shutdown:	Called at shut-down time to quiesce the device.
+- *
++ * @shutdown_wait:	If this method exists, devices are stored on a separate
++ *			list after shutdown() has been called and
++ *			shutdown_wait() is called synchronously on each device
++ *			in this list in turn.
+  * @online:	Called to put the device back online (after offlining it).
+  * @offline:	Called to put the device offline for hot-removal. May fail.
+  *
+@@ -90,6 +93,7 @@ struct bus_type {
+ 	void (*sync_state)(struct device *dev);
+ 	void (*remove)(struct device *dev);
+ 	void (*shutdown)(struct device *dev);
++	void (*shutdown_wait)(struct device *dev);
  
- 	if (!pci_device_is_present(pdev)) {
- 		nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DEAD);
--		nvme_dev_disable(dev, true);
-+		nvme_dev_disable(dev, NVME_DISABLE_SHUTDOWN_SYNC);
- 	}
- 
- 	flush_work(&dev->ctrl.reset_work);
- 	nvme_stop_ctrl(&dev->ctrl);
- 	nvme_remove_namespaces(&dev->ctrl);
--	nvme_dev_disable(dev, true);
-+	nvme_dev_disable(dev, NVME_DISABLE_SHUTDOWN_SYNC);
- 	nvme_free_host_mem(dev);
- 	nvme_dev_remove_admin(dev);
- 	nvme_dbbuf_dma_free(dev);
-@@ -3186,7 +3186,7 @@ static int nvme_suspend(struct device *dev)
- 	if (pm_suspend_via_firmware() || !ctrl->npss ||
- 	    !pcie_aspm_enabled(pdev) ||
- 	    (ndev->ctrl.quirks & NVME_QUIRK_SIMPLE_SUSPEND))
--		return nvme_disable_prepare_reset(ndev, true);
-+		return nvme_disable_prepare_reset(ndev, NVME_DISABLE_SHUTDOWN_SYNC);
- 
- 	nvme_start_freeze(ctrl);
- 	nvme_wait_freeze(ctrl);
-@@ -3229,7 +3229,7 @@ static int nvme_suspend(struct device *dev)
- 		 * Clearing npss forces a controller reset on resume. The
- 		 * correct value will be rediscovered then.
- 		 */
--		ret = nvme_disable_prepare_reset(ndev, true);
-+		ret = nvme_disable_prepare_reset(ndev, NVME_DISABLE_SHUTDOWN_SYNC);
- 		ctrl->npss = 0;
- 	}
- unfreeze:
-@@ -3241,7 +3241,7 @@ static int nvme_simple_suspend(struct device *dev)
- {
- 	struct nvme_dev *ndev = pci_get_drvdata(to_pci_dev(dev));
- 
--	return nvme_disable_prepare_reset(ndev, true);
-+	return nvme_disable_prepare_reset(ndev, NVME_DISABLE_SHUTDOWN_SYNC);
- }
- 
- static int nvme_simple_resume(struct device *dev)
-@@ -3279,10 +3279,10 @@ static pci_ers_result_t nvme_error_detected(struct pci_dev *pdev,
- 		dev_warn(dev->ctrl.device,
- 			"frozen state error detected, reset controller\n");
- 		if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING)) {
--			nvme_dev_disable(dev, true);
-+			nvme_dev_disable(dev, NVME_DISABLE_SHUTDOWN_SYNC);
- 			return PCI_ERS_RESULT_DISCONNECT;
- 		}
--		nvme_dev_disable(dev, false);
-+		nvme_dev_disable(dev, NVME_DISABLE_RESET);
- 		return PCI_ERS_RESULT_NEED_RESET;
- 	case pci_channel_io_perm_failure:
- 		dev_warn(dev->ctrl.device,
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index bc90ec3c51b0..b969ab23a55b 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -2136,7 +2136,8 @@ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
- {
- 	nvme_rdma_teardown_io_queues(ctrl, shutdown);
- 	nvme_quiesce_admin_queue(&ctrl->ctrl);
--	nvme_disable_ctrl(&ctrl->ctrl, shutdown);
-+	nvme_disable_ctrl(&ctrl->ctrl, shutdown ?
-+		NVME_DISABLE_SHUTDOWN_SYNC : NVME_DISABLE_RESET);
- 	nvme_rdma_teardown_admin_queue(ctrl, shutdown);
- }
- 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 5056bcae2f39..de5937f786b8 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -2291,7 +2291,8 @@ static void nvme_tcp_teardown_ctrl(struct nvme_ctrl *ctrl, bool shutdown)
- {
- 	nvme_tcp_teardown_io_queues(ctrl, shutdown);
- 	nvme_quiesce_admin_queue(ctrl);
--	nvme_disable_ctrl(ctrl, shutdown);
-+	nvme_disable_ctrl(ctrl, shutdown ?
-+		NVME_DISABLE_SHUTDOWN_SYNC : NVME_DISABLE_RESET);
- 	nvme_tcp_teardown_admin_queue(ctrl, shutdown);
- }
- 
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 9cb434c58075..6cb6e7c6bdd1 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -401,7 +401,7 @@ static void nvme_loop_shutdown_ctrl(struct nvme_loop_ctrl *ctrl)
- 
- 	nvme_quiesce_admin_queue(&ctrl->ctrl);
- 	if (ctrl->ctrl.state == NVME_CTRL_LIVE)
--		nvme_disable_ctrl(&ctrl->ctrl, true);
-+		nvme_disable_ctrl(&ctrl->ctrl, NVME_DISABLE_SHUTDOWN_SYNC);
- 
- 	nvme_cancel_admin_tagset(&ctrl->ctrl);
- 	nvme_loop_destroy_admin_queue(ctrl);
+ 	int (*online)(struct device *dev);
+ 	int (*offline)(struct device *dev);
 -- 
 2.39.3
 
