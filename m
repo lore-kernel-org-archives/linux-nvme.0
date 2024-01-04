@@ -4,77 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D701CC47073
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jan 2024 08:23:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7C982C47074
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jan 2024 08:27:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7tpCAFHHNDkCIIkD3KFKBQSnEnysFzFpw4pIa0GAuCY=; b=CZ/ZLR25ZUkb+e2/O1SIUSe2QR
-	drO/C0m5E0aJDoFrJ67N2NpXdCv7HvB1/C/E7tBjF+TqNeUrP++qQyat06djjub7IvmJlJw92wHVk
-	sRwyMGcnhm1isb2jUYropImlNADjQ8veF4VGzZyrCE6Ch6juxMst8hN5r3IemfoOh3ysqYNrEtPnR
-	mXl1+FHMJpmiHnMQSfv3AiZI9GD7dvpowDm4+QUISFQErhRRyJrDB1805htWdKks9eGOViZVmEeDa
-	yRhWdMqmdHHwrst8ifq49PfqEz35MjKy47FMZVok9W/jHQB4EjHKYYmgQc6SpeiqSAipxtsy0PFfQ
-	kLLL7wMA==;
+	bh=p+mg1IAp0mzlFZdK2KBDJssPaJEOCDthcu8q7czETD8=; b=s2wghzNLuR7+HxxsByktCLZI9U
+	nP9OWg0Bl/mkHh8lU34Bn5tSfJNgKh6XChbLbpuJ4IlK+AhjFN61YdW7Aq6t6/9g3gNoU6jSST3c7
+	VTJnMJzXw5wZSPlgSWVaJ6oR9JuJqkBFWQkUtNdJVaVmjCsia2N1VP94lpb1Fja7034d6l1IBvngW
+	qvtt1e3n0GznjsWSgeZ2+1fNmr9O59UwfkkhJU/IMTCJ28HI0SC4yzF3R7phukPHyDAO8L5X6wmbH
+	k8mV776kI78uUTJpu+njGOBizOn2sMl++bmrcSJQQr1bf9SXpD39vdBdfYSwseonAG0FGIEEeEQsz
+	69UO+YcQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rLJ0T-00DC5k-03;
-	Thu, 04 Jan 2024 08:23:13 +0000
-Received: from mail-wr1-f42.google.com ([209.85.221.42])
+	id 1rLJ4H-00DCmT-2V;
+	Thu, 04 Jan 2024 08:27:09 +0000
+Received: from mail-wm1-f44.google.com ([209.85.128.44])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rLJ0Q-00DC4s-2J
+	id 1rLJ4D-00DCkM-39
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 Jan 2024 08:23:11 +0000
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-33694c0ebd1so59719f8f.1
-        for <linux-nvme@lists.infradead.org>; Thu, 04 Jan 2024 00:23:06 -0800 (PST)
+	Thu, 04 Jan 2024 08:27:08 +0000
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40d5a733823so623145e9.1
+        for <linux-nvme@lists.infradead.org>; Thu, 04 Jan 2024 00:27:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704356585; x=1704961385;
+        d=1e100.net; s=20230601; t=1704356823; x=1704961623;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7tpCAFHHNDkCIIkD3KFKBQSnEnysFzFpw4pIa0GAuCY=;
-        b=C4KnBxXF83TOxf8NjK4d+Mc4ax7rkhu8a6PZof5aRpkJGqkSy5XUgaWjtlVpUq+7PY
-         iXQH65/8qb3FEglSryeHvZFn+/38FTavNo8kEe+SyMfXo2PhhxilK73yQYrE+fvAPmpT
-         +MvXTHBGLEm0PQpDs7PPUOC5/qJpGpj+Jkko98Jn5ba3VMSO2cA/28dFZKW4dJa8IYLA
-         a1u2V07LfBwEhm/kNTiBWgRh0ZhiZJEFND/wfCDz2W4PfIqCDkfVoEC92HEZq+cjuAUf
-         BfPgC7SuguQlDybuouHujpwS0c9bKGdmpW5PJ42TXjz1rUuFJzGIel3gz6Xv5KLRd49Q
-         Cs2Q==
-X-Gm-Message-State: AOJu0YyghxaUz0xZrXw7R/hv7/xR++u7CO27uI+3EIfpDufdwWlVugZY
-	FLzmeKZSdXcbEQPlGBrAMs4=
-X-Google-Smtp-Source: AGHT+IGs6kn8InfSJ0WW7QLr5LxeN3jQqrVWoLVix6bEEJtlZbS/Ut15MUJ/ZN4CYAOyDpldsw7zKA==
-X-Received: by 2002:adf:e702:0:b0:337:39c7:189 with SMTP id c2-20020adfe702000000b0033739c70189mr327429wrm.0.1704356585299;
-        Thu, 04 Jan 2024 00:23:05 -0800 (PST)
+        bh=p+mg1IAp0mzlFZdK2KBDJssPaJEOCDthcu8q7czETD8=;
+        b=TL9/VyTJyBPWrhPCgKJ/ansaMvhIV6jIA6/dHkpwlvqOiMOV+Q90KabcU+YHUPkV+Z
+         HXCYhQwxIvkbiWkPxtMVjM1Fc71z9ZoYIW5Or5xAWyQPvOFKebjXOXE9MqUQh0vVfmRA
+         JjL27al73xvKYCXViRPk5BNcb8ZyAR+uMqEmX1NLvtbtFzC5QQAQR+7HPYDAVFRrGIQw
+         Iy8J/X8AdFNl7ZlgILX5p8brEjKCkMhZkHDiTLGvs+SQllT66CVl6/hSZPj3OOyecakJ
+         atz5/gSRFmTB2KthJStCyyr0BNWKoizfiEmr5PbO3pcwFPZ3xFLNudp2GeO+0G9GOdFv
+         wkEg==
+X-Gm-Message-State: AOJu0Ywu+TP3h7tTayxTDTql4iTq6bLvtMZvmQ5fceYQhr775WIZvvLf
+	8kd/0aDe6JyhZLpCj9W0W8g=
+X-Google-Smtp-Source: AGHT+IFDe9z/CXmguIdgfIHAqIwtrUfw7xsPGPpRGAw+ZrE8TtccM3KoDWUJIvBjS5Ei4SaVsC2cBQ==
+X-Received: by 2002:a05:600c:3b1e:b0:40d:123a:50eb with SMTP id m30-20020a05600c3b1e00b0040d123a50ebmr294913wms.3.1704356822976;
+        Thu, 04 Jan 2024 00:27:02 -0800 (PST)
 Received: from [10.100.102.67] (46-116-232-10.bb.netvision.net.il. [46.116.232.10])
-        by smtp.gmail.com with ESMTPSA id p7-20020adfe607000000b00336843ae919sm32093926wrm.49.2024.01.04.00.23.03
+        by smtp.gmail.com with ESMTPSA id t14-20020a05600c450e00b0040d6d755c90sm4868854wmo.42.2024.01.04.00.27.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jan 2024 00:23:04 -0800 (PST)
-Message-ID: <832e98c3-2404-400f-9b8a-0180cbadaffd@grimberg.me>
-Date: Thu, 4 Jan 2024 10:23:06 +0200
+        Thu, 04 Jan 2024 00:27:02 -0800 (PST)
+Message-ID: <18e0d08d-1391-4cde-811e-70273a82db76@grimberg.me>
+Date: Thu, 4 Jan 2024 10:27:04 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/10] nvme-rdma: introduce
- NVME_RDMA_MAX_METADATA_QUEUE_SIZE definition
+Subject: Re: [PATCH 10/10] nvmet-rdma: set max_queue_size for RDMA transport
 Content-Language: en-US
 To: Max Gurtovoy <mgurtovoy@nvidia.com>, kbusch@kernel.org, hch@lst.de,
  linux-nvme@lists.infradead.org
 Cc: kanie@linux.alibaba.com, oren@nvidia.com, israelr@nvidia.com,
  kch@nvidia.com
 References: <20231231005249.18294-1-mgurtovoy@nvidia.com>
- <20231231005249.18294-8-mgurtovoy@nvidia.com>
- <d55384fd-42aa-4aeb-8a7c-f36c6a9dc6a4@grimberg.me>
- <b1363b4b-ce14-4797-9080-40e9d37a6b97@nvidia.com>
- <ae25991c-b4be-4652-beb0-843e1c3f7a59@grimberg.me>
- <ceb1136f-30a1-41c4-b735-257d801b4efc@nvidia.com>
+ <20231231005249.18294-11-mgurtovoy@nvidia.com>
+ <1493ff9c-f9f5-4c54-96c5-92eddeb85516@grimberg.me>
+ <08b1645f-b4bf-4e76-8d7d-867e88f9a240@nvidia.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <ceb1136f-30a1-41c4-b735-257d801b4efc@nvidia.com>
+In-Reply-To: <08b1645f-b4bf-4e76-8d7d-867e88f9a240@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240104_002310_757682_BE47C10A 
-X-CRM114-Status: UNSURE (   9.83  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240104_002706_013392_DA999638 
+X-CRM114-Status: GOOD (  18.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,33 +87,49 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 1/4/24 00:37, Max Gurtovoy wrote:
+On 1/4/24 00:42, Max Gurtovoy wrote:
 >
 >
-> On 01/01/2024 13:21, Sagi Grimberg wrote:
->>>> Another completely arbitrary limit...
->>>> Can this come somehow from the rdma core?
->>>>
->>>> If not, its not making things any worse. So its fine by me.
->>>> Please comment that this limit is based on testing the devices
->>>> that support PI.
->>>>
->>>
->>> We are not changing the logic for PI controllers at all in this commit.
->>>
->>> I can say something like:
->>>
->>> "... We'll keep the maximal queue size for metadata controllers to 
->>> be 128 since there are more resources that are needed for metadata 
->>> operations and 128 is the optimal size found for metadata 
->>> controllers based on testing.
+> On 01/01/2024 11:39, Sagi Grimberg wrote:
 >>
->> That would be better, yes.
+>>> A new port configuration was added to set max_queue_size. Clamp user
+>>> configuration to RDMA transport limits.
+>>>
+>>> Increase the maximal queue size of RDMA controllers from 128 to 256
+>>> (the default size stays 128 same as before).
+>>>
+>>> Reviewed-by: Israel Rukshin <israelr@nvidia.com>
+>>> Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
+>>> ---
+>>>   drivers/nvme/target/rdma.c | 8 ++++++++
+>>>   include/linux/nvme-rdma.h  | 3 ++-
+>>>   2 files changed, 10 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+>>> index f298295c0b0f..3a3686efe008 100644
+>>> --- a/drivers/nvme/target/rdma.c
+>>> +++ b/drivers/nvme/target/rdma.c
+>>> @@ -1943,6 +1943,14 @@ static int nvmet_rdma_add_port(struct 
+>>> nvmet_port *nport)
+>>>           nport->inline_data_size = NVMET_RDMA_MAX_INLINE_DATA_SIZE;
+>>>       }
+>>> +    if (nport->max_queue_size < 0) {
+>>> +        nport->max_queue_size = NVME_RDMA_DEFAULT_QUEUE_SIZE;
+>>> +    } else if (nport->max_queue_size > NVME_RDMA_MAX_QUEUE_SIZE) {
+>>> +        pr_warn("max_queue_size %u is too large, reducing to %u\n",
+>>> +            nport->max_queue_size, NVME_RDMA_MAX_QUEUE_SIZE);
+>>> +        nport->max_queue_size = NVME_RDMA_MAX_QUEUE_SIZE;
+>>> +    }
+>>> +
+>>
+>> Not sure its a good idea to tie the host and nvmet default values
+>> together.
 >
-> np.
-> I would like to send a new version.
-> any other comments for this commit beside the language for the commit 
-> message ?
+> It is already tied for RDMA. I don't see a reason to change it.
+> I will keep the other default values for fabrics separate, as it is 
+> today, following your review in other commits.
+> We can discuss it in a dedicated series since it is not related to the 
+> feature we would like to introduce here.
 
-No
+OK, the discussion is too long anyways. I don't care all that much tbh.
 
