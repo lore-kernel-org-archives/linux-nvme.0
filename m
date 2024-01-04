@@ -4,84 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2B941C47077
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jan 2024 09:26:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B43D6C47074
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jan 2024 09:26:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:CC:To:From:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UESTRngpUpMtWoEkco7Jvpd3gYWxjXdPn6POwndBngE=; b=Dg5OavvsBRHTPccdF1K5RfZy86
-	c6PzP9idsgGpNd3g3tY1EcBVG+OoMDG7cwjwZArKFPoLZ2bX5B2yi2k8iZ6ohxESvNaSD8XLnPRSs
-	1hPZ2df2WdoKhtnwb54EUSkIdV5bThbMKo7SUVGJ4sjM+H7Hcvfm1FikSK2UbSKjGQZnMECvfQ7Kf
-	/QTjB2tCjoD+3basj5ZIuLkMeriE+Am+XlbAfRsxBLJHkIbsWuRysX1fH1ZKkFDofZGYjZ4r94dMh
-	KlDclxXeHkKOShtXQjREX8cogZRJghRoIp0Ujw/urh4Jjkdd5cNxMZ17ma3Z6FZBN1B8gAUOF42S8
-	36Ssadug==;
+	bh=cqScHW/s86gW8AwQqfqLkCFAGO3GKMFi0Busy1Bjhpg=; b=mkrQtX69qbhSC2vUd78Q9qXkNC
+	Q9JVaESUhi6PCIGO11pCj5kmzgBoBxQXxXRZHM/tY/XNZl2P/IRMiPJNDwGnhYaMrDhGSXus0/SXV
+	UN9RMrp8wvf+tK9UihfQ8Jt2XVAE6KBf183++1fDa8tlgQH7EJe8YBgJ4f9X5iR9RmCCPseWY4bXr
+	oFSeT6YEjRLdwRR8Kl/8DuTuE5NU5ZOkXEjFfO4gcCLKwBJZy2Jub69RAshN2K94bOOOrtLAL3Wt2
+	gDH38WoBpqbuxUxbah2kwXbHuPk+gJ1eJyUnO26dvFvTYPFVPYGISkTeKLQZQnvFVgnn/lO5R8CHm
+	mm6MDffQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rLJza-00DMNs-17;
-	Thu, 04 Jan 2024 09:26:22 +0000
-Received: from mail-dm3nam02on2062d.outbound.protection.outlook.com ([2a01:111:f400:7e83::62d] helo=NAM02-DM3-obe.outbound.protection.outlook.com)
+	id 1rLJzc-00DMOu-0L;
+	Thu, 04 Jan 2024 09:26:24 +0000
+Received: from mail-dm6nam10on2060e.outbound.protection.outlook.com ([2a01:111:f400:7e88::60e] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rLJzX-00DMLt-1D
+	id 1rLJzZ-00DMMB-28
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 Jan 2024 09:26:21 +0000
+	Thu, 04 Jan 2024 09:26:22 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=H6vaHyZNP1rrGRVgmooqlzOlycvxFCkSqwIyL0Hd1AczxZBP4f9giXfZ/jcjxxki2yeUJrlmQrifTTKh2svxXf/t0SLyq3ZQOhplbx6v2yRYX53B2MjndblXkhixd++8/sYg1fGBG+eqF7ZC4IIXSFEQh9IdMqJ2qgh9QEVQxpT+/4KXdSOeYmLhbobIbz+4ffeJ8zUVXjIe1EysAb0hkg2bH0wwUFLCTgneppSsI9sLsE5zAnHYPyLR2RZR0RD+ahQzM2ghijKPwM2SxWYHB5p64J6cBExQKjBZuDl3IRjb4Is6ejSB93XRfLub61f5hH3nEKCPeYA4d6xOPcc1Vg==
+ b=YTFKIXanwrr/MxFAqk8FEDDO/cypg3J5qLeL/QDpTy8X8eJuQvxv4Ybi/lAUr+gbn2ZZ4kdZrAhtDcBkDQ3V/T3bWrdBLjOCyOq+NhLG1SOaadTlXYoS+5zXmPQ/YfwGeIH13dAXO4yyRqtfQZ/WETnOLG09wx8NyRWwRLyhLG/3m3XSkkZjP7TKMBJv6/LCraIcGGUOqytalFMS4RkQbphzMUfiq2bjr+f1j/r/h2Q6IrM4/WAwXwO4V4WuC9X4kSfWYgb7n9PL7gc4A7kVbPEMrARBLJkOUa91fAGLnxnM7MIIRKPTHN4Tv607m0u7XfKC42xR55j+YbIchc5Clw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UESTRngpUpMtWoEkco7Jvpd3gYWxjXdPn6POwndBngE=;
- b=HwxqBmlYKG2tHEUyD5eqATT1tBH5edwjMvgoaMNk/ACOLEsIeK6JgYz+/q+nODbI+kzeOYWHwhu0pfoUvWzay54e3MJ8A2XaBi224ZfsaB618AeIgOQXHPQsvF4SeeQukQLTkgVJPGHVcUT79PytFv5dN3Gc8wqXK1q7/B3dSZjOrQa7ctxkK3KM3x5P4ln+mbti4eckHtrx5IktzFUcDNJj4JkzhL6yl2UgrSPB0yXNZxZqIuix+qvvBSG6WmjvtMpdRqvYyq+XX6zNgzh/dOTwSWgbYsHfm3FMwAAA6trKAtc9g2Ix4lH4iklpchNNIOyZnVqwjZonyy6hs/VWKQ==
+ bh=cqScHW/s86gW8AwQqfqLkCFAGO3GKMFi0Busy1Bjhpg=;
+ b=OEzXbnJO2cS+czw4b7I3ECjdZOGTITx1knN/WVEY1KHtH1dOEoZUGrG3UI/45/VgepvaqP0KweHDT2rPCjghJq+aFmaA6qFxqYnWraL75PK/v7WBfdeSbIPDC67iCNKta7mCUC83TxRyGEngv2psH198u8Tc/4M3n1dxgvRGesSqhc42jbTZVIVWk0KROB7b+8JEifup6CZKmdXoAUHaqwiS2+glUgjR1/orALBaOTA4d6Zm6tAs06zALGN8yhE6TQM1fwoIHhsVDXAxnlGggKFX2+dPin1DBGOmUhCncGSKyv7QhCdTyhdju/fymrLBndX1QzNh9PCtR/FLcne9pg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.232) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
+ 216.228.118.233) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UESTRngpUpMtWoEkco7Jvpd3gYWxjXdPn6POwndBngE=;
- b=n0QRsrJGkm4/txY7bnjYvYI3v0WmOI2hsGbaAbLffk6g0eXwqMwYIUCfA/FLp0M0ovaQy50+tqlwzCD7nY17Y1rGM4ISPDxRheQDvM4kmufirs1roHBCjs2bWv0ofl5A8Z7lJekk/AZKNtWzgMLFXf097TJV1KLWg+wPpStAHos1Wrifc7KSdvgG0EL3tjh8N5Xskw9EdA7JUCvg/exGoUX23K26oVQ8eDA+umvtAV7p7bvppj5RgvoERtYe9VtWHXaH2tslB3EZlcZfCtlxF6zsq5VnpAkQoyvQyRz8JEMu/3B8JH5pH9ZD9RXnSDIrPTkhqEpcQcqKwSWmZuc2vA==
-Received: from MN2PR05CA0031.namprd05.prod.outlook.com (2603:10b6:208:c0::44)
- by PH0PR12MB8008.namprd12.prod.outlook.com (2603:10b6:510:26f::11) with
+ bh=cqScHW/s86gW8AwQqfqLkCFAGO3GKMFi0Busy1Bjhpg=;
+ b=aptXFzA1gXGy9hGE+NMBXYeO4obVnTU8VcWPIZ2J3QhnUEjqRxO6tNM8mOITxv0f/tNLLCN73PQhzAmJZ8tqJBZQW1yKS9tAkmvQyeDC5MdbtW0m4Z+TfA8VSDW815uctJdRfBndU4vqw3UOLOQBVelEf1DekKxkHg9vu3J6/8vK0y3HbW4BPyrToaJA70ZV5Pp4W/4Q08w2gTw+RHjRzhj8K9BIIzFTClP5Ff8BIT+h42LBYHHJ7PEWZvdP7fCSBovKVhmaofZfeDE4tC6hbh8mXRH9h7Az/wdzq55B/kImHz2YWRX0vZYTEfxCbG65umNuyogDBhB00zY+niSmxA==
+Received: from MW2PR2101CA0013.namprd21.prod.outlook.com (2603:10b6:302:1::26)
+ by BL1PR12MB5255.namprd12.prod.outlook.com (2603:10b6:208:315::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.25; Thu, 4 Jan
- 2024 09:26:12 +0000
-Received: from BL6PEPF0001AB53.namprd02.prod.outlook.com
- (2603:10b6:208:c0:cafe::d6) by MN2PR05CA0031.outlook.office365.com
- (2603:10b6:208:c0::44) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.10 via Frontend
- Transport; Thu, 4 Jan 2024 09:26:11 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.14; Thu, 4 Jan
+ 2024 09:26:15 +0000
+Received: from CO1PEPF000044F6.namprd21.prod.outlook.com
+ (2603:10b6:302:1:cafe::4d) by MW2PR2101CA0013.outlook.office365.com
+ (2603:10b6:302:1::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.7 via Frontend
+ Transport; Thu, 4 Jan 2024 09:26:15 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
  smtp.mailfrom=nvidia.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=nvidia.com;
 Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.232) by
- BL6PEPF0001AB53.mail.protection.outlook.com (10.167.241.5) with Microsoft
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ CO1PEPF000044F6.mail.protection.outlook.com (10.167.241.196) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7159.9 via Frontend Transport; Thu, 4 Jan 2024 09:26:11 +0000
-Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
- (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.7181.1 via Frontend Transport; Thu, 4 Jan 2024 09:26:15 +0000
+Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Thu, 4 Jan 2024
- 01:25:59 -0800
+ 01:26:02 -0800
 Received: from drhqmail202.nvidia.com (10.126.190.181) by
- drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
+ drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.41; Thu, 4 Jan 2024 01:25:59 -0800
+ 15.2.986.41; Thu, 4 Jan 2024 01:26:01 -0800
 Received: from r-arch-stor03.mtr.labs.mlnx (10.127.8.14) by mail.nvidia.com
  (10.126.190.181) with Microsoft SMTP Server id 15.2.986.41 via Frontend
- Transport; Thu, 4 Jan 2024 01:25:57 -0800
+ Transport; Thu, 4 Jan 2024 01:25:59 -0800
 From: Max Gurtovoy <mgurtovoy@nvidia.com>
 To: <kbusch@kernel.org>, <hch@lst.de>, <sagi@grimberg.me>,
 	<linux-nvme@lists.infradead.org>
 CC: <israelr@nvidia.com>, <kch@nvidia.com>, <oren@nvidia.com>, Max Gurtovoy
 	<mgurtovoy@nvidia.com>
-Subject: [PATCH 3/8] nvmet: set maxcmd to be per controller
-Date: Thu, 4 Jan 2024 11:25:44 +0200
-Message-ID: <20240104092549.25721-4-mgurtovoy@nvidia.com>
+Subject: [PATCH 4/8] nvmet: set ctrl pi_support cap before initializing cap reg
+Date: Thu, 4 Jan 2024 11:25:45 +0200
+Message-ID: <20240104092549.25721-5-mgurtovoy@nvidia.com>
 X-Mailer: git-send-email 2.18.1
 In-Reply-To: <20240104092549.25721-1-mgurtovoy@nvidia.com>
 References: <20240104092549.25721-1-mgurtovoy@nvidia.com>
@@ -90,26 +90,26 @@ Content-Type: text/plain
 X-NV-OnPremToCloud: ExternallySecured
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB53:EE_|PH0PR12MB8008:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0f7fc248-59d1-45f0-8784-08dc0d0730f0
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044F6:EE_|BL1PR12MB5255:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6c8f2c3f-d89e-4d0f-dcac-08dc0d073304
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8FLYY+XKZicwuajVmJjOvQFPxEnu5rHeWUSz/O7lLJGNDvx9F1YXaJg4rBAnSF9TiELUgTIjkUqhm6+jaZfyrqQXUDzTiACbCuhEUtu2cKHP9Nv5dD4BmJtTrdheLRB13DWEx7bcHEoTAegbdk3pNIlaci4vIVjCMPhv/9V7m9vr2rzhBn2k6pHTDR2BcgN18FUuUq9pnfDVxn7GcY8dC+z9voJeomsBNp0qTDqBf8WnIz4OZt0JFnyZog0UZekhUAZkfnBjSVm1fYBr1folSlgIo1LcUAG3S7AUnvq0vahre1eiJlh4YXUBrtqvK3JwbbO+RoDLTc7K+mlAS/G0ObhPkp4kr05os6h8WmMHBjeeU63tMg+zEyO1tpdDeTXwmH5p0faWAdPYqlvI4TDWzJgCWIGfzIVdrKFVuhlCXDE6nucyaiav3OgtOkbi6Xl1ofZCv2i/UbP4CrE8kUdSiTvwuHQ+g/4RNuhTNZeOorb7qXhGWnZ4YQvyw6G0BgxjUeOmE5OSkaoJWJTlcot79Qul9taXPaVvvEy4ZG9zqkn3K6XJDcFeIXSFKIkIaG/ywv4+39BI88/JtLLWirKcZR6j7+xjBivvyCIDg10K0E/gVUJ/8XdycpJyfu3oB46rNGrmZetigOteYb/LfOuBn8bdjfjOIryxtuWcdoSP3uVaOnXI0TvRBdB7zhDyUjNWrWfd1lPLMRpDOclHtK7ePklJ2UvhDaPepacqF6qyzN3i7wH07XEWtwvI53aacVXH
-X-Forefront-Antispam-Report: CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230031)(4636009)(376002)(396003)(346002)(136003)(39860400002)(230922051799003)(1800799012)(186009)(82310400011)(64100799003)(451199024)(36840700001)(46966006)(40470700004)(40480700001)(40460700003)(36756003)(478600001)(86362001)(70586007)(70206006)(426003)(107886003)(2616005)(7636003)(83380400001)(356005)(1076003)(26005)(336012)(47076005)(2906002)(6666004)(4326008)(41300700001)(8676002)(54906003)(82740400003)(36860700001)(5660300002)(110136005)(8936002)(316002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: mPNWJ298BmfsvIKgOY8Nc5RL6j7gwm6SPn+1oX2S48N8JxT//3/lM5r72lfzMiu/px4P7+b9o+LYgM8nVubSZsf7KHrBxcRTm1tN0gdlyX6NIjvRSWwGVXl1eYshO01ni9p7HRv9biz2Dtv6k7lioSFQWBv3yBqcNZCWHtSLm2SgbYgcyt1kT4pjvJU7ICrBu2e0peO/tDn70sk+Ly/hmWRrVskeRHRjcOGSXH0w9RmSv07FH0Pr8thqcu8YrqE4q5fceyhQ8X7yqC03WXhQsc0IT8BBwlsMiB/HA6rPB0Eh/xsszu84zc2BM8kWxIy5bDjNv0bio+75nA1o5TdTE46aDRbCw4QY5OwS6aB9XkLSvdTbJSE34vFhKMFVf2FYzPFoTQ3/GZZDTQEn7FnkyJx+jHETKL6ldbNl3hYgInLWjEmiwjQ8KEp7m6yOwxBGq3kDfvcU1yS7E82ja0jaB4fGsme3RDIv8yI7i9nwyQC2QjFMwcg2/cSb0aKlnb1/pZnVIIqc+H3lhhFx389tSD5H1GMaQlnwuIYUETP0tP0rndcF/njzccBqaaJUa+5rrb+zQC1HZQpZp9RWAF470eXF+WZ5Nq2kOiBb4LVVShl/o8xyGCUFgZqSVHTXN0KdqNoYI4oEKshwJZKTg9Advw8rrjkshfyzMIDxSvZNK25SPaalY6UqcoMWB0i/XDiP0dHbhQYtBgVHmgg2AJ/FerD8WZxcLM/nDZuoMmArgYQ=
+X-Forefront-Antispam-Report: CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230031)(4636009)(396003)(346002)(376002)(136003)(39860400002)(230922051799003)(82310400011)(186009)(64100799003)(1800799012)(451199024)(36840700001)(40470700004)(46966006)(316002)(110136005)(54906003)(8676002)(8936002)(86362001)(336012)(426003)(1076003)(2616005)(26005)(107886003)(6666004)(478600001)(36860700001)(83380400001)(41300700001)(36756003)(82740400003)(356005)(47076005)(7636003)(70586007)(70206006)(40460700003)(40480700001)(5660300002)(4326008)(2906002);DIR:OUT;SFP:1101;
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jan 2024 09:26:11.5050
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jan 2024 09:26:15.0719
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f7fc248-59d1-45f0-8784-08dc0d0730f0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6c8f2c3f-d89e-4d0f-dcac-08dc0d073304
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0001AB53.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044F6.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8008
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5255
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240104_012619_419880_8CA2FF43 
-X-CRM114-Status: GOOD (  13.00  )
+X-CRM114-CacheID: sfid-20240104_012621_700934_2E73266C 
+X-CRM114-Status: GOOD (  11.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -124,72 +124,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This is a preparation for having a dynamic configuration of max queue
-size for a controller. Make sure that the maxcmd field stays the same as
-the MQES (+1) value as we do today.
+This is a preparation for setting the maximal queue size of a controller
+that supports PI.
 
 Reviewed-by: Israel Rukshin <israelr@nvidia.com>
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
 ---
- drivers/nvme/target/admin-cmd.c | 2 +-
- drivers/nvme/target/discovery.c | 2 +-
- drivers/nvme/target/nvmet.h     | 2 +-
- drivers/nvme/target/passthru.c  | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/nvme/target/core.c        | 1 +
+ drivers/nvme/target/fabrics-cmd.c | 2 --
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 39cb570f833d..f5b7054a4a05 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -428,7 +428,7 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
- 	id->cqes = (0x4 << 4) | 0x4;
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index d26aa30f8702..ade5a7bd7f6d 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -1411,6 +1411,7 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
  
- 	/* no enforcement soft-limit for maxcmd - pick arbitrary high value */
--	id->maxcmd = cpu_to_le16(NVMET_MAX_CMD);
-+	id->maxcmd = cpu_to_le16(NVMET_MAX_CMD(ctrl));
+ 	kref_init(&ctrl->ref);
+ 	ctrl->subsys = subsys;
++	ctrl->pi_support = ctrl->port->pi_enable && ctrl->subsys->pi_support;
+ 	nvmet_init_cap(ctrl);
+ 	WRITE_ONCE(ctrl->aen_enabled, NVMET_AEN_CFG_OPTIONAL);
  
- 	id->nn = cpu_to_le32(NVMET_MAX_NAMESPACES);
- 	id->mnan = cpu_to_le32(NVMET_MAX_NAMESPACES);
-diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-index 668d257fa986..0d5014905069 100644
---- a/drivers/nvme/target/discovery.c
-+++ b/drivers/nvme/target/discovery.c
-@@ -282,7 +282,7 @@ static void nvmet_execute_disc_identify(struct nvmet_req *req)
- 	id->lpa = (1 << 2);
+diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
+index 4d014c5d0b6a..08e9c6b6f551 100644
+--- a/drivers/nvme/target/fabrics-cmd.c
++++ b/drivers/nvme/target/fabrics-cmd.c
+@@ -252,8 +252,6 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
+ 	if (status)
+ 		goto out;
  
- 	/* no enforcement soft-limit for maxcmd - pick arbitrary high value */
--	id->maxcmd = cpu_to_le16(NVMET_MAX_CMD);
-+	id->maxcmd = cpu_to_le16(NVMET_MAX_CMD(ctrl));
+-	ctrl->pi_support = ctrl->port->pi_enable && ctrl->subsys->pi_support;
+-
+ 	uuid_copy(&ctrl->hostid, &d->hostid);
  
- 	id->sgls = cpu_to_le32(1 << 0);	/* we always support SGLs */
- 	if (ctrl->ops->flags & NVMF_KEYED_SGLS)
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 6c8acebe1a1a..144aca2fa6ad 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -545,7 +545,7 @@ void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
- 
- #define NVMET_QUEUE_SIZE	1024
- #define NVMET_NR_QUEUES		128
--#define NVMET_MAX_CMD		NVMET_QUEUE_SIZE
-+#define NVMET_MAX_CMD(ctrl)	(NVME_CAP_MQES(ctrl->cap) + 1)
- 
- /*
-  * Nice round number that makes a list of nsids fit into a page.
-diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-index f2d963e1fe94..bb4a69d538fd 100644
---- a/drivers/nvme/target/passthru.c
-+++ b/drivers/nvme/target/passthru.c
-@@ -132,7 +132,7 @@ static u16 nvmet_passthru_override_id_ctrl(struct nvmet_req *req)
- 
- 	id->sqes = min_t(__u8, ((0x6 << 4) | 0x6), id->sqes);
- 	id->cqes = min_t(__u8, ((0x4 << 4) | 0x4), id->cqes);
--	id->maxcmd = cpu_to_le16(NVMET_MAX_CMD);
-+	id->maxcmd = cpu_to_le16(NVMET_MAX_CMD(ctrl));
- 
- 	/* don't support fuse commands */
- 	id->fuses = 0;
+ 	ret = nvmet_setup_auth(ctrl);
 -- 
 2.18.1
 
