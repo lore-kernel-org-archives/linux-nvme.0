@@ -4,112 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31600C47073
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jan 2024 09:26:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B32B9C47073
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jan 2024 11:56:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:CC:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ajqDfxxRTYvLm8BbyqcFVCem9bdjreDiHvkaa3MZOQY=; b=jdRb5OLM9/98lhG8zmLyJTq7Jm
-	gFoN2O00/Trzh/hN9SoNaoXJWd15HQkMzEH/kjSSuArwFBprSEOvHVTKa3Yjdc54KG9g1glZ+gMWA
-	jM35zvRLP6F3uwZCk6XXrYj3gHnGLZ8WRCqdl0+KqAuSFQngBxW3lq62i+XV/mXVEUrLhfPgGWYQ9
-	Ov4tAamg2qv2wXk4jzrCOoWMQOjplE17ty5NzxcbtZBZ7eOuOWBagZVP6E0zuelKSaIOtl+OPTZWi
-	FRGaCEPIyeXW/KtpGqwBNe4bcYAEypU+AlkSTK96YZMT9YcLDdTspzJ827BnKV4ISOoTSFCJ2eP8g
-	1jRliGmw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=RdzMuP5pGgViSBvkgp9t59sucejFcI29bMivs0v5nhA=; b=e0Izy73qvIMnP+feQmmbLdlAFZ
+	ECb4W/fJdF9OEbzO+S12eTGlWPFgYdVyQi7A1a1szyrREDmiV34Ul9cNcfKmnkHcZFAgaJD2rQZQX
+	yji5i4sUqJJ9FycwSH2ln6t+TfNXUBDJIn5p6r5GCb9vSDCHai47wQj5N+mbBbfq/iyixIaWPFjCA
+	WiQhSnAJw1UZ8CO+udf3Pge0DIIW26CNXeuElSy32PMvf8qbmx/GAysn7nKFnQvrQkaWAFu92vNFk
+	2vHCF06YyGZbVaqdI9kM1N51apcOTDA+KKtkt21ObyfCMl5AST++14mlD1jDsQgdsRNzEdhzvV8vj
+	nTvD1wKw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rLJzn-00DMZG-1r;
-	Thu, 04 Jan 2024 09:26:35 +0000
-Received: from mail-mw2nam10on20601.outbound.protection.outlook.com ([2a01:111:f403:2412::601] helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+	id 1rLMKq-00DtYD-04;
+	Thu, 04 Jan 2024 11:56:28 +0000
+Received: from mail-wm1-f44.google.com ([209.85.128.44])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rLJzk-00DMUr-3B
+	id 1rLMKk-00DtWU-1Z
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 Jan 2024 09:26:34 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JK/DeV5jAVx6pHkETq7zoR7iVz2575h9IFMhM/pOpHFDp8dTLpXBZc4mPsQ0E9dr+ttnaxh9zaRptpifo6Owa+RT3U1eAtc68Nu8JKlBx5Oz7BQWaTdzlmhga50osBws7u7ba3w6erR57Vo2Gqdh2Je6UvhKNcQ1jeGFQPESoWQ9uOXztkm3qt1yb3VNY4hv7kEiqvx0aQqNXGMcN5NJK6Sn72PZPerxyxjVQ9Ds4r4Wv4UgAQ7m2Ynck13nARaOWdu4yX8ZBfg2caiCXohJEM5B8JHhTY2afiyfKDWwOMHqIru0iymRBKb5WNqto3U4DUhlHTxZfjEGIW7qED5Alw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ajqDfxxRTYvLm8BbyqcFVCem9bdjreDiHvkaa3MZOQY=;
- b=dei6zCVwHzzVu3uyitNdQic+5RW5tmKgj9FRth0trW7JqhNADEBWh668UF3wcK5UoL9aoobFc5kIsORpIKCeM0hdmtT+R1n16GRs/jbubnAzFYIU7cVuuiXCFGufpBn+SCZ3g5onpfbPJoMA3CZzJfwXTput7RhtMRzHdYn71EUtHgB2VhmG2kN7r+cvDXYqQCBY346+9DMJQU4U6J2Dc+A6sG5obcXcVrXOb394EcDGX8F8S2mJbPzz4ZgHBAm7dZV24qIQdcI3FmzqLtkr52GZ+NwjyYgFAyOUPi6AQlb7BqQ2qQ4hMjptpjT+YxGDMyOEFuRUeG8dQQ9t+8USKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.233) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ajqDfxxRTYvLm8BbyqcFVCem9bdjreDiHvkaa3MZOQY=;
- b=Dx55HZvMs9Vc1hIU48W21zn6XnZiwjtWboBDRp4XgyUiPZl263O5+4gmKBeSbYeRh5TtmSzYAJ2enOSnOepNC/ryROb5wcGpopdwWOexT9wGPML21IVR87FwZI+GE12U8XBwqJessgvQyt6jOlOyw7U2n32R2y8Zk0+hrerMqUAPJKrnfkhmnNf9Kvy60+wE+oyjGmXuiM+E7qXqGbu7wfbjsk0SfdOvpoEd1pIpzIL3taWQCG0ksWn66WODVrZlWUzgt4pjRILzADMGLTgj0ilqd2R/DIyvCq0U4B0Lz8RqdU/LERRdAvMBDkhfbbVWwcd5Ff6YCfxCrGy4ooWZFg==
-Received: from MW4PR03CA0070.namprd03.prod.outlook.com (2603:10b6:303:b6::15)
- by DM4PR12MB5865.namprd12.prod.outlook.com (2603:10b6:8:64::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.15; Thu, 4 Jan
- 2024 09:26:24 +0000
-Received: from CO1PEPF000044F7.namprd21.prod.outlook.com
- (2603:10b6:303:b6:cafe::92) by MW4PR03CA0070.outlook.office365.com
- (2603:10b6:303:b6::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.13 via Frontend
- Transport; Thu, 4 Jan 2024 09:26:24 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.233) by
- CO1PEPF000044F7.mail.protection.outlook.com (10.167.241.197) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7181.1 via Frontend Transport; Thu, 4 Jan 2024 09:26:24 +0000
-Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
- (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Thu, 4 Jan 2024
- 01:26:12 -0800
-Received: from drhqmail202.nvidia.com (10.126.190.181) by
- drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.41; Thu, 4 Jan 2024 01:26:11 -0800
-Received: from r-arch-stor03.mtr.labs.mlnx (10.127.8.14) by mail.nvidia.com
- (10.126.190.181) with Microsoft SMTP Server id 15.2.986.41 via Frontend
- Transport; Thu, 4 Jan 2024 01:26:09 -0800
-From: Max Gurtovoy <mgurtovoy@nvidia.com>
-To: <kbusch@kernel.org>, <hch@lst.de>, <sagi@grimberg.me>,
-	<linux-nvme@lists.infradead.org>
-CC: <israelr@nvidia.com>, <kch@nvidia.com>, <oren@nvidia.com>, Max Gurtovoy
-	<mgurtovoy@nvidia.com>
-Subject: [PATCH 8/8] nvmet-rdma: set max_queue_size for RDMA transport
-Date: Thu, 4 Jan 2024 11:25:49 +0200
-Message-ID: <20240104092549.25721-9-mgurtovoy@nvidia.com>
-X-Mailer: git-send-email 2.18.1
-In-Reply-To: <20240104092549.25721-1-mgurtovoy@nvidia.com>
-References: <20240104092549.25721-1-mgurtovoy@nvidia.com>
+	Thu, 04 Jan 2024 11:56:24 +0000
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40d377bd169so196415e9.1
+        for <linux-nvme@lists.infradead.org>; Thu, 04 Jan 2024 03:56:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704369375; x=1704974175;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RdzMuP5pGgViSBvkgp9t59sucejFcI29bMivs0v5nhA=;
+        b=r6DLMGOq76QoUipf2X/zFSTBZjBFzx82PQR2jFQoo9aRCk6+8IdTOu1cFCymEznApP
+         nFPL1sfb/fEdkcz/5iNkgBFQqP6XUu2ZNcR8R1E/68d6K1hEqyWMOc4z5WB1PfXeR5f2
+         W3JcAdDwWVFnuB2F2GB6dmmMXulqhGYf7OMzRwY/FCkyk4BjIe/Jo9omcZB7evhNyw3R
+         ihnDbr2ZU50r8u39uHCa+ekTsJ/WhpKP5Z0YyErNBrKTZSRHAlg99RcHsE8Ns4mZif+k
+         BWVOD+KdMujay5Ki8kzkGJDkrFXQDXuoVdEkLXdRHI0Q0IWac7QX9ZDTE8pBE90bWuue
+         hhew==
+X-Gm-Message-State: AOJu0Yx0ixR0lqurISmIbe9SUEx4VYEKO2o2BTzyaE1lv4rUcxjSzOEJ
+	zsHLCBSFPXxE7AHVihmOeEXpthWaAdI=
+X-Google-Smtp-Source: AGHT+IEc0096Jvww+Ga4xIOHl+BIWGTr43c82/6EY1PcKBnzdjZoFmOiLeqg2czdVHoUVPHExEQc0A==
+X-Received: by 2002:a05:600c:3b07:b0:40d:891e:92a7 with SMTP id m7-20020a05600c3b0700b0040d891e92a7mr649686wms.3.1704369374634;
+        Thu, 04 Jan 2024 03:56:14 -0800 (PST)
+Received: from [10.100.102.14] (46-116-232-10.bb.netvision.net.il. [46.116.232.10])
+        by smtp.gmail.com with ESMTPSA id n6-20020a05600c4f8600b0040c3dcc36e6sm5526643wmq.47.2024.01.04.03.56.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Jan 2024 03:56:14 -0800 (PST)
+Message-ID: <53b68337-8370-4deb-9a90-bf5dbb7d6d33@grimberg.me>
+Date: Thu, 4 Jan 2024 13:56:12 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044F7:EE_|DM4PR12MB5865:EE_
-X-MS-Office365-Filtering-Correlation-Id: 91c74a59-9734-4fa7-ccee-08dc0d073897
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kW/Tdce/32aWE/kzJMz9siRrtxzFMAwzsTft9oZ61bDuJf/e/KUzlNarq0LoeO7L3Z7NJLly3uRaSo7MVJuz5m4ud8i57/QqYoxFIDwZHO9Jt3Bn6i+9l2YSyE6I3DLlRxNsetS9mE3njJoyEgQCMLBcgzYepdm4eLGC9ZJhfhJH+qC/pdtSugHhwlU9W7dT+5pOnNhY41nyjy9viousWHLJdeRLLm8XiMie8z7iqgi9vsc+96nBPId8fexGJz781yIhcJnTcK4s6U3lZgzn8jXjMtnHwlC6PxlHuE76Depdern6caJ7HVS02aahcc0XztUQ3w+mjBxc4QJkEJ/lyQPlx33gTznKyVkVVYl5z22ZIrkqGWGRpYbIawk2RvG2I/WRXGMHzgicmK690zBeVa1i4dDOTNAl9YeJdgIyaAec4jiyVmmZYWDzUZo6zG5JvjArpFxd5Zmn4PneL0LEjkX+PS4i1iRgLIsad4S5NZTBiDE5Baseyw7hdXHzoz7riJd3CDNcYCvnfUw0Rt9vl+oFqWFcmV2rgcXsnBZXAeLEeJMi+sqCj8jAhV5A8RcvMP/u70E5r0TTOE76I+HlfQ2b4bKqo7OLohtAN4L1JdxrpoztpA95IXpvAr3RZxIcast53Ncod7R4AKgfDnTjUpKmtP6cS4EYreyDunFRaKflIud0oiznUqdVz8GbYXT9dkn8waAiXfta+66OF1mIcQzy2wXrkAWOYCucX2qwbV3qb8qTEZPwoUOeU7nNqVVQ
-X-Forefront-Antispam-Report: CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230031)(4636009)(346002)(136003)(376002)(396003)(39860400002)(230922051799003)(186009)(64100799003)(451199024)(1800799012)(82310400011)(46966006)(40470700004)(36840700001)(41300700001)(54906003)(83380400001)(110136005)(316002)(70206006)(70586007)(47076005)(8936002)(8676002)(4326008)(6666004)(107886003)(478600001)(2616005)(1076003)(336012)(426003)(26005)(82740400003)(356005)(7636003)(36860700001)(5660300002)(2906002)(86362001)(40480700001)(40460700003)(36756003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jan 2024 09:26:24.4391
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 91c74a59-9734-4fa7-ccee-08dc0d073897
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044F7.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5865
+User-Agent: Mozilla Thunderbird
+Subject: Re: Should NVME_SC_INVALID_NS be translated to BLK_STS_IOERR instead
+ of BLK_STS_NOTSUPP so that multipath(both native and dm) can failover on the
+ failure?
+Content-Language: en-US
+To: Jirong Feng <jirong.feng@easystack.cn>, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>
+Cc: Jens Axboe <axboe@fb.com>, linux-nvme@lists.infradead.org,
+ peng.xiao@easystack.cn
+References: <9b1589fb-6f47-40bb-8aa6-22ae61145de4@easystack.cn>
+ <ZW6pJAm9wgqj1HEW@kbusch-mbp> <20231205044035.GA28685@lst.de>
+ <08f2c221-cca7-4d34-ab78-157d4eae4f68@grimberg.me>
+ <945fa17c-f1d0-4928-972b-da29ca5c95ec@easystack.cn>
+ <a99971dc-9157-4a0f-8fb7-5fa495434b99@grimberg.me>
+ <b8cd8de7-9167-4b8f-b255-c022376a7c9d@easystack.cn>
+ <dda859d1-41f5-423c-a9e2-900a1573c3a9@easystack.cn>
+ <ae40ced9-9f30-4e93-813c-5b94d0667d66@grimberg.me>
+ <e27ef3fd-d43c-4dc2-8969-4a0f86d9c64c@easystack.cn>
+ <a688834a-99b1-4dd2-b698-c9e54070f78f@grimberg.me>
+ <89b542d3-dedb-4d5c-ad7a-279467d28e51@easystack.cn>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <89b542d3-dedb-4d5c-ad7a-279467d28e51@easystack.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240104_012633_077118_9EA6DC2A 
-X-CRM114-Status: GOOD (  12.81  )
+X-CRM114-CacheID: sfid-20240104_035622_522900_E4C38D1F 
+X-CRM114-Status: GOOD (  32.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -124,54 +94,229 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-A new port configuration was added to set max_queue_size. Clamp user
-configuration to RDMA transport limits.
 
-Increase the maximal queue size of RDMA controllers from 128 to 256
-(the default size stays 128 same as before).
 
-Reviewed-by: Israel Rukshin <israelr@nvidia.com>
-Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
----
- drivers/nvme/target/rdma.c | 8 ++++++++
- include/linux/nvme-rdma.h  | 3 ++-
- 2 files changed, 10 insertions(+), 1 deletion(-)
+On 1/3/24 12:24, Jirong Feng wrote:
+>> OK, can you please check nvme native mpath as well?
+> 
+> switch to nvme native mpath:
+> 
+> [root@fjr-vm1 ~]# nvme list-subsys
+> nvme-subsys0 - 
+> NQN=nqn.2014-08.org.nvmexpress:NVMf:uuid:cf4bb93c-949f-4532-a5c1-b8bd267a4e06
+> \
+>   +- nvme0 tcp traddr=192.168.111.99 trsvcid=4420 live
+>   +- nvme1 tcp traddr=192.168.111.111 trsvcid=4420 live
+> [root@fjr-vm1 ~]# multipath -ll
+> uuid.cf4bb93c-949f-4532-a5c1-b8bd267a4e06 [nvme]:nvme0n1 
+> NVMe,Linux,6.6.0-my
+> size=209715200 features='n/a' hwhandler='ANA' wp=rw
+> |-+- policy='n/a' prio=50 status=optimized
+> | `- 0:0:1 nvme0c0n1 0:0 n/a optimized live
+> `-+- policy='n/a' prio=50 status=optimized
+>    `- 0:1:1 nvme0c1n1 0:0 n/a optimized live
+> 
+> fio still keeps running without any error, just for this time. (see below)
+> 
+> host dmesg:
+> 
+> [Wed Jan  3 07:42:55 2024] nvme nvme0: reschedule traffic based 
+> keep-alive timer
+> [Wed Jan  3 07:42:55 2024] nvme nvme1: reschedule traffic based 
+> keep-alive timer
+> [Wed Jan  3 07:43:00 2024] nvme nvme0: reschedule traffic based 
+> keep-alive timer
+> [Wed Jan  3 07:43:00 2024] nvme nvme1: reschedule traffic based 
+> keep-alive timer
+> [Wed Jan  3 07:43:05 2024] nvme nvme0: connecting queue 0
+> [Wed Jan  3 07:43:05 2024] nvme nvme0: ANA group 1: optimized.
+> [Wed Jan  3 07:43:05 2024] nvme nvme0: creating 4 I/O queues.
+> [Wed Jan  3 07:43:05 2024] nvme nvme0: connecting queue 1
+> [Wed Jan  3 07:43:05 2024] nvme nvme0: connecting queue 2
+> [Wed Jan  3 07:43:05 2024] nvme nvme0: connecting queue 3
+> [Wed Jan  3 07:43:05 2024] nvme nvme0: connecting queue 4
+> [Wed Jan  3 07:43:05 2024] nvme nvme0: rescanning namespaces.
+> [Wed Jan  3 07:43:05 2024] nvme nvme0: connecting queue 0
+> [Wed Jan  3 07:43:05 2024] nvme nvme0: ANA group 1: optimized.
+> [Wed Jan  3 07:43:05 2024] nvme nvme0: creating 4 I/O queues.
+> [Wed Jan  3 07:43:05 2024] nvme nvme0: connecting queue 1
+> [Wed Jan  3 07:43:05 2024] nvme nvme0: connecting queue 2
+> [Wed Jan  3 07:43:05 2024] nvme nvme0: connecting queue 3
+> [Wed Jan  3 07:43:05 2024] nvme nvme0: connecting queue 4
+> [Wed Jan  3 07:43:05 2024] nvme nvme1: reschedule traffic based 
+> keep-alive timer
+> [Wed Jan  3 07:43:10 2024] nvme nvme0: reschedule traffic based 
+> keep-alive timer
+> [Wed Jan  3 07:43:10 2024] nvme nvme1: reschedule traffic based 
+> keep-alive timer
+> 
+> target dmesg:
+> 
+> [Wed Jan  3 07:41:23 2024] nvmet: ctrl 1 update keep-alive timer for 15 
+> secs
+> [Wed Jan  3 07:41:33 2024] nvmet: ctrl 1 update keep-alive timer for 15 
+> secs
+> [Wed Jan  3 07:41:43 2024] nvmet: ctrl 1 update keep-alive timer for 15 
+> secs
+> [Wed Jan  3 07:41:58 2024] nvmet: ctrl 1 reschedule traffic based 
+> keep-alive timer
+> [Wed Jan  3 07:42:14 2024] nvmet: ctrl 1 reschedule traffic based 
+> keep-alive timer
+> [Wed Jan  3 07:42:29 2024] nvmet: ctrl 1 reschedule traffic based 
+> keep-alive timer
+> [Wed Jan  3 07:42:44 2024] nvmet: ctrl 1 reschedule traffic based 
+> keep-alive timer
+> [Wed Jan  3 07:43:00 2024] nvmet: ctrl 1 reschedule traffic based 
+> keep-alive timer
+> [Wed Jan  3 07:43:04 2024] nvmet: fjr add: returning 
+> NVME_ANA_PERSISTENT_LOSS
+> [Wed Jan  3 07:43:04 2024] nvmet_tcp: failed cmd 0000000034dfe760 id 14 
+> opcode 1, data_len: 4096
+> [Wed Jan  3 07:43:04 2024] nvmet: got cmd 12 while CC.EN == 0 on qid = 0
+> [Wed Jan  3 07:43:04 2024] nvmet_tcp: failed cmd 00000000228b330a id 31 
+> opcode 12, data_len: 0
+> [Wed Jan  3 07:43:04 2024] nvmet: ctrl 2 start keep-alive timer for 15 secs
+> [Wed Jan  3 07:43:04 2024] nvmet: ctrl 1 stop keep-alive
+> [Wed Jan  3 07:43:04 2024] nvmet: creating nvm controller 2 for 
+> subsystem 
+> nqn.2014-08.org.nvmexpress:NVMf:uuid:cf4bb93c-949f-4532-a5c1-b8bd267a4e06 for NQN nqn.2014-08.org.nvmexpress:uuid:1d8f7c82-9deb-4bc8-8292-5ff32ee3a2be.
+> [Wed Jan  3 07:43:04 2024] nvmet: adding queue 1 to ctrl 2.
+> [Wed Jan  3 07:43:04 2024] nvmet: adding queue 2 to ctrl 2.
+> [Wed Jan  3 07:43:04 2024] nvmet: adding queue 3 to ctrl 2.
+> [Wed Jan  3 07:43:04 2024] nvmet: adding queue 4 to ctrl 2.
+> [Wed Jan  3 07:43:04 2024] nvmet: fjr add: returning 
+> NVME_ANA_PERSISTENT_LOSS
+> [Wed Jan  3 07:43:04 2024] nvmet_tcp: failed cmd 00000000d9d3dba9 id 100 
+> opcode 1, data_len: 4096
+> [Wed Jan  3 07:43:04 2024] nvmet: ctrl 1 start keep-alive timer for 15 secs
+> [Wed Jan  3 07:43:04 2024] nvmet: ctrl 2 stop keep-alive
+> [Wed Jan  3 07:43:04 2024] nvmet: creating nvm controller 1 for 
+> subsystem 
+> nqn.2014-08.org.nvmexpress:NVMf:uuid:cf4bb93c-949f-4532-a5c1-b8bd267a4e06 for NQN nqn.2014-08.org.nvmexpress:uuid:1d8f7c82-9deb-4bc8-8292-5ff32ee3a2be.
+> [Wed Jan  3 07:43:04 2024] nvmet: adding queue 1 to ctrl 1.
+> [Wed Jan  3 07:43:04 2024] nvmet: adding queue 2 to ctrl 1.
+> [Wed Jan  3 07:43:04 2024] nvmet: adding queue 3 to ctrl 1.
+> [Wed Jan  3 07:43:04 2024] nvmet: adding queue 4 to ctrl 1.
+> [Wed Jan  3 07:43:14 2024] nvmet: ctrl 1 update keep-alive timer for 15 
+> secs
+> 
+>>
+>> Can you try returning NVME_SC_CTRL_PATH_ERROR instead of
+>> NVME_SC_ANA_PERSISTENT_LOSS ?
+> 
+> I enabled/disabled again and again, found that fio keeps running for 
+> most time, but occasionally(about 10% or less) fails and stops with error.
+> 
+> fio: io_u error on file /dev/nvme0n1: Input/output error: write 
+> offset=100662296576, buflen=4096
+> fio: pid=1485, err=5/file:io_u.c:1747, func=io_u error, 
+> error=Input/output error
+> 
+> fio_iops: (groupid=0, jobs=1): err= 5 (file:io_u.c:1747, func=io_u 
+> error, error=Input/output error): pid=1485: Wed Jan  3 08:44:09 2024
+> 
+> host dmesg:
+> 
+> [Wed Jan  3 08:44:06 2024] nvme nvme1: reschedule traffic based 
+> keep-alive timer
+> [Wed Jan  3 08:44:07 2024] nvme nvme0: reschedule traffic based 
+> keep-alive timer
+> [Wed Jan  3 08:44:09 2024] nvme nvme0: connecting queue 0
+> [Wed Jan  3 08:44:09 2024] nvme nvme0: ANA group 1: optimized.
+> [Wed Jan  3 08:44:09 2024] nvme nvme0: creating 4 I/O queues.
+> [Wed Jan  3 08:44:09 2024] nvme nvme0: connecting queue 1
+> [Wed Jan  3 08:44:09 2024] nvme nvme0: connecting queue 2
+> [Wed Jan  3 08:44:09 2024] nvme nvme0: connecting queue 3
+> [Wed Jan  3 08:44:09 2024] nvme nvme0: connecting queue 4
+> [Wed Jan  3 08:44:09 2024] nvme nvme0: rescanning namespaces.
+> [Wed Jan  3 08:44:09 2024] Buffer I/O error on dev nvme0n1, logical 
+> block 0, async page read
+> [Wed Jan  3 08:44:09 2024]  nvme0n1: unable to read partition table
+> [Wed Jan  3 08:44:09 2024] Buffer I/O error on dev nvme0n1, logical 
+> block 6, async page read
+> [Wed Jan  3 08:44:11 2024] nvme nvme1: reschedule traffic based 
+> keep-alive timer
+> [Wed Jan  3 08:44:14 2024] nvme nvme0: reschedule traffic based 
+> keep-alive timer
+> 
+> target dmesg:
+> 
+> [Wed Jan  3 08:44:08 2024] nvmet: fjr add: returning 
+> NVME_SC_CTRL_PATH_ERROR
+> [Wed Jan  3 08:44:08 2024] nvmet_tcp: failed cmd 00000000c11e0ae7 id 53 
+> opcode 1, data_len: 4096
+> [Wed Jan  3 08:44:08 2024] nvmet: fjr add: returning 
+> NVME_SC_CTRL_PATH_ERROR
+> [Wed Jan  3 08:44:08 2024] nvmet_tcp: failed cmd 00000000e0d12c37 id 54 
+> opcode 1, data_len: 4096
+> [Wed Jan  3 08:44:08 2024] nvmet: ctrl 2 start keep-alive timer for 15 secs
+> [Wed Jan  3 08:44:08 2024] nvmet: ctrl 1 stop keep-alive
+> [Wed Jan  3 08:44:08 2024] nvmet: creating nvm controller 2 for 
+> subsystem 
+> nqn.2014-08.org.nvmexpress:NVMf:uuid:cf4bb93c-949f-4532-a5c1-b8bd267a4e06 for NQN nqn.2014-08.org.nvmexpress:uuid:1d8f7c82-9deb-4bc8-8292-5ff32ee3a2be.
+> [Wed Jan  3 08:44:08 2024] nvmet: adding queue 1 to ctrl 2.
+> [Wed Jan  3 08:44:08 2024] nvmet: adding queue 2 to ctrl 2.
+> [Wed Jan  3 08:44:08 2024] nvmet: adding queue 3 to ctrl 2.
+> [Wed Jan  3 08:44:08 2024] nvmet: adding queue 4 to ctrl 2.
+> [Wed Jan  3 08:44:18 2024] nvmet: ctrl 2 update keep-alive timer for 15 
+> secs
+> [Wed Jan  3 08:44:28 2024] nvmet: ctrl 2 update keep-alive timer for 15 
+> secs
+> 
+> then back to returning NVME_ANA_PERSISTENT_LOSS, fio occasionally fails 
+> too. log output are pretty the same.
+> 
+> then back to dm multipath, for about 50 times enable/disable, fio never 
+> fails.
+> 
 
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index f298295c0b0f..3a3686efe008 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -1943,6 +1943,14 @@ static int nvmet_rdma_add_port(struct nvmet_port *nport)
- 		nport->inline_data_size = NVMET_RDMA_MAX_INLINE_DATA_SIZE;
- 	}
- 
-+	if (nport->max_queue_size < 0) {
-+		nport->max_queue_size = NVME_RDMA_DEFAULT_QUEUE_SIZE;
-+	} else if (nport->max_queue_size > NVME_RDMA_MAX_QUEUE_SIZE) {
-+		pr_warn("max_queue_size %u is too large, reducing to %u\n",
-+			nport->max_queue_size, NVME_RDMA_MAX_QUEUE_SIZE);
-+		nport->max_queue_size = NVME_RDMA_MAX_QUEUE_SIZE;
-+	}
-+
- 	ret = inet_pton_with_scope(&init_net, af, nport->disc_addr.traddr,
- 			nport->disc_addr.trsvcid, &port->addr);
- 	if (ret) {
-diff --git a/include/linux/nvme-rdma.h b/include/linux/nvme-rdma.h
-index d0b9941911a1..eb2f04d636c8 100644
---- a/include/linux/nvme-rdma.h
-+++ b/include/linux/nvme-rdma.h
-@@ -8,8 +8,9 @@
- 
- #define NVME_RDMA_IP_PORT		4420
- 
--#define NVME_RDMA_MAX_QUEUE_SIZE 128
-+#define NVME_RDMA_MAX_QUEUE_SIZE 256
- #define NVME_RDMA_MAX_METADATA_QUEUE_SIZE 128
-+#define NVME_RDMA_DEFAULT_QUEUE_SIZE 128
- 
- enum nvme_rdma_cm_fmt {
- 	NVME_RDMA_CM_FMT_1_0 = 0x0,
--- 
-2.18.1
+Hmm, its interesting why you fail only in particular ios and not every
+io. I suspect that there is a timing issue here.
 
+Looking at the code, I suspect that ios continue being sent to the 
+path'd namespace although they shouldn't. The reason is that if we
+return an ana error, then the host will re-read the ana log page again
+and find the namespace eligible for IO (the action of disable/enable
+namespace does not impact the ana log), or,
+we return a path error which is not ana error, in this case the host
+will not re-read the ana log page, and the namespace will be re-selected
+in the next IO (or at least nothing prevents it).
+
+First of all, I think that the most suitable status for nvmet to return
+in this case is: NVME_SC_INTERNAL_PATH_ERROR
+
+ From the spec:
+Internal Path Error: The command was not completed as the result of a
+controller internal error that is specific to the controller processing
+the command. Retries for the request function should be based on the
+setting of the DNR bit (refer to Figure 92).
+
+In the host code, I don't see any reference to such error status
+returned by the controller. So I think we may want to pair it with
+something like (this untested hunk):
+--
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 0a88d7bdc5e3..0fb82056ba5f 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -97,6 +97,14 @@ void nvme_failover_req(struct request *req)
+         if (nvme_is_ana_error(status) && ns->ctrl->ana_log_buf) {
+                 set_bit(NVME_NS_ANA_PENDING, &ns->flags);
+                 queue_work(nvme_wq, &ns->ctrl->ana_work);
++       } else if ((status & 0x7ff) == NVME_SC_INTERNAL_PATH_ERROR) {
++               /*
++                * The ctrl is telling us it is unable to reach the
++                * ns in a way that does not impact the entire ana
++                * group. The only way we can stop sending io to this
++                * specific namespace is by clearing its ready bit.
++                */
++               clear_bit(NVME_NS_READY, &ns->flags);
+         }
+
+         spin_lock_irqsave(&ns->head->requeue_lock, flags);
+--
+
+Keith, Christoph, do you agree that the host action when it sees an
+error status like NVME_SC_INTERNAL_PATH_ERROR it needs to stop sending
+IO to the namespace but not change anything related to ana?
 
