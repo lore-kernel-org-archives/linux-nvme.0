@@ -4,62 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7277FC47074
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jan 2024 17:30:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7C18CC47074
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jan 2024 17:43:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
 	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jNoKbwx6soJb2LbQ/9mst0LbdedTK46dv8rrbeeYR1k=; b=xlBeKMutko1IQHMDnndcS581TC
-	smgAyYSa/qdZTcg/YxiC5Wh5whkO8E3Q7dExKSkeqPouMws4jwAOg0vhmMlTyjTeoBhx7DNqgyT39
-	1OAWF50jq9X3C/aTqAkz+Bwh9KnQeHImTFZkdm1L3YEj1jOcAjUA/kmXa4m88d1iFBB3CxGnKqIRF
-	MT2vT/nHiFZ/RZiJdtfuQ03TRGWMAnoU02gV+nGGzEEFnaF6dNW9rBUM6wmJ11GuauObZjS6i7+GX
-	eP6dN/8LFmLEMAH76uquKMbPkbq92fRak27B/Sd5P17Iw/JpL747cCkQYu5bYqSXqcfhFh97NQT8n
-	jCcaNfbg==;
+	bh=iJzEAwyjCuTLPKgXGoF6ca3ZkqLfiVvQhNO837eVsVY=; b=0BhFAdinAV46bTG86pg/Skd/YC
+	3PX4BYIgbIDmE2QPyy1EmDZVyPTLrpstN3ymJwYhZvn3pw49ycG8BiCGv6DeJHk3M+VjZTi5ey2fI
+	A+BW3xPi2CG5HehKdix2DQu3ZNuuCsN5oWugiKgGJW8rZVR/CykpHUkxt6uwYszszs9VtxBzl5Nom
+	n4cdmW7SZOYA278pK3FREPOhYrnfE+GOU1ml7ET+K3rzJ3FtgF7zxrgX+JbNF2bTB0eI7eRX6EnWe
+	jrkwmVoWwJCthQ02lfhV29rNp7BPEWas3DD+txAGmduiku4wltN57H1Tnljp2z3taWztJEe1f31Mb
+	pUtv//+w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rLRY5-00Eq6J-2d;
-	Thu, 04 Jan 2024 17:30:29 +0000
+	id 1rLRkr-00EsNH-0i;
+	Thu, 04 Jan 2024 17:43:41 +0000
 Received: from hr2.samba.org ([2a01:4f8:192:486::2:0])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rLRY3-00Eq4u-0q
+	id 1rLRkn-00EsKq-2B
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 Jan 2024 17:30:28 +0000
+	Thu, 04 Jan 2024 17:43:39 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
 	s=42; h=Message-ID:Cc:To:From:Date;
-	bh=jNoKbwx6soJb2LbQ/9mst0LbdedTK46dv8rrbeeYR1k=; b=KKdpJ8FcgK+zsiTUTA4UN33xkc
-	HtImU9Bpm3bqTF82KUGqRSNgKTf7ZtVO2iL1VCywtRno+p7zq8Wwx6cnsqVK3umbMxDy6uHhJ2APY
-	EpZNjXJw71FdQfqD3VsHyXDWlKZ4PJwTFv2MYWTETDY+50nE2gQeFuVeqDcmCXHWsAt5gvYlekQHg
-	JJh+z65To0QOdKKAFhd1kwa+ulU/dVGukMELGI1UvnFirIihx1LOHLadwQUIXGM1XfKbowTpekFqF
-	wqTKyociyQYQdms1jumPGG8D9Ud50xKmWYXpx2w8j3ead9vjzyRHuEG3jgd9dxse6eBzB83NQseND
-	kEIUTfcb691387rhOfSiMNgLaq9HJ9NL+mXoVmEC5Rif+7Z71Scghg7wupxeS7Sxx7gYDyDyskO84
-	tX0WGyytwfRy9gLbGEj+kS7arR7lkMU4l4e3tExCApn76x0sfQRl01KQSeEdGyjQLrwjaP1ddG2b6
-	57JaaNbU152fGNiDwB+ncVXF;
+	bh=iJzEAwyjCuTLPKgXGoF6ca3ZkqLfiVvQhNO837eVsVY=; b=skkilULKM8C/9Hywx1jdonlgqN
+	++A6RTzwGnMDi8BokpQmF4HobsEF2UuRLnA9rdOqmkXdYJhtq4C+h23liOymxB8dgTZq4knIupRQT
+	HmYozwkwpUH4RrW9N3mmvCE1ERzpNO3oHJvyKxSEclttWmUYSwN7hNqpKG8e3OkOyClV/sMuhog4h
+	Tl2+U/Ix+STXYwYUsvsGQV69yGYSonefWms+1VvprHCzmfBqPYwcEMkeDioBxUJaAJFivI11renOf
+	5VE60euPAWSGPloeZs5TI3FXE5XOGZoiXhexPZvXFJS0ng0Cv7/wtcrZbVo3P0wBQpAzqVDyMlC79
+	ald4JFBWzphXoXPCkEphypP/UN7n/yDXDfwMstrIoqBkueXaOqf6ktsRggABHtveYXiFruCGEa5DV
+	icawfJnLoMlVQFAXU4mA7o7gaCVIdazYD+JFm4OoHeYKH7TBz2SHKrSV5csM8+JGLyM5eNeqyUzvh
+	YLpP/L2yEwjVQ18ofpSpA+8V;
 Received: from [127.0.0.2] (localhost [127.0.0.1])
 	by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__ECDSA_SECP256R1_SHA256__CHACHA20_POLY1305:256)
 	(Exim)
-	id 1rLRXz-006TIV-1b;
-	Thu, 04 Jan 2024 17:30:24 +0000
-Date: Thu, 4 Jan 2024 09:30:19 -0800
+	id 1rLRkk-006TMe-1G;
+	Thu, 04 Jan 2024 17:43:34 +0000
+Date: Thu, 4 Jan 2024 09:43:30 -0800
 From: Jeremy Allison <jra@samba.org>
 To: Sagi Grimberg <sagi@grimberg.me>
 Cc: Jeremy Allison <jallison@ciq.com>, tansuresh@google.com, hch@lst.de,
 	gregkh@linuxfoundation.org, rafael@kernel.org, bhelgaas@google.com,
 	linux-nvme@lists.infradead.org, jra@samba.org
-Subject: Re: [PATCH 5/5] nvme: Add two-pass shutdown support.
-Message-ID: <ZZbrKz5vK9WqMOBl@jeremy-HP-Z840-Workstation>
+Subject: Re: [PATCH 3/5] nvme: Change 'bool shutdown' into an enum
+ shutdown_type.
+Message-ID: <ZZbuQsCg6jXMjl2u@jeremy-HP-Z840-Workstation>
 References: <20240103210405.3593499-1-jallison@ciq.com>
- <20240103210405.3593499-6-jallison@ciq.com>
- <f5451c8e-1ea4-41ee-9bb4-cf88f6fc3db7@grimberg.me>
+ <20240103210405.3593499-4-jallison@ciq.com>
+ <4486c671-af66-4466-bfca-e184584d884b@grimberg.me>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <f5451c8e-1ea4-41ee-9bb4-cf88f6fc3db7@grimberg.me>
+In-Reply-To: <4486c671-af66-4466-bfca-e184584d884b@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240104_093027_298225_DD4CC476 
-X-CRM114-Status: GOOD (  11.59  )
+X-CRM114-CacheID: sfid-20240104_094337_730094_AC1B34CD 
+X-CRM114-Status: GOOD (  15.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,27 +76,99 @@ Reply-To: Jeremy Allison <jra@samba.org>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jan 04, 2024 at 03:14:16PM +0200, Sagi Grimberg wrote:
+On Thu, Jan 04, 2024 at 03:26:11PM +0200, Sagi Grimberg wrote:
+>
 >
 >On 1/3/24 23:04, Jeremy Allison wrote:
->>This works with the two-pass shutdown mechanism setup for the PCI
->>drivers and participates to provide the shutdown_wait
->>method at the pci_driver structure level.
+>>Convert nvme_disable_ctrl() and nvme_dev_disable()
+>>inside drivers/nvme/host/pci.c to use this:
 >>
->>Adds the new NVME_DISABLE_SHUTDOWN_ASYNC to enum shutdown_type.
->>Changes the nvme shutdown() method to set the
->>NVME_CC_SHN_NORMAL bit and then return to the caller when
->>requested by NVME_DISABLE_SHUTDOWN_ASYNC.
+>>bool shutdown = false == NVME_DISABLE_RESET
+>>bool shutdown = true == NVME_DISABLE_SHUTDOWN_SYNC.
 >>
->>nvme_shutdown_wait() is added to synchronously wait for
->>the NVME_CSTS_SHST_CMPLT bit.
+>>This will make it easier to add a third request later:
+>>NVME_DISABLE_SHUTDOWN_ASNYC
 >>
->>This change speeds up the shutdown in a system which hosts
->>many controllers.
+>>As nvme_disable_ctrl() is used outside of drivers/nvme/host/pci.c,
+>>convert the callers of nvme_disable_ctrl() to this convention too.
+>>
+>>Signed-off-by: Jeremy Allison <jallison@ciq.com>
+>>---
+>>  drivers/nvme/host/apple.c  |  4 ++--
+>>  drivers/nvme/host/core.c   |  6 +++---
+>>  drivers/nvme/host/nvme.h   |  7 +++++-
+>>  drivers/nvme/host/pci.c    | 44 +++++++++++++++++++-------------------
+>>  drivers/nvme/host/rdma.c   |  3 ++-
+>>  drivers/nvme/host/tcp.c    |  3 ++-
+>>  drivers/nvme/target/loop.c |  2 +-
+>>  7 files changed, 38 insertions(+), 31 deletions(-)
+>>
+>>diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+>>index 596bb11eeba5..764639ede41d 100644
+>>--- a/drivers/nvme/host/apple.c
+>>+++ b/drivers/nvme/host/apple.c
+>>@@ -844,8 +844,8 @@ static void apple_nvme_disable(struct apple_nvme *anv, bool shutdown)
+>>  		 * NVMe disabled state, after a clean shutdown).
+>>  		 */
+>>  		if (shutdown)
+>>-			nvme_disable_ctrl(&anv->ctrl, shutdown);
+>>-		nvme_disable_ctrl(&anv->ctrl, false);
+>>+			nvme_disable_ctrl(&anv->ctrl, NVME_DISABLE_SHUTDOWN_SYNC);
+>>+		nvme_disable_ctrl(&anv->ctrl, NVME_DISABLE_RESET);
+>>  	}
+>>  	WRITE_ONCE(anv->ioq.enabled, false);
+>>diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>>index 50818dbcfa1a..e1b2facb7d6a 100644
+>>--- a/drivers/nvme/host/core.c
+>>+++ b/drivers/nvme/host/core.c
+>>@@ -2219,12 +2219,12 @@ static int nvme_wait_ready(struct nvme_ctrl *ctrl, u32 mask, u32 val,
+>>  	return ret;
+>>  }
+>>-int nvme_disable_ctrl(struct nvme_ctrl *ctrl, bool shutdown)
+>>+int nvme_disable_ctrl(struct nvme_ctrl *ctrl, enum shutdown_type shutdown_type)
+>>  {
+>>  	int ret;
+>>  	ctrl->ctrl_config &= ~NVME_CC_SHN_MASK;
+>>-	if (shutdown)
+>>+	if (shutdown_type == NVME_DISABLE_SHUTDOWN_SYNC)
+>>  		ctrl->ctrl_config |= NVME_CC_SHN_NORMAL;
+>>  	else
+>>  		ctrl->ctrl_config &= ~NVME_CC_ENABLE;
+>>@@ -2233,7 +2233,7 @@ int nvme_disable_ctrl(struct nvme_ctrl *ctrl, bool shutdown)
+>>  	if (ret)
+>>  		return ret;
+>>-	if (shutdown) {
+>>+	if (shutdown_type == NVME_DISABLE_SHUTDOWN_SYNC) {
+>>  		return nvme_wait_ready(ctrl, NVME_CSTS_SHST_MASK,
+>>  				       NVME_CSTS_SHST_CMPLT,
+>>  				       ctrl->shutdown_timeout, "shutdown");
+>>diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+>>index 6092cc361837..1a748640f2fb 100644
+>>--- a/drivers/nvme/host/nvme.h
+>>+++ b/drivers/nvme/host/nvme.h
+>>@@ -187,6 +187,11 @@ enum {
+>>  	NVME_MPATH_IO_STATS		= (1 << 2),
+>>  };
+>>+enum shutdown_type {
+>>+	NVME_DISABLE_RESET = 0,
+>>+	NVME_DISABLE_SHUTDOWN_SYNC = 1
+>>+};
 >
->I think that patch 4 can be folded in here.
+>I also don't find this a bit awkward especially when another
+>enumeration value is added later on.
+>
+>An alternative approach would be to stick with nvme_disable_ctrl that
+>accepts shutdown bool, and add nvme_disable_ctrl_nowait() wrapper for it
+>that call-sites can use. Or even better, because we only have a nowait
+>variant for shutdown, perhaps we can add nvme_shutdown_ctrl_nowait()
+>wrapper that accepts only the ctrl instead (this will require splitting
+>nvme_disable_ctrl to the disabling phase and the waiting phase, but that
+>is hidden in the core as static functions).
 
-OK, I thought it was cleaner to have the export as a
-separate patch to make it easier to review, but as
-you wish.
+OK. Let me take a look at this. It would certainly remove the
+changes in unrelated files such as drivers/nvme/host/apple.c,
+drivers/nvme/host/tcp.c and drivers/nvme/target/loop.c.
+
+This change might take me a little longer to get right, so
+please bear with me.
 
