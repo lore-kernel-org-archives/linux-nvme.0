@@ -4,61 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5321C47074
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jan 2024 19:35:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9862EC47074
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jan 2024 21:17:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=44qChRTPD61395LMtG48BDgNguyheKnNEp08f7VPJZs=; b=WBa4sfkTuaRK6WzeiO7+7B7Sj0
-	UOmVtrrYhrEoE5d4KQ6qeqscAGZ1wuJ5Irhd5p0ldjtnHp6y4Eh+j9S9Bli0SCdBmYGC9qLpOwDrZ
-	oHfcFkutOSkjMXZPaiLLWhU0Pr1kTp+ByCBdFwDoLlDOf+9vWAFRNuWILORmqwhjSwNbMhXQ/4HIG
-	Bm1WWVr92CauyDgdgsfNFw7zFvy+4YUrtJwLHbGKNzVgVI7x6iHSGzbvnxYisNAtW9jgojZ883FtW
-	+F4HfGmXyIBJWnjB4Vl/0/dz/B/Z9YxFGu3Wa0N74LSHrJfU6VGkA/AqfW/2UmOgZ+E2ZrZOUSda3
-	rW1wivTA==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=p5F8u3xrKU8ESZxmcg8jQ8IAjNp1yE/fjU1J5AXQvGQ=; b=sQS+3TFPSH5J4ziKhYhmlNVH6r
+	99anVKZ14t8+B2YL7K46tbufng/YqHw/LTyNInS6gtbbc9MHUFO9xOlL033fVk6MeXciawSD/pHp2
+	XwtfASCbgD5c9/+JIMfl4K/lxks5Yhb0lJXOtTi9sQGqCUp59+DVerGACqF0IEtQ2yQz/omjRvutE
+	bW7ympqnYxJKbQ+Qo+jsvDtWhUWNIdwr5D/6sMgcyQGFLYasfTnnxcmHnOgyyUz1s04SeJMjtB+6P
+	n8IVuibz6vDMpuf8vUPr0v4M0RzyCKZWrcxsNMZr3ONJrJAtm9ZcdDUVWr0VbxFJjVm3Iny0C8lgA
+	WTGQG19A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rLTUj-00F61b-06;
-	Thu, 04 Jan 2024 19:35:09 +0000
-Received: from hr2.samba.org ([2a01:4f8:192:486::2:0])
+	id 1rLV5h-00FFSv-1a;
+	Thu, 04 Jan 2024 21:17:25 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rLTUf-00F607-01
-	for linux-nvme@lists.infradead.org;
-	Thu, 04 Jan 2024 19:35:08 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
-	s=42; h=Message-ID:Cc:To:From:Date;
-	bh=44qChRTPD61395LMtG48BDgNguyheKnNEp08f7VPJZs=; b=AUadH55wfbxjUdba5d/WSpd/Bp
-	dbmY84gRWVECabuZgF3msNgfiId93t9Elj4617tqieMDMpfQ20Vg5243BShSBjiYZkcWhliY5cLjB
-	woykAg3LKdsSJeZKbIPDNdgEUWOBZWydCyVMk/jF+Di5P+a9TPB9sfTcgAI9Msg6MrMaew8JWeNS/
-	EtNOCBkmmv17A+w7jqPHCanplIKc8aUybUJ8TmhfQDqqm2my2+hiJBRyf/YXb+jixtfdSQxkNzXbB
-	TEa7J0Tu25wRdOwCbjYGg52y5X9NMhgT7N/cvJVtKiQxFaTNDpimDB5XZd7hKtnu1VuAQFwCIflc0
-	K7dXK+4NSc336TVSjvwH9vOn01mEyKWwGuxtBfQyLjxXfTFtUAcob80gU1+nTLMcyM6o4uYUpfWH3
-	FBTjX5s5tkIWfDaEkuqZBDueVFGGA1Aqc2fFPkcbeRXOoQYK7e3EuV9G4Lhxlxt4yqHhT7SoaDiKV
-	DZh5HFpP0usNrbMwePQpv4fd;
-Received: from [127.0.0.2] (localhost [127.0.0.1])
-	by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__ECDSA_SECP256R1_SHA256__CHACHA20_POLY1305:256)
-	(Exim)
-	id 1rLTUc-006U7S-1N;
-	Thu, 04 Jan 2024 19:35:02 +0000
-Date: Thu, 4 Jan 2024 11:34:58 -0800
-From: Jeremy Allison <jra@samba.org>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Jeremy Allison <jallison@ciq.com>, tansuresh@google.com, hch@lst.de,
-	gregkh@linuxfoundation.org, rafael@kernel.org, bhelgaas@google.com,
-	sagi@grimberg.me, linux-nvme@lists.infradead.org, jra@samba.org
-Subject: Re: [PATCH 2/5] PCI: Support two-pass shutdown
-Message-ID: <ZZcIYpmJsx7n5WGe@jeremy-HP-Z840-Workstation>
-References: <20240103210405.3593499-3-jallison@ciq.com>
- <20240104185524.GA1823422@bhelgaas>
+	id 1rLV5g-00FFSo-2V
+	for linux-nvme@bombadil.infradead.org;
+	Thu, 04 Jan 2024 21:17:24 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=p5F8u3xrKU8ESZxmcg8jQ8IAjNp1yE/fjU1J5AXQvGQ=; b=ty799Qn8Fd+rytCk14M0ZVq25I
+	YiBoR7XxLbFmlNS85l+O0gooTrHaDk5fhLePvNU0dGp4e1aMmTnss9STQyHl1VejW4/57v7YeIMBT
+	ZP9rfvynFQ/IN6FqUpfPmxtyPBqFFxwyJMh/iOFqQYxJdTTEz1eSljsz03RUgd9NPFc9D695RfHwk
+	+08zzTszFt8/e9TS1tjVeg0a9Dg7clSrdazeYNx0BSMUnh50XbIuN4hkn2wwogAacauBJO2ucG1rP
+	JnlzoMgHsQUMwe3gYgnlXHjcmHCDNYpPswNwzduYNn/s2OLszGXp84YD0ABSGA9UbbP+tu1yvCFeQ
+	WLAfi1sQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1rLV5Y-00G1t1-Vo; Thu, 04 Jan 2024 21:17:17 +0000
+Date: Thu, 4 Jan 2024 21:17:16 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: lsf-pc@lists.linux-foundation.org
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: [LSF/MM/BPF TOPIC] Removing GFP_NOFS
+Message-ID: <ZZcgXI46AinlcBDP@casper.infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240104185524.GA1823422@bhelgaas>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240104_113505_041670_FE49895A 
-X-CRM114-Status: GOOD (  14.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,44 +61,50 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: Jeremy Allison <jra@samba.org>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jan 04, 2024 at 12:55:24PM -0600, Bjorn Helgaas wrote:
->On Wed, Jan 03, 2024 at 01:04:02PM -0800, Jeremy Allison wrote:
->> From: Tanjore Suresh <tansuresh@google.com>
->>
->> Enhances the base PCI driver to add support for two-pass
->> shutdown. Adds shutdown_wait() method.
->>
->> Assume a device takes n secs to shutdown. If a machine has been
->> populated with M such devices, the total time spent in shutting down
->> all the devices will be M * n secs if the shutdown is done
->> synchronously. For example, if NVMe PCI Controllers take 5 secs
->> to shutdown and if there are 16 such NVMe controllers in a system,
->> system will spend a total of 80 secs to shutdown all
->> NVMe devices in that system.
->>
->> In order to speed up the shutdown time, a two-pass interface to
->> shutdown has been implemented. The caller calls the shutdown method
->> for each device in turn to allow a shutdown request to be sent,
->> then the caller walks the list of devices and calls shutdown_wait()
->> to synchronously wait for the shutdown to complete.
->>
->> In the NVMe case above, all 16 devices will process the shutdown
->> in parallel taking the total time to shutdown down to the time
->> for one NVMe PCI Controller to shut down.
->>
->> This will significantly reduce the machine reboot time.
->>
->> Signed-off-by: Tanjore Suresh <tansuresh@google.com>
->> Signed-off-by: Jeremy Allison <jallison@ciq.com>
->
->Rewrap commit log to fill 75 columns.  Use present tense imperative,
->e.g., "Enhance ..." and "Add ..."
->
->Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+This is primarily a _FILESYSTEM_ track topic.  All the work has already
+been done on the MM side; the FS people need to do their part.  It could
+be a joint session, but I'm not sure there's much for the MM people
+to say.
 
-Done for next rev. Thanks !
+There are situations where we need to allocate memory, but cannot call
+into the filesystem to free memory.  Generally this is because we're
+holding a lock or we've started a transaction, and attempting to write
+out dirty folios to reclaim memory would result in a deadlock.
+
+The old way to solve this problem is to specify GFP_NOFS when allocating
+memory.  This conveys little information about what is being protected
+against, and so it is hard to know when it might be safe to remove.
+It's also a reflex -- many filesystem authors use GFP_NOFS by default
+even when they could use GFP_KERNEL because there's no risk of deadlock.
+
+The new way is to use the scoped APIs -- memalloc_nofs_save() and
+memalloc_nofs_restore().  These should be called when we start a
+transaction or take a lock that would cause a GFP_KERNEL allocation to
+deadlock.  Then just use GFP_KERNEL as normal.  The memory allocators
+can see the nofs situation is in effect and will not call back into
+the filesystem.
+
+This results in better code within your filesystem as you don't need to
+pass around gfp flags as much, and can lead to better performance from
+the memory allocators as GFP_NOFS will not be used unnecessarily.
+
+The memalloc_nofs APIs were introduced in May 2017, but we still have
+over 1000 uses of GFP_NOFS in fs/ today (and 200 outside fs/, which is
+really sad).  This session is for filesystem developers to talk about
+what they need to do to fix up their own filesystem, or share stories
+about how they made their filesystem better by adopting the new APIs.
+
+My interest in this is that I'd like to get rid of the FGP_NOFS flag.
+It'd also be good to get rid of the __GFP_FS flag since there's always
+demand for more GFP flags.  I have a git branch with some work in this
+area, so there's a certain amount of conference-driven development going
+on here too.
+
+We could mutatis mutandi for GFP_NOIO, memalloc_noio_save/restore,
+__GFP_IO, etc, so maybe the block people are also interested.  I haven't
+looked into that in any detail though.  I guess we'll see what interest
+this topic gains.
 
