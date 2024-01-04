@@ -4,70 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6D2F1C47074
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jan 2024 19:13:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5321C47074
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jan 2024 19:35:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=kAk319M+zQTIwJgoZngfMiGpMWfuk1qcs4eFYB4cZgQ=; b=QnLGTFadkpovW5ujii8ueGcLoF
-	CfDbZPBWVy1gxixgu/z3YB+lnJZgs49KJ4wFq6a1WF6WvCtdvUV/afQnxT5u1DBt//QCIZ8P49cPn
-	95qTco2hONgHPMWiUPZscv1wEOntICJ41ociHp38wsNlzH2377vVPm7BRJ9EOXUpcnHElCduYem/J
-	sKlVTgEMlRONaFG3ORfPr/Ay5vxJRlIEOJ2TqXv+vauV9r92mxca3zBrD0lmiVLGQgY+jMF/AfM4+
-	35/h/kUAEY1LbK07xwA7NuAijoa3vEdYWmyXj6EF7B1TRcN/rAiKHM8fJiZCl27/Pt+k3cCzi+rKo
-	3m4am8Dg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=44qChRTPD61395LMtG48BDgNguyheKnNEp08f7VPJZs=; b=WBa4sfkTuaRK6WzeiO7+7B7Sj0
+	UOmVtrrYhrEoE5d4KQ6qeqscAGZ1wuJ5Irhd5p0ldjtnHp6y4Eh+j9S9Bli0SCdBmYGC9qLpOwDrZ
+	oHfcFkutOSkjMXZPaiLLWhU0Pr1kTp+ByCBdFwDoLlDOf+9vWAFRNuWILORmqwhjSwNbMhXQ/4HIG
+	Bm1WWVr92CauyDgdgsfNFw7zFvy+4YUrtJwLHbGKNzVgVI7x6iHSGzbvnxYisNAtW9jgojZ883FtW
+	+F4HfGmXyIBJWnjB4Vl/0/dz/B/Z9YxFGu3Wa0N74LSHrJfU6VGkA/AqfW/2UmOgZ+E2ZrZOUSda3
+	rW1wivTA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rLT9M-00F2Zb-0f;
-	Thu, 04 Jan 2024 19:13:04 +0000
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	id 1rLTUj-00F61b-06;
+	Thu, 04 Jan 2024 19:35:09 +0000
+Received: from hr2.samba.org ([2a01:4f8:192:486::2:0])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rLT9J-00F2Xk-0c
+	id 1rLTUf-00F607-01
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 Jan 2024 19:13:02 +0000
-Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 404HilCk015968
-	for <linux-nvme@lists.infradead.org>; Thu, 4 Jan 2024 11:12:58 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=s2048-2021-q4;
- bh=kAk319M+zQTIwJgoZngfMiGpMWfuk1qcs4eFYB4cZgQ=;
- b=e18p/Ag9xkNO5YuEq1iZsCZ0vA4dU5x5PFmAs5Ei4xMkUvI92xH6upFHaO99lqEnBEyj
- jZvXkqVowMdhUKvp5aFuOFsP6cY/IRvlilti5eRF2Qo9AZ+RQTf8WfClpr9YlDnGI0gb
- 1m+utvca5FmOY8k1nb3CIccC/ccDhmcBV236TaPdYL/MTTjfSeqvA5eGySwk6ri3b9kq
- iRm0BqLPy+TilgBKrNP7cGLX3+K1K9CiWUmkpJ2OYyey2tI2boM0SqBtassTCtDn2Scw
- Zf3c1wVPV9hdtxxvPjhoiBv4o5s054lccMO3ALStkt5wXegFGGRkfFglgGVlFNTpPpxB ew== 
-Received: from mail.thefacebook.com ([163.114.132.120])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3ve1b80pbv-4
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Thu, 04 Jan 2024 11:12:57 -0800
-Received: from twshared10216.05.ash9.facebook.com (2620:10d:c085:108::4) by
- mail.thefacebook.com (2620:10d:c085:21d::8) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Thu, 4 Jan 2024 11:12:55 -0800
-Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
-	id A95B623D67866; Thu,  4 Jan 2024 11:12:45 -0800 (PST)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-nvme@lists.infradead.org>, <hch@lst.de>, <sagi@grimberg.me>
-CC: Keith Busch <kbusch@kernel.org>
-Subject: [PATCH] nvme: respect user max_discard_sectors setting
-Date: Thu, 4 Jan 2024 11:12:44 -0800
-Message-ID: <20240104191244.737208-1-kbusch@meta.com>
-X-Mailer: git-send-email 2.34.1
+	Thu, 04 Jan 2024 19:35:08 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
+	s=42; h=Message-ID:Cc:To:From:Date;
+	bh=44qChRTPD61395LMtG48BDgNguyheKnNEp08f7VPJZs=; b=AUadH55wfbxjUdba5d/WSpd/Bp
+	dbmY84gRWVECabuZgF3msNgfiId93t9Elj4617tqieMDMpfQ20Vg5243BShSBjiYZkcWhliY5cLjB
+	woykAg3LKdsSJeZKbIPDNdgEUWOBZWydCyVMk/jF+Di5P+a9TPB9sfTcgAI9Msg6MrMaew8JWeNS/
+	EtNOCBkmmv17A+w7jqPHCanplIKc8aUybUJ8TmhfQDqqm2my2+hiJBRyf/YXb+jixtfdSQxkNzXbB
+	TEa7J0Tu25wRdOwCbjYGg52y5X9NMhgT7N/cvJVtKiQxFaTNDpimDB5XZd7hKtnu1VuAQFwCIflc0
+	K7dXK+4NSc336TVSjvwH9vOn01mEyKWwGuxtBfQyLjxXfTFtUAcob80gU1+nTLMcyM6o4uYUpfWH3
+	FBTjX5s5tkIWfDaEkuqZBDueVFGGA1Aqc2fFPkcbeRXOoQYK7e3EuV9G4Lhxlxt4yqHhT7SoaDiKV
+	DZh5HFpP0usNrbMwePQpv4fd;
+Received: from [127.0.0.2] (localhost [127.0.0.1])
+	by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__ECDSA_SECP256R1_SHA256__CHACHA20_POLY1305:256)
+	(Exim)
+	id 1rLTUc-006U7S-1N;
+	Thu, 04 Jan 2024 19:35:02 +0000
+Date: Thu, 4 Jan 2024 11:34:58 -0800
+From: Jeremy Allison <jra@samba.org>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Jeremy Allison <jallison@ciq.com>, tansuresh@google.com, hch@lst.de,
+	gregkh@linuxfoundation.org, rafael@kernel.org, bhelgaas@google.com,
+	sagi@grimberg.me, linux-nvme@lists.infradead.org, jra@samba.org
+Subject: Re: [PATCH 2/5] PCI: Support two-pass shutdown
+Message-ID: <ZZcIYpmJsx7n5WGe@jeremy-HP-Z840-Workstation>
+References: <20240103210405.3593499-3-jallison@ciq.com>
+ <20240104185524.GA1823422@bhelgaas>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: 3GkqUNH-P4RyuFLlC3B8GftCaOiVieK4
-X-Proofpoint-ORIG-GUID: 3GkqUNH-P4RyuFLlC3B8GftCaOiVieK4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-04_11,2024-01-03_01,2023-05-22_02
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20240104185524.GA1823422@bhelgaas>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240104_111301_242060_C2A7B2D9 
-X-CRM114-Status: GOOD (  16.59  )
+X-CRM114-CacheID: sfid-20240104_113505_041670_FE49895A 
+X-CRM114-Status: GOOD (  14.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,36 +70,44 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: Jeremy Allison <jra@samba.org>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+On Thu, Jan 04, 2024 at 12:55:24PM -0600, Bjorn Helgaas wrote:
+>On Wed, Jan 03, 2024 at 01:04:02PM -0800, Jeremy Allison wrote:
+>> From: Tanjore Suresh <tansuresh@google.com>
+>>
+>> Enhances the base PCI driver to add support for two-pass
+>> shutdown. Adds shutdown_wait() method.
+>>
+>> Assume a device takes n secs to shutdown. If a machine has been
+>> populated with M such devices, the total time spent in shutting down
+>> all the devices will be M * n secs if the shutdown is done
+>> synchronously. For example, if NVMe PCI Controllers take 5 secs
+>> to shutdown and if there are 16 such NVMe controllers in a system,
+>> system will spend a total of 80 secs to shutdown all
+>> NVMe devices in that system.
+>>
+>> In order to speed up the shutdown time, a two-pass interface to
+>> shutdown has been implemented. The caller calls the shutdown method
+>> for each device in turn to allow a shutdown request to be sent,
+>> then the caller walks the list of devices and calls shutdown_wait()
+>> to synchronously wait for the shutdown to complete.
+>>
+>> In the NVMe case above, all 16 devices will process the shutdown
+>> in parallel taking the total time to shutdown down to the time
+>> for one NVMe PCI Controller to shut down.
+>>
+>> This will significantly reduce the machine reboot time.
+>>
+>> Signed-off-by: Tanjore Suresh <tansuresh@google.com>
+>> Signed-off-by: Jeremy Allison <jallison@ciq.com>
+>
+>Rewrap commit log to fill 75 columns.  Use present tense imperative,
+>e.g., "Enhance ..." and "Add ..."
+>
+>Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 
-A user can change that attribute to 0 through sysfs, but they can't
-change the hw limit. Check the hw limit instead to know if the driver
-previously set up discard capabilities.
-
-Fixes: 70200574cc229 ("block: remove QUEUE_FLAG_DISCARD")
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 50818dbcfa1ae..8d56c102974ee 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1748,7 +1748,7 @@ static void nvme_config_discard(struct nvme_ctrl *c=
-trl, struct gendisk *disk,
- 	 * updating the hardware limits when overridden through sysfs.  This is
- 	 * harmless because discard limits in NVMe are purely advisory.
- 	 */
--	if (queue->limits.max_discard_sectors)
-+	if (queue->limits.max_hw_discard_sectors)
- 		return;
-=20
- 	blk_queue_max_discard_sectors(queue, max_discard_sectors);
---=20
-2.34.1
-
+Done for next rev. Thanks !
 
