@@ -4,69 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DDD4AC47073
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jan 2024 13:10:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1E6A9C47074
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Jan 2024 13:12:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=trEnkqQra4icgZANuNy6/vtZQkCyNvtcqB1SqhxSZ/U=; b=qtMAHLfCF2aV6kPL9nIpLNJsgy
-	Mi8/1AwB0WZmEDt+MklwGzUVIIRVv/heKJ56OhIZDq+JNLk0BmNWJTX1gcFeXdrirF7/VonJdbQV0
-	UEDq2aQdoWtzYrb649wpumfJinMYRpydOJfu8DoiEUrEQK8nfZ7R7MGSKoBwvzrBFFzOzcm+zBmus
-	vv21nEhFL+0UWEqZofySbENOqBGOars3IWK+8VdS1XwK6ciJ9VG3VLeYWwg53oyMnuct8hOvJC4gI
-	GZADROmMoSUzEs+y+5WavYqrGxp8c8+1idh3kLmzk6AZJ02UTlFufKG70SyU0/lYG15EAc3GfzTyB
-	+q6/5rvQ==;
+	bh=lMSnzzQbUF9EKnMeK5bfcAYGorPWABNSY7naaLj6+sU=; b=q0yz+phl1nuSkFYoPoFPBnJ66g
+	xkSRadLUWve+E1le+miMHugoU9a8bQpkSmSEljEYvVwRrXE+JFjKuinAJuLDw03UdmQoAZrOUT2mD
+	qF1Kba+O8N8P31HDeTgV1/uH4kJR/H6di9UG89p3oJqqn4NnmX8cdZ3ypfB/s2s3EglnXGCyJntYr
+	TZKIIx9XoeMYm+068gb21hZFp1jEz5T74Ew8rVyX4VeZBJtpulZrXKS8lgYPCjzgAGaWXwv2EdAIc
+	ELKcefIeUmkrsladRBXTMCi2dqBsOEXJ6A3/Fb1VbT9TOg/Lyoa5PE1Agjwj0dtELJSX/DnNw+mWc
+	JqTMfnJg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rLNUU-00E5UV-2M;
-	Thu, 04 Jan 2024 13:10:30 +0000
-Received: from mail-lf1-f44.google.com ([209.85.167.44])
+	id 1rLNWE-00E5xE-1F;
+	Thu, 04 Jan 2024 13:12:18 +0000
+Received: from mail-wm1-f51.google.com ([209.85.128.51])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rLNUR-00E5Sl-0F
+	id 1rLNWB-00E5vf-3A
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 Jan 2024 13:10:28 +0000
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-50e7e6239e1so66412e87.0
-        for <linux-nvme@lists.infradead.org>; Thu, 04 Jan 2024 05:10:22 -0800 (PST)
+	Thu, 04 Jan 2024 13:12:17 +0000
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40d377bd169so285005e9.1
+        for <linux-nvme@lists.infradead.org>; Thu, 04 Jan 2024 05:12:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704373821; x=1704978621;
+        d=1e100.net; s=20230601; t=1704373934; x=1704978734;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=trEnkqQra4icgZANuNy6/vtZQkCyNvtcqB1SqhxSZ/U=;
-        b=jOWF8O9LMJ6llYXS0I2kXwvXA1RrnMj+F9EE3gvVE9SQtwRwTIJ2F5e3MQmeFd+JYh
-         r7FIXBXwyAmJdluT/cWaiEtJ3OFqHYwqr6WW77Vljz0OG1mhMblg1/Io2Hqxk07tQsbL
-         8Z/yoFIlS/AxK+/Y73XMkZP3cRnf0sKB43iB4wbvHLb7z6q7vP5ZH+Ux9JvopvduCM5w
-         U4tQcAtUWYvgmUZfsfci52EdTYixv+rFTpTCe/h81G9kpV7qDIDN2OFDIDbaNSny1uUC
-         i7BCqjt0VvdbamRq4AIBgQ8tLL3sSNyenk+PAcxznBo/LIH5JAjY4xanXtzo/v6Y/D4x
-         /0nQ==
-X-Gm-Message-State: AOJu0YwzEpPa54je4RORVvjuM1LZErpd7LiV13Hllmc9tUzYEedIPuD2
-	8M51iwoH9fKtccS05Yit5Ic=
-X-Google-Smtp-Source: AGHT+IGu218zghMI0mP0fxSxTgbk4byfZQwRtzwHQVdPQqKylTPz7/cmOLrL4kpqo+ml3ci1AmlElA==
-X-Received: by 2002:a05:6512:3c9f:b0:50e:76e0:b9c5 with SMTP id h31-20020a0565123c9f00b0050e76e0b9c5mr880436lfv.0.1704373820830;
-        Thu, 04 Jan 2024 05:10:20 -0800 (PST)
+        bh=lMSnzzQbUF9EKnMeK5bfcAYGorPWABNSY7naaLj6+sU=;
+        b=dal3U/+6pCuaM6M05U7Xz6k5xINaq9dnpkyeMDYdHejyFbUnktIM8GO0keS660hqVe
+         57vq11XEuHNhBvgYd8jwvRUj9K9Zq8OcrzEorEyo8Vi2bfVy3z52hplb5cEpWR7fh0QE
+         AvsUCX5LzapAT6uHJYVLNibGCS3nYjpNXZuUlxf7MBZoHb32IZBA6p2f8z44O5SZWEyV
+         zItM9/PgzQ7tqIq5WBVgmqTKGMfnbMJWK0iGKTSpm/xuNf4fdeuby3S5OpyhwWthgq2b
+         ZGgy595DuztE63A6PhaU17NjiNGev87UtnjVPVdMsAxkpws+aOlYcXewk6TvT3299ONl
+         PlpA==
+X-Gm-Message-State: AOJu0Yyn0pc8iXrYw8eWdBiSAhkLH1kHI48Oyjsa9/F7G5c9AKRzZVoP
+	Xsn9vSVEbqPpV+UZE+/JwCU=
+X-Google-Smtp-Source: AGHT+IHqLPUWZN7bQn8cqdnLnkUmZwlBZLDFndeEm6iOoyxaCRMoPkeVP0kkl/FzCCLdQIYrBUx1MQ==
+X-Received: by 2002:a05:600c:3b97:b0:40d:5b7b:15d5 with SMTP id n23-20020a05600c3b9700b0040d5b7b15d5mr777431wms.4.1704373933746;
+        Thu, 04 Jan 2024 05:12:13 -0800 (PST)
 Received: from [10.100.102.14] (46-116-232-10.bb.netvision.net.il. [46.116.232.10])
-        by smtp.gmail.com with ESMTPSA id p20-20020a05600c469400b0040d85a304desm5762448wmo.35.2024.01.04.05.10.16
+        by smtp.gmail.com with ESMTPSA id s7-20020a05600c45c700b0040d8d11bf63sm5638610wmo.41.2024.01.04.05.12.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jan 2024 05:10:20 -0800 (PST)
-Message-ID: <1c92e8cf-2a46-418a-8a31-b9f43a1f151c@grimberg.me>
-Date: Thu, 4 Jan 2024 15:10:15 +0200
+        Thu, 04 Jan 2024 05:12:13 -0800 (PST)
+Message-ID: <7c797813-40fb-49c6-baf0-2029e9177939@grimberg.me>
+Date: Thu, 4 Jan 2024 15:12:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvmet-tcp: Fix the H2C expected PDU len calculation
+Subject: Re: [PATCH 1/5] driver core: Support two-pass driver shutdown
 Content-Language: en-US
-To: Maurizio Lombardi <mlombard@redhat.com>
-Cc: zahavi.alon@gmail.com, chaitanyak@nvidia.com,
- linux-nvme@lists.infradead.org, kbusch@kernel.org
-References: <20240103110804.129921-1-mlombard@redhat.com>
+To: Jeremy Allison <jallison@ciq.com>, jra@samba.org, tansuresh@google.com,
+ hch@lst.de, gregkh@linuxfoundation.org, rafael@kernel.org,
+ bhelgaas@google.com
+Cc: linux-nvme@lists.infradead.org
+References: <20240103210405.3593499-1-jallison@ciq.com>
+ <20240103210405.3593499-2-jallison@ciq.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20240103110804.129921-1-mlombard@redhat.com>
+In-Reply-To: <20240103210405.3593499-2-jallison@ciq.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240104_051027_140877_014F684C 
-X-CRM114-Status: GOOD (  17.46  )
+X-CRM114-CacheID: sfid-20240104_051216_019097_1F3DC9A3 
+X-CRM114-Status: GOOD (  24.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,52 +83,80 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> The nvmet_tcp_handle_h2c_data_pdu() function should take into
-> consideration the possibility that the header digest and/or the data
-> digests are enabled when calculating the expected PDU length before
-> comparing it to the value stored in cmd->pdu_len.
+
+
+On 1/3/24 23:04, Jeremy Allison wrote:
+> From: Tanjore Suresh <tansuresh@google.com>
 > 
-> Fixes: efa56305908b ("nvmet-tcp: Fix a kernel panic when host sends an invalid H2C PDU length")
-> Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+> This changes the bus driver interface with an additional entry point
+> to enable devices to implement two-pass shutdown. The existing
+> synchronous interface to shutdown is called, and if a shutdown_wait
+> method is defined the device is moved to an alternate list.
+> 
+> Once the shutdown method is called for all devices, the
+> shutdown_wait method is then called synchronously for
+> all devices on the alternate list.
+> 
+> Signed-off-by: Tanjore Suresh <tansuresh@google.com>
+> Signed-off-by: Jeremy Allison <jallison@ciq.com>
 > ---
->   drivers/nvme/target/tcp.c | 9 ++++++---
->   1 file changed, 6 insertions(+), 3 deletions(-)
+>   drivers/base/core.c        | 37 +++++++++++++++++++++++++++++++++++++
+>   include/linux/device/bus.h |  6 +++++-
+>   2 files changed, 42 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-> index 3569c1255c5e..717ea1e5f4c3 100644
-> --- a/drivers/nvme/target/tcp.c
-> +++ b/drivers/nvme/target/tcp.c
-> @@ -979,7 +979,7 @@ static int nvmet_tcp_handle_h2c_data_pdu(struct nvmet_tcp_queue *queue)
+> diff --git a/drivers/base/core.c b/drivers/base/core.c
+> index 67ba592afc77..e1f4c54de3e1 100644
+> --- a/drivers/base/core.c
+> +++ b/drivers/base/core.c
+> @@ -4725,6 +4725,7 @@ EXPORT_SYMBOL_GPL(device_change_owner);
+>   void device_shutdown(void)
 >   {
->   	struct nvme_tcp_data_pdu *data = &queue->pdu.data;
->   	struct nvmet_tcp_cmd *cmd;
-> -	unsigned int plen;
-> +	unsigned int expected_len;
+>   	struct device *dev, *parent;
+> +	LIST_HEAD(shutdown_wait_list);
 >   
->   	if (likely(queue->nr_cmds)) {
->   		if (unlikely(data->ttag >= queue->nr_cmds)) {
-> @@ -999,9 +999,12 @@ static int nvmet_tcp_handle_h2c_data_pdu(struct nvmet_tcp_queue *queue)
->   		goto err_proto;
+>   	wait_for_device_probe();
+>   	device_block_probing();
+> @@ -4769,10 +4770,17 @@ void device_shutdown(void)
+>   				dev_info(dev, "shutdown_pre\n");
+>   			dev->class->shutdown_pre(dev);
+>   		}
+> +
+>   		if (dev->bus && dev->bus->shutdown) {
+>   			if (initcall_debug)
+>   				dev_info(dev, "shutdown\n");
+>   			dev->bus->shutdown(dev);
+> +			/*
+> +			 * Only put the device on the shutdown_wait_list
+> +			 * if a shutdown_wait() method is also defined.
+> +			 */
+> +			if (dev->bus->shutdown_wait)
+> +				list_add(&dev->kobj.entry, &shutdown_wait_list);
+>   		} else if (dev->driver && dev->driver->shutdown) {
+>   			if (initcall_debug)
+>   				dev_info(dev, "shutdown\n");
+> @@ -4789,6 +4797,35 @@ void device_shutdown(void)
+>   		spin_lock(&devices_kset->list_lock);
 >   	}
->   
-> -	plen = le32_to_cpu(data->hdr.plen);
-> +	expected_len = le32_to_cpu(data->hdr.plen);
-> +	expected_len -= nvmet_tcp_hdgst_len(queue);
-> +	expected_len -= nvmet_tcp_ddgst_len(queue);
-> +	expected_len -= sizeof(*data);
+>   	spin_unlock(&devices_kset->list_lock);
+> +
+> +	/*
+> +	 * Second pass only for devices that have configured
+> +	 * a shutdown_wait() method.
+> +	 */
+> +	while (!list_empty(&shutdown_wait_list)) {
+> +		dev = list_entry(shutdown_wait_list.next, struct device,
+> +				kobj.entry);
+> +		parent = get_device(dev->parent);
+> +		get_device(dev);
+> +		/*
+> +		 * Make sure the device is off the  list
+> +		 */
+> +		list_del_init(&dev->kobj.entry);
+> +		if (parent)
+> +			device_lock(parent);
+> +		device_lock(dev);
+> +		if (dev->bus && dev->bus->shutdown_wait) {
 
-I think we should call it exp_data_len.
-
-Why not do:
-	exp_data_len = le32_to_cpu(data->hdr.plen) -
-			nvmet_tcp_hdgst_len(queue) -
-			nvmet_tcp_ddgst_len(queue) -
-			sizeof(*data);
-
->   	cmd->pdu_len = le32_to_cpu(data->data_length);
-> -	if (unlikely(cmd->pdu_len != (plen - sizeof(*data)) ||
-> +	if (unlikely(cmd->pdu_len != expected_len ||
->   		     cmd->pdu_len == 0 ||
->   		     cmd->pdu_len > NVMET_TCP_MAXH2CDATA)) {
->   		pr_err("H2CData PDU len %u is invalid\n", cmd->pdu_len);
+How can dev->bus or dev->bus->shutdown_wait be null at this
+point?
 
