@@ -4,65 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5D2BC3DA6E
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Jan 2024 14:35:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F474C3DA6E
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Jan 2024 16:07:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EygD9BrtTMk3m1iWzpBiAzepmtQ8ztbZrT64ylgef6I=; b=x9jZ7QYpUbCL2ord5522RgSYeK
-	9eF0sOD+mCPiLWm5ryyEtAlrAzzxrGdt8ajNSUnrBzrYnZmUNjywx1Em2IdfBR4SdQooTExgjabuq
-	xSqC9MYGY/qKmp5E76EWwYVB8dLL8raDEn4+9+A2IoFCUnBgPkaJEHSgjCZLL06oGucky7Xe/vxZf
-	8iFCPnyNcG8SJoLujheFjG7XTM7NNdNeStIHOkIWVb2usiWtr6OJqQ0nHN1JnWmjZOEAKTI2jMsxS
-	Hv8nIHu3rebu7Lm1+l+X0Q65etfKoDBG0loWIQfWmJrKxYVtYf7SQaClw1eqkO9XX2+zdMvnCCSEi
-	uXqEoAgg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=xs+NkGgbG+yIrhPjFu32l1tjnvi00JbcVlTT4b+pgrQ=; b=mZPUX0MXkhh0niP4URh7SgqDcZ
+	3JBamgvET7S6ZjQmBnTOE6ydAvD37Jb/wCatNLCGc7NfpO9QTJdO8J8C0OGEc2uDxcjQ86akS3TPX
+	8Na5bSesSt8h+xArdhtNxne7frqshKGtmBwPeHNEEQfWZnLNm565qZxJyJ8B1AadzV5MyltJtPUXB
+	Caic5QsE+soGXL27qUp+snAIzbqSWJCiAqxaL6oOqos4cxRAIpYqaEpd+uoWqlT3yQQkRU3RWbbtl
+	Y0FxQg0LP0EwC8mK2cH0nW2K8ZG9TAz06S8pIFsbE/gvR5EMzKuRnYVmkQcPJofO2gh5zxqzt8Lw4
+	OgQ4P7FA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rLlIh-00H4xa-0W;
-	Fri, 05 Jan 2024 14:35:55 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1rLmjb-00HGex-1t;
+	Fri, 05 Jan 2024 16:07:47 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rLlId-00H4wj-2e
+	id 1rLmjY-00HGdA-34
 	for linux-nvme@lists.infradead.org;
-	Fri, 05 Jan 2024 14:35:53 +0000
+	Fri, 05 Jan 2024 16:07:46 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 8C00A61B33;
-	Fri,  5 Jan 2024 14:35:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 615E9C433C7;
-	Fri,  5 Jan 2024 14:35:48 +0000 (UTC)
+	by ams.source.kernel.org (Postfix) with ESMTP id 71317B81D4A;
+	Fri,  5 Jan 2024 16:07:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A1FFC433C7;
+	Fri,  5 Jan 2024 16:07:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704465350;
-	bh=ka/VGduA+g6Ty/g3PfHmE31VPABF7sH+61l2Ri2RP4o=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bI0he0u8LKjbDenWOurPtUTqPAzUOVcvLAiYQsGGX90tL1LB0LDVS7AldIDXfwAc5
-	 7U3D8ZlRMEJuCNyxzjngrw38wEr5a/RJNRnDNjK/FiJUoYDwxYRFfCUUf/FWho3Gb9
-	 byllmAj9Ne3+l4ZJew0i2E2Ys01gyRewS0x3jK/FOxrGdSyM8GdaDDFTXMyV6ogJok
-	 xx59KLJkZGFiduu/qBxu5lpsDYmWpWAaoi50CRZZXKWzDwXK1pXFNC5PulrGfhmkR3
-	 hbkCXdBCwNkGyNpL6hPhpw2prTOAJjXPpxhp06Vuo6kLceMRmEfXjF0bCXtxbgghQL
-	 6HSg2DNX3ux7w==
-Message-ID: <4101c577-91f9-40c2-9244-5a08dec4523a@kernel.org>
-Date: Fri, 5 Jan 2024 15:35:45 +0100
+	s=k20201202; t=1704470862;
+	bh=GrhJGIyscGusF6aF/huwmcHJTBr44Tu+ubwbjss+sxA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HbbNHyY+kEhu5r9C0pEr6ZZ5pJFX8FRri92X6y66U2jXIw11bd57/aMl69Csrzd6r
+	 wCBPSxzcASt36wrPc5zQlWNvlziKj0wIy6dakgIVlvsZMuj5gH20mAZp2MmAvUogfS
+	 am6T/9396TzZiLueTJcyOZQ0mnC4FZ5033dBA1OVH2o3pMejY7KcmRX5eg6wGPjET0
+	 fUiY2+yGRlupR6do1r03ez/WCbuk8fHvrh8EuU45fNYMBF+GVXctNAIVGGjCTQajIq
+	 jjdLnY/x1Wolfb8fQ7Mvvct/VRmMoP0+G2Hpwgt3kjOsdTVq7o0gYaWw11DY4YfDK1
+	 hRTJayEytXuKw==
+Date: Fri, 5 Jan 2024 09:07:40 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
+	sagi@grimberg.me
+Subject: Re: [PATCH] nvme: respect user max_discard_sectors setting
+Message-ID: <ZZgpTPl20kNebsFH@kbusch-mbp>
+References: <20240104191244.737208-1-kbusch@meta.com>
+ <20240105043401.GA23760@lst.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [LSF/MM/BPF TOPIC] Removing GFP_NOFS
-Content-Language: en-US
-To: Viacheslav Dubeyko <slava@dubeyko.com>,
- Matthew Wilcox <willy@infradead.org>
-Cc: lsf-pc@lists.linux-foundation.org,
- Linux FS Devel <linux-fsdevel@vger.kernel.org>, linux-mm@kvack.org,
- linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org
-References: <ZZcgXI46AinlcBDP@casper.infradead.org>
- <2EEB5F76-1D68-4B17-82B6-4A459D91E4BF@dubeyko.com>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-In-Reply-To: <2EEB5F76-1D68-4B17-82B6-4A459D91E4BF@dubeyko.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240105043401.GA23760@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240105_063551_927582_D19DEDFB 
-X-CRM114-Status: GOOD (  13.89  )
+X-CRM114-CacheID: sfid-20240105_080745_124237_B89C85C0 
+X-CRM114-Status: GOOD (  18.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,36 +72,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/5/24 11:13, Viacheslav Dubeyko wrote:
+On Fri, Jan 05, 2024 at 05:34:01AM +0100, Christoph Hellwig wrote:
+> On Thu, Jan 04, 2024 at 11:12:44AM -0800, Keith Busch wrote:
+> > From: Keith Busch <kbusch@kernel.org>
+> > 
+> > A user can change that attribute to 0 through sysfs, but they can't
+> > change the hw limit. Check the hw limit instead to know if the driver
+> > previously set up discard capabilities.
 > 
->> On Jan 5, 2024, at 12:17 AM, Matthew Wilcox <willy@infradead.org> wrote:
->> 
->> The memalloc_nofs APIs were introduced in May 2017, but we still have
->> over 1000 uses of GFP_NOFS in fs/ today (and 200 outside fs/, which is
->> really sad).  This session is for filesystem developers to talk about
->> what they need to do to fix up their own filesystem, or share stories
->> about how they made their filesystem better by adopting the new APIs.
->> 
-> 
-> Many file systems are still heavily using GFP_NOFS for kmalloc and
-> kmem_cache_alloc family methods even if  memalloc_nofs_save() and
-> memalloc_nofs_restore() pair is used too. But I can see that GFP_NOFS
+> blk_queue_max_discard_sectors updates the hardware and user limit.
+> It's a bit of a mess, but Jens didn't quite like my half-hearted fix
+> last time.  If we want to do this properly we probably need a separate
+> user limit and recalculate the effective limit when either the hw or
+> user limit changes.  For early in the 6.9 merge window I plan to redo
+> how all the limits are set, and that should give us a better opportunity
+> for these kinds of things
 
-Yes it should be enough to rely on memalloc_nofs_save() for
-kmalloc/kmem_cache_alloc. The kmalloc layer doesnt't care about it, and once
-it's run out of available slab folios and calls into the page allocator for
-a new one, it evaluates the effect of memalloc_nofs_save() as expected.
-
-> is used in radix_tree_preload(), bio_alloc(), posix_acl_clone(),
-> sb_issue_zeroout, sb_issue_discard(), alloc_inode_sb(), blkdev_issue_zeroout(),
-> blkdev_issue_secure_erase(), blkdev_zone_mgmt(), etc.
-> 
-> Would it be safe to switch on memalloc_nofs_save()/memalloc_nofs_restore() for
-> all possible cases? Any potential issues or downsides?
-> 
-> Thanks,
-> Slava.
-> 
-> 
-
+Cool, I look forward to seeing what improvements you have in mind for
+this error prone area. In the meantime, is this patch okay with you or
+is that a 'Nak'?
 
