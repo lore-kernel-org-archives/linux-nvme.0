@@ -4,59 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 45EDBC3DA6E
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Jan 2024 18:15:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8DF7C3DA6E
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Jan 2024 18:21:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=51r8kqImCNK1WxC6YzCqnxMtcv7632DYgTxhlUSkrVY=; b=OnHHxRxEk18Vls
-	ySk+0I/fcxDhUAl/PfXqu4yVyTSLLP2LfLqgq28KYxpVEpFcKY8unsS2YiBZpMUL70Vk6DmG0NZEA
-	3Jm3C1U3ta5/q0ULpeZMeKKJOH1dVkqavjWg3gEZonudMwz44Ef/p01fT+w7q+ZEZdHwer7+WXIkw
-	bKCOqrCh0qWYmzSkc2sLcnOP4rlYbLCzop3pb/ThyNVzSJmor96Q3VFN3dOViHBNYdMY5XGNVOpLv
-	z5dhQjPq+r+g4lM1P+zyZMwarhVgED6gafTSls6x2naUIcgWceKT1LzJHB2ug8zfrifyReDGKEqYP
-	2WH2h5fArLRF8nwbYdVQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=9+XXnIme/BOBZ59ceOTp8PFyJrtWgcaBgPRe99cUreI=; b=yY/Y4yQ+hgIT2tkhBaOIFUpAye
+	lfXmvv4xI9KoxzXTtSsew4gx4AAi4tL8mxCpb9bAdLrzUZPblSRXR5WmXGBSsXXYC3ND/0tYvmob/
+	yMo3TFIXFFXOurpWwJL63FJ2khnG6qk1mWzWlCeZqy805uoRFGwT9Y7r7ggDX+GHiJimADvDeAiS+
+	z7su+2O+r7dN6O8BFz3IiMAmU/6XbaMU0oD8ey+1d09QMyqWad/xTVImMqbP0q+oDTjmdnJ/vS1F2
+	/E5/UJfiZfKCTKmJ9JLG2zJRoakTALF3BHFhWPsgemtZY+k5z2cgJ82WuDdABC0qs3jwmALnrucAC
+	q/PeDreg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rLoj7-00HWmC-01;
-	Fri, 05 Jan 2024 18:15:25 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1rLool-00HXer-1f;
+	Fri, 05 Jan 2024 18:21:15 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rLoj3-00HWlg-1X
+	id 1rLooi-00HXeI-0e
 	for linux-nvme@lists.infradead.org;
-	Fri, 05 Jan 2024 18:15:23 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by ams.source.kernel.org (Postfix) with ESMTP id 04028B81C13;
-	Fri,  5 Jan 2024 18:15:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26EB5C433C7;
-	Fri,  5 Jan 2024 18:15:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704478519;
-	bh=zGC3Degk55lW24BOwfuHWWAyRMSh0GDcsuh8CT1tk0U=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=u6hu8/UFBgnXHpk08b1V4Mwf8z0zDYC1kp2X83SDUkcYV3C8GLBj3MOr3AvRdKIWK
-	 osB5auRGgumL7ucJe4HpMF3SivTKEWNMOZUfpcyjG1UE0xS1bmQQjaw+9zh7hVIUMD
-	 41hdx+iPvTsRDRGIicScn8UR84G6wZNRFm36sZLlTMCMdQilJgohkkfwiUtpVe0XoG
-	 8svmY+XOl203IKAb/Ao59adWBuCyWyvZMlpcCtSiz4H1/cDrN0e363tPXyNe9ClAtB
-	 VCOOvoKpnPIq5yLt0zgGaEGedd84eF/AMmuygOneGFX/yEpylLrtpAjZJgY+kWdTp9
-	 en1t2awGE5u9w==
-Date: Fri, 5 Jan 2024 12:15:17 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jeremy Allison <jra@samba.org>, Jeremy Allison <jallison@ciq.com>,
-	tansuresh@google.com, gregkh@linuxfoundation.org, rafael@kernel.org,
-	bhelgaas@google.com, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 1/4] driver core: Support two-pass driver shutdown
-Message-ID: <20240105181517.GA1861750@bhelgaas>
+	Fri, 05 Jan 2024 18:21:13 +0000
+Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 405BuVxa027390
+	for <linux-nvme@lists.infradead.org>; Fri, 5 Jan 2024 10:21:10 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=s2048-2021-q4;
+ bh=9+XXnIme/BOBZ59ceOTp8PFyJrtWgcaBgPRe99cUreI=;
+ b=bib1fd0rTc1bbeRt9isw9HZBetckOvHXO3gm8hNp/HdhUFcjt9400jgJY3RQ00oO+7LL
+ yMFfYHHY+QArrKmFrrI4nL6ZMkwfsTWu/poTRQiCdjyTCce/m1pg6WaQ96peRvzwWrzM
+ VG7rsTIjVCNn7SGPN+CbEsKeJ1UZ6C6UeZYIeamrQoi5oigB7yyigh/vXVgGRi69P+Yb
+ Mvap+m9bonHrcvrfsnGY3f1xVgNcAmSeRXLOBujiPxfVKMoGsqdgMUpFgAVlkRuv3hot
+ vaBKn4QcsQgSNGo7kCTkTYwDwsVRYUUR88j+Rtjf8+MonG2sqh62BbVqFjOeKVlNDC/v ew== 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3vechtkgmc-14
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Fri, 05 Jan 2024 10:21:09 -0800
+Received: from twshared19681.14.frc2.facebook.com (2620:10d:c0a8:1b::2d) by
+ mail.thefacebook.com (2620:10d:c0a8:83::8) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 5 Jan 2024 10:20:48 -0800
+Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
+	id ED2EB23DE7C45; Fri,  5 Jan 2024 10:20:21 -0800 (PST)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-nvme@lists.infradead.org>
+CC: <hch@lst.de>, <sagi@grimberg.me>, <axboe@kernel.dk>,
+        <chaitanyak@nvidia.com>, <mgurtovoy@nvidia.com>,
+        Keith Busch
+	<kbusch@kernel.org>
+Subject: [PATCHv3] nvme-pci: enhance timeout kernel log
+Date: Fri, 5 Jan 2024 10:20:20 -0800
+Message-ID: <20240105182020.2721350-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240105042955.GC23630@lst.de>
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: 2KQOmYLupYC6AWCLJjWeKxtwf1Ofqc4p
+X-Proofpoint-ORIG-GUID: 2KQOmYLupYC6AWCLJjWeKxtwf1Ofqc4p
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-05_08,2024-01-05_01,2023-05-22_02
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240105_101521_803670_4C0653B8 
-X-CRM114-Status: GOOD (  19.85  )
+X-CRM114-CacheID: sfid-20240105_102112_445346_3BFAEF63 
+X-CRM114-Status: GOOD (  14.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,73 +85,96 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jan 05, 2024 at 05:29:55AM +0100, Christoph Hellwig wrote:
-> On Tue, Jan 02, 2024 at 10:07:30AM -0800, Jeremy Allison wrote:
-> >> But I'm not a workqueue expert and I do see the scary warning at
-> >> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/linux/workqueue.h?id=v6.6#n619,
-> >> about not flushing system-wide workqueues, so maybe this wouldn't be
-> >> workable.
-> >
-> > This is a bigger change than I'm comfortable with
-> > (or indeed understand :-) right now. Can we fix
-> > the immediate problem first please and then look
-> > for improvements later ?
-> 
-> It's also a lot less efficient.  Assuming NVMe isn't alone and other
-> hardware interfaces also have a shutdown/disable busy wait (and I've seen
-> quite a few that do) as their limiting factor the two-pass shutdown seems
-> much nicer than spawning tons of work items.
+From: Keith Busch <kbusch@kernel.org>
 
-Here's the essence of the two-pass proposal, adding .shutdown_wait():
+Kernel configs don't necessarily have opcode decoding, and some opcodes
+are not even decodable. It is still interesting for debugging SSD issues
+to know what opcode is timing out, what request type it came from, and
+the data size (if applicable).
 
-    device_shutdown
-      for_each_device
-        dev->bus->shutdown()
-          ...
-            nvme_shutdown
-              nvme_disable_prepare_reset
-                nvme_dev_disable
-                  nvme_disable_ctrl
-  +                 case NVME_DISABLE_SHUTDOWN_ASYNC:
-  +                   return;
-  +                 case NVME_DISABLE_SHUTDOWN_SYNC:
-                      nvme_wait_ready(...);
-  +     if (dev->bus->shutdown_wait)
-  +       list_add(&shutdown_wait_list)
-  +
-  +   for_each(&shutdown_wait_list)
-  +     dev->bus->shutdown_wait()
-  +       pci_device_shutdown_wait
-  +         nvme_shutdown_wait
-  +           nvme_wait_ready(...)
+Also print the command_id along side blk-mq's tag to help match commands
+with protocol wire traces and firmware logs,
 
-FWIW, what I imagined was something like this, where we don't add
-.shutdown_wait(), but any .shutdown() method could become asynchronous
-by queuing a work item to do the wait:
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+v2->v3: formatting updates and print out the command_id too
 
-  + nvme_wait_ready_work
-  +   nvme_wait_ready(...)
+ drivers/nvme/host/pci.c | 24 ++++++++++++++----------
+ 1 file changed, 14 insertions(+), 10 deletions(-)
 
-    device_shutdown
-  +   async_shutdown_wq = create_workqueue("async_shutdown");
-      for_each_device
-        dev->bus->shutdown()
-          ...
-            nvme_shutdown
-              nvme_disable_prepare_reset
-                nvme_dev_disable
-                  nvme_disable_ctrl
-  +                 case NVME_DISABLE_SHUTDOWN_ASYNC:
-  +                   queue_work(async_shutdown_wq, &nvme_wait_ready_work)
-  +                   return;
-  +                 case NVME_DISABLE_SHUTDOWN_SYNC:
-                      nvme_wait_ready(...);
-  +
-  +   destroy_workqueue(async_shutdown_wq);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index f272026807419..698c6e497a22e 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1284,6 +1284,7 @@ static enum blk_eh_timer_return nvme_timeout(struct=
+ request *req)
+ 	struct request *abort_req;
+ 	struct nvme_command cmd =3D { };
+ 	u32 csts =3D readl(dev->bar + NVME_REG_CSTS);
++	u8 opcode;
+=20
+ 	/* If PCI error recovery process is happening, we cannot reset or
+ 	 * the recovery mechanism will surely fail.
+@@ -1310,8 +1311,8 @@ static enum blk_eh_timer_return nvme_timeout(struct=
+ request *req)
+=20
+ 	if (blk_mq_rq_state(req) !=3D MQ_RQ_IN_FLIGHT) {
+ 		dev_warn(dev->ctrl.device,
+-			 "I/O %d QID %d timeout, completion polled\n",
+-			 req->tag, nvmeq->qid);
++			 "I/O tag %d (%04x) QID %d timeout, completion polled\n",
++			 req->tag, nvme_cid(req), nvmeq->qid);
+ 		return BLK_EH_DONE;
+ 	}
+=20
+@@ -1327,8 +1328,8 @@ static enum blk_eh_timer_return nvme_timeout(struct=
+ request *req)
+ 		fallthrough;
+ 	case NVME_CTRL_DELETING:
+ 		dev_warn_ratelimited(dev->ctrl.device,
+-			 "I/O %d QID %d timeout, disable controller\n",
+-			 req->tag, nvmeq->qid);
++			 "I/O tag %d (%04x) QID %d timeout, disable controller\n",
++			 req->tag, nvme_cid(req), nvmeq->qid);
+ 		nvme_req(req)->flags |=3D NVME_REQ_CANCELLED;
+ 		nvme_dev_disable(dev, true);
+ 		return BLK_EH_DONE;
+@@ -1343,10 +1344,13 @@ static enum blk_eh_timer_return nvme_timeout(stru=
+ct request *req)
+ 	 * command was already aborted once before and still hasn't been
+ 	 * returned to the driver, or if this is the admin queue.
+ 	 */
++	opcode =3D nvme_req(req)->cmd->common.opcode;
+ 	if (!nvmeq->qid || iod->aborted) {
+ 		dev_warn(dev->ctrl.device,
+-			 "I/O %d QID %d timeout, reset controller\n",
+-			 req->tag, nvmeq->qid);
++			 "I/O tag %d (%04x) opcode %s %x QID %d timeout, reset controller\n",
++			 req->tag, nvme_cid(req),
++			 nvme_opcode_str(nvmeq->qid, opcode, 0), opcode,
++			 nvmeq->qid);
+ 		nvme_req(req)->flags |=3D NVME_REQ_CANCELLED;
+ 		goto disable;
+ 	}
+@@ -1362,10 +1366,10 @@ static enum blk_eh_timer_return nvme_timeout(stru=
+ct request *req)
+ 	cmd.abort.sqid =3D cpu_to_le16(nvmeq->qid);
+=20
+ 	dev_warn(nvmeq->dev->ctrl.device,
+-		"I/O %d (%s) QID %d timeout, aborting\n",
+-		 req->tag,
+-		 nvme_get_opcode_str(nvme_req(req)->cmd->common.opcode),
+-		 nvmeq->qid);
++		 "I/O tag %d (%04x) opcode %s %x QID %d timeout, aborting req_op:%s(%u=
+) size:%u\n",
++		 req->tag, nvme_cid(req), nvme_get_opcode_str(opcode), opcode,
++		 nvmeq->qid, blk_op_str(req_op(req)), req_op(req),
++		 blk_rq_bytes(req));
+=20
+ 	abort_req =3D blk_mq_alloc_request(dev->ctrl.admin_q, nvme_req_op(&cmd)=
+,
+ 					 BLK_MQ_REQ_NOWAIT);
+--=20
+2.34.1
 
-This is a bit of hand waving because I'm not a workqueue expert, but
-it seems like basically the same amount of overhead without having to
-add .shutdown_wait() to the bus_type and the pci_driver.
-
-Bjorn
 
