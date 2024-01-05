@@ -4,95 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B886C3DA6E
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Jan 2024 16:37:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 45EDBC3DA6E
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Jan 2024 18:15:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
-	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=oHjuD7i+UA3Qw3m7etGOaevmlRCqaIA5WQMiwQTIlE8=; b=vsWUXKnh1FJaLpKBF4xsXPATxR
-	WBIr3O46arquv0JQYhlEXoZXnjdpsVjRJ1R815jsQcvyqogpjmr1YXvXSiftcvYwo3Z6xWoVNrBrl
-	Iu4TZx8OrlMrilVkpB74TLDmar6fiuKg62icDbWrEDXbVeIzcEIOc5VhyPh0rFj53DElnwK5TFuk5
-	Iqr5laLZCSE8V9d2GxkLpLDmAwC812PMqhPjrFANaspJpzANqjuO1WjvgJUepP5wVw5mmpBatHCX5
-	2Xwn8CIjWHn9IFKeNH5sQ/fHjf+zykWQOMJgMY1TQSe59SEHjpXUekQpSf1fwwbSvxqN8T5mmebzr
-	rLj17bxw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=51r8kqImCNK1WxC6YzCqnxMtcv7632DYgTxhlUSkrVY=; b=OnHHxRxEk18Vls
+	ySk+0I/fcxDhUAl/PfXqu4yVyTSLLP2LfLqgq28KYxpVEpFcKY8unsS2YiBZpMUL70Vk6DmG0NZEA
+	3Jm3C1U3ta5/q0ULpeZMeKKJOH1dVkqavjWg3gEZonudMwz44Ef/p01fT+w7q+ZEZdHwer7+WXIkw
+	bKCOqrCh0qWYmzSkc2sLcnOP4rlYbLCzop3pb/ThyNVzSJmor96Q3VFN3dOViHBNYdMY5XGNVOpLv
+	z5dhQjPq+r+g4lM1P+zyZMwarhVgED6gafTSls6x2naUIcgWceKT1LzJHB2ug8zfrifyReDGKEqYP
+	2WH2h5fArLRF8nwbYdVQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rLnCR-00HKe7-0q;
-	Fri, 05 Jan 2024 16:37:35 +0000
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+	id 1rLoj7-00HWmC-01;
+	Fri, 05 Jan 2024 18:15:25 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rLmRA-00HD9a-2g;
-	Fri, 05 Jan 2024 15:48:46 +0000
-Received: by mail-pj1-x102e.google.com with SMTP id 98e67ed59e1d1-28c0d8dd88bso1242579a91.2;
-        Fri, 05 Jan 2024 07:48:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704469722; x=1705074522; darn=lists.infradead.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=oHjuD7i+UA3Qw3m7etGOaevmlRCqaIA5WQMiwQTIlE8=;
-        b=Vsog1nngPKo0zzVkImCeKRav9fr0ToWFfCih0bT9IIfiiIzx/MG0DuX6gdiFd0FSRW
-         LBZzcoXcNig++CXxneulYuKh8GOWSe10tI7FxM5go9V0BDfBKzFpKsYX5GTYky2kHo0Q
-         iE6Pp7W43iTvquJM84/DsjIJnLzLl4Pl8ivymw9e98a7B9SfmjLVwiNH4kL6srirr3Cn
-         MIVKKaFOJzyObzuS5+5Sl26mkc03d1nXEwi4aJ0ZZcMtASxYLW5hcUUZW0qfsGzYG7c1
-         t5GcZJhYGVLklSC0MOYE+YtIvGBxs0tEDlycLQIsk19XcPr9zg6253jfAhltEMTZ2s9L
-         TKoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704469722; x=1705074522;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=oHjuD7i+UA3Qw3m7etGOaevmlRCqaIA5WQMiwQTIlE8=;
-        b=W95K3mVQ4xHwicXRDuLXDb+FN4BYe/TRcdh8IoTMIUZou2FV2mDNVFYe6dDebfDELS
-         C3wOtyqsDOZ2fz2epd6F7E4UTOK874RO/141wYyVaqgAVHH2zhee+W77cr/eXWywryMv
-         ZWRINKXYghHpguKPhyqsYzs2iUQaqFOt1tvfJusuaBJmbYCfqV2pcsOcJwlnEPOlaUSi
-         tsR1+OJhpj0+bqeHhHL/8WUrtRDUq6yqzXY2hnbMsRAYRgB88D1+CoaoN9G/B99ub0dD
-         EaXwiOkle0ldlum7PBp0zWrkNbaHm+bCtS25iEWpNs6BFuj87Gg7T7dbe0kZuqPhIcg5
-         zisg==
-X-Gm-Message-State: AOJu0YwTsCFJZXE5pgQ5dotPBMA0A+gGAJZY1GI340kVYtbb3AFCEudX
-	fASce6jr4/kP00sPfiTA/gp+yCPjunA=
-X-Google-Smtp-Source: AGHT+IG4JLyKQE+gM4c27FKh73op2FHqLSCwte9ikVSJ5ZEE7F/zmt6FTbncQktxxFKJuFQG75IOqA==
-X-Received: by 2002:a17:90a:5512:b0:28c:ef1a:db1a with SMTP id b18-20020a17090a551200b0028cef1adb1amr1858002pji.35.1704469721772;
-        Fri, 05 Jan 2024 07:48:41 -0800 (PST)
-Received: from ?IPv6:2605:59c8:448:b800:82ee:73ff:fe41:9a02? ([2605:59c8:448:b800:82ee:73ff:fe41:9a02])
-        by smtp.googlemail.com with ESMTPSA id gj9-20020a17090b108900b0028be4f51d2dsm1420897pjb.5.2024.01.05.07.48.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jan 2024 07:48:41 -0800 (PST)
-Message-ID: <ec7f36ffdb2a76fe5cac7272da07242b3a6296f4.camel@gmail.com>
-Subject: Re: [PATCH net-next 5/6] net: introduce page_frag_cache_drain()
-From: Alexander H Duyck <alexander.duyck@gmail.com>
-To: Yunsheng Lin <linyunsheng@huawei.com>, davem@davemloft.net,
- kuba@kernel.org,  pabeni@redhat.com
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, Jason Wang
- <jasowang@redhat.com>, Jeroen de Borst <jeroendb@google.com>, Praveen
- Kaligineedi <pkaligineedi@google.com>, Shailend Chand
- <shailend@google.com>, Eric Dumazet <edumazet@google.com>, Felix Fietkau
- <nbd@nbd.name>, John Crispin <john@phrozen.org>, Sean Wang
- <sean.wang@mediatek.com>, Mark Lee <Mark-MC.Lee@mediatek.com>, Lorenzo
- Bianconi <lorenzo@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Keith
- Busch <kbusch@kernel.org>,  Jens Axboe <axboe@kernel.dk>, Christoph Hellwig
- <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,  Chaitanya Kulkarni
- <kch@nvidia.com>, "Michael S. Tsirkin" <mst@redhat.com>, Andrew Morton
- <akpm@linux-foundation.org>, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-nvme@lists.infradead.org, 
- kvm@vger.kernel.org, virtualization@lists.linux.dev, linux-mm@kvack.org
-Date: Fri, 05 Jan 2024 07:48:39 -0800
-In-Reply-To: <20240103095650.25769-6-linyunsheng@huawei.com>
-References: <20240103095650.25769-1-linyunsheng@huawei.com>
-	 <20240103095650.25769-6-linyunsheng@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+	id 1rLoj3-00HWlg-1X
+	for linux-nvme@lists.infradead.org;
+	Fri, 05 Jan 2024 18:15:23 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by ams.source.kernel.org (Postfix) with ESMTP id 04028B81C13;
+	Fri,  5 Jan 2024 18:15:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26EB5C433C7;
+	Fri,  5 Jan 2024 18:15:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704478519;
+	bh=zGC3Degk55lW24BOwfuHWWAyRMSh0GDcsuh8CT1tk0U=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=u6hu8/UFBgnXHpk08b1V4Mwf8z0zDYC1kp2X83SDUkcYV3C8GLBj3MOr3AvRdKIWK
+	 osB5auRGgumL7ucJe4HpMF3SivTKEWNMOZUfpcyjG1UE0xS1bmQQjaw+9zh7hVIUMD
+	 41hdx+iPvTsRDRGIicScn8UR84G6wZNRFm36sZLlTMCMdQilJgohkkfwiUtpVe0XoG
+	 8svmY+XOl203IKAb/Ao59adWBuCyWyvZMlpcCtSiz4H1/cDrN0e363tPXyNe9ClAtB
+	 VCOOvoKpnPIq5yLt0zgGaEGedd84eF/AMmuygOneGFX/yEpylLrtpAjZJgY+kWdTp9
+	 en1t2awGE5u9w==
+Date: Fri, 5 Jan 2024 12:15:17 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jeremy Allison <jra@samba.org>, Jeremy Allison <jallison@ciq.com>,
+	tansuresh@google.com, gregkh@linuxfoundation.org, rafael@kernel.org,
+	bhelgaas@google.com, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 1/4] driver core: Support two-pass driver shutdown
+Message-ID: <20240105181517.GA1861750@bhelgaas>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240105042955.GC23630@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240105_074844_868044_697BF959 
-X-CRM114-Status: UNSURE (   7.65  )
-X-CRM114-Notice: Please train this message.
-X-Mailman-Approved-At: Fri, 05 Jan 2024 08:37:34 -0800
+X-CRM114-CacheID: sfid-20240105_101521_803670_4C0653B8 
+X-CRM114-Status: GOOD (  19.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,16 +71,73 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, 2024-01-03 at 17:56 +0800, Yunsheng Lin wrote:
-> When draining a page_frag_cache, most user are doing
-> the similar steps, so introduce an API to avoid code
-> duplication.
->=20
-> Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
-> Acked-by: Jason Wang <jasowang@redhat.com>
+On Fri, Jan 05, 2024 at 05:29:55AM +0100, Christoph Hellwig wrote:
+> On Tue, Jan 02, 2024 at 10:07:30AM -0800, Jeremy Allison wrote:
+> >> But I'm not a workqueue expert and I do see the scary warning at
+> >> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/linux/workqueue.h?id=v6.6#n619,
+> >> about not flushing system-wide workqueues, so maybe this wouldn't be
+> >> workable.
+> >
+> > This is a bigger change than I'm comfortable with
+> > (or indeed understand :-) right now. Can we fix
+> > the immediate problem first please and then look
+> > for improvements later ?
+> 
+> It's also a lot less efficient.  Assuming NVMe isn't alone and other
+> hardware interfaces also have a shutdown/disable busy wait (and I've seen
+> quite a few that do) as their limiting factor the two-pass shutdown seems
+> much nicer than spawning tons of work items.
 
-Looks good to me.
+Here's the essence of the two-pass proposal, adding .shutdown_wait():
 
-Reviewed-by: Alexander Duyck <alexanderduyck@fb.com>
+    device_shutdown
+      for_each_device
+        dev->bus->shutdown()
+          ...
+            nvme_shutdown
+              nvme_disable_prepare_reset
+                nvme_dev_disable
+                  nvme_disable_ctrl
+  +                 case NVME_DISABLE_SHUTDOWN_ASYNC:
+  +                   return;
+  +                 case NVME_DISABLE_SHUTDOWN_SYNC:
+                      nvme_wait_ready(...);
+  +     if (dev->bus->shutdown_wait)
+  +       list_add(&shutdown_wait_list)
+  +
+  +   for_each(&shutdown_wait_list)
+  +     dev->bus->shutdown_wait()
+  +       pci_device_shutdown_wait
+  +         nvme_shutdown_wait
+  +           nvme_wait_ready(...)
 
+FWIW, what I imagined was something like this, where we don't add
+.shutdown_wait(), but any .shutdown() method could become asynchronous
+by queuing a work item to do the wait:
+
+  + nvme_wait_ready_work
+  +   nvme_wait_ready(...)
+
+    device_shutdown
+  +   async_shutdown_wq = create_workqueue("async_shutdown");
+      for_each_device
+        dev->bus->shutdown()
+          ...
+            nvme_shutdown
+              nvme_disable_prepare_reset
+                nvme_dev_disable
+                  nvme_disable_ctrl
+  +                 case NVME_DISABLE_SHUTDOWN_ASYNC:
+  +                   queue_work(async_shutdown_wq, &nvme_wait_ready_work)
+  +                   return;
+  +                 case NVME_DISABLE_SHUTDOWN_SYNC:
+                      nvme_wait_ready(...);
+  +
+  +   destroy_workqueue(async_shutdown_wq);
+
+This is a bit of hand waving because I'm not a workqueue expert, but
+it seems like basically the same amount of overhead without having to
+add .shutdown_wait() to the bus_type and the pci_driver.
+
+Bjorn
 
