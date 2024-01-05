@@ -4,70 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E6B3AC47079
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Jan 2024 08:15:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E53E8C3DA6E
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Jan 2024 10:13:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=GX1ImOrc6jlc5HF51JSkgp1wFvx8oJcDTj+AKpjJd14=; b=rEHktazgWX6qsabi86do27vjIM
-	5YG3oITOoHJeBzd5i5kwR6HlfuQbvUD7r3hFhj9E+IHPeJzQNIemCggx9kivkoFF/Nv00kWtI6aVp
-	mcavXDoIuFwYBCWNn+y/N+Xo0tAZxCEM0N5/GpeyLH2C6YeJalkcFGHLOOUx3fwXKu5Lj2msB7mtk
-	SeRsHm/MfDscZ08J3VkmMPyLglELNIylYQTzG4PmaE3CUy5HwPVM303IKBwBybmdwqNAvZ/mGPtkg
-	ktGTOCmm8eC6A9y0HCelw67TVELSu9EMAWXAksUblquK5SGNZTmXQYe5L1IcRW1yGCoZemDV04YvU
-	GDYf5rUQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:To:References:Message-Id:
+	Content-Transfer-Encoding:Cc:Date:In-Reply-To:From:Subject:Mime-Version:
+	Content-Type:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=pb8qWmhccm9eam1IG6/mzCzwkOR/9EGblOaiwee7lpg=; b=rUpZpQnEwqXXOigllPoqo06eZ5
+	SKUZofHblKCh9fw4t0pzfhEm+zeoHzogDy2hbt+GF0w95gtiVyCFYegu/J58n6GXtfXMNe1jzUQwh
+	V7Lbpq1wubH1jUJ84MmOd3JjXNB7vILfPBS1TkgV+OjH2+7ReEnCmX5qNBICtuI3BRCHETMfuG0Zx
+	d4Vxeu6bZ11IfyLNGhDaFakZDAXu0GTv3i4QZGl7WGocWK4EynYEAmNRgPXBOyccNAXRPTUxm4gcE
+	gFsErDA84up0w5Yqdij1k96MKauDSr3L7EBify9hL394RehtG+70SJHMdhhvcepWcw4BSM8XRtMVO
+	RfOqkQnQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rLfLz-00GDWg-2s;
-	Fri, 05 Jan 2024 08:14:55 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1rLhCg-00GUPq-0H;
+	Fri, 05 Jan 2024 10:13:26 +0000
+Received: from mail-lj1-x22b.google.com ([2a00:1450:4864:20::22b])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rLfLw-00GDVV-2J
+	id 1rLhCd-00GUMZ-2F
 	for linux-nvme@lists.infradead.org;
-	Fri, 05 Jan 2024 08:14:54 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1704442489;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=GX1ImOrc6jlc5HF51JSkgp1wFvx8oJcDTj+AKpjJd14=;
-	b=BogqwYv4drTDPH8QgKDPt7sqvB2M3YmAQrg6ASfJmTV6lIVq6TdLMx1smM5s9IxCu++DaV
-	JJ45AYMjLvqCreRXMueWvuS18BcWdfX5qWtsSXXBbbNBsZfdXRI6G5A02vaRWoAdcH27n+
-	6dKiWJw0AiXeI76AsQ7enxqjn49hYiI=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-119-yIMKJNfoP9eJdRc-6MlZHg-1; Fri,
- 05 Jan 2024 03:14:47 -0500
-X-MC-Unique: yIMKJNfoP9eJdRc-6MlZHg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7C8BD2812940;
-	Fri,  5 Jan 2024 08:14:47 +0000 (UTC)
-Received: from kalibr.redhat.com (unknown [10.47.238.82])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id BD720C15A0C;
-	Fri,  5 Jan 2024 08:14:45 +0000 (UTC)
-From: Maurizio Lombardi <mlombard@redhat.com>
-To: sagi@grimberg.me
-Cc: zahavi.alon@gmail.com,
-	chaitanyak@nvidia.com,
-	linux-nvme@lists.infradead.org,
-	kbusch@kernel.org
-Subject: [PATCH V2] nvmet-tcp: Fix the H2C expected PDU len calculation
-Date: Fri,  5 Jan 2024 09:14:44 +0100
-Message-Id: <20240105081444.172961-1-mlombard@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+	Fri, 05 Jan 2024 10:13:25 +0000
+Received: by mail-lj1-x22b.google.com with SMTP id 38308e7fff4ca-2cd1aeb1b02so16806971fa.2
+        for <linux-nvme@lists.infradead.org>; Fri, 05 Jan 2024 02:13:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1704449597; x=1705054397; darn=lists.infradead.org;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pb8qWmhccm9eam1IG6/mzCzwkOR/9EGblOaiwee7lpg=;
+        b=xWXwiaxt5AZSNzFmi51zJL7KllAw7F0nYlgUPWLNGS4Eg+JaAfn0yG4InVsc+ssGQ0
+         GLOC8qd/ISYJ+Rc0YBvnepsGbvSQMkA/SuTkDbmrNv0fsWfzyuVgkWrLIgOiElOWa6K/
+         abSPnHkkbkdSKV8XTo5XxT3aS3P7VnqmbMrZ0ttT0ovhJplpG+J/0YBIjyJutXMTntft
+         ZsyA3OmLqbN8kI2CQer2Yyxc0fG/DgO59O2wdfKzJbabaN5QxMjekjLNfOUPd02r6o/T
+         tGhClvS15+IsG14vZZGlmAASVpzwuDh02vbR9cZ/fSetjxVhc0espurpFVsTmTyIR2Ht
+         DkFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704449597; x=1705054397;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pb8qWmhccm9eam1IG6/mzCzwkOR/9EGblOaiwee7lpg=;
+        b=s7CABGILOWmkhjwo5JOJVI3siveJeCUUeKpxpTrUqMXNOEAbKjFzSHXzk0S7trtVqZ
+         y4jU65G3dISgFhm1LdyoHCgihgV+51WSDm01p3O0Z8CbJLfHsBSLpSY4XQDA81/dJHoA
+         JEex01Hwhjbhdj8m9++zOb6xgsCW86MdUkdnsGe2+AAzN7JX1tf0693FLcdcwgeONvGO
+         KVgwtUjK9ha+im5lz+BgyiG7iEwKWZBNSjyX92hwMhNGm7DsEreB7GLIbckI5R+/BmUb
+         WiWYW/D2jj6L4cbQYoGsxANbogQmi+mRif2iaCvPl18WEj0geU2aGsMyQm1vJKlnIjOH
+         XadA==
+X-Gm-Message-State: AOJu0Yzg9WvTknjfsh5Fb4hzLZOnWO4uaulbs1HTs6GZatmNEe3VJAh+
+	9WtCQYzCbEmtQuKm3a3GabmGHF/L37aaVA==
+X-Google-Smtp-Source: AGHT+IERFwtvcyoPP3L+QB9SFl8+7lNrV2k0KLfbM/7+3R7xK9hX+EDB4G+sBp41ebG01fKH0Phabg==
+X-Received: by 2002:a2e:be93:0:b0:2cd:1d5d:322e with SMTP id a19-20020a2ebe93000000b002cd1d5d322emr1306524ljr.10.1704449597179;
+        Fri, 05 Jan 2024 02:13:17 -0800 (PST)
+Received: from smtpclient.apple ([2a00:1370:81a4:169c:3983:bdeb:5f19:e2e9])
+        by smtp.gmail.com with ESMTPSA id n23-20020a2e82d7000000b002ccb9f5ffcasm262090ljh.93.2024.01.05.02.13.16
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 05 Jan 2024 02:13:16 -0800 (PST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.4\))
+Subject: Re: [LSF/MM/BPF TOPIC] Removing GFP_NOFS
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+In-Reply-To: <ZZcgXI46AinlcBDP@casper.infradead.org>
+Date: Fri, 5 Jan 2024 13:13:11 +0300
+Cc: lsf-pc@lists.linux-foundation.org,
+ Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+ linux-mm@kvack.org,
+ linux-block@vger.kernel.org,
+ linux-ide@vger.kernel.org,
+ linux-scsi@vger.kernel.org,
+ linux-nvme@lists.infradead.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <2EEB5F76-1D68-4B17-82B6-4A459D91E4BF@dubeyko.com>
+References: <ZZcgXI46AinlcBDP@casper.infradead.org>
+To: Matthew Wilcox <willy@infradead.org>
+X-Mailer: Apple Mail (2.3696.120.41.1.4)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240105_001452_845978_260E59D0 
-X-CRM114-Status: GOOD (  12.45  )
+X-CRM114-CacheID: sfid-20240105_021323_735805_0A5B471A 
+X-CRM114-Status: GOOD (  27.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,50 +98,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The nvmet_tcp_handle_h2c_data_pdu() function should take into
-consideration the possibility that the header digest and/or the data
-digests are enabled when calculating the expected PDU length, before
-comparing it to the value stored in cmd->pdu_len.
 
-Fixes: efa56305908b ("nvmet-tcp: Fix a kernel panic when host sends an invalid H2C PDU length")
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
----
 
-v2: change the variable name, minor code style fixes.
+> On Jan 5, 2024, at 12:17 AM, Matthew Wilcox <willy@infradead.org> =
+wrote:
+>=20
+> This is primarily a _FILESYSTEM_ track topic.  All the work has =
+already
+> been done on the MM side; the FS people need to do their part.  It =
+could
+> be a joint session, but I'm not sure there's much for the MM people
+> to say.
+>=20
+> There are situations where we need to allocate memory, but cannot call
+> into the filesystem to free memory.  Generally this is because we're
+> holding a lock or we've started a transaction, and attempting to write
+> out dirty folios to reclaim memory would result in a deadlock.
+>=20
+> The old way to solve this problem is to specify GFP_NOFS when =
+allocating
+> memory.  This conveys little information about what is being protected
+> against, and so it is hard to know when it might be safe to remove.
+> It's also a reflex -- many filesystem authors use GFP_NOFS by default
+> even when they could use GFP_KERNEL because there's no risk of =
+deadlock.
+>=20
+> The new way is to use the scoped APIs -- memalloc_nofs_save() and
+> memalloc_nofs_restore().  These should be called when we start a
+> transaction or take a lock that would cause a GFP_KERNEL allocation to
+> deadlock.  Then just use GFP_KERNEL as normal.  The memory allocators
+> can see the nofs situation is in effect and will not call back into
+> the filesystem.
+>=20
+> This results in better code within your filesystem as you don't need =
+to
+> pass around gfp flags as much, and can lead to better performance from
+> the memory allocators as GFP_NOFS will not be used unnecessarily.
+>=20
+> The memalloc_nofs APIs were introduced in May 2017, but we still have
+> over 1000 uses of GFP_NOFS in fs/ today (and 200 outside fs/, which is
+> really sad).  This session is for filesystem developers to talk about
+> what they need to do to fix up their own filesystem, or share stories
+> about how they made their filesystem better by adopting the new APIs.
+>=20
 
- drivers/nvme/target/tcp.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+Many file systems are still heavily using GFP_NOFS for kmalloc and
+kmem_cache_alloc family methods even if  memalloc_nofs_save() and
+memalloc_nofs_restore() pair is used too. But I can see that GFP_NOFS
+is used in radix_tree_preload(), bio_alloc(), posix_acl_clone(),
+sb_issue_zeroout, sb_issue_discard(), alloc_inode_sb(), =
+blkdev_issue_zeroout(),
+blkdev_issue_secure_erase(), blkdev_zone_mgmt(), etc.
 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 3569c1255c5e..4566be0ffe06 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -979,7 +979,7 @@ static int nvmet_tcp_handle_h2c_data_pdu(struct nvmet_tcp_queue *queue)
- {
- 	struct nvme_tcp_data_pdu *data = &queue->pdu.data;
- 	struct nvmet_tcp_cmd *cmd;
--	unsigned int plen;
-+	unsigned int exp_data_len;
- 
- 	if (likely(queue->nr_cmds)) {
- 		if (unlikely(data->ttag >= queue->nr_cmds)) {
-@@ -999,9 +999,13 @@ static int nvmet_tcp_handle_h2c_data_pdu(struct nvmet_tcp_queue *queue)
- 		goto err_proto;
- 	}
- 
--	plen = le32_to_cpu(data->hdr.plen);
-+	exp_data_len = le32_to_cpu(data->hdr.plen) -
-+			nvmet_tcp_hdgst_len(queue) -
-+			nvmet_tcp_ddgst_len(queue) -
-+			sizeof(*data);
-+
- 	cmd->pdu_len = le32_to_cpu(data->data_length);
--	if (unlikely(cmd->pdu_len != (plen - sizeof(*data)) ||
-+	if (unlikely(cmd->pdu_len != exp_data_len ||
- 		     cmd->pdu_len == 0 ||
- 		     cmd->pdu_len > NVMET_TCP_MAXH2CDATA)) {
- 		pr_err("H2CData PDU len %u is invalid\n", cmd->pdu_len);
--- 
-2.39.3
+Would it be safe to switch on =
+memalloc_nofs_save()/memalloc_nofs_restore() for
+all possible cases? Any potential issues or downsides?
+
+Thanks,
+Slava.
 
 
