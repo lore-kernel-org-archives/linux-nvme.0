@@ -4,126 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96CE7C3DA6E
-	for <linux-nvme@archiver.kernel.org>; Mon,  8 Jan 2024 17:39:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1BCA8C3DA6E
+	for <linux-nvme@archiver.kernel.org>; Mon,  8 Jan 2024 17:42:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uLW0pT7KV50tmxWJTneQghfWHHzZ5Z8730KEa5QXDrg=; b=DaW3wzTKKiWB+xBaVMXSK2IfPd
-	h+ezZFZPADjBMdHBQqiLjz0OOY8BkNmuNCUzZCDbNuT2+yfUfdECGdDryfAL9C8qPEjpgReRaj5Kb
-	xKava8nbRoIY5DXbUdfTW2QusuByVbO7uHSTApUvXHFAJ3r6HxXdvdGesRAqjUxjok7OtTuREAhPd
-	jBzNJPYyJCFMTI4j3oSqOZZPgt55Eh2JFCb821dAXMiLOmnYHtUGzwJAeYS7RLeCewjgFu97MCI4F
-	U1mYVlqvtWAJrvBK5mEov/m1zxWAsst+maI0P1o6bHV9tMPi+5dMz+GSQEjErc1PT/baOL9FBF+6Z
-	UuHhrX3Q==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=JVBLuH6KLV50/kT4mCamB9potsQo1JHVj8HELfpksxk=; b=4xyNJEVb3ReqWPiAHYGKbludca
+	3l4CCgEa2mui6PzjdihSdTGv0ijGg0hsTqOrCV37dIMJ9gKTpbPsEUiMgzu/fc3jI8+NPpfR8bqx+
+	zG2dAQIps7z1vpBi/YlmhfO9Rolq6JRWbEW5ZkRlZyx6NtdUEzQ5mBE5wyvnyTl7NnKkNGQT9kUvw
+	3AhLxVZVRuJE295kztSk9KvlxQmT/KtbmHk9+41OGswlSWA26gQG+Jka3UFs9TJUxpVeEC7Vfl06N
+	zXQSkQZ6dP5x6vRX2Mu0yEtsi9W2kQpBtwWjKGVnZOlyW48WuqB8UGSxRAYgfnjm4cNwY0Zf4iCsu
+	IGHp644g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rMtbL-005m4c-2H;
-	Mon, 08 Jan 2024 17:39:51 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1rMtdj-005mUm-1O;
+	Mon, 08 Jan 2024 17:42:19 +0000
+Received: from mail-wm1-f46.google.com ([209.85.128.46])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rMtbH-005m2j-32
+	id 1rMtdg-005mTI-0v
 	for linux-nvme@lists.infradead.org;
-	Mon, 08 Jan 2024 17:39:49 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E25B22200C;
-	Mon,  8 Jan 2024 17:39:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1704735582;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uLW0pT7KV50tmxWJTneQghfWHHzZ5Z8730KEa5QXDrg=;
-	b=sXa8jd11TwgBsXpf2ZToeMv/bdY7G2clae2u2rMY7Feu/xbxONWz7z4TYy5QRdAjYn58+N
-	00CLxMZX9svfzqxRPy2e33HeSswDfK+Ly0Nx4Y+kwenU7U2RNTq9uKkVPX3UWsZn2kzaYO
-	jqNxJwY6sxNwSWHlEphc12FrG/H8QRU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1704735582;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uLW0pT7KV50tmxWJTneQghfWHHzZ5Z8730KEa5QXDrg=;
-	b=00kTTAfMlcg6NOU15mJ26NSLIpLKh9IKr0M7yJJuuLjT2Q7eSzNWqhcDA8jVJPx8P8iAd7
-	OtmrwbGLzRcmjbBQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1704735582;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uLW0pT7KV50tmxWJTneQghfWHHzZ5Z8730KEa5QXDrg=;
-	b=sXa8jd11TwgBsXpf2ZToeMv/bdY7G2clae2u2rMY7Feu/xbxONWz7z4TYy5QRdAjYn58+N
-	00CLxMZX9svfzqxRPy2e33HeSswDfK+Ly0Nx4Y+kwenU7U2RNTq9uKkVPX3UWsZn2kzaYO
-	jqNxJwY6sxNwSWHlEphc12FrG/H8QRU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1704735582;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uLW0pT7KV50tmxWJTneQghfWHHzZ5Z8730KEa5QXDrg=;
-	b=00kTTAfMlcg6NOU15mJ26NSLIpLKh9IKr0M7yJJuuLjT2Q7eSzNWqhcDA8jVJPx8P8iAd7
-	OtmrwbGLzRcmjbBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BD97113686;
-	Mon,  8 Jan 2024 17:39:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dmYRLl4znGWsQAAAD6G6ig
-	(envelope-from <dsterba@suse.cz>); Mon, 08 Jan 2024 17:39:42 +0000
-Date: Mon, 8 Jan 2024 18:39:28 +0100
-From: David Sterba <dsterba@suse.cz>
-To: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
-Cc: Jan Kara <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>,
-	"lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
-	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-	"linux-ide@vger.kernel.org" <linux-ide@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>
-Subject: Re: [Lsf-pc] [LSF/MM/BPF TOPIC] Removing GFP_NOFS
-Message-ID: <20240108173928.GB28693@twin.jikos.cz>
-References: <ZZcgXI46AinlcBDP@casper.infradead.org>
- <20240105105736.24jep6q6cd7vsnmz@quack3>
- <20f3de31-fbb0-4d8b-8f34-aa1beba9afc9@wdc.com>
+	Mon, 08 Jan 2024 17:42:17 +0000
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40d5a733823so3387695e9.1
+        for <linux-nvme@lists.infradead.org>; Mon, 08 Jan 2024 09:42:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704735732; x=1705340532;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JVBLuH6KLV50/kT4mCamB9potsQo1JHVj8HELfpksxk=;
+        b=tBNIE3GhMf674Ru81xupp7KKkwm6iDG8unJfSxZx42/S7kb+bgsoZ4AcfiAMmt+QVm
+         nrCkOFZh6zFJUie/e1ilpzB0mSWy+pS/SUbQiZHLpVGFxIuD7GmsV9j6xOGy2aic0NZ6
+         pdp8tVxvMk6Vwq56iiXiyU+5JBsp4Ig98P3gYMFsCo9G3KZ5hGHcQ1bxr9T20nFdGBLY
+         MMoYNoiX3FxSKA4mWJ6AYjPTKILEVpCWDgwwLYkvw/ZJ3r5GXZrdX4FmFNuD0PQEnCVq
+         xN3ZGBUmRruK+CcI0JlEEYlkzB1h8H+Rl2BhCe/F/CLHJ494U1U6ZyJ419WhzuKCp0fT
+         t8dw==
+X-Gm-Message-State: AOJu0YzPzifePoum8yhmMnasMOD59emIBvm7zHKvh6qU9UzVphlt93Pg
+	2M0J7p1rf8zUu+jcyAEUsjQ=
+X-Google-Smtp-Source: AGHT+IF33jil/SaRB/KWZKuTcc0TUkT0UwGyiLkQfQYK09evURSimatVt+yZtx2dTEOGAfRnwQ+UEw==
+X-Received: by 2002:adf:9d90:0:b0:337:3cf6:ed4c with SMTP id p16-20020adf9d90000000b003373cf6ed4cmr4139573wre.4.1704735731694;
+        Mon, 08 Jan 2024 09:42:11 -0800 (PST)
+Received: from [10.100.102.14] (46-117-114-124.bb.netvision.net.il. [46.117.114.124])
+        by smtp.gmail.com with ESMTPSA id j12-20020adfe50c000000b00336710ddea0sm211158wrm.59.2024.01.08.09.42.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Jan 2024 09:42:11 -0800 (PST)
+Message-ID: <989ca551-865c-44fc-87b0-1401b43afcb3@grimberg.me>
+Date: Mon, 8 Jan 2024 19:42:09 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20f3de31-fbb0-4d8b-8f34-aa1beba9afc9@wdc.com>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	 ARC_NA(0.00)[];
-	 HAS_REPLYTO(0.30)[dsterba@suse.cz];
-	 TO_DN_EQ_ADDR_SOME(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 REPLYTO_ADDR_EQ_FROM(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_SEVEN(0.00)[11];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/5] nvme: Change 'bool shutdown' into an enum
+ shutdown_type.
+Content-Language: en-US
+To: Jeremy Allison <jra@samba.org>, Jeremy Allison <jallison@ciq.com>,
+ tansuresh@google.com, hch@lst.de, gregkh@linuxfoundation.org,
+ rafael@kernel.org, bhelgaas@google.com, linux-nvme@lists.infradead.org
+References: <20240103210405.3593499-1-jallison@ciq.com>
+ <20240103210405.3593499-4-jallison@ciq.com>
+ <4486c671-af66-4466-bfca-e184584d884b@grimberg.me>
+ <ZZbuQsCg6jXMjl2u@jeremy-HP-Z840-Workstation>
+ <ZZb8lvXz0sEiy6Dz@jeremy-HP-Z840-Workstation>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <ZZb8lvXz0sEiy6Dz@jeremy-HP-Z840-Workstation>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240108_093948_161277_D7DAC20A 
-X-CRM114-Status: GOOD (  31.72  )
+X-CRM114-CacheID: sfid-20240108_094216_331562_67DD7DA3 
+X-CRM114-Status: GOOD (  29.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,60 +83,172 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: dsterba@suse.cz
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jan 08, 2024 at 11:47:11AM +0000, Johannes Thumshirn wrote:
-> On 05.01.24 11:57, Jan Kara wrote:
-> > Hello,
-> > 
-> > On Thu 04-01-24 21:17:16, Matthew Wilcox wrote:
-> >> This is primarily a _FILESYSTEM_ track topic.  All the work has already
-> >> been done on the MM side; the FS people need to do their part.  It could
-> >> be a joint session, but I'm not sure there's much for the MM people
-> >> to say.
-> >>
-> >> There are situations where we need to allocate memory, but cannot call
-> >> into the filesystem to free memory.  Generally this is because we're
-> >> holding a lock or we've started a transaction, and attempting to write
-> >> out dirty folios to reclaim memory would result in a deadlock.
-> >>
-> >> The old way to solve this problem is to specify GFP_NOFS when allocating
-> >> memory.  This conveys little information about what is being protected
-> >> against, and so it is hard to know when it might be safe to remove.
-> >> It's also a reflex -- many filesystem authors use GFP_NOFS by default
-> >> even when they could use GFP_KERNEL because there's no risk of deadlock.
-> >>
-> >> The new way is to use the scoped APIs -- memalloc_nofs_save() and
-> >> memalloc_nofs_restore().  These should be called when we start a
-> >> transaction or take a lock that would cause a GFP_KERNEL allocation to
-> >> deadlock.  Then just use GFP_KERNEL as normal.  The memory allocators
-> >> can see the nofs situation is in effect and will not call back into
-> >> the filesystem.
-> >>
-> >> This results in better code within your filesystem as you don't need to
-> >> pass around gfp flags as much, and can lead to better performance from
-> >> the memory allocators as GFP_NOFS will not be used unnecessarily.
-> >>
-> >> The memalloc_nofs APIs were introduced in May 2017, but we still have
-> >> over 1000 uses of GFP_NOFS in fs/ today (and 200 outside fs/, which is
-> >> really sad).  This session is for filesystem developers to talk about
-> >> what they need to do to fix up their own filesystem, or share stories
-> >> about how they made their filesystem better by adopting the new APIs.
 
-> 199 - btrfs
 
-All the easy conversions to scoped nofs allocaionts have been done, the
-rest requires to add saving the nofs state at the transactions tart, as
-said in above. I have a wip series for that, updated every few releases
-but it's intrusive and not finished for a testing run. The number of
-patches is over 100, doing each conversion separately, the other generic
-changes are straightforward.
+On 1/4/24 20:44, Jeremy Allison wrote:
+> On Thu, Jan 04, 2024 at 09:43:30AM -0800, Jeremy Allison wrote:
+>> On Thu, Jan 04, 2024 at 03:26:11PM +0200, Sagi Grimberg wrote:
+>>>
+>>>
+>>> On 1/3/24 23:04, Jeremy Allison wrote:
+>>>> Convert nvme_disable_ctrl() and nvme_dev_disable()
+>>>> inside drivers/nvme/host/pci.c to use this:
+>>>>
+>>>> bool shutdown = false == NVME_DISABLE_RESET
+>>>> bool shutdown = true == NVME_DISABLE_SHUTDOWN_SYNC.
+>>>>
+>>>> This will make it easier to add a third request later:
+>>>> NVME_DISABLE_SHUTDOWN_ASNYC
+>>>>
+>>>> As nvme_disable_ctrl() is used outside of drivers/nvme/host/pci.c,
+>>>> convert the callers of nvme_disable_ctrl() to this convention too.
+>>>>
+>>>> Signed-off-by: Jeremy Allison <jallison@ciq.com>
+>>>> ---
+>>>> drivers/nvme/host/apple.c  |  4 ++--
+>>>> drivers/nvme/host/core.c   |  6 +++---
+>>>> drivers/nvme/host/nvme.h   |  7 +++++-
+>>>> drivers/nvme/host/pci.c    | 44 +++++++++++++++++++-------------------
+>>>> drivers/nvme/host/rdma.c   |  3 ++-
+>>>> drivers/nvme/host/tcp.c    |  3 ++-
+>>>> drivers/nvme/target/loop.c |  2 +-
+>>>> 7 files changed, 38 insertions(+), 31 deletions(-)
+>>>>
+>>>> diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+>>>> index 596bb11eeba5..764639ede41d 100644
+>>>> --- a/drivers/nvme/host/apple.c
+>>>> +++ b/drivers/nvme/host/apple.c
+>>>> @@ -844,8 +844,8 @@ static void apple_nvme_disable(struct apple_nvme 
+>>>> *anv, bool shutdown)
+>>>>          * NVMe disabled state, after a clean shutdown).
+>>>>          */
+>>>>         if (shutdown)
+>>>> -            nvme_disable_ctrl(&anv->ctrl, shutdown);
+>>>> -        nvme_disable_ctrl(&anv->ctrl, false);
+>>>> +            nvme_disable_ctrl(&anv->ctrl, NVME_DISABLE_SHUTDOWN_SYNC);
+>>>> +        nvme_disable_ctrl(&anv->ctrl, NVME_DISABLE_RESET);
+>>>>     }
+>>>>     WRITE_ONCE(anv->ioq.enabled, false);
+>>>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>>>> index 50818dbcfa1a..e1b2facb7d6a 100644
+>>>> --- a/drivers/nvme/host/core.c
+>>>> +++ b/drivers/nvme/host/core.c
+>>>> @@ -2219,12 +2219,12 @@ static int nvme_wait_ready(struct nvme_ctrl 
+>>>> *ctrl, u32 mask, u32 val,
+>>>>     return ret;
+>>>> }
+>>>> -int nvme_disable_ctrl(struct nvme_ctrl *ctrl, bool shutdown)
+>>>> +int nvme_disable_ctrl(struct nvme_ctrl *ctrl, enum shutdown_type 
+>>>> shutdown_type)
+>>>> {
+>>>>     int ret;
+>>>>     ctrl->ctrl_config &= ~NVME_CC_SHN_MASK;
+>>>> -    if (shutdown)
+>>>> +    if (shutdown_type == NVME_DISABLE_SHUTDOWN_SYNC)
+>>>>         ctrl->ctrl_config |= NVME_CC_SHN_NORMAL;
+>>>>     else
+>>>>         ctrl->ctrl_config &= ~NVME_CC_ENABLE;
+>>>> @@ -2233,7 +2233,7 @@ int nvme_disable_ctrl(struct nvme_ctrl *ctrl, 
+>>>> bool shutdown)
+>>>>     if (ret)
+>>>>         return ret;
+>>>> -    if (shutdown) {
+>>>> +    if (shutdown_type == NVME_DISABLE_SHUTDOWN_SYNC) {
+>>>>         return nvme_wait_ready(ctrl, NVME_CSTS_SHST_MASK,
+>>>>                        NVME_CSTS_SHST_CMPLT,
+>>>>                        ctrl->shutdown_timeout, "shutdown");
+>>>> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+>>>> index 6092cc361837..1a748640f2fb 100644
+>>>> --- a/drivers/nvme/host/nvme.h
+>>>> +++ b/drivers/nvme/host/nvme.h
+>>>> @@ -187,6 +187,11 @@ enum {
+>>>>     NVME_MPATH_IO_STATS        = (1 << 2),
+>>>> };
+>>>> +enum shutdown_type {
+>>>> +    NVME_DISABLE_RESET = 0,
+>>>> +    NVME_DISABLE_SHUTDOWN_SYNC = 1
+>>>> +};
+>>>
+>>> I also don't find this a bit awkward especially when another
+>>> enumeration value is added later on.
+>>>
+>>> An alternative approach would be to stick with nvme_disable_ctrl that
+>>> accepts shutdown bool, and add nvme_disable_ctrl_nowait() wrapper for it
+>>> that call-sites can use. Or even better, because we only have a nowait
+>>> variant for shutdown, perhaps we can add nvme_shutdown_ctrl_nowait()
+>>> wrapper that accepts only the ctrl instead (this will require splitting
+>>> nvme_disable_ctrl to the disabling phase and the waiting phase, but that
+>>> is hidden in the core as static functions).
+>>
+>> OK. Let me take a look at this. It would certainly remove the
+>> changes in unrelated files such as drivers/nvme/host/apple.c,
+>> drivers/nvme/host/tcp.c and drivers/nvme/target/loop.c.
+>>
+>> This change might take me a little longer to get right, so
+>> please bear with me.
+> 
+> Yeah, the tricky part is that call chain for nvme_shutdown()
+> looks like (inside drivers/nvme/host/pci.c):
+> 
+> nvme_shutdown() ->
+>      nvme_disable_prepare_reset() ->
+>          nvme_dev_disable() ->
+>              nvme_disable_ctrl()
+> 
+> Adding a new function nvme_shutdown_ctrl_nowait()
+> that sets the bit without waiting is trivial, but
+> the problem is nvme_dev_disable() does a lot of
+> things before calling nvme_disable_ctrl() which
+> obviously should not be duplicated in a separate
+> "twopass" code path.
 
-It's possible to do it incrementally, there's one moster patch (300
-edited lines) to add a stub parameter to transaction start,
-https://lore.kernel.org/linux-btrfs/20211018173803.18353-1-dsterba@suse.com/ .
-There are some counter points in the discussion if it has to be done
-like that but IIRC it's not possible, I have examples why not.
+Ugh.
+
+> 
+> There needs to be some way to pass a use
+> "two-pass" flag down from nvme_shutdown()
+> into nvme_dev_disable()
+Ideally nvme_dev_disable can be broken in a way that
+nvme_shutdown can have 2-3 helpers and the rest of the
+code can remain intact calling nvme_dev_disable (internally
+calling these helpers).
+
+> 
+> I guess I could add a second bool flag passed
+> down from nvme_shutdown() all the way to
+> nvme_dev_disable(), which then calls the
+> nvme_shutdown_ctrl_nowait() varient instead
+> of nvme_disable_ctrl() if both "bool shutdown"
+> and "bool twopass" are set but that seems kind
+> of ugly and confusing to me.
+
+Probably.. Maybe call it dontwait (bool).
+And yes, it is ugly, but better than moving the
+ugliness to the core.
+
+> 
+> How about keeping the enum internal to
+> drivers/nvme/host/pci.c
+> and making it:
+> 
+> enum shutdown_type {
+>      NVME_DISABLE_RESET,
+>      NVME_DISABLE_SHUTDOWN,
+>      NVME_DISABLE_SHUTDOWN_TWOPASS
+> };
+
+NVME_PCI_
+
+> 
+> and changing 'bool shutdown' to enum shutdown_type
+> inside the static functions nvme_disable_prepare_reset()
+> and nvme_dev_disable() only ?
+> 
+> That way we don't have to have the confusing
+> double bool:
+
+Neither are great. I'll defer to Keith and Christoph on this one.
 
