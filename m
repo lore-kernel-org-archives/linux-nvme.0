@@ -4,133 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30263C46CD2
-	for <linux-nvme@archiver.kernel.org>; Sun,  7 Jan 2024 00:41:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9295BC3DA6E
+	for <linux-nvme@archiver.kernel.org>; Mon,  8 Jan 2024 06:40:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FzJsCxke5Z3C/RxMPOGmi7I5L7htq0JE/iMNPQTK4uA=; b=KLaf0TSqVaCTJFJcBrrPG7UWoZ
-	bBDMLfMPzS902fazBkPR5nzhInmMKkrG7Tv6/Sq3iEjzCiAO/IXQozqMGRLMv6SSWxG0cXu+QH06P
-	6vrHGG7+POiDNX+R4e/jZicm+CRbK1jJnmquudDnBi/XHNrufGGzousb140MZJvUP4TmC8gRgDvp/
-	uMZLle9FHQXwcmm0h4aZxhWWZvgEvgW/H9PZbM6Z8Twqb7rcrd5S8NVzii444h+MkKtDyH3pln73/
-	ancZkrGVS5ZsvWTBhDA7jNvXklpfxAoCp5niCloWB/61vmOIpGViMnwv2yrBnE3TQB9KtmZxPqJtj
-	QwKJ/o+A==;
+	bh=P2z/LFrpUod4EQohAwYfd01URT3cRlVCm2VHTnvRW44=; b=LGkYE6CzL17SbFrbJssa8vGEqw
+	LyALCWx0NieTulX4K0shsPttEJ1CgS78qqHrUlejQGj0HZu9KlY2Wkc1ZnxoVDrNmW7kpq/4DuXii
+	zmgdqR7li4p7AijaGPbDtKBLQqD3hV78svdtTuUimhi14nWfWxpVv3yh+i3IOwGz30H64wWo+ews4
+	eXKptqfo9GPBWuVi8rAFyfYxb9t0TPIEMgSXu8vmvsFwkJATORXYPfEKsO+gj5JhW+xCGrZWUC1jI
+	mEvhemE5G9J+QJerhpfJz321j0ER97fZTBhv2fcGOKcuxn41ZMnopq4WE8xxFnpn/NEEceGDCU61y
+	nK/Kqguw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rMHDs-0027px-1D;
-	Sun, 07 Jan 2024 00:41:04 +0000
-Received: from mail-mw2nam12on2062a.outbound.protection.outlook.com ([2a01:111:f400:fe5a::62a] helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+	id 1rMjIk-0045GS-1F;
+	Mon, 08 Jan 2024 06:39:58 +0000
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rMHDp-0027pJ-1v
+	id 1rMjId-0045Fq-2T
 	for linux-nvme@lists.infradead.org;
-	Sun, 07 Jan 2024 00:41:02 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QVrxYwx7mu2XauBeEvtwJpM8xiYYZa+qsyCVMdeRg4K3qmvZmss1pFnmaHVYqZzp/ehEmLivPH3RC29r7dwtj0hwIR788p802neTQUPYWXvFZmm5xwW3i/oZM3DKDiFgvFkYnP6+L7I3fdllFGoBeyRA71421XfPGJp4jBHjCURka3jLH4nJHu2tpk8hbdT5f6s4cyziYglQUw3ovyutsatBXOQIuhjawZg239Mlhy7TGqntwyajyWt3/qKbY23tKoaQV35yW5hc+NDdtBF8uk2x5WF4wXcZByWJvpewNeQrMOTp1RHlRdy5aiAz6OKjLFPU7B3dnb3HTWSd1iV9kQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FzJsCxke5Z3C/RxMPOGmi7I5L7htq0JE/iMNPQTK4uA=;
- b=lHDAVrUNVLxFBHIJw2l5uIZCmwpoT829JdMsgUpaxmG8HKFKI5K0BTktvSiVFStVCn6p+qpcB4oWCi8eEaouVwHKzsyB+uoIPmIEUoH/x+oF8CWRewaHfUZn/+CKl4wMuCz2wErGWmg6IOA0syiDkmS2jYBdapOhVrYe/j/eNgVkKmN6NXf2tMslmVGMr9r7djOK+r7mbnTRik3wNSRHsEhvUHDw29MOU1Fx90SaF4rsdCd5L10xtng6f6X1ndOFdyt0EWM/iopX76LSJv1npiJynlPRUI1x1M4KH9zWexzS3GYxQVl65BgUhZkKss6Z3az22x7gUk6pOS1NcXxTWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FzJsCxke5Z3C/RxMPOGmi7I5L7htq0JE/iMNPQTK4uA=;
- b=AXRimFQP1cg9ohU1M5tEWpwCPmF4LWK31HfAAFNwGgeDK6RP8UnUIzXwneVnfN5ptAsqTKkTOAIdG4nWqmECBwRN3b0GkWohDw1U6bR7dtmci5onLnCS13aw4zU9M1DGiUeFlPwkmFpO/jDS1bRW70TCL1efCwkWM2M2J65ENWMmUlDPOSkk2phh+8XZoSNpBuciKhFa9YUyR5Lw3LmV2J7GeTtbK9ygaa3QvBJAX2fHCMT40y/6Os9J3S01Zmx5m5WCHlG9wKmIfOZkWeDPTR5PD8OFeiqilgIapttiornRY0nx/4KtdvWQnAmTMF96Z3HLak6Xh10GZhSeczxPzw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
- by LV2PR12MB5846.namprd12.prod.outlook.com (2603:10b6:408:175::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.20; Sun, 7 Jan
- 2024 00:40:54 +0000
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::6f3c:cedb:bf1e:7504]) by DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::6f3c:cedb:bf1e:7504%4]) with mapi id 15.20.7159.020; Sun, 7 Jan 2024
- 00:40:54 +0000
-Message-ID: <19075505-b1a6-48d3-9732-7277c4697cf6@nvidia.com>
-Date: Sun, 7 Jan 2024 02:40:49 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme_core: scan namespaces asynchronously
-Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>, Stuart Hayes <stuart.w.hayes@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org
-References: <20240104163826.10561-1-stuart.w.hayes@gmail.com>
- <ZZbhKM0L8pFYX_zd@kbusch-mbp>
-From: Max Gurtovoy <mgurtovoy@nvidia.com>
-In-Reply-To: <ZZbhKM0L8pFYX_zd@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P265CA0277.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:37a::8) To DM4PR12MB5040.namprd12.prod.outlook.com
- (2603:10b6:5:38b::19)
+	Mon, 08 Jan 2024 06:39:53 +0000
+Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1d4df66529bso2264795ad.1
+        for <linux-nvme@lists.infradead.org>; Sun, 07 Jan 2024 22:39:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1704695990; x=1705300790; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=P2z/LFrpUod4EQohAwYfd01URT3cRlVCm2VHTnvRW44=;
+        b=LyEDs8rJQhPQW7zJy+2ATZjyU3351tbxzFTDmlfsTuZoR5xsOORedcYUI8q7vMp5WS
+         hOxgJTZJzhyo2u+4X6f5+xhkCJM4N19XHIqB4Tz2MqkA9PAKPuTpeFE3wy6lWKi1xguL
+         q4hPn4r8k1nSa5kWMIYor+MJLgtCUAn+7pSDM3n4/M/3Loc8wHN4G0m2BRO8G6u/YNVO
+         qkAVgXpIrbUU625hMupXcVGLErd4ZZ5KApGDG5ibkiauZGy48leeAUmZB1PJ6Psr++S5
+         tmxH5lwtb9djpuK7cOXXbvGcAdJ7lpndhImQqCF49zXuRX2+9vazxQME+BTu+aK6Ut/L
+         tVfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704695990; x=1705300790;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=P2z/LFrpUod4EQohAwYfd01URT3cRlVCm2VHTnvRW44=;
+        b=DxeovTIiNdM/IV+DAIjKCp96XZNY55MlHgfib0AyzjO5Pd7VKAaMwpL0OqOmT2mJ2A
+         7m8nQEDEvWXRBdF9CWmcG5DIxidSMLQqOJ6xbmLwhpQ7vOlHQKUkJ8XwgdcFIGuon/fz
+         UaBStT/yTUD1jK7pjOnvJFmF3oSpAV4gzOlPu3rYcxtdZ4AE355NV3SvXkG4e7BqgfPM
+         5ud2620OouyUH9NexT98Qkf04/IYeeOLEDdQBvLwQxnJnMxMb1Sq7ngvgvuTCOB20tLL
+         o/mp3jfC2oO92XjxHRoKICZPazAODYmB/gBAV7sN7rFPxOa9peSQNOjzKCc0FsPfmVBg
+         TFWg==
+X-Gm-Message-State: AOJu0Yzcc9IktkLzmWFTQNsN1AgQIY70JIO1abnELPK7azIY9K1jw/U+
+	gNkVJBNkofehLLEOkO5A83RRqwQy18XL7w==
+X-Google-Smtp-Source: AGHT+IEd5DltWMH/+FqCfCYBhgKXl9nxlvdK57zqowQUpnyKj7XaJTN1HbiuX5Fx9BCEtBJDAymiig==
+X-Received: by 2002:a17:902:be13:b0:1d4:3d04:cdd with SMTP id r19-20020a170902be1300b001d43d040cddmr791720pls.32.1704695990264;
+        Sun, 07 Jan 2024 22:39:50 -0800 (PST)
+Received: from dread.disaster.area (pa49-180-249-6.pa.nsw.optusnet.com.au. [49.180.249.6])
+        by smtp.gmail.com with ESMTPSA id j5-20020a170902da8500b001d4e05828a9sm5421115plx.260.2024.01.07.22.39.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 07 Jan 2024 22:39:49 -0800 (PST)
+Received: from dave by dread.disaster.area with local (Exim 4.96)
+	(envelope-from <david@fromorbit.com>)
+	id 1rMjIY-007WiN-2y;
+	Mon, 08 Jan 2024 17:39:46 +1100
+Date: Mon, 8 Jan 2024 17:39:46 +1100
+From: Dave Chinner <david@fromorbit.com>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: lsf-pc@lists.linux-foundation.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-block@vger.kernel.org,
+	linux-ide@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Subject: Re: [LSF/MM/BPF TOPIC] Removing GFP_NOFS
+Message-ID: <ZZuYspqO7bZUE3vG@dread.disaster.area>
+References: <ZZcgXI46AinlcBDP@casper.infradead.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5040:EE_|LV2PR12MB5846:EE_
-X-MS-Office365-Filtering-Correlation-Id: 39249b7a-b77c-4c0a-0625-08dc0f194e46
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KmfZ8m3gHgUZWZVbJi/XKLWYfaXpnGhCcHsiQZ2aTV3qX/7tTLY+GcjydQKUmAITab4wu0E7WvhKkzawYI4fqZTKZkhXgtWNW7KsTwFGzPPv1BSCq2gMmaPl2gt372d4jC0EqWpJ+TrLR07jSGE26BLyg/iIwYJTHLtpTDLaK0qgKfEX68RHWN24WePaZQMG05dytWfD+ACuew80UWDbgSodAGlZRkFV6Mj6jdKvrz4zM2UaMvv+5pfxp4tGFYiiZQvXF8gbNh7ZBJr7ShicGh/A+xPOJ2UEQOa9b/rh/+lIZuI2FzVSXGYsGqJIi9u61Yuzh5gyqDy+NuGmnqy0Wxf0yDO/Zn7pbHGEFfr/n2Bobuy2tj296jcX64pdtaebQsQqZUBHCSF/VEV1OP55gsOvuof1TQ4zNf+GEGe1wfVrtZETykUoBwvCsBdxHIK2cLhVWy7mAI8ApPCpyOPTAyhTbn0BapxU5vT7VDbPD262+L3DnT495GNUXkkgHSM4U5R4qbHh2BGTC+WLq3nhv++eCUuBIut7kaEsg3AM0OAV94IVF8G6deZg3h9bo1FGM8M2Ji+20f4Tj5Vt4Ih0WV+4wqdtJU+4hRdMkRNLp5vNC9XTZiSHntdVLbu+BOpYF68HTmphvHyVKGOdqz14Wg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(376002)(346002)(136003)(39860400002)(366004)(230922051799003)(1800799012)(451199024)(64100799003)(186009)(53546011)(26005)(2616005)(478600001)(6486002)(6506007)(6512007)(6666004)(83380400001)(5660300002)(2906002)(41300700001)(66476007)(66556008)(66946007)(54906003)(316002)(110136005)(8676002)(8936002)(4326008)(38100700002)(36756003)(86362001)(31696002)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Rlc5dGFEZ2hSbk9FNUZtdjgwdDB1MzFPZk1lUXdiNjlnY0ZoWS9BVFJ5bncx?=
- =?utf-8?B?NnhKZXRNZWplV2dZRTNqRTh5MEdNTFZ5YnVuR0ZLZnNzM0NtZFNJQkJveXRh?=
- =?utf-8?B?WEQ1OWRMK3VxRHBCNjczOUpmY0dGUEhkUS93SmxhZWI4OWdWSDJUb0U5cFIy?=
- =?utf-8?B?SzZSVDgrZzJYS01UZFRScStxY3I2c0RKQUZXMFg1VDUrMTR0Sy93NGhyQy9m?=
- =?utf-8?B?NVdqeHZjRC9lWDFGK0FpV2p4UDZCTFhuR0lQa0dISTBNY0JTeU50b1RGdEZ0?=
- =?utf-8?B?b29CN2dRLzUzdklvUDNOcU5LUjY5ZzJSTHNBblhCSHFLSnRLTGd2WVBCenB3?=
- =?utf-8?B?cW5PaDlCWnkvYWh4OTZEQUtSZXdsdVF6M2VnZGp6ZE5vcnZDV0hucWl5Wk5T?=
- =?utf-8?B?bGtsb1pNcEg5Ni9vUWhMRkc4b0YycUk4UU9veVFPRm1LWGw4VGJ1WW10Q1Av?=
- =?utf-8?B?bFlWUTZGbVlERGdVNExta0J2emtTK2FPcWJlWEZnYUVJa3JNNmlGa3ZnWGlr?=
- =?utf-8?B?UWdISUkvSVkrbTdwR2grNW5SREJTd3RGd3BUeDNJSjNPL3BjdWMzVlRoTHRJ?=
- =?utf-8?B?cDVXZEtXVUJXUUNMdWx4SVBTZVFydnpKYzdUd2VwdWZJdU1lblNvNEdQNjJN?=
- =?utf-8?B?OUtIQWVTRkpkZU1NMHhsTnc1TkpOcklPN0hidTVXKzl3dklVVVpGa1VkVFZX?=
- =?utf-8?B?LzlxbW1QWHkrRmMxdUV1bDFJbW84Uy9XVm9EV0F3ek5xYU5YdGR1bDNHKzVN?=
- =?utf-8?B?Vnl2amphbTU3bzUxZVFrRmNKa3gvQkluc21vTGJhQzhSbVFQVy8rTGx6eGlv?=
- =?utf-8?B?V2xPbnZLZTRiRVRpYWw1U0hjdm0xeG9ROVRuNzdXZGxYc202dTd4NCtscWl6?=
- =?utf-8?B?ejNuaCtHQXdOSm81MWhtcGJpTFNVL0ZSNVBoc0JSbXVRQnFJb0JHY0hGWkRz?=
- =?utf-8?B?NmtlNENjYmpnSmswblA3TkJ3L2VHcUU3ZVFvdXRmSXZBb3NSdW9GTFY1dlBK?=
- =?utf-8?B?VG5paEhNbE9mZFRWeDRFZWlDa3N4Zmcvclg3RzJ3YWtDbjBhTzRBeGpMZmxG?=
- =?utf-8?B?bW9RbDR2Qk9TY2Z3ck9uZ3lmNE5EYjhtYnNqdkZvc21qTXo0cHNNRDVCWDF4?=
- =?utf-8?B?NllYZDdxRGZBNVU4RzB5d3FXRS9qVVNRMSthejlVa3paWUJkMTdWcnFUTEpv?=
- =?utf-8?B?akNGL0xYakZBWFczSUJ1QlphdDdkQ2c4VFBWZ1hkazVsRUpuUUlucXZOUWVU?=
- =?utf-8?B?L3dhblVxZ3Y4NFZBSEVveWd5b0N0cnI2L1NDaXBxcGpjZXVhU0hFdDE5UVdo?=
- =?utf-8?B?YkVHMFJRc0I5a1NDZlRLMUxrQ1lhYitzUENnK3lQeWZFNVNKLytwTGp2aEVx?=
- =?utf-8?B?U1R2L3FBbjBvM1ZwZndINS9jZW1VaG5kM1ZvaUxhTnFCNkNScFdxZy9uV2M2?=
- =?utf-8?B?VHZLdVNVa29TaVVYd1ZKNDB3WGVKQzJlM1g1b0M0K2t2T0RKbEdrWktKWFhJ?=
- =?utf-8?B?QVFpc040RUFpYWwrUENhQmdHTGVYWmVNYUd2ZGNXOGZTVktEck96dzlLdkYz?=
- =?utf-8?B?VHhqbTZkdHZFVmdMWWNjWFY5M1FSbVhBeW1WNXhuaXdKRlNRdlFiRHBqdWhr?=
- =?utf-8?B?N2VRSDkyZkczWms1QUwyaGpwRElRL0xzclFUZnJTSENqdXpucG9zYS9HNG95?=
- =?utf-8?B?QTFmeExkMjdTVFgxbi94ZzkrZm5EUi9HWC9KVWE3L0l4VTFOUEtJaStsaElB?=
- =?utf-8?B?ZWlEZzJIemFhVWplQjJ3cmRlMGh5UlNUV1JyNkk1ME42MkdtbG0wOGlhVzdU?=
- =?utf-8?B?MUZFNzJ4LzdDR3NYTTlWWFB0WW84TGZYMUpwQWJXR2NFRGphRU1OVVZIekxF?=
- =?utf-8?B?YTNCTktFZ0tuWFJhb3Y5TnJISlpuZG91ZUg1WVFZeXE4THlEL1RRcGNOZ0Jr?=
- =?utf-8?B?dHRpVlpoU2ExQVNOenhvMlJScnhSQUdhZVYwL0M0MFNlTHkva2xRUHVPZk1K?=
- =?utf-8?B?MSt1L0ZzL2FQdEhSckh1MU9BY1FmMmlBNUp6OGVsT1lZTWIzU3VwMWFUQ3J1?=
- =?utf-8?B?TngvQ211Yk5FNFBXZ2F6dktGNkNQbXY1RFN1SHhEMmY5SWVXUDloY1BJSDhZ?=
- =?utf-8?Q?wObSCr/6BYAPoeISzW3VmgbXp?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39249b7a-b77c-4c0a-0625-08dc0f194e46
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2024 00:40:54.3748
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HVqflUqeXrt+L8L5C3WhZxf2VdGKYOlqx+AeYnMktdLxNSiKW84hhAJAWfUdCptPYLOXVIdUrEkuTHx25B1ZGg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5846
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZZcgXI46AinlcBDP@casper.infradead.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240106_164101_656697_5A0CE87C 
-X-CRM114-Status: GOOD (  16.56  )
+X-CRM114-CacheID: sfid-20240107_223952_141057_734ED743 
+X-CRM114-Status: GOOD (  45.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -145,29 +96,138 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 04/01/2024 18:47, Keith Busch wrote:
-> On Thu, Jan 04, 2024 at 10:38:26AM -0600, Stuart Hayes wrote:
->> Currently NVME namespaces are scanned serially, so it can take a long time
->> for all of a controller's namespaces to become available, especially with a
->> slower (fabrics) interface with large number (~1000) of namespaces.
->>
->> Use async function calls to make namespace scanning happen in parallel,
->> and add a (boolean) module parameter "async_ns_scan" to enable this.
+On Thu, Jan 04, 2024 at 09:17:16PM +0000, Matthew Wilcox wrote:
+> This is primarily a _FILESYSTEM_ track topic.  All the work has already
+> been done on the MM side; the FS people need to do their part.  It could
+> be a joint session, but I'm not sure there's much for the MM people
+> to say.
 > 
-> Hm, we're not doing a whole lot of blocking IO to bring up a namespace,
-> so I'm a little surprised it makes a noticable difference. How much time
-> improvement are you observing by parallelizing the scan? Is there a
-> tipping point in Number of Namespaces where inline scanning is better
-> than asynchronous? And if it is a meaningful gain, let's not introduce
-> another module parameter to disable it.
+> There are situations where we need to allocate memory, but cannot call
+> into the filesystem to free memory.  Generally this is because we're
+> holding a lock or we've started a transaction, and attempting to write
+> out dirty folios to reclaim memory would result in a deadlock.
+> 
+> The old way to solve this problem is to specify GFP_NOFS when allocating
+> memory.  This conveys little information about what is being protected
+> against, and so it is hard to know when it might be safe to remove.
+> It's also a reflex -- many filesystem authors use GFP_NOFS by default
+> even when they could use GFP_KERNEL because there's no risk of deadlock.
 
-I don't think it is a good idea since some of the namespace 
-characteristics must be validated during re-connection time for example.
-I actually prepared a patch that makes sure we sync the ns scanning 
-before kicking the ns blk queue to avoid that situations.
-for example, if for some reason ns1 change its uuid then we must remove 
-it and open a new bdev instead. We can't kick old request to it...
+There are many uses in XFS where GFP_NOFS has been used because
+__GFP_NOLOCKDEP did not exist. A large number of the remaining
+GFP_NOFS and KM_NOFS uses in XFS fall under this category.
 
+As a first step, I have a patchset that gets rid of KM_NOFS and
+replaces it with either GFP_NOFS or __GFP_NOLOCKDEP:
+
+$ git grep "GFP_NOFS\|KM_NOFS" fs/xfs |wc -l
+64
+$ git checkout guilt/xfs-kmem-cleanup
+Switched to branch 'guilt/xfs-kmem-cleanup'
+$ git grep "GFP_NOFS\|KM_NOFS" fs/xfs |wc -l
+21
+
+Some of these are in newly merged code that I haven't updated the
+patch set to handle yet, others are in kthread/kworker contexts that
+don't inherit any allocation context information. There isn't any
+big issues remaining to be fixed in XFS, though.
+
+> The new way is to use the scoped APIs -- memalloc_nofs_save() and
+> memalloc_nofs_restore().  These should be called when we start a
+> transaction or take a lock that would cause a GFP_KERNEL allocation to
+> deadlock.  Then just use GFP_KERNEL as normal.  The memory allocators
+> can see the nofs situation is in effect and will not call back into
+> the filesystem.
+
+Note that this is the only way to use vmalloc() safely with GFP_NOFS
+context...
+
+> This results in better code within your filesystem as you don't need to
+> pass around gfp flags as much, and can lead to better performance from
+> the memory allocators as GFP_NOFS will not be used unnecessarily.
+> 
+> The memalloc_nofs APIs were introduced in May 2017, but we still have
+
+For everyone else who doesn't know the history of this, the scoped
+GFP_NOFS allocation code has been around for a lot longer than this
+current API. PF_FSTRANS was added in early 2002 so we didn't have to
+hack magic flags into current->journal_info to defermine if we were
+in a transaction, and then this was added:
+
+commit 957568938d4030414d71c583bc261fe3558d2c17
+Author: Steve Lord <lord@sgi.com>
+Date:   Thu Jan 31 11:17:26 2002 +0000
+
+    Use PF_FSTRANS to detect being in a transaction
+
+diff --git a/fs/xfs/linux-2.6/xfs_super.c b/fs/xfs/linux-2.6/xfs_super.c
+index 08a17984..282b724f 100644
+--- a/fs/xfs/linux-2.6/xfs_super.c
++++ b/fs/xfs/linux-2.6/xfs_super.c
+@@ -396,16 +396,11 @@ linvfs_release_buftarg(
+
+ static kmem_cache_t * linvfs_inode_cachep;
+
+-#define XFS_TRANS_MAGIC 0x5452414E
+-
+ static __inline__ unsigned int gfp_mask(void)
+ {
+         /* If we're not in a transaction, FS activity is ok */
+-        if (!current->journal_info) return GFP_KERNEL;
+-        /* could be set from some other filesystem */
+-        if ((int)current->journal_info != XFS_TRANS_MAGIC)
+-                return GFP_KERNEL;
+-        return GFP_NOFS;
++        if (current->flags & PF_FSTRANS) return GFP_NOFS;
++       return GFP_KERNEL;
+ }
+
+> over 1000 uses of GFP_NOFS in fs/ today (and 200 outside fs/, which is
+> really sad).  This session is for filesystem developers to talk about
+> what they need to do to fix up their own filesystem, or share stories
+> about how they made their filesystem better by adopting the new APIs.
+> 
+> My interest in this is that I'd like to get rid of the FGP_NOFS flag.
+
+Isn't that flag redundant? i.e. we already have mapping_gfp_mask()
+to indicate what gfp mask should be used with the mapping
+operations, and at least the iomap code uses that.
+
+Many filesystems call mapping_set_gfp_mask(GFP_NOFS) already, XFS is
+the special one that does:
+
+	mapping_set_gfp_mask(inode->i_mapping, (gfp_mask & ~(__GFP_FS)));
+
+so it doesn't actually use GFP_NOFS there.
+
+Given that we already have a generic way of telling mapping
+operations the scoped allocation context they should run under,
+perhaps we could turn this into scoped context calls somewhere in
+the generic IO/mapping operation paths? e.g.
+call_read_iter()/call_write_iter()
+
+> It'd also be good to get rid of the __GFP_FS flag since there's always
+> demand for more GFP flags.  I have a git branch with some work in this
+> area, so there's a certain amount of conference-driven development going
+> on here too.
+
+Worry about that when everything is using scoped contexted. Then
+nobody will be using GFP_NOFS or __GFP_FS externally, and the
+allocator can then reclaim the flag.
+
+> We could mutatis mutandi for GFP_NOIO, memalloc_noio_save/restore,
+> __GFP_IO, etc, so maybe the block people are also interested.  I haven't
+> looked into that in any detail though.  I guess we'll see what interest
+> this topic gains.
+
+That seems a whole lot simpler - just set the GFP_NOIO scope at
+entry to the block layer and that should cover a large percentage of
+the GFP_NOIO allocations...
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
 
