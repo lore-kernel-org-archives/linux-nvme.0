@@ -4,60 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 462F2C3DA6E
-	for <linux-nvme@archiver.kernel.org>; Mon,  8 Jan 2024 19:35:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6D767C46CD2
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Jan 2024 04:47:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/CnY1WrNa6ivAwOul4iLunYaBF0zr/21B1/t616St8k=; b=Vn1Aq0LM0ycnGMvghDr5lYRHlo
-	+aNmg7/MYPWU02qfr7BGbkLfKKaqaHjEZtvFwvqh/tJ87EhvW87hCtCqYo+SEFtLWbjGc5UiclVKV
-	4QS5Fs0UcmnbCLxgBrOzXbSgeVF7dDWgfk/688MDm/zvQoqmknBu7Qk393GK1e8IFWX6/ECX6JnFA
-	RN7+7D4PR6Gyjoo4ScpZHEIhsLaIGRSuuq3TnHwwr3BBT1Be7/gKQfck01/59ejkDQ5088mcwTdFp
-	HJnKQiWgQpYZDJdvMeOIQXfqgb8n8OOqaipa51o4K6EAi7itxBQubDcqG3R4Ao7zPwG/VRl0og2Nl
-	3VtMVudA==;
+	bh=/9d1a6daFwQBP+JMhfWhKWCeVA+a5Q2tDHFKvp5Evgc=; b=gQDnGIuvzQZ1REhAlE+EjwpoR9
+	T/gpW/4Ew6bOEqltfsN0Td/vasJvDG6XUa9SnVSdcRBdxGAoJDm6n/CZ44l4XY9XgZDUXjxVyk3fO
+	SvV2x8CUNuyxrYB+ZQ0se9Iml7IeV9UoPn6qscDkjqXP4dYrXbWfoMJGGLJ1waOuXV1PO/hEiRhXv
+	eWhS9bxNw9G39Qjk8c2dQFund79OyU0+Rnt0SZnebmdheJdtbtUnVALUzI+03yK6jPwiaeydZfYO0
+	W1UktAje+ZNk8+tjpHCWRw+TasMUorIlKJuuwpmyI1+UBA7XmaDKoPee3bJiQnUvqGYddYGr3awRW
+	A9PKiwjQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rMvP7-0063rD-2o;
-	Mon, 08 Jan 2024 19:35:21 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1rN41k-006w8G-06;
+	Tue, 09 Jan 2024 04:47:48 +0000
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rMvP6-0063qv-2a;
-	Mon, 08 Jan 2024 19:35:20 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=/CnY1WrNa6ivAwOul4iLunYaBF0zr/21B1/t616St8k=; b=v7UTSp5yHaxoKw/l6drPxI8TGd
-	eEQOGfG75PN/u2R8GCSiFXX8/FgIcyz4FeOiqy4Qn1DmN53Lddq27eJPNPHHSau2g22qhNvLBydfL
-	omZZQVQV435kP8cVkuKkuBY2Q1kxjCnneG1EcdW34GP0MWJXxP1CMOEo5KhxmLf7fcMhEICOVmRR0
-	kCq3gh8g+lvK4JFhi+QT1z0fjI4nASTHvtHk1roiqnhdoxYYexx4LwPVqbnabGYHHntbifHaWDIWR
-	M/diELIjTfwbx0tvVBCsP4MejbaeK0NBagqRQ2bnIUuBVluAnx2kWtTGZ5/nIBdpJP1VDUVWbRpV1
-	iXZ5dKVA==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1rMvP3-008I9G-Ol; Mon, 08 Jan 2024 19:35:17 +0000
-Date: Mon, 8 Jan 2024 19:35:17 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: Christoph Hellwig <hch@infradead.org>, Hannes Reinecke <hare@suse.de>,
-	lsf-pc@lists.linuxfoundation.org, linux-mm@kvack.org,
-	linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [LSF/MM/BPF TOPIC] Large block for I/O
-Message-ID: <ZZxOdWoHrKH4ImL7@casper.infradead.org>
-References: <7970ad75-ca6a-34b9-43ea-c6f67fe6eae6@iogearbox.net>
- <4343d07b-b1b2-d43b-c201-a48e89145e5c@iogearbox.net>
- <03ebbc5f-2ff5-4f3c-8c5b-544413c55257@suse.de>
- <5c356222-fe9e-41b0-b7fe-218fbcde4573@acm.org>
- <ZYUbB3brQ0K3rP97@casper.infradead.org>
- <ZYUgo0a51nCgjLNZ@infradead.org>
- <9b46c48f-d7c4-4ed3-a644-fba90850eab8@acm.org>
+	id 1rN41g-006w7d-23
+	for linux-nvme@lists.infradead.org;
+	Tue, 09 Jan 2024 04:47:46 +0000
+Received: by mail-pg1-x530.google.com with SMTP id 41be03b00d2f7-5cdf76cde78so902249a12.1
+        for <linux-nvme@lists.infradead.org>; Mon, 08 Jan 2024 20:47:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1704775662; x=1705380462; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/9d1a6daFwQBP+JMhfWhKWCeVA+a5Q2tDHFKvp5Evgc=;
+        b=rCUIQ5VmYGWWtnM4acYORf6WdBx/10snGvTF+mQStbSbOtzYmHW02BiMWKthh7mSu8
+         oBhBZLT5RAMybsbpDyg2n5Gru4qeh2P/eqxqbsYTfwnZgJrViS3eMh75o8p1jj8cIPom
+         /crBbrGhc1tN7utwz4qZqBMXYfSJm+qu+D4EnieLEt8Csx3KiaM911fURLO9Ce3+Z+q/
+         mgM2BvixOfh/fpiweBfpVroBHhMA6xmHebVUpR6aD1e5ooqVgNeBI3jZCLAeWGJfS9r9
+         tDLJX4d9iy4/WYEVipJxF28J8uCxKzc44sJaq61Zuk1ONTUGRBTwHeZ/+d+FElNumGFi
+         6pQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704775662; x=1705380462;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/9d1a6daFwQBP+JMhfWhKWCeVA+a5Q2tDHFKvp5Evgc=;
+        b=c2NuDbEiO7hLjSqPm2S6x6vwsSxoCIuGkJkBEcL6HcaVoM+JtJZ7iDJBNoDcxUeXXf
+         c8ac3fuoEKlniobjZdaPVj0NRoq7r1h8R9ORAFPUNHJaVHHkU1gVSwf7sQ0v+0FAgljU
+         yor1Qi7DG0fxpVXyn6hDXRER0mGUaROC9V8CpB41/WCGmSTg/9DUk1CO3BYESgi1n4Td
+         ekOq953GruUn9fCFtTCDvtZSl3HsGDDeA/fkZGnQsNeiy/3VaXy+S4Z6/duJmCYOpL/3
+         KXK0fh3oN0B6r0rlgriDS089fjmyQnX+q+j3IkF16+mpZie1qp184UVV57Yen/Y/8FR4
+         8ptw==
+X-Gm-Message-State: AOJu0YwIilu1LfMa1wdPLAvLhyuJrfJe2tsUB9w/c2fFSmP2bZE+HtFU
+	5tVPTYkfZBNruP3l2K9dcdm2qt+MSdBBZQ==
+X-Google-Smtp-Source: AGHT+IEXGWamsR7Yytcu+DAmr0p08k3oitSFEY8voIlETwQIHC6HU43wCVNAvJQUiECekKewVk/oIw==
+X-Received: by 2002:a17:90a:4b8e:b0:28c:a5e2:1652 with SMTP id i14-20020a17090a4b8e00b0028ca5e21652mr1845080pjh.12.1704775662422;
+        Mon, 08 Jan 2024 20:47:42 -0800 (PST)
+Received: from dread.disaster.area (pa49-180-249-6.pa.nsw.optusnet.com.au. [49.180.249.6])
+        by smtp.gmail.com with ESMTPSA id b6-20020a17090aa58600b0028cf59fea33sm812372pjq.42.2024.01.08.20.47.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jan 2024 20:47:42 -0800 (PST)
+Received: from dave by dread.disaster.area with local (Exim 4.96)
+	(envelope-from <david@fromorbit.com>)
+	id 1rN41b-007vgb-0Q;
+	Tue, 09 Jan 2024 15:47:39 +1100
+Date: Tue, 9 Jan 2024 15:47:39 +1100
+From: Dave Chinner <david@fromorbit.com>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: lsf-pc@lists.linux-foundation.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-block@vger.kernel.org,
+	linux-ide@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Subject: Re: [LSF/MM/BPF TOPIC] Removing GFP_NOFS
+Message-ID: <ZZzP6731XwZQnz0o@dread.disaster.area>
+References: <ZZcgXI46AinlcBDP@casper.infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9b46c48f-d7c4-4ed3-a644-fba90850eab8@acm.org>
+In-Reply-To: <ZZcgXI46AinlcBDP@casper.infradead.org>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20240108_204744_878836_5EC2D5F7 
+X-CRM114-Status: GOOD (  25.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,33 +96,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jan 08, 2024 at 11:30:10AM -0800, Bart Van Assche wrote:
-> On 12/21/23 21:37, Christoph Hellwig wrote:
-> > On Fri, Dec 22, 2023 at 05:13:43AM +0000, Matthew Wilcox wrote:
-> > > It clearly solves a problem (and the one I think it's solving is the
-> > > size of the FTL map).  But I can't see why we should stop working on it,
-> > > just because not all drive manufacturers want to support it.
-> > 
-> > I don't think it is drive vendors.  It is is the SSD divisions which
-> > all pretty much love it (for certain use cases) vs the UFS/eMMC
-> > divisions which tends to often be fearful and less knowledgeable (to
-> > say it nicely) no matter what vendor you're talking to.
+On Thu, Jan 04, 2024 at 09:17:16PM +0000, Matthew Wilcox wrote:
+> This is primarily a _FILESYSTEM_ track topic.  All the work has already
+> been done on the MM side; the FS people need to do their part.  It could
+> be a joint session, but I'm not sure there's much for the MM people
+> to say.
 > 
-> Hi Christoph,
+> There are situations where we need to allocate memory, but cannot call
+> into the filesystem to free memory.  Generally this is because we're
+> holding a lock or we've started a transaction, and attempting to write
+> out dirty folios to reclaim memory would result in a deadlock.
 > 
-> If there is a significant number of 4 KiB writes in a workload (e.g.
-> filesystem metadata writes), and the logical block size is increased from
-> 4 KiB to 16 KiB, this will increase write amplification no matter how the
-> SSD storage controller has been designed, isn't it? Is there perhaps
-> something that I'm misunderstanding?
+> The old way to solve this problem is to specify GFP_NOFS when allocating
+> memory.  This conveys little information about what is being protected
+> against, and so it is hard to know when it might be safe to remove.
+> It's also a reflex -- many filesystem authors use GFP_NOFS by default
+> even when they could use GFP_KERNEL because there's no risk of deadlock.
+> 
+> The new way is to use the scoped APIs -- memalloc_nofs_save() and
+> memalloc_nofs_restore().  These should be called when we start a
+> transaction or take a lock that would cause a GFP_KERNEL allocation to
+> deadlock.  Then just use GFP_KERNEL as normal.  The memory allocators
+> can see the nofs situation is in effect and will not call back into
+> the filesystem.
 
-You're misunderstanding that it's the _drive_ which gets to decide the
-logical block size.  Filesystems literally can't do 4kB writes to these
-drives; you can't do a write smaller than a block.  If your clients
-don't think it's a good tradeoff for them, they won't tell Linux that
-the minimum IO size is 16kB.
+So in rebasing the XFS kmem.[ch] removal patchset I've been working
+on, there is a clear memory allocator function that we need to be
+scoped: __GFP_NOFAIL.
 
-Some workloads are better with a 4kB block size, no doubt.  Others are
-better with a 512 byte block size.  That doesn't prevent vendors from
-offering 4kB LBA size drives.
+All of the allocations done through the existing XFS kmem.[ch]
+interfaces (i.e just about everything) have __GFP_NOFAIL semantics
+added except in the explicit cases where we add KM_MAYFAIL to
+indicate that the allocation can fail.
+
+The result of this conversion to remove GFP_NOFS is that I'm also
+adding *dozens* of __GFP_NOFAIL annotations because we effectively
+scope that behaviour.
+
+Hence I think this discussion needs to consider that __GFP_NOFAIL is
+also widely used within critical filesystem code that cannot
+gracefully recover from memory allocation failures, and that this
+would also be useful to scope....
+
+Yeah, I know, mm developers hate __GFP_NOFAIL. We've been using
+these semantics NOFAIL in XFS for over 2 decades and the sky hasn't
+fallen. So can we get memalloc_nofail_{save,restore}() so that we
+can change the default allocation behaviour in certain contexts
+(e.g. the same contexts we need NOFS allocations) to be NOFAIL
+unless __GFP_RETRY_MAYFAIL or __GFP_NORETRY are set?
+
+We already have memalloc_noreclaim_{save/restore}() for turning off
+direct memory reclaim for a given context (i.e. equivalent of
+clearing __GFP_DIRECT_RECLAIM), so if we are going to embrace scoped
+allocation contexts, then we should be going all in and providing
+all the contexts that filesystems actually need....
+
+-Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
 
