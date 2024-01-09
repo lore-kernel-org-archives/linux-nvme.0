@@ -4,84 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 46F05C4706C
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Jan 2024 22:44:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11ABBC47077
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Jan 2024 23:04:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=L9xTLocbxJtZ/EsVzz8IzAHiTCzUNRLczzpqZlO0pg4=; b=UGfBMuyNY8D8QsWB4asxRX//f8
-	leyIimLuMaMQv+5lU8lzpFocP1Wp8/Ay60OFlNoeQI8YJIdNR+vYw8PbRgK3Jr4EmLew7mUdCxS+g
-	6fLGzOjGRg1utsT1naI3DcgMJxpAXZdM+gh9vdIqgpShTGfw+x2y+QEgD2Lvb/bI4sqJL4+wylgss
-	vvCwnaXNtPx7aVpdDobr3+Dwbb3rTqZ7opNqb6OPd+6ogtbPEm56qfkArJconECSdymHhiaNbPpcd
-	wSJ8GHNFzyQqKACN7IZL7UNXqMim8Nf9dxZJFqVXeUSXX4u77KU49eQCNxgHgNa1kFZzXJEH7POvK
-	9m/XjNDQ==;
+	bh=GVskAbFQn1uVXaOO+q7ZemcnAH1k41TKnSXZBeHYzrY=; b=SeP+tCc+hd22ZU2I+X2sGfwWiN
+	DAPnd/09WpdyCc2MV7EGRjpgf5C+RZvzw+y+F9ZyqN54Ax4qmHU/qWUlEJYXf3cwFetbuVuZDIu1X
+	O1rwvoH1kWdWBGsMTRFeHIa1+cy3fONsGfDgnjs6gaBQDqV4m43vtBUL6/CMj5oGZB96KCUu+70Nl
+	2/LOX5kU+t2YzN4HKbm9fJV5iuG2hA8LOTPflnutKbxO634sCO/2s7Am7DWdT0RH/Ml4Im/rfvUUN
+	zZoG2CzO71UDi0Iz5TmiIb9fum+7vQJoImFIv/O1nONmvb/j7xIdfP7rJbVhLupgG8/ukzMN+vGqQ
+	IBR2UlKg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rNKpo-009kLO-1j;
-	Tue, 09 Jan 2024 22:44:36 +0000
-Received: from mail-il1-x129.google.com ([2607:f8b0:4864:20::129])
+	id 1rNL8j-009lmI-2F;
+	Tue, 09 Jan 2024 23:04:09 +0000
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rNKpi-009kHb-35
+	id 1rNL8f-009llH-1K
 	for linux-nvme@lists.infradead.org;
-	Tue, 09 Jan 2024 22:44:33 +0000
-Received: by mail-il1-x129.google.com with SMTP id e9e14a558f8ab-3608bd50cbeso11425755ab.3
-        for <linux-nvme@lists.infradead.org>; Tue, 09 Jan 2024 14:44:23 -0800 (PST)
+	Tue, 09 Jan 2024 23:04:06 +0000
+Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-6dad22e13dcso2169908b3a.3
+        for <linux-nvme@lists.infradead.org>; Tue, 09 Jan 2024 15:04:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1704840263; x=1705445063; darn=lists.infradead.org;
+        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1704841443; x=1705446243; darn=lists.infradead.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=L9xTLocbxJtZ/EsVzz8IzAHiTCzUNRLczzpqZlO0pg4=;
-        b=hkT9RfQ0JNoht2XeC3ALoKBjbBZQjM9YW/e96CYELikVY1Ml9Ii+lokdkOLVQB09cx
-         +dz5ttM1aFRgtcTBHSjJV4m0vOCXOUzqcsbP8JcltWWNKxCimkyFU3MfueWqRW7O07fP
-         /xsuTEQhfnr9NWFu3Hp7kV8sq/yQKAtp4PoA/JPlqhhSsjUR9zSKd5L8e45RTzZZSHF3
-         z2XXHNtihpDa/yMAqt5YYR/e7wPVqPw1AhBxAp9esKg2b7zarmALBtNDNbzRzeK+G90t
-         z9CVVq2p8geAjINuB4kz0kfAQdi76yzlJKhDJLLTS8W/3n5TmMQa54EysCcH2OyWiy5n
-         h/kg==
+        bh=GVskAbFQn1uVXaOO+q7ZemcnAH1k41TKnSXZBeHYzrY=;
+        b=tb5RlcsLEw3WU/ewmG+uZgwoInpwjCssaoOa569ydZL89ftY5NcZsDrAdZssT/7fvK
+         QhA8Lz36KZzhDRR2UqTJxp5Zcv+JHeygLRPv/G+2y8B+gquma7/MaH4/NmtCSKUWp7Bs
+         Rb7Xvqt9gyKBBQ3XSkH1fSDZvZ46GbIV30IiDOYomFWp8Te602nEtjSa/ajseSWNj1Jf
+         nSu9BWEO/E1+zfYHu96TlnbiQKcMPJWD2ZknlcfvndXcTz0sCZfTazCTfIV56afhWmIo
+         N1d9mkD+9jdnutZIILVOQICuJwZgMz+30ewPPf7bxlLr4sHa+PAsAr6DGjmuM1TxvHCE
+         3REg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704840263; x=1705445063;
+        d=1e100.net; s=20230601; t=1704841443; x=1705446243;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=L9xTLocbxJtZ/EsVzz8IzAHiTCzUNRLczzpqZlO0pg4=;
-        b=EAtduhHwNXHiZ/OkFqvFWIRMYQEKgwWSKTtCf+1Takk9p/VJQ8MslJp7IGO6IhHbk3
-         abVRh8Ep5JQ+v+nBKg9UpocEpTJ0M8QzHdXpZnWVLt/IEDA1Wx0KIY+Dknza5zsHkZWw
-         JvT0wvL4V//KzxIwr25XxmcVuW2uUBdJhRlyNFNOLO/nr5qU6ngkNpFe2GeCGMbXUT4V
-         j+lLwISy36OuY8hw8RZ+JEfxM+x+7MzoZyT7673jVdZyMngxNt61XMFwu8ot7Jj1CLSZ
-         2zw3ycH0glEcXrydPLyswks3RQxZ0No6BLZbamRx6KNS4L097OuxXr3bFEC3kx4+LpuM
-         2aFg==
-X-Gm-Message-State: AOJu0YzYslFCZfxxdvo+HmUhEEw5yofF7ma2W1r/VX5KvbKaIBoBGrWY
-	31Cd98gB/d0Aq1vfQcukB4NuHLonjGEUtA==
-X-Google-Smtp-Source: AGHT+IHSKNtjcO8bUbdBcwmcDlNZLFhTfOw5pswdA67ew28nBq3+gGgOSAobh3nBsnKFOjOmUdXBuw==
-X-Received: by 2002:a05:6e02:1845:b0:35f:bd12:5488 with SMTP id b5-20020a056e02184500b0035fbd125488mr183647ilv.30.1704840262829;
-        Tue, 09 Jan 2024 14:44:22 -0800 (PST)
+        bh=GVskAbFQn1uVXaOO+q7ZemcnAH1k41TKnSXZBeHYzrY=;
+        b=WK4VKChwtObyHCbX0MGVvegVjpRb+6RTABCZE0m4EYZv5W3qO8vGeQUIoKBayXbeaO
+         XdBw1mxo3revTbBngwpKGKOaXzFKMfELJ9iqzp23gLEE/2oZApGkKHW5fDlqlEy1TLPO
+         OhDR/66Hm/+HSQH72j4FvQ+cZ5YzKiigNHLsDPBAGuhwlZjAEdU22xt7K6OTHP7rmW3X
+         iKaKLTQiDZIwN8A05FgyqRXvFEDNTWfhwMfPNSzcv609eQjcKHxtrHK0niQBA5pB8Asr
+         OOOiaA1lij53y2K9u3GB5U3Yyf4pDon+ydJH3FVienhFztKQhut7skxjtjsatv5IvD1Y
+         yIqw==
+X-Gm-Message-State: AOJu0YwRLnfohi0ECRTceaSkeNBsKbsen356msjCsMre81UIw63zGfjF
+	22x+t9jg/GhaZowqrwUJFXj+ESQczuHWlg==
+X-Google-Smtp-Source: AGHT+IEzELO00cjbdQ5MoAae4PmrX2wGL2oSaAb1TtprT5iO1eenc3qlgGb6zh1GdAb8Vowe9WZkyA==
+X-Received: by 2002:a05:6a00:a01:b0:6d9:b8e3:9137 with SMTP id p1-20020a056a000a0100b006d9b8e39137mr245785pfh.10.1704841443394;
+        Tue, 09 Jan 2024 15:04:03 -0800 (PST)
 Received: from dread.disaster.area (pa49-180-249-6.pa.nsw.optusnet.com.au. [49.180.249.6])
-        by smtp.gmail.com with ESMTPSA id o5-20020a634e45000000b0050f85ef50d1sm2059281pgl.26.2024.01.09.14.44.22
+        by smtp.gmail.com with ESMTPSA id fj1-20020a056a003a0100b006d9b66f3d07sm2241185pfb.95.2024.01.09.15.04.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jan 2024 14:44:22 -0800 (PST)
+        Tue, 09 Jan 2024 15:04:02 -0800 (PST)
 Received: from dave by dread.disaster.area with local (Exim 4.96)
 	(envelope-from <david@fromorbit.com>)
-	id 1rNKpX-008G6o-07;
-	Wed, 10 Jan 2024 09:44:19 +1100
-Date: Wed, 10 Jan 2024 09:44:19 +1100
+	id 1rNL8a-008GXv-15;
+	Wed, 10 Jan 2024 10:04:00 +1100
+Date: Wed, 10 Jan 2024 10:04:00 +1100
 From: Dave Chinner <david@fromorbit.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: lsf-pc@lists.linux-foundation.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-block@vger.kernel.org,
-	linux-ide@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: Re: [LSF/MM/BPF TOPIC] Removing GFP_NOFS
-Message-ID: <ZZ3MQ1nFcyaMVuCv@dread.disaster.area>
-References: <ZZcgXI46AinlcBDP@casper.infradead.org>
+To: John Garry <john.g.garry@oracle.com>
+Cc: Christoph Hellwig <hch@lst.de>, "Darrick J. Wong" <djwong@kernel.org>,
+	axboe@kernel.dk, kbusch@kernel.org, sagi@grimberg.me,
+	jejb@linux.ibm.com, martin.petersen@oracle.com,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
+	jack@suse.cz, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	tytso@mit.edu, jbongio@google.com, linux-scsi@vger.kernel.org,
+	ming.lei@redhat.com, bvanassche@acm.org, ojaswin@linux.ibm.com
+Subject: Re: [PATCH v2 00/16] block atomic writes
+Message-ID: <ZZ3Q4GPrKYo91NQ0@dread.disaster.area>
+References: <b8b0a9d7-88d2-45a9-877a-ecc5e0f1e645@oracle.com>
+ <20231213154409.GA7724@lst.de>
+ <c729b03c-b1d1-4458-9983-113f8cd752cd@oracle.com>
+ <20231219051456.GB3964019@frogsfrogsfrogs>
+ <20231219052121.GA338@lst.de>
+ <76c85021-dd9e-49e3-80e3-25a17c7ca455@oracle.com>
+ <20231219151759.GA4468@lst.de>
+ <fff50006-ccd2-4944-ba32-84cbb2dbd1f4@oracle.com>
+ <20231221065031.GA25778@lst.de>
+ <73d03703-6c57-424a-80ea-965e636c34d6@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZZcgXI46AinlcBDP@casper.infradead.org>
+In-Reply-To: <73d03703-6c57-424a-80ea-965e636c34d6@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240109_144431_007640_169FB358 
-X-CRM114-Status: GOOD (  22.77  )
+X-CRM114-CacheID: sfid-20240109_150405_446568_DD854A98 
+X-CRM114-Status: GOOD (  34.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,60 +110,90 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jan 04, 2024 at 09:17:16PM +0000, Matthew Wilcox wrote:
-> This is primarily a _FILESYSTEM_ track topic.  All the work has already
-> been done on the MM side; the FS people need to do their part.  It could
-> be a joint session, but I'm not sure there's much for the MM people
-> to say.
+On Tue, Jan 09, 2024 at 09:55:24AM +0000, John Garry wrote:
+> On 21/12/2023 06:50, Christoph Hellwig wrote:
+> > On Tue, Dec 19, 2023 at 04:53:27PM +0000, John Garry wrote:
+> > > On 19/12/2023 15:17, Christoph Hellwig wrote:
+> > > > On Tue, Dec 19, 2023 at 12:41:37PM +0000, John Garry wrote:
+> > > > > How about something based on fcntl, like below? We will prob also require
+> > > > > some per-FS flag for enabling atomic writes without HW support. That flag
+> > > > > might be also useful for XFS for differentiating forcealign for atomic
+> > > > > writes with just forcealign.
+> > > > I would have just exposed it through a user visible flag instead of
+> > > > adding yet another ioctl/fcntl opcode and yet another method.
+> > > > 
+> > > Any specific type of flag?
+> > > 
+> > > I would suggest a file attribute which we can set via chattr, but that is
+> > > still using an ioctl and would require a new inode flag; but at least there
+> > > is standard userspace support.
+> > I'd be fine with that, but we're kinda running out of flag there.
+> > That's why I suggested the FS_XFLAG_ instead, which basically works
+> > the same.
 > 
-> There are situations where we need to allocate memory, but cannot call
-> into the filesystem to free memory.  Generally this is because we're
-> holding a lock or we've started a transaction, and attempting to write
-> out dirty folios to reclaim memory would result in a deadlock.
+> Hi Christoph,
 > 
-> The old way to solve this problem is to specify GFP_NOFS when allocating
-> memory.  This conveys little information about what is being protected
-> against, and so it is hard to know when it might be safe to remove.
-> It's also a reflex -- many filesystem authors use GFP_NOFS by default
-> even when they could use GFP_KERNEL because there's no risk of deadlock.
+> Coming back to this topic... how about this FS_XFLAG_ and fsxattr update:
+> 
+> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+> index da43810b7485..9ef15fced20c 100644
+> --- a/include/uapi/linux/fs.h
+> +++ b/include/uapi/linux/fs.h
+> @@ -118,7 +118,8 @@ struct fsxattr {
+>        __u32           fsx_nextents;   /* nextents field value (get)   */
+>        __u32           fsx_projid;     /* project identifier (get/set) */
+>        __u32           fsx_cowextsize; /* CoW extsize field value
+> (get/set)*/
+> -       unsigned char   fsx_pad[8];
+> +       __u32           fsx_atomicwrites_size; /* unit max */
+> +       unsigned char   fsx_pad[4];
+> };
+> 
+> /*
+> @@ -140,6 +141,7 @@ struct fsxattr {
+> #define FS_XFLAG_FILESTREAM    0x00004000      /* use filestream allocator
+> */
+> #define FS_XFLAG_DAX           0x00008000      /* use DAX for IO */
+> #define FS_XFLAG_COWEXTSIZE    0x00010000      /* CoW extent size
+> allocator hint */
+> +#define FS_XFLAG_ATOMICWRITES  0x00020000
+> #define FS_XFLAG_HASATTR       0x80000000      /* no DIFLAG for this   */
+> 
+> /* the read-only stuff doesn't really belong here, but any other place is
+> lines 1-22/22 (END)
+> 
+> Having FS_XFLAG_ATOMICWRITES set will lead to FMODE_CAN_ATOMIC_WRITE being
+> set.
+> 
+> So a user can issue:
+> 
+> >xfs_io -c "atomic-writes 64K" mnt/file
+> >xfs_io -c "atomic-writes" mnt/file
+> [65536] mnt/file
 
-Another thing that needs to be considered: GFP_NOFS has been used to
-avoid lockdep false positives due to GFP_KERNEL allocations also
-being used as scoped GFP_NOFS allocations via different call
-chains.
+Where are you going to store this value in the inode?  It requires a
+new field in the inode and so is a change of on-disk format, right?
 
-That is, if a code path does a GFP_KERNEL allocation by default,
-lockdep will track this as a "reclaim allowed" allocation context.
-If that same code is then executed from a scoped NOFS context
-(e.g. inside a transaction context), then lockdep will see it as
-a "no reclaim allowed" allocation context.
+As it is, I really don't see this as a better solution than the
+original generic "force align" flag that simply makes the extent
+size hint alignment a hard physical alignment requirement rather
+than just a hint. This has multiple uses (DAX PMD alignment is
+another), so I just don't see why something that has a single,
+application specific API that implements a hard physical alignment
+is desirable.
 
-The problem then arises when the next GFP_KERNEL allocation occurs,
-the code enters direct reclaim, grabs a filesystem lock and lockdep
-then throws out a warning that filesystem locks are being taken
-in an allocation context that doesn't allow reclaim to take
-filesystem locks.
+Indeed, the whole reason that extent size hints are so versatile is
+that they implement a generic allocation alignment/size function
+that can be used for anything your imagination extends to. If they
+were implemented as a "only allow RAID stripe aligned/sized
+allocation" for the original use case then that functionality would
+have been far less useful than it has proven to be over the past
+couple of decades.
 
-These are typically false positives.
-
-Prior to __GFP_NOLOCKDEP existing, we used GFP_NOFS unconditionally
-in these shared context paths to avoid lockdep from seeing a
-GFP_KERNEL allocation context from this allocation path. Now that we
-are getting rid of GFP_NOFS and replacing these instances with
-GFP_KERNEL and scoped constraints, we're removing the anti-lockdep
-false positive mechanism.
-
-IOWs, we have to replace GFP_NOFS with GFP_KERNEL | __GFP_NOLOCKDEP
-in these cases to prevent false positive reclaim vs lock inversion
-detections. There's at least a dozen of these cases in XFS and we
-generally know where they are, but this will likely be an ongoing
-issue for filesystems as we switch over to using scoped memory
-allocation contexts.
-
-I'm not sure there's a good solution to this. However, we need to
-make sure people are aware that GFP_NOFS will need to be converted
-to GFP_KERNEL | __GFP_NOLOCKDEP for allocations that can occur in
-mixed contexts.
+Hence history teaches us that we should be designing the API around
+the generic filesystem function required (hard alignment of physical
+extent allocation), not the specific use case that requires that
+functionality.
 
 -Dave.
 -- 
