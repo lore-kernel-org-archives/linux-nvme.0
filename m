@@ -4,137 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D270CC3DA6E
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jan 2024 08:31:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5885C3DA6E
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jan 2024 08:46:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4WUMC6+jwiSSBnAtZ2GuwMpVOeDIw3so7W5oLXd7Mok=; b=OJf8vyKwJiftNctCbqYM4/GR5+
-	rKs13D3hs9POlodb4x5Gb9CbFN+U5xLavVvq7QhL8x2sQrCsgVxy7HD7rCFZI53yECjO8sRHpKnZ3
-	ULkH4OS7WclvQeJ5Wt+fvlby9aEEs8lX95LV1bMcMJzbD2ONpnzQN0ZqkJdw6I/scAryjQPJMO5pB
-	SHh497amBtjTHV11QJuI1BAHZrLaZxGtMIpQbq5srM/QZMTTRnOAsL0LRgzAvosST15yUlClAxriy
-	pnDjPzlfAqLWbB+EEGtIJvMqHMgqbXPsW8mJLXRjgzvc2F3PtxH/mWl/xxXiMrlPIU+njtifTS6HR
-	nhVcKFQg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=OjlBCoBK6iMOTMMUY76L+BDaJyUeyx5z2HoMd2zl2Bg=; b=eBQmwWg/FNxS8/GzHVUK0xi6n8
+	GF9RfTW+Bf5n2Qo37/8sutNNSmnb/O3Kl+RqoHGkiVNlv2GDyAA6itKGMSFLE8wsgP0mouoy65iQb
+	pdRloHgZqb1DmyIfzG4a85VeCecUHvPY/NcuGVplWxHiI1h3P3BTX5Im//EhAVcAIQ7NPYrhz30OL
+	fIOo6oYmB50sqXRwt0RDY9X7bVVxXxXAVVcRUuz+CaxWYk91uIgivgQ+HHMW0UDlNK048fm4pJHPj
+	Dh5L3wFr5O8yIxbfbeSCg7/AYeD7MDoSjVHacpDtDH4C2tzxKfZyFHjc+ADYE+QysU0zm2beqINb0
+	rvBvu4+Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rNU03-00AlDh-1h;
-	Wed, 10 Jan 2024 08:31:47 +0000
-Received: from mail-dm6nam04on20601.outbound.protection.outlook.com ([2a01:111:f403:2409::601] helo=NAM04-DM6-obe.outbound.protection.outlook.com)
+	id 1rNUDr-00AmnS-31;
+	Wed, 10 Jan 2024 08:46:03 +0000
+Received: from out30-98.freemail.mail.aliyun.com ([115.124.30.98])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rNTzz-00AlD9-3D
+	id 1rNUDo-00Ammi-23
 	for linux-nvme@lists.infradead.org;
-	Wed, 10 Jan 2024 08:31:45 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ql2VzAAWBiFonyi+968Eo/0O07AkB9/K9+AaG6w1iys1e53ctQknmnh08+UTJB0wg8I5yqiWfLCIT8iELHJ/Bnbvl5t/Yye0EqsSzQNA3gC/WkNUBFPIB+l8vMcHWD/SX/alQhMiO9UlvBKhGnDBGF8XgMp3brL3hr8dvWjOt5lTubLs7DsLY+KpRg5nXaEB/wbC9VEqSuvWlmx0NdIhyjbOHo7IGZM34cKeJvoSUdi2hiaHBgv843G2zP97WLhsZEn6hBtxY7GOxnGYnh4N2+cpoJuCgcD0QkJlE1DqKQjeJYZ5pWLaDPkgG/OALHLa3DSo2jrBmYIgtXza6zTDWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4WUMC6+jwiSSBnAtZ2GuwMpVOeDIw3so7W5oLXd7Mok=;
- b=RY7so0rS4G5h3C0GKxWrIQHxmOzJd9lBuQMZepu1087eJvERBC65ucpQGMy4z2Piz3uW7gDyAgSzcD2Hv4eIiPr4bjO3yfwmVIjo3b4NUV1DrnGl4b0WNMIRxjOhtbkk/6Go7Z2X3g/B/L1NW8WB7lOE+3wE8AH039tZFn7qZDt6HAUh7yY3r+aAtjgv8cMQ33FHXGaDBJ0MMW7E+HpSNmQsr4P7NjZLiEmIdQOem1kC86qpI1Bxe+wIwGdf6U6ZT3OiQquUc3XNNbbv8k55h1JrpN1dQe6BMLKvZOPZF9KeLDa32iDWW6bd2FI0g6OOrdFZnZStqyuSw0i+RAOjXA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4WUMC6+jwiSSBnAtZ2GuwMpVOeDIw3so7W5oLXd7Mok=;
- b=pKHzUMltKr7XTfNFWb79a46SX+XNzKTwxMVk0/5DYR/77Vdw4PGfqXvsYYAj29UstIF6FU8leBCMDd1mnc6I+Gt0tXUTN9Fw+dUb9rl4BrrgZ3lAtgU11W2XPoSWFNDIKDa2RI8mrm8S0Oa4+QB7chfKHTJ110A/Pkxy2BY7xrtmKSIv/Re4nur8jWY9hDF6ECVLaIHtmSM2JJn/YuinEqJbjL56ieGPKoICmW/A3b0K8XhRvl8mHleZvlQarlxFhZuSZY+LwztFbJXc9AtlM+bt9MdM/skpXfNhU0DBuJ/RxYwOwZKd4bICTm4JVQRgnkQluyg3aTUgH6Rz7aO8aQ==
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
- by DM4PR12MB6567.namprd12.prod.outlook.com (2603:10b6:8:8e::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.23; Wed, 10 Jan
- 2024 08:31:32 +0000
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::efb1:c686:d73d:2762]) by LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::efb1:c686:d73d:2762%7]) with mapi id 15.20.7159.020; Wed, 10 Jan 2024
- 08:31:32 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Guixin Liu <kanie@linux.alibaba.com>
-CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>
+	Wed, 10 Jan 2024 08:46:02 +0000
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046056;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0W-LMsY8_1704876351;
+Received: from 30.178.83.60(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W-LMsY8_1704876351)
+          by smtp.aliyun-inc.com;
+          Wed, 10 Jan 2024 16:45:52 +0800
+Message-ID: <54de4b6d-e5e6-4caf-85f3-a1ea6ddbfe6a@linux.alibaba.com>
+Date: Wed, 10 Jan 2024 16:45:50 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] nvmet: support reservation feature
-Thread-Topic: [PATCH] nvmet: support reservation feature
-Thread-Index: AQHaQvTSXskgE/5Yd0+gQaBkM/K2mbDSdsgAgAAXfoCAACqkAA==
-Date: Wed, 10 Jan 2024 08:31:32 +0000
-Message-ID: <0652d478-9b46-400b-85ec-b3a2bb54ff67@nvidia.com>
+Content-Language: en-GB
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>
 References: <20240109121008.15925-1-kanie@linux.alibaba.com>
  <3a2055ff-6e5c-4afc-a0e1-36255d569e5e@nvidia.com>
  <e6427481-73f3-478b-aadb-e59b096805c8@linux.alibaba.com>
-In-Reply-To: <e6427481-73f3-478b-aadb-e59b096805c8@linux.alibaba.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|DM4PR12MB6567:EE_
-x-ms-office365-filtering-correlation-id: 355c13f4-ca2d-41d7-b413-08dc11b68ce2
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: EHiV5LtMseBt2z8FZAdhlyshrXgDfhWH6904gwcMq7mbiN0rRYj6vdLdMDYpN8BSWokASjxMLtFoo25k5ByxdN6o9qkkQwIjWjOxgKasV7KuVEJKctBW8mMcOm+QS8Ufz+LEJaEB3L2jdUTtwjNEwPWo8hAT2f0poeDkz2qT2facR5xP+KyrRdrIX+OnbKqfwumucv6VYqUttPn0vAa31knzZ2n6+7Ru6Dt9YMjPZpOCDTVA7NzSR/nXg45E0WmQ2JBbJ/uJyur2F8D+x++H7l8d5ldXcUZgd1jC3cQs0vV6StwHnD4ZzTSdOHiDsyRpQLoHsnVYrm2myn7HiPGZD+lBC9ZAg6eswZraAb61ja8pRRCe9vEEKmLBsfammp2ne+N0K/Xiyy36UuiMzWimV+Ze1ogy0na3z9HP2LwEs6SgBCBXeLPyHXMN6fTJHRVjTv2ruD5ix+Xzmd2V2SYCkoCjOoEatcBzgEN412ZfRXmyAX8Q5poOMJmDsU2jJU2chVQL8NzPXeKC1rrMT0TANS+2IQiYciGC9R2eE1Y+Lt0CxrZL8F+ueFrBUJj24RDooE/i6Febl8BdYhBmYOqQ+AsWqNFCIgsHDG6aiUVh8dPFy/KopUiAcKV65hX0P3bbGmRiRPvgI6TaauMtF06G3RuUIswCobugzzBpepID4wjxfIjtN4u9O3RISPpvq9VN
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(136003)(366004)(39860400002)(346002)(376002)(230922051799003)(186009)(64100799003)(1800799012)(451199024)(83380400001)(316002)(53546011)(6512007)(2616005)(122000001)(38100700002)(4326008)(8676002)(8936002)(5660300002)(66556008)(2906002)(6916009)(6486002)(478600001)(6506007)(71200400001)(54906003)(64756008)(66446008)(66476007)(41300700001)(66946007)(76116006)(91956017)(31696002)(36756003)(38070700009)(86362001)(31686004)(66899024)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UTc0UGJIL1FBZjVZaS9OVlVtOEhSWmF1aUwxUVd6Q2Q4YjY4MlNOcWRWTENo?=
- =?utf-8?B?TmxKK3RlVFlGSHI0MktTNG0ySnV2U1RsaEFBM2NxdXJ3TlBTSy95U3pBSHhl?=
- =?utf-8?B?RDFadXF6ZFk4cTVnODJoZEtJQlozaEhkQ1JNYXBEckRvQXp2Nmg1Rk5rNm5x?=
- =?utf-8?B?Tk9TblY0R0ZFNnhnTTZlb0ZTL1M4bGZaQjFWTW9lR0t3MTczdlgvOWRnMDdx?=
- =?utf-8?B?aVhmWDkwcnJya1ZUbS93WFd4cWphN0NDK1hwdGQ1RHZHZVE1MzE3NmVobHRx?=
- =?utf-8?B?aWJKY2hnOTBsYUFyNFNTREJYaHVDa1phbC8yL3l6SC8va3h4YnlXQzVKNDNW?=
- =?utf-8?B?eFBNdzlrL0hTV2VpUHdPYW1MajdHNU1GSXVjOERhQ3pORzc1OVNxTlB2elZS?=
- =?utf-8?B?N08wWmxDdkNwUzdxKzloQjZ0cHZheDZOeTQwakFMV0llcWR6dnNZdklZTDM4?=
- =?utf-8?B?cm1Ra1U4V0w1eTA5MXdMMm9jOG4ralM5NzZMMko3ZVlFU1V4eGRPeERjQ0cz?=
- =?utf-8?B?MWpGTVIwOFFJOEVsNlQrYjlHU0VVTENvL1JUMjJNS3kxZ0dxc2J1UnNRS1dL?=
- =?utf-8?B?VE1GRFdnU2FuT0I5QldqTnVPK1V3TlhlalYrSnhSV2JpcGJycjdteUIxMjN1?=
- =?utf-8?B?L1lHSHhXMFpPQ0F3ZW45Uy9rTmxDVkNja3d2b2FsSmduUlZqa0prcnZHQkIv?=
- =?utf-8?B?RWdaRVBzK1B1cmJxUTgySng4ZWhlS25iUk9YQWlwUG82TTU5WlFCYU1ONzhC?=
- =?utf-8?B?YlF6TWcyKy9uSUpaODB1aklrWFRqR3Q5RmQyRWxIRHBKeUpPSHUyU0NzQi82?=
- =?utf-8?B?VmRJdGpxbkVuUnNvL28zZWhxUUQ2V0JEcmU5SkozQzVjMnBIdE9HN1Jrdjdl?=
- =?utf-8?B?K3llbktmck16SVNGZ2R6NXZFV1VaTm9wb2piZmdYTzFtRGsrcCthWU1Ua29v?=
- =?utf-8?B?QWsyQ1Jrdm9XemNVTjk0L0RyTTBzd3hpZkRQM0hlOWtJRDR0cUdidE5RNUJn?=
- =?utf-8?B?bjFLckxqZGNGWnpRS0h3QmZpR1JSMmJ5UXJsTktsTDlZRTF1T2h6NHJFNy84?=
- =?utf-8?B?NGxVR0dmMzZyWGRTSE9ROGRLbi9uY0syY25DOUhFYVB3TXdqdVZoZzBOU0Ji?=
- =?utf-8?B?a1ExbXZnOUF1VFBTbHk3dlZGTDluUVUvaWIzUmwyeEFIQkFvb3BxT1BFY0Iv?=
- =?utf-8?B?cEpsc1FWKzRPMmthSnNBdm53dm10WVMxaTErN2NBSjlaa05BSzJOQ3V5d2Vz?=
- =?utf-8?B?aVdzUzVsNWF3Unl4d2dLbGJqTkxtTGdQcGZidDd4aXpSd1pTRHBCbTRzekh1?=
- =?utf-8?B?MlZvcHF0aUZHNnFBWDJJK0x3ajV3S245TU9QcXpFdm1mOVhSSHd6VU04cUE2?=
- =?utf-8?B?dzBMLzZUVjdUQzZ2WWJZSHh0SkxhTVk2NHFSTG1xVUJTQ2FaN25ua0cxY0sz?=
- =?utf-8?B?aFJUY0YybGwrZTFvTC9vWHprQVplaTIwMXRvYk5kbzlWNDZtV1RiVDFHQnlK?=
- =?utf-8?B?SFJRN01KN2NwVjlKeWtZL0xKNXRuRU9QWndFb3dLa1NRQjFoZ3JPU3M0ZG5U?=
- =?utf-8?B?ekdzcjlUYXBIR3YzejdubHFkYmxYVytodFhzVHcyaVNTT3JUa0VQRkM2eG1v?=
- =?utf-8?B?RGVjamFnMVkvbHVoODBKc010emw5TzFGd2w5NWM1NC9Jd0ZjRzh3Uk03bE03?=
- =?utf-8?B?clQrOGI0SWdHdmtHUEZ1TGVTUnI2T1R4TzZJendUaE1abFhzN3dlWUE1ZXM3?=
- =?utf-8?B?cjRnT2J5M1JQWkU4QlEycjJpb2w1ZDBJWXE3YTVXanpacGRBeE9UTDkrZzdi?=
- =?utf-8?B?aERwS1lMVkEvL2dEakdIdUZqSGlrUUZrTFE4KzErWEhXRllPc1dZSEVTWXVp?=
- =?utf-8?B?R3B0ek9hMm5aTmwwV0VGTURLazdhZi9hZUh4QjNYaC9YQVBFUFJxM0NuQmNF?=
- =?utf-8?B?TjRxRVgxNWNoMG04RGJHTEJHcmE3UXU2N3Q1bTdZWnRYbDdHeng1Wi9qZ1Y3?=
- =?utf-8?B?L1l0ZnlZN2lOai9Xc215TkRORmVIU3hNRkFQclUxaTArZUNDN3JPYmluZWFq?=
- =?utf-8?B?RzZXTC9DTFBlMnVBMGp2SEJVU2tMYjNEWmRrUmZwWE9NWERUdlNTS1RENTB6?=
- =?utf-8?B?QWZqV1Y3OFQ1aWNJMXA5VkYzT1l2MFRqYmpkRWNLUGV0NVFIOHpZZVE2bzZx?=
- =?utf-8?Q?YfHryT9NTwm+JJcDTDPj3uNoZOGWaUqe75v5yTFPv+7o?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A9606A6ECD4082448521AB12657F2F0B@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 355c13f4-ca2d-41d7-b413-08dc11b68ce2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jan 2024 08:31:32.4570
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: qkJeEpTuPRqpXLLkHiZ1mPhS3t3Zoi9tLkl5vDSNwuSpnuAmIMm79wJ8Mwazp0h2IQSgWyGwfLxsQrIWZ4OAHg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6567
+ <0652d478-9b46-400b-85ec-b3a2bb54ff67@nvidia.com>
+From: Guixin Liu <kanie@linux.alibaba.com>
+In-Reply-To: <0652d478-9b46-400b-85ec-b3a2bb54ff67@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240110_003144_119851_BEDAF25C 
-X-CRM114-Status: GOOD (  15.15  )
+X-CRM114-CacheID: sfid-20240110_004600_821661_501A568F 
+X-CRM114-Status: GOOD (  18.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -149,139 +65,180 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMS85LzI0IDIxOjU4LCBHdWl4aW4gTGl1IHdyb3RlOg0KPg0KPiDlnKggMjAyNC8xLzEwIDEy
-OjM0LCBDaGFpdGFueWEgS3Vsa2Fybmkg5YaZ6YGTOg0KPj4gT24gMS85LzI0IDA0OjEwLCBHdWl4
-aW4gTGl1IHdyb3RlOg0KPj4+IFRoaXMgcGF0Y2ggaW1wbGVtZW50cyB0aGUgcmVzZXJ2YXRpb24g
-ZmVhdHVyZSwgaW5jbHVkZXM6DQo+Pj4gMS4gcmVzZXJ2YXRpb24gcmVnaXN0ZXIocmVnaXN0ZXIs
-IHVucmVnaXN0ZXIgYW5kIHJlcGxhY2UpLg0KPj4+IDIuIHJlc2VydmF0aW9uIGFjcXVpcmUoYWNx
-dWlyZSwgcHJlZW1wdCwgcHJlZW1wdCBhbmQgYWJvcnQpLg0KPj4+IDMuIHJlc2VydmF0aW9uIHJl
-bGVhc2UocmVsZWFzZSBhbmQgY2xlYXIpLg0KPj4+IDQuIHJlc2VydmF0aW9uIHJlcG9ydC4NCj4+
-Pg0KPj4+IEFuZCBhbHNvIG1ha2UgcmVzZXJ2YXRpb24gY29uZmlndXJhYmxlLCBvbmUgY2FuIHNl
-dCBucyB0byBzdXBwb3J0DQo+Pj4gcmVzZXJ2YXRpb24gYmVmb3JlIGVuYWJsZSBucy4gVGhlIGRl
-ZmF1bHQgb2YgcmVzdl9lbmFibGUgaXMgZmFsc2UuDQo+Pj4NCj4+PiBTaWduZWQtb2ZmLWJ5OiBH
-dWl4aW4gTGl1IDxrYW5pZUBsaW51eC5hbGliYWJhLmNvbT4NCj4+PiAtLS0NCj4+PiBIaSBndXlz
-LA0KPj4+IMKgwqDCoMKgwqAgSSd2ZSBpbXBsZW1lbnRlZCB0aGUgTlZNZSByZXNlcnZhdGlvbiBm
-ZWF0dXJlLiBQbGVhc2UgcmV2aWV3IA0KPj4+IGl0LCBhbGwNCj4+PiBjb21tZW50cyBhcmUgd2Vs
-Y29tZS4NCj4+PiDCoMKgwqDCoMKgIEluIGFkZHRpb24sIEkgZGlkbid0IGltcGxlbWVudCBldmVu
-dCByZXBvcnRpbmcgYmVjYXVzZSBJIA0KPj4+IGRpZG4ndCBzZWUNCj4+PiBhbnkgaGFuZGxpbmcg
-b2YgdGhlc2UgZXZlbnRzIG9uIHRoZSBob3N0IHNpZGUuIElmIHRoZXNlIGV2ZW50cyBhcmUgDQo+
-Pj4gbWFuZGF0b3J5DQo+Pj4gdG8gcmVwb3J0LCBwbGVhc2UgbGV0IG1lIGtub3cgc28gdGhhdCBJ
-IGNhbiBpbXBsZW1lbnQgdGhlbS4NCj4+Pg0KPj4+IMKgwqAgZHJpdmVycy9udm1lL3RhcmdldC9N
-YWtlZmlsZcKgwqDCoCB8wqDCoCAyICstDQo+Pj4gwqDCoCBkcml2ZXJzL252bWUvdGFyZ2V0L2Fk
-bWluLWNtZC5jIHzCoCAxNCArLQ0KPj4+IMKgwqAgZHJpdmVycy9udm1lL3RhcmdldC9jb25maWdm
-cy5jwqAgfMKgIDI3ICsrDQo+Pj4gwqDCoCBkcml2ZXJzL252bWUvdGFyZ2V0L2NvcmUuY8KgwqDC
-oMKgwqAgfMKgIDM3ICstDQo+Pj4gwqDCoCBkcml2ZXJzL252bWUvdGFyZ2V0L252bWV0LmjCoMKg
-wqDCoCB8wqAgMjYgKysNCj4+PiDCoMKgIGRyaXZlcnMvbnZtZS90YXJnZXQvcHIuY8KgwqDCoMKg
-wqDCoMKgIHwgODA2IA0KPj4+ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+Pj4g
-wqDCoCBpbmNsdWRlL2xpbnV4L252bWUuaMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDMwICsr
-DQo+Pj4gwqDCoCA3IGZpbGVzIGNoYW5nZWQsIDkzOSBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9u
-cygtKQ0KPj4+IMKgwqAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvbnZtZS90YXJnZXQvcHIu
-Yw0KPj4+DQo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS90YXJnZXQvTWFrZWZpbGUgDQo+
-Pj4gYi9kcml2ZXJzL252bWUvdGFyZ2V0L01ha2VmaWxlDQo+Pj4gaW5kZXggYzY2ODIwMTAyNDkz
-Li5mOWJmYzkwNGE1YjMgMTAwNjQ0DQo+Pj4gLS0tIGEvZHJpdmVycy9udm1lL3RhcmdldC9NYWtl
-ZmlsZQ0KPj4+ICsrKyBiL2RyaXZlcnMvbnZtZS90YXJnZXQvTWFrZWZpbGUNCj4+PiBAQCAtMTAs
-NyArMTAsNyBAQCBvYmotJChDT05GSUdfTlZNRV9UQVJHRVRfRkNMT09QKcKgwqDCoCArPSBudm1l
-LWZjbG9vcC5vDQo+Pj4gwqDCoCBvYmotJChDT05GSUdfTlZNRV9UQVJHRVRfVENQKcKgwqDCoMKg
-wqDCoMKgICs9IG52bWV0LXRjcC5vDQo+Pj4gwqDCoCDCoMKgIG52bWV0LXnCoMKgwqDCoMKgwqDC
-oCArPSBjb3JlLm8gY29uZmlnZnMubyBhZG1pbi1jbWQubyBmYWJyaWNzLWNtZC5vIFwNCj4+PiAt
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBkaXNjb3ZlcnkubyBpby1jbWQtZmlsZS5vIGlvLWNtZC1i
-ZGV2Lm8NCj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBkaXNjb3ZlcnkubyBpby1jbWQtZmls
-ZS5vIGlvLWNtZC1iZGV2Lm8gcHIubw0KPj4+IMKgwqAgbnZtZXQtJChDT05GSUdfTlZNRV9UQVJH
-RVRfUEFTU1RIUlUpwqDCoMKgICs9IHBhc3N0aHJ1Lm8NCj4+PiDCoMKgIG52bWV0LSQoQ09ORklH
-X0JMS19ERVZfWk9ORUQpwqDCoMKgwqDCoMKgwqAgKz0gem5zLm8NCj4+PiDCoMKgIG52bWV0LSQo
-Q09ORklHX05WTUVfVEFSR0VUX0FVVEgpwqDCoMKgICs9IGZhYnJpY3MtY21kLWF1dGgubyBhdXRo
-Lm8NCj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9udm1lL3RhcmdldC9hZG1pbi1jbWQuYyANCj4+
-PiBiL2RyaXZlcnMvbnZtZS90YXJnZXQvYWRtaW4tY21kLmMNCj4+PiBpbmRleCAzOWNiNTcwZjgz
-M2QuLjdkYTZmMzA4NWE0YyAxMDA2NDQNCj4+PiAtLS0gYS9kcml2ZXJzL252bWUvdGFyZ2V0L2Fk
-bWluLWNtZC5jDQo+Pj4gKysrIGIvZHJpdmVycy9udm1lL3RhcmdldC9hZG1pbi1jbWQuYw0KPj4+
-IEBAIC01NTAsNyArNTUwLDEzIEBAIHN0YXRpYyB2b2lkIG52bWV0X2V4ZWN1dGVfaWRlbnRpZnlf
-bnMoc3RydWN0IA0KPj4+IG52bWV0X3JlcSAqcmVxKQ0KPj4+IMKgwqDCoMKgwqDCoMKgICovDQo+
-Pj4gwqDCoMKgwqDCoMKgIGlkLT5ubWljID0gTlZNRV9OU19OTUlDX1NIQVJFRDsNCj4+PiDCoMKg
-wqDCoMKgwqAgaWQtPmFuYWdycGlkID0gY3B1X3RvX2xlMzIocmVxLT5ucy0+YW5hZ3JwaWQpOw0K
-Pj4+IC0NCj4+PiArwqDCoMKgIGlkLT5yZXNjYXAgPSBOVk1FX1BSX1NVUFBPUlRfV1JJVEVfRVhD
-TFVTSVZFIHwNCj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIE5WTUVfUFJfU1VQUE9SVF9F
-WENMVVNJVkVfQUNDRVNTIHwNCj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIE5WTUVfUFJf
-U1VQUE9SVF9XUklURV9FWENMVVNJVkVfUkVHX09OTFkgfA0KPj4+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgTlZNRV9QUl9TVVBQT1JUX0VYQ0xVU0lWRV9BQ0NFU1NfUkVHX09OTFkgfA0KPj4+
-ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgTlZNRV9QUl9TVVBQT1JUX1dSSVRFX0VYQ0xVU0lW
-RV9BTExfUkVHUyB8DQo+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBOVk1FX1BSX1NVUFBP
-UlRfRVhDTFVTSVZFX0FDQ0VTU19BTExfUkVHUyB8DQo+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBOVk1FX1BSX1NVUFBPUlRfSUVLRVlfREVGX0xBVEVSX1ZFUl8xXzM7DQo+Pj4gwqDCoMKg
-wqDCoMKgIG1lbWNweSgmaWQtPm5ndWlkLCAmcmVxLT5ucy0+bmd1aWQsIHNpemVvZihpZC0+bmd1
-aWQpKTsNCj4+PiDCoMKgIMKgwqDCoMKgwqDCoCBpZC0+bGJhZlswXS5kcyA9IHJlcS0+bnMtPmJs
-a3NpemVfc2hpZnQ7DQo+Pj4gQEAgLTEwMTcsNiArMTAyMywxMiBAQCB1MTYgbnZtZXRfcGFyc2Vf
-YWRtaW5fY21kKHN0cnVjdCBudm1ldF9yZXEgKnJlcSkNCj4+PiDCoMKgwqDCoMKgwqAgaWYgKG52
-bWV0X2lzX3Bhc3N0aHJ1X3JlcShyZXEpKQ0KPj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVy
-biBudm1ldF9wYXJzZV9wYXNzdGhydV9hZG1pbl9jbWQocmVxKTsNCj4+PiDCoMKgICvCoMKgwqAg
-cmV0ID0gbnZtZXRfcHJfY2hlY2tfY21kX2FjY2VzcyhyZXEpOw0KPj4+ICvCoMKgwqAgaWYgKHVu
-bGlrZWx5KHJldCkpIHsNCj4+PiArwqDCoMKgwqDCoMKgwqAgcmVxLT5lcnJvcl9sb2MgPSBvZmZz
-ZXRvZihzdHJ1Y3QgbnZtZV9jb21tb25fY29tbWFuZCwgb3Bjb2RlKTsNCj4+PiArwqDCoMKgwqDC
-oMKgwqAgcmV0dXJuIHJldDsNCj4+PiArwqDCoMKgIH0NCj4+PiArDQo+Pj4gwqDCoMKgwqDCoMKg
-IHN3aXRjaCAoY21kLT5jb21tb24ub3Bjb2RlKSB7DQo+Pj4gwqDCoMKgwqDCoMKgIGNhc2UgbnZt
-ZV9hZG1pbl9nZXRfbG9nX3BhZ2U6DQo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmVxLT5leGVj
-dXRlID0gbnZtZXRfZXhlY3V0ZV9nZXRfbG9nX3BhZ2U7DQo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvbnZtZS90YXJnZXQvY29uZmlnZnMuYyANCj4+PiBiL2RyaXZlcnMvbnZtZS90YXJnZXQvY29u
-ZmlnZnMuYw0KPj4+IGluZGV4IGQ5MzdmZTA1MTI5ZS4uMWFjNDgwMmVjODE4IDEwMDY0NA0KPj4+
-IC0tLSBhL2RyaXZlcnMvbnZtZS90YXJnZXQvY29uZmlnZnMuYw0KPj4+ICsrKyBiL2RyaXZlcnMv
-bnZtZS90YXJnZXQvY29uZmlnZnMuYw0KPj4+IEBAIC03MTQsNiArNzE0LDMyIEBAIHN0YXRpYyBz
-c2l6ZV90IA0KPj4+IG52bWV0X25zX3JldmFsaWRhdGVfc2l6ZV9zdG9yZShzdHJ1Y3QgY29uZmln
-X2l0ZW0gKml0ZW0sDQo+Pj4gwqDCoCDCoMKgIENPTkZJR0ZTX0FUVFJfV08obnZtZXRfbnNfLCBy
-ZXZhbGlkYXRlX3NpemUpOw0KPj4+IMKgwqAgK3N0YXRpYyBzc2l6ZV90IG52bWV0X25zX3Jlc3Zf
-ZW5hYmxlX3Nob3coc3RydWN0IGNvbmZpZ19pdGVtIA0KPj4+ICppdGVtLCBjaGFyICpwYWdlKQ0K
-Pj4+ICt7DQo+Pj4gK8KgwqDCoCByZXR1cm4gc3ByaW50ZihwYWdlLCAiJWRcbiIsIHRvX252bWV0
-X25zKGl0ZW0pLT5wci5lbmFibGUpOw0KPj4+ICt9DQo+Pj4gKw0KPj4+ICtzdGF0aWMgc3NpemVf
-dCBudm1ldF9uc19yZXN2X2VuYWJsZV9zdG9yZShzdHJ1Y3QgY29uZmlnX2l0ZW0gKml0ZW0sDQo+
-Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNvbnN0IGNoYXIgKnBh
-Z2UsIHNpemVfdCBjb3VudCkNCj4+PiArew0KPj4+ICvCoMKgwqAgc3RydWN0IG52bWV0X25zICpu
-cyA9IHRvX252bWV0X25zKGl0ZW0pOw0KPj4+ICvCoMKgwqAgYm9vbCB2YWw7DQo+Pj4gKw0KPj4+
-ICvCoMKgwqAgaWYgKGtzdHJ0b2Jvb2wocGFnZSwgJnZhbCkpDQo+Pj4gK8KgwqDCoMKgwqDCoMKg
-IHJldHVybiAtRUlOVkFMOw0KPj4+ICsNCj4+PiArwqDCoMKgIG11dGV4X2xvY2soJm5zLT5zdWJz
-eXMtPmxvY2spOw0KPj4+ICvCoMKgwqAgaWYgKG5zLT5lbmFibGVkKSB7DQo+Pj4gK8KgwqDCoMKg
-wqDCoMKgIHByX2VycigidGhlIG5zOiVkIGlzIGFscmVhZHkgZW5hYmxlZC5cbiIsIG5zLT5uc2lk
-KTsNCj4+PiArwqDCoMKgwqDCoMKgwqAgbXV0ZXhfdW5sb2NrKCZucy0+c3Vic3lzLT5sb2NrKTsN
-Cj4+PiArwqDCoMKgwqDCoMKgwqAgcmV0dXJuIC1FSU5WQUw7DQo+Pj4gK8KgwqDCoCB9DQo+Pj4g
-K8KgwqDCoCBucy0+cHIuZW5hYmxlID0gdmFsOw0KPj4+ICvCoMKgwqAgbXV0ZXhfdW5sb2NrKCZu
-cy0+c3Vic3lzLT5sb2NrKTsNCj4+PiArwqDCoMKgIHJldHVybiBjb3VudDsNCj4+PiArfQ0KPj4+
-ICtDT05GSUdGU19BVFRSKG52bWV0X25zXywgcmVzdl9lbmFibGUpOw0KPj4+ICsNCj4+PiDCoMKg
-IHN0YXRpYyBzdHJ1Y3QgY29uZmlnZnNfYXR0cmlidXRlICpudm1ldF9uc19hdHRyc1tdID0gew0K
-Pj4+IMKgwqDCoMKgwqDCoCAmbnZtZXRfbnNfYXR0cl9kZXZpY2VfcGF0aCwNCj4+PiDCoMKgwqDC
-oMKgwqAgJm52bWV0X25zX2F0dHJfZGV2aWNlX25ndWlkLA0KPj4+IEBAIC03MjIsNiArNzQ4LDcg
-QEAgc3RhdGljIHN0cnVjdCBjb25maWdmc19hdHRyaWJ1dGUgDQo+Pj4gKm52bWV0X25zX2F0dHJz
-W10gPSB7DQo+Pj4gwqDCoMKgwqDCoMKgICZudm1ldF9uc19hdHRyX2VuYWJsZSwNCj4+PiDCoMKg
-wqDCoMKgwqAgJm52bWV0X25zX2F0dHJfYnVmZmVyZWRfaW8sDQo+Pj4gwqDCoMKgwqDCoMKgICZu
-dm1ldF9uc19hdHRyX3JldmFsaWRhdGVfc2l6ZSwNCj4+PiArwqDCoMKgICZudm1ldF9uc19hdHRy
-X3Jlc3ZfZW5hYmxlLA0KPj4+IMKgwqAgI2lmZGVmIENPTkZJR19QQ0lfUDJQRE1BDQo+Pj4gwqDC
-oMKgwqDCoMKgICZudm1ldF9uc19hdHRyX3AycG1lbSwNCj4+PiDCoMKgICNlbmRpZg0KPj4+IGRp
-ZmYgLS1naXQgYS9kcml2ZXJzL252bWUvdGFyZ2V0L2NvcmUuYyBiL2RyaXZlcnMvbnZtZS90YXJn
-ZXQvY29yZS5jDQo+Pj4gaW5kZXggMzkzNTE2NTA0OGU3Li44ZWFiODE4MDRiMTQgMTAwNjQ0DQo+
-Pj4gLS0tIGEvZHJpdmVycy9udm1lL3RhcmdldC9jb3JlLmMNCj4+PiArKysgYi9kcml2ZXJzL252
-bWUvdGFyZ2V0L2NvcmUuYw0KPj4+IEBAIC01OTgsNiArNTk4LDcgQEAgaW50IG52bWV0X25zX2Vu
-YWJsZShzdHJ1Y3QgbnZtZXRfbnMgKm5zKQ0KPj4+IMKgwqDCoMKgwqDCoCBzdWJzeXMtPm5yX25h
-bWVzcGFjZXMrKzsNCj4+PiDCoMKgIMKgwqDCoMKgwqDCoCBudm1ldF9uc19jaGFuZ2VkKHN1YnN5
-cywgbnMtPm5zaWQpOw0KPj4+ICvCoMKgwqAgbnZtZXRfcHJfaW5pdF9ucyhucyk7DQo+Pj4gwqDC
-oMKgwqDCoMKgIG5zLT5lbmFibGVkID0gdHJ1ZTsNCj4+PiDCoMKgwqDCoMKgwqAgcmV0ID0gMDsN
-Cj4+PiDCoMKgIG91dF91bmxvY2s6DQo+Pj4gQEAgLTY1MSw2ICs2NTIsNyBAQCB2b2lkIG52bWV0
-X25zX2Rpc2FibGUoc3RydWN0IG52bWV0X25zICpucykNCj4+PiDCoMKgIMKgwqDCoMKgwqDCoCBz
-dWJzeXMtPm5yX25hbWVzcGFjZXMtLTsNCj4+PiDCoMKgwqDCoMKgwqAgbnZtZXRfbnNfY2hhbmdl
-ZChzdWJzeXMsIG5zLT5uc2lkKTsNCj4+PiArwqDCoMKgIG52bWV0X3ByX2NsZWFuX2FsbF9yZWdp
-c3RyYW50cygmbnMtPnByKTsNCj4+PiDCoMKgwqDCoMKgwqAgbnZtZXRfbnNfZGV2X2Rpc2FibGUo
-bnMpOw0KPj4+IMKgwqAgb3V0X3VubG9jazoNCj4+PiDCoMKgwqDCoMKgwqAgbXV0ZXhfdW5sb2Nr
-KCZzdWJzeXMtPmxvY2spOw0KPj4+IEBAIC05MDQsNiArOTA2LDE2IEBAIHN0YXRpYyB1MTYgbnZt
-ZXRfcGFyc2VfaW9fY21kKHN0cnVjdCBudm1ldF9yZXEgDQo+Pj4gKnJlcSkNCj4+PiDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCByZXR1cm4gcmV0Ow0KPj4+IMKgwqDCoMKgwqDCoCB9DQo+Pj4gwqDCoCAr
-wqDCoMKgIHJldCA9IG52bWV0X3ByX2NoZWNrX2NtZF9hY2Nlc3MocmVxKTsNCj4+PiArwqDCoMKg
-IGlmICh1bmxpa2VseShyZXQpKSB7DQo+Pj4gK8KgwqDCoMKgwqDCoMKgIHJlcS0+ZXJyb3JfbG9j
-ID0gb2Zmc2V0b2Yoc3RydWN0IG52bWVfY29tbW9uX2NvbW1hbmQsIG9wY29kZSk7DQo+Pj4gK8Kg
-wqDCoMKgwqDCoMKgIHJldHVybiByZXQ7DQo+Pj4gK8KgwqDCoCB9DQo+Pj4gKw0KPj4+ICvCoMKg
-wqAgcmV0ID0gbnZtZXRfcGFyc2VfcHJfY21kKHJlcSk7DQo+Pj4gK8KgwqDCoCBpZiAoIXJldCkN
-Cj4+PiArwqDCoMKgwqDCoMKgwqAgcmV0dXJuIHJldDsNCj4+PiArDQo+PiBDYW4gd2UgbWFrZSB0
-aGlzIGZlYXR1cmUgY29uZmlndXJhYmxlIHZpYSBLY29uZmlnPyBJZiBzb21lb25lIGRvZXNuJ3QN
-Cj4+IHdhbnQgdG8NCj4+IHVzZSBQUiwgdGhleSB3aWxsIGhhdmUgdG8gYmVhciB0aGUgY29zdCBv
-ZiB0aGVzZSBjaGVja3MgaW4gdGhlIGZhc3QgDQo+PiBwYXRoLg0KPg0KPiBZZWFoLCBJIGhhdmUg
-YWRkZWQgYSByZXN2X2VuYWJsZSBpbiBjb25maWdmcywgdGhlIGRlZmF1bHQgaXMgZmFsc2UsIA0K
-PiBvbmUgY2FuDQo+DQo+IG1ha2UgcmVzZXJ2YXRpb24gZW5hYmxlIGJlZm9yZSBlbmFibGUgbmFt
-ZXNwYWNlLg0KDQpXaHkgY2FuJ3Qgd2UgbWFrZSBpdCBLQ29uZmlnIG9wdGlvbiA/IElzIHRoZXJl
-IGFueSBwYXJ0aWN1bGFyIHJlYXNvbiBmb3INCm5vdCBkb2luZyB0aGF0ID8gVGhhdCB3aWxsIGFs
-c28gYWxsb3cgdXNlciB0byBhdm9pZCBrZXJuZWwgY29tcGlsYXRpb24NCm9mIGNvZGUgaWYgdGhl
-eSB3YW50IHRvIHR1cm4gaXQgb2ZmLg0KDQotY2sNCg0KDQo=
+
+在 2024/1/10 16:31, Chaitanya Kulkarni 写道:
+> On 1/9/24 21:58, Guixin Liu wrote:
+>> 在 2024/1/10 12:34, Chaitanya Kulkarni 写道:
+>>> On 1/9/24 04:10, Guixin Liu wrote:
+>>>> This patch implements the reservation feature, includes:
+>>>> 1. reservation register(register, unregister and replace).
+>>>> 2. reservation acquire(acquire, preempt, preempt and abort).
+>>>> 3. reservation release(release and clear).
+>>>> 4. reservation report.
+>>>>
+>>>> And also make reservation configurable, one can set ns to support
+>>>> reservation before enable ns. The default of resv_enable is false.
+>>>>
+>>>> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+>>>> ---
+>>>> Hi guys,
+>>>>        I've implemented the NVMe reservation feature. Please review
+>>>> it, all
+>>>> comments are welcome.
+>>>>        In addtion, I didn't implement event reporting because I
+>>>> didn't see
+>>>> any handling of these events on the host side. If these events are
+>>>> mandatory
+>>>> to report, please let me know so that I can implement them.
+>>>>
+>>>>     drivers/nvme/target/Makefile    |   2 +-
+>>>>     drivers/nvme/target/admin-cmd.c |  14 +-
+>>>>     drivers/nvme/target/configfs.c  |  27 ++
+>>>>     drivers/nvme/target/core.c      |  37 +-
+>>>>     drivers/nvme/target/nvmet.h     |  26 ++
+>>>>     drivers/nvme/target/pr.c        | 806
+>>>> ++++++++++++++++++++++++++++++++
+>>>>     include/linux/nvme.h            |  30 ++
+>>>>     7 files changed, 939 insertions(+), 3 deletions(-)
+>>>>     create mode 100644 drivers/nvme/target/pr.c
+>>>>
+>>>> diff --git a/drivers/nvme/target/Makefile
+>>>> b/drivers/nvme/target/Makefile
+>>>> index c66820102493..f9bfc904a5b3 100644
+>>>> --- a/drivers/nvme/target/Makefile
+>>>> +++ b/drivers/nvme/target/Makefile
+>>>> @@ -10,7 +10,7 @@ obj-$(CONFIG_NVME_TARGET_FCLOOP)    += nvme-fcloop.o
+>>>>     obj-$(CONFIG_NVME_TARGET_TCP)        += nvmet-tcp.o
+>>>>        nvmet-y        += core.o configfs.o admin-cmd.o fabrics-cmd.o \
+>>>> -            discovery.o io-cmd-file.o io-cmd-bdev.o
+>>>> +            discovery.o io-cmd-file.o io-cmd-bdev.o pr.o
+>>>>     nvmet-$(CONFIG_NVME_TARGET_PASSTHRU)    += passthru.o
+>>>>     nvmet-$(CONFIG_BLK_DEV_ZONED)        += zns.o
+>>>>     nvmet-$(CONFIG_NVME_TARGET_AUTH)    += fabrics-cmd-auth.o auth.o
+>>>> diff --git a/drivers/nvme/target/admin-cmd.c
+>>>> b/drivers/nvme/target/admin-cmd.c
+>>>> index 39cb570f833d..7da6f3085a4c 100644
+>>>> --- a/drivers/nvme/target/admin-cmd.c
+>>>> +++ b/drivers/nvme/target/admin-cmd.c
+>>>> @@ -550,7 +550,13 @@ static void nvmet_execute_identify_ns(struct
+>>>> nvmet_req *req)
+>>>>          */
+>>>>         id->nmic = NVME_NS_NMIC_SHARED;
+>>>>         id->anagrpid = cpu_to_le32(req->ns->anagrpid);
+>>>> -
+>>>> +    id->rescap = NVME_PR_SUPPORT_WRITE_EXCLUSIVE |
+>>>> +             NVME_PR_SUPPORT_EXCLUSIVE_ACCESS |
+>>>> +             NVME_PR_SUPPORT_WRITE_EXCLUSIVE_REG_ONLY |
+>>>> +             NVME_PR_SUPPORT_EXCLUSIVE_ACCESS_REG_ONLY |
+>>>> +             NVME_PR_SUPPORT_WRITE_EXCLUSIVE_ALL_REGS |
+>>>> +             NVME_PR_SUPPORT_EXCLUSIVE_ACCESS_ALL_REGS |
+>>>> +             NVME_PR_SUPPORT_IEKEY_DEF_LATER_VER_1_3;
+>>>>         memcpy(&id->nguid, &req->ns->nguid, sizeof(id->nguid));
+>>>>            id->lbaf[0].ds = req->ns->blksize_shift;
+>>>> @@ -1017,6 +1023,12 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
+>>>>         if (nvmet_is_passthru_req(req))
+>>>>             return nvmet_parse_passthru_admin_cmd(req);
+>>>>     +    ret = nvmet_pr_check_cmd_access(req);
+>>>> +    if (unlikely(ret)) {
+>>>> +        req->error_loc = offsetof(struct nvme_common_command, opcode);
+>>>> +        return ret;
+>>>> +    }
+>>>> +
+>>>>         switch (cmd->common.opcode) {
+>>>>         case nvme_admin_get_log_page:
+>>>>             req->execute = nvmet_execute_get_log_page;
+>>>> diff --git a/drivers/nvme/target/configfs.c
+>>>> b/drivers/nvme/target/configfs.c
+>>>> index d937fe05129e..1ac4802ec818 100644
+>>>> --- a/drivers/nvme/target/configfs.c
+>>>> +++ b/drivers/nvme/target/configfs.c
+>>>> @@ -714,6 +714,32 @@ static ssize_t
+>>>> nvmet_ns_revalidate_size_store(struct config_item *item,
+>>>>        CONFIGFS_ATTR_WO(nvmet_ns_, revalidate_size);
+>>>>     +static ssize_t nvmet_ns_resv_enable_show(struct config_item
+>>>> *item, char *page)
+>>>> +{
+>>>> +    return sprintf(page, "%d\n", to_nvmet_ns(item)->pr.enable);
+>>>> +}
+>>>> +
+>>>> +static ssize_t nvmet_ns_resv_enable_store(struct config_item *item,
+>>>> +                    const char *page, size_t count)
+>>>> +{
+>>>> +    struct nvmet_ns *ns = to_nvmet_ns(item);
+>>>> +    bool val;
+>>>> +
+>>>> +    if (kstrtobool(page, &val))
+>>>> +        return -EINVAL;
+>>>> +
+>>>> +    mutex_lock(&ns->subsys->lock);
+>>>> +    if (ns->enabled) {
+>>>> +        pr_err("the ns:%d is already enabled.\n", ns->nsid);
+>>>> +        mutex_unlock(&ns->subsys->lock);
+>>>> +        return -EINVAL;
+>>>> +    }
+>>>> +    ns->pr.enable = val;
+>>>> +    mutex_unlock(&ns->subsys->lock);
+>>>> +    return count;
+>>>> +}
+>>>> +CONFIGFS_ATTR(nvmet_ns_, resv_enable);
+>>>> +
+>>>>     static struct configfs_attribute *nvmet_ns_attrs[] = {
+>>>>         &nvmet_ns_attr_device_path,
+>>>>         &nvmet_ns_attr_device_nguid,
+>>>> @@ -722,6 +748,7 @@ static struct configfs_attribute
+>>>> *nvmet_ns_attrs[] = {
+>>>>         &nvmet_ns_attr_enable,
+>>>>         &nvmet_ns_attr_buffered_io,
+>>>>         &nvmet_ns_attr_revalidate_size,
+>>>> +    &nvmet_ns_attr_resv_enable,
+>>>>     #ifdef CONFIG_PCI_P2PDMA
+>>>>         &nvmet_ns_attr_p2pmem,
+>>>>     #endif
+>>>> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+>>>> index 3935165048e7..8eab81804b14 100644
+>>>> --- a/drivers/nvme/target/core.c
+>>>> +++ b/drivers/nvme/target/core.c
+>>>> @@ -598,6 +598,7 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+>>>>         subsys->nr_namespaces++;
+>>>>            nvmet_ns_changed(subsys, ns->nsid);
+>>>> +    nvmet_pr_init_ns(ns);
+>>>>         ns->enabled = true;
+>>>>         ret = 0;
+>>>>     out_unlock:
+>>>> @@ -651,6 +652,7 @@ void nvmet_ns_disable(struct nvmet_ns *ns)
+>>>>            subsys->nr_namespaces--;
+>>>>         nvmet_ns_changed(subsys, ns->nsid);
+>>>> +    nvmet_pr_clean_all_registrants(&ns->pr);
+>>>>         nvmet_ns_dev_disable(ns);
+>>>>     out_unlock:
+>>>>         mutex_unlock(&subsys->lock);
+>>>> @@ -904,6 +906,16 @@ static u16 nvmet_parse_io_cmd(struct nvmet_req
+>>>> *req)
+>>>>             return ret;
+>>>>         }
+>>>>     +    ret = nvmet_pr_check_cmd_access(req);
+>>>> +    if (unlikely(ret)) {
+>>>> +        req->error_loc = offsetof(struct nvme_common_command, opcode);
+>>>> +        return ret;
+>>>> +    }
+>>>> +
+>>>> +    ret = nvmet_parse_pr_cmd(req);
+>>>> +    if (!ret)
+>>>> +        return ret;
+>>>> +
+>>> Can we make this feature configurable via Kconfig? If someone doesn't
+>>> want to
+>>> use PR, they will have to bear the cost of these checks in the fast
+>>> path.
+>> Yeah, I have added a resv_enable in configfs, the default is false,
+>> one can
+>>
+>> make reservation enable before enable namespace.
+> Why can't we make it KConfig option ? Is there any particular reason for
+> not doing that ? That will also allow user to avoid kernel compilation
+> of code if they want to turn it off.
+>
+> -ck
+>
+OK, I will add a Kconfig option.
 
