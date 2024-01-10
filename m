@@ -4,139 +4,125 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C1B5BC3DA6E
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jan 2024 07:40:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EEB9FC3DA6E
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jan 2024 08:05:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ac1GkoUAaRamRjvVD0IPSkJbPfzKBLF+wC4Qmj1b7uk=; b=vL6yrFxmBaLcCOVFgdMa6XmzPg
-	gB+lWUEFJh7N+76duJCpiUQegZS/YdC0LNAPFFDgBgZH3Xy6hBUNPJINhF+GPsSw8AduejPSUPi2C
-	0CiBVgdyfTlnRr0pUbScNT7R98yr4k2flH6eDTS2xlr2kMxc4K8lylOIVq4BI0bFD1cxABlduaBt9
-	dqQdQeqICyRDRqBxogo/qK1iqGPKNzYoiGyWjCvKnmVcwbhuqC5FI5SHKqbBFcVC4fs1rKQyZ+oX5
-	Z0OIyvsa4J6Qy8XdgauC3fNGc6qVTUMEgFijd3HCKlYCJtmK7xjWQ0V8S4RMDHtp1dQ30fgrcBns7
-	+xWk9dqQ==;
+	bh=S+KOiZTLHnN10pHGd+CqaU6Z6pRUaOKOMAXg1yEtMts=; b=WW6QX43hFe44DNFyLi+8id+uf3
+	eMC2fagxzmOO3SMNPqba7/kem01YIFXJUp1M49wiVUf+kRw0q2JxROpIdzcjJyOuJj/Was98m+eif
+	QhuFh9fMtIxY5BgnggWOkFLOKED/H7YdDU5mtnk1zeCDBeyqqXlt37XFKnt9dynlQvNo7/0Fll3xX
+	qI8yR95HNrhtBulmuPM/pNjNK9Huuc9YEniPBs64SU8Tzr0+8sAbr7uZJQ0NrTIcpdrOmw9uKlzj1
+	fJwfT1ojr6997wW2cHUxdGMF3CqnLOXyUsIrhZcE4hlG5v53Y1rQX29OkBadOwTIBA2hSnjx9Qs7X
+	qfu/RN0A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rNTCF-00Ad4z-2t;
-	Wed, 10 Jan 2024 07:40:19 +0000
-Received: from mail-dm6nam10on2060e.outbound.protection.outlook.com ([2a01:111:f400:7e88::60e] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+	id 1rNTaL-00AglS-23;
+	Wed, 10 Jan 2024 08:05:13 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rNTCD-00Ad2s-0c
+	id 1rNTaE-00Agjt-0G
 	for linux-nvme@lists.infradead.org;
-	Wed, 10 Jan 2024 07:40:18 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZCqHkAGC9CPkguBlEJc0u34MCJOA8cMjYgonMdM1FmuzaifLIt1+73VUHa1NaULSVyjbdsF+ceqAUZnptRt5ZfBDny3hJ95LNQ/L7Ich8xI4fOFUy7OrtA7BL19J3QnBSsBN/Vd+K9f3zqLb4s84D8uqrM5CtFfFq4PGWEnU69Fl1nFiQ7Jfm1q7RLZmzYI6Qx8S6U/9aj5VLgJfsFA1viAPFKi9JOFebDkvBCoUbe5BUuJ/YfTRVSJJOIOodmOiSFwizlKm6MjolobkENshYQoCWDuT/hP/hOb99zX7nmTVOhDSgEIMz/hawvSHkEEVLbuUkt8ZQrnIevEOCe5Trg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ac1GkoUAaRamRjvVD0IPSkJbPfzKBLF+wC4Qmj1b7uk=;
- b=PlZbGjfnfdBOSjwi4w9U+f7svMymYvc0tDGErtb2HexqZPFvoj9+Pso3waXiJhwhyvLsSctNUJH03aRm6CxKsnBNQY96aW/mN5i9vnipXEGo1GczLYm4EQKjvQBDUt6eOCO+LRv4HdzKOpxP0JmJ1VN4KGe9TBNqNtAOvOtwNvT6npJFB4SOqU5+kTnjYIyj+qT4gtwb2QAHi64r/xneQ6pFU4+GOPk/vMWJ5vaH0+utCfFAvEePw1Beep4g97pDMRGYaSy7ySd7Rxz5PBHu2gAM6xHEws17N5Zpmvz08bzRChvFaCdtmAqcKH9+QBNFmj1+fRjsSznJQDr31FzYMg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ac1GkoUAaRamRjvVD0IPSkJbPfzKBLF+wC4Qmj1b7uk=;
- b=UEl3FvfPmuLwvrqxxMloEwaJQEq2Mi7NsPOOQ4XRzh1pp4JdorvBu9oTK5+J+qX0+mwG0Cs2EiVtK9JvEtdxwmJOy2omv0oFB/G0Zv0YGykud7ro2Yb1W+tJP4vXhw26W6LWghTWoX6IWCyBNEy95ip4DxHv24JTMU0HnbLxNeflezjSQXb+zJ1NJlnBv9CJXieGCjhZ6PuZHxSQOi8lrxP7Tjau1uPvX3ERftTW4GHyWs8vyYfswNb93IczGRUA+yTE5QOPGc+XamxHAWEQwpLciy296mbLftQSx25Por8sm3NmiPkNRrY3ApsBZVSeSh9y1kM0KNZ7pGmSOrxu+w==
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
- by PH8PR12MB6817.namprd12.prod.outlook.com (2603:10b6:510:1c8::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.17; Wed, 10 Jan
- 2024 07:40:04 +0000
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::efb1:c686:d73d:2762]) by LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::efb1:c686:d73d:2762%7]) with mapi id 15.20.7159.020; Wed, 10 Jan 2024
- 07:40:04 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Nitesh Shetty <nj.shetty@samsung.com>
-CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Chaitanya
- Kulkarni <chaitanyak@nvidia.com>, "shinichiro.kawasaki@wdc.com"
-	<shinichiro.kawasaki@wdc.com>
+	Wed, 10 Jan 2024 08:05:08 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20240110080452epoutp03ab8b891a5068addd4fbf07339ba537c5~o7cXEuA1l3166431664epoutp03e
+	for <linux-nvme@lists.infradead.org>; Wed, 10 Jan 2024 08:04:52 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20240110080452epoutp03ab8b891a5068addd4fbf07339ba537c5~o7cXEuA1l3166431664epoutp03e
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1704873892;
+	bh=S+KOiZTLHnN10pHGd+CqaU6Z6pRUaOKOMAXg1yEtMts=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=GjtstJelsbbzr+ol+01UR35+lsnxer8IJ5Sawy0eJZTYUNTnNyEGeBt68gU0HLuUo
+	 AysYtBhh4Fp6Bm0aTSm4e3jFu/N2spkALknN/7VSAkjxrh+32qVZMejQvx4/glWYTW
+	 GVWm0HSKxtDw2P+zgZCMeHoi7pNi+5M4oZ0eEJ6I=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+	20240110080452epcas5p355298cb0c47d137f466de4346c656d54~o7cW0EpYn2374723747epcas5p3c;
+	Wed, 10 Jan 2024 08:04:52 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.178]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4T90hM13qyz4x9QP; Wed, 10 Jan
+	2024 08:04:51 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	92.AD.09634.2AF4E956; Wed, 10 Jan 2024 17:04:50 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20240110080056epcas5p3b259d175ea77f96dd6dbf6403a53f480~o7Y7FYcqi1987219872epcas5p3U;
+	Wed, 10 Jan 2024 08:00:56 +0000 (GMT)
+Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240110080056epsmtrp246d91e6fb3f11ff017b760d2b7ede44f~o7Y7EuwmR1885118851epsmtrp2N;
+	Wed, 10 Jan 2024 08:00:56 +0000 (GMT)
+X-AuditID: b6c32a49-159fd700000025a2-da-659e4fa2a394
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	A1.F4.07368.8BE4E956; Wed, 10 Jan 2024 17:00:56 +0900 (KST)
+Received: from green245 (unknown [107.99.41.245]) by epsmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20240110080055epsmtip13891e8c317589c109673d0bb004699e4~o7Y6VWUYK1966619666epsmtip12;
+	Wed, 10 Jan 2024 08:00:55 +0000 (GMT)
+Date: Wed, 10 Jan 2024 13:24:29 +0530
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"shinichiro.kawasaki@wdc.com" <shinichiro.kawasaki@wdc.com>
 Subject: Re: [PATCH] nvme: add nvme pci timeout testcase
-Thread-Topic: [PATCH] nvme: add nvme pci timeout testcase
-Thread-Index: AQHaQ3lDV0aWrUFAIUCtA7cIZYYqELDSkmGAgAAXHoA=
-Date: Wed, 10 Jan 2024 07:40:04 +0000
-Message-ID: <b09c8885-9907-4616-bf80-68ca145a1eea@nvidia.com>
-References: <20240110035756.9537-1-kch@nvidia.com>
- <CGME20240110062350epcas5p351f5b4f8e27b3c57545b49509d2a48b6@epcas5p3.samsung.com>
- <20240110061719.kpumbmhoipwfolcd@green245>
-In-Reply-To: <20240110061719.kpumbmhoipwfolcd@green245>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|PH8PR12MB6817:EE_
-x-ms-office365-filtering-correlation-id: ffbfdffd-63d5-48d7-a2bc-08dc11af5c10
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 1zUqjv7Yvefd8uph0jJwsJjxy0If7XlL8q8unuetRiwMcRpJ7uE4pYcM2dOT2ni5xmOBPxi3SmbPRqBCihrsYCwnOC2AEdRsSdLfuhhuRY8D2iNjS/nJm2R4t0mu3xnWAstQl9R+5NgpIAAriGjfNj2XVxXHkV5gelFbEIDIYdSfrfLS5gRAUMxGdydkA8DGC9y/Ui8WSgJkT1S5Op1SkvVEjcbVHZgNy2wxf7KCzDYLQMIcMt+XsoQ5z19A4/kgu/TRaeg6jrAZpMIpwUCxJTXKvANCePQJ6naJsYBiJtImq6MHW6GIScgBq4ogAfzZusi6j+gBnmR7oskWSew7OcB95jpIf+igy08ZEE4D1+Z2xZE3KG1/4yy0kubdX0dotHJxKQfCSQsQGO6+DTvkaRQJM/0Tp1aqo3PESNjgLcMnPbA7deYgPZ9OFtoZqsDz1/fy338yzWFPueAIG3v4+mSXtane5IEYwiye3TnUYhPlpTKTD+Ar6q0Z1kR6GeH0HU3xbVpcurcbSFgaVZwYveLTXi2HzLrQWN6KAjE99aRRrg1w1ID7DHUzJ+sRp5rtFHBjInL7qNproqSHCxxtFZ6S0V45+M3vZys4cV2w2Y3OgIjfEy3UhckQV+bWQziwhEQKd2M75qoMZN952VrDv+UgpFjlRhsegxsXq9UCqWNuQjOQP+fI8dQh/te/wRlQ
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(376002)(396003)(136003)(39860400002)(366004)(230922051799003)(64100799003)(186009)(451199024)(1800799012)(31686004)(2906002)(478600001)(5660300002)(36756003)(4326008)(38070700009)(41300700001)(76116006)(66946007)(91956017)(8936002)(66556008)(66446008)(316002)(66476007)(64756008)(6916009)(54906003)(71200400001)(53546011)(6506007)(6486002)(8676002)(6512007)(31696002)(86362001)(2616005)(83380400001)(38100700002)(122000001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RVN5L1dQUTVUL0xHMmxSVHZIOVNvTUxUM0RMMkg3bXE3cEtnUHRrNjBwZHo2?=
- =?utf-8?B?WGNOOXNOVVJuSFNIVDFnWVZxTklaNXYzWXE1ellXOC85aXBiZVlXOWQ0VEdj?=
- =?utf-8?B?bWJpOG0xVGF6VGY5L2pSVmlTWjlhQ1I3dCt6NUl3UkZpZTJHVGRBbzU5Yysv?=
- =?utf-8?B?WGhMbk1PQVVsYkNrQzc4ZWw4dUNRSUp1L1JPaFh1ZUExWkZ0SmtxRGZ5NTNz?=
- =?utf-8?B?ei80NHArSEs2MVhIOE9odWhYVVdMejNrS3A5SGw1WXlWMnVvOTRUVTh4ZGts?=
- =?utf-8?B?MjlZSU5LZ3FzUlM3S09zd214U0tkWGdCUG8vdGJGbXR0K3kzbHJGOGpKeWFn?=
- =?utf-8?B?ZXB1S2UxRkViNXFTZ1hGYTZtTHVNREZLUDZCcXA4NUt5RElJVjZNTHlGdmRp?=
- =?utf-8?B?SlJvbEgzUkZhcU9VdVJYUStvRENtT1BGeDRZQUwzSHlIcXk1NGJPa01UekZQ?=
- =?utf-8?B?SnEvemlCSEFmWEEyUUc0NTcxa2xYRlBhMjh3TElVWVdCVFpzUGQzNlNITmJY?=
- =?utf-8?B?YVdWeDNTUUxiNmxFdFViQ2lCV2ZKTXJtQ2k1RHh6NFVGNFc4VkJkVnozdUhz?=
- =?utf-8?B?NTNLNnZ5UElJdW01bHA1OWg1WlpWc1RiMmlqaHVCTXM4Y2k1NUdaTEl6ZlVC?=
- =?utf-8?B?alUwQWYrNFN2ZzlXbk1zOThJZGNiMW9sRGY5M1AyTVB3NUdYT25aanF0b1ZS?=
- =?utf-8?B?cVdkMlJjQzM5WWdpRnorb25zU2cyOUlmMDMyQ0dRaUhmeEZZdmhKREhDbUFG?=
- =?utf-8?B?cENwSTZyai91K2hlYmtUWGtyczZQeHJtMVVyV1V2MHc5MkZNdWdTSFBFdGU5?=
- =?utf-8?B?MktCdXZobmJucXdYellKM2pFMmoycWtMUGZnUEQ0eUFnYjFZR0tPWE11MXFs?=
- =?utf-8?B?TEdvNUpDdWdzTGtzRXNNZndHV254WUhxNnhFT2NZZ2pnVGNGSnZzNWs3SGFR?=
- =?utf-8?B?SmFUUnlndlREdDllZ3dqbzJtc3JFR3dCcnNZKzk0aGFLNVdaRnlsVFlPUVVz?=
- =?utf-8?B?Nm1CNXdoVW83R0w3VTZiQ2xYNlNiWlRVK3BWYm85RS91VmJDME5FaTN2eVBj?=
- =?utf-8?B?TWE5aGphcSt3U3RkMlREbjJMKzZmT0p1SWJ3OER6RnBQRzJ1T1N4dzFZRVgw?=
- =?utf-8?B?QmJjS0lOZlB0U2NVUENqZjU0R2ZBemk4ZC94ejJrVlowUkZienZoMXhBYzhL?=
- =?utf-8?B?WmdpZkNpdGdxRm1kSzZkdU5iTGkvZlZkakY5MVRCZ2xFSEQ3bUJyNGxybnNS?=
- =?utf-8?B?QUs5NDlPR0xxQSs0OXo4eEJnZkQ4VHBKS3pLM3ZOd2MrbXlNK1ozSDNJNlFl?=
- =?utf-8?B?b2ZSV2xWTUI0TzFrWXJady9WQlFJMWFaK0VXRkN6dHUwMFE1a2tLWDhsbWRp?=
- =?utf-8?B?Zm9xTE5PRWhGZS9UYlVsdXZjcVJiOTMrSmQrR3pwRWxLbVV1Ylp6dUdQVC9h?=
- =?utf-8?B?R3FGZW1LSlhWNENTUThhVDZ0amVib0pBRVVFK1ZOcVJqbHRmdUo4ZG5Na3lu?=
- =?utf-8?B?eWpJTnZkZDZFOGJOQjkvVWJia2NIZGVac1pWUWxnQlNQQVZuaysrZmI2ekZn?=
- =?utf-8?B?ZnRlaDVQQ1pxVW05eVkyZlVHbGt6c2YxMTlRejVjcm5vVkpyYjVJYWFiaytI?=
- =?utf-8?B?UUZ2Z01SOHhtdjdWOFlyaUYweUwwRG9KemdRM1c4cnFNVDR4a1JxZFFhdTE4?=
- =?utf-8?B?REpscWVLZmd0dWhXWWcrR0N5d3dKSlNreG9hTlBDcllqL05Eejc1bWx3elgr?=
- =?utf-8?B?V0t2dmk5SktaZ1E3Nzd1S3FxVTI4THhjQkwvbHpjalNFTko1VSttNVRrbWlw?=
- =?utf-8?B?b2IwQkVUbFdRdFc1elg5UkdWMk9FWXZuOTl3aGljVGRZSzFZYkdFQVRXT1pD?=
- =?utf-8?B?OHVqOWpqUnFZSjdmMlowZE5iZE1LMlpOa0Vzay9PR0lKbkI3S1lKUXkzNUx2?=
- =?utf-8?B?RlpiakRiZVJxdHBaMXIyVEpGQnFCTkw1N1NJa0dndWEwV0lQTTVpb3RXSmNO?=
- =?utf-8?B?QS9KbEJjOEFEWGJaeHZzVkNEMzl1UlVJOXJsOXVOT0c4NGhlQ3pCT3M5cXdW?=
- =?utf-8?B?K1dmNXliRGxndFFubnl4Qlkvc1ZYSWNOUkhTUkJQbXIxWVhyWWs1TkFXOUpR?=
- =?utf-8?B?cUpVd0V0YWZuaGU5bnRXdGNRVzZGZ3h3Yy82dkhCV25HcFREV1F2NWlQbytS?=
- =?utf-8?Q?Y1TD0lLx9zHEoTTBMDCFZFa0k7pPJDPvny5ToSqOzg08?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9608A3708E0DC248BD38A5E116193D28@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Message-ID: <20240110075429.4hqt2znulpnoq35h@green245>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ffbfdffd-63d5-48d7-a2bc-08dc11af5c10
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jan 2024 07:40:04.0863
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Y786hhLXfNqhC90A0WO/xKROzFkwBotHV0tX5+xP/f7fmsRWA6JsMNgqMkJyw6rX/7wfBs2NxHp36hYbVx9qwg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6817
+In-Reply-To: <b09c8885-9907-4616-bf80-68ca145a1eea@nvidia.com>
+User-Agent: NeoMutt/20171215
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupnk+LIzCtJLcpLzFFi42LZdlhTXXeR/7xUg5t/bCzeH3zMarH3lrbF
+	/GVP2S32zfJ0YPHYvKTeo7f5HZvH501yHu0HupkCWKKybTJSE1NSixRS85LzUzLz0m2VvIPj
+	neNNzQwMdQ0tLcyVFPISc1NtlVx8AnTdMnOA9ikplCXmlAKFAhKLi5X07WyK8ktLUhUy8otL
+	bJVSC1JyCkwK9IoTc4tL89L18lJLrAwNDIxMgQoTsjOOXjjNXvCTr6JtdXUD4ymeLkZODgkB
+	E4n7h/YydzFycQgJ7GaUWP/8OpTziVFiT+s3KOcbo8S07/MYYVqe3n3CDGILCexllHjzMhyi
+	6BmjxLEpt8ESLAKqEvOO3WPpYuTgYBPQljj9nwMkLCKgJ3H11g12EJtZ4DCjxLVrGiAlwgIW
+	ErN2xYOEeQXMJM7OfMkIYQtKnJz5hAXE5hSwk2hauY0NxBYVkJGYsfQr2G0SAi/ZJWZf2cgC
+	cZuLxNKGOawQtrDEq+Nb2CFsKYnP7/ayQdjlEiunrGCDaG5hlJh1fRbUY/YSraf6mSGOy5C4
+	POMGVFxWYuqpdUwQcT6J3t9PmCDivBI75sHYyhJr1i+AWiApce17I5TtIbF2eT87JICeM0pc
+	nfmdeQKj/Cwk381Csg/CtpLo/NDECmHLSzRvnc08CxhIzALSEsv/cUCYmhLrd+kvYGRbxSiZ
+	WlCcm55abFpgmJdaDo/75PzcTYzglKnluYPx7oMPeocYmTgYDzFKcDArifAqfJ6TKsSbklhZ
+	lVqUH19UmpNafIjRFBhvE5mlRJPzgUk7ryTe0MTSwMTMzMzE0tjMUEmc93Xr3BQhgfTEktTs
+	1NSC1CKYPiYOTqkGpgn7z9VFXX93MC9kX/T+Px7P/tW1XG1nFrX6cuaK8VaZz/yOUpP4KsMK
+	dYrOti6znNn1b8JUnn26zzW/7urYsuoCe+u3CZ8imB5z3f2mvdMqJeHBxkNXt/pMepziFWiV
+	9MPx+od5vDKt+Wkl/3XlcyeET97Fq5z/4IRRqqlTRfeaRPmlW44+/s3b8Wif9j6pr2k9r6dc
+	4rty+vmtQPtl9edn9T4/dNj9Q/e0oNezN4U9uHC8dAPv9wP3Vs6dsTRD5tPLIDuziVOZr6c0
+	nwuJMrMR2pM/oWRT1oqvV06sk+1nPz3Z5vJvcx61oh+Puz62GG63q9zUm7zoa42czU/JA8sY
+	Vpt9mbD99lQVblmxZ7frlViKMxINtZiLihMBZ6ZHryIEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrNLMWRmVeSWpSXmKPExsWy7bCSnO4Ov3mpBu9nClu8P/iY1WLvLW2L
+	+cueslvsm+XpwOKxeUm9R2/zOzaPz5vkPNoPdDMFsERx2aSk5mSWpRbp2yVwZTzo1i3o4qlY
+	NOc4SwPjD84uRk4OCQETiad3nzCD2EICuxkl3h/PgIhLSiz7e4QZwhaWWPnvOXsXIxdQzRNG
+	ictd69hBEiwCqhLzjt1j6WLk4GAT0JY4/Z8DJCwioCdx9dYNsBJmgcOMEteuaYCUCAtYSMza
+	FQ8S5hUwkzg78yUjxMjnjBITW66xQSQEJU7OfMIC0WsmMW/zQ2aQXmYBaYnl/zggwvISzVtn
+	g53GKWAn0bRyG1irqICMxIylX5knMArNQjJpFpJJsxAmzUIyaQEjyypGydSC4tz03GTDAsO8
+	1HK94sTc4tK8dL3k/NxNjODw19LYwXhv/j+9Q4xMHIyHGCU4mJVEeBU+z0kV4k1JrKxKLcqP
+	LyrNSS0+xCjNwaIkzms4Y3aKkEB6YklqdmpqQWoRTJaJg1OqgWndx5+Orpwc0z5M2sQknb/h
+	vorH+53rDfkr73A+Pfi+5VFm9f4HpoIGujsa7FR/tDCxuip+Yr4lLHtaqJ5X/dpV6Y5pD6fm
+	cSUeetM2TTpoFoO67KHtjCy8s6uY/uwVN3l8TWqvluTK73r3VFqY429dZJcw0G8t/PZ2xs7m
+	Tz9v89w/Xe6U+qzK/UXS8V45mW9arj6OMb/u7I8PWvHM0aL66PX/s9f+SPi+45b8PvHCCXpK
+	24Unx4Z+D2ITbyoONuL73SzXqsJ1u9V4WVo2I7PRVSbn24ctAmaae05l28DHcY1/MkNkV7/o
+	Q8vtFSUTpQ9trD9s3caq01F0XKDo8hTDf0u7FCdpHdOor350RYmlOCPRUIu5qDgRAKcj2Pru
+	AgAA
+X-CMS-MailID: 20240110080056epcas5p3b259d175ea77f96dd6dbf6403a53f480
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----o6g3D9Kf_pEVWJfJW0DeoWolS2HAZ7gmfypTH67GyMAruP7o=_d08ce_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240110062350epcas5p351f5b4f8e27b3c57545b49509d2a48b6
+References: <20240110035756.9537-1-kch@nvidia.com>
+	<CGME20240110062350epcas5p351f5b4f8e27b3c57545b49509d2a48b6@epcas5p3.samsung.com>
+	<20240110061719.kpumbmhoipwfolcd@green245>
+	<b09c8885-9907-4616-bf80-68ca145a1eea@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240109_234017_283030_BB1F0876 
-X-CRM114-Status: GOOD (  13.60  )
+X-CRM114-CacheID: sfid-20240110_000506_426267_CC7F2298 
+X-CRM114-Status: GOOD (  12.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -151,28 +137,67 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMS85LzI0IDIyOjE3LCBOaXRlc2ggU2hldHR5IHdyb3RlOg0KPiBPbiAwOS8wMS8yNCAwNzo1
-N1BNLCBDaGFpdGFueWEgS3Vsa2Fybmkgd3JvdGU6DQo+PiBUcmlnZ2VyIGFuZCB0ZXN0IG52bWUt
-cGNpIHRpbWVvdXQgd2l0aCBjb25jdXJyZW50IGZpbyBqb2JzLg0KPj4NCj4+IFNpZ25lZC1vZmYt
-Ynk6IENoYWl0YW55YSBLdWxrYXJuaSA8a2NoQG52aWRpYS5jb20+DQo+PiAtLS0NCj4+IHRlc3Rz
-L252bWUvMDUwwqDCoMKgwqAgfCA0MyArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrDQo+PiB0ZXN0cy9udm1lLzA1MC5vdXQgfMKgIDIgKysNCj4+IDIgZmlsZXMgY2hh
-bmdlZCwgNDUgaW5zZXJ0aW9ucygrKQ0KPj4gY3JlYXRlIG1vZGUgMTAwNzU1IHRlc3RzL252bWUv
-MDUwDQo+PiBjcmVhdGUgbW9kZSAxMDA2NDQgdGVzdHMvbnZtZS8wNTAub3V0DQo+Pg0KPj4gZGlm
-ZiAtLWdpdCBhL3Rlc3RzL252bWUvMDUwIGIvdGVzdHMvbnZtZS8wNTANCj4+IG5ldyBmaWxlIG1v
-ZGUgMTAwNzU1DQo+PiBpbmRleCAwMDAwMDAwLi5iYTU0YmNkDQo+PiAtLS0gL2Rldi9udWxsDQo+
-PiArKysgYi90ZXN0cy9udm1lLzA1MA0KPj4gQEAgLTAsMCArMSw0MyBAQA0KPj4gKyMhL2Jpbi9i
-YXNoDQo+PiArIyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTMuMCsNCj4+ICsjIENvcHly
-aWdodCAoQykgMjAyNCBDaGFpdGFueWEgS3Vsa2FybmkuDQo+PiArIw0KPj4gKyMgVGVzdCBOVk1l
-LVBDSSB0aW1lb3V0IHdpdGggRklPIGpvYnMgYnkgdHJpZ2dlcmluZyB0aGUgbnZtZV90aW1lb3V0
-IA0KPj4gZnVuY3Rpb24uDQo+PiArIw0KPj4gKw0KPj4gKy4gdGVzdHMvbnZtZS9yYw0KPj4gKw0K
-Pj4gK0RFU0NSSVBUSU9OPSJ0ZXN0IG52bWUtcGNpIHRpbWVvdXQgd2l0aCBmaW8gam9icy4iDQo+
-PiArDQo+PiArcmVxdWlyZXMoKSB7DQo+PiArwqDCoMKgIF9yZXF1aXJlX252bWVfdHJ0eXBlIHBj
-aQ0KPj4gK8KgwqDCoCBfaGF2ZV9maW8NCj4+ICvCoMKgwqAgX252bWVfcmVxdWlyZXMNCj4+ICt9
-DQo+PiArDQo+PiArdGVzdCgpIHsNCj4+ICvCoMKgwqAgbG9jYWwgZGV2PSIvZGV2L252bWUwbjEi
-DQo+DQo+IFNob3VsZCB0aGlzIGJlIFRFU1RfREVWIGluc3RlYWQgPw0KDQp3aHkgPw0KDQo+DQo+
-DQo+PiArDQo+PiArwqDCoMKgIGVjaG8gIlJ1bm5pbmcgJHtURVNUX05BTUV9Ig0KPj4gKw0KPj4g
-K8KgwqDCoCBlY2hvIDEgPiAvc3lzL2Jsb2NrL252bWUwbjEvaW8tdGltZW91dC1mYWlsDQo+DQo+
-IG52bWUwbjEsIEkgdGhpbmsgdGhpcyBoYXJkIGNvZGluZyBjYW4gYmUgY2hhbmdlZA0KPg0KDQp3
-aHkgPw0KDQotY2sNCg0KDQo=
+------o6g3D9Kf_pEVWJfJW0DeoWolS2HAZ7gmfypTH67GyMAruP7o=_d08ce_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+
+On 10/01/24 07:40AM, Chaitanya Kulkarni wrote:
+>On 1/9/24 22:17, Nitesh Shetty wrote:
+>> On 09/01/24 07:57PM, Chaitanya Kulkarni wrote:
+>>> Trigger and test nvme-pci timeout with concurrent fio jobs.
+>>>
+>>> Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+>>> ---
+>>> tests/nvme/050     | 43 +++++++++++++++++++++++++++++++++++++++++++
+>>> tests/nvme/050.out |  2 ++
+>>> 2 files changed, 45 insertions(+)
+>>> create mode 100755 tests/nvme/050
+>>> create mode 100644 tests/nvme/050.out
+>>>
+>>> diff --git a/tests/nvme/050 b/tests/nvme/050
+>>> new file mode 100755
+>>> index 0000000..ba54bcd
+>>> --- /dev/null
+>>> +++ b/tests/nvme/050
+>>> @@ -0,0 +1,43 @@
+>>> +#!/bin/bash
+>>> +# SPDX-License-Identifier: GPL-3.0+
+>>> +# Copyright (C) 2024 Chaitanya Kulkarni.
+>>> +#
+>>> +# Test NVMe-PCI timeout with FIO jobs by triggering the nvme_timeout
+>>> function.
+>>> +#
+>>> +
+>>> +. tests/nvme/rc
+>>> +
+>>> +DESCRIPTION="test nvme-pci timeout with fio jobs."
+>>> +
+>>> +requires() {
+>>> +    _require_nvme_trtype pci
+>>> +    _have_fio
+>>> +    _nvme_requires
+>>> +}
+>>> +
+>>> +test() {
+>>> +    local dev="/dev/nvme0n1"
+>>
+>> Should this be TEST_DEV instead ?
+>
+>why ?
+>
+My understanding of blktests is, add device which we want to test in
+config files under TEST_DEV (except null-blk and nvme-fabrics loopback
+devices, which are usually populated inside the tests).
+In this case, if someone do not want to disturb nvme0n1 device,
+this test doesn't allow it.
+
+Regards,
+Nitesh Shetty
+
+------o6g3D9Kf_pEVWJfJW0DeoWolS2HAZ7gmfypTH67GyMAruP7o=_d08ce_
+Content-Type: text/plain; charset="utf-8"
+
+
+------o6g3D9Kf_pEVWJfJW0DeoWolS2HAZ7gmfypTH67GyMAruP7o=_d08ce_--
 
