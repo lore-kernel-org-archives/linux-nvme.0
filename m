@@ -4,51 +4,108 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A6D7C47077
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jan 2024 03:19:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65E49C3DA6E
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jan 2024 03:58:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pthhYBnfRi0iWoIDi2RPShJOY0XSc7dU8rohjsVNoDA=; b=0QzwhAe222j16qvXsmYywwa88d
-	0dUeDpiyeKvqheJp1N6s+QRNR4pkRy3ZGpvDKvsDZo35VjNPoRuciBFKozv+JLSVwHYKXn4Z7hWKG
-	zWwI1zp9SGG5PwL0Ph82N5U63al0HgrHdXbcNCBIWMq2UNmHNSvYZLesfRCeu4izDSUAnxRuUg6GK
-	JPsjUE9kh/x9Cy4JBuxjUDVZf3UeatLdwFfvlRIGLLaBPsCt1v/8hAwOqPTc1STlf9+w9+vPm4u2j
-	YyXp+vlxZ9q7zmJ21aEIrzqFMYGd5RZ2FK7t2+uMa8Bbvvo8P2xEzoL6snMX546z7jNduI8ulqbdS
-	hTeaA9FA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=D4Pz3Fqe/f8M0e7nZwMmN/0I0cXmhH29hCVKHPPxdxY=; b=pb/6/IzZPoyHFyDoTCLw4kKOLJ
+	Q1SxRJK1WfTsCgn5YrdAhAj4w1/nI2cs0Y+yW5KWn5WondXMc9/XFHJM5jDEfF4gXxT9/KO+yyWEO
+	jgPK82YUgc1oz6p7DjN1KWXbEMlMSS/un+gwm2gCao8ldl9R3l/27BnK0WZm34xfaNJREmLDmpMKg
+	G8HjlwpY/6E+3c9i0byyM3z7VBYQRuZQOJDVdHCqjzsydJsAl1Pd7DD2KOqorBEc7kHVJfmaRStWa
+	2cyjxEXqzDZU4saoaq147o4JUBTj3WOaR6mhBkqWxJrhQlM6ybGv5cd/CKVhmKApgzkiSXx//D5Lm
+	Wag9mZIQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rNP7u-00AD8Z-1x;
-	Wed, 10 Jan 2024 03:19:34 +0000
-Received: from out30-97.freemail.mail.aliyun.com ([115.124.30.97])
+	id 1rNPji-00AFv0-21;
+	Wed, 10 Jan 2024 03:58:38 +0000
+Received: from mail-bn8nam11on20600.outbound.protection.outlook.com ([2a01:111:f400:7eae::600] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rNP7q-00AD7V-2a
+	id 1rNPjf-00AFu6-2o
 	for linux-nvme@lists.infradead.org;
-	Wed, 10 Jan 2024 03:19:32 +0000
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046049;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0W-KblVK_1704856762;
-Received: from 30.178.83.60(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W-KblVK_1704856762)
-          by smtp.aliyun-inc.com;
-          Wed, 10 Jan 2024 11:19:23 +0800
-Message-ID: <a56b996e-8d38-42e9-914c-8877182c5cc0@linux.alibaba.com>
-Date: Wed, 10 Jan 2024 11:19:20 +0800
+	Wed, 10 Jan 2024 03:58:37 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=S8qAOBAdlgjbeCpGAN+pfg4DoQyacmfocrvRGCGC9qiFbjeYCKnvD07FiAYczEHioYPZ7MEh4RFm8ST/eZar5uClpt/X14RsfIx+PHobsdoT/890lg0hQqVsyalhv4qtvKIue6rNljahbJoLp5rnrzS0huYzAu+nSvR0PFOdJcuN0bwzd2QIpoJQZZcj/Pq3e4qP9r5Ir2E6CaF/SdA8fzaHosQoyQERUJS4qjv1DDHzos+oKmKtGut4d0O9TAZC8zepmMcJcyfF3uFd9OLtQwNmh8OW6ga/vscrPRp9KCo6b2owBf6XXg6g+0IV8BRQtbKa6uGc0L/TBZk4BYk8yQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D4Pz3Fqe/f8M0e7nZwMmN/0I0cXmhH29hCVKHPPxdxY=;
+ b=aWjHioIZ8HD5e9HHM1ijTqPVoG7TXcjfUy1ZCWeJPz1bJ7Zlc5lIgAFjP/6mUdpirnfXoS6JL8oF80RiYT6ATuEEUEFT2TID2aregMIvJQeQxN7paYt24UW69TAmSYOmI7XjvbSKALOrcQw9jHqvkBPa4tx1d3MQdQi7lwwYy2UrGldYabbCzcbHMv8yKCfAz4xouaSmjFALlX4AYYMF8/mSCSUU1D5mQAHSOlsAnVQ9SH5loGucFABlhmVNVtL6EjfAXLh8zC6APHr920whtXra6yF/UbNMNs6Cb+MC6QkugMf2QZFg39zSF/n2OT2ZjJsWe6tRX5loeZa9cqFKKQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=D4Pz3Fqe/f8M0e7nZwMmN/0I0cXmhH29hCVKHPPxdxY=;
+ b=DAxY/1/N+5UfL4l1sdPNU5zR+jU3BaTrrN40sC9GL230U8H9TgKSZZr9TbySCKMfmLvCLjcCKnqZ3SucGdQgSWrvLpJtl/A2irfL7eEoQzWTwYu9Xx1nFNNpHFpQZVvrJ1MGgux/XKyEanV1MlTRqEFH/HCQvKV6/Z8PthiOKFrQux0hpJ6QDZohAEmvFMb5rj3IPAKriJAQA7XqDForw1A8FaT++88o7prfJvAXMC1WM5OzQmvuTzIhHO4P8EKweK5hAmw0Sj8BAinrda/fhobu7v3icvB7IcC2/r5ymLiM+78mALF/zEf83nwGrFOAUBL7Ndt6u7M58PJ4bybK3Q==
+Received: from SA9PR13CA0003.namprd13.prod.outlook.com (2603:10b6:806:21::8)
+ by IA1PR12MB6553.namprd12.prod.outlook.com (2603:10b6:208:3a3::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.23; Wed, 10 Jan
+ 2024 03:58:24 +0000
+Received: from SN1PEPF0002BA4B.namprd03.prod.outlook.com
+ (2603:10b6:806:21:cafe::37) by SA9PR13CA0003.outlook.office365.com
+ (2603:10b6:806:21::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.15 via Frontend
+ Transport; Wed, 10 Jan 2024 03:58:24 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ SN1PEPF0002BA4B.mail.protection.outlook.com (10.167.242.68) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7181.14 via Frontend Transport; Wed, 10 Jan 2024 03:58:24 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Tue, 9 Jan 2024
+ 19:58:08 -0800
+Received: from dev.nvidia.com (10.126.231.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Tue, 9 Jan 2024
+ 19:58:08 -0800
+From: Chaitanya Kulkarni <kch@nvidia.com>
+To: <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>
+CC: <shinichiro.kawasaki@wdc.com>, Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH] nvme: add nvme pci timeout testcase
+Date: Tue, 9 Jan 2024 19:57:56 -0800
+Message-ID: <20240110035756.9537-1-kch@nvidia.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Guixin Liu <kanie@linux.alibaba.com>
-Subject: Re: [PATCH] nvmet: support reservation feature
-To: Keith Busch <kbusch@kernel.org>
-Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
- linux-nvme@lists.infradead.org
-References: <20240109121008.15925-1-kanie@linux.alibaba.com>
- <ZZ1713_D7MojvHUu@kbusch-mbp>
-Content-Language: en-GB
-In-Reply-To: <ZZ1713_D7MojvHUu@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.126.231.35]
+X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF0002BA4B:EE_|IA1PR12MB6553:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0fc34064-f6b0-4c30-e60c-08dc119064af
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8vWIwR81KAalc0yaTyeCRs+Y4JifPD+f/2T70rJaX0sARtNTtbQsJpN1jBNM5tNAMcUd5/Ng+2x77su6AY0Zu2lNMYccSRGcSRmuotVlJLtU1dD7f8RWluKDgVJr5CZuF9OBAkZAfykQtjy7SE+KzHAa1sBBTZsUCN3MCsR0oMx/CIaGxCi6SV1nHjHxRmqnJMRmH5M2Zg9jow2CBnD//ZR9J/ugZVsLlXq1p1fchzeUOH9wXwSvXFC5HyyBXZsezgbBqoP02is2oCV/zfLLZdwMqFUXPG79j14cVQiGvPseV2W4WU1j2XRyRPlLTWppTwnYa4wq2xliOwWoSaZB0KzPEuG9p35IbMFOYbCbxG6wIS3uqgzCrltQUnti4mTp+Ju8PeTKJNLQjvLXS/WQJlz4mdEFcrQ3o6i4abK9UPSUkbXK2tlfyknLkwGxw49G4AmJpSGMRjIVjTKD3qWrQ7+6Ci475P19f9ww1UGxq/aCEFWC51fwgzeUeEht0vlA/FY6cgcVwDvJsHkPdYZJxHR16U/HF4EdTguuNWMpfwPl/I1cgGSfzSCaW0ZxZ1kULhAsqnvIjazhOKKWFw1dBJ9532b5uDvH2d8dca0841JVo5pLOnpZIsebDXsbRHtrOaySXelemoMvJ8ptn/NDRc7Te01caMLJyQfpYuRJAFGA2jzIp547ZgWL4yzqsrmymWnJ7ykgsTBa8m67P4Hwt6ik9jI1vmZOlrJHFzzJiIhd+2NYJYxBOXr5o0LXvqwDcVraYaAp45XdpSmwC/CE3A==
+X-Forefront-Antispam-Report: CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230031)(4636009)(346002)(376002)(39860400002)(136003)(396003)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(82310400011)(40470700004)(46966006)(36840700001)(40480700001)(40460700003)(83380400001)(70206006)(70586007)(41300700001)(36756003)(7636003)(356005)(54906003)(82740400003)(36860700001)(107886003)(47076005)(16526019)(1076003)(426003)(336012)(2616005)(26005)(5660300002)(2906002)(110136005)(316002)(7696005)(478600001)(6666004)(8936002)(4326008)(8676002)(2101003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2024 03:58:24.0573
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0fc34064-f6b0-4c30-e60c-08dc119064af
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF0002BA4B.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6553
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240109_191931_179521_1EF7274E 
-X-CRM114-Status: GOOD (  24.71  )
+X-CRM114-CacheID: sfid-20240109_195835_937440_A8676C8A 
+X-CRM114-Status: GOOD (  12.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,178 +120,74 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Trigger and test nvme-pci timeout with concurrent fio jobs.
 
-在 2024/1/10 01:01, Keith Busch 写道:
-> On Tue, Jan 09, 2024 at 08:10:08PM +0800, Guixin Liu wrote:
->> This patch implements the reservation feature, includes:
->> 1. reservation register(register, unregister and replace).
->> 2. reservation acquire(acquire, preempt, preempt and abort).
->> 3. reservation release(release and clear).
->> 4. reservation report.
->>
->> And also make reservation configurable, one can set ns to support
->> reservation before enable ns. The default of resv_enable is false.
->>
->> Signed-off-by: Guixin Liu<kanie@linux.alibaba.com>
->> ---
->> Hi guys,
->>      I've implemented the NVMe reservation feature. Please review it, all
->> comments are welcome.
-> Why? If you have a real use case, let's add a blktest example added to
-> that project.
-OK, I will research the blktests, and add some tests.
->>      In addtion, I didn't implement event reporting because I didn't see
->> any handling of these events on the host side. If these events are mandatory
->> to report, please let me know so that I can implement them.
-> User space could be listening for them. The driver doesn't have any
-> particular action to take on a PR event just send a uevent.
->   
-I will analyze which uevents need to be send and implement the 
-notifications.
->>   	 */
->>   	id->nmic = NVME_NS_NMIC_SHARED;
->>   	id->anagrpid = cpu_to_le32(req->ns->anagrpid);
->> -
->> +	id->rescap = NVME_PR_SUPPORT_WRITE_EXCLUSIVE |
->> +		     NVME_PR_SUPPORT_EXCLUSIVE_ACCESS |
->> +		     NVME_PR_SUPPORT_WRITE_EXCLUSIVE_REG_ONLY |
->> +		     NVME_PR_SUPPORT_EXCLUSIVE_ACCESS_REG_ONLY |
->> +		     NVME_PR_SUPPORT_WRITE_EXCLUSIVE_ALL_REGS |
->> +		     NVME_PR_SUPPORT_EXCLUSIVE_ACCESS_ALL_REGS |
->> +		     NVME_PR_SUPPORT_IEKEY_DEF_LATER_VER_1_3;
->>   	memcpy(&id->nguid, &req->ns->nguid, sizeof(id->nguid));
->>   
->>   	id->lbaf[0].ds = req->ns->blksize_shift;
->> @@ -1017,6 +1023,12 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
->>   	if (nvmet_is_passthru_req(req))
->>   		return nvmet_parse_passthru_admin_cmd(req);
->>   
->> +	ret = nvmet_pr_check_cmd_access(req);
->> +	if (unlikely(ret)) {
->> +		req->error_loc = offsetof(struct nvme_common_command, opcode);
->> +		return ret;
->> +	}
-> You're checking this before validating the opcode. I don't think pr
-> access violation should have error precedence over an invalid opcode.
-Agree, I will put it after validating the opcode.
->> +static bool nvmet_is_req_write_cmd_group(struct nvmet_req *req)
->> +{
->> +	struct nvme_command *cmd = req->cmd;
->> +	u8 opcode = cmd->common.opcode;
->> +
->> +	if (req->sq->qid) {
->> +		switch (opcode) {
->> +		case nvme_cmd_flush:
->> +		case nvme_cmd_write:
->> +		case nvme_cmd_write_zeroes:
->> +		case nvme_cmd_dsm:
->> +		case nvme_cmd_write_uncor:
->> +			return true;
->> +		default:
->> +			return false;
->> +		}
->> +	}
->> +	switch (opcode) {
->> +	case nvme_admin_cap_mgmt:
->> +	case nvme_admin_format_nvm:
->> +	case nvme_admin_ns_attach:
->> +	case nvme_admin_ns_mgmt:
->> +	case nvme_admin_sanitize_nvm:
->> +	case nvme_admin_security_send:
->> +		return true;
->> +	default:
->> +		return false;
->> +	}
->> +}
->> +static bool nvmet_is_req_read_cmd_group(struct nvmet_req *req)
->> +{
->> +	struct nvme_command *cmd = req->cmd;
->> +	u8 opcode = cmd->common.opcode;
->> +
->> +	if (req->sq->qid) {
->> +		switch (opcode) {
->> +		case nvme_cmd_read:
->> +		case nvme_cmd_compare:
->> +		case nvme_cmd_verify:
->> +			return true;
->> +		default:
->> +			return false;
->> +		}
->> +	}
->> +	switch (opcode) {
->> +	case nvme_admin_security_recv:
->> +		return true;
->> +	default:
->> +		return false;
->> +	}
->> +}
-> You're checking opcodes that we don't even support. I suggest we stash
-> the Command Effects Log in our target and trust what that reports to
-> deterimine if a command violates a reservation so that this function
-> doesn't need to be kept in sync as new opcodes are created.
+Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+---
+ tests/nvme/050     | 43 +++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/050.out |  2 ++
+ 2 files changed, 45 insertions(+)
+ create mode 100755 tests/nvme/050
+ create mode 100644 tests/nvme/050.out
 
-You mean I should check the opcode is whether supported?
+diff --git a/tests/nvme/050 b/tests/nvme/050
+new file mode 100755
+index 0000000..ba54bcd
+--- /dev/null
++++ b/tests/nvme/050
+@@ -0,0 +1,43 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-3.0+
++# Copyright (C) 2024 Chaitanya Kulkarni.
++#
++# Test NVMe-PCI timeout with FIO jobs by triggering the nvme_timeout function.
++#
++
++. tests/nvme/rc
++
++DESCRIPTION="test nvme-pci timeout with fio jobs."
++
++requires() {
++	_require_nvme_trtype pci
++	_have_fio
++	_nvme_requires
++}
++
++test() {
++	local dev="/dev/nvme0n1"
++
++	echo "Running ${TEST_NAME}"
++
++	echo 1 > /sys/block/nvme0n1/io-timeout-fail
++
++	echo 99 > /sys/kernel/debug/fail_io_timeout/probability
++	echo 10 > /sys/kernel/debug/fail_io_timeout/interval
++	echo -1 > /sys/kernel/debug/fail_io_timeout/times
++	echo  0 > /sys/kernel/debug/fail_io_timeout/space
++	echo  1 > /sys/kernel/debug/fail_io_timeout/verbose
++
++	# shellcheck disable=SC2046
++	fio --bs=4k --rw=randread --norandommap --numjobs=$(nproc) \
++	    --name=reads --direct=1 --filename=${dev} --group_reporting \
++	    --time_based --runtime=1m 2>&1 | grep -q "Input/output error"
++
++	# shellcheck disable=SC2181
++	if [ $? -eq 0 ]; then
++		echo "Test complete"
++	else
++		echo "Test failed"
++	fi
++	modprobe -r nvme
++}
+diff --git a/tests/nvme/050.out b/tests/nvme/050.out
+new file mode 100644
+index 0000000..b78b05f
+--- /dev/null
++++ b/tests/nvme/050.out
+@@ -0,0 +1,2 @@
++Running nvme/050
++Test complete
+-- 
+2.40.0
 
-If I put the checking after validating the opcode, is this still needed？
-
-> Speaking of effects, you also need to update nvmet_get_cmd_effects_nvm()
-> so that it reports support for NVMe reservation opcodes.
-Sure, update it in v2.
->> +u16 nvmet_pr_check_cmd_access(struct nvmet_req *req)
->> +{
->> +	struct nvmet_ctrl *ctrl = req->sq->ctrl;
->> +	struct nvmet_ns *ns = req->ns;
->> +	struct nvmet_pr *pr;
->> +	u16 ret = 0;
->> +
->> +	if (!ns) {
->> +		ns = xa_load(&nvmet_req_subsys(req)->namespaces,
->> +			     le32_to_cpu(req->cmd->common.nsid));
-> This could be the broadcast NSID, 0xffffffff, in which case you have to
-> check all the namespaces for reservations.
-Oh, I miss that, will check this in v2.
->
->> +	/*
->> +	 * The Reservation command group is checked in executing,
->> +	 * allow it here.
->> +	 */
->> +	switch ((u8)pr->rtype) {
->> +	case NVME_PR_WRITE_EXCLUSIVE:
->> +		if (nvmet_is_req_write_cmd_group(req) ||
->> +		    nvmet_is_req_copy_cmd_group(req))
->> +			ret = NVME_SC_RESERVATION_CONFLICT | NVME_SC_DNR;
->> +		break;
->> +	case NVME_PR_EXCLUSIVE_ACCESS:
->> +		if (nvmet_is_req_copy_cmd_group(req) ||
->> +		    nvmet_is_req_read_cmd_group(req) ||
->> +		    nvmet_is_req_write_cmd_group(req))
->> +			ret = NVME_SC_RESERVATION_CONFLICT | NVME_SC_DNR;
->> +		break;
->> +	case NVME_PR_WRITE_EXCLUSIVE_REG_ONLY:
->> +	case NVME_PR_WRITE_EXCLUSIVE_ALL_REGS:
->> +		if ((nvmet_is_req_copy_cmd_group(req) ||
->> +		    nvmet_is_req_write_cmd_group(req)) &&
->> +		    !nvmet_pr_find_registrant_by_hostid(pr, &ctrl->hostid))
->> +			ret = NVME_SC_RESERVATION_CONFLICT | NVME_SC_DNR;
->> +		break;
->> +	case NVME_PR_EXCLUSIVE_ACCESS_REG_ONLY:
->> +	case NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS:
->> +		if ((nvmet_is_req_copy_cmd_group(req) ||
->> +		    nvmet_is_req_read_cmd_group(req) ||
->> +		    nvmet_is_req_write_cmd_group(req)) &&
->> +		    !nvmet_pr_find_registrant_by_hostid(pr, &ctrl->hostid))
->> +			ret = NVME_SC_RESERVATION_CONFLICT | NVME_SC_DNR;
->> +		break;
->> +	default:
->> +		WARN_ON_ONCE(1);
->> +		break;
->> +	}
->> +
->> +unlock:
->> +	read_unlock(&pr->pr_lock);
->> +out:
->> +	if (!req->ns)
->> +		nvmet_put_namespace(ns);
->> +	return ret;
->> +}
 
