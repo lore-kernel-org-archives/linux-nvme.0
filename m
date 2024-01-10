@@ -4,53 +4,181 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5885C3DA6E
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jan 2024 08:46:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 312FEC3DA6E
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jan 2024 08:55:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OjlBCoBK6iMOTMMUY76L+BDaJyUeyx5z2HoMd2zl2Bg=; b=eBQmwWg/FNxS8/GzHVUK0xi6n8
-	GF9RfTW+Bf5n2Qo37/8sutNNSmnb/O3Kl+RqoHGkiVNlv2GDyAA6itKGMSFLE8wsgP0mouoy65iQb
-	pdRloHgZqb1DmyIfzG4a85VeCecUHvPY/NcuGVplWxHiI1h3P3BTX5Im//EhAVcAIQ7NPYrhz30OL
-	fIOo6oYmB50sqXRwt0RDY9X7bVVxXxXAVVcRUuz+CaxWYk91uIgivgQ+HHMW0UDlNK048fm4pJHPj
-	Dh5L3wFr5O8yIxbfbeSCg7/AYeD7MDoSjVHacpDtDH4C2tzxKfZyFHjc+ADYE+QysU0zm2beqINb0
-	rvBvu4+Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=D/oV1V5CqZfxaNSGprerwuhAQb5jgee+fzydaJceHvA=; b=DMtCappqH3NOjnCzfNCpp0ln0Y
+	BKTF3MfvRIE5e/92CxtF9rpmkAqj/FJ3oFanoQ9SWKbs69J7cEjVZsVP0Vl1/Svp/qA3JkZ4m6DHU
+	lXiqmRaS301qrY1KX3hcum9pp79iAZR99yb5HuWbaLOCyulmoxqWEuJT7JvfryxSkQD+NcfWHgBY1
+	8P2ePbSmTqULyc5QBCFhF4YHBSV9BWDelg78AXC+gZ6n00CMaHe2P57auzpeglFeBQuf+6hihufdF
+	5UhzhHXfpRZfrQXbUDwjjAeUD8pUNMqFTmwRFH2Qy71dg5A6xRkxDlai4s1wxAbF8hR8MLKUJT0i+
+	F2vHjnIA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rNUDr-00AmnS-31;
-	Wed, 10 Jan 2024 08:46:03 +0000
-Received: from out30-98.freemail.mail.aliyun.com ([115.124.30.98])
+	id 1rNUNC-00Anjn-2o;
+	Wed, 10 Jan 2024 08:55:42 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rNUDo-00Ammi-23
+	id 1rNUN9-00AnjF-2M
 	for linux-nvme@lists.infradead.org;
-	Wed, 10 Jan 2024 08:46:02 +0000
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046056;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0W-LMsY8_1704876351;
-Received: from 30.178.83.60(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W-LMsY8_1704876351)
-          by smtp.aliyun-inc.com;
-          Wed, 10 Jan 2024 16:45:52 +0800
-Message-ID: <54de4b6d-e5e6-4caf-85f3-a1ea6ddbfe6a@linux.alibaba.com>
-Date: Wed, 10 Jan 2024 16:45:50 +0800
-MIME-Version: 1.0
+	Wed, 10 Jan 2024 08:55:41 +0000
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 40A8qV0F026163;
+	Wed, 10 Jan 2024 08:55:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2023-11-20;
+ bh=D/oV1V5CqZfxaNSGprerwuhAQb5jgee+fzydaJceHvA=;
+ b=B+KLrwdoyeRuQBI62T8hUYcbAybM4JHlpu0Wz7iiicKo/7PjUTzk59Gbvus59GzzJBxP
+ Morj2Bv4PY2ypd6melY8qR3PloS0ewBZXDvsJSWdM/+yW15/2EB1q3X53TeqGkgTYZ85
+ mfiRUyDycKD6NSCiLpt4+eTfE2KZrCG0/oLwZDU6yaSux8L/GszU1SbxxMOB3lSyFGqX
+ gg8buXsbEXu9JpN6SAdd9gzd61wKwnZMgRxIH95E3gugdOOfgudsBKYMeqSsPoLDd8kf
+ rgd642G7y191x+K3WrEdxh95vl+uKR4PVY4Ht/PEyc/+9wFIkN7ec6QUXsiHhDBKpfyw AA== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3vhr3wg05f-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 10 Jan 2024 08:55:20 +0000
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 40A715uD012275;
+	Wed, 10 Jan 2024 08:55:15 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2168.outbound.protection.outlook.com [104.47.56.168])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3vfuwj2ph5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 10 Jan 2024 08:55:15 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Zbk/iLBVsO7sI1x2PfK/uT8fv0NRXQDuL8QoTx8k/gQ+It4zO0VQKHVs4B0EUb1qHePq1euI30BT/QwVv6EmEStLQKUIHn9/bq4VXVZfbVYXly2bdNINw+0R7TKbbKnuIgLinDREkhjCHWmjFpmVih520EJKZ+rm9pDJmiBHNjAzk+GXHGQMQr/R9u+zWNJe7B9gUWDxWAiKxXcsQSs1xo4dkv5fX6M8v4aJylqsSw/VwJNNVo3PqQA3xR+fWtkAS9NT2Jzotu5ZGv8grudQf0uTCq81ri+qa6zK/k3UnvrSPOXpm8SIiYwUuIU5diLm/W2xb4NWPrqMUPGcXsL5Xw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D/oV1V5CqZfxaNSGprerwuhAQb5jgee+fzydaJceHvA=;
+ b=ZCgSNuHaM5Z9qvsQgjsBa8lU7Z1DSQeb9DaiCbWCk50XzW0+81KdOF1iF/vN0TSdLVHOQGPLuxqdPMwOoy+2dLx9B6QSoqXCwmzxheE6h+0+zRc03hEtbNKIz98uwuPwZzLiLMkG8xk+hMl1q9/DixT56Xt5+R9WbtDfB9Zka7PrTCSmNdDjRCoR5UI9/26+2GZezA9zMfQXRlr4UK/vaGeJkLRPgDI7xmRarpDjrfLDjXhS/UkQmWH1QwQqP8j/1v+oLCkMcrZ4ro6Lzcc3pu2Yd5k0ZEaG7JzYYl5kL6GgZHo8+7NopeyN3HDTd5LyXB3jTBHOW/2OOAkeolmx0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=D/oV1V5CqZfxaNSGprerwuhAQb5jgee+fzydaJceHvA=;
+ b=akMR8jFBW2mjInrK+JiOMT6NqWaAh7/jcWu1PRcdNaargjqq8r7gz+Sirb6sJER/AUmDiQWKjLj82FG4LwxEkkjg0iHOtKfSFvpGrGduO/mNf+zQpr1z1V/DKk75mID76O1+oENCUm7XeYvjGE9dcr2BYqNtGcyI4TOZLEsdhS0=
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com (2603:10b6:5:212::20)
+ by SJ2PR10MB6992.namprd10.prod.outlook.com (2603:10b6:a03:4ce::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.21; Wed, 10 Jan
+ 2024 08:55:12 +0000
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::5d80:6614:f988:172a]) by DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::5d80:6614:f988:172a%4]) with mapi id 15.20.7181.015; Wed, 10 Jan 2024
+ 08:55:12 +0000
+Message-ID: <aaa33b4f-dea7-4596-82ce-8c7e6cdaa6ef@oracle.com>
+Date: Wed, 10 Jan 2024 08:55:06 +0000
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvmet: support reservation feature
-Content-Language: en-GB
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>
-References: <20240109121008.15925-1-kanie@linux.alibaba.com>
- <3a2055ff-6e5c-4afc-a0e1-36255d569e5e@nvidia.com>
- <e6427481-73f3-478b-aadb-e59b096805c8@linux.alibaba.com>
- <0652d478-9b46-400b-85ec-b3a2bb54ff67@nvidia.com>
-From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <0652d478-9b46-400b-85ec-b3a2bb54ff67@nvidia.com>
+Subject: Re: [PATCH v2 00/16] block atomic writes
+To: Dave Chinner <david@fromorbit.com>
+Cc: Christoph Hellwig <hch@lst.de>, "Darrick J. Wong" <djwong@kernel.org>,
+        axboe@kernel.dk, kbusch@kernel.org, sagi@grimberg.me,
+        jejb@linux.ibm.com, martin.petersen@oracle.com,
+        viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
+        jack@suse.cz, linux-block@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        tytso@mit.edu, jbongio@google.com, linux-scsi@vger.kernel.org,
+        ming.lei@redhat.com, bvanassche@acm.org, ojaswin@linux.ibm.com
+References: <b8b0a9d7-88d2-45a9-877a-ecc5e0f1e645@oracle.com>
+ <20231213154409.GA7724@lst.de>
+ <c729b03c-b1d1-4458-9983-113f8cd752cd@oracle.com>
+ <20231219051456.GB3964019@frogsfrogsfrogs> <20231219052121.GA338@lst.de>
+ <76c85021-dd9e-49e3-80e3-25a17c7ca455@oracle.com>
+ <20231219151759.GA4468@lst.de>
+ <fff50006-ccd2-4944-ba32-84cbb2dbd1f4@oracle.com>
+ <20231221065031.GA25778@lst.de>
+ <73d03703-6c57-424a-80ea-965e636c34d6@oracle.com>
+ <ZZ3Q4GPrKYo91NQ0@dread.disaster.area>
+Content-Language: en-US
+From: John Garry <john.g.garry@oracle.com>
+Organization: Oracle Corporation
+In-Reply-To: <ZZ3Q4GPrKYo91NQ0@dread.disaster.area>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: LO3P265CA0019.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:387::18) To DM6PR10MB4313.namprd10.prod.outlook.com
+ (2603:10b6:5:212::20)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR10MB4313:EE_|SJ2PR10MB6992:EE_
+X-MS-Office365-Filtering-Correlation-Id: a9e378bf-63f3-4550-4db7-08dc11b9dafd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: aJiPN11Qbv4U14S61fQuIwT2KvsSx6X8r65b/18sDra8Cbm6mEgJut8qOEirqRCM1GQ1ypfCbvPMEsdpGmb810TZ35L+b12pbPHlnrw/IpF0Gn5MkfohAv57PQXm4qpJuEI89eAyThx9uqQyPy5YNlGgEJfa9ja43+ddMi9fUL5oeFuSXgNDooeOYk0p2i6KCNwHvGdTzRbb6jXkERl9uMpfT+SSCrgOWyDGgbwZj7RkufB+9ofJfRBQzA5P1ObIF+hvX93OmgbMRzLCFJl3SS6vdkWY6lP+cf3Z9J2UWxiBpWlgE/5kiRAxnu7NXCHv+9Q66neQwQN9pUcNpfUJH0GNOWAkBe5OaNxZJdikJlQUNGoIIjt3vLi2tejU+3wgWLbr84yeXlOpicLqOVCtmwFkVpXuVGNnVTN/dNjYQ0xhsad3+AjtNMVIaORqfLiqOQydM9Li6qQxiglhCvZr1IvQM8q536e9yhAKWj4ijTS7jKOACdB8NNYa5US9mhmfx1FgAqjx4zw8aiE0jd0aBmludl0/kK5yckgyVG78DhIWwp4+yICrGK7Jg6uFZsJCF6zcksfDA+ELgKYaracp5kanr1qmea3MhgXOPL57XzGVY2+0lbqBlCvNPdjTcNO/mo5Q3SsSYg7jZw0cF0KJrg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4313.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(396003)(366004)(376002)(39860400002)(346002)(230922051799003)(451199024)(1800799012)(64100799003)(186009)(7416002)(5660300002)(66946007)(2906002)(41300700001)(38100700002)(6486002)(36756003)(53546011)(86362001)(83380400001)(6512007)(31696002)(36916002)(6666004)(6506007)(66476007)(26005)(478600001)(66556008)(8676002)(316002)(6916009)(2616005)(8936002)(4326008)(54906003)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UE1YTllvejBkOElaazJKa3RTNGl0K01uTzRpbC93ZWN4cXpOOU93Tk40VG9t?=
+ =?utf-8?B?T0hVdzVueVNUMG4wMlQ4c1ZWZWtIaGtJT1F1SURTQjE3aHZWMDdnbmkvNUtX?=
+ =?utf-8?B?L2tRZGlKMThkbnFUWlZtOTFqYzM2MXFlR09TdklWcTd3WEFHc2VNRXorc3VG?=
+ =?utf-8?B?b3hFbkVyNENudXVvSzF0ZWVuUlJRRUsxVlVJL0hINEFTdzhDMUc1azBwWTQ5?=
+ =?utf-8?B?eWtCMXRVcmNkTzlWVXpVVTlOcmUvRm9DelJEWmE0OEdQZWFmWEtpMGZYYzBU?=
+ =?utf-8?B?UUlQcXhYbGloQmgrOTltZkZNZnBXTFhCdzZYdHlwNklJbzQ4T1B3VlpuM0FT?=
+ =?utf-8?B?dk9zTkJRTlFuaGJnY2huWnF2dHE2R2p0ZCtPa1VqQmpNYnFJTkQ3OUwyUVNB?=
+ =?utf-8?B?akRzdHh0ZHIzWk50OHlMU3BSdytMWnZ4eWkxYWVzc29MRmwyUncvRDgyOU5p?=
+ =?utf-8?B?SHYvMU84OEZCajlxL2hiN3d0Z296YW1Uck1mTnNJbGhMWDVnbHN3d1VlZWZB?=
+ =?utf-8?B?OHd2SFB0NVpySjRrMldqbTdrdWEybWFTVXBXalhXYmxFV0xlNmJ3MTA0dE52?=
+ =?utf-8?B?UXErTGtVK2ZNUnlnQjIrWFVQNFV6VkR0M0dpV3plNDYvdkdvT20wOUZJY3pB?=
+ =?utf-8?B?QWwyd251OHhNRFNRakdzTWFoSmM3MkVyalRMVXg3TlJ4Y3VadUVZZ29ENkt4?=
+ =?utf-8?B?ZEhCRkl0NEhuUk1UM1pIVXFpZVkxRnB3ekw1MjZzWmtTSmRsME9jdEJOcEk5?=
+ =?utf-8?B?Q0gycytpTDBDR2kyWEo2YTVJS1kwZ1hOLzYrUForT0JaajFzTXdrV3dBVmhM?=
+ =?utf-8?B?S05SYkRtNFRHOTNTeGlKTllUVjlIcFh1bzlVR2VCdUxnUjNESWw1TjdJUC9a?=
+ =?utf-8?B?eXN4MzlLZTRQeEhJdDI5dkdGb2tIdWNVWTF1b1dzZFZ3NFR0dDIxN3hNN1J6?=
+ =?utf-8?B?TlpEd2JYY3pPZ0JFaUVxcHp5b0FFeWNDUm5wQjA4OFF1L203dzFKYmxhaXlR?=
+ =?utf-8?B?Z0VBOVZLTEpmM3J5OXV1OTJTazhFdWRMVWxEQmk0K2V6MG1Tc3ZSR0tsRTdu?=
+ =?utf-8?B?azFwSGNETk5wQmdxTUJwR2Q4SWtPWkhpbnQza3hyTmo0UWZwTVlqSUluLzh3?=
+ =?utf-8?B?eTg0L2FuVGdmZGI4S1hacDV5ZGw0aUxyQklCRHdLRTNRam1FSm96bUdzNHdt?=
+ =?utf-8?B?VWY0aXJMbXFRNDFSb2krKzM0V0ZtZ1Zwb1pWakE4ZUxJaUdzWUhUQ3FxSEdD?=
+ =?utf-8?B?VkVicGpMdUVnTjBFd00rTVphQVlYZWpBeU03V21sUklTeVNWMFpGSFJML0RK?=
+ =?utf-8?B?TUR2YjNvbkt0Mit0L0FYd2ptb01wejk5OUV1QzBHbVQ2a09yT3p1dUpnZG0r?=
+ =?utf-8?B?ZUJ0UWJnYk5zd3lUSm5CeStWZGtCdUh3RU1wTU5Pb0x2N2NFVjZoNTlkTTBz?=
+ =?utf-8?B?TGpWMWg0dEJscVRGVkVWdlE2UXA4aG00ZmxFUlVhUGVCNE9WTi96WGlZV3lE?=
+ =?utf-8?B?TzVyWWxMalJWVlA2N01uY3FLc2JDdTVGWjhuRkdXZ1FPTHBmbFhIUGJ0ZUY5?=
+ =?utf-8?B?bE1malZ1cWlwa1FsL2lGVUFwOUI3dDZ1c243dHo4U2M2ZHc1RVdKdjNHVi9k?=
+ =?utf-8?B?ZkhqNTgxd2hYNUZjd0J2S0ZrUE9WNThSZUJ3dmNQcC9mSFpiWVpPUXZ5SzI5?=
+ =?utf-8?B?b25ObmwzSkRscXd4Z3g5aDBFY1lSQ0hmZm1xK1dOWFg3ajZEMVNmVWh5WTRD?=
+ =?utf-8?B?RnNSbFJQUkV0cW15TlRxVXR2bEFWcFI4QmEyWEJkRDRITFFLaDNXa0ZFTjFX?=
+ =?utf-8?B?MmV5Ry90U1ludmxJNGVCRmxQOExxUElJVzY3SmNyUGIySlk5a2pjR3hoM1Zn?=
+ =?utf-8?B?T045dGJycUJwaVJFOThNRnBsQ3lMUU5zVlRBMHVuM1RuQXFwc1ExTXdWb01P?=
+ =?utf-8?B?OW83b0JGOWRKQjMwQ0h0MUhmQTVvTXVKdWJWK2U5WHBKbWRJbStSNDJnQU1v?=
+ =?utf-8?B?UFFVYnM4ZXE4WVNCdUtaOHFWdzlBNlozanJFRU5iMXE0ZlE4YUY5SEEvVzkr?=
+ =?utf-8?B?eEJ5QjVHM3JjT0g5OFF5NmVEamlWMWEvZXZ3VGs5enR2ZDA3NUVXTVVjYUVt?=
+ =?utf-8?B?WlA3VytUVGxGbXBWSUc1TDgzK29sWDlvV3VtZGxWMGxFbWNZdWUyQ3hWVHp1?=
+ =?utf-8?B?K3c9PQ==?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 8YDyxOM9CdeyP0y3+lVViOeu1KnfQl6NoqUPr8CH0sJ9pmG+IubBcANb+ZnpHFU1rM59F7NjsHLZzQeLi94Ygg7t5FD/J+T0MwNKDlouRoY5Rh31LMcbvxTV3As4/nXwLFRGzeHWjVU65rXf0+ikQC/ZRknpobYPfqlrHLCNCWhYcAb1Y8bK1BC2arRvvwfrnhjVHFy6QyyvrHtvSG4y2rkNzUSLHIXVVf3KNOxaWBMM5w8u+gJsSwnfYja5WQD3tIEza2oiv4LTEjY0XYB3vrtPryE8U3/yD7XsHhsrD5T3FN5TiM4YtGeorea+HfCUkaDWETuqq96mtryhx3Pa+cj9I1zDPhCQZ3FcTHlIElsPJ/j/hSC7JNmQOnWzMn6MJmo9wYg7AohVbCwRfhG+beMxQQ0dl803r8i7KSVF3B7EgHO+62qMNHsgEQCdH5gMTkySpQIM2ZJkMhgZqqzeKzjua9jAjVbdwV2Tpq8hN+teQh8vA6bKxRoxE3NAAMPdwlBXmvKol+hPAANw375GDVfvcAL9iZ0UHhwMRnFrEMxLLbLoXvJ4oOJ3uuvgGiYwZEP60pCxJG+/65vq/yNsa0mfP1IsbJTRRREnGNcKJic=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a9e378bf-63f3-4550-4db7-08dc11b9dafd
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4313.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2024 08:55:12.3023
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HOS6gHbBqaCjhW8KJRaJ1LqpBg1atkwy1F2d+73qALXnC5RJUvJZhMpICQ6eIeDv/A1Z53Yk/sk9ZSI8KIzLwg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR10MB6992
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-10_02,2024-01-09_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxscore=0 bulkscore=0
+ mlxlogscore=999 adultscore=0 spamscore=0 phishscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2401100072
+X-Proofpoint-GUID: HweSHLUbVkVvX-qJ7P4uZFxvEWpgBhrE
+X-Proofpoint-ORIG-GUID: HweSHLUbVkVvX-qJ7P4uZFxvEWpgBhrE
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240110_004600_821661_501A568F 
-X-CRM114-Status: GOOD (  18.14  )
+X-CRM114-CacheID: sfid-20240110_005539_805997_7F731BDA 
+X-CRM114-Status: GOOD (  29.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,180 +193,104 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-在 2024/1/10 16:31, Chaitanya Kulkarni 写道:
-> On 1/9/24 21:58, Guixin Liu wrote:
->> 在 2024/1/10 12:34, Chaitanya Kulkarni 写道:
->>> On 1/9/24 04:10, Guixin Liu wrote:
->>>> This patch implements the reservation feature, includes:
->>>> 1. reservation register(register, unregister and replace).
->>>> 2. reservation acquire(acquire, preempt, preempt and abort).
->>>> 3. reservation release(release and clear).
->>>> 4. reservation report.
->>>>
->>>> And also make reservation configurable, one can set ns to support
->>>> reservation before enable ns. The default of resv_enable is false.
->>>>
->>>> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
->>>> ---
->>>> Hi guys,
->>>>        I've implemented the NVMe reservation feature. Please review
->>>> it, all
->>>> comments are welcome.
->>>>        In addtion, I didn't implement event reporting because I
->>>> didn't see
->>>> any handling of these events on the host side. If these events are
->>>> mandatory
->>>> to report, please let me know so that I can implement them.
->>>>
->>>>     drivers/nvme/target/Makefile    |   2 +-
->>>>     drivers/nvme/target/admin-cmd.c |  14 +-
->>>>     drivers/nvme/target/configfs.c  |  27 ++
->>>>     drivers/nvme/target/core.c      |  37 +-
->>>>     drivers/nvme/target/nvmet.h     |  26 ++
->>>>     drivers/nvme/target/pr.c        | 806
->>>> ++++++++++++++++++++++++++++++++
->>>>     include/linux/nvme.h            |  30 ++
->>>>     7 files changed, 939 insertions(+), 3 deletions(-)
->>>>     create mode 100644 drivers/nvme/target/pr.c
->>>>
->>>> diff --git a/drivers/nvme/target/Makefile
->>>> b/drivers/nvme/target/Makefile
->>>> index c66820102493..f9bfc904a5b3 100644
->>>> --- a/drivers/nvme/target/Makefile
->>>> +++ b/drivers/nvme/target/Makefile
->>>> @@ -10,7 +10,7 @@ obj-$(CONFIG_NVME_TARGET_FCLOOP)    += nvme-fcloop.o
->>>>     obj-$(CONFIG_NVME_TARGET_TCP)        += nvmet-tcp.o
->>>>        nvmet-y        += core.o configfs.o admin-cmd.o fabrics-cmd.o \
->>>> -            discovery.o io-cmd-file.o io-cmd-bdev.o
->>>> +            discovery.o io-cmd-file.o io-cmd-bdev.o pr.o
->>>>     nvmet-$(CONFIG_NVME_TARGET_PASSTHRU)    += passthru.o
->>>>     nvmet-$(CONFIG_BLK_DEV_ZONED)        += zns.o
->>>>     nvmet-$(CONFIG_NVME_TARGET_AUTH)    += fabrics-cmd-auth.o auth.o
->>>> diff --git a/drivers/nvme/target/admin-cmd.c
->>>> b/drivers/nvme/target/admin-cmd.c
->>>> index 39cb570f833d..7da6f3085a4c 100644
->>>> --- a/drivers/nvme/target/admin-cmd.c
->>>> +++ b/drivers/nvme/target/admin-cmd.c
->>>> @@ -550,7 +550,13 @@ static void nvmet_execute_identify_ns(struct
->>>> nvmet_req *req)
->>>>          */
->>>>         id->nmic = NVME_NS_NMIC_SHARED;
->>>>         id->anagrpid = cpu_to_le32(req->ns->anagrpid);
->>>> -
->>>> +    id->rescap = NVME_PR_SUPPORT_WRITE_EXCLUSIVE |
->>>> +             NVME_PR_SUPPORT_EXCLUSIVE_ACCESS |
->>>> +             NVME_PR_SUPPORT_WRITE_EXCLUSIVE_REG_ONLY |
->>>> +             NVME_PR_SUPPORT_EXCLUSIVE_ACCESS_REG_ONLY |
->>>> +             NVME_PR_SUPPORT_WRITE_EXCLUSIVE_ALL_REGS |
->>>> +             NVME_PR_SUPPORT_EXCLUSIVE_ACCESS_ALL_REGS |
->>>> +             NVME_PR_SUPPORT_IEKEY_DEF_LATER_VER_1_3;
->>>>         memcpy(&id->nguid, &req->ns->nguid, sizeof(id->nguid));
->>>>            id->lbaf[0].ds = req->ns->blksize_shift;
->>>> @@ -1017,6 +1023,12 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
->>>>         if (nvmet_is_passthru_req(req))
->>>>             return nvmet_parse_passthru_admin_cmd(req);
->>>>     +    ret = nvmet_pr_check_cmd_access(req);
->>>> +    if (unlikely(ret)) {
->>>> +        req->error_loc = offsetof(struct nvme_common_command, opcode);
->>>> +        return ret;
->>>> +    }
->>>> +
->>>>         switch (cmd->common.opcode) {
->>>>         case nvme_admin_get_log_page:
->>>>             req->execute = nvmet_execute_get_log_page;
->>>> diff --git a/drivers/nvme/target/configfs.c
->>>> b/drivers/nvme/target/configfs.c
->>>> index d937fe05129e..1ac4802ec818 100644
->>>> --- a/drivers/nvme/target/configfs.c
->>>> +++ b/drivers/nvme/target/configfs.c
->>>> @@ -714,6 +714,32 @@ static ssize_t
->>>> nvmet_ns_revalidate_size_store(struct config_item *item,
->>>>        CONFIGFS_ATTR_WO(nvmet_ns_, revalidate_size);
->>>>     +static ssize_t nvmet_ns_resv_enable_show(struct config_item
->>>> *item, char *page)
->>>> +{
->>>> +    return sprintf(page, "%d\n", to_nvmet_ns(item)->pr.enable);
->>>> +}
->>>> +
->>>> +static ssize_t nvmet_ns_resv_enable_store(struct config_item *item,
->>>> +                    const char *page, size_t count)
->>>> +{
->>>> +    struct nvmet_ns *ns = to_nvmet_ns(item);
->>>> +    bool val;
->>>> +
->>>> +    if (kstrtobool(page, &val))
->>>> +        return -EINVAL;
->>>> +
->>>> +    mutex_lock(&ns->subsys->lock);
->>>> +    if (ns->enabled) {
->>>> +        pr_err("the ns:%d is already enabled.\n", ns->nsid);
->>>> +        mutex_unlock(&ns->subsys->lock);
->>>> +        return -EINVAL;
->>>> +    }
->>>> +    ns->pr.enable = val;
->>>> +    mutex_unlock(&ns->subsys->lock);
->>>> +    return count;
->>>> +}
->>>> +CONFIGFS_ATTR(nvmet_ns_, resv_enable);
->>>> +
->>>>     static struct configfs_attribute *nvmet_ns_attrs[] = {
->>>>         &nvmet_ns_attr_device_path,
->>>>         &nvmet_ns_attr_device_nguid,
->>>> @@ -722,6 +748,7 @@ static struct configfs_attribute
->>>> *nvmet_ns_attrs[] = {
->>>>         &nvmet_ns_attr_enable,
->>>>         &nvmet_ns_attr_buffered_io,
->>>>         &nvmet_ns_attr_revalidate_size,
->>>> +    &nvmet_ns_attr_resv_enable,
->>>>     #ifdef CONFIG_PCI_P2PDMA
->>>>         &nvmet_ns_attr_p2pmem,
->>>>     #endif
->>>> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
->>>> index 3935165048e7..8eab81804b14 100644
->>>> --- a/drivers/nvme/target/core.c
->>>> +++ b/drivers/nvme/target/core.c
->>>> @@ -598,6 +598,7 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
->>>>         subsys->nr_namespaces++;
->>>>            nvmet_ns_changed(subsys, ns->nsid);
->>>> +    nvmet_pr_init_ns(ns);
->>>>         ns->enabled = true;
->>>>         ret = 0;
->>>>     out_unlock:
->>>> @@ -651,6 +652,7 @@ void nvmet_ns_disable(struct nvmet_ns *ns)
->>>>            subsys->nr_namespaces--;
->>>>         nvmet_ns_changed(subsys, ns->nsid);
->>>> +    nvmet_pr_clean_all_registrants(&ns->pr);
->>>>         nvmet_ns_dev_disable(ns);
->>>>     out_unlock:
->>>>         mutex_unlock(&subsys->lock);
->>>> @@ -904,6 +906,16 @@ static u16 nvmet_parse_io_cmd(struct nvmet_req
->>>> *req)
->>>>             return ret;
->>>>         }
->>>>     +    ret = nvmet_pr_check_cmd_access(req);
->>>> +    if (unlikely(ret)) {
->>>> +        req->error_loc = offsetof(struct nvme_common_command, opcode);
->>>> +        return ret;
->>>> +    }
->>>> +
->>>> +    ret = nvmet_parse_pr_cmd(req);
->>>> +    if (!ret)
->>>> +        return ret;
->>>> +
->>> Can we make this feature configurable via Kconfig? If someone doesn't
->>> want to
->>> use PR, they will have to bear the cost of these checks in the fast
->>> path.
->> Yeah, I have added a resv_enable in configfs, the default is false,
->> one can
+On 09/01/2024 23:04, Dave Chinner wrote:
+>> --- a/include/uapi/linux/fs.h
+>> +++ b/include/uapi/linux/fs.h
+>> @@ -118,7 +118,8 @@ struct fsxattr {
+>>         __u32           fsx_nextents;   /* nextents field value (get)   */
+>>         __u32           fsx_projid;     /* project identifier (get/set) */
+>>         __u32           fsx_cowextsize; /* CoW extsize field value
+>> (get/set)*/
+>> -       unsigned char   fsx_pad[8];
+>> +       __u32           fsx_atomicwrites_size; /* unit max */
+>> +       unsigned char   fsx_pad[4];
+>> };
 >>
->> make reservation enable before enable namespace.
-> Why can't we make it KConfig option ? Is there any particular reason for
-> not doing that ? That will also allow user to avoid kernel compilation
-> of code if they want to turn it off.
->
-> -ck
->
-OK, I will add a Kconfig option.
+>> /*
+>> @@ -140,6 +141,7 @@ struct fsxattr {
+>> #define FS_XFLAG_FILESTREAM    0x00004000      /* use filestream allocator
+>> */
+>> #define FS_XFLAG_DAX           0x00008000      /* use DAX for IO */
+>> #define FS_XFLAG_COWEXTSIZE    0x00010000      /* CoW extent size
+>> allocator hint */
+>> +#define FS_XFLAG_ATOMICWRITES  0x00020000
+>> #define FS_XFLAG_HASATTR       0x80000000      /* no DIFLAG for this   */
+>>
+>> /* the read-only stuff doesn't really belong here, but any other place is
+>> lines 1-22/22 (END)
+>>
+>> Having FS_XFLAG_ATOMICWRITES set will lead to FMODE_CAN_ATOMIC_WRITE being
+>> set.
+>>
+>> So a user can issue:
+>>
+>>> xfs_io -c "atomic-writes 64K" mnt/file
+>>> xfs_io -c "atomic-writes" mnt/file
+>> [65536] mnt/file
+> Where are you going to store this value in the inode?  It requires a
+> new field in the inode and so is a change of on-disk format, right?
+
+It would require an on-disk format change, unless we can find an 
+alternative way to store the value, like:
+a. re-use pre-existing extsize or even cowextsize fields and 'xfs_io -c 
+"atomic-writes $SIZE"' would update those fields and 
+FS_XFLAG_ATOMICWRITES would be incompatible with FS_XFLAG_COWEXTSIZE or 
+FS_XFLAG_EXTSIZE
+b. require FS_XFLAG_EXTSIZE and extsize be also set to enable atomic 
+writes, and extsize is used for atomic write unit max
+
+I'm trying to think of ways to avoid requiring a value, but I don't see 
+good options, like:
+- make atomic write unit max some compile-time option
+- require mkfs stripe alignment/width be set and use that as basis for 
+atomic write unit max
+
+We could just use the atomic write unit max which HW provides, but that 
+could be 1MB or more and that will hardly give efficient data usage for 
+small files. But maybe we don't care about that if we expect this 
+feature to only be used on DB files, which can be huge anyway. However I 
+still have concerns – we require that value to be fixed, but a disk 
+firmware update could increase that value and this could mean we have 
+what would be pre-existing mis-aligned extents.
+
+> 
+> As it is, I really don't see this as a better solution than the
+> original generic "force align" flag that simply makes the extent
+> size hint alignment a hard physical alignment requirement rather
+> than just a hint. This has multiple uses (DAX PMD alignment is
+> another), so I just don't see why something that has a single,
+> application specific API that implements a hard physical alignment
+> is desirable.
+
+I would still hope that we will support forcealign separately for those 
+purposes.
+
+> 
+> Indeed, the whole reason that extent size hints are so versatile is
+> that they implement a generic allocation alignment/size function
+> that can be used for anything your imagination extends to. If they
+> were implemented as a "only allow RAID stripe aligned/sized
+> allocation" for the original use case then that functionality would
+> have been far less useful than it has proven to be over the past
+> couple of decades.
+> 
+> Hence history teaches us that we should be designing the API around
+> the generic filesystem function required (hard alignment of physical
+> extent allocation), not the specific use case that requires that
+> functionality.
+
+I understand your concern. However I am not even sure that forcealign 
+even gives us everything we want to enable atomic writes. There is an 
+issue where we were required to pre-zero a file prior to issuing atomic 
+writes to ensure extents are suitably sized, so FS_XFLAG_ATOMICWRITES 
+would make the FS do what is required to avoid that pre-zeroing (but 
+that pre-zeroing requirement that does sound like a forcealign issue...)
+
+Furthermore, there was some desire to support atomic writes on block 
+devices with no HW support by using a CoW-based solution, and forcealign 
+would not be relevant there.
+
+Thanks,
+John
+
 
