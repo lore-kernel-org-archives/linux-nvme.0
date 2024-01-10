@@ -4,85 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 15D37C47073
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jan 2024 17:16:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1ACF3C4707B
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jan 2024 17:58:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jGa7M+RVSIU6eb5GgLKw++O92ls2gRTpR1kY46luj94=; b=eMGRpFQdliN8KU6pLb2RlPKlHw
-	HZJL4I/pgIIceeqSDGV+1RQnvfiJCn0hlGHnisatLk/ole67JjIKTV+6JJWKIPQGwt3rn2gYa1Y4d
-	RYyvioTrI0ytwAtWvfJajScTjI4VvNK/9gQ3si+1YlqMKyVivb2wRX212Z/BO/hTLrJLl6htnxyVt
-	PWdBNwQS0vnbm9NO7EO+j3kufBGP4mZHrimo5Em/KX/DACp/ABhSizxF2e6/IZm63PTQXauR889e3
-	2I4N67JpNocHJ9ucvoXQ1GSlj3tDOcs6iNCTk5Q3HWSx/EPcs/oMAG5nP9FUzV+F7GwWfF0m4Hssh
-	8rv1IR7Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=V8FKAtHagTGdp+uxF7N2+IP7iFiHuwdl75mB278C3X4=; b=34MsokLlGuxYLntp8K6QrQlK4V
+	7794k+wdVssY2exbYbWr/YkXE5gLQXFdIFAvJmfJb//6u/DNfyXMtZQuhEnX8x4mh47nrFBxkbXRC
+	Wbn9qDM3re88uurbXndBh6fag5zF3lqMsQllMQubP2ESaAOU5qoTdH4h0IxUzYVsWFLR16Kp+5xYQ
+	SoDYW8hH32CULGomXebwFzo+kkec9S9qKms+ZfxHg76QTYv6zBY8tVfpMwDk+vzIpZSYaTz7iNowe
+	OPlqkcbaf2CupyQlRyZ6sMXLcxoe0oy+ZAq93g0C1hq8lM6DebrvblRfH1HdkmwStDUJDxvFzWVgT
+	u4EktFfw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rNcBU-00D656-0i;
-	Wed, 10 Jan 2024 17:16:08 +0000
-Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36])
+	id 1rNcpw-00DK8d-3D;
+	Wed, 10 Jan 2024 17:57:57 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rNcBR-00D638-1d
+	id 1rNcpu-00DK72-0c
 	for linux-nvme@lists.infradead.org;
-	Wed, 10 Jan 2024 17:16:06 +0000
-Received: by mail-io1-xd36.google.com with SMTP id ca18e2360f4ac-7bb5be6742fso51830339f.1
-        for <linux-nvme@lists.infradead.org>; Wed, 10 Jan 2024 09:16:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1704906962; x=1705511762; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jGa7M+RVSIU6eb5GgLKw++O92ls2gRTpR1kY46luj94=;
-        b=FwpgIUVOaMzBHnM9eIbWURR4r8l/DXcUHEa2pq9JT4MDOltEL3gAc9lN1LdAJUpSQd
-         EVCo3tnvlTotw7vrbKMGTC9jNZx6vLJpcgte/8esDfqIEzpxsXMZhhRAiMTsBKM0X5Yq
-         PnjXk+kniRBuvhFuKhIFAlW1gehnDYqfLEUKNkSTQRIdTBhWvs/vlc/d8xxQ9Nc2JdB2
-         8hAip13GsLuq2iFCle7hRthJVDOK8DsAd01+I6qWhqqyID8FNbzYdppfEPWESFQJdtkx
-         AhFpPhkHV2kKPv21VJU1sjeef8XurDbSj1nB/GNOgFdnCxzrMEttZgcFkv/ZRFsKzUcJ
-         XR2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704906962; x=1705511762;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jGa7M+RVSIU6eb5GgLKw++O92ls2gRTpR1kY46luj94=;
-        b=kRHuYqDyi7tsV7sQsPBXCNnBI2aKQiRNJE2ev0/BRtGbv6bE+cblAr0IeaQ2BclhVQ
-         HegtkNivep0L+0exeP6XKuo5An/g3ealKmWGVBQoHPN/izlmnuGpxvU13WHkeXdiZCRd
-         UxhUuGYtnKnPB7/nXLBr88bgRYuLUA4IIMj2euGgqKty/WxAmOw5ILe4c5cIqQZredsE
-         jhSrn7CnGdtShY5IGPaWnwFFrpsNnv2m7egeqY0NEKv+r7hGPlDEGMrcHY4tbhb5Y4CJ
-         myAi4V3dT+xziQ2aZM77ooPvxyh8AX40nyihSGu2N8oLKm6zpj12k09uGFXPbm8OBLTP
-         mK/Q==
-X-Gm-Message-State: AOJu0YygCXEXPPOU0N0IdfrOuVdkkMFYSiJTN9X/0BtKyl0MpVRybC5H
-	X2rpJJdIvjRqKQa5jT6ATBV3yvNSa3DyiY62wRatNsSYdl6Ybw==
-X-Google-Smtp-Source: AGHT+IGiI3yKHRmc6Zyx0CyxcDxiCbs2YyWJPiHS8+YbGIDr9goI7UrxluengVMujJui0EnXTzlOmg==
-X-Received: by 2002:a5e:890c:0:b0:7be:e080:6869 with SMTP id k12-20020a5e890c000000b007bee0806869mr2937650ioj.1.1704906962433;
-        Wed, 10 Jan 2024 09:16:02 -0800 (PST)
-Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id w5-20020a029005000000b0046df4450843sm1372806jaf.50.2024.01.10.09.16.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jan 2024 09:16:01 -0800 (PST)
-Message-ID: <28ab4dea-782f-4cd8-adbc-9bcdf6aad2ab@kernel.dk>
-Date: Wed, 10 Jan 2024 10:16:00 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+	Wed, 10 Jan 2024 17:57:55 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id DC326617EA;
+	Wed, 10 Jan 2024 17:57:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AD99C433F1;
+	Wed, 10 Jan 2024 17:57:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704909472;
+	bh=/aVUftzx5R6EVk2Wz8C/SG1p3tg9lFAKcrt2WO5Hq6Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EKcO2UJw0ZM3KywBws0bnPDwwbfKKvx1NgVgWMcNCE0eWwWW29585tNE9ms2Njf0W
+	 TKf0bW+fj/ctPMv3KESY5iVQCJYzc8QjGeFTPAZqt50hFGoJfjExObL8+h3XD+noWT
+	 CzjosJfjr7/7qyRkVNfn2gXFqBlnh1YPT3ehlPfjOenObJPmW1dXMwKKDX4qip/Hrd
+	 CZHSV94psbBM8sPI/RM1f/s2h98nWjYTWx0KNVgYXnONyTsPN8x95uJXD0qWqbTTek
+	 bPpBdXZd5tzRIm53Wybh8OjMpRHVStXCaTf/RrQ8JHtdZyqohIBO5vhcZcaVfEz/AN
+	 1WhoIZ1J9gPdQ==
+Date: Wed, 10 Jan 2024 10:57:49 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Guixin Liu <kanie@linux.alibaba.com>
+Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
+	linux-nvme@lists.infradead.org
 Subject: Re: [PATCH] nvmet: support reservation feature
-Content-Language: en-US
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- Guixin Liu <kanie@linux.alibaba.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>
+Message-ID: <ZZ7anaPnLxW1_Byt@kbusch-mbp>
 References: <20240109121008.15925-1-kanie@linux.alibaba.com>
- <3a2055ff-6e5c-4afc-a0e1-36255d569e5e@nvidia.com>
- <e6427481-73f3-478b-aadb-e59b096805c8@linux.alibaba.com>
- <0652d478-9b46-400b-85ec-b3a2bb54ff67@nvidia.com>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <0652d478-9b46-400b-85ec-b3a2bb54ff67@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <ZZ1713_D7MojvHUu@kbusch-mbp>
+ <a56b996e-8d38-42e9-914c-8877182c5cc0@linux.alibaba.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a56b996e-8d38-42e9-914c-8877182c5cc0@linux.alibaba.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240110_091605_539367_7CC17A10 
-X-CRM114-Status: GOOD (  15.02  )
+X-CRM114-CacheID: sfid-20240110_095754_293070_FB74F853 
+X-CRM114-Status: GOOD (  16.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,45 +74,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/10/24 1:31 AM, Chaitanya Kulkarni wrote:
->>>> @@ -904,6 +906,16 @@ static u16 nvmet_parse_io_cmd(struct nvmet_req 
->>>> *req)
->>>>            return ret;
->>>>        }
->>>>    +    ret = nvmet_pr_check_cmd_access(req);
->>>> +    if (unlikely(ret)) {
->>>> +        req->error_loc = offsetof(struct nvme_common_command, opcode);
->>>> +        return ret;
->>>> +    }
->>>> +
->>>> +    ret = nvmet_parse_pr_cmd(req);
->>>> +    if (!ret)
->>>> +        return ret;
->>>> +
->>> Can we make this feature configurable via Kconfig? If someone doesn't
->>> want to
->>> use PR, they will have to bear the cost of these checks in the fast 
->>> path.
->>
->> Yeah, I have added a resv_enable in configfs, the default is false, 
->> one can
->>
->> make reservation enable before enable namespace.
+On Wed, Jan 10, 2024 at 11:19:20AM +0800, Guixin Liu wrote:
+> 在 2024/1/10 01:01, Keith Busch 写道:
+>
+> > User space could be listening for them. The driver doesn't have any
+> > particular action to take on a PR event just send a uevent.
+>
+> I will analyze which uevents need to be send and implement the
+> notifications.
+
+Sorry, there's a part missing from my reply. I mean the host driver
+sends a uevent for unhandled AEN responses. The target doesn't do the
+uevent; it just needs to send an appropriate AEN when applicable.
+
+> > You're checking opcodes that we don't even support. I suggest we stash
+> > the Command Effects Log in our target and trust what that reports to
+> > deterimine if a command violates a reservation so that this function
+> > doesn't need to be kept in sync as new opcodes are created.
 > 
-> Why can't we make it KConfig option ? Is there any particular reason
-> for not doing that ? That will also allow user to avoid kernel
-> compilation of code if they want to turn it off.
+> You mean I should check the opcode is whether supported?
+> 
+> If I put the checking after validating the opcode, is this still needed？
 
-Kernel config options generally don't fix anything, as distros enable
-everything anyway. It's mostly used as a cop-out if adding something and
-people complain that it's slowing things down, and then the answer is
-"well you can just not enable it". Not useful when distros blindly
-enable everything anyway, it solves absolutely nothing.
-
-Either it's cheap enough that it should just be generally available, or
-it should be written in such a way that it is cheap enough.
-
--- 
-Jens Axboe
-
+What I meant was using effects to see if a command would violate a
+reservation. For example, instead of explicitly defining a case for
+opcode nvme_write_cmd, you can check the log page for the LBCC
+attribute.
 
