@@ -4,56 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 39C6FC4707B
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jan 2024 21:40:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 94F81C4707B
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jan 2024 22:27:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Z0SCFDs/xyWFcKjL8HivuaaJIZoauQ3R/9rYxDl4VMQ=; b=xacC2S8apSDWWNUt5/dXXljwGD
-	ZuU4eJfZIX1TYqOsBgElL763qGBFVhOZlIQ99jUXcxdcf/QSPC0/snkkVJMHJCv54AtmoUmha8zYM
-	y7/pL3uPL1fm2e1skbmD9orSO04p3E7AokprYCt/nCAtT0JNLFUDBhUbaE6htK3tMo7waj91RwIi4
-	w03EAWFEtOGCSrYs7BcTXDYKIeMwI1rAqKyvkP7vNhdjVA+s3iplwX2lkMknTIBc8k+sV6yT0q9rY
-	uhLMjBDinJm4n9VVo3kqOXHy+wRrvUgPb3mSyqMiZSbxnSHKrYvhpSkDDKmKODh5zCj2I/dnFf/dQ
-	GdCMRzIQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=E4cjUFpAaxNghmr8LUZ7v5C5NqE2mQJ+A+Isez+wOf0=; b=Jb82Dl7bn4M4+gZRtM299SLHrx
+	kDFAkgoUc2VJja6qaUM0bZPrqc2sf9U9nJIU1UdGZUfAYBoO5NX+LhYkB9M3ziZOUkbe38rSPH7XY
+	H6M8L+RL3jNUEdWNMEsYk6baOq3D6OQw288yYVPkR5uvKjWKB0KweeVcgRUAAkOJ3b4uNVEHN19a0
+	IoJWzx42dfMpTSLS7rJBOIGZzU5q8ZIcG1FpaQj6qb/nczSPYgT3EPCiBiecGTXorHPLgLYzBkzmZ
+	h2CSmWVYmIijzsQkkigb8oTQeOAsqxBN0VCftJPED+SkThGDUYdzg9jtRfGhfXJ+34i3odUtvUKK3
+	ZlnRt4qg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rNgJe-00EJht-10;
-	Wed, 10 Jan 2024 21:40:50 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1rNh31-00ETOM-1M;
+	Wed, 10 Jan 2024 22:27:43 +0000
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rNgJb-00EJhI-0W
+	id 1rNh2x-00ETMo-2E
 	for linux-nvme@lists.infradead.org;
-	Wed, 10 Jan 2024 21:40:48 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 7A544CE1DB4;
-	Wed, 10 Jan 2024 21:40:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07AFDC433C7;
-	Wed, 10 Jan 2024 21:40:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704922844;
-	bh=+924m4T7CsS7DG0o/yOp+h8q/EsxpbdrvBT8B3DZr74=;
-	h=Date:From:To:Cc:Subject:From;
-	b=AHGBnn27gnVOrWZQ+ogvjs8djyJyoyuweisOL2kOaMKdrNElkfKzF0oiY+FJ/b3AR
-	 mBgd876uL7s5GuwQ8ppe6NcHs65nDlUMYd91DCU0DPoOYGNj+AO8Ao7pOT6fn2dfRI
-	 df+rKXKhjF+Y+CjkH+vO84f0Y9qZjta9Lpf5YOFuOjYotaMxAlVcRn97g3k1INW+2R
-	 qdS37jDNsRSG9c5szb/RC0zb+uUxJtvnuPL9w1TBX4xYKK7FRpN38Z7w2u8Bt3cMwF
-	 H6medJHW9A1Z8WVulI6L9vxDArD8ZR/6mh3VHXKzAg4gzJTf6HIMU4eLEIqKGoxQu6
-	 uenYDtryzHMAA==
-Date: Wed, 10 Jan 2024 14:40:42 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: axboe@kernel.dk
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
-Subject: [GIT PULL] nvme follow-up updates for Linux 6.8
-Message-ID: <ZZ8O2rVaFSnPQoGG@kbusch-mbp>
+	Wed, 10 Jan 2024 22:27:41 +0000
+Received: by mail-pj1-x102b.google.com with SMTP id 98e67ed59e1d1-2866b15b013so1225067a91.0
+        for <linux-nvme@lists.infradead.org>; Wed, 10 Jan 2024 14:27:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1704925658; x=1705530458; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=E4cjUFpAaxNghmr8LUZ7v5C5NqE2mQJ+A+Isez+wOf0=;
+        b=yrmiDlCsMI4UZeZ89E6qIOCHsLKMp8cvEybuaJ+no55RWdu8NYJ5qqCAas9srpq0H/
+         IwLObGB2cx5hu49jJ/6oGlAn6aMOQgq8j9kRkofx7M5uZWiXOCOsHcU3n0vuX9PHW9to
+         uOk0g62Nuu6YNSBg1wvmbwSKvW8pQkBhejohYjrXUmH3NGgRV1v6i2PNfDKY79vRaLcJ
+         8x4Nc/ohau0Fa9YH0wkTrIXsWs4UKlNY46VArpblcv3hk8h5UepnDfyokz1Q6eWxvsBt
+         ku2nSVifiOsEDRkkFgPZeDJxv/RKC15coavgG+PhCarhDelGi9xMGvUp4l2k3qpPK/6P
+         Stsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704925658; x=1705530458;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=E4cjUFpAaxNghmr8LUZ7v5C5NqE2mQJ+A+Isez+wOf0=;
+        b=hFbMZbmZfFqC2OQgXyqF+51U2856aPscIWHQLAp+el1BDL/Pt7qnLkPrnqu8u/Zqwo
+         SNaIQlKxO0fueFWHbQbjae7q9paAjj+rnRNRnX2ftDJsKIQfXEv15QVzRdYVL2wDxtoM
+         Hi1HSZHQ8qV3PMv6pAPfVCBVoTfcxAvT8/tM169CfDmdHTiS8fJRttBzc+DH7eaVRcrW
+         6u8t9vBjzXC5sIngy61pl7j3ioijQfm+kQnLBIZd7LPYtyEWVDsBst53sj4Jokhsh3++
+         BEWKbGpCuVu7h1UbWhXvGWVu70TokaO5Xv+MMTbROuenhPLF/roTv0vt9kbL7NYetvSZ
+         fMNw==
+X-Gm-Message-State: AOJu0Yzi8K/dWiyx7BUCA/OUIGzhWKp6vA/huX1QdOBogC5lgVKOkSTC
+	fURCnjw4gdtvhOckKSYVIK39CtEm/OIv9w==
+X-Google-Smtp-Source: AGHT+IFkWxef9Hn2rbsysq8VBuFtIuVLbCJ3G9oN7JOQnRKqkKDG5Cdwbs0EAdijE+/RPAHYifEwjg==
+X-Received: by 2002:a17:90b:3903:b0:28c:fe8c:aa93 with SMTP id ob3-20020a17090b390300b0028cfe8caa93mr420792pjb.1.1704925658323;
+        Wed, 10 Jan 2024 14:27:38 -0800 (PST)
+Received: from [192.168.1.150] ([198.8.77.194])
+        by smtp.gmail.com with ESMTPSA id jw3-20020a170903278300b001d3ec25614bsm4136214plb.24.2024.01.10.14.27.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Jan 2024 14:27:37 -0800 (PST)
+Message-ID: <04c37721-8abe-4795-a601-145eeaa16ffa@kernel.dk>
+Date: Wed, 10 Jan 2024 15:27:36 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [GIT PULL] nvme follow-up updates for Linux 6.8
+Content-Language: en-US
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me
+References: <ZZ8O2rVaFSnPQoGG@kbusch-mbp>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <ZZ8O2rVaFSnPQoGG@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240110_134047_542113_92B3731C 
-X-CRM114-Status: GOOD (  10.17  )
+X-CRM114-CacheID: sfid-20240110_142739_958133_2CB59E0C 
+X-CRM114-Status: GOOD (  10.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,89 +92,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The following changes since commit 31e4fac930814f2f92eb6ebac9c4d4e3b09f7aaf:
+On 1/10/24 2:40 PM, Keith Busch wrote:
+> The following changes since commit 31e4fac930814f2f92eb6ebac9c4d4e3b09f7aaf:
+> 
+>   mtd_blkdevs: use the default discard granularity (2023-12-29 08:44:12 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.infradead.org/nvme.git tags/nvme-6.8-2024-1-10
+> 
+> for you to fetch changes up to 31deaeb11ba7a885116c9c30892b9f763c04d59c:
+> 
+>   nvmet-rdma: avoid circular locking dependency on install_queue() (2024-01-10 13:27:45 -0800)
+> 
+> ----------------------------------------------------------------
+> nvme follow-up updates for Linux 6.8
+> 
+>  - tcp, fc, and rdma target fixes (Maurizio, Daniel, Hannes, Christoph)
+>  - discard fixes and improvements (Christoph)
+>  - timeout debug improvements (Keith, Max)
+>  - various cleanups (Daniel, Max, Giuxen)
+>  - trace event string fixes (Arnd)
+>  - shadow doorbell setup on reset fix (William)
+>  - a write zeroes quirk for SK Hynix (Jim)
 
-  mtd_blkdevs: use the default discard granularity (2023-12-29 08:44:12 -0700)
+Pulled, thanks.
 
-are available in the Git repository at:
+-- 
+Jens Axboe
 
-  git://git.infradead.org/nvme.git tags/nvme-6.8-2024-1-10
 
-for you to fetch changes up to 31deaeb11ba7a885116c9c30892b9f763c04d59c:
-
-  nvmet-rdma: avoid circular locking dependency on install_queue() (2024-01-10 13:27:45 -0800)
-
-----------------------------------------------------------------
-nvme follow-up updates for Linux 6.8
-
- - tcp, fc, and rdma target fixes (Maurizio, Daniel, Hannes, Christoph)
- - discard fixes and improvements (Christoph)
- - timeout debug improvements (Keith, Max)
- - various cleanups (Daniel, Max, Giuxen)
- - trace event string fixes (Arnd)
- - shadow doorbell setup on reset fix (William)
- - a write zeroes quirk for SK Hynix (Jim)
-
-----------------------------------------------------------------
-Arnd Bergmann (2):
-      nvmet: re-fix tracing strncpy() warning
-      nvme: trace: avoid memcpy overflow warning
-
-Christoph Hellwig (6):
-      nvme-common: mark nvme_tls_psk_prio static
-      nvmet-tcp: fix a missing endianess conversion in nvmet_tcp_try_peek_pdu
-      nvme: update the explanation for not updating the limits in nvme_config_discard
-      nvme: also skip discard granularity updates in nvme_config_discard
-      nvme: fix max_discard_sectors calculation
-      nvme: simplify the max_discard_segments calculation
-
-Daniel Wagner (3):
-      nvmet-fc: remove unnecessary bracket
-      nvmet-trace: avoid dereferencing pointer too early
-      nvmet-fcloop: Remove remote port from list when unlinking
-
-Guixin Liu (2):
-      nvme: tcp: remove unnecessary goto statement
-      nvme: introduce nvme_disk_is_ns_head helper
-
-Hannes Reinecke (2):
-      nvmet-tcp: avoid circular locking dependency on install_queue()
-      nvmet-rdma: avoid circular locking dependency on install_queue()
-
-Jim.Lin (1):
-      nvme-pci: disable write zeroes for SK Hynix BC901
-
-Keith Busch (1):
-      nvme-pci: enhance timeout kernel log
-
-Maurizio Lombardi (4):
-      nvmet-tcp: Fix a kernel panic when host sends an invalid H2C PDU length
-      nvmet-tcp: fix a crash in nvmet_req_complete()
-      nvmet-tcp: remove boilerplate code
-      nvmet-tcp: Fix the H2C expected PDU len calculation
-
-Max Gurtovoy (3):
-      nvme: remove unused definition
-      nvme-rdma: enhance timeout kernel log
-      nvme-tcp: enhance timeout kernel log
-
-William Butler (1):
-      nvme-pci: set doorbell config before unquiescing
-
- drivers/nvme/common/keyring.c |  2 +-
- drivers/nvme/host/core.c      | 41 ++++++++++++++++++++---------------------
- drivers/nvme/host/nvme.h      | 16 +++++++++++++---
- drivers/nvme/host/pci.c       | 27 ++++++++++++++++-----------
- drivers/nvme/host/pr.c        |  2 +-
- drivers/nvme/host/rdma.c      | 11 ++++++++---
- drivers/nvme/host/sysfs.c     |  8 ++++----
- drivers/nvme/host/tcp.c       | 11 +++++------
- drivers/nvme/target/fc.c      |  2 +-
- drivers/nvme/target/fcloop.c  |  7 ++-----
- drivers/nvme/target/rdma.c    | 19 ++++++++++++++++---
- drivers/nvme/target/tcp.c     | 48 +++++++++++++++++++++++++++++++++++++-----------
- drivers/nvme/target/trace.c   |  6 +++---
- drivers/nvme/target/trace.h   | 33 +++++++++++++++++++--------------
- include/linux/nvme.h          |  1 -
- 15 files changed, 146 insertions(+), 88 deletions(-)
 
