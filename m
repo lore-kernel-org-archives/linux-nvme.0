@@ -4,98 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11ABBC47077
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Jan 2024 23:04:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A6D7C47077
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Jan 2024 03:19:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GVskAbFQn1uVXaOO+q7ZemcnAH1k41TKnSXZBeHYzrY=; b=SeP+tCc+hd22ZU2I+X2sGfwWiN
-	DAPnd/09WpdyCc2MV7EGRjpgf5C+RZvzw+y+F9ZyqN54Ax4qmHU/qWUlEJYXf3cwFetbuVuZDIu1X
-	O1rwvoH1kWdWBGsMTRFeHIa1+cy3fONsGfDgnjs6gaBQDqV4m43vtBUL6/CMj5oGZB96KCUu+70Nl
-	2/LOX5kU+t2YzN4HKbm9fJV5iuG2hA8LOTPflnutKbxO634sCO/2s7Am7DWdT0RH/Ml4Im/rfvUUN
-	zZoG2CzO71UDi0Iz5TmiIb9fum+7vQJoImFIv/O1nONmvb/j7xIdfP7rJbVhLupgG8/ukzMN+vGqQ
-	IBR2UlKg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=pthhYBnfRi0iWoIDi2RPShJOY0XSc7dU8rohjsVNoDA=; b=0QzwhAe222j16qvXsmYywwa88d
+	0dUeDpiyeKvqheJp1N6s+QRNR4pkRy3ZGpvDKvsDZo35VjNPoRuciBFKozv+JLSVwHYKXn4Z7hWKG
+	zWwI1zp9SGG5PwL0Ph82N5U63al0HgrHdXbcNCBIWMq2UNmHNSvYZLesfRCeu4izDSUAnxRuUg6GK
+	JPsjUE9kh/x9Cy4JBuxjUDVZf3UeatLdwFfvlRIGLLaBPsCt1v/8hAwOqPTc1STlf9+w9+vPm4u2j
+	YyXp+vlxZ9q7zmJ21aEIrzqFMYGd5RZ2FK7t2+uMa8Bbvvo8P2xEzoL6snMX546z7jNduI8ulqbdS
+	hTeaA9FA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rNL8j-009lmI-2F;
-	Tue, 09 Jan 2024 23:04:09 +0000
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
+	id 1rNP7u-00AD8Z-1x;
+	Wed, 10 Jan 2024 03:19:34 +0000
+Received: from out30-97.freemail.mail.aliyun.com ([115.124.30.97])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rNL8f-009llH-1K
+	id 1rNP7q-00AD7V-2a
 	for linux-nvme@lists.infradead.org;
-	Tue, 09 Jan 2024 23:04:06 +0000
-Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-6dad22e13dcso2169908b3a.3
-        for <linux-nvme@lists.infradead.org>; Tue, 09 Jan 2024 15:04:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1704841443; x=1705446243; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GVskAbFQn1uVXaOO+q7ZemcnAH1k41TKnSXZBeHYzrY=;
-        b=tb5RlcsLEw3WU/ewmG+uZgwoInpwjCssaoOa569ydZL89ftY5NcZsDrAdZssT/7fvK
-         QhA8Lz36KZzhDRR2UqTJxp5Zcv+JHeygLRPv/G+2y8B+gquma7/MaH4/NmtCSKUWp7Bs
-         Rb7Xvqt9gyKBBQ3XSkH1fSDZvZ46GbIV30IiDOYomFWp8Te602nEtjSa/ajseSWNj1Jf
-         nSu9BWEO/E1+zfYHu96TlnbiQKcMPJWD2ZknlcfvndXcTz0sCZfTazCTfIV56afhWmIo
-         N1d9mkD+9jdnutZIILVOQICuJwZgMz+30ewPPf7bxlLr4sHa+PAsAr6DGjmuM1TxvHCE
-         3REg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704841443; x=1705446243;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GVskAbFQn1uVXaOO+q7ZemcnAH1k41TKnSXZBeHYzrY=;
-        b=WK4VKChwtObyHCbX0MGVvegVjpRb+6RTABCZE0m4EYZv5W3qO8vGeQUIoKBayXbeaO
-         XdBw1mxo3revTbBngwpKGKOaXzFKMfELJ9iqzp23gLEE/2oZApGkKHW5fDlqlEy1TLPO
-         OhDR/66Hm/+HSQH72j4FvQ+cZ5YzKiigNHLsDPBAGuhwlZjAEdU22xt7K6OTHP7rmW3X
-         iKaKLTQiDZIwN8A05FgyqRXvFEDNTWfhwMfPNSzcv609eQjcKHxtrHK0niQBA5pB8Asr
-         OOOiaA1lij53y2K9u3GB5U3Yyf4pDon+ydJH3FVienhFztKQhut7skxjtjsatv5IvD1Y
-         yIqw==
-X-Gm-Message-State: AOJu0YwRLnfohi0ECRTceaSkeNBsKbsen356msjCsMre81UIw63zGfjF
-	22x+t9jg/GhaZowqrwUJFXj+ESQczuHWlg==
-X-Google-Smtp-Source: AGHT+IEzELO00cjbdQ5MoAae4PmrX2wGL2oSaAb1TtprT5iO1eenc3qlgGb6zh1GdAb8Vowe9WZkyA==
-X-Received: by 2002:a05:6a00:a01:b0:6d9:b8e3:9137 with SMTP id p1-20020a056a000a0100b006d9b8e39137mr245785pfh.10.1704841443394;
-        Tue, 09 Jan 2024 15:04:03 -0800 (PST)
-Received: from dread.disaster.area (pa49-180-249-6.pa.nsw.optusnet.com.au. [49.180.249.6])
-        by smtp.gmail.com with ESMTPSA id fj1-20020a056a003a0100b006d9b66f3d07sm2241185pfb.95.2024.01.09.15.04.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jan 2024 15:04:02 -0800 (PST)
-Received: from dave by dread.disaster.area with local (Exim 4.96)
-	(envelope-from <david@fromorbit.com>)
-	id 1rNL8a-008GXv-15;
-	Wed, 10 Jan 2024 10:04:00 +1100
-Date: Wed, 10 Jan 2024 10:04:00 +1100
-From: Dave Chinner <david@fromorbit.com>
-To: John Garry <john.g.garry@oracle.com>
-Cc: Christoph Hellwig <hch@lst.de>, "Darrick J. Wong" <djwong@kernel.org>,
-	axboe@kernel.dk, kbusch@kernel.org, sagi@grimberg.me,
-	jejb@linux.ibm.com, martin.petersen@oracle.com,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
-	jack@suse.cz, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	tytso@mit.edu, jbongio@google.com, linux-scsi@vger.kernel.org,
-	ming.lei@redhat.com, bvanassche@acm.org, ojaswin@linux.ibm.com
-Subject: Re: [PATCH v2 00/16] block atomic writes
-Message-ID: <ZZ3Q4GPrKYo91NQ0@dread.disaster.area>
-References: <b8b0a9d7-88d2-45a9-877a-ecc5e0f1e645@oracle.com>
- <20231213154409.GA7724@lst.de>
- <c729b03c-b1d1-4458-9983-113f8cd752cd@oracle.com>
- <20231219051456.GB3964019@frogsfrogsfrogs>
- <20231219052121.GA338@lst.de>
- <76c85021-dd9e-49e3-80e3-25a17c7ca455@oracle.com>
- <20231219151759.GA4468@lst.de>
- <fff50006-ccd2-4944-ba32-84cbb2dbd1f4@oracle.com>
- <20231221065031.GA25778@lst.de>
- <73d03703-6c57-424a-80ea-965e636c34d6@oracle.com>
+	Wed, 10 Jan 2024 03:19:32 +0000
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046049;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0W-KblVK_1704856762;
+Received: from 30.178.83.60(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W-KblVK_1704856762)
+          by smtp.aliyun-inc.com;
+          Wed, 10 Jan 2024 11:19:23 +0800
+Message-ID: <a56b996e-8d38-42e9-914c-8877182c5cc0@linux.alibaba.com>
+Date: Wed, 10 Jan 2024 11:19:20 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <73d03703-6c57-424a-80ea-965e636c34d6@oracle.com>
+User-Agent: Mozilla Thunderbird
+From: Guixin Liu <kanie@linux.alibaba.com>
+Subject: Re: [PATCH] nvmet: support reservation feature
+To: Keith Busch <kbusch@kernel.org>
+Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
+ linux-nvme@lists.infradead.org
+References: <20240109121008.15925-1-kanie@linux.alibaba.com>
+ <ZZ1713_D7MojvHUu@kbusch-mbp>
+Content-Language: en-GB
+In-Reply-To: <ZZ1713_D7MojvHUu@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240109_150405_446568_DD854A98 
-X-CRM114-Status: GOOD (  34.31  )
+X-CRM114-CacheID: sfid-20240109_191931_179521_1EF7274E 
+X-CRM114-Status: GOOD (  24.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,93 +63,178 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jan 09, 2024 at 09:55:24AM +0000, John Garry wrote:
-> On 21/12/2023 06:50, Christoph Hellwig wrote:
-> > On Tue, Dec 19, 2023 at 04:53:27PM +0000, John Garry wrote:
-> > > On 19/12/2023 15:17, Christoph Hellwig wrote:
-> > > > On Tue, Dec 19, 2023 at 12:41:37PM +0000, John Garry wrote:
-> > > > > How about something based on fcntl, like below? We will prob also require
-> > > > > some per-FS flag for enabling atomic writes without HW support. That flag
-> > > > > might be also useful for XFS for differentiating forcealign for atomic
-> > > > > writes with just forcealign.
-> > > > I would have just exposed it through a user visible flag instead of
-> > > > adding yet another ioctl/fcntl opcode and yet another method.
-> > > > 
-> > > Any specific type of flag?
-> > > 
-> > > I would suggest a file attribute which we can set via chattr, but that is
-> > > still using an ioctl and would require a new inode flag; but at least there
-> > > is standard userspace support.
-> > I'd be fine with that, but we're kinda running out of flag there.
-> > That's why I suggested the FS_XFLAG_ instead, which basically works
-> > the same.
-> 
-> Hi Christoph,
-> 
-> Coming back to this topic... how about this FS_XFLAG_ and fsxattr update:
-> 
-> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
-> index da43810b7485..9ef15fced20c 100644
-> --- a/include/uapi/linux/fs.h
-> +++ b/include/uapi/linux/fs.h
-> @@ -118,7 +118,8 @@ struct fsxattr {
->        __u32           fsx_nextents;   /* nextents field value (get)   */
->        __u32           fsx_projid;     /* project identifier (get/set) */
->        __u32           fsx_cowextsize; /* CoW extsize field value
-> (get/set)*/
-> -       unsigned char   fsx_pad[8];
-> +       __u32           fsx_atomicwrites_size; /* unit max */
-> +       unsigned char   fsx_pad[4];
-> };
-> 
-> /*
-> @@ -140,6 +141,7 @@ struct fsxattr {
-> #define FS_XFLAG_FILESTREAM    0x00004000      /* use filestream allocator
-> */
-> #define FS_XFLAG_DAX           0x00008000      /* use DAX for IO */
-> #define FS_XFLAG_COWEXTSIZE    0x00010000      /* CoW extent size
-> allocator hint */
-> +#define FS_XFLAG_ATOMICWRITES  0x00020000
-> #define FS_XFLAG_HASATTR       0x80000000      /* no DIFLAG for this   */
-> 
-> /* the read-only stuff doesn't really belong here, but any other place is
-> lines 1-22/22 (END)
-> 
-> Having FS_XFLAG_ATOMICWRITES set will lead to FMODE_CAN_ATOMIC_WRITE being
-> set.
-> 
-> So a user can issue:
-> 
-> >xfs_io -c "atomic-writes 64K" mnt/file
-> >xfs_io -c "atomic-writes" mnt/file
-> [65536] mnt/file
 
-Where are you going to store this value in the inode?  It requires a
-new field in the inode and so is a change of on-disk format, right?
+在 2024/1/10 01:01, Keith Busch 写道:
+> On Tue, Jan 09, 2024 at 08:10:08PM +0800, Guixin Liu wrote:
+>> This patch implements the reservation feature, includes:
+>> 1. reservation register(register, unregister and replace).
+>> 2. reservation acquire(acquire, preempt, preempt and abort).
+>> 3. reservation release(release and clear).
+>> 4. reservation report.
+>>
+>> And also make reservation configurable, one can set ns to support
+>> reservation before enable ns. The default of resv_enable is false.
+>>
+>> Signed-off-by: Guixin Liu<kanie@linux.alibaba.com>
+>> ---
+>> Hi guys,
+>>      I've implemented the NVMe reservation feature. Please review it, all
+>> comments are welcome.
+> Why? If you have a real use case, let's add a blktest example added to
+> that project.
+OK, I will research the blktests, and add some tests.
+>>      In addtion, I didn't implement event reporting because I didn't see
+>> any handling of these events on the host side. If these events are mandatory
+>> to report, please let me know so that I can implement them.
+> User space could be listening for them. The driver doesn't have any
+> particular action to take on a PR event just send a uevent.
+>   
+I will analyze which uevents need to be send and implement the 
+notifications.
+>>   	 */
+>>   	id->nmic = NVME_NS_NMIC_SHARED;
+>>   	id->anagrpid = cpu_to_le32(req->ns->anagrpid);
+>> -
+>> +	id->rescap = NVME_PR_SUPPORT_WRITE_EXCLUSIVE |
+>> +		     NVME_PR_SUPPORT_EXCLUSIVE_ACCESS |
+>> +		     NVME_PR_SUPPORT_WRITE_EXCLUSIVE_REG_ONLY |
+>> +		     NVME_PR_SUPPORT_EXCLUSIVE_ACCESS_REG_ONLY |
+>> +		     NVME_PR_SUPPORT_WRITE_EXCLUSIVE_ALL_REGS |
+>> +		     NVME_PR_SUPPORT_EXCLUSIVE_ACCESS_ALL_REGS |
+>> +		     NVME_PR_SUPPORT_IEKEY_DEF_LATER_VER_1_3;
+>>   	memcpy(&id->nguid, &req->ns->nguid, sizeof(id->nguid));
+>>   
+>>   	id->lbaf[0].ds = req->ns->blksize_shift;
+>> @@ -1017,6 +1023,12 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
+>>   	if (nvmet_is_passthru_req(req))
+>>   		return nvmet_parse_passthru_admin_cmd(req);
+>>   
+>> +	ret = nvmet_pr_check_cmd_access(req);
+>> +	if (unlikely(ret)) {
+>> +		req->error_loc = offsetof(struct nvme_common_command, opcode);
+>> +		return ret;
+>> +	}
+> You're checking this before validating the opcode. I don't think pr
+> access violation should have error precedence over an invalid opcode.
+Agree, I will put it after validating the opcode.
+>> +static bool nvmet_is_req_write_cmd_group(struct nvmet_req *req)
+>> +{
+>> +	struct nvme_command *cmd = req->cmd;
+>> +	u8 opcode = cmd->common.opcode;
+>> +
+>> +	if (req->sq->qid) {
+>> +		switch (opcode) {
+>> +		case nvme_cmd_flush:
+>> +		case nvme_cmd_write:
+>> +		case nvme_cmd_write_zeroes:
+>> +		case nvme_cmd_dsm:
+>> +		case nvme_cmd_write_uncor:
+>> +			return true;
+>> +		default:
+>> +			return false;
+>> +		}
+>> +	}
+>> +	switch (opcode) {
+>> +	case nvme_admin_cap_mgmt:
+>> +	case nvme_admin_format_nvm:
+>> +	case nvme_admin_ns_attach:
+>> +	case nvme_admin_ns_mgmt:
+>> +	case nvme_admin_sanitize_nvm:
+>> +	case nvme_admin_security_send:
+>> +		return true;
+>> +	default:
+>> +		return false;
+>> +	}
+>> +}
+>> +static bool nvmet_is_req_read_cmd_group(struct nvmet_req *req)
+>> +{
+>> +	struct nvme_command *cmd = req->cmd;
+>> +	u8 opcode = cmd->common.opcode;
+>> +
+>> +	if (req->sq->qid) {
+>> +		switch (opcode) {
+>> +		case nvme_cmd_read:
+>> +		case nvme_cmd_compare:
+>> +		case nvme_cmd_verify:
+>> +			return true;
+>> +		default:
+>> +			return false;
+>> +		}
+>> +	}
+>> +	switch (opcode) {
+>> +	case nvme_admin_security_recv:
+>> +		return true;
+>> +	default:
+>> +		return false;
+>> +	}
+>> +}
+> You're checking opcodes that we don't even support. I suggest we stash
+> the Command Effects Log in our target and trust what that reports to
+> deterimine if a command violates a reservation so that this function
+> doesn't need to be kept in sync as new opcodes are created.
 
-As it is, I really don't see this as a better solution than the
-original generic "force align" flag that simply makes the extent
-size hint alignment a hard physical alignment requirement rather
-than just a hint. This has multiple uses (DAX PMD alignment is
-another), so I just don't see why something that has a single,
-application specific API that implements a hard physical alignment
-is desirable.
+You mean I should check the opcode is whether supported?
 
-Indeed, the whole reason that extent size hints are so versatile is
-that they implement a generic allocation alignment/size function
-that can be used for anything your imagination extends to. If they
-were implemented as a "only allow RAID stripe aligned/sized
-allocation" for the original use case then that functionality would
-have been far less useful than it has proven to be over the past
-couple of decades.
+If I put the checking after validating the opcode, is this still needed？
 
-Hence history teaches us that we should be designing the API around
-the generic filesystem function required (hard alignment of physical
-extent allocation), not the specific use case that requires that
-functionality.
-
--Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+> Speaking of effects, you also need to update nvmet_get_cmd_effects_nvm()
+> so that it reports support for NVMe reservation opcodes.
+Sure, update it in v2.
+>> +u16 nvmet_pr_check_cmd_access(struct nvmet_req *req)
+>> +{
+>> +	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+>> +	struct nvmet_ns *ns = req->ns;
+>> +	struct nvmet_pr *pr;
+>> +	u16 ret = 0;
+>> +
+>> +	if (!ns) {
+>> +		ns = xa_load(&nvmet_req_subsys(req)->namespaces,
+>> +			     le32_to_cpu(req->cmd->common.nsid));
+> This could be the broadcast NSID, 0xffffffff, in which case you have to
+> check all the namespaces for reservations.
+Oh, I miss that, will check this in v2.
+>
+>> +	/*
+>> +	 * The Reservation command group is checked in executing,
+>> +	 * allow it here.
+>> +	 */
+>> +	switch ((u8)pr->rtype) {
+>> +	case NVME_PR_WRITE_EXCLUSIVE:
+>> +		if (nvmet_is_req_write_cmd_group(req) ||
+>> +		    nvmet_is_req_copy_cmd_group(req))
+>> +			ret = NVME_SC_RESERVATION_CONFLICT | NVME_SC_DNR;
+>> +		break;
+>> +	case NVME_PR_EXCLUSIVE_ACCESS:
+>> +		if (nvmet_is_req_copy_cmd_group(req) ||
+>> +		    nvmet_is_req_read_cmd_group(req) ||
+>> +		    nvmet_is_req_write_cmd_group(req))
+>> +			ret = NVME_SC_RESERVATION_CONFLICT | NVME_SC_DNR;
+>> +		break;
+>> +	case NVME_PR_WRITE_EXCLUSIVE_REG_ONLY:
+>> +	case NVME_PR_WRITE_EXCLUSIVE_ALL_REGS:
+>> +		if ((nvmet_is_req_copy_cmd_group(req) ||
+>> +		    nvmet_is_req_write_cmd_group(req)) &&
+>> +		    !nvmet_pr_find_registrant_by_hostid(pr, &ctrl->hostid))
+>> +			ret = NVME_SC_RESERVATION_CONFLICT | NVME_SC_DNR;
+>> +		break;
+>> +	case NVME_PR_EXCLUSIVE_ACCESS_REG_ONLY:
+>> +	case NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS:
+>> +		if ((nvmet_is_req_copy_cmd_group(req) ||
+>> +		    nvmet_is_req_read_cmd_group(req) ||
+>> +		    nvmet_is_req_write_cmd_group(req)) &&
+>> +		    !nvmet_pr_find_registrant_by_hostid(pr, &ctrl->hostid))
+>> +			ret = NVME_SC_RESERVATION_CONFLICT | NVME_SC_DNR;
+>> +		break;
+>> +	default:
+>> +		WARN_ON_ONCE(1);
+>> +		break;
+>> +	}
+>> +
+>> +unlock:
+>> +	read_unlock(&pr->pr_lock);
+>> +out:
+>> +	if (!req->ns)
+>> +		nvmet_put_namespace(ns);
+>> +	return ret;
+>> +}
 
