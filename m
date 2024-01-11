@@ -4,84 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 488AEC4707B
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Jan 2024 01:25:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4EB97C47073
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Jan 2024 01:41:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3ESfjQ0jWiBunyG2uBniDMtDH4nMEu78Nkty9LDM7sw=; b=j/OKjtNzwfEw0xLJ5yezGfsROO
-	vOT5cjqsGo2X89AfQzWmdWNGMj/+AwcSgtYcXOdsnNpDITPsYCQ+IKFFc3TNmyYvuv4nZ4AGAvD17
-	b1KUr67BuNHmhuCG9YFeX/78LEAeHlFmnfHgzCKfZALpYrW7FZMtzX6a4hXykcr+BR110q2G2ca8i
-	T83O/L3zOEj+WbtdWqo5Q5Z6ojXoU/CxuLdru7BYJXO/EIG5INzyEfMtBDjp3Vg68vc/Nc7Ko0/97
-	vVn3VEY9HgDsAzxZhLMznnpSM1B1lvYE5vyohyVO+apg1RuDGZ0i7ZyXLruhU5UVGeTLaYrxdYcgq
-	bPzPfKqw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=M7bk/KPEWBuUgsVEGP/h7HBCoC9cvvECUPXKRx2ssl0=; b=Se8S6M88Ej4IPOyCZud5v4l4zc
+	lUrkmYv2jLJRMsFw5AlTF3OhJ21BXpC8mw407osfupIIYZl2o3NTObES7ICXxB+ajmG9YMpuczuEy
+	KCm5eGkrDAO/r21OTe+jZfS7dS3JzamExy3dmsCxJFI5NLUYac16dSPiq3jkwdbESiIvwOdFUnRz3
+	jdXljEo4OrpTJTbYiGSc1BM/UMt5rkQu4N3ZD1AKXwkCMECSjZGHbzX/oks1adl5L9aNAr+XH5S1p
+	prcUAhSHZzKFaftlCrAEOaSdSQwsEfApIaO7oqV5DW8xPvTsxkvQXW2Yn0u7Mvn/WtsSdRbFsZK3S
+	14B5epFA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rNjp0-00FE7q-3B;
-	Thu, 11 Jan 2024 01:25:27 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1rNk46-00FI6P-1X;
+	Thu, 11 Jan 2024 01:41:02 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rNjoy-00FE4s-0U
+	id 1rNk43-00FI5H-07
 	for linux-nvme@lists.infradead.org;
-	Thu, 11 Jan 2024 01:25:25 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1704936319;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3ESfjQ0jWiBunyG2uBniDMtDH4nMEu78Nkty9LDM7sw=;
-	b=MwkgIMCJVxai1XbfUYD5a0o6s8AvXaErFq28QnaFugBjcrZZRJaqjskaRi6gTLbSM/qgfN
-	bawCJjt9o6MICB/7gPlcNCrNmMHI98bcsWfrpEcbtldBkANmtJSJCvEQsB56/K+mRMiHN4
-	LR4wmaSEia4RSw+SbwsNkVHR3EDHGdk=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-518-lBvX26xSO6Cpi5eDJ8uA5Q-1; Wed, 10 Jan 2024 20:25:18 -0500
-X-MC-Unique: lBvX26xSO6Cpi5eDJ8uA5Q-1
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-5c6245bc7caso2691190a12.3
-        for <linux-nvme@lists.infradead.org>; Wed, 10 Jan 2024 17:25:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704936317; x=1705541117;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3ESfjQ0jWiBunyG2uBniDMtDH4nMEu78Nkty9LDM7sw=;
-        b=Stuqd220iAInv+lz4QwkbZwmeLQG1WnFmhPb23ZwbU4iB11wRh+ZQV+MJZfENnfZY0
-         YpELpjnwQY/fPQ033YqhtOrhMdAk4iujPE7f6b5WSZgRdh8HDNE4X90emLEbSEGrj3B9
-         +jfwhTs2O8tPcSrHAnSAo9XwJILooN3igZMvQtASfYkeK92WU1wLUIriG7vaZ8op7v10
-         JFFcDYHXhDgpnujdXav9lzBQAM2kVNfZcfSwhgHNP+y3xHkSaenjdQlWpdwAPOjUvab0
-         lY8gKXfE2UJ0oZL2JoPJJ04KpRM4OrpL6KIW7LPDj4lJlge2kdMFJfst/aTuxKQ8Q5CO
-         gDog==
-X-Gm-Message-State: AOJu0Yzo8paEAD9BH0BJ4shLdOjRCh6OXDnosv1mTE+2fw8S3IDQTBIp
-	wslm8z+mUwlYA7drg5egvznS6b/nGlmdUvQWpkB8tJhfjpdAjIssgJ8EkX7GPm5aZqi73C/yDdD
-	/cgDMdlx6l/HJKOFOqZGnzi3JvaZwrh0potfn3DBRSSTzX70EjuZT7yywSH26KQ98
-X-Received: by 2002:a05:6a20:1449:b0:19a:4fac:3e52 with SMTP id a9-20020a056a20144900b0019a4fac3e52mr132620pzi.106.1704936316962;
-        Wed, 10 Jan 2024 17:25:16 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGtPYYA8HYaVG8BNNUf2wiSlku54LRcIV6lAA2JAekRYHR9QOTY0DX907K3pIDfg8Ow+RkrC0nHuhxF9OD5bYc=
-X-Received: by 2002:a05:6a20:1449:b0:19a:4fac:3e52 with SMTP id
- a9-20020a056a20144900b0019a4fac3e52mr132613pzi.106.1704936316678; Wed, 10 Jan
- 2024 17:25:16 -0800 (PST)
+	Thu, 11 Jan 2024 01:41:00 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 7532561947;
+	Thu, 11 Jan 2024 01:40:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1D61C433F1;
+	Thu, 11 Jan 2024 01:40:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704937257;
+	bh=u51yyq5q6reKn5H0CqnJR7jUYlsGmLnDJKKy8teJDRs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cfDXvP+m7491pQR0YUCkm0mTB2aBegWGodHoLZFFG4xnm1HYzXRQuH2gS9jmS4sxK
+	 4a1YcSnAQwsufJxQwNnVNUv8zlTNrN2c8FDL4SvgoPYxlV5HCtl48g/zf8dKFEZFKy
+	 s2oFPeyW0anIBYuwCbKWlfg0iILlMck90/uZ6HjK3pEsmr6x3ggHxQYlbGaZ+LM+u9
+	 Cdp1Me8dqv2fMqivWwzjoUve3j+IWy/LLnsB6hnY7qN7e4nycBAq9OtxqrOqUVgXsd
+	 pNUpTm723vIzDa8WcFdKrRTfElEbLc8gQRM3fqF3Cypry45w0MWn8V/GMykrc5s3y6
+	 6wFr/xhlj/0lw==
+Date: Wed, 10 Jan 2024 17:40:56 -0800
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Dave Chinner <david@fromorbit.com>,
+	John Garry <john.g.garry@oracle.com>, axboe@kernel.dk,
+	kbusch@kernel.org, sagi@grimberg.me, jejb@linux.ibm.com,
+	martin.petersen@oracle.com, viro@zeniv.linux.org.uk,
+	brauner@kernel.org, dchinner@redhat.com, jack@suse.cz,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
+	linux-scsi@vger.kernel.org, ming.lei@redhat.com, bvanassche@acm.org,
+	ojaswin@linux.ibm.com
+Subject: Re: [PATCH v2 00/16] block atomic writes
+Message-ID: <20240111014056.GL722975@frogsfrogsfrogs>
+References: <c729b03c-b1d1-4458-9983-113f8cd752cd@oracle.com>
+ <20231219051456.GB3964019@frogsfrogsfrogs>
+ <20231219052121.GA338@lst.de>
+ <76c85021-dd9e-49e3-80e3-25a17c7ca455@oracle.com>
+ <20231219151759.GA4468@lst.de>
+ <fff50006-ccd2-4944-ba32-84cbb2dbd1f4@oracle.com>
+ <20231221065031.GA25778@lst.de>
+ <73d03703-6c57-424a-80ea-965e636c34d6@oracle.com>
+ <ZZ3Q4GPrKYo91NQ0@dread.disaster.area>
+ <20240110091929.GA31003@lst.de>
 MIME-Version: 1.0
-References: <20240110035756.9537-1-kch@nvidia.com>
-In-Reply-To: <20240110035756.9537-1-kch@nvidia.com>
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Thu, 11 Jan 2024 09:25:04 +0800
-Message-ID: <CAHj4cs__ObsuA_hXHeSRPwHy-uSc558sxQy-jD2J85gQEg4BXw@mail.gmail.com>
-Subject: Re: [PATCH] nvme: add nvme pci timeout testcase
-To: Chaitanya Kulkarni <kch@nvidia.com>
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	shinichiro.kawasaki@wdc.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240110091929.GA31003@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240110_172524_256584_1CBBFEBA 
-X-CRM114-Status: GOOD (  16.82  )
+X-CRM114-CacheID: sfid-20240110_174059_144934_6424BA6D 
+X-CRM114-Status: GOOD (  18.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,101 +88,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jan 10, 2024 at 11:58=E2=80=AFAM Chaitanya Kulkarni <kch@nvidia.com=
-> wrote:
->
-> Trigger and test nvme-pci timeout with concurrent fio jobs.
->
-> Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
-> ---
->  tests/nvme/050     | 43 +++++++++++++++++++++++++++++++++++++++++++
->  tests/nvme/050.out |  2 ++
->  2 files changed, 45 insertions(+)
->  create mode 100755 tests/nvme/050
->  create mode 100644 tests/nvme/050.out
->
-> diff --git a/tests/nvme/050 b/tests/nvme/050
-> new file mode 100755
-> index 0000000..ba54bcd
-> --- /dev/null
-> +++ b/tests/nvme/050
-> @@ -0,0 +1,43 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-3.0+
-> +# Copyright (C) 2024 Chaitanya Kulkarni.
-> +#
-> +# Test NVMe-PCI timeout with FIO jobs by triggering the nvme_timeout fun=
-ction.
-> +#
-> +
-> +. tests/nvme/rc
+On Wed, Jan 10, 2024 at 10:19:29AM +0100, Christoph Hellwig wrote:
+> On Wed, Jan 10, 2024 at 10:04:00AM +1100, Dave Chinner wrote:
+> > Hence history teaches us that we should be designing the API around
+> > the generic filesystem function required (hard alignment of physical
+> > extent allocation), not the specific use case that requires that
+> > functionality.
+> 
+> I disagree.  The alignment requirement is an artefact of how you
+> implement atomic writes.  As the fs user I care that I can do atomic
+> writes on a file and need to query how big the writes can be and
+> what alignment is required.
+> 
+> The forcealign feature is a sensible fs side implementation of that
+> if using hardware based atomic writes with alignment requirements,
+> but it is a really lousy userspace API.
+> 
+> So with John's API proposal for XFS with hardware alignment based atomic
+> writes we could still use force align.
+> 
+> Requesting atomic writes for an inode will set the forcealign flag
+> and the extent size hint, and after that it'll report atomic write
+> capabilities.  Roughly the same implementation, but not an API
+> tied to an implementation detail.
 
-How about restricting this test to pci only? just like nvme/032 did.
-nvme_trtype=3Dpci
+Sounds good to me!  So to summarize, this is approximately what
+userspace programs would have to do something like this:
 
-> +
-> +DESCRIPTION=3D"test nvme-pci timeout with fio jobs."
-> +
-> +requires() {
-> +       _require_nvme_trtype pci
-> +       _have_fio
-> +       _nvme_requires
-> +}
+struct statx statx;
+struct fsxattr fsxattr;
+int fd = open('/foofile', O_RDWR | O_DIRECT);
 
-Check the test dev is nvme:
-device_requires() {
-        _require_test_dev_is_nvme
+ioctl(fd, FS_IOC_GETXATTR, &fsxattr);
+
+fsxattr.fsx_xflags |= FS_XFLAG_FORCEALIGN | FS_XFLAG_WRITE_ATOMIC;
+fsxattr.fsx_extsize = 16384; /* only for hardware no-tears writes */
+
+ioctl(fd, FS_IOC_SETXATTR, &fsxattr);
+
+statx(fd, "", AT_EMPTY_PATH, STATX_ALL | STATX_WRITE_ATOMIC, &statx);
+
+if (statx.stx_atomic_write_unit_max >= 16384) {
+	pwrite(fd, &iov, 1, 0, RWF_SYNC | RWF_ATOMIC);
+	printf("HAPPY DANCE\n");
 }
 
-> +
-> +test() {
+(Assume we bail out on errors.)
 
-Use test_device() here.
-
-> +       local dev=3D"/dev/nvme0n1"
-> +
-> +       echo "Running ${TEST_NAME}"
-> +
-> +       echo 1 > /sys/block/nvme0n1/io-timeout-fail
-> +
-> +       echo 99 > /sys/kernel/debug/fail_io_timeout/probability
-> +       echo 10 > /sys/kernel/debug/fail_io_timeout/interval
-> +       echo -1 > /sys/kernel/debug/fail_io_timeout/times
-> +       echo  0 > /sys/kernel/debug/fail_io_timeout/space
-> +       echo  1 > /sys/kernel/debug/fail_io_timeout/verbose
-> +
-> +       # shellcheck disable=3DSC2046
-> +       fio --bs=3D4k --rw=3Drandread --norandommap --numjobs=3D$(nproc) =
-\
-> +           --name=3Dreads --direct=3D1 --filename=3D${dev} --group_repor=
-ting \
-> +           --time_based --runtime=3D1m 2>&1 | grep -q "Input/output erro=
-r"
-> +
-> +       # shellcheck disable=3DSC2181
-> +       if [ $? -eq 0 ]; then
-> +               echo "Test complete"
-> +       else
-> +               echo "Test failed"
-> +       fi
-> +       modprobe -r nvme
-> +}
-> diff --git a/tests/nvme/050.out b/tests/nvme/050.out
-> new file mode 100644
-> index 0000000..b78b05f
-> --- /dev/null
-> +++ b/tests/nvme/050.out
-> @@ -0,0 +1,2 @@
-> +Running nvme/050
-> +Test complete
-> --
-> 2.40.0
->
->
-
-
---=20
-Best Regards,
-  Yi Zhang
-
+--D
 
