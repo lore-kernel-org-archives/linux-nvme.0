@@ -4,59 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4AEBEC47077
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Jan 2024 16:16:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF87BC4707B
+	for <linux-nvme@archiver.kernel.org>; Fri, 12 Jan 2024 01:13:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JAbu2AJr6hMrYiv5YASkyqea3msxlW3h7iXeFfmV7Oo=; b=0ubxHoIiXjqHmEpyAtYjBoh6q0
-	bqhJFcVtTTjcisFgvpj+Zs9O1L5QtcHwmfyZ8/gg4D6LwILYefoJsqjt5pT5AfEYpHhHX23lCyhko
-	pS5nzaBNqRcPipz1L7dX78V48OEFnYbyWg0ZT18k20Zt+nt/ah5E9jgvMZ/ZkKp9fCdX7FRWCC7LR
-	uMdLvDoeyShtbyOKxhGq4Zddr+gS2s5iRrZgXfnLSg6roLF19blfKnva8n7ZY0Jsb8hUNqG1AJYGB
-	M7rmzNbjM+mus98V3gV1Heo4At1sMyBQoJF5rk+GpZylzzvlOOIgvXoJEJue97X9DlXHvy47dTZyL
-	6SleFjHw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=lR/IMzHbiub1hn91+j6HNrtl4uAT2OL+J7H2o1L2b/o=; b=NliVFassdGKqhBIMxNW1vREdVG
+	qd9Ba5uA4aO3eDRRjuXVsojQ9IwNZEMEfeBXSt0DLxrDzepUt+32QhSrYmpsnf3eM6DWWz0Mn3ptj
+	t2nUwCiRBCGNzeFNVU8Bvo3gGBaz+V2MmcTPm6jbGeM0HC9H+t7vTfcOmsp4KwiZLar3VeRbJVLzP
+	+rMwyiEt4CACE/LleU7By/8qjvS+JBWHg9RNGmDl8w+lvDyxlYc5my04XxKrUAB0WhVMJXH7PpIwn
+	pDgg4c7lDU6FLNFV6Jt2pM2pEKWJ/Iw1IJci+TQtw1J7x/yXtYUR9fcvlwOdFf8c+2aU8OyMxP4jb
+	lL4HMqww==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rNxir-000YpW-2T;
-	Thu, 11 Jan 2024 16:16:01 +0000
-Received: from ams.source.kernel.org ([145.40.68.75])
+	id 1rO67E-001bdJ-2X;
+	Fri, 12 Jan 2024 01:13:44 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rNxio-000YoV-2f
+	id 1rO67B-001bcu-2U
 	for linux-nvme@lists.infradead.org;
-	Thu, 11 Jan 2024 16:16:00 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by ams.source.kernel.org (Postfix) with ESMTP id EAD46B81EDB;
-	Thu, 11 Jan 2024 16:15:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0150C433F1;
-	Thu, 11 Jan 2024 16:15:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704989756;
-	bh=OcQvQmDPaGYN0IFEl4kvVBaIu08mpHNZJfaZ7uE7I4g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sbAXh8jVK96rz78JDnXF6CDvDD0XZvUYn9AO+pwbpmF4vwjqQmtR0Les8jxeKjhky
-	 1nm4REC9NGJZAGLVbnS1J/94HrePpQFc4kDSN1p89svLsyEL4GbcTp75ou6ZCdA2e+
-	 J5tl/8R2OOncWdh2UUl6x9YjuUYYQhWkeuXR0+R0fsY4CfKRzsIO01cewCzIx0624E
-	 2Jb1IYKi9d9YBu6Fq9nFVK2qXXz9tNHcP5JIZaCWMCr9xAJulOotmb7+0rD5mrRiET
-	 2EO9fanUS2VeB+r1m4crV3NEGPJzIOOj0FNsNJiNnO3Ef57/0vmgxcQEHq6Kv0fneM
-	 8vbPFQdKgrdSQ==
-Date: Thu, 11 Jan 2024 09:15:54 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: hare@kernel.org
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH] nvme-tcp: Do not terminate commands when in RESETTING
-Message-ID: <ZaAUOqa7OKtxXU1X@kbusch-mbp.dhcp.thefacebook.com>
-References: <20240111072929.29381-1-hare@kernel.org>
+	Fri, 12 Jan 2024 01:13:43 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1705022019;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=lR/IMzHbiub1hn91+j6HNrtl4uAT2OL+J7H2o1L2b/o=;
+	b=AYiLYBYOF1bNwvJ60Rj683vyvDYilg7LBQrf/XF5tr2KxsPrG0pJUskQW1zJpKVDiTwVgP
+	kmSgu0u35mIemcEq3YRl6MFdGNbIleYFQt/PcUFKI0qI5iCQpwFj7zXoepTjGScejfg+54
+	/6214nhUm6hwaVd2C8GJgS414pHD3Y4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-21-w5G-OFUDN8epxwQCkl19wg-1; Thu, 11 Jan 2024 20:13:37 -0500
+X-MC-Unique: w5G-OFUDN8epxwQCkl19wg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 582E685A58F;
+	Fri, 12 Jan 2024 01:13:37 +0000 (UTC)
+Received: from fedora (unknown [10.72.116.36])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 24A692166B31;
+	Fri, 12 Jan 2024 01:13:32 +0000 (UTC)
+Date: Fri, 12 Jan 2024 09:13:28 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: linux-block@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>
+Cc: ming.lei@redhat.com, Yi Zhang <yi.zhang@redhat.com>,
+	John Meneghini <jmeneghi@redhat.com>,
+	linux-nvme@lists.infradead.org, hch@lst.de,
+	Keith Busch <kbusch@kernel.org>
+Subject: [Report] blk-zoned/ZNS: non_power_of_2 of zone->len]
+Message-ID: <ZaCSOH7L+Nm6PvcN@fedora>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240111072929.29381-1-hare@kernel.org>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240111_081559_044004_3B0B0308 
-X-CRM114-Status: GOOD (  10.70  )
+X-CRM114-CacheID: sfid-20240111_171341_902137_0AFDF03D 
+X-CRM114-Status: UNSURE (   8.03  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,17 +80,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jan 11, 2024 at 08:29:29AM +0100, hare@kernel.org wrote:
-> +	if (ctrl->state == NVME_CTRL_RESETTING && qid > 0) {
-> +		/* Avoid interfering with firmware download */
-> +		if (!WARN_ON(work_pending(&ctrl->fw_act_work)))
-> +			return BLK_EH_RESET_TIMER;
-> +	}
-> +
->  	if (ctrl->state != NVME_CTRL_LIVE) {
+----- Forwarded message from Ming Lei <ming.lei@redhat.com> -----
 
-Unfortunately I submitted a fix late in 6.7 that changes all the
-ctrl->state checks to use the READ_ONCE helper. Let's wait for block
-tree's 6.8 to sync back to mainline, then redo this patch with those
-updates included to avoid the conflicts.
+Add linux-nvme
+
+Date: Fri, 12 Jan 2024 09:08:47 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: linux-block@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>
+Cc: ming.lei@redhat.com, Yi Zhang <yi.zhang@redhat.com>, John Meneghini <jmeneghi@redhat.com>
+Subject: [Report] blk-zoned/ZNS: non_power_of_2 of zone->len
+
+Hello Damien and Guys,
+
+Yi reported that the following failure:
+
+Oct 18 15:24:15 localhost kernel: nvme nvme4: invalid zone size:196608 for namespace:1
+Oct 18 15:24:33 localhost smartd[2303]: Device: /dev/nvme4, opened
+Oct 18 15:24:33 localhost smartd[2303]: Device: /dev/nvme4, NETAPPX4022S173A4T0NTZ, S/N:S66NNE0T800169, FW:MVP40B7B, 4.09 TB
+
+Looks current blk-zoned requires zone->len to be power_of_2() since
+commit:
+
+6c6b35491422 ("block: set the zone size in blk_revalidate_disk_zones atomically")
+
+And the original power_of_2() requirement is from the following commit
+for ZBC and ZAC.
+
+d9dd73087a8b ("block: Enhance blk_revalidate_disk_zones()")
+
+Meantime block layer does support non-power_of_2 chunk sectors limit.
+
+The question is if there is such hard requirement for ZNS, and I can't see
+any such words in NVMe Zoned Namespace Command Set Specification.
+
+So is it one NVMe firmware issue? or blk-zoned problem with too strict(power_of_2)
+requirement on zone->len?
+
+
+Thanks,
+Ming
+
+
+----- End forwarded message -----
+
 
