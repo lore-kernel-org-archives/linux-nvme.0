@@ -4,60 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87762C4706C
-	for <linux-nvme@archiver.kernel.org>; Fri, 12 Jan 2024 07:23:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB7E6C4706C
+	for <linux-nvme@archiver.kernel.org>; Fri, 12 Jan 2024 10:09:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=JGR9rjoNjjh8K8pC43OJ6+NykYZV2SDmP+E3zAx6RAc=; b=rQnSBoLO5IW1kjZCxQw9H4BkOT
-	BZs3aMcPiLgquZmR24oUNzsyDuj0DJVx/F5qMEgH+OystAQjGAER79Jv3nTVYiS05XLF31o6RX9f9
-	gNdXtKWRfw215GOoVxVzfwmmZZNgEK/zRq+hC4OK6zc5JdAeZzNHxfE1y1z3nTu8QSPpwmwio5rpc
-	a51r+ABNx26WvHmYf9Nkt+qOn/igBiv3iqjM/cfjXFKYTYAg0zmtKZhsCiTOWX6Grnso7Mbz4k102
-	JFyzFwf4wI5NuTf7DLMo9kpOGpAazwpl30Sap+TBLyfHMpuwn3owf+C3wlRLYG0zA/iaddeQj1paE
-	IuZtFAFg==;
+	bh=+ezZJfeZrvdY53kMq5UO6L8baxSUaGltnOuzUOm3/2Q=; b=0nqveVyJZpS2pV7+twGPzfCEcP
+	oGaZeIVabbRBUis+jpr1GM8iGpg8tms2qOuS4HbIT/7PfuZdMEVXrivR+ag424whyeJwmzYhFWMae
+	Yw//yhqVZd3lf4GtnbF8veKNRN3tuWVEGFubL8pWqpdzJi8MBd9YIbPwaN0hp7hbJvJRl5XuVk1/4
+	ybG59VUMebQMiKxd2MvLVxEmjBjNa6R4e6xu2XP84KVpO3Tl2hOZAauC9krjgmuDdbIvbyu29Ke6f
+	BxgW5ZADBnxpWXmAbsgZTBIkPW6R/1kNzktbLF56pWSzK+uSbIO4L0SUBBZxxlsG8NQyTBbQfRiXX
+	/K4aq9AA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rOBsn-0024kI-1x;
-	Fri, 12 Jan 2024 07:23:13 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1rOETY-002Rkc-1j;
+	Fri, 12 Jan 2024 10:09:20 +0000
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rOBsk-0024iO-0a
+	id 1rOETS-002RjB-3B
 	for linux-nvme@lists.infradead.org;
-	Fri, 12 Jan 2024 07:23:12 +0000
+	Fri, 12 Jan 2024 10:09:16 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 8A095CE20A4;
-	Fri, 12 Jan 2024 07:23:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A2DAC433C7;
-	Fri, 12 Jan 2024 07:23:06 +0000 (UTC)
+	by ams.source.kernel.org (Postfix) with ESMTP id D55D9B82296;
+	Fri, 12 Jan 2024 10:09:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5F06C433F1;
+	Fri, 12 Jan 2024 10:09:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705044187;
-	bh=Jv/2GTgtoRDF8LDjOFfK4uYDuPdBi8I5Q+EwB62iSE4=;
+	s=k20201202; t=1705054152;
+	bh=lU8eHTf7D3YV0MsDLoA+MpYDKIkypf+ypT3/VMAG2js=;
 	h=From:To:Cc:Subject:Date:From;
-	b=AJzW79BVVvgmJOpUbvm1a0rW1p46F6V9lYVPbjTwQvLE7efyiZ6RbQsnN0BRm8JNY
-	 buUL98/Uu4i3yjJeBb1q7n0x0oU2APdZ1GkHeY8TBuLlRMCq5nieNSx2zetbHZg0nZ
-	 zuSVlF3Dmjf2mXKbhL2oflxnhO7j/D3ZJcnnf/UPjqNOi73tbgOOT/TdNW6Bpt9hmc
-	 //JfB4iJcowrvm0sgDYXqiMMuFNHOe8tXYm+ZfhRkrv35jgveZfKienRMEOit2ptjU
-	 C0zZkjKXF8zn+3BEOzTEjrpLba1O4gb0a46oaFz9bf9jed3coiSCbqyyTHnrgN8JAR
-	 byV+ypCI3brug==
+	b=UC8uA/MdrE/3tG4jD5nFiP0OeuTfMCgW3xxzSlEl+8zCythEgbdjW1oMfImzRsbMt
+	 clh8oE1y/jtqSWbe03QCM9VIcR1srd/vbZuqcQmXGn2/E12aUhcPOsEC3Qqed5kJoI
+	 LdBQqnc0NR5bNTJpu+WQFebUAPdLe6s4+VeMKwyJZ1JWEB0J6cuZNXIfD+4Y+ta0Nx
+	 RslgwydJ02D6omnDyQc5alufEmc8RYCIkHdsnWnZUgPR7VzVIW9dAgpNJm+/TGPIXL
+	 BraI5cKOpgFj8p8o5jG+Lo0AfzdvePB2RviJ3Sq/f/vvg+FUT+CWv+avkrAafGdO/p
+	 XJ5fOya2OSGUQ==
 From: hare@kernel.org
 To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
+Cc: Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH] nvmet-tcp: do not continue for invalid icreq
-Date: Fri, 12 Jan 2024 08:23:03 +0100
-Message-Id: <20240112072303.141891-1-hare@kernel.org>
+Subject: [PATCHv2] nvme-tcp: Do not terminate i/o commands during RESETTING
+Date: Fri, 12 Jan 2024 11:09:07 +0100
+Message-Id: <20240112100907.80765-1-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240111_232310_390438_A3C2C753 
-X-CRM114-Status: UNSURE (   8.57  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240112_020915_181267_E4460A47 
+X-CRM114-Status: GOOD (  15.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,27 +73,65 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Hannes Reinecke <hare@suse.de>
 
-When the length check for an icreq sqe fails we should not
-continue processing but rather return immediately as all
-other contents of that sqe cannot be relied on.
+Terminating commands from the timeout handler might lead
+to a data corruption as the timeout might trigger before
+KATO expired.
+When several commands have been sent in a batch and
+the command timeouts trigger just after the keep-alive
+command has been sent then the first command will trigger
+the error recovery. But all other commands will timeout
+directly afterwards and will hit the timeout handler
+before the err_work workqueue handler has started.
+This results in these commands being aborted and
+immediately retried without waiting for KATO.
+So return BLK_EH_RESET_TIMER for I/O commands when
+the controller is in 'RESETTING' or 'DELETING'
+state to ensure that the commands will
+be retried only after the KATO interval.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/target/tcp.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/nvme/host/tcp.c | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 6a1e6bb80062..3d606ab01506 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -898,6 +898,7 @@ static int nvmet_tcp_handle_icreq(struct nvmet_tcp_queue *queue)
- 		pr_err("bad nvme-tcp pdu length (%d)\n",
- 			le32_to_cpu(icreq->hdr.plen));
- 		nvmet_tcp_fatal_error(queue);
-+		return -EPROTO;
- 	}
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 08805f027810..9dcb2d3b123c 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -2431,17 +2431,27 @@ static enum blk_eh_timer_return nvme_tcp_timeout(struct request *rq)
+ 	struct nvme_tcp_cmd_pdu *pdu = nvme_tcp_req_cmd_pdu(req);
+ 	u8 opc = pdu->cmd.common.opcode, fctype = pdu->cmd.fabrics.fctype;
+ 	int qid = nvme_tcp_queue_id(req->queue);
++	enum nvme_ctrl_state state = nvme_ctrl_state(ctrl);
  
- 	if (icreq->pfv != NVME_TCP_PFV_1_0) {
+ 	dev_warn(ctrl->device,
+-		"queue %d: timeout cid %#x type %d opcode %#x (%s)\n",
++		"queue %d: timeout cid %#x type %d opcode %#x (%s) state %d\n",
+ 		nvme_tcp_queue_id(req->queue), nvme_cid(rq), pdu->hdr.type,
+-		opc, nvme_opcode_str(qid, opc, fctype));
++		opc, nvme_opcode_str(qid, opc, fctype), state);
++
++	/*
++	 * If the controller is in state RESETTING or DELETING all
++	 * inflight commands will be terminated soon which in turn
++	 * may failover to a different path.
++	 */
++	if ((state == NVME_CTRL_RESETTING ||
++	     state == NVME_CTRL_DELETING) && qid > 0)
++		return BLK_EH_RESET_TIMER;
+ 
+-	if (nvme_ctrl_state(ctrl) != NVME_CTRL_LIVE) {
++	if (state != NVME_CTRL_LIVE) {
+ 		/*
+-		 * If we are resetting, connecting or deleting we should
+-		 * complete immediately because we may block controller
+-		 * teardown or setup sequence
++		 * If the controller is not live we should complete
++		 * immediately because we may block controller teardown
++		 * or setup sequence
+ 		 * - ctrl disable/shutdown fabrics requests
+ 		 * - connect requests
+ 		 * - initialization admin requests
 -- 
 2.35.3
 
