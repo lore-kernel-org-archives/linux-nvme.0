@@ -4,65 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 562D2C4706C
-	for <linux-nvme@archiver.kernel.org>; Fri, 12 Jan 2024 15:41:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0A56EC4707C
+	for <linux-nvme@archiver.kernel.org>; Fri, 12 Jan 2024 19:37:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DjVPjjjOC9+VfIQIJ1ZCZOkIJE5V+3KCLHNSv8iSUzM=; b=qNBvw9DX1aGRhmb91WUlDcazu6
-	12yl8cUrSnNd4HhPWVQtBkSJHp0dSvcSwDwCSbLtqnjIRzre8g3fzUBp8F5zS76GGql9rYnVoXJhX
-	qKQSOVN2eJdapYK7kE2uVzIdR0vy9YzzFJIxKwhqGbUQ+K5jh0nPtmkNQXCVmmdvBWCh3hYVVLgrs
-	qrghzPlzhG77cNjqhRkNmJZq91WKfJEITSz7MN4oHxDXYS6KtCtHV5xmaUYznJX0iDSQiYwj9D7Au
-	gIcmNL+PzPUtJmWr0VklNdByAIgpjiCSxZBE//G/vNf2ZL7xVnGMFJs77yPPZY3RfGNpPMGrSC/Su
-	HdvRBozQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=H4Kvga+gCCknNcaIDhI5P0YQnHCrcQUlvVgE/vEI7AQ=; b=JcUM3kafK1fSgEqXcIcRDtrxS5
+	P+p97yMdbLi7mDmqnSt3vtvMZPIO2ZdLbLoS16HUMkvNy/gf3gffQr4Q6sSrHJITHjUAtjQ+5961T
+	mAs9xKjlEnMC3JaBjtDEkr0O4K8tb38yzZrH5d3qnqcylLuHXqhyESOC99UPmUXV5hsxX3FQFeVUD
+	hgcLCN/Aqa9w2JxmRoeYOiv8k7IODdqpEPybgBWWpZ1MV76eUzE4xTbCBHYT+8bNqPdxZbQwOpnNL
+	uN7+r8+1b5G+xdqs7fCvEo/4soFAjmsBkiYUxyxb3Z+MWdkRl+8xhy/OZTgH1SycqbdRChul03lAz
+	ubel5LJA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rOJeT-003Bbt-0p;
-	Fri, 12 Jan 2024 15:40:57 +0000
-Received: from mout-p-101.mailbox.org ([2001:67c:2050:0:465::101])
+	id 1rONKu-003kvQ-0e;
+	Fri, 12 Jan 2024 19:37:00 +0000
+Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rOJeP-003Bai-2w
+	id 1rONKq-003krj-1X
 	for linux-nvme@lists.infradead.org;
-	Fri, 12 Jan 2024 15:40:56 +0000
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4TBQjS18ptz9spj;
-	Fri, 12 Jan 2024 16:40:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pankajraghav.com;
-	s=MBO0001; t=1705074044;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DjVPjjjOC9+VfIQIJ1ZCZOkIJE5V+3KCLHNSv8iSUzM=;
-	b=zKBAK2OEqLzWPvOw5JB/dhK2JTaVuc25nJgUcgCQYSRZZ/biXbLqIpI+ECzQKHy0aF8yP+
-	p1my3UGhK29FORk4ewodR9ldGGBjZFZAb8b3mRJopsKsfI7R6DlDr1AMPBcMfgvlSK8mk6
-	rJpWCsO2VWw+wKpGUw3qdE9XN6J3wiaOaMYtLNicjYW4IS7ev4lTnWJKQCp2Zw4H4driOy
-	qlYweryOcYIvRu0iVRVR3hkNuKY5A/2/LzWCm+2HDK7EHTQBNCrQ8MABxC5OMZZhbjQ8Ux
-	7ZjxeJxfYC11GaFO46EH2EM5l2/+8AhisWxOc4SSiIuAH69f9BX4C7poS2AuxQ==
-Date: Fri, 12 Jan 2024 16:40:40 +0100
-From: "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: Damien Le Moal <dlemoal@kernel.org>, 
-	Bart Van Assche <bvanassche@acm.org>, linux-block@vger.kernel.org, Yi Zhang <yi.zhang@redhat.com>, 
-	John Meneghini <jmeneghi@redhat.com>, linux-nvme@lists.infradead.org, hch@lst.de, 
-	Keith Busch <kbusch@kernel.org>, p.raghav@samsung.com, javier.gonz@samsung.com
-Subject: Re: [Report] blk-zoned/ZNS: non_power_of_2 of zone->len]
-Message-ID: <pvojitlhpwnxoc3zws5ufwsg2wnygirzobuuktbrcfv3b2zcyo@oevh6e2x3adx>
-References: <ZaCSOH7L+Nm6PvcN@fedora>
- <20503cd0-3a99-45bb-8374-40296a3cb92a@kernel.org>
- <ZaCyC5RIAcbkBYeL@fedora>
+	Fri, 12 Jan 2024 19:36:57 +0000
+Received: by mail-oa1-x2c.google.com with SMTP id 586e51a60fabf-204c9c002e0so3361045fac.0
+        for <linux-nvme@lists.infradead.org>; Fri, 12 Jan 2024 11:36:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705088214; x=1705693014; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=H4Kvga+gCCknNcaIDhI5P0YQnHCrcQUlvVgE/vEI7AQ=;
+        b=CgKqQZfJ5BEstkgK5DF4m8wUVeBg6TNWvOf11A3z5HAhr45UwIHnah9Ej0GTWg+slm
+         msHhhGZAoj+/i5L2HmwVZi4LnP+eZsS3swZjSrhkt1kGJtdyoxP9hQ2yj+mYBnV/dC6t
+         qdfEoYbPdOBW0VhcDE7iWn/fh8zl9zjf7CFK2Rogof5W8GrqqNQgbjXsUSdvzwIdbEiS
+         ZoWNsGmqEEA3VVXGWTQvAyYmHYN/0FM74Ft8pvJ/sexEnJAMiLmZvcrLnFNPuUsPwBUc
+         oXcre/7qa61FpJFEzXyBvCj0V97sy1GCZj3CoEbFHwP9QGSotzyXtxSAPp06udAuuJqy
+         0/IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705088214; x=1705693014;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=H4Kvga+gCCknNcaIDhI5P0YQnHCrcQUlvVgE/vEI7AQ=;
+        b=JZ6trFtQxCkhx1AVkZdob1dZfK1FAEESX7KZTZr7t3ljs90TYv7yyO6AWPUpjDxFTR
+         1aw6mBPU4v6PeshHWtfQiGUOwqrwBt1cVqotvu98t0x7vym7JBR2lWLTc4nHu2u8afGn
+         AjwwpwfQOGCspZBca/R3l18QzzhvBzf5V9CUDzD3pdfsChaxnrQjM344fw69B6KLM4LS
+         n1B1zqsXIade/3geZXJu0uy4Y/C0/Pqn0l4pzke3YK20dr30SsC8ZeLbcYpj/QM/PYoe
+         uKTHbMyllxHlgzZk+kVx9RV/h00CniJq2W54FEI59GUl+6P2VpOzUY6Uzk7qztI+21IQ
+         s1TA==
+X-Gm-Message-State: AOJu0YxvnhSRNxv8ZfRLGBFQQtvSNBNLjSGguvARq+C1qzPwrpnWXis3
+	PBCEIcPVdsE5UdYoho5Q0Fo=
+X-Google-Smtp-Source: AGHT+IEs16qGmAqhDHcPe664G8j2FDJbJZqAJRciT5h1idWKdvOb1zElvzcttSUTDiZq3Wfx1Pz3Dw==
+X-Received: by 2002:a05:6870:9f03:b0:1fb:75b:99c5 with SMTP id xl3-20020a0568709f0300b001fb075b99c5mr1870013oab.116.1705088213832;
+        Fri, 12 Jan 2024 11:36:53 -0800 (PST)
+Received: from [192.168.1.224] (067-048-091-116.res.spectrum.com. [67.48.91.116])
+        by smtp.gmail.com with ESMTPSA id qr1-20020a056870ef8100b0020650e8e782sm948786oab.57.2024.01.12.11.36.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Jan 2024 11:36:53 -0800 (PST)
+Message-ID: <6af7ec28-2114-47da-a5a6-b0b6357169eb@gmail.com>
+Date: Fri, 12 Jan 2024 13:36:51 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZaCyC5RIAcbkBYeL@fedora>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme_core: scan namespaces asynchronously
+To: Max Gurtovoy <mgurtovoy@nvidia.com>, Keith Busch <kbusch@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org
+References: <20240104163826.10561-1-stuart.w.hayes@gmail.com>
+ <ZZbhKM0L8pFYX_zd@kbusch-mbp>
+ <19075505-b1a6-48d3-9732-7277c4697cf6@nvidia.com>
+Content-Language: en-US
+From: stuart hayes <stuart.w.hayes@gmail.com>
+In-Reply-To: <19075505-b1a6-48d3-9732-7277c4697cf6@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240112_074054_119496_C3328BC3 
-X-CRM114-Status: GOOD (  19.78  )
+X-CRM114-CacheID: sfid-20240112_113656_513209_A76986D0 
+X-CRM114-Status: GOOD (  25.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,44 +96,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Ming,
-
-> > 
-> > It is the latter. There was a session at LSF/MM last year about this. I recall
-> > that the conclusion was that unless there is a strong user demand for non power
-> > of 2 zone size, we are not going to do anything about it. Because allowing
-> > non-power of 2 zone size has some serious consequences all over the place,
-> > including in FSes that natively support zoned devices. So relaxing that
-> > requirement is not trivial.
-> 
-> Just saw Bart's work on supporting non-power_of_2 zone len:
-> 
-> https://lore.kernel.org/linux-block/dc89c70e-4931-baaf-c450-6801c200c1d7@acm.org/
-
-As Bart said, I did most of the work in 2022.
 
 > 
-> IMO FS support might be another topic, cause FS isn't the only user,
-> also without block layer support, the device isn't usable, not mention FS.
+> 
+> On 04/01/2024 18:47, Keith Busch wrote:
+>> On Thu, Jan 04, 2024 at 10:38:26AM -0600, Stuart Hayes wrote:
+>>> Currently NVME namespaces are scanned serially, so it can take a long time
+>>> for all of a controller's namespaces to become available, especially with a
+>>> slower (fabrics) interface with large number (~1000) of namespaces.
+>>>
+>>> Use async function calls to make namespace scanning happen in parallel,
+>>> and add a (boolean) module parameter "async_ns_scan" to enable this.
+>>
+>> Hm, we're not doing a whole lot of blocking IO to bring up a namespace,
+>> so I'm a little surprised it makes a noticable difference. How much time
+>> improvement are you observing by parallelizing the scan? Is there a
+>> tipping point in Number of Namespaces where inline scanning is better
+>> than asynchronous? And if it is a meaningful gain, let's not introduce
+>> another module parameter to disable it.
+> 
+> I don't think it is a good idea since some of the namespace characteristics must be validated during re-connection time for example.
+> I actually prepared a patch that makes sure we sync the ns scanning before kicking the ns blk queue to avoid that situations.
+> for example, if for some reason ns1 change its uuid then we must remove it and open a new bdev instead. We can't kick old request to it...
 > 
 
-I also added a small dm target in the series that converts a non-po2
-device to a po2 device to support existing FS without modifications
-until native support is added in them.
 
-One of the main arguments against the support was the fragmentation it
-may cause in the FS world for zoned devices. Given that F2FS already
-supports non-po2 devices, it is only btrfs that will need some work to
-have native non-po2 support.
+Sorry for the delayed response--I thought I could get exact data on how long it takes with and
+without the patch before I responded, it is taking a while (I'm having to rely on someone else
+to do the testing).  I'll respond with the data as soon as I get it--hopefully it won't be too
+much longer.  The time it takes to scan namespaces adds up when there are 1000 namespaces and
+you have a fabrics controller on a network that isn't too fast.
 
-> Since non-power2 zoned device does exists, I'd suggest Bart to restart the
-> work and let linux cover more zoned devices(include non-power 2 zone).
-> 
+I don't expect there would be any reason to disable this.  I only put the module parameter to
+disable it in case there was some unforeseen issue, but I can remove that.
 
-I would be more than happy to provide my reviews if someone wants to do
-a respin on that series. IIRC, the changes to the block layer were not
-very intrusive.
+To Max Gurtovoy--this patch wouldn't change when or how namespaces are validated... it just
+puts the actual scan work function on a workqueue so the scans can happen in parallel.  It will
+do the same work to scan, at the same point, and it will wait for all the scanning to finish
+before proceeding.  I don't understand how this patch would make the situation you mention any
+worse.
 
---
-Pankaj
 
