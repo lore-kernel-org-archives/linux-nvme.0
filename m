@@ -4,70 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8156C3DA79
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Jan 2024 08:58:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14992C3DA79
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Jan 2024 08:59:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/L/zwohTcGyvL5vBEEgFc7QhY9G2Dg+wMzy4dnhdmnU=; b=dSjou910nS+7xXEP+ii8kjWE57
-	B7iS8GcDnfFV6TdVdKf4uHO1o8gKleI+vgvvsyhj4WyvE6Rf8mtgPaX2TH+4RLUwKSNx5ogV2H80+
-	RPv4I7rdNUNPs3pR1isVyrju6QGZuHjPr+ZADfqoKhe3iYkbfeW0RTGDMu4vBnOB8ocIGGdjEdDUM
-	/O8ay+Oeih4ex0LkrmsXNqvYWJ8numdROsG3CX3583mYWC12EpIyXxspmZvg86DTxv4mmmwNrU5f5
-	bLOuJW/Za5TXMA/qPAXNT7Cju4aESmkN5N16+fyNBXW6y65CQKotNYfXgjD5n+gdbwa+gEfWXO85r
-	I3jjrhIw==;
+	bh=IefIp2t/fh2woePw1t0V08Kx6jHYAq7UuoR9J1vZeXY=; b=UZBSZt76uM4u2mrUqvYRpNdbVw
+	XVNQP5cJ5HwU3J5o08lsfUFL9mLEw+auqT8o9W7nx/6yQQdJmLXcPeFCXlhswBiY01+GzKnYT1Tl1
+	fHoJhhyeQV4EkWE3oAYsqIuB0luQpdXmeLkaNwu2DdPVy6QWyq8Vd0ySVQsKv8zu1CV/nJKLD2aPs
+	1tldxQSaZB2j9MAvU9OUrmSzapMc/Ayl9dhGtvdZf2lEMmZZecE73g+srF9Z2geafojDpfsKb8NvF
+	xKrHsgXIxvzKONAekza3yTYeSJ81D4C6/eVRqJE/4mmkEKFSqIzr5S49v/XlxU4wNgH+lBEqdUjUu
+	G13wp0GQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rPInA-008Kq9-2T;
-	Mon, 15 Jan 2024 08:58:00 +0000
-Received: from mail-ed1-f53.google.com ([209.85.208.53])
+	id 1rPIp3-008LOC-0a;
+	Mon, 15 Jan 2024 08:59:57 +0000
+Received: from mail-ej1-f45.google.com ([209.85.218.45])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rPIn6-008KnY-2g
+	id 1rPIp0-008LNR-39
 	for linux-nvme@lists.infradead.org;
-	Mon, 15 Jan 2024 08:57:58 +0000
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-555d89bf8f4so2206981a12.1
-        for <linux-nvme@lists.infradead.org>; Mon, 15 Jan 2024 00:57:54 -0800 (PST)
+	Mon, 15 Jan 2024 08:59:56 +0000
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a2c4a4fa736so100888366b.0
+        for <linux-nvme@lists.infradead.org>; Mon, 15 Jan 2024 00:59:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705309073; x=1705913873;
+        d=1e100.net; s=20230601; t=1705309192; x=1705913992;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/L/zwohTcGyvL5vBEEgFc7QhY9G2Dg+wMzy4dnhdmnU=;
-        b=gcMTQ0+SM7w5OfV/trWR7dKrzCt4+X363sei6Pihef0caKAWRFct9TpqfyRySYshes
-         5XzLeZSKLZhgwX7oWvipM5sQTVRU19kfzaViFOgFitGTdbCa86lKBy3BPzPHoNZb6u93
-         B+uEAbvbGfwVJW1xaKuv5dkwcjQYNwXmD61GmARiCSmJ4bp2TYQpGYIxO8qzra4k0sK7
-         6Q/Uwi7gWadtZuk6rG6j4vPeaLBz+B8uCXNn12wF7MpGtPFNmmp0aXRLHcS+tHUHXuOi
-         4wl0d2uJ6jXe62WJBdt79SqgLX53m4ZcgGOWbYQ6TnmP1BCDwzIP/BwO4MhisMj/Yean
-         fZPg==
-X-Gm-Message-State: AOJu0YxaBqpdB+A9lFgonI34/bwb/mZ4NP1H4wIk2T3syoRs1ESU5V1d
-	8Dt0q+0lfjglKL+lbcnX2+o=
-X-Google-Smtp-Source: AGHT+IG6QzG64dtMZQpPuMAzHkybfMi9AugABDo2uAVmjw4I0ZwsdFD9zmZBf+cDnLr7ntZ9qNlsMQ==
-X-Received: by 2002:a05:6402:513:b0:557:e527:f799 with SMTP id m19-20020a056402051300b00557e527f799mr4928407edv.4.1705309073352;
-        Mon, 15 Jan 2024 00:57:53 -0800 (PST)
+        bh=IefIp2t/fh2woePw1t0V08Kx6jHYAq7UuoR9J1vZeXY=;
+        b=MJ6Z8ULXH9cTgRBc05V8Taes7PUETQO8qDNDi7Gh7LjBkctVSp+K4kD+IJlVU79c1Y
+         Is5SLO2L5TAV5I5IQ3M41aRw5JAE6Sppag5JWNIFjg6UGGGDtaHvm3LpBB2g7+j4Lp9k
+         +F+1o8u8nNFsaXeA2OCkznZ7p6wXNmzmqD7x5CYT8i7wVJfW/rQllZ3H7HBBOpHrn6A4
+         rR5WhGvlFDmLTNasbwVDtI2e06ssN/92h22OQybN1sk1+4r45ON1qP3iXNFRmzESbliA
+         ovu1UFoI3xJx2VE00GIFIZoXnHDzN73BJfWPzeCFOXkQtFkk/B9rWkZjA01UaJAKOAot
+         vs4A==
+X-Gm-Message-State: AOJu0YwnPvJaToBcn5/qryLvPu6XSf6v3L5w5ndcJcQ3DWCfADNhxTOx
+	xgfOQzkdzfup7RCAECJSU6o=
+X-Google-Smtp-Source: AGHT+IFSXnYncI3qkwf3Wh4zrafAahqKowPKp4c4GVIZY2A7gu7Jq3nMufFalpthUicDJrbXB2LGfg==
+X-Received: by 2002:a17:906:fa92:b0:a28:ab63:db33 with SMTP id lt18-20020a170906fa9200b00a28ab63db33mr5169435ejb.7.1705309192007;
+        Mon, 15 Jan 2024 00:59:52 -0800 (PST)
 Received: from [192.168.64.172] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id j14-20020a50ed0e000000b005550192159bsm5178732eds.62.2024.01.15.00.57.52
+        by smtp.gmail.com with ESMTPSA id cw8-20020a170907160800b00a2cd72af9cesm3768264ejd.146.2024.01.15.00.59.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Jan 2024 00:57:52 -0800 (PST)
-Message-ID: <6c87384e-36ee-4050-863d-63345a6951d5@grimberg.me>
-Date: Mon, 15 Jan 2024 10:57:50 +0200
+        Mon, 15 Jan 2024 00:59:51 -0800 (PST)
+Message-ID: <dcfe1277-bb99-4245-9f28-ae14e8ed8954@grimberg.me>
+Date: Mon, 15 Jan 2024 10:59:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme: Add quirk to fix hang issue on SanDisk SSD
+Subject: Re: [PATCH V2 3/3] nvme: introduce pr_work to handle resv event
 Content-Language: en-US
-To: =?UTF-8?Q?Sa=C3=BAl_Valdelvira?= <saul@saulv.es>,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>
+To: Guixin Liu <kanie@linux.alibaba.com>, hch@lst.de, kch@nvidia.com,
+ chaitanyak@nvidia.com
 Cc: linux-nvme@lists.infradead.org
-References: <20240113213012.30898-1-saul@saulv.es>
+References: <20240114092314.63694-1-kanie@linux.alibaba.com>
+ <20240114092314.63694-4-kanie@linux.alibaba.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20240113213012.30898-1-saul@saulv.es>
+In-Reply-To: <20240114092314.63694-4-kanie@linux.alibaba.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240115_005756_865949_E928048E 
-X-CRM114-Status: GOOD (  26.47  )
+X-CRM114-CacheID: sfid-20240115_005955_012076_68EF90D0 
+X-CRM114-Status: GOOD (  23.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,49 +83,117 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-> The WDC PC SN520 SSD hangs on boot when APST is enabled, unless the
-> nvme_core.default_ps_max_latency_us kernel parameter is set to a lower
-> value. Add an entry for this drive to the 'core_quirks' table with the
-> NO_DEEPEST_PS quirk to fix that.
+> When a reservation event is reported, the corresponding log page is
+> already on the target side, and the host side needs to send a get
+> log command to clear these log pages.
+
+AENs are already sent to userspace, I don't see why the kernel
+should read the log page unless it has something meaningful to
+do with it.
+
 > 
-> Signed-off-by: Saúl Valdelvira <saul@saulv.es>
+> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 > ---
-> This patch fixes an issue I've always had when running Linux on my
-> Acer Extensa 215-22 laptop. I think it might be useful to other people
-> with the same hardware as mine.
-> This is the first time I submit a patch to the kernel, so I hope I did
-> everything correctly and that I'm not wasting your time.
-
-Does this issue have a bugzilla link?
-
-> 
->   drivers/nvme/host/core.c | 12 +++++++++++-
->   1 file changed, 11 insertions(+), 1 deletion(-)
+>   drivers/nvme/host/core.c | 47 +++++++++++++++++++++++++++++++++++++++-
+>   drivers/nvme/host/nvme.h |  1 +
+>   2 files changed, 47 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 0af612387083..496563704c63 100644
+> index 60f14019f981..a906aea2f4a8 100644
 > --- a/drivers/nvme/host/core.c
 > +++ b/drivers/nvme/host/core.c
-> @@ -2626,7 +2626,17 @@ static const struct nvme_core_quirk_entry core_quirks[] = {
->   		.quirks = NVME_QUIRK_DELAY_BEFORE_CHK_RDY |
->   			  NVME_QUIRK_NO_DEEPEST_PS |
->   			  NVME_QUIRK_IGNORE_DEV_SUBNQN,
-> -	}
-> +	},
-> +	{
-> +		/*
-> +		 * This SanDisk SSD hangs on boot unless the
-> +		 * nvme_core.default_ps_max_latency_us kernel parameter is
-> +		 * set to a lower value.
-> +		 */
-> +		.vid = 0x15b7,
-> +		.mn = "WDC PC SN520 SDAPNUW-512G-1014",
-> +		.quirks = NVME_QUIRK_NO_DEEPEST_PS,
-> +	},
->   };
-> 
->   /* match is null-terminated but idstr is space-padded. */
-> --
-> 2.43.0
-> 
+> @@ -4220,6 +4220,47 @@ static void nvme_handle_aer_persistent_error(struct nvme_ctrl *ctrl)
+>   	nvme_reset_ctrl(ctrl);
+>   }
+>   
+> +static void nvme_queue_pr(struct nvme_ctrl *ctrl)
+> +{
+> +	if (nvme_ctrl_state(ctrl) == NVME_CTRL_LIVE)
+> +		queue_work(nvme_wq, &ctrl->pr_work);
+> +}
+> +
+> +static void nvme_pr_work(struct work_struct *work)
+> +{
+> +	struct nvme_ctrl *ctrl = container_of(work, struct nvme_ctrl, pr_work);
+> +	struct nvme_pr_log log = { 0 };
+> +	int error;
+> +
+> +	if (nvme_ctrl_state(ctrl) != NVME_CTRL_LIVE)
+> +		return;
+> +
+> +	error = nvme_get_log(ctrl, NVME_NSID_ALL, NVME_LOG_RESERVATION, 0,
+> +			NVME_CSI_NVM, &log, sizeof(log), 0);
+> +	if (error) {
+> +		dev_warn(ctrl->device,
+> +			 "reading reservation log failed: %d\n", error);
+> +		return;
+> +	}
+> +
+> +	if (log.nr_avl_pages)
+> +		nvme_queue_pr(ctrl);
+> +}
+> +
+> +static void nvme_handle_aen_css(struct nvme_ctrl *ctrl, u32 result)
+> +{
+> +	u32 aer_css_type = nvme_aer_subtype(result);
+> +
+> +	switch (aer_css_type) {
+> +	case NVME_AEN_RESV_LOG_PAGE_AVALIABLE:
+> +		nvme_queue_pr(ctrl);
+> +		break;
+> +	default:
+> +		ctrl->aen_result = result;
+> +		dev_warn(ctrl->device, "async event result %08x\n", result);
+> +	}
+> +}
+> +
+>   void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+>   		volatile union nvme_result *res)
+>   {
+> @@ -4236,6 +4277,9 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+>   	case NVME_AER_NOTICE:
+>   		requeue = nvme_handle_aen_notice(ctrl, result);
+>   		break;
+> +	case NVME_AER_CSS:
+> +		nvme_handle_aen_css(ctrl, result);
+> +		break;
+>   	case NVME_AER_ERROR:
+>   		/*
+>   		 * For a persistent internal error, don't run async_event_work
+> @@ -4247,7 +4291,6 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+>   		}
+>   		fallthrough;
+>   	case NVME_AER_SMART:
+> -	case NVME_AER_CSS:
+>   	case NVME_AER_VS:
+>   		ctrl->aen_result = result;
+>   		break;
+> @@ -4389,6 +4432,7 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
+>   	nvme_stop_keep_alive(ctrl);
+>   	nvme_stop_failfast_work(ctrl);
+>   	flush_work(&ctrl->async_event_work);
+> +	flush_work(&ctrl->pr_work);
+>   	cancel_work_sync(&ctrl->fw_act_work);
+>   	if (ctrl->ops->stop_ctrl)
+>   		ctrl->ops->stop_ctrl(ctrl);
+> @@ -4494,6 +4538,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+>   	ctrl->quirks = quirks;
+>   	ctrl->numa_node = NUMA_NO_NODE;
+>   	INIT_WORK(&ctrl->scan_work, nvme_scan_work);
+> +	INIT_WORK(&ctrl->pr_work, nvme_pr_work);
+>   	INIT_WORK(&ctrl->async_event_work, nvme_async_event_work);
+>   	INIT_WORK(&ctrl->fw_act_work, nvme_fw_act_work);
+>   	INIT_WORK(&ctrl->delete_work, nvme_delete_ctrl_work);
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index e7411dac00f7..6ea4552c4de3 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -334,6 +334,7 @@ struct nvme_ctrl {
+>   	struct nvme_effects_log *effects;
+>   	struct xarray cels;
+>   	struct work_struct scan_work;
+> +	struct work_struct pr_work;
+>   	struct work_struct async_event_work;
+>   	struct delayed_work ka_work;
+>   	struct delayed_work failfast_work;
 
