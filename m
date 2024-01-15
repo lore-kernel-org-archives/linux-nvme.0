@@ -4,66 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C95B9C3DA79
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Jan 2024 06:53:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1E312C3DA79
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Jan 2024 08:47:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=a81Ju24WBF7CIO3T1unR6UR/ARKlpSCnvwbebqfSTUY=; b=nWeGq1FrYo107S5XL9KZHjPP19
-	F/LEYg81EJ15S+y9KC9KVJrQDwGDLU+W/cT6Fve9e69ERfZB9AE7lL+gGPhjJjJ93j3GQCJBiMN2h
-	l+wsGPYy32na3ccxkqLSq+KlOb4TjBGfW+mE34WJkShugPrYBAn8vm4P03J4AOdVlRgOIkdg4TgNm
-	1Ud1ErlfGB5eFKJZ7gh0rMn9ocPQ77wtLOrb3QZxIecH7ONZ6MYqzO9p5GfXwTL+gItPs9t1bcgLr
-	+YB0joIs+XBoQSrvyso7EjHXodirZKmhxIG2V7OLyMu2DuVinqDhvF+LkipuB+Qy41QZDZomDz3vt
-	EsBuE1UA==;
+	bh=af0c4qw0ceHWmNUQwBLGyaQWzbBLs0yH9j68AMi/ymM=; b=RM1yrwhv+8QDTMjC9JUkYLz2KF
+	NtLIQl2nqqArRwAgKgnHy6Uf6QN/48GSoxS1Hi7aKDqO0xxIobML6bv5xZKApjVvSWHNEf34+TQR4
+	OY/VOQIr2trg4B/jTILqFVCjk18kgOu2fpwNTGUO94WFEDp1lP8onDnX8Lpsle1nplxQUU8+nOXBE
+	n3Li79/R2V+Ywmg/5+F5XhMtLzjX/nqIEYfSW8YKLSfArGpHARQJJcJ8zRe/gdccn2yHaZXUfQkEo
+	fXZOLcq4SVI5P5DREq1G0w2dSUTaKq0in6wso1eKqgoabb5m9s9tmMbvVqus6MYBNizIOmgdx/4km
+	Rvb9Q+Hw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rPGqz-0080Qd-0c;
-	Mon, 15 Jan 2024 06:53:49 +0000
-Received: from mailgw.kylinos.cn ([124.126.103.232])
+	id 1rPIcV-008IgO-2o;
+	Mon, 15 Jan 2024 08:46:59 +0000
+Received: from mail-lj1-x22a.google.com ([2a00:1450:4864:20::22a])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rPGqw-0080L0-0N
+	id 1rPIcS-008IdW-1M
 	for linux-nvme@lists.infradead.org;
-	Mon, 15 Jan 2024 06:53:48 +0000
-X-UUID: b13c22455a7543f58122e02b9107bdfc-20240115
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.35,REQID:de2d3315-cd84-4853-a1bb-18f2e590ddb8,IP:20,
-	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:15
-X-CID-INFO: VERSION:1.1.35,REQID:de2d3315-cd84-4853-a1bb-18f2e590ddb8,IP:20,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:15
-X-CID-META: VersionHash:5d391d7,CLOUDID:c1deda82-8d4f-477b-89d2-1e3bdbef96d1,B
-	ulkID:2401151448309NCJ8U9I,BulkQuantity:1,Recheck:0,SF:66|24|17|42|101|74|
-	38|100|19|102,TC:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:40,QS:nil,
-	BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_FSI,TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
-X-UUID: b13c22455a7543f58122e02b9107bdfc-20240115
-X-User: mengfanhui@kylinos.cn
-Received: from localhost.localdomain [(39.156.73.13)] by mailgw
-	(envelope-from <mengfanhui@kylinos.cn>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256 128/128)
-	with ESMTP id 2087022929; Mon, 15 Jan 2024 14:53:03 +0800
-From: mengfanhui <mengfanhui@kylinos.cn>
-To: kbusch@kernel.org,
-	axboe@kernel.dk
-Cc: mengfanhui@kylinos.cn,
-	linux-kernel@vger.kernel.org,
+	Mon, 15 Jan 2024 08:46:57 +0000
+Received: by mail-lj1-x22a.google.com with SMTP id 38308e7fff4ca-2ccec119587so102838051fa.0
+        for <linux-nvme@lists.infradead.org>; Mon, 15 Jan 2024 00:46:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20230601.gappssmtp.com; s=20230601; t=1705308412; x=1705913212; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=af0c4qw0ceHWmNUQwBLGyaQWzbBLs0yH9j68AMi/ymM=;
+        b=UlP3oELfFLOtOdJKudz1cyoprz3DxyvFroAEIaYHZ7Zm5SVUmoUgizM97OZAYn7tOu
+         NMItwqy37uB1/fb3J6FWr8VBvDHfF7D7vDZJSX9UbUj715zLZa3swag8Kn/+Js6S7zFx
+         KyTawJjuc2vUS5NGPTJg1SECUqMwA/O9y0uCLfYiCj2qGwZkq6sj4XvgSdPVPNlcq4GE
+         aM7Kyh7a2+2c9nSkDkB7IcGIMin9KhOG8rhaYOvfqtzPLdcEHLmhgDz6V4//zS1NEcxb
+         URGjM3Fpygf3Bhq7SSU37uAah058Cpj5MIkRe+ekZkN2oq3CXM3oLf/yLazCwSBfCt/d
+         UWvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705308412; x=1705913212;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=af0c4qw0ceHWmNUQwBLGyaQWzbBLs0yH9j68AMi/ymM=;
+        b=vrp5buQ4g07tT4pcv0NZtmmy2hPR1fiqTe7RysbxHonnqImQnSOPsgdvRvhWPQzQQA
+         NDCu1JHreisM4lgvfHcFjACccq/KkxYhsB53qaHQGOsl6p6Kkqv/0p7ZFGYWd5tNQiy2
+         W2BxDsqfAJaqNyUyYWDIlZAdQkSmtakwY93gvaCBzoXvLMD8GG9YuWic/bqKlyaG4Vd+
+         Ve+KO9lRVK9NtROd9W5onl2/x9+WopeboWvXE4kEy1imHjmteGXvrKV7tCOL9+53qYLe
+         ZYle2XscSxE3Y5sluGTXYIFlSBqZEOaPONQq3zHdazUMpLumQfZw2xKUS87hir2pyWwW
+         Anuw==
+X-Gm-Message-State: AOJu0YzH1ffmkgWnTdE+6+/I5G0DuJf8KCltsyvCnyHr7/eDFbk0GgpN
+	fJGxMD328StgExl+eGOB2yiNJ1Zowi+d7g==
+X-Google-Smtp-Source: AGHT+IGK8MH+CazDutDh5KhUA91iPm2QS3HgOT+gj3DZbv72Ccmc46G2CeN6HPpan13U+rWLqo9+kg==
+X-Received: by 2002:a05:6512:234e:b0:50e:6457:2bc2 with SMTP id p14-20020a056512234e00b0050e64572bc2mr3307332lfu.71.1705308411949;
+        Mon, 15 Jan 2024 00:46:51 -0800 (PST)
+Received: from system76-pc.. ([2a00:1370:81a4:169c:b283:d681:9baf:afcf])
+        by smtp.gmail.com with ESMTPSA id y22-20020a056512335600b0050eea9541casm970160lfd.44.2024.01.15.00.46.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jan 2024 00:46:51 -0800 (PST)
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: lsf-pc@lists.linux-foundation.org,
+	linux-fsdevel@vger.kernel.org,
+	javier.gonz@samsung.com
+Cc: a.manzanares@samsung.com,
+	linux-scsi@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
-	sagi@grimberg.me
-Subject: [PATCH] nvme/auth: optimize code redundancy and provide code quality
-Date: Mon, 15 Jan 2024 14:52:31 +0800
-Message-Id: <20240115065231.12733-1-mengfanhui@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	linux-block@vger.kernel.org,
+	slava@dubeiko.com,
+	Viacheslav Dubeyko <slava@dubeyko.com>
+Subject: [LSF/MM/BPF TOPIC] : Flexible Data Placement (FDP) availability for kernel space file systems
+Date: Mon, 15 Jan 2024 11:46:31 +0300
+Message-Id: <20240115084631.152835-1-slava@dubeyko.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240114_225346_569310_50C8D9F0 
-X-CRM114-Status: UNSURE (   7.49  )
+X-CRM114-CacheID: sfid-20240115_004656_463142_412C8B28 
+X-CRM114-Status: UNSURE (   7.30  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -79,31 +95,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Improve code quality. Reduce code redundancy.
+Hi Javier,
 
-Signed-off-by: mengfanhui <mengfanhui@kylinos.cn>
----
- drivers/nvme/common/auth.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Samsung introduced Flexible Data Placement (FDP) technology
+pretty recently. As far as I know, currently, this technology
+is available for user-space solutions only. I assume it will be
+good to have discussion how kernel-space file systems could
+work with SSDs that support FDP technology by employing
+FDP benefits.
 
-diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
-index a23ab5c968b9..4f9d06afdc38 100644
---- a/drivers/nvme/common/auth.c
-+++ b/drivers/nvme/common/auth.c
-@@ -250,9 +250,7 @@ struct nvme_dhchap_key *nvme_auth_transform_key(
- 	if (key->hash == 0) {
- 		key_len = nvme_auth_key_struct_size(key->len);
- 		transformed_key = kmemdup(key, key_len, GFP_KERNEL);
--		if (!transformed_key)
--			return ERR_PTR(-ENOMEM);
--		return transformed_key;
-+		return transformed_key ? transformed_key : ERR_PTR(-ENOMEM);
- 	}
- 	hmac_name = nvme_auth_hmac_name(key->hash);
- 	if (!hmac_name) {
+How soon FDP API will be available for kernel-space file systems?
+How kernel-space file systems can adopt FDP technology?
+How FDP technology can improve efficiency and reliability of
+kernel-space file system?
+Which new challenges FDP technology introduces for kernel-space
+file systems?
 
-base-commit: c29901006179c4c87f9335771e50814ec5707239
--- 
-2.25.1
+Could we have such discussion leading from Samsung side?
 
+Thanks,
+Slava
 
