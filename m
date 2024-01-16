@@ -4,81 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 23E59C47DA7
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Jan 2024 23:26:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA5CEC47077
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Jan 2024 23:34:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5AbMtdYOGo1fhl+G42pKobVSmDePppHlBmE4stx7gHo=; b=lW98bUuIBB8OEGzD4/T+ndGdUv
-	l7okkg9X/ij1KS29WCfbbX2YANVuMQI0Z7L+7Y/qHGaL/UTAmheCfJZi94HcSeGzINY6EFCyow1/e
-	pE5Ga/l0wtzPUuoVRLhji8LHNzZxYjyUSE/EGNw50mDIbQsa3cd4m29Z8rNVnjeEciy9Jr4rpntku
-	BBKWSZjnGnCgmzhoN4dNEZw7oO9+QoYJZEwYiiV4J4n+aF1CQHIybe2EkMhY5aOpR7KBO+8THMGLg
-	QNFT2jzCTab5AlLPJOMfTYuRHKpWYv07c/CMFPRXZ+i3H05rebuYgVbpk76QE0bxzFmGDhu++xSg7
-	18cc4/rw==;
+	bh=RHfKttsZU3O0V82J4CXjvOagf8pb2Xu1jbyuJyBG3YY=; b=qoGiA78yivYXprQ8TgFRsXQuRs
+	lF+K7nSXtkiSXlcO/08DOx9Bt18lSylLACGV9gcgooQLdSgI1WsfycGnyjmr/aQg7rLEo2le8M1Zp
+	tJy+DcAn4TJPQ2UHM4JDDe0nz3I663+Reio20v6C8p1xpB4GKKewNc3RLTgHtyqpUI9W13NzzUnTr
+	QlqhzYrBGTx3p2+1waXhSV8bMewyHegfSg0VI6jHKqi/ytX1hALgBUZTZ2sNgKh54hwp648wTghOu
+	G3VvbA4w6CcKMQRtipYM+znCyGiEles1riKFr0mfW8zmUMV9Zec/Yt1kJrRYBIeeICivuSk7Ysh0Q
+	lpS+fDzg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rPsp8-00DxGw-0a;
-	Tue, 16 Jan 2024 23:26:26 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1rPsxJ-00DyeC-31;
+	Tue, 16 Jan 2024 23:34:53 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rPsp4-00DxFg-3D
+	id 1rPsxF-00DycJ-36
 	for linux-nvme@lists.infradead.org;
-	Tue, 16 Jan 2024 23:26:25 +0000
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 40GMMM5F005088;
-	Tue, 16 Jan 2024 23:26:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2023-11-20;
- bh=5AbMtdYOGo1fhl+G42pKobVSmDePppHlBmE4stx7gHo=;
- b=T1ipV8UZscWiO6WrQpxED29rkqqolHipl0p2a2bf/E9cT8FY6AQvK+j84zlW9pZPkdtE
- UjlCVtmlTmi2EBgzdb1+VmSpltrEmAXY+LsJxpxwSII+W5/l70zsX8shrb8MlovDTFdk
- a4llsvsfq2zUGJKjltCJyGc6gfC1Vc0wCNcZoukEavWxCNC+zl32Yhnr0SUSCFU57nnj
- 1yGa/gkWicINJ2Bq4W/LOSwIc5sLA2NhrgN3OsaY7Uc6w7NdteAGI1KV5kg02xaC7ziq
- MRWEgC8Mf0xzxFK0taZcUw0DJUa6K6fbEr20lE50AD9/f+I9cGp+X/YN+AMR3HwOH6jj lA== 
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3vkq3gx30j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 16 Jan 2024 23:26:07 +0000
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 40GMRudT019916;
-	Tue, 16 Jan 2024 23:26:07 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3vkgy91xxn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 16 Jan 2024 23:26:07 +0000
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 40GNQ69s000490;
-	Tue, 16 Jan 2024 23:26:06 GMT
-Received: from ca-dev94.us.oracle.com (ca-dev94.us.oracle.com [10.129.136.30])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3vkgy91xwx-2;
-	Tue, 16 Jan 2024 23:26:06 +0000
-From: Alan Adamson <alan.adamson@oracle.com>
-To: linux-nvme@lists.infradead.org
-Cc: alan.adamson@oracle.com, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me
-Subject: [RFC 1/1] nvme: Add NVMe LBA Fault Injection
-Date: Tue, 16 Jan 2024 15:27:28 -0800
-Message-Id: <20240116232728.3392996-2-alan.adamson@oracle.com>
-X-Mailer: git-send-email 2.39.3
-In-Reply-To: <20240116232728.3392996-1-alan.adamson@oracle.com>
-References: <20240116232728.3392996-1-alan.adamson@oracle.com>
+	Tue, 16 Jan 2024 23:34:52 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 8127ECE19F4;
+	Tue, 16 Jan 2024 23:34:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECA1CC433C7;
+	Tue, 16 Jan 2024 23:34:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705448085;
+	bh=F+6hXN5spcHeGywfeBckLbhuAW6dKw/xoReTzVE+X80=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Js4eCoITLRQgEik6ypAuFRtxiooMJ1RqbV4GqvpJv36OiKDetBzakknn6LJrPRmZF
+	 9YJoq0lGGX1NEpiTL+pkwIeAmsiGrcKbdcDtS1KoDqiiMBcba22SCPZXGBeEHK/YL+
+	 ipV9f3X0Wze2SvBr4VPTEd7j3eP5epbSZzmc9zSgIbPMTwUsZZiBN9Cbt2jG2o9rm0
+	 v9RqXEP4AkklclFdAu5BvvJ8+MwvxwWQ7bffkt3dKMv1Wp01bTGZd/iArQnHv0wX/b
+	 l43kslV9FTOp9a03UgglOwXaNED8tDpyYwIf9IYJqBd/6qV9TUuiNZtp96d4RJSo1n
+	 I/pZJt6nxU8ow==
+Message-ID: <cc6999c2-2d53-4340-8e2b-c50cae1e5c3a@kernel.org>
+Date: Wed, 17 Jan 2024 08:34:43 +0900
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [LSF/MM/BPF TOPIC] Improving Zoned Storage Support
+Content-Language: en-US
+To: Bart Van Assche <bvanassche@acm.org>,
+ "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>
+Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Christoph Hellwig <hch@lst.de>
+References: <5b3e6a01-1039-4b68-8f02-386f3cc9ddd1@acm.org>
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <5b3e6a01-1039-4b68-8f02-386f3cc9ddd1@acm.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-16_14,2024-01-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 suspectscore=0 bulkscore=0
- spamscore=0 mlxlogscore=999 phishscore=0 malwarescore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
- definitions=main-2401160184
-X-Proofpoint-GUID: fQ1sGT6U51kdZkpk0DJjI-Ps2V1qVk_7
-X-Proofpoint-ORIG-GUID: fQ1sGT6U51kdZkpk0DJjI-Ps2V1qVk_7
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240116_152623_176365_CEC02F17 
-X-CRM114-Status: GOOD (  31.07  )
+X-CRM114-CacheID: sfid-20240116_153450_370589_8C17B41D 
+X-CRM114-Status: GOOD (  25.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,355 +77,105 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add support for injecting a fault when reading or writing a specific
-Logical Block Address (LBA).
+On 1/17/24 03:20, Bart Van Assche wrote:
+> The advantages of zoned storage are well known [1]:
+> * Higher sequential read and random read performance.
+> * Lower write amplification.
+> * Lower tail latency.
+> * Higher usable capacity because of less overprovisioning.
+> 
+> For many SSDs the L2P (logical to physical translation) table does not
+> fit entirely in the memory of the storage device. Zoned storage reduces
+> the size of the L2P table significantly and hence makes it much more
+> likely that the L2P table fits in the memory of the storage device. If
+> zoned storage eliminates L2P table paging, random read performance is
+> improved significantly.
+> 
+> A zoned storage SSD does not have to perform garbage collection. Hence,
+> write amplification and tail latency are reduced.
+> 
+> Zoned storage gives file systems control over how files are laid out on
+> the storage device. With zoned storage it is possible to allocate a
+> contiguous range of storage on the storage medium for a file. This
+> improves sequential read performance.
+> 
+> Log-structured file systems are a good match for zoned storage. Such
+> filesystems typically submit large bios to the block layer and have
+> multiple bios outstanding concurrently. The block layer splits bios if
+> their size exceeds the max_sectors limit (512 KiB for UFS; 128 KiB for a
+> popular NVMe controller). This increases the number of concurrently
+> outstanding bios further.
+> 
+> While the NVMe standard supports two different commands for writing to
+> zoned storage (Write and Zone Append), the SCSI standard only supports a
+> single command for writing to zoned storage (WRITE). A write append
+> emulation for SCSI exists in drivers/scsi/sd_zbc.c.
+> 
+> File system implementers have to decide whether to use Write or Zone
+> Append. While the Zone Append command tolerates reordering, with this
+> command the filesystem cannot control the order in which the data is
+> written on the medium without restricting the queue depth to one.
+> Additionally, the latency of write operations is lower compared to zone
+> append operations. From [2], a paper with performance results for one
+> ZNS SSD model: "we observe that the latency of write operations is lower
+> than that of append operations, even if the request size is the same".
 
-Steps to setup a fault on a LBA access.
+What is the queue depth for this claim ?
 
-1. Setup the attributes: probability, times, and status according to
-the original NVMe fault injector.
+> The mq-deadline I/O scheduler serializes zoned writes even if these got
+> reordered by the block layer. However, the mq-deadline I/O scheduler,
+> just like any other single-queue I/O scheduler, is a performance
+> bottleneck for SSDs that support more than 200 K IOPS. Current NVMe and
+> UFS 4.0 block devices support more than 200 K IOPS.
 
-echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
-echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
-echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/status
+FYI, I am about to post 20-something patches that completely remove zone write
+locking and replace it with "zone write plugging". That is done above the IO
+scheduler and also provides zone append emulation for drives that ask for it.
 
-2. Specify one or more LBAs: To configure a LBA, set the lba-inject-set
-attribute to the LBA.
+With this change:
+ - Zone append emulation is moved to the block layer, as a generic
+implementation. sd and dm zone append emulation code is removed.
+ - Any scheduler can be used, including "none". mq-deadline zone block device
+special support is removed.
+ - Overall, a lot less code (the series removes more code than it adds).
+ - Reordering problems such as due to IO priority is resolved as well.
 
-echo 0x22 > /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-set
+This will need a lot of testing, which we are working on. But your help with
+testing on UFS devices will be appreciated as well.
 
-3. Enable the LBA injector: by setting the lba-inject-enable attribute
-to on.
+> 
+> Supporting more than 200 K IOPS and giving the filesystem control over
+> the data layout is only possible by supporting multiple outstanding
+> writes and by preserving the order of these writes. Hence the proposal
+> to discuss this topic during the 2024 edition of LSF/MM/BPF summit.
+> Potential approaches to preserve the order of zoned writes are as follows:
+> * Track (e.g. in a hash table) for which zones there are pending zoned
+>    writes and submit all zoned writes per zone to the same hardware
+>    queue.
+> * For SCSI, if a SCSI device responds with a unit attention to a zoned
+>    write, activate the error handler if the block device reports an
+>    unaligned write error and sort by LBA and resubmit the zoned writes
+>    from inside the error handler.
+> 
+> In other words, this proposal is about supporting both the Write and
+> Zone Append commands as first class operations and to let filesystem
+> implementers decide which command(s) to use.
+> 
+> [1] Stavrinos, Theano, Daniel S. Berger, Ethan Katz-Bassett, and Wyatt
+> Lloyd. "Don't be a blockhead: zoned namespaces make work on conventional
+> SSDs obsolete." In Proceedings of the Workshop on Hot Topics in
+> Operating Systems, pp. 144-151. 2021.
+> 
+> [2] K. Doekemeijer, N. Tehrany, B. Chandrasekaran, M. Bjørling and A.
+> Trivedi, "Performance Characterization of NVMe Flash Devices with Zoned
+> Namespaces (ZNS)," 2023 IEEE International Conference on Cluster
+> Computing (CLUSTER), Santa Fe, NM, USA, 2023, pp. 118-131, doi:
+> 10.1109/CLUSTER52292.2023.00018.
+> (https://ieeexplore.ieee.org/abstract/document/10319951).
+> 
 
-echo on > /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-enable
-
-To display the LBAs configured:
-
-cat /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-show
-LBA  Status
-22   1
-
-To stop injecting a fault on a LBA:
-
-echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-clear
-echo 0x22 > /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-set
-
-Signed-off-by: Alan Adamson <alan.adamson@oracle.com>
----
- .../fault-injection/nvme-fault-injection.rst  |  28 ++++
- drivers/nvme/host/core.c                      |   4 +-
- drivers/nvme/host/fault_inject.c              | 145 ++++++++++++++++--
- drivers/nvme/host/nvme.h                      |  16 +-
- 4 files changed, 178 insertions(+), 15 deletions(-)
-
-diff --git a/Documentation/fault-injection/nvme-fault-injection.rst b/Documentation/fault-injection/nvme-fault-injection.rst
-index 1d4427890d75..e17f49886fc4 100644
---- a/Documentation/fault-injection/nvme-fault-injection.rst
-+++ b/Documentation/fault-injection/nvme-fault-injection.rst
-@@ -176,3 +176,31 @@ Message from dmesg::
-    secondary_startup_64+0xa4/0xb0
-   nvme nvme0: Could not set queue count (16385)
-   nvme nvme0: IO queues not created
-+
-+Example 4: Inject an error when reading or writing Logical Block Addrss (LBA) 0x22
-+----------------------------------------------------------------------------------
-+
-+::
-+
-+  echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
-+  echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
-+  echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/status
-+  echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/dont_retry
-+  echo 0x22 > /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-set
-+  cat /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-show
-+  LBA	Status
-+  21	1
-+
-+  echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-enable
-+  dd if=/dev/nvme0n1 of=/dev/null iflag=direct count=100
-+  dd: error reading '/dev/nvme0n1': Operation not supported
-+  33+0 records in
-+  33+0 records out
-+  16896 bytes (17 kB, 16 KiB) copied, 0.00711112 s, 2.4 MB/s
-+
-+  echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-clear
-+  echo 0x22 > /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-set
-+  cat /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-show
-+  LBA   Status
-+
-+  echo 0 > /sys/kernel/debug/nvme0n1/fault_inject/lba-inject-enable
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 8ebdfd623e0f..435ef8b475c0 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3681,7 +3681,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
- 		nvme_add_ns_cdev(ns);
- 
- 	nvme_mpath_add_disk(ns, info->anagrpid);
--	nvme_fault_inject_init(&ns->fault_inject, ns->disk->disk_name);
-+	nvme_fault_inject_init(&ns->fault_inject, ns->disk->disk_name, 1);
- 
- 	return;
- 
-@@ -4548,7 +4548,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	dev_pm_qos_update_user_latency_tolerance(ctrl->device,
- 		min(default_ps_max_latency_us, (unsigned long)S32_MAX));
- 
--	nvme_fault_inject_init(&ctrl->fault_inject, dev_name(ctrl->device));
-+	nvme_fault_inject_init(&ctrl->fault_inject, dev_name(ctrl->device), 0);
- 	nvme_mpath_init_ctrl(ctrl);
- 	ret = nvme_auth_init_ctrl(ctrl);
- 	if (ret)
-diff --git a/drivers/nvme/host/fault_inject.c b/drivers/nvme/host/fault_inject.c
-index 1ba10a5c656d..81107ab66e21 100644
---- a/drivers/nvme/host/fault_inject.c
-+++ b/drivers/nvme/host/fault_inject.c
-@@ -5,6 +5,8 @@
-  * Copyright (c) 2018, Oracle and/or its affiliates
-  */
- 
-+#include <linux/kernel.h>
-+#include <linux/module.h>
- #include <linux/moduleparam.h>
- #include "nvme.h"
- 
-@@ -15,8 +17,88 @@ static DECLARE_FAULT_ATTR(fail_default_attr);
- static char *fail_request;
- module_param(fail_request, charp, 0000);
- 
-+static void nvme_free_lba_block(struct lba_blk *lba_block)
-+{
-+	list_del(&lba_block->node);
-+	kfree(lba_block);
-+}
-+
-+static void nvme_free_all_lba_blocks(struct nvme_fault_inject *fault_inj)
-+{
-+	struct lba_blk *lba_block;
-+	struct list_head *list_ptr, *tmp;
-+
-+	list_for_each_prev_safe(list_ptr, tmp, &fault_inj->lba_list) {
-+		lba_block = list_entry(list_ptr, struct lba_blk, node);
-+		list_del(list_ptr);
-+		kfree(lba_block);
-+	}
-+}
-+
-+static int nvme_lba_inject_set(void *data, u64 val)
-+{
-+	struct nvme_fault_inject *fault_inj = data;
-+	struct lba_blk *lba_block;
-+	int lba;
-+	int ret = 0;
-+
-+	lba =  val;
-+	mutex_lock(&fault_inj->lba_block_lock);
-+	if (fault_inj->lba_clear) {
-+		list_for_each_entry(lba_block,
-+		    &fault_inj->lba_list, node) {
-+			if (lba_block->lba == lba) {
-+				nvme_free_lba_block(lba_block);
-+				fault_inj->lba_clear = 0;
-+				mutex_unlock(&fault_inj->lba_block_lock);
-+				return ret;
-+			}
-+		}
-+		fault_inj->lba_clear = 0;
-+		mutex_unlock(&fault_inj->lba_block_lock);
-+		return ret;
-+	}
-+
-+	list_for_each_entry(lba_block, &fault_inj->lba_list, node) {
-+		if (lba_block->lba == lba) {
-+			lba_block->status = fault_inj->status;
-+			mutex_unlock(&fault_inj->lba_block_lock);
-+			return ret;
-+		}
-+	}
-+
-+	lba_block = kmalloc(sizeof(struct lba_blk), GFP_KERNEL);
-+	lba_block->lba = lba;
-+	lba_block->status = fault_inj->status;
-+
-+	list_add(&lba_block->node, &fault_inj->lba_list);
-+
-+	mutex_unlock(&fault_inj->lba_block_lock);
-+	return ret;
-+}
-+
-+static int nvme_lba_inject_show(struct seq_file *file, void *data)
-+{
-+	struct nvme_fault_inject *fault_inj = file->private;
-+	struct lba_blk *lba_block;
-+
-+	seq_printf(file, "LBA	Status\n");
-+	mutex_lock(&fault_inj->lba_block_lock);
-+	list_for_each_entry(lba_block, &fault_inj->lba_list, node) {
-+		seq_printf(file, "%llx	%x\n",
-+		    lba_block->lba, lba_block->status);
-+	}
-+	mutex_unlock(&fault_inj->lba_block_lock);
-+
-+	return 0;
-+}
-+
-+DEFINE_SHOW_ATTRIBUTE(nvme_lba_inject);
-+DEFINE_DEBUGFS_ATTRIBUTE(nvme_lba_inject_set_fops, NULL,
-+			 nvme_lba_inject_set, "%llu\n");
-+
- void nvme_fault_inject_init(struct nvme_fault_inject *fault_inj,
--			    const char *dev_name)
-+			    const char *dev_name, bool lba_inject)
- {
- 	struct dentry *dir, *parent;
- 	struct fault_attr *attr = &fault_inj->attr;
-@@ -41,15 +123,34 @@ void nvme_fault_inject_init(struct nvme_fault_inject *fault_inj,
- 	}
- 	fault_inj->parent = parent;
- 
-+	INIT_LIST_HEAD(&fault_inj->lba_list);
-+
- 	/* create debugfs for status code and dont_retry */
- 	fault_inj->status = NVME_SC_INVALID_OPCODE;
- 	fault_inj->dont_retry = true;
-+	fault_inj->lba_clear = 0;
-+	fault_inj->lba_inject_enable = false;
-+	mutex_init(&fault_inj->lba_block_lock);
-+
- 	debugfs_create_x16("status", 0600, dir,	&fault_inj->status);
- 	debugfs_create_bool("dont_retry", 0600, dir, &fault_inj->dont_retry);
-+	if (lba_inject) {
-+		debugfs_create_bool("lba-inject-clear", 0600, dir, &fault_inj->lba_clear);
-+		debugfs_create_bool("lba-inject-enable", 0600, dir,
-+		    &fault_inj->lba_inject_enable);
-+		debugfs_create_file("lba-inject-show", 0600, dir,
-+		    fault_inj, &nvme_lba_inject_fops);
-+		debugfs_create_file_unsafe("lba-inject-set", 0600, dir,
-+		    fault_inj, &nvme_lba_inject_set_fops);
-+	}
- }
- 
- void nvme_fault_inject_fini(struct nvme_fault_inject *fault_inject)
- {
-+        mutex_lock(&fault_inject->lba_block_lock);
-+	nvme_free_all_lba_blocks(fault_inject);
-+        mutex_unlock(&fault_inject->lba_block_lock);
-+
- 	/* remove debugfs directories */
- 	debugfs_remove_recursive(fault_inject->parent);
- }
-@@ -58,25 +159,47 @@ void nvme_should_fail(struct request *req)
- {
- 	struct gendisk *disk = req->q->disk;
- 	struct nvme_fault_inject *fault_inject = NULL;
-+	struct nvme_ns *ns = NULL;
-+	struct lba_blk *lba_block = NULL;
- 	u16 status;
- 
- 	if (disk) {
--		struct nvme_ns *ns = disk->private_data;
--
-+		ns = disk->private_data;
- 		if (ns)
- 			fault_inject = &ns->fault_inject;
- 		else
- 			WARN_ONCE(1, "No namespace found for request\n");
--	} else {
-+	} else
- 		fault_inject = &nvme_req(req)->ctrl->fault_inject;
--	}
- 
--	if (fault_inject && should_fail(&fault_inject->attr, 1)) {
--		/* inject status code and DNR bit */
--		status = fault_inject->status;
--		if (fault_inject->dont_retry)
--			status |= NVME_SC_DNR;
--		nvme_req(req)->status =	status;
-+	if (!fault_inject || !should_fail(&fault_inject->attr, 1))
-+		return;
-+
-+	mutex_lock(&fault_inject->lba_block_lock);
-+
-+	if (fault_inject->lba_inject_enable) {
-+		u64 req_lba_start, req_lba_end;
-+
-+		req_lba_start = blk_rq_pos(req);
-+		req_lba_end = req_lba_start + blk_rq_sectors(req) - 1;
-+
-+		list_for_each_entry(lba_block, &fault_inject->lba_list, node) {
-+			if ((lba_block->lba >= req_lba_start) &&
-+			    (lba_block->lba <= req_lba_end))
-+				goto inject_fault;
-+		}
-+
-+		mutex_unlock(&fault_inject->lba_block_lock);
-+		return;
- 	}
-+
-+inject_fault:
-+	mutex_unlock(&fault_inject->lba_block_lock);
-+
-+	/* inject status code and DNR bit */
-+	status = fault_inject->status;
-+	if (fault_inject->dont_retry)
-+		status |= NVME_SC_DNR;
-+	nvme_req(req)->status =	status;
- }
- EXPORT_SYMBOL_GPL(nvme_should_fail);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index e7411dac00f7..447ce832613c 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -16,6 +16,7 @@
- #include <linux/rcupdate.h>
- #include <linux/wait.h>
- #include <linux/t10-pi.h>
-+#include <linux/list.h>
- 
- #include <trace/events/block.h>
- 
-@@ -245,7 +246,11 @@ struct nvme_fault_inject {
- 	struct fault_attr attr;
- 	struct dentry *parent;
- 	bool dont_retry;	/* DNR, do not retry */
-+	bool lba_clear;
-+	bool lba_inject_enable;
- 	u16 status;		/* status code */
-+	struct mutex		lba_block_lock;
-+	struct list_head	lba_list;
- #endif
- };
- 
-@@ -484,6 +489,13 @@ enum nvme_ns_features {
- 	NVME_NS_DEAC,		/* DEAC bit in Write Zeores supported */
- };
- 
-+typedef struct lba_blk {
-+	u64			lba;
-+	u16			status;
-+	u32			times;
-+	struct list_head	node;
-+} lba_blk_t;
-+
- struct nvme_ns {
- 	struct list_head list;
- 
-@@ -621,12 +633,12 @@ static inline void nvme_print_device_info(struct nvme_ctrl *ctrl)
- 
- #ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
- void nvme_fault_inject_init(struct nvme_fault_inject *fault_inj,
--			    const char *dev_name);
-+			    const char *dev_name, bool lba_inject);
- void nvme_fault_inject_fini(struct nvme_fault_inject *fault_inject);
- void nvme_should_fail(struct request *req);
- #else
- static inline void nvme_fault_inject_init(struct nvme_fault_inject *fault_inj,
--					  const char *dev_name)
-+					  const char *dev_name, bool lba_inject)
- {
- }
- static inline void nvme_fault_inject_fini(struct nvme_fault_inject *fault_inj)
 -- 
-2.39.3
+Damien Le Moal
+Western Digital Research
 
 
