@@ -4,73 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48F3AC4706C
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Jan 2024 08:10:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C1683C4706C
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Jan 2024 08:31:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xMBQFIUc876c34QlGFj5kCBCwaB1hFXiQWq6EzUwpEM=; b=asQ1iccxU4nT1bmnzpy8b/JcJV
-	kEzqJEo5wptty5gsW7QsmgaHqErn6MJQ75NSVfV4KeJV0LsEIDhOego0l89gQoTA0A/Mek7hVbTP6
-	MmGvJz7kRPf7Eunf3cKxk6LNz3YdcLnpiT4VcOhGdvzLraSFxwpSctBVGzbRDK9l6DpMeJt6Zw/Hr
-	qgSG8R6c1LAM4PjEo7m+xQrnDbDHFDeD0k+JEjwB/uMeer4X1ShhjNysthXnv1ADQIbmAnHfovP+2
-	ptyImqAxtb9wGaz2+S/vDTMeO/X1O0dabFj7ZZ5IdxX+QorcKlkHvkloL9F1Y276uBmwuvdeyanVh
-	tjhtn19g==;
+	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=3C0lFFl3FyqJxhWazybBxamNtYGn+JlC8TtPqc/zclI=; b=4CCKKSk/Plal2U7yBiroEQ018X
+	X7c9xE6dyPqn7W4e5+GPs0Mtd5J82rmbwUSHLbhF7AcBQoprGiUTspWouTFJp0tit8q/HXKuzasLN
+	KFjdqAJJCqy98kKNI9pyMpYPP50OAvkJxoN26H4wMu5FXZK+dLxqC1pLF7yb0aa3fi9YBm4R2j66s
+	vNzqEC3njVBmO27OdunZYbTieBfuYLxTUTrbdGgJ5uGR5tify48+Urv7DANLEx1v67QzGrvnuBctR
+	M9MeTu8ls3Y536xNMhyeQct2ereMN+fR66J0bdewB/ZvzCMDr3tXGPePmpBtBJR2EYMM4bo6u2ATw
+	JRR0Kztw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rPeWE-00BMqp-1U;
-	Tue, 16 Jan 2024 08:09:58 +0000
-Received: from mail-lf1-f49.google.com ([209.85.167.49])
+	id 1rPer2-00BQCk-1u;
+	Tue, 16 Jan 2024 08:31:28 +0000
+Received: from mail.entropitech.pl ([141.94.250.74])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rPeWC-00BMq8-1B
+	id 1rPeqz-00BQC8-0X
 	for linux-nvme@lists.infradead.org;
-	Tue, 16 Jan 2024 08:09:57 +0000
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-50e6c0c0c6bso2097186e87.0
-        for <linux-nvme@lists.infradead.org>; Tue, 16 Jan 2024 00:09:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705392591; x=1705997391;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xMBQFIUc876c34QlGFj5kCBCwaB1hFXiQWq6EzUwpEM=;
-        b=CTvnkN0g+FgwOmw8aNhIB2YzZQXzoD0/luKwrgNDdetKme6lUKEPYYSA9uU0S3vuH/
-         PGGj3VQFEw+YG4ByrxMTNm+3diO61WfkM79qYt4dNfQrFkn9+ipRW8zeyGGGMrcuKs/0
-         i1lg09VVOpIgbQSf991TizRpIR5qWr1/5habLRVg0mXiGqvAC2VNFWv+tX+znjMUgV5/
-         ktFvHk9RIo64pkKk+hh2G3qX6raeM262D2dyn+RXP6iV/6B0wnUGwh2dZtPh9sBadCvU
-         RvOz378tgmGJzvfAmbY9L+JzJ0Jkh9TRPKKg4s7fbeWWlfh7GhxPgLGw8DyIDVIfWQ/u
-         5fJA==
-X-Gm-Message-State: AOJu0YznXkqFpQJhuA9ybedQWXWWavcie3vaKlTNI1upUGFDqtp3jwIn
-	fco3nmHUzAfgG2cD3FBc7nw=
-X-Google-Smtp-Source: AGHT+IHBoDCshdlQxeop4p+9fUdt7tngJv50cHq+3B66DtvHaj2UCXnNuEX/1RU1wwnmrWs97bpL7w==
-X-Received: by 2002:a05:6512:3122:b0:50e:76f1:be2e with SMTP id p2-20020a056512312200b0050e76f1be2emr6800229lfd.6.1705392590486;
-        Tue, 16 Jan 2024 00:09:50 -0800 (PST)
-Received: from [192.168.64.172] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id e6-20020a5d5006000000b0033686e8f02dsm13919384wrt.45.2024.01.16.00.09.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Jan 2024 00:09:49 -0800 (PST)
-Message-ID: <493dfa7c-a0f3-4207-90a8-b22fb17edf20@grimberg.me>
-Date: Tue, 16 Jan 2024 10:09:47 +0200
+	Tue, 16 Jan 2024 08:31:27 +0000
+Received: by mail.entropitech.pl (Postfix, from userid 1002)
+	id 3D4E6A3BB1; Tue, 16 Jan 2024 08:31:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=entropitech.pl;
+	s=mail; t=1705393877;
+	bh=3C0lFFl3FyqJxhWazybBxamNtYGn+JlC8TtPqc/zclI=;
+	h=Date:From:To:Subject:From;
+	b=U7dtAy/zQtf1y7HrECYIHAjCy0zfbapTkWSgeGYF0c/chS4hG/zvlvLrZmqAeLPst
+	 oSg8hjCVsNtQZv2JtOhrBASSLcal+gn3NMNi2BQfxxddCY0W5nZhkKiroWlFJBHixx
+	 3oVATUIPie730nzi7EVC1b/15eWDIp9LRBwIwddfqxSQ8HDCMbVFKEEg9kJISUQJ6v
+	 tuoFJb3Hrsb9U6U0uQ5/ed6PLGPD3MHDEAzKg9q0fWXzYEWrEHBrh4YMUKHyKRlSdJ
+	 hwtn5nXNzwL4QsSblcU7+iAseNIR4OoBPv45Ciz06x9ebYYrbNi90SHw7NJDTjgcFm
+	 T1iXw0bqfX+zg==
+Received: by mail.entropitech.pl for <linux-nvme@lists.infradead.org>; Tue, 16 Jan 2024 08:31:12 GMT
+Message-ID: <20240116074500-0.1.ed.p5s4.0.da4ufmjxvq@entropitech.pl>
+Date: Tue, 16 Jan 2024 08:31:12 GMT
+From: "Szymon Faryk" <szymon.faryk@entropitech.pl>
+To: <linux-nvme@lists.infradead.org>
+Subject: =?UTF-8?Q?Zam=C3=B3wienie_na_klimatyzatory_postojowe?=
+X-Mailer: mail.entropitech.pl
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme: Add quirk to fix hang issue on SanDisk SSD
-Content-Language: en-US
-To: =?UTF-8?Q?Sa=C3=BAl_Valdelvira?= <saul@saulv.es>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org
-References: <20240113213012.30898-1-saul@saulv.es>
- <f2822df1-22db-426c-86cd-a7509e624e06@grimberg.me>
- <lnfpduryv5nwibiejqxnvohr4pcismnkyzkowqvit3gkpdgt3d@ojcvlonaolzu>
- <df8864fe-655a-4890-a19c-7fb69513aeb5@grimberg.me>
- <qy2em323bnjfuy5if2yyxw5qrzurplltlzqgpg6xpbnh4hfy4f@olq7qyaudjcr>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <qy2em323bnjfuy5if2yyxw5qrzurplltlzqgpg6xpbnh4hfy4f@olq7qyaudjcr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240116_000956_423795_59D7BD76 
-X-CRM114-Status: GOOD (  11.92  )
+X-CRM114-CacheID: sfid-20240116_003125_960282_4D2EB58E 
+X-CRM114-Status: UNSURE (   2.35  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,20 +67,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Dzie=C5=84 dobry,=20
 
->> Strange. Not sure why it wouldn't work unless the vendor/device numbers
->> are off...
->>
-> I got the numbers from the this command "lspci -nn | grep -i nvme"
-> The output was :
-> "04:00.0 Non-Volatile memory controller [0108]: Sandisk Corp WD Blue
->      SN500 / PC SN520 [15b7:5003] (rev 01)"
-> 
-> So vendor id is 15b7 and device id is 5003, am I right?
-> 
+kontaktuj=C4=99 si=C4=99 z Pa=C5=84stwem, poniewa=C5=BC w ofercie naszej =
+firmy znajd=C4=85 Pa=C5=84stwo szeroki wyb=C3=B3r nowoczesnej i intuicyjn=
+ej klimatyzacji postojowej do aut i maszyn.
 
-Seems so, but it doesn't makes sense to me why it doesn't work.
+Oferujemy swoim Klientom urz=C4=85dzenia czo=C5=82owych producent=C3=B3w,=
+ maj=C4=85 Pa=C5=84stwo mo=C5=BCliwo=C5=9B=C4=87 wybra=C4=87 instalacj=C4=
+=99, kt=C3=B3ra spe=C5=82ni wszystkie oczekiwania i zapewni komfort w ka=C5=
+=BCdych warunkach.
 
-Do you have force_apst enabled?
-What is the ctrl npss value?
+Mamy w swoim asortymencie klimatyzatory pod=C5=82awkowe, kamerowe, klimat=
+yzatory z pilotem oraz rozwi=C4=85zania dopasowane do kamper=C3=B3w i =C5=
+=82odzi.
+
+Zajmujemy si=C4=99 nie tylko sprzeda=C5=BC=C4=85, ale r=C3=B3wnie=C5=BC f=
+achowym doradztwem i monta=C5=BCem klimatyzacji. =C5=9Awiadczymy r=C3=B3w=
+nie=C5=BC us=C5=82ugi serwisowe i przegl=C4=85dy.=20
+
+Czy s=C4=85 Pa=C5=84stwo zainteresowani?=20
+
+
+Pozdrawiam
+Szymon Faryk
 
