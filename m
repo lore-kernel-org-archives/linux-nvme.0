@@ -4,140 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EECD7C3DA79
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Jan 2024 22:21:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C23AC3DA79
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Jan 2024 01:57:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gcopmWtmMCH8X+j/MARcFexlGZH4XRb7EfSKKH9TfpI=; b=qrrO4Fjd/iNCzIQH/qWFwwqNT/
-	jzU9bgy+6ScQOjQDwX9sOXazQg5vy6zjrEvupZSFN7oxy7sxjqjEM4xvUkXV3zil8ywo0oy5wuoYr
-	iMAbjGFNiTPn/qH+bEW+zcLl0/0UyHhAImkE73yp/42r2n0Lts6SVYznw7+spUb9JJbweAIUEbfMb
-	Q2OgiuS1Ajyt4TP5lqOrw13EJAmPTR+o/pviM4tKesYGNB0PqRatWtHCZeu8a4xxyzMh7bjFXJeuG
-	S9Yel2FIFJxFvuZP1kMs6hl3H9P3xJwEz+3HpsxvuoPKi1+HTphLe++dIZP0W2a3ciJTeVFa/fFUW
-	R8HiqNQQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=1e5sceS/V8rZ99e8+ZHPXQP1vQf9e9p09X+IAk0AU00=; b=28C9UL4IElzz9j4KF8uRFI2DJR
+	ZijlCfPrgwoWqgKFtkRm9/8ISdZ5AJ5M177YgcSRvQ3LKUYTplsrYOYKozqOYdeBAOPZLcXzXxWf4
+	wjfiU6dJXTQ0oqf2OB1IXmXxRvbB97ista53zDdN82DM7nEuUPWNpQHrrmFBWyeCsIMKfQj15UKHX
+	lsuSYxHOGYrsqBTFIrqfigGVneQ1RkcqLupBvXg5TlKkaz7X/DOyEYtMUOSaiFzJS3HgIOREAT7+P
+	eQcaoNTM4Y15ZiuTbmZyNopxUj8H5D74Xkw1a6HaZk6B1G9xVCqppFpkT+yz4aoDW7b5+KwqhEtN9
+	PBxSD2uQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rPVL3-00AI6Z-2n;
-	Mon, 15 Jan 2024 22:21:49 +0000
-Received: from mail-co1nam11on20600.outbound.protection.outlook.com ([2a01:111:f403:2416::600] helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+	id 1rPYht-00AlYr-2O;
+	Tue, 16 Jan 2024 01:57:37 +0000
+Received: from out30-110.freemail.mail.aliyun.com ([115.124.30.110])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rPVL0-00AI5n-39
+	id 1rPYhp-00AlWe-1f
 	for linux-nvme@lists.infradead.org;
-	Mon, 15 Jan 2024 22:21:48 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CBqMei+besKrp8o7jQo5H+yXaCUbqhkJHEb0fnDQi+PUJAS6+qfkxqgU0FMFtbl61pzSrJe8zJ6e62/hlypCe2LjeubZRR2eNqN2vGjC4tEc4XjRmwGbArZzTdtsT/rd5Cxg5g+KhJq6r3ZiXOlneS19ihOFkIh38Xbv24viC1hV6E9xqk1wuZzJhpPMismawRL9XfnhavauLMQ6FQOJc+g0LgLnTinpCMoNRf5cn6utEhaMqzNJCSyqTt4JfeTUTiNvDT+PMQFfiuwh6IMUfLK+Y3fq/9KTsumyuyZmNQuOW3p+JM2hRtp4Fw82WbVnlYArwOpBGyvhyEyviVQorQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gcopmWtmMCH8X+j/MARcFexlGZH4XRb7EfSKKH9TfpI=;
- b=HSMvqWO4oWthQOW16Z/3fHe73FJ6PRNRIWvZtwOKqYkjTcURHqfcBdXqpRo8uffJ4lB3mh/x7mTg5Tp7C6CvWQd1cDcytO6t/p+rSfQ8WWClTpu3EcymNCoN5WggvHt7Fp/Gu62llA1Cnp4xqPSLnb1CtvvHf/ocgRgvkKs9VNX4G4EgpikansHp/aP3STrVKZqhVzIwsj6AVSYAfTCsa3YH/SkB7r/AqDFrMA+XFERFtCVl8VruJ6Ktx3osnmaCyBip3Sen/cuO97Gm5aXjvqH5N1h7kI7KmC5UeSm2RLQlZQ/QrgJrjKye15N9ISWVE0dowFEsvsyhMCIBH4cXkg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gcopmWtmMCH8X+j/MARcFexlGZH4XRb7EfSKKH9TfpI=;
- b=JIs35CArE397HTHM8OS9C8qIgI9HH9zpirK7PCKVxh51ttJN6/CyMBWBrr+3X8Lc7uvM5z6+GR+udhc/BalWLEP4l2X/0NEflcq7OdBleHHVftSq2gG/XnIwlDnUxK25TuS5fyi7Vy8sBXfWtbdEyR67uyCGaJyVjLVZ7vVL4XFacd2yLN5HkbZku30+YeTh4A5vP5phyfBDWXc6Oz4JEXexPjT41ci0dM2jCPICEgfcJ7SSPwg9lamEPcr1d76ZCSU1fv3sgjAkJWABP5QmmM4zedEkjbyf2CjSwO1Qm29Zg+xvkc8ku8b+FhdIs/QIEIuuEUlyyAyFT5ziGVFSHQ==
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
- by IA0PR12MB9012.namprd12.prod.outlook.com (2603:10b6:208:485::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.17; Mon, 15 Jan
- 2024 22:21:31 +0000
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::ffce:bbde:c1ca:39ed]) by LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::ffce:bbde:c1ca:39ed%4]) with mapi id 15.20.7181.018; Mon, 15 Jan 2024
- 22:21:30 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: mengfanhui <mengfanhui@kylinos.cn>
-CC: Sagi Grimberg <sagi@grimberg.me>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "axboe@kernel.dk" <axboe@kernel.dk>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"kbusch@kernel.org" <kbusch@kernel.org>
-Subject: Re: [PATCH] nvme/auth: optimize code redundancy and provide code
- quality
-Thread-Topic: [PATCH] nvme/auth: optimize code redundancy and provide code
- quality
-Thread-Index: AQHaR3+3CIbqlQixikeiAyuDhyxwSrDa1CmAgACfNoA=
-Date: Mon, 15 Jan 2024 22:21:30 +0000
-Message-ID: <a60bf7f7-e520-400a-ae68-73f448f0e3f9@nvidia.com>
-References: <20240115065231.12733-1-mengfanhui@kylinos.cn>
- <4ad9d0a8-00b6-4970-9127-ccbe1d2f26bf@grimberg.me>
-In-Reply-To: <4ad9d0a8-00b6-4970-9127-ccbe1d2f26bf@grimberg.me>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|IA0PR12MB9012:EE_
-x-ms-office365-filtering-correlation-id: 7198286d-c3de-49cb-7e47-08dc161852c5
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: l2X5erMELGBWYAsbHD+AiZ0B5itVpFQCykkk8OJZMmnJ8UpFgLuF/Lc3SxEX5C4SWpHtJAZdl3xKZHaS22naU66RxkzuLFkPuD5rvwRsCCX1fDIiLC3J8hIacZWaZxuxpnGzJRSa83UmdbI50OUQZagbMwVOkDK8M0Rz8W4RknyPvd7FHCzhrb2y0dVkwozLeWF3GBLQ5xfqhKE63305btSU8nY2RW+eXPQWfjtmw2P1/DvovuTN/Y9IoX9KtyykQ9XZkl2xyYPncK4K1w7I1puXxGKA1llM5SP3UuepcdwjFSrVincbCtGJcLNAAGJEPg+Mvjl0YO6HYNNYIvr6XnfoZcsvIq3E1XgBEymAHwYfPL0ZXWW/unvRtUyT0FGlTBPMkENp4sOnAhU7H6E4CkLSbfkqxedonc4cmKPFxjsquY0aZbDulxDyRqc/lL12bTgiuvKex/f069cz5Q1xRp/ZTeZ/21KI3hhFDU/NMyEuYAoaADCfjWWdXX6g9x+MqKzUU03Dyp1KvAXyo77MnIpEIKy7ULdIb6Iy+Xcb7SuEsHY3DPh2TPef3X1bUz+9xIIZ04Xh3gRwfw0uemYcfMUzu+8o3JpgluxIY3fRLP+7Xj3BVJ5k8O3dkoI6/eRHxfoi6czZmqeFVU1TeRoE1k3BUCzB7SmsaJ/sghdEgS1Ek/3mJCFbcUWEvjuUjiqG
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(346002)(376002)(39860400002)(136003)(230922051799003)(64100799003)(1800799012)(186009)(451199024)(31686004)(36756003)(6486002)(38070700009)(66946007)(558084003)(64756008)(31696002)(66556008)(76116006)(66476007)(66446008)(6512007)(6506007)(122000001)(478600001)(86362001)(38100700002)(91956017)(8936002)(5660300002)(2616005)(26005)(6916009)(8676002)(41300700001)(4326008)(71200400001)(2906002)(316002)(54906003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TEQ5VzBGUk9SZ1BhRzdablRISnlLWDdBdWg1SndoNlhoZ28zRmtDcTBxMWM1?=
- =?utf-8?B?ODFGaFRhZUYzbTlWUjNyaHZIeWpaNXpKdEVMVXZPc1VMbGl1T2phSkJBY0JD?=
- =?utf-8?B?ZkpFSmxCN2s3UVBYWWJUMGZLSURKcHEydWpDL3l0QXkvSWgwS0dtSGJ4RFJy?=
- =?utf-8?B?enU1OVYvaVVSTE1NUVllSXBwOElHYmNqM1Z4S0ZWeTRuSlVEbldtN1FjZTZ5?=
- =?utf-8?B?dkhWUkIrQXNFYjdqMWdNWGkzV002MFlnNFNyTXA4bk15NWdVZnIvSzBTUFpV?=
- =?utf-8?B?cUFVV0ovN0ozNDNmRXJ1SWgwU2E5LzlETUIyMG5PRHN6eDA3c0lyZngwWk12?=
- =?utf-8?B?blF5SDAzZzVhc1NDZVIySFdRVktFQ2tNQnJqMnROSnBDNUJKWkJjNXR1b0tE?=
- =?utf-8?B?YVJXZUhzRjRYZktsU2xmc0pFc2VqcDF0VTFZNUxCT2txMVFtQlRETnRDU25a?=
- =?utf-8?B?eEpnSEF5bFduQXVoak9zTWtCeGJLVGVBSnh6UU5RQ3lFUSt3WDdwZ3ZDeFA1?=
- =?utf-8?B?Z1V6SlVWYlE4VEZUb0pGK05pWEgwY2FlMVVHbTlxd0tGY3FBamx5VXQvb3cr?=
- =?utf-8?B?YkJVN2xHNmE2cys5UmpwSlo5bnNoRkpsQjg1QkpGbjVaOVI0a0dUcmc1NFVF?=
- =?utf-8?B?MGFkVXZscTdWMGFnbDhhcGNvL2x2L0ZYYkxaRXMrOTd5VzJPRWpMM2svWE9P?=
- =?utf-8?B?Y2hyZU1SOEhQdHBsYkRMbEl6QWxTZ1crTW8zb3NramlhcFdmUXN0aDcrMVhS?=
- =?utf-8?B?NGMvSnZtRHF2VkJmVSsydTEvOGlESmcxcFJQN0lobTVOaDJ2czZTYlovQ3pS?=
- =?utf-8?B?K1d6S3FxTjBCMnVtZFpQSVlTZUhxeDRTZlR5UVFPNFczY2MwRWtkNkd5OEJE?=
- =?utf-8?B?alFsVUpyMmloMnNSd3ViNDlPdkxuR1FqSjZ1WDJuNTAxM0REWTcyaCtQSGxJ?=
- =?utf-8?B?Q1ZkK2tVZ0dnaUZjTFJvY244dVJPMlpzUWo4ZUlNQWxKTUs2VlF4N0pIdlk3?=
- =?utf-8?B?VXJ5amxBWGg0MzY3bldpQUozR0pYREhlRHF0MGV3bWNlTlVZSEx6SytGRDF1?=
- =?utf-8?B?eGVlTHNJQTcxQjAvQlpIK3BiNlF6OWcySWZSbFFQMTR0ZitxaUtobzdPeGdr?=
- =?utf-8?B?eCs0VEtpbnlHQTNxNEdJaWEwalZsRDlGUVdoSlY4UWd5TC9LQjNIc0VBTEVP?=
- =?utf-8?B?ZE0zREx1OUhQRm5lVnY1QVNOS1JlcHkwcURBK0lBV0dBY0ZZZng3RzZnb2Zm?=
- =?utf-8?B?NFZlODlqa1gyZW03bndMU2xTQnE0S0d2UkdtQ2FQZWd3eWU3VFdiclNUQ1Fk?=
- =?utf-8?B?RzRxd2xvamJUTXQzN0lDVmk2S2V2MkFkSHNJZnE4K04zMUpJaVZieTVDM2JE?=
- =?utf-8?B?akdHYzBqMGkxYnJMNm5IWlZubjBZUi92QVQydi9RUVJpVzRhRUF3WnZnOUl3?=
- =?utf-8?B?VFBOWkwyeUxTSmNtVm1IOTNsbks5L3gyRERxcHU2UDJtTTdlbkoyK1MwdWVw?=
- =?utf-8?B?MTBoVUJXY1Jlb3FrUk1OOTFLdU1MY2JRd1RkT2IyUEV3SHdwWHZxUUJjK0Y3?=
- =?utf-8?B?bmFyRU96NXVRdHpMMktMakxKTkp3TXpidldlNTNPaUtqZjZ4cWxKc3dMd1VJ?=
- =?utf-8?B?bkVFcUwyQkVYVkYvSmI3b3BOekdMaStnVEFvdE9pbXlPdXZwYy9NSUNtZ2ZI?=
- =?utf-8?B?ODAyRGNTdHEvL0pvYWUwOEZtOVF5eDR4azc2a1lVV01kVmxzNmlOZ2lBaXpD?=
- =?utf-8?B?SmF3ci9WNGlueFdkbGtQSWVJbm1Lc3hWRWxhSVNsRTFsUFNRZ21OZmFZb05p?=
- =?utf-8?B?RFE2bm9UMnVxVGtpM1RPTnUzc3NtSDZPalViSW5OV2xTbm1tLzd4aTdlakJx?=
- =?utf-8?B?SEJEYXd3aEJlWDFBaUlKcUpaN2NXRWQxbkQweGc0TUtScExoWjRxSXFkRkgy?=
- =?utf-8?B?anZUZTJzOFZCUGZOc1lrV3pud2ZBTStiVFVxR3dGNTJSQnZkYWU1bUdHa0Z4?=
- =?utf-8?B?MVFpanFKUTduOG5IS2ZFbzBnVS9sN3B4b2lGQ2RTYmIyekRoaXNuNytQVzdq?=
- =?utf-8?B?bzJUSDJueHEvTktZeHIzYzFXZ0JWWkJxNU5YRzBGcWE2YklxNitqUnpmQm1O?=
- =?utf-8?Q?mG8B9/aQSgAWiGMG6I0FvWjje?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <7F9BE269A0A12049A2A9433493FF7D52@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	Tue, 16 Jan 2024 01:57:36 +0000
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045168;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0W-k6n3n_1705370243;
+Received: from 30.178.82.220(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W-k6n3n_1705370243)
+          by smtp.aliyun-inc.com;
+          Tue, 16 Jan 2024 09:57:24 +0800
+Message-ID: <9e279490-a4b2-442b-9d78-be030d7b4c28@linux.alibaba.com>
+Date: Tue, 16 Jan 2024 09:57:22 +0800
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7198286d-c3de-49cb-7e47-08dc161852c5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jan 2024 22:21:30.3038
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: q3rJjA6KfBSTpWXhwPXD2GMxHgRLY4JAs9upEgh4SW53kb2iszCfRUfgZzYMz/Fz0uNS0eB8nHt9/ab0SZHROA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB9012
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH blktests] test/nvme/050: test the reservation feature
+Content-Language: en-GB
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ "kch@nvidia.com" <kch@nvidia.com>,
+ "chaitanyak@nvidia.com" <chaitanyak@nvidia.com>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
+References: <20240114092611.69075-1-kanie@linux.alibaba.com>
+ <5ktqzlnoez2ux2loizs7zcr3eix4om5a2hscopbm4uhcpftber@ohbagb53mkgb>
+From: Guixin Liu <kanie@linux.alibaba.com>
+In-Reply-To: <5ktqzlnoez2ux2loizs7zcr3eix4om5a2hscopbm4uhcpftber@ohbagb53mkgb>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240115_142147_106460_6DF99C48 
-X-CRM114-Status: UNSURE (   6.75  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240115_175733_724960_88BC86A0 
+X-CRM114-Status: GOOD (  29.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -152,8 +66,321 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-DQo+PiArwqDCoMKgwqDCoMKgwqAgcmV0dXJuIHRyYW5zZm9ybWVkX2tleSA/IHRyYW5zZm9ybWVk
-X2tleSA6IEVSUl9QVFIoLUVOT01FTSk7DQoNCkkndmUgcmVjZWl2ZWQgbWFueSBjb21tZW50cyBh
-Ym91dCBub3QgdXNpbmcgPzogaW4ga2VybmVsIGNvZGUgYXMNCmlmIC4uIGVsc2UgaXMgcHJlZmVy
-cmVkIHdheSwgbm90IHN1cmUgaWYgdGhpcyBpcyBhIGdvb2QgaWRlYQ0KDQotY2sNCg0KDQo=
+Hi, Shinichiro:
+
+     Thanks for the patient reply.
+
+在 2024/1/15 13:15, Shinichiro Kawasaki 写道:
+> Hello Guixin, thanks for the patch. Good to have new tests for new features :)
+>
+> I think this test depends on the kernel side patches you posted [1]. So the test
+> case should be skipped when the kernel does not have the patches. I suggest to
+> check it using "resv_enable" configfs file. Please refer to nvme/048 which does
+> similar check and sets SKIP_REASONS.
+Agree, it will be changed in v2.
+>
+> [1] https://lore.kernel.org/linux-nvme/20240114092314.63694-1-kanie@linux.alibaba.com/
+>
+> When I ran the test case on my system using the kernel v6.7 + the [1] patches,
+> I observed the kernel BUG below. It looks kmalloc() in nvmet_execute_pr_report()
+> needs care.
+OK, I will take a look.
+>
+> [  262.402130] run blktests nvme/050 at 2024-01-15 13:21:44
+> [  262.465068] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+> [  262.520959] nvmet: creating nvm controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
+> [  262.525398] nvme nvme1: Please enable CONFIG_NVME_MULTIPATH for full support of multi-port devices.
+> [  262.528334] nvme nvme1: creating 4 I/O queues.
+> [  262.531269] nvme nvme1: new ctrl: "blktests-subsystem-1"
+> [  262.655310] BUG: sleeping function called from invalid context at include/linux/sched/mm.h:306
+> [  262.657489] in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 233, name: kworker/1:3
+> [  262.658976] preempt_count: 1, expected: 0
+> [  262.660158] RCU nest depth: 0, expected: 0
+> [  262.661372] 4 locks held by kworker/1:3/233:
+> [  262.662526]  #0: ffff888135f04538 ((wq_completion)nvmet-wq){+.+.}-{0:0}, at: process_one_work+0x679/0x1260
+> [  262.664235]  #1: ffff88812524fd90 ((work_completion)(&iod->work)){+.+.}-{0:0}, at: process_one_work+0x6da/0x1260
+> [  262.665963]  #2: ffff888133caa870 (&subsys->lock#2){+.+.}-{3:3}, at: nvmet_execute_pr_report+0x197/0xbd0 [nvmet]
+> [  262.667622]  #3: ffff888136cdd230 (&ns->pr.pr_lock){.+.+}-{2:2}, at: nvmet_execute_pr_report+0x1b4/0xbd0 [nvmet]
+> [  262.669369] Preemption disabled at:
+> [  262.669371] [<0000000000000000>] 0x0
+> [  262.671748] CPU: 1 PID: 233 Comm: kworker/1:3 Tainted: G        W          6.7.0+ #141
+> [  262.673226] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-1.fc39 04/01/2014
+> [  262.674789] Workqueue: nvmet-wq nvme_loop_execute_work [nvme_loop]
+> [  262.676142] Call Trace:
+> [  262.677234]  <TASK>
+> [  262.678241]  dump_stack_lvl+0x71/0x90
+> [  262.679336]  __might_resched+0x3d5/0x5f0
+> [  262.680482]  ? __pfx___might_resched+0x10/0x10
+> [  262.681675]  __kmem_cache_alloc_node+0x2ef/0x340
+> [  262.682960]  ? nvmet_execute_pr_report+0x313/0xbd0 [nvmet]
+> [  262.684275]  ? nvmet_execute_pr_report+0x313/0xbd0 [nvmet]
+> [  262.685638]  __kmalloc+0x50/0x160
+> [  262.686779]  nvmet_execute_pr_report+0x313/0xbd0 [nvmet]
+> [  262.688040]  ? lock_is_held_type+0xce/0x120
+> [  262.689221]  process_one_work+0x74c/0x1260
+> [  262.690480]  ? __pfx_lock_acquire+0x10/0x10
+> [  262.691644]  ? __pfx_process_one_work+0x10/0x10
+> [  262.692893]  ? assign_work+0x16c/0x240
+> [  262.694063]  worker_thread+0x723/0x1300
+> [  262.695216]  ? lockdep_hardirqs_on+0x7d/0x100
+> [  262.696461]  ? __kthread_parkme+0xbd/0x1f0
+> [  262.697587]  ? __pfx_worker_thread+0x10/0x10
+> [  262.698812]  kthread+0x2f1/0x3d0
+> [  262.700000]  ? _raw_spin_unlock_irq+0x24/0x50
+> [  262.701179]  ? __pfx_kthread+0x10/0x10
+> [  262.702340]  ret_from_fork+0x30/0x70
+> [  262.703427]  ? __pfx_kthread+0x10/0x10
+> [  262.704560]  ret_from_fork_asm+0x1b/0x30
+> [  262.705718]  </TASK>
+> [  262.891548] nvme nvme1: Removing ctrl: NQN "blktests-subsystem-1"
+>
+>
+> Also please find my comments in line.
+>
+> On Jan 14, 2024 / 17:26, Guixin Liu wrote:
+>> Test the reservation feature, includes register, acquire, release
+>> and report.
+>>
+>> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+>> ---
+>>   tests/nvme/050     |  67 ++++++++++++++++++++++++++
+>>   tests/nvme/050.out | 114 +++++++++++++++++++++++++++++++++++++++++++++
+>>   tests/nvme/rc      |   3 ++
+>>   3 files changed, 184 insertions(+)
+>>   create mode 100644 tests/nvme/050
+>>   create mode 100644 tests/nvme/050.out
+>>
+>> diff --git a/tests/nvme/050 b/tests/nvme/050
+>> new file mode 100644
+>> index 0000000..a499f66
+>> --- /dev/null
+>> +++ b/tests/nvme/050
+>> @@ -0,0 +1,67 @@
+>> +#!/bin/bash
+>> +# SPDX-License-Identifier: GPL-3.0+
+>> +# Copyright (C) 2024 Guixin Liu
+>> +# Copyright (C) 2024 Alibaba Group.
+>> +#
+>> +# Test the reservation
+> Nit: looks too short. How about "Test the NVMe reservaction feature"?
+OK.
+>> +#
+>> +. tests/nvme/rc
+>> +
+>> +DESCRIPTION="test the reservation"
+> Nit: How about "test the reservation feature"?
+>
+Same sure.
+>> +QUICK=1
+>> +
+>> +requires() {
+>> +	_nvme_requires
+>> +}
+>> +
+>> +test() {
+>> +	echo "Running ${TEST_NAME}"
+>> +
+>> +	_setup_nvmet
+>> +
+>> +	local nvmedev
+>> +
+>> +	_nvmet_target_setup --blkdev file
+>> +
+>> +	_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
+>> +
+>> +	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
+>> +
+>> +	echo "Register"
+>> +	nvme resv-report "/dev/${nvmedev}n1" --cdw11=1
+> Recent nvme-cli, probably since v2.0 in Apr/2022, replaced this --cdw11 option
+> of the "nvme resv-report" command with --eds option. To allow this test case
+> run regardless of the nvme-cli version, I suggest to check "nvme resv-report"
+> command output at the beginning of the test case and see if it contains the
+> string "--eds". Depending on the check result, we can change the option for the
+> "nvme resv-report" commands in this test case.
+My nvme-cli is v1.16, I will update it to the newest version to take a look.
+>> +	nvme resv-register "/dev/${nvmedev}n1" --nrkey=4 --rrega=0
+>> +	nvme resv-report "/dev/${nvmedev}n1" --cdw11=1
+>> +
+>> +	echo "Replace"
+>> +	nvme resv-register "/dev/${nvmedev}n1" --crkey=4 --nrkey=5 --rrega=2
+>> +	nvme resv-report "/dev/${nvmedev}n1" --cdw11=1
+>> +
+>> +	echo "Unregister"
+>> +	nvme resv-register "/dev/${nvmedev}n1" --crkey=5 --rrega=1
+>> +	nvme resv-report "/dev/${nvmedev}n1" --cdw11=1
+>> +
+>> +	echo "Acquire"
+>> +	nvme resv-register "/dev/${nvmedev}n1" --nrkey=4 --rrega=0
+>> +	nvme resv-acquire "/dev/${nvmedev}n1" --crkey=4 --rtype=1 --racqa=0
+>> +	nvme resv-report "/dev/${nvmedev}n1" --cdw11=1
+>> +
+>> +	echo "Preempt"
+>> +	nvme resv-acquire "/dev/${nvmedev}n1" --crkey=4 --rtype=2 --racqa=1
+>> +	nvme resv-report "/dev/${nvmedev}n1" --cdw11=1
+>> +
+>> +	echo "Release"
+>> +	nvme resv-release "/dev/${nvmedev}n1" --crkey=4 --rtype=2 --rrela=0
+>> +	nvme resv-report "/dev/${nvmedev}n1" --cdw11=1
+>> +
+>> +	echo "Clear"
+>> +	nvme resv-register "/dev/${nvmedev}n1" --nrkey=4 --rrega=0
+>> +	nvme resv-acquire "/dev/${nvmedev}n1" --crkey=4 --rtype=1 --racqa=0
+>> +	nvme resv-report "/dev/${nvmedev}n1" --cdw11=1
+>> +	nvme resv-release "/dev/${nvmedev}n1" --crkey=4 --rrela=1
+>> +
+>> +	_nvme_disconnect_subsys "${def_subsysnqn}"
+>> +
+>> +	_nvmet_target_cleanup
+>> +
+>> +	echo "Test complete"
+>> +}
+>> diff --git a/tests/nvme/050.out b/tests/nvme/050.out
+>> new file mode 100644
+>> index 0000000..3be417d
+>> --- /dev/null
+>> +++ b/tests/nvme/050.out
+>> @@ -0,0 +1,114 @@
+>> +Running nvme/050
+>> +Register
+>> +
+>> +NVME Reservation status:
+>> +
+>> +gen       : 0
+>> +rtype     : 0
+>> +regctl    : 0
+>> +ptpls     : 0
+>> +
+>> +NVME Reservation  success
+>> +
+>> +NVME Reservation status:
+>> +
+>> +gen       : 1
+>> +rtype     : 0
+>> +regctl    : 1
+>> +ptpls     : 0
+>> +regctlext[0] :
+>> +  cntlid     : 1
+>> +  rcsts      : 0
+>> +  rkey       : 4
+>> +  hostid     : f1fb429f7f4856b0b351e6b8de349
+> When I ran the test case on my system, it failed because of hostid mismatch.
+> Actually, we are trying to make the nvme test cases independent from hostid. To
+> not check the hostid lines for this test case, I suggest to add
+> "| grep -v hostid" to the "nvme resv-report" commands.
+OK, I miss that def_hostid is not same for different system.
+>> +
+>> +Replace
+>> +NVME Reservation  success
+>> +
+>> +NVME Reservation status:
+>> +
+>> +gen       : 2
+>> +rtype     : 0
+>> +regctl    : 1
+>> +ptpls     : 0
+>> +regctlext[0] :
+>> +  cntlid     : 1
+>> +  rcsts      : 0
+>> +  rkey       : 5
+>> +  hostid     : f1fb429f7f4856b0b351e6b8de349
+>> +
+>> +Unregister
+>> +NVME Reservation  success
+>> +
+>> +NVME Reservation status:
+>> +
+>> +gen       : 3
+>> +rtype     : 0
+>> +regctl    : 0
+>> +ptpls     : 0
+>> +
+>> +Acquire
+>> +NVME Reservation  success
+>> +NVME Reservation Acquire success
+>> +
+>> +NVME Reservation status:
+>> +
+>> +gen       : 4
+>> +rtype     : 1
+>> +regctl    : 1
+>> +ptpls     : 0
+>> +regctlext[0] :
+>> +  cntlid     : 1
+>> +  rcsts      : 1
+>> +  rkey       : 4
+>> +  hostid     : f1fb429f7f4856b0b351e6b8de349
+>> +
+>> +Preempt
+>> +NVME Reservation Acquire success
+>> +
+>> +NVME Reservation status:
+>> +
+>> +gen       : 5
+>> +rtype     : 2
+>> +regctl    : 1
+>> +ptpls     : 0
+>> +regctlext[0] :
+>> +  cntlid     : 1
+>> +  rcsts      : 1
+>> +  rkey       : 4
+>> +  hostid     : f1fb429f7f4856b0b351e6b8de349
+>> +
+>> +Release
+>> +NVME Reservation Release success
+>> +
+>> +NVME Reservation status:
+>> +
+>> +gen       : 5
+>> +rtype     : 0
+>> +regctl    : 1
+>> +ptpls     : 0
+>> +regctlext[0] :
+>> +  cntlid     : 1
+>> +  rcsts      : 0
+>> +  rkey       : 4
+>> +  hostid     : f1fb429f7f4856b0b351e6b8de349
+>> +
+>> +Clear
+>> +NVME Reservation  success
+>> +NVME Reservation Acquire success
+>> +
+>> +NVME Reservation status:
+>> +
+>> +gen       : 6
+>> +rtype     : 1
+>> +regctl    : 1
+>> +ptpls     : 0
+>> +regctlext[0] :
+>> +  cntlid     : 1
+>> +  rcsts      : 1
+>> +  rkey       : 4
+>> +  hostid     : f1fb429f7f4856b0b351e6b8de349
+>> +
+>> +NVME Reservation Release success
+>> +disconnected 1 controller(s)
+>> +Test complete
+>> diff --git a/tests/nvme/rc b/tests/nvme/rc
+>> index b0ef1ee..8de59e2 100644
+>> --- a/tests/nvme/rc
+>> +++ b/tests/nvme/rc
+>> @@ -670,6 +670,9 @@ _create_nvmet_ns() {
+>>   	mkdir "${ns_path}"
+>>   	printf "%s" "${blkdev}" > "${ns_path}/device_path"
+>>   	printf "%s" "${uuid}" > "${ns_path}/device_uuid"
+>> +	if [[ -f "${ns_path}/resv_enable" ]]; then
+>> +		printf 1 > "${ns_path}/resv_enable"
+>> +	fi
+> I think this operation is required only for this test case, so resv_enable
+> should not be set for other test cases. So, it is the better to add an optional
+> argument like "--resv_enable" to _nvmet_target_setup() and propagate it to
+> _create_nvmet_subsystem() and _create_nvmet_ns(). It's the better to make
+> it a separated patch.
+Yeah, sure, it will be changes in v2.
+>>   	printf 1 > "${ns_path}/enable"
+>>   }
+>>   
+>> -- 
+>> 2.30.1 (Apple Git-130)
+>>
 
