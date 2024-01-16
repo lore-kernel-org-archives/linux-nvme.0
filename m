@@ -4,76 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 586F9C47077
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Jan 2024 17:47:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B370C47077
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Jan 2024 18:20:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UUjnNd4KLAllztA1i10ulcFfvTiNTtL3QQRXVBrw52s=; b=kDwY9r0LQJm3qQ0aYz3CClJgzb
-	fGrBAEfgpL1EFlA6cqp6EgrogfOxKIcMMY2YuzPNDSFoDbUecV43cMBWamILd7+wOTUPdoeg+EHSI
-	BrmH2xTDOfN7mYTWen3uNq5PTBKaQDrwxJLzon22m2ih9VSELjXlhiYWdk6mxJdjF3pIwWKjjCX3e
-	PunKFFjljiFqrNw4hJKaRdoDJ5iGxFMr84shhVIyzf4EZ7Ktf7xGZ4dp3I1qiAAkrWPO7ze+OynPc
-	GXM22CJVBPfFS0kgwymA2qCWP0Y22pKCy5e8oKgDensP1iUIfVjpRAkfxUreGglsa8+fjoSU0qIKf
-	YqzS8Siw==;
+	Content-Type:Cc:To:Subject:From:MIME-Version:Date:Message-ID:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=JG/1+n6ePxtoAUG3Qbwl79wTOKMylFKiQ7nh8g8yQ+o=; b=Rdxix8kA2Btx99sI/ooy+Nsqxy
+	hmdgPF0eoJ/TLzUyVnBeFpD85qIfNNk2HIGzjEFakahKBZJICTfBtuwAhMGS6JodFiXPGIBEdL9Tw
+	P102BqwGNVIgLXlhiJDC5bkoQT9UGpSXFe3z8m0fr1gOTQyL6R2ppg8hdopQrzisjTb4pi/oU/Fwq
+	Lgzq61OiBYiRqkKHtQf2DFzKSKvnxkt6+73dvgbtm77hvfLTOL4hISAwOQjW5GzcCYQfIEFp6oZp2
+	r499zQkVLnOL+LTTReeC03LaOVTkmQDBmTC2FbzRxOxzvV35farOE86KCz5wdmNrpHqUcthN7jYIl
+	KLlUN8sA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rPnWf-00CqZ9-0Q;
-	Tue, 16 Jan 2024 17:47:01 +0000
-Received: from mail-pf1-f182.google.com ([209.85.210.182])
+	id 1rPo3P-00CxhT-37;
+	Tue, 16 Jan 2024 18:20:52 +0000
+Received: from mail-pl1-f180.google.com ([209.85.214.180])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rPnWc-00CqWi-1e
+	id 1rPo3M-00Cxea-2K
 	for linux-nvme@lists.infradead.org;
-	Tue, 16 Jan 2024 17:46:59 +0000
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6db0c49e93eso7339934b3a.1
-        for <linux-nvme@lists.infradead.org>; Tue, 16 Jan 2024 09:46:52 -0800 (PST)
+	Tue, 16 Jan 2024 18:20:50 +0000
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1d5f5a2e828so3091515ad.3
+        for <linux-nvme@lists.infradead.org>; Tue, 16 Jan 2024 10:20:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705427212; x=1706032012;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UUjnNd4KLAllztA1i10ulcFfvTiNTtL3QQRXVBrw52s=;
-        b=VWeGc8gbavDlhDFoY/p1TJ1oyCKGMYUdlNm4DZAt+th50z7SpEvoD7Vm7+kQT0fuQ5
-         a9806p4oKFYoT0kI08IKW941mIGQWJZEWpKFWdYoIbH2w8fkPykqpy7CbD6qVqjcnToq
-         Cgtc+4bkJs/XvMga489qnqJ5WzSna5f+pLv6JpGOLWbwkqJrZe+vDuTjGHVWslrsEHIn
-         +tCYQfrG5FmmeYHSWxokeJmooNSNCfU5SdMyCenFDrMrpUkQmwN1UDIisAyNc3KvsfKt
-         pv8uz9+7fQK4RLhNGqpZ0UI6Eoe8fWwVn8zID+xY+HS2dWfoPMdkI0d9RKtK5d+wSdy6
-         pyqw==
-X-Gm-Message-State: AOJu0YxWIeexnHKzZh0xKVL6NK0Hpkh0sP8wCoCww1Zr1f8U8mjGUl0S
-	6auJ1ZAoW1Pv4J4B916lIs+M7dp5bVs=
-X-Google-Smtp-Source: AGHT+IGC5ymJUoEXajQx59WFe1SfIYFFXKe2mConqsnNsIcfim0Zl3BJ+3BliR2GEHkcT6BXFo9qlw==
-X-Received: by 2002:a62:5b45:0:b0:6d9:acc8:98da with SMTP id p66-20020a625b45000000b006d9acc898damr8338102pfb.2.1705427212349;
-        Tue, 16 Jan 2024 09:46:52 -0800 (PST)
+        d=1e100.net; s=20230601; t=1705429246; x=1706034046;
+        h=content-transfer-encoding:content-language:cc:to:subject:from
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=JG/1+n6ePxtoAUG3Qbwl79wTOKMylFKiQ7nh8g8yQ+o=;
+        b=LRCfwsRR9RtHP9y+WRnNwLUvo36JTiU3aIuShVP1LlTajRYC3twXqM9qdFDRARZpey
+         1Da+XK277vkaXBkGZuvyJtoqYJK7GvyeFSIvvvXQl5NA4tzNsUuCOEPhl+gKNsL8F9CA
+         8WDjfm9MXBObxzdV7BFtLBc8eOjhHn/edF/r4GlMY5R4bzjGb5hhzKyQpDCxAzZXR4yI
+         7/vxJ/cLfiY6c3M7bdnWQVAFwyEVdaJPg1Vxr7xYL9v2mDRTTJqD0CVO74VFinPGP3dw
+         5gI++s2jNJ/iPobJiRdxilHsE9k5JYxy/G/WeRIQk52b5LX0UTt/H4/4hMlb2fOAqYzE
+         JlGQ==
+X-Gm-Message-State: AOJu0YyKjJdfHq3gIor4ZSwVPQV332QrTLbrRRVpg1mlJob/d4INYCof
+	/i425VLvyVxm0S+mYO9pHCo=
+X-Google-Smtp-Source: AGHT+IHa9RorkOCy9n2FWNQ0utsG7HkkU8lYyXw/kw7/8PDkGXCpSISp/8dJ90ju8gPOMDgMz4bsVg==
+X-Received: by 2002:a17:902:db02:b0:1d4:3d94:e183 with SMTP id m2-20020a170902db0200b001d43d94e183mr5568341plx.45.1705429245592;
+        Tue, 16 Jan 2024 10:20:45 -0800 (PST)
 Received: from ?IPV6:2620:0:1000:8411:bf53:62d5:82c4:7343? ([2620:0:1000:8411:bf53:62d5:82c4:7343])
-        by smtp.gmail.com with ESMTPSA id f11-20020a63510b000000b005cd8ada89e5sm10422488pgb.70.2024.01.16.09.46.51
+        by smtp.gmail.com with ESMTPSA id ix4-20020a170902f80400b001d6ea47ce68sm80059plb.52.2024.01.16.10.20.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Jan 2024 09:46:52 -0800 (PST)
-Message-ID: <ebe78689-df8a-46ad-9593-05a2f7840f5f@acm.org>
-Date: Tue, 16 Jan 2024 09:46:50 -0800
+        Tue, 16 Jan 2024 10:20:45 -0800 (PST)
+Message-ID: <5b3e6a01-1039-4b68-8f02-386f3cc9ddd1@acm.org>
+Date: Tue, 16 Jan 2024 10:20:44 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [LSF/MM/BPF TOPIC] : Flexible Data Placement (FDP) availability
- for kernel space file systems
-Content-Language: en-US
-To: =?UTF-8?Q?Javier_Gonz=C3=A1lez?= <javier.gonz@samsung.com>,
- Viacheslav Dubeyko <slava@dubeyko.com>
-Cc: lsf-pc@lists.linux-foundation.org, linux-fsdevel@vger.kernel.org,
- a.manzanares@samsung.com, linux-scsi@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- slava@dubeiko.com, Kanchan Joshi <joshi.k@samsung.com>
-References: <CGME20240115084656eucas1p219dd48243e2eaec4180e5e6ecf5e8ad9@eucas1p2.samsung.com>
- <20240115084631.152835-1-slava@dubeyko.com>
- <20240115175445.pyxjxhyrmg7od6sc@mpHalley-2.localdomain>
 From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20240115175445.pyxjxhyrmg7od6sc@mpHalley-2.localdomain>
+Subject: [LSF/MM/BPF TOPIC] Improving Zoned Storage Support
+To: "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>
+Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Christoph Hellwig <hch@lst.de>
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240116_094658_545266_38749A23 
-X-CRM114-Status: UNSURE (   7.21  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240116_102048_755867_1F71DC07 
+X-CRM114-Status: GOOD (  12.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,17 +82,80 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/15/24 09:54, Javier González wrote:
-> On 15.01.2024 11:46, Viacheslav Dubeyko wrote:
->> How soon FDP API will be available for kernel-space file systems?
-> 
-> The work is done. We will submit as Bart's patches are applied.
+The advantages of zoned storage are well known [1]:
+* Higher sequential read and random read performance.
+* Lower write amplification.
+* Lower tail latency.
+* Higher usable capacity because of less overprovisioning.
 
-Since the FDP users need the data lifetime patch series, how about helping
-with a review of this patch series?
+For many SSDs the L2P (logical to physical translation) table does not
+fit entirely in the memory of the storage device. Zoned storage reduces
+the size of the L2P table significantly and hence makes it much more
+likely that the L2P table fits in the memory of the storage device. If
+zoned storage eliminates L2P table paging, random read performance is
+improved significantly.
 
-Thanks,
+A zoned storage SSD does not have to perform garbage collection. Hence,
+write amplification and tail latency are reduced.
 
-Bart.
+Zoned storage gives file systems control over how files are laid out on
+the storage device. With zoned storage it is possible to allocate a
+contiguous range of storage on the storage medium for a file. This
+improves sequential read performance.
 
+Log-structured file systems are a good match for zoned storage. Such
+filesystems typically submit large bios to the block layer and have
+multiple bios outstanding concurrently. The block layer splits bios if
+their size exceeds the max_sectors limit (512 KiB for UFS; 128 KiB for a
+popular NVMe controller). This increases the number of concurrently
+outstanding bios further.
+
+While the NVMe standard supports two different commands for writing to
+zoned storage (Write and Zone Append), the SCSI standard only supports a
+single command for writing to zoned storage (WRITE). A write append
+emulation for SCSI exists in drivers/scsi/sd_zbc.c.
+
+File system implementers have to decide whether to use Write or Zone
+Append. While the Zone Append command tolerates reordering, with this
+command the filesystem cannot control the order in which the data is
+written on the medium without restricting the queue depth to one.
+Additionally, the latency of write operations is lower compared to zone
+append operations. From [2], a paper with performance results for one
+ZNS SSD model: "we observe that the latency of write operations is lower
+than that of append operations, even if the request size is the same".
+
+The mq-deadline I/O scheduler serializes zoned writes even if these got
+reordered by the block layer. However, the mq-deadline I/O scheduler,
+just like any other single-queue I/O scheduler, is a performance
+bottleneck for SSDs that support more than 200 K IOPS. Current NVMe and
+UFS 4.0 block devices support more than 200 K IOPS.
+
+Supporting more than 200 K IOPS and giving the filesystem control over
+the data layout is only possible by supporting multiple outstanding
+writes and by preserving the order of these writes. Hence the proposal
+to discuss this topic during the 2024 edition of LSF/MM/BPF summit.
+Potential approaches to preserve the order of zoned writes are as follows:
+* Track (e.g. in a hash table) for which zones there are pending zoned
+   writes and submit all zoned writes per zone to the same hardware
+   queue.
+* For SCSI, if a SCSI device responds with a unit attention to a zoned
+   write, activate the error handler if the block device reports an
+   unaligned write error and sort by LBA and resubmit the zoned writes
+   from inside the error handler.
+
+In other words, this proposal is about supporting both the Write and
+Zone Append commands as first class operations and to let filesystem
+implementers decide which command(s) to use.
+
+[1] Stavrinos, Theano, Daniel S. Berger, Ethan Katz-Bassett, and Wyatt
+Lloyd. "Don't be a blockhead: zoned namespaces make work on conventional
+SSDs obsolete." In Proceedings of the Workshop on Hot Topics in
+Operating Systems, pp. 144-151. 2021.
+
+[2] K. Doekemeijer, N. Tehrany, B. Chandrasekaran, M. Bjørling and A.
+Trivedi, "Performance Characterization of NVMe Flash Devices with Zoned
+Namespaces (ZNS)," 2023 IEEE International Conference on Cluster
+Computing (CLUSTER), Santa Fe, NM, USA, 2023, pp. 118-131, doi:
+10.1109/CLUSTER52292.2023.00018.
+(https://ieeexplore.ieee.org/abstract/document/10319951).
 
