@@ -4,59 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C71AEC47258
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jan 2024 20:18:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B870C47258
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jan 2024 20:20:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7/Uu3y14KMTzvtlTvNxfEaBtVLCjSK7ZE6fv/xcZI+A=; b=MSeeBeeR3iLycEJk5Z3mzvZyz1
-	PBHuv82mFgmbm4FSsrwgj6yPwW301nnF53Ve0eucRHEUMXkeyib+kIgut/PVQdV8c3McwEtOjS2cA
-	29V4PFCEiMm6kzCmzf5oL8zxFCHJ9bOmrDDztQU7cXJLJnii0VCmslEq1oki7UxuhEZPy8AXRpcRb
-	MfqK4vkqdH7TkvJv5jceoM8XESua9u3HuuC45E58MGGaOMPWXC2wDyFVC3iWaE2f1JgKDPzgd2on+
-	78wcvcxfO8Ez5k/mAVpNsZK9MFE2TdCnXWbw1jv2cfX00WUN7oXq38ziq81OtpSoeTGcHYY+L2aKO
-	woVWFhKg==;
+	bh=fIoquENYXWJoHN1A2Mrf3K7o57gEP0X/sUWlRZqWpBc=; b=kV0nkO8HJE3PM69jOb7PrpuU3o
+	M6dwZ0oJHSl2Csxb14MLK6VgIOx/lTXpE/2Ewp74QWNHIJCJ/I+0eFB/SwCLvZIuQebkt84tC4t6D
+	JJMWEszEpXndw9ayhpZoBjGBU4u9CUVyHzLTTy8B+pM41kFz8WnRjCP0iZ+uFTJt2/gKTFIvWNyli
+	rii50SyVShcNHx6aLhf6Y+ZpxOl4XEDjqWhbKDC0zXOkTCUwgqvRIk+J1mKj+vleALlDOYtWoJEDw
+	OKf1ppdZFvmd44wm0NPioJv5RFKPt7nyrT2mVDo5235e+ncK3FpOCr5vX7dVsbOBVSRKTvI5bE7i3
+	5RQ/umRA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rQCMW-000dXu-2v;
-	Wed, 17 Jan 2024 20:18:12 +0000
-Received: from mail-pj1-f41.google.com ([209.85.216.41])
+	id 1rQCOw-000dsl-2E;
+	Wed, 17 Jan 2024 20:20:42 +0000
+Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rQCMU-000dV3-0v
+	id 1rQCOt-000drV-1m
 	for linux-nvme@lists.infradead.org;
-	Wed, 17 Jan 2024 20:18:11 +0000
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-28d0052beb0so7044000a91.0
-        for <linux-nvme@lists.infradead.org>; Wed, 17 Jan 2024 12:18:04 -0800 (PST)
+	Wed, 17 Jan 2024 20:20:40 +0000
+Received: by mail-io1-xd35.google.com with SMTP id ca18e2360f4ac-7bb06f56fe9so109614139f.0
+        for <linux-nvme@lists.infradead.org>; Wed, 17 Jan 2024 12:20:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1705522837; x=1706127637; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fIoquENYXWJoHN1A2Mrf3K7o57gEP0X/sUWlRZqWpBc=;
+        b=hPd/mn8mVtHjmP8v7WyF4WTq4cic7Evw98HnsHyBh47K8KOjM+ByyOVP3pK5G4fGKq
+         GGvd0AttbojwA02ttsJpxhcDzIWMtVAj3QVsUao2nSukHt12ilRk7u2fINSEUvKk5WVn
+         fXzPR9dCNSR/vBzNd+kfNGm3u+WkoP4Xjbvm92lO/JQ6Zfseq8Tj8BfpoihN+Gh5Gxdk
+         sRc13Rk8jw7JMvkClsVwYGbt7TqyWWgPVcCKK8QDCjSZmrkszUSab63IaAa/qYVJbGK7
+         cW2oNeE5zVs/9R27AdbpEIaaxKIoMnyU63qXuftpB8L6xIIB23Yo94C7A21rDRSUpO93
+         +nnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705522684; x=1706127484;
+        d=1e100.net; s=20230601; t=1705522837; x=1706127637;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7/Uu3y14KMTzvtlTvNxfEaBtVLCjSK7ZE6fv/xcZI+A=;
-        b=dYzkcmRjewW4N3eKq+AeTH+wfWf9EvPqNQGid7NNjQWf3c7mHOYd26TggvFkU9Lw4h
-         SH7MLwvPgJ9Ajswe3q+WHYuVRQBHKHghuwUU04Jr7c9vo22ivszgmjIEGvbbZ1LHrpGA
-         nFN1P4lmu/71P+Lajb8nTy09Dbn4X6D0nmGqmxqtKhORQ+SSslCe+2CXGmm1gBGzcAJt
-         kkbB2GxZRHNjSl+jL9WhXV0yx0OQ/UX1qpw/XzkPIpX0npXo5hn2AmZn4xeYjQljETW9
-         Qh5JWsL0U//O0/B3qtodz/R8m4Rwj0MnOuJL0xT+BYk5yRlj4V7yOuxocz8NyA0PQXgB
-         CtHg==
-X-Gm-Message-State: AOJu0YyIGAQkk/zPgCGeSb1IuWLJ8iaDE/I3KClw0U1jhwfQdev5jtLx
-	f6XN616k8/+EuVTcjGE/6vI=
-X-Google-Smtp-Source: AGHT+IEBz6MpQH028iW4X2ZIVqDX48bTejSFEsIGLJt70ISnKU/drkjZjIUzkCKIDiA43ofqp3+BgQ==
-X-Received: by 2002:a17:90a:4bc5:b0:28e:71a1:82d2 with SMTP id u5-20020a17090a4bc500b0028e71a182d2mr2197109pjl.63.1705522683567;
-        Wed, 17 Jan 2024 12:18:03 -0800 (PST)
-Received: from ?IPV6:2620:0:1000:8411:718b:ab80:1dc2:cbee? ([2620:0:1000:8411:718b:ab80:1dc2:cbee])
-        by smtp.gmail.com with ESMTPSA id i14-20020a17090332ce00b001d6f04f2b5dsm59533plr.30.2024.01.17.12.18.02
+        bh=fIoquENYXWJoHN1A2Mrf3K7o57gEP0X/sUWlRZqWpBc=;
+        b=n8Uoxzv8/6VyjlSBec0isYpyhNFcAEhhTcrJLiPBBzob0Tjs4YkB2zPyyuSckALxeA
+         3Hc0sltCQjguCeb0SUYxYUFEtVlxDDq48/R2cZkQ/aKORgkQzNgTOVOQhKOBiZWTWP12
+         vnRANGL7zH5L8Ef95vrxfomc63wZJOR4G7B0jc7AFDexKcSneWU1M1yUy7Ho53v/ertF
+         7Fk/gTrcr12w0XaTwPB7JXXy8DeXZcOUB79VW8YN9S8nSs1Fahj1Fr0Iy3Uk2KG+HEOX
+         R1k5Sl9tBIQngr38h7jaOMl4PVJGWYL+/ol6Rz7G53umc9o01TPPE1lHAs4rBQe1J58F
+         ff3g==
+X-Gm-Message-State: AOJu0YxgPMFQKo8th+7WyJaG7riMqGhEbiH20T6+yg9Ww/MP55Hp5UcQ
+	5BuPjf/Sz+euRlIZaMviMe+qwJUQKSrI4cJB/r06FgOcxOubNw==
+X-Google-Smtp-Source: AGHT+IHNkGqCG/5i9QmTvp4l6I+DJ3/KFjMRzkufzIiVW/B+nmPmgokmhshaLBC+7Igp1Tt+BbP61g==
+X-Received: by 2002:a05:6602:2c95:b0:7be:e080:6869 with SMTP id i21-20020a0566022c9500b007bee0806869mr17304148iow.1.1705522837427;
+        Wed, 17 Jan 2024 12:20:37 -0800 (PST)
+Received: from [192.168.1.116] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id h14-20020a05660208ce00b007bf021d13ebsm3628383ioz.49.2024.01.17.12.20.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Jan 2024 12:18:03 -0800 (PST)
-Message-ID: <39dfcd32-e5fc-45b9-a0ed-082b879a16a4@acm.org>
-Date: Wed, 17 Jan 2024 12:18:01 -0800
+        Wed, 17 Jan 2024 12:20:36 -0800 (PST)
+Message-ID: <9f4a6b8a-1c17-46b7-8344-cbf4bcb406ab@kernel.dk>
+Date: Wed, 17 Jan 2024 13:20:36 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [LSF/MM/BPF TOPIC] Improving Zoned Storage Support
 Content-Language: en-US
-To: Jens Axboe <axboe@kernel.dk>, Damien Le Moal <dlemoal@kernel.org>,
+To: Bart Van Assche <bvanassche@acm.org>, Damien Le Moal
+ <dlemoal@kernel.org>,
  "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>
 Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
  "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
@@ -69,13 +82,14 @@ References: <5b3e6a01-1039-4b68-8f02-386f3cc9ddd1@acm.org>
  <2955b44a-68c0-4d95-8ff1-da38ef99810f@acm.org>
  <9af03351-a04a-4e61-a6d8-b58236b041a3@kernel.dk>
  <276eedc2-e3d0-40c7-b355-46232ea65662@kernel.dk>
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <276eedc2-e3d0-40c7-b355-46232ea65662@kernel.dk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <39dfcd32-e5fc-45b9-a0ed-082b879a16a4@acm.org>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <39dfcd32-e5fc-45b9-a0ed-082b879a16a4@acm.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240117_121810_323651_BB07D761 
-X-CRM114-Status: GOOD (  12.59  )
+X-CRM114-CacheID: sfid-20240117_122039_587941_D8242D15 
+X-CRM114-Status: GOOD (  13.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,34 +104,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/17/24 12:06, Jens Axboe wrote:
-> Case in point, I spent 10 min hacking up some smarts on the insertion
-> and dispatch side, and then we get:
+On 1/17/24 1:18 PM, Bart Van Assche wrote:
+> On 1/17/24 12:06, Jens Axboe wrote:
+>> Case in point, I spent 10 min hacking up some smarts on the insertion
+>> and dispatch side, and then we get:
+>>
+>> IOPS=2.54M, BW=1240MiB/s, IOS/call=32/32
+>>
+>> or about a 63% improvement when running the _exact same thing_. Looking
+>> at profiles:
+>>
+>> -   13.71%  io_uring  [kernel.kallsyms]  [k] queued_spin_lock_slowpath
+>>
+>> reducing the > 70% of locking contention down to ~14%. No change in data
+>> structures, just an ugly hack that:
+>>
+>> - Serializes dispatch, no point having someone hammer on dd->lock for
+>>    dispatch when already running
+>> - Serialize insertions, punt to one of N buckets if insertion is already
+>>    busy. Current insertion will notice someone else did that, and will
+>>    prune the buckets and re-run insertion.
+>>
+>> And while I seriously doubt that my quick hack is 100% fool proof, it
+>> works as a proof of concept. If we can get that kind of reduction with
+>> minimal effort, well...
 > 
-> IOPS=2.54M, BW=1240MiB/s, IOS/call=32/32
-> 
-> or about a 63% improvement when running the _exact same thing_. Looking
-> at profiles:
-> 
-> -   13.71%  io_uring  [kernel.kallsyms]  [k] queued_spin_lock_slowpath
-> 
-> reducing the > 70% of locking contention down to ~14%. No change in data
-> structures, just an ugly hack that:
-> 
-> - Serializes dispatch, no point having someone hammer on dd->lock for
->    dispatch when already running
-> - Serialize insertions, punt to one of N buckets if insertion is already
->    busy. Current insertion will notice someone else did that, and will
->    prune the buckets and re-run insertion.
-> 
-> And while I seriously doubt that my quick hack is 100% fool proof, it
-> works as a proof of concept. If we can get that kind of reduction with
-> minimal effort, well...
+> If nobody else beats me to it then I will look into using separate
+> locks in the mq-deadline scheduler for insertion and dispatch.
 
-If nobody else beats me to it then I will look into using separate
-locks in the mq-deadline scheduler for insertion and dispatch.
+That's not going to help by itself, as most of the contention (as I
+showed in the profile trace in the email) is from dispatch competing
+with itself, and not necessarily dispatch competing with insertion. And
+not sure how that would even work, as insert and dispatch are working on
+the same structures.
 
-Bart.
+Do some proper analysis first, then that will show you where the problem
+is.
 
+-- 
+Jens Axboe
 
 
