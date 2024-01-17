@@ -4,49 +4,123 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D43CC47422
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jan 2024 08:22:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F899C47258
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jan 2024 08:51:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=K8b2GPs5FNdPK5Au0PY2xdXfZutgXuSPjivcXZLgID8=; b=jiMQ9Ww1b9J2tg55JsYtBgCfHA
-	Qbr4H1g+sJJFMCD2cQxbABUf8NwSGZ+Mi1jW4+wZZjCn/rKd9Ong3zuxl1jUP8BMqCPxASEPvQZhR
-	+h3c4LVMTyss6ae14zC7+oyfv/MEjqMuim4LDs1qclW0jwt1CvMx27+r9LVxYUQyxfBCplRa0Hehz
-	Ia2dRgzpYgrDB6d4KPM+MgNV/d/tOPwafjOK4YvP50KQeJx5lem9fGJJBay7Tvya+JffDJ8nv78JW
-	OGnbWzyJcv+SosnQ/0FKBBtJE0g4z07Fn0KNJ2XwPE3tZCL+l/BpssDa2uxaA8B3/vuIV13SsaD7o
-	Uxu2v2qA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=HpWVuH5mWEsk7XpDV+ci2ne8S+COL2568w1F4ccB/iU=; b=cBNua9dRmnnE+ZExdvt0D9MCPc
+	5HWCOVWzlHDEtfDSkNHE89D4KdqB7KHVAPmzM2eMgvBVaGvIMiKBAevf1GGKJLjMBs2uZ+2dZjxKa
+	wr4JNZ2StNsME3y3sBqV+Xr2jvPJRIbDPU846uFNbRq9UIHc/mcQ+xDGLQ+4Dm1jalBeUy33iBjvB
+	aXZaeQhnnC4cF1P6+I953M1IkmvHpn+PV6rbzTCFufNHMJx97glDSG3xjZwgL6PFFHVCabqdAnhrd
+	Vr2PMUsFdMAu5Vy2gH2I51k4ugSPTYzRF+WF0iqnVSVFYoRAebCzt/0j9cWKzZYi0hxEIg8CEZUne
+	Ga8vNyIg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rQ1C0-00EreV-22;
-	Wed, 17 Jan 2024 08:22:36 +0000
-Received: from out30-118.freemail.mail.aliyun.com ([115.124.30.118])
+	id 1rQ1dX-00EwUP-08;
+	Wed, 17 Jan 2024 08:51:03 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rQ1Bx-00Ercf-0h
+	id 1rQ1dT-00EwSB-0Y
 	for linux-nvme@lists.infradead.org;
-	Wed, 17 Jan 2024 08:22:35 +0000
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046049;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0W-ojF-S_1705479747;
-Received: from 30.178.83.127(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W-ojF-S_1705479747)
-          by smtp.aliyun-inc.com;
-          Wed, 17 Jan 2024 16:22:28 +0800
-Message-ID: <66eb0dc5-26e9-416b-9e9f-efceb66a7b97@linux.alibaba.com>
-Date: Wed, 17 Jan 2024 16:22:24 +0800
+	Wed, 17 Jan 2024 08:51:00 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id DFF331FBEE;
+	Wed, 17 Jan 2024 08:50:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1705481450; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HpWVuH5mWEsk7XpDV+ci2ne8S+COL2568w1F4ccB/iU=;
+	b=MeR0I8L32aw3vSqrEuwLfOX6oLR9JHRoYQSMNhZIXf50HRs/9oswWprxhtgQpVPBfMd5rv
+	qKpHQY1jbs0t3DHrR+yvrNJDPhLccGVfHCQAcGC/1818Mude2ZRhMQwaMWEPctZ1e4IaXr
+	tRRKswhYHx19eTtwMe+Db3hsmSmp3ew=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1705481450;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HpWVuH5mWEsk7XpDV+ci2ne8S+COL2568w1F4ccB/iU=;
+	b=uQiBjgLrobahFM+YXVRzjbTJf36JIYqsekl7lc1F8YV45fgzOJsAPqEoULZ2B0KSE5evMi
+	Xr+vCPBKEDWmlFBQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1705481450; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HpWVuH5mWEsk7XpDV+ci2ne8S+COL2568w1F4ccB/iU=;
+	b=MeR0I8L32aw3vSqrEuwLfOX6oLR9JHRoYQSMNhZIXf50HRs/9oswWprxhtgQpVPBfMd5rv
+	qKpHQY1jbs0t3DHrR+yvrNJDPhLccGVfHCQAcGC/1818Mude2ZRhMQwaMWEPctZ1e4IaXr
+	tRRKswhYHx19eTtwMe+Db3hsmSmp3ew=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1705481450;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HpWVuH5mWEsk7XpDV+ci2ne8S+COL2568w1F4ccB/iU=;
+	b=uQiBjgLrobahFM+YXVRzjbTJf36JIYqsekl7lc1F8YV45fgzOJsAPqEoULZ2B0KSE5evMi
+	Xr+vCPBKEDWmlFBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C527013751;
+	Wed, 17 Jan 2024 08:50:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id jVWyLuqUp2UFDwAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Wed, 17 Jan 2024 08:50:50 +0000
+Date: Wed, 17 Jan 2024 09:50:50 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>, 
+	"linux-fsdevel@vger.kernel.org >> linux-fsdevel" <linux-fsdevel@vger.kernel.org>, "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
+	Jens Axboe <axboe@kernel.dk>, Bart Van Assche <bvanassche@acm.org>, 
+	"josef@toxicpanda.com" <josef@toxicpanda.com>, Amir Goldstein <amir73il@gmail.com>, 
+	Javier =?utf-8?B?R29uesOhbGV6?= <javier@javigon.com>, Dan Williams <dan.j.williams@intel.com>, 
+	Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>, 
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>, "shinichiro.kawasaki@wdc.com" <shinichiro.kawasaki@wdc.com>, 
+	Johannes Thumshirn <Johannes.Thumshirn@wdc.com>, "jack@suse.com" <jack@suse.com>, Ming Lei <ming.lei@redhat.com>, 
+	Sagi Grimberg <sagi@grimberg.me>, Theodore Ts'o <tytso@mit.edu>, 
+	"daniel@iogearbox.net" <daniel@iogearbox.net>
+Subject: Re: [LSF/MM/BPF ATTEND][LSF/MM/BPF TOPIC] : blktests: status,
+ expansion plan for the storage stack test framework
+Message-ID: <bh5s6a4fhhlje42bzj2t22k3jpmruzkx234ks4ytuhd62tonzj@zn6h5foaqrof>
+References: <e5d8cd68-b3f2-4d7b-b323-b13d18199256@nvidia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 0/2] *** Implement the NVMe reservation feature ***
-Content-Language: en-GB
-From: Guixin Liu <kanie@linux.alibaba.com>
-To: sagi@grimberg.me, hch@lst.de, kch@nvidia.com, kbusch@kernel.org
-Cc: linux-nvme@lists.infradead.org
-References: <20240117081512.89635-1-kanie@linux.alibaba.com>
-In-Reply-To: <20240117081512.89635-1-kanie@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e5d8cd68-b3f2-4d7b-b323-b13d18199256@nvidia.com>
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spamd-Result: default: False [0.33 / 50.00];
+	 ARC_NA(0.00)[];
+	 TO_DN_EQ_ADDR_SOME(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 RCPT_COUNT_TWELVE(0.00)[23];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 FREEMAIL_CC(0.00)[lists.linux-foundation.org,vger.kernel.org,lists.infradead.org,kernel.dk,acm.org,toxicpanda.com,gmail.com,javigon.com,intel.com,lst.de,kernel.org,suse.de,opensource.wdc.com,wdc.com,suse.com,redhat.com,grimberg.me,mit.edu,iogearbox.net];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.07)[62.07%]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240117_002233_400265_5D0AA246 
-X-CRM114-Status: GOOD (  20.33  )
+X-CRM114-CacheID: sfid-20240117_005059_400791_7FDFA717 
+X-CRM114-Status: GOOD (  14.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,76 +135,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The version is wrong, please ignore this.
+On Tue, Jan 09, 2024 at 06:30:46AM +0000, Chaitanya Kulkarni wrote:
+> For storage track, I would like to propose a session dedicated to
+> blktests. It is a great opportunity for the storage developers to gather
+> and have a discussion about:-
+> 
+> 1. Current status of the blktests framework.
+> 2. Any new/missing features that we want to add in the blktests.
+> 3. Any new kernel features that could be used to make testing easier?
+> 4. DM/MD Testcases.
+> 5. Potentially adding VM support in the blktests.
 
-Best regards,
+I am interested in such a session.
 
-Guixin Liu
+> Required attendees :-
+> 
+> Shinichiro Kawasaki
+> Damien Le Moal
+> Daniel Wanger
+> Hannes Reinecke
 
-在 2024/1/17 16:15, Guixin Liu 写道:
-> Hi guys,
->      I've implemented the NVMe reservation feature. Please review it, all
-> comments are welcome as usual.
->
-> Changes from v2 to v3:
-> - Use rcu instead of rwlock to make IO path run faster, and put the rtype
-> into the struct nvmet_pr_registrant.
->
-> - Limit the resv_log_list to 128.
->
-> - Change generation to atomic64.
->
-> - Put register rkey check to a warpper.
->
-> - Change nr_avl_pages to nr_pages.
->
-> - Use NVME_SC_SUCCESS instead of 0.
->
-> - Change kmalloc param to let it not sleep in mutex lock.
->
->
-> Changes from v1 to v2:
-> - Implement the reservation notification report, includes registration
-> preempted, reservation released and reservation preempted.
->    And also handle the reservation log page avaliable event and send get
-> reservation log page command to clear log page at host.
->
-> - Put the reservation check access after validate opcode. And remove
-> opcodes which nvmet not implement yet check.
->    Now there is no admin opcode nvmet implemented needs reservation check,
-> so I dont add reservation check to admin command path.
->    Next we need to do reservation check includes the situation of nsid is
-> 0xffffffff at each admin command path, if it is needed.
->
-> - Add reservation commands support in nvmet_get_cmd_effects_nvm().
->
-> - From Chaitanya, change the local variable tree style to make it cleaner,
-> and add some comments about NVMe spec.
->    And also change others advice from chaitanya.
->
-> - Put the nvmet_pr_check_cmd_access and nvmet_parse_pr_cmd into reservation
-> enable check warp.
->
-> - Remove kmem_cache instead to use kmalloc and kfree.
->
-> - Change others advice from Sagi.
->
-> - Add a blktest test case, this patch will be sent before these series of
-> pathes.
->
-> Guixin Liu (2):
->    nvmet: support reservation feature
->    nvmet: unify aer type enum
->
->   drivers/nvme/target/Makefile    |   2 +-
->   drivers/nvme/target/admin-cmd.c |  14 +-
->   drivers/nvme/target/configfs.c  |  27 +
->   drivers/nvme/target/core.c      |  53 +-
->   drivers/nvme/target/discovery.c |   2 +-
->   drivers/nvme/target/nvmet.h     |  33 ++
->   drivers/nvme/target/pr.c        | 979 ++++++++++++++++++++++++++++++++
->   include/linux/nvme.h            |  54 +-
->   8 files changed, 1148 insertions(+), 16 deletions(-)
->   create mode 100644 drivers/nvme/target/pr.c
->
+If I get an invite I'll be there.
+
+Thanks,
+Daniel
 
