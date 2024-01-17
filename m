@@ -4,125 +4,130 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B4DFDC47258
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jan 2024 10:05:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C610C47258
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jan 2024 11:58:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lwSlx1gO+dfxHT8r2vsg1Tn5bAgWgamKaYcLSOSyE2A=; b=IMWfOBCc2EkxX4J9DDfjl1U6ei
-	M4x2zEYmb3YItQWYVlScN5+eQ/2g0PtMSnDO/ESGMRbcrRUMqNPfmqrqXRYo7RQZap1ub0e2/UHFu
-	tY0PQDecq/vfdurjxjUg5wOlbWQBj+CsLKVhcovFioYfqukBFun1M3a92HR4aSDI0WWsCQY69oC+x
-	xIn0xo99SNniITxaPH8g7S/Jah1IJj3k63izZryoKrpblaw0Na/oZn3OZbreRJSPXJKHfRaEjTaPw
-	Z2UOBhgEDZb6FdqPhc0BSRA5dyiL39NRy3abhG3DOhgjfJV+yOyyLge4xUdfcsYH8eDVIv7v+D4vz
-	OWn8TYzA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Subject:CC:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=SdB2TP1URh+2f5CnTPCtsm4BKecp5Qah44NrUZikOFc=; b=ylIVPgZ+drEVazNSyz/MQj8Ryz
+	ePV/0nk3loBP/TMlCnpNUL29YhxxStWQCSSY5tzu6FGohUJdUB5V9vfub4uXrW7diBWeJH4banL5U
+	Of/KmxMpbWkqALCpln35NPwpkjg0XBeexL2rtAqzo7cJ6eXt/y4e17BCXUQGqabx2vAhMyzirVJoz
+	HXkAz3m456qIMv19EQPKUxT2SqkaGNSecepVzxBwE8D3bmeMkxjFpkUistB1AY+mg3XZfHElmlIs1
+	mgj2yLXF9vMZTQ899zcLMccr9ovZoJuEnoLr88BnBkt9RkxDZ/DlfE1TKYtIGKvAiiEW+KJehYB+P
+	ZF553cGw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rQ2ne-00FD1T-2s;
-	Wed, 17 Jan 2024 10:05:34 +0000
-Received: from mail-bn8nam12on20600.outbound.protection.outlook.com ([2a01:111:f403:2418::600] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+	id 1rQ4Yx-00Fd1k-00;
+	Wed, 17 Jan 2024 11:58:31 +0000
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rQ2nb-00FCzn-0p
+	id 1rQ4Yq-00Fcv0-1O
 	for linux-nvme@lists.infradead.org;
-	Wed, 17 Jan 2024 10:05:32 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PiwySiWizSRDLbzuTezQAYNMp65NHjGOTP1RvGOgzUxVetbMdmcF4GY8xShxGx7EoLm+ooNXxjPJJn083jX/rrIDEZh2RynzOBoEYl0DT+1svACFZ94xX5By3vecWGPVq7Z9DoVx/xvfTI2AsKRt7vmd9x2yVJlfyJawldjPIv9HzYWL78GIEUojz7wWdYBg9jcTxikQAseFrxqu168k+ORzTrzMctO3n5WXIv9kG+E09PqTp3eIcatIJXuNF2vdtb3qr7SDDojXdWTFtougocVVLGgyf+BfE4IYYcFQV9P4iPP93FkAtMf3TuZPtnjMvVUNo0ZnFUUs/E1uj8EhwA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lwSlx1gO+dfxHT8r2vsg1Tn5bAgWgamKaYcLSOSyE2A=;
- b=gxsUoUhUXy6krv81/WAxVyDBx76wapa07jvJWD/HRLfB485VDg5I6yZRQc0YoCYCQK2OggpnASJ0T8VvO/jfKP2nJwUJ0tlfuREhMEzHtezId5RljvYI3pRgAABPpfjIb8KXwNadqCqtycWLgceA803GRVJPky3Z6fJ+SyFhUS9XA04DUHsparulGF5ex+gl5PCAtMJ8kDKx9zsRZJ8nTsVYpEvrDqOImZTe2b9I3mZNAbDFYxBLAezb818RXTix9y0pVDb2NG2DvJ+USSoncm3F73B2KjsTreHQoauh1DwEbtOdyib+I/3U2Fy2OEWX0b5lUAOKqfIPRppgSw/ZNg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lwSlx1gO+dfxHT8r2vsg1Tn5bAgWgamKaYcLSOSyE2A=;
- b=D5rzezOP84sRb25QDpFmno+qSlW/z/qbBNMdEikxVFjpl1/zmFBDYL30id26J0geEMZIZn0+3KfSGc7sqsRfM36VmqzR9zseWmNM5pmXW4FyZy3B/pnPlP7oIr7RyKAlCYY0pU3S+AJH+g8Y/3bn7ngAO4216eyfFUXwNTAu7bVJ1aIeRDrwSI8LqxXh1a+F0HRxZuW6eD8a0EAvmk8BxukR7bp0Uum4ocEqntJvZ3I500HvsmjnS413GTHZ7U+Hz8ngQY5JLtNzWYL5Tb9xEEx7dBQc6GI/WqW1Cv8fl+1N+ZsTAVUIpWNTq3bKATnBNYhsgHyQDRVW+lzhVMApwA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
- by DM6PR12MB4356.namprd12.prod.outlook.com (2603:10b6:5:2aa::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.23; Wed, 17 Jan
- 2024 10:05:22 +0000
-Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
- ([fe80::9fbe:fc95:e341:78aa]) by SJ1PR12MB6075.namprd12.prod.outlook.com
- ([fe80::9fbe:fc95:e341:78aa%6]) with mapi id 15.20.7181.026; Wed, 17 Jan 2024
- 10:05:22 +0000
-From: Aurelien Aptel <aaptel@nvidia.com>
-To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
- netdev@vger.kernel.org, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
- chaitanyak@nvidia.com, davem@davemloft.net, kuba@kernel.org
-Cc: Or Gerlitz <ogerlitz@nvidia.com>, aurelien.aptel@gmail.com,
- smalin@nvidia.com, malin1024@gmail.com, yorayz@nvidia.com,
- borisp@nvidia.com, galshalom@nvidia.com, mgurtovoy@nvidia.com
-Subject: Re: [PATCH v22 08/20] nvme-tcp: Deal with netdevice DOWN events
-In-Reply-To: <f9e315d1-5876-49da-870b-a073c911df28@grimberg.me>
-References: <20231221213358.105704-1-aaptel@nvidia.com>
- <20231221213358.105704-9-aaptel@nvidia.com>
- <f9e315d1-5876-49da-870b-a073c911df28@grimberg.me>
-Date: Wed, 17 Jan 2024 12:05:18 +0200
-Message-ID: <253jzo8uvfl.fsf@nvidia.com>
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0216.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1a5::23) To SJ1PR12MB6075.namprd12.prod.outlook.com
- (2603:10b6:a03:45e::8)
+	Wed, 17 Jan 2024 11:58:28 +0000
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20240117115815euoutp014c8af54589960708cd7ab156223ae55e~rIJIHbubb1691716917euoutp01k
+	for <linux-nvme@lists.infradead.org>; Wed, 17 Jan 2024 11:58:15 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20240117115815euoutp014c8af54589960708cd7ab156223ae55e~rIJIHbubb1691716917euoutp01k
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1705492695;
+	bh=SdB2TP1URh+2f5CnTPCtsm4BKecp5Qah44NrUZikOFc=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=FjhHRk4pVr1fiHdOiqsCeldOAHepgntE3+Cnd/uegzFM7/EC3A2n+lhe5HnfxvkVs
+	 +DtK20XM3Ul8AvWXKCbHSlVqUqVBhXPltEIht9ESr/4UEu+J4Amp5LtImImDNkM34m
+	 C5FkBwHhP6sqeKVb8X9zhfAl0ISI5DiNKeTFs1Jo=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+	20240117115814eucas1p1c232c3b814b2f470041924f3bb0420fd~rIJHaaPx41464314643eucas1p1I;
+	Wed, 17 Jan 2024 11:58:14 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+	eusmges3new.samsung.com (EUCPMTA) with SMTP id 61.9E.09552.6D0C7A56; Wed, 17
+	Jan 2024 11:58:14 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20240117115814eucas1p28abc60e7ee127f6c587bea07b17a19b1~rIJG_Wgv10373303733eucas1p2O;
+	Wed, 17 Jan 2024 11:58:14 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20240117115814eusmtrp11160c27c9b724ad22f73bc9c3a572296~rIJG9uAIB0851908519eusmtrp1H;
+	Wed, 17 Jan 2024 11:58:14 +0000 (GMT)
+X-AuditID: cbfec7f5-853ff70000002550-7c-65a7c0d6794d
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id C6.74.09146.6D0C7A56; Wed, 17
+	Jan 2024 11:58:14 +0000 (GMT)
+Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20240117115813eusmtip2e394ff78bd8b3afa633aac65201743dc~rIJGvRZuJ0477204772eusmtip2X;
+	Wed, 17 Jan 2024 11:58:13 +0000 (GMT)
+Received: from localhost (106.110.32.122) by CAMSVWEXC02.scsc.local
+	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+	Wed, 17 Jan 2024 11:58:13 +0000
+Date: Wed, 17 Jan 2024 12:58:12 +0100
+From: Javier =?utf-8?B?R29uesOhbGV6?= <javier.gonz@samsung.com>
+To: Viacheslav Dubeyko <slava@dubeyko.com>
+CC: <lsf-pc@lists.linux-foundation.org>, Linux FS Devel
+	<linux-fsdevel@vger.kernel.org>, Adam Manzanares <a.manzanares@samsung.com>,
+	<linux-scsi@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
+	<linux-block@vger.kernel.org>, <slava@dubeiko.com>, Kanchan Joshi
+	<joshi.k@samsung.com>, Bart Van Assche <bvanassche@acm.org>
+Subject: Re: [LSF/MM/BPF TOPIC] : Flexible Data Placement (FDP) availability
+ for kernel space file systems
+Message-ID: <20240117115812.e46ihed2qt67wdue@ArmHalley.local>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|DM6PR12MB4356:EE_
-X-MS-Office365-Filtering-Correlation-Id: 83e00bf5-6639-4c41-1986-08dc1743d192
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cHn4f0UpCTYg+gTH/6QBDA06VkE00jm7gXB+wohqE+6byCeXOHDIA0Wr36e6hDJZSGNLd9Q4FMgzPQO/zy8ddJt8qdotsTNHkSKONrB0NUw3CeMQzWKN5Vp+oYktyqSALAbKJJwGXpJfdHhh10EgkidF20u9qaV/EMlR8c06SkxQG4bxmLf0mFUKos6dqDQhaIDibIiZzpx0H9eI1ZrQguovpH4yEUX7Mim57iWhN5Pc6WaYNPmJf6a0hJs3PBZ8IneEXJwhd6uBYqVXQuC8Fh7cOfFki8GtexwlwH0zegSgAYDuPxv6QAB1GMdshYGf8UKitpj1ISR1Ab1qY/wBoYIZVaDsUTouya9ACQMfvXQa52/wb09RcVwrlvzqnNhFRGxqszZjOiM+zgYmROcen7wlw5eDgDYlR3oUHRCOYMFnn1Xumh6neX2Bltd2JFjtZe9ARHiLqzTkIssUhBuczQNVCli7XW20dtFPPnLl/fNpHKhysuWMaPO3aoBjT5FXUAk7E4DsD3fW0hbtswUJLaPWjnAONB1zZ/f7/ARHjWpMmWNvS6WiI4j63HDKaJBE
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(136003)(396003)(39860400002)(376002)(366004)(230922051799003)(451199024)(1800799012)(64100799003)(186009)(26005)(107886003)(6666004)(6506007)(6512007)(2616005)(38100700002)(5660300002)(7416002)(4326008)(8676002)(4744005)(41300700001)(2906002)(8936002)(6486002)(478600001)(316002)(66476007)(66556008)(66946007)(36756003)(86362001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0ZxavVNqBTS4thyKLZ16DFB1RHAu3MIrKmFPG6cUZg4rSI7t0g2S4VORvQ0O?=
- =?us-ascii?Q?knDBVj4zV4O8pwKHy7zVrEWYGBjhcJX40lPurXfaO6lAIb60qaLBn8UoPE2x?=
- =?us-ascii?Q?VLTHLD80Exv2gCcz2apnDQThB3KyxeruAKYomrc4DO7g/piwssefOYwShy+f?=
- =?us-ascii?Q?1rgB/hdvPQ3j0SA+CtOO+8az1p70tPkG8csA7Lagj+gnHtQnqBba+ZVM2uI1?=
- =?us-ascii?Q?yWqDHUX/JFZWaeNUXrt7HLE2YM7gf0xEFi1Uh3Ztbs+ewJemuD4Ht6Y/CW0c?=
- =?us-ascii?Q?AWeCmvkxvphu7ZEfBH0dSN+k9Fo6TkVCs7OdlpYFn4euZSaT70XWztt+iEep?=
- =?us-ascii?Q?qcSRpnzD/zwuafnLz1yPOg5dpt5yLLwoewzLKjatNNTKOEaXUZF84Yp9Fn2q?=
- =?us-ascii?Q?gu3+BPIbCq6FrXM2QVSzA27sjH9iULRYyFBVPfwPL2jMmEBS+uMki5lLlv1l?=
- =?us-ascii?Q?tsHyhJileMazo9/IaazSIeBnFfErH0wpneGuDMNwptW0WYDWIh5Vg8AKyn1l?=
- =?us-ascii?Q?9wDH1sh6C/AsSzc8/J5krZHPjni8oyUqvXwe6YL6f3hKP0PkLciW08laBmep?=
- =?us-ascii?Q?N/81E4EHgPsV8OtIzy4hF4csbrIm8D0TQ8SkzT2hvYmXz6w3Fxfq9cIUfQZN?=
- =?us-ascii?Q?1gnk0dPgizRi1f58tktj6N5df9euqZg2Fa0YKFIwCZfzOz7PppvhDEkV1cvz?=
- =?us-ascii?Q?4X8Vrp37H406KSPqAxu+AwPhpYtIVLIKikEwek/jNTihdZHcXpJvEnNeFlYZ?=
- =?us-ascii?Q?oobaPzzCw69IiWOWb1F5jp9UesDKZsnMd503DX5c3oTYc3qwg48w/m0GG3oa?=
- =?us-ascii?Q?pcQWutYsx8mpxMabu6L075QvqiTkltZmwBwf/vk8IxPtK24dKLUCXF8U+qLW?=
- =?us-ascii?Q?BnFNLEYXqwqfsKjwooo26lkFXXGx/cAGxORBZrbTT39XcCthUyllsI738hzE?=
- =?us-ascii?Q?EeA+8nFYSqBmQdEAJeoZnNIWqmzAMb+FFBUR3f+L2k/zfU3XJd/21X75UrC6?=
- =?us-ascii?Q?wOzGgFsKXhXyNXRWnxSE/slQbPN+7xNs7PioECZHosvmmqQ1KufyoOXuFLAe?=
- =?us-ascii?Q?5DCmq0Et6RCk0qv8VzYw8x9cek+v1KDKgLx3GF2KuMn+VaeQSelb7xpfmEWZ?=
- =?us-ascii?Q?3+OKkQzRYKvljUKDMIC1jxf/FMtvKQrFbdvuTaXVSBZ927fJ6gSF/RbpmrS6?=
- =?us-ascii?Q?jXF2UgmmqSEFhU68DgfKgPdyQ29D8h4EUkVAJterAeWEJzuxLpOEk0imBvxR?=
- =?us-ascii?Q?cTW4WYmUABPnjPtiwagYasBpp83/PVa9pmyX1W4tGp5NaYCNFifNZ0ThtWJg?=
- =?us-ascii?Q?BCvlaKtGYMB/lCg3KZBcF4XXGbjed7oNQBt+JOMEYsMGw7yiIHjsHjdTHzSr?=
- =?us-ascii?Q?XYaoNugPa8VlTvWq4FQKA53Zt4m3/PibyxlA0OkkQyOs/9m7vGfk9xEPCpqi?=
- =?us-ascii?Q?1QnXMMIl9DXZGEOi+SV/ofCmqiXSCHmOmnT5qq02qxsCsyQJWuiqf4FZ03WQ?=
- =?us-ascii?Q?VfxT2qktaVmzn9xrtVOobRcCrg9EIZtRpvCrE3ZwxWlqWZTV0wQ3q0UteiYc?=
- =?us-ascii?Q?OO5mWlZBtWs/goghfvJ9Q12+rJNGD+f4NNkZUQV5?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 83e00bf5-6639-4c41-1986-08dc1743d192
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2024 10:05:22.7144
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Y7pHCIAIzCR/vsUUHDtzmr6Bkj6gf1m+dnnc7G8xUpW1EK6jonb5bXRvdaJvn8jhXBF6FkhHl76TGGsg/aiQqA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4356
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <86106963-0E22-46D6-B0BE-A1ABD58CE7D8@dubeyko.com>
+X-Originating-IP: [106.110.32.122]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrEKsWRmVeSWpSXmKPExsWy7djP87rXDixPNdi3RtFi2oefzBZ7b2lb
+	7Nl7ksVi/rKn7Bbd13ewWex7vZfZ4tPlhUBiy2wmBw6Py1e8PR49OcjqcXD9GxaPzUvqPSbf
+	WM7o8XmTXABbFJdNSmpOZllqkb5dAlfG7KapjAVbNSqmb5vI2MD4QKGLkZNDQsBEYkXnXaYu
+	Ri4OIYEVjBIH2lYzQjhfGCXm9pxgg3A+M0rMen+DpYuRA6xl93s3iPhyRonZs7YiFL1+8w3K
+	2cIo8fzLEiaQJSwCqhKbNrcyg9hsAvYSl5bdArNFBLQkZu+bAracWeAUk8S/5U/YQVYIC+RI
+	tE/xBqnhFbCV6Po1nxnCFpQ4OfMJC4jNLGAl0fmhiRWknFlAWmL5Pw6IsLxE89bZzCBhTqBV
+	c4/UQbypJPH4xVtGCLtW4tSWW2BbJQSaOSWmdy1ghUi4SLz7/IEZwhaWeHV8CzuELSNxenIP
+	C4SdLXHxTDdUTYnE4vfHmCGBYi3RdyYHIuwocejOTkaIMJ/EjbeCEJfxSUzaNh2qmleio01o
+	AqPKLCRvzULy1iyEt2YheWsBI8sqRvHU0uLc9NRi47zUcr3ixNzi0rx0veT83E2MwGR0+t/x
+	rzsYV7z6qHeIkYmD8RCjBAezkgivv8GyVCHelMTKqtSi/Pii0pzU4kOM0hwsSuK8qinyqUIC
+	6YklqdmpqQWpRTBZJg5OqQYmrtVZx+71GNl/ir7Q4y/pKnWpNUu1SPWMRpZhdvFVndCaf26m
+	Txwzgl4/EgndzJG4aumx5mnTvk3akpG1WTfbc8f5nKuT5JUtoybPaVmd0WWd5/vXNylp2mZ7
+	1S/rotLqNm6dtijhEjdPaZKKra71lIz+0E8c4Tv33mtIPW/+QTPTcYu05ct60wWJbT7WP7NK
+	bxxIMoh4sf712c81gid2tS1afSnr2NGS30Y9vMc18/mcg2/qfL+wrJnt7f519rP2N+zYFSsX
+	GNW+9tsxnRCd1S8Uk/Y28v3VipS1M/lUds/i+M110c+4L/PLcrFOYQor7Fv0vV1EJVpvYsqX
+	kmzbdTF7RTZyLK5/LJdttk6JpTgj0VCLuag4EQCISNjTtQMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrLIsWRmVeSWpSXmKPExsVy+t/xe7rXDixPNZjwg8Vi2oefzBZ7b2lb
+	7Nl7ksVi/rKn7Bbd13ewWex7vZfZ4tPlhUBiy2wmBw6Py1e8PR49OcjqcXD9GxaPzUvqPSbf
+	WM7o8XmTXABblJ5NUX5pSapCRn5xia1StKGFkZ6hpYWekYmlnqGxeayVkamSvp1NSmpOZllq
+	kb5dgl7G7KapjAVbNSqmb5vI2MD4QKGLkYNDQsBEYvd7ty5GLg4hgaWMEif2H2PtYuQEistI
+	bPxyFcoWlvhzrYsNougjo0Rn1x9GCGcLo8SdRUfBqlgEVCU2bW5lBrHZBOwlLi27BWaLCGhJ
+	zN43hQmkgVngFJPEv+VP2EFWCwvkSLRP8Qap4RWwlej6NZ8ZYuhvRolZW38zQyQEJU7OfMIC
+	YjMLWEjMnH+eEaSXWUBaYvk/DoiwvETz1tnMIGFOoL1zj9RBHK0k8fjFW0YIu1bi899njBMY
+	RWYhGToLydBZCENnIRm6gJFlFaNIamlxbnpusaFecWJucWleul5yfu4mRmC8bjv2c/MOxnmv
+	PuodYmTiYDzEKMHBrCTC62+wLFWINyWxsiq1KD++qDQntfgQoykwhCYyS4km5wMTRl5JvKGZ
+	gamhiZmlgamlmbGSOK9nQUeikEB6YklqdmpqQWoRTB8TB6dUA9N6nZBpjWH5CYG3ops/zkuT
+	VNVuyT+zMfy36IqNjVvLeM/qqL+suaEevOFllpjndU7Nmr+CzYdVeTeEqR17YnH65+w/zkWb
+	2Dyv5T63ChKLiffU3Lgxdc7KvRO+87p3vsjxORLn9zuE87Wf9dneo2GrZ+6r6P/9WLkkQ+5X
+	hMPT5evnxDe1Z3bPaZ23Qzf9b/F5qykPuCzZHryUuMQ7871iruaSMlnhkIT1B2VDnVsOOWTM
+	qtk+f2KG+evWjDcPH90/w7i8/aUUQ6n4g5Sl2zmeZq/Nv7ZVLm/ulsU27iUlj2Ll7ofN2Vla
+	13T//KzInvcS3afSkv7Utz34O6cg//BlnWd9uqul5EIDZhokBSmxFGckGmoxFxUnAgAFbueN
+	YAMAAA==
+X-CMS-MailID: 20240117115814eucas1p28abc60e7ee127f6c587bea07b17a19b1
+X-Msg-Generator: CA
+X-RootMTR: 20240115084656eucas1p219dd48243e2eaec4180e5e6ecf5e8ad9
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20240115084656eucas1p219dd48243e2eaec4180e5e6ecf5e8ad9
+References: <CGME20240115084656eucas1p219dd48243e2eaec4180e5e6ecf5e8ad9@eucas1p2.samsung.com>
+	<20240115084631.152835-1-slava@dubeyko.com>
+	<20240115175445.pyxjxhyrmg7od6sc@mpHalley-2.localdomain>
+	<86106963-0E22-46D6-B0BE-A1ABD58CE7D8@dubeyko.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240117_020531_377283_E7E03A62 
-X-CRM114-Status: UNSURE (   7.45  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240117_035825_898725_CB6C0CCB 
+X-CRM114-Status: GOOD (  28.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -137,20 +142,107 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Sagi Grimberg <sagi@grimberg.me> writes:
+On 16.01.2024 11:39, Viacheslav Dubeyko wrote:
 >
-> Will this handler ever react to another type of event? because
-> if not, maybe its better to just have:
 >
->         if (event != NETDEV_GOING_DOWN)
->                 return NOTIFY_DONE;
+>> On Jan 15, 2024, at 8:54 PM, Javier González <javier.gonz@samsung.com> wrote:
+>>
+>> On 15.01.2024 11:46, Viacheslav Dubeyko wrote:
+>>> Hi Javier,
+>>>
+>>> Samsung introduced Flexible Data Placement (FDP) technology
+>>> pretty recently. As far as I know, currently, this technology
+>>> is available for user-space solutions only. I assume it will be
+>>> good to have discussion how kernel-space file systems could
+>>> work with SSDs that support FDP technology by employing
+>>> FDP benefits.
+>>
+>> Slava,
+>>
+>> Thanks for bringing this up.
+>>
+>> First, this is not a Samsung technology. Several vendors are building
+>> FDP and several customers are already deploying first product.
+>>
+>> We enabled FDP thtough I/O Passthru to avoid unnecesary noise in the
+>> block layer until we had a clear idea on use-cases. We have been
+>> following and reviewing Bart's write hint series and it covers all the
+>> block layer and interface needed to support FDP. Currently, we have
+>> patches with small changes to wire the NVMe driver. We plan to submit
+>> them after Bart's patches are applied. Now it is a good time since we
+>> have LSF and there are also 2 customers using FDP on block and file.
+>>
+>>>
+>>> How soon FDP API will be available for kernel-space file systems?
+>>
+>> The work is done. We will submit as Bart's patches are applied.
+>>
+>> Kanchan is doing this work.
+>>
+>>> How kernel-space file systems can adopt FDP technology?
+>>
+>> It is based on write hints. There is no FS-specific placement decisions.
+>> All the responsibility is in the application.
+>>
+>> Kanchan: Can you comment a bit more on this?
+>>
+>>> How FDP technology can improve efficiency and reliability of
+>>> kernel-space file system?
+>>
+>> This is an open problem. Our experience is that making data placement
+>> decisions on the FS is tricky (beyond the obvious data / medatadata). If
+>> someone has a good use-case for this, I think it is worth exploring.
+>> F2FS is a good candidate, but I am not sure FDP is of interest for
+>> mobile - here ZUFS seems to be the current dominant technology.
+>>
 >
->         ...
+>If I understand the FDP technology correctly, I can see the benefits for
+>file systems. :)
+>
+>For example, SSDFS is based on segment concept and it has multiple
+>types of segments (superblock, mapping table, segment bitmap, b-tree
+>nodes, user data). So, at first, I can use hints to place different segment
+>types into different reclaim units.
 
-Hi Sagi,
+Yes. This is what I meant with data / metadata. We have looked also into
+using 1 RUH for metadata and rest make available to applications. We
+decided to go with a simple solution to start with and complete as we
+see users.
 
-This patch was already reviewed-by you. If you wish we can change the
-switch to an if. Any other comments on other patches?
+For SSDFS it makes sense.
 
-Thanks
+>The first point is clear, I can place different
+>type of data/metadata (with different “hotness”) into different reclaim units.
+>Second point could be not so clear. SSDFS provides the way to define
+>the size of erase block. If it’s ZNS SSD, then mkfs tool uses the size of zone
+>that storage device exposes to mkfs tool. However, for the case of conventional
+>SSD, the size of erase block is defined by user. Technically speaking, this size
+>could be smaller or bigger that the real erase block inside of SSD. Also, FTL could
+>use a tricky mapping scheme that could combine LBAs in the way making
+>FS activity inefficient even by using erase block or segment concept. I can see
+>how FDP can help here. First of all, reclaim unit makes guarantee that erase
+>blocks or segments on file system side will match to erase blocks (reclaim units)
+>on SSD side. Also, I can use various sizes of logical erase blocks but the logical
+>erase blocks of the same segment type will be placed into the same reclaim unit.
+>It could guarantee the decreasing the write amplification and predictable reclaiming on
+>SSD side. The flexibility to use various logical erase block sizes provides
+>the better efficiency of file system because various workloads could require
+>different logical erase block sizes.
+
+Sounds good. I see you sent a proposal on SSDFS specificaly. It makes
+sense to cover this specific uses there.
+>
+>Technically speaking, any file system can place different types of metadata in
+>different reclaim units. However, user data is slightly more tricky case. Potentially,
+>file system logic can track “hotness” or frequency of updates of some user data
+>and try to direct the different types of user data in different reclaim units.
+>But, from another point of view, we have folders in file system namespace.
+>If application can place different types of data in different folders, then, technically
+>speaking, file system logic can place the content of different folders into different
+>reclaim units. But application needs to follow some “discipline” to store different
+>types of user data (different “hotness”, for example) in different folders.
+
+Exactly. This is why I think it makes sense to look at specific FSs as
+there are real deployments that we can use to argue for changes that
+cover a large percentage of use-cases.
 
