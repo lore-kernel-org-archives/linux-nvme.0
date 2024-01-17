@@ -4,96 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 488C2C47258
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jan 2024 21:41:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48C64C47258
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jan 2024 21:52:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=smBRC0fGIjV7NVWRRSnbObc9QKfnzsw9Zntd5C5Qdwo=; b=oDL+hLcY6+MaX3i6CLf/i/ELX6
-	MHVaf9qdEHRw0ms6eGgoZCARRB6tzYHhPxcHeT+UIHXrQBQyHo1PP7ozukRzrYMDc2n6ayckTooJc
-	/VVQZJk1CEd+4tafRjVUPC5EFQgx7D3FnLJLoLzQJnc1UxVzouYTLgSqZXSLjGKsHfOyx/k7d/QiB
-	m4J1LsnhVc9GN3QwkacLWSJYENGmzcEG/tYSr4t8RiMh6vSE7Nmmj1tfTvfn8dckmSedci6teM0hd
-	e/D5bHND6Xo/dFfx9Dc1XMMS18nnC3SFGMj3KuISa1JmiJnL+WkfXUExtM9/lcknFgifXH0GQQQYS
-	77tl2vew==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=LLeFnk3Q55H1BPBw4YoBu7toGUDI6gBA877Kx/ZWOrU=; b=NyaiYQ+PhRwxZPx+8mcp2GR0PV
+	vG/xPKCWAzMx7FDtQ5eshjmAhytBiVShZoz5Nk6ur/2Eh5Qi2ap6O3NrRbbMLqoV50txc0h87UYlI
+	x9m0TQY068MzUGptfvXduYm0oYFv5mw725Pu3sjeWhsMIXsMrtNsiSCsOlGD7WZ0ofBIukDckITxM
+	1a6NywLq2W7aalHqRQTs/Y7ZQ1ipLyFoGAXxVMl8iIMhbTmbiXYw+7y3DiLqqjl1d1fFLV+y56qrS
+	zyZcYHn/C6OiH0U2zdaxXzG+GS928xyHyJfh2xDW1LSolv5SWi75sOf+MYHSGhaZVpGelbhNsuGVN
+	n+ZTTQmg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rQDej-000pGG-2y;
-	Wed, 17 Jan 2024 21:41:05 +0000
-Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36])
+	id 1rQDq4-000rRL-1S;
+	Wed, 17 Jan 2024 21:52:48 +0000
+Received: from mail-oi1-f182.google.com ([209.85.167.182])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rQDeg-000pE1-0P
+	id 1rQDq1-000rOY-08
 	for linux-nvme@lists.infradead.org;
-	Wed, 17 Jan 2024 21:41:04 +0000
-Received: by mail-io1-xd36.google.com with SMTP id ca18e2360f4ac-7beeeb1ba87so58647139f.0
-        for <linux-nvme@lists.infradead.org>; Wed, 17 Jan 2024 13:40:57 -0800 (PST)
+	Wed, 17 Jan 2024 21:52:46 +0000
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3bd9a1dd92fso321049b6e.2
+        for <linux-nvme@lists.infradead.org>; Wed, 17 Jan 2024 13:52:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1705527657; x=1706132457; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=smBRC0fGIjV7NVWRRSnbObc9QKfnzsw9Zntd5C5Qdwo=;
-        b=yEuEyyd0EmXPsg8Nc56Axc4Yyohw3hrtSOSea3rbhq5X4EIX9E8yzLyjHn1Bd6vtMD
-         EkHvWErQGypNECW5m4PwrTJUPvPj2+tRsxa7siXr3pcwTZNbQH4A/dlompxRI++Mc0zn
-         ig28wRumVrgPyCxA1+b3KrAYtfSqY+z/rsDQIuq9TsZV3v8KxWwjgHPXO5wM03uCAs25
-         WkoBuMaWlpdDyTibnzi5Hp83xVVBE0jHEczzyxQbWsHHsf47xqYqcDHxbcchNmfcGBBC
-         CDq5iy+eCuZ1pQ1etzNnbbemb1r3kLWjKMif4AgjR/iJIfPG4wesMKFdadkaqPscrKst
-         HMQg==
+        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1705528300; x=1706133100; darn=lists.infradead.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=LLeFnk3Q55H1BPBw4YoBu7toGUDI6gBA877Kx/ZWOrU=;
+        b=zmy3XBpH12+XSvZCDtewWu5mGfel3DOKe4+ts5WOdWtN27K6Gho1btb/4fNNr4uR/9
+         vgfujabRUoP3IipiRBfVTHyiMV56FRrHonjfJQ7aTkSume38qoEclzOy1eWNPoV3SNhN
+         5VdBGmGyWEOY/tXfKjRyrvzQewLnMH5QknzyyhOD81aQWbQeQUj0emPkooAecOgJ1aY9
+         ygz6rNh8PpvGSJVyXNoCmelxVXsj3bOgQ0WQzUi9Fw88YSTgMjQOFoLcXMNnLKX5dako
+         5n95w7PX7hga2vleKQHLwekkIE+b1EflqQZh9Pmupz56hgjd4YTEYmF0FhGSPTcA9wfp
+         srwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705527657; x=1706132457;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1705528300; x=1706133100;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=smBRC0fGIjV7NVWRRSnbObc9QKfnzsw9Zntd5C5Qdwo=;
-        b=KV081SBiD977+nIBR8HmknecxidWqqxelAZ+h1t47o3cVPpo5z2DAgjMvSPVvwdhmJ
-         2QfivrENPvi5i8aCovYPS0xJ7sMX4JeV+al8DutFzwt/xaFyElSKegCQYt5Y5fm6OIn5
-         U6FDe8/Wm4EGUNuKKpzWhnnTOU1a/tNjYAsyjXkGgxtXFwvnS3ECo1uhEjN6IeYGWhgj
-         EtAdj/cx8qRj7vaMwwMB90TqTyiCje1BNq1lAIHOwhn7vrx3N+Gf9Sw4hkDaxtyjvP6C
-         KDUa2bSoEBFTYEQIxDZlDeO3Spzn84WdrP79NzxFsttyhYPNN7qIW6aFiitsP86iXI16
-         8RcA==
-X-Gm-Message-State: AOJu0YzZIB8Lfvt6qUwxqKa736Wg2UGFieSoNv02bRVC6/DohCTRPXrZ
-	wRKW+1pxeCnKi/Faw/tP4tRz0CF09BLL4cf/7cZHZHn5Narv5Q==
-X-Google-Smtp-Source: AGHT+IEFCB+mlkil6mSwJtj1E/FwGBlpCCSuAEtTZsOEEjRvUWlgz2WoebfbWy1i24fq79CojzvXCw==
-X-Received: by 2002:a6b:5803:0:b0:7bf:4758:2a12 with SMTP id m3-20020a6b5803000000b007bf47582a12mr9490867iob.0.1705527656920;
-        Wed, 17 Jan 2024 13:40:56 -0800 (PST)
-Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id g1-20020a05663811c100b0046b451e7b57sm614364jas.45.2024.01.17.13.40.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Jan 2024 13:40:56 -0800 (PST)
-Message-ID: <90de77e4-ed8a-47be-b5df-2178913ec115@kernel.dk>
-Date: Wed, 17 Jan 2024 14:40:55 -0700
+        bh=LLeFnk3Q55H1BPBw4YoBu7toGUDI6gBA877Kx/ZWOrU=;
+        b=qxEjTCVLqhvUgwUNJ+2p3k7qgrJeWb6FzJsNFGf3gesEcAwcoQqVuxr4DT6L/BJXBq
+         sl4LNgq5b9uMVGrkHHxahozWiT0LLoT47Fzqkutq4X8UeTu46+O6QsGWGPiPe63JxO94
+         HJSjGkCgv0ZFEUA5OT2WMG87vlJn9z+7FwfQ0kirjJCgp5SYpPJo8Nax+K03uZ3mF1EC
+         hoaajnvEhu87UAD6Mq1ymQop7oO4lCJRkODkMfhtqg2zI6y11NIR4Dp3YiM6NigRsfkO
+         UYg7nxmOximo7Ruz4tBtbOg8r7LRorJFbKLM+wKiXb1NpBCVlra1YGLVi7Z4zurgqxxS
+         PPAg==
+X-Gm-Message-State: AOJu0Yy7oCL3WfeQ/vgqwk3f7vxpt2odbY+f7gxSP7DkQyWSYztYafOy
+	Z/bOZMtz15cdKlOlAZ5EquzR9mjdyMuTLQ==
+X-Google-Smtp-Source: AGHT+IGESx3XdAVciQo32JGzL/U/9t/1OLisSeEzkhwKrP6ShbUuF6hJSrsKjUR/tdf3Tqk5GRjSUA==
+X-Received: by 2002:a05:6808:f8e:b0:3bd:986e:23 with SMTP id o14-20020a0568080f8e00b003bd986e0023mr1186949oiw.2.1705528300428;
+        Wed, 17 Jan 2024 13:51:40 -0800 (PST)
+Received: from dread.disaster.area (pa49-180-249-6.pa.nsw.optusnet.com.au. [49.180.249.6])
+        by smtp.gmail.com with ESMTPSA id z14-20020a62d10e000000b006d9b38f2e75sm2009134pfg.32.2024.01.17.13.51.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jan 2024 13:51:39 -0800 (PST)
+Received: from dave by dread.disaster.area with local (Exim 4.96)
+	(envelope-from <david@fromorbit.com>)
+	id 1rQDov-00BkQF-2K;
+	Thu, 18 Jan 2024 08:51:37 +1100
+Date: Thu, 18 Jan 2024 08:51:37 +1100
+From: Dave Chinner <david@fromorbit.com>
+To: Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier.gonz@samsung.com>
+Cc: Viacheslav Dubeyko <slava@dubeyko.com>,
+	lsf-pc@lists.linux-foundation.org,
+	Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+	Adam Manzanares <a.manzanares@samsung.com>,
+	linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, slava@dubeiko.com,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Bart Van Assche <bvanassche@acm.org>
+Subject: Re: [LSF/MM/BPF TOPIC] : Flexible Data Placement (FDP) availability
+ for kernel space file systems
+Message-ID: <ZahL6RKDt/B8O2Jk@dread.disaster.area>
+References: <CGME20240115084656eucas1p219dd48243e2eaec4180e5e6ecf5e8ad9@eucas1p2.samsung.com>
+ <20240115084631.152835-1-slava@dubeyko.com>
+ <20240115175445.pyxjxhyrmg7od6sc@mpHalley-2.localdomain>
+ <86106963-0E22-46D6-B0BE-A1ABD58CE7D8@dubeyko.com>
+ <20240117115812.e46ihed2qt67wdue@ArmHalley.local>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [LSF/MM/BPF TOPIC] Improving Zoned Storage Support
-Content-Language: en-US
-To: Bart Van Assche <bvanassche@acm.org>, Damien Le Moal
- <dlemoal@kernel.org>,
- "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>
-Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- Christoph Hellwig <hch@lst.de>
-References: <5b3e6a01-1039-4b68-8f02-386f3cc9ddd1@acm.org>
- <cc6999c2-2d53-4340-8e2b-c50cae1e5c3a@kernel.org>
- <43cc2e4c-1dce-40ab-b4dc-1aadbeb65371@acm.org>
- <c38ab7b2-63aa-4a0c-9fa6-96be304d8df1@kernel.dk>
- <2955b44a-68c0-4d95-8ff1-da38ef99810f@acm.org>
- <9af03351-a04a-4e61-a6d8-b58236b041a3@kernel.dk>
- <276eedc2-e3d0-40c7-b355-46232ea65662@kernel.dk>
- <39dfcd32-e5fc-45b9-a0ed-082b879a16a4@acm.org>
- <9f4a6b8a-1c17-46b7-8344-cbf4bcb406ab@kernel.dk>
- <207a985d-ad4e-4cad-ac07-961633967bfc@kernel.dk>
- <e8c32676-114b-4aaf-8753-5a6d7b04fc4b@kernel.dk>
- <86a1f9e6-d3ae-4051-8528-13a952cf74a1@acm.org>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <86a1f9e6-d3ae-4051-8528-13a952cf74a1@acm.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240117115812.e46ihed2qt67wdue@ArmHalley.local>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240117_134102_166328_8F857966 
-X-CRM114-Status: GOOD (  16.83  )
+X-CRM114-CacheID: sfid-20240117_135245_097243_EFA162E3 
+X-CRM114-Status: GOOD (  28.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,48 +107,100 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/17/24 2:33 PM, Bart Van Assche wrote:
-> On 1/17/24 13:14, Jens Axboe wrote:
->>   /* Maps an I/O priority class to a deadline scheduler priority. */
->> @@ -600,6 +604,10 @@ static struct request *dd_dispatch_request(struct blk_mq_hw_ctx *hctx)
->>       struct request *rq;
->>       enum dd_prio prio;
->>   +    if (test_bit(0, &dd->dispatch_state) ||
->> +        test_and_set_bit(0, &dd->dispatch_state))
->> +        return NULL;
->> +
->>       spin_lock(&dd->lock);
->>       rq = dd_dispatch_prio_aged_requests(dd, now);
->>       if (rq)
->> @@ -616,6 +624,7 @@ static struct request *dd_dispatch_request(struct blk_mq_hw_ctx *hctx)
->>       }
->>     unlock:
->> +    clear_bit(0, &dd->dispatch_state);
->>       spin_unlock(&dd->lock);
+On Wed, Jan 17, 2024 at 12:58:12PM +0100, Javier González wrote:
+> On 16.01.2024 11:39, Viacheslav Dubeyko wrote:
+> > > On Jan 15, 2024, at 8:54 PM, Javier González <javier.gonz@samsung.com> wrote:
+> > > > How FDP technology can improve efficiency and reliability of
+> > > > kernel-space file system?
+> > > 
+> > > This is an open problem. Our experience is that making data placement
+> > > decisions on the FS is tricky (beyond the obvious data / medatadata). If
+> > > someone has a good use-case for this, I think it is worth exploring.
+> > > F2FS is a good candidate, but I am not sure FDP is of interest for
+> > > mobile - here ZUFS seems to be the current dominant technology.
+> > > 
+> > 
+> > If I understand the FDP technology correctly, I can see the benefits for
+> > file systems. :)
+> > 
+> > For example, SSDFS is based on segment concept and it has multiple
+> > types of segments (superblock, mapping table, segment bitmap, b-tree
+> > nodes, user data). So, at first, I can use hints to place different segment
+> > types into different reclaim units.
 > 
-> Can the above code be simplified by using spin_trylock() instead of
-> test_bit() and test_and_set_bit()?
+> Yes. This is what I meant with data / metadata. We have looked also into
+> using 1 RUH for metadata and rest make available to applications. We
+> decided to go with a simple solution to start with and complete as we
+> see users.
 
-It can't, because you can't assume that just because dd->lock is already
-being held that dispatch is running.
+XFS has an abstract type definition for metadata that is uses to
+prioritise cache reclaim (i.e. classifies what metadata is more
+important/hotter) and that could easily be extended to IO hints
+to indicate placement.
 
-> Please note that whether or not spin_trylock() is used, there is a
-> race condition in this approach: if dd_dispatch_request() is called
-> just before another CPU calls spin_unlock() from inside
-> dd_dispatch_request() then some requests won't be dispatched until the
-> next time dd_dispatch_request() is called.
+We also have a separate journal IO path, and that is probably the
+hotest LBA region of the filesystem (circular overwrite region)
+which would stand to have it's own classification as well.
 
-Sure, that's not surprising. What I cared most about here is that we
-should not have a race such that we'd stall. Since we haven't returned
-this request just yet if we race, we know at least one will be issued
-and we'll re-run at completion. So yeah, we may very well skip an issue,
-that's well known within that change, which will be postponed to the
-next queue run.
+We've long talked about making use of write IO hints for separating
+these things out, but requiring 10+ IO hint channels just for
+filesystem metadata to be robustly classified has been a show
+stopper. Doing nothing is almost always better than doing placement
+hinting poorly.
 
-The patch is more to demonstrate that it would not take much to fix this
-case, at least, it's a proof-of-concept.
+> > Technically speaking, any file system can place different types of metadata in
+> > different reclaim units. However, user data is slightly more tricky case. Potentially,
+> > file system logic can track “hotness” or frequency of updates of some user data
+> > and try to direct the different types of user data in different reclaim units.
 
+*cough*
+
+We already do this in the LBA space via the filesytsem allocators.
+It's often configurable and generally called "allocation policies".
+
+> > But, from another point of view, we have folders in file system namespace.
+> > If application can place different types of data in different folders, then, technically
+> > speaking, file system logic can place the content of different folders into different
+> > reclaim units. But application needs to follow some “discipline” to store different
+> > types of user data (different “hotness”, for example) in different folders.
+
+Yup, XFS does this "physical locality is determined by parent
+directory" separation by default (the inode64 allocation policy).
+Every new directory inode is placed in a different allocation group
+(LBA space) based on a rotor mechanism. All the files within that
+directory are kept local to the directory (i.e. in the same AG/LBA
+space) as much as possible.
+
+Most filesystems have LBA locality policies like this because it is
+highly efficient on physical seek latency limited storage hardware.
+i.e. the storage hardware we've mostly been using since the early
+1980s.
+
+We could make allocation groups have different reclaim units,
+but then we are talking about needing an arbitrary number of
+different IO hints - XFS supports ~2^31 AGs if the filesystem is
+large enough, and there's no way we're going to try to support that
+many IO hints (software or hardware) in the foreseeable future.
+
+IF devices want to try to classify related data themselves, then
+using LBA locality internally to classify relationships below the
+level of IO hints, then that would be a much closer match to how
+filesystems have traditionally structured the data and metadata on
+disk. Related data and metadata tends to get written to the same LBA
+regions because that's the fastest way to access related and
+metadata on seek-limited hardware.
+
+Yeah, I know that these are SSDs we are talking about and they
+aren't seek limited, but when we already have filesystem
+implementations that try to clump related things to nearby LBA
+spaces, it might be best to try to leverage this behaviour rather
+than try to rely on kernel and userspace to correctly provide hints
+about their data patterns.
+
+Cheers,
+
+Dave.
 -- 
-Jens Axboe
-
+Dave Chinner
+david@fromorbit.com
 
