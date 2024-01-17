@@ -4,49 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2A29C47422
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jan 2024 08:18:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7E89EC47258
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jan 2024 08:21:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=E/xV6ABkk0UpUK7XenASy1v0PUp6lRTEoeHIFFktzGs=; b=qyLYqjg6yL+KdcCA41ZiAz2DkS
-	tR4jTqinEdunDNkM922ZYDQi8n8awpeDcH1cLcpRTJVzK+t1NQMIIaaKJJkwkHstxzYzRVwP5h+0m
-	eCePL2ZZyCeeoKKJp53NOl8kRoO85YmJptBlwKs2RqHVbjDL88RtRYHNzKZNsN60qhwIyz13jVZQZ
-	wDMk0gpmbjrD8952qLwuxmmCcHUT3aqiz/dLRPIfoAufGHbiXrA4e4/9p6/7puM+n/xjd7XhBWcsn
-	WJEhdl7DHqWeIZqmSIn9cKU06xIpKAeA51o5lMO0Ja36zBVbmxGKZf8jSPsyTQ0kg/2Bn6+gL+nT3
-	p0AMmWIg==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=vzNLvtqKBhdrqBw6dEXOjUMQsLpf6gb1Zyrz2K9WEtw=; b=HseeU9zxDIn7ZD9fMca/kh/jpe
+	ylZqJcx6vp6QCzyV5hPwjkWJaVQqY0D8er4t4AIQ3RbzXrhkQ7gaKuN4tYE/cMjWMMfM30zv6AsZh
+	m1eZBIY0307XpaBrvTs1smfZKW6Gh3sb+5px/+xPkIJqfgjfRaYvaDDSjEMnkzv2ZXMwRKrAH5/oN
+	6sgGrqBXFLdJU8m4WBXdsOi+iTqyuefbxLvkBBcC+A11se2zdHIlKGmd/SWrbyhtb6f7dCasU42ke
+	3Y75Jj3Q1Rr/QeznhErCMsKB9a/ZbrZyp+WlXKyIZkNfCqm12MzgyWLZ+xVPkRx6jHlRs3i9rbiZ/
+	6a3hxYKg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rQ17d-00EqDP-0s;
-	Wed, 17 Jan 2024 08:18:05 +0000
-Received: from out30-112.freemail.mail.aliyun.com ([115.124.30.112])
+	id 1rQ1Al-00ErGC-20;
+	Wed, 17 Jan 2024 08:21:19 +0000
+Received: from out30-99.freemail.mail.aliyun.com ([115.124.30.99])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rQ17Z-00Eq91-1w
+	id 1rQ1Ai-00ErFH-1Q
 	for linux-nvme@lists.infradead.org;
-	Wed, 17 Jan 2024 08:18:03 +0000
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045170;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0W-ogcXo_1705479472;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W-ogcXo_1705479472)
+	Wed, 17 Jan 2024 08:21:18 +0000
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045176;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0W-om4HN_1705479668;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W-om4HN_1705479668)
           by smtp.aliyun-inc.com;
-          Wed, 17 Jan 2024 16:17:56 +0800
+          Wed, 17 Jan 2024 16:21:12 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
-To: shinichiro.kawasaki@wdc.com
-Cc: chaitanyak@nvidia.com,
-	linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH V2 2/2] test/nvme/050: test the reservation feature
-Date: Wed, 17 Jan 2024 16:17:42 +0800
-Message-ID: <20240117081742.93941-3-kanie@linux.alibaba.com>
+To: sagi@grimberg.me,
+	hch@lst.de,
+	kch@nvidia.com,
+	kbusch@kernel.org
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH V3 0/2] *** Implement the NVMe reservation feature ***
+Date: Wed, 17 Jan 2024 16:21:06 +0800
+Message-ID: <20240117082108.101836-1-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240117081742.93941-1-kanie@linux.alibaba.com>
-References: <20240117081742.93941-1-kanie@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240117_001801_808888_298703A6 
-X-CRM114-Status: GOOD (  10.77  )
+X-CRM114-CacheID: sfid-20240117_002116_663076_0E566612 
+X-CRM114-Status: GOOD (  12.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,234 +60,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Test the reservation feature, includes register, acquire, release
-and report.
+Hi guys,
+    I've implemented the NVMe reservation feature. Please review it, all 
+comments are welcome as usual.
 
-Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
----
- tests/nvme/050     |  96 ++++++++++++++++++++++++++++++++++++++++
- tests/nvme/050.out | 108 +++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 204 insertions(+)
- create mode 100644 tests/nvme/050
- create mode 100644 tests/nvme/050.out
+Changes from v2 to v3:
+- Use rcu instead of rwlock to make IO path run faster, and put the rtype
+into the struct nvmet_pr_registrant.
 
-diff --git a/tests/nvme/050 b/tests/nvme/050
-new file mode 100644
-index 0000000..7e59de4
---- /dev/null
-+++ b/tests/nvme/050
-@@ -0,0 +1,96 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-3.0+
-+# Copyright (C) 2024 Guixin Liu
-+# Copyright (C) 2024 Alibaba Group.
-+#
-+# Test the NVMe reservation feature
-+#
-+. tests/nvme/rc
-+
-+DESCRIPTION="test the reservation feature"
-+QUICK=1
-+
-+requires() {
-+	_nvme_requires
-+}
-+
-+resv_report() {
-+	local nvmedev=$1
-+
-+	if nvme resv-report --help 2>&1 | grep -- '--eds' > /dev/null; then
-+		nvme resv-report "/dev/${nvmedev}n1" --eds | grep -v "hostid"
-+	else
-+		nvme resv-report "/dev/${nvmedev}n1" --cdw11=1 | grep -v "hostid"
-+	fi
-+}
-+
-+test_resv() {
-+	local nvmedev=$1
-+
-+	echo "Register"
-+	resv_report "${nvmedev}"
-+	nvme resv-register "/dev/${nvmedev}n1" --nrkey=4 --rrega=0
-+	resv_report "${nvmedev}"
-+
-+	echo "Replace"
-+	nvme resv-register "/dev/${nvmedev}n1" --crkey=4 --nrkey=5 --rrega=2
-+	resv_report "${nvmedev}"
-+
-+	echo "Unregister"
-+	nvme resv-register "/dev/${nvmedev}n1" --crkey=5 --rrega=1
-+	resv_report "${nvmedev}"
-+
-+	echo "Acquire"
-+	nvme resv-register "/dev/${nvmedev}n1" --nrkey=4 --rrega=0
-+	nvme resv-acquire "/dev/${nvmedev}n1" --crkey=4 --rtype=1 --racqa=0
-+	resv_report "${nvmedev}"
-+
-+	echo "Preempt"
-+	nvme resv-acquire "/dev/${nvmedev}n1" --crkey=4 --rtype=2 --racqa=1
-+	resv_report "${nvmedev}"
-+
-+	echo "Release"
-+	nvme resv-release "/dev/${nvmedev}n1" --crkey=4 --rtype=2 --rrela=0
-+	resv_report "${nvmedev}"
-+
-+	echo "Clear"
-+	nvme resv-register "/dev/${nvmedev}n1" --nrkey=4 --rrega=0
-+	nvme resv-acquire "/dev/${nvmedev}n1" --crkey=4 --rtype=1 --racqa=0
-+	resv_report "${nvmedev}"
-+	nvme resv-release "/dev/${nvmedev}n1" --crkey=4 --rrela=1
-+}
-+
-+test() {
-+	echo "Running ${TEST_NAME}"
-+
-+	_setup_nvmet
-+
-+	local nvmedev
-+	local skipped=false
-+	local subsys_path=""
-+	local ns_path=""
-+
-+	_nvmet_target_setup --blkdev file --resv_enable
-+	subsys_path="${NVMET_CFS}/subsystems/${def_subsysnqn}"
-+	ns_path="${subsys_path}/namespaces/1"
-+
-+	if [[ -f "${ns_path}/resv_enable" ]] ; then
-+		_nvme_connect_subsys "${nvme_trtype}" "${def_subsysnqn}"
-+
-+		nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
-+
-+		test_resv "${nvmedev}"
-+		_nvme_disconnect_subsys "${def_subsysnqn}"
-+	else
-+		SKIP_REASONS+=("missing reservation feature")
-+		skipped=true
-+	fi
-+
-+	_nvmet_target_cleanup
-+
-+	if [[ "${skipped}" = true ]] ; then
-+		return 1
-+	fi
-+
-+	echo "Test complete"
-+}
-diff --git a/tests/nvme/050.out b/tests/nvme/050.out
-new file mode 100644
-index 0000000..2a46b32
---- /dev/null
-+++ b/tests/nvme/050.out
-@@ -0,0 +1,108 @@
-+Running nvme/050
-+Register
-+
-+NVME Reservation status:
-+
-+gen       : 0
-+rtype     : 0
-+regctl    : 0
-+ptpls     : 0
-+
-+NVME Reservation  success
-+
-+NVME Reservation status:
-+
-+gen       : 1
-+rtype     : 0
-+regctl    : 1
-+ptpls     : 0
-+regctlext[0] :
-+  cntlid     : 1
-+  rcsts      : 0
-+  rkey       : 4
-+
-+Replace
-+NVME Reservation  success
-+
-+NVME Reservation status:
-+
-+gen       : 2
-+rtype     : 0
-+regctl    : 1
-+ptpls     : 0
-+regctlext[0] :
-+  cntlid     : 1
-+  rcsts      : 0
-+  rkey       : 5
-+
-+Unregister
-+NVME Reservation  success
-+
-+NVME Reservation status:
-+
-+gen       : 3
-+rtype     : 0
-+regctl    : 0
-+ptpls     : 0
-+
-+Acquire
-+NVME Reservation  success
-+NVME Reservation Acquire success
-+
-+NVME Reservation status:
-+
-+gen       : 4
-+rtype     : 1
-+regctl    : 1
-+ptpls     : 0
-+regctlext[0] :
-+  cntlid     : 1
-+  rcsts      : 1
-+  rkey       : 4
-+
-+Preempt
-+NVME Reservation Acquire success
-+
-+NVME Reservation status:
-+
-+gen       : 5
-+rtype     : 2
-+regctl    : 1
-+ptpls     : 0
-+regctlext[0] :
-+  cntlid     : 1
-+  rcsts      : 1
-+  rkey       : 4
-+
-+Release
-+NVME Reservation Release success
-+
-+NVME Reservation status:
-+
-+gen       : 5
-+rtype     : 0
-+regctl    : 1
-+ptpls     : 0
-+regctlext[0] :
-+  cntlid     : 1
-+  rcsts      : 0
-+  rkey       : 4
-+
-+Clear
-+NVME Reservation  success
-+NVME Reservation Acquire success
-+
-+NVME Reservation status:
-+
-+gen       : 6
-+rtype     : 1
-+regctl    : 1
-+ptpls     : 0
-+regctlext[0] :
-+  cntlid     : 1
-+  rcsts      : 1
-+  rkey       : 4
-+
-+NVME Reservation Release success
-+disconnected 1 controller(s)
-+Test complete
+- Limit the resv_log_list to 128.
+
+- Change generation to atomic64.
+
+- Put register rkey check to a warpper.
+
+- Change nr_avl_pages to nr_pages.
+
+- Use NVME_SC_SUCCESS instead of 0.
+
+- Change kmalloc param to let it not sleep in mutex lock.
+
+
+Changes from v1 to v2:
+- Implement the reservation notification report, includes registration
+preempted, reservation released and reservation preempted.
+  And also handle the reservation log page avaliable event and send get
+reservation log page command to clear log page at host.
+
+- Put the reservation check access after validate opcode. And remove
+opcodes which nvmet not implement yet check.
+  Now there is no admin opcode nvmet implemented needs reservation check,
+so I dont add reservation check to admin command path.
+  Next we need to do reservation check includes the situation of nsid is
+0xffffffff at each admin command path, if it is needed.
+
+- Add reservation commands support in nvmet_get_cmd_effects_nvm().
+
+- From Chaitanya, change the local variable tree style to make it cleaner,
+and add some comments about NVMe spec.
+  And also change others advice from chaitanya.
+
+- Put the nvmet_pr_check_cmd_access and nvmet_parse_pr_cmd into reservation
+enable check warp.
+
+- Remove kmem_cache instead to use kmalloc and kfree.
+
+- Change others advice from Sagi.
+
+- Add a blktest test case, this patch will be sent before these series of
+pathes.
+
+Guixin Liu (2):
+  nvmet: support reservation feature
+  nvmet: unify aer type enum
+
+ drivers/nvme/target/Makefile    |   2 +-
+ drivers/nvme/target/admin-cmd.c |  14 +-
+ drivers/nvme/target/configfs.c  |  27 +
+ drivers/nvme/target/core.c      |  53 +-
+ drivers/nvme/target/discovery.c |   2 +-
+ drivers/nvme/target/nvmet.h     |  33 ++
+ drivers/nvme/target/pr.c        | 979 ++++++++++++++++++++++++++++++++
+ include/linux/nvme.h            |  54 +-
+ 8 files changed, 1148 insertions(+), 16 deletions(-)
+ create mode 100644 drivers/nvme/target/pr.c
+
 -- 
-2.30.1 (Apple Git-130)
+2.43.0
 
 
