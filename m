@@ -4,123 +4,125 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F899C47258
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jan 2024 08:51:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 163B7C47422
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jan 2024 10:04:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HpWVuH5mWEsk7XpDV+ci2ne8S+COL2568w1F4ccB/iU=; b=cBNua9dRmnnE+ZExdvt0D9MCPc
-	5HWCOVWzlHDEtfDSkNHE89D4KdqB7KHVAPmzM2eMgvBVaGvIMiKBAevf1GGKJLjMBs2uZ+2dZjxKa
-	wr4JNZ2StNsME3y3sBqV+Xr2jvPJRIbDPU846uFNbRq9UIHc/mcQ+xDGLQ+4Dm1jalBeUy33iBjvB
-	aXZaeQhnnC4cF1P6+I953M1IkmvHpn+PV6rbzTCFufNHMJx97glDSG3xjZwgL6PFFHVCabqdAnhrd
-	Vr2PMUsFdMAu5Vy2gH2I51k4ugSPTYzRF+WF0iqnVSVFYoRAebCzt/0j9cWKzZYi0hxEIg8CEZUne
-	Ga8vNyIg==;
+	bh=I6nvf6Xt3OKfc498LAbBvtCOAWFHY4w9GrJOfS3q1nY=; b=DaA3NwenXMjNqP/d1l16gyofsu
+	08GuProTaNgQlLhneZvri7JWzgrUJMyc89hw6OARp3l91spU95uV0TWurCqJbU8I3i4vO8Wj15Xlu
+	gI8g+sR1odg/fqSpmkrnc8o+YCaV5Lrt7UJNUV4zxecqWYkNDKvLJplcZOsdIyENWez0UjMs2ICbV
+	ADNto2jBLHLkEhy1Do0QoztvcmQ4W5HfeRLiR53V75ItzA1I1+AGsOy4t0bqSnRKBZGDKaVm1md1v
+	rIGa9SMQvCK4FQIpaUulRp1VoEU+FZfrVv+VCn9Stj9R96LeWsdQt7g454SrY0ni+W5ti+KaztXdq
+	mG7dHZVQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rQ1dX-00EwUP-08;
-	Wed, 17 Jan 2024 08:51:03 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1rQ2m8-00FCdY-13;
+	Wed, 17 Jan 2024 10:04:00 +0000
+Received: from mail-bn8nam12on20601.outbound.protection.outlook.com ([2a01:111:f403:2418::601] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rQ1dT-00EwSB-0Y
+	id 1rQ2m5-00FCba-2C
 	for linux-nvme@lists.infradead.org;
-	Wed, 17 Jan 2024 08:51:00 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DFF331FBEE;
-	Wed, 17 Jan 2024 08:50:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1705481450; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HpWVuH5mWEsk7XpDV+ci2ne8S+COL2568w1F4ccB/iU=;
-	b=MeR0I8L32aw3vSqrEuwLfOX6oLR9JHRoYQSMNhZIXf50HRs/9oswWprxhtgQpVPBfMd5rv
-	qKpHQY1jbs0t3DHrR+yvrNJDPhLccGVfHCQAcGC/1818Mude2ZRhMQwaMWEPctZ1e4IaXr
-	tRRKswhYHx19eTtwMe+Db3hsmSmp3ew=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1705481450;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HpWVuH5mWEsk7XpDV+ci2ne8S+COL2568w1F4ccB/iU=;
-	b=uQiBjgLrobahFM+YXVRzjbTJf36JIYqsekl7lc1F8YV45fgzOJsAPqEoULZ2B0KSE5evMi
-	Xr+vCPBKEDWmlFBQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1705481450; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HpWVuH5mWEsk7XpDV+ci2ne8S+COL2568w1F4ccB/iU=;
-	b=MeR0I8L32aw3vSqrEuwLfOX6oLR9JHRoYQSMNhZIXf50HRs/9oswWprxhtgQpVPBfMd5rv
-	qKpHQY1jbs0t3DHrR+yvrNJDPhLccGVfHCQAcGC/1818Mude2ZRhMQwaMWEPctZ1e4IaXr
-	tRRKswhYHx19eTtwMe+Db3hsmSmp3ew=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1705481450;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HpWVuH5mWEsk7XpDV+ci2ne8S+COL2568w1F4ccB/iU=;
-	b=uQiBjgLrobahFM+YXVRzjbTJf36JIYqsekl7lc1F8YV45fgzOJsAPqEoULZ2B0KSE5evMi
-	Xr+vCPBKEDWmlFBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C527013751;
-	Wed, 17 Jan 2024 08:50:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jVWyLuqUp2UFDwAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Wed, 17 Jan 2024 08:50:50 +0000
-Date: Wed, 17 Jan 2024 09:50:50 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>, 
-	"linux-fsdevel@vger.kernel.org >> linux-fsdevel" <linux-fsdevel@vger.kernel.org>, "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
-	Jens Axboe <axboe@kernel.dk>, Bart Van Assche <bvanassche@acm.org>, 
-	"josef@toxicpanda.com" <josef@toxicpanda.com>, Amir Goldstein <amir73il@gmail.com>, 
-	Javier =?utf-8?B?R29uesOhbGV6?= <javier@javigon.com>, Dan Williams <dan.j.williams@intel.com>, 
-	Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>, 
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>, "shinichiro.kawasaki@wdc.com" <shinichiro.kawasaki@wdc.com>, 
-	Johannes Thumshirn <Johannes.Thumshirn@wdc.com>, "jack@suse.com" <jack@suse.com>, Ming Lei <ming.lei@redhat.com>, 
-	Sagi Grimberg <sagi@grimberg.me>, Theodore Ts'o <tytso@mit.edu>, 
-	"daniel@iogearbox.net" <daniel@iogearbox.net>
-Subject: Re: [LSF/MM/BPF ATTEND][LSF/MM/BPF TOPIC] : blktests: status,
- expansion plan for the storage stack test framework
-Message-ID: <bh5s6a4fhhlje42bzj2t22k3jpmruzkx234ks4ytuhd62tonzj@zn6h5foaqrof>
-References: <e5d8cd68-b3f2-4d7b-b323-b13d18199256@nvidia.com>
+	Wed, 17 Jan 2024 10:03:59 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QSAOPlXHHkq1X/UEs2p5TIf9EGSxvOBJ/XDLUiEytQ3zsRbemQ4jg7FurAsmKt9cRRqQHF9M3juJONQMMDa5EtTgO+x/c8BdjaGSxMklTjXCdlFElWwhoAZHsIvTzz9JjwxfMVJG+2qO9jkuPlQrmDVcNLmSyV+FGFdeGugeB5Wr9HcfvWSwlTxRiZDQNrkorbiUqJeCYo+kYQMPRiZeqKI73JOtbp79ofU321jm1IMXYZnkzLgOHFC1IvIc8SX5z7h3kaejLQTWr0VtqTcBb0BAjpq7UH31TWtEzYhvaGie6vhb71G2+k1Fn3kToASUwvp8RCvF7Ysz93ifG+xTPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=I6nvf6Xt3OKfc498LAbBvtCOAWFHY4w9GrJOfS3q1nY=;
+ b=QWeggoqVyTDGBFbRSRkUrwLpgCNqx8+SP3w7wTCMyyKp681Y3+tKbvJVPHB3g+fKtoZ6BJNBBcq+xnlrP4brXjcsOOeUbFu2VWhA1IqCQeMtXbylvJY1v1jgMEJOx1tVOy5eFL/9y639K6chcLw64WNIruFKbDNePH5ZphYjfGgaGJ3w8VoYAQq57pKllivW2+qT1OOozQJFERdDNlt0j8jt+zUSsnO6tVzGs4B44oNCS8WFdXWfGaKbQmCNdDQ2PmYZs6sT4OdV/s9uYnETosjJ4uQu5pa5r5r+CgrsopFjtEh2f3ZtOLScr2uTq0FoPMA+k9rIQjFFF4vo47qXBg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=I6nvf6Xt3OKfc498LAbBvtCOAWFHY4w9GrJOfS3q1nY=;
+ b=ntCql7fV5gg82oNDTjx9rV07I+rDy9MgYxn1WwqzbUQJWYcwt6fjGLE1CnefYCuwn1XXeh5b+pk8vHVmDXQDZWewR3z20SuFRYV2ZoNvF/bd34xyekG0LUHrSRFKttxGAPSSxRsXiI+JjRqRHZt1EWnMRxPZGTMvHg6ysm6llrw2T2eaKcuKxHPBPiR7t30Enc+MbooMyMy2kD/5xLBbZxwDu9BQWfGBqLreMsynBzc6hp/PKPQ1ziNXP5dhmwxYwk3FuFY/tZilxM+/aStEEBphtIQgciI2u7O3Bh/XlzfXmyNXdeZy/d0PU+OWMrHjU4ocOrZ/f5pYDHGRzwcqYA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
+ by DM6PR12MB4356.namprd12.prod.outlook.com (2603:10b6:5:2aa::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.23; Wed, 17 Jan
+ 2024 10:03:47 +0000
+Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
+ ([fe80::9fbe:fc95:e341:78aa]) by SJ1PR12MB6075.namprd12.prod.outlook.com
+ ([fe80::9fbe:fc95:e341:78aa%6]) with mapi id 15.20.7181.026; Wed, 17 Jan 2024
+ 10:03:47 +0000
+From: Aurelien Aptel <aaptel@nvidia.com>
+To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ netdev@vger.kernel.org, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
+ chaitanyak@nvidia.com, davem@davemloft.net, kuba@kernel.org
+Cc: Boris Pismenny <borisp@nvidia.com>, aurelien.aptel@gmail.com,
+ smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
+ yorayz@nvidia.com, galshalom@nvidia.com, mgurtovoy@nvidia.com
+Subject: Re: [PATCH v22 06/20] nvme-tcp: Add DDP data-path
+In-Reply-To: <7ff7046d-ce4d-44d0-86f5-8ed7cb0229a3@grimberg.me>
+References: <20231221213358.105704-1-aaptel@nvidia.com>
+ <20231221213358.105704-7-aaptel@nvidia.com> <253zfxehmum.fsf@nvidia.com>
+ <7ff7046d-ce4d-44d0-86f5-8ed7cb0229a3@grimberg.me>
+Date: Wed, 17 Jan 2024 12:03:42 +0200
+Message-ID: <253mst4uvi9.fsf@mtr-vdi-124.i-did-not-set--mail-host-address--so-tickle-me>
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P265CA0007.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2ad::23) To SJ1PR12MB6075.namprd12.prod.outlook.com
+ (2603:10b6:a03:45e::8)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e5d8cd68-b3f2-4d7b-b323-b13d18199256@nvidia.com>
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spamd-Result: default: False [0.33 / 50.00];
-	 ARC_NA(0.00)[];
-	 TO_DN_EQ_ADDR_SOME(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCPT_COUNT_TWELVE(0.00)[23];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 FREEMAIL_CC(0.00)[lists.linux-foundation.org,vger.kernel.org,lists.infradead.org,kernel.dk,acm.org,toxicpanda.com,gmail.com,javigon.com,intel.com,lst.de,kernel.org,suse.de,opensource.wdc.com,wdc.com,suse.com,redhat.com,grimberg.me,mit.edu,iogearbox.net];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.07)[62.07%]
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|DM6PR12MB4356:EE_
+X-MS-Office365-Filtering-Correlation-Id: 33b0c8f5-993e-44a0-d7fe-08dc174398da
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: FxjKy9zwhO1/0z96FgDZnIyG3CEimH2TK5Q3/gV263ketjDTeGZolcGXgplFnNdgws2XoDhqPdfbLAz08gSiNWZvYfGzAupPBOQlvIYf44jpT+5at9FH18YU6sl08kLXJf+Ahq7fL6jdNb68Z0GRCOYOTOu2Vw8NAKgyILSWP/zn529ncqA0Csw//pAfBXvjzi2Gv6C1QEey7yf32ohfARCCm777AAruDjjWl8V1Ddjhc6OBz3jYQIiJw0UzSoJgUFhTB7TzvuE26a9v02W1b/f2DpsnYXRqWH18l8FMTTU/aiSte3S6UWVCBwaafFomckhsYl29EK8orjWkxkuaY2TJez9neFIjjd59tBUsB5CC/vs8BQg4n6dYxVCp2rKoSoXmEaHNNxP0anzVMvnElSAcAUcYN+1V6KnZAkyUXWGzNEqIhaZLYSn+X8uKX+DQHgqAUh06jKzF/H9dSIWlxC0ltmjBKH2rbuCB8rHR7hpDBLcTjpXA1axJbs3cpF8x4hG9Ihl/ubf12BCde7droVr/5vg3RctZE5R0RCdPjTgipnbR2cA8gw1NMsilqdai
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(136003)(396003)(39860400002)(376002)(366004)(230922051799003)(451199024)(1800799012)(64100799003)(186009)(26005)(83380400001)(107886003)(6666004)(6506007)(6512007)(9686003)(38100700002)(5660300002)(7416002)(4326008)(8676002)(41300700001)(2906002)(8936002)(6486002)(478600001)(316002)(66476007)(66556008)(66946007)(558084003)(86362001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8xa2KPmUa7YmRbVrKXlWGCEpNJZxHP3Jl+fJhe1+W6YN8NsXCJlBjUoQwM1R?=
+ =?us-ascii?Q?Rye+EBaphLyRi/s22IY4jQ/E8ICfE5bDI5MnEZ4QCuU93vHRCaZ/xDfOVGET?=
+ =?us-ascii?Q?d8cAYw0YbUJvy6AO7zQEEUzEkbmt3SYSF02RLAKKR85DrS6icdZ6eBu/SIUA?=
+ =?us-ascii?Q?hY7/L6MObAqpZAKWKKDHB3GQN15J0oEmYS2KZTT+q5qCyBUCb/oamWRDxOTK?=
+ =?us-ascii?Q?gLQ12GZ12To+ZE93hJFYArjtDlgbAotsCnr8XUCvZQRTnAEKDavIbQWdxd5G?=
+ =?us-ascii?Q?AvUGQezt+lhb7yuzwbZa53SxRKa4qtkXE9Wo/g37JOtMDCTOelZuHMHv7OlC?=
+ =?us-ascii?Q?KkJ9MMx+J1pZDQeeiKCyFXntCX4gBKdlJX+hxKJzgYnJuMTk8PaWEvrS4Lz0?=
+ =?us-ascii?Q?sFWFx5fcL1G8qZweF4MEYQDBbjk7Fpc2nUYCJCgr41GVp5XwUFhbL81kfTLU?=
+ =?us-ascii?Q?GdLXNz87+EY/7tIVO1FflXk8JU6g8I02xvgz8GmXnB1UrTmF4huvwfCLWi7C?=
+ =?us-ascii?Q?jPqYDibKxCrfdS7jM2ifwOFWh6B+eZoDUenjXONsSutC5e1V21NOaqjItMdy?=
+ =?us-ascii?Q?ZjKVNIGV6B3vM5gmit4C8OxGH8Qh+gjVNzM+pseeQJvi/DYn+ZsdIGBx9Apg?=
+ =?us-ascii?Q?Walxd5vdWNrlA8h0Q5v7s5QfEuakK83qLIcgTi6FI3V1tZyVCRyZvltV3PRO?=
+ =?us-ascii?Q?p2YoS69zeZDSiAg/cwemxgeju9DVmk6XdjyJpYc2ZoHNcRa/aX4lJrvQXCZu?=
+ =?us-ascii?Q?AZ48akaMv+np9ptLW4HV8nNWjj1LFs+CrmrDLoFQKS5q03/509WCUcGPImGx?=
+ =?us-ascii?Q?FD6OI9fqyUb9MkG+RQOnQNvTw6/z4WzkHwiSRtpRxkjkOBmaVlVh43Jqdfxd?=
+ =?us-ascii?Q?4jREyv76hWg0IzySfFZ3kRIEwwHVbmuJa/P+Q/c8j+EQnt1HqslLwiHC3Z7n?=
+ =?us-ascii?Q?DqZZE3jsAYt/lIvY760g32xYTxnj5Fl6r58NsRS1DstR4W18NJ6ctV3PRVeh?=
+ =?us-ascii?Q?ezhvy2t9hiwTGs4c6QK8n2bjGvOed/sEk1PpD8nnW7QMcFmVh73SbX0lQCn8?=
+ =?us-ascii?Q?Y41m0ILixzdNTItviyTVj/GMiGCzzdGh9gbKxxCPoOdl6+4YByBMy9qJSQO2?=
+ =?us-ascii?Q?PrQ9vLqb6Ya8N8J8K1CllZvs8OQ2+1R93DyMOdAivfGak/Szqw2Jnap+fpPR?=
+ =?us-ascii?Q?lkNSofASySNMlS/2u7PDImwvAc0wySUX/XoBGB681nSXx5i/ZeMLHYqxDENz?=
+ =?us-ascii?Q?i+mT6oWWa9ZXi+K1cYaR1SPWb8GOlWLoWHEh/Kp96goySgP6kb/Lz6EFpCex?=
+ =?us-ascii?Q?PkSUiPpdpk+Mcusv4PUEc1xWfNT+tyF/GBivokJlVT/4gn6x/lsszDEhHWLj?=
+ =?us-ascii?Q?UyH5uKsqFXczqYIGo5fXdOcOb8QuknpZvUIgBmi3VQcP9VJPekeckaEmUTtJ?=
+ =?us-ascii?Q?aZBqOqCMfFZHtLWh9G4S5+9FvsPm+1NqMMbNgakEI3cdQv/UcPS1iPBO5vFj?=
+ =?us-ascii?Q?jkozFoVQWU9H6eY517wMEGWN2N3OJ5sVKAi7DkEHSjfLqOlM6GO1nL6zTYzG?=
+ =?us-ascii?Q?3/OqgmypKO7qyvL4ZzUEc9amxJDtCaUP4mwyWttN?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 33b0c8f5-993e-44a0-d7fe-08dc174398da
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2024 10:03:47.6049
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Fbm018z7yz+ylCC4B1+vm2gBmwHPxnk2EeF6dTIQKhE7WtyS7XzwZBjEkeLGAUcG1Np6uFQBIM74cCmsbk+aYA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4356
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240117_005059_400791_7FDFA717 
-X-CRM114-Status: GOOD (  14.31  )
+X-CRM114-CacheID: sfid-20240117_020357_752427_52B255A3 
+X-CRM114-Status: UNSURE (   3.95  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,28 +137,9 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jan 09, 2024 at 06:30:46AM +0000, Chaitanya Kulkarni wrote:
-> For storage track, I would like to propose a session dedicated to
-> blktests. It is a great opportunity for the storage developers to gather
-> and have a discussion about:-
-> 
-> 1. Current status of the blktests framework.
-> 2. Any new/missing features that we want to add in the blktests.
-> 3. Any new kernel features that could be used to make testing easier?
-> 4. DM/MD Testcases.
-> 5. Potentially adding VM support in the blktests.
+Hi Sagi,
 
-I am interested in such a session.
+Just a reminder, we are waiting for your review on all the nvme-tcp patches.
 
-> Required attendees :-
-> 
-> Shinichiro Kawasaki
-> Damien Le Moal
-> Daniel Wanger
-> Hannes Reinecke
-
-If I get an invite I'll be there.
-
-Thanks,
-Daniel
+Thanks
 
