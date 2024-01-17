@@ -4,67 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5058AC47422
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jan 2024 06:52:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA827C47258
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Jan 2024 08:15:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=MKwQnyAvr4Rzp8cZuQQlA7KRN3IcWJkN3euRcpioS3s=; b=2z8El99vxfaIGj2PsD+vecFPo4
-	3pvh19DLtNZNv4NrrYajIIuYb6QEpwTN+P3oK95zue+bLroweP0Dk5TYZQQuQACWIZuKveGsGRNX1
-	t1DLbJso06Ip2j+8AZbnzw5iGCL8zwdpg1iNc23P+0UKt5/22nFaYEL48p/94nvDntAeufFQqFjCA
-	EDHR0eUmY9iWSqf1tkR6I/hRrDK7frKZB8yw9bK90NEdSvjm4ngnVqqTnA/GXXVD9gaQe+SbmYh18
-	8LBdUsjCxN9JyF5LfhiOSFTPReKPpnzFtHWgHUIhKj6C+XXgId6a78siJCOsJrtudYiEXQ3FNe6XW
-	y2h4tRbQ==;
+	bh=vzNLvtqKBhdrqBw6dEXOjUMQsLpf6gb1Zyrz2K9WEtw=; b=mdyvUSNoyC33GnE8gSUCxxmUoE
+	UWnLXXHpqacm9l0DJr/JM4dEaL0caEJoxJOMO/tXPRTORnPiKSI8EFJxcphWUPjwWCj2xnAe7+k05
+	sAhjw1yyZyDo1S2Fzo7aVKP8IU67YsZdspQQGjcEhUwtjW3pLsDgR+eTF+//4r29aMWOuCsUHUdHU
+	T5oUlDD1kqAmp6+cE0R9XDNfpNu+RgQw4/0ryqgTYKtLh1zKwav9C1Fcs3ww5Co1SBZf0msLviiac
+	Txs2ReQ16igUmbC0OVxTWNaJeLmr+VxA34QnhUtf56MbTzhHvvv8RxTg6QRuYijp0i2mSvyeXJlk8
+	nXIijzuQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rPzmH-00Eck1-0C;
-	Wed, 17 Jan 2024 06:51:57 +0000
-Received: from mailgw.kylinos.cn ([124.126.103.232])
+	id 1rQ15A-00EpQf-3B;
+	Wed, 17 Jan 2024 08:15:33 +0000
+Received: from out30-98.freemail.mail.aliyun.com ([115.124.30.98])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rPzmB-00Eci1-2e
+	id 1rQ157-00EpQ8-1K
 	for linux-nvme@lists.infradead.org;
-	Wed, 17 Jan 2024 06:51:54 +0000
-X-UUID: b0b7b37ef2d4489598c09ef941f3e055-20240117
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.35,REQID:c789928d-2a0b-4da7-8aad-28eb354417c7,IP:10,
-	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:-5
-X-CID-INFO: VERSION:1.1.35,REQID:c789928d-2a0b-4da7-8aad-28eb354417c7,IP:10,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-5
-X-CID-META: VersionHash:5d391d7,CLOUDID:cf5e578e-e2c0-40b0-a8fe-7c7e47299109,B
-	ulkID:2401171451061ZY63EQJ,BulkQuantity:0,Recheck:0,SF:17|19|44|66|38|24|1
-	02,TC:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,CO
-	L:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI
-X-UUID: b0b7b37ef2d4489598c09ef941f3e055-20240117
-X-User: mengfanhui@kylinos.cn
-Received: from localhost.localdomain [(39.156.73.13)] by mailgw
-	(envelope-from <mengfanhui@kylinos.cn>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256 128/128)
-	with ESMTP id 617716359; Wed, 17 Jan 2024 14:51:05 +0800
-From: mengfanhui <mengfanhui@kylinos.cn>
-To: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de
-Cc: linux-kernel@vger.kernel.org,
-	sagi@grimberg.me,
-	linux-nvme@lists.infradead.org,
-	mengfanhui@kylinos.cn
-Subject: [PATCH] nvme-multipath: fix bogus request queue reference put
-Date: Wed, 17 Jan 2024 14:50:43 +0800
-Message-Id: <20240117065043.79192-1-mengfanhui@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	Wed, 17 Jan 2024 08:15:31 +0000
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046059;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0W-oiQcE_1705479313;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W-oiQcE_1705479313)
+          by smtp.aliyun-inc.com;
+          Wed, 17 Jan 2024 16:15:23 +0800
+From: Guixin Liu <kanie@linux.alibaba.com>
+To: sagi@grimberg.me,
+	hch@lst.de,
+	kch@nvidia.com,
+	kbusch@kernel.org
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH V2 0/2] *** Implement the NVMe reservation feature ***
+Date: Wed, 17 Jan 2024 16:15:10 +0800
+Message-ID: <20240117081512.89635-1-kanie@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240116_225152_167652_BD258C07 
-X-CRM114-Status: GOOD (  11.73  )
+X-CRM114-CacheID: sfid-20240117_001529_622583_9F2B9BDB 
+X-CRM114-Status: GOOD (  12.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,79 +60,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Sagi Grimberg <sagi@grimberg.me>
+Hi guys,
+    I've implemented the NVMe reservation feature. Please review it, all 
+comments are welcome as usual.
 
-The mpath disk node takes a reference on the request mpath
-request queue when adding live path to the mpath gendisk.
-However if we connected to an inaccessible path device_add_disk
-is not called, so if we disconnect and remove the mpath gendisk
-we endup putting an reference on the request queue that was
-never taken [1].
+Changes from v2 to v3:
+- Use rcu instead of rwlock to make IO path run faster, and put the rtype
+into the struct nvmet_pr_registrant.
 
-Fix that to check if we ever added a live path (using
-NVME_NS_HEAD_HAS_DISK flag) and if not, clear the disk->queue
-reference.
+- Limit the resv_log_list to 128.
 
-[1]:
-------------[ cut here ]------------
-refcount_t: underflow; use-after-free.
-WARNING: CPU: 1 PID: 1372 at lib/refcount.c:28 refcount_warn_saturate+0xa6/0xf0
-CPU: 1 PID: 1372 Comm: nvme Tainted: G           O      5.7.0-rc2+ #3
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.13.0-1ubuntu1 04/01/2014
-RIP: 0010:refcount_warn_saturate+0xa6/0xf0
-RSP: 0018:ffffb29e8053bdc0 EFLAGS: 00010282
-RAX: 0000000000000000 RBX: ffff8b7a2f4fc060 RCX: 0000000000000007
-RDX: 0000000000000007 RSI: 0000000000000092 RDI: ffff8b7a3ec99980
-RBP: ffff8b7a2f4fc000 R08: 00000000000002e1 R09: 0000000000000004
-R10: 0000000000000000 R11: 0000000000000001 R12: 0000000000000000
-R13: fffffffffffffff2 R14: ffffb29e8053bf08 R15: ffff8b7a320e2da0
-FS:  00007f135d4ca800(0000) GS:ffff8b7a3ec80000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00005651178c0c30 CR3: 000000003b650005 CR4: 0000000000360ee0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- disk_release+0xa2/0xc0
- device_release+0x28/0x80
- kobject_put+0xa5/0x1b0
- nvme_put_ns_head+0x26/0x70 [nvme_core]
- nvme_put_ns+0x30/0x60 [nvme_core]
- nvme_remove_namespaces+0x9b/0xe0 [nvme_core]
- nvme_do_delete_ctrl+0x43/0x5c [nvme_core]
- nvme_sysfs_delete.cold+0x8/0xd [nvme_core]
- kernfs_fop_write+0xc1/0x1a0
- vfs_write+0xb6/0x1a0
- ksys_write+0x5f/0xe0
- do_syscall_64+0x52/0x1a0
- entry_SYSCALL_64_after_hwframe+0x44/0xa9
+- Change generation to atomic64.
 
-Signed-off-by: Sagi Grimberg <sagi@grimberg.me>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: mengfanhui <mengfanhui@kylinos.cn>
----
- drivers/nvme/host/multipath.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+- Put register rkey check to a warpper.
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 2dd4137a08b2..3e579e49579c 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -895,6 +895,14 @@ void nvme_mpath_remove_disk(struct nvme_ns_head *head)
- 	/* make sure all pending bios are cleaned up */
- 	kblockd_schedule_work(&head->requeue_work);
- 	flush_work(&head->requeue_work);
-+	if (!test_bit(NVME_NSHEAD_DISK_LIVE, &head->flags)) {
-+		/*
-+		* if device_add_disk wasn't called, prevent
-+                * disk release to put a bogus reference on the
-+                * request queue
-+                */
-+		head->disk->queue = NULL;
-+	}
- 	put_disk(head->disk);
- }
- 
+- Change nr_avl_pages to nr_pages.
+
+- Use NVME_SC_SUCCESS instead of 0.
+
+- Change kmalloc param to let it not sleep in mutex lock.
+
+
+Changes from v1 to v2:
+- Implement the reservation notification report, includes registration
+preempted, reservation released and reservation preempted.
+  And also handle the reservation log page avaliable event and send get
+reservation log page command to clear log page at host.
+
+- Put the reservation check access after validate opcode. And remove
+opcodes which nvmet not implement yet check.
+  Now there is no admin opcode nvmet implemented needs reservation check,
+so I dont add reservation check to admin command path.
+  Next we need to do reservation check includes the situation of nsid is
+0xffffffff at each admin command path, if it is needed.
+
+- Add reservation commands support in nvmet_get_cmd_effects_nvm().
+
+- From Chaitanya, change the local variable tree style to make it cleaner,
+and add some comments about NVMe spec.
+  And also change others advice from chaitanya.
+
+- Put the nvmet_pr_check_cmd_access and nvmet_parse_pr_cmd into reservation
+enable check warp.
+
+- Remove kmem_cache instead to use kmalloc and kfree.
+
+- Change others advice from Sagi.
+
+- Add a blktest test case, this patch will be sent before these series of
+pathes.
+
+Guixin Liu (2):
+  nvmet: support reservation feature
+  nvmet: unify aer type enum
+
+ drivers/nvme/target/Makefile    |   2 +-
+ drivers/nvme/target/admin-cmd.c |  14 +-
+ drivers/nvme/target/configfs.c  |  27 +
+ drivers/nvme/target/core.c      |  53 +-
+ drivers/nvme/target/discovery.c |   2 +-
+ drivers/nvme/target/nvmet.h     |  33 ++
+ drivers/nvme/target/pr.c        | 979 ++++++++++++++++++++++++++++++++
+ include/linux/nvme.h            |  54 +-
+ 8 files changed, 1148 insertions(+), 16 deletions(-)
+ create mode 100644 drivers/nvme/target/pr.c
+
 -- 
-2.25.1
+2.43.0
 
 
