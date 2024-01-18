@@ -4,58 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 56A59C4725D
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jan 2024 00:43:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2ED50C47258
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jan 2024 00:54:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=u/Mec/5p9+EKLAFCABKLzW46J1sVgHE5SuS/MOmf2rY=; b=A/Qgba2axiDMp6JDZRvledBsO+
-	hX96rkVOUVZn7fAjzsJ3AWl0dzkQUYfFIoTv0wNPBuYmGM8LjCxYqELMbqQo/6ujBessOwBD5UCyN
-	wL/s08tV5dWUbXGkZxyPmrUUtrGHuXKHwCVImB6fXr1uCA1iGHbtNsKPutiPeFOuUfVVDI2htMPGY
-	f6yD0yOliwlfyofq+/wDvVR1Xcp6Xw2Hl4R9DeEbutP/FJB/saqq4V3SXN9/JtfoYuzpqXvn3abig
-	dicebbYL5dOnn+f1O+AF8PfASuNnqbX+1cLgQwxSUF5hwIXZIKTcvfSZbbL/xMZCFr/2aWlOD3McF
-	Ge377RvQ==;
+	bh=I45qqr9n38DIIRtEluaEbO4BQdx4bUm7wkLvhBzuhuU=; b=zuHdahwmy6t3oMjmJn3X8aAKLP
+	8oMrIX0na4hTxVc3S/bUnJlo6NWD84oigG5V6R0kHbz806P9+hdFvaYdu8Npanes0KYqSc+y0SZdv
+	Xt5HdQ99PGPQUP5UhHY0C5cv+FTpMvFvh+l0WzrruIHFY+wr1sXAhoe0UV9PiEiw9xP8PCC5TmaWo
+	27hmg6eTkYTazWVRI13luGQ4SB3pxf61oR1oBBNDxnrXoEKY+U2Rf5mXWbYmQPd0hP0VDoYAZdLgp
+	2IN2U3chAzxcVHZnSVHRZEApI/e7+/XAZH9Pqflgfgs6K2kolljmEYrGihcGrSCIuYSvvpHUAxgqo
+	Dz4c0bJw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rQGVL-001D8i-0i;
-	Thu, 18 Jan 2024 00:43:35 +0000
-Received: from mail-pl1-f177.google.com ([209.85.214.177])
+	id 1rQGfz-001EMZ-27;
+	Thu, 18 Jan 2024 00:54:35 +0000
+Received: from mail-il1-f175.google.com ([209.85.166.175])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rQGVI-001D8D-0y
+	id 1rQGfw-001EM1-1o
 	for linux-nvme@lists.infradead.org;
-	Thu, 18 Jan 2024 00:43:33 +0000
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1d5f10052easo11214575ad.1
-        for <linux-nvme@lists.infradead.org>; Wed, 17 Jan 2024 16:43:31 -0800 (PST)
+	Thu, 18 Jan 2024 00:54:33 +0000
+Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-3606f3f2f37so64588595ab.0
+        for <linux-nvme@lists.infradead.org>; Wed, 17 Jan 2024 16:54:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705538611; x=1706143411;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1705539270; x=1706144070;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=u/Mec/5p9+EKLAFCABKLzW46J1sVgHE5SuS/MOmf2rY=;
-        b=xHKwhW6i2QY3VlwyeT4cJgf7+dzx01AiAa+0q+uWWNqowH69/KtInxiEyc6lpdnnOy
-         xQ4Udx4ge7a5DtLu72ybrV5E2P4YVw9hkPOTaN1CrWZfH9KGW3Rc/Cp48xwLXH5Cw10t
-         xfOssa8ettdhJEm/cEaRXJyPqqmsij9lDwxuL+1WbocOI5le3i9W0k02xmzbnjiEV2QQ
-         qyK5E0VxLwIY+xx1bg0ZElcjzSMeDk1Ace8W4zXZPJnH+zmmdC4ymniScWAIBUBcD8gb
-         mgl5RA+RERp4aeogi3Dj1bgijWsbapUDxwsNkb2Mf3jqZY/Ot+TeF6ITSxQ7jbh3o1+U
-         WJNA==
-X-Gm-Message-State: AOJu0Yyqe9CCuBO8eq9jTifdq3gfBT3E9IpVhsGknkAJMuiurSFiaIld
-	2hyFo+MTRRFjw2G7Dz/wrCkaWs8KW5npofWYzzAkgNf0kxeD1n4r
-X-Google-Smtp-Source: AGHT+IHapUT+JiDEqszaul6msXCqfsq0Mpjjz9hiim4Ceamg2aEC5IDtO0+h7Jgsa5NB8G+B/jANwg==
-X-Received: by 2002:a17:902:f551:b0:1d5:746a:de1 with SMTP id h17-20020a170902f55100b001d5746a0de1mr143778plf.64.1705538610518;
-        Wed, 17 Jan 2024 16:43:30 -0800 (PST)
+        bh=I45qqr9n38DIIRtEluaEbO4BQdx4bUm7wkLvhBzuhuU=;
+        b=s/0nhnNrGtNbRgMqIdsODXExQqzCFfskJjaqqyTNuoauYUA32ZVdgcqnQvsilrZWCp
+         vXfZNQyxN4cz5L+MCtXalZktimoszRNyG98HFiVh7mgHcWOFy6umHUtt2KHMnq+eQY5G
+         NA5QQ6u4poSvcFQCjPQumx5RSo87rb4qdleH4VBoaP6zv2/j+PBWsnZzZqm2LvH39HlP
+         p6H6VBupOWfTPq3kE0EsV+VCEWIdzJ3e5BeqjhACdCb7FpBIvwfCrxuHEZFbOazBzhr8
+         nyTtsgfH55YDACOo5AE61S1+27ZP7s/g/4KyuAuoFcg90CglS1pjcV+sZ2Q/4gxeAlEA
+         7IVg==
+X-Gm-Message-State: AOJu0YyVasSGDfV/8iEXBIWTS4qUEFDTyGVamR7FuE7J65aH1wJE7EG5
+	gP3eVz59ZjliYeWTiNTcNhO0wRg3kz8pl7H6GVV0drr4sMr1736G
+X-Google-Smtp-Source: AGHT+IHesprjDRDHKDmWAU1kXOqX9BSX1AEcL/MOMAN2IhfSYFpDHbPo2rnOkF9E8n7AzllJQIuYag==
+X-Received: by 2002:a92:cec2:0:b0:360:70a9:12c5 with SMTP id z2-20020a92cec2000000b0036070a912c5mr173583ilq.11.1705539270228;
+        Wed, 17 Jan 2024 16:54:30 -0800 (PST)
 Received: from [192.168.51.14] (c-73-231-117-72.hsd1.ca.comcast.net. [73.231.117.72])
-        by smtp.gmail.com with ESMTPSA id lg15-20020a170902fb8f00b001d5e996ed4bsm229711plb.263.2024.01.17.16.43.29
+        by smtp.gmail.com with ESMTPSA id y63-20020a638a42000000b005c2185be2basm281448pgd.54.2024.01.17.16.54.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Jan 2024 16:43:30 -0800 (PST)
-Message-ID: <08d22893-9a05-415e-a610-9b1ceaaba96a@acm.org>
-Date: Wed, 17 Jan 2024 16:43:29 -0800
+        Wed, 17 Jan 2024 16:54:29 -0800 (PST)
+Message-ID: <0853691b-0b70-48c5-825a-4b709d066e20@acm.org>
+Date: Wed, 17 Jan 2024 16:54:28 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Bart Van Assche <bvanassche@acm.org>
 Subject: Re: [LSF/MM/BPF TOPIC] Improving Zoned Storage Support
+Content-Language: en-US
 To: Jens Axboe <axboe@kernel.dk>, Damien Le Moal <dlemoal@kernel.org>,
  "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>
 Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
@@ -68,20 +68,15 @@ References: <5b3e6a01-1039-4b68-8f02-386f3cc9ddd1@acm.org>
  <c38ab7b2-63aa-4a0c-9fa6-96be304d8df1@kernel.dk>
  <2955b44a-68c0-4d95-8ff1-da38ef99810f@acm.org>
  <9af03351-a04a-4e61-a6d8-b58236b041a3@kernel.dk>
- <276eedc2-e3d0-40c7-b355-46232ea65662@kernel.dk>
- <39dfcd32-e5fc-45b9-a0ed-082b879a16a4@acm.org>
- <9f4a6b8a-1c17-46b7-8344-cbf4bcb406ab@kernel.dk>
- <207a985d-ad4e-4cad-ac07-961633967bfc@kernel.dk>
- <e8c32676-114b-4aaf-8753-5a6d7b04fc4b@kernel.dk>
- <86a1f9e6-d3ae-4051-8528-13a952cf74a1@acm.org>
- <90de77e4-ed8a-47be-b5df-2178913ec115@kernel.dk>
-Content-Language: en-US
-In-Reply-To: <90de77e4-ed8a-47be-b5df-2178913ec115@kernel.dk>
+ <c6dfb4f5-10f9-461e-8743-b730a8384f95@acm.org>
+ <e19746ce-fdea-4372-bc26-1ee7b1a9a22d@kernel.dk>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <e19746ce-fdea-4372-bc26-1ee7b1a9a22d@kernel.dk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240117_164332_365379_8958EDF6 
-X-CRM114-Status: GOOD (  21.51  )
+X-CRM114-CacheID: sfid-20240117_165432_624082_3D97FA2A 
+X-CRM114-Status: GOOD (  10.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,86 +91,46 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/17/24 13:40, Jens Axboe wrote:
-> On 1/17/24 2:33 PM, Bart Van Assche wrote:
->> Please note that whether or not spin_trylock() is used, there is a
->> race condition in this approach: if dd_dispatch_request() is called
->> just before another CPU calls spin_unlock() from inside
->> dd_dispatch_request() then some requests won't be dispatched until the
->> next time dd_dispatch_request() is called.
+On 1/17/24 16:42, Jens Axboe wrote:
+> On 1/17/24 5:38 PM, Bart Van Assche wrote:
+>> On 1/17/24 10:43, Jens Axboe wrote:
+>>> Do we care? Maybe not, if we accept that an IO scheduler is just for
+>>> "slower devices". But let's not go around spouting some 200K number as
+>>> if it's gospel, when it depends on so many factors like IO workload,
+>>> system used, etc.
+>> I've never seen more than 200K IOPS in a single-threaded test. Since
+>> your tests report higher IOPS numbers, I assume that you are submitting
+>> I/O from multiple CPU cores at the same time.
 > 
-> Sure, that's not surprising. What I cared most about here is that we
-> should not have a race such that we'd stall. Since we haven't returned
-> this request just yet if we race, we know at least one will be issued
-> and we'll re-run at completion. So yeah, we may very well skip an issue,
-> that's well known within that change, which will be postponed to the
-> next queue run.
+> Single core, using mq-deadline (with the poc patch, but number without
+> you can already find in a previous reply):
 > 
-> The patch is more to demonstrate that it would not take much to fix this
-> case, at least, it's a proof-of-concept.
+> axboe@7950x ~/g/fio (master)> cat /sys/block/nvme0n1/queue/scheduler
+> none [mq-deadline]
+> axboe@7950x ~/g/fio (master)> sudo t/io_uring -p1 -d128 -b512 -s32 -c32 -F1 -B1 -R1 -X1 -n1 /dev/nvme0n1
+> 
+> submitter=0, tid=1957, file=/dev/nvme0n1, node=-1
+> polled=1, fixedbufs=1/0, register_files=1, buffered=0, QD=128
+> Engine=io_uring, sq_ring=128, cq_ring=128
+> IOPS=5.10M, BW=2.49GiB/s, IOS/call=32/31
+> IOPS=5.10M, BW=2.49GiB/s, IOS/call=32/32
+> IOPS=5.10M, BW=2.49GiB/s, IOS/call=31/31
+> 
+> Using non-polled IO, the number is around 4M.
 
-The patch below implements what has been discussed in this e-mail
-thread. I do not recommend to apply this patch since it reduces single-
-threaded performance by 11% on an Intel Xeon Processor (Skylake, IBRS):
+A correction: my tests ran with 72 fio jobs instead of 1. I used
+fio + io_uring + null_blk in my tests. I see about 1100 K IOPS with
+a single fio job and about 150 K IOPS with 72 fio jobs. This shows
+how I measured mq-deadline performance:
 
+modprobe null_blk
+fio --bs=4096 --group_reporting=1 --gtod_reduce=1 --invalidate=1 \
+     --ioengine=io_uring --ioscheduler=mq-deadline --norandommap \
+     --runtime=60 --rw=randread --thread --time_based=1 --buffered=0 \
+     --numjobs=72 --iodepth=128 --iodepth_batch_submit=64 \
+     --iodepth_batch_complete=64 --name=/dev/nullb0 --filename=/dev/nullb0
 
-diff --git a/block/mq-deadline.c b/block/mq-deadline.c
-index f958e79277b8..d83831ced69a 100644
---- a/block/mq-deadline.c
-+++ b/block/mq-deadline.c
-@@ -84,6 +84,10 @@ struct deadline_data {
-  	 * run time data
-  	 */
+Thanks,
 
-+	spinlock_t lock;
-+	spinlock_t dispatch_lock;
-+	spinlock_t zone_lock;
-+
-  	struct dd_per_prio per_prio[DD_PRIO_COUNT];
-
-  	/* Data direction of latest dispatched request. */
-@@ -100,9 +104,6 @@ struct deadline_data {
-  	int front_merges;
-  	u32 async_depth;
-  	int prio_aging_expire;
--
--	spinlock_t lock;
--	spinlock_t zone_lock;
-  };
-
-  /* Maps an I/O priority class to a deadline scheduler priority. */
-@@ -600,6 +601,16 @@ static struct request *dd_dispatch_request(struct blk_mq_hw_ctx *hctx)
-  	struct request *rq;
-  	enum dd_prio prio;
-
-+	/*
-+	 * Reduce lock contention on dd->lock by re-running the queue
-+	 * asynchronously if another CPU core is already executing
-+	 * dd_dispatch_request().
-+	 */
-+	if (!spin_trylock(&dd->dispatch_lock)) {
-+		blk_mq_delay_run_hw_queue(hctx, 0);
-+		return NULL;
-+	}
-+
-  	spin_lock(&dd->lock);
-  	rq = dd_dispatch_prio_aged_requests(dd, now);
-  	if (rq)
-@@ -617,6 +628,7 @@ static struct request *dd_dispatch_request(struct blk_mq_hw_ctx *hctx)
-
-  unlock:
-  	spin_unlock(&dd->lock);
-+	spin_unlock(&dd->dispatch_lock);
-
-  	return rq;
-  }
-@@ -723,6 +735,7 @@ static int dd_init_sched(struct request_queue *q, struct elevator_type *e)
-  	dd->fifo_batch = fifo_batch;
-  	dd->prio_aging_expire = prio_aging_expire;
-  	spin_lock_init(&dd->lock);
-+	spin_lock_init(&dd->dispatch_lock);
-  	spin_lock_init(&dd->zone_lock);
-
-  	/* We dispatch from request queue wide instead of hw queue */
-
+Bart.
 
