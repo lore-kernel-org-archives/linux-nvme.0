@@ -4,112 +4,133 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8630CC4707B
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jan 2024 05:37:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B05EDC4707B
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Jan 2024 07:12:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zZ9kTHjOkt86SBvlVY0f0CFyw2ID1M/Q8etuDWXJKJk=; b=H02RAyqcYP6AjKx+J+9UYmVpvH
-	HwnIpmu95YlnQRbtVyB2/HqWxmuhJI/AnxdKsf3aRHCTxL0IWJJS0e2NFTUbbbwpTYQYdoszFm8qC
-	+wxgCmKJaX9wT3nEMXDhzGj4EKcOnSggnAJsnTCyzdF7lUkLtJrNUNVh4BHCEDiheCP4LLgSSYF9l
-	aTIfn0Yao34vLBmVSze6ystmPfJ7RAllCSzS+IE4SgbK5p5mjeBZtmUti+Z5Yuk5ZD0dUNJYeeBt/
-	/igQMIFUYV+d+ejf4PaHHHHvMGKtKAvrFGejL/MSHgPANK4eri+0vPTueVG88ZjMNDNaTFEpvppS2
-	fNXrla4g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Subject:CC:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=+ndldX/st2sjnLiMkzNWFl0AgtOt9jiAWnKfij46FUQ=; b=sRNC1QZEFCztgRInyNzsaZOdyx
+	dPpNxeGLoR/1P64H7PiMtkD8PIIzT7Faqjuy47EaBsB6zAduiH3sZkk+vqVsVVFohZUisAE5STuSS
+	vi5WaZJXIOFtBLlA2dM0bXbN5E2lquDS/96ag5c40YOuX0HHcR5sDlUCHestDOmISmdljP95wd4Ol
+	fgUYqfDITnPtoVRxc+liD4Wo7z31zJtXSsn1aL7MQJYWgv71i0uBUl4zRfsYmBgyEepYSA8IiZjkU
+	ALLNWyPjRGaLMGRCtVPSEpH1gn4bC+HxnEPGLvFJXr9igrsWf5RuEnRQXUCagjlB4j4LB9Mfn4xS6
+	Hv9Q+HWA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rQL5C-001iTM-0a;
-	Thu, 18 Jan 2024 05:36:54 +0000
-Received: from mail-bn8nam11on20600.outbound.protection.outlook.com ([2a01:111:f400:7eae::600] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+	id 1rQMa2-001scU-0a;
+	Thu, 18 Jan 2024 07:12:50 +0000
+Received: from mailout1.w1.samsung.com ([210.118.77.11])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rQL58-001iSh-2O
+	id 1rQMZv-001sW0-2Q
 	for linux-nvme@lists.infradead.org;
-	Thu, 18 Jan 2024 05:36:52 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gXN/QOvu0ttp5LOkYpvXlRiJAWnhTc0eUq6B0souEn+XPSA8y40lJZfOygc//O3iiU1+3/0F+YXLxxIZ+hFf0gCQ3GfOkv87mgR6T3Hi+LasCSWkQRh3uK7DgGCLwBZVcWF2CTGWxL1201n8sYox7xOK+/pWFS86RkaBHFY4UvZsbj71LqlxW1NVQk2eEMke0WatKE8PTdutvYU9qfvOXcoFfPI4GOLUUnpqn/aD6BHYDa1h5dAA/jsd48JIu+rFVCg/kYQ6cZRIK9EOPm9P8m/jS1DWQ/Iqk1BLdX4j8Cnzo9sMR0GTas5Exj19Hot/0S0iaeWRIzL8sqAAxZb7lQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zZ9kTHjOkt86SBvlVY0f0CFyw2ID1M/Q8etuDWXJKJk=;
- b=Cd7nqiShP3ss1B1QZMxE30nYuQjVwgo2r7lTwfkKjZoxLAY2atLYp09qetYuczBEmeXIzUzWKRIuuDiSPMb6hsqW4mSiJi9z+PWPyxcoF7mkqWjE2rbtkBNj8HUse7u5r8MtNbGNP7E/L1EyiC4LE+CVkZryo6gnwLpam/nXQtzSTk9zEEXuMZcpGFaTzj9Yo3GTM5UzxfJnAuquctsnpXonOJJIMOs6TC1/J5NFqIlmBVYiQceXNgkBbIQmZ1WrkVcAJGzuM9pVQGSXoGXGEs6eHS03w4LYws/z2PhZznXhJDgpSO8H3RgEdcy+zKZc/n98P2AD113GXMbGL1LwSg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=lists.infradead.org
- smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zZ9kTHjOkt86SBvlVY0f0CFyw2ID1M/Q8etuDWXJKJk=;
- b=tjbHBPXxuFHUuWUlaM3RORKNJy6tLbnL+ANASbYu8ZHgBQOfyTWjWrJ7aUpC4I1iZiGeU8CxX6HUBFFXbOuN58LHtBVbLvTebJ6aDeCoo3wdnaPVdvCypPST/er4IG8J8CmQLxg2LkeYlarO6AqGcq9D4VA6XZFFriDP9TsJWSeoyM2PR7ME5Sncp5FBEkJh2sJ7T/rFRlHNkgmJruHxP04X7OWOGwoa6XZxPaEUN7Ozer3qfP584jvecetttRG6tBgF3Y9bwEmTO+hi2n5F4WS8wpe6ONO0sLTi4jlhj+B1e6mlJvSGlvDk8JL/Tglz82bhkZPVW6nlG4LR3dHV6g==
-Received: from BYAPR11CA0063.namprd11.prod.outlook.com (2603:10b6:a03:80::40)
- by CH0PR12MB5060.namprd12.prod.outlook.com (2603:10b6:610:e3::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.24; Thu, 18 Jan
- 2024 05:36:37 +0000
-Received: from SJ1PEPF00001CE3.namprd05.prod.outlook.com
- (2603:10b6:a03:80:cafe::a9) by BYAPR11CA0063.outlook.office365.com
- (2603:10b6:a03:80::40) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.24 via Frontend
- Transport; Thu, 18 Jan 2024 05:36:37 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- SJ1PEPF00001CE3.mail.protection.outlook.com (10.167.242.11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7202.16 via Frontend Transport; Thu, 18 Jan 2024 05:36:36 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Wed, 17 Jan
- 2024 21:36:21 -0800
-Received: from dev.nvidia.com (10.126.230.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Wed, 17 Jan
- 2024 21:36:20 -0800
-From: Chaitanya Kulkarni <kch@nvidia.com>
-To: <linux-nvme@lists.infradead.org>
-CC: <kbusch@kernel.org>, <hch@lst.de>, <sagi@grimberg.me>,
-	<james.smart@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH 2/2] nvmet: add module description to stop warnings
-Date: Wed, 17 Jan 2024 21:36:02 -0800
-Message-ID: <20240118053602.215765-2-kch@nvidia.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20240118053602.215765-1-kch@nvidia.com>
-References: <20240118053602.215765-1-kch@nvidia.com>
+	Thu, 18 Jan 2024 07:12:47 +0000
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20240118071229euoutp01d58818fc3558ae5d438d9845bff41f86~rX45nsCkv2457024570euoutp01X
+	for <linux-nvme@lists.infradead.org>; Thu, 18 Jan 2024 07:12:29 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20240118071229euoutp01d58818fc3558ae5d438d9845bff41f86~rX45nsCkv2457024570euoutp01X
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1705561949;
+	bh=+ndldX/st2sjnLiMkzNWFl0AgtOt9jiAWnKfij46FUQ=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=eApEPL3IPDLgVwq3tIgVRRQMpWMAg0gN8JeAfP8UCE1DnRQ5fHmGi2BifnbRAol1Z
+	 4RqRO3NWBWjc+4B06LpFySG0UjDNTC7u6Ersrne7avwXx6sQO6kE63ewYMurVaeS8l
+	 1hDzoJQr+3Q9oQsKXCunzSHT7Pxf0UIqFrGGOyWA=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+	20240118071228eucas1p171b1b91b48410c6b39693280dd80a72a~rX45e1wYc0829208292eucas1p1X;
+	Thu, 18 Jan 2024 07:12:28 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+	eusmges3new.samsung.com (EUCPMTA) with SMTP id D6.02.09552.C5FC8A56; Thu, 18
+	Jan 2024 07:12:28 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20240118071228eucas1p222bfd790ac1019fbf68a5f2170e663e1~rX45CK0Rw2641626416eucas1p2w;
+	Thu, 18 Jan 2024 07:12:28 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240118071228eusmtrp25486a22febedbc9aba939cbaea7e9110~rX45BOZ961566915669eusmtrp2W;
+	Thu, 18 Jan 2024 07:12:28 +0000 (GMT)
+X-AuditID: cbfec7f5-83dff70000002550-68-65a8cf5cc9ab
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id 68.10.09146.C5FC8A56; Thu, 18
+	Jan 2024 07:12:28 +0000 (GMT)
+Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20240118071228eusmtip270875b1c152bce150956677843a96e5e~rX44z2cUf2497324973eusmtip2l;
+	Thu, 18 Jan 2024 07:12:28 +0000 (GMT)
+Received: from localhost (106.210.248.142) by CAMSVWEXC02.scsc.local
+	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+	Thu, 18 Jan 2024 07:12:27 +0000
+Date: Thu, 18 Jan 2024 08:12:25 +0100
+From: Javier =?utf-8?B?R29uesOhbGV6?= <javier.gonz@samsung.com>
+To: Dave Chinner <david@fromorbit.com>
+CC: Viacheslav Dubeyko <slava@dubeyko.com>,
+	<lsf-pc@lists.linux-foundation.org>, Linux FS Devel
+	<linux-fsdevel@vger.kernel.org>, Adam Manzanares <a.manzanares@samsung.com>,
+	<linux-scsi@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
+	<linux-block@vger.kernel.org>, <slava@dubeiko.com>, Kanchan Joshi
+	<joshi.k@samsung.com>, Bart Van Assche <bvanassche@acm.org>
+Subject: Re: [LSF/MM/BPF TOPIC] : Flexible Data Placement (FDP) availability
+ for kernel space file systems
+Message-ID: <20240118071225.7ioz3h2eewdgm2sb@ArmHalley.local>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.126.230.35]
-X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE3:EE_|CH0PR12MB5060:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4fd4ab5c-5751-438a-7c13-08dc17e77067
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uY/y1K2mE4eHoRs4PZ7x2RfQFz+uaTs7wiDohWEP9c//RvRcgDbNaVWx/mfYY83hNfPXQIoeddlv9yVyvB5DasW7H7il4pLKO47DD4bRG8oAN/X7KPukLe2JH8npwqBY9vOWz8hrShBuDO/04TSzqcPgz48mpTPKNNz8MkDw3Ex9pU3fLOU6S8ChIVGofC4HPgIkXJPTPF4kQFJ38tB5TLt3p5fIC1I058k7gdY/ZHTZSaenmVkHTd1ctm+Kx445xvmzXum4VLtipefNqDoDKTpgbfhIpdQyFcmMOGs3eOokUDOxqKXIwpGwWXljOIwoTK4brlBTsepWPSdRSMeVMHjZrSLM1iyTSu2NNI4K5Ys9AJBbvaz19crCNngEr1nP9vKTUzafiG4u4PVwzTJs/aIQNh8tf8qr8zD0STMyQMoSauekraxORECw6N4iMXES76WxF4JaqsLID0OvovXrz6wK5zQRMdKTjr92F/nA5zmgY2Gfcru4b25IdEjmDg78sVmXumVMN3iSI7h0axvyredzqfXlJpb+Cx1HeDDnLk4t4idLzbp5vg4vV5S4pcDQDqFmnMH8Ws8j7GNna3UVbH6kpvpOMq+sHVbJ3jUYxz9MblFz/jDZYfVdNQYW+lCYb5jbEhRqscPQe67heDrz9Q3AQ1wfp/K7ZqBnMPR35UcAGmgdNOsYNHUYx6tVZ2uBKZUWseciqHbTy/65yNatYMJWi9LsBn/DM89L1l/uXvE3R2sPuENEiO/en9DMMC6h2m4Z5kElaoLhk5dpIpldT2FMXXCJjtFdmM9FtjGXD3w=
-X-Forefront-Antispam-Report: CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230031)(4636009)(346002)(376002)(136003)(39860400002)(396003)(230273577357003)(230173577357003)(230922051799003)(451199024)(1800799012)(186009)(64100799003)(82310400011)(40470700004)(36840700001)(46966006)(336012)(26005)(16526019)(426003)(83380400001)(7696005)(2616005)(107886003)(1076003)(36860700001)(47076005)(5660300002)(4326008)(8676002)(8936002)(2906002)(6666004)(478600001)(316002)(6916009)(54906003)(70206006)(70586007)(36756003)(7636003)(82740400003)(356005)(41300700001)(40480700001)(40460700003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2024 05:36:36.9232
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4fd4ab5c-5751-438a-7c13-08dc17e77067
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00001CE3.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5060
+In-Reply-To: <ZahL6RKDt/B8O2Jk@dread.disaster.area>
+X-Originating-IP: [106.210.248.142]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrNKsWRmVeSWpSXmKPExsWy7djPc7ox51ekGuw+p2cx7cNPZostx+4x
+	Wuy9pW2xZ+9JFov5y56yW3Rf38Fmse/1XmaLT5cXAokts5kcOD0uX/H2ePTkIKvHwfVvWDxO
+	LZLw2Lyk3mPyjeWMHp83yQWwR3HZpKTmZJalFunbJXBlvHzTxFhwTqNi7v9JLA2MbxW6GDk5
+	JARMJOb2bWPuYuTiEBJYwSjx5/AaFgjnC6PE/T0tTBDOZ0aJK8+vsMG0TPx/jxUisZxRYvvs
+	a+xwVeuub4Jq2cooceRjB5DDwcEioCqx9XYGSDebgL3EpWW3mEFsEQE1iUmTdoAtZxb4wiTx
+	af5/sHphgRyJ9ineIDW8ArYSJ+a8ZoOwBSVOznzCAmIzC1hJdH5oYgUpZxaQllj+jwMiLC/R
+	vHU22HhOAWOJuc/7GEFKJASUJZZP94W4v1bi1JZbYFdKCEzmlGh+eYARIuEi8eP3HHYIW1ji
+	1fEtULaMxP+d85kg7GyJi2e6mSHsEonF748xQ8y3lug7kwMRdpQ4dGcn1Fo+iRtvBSEu45OY
+	tG06VDWvREeb0ARGlVlI3pqF5K1ZCG/NQvLWAkaWVYziqaXFuempxcZ5qeV6xYm5xaV56XrJ
+	+bmbGIHp6fS/4193MK549VHvECMTB+MhRgkOZiURXn+DZalCvCmJlVWpRfnxRaU5qcWHGKU5
+	WJTEeVVT5FOFBNITS1KzU1MLUotgskwcnFINTGm//jhd3chqdPz3reWGx6pOxS/0XWz2K+DL
+	d8u36VYLUu43O/+LS+M69ntOnOwf7x+ZWyfN+stevXHOp99f7HlyIyY9jbr5lyuDpaD6fO+Z
+	OunQz4F6Dz2mND1zOik19/zi8y41P6NY4nxUGdr8luXMvWnMubBW012BOajl6KYlXS/yiz8o
+	3fycvPHJZfM/V1i6bPVjdA8eyWubu/SkWUCC7hPDALeE+OhNdX9U1AwfL/i+qdr7wKE5yhfU
+	de8m+XYKPoi5qDohKOVSbUp0zaS/aZM/HXiyd/WF3+dOr/N9yHxKk+ds2GSdVUumOXILTGUS
+	2DTPMkLK1tp7KafnWWWHVbULD7rzHfRwVXjA5aHEUpyRaKjFXFScCACwyImCvgMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrGIsWRmVeSWpSXmKPExsVy+t/xe7ox51ekGmzrE7OY9uEns8WWY/cY
+	Lfbe0rbYs/cki8X8ZU/ZLbqv72Cz2Pd6L7PFp8sLgcSW2UwOnB6Xr3h7PHpykNXj4Po3LB6n
+	Fkl4bF5S7zH5xnJGj8+b5ALYo/RsivJLS1IVMvKLS2yVog0tjPQMLS30jEws9QyNzWOtjEyV
+	9O1sUlJzMstSi/TtEvQyXr5pYiw4p1Ex9/8klgbGtwpdjJwcEgImEhP/32PtYuTiEBJYyiix
+	Y/9ENoiEjMTGL1dZIWxhiT/Xutggij4ySvQdvArlbGWU2P1+GksXIwcHi4CqxNbbGSANbAL2
+	EpeW3WIGsUUE1CQmTdrBDFLPLPCFSeLT/P9MIPXCAjkS7VO8QWp4BWwlTsx5DTXzBpPEpHVf
+	2CESghInZz5hAbGZBSwkZs4/zwjSyywgLbH8HwdEWF6ieetssF2cAsYSc5/3gZVICChLLJ/u
+	C3F/rcTnv88YJzCKzEIydBaSobMQhs5CMnQBI8sqRpHU0uLc9NxiQ73ixNzi0rx0veT83E2M
+	wAjeduzn5h2M81591DvEyMTBeIhRgoNZSYTX32BZqhBvSmJlVWpRfnxRaU5q8SFGU2AATWSW
+	Ek3OB6aQvJJ4QzMDU0MTM0sDU0szYyVxXs+CjkQhgfTEktTs1NSC1CKYPiYOTqkGJvc3sarG
+	mwq+HYszaD+9a9VzEYera6/y5wWcfXFmf/63V2L3eU+lc2nufVIo9car9fuhC0vlhG+lbumL
+	lZqzT7j/x8GA0xf7k5QYVwjotofaqE9MZnnk4jtJzCcopWKu9iYx2e2/a7sD7Cetvecz9UlE
+	UljNVRbB+n1GdRfP6a5ZLfGQN+rJ/YOr/X9ckpy/wGPJHZvgjANHtj6Nfy3zIjL83ayFNgy7
+	9p1tYW5QVjomMV14T7bXwt2Rmyr7i/j4TvG8uNzAzib2Q3R18KNzkX9cFkvd2PzRd4KV29X6
+	z4kc2vIMk+6evmHWxmd/78jEIknmWXY3OJQnJTM6/33AvJqfVT5g/vlQjQMST6bt41JiKc5I
+	NNRiLipOBABUHj+2aQMAAA==
+X-CMS-MailID: 20240118071228eucas1p222bfd790ac1019fbf68a5f2170e663e1
+X-Msg-Generator: CA
+X-RootMTR: 20240115084656eucas1p219dd48243e2eaec4180e5e6ecf5e8ad9
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20240115084656eucas1p219dd48243e2eaec4180e5e6ecf5e8ad9
+References: <CGME20240115084656eucas1p219dd48243e2eaec4180e5e6ecf5e8ad9@eucas1p2.samsung.com>
+	<20240115084631.152835-1-slava@dubeyko.com>
+	<20240115175445.pyxjxhyrmg7od6sc@mpHalley-2.localdomain>
+	<86106963-0E22-46D6-B0BE-A1ABD58CE7D8@dubeyko.com>
+	<20240117115812.e46ihed2qt67wdue@ArmHalley.local>
+	<ZahL6RKDt/B8O2Jk@dread.disaster.area>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240117_213650_786024_2C256028 
-X-CRM114-Status: UNSURE (   9.40  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240117_231244_057043_39547DDB 
+X-CRM114-Status: GOOD (  30.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -124,89 +145,107 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add MODULE_DESCRIPTION() in order to remove warnings & get clean build:-
+On 18.01.2024 08:51, Dave Chinner wrote:
+>On Wed, Jan 17, 2024 at 12:58:12PM +0100, Javier González wrote:
+>> On 16.01.2024 11:39, Viacheslav Dubeyko wrote:
+>> > > On Jan 15, 2024, at 8:54 PM, Javier González <javier.gonz@samsung.com> wrote:
+>> > > > How FDP technology can improve efficiency and reliability of
+>> > > > kernel-space file system?
+>> > >
+>> > > This is an open problem. Our experience is that making data placement
+>> > > decisions on the FS is tricky (beyond the obvious data / medatadata). If
+>> > > someone has a good use-case for this, I think it is worth exploring.
+>> > > F2FS is a good candidate, but I am not sure FDP is of interest for
+>> > > mobile - here ZUFS seems to be the current dominant technology.
+>> > >
+>> >
+>> > If I understand the FDP technology correctly, I can see the benefits for
+>> > file systems. :)
+>> >
+>> > For example, SSDFS is based on segment concept and it has multiple
+>> > types of segments (superblock, mapping table, segment bitmap, b-tree
+>> > nodes, user data). So, at first, I can use hints to place different segment
+>> > types into different reclaim units.
+>>
+>> Yes. This is what I meant with data / metadata. We have looked also into
+>> using 1 RUH for metadata and rest make available to applications. We
+>> decided to go with a simple solution to start with and complete as we
+>> see users.
+>
+>XFS has an abstract type definition for metadata that is uses to
+>prioritise cache reclaim (i.e. classifies what metadata is more
+>important/hotter) and that could easily be extended to IO hints
+>to indicate placement.
+>
+>We also have a separate journal IO path, and that is probably the
+>hotest LBA region of the filesystem (circular overwrite region)
+>which would stand to have it's own classification as well.
+>
+>We've long talked about making use of write IO hints for separating
+>these things out, but requiring 10+ IO hint channels just for
+>filesystem metadata to be robustly classified has been a show
+>stopper. Doing nothing is almost always better than doing placement
+>hinting poorly.
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/target/nvmet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/target/nvme-loop.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/target/nvmet-rdma.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/target/nvmet-fc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/target/nvme-fcloop.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/target/nvmet-tcp.o
+I fully agree with the last statement.
 
-Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
----
- drivers/nvme/target/core.c   | 1 +
- drivers/nvme/target/fc.c     | 1 +
- drivers/nvme/target/fcloop.c | 1 +
- drivers/nvme/target/loop.c   | 1 +
- drivers/nvme/target/rdma.c   | 1 +
- drivers/nvme/target/tcp.c    | 1 +
- 6 files changed, 6 insertions(+)
+In my experience, if doing something, it is probably better to target 2
+or 3 data streams that target what you would expect it to be the larger
+metric gap (be it data hotness, size, etc).
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index d26aa30f8702..5192f4d71243 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -1705,4 +1705,5 @@ static void __exit nvmet_exit(void)
- module_init(nvmet_init);
- module_exit(nvmet_exit);
- 
-+MODULE_DESCRIPTION("Essential NVMeOF Target core functionality");
- MODULE_LICENSE("GPL v2");
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index bda7a3009e85..f72f912fc1de 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -2945,4 +2945,5 @@ static void __exit nvmet_fc_exit_module(void)
- module_init(nvmet_fc_init_module);
- module_exit(nvmet_fc_exit_module);
- 
-+MODULE_DESCRIPTION("NVMeOF Target FC transport");
- MODULE_LICENSE("GPL v2");
-diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index ead349af30f1..49fd1f7380dd 100644
---- a/drivers/nvme/target/fcloop.c
-+++ b/drivers/nvme/target/fcloop.c
-@@ -1650,4 +1650,5 @@ static void __exit fcloop_exit(void)
- module_init(fcloop_init);
- module_exit(fcloop_exit);
- 
-+MODULE_DESCRIPTION("NVMeOF FC loopback transport");
- MODULE_LICENSE("GPL v2");
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 9cb434c58075..35b1ff0cf16b 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -688,5 +688,6 @@ static void __exit nvme_loop_cleanup_module(void)
- module_init(nvme_loop_init_module);
- module_exit(nvme_loop_cleanup_module);
- 
-+MODULE_DESCRIPTION("NVMeOF loopback transport");
- MODULE_LICENSE("GPL v2");
- MODULE_ALIAS("nvmet-transport-254"); /* 254 == NVMF_TRTYPE_LOOP */
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 667f9c04f35d..f7e1ac6ed3ad 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -2104,5 +2104,6 @@ static void __exit nvmet_rdma_exit(void)
- module_init(nvmet_rdma_init);
- module_exit(nvmet_rdma_exit);
- 
-+MODULE_DESCRIPTION("NVMeOF Target RDMA transport");
- MODULE_LICENSE("GPL v2");
- MODULE_ALIAS("nvmet-transport-1"); /* 1 == NVMF_TRTYPE_RDMA */
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 6a1e6bb80062..1f3ea988b671 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -2221,5 +2221,6 @@ static void __exit nvmet_tcp_exit(void)
- module_init(nvmet_tcp_init);
- module_exit(nvmet_tcp_exit);
- 
-+MODULE_DESCRIPTION("NVMeOF Target TCP transport");
- MODULE_LICENSE("GPL v2");
- MODULE_ALIAS("nvmet-transport-3"); /* 3 == NVMF_TRTYPE_TCP */
--- 
-2.40.0
+The difficult thing is identifying these small changes that can bring a
+percentage of the benefit without getting into corner cases that take
+most of the effort.
 
+>
+>> > Technically speaking, any file system can place different types of metadata in
+>> > different reclaim units. However, user data is slightly more tricky case. Potentially,
+>> > file system logic can track “hotness” or frequency of updates of some user data
+>> > and try to direct the different types of user data in different reclaim units.
+>
+>*cough*
+>
+>We already do this in the LBA space via the filesytsem allocators.
+>It's often configurable and generally called "allocation policies".
+>
+>> > But, from another point of view, we have folders in file system namespace.
+>> > If application can place different types of data in different folders, then, technically
+>> > speaking, file system logic can place the content of different folders into different
+>> > reclaim units. But application needs to follow some “discipline” to store different
+>> > types of user data (different “hotness”, for example) in different folders.
+>
+>Yup, XFS does this "physical locality is determined by parent
+>directory" separation by default (the inode64 allocation policy).
+>Every new directory inode is placed in a different allocation group
+>(LBA space) based on a rotor mechanism. All the files within that
+>directory are kept local to the directory (i.e. in the same AG/LBA
+>space) as much as possible.
+>
+>Most filesystems have LBA locality policies like this because it is
+>highly efficient on physical seek latency limited storage hardware.
+>i.e. the storage hardware we've mostly been using since the early
+>1980s.
+>
+>We could make allocation groups have different reclaim units,
+>but then we are talking about needing an arbitrary number of
+>different IO hints - XFS supports ~2^31 AGs if the filesystem is
+>large enough, and there's no way we're going to try to support that
+>many IO hints (software or hardware) in the foreseeable future.
+>
+>IF devices want to try to classify related data themselves, then
+>using LBA locality internally to classify relationships below the
+>level of IO hints, then that would be a much closer match to how
+>filesystems have traditionally structured the data and metadata on
+>disk. Related data and metadata tends to get written to the same LBA
+>regions because that's the fastest way to access related and
+>metadata on seek-limited hardware.
+>
+>Yeah, I know that these are SSDs we are talking about and they
+>aren't seek limited, but when we already have filesystem
+>implementations that try to clump related things to nearby LBA
+>spaces, it might be best to try to leverage this behaviour rather
+>than try to rely on kernel and userspace to correctly provide hints
+>about their data patterns.
+
++1
 
