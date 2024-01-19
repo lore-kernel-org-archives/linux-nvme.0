@@ -4,73 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 80660C4725D
-	for <linux-nvme@archiver.kernel.org>; Fri, 19 Jan 2024 20:49:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AAF0EC4725D
+	for <linux-nvme@archiver.kernel.org>; Fri, 19 Jan 2024 21:22:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=c8tuBInj9J3wH9KOqK2vAqakrSXV0jA7Hz6gW5gvvw0=; b=XqHAYlbwzx8xWeau2Ae/WyU1b7
-	yf+ocxQb0PSZt6J+YK/79l3D0TB9xnXXZfVTBbslfTLm/9KnHMu+5s/1q9oiMmUb+gAA6PF3qdiky
-	m/Eyyq7TXcmWurN0QET9eIiCnWIZJTUALVE7DARZKAl5yDzvnpBfH0uHlu41ZtSlIfx5Ah0UNWlQw
-	pnimHwB0ytpFAZKFpkwcjY+zgHKSf8CFxjDfkri/I9oYHG9P313XONgOgFv5speRb4IQtgk6PVqWd
-	U622z/+D9beFqCPa+KV+Lyl229uZVrU4qACSpsw0yCWdoimx+2sqPa9PnSfKSiGTHud9rNeqmmQLu
-	tqo+CK8w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=HMqalDxMtWXRWw8mRuYXoI3Qq2FQfasx9rH0LZ2RkwY=; b=O2Wa+Jwkx7klEWJf2ayjSFv7nS
+	90h57JAEMlXplizRUI0Y1MtiY0qyMdfZwMtw9+nptvzdqKJEL30pY5YiRJn0MXRoO2WGdiWwhVYlm
+	SlyZh6FpjRYYBjlkAGh39cr1c3m1a/FUL9BbnLMU6yP4Br9roZftG7v/AYZk05rRraeHnu2s23Dk3
+	PWfibIt134p0556QRag1K95fmEuAE7Oji+t8Y/3MgVtECSCyPbaAUWQ2/zUz7+eFx7SgHwhVcBssy
+	llO79oeYVdsqqU139XYUt/7ycIwMCrK/JKkpXR6DNRAYSlwCrXqzbUFbquCATbfWqDlvnAF4g82oU
+	1EmTN3wg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rQvoA-006azz-08;
-	Fri, 19 Jan 2024 20:49:46 +0000
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+	id 1rQwJe-006d2R-28;
+	Fri, 19 Jan 2024 21:22:18 +0000
+Received: from mail-il1-x130.google.com ([2607:f8b0:4864:20::130])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rQvo7-006aza-09
+	id 1rQwJZ-006d1k-2v
 	for linux-nvme@lists.infradead.org;
-	Fri, 19 Jan 2024 20:49:44 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by ams.source.kernel.org (Postfix) with ESMTP id 7CAFFB81CDB;
-	Fri, 19 Jan 2024 20:49:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02B34C433F1;
-	Fri, 19 Jan 2024 20:49:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705697380;
-	bh=ULOIRBPrMeDfSN1D3IxraZwLRBgSo/f7XWxfB6Eofxw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QEUmxWi1MMVwOTWVYgyanV5UKKbnmqb37c28J6+QUSNp8xwj6WqpkrhqFFIqoKuA5
-	 8hShNIsHBy5UY9KBXm7JGR2R0f9/s/tTj7Xxcy634pVXDb/YVbPeEYFSsowwjh5Fdf
-	 QQVJdNyVRMFWSm/hfm81Cctw+tJRE22PrHvJWXPFMAWBg0VCnPdGdhpNHRAiiZTh0s
-	 kUmywlWgXOxT5bKFR9EpU0ALlAOzrCyyVJqgJCvo16FN0ZblbLp5IurgVhJpPk3BAr
-	 Y5ZIPkcZX2w8rj+Y4hNukwUGkl90mLkvpPOb5z42i6x7H9Y2L7TwDi3/58m/RsKR0m
-	 4B79Qe+aBxbcw==
-Date: Fri, 19 Jan 2024 13:49:37 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Dave Chinner <david@fromorbit.com>
-Cc: Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier.gonz@samsung.com>,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
-	lsf-pc@lists.linux-foundation.org,
-	Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-	Adam Manzanares <a.manzanares@samsung.com>,
-	linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, slava@dubeiko.com,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Bart Van Assche <bvanassche@acm.org>
-Subject: Re: [LSF/MM/BPF TOPIC] : Flexible Data Placement (FDP) availability
- for kernel space file systems
-Message-ID: <ZargYTc8HE47a0s7@kbusch-mbp.dhcp.thefacebook.com>
-References: <CGME20240115084656eucas1p219dd48243e2eaec4180e5e6ecf5e8ad9@eucas1p2.samsung.com>
- <20240115084631.152835-1-slava@dubeyko.com>
- <20240115175445.pyxjxhyrmg7od6sc@mpHalley-2.localdomain>
- <86106963-0E22-46D6-B0BE-A1ABD58CE7D8@dubeyko.com>
- <20240117115812.e46ihed2qt67wdue@ArmHalley.local>
- <ZahL6RKDt/B8O2Jk@dread.disaster.area>
+	Fri, 19 Jan 2024 21:22:17 +0000
+Received: by mail-il1-x130.google.com with SMTP id e9e14a558f8ab-3608ec05dc2so610685ab.1
+        for <linux-nvme@lists.infradead.org>; Fri, 19 Jan 2024 13:22:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1705699326; x=1706304126; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HMqalDxMtWXRWw8mRuYXoI3Qq2FQfasx9rH0LZ2RkwY=;
+        b=eCHikuGBp7lrBia2VCRqjPb03o9+D7OgNxfi6y1VdvBrhh6olaQ2/DCMer4/zJHLJ/
+         zQklIA5BuCQ+CJu8j+jn3/Zi7DqGRKYkfbFQ1g1on6jE35jPJmhQm3/BDDLy9CVdGZIN
+         IaRzexBQK9gPWIKBkf5MhBCNhaXerWFU81ZsJIfCvxCQRibcMGWlFLoPPdvbbE2eSXJy
+         CrJ1EGWPgvIsxO4H/cPROeQ3pvNPrVOcH4/0J5I0uk22dt8TYKYyEIodNwZUHGPojxsf
+         QAhDTTG3NuXWCs0fWQKFFhmebTgTpAkPPCGRltVruj9W26Ow8Gf7JYiJiBDTPP9RhVwR
+         UQeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705699326; x=1706304126;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HMqalDxMtWXRWw8mRuYXoI3Qq2FQfasx9rH0LZ2RkwY=;
+        b=HoCfGqzylXAsdoGrDhhsBQRa6O+jjYVjRXXQFGTlUQ+yJUKR24sU3bbV0+5xS7cVaH
+         pEGxjT6sJ2ayEr6788B8HLY93PKrdZlog87QgIZOjZ4oEOwGIr0whKR4xsBA0NWyIErJ
+         Jl0FPOikFQtB8GQRVR5mdFgdcpRcFkKjfHBJaQNUxIMiXLINOpXCnLsrbuVgPQ11aa8g
+         FDS3fyOTWjopiZARboaWP4xGyG8Cjcl1RHiH1Edix/mzvNsIWgfC8a6KA0MGvaQU39le
+         A2/YS0rJ1E6Bx8925N7ol3655xt8oKNG5gwRiBS9eh+RGudLmXDOfZsBaVsMOw1MP36I
+         ESoQ==
+X-Gm-Message-State: AOJu0Yw6o0/cGHEBj+YYRNE6RC+cwFHvEQaWtH0Iiqksju4J8MFOQ45V
+	wtqjVqntKjO4TinzHskTaabtJ6tF2KtJcGeaHl3VyoP2GE683LvWT7nlhwKOcP8=
+X-Google-Smtp-Source: AGHT+IETOhplWLP41h6xBUC+m/7v+gFVgoTG0pk5jIAa7NUtVmlGHwni76xjxsx+S3umlrFezQ54QQ==
+X-Received: by 2002:a05:6e02:1ca2:b0:35e:6ae2:a4b7 with SMTP id x2-20020a056e021ca200b0035e6ae2a4b7mr941831ill.2.1705699325824;
+        Fri, 19 Jan 2024 13:22:05 -0800 (PST)
+Received: from [192.168.1.116] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id t11-20020a92c0cb000000b003606dc5804asm5634663ilf.65.2024.01.19.13.22.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 19 Jan 2024 13:22:05 -0800 (PST)
+Message-ID: <c8f441c2-d662-43fc-9e8e-fc847428dbaa@kernel.dk>
+Date: Fri, 19 Jan 2024 14:22:04 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZahL6RKDt/B8O2Jk@dread.disaster.area>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [BUG] I/O timeouts and system freezes on Kingston A2000 NVME with
+ BCACHEFS
+Content-Language: en-US
+To: Mia Kanashi <chad@redpilled.dev>,
+ Kent Overstreet <kent.overstreet@linux.dev>
+Cc: linux-bcachefs@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>
+References: <54fcc150f287216593b19271f443bf13@redpilled.dev>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <54fcc150f287216593b19271f443bf13@redpilled.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240119_124943_372228_E8296116 
-X-CRM114-Status: GOOD (  26.72  )
+X-CRM114-CacheID: sfid-20240119_132214_956245_D3130E61 
+X-CRM114-Status: GOOD (  27.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,59 +96,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jan 18, 2024 at 08:51:37AM +1100, Dave Chinner wrote:
-> On Wed, Jan 17, 2024 at 12:58:12PM +0100, Javier González wrote:
-> > On 16.01.2024 11:39, Viacheslav Dubeyko wrote:
-> > > > On Jan 15, 2024, at 8:54 PM, Javier González <javier.gonz@samsung.com> wrote:
-> > > > > How FDP technology can improve efficiency and reliability of
-> > > > > kernel-space file system?
-> > > > 
-> > > > This is an open problem. Our experience is that making data placement
-> > > > decisions on the FS is tricky (beyond the obvious data / medatadata). If
-> > > > someone has a good use-case for this, I think it is worth exploring.
-> > > > F2FS is a good candidate, but I am not sure FDP is of interest for
-> > > > mobile - here ZUFS seems to be the current dominant technology.
-> > > > 
-> > > 
-> > > If I understand the FDP technology correctly, I can see the benefits for
-> > > file systems. :)
-> > > 
-> > > For example, SSDFS is based on segment concept and it has multiple
-> > > types of segments (superblock, mapping table, segment bitmap, b-tree
-> > > nodes, user data). So, at first, I can use hints to place different segment
-> > > types into different reclaim units.
-> > 
-> > Yes. This is what I meant with data / metadata. We have looked also into
-> > using 1 RUH for metadata and rest make available to applications. We
-> > decided to go with a simple solution to start with and complete as we
-> > see users.
+On 1/19/24 5:25 AM, Mia Kanashi wrote:
+> This issue was originally reported here: https://github.com/koverstreet/bcachefs/issues/628
 > 
-> XFS has an abstract type definition for metadata that is uses to
-> prioritise cache reclaim (i.e. classifies what metadata is more
-> important/hotter) and that could easily be extended to IO hints
-> to indicate placement.
->
-> We also have a separate journal IO path, and that is probably the
-> hotest LBA region of the filesystem (circular overwrite region)
-> which would stand to have it's own classification as well.
+> Transferring large amounts of files to the bcachefs from the btrfs
+> causes I/O timeouts and freezes the whole system. This doesn't seem to
+> be related to the btrfs, but rather to the heavy I/O on the drive, as
+> it happens without btrfs being mounted. Transferring the files to the
+> HDD, and then from it to the bcachefs on the NVME sometimes doesn't
+> make the problem occur. The problem only happens on the bcachefs, not
+> on btrfs or ext4. It doesn't happen on the HDD, I can't test with
+> other NVME drives sadly. The behaviour when it is frozen is like this:
+> all drive accesses can't process, when not cached in ram, so every app
+> that is loaded in the ram, continues to function, but at the moment it
+> tries to access the drive it freezes, until the drive is reset and
+> those abort status messages appear in the dmesg, after that system is
+> unfrozen for a moment, if you keep copying the files then the problem
+> reoccurs once again.
+> 
+> This drive is known to have problems with the power management in the
+> past:
+> https://wiki.archlinux.org/title/Solid_state_drive/NVMe#Troubleshooting
+> But those problems where since fixed with kernel workarounds /
+> firmware updates. This issue is may be related, perhaps bcachefs does
+> something different from the other filesystems, and workarounds don't
+> apply, which causes the bug to occur only on it. It may be a problem
+> in the nvme subsystem, or just some edge case in the bcachefs too, who
+> knows. I tried to disable ASPM and setting latency to 0 like was
+> suggested, it didn't fix the problem, so I don't know. If this is
+> indeed related to that specific drive it would be hard to reproduce.
 
-Filesystem metadata is pretty small spatially in the LBA range, but
-seems to have higher overwrite frequency than other data, so this could
-be a great fit for FDP. Some of my _very_ early analysis though
-indicates REQ_META is too coarse to really get the benefits, so finer
-grain separation through new flag or hints should help.
- 
-> We've long talked about making use of write IO hints for separating
-> these things out, but requiring 10+ IO hint channels just for
-> filesystem metadata to be robustly classified has been a show
-> stopper. Doing nothing is almost always better than doing placement
-> hinting poorly.
+From a quick look, looks like a broken drive/firmware. It is suspicious
+that all failed IO is 256 blocks. You could try and limit the transfer
+size and see if that helps:
 
-Yeah, a totally degenerate application could make things worse than just
-not using these write hints. NVMe's FDP has a standard defined feedback
-mechanism through log pages to see how well you're doing with respect to
-write amplification. If we assume applications using this optimization
-are acting in good faith, we should be able to tune the use cases. The
-FDP abstractions seem appropriate to provide generic solutions that
-don't tailor to just any one vendor.
+# echo 64 > /sys/block/nvme0n1/queue/max_sectors_kb
+
+Or maybe the transfer size is just a red herring, who knows. The error
+code seems wonky:
+
+> [  185.384762] nvme0n1: I/O Cmd(0x2) @ LBA 105272408, 256 blocks, I/O Error (sct 0x3 / sc 0x71)
+
+-- 
+Jens Axboe
+
 
