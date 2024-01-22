@@ -4,46 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1EE5AC47DD9
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Jan 2024 16:00:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 765F5C47DD9
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Jan 2024 16:15:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:References:To:From:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
 	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fGZ8UrGIA6ofn93uwJPrAf4ywr/8t1r3mOvfKEvvesQ=; b=QR8eKELBim42Eo7CVI/6O7lcEM
-	DY/qrzzfDEkCyGBiBvlWjakIq8+w0yfrGxQ8pZOpf/ZsrlCHYNMDL0EcZ4nX8XcVszVPutk+i3zrv
-	1P9Jyj1wYg9XY8ofCc7PB8YPORrsqa/EIFRjHH3T2Ga8MHIYV8n53/+HRB3AhOusm9F/EC0FaL/yZ
-	cW/dJoPCaCGIlSaijA/KXfLzAyY0wGk3Pvmr0CG/E5rlYJ0ePBC/nTSunSINp4VlQiCawAq19kdL/
-	lIZ+2yDVbwMnWqaB6Gh3zDEgqtS+S/z6TVov17baPpq1a5uisVHgYhOv/ckIi+2wLw/DA/BHe8UVj
-	Je/SL7jA==;
+	bh=Q+JVMdj/l+NGQAe7FXneJHQkOcMkFpNoKaBkvO/E/HI=; b=OFHAMvoMDDdcgzet3YVGhQqHgS
+	CjFE+yXNKlvdcrNGx5kZzYGyxF+S4xPBNCw8tNAr9P5fvaKvrF5EIzMLBxXHtRZnCvY3bkUAdhTwG
+	ThUVtT4A7sItrHz6PQegsdu9WjVTxxL9EHjQLW3sckAdBXE+TR9W0I8ZVFpCE0yOI8QUGE/5by/zM
+	d3qTqdcez50DDoBpdrYGV5iR8isMF7VqrTkazo3ni/bAr6qSATLWDzQI3rBlNRTXi6vT/nv0WU0L0
+	qt/YTfc3xTGROfBMRG99ti3Z3PI0aF6+hcOD6GihMnoITj6vv0yXhFdmHBFNbFxpHER20JyKlu3lr
+	sltFhK1w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rRwiL-00CqKu-0R;
-	Mon, 22 Jan 2024 15:59:57 +0000
+	id 1rRwxI-00Ctsu-1r;
+	Mon, 22 Jan 2024 16:15:24 +0000
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rRwiK-00CqKW-0H
+	id 1rRwxH-00Ctsi-02
 	for linux-nvme@bombadil.infradead.org;
-	Mon, 22 Jan 2024 15:59:56 +0000
+	Mon, 22 Jan 2024 16:15:23 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
 	In-Reply-To:References:To:From:Subject:MIME-Version:Date:Message-ID:Sender:
 	Reply-To:Cc:Content-ID:Content-Description;
-	bh=fGZ8UrGIA6ofn93uwJPrAf4ywr/8t1r3mOvfKEvvesQ=; b=nC0Jv1OsXTXbCyvARga6ELXgKv
-	hmj8qMDC73DDN8sA0jKUFA1sqp5WbShjszwznlI/FZMQ0aKtVIhwMonmmUNzMFVg5QoALeCXZQnqS
-	Vn+s4k5OrXASPFk2ImZM4PcDMySz2XUl/jojxToLsHR6SW5MwqP9SDABeIFrBpav1JPfbBOO+yf5Z
-	RV4wq7yDCi7Vao4C2vy/yrU+nNTae/C6HQutgqESixUb9qdIIKnMrAKIntkGsQPNGe4LJWPkltWD6
-	n8tzBKucea4Yt7g9RqOgkRmsJtgZVu3TvU99UMG7Ln/IBNme3wKhxMCcfderyqj7VbJoV6wUQfVP/
-	6M2/FVeg==;
+	bh=Q+JVMdj/l+NGQAe7FXneJHQkOcMkFpNoKaBkvO/E/HI=; b=r16Hhmhx2CP9lV7emTfjzr14X8
+	AKX6jvFBowhCEtLepZv1ZUo7xlp7lmX2YhyUrtXJ81I80icRoWWa7TN0drP0mTZzFzyWCxz8BlbzI
+	pcFSQg4ftREwovx2Xjbz+2QWbu36uoDKhN4Rl7COntlqUe8tqHhWGL6mVgXoc3UGIE5PwfSsH77tR
+	NYZOr9OsHZeEmSWsrqLCw5cEEcRdSJo4dM/F+9f0SL9C/GGTOU9unT8PavGbCaD1bZG/jBIg/gqYo
+	u/G6db6mSQD+CyAG4SnkC7qAcqaHhO29skgKFLDtpaw7OXSxp2GVqb0tFslwfjTOpjoQdxJHBKOIF
+	Kiq+2KrA==;
 Received: from 46-117-114-124.bb.netvision.net.il ([46.117.114.124] helo=[10.100.102.14])
 	by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rRwiH-00000000LBf-0Mri
+	id 1rRwxE-00000000N9A-1FZ6
 	for linux-nvme@lists.infradead.org;
-	Mon, 22 Jan 2024 15:59:54 +0000
-Message-ID: <bc33203e-3ba6-497a-9417-7a1b545035f5@grimberg.me>
-Date: Mon, 22 Jan 2024 17:59:45 +0200
+	Mon, 22 Jan 2024 16:15:21 +0000
+Message-ID: <c835765c-de5b-4c75-abdf-51dca733c771@grimberg.me>
+Date: Mon, 22 Jan 2024 18:15:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: Test
@@ -74,5 +74,5 @@ On 1/22/24 17:47, Sagi Grimberg wrote:
 > Test test test
 > 
 
-Another test (sorry for the spam)
+test test test
 
