@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7C1AC47DD9
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Jan 2024 17:37:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 473D2C47DD9
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Jan 2024 17:37:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=J3QqLW6uzCJydrFlgvYGM4oYu1xKxHEklRD1Od4noxs=; b=DiY7zjjHsMl4XfY640gLnPsjMQ
-	GHg2xHJea5fh2t0Z0syiz1BnPxK2XL373UJegNzDvGUMbR1JV1i+OKBrrWtJ7B6cjP4HEUQlpbIzh
-	8NDTYH0EVgd4mKRmI7ikdhLm7ClaXQfOJ3ycfo7lsAn1S60jiMmcNlCkpA+u7bfKrN8+b4RjlV2cm
-	U+chX3xoRSw0AhplzYDThRCkRUabhr/6tAmlFZWmCD1FhiZ60oNFj6ca62qADb59AkTH3JewaXER0
-	eAO/s438yqisqRPl+rphHLUTzNET3JQiZknI1ZB4q69E2hRsXWHNGSxyz++dtMbOaYyrf3Zk5KKS6
-	nd8m/rPg==;
+	bh=0fYloV3kA50WO8sjNj3hp0KcqaKX8i7xkE5ohU+1CrE=; b=4H8XqRmQ4kWDIeU2nYl5VNJ2Bg
+	TtfZM4HGt/sehCgxyG2Ss1y9Njl2Mx4qGNz+rkXyO0SUWlbISUHYEIYYvoX0ASMN4Eou9h8um/jQ1
+	2hqvFuObbn4C8DJ3ZcqA6fdPFibO0vhb5hqZD8EpRoqDRZdUDNI0rZn4jsXhrT4F10kO/zwbV4PRu
+	Dwnimup9EsLGKtd2RFJpkUl7up4JhgqXx00m/ColuJytw7iCBIAdu7mHe4/OzyoqBXYLYjrOmJOUr
+	Vrqd5nzaYWUfj/SQd8/rsLgUOI9x/U5gdZD9MWw8/2Z6omHaKzbXs1jQllFUDK4sT8RjPTVcE3WP6
+	p4CKWGYA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rRyEg-00DH2o-1O;
-	Mon, 22 Jan 2024 17:37:26 +0000
+	id 1rRyEl-00DH6v-0J;
+	Mon, 22 Jan 2024 17:37:31 +0000
 Received: from [2001:4bb8:198:a22c:146a:86ef:5806:b115] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rRyEf-00DGzD-0A;
-	Mon, 22 Jan 2024 17:37:25 +0000
+	id 1rRyEh-00DH2n-39;
+	Mon, 22 Jan 2024 17:37:28 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>,
@@ -40,9 +40,9 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>,
 	linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
 	virtualization@lists.linux.dev
-Subject: [PATCH 13/15] loop: cleanup loop_config_discard
-Date: Mon, 22 Jan 2024 18:36:43 +0100
-Message-Id: <20240122173645.1686078-14-hch@lst.de>
+Subject: [PATCH 14/15] loop: pass queue_limits to blk_mq_alloc_disk
+Date: Mon, 22 Jan 2024 18:36:44 +0100
+Message-Id: <20240122173645.1686078-15-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240122173645.1686078-1-hch@lst.de>
 References: <20240122173645.1686078-1-hch@lst.de>
@@ -62,65 +62,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Initialize the local variables for the discard max sectors and
-granularity to zero as a sensible default, and then merge the
-calls assigning them to the queue limits.
+Pass the max_hw_sector limit loop sets at initialization time directly to
+blk_mq_alloc_disk instead of updating it right after the allocation.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/block/loop.c | 27 ++++++++-------------------
- 1 file changed, 8 insertions(+), 19 deletions(-)
+ drivers/block/loop.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-index 3f855cc79c29f5..7abeb586942677 100644
+index 7abeb586942677..26c8ea79086798 100644
 --- a/drivers/block/loop.c
 +++ b/drivers/block/loop.c
-@@ -755,7 +755,8 @@ static void loop_config_discard(struct loop_device *lo)
- 	struct file *file = lo->lo_backing_file;
- 	struct inode *inode = file->f_mapping->host;
- 	struct request_queue *q = lo->lo_queue;
--	u32 granularity, max_discard_sectors;
-+	u32 granularity = 0, max_discard_sectors = 0;
-+	struct kstatfs sbuf;
+@@ -1971,6 +1971,12 @@ static const struct blk_mq_ops loop_mq_ops = {
  
- 	/*
- 	 * If the backing device is a block device, mirror its zeroing
-@@ -775,29 +776,17 @@ static void loop_config_discard(struct loop_device *lo)
- 	 * We use punch hole to reclaim the free space used by the
- 	 * image a.k.a. discard.
- 	 */
--	} else if (!file->f_op->fallocate) {
--		max_discard_sectors = 0;
--		granularity = 0;
--
--	} else {
--		struct kstatfs sbuf;
--
-+	} else if (file->f_op->fallocate && !vfs_statfs(&file->f_path, &sbuf)) {
- 		max_discard_sectors = UINT_MAX >> 9;
--		if (!vfs_statfs(&file->f_path, &sbuf))
--			granularity = sbuf.f_bsize;
--		else
--			max_discard_sectors = 0;
-+		granularity = sbuf.f_bsize;
+ static int loop_add(int i)
+ {
++	struct queue_limits lim = {
++		/*
++		 * Random number picked from the historic block max_sectors cap.
++		 */
++		.max_hw_sectors		= 2560u,
++	};
+ 	struct loop_device *lo;
+ 	struct gendisk *disk;
+ 	int err;
+@@ -2014,16 +2020,13 @@ static int loop_add(int i)
+ 	if (err)
+ 		goto out_free_idr;
+ 
+-	disk = lo->lo_disk = blk_mq_alloc_disk(&lo->tag_set, NULL, lo);
++	disk = lo->lo_disk = blk_mq_alloc_disk(&lo->tag_set, &lim, lo);
+ 	if (IS_ERR(disk)) {
+ 		err = PTR_ERR(disk);
+ 		goto out_cleanup_tags;
  	}
+ 	lo->lo_queue = lo->lo_disk->queue;
  
--	if (max_discard_sectors) {
-+	blk_queue_max_discard_sectors(q, max_discard_sectors);
-+	blk_queue_max_write_zeroes_sectors(q, max_discard_sectors);
-+	if (max_discard_sectors)
- 		q->limits.discard_granularity = granularity;
--		blk_queue_max_discard_sectors(q, max_discard_sectors);
--		blk_queue_max_write_zeroes_sectors(q, max_discard_sectors);
--	} else {
-+	else
- 		q->limits.discard_granularity = 0;
--		blk_queue_max_discard_sectors(q, 0);
--		blk_queue_max_write_zeroes_sectors(q, 0);
--	}
- }
- 
- struct loop_worker {
+-	/* random number picked from the history block max_sectors cap */
+-	blk_queue_max_hw_sectors(lo->lo_queue, 2560u);
+-
+ 	/*
+ 	 * By default, we do buffer IO, so it doesn't make sense to enable
+ 	 * merge because the I/O submitted to backing file is handled page by
 -- 
 2.39.2
 
