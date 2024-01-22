@@ -4,46 +4,31 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A202CC47DD9
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Jan 2024 15:48:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ED2DEC47DAF
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Jan 2024 15:55:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:References:To:From:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
 	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fXr11iCzefnxFD5s6+/z6E11JhCRj6Wc821AE9XmJdQ=; b=pxiad6ZEYl5gIS0k8P7qInqYsA
-	PHEckbLSQb072d2yJPVmuAauPDs8kDoMloRy+xKI7fxfv0PRlyU1UJF105CbKTrEp7SRJ0f7yZpal
-	ZphkL/vb3AXknT02y+/atZ2+yQp18VC8XCeMFEw+hI/rap3demnO+D8R60NALwv9sZGecJQ/r0RnD
-	mtpRhefCeSeim/KxSsVfXhBCXaKupX0w9mTKAxcucJ2b91tnRsd8wC0JYSa5cL2vSdruKSXUnhoxu
-	x8cjSUfbYLBj/jsaHsBqZLZqvep+p7gfnQ09+D2Q1wJg8dhtMOcGSKQiZTRmT/hshiyGXA/EPrtUx
-	L/xWCUng==;
+	bh=fGZ8UrGIA6ofn93uwJPrAf4ywr/8t1r3mOvfKEvvesQ=; b=JgfFxZdGIJ8z1vbWuUeMhonMPA
+	IxqQkcKahTC81kZ4aZnTTs1HJo+GcoAsVkxhMaAjZ3qUWKKnpdbPoKp6h2ed9UeUbVn1pVi/SJE83
+	CKnp9zhIrGvzYeIq6/9id0oCf1IicjRcSrUG+u4CNz7IDMdJqoAg6SirhTzSHPtx+048WB4QXDzu+
+	D0uT6AMSHxNl8EFWuqvdaSbEnTO9UzzzZtqY3bgQvCDBZgGbogd5nLQFNcuiytYVy3QFszVl5rUEK
+	38+a0zCo7DA8E6qZPX2Tt++5B9lCPDkIGTQGhaW7m1rKIq+guK0LZifm/lDXIHNyYsFLu9OKZ+yFC
+	8ReVEfDg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rRwXf-00CnMJ-2b;
-	Mon, 22 Jan 2024 15:48:55 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
-	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rRwXd-00CnLA-3D
-	for linux-nvme@bombadil.infradead.org;
-	Mon, 22 Jan 2024 15:48:53 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:References:To:From:Subject:MIME-Version:Date:Message-ID:Sender:
-	Reply-To:Cc:Content-ID:Content-Description;
-	bh=fXr11iCzefnxFD5s6+/z6E11JhCRj6Wc821AE9XmJdQ=; b=YA5aIYf8oSsmavuvPivERCTk2y
-	vyC/+NgKG9YJoEO2K6RHu9kHhB61iUme+W43d+CibeG/jtuxdlJ7BcAnPk4jSWWB1xK9HPd+Ojm51
-	uMDBDN+apFNzttCYz+GTj2wvZyZF7SyFbD5k2011oy8oucXgjmiSoxEkEBihYFeSltemwMYPVVhH1
-	2LpednQ4pw5iyUghPndBCpuQJfrAJQilgrbUyRo1parj/rN7qTOaTRBGVkHMF+rQf22W2B3PfWfZV
-	mi5WFJWPQSoZV16HvA2uHU0vr1vsWUhhH/T1Edk49U9aEccj0ms4KqcvHy7y+nZAMtRRueqckuQNo
-	gOiP3jJg==;
+	id 1rRweP-00CpLh-0x;
+	Mon, 22 Jan 2024 15:55:53 +0000
 Received: from 46-117-114-124.bb.netvision.net.il ([46.117.114.124] helo=[10.100.102.14])
-	by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rRwXb-00000000Jgb-1bJF
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rRweN-00CpGa-1i
 	for linux-nvme@lists.infradead.org;
-	Mon, 22 Jan 2024 15:48:52 +0000
-Message-ID: <9de87ea1-e898-4c98-8481-41a0beb71d0c@grimberg.me>
-Date: Mon, 22 Jan 2024 17:48:50 +0200
+	Mon, 22 Jan 2024 15:55:51 +0000
+Message-ID: <76a4a6c2-c2b3-46cd-9e67-5f58cf1cc847@grimberg.me>
+Date: Mon, 22 Jan 2024 17:55:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: Test
@@ -69,9 +54,10 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
+
 On 1/22/24 17:47, Sagi Grimberg wrote:
 > Test test test
 > 
 
-Another test (sorry for spamming)
+Another test (sorry for the spam)
 
