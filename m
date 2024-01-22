@@ -4,71 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 381D8C47DAF
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Jan 2024 17:44:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7E533C47DD3
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Jan 2024 18:27:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=AV78cR9m2qlhfCoSuhDhh+nRWS
-	y7fRk+2+Qrh6ADUwcOMxW2a3xduioPsL7Ii3B5X/FxQtbWRneIGIxGYD2Vm3S/iWzD8+LyJnthG7B
-	PwY7N8pp3H2GtmiLCghvvd/cBYAiQPCPQWdWBn1GNWu8vgJIN+P1Oz5UBm2SOZsEJ364DCTm2dD4A
-	kYj8W1JZyhr7RTTSeFGh8YUPmJ1f5nHrEiYajVk+egaHMmaQHG1YBRlybTxHIG2mUjQjtirrGEzPb
-	bYUQYuzXW6mnLiOZPXKl23ZdXDo/jQyTUoHDBHOOr/6kekrb0Lzys0VF91tSU7sK0R1556+VI1woW
-	dOiP5jgg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=8g5YMSTL3rG3vD0yD6H3h1RiZSgKuW4uwVbM3LiLS0E=; b=vxB9N9YDwbmySs0yob9T5t3tlS
+	0pngmcBq8+BNbAUO1sxDaY8iRH+Xh0kRIQlczifKeyJTtSAMfHDk3U0McQ3DnIOjzre64vCoOe3UN
+	gLL5XUt6C8eu+LYlk+bDKS28Pblh7i5yflsU2nwyWYHr0hk8ETKOEyheffY2BgIGv6sydxASd4cc8
+	ExX9OXwtppS+mCHFmMKeh+eIH9RZUeRCEx/Mn0WMS91s2BZ2WnhGpfFi/qPpHFxURMNWPhI8b3tev
+	3IYEw7LUMM/HTFUZhD3ZUrPUMiDHRwDV9xeFrXkVeOJhLpIMw5unppXVj/fVpDU/4BjT7xPSf4ZNh
+	I8yFPDjw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rRyLm-00DKKf-0Q;
-	Mon, 22 Jan 2024 17:44:46 +0000
-Received: from mail-lf1-f50.google.com ([209.85.167.50])
+	id 1rRz13-00DWaL-0M;
+	Mon, 22 Jan 2024 18:27:25 +0000
+Received: from ams.source.kernel.org ([145.40.68.75])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rRyLi-00DKIB-2n
+	id 1rRz10-00DWZR-0y
 	for linux-nvme@lists.infradead.org;
-	Mon, 22 Jan 2024 17:44:43 +0000
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-50e79299da9so567937e87.1
-        for <linux-nvme@lists.infradead.org>; Mon, 22 Jan 2024 09:44:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705945481; x=1706550281;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=b16hgChhqJDQXuMn797XVweGoxzUofJjb01jgesWQ6T8XsXdJuZxtfHqfaU6BLYdjt
-         aAvtAc4cgchDknzIiBGdIDrINYdgqKHYz5ZpgjDSPltp0DM6FDGyZaGTfkDLhVwjhyb4
-         OJ9aJWmge1Z+Xu0W9yalpU8gA0XagtZKdmCQpdXXuU+ljUvRQdT4sCVkQzBtvIMOBM6X
-         QvoFgj5efkxS4bZHErHZwuyWYfHUixhRp6ciLMN+NjQvNmZ30onYgGe3fo0GiTM+fWg+
-         k3pVr4sxnnZBNrWSJKGUWPfaTS4b9dl8BuaFCCS2uqdAlNHN2M9Vp9gssrMmJCApB3Sw
-         RIpA==
-X-Gm-Message-State: AOJu0YxN2IOVe85lDiFZu043eOkbumazTS0u5nWwo7dVnvZ65clTiwKE
-	Gdax2T7qu1tecvQGDyo2wDohlV15sTJvU82mzM7LYDWNGr1JVaMW
-X-Google-Smtp-Source: AGHT+IFlxMM52+DewtXcm4pTht5ik0QU+l58zaSOxFS5aRUZBX+r+l4NQbKU/PxV7PzaMq2MN70vGg==
-X-Received: by 2002:a19:ca45:0:b0:50e:337b:f316 with SMTP id h5-20020a19ca45000000b0050e337bf316mr3836426lfj.1.1705945480765;
-        Mon, 22 Jan 2024 09:44:40 -0800 (PST)
-Received: from [10.100.102.67] (46-117-114-124.bb.netvision.net.il. [46.117.114.124])
-        by smtp.gmail.com with ESMTPSA id m21-20020a05600c4f5500b0040e4733aecbsm39744487wmq.15.2024.01.22.09.44.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jan 2024 09:44:40 -0800 (PST)
-Message-ID: <2d86f3cf-055a-4c04-b11e-98326024d76b@grimberg.me>
-Date: Mon, 22 Jan 2024 19:44:39 +0200
+	Mon, 22 Jan 2024 18:27:23 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by ams.source.kernel.org (Postfix) with ESMTP id 85607B81041;
+	Mon, 22 Jan 2024 18:27:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D52EDC433C7;
+	Mon, 22 Jan 2024 18:27:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705948038;
+	bh=PlJsX8lq4hlaXsdUus+uVis54Jh85qBVrYR1P5XnPmA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oWMOAhkwVSBJ3AEfqFEvKX11Hz05OIRqB4ABWsbho088Ga2Cx0RG7E35ba45no3Zi
+	 zaVv5Mbe+zgWL0AuaZXj2BRHaCkBpS2ud8TZ6mGSu1KL+z2Z2fl97EIAZ03N6Fgjet
+	 pEqGlVkThabnQoyFEJihfuPQMlFG0MD3qLx9Bck72plbi8mYijTgka0czNY7guWoii
+	 Hro4Arm3HOAxnyL8Bkg+TTKXm7xK8G9Zm6zyrD/tWkTbQP+ZsD57U9EIWRhjfxq5qj
+	 Xe66J+3zLwsB/OARPDDie1prAtn5Dt8SW4VDYZEc+n5vIAqh5PgUyuSKABGIXHv4jd
+	 mL3mbpNpnldng==
+Date: Mon, 22 Jan 2024 11:27:15 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, "Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, virtualization@lists.linux.dev
+Subject: Re: [PATCH 05/15] block: add a max_user_discard_sectors queue limit
+Message-ID: <Za6zg-pA8IJkIb_b@kbusch-mbp.dhcp.thefacebook.com>
+References: <20240122173645.1686078-1-hch@lst.de>
+ <20240122173645.1686078-6-hch@lst.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 8/8] nvmet-rdma: set max_queue_size for RDMA transport
-Content-Language: en-US
-To: Max Gurtovoy <mgurtovoy@nvidia.com>, kbusch@kernel.org, hch@lst.de,
- linux-nvme@lists.infradead.org
-Cc: israelr@nvidia.com, kch@nvidia.com, oren@nvidia.com
-References: <20240104092549.25721-1-mgurtovoy@nvidia.com>
- <20240104092549.25721-9-mgurtovoy@nvidia.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20240104092549.25721-9-mgurtovoy@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240122173645.1686078-6-hch@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240122_094442_902803_54DF69B7 
-X-CRM114-Status: UNSURE (   4.81  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240122_102722_536402_2FD9D5BC 
+X-CRM114-Status: GOOD (  13.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,5 +79,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+On Mon, Jan 22, 2024 at 06:36:35PM +0100, Christoph Hellwig wrote:
+> @@ -174,23 +174,23 @@ static ssize_t queue_discard_max_show(struct request_queue *q, char *page)
+>  static ssize_t queue_discard_max_store(struct request_queue *q,
+>  				       const char *page, size_t count)
+>  {
+> -	unsigned long max_discard;
+> -	ssize_t ret = queue_var_store(&max_discard, page, count);
+> +	unsigned long max_discard_bytes;
+> +	ssize_t ret;
+>  
+> +	ret = queue_var_store(&max_discard_bytes, page, count);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	if (max_discard & (q->limits.discard_granularity - 1))
+> +	if (max_discard_bytes & (q->limits.discard_granularity - 1))
+>  		return -EINVAL;
+>  
+> -	max_discard >>= 9;
+> -	if (max_discard > UINT_MAX)
+> +	if ((max_discard_bytes >> SECTOR_SHIFT) > UINT_MAX)
+>  		return -EINVAL;
+>  
+> -	if (max_discard > q->limits.max_hw_discard_sectors)
+> -		max_discard = q->limits.max_hw_discard_sectors;
+> -
+> -	q->limits.max_discard_sectors = max_discard;
+> +	q->limits.max_user_discard_sectors = max_discard_bytes >> SECTOR_SHIFT;
+> +	q->limits.max_discard_sectors =
+> +		min_not_zero(q->limits.max_hw_discard_sectors,
+> +			     q->limits.max_user_discard_sectors);
+
+Shouldn't writing 0 disable discards?
 
