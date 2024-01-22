@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0A5FEC47DAF
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Jan 2024 17:37:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 98144C47DD9
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Jan 2024 17:37:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=t9HRa5vgjKuUC52SaApgPp71CS5FhNEd43Ov+g8RmyM=; b=laX4qhKgnHm4/fsEPpxRR9FAOG
-	JR5eveFPYbjgRtS7Ct1DsgGpmm2XXyoBfxPsqi4kAVdNQwjjTZ8+9BK3R/SEKtxtyCUSpspXcvvHP
-	hT9Qd88J27ndB+iP2+f1YChA83hyNbaH2znHvMhnZM53WW2wiJGu1EHImmuiuJdKgr1hhizN7Qsg+
-	DQm/wupU2aB/1s0PdoDH9kx/UU0pD3N8c8Ebv65QK78WeimaCGZaO+xL6MokOs4ggFOjKI5eshxE3
-	OGfsYnFGHZOff0TsVwelzzqgBpjCvZBixGFiEcnn+BOUSjB6N1B3JAev6XXUI5Qj3hD3JMgxR4cok
-	Azj9w0Ww==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=7oVU9c+sWc4p4SiHyb28VquhpNnzQ6qqU9FfRuobtjw=; b=IcrEnQFqwvlExgn9LLufaInSQI
+	2xGJLpe03f44chp51iWgewtsIixfYjNpRKdVvzUSnTSPnHvaWc1LwNuZuqeZhXX7l4xdfkfH7j85f
+	N/605Z2ELyzVMe8Z77RlyJ9hdWqZOMe5NLrR+DwgLpigjcmBq6ENmVilax7saL9gGCsWxq/d1YCmh
+	BxnqxSZn+ucQQ6RF2RdW1VMCRO9RVb17merX8Bd9WwVkNb9/iA9vjlZmwFRKuIpPuWb4MQoi0AahU
+	wfWYOHkuJbBzqVmUQRfV5OnSxOucxPeFhLZfgVZvEV3GyTFzSLwL+jIK5sWdWGyaLqsJqcYZvmLFw
+	z3PEtPtg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rRyE7-00DGc9-2l;
-	Mon, 22 Jan 2024 17:36:51 +0000
+	id 1rRyEH-00DGhp-2G;
+	Mon, 22 Jan 2024 17:37:01 +0000
 Received: from [2001:4bb8:198:a22c:146a:86ef:5806:b115] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rRyE4-00DGZx-25;
-	Mon, 22 Jan 2024 17:36:49 +0000
+	id 1rRyEF-00DGfa-0h;
+	Mon, 22 Jan 2024 17:36:59 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>,
@@ -40,10 +40,12 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>,
 	linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
 	virtualization@lists.linux.dev
-Subject: atomic queue limits updates
-Date: Mon, 22 Jan 2024 18:36:30 +0100
-Message-Id: <20240122173645.1686078-1-hch@lst.de>
+Subject: [PATCH 04/15] block: use queue_limits_commit_update in queue_max_sectors_store
+Date: Mon, 22 Jan 2024 18:36:34 +0100
+Message-Id: <20240122173645.1686078-5-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240122173645.1686078-1-hch@lst.de>
+References: <20240122173645.1686078-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -60,68 +62,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Jens,
+Convert queue_max_sectors_store to use queue_limits_commit_update to
+check and updated the max_sectors limit and freeze the queue before
+doing so to ensure we don't have request in flight while changing
+the limits.
 
-currently queue limits updates are a mess in that they are updated one
-limit at a time, which makes both cross-checking them against other
-limits hard, and also makes it hard to provide atomicy.
+Note that this removes the previously held queue_lock that doesn't
+protect against any other read or writer.
 
-This series tries to change this by updating the whole set of queue
-limits atomically.   This in done in two ways:
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ block/blk-sysfs.c | 37 ++++++++++++-------------------------
+ 1 file changed, 12 insertions(+), 25 deletions(-)
 
- - for the initial setup the queue_limits structure is simply passed to
-   the queue/disk allocation helpers and applies there after validation.
- - for the (relatively few) cases that update limits at runtime a pair
-   of helpers to take a snapshot of the current limits and to commit it
-   after picking up the callers changes are provided.
+diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
+index 6b2429cad81af1..26607f9825cb05 100644
+--- a/block/blk-sysfs.c
++++ b/block/blk-sysfs.c
+@@ -226,35 +226,22 @@ static ssize_t queue_zone_append_max_show(struct request_queue *q, char *page)
+ static ssize_t
+ queue_max_sectors_store(struct request_queue *q, const char *page, size_t count)
+ {
+-	unsigned long var;
+-	unsigned int max_sectors_kb,
+-		max_hw_sectors_kb = queue_max_hw_sectors(q) >> 1,
+-			page_kb = 1 << (PAGE_SHIFT - 10);
+-	ssize_t ret = queue_var_store(&var, page, count);
++	unsigned long max_sectors_kb;
++	struct queue_limits lim;
++	ssize_t ret;
++	int err;
+ 
++	ret = queue_var_store(&max_sectors_kb, page, count);
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	max_sectors_kb = (unsigned int)var;
+-	max_hw_sectors_kb = min_not_zero(max_hw_sectors_kb,
+-					 q->limits.max_dev_sectors >> 1);
+-	if (max_sectors_kb == 0) {
+-		q->limits.max_user_sectors = 0;
+-		max_sectors_kb = min(max_hw_sectors_kb,
+-				     BLK_DEF_MAX_SECTORS_CAP >> 1);
+-	} else {
+-		if (max_sectors_kb > max_hw_sectors_kb ||
+-		    max_sectors_kb < page_kb)
+-			return -EINVAL;
+-		q->limits.max_user_sectors = max_sectors_kb << 1;
+-	}
+-
+-	spin_lock_irq(&q->queue_lock);
+-	q->limits.max_sectors = max_sectors_kb << 1;
+-	if (q->disk)
+-		q->disk->bdi->io_pages = max_sectors_kb >> (PAGE_SHIFT - 10);
+-	spin_unlock_irq(&q->queue_lock);
+-
++	blk_mq_freeze_queue(q);
++	lim = queue_limits_start_update(q);
++	lim.max_user_sectors = max_sectors_kb << 1;
++	err = queue_limits_commit_update(q, &lim);
++	blk_mq_unfreeze_queue(q);
++	if (err)
++		return err;
+ 	return ret;
+ }
+ 
+-- 
+2.39.2
 
-As the series is big enough it only converts two drivers - virtio_blk as
-a heavily used driver in virtualized setups, and loop as one that actually
-does runtime updates while being fairly simple.  I plan to update most
-drivers for this merge window, although SCSI will probably have to wait
-for the next one given that it will need extensive API changes in the
-LLDD and ULD interfaces.
-
-Diffstat:
- arch/um/drivers/ubd_kern.c          |    2 
- block/blk-core.c                    |   29 ++-
- block/blk-mq.c                      |   26 +--
- block/blk-settings.c                |  172 +++++++++++++++++++-
- block/blk-sysfs.c                   |   59 +++----
- block/blk.h                         |    3 
- block/bsg-lib.c                     |    2 
- block/genhd.c                       |    4 
- drivers/block/amiflop.c             |    2 
- drivers/block/aoe/aoeblk.c          |    2 
- drivers/block/ataflop.c             |    2 
- drivers/block/floppy.c              |    2 
- drivers/block/loop.c                |   75 ++++-----
- drivers/block/mtip32xx/mtip32xx.c   |    2 
- drivers/block/nbd.c                 |    2 
- drivers/block/null_blk/main.c       |    2 
- drivers/block/ps3disk.c             |    2 
- drivers/block/rbd.c                 |    2 
- drivers/block/rnbd/rnbd-clt.c       |    2 
- drivers/block/sunvdc.c              |    2 
- drivers/block/swim.c                |    2 
- drivers/block/swim3.c               |    2 
- drivers/block/ublk_drv.c            |    2 
- drivers/block/virtio_blk.c          |  299 ++++++++++++++++++------------------
- drivers/block/xen-blkfront.c        |    2 
- drivers/block/z2ram.c               |    2 
- drivers/cdrom/gdrom.c               |    2 
- drivers/memstick/core/ms_block.c    |    2 
- drivers/memstick/core/mspro_block.c |    2 
- drivers/mmc/core/queue.c            |    2 
- drivers/mtd/mtd_blkdevs.c           |    2 
- drivers/mtd/ubi/block.c             |    2 
- drivers/nvme/host/apple.c           |    2 
- drivers/nvme/host/core.c            |   18 --
- drivers/s390/block/dasd_genhd.c     |    2 
- drivers/s390/block/scm_blk.c        |    2 
- drivers/scsi/scsi_scan.c            |    2 
- drivers/ufs/core/ufshcd.c           |    2 
- include/linux/blk-mq.h              |   10 -
- include/linux/blkdev.h              |   36 +++-
- 40 files changed, 484 insertions(+), 305 deletions(-)
 
