@@ -4,49 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA8CDC47DDB
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jan 2024 04:41:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CD638C47258
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jan 2024 04:50:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tlPq/FKI9RJDCR/GCILquHLQqTYDHrot2iee04VOiZ0=; b=RnR+Mt22WTpFQW6AlSVrsK4Lg0
-	N2IsLtcudsQtBIYKiP98UxFRIIOvDHwhEzfznwqspE6oNwW6Iz3JRNmVJo1UzrLr4qEJ5dbVdCgU7
-	rwnCd3CigFX96l22w7lSMmb4NjbIeuHHQBQyM31YDwkQ2fPdYkOkaVldbnwD+Qj91/tviE5mdgpMT
-	QoeacJmZqkX9UUrebyf/tS9xwqBQdUMj2Ov4xSXLlb5vMhwC82yOfh6/sm4+0KLjNUlPc+G4CiAOq
-	zuS+LC0av7wdWMF794PX0lPgCxsVnliR6BJ5rlnyoIhPMwty4ly/QDd0VhWFZTMqc2R0CKB2BKzF/
-	pXcuiS5A==;
+	bh=Q6ZWVJpBB45TYneF1AmGk6EVGtPyWQsESfzMuIZ5row=; b=yCZTRadZmUNTzDZMiDipauFgiW
+	m4+BcMGhr+1t5IV/dBDAcHxgqby8ljAgJlgRxQrYiRzN5Y3LnE2kOYd2B0rymbVHKcdj4i86Uii4p
+	Tu1KdkdZbp+a5on/sx/pPyedkuF3p0+nX/LwIkvZWXolajwvujcLDei0GzzQdyvFl2ZBv66VYnyTx
+	LxxZaFGXMs1NQvoI+xlDbPWBonfLTSb5NjQuUTm8+b/ANf19tnBck1v7ecmyvotSCnZX0OGVFsjZ6
+	qtbX7tPAz23W97PiFpvDL1JdzifrJqZK+aOJjIx/v0deOVEGJaSnAJfXCtUugBYNVzAtwJkYND2V9
+	WKb0ukVA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rS8b5-00F4p7-01;
-	Tue, 23 Jan 2024 04:41:15 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1rS8kF-00F5RT-39;
+	Tue, 23 Jan 2024 04:50:43 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rS8b1-00F4o3-22
+	id 1rS8kA-00F5Qt-1F
 	for linux-nvme@lists.infradead.org;
-	Tue, 23 Jan 2024 04:41:13 +0000
+	Tue, 23 Jan 2024 04:50:40 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 8253DCE2DD4;
-	Tue, 23 Jan 2024 04:41:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E062AC433F1;
-	Tue, 23 Jan 2024 04:41:06 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 06AA8CE2B0F;
+	Tue, 23 Jan 2024 04:50:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A50FC433F1;
+	Tue, 23 Jan 2024 04:50:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705984868;
-	bh=ydiaEKqGk/zYwexK6yzv2Z6sXqMYYQwc2PODQ/3cRT0=;
+	s=k20201202; t=1705985435;
+	bh=Rl6LeplYwooldBMtzv7oz1ncnzpGGxmkwrEw7i1Ll48=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=eLqrVb+9U+loA7Exrh1sMeqofdgr3FTefrzp9Ur7YpMWuAY7BVaSth6Awf5CgvIGe
-	 tFu/z70wDR03btfPn6ZM4ATGRaEcUW8PIVMzPw3HLpj5/rfMX4gQZ7HIlbVYtCGYUU
-	 Z75d9VNpDR2WjSYuqulqz78htBcsHA1m34DRJawlAULEYGxNRhzRJRpjkHmRdizAi1
-	 cZY86Z//2ifd/dM26MA/vOyInP68HoJUDL0dxvpmJVQifKtWgD2xKyn65rR0MWRaNR
-	 34QL1I/DUy+xxmCFlAutaX7YQKVE0HUMGuONPobg/ejXxKmQPtftXY50lrDqIRmysg
-	 MF67DWUz9yxdg==
-Message-ID: <96007133-162c-4fff-9343-dd88ca520aa7@kernel.org>
-Date: Tue, 23 Jan 2024 13:41:05 +0900
+	b=jv2oLhqTB78sqaWu4sCVtFP/uBV+rNqQxEI60qfYDXVlN2PNKEcbTwRnp4R4fj3WN
+	 ULN8UTpCQrxNY0ymHbqcMMHj2qIiABcFlPBZKq+mJM5m+7R3L3N+ctm1y/7z3+qrRI
+	 5b8yr093ZDPT12GrLlVP/XSpiu+h8Va5UFcuBBM8I6ccJnsqolOvu6JKKnMN7It/Xe
+	 PdJ1Q5hha4QZ8lZtGgEJmKvvmdtrVBgjtdvw/l5pJ56/WW7ritCoLktzhEQHejOirR
+	 +GZVRf/QaGOBBKxUCr6GlpRzu5cgpMcZY9pLL72INj2cA29AMZYE1KkCudYrv9wF2l
+	 W/Er/VEXx1utg==
+Message-ID: <01765807-d010-422b-97a6-3171265f36be@kernel.org>
+Date: Tue, 23 Jan 2024 13:50:32 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/15] block: refactor disk_update_readahead
+Subject: Re: [PATCH 03/15] block: add an API to atomically update queue limits
 Content-Language: en-US
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
@@ -57,15 +57,15 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
  linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
  virtualization@lists.linux.dev
 References: <20240122173645.1686078-1-hch@lst.de>
- <20240122173645.1686078-3-hch@lst.de>
+ <20240122173645.1686078-4-hch@lst.de>
 From: Damien Le Moal <dlemoal@kernel.org>
 Organization: Western Digital Research
-In-Reply-To: <20240122173645.1686078-3-hch@lst.de>
+In-Reply-To: <20240122173645.1686078-4-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240122_204111_862001_A94A9EF9 
-X-CRM114-Status: GOOD (  19.69  )
+X-CRM114-CacheID: sfid-20240122_205038_781643_1F55BA27 
+X-CRM114-Status: GOOD (  34.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,61 +81,255 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 1/23/24 02:36, Christoph Hellwig wrote:
-> Factor out a blk_apply_bdi_limits limits helper that can be used with
-> an explicit queue_limits argument, which will be useful later.
+> Add a new queue_limits_{start,commit}_update pair of functions that
+> allows taking an atomic snapshot of queue limits, update it, and
+> commit it if it passes validity checking.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->  block/blk-settings.c | 21 ++++++++++++---------
->  1 file changed, 12 insertions(+), 9 deletions(-)
+>  block/blk-core.c       |   1 +
+>  block/blk-settings.c   | 140 +++++++++++++++++++++++++++++++++++++++++
+>  block/blk.h            |   1 +
+>  include/linux/blkdev.h |  23 +++++++
+>  4 files changed, 165 insertions(+)
 > 
+> diff --git a/block/blk-core.c b/block/blk-core.c
+> index 11342af420d0c4..09f4a44a4aa3cc 100644
+> --- a/block/blk-core.c
+> +++ b/block/blk-core.c
+> @@ -424,6 +424,7 @@ struct request_queue *blk_alloc_queue(int node_id)
+>  	mutex_init(&q->debugfs_mutex);
+>  	mutex_init(&q->sysfs_lock);
+>  	mutex_init(&q->sysfs_dir_lock);
+> +	mutex_init(&q->limits_lock);
+>  	mutex_init(&q->rq_qos_mutex);
+>  	spin_lock_init(&q->queue_lock);
+>  
 > diff --git a/block/blk-settings.c b/block/blk-settings.c
-> index 06ea91e51b8b2e..e872b0e168525e 100644
+> index e872b0e168525e..b6692143ccf034 100644
 > --- a/block/blk-settings.c
 > +++ b/block/blk-settings.c
-> @@ -85,6 +85,17 @@ void blk_set_stacking_limits(struct queue_limits *lim)
+> @@ -96,6 +96,146 @@ static void blk_apply_bdi_limits(struct backing_dev_info *bdi,
+>  	bdi->io_pages = lim->max_sectors >> (PAGE_SHIFT - 9);
 >  }
->  EXPORT_SYMBOL(blk_set_stacking_limits);
 >  
-> +static void blk_apply_bdi_limits(struct backing_dev_info *bdi,
-> +		struct queue_limits *lim)
+> +static int blk_validate_zoned_limits(struct queue_limits *lim)
 > +{
-> +	/*
-> +	 * For read-ahead of large files to be effective, we need to read ahead
-> +	 * at least twice the optimal I/O size.
-> +	 */
-> +	bdi->ra_pages = max(lim->io_opt * 2 / PAGE_SIZE, VM_READAHEAD_PAGES);
+> +	if (!lim->zoned) {
+> +		if (WARN_ON_ONCE(lim->max_open_zones) ||
+> +		    WARN_ON_ONCE(lim->max_active_zones) ||
+> +		    WARN_ON_ONCE(lim->zone_write_granularity) ||
+> +		    WARN_ON_ONCE(lim->max_zone_append_sectors))
+> +			return -EINVAL;
+> +		return 0;
+> +	}
+> +
+> +	if (WARN_ON_ONCE(!IS_ENABLED(CONFIG_BLK_DEV_ZONED)))
+> +		return -EINVAL;
+> +
+> +	if (lim->zone_write_granularity < lim->logical_block_size)
+> +		lim->zone_write_granularity = lim->logical_block_size;
 
-Nit: while at it, you could replace that division by PAGE_SIZE with a right
-shift by PAGE_SHIFT.
+This check and change needs to be against the physical block size. Otherwise,
+SMR drives will choke on it.
 
-Other than that, looks good to me.
+> +
+> +	if (lim->max_zone_append_sectors) {
+> +		if (WARN_ON_ONCE(!lim->chunk_sectors))
+> +			return -EINVAL;
 
-Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
+chunk_sectors is the zone size. So we should probably check that it is set after
+the IS_ENABLED() check earlier in the function, no ?
 
-> +	bdi->io_pages = lim->max_sectors >> (PAGE_SHIFT - 9);
+> +		lim->max_zone_append_sectors =
+> +			min3(lim->max_hw_sectors,
+> +			     lim->max_zone_append_sectors,
+> +			     lim->chunk_sectors);
+> +	}
+> +
+> +	return 0;
 > +}
+> +
+> +int blk_validate_limits(struct queue_limits *lim)
+> +{
+> +	unsigned int max_hw_sectors;
+> +
+> +	if (!lim->logical_block_size)
+> +		lim->logical_block_size = SECTOR_SIZE;
+> +
+> +	if (!lim->physical_block_size)
+> +		lim->physical_block_size = SECTOR_SIZE;
+> +	if (lim->physical_block_size < lim->logical_block_size)
+> +		lim->physical_block_size = lim->physical_block_size;
+> +
+> +	if (!lim->io_min)
+> +		lim->io_min = SECTOR_SIZE;
+
+This should be lim->logical_block_size, no ?
+
+> +	if (lim->io_min < lim->physical_block_size)
+> +		lim->io_min = lim->physical_block_size;
+
+But then given that log <= phys, you could set io_min to physical_block_size if
+it is not set.
+
+> +
+> +	if (!lim->max_hw_sectors)
+> +		lim->max_hw_sectors = BLK_SAFE_MAX_SECTORS;
+> +	if (WARN_ON_ONCE(lim->max_hw_sectors < PAGE_SIZE / SECTOR_SIZE))
+
+You can use PAGE_SECTORS here.
+
+> +		return -EINVAL;
+> +
+> +	lim->max_hw_sectors = round_down(lim->max_hw_sectors,
+> +			lim->logical_block_size >> SECTOR_SHIFT);
+> +
+> +	max_hw_sectors = min_not_zero(lim->max_hw_sectors,
+> +				lim->max_dev_sectors);
+> +	if (lim->max_user_sectors) {
+> +		if (lim->max_user_sectors > max_hw_sectors ||
+> +		    lim->max_user_sectors < PAGE_SIZE / SECTOR_SIZE)
+
+same here.
+
+> +			return -EINVAL;
+> +		lim->max_sectors = min(max_hw_sectors, lim->max_user_sectors);
+> +	} else {
+> +		lim->max_sectors = min(max_hw_sectors, BLK_DEF_MAX_SECTORS_CAP);
+> +	}
+> +
+> +	lim->max_sectors = round_down(lim->max_sectors,
+> +			lim->logical_block_size >> SECTOR_SHIFT);
+> +
+> +	if (!lim->max_segments)
+> +		lim->max_segments = BLK_MAX_SEGMENTS;
+> +
+> +	lim->max_discard_sectors = lim->max_hw_discard_sectors;
+> +	if (!lim->max_discard_segments)
+> +		lim->max_discard_segments = 1;
+> +
+> +	if (lim->discard_granularity < lim->physical_block_size)
+> +		lim->discard_granularity = lim->physical_block_size;
+> +
+> +	if (!lim->seg_boundary_mask)
+> +		lim->seg_boundary_mask = BLK_SEG_BOUNDARY_MASK;
+> +	if (WARN_ON_ONCE(lim->seg_boundary_mask < PAGE_SIZE - 1))
+> +		return -EINVAL;
+> +
+> +	if (!lim->max_segment_size)
+> +		lim->max_segment_size = BLK_MAX_SEGMENT_SIZE;
+> +	if (WARN_ON_ONCE(lim->max_segment_size < PAGE_SIZE))
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * Devices that require a virtual boundary do not support scatter/gather
+> +	 * I/O natively, but instead require a descriptor list entry for each
+> +	 * page (which might not be idential to the Linux PAGE_SIZE).  Because
+> +	 * of that they are not limited by our notion of "segment size".
+> +	 */
+> +	if (lim->virt_boundary_mask) {
+> +		if (WARN_ON_ONCE(lim->max_segment_size &&
+> +				 lim->max_segment_size != UINT_MAX))
+> +			return -EINVAL;
+> +		lim->max_segment_size = UINT_MAX;
+> +	}
+> +
+> +	if (!lim->dma_alignment)
+> +		lim->dma_alignment = SECTOR_SIZE - 1;
+> +	if (WARN_ON_ONCE(lim->dma_alignment > PAGE_SIZE))
+> +		return -EINVAL;
+> +
+> +	if (lim->alignment_offset) {
+> +		lim->alignment_offset &= (lim->physical_block_size - 1);
+> +		lim->misaligned = 0;
+> +	}
+> +
+> +	return blk_validate_zoned_limits(lim);
+> +}
+> +
+> +/**
+> + * queue_limits_commit_update - commit an atomic update of queue limits
+> + * @q:		queue to update
+> + * @lim:	limits to apply
+> + *
+> + * Apply the limits in @lim that were obtained from queue_limits_start_update()
+> + * and updated by the caller to @q.
+> + *
+> + * Returns 0 if successful, else a negative error code.
+> + */
+> +int queue_limits_commit_update(struct request_queue *q,
+> +		struct queue_limits *lim)
+> +	__releases(q->limits_lock)
+> +{
+> +	int error = blk_validate_limits(lim);
+> +
+> +	if (!error) {
+> +		q->limits = *lim;
+> +		if (q->disk)
+> +			blk_apply_bdi_limits(q->disk->bdi, lim);
+> +	}
+> +	mutex_unlock(&q->limits_lock);
+> +	return error;
+> +}
+> +EXPORT_SYMBOL_GPL(queue_limits_commit_update);
 > +
 >  /**
 >   * blk_queue_bounce_limit - set bounce buffer limit for queue
 >   * @q: the request queue for the device
-> @@ -393,15 +404,7 @@ EXPORT_SYMBOL(blk_queue_alignment_offset);
->  
->  void disk_update_readahead(struct gendisk *disk)
->  {
-> -	struct request_queue *q = disk->queue;
-> -
-> -	/*
-> -	 * For read-ahead of large files to be effective, we need to read ahead
-> -	 * at least twice the optimal I/O size.
-> -	 */
-> -	disk->bdi->ra_pages =
-> -		max(queue_io_opt(q) * 2 / PAGE_SIZE, VM_READAHEAD_PAGES);
-> -	disk->bdi->io_pages = queue_max_sectors(q) >> (PAGE_SHIFT - 9);
-> +	blk_apply_bdi_limits(disk->bdi, &disk->queue->limits);
+> diff --git a/block/blk.h b/block/blk.h
+> index 1ef920f72e0f87..58b5dbac2a487d 100644
+> --- a/block/blk.h
+> +++ b/block/blk.h
+> @@ -447,6 +447,7 @@ static inline void bio_release_page(struct bio *bio, struct page *page)
+>  		unpin_user_page(page);
 >  }
->  EXPORT_SYMBOL_GPL(disk_update_readahead);
 >  
+> +int blk_validate_limits(struct queue_limits *lim);
+>  struct request_queue *blk_alloc_queue(int node_id);
+>  
+>  int disk_scan_partitions(struct gendisk *disk, blk_mode_t mode);
+> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> index 4a2e82c7971c86..5b5d3b238de1e7 100644
+> --- a/include/linux/blkdev.h
+> +++ b/include/linux/blkdev.h
+> @@ -473,6 +473,7 @@ struct request_queue {
+>  
+>  	struct mutex		sysfs_lock;
+>  	struct mutex		sysfs_dir_lock;
+> +	struct mutex		limits_lock;
+>  
+>  	/*
+>  	 * for reusing dead hctx instance in case of updating
+> @@ -861,6 +862,28 @@ static inline unsigned int blk_chunk_sectors_left(sector_t offset,
+>  	return chunk_sectors - (offset & (chunk_sectors - 1));
+>  }
+>  
+> +/**
+> + * queue_limits_start_update - start an atomic update of queue limits
+> + * @q:		queue to update
+> + *
+> + * This functions starts an atomic update of the queue limits.  It takes a lock
+> + * to prevent other updates and returns a snapshot of the current limits that
+> + * the caller can modify.  The caller must call queue_limits_commit_update()
+> + * to finish the update.
+> + *
+> + * Context: process context.  The caller must have frozen the queue or ensured
+> + * that there is outstanding I/O by other means.
+> + */
+> +static inline struct queue_limits
+> +queue_limits_start_update(struct request_queue *q)
+> +	__acquires(q->limits_lock)
+> +{
+> +	mutex_lock(&q->limits_lock);
+> +	return q->limits;
+> +}
+> +int queue_limits_commit_update(struct request_queue *q,
+> +		struct queue_limits *lim);
+> +
+>  /*
+>   * Access functions for manipulating queue properties
+>   */
 
 -- 
 Damien Le Moal
