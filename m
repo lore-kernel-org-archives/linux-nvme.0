@@ -4,77 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05D5AC47DDB
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jan 2024 14:16:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1E752C47258
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jan 2024 14:19:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=75cy3zssEp2rPaNsGHCEEFCL2n3UbPgvrY96j6PBPS4=; b=v5fqpQgpWfeojO3327iTRisAuQ
-	2ecDNr4ViynglmtAx5y0Oixgi1KPTYNishvIt67pCUw1yTP6iukTEgF7MVTUP8dlvnjA4GMrRFDij
-	oNmZiI0xUXLnsCQWoaSCBN/H7ZbWjdo0wsOtf2alN9pq6OiCauhE70Ha9EgntlJ6Cy6QTOhpwpAf5
-	m8uUfHWZUTK7kZPZy6YNaiKcw4EVEKDZtHE3d186ZBso4Z2lglak9HzDH+ozl/HunnUX8TKy8WbCy
-	QwdMgAbbYhMbh3FguVGUt2boq56ifxGoF77kohqG6LQNNGHKziZ1/D3KKg0gbYHcHAPC4Y0/kPSQ7
-	ypVrC0kg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=W8jA2ZP0iescDBjutpIr/YU5E/vpCak/CWWmNC7R9Yg=; b=sUB1tSKk9EeSaUkTBpAJv7w+Fq
+	l4SiCnZQm1v5mlxoCti3bNNVZYk9VZdu2AuEfv8qA/ZzG5yOXk4kx9BBHYl3mJPyPuun7OfzCUL9g
+	O8c2OdhklyKb6fu/uyBAQzWlbGjGYwTeUCyPlM8yZSUOUDkyBa0hdKzHv++fmpyI1zOUosJFbKdeU
+	aFsXiw8oWef0Liwm1aaVZ4Z92gjPX0ZjHtQSLS8clcm4c5M6ryLi1pSCNE9N/ZVYzDCbHNngugLaD
+	vitQesiJQ9BpM5LGbsMr0Y53TskXgqmn5qwFtFhHOTS4XsxPiy2VKLsjNn+62Xsi1zEN5FKYZZiPu
+	nJdZR+CA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rSHZl-00Gl7Z-21;
-	Tue, 23 Jan 2024 14:16:29 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1rSHcd-00GltZ-0X;
+	Tue, 23 Jan 2024 14:19:27 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rSHZi-00Gl4z-1b
+	id 1rSHca-00GlsV-1q
 	for linux-nvme@lists.infradead.org;
-	Tue, 23 Jan 2024 14:16:27 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1706019384;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=75cy3zssEp2rPaNsGHCEEFCL2n3UbPgvrY96j6PBPS4=;
-	b=MV2ACZvK+8LN664M5xtaI2VWREIZG9uiLtAmJrawYkc4VxFV9GXetItLAnutYr26R5YHcy
-	LF7K4CcKEnGVg1p2/ewwCr6qteSi/eGrIOBUquncP+BE72iWgQRvkdLfMIcWxhGUeMMkkF
-	6Qwc+2s9494h0erqFTgY62G/IalzDzY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-206-IzDKtTLvPmqw7T0dUBtMOw-1; Tue, 23 Jan 2024 09:16:20 -0500
-X-MC-Unique: IzDKtTLvPmqw7T0dUBtMOw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1ED2A10B726A;
-	Tue, 23 Jan 2024 14:16:19 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.153])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 576D51C060B1;
-	Tue, 23 Jan 2024 14:16:18 +0000 (UTC)
-Date: Tue, 23 Jan 2024 09:16:16 -0500
-From: Stefan Hajnoczi <stefanha@redhat.com>
+	Tue, 23 Jan 2024 14:19:25 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 3E6E861DB0;
+	Tue, 23 Jan 2024 14:19:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1E50C433C7;
+	Tue, 23 Jan 2024 14:19:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706019562;
+	bh=XaOpB2G8wT19u3VTWxapE/u9+tzv92l7LnqEkxvZBQc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Rv8GbIHz4WL5oGzV11B9Be9kE/+wJqjz98bUkEiW4moTpylyZTC+dhb8m6H3GaC9R
+	 9erbWFKitEqrhKrgAPNpH0Xr8D102LBcx97EikjyZ6Pmaa5pG7ttHGSwnUWTgatyJT
+	 zp9GTED+dx6NCL11aqxMuSR7OEm7eMmGyr+M7ZZfciOnE16IPteNlmb+9NyqC3+Ilv
+	 snghgf6pTV6161+HxG5kM3hMaDpeADQmY4YnHDou9b1d83UeFZSTM9bo5QrtnwQ4hK
+	 XGrmYUo3td1a18V+N+Kx4LQgA/TYWEFWvK2vYRxJXzUnCYggGZ1E6aabRArhE8EmFa
+	 VPfeSHgGcTkAg==
+From: hare@kernel.org
 To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, "Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
-	virtualization@lists.linux.dev
-Subject: Re: [PATCH 11/15] virtio_blk: split virtblk_probe
-Message-ID: <20240123141616.GB484337@fedora>
-References: <20240122173645.1686078-1-hch@lst.de>
- <20240122173645.1686078-12-hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@suse.de>
+Subject: [RFC PATCH 00/11] nvme: implement secure concatenation
+Date: Tue, 23 Jan 2024 15:18:58 +0100
+Message-Id: <20240123141909.79061-1-hare@kernel.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="oB8a124sWRz1YLzS"
-Content-Disposition: inline
-In-Reply-To: <20240122173645.1686078-12-hch@lst.de>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.7
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240123_061626_619789_779FDE44 
-X-CRM114-Status: GOOD (  14.58  )
+X-CRM114-CacheID: sfid-20240123_061924_657040_B2FC2103 
+X-CRM114-Status: GOOD (  14.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,38 +71,67 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+From: Hannes Reinecke <hare@suse.de>
 
---oB8a124sWRz1YLzS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi all,
 
-On Mon, Jan 22, 2024 at 06:36:41PM +0100, Christoph Hellwig wrote:
-> Split out a virtblk_read_limits helper that just reads the various
-> queue limits to separate it from the higher level probing logic.
->=20
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  drivers/block/virtio_blk.c | 193 +++++++++++++++++++------------------
->  1 file changed, 101 insertions(+), 92 deletions(-)
+here's my attempt to implement secure concatenation for NVMe-of TCP
+as outlined in TP8018.
+Secure concatenation means that a TLS PSK is generated from the key
+material negotiated by the DH-HMAC-CHAP protocol, and the TLS PSK
+is then used for a subsequent TLS connection.
+The difference between the original definition of secure concatenation
+and the method outlined in TP8018 is that with TP8018 the connection
+is reset after DH-HMAC-CHAP negotiation, and a new connection is setup
+with the generated TLS PSK.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+To implement that I have decided on resetting the connection from the
+nvme-tcp driver after the initial connection has been set up.
+Another way would have been to offload the connection reset to userspace,
+and let nvme-cli reset the connection. But that would be a modification
+to the userspace interface, and hence I didn't go that way.
 
---oB8a124sWRz1YLzS
-Content-Type: application/pgp-signature; name="signature.asc"
+As usual, comments and reviews are welcome.
 
------BEGIN PGP SIGNATURE-----
+Hannes Reinecke (11):
+  crypto,fs: Separate out hkdf_extract() and hkdf_expand()
+  nvme: add nvme_auth_generate_psk()
+  nvme: add nvme_auth_generate_digest()
+  nvme: add nvme_auth_derive_tls_psk()
+  nvme-keyring: add nvme_tls_psk_refresh()
+  nvme-keyring: restrict match length for version '1' identifiers
+  nvme-tcp: check for invalidated or revoked key
+  nvme-fabrics: authentication errors are not retryable
+  nvme: add nvme_noretry_error()
+  nvme-tcp: request secure channel concatenation
+  nvmet-tcp: support secure channel concatenation
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmWvyjAACgkQnKSrs4Gr
-c8ja0AgAq5E2zDmIm2JQLzkb1yOzqxsO4TvGEPTyDTa7GkumGdesCYk8VI2uzCz/
-ek4tut3Sb1TPcr2R6zZBKLSpUMRxmURQC/Y66xLy/LTxy6HmGrcamEEQd5iMDbj0
-nEv2cdvekh5L96K9+DRSceuZS0Kw7dXcL4tE2hKE6hov+OAXS3Kxqambvftg6IoF
-Ksifm7JxGBuKx1s9CsTDUE3QF5oXL5jT969r1k/2l/jf3yS0QSH7sIbK1h4+MHSV
-id47U0I3yANjqYGRpKXW23blqx64x1WIJB1vVs4jrtJdvJnPzb6Iy8XprQZJ5rWK
-JHPKPsGnz/m7RTZaq2zfX+NygtBATg==
-=4cBN
------END PGP SIGNATURE-----
+ crypto/Makefile                        |   1 +
+ crypto/hkdf.c                          | 111 +++++++++++
+ drivers/nvme/common/auth.c             | 252 +++++++++++++++++++++++++
+ drivers/nvme/common/keyring.c          |  71 +++++++
+ drivers/nvme/host/auth.c               | 108 ++++++++++-
+ drivers/nvme/host/core.c               |   2 +-
+ drivers/nvme/host/fabrics.c            |  46 ++++-
+ drivers/nvme/host/fabrics.h            |   3 +
+ drivers/nvme/host/fc.c                 |   4 +-
+ drivers/nvme/host/nvme.h               |  10 +
+ drivers/nvme/host/tcp.c                |  46 +++--
+ drivers/nvme/target/auth.c             |  62 +++++-
+ drivers/nvme/target/fabrics-cmd-auth.c |  43 ++++-
+ drivers/nvme/target/fabrics-cmd.c      |  27 ++-
+ drivers/nvme/target/nvmet.h            |  16 +-
+ drivers/nvme/target/tcp.c              |  26 +++
+ fs/crypto/hkdf.c                       |  68 +------
+ include/crypto/hkdf.h                  |  18 ++
+ include/linux/nvme-auth.h              |   5 +
+ include/linux/nvme-keyring.h           |   7 +
+ include/linux/nvme.h                   |   7 +
+ 21 files changed, 824 insertions(+), 109 deletions(-)
+ create mode 100644 crypto/hkdf.c
+ create mode 100644 include/crypto/hkdf.h
 
---oB8a124sWRz1YLzS--
+-- 
+2.35.3
 
 
