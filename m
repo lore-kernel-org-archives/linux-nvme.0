@@ -4,69 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F73AC47258
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jan 2024 05:31:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4C538C47DDB
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jan 2024 08:40:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=x2PweGbIk1FEVnE78fJBhGsmonmsos+bMOjtLqkucoo=; b=RhAOuGdLLxaInELm+8IlUk7tSz
-	FAQl2cRiSXHztDMQhCEqJ/ZJFx9ohqc01F3tC2eQxcqvatp+WBG12BVna4iLNBXAMf4w7BfCiir2D
-	vl81IZENUoXHbS1evVvx68AommRGzjbpBgdcFewBWKouGDL3dQSJOPh5VIZUXSRGiAfY04J4JJ2og
-	/AxUtZqTKmzvpm4yL+c516iHDfSyeySiP5iuVhD2a/HoqD96KzA18TWPSHkGyzioMPGKezLIPFCdt
-	glIoDzc2AMrAEq6djFsrt0l/VpjnoiK0+NnVjpvfEHuz5Prh9cASJigqzPujlHOy/PY7pH9c5QoDx
-	CUFCgixg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=CXkIY3wk7h71lKOG+iKPfCtgskVq40Hz3IMYfFS6bQE=; b=y88llkvrrkYzZZDZz5uzuIop2+
+	5rPObfWFSXCLmPBZBgpFz+QxQm7u5D3yrrVG8ReQekuiiCgg7ZA89jZ7ah6kK7QM4LzOzzc3sHKyl
+	CbycsW2lUrD311JPuRG+yzACmv4zCZXYfOWdgoK0/GrHtSSjJ8rhyzUjKNHmiWOHeA+p+iAwyxXnZ
+	9hJP2Mc3CtcJWEutYhIRDGQC1pu/RDqaaWFvbb7NsudtbsrzLruUagvU4peBKHTx7xrbEZOr88as/
+	GMEZ0ZCYdwJ21AAciz2QT8lkdptiWvHde4x2n+Nt89Ez3mVC4iRh/Jv/ef08sj28K8r4a7DFgeCix
+	LXhuLUjg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rS9O0-00F9ic-1B;
-	Tue, 23 Jan 2024 05:31:48 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1rSCKj-00Fbe3-2k;
+	Tue, 23 Jan 2024 08:40:37 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rS9Nx-00F9i2-1H
+	id 1rSCKh-00FbdC-0n
 	for linux-nvme@lists.infradead.org;
-	Tue, 23 Jan 2024 05:31:47 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 29AA5CE2865;
-	Tue, 23 Jan 2024 05:31:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66620C433F1;
-	Tue, 23 Jan 2024 05:31:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705987902;
-	bh=wjCgQi0roIhtkMBplPGFNKHRjVkQdZDEwQLchHAoQ00=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=WsZnIFwFc2lm76nogoU9tTQWNwQqxr5K5fYrvmaPN4zqSYAPNTKMeB+OZMTWI2KBg
-	 Aksbw52ZN3KYfociTiqWM0uTApVmo+JiV7vkVKeeqaruny6RDmDSFrPUXJNrgCE6Fy
-	 JvL7p3CjvuZy5NUTxHzrCZ5ZDMtojJr5JJd+TAgxMCoUU6K3zuG+umT3+cMrUljQT9
-	 GUj23txdfuirYvkWM9s6qZ1slKUCsfTcMUvK8d+7PlX4ETI6uMSMSPLxqBcHzkipjr
-	 TdA2VnWoVL8Y5rK+Iy+qmKA8V/uE4PpoXG9pRp9lveXEAI9q6k6iYyKVMw1NtxdlN6
-	 pBLJwgQBiyH2Q==
-Message-ID: <ccedfd42-7bcd-409b-af37-e16cd5e4fabb@kernel.org>
-Date: Tue, 23 Jan 2024 14:31:39 +0900
+	Tue, 23 Jan 2024 08:40:36 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 716F968BEB; Tue, 23 Jan 2024 09:40:29 +0100 (CET)
+Date: Tue, 23 Jan 2024 09:40:29 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Damien Le Moal <dlemoal@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	virtualization@lists.linux.dev
+Subject: Re: [PATCH 02/15] block: refactor disk_update_readahead
+Message-ID: <20240123084029.GA29041@lst.de>
+References: <20240122173645.1686078-1-hch@lst.de> <20240122173645.1686078-3-hch@lst.de> <96007133-162c-4fff-9343-dd88ca520aa7@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 15/15] loop: use the atomic queue limits update API
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- virtualization@lists.linux.dev
-References: <20240122173645.1686078-1-hch@lst.de>
- <20240122173645.1686078-16-hch@lst.de>
-From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <20240122173645.1686078-16-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <96007133-162c-4fff-9343-dd88ca520aa7@kernel.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240122_213145_608425_AB55E884 
-X-CRM114-Status: UNSURE (   8.23  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240123_004035_427933_87BB742D 
+X-CRM114-Status: GOOD (  14.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,19 +67,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/23/24 02:36, Christoph Hellwig wrote:
-> Pass the default limits to blk_mq_alloc_disk and then use the
-> queue_limits_{start,commit}_update API to change the limits in an
-> atomic way on existing loop gendisks.
+On Tue, Jan 23, 2024 at 01:41:05PM +0900, Damien Le Moal wrote:
+> > +{
+> > +	/*
+> > +	 * For read-ahead of large files to be effective, we need to read ahead
+> > +	 * at least twice the optimal I/O size.
+> > +	 */
+> > +	bdi->ra_pages = max(lim->io_opt * 2 / PAGE_SIZE, VM_READAHEAD_PAGES);
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Nit: while at it, you could replace that division by PAGE_SIZE with a right
+> shift by PAGE_SHIFT.
 
-Looks OK to me.
-
-Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
-
--- 
-Damien Le Moal
-Western Digital Research
+I don't really see the point, this is everything but a fast path,
+and for simple constant divisions compilers aren't actually bad at
+doing optimizations.
 
 
