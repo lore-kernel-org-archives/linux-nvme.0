@@ -4,111 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7495C47DDB
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jan 2024 14:41:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 91AE2C47DDF
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jan 2024 15:07:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:CC:To:From:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iv/eF0/K3SrdRquzWNuGO5x1oCRll5wpTfbXnb06hI8=; b=sPdUJEQtbUEm8LYxMRjYKo8nOo
-	KbYWf9viZd2mX97XHsNWyD2NksDvFY4MjT86KJHCGEsNAc48tJc0SvxMQqzcIQC06eceXI+Xzj28t
-	69nNLU3aCPtflfIbxAb7SOZCukB9/PcQMVTMXa1dn968Jr5795H+kfDiSsDdgF5E8d4qeznmNyEVx
-	kHAUDXGHiKX71eDpcDEvhM/NTg8T460jakGnQXlwA/GPz0BKfqiU2W3XGtEnbbX5UH4woge12tf5t
-	48URQRqQtzps88Vnq0oWNdoJvsVTHM542XFgeqiJ9lLMqHzpSkpuy++EWpBCfJAJCSL5gKD9k+Fzc
-	eZg3Arkg==;
+	bh=e7dfcOvlJPEsnWcPOV2iC3ZhD1Xh52nYXFAobPmE4qg=; b=ekq4j/+FwXumpktQjVi41Z8kHr
+	NXSG/gciR5JpDk5AG1B3apQsOxLdZvOFdUY7GTPDYb7GMcmDdeluqKOC91LL1ZTUYZ5Simaapr2/n
+	j1qEHD5t6FAQvVtYmhcIqkPSc7dAThu6rNmfDbDUJN2zntZCPOgBDRW9MkU8uqKrPlCSXi8x6aL1F
+	BPGeC5/TkQLogpVRRhgWJLb8mjLZMdTy/d+L5lHwqJJI0pDO//zHJMrdWyj+U+7jp/vU9qfr7cZQh
+	0V+hSOrq30aNzG7e8Nheu5K3U06D7k60mpwxp/my+yVG7EA3/h2F8glFM8rmgbzWXeSKiVvMASMaO
+	QC5np60w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rSHxp-00Gr3x-2o;
-	Tue, 23 Jan 2024 14:41:21 +0000
-Received: from mail-mw2nam12on20601.outbound.protection.outlook.com ([2a01:111:f403:200a::601] helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+	id 1rSINW-00Gya9-1j;
+	Tue, 23 Jan 2024 15:07:54 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rSHxn-00GqzO-17
+	id 1rSINT-00GyYP-1t
 	for linux-nvme@lists.infradead.org;
-	Tue, 23 Jan 2024 14:41:20 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PQ7D8kmm6ZdX5eOS9Fml4Zdz5uf5PBn6xwzqCrFUfz/KtUYDBXtDnHx0oPOeysE45lAbtFTR+TA8jUOQFqwBi3gAzcTcRgdy1Fu/ObtsCo+50hgTTeID9p0/5o0A8+doE15M2UvBn67W+Du/F8OELO4paOpKNkBcXgUhIl6XPPV7z3dKVYDIfAeB779GPkPX5nQz63V7Zx8fjLZtqW1tEcuUkd11Vn8n3Mr7jOKkCYhgC6Kka++7U7dqoMUtBvN+P6qi2KU1hptdEVqiOlrO6Q5mGGJHQ7hHdIktGqiTeW3kWVMwTExeFJzJkm5scPRqpOySKPJO/Zf3E1z4YhvigQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iv/eF0/K3SrdRquzWNuGO5x1oCRll5wpTfbXnb06hI8=;
- b=Ark0qMi0ReTCcOhsNG/upRcDGSeHn1tQi48ihRdgkU1Ylqh+vshdgkni75R12qbxHjKxItmPQ9ohdy7TKuqhMVNCa33BN82F8mudNxb7zVVtHkNtbtmHNbxYEtwq92UKyQTrcP+uvcZc9C+kABpIi/7kn7z4pVpRAyi4VvCNoS4I4TzUvhyxlTyb9/MDQ+BnbCpgDmTTgt8quqEbufjxjHFVyH8HqQ53Y3iB+4XWU6SG9ty1PNMVDkaz3Ns1P5tDvvyPyOF/350aClJkDKYCXpWHvJ4VykzvzOwJvjKA8KzPiEHAY6oC32eelxg5fcJuW5Ekn4xf+jcn6VnWitsDuQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.232) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iv/eF0/K3SrdRquzWNuGO5x1oCRll5wpTfbXnb06hI8=;
- b=ktl9zfGMEt5ncDaNX+XsctTZMR4qJ7zfr03JiUHu+HWv6jZGdeB46+1BpTYlt8h4B0KWJGomkuI+uSP7iO0w52Bil0gzLy7AxbmLbqzhgFWeITA7kvNoX6OsC6eV0J45SX/kMLCP7RQ+bSKcqtMHCDfOR0HWTYT+IS2zXWcAoVLBaX3eeyuMXkqhdgms3cFZ82/lGn3vPrlWHNwMIVDtF3HdFLxARNPzg4QnU49O8HiNnJ+JpeVv1WeIWrXANwA+zyyLLMUo3Bg2hG1wDVE6+czN5pioY3fgDqZeyCUM3yYPYwCiwBKZyPgydPT9vNeSjPzUPYgFNPbORGnkZl+H5A==
-Received: from DM6PR03CA0033.namprd03.prod.outlook.com (2603:10b6:5:40::46) by
- DM4PR12MB5104.namprd12.prod.outlook.com (2603:10b6:5:393::24) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7202.37; Tue, 23 Jan 2024 14:41:09 +0000
-Received: from CY4PEPF0000E9D5.namprd05.prod.outlook.com
- (2603:10b6:5:40:cafe::9c) by DM6PR03CA0033.outlook.office365.com
- (2603:10b6:5:40::46) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.32 via Frontend
- Transport; Tue, 23 Jan 2024 14:41:09 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.232) by
- CY4PEPF0000E9D5.mail.protection.outlook.com (10.167.241.76) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7181.14 via Frontend Transport; Tue, 23 Jan 2024 14:41:09 +0000
-Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
- (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Tue, 23 Jan
- 2024 06:40:56 -0800
-Received: from drhqmail201.nvidia.com (10.126.190.180) by
- drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.41; Tue, 23 Jan 2024 06:40:55 -0800
-Received: from r-arch-stor03.mtr.labs.mlnx (10.127.8.14) by mail.nvidia.com
- (10.126.190.180) with Microsoft SMTP Server id 15.2.986.41 via Frontend
- Transport; Tue, 23 Jan 2024 06:40:53 -0800
-From: Max Gurtovoy <mgurtovoy@nvidia.com>
-To: <kbusch@kernel.org>, <hch@lst.de>, <sagi@grimberg.me>,
-	<linux-nvme@lists.infradead.org>, <kch@nvidia.com>
-CC: <oren@nvidia.com>, <israelr@nvidia.com>, Max Gurtovoy
-	<mgurtovoy@nvidia.com>
-Subject: [PATCH 8/8] nvmet-rdma: set max_queue_size for RDMA transport
-Date: Tue, 23 Jan 2024 16:40:32 +0200
-Message-ID: <20240123144032.27801-9-mgurtovoy@nvidia.com>
-X-Mailer: git-send-email 2.18.1
-In-Reply-To: <20240123144032.27801-1-mgurtovoy@nvidia.com>
-References: <20240123144032.27801-1-mgurtovoy@nvidia.com>
+	Tue, 23 Jan 2024 15:07:53 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2AE113758F;
+	Tue, 23 Jan 2024 15:07:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1706022469; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e7dfcOvlJPEsnWcPOV2iC3ZhD1Xh52nYXFAobPmE4qg=;
+	b=mXa43ChToKwzoaQNmjVWDYDS6UqUA49D04Yle2DVJuix/UEZ/rzLP6xnaMxv2mI1PmEjNl
+	EhpL1knc6j4Wv4bF+i/uipoZEmRZREZZ7Ph8Hc61gGGAc9KwSPYQ89/PpPx0VtxcpXURCU
+	2JcjJvLPRuUbjQB4+IdnsOemtbqf+Xg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1706022469;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e7dfcOvlJPEsnWcPOV2iC3ZhD1Xh52nYXFAobPmE4qg=;
+	b=N0C0RFysQo8bwmlL5WMfIb6evolDtejJ9dJVIdDiuQlvl5rOlx59OPmCYrwZLFGHwjULAm
+	kzs91SBxwT/fIaCw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1706022469; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e7dfcOvlJPEsnWcPOV2iC3ZhD1Xh52nYXFAobPmE4qg=;
+	b=mXa43ChToKwzoaQNmjVWDYDS6UqUA49D04Yle2DVJuix/UEZ/rzLP6xnaMxv2mI1PmEjNl
+	EhpL1knc6j4Wv4bF+i/uipoZEmRZREZZ7Ph8Hc61gGGAc9KwSPYQ89/PpPx0VtxcpXURCU
+	2JcjJvLPRuUbjQB4+IdnsOemtbqf+Xg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1706022469;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e7dfcOvlJPEsnWcPOV2iC3ZhD1Xh52nYXFAobPmE4qg=;
+	b=N0C0RFysQo8bwmlL5WMfIb6evolDtejJ9dJVIdDiuQlvl5rOlx59OPmCYrwZLFGHwjULAm
+	kzs91SBxwT/fIaCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 14CB513786;
+	Tue, 23 Jan 2024 15:07:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id a/96A0XWr2WUbwAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Tue, 23 Jan 2024 15:07:49 +0000
+Date: Tue, 23 Jan 2024 16:07:48 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>, 
+	"linux-fsdevel@vger.kernel.org >> linux-fsdevel" <linux-fsdevel@vger.kernel.org>, "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
+	Jens Axboe <axboe@kernel.dk>, Bart Van Assche <bvanassche@acm.org>, 
+	"josef@toxicpanda.com" <josef@toxicpanda.com>, Amir Goldstein <amir73il@gmail.com>, 
+	Javier =?utf-8?B?R29uesOhbGV6?= <javier@javigon.com>, Dan Williams <dan.j.williams@intel.com>, 
+	Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>, 
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>, "shinichiro.kawasaki@wdc.com" <shinichiro.kawasaki@wdc.com>, 
+	Johannes Thumshirn <Johannes.Thumshirn@wdc.com>, "jack@suse.com" <jack@suse.com>, Ming Lei <ming.lei@redhat.com>, 
+	Sagi Grimberg <sagi@grimberg.me>, Theodore Ts'o <tytso@mit.edu>, 
+	"daniel@iogearbox.net" <daniel@iogearbox.net>
+Subject: Re: Re: [LSF/MM/BPF ATTEND][LSF/MM/BPF TOPIC] : blktests: status,
+ expansion plan for the storage stack test framework
+Message-ID: <jfydrbb277d7ad2ypu5dottiqh4rtzm5ipf72wcjo34mmpvnl7@mjlqomulsq3q>
+References: <e5d8cd68-b3f2-4d7b-b323-b13d18199256@nvidia.com>
+ <bh5s6a4fhhlje42bzj2t22k3jpmruzkx234ks4ytuhd62tonzj@zn6h5foaqrof>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9D5:EE_|DM4PR12MB5104:EE_
-X-MS-Office365-Filtering-Correlation-Id: 592e86f5-789b-479f-9ade-08dc1c2156b1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Zvx2YDSyil2b+yHE6ufBTwVJtcD6xSY87feGzYZ5jqf7r/Yv67CC6wy1LIvkNLvxZDFkwDe/kw3ltFMsLJMAtnj5GhJ2a7zb/GBXJXIxQyU9DtHZ9F5EfFsi8KXH+emRPsT3gqVOz0CXPGCVe1tD6RXbThbPi4pGkPe+/G3iOQsbrq/BX/dgJmxJECfITdsz3iGnwTdyEPFj+im31OVL0oXwXpzSZX8v2bMgGvudE8OiGQTJoI6qLlzXoskKMjc46J7YgxiEqaNu60hoTNCNFVkoPdi/yacZ+fcKTo396dsyafkOTlZZ8/eDLYouaZ9cmrzEH3k3vTtwE4VTayr4T83aK9kttz/7UOLXB+hnp/xYt0VQGJ/fcdU0cE81+mxZTwdbj1r/mwHM9utKJ3eDgdluoE2ea6jofsArU8rGNAFxPojfoZr2kNgFgHXelYlaMwr6LifJaV/vvob8j3avxNR0hZs17MsrIjmpmRbj5bJfkYeLJ5Lp+w9z7kSqhZNO9rd2+ilf0G3zjKGzgOnoN2e37WiU07Rfz83N0Jk3XdZRSMc6g7sMsfBcOrw8PukFQ5NKtpBzFXFHMHUfDr3BkH3aImDiX5qB1gr35JpD/AAPEguC4L/1bSC9qyo+FiuxS4nyNypsoSLiIKP8nowzFHeC4jdyRZ2yUdkC87HRRTpLaWKUrb4IuBxUFsHnCo8hlMqD/mtyEneVp6E9/UhxE1x++xl/plg8fortsLMUay6dF0QL+tqMru2vlsdEvNtX
-X-Forefront-Antispam-Report: CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(376002)(396003)(346002)(136003)(230922051799003)(451199024)(64100799003)(82310400011)(1800799012)(186009)(36840700001)(40470700004)(46966006)(356005)(36860700001)(2906002)(36756003)(86362001)(41300700001)(82740400003)(7636003)(316002)(70206006)(478600001)(54906003)(70586007)(6666004)(2616005)(1076003)(426003)(47076005)(8676002)(8936002)(5660300002)(4326008)(83380400001)(6636002)(26005)(336012)(110136005)(107886003)(40460700003)(40480700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2024 14:41:09.2496
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 592e86f5-789b-479f-9ade-08dc1c2156b1
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000E9D5.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5104
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bh5s6a4fhhlje42bzj2t22k3jpmruzkx234ks4ytuhd62tonzj@zn6h5foaqrof>
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spamd-Result: default: False [0.35 / 50.00];
+	 ARC_NA(0.00)[];
+	 TO_DN_EQ_ADDR_SOME(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 RCPT_COUNT_TWELVE(0.00)[23];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 FREEMAIL_CC(0.00)[lists.linux-foundation.org,vger.kernel.org,lists.infradead.org,kernel.dk,acm.org,toxicpanda.com,gmail.com,javigon.com,intel.com,lst.de,kernel.org,suse.de,opensource.wdc.com,wdc.com,suse.com,redhat.com,grimberg.me,mit.edu,iogearbox.net];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.05)[59.76%]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240123_064119_387523_AFA93D09 
-X-CRM114-Status: GOOD (  13.00  )
+X-CRM114-CacheID: sfid-20240123_070751_914619_8FBAD377 
+X-CRM114-Status: GOOD (  17.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,56 +136,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-A new port configuration was added to set max_queue_size. Clamp user
-configuration to RDMA transport limits.
+On Wed, Jan 17, 2024 at 09:50:50AM +0100, Daniel Wagner wrote:
+> On Tue, Jan 09, 2024 at 06:30:46AM +0000, Chaitanya Kulkarni wrote:
+> > For storage track, I would like to propose a session dedicated to
+> > blktests. It is a great opportunity for the storage developers to gather
+> > and have a discussion about:-
+> > 
+> > 1. Current status of the blktests framework.
+> > 2. Any new/missing features that we want to add in the blktests.
+> > 3. Any new kernel features that could be used to make testing easier?
+> > 4. DM/MD Testcases.
+> > 5. Potentially adding VM support in the blktests.
+> 
+> I am interested in such a session.
 
-Increase the maximal queue size of RDMA controllers from 128 to 256
-(the default size stays 128 same as before).
+One discussion point I'd like to add is
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Reviewed-by: Israel Rukshin <israelr@nvidia.com>
-Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
----
- drivers/nvme/target/rdma.c | 8 ++++++++
- include/linux/nvme-rdma.h  | 3 ++-
- 2 files changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index aaf9c891b2c7..be57446f398b 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -1956,6 +1956,14 @@ static int nvmet_rdma_add_port(struct nvmet_port *nport)
- 		nport->inline_data_size = NVMET_RDMA_MAX_INLINE_DATA_SIZE;
- 	}
- 
-+	if (nport->max_queue_size < 0) {
-+		nport->max_queue_size = NVME_RDMA_DEFAULT_QUEUE_SIZE;
-+	} else if (nport->max_queue_size > NVME_RDMA_MAX_QUEUE_SIZE) {
-+		pr_warn("max_queue_size %u is too large, reducing to %u\n",
-+			nport->max_queue_size, NVME_RDMA_MAX_QUEUE_SIZE);
-+		nport->max_queue_size = NVME_RDMA_MAX_QUEUE_SIZE;
-+	}
-+
- 	ret = inet_pton_with_scope(&init_net, af, nport->disc_addr.traddr,
- 			nport->disc_addr.trsvcid, &port->addr);
- 	if (ret) {
-diff --git a/include/linux/nvme-rdma.h b/include/linux/nvme-rdma.h
-index d0b9941911a1..eb2f04d636c8 100644
---- a/include/linux/nvme-rdma.h
-+++ b/include/linux/nvme-rdma.h
-@@ -8,8 +8,9 @@
- 
- #define NVME_RDMA_IP_PORT		4420
- 
--#define NVME_RDMA_MAX_QUEUE_SIZE 128
-+#define NVME_RDMA_MAX_QUEUE_SIZE 256
- #define NVME_RDMA_MAX_METADATA_QUEUE_SIZE 128
-+#define NVME_RDMA_DEFAULT_QUEUE_SIZE 128
- 
- enum nvme_rdma_cm_fmt {
- 	NVME_RDMA_CM_FMT_1_0 = 0x0,
--- 
-2.18.1
-
+  - running blktest against real hardare/target
 
