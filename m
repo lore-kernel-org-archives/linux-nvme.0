@@ -4,67 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 34C39C47DDC
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 39395C47E49
 	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jan 2024 09:44:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
+	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=c3V485QR15mzzWFdAVRJ2utjiAickSkqCmojnyiDwIM=; b=EkexE/mztXMXa7
-	aTK/JkT60Emk+6p0u38ukd5bCsXmvHbVVPZDlDi+MI/p9b5Y56S/Ha/MFK2GA2XSHMJod4rBiDouv
-	j82oTADVGvPbx6O1EQR1hRSj6cJLhwMtfixYZtgk3eXkdz6Dz6ovSNgbJoMrG1cGT8uJm4myugvA5
-	0wR7eNcdoMaWsm3ZZX3CxDOCTCmxCy+zDw5SchNgUL13ewQbcYLrDVquZzkTSyl8uYbfEr3NZ5jXt
-	mV1RW3r1uwSG11M114KaGPRTXAZqcZBjlpOSYs5I5EvOanDA0ScmF6Gl7xgSqO6dgaZjfPMAV8Wzg
-	ToyUInKUCbwyDXDAQ7YA==;
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=xwNR4/EZjtvmjPU5B92P0twDrTPGvgcwhXfRvMp8W3M=; b=iPHjSKKuCVTzSidlTza2CC9L94
+	L4fv+DKuIjjisW+knvrmidPh4Vy+/ZkBCVYA7rNAZ/dg90cAHBg4dHEAerQ0WqNFivXd0w6YFHOna
+	lU8FccS2lOsa2D/MKjXTLW+wWLPRyDNj6lho/HCK+2yaOwlCc3sA5vw7YbGFGU+Avd3kNs+rm6g1Y
+	v12C5iH99Fs4iwKAPtx5HOxvx6sPDzOd8+Rmdr96KB8wm5cO27V9LQu2+HppGpAIALJia3g69xnsj
+	euTQue0DyI7HTo9ZWtEnrZFG2CaKtr/jotKNaXjqYZiS5RJaGdv5zh9fEH7qCVpHRvm5ceRPMhpUt
+	OXFcCQZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rSDJz-00FmbU-34;
-	Tue, 23 Jan 2024 09:43:55 +0000
+	id 1rSDK1-00FmcB-2I;
+	Tue, 23 Jan 2024 09:43:57 +0000
 Received: from esa4.hgst.iphmx.com ([216.71.154.42])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rSDJx-00FmaH-14
+	id 1rSDK0-00FmaH-05
 	for linux-nvme@lists.infradead.org;
-	Tue, 23 Jan 2024 09:43:55 +0000
+	Tue, 23 Jan 2024 09:43:57 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1706003033; x=1737539033;
-  h=from:subject:date:message-id:mime-version:
-   content-transfer-encoding:to:cc;
-  bh=/4h6qYS/eHpSlVim37uPdGcbFkvmnDTQ5JZLyrLcZnE=;
-  b=eLvGuPdXq20+ZVJxculdvb3wCwOdQpE2dI/lisjWCmPDhE3OWYNqP++V
-   awL1q/vNjUZYm7B5jSv7fB6XNoLfH3o4YEIHz3/q7EIc8wB8DojRtpL3j
-   mB0FImsz0X8Ac9c4domBRHa2gd1a9PTz0qI7tqgjLa1ULjDJeVtxqtsvf
-   qsVQoLL8Mpm+4L5ssCYRCUONqLLJa3xPL2Pt9ISTgsL9EOWG8yTVAMMud
-   MIKK4XmuhgN1Xhod8YdRghOhwJZhdTCg5gynEifS7zbMqzuyu/1KdR0i1
-   JT5AVnJHjtgmMw8Ns1yQ1LtNutoJ61kpVnezYlzp41/+Fpgql0iPGQy6L
+  t=1706003036; x=1737539036;
+  h=from:date:subject:mime-version:content-transfer-encoding:
+   message-id:references:in-reply-to:to:cc;
+  bh=USx+V+gR/5Lk+0GJr2lbq1FeCI2pXKMzpek+ct39bMM=;
+  b=kmfVXeOqqQVRRA+NAECdR163sFSw279kgCOknBgXwRPr24LW7ePRnHtW
+   rc9XFRVmSaucqrOcHfv8x7BeVrkyv8kS227Vz88LQ+/7A1UlNZnLQhE5r
+   UF4nf0EaVyuRNIF+148oJsUrpDgmP8j6TkX0+j9Sdxk5zcuzVg07kiIub
+   z0ybsKwxwr56dGiH+sc+ElOC20dZJqGgERP2bMpLqInMyVlvOEbqgnZyB
+   DKZvJMlrVDEXzinsiIb+iKoKYMOumy1+klNtu7EP6ngN65KrGpBiBiM+i
+   RWUocQURSfol3OA1rpUJYY4cy1XeH9Q4+HDcJWrOoNAewUmmFb2vOB3lL
    A==;
-X-CSE-ConnectionGUID: dfynkHqITEqZnwRvvvUOYA==
-X-CSE-MsgGUID: qAgZNczIQS2rXc5OLrUTQg==
+X-CSE-ConnectionGUID: 3WFo78naSsa5jJmDN72K6Q==
+X-CSE-MsgGUID: 8j8ktXpYQGCaEJEDOJPRgw==
 X-IronPort-AV: E=Sophos;i="6.05,214,1701100800"; 
-   d="scan'208";a="7240338"
+   d="scan'208";a="7240347"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
-  by ob1.hgst.iphmx.com with ESMTP; 23 Jan 2024 17:43:51 +0800
-IronPort-SDR: uEdUC7DUYuImYIPX5kpt89o237g3bfKZZaQNZuxnQ9aOGFtohOq/ulaNudaOO4Vp+KsWwH6cm3
- o7TKXt1SXLXw==
+  by ob1.hgst.iphmx.com with ESMTP; 23 Jan 2024 17:43:56 +0800
+IronPort-SDR: Bw7orNrr7FtvRXAHW1eth4IuOQY1p3gh/b7IgTVK3GRGyjAOHxJKpUQeLXMT+JTVgqUhdUpVvJ
+ X8IycfnOVR6w==
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 23 Jan 2024 00:48:13 -0800
-IronPort-SDR: zUnRHHmVsKHmYWHqPESmgsAEmU5gU8xkWm6MN/q4pTyWM+A4c3LciGXWMEKUbx1GLBqQ7hfn4G
- QMsyEBuf/JKg==
+  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 23 Jan 2024 00:48:17 -0800
+IronPort-SDR: P3OOCgnEiOoiT5kro0hhE2puMVinRxHrlbO9eu21ZDBzEa4K+SZFeEYuAtZNHIp7Zz4lNvn0Hv
+ sg9b/x3sDNFA==
 WDCIronportException: Internal
 Received: from unknown (HELO redsun91.ssa.fujisawa.hgst.com) ([10.149.66.6])
-  by uls-op-cesaip02.wdc.com with ESMTP; 23 Jan 2024 01:43:47 -0800
+  by uls-op-cesaip02.wdc.com with ESMTP; 23 Jan 2024 01:43:50 -0800
 From: Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Subject: [PATCH 0/5] block: remove gfp_mask for blkdev_zone_mgmt()
-Date: Tue, 23 Jan 2024 01:43:41 -0800
-Message-Id: <20240123-zonefs_nofs-v1-0-cc0b0308ef25@wdc.com>
+Date: Tue, 23 Jan 2024 01:43:42 -0800
+Subject: [PATCH 1/5] zonefs: pass GFP_KERNEL to blkdev_zone_mgmt() call
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAE2Kr2UC/x3MMQqAMAxA0atIZgtpKA5eRUTUppqllQZELL27x
- fEN/xdQzsIKY1cg8y0qKTbYvoP9XOPBRnwzEJJDa9G8KXLQJaagxnvLRBsxugFacWUO8vy3aa7
- 1AzrU4INdAAAA
+Message-Id: <20240123-zonefs_nofs-v1-1-cc0b0308ef25@wdc.com>
+References: <20240123-zonefs_nofs-v1-0-cc0b0308ef25@wdc.com>
+In-Reply-To: <20240123-zonefs_nofs-v1-0-cc0b0308ef25@wdc.com>
 To: Damien Le Moal <dlemoal@kernel.org>, 
  Naohiro Aota <naohiro.aota@wdc.com>, Mike Snitzer <snitzer@kernel.org>, 
  dm-devel@lists.linux.dev, Chris Mason <clm@fb.com>, 
@@ -78,17 +77,16 @@ Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
  Johannes Thumshirn <johannes.thumshirn@wdc.com>, 
  "Matthew Wilcox (Oracle)" <willy@infradead.org>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1706003027; l=1540;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1706003027; l=967;
  i=johannes.thumshirn@wdc.com; s=20230613; h=from:subject:message-id;
- bh=/4h6qYS/eHpSlVim37uPdGcbFkvmnDTQ5JZLyrLcZnE=;
- b=XWApU1yRY0zet3szE9Y5YwxO0lp/MB+nH+oGhmBdyhChEBIQpYa6r7zw4rgXKerbrVnIXc2mT
- UtgASe05xPWAqN+bStf/4/hcrd6JLPpuUKW556WA7lZY9ZeLtErtKq6
+ bh=USx+V+gR/5Lk+0GJr2lbq1FeCI2pXKMzpek+ct39bMM=;
+ b=CqyzAxjrtVF3h1COiTD1vUp/FvMExp42Wy7b72mtI/+VK3Cc+nQQgb8KdYlLZ32Qn9DwLPhCQ
+ 2dpOdt+5tGWBTomHGv+qgGPRnYLx+GcwkDEU2N7SunPs8Zz3A98pXO5
 X-Developer-Key: i=johannes.thumshirn@wdc.com; a=ed25519;
  pk=TGmHKs78FdPi+QhrViEvjKIGwReUGCfa+3LEnGoR2KM=
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240123_014353_437378_8A54B10D 
-X-CRM114-Status: UNSURE (   9.66  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240123_014356_099563_D892D1BF 
+X-CRM114-Status: GOOD (  14.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,42 +101,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Fueled by the LSFMM discussion on removing GFP_NOFS initiated by Willy,
-I've looked into the sole GFP_NOFS allocation in zonefs. As it turned out,
-it is only done for zone management commands and can be removed.
+Pass GFP_KERNEL instead of GFP_NOFS to the blkdev_zone_mgmt() call in
+zonefs_zone_mgmt().
 
-After digging into more callers of blkdev_zone_mgmt() I came to the
-conclusion that the gfp_mask parameter can be removed alltogether.
+As as zonefs_zone_mgmt() and zonefs_inode_zone_mgmt() are never called
+from a place that can recurse back into the filesystem on memory reclaim,
+it is save to call blkdev_zone_mgmt() with GFP_KERNEL.
 
-So this series switches all callers of blkdev_zone_mgmt() to either use
-GFP_KERNEL where possible or grab a memalloc_no{fs,io} context.
-
-The final patch in this series is getting rid of the gfp_mask parameter.
-
-Link: https://lore.kernel.org/all/ZZcgXI46AinlcBDP@casper.infradead.org/
-
+Signed-off-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
 ---
-Johannes Thumshirn (5):
-      zonefs: pass GFP_KERNEL to blkdev_zone_mgmt() call
-      dm: dm-zoned: pass GFP_KERNEL to blkdev_zone_mgmt
-      btrfs: zoned: call blkdev_zone_mgmt in nofs scope
-      f2fs: guard blkdev_zone_mgmt with nofs scope
-      block: remove gfp_flags from blkdev_zone_mgmt
+ fs/zonefs/super.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- block/blk-zoned.c              | 19 ++++++++-----------
- drivers/md/dm-zoned-metadata.c |  2 +-
- drivers/nvme/target/zns.c      |  5 ++---
- fs/btrfs/zoned.c               | 35 +++++++++++++++++++++++++----------
- fs/f2fs/segment.c              | 15 ++++++++++++---
- fs/zonefs/super.c              |  2 +-
- include/linux/blkdev.h         |  2 +-
- 7 files changed, 50 insertions(+), 30 deletions(-)
----
-base-commit: 7ed2632ec7d72e926b9e8bcc9ad1bb0cd37274bf
-change-id: 20240110-zonefs_nofs-dd1e22b2e046
+diff --git a/fs/zonefs/super.c b/fs/zonefs/super.c
+index 93971742613a..63fbac018c04 100644
+--- a/fs/zonefs/super.c
++++ b/fs/zonefs/super.c
+@@ -113,7 +113,7 @@ static int zonefs_zone_mgmt(struct super_block *sb,
+ 
+ 	trace_zonefs_zone_mgmt(sb, z, op);
+ 	ret = blkdev_zone_mgmt(sb->s_bdev, op, z->z_sector,
+-			       z->z_size >> SECTOR_SHIFT, GFP_NOFS);
++			       z->z_size >> SECTOR_SHIFT, GFP_KERNEL);
+ 	if (ret) {
+ 		zonefs_err(sb,
+ 			   "Zone management operation %s at %llu failed %d\n",
 
-Best regards,
 -- 
-Johannes Thumshirn <johannes.thumshirn@wdc.com>
+2.43.0
 
 
