@@ -4,49 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2F774C47258
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jan 2024 05:27:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2BF81C47DDB
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jan 2024 05:27:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/d1n2q9cSp+b9gxHQLH+ft2dBjYpHN/suH0Y1e6M16I=; b=4ZoEPCYgKClRpC2FVn5sYDvNHO
-	EsvvAqm4vBbnGk2eH8K0RhqL7moqmogf5sFV9JK2EEm9yk36a9B1ZtmbnsKG5Qtg+efuERZ2vSU/L
-	8vN1cKAABwwMsJEIT630WZprh7loQuZatWKTjtbnDjTf6mrezLKQuTa6AlurC5vhf7y8GGqtJ2Xb9
-	6qMtaFLL2gZ5AozM29Z/n1oLvZ6U3+y031xlhOy2lyxRsE3HCqKsAlD18oWrNtQ5dhfD6pvwNdcZs
-	g3oOh7YW/XK/ow2wf25tY/HqappgdBiSBVllQloqhH2Ahsa3hbtoZ6O0tNRAhH8l0AO5yYavGFtSJ
-	klyL0AdA==;
+	bh=hlO+DakUzjEkk8EIcvBYXdQEDrqtpVlTf7vifGXpeuI=; b=sgB87WfO88o7ErC57R7cW36yG2
+	1B5yPHAs2VTH9MnhWqF/7D9JipYgl55zqLHzObT+bueHnYLVPnpuxMDgHW9SGeeTXEiBYDeDEkrGz
+	hzureVvDFWrSafRgr1XBrvGYgHZpiz96T8F7HyzYlmbS9FztZ2xxmhZXjozB2291bM54gezn3U6zW
+	/qdk8SAWihlKTSw0OZjy275Q8inXa5JcBsWQLinPr740kZkf2LtGuksYgS+iAaa2evZhKvsS6kuI6
+	TDMUsBAZnwlt/Dzj+VS1bTO1mUlpNxNVWX59I32ss6DVMasGT3mu09XoweOL2dtH1I0DZ+bSWoKT+
+	Vbo5Z33w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rS9Jv-00F8y2-2U;
-	Tue, 23 Jan 2024 05:27:35 +0000
+	id 1rS9K0-00F8ym-1d;
+	Tue, 23 Jan 2024 05:27:40 +0000
 Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rS9Js-00F8xg-1J
+	id 1rS9Jx-00F8yN-32
 	for linux-nvme@lists.infradead.org;
-	Tue, 23 Jan 2024 05:27:33 +0000
+	Tue, 23 Jan 2024 05:27:39 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id BBA9F61370;
-	Tue, 23 Jan 2024 05:27:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3F45C433C7;
-	Tue, 23 Jan 2024 05:26:59 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 700A161378;
+	Tue, 23 Jan 2024 05:27:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59CBCC433C7;
+	Tue, 23 Jan 2024 05:27:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705987621;
-	bh=rZlc/7iOpLCUjkjY0UJb5UkzbDeUBBdx2FDLEIZEjaw=;
+	s=k20201202; t=1705987627;
+	bh=cPpu6ryn6gkRkvgmx4NerAEJXJOWL4ErojxtTppxpQo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=m1/1nptHwu2bz0rUt6GQk6T4dHLgUD6tXHKAITk89vrD+SNDqE1KXCKBy97Pr320t
-	 a/ygkWf9KP5PcxTxqQywtFdlLq3968658zMZknlLho7M8UwKDuTK5DomcP6ywI0bDc
-	 fFm7L1HWbjNoHqhp6JvouV8LxevD3km4/+gLRtr7WVojnoA2cobqAuIbl6LbHcJREW
-	 kqawMBi4nrTp4XgtbP1IEODSR+tMKqQ0XW59w4RWvqlKhHgQOLUIqEV5TVdEiE2JPg
-	 XLaGhRl3hrw+hQkFWI9dRSDnIA6fGaWBvFlsDMWA6zvck0SU/fyfDBNYoPbiL6BM+m
-	 rX7ZKixe0Gadg==
-Message-ID: <13cbd5e0-d690-4407-9718-cccc6ff94661@kernel.org>
-Date: Tue, 23 Jan 2024 14:26:58 +0900
+	b=M+V5V36ZwxIdQ8NpR4onAMDbaeC9+Rg48L4OWqwJG51BX9RMubDfuV8sjIh05WA2J
+	 GpYgeCxXjJk8jFhXnrGYDtshunmpZLjdt7NKlE76dOwuIJp888x8RsuVgJxk03V6So
+	 yi8MkobMZ4oZ1nWwGQKESKgY1gbD5jgohXPS1LZKOG1YOsQNQK5KDHs3C/q0FCte6O
+	 8ZEe3S9IVUrQ1xM8r5aFclcW+QFL0tzfCiyKOXKkx1xAW+GTwAlytvEtbLbbxYHsc9
+	 jnwXrLixQoKT9kNjOXdrvMBpyl3BuYPS2VdPrnEG2NOrL3jjGyprVZeWuu5ncV06cJ
+	 E0TCPQK3VmsFg==
+Message-ID: <0e8dacc9-0353-4e1c-a954-986426abdbf6@kernel.org>
+Date: Tue, 23 Jan 2024 14:27:05 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/15] virtio_blk: split virtblk_probe
+Subject: Re: [PATCH 12/15] virtio_blk: pass queue_limits to blk_mq_alloc_disk
 Content-Language: en-US
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
@@ -57,15 +57,15 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
  linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
  virtualization@lists.linux.dev
 References: <20240122173645.1686078-1-hch@lst.de>
- <20240122173645.1686078-12-hch@lst.de>
+ <20240122173645.1686078-13-hch@lst.de>
 From: Damien Le Moal <dlemoal@kernel.org>
 Organization: Western Digital Research
-In-Reply-To: <20240122173645.1686078-12-hch@lst.de>
+In-Reply-To: <20240122173645.1686078-13-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240122_212732_481902_C81DC644 
-X-CRM114-Status: UNSURE (   7.52  )
+X-CRM114-CacheID: sfid-20240122_212738_021617_BE67540E 
+X-CRM114-Status: UNSURE (   9.74  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -82,8 +82,12 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 1/23/24 02:36, Christoph Hellwig wrote:
-> Split out a virtblk_read_limits helper that just reads the various
-> queue limits to separate it from the higher level probing logic.
+> Call virtblk_read_limits and most of virtblk_probe_zoned_device before
+> allocating the gendisk and thus request_queue and make them read into
+> a queue_limits structure instead.  Pass this initialized queue_limits
+> to blk_mq_alloc_disk to set the queue up with the right parameters
+> from the start and only leave a few final touches for zoned devices
+> to be done just before adding the disk.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 
