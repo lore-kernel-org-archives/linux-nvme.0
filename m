@@ -4,49 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8B60C47258
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jan 2024 05:29:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F73AC47258
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jan 2024 05:31:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AzqtWMeuRalJb8d16tgxRwgR2IvZ6ZisXjwW5dvlBWo=; b=t04/B1spJ5+Ewd87/NKw78T/IC
-	JKw60AhvAPaXeP7DakyJIRq0pmleuUPgnC9tWfGLy529J+y+TpQhrb4dlWIv0X1HXcgePJd1urG2I
-	4azrXx17ppmA8mCcnk3ysJXf7mOOnCVSUjXHHTN+oyPQvJUHpwvkNT+xe/dgPiCbUt4nzo+gUQW65
-	Z3Qs+Ufhfy4+VPwy3Oa6TkG2O1wZbG9b1xUGUpxVTGTkfLRcwFcY+VRv1QvTrHAzLqF8IjLUmCCgz
-	N+p4ToPXX03m8uE5o24TawM/I1MyudV4BmxHG9hhbBvFSzZl85GA5DVKjJX/vxkOv8WpmccNBaZEq
-	m+oLlEEA==;
+	bh=x2PweGbIk1FEVnE78fJBhGsmonmsos+bMOjtLqkucoo=; b=RhAOuGdLLxaInELm+8IlUk7tSz
+	FAQl2cRiSXHztDMQhCEqJ/ZJFx9ohqc01F3tC2eQxcqvatp+WBG12BVna4iLNBXAMf4w7BfCiir2D
+	vl81IZENUoXHbS1evVvx68AommRGzjbpBgdcFewBWKouGDL3dQSJOPh5VIZUXSRGiAfY04J4JJ2og
+	/AxUtZqTKmzvpm4yL+c516iHDfSyeySiP5iuVhD2a/HoqD96KzA18TWPSHkGyzioMPGKezLIPFCdt
+	glIoDzc2AMrAEq6djFsrt0l/VpjnoiK0+NnVjpvfEHuz5Prh9cASJigqzPujlHOy/PY7pH9c5QoDx
+	CUFCgixg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rS9M3-00F9Ok-2n;
-	Tue, 23 Jan 2024 05:29:47 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1rS9O0-00F9ic-1B;
+	Tue, 23 Jan 2024 05:31:48 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rS9M1-00F9O1-1S
+	id 1rS9Nx-00F9i2-1H
 	for linux-nvme@lists.infradead.org;
-	Tue, 23 Jan 2024 05:29:46 +0000
+	Tue, 23 Jan 2024 05:31:47 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id DC04B61118;
-	Tue, 23 Jan 2024 05:29:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6945C433F1;
-	Tue, 23 Jan 2024 05:29:42 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 29AA5CE2865;
+	Tue, 23 Jan 2024 05:31:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66620C433F1;
+	Tue, 23 Jan 2024 05:31:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705987784;
-	bh=xil21I47/lurocEp3cUAko/kuJg5ucYLbHCkSbYk6Yk=;
+	s=k20201202; t=1705987902;
+	bh=wjCgQi0roIhtkMBplPGFNKHRjVkQdZDEwQLchHAoQ00=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Gb8cmKoertCfontV0aU/nDmqwwjk9ByY1Sa29Q51ruygiYRjIeJg3aqDhhDscDl6z
-	 HgGJM7eMrVjLfJ71i8+ICXSCLT02yt/q4RQkenalDfD99+LWU2d4YystKlLDFJGorz
-	 Va2L7bLWYmhCrd+/fSCpRvqHiQuaigSfmGo1oTD7PqI3TBAFEU8ZgNt0Yj9c5Ou9F9
-	 /x/1ssrCs7l0iD5YD/FsJFPgAwEwuu1XjxVIK/U6O4LGnJRzJSySrsC/mc2iodSDf9
-	 jyQEC4Slbpw4q7QTbdVVdxbMO7sjlTHYRe6NOTOvrWenbf8rRniIrUH5WKnn2lPCHY
-	 xXQRNC2Y6s9Og==
-Message-ID: <6fb840de-401d-4e19-ace0-66fde70610c7@kernel.org>
-Date: Tue, 23 Jan 2024 14:29:42 +0900
+	b=WsZnIFwFc2lm76nogoU9tTQWNwQqxr5K5fYrvmaPN4zqSYAPNTKMeB+OZMTWI2KBg
+	 Aksbw52ZN3KYfociTiqWM0uTApVmo+JiV7vkVKeeqaruny6RDmDSFrPUXJNrgCE6Fy
+	 JvL7p3CjvuZy5NUTxHzrCZ5ZDMtojJr5JJd+TAgxMCoUU6K3zuG+umT3+cMrUljQT9
+	 GUj23txdfuirYvkWM9s6qZ1slKUCsfTcMUvK8d+7PlX4ETI6uMSMSPLxqBcHzkipjr
+	 TdA2VnWoVL8Y5rK+Iy+qmKA8V/uE4PpoXG9pRp9lveXEAI9q6k6iYyKVMw1NtxdlN6
+	 pBLJwgQBiyH2Q==
+Message-ID: <ccedfd42-7bcd-409b-af37-e16cd5e4fabb@kernel.org>
+Date: Tue, 23 Jan 2024 14:31:39 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 14/15] loop: pass queue_limits to blk_mq_alloc_disk
+Subject: Re: [PATCH 15/15] loop: use the atomic queue limits update API
 Content-Language: en-US
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
@@ -57,15 +57,15 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
  linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
  virtualization@lists.linux.dev
 References: <20240122173645.1686078-1-hch@lst.de>
- <20240122173645.1686078-15-hch@lst.de>
+ <20240122173645.1686078-16-hch@lst.de>
 From: Damien Le Moal <dlemoal@kernel.org>
 Organization: Western Digital Research
-In-Reply-To: <20240122173645.1686078-15-hch@lst.de>
+In-Reply-To: <20240122173645.1686078-16-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240122_212945_533101_F7731691 
-X-CRM114-Status: UNSURE (   7.33  )
+X-CRM114-CacheID: sfid-20240122_213145_608425_AB55E884 
+X-CRM114-Status: UNSURE (   8.23  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -82,8 +82,9 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 1/23/24 02:36, Christoph Hellwig wrote:
-> Pass the max_hw_sector limit loop sets at initialization time directly to
-> blk_mq_alloc_disk instead of updating it right after the allocation.
+> Pass the default limits to blk_mq_alloc_disk and then use the
+> queue_limits_{start,commit}_update API to change the limits in an
+> atomic way on existing loop gendisks.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 
