@@ -4,48 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F26BEC47DDB
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jan 2024 08:53:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C106C47DDB
+	for <linux-nvme@archiver.kernel.org>; Tue, 23 Jan 2024 08:53:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=28SqVz8XrHs0dE6xnh8X+pY/Zw
-	ZmvRdEofLRopwAq4oG9R8MK56pPAHvxVCL5QCDyjjZIu4yDwme5+/wQwCl0qgSwpY0KZbLutnLskP
-	TIN0jPTAAAGrxWUNH4m++AjzMo/9Ct9OWCleL0D/kZ/pMiEWl4OheJ4kZr6kCEef7j4xm8W8g2kci
-	zmU7TSsrrputnGZQdz73qve0OWm79xiXhaUqd+btUyaDUY6OFc6beNT2D0SSfEFUVzTiWQySCdrc6
-	YYhVNIHwIycJUcqlREFwxBL/09bkXGkYtQorQHO1BzNOhf//cO/qHd00LP+WNF6ZVWx2cJsm0BeW3
-	anqOF2ZQ==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=hbXAZa9C0uW/lC7eRzJsloi1/D
+	1f4nW7h5a1XSd6jkWCJIF/mw2rFHo+5AGXEHpFRss+zr4EQY9MjdK3VVlxLgpb8bzFI/gsX/uQqlq
+	7vO3dOg1Gw6IlGgLuLAK/zxMt3pOx08Tka98gNdQ7yoIqjtpocKUwTzgwfr+P8flMHRCVdZ8K43z5
+	yk6OD+p9mG/Ttj+whn1dl0W8ib/0RDkvn7wsGYSh90VyiU6ZwjS2InGUI0fMQ/00NxG4HTS6w7/He
+	68GAbuD91v7t1Q0RjntNrIJSvIYPoExqYIhr2j2BwzZf/4N8f83sXFKoL3J8x60OpH2iGZJmoVv/i
+	PpSD3+jA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rSCWr-00FeGI-2z;
-	Tue, 23 Jan 2024 08:53:09 +0000
+	id 1rSCX6-00FeLg-02;
+	Tue, 23 Jan 2024 08:53:24 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rSCWp-00FeFS-1Y
+	id 1rSCX3-00FeKx-1c
 	for linux-nvme@lists.infradead.org;
-	Tue, 23 Jan 2024 08:53:08 +0000
+	Tue, 23 Jan 2024 08:53:22 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 04D6568BEB; Tue, 23 Jan 2024 09:53:04 +0100 (CET)
-Date: Tue, 23 Jan 2024 09:53:03 +0100
+	id D9C5A68BEB; Tue, 23 Jan 2024 09:53:18 +0100 (CET)
+Date: Tue, 23 Jan 2024 09:53:18 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Max Gurtovoy <mgurtovoy@nvidia.com>
 Cc: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
 	linux-nvme@lists.infradead.org, israelr@nvidia.com, kch@nvidia.com,
 	oren@nvidia.com
-Subject: Re: [PATCH 1/8] nvme-rdma: move NVME_RDMA_IP_PORT from common file
-Message-ID: <20240123085303.GA30155@lst.de>
-References: <20240104092549.25721-1-mgurtovoy@nvidia.com> <20240104092549.25721-2-mgurtovoy@nvidia.com>
+Subject: Re: [PATCH 2/8] nvmet: compare mqes and sqsize only for IO SQ
+Message-ID: <20240123085318.GB30155@lst.de>
+References: <20240104092549.25721-1-mgurtovoy@nvidia.com> <20240104092549.25721-3-mgurtovoy@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240104092549.25721-2-mgurtovoy@nvidia.com>
+In-Reply-To: <20240104092549.25721-3-mgurtovoy@nvidia.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240123_005307_663453_051B3A2F 
-X-CRM114-Status: UNSURE (   8.72  )
+X-CRM114-CacheID: sfid-20240123_005321_680004_87E0DB51 
+X-CRM114-Status: UNSURE (   8.63  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
