@@ -4,129 +4,168 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B8F9DC46CD2
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jan 2024 15:47:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 072C0C46CD2
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jan 2024 16:53:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=V+JwYTjxATQ5OBi+Czc78pc4x6TUxpcGx/KYBJrZPTw=; b=ZD3g3mDVMnjEf+dUbTW2pvbEki
-	1YKQpklCnOJzdjx4hLl2IHGTqeCN+PhwO2SUs2MQjvLkdfeRvsLF/RqXkHXohPyGVrJmWgnK6krC6
-	CtBGrzVcXgwjLQ0iUEeC+rKPueCbTza9+en3yVl3437NqmIWckkZJa2ti7QbvHQm5UO42eBkPEcOT
-	TUvayrhVx01FkeM2tpF5PrsvnijA+JTJDfB1keaXAEL3aaUosmRm6LXOhWFrRB7xrec8CBspctGhS
-	J2U5fU9IwFRTXs0HF+U7l3T8VLDVFW+2jh1pKCf/dA7yGF8/DTW9grsR04kduCntm5Jfypot0x4ih
-	GQuDy6qQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=LQiq9FrEIk8CqzOxP+R4mdvM1pE6YMmAt08u/zNOTaI=; b=q1uGgmz7FiVj/tPp0f6XQ9MPb1
+	NEv4rwLumo+A2l+mfOsPNl5gLlu+aoTPGQsNiiLXhLrbBEQ5B25xcmhhmpZe8z8uQugrwkJ67XOEz
+	iF8YJIlzDYin79+fHTFi9u5vK10//R9yUN/i/djub2b/3NY6EUvJDozwZFhJjtlEuq0EKvntxDpHO
+	KE+aR2K8lu+X/+T3Xd7FE6yRqD9z1E1FvI91bX4USY4HMeJ0fKHmW6kxGuP+Oy0osbR8dBpA0X5gW
+	KJAJQVWkunz2lIWNpUb4lvnaZz0Ji/XOFyervJur3B0DCptUC/euEPo1hiDOOzkraWXKbLvY+wD7G
+	eoDs9TuA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rSfSz-0041wb-0Y;
-	Wed, 24 Jan 2024 15:47:05 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1rSgUz-004Hpo-1P;
+	Wed, 24 Jan 2024 16:53:13 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rSfSv-0041um-2H
+	id 1rSgUv-004Ho2-0k
 	for linux-nvme@lists.infradead.org;
-	Wed, 24 Jan 2024 15:47:03 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 128B521F7C
-	for <linux-nvme@lists.infradead.org>; Wed, 24 Jan 2024 15:46:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706111219; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V+JwYTjxATQ5OBi+Czc78pc4x6TUxpcGx/KYBJrZPTw=;
-	b=NEkoz9Jo5FE8ILN1J6gdoaEwA0GBNJ71yDpNdFUpjCh2yQI89TW33FFFfplsdgru2z2n0u
-	qBabZg+9dNWxcX/QgyMTlR8g+7IBrbKDlVqNCXLWeBJXl5UDJ+pOCQP59f6D+rhJjEysbq
-	C5jmeYgPDqakmAfHTA4ds7sXA2XVgKk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706111219;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V+JwYTjxATQ5OBi+Czc78pc4x6TUxpcGx/KYBJrZPTw=;
-	b=rDH5vfh5sBMtevxynh4sb1L8uoIOYX3pCzXWo1MUIgV+Uu6bkhVhBabBXhDJPp0bUwab2Q
-	t9N0U1/b36dg6ODw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706111219; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V+JwYTjxATQ5OBi+Czc78pc4x6TUxpcGx/KYBJrZPTw=;
-	b=NEkoz9Jo5FE8ILN1J6gdoaEwA0GBNJ71yDpNdFUpjCh2yQI89TW33FFFfplsdgru2z2n0u
-	qBabZg+9dNWxcX/QgyMTlR8g+7IBrbKDlVqNCXLWeBJXl5UDJ+pOCQP59f6D+rhJjEysbq
-	C5jmeYgPDqakmAfHTA4ds7sXA2XVgKk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706111219;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V+JwYTjxATQ5OBi+Czc78pc4x6TUxpcGx/KYBJrZPTw=;
-	b=rDH5vfh5sBMtevxynh4sb1L8uoIOYX3pCzXWo1MUIgV+Uu6bkhVhBabBXhDJPp0bUwab2Q
-	t9N0U1/b36dg6ODw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EF52C13786
-	for <linux-nvme@lists.infradead.org>; Wed, 24 Jan 2024 15:46:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Zch4OPIwsWU/FgAAD6G6ig
-	(envelope-from <hare@suse.de>)
-	for <linux-nvme@lists.infradead.org>; Wed, 24 Jan 2024 15:46:58 +0000
-Message-ID: <fe3c18bb-36c1-4f5b-874d-1e30af6714fa@suse.de>
-Date: Wed, 24 Jan 2024 16:46:59 +0100
-MIME-Version: 1.0
+	Wed, 24 Jan 2024 16:53:11 +0000
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 40OEtupg002309;
+	Wed, 24 Jan 2024 16:52:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2023-11-20;
+ bh=LQiq9FrEIk8CqzOxP+R4mdvM1pE6YMmAt08u/zNOTaI=;
+ b=ReY6GtR0H+7lpWSSTYzw9/l4d7yU/X2DL+3S06qdnr0MUz31YbyfSeluou+nDdYmf3nJ
+ tmmEvHei4xfL+7HSCiweEYc4zdNrHBBgdqoY5vlpJg5kKmXbQslXNjFSxlI3s7EC5xmz
+ 8yB8YnrzWrqjEhk9OIB4mXmDGmXMwVwxjapBiaVfdCHa2NrBAzbfDGQcU1XHzbKqsf/J
+ f3dlwSSufl1nIgO06oYy1VHRl/P9zy3S7OppZE0gtqyJzkrZud0XiM4p4JSmAsCXF4SN
+ sJuEDbamwc17kiDQE90H/vbmTrzik+RRpAtLCvS0rgDuUzOgARF8dFa8u5V0+rp+2sOn Iw== 
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3vr79nmetc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 24 Jan 2024 16:52:59 +0000
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 40OFwRYE026023;
+	Wed, 24 Jan 2024 16:52:58 GMT
+Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam04lp2041.outbound.protection.outlook.com [104.47.73.41])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3vs317ft6c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 24 Jan 2024 16:52:58 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=d3ECZwfkX58n3TxulO2bBMtZbBppFYb+LTWLvS+yXI1FhlUyBGQ3l2Mm3eA8RTIln7t0ro1Yr4GYRuZiw2kVFyT7yjo75sUBx8v6XjfG++zfT9NaFWlYq6crz6XQTQvJ3DciI3uCiAoqaglM8c8H1zesZ8qO9yCYxuMx6tYjYispfaYL2891BJKnySEzRlcxZYDT6I8ShQUNMvsjKO7zXwmvlXXi4gF1jAkN7+vKQGf+wSdInJs4MReAymi3G81C+V3nMMvThWlv3TCZMGtw8yGHHnPGjZiU3lo/mI6ItmGm5aVQk35ieer88fiIXqPzO8rTkQACn3erJsnxeMTwtw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LQiq9FrEIk8CqzOxP+R4mdvM1pE6YMmAt08u/zNOTaI=;
+ b=Wl397LtjCSYY4M4WLADRR/HgMT/ediy26GBvV7dp2EIs4Tg8DtD5jkhp5LIIzS4GPD0aFhwiALiWC5lfKoszYa4OOomDerboFzEbvll+s0sannlBOUtV2oQVPiHE9dtFNZ8OYLK2DLEz/m8/vNCXbchk01kCi0AQk/mN3tBwgP/7YdL464+ZQpACiOuQz9uGpHXw/jZvL+YdRlQCxPwNlbXvZ0WhGhe9Wg6z6WkHDOCMzQ/c1/zqjxdib0WsJ4jcKpVWCG+laQ0t9W/3PX5+mEdtzLyCEh2nGcJd3hSCz0k4Pqwma0CtQAvUTqjI6C5kfDUD2AEU5xuzwE+PD6YewQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LQiq9FrEIk8CqzOxP+R4mdvM1pE6YMmAt08u/zNOTaI=;
+ b=M2zuS4OvQG13Gcb3IFx7pItbwEea/M9XRcc9tg+9Usj1PvGsx4mFuUyLF620H6VGscCdKdzkX9UYYx1Ueozh6VDyjn88bhJKosUBSXtS1COykngUnuP15vqlptEYhIc7QIT29LLCEn1EGViH1l+OWRZCLkoRU2VxwYGaIWtsiUQ=
+Received: from CO6PR10MB5537.namprd10.prod.outlook.com (2603:10b6:303:134::20)
+ by CO6PR10MB5393.namprd10.prod.outlook.com (2603:10b6:5:35e::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.22; Wed, 24 Jan
+ 2024 16:52:56 +0000
+Received: from CO6PR10MB5537.namprd10.prod.outlook.com
+ ([fe80::a6ec:9178:f73f:e03c]) by CO6PR10MB5537.namprd10.prod.outlook.com
+ ([fe80::a6ec:9178:f73f:e03c%2]) with mapi id 15.20.7228.022; Wed, 24 Jan 2024
+ 16:52:56 +0000
+Message-ID: <d63f74b2-b455-4fd4-9b32-2657c6d81588@oracle.com>
+Date: Wed, 24 Jan 2024 08:52:54 -0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: nvme-tcp: question on poll return value
+Subject: Re: [RFC 0/1] nvme: Add NVMe LBA Fault Injection
 Content-Language: en-US
-To: linux-nvme@lists.infradead.org
-References: <gcy35jsyvwmw37tlqpanvavqpxqmt3qylam7mtbkefolj737ef@vfswvevmfxku>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <gcy35jsyvwmw37tlqpanvavqpxqmt3qylam7mtbkefolj737ef@vfswvevmfxku>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, sagi@grimberg.me,
+        linux-block@vger.kernel.org
+References: <20240116232728.3392996-1-alan.adamson@oracle.com>
+ <20240118072419.GA21315@lst.de>
+ <6874a81c-3f4f-428a-8a95-19898ca004a2@oracle.com>
+ <20240123090506.GA31535@lst.de>
+ <7d7d7855-8a37-4de1-a32b-2edf0b53a05c@oracle.com>
+ <20240124090453.GB27760@lst.de>
+From: alan.adamson@oracle.com
+In-Reply-To: <20240124090453.GB27760@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=NEkoz9Jo;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rDH5vfh5
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.56 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 XM_UA_NO_VERSION(0.01)[];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 TO_DN_NONE(0.00)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_MATCH_FROM(0.00)[];
-	 BAYES_HAM(-0.06)[60.94%];
-	 ARC_NA(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 FROM_HAS_DN(0.00)[];
-	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 PREVIOUSLY_DELIVERED(0.00)[linux-nvme@lists.infradead.org];
-	 RCPT_COUNT_ONE(0.00)[1];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 RCVD_TLS_ALL(0.00)[];
-	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]
-X-Rspamd-Queue-Id: 128B521F7C
+X-ClientProxiedBy: SJ0PR13CA0151.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c7::6) To CO6PR10MB5537.namprd10.prod.outlook.com
+ (2603:10b6:303:134::20)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR10MB5537:EE_|CO6PR10MB5393:EE_
+X-MS-Office365-Filtering-Correlation-Id: ba52e751-4b4f-4731-a370-08dc1cfcea10
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: PHq4CoBUIwWUyGHtd5NlJk3bqT/DvEBpvfnwYLG9rGRaStBaH9ZWpZHsIVUUM4/e0lFkoIfhmHPV+6SUyX88K7d2zcBgno6aJlh6tvIhiYRBNGLTMIpwXG+dwIlnZSL7oAbeqaCQKJvtoHPrSOUqcauD5VZp2DEcNu6Xt41sB3jTIvR9lknA0NYAPJ6PKzVDZZpBNSRjt9Lp4sLUd+KXNmjiz/I7qqdemcym1GSlY/nI97nalhq5i4nx3bU4VkB8jMLBrTWyYSDsMYwXrIPzDa8rYbYGIr1vCp8CMp1XhNfq0DA2Bn3Job9YBHyXdUV4HdgKPCyjPhpU0OCDtaSv334t4xP4Bbg76bzfJlW5VWTOMmxl7VvTb1Uv4th6EQOZ7WFuK++X4yrggTG+eU2exXv3x5+w/O6l1AopKjqutQMfbM1RjOaRH3A8MJmsryoaBwiAMggB9YKUPGLXrE8+KYYCbWhCyIIRWjT46KZ2KRM60iFvCE8SF2NlmAl7k+Ogmv1/YdbeUQdSfJcC8YpekUIPpV0a0BW7dUZoyNA6s+bFlgvzTIH3KHVMAITVB05vLEQJBEu53txa6le+oQFThLnQ/d1u5jojFMitMBUUwijcFRIpkJmuHlwtKlbVNkuW
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR10MB5537.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(376002)(136003)(366004)(346002)(396003)(230922051799003)(186009)(64100799003)(1800799012)(451199024)(31686004)(5660300002)(4744005)(2906002)(66476007)(6916009)(316002)(66556008)(66946007)(4326008)(8936002)(41300700001)(8676002)(478600001)(31696002)(38100700002)(86362001)(36756003)(26005)(6512007)(53546011)(2616005)(9686003)(83380400001)(6486002)(6506007)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VkhzcEdFTkhxaC91Sys1QUJvdHVQUzQ0YjEvanhpNWFLYkVJVEQyRWpweGhL?=
+ =?utf-8?B?SlROUDZJQ1NPd2o0Zi9td05TcFE4UEd0a2FubXhsdU01RHZKOTcrY2d3cDZv?=
+ =?utf-8?B?WERzSWMzUDNpTXh6VnJQZG9qQmZxTUszMHRXb3dac3RZTkJDdXhWaFhUTzli?=
+ =?utf-8?B?T0d2eDJVak4yTk1oTHBGREFZYWk0TzA0SEE5c08xK0ZqK1pKaGFYWVBMbVMx?=
+ =?utf-8?B?Rll1Wm5FNkhEdzNKcElKQk9QRzNZMXk3eGYvV25VZ05vZGRTZTJCamZadE9T?=
+ =?utf-8?B?KzRCS2N6WDdMNjV1SlZ3M1l0V21CL2ZlcGNib2FvRWdLVGlnN2k0cXJ0OVY4?=
+ =?utf-8?B?WGdaLzk5VEFUd1FvV1J4b3Ewem9GZWZneHFiSDBnZEVFZ1N1Q2htYU1XMWVL?=
+ =?utf-8?B?azBGMVViWnNGaHFsRGRYejBpQU1zM01yTVNOYTRwRFJkNkNvdFI2V3crazR3?=
+ =?utf-8?B?YkpicVdHMjNFN2RzVVVmbkp4Z2lyOElqY2tFZW9iUXBFYlpTWG9pK1g0Ynlm?=
+ =?utf-8?B?WDF0cnVVc0RRVTFqb09UV25GS0drcHg1NFVxQnM5TUJxVDluVk9aZkxnQjlP?=
+ =?utf-8?B?ZW5tQWhGUEx1Q0YvSDFPeEVLRmp6dE04Wm5WSm9KOC95TXZxcDlmS0piR3ZV?=
+ =?utf-8?B?Y0Z3RFBNd1p3VkhSdWFqYzdkMjRLK3JmV1hpQWNHTUZZLzlOYkQrMnY1UFhi?=
+ =?utf-8?B?NjdNODEvM2o1VWdDRzdFQnN0bXpWY1UyOThSMkp1OXpDRStRZUpiS0Rpb2Ro?=
+ =?utf-8?B?TGJuWXo4SW1DeE1BL0xMYkM2STlJZGdEZW9GVVQ2QnQ1a1pOUHBwQXVsTXBH?=
+ =?utf-8?B?N1Z1SGpVNnNxSnFSUmw5T3N2Mml2STlRRFp6LzlKMnpmQkV3RWR4dENQSDZR?=
+ =?utf-8?B?TlZCMlllZkcrSm9sS3JYeEg1QThaR2gvZzJaMkVWRzVaYmVqRzFYVjZtTy95?=
+ =?utf-8?B?c1daSHBvRWR5WExDQkZzcDExWW40bFFpUDJkNHVYckNNMUJaeHhWN3ZUQzAw?=
+ =?utf-8?B?SisvQ2FlOTZiemcveXVJSGNPcFNPR0RkOXVuTFpBNnIvL2ZvYmdnQ3BXVW9z?=
+ =?utf-8?B?SEVpUCtSdUtYem9uR0xhTkdodXFDVFZDZkFWY2g0V1ZiUmx4U3NLU2J0RzFy?=
+ =?utf-8?B?L3R1Tm16OVJUcThWd1pCcmVzSW5lTFdTbW9sZmRVYmIyc2JrWUg3aVh3VFF0?=
+ =?utf-8?B?eHdkT0xRY0dQbTlQZEt5WjBSSEFwTUpvVk53elFXczFUR2FjM3EyUytuM0lw?=
+ =?utf-8?B?eUJHZ29xbUlEVUZ1cHcyczNGeTJETUZxdEptYTl0R3Q2Z09ONEFid09BWkgr?=
+ =?utf-8?B?Z1dPbCtRVmI0clZ5WW94Yjc2STFqclB5RVZHUzhsNHpxM2F4M0R0aXJpK2o1?=
+ =?utf-8?B?dFh2eXVOUGhxWkJiTHJYUEFIbzlXNDZITWJjaXAyaCt4Sm5YRjcyNkhIdlhZ?=
+ =?utf-8?B?SUg3MW53WEpuWXN4S09OZEh4aHFuNEF3QnBqZGM2Q2hBMmh4eEs4VXJWMW55?=
+ =?utf-8?B?Ky95WmlKLzZMRHhnQWVxL3hDQUdDVDZvS29yWjZILy9ieXpnR0k5K3hDWExl?=
+ =?utf-8?B?UDNVV3F2Tyt5bG8yNEpBdEtuVTBBc0EwTHBtNGNwSW0vTEFTakd5aWJCSG5C?=
+ =?utf-8?B?MlJQYmVwVXFpYWVRSm52NUg2V2RBSndDN1hEUDJiTFJHdGVWRWtZUjNpT2kw?=
+ =?utf-8?B?cUJyM3JLTndhZmlRMG1sWVU5S2YxYld1M2F0YjlJMnByRHNRWlZEdVRJUlFO?=
+ =?utf-8?B?ZS9rVHUraVhlVkpMd2VWa25YL2l3RlFFamxPalFMMUpzakQ3K1RTN2xMNGpy?=
+ =?utf-8?B?Q1pRUGVnOGdSMEh0K0NaZllZdVJrQjhrM2UxUTRJMUpYbTlFcnp3SERKL2xI?=
+ =?utf-8?B?WDJudGRwSENEbmVteEF3ZkhHdG9BOUs1UUIwZ21sdTJUVXNUcGFsRkFOM0tt?=
+ =?utf-8?B?bVVkTXdrMml2V3ptWVJpbDVtQ1drcXpncU1IVmJHL0IyL2FPZTRZR0ZHN0pB?=
+ =?utf-8?B?bGhqenZOVWRNZXpaT1Rxc09ReTJaUjJ0TTBWUGxjaGhKbHBzQ2dTOGtybzRN?=
+ =?utf-8?B?Z1d6dlVFTThNUzMzbWdIOWg0QlFtOG8xMGVqSTd4bGk0czZKbmhaM2JhMjZ2?=
+ =?utf-8?Q?TJbYgPW0mBFoajSEF8mf3e4L5?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: FmGka307nsKNzhJvaA+AH9vbSabXflzsvyWqvu8UV9uBt++2owfRkUpiCtu34cgy8dL5fgF9W50ypMHWOS7lLmdUbBk7STOEVLTz+1ead/GK+eaDHQ2oj+ug5Ejw/tf6wDdDp3K8FyuzfZQ8XqOea8VFnEy0f6xwT5cbNsgnzeCojPw6EPtgPeJi29furKhbBaWz1EONnqnFQFQvHacsaqdaA7h/rK8hHRjLpAaFYiweknKZW3gVvbCWrqgocos7ddIXffbvGwHA9hXLwIldOEHiE3N7nXriIQzj4DQugKW39VHp0FOe3yUCd5q23r5lcm4UKjOnjwcLBoYa9USH8DqPPSxnaB0FxHlpTaJky6PYCnUj1+TULVWHlN3JjvN7ipjJSBnWeq3Ss9ej4Zu9oP8RH3W+MWg294u5iM/S8MEwfuFkLeUpVbHs1YYzGW3T3A8jq6dMLmELsKMcIcvRApeE9xozu9hgrJCP60KIGsExg7Yie/Eyb4JcBLb+H1Qjb88rc/CYDtIHUDLn0sqfe2T6YrwETjzBYWnauAMv76XotrJmP1b3Fg5V77tqA0YQ2EbYEnC8LYN47BWfQw4anO3hT0nUrV22tQ7OREwSBIU=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ba52e751-4b4f-4731-a370-08dc1cfcea10
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR10MB5537.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2024 16:52:56.5416
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dtBBwGuZyIYWZTucMYp8OnjZok25pmQLL3bqKrR7trUJeVZx68JA3FhfsnFZc7frA9raQMQ4uMNXG65hgSP/7A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR10MB5393
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-24_06,2024-01-24_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 suspectscore=0 adultscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2401240123
+X-Proofpoint-GUID: mVuB4k_69tFOV_AjU2wmmhaxHjO5XeaK
+X-Proofpoint-ORIG-GUID: mVuB4k_69tFOV_AjU2wmmhaxHjO5XeaK
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240124_074701_915932_D350EB34 
-X-CRM114-Status: GOOD (  16.00  )
+X-CRM114-CacheID: sfid-20240124_085309_738347_44B92E7A 
+X-CRM114-Status: GOOD (  18.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -141,35 +180,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/24/24 16:31, Daniel Wagner wrote:
-> Hi Sagi,
-> 
-> I am stubled across nr_cqe while debugging something else and I am not
-> sure if the poll function is doing the right thing with it. IIUC, the
-> blk_mq_ops poll callback is supposed to return > 0 value when it
-> processed at least one element. If this is the case, than I think we
-> would need to first copy the current value in nr_cqe before calling
-> nvme_tcp_try_recv. The function will reset queue->nr_cqe to 0, thus
-> nvme_tcp_poll will always return 0.
-> 
-> Does this make any sense?
-> 
-Sadly, not.
-nr_cqe is set to zero at the start in nvme_tcp_try_recv(), and
-incremented for every request received.
-So we need to use the _current_ value of nr_cqe after calling
-nvme_tcp_try_recv() to figure out how many requests have been
-received, not the saved one (which will actually be the value
-of the _previous_ iteration of nvme_trp_try_recv()...).
 
-Cheers,
+On 1/24/24 1:04 AM, Christoph Hellwig wrote:
+> On Tue, Jan 23, 2024 at 09:25:51AM -0800, alan.adamson@oracle.com wrote:
+>> I get it, but there is already an injection framework in place for nvme. Is
+>> there no plan to improve it?
+> Injecting fake I/O error really isn't the driver job.  For block
+> I/O we could do it the block layer or DM, but that's not something
+> to add to random drivers.  Error injection makes sense for testing
+> the driver itself, not applications.
 
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), GF: Ivo Totev, Andrew McDonald,
-Werner Knoblich
+Thanks, I'll look at the block layer for this.  Do you think adding 
+error injection to qemu-nvme makes sense?
+
+Alan
 
 
