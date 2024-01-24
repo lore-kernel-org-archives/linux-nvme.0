@@ -4,53 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 50085C46CD2
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jan 2024 17:51:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73798C48260
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jan 2024 17:55:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	References:Message-ID:In-Reply-To:Subject:cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5j45GbGnu5wmpEwE/qeCWOFbiMDqrmOQZ+In2X9KLC0=; b=UyYvK8pNcqYRY4gq2NgxpfZlKb
-	jaRKfdauSpu6giQztu7FH4JAmOZBb7Y5jrC+Xrn4E2m3cpRDHUkJ8rzOxvX5UtEcNSNdVH8xqacT6
-	wf3BldpGsxMHSQSAfr39nVniAhGghLL2rW4Ei4iIiQWDYJsua/9W3eGxBD+/56qYdMwcaplgpqDRk
-	5Bj69T1QGTMdzM6RdTdqVreBdL4e2u47ONb8FvOGOvz661R2mjrMqz/n75YdkldD/QoZVl9tKy0fg
-	uZtXrMO3DX5i0jRFAL656kB+F7mL1OuZ6J1lq/4Hu7YApX63oYgbRMZ/rf6RIQzDeKWxON0yuE2dD
-	IvvUTJJQ==;
+	bh=8nHJpxze9i3uCOhGTrGvmXB+FRPyyXp/F8Bkilw7L18=; b=jLvbL0g6v1Gk/goxNnx0lIkgWX
+	0Ag72Hl5q32t/zkL52H/98Aw/fW0sL+2Vy+W2Ihdtw2WxIyZMzCFH5SuGEKKklTQ8Xvk3nuy6eRl3
+	LZwCLcaBE5CjfXuB0oJMAzzW//QJZP2gsqOEgifACLF4gYX3MbXKjjRgq5nW5m00WEyxmrvbXeIHT
+	R234MBdoBQo6nrof5EPZQvXZRQ55D/lqZS1S/3/E4ag3u2zvNFqYavpOmWk6eehPvLRJ86mkS6MNi
+	y+Skv4asR0PoFVKHwftOe2I8GLOzpbu2WjDPMLee0zzF7zDp+KONAJZmrjU3h4W2TZneQm067m9I8
+	uB/QDJew==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rShP5-004ZPV-1d;
-	Wed, 24 Jan 2024 17:51:11 +0000
-Received: from gentwo.org ([2a02:4780:10:3cd9::1])
+	id 1rShTb-004bWb-0O;
+	Wed, 24 Jan 2024 17:55:51 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rShP1-004ZNL-1Q
-	for linux-nvme@lists.infradead.org;
-	Wed, 24 Jan 2024 17:51:09 +0000
-Received: by gentwo.org (Postfix, from userid 1003)
-	id 854D340A94; Wed, 24 Jan 2024 09:51:02 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-	by gentwo.org (Postfix) with ESMTP id 838C840787;
-	Wed, 24 Jan 2024 09:51:02 -0800 (PST)
-Date: Wed, 24 Jan 2024 09:51:02 -0800 (PST)
-From: "Christoph Lameter (Ampere)" <cl@linux.com>
-To: Matthew Wilcox <willy@infradead.org>
-cc: David Rientjes <rientjes@google.com>, Pasha Tatashin <tatashin@google.com>, 
-    Sourav Panda <souravpanda@google.com>, lsf-pc@lists.linux-foundation.org, 
-    linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-    linux-block@vger.kernel.org, linux-ide@vger.kernel.org, 
-    linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org, 
-    bpf@vger.kernel.org
+	id 1rShTZ-004bVF-1R
+	for linux-nvme@bombadil.infradead.org;
+	Wed, 24 Jan 2024 17:55:49 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=8nHJpxze9i3uCOhGTrGvmXB+FRPyyXp/F8Bkilw7L18=; b=g4Gbu+QOZjcYDq1GX/CDd67xHQ
+	1MS2y9fFaTAAJ6vO8sFRAVyk/JnxX4hhNK3I6E7t0IGS/3oGdUQQc2wVXu7jLTM4KIf7Akg27WWex
+	+izhhj1Ds/mX2I0vTtpSsOIaG4EU1c/T4eGoZGcZaJSaP1cPW6I/bESRrkHVZ17kK1sstMEANhNzm
+	JgFmlZgjGUTRWuNS4HllcmC5yUs5YnmBV0Om9LJjAN2fS2+9dknKqY7yhnIN0B8JnY3J1RRmw4f2B
+	OBae5YKcDNoYlXZs7ihRQgOiTff75Oww/7n+OnE/AGJZFp+JwmhmUCoUwdieCrHNXh8DIuXVWOadO
+	VcW8VyQA==;
+Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rShTW-00000007Lpb-2ECT;
+	Wed, 24 Jan 2024 17:55:46 +0000
+Date: Wed, 24 Jan 2024 17:55:46 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: "Christoph Lameter (Ampere)" <cl@linux.com>
+Cc: David Rientjes <rientjes@google.com>,
+	Pasha Tatashin <tatashin@google.com>,
+	Sourav Panda <souravpanda@google.com>,
+	lsf-pc@lists.linux-foundation.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-block@vger.kernel.org,
+	linux-ide@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-nvme@lists.infradead.org, bpf@vger.kernel.org
 Subject: Re: [LSF/MM/BPF TOPIC] State Of The Page
-In-Reply-To: <Za2lS-jG1s-HCqbx@casper.infradead.org>
-Message-ID: <aa94b8fe-fc08-2838-50b5-d1c98058b1e0@linux.com>
-References: <ZaqiPSj1wMrTMdHa@casper.infradead.org> <b04b65df-b25f-4457-8952-018dd4479651@google.com> <Za2lS-jG1s-HCqbx@casper.infradead.org>
+Message-ID: <ZbFPIidl6dK5cR0W@casper.infradead.org>
+References: <ZaqiPSj1wMrTMdHa@casper.infradead.org>
+ <b04b65df-b25f-4457-8952-018dd4479651@google.com>
+ <Za2lS-jG1s-HCqbx@casper.infradead.org>
+ <aa94b8fe-fc08-2838-50b5-d1c98058b1e0@linux.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240124_095107_531773_1AF3DE5A 
-X-CRM114-Status: UNSURE (   9.16  )
-X-CRM114-Notice: Please train this message.
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aa94b8fe-fc08-2838-50b5-d1c98058b1e0@linux.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,27 +74,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, 21 Jan 2024, Matthew Wilcox wrote:
+On Wed, Jan 24, 2024 at 09:51:02AM -0800, Christoph Lameter (Ampere) wrote:
+> Can we come up with a design that uses a huge page (or some arbitrary page
+> size) and the breaks out portions of the large page? That way potentially
+> TLB use can be reduced (multiple sections of a large page use the same TLB)
+> and defragmentation occurs because allocs and frees focus on a selection of
+> large memory sections.
 
->
-> I'd like to keep this topic relevant to as many people as possible.
-> I can add a proposal for a topic on both the PCP and Buddy allocators
-> (I have a series of Thoughts on how the PCP allocator works in a memdesc
-> world that I haven't written down & sent out yet).
-
-Well the PCP cache's  (I would not call it an allocator) intent is to 
-provide cache hot / tlb hot pages. In some ways this is like the SLAB/SLUB 
-situation. I.e. lists of objects vs. service objects that are 
-locally related.
-
-Can we come up with a design that uses a huge page (or some 
-arbitrary page size) and the breaks out portions of the large page? That 
-way potentially TLB use can be reduced (multiple sections of a large page 
-use the same TLB) and defragmentation occurs because allocs and frees 
-focus on a selection of large memory sections.
-
-This is rougly equivalent to a per cpu page (folio?) in SLUB where cache 
-hot objects can be served from a single memory section and also freed back 
-without too much interaction with higher level more expensive components 
-of the allocator.
+Could I trouble you to reply in this thread:
+https://lore.kernel.org/linux-mm/Za6RXtSE_TSdrRm_@casper.infradead.org/
+where I actually outline what I think we should do next.
 
