@@ -4,61 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47E41C47DDC
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jan 2024 15:34:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BD598C46CD2
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jan 2024 15:41:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=H7bh7zDQGgSQbGxPUWG848iROvvr5gBZTmqDsfQo09Q=; b=kryr128wKrfcHf4zxZMvq3Z4S9
-	qE8ANbqTTK4TIO+0qIm9DIeuk51mQ/rU8VECFVpQqjx+05UzM1ko/j23mtTu8iME/55sBky7dlJYe
-	irYZ4bCMsSfd8px20G9x+AGerggYQep0qJ26Ajgm2TtAW8hOmziR1OJtJZJhs9YniqA9KblwjPGxE
-	iLiV4dNgMVS+NRQ736yveN2k1vVFn9X6NVIP38S/qDyokyFwqKEt73VSs7jhr9nOPInDChlxP6a7h
-	Fc/EkAj8rSLkBH3gFhtzMKFco1+1oO7cLF4b/5H1RMNmWA1KnYXJ4PFFQ3Wt9RZzB0cbh+Oxj45BE
-	2joPKuzg==;
+	bh=XtDSuY1j4WNb49u16/1QXR2yCc+Rxe/sYzGYK7hl05c=; b=0kjlqb0ee4i2pO1BRYm3fOxwBs
+	eArh7QEg79vevkSjK3k87vRsk/diVUsNIkFHOGRzJGTUrUZxX/LGj4SkAVWeTIatqpfAQelztVK9P
+	nkL1iJej5AqT7V3Le6hNBoS2TtDAWPplJFbI4nayYNI62fAkQ+i5rIRb9TgLH+66elZQweSX2cciY
+	Kt4oSwxF22Vf6H34qTbB6WBLQI2+KlG6GNJG8EjEkSqNhvqU7qHmFmWYY5sSytnWMCHIW+L8luZ4Q
+	kPciZRAgVtTZYuss6EX1sMRZT+dGj7k3vJ4TYqYek6evupyajWEFF7Usomwx0DE2ycHa7bEqYsnQ9
+	Xvp99oVg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rSfGS-003yXG-2e;
-	Wed, 24 Jan 2024 15:34:08 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1rSfNo-0040c5-2u;
+	Wed, 24 Jan 2024 15:41:44 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rSfGP-003yV2-34
+	id 1rSfNm-0040bJ-1c
 	for linux-nvme@lists.infradead.org;
-	Wed, 24 Jan 2024 15:34:07 +0000
+	Wed, 24 Jan 2024 15:41:43 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id EA1E761D64;
-	Wed, 24 Jan 2024 15:34:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22377C43390;
-	Wed, 24 Jan 2024 15:34:02 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id C4E5561D50;
+	Wed, 24 Jan 2024 15:41:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12761C433F1;
+	Wed, 24 Jan 2024 15:41:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706110442;
-	bh=ppVpbcCvubToBCzYWpgi5qt2y7RXVV8dml8rgnnfU2k=;
+	s=k20201202; t=1706110901;
+	bh=xLrA5RcRjFK5SJZ2Re6Tza8ZXo2JQ9yye+jrNnLv+2w=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UTx+IwWRy8n5/w6PsMJjFTdPVK2WeFSqWGGYJNVvc5vHZJnVjB0mMpYk3Wn/3xi/C
-	 EhntniMx8TVMh1JtVEsDTK5IY8AUBD/tzOiiKkfGqiQ6vBRXk7fx9AuF3r0k7dsfcI
-	 UszFc+9GHW4ssb2xeSIOZpTybs0IkDTGBa2ejvrvJGjXiVLG89qglxbqgZHigryNit
-	 lEJ8TTsZGkBYE0HXcMvHomU2kPE3CevuXVY9kxwYLmnG6jBLWwPrk2oO7ixZnAEN8N
-	 rcGa4rCzj9DZEFyScAOKg5CGiNK+RB47Ls6UAHOTWxyLPw8Si2+HtJx3B0pDwMDOOo
-	 b4HdQuTuw9OQQ==
-Date: Wed, 24 Jan 2024 08:33:59 -0700
+	b=GmR+KvCAduSd3EVQ3DxDH1HCU25j0sc8Vc3LNulsuOfeW0hPQKuaEQ/jfLuMxsaHc
+	 emQ5WcoZ/cBNkEj0nBrpxUYvEIKbOeRYtIASsHGjbyArWmpZuOnmeD32SmV/kbc5SV
+	 iEgnoxT1c9moX3kGQMLysQZfACxOOOMa9D2Eu3apcalQ1FtVIdAy4efjdlvtxjU7WG
+	 D+0tKM3Ni7fjfHw5hB/gQLgaXJzQN/y8MkWId/VIz5wfKdGa/gwYN9Pt5t2tUbF2uL
+	 SokOxMnC2LuIYwt611hv6hlxdQDh8N4rCBwgKOum3ZireYTAD0IaGcxih2UKb5D9Bt
+	 1B/6hZgeHW44w==
+Date: Wed, 24 Jan 2024 08:41:38 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: Israel Rukshin <israelr@nvidia.com>
-Cc: Max Gurtovoy <mgurtovoy@nvidia.com>,
-	Linux-nvme <linux-nvme@lists.infradead.org>,
-	Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH] nvme-rdma: Fix transfer length when
- write_generate/read_verify are 0
-Message-ID: <ZbEt5yrXnkvaGx3e@kbusch-mbp.dhcp.thefacebook.com>
-References: <1706098587-20726-1-git-send-email-israelr@nvidia.com>
+To: Ming Lei <ming.lei@redhat.com>
+Cc: linux-block@vger.kernel.org, virtualization@lists.linux.dev,
+	linux-nvme@lists.infradead.org
+Subject: Re: [Report] requests are submitted to hardware in reverse order
+ from nvme/virtio-blk queue_rqs()
+Message-ID: <ZbEvstiLSMwtFb8m@kbusch-mbp.dhcp.thefacebook.com>
+References: <ZbD7ups50ryrlJ/G@fedora>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1706098587-20726-1-git-send-email-israelr@nvidia.com>
+In-Reply-To: <ZbD7ups50ryrlJ/G@fedora>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240124_073406_028615_D205F5BD 
-X-CRM114-Status: GOOD (  13.47  )
+X-CRM114-CacheID: sfid-20240124_074142_617806_1C447796 
+X-CRM114-Status: GOOD (  10.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,19 +72,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jan 24, 2024 at 12:16:27PM +0000, Israel Rukshin wrote:
-> When the block layer doesn't generate/verify metadata, the SG length is
-> smaller than the transfer length. This is because the SG length doesn't
-> include the metadata length that is added by the HW on the wire. The
-> target failes those commands with "Data SGL Length Invalid" by comparing
-> the transfer length and the SG length. Fix it by adding the metadata
-> length to the transfer length when there is no metadata SGL. The bug
-> reproduces when setting read_verify/write_generate configs to 0 at the
-> child multipath device or at the primary device when NVMe multipath is
-> disabled.
+On Wed, Jan 24, 2024 at 07:59:54PM +0800, Ming Lei wrote:
+> Requests are added to plug list in reverse order, and both virtio-blk
+> and nvme retrieves request from plug list in order, so finally requests
+> are submitted to hardware in reverse order via nvme_queue_rqs() or
+> virtio_queue_rqs, see:
 > 
-> Note that setting those configs to 0 on the multipath device (ns_head)
-> doesn't have any impact on the I/Os.
+> 	io_uring       submit_bio  vdb      6302096     4096
+> 	io_uring       submit_bio  vdb     12235072     4096
+> 	io_uring       submit_bio  vdb      7682280     4096
+> 	io_uring       submit_bio  vdb     11912464     4096
+> 	io_uring virtio_queue_rqs  vdb     11912464     4096
+> 	io_uring virtio_queue_rqs  vdb      7682280     4096
+> 	io_uring virtio_queue_rqs  vdb     12235072     4096
+> 	io_uring virtio_queue_rqs  vdb      6302096     4096
+> 
+> 
+> May this reorder be one problem for virtio-blk and nvme-pci?
 
-Thanks, applied to nvme-6.8.
+For nvme, it depends. Usually it's probably not a problem, though some
+pci ssd's have optimizations for sequential IO that might not work if
+these get reordered.
 
