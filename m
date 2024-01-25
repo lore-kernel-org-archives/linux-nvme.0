@@ -4,49 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1306DC47258
-	for <linux-nvme@archiver.kernel.org>; Thu, 25 Jan 2024 15:48:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2C8CC47258
+	for <linux-nvme@archiver.kernel.org>; Thu, 25 Jan 2024 15:52:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DzReysmAP/ALM/HdRrBuSLd0v1MY+TBbV5lrLIEUHVI=; b=MeGEftklT9r9CUyDCquvJ7OydK
-	x4nDzTXS5ln4j8mMTftByHICasBSKe0bPv6qeYUUn0UVsWgzTAAS0Svp/gSDR4TflZ0iZRDRlljcc
-	+g9rSrMqBDD7R3YJy1AmK9o+HKcbOqGhI0Iu1/Iu76L5gDKKC9wuoWm8Fa2EZWJbe3I3zkzI1a24B
-	8aYn05UH66AuBOXgBo0HiDdTnFbkvjDuA0ATxsItZu4qhE8dvO6pGQw+hYRd89GqNhDiooK1l7s2q
-	O0UcwFzKkiHpQCS+lhaFHymQL2UNRLOQ1DkfupSkeGN8DM7mLrXZBnItt4TunCZiYRC4QIoc3iIhI
-	TgQZJv0w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=VfzD6nTBRFUqyuvNj5QFU+0FVl8P2rt2q9b/+iE5EHM=; b=teGjnqbxggAg+21pfgGb4Oh/D+
+	zB2p2+h+V6v/4BoBTHlKn19Cw2OMWCO/OqcTkUtNdGacdt8mDTSgXnzP2/BjrPJlaIVkyB6Zh8ZGB
+	887lBbc1Q3nTPResuLnN8TcnZvtpWEVdT9M56HbvXbJzYdiEJq+0oupPuG8HYcfKMDfyIuc0rV1L2
+	DhcTmDF+PzJtT5kdopAeSJqrrbFV4M8AWQdvQ5IkmCWDwIqTP9hD3q2emUOhaGIBqLrg/Achiz9/8
+	PZ5YNbn9hLd5v1Y0+iKtBJRE39HDUS0I9wZRuYY6464Mg0bLP2ttVE9n4HOZyxMvInA25orFjkQBV
+	GmvBMtzA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rT1xq-00000000gJj-0HLo;
-	Thu, 25 Jan 2024 15:48:26 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1rT21n-00000000h8G-0fba;
+	Thu, 25 Jan 2024 15:52:31 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rT1xm-00000000gIB-2aOq
+	id 1rT21j-00000000h7n-2mOR
 	for linux-nvme@lists.infradead.org;
-	Thu, 25 Jan 2024 15:48:23 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 3CCBB67373; Thu, 25 Jan 2024 16:48:14 +0100 (CET)
-Date: Thu, 25 Jan 2024 16:48:14 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: hare@kernel.org, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>,
-	Martin George <marting@netapp.com>
-Subject: Re: [PATCH] nvme: enable retries for authentication commands
-Message-ID: <20240125154814.GA23800@lst.de>
-References: <20240125130906.94874-1-hare@kernel.org> <13922738-7cdb-457d-9ba6-4a3a9a064a8b@kernel.dk>
+	Thu, 25 Jan 2024 15:52:28 +0000
+Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 40PCE6fX010264
+	for <linux-nvme@lists.infradead.org>; Thu, 25 Jan 2024 07:52:24 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=s2048-2021-q4;
+ bh=VfzD6nTBRFUqyuvNj5QFU+0FVl8P2rt2q9b/+iE5EHM=;
+ b=A5fguekOyWZOBLxXN4uKReex4a++yUB2PdhYLOta10ubKdjFzYkseyOMFglrTYj6I26N
+ ScZNlzkyyfDOM/jmo7MbjSz+qnUcWCiNWyY9BJvPANpoZD0XV6A1qHD7n345iNkChcAI
+ 0HYyNIrVNwfUvqyXBzG08ddUefumiIB7Pqu4Ytq344BMOhFrWku9AbaroXi1fnxT0wbT
+ B6ZxBxLLlr3KXDLM+S9UgJ6/iMRp7jFIZoUGsLPmufPMpfOWs2yoSmxt/AwNnia/GD+p
+ qLX5GLgKsbCkG99cuhNSO+Q+0uhcKCzQJ7tAT6HF8vuSTkUTLHy2sUc5EtDm9AtCI9Du Sw== 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3vumufsvn6-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Thu, 25 Jan 2024 07:52:24 -0800
+Received: from twshared7847.07.ash9.facebook.com (2620:10d:c0a8:1c::1b) by
+ mail.thefacebook.com (2620:10d:c0a8:82::b) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 25 Jan 2024 07:52:22 -0800
+Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
+	id 57E09247EF4DB; Thu, 25 Jan 2024 07:52:19 -0800 (PST)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-nvme@lists.infradead.org>, <hch@lst.de>, <sagi@grimberg.me>
+CC: <chaitanyak@nvidia.com>, Keith Busch <kbusch@kernel.org>
+Subject: [PATCHv2] nvme: use ctrl state accessor
+Date: Thu, 25 Jan 2024 07:52:13 -0800
+Message-ID: <20240125155213.3727106-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <13922738-7cdb-457d-9ba6-4a3a9a064a8b@kernel.dk>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: QVfMlSlw1oKBLsVtZ7KRuZ3_pGW5p-L8
+X-Proofpoint-ORIG-GUID: QVfMlSlw1oKBLsVtZ7KRuZ3_pGW5p-L8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-25_10,2024-01-25_01,2023-05-22_02
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240125_074822_842462_FC826400 
-X-CRM114-Status: GOOD (  18.70  )
+X-CRM114-CacheID: sfid-20240125_075227_790073_4125C4FF 
+X-CRM114-Status: GOOD (  19.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,21 +82,155 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jan 25, 2024 at 08:42:10AM -0700, Jens Axboe wrote:
-> On 1/25/24 6:09 AM, hare@kernel.org wrote:
-> > From: Hannes Reinecke <hare@suse.de>
-> > 
-> > Authentication commands are normal NVMe commands, and as such
-> > can return a status where NVME_SC_DNR is not set, indicating
-> > that the command should be retried.
-> > Rather than checking NVME_SC_DNR manually for each command completion
-> > this patch adds a flag 'retry' to __nvme_submit_sync_cmd(), causing
-> > the REQ_FAILFAST_DRIVER option to be cleared and the command to
-> > be retried via the normal mechanism.
-> 
-> Can we please do this without adding Yet Another parameter to that
-> function?
+From: Keith Busch <kbusch@kernel.org>
 
-Heh, I wrote about the same reply a few minutes ago.  I'll try to think
-what we can do instead.
+The ctrl->state value is updated in another thread using WRITE_ONCE, so
+ensure all the readers use the appropriate accessor.
+
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+v1->v2:
+
+  Fixed error in multipath (Chaitanya)
+
+ drivers/nvme/host/auth.c      |  2 +-
+ drivers/nvme/host/fabrics.h   |  8 +++++---
+ drivers/nvme/host/multipath.c | 15 ++++++++-------
+ drivers/nvme/host/sysfs.c     |  6 +++---
+ 4 files changed, 17 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+index 72c0525c75f50..2a12ee878783f 100644
+--- a/drivers/nvme/host/auth.c
++++ b/drivers/nvme/host/auth.c
+@@ -897,7 +897,7 @@ static void nvme_ctrl_auth_work(struct work_struct *w=
+ork)
+ 	 * If the ctrl is no connected, bail as reconnect will handle
+ 	 * authentication.
+ 	 */
+-	if (ctrl->state !=3D NVME_CTRL_LIVE)
++	if (nvme_ctrl_state(ctrl) !=3D NVME_CTRL_LIVE)
+ 		return;
+=20
+ 	/* Authenticate admin queue first */
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index fbaee5a7be196..06cc54851b1be 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -185,9 +185,11 @@ static inline bool
+ nvmf_ctlr_matches_baseopts(struct nvme_ctrl *ctrl,
+ 			struct nvmf_ctrl_options *opts)
+ {
+-	if (ctrl->state =3D=3D NVME_CTRL_DELETING ||
+-	    ctrl->state =3D=3D NVME_CTRL_DELETING_NOIO ||
+-	    ctrl->state =3D=3D NVME_CTRL_DEAD ||
++	enum nvme_ctrl_state state =3D nvme_ctrl_state(ctrl);
++
++	if (state =3D=3D NVME_CTRL_DELETING ||
++	    state =3D=3D NVME_CTRL_DELETING_NOIO ||
++	    state =3D=3D NVME_CTRL_DEAD ||
+ 	    strcmp(opts->subsysnqn, ctrl->opts->subsysnqn) ||
+ 	    strcmp(opts->host->nqn, ctrl->opts->host->nqn) ||
+ 	    !uuid_equal(&opts->host->id, &ctrl->opts->host->id))
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.=
+c
+index 2dd4137a08b28..74de1e64aeead 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -156,7 +156,7 @@ void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl)
+ 		if (!ns->head->disk)
+ 			continue;
+ 		kblockd_schedule_work(&ns->head->requeue_work);
+-		if (ctrl->state =3D=3D NVME_CTRL_LIVE)
++		if (nvme_ctrl_state(ns->ctrl) =3D=3D NVME_CTRL_LIVE)
+ 			disk_uevent(ns->head->disk, KOBJ_CHANGE);
+ 	}
+ 	up_read(&ctrl->namespaces_rwsem);
+@@ -223,13 +223,14 @@ void nvme_mpath_revalidate_paths(struct nvme_ns *ns=
+)
+=20
+ static bool nvme_path_is_disabled(struct nvme_ns *ns)
+ {
++	enum nvme_ctrl_state state =3D nvme_ctrl_state(ns->ctrl);
++
+ 	/*
+ 	 * We don't treat NVME_CTRL_DELETING as a disabled path as I/O should
+ 	 * still be able to complete assuming that the controller is connected.
+ 	 * Otherwise it will fail immediately and return to the requeue list.
+ 	 */
+-	if (ns->ctrl->state !=3D NVME_CTRL_LIVE &&
+-	    ns->ctrl->state !=3D NVME_CTRL_DELETING)
++	if (state !=3D NVME_CTRL_LIVE && state !=3D NVME_CTRL_DELETING)
+ 		return true;
+ 	if (test_bit(NVME_NS_ANA_PENDING, &ns->flags) ||
+ 	    !test_bit(NVME_NS_READY, &ns->flags))
+@@ -331,7 +332,7 @@ static struct nvme_ns *nvme_round_robin_path(struct n=
+vme_ns_head *head,
+=20
+ static inline bool nvme_path_is_optimized(struct nvme_ns *ns)
+ {
+-	return ns->ctrl->state =3D=3D NVME_CTRL_LIVE &&
++	return nvme_ctrl_state(ns->ctrl) =3D=3D NVME_CTRL_LIVE &&
+ 		ns->ana_state =3D=3D NVME_ANA_OPTIMIZED;
+ }
+=20
+@@ -358,7 +359,7 @@ static bool nvme_available_path(struct nvme_ns_head *=
+head)
+ 	list_for_each_entry_rcu(ns, &head->list, siblings) {
+ 		if (test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ns->ctrl->flags))
+ 			continue;
+-		switch (ns->ctrl->state) {
++		switch (nvme_ctrl_state(ns->ctrl)) {
+ 		case NVME_CTRL_LIVE:
+ 		case NVME_CTRL_RESETTING:
+ 		case NVME_CTRL_CONNECTING:
+@@ -667,7 +668,7 @@ static void nvme_update_ns_ana_state(struct nvme_ana_=
+group_desc *desc,
+ 	 * controller is ready.
+ 	 */
+ 	if (nvme_state_is_live(ns->ana_state) &&
+-	    ns->ctrl->state =3D=3D NVME_CTRL_LIVE)
++	    nvme_ctrl_state(ns->ctrl) =3D=3D NVME_CTRL_LIVE)
+ 		nvme_mpath_set_live(ns);
+ }
+=20
+@@ -748,7 +749,7 @@ static void nvme_ana_work(struct work_struct *work)
+ {
+ 	struct nvme_ctrl *ctrl =3D container_of(work, struct nvme_ctrl, ana_wor=
+k);
+=20
+-	if (ctrl->state !=3D NVME_CTRL_LIVE)
++	if (nvme_ctrl_state(ctrl) !=3D NVME_CTRL_LIVE)
+ 		return;
+=20
+ 	nvme_read_ana_log(ctrl);
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+index 754e911110420..6b2f06f190de3 100644
+--- a/drivers/nvme/host/sysfs.c
++++ b/drivers/nvme/host/sysfs.c
+@@ -311,6 +311,7 @@ static ssize_t nvme_sysfs_show_state(struct device *d=
+ev,
+ 				     char *buf)
+ {
+ 	struct nvme_ctrl *ctrl =3D dev_get_drvdata(dev);
++	unsigned state =3D (unsigned)nvme_ctrl_state(ctrl);
+ 	static const char *const state_name[] =3D {
+ 		[NVME_CTRL_NEW]		=3D "new",
+ 		[NVME_CTRL_LIVE]	=3D "live",
+@@ -321,9 +322,8 @@ static ssize_t nvme_sysfs_show_state(struct device *d=
+ev,
+ 		[NVME_CTRL_DEAD]	=3D "dead",
+ 	};
+=20
+-	if ((unsigned)ctrl->state < ARRAY_SIZE(state_name) &&
+-	    state_name[ctrl->state])
+-		return sysfs_emit(buf, "%s\n", state_name[ctrl->state]);
++	if (state < ARRAY_SIZE(state_name) && state_name[state])
++		return sysfs_emit(buf, "%s\n", state_name[state]);
+=20
+ 	return sysfs_emit(buf, "unknown state\n");
+ }
+--=20
+2.34.1
+
 
