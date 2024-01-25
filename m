@@ -4,64 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8013DC46CD2
-	for <linux-nvme@archiver.kernel.org>; Wed, 24 Jan 2024 22:32:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 63D6BC46CD2
+	for <linux-nvme@archiver.kernel.org>; Thu, 25 Jan 2024 00:34:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0kEVxDIuSfTm3y50SgE0ZGrGcNJpgFJmGTIE3QmN7t0=; b=YMERJL2CE2uXHaOOQwzLT7i6p8
-	7vOGQxELFSLXPIi4STnFWhZd8G6c2I+3+MuL5K0ELfJQrrykDWQzejUxDMhmLg1oh/Z1Fmc7jn4fx
-	OiAzTsE+NkPEv/m9yNZuma2evrTCR8SJbK0DA+zP9zmrg88QagljRbwMf3YTH4mLAlRib1fBiwsKg
-	3POvIPEPySyUT+IoTz9WkA1OfiInryQcLbs7Nz84IbeFB0/dTRllmS5o36mBY40QG96mgw2KDDAE9
-	b/RqhW+QznzBwo+anJjX5ejZWqYj2sxS/hbEZ0IM3vSEK+YeUvTyp88O7laKVCjBqg8rg1oP/ReOq
-	oFgOrgPA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=QwQ5UGaxvWUFmGp3KkhR2WFUXXQ6NqPPE6WQYBvMTNw=; b=sMmFAI9XJhuvy+x4AT6QSScv97
+	Dm+wmPD/PccnsPyfYRzv6z+y44za38XFyjlA0fR8spk9ON6AO5CBiZNUbhYj2ejZ6GN+OLjnkTq58
+	XYyWM6oSfeyygEAJOrNJzYX6jcS1JVZsZLc6zhoKZePHMHjg4gULgts/pp0XwLf7uPunrVHGMh7WA
+	aGPZLYeFjLjscOjuGQ40BzbXp0tLCX1lE54+mkr4+6P0hDuWMP8gxVMRWn0cU0dhikkJOFqIvIfRw
+	A/PjsRtehXfQEADjazpl7dSOOs+5W9jVDXC5EibW4NtTwInWmRZtsiXHEophnDznPozA5Q3R65uXQ
+	B4re96YA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rSlnX-005L4h-1d;
-	Wed, 24 Jan 2024 22:32:43 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1rSngs-005hGR-2y;
+	Thu, 25 Jan 2024 00:33:58 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rSlnU-005L44-2s
+	id 1rSngo-005hF7-0w
 	for linux-nvme@lists.infradead.org;
-	Wed, 24 Jan 2024 22:32:42 +0000
+	Thu, 25 Jan 2024 00:33:55 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 303ED6207F;
-	Wed, 24 Jan 2024 22:32:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBFC3C433F1;
-	Wed, 24 Jan 2024 22:32:38 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 9343DCE32A1;
+	Thu, 25 Jan 2024 00:33:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C26AC433C7;
+	Thu, 25 Jan 2024 00:33:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706135559;
-	bh=Cf4TbRtQv66gVbraB6zo3Kn5eL2uP+kvPg2Y6ryomGA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZnqHXwFEiVLW4jWqt58ZaF74SzDxTykXns8nk+eMGq1EnT9FOH1k4OMPx/jhBENKG
-	 TmCvdHBww1FGR4ZBEN5zAca0im5ViClRyIPu3dL+O54quHJte5CmXZqNMi50vB8P5g
-	 MsImFMW31OqYt73wEei/A+oGnd91NTrIFR5l/dEmL0ppPq8BFDnD3hA5mwbuBuqO5B
-	 SOmaHj9UilolP1bDX0/a15N7zRK3zx+J15jeN/EUrcGRKRY0PEwC+yvACRmTkG+sGT
-	 xyE3EAIsK38jfTaV4aZtDrS0FkRVkcBPCOxvgAc+RTg0RrGyjXPPIHgOulL0ft9UsU
-	 +GXtuj7ll5aHg==
-Message-ID: <772618f3-f4d3-470e-bf06-70d8ee66d7b0@kernel.org>
-Date: Thu, 25 Jan 2024 07:32:37 +0900
+	s=k20201202; t=1706142829;
+	bh=WCCvXfMjZlRhUWQSC+23moLD6S7nzRFYGjDDU9Ud1g8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eRPGwH3R7QjzhkcfGnJyM3+P+zBgFmvKCv6dPATkLrP2XcJAzAoL4/bnulMBvfC1c
+	 HBo2Pz7idAx+IhaLFrHjEAQwjkKuI9MFUfptgZTttsQBVvYEqynQKWaCxUaP5Qkjan
+	 0Fr0LsTeDhycxTMoAYOrn+NfwTUY02UPa8/R7ztsnuNHsFBiMlLayc9zJyi2BaY1ly
+	 btOttignSW5YysHskVYwPeyLPwP1NEDIA5W1+EX/cUVk/M51qoAGshy+KmUZ8aOR1c
+	 DQqU80doi+RUfYbNCpjLFag0AAGcbbgT/BPzX5trKXgkkcxExWfZJPLyALjz3H9Rs7
+	 wTH6mFQOXFh2w==
+Date: Wed, 24 Jan 2024 17:33:47 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: Keith Busch <kbusch@meta.com>, "hch@lst.de" <hch@lst.de>,
+	"sagi@grimberg.me" <sagi@grimberg.me>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH] nvme: use ctrl state accessor
+Message-ID: <ZbGsa5NNwlE9WKxj@kbusch-mbp.dhcp.thefacebook.com>
+References: <20240124172855.1901146-1-kbusch@meta.com>
+ <38cd1a30-75bc-4d19-b26a-cfb29a1f4240@nvidia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Report] requests are submitted to hardware in reverse order from
- nvme/virtio-blk queue_rqs()
-Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>, Ming Lei <ming.lei@redhat.com>
-Cc: linux-block@vger.kernel.org, virtualization@lists.linux.dev,
- linux-nvme@lists.infradead.org
-References: <ZbD7ups50ryrlJ/G@fedora>
- <ZbEvstiLSMwtFb8m@kbusch-mbp.dhcp.thefacebook.com>
-From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <ZbEvstiLSMwtFb8m@kbusch-mbp.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <38cd1a30-75bc-4d19-b26a-cfb29a1f4240@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240124_143240_993355_91209CDF 
-X-CRM114-Status: GOOD (  11.73  )
+X-CRM114-CacheID: sfid-20240124_163354_590632_FE084ED8 
+X-CRM114-Status: GOOD (  15.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,35 +73,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/25/24 00:41, Keith Busch wrote:
-> On Wed, Jan 24, 2024 at 07:59:54PM +0800, Ming Lei wrote:
->> Requests are added to plug list in reverse order, and both virtio-blk
->> and nvme retrieves request from plug list in order, so finally requests
->> are submitted to hardware in reverse order via nvme_queue_rqs() or
->> virtio_queue_rqs, see:
->>
->> 	io_uring       submit_bio  vdb      6302096     4096
->> 	io_uring       submit_bio  vdb     12235072     4096
->> 	io_uring       submit_bio  vdb      7682280     4096
->> 	io_uring       submit_bio  vdb     11912464     4096
->> 	io_uring virtio_queue_rqs  vdb     11912464     4096
->> 	io_uring virtio_queue_rqs  vdb      7682280     4096
->> 	io_uring virtio_queue_rqs  vdb     12235072     4096
->> 	io_uring virtio_queue_rqs  vdb      6302096     4096
->>
->>
->> May this reorder be one problem for virtio-blk and nvme-pci?
+On Wed, Jan 24, 2024 at 10:19:50PM +0000, Chaitanya Kulkarni wrote:
+> On 1/24/24 09:28, Keith Busch wrote:
+> >   nvmf_ctlr_matches_baseopts(struct nvme_ctrl *ctrl,
+> >   			struct nvmf_ctrl_options *opts)
+> >   {
+> > -	if (ctrl->state == NVME_CTRL_DELETING ||
+> > -	    ctrl->state == NVME_CTRL_DELETING_NOIO ||
+> > -	    ctrl->state == NVME_CTRL_DEAD ||
+> > +	enum nvme_ctrl_state state = nvme_ctrl_state(ctrl);
+> > +
+> > +	if (state == NVME_CTRL_DELETING ||
+> > +	    state == NVME_CTRL_DELETING_NOIO ||
+> > +	    state == NVME_CTRL_DEAD ||
+> >   	    strcmp(opts->subsysnqn, ctrl->opts->subsysnqn) ||
+> >   	    strcmp(opts->host->nqn, ctrl->opts->host->nqn) ||
+> >   	    !uuid_equal(&opts->host->id, &ctrl->opts->host->id))
 > 
-> For nvme, it depends. Usually it's probably not a problem, though some
-> pci ssd's have optimizations for sequential IO that might not work if
-> these get reordered.
+> since original code is accessing ctrl->state each time instead of
+> separate variable, why not reading from it from nvme_ctrl_state() that
+> will have READ_ONCE() for each call ?
 
-ZNS and zoned virtio-blk drives... Cannot use io_uring at the moment. But I do
-not thing we reliably can anyway, unless the issuer is CPU/ring aware and always
-issue writes to a zone using the same ring.
+I doubt the original compiled to code that really accessed the memory
+address 3 times. We don't really want to do that either. We just want
+the snapshot to be consistent throughout these checks.
 
--- 
-Damien Le Moal
-Western Digital Research
+> > @@ -156,7 +156,7 @@ void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl)
+> >   		if (!ns->head->disk)
+> >   			continue;
+> >   		kblockd_schedule_work(&ns->head->requeue_work);
+> > -		if (ctrl->state == NVME_CTRL_LIVE)
+> > +		if (nvme_ctrl_state(ns->ctrl) == NVME_CTRL_LIVE)
+> >   			disk_uevent(ns->head->disk, KOBJ_CHANGE);
+> >   	}
+> >   	up_read(&ctrl->namespaces_rwsem);
+> > @@ -223,13 +223,14 @@ void nvme_mpath_revalidate_paths(struct nvme_ns *ns)
+> >   
+> >   static bool nvme_path_is_disabled(struct nvme_ns *ns)
+> >   {
+> > +	enum nvme_ctrl_state state = nvme_ctrl_state(ctrl);
+> > +
+> 
+> nvme_ctrl_state(ns->ctrl) is needed to compile the code, unless I'm 
+> totally wrong
+> here ...
 
+Yep; I tested the wrong config. Will fixup, thanks for the catch.
 
