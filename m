@@ -4,81 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7723C47258
-	for <linux-nvme@archiver.kernel.org>; Thu, 25 Jan 2024 09:45:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B03EC48260
+	for <linux-nvme@archiver.kernel.org>; Thu, 25 Jan 2024 10:29:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
 	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
 	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ehxQd4sbZEsRt0R/XcVgHLGaR9JvlKaaWTbmNOgN3yA=; b=FHfqAyO8t973Q1HD3Tn53vBeuF
-	Lx6erkfLrvkxkQxjmtpRQr2wcP9TRiJ51/YkDpWwWhmW5tiZeWU+gZIK+MSz/rzs0ftT1WlNOBDur
-	OaNuchuXbEClXzj/Be6gSzb0r/2UsKAVYKs4viV5G2VGwJU1e4nY36gqOqAIM7ChJAyEhs/SjkK2K
-	vAfR2hbJa8NvnNms05Ii+z9kbYKL5ekhYokT6Qu1QISRcEuY8vvo8XkbzjD2sViPijeCtE9A8RyUG
-	hU/V8xF0UbqX8MV3+G8siy4bwcQGVIrWTQY84PapMHwurUjjrHYOeAfqhjz9dxblVSvB46pKQLgJl
-	JwpSt0mg==;
+	bh=n+W0KPaoXr53i7jXBa+TJcwntC8C9GPNc5KQ148Kiho=; b=pD/UFdUa+/9FQmLdP/uj5j6kpc
+	inenK7kve1cB3tB5mMdHLO68XA7QYOYK8vDAU/FCZncRDpCUd8JEyXHm9JnlmLumgRHb/eFoiAWG6
+	Nz8RLAm52/UWDYsovr4BClRkHrzKMdKVqT1PF1aPl8vJ1FoQxjTGmsUX2befjEXrpQ7GyBG1o0ghL
+	I3zaQNZt5s78eCqHlP9i4oV0RpPbSv8ZvVpIi4c9tcnBIMV2A6VgpnZXSubsQfPnO33cjXWYDgIe9
+	UiZ3SBrvwLwKvvd23VzBrD+KOzvgrzAPAdthpRKtTQuv/udaHFXRGVM4llpXnLLoChOZ6+W5y9WUY
+	8w7DTcwA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.96 #2 (Red Hat Linux))
-	id 1rSwIt-007d5B-0N;
-	Thu, 25 Jan 2024 09:45:47 +0000
+	id 1rSwyw-0006Jy-22;
+	Thu, 25 Jan 2024 10:29:14 +0000
 Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.96 #2 (Red Hat Linux))
-	id 1rSwIn-007d0Y-2U
+	id 1rSwys-0006IA-1q
 	for linux-nvme@lists.infradead.org;
-	Thu, 25 Jan 2024 09:45:45 +0000
+	Thu, 25 Jan 2024 10:29:12 +0000
 Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 40P64Wca024157;
-	Thu, 25 Jan 2024 09:45:28 GMT
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 40P9xbbq011467;
+	Thu, 25 Jan 2024 10:28:58 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
  subject : to : cc : references : from : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=corp-2023-11-20;
- bh=ehxQd4sbZEsRt0R/XcVgHLGaR9JvlKaaWTbmNOgN3yA=;
- b=InjySGRIoqai3JBDywMhFspofV1TNnKhkyhWaUqSMfC/NW/7/sMkCP5DGa8XOLZ5cWFj
- ekUq6fkoVK9CCwSh34phg/POor/RcxXpkMlGnVOsjFWwFBZCitQGGP+8lgLJk0ZpIhXq
- HFVvIgqeqw0PbFUecWDE3nO0peiHfswHOMuDJn60gza5J3FnUY3VDXeVhsls55EISTo/
- lxbtUR5JQOn/+Oge3pufTGxEzZGanuPkU1CO+cFlV/ZHPcAz6F0RJSTtbUgynSEP++An
- dMyURNvIrimuIakze8jaYAoOFT1lojvMHVFckewDnsKdlVgQMo1XwbbyCSi9gm3TkvSv OQ== 
+ bh=n+W0KPaoXr53i7jXBa+TJcwntC8C9GPNc5KQ148Kiho=;
+ b=Yu77yVFPJ6xKBGamcQtlkzE70mrmM9+2Fx05aSg3k3q6DWGc1f7WV2ENYj8A8ijorl4q
+ /4l95YyuFCj9Pcye4qtfT11SMkuY7yXhJ4AN8lfMCwaowPj4Tp8zOFo4x4zDfbQc68iE
+ 6Ckb+z8aUH2fyCqqnYeQH+V69g15XsxUHJRlknhsmtma6FD2co9K1f2XGYq42U7663Ye
+ ZV7Hay9rwT8MmNOLG4hBxRhbdx0DCVyP6j8SFBtkZHCBk36K4WKbL1lmEaAgnpr/hs7Z
+ rbKYgaIWuKmQKN00WHQk9pmWeiVijhAXfGSo21At8cf9fU+afYox5cwD1HuV42BCj1w5 xA== 
 Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3vr7cuxnre-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3vr7cuxsbk-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 25 Jan 2024 09:45:27 +0000
+	Thu, 25 Jan 2024 10:28:57 +0000
 Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 40P9Ugwd004188;
-	Thu, 25 Jan 2024 09:45:26 GMT
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 40PA6ip7004059;
+	Thu, 25 Jan 2024 10:28:56 GMT
 Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2100.outbound.protection.outlook.com [104.47.58.100])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3vs32u4uc4-1
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3vs32u6hj2-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 25 Jan 2024 09:45:26 +0000
+	Thu, 25 Jan 2024 10:28:56 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RLszvRdw0Tv5rW+cjQ+8fjeWdTK1/4LKeAED7ev2GehDQZ3HhCOv8uvAcCtRbEQKtEIHVTEcJRANWNaxteLjNUysf/KxaXElqeVSAVkesijrmiR2teTpPntBglz1TsTgUT1PhcdUujIY1e1PAVv6j83vcS/4iS1tAMbuAMVEv15E/atMwFeBb4p5XcWDLW33npqnVg8TafG2M1WeoFp0f+Lya1kJsj9t7hVxKPYEQFE0PMkok/S1PcGffCnGoqm5+YrxTrJ0JqE8i7MPBXVDAzqI1JFiCiCm1l05wE8agd8jFNBRU8DgoYVS8/7IRzQ6EzPEj8aQFwSgo1WHC1yTFw==
+ b=oKiLbU/ksM+vm5/uAf30ImXedBoMEL7NLDXHbRReA3FhJixBDIQLeJNLpImbvYgk+sfJL3Ohr9e6rQE/wsyLzWlnTSpO3cIzOuAe/LHwJ14IAw5QOlQo25K2vLZTeHMGSGk3fBP4Xb0Mh7j30S9BPt3desgbEh2dSkwpOWItY1GlC2TO8B8UEsxAPVcMu6Gm4ThBSaVpxt2SNXTlWwczc03v87SHLFJZvkiO++yFsYnQ5/25DHbiE2aPFX93YWLGyYxED21Q5c9IeLD5/taKre0c3v1Cixekm/B0nq54fdYyzWWCW+2AzxzB/kZP6Biwt8caduOU4M9WaKOJMxo9mQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ehxQd4sbZEsRt0R/XcVgHLGaR9JvlKaaWTbmNOgN3yA=;
- b=II9jnPqw4y9V7s++pMN9R3GPTk7VQRebm62XIxCRs2Xty3jK5OoJ4Adv3Bfm1SPdZ3ceuOYzEuaynmoz7XMHs+/Po4jT2oLyHpgL2/vvQkBmCiChdtgEhj52TdMITLadn/1Taa00LLwdZCAlcOOctiUEPNfJ5SfCeJdIF10MrGo7+8W1tR1tPHXZ4MlYKakHqqGRNdiQWCQDefBRG6qJxiy6yaHMgI9dImrBqx1e3xwrtSShF/GX1o74DAUn8noc4P7ILZuuvhHJWU+r5Fs8r/xpaN/aQ6II+2i+46rQRUrfEUkBArTFfLAm71NRzBTs/G3udqR+udyvuGSb2/COiQ==
+ bh=n+W0KPaoXr53i7jXBa+TJcwntC8C9GPNc5KQ148Kiho=;
+ b=RyZxK9OjTsMnI8q/3G6VeC3r7Q80w26ptIkgqoRg12PRkQqZ5zZ+Kq9LncTwQXVz/Qm+9rpu3pyn+JdPIe7lcEQUcN688kbxjm3PyMNAopGuf6SK4tk4P4qNJ0YkdlgMIpBtPEVJOmPH1u4pkG19rMSX0tvx1yx6+L98Ny8tBu5uG27b97QtTxxcDTJFC0ApnyL+YcuZmV/hoJwiI0LOntepmIN8TdcPgUG4uc0v41g6CK1Gs5wPvaBLHDIlPoNYUVXsyeda2ke2dFgj/+QSo110sKXihoa5F89YiW5Jdg2uKmGfZdSA6tGnwmpV9NNaF4a5rsWZgbeOspFbPdMbsg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ehxQd4sbZEsRt0R/XcVgHLGaR9JvlKaaWTbmNOgN3yA=;
- b=YO0yxE/r9dBlduvg5xTpOqlHgxUngFleqhjxJpKqzpDHfWzkuEUMA4eWdv35/zABebL9ExwCZkGKbFt+nwyie4vqyy9XAeLslkTrXuN39I6/e/uKVN3MO0lRRQDauW2kNMXRS78G4k8Mx0rhminAk2MzjBNPMXRNy4VD4BnSCZk=
-Received: from CH2PR10MB4312.namprd10.prod.outlook.com (2603:10b6:610:7b::9)
- by MW5PR10MB5737.namprd10.prod.outlook.com (2603:10b6:303:190::7) with
+ bh=n+W0KPaoXr53i7jXBa+TJcwntC8C9GPNc5KQ148Kiho=;
+ b=xlt9/8iUZSVJEtXMnMzgUSTKR987cOxaj6ozCM+1OwTti2DLPlkOiu69fcEStLz9mJVepaI8cskJ0yPqfV8b6wozup2HalKPvwWYVmrD0NAL7wCy5irUHOKM0qwW2ltmOx6mDLmWnuatEmY4TnNLwCHYuMR41v41p9U+uDiEe6c=
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com (2603:10b6:5:212::20)
+ by PH7PR10MB6484.namprd10.prod.outlook.com (2603:10b6:510:1ef::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.22; Thu, 25 Jan
- 2024 09:45:23 +0000
-Received: from CH2PR10MB4312.namprd10.prod.outlook.com
- ([fe80::c29d:4ecf:e593:8f43]) by CH2PR10MB4312.namprd10.prod.outlook.com
- ([fe80::c29d:4ecf:e593:8f43%7]) with mapi id 15.20.7228.026; Thu, 25 Jan 2024
- 09:45:23 +0000
-Message-ID: <43b6b9ce-bbc8-4c36-abcb-85ed8c1eb40f@oracle.com>
-Date: Thu, 25 Jan 2024 09:45:20 +0000
+ 2024 10:28:54 +0000
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::f11:7303:66e7:286c]) by DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::f11:7303:66e7:286c%5]) with mapi id 15.20.7228.027; Thu, 25 Jan 2024
+ 10:28:54 +0000
+Message-ID: <79eb5c4c-d9c0-4a70-94ac-04892bbf8085@oracle.com>
+Date: Thu, 25 Jan 2024 10:28:49 +0000
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/15] block: pass a queue_limits argument to
- blk_alloc_queue
+Subject: Re: [PATCH 03/15] block: add an API to atomically update queue limits
+Content-Language: en-US
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
         Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
@@ -89,88 +89,87 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
         Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
         linux-nvme@lists.infradead.org, virtualization@lists.linux.dev
 References: <20240122173645.1686078-1-hch@lst.de>
- <20240122173645.1686078-9-hch@lst.de>
-Content-Language: en-US
+ <20240122173645.1686078-4-hch@lst.de>
 From: John Garry <john.g.garry@oracle.com>
 Organization: Oracle Corporation
-In-Reply-To: <20240122173645.1686078-9-hch@lst.de>
+In-Reply-To: <20240122173645.1686078-4-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P265CA0179.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:311::7) To CH2PR10MB4312.namprd10.prod.outlook.com
- (2603:10b6:610:7b::9)
+X-ClientProxiedBy: LO2P265CA0258.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:8a::30) To DM6PR10MB4313.namprd10.prod.outlook.com
+ (2603:10b6:5:212::20)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR10MB4312:EE_|MW5PR10MB5737:EE_
-X-MS-Office365-Filtering-Correlation-Id: a834ff4b-d713-4a3a-94ca-08dc1d8a5a2b
+X-MS-TrafficTypeDiagnostic: DM6PR10MB4313:EE_|PH7PR10MB6484:EE_
+X-MS-Office365-Filtering-Correlation-Id: 17cfe902-b9c8-4e96-67a2-08dc1d906df9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ho8/9HvWGnVmVp5o7uUf1ROxkfWutgMEVDVOMZNspCRE2E66gnnv3bX4Ih6pmltfuegdGmhdQQChp6Sj8yIfTzWbrpTFjehTXyW38pEVv0m1NW5vfszyCngtO7Eh9MU5Ps+F8Ia+BF3CUfalrT/BDmqB9CITw2Z0JzkLz5M0pe+JvyyLDmh58GYJT+GhbVt5dfXBOEDePrrYdZHWpr7FQghlw6l4JBLi4ZVvDoqf5lkVaAi8kMLmH0sDjgYVjxSzJWMQKOA4Tg28942+5wBlG7mMQB2dcXtXL/tDuk8sKpjmpVXjJzHqsc4hgyX35Ez7h/GyFgnyHCArIDQ4o8THqcLl97ol8grK9W7bQBLBDBIUHrnQpKryyWKvIL9i3x8ke/oipiir3Rc6zF9Lu8W/PWQIPJ7TT5DwEt83f+ffxD85BCj1jayBMNaRsufSthBdQrcMMH9amXv5yTj3II09C8EYrHCTI5dANJplXeLA7DfM4eyqccPYzZNZKTxwCIPRxV6UwVbj7zfG65esE0tDP3+bkPvXvVWnNC3QjpPH8dtUQXvnDk8/YOD3jL2ceK/02i76d9c2Vzpqak3wG5wEdqiSft/h+FEx0PkSUDi7oHVHhOLcWMqC5x42oscGvwjSTrhhWxYtG/P7+aaWt386oA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR10MB4312.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(366004)(396003)(39860400002)(136003)(376002)(230922051799003)(186009)(64100799003)(451199024)(1800799012)(31686004)(36756003)(86362001)(31696002)(8676002)(8936002)(5660300002)(53546011)(83380400001)(4326008)(38100700002)(26005)(2616005)(66946007)(54906003)(66556008)(66476007)(6512007)(2906002)(316002)(36916002)(6506007)(41300700001)(7416002)(110136005)(478600001)(6486002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: UNgMSPYZc7O7JvdUcfzJblgtftq1CdWoW4V1L0tWPC75QXu+bM6KzRN17qMUvNdrz1qKzRNKsh+FAWy0/1Buhgwn675eUgefqM1cszs8nruKdHFQCKIl2Ydj7nLWzYII1tUuiSALdo8iXfwdeeEa66e5SEZSCX8Ag7KuytenF+/+/By0wNh6mWCz6b6hro+yGH78B4VPnHkLAIBQ3QhfD81zhA8l7QemHVj+QruInDNuWsoGnL0Z3oBEcCNGJ5DLZe6Cs8s7NRWVE8WyCsWhLEFTgGvBsrMwI+7D3Dutjua3M7RlCAbA2JM9+iOeOTF5Af86rWC7ins+AlYvmF/VX4+n+V7T+lfSE8xlYmWW32PgzGxchdHA+kWLpgmAo3GtavXrbBBLGAAf7pRYKOIS/53vVV+9zE27dzOruR3m2iikocAK7+MZwlMR486kC7vlZi3CiPf25qIpXRfe8nvQKt6pqdNkg/moDT8/0N3khSAgl3pVS1bQOLmnjtPRJ4f5rygtdpELecwM/gNSrmcz48vmdgolBfwEZmFzvKJczufj3vIQlAgHIYSix5asCZ4+iW1/axomU5q9wopy0WM2Dzxv3/IrFOJFv6rkBYOssSCS+bDkQMUKor92V4QzZIw/zjAnIkGhDJ45iqyy738I3g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4313.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(366004)(376002)(396003)(346002)(39860400002)(230922051799003)(186009)(64100799003)(1800799012)(451199024)(31686004)(110136005)(5660300002)(54906003)(2906002)(15650500001)(7416002)(66476007)(8936002)(4326008)(66556008)(316002)(66946007)(41300700001)(8676002)(478600001)(31696002)(38100700002)(36756003)(86362001)(83380400001)(26005)(6666004)(2616005)(6512007)(6486002)(36916002)(6506007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RGhHeEpKNnB2bTJMZGZqT3BmeGM3eGlHbHlFODk3YVAranhaaGo2VEQ5b0Yy?=
- =?utf-8?B?MG1RaUUyUmJuTjdLY3hHQnFZZGJhNSt2d1I1VDRrVTZwQjk1b3BCNzdkeDNT?=
- =?utf-8?B?UEVsVVRjaE5FeFJWRUJrRjRqWkRseFVGZnMyS0lSQ2Qza1E2alhFRThMOEd5?=
- =?utf-8?B?aHRUOGxCc1JrM2ZMOEZIUFQ4SHBnVGdTK2xFbHVIcHRGU2lpMG1tVURIRFcw?=
- =?utf-8?B?Qm9sYjRYSGNZbGhVMkVJVzc4djV0cDBNWHFBSzJwV2cxR3BhSE5aTWxMUG9J?=
- =?utf-8?B?eU9YY05nMFQ0RFdhTll4Snd6bXFNM05jN3Q2eWN6S1Q4SFl6QWNxbE55TUhW?=
- =?utf-8?B?c2lMbXl2OVpOcDh3WVlkVTJwbU5kSStma2ZVZEhzSzhEQmY3T1lTV2RQQW5E?=
- =?utf-8?B?K0VrNzdmQ1JHZkZQQXM4d09pUk1ONEpCMDNYTDdpNmQ1cDlQUDF2NVRXa2Zj?=
- =?utf-8?B?REw3NnBmcFFQMlhjeENEQ0d6ZVExWWwyLytnWE5nT3A0dFlzbGUxMXJXeHZW?=
- =?utf-8?B?TnZudko5b0toU0RQOTBwcGxLKzBUMWJqZXJhenprU1pLT1Y4UzNkR3ZaL1ZT?=
- =?utf-8?B?QXpDc2dCOG82WWtFOGd5UlRibDBQTjVLMUJnMWR6c3hzckdmSmJSVkdTbzN1?=
- =?utf-8?B?cWJKcUVqc25OMUlhZm0ySjhwcHRlQk9iQWRjV1JaVmVCOEhVTU9Lb21pQXFq?=
- =?utf-8?B?aG83MEoyTnQ5b0ZkdVFnUGQ5YmQvZktMazJxK0FUT2w4YWJpVUZXZ2JuZGlj?=
- =?utf-8?B?MFVmNXF0bTBaLzNwR2pFaEFydE9aOUVFajYyZjZJNUlpdFh4N3YwcXRjNS9m?=
- =?utf-8?B?azNzWDA3TjB1YjRpUFh1RWVaaGI0UlBuN1NoMXZrS2hjcGxFT0ZOVm9lVmVy?=
- =?utf-8?B?VWRwVkFLUHY1T3dUMWVtb1RjbzQ1SExVZlhqU1p5U01SUUZOWXhsUVc4dG5n?=
- =?utf-8?B?NVVoN1p6R2NWU0NvTXl2em9VQXJnVlhiUyt0WVZzbWpUQTBlVFZPZnJjTU5m?=
- =?utf-8?B?U2tBN0hFUFp4RHVLYjdxdTVGRFVDTE9HZTQ1R0M3cEpIb1VTYnJEN01xZDRG?=
- =?utf-8?B?VGYzRFJGVC8xQ24vdVJUbkgzTGtMdWpTMHZKVkFzU05MempHSTZidTJvd3FZ?=
- =?utf-8?B?am1CaTBORlhyeWhLVzlPM25wYW10ZEpuSkQ4bndqVHVhSnh5cGxqTXVXU0Nj?=
- =?utf-8?B?VmVLKzBBR1g3L094cXpINlg0OEJMdEF6WXprNmxMd3Q0Tk5ia2ZhLyt2RlJs?=
- =?utf-8?B?Qy9RS1JYZXNDbjNCOFFNQlFtSHFKSGxCaWR3WnBtbzFwRE1wWWRab2NjUUZC?=
- =?utf-8?B?VXpnb0dtcUJrNGJKaUVqVWY4d2F6WEk0YU9TVVFzYjhMeUFPUXRXM2s0eFJo?=
- =?utf-8?B?L05LbTFPdUtkQUtyTmNGT3VONXBSYVIrNkJWMGI5OTFNbUhQZSsxRUYwbFhM?=
- =?utf-8?B?OG8rU0hBSUJodXFZSit2YTBGWUxVZE1ZUDN5aGIyYXNyRWxaeVRKd2N1b29E?=
- =?utf-8?B?TVR0eC8wSmpxR0J6emJPZmp5U3VmZk05Q0VSSFBneUtlTGNOMmFFVmpzVFpD?=
- =?utf-8?B?a3ZaSVJIUmFXVFo4ZzQ5eS9CV01UZ2dQR0t2QUYwa1FISCt2cXEvcVFkNmo1?=
- =?utf-8?B?MS9GM1NnbUZiUmtmTGVyUUlPTlhUL3VzWU4yMU1yUjUvL05qL3ZjV0JOWStO?=
- =?utf-8?B?M1VJMEZLaTFZVWdiUEdDREtrYmZhcm1NK3B3SmFtYjdGVGdyS0tOa1duaDNM?=
- =?utf-8?B?ekF3R0Jra3BpUkUvZEhObG9RYUxybWpLT1JxYXdiRXBHdks5QVNFaFRYcnBL?=
- =?utf-8?B?djVlYUFQaTBVbDhucGVSM2ZSZzY1WDRZd2hDTE1MMlZMOWZiZitocVNTR2Nq?=
- =?utf-8?B?L3hRVzdCR3VyblplMHFJRHAzWUs1Z3BSSXRzemgvYnVtTmhNOTlNQkMzU0R2?=
- =?utf-8?B?RlVDRnI0aE5LYVlnL2d4VXFHbE9zUGsvdDh0SFUxMGhObFhFckUybHoveWI2?=
- =?utf-8?B?UUVQT2lHUWhOaGNZSkc2dS8vSCtWTElEK3pqV1VqL0t6WVQ1TnZLVW5mVEJX?=
- =?utf-8?B?cHJXei9xdDdpSFJNOUdldnVFNUlQd1h1VWxwdWM4aGhOTWhUT2xxdVVVOFhx?=
- =?utf-8?B?Nk14WGRVbDc2dUNiaS85c0tGUWI0UU5zOVlPaXhlZzlIdlhNczJGNjFkc213?=
- =?utf-8?B?UWc9PQ==?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VVJOajhNVS85a1VhaUh3NzE4aW1Bck1qT0w2MkozdWY5c1VPcHA3TWYvT3Zn?=
+ =?utf-8?B?ZHZWWjhmU0dOY1NuTmxOTGpLeStoTEsrd0ZJYzRMWEdSTDg4bzU3eGd3NzVO?=
+ =?utf-8?B?NENrWC8zbHVYOENxUmxoZFd4Q3hXOWFac09UYVh0dFZzOTlDS1BicmVycDRQ?=
+ =?utf-8?B?NHVvb2N3WnkyY2UwRlkwVnpmakR3MHl1QUFqakpmUHJBUkoweWVhWXVmL3dE?=
+ =?utf-8?B?WUttbE5DUnpMMm04bkozWkRZRldwT2ljRXVRWU8xaEQzQ3ZSYmJxNjZFMTBW?=
+ =?utf-8?B?cWdxWHhFRzBndkw4ZWhKRDR1cDBVR0d2cUpxM2NaYTF5ejFDQTdsOG5RM0xD?=
+ =?utf-8?B?NjN1eUJkRlBacy9tTHYwNy91bXJxUk00Y2ZMckpRY3R5emlUNkRLN2ZQa2Mv?=
+ =?utf-8?B?TXVMUE1INUYra2RQT3ovdGpzdko4WXFkenc2aDg2WUdZbEJ6bUJXaEdCVksv?=
+ =?utf-8?B?UUpwbTRKNU0zd01leE54WGlGR0x6bHF2NHV3V1RBYXhESjI1MjA4YXBKOFhs?=
+ =?utf-8?B?T0g4eTlEOFZESUthTGNleHFnUm5xV2poV3ZDUVRMb1UxZDVhYXNBbTNMSzBt?=
+ =?utf-8?B?dkFBQTA5NEcremVmVG4yQmZoK2dINXFTNmNYVkV2RmFuM3RlL2VuSHVDT2Ux?=
+ =?utf-8?B?alJOcFgwNWlWOEZZUUlYRWFJbndEWFpSUzh4K2x1ODNTTG5ZSFIwbWVCWWkx?=
+ =?utf-8?B?T1BJOTdTVWZ0MlJrMkhaU2ZiVGlTVWswai9OY21sRXlKV0NQbTgrWGUxcHlv?=
+ =?utf-8?B?cVFxSUs2bzBHZUJZSGRsZlhRUE0zMlI4aXY0K1FNUjVYS0VrOVJ2RUtVeVlx?=
+ =?utf-8?B?aGpMVVRlNitZMzJLTkNyRmFLWWkrc0lPQjJJUDVrMHM1QXNCNFE4d24wcjQ2?=
+ =?utf-8?B?VzlpR0cxN2ppT1JtL25ORTE4em1JTEJ4cmUrQnA3TkxwT3BFYXRWWFJNeVBL?=
+ =?utf-8?B?NDhYUlZxT05lK1d6M01SNHFaZUk1SzVDalE5MmR4UFpMeXRnb2t2RXBtenRj?=
+ =?utf-8?B?VW1YNXlSSlNOTUFmQSs1TW9NVFNLd3M2YmsxcGNMNGZlRWRqR0RhaFFEclFN?=
+ =?utf-8?B?MnJDUWswNVpXdmZqbHJEd1ZyZzVKYmdtdXJTK3VQeXVFWGNZby9vRUsxdVN1?=
+ =?utf-8?B?ck9pTmR6dGVmRU9LR2k5TjlkeG9MSFpLSGZCQXBxa2JGbFVUcTVSRDAva0Rp?=
+ =?utf-8?B?dk5TTTB2blJ3eE9VY0JJbnhSalZjdk91aEV2SVN4Q21nc3hyOUR3MzFjdEYx?=
+ =?utf-8?B?K3o2UWI4YnpHdEJiOVVJMnl6ZmRnRFRtNnY3Y3R3SkFDNU16U2JlM2ZCNzE3?=
+ =?utf-8?B?czUrNW9DajJuZkw4aXJoVXBUS1ZhQ0E3REx1aTdpMHE0RUkwTTlQeWRGNWtU?=
+ =?utf-8?B?L0d0NTlQenpKMlZNWlJBdHFiK2E4bUEwUzRhQ05sNnUxNXBUZkY0MEZ5MVow?=
+ =?utf-8?B?bVZybUJrdWZZeHhzblFqT2xlOTNGRk92YXpsSVh4K0ZrMDZOZnBESjJaRnB5?=
+ =?utf-8?B?TDVtS2dkU3BVQnpqMkZtdHFjVE5aY2NMNmMxUmtJTDgvb3VjdXVST1lXN1pn?=
+ =?utf-8?B?SklIOUJ3c2RLdTVxTVk1N0lEcWtyK1Z0WEZmUUJyVG5lVmM1TEZyRVBVci9M?=
+ =?utf-8?B?QVloNi9iOEJWUWdzdXZjNEZITXJNdER5WDBIakdYeWx1bkkxbklUTUwvM3M5?=
+ =?utf-8?B?a1JDMUZnczk1OEQySStjd05NRTVzUjZteWNzT2M3c2cwQjBkOWtEQWlrY3Vs?=
+ =?utf-8?B?a0JlYzEwNVRaa2FyazcvSnYvbHZ5NGFHcUkyOCtFNUJvZjZyK3pmKytueE5s?=
+ =?utf-8?B?ZkNQTW8xVmtXUm9RcmlHdm9rYmxCZFZNUmV3eGo0MS81NVdCR2QyVUwySGtO?=
+ =?utf-8?B?M2dvRzBvREI1ZXZCK2NGRER1eVNFYXI0SlNyVWRhOGYwT1I3MEFvRnFUSG8x?=
+ =?utf-8?B?b1JwSmRJaVdIUnlnbEROREdFaXQ0YkEwVnE1enc0cWJjVVNvdGFNRFIvcmNy?=
+ =?utf-8?B?Z2NrTFE0RHJuT2trbVFPY0tLbmsySFJrTy83eTB2M3BlcVVEa3RxclQzSGhR?=
+ =?utf-8?B?MmVPTi9SYWlwTmdMdkllWkkrcGlYSGo0ZWU3c01mdzBTRk5BSU9rYlcyWDVY?=
+ =?utf-8?B?WWRtM0Y0emNPK3BoYnlyUEhSQXJqN2daUTFUSHJyZkx1NXJYQ2t6ME5zSS81?=
+ =?utf-8?B?ZGc9PQ==?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: pZ5wOxVuzLL/lztI1Y07lumq08v8pjKSUk1xCzbuklxDyOx46NeBToxYXfbG7WKW4V2JJT0AK98AdlYKOMsSt976PgcIcKv8QFF1R4/5drauE0ETFEEpn1FStJuSnxAjPoinEgPlh2ArWY9osDtMOGoyyd2TkC+zUJPrmCr1R2PL/HWV9HjzVrYzvDD3Cy275+VkECq4h0DA4re153vy3EuKu8YDvh2R2rWxbjyeVEI8P1DDY30rQk4bJ2bSxCDqhHo6Z/1+7UVy125z172Q5AE8JazqNsJY5dJgpYnqmvuu3fe+df2nSUzFpggW0XWe3GZ51PGszA9KjwcKWlSbcWHAVumy3oj2zNdop4OjDJdm+7zNBEPORJiqpi0Z9ojvSRsB848hAEZV01xIhDpe1wwmWM/pgkjALlxzqkRhAiwfTfDK4cjrTSmBy8+gnzCEE73RGxSF992If6KTLkjsBU+dqiXOpZG6uJQGmpcxLTuFRkhSCzSlH8R58UD8xHZC8ZscEGFdJmV2/kf5m3J1YXo7zaVhAF/FZkf19dMg8SDybHVe/8Td26co3llb2BOpGpfsYajLi8MxA+KlUbCgs5kQ4xk4Kyz597F1qFak97E=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: Tk7A2Mzs9Z2OmyDpQqlkKAWPsxXN99+zWcvWlQGRn02dDsG7QohtG+M2DRN+7eyybXmDc3qvgMg1hVl5DZvMCZRkaLi0vRO5QhdMl75nP0bGkzv+IGGDbTKoQSrowPdpSPNWXHoO40IF+vkM8iWywApzyaLoIGUbo9lMSxIsl1fjjkoezhKLl+BY0Lzq2bUJ720J0ZnchKzVpWOZNQxsjV6BHPltD/e62KXMRN4GIblzZRqv0uVunhiN9j2azsAqxPMj/1B1u4YEIeGrpoGaod4kTbpB5zO3qzkrf5y3rjoYNq/pRZ5gUj6jywkuEEDBTdrNgIN7BZsOCs/Jn9XkWVg37STekETkPE8u1bNi3DctC8wi4MVTI0rMMV7X2OhS5holIpkLsYGl4Vs3WgFfAgaFIpIa50cZEYs3P9/hZLkvm9YZbY2lfNQkBFAbyJ79E2BUoCyk89nr2PK+NA2+7URoFKwykSYsbWEdRzCrdwDPRPSpQ1fUwlEKSLZHafK77BT1RULlRmGUWYQOWJdhQ1ag6i5+Iwn9eDGstsN/wdcyjYK/cv/7G8AgvLiaa8VLrQynYgAJ3UYsXm61IrLoUAgCiq4BItltSmCiGmc/iQU=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a834ff4b-d713-4a3a-94ca-08dc1d8a5a2b
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR10MB4312.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 17cfe902-b9c8-4e96-67a2-08dc1d906df9
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4313.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2024 09:45:23.8031
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2024 10:28:53.9286
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: L6y8PQmddZbTvnoDCjo5qJK9kgJI257XjBSkTu62Gi3xIwhiZoZ8OXIVSwCpZIvGMyaFjr1LZIyo4ZvgflqK9Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR10MB5737
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7/NYnvONFIccy6OLq06oQXtPYIFB6XXyv0Fmkixl7BjOzbjpqoV5tUzIlYI9RjAmax12N8VC52KDUojtBN2jmw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB6484
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-25_04,2024-01-24_01,2023-05-22_02
+ definitions=2024-01-25_05,2024-01-25_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxlogscore=999
  spamscore=0 mlxscore=0 adultscore=0 bulkscore=0 phishscore=0
  malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311290000 definitions=main-2401250066
-X-Proofpoint-ORIG-GUID: S5g-rEAWX_yiG3bBVcCDYPPHrxblpMu8
-X-Proofpoint-GUID: S5g-rEAWX_yiG3bBVcCDYPPHrxblpMu8
+ engine=8.12.0-2311290000 definitions=main-2401250072
+X-Proofpoint-ORIG-GUID: 2d3wdAaij2l_oMcwlf3jxd-vpvPFUY4s
+X-Proofpoint-GUID: 2d3wdAaij2l_oMcwlf3jxd-vpvPFUY4s
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240125_014541_969173_3F92DC45 
-X-CRM114-Status: GOOD (  32.76  )
+X-CRM114-CacheID: sfid-20240125_022910_835509_B3751E78 
+X-CRM114-Status: GOOD (  30.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -185,166 +184,143 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 22/01/2024 17:36, Christoph Hellwig wrote:
-> Pass a queue_limits to blk_alloc_queue and apply it if non-NULL.  This
-> will allow allocating queues with valid queue limits instead of setting
-> the values one at a time later.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->   block/blk-core.c | 28 +++++++++++++++++++++-------
->   block/blk-mq.c   |  6 +++---
->   block/blk.h      |  2 +-
->   block/genhd.c    |  4 ++--
->   4 files changed, 27 insertions(+), 13 deletions(-)
-> 
-> diff --git a/block/blk-core.c b/block/blk-core.c
-> index 09f4a44a4aa3cc..9f1af8fba4dcd2 100644
-> --- a/block/blk-core.c
-> +++ b/block/blk-core.c
-> @@ -393,9 +393,10 @@ static void blk_timeout_work(struct work_struct *work)
->   {
->   }
->   
-> -struct request_queue *blk_alloc_queue(int node_id)
-> +struct request_queue *blk_alloc_queue(struct queue_limits *lim, int node_id)
->   {
->   	struct request_queue *q;
-> +	int error;
->   
->   	q = kmem_cache_alloc_node(blk_requestq_cachep, GFP_KERNEL | __GFP_ZERO,
->   				  node_id);
-> @@ -404,13 +405,26 @@ struct request_queue *blk_alloc_queue(int node_id)
 
-Is there actually an issue in that blk_alloc_queue() can return NULL, 
-and we should be checking IS_ERR_OR_NULL() in the callers?
+> +
+> +int blk_validate_limits(struct queue_limits *lim)
+> +{
+> +	unsigned int max_hw_sectors;
+> +
+> +	if (!lim->logical_block_size)
+> +		lim->logical_block_size = SECTOR_SIZE;
 
-I don't think that IS_ERR() picks up on NULL pointers, right?
+nit: This function is doing a bit more than validating, as the function 
+name suggests
 
-Or make this change:
+> +
+> +	if (!lim->physical_block_size)
+> +		lim->physical_block_size = SECTOR_SIZE;
+> +	if (lim->physical_block_size < lim->logical_block_size)
+> +		lim->physical_block_size = lim->physical_block_size;
+> +
+> +	if (!lim->io_min)
+> +		lim->io_min = SECTOR_SIZE;
+> +	if (lim->io_min < lim->physical_block_size)
+> +		lim->io_min = lim->physical_block_size;
+> +
+> +	if (!lim->max_hw_sectors)
+> +		lim->max_hw_sectors = BLK_SAFE_MAX_SECTORS;
+> +	if (WARN_ON_ONCE(lim->max_hw_sectors < PAGE_SIZE / SECTOR_SIZE))
+> +		return -EINVAL;
 
+The WARN_ON_ONCE usage is odd, as it will only ever WARN once for a 
+specific q, while other queues associated with other drivers may have 
+the same limit issue. But I suppose if one issue is fixed, then the 
+other will make itself known...
 
-diff --git a/block/blk-core.c b/block/blk-core.c
-index 76cd797d9712..a447b0501e82 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -401,7 +401,7 @@ struct request_queue *blk_alloc_queue(struct
-queue_limits *lim, int node_id)
-        q = kmem_cache_alloc_node(blk_requestq_cachep, GFP_KERNEL | 
-__GFP_ZERO,
-                                  node_id);
-        if (!q)
--               return NULL;
-+               return ERR_PTR(-ENOMEM);
-
-        q->last_merge = NULL;
-
-
->   
->   	q->last_merge = NULL;
->   
-> +	if (lim) {
-> +		error = blk_validate_limits(lim);
-
-nit: This is only ever going to return -EINVAL or 0 by its very nature, 
-right? I suppose that it could return a bool and we do the conversion to 
-EINVAL here. It's a personal taste thing, I suppose.
-
-> +		if (error)
-> +			goto fail_q;
-> +		q->limits = *lim;
-
-nit: It might be neater to do this in blk_validate_limits()
-
+> +
+> +	lim->max_hw_sectors = round_down(lim->max_hw_sectors,
+> +			lim->logical_block_size >> SECTOR_SHIFT);
+> +
+> +	max_hw_sectors = min_not_zero(lim->max_hw_sectors,
+> +				lim->max_dev_sectors);
+> +	if (lim->max_user_sectors) {
+> +		if (lim->max_user_sectors > max_hw_sectors ||
+> +		    lim->max_user_sectors < PAGE_SIZE / SECTOR_SIZE)
+> +			return -EINVAL;
+> +		lim->max_sectors = min(max_hw_sectors, lim->max_user_sectors);
 > +	} else {
-> +		blk_set_default_limits(&q->limits);
+> +		lim->max_sectors = min(max_hw_sectors, BLK_DEF_MAX_SECTORS_CAP);
 > +	}
 > +
->   	q->id = ida_alloc(&blk_queue_ida, GFP_KERNEL);
-> -	if (q->id < 0)
-> +	if (q->id < 0) {
-> +		error = q->id;
->   		goto fail_q;
+>
+> +/**
+> + * queue_limits_commit_update - commit an atomic update of queue limits
+> + * @q:		queue to update
+> + * @lim:	limits to apply
+> + *
+> + * Apply the limits in @lim that were obtained from queue_limits_start_update()
+> + * and updated by the caller to @q.
+> + *
+> + * Returns 0 if successful, else a negative error code.
+> + */
+> +int queue_limits_commit_update(struct request_queue *q,
+> +		struct queue_limits *lim)
+> +	__releases(q->limits_lock)
+> +{
+> +	int error = blk_validate_limits(lim);
+> +
+> +	if (!error) {
+> +		q->limits = *lim;
+
+this is duplicating what blk_alloc_queue() does
+
+> +		if (q->disk)
+> +			blk_apply_bdi_limits(q->disk->bdi, lim);
 > +	}
->   
->   	q->stats = blk_alloc_queue_stats();
-> -	if (!q->stats)
-> +	if (!q->stats) {
-> +		error = -ENOMEM;
->   		goto fail_id;
-> +	}
->   
->   	q->node = node_id;
->   
-> @@ -435,12 +449,12 @@ struct request_queue *blk_alloc_queue(int node_id)
->   	 * Init percpu_ref in atomic mode so that it's faster to shutdown.
->   	 * See blk_register_queue() for details.
->   	 */
-> -	if (percpu_ref_init(&q->q_usage_counter,
-> +	error = percpu_ref_init(&q->q_usage_counter,
->   				blk_queue_usage_counter_release,
-> -				PERCPU_REF_INIT_ATOMIC, GFP_KERNEL))
-> +				PERCPU_REF_INIT_ATOMIC, GFP_KERNEL);
-> +	if (error)
->   		goto fail_stats;
->   
-> -	blk_set_default_limits(&q->limits);
->   	q->nr_requests = BLKDEV_DEFAULT_RQ;
->   
->   	return q;
-> @@ -451,7 +465,7 @@ struct request_queue *blk_alloc_queue(int node_id)
->   	ida_free(&blk_queue_ida, q->id);
->   fail_q:
->   	kmem_cache_free(blk_requestq_cachep, q);
-> -	return NULL;
-> +	return ERR_PTR(error);
->   }
->   
+> +	mutex_unlock(&q->limits_lock);
+> +	return error;
+> +}
+> +EXPORT_SYMBOL_GPL(queue_limits_commit_update);
+> +
 >   /**
-> diff --git a/block/blk-mq.c b/block/blk-mq.c
-> index aa87fcfda1ecfc..2ddbefdeae93e4 100644
-> --- a/block/blk-mq.c
-> +++ b/block/blk-mq.c
-> @@ -4092,9 +4092,9 @@ static struct request_queue *blk_mq_init_queue_data(struct blk_mq_tag_set *set,
->   	struct request_queue *q;
->   	int ret;
->   
-> -	q = blk_alloc_queue(set->numa_node);
-> -	if (!q)
-> -		return ERR_PTR(-ENOMEM);
-> +	q = blk_alloc_queue(NULL, set->numa_node);
-> +	if (IS_ERR(q))
-> +		return q;
->   	q->queuedata = queuedata;
->   	ret = blk_mq_init_allocated_queue(set, q);
->   	if (ret) {
+>    * blk_queue_bounce_limit - set bounce buffer limit for queue
+>    * @q: the request queue for the device
 > diff --git a/block/blk.h b/block/blk.h
-> index 58b5dbac2a487d..100c7a02854bfd 100644
+> index 1ef920f72e0f87..58b5dbac2a487d 100644
 > --- a/block/blk.h
 > +++ b/block/blk.h
-> @@ -448,7 +448,7 @@ static inline void bio_release_page(struct bio *bio, struct page *page)
+> @@ -447,6 +447,7 @@ static inline void bio_release_page(struct bio *bio, struct page *page)
+>   		unpin_user_page(page);
 >   }
 >   
->   int blk_validate_limits(struct queue_limits *lim);
-> -struct request_queue *blk_alloc_queue(int node_id);
-> +struct request_queue *blk_alloc_queue(struct queue_limits *lim, int node_id);
+> +int blk_validate_limits(struct queue_limits *lim);
+>   struct request_queue *blk_alloc_queue(int node_id);
 >   
 >   int disk_scan_partitions(struct gendisk *disk, blk_mode_t mode);
+> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> index 4a2e82c7971c86..5b5d3b238de1e7 100644
+> --- a/include/linux/blkdev.h
+> +++ b/include/linux/blkdev.h
+> @@ -473,6 +473,7 @@ struct request_queue {
 >   
-> diff --git a/block/genhd.c b/block/genhd.c
-> index d74fb5b4ae6818..defcd35b421bdd 100644
-> --- a/block/genhd.c
-> +++ b/block/genhd.c
-> @@ -1396,8 +1396,8 @@ struct gendisk *__blk_alloc_disk(int node, struct lock_class_key *lkclass)
->   	struct request_queue *q;
->   	struct gendisk *disk;
+>   	struct mutex		sysfs_lock;
+>   	struct mutex		sysfs_dir_lock;
+> +	struct mutex		limits_lock;
 >   
-> -	q = blk_alloc_queue(node);
-> -	if (!q)
-> +	q = blk_alloc_queue(NULL, node);
-> +	if (IS_ERR(q))
->   		return NULL;
+>   	/*
+>   	 * for reusing dead hctx instance in case of updating
+> @@ -861,6 +862,28 @@ static inline unsigned int blk_chunk_sectors_left(sector_t offset,
+>   	return chunk_sectors - (offset & (chunk_sectors - 1));
+>   }
 >   
->   	disk = __alloc_disk_node(q, node, lkclass);
+> +/**
+> + * queue_limits_start_update - start an atomic update of queue limits
+> + * @q:		queue to update
+> + *
+> + * This functions starts an atomic update of the queue limits.  It takes a lock
+> + * to prevent other updates and returns a snapshot of the current limits that
+> + * the caller can modify.  The caller must call queue_limits_commit_update()
+> + * to finish the update.
+> + *
+> + * Context: process context.  The caller must have frozen the queue or ensured
+> + * that there is outstanding I/O by other means.
+> + */
+> +static inline struct queue_limits
+> +queue_limits_start_update(struct request_queue *q)
+> +	__acquires(q->limits_lock)
+> +{
+> +	mutex_lock(&q->limits_lock);
+> +	return q->limits;
+> +}
+> +int queue_limits_commit_update(struct request_queue *q,
+> +		struct queue_limits *lim);
+
+It ain't so nice that the code for queue_limits_start_update() and 
+queue_limits_commit_update() pair are in separate files.
+
+> +
+>   /*
+>    * Access functions for manipulating queue properties
+>    */
 
 
