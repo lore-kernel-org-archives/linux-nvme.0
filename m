@@ -4,123 +4,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD0C9C47DDF
-	for <linux-nvme@archiver.kernel.org>; Fri, 26 Jan 2024 15:32:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A9E4FC47422
+	for <linux-nvme@archiver.kernel.org>; Fri, 26 Jan 2024 16:10:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+TNxNSzp1WEagRtBVGv/aF71XG+4G8HcGl0DsseuFHM=; b=qPON2XbbYoHVGAabg5dB5HZ5Pk
-	Pm0DPw8OUI4jcR3QGVCOPyqZa9hMXp0tKYzUwQBI9l1YlAr1+mSAsAnpm94NVo9q5T3GIStlu6t3F
-	RnREvKbMORdKB/nd8HqdJt0hNMxkECyARLGgwqDl9P6+yRCiz/kPyzXqHqHvHvoz+smWA5K2Jr3uX
-	t4ylA2GnOIU0aRidj/Ue7A9wOX2T/u6uDBgNJYnaOccDh6oLoKBVNCTW13YA/9BcfBXJBgg3UBYn2
-	ez/ANgjxy6C1FbJWPPLMawg45aqjFffmo1hxE6+a05H8geaYXJ/x9f6AIpEr/BzTwdKJIJa8wyi1j
-	MydGcJYg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Fs/S1JT+nGbK5utVGseSOG49kNzybl7iuUC+qp6NvH8=; b=crlO07/+dVIvD6DJ+yqOIcpuoD
+	4mq+nBr4svrft91xlPwBUoVdAW+cMD5p8ZhqY9+M9kupWHGNKifIhH1OszzMegEq3myZ9QAh7VKwo
+	yaL+Lr1YT0DBfjU7h9C7edq+SVSt5V91b560J3jVoMVRKFD1V9etTSOqpvbUh3fMcZxDcYsNoC7Dt
+	PePpNHM+4e2IyHa1e4TKHTuJRai1mr9onydU5EpVT20qr+6V7KfIoX4rHdCpYz9Pi7VcEduA6IpEs
+	rDwAfNDBFquRdHvTalcwUZzUMvyTQxNoSBUIm43VWlRUZaVHWgDCeE/HuTcGXTGI5R3rEqLKFRFiL
+	I7kiSAxw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rTOCC-00000004XMp-30Vn;
-	Fri, 26 Jan 2024 15:32:44 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1rTOmR-00000004crK-2mzp;
+	Fri, 26 Jan 2024 16:10:11 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rTOC8-00000004XLM-05bY
+	id 1rTOmM-00000004cqJ-2ZHp
 	for linux-nvme@lists.infradead.org;
-	Fri, 26 Jan 2024 15:32:42 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	Fri, 26 Jan 2024 16:10:09 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4BB0321E57;
-	Fri, 26 Jan 2024 15:32:37 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E89A71F749;
+	Fri, 26 Jan 2024 16:10:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706283157; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1706285404; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+TNxNSzp1WEagRtBVGv/aF71XG+4G8HcGl0DsseuFHM=;
-	b=0drT4lGQpvUt4WK4ysownZegDpPOo0EItQQiy7kujasgmnALjjABa1cvwq4df5VJfsKQGo
-	fnzT/a2fOWb2JZ8xCAB4Kdw3NzIbY9bN04vK9KvX+ba3L2Ps280dTIm4cjbjjnYf0s/lLJ
-	Qhs0h1k645BLVUo5q12aDoyR5opbbFg=
+	bh=Fs/S1JT+nGbK5utVGseSOG49kNzybl7iuUC+qp6NvH8=;
+	b=Sx6G0mg8eMqfg/itYg2mxpG4XOH74tFXADQMrpd3vWW9cQl+rQhWnOd67sQ1Aq62LzHj8R
+	X+/qJAkWambNwUc4Zxyq4HSS/UQGnCN2Yo1JxZDXUox9UTKYCOBvYQ5A2psGSyyvw/6KSw
+	CYqGagbyrhS4AGniBWuhzjSxYDWR7Ag=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706283157;
+	s=susede2_ed25519; t=1706285404;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+TNxNSzp1WEagRtBVGv/aF71XG+4G8HcGl0DsseuFHM=;
-	b=xTF+SVWxa/MomdsUmzub+0wTDk7HMztkde+0t6Ucyhe+NQgmTzT05KIoIPAGiOznJStQwc
-	kG2/3xzjWvh0FNCw==
+	bh=Fs/S1JT+nGbK5utVGseSOG49kNzybl7iuUC+qp6NvH8=;
+	b=5viXJ49tJb/OSB6onYCf0SOtyR6V9298/fQzhgejGk0y1y+O3UDEZaV+oiwmBTNEpkAVH+
+	CWw7EiETMPRY8KBQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706283157; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1706285403; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+TNxNSzp1WEagRtBVGv/aF71XG+4G8HcGl0DsseuFHM=;
-	b=0drT4lGQpvUt4WK4ysownZegDpPOo0EItQQiy7kujasgmnALjjABa1cvwq4df5VJfsKQGo
-	fnzT/a2fOWb2JZ8xCAB4Kdw3NzIbY9bN04vK9KvX+ba3L2Ps280dTIm4cjbjjnYf0s/lLJ
-	Qhs0h1k645BLVUo5q12aDoyR5opbbFg=
+	bh=Fs/S1JT+nGbK5utVGseSOG49kNzybl7iuUC+qp6NvH8=;
+	b=mHytsqOKVv88OE2jHL20fbE2Rdrfzph7lnPeI5T0rDez9VKQixq53T4oZgc1jM1qmXEpuB
+	kbUTO+xzcRIxrh/5emHmIUoAmmSYDJ07a7uoTn3xmMkV9QL5F4ofCjdtECkcZnGIfXfFbr
+	cFca0wTXB+B9ZbXmCAZdaMQaS4XnXmQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706283157;
+	s=susede2_ed25519; t=1706285403;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+TNxNSzp1WEagRtBVGv/aF71XG+4G8HcGl0DsseuFHM=;
-	b=xTF+SVWxa/MomdsUmzub+0wTDk7HMztkde+0t6Ucyhe+NQgmTzT05KIoIPAGiOznJStQwc
-	kG2/3xzjWvh0FNCw==
+	bh=Fs/S1JT+nGbK5utVGseSOG49kNzybl7iuUC+qp6NvH8=;
+	b=hHxK0GDSfc5Jgclr61IUuyGQzYqEa3KDpRXfYWU6ej9wUb7+b5RmVZezWzuuTN4ZBenRS/
+	e3K1lR2UFtmesQAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2DF1F134C3;
-	Fri, 26 Jan 2024 15:32:37 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A6E1B13A22;
+	Fri, 26 Jan 2024 16:10:03 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id xfbCCZXQs2WxBgAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Fri, 26 Jan 2024 15:32:37 +0000
-Date: Fri, 26 Jan 2024 16:32:36 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>, 
-	James Smart <james.smart@broadcom.com>, Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH v3 08/16] nvmet-fc: untangle cross refcounting objects
-Message-ID: <oj5l4uvhmp4hmapvzysq7lkstqcu3mnwq2kp366pipmqlhujam@zylmuxdo5ili>
-References: <20231218153105.12717-1-dwagner@suse.de>
- <20231218153105.12717-9-dwagner@suse.de>
- <20231219051648.GA32634@lst.de>
- <l3etc7ia7mx7fc6ko764amf56xrink2vyv3kdirzcuzwfls2nz@wy66e6t4oxbl>
+	id EjJIJ1vZs2VWEgAAD6G6ig
+	(envelope-from <hare@suse.de>); Fri, 26 Jan 2024 16:10:03 +0000
+Message-ID: <81eab1cc-cac9-4f0b-966c-aa360ef916aa@suse.de>
+Date: Fri, 26 Jan 2024 17:10:02 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <l3etc7ia7mx7fc6ko764amf56xrink2vyv3kdirzcuzwfls2nz@wy66e6t4oxbl>
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=0drT4lGQ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=xTF+SVWx
-X-Spamd-Result: default: False [-2.81 / 50.00];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv2] nvme: enable retries for authentication commands
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>, hare@kernel.org
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org, Martin George <marting@netapp.com>
+References: <20240126063709.123814-1-hare@kernel.org>
+ <20240126134937.GA3016@lst.de>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20240126134937.GA3016@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spamd-Result: default: False [-1.33 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 XM_UA_NO_VERSION(0.01)[];
 	 FROM_HAS_DN(0.00)[];
 	 TO_DN_SOME(0.00)[];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	 BAYES_HAM(-0.04)[57.98%];
 	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCPT_COUNT_FIVE(0.00)[6];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_SEVEN(0.00)[7];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
 	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%];
-	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 4BB0321E57
+	 MID_RHS_MATCH_FROM(0.00)[]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240126_073240_253546_0FB2C12C 
-X-CRM114-Status: GOOD (  25.94  )
+X-CRM114-CacheID: sfid-20240126_081006_824333_F5086C92 
+X-CRM114-Status: GOOD (  12.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,48 +133,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Dec 21, 2023 at 10:17:30AM +0100, Daniel Wagner wrote:
-> On Tue, Dec 19, 2023 at 06:16:48AM +0100, Christoph Hellwig wrote:
-> > On Mon, Dec 18, 2023 at 04:30:56PM +0100, Daniel Wagner wrote:
-> > > The live time of the queues are strictly bound to the lifetime of an
-> > 
-> > > +	struct nvmet_fc_tgt_queue	*_queues[NVMET_NR_QUEUES + 1];
-> > >  	struct nvmet_fc_tgt_queue __rcu	*queues[NVMET_NR_QUEUES + 1];
-> > 
-> > For magic prefixes we use __, not _ in Linux.  But having two arrays
-> > of queues right next to each other, once with rcu annotation and one
-> > not rings a bit far warning bell to me.  Why do we have both?  When
-> > are we supposed to use either?  Why is FC different from rest?
+On 1/26/24 14:49, Christoph Hellwig wrote:
+> On Fri, Jan 26, 2024 at 07:37:09AM +0100, hare@kernel.org wrote:
+>>   #define nvme_auth_flags_from_qid(qid) \
+>> -	(qid == 0) ? 0 : BLK_MQ_REQ_NOWAIT | BLK_MQ_REQ_RESERVED
+>> +	(qid == 0) ? NVME_SUBMIT_RETRY : \
+>> +	NVME_SUBMIT_RETRY | NVME_SUBMIT_NOWAIT | NVME_SUBMIT_RESERVED
+>>   #define nvme_auth_queue_from_qid(ctrl, qid) \
+>>   	(qid == 0) ? (ctrl)->fabrics_q : (ctrl)->connect_q
 > 
-> This is my attempt to solve the problem that after NULLing the rcu
-> pointer and wait for an RCU graceperiod I still need to cleanup the
-> queues. Thus I need to keep hold on the queue pointers a bit longer.
-> Indeed not so elegant.
+> Please just open code these two obfuscating macros with a single user
+> each to make the change easily reviewable.  That also means after that
+> you only nee to assign NVME_SUBMIT_RETRY once and not in both side of
+> a ternary operator.
 > 
-> I'm sure there is a better way to do it, I just didn't figure it out
-> when I wrote this part. Any tips are highly welcomed how to solve this
-> puzzle.
+Ok.
 
-Looking at this code again, I don't think we need use RCU for the queues
-pointers at all. The association is already under RCU and thus the
-queues pointers don't need additional RCUing. We either can lookup the
-association or not and the queue pointer's lifetime is under kref rules.
-So with this in mind the lookup would be:
+>>   	ret = __nvme_submit_sync_cmd(q, &cmd, NULL, data, data_len,
+>> -				     qid == 0 ? NVME_QID_ANY : qid,
+>> -				     0, flags);
+>> +				     qid == 0 ? NVME_QID_ANY : qid, flags);
+> 
+> And then split addition the calling convention change for the request
+> submission helpers from the actual behavior change into a well documented
+> prep patch as well.
+> 
+Let's see about the 'well-documented', but I'll try.
+Ok.
 
-	rcu_read_lock();
-	list_for_each_entry_rcu(assoc, &tgtport->assoc_list, a_list) {
-		if (association_id == assoc->association_id) {
-			queue = assoc->queues[qid];
-			if (queue &&
-			    (!atomic_read(&queue->connected) ||
-			     !nvmet_fc_tgt_q_get(queue)))
-				queue = NULL;
-			rcu_read_unlock();
-			return queue;
-		}
-	}
-	rcu_read_unlock();
-	return NULL;
+>> +enum {
+>> +	NVME_SUBMIT_AT_HEAD  = (__force nvme_submit_flags_t)(1 << 0),
+>> +	NVME_SUBMIT_NOWAIT = (__force nvme_submit_flags_t)(1 << 1),
+>> +	NVME_SUBMIT_RESERVED = (__force nvme_submit_flags_t)(1 << 2),
+>> +	NVME_SUBMIT_RETRY = (__force nvme_submit_flags_t)(1 << 3),
+> 
+> Maybe write some comments explaining the semantics while you're at it?
+> 
+Maybe.
 
-No need for more complexity :)
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), GF: Ivo Totev, Andrew McDonald,
+Werner Knoblich
+
 
