@@ -4,60 +4,137 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58CE3C47422
-	for <linux-nvme@archiver.kernel.org>; Fri, 26 Jan 2024 06:37:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A404FC47422
+	for <linux-nvme@archiver.kernel.org>; Fri, 26 Jan 2024 06:43:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=y2Mtofs0uu+bPOMx60JWaWa6xkXrerVP/ziJFQET7Eo=; b=ti1ZGKGvEzJji5fQ07BAX7afGT
-	M4O6lyrAdTMOe+siGfy9wbdpg8skgwLc9zy4OTGQRM6kLj1CyB5poBQV+Eh4eg+AxeCmCgy6thIJl
-	9mjtqlqLPv2lluC/Fi6ASv7Ivr+GmbLuPLc5aP3FH+NuQ2ZF8BHlEvYHK91O8Ubap9pnVmgG/pasS
-	Lo5gB7lh5yWATmPLiBTn+LW6kebuyKEFAgsopqaRU7djNmu22XiCgfqazuchhe0Od5P5//8xVhmWy
-	IrA+ts+EL0h4EJOTLL3uOpo1yFtZKcnL8cQlwVXi1XFX4+Jmo9BQwsy5F/L+jGmdwVtq1HfKxhGfy
-	9DzqWiVQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=SxzNcLxvr0/YfoJaY4gqtgOzHebJu1SqC8kA+PZgcDM=; b=kJCcPBWN0xHQF65D3f9GtqqAp4
+	jjhguRB1jJcazyGRfMI2q3y/oqkYr/EUGhB6lzOU5rz26iSbngfRCOv8VRmvJc7lpE3AS2Q3zI3pV
+	HutJXVpYI9ESRKPgk8g6XzyBV4YWkDrX/fm4y3moBxH8Or1upDA0OKIUW81axsWS0kx0e/RfPeeLz
+	pGHkh1sAOirmMCZxhyMrxwxiybZ6YHt/09yCPsKq8H+qjCV08sALUBluvuJFlZJxPQQh28whmxwiR
+	atTEasKjOxR4D+Qvh0ytFZ713BqGXcELi8xjCWxxlHXuGhJiOJQXb+OMOQRBTznDKyUNbpr2XPqIi
+	nDO452xg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rTFqD-00000003GIV-3oUG;
-	Fri, 26 Jan 2024 06:37:29 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1rTFwR-00000003Gnq-2Ye0;
+	Fri, 26 Jan 2024 06:43:55 +0000
+Received: from mail-mw2nam12on20601.outbound.protection.outlook.com ([2a01:111:f403:200a::601] helo=NAM12-MW2-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rTFq3-00000003GI3-41zs
+	id 1rTFwO-00000003GnR-1W11
 	for linux-nvme@lists.infradead.org;
-	Fri, 26 Jan 2024 06:37:21 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id E2148623D9;
-	Fri, 26 Jan 2024 06:37:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7917C433C7;
-	Fri, 26 Jan 2024 06:37:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706251038;
-	bh=NDq55P4dKDxT9JGYnQ+k8Gs/5c1LBaG13s7BpO5q7nQ=;
-	h=From:To:Cc:Subject:Date:From;
-	b=H4iPgSy4nj9IwCFjKOm6yTojKsUTilOe95nFfdH0pwQvvv9NinlRhK/Gv5i6y2SMX
-	 pLX8H/wkKBTeP5KzSlCO+QHlrE/zOb4xiLRKQMq84WjosFuySpc7tEio93ayp0RKjT
-	 m9YmGAJa7W41eepElxBCG0hpltGKCm4kxlnXI34RL+PVJWbQ43uJIoKmwOHhnmKB/X
-	 kTYe+51FY92F7rhTR58hacWOyGUYcGs4FHlFE2bqM4ch0I6xOLPhhKVG3n09WMJExw
-	 Fr6fjxY+6Q8209MboEKuTCUSXMfE0Z//azC8QJLiPLNXX+aBRfz8qnkYSF6iqLT3M1
-	 QWxIaEUDmmsVQ==
-From: hare@kernel.org
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@suse.de>,
-	Martin George <marting@netapp.com>
-Subject: [PATCHv2] nvme: enable retries for authentication commands
-Date: Fri, 26 Jan 2024 07:37:09 +0100
-Message-Id: <20240126063709.123814-1-hare@kernel.org>
-X-Mailer: git-send-email 2.35.3
+	Fri, 26 Jan 2024 06:43:53 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UU2y3GV9Iv6qq5NJ8kFpJ5YjFpwhwumU7yzJAw2hTz7uItXjFtHoVYX6n6hM0xAoNa7XQ3pcE4jhyEVCSYMZgS7ax271HCu6Z29WdbkzzG30OuTKumkPpdYRelq4CAGiqrR2zlQPEsjWQKy3whmO015i51T9vfCEqVEMKzSlNEwpbiW0ihKD++JxSioj+LQO/j4uob+EkLVUILAPEo8TV1Z96MUz/JVjHYIV+gQpS16uKeo/j6YmEhE4aclFwM0KO6iLAlpTpXuUfZy3em3rbd4MPL8eiXn9FAvtnvbgdDwVipbfoPxREZ7JvkvCk0H+RWQWFpQ7afBCqOr4mOZtCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SxzNcLxvr0/YfoJaY4gqtgOzHebJu1SqC8kA+PZgcDM=;
+ b=RFCiuXtFh6xNtxSxHpmG+nCvvimxl3Zc5kReoLq60jhEQMi4fh2Wo3l/RghDujdafEwtfI92o74tg+1kzJm/th3XQVHYJ/3u2c+2vp2kBk55EA4FzqUEHa1cEQBjuw4IDXcvL0xPpS9x0nOEJg8K+RdfyNYRb5cA1a8CLhpkWE8Iw4ac49bPHzYbw33h2FjuBDaM/yMAM2l//vvPx/sK48trAYyXVH3So/hdAHkPjElthA19/22+J+kSWE5oK3tnxh+NT0nXmb4izAcigfGH8DJdPTjGX1n8DazxIGGjXLahX8nGvIBMTC42dwZ8zG1r6wnnxu1WVZXM+fDcreHwlg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SxzNcLxvr0/YfoJaY4gqtgOzHebJu1SqC8kA+PZgcDM=;
+ b=ssD9kE9N+xJtaa9YX12pOLb02K7C3AYKtmI2u31W33QYHEKXKM16uM+4W0Crc8pwo4ejpKy8OxJOMN1F1kshxz/HpfyvBHjidjrTjSG16/5Kocql7pcwCpMsLw0Os9WMTKILYOLtkOVV9VbtVnbKcENOlijx1auAr+55mP6SindUNluRWApMDwdKSyBONtjlJCtfEzNy18Y8wH+2EUh+TlHp2MnNMlfQmHi8a6Xtul2sBi++ikHasFpu9UtVldrzG21G1v9Zgaik3R0ujmAZO2HT6IWxZ2h9BxUHePJFOqcpKDKs1tgwV+dDMX+kr0pKP+xWQtUi/dGfdvrMXwEveg==
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
+ by MW6PR12MB7070.namprd12.prod.outlook.com (2603:10b6:303:238::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.27; Fri, 26 Jan
+ 2024 06:43:45 +0000
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::ffce:bbde:c1ca:39ed]) by LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::ffce:bbde:c1ca:39ed%4]) with mapi id 15.20.7228.027; Fri, 26 Jan 2024
+ 06:43:44 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+CC: Kanchan Joshi <joshi.k@samsung.com>, Daniel Wagner <dwagner@suse.de>
+Subject: Re: [PATCH blktests] nvme/046: change nvme io-passthru command option
+ from -o to --opcode
+Thread-Topic: [PATCH blktests] nvme/046: change nvme io-passthru command
+ option from -o to --opcode
+Thread-Index: AQHaUB56uY8Rnm69G0qKlLC7merclbDrpcYA
+Date: Fri, 26 Jan 2024 06:43:44 +0000
+Message-ID: <ee716c95-8c03-4f03-85b5-f71bd5cabac5@nvidia.com>
+References: <20240126061037.2169224-1-shinichiro.kawasaki@wdc.com>
+In-Reply-To: <20240126061037.2169224-1-shinichiro.kawasaki@wdc.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|MW6PR12MB7070:EE_
+x-ms-office365-filtering-correlation-id: db195bf3-579b-41a3-6ce6-08dc1e3a2463
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ZRVzXMLNs/1YxPXavYNZ3QtIWvuQBrXdyBLyNx5zgmTxS9usReVFLhdRHJz0DF2AnPv5BMynraO7ihWxPP+6ZI0fJDVdV28l746K3OVG2Lq8pIGLSXGw+0FSvyRbFmJCN39ZbmGUljD9Aet8rZLHftVWs9FH6enflmYj6heRaPpP693XXzcW7D2rg9ZeXo7m9XidmRiElwrXoEPc6UVql0Z+5bhv/FEefsWJ+nG+HM2qsbCiR4oGPHRcRtKeTDJ0Z7KddznUS6IkB3iTILeIj7pch7GBOgWhahSoa3h4ocQVP8CHkLjtRHvw0u+DFODCpiMWmVswp8nlJF5kT1lAvTnx+9JSgVFLNGqWO8p9Fi3VbIxS6LRwGihfoYF9LPIfrDzBZKFiU+A/V+QHML2KKOoY5BgatzHW88uBDDiP5/Do/GMCsrM8/uyeQ2Iezjvc/4FvJ5FCNzgLSO2qccgrS1mJwkZOyEHQboEzE4NmGWX3wDemBY7NSfIZARAUSCPH32uaDtr00/f40hga42j8LeYRqCPPVHLymimUtzrFajDIukti6YxA10J4d3W1cUg1koYllIRSTFXoGkWAhBdgMXMgFJbZgRpT4mK2qeiHJSX++vJ+YwekfmupZ/2XXgiUuvp4xHmL7WDoAh3Jw+nEMWvaJKkL2mHhsM1XwC9x9Zxwb1xWtW7630wlz3IeO91c
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(136003)(39860400002)(376002)(396003)(230922051799003)(451199024)(186009)(1800799012)(64100799003)(31686004)(41300700001)(83380400001)(110136005)(31696002)(36756003)(86362001)(38070700009)(38100700002)(122000001)(6486002)(26005)(2616005)(6512007)(53546011)(6506007)(4744005)(478600001)(2906002)(76116006)(91956017)(316002)(66946007)(66556008)(71200400001)(66476007)(64756008)(54906003)(66446008)(5660300002)(4326008)(8936002)(8676002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?M2Y0T2Y3Uk1mS2Q1cHhYK2t2N3YxUHJwZlludzF4dXJWd2JIdXFrYjRVN2s4?=
+ =?utf-8?B?WjdhdXlwT2tkV2NaS2p2RzVaYnZMR01tOW1sRHJmN0lkOUhSUjZEYjlNMFlH?=
+ =?utf-8?B?SHhYbGF3WUdpYjhFRXE1VUhQS0JsNVlVYWh6T3Y0NzFjR3BYaC9iNkxxVFBW?=
+ =?utf-8?B?K3d5QTRzNURIdUJCNXoreG9HZW1zOEVLWmtNbnhobUovbVZ0aVo0Z1pHNXc1?=
+ =?utf-8?B?TU1wa2R3ZVFkR1kydGhSTTFHRjZOcjRoZnRVNHZ0alBtWkNkeHJjQ0RiYUQ3?=
+ =?utf-8?B?NVRpeXcySFRqUHQ1SWVlcDRuTlJBYU5ub2hBZ0NqVHRQN21HSjJjQzJ3THN3?=
+ =?utf-8?B?SUIrcjJXT3Frb01tY3ovSkZYblV2REJIcndLSk8vdjExVG5wRVNzYjJYdE9p?=
+ =?utf-8?B?Y2JtdGdOU3p5K01PWWUrVDJwajJRajBZT2hLK2IyU3JyTHJqUHlmZ1FCeERD?=
+ =?utf-8?B?SXZRWkNHTTRzQ3U4YXMzUGE5TE5EY00xNTh4bko3aC9xSXVHakZ2cVpERnU2?=
+ =?utf-8?B?NVl0Q0VBYUozSkZPcnVzblZMR0J5L1piTzh4QTA1cXU5M1RVWXB0K05Od05V?=
+ =?utf-8?B?TE8wcjczZHkzYlEzYUZuaFRrbCtYcW10eUZWVVMwUHBVMzFObi93cC9rOFVm?=
+ =?utf-8?B?NTBmZkJBYllZUmxMU3M4TFFpdFFwUzZMeEJNQU55T1dkVFArajN0NzQ5RU85?=
+ =?utf-8?B?YkI0RjgrL09YWWZaSldobEZsaDkzd3Z0YTlaUDVReWtoM0J0WTRVN0k1dnNn?=
+ =?utf-8?B?dndhTk5rY05ZbFY0VEZtUFlMUVJSZ3hBQ0Naa0lybjZZQk43aHpKUlZQWkl5?=
+ =?utf-8?B?TGppYm4wRmIxNmsyUml5MUptU01SVHVyYmUvOVZCdVI3N0hadThHQXd1eHZy?=
+ =?utf-8?B?ZWI1cUpXNENUR3dUazE2TjhkT3FGekhhTnRPUWFxeXJIaUVVeGkwa0R0TDdq?=
+ =?utf-8?B?emdwb3JUdjlMNStiU2oyZlNjNlhUMVgxYnp3OG9EVWhHMGI5SVVJQ1NwcXlM?=
+ =?utf-8?B?RTNkTlZ0OHd6WW85aWFua0lsY3JCTldMVEtLUDVEM01ZOGdDaXdNdkNjZDNs?=
+ =?utf-8?B?ems4ZE55NjFWbkpiQ3JKb01IYU9FSjZpL3V2dUg2UldVTHhUOFErTGtSMWZQ?=
+ =?utf-8?B?UjVwVEljcjJJSUJzMmppM0orSjJMRGNrR1FaWWpyOUcyVVd4aGMxVUdOaWV4?=
+ =?utf-8?B?K0RSSnpFdld1SzJqYTNhclFQSU5JUklmSXNvaStNS3pzbE1QNHJnT1NsM1g0?=
+ =?utf-8?B?WUZIWVNENWhoNGZSMU1NZDMrRlBnSHJrcE9mNlZ3aGM4R0FHaUdpbE9FZENX?=
+ =?utf-8?B?L2ZtSFJ5czNNUXh5S09hWmxUVUlMd3UyQWhaSU05YXpCRnNrSzQweU1jZGZD?=
+ =?utf-8?B?NUY3UFdZRDZFYzNCdHhZeU5NQnVGZFNjdnFyWEk5Q1ZEdHMvMllWdDQ3ZFF2?=
+ =?utf-8?B?M2xleFE4RkZhT2NwOU5KeStGZWd5THNGSzlQc0NoaUNsaWY2WTFONGVoNHZG?=
+ =?utf-8?B?TWlBYmYvOHRKQTZUanEzcXdRZm9MV1ExUitHZHpDN3hvVVc2TWNPZElvbFly?=
+ =?utf-8?B?aUVVeURlOWM0eXU2dDMyNFUra0lvV1BBZmNIQmdJMXRERmIxKzljeTg1NUxk?=
+ =?utf-8?B?cytHcnR0WkljaTNDRkJvb0I3dTB5VkVCQ01uYWJaNkhSUTM0OHpvL1RFSDdJ?=
+ =?utf-8?B?WUU3V0M5dTF6SnBjQlptZ241bGZnY0gvY0xZcWZMYjhZRU5iQ2I4T05WaFJO?=
+ =?utf-8?B?bi9yR25TSmxwektDT29CQ0U5Nm1Sclk1bzZrTytlOFR5M2pSc0ZxUUlhdEVk?=
+ =?utf-8?B?NHBQZXl6OUtiN1grTTBERmpTNW1WanpkMXVhQ1NXSUYyL1h6dHZ3SnZpMkhk?=
+ =?utf-8?B?ZVJ3WVd1a3NCaFkvUkVGcnllemlaRWVYck14eUlWc3BWdUhOdGp0Q0JqbXlN?=
+ =?utf-8?B?ZUJGUjZjWktlM3ZiOURTSkhUVVZ5NllwWDlaWnpZNHU5Ulptd1FYM3JEcno2?=
+ =?utf-8?B?eVp5NXpSLzZsZysyZEJkcjBYOW1SRHk2L3QxbW5pN1ZMckYzK21sdkg5VklM?=
+ =?utf-8?B?ejBaRjh4czdOeFluTjNUNlZkc0N5UVFNM2RNeHQ3SitBRk5ncUVCQ2lPN2o1?=
+ =?utf-8?Q?SEvByIJ0s+cktbGIBtjiNCYpx?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <D34753D7EDF2CD40A8CE18435FC236AA@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: db195bf3-579b-41a3-6ce6-08dc1e3a2463
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jan 2024 06:43:44.6767
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: jmoo2Oq2/VLPQMUdZohCcCITpKYs8bjAY0VLFs84NcI9uqoeZ87Fj1QFpOgVyJcOKhlXnAjs74Aav7naejJMFA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB7070
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240125_223720_136172_BA4B1AD4 
-X-CRM114-Status: GOOD (  15.68  )
+X-CRM114-CacheID: sfid-20240125_224352_438774_B52B3E65 
+X-CRM114-Status: UNSURE (   8.42  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,213 +149,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Hannes Reinecke <hare@suse.de>
-
-Authentication commands are normal NVMe commands, and as such
-can return a status where NVME_SC_DNR is not set, indicating
-that the command should be retried.
-This patch combines the two arguments 'at_head' and 'flags' from
-__nvme_submit_sync_cmd() into a new 'nvme_submit_flags_t' argument,
-and enables retries by setting NVME_SUBMIT_RETRY.
-
-Reported-by: Martin George <marting@netapp.com>
-Signed-off-by: Hannes Reinecke <hare@suse.de>
----
- drivers/nvme/host/auth.c    |  8 ++++----
- drivers/nvme/host/core.c    | 21 ++++++++++++++-------
- drivers/nvme/host/fabrics.c | 18 +++++++++++-------
- drivers/nvme/host/nvme.h    | 12 ++++++++++--
- 4 files changed, 39 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-index 35a460cfb4bf..25e3f13f488d 100644
---- a/drivers/nvme/host/auth.c
-+++ b/drivers/nvme/host/auth.c
-@@ -50,7 +50,8 @@ struct nvme_dhchap_queue_context {
- static struct workqueue_struct *nvme_auth_wq;
- 
- #define nvme_auth_flags_from_qid(qid) \
--	(qid == 0) ? 0 : BLK_MQ_REQ_NOWAIT | BLK_MQ_REQ_RESERVED
-+	(qid == 0) ? NVME_SUBMIT_RETRY : \
-+	NVME_SUBMIT_RETRY | NVME_SUBMIT_NOWAIT | NVME_SUBMIT_RESERVED
- #define nvme_auth_queue_from_qid(ctrl, qid) \
- 	(qid == 0) ? (ctrl)->fabrics_q : (ctrl)->connect_q
- 
-@@ -64,7 +65,7 @@ static int nvme_auth_submit(struct nvme_ctrl *ctrl, int qid,
- 			    void *data, size_t data_len, bool auth_send)
- {
- 	struct nvme_command cmd = {};
--	blk_mq_req_flags_t flags = nvme_auth_flags_from_qid(qid);
-+	nvme_submit_flags_t flags = nvme_auth_flags_from_qid(qid);
- 	struct request_queue *q = nvme_auth_queue_from_qid(ctrl, qid);
- 	int ret;
- 
-@@ -81,8 +82,7 @@ static int nvme_auth_submit(struct nvme_ctrl *ctrl, int qid,
- 	}
- 
- 	ret = __nvme_submit_sync_cmd(q, &cmd, NULL, data, data_len,
--				     qid == 0 ? NVME_QID_ANY : qid,
--				     0, flags);
-+				     qid == 0 ? NVME_QID_ANY : qid, flags);
- 	if (ret > 0)
- 		dev_warn(ctrl->device,
- 			"qid %d auth_send failed with status %d\n", qid, ret);
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 376efb310eb2..bf1b85866ce9 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1049,20 +1049,27 @@ EXPORT_SYMBOL_NS_GPL(nvme_execute_rq, NVME_TARGET_PASSTHRU);
-  */
- int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		union nvme_result *result, void *buffer, unsigned bufflen,
--		int qid, int at_head, blk_mq_req_flags_t flags)
-+		int qid, nvme_submit_flags_t flags)
- {
- 	struct request *req;
- 	int ret;
-+	blk_mq_req_flags_t blk_flags = 0;
- 
-+	if (flags & NVME_SUBMIT_NOWAIT)
-+		blk_flags |= BLK_MQ_REQ_NOWAIT;
-+	if (flags & NVME_SUBMIT_RESERVED)
-+		blk_flags |= BLK_MQ_REQ_RESERVED;
- 	if (qid == NVME_QID_ANY)
--		req = blk_mq_alloc_request(q, nvme_req_op(cmd), flags);
-+		req = blk_mq_alloc_request(q, nvme_req_op(cmd), blk_flags);
- 	else
--		req = blk_mq_alloc_request_hctx(q, nvme_req_op(cmd), flags,
-+		req = blk_mq_alloc_request_hctx(q, nvme_req_op(cmd), blk_flags,
- 						qid - 1);
- 
- 	if (IS_ERR(req))
- 		return PTR_ERR(req);
- 	nvme_init_request(req, cmd);
-+	if (flags & NVME_SUBMIT_RETRY)
-+		req->cmd_flags &= ~REQ_FAILFAST_DRIVER;
- 
- 	if (buffer && bufflen) {
- 		ret = blk_rq_map_kern(q, req, buffer, bufflen, GFP_KERNEL);
-@@ -1070,7 +1077,7 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 			goto out;
- 	}
- 
--	ret = nvme_execute_rq(req, at_head);
-+	ret = nvme_execute_rq(req, flags & NVME_SUBMIT_AT_HEAD);
- 	if (result && ret >= 0)
- 		*result = nvme_req(req)->result;
-  out:
-@@ -1083,7 +1090,7 @@ int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		void *buffer, unsigned bufflen)
- {
- 	return __nvme_submit_sync_cmd(q, cmd, NULL, buffer, bufflen,
--			NVME_QID_ANY, 0, 0);
-+			NVME_QID_ANY, 0);
- }
- EXPORT_SYMBOL_GPL(nvme_submit_sync_cmd);
- 
-@@ -1547,7 +1554,7 @@ static int nvme_features(struct nvme_ctrl *dev, u8 op, unsigned int fid,
- 	c.features.dword11 = cpu_to_le32(dword11);
- 
- 	ret = __nvme_submit_sync_cmd(dev->admin_q, &c, &res,
--			buffer, buflen, NVME_QID_ANY, 0, 0);
-+			buffer, buflen, NVME_QID_ANY, NVME_SUBMIT_RETRY);
- 	if (ret >= 0 && result)
- 		*result = le32_to_cpu(res.u32);
- 	return ret;
-@@ -2149,7 +2156,7 @@ static int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t l
- 	cmd.common.cdw11 = cpu_to_le32(len);
- 
- 	return __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, NULL, buffer, len,
--			NVME_QID_ANY, 1, 0);
-+			NVME_QID_ANY, NVME_SUBMIT_AT_HEAD);
- }
- 
- static void nvme_configure_opal(struct nvme_ctrl *ctrl, bool was_suspended)
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 8140d8166c3e..38b60025649d 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -180,7 +180,7 @@ int nvmf_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val)
- 	cmd.prop_get.offset = cpu_to_le32(off);
- 
- 	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, &res, NULL, 0,
--			NVME_QID_ANY, 0, 0);
-+			NVME_QID_ANY, 0);
- 
- 	if (ret >= 0)
- 		*val = le64_to_cpu(res.u64);
-@@ -226,7 +226,7 @@ int nvmf_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val)
- 	cmd.prop_get.offset = cpu_to_le32(off);
- 
- 	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, &res, NULL, 0,
--			NVME_QID_ANY, 0, 0);
-+			NVME_QID_ANY, 0);
- 
- 	if (ret >= 0)
- 		*val = le64_to_cpu(res.u64);
-@@ -271,7 +271,7 @@ int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val)
- 	cmd.prop_set.value = cpu_to_le64(val);
- 
- 	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, NULL, NULL, 0,
--			NVME_QID_ANY, 0, 0);
-+			NVME_QID_ANY, 0);
- 	if (unlikely(ret))
- 		dev_err(ctrl->device,
- 			"Property Set error: %d, offset %#x\n",
-@@ -450,8 +450,10 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
- 		return -ENOMEM;
- 
- 	ret = __nvme_submit_sync_cmd(ctrl->fabrics_q, &cmd, &res,
--			data, sizeof(*data), NVME_QID_ANY, 1,
--			BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT);
-+			data, sizeof(*data), NVME_QID_ANY,
-+			NVME_SUBMIT_AT_HEAD |
-+			NVME_SUBMIT_NOWAIT |
-+			NVME_SUBMIT_RESERVED);
- 	if (ret) {
- 		nvmf_log_connect_error(ctrl, ret, le32_to_cpu(res.u32),
- 				       &cmd, data);
-@@ -526,8 +528,10 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
- 		return -ENOMEM;
- 
- 	ret = __nvme_submit_sync_cmd(ctrl->connect_q, &cmd, &res,
--			data, sizeof(*data), qid, 1,
--			BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT);
-+			data, sizeof(*data), qid,
-+			NVME_SUBMIT_AT_HEAD |
-+			NVME_SUBMIT_RESERVED |
-+			NVME_SUBMIT_NOWAIT);
- 	if (ret) {
- 		nvmf_log_connect_error(ctrl, ret, le32_to_cpu(res.u32),
- 				       &cmd, data);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 396e6e72b6a3..ad0414e433a1 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -824,12 +824,20 @@ static inline bool nvme_is_unique_nsid(struct nvme_ctrl *ctrl,
- 		(ctrl->ctratt & NVME_CTRL_CTRATT_NVM_SETS);
- }
- 
-+typedef __u32 __bitwise nvme_submit_flags_t;
-+
-+enum {
-+	NVME_SUBMIT_AT_HEAD  = (__force nvme_submit_flags_t)(1 << 0),
-+	NVME_SUBMIT_NOWAIT = (__force nvme_submit_flags_t)(1 << 1),
-+	NVME_SUBMIT_RESERVED = (__force nvme_submit_flags_t)(1 << 2),
-+	NVME_SUBMIT_RETRY = (__force nvme_submit_flags_t)(1 << 3),
-+};
-+
- int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		void *buf, unsigned bufflen);
- int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		union nvme_result *result, void *buffer, unsigned bufflen,
--		int qid, int at_head,
--		blk_mq_req_flags_t flags);
-+		int qid, nvme_submit_flags_t flags);
- int nvme_set_features(struct nvme_ctrl *dev, unsigned int fid,
- 		      unsigned int dword11, void *buffer, size_t buflen,
- 		      u32 *result);
--- 
-2.35.3
-
+T24gMS8yNS8yNCAyMjoxMCwgU2hpbidpY2hpcm8gS2F3YXNha2kgd3JvdGU6DQo+IEEgcmVjZW50
+IGNvbW1pdCBpbiBudm1lLWNsaSB2Mi42IGNoYW5nZWQgdGhlIHNpbmdsZSBsZXR0ZXIgb2YgdGhl
+DQo+IC0tb3Bjb2RlIG9wdGlvbiBmcm9tIC1vIHRvIC1PLiBUaGlzIGNhdXNlZCB0aGUgZmFpbHVy
+ZSBvZiBudm1lLzA0Ni4gVG8NCj4gbWFrZSB0aGUgdGVzdCBjYXNlIHdvcmsgcmVnYXJkbGVzcyBv
+ZiB0aGUgbnZtZS1jbGkgdmVyc2lvbiwgcmVwbGFjZSAtbw0KPiB3aXRoIC0tb3Bjb2RlLg0KPg0K
+PiBTaWduZWQtb2ZmLWJ5OiBTaGluJ2ljaGlybyBLYXdhc2FraSA8c2hpbmljaGlyby5rYXdhc2Fr
+aUB3ZGMuY29tPg0KPg0KDQpMb29rcyBnb29kLg0KDQpSZXZpZXdlZC1ieTogQ2hhaXRhbnlhIEt1
+bGthcm5pIDxrY2hAbnZpZGlhLmNvbT4NCg0KLWNrDQoNCg0K
 
