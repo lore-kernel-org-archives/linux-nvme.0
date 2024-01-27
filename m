@@ -4,62 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 60BF4C46CD2
-	for <linux-nvme@archiver.kernel.org>; Sat, 27 Jan 2024 09:38:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD7EDC46CD2
+	for <linux-nvme@archiver.kernel.org>; Sat, 27 Jan 2024 09:38:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UPqR9z9bUdmtVS1bs/NPbAsR91yrrV/0y3pdYzPTE6E=; b=aL4pKcft19i/Uo3GtNqi2L/h1H
-	QwgeqEx4Qgr1klkkw1rJsj9fi/2d0u7usoFRu8XDnKlenr4hdwwJLXjnB3nDib08NUTxEGTYxN31C
-	gtOMvMyePxFABaJ/tPuhKR+MXSywB1PPzfssAz4ys+9YDKa791sLX7eSVKNMZXiYBvh9PiGN/FUak
-	sZ6oPSw+RqdlS0JliL82/2qAkyQnteFlFO202ykcqsvYrZNHifcwsErLvzZd6rKInznfnvARyPHuV
-	IFvR+6BUX8Jc9rcLmjwU/30vVK71W/XReGVBPIgywWE9kR/1FSl0v0hooVrBjagknl3gm/qkB73ql
-	z7mqBpSA==;
+	bh=xMP/IV4ETJeciu6aMMmUBbnIn/UnMK6rCQjPgHHEVz0=; b=VCFkAuAbTkWXfNWdKv1LJlSIcB
+	W01fpWeNSyDnQ2bNplAZhk8p52VBG6bmh12gd+Z2FH1d2OBMSu0TQiwhXSGXc74j1ozOHM+gZluU/
+	sjzOBw9Ds/xmj9YJp03z+0paf8lFiZJcXwVgSbqSgjNrLkORGqxnFZdansDLsqW29T/vdBrtHJyKv
+	+OJw+szcNNZNxUoX2zYTkPsjQ2dw4uAFFA4b6KciA5mozT0bKnxlZxrn+MI8WctUh8/xD5cvXOedp
+	wJ8byQiGL590m7m7ez03E8Ib7IOYYzRrK3oJyFOHHQOcPmSas3xB4Oj9MjiynvQPObZFLeGGp13OI
+	1ie9MvMw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rTf8Y-00000007Hj9-02Yc;
-	Sat, 27 Jan 2024 09:38:06 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1rTf8v-00000007Hq5-2Frb;
+	Sat, 27 Jan 2024 09:38:29 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rTf8U-00000007HhJ-1Dto
+	id 1rTf8t-00000007Hp8-0Zga
 	for linux-nvme@lists.infradead.org;
-	Sat, 27 Jan 2024 09:38:03 +0000
+	Sat, 27 Jan 2024 09:38:28 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 75EACCE2FC1;
-	Sat, 27 Jan 2024 09:38:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50D90C433F1;
-	Sat, 27 Jan 2024 09:37:58 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 8051660C4B;
+	Sat, 27 Jan 2024 09:37:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECCC2C433C7;
+	Sat, 27 Jan 2024 09:37:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706348279;
-	bh=TPg7WMBYwC9fR1oWz0WDCJ1H/QH7JRWKYWuTY3avNS4=;
+	s=k20201202; t=1706348276;
+	bh=hvn4xRkiyZqcN0V2egnCfg7DVxsfLVZ0525X3U2WW50=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GAW33Ep93ttkRU0pE6nIjNdRcmDl+CA3rCOlGRR72oTGOwxni7ggbj99rdE+QCn4k
-	 0Zq6krlTe1PY4gcLYSFUA25W5pFL480RmXaFq2mkfKcbndDhUEKx5eO3QdDYA9YxUK
-	 DqnlXMgcCA0P2aCrgb1MIorc+cNqwjCGQgAAQKTV4K7YOtGiJRYB7qEx0C2P1q4VQa
-	 +C6I6TUs0o6ZEQ9J6sbBwsLRZTzFZwXjQwG1g0L+RAp63GecXyQgtMxnjVj8s04abq
-	 P3YFhRorJHLS0SdhvlfZFojyWGMIGU/WAEO7WqZNRaddB08+E1dRLSgDMYRHMbqMYv
-	 PEq7bzHv2GopA==
+	b=ryhY5rJEoonH7f6zkSMgLFneTS0Y2lQWSl1d9uhFuQgmbhnDbHWp2oQE0FLzSx/g1
+	 RUQhevJo+ia5iWCz70qx41ZMxautbVA6xqHwg+kFcRXXN249COSn/QeZ2EisXf3JWs
+	 6u/7DA4ngJLmOXghVvmV6lgSf+a8Ms3kWva47CkUBQqBDQUDp/OG6LDeYPVOSQ7gzQ
+	 c32p05gjT+B4amDJ5LMFFibxyCJGlyeVW1AFB3JdAdUQWNK/8v8TTF3+vSmTF8s1aV
+	 RHO+Qg5DDkhO0KuhxZ07YeNbHdO56X5PEqd7LTsl6nGFhqFOKxB2zir5TmY9myDagu
+	 kTbI5W3TAJ9IQ==
 From: hare@kernel.org
 To: Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@suse.de>,
-	Martin George <marting@netapp.com>
-Subject: [PATCH 3/3] nvme: enable retries for authentication commands
-Date: Sat, 27 Jan 2024 10:37:46 +0100
-Message-Id: <20240127093746.40246-4-hare@kernel.org>
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH 1/3] nvme-auth: open-code single-use macros
+Date: Sat, 27 Jan 2024 10:37:44 +0100
+Message-Id: <20240127093746.40246-2-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240127093746.40246-1-hare@kernel.org>
 References: <20240127093746.40246-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240127_013802_530299_DF379DBE 
-X-CRM114-Status: GOOD (  13.62  )
+X-CRM114-CacheID: sfid-20240127_013827_243964_E06E7712 
+X-CRM114-Status: GOOD (  11.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,59 +75,48 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Hannes Reinecke <hare@suse.de>
 
-Authentication commands are normal NVMe commands, and as such
-can return a status where NVME_SC_DNR is not set, indicating
-that the command should be retried.
-This patch enables retries by setting NVME_SUBMIT_RETRY for
-__nvme_submit_sync_cmd().
+No point in having macros just for a single function nvme_auth_submit().
+Open-code them into the caller.
 
-Reported-by: Martin George <marting@netapp.com>
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/host/auth.c | 2 +-
- drivers/nvme/host/core.c | 2 ++
- drivers/nvme/host/nvme.h | 2 ++
- 3 files changed, 5 insertions(+), 1 deletion(-)
+ drivers/nvme/host/auth.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-index fd026832d285..ce0366f72fc5 100644
+index 72c0525c75f5..9aa2325f9a98 100644
 --- a/drivers/nvme/host/auth.c
 +++ b/drivers/nvme/host/auth.c
-@@ -58,7 +58,7 @@ static int nvme_auth_submit(struct nvme_ctrl *ctrl, int qid,
+@@ -48,11 +48,6 @@ struct nvme_dhchap_queue_context {
+ 
+ static struct workqueue_struct *nvme_auth_wq;
+ 
+-#define nvme_auth_flags_from_qid(qid) \
+-	(qid == 0) ? 0 : BLK_MQ_REQ_NOWAIT | BLK_MQ_REQ_RESERVED
+-#define nvme_auth_queue_from_qid(ctrl, qid) \
+-	(qid == 0) ? (ctrl)->fabrics_q : (ctrl)->connect_q
+-
+ static inline int ctrl_max_dhchaps(struct nvme_ctrl *ctrl)
+ {
+ 	return ctrl->opts->nr_io_queues + ctrl->opts->nr_write_queues +
+@@ -63,10 +58,15 @@ static int nvme_auth_submit(struct nvme_ctrl *ctrl, int qid,
  			    void *data, size_t data_len, bool auth_send)
  {
  	struct nvme_command cmd = {};
--	nvme_submit_flags_t flags = 0;
-+	nvme_submit_flags_t flags = NVME_SUBMIT_RETRY;
- 	struct request_queue *q = ctrl->fabrics_q;
+-	blk_mq_req_flags_t flags = nvme_auth_flags_from_qid(qid);
+-	struct request_queue *q = nvme_auth_queue_from_qid(ctrl, qid);
++	blk_mq_req_flags_t flags = 0;
++	struct request_queue *q = ctrl->fabrics_q;
  	int ret;
  
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9e140d9d9d48..2acb6e2ff6e3 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1068,6 +1068,8 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 	if (IS_ERR(req))
- 		return PTR_ERR(req);
- 	nvme_init_request(req, cmd);
-+	if (flags & NVME_SUBMIT_RETRY)
-+		req->cmd_flags &= ~REQ_FAILFAST_DRIVER;
- 
- 	if (buffer && bufflen) {
- 		ret = blk_rq_map_kern(q, req, buffer, bufflen, GFP_KERNEL);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index f842e5e8694d..741377b51b79 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -837,6 +837,8 @@ enum {
- 	NVME_SUBMIT_NOWAIT = (__force nvme_submit_flags_t)(1 << 1),
- 	/* Set BLK_MQ_REQ_RESERVED when allocating request */
- 	NVME_SUBMIT_RESERVED = (__force nvme_submit_flags_t)(1 << 2),
-+	/* Retry command when NVME_SC_DNR is not set in the result */
-+	NVME_SUBMIT_RETRY = (__force nvme_submit_flags_t)(1 << 3),
- };
- 
- int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
++	if (qid != 0) {
++		flags |= BLK_MQ_REQ_NOWAIT | BLK_MQ_REQ_RESERVED;
++		q = ctrl->connect_q;
++	}
++
+ 	cmd.auth_common.opcode = nvme_fabrics_command;
+ 	cmd.auth_common.secp = NVME_AUTH_DHCHAP_PROTOCOL_IDENTIFIER;
+ 	cmd.auth_common.spsp0 = 0x01;
 -- 
 2.35.3
 
