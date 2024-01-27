@@ -4,61 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE993C46CD2
-	for <linux-nvme@archiver.kernel.org>; Sat, 27 Jan 2024 09:31:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E6F5DC47DDB
+	for <linux-nvme@archiver.kernel.org>; Sat, 27 Jan 2024 09:31:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kQEqGMWVKXmA7nFpvf0m6sEPJ3NAO/uaeeyn8DszEFc=; b=zYSW8YmbJt2j1mmia4lWYIhxoL
-	8un56SBXA0agATAJdp2759OUzXhnDN1fA4eKAqxe9SSgc6wEMdVYDi2lXaa1kwpV3NbiCqoc6Lgb7
-	s1lY6FyePKZxB3StawxRekzYVutU8KZZdc4TtAbEefTytfhvJUjjUDAhMdSHED/ppvgcU+rGqiATz
-	T2B4Ww0QdRjsKnxAJA4qIwOpm0Bgv4bL8ZuXWLrwmx46wiAlxP1QMElCTFdMgFZDzm3BjBsHMMWgq
-	/f+tnSHEI3RVdGklRiNUgdX8RFIN/bXrvqNMG6oQaSXZ841hR/hiw7sujOW1qhMdEgQie4pwy+dkR
-	sE1ucxxA==;
+	bh=ZfzkJApSFva+erVYpopbXEbf/8BmeCaYGaZSQB+l/88=; b=rpyPsqNCBXKYUzO8qEBX5IQR+Q
+	sGzF4e6f5G+F8SqBLB0i6WrrEQOI7nE4T0YsQS+nR+eu6hkZxWXrV9WMapdMiacInTMgcEdCP60SB
+	14yiebPfa0muCl6zI6SgvkPQk53o7h0tqlZlcdEtQKaq4hJ4wYiYKInONIaFvRAk9rqpqdNip5gbA
+	N3kKJfBPFFUDl9ZqdJFW8Odrp3YsmvlAGOzYWNgt9eTEJ/md0XIuHIaMwIYe5ckKw1YsvCaiK5MqO
+	gI5OQXIC3M4r7N2ROgR7/FUuf50oYiNg49I1pGIhdK9aOZu3Dr125xTKNl9X/hCF6FaHws8TfSodY
+	IRAwoJQQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rTf21-00000007Fa8-0YEO;
-	Sat, 27 Jan 2024 09:31:21 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1rTf24-00000007FdC-0opH;
+	Sat, 27 Jan 2024 09:31:24 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rTf1u-00000007FT0-0g4K
+	id 1rTf1u-00000007FSr-1FsR
 	for linux-nvme@lists.infradead.org;
-	Sat, 27 Jan 2024 09:31:15 +0000
+	Sat, 27 Jan 2024 09:31:16 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 99AD960BEB;
-	Sat, 27 Jan 2024 09:31:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E431C43399;
-	Sat, 27 Jan 2024 09:31:11 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 569B2CE3859;
+	Sat, 27 Jan 2024 09:31:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55BD8C433F1;
+	Sat, 27 Jan 2024 09:31:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706347873;
-	bh=T1Wi2IqSiixqgOaKONxfDGpaobOCyYqB1XrVZKVX0a0=;
+	s=k20201202; t=1706347871;
+	bh=xpF84CDuwskauc7Zjru5Yx/Bbr0rCpz6JXbuWzp43C0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VZzNQv8HCBJUffEZ4Ekoouz397tLCowu9OCUBCgPDXyC2yD/5F1gFvvWb9AM/8vZ8
-	 DuZRJkt96yf1P1JH2KMcbcvJrYHLFhY8dYkbfBmbrBOL7jlWzytimQfwyvicJv8hdu
-	 PFwngtmjbp8lEPnGMu4vI0+j6PnHLwhE7JgrdqvkvoDzTAXa8nCpY/U+twVBA7a1TM
-	 fegqnUnKAp1LVoghw35F4wRTuC5I7v0vpjQZucPqFYhXA/794WLR8lSXWkLXc7tq71
-	 1N6Bwdi2/u/IXpU7opGuF5oUsm8eej/pXn3rCMiD4AMmOzLaMD6Ybbb91CRTjWH1pQ
-	 yCTcaXb5YZinA==
+	b=sw21ITn4vhWhoTWtu1qWqpwG6iR9/wO+a5MPNHP+QQxjWk3RLsKJiDfe60uW7vgyJ
+	 I083rCfxL8/7LNmn/6ppokmZWxUD5uxSAMlPGd3EkOfT0Eb1/dPye24Ep4rfLuvsjB
+	 eu6t0zoWXFwN3zbYXX2Zeu4Gdx5e60eo6bFSEcTwMnQkiXcTO8BboMj6q7drcJvnYc
+	 kYG/YdxJVL+btL4YahKBD2wfbNZlKJz+H1IGYd7CF+wNFwx7t6DXLu1RbQDYqHwe8C
+	 PNUkZcKF/t+OZ0kIhqe1YJD9gxRSdSg2gJ5dO0Hz8Hc7NUAewy3GwPjA5aWVi2YEoT
+	 /nrdevHA+kmIA==
 From: hare@kernel.org
 To: Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 06/13] nvme-keyring: restrict match length for version '1' identifiers
-Date: Sat, 27 Jan 2024 10:30:51 +0100
-Message-Id: <20240127093058.15699-7-hare@kernel.org>
+Subject: [PATCH 05/13] nvme-keyring: add nvme_tls_psk_refresh()
+Date: Sat, 27 Jan 2024 10:30:50 +0100
+Message-Id: <20240127093058.15699-6-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240127093058.15699-1-hare@kernel.org>
 References: <20240127093058.15699-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240127_013114_276865_7BCF2A4F 
-X-CRM114-Status: GOOD (  11.42  )
+X-CRM114-CacheID: sfid-20240127_013114_738737_5DEE95C0 
+X-CRM114-Status: GOOD (  12.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,48 +75,100 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Hannes Reinecke <hare@suse.de>
 
-TP8018 changed the TLS PSK identifiers to append a PSK hash value,
-so to lookup any version '1' identifiers we need to restrict the
-match length to exclude the PSK hash value (which we don't have
-when looking up keys).
+Add a function to refresh a generated PSK in the specified keyring.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/common/keyring.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ drivers/nvme/common/keyring.c | 50 +++++++++++++++++++++++++++++++++++
+ include/linux/nvme-keyring.h  |  7 +++++
+ 2 files changed, 57 insertions(+)
 
 diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
-index c16f9496643f..51b99b34e100 100644
+index a5c0431c101c..c16f9496643f 100644
 --- a/drivers/nvme/common/keyring.c
 +++ b/drivers/nvme/common/keyring.c
-@@ -44,6 +44,27 @@ static bool nvme_tls_psk_match(const struct key *key,
- 		return false;
- 	}
- 	match_id = match_data->raw_data;
-+	if (memcmp(match_id, "NVMe1", 5)) {
-+		char *e = (char *)match_id;
-+		size_t offset = 0;
-+		int n = 0;
+@@ -104,6 +104,56 @@ static struct key *nvme_tls_psk_lookup(struct key *keyring,
+ 	return key_ref_to_ptr(keyref);
+ }
+ 
++struct key *nvme_tls_psk_refresh(struct key *keyring, char *hostnqn, char *subnqn,
++		u8 hmac_id, bool generated, u8 *data, size_t data_len, char *digest)
++{
++	key_perm_t keyperm =
++		KEY_POS_SEARCH | KEY_POS_VIEW | KEY_POS_READ |
++		KEY_POS_WRITE | KEY_POS_LINK | KEY_POS_SETATTR |
++		KEY_USR_SEARCH | KEY_USR_VIEW | KEY_USR_READ;
++	char *identity;
++	size_t identity_len = (NVMF_NQN_SIZE) * 2 + 77;
++	key_ref_t keyref;
++	key_serial_t keyring_id;
++	struct key *key;
 +
-+		while (*e != ' ' && offset < match_len) {
-+			if (*e == ' ') {
-+				n++;
-+				if (n == 3)
-+					break;
-+			}
-+			e++;
-+			offset++;
-+		}
-+		if (n != 3) {
-+			pr_debug("%s: error parsing '%s'\n",
-+				 __func__, match_id);
-+			return false;
-+		}
-+		match_len = offset;
++	if (!hostnqn || !subnqn || !data || !data_len)
++		return ERR_PTR(-EINVAL);
++
++	identity = kzalloc(identity_len, GFP_KERNEL);
++	if (!identity)
++		return ERR_PTR(-ENOMEM);
++
++	snprintf(identity, identity_len, "NVMe1%c%02d %s %s %s",
++		 generated ? 'G' : 'R', hmac_id, hostnqn, subnqn, digest);
++
++	if (!keyring)
++		keyring = nvme_keyring;
++	keyring_id = key_serial(keyring);
++	pr_debug("keyring %x refresh tls psk '%s'\n",
++		 keyring_id, identity);
++	keyref = key_create_or_update(make_key_ref(keyring, true),
++				"psk", identity, data, data_len,
++				keyperm, KEY_ALLOC_NOT_IN_QUOTA |
++				      KEY_ALLOC_BUILT_IN |
++				      KEY_ALLOC_BYPASS_RESTRICTION);
++	if (IS_ERR(keyref)) {
++		pr_debug("refresh tls psk '%s' failed, error %ld\n",
++			 identity, PTR_ERR(keyref));
++		kfree(identity);
++		return ERR_PTR(-ENOKEY);
 +	}
- 	pr_debug("%s: match '%s' '%s' len %zd\n",
- 		 __func__, match_id, key->description, match_len);
- 	return !memcmp(key->description, match_id, match_len);
++	kfree(identity);
++	/*
++	 * Set the default timeout to 1 hour
++	 * as suggested in TP8018.
++	 */
++	key = key_ref_to_ptr(keyref);
++	key_set_timeout(key, 3600);
++	return key;
++}
++EXPORT_SYMBOL_GPL(nvme_tls_psk_refresh);
++
+ /*
+  * NVMe PSK priority list
+  *
+diff --git a/include/linux/nvme-keyring.h b/include/linux/nvme-keyring.h
+index e10333d78dbb..d2b8a0783ad7 100644
+--- a/include/linux/nvme-keyring.h
++++ b/include/linux/nvme-keyring.h
+@@ -8,6 +8,8 @@
+ 
+ #if IS_ENABLED(CONFIG_NVME_KEYRING)
+ 
++struct key *nvme_tls_psk_refresh(struct key *keyring, char *hostnqn, char *subnqn,
++				 u8 hmac_id, bool generated, u8 *data, size_t data_len, char *digest);
+ key_serial_t nvme_tls_psk_default(struct key *keyring,
+ 		const char *hostnqn, const char *subnqn);
+ 
+@@ -15,6 +17,11 @@ key_serial_t nvme_keyring_id(void);
+ 
+ #else
+ 
++static struct key *nvme_tls_psk_refresh(struct key *keyring, char *hostnqn, char *subnqn,
++		u8 hmac_id, bool generated, u8 *data, size_t data_len, char *digest)
++{
++	return -ENOTSUPP;
++}
+ static inline key_serial_t nvme_tls_psk_default(struct key *keyring,
+ 		const char *hostnqn, const char *subnqn)
+ {
 -- 
 2.35.3
 
