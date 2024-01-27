@@ -4,84 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A2F39C47DDB
-	for <linux-nvme@archiver.kernel.org>; Sat, 27 Jan 2024 09:58:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52494C46CD2
+	for <linux-nvme@archiver.kernel.org>; Sat, 27 Jan 2024 10:10:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4aLR0u5iVQP30s7WW2kWZOASJw+r/LwZNUj/T0zySgg=; b=SV52HzVVMBoT8W++KENbdnHGia
-	ANkeCgAboLi0H1Xe3QbDyPki0DYxppd2S/L1AqjT9TgFl3FIV5w3EpbNXapJwFAnPYNuGCogax6oX
-	DMad41ArDDOKovnjcU3pI32SDxpxRwJp9QVITY7VO8Nq0yUKAhdJBRzdQUiM8+37SBWgJCBTL3daQ
-	JY7H4AfdnkMGpjtcMrSxTr3v7Ykg+vwSf5uD/8JhgyQZbFIgcihYYKODqQ/63dK2V1lwJ1RKhZQhN
-	F5gUtjyluZhV6lhQfrEfxf8kMlY5UhRzPF3qvTgfhwg/uODHaxLzyGRxcpTex8GFt8uENLkU7/boi
-	QuUYY+3w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=B8boM7ORGYNMPVReZtTMFOzEa3BTzmrT4lpyXZ03SE4=; b=lZOrEg46co578TXp6rfXeMetfd
+	kQ/a5/HxvXk8KZ8k8jRIZPLAmLgkk67p69BFlActJDLCMavpwgnYn8s+3dSWZy35jrxYq2to0+oGZ
+	XXGr8mz9OlzlaOYlyZ92SZGkfGaxieMAudh1XWf1zJExmA/xTY4JD0TGEuTOOGvIkCasSVqNovAye
+	Fa6XA4sO51PHgwarKat5rFkCjvDAbmv/jIBCNiqFJyWh0bQtUumNlXt2ic195dSleRnfLI4psE5fX
+	R49BtoiUmzYgKFwf3jGbfUYwgH7tYsnxOyt+hXX9Ij+2Zx93+vgpbTdlTiBc1dyArePEpOIaIQVa7
+	36U5TOvA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rTfSA-00000007KC4-1R5y;
-	Sat, 27 Jan 2024 09:58:22 +0000
-Received: from mgamail.intel.com ([192.198.163.11])
+	id 1rTfeF-00000007LHK-0cZK;
+	Sat, 27 Jan 2024 10:10:51 +0000
+Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rTfS7-00000007KB8-2Exp
+	id 1rTfeC-00000007LE5-0LHB
 	for linux-nvme@lists.infradead.org;
-	Sat, 27 Jan 2024 09:58:20 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706349500; x=1737885500;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=r+T7mnQmtI5J+JZqBTfH0y2lgNd/RUDtr9kKlTXAe0w=;
-  b=VA112hqrYRupkh7rKxM6DbxY+kTCWm+p1LKfc5LR0Tx/oE32VK66tpIx
-   9z9IfaDb4y5z1xZvwXalxyN2IFgd4gGgY98S2qhMK7GMPTXQniaxSERsc
-   1NY877O/+myrgO3Yp14LL6KlIrXJbi9LlY7cE+/Bwt4dD2+aQyp3W7wjk
-   4tmvnOHpgZ0BTvOfLOhk+TIJ6l8gvr1LeapzV+FmBRZlyozG7FEyomO1Y
-   V+Kt+hK/hpRDCoWLSZ1cWD7+s2AtweTIc4V/SXXEtqW7aOLXi7uzU5Z+B
-   UoJD3+ygQRqXtZvZFtBpcmXUQgNsQmbFQua7Y41i0fNe9WK+mUQ4aW2P9
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="9341799"
-X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="9341799"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2024 01:58:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
-   d="scan'208";a="2947041"
-Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 27 Jan 2024 01:58:13 -0800
-Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rTfRz-00025e-0m;
-	Sat, 27 Jan 2024 09:58:11 +0000
-Date: Sat, 27 Jan 2024 17:57:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Johannes Thumshirn <johannes.thumshirn@wdc.com>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Naohiro Aota <naohiro.aota@wdc.com>,
-	Mike Snitzer <snitzer@kernel.org>, dm-devel@lists.linux.dev,
-	Chris Mason <chris.mason@fusionio.com>,
-	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
-	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <yuchao0@huawei.com>,
-	Chao Yu <chao@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-btrfs@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	Johannes Thumshirn <johannes.thumshirn@wdc.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>
-Subject: Re: [PATCH 5/5] block: remove gfp_flags from blkdev_zone_mgmt
-Message-ID: <202401271724.LJfDQ6VB-lkp@intel.com>
-References: <20240123-zonefs_nofs-v1-5-cc0b0308ef25@wdc.com>
+	Sat, 27 Jan 2024 10:10:49 +0000
+Received: by mail-qt1-x829.google.com with SMTP id d75a77b69052e-42a8a3973c5so4072861cf.2
+        for <linux-nvme@lists.infradead.org>; Sat, 27 Jan 2024 02:10:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706350244; x=1706955044; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=B8boM7ORGYNMPVReZtTMFOzEa3BTzmrT4lpyXZ03SE4=;
+        b=WRDDoTTK7auvXt9nJT5TAvRo6YkvziyRg+446yXy48vYNogF2uUcKus25K5ZeT0McK
+         JH1vc0aIxL4PAcWuTnZxrH1MDXiA/D/Z0sCyFoUBg9Djkvdg95Y8ohiHD8kqhAdHEjg6
+         R9RBR4rJ3t+wAZL2MvAYW77d6RXYP/tgtXfVKvqSEsME0pKZMnSNRb6mFt7fbrsTY7xT
+         Z/P9YEQkK/RvC/djXCWR7dYr8yuLvgURsnGVQpyuUn4SUdgdNUXdaRSrmdQG5AzfiY0z
+         QSTjj/GFNVllZHPuNS8Bo4uOWD3BOaIHxoFCfgOg2YYYoi08gZ+J6upkEo2eEbtERhb+
+         ZTPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706350244; x=1706955044;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=B8boM7ORGYNMPVReZtTMFOzEa3BTzmrT4lpyXZ03SE4=;
+        b=sP6aSa83UlS2rYLjfNqXUS0hNZYvQxNtd2kL8832WIrRkzKpLxoFk/oWqHP/VPWMjt
+         CGaRujfFcHuwL5rWKGi/INmWrAl15F4+QbRH/tW6Ng/aIkgHDUf7BXmEnpqlshhsgp4z
+         Sa4+dpYh3bJw/Gkq1kfVjTkOuqfcXG17iiyi9WeIUw9yvGkv9fF1GBnSkimDXy1nMcid
+         NuXQGtBpSoOh4CysiR5xpaT0gTGkahUViUTZTx3BM1tO3HMwU4qxLQ6xm+4zFUUrx1g4
+         GlecYpJBveGLllEvgDVt6x15wRmSOKYto3Ls0vOmt10AmPIude8dJcckSi3Iw5r7tMSs
+         9QKQ==
+X-Gm-Message-State: AOJu0YzNxaOqKHa12/yjD5Iu8wlNq5F8MyVsSkKoOmXolN5bkNV9CKsP
+	pl9U6/brvFD7AdZeepIV31hz7VGvC6pP4SwCSegm2namzNvgyQkTDRFAMnP0Md40iSrR03cBozE
+	PWT5as2lYghL8rcp/+9YLQ+9MIA8=
+X-Google-Smtp-Source: AGHT+IGUiH9HXC26Vu3/anzdVnuqtGlcGQJbaXMTzGJ5DFv7hsAeCFLU6XPgobuQw9kM3iclvcK7hFxD/N8fQjpWGJI=
+X-Received: by 2002:a05:6214:258d:b0:681:9ae1:94f3 with SMTP id
+ fq13-20020a056214258d00b006819ae194f3mr1669408qvb.115.1706350244304; Sat, 27
+ Jan 2024 02:10:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240123-zonefs_nofs-v1-5-cc0b0308ef25@wdc.com>
+References: <ZaqiPSj1wMrTMdHa@casper.infradead.org>
+In-Reply-To: <ZaqiPSj1wMrTMdHa@casper.infradead.org>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Sat, 27 Jan 2024 12:10:32 +0200
+Message-ID: <CAOQ4uxh1BCmBA3ow130p1FBUrLLRVO2i_DDtAGQWhAzrabmP8Q@mail.gmail.com>
+Subject: Re: [LSF/MM/BPF TOPIC] State Of The Page
+To: Matthew Wilcox <willy@infradead.org>
+Cc: lsf-pc@lists.linux-foundation.org, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-block@vger.kernel.org, linux-ide@vger.kernel.org, 
+	linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	bpf@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240127_015819_638706_C2CE4A6A 
-X-CRM114-Status: GOOD (  12.77  )
+X-CRM114-CacheID: sfid-20240127_021048_142092_F6AFE6D9 
+X-CRM114-Status: GOOD (  14.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,79 +91,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Johannes,
+On Fri, Jan 19, 2024 at 6:24=E2=80=AFPM Matthew Wilcox <willy@infradead.org=
+> wrote:
+>
+> It's probably worth doing another roundup of where we are on our journey
+> to separating folios, slabs, pages, etc.  Something suitable for people
+> who aren't MM experts, and don't care about the details of how page
+> allocation works.  I can talk for hours about whatever people want to
+> hear about but some ideas from me:
+>
+>  - Overview of how the conversion is going
+>  - Convenience functions for filesystem writers
+>  - What's next?
+>  - What's the difference between &folio->page and page_folio(folio, 0)?
+>  - What are we going to do about bio_vecs?
+>  - How does all of this work with kmap()?
+>
+> I'm sure people would like to suggest other questions they have that
+> aren't adequately answered already and might be of interest to a wider
+> audience.
+>
 
-kernel test robot noticed the following build errors:
+Matthew,
 
-[auto build test ERROR on 7ed2632ec7d72e926b9e8bcc9ad1bb0cd37274bf]
+And everyone else who suggests LSF/MM/BPF topic.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Thumshirn/zonefs-pass-GFP_KERNEL-to-blkdev_zone_mgmt-call/20240123-174911
-base:   7ed2632ec7d72e926b9e8bcc9ad1bb0cd37274bf
-patch link:    https://lore.kernel.org/r/20240123-zonefs_nofs-v1-5-cc0b0308ef25%40wdc.com
-patch subject: [PATCH 5/5] block: remove gfp_flags from blkdev_zone_mgmt
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240127/202401271724.LJfDQ6VB-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240127/202401271724.LJfDQ6VB-lkp@intel.com/reproduce)
+Please do not forget to also fill out the Google form:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401271724.LJfDQ6VB-lkp@intel.com/
+          https://forms.gle/TGCgBDH1x5pXiWFo7
 
-All errors (new ones prefixed by >>):
+So we have your attendance request with suggested topics in our spreadsheet=
+.
 
-   drivers/md/dm-zoned-metadata.c: In function 'dmz_reset_zone':
->> drivers/md/dm-zoned-metadata.c:1659:23: error: too many arguments to function 'blkdev_zone_mgmt'
-    1659 |                 ret = blkdev_zone_mgmt(dev->bdev, REQ_OP_ZONE_RESET,
-         |                       ^~~~~~~~~~~~~~~~
-   In file included from drivers/md/dm-zoned.h:12,
-                    from drivers/md/dm-zoned-metadata.c:8:
-   include/linux/blkdev.h:327:5: note: declared here
-     327 | int blkdev_zone_mgmt(struct block_device *bdev, enum req_op op,
-         |     ^~~~~~~~~~~~~~~~
-
-
-vim +/blkdev_zone_mgmt +1659 drivers/md/dm-zoned-metadata.c
-
-3b1a94c88b798d Damien Le Moal     2017-06-07  1639  
-3b1a94c88b798d Damien Le Moal     2017-06-07  1640  /*
-3b1a94c88b798d Damien Le Moal     2017-06-07  1641   * Reset a zone write pointer.
-3b1a94c88b798d Damien Le Moal     2017-06-07  1642   */
-3b1a94c88b798d Damien Le Moal     2017-06-07  1643  static int dmz_reset_zone(struct dmz_metadata *zmd, struct dm_zone *zone)
-3b1a94c88b798d Damien Le Moal     2017-06-07  1644  {
-3b1a94c88b798d Damien Le Moal     2017-06-07  1645  	int ret;
-3b1a94c88b798d Damien Le Moal     2017-06-07  1646  
-3b1a94c88b798d Damien Le Moal     2017-06-07  1647  	/*
-3b1a94c88b798d Damien Le Moal     2017-06-07  1648  	 * Ignore offline zones, read only zones,
-3b1a94c88b798d Damien Le Moal     2017-06-07  1649  	 * and conventional zones.
-3b1a94c88b798d Damien Le Moal     2017-06-07  1650  	 */
-3b1a94c88b798d Damien Le Moal     2017-06-07  1651  	if (dmz_is_offline(zone) ||
-3b1a94c88b798d Damien Le Moal     2017-06-07  1652  	    dmz_is_readonly(zone) ||
-3b1a94c88b798d Damien Le Moal     2017-06-07  1653  	    dmz_is_rnd(zone))
-3b1a94c88b798d Damien Le Moal     2017-06-07  1654  		return 0;
-3b1a94c88b798d Damien Le Moal     2017-06-07  1655  
-3b1a94c88b798d Damien Le Moal     2017-06-07  1656  	if (!dmz_is_empty(zone) || dmz_seq_write_err(zone)) {
-8f22272af7a727 Hannes Reinecke    2020-06-02  1657  		struct dmz_dev *dev = zone->dev;
-3b1a94c88b798d Damien Le Moal     2017-06-07  1658  
-6c1b1da58f8c7a Ajay Joshi         2019-10-27 @1659  		ret = blkdev_zone_mgmt(dev->bdev, REQ_OP_ZONE_RESET,
-3b1a94c88b798d Damien Le Moal     2017-06-07  1660  				       dmz_start_sect(zmd, zone),
-c4d4977392621f Johannes Thumshirn 2024-01-23  1661  				       zmd->zone_nr_sectors, GFP_KERNEL);
-3b1a94c88b798d Damien Le Moal     2017-06-07  1662  		if (ret) {
-3b1a94c88b798d Damien Le Moal     2017-06-07  1663  			dmz_dev_err(dev, "Reset zone %u failed %d",
-b71228739851a9 Hannes Reinecke    2020-05-11  1664  				    zone->id, ret);
-3b1a94c88b798d Damien Le Moal     2017-06-07  1665  			return ret;
-3b1a94c88b798d Damien Le Moal     2017-06-07  1666  		}
-3b1a94c88b798d Damien Le Moal     2017-06-07  1667  	}
-3b1a94c88b798d Damien Le Moal     2017-06-07  1668  
-3b1a94c88b798d Damien Le Moal     2017-06-07  1669  	/* Clear write error bit and rewind write pointer position */
-3b1a94c88b798d Damien Le Moal     2017-06-07  1670  	clear_bit(DMZ_SEQ_WRITE_ERR, &zone->flags);
-3b1a94c88b798d Damien Le Moal     2017-06-07  1671  	zone->wp_block = 0;
-3b1a94c88b798d Damien Le Moal     2017-06-07  1672  
-3b1a94c88b798d Damien Le Moal     2017-06-07  1673  	return 0;
-3b1a94c88b798d Damien Le Moal     2017-06-07  1674  }
-3b1a94c88b798d Damien Le Moal     2017-06-07  1675  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Amir.
 
