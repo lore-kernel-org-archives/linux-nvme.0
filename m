@@ -4,79 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52494C46CD2
-	for <linux-nvme@archiver.kernel.org>; Sat, 27 Jan 2024 10:10:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6CE75C46CD2
+	for <linux-nvme@archiver.kernel.org>; Sat, 27 Jan 2024 12:25:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=B8boM7ORGYNMPVReZtTMFOzEa3BTzmrT4lpyXZ03SE4=; b=lZOrEg46co578TXp6rfXeMetfd
-	kQ/a5/HxvXk8KZ8k8jRIZPLAmLgkk67p69BFlActJDLCMavpwgnYn8s+3dSWZy35jrxYq2to0+oGZ
-	XXGr8mz9OlzlaOYlyZ92SZGkfGaxieMAudh1XWf1zJExmA/xTY4JD0TGEuTOOGvIkCasSVqNovAye
-	Fa6XA4sO51PHgwarKat5rFkCjvDAbmv/jIBCNiqFJyWh0bQtUumNlXt2ic195dSleRnfLI4psE5fX
-	R49BtoiUmzYgKFwf3jGbfUYwgH7tYsnxOyt+hXX9Ij+2Zx93+vgpbTdlTiBc1dyArePEpOIaIQVa7
-	36U5TOvA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:Subject:
+	Message-ID:Date:From:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=551MHtSX6BwzXdv5p5aYRatSD325Du0y0iE1Qg36b9E=; b=vkuPTz2adBDtfiFjKtObUXY7SO
+	YwLYmPkJEqFQmlDTuHXBFnwY06Yic6N4IGwBKtQYO3hvg62DSsMSHzqLs6t4Aa8omqgrdFWsYRe8c
+	sjtrqj+KvpaxFpto96Xp2V5zExBvEs+RGlgcLxfuaeNzt6hiYVxbSYI8NT0j4q3lbvo6cidDbFPLo
+	bEyzJ1CndXQkuhAri58/wgQTP/MUSncLBouZfKmCF7pHgbH5345DOZWwScKI6YQQuvfQ2S8CfD3XE
+	2ZfLQwFdpnKJNg4wZXnBtYh8MbbqpoXEWKUCpiOQ4GDLbsa60JNfQQvbW5lm3p9r9ttIxxsVW2U94
+	TLiNZVRg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rTfeF-00000007LHK-0cZK;
-	Sat, 27 Jan 2024 10:10:51 +0000
-Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829])
+	id 1rThkc-00000007Tpu-22sh;
+	Sat, 27 Jan 2024 12:25:34 +0000
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rTfeC-00000007LE5-0LHB
+	id 1rThkZ-00000007TpQ-48nN
 	for linux-nvme@lists.infradead.org;
-	Sat, 27 Jan 2024 10:10:49 +0000
-Received: by mail-qt1-x829.google.com with SMTP id d75a77b69052e-42a8a3973c5so4072861cf.2
-        for <linux-nvme@lists.infradead.org>; Sat, 27 Jan 2024 02:10:45 -0800 (PST)
+	Sat, 27 Jan 2024 12:25:33 +0000
+Received: by mail-wr1-x42f.google.com with SMTP id ffacd0b85a97d-33ae3cc8a6aso395333f8f.2
+        for <linux-nvme@lists.infradead.org>; Sat, 27 Jan 2024 04:25:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706350244; x=1706955044; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B8boM7ORGYNMPVReZtTMFOzEa3BTzmrT4lpyXZ03SE4=;
-        b=WRDDoTTK7auvXt9nJT5TAvRo6YkvziyRg+446yXy48vYNogF2uUcKus25K5ZeT0McK
-         JH1vc0aIxL4PAcWuTnZxrH1MDXiA/D/Z0sCyFoUBg9Djkvdg95Y8ohiHD8kqhAdHEjg6
-         R9RBR4rJ3t+wAZL2MvAYW77d6RXYP/tgtXfVKvqSEsME0pKZMnSNRb6mFt7fbrsTY7xT
-         Z/P9YEQkK/RvC/djXCWR7dYr8yuLvgURsnGVQpyuUn4SUdgdNUXdaRSrmdQG5AzfiY0z
-         QSTjj/GFNVllZHPuNS8Bo4uOWD3BOaIHxoFCfgOg2YYYoi08gZ+J6upkEo2eEbtERhb+
-         ZTPg==
+        d=gmail.com; s=20230601; t=1706358329; x=1706963129; darn=lists.infradead.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=551MHtSX6BwzXdv5p5aYRatSD325Du0y0iE1Qg36b9E=;
+        b=f7AWjpwmENDIvvOy4Nc9+qXjHfdPq90LYAnAVqW4Z8U+8GMseEZ+88VUonJkV/6/g5
+         xwS0AADpedvGdgazAPlLSVeWeP7vyttvS2bW9lEpTxiJy3EHaQuRicg9LQU5v97zgaCc
+         /UMYawnph8mDaSfKnQRVgByAcunlzcypbxdrCT0rB9XarykyCVmv5en/AeyP6mt3WWum
+         xnRmJ1TbJOqtntvI9FLNUXewaJhyBwUuNzVVCa1KXKC7zO4Xfk8lTTc4zavVRwTtZFiL
+         se4T90ms5Jt5R+HnTtCanRs6sxgTCo7GXebof3LEjYwMXHjjqcnsBsQHSslDCBN9Sa/s
+         sNJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706350244; x=1706955044;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=B8boM7ORGYNMPVReZtTMFOzEa3BTzmrT4lpyXZ03SE4=;
-        b=sP6aSa83UlS2rYLjfNqXUS0hNZYvQxNtd2kL8832WIrRkzKpLxoFk/oWqHP/VPWMjt
-         CGaRujfFcHuwL5rWKGi/INmWrAl15F4+QbRH/tW6Ng/aIkgHDUf7BXmEnpqlshhsgp4z
-         Sa4+dpYh3bJw/Gkq1kfVjTkOuqfcXG17iiyi9WeIUw9yvGkv9fF1GBnSkimDXy1nMcid
-         NuXQGtBpSoOh4CysiR5xpaT0gTGkahUViUTZTx3BM1tO3HMwU4qxLQ6xm+4zFUUrx1g4
-         GlecYpJBveGLllEvgDVt6x15wRmSOKYto3Ls0vOmt10AmPIude8dJcckSi3Iw5r7tMSs
-         9QKQ==
-X-Gm-Message-State: AOJu0YzNxaOqKHa12/yjD5Iu8wlNq5F8MyVsSkKoOmXolN5bkNV9CKsP
-	pl9U6/brvFD7AdZeepIV31hz7VGvC6pP4SwCSegm2namzNvgyQkTDRFAMnP0Md40iSrR03cBozE
-	PWT5as2lYghL8rcp/+9YLQ+9MIA8=
-X-Google-Smtp-Source: AGHT+IGUiH9HXC26Vu3/anzdVnuqtGlcGQJbaXMTzGJ5DFv7hsAeCFLU6XPgobuQw9kM3iclvcK7hFxD/N8fQjpWGJI=
-X-Received: by 2002:a05:6214:258d:b0:681:9ae1:94f3 with SMTP id
- fq13-20020a056214258d00b006819ae194f3mr1669408qvb.115.1706350244304; Sat, 27
- Jan 2024 02:10:44 -0800 (PST)
+        d=1e100.net; s=20230601; t=1706358329; x=1706963129;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=551MHtSX6BwzXdv5p5aYRatSD325Du0y0iE1Qg36b9E=;
+        b=tECS1GVtqMLqSybMXbOO67fd7GCQqL/jv9+g8MwQMbpaEOurNmBNA3LAShHkt5FTaT
+         FQgLpUk66VpwAn2CN+JbS1Pz4nX1vq0VmY6yjMv8Yo6aYhLmf71qNZy9bgNcKghaM+58
+         dkeNfcmq3STtPpFtBKJPrMpgF6Bp3oSN3iTGoqe3ai25fasPYAHxKyBaFwx77BLSPq6Z
+         UevxCjR56fDt2IWxInK3waq41U5XrsoGE3rRnMITgXNj1pWFEt5CfRn533VK2PcAKxz5
+         sUf/XAVo0GEKWIbkzp9UU2ejdDK+ShGCMN1tqOSfapUHnNms4KwdcxDwdsajI/BXn529
+         pU0g==
+X-Gm-Message-State: AOJu0YyC0nrZZKg7/T6paWKu/3VsR7MJcOGEX2Wrra/HBd1bwfcWZpUY
+	sRGg9c9GwWQmOykolzV/78R6/oe+rstV8EU/pAmz6Ri7blurSP7PJ/4HgzGNhl4JGG7DryyaWwx
+	ivQD/zsb8O3n5rS5R5s+aMuiU7Q5GDbpMqUU=
+X-Google-Smtp-Source: AGHT+IHGGEvxP6dcqjMeubQLbcSikx3lJlyc6kVUyjk8lnNlsIAqwQ4+/rUNMcyVdp/5y2gmaI8F/V3Xo2pzFJ8Hh9o=
+X-Received: by 2002:a5d:5012:0:b0:339:22a3:efd6 with SMTP id
+ e18-20020a5d5012000000b0033922a3efd6mr902660wrt.136.1706358328836; Sat, 27
+ Jan 2024 04:25:28 -0800 (PST)
 MIME-Version: 1.0
-References: <ZaqiPSj1wMrTMdHa@casper.infradead.org>
-In-Reply-To: <ZaqiPSj1wMrTMdHa@casper.infradead.org>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Sat, 27 Jan 2024 12:10:32 +0200
-Message-ID: <CAOQ4uxh1BCmBA3ow130p1FBUrLLRVO2i_DDtAGQWhAzrabmP8Q@mail.gmail.com>
-Subject: Re: [LSF/MM/BPF TOPIC] State Of The Page
-To: Matthew Wilcox <willy@infradead.org>
-Cc: lsf-pc@lists.linux-foundation.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-block@vger.kernel.org, linux-ide@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	bpf@vger.kernel.org
+From: Nicky Chorley <ndchorley@gmail.com>
+Date: Sat, 27 Jan 2024 12:25:17 +0000
+Message-ID: <CAG-xSoYQ8S5up0OYZi+_TzQV8rx53x+Yv1gKzQYQF0Go9bcScA@mail.gmail.com>
+Subject: Question about bool in __nvme_submit_sync_cmd
+To: linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240127_021048_142092_F6AFE6D9 
-X-CRM114-Status: GOOD (  14.80  )
+X-CRM114-CacheID: sfid-20240127_042532_047378_1573709A 
+X-CRM114-Status: UNSURE (   7.85  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,38 +83,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jan 19, 2024 at 6:24=E2=80=AFPM Matthew Wilcox <willy@infradead.org=
-> wrote:
->
-> It's probably worth doing another roundup of where we are on our journey
-> to separating folios, slabs, pages, etc.  Something suitable for people
-> who aren't MM experts, and don't care about the details of how page
-> allocation works.  I can talk for hours about whatever people want to
-> hear about but some ideas from me:
->
->  - Overview of how the conversion is going
->  - Convenience functions for filesystem writers
->  - What's next?
->  - What's the difference between &folio->page and page_folio(folio, 0)?
->  - What are we going to do about bio_vecs?
->  - How does all of this work with kmap()?
->
-> I'm sure people would like to suggest other questions they have that
-> aren't adequately answered already and might be of interest to a wider
-> audience.
->
+Hi folks,
 
-Matthew,
+I noticed that in nvme/core/host.c, __nvme_submit_sync_cmd takes an
+int parameter at_head. That's passed down to nvme_execute_rq, where
+the parameter is declared as a bool (and looks like it has been since
+that function was introduced in commit ae5e6886b4f8 ("nvme: use return
+value from blk_execute_rq()").
 
-And everyone else who suggests LSF/MM/BPF topic.
-
-Please do not forget to also fill out the Google form:
-
-          https://forms.gle/TGCgBDH1x5pXiWFo7
-
-So we have your attendance request with suggested topics in our spreadsheet=
-.
+Should the at_head parameter of __nvme_submit_sync_cmd (and I guess
+nvme_submit_sync_cmd) be changed to a bool, or is there a reason to
+keep it as int?
 
 Thanks,
-Amir.
+
+Nicky
 
