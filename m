@@ -4,57 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0DE56C46CD2
-	for <linux-nvme@archiver.kernel.org>; Sat, 27 Jan 2024 18:43:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 16469C47258
+	for <linux-nvme@archiver.kernel.org>; Sun, 28 Jan 2024 11:05:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=X6dqNNaFcBPAuUj/Qb7BL8mzsncc4vwb10YQ9AHh2wU=; b=Ts470ero1Sttdo6d2JudfkRnNc
-	3jiD2NtzF3JJokatyvjNnEk5GXqlWLsGrYoZqfTROQ44BD/Sct/boO2lC4OvNgWHYJdE3EoutYWMg
-	nZs5KTiGtVa8P39pV99Xf4tgMEIx8TxRInUFKX1JTXzOMK+MgzXQSlBtK7BZuLm/hPfbhTYHjrb12
-	Tbmt4s5QxhomuYpTSm4l6i2WXhipdJS2Z06kSUSZM4IlNaoxX6B7uOc7oYBX92iSLO6Fc+imfpcbA
-	5mMyNN3v36Qvo8WWlC6YzMwDFdAgogNMrNNAYGriTlkhygi/vubjvTCM2HyHwlMpls8xbgMm5LfBx
-	rqQCfrLA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=CEwj62BHY/FYaS4xbB1ZGlDK7z3dB1l+H9aStAz6p8Q=; b=MSPSJ6qvoaI5W9iMcHOmu8X5f5
+	iEGJ4JRcIFa+n7iNOHYVtL4rrFTMAgIhJnZFFJBzoZIqdKBG61co/nYerljArfRLCxmHPp0/jkPR/
+	iiGON1x2oNmfE6LCuoJYSnGKYAgdLog0JYWOljFE40+RnHhiEiC0Y6p5gkH3USDNXWqG9Kcvj9lqU
+	6D93l4Dl9tk6Q8MRAXw4X/m6BTgTIpCWtHcXLlFRZ2DZZG21+1k3yzlQMCIVp7uuLECjJ4e3ZuDHV
+	cd6lToZwuP7n+E1NICpzi/c9cHYhLJgRYFg6SlKqLNWvUBFA9gI69Hb3v8urR1tcLRFxfc2Ji30Cp
+	XWtANaEg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rTneX-000000080ce-1VVB;
-	Sat, 27 Jan 2024 18:43:41 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1rU2yY-00000009Hb0-0sXt;
+	Sun, 28 Jan 2024 11:05:22 +0000
+Received: from mail-wr1-f47.google.com ([209.85.221.47])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rTneV-000000080cS-0uQ7
-	for linux-nvme@bombadil.infradead.org;
-	Sat, 27 Jan 2024 18:43:39 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=X6dqNNaFcBPAuUj/Qb7BL8mzsncc4vwb10YQ9AHh2wU=; b=lELbwOzzp1TR91on867emJBA1d
-	avobqrdJ8X7yB9badToi0BoMO96MowyanbyF5LaeRj65WWbJbwni699zGz/2EG8LVzbhIQIZQHJ66
-	ZEOhKelSRC9LdHVTE/Qv/LzJsoEhFTcX3pSrMMHV8vraAYReK0RhQVbAp5wv1iF7LCp+D3iQ4GZ6F
-	Ik//ZLI7LL9Eqh3cUFXOhbEM55uQij82k1lfPkCdZw/SJhA7C1ITmkWtfCxI+Q9bSGz2z1LBaiTsZ
-	NUS3eWu46fYn809l7rTxCMLJvNvauvvXIIPMCbg/oSIskf8I7CYTgvFKUE4YX58ztH/r9QBdsy2gv
-	QxiM558g==;
-Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rTneT-00000000400-0bqE;
-	Sat, 27 Jan 2024 18:43:37 +0000
-Date: Sat, 27 Jan 2024 18:43:37 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: lsf-pc@lists.linux-foundation.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-block@vger.kernel.org,
-	linux-ide@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-nvme@lists.infradead.org, bpf@vger.kernel.org
-Subject: Re: [LSF/MM/BPF TOPIC] State Of The Page
-Message-ID: <ZbVO2RKhw-dLUMvf@casper.infradead.org>
-References: <ZaqiPSj1wMrTMdHa@casper.infradead.org>
- <yrswihigbp46vlyxqvi3io5pfngcivfwfb3gdlnjs6tzntldbx@mbnrycaujxb3>
+	id 1rU2yS-00000009HaU-2Oj4
+	for linux-nvme@lists.infradead.org;
+	Sun, 28 Jan 2024 11:05:18 +0000
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-33aeac77bc4so46049f8f.0
+        for <linux-nvme@lists.infradead.org>; Sun, 28 Jan 2024 03:05:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706439913; x=1707044713;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CEwj62BHY/FYaS4xbB1ZGlDK7z3dB1l+H9aStAz6p8Q=;
+        b=KivhJj4QRWtRcBNIl46xaSitZ1JSI83ICBTpiUi0X7vnKMRFBFoQy0OmQlDJ3hVfGN
+         CH0XH09u3LBKHObuRF8hCloJ95BRbGLVohdaZszJJg5RvvAYny/pLWNd4SfVKHKOGlD1
+         5fZpsGk4sAEdCqFcsuoa4Lq7g+FYIAtipqFM87wzvHGM3ltbxlDm8Eh4bsGmqweYYYaA
+         xknoud7U9+ooIY2l4I4mqEbJyO/Oa1Uuq1/hkt94ivzPgCHLAGnS0YJix5HESPgJeca7
+         9E407dimYT65Kms0X06zNZO6lVoPxRzY5WP3SeWMbgosFjSfYqSvjp3wxCmHJhSI5HmD
+         J+jA==
+X-Forwarded-Encrypted: i=0; AJvYcCXKWXfm1gohhaKZHCC/8cbmS5uxlzgi4Bz2PxRA2RbhMD9E3OlL1davmD5GUfVLNvtXTxIwt5ZcSpPYC83Z3bc/mhNfW+JVF9z2yf01DFs=
+X-Gm-Message-State: AOJu0Yw3cSgwepDe9pvngI2tgIrxF/vR616xSJ3aEbltP3yYj3VgYKri
+	/XSUEJ453xWUnv9cubcG022RP2qFDnP82NOZ7w200BwRM9b3VyZJ
+X-Google-Smtp-Source: AGHT+IF119AbDAu5NIzD3uaPHF7CAAZeFXn6SQcxnLLGdQf9xhjndGpMoIujS9c/eGTQlSKIboMMUw==
+X-Received: by 2002:a05:600c:1e8a:b0:40e:ee43:555d with SMTP id be10-20020a05600c1e8a00b0040eee43555dmr3046004wmb.1.1706439913046;
+        Sun, 28 Jan 2024 03:05:13 -0800 (PST)
+Received: from [10.100.102.67] (46-117-114-124.bb.netvision.net.il. [46.117.114.124])
+        by smtp.gmail.com with ESMTPSA id he9-20020a05600c540900b0040ed1df542bsm6993636wmb.20.2024.01.28.03.05.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 28 Jan 2024 03:05:12 -0800 (PST)
+Message-ID: <e05c2ce0-d884-47d3-8b1b-b7b6b0e96192@grimberg.me>
+Date: Sun, 28 Jan 2024 13:05:10 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <yrswihigbp46vlyxqvi3io5pfngcivfwfb3gdlnjs6tzntldbx@mbnrycaujxb3>
+User-Agent: Mozilla Thunderbird
+Subject: Re: nvme-tcp: question on poll return value
+Content-Language: en-US
+To: Daniel Wagner <dwagner@suse.de>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+References: <gcy35jsyvwmw37tlqpanvavqpxqmt3qylam7mtbkefolj737ef@vfswvevmfxku>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <gcy35jsyvwmw37tlqpanvavqpxqmt3qylam7mtbkefolj737ef@vfswvevmfxku>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20240128_030516_650837_C27726A3 
+X-CRM114-Status: GOOD (  24.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,45 +82,65 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Jan 27, 2024 at 12:57:45PM -0500, Kent Overstreet wrote:
-> On Fri, Jan 19, 2024 at 04:24:29PM +0000, Matthew Wilcox wrote:
-> >  - What are we going to do about bio_vecs?
-> 
-> For bios and biovecs, I think it's important to keep in mind the
-> distinction between the code that owns and submits the bio, and the
-> consumer underneath.
-> 
-> The code underneath could just as easily work with pfns, and the code
-> above got those pages from somewhere else, so it doesn't _need_ the bio
-> for access to those pages/folios (it would be a lot of refactoring
-> though).
-> 
-> But I've been thinking about going in a different direction - what if we
-> unified iov_iter and bio? We've got ~3 different scatter-gather types
-> that an IO passes through down the stack, and it would be lovely if we
-> could get it down to just one; e.g. for DIO, pinning pages right at the
-> copy_from_user boundary.
 
-Yes, but ...
 
-One of the things that Xen can do and Linux can't is I/O to/from memory
-that doesn't have an associated struct page.  We have all kinds of hacks
-in place to get around that right now, and I'd like to remove those.
+On 1/24/24 17:31, Daniel Wagner wrote:
+> Hi Sagi,
+>
+> I am stubled across nr_cqe while debugging something else and I am not
+> sure if the poll function is doing the right thing with it. IIUC, the
+> blk_mq_ops poll callback is supposed to return > 0 value when it
+> processed at least one element. If this is the case, than I think we
+> would need to first copy the current value in nr_cqe before calling
+> nvme_tcp_try_recv. The function will reset queue->nr_cqe to 0, thus
+> nvme_tcp_poll will always return 0.
+>
+> Does this make any sense?
 
-Since we want that kind of memory (lets take, eg, GPU memory as an
-example) to be mappable to userspace, and we want to be able to do DIO
-to that memory, that points us to using a non-page-based structure right
-from the start.  Yes, if it happens to be backed by pages we need to 'pin'
-them in some way (I'd like to get away from per-page or even per-folio
-pinning, but we'll see about that), but the data structure that we use
-to represent that memory as it moves through the I/O subsystem needs to
-be physical address based.
+Not sure I understand your logic. nr_cqe is cleared when try_recv starts 
+and incremented
+in every completion, and nvme_tcp_poll is returning this value as these 
+are the number
+of cqes collected during the try_recv triggered by nvme_tcp_poll.
 
-So my 40,000 foot view is that we do something like get_user_phyrs()
-at the start of DIO, pas the phyr to the filesystem; the filesystem then
-passes one or more phyrs to the block layer, the block layer gives the
-phyrs to the driver which DMA maps the phyr.
+It is true that if between try_recv triggered by nvme_tcp_poll and 
+another try_recv called
+from the RX io_work path, nr_cqe may be cleared again. That is something 
+we can address
+by passing nr_cqe by reference as an in+out parameter to try_recv. But I 
+don't see how
+nr_cqe is going to always be 0.
 
-Yes, the IO completion path (for buffered IO) needs to figure out which
-folios are decsribed by this phyr, but that's a phys_to_folio() call away.
+>
+> Thanks,
+> Daniel
+>
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index d79811cfa0ce..db9a105bd986 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -2573,6 +2573,7 @@ static int nvme_tcp_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batch *iob)
+>   {
+>   	struct nvme_tcp_queue *queue = hctx->driver_data;
+>   	struct sock *sk = queue->sock->sk;
+> +	int nr_cqe;
+>
+>   	if (!test_bit(NVME_TCP_Q_LIVE, &queue->flags))
+>   		return 0;
+> @@ -2580,9 +2581,10 @@ static int nvme_tcp_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batch *iob)
+>   	set_bit(NVME_TCP_Q_POLLING, &queue->flags);
+>   	if (sk_can_busy_loop(sk) && skb_queue_empty_lockless(&sk->sk_receive_queue))
+>   		sk_busy_loop(sk, true);
+> +	nr_cqe = queue->nr_cqe;
+>   	nvme_tcp_try_recv(queue);
+>   	clear_bit(NVME_TCP_Q_POLLING, &queue->flags);
+> -	return queue->nr_cqe;
+> +	return nr_cqe;
+>   }
+>
+>   static int nvme_tcp_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
+
+This is wrong, in this case, nr_cqe would represent what happened 
+_before_ calling it
+and not how many completions it consumed.
 
