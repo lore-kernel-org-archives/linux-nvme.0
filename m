@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83E93C47DA9
-	for <linux-nvme@archiver.kernel.org>; Sun, 28 Jan 2024 16:58:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EFA07C47DA9
+	for <linux-nvme@archiver.kernel.org>; Sun, 28 Jan 2024 16:58:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=z9G/gAKZSeYPiyeJS3XaV3eaQiO0JQCRa0TTwJUP6oI=; b=x0lxxbbTtltkwdHrPsDfs6AAy7
-	b7VuASmNvh1kX4sM9KQfdwaWetrth+puIHrHyXn+LTidfublESJTqhbfikwFvoWSKdbvZSJ4H0PlI
-	Oa23aMJWVpz0RSWuxPqDhHp1he1XQnCvO05Ux4NKgAxcFn12GpFZrsKz9fKqj8ks2XBYMuo57IU6M
-	6+05WM09WdYv8zQphYgTq7ASSLnH7MxZjjg5d+HCbGl9KjnTqRnGtd6MdvIDZiwG5c3yzTnAa21iS
-	8yDFg8umtknBmgV4/l+ln4RZ2c5ylI3rp0RV2XFq2wsMLptkuJodJPBiQZ1okjnq1Gq9w99nJ7EOs
-	MHOfnODA==;
+	bh=P7lJeX1MV89nvGvN/Kp1ZllbRc7C3W/7Ktl++U1k1BA=; b=qtZUSJ/edPhBKphVuaOVMZk8Sj
+	MKOTBKDa2n7ZhTxLFuq8os/DY+1Q5G6u8ooap4wW16yTEcfzAJbq0Yko7YxqOjOULbVJtFzuPv9JQ
+	aoA/G5lZjSHu2E9JB9xFU6fYmmt13OssGx4urQYTDIFroVirHoe93VA68UhOLtiJ9ea+ZZPUBl42d
+	wDujwVXfsFpYLTRl8aGOw5x/jswaZjmQ4XAng3ct44RmFiN9YL9gdD1cbzzhrc8P7p2bXwhCZy7fi
+	en/H/dYKZfOc2nyOfgx79dgblv/ezLEIOto1/nNKomYpbtmNBSoLDkZZ+owUMtSeTY8GmsPsPVpQ9
+	PXsZn3cg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rU8UY-0000000A2Ac-3gA6;
-	Sun, 28 Jan 2024 16:58:46 +0000
+	id 1rU8Ud-0000000A2EA-0Mp2;
+	Sun, 28 Jan 2024 16:58:51 +0000
 Received: from [2001:4bb8:182:6550:c70:4a89:bc61:3] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rU8UV-0000000A27Y-3fod;
-	Sun, 28 Jan 2024 16:58:44 +0000
+	id 1rU8UY-0000000A29w-46z7;
+	Sun, 28 Jan 2024 16:58:47 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>,
@@ -39,10 +39,11 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
-	virtualization@lists.linux.dev
-Subject: [PATCH 05/14] block: add a max_user_discard_sectors queue limit
-Date: Sun, 28 Jan 2024 17:58:04 +0100
-Message-Id: <20240128165813.3213508-6-hch@lst.de>
+	virtualization@lists.linux.dev,
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH 06/14] block: use queue_limits_commit_update in queue_discard_max_store
+Date: Sun, 28 Jan 2024 17:58:05 +0100
+Message-Id: <20240128165813.3213508-7-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240128165813.3213508-1-hch@lst.de>
 References: <20240128165813.3213508-1-hch@lst.de>
@@ -62,104 +63,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a new max_user_discard_sectors limit that mirrors max_user_sectors
-and stores the value that the user manually set.  This now allows
-updates of the max_hw_discard_sectors to not worry about the user
-limit.
+Convert queue_discard_max_store to use queue_limits_commit_update to
+check and update the max_discard_sectors limit and freeze the queue
+before doing so to ensure we don't have requests in flight while
+changing the limits.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 ---
- block/blk-settings.c   | 12 +++++++++---
- block/blk-sysfs.c      | 18 +++++++++---------
- include/linux/blkdev.h |  1 +
- 3 files changed, 19 insertions(+), 12 deletions(-)
+ block/blk-sysfs.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/block/blk-settings.c b/block/blk-settings.c
-index 1287bf0177b6db..a98a6b847585c9 100644
---- a/block/blk-settings.c
-+++ b/block/blk-settings.c
-@@ -47,6 +47,7 @@ void blk_set_default_limits(struct queue_limits *lim)
- 	lim->max_zone_append_sectors = 0;
- 	lim->max_discard_sectors = 0;
- 	lim->max_hw_discard_sectors = 0;
-+	lim->max_user_discard_sectors = UINT_MAX;
- 	lim->max_secure_erase_sectors = 0;
- 	lim->discard_granularity = 512;
- 	lim->discard_alignment = 0;
-@@ -193,7 +194,9 @@ int blk_validate_limits(struct queue_limits *lim)
- 	if (!lim->max_segments)
- 		lim->max_segments = BLK_MAX_SEGMENTS;
- 
--	lim->max_discard_sectors = lim->max_hw_discard_sectors;
-+	lim->max_discard_sectors =
-+		min(lim->max_hw_discard_sectors, lim->max_user_discard_sectors);
-+
- 	if (!lim->max_discard_segments)
- 		lim->max_discard_segments = 1;
- 
-@@ -370,8 +373,11 @@ EXPORT_SYMBOL(blk_queue_chunk_sectors);
- void blk_queue_max_discard_sectors(struct request_queue *q,
- 		unsigned int max_discard_sectors)
- {
--	q->limits.max_hw_discard_sectors = max_discard_sectors;
--	q->limits.max_discard_sectors = max_discard_sectors;
-+	struct queue_limits *lim = &q->limits;
-+
-+	lim->max_hw_discard_sectors = max_discard_sectors;
-+	lim->max_discard_sectors =
-+		min(max_discard_sectors, lim->max_user_discard_sectors);
- }
- EXPORT_SYMBOL(blk_queue_max_discard_sectors);
- 
 diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
-index 26607f9825cb05..54e10604ddb1dd 100644
+index 54e10604ddb1dd..8c8f69d8ba48ee 100644
 --- a/block/blk-sysfs.c
 +++ b/block/blk-sysfs.c
-@@ -174,23 +174,23 @@ static ssize_t queue_discard_max_show(struct request_queue *q, char *page)
- static ssize_t queue_discard_max_store(struct request_queue *q,
+@@ -175,7 +175,9 @@ static ssize_t queue_discard_max_store(struct request_queue *q,
  				       const char *page, size_t count)
  {
--	unsigned long max_discard;
--	ssize_t ret = queue_var_store(&max_discard, page, count);
-+	unsigned long max_discard_bytes;
-+	ssize_t ret;
+ 	unsigned long max_discard_bytes;
++	struct queue_limits lim;
+ 	ssize_t ret;
++	int err;
  
-+	ret = queue_var_store(&max_discard_bytes, page, count);
+ 	ret = queue_var_store(&max_discard_bytes, page, count);
  	if (ret < 0)
- 		return ret;
- 
--	if (max_discard & (q->limits.discard_granularity - 1))
-+	if (max_discard_bytes & (q->limits.discard_granularity - 1))
+@@ -187,10 +189,14 @@ static ssize_t queue_discard_max_store(struct request_queue *q,
+ 	if ((max_discard_bytes >> SECTOR_SHIFT) > UINT_MAX)
  		return -EINVAL;
  
--	max_discard >>= 9;
--	if (max_discard > UINT_MAX)
-+	if ((max_discard_bytes >> SECTOR_SHIFT) > UINT_MAX)
- 		return -EINVAL;
- 
--	if (max_discard > q->limits.max_hw_discard_sectors)
--		max_discard = q->limits.max_hw_discard_sectors;
--
--	q->limits.max_discard_sectors = max_discard;
-+	q->limits.max_user_discard_sectors = max_discard_bytes >> SECTOR_SHIFT;
-+	q->limits.max_discard_sectors =
-+		min_not_zero(q->limits.max_hw_discard_sectors,
-+			     q->limits.max_user_discard_sectors);
+-	q->limits.max_user_discard_sectors = max_discard_bytes >> SECTOR_SHIFT;
+-	q->limits.max_discard_sectors =
+-		min_not_zero(q->limits.max_hw_discard_sectors,
+-			     q->limits.max_user_discard_sectors);
++	blk_mq_freeze_queue(q);
++	lim = queue_limits_start_update(q);
++	lim.max_user_discard_sectors = max_discard_bytes >> SECTOR_SHIFT;
++	err = queue_limits_commit_update(q, &lim);
++	blk_mq_unfreeze_queue(q);
++
++	if (err)
++		return err;
  	return ret;
  }
  
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 5b5d3b238de1e7..700ec5055b668d 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -290,6 +290,7 @@ struct queue_limits {
- 	unsigned int		io_opt;
- 	unsigned int		max_discard_sectors;
- 	unsigned int		max_hw_discard_sectors;
-+	unsigned int		max_user_discard_sectors;
- 	unsigned int		max_secure_erase_sectors;
- 	unsigned int		max_write_zeroes_sectors;
- 	unsigned int		max_zone_append_sectors;
 -- 
 2.39.2
 
