@@ -4,90 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B899CC48285
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jan 2024 07:52:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83140C47422
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jan 2024 08:23:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
-	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OprZIc5x3JXJWrYpmAXfh+xYhkGHxMcyNWgp/sjyVgI=; b=ujRIcjRotGjEOfruKg5kHowCzR
-	i00Ws6dsz0x46ptkXupiscVbVKU9QerZpFdZb+qJnaAMVQbqAuF4fOg7ILBKQLQSJP2oSxwDqrREQ
-	gihWQIk9Fw3uApZjIRiVcYef2c08aj/LfjtyATdu7bWeztwrl0WyA229cvM6jCZaRnEaUhRr+ogw4
-	HoD3KhgF4sDIwmJYdhLm6PB5ohFwYTVDQ8IvYc4SecRtZ6AOdLu83eoadKMP+cAMxB1JxFZMRCw0f
-	2Lk+Pc3ACtrMRfrF0Se8FKE20V5NAOslaJmtdrB//l+7m2VBhs9kW/z2m8TUq6v+F2+XG7v1WjAnE
-	jdta5Y8g==;
+	bh=JJSxCNNF8/PhXxa1hxb4OEEmpxczgqyBTh1CD1a3I6A=; b=c3jKv9l3TU5JEBqQrrGhh0VGoX
+	FtTnNr0q0S1WZyrHMb3aro0ulVcXfU8VZ7im5u6jd1HvBtyHkekxkrBxI5mMiXSPdxBFaauGV49gI
+	79RKErwkZO5FhzqlkAiIDNTBwROfYHenWV3CcZxpe6s2TUEvfuEiTQ9VTsn4dPFjBRBaE8qTILVht
+	f63Y6Unr6ScxiZ6lcoN5dzBiSQEdVUos6eu/yGQKkdTuDkrvInqGBTdQOBfLDAkbwI3YLkGs4bfPt
+	UDaU6iy/9ixZXHH5LBERhp+H3Y3pQY+Hm58K7AYotVm2Knd1fvaSasWwwph1l/VF//1eCSURTaQXl
+	Fm9z43Ow==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rUMRm-0000000Bf1P-1AYK;
-	Mon, 29 Jan 2024 07:52:50 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1rUMvD-0000000Bkkv-1efa;
+	Mon, 29 Jan 2024 08:23:15 +0000
+Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rUMRg-0000000Bepo-45Mu
+	id 1rUMv7-0000000BkjH-44j4
 	for linux-nvme@lists.infradead.org;
-	Mon, 29 Jan 2024 07:52:47 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1706514764; x=1738050764;
-  h=from:date:subject:mime-version:content-transfer-encoding:
-   message-id:references:in-reply-to:to:cc;
-  bh=PpBx+EPFfjh41Vxsoq76s95w7MJ2ZC/siDhDiJq7ERo=;
-  b=E+CJUhOxvrZZY6xTjpwoVAB+obeo4QEDFzwQ9xiz5jKDzd/9h1LHKbs4
-   BmCn0y8QUvrMuLwCOfEo0bcOwnIo+leJ0nzxxzsCRFfI/wNZsrQ8TQU13
-   DrOQ/RTOJasYP3DeGEsXP/z0h5ht0cfSYHO5Ix6i8IDFwPEJ97u0HOaOB
-   Zjsl5p/QGauINAGr5bOKMkst+WzYCDXRsVaAoB+unP6q+0pTODC1ILKvL
-   kUAAGjZ7p4X+BDrB5W4rLz4PHDFqyuFzA4QNw14abhUcbOnKuW6/hQ/sh
-   M0UlhhhZEzg/BJjPHzdjsnFsZ4ZjnFz2KvIkc2OWT+EJ9iXepxnhkwoF7
-   A==;
-X-CSE-ConnectionGUID: UPPOkZTjR7uXHhJfAm1N9g==
-X-CSE-MsgGUID: ArnmMvf2SBOffDcrZ0Cuaw==
-X-IronPort-AV: E=Sophos;i="6.05,226,1701100800"; 
-   d="scan'208";a="7957657"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 29 Jan 2024 15:52:44 +0800
-IronPort-SDR: Y1gaWFnDDHISZgVemU3+EMnaBrtvXZwhYWXdgKS9P488QngGy03SDbIB1yxrKaZLIGcvvbzpC5
- xgSiN9MXkSag==
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 28 Jan 2024 23:02:39 -0800
-IronPort-SDR: w3d8Eh2UpJd9ku1WKTx1l7lwBk19wKMIxKUulcA1HE+QC0AEAbgf1CiOpn4o1PvGPT4PiPry8K
- e+EhHc5cQv2w==
-WDCIronportException: Internal
-Received: from unknown (HELO redsun91.ssa.fujisawa.hgst.com) ([10.149.66.6])
-  by uls-op-cesaip02.wdc.com with ESMTP; 28 Jan 2024 23:52:41 -0800
-From: Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Date: Sun, 28 Jan 2024 23:52:20 -0800
-Subject: [PATCH v3 5/5] block: remove gfp_flags from blkdev_zone_mgmt
+	Mon, 29 Jan 2024 08:23:12 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1706516587; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=JJSxCNNF8/PhXxa1hxb4OEEmpxczgqyBTh1CD1a3I6A=;
+	b=kMFJQ86ON+KT7NxThuWssoolF+dJs+DU00qWQCPrfrfJS9B7lLVXIa8YapTR4IYEj7Xf6fZAeqmg6ugQeyb7cCoCz8m9q7Ryf/L9ovW/1TSeBaKGSjRCSBG4s4IX4LtiaxpKaPhuxDJK3rFeZ01RGpR66IT8VFscCIX56w6yOKI=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045168;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0W.YlJmZ_1706516581;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W.YlJmZ_1706516581)
+          by smtp.aliyun-inc.com;
+          Mon, 29 Jan 2024 16:23:05 +0800
+From: Guixin Liu <kanie@linux.alibaba.com>
+To: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH 1/3] nvme: add tracing of reservation commands
+Date: Mon, 29 Jan 2024 16:22:54 +0800
+Message-ID: <20240129082256.63239-2-kanie@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240129082256.63239-1-kanie@linux.alibaba.com>
+References: <20240129082256.63239-1-kanie@linux.alibaba.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240128-zonefs_nofs-v3-5-ae3b7c8def61@wdc.com>
-References: <20240128-zonefs_nofs-v3-0-ae3b7c8def61@wdc.com>
-In-Reply-To: <20240128-zonefs_nofs-v3-0-ae3b7c8def61@wdc.com>
-To: Damien Le Moal <dlemoal@kernel.org>, 
- Naohiro Aota <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>, 
- Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, 
- Mikulas Patocka <mpatocka@redhat.com>, dm-devel@lists.linux.dev, 
- Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, 
- David Sterba <dsterba@suse.com>, Jaegeuk Kim <jaegeuk@kernel.org>, 
- Chao Yu <chao@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
- Chaitanya Kulkarni <kch@nvidia.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-btrfs@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
- Johannes Thumshirn <johannes.thumshirn@wdc.com>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1706514743; l=9256;
- i=johannes.thumshirn@wdc.com; s=20230613; h=from:subject:message-id;
- bh=PpBx+EPFfjh41Vxsoq76s95w7MJ2ZC/siDhDiJq7ERo=;
- b=oCtzmy3ITlmPQ0I/vbm4lgoeb/xUc1LeL2O2f6dsxxzA35tnxHEs/YC14icO27gxc0NReEIiH
- ZJVjIO0fA0FDTjArN8Omfw25NOwirlGb0nD0Nph+pcgva18XgTyEuAu
-X-Developer-Key: i=johannes.thumshirn@wdc.com; a=ed25519;
- pk=TGmHKs78FdPi+QhrViEvjKIGwReUGCfa+3LEnGoR2KM=
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240128_235245_228617_F7A54297 
-X-CRM114-Status: GOOD (  18.55  )
+X-CRM114-CacheID: sfid-20240129_002310_847073_3BE3C86B 
+X-CRM114-Status: UNSURE (   7.88  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,235 +68,94 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Now that all callers pass in GFP_KERNEL to blkdev_zone_mgmt() and use
-memalloc_no{io,fs}_{save,restore}() to define the allocation scope, we can
-drop the gfp_mask parameter from blkdev_zone_mgmt() as well as
-blkdev_zone_reset_all() and blkdev_zone_reset_all_emulated().
+Add detailed parsing of reservation commands to make the trace log
+more consistent and human-readable.
 
-Signed-off-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 ---
- block/blk-zoned.c              | 19 ++++++++-----------
- drivers/md/dm-zoned-metadata.c |  2 +-
- drivers/nvme/target/zns.c      |  5 ++---
- fs/btrfs/zoned.c               | 14 +++++---------
- fs/f2fs/segment.c              |  4 ++--
- fs/zonefs/super.c              |  2 +-
- include/linux/blkdev.h         |  2 +-
- 7 files changed, 20 insertions(+), 28 deletions(-)
+ drivers/nvme/host/trace.c | 62 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 62 insertions(+)
 
-diff --git a/block/blk-zoned.c b/block/blk-zoned.c
-index d343e5756a9c..d4f4f8325eff 100644
---- a/block/blk-zoned.c
-+++ b/block/blk-zoned.c
-@@ -177,8 +177,7 @@ static int blk_zone_need_reset_cb(struct blk_zone *zone, unsigned int idx,
- 	}
- }
- 
--static int blkdev_zone_reset_all_emulated(struct block_device *bdev,
--					  gfp_t gfp_mask)
-+static int blkdev_zone_reset_all_emulated(struct block_device *bdev)
- {
- 	struct gendisk *disk = bdev->bd_disk;
- 	sector_t capacity = bdev_nr_sectors(bdev);
-@@ -205,7 +204,7 @@ static int blkdev_zone_reset_all_emulated(struct block_device *bdev,
- 		}
- 
- 		bio = blk_next_bio(bio, bdev, 0, REQ_OP_ZONE_RESET | REQ_SYNC,
--				   gfp_mask);
-+				   GFP_KERNEL);
- 		bio->bi_iter.bi_sector = sector;
- 		sector += zone_sectors;
- 
-@@ -223,7 +222,7 @@ static int blkdev_zone_reset_all_emulated(struct block_device *bdev,
+diff --git a/drivers/nvme/host/trace.c b/drivers/nvme/host/trace.c
+index 1c36fcedea20..95572c85b22a 100644
+--- a/drivers/nvme/host/trace.c
++++ b/drivers/nvme/host/trace.c
+@@ -191,6 +191,60 @@ static const char *nvme_trace_zone_mgmt_recv(struct trace_seq *p, u8 *cdw10)
  	return ret;
  }
  
--static int blkdev_zone_reset_all(struct block_device *bdev, gfp_t gfp_mask)
-+static int blkdev_zone_reset_all(struct block_device *bdev)
++static const char *nvme_trace_resv_reg(struct trace_seq *p, u8 *cdw10)
++{
++	const char *ret = trace_seq_buffer_ptr(p);
++	u8 rrega = cdw10[0] & 0x7;
++	u8 iekey = (cdw10[0] >> 3) & 0x1;
++	u8 ptpl = (cdw10[3] >> 6) & 0x3;
++
++	trace_seq_printf(p, "rrega=%u, iekey=%u, ptpl=%u",
++			 rrega, iekey, ptpl);
++	trace_seq_putc(p, 0);
++
++	return ret;
++}
++
++static const char *nvme_trace_resv_acq(struct trace_seq *p, u8 *cdw10)
++{
++	const char *ret = trace_seq_buffer_ptr(p);
++	u8 racqa = cdw10[0] & 0x7;
++	u8 iekey = (cdw10[0] >> 3) & 0x1;
++	u8 rtype = cdw10[1];
++
++	trace_seq_printf(p, "racqa=%u, iekey=%u, rtype=%u",
++			 racqa, iekey, rtype);
++	trace_seq_putc(p, 0);
++
++	return ret;
++}
++
++static const char *nvme_trace_resv_rel(struct trace_seq *p, u8 *cdw10)
++{
++	const char *ret = trace_seq_buffer_ptr(p);
++	u8 rrela = cdw10[0] & 0x7;
++	u8 iekey = (cdw10[0] >> 3) & 0x1;
++	u8 rtype = cdw10[1];
++
++	trace_seq_printf(p, "rrela=%u, iekey=%u, rtype=%u",
++			 rrela, iekey, rtype);
++	trace_seq_putc(p, 0);
++
++	return ret;
++}
++
++static const char *nvme_trace_resv_report(struct trace_seq *p, u8 *cdw10)
++{
++	const char *ret = trace_seq_buffer_ptr(p);
++	u32 numd = get_unaligned_le32(cdw10);
++	u8 eds = cdw10[4] & 0x1;
++
++	trace_seq_printf(p, "numd=%u, eds=%u", numd, eds);
++	trace_seq_putc(p, 0);
++
++	return ret;
++}
++
+ static const char *nvme_trace_common(struct trace_seq *p, u8 *cdw10)
  {
- 	struct bio bio;
- 
-@@ -238,7 +237,6 @@ static int blkdev_zone_reset_all(struct block_device *bdev, gfp_t gfp_mask)
-  * @sector:	Start sector of the first zone to operate on
-  * @nr_sectors:	Number of sectors, should be at least the length of one zone and
-  *		must be zone size aligned.
-- * @gfp_mask:	Memory allocation flags (for bio_alloc)
-  *
-  * Description:
-  *    Perform the specified operation on the range of zones specified by
-@@ -248,7 +246,7 @@ static int blkdev_zone_reset_all(struct block_device *bdev, gfp_t gfp_mask)
-  *    or finish request.
-  */
- int blkdev_zone_mgmt(struct block_device *bdev, enum req_op op,
--		     sector_t sector, sector_t nr_sectors, gfp_t gfp_mask)
-+		     sector_t sector, sector_t nr_sectors)
- {
- 	struct request_queue *q = bdev_get_queue(bdev);
- 	sector_t zone_sectors = bdev_zone_sectors(bdev);
-@@ -285,12 +283,12 @@ int blkdev_zone_mgmt(struct block_device *bdev, enum req_op op,
- 	 */
- 	if (op == REQ_OP_ZONE_RESET && sector == 0 && nr_sectors == capacity) {
- 		if (!blk_queue_zone_resetall(q))
--			return blkdev_zone_reset_all_emulated(bdev, gfp_mask);
--		return blkdev_zone_reset_all(bdev, gfp_mask);
-+			return blkdev_zone_reset_all_emulated(bdev);
-+		return blkdev_zone_reset_all(bdev);
+ 	const char *ret = trace_seq_buffer_ptr(p);
+@@ -243,6 +297,14 @@ const char *nvme_trace_parse_nvm_cmd(struct trace_seq *p,
+ 		return nvme_trace_zone_mgmt_send(p, cdw10);
+ 	case nvme_cmd_zone_mgmt_recv:
+ 		return nvme_trace_zone_mgmt_recv(p, cdw10);
++	case nvme_cmd_resv_register:
++		return nvme_trace_resv_reg(p, cdw10);
++	case nvme_cmd_resv_acquire:
++		return nvme_trace_resv_acq(p, cdw10);
++	case nvme_cmd_resv_release:
++		return nvme_trace_resv_rel(p, cdw10);
++	case nvme_cmd_resv_report:
++		return nvme_trace_resv_report(p, cdw10);
+ 	default:
+ 		return nvme_trace_common(p, cdw10);
  	}
- 
- 	while (sector < end_sector) {
--		bio = blk_next_bio(bio, bdev, 0, op | REQ_SYNC, gfp_mask);
-+		bio = blk_next_bio(bio, bdev, 0, op | REQ_SYNC, GFP_KERNEL);
- 		bio->bi_iter.bi_sector = sector;
- 		sector += zone_sectors;
- 
-@@ -419,8 +417,7 @@ int blkdev_zone_mgmt_ioctl(struct block_device *bdev, blk_mode_t mode,
- 		return -ENOTTY;
- 	}
- 
--	ret = blkdev_zone_mgmt(bdev, op, zrange.sector, zrange.nr_sectors,
--			       GFP_KERNEL);
-+	ret = blkdev_zone_mgmt(bdev, op, zrange.sector, zrange.nr_sectors);
- 
- fail:
- 	if (cmd == BLKRESETZONE)
-diff --git a/drivers/md/dm-zoned-metadata.c b/drivers/md/dm-zoned-metadata.c
-index 165996cc966c..8156881a31de 100644
---- a/drivers/md/dm-zoned-metadata.c
-+++ b/drivers/md/dm-zoned-metadata.c
-@@ -1660,7 +1660,7 @@ static int dmz_reset_zone(struct dmz_metadata *zmd, struct dm_zone *zone)
- 		noio_flag = memalloc_noio_save();
- 		ret = blkdev_zone_mgmt(dev->bdev, REQ_OP_ZONE_RESET,
- 				       dmz_start_sect(zmd, zone),
--				       zmd->zone_nr_sectors, GFP_KERNEL);
-+				       zmd->zone_nr_sectors);
- 		memalloc_noio_restore(noio_flag);
- 		if (ret) {
- 			dmz_dev_err(dev, "Reset zone %u failed %d",
-diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
-index 5b5c1e481722..3148d9f1bde6 100644
---- a/drivers/nvme/target/zns.c
-+++ b/drivers/nvme/target/zns.c
-@@ -456,8 +456,7 @@ static u16 nvmet_bdev_execute_zmgmt_send_all(struct nvmet_req *req)
- 	switch (zsa_req_op(req->cmd->zms.zsa)) {
- 	case REQ_OP_ZONE_RESET:
- 		ret = blkdev_zone_mgmt(req->ns->bdev, REQ_OP_ZONE_RESET, 0,
--				       get_capacity(req->ns->bdev->bd_disk),
--				       GFP_KERNEL);
-+				       get_capacity(req->ns->bdev->bd_disk));
- 		if (ret < 0)
- 			return blkdev_zone_mgmt_errno_to_nvme_status(ret);
- 		break;
-@@ -508,7 +507,7 @@ static void nvmet_bdev_zmgmt_send_work(struct work_struct *w)
- 		goto out;
- 	}
- 
--	ret = blkdev_zone_mgmt(bdev, op, sect, zone_sectors, GFP_KERNEL);
-+	ret = blkdev_zone_mgmt(bdev, op, sect, zone_sectors);
- 	if (ret < 0)
- 		status = blkdev_zone_mgmt_errno_to_nvme_status(ret);
- 
-diff --git a/fs/btrfs/zoned.c b/fs/btrfs/zoned.c
-index 05640d61e435..cf2e779d8ef4 100644
---- a/fs/btrfs/zoned.c
-+++ b/fs/btrfs/zoned.c
-@@ -830,8 +830,7 @@ static int sb_log_location(struct block_device *bdev, struct blk_zone *zones,
- 
- 			nofs_flags = memalloc_nofs_save();
- 			ret = blkdev_zone_mgmt(bdev, REQ_OP_ZONE_RESET,
--					       reset->start, reset->len,
--					       GFP_KERNEL);
-+					       reset->start, reset->len);
- 			memalloc_nofs_restore(nofs_flags);
- 			if (ret)
- 				return ret;
-@@ -984,7 +983,7 @@ int btrfs_advance_sb_log(struct btrfs_device *device, int mirror)
- 				nofs_flags = memalloc_nofs_save();
- 				ret = blkdev_zone_mgmt(device->bdev,
- 						REQ_OP_ZONE_FINISH, zone->start,
--						zone->len, GFP_KERNEL);
-+						zone->len);
- 				memalloc_nofs_restore(nofs_flags);
- 				if (ret)
- 					return ret;
-@@ -1023,8 +1022,7 @@ int btrfs_reset_sb_log_zones(struct block_device *bdev, int mirror)
- 	nofs_flags = memalloc_nofs_save();
- 	ret = blkdev_zone_mgmt(bdev, REQ_OP_ZONE_RESET,
- 			       zone_start_sector(sb_zone, bdev),
--			       zone_sectors * BTRFS_NR_SB_LOG_ZONES,
--			       GFP_KERNEL);
-+			       zone_sectors * BTRFS_NR_SB_LOG_ZONES);
- 	memalloc_nofs_restore(nofs_flags);
- 	return ret;
- }
-@@ -1143,8 +1141,7 @@ int btrfs_reset_device_zone(struct btrfs_device *device, u64 physical,
- 	*bytes = 0;
- 	nofs_flags = memalloc_nofs_save();
- 	ret = blkdev_zone_mgmt(device->bdev, REQ_OP_ZONE_RESET,
--			       physical >> SECTOR_SHIFT, length >> SECTOR_SHIFT,
--			       GFP_KERNEL);
-+			       physical >> SECTOR_SHIFT, length >> SECTOR_SHIFT);
- 	memalloc_nofs_restore(nofs_flags);
- 	if (ret)
- 		return ret;
-@@ -2258,8 +2255,7 @@ static int do_zone_finish(struct btrfs_block_group *block_group, bool fully_writ
- 		nofs_flags = memalloc_nofs_save();
- 		ret = blkdev_zone_mgmt(device->bdev, REQ_OP_ZONE_FINISH,
- 				       physical >> SECTOR_SHIFT,
--				       zinfo->zone_size >> SECTOR_SHIFT,
--				       GFP_KERNEL);
-+				       zinfo->zone_size >> SECTOR_SHIFT);
- 		memalloc_nofs_restore(nofs_flags);
- 
- 		if (ret)
-diff --git a/fs/f2fs/segment.c b/fs/f2fs/segment.c
-index 0094fe491364..e1065ba70207 100644
---- a/fs/f2fs/segment.c
-+++ b/fs/f2fs/segment.c
-@@ -1977,7 +1977,7 @@ static int __f2fs_issue_discard_zone(struct f2fs_sb_info *sbi,
- 			trace_f2fs_issue_reset_zone(bdev, blkstart);
- 			nofs_flags = memalloc_nofs_save();
- 			ret = blkdev_zone_mgmt(bdev, REQ_OP_ZONE_RESET,
--						sector, nr_sects, GFP_KERNEL);
-+						sector, nr_sects);
- 			memalloc_nofs_restore(nofs_flags);
- 			return ret;
- 		}
-@@ -4921,7 +4921,7 @@ static int check_zone_write_pointer(struct f2fs_sb_info *sbi,
- 
- 	nofs_flags = memalloc_nofs_save();
- 	ret = blkdev_zone_mgmt(fdev->bdev, REQ_OP_ZONE_FINISH,
--				zone->start, zone->len, GFP_KERNEL);
-+				zone->start, zone->len);
- 	memalloc_nofs_restore(nofs_flags);
- 	if (ret == -EOPNOTSUPP) {
- 		ret = blkdev_issue_zeroout(fdev->bdev, zone->wp,
-diff --git a/fs/zonefs/super.c b/fs/zonefs/super.c
-index 63fbac018c04..cadb1364f951 100644
---- a/fs/zonefs/super.c
-+++ b/fs/zonefs/super.c
-@@ -113,7 +113,7 @@ static int zonefs_zone_mgmt(struct super_block *sb,
- 
- 	trace_zonefs_zone_mgmt(sb, z, op);
- 	ret = blkdev_zone_mgmt(sb->s_bdev, op, z->z_sector,
--			       z->z_size >> SECTOR_SHIFT, GFP_KERNEL);
-+			       z->z_size >> SECTOR_SHIFT);
- 	if (ret) {
- 		zonefs_err(sb,
- 			   "Zone management operation %s at %llu failed %d\n",
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 99e4f5e72213..8467c1910404 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -325,7 +325,7 @@ void disk_set_zoned(struct gendisk *disk);
- int blkdev_report_zones(struct block_device *bdev, sector_t sector,
- 		unsigned int nr_zones, report_zones_cb cb, void *data);
- int blkdev_zone_mgmt(struct block_device *bdev, enum req_op op,
--		sector_t sectors, sector_t nr_sectors, gfp_t gfp_mask);
-+		sector_t sectors, sector_t nr_sectors);
- int blk_revalidate_disk_zones(struct gendisk *disk,
- 		void (*update_driver_data)(struct gendisk *disk));
- 
-
 -- 
 2.43.0
 
