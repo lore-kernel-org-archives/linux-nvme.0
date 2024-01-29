@@ -4,76 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 597F6C47258
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jan 2024 02:59:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9C5CBC47DDF
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jan 2024 04:01:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=g2srdy/gEkxZEQX8yqvPWjPa+KiI9RaTtwGAFirYHPc=; b=3GivmI9L9OIk2l5xZmWk8NzOws
-	hCtAp4QWtAY8KKSBn55lNDNwZFL68nu5I8n91CTu5ffVvo0RzYpzI/455t1KvIONY/8V/MoZb7x3P
-	Drk86fem3CGeYeajkko3PIHS/8VPkyr9D8++mlHD+dvp6l4VGR4/e78TSDdrkr2khelHdmi5I6TWI
-	8HQUS+9375q2+BNacYes064ei9NuRwPIwpRQpcXYhnSfo49zv7m35PJkSTSwtYAfR8ccgTosBkTZA
-	b7f4b8tz087ePgo403YzbBjGxb/yVbpOt5AXwYK9gxyAeRnDdzuZ8p9GX6A9buDDC7hkFL6BI1A0G
-	/RcP/3dw==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=d9nO40yt5FkjWV5on4Ees45M6M6M1hv1uiwriO0xcxw=; b=ppPR4Xt+g1zDEnsuGGskvJ6nSt
+	GGSEVlFlUvyQp0HCzXI2WpGqmLK7kvVP2kzhQuh/YzZ/osQ5anCKLAunrfGG7ZW+qcejOUZvZe7rz
+	yJTaOL/DuctAEB9NlKUltnG8y92XGfqaXLv5IdI7LC9TyypgH+LyySfYhWGway5c0caZJ/W81NCxr
+	gOmWE0MXgWLpNLY8bPVn2IEyGKhCkMjsk3YAPzmkfuO1bYZtGKXZnbS/uQDOJwOgwUMz96yE62t45
+	aE0k1mo6JMN6kxyPfFS3A1ubeyIDKE7muJsV7jVZATL4Suwc1mgORGU9M4giqRGQ0PsRz7X/Sj0Ab
+	Ikjq8YrA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rUHs6-0000000B4Wz-2bBX;
-	Mon, 29 Jan 2024 02:59:42 +0000
-Received: from mail-pl1-f173.google.com ([209.85.214.173])
+	id 1rUIqF-0000000BBNP-3GZb;
+	Mon, 29 Jan 2024 04:01:51 +0000
+Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rUHs2-0000000B4V8-3jrM
+	id 1rUIqC-0000000BBLP-3WYq
 	for linux-nvme@lists.infradead.org;
-	Mon, 29 Jan 2024 02:59:40 +0000
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1d7393de183so8666725ad.3
-        for <linux-nvme@lists.infradead.org>; Sun, 28 Jan 2024 18:59:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706497174; x=1707101974;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=g2srdy/gEkxZEQX8yqvPWjPa+KiI9RaTtwGAFirYHPc=;
-        b=NGV3rFVlgpwFGbEXSMKjjo2+KM9pve2T3jEszVfpulmEEXs00obPBeVFBbf37kSEKQ
-         yD6pBFPFKM8J/WEVaF4FvcWt1faGLw+G0yy+bE79n1cI/1kXIpl/g4Honr/hTPmFgvmR
-         pc51quERr+zQrvQf0MyMMkxKPqJd8SI1bUnwVv4rA+57lpg6Jky7C7xNs/V5K6eO7nz4
-         Bd0dGcQx8L6oNFLxKwz8gWP7U3GPIau/T8AHsrw+cIqTethv4uw4rrw+R8Zp+HExBt6z
-         im86T6nyznt9PnjXWCwcRF5+Qz9PHDDMU2kbDVFCsGLLxBpePKiAiqxdTGscU1eCEJ1q
-         5b/w==
-X-Gm-Message-State: AOJu0Yw30mB22NPDE427PBci46kFJJXmZGAsqDo1H4zeFMjUiLE3hb71
-	x3hnPMxG1Gk8fra73dOMKk1oa7XMSXIXNQ8XaeH026WagdqvbEXc
-X-Google-Smtp-Source: AGHT+IHLzWKpOpr3cILvZHyHMjuA82VdDmKya3ofyHQ2fh7NkcXPc/ZbcxRl9w9fzz4kk68FVx7Wdw==
-X-Received: by 2002:a17:903:246:b0:1d7:147d:6a1d with SMTP id j6-20020a170903024600b001d7147d6a1dmr2077904plh.55.1706497174501;
-        Sun, 28 Jan 2024 18:59:34 -0800 (PST)
-Received: from [192.168.51.14] (c-73-231-117-72.hsd1.ca.comcast.net. [73.231.117.72])
-        by smtp.gmail.com with ESMTPSA id z2-20020a170902708200b001d89ed2d651sm4239317plk.102.2024.01.28.18.59.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 28 Jan 2024 18:59:34 -0800 (PST)
-Message-ID: <df263948-07e0-4aab-a645-ea401d4d413b@acm.org>
-Date: Sun, 28 Jan 2024 18:59:31 -0800
+	Mon, 29 Jan 2024 04:01:50 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1706500903; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=d9nO40yt5FkjWV5on4Ees45M6M6M1hv1uiwriO0xcxw=;
+	b=Z26xhYCw6/sVDO2fmBeQAGx0LWoi0wQhhcDMottgynndiEucFjNJlzF3effOlypnMqrSsxukwv0nOrFWQo2NGAoETLx/dyq/w7Utqm68rqsRtFMxTcRtR8tLjWuehP1RFy07gD66boSCUvoZXkfVNGEoHqC/l1Wsa1Hppfv5U4k=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046056;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0W.UKt3D_1706500896;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W.UKt3D_1706500896)
+          by smtp.aliyun-inc.com;
+          Mon, 29 Jan 2024 12:01:42 +0800
+From: Guixin Liu <kanie@linux.alibaba.com>
+To: sagi@grimberg.me,
+	hch@lst.de,
+	kch@nvidia.com
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH V5 0/1] *** Implement the NVMe reservation feature ***
+Date: Mon, 29 Jan 2024 12:01:35 +0800
+Message-ID: <20240129040136.86393-1-kanie@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/14] block: refactor disk_update_readahead
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Damien Le Moal <dlemoal@kernel.org>, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, virtualization@lists.linux.dev,
- Hannes Reinecke <hare@suse.de>
-References: <20240128165813.3213508-1-hch@lst.de>
- <20240128165813.3213508-3-hch@lst.de>
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20240128165813.3213508-3-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240128_185939_009380_20DD5235 
-X-CRM114-Status: GOOD (  10.12  )
+X-CRM114-CacheID: sfid-20240128_200149_407519_942E1418 
+X-CRM114-Status: GOOD (  19.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,21 +64,129 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/28/24 08:58, Christoph Hellwig wrote:
-> +static void blk_apply_bdi_limits(struct backing_dev_info *bdi,
-> +		struct queue_limits *lim)
-> +{
-> +	/*
-> +	 * For read-ahead of large files to be effective, we need to read ahead
-> +	 * at least twice the optimal I/O size.
-> +	 */
-> +	bdi->ra_pages = max(lim->io_opt * 2 / PAGE_SIZE, VM_READAHEAD_PAGES);
-> +	bdi->io_pages = lim->max_sectors >> (PAGE_SHIFT - 9);
-> +}
+Hi guys,
+    I've implemented the NVMe reservation feature. Please review it, all 
+comments are welcome as usual.
 
-Would this be a good opportunity to change (PAGE_SHIFT - 9) into PAGE_SECTORS_SHIFT?
+Hi Sagi,
+    I have not receive your reply yet, so I put my reply of v4 here:
+- About adding synchronize_rcu after rcu_assign_pointer, rcu_assign_pointer
+ensures that all reads after it will see the new value, we only need to ensure
+that there are no reads before the old value free, the kfree_rcu can make sure
+that.
+  And using synchronize_rcu and free is same as kfree_rcu, could you plz explain
+detailly why should we use synchronize_rcu after rcu_assign_pointer?
 
-Thanks,
+- About the lock I use, I use pr->pr_lock to protect pr->registrant_list and
+pr->holder writing, and both of holder and registrant_list are rcu protected,
+so they can be read lightly in nvmet_pr_check_cmd_access.
+  I was misled by the __dev_exception_clean() into thinking that if I added
+a mutex lock, I wouldn't have to use the rculist marcros anymore, I will 
+change this in v5, sorry for the trouble...
 
-Bart.
+
+Changes from v4 to v5:
+
+- Use rculist macros to handle registration_list instead of list macros
+regardless of in mutex lock or not.
+
+- Use goto statement instead of return in nvmet_is_host_still_connected 
+and __nvmet_pr_unregister_one.
+
+- Add lockdep_assert_held and rcu_read_lock_held assert to many functions,
+if it's necessary.
+
+- Add a comment to nvmet_execute_get_log_page_resv to explain how lost_count
+works.
+
+- In nvmet_pr_clear, we should set holder to NULL first, I fixed this.
+
+- Unify nvmet_pr_update_holder_rtype and __nvmet_pr_do_replace to 
+nvmet_pr_update_reg_attr.
+
+- Fix wrong nr_pages in nvmet_execute_get_log_page_resv.
+
+- Fix the deadlock issue of nvmet_pr_exit_ns, put it out of the subsys lock.
+
+
+Changes from v3 to v4:
+- Use kfifo to handle resv log page instead of list, and also limit the
+resv log queue to 64.
+
+- Change the function calling aligment style to:
+    nvmet_pr_send_event_by_hostid(pr, hostid,
+            NVME_PR_LOG_RESERVATOPM_PREEMPTED); 
+
+- Put kmalloc out of rcu_read_lock in nvmet_execute_pr_report().
+
+- Remove the goto in __nvmet_pr_unregister_one().
+
+- Change generation to atomic_t, and remove nvmet_pr_inc_generation().
+
+- In addtion, the number2 patch "nvmet: unify aer type enum" is not
+relate with this patch, so I will send it separately.
+
+
+Changes from v2 to v3:
+- Use rcu instead of rwlock to make IO path run faster, and put the rtype
+into the struct nvmet_pr_registrant.
+
+- Limit the resv_log_list to 128.
+
+- Change generation to atomic64.
+
+- Put register rkey check to a warpper.
+
+- Change nr_avl_pages to nr_pages.
+
+- Use NVME_SC_SUCCESS instead of 0.
+
+- Change kmalloc param to let it not sleep in mutex lock.
+
+
+Changes from v1 to v2:
+- Implement the reservation notification report, includes registration
+preempted, reservation released and reservation preempted.
+  And also handle the reservation log page avaliable event and send get
+reservation log page command to clear log page at host.
+
+- Put the reservation check access after validate opcode. And remove
+opcodes which nvmet not implement yet check.
+  Now there is no admin opcode nvmet implemented needs reservation check,
+so I dont add reservation check to admin command path.
+  Next we need to do reservation check includes the situation of nsid is
+0xffffffff at each admin command path, if it is needed.
+
+- Add reservation commands support in nvmet_get_cmd_effects_nvm().
+
+- From Chaitanya, change the local variable tree style to make it cleaner,
+and add some comments about NVMe spec.
+  And also change others advice from chaitanya.
+
+- Put the nvmet_pr_check_cmd_access and nvmet_parse_pr_cmd into reservation
+enable check warp.
+
+- Remove kmem_cache instead to use kmalloc and kfree.
+
+- Change others advice from Sagi.
+
+- Add a blktest test case, this patch will be sent before these series of
+pathes.
+
+Guixin Liu (1):
+  nvmet: support reservation feature
+
+ drivers/nvme/target/Makefile    |   2 +-
+ drivers/nvme/target/admin-cmd.c |  14 +-
+ drivers/nvme/target/configfs.c  |  27 +
+ drivers/nvme/target/core.c      |  51 +-
+ drivers/nvme/target/nvmet.h     |  35 ++
+ drivers/nvme/target/pr.c        | 968 ++++++++++++++++++++++++++++++++
+ include/linux/nvme.h            |  48 ++
+ 7 files changed, 1138 insertions(+), 7 deletions(-)
+ create mode 100644 drivers/nvme/target/pr.c
+
+-- 
+2.43.0
+
 
