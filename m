@@ -4,49 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF7F7C47DB3
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jan 2024 23:25:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92F00C47DB3
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jan 2024 23:26:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iJ/adbXNeENWraKDlCoH3Ivzuv7/MQojEYbIx7jumos=; b=ChrvWxV221RNWbGuZr99Ogg6Np
-	vcMuiMpAZMWW/yTwyU68Yn36q+eKGtwNl4HGIdcmTIoU9NCcKZbu3/igmCIvFECHRuJnmpcMIHg69
-	EnrbOW6Rq6PD9vOy/B/2Q8ISd3ORIXHWPd8I82+vaEOeGtrCE0ABKhGie9oXqvWDO3lwYYBhqD+Dv
-	ppFpIfR4MnYRh9A4sRgC2SoTYf/K44Eq7zScWKq1lfvJdYscybKkFhOLdUQ5ZfnKFir5lyOwesq9u
-	Q3gCn5RMSR8XHa/56P398nLmcSUXLK8gPAGAhVv0zbtzZXD9PsRiYwEOQiw1Bz4XBe5iaMRcIP7oq
-	jqCulMcw==;
+	bh=So/8nH5GRmhiwdX5iD5VRBEC1iFxILOIoK7mcMdivhs=; b=Z/OcrpXMqmUXjfEEfFOzW0/ULQ
+	R7oZaILGI6+SOEoiAi/S4KkXYlbjSnHhM0kC3z6LfmUo38XETjuegSnsGSxgTcWdOeWG18UcK50YS
+	l8b2Gin3JOopf+9mjEi7FXNvYD8dC+IjiRHW6SYJmFmNYzL4d3pT3wjICKm3OHWq7WOF8W4LfLjTJ
+	96Zi1RojJ45P0bKKu/AxJ0P5LzwplhhzdcKX9aFnXe9T/tpCJMU+//rYke4XiIXq8mpFPv4Ej9Qo3
+	dBrtW8VFndIcarM5jCAPCJrYOa+1rlM4Za/6yN9HdueQHqj0rUCfdEwIzuKqNQLrKjFDjGn1q+OwG
+	LbCpbOdA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rUb0X-0000000EZeh-1du5;
-	Mon, 29 Jan 2024 23:25:41 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1rUb1F-0000000EZpe-0YWu;
+	Mon, 29 Jan 2024 23:26:25 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rUb0U-0000000EZdg-08Z8
+	id 1rUb1C-0000000EZnb-03J1
 	for linux-nvme@lists.infradead.org;
-	Mon, 29 Jan 2024 23:25:39 +0000
+	Mon, 29 Jan 2024 23:26:23 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 88DEB625BD;
-	Mon, 29 Jan 2024 23:25:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A4E9C433F1;
-	Mon, 29 Jan 2024 23:25:32 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 463C0625B9;
+	Mon, 29 Jan 2024 23:26:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CEE9C433F1;
+	Mon, 29 Jan 2024 23:26:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706570735;
-	bh=rlXD8wrR7LGaE3yPipo4oss7yBMRHRL+ZqlHjIj2kt4=;
+	s=k20201202; t=1706570779;
+	bh=d/aQihyhdrtQJBuM7w+mKzeJ7H7OziElkA0HqJ7h9Ns=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bm5vgGd8iLgqVAS89ky5CprUejORrrO+L2Fm2jCGiGp9VUCRfnTu3zsHrnPsqtld/
-	 GxZX0GpHfKiJtELlkp//qvfy+Iumzg2up1xNCtSSH96om1ftwi/oHPyzuNe8oZQdPS
-	 FVh7JCk3yR8dHonw8oFafOdyX2eu5cEadJF1NwFhWQTA3YD9WIjfeTfBKqWjttbUp2
-	 yZwdUq0oPF2A/f8W0vp7FkRZXx5Sc+i3DX+NXwp/mcouZV/6Az6J2ugDuWlE9EDosr
-	 LuWkKwPhPn4vaMObQ6+6Y8YPEZepYVK7x5GzIQFzGSW6U4iJcePs0HWzVO/oxRMOUT
-	 m5ciZiseX3ZIQ==
-Message-ID: <6f0aed31-b9a9-4655-9c8c-839f978b40d9@kernel.org>
-Date: Tue, 30 Jan 2024 08:25:31 +0900
+	b=cYbOj+lj440jTo5PgwKnZXAFXNbloJYcUptUFrmP/kHDVvR5Z1i2RPWI4PU6Yxkym
+	 Kg+OIUk9HDHgMKXZTE81B0sSLP2CSr5ZdS2J6eOdc+GiZqL350GMAvwUwofcabo2rn
+	 pdAV3WTDvgkHzQH/AuUmbL1/MN6crGnAmcHZVMqy4YdEGfyg7DSfLdFL1Qk+BWwFw8
+	 icjJpIuLa4aSSs+9DERd0+aaZ5zqBiYROxRuNxljVdlSRdlBfeNEElbCisc9dyRumd
+	 WQQhGjtgaDkAecCk/hjPseTUUSpTW9yFJaXQDr6D2CdIkQeQUhI4T5hAM+EvQYomCT
+	 df9fqY/vlV2qw==
+Message-ID: <e2f8b1d7-78ab-4ef5-bb4f-088d60f7d7fc@kernel.org>
+Date: Tue, 30 Jan 2024 08:26:17 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/5] zonefs: pass GFP_KERNEL to blkdev_zone_mgmt() call
+Subject: Re: [PATCH v3 2/5] dm: dm-zoned: guard blkdev_zone_mgmt with noio
+ scope
 Content-Language: en-US
 To: Johannes Thumshirn <johannes.thumshirn@wdc.com>,
  Naohiro Aota <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>,
@@ -61,15 +62,15 @@ Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-btrfs@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
  linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
 References: <20240128-zonefs_nofs-v3-0-ae3b7c8def61@wdc.com>
- <20240128-zonefs_nofs-v3-1-ae3b7c8def61@wdc.com>
+ <20240128-zonefs_nofs-v3-2-ae3b7c8def61@wdc.com>
 From: Damien Le Moal <dlemoal@kernel.org>
 Organization: Western Digital Research
-In-Reply-To: <20240128-zonefs_nofs-v3-1-ae3b7c8def61@wdc.com>
+In-Reply-To: <20240128-zonefs_nofs-v3-2-ae3b7c8def61@wdc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240129_152538_146860_EDD537AA 
-X-CRM114-Status: GOOD (  19.34  )
+X-CRM114-CacheID: sfid-20240129_152622_146817_BB5E9417 
+X-CRM114-Status: GOOD (  16.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,37 +86,37 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 1/29/24 16:52, Johannes Thumshirn wrote:
-> Pass GFP_KERNEL instead of GFP_NOFS to the blkdev_zone_mgmt() call in
-> zonefs_zone_mgmt().
+> Guard the calls to blkdev_zone_mgmt() with a memalloc_noio scope.
+> This helps us getting rid of the GFP_NOIO argument to blkdev_zone_mgmt();
 > 
-> As as zonefs_zone_mgmt() and zonefs_inode_zone_mgmt() are never called
-> from a place that can recurse back into the filesystem on memory reclaim,
-> it is save to call blkdev_zone_mgmt() with GFP_KERNEL.
-
-s/save/safe
-
-> Link: https://lore.kernel.org/all/ZZcgXI46AinlcBDP@casper.infradead.org/
 > Signed-off-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
-> ---
->  fs/zonefs/super.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/fs/zonefs/super.c b/fs/zonefs/super.c
-> index 93971742613a..63fbac018c04 100644
-> --- a/fs/zonefs/super.c
-> +++ b/fs/zonefs/super.c
-> @@ -113,7 +113,7 @@ static int zonefs_zone_mgmt(struct super_block *sb,
->  
->  	trace_zonefs_zone_mgmt(sb, z, op);
->  	ret = blkdev_zone_mgmt(sb->s_bdev, op, z->z_sector,
-> -			       z->z_size >> SECTOR_SHIFT, GFP_NOFS);
-> +			       z->z_size >> SECTOR_SHIFT, GFP_KERNEL);
->  	if (ret) {
->  		zonefs_err(sb,
->  			   "Zone management operation %s at %llu failed %d\n",
 
-I think this is OK but I will need a little more time to fully convince myself.
-So let me look again at the code to check all the calls contexts.
+Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
+
+> ---
+>  drivers/md/dm-zoned-metadata.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/md/dm-zoned-metadata.c b/drivers/md/dm-zoned-metadata.c
+> index fdfe30f7b697..165996cc966c 100644
+> --- a/drivers/md/dm-zoned-metadata.c
+> +++ b/drivers/md/dm-zoned-metadata.c
+> @@ -1655,10 +1655,13 @@ static int dmz_reset_zone(struct dmz_metadata *zmd, struct dm_zone *zone)
+>  
+>  	if (!dmz_is_empty(zone) || dmz_seq_write_err(zone)) {
+>  		struct dmz_dev *dev = zone->dev;
+> +		unsigned int noio_flag;
+>  
+> +		noio_flag = memalloc_noio_save();
+>  		ret = blkdev_zone_mgmt(dev->bdev, REQ_OP_ZONE_RESET,
+>  				       dmz_start_sect(zmd, zone),
+> -				       zmd->zone_nr_sectors, GFP_NOIO);
+> +				       zmd->zone_nr_sectors, GFP_KERNEL);
+> +		memalloc_noio_restore(noio_flag);
+>  		if (ret) {
+>  			dmz_dev_err(dev, "Reset zone %u failed %d",
+>  				    zone->id, ret);
+> 
 
 -- 
 Damien Le Moal
