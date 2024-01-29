@@ -4,48 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 15912C47DDF
-	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jan 2024 06:00:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 24A59C47DDF
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Jan 2024 06:00:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8G7CGuaKypP3qF9ydNjYqzjvV0d/99blPt8xUOKu/uw=; b=rUNjVotaOXfAPhJiDoCgl+U7ZX
-	pFxwVrrVIpcg+S0k3P89ozAO8/5HO4sbtRqEMiCB2X81+C231cTnXtjoeg4HUOT51AAxbhaZxzmOh
-	7j42PYaNV0B8ZFHW37h/82uZZdar04g3P+InmtQzIgdpoWIZiwHjdi4uT4xBm4kiF7vp9sNgdl7+p
-	eud4A4Kt81HaL4PgPjvNr36AzgZrndVV8Dy3aOB7iN6fiQpyB6olORpThhd5iqFUJqS8yW8ZUHCLn
-	RY00dRf0/HUOoVGSL+5ubKRShyNIwfefRiISXnWzSqfG5oQ4Tu68v4vdpV51kuv0pT0GqSX6WQPIW
-	2BE64q+w==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=KfdxvWNft0etFlSNlM0vuadv+1
+	4LIzhmEbi7x9IcYMGNyo6bOT38xQ3hIZh+3B1JMtFyowqJAsf/4RIUGCfxBWeJQSqbn17Q8h4P+rh
+	5qjYASEy2QGNk1MrTPXjvPeOURJ++Amva4CEzCx6QYJTwiTZIjVl62car4fnsE48mU9kJtxcZ+h90
+	dCAgPYc3boBo/SfjuT67bYuEt8ln1Hr1lJlQSj4554QjJkIvx4+oippo7jBCmuO3yJp8R2IgPA9kj
+	G3ZydFu4mqSvsGtJVXh8hZQwba+j+Cb3cLJwmkfpI8Bynx5Y3tovqQWsTHdUzK36yCbxUyskRNIGP
+	7/ZziRuQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rUKgl-0000000BOiS-48Wu;
-	Mon, 29 Jan 2024 06:00:11 +0000
+	id 1rUKhB-0000000BOo8-2bNG;
+	Mon, 29 Jan 2024 06:00:37 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rUKgi-0000000BOhQ-2W35
+	id 1rUKh8-0000000BOnK-1y8i
 	for linux-nvme@lists.infradead.org;
-	Mon, 29 Jan 2024 06:00:09 +0000
+	Mon, 29 Jan 2024 06:00:35 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id EB4B768B05; Mon, 29 Jan 2024 07:00:05 +0100 (CET)
-Date: Mon, 29 Jan 2024 07:00:05 +0100
+	id DB9C168B05; Mon, 29 Jan 2024 07:00:31 +0100 (CET)
+Date: Mon, 29 Jan 2024 07:00:31 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: hare@kernel.org
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@suse.de>, Martin George <marting@netapp.com>
-Subject: Re: [PATCH 3/3] nvme: enable retries for authentication commands
-Message-ID: <20240129060005.GC19136@lst.de>
-References: <20240127093746.40246-1-hare@kernel.org> <20240127093746.40246-4-hare@kernel.org>
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, sagi@grimberg.me,
+	chaitanyak@nvidia.com, Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCHv3] nvme: use ctrl state accessor
+Message-ID: <20240129060031.GA19237@lst.de>
+References: <20240126171608.2136149-1-kbusch@meta.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240127093746.40246-4-hare@kernel.org>
+In-Reply-To: <20240126171608.2136149-1-kbusch@meta.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240128_220008_819780_39619959 
-X-CRM114-Status: GOOD (  16.21  )
+X-CRM114-CacheID: sfid-20240128_220034_699762_44402FA3 
+X-CRM114-Status: UNSURE (   8.94  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,20 +60,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Jan 27, 2024 at 10:37:46AM +0100, hare@kernel.org wrote:
-> From: Hannes Reinecke <hare@suse.de>
-> 
-> Authentication commands are normal NVMe commands, and as such
-> can return a status where NVME_SC_DNR is not set, indicating
-> that the command should be retried.
+Looks good:
 
-What command is not normal?
-
-> This patch enables retries by setting NVME_SUBMIT_RETRY for
-> __nvme_submit_sync_cmd().
-
-I think what should go into the commit log is why the retries are
-desirable here, and not for other admin commands.
-
-Otherwise this looks good to me.
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
