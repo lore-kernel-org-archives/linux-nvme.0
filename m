@@ -4,68 +4,171 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8838AC48285
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Jan 2024 11:38:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B23CEC48285
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Jan 2024 11:46:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LFeLLnJaR3JtjOxpUpdms1bffkbapejcBiKMtBdfGb8=; b=nJl9bDh1KNUcI2KH80H5uZxV+i
-	vlngzTJKK+le5JZmkub6Kp/7dAC/X8KYunzIxgN+LcEUjcRr3Zb1kT96tuF/gBjV28LgoqEe+KMK5
-	PayW17pdrs4oOQ6O4+S1rYzANXfiTLNWCGp/o6pSCWCy2LNeCUspRRMbVanxePKuH+Mk8wYXUw5d+
-	ZMX480iiaZuPQJqYg++mYPP3QBRA/WFrwRQhOxBVj8AZO/XzZUuhrtj0+0/7i0e1L2TjrOIpVPjyw
-	P3d+ckXLS5LilvhFfgtgGqgpr/8gxCgdmV42vNP/Vplelus4nHzYm/wM3c/s1RnXCFDbUmoM4Cscw
-	cRtXrmng==;
+	bh=BNthg1NwDn1WxHTe5TI0V0FnMo0dWCftElbulcc8c/Y=; b=LvfpckqFFFh5aGumcH9I7LQpdd
+	/K6crAIUCvwmfiVw5RgsVO1/+R9n0/RFHiLg8/u6v8kCGn+OQAHqPT/NoKAd7BCWLQFr9aCULoA6L
+	gZC5Q9uZQmzEPtu4mh+ThGSUUfD0AHuSDfvybfY1XxehCaOx1OdmNQKMjfOdcdifMvlAARnvcogEp
+	bkmItZH4q9OTchQGJlfG6xj4fT4tP0qXXGvpK4cZxcBJCSinYY87mXGs8PhW+nIX/2zEwwY+CQjwj
+	NN7ZlmoPjNtfn5z5RpYX4fhc7LO668uwpZtxlhtOgQR+HXqemd2YHRjVdckztpPwFgbhXTJ+3p5me
+	1f1o1OHw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rUmRZ-0000000GUSq-0NI4;
-	Tue, 30 Jan 2024 11:38:21 +0000
-Received: from szxga05-in.huawei.com ([45.249.212.191])
+	id 1rUmZj-0000000GXXz-1cla;
+	Tue, 30 Jan 2024 11:46:47 +0000
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rUmRM-0000000GULS-3Mvj;
-	Tue, 30 Jan 2024 11:38:10 +0000
-Received: from mail.maildlp.com (unknown [172.19.162.112])
-	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4TPNR22P6rz1gy1H;
-	Tue, 30 Jan 2024 19:36:14 +0800 (CST)
-Received: from dggpemm500005.china.huawei.com (unknown [7.185.36.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id B48431404D7;
-	Tue, 30 Jan 2024 19:38:03 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- dggpemm500005.china.huawei.com (7.185.36.74) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 30 Jan 2024 19:38:03 +0800
-From: Yunsheng Lin <linyunsheng@huawei.com>
-To: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Yunsheng Lin
-	<linyunsheng@huawei.com>, Jason Wang <jasowang@redhat.com>, Alexander Duyck
-	<alexanderduyck@fb.com>, Jeroen de Borst <jeroendb@google.com>, Praveen
- Kaligineedi <pkaligineedi@google.com>, Shailend Chand <shailend@google.com>,
-	Eric Dumazet <edumazet@google.com>, Felix Fietkau <nbd@nbd.name>, Sean Wang
-	<sean.wang@mediatek.com>, Mark Lee <Mark-MC.Lee@mediatek.com>, Lorenzo
- Bianconi <lorenzo@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Keith
- Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig
-	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
-	<kch@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
-	<linux-nvme@lists.infradead.org>, <linux-mm@kvack.org>
-Subject: [PATCH net-next v4 3/5] net: introduce page_frag_cache_drain()
-Date: Tue, 30 Jan 2024 19:37:08 +0800
-Message-ID: <20240130113710.34511-4-linyunsheng@huawei.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20240130113710.34511-1-linyunsheng@huawei.com>
-References: <20240130113710.34511-1-linyunsheng@huawei.com>
+	id 1rUmZg-0000000GXW2-0lDO
+	for linux-nvme@lists.infradead.org;
+	Tue, 30 Jan 2024 11:46:45 +0000
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 40U949Df001214;
+	Tue, 30 Jan 2024 11:46:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2023-11-20;
+ bh=BNthg1NwDn1WxHTe5TI0V0FnMo0dWCftElbulcc8c/Y=;
+ b=FZy/N1E7eTq71ZcZl9RZGlNlfTjGph2znWp8dMho3iDuI1CRwrgB8W9pWrzxeiOdiZdC
+ sHoUc2ekecDhPlcx6A68P2ugSiDs9d2lP8P1fKCWsa3S68d0KiuCrrmr+iOX0xZ0FgFR
+ EMfGkfZYfgyRn51GIhso+zhGaVCwY3zuxwg7wuKyPY5He26RKAAWYY61UqZ3JfzP5j6n
+ ChegEQ3LOsGeOwMvhFgnV+/d1dCf3GTPhlN4cSipz4Bt0uNeETAvg0ngZeXDYnu2whE+
+ /UD5Vp0gu0hs0ouKfmEt6p7xX1VR+9fmZmphH7lrpf1uowiCQPODjwho2rjQvrbAuQO6 5g== 
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3vvrm3xhh0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 30 Jan 2024 11:46:31 +0000
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 40UBKI6Z040137;
+	Tue, 30 Jan 2024 11:46:30 GMT
+Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02lp2041.outbound.protection.outlook.com [104.47.56.41])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3vvr976qn8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 30 Jan 2024 11:46:30 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IKBa9XVkQ3tr/lvHzn2aTm4xQnOXeGGeFlY9OavkWppp4hQuMaaLAoKzunntakrIcKsc+1TRZk9YA5GMeF1IedPxp9HXZZrsI6doJODZdbdVzmJQyu78uruXtrvNJ5N48ZOcT433R8pSyG9qLYU30dy3wDtYiEKRPBlZcH6BaAy0Lp5mHCps0C+zEPFL7DS0kt8H+Pg2sAyiEZai+JVNzMIq81G5LXFG6wGYya756GP5xOeJMrrC6xhwGw0rNHYauLwtE8KqfUceDkqiFnevQOrKTDyOTgNdfR3NHi5k3ZWORZEYtfThYsCubwahAcUTVxZP4s2/ZaY5z6lxup3u6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BNthg1NwDn1WxHTe5TI0V0FnMo0dWCftElbulcc8c/Y=;
+ b=hNtM1Uld1oLMUG9QUgx5GSQhOM0qwJg2DATr9/+0PkTQtYn0xpIH3Zff0ECo7suX5lgSTEQOOAV9cFzozyuhdOMJbcYrAHNTD67imA0sZMV+lLL/KNtsDMpT8X3rXaYFYdIMxfhAPKb/mfUw9UtoI01T1DXhpO57VCfraVDRJZU1tUsI5wAJhOPl2gqF3VIlL63YaL5mwGCfEWML2ebXsFY2SkR19g/DXA9hjYW/4wlGwSFv9V8qVHJRmGD2qwboQEAdWb4aaXpPaNGju+o//xmgs1bhfxdR0ygvOq/cwSgmRfLnicuJmpq+6dz7vkkpo/RiX7Sa02kItNGRg08SmQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BNthg1NwDn1WxHTe5TI0V0FnMo0dWCftElbulcc8c/Y=;
+ b=wBvv1lvsc/k0JxmQKvnlTfLeOAyGjvI5PCxru1P2uHL+zoe0gDjJVdtgjV/cB8mLoP/Uft+to10X0VwcIgOp/K/CPdEl9MtbylJNTOWEx8nH9Hb/8o9cG8Q9z9RU2Ft4O0/+V78x0ogjAHfjuwtII3JfECE9Syysy/WKcsA+cdo=
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com (2603:10b6:5:212::20)
+ by DS0PR10MB6775.namprd10.prod.outlook.com (2603:10b6:8:13f::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.22; Tue, 30 Jan
+ 2024 11:46:28 +0000
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::f11:7303:66e7:286c]) by DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::f11:7303:66e7:286c%5]) with mapi id 15.20.7228.029; Tue, 30 Jan 2024
+ 11:46:28 +0000
+Message-ID: <c489e14c-aea7-4d76-88cd-f60026477c68@oracle.com>
+Date: Tue, 30 Jan 2024 11:46:24 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 03/14] block: add an API to atomically update queue limits
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Damien Le Moal <dlemoal@kernel.org>, Keith Busch <kbusch@kernel.org>,
+        Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
+        linux-nvme@lists.infradead.org, virtualization@lists.linux.dev
+References: <20240128165813.3213508-1-hch@lst.de>
+ <20240128165813.3213508-4-hch@lst.de>
+Content-Language: en-US
+From: John Garry <john.g.garry@oracle.com>
+Organization: Oracle Corporation
+In-Reply-To: <20240128165813.3213508-4-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P265CA0185.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:311::14) To DM6PR10MB4313.namprd10.prod.outlook.com
+ (2603:10b6:5:212::20)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.69.192.56]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500005.china.huawei.com (7.185.36.74)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR10MB4313:EE_|DS0PR10MB6775:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9572e5ff-37a6-4c0b-1f7c-08dc21891873
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1Q3jUontRV/bjmuDMhGAqqhqpvp8u9DVaBTYq3tKM1ofFjE59OH51qh63vxqdLlgNXiF8lz2EQmXUmPJn68YS/IkX6/WMK342jr/230SvRobyzssD4S0Zm/KPvlUes2uqQ8JtLWcssSXyD92Mvmz8D5BxpcJKK48/a+l29a9qaWLQ6Ysi8JzONzOIi4yG9wj7ze6SPnaeAbMKfKT5UNVqnBqOCz3wM0dNGm1xATfgwh9AoE/nhP0I54huzLuG/PcT9MekiI6z/gMzN2hKqlNou75LcsGEVRANQZ6CWJoFuiwb6QSlm71eU+JMFqngoaAupzS41DwP3FYcVXfjohBkBkaiZP8d4QqycBm1dins+EaHo/bXRIcextjT1pyeUyAcXfPhE6OzdIlQzhpR81rYAEw+gT3qFEUWbJiZ2QlLVaLpKPlhmTnD0BrCfOlwHuOd3nTyI4/kGItpXwHRktCAlTv7HUhTYesee20mLby4SxleC13Xa7qLktiSOzOPnny3hmrx3pXTChPV5yk5n0PmtKAtwaW5PZQtHvzg4mrNX6nzwWXKH7cHTXlML3O3NQvw2UKk4dwuiYnb0wHgd3us2DZtn1GXz4v7th05uhW3/wietQKr20hqpwysSIkhn4I0Zuj1yVzOW26dfIMssSvXw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4313.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(366004)(396003)(346002)(39860400002)(136003)(230922051799003)(64100799003)(451199024)(1800799012)(186009)(31686004)(83380400001)(2616005)(86362001)(36756003)(31696002)(4326008)(26005)(38100700002)(6512007)(5660300002)(41300700001)(36916002)(2906002)(6486002)(6506007)(6666004)(66946007)(316002)(478600001)(8936002)(66556008)(54906003)(66476007)(53546011)(15650500001)(110136005)(8676002)(7416002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OU1HakNyVFR2dlBhTVdwUkdXT01BZE5OWE5uOWVXUHl1YUtKc0U4dytJNkRY?=
+ =?utf-8?B?NmRzRjRZYlVrcnlBMHcxU3MwY0k2YmdYc0pLKzQ5YkNnV3dnK016UGd4eUxU?=
+ =?utf-8?B?RW8xZXRpVXhwS1NFUkF6VHl6VXZwRUt4Vm5wTG0yVFBRU1Q5cngxVkdIL0Mx?=
+ =?utf-8?B?QkNVc1Q5elJDMzEyUWNUb3dGWmVZb0hmMXdEWmdMdS9aSS85Z3B1VTZ4Q3FU?=
+ =?utf-8?B?TUVTT0xTVTFXUEYyOXhIMWpNMEhRN1BhTURXb3VLVDJmWjVUOUp6bnFwM1Z6?=
+ =?utf-8?B?M2psSG1TQmR3MEJ3cHp6U21XTmhtcHM2Vmo4M3VYdDJtbzlDZlZCN2lVUHJK?=
+ =?utf-8?B?MkdKUkJBQk5OUWJFdEl0WDNkR0ZLaXRDUWc1YUVJUUZWSTRLeThldmYwZmhV?=
+ =?utf-8?B?emNJbFl1RmJwQVVINVFzMzAyL2k0c2xYZ2FJNGFLaTUyRSs5Ukg0amJLRlVB?=
+ =?utf-8?B?VExoT3pDVFZSakl4UHZ2RkQ3c0tEcy9WdTFwbGkrWksxNFVWVjhQQ3hhTW9n?=
+ =?utf-8?B?Y2MrRUVsOW8vOUcxTUlEOExHNXhwUC9lcFZTZ1gzZVBSWGJsTmRTVFFYQUxX?=
+ =?utf-8?B?ckJaeklYQjV3dThEbUI5dkJqOGZJNVpRaHdHVG43ZHkxLzd1bXFLWFY2aWtY?=
+ =?utf-8?B?clgzSndqMVF1dnNQczhTMkJ4eGhJNHFWS1VQWVhoa3E1VlZ6UVRTMlNlV0Y3?=
+ =?utf-8?B?aXMzV2V3ekpsV0NodkNvLzQxMjUxdVJHRTUydmpiUm9MamRtV0I4eUcxa09u?=
+ =?utf-8?B?YXN6dVRkSnN5dThkNUkzTU9uK3hQdEwwY1NmT1ZBVldadGpIWGI1MTFTQXZK?=
+ =?utf-8?B?VUN1bHRvTXRxZUV6MlZzd2xyQVo1T3pkc0tUU01TZmJPS3ZOTGJueUgrUXl3?=
+ =?utf-8?B?M0tOV24wSi9ZZGhjQ001MDJsZHJObWpJQXFvRkNGbFNKR3FrZ1AyMXNtbkVR?=
+ =?utf-8?B?U1AyZUdySUgrbnU4QysvRjZvYWhWdVNoa2k3eEloUDZjTE5hekdyK1BsTlVp?=
+ =?utf-8?B?R0llc1ZWNnRja1hsRWxNTWxyV1RRTWVsbys4R2hTeElwMmR6QnlhSERYWWF1?=
+ =?utf-8?B?RnlabWdmNVBZQUIwRmRiOUs2cFNSaVdnYkZpbnRvUm5RYXFyQThtajkrcjdm?=
+ =?utf-8?B?YytIUUFJbGxYM1ZLQVQrdmJDSlJGbGdxcy9uRUZmaGdhalNKc2NkdUpVNmlH?=
+ =?utf-8?B?ekFmVUtNM0F0YXl0N2pZM1pUYXBaQnJ1djB3bTE2RjN6TTZzeTRXR3hGTkh4?=
+ =?utf-8?B?UGtUd3lQelhJU0VjVGRTZFpBckJlVG9OaUYxaEtZSXBmOFo2R05HVG5XTGsy?=
+ =?utf-8?B?eEtRQ3dUeW83eGZTNjVVbjhJNzZrNFc2RkoxNHpycG9uV0RCODdlcjkwQ0Qy?=
+ =?utf-8?B?SDhLbVFwTEpiT2d5Tk9CUUNHRVdkSTY5RzhVTlZFYkV2aCtsbDRoSGVuWDVE?=
+ =?utf-8?B?blVXMHNDTnpyUEJBSzBOVzJKZHdWRGpja1hldGFRUTZOa0d6N3JnSjE1SDlj?=
+ =?utf-8?B?VndVRDM5WkNXdW1nNWZ0WGljejBVOEdOZGFrRHExbFM4eU5JeFVjN0JDa0N0?=
+ =?utf-8?B?dFF5Z3BKZDFCVTlodWVtaVEzSDk5NnN3NkhOc1pPVEV4YXg1d3NTNy9tK0Vq?=
+ =?utf-8?B?ZU8xTXROSXlpT0VuTzFsRVloamlXend3bXlWdll6Szd3OWd1cUVEYk1KOWMv?=
+ =?utf-8?B?WXptNnBCMzlJRVoyWnVmNEpaNHQ5b01NSDBCVXBSVGpYY2J1SjFIcmoyWG5R?=
+ =?utf-8?B?YjJlcHJGVFF4NVBReENxSW9leTFDbGdkcU42SHdaRFhzYzZ0d0NPenJpdGEz?=
+ =?utf-8?B?dHpiNnJwcVk0UHk2YU9EVGh1MTRTeHc4SWZmb1JlTG5WVk1GYjVPeHZXZlBl?=
+ =?utf-8?B?Vk5kRjZCV3c3bGpVVE53Z2IwQWs5TG1mUlR1azBndnlMbWtrR0hjR1poV2V4?=
+ =?utf-8?B?WVVZNWdnSEI4SmR3RGMwc04zbjZlVGM5dFBwUk5yZnVHa3ZlWitBaVExcnpt?=
+ =?utf-8?B?SGdTMVZVTDRLRmpIdnJGVHpMTms3TjRDbVF1dHlIbVJNMU5mM1FLL0VBcFBh?=
+ =?utf-8?B?RG9Eb05mY2hUajJtRXZJSHJXTFJLUkJqMFpSaFdQVy9vRHRSV3FlTnhSUmdI?=
+ =?utf-8?Q?oALJbICattCgscvYw5SqXb4f4?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: RUxc8IuBwjf3XDZpuZIQ1x2u8WH8fAh0PW60YuICcToho/FyVEcLxvRJnvuYLFSuIPbxFUaF7yHXhnp9rX1qO5/JmXwJaDf4eGAH/3B2UOwFNLUMBqVaZI23AbpuhM2+YEVZxnnq0UR0QN9I8+tc/Hmg92hVDide1jyvhW2WSUfuQ57ZXNayYaTFS4PGfxGOvR7zFsXda7jrk5h0kvwrqRvZ1uLHJ1nU/sSEwlmmOVvnr8FMUvcjoknNCf3UP8xvozxjYgyg/+LkS54yjRidPO+a098k9vWIKKcXE2OYPwzp76lxShQx8f+qce8roBlplXpclcRqBQ6TS4FUe5fOlHSef8TmBzrIcSE01FQU9XF+NMteIzsoK7nl/+HYmUlsmFuLtABR2Ira+IfU6E2AKypaLAwn1BVEZRs1um5t0arDykZ9ZP3OERs6F/L4aWjsiPoodsHlY4FzKlRd3mrXhe0pzZca240rtwY3+1VUlpcS2uGumyM6ELQgdfsdHE5Mdzj5TJDtn/nlYkfWu9Q7ws7eOWAYIq8o79qdeCi39SahY81EfYsKNraJ3KvV727a2cvVubOGo5rFOW3ZtreT/tYensBlOqCr8Ouc24+rGzY=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9572e5ff-37a6-4c0b-1f7c-08dc21891873
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4313.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2024 11:46:28.6276
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xjqmpWNwVq7EOikVDM2Rtx312gzrKq/Ake+Bx0xt74lRiKOac/jTsAhVvXWe4ly3mgTdAWssxbzMkpvEEfIEuA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB6775
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-30_05,2024-01-30_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 malwarescore=0 mlxscore=0
+ spamscore=0 suspectscore=0 adultscore=0 mlxlogscore=999 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2401300086
+X-Proofpoint-GUID: PTzW1SRizMZSvjKFMtFGZEQDqPTZfhIo
+X-Proofpoint-ORIG-GUID: PTzW1SRizMZSvjKFMtFGZEQDqPTZfhIo
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240130_033809_224481_111FB885 
-X-CRM114-Status: GOOD (  14.81  )
+X-CRM114-CacheID: sfid-20240130_034644_389493_4A804C84 
+X-CRM114-Status: GOOD (  34.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,174 +183,215 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When draining a page_frag_cache, most user are doing
-the similar steps, so introduce an API to avoid code
-duplication.
+On 28/01/2024 16:58, Christoph Hellwig wrote:
+> Add a new queue_limits_{start,commit}_update pair of functions that
+> allows taking an atomic snapshot of queue limits, update it, and
+> commit it if it passes validity checking.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
-Reviewed-by: Alexander Duyck <alexanderduyck@fb.com>
----
- drivers/net/ethernet/google/gve/gve_main.c | 11 ++---------
- drivers/net/ethernet/mediatek/mtk_wed_wo.c | 17 ++---------------
- drivers/nvme/host/tcp.c                    |  7 +------
- drivers/nvme/target/tcp.c                  |  4 +---
- include/linux/gfp.h                        |  1 +
- mm/page_alloc.c                            | 10 ++++++++++
- 6 files changed, 17 insertions(+), 33 deletions(-)
+Feel free to add:
+Reviewed-by: John Garry <john.g.garry@oracle.com>
 
-diff --git a/drivers/net/ethernet/google/gve/gve_main.c b/drivers/net/ethernet/google/gve/gve_main.c
-index db6d9ae7cd78..dec6458bb8d7 100644
---- a/drivers/net/ethernet/google/gve/gve_main.c
-+++ b/drivers/net/ethernet/google/gve/gve_main.c
-@@ -1276,17 +1276,10 @@ static void gve_unreg_xdp_info(struct gve_priv *priv)
- 
- static void gve_drain_page_cache(struct gve_priv *priv)
- {
--	struct page_frag_cache *nc;
- 	int i;
- 
--	for (i = 0; i < priv->rx_cfg.num_queues; i++) {
--		nc = &priv->rx[i].page_cache;
--		if (nc->va) {
--			__page_frag_cache_drain(virt_to_page(nc->va),
--						nc->pagecnt_bias);
--			nc->va = NULL;
--		}
--	}
-+	for (i = 0; i < priv->rx_cfg.num_queues; i++)
-+		page_frag_cache_drain(&priv->rx[i].page_cache);
- }
- 
- static void gve_qpls_get_curr_alloc_cfg(struct gve_priv *priv,
-diff --git a/drivers/net/ethernet/mediatek/mtk_wed_wo.c b/drivers/net/ethernet/mediatek/mtk_wed_wo.c
-index d58b07e7e123..7063c78bd35f 100644
---- a/drivers/net/ethernet/mediatek/mtk_wed_wo.c
-+++ b/drivers/net/ethernet/mediatek/mtk_wed_wo.c
-@@ -286,7 +286,6 @@ mtk_wed_wo_queue_free(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
- static void
- mtk_wed_wo_queue_tx_clean(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
- {
--	struct page *page;
- 	int i;
- 
- 	for (i = 0; i < q->n_desc; i++) {
-@@ -301,19 +300,12 @@ mtk_wed_wo_queue_tx_clean(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
- 		entry->buf = NULL;
- 	}
- 
--	if (!q->cache.va)
--		return;
--
--	page = virt_to_page(q->cache.va);
--	__page_frag_cache_drain(page, q->cache.pagecnt_bias);
--	memset(&q->cache, 0, sizeof(q->cache));
-+	page_frag_cache_drain(&q->cache);
- }
- 
- static void
- mtk_wed_wo_queue_rx_clean(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
- {
--	struct page *page;
--
- 	for (;;) {
- 		void *buf = mtk_wed_wo_dequeue(wo, q, NULL, true);
- 
-@@ -323,12 +315,7 @@ mtk_wed_wo_queue_rx_clean(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
- 		skb_free_frag(buf);
- 	}
- 
--	if (!q->cache.va)
--		return;
--
--	page = virt_to_page(q->cache.va);
--	__page_frag_cache_drain(page, q->cache.pagecnt_bias);
--	memset(&q->cache, 0, sizeof(q->cache));
-+	page_frag_cache_drain(&q->cache);
- }
- 
- static void
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index d058d990532b..22e1fb9c9c0f 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1344,7 +1344,6 @@ static int nvme_tcp_alloc_async_req(struct nvme_tcp_ctrl *ctrl)
- 
- static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
- {
--	struct page *page;
- 	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
- 	struct nvme_tcp_queue *queue = &ctrl->queues[qid];
- 	unsigned int noreclaim_flag;
-@@ -1355,11 +1354,7 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
- 	if (queue->hdr_digest || queue->data_digest)
- 		nvme_tcp_free_crypto(queue);
- 
--	if (queue->pf_cache.va) {
--		page = virt_to_head_page(queue->pf_cache.va);
--		__page_frag_cache_drain(page, queue->pf_cache.pagecnt_bias);
--		queue->pf_cache.va = NULL;
--	}
-+	page_frag_cache_drain(&queue->pf_cache);
- 
- 	noreclaim_flag = memalloc_noreclaim_save();
- 	/* ->sock will be released by fput() */
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 6a1e6bb80062..56224dc59f17 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -1591,7 +1591,6 @@ static void nvmet_tcp_free_cmd_data_in_buffers(struct nvmet_tcp_queue *queue)
- 
- static void nvmet_tcp_release_queue_work(struct work_struct *w)
- {
--	struct page *page;
- 	struct nvmet_tcp_queue *queue =
- 		container_of(w, struct nvmet_tcp_queue, release_work);
- 
-@@ -1615,8 +1614,7 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
- 	if (queue->hdr_digest || queue->data_digest)
- 		nvmet_tcp_free_crypto(queue);
- 	ida_free(&nvmet_tcp_queue_ida, queue->idx);
--	page = virt_to_head_page(queue->pf_cache.va);
--	__page_frag_cache_drain(page, queue->pf_cache.pagecnt_bias);
-+	page_frag_cache_drain(&queue->pf_cache);
- 	kfree(queue);
- }
- 
-diff --git a/include/linux/gfp.h b/include/linux/gfp.h
-index 28aea17fa59b..6cef1c241180 100644
---- a/include/linux/gfp.h
-+++ b/include/linux/gfp.h
-@@ -311,6 +311,7 @@ extern void __free_pages(struct page *page, unsigned int order);
- extern void free_pages(unsigned long addr, unsigned int order);
- 
- struct page_frag_cache;
-+void page_frag_cache_drain(struct page_frag_cache *nc);
- extern void __page_frag_cache_drain(struct page *page, unsigned int count);
- void *__page_frag_alloc_align(struct page_frag_cache *nc, unsigned int fragsz,
- 			      gfp_t gfp_mask, unsigned int align_mask);
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 636145c29f70..06aa1ebbd21c 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -4699,6 +4699,16 @@ static struct page *__page_frag_cache_refill(struct page_frag_cache *nc,
- 	return page;
- }
- 
-+void page_frag_cache_drain(struct page_frag_cache *nc)
-+{
-+	if (!nc->va)
-+		return;
-+
-+	__page_frag_cache_drain(virt_to_head_page(nc->va), nc->pagecnt_bias);
-+	nc->va = NULL;
-+}
-+EXPORT_SYMBOL(page_frag_cache_drain);
-+
- void __page_frag_cache_drain(struct page *page, unsigned int count)
- {
- 	VM_BUG_ON_PAGE(page_ref_count(page) == 0, page);
--- 
-2.33.0
+However there's still some nitpicking and maybe a real issue, below.
+
+> ---
+>   block/blk-core.c       |   1 +
+>   block/blk-settings.c   | 182 +++++++++++++++++++++++++++++++++++++++++
+>   block/blk.h            |   1 +
+>   include/linux/blkdev.h |  23 ++++++
+>   4 files changed, 207 insertions(+)
+> 
+> diff --git a/block/blk-core.c b/block/blk-core.c
+> index 11342af420d0c4..09f4a44a4aa3cc 100644
+> --- a/block/blk-core.c
+> +++ b/block/blk-core.c
+> @@ -424,6 +424,7 @@ struct request_queue *blk_alloc_queue(int node_id)
+>   	mutex_init(&q->debugfs_mutex);
+>   	mutex_init(&q->sysfs_lock);
+>   	mutex_init(&q->sysfs_dir_lock);
+> +	mutex_init(&q->limits_lock);
+>   	mutex_init(&q->rq_qos_mutex);
+>   	spin_lock_init(&q->queue_lock);
+>   
+> diff --git a/block/blk-settings.c b/block/blk-settings.c
+> index e872b0e168525e..1287bf0177b6db 100644
+> --- a/block/blk-settings.c
+> +++ b/block/blk-settings.c
+> @@ -96,6 +96,188 @@ static void blk_apply_bdi_limits(struct backing_dev_info *bdi,
+>   	bdi->io_pages = lim->max_sectors >> (PAGE_SHIFT - 9);
+>   }
+>   
+> +static int blk_validate_zoned_limits(struct queue_limits *lim)
+> +{
+> +	if (!lim->zoned) {
+> +		if (WARN_ON_ONCE(lim->max_open_zones) ||
+> +		    WARN_ON_ONCE(lim->max_active_zones) ||
+> +		    WARN_ON_ONCE(lim->zone_write_granularity) ||
+> +		    WARN_ON_ONCE(lim->max_zone_append_sectors))
+
+nit: some - like me - prefer {} for multi-line if statements, but that's 
+personal taste
+
+> +			return -EINVAL;
+> +		return 0;
+> +	}
+> +
+> +	if (WARN_ON_ONCE(!IS_ENABLED(CONFIG_BLK_DEV_ZONED)))
+> +		return -EINVAL;
+> +
+> +	if (lim->zone_write_granularity < lim->logical_block_size)
+> +		lim->zone_write_granularity = lim->logical_block_size;
+> +
+> +	if (lim->max_zone_append_sectors) {
+> +		/*
+> +		 * The Zone Append size is limited by the maximum I/O size
+> +		 * and the zone size given that it can't span zones.
+> +		 */
+> +		lim->max_zone_append_sectors =
+> +			min3(lim->max_hw_sectors,
+> +			     lim->max_zone_append_sectors,
+> +			     lim->chunk_sectors);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * Check that the limits in lim are valid, initialize defaults for unset
+> + * values, and cap values based on others where needed.
+> + */
+> +int blk_validate_limits(struct queue_limits *lim)
+> +{
+> +	unsigned int max_hw_sectors;
+> +
+> +	/*
+> +	 * Unless otherwise specified, default to 512 byte logical blocks and a
+> +	 * physical block size equal to the logical block size.
+> +	 */
+> +	if (!lim->logical_block_size)
+> +		lim->logical_block_size = SECTOR_SIZE;
+> +	if (lim->physical_block_size < lim->logical_block_size)
+> +		lim->physical_block_size = lim->physical_block_size;
+
+I guess that should really be:
+lim->physical_block_size = lim->logical_block_size;
+
+> +
+> +	/*
+> +	 * The minimum I/O size defaults to the physical block size unless
+> +	 * explicitly overridden.
+> +	 */
+> +	if (lim->io_min < lim->physical_block_size)
+> +		lim->io_min = lim->physical_block_size;
+> +
+> +	/*
+> +	 * max_hw_sectors has a somewhat weird default for historical reason,
+> +	 * but driver really should set their own instead of relying on this
+> +	 * value.
+> +	 *
+> +	 * The block layer relies on the fact that every driver can
+> +	 * handle at lest a page worth of data per I/O, and needs the value
+> +	 * aligned to the logical block size.
+> +	 */
+> +	if (!lim->max_hw_sectors)
+> +		lim->max_hw_sectors = BLK_SAFE_MAX_SECTORS;
+> +	if (WARN_ON_ONCE(lim->max_hw_sectors < PAGE_SECTORS))
+> +		return -EINVAL;
+> +	lim->max_hw_sectors = round_down(lim->max_hw_sectors,
+> +			lim->logical_block_size >> SECTOR_SHIFT);
+> +
+> +	/*
+> +	 * The actual max_sectors value is a complex beast and also takes the
+> +	 * max_dev_sectors value (set by SCSI ULPs) and a user configurable
+> +	 * value into account.  The ->max_sectors value is always calculated
+> +	 * from these, so directly setting it won't have any effect.
+> +	 */
+> +	max_hw_sectors = min_not_zero(lim->max_hw_sectors,
+> +				lim->max_dev_sectors);
+
+nit: maybe we should use a different variable for this for sake of clarity
+
+> +	if (lim->max_user_sectors) {
+> +		if (lim->max_user_sectors > max_hw_sectors ||
+> +		    lim->max_user_sectors < PAGE_SIZE / SECTOR_SIZE)
+> +			return -EINVAL;
+> +		lim->max_sectors = min(max_hw_sectors, lim->max_user_sectors);
+> +	} else {
+> +		lim->max_sectors = min(max_hw_sectors, BLK_DEF_MAX_SECTORS_CAP);
+> +	}
+> +	lim->max_sectors = round_down(lim->max_sectors,
+> +			lim->logical_block_size >> SECTOR_SHIFT);
+> +
+> +	/*
+> +	 * Random default for the maximum number of sectors.  Driver should not
+> +	 * rely on this and set their own.
+> +	 */
+> +	if (!lim->max_segments)
+> +		lim->max_segments = BLK_MAX_SEGMENTS;
+> +
+> +	lim->max_discard_sectors = lim->max_hw_discard_sectors;
+> +	if (!lim->max_discard_segments)
+> +		lim->max_discard_segments = 1;
+> +
+> +	if (lim->discard_granularity < lim->physical_block_size)
+> +		lim->discard_granularity = lim->physical_block_size;
+> +
+> +	/*
+> +	 * By default there is no limit on the segment boundary alignment,
+> +	 * but if there is one it can't be smaller than the page size as
+> +	 * that would break all the normal I/O patterns.
+> +	 */
+> +	if (!lim->seg_boundary_mask)
+> +		lim->seg_boundary_mask = BLK_SEG_BOUNDARY_MASK;
+> +	if (WARN_ON_ONCE(lim->seg_boundary_mask < PAGE_SIZE - 1))
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * The maximum segment size has an odd historic 64k default that
+> +	 * drivers probably should override.  Just like the I/O size we
+> +	 * require drivers to at least handle a full page per segment.
+> +	 */
+> +	if (!lim->max_segment_size)
+> +		lim->max_segment_size = BLK_MAX_SEGMENT_SIZE;
+> +	if (WARN_ON_ONCE(lim->max_segment_size < PAGE_SIZE))
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * Devices that require a virtual boundary do not support scatter/gather
+> +	 * I/O natively, but instead require a descriptor list entry for each
+> +	 * page (which might not be identical to the Linux PAGE_SIZE).  Because
+> +	 * of that they are not limited by our notion of "segment size".
+> +	 */
+> +	if (lim->virt_boundary_mask) {
+> +		if (WARN_ON_ONCE(lim->max_segment_size &&
+> +				 lim->max_segment_size != UINT_MAX))
+> +			return -EINVAL;
+> +		lim->max_segment_size = UINT_MAX;
+> +	}
+> +
+> +	/*
+> +	 * We require drivers to at least do logical block aligned I/O, but
+> +	 * historically could not check for that due to the separate calls
+> +	 * to set the limits.  Once the transition is finished the check
+> +	 * below should be narrowed down to check the logical block size.
+> +	 */
+> +	if (!lim->dma_alignment)
+> +		lim->dma_alignment = SECTOR_SIZE - 1;
+
+It would be also nice to update blk_set_default_limits to use this (and 
+not '511') or also any other instances of hard-coding SECTOR_SIZE for 512
+
+> +	if (WARN_ON_ONCE(lim->dma_alignment > PAGE_SIZE))
+> +		return -EINVAL;
+> +
+> +	if (lim->alignment_offset) {
+> +		lim->alignment_offset &= (lim->physical_block_size - 1);
+> +		lim->misaligned = 0;
+> +	}
+> +
+> +	return blk_validate_zoned_limits(lim);
+> +}
+> +
 
 
