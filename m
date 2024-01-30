@@ -4,74 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5020DC46CD2
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Jan 2024 08:49:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2FC7C46CD2
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Jan 2024 09:36:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Mrjxm1y3m1JVU+6ojmOaPg+TfDTTP0S4T+2ibjKaxvM=; b=vypBWdlX6P5U4kP19Pqc6Bc56N
-	9YSKUr7SHLozf5gvLoHx5FIUnVE2oOGvmohQ3LB6q2y2ox29/OYN9Bnf4JSyFyr8vo90QCWxKpcSc
-	OqAGf54Xk4r88JBYFNM8Fn4sXEGA9U5dbKSpGi2X7E893R6k6Bx5dPawK6v+FwMpGi+IkRlUlDr8D
-	HN0qDDNsI8QmKQ3nyuvoBqPErMDMip18+1T6S3fGhT561g3pKjcd+3ZyggYwql+WhT+RX/uJp7f3R
-	0FWwp7BC5S+0jW5BVsVEeu5/nXCdrStnSHK5b4jeRaKJYgY1rgW8htaGxQQm7z8hKtCE6Y/lLCCcZ
-	Wm7tdyKw==;
+	bh=AL5EjAyp7LBwDvISzY1S1XsHQOptZGqvKVbfB/+sN9Y=; b=B+YcPNbrfkxoEyA3OMrWUavCZY
+	SJWO/iIAy/BnKaSYoYiCQWa1n60vcq9mj3Lw4/aEB+azBxUP910TSNqrodx5X49zlNi9FiJpF0DoS
+	VbJ88/Y39BXh7sM9+4n4ohDZCsYbs4k1WXw+2bxOWVyyfn5mcNn5nozjnXPzG0QRsrW4uNvpoC0Xm
+	U25GeLOy4DmgkW+cl+c0yL16ZIlEBRIc0xQKhL7N95bIQeMa4zXIsqib3zJcbRxYi1m0xwT5MBpQS
+	Cl9QdtNC9GVg7x4xvr5HR9+tPQ/SHcTW12w3uppvS2WmabO5u8Uqh43W3f6G+BEJl9kzpVyabXJpl
+	vuNGlA8Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rUjo2-0000000FmeT-09rh;
-	Tue, 30 Jan 2024 08:49:22 +0000
-Received: from mail-wr1-f46.google.com ([209.85.221.46])
+	id 1rUkXo-0000000Fxzq-11Lx;
+	Tue, 30 Jan 2024 09:36:40 +0000
+Received: from mail-m15566.qiye.163.com ([101.71.155.66])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rUjnz-0000000Fmcr-35ej
+	id 1rUkXk-0000000FxyI-2znn
 	for linux-nvme@lists.infradead.org;
-	Tue, 30 Jan 2024 08:49:20 +0000
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-33ad9ec3ec2so379240f8f.1
-        for <linux-nvme@lists.infradead.org>; Tue, 30 Jan 2024 00:49:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706604557; x=1707209357;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Mrjxm1y3m1JVU+6ojmOaPg+TfDTTP0S4T+2ibjKaxvM=;
-        b=fjm8GNlspWT66l2nRPslusx/dhsPje0xFZY4fCb4QacwYQ3+IWfH+AMo96cASBW1jK
-         D/SYTYnImPRtnaRFfPraasf3sSNO7QmAVVwJ3R/yhnSGcHYouFJvOqbmkOqdxnx/uqi0
-         09fkOP7L4CrwWxyH4Iy2O/vgQFlfEhlQIb3eBX/1MyTWlELt6jmkSQvzpWgIWUAMAHQi
-         izWjeka9lVbHxCfy3clv3isIzhZsu5u5dPJR3IwiNpxBJCKUF9vr5jw1zBwCgET5lgqn
-         4UJkvXxm9z2HQkV2ut7fO9epptmTZVzQxUYFh8uVgUnWxPSFLleb+jcr8C3X9/ME9Sw3
-         KM1A==
-X-Gm-Message-State: AOJu0Yy4VHtrzjBeHAqYAWrChdE4tVASKwwq8PzLYFF4lo/w7HKHBDz5
-	WhsXDdWg+0ydTeoJAg62mR4Wof1rPKR73nWWzmcXgLTIVoykDvyAWGkz8bPY
-X-Google-Smtp-Source: AGHT+IHoaBZVMv3GJOgnUEJXzXWNpwSP7pQrntgoRBK212sp3DPxa8z8KC+jrTip9cKsNMeUtmiLJw==
-X-Received: by 2002:adf:cc0c:0:b0:337:9a1e:1d03 with SMTP id x12-20020adfcc0c000000b003379a1e1d03mr6010444wrh.5.1706604556928;
-        Tue, 30 Jan 2024 00:49:16 -0800 (PST)
-Received: from [192.168.64.172] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id c17-20020a5d5291000000b00337d980a68asm7776971wrv.106.2024.01.30.00.49.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jan 2024 00:49:16 -0800 (PST)
-Message-ID: <f8c1ca31-119b-4837-ba3a-1913a8239158@grimberg.me>
-Date: Tue, 30 Jan 2024 10:49:15 +0200
+	Tue, 30 Jan 2024 09:36:39 +0000
+Received: from [192.168.182.216] (unknown [110.185.170.227])
+	by smtp.qiye.163.com (Hmail) with ESMTPA id 7C3534C0233;
+	Tue, 30 Jan 2024 17:36:01 +0800 (CST)
+Message-ID: <6b345b99-3dd3-4c96-8644-e9b40d387b58@easystack.cn>
+Date: Tue, 30 Jan 2024 17:36:01 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V4 1/1] nvmet: support reservation feature
-Content-Language: en-US
-To: Guixin Liu <kanie@linux.alibaba.com>, kbusch@kernel.org, axboe@kernel.dk,
- hch@lst.de, kch@nvidia.com
-Cc: linux-nvme@lists.infradead.org
-References: <20240118125057.56200-1-kanie@linux.alibaba.com>
- <20240118125057.56200-2-kanie@linux.alibaba.com>
- <d201893b-e2c8-4265-a634-472459f6bda6@grimberg.me>
- <dacdc03e-6905-4009-af34-149520de1dc3@linux.alibaba.com>
- <592f9221-5b02-4c59-9e40-908355a19943@grimberg.me>
- <1768bd2f-f442-4981-81ba-b952dacc4fbb@linux.alibaba.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <1768bd2f-f442-4981-81ba-b952dacc4fbb@linux.alibaba.com>
+Subject: Re: Should NVME_SC_INVALID_NS be translated to BLK_STS_IOERR instead
+ of BLK_STS_NOTSUPP so that multipath(both native and dm) can failover on the
+ failure?
+To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>
+Cc: Jens Axboe <axboe@fb.com>, linux-nvme@lists.infradead.org,
+ peng.xiao@easystack.cn
+References: <9b1589fb-6f47-40bb-8aa6-22ae61145de4@easystack.cn>
+ <ZW6pJAm9wgqj1HEW@kbusch-mbp> <20231205044035.GA28685@lst.de>
+ <08f2c221-cca7-4d34-ab78-157d4eae4f68@grimberg.me>
+ <945fa17c-f1d0-4928-972b-da29ca5c95ec@easystack.cn>
+ <a99971dc-9157-4a0f-8fb7-5fa495434b99@grimberg.me>
+ <b8cd8de7-9167-4b8f-b255-c022376a7c9d@easystack.cn>
+ <dda859d1-41f5-423c-a9e2-900a1573c3a9@easystack.cn>
+ <ae40ced9-9f30-4e93-813c-5b94d0667d66@grimberg.me>
+ <e27ef3fd-d43c-4dc2-8969-4a0f86d9c64c@easystack.cn>
+ <a688834a-99b1-4dd2-b698-c9e54070f78f@grimberg.me>
+ <89b542d3-dedb-4d5c-ad7a-279467d28e51@easystack.cn>
+ <53b68337-8370-4deb-9a90-bf5dbb7d6d33@grimberg.me>
+From: Jirong Feng <jirong.feng@easystack.cn>
+In-Reply-To: <53b68337-8370-4deb-9a90-bf5dbb7d6d33@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFJQjdXWS1ZQUlXWQ8JGhUIEh9ZQVkZGU9MVk1PHh1JTEpNQktIHlUZERMWGhIXJBQOD1
+	lXWRgSC1lBWUpKS1VKQ05VSkxLVUlJTFlXWRYaDxIVHRRZQVlPS0hVSk1PSUxOVUpLS1VKQktLWQ
+	Y+
+X-HM-Tid: 0a8d59b9be71022ekunm7c3534c0233
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OCI6TSo4MDcxEjoSLi8JPko4
+	TwNPC0NVSlVKTEtNTUtMSE1KQkhCVTMWGhIXVRESCRQVHFUdHhUcOx4aCAIIDxoYEFUYFUVZV1kS
+	C1lBWUpKS1VKQ05VSkxLVUlJTFlXWQgBWUFITExCNwY+
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240130_004919_793854_C8C40847 
-X-CRM114-Status: GOOD (  10.22  )
+X-CRM114-CacheID: sfid-20240130_013637_001151_D285CB00 
+X-CRM114-Status: UNSURE (   7.52  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,34 +84,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Now I suspect that my testcase is inappropriate for nvme native multipath.
+according to the base spec, chapter 2.4.1, nvme native multipath aims at
+accessing a certain namespace through multiple paths, not how to group
+different namespaces into one device. Therefore, in fabrics' case, a
+namespace must belong to one subsystem on a single target server. Looking at
+the latest code of nvme driver host, the host does refuse those namespaces
+reporting the same uuid on two different subsystems(in function
+nvme_global_check_duplicate_ids), which is exactly what I'm doing. The
+testcase seems to be a misuse of nvme native multipath.
 
->> Can you please explain where are the write side and read side critical
->> sections for the registrant_list and where exactly a dereference occurs
->> that is synchronized via rcu and is _not_ protected with a mutex?
->>
-> 1. write:
-> 
->      1) executing register、acquire、release commands.
-> 
->      2）disabling namespace in nvmet_pr_exit_ns().
-> 
-> When doing above, I will use mutex pr_lock to protect holder and
-> 
-> registrant_list both, because there are multi writers.
-> 
-> I use rcu_dereference_protected to get holder if locked pr_lock.
-> 
-> 
-> 2. read:
-> 
->      1) executing report command, nvmet_execute_pr_report().
-> 
->      2) checking admin and IO command access, nvmet_pr_check_cmd_access().
-> 
-> When doing above, I use rcu_read_lock to read holder and registrant_list
-> 
-> lightly.
+However, the testcase is pretty reasonable for dm-mpath. In a cloud 
+scenario,
+we usually need a volume to be synced and exposed on multiple target servers
+for high availability reason. dm-mpath can do that, only if we choose 
+group by
+serial. Namespaces from different subsystems reporting different uuid, but
+with same serial, can be recognized as one device by dm-mpath.
 
-Right, I ignored the REG_ONLY and ALL_REGS cases... It makes better 
-sense now.
+The only problem seems just to be the returning code for dm-mpath to
+failover. native mpath should not encounter this case.
+
+please correct me if I'm wrong :)
+
+Thanks
 
