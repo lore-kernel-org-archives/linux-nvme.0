@@ -4,67 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0FD37C47DA9
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Jan 2024 03:39:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 71AAFC46CD2
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Jan 2024 03:51:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=8OruwK+JgI3kK6HcT/ARVlh3TmF03IIHkgYuanEtNq4=; b=OWCFSKR1ZghEMEfIo0OJ/9EWGK
-	X+8suGQTgQIReS8+tr7uDAC65APQG3UhTt/C91/pEUY0KgjiKn0VdgGBfmovSMl8z/kBqJK6bNQGl
-	3iYYvgl9YUEYKhgu+FmBsSGYvT07Nyr8KWYIFBZc9FicSLA9nkcdOOhZbx+T9srzVQDt6BgDYoPtv
-	arwDogQCPUm7Td/tooxqBfkOD3aDZw3tGJDtk5wmOpMgInSvVdEeivuvU0VTpEriot0myu98JlHB5
-	eHKmxCTcwwQDMP/0Wv/5u8TAt32psJxaBu29I2wgtNMUQ5gdtIMSfAy498//RcERKWMA1KiTeW1x7
-	/DR+d+Cw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=1jVti2joqyTS65nbUjYL0YdL8gkZW92EQbIbMtksFXM=; b=duxdutPW/HBq5OroCS9qA60LSR
+	t6fyOYSju+wC/efPQISz2gg8DJA2+jaZ8Po8JcVqiVRanNJbHpRIGO0BuT++8C3gLc5VRewfusNOw
+	Ys48WrciuTY7Z4KvjELd2V0L+ZXmWQdDDeBoNMMoSBXUeKJ/sK15TiAdCuK/4l8JE4ug2J0uIQAFh
+	O3ZTgKFkQSLPZA6dQhKPT+XkLSUOnclGlKD+CzMQebiU1WaNs/CPiq1sp/l0SwA56yllzKqhY1v9u
+	jBviOTaT6J2P1T6tpBR6vH4aaIbln+1oHdLzpbYw2b/ec5uG9vL2YlWP/smGFcPl8/Iqeg5uLde1S
+	FzGqRG6w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rUeyU-0000000F9Zy-2toJ;
-	Tue, 30 Jan 2024 03:39:50 +0000
-Received: from mgamail.intel.com ([192.55.52.93])
+	id 1rUf9S-0000000FB59-1yQb;
+	Tue, 30 Jan 2024 03:51:10 +0000
+Received: from out30-112.freemail.mail.aliyun.com ([115.124.30.112])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rUeyR-0000000F9ZL-3668
+	id 1rUf9P-0000000FB4H-40fB
 	for linux-nvme@lists.infradead.org;
-	Tue, 30 Jan 2024 03:39:49 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706585987; x=1738121987;
-  h=date:from:to:cc:subject:message-id;
-  bh=eu8jwTqX3AIjaVarjyCKebNBEuaZPec5JCNAz1M4qB8=;
-  b=EPT/uE2xOOux2Vb+97m3WIM1HIOxsyY8m0HNKTVeo0PkpTxiqduAZahN
-   OJJAhnLCiB0pFtiP54f2zUd1w5aCKn50Sj7jaTSMBwyhl1g7ufd2jfUWa
-   v/pFJSlQkYsXxB6a1GZT0Os4HdiwOp+bj/NHlOP8k6tAhs6MiuthheIL/
-   0niogkgo4YKVQbLc7x2Uk2xYmG7xTl/jb2ihG74sJxEc5a36bJfHDy4vv
-   IzsOFkJBmPkah25VtXfFJS+R0SrAUR50vhv2xaNGt6PoqiqrHqAEUwfBd
-   bLO0Rx5pibl3mWkaCPbMrsLXzZsTSSqhFmDhmzIv8crNpChY8bWJ5z1r4
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="400301167"
-X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="400301167"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 19:39:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="3613418"
-Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 29 Jan 2024 19:39:45 -0800
-Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rUeyM-0004ts-1k;
-	Tue, 30 Jan 2024 03:39:42 +0000
-Date: Tue, 30 Jan 2024 11:39:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.8] BUILD SUCCESS
- 5fe6c9668aba004242895f99c19ed9b828453e90
-Message-ID: <202401301116.YAQP9ZTA-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Tue, 30 Jan 2024 03:51:09 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1706586665; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=1jVti2joqyTS65nbUjYL0YdL8gkZW92EQbIbMtksFXM=;
+	b=nxXppB+dSCzVp60iFy/awt71fb3TkxSHeEBQLMMH+i3WChZ7ujKpetTomw9R5UFf7jxGPs3LWWv2V6JHeafi4XaKzysYWWE9JIAle50Q27naO8ywcWrx0aIRYT7fPOHO8vNiGLexmGOwzuznUlCwo5oV5gHFV1K12ko+czVeypw=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046050;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0W.emDEL_1706586663;
+Received: from 30.178.83.131(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W.emDEL_1706586663)
+          by smtp.aliyun-inc.com;
+          Tue, 30 Jan 2024 11:51:04 +0800
+Message-ID: <304cc83e-72c7-4b12-b2fb-f978e331e813@linux.alibaba.com>
+Date: Tue, 30 Jan 2024 11:51:02 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] nvme: parse dsm command detailly when tracing
+Content-Language: en-GB
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ "axboe@kernel.dk" <axboe@kernel.dk>, "kbusch@kernel.org" <kbusch@kernel.org>
+References: <20240129082256.63239-1-kanie@linux.alibaba.com>
+ <20240129082256.63239-3-kanie@linux.alibaba.com>
+ <37d84d79-6be4-47dc-9f3f-09bb9c5cae82@nvidia.com>
+From: Guixin Liu <kanie@linux.alibaba.com>
+In-Reply-To: <37d84d79-6be4-47dc-9f3f-09bb9c5cae82@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240129_193947_843898_754C1CBF 
-X-CRM114-Status: UNSURE (   6.38  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240129_195108_358592_06466D33 
+X-CRM114-Status: GOOD (  13.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,174 +70,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.8
-branch HEAD: 5fe6c9668aba004242895f99c19ed9b828453e90  nvme-auth: open-code single-use macros
 
-elapsed time: 727m
+在 2024/1/29 19:09, Chaitanya Kulkarni 写道:
+> On 1/29/24 00:22, Guixin Liu wrote:
+>> Add detailed parse of dsm command to make the trace log more
+>> consistent and human-readable.
+>>
+>> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+>> ---
+>>    drivers/nvme/host/trace.c | 8 +++++---
+>>    1 file changed, 5 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/nvme/host/trace.c b/drivers/nvme/host/trace.c
+>> index 95572c85b22a..b383d51c1a0c 100644
+>> --- a/drivers/nvme/host/trace.c
+>> +++ b/drivers/nvme/host/trace.c
+>> @@ -153,10 +153,12 @@ static const char *nvme_trace_read_write(struct trace_seq *p, u8 *cdw10)
+>>    static const char *nvme_trace_dsm(struct trace_seq *p, u8 *cdw10)
+>>    {
+>>    	const char *ret = trace_seq_buffer_ptr(p);
+>> +	u8 nr = cdw10[0];
+>> +	u8 idr = cdw10[4] & 0x1;
+>> +	u8 idw = (cdw10[4] >> 1) & 0x1;
+>> +	u8 ad = (cdw10[4] >> 2) & 0x1;
+>>    
+>> -	trace_seq_printf(p, "nr=%u, attributes=%u",
+>> -			 get_unaligned_le32(cdw10),
+>> -			 get_unaligned_le32(cdw10 + 4));
+>> +	trace_seq_printf(p, "nr=%u, idr=%u, idw=%u, ad=%u", nr, idr, idw, ad);
+>>    	trace_seq_putc(p, 0);
+>>    
+>>    	return ret;
+> I'm really not sure if we need to decode idw/idr as I've not seen those
+> fields so far
+> used by anybody maybe I'm not aware here, but can you please provide a
+> usecase where
+> you need these fields to be decoded ?
+>
+> -ck
 
-configs tested: 154
-configs skipped: 3
+Mostly we only use "ad" filed, but sometimes our tester will set idw/idr to
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+see whether any errors have been reported by our target. Well this is a
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20240130   gcc  
-arc                   randconfig-002-20240130   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm                       multi_v4t_defconfig   gcc  
-arm                        neponset_defconfig   clang
-arm                   randconfig-001-20240130   gcc  
-arm                   randconfig-002-20240130   gcc  
-arm                   randconfig-003-20240130   gcc  
-arm                   randconfig-004-20240130   gcc  
-arm64                            alldefconfig   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20240130   gcc  
-arm64                 randconfig-002-20240130   gcc  
-arm64                 randconfig-003-20240130   gcc  
-arm64                 randconfig-004-20240130   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240130   gcc  
-csky                  randconfig-002-20240130   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20240130   clang
-hexagon               randconfig-002-20240130   clang
-i386                             allmodconfig   clang
-i386                              allnoconfig   clang
-i386                             allyesconfig   clang
-i386         buildonly-randconfig-001-20240130   gcc  
-i386         buildonly-randconfig-002-20240130   gcc  
-i386         buildonly-randconfig-003-20240130   gcc  
-i386         buildonly-randconfig-004-20240130   gcc  
-i386         buildonly-randconfig-005-20240130   gcc  
-i386         buildonly-randconfig-006-20240130   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20240130   gcc  
-i386                  randconfig-002-20240130   gcc  
-i386                  randconfig-003-20240130   gcc  
-i386                  randconfig-004-20240130   gcc  
-i386                  randconfig-005-20240130   gcc  
-i386                  randconfig-006-20240130   gcc  
-i386                  randconfig-011-20240130   clang
-i386                  randconfig-012-20240130   clang
-i386                  randconfig-013-20240130   clang
-i386                  randconfig-014-20240130   clang
-i386                  randconfig-015-20240130   clang
-i386                  randconfig-016-20240130   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240130   gcc  
-loongarch             randconfig-002-20240130   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                          atari_defconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                       m5475evb_defconfig   gcc  
-m68k                        mvme16x_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   clang
-mips                             allyesconfig   gcc  
-mips                  decstation_64_defconfig   gcc  
-mips                           ip32_defconfig   gcc  
-mips                  maltasmvp_eva_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240130   gcc  
-nios2                 randconfig-002-20240130   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20240130   gcc  
-parisc                randconfig-002-20240130   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   clang
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc               randconfig-001-20240130   gcc  
-powerpc               randconfig-002-20240130   gcc  
-powerpc               randconfig-003-20240130   gcc  
-powerpc                         wii_defconfig   gcc  
-powerpc64             randconfig-001-20240130   gcc  
-powerpc64             randconfig-002-20240130   gcc  
-powerpc64             randconfig-003-20240130   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   clang
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                 randconfig-001-20240130   gcc  
-riscv                 randconfig-002-20240130   gcc  
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20240130   clang
-s390                  randconfig-002-20240130   clang
-s390                       zfcpdump_defconfig   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                          lboxre2_defconfig   gcc  
-sh                          polaris_defconfig   gcc  
-sh                    randconfig-001-20240130   gcc  
-sh                    randconfig-002-20240130   gcc  
-sh                          rsk7264_defconfig   gcc  
-sh                           se7724_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240130   gcc  
-sparc64               randconfig-002-20240130   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20240130   gcc  
-um                    randconfig-002-20240130   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   clang
-x86_64                              defconfig   gcc  
-x86_64                          rhel-8.3-rust   clang
-xtensa                            allnoconfig   gcc  
-xtensa                randconfig-001-20240130   gcc  
-xtensa                randconfig-002-20240130   gcc  
+low-persuasive usecase, but I still insist it's better to follow the spec.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regadrs,
+
+Guixin Liu
+
+>
+>
 
