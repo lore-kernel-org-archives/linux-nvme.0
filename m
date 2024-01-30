@@ -4,82 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 08F4EC47DA9
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Jan 2024 00:18:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8D232C47DA9
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Jan 2024 03:09:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=t6yd8tdlUIDzHB9ZreSiveVXAFRmn/5t5Wkj3UfPNOY=; b=BfYQEnpWWKTzMiA69mku71oCPS
-	jHCH5Cv2FrUz+WbLDShh61366+aEgeAKBvbkvWT3wJJeTV/pE6+TRz5W0Jauk6sy2nE8+D/e1WFdS
-	9ioOJMLhHV0cUKh0vob3YttVXjNNIngukcHEvEwvCOTQkbSqkPpK1XNG0sv7ckp8vkUNFJYStT7hB
-	+eNUJ+APa/ITEYHCJPI8XUZGAML0aD7jL1NgMnjJo5kT/YJBbnXjPIvC0c+b1O+NXkqoyxjeEg4zG
-	rSBEWXHMxR3PktNuM9p5QvrTKBs3fgN3Lmyk5zWv3j6+hfV1kmv0D0uBlqJg/EIGSNHh3wuD03n9a
-	6gWJt64w==;
+	bh=6p+l/xGWVrcFB212pgGBJE2m7Yevgw4jWZU0Pd80aY8=; b=Nec1DXLjwJxzT5lUekFMoxrc73
+	/hJhD3/DA5vfQWDkviKVtvnCWcDMjdt1bYiCgxoUqqrFqzcsx65DRrj1SNPl7VVvb/3pbO1qMjtTK
+	6igQbIvOQeAj69vmA2YYf8wAO3lvQx/vL1tN6umugeY/1G0Rej8wtfYvbkKPtIpaPX21+JIT8+YvD
+	E5bYNMWqswbwReKsetAEVmwSIrVDB4/L0/jxGIBMqzo3zYnoOkfmF9jfyLUqnL9M0zF8mJwubgnNp
+	Liuvg10Yuhcmu1dkGoJekjMyZgPwrg3qby/0nAnhzwMpKnLWXvPBe/ytGn0Jdb07pwBELIX8DO1s7
+	fXGD//OA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rUbpo-0000000EgEy-3UfO;
-	Tue, 30 Jan 2024 00:18:40 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1rUeVM-0000000F4lp-45GR;
+	Tue, 30 Jan 2024 03:09:45 +0000
+Received: from out30-99.freemail.mail.aliyun.com ([115.124.30.99])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rUbpl-0000000EgE5-0i0X
+	id 1rUeVH-0000000F4kZ-2C1l
 	for linux-nvme@lists.infradead.org;
-	Tue, 30 Jan 2024 00:18:38 +0000
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 40TJidPZ030876;
-	Tue, 30 Jan 2024 00:18:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2023-11-20;
- bh=t6yd8tdlUIDzHB9ZreSiveVXAFRmn/5t5Wkj3UfPNOY=;
- b=MMUn756dTVB2J9e452oxbAp4HtcqvAqGYzn3J1g5bwB/OvU0ekvv83PBqgpDCqR/AjOw
- KKI/gJ+GHHGXti11Jp2xGQtNQeyyYBBV+PBxxPUXF2tfv6Xw0xNm6CkbTWShLHLJ8I+t
- q9UK1RRMIYEUVrPY09y9lq9DnL7jUfVEsRI43+edQ2Efx3cJmvpokQsBaBz9VqMLlj5c
- FI38e81xr+AEdk6o98qR2ArQXSPXRHIXvIMfZr4LIBKYy6pJs0vldXA/76yOIonjldGn
- +Fi7dKyxU+yqDgoktJJPRioTySaAhXi60OagOf0eg0570difSMi/M5yjS7DGpAOFK7fN HQ== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3vvrrcdd9f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 30 Jan 2024 00:18:27 +0000
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 40TNtWbU014634;
-	Tue, 30 Jan 2024 00:18:26 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3vvr9cnnkm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 30 Jan 2024 00:18:26 +0000
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 40U0IOrX028387;
-	Tue, 30 Jan 2024 00:18:26 GMT
-Received: from ca-dev94.us.oracle.com (ca-dev94.us.oracle.com [10.129.136.30])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3vvr9cnne3-2;
-	Tue, 30 Jan 2024 00:18:25 +0000
-From: Alan Adamson <alan.adamson@oracle.com>
-To: linux-nvme@lists.infradead.org
-Cc: alan.adamson@oracle.com, kch@nvidia.com, kbusch@kernel.org, hch@lst.de,
-        sagi@grimberg.me
-Subject: [PATCH V9 1/1] nvme: allow passthru cmd error logging
-Date: Mon, 29 Jan 2024 16:19:38 -0800
-Message-Id: <20240130001938.1103354-2-alan.adamson@oracle.com>
-X-Mailer: git-send-email 2.39.3
-In-Reply-To: <20240130001938.1103354-1-alan.adamson@oracle.com>
-References: <20240130001938.1103354-1-alan.adamson@oracle.com>
+	Tue, 30 Jan 2024 03:09:42 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1706584177; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=6p+l/xGWVrcFB212pgGBJE2m7Yevgw4jWZU0Pd80aY8=;
+	b=Prj1HyfGriRai0Pdmjsd7uJAvllv+6hWDcUY7fSqS6Rr2x4vjjseW1FCDdRUFCCbMiBP/Oj4kGUjyxHnoz5PHPMuvapcr9QJ4+fcTFlOFGluJTfhBOT3Peiz2JxD9/R4/UQqP/0P8fcYFE0Ju6EqavD5IiB8pQOPOdQtn843eoI=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046056;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0W.ebIjc_1706584176;
+Received: from 30.178.83.131(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W.ebIjc_1706584176)
+          by smtp.aliyun-inc.com;
+          Tue, 30 Jan 2024 11:09:37 +0800
+Message-ID: <1768bd2f-f442-4981-81ba-b952dacc4fbb@linux.alibaba.com>
+Date: Tue, 30 Jan 2024 11:09:35 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V4 1/1] nvmet: support reservation feature
+Content-Language: en-GB
+To: Sagi Grimberg <sagi@grimberg.me>, kbusch@kernel.org, axboe@kernel.dk,
+ hch@lst.de, kch@nvidia.com
+Cc: linux-nvme@lists.infradead.org
+References: <20240118125057.56200-1-kanie@linux.alibaba.com>
+ <20240118125057.56200-2-kanie@linux.alibaba.com>
+ <d201893b-e2c8-4265-a634-472459f6bda6@grimberg.me>
+ <dacdc03e-6905-4009-af34-149520de1dc3@linux.alibaba.com>
+ <592f9221-5b02-4c59-9e40-908355a19943@grimberg.me>
+From: Guixin Liu <kanie@linux.alibaba.com>
+In-Reply-To: <592f9221-5b02-4c59-9e40-908355a19943@grimberg.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-29_15,2024-01-29_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
- bulkscore=0 malwarescore=0 suspectscore=0 phishscore=0 spamscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311290000 definitions=main-2401300001
-X-Proofpoint-ORIG-GUID: fPwRGFDNbmysesaSWtv3_T3E1v6LbQ1S
-X-Proofpoint-GUID: fPwRGFDNbmysesaSWtv3_T3E1v6LbQ1S
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240129_161837_442728_669BB06E 
-X-CRM114-Status: GOOD (  25.92  )
+X-CRM114-CacheID: sfid-20240129_190940_053292_47E451E9 
+X-CRM114-Status: GOOD (  14.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,266 +71,1195 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Commit d7ac8dca938c ("nvme: quiet user passthrough command errors")
-disabled error logging for user passthrough commands.  This commit
-adds the ability to opt-in to passthrough admin error logging. IO
-commands initiated as passthrough will always be logged.
 
-The logging output for passthrough commands (Admin and IO) has been
-changed to include CDWXX fields.
+在 2024/1/29 18:40, Sagi Grimberg 写道:
+>
+>
+> On 1/23/24 11:45, Guixin Liu wrote:
+>>
+>> 在 2024/1/22 21:03, Sagi Grimberg 写道:
+>>>
+>>>> This patch implements the reservation feature, includes:
+>>>> 1. reservation register(register, unregister and replace).
+>>>> 2. reservation acquire(acquire, preempt, preempt and abort).
+>>>> 3. reservation release(release and clear).
+>>>> 4. reservation report.
+>>>>
+>>>> And also make reservation configurable, one can set ns to support
+>>>> reservation before enable ns. The default of resv_enable is false.
+>>>>
+>>>> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+>>>> ---
+>>>>   drivers/nvme/target/Makefile    |   2 +-
+>>>>   drivers/nvme/target/admin-cmd.c |  14 +-
+>>>>   drivers/nvme/target/configfs.c  |  27 +
+>>>>   drivers/nvme/target/core.c      |  50 +-
+>>>>   drivers/nvme/target/nvmet.h     |  35 ++
+>>>>   drivers/nvme/target/pr.c        | 956 
+>>>> ++++++++++++++++++++++++++++++++
+>>>>   include/linux/nvme.h            |  48 ++
+>>>>   7 files changed, 1125 insertions(+), 7 deletions(-)
+>>>>   create mode 100644 drivers/nvme/target/pr.c
+>>>>
+>>>> diff --git a/drivers/nvme/target/Makefile 
+>>>> b/drivers/nvme/target/Makefile
+>>>> index c66820102493..f9bfc904a5b3 100644
+>>>> --- a/drivers/nvme/target/Makefile
+>>>> +++ b/drivers/nvme/target/Makefile
+>>>> @@ -10,7 +10,7 @@ obj-$(CONFIG_NVME_TARGET_FCLOOP)    += nvme-fcloop.o
+>>>>   obj-$(CONFIG_NVME_TARGET_TCP)        += nvmet-tcp.o
+>>>>     nvmet-y        += core.o configfs.o admin-cmd.o fabrics-cmd.o \
+>>>> -            discovery.o io-cmd-file.o io-cmd-bdev.o
+>>>> +            discovery.o io-cmd-file.o io-cmd-bdev.o pr.o
+>>>>   nvmet-$(CONFIG_NVME_TARGET_PASSTHRU)    += passthru.o
+>>>>   nvmet-$(CONFIG_BLK_DEV_ZONED)        += zns.o
+>>>>   nvmet-$(CONFIG_NVME_TARGET_AUTH)    += fabrics-cmd-auth.o auth.o
+>>>> diff --git a/drivers/nvme/target/admin-cmd.c 
+>>>> b/drivers/nvme/target/admin-cmd.c
+>>>> index 39cb570f833d..791bc7e740c0 100644
+>>>> --- a/drivers/nvme/target/admin-cmd.c
+>>>> +++ b/drivers/nvme/target/admin-cmd.c
+>>>> @@ -176,6 +176,10 @@ static void nvmet_get_cmd_effects_nvm(struct 
+>>>> nvme_effects_log *log)
+>>>>       log->iocs[nvme_cmd_read] =
+>>>>       log->iocs[nvme_cmd_flush] =
+>>>>       log->iocs[nvme_cmd_dsm]    =
+>>>> +    log->iocs[nvme_cmd_resv_acquire] =
+>>>> +    log->iocs[nvme_cmd_resv_register] =
+>>>> +    log->iocs[nvme_cmd_resv_release] =
+>>>> +    log->iocs[nvme_cmd_resv_report] =
+>>>>           cpu_to_le32(NVME_CMD_EFFECTS_CSUPP);
+>>>>       log->iocs[nvme_cmd_write] =
+>>>>       log->iocs[nvme_cmd_write_zeroes] =
+>>>> @@ -340,6 +344,8 @@ static void nvmet_execute_get_log_page(struct 
+>>>> nvmet_req *req)
+>>>>           return nvmet_execute_get_log_cmd_effects_ns(req);
+>>>>       case NVME_LOG_ANA:
+>>>>           return nvmet_execute_get_log_page_ana(req);
+>>>> +    case NVME_LOG_RESERVATION:
+>>>> +        return nvmet_execute_get_log_page_resv(req);
+>>>>       }
+>>>>       pr_debug("unhandled lid %d on qid %d\n",
+>>>>              req->cmd->get_log_page.lid, req->sq->qid);
+>>>> @@ -550,7 +556,13 @@ static void nvmet_execute_identify_ns(struct 
+>>>> nvmet_req *req)
+>>>>        */
+>>>>       id->nmic = NVME_NS_NMIC_SHARED;
+>>>>       id->anagrpid = cpu_to_le32(req->ns->anagrpid);
+>>>> -
+>>>> +    id->rescap = NVME_PR_SUPPORT_WRITE_EXCLUSIVE |
+>>>> +             NVME_PR_SUPPORT_EXCLUSIVE_ACCESS |
+>>>> +             NVME_PR_SUPPORT_WRITE_EXCLUSIVE_REG_ONLY |
+>>>> +             NVME_PR_SUPPORT_EXCLUSIVE_ACCESS_REG_ONLY |
+>>>> +             NVME_PR_SUPPORT_WRITE_EXCLUSIVE_ALL_REGS |
+>>>> +             NVME_PR_SUPPORT_EXCLUSIVE_ACCESS_ALL_REGS |
+>>>> +             NVME_PR_SUPPORT_IEKEY_VER_1_3_DEF;
+>>>>       memcpy(&id->nguid, &req->ns->nguid, sizeof(id->nguid));
+>>>>         id->lbaf[0].ds = req->ns->blksize_shift;
+>>>> diff --git a/drivers/nvme/target/configfs.c 
+>>>> b/drivers/nvme/target/configfs.c
+>>>> index d937fe05129e..1ac4802ec818 100644
+>>>> --- a/drivers/nvme/target/configfs.c
+>>>> +++ b/drivers/nvme/target/configfs.c
+>>>> @@ -714,6 +714,32 @@ static ssize_t 
+>>>> nvmet_ns_revalidate_size_store(struct config_item *item,
+>>>>     CONFIGFS_ATTR_WO(nvmet_ns_, revalidate_size);
+>>>>   +static ssize_t nvmet_ns_resv_enable_show(struct config_item 
+>>>> *item, char *page)
+>>>> +{
+>>>> +    return sprintf(page, "%d\n", to_nvmet_ns(item)->pr.enable);
+>>>> +}
+>>>> +
+>>>> +static ssize_t nvmet_ns_resv_enable_store(struct config_item *item,
+>>>> +                    const char *page, size_t count)
+>>>> +{
+>>>> +    struct nvmet_ns *ns = to_nvmet_ns(item);
+>>>> +    bool val;
+>>>> +
+>>>> +    if (kstrtobool(page, &val))
+>>>> +        return -EINVAL;
+>>>> +
+>>>> +    mutex_lock(&ns->subsys->lock);
+>>>> +    if (ns->enabled) {
+>>>> +        pr_err("the ns:%d is already enabled.\n", ns->nsid);
+>>>> +        mutex_unlock(&ns->subsys->lock);
+>>>> +        return -EINVAL;
+>>>> +    }
+>>>> +    ns->pr.enable = val;
+>>>> +    mutex_unlock(&ns->subsys->lock);
+>>>> +    return count;
+>>>> +}
+>>>> +CONFIGFS_ATTR(nvmet_ns_, resv_enable);
+>>>> +
+>>>>   static struct configfs_attribute *nvmet_ns_attrs[] = {
+>>>>       &nvmet_ns_attr_device_path,
+>>>>       &nvmet_ns_attr_device_nguid,
+>>>> @@ -722,6 +748,7 @@ static struct configfs_attribute 
+>>>> *nvmet_ns_attrs[] = {
+>>>>       &nvmet_ns_attr_enable,
+>>>>       &nvmet_ns_attr_buffered_io,
+>>>>       &nvmet_ns_attr_revalidate_size,
+>>>> +    &nvmet_ns_attr_resv_enable,
+>>>>   #ifdef CONFIG_PCI_P2PDMA
+>>>>       &nvmet_ns_attr_p2pmem,
+>>>>   #endif
+>>>> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+>>>> index 3935165048e7..5bacffc59848 100644
+>>>> --- a/drivers/nvme/target/core.c
+>>>> +++ b/drivers/nvme/target/core.c
+>>>> @@ -591,6 +591,8 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+>>>>       if (ns->nsid > subsys->max_nsid)
+>>>>           subsys->max_nsid = ns->nsid;
+>>>>   +    nvmet_pr_init_ns(ns);
+>>>> +
+>>>>       ret = xa_insert(&subsys->namespaces, ns->nsid, ns, GFP_KERNEL);
+>>>>       if (ret)
+>>>>           goto out_restore_subsys_maxnsid;
+>>>> @@ -651,6 +653,7 @@ void nvmet_ns_disable(struct nvmet_ns *ns)
+>>>>         subsys->nr_namespaces--;
+>>>>       nvmet_ns_changed(subsys, ns->nsid);
+>>>> +    nvmet_pr_exit_ns(ns);
+>>>>       nvmet_ns_dev_disable(ns);
+>>>>   out_unlock:
+>>>>       mutex_unlock(&subsys->lock);
+>>>> @@ -904,18 +907,34 @@ static u16 nvmet_parse_io_cmd(struct 
+>>>> nvmet_req *req)
+>>>>           return ret;
+>>>>       }
+>>>>   +    if (req->ns->pr.enable) {
+>>>> +        ret = nvmet_parse_pr_cmd(req);
+>>>> +        if (!ret)
+>>>> +            return ret;
+>>>> +    }
+>>>> +
+>>>>       switch (req->ns->csi) {
+>>>>       case NVME_CSI_NVM:
+>>>>           if (req->ns->file)
+>>>> -            return nvmet_file_parse_io_cmd(req);
+>>>> -        return nvmet_bdev_parse_io_cmd(req);
+>>>> +            ret = nvmet_file_parse_io_cmd(req);
+>>>> +        else
+>>>> +            ret = nvmet_bdev_parse_io_cmd(req);
+>>>> +        break;
+>>>>       case NVME_CSI_ZNS:
+>>>>           if (IS_ENABLED(CONFIG_BLK_DEV_ZONED))
+>>>> -            return nvmet_bdev_zns_parse_io_cmd(req);
+>>>> -        return NVME_SC_INVALID_IO_CMD_SET;
+>>>> +            ret = nvmet_bdev_zns_parse_io_cmd(req);
+>>>> +        else
+>>>> +            ret = NVME_SC_INVALID_IO_CMD_SET;
+>>>> +        break;
+>>>>       default:
+>>>> -        return NVME_SC_INVALID_IO_CMD_SET;
+>>>> +        ret = NVME_SC_INVALID_IO_CMD_SET;
+>>>>       }
+>>>> +    if (ret)
+>>>> +        return ret;
+>>>> +
+>>>> +    if (req->ns->pr.enable)
+>>>> +        ret = nvmet_pr_check_cmd_access(req);
+>>>> +    return ret;
+>>>>   }
+>>>>     bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
+>>>> @@ -1231,6 +1250,21 @@ static void nvmet_init_cap(struct nvmet_ctrl 
+>>>> *ctrl)
+>>>>           nvmet_passthrough_override_cap(ctrl);
+>>>>   }
+>>>>   +bool nvmet_is_host_still_connected(uuid_t *hostid, struct 
+>>>> nvmet_subsys *subsys)
+>>>> +{
+>>>> +    struct nvmet_ctrl *ctrl;
+>>>> +
+>>>> +    mutex_lock(&subsys->lock);
+>>>> +    list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
+>>>> +        if (uuid_equal(hostid, &ctrl->hostid)) {
+>>>> +            mutex_unlock(&subsys->lock);
+>>>> +            return true;
+>>>
+>>> Perhaps its cleaner to do:
+>>>             ret = true;
+>>>             break;
+>>>
+>> OK, changed in v5.
+>>>> +        }
+>>>> +    }
+>>>> +    mutex_unlock(&subsys->lock);
+>>>> +    return false;
+>>>> +}
+>>>> +
+>>>>   struct nvmet_ctrl *nvmet_ctrl_find_get(const char *subsysnqn,
+>>>>                          const char *hostnqn, u16 cntlid,
+>>>>                          struct nvmet_req *req)
+>>>> @@ -1450,6 +1484,11 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, 
+>>>> const char *hostnqn,
+>>>>       ctrl->err_counter = 0;
+>>>>       spin_lock_init(&ctrl->error_lock);
+>>>>   +    ctrl->pr_log_mgr.counter = 0;
+>>>> +    ctrl->pr_log_mgr.lost_count = 0;
+>>>> +    mutex_init(&ctrl->pr_log_mgr.lock);
+>>>> +    INIT_KFIFO(ctrl->pr_log_mgr.log_queue);
+>>>> +
+>>>>       nvmet_start_keep_alive_timer(ctrl);
+>>>>         mutex_lock(&subsys->lock);
+>>>> @@ -1488,6 +1527,7 @@ static void nvmet_ctrl_free(struct kref *ref)
+>>>>       cancel_work_sync(&ctrl->fatal_err_work);
+>>>>         nvmet_destroy_auth(ctrl);
+>>>> +    nvmet_ctrl_destroy_pr(ctrl);
+>>>>         ida_free(&cntlid_ida, ctrl->cntlid);
+>>>>   diff --git a/drivers/nvme/target/nvmet.h 
+>>>> b/drivers/nvme/target/nvmet.h
+>>>> index 6c8acebe1a1a..b6facb243977 100644
+>>>> --- a/drivers/nvme/target/nvmet.h
+>>>> +++ b/drivers/nvme/target/nvmet.h
+>>>> @@ -20,6 +20,7 @@
+>>>>   #include <linux/blkdev.h>
+>>>>   #include <linux/radix-tree.h>
+>>>>   #include <linux/t10-pi.h>
+>>>> +#include <linux/kfifo.h>
+>>>>     #define NVMET_DEFAULT_VS        NVME_VS(1, 3, 0)
+>>>>   @@ -30,6 +31,7 @@
+>>>>   #define NVMET_MN_MAX_SIZE        40
+>>>>   #define NVMET_SN_MAX_SIZE        20
+>>>>   #define NVMET_FR_MAX_SIZE        8
+>>>> +#define NVMET_PR_LOG_QUEUE_SIZE        64
+>>>>     /*
+>>>>    * Supported optional AENs:
+>>>> @@ -56,6 +58,22 @@
+>>>>   #define IPO_IATTR_CONNECT_SQE(x)    \
+>>>>       (cpu_to_le32(offsetof(struct nvmf_connect_command, x)))
+>>>>   +struct nvmet_pr_registrant {
+>>>> +    u64            rkey;
+>>>> +    uuid_t            hostid;
+>>>> +    enum nvme_pr_type    rtype;
+>>>> +    struct list_head    entry;
+>>>> +    struct rcu_head        rcu;
+>>>> +};
+>>>> +
+>>>> +struct nvmet_pr {
+>>>> +    bool            enable;
+>>>> +    atomic_t        generation;
+>>>> +    struct nvmet_pr_registrant __rcu *holder;
+>>>> +    struct mutex        pr_lock;
+>>>> +    struct list_head    registrant_list;
+>>>> +};
+>>>> +
+>>>>   struct nvmet_ns {
+>>>>       struct percpu_ref    ref;
+>>>>       struct bdev_handle    *bdev_handle;
+>>>> @@ -85,6 +103,7 @@ struct nvmet_ns {
+>>>>       int            pi_type;
+>>>>       int            metadata_size;
+>>>>       u8            csi;
+>>>> +    struct nvmet_pr        pr;
+>>>>   };
+>>>>     static inline struct nvmet_ns *to_nvmet_ns(struct config_item 
+>>>> *item)
+>>>> @@ -190,6 +209,13 @@ static inline bool 
+>>>> nvmet_port_secure_channel_required(struct nvmet_port *port)
+>>>>       return nvmet_port_disc_addr_treq_secure_channel(port) == 
+>>>> NVMF_TREQ_REQUIRED;
+>>>>   }
+>>>>   +struct nvmet_pr_log_mgr {
+>>>> +    struct mutex        lock;
+>>>> +    u64            lost_count;
+>>>> +    u64            counter;
+>>>> +    DECLARE_KFIFO(log_queue, struct nvme_pr_log, 
+>>>> NVMET_PR_LOG_QUEUE_SIZE);
+>>>> +};
+>>>> +
+>>>>   struct nvmet_ctrl {
+>>>>       struct nvmet_subsys    *subsys;
+>>>>       struct nvmet_sq        **sqs;
+>>>> @@ -243,6 +269,7 @@ struct nvmet_ctrl {
+>>>>       u8            *dh_key;
+>>>>       size_t            dh_keysize;
+>>>>   #endif
+>>>> +    struct nvmet_pr_log_mgr pr_log_mgr;
+>>>>   };
+>>>>     struct nvmet_subsys {
+>>>> @@ -750,4 +777,12 @@ static inline bool nvmet_has_auth(struct 
+>>>> nvmet_ctrl *ctrl)
+>>>>   static inline const char *nvmet_dhchap_dhgroup_name(u8 dhgid) { 
+>>>> return NULL; }
+>>>>   #endif
+>>>>   +void nvmet_pr_init_ns(struct nvmet_ns *ns);
+>>>> +u16 nvmet_parse_pr_cmd(struct nvmet_req *req);
+>>>> +u16 nvmet_pr_check_cmd_access(struct nvmet_req *req);
+>>>> +void nvmet_ctrl_destroy_pr(struct nvmet_ctrl *ctrl);
+>>>> +void nvmet_pr_exit_ns(struct nvmet_ns *ns);
+>>>> +bool nvmet_is_host_still_connected(uuid_t *hostid, struct 
+>>>> nvmet_subsys *subsys);
+>>>> +void nvmet_execute_get_log_page_resv(struct nvmet_req *req);
+>>>> +
+>>>>   #endif /* _NVMET_H */
+>>>> diff --git a/drivers/nvme/target/pr.c b/drivers/nvme/target/pr.c
+>>>> new file mode 100644
+>>>> index 000000000000..df71fd23ee47
+>>>> --- /dev/null
+>>>> +++ b/drivers/nvme/target/pr.c
+>>>> @@ -0,0 +1,956 @@
+>>>> +// SPDX-License-Identifier: GPL-2.0
+>>>> +/*
+>>>> + * NVMe over Fabrics Persist Reservation.
+>>>> + * Copyright (c) 2024 Guixin Liu, Alibaba Group.
+>>>> + * All rights reserved.
+>>>> + */
+>>>> +#include "nvmet.h"
+>>>> +#include <linux/slab.h>
+>>>> +#include <asm/unaligned.h>
+>>>> +
+>>>> +struct nvmet_pr_register_data {
+>>>> +    __le64    crkey;
+>>>> +    __le64    nrkey;
+>>>> +};
+>>>> +
+>>>> +struct nvmet_pr_acquire_data {
+>>>> +    __le64    crkey;
+>>>> +    __le64    prkey;
+>>>> +};
+>>>> +
+>>>> +struct nvmet_pr_release_data {
+>>>> +    __le64    crkey;
+>>>> +};
+>>>> +
+>>>> +static inline struct nvmet_ns *nvmet_pr_to_ns(struct nvmet_pr *pr)
+>>>> +{
+>>>> +    return container_of(pr, struct nvmet_ns, pr);
+>>>> +}
+>>>> +
+>>>> +static u16 nvmet_pr_validate_rtype(u8 rtype)
+>>>> +{
+>>>> +    if (rtype < NVME_PR_WRITE_EXCLUSIVE ||
+>>>> +        rtype > NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS)
+>>>> +        return NVME_SC_INVALID_FIELD | NVME_SC_DNR;
+>>>> +
+>>>> +    return NVME_SC_SUCCESS;
+>>>> +}
+>>>> +
+>>>> +static u16 nvmet_pr_set_rtype_and_holder(struct nvmet_pr *pr, u8 
+>>>> rtype,
+>>>> +                     struct nvmet_pr_registrant *reg)
+>>>> +{
+>>>> +    u16 status;
+>>>> +
+>>>> +    status = nvmet_pr_validate_rtype(rtype);
+>>>> +    if (!status) {
+>>>> +        reg->rtype = rtype;
+>>>> +        rcu_assign_pointer(pr->holder, reg);
+>>>
+>>> synchronize_rcu to have rcu grace period elapse?
+>>>
+>> rcu_assign_pointer ensures that all reads after it will see the new 
+>> value,
+>>
+>> we only need to ensure that there are no reads before the old value 
+>> free, the
+>>
+>> kfree_rcu can make sure that.
+>>
+>>>> +    }
+>>>> +    return status;
+>>>> +}
+>>>> +
+>>>> +static struct nvmet_pr_registrant *
+>>>> +nvmet_pr_find_registrant_by_hostid(struct nvmet_pr *pr, uuid_t 
+>>>> *hostid)
+>>>> +{
+>>>> +    struct nvmet_pr_registrant *reg;
+>>>
+>>> Perhaps lockdep_assert_held annotation here?
+>>>
+>> OK, it will be added in v5.
+>>>> +
+>>>> +    list_for_each_entry_rcu(reg, &pr->registrant_list, entry) {
+>>>
+>>> is registrant_list protected by rcu?
+>> Yes.
+>>>
+>>>> +        if (uuid_equal(&reg->hostid, hostid))
+>>>> +            return reg;
+>>>> +    }
+>>>> +    return NULL;
+>>>> +}
+>>>> +
+>>>> +void nvmet_execute_get_log_page_resv(struct nvmet_req *req)
+>>>> +{
+>>>> +    struct nvmet_pr_log_mgr *log_mgr = &req->sq->ctrl->pr_log_mgr;
+>>>> +    struct nvme_pr_log next_log = {0};
+>>>> +    struct nvme_pr_log log = {0};
+>>>> +    u16 status = NVME_SC_SUCCESS;
+>>>> +    u64 lost_count;
+>>>> +    u64 cur_count;
+>>>> +    u64 next_count;
+>>>> +
+>>>> +    mutex_lock(&log_mgr->lock);
+>>>> +    if (!kfifo_get(&log_mgr->log_queue, &log))
+>>>> +        goto out;
+>>>> +
+>>>> +    cur_count = le64_to_cpu(log.count);
+>>>> +    if (kfifo_peek(&log_mgr->log_queue, &next_log)) {
+>>>> +        next_count = le64_to_cpu(next_log.count);
+>>>> +        if (next_count > cur_count)
+>>>> +            lost_count = next_count - cur_count - 1;
+>>>> +        else
+>>>> +            lost_count = U64_MAX - cur_count + next_count - 1;
+>>>> +    } else {
+>>>> +        lost_count = log_mgr->lost_count;
+>>>> +    }
+>>>> +
+>>>> +    log.count = cpu_to_le64(cur_count + lost_count);
+>>>> +    log_mgr->lost_count -= lost_count;
+>>>
+>>> We need some code comments to say how the count/lost_count are managed
+>>> because it looks slightly convoluted here.
+>>>
+>> Sure, it will be added in v5.
+>>>> +
+>>>> +    log.nr_pages = min(kfifo_len(&log_mgr->log_queue) /
+>>>> +            sizeof(struct nvme_pr_log), 255);
+>>>> +
+>>>> +    status = nvmet_copy_to_sgl(req, 0, &log, sizeof(log));
+>>>> +
+>>>> +out:
+>>>> +    mutex_unlock(&log_mgr->lock);
+>>>> +    nvmet_req_complete(req, status);
+>>>> +}
+>>>> +
+>>>> +static void nvmet_pr_add_resv_log(struct nvmet_ctrl *ctrl, u8 
+>>>> log_type, u32 nsid)
+>>>> +{
+>>>> +    struct nvmet_pr_log_mgr *log_mgr = &ctrl->pr_log_mgr;
+>>>> +    struct nvme_pr_log log = {0};
+>>>> +
+>>>> +    mutex_lock(&log_mgr->lock);
+>>>> +    log_mgr->counter++;
+>>>> +    if (log_mgr->counter == 0)
+>>>> +        log_mgr->counter = 1;
+>>>> +
+>>>> +    log.count = cpu_to_le64(log_mgr->counter);
+>>>> +    log.type = log_type;
+>>>> +    log.nsid = cpu_to_le32(nsid);
+>>>> +
+>>>> +    if (!kfifo_put(&log_mgr->log_queue, log)) {
+>>>> +        pr_warn("a reservation log lost, cntlid:%d, log_type:%d, 
+>>>> nsid:%d\n",
+>>>> +            ctrl->cntlid, log_type, nsid);
+>>>> +        log_mgr->lost_count++;
+>>>> +    }
+>>>
+>>> It'd be good to have a blktest for lost events.
+>>>
+>> I have write a script to test this, but when I use v2.0 nvme-cli to 
+>> establish two
+>>
+>> connections to a same target with different hostnqn and hostid, the 
+>> v1.6 nvme-cli
+>>
+>> still work, I found that the 07d6b911e in nvme-cli limited this.
+>>
+>> And I should close the nvme-multipath also.
+>>
+>>>> +
+>>>> +    mutex_unlock(&log_mgr->lock);
+>>>> +}
+>>>> +
+>>>> +static void nvmet_pr_send_resv_released(struct nvmet_pr *pr, 
+>>>> uuid_t *hostid)
+>>>> +{
+>>>> +    struct nvmet_ns *ns = nvmet_pr_to_ns(pr);
+>>>> +    struct nvmet_subsys *subsys = ns->subsys;
+>>>> +    struct nvmet_ctrl *ctrl;
+>>>> +
+>>>> +    mutex_lock(&subsys->lock);
+>>>> +    list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
+>>>> +        if (!uuid_equal(&ctrl->hostid, hostid) &&
+>>>> +            nvmet_pr_find_registrant_by_hostid(pr, &ctrl->hostid)) {
+>>>> +            nvmet_pr_add_resv_log(ctrl,
+>>>> +                NVME_PR_LOG_RESERVATION_RELEASED, ns->nsid);
+>>>> +            nvmet_add_async_event(ctrl, NVME_AER_CSS,
+>>>> +                NVME_AEN_RESV_LOG_PAGE_AVALIABLE,
+>>>> +                NVME_LOG_RESERVATION);
+>>>> +        }
+>>>> +    }
+>>>> +    mutex_unlock(&subsys->lock);
+>>>
+>>> Wondering if this can consolidate also to nvmet_pr_send_event_by_hostid
+>>> but with a filter? Not a must though (don't want to make the interface
+>>> too complicated).
+>>>
+>>>
+>> Yes, this will make function too complicated, so I didn't do that.
+>>>> +}
+>>>> +
+>>>> +static void nvmet_pr_send_event_by_hostid(struct nvmet_pr *pr, 
+>>>> uuid_t *hostid,
+>>>> +                      u8 log_type)
+>>>> +{
+>>>> +    struct nvmet_ns *ns = nvmet_pr_to_ns(pr);
+>>>> +    struct nvmet_subsys *subsys = ns->subsys;
+>>>> +    struct nvmet_ctrl *ctrl;
+>>>> +
+>>>> +    mutex_lock(&subsys->lock);
+>>>> +    list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
+>>>> +        if (uuid_equal(hostid, &ctrl->hostid)) {
+>>>> +            nvmet_pr_add_resv_log(ctrl, log_type, ns->nsid);
+>>>> +            nvmet_add_async_event(ctrl, NVME_AER_CSS,
+>>>> +                NVME_AEN_RESV_LOG_PAGE_AVALIABLE,
+>>>> +                NVME_LOG_RESERVATION);
+>>>> +        }
+>>>> +    }
+>>>> +    mutex_unlock(&subsys->lock);
+>>>> +}
+>>>> +
+>>>> +static void nvmet_pr_send_resv_preempted(struct nvmet_pr *pr, 
+>>>> uuid_t *hostid)
+>>>> +{
+>>>> +    nvmet_pr_send_event_by_hostid(pr, hostid,
+>>>> +        NVME_PR_LOG_RESERVATOPM_PREEMPTED);
+>>>> +}
+>>>> +
+>>>> +static void nvmet_pr_send_registration_preempted(struct nvmet_pr *pr,
+>>>> +                         uuid_t *hostid)
+>>>> +{
+>>>> +    nvmet_pr_send_event_by_hostid(pr, hostid,
+>>>> +        NVME_PR_LOG_REGISTRATION_PREEMPTED);
+>>>> +}
+>>>> +
+>>>> +static u16 nvmet_pr_register_check_rkey(struct nvmet_req *req,
+>>>> +                    struct nvmet_pr_register_data *d)
+>>>> +{
+>>>> +    struct nvmet_ctrl *ctrl = req->sq->ctrl;
+>>>> +    struct nvmet_pr *pr = &req->ns->pr;
+>>>> +    struct nvmet_pr_registrant *reg;
+>>>> +
+>>>> +    reg = nvmet_pr_find_registrant_by_hostid(pr, &ctrl->hostid);
+>>>> +    if (!reg || reg->rkey == le64_to_cpu(d->nrkey))
+>>>> +        return NVME_SC_SUCCESS;
+>>>> +
+>>>> +    return NVME_SC_RESERVATION_CONFLICT | NVME_SC_DNR;
+>>>> +}
+>>>> +
+>>>> +static u16 nvmet_pr_register(struct nvmet_req *req,
+>>>> +                 struct nvmet_pr_register_data *d)
+>>>> +{
+>>>> +    struct nvmet_ctrl *ctrl = req->sq->ctrl;
+>>>> +    struct nvmet_pr *pr = &req->ns->pr;
+>>>> +    struct nvmet_pr_registrant *reg;
+>>>> +    u16 status;
+>>>> +
+>>>> +    status = nvmet_pr_register_check_rkey(req, d);
+>>>> +    if (status)
+>>>> +        return status;
+>>>> +
+>>>> +    reg = kmalloc(sizeof(*reg), GFP_KERNEL);
+>>>> +    if (!reg)
+>>>> +        return NVME_SC_INTERNAL;
+>>>> +
+>>>> +    memset(reg, 0, sizeof(*reg));
+>>>> +    INIT_LIST_HEAD(&reg->entry);
+>>>> +    reg->rkey = le64_to_cpu(d->nrkey);
+>>>> +    uuid_copy(&reg->hostid, &ctrl->hostid);
+>>>> +
+>>>> +    mutex_lock(&pr->pr_lock);
+>>>> +    list_add_tail_rcu(&reg->entry, &pr->registrant_list);
+>>>
+>>> Can you explain why this is rculist operation?
+>>>
+>> I will explain this in bottom.
+>>>> + mutex_unlock(&pr->pr_lock);
+>>>> +    return NVME_SC_SUCCESS;
+>>>> +}
+>>>> +
+>>>> +static void __nvmet_pr_unregister_one(struct nvmet_pr *pr,
+>>>> +                      struct nvmet_pr_registrant *reg)
+>>>> +{
+>>>> +    struct nvmet_pr_registrant *first_reg;
+>>>> +    struct nvmet_pr_registrant *holder;
+>>>> +    u8 original_rtype;
+>>>> +
+>>>> +    list_del_rcu(&reg->entry);
+>>>> +
+>>>> +    holder = rcu_dereference_protected(pr->holder,
+>>>> +            lockdep_is_held(&pr->pr_lock));
+>>>> +    if (reg != holder) {
+>>>> +        kfree_rcu(reg, rcu);
+>>>> +        return;
+>>>
+>>> goto [out] label instead?
+>>>
+>> OK.
+>>>> +    }
+>>>> +
+>>>> +    original_rtype = holder->rtype;
+>>>> +    if (original_rtype == NVME_PR_WRITE_EXCLUSIVE_ALL_REGS ||
+>>>> +        original_rtype == NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS) {
+>>>> +        first_reg = list_first_entry_or_null(&pr->registrant_list,
+>>>> +                struct nvmet_pr_registrant, entry);
+>>>> +        if (first_reg)
+>>>> +            first_reg->rtype = original_rtype;
+>>>> +        rcu_assign_pointer(pr->holder, first_reg);
+>>>
+>>> synchronize_rcu() ?
+>>>
+>>>> +    } else {
+>>>> +        rcu_assign_pointer(pr->holder, NULL);
+>>>
+>>> synchronize_rcu() ?
+>>>
+>>>> +
+>>>> +        if (original_rtype == NVME_PR_WRITE_EXCLUSIVE_REG_ONLY ||
+>>>> +            original_rtype == NVME_PR_WRITE_EXCLUSIVE_REG_ONLY)
+>>>> +            nvmet_pr_send_resv_released(pr, &reg->hostid);
+>>>> +    }
+>>>
+>>> out:
+>>>
+>>>> +    kfree_rcu(reg, rcu);
+>>>> +}
+>>>> +
+>>>> +static u16 nvmet_pr_unregister(struct nvmet_req *req,
+>>>> +                   struct nvmet_pr_register_data *d,
+>>>> +                   bool ignore_key)
+>>>> +{
+>>>> +    u16 status = NVME_SC_RESERVATION_CONFLICT | NVME_SC_DNR;
+>>>> +    struct nvmet_ctrl *ctrl = req->sq->ctrl;
+>>>> +    struct nvmet_pr *pr = &req->ns->pr;
+>>>> +    struct nvmet_pr_registrant *reg;
+>>>> +    struct nvmet_pr_registrant *tmp;
+>>>> +
+>>>> +    mutex_lock(&pr->pr_lock);
+>>>> +    list_for_each_entry_safe(reg, tmp, &pr->registrant_list, entry) {
+>>>
+>>> You are mixing list/rculist traversals, it can't be correct.
+>>
+>> You are right, I should use rculist whether hold the pr_lock or not.
+>>
+>>>
+>>>> +        if (uuid_equal(&reg->hostid, &ctrl->hostid)) {
+>>>> +            if (ignore_key || reg->rkey == le64_to_cpu(d->crkey)) {
+>>>> +                status = NVME_SC_SUCCESS;
+>>>> +                __nvmet_pr_unregister_one(pr, reg);
+>>>> +            }
+>>>> +            break;
+>>>> +        }
+>>>> +    }
+>>>> +    mutex_unlock(&pr->pr_lock);
+>>>> +
+>>>> +    return status;
+>>>> +}
+>>>> +
+>>>> +static u16 __nvmet_pr_do_replace(struct nvmet_pr *pr,
+>>>> +                 struct nvmet_pr_registrant *reg,
+>>>> +                 u64 nrkey)
+>>>> +{
+>>>> +    struct nvmet_pr_registrant *holder;
+>>>> +    struct nvmet_pr_registrant *new;
+>>>> +
+>>>> +    holder = rcu_dereference_protected(pr->holder,
+>>>> +            lockdep_is_held(&pr->pr_lock));
+>>>> +    if (reg != holder) {
+>>>> +        reg->rkey = nrkey;
+>>>> +        return NVME_SC_SUCCESS;
+>>>> +    }
+>>>> +
+>>>> +    new = kmalloc(sizeof(*new), GFP_ATOMIC);
+>>>> +    if (!new)
+>>>> +        return NVME_SC_INTERNAL;
+>>>> +    memcpy(new, reg, sizeof(*new));
+>>>> +    new->rkey = nrkey;
+>>>> +    list_del_rcu(&reg->entry);
+>>>> +    list_add_rcu(&new->entry, &pr->registrant_list);
+>>>> +    rcu_assign_pointer(pr->holder, new);
+>>>> +    kfree_rcu(reg, rcu);
+>>>
+>>> I still think that the correct ordering is:
+>>>     rcu_assign_pointer(pr->holder, new);
+>>>     synchronize_rcu();
+>>>     kfree(reg);
+>>>
+>>> Because what you want is rcu grace period to elapse is after you
+>>> (re)assign pr->holder. Then you can safely use a normal kfree for
+>>> reg.
+>>>
+>> The kfree_rcu can achieve the same effect,
+>>
+>> Could you plz tell me why should change to like this?
+>>
+>>>> +    return NVME_SC_SUCCESS;
+>>>> +}
+>>>> +
+>>>> +static u16 nvmet_pr_replace(struct nvmet_req *req,
+>>>> +                struct nvmet_pr_register_data *d,
+>>>> +                bool ignore_key)
+>>>> +{
+>>>> +    u16 status = NVME_SC_RESERVATION_CONFLICT | NVME_SC_DNR;
+>>>> +    struct nvmet_ctrl *ctrl = req->sq->ctrl;
+>>>> +    struct nvmet_pr *pr = &req->ns->pr;
+>>>> +    struct nvmet_pr_registrant *reg;
+>>>> +
+>>>> +    mutex_lock(&pr->pr_lock);
+>>>> +    list_for_each_entry_rcu(reg, &pr->registrant_list, entry) {
+>>>> +        if (uuid_equal(&reg->hostid, &ctrl->hostid)) {
+>>>> +            if (ignore_key || reg->rkey == le64_to_cpu(d->crkey)) {
+>>>> +                reg->rkey = le64_to_cpu(d->nrkey);
+>>>> +                status = __nvmet_pr_do_replace(pr, reg,
+>>>> +                        le64_to_cpu(d->nrkey));
+>>>
+>>> So you assign reg->rkey here and then assign it again in 
+>>> _do_replace() ?
+>>> I don't understand the logic here.
+>>>
+>> My bad, this is an oversight, it will be changed in v5.
+>>>> +            }
+>>>> +            break;
+>>>> +        }
+>>>> +    }
+>>>> +    mutex_unlock(&pr->pr_lock);
+>>>> +    return status;
+>>>> +}
+>>>> +
+>>>> +static void nvmet_execute_pr_register(struct nvmet_req *req)
+>>>> +{
+>>>> +    u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10);
+>>>> +    bool ignore_key = (bool)((cdw10 >> 3) & 1); /* Ignore existing 
+>>>> key, bit 03 */
+>>>> +    struct nvmet_pr_register_data *d;
+>>>> +    u8 reg_act = cdw10 & 0x07; /* Reservation Register Action, bit 
+>>>> 02:00 */
+>>>> +    u16 status;
+>>>> +
+>>>> +    d = kmalloc(sizeof(*d), GFP_KERNEL);
+>>>> +    if (!d) {
+>>>> +        status = NVME_SC_INTERNAL;
+>>>> +        goto out;
+>>>> +    }
+>>>> +
+>>>> +    status = nvmet_copy_from_sgl(req, 0, d, sizeof(*d));
+>>>> +    if (status)
+>>>> +        goto free_data;
+>>>> +
+>>>> +    switch (reg_act) {
+>>>> +    case NVME_PR_REGISTER_ACT_REG:
+>>>> +        status = nvmet_pr_register(req, d);
+>>>> +        break;
+>>>> +    case NVME_PR_REGISTER_ACT_UNREG:
+>>>> +        status = nvmet_pr_unregister(req, d, ignore_key);
+>>>> +        break;
+>>>> +    case NVME_PR_REGISTER_ACT_REPLACE:
+>>>> +        status = nvmet_pr_replace(req, d, ignore_key);
+>>>> +        break;
+>>>> +    default:
+>>>> +        req->error_loc = offsetof(struct nvme_common_command, cdw10);
+>>>> +        status = NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
+>>>> +        break;
+>>>> +    }
+>>>> +free_data:
+>>>> +    kfree(d);
+>>>> +out:
+>>>> +    if (!status)
+>>>> +        atomic_inc(&req->ns->pr.generation);
+>>>> +    nvmet_req_complete(req, status);
+>>>> +}
+>>>> +
+>>>> +static u16 nvmet_pr_acquire(struct nvmet_req *req,
+>>>> +                struct nvmet_pr_registrant *reg,
+>>>> +                u8 rtype)
+>>>> +{
+>>>> +    struct nvmet_pr *pr = &req->ns->pr;
+>>>> +    struct nvmet_pr_registrant *holder;
+>>>> +
+>>>> +    holder = rcu_dereference_protected(pr->holder,
+>>>> +            lockdep_is_held(&pr->pr_lock));
+>>>> +    if (holder && reg != holder)
+>>>> +        return  NVME_SC_RESERVATION_CONFLICT | NVME_SC_DNR;
+>>>> +    if (holder && reg == holder) {
+>>>> +        if (holder->rtype == rtype)
+>>>> +            return NVME_SC_SUCCESS;
+>>>> +        return NVME_SC_RESERVATION_CONFLICT | NVME_SC_DNR;
+>>>> +    }
+>>>> +
+>>>> +    return nvmet_pr_set_rtype_and_holder(pr, rtype, reg);
+>>>> +}
+>>>> +
+>>>> +static u16 nvmet_pr_unreg_by_prkey(struct nvmet_pr *pr, u64 prkey,
+>>>> +                   uuid_t *send_hostid)
+>>>> +{
+>>>> +    u16 status = NVME_SC_RESERVATION_CONFLICT | NVME_SC_DNR;
+>>>> +    struct nvmet_pr_registrant *reg;
+>>>> +    struct nvmet_pr_registrant *tmp;
+>>>> +
+>>>
+>>> lockdep_assert_held ?
+>> OK
+>>>
+>>>> +    list_for_each_entry_safe(reg, tmp,
+>>>> +                 &pr->registrant_list, entry) {
+>>>> +        if (reg->rkey == prkey) {
+>>>> +            status = NVME_SC_SUCCESS;
+>>>> +            if (!uuid_equal(&reg->hostid, send_hostid))
+>>>> +                nvmet_pr_send_registration_preempted(pr,
+>>>> +                    &reg->hostid);
+>>>> +            __nvmet_pr_unregister_one(pr, reg);
+>>>> +        }
+>>>> +    }
+>>>> +    return status;
+>>>> +}
+>>>> +
+>>>> +static u16 nvmet_pr_unreg_by_prkey_except_hostid(struct nvmet_pr 
+>>>> *pr, u64 prkey,
+>>>> +                         uuid_t *send_hostid)
+>>>> +{
+>>>> +    u16 status = NVME_SC_RESERVATION_CONFLICT | NVME_SC_DNR;
+>>>> +    struct nvmet_pr_registrant *reg;
+>>>> +    struct nvmet_pr_registrant *tmp;
+>>>> +
+>>>
+>>> lockdep_assert_held ?
+>> OK
+>>>
+>>>> +    list_for_each_entry_safe(reg, tmp,
+>>>> +                 &pr->registrant_list, entry) {
+>>>> +        if (reg->rkey == prkey &&
+>>>> +            !uuid_equal(&reg->hostid, send_hostid)) {
+>>>> +            status = NVME_SC_SUCCESS;
+>>>> +            nvmet_pr_send_registration_preempted(pr, &reg->hostid);
+>>>> +            __nvmet_pr_unregister_one(pr, reg);
+>>>> +        }
+>>>> +    }
+>>>> +    return status;
+>>>> +}
+>>>> +
+>>>> +static void nvmet_pr_unreg_except_hostid(struct nvmet_pr *pr,
+>>>> +                     uuid_t *send_hostid)
+>>>> +{
+>>>> +    struct nvmet_pr_registrant *reg;
+>>>> +    struct nvmet_pr_registrant *tmp;
+>>>> +
+>>>
+>>> lockdep_assert_held ?
+>> OK
+>>>
+>>>> +    list_for_each_entry_safe(reg, tmp,
+>>>> +                 &pr->registrant_list, entry) {
+>>>> +        if (!uuid_equal(&reg->hostid, send_hostid)) {
+>>>> +            nvmet_pr_send_registration_preempted(pr, &reg->hostid);
+>>>> +            __nvmet_pr_unregister_one(pr, reg);
+>>>> +        }
+>>>> +    }
+>>>> +}
+>>>> +
+>>>> +static u16 nvmet_pr_create_new_resv(struct nvmet_pr *pr,
+>>>> +                    u8 original_rtype,
+>>>> +                    u8 new_rtype,
+>>>> +                    struct nvmet_pr_registrant *reg)
+>>>> +{
+>>>> +    u16 status;
+>>>> +
+>>>> +    status = nvmet_pr_set_rtype_and_holder(pr, new_rtype, reg);
+>>>> +    if (!status && original_rtype != new_rtype)
+>>>> +        nvmet_pr_send_resv_released(pr, &reg->hostid);
+>>>> +    return status;
+>>>> +}
+>>>> +
+>>>> +static u16 nvmet_pr_update_holder_rtype(struct nvmet_pr *pr,
+>>>> +                    struct nvmet_pr_registrant *holder,
+>>>> +                    u8 rtype)
+>>>> +{
+>>>> +    u16 status;
+>>>> +    struct nvmet_pr_registrant *new;
+>>>> +
+>>>> +    status = nvmet_pr_validate_rtype(rtype);
+>>>> +    if (status)
+>>>> +        return status;
+>>>> +
+>>>> +    new = kmalloc(sizeof(*new), GFP_ATOMIC);
+>>>> +    if (!new)
+>>>> +        return NVME_SC_INTERNAL;
+>>>> +
+>>>> +    list_del_rcu(&holder->entry);
+>>>> +    memcpy(new, holder, sizeof(*new));
+>>>> +    new->rtype = rtype;
+>>>> +    list_add_tail_rcu(&new->entry, &pr->registrant_list);
+>>>> +    rcu_assign_pointer(pr->holder, new);
+>>>> +    kfree_rcu(holder, rcu);
+>>>
+>>> Same comment as before.
+>>>
+>>>> +    return NVME_SC_SUCCESS;
+>>>> +}
+>>>
+>>> Why do you need this btw? shouldn't this one call
+>>> __nvmet_pr_do_replace ?
+>>>
+>> OK, it will be changed in v5.
+>>>> +
+>>>> +static u16 nvmet_pr_preempt(struct nvmet_req *req,
+>>>> +                struct nvmet_pr_registrant *reg,
+>>>> +                u8 rtype,
+>>>> +                struct nvmet_pr_acquire_data *d)
+>>>> +{
+>>>> +    struct nvmet_ctrl *ctrl = req->sq->ctrl;
+>>>> +    struct nvmet_pr *pr = &req->ns->pr;
+>>>> +    struct nvmet_pr_registrant *holder;
+>>>> +    enum nvme_pr_type original_rtype;
+>>>> +    u16 status;
+>>>> +
+>>>> +    holder = rcu_dereference_protected(pr->holder,
+>>>> +            lockdep_is_held(&pr->pr_lock));
+>>>> +    if (!holder)
+>>>> +        return nvmet_pr_unreg_by_prkey(pr, le64_to_cpu(d->prkey),
+>>>> +                &ctrl->hostid);
+>>>> +
+>>>> +    original_rtype = holder->rtype;
+>>>> +    if (original_rtype == NVME_PR_WRITE_EXCLUSIVE_ALL_REGS ||
+>>>> +        original_rtype == NVME_PR_EXCLUSIVE_ACCESS_ALL_REGS) {
+>>>> +        if (!le64_to_cpu(d->prkey)) {
+>>>> +            nvmet_pr_unreg_except_hostid(pr, &ctrl->hostid);
+>>>> +            return nvmet_pr_create_new_resv(pr, original_rtype,
+>>>> +                    rtype, reg);
+>>>> +        }
+>>>> +        return nvmet_pr_unreg_by_prkey(pr, le64_to_cpu(d->prkey),
+>>>> +                &ctrl->hostid);
+>>>> +    }
+>>>> +
+>>>> +    if (holder == reg) {
+>>>> +        status = nvmet_pr_update_holder_rtype(pr, holder, rtype);
+>>>> +        if (status)
+>>>> +            return status;
+>>>> +        if (original_rtype != rtype)
+>>>> +            nvmet_pr_send_resv_released(pr, &reg->hostid);
+>>>> +        return status;
+>>>> +    }
+>>>> +
+>>>> +    if (le64_to_cpu(d->prkey) == holder->rkey) {
+>>>> +        status = nvmet_pr_unreg_by_prkey_except_hostid(pr,
+>>>> +                le64_to_cpu(d->prkey), &ctrl->hostid);
+>>>> +        if (status)
+>>>> +            return status;
+>>>> +        return nvmet_pr_create_new_resv(pr, original_rtype, rtype, 
+>>>> reg);
+>>>> +    }
+>>>> +
+>>>> +    if (le64_to_cpu(d->prkey))
+>>>> +        return nvmet_pr_unreg_by_prkey(pr, le64_to_cpu(d->prkey),
+>>>> +                &ctrl->hostid);
+>>>> +    return NVME_SC_INVALID_FIELD | NVME_SC_DNR;
+>>>> +}
+>>>> +
+>>>> +static u16 __nvmet_execute_pr_acquire(struct nvmet_req *req,
+>>>> +                      struct nvmet_pr_registrant *reg,
+>>>> +                      u8 acquire_act,
+>>>> +                      u8 rtype,
+>>>> +                      struct nvmet_pr_acquire_data *d)
+>>>> +{
+>>>> +    u16 status;
+>>>> +
+>>>> +    switch (acquire_act) {
+>>>> +    case NVME_PR_ACQUIRE_ACT_ACQUIRE:
+>>>> +        status = nvmet_pr_acquire(req, reg, rtype);
+>>>> +        goto out;
+>>>> +    case NVME_PR_ACQUIRE_ACT_PREEMPT:
+>>>> +        status = nvmet_pr_preempt(req, reg, rtype, d);
+>>>> +        goto inc_gen;
+>>>> +    case NVME_PR_ACQUIRE_ACT_PREEMPT_AND_ABORT:
+>>>> +        status = nvmet_pr_preempt(req, reg, rtype, d);
+>>>> +        goto inc_gen;
+>>>> +    default:
+>>>> +        req->error_loc = offsetof(struct nvme_common_command, cdw10);
+>>>> +        status = NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
+>>>> +        goto out;
+>>>> +    }
+>>>> +inc_gen:
+>>>> +    if (!status)
+>>>> +        atomic_inc(&req->ns->pr.generation);
+>>>> +out:
+>>>> +    return status;
+>>>> +}
+>>>> +
+>>>> +static void nvmet_execute_pr_acquire(struct nvmet_req *req)
+>>>> +{
+>>>> +    u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10);
+>>>> +    bool ignore_key = (bool)((cdw10 >> 3) & 1); /* Ignore existing 
+>>>> key, bit 03 */
+>>>> +    u8 rtype = (u8)((cdw10 >> 8) & 0xff); /* Reservation type, bit 
+>>>> 15:08 */
+>>>> +    u8 acquire_act = cdw10 & 0x07; /* Reservation acquire action, 
+>>>> bit 02:00 */
+>>>> +    struct nvmet_ctrl *ctrl = req->sq->ctrl;
+>>>> +    struct nvmet_pr_acquire_data *d = NULL;
+>>>> +    struct nvmet_pr *pr = &req->ns->pr;
+>>>> +    struct nvmet_pr_registrant *reg;
+>>>> +    u16 status = NVME_SC_SUCCESS;
+>>>> +
+>>>> +    if (ignore_key) {
+>>>> +        status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
+>>>> +        goto out;
+>>>> +    }
+>>>> +
+>>>> +    d = kmalloc(sizeof(*d), GFP_KERNEL);
+>>>> +    if (!d) {
+>>>> +        status = NVME_SC_INTERNAL;
+>>>> +        goto out;
+>>>> +    }
+>>>> +
+>>>> +    status = nvmet_copy_from_sgl(req, 0, d, sizeof(*d));
+>>>> +    if (status)
+>>>> +        goto free_data;
+>>>> +
+>>>> +    status = NVME_SC_RESERVATION_CONFLICT | NVME_SC_DNR;
+>>>> +    mutex_lock(&pr->pr_lock);
+>>>> +    list_for_each_entry_rcu(reg, &pr->registrant_list, entry) {
+>>>> +        if (uuid_equal(&reg->hostid, &ctrl->hostid) &&
+>>>> +            reg->rkey == le64_to_cpu(d->crkey)) {
+>>>> +            status = __nvmet_execute_pr_acquire(req, reg,
+>>>> +                    acquire_act, rtype, d);
+>>>> +            break;
+>>>> +        }
+>>>> +    }
+>>>> +    mutex_unlock(&pr->pr_lock);
+>>>> +
+>>>> +free_data:
+>>>> +    kfree(d);
+>>>> +out:
+>>>> +    nvmet_req_complete(req, status);
+>>>> +}
+>>>> +
+>>>> +static u16 nvmet_pr_release(struct nvmet_req *req,
+>>>> +                struct nvmet_pr_registrant *reg,
+>>>> +                u8 rtype)
+>>>> +{
+>>>> +    struct nvmet_pr *pr = &req->ns->pr;
+>>>> +    struct nvmet_pr_registrant *holder;
+>>>> +    u8 original_rtype;
+>>>> +
+>>>> +    holder = rcu_dereference_protected(pr->holder,
+>>>> +            lockdep_is_held(&pr->pr_lock));
+>>>> +    if (!holder || reg != holder)
+>>>> +        return NVME_SC_SUCCESS;
+>>>> +
+>>>> +    original_rtype = holder->rtype;
+>>>> +    if (original_rtype != rtype)
+>>>> +        return NVME_SC_RESERVATION_CONFLICT | NVME_SC_DNR;
+>>>> +
+>>>> +    rcu_assign_pointer(pr->holder, NULL);
+>>>
+>>> synchronize_rcu ?
+>>>
+>>>> +
+>>>> +    if (original_rtype != NVME_PR_WRITE_EXCLUSIVE &&
+>>>> +        original_rtype != NVME_PR_EXCLUSIVE_ACCESS)
+>>>> +        nvmet_pr_send_resv_released(pr, &reg->hostid);
+>>>> +
+>>>> +    return NVME_SC_SUCCESS;
+>>>> +}
+>>>> +
+>>>> +static void nvmet_pr_clear(struct nvmet_req *req)
+>>>> +{
+>>>> +    struct nvmet_pr *pr = &req->ns->pr;
+>>>> +    struct nvmet_pr_registrant *reg;
+>>>> +    struct nvmet_pr_registrant *tmp;
+>>>> +
+>>>
+>>> lockdep_assert_held ?
+>> OK
+>>>
+>>>> +    list_for_each_entry_safe(reg, tmp, &pr->registrant_list, entry) {
+>>>> +        list_del_rcu(&reg->entry);
+>>>
+>>> Now registrant_list is an rculist ? I'm not following the logic here.
+>>>
+>> Yes
+>>>> +        if (!uuid_equal(&req->sq->ctrl->hostid, &reg->hostid))
+>>>> +            nvmet_pr_send_resv_preempted(pr, &reg->hostid);
+>>>> +        kfree_rcu(reg, rcu);
+>>>
+>>> Why are you calling kfree_rcu ?
+>>>
+>>>> +    }
+>>>> +    rcu_assign_pointer(pr->holder, NULL);
+>>>
+>>> synchronize_rcu() ?
+>>>
+>>>> +
+>>>> +    atomic_inc(&pr->generation);
+>>>> +}
+>>>
+>>> ...
+>>>
+>>> I'm stopping here, I think you want to either sort out or explain how
+>>> you are managing pr, pr->holder, pr->registrant_list etc. It is
+>>> difficult for me to follow and make sense of it.
+>>
+>> Hi Sagi,
+>>
+>>      Thank you for the careful review.  My bad, I'm not very familiar 
+>> with RCU, I wasn't aware
+>>
+>> of the many restrictions involved.I will do a deep research on RCU to 
+>> see what is correct to do.
+>>
+>>      I use pr->pr_lock to protect pr->registrant_list and pr->holder 
+>> writing, and both of holder
+>>
+>> and registrant_list are rcu protected, so they can be read lightly in 
+>> nvmet_pr_check_cmd_access.
+>
+> Can you please explain where are the write side and read side critical
+> sections for the registrant_list and where exactly a dereference occurs
+> that is synchronized via rcu and is _not_ protected with a mutex?
+>
+1. write:
 
-nvme0n1: Read(0x2), LBA Out of Range (sct 0x0 / sc 0x80) DNR cdw10=0x0 cdw11=0x1
-        cdw12=0x70000 cdw13=0x0 cdw14=0x0 cdw15=0x0
+     1) executing register、acquire、release commands.
 
-Add a helper function nvme_log_err_passthru() which allows us to log
-error for passthru commands by decoding cdw10-cdw15 values of nvme
-command.
+     2）disabling namespace in nvmet_pr_exit_ns().
 
-Add a new sysfs attr passthru_err_log_enabled that allows user to conditionally
-enable passthrough command logging for either passthrough Admin commands sent to
-the controller or passthrough IO commands sent to a namespace.
+When doing above, I will use mutex pr_lock to protect holder and
 
-By default, passthrough error logging is disabled.
+registrant_list both, because there are multi writers.
 
-To enable passthrough admin error logging:
-        echo 1 > /sys/class/nvme/nvme0/passthru_err_log_enabled
+I use rcu_dereference_protected to get holder if locked pr_lock.
 
-To disable passthrough admin error logging:
-        echo 0 > /sys/class/nvme/nvme0/passthru_err_log_enabled
 
-To enable passthrough io error logging:
-        echo 1 > /sys/class/nvme/nvme0/nvme0n1/passthru_err_log_enabled
+2. read:
 
-To disable passthrough io error logging:
-        echo 0 > /sys/class/nvme/nvme0/nvme0n1/passthru_err_log_enabled
+     1) executing report command, nvmet_execute_pr_report().
 
-Signed-off-by: Alan Adamson <alan.adamson@oracle.com>
-[kch] fix sevaral nits and trim down code, details in cover-letter.
-Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
----
- drivers/nvme/host/core.c  | 59 +++++++++++++++++++++++++++++++++++----
- drivers/nvme/host/nvme.h  |  3 +-
- drivers/nvme/host/sysfs.c | 57 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 112 insertions(+), 7 deletions(-)
+     2) checking admin and IO command access, nvmet_pr_check_cmd_access().
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 85ab0fcf9e88..76bf72e4b2ff 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -338,6 +338,30 @@ static void nvme_log_error(struct request *req)
- 			   nr->status & NVME_SC_DNR  ? "DNR "  : "");
- }
- 
-+static void nvme_log_err_passthru(struct request *req)
-+{
-+	struct nvme_ns *ns = req->q->queuedata;
-+	struct nvme_request *nr = nvme_req(req);
-+
-+	pr_err_ratelimited("%s: %s(0x%x), %s (sct 0x%x / sc 0x%x) %s%s"
-+		"cdw10=0x%x cdw11=0x%x cdw12=0x%x cdw13=0x%x cdw14=0x%x cdw15=0x%x\n",
-+		ns ? ns->disk->disk_name : dev_name(nr->ctrl->device),
-+		ns ? nvme_get_opcode_str(nr->cmd->common.opcode) :
-+		     nvme_get_admin_opcode_str(nr->cmd->common.opcode),
-+		nr->cmd->common.opcode,
-+		nvme_get_error_status_str(nr->status),
-+		nr->status >> 8 & 7,	/* Status Code Type */
-+		nr->status & 0xff,	/* Status Code */
-+		nr->status & NVME_SC_MORE ? "MORE " : "",
-+		nr->status & NVME_SC_DNR  ? "DNR "  : "",
-+		nr->cmd->common.cdw10,
-+		nr->cmd->common.cdw11,
-+		nr->cmd->common.cdw12,
-+		nr->cmd->common.cdw13,
-+		nr->cmd->common.cdw14,
-+		nr->cmd->common.cdw14);
-+}
-+
- enum nvme_disposition {
- 	COMPLETE,
- 	RETRY,
-@@ -385,8 +409,12 @@ static inline void nvme_end_req(struct request *req)
- {
- 	blk_status_t status = nvme_error_status(nvme_req(req)->status);
- 
--	if (unlikely(nvme_req(req)->status && !(req->rq_flags & RQF_QUIET)))
--		nvme_log_error(req);
-+	if (unlikely(nvme_req(req)->status && !(req->rq_flags & RQF_QUIET))) {
-+		if (blk_rq_is_passthrough(req))
-+			nvme_log_err_passthru(req);
-+		else
-+			nvme_log_error(req);
-+	}
- 	nvme_end_req_zoned(req);
- 	nvme_trace_bio_complete(req);
- 	if (req->cmd_flags & REQ_NVME_MPATH)
-@@ -679,10 +707,21 @@ static inline void nvme_clear_nvme_request(struct request *req)
- /* initialize a passthrough request */
- void nvme_init_request(struct request *req, struct nvme_command *cmd)
- {
--	if (req->q->queuedata)
-+	struct nvme_request *nr = nvme_req(req);
-+	bool logging_enabled;
-+
-+	if (req->q->queuedata) {
-+		struct nvme_ns *ns = req->q->disk->private_data;
-+
-+		logging_enabled = ns->passthru_err_log_enabled;
- 		req->timeout = NVME_IO_TIMEOUT;
--	else /* no queuedata implies admin queue */
-+	} else { /* no queuedata implies admin queue */
-+		logging_enabled = nr->ctrl->passthru_err_log_enabled;
- 		req->timeout = NVME_ADMIN_TIMEOUT;
-+	}
-+
-+	if (!logging_enabled)
-+		req->rq_flags |= RQF_QUIET;
- 
- 	/* passthru commands should let the driver set the SGL flags */
- 	cmd->common.flags &= ~NVME_CMD_SGL_ALL;
-@@ -691,8 +730,7 @@ void nvme_init_request(struct request *req, struct nvme_command *cmd)
- 	if (req->mq_hctx->type == HCTX_TYPE_POLL)
- 		req->cmd_flags |= REQ_POLLED;
- 	nvme_clear_nvme_request(req);
--	req->rq_flags |= RQF_QUIET;
--	memcpy(nvme_req(req)->cmd, cmd, sizeof(*cmd));
-+	memcpy(nr->cmd, cmd, sizeof(*cmd));
- }
- EXPORT_SYMBOL_GPL(nvme_init_request);
- 
-@@ -3651,6 +3689,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
- 
- 	ns->disk = disk;
- 	ns->queue = disk->queue;
-+	ns->passthru_err_log_enabled = false;
- 
- 	if (ctrl->opts && ctrl->opts->data_digest)
- 		blk_queue_flag_set(QUEUE_FLAG_STABLE_WRITES, ns->queue);
-@@ -3714,6 +3753,13 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
- 	nvme_mpath_add_disk(ns, info->anagrpid);
- 	nvme_fault_inject_init(&ns->fault_inject, ns->disk->disk_name);
- 
-+	/*
-+	 * Set ns->disk->device->driver_data to ns so we can access
-+	 * ns->logging_enabled in nvme_passthru_err_log_enabled_store() and
-+	 * nvme_passthru_err_log_enabled_show().
-+	 */
-+	dev_set_drvdata(disk_to_dev(ns->disk), ns);
-+
- 	return;
- 
-  out_cleanup_ns_from_list:
-@@ -4514,6 +4560,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	int ret;
- 
- 	WRITE_ONCE(ctrl->state, NVME_CTRL_NEW);
-+	ctrl->passthru_err_log_enabled = false;
- 	clear_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
- 	spin_lock_init(&ctrl->lock);
- 	mutex_init(&ctrl->scan_lock);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 030c80818240..7f9f2a7472e1 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -263,6 +263,7 @@ enum nvme_ctrl_flags {
- struct nvme_ctrl {
- 	bool comp_seen;
- 	bool identified;
-+	bool passthru_err_log_enabled;
- 	enum nvme_ctrl_state state;
- 	spinlock_t lock;
- 	struct mutex scan_lock;
-@@ -522,7 +523,7 @@ struct nvme_ns {
- 	struct device		cdev_device;
- 
- 	struct nvme_fault_inject fault_inject;
--
-+	bool			passthru_err_log_enabled;
- };
- 
- /* NVMe ns supports metadata actions by the controller (generate/strip) */
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index 754e91111042..c038531a5a06 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -35,6 +35,61 @@ static ssize_t nvme_sysfs_rescan(struct device *dev,
- }
- static DEVICE_ATTR(rescan_controller, S_IWUSR, NULL, nvme_sysfs_rescan);
- 
-+static ssize_t nvme_adm_passthru_err_log_enabled_show(struct device *dev,
-+		struct device_attribute *attr, char *buf)
-+{
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-+
-+	return sysfs_emit(buf, ctrl->passthru_err_log_enabled ? "on" : "off");
-+}
-+
-+static ssize_t nvme_adm_passthru_err_log_enabled_store(struct device *dev,
-+		struct device_attribute *attr, const char *buf, size_t count)
-+{
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-+	int err;
-+	bool passthru_err_log_enabled;
-+
-+	err = kstrtobool(buf, &passthru_err_log_enabled);
-+	if (err)
-+		return -EINVAL;
-+
-+	ctrl->passthru_err_log_enabled = passthru_err_log_enabled;
-+
-+	return count;
-+}
-+
-+static ssize_t nvme_io_passthru_err_log_enabled_show(struct device *dev,
-+		struct device_attribute *attr, char *buf)
-+{
-+	struct nvme_ns *n = dev_get_drvdata(dev);
-+
-+	return sysfs_emit(buf, n->passthru_err_log_enabled ? "on\n" : "off\n");
-+}
-+
-+static ssize_t nvme_io_passthru_err_log_enabled_store(struct device *dev,
-+		struct device_attribute *attr, const char *buf, size_t count)
-+{
-+	struct nvme_ns *ns = dev_get_drvdata(dev);
-+	int err;
-+	bool passthru_err_log_enabled;
-+
-+	err = kstrtobool(buf, &passthru_err_log_enabled);
-+	if (err)
-+		return -EINVAL;
-+	ns->passthru_err_log_enabled = passthru_err_log_enabled;
-+
-+	return count;
-+}
-+
-+static struct device_attribute dev_attr_adm_passthru_err_log_enabled = \
-+	__ATTR(passthru_err_log_enabled, S_IRUGO | S_IWUSR, \
-+	nvme_adm_passthru_err_log_enabled_show, nvme_adm_passthru_err_log_enabled_store);
-+
-+static struct device_attribute dev_attr_io_passthru_err_log_enabled = \
-+	__ATTR(passthru_err_log_enabled, S_IRUGO | S_IWUSR, \
-+	nvme_io_passthru_err_log_enabled_show, nvme_io_passthru_err_log_enabled_store);
-+
- static inline struct nvme_ns_head *dev_to_ns_head(struct device *dev)
- {
- 	struct gendisk *disk = dev_to_disk(dev);
-@@ -208,6 +263,7 @@ static struct attribute *nvme_ns_attrs[] = {
- 	&dev_attr_ana_grpid.attr,
- 	&dev_attr_ana_state.attr,
- #endif
-+	&dev_attr_io_passthru_err_log_enabled.attr,
- 	NULL,
- };
- 
-@@ -655,6 +711,7 @@ static struct attribute *nvme_dev_attrs[] = {
- #ifdef CONFIG_NVME_TCP_TLS
- 	&dev_attr_tls_key.attr,
- #endif
-+	&dev_attr_adm_passthru_err_log_enabled.attr,
- 	NULL
- };
- 
--- 
-2.39.3
+When doing above, I use rcu_read_lock to read holder and registrant_list
+
+lightly.
+
+>>
+>>      I was misled by the __dev_exception_clean() into thinking that 
+>> if I added a mutex lock, I
+>>
+>> wouldn't have to use the rculist marcros anymore, I will change this 
+>> in v5, sorry for the trouble...
+>>
+>>      And I still dont know why we should call synchronize_rcu after 
+>> rcu_assign_pointer, if it is for
+>>
+>> safely kfree(reg), the kfree_rcu can ensure that. Could you plz 
+>> expain that Sagi? Thanks.
+>
+> Well, kfree_rcu does more than just wait the rcu_grace period, it
+> actually batches free in a workqueue context and drains it 
+> asynchronously. First of all, I think its an overkill and second,
+> there is no reason to defer the free to a different context given that
+> this is not the data path.
+
+What I've known is that we can not use synchronize_rcu() in mutex lock,
+
+so I use kfree_rcu to free reg asynchronously.
+
+Now it seems that it's not necessary if this is not the data path.
+
+I will change this in v6, you can skip v5.
+
+Best regards,
+
+Guixin Liu
 
 
