@@ -4,63 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F1936C47258
-	for <linux-nvme@archiver.kernel.org>; Wed, 31 Jan 2024 17:36:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DB675C47258
+	for <linux-nvme@archiver.kernel.org>; Wed, 31 Jan 2024 17:44:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VURtLsCsheoHqUG/IiAQsbhuE3CnqnAMdWrv2Tw6ats=; b=E5V0qrAGVcxGXF+6LONRPKg40M
-	1n/ab4GkJU+fNCTXILz6aZBHFYFi8jgbTao1Gu5Zm08ITl8KG4IrqH0eX2PeqYHXCFMuC/WdB+mTM
-	nsaUi/soR5cetCWPpn2mR+C6GkfP7unUAOkuSu7KWOTlB7TPq+IqkCpCaxXww0woS4ejiG/e0wBUF
-	dvh6gUgQYzxj6xxdJfBjAMpis8tZ5h/Z+sb25mwyr9sX1QauNGLFh8rjsAJIygy4Ik/qWLKUDt8Mt
-	rl9ibCwqcl/1SdDRS4+6RSAOrApTEwyj9GHaaGfVM+DDQtLMsg7Eobit4xy7f6tENnDVZxwgLt8Gy
-	Iw5FQSTA==;
+	bh=BmeUn7VDiq63Gkbx4wOoF1mT1K+eGEhEhLD1Ky6JPpY=; b=cNJ5FlE+poI4xLUgtk/5TUQX3K
+	/dgIS/gOwHIcd4fT2FLplCRxsqx05zZqQh8sDc5KLkfRz3FowLvS4GZKxLXgUuw5Ax8eEu6EiHj1v
+	Jn+zsKjAy4OUb1wR7vuDE7hgpttllKvIaQL0evIWYc/Hb91Od1un8HHBT+cm4JXdPSnU1EOlMyVsu
+	lAC0vgxLoMKoMGLWX3Qz+XEINJjsKOOo6WdzUofZIY6dW9WSOytKNp4wH8cssfRz1658SLtQVFZt8
+	cac3FhCW6l2rzR86ulaRbkwsx7pLEgF4PEBj2k0laKy2GlpE/S99f6m2O1aRu3kf3ZeRVpDZNl+Zw
+	0B/BQ2Mw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rVEVi-00000004sJH-1rEp;
-	Wed, 31 Jan 2024 17:36:30 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1rVEda-00000004uDm-3lPb;
+	Wed, 31 Jan 2024 17:44:38 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rVEVd-00000004sGO-3Vjm
+	id 1rVEdY-00000004uC1-0Q8R
 	for linux-nvme@lists.infradead.org;
-	Wed, 31 Jan 2024 17:36:28 +0000
+	Wed, 31 Jan 2024 17:44:37 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 69DDD617B5;
-	Wed, 31 Jan 2024 17:36:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FAC5C433F1;
-	Wed, 31 Jan 2024 17:36:23 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id DB852CE1DC0;
+	Wed, 31 Jan 2024 17:44:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9138DC433C7;
+	Wed, 31 Jan 2024 17:44:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706722584;
-	bh=JEiHDHiKLc9mO49XTL/YjxeNXWJjtGoFC/K7RPv0yrE=;
+	s=k20201202; t=1706723072;
+	bh=IhbssACKJ6bbGjEfKqH6OrV56/EZX7aHwtSnjlNeiN0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gV9Byq1vBTrvzrjy+bUIkeMsC6BH/CCtrOTL/+Gwoxto58u0M/lUE/Z6yogIQEacB
-	 xoAuix4c9fujK3OLD8u9Pr8LeSz5UnPilVYSPIhuXqhHO13vVAlA4CpDM/trfYQAzn
-	 7khdHDYRrkMLGBXPQx2i8XkgIm2TMEaCX4ZxPpfL3a78Z6Ctgs0Q5oCXwXRbpaeQZt
-	 QxHXBcfomQZhLCzbV0+JJ8mW5Z6yfd7NlPiFBLFmGmxfXTDRAJHUBELGCMLiwn1J1f
-	 KgeU/E7VrFW04Y14asD0HkKB3/pxfZinJsMpDtzDHtY99TwUjTWvf45orVoByjFLag
-	 IHW7x4osTs7WQ==
-Date: Wed, 31 Jan 2024 10:36:21 -0700
+	b=Hm5vMz/MJTAoRVewFJIuWPPK3SEIUgWpLRsLeS6t1dP3MMaFWr/EtlBAG7sYR5kQc
+	 w8AARUimTrqij9x3BnxbCdBnZZ3RTirow1QvoLy3z/RLOtcHsQ+Hukh9NsJQWRUKy9
+	 WWxEO0P1sorKfe4jTzuMYiPJ72FM1xjBeMAiybDQtQ+tCBuzWg1Rg5ZtB+7UQAx+LO
+	 Fhy01PmxhxRVjNe4tMrAZR0suHXdfFqr/3OTJcqkis1hkbmr0MbtUEk3yxQE6y+YSi
+	 TB9SPReM4ALamtWTfaZiVPw5+68Nxt+9dqcNrbLcbx0YpFnaiYqu2JjbLjB+RNUlpC
+	 /cwodAMIROWkg==
+Date: Wed, 31 Jan 2024 10:44:29 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: Guixin Liu <kanie@linux.alibaba.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
-	"axboe@kernel.dk" <axboe@kernel.dk>
-Subject: Re: [PATCH 2/3] nvme: parse dsm command detailly when tracing
-Message-ID: <ZbqFFRmZJKX8FkOU@kbusch-mbp.dhcp.thefacebook.com>
-References: <20240129082256.63239-1-kanie@linux.alibaba.com>
- <20240129082256.63239-3-kanie@linux.alibaba.com>
- <37d84d79-6be4-47dc-9f3f-09bb9c5cae82@nvidia.com>
+To: Kanchan Joshi <joshi.k@samsung.com>
+Cc: axboe@kernel.dk, hch@lst.de, martin.petersen@oracle.com,
+	sagi@grimberg.me, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, gost.dev@samsung.com
+Subject: Re: [PATCH 0/3] Block integrity with flexibile-offset PI
+Message-ID: <ZbqG_YswNw1OL6ke@kbusch-mbp.dhcp.thefacebook.com>
+References: <CGME20240130171918epcas5p3cd0e3e9c7fb9a74c8464b06779c378ea@epcas5p3.samsung.com>
+ <20240130171206.4845-1-joshi.k@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <37d84d79-6be4-47dc-9f3f-09bb9c5cae82@nvidia.com>
+In-Reply-To: <20240130171206.4845-1-joshi.k@samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240131_093626_019856_1734410E 
-X-CRM114-Status: GOOD (  19.42  )
+X-CRM114-CacheID: sfid-20240131_094436_329918_214B67CD 
+X-CRM114-Status: GOOD (  11.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,48 +73,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jan 29, 2024 at 11:09:38AM +0000, Chaitanya Kulkarni wrote:
-> On 1/29/24 00:22, Guixin Liu wrote:
-> > Add detailed parse of dsm command to make the trace log more
-> > consistent and human-readable.
-> >
-> > Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
-> > ---
-> >   drivers/nvme/host/trace.c | 8 +++++---
-> >   1 file changed, 5 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/nvme/host/trace.c b/drivers/nvme/host/trace.c
-> > index 95572c85b22a..b383d51c1a0c 100644
-> > --- a/drivers/nvme/host/trace.c
-> > +++ b/drivers/nvme/host/trace.c
-> > @@ -153,10 +153,12 @@ static const char *nvme_trace_read_write(struct trace_seq *p, u8 *cdw10)
-> >   static const char *nvme_trace_dsm(struct trace_seq *p, u8 *cdw10)
-> >   {
-> >   	const char *ret = trace_seq_buffer_ptr(p);
-> > +	u8 nr = cdw10[0];
-> > +	u8 idr = cdw10[4] & 0x1;
-> > +	u8 idw = (cdw10[4] >> 1) & 0x1;
-> > +	u8 ad = (cdw10[4] >> 2) & 0x1;
-> >   
-> > -	trace_seq_printf(p, "nr=%u, attributes=%u",
-> > -			 get_unaligned_le32(cdw10),
-> > -			 get_unaligned_le32(cdw10 + 4));
-> > +	trace_seq_printf(p, "nr=%u, idr=%u, idw=%u, ad=%u", nr, idr, idw, ad);
-> >   	trace_seq_putc(p, 0);
-> >   
-> >   	return ret;
+On Tue, Jan 30, 2024 at 10:42:03PM +0530, Kanchan Joshi wrote:
+> The block integrity subsystem can only work with PI placed in the first
+> bytes of the metadata buffer.
 > 
-> I'm really not sure if we need to decode idw/idr as I've not seen those 
-> fields so far
-> used by anybody maybe I'm not aware here, but can you please provide a 
-> usecase where
-> you need these fields to be decoded ?
+> The series makes block-integrity support the flexible placement of PI.
+> And changes NVMe driver to make use of the new capability.
+> 
+> This helps to
+> (i) enable the more common case for NVMe (PI in last bytes is the norm)
+> (ii) reduce nop profile users (tried by Jens recently [1]).
+> 
+> /* For NS 4K+16b, 8b PI, last bytes */
+> Before:
+> # cat /sys/block/nvme0n1/integrity/format
+> nop
+> 
+> After:
+> # cat /sys/block/nvme0n1/integrity/format
+> T10-DIF-TYPE1-CRC
 
-It's only reachable through passthrough. I'm not aware of a production
-use case, but I know there are test cases that do muck with idr/idw
-attributes.
+Your series looks good to me.
 
-I'm generally not a fan of decoding complex fields because it's not
-forward compatible: a newer drive in an older linux can't trace command
-bits that are currently reserved.
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+
+While reviewing, I realized O_DIRECT with DMA aligned offsets smaller
+than block sized offsets can create segments that break PI iterations.
+Not your problem, just mentioning it because I noticed ... and since I
+introduced DMA aligned offsets, I should probably take a shot at fixing
+that.
 
