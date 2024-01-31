@@ -4,109 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B20E2C47258
-	for <linux-nvme@archiver.kernel.org>; Wed, 31 Jan 2024 05:44:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF845C48285
+	for <linux-nvme@archiver.kernel.org>; Wed, 31 Jan 2024 06:08:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=oQzt6DSnh8HNFaDmjperdqEls3Dn86BsgAXHZnqrEDk=; b=dZ9dTewyJVl6dtZHcsF6qzk1yf
-	QNemFkloG3JOVK72mnfsvHaCeTHQnZPWFhYeTfeO6gL6Ef4Wpd0ewkgp+u11o1FmczjpY4VQ7pH1b
-	MlikbibNqwwSoK23OkXd/0wZ9bM7KG88YD55P3NrF6aSiyUNtxb1uqkFIGuUr9BrTKbvxjliUASwC
-	dBu4jFwIFHqekO2e2oR6Zofe6nWoIh4wgmVhtAhBp28+qLKFzNbdXkPgC37QNAT5d9EdK9sgV7wFN
-	Bd+4xU+4H+j8Ef8VrSnqTTZGIOLZcpJK59x/TCtCHCVAgE9KX++b87tzS9LBxcxZ/wAETgE0a83qK
-	5t4NM+nA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ry8VwGeW1l0TJPzZG5dGf+7vXag9EsH6H13WgCnAcdE=; b=Gj/fdh3dylv7Yv2MzcrF1HDpz5
+	jxpV1TGZFypohye1LL4bO5XTvcgc2kEOQDzBiPdSlx6djW9xh6VQAeASXmZMEIqHYFqiC4eN6iILp
+	LWhJk3v9ca+eBs952UzhQEgFLukN+itBP3bDnTcb+NrX2lY1MjQxHosFxHPqhN5BpWuVpY55V1eaR
+	7KToWOQo5Fy57c7QtYBYVHBOxw1faVA2WOqJRdhJZpetERXTN1A+CPqYkN+zZuWrEDVc2EmBJemp6
+	kBDnDN7D/UlarM1u8PG8dfgLsRABU6OU1YfodjCdYjD19RR7SU6mGmlybk4cQ/GDOGWV7EBjS4OIB
+	Sz8IsS1w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rV3OH-00000001Yti-2DsT;
-	Wed, 31 Jan 2024 05:44:05 +0000
-Received: from mail-bn7nam10on20601.outbound.protection.outlook.com ([2a01:111:f403:2009::601] helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+	id 1rV3lq-00000001bx7-3DSq;
+	Wed, 31 Jan 2024 06:08:26 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rV3OD-00000001Ys9-3vgI
+	id 1rV3ln-00000001bwd-1Kxn
 	for linux-nvme@lists.infradead.org;
-	Wed, 31 Jan 2024 05:44:03 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bR+WBvwmOKZlerBLgHvrT486BdTPU/Zo33mrOWQX8zZUiUIoqhxG+V+dpKUbRKuG6F0vmQKTYYUoX+F0VMYSOkd8KfSUQ1WrRVQqDX5oFy8fIwV3/uMuP6j+s1ikZCLFioOn3LijU8l/X3oT5gO86vNZ5pGJpkxXrGiU8NAbEw7Gn5eRN/OixsEuKUtlkDxkhMzpQL1F0U2BzyvGxV66B0K3TxIjASdN/BuxWbMLCrAHZYSjEtLCXLB+XRhT2uQiExTPLxhUCl4igABzhgb+bFtegyIxs3huTvZ5697xbmHqMd2dNI7hJCPhSu0FVbQ/FutYhraBjC+QYiV3D/JVqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oQzt6DSnh8HNFaDmjperdqEls3Dn86BsgAXHZnqrEDk=;
- b=f3pFSSpzO9CDd6K8wWBMj2wt1n2DBfBAmMtbFUUfV4Zlla6VwHgONkkJQkqJpcOtBJOrVn5LUyoUlNFelKDcGGbK4sISWc73jdFb/fPL4NpFjhlWP2kwZMBfNk0cfTIt1Kyh4D7yvEkxJCPKMQYsbsSb5YxDpy1kH8BMEzPgHuTXS68W8spgd11bmoT9rbxdm8VgXs/9Cn02tw4/NfNwgQnbrOXwViMS9eDrmKN8/ghAm/Jol4URtbcahMEY6U+y0CT42slxHQ+4IO0PYvTUQsIcdEuKLfbufzzldguW9BMAF4ZnZ0qoxxmK0M4Ijm9bVaS3Zea28Me4DebkZ2tI8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=suse.de smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oQzt6DSnh8HNFaDmjperdqEls3Dn86BsgAXHZnqrEDk=;
- b=m/l2Uad4JC/kCOnnCyKe+oobIBG9Ua8Xmb9p7UDCqkTmBdXHqyFpqqBgiXh7SmLhlxRThMRqEAw/NdCH27+oZD8YCORziH2p00NgFO4JEqbzvzy3Qy29kPbTqOqaJd1dIcw8X2PQfB4tCugBchCysqa5YrbhnwJEOGzNGJZTeNk8Dfq/mCofSCO/8ZCPci5OuI80p/fuDbHrtQxHzF2fnIg1QkKsSbYryMVYLi06xIak6OW6owylCS8MD74ZLWFp3UprPs0uE7GjgFYmDQ3ab1NOKpO9FXLG5UXAsJ32jnJx0971jYvpKPeHFAAb3mug0fZWx/jwtlYQYJG1Y0tWLQ==
-Received: from DS7PR03CA0309.namprd03.prod.outlook.com (2603:10b6:8:2b::7) by
- PH0PR12MB7885.namprd12.prod.outlook.com (2603:10b6:510:28f::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7228.34; Wed, 31 Jan 2024 05:43:55 +0000
-Received: from SN1PEPF00026367.namprd02.prod.outlook.com
- (2603:10b6:8:2b:cafe::e6) by DS7PR03CA0309.outlook.office365.com
- (2603:10b6:8:2b::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.24 via Frontend
- Transport; Wed, 31 Jan 2024 05:43:54 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- SN1PEPF00026367.mail.protection.outlook.com (10.167.241.132) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7249.19 via Frontend Transport; Wed, 31 Jan 2024 05:43:54 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Tue, 30 Jan
- 2024 21:43:42 -0800
-Received: from dev.nvidia.com (10.126.230.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Tue, 30 Jan
- 2024 21:43:41 -0800
-From: Chaitanya Kulkarni <kch@nvidia.com>
-To: <hare@suse.de>
-CC: <kbusch@kernel.org>, <hch@lst.de>, <sagi@grimberg.me>,
-	<linux-nvme@lists.infradead.org>, Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH] nvme-common: add module description
-Date: Tue, 30 Jan 2024 21:43:25 -0800
-Message-ID: <20240131054325.47405-1-kch@nvidia.com>
-X-Mailer: git-send-email 2.40.0
+	Wed, 31 Jan 2024 06:08:24 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 40V5scOK028268;
+	Wed, 31 Jan 2024 06:08:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=ry8VwGeW1l0TJPzZG5dGf+7vXag9EsH6H13WgCnAcdE=;
+ b=oZYeO9Jpd4UucA6sIJoIXHCdNOVibSm6ozXFb2FzqK6gKb9SsK+DQ9y2orVDY1yRDmzA
+ tUKGjDRUxiu/IP2o7Qtml4psEKpDgIXtYksvb5abkPhorp4atrm6LIPFzUu2uNykIrpp
+ nneLkr8JN81Jdi53xpNWcy/wZdy2KIzORcNycaSFnWSY3UqJzSpwx1RZgSc2+4Rrbwsj
+ 8na4B2Bktjs55gccXAbpqsWp82n2i/hLYnSrL1E+NzKdBhqblAw+mZ1D0utfyZTQEOu3
+ u4Q2qvtb/iHGR5g1svneUSikx32QTlF4lLN8Sxu6a7+PQucpzWSiQ/exZOnyrjsuBUM6 2Q== 
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3vyekvtdk2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 31 Jan 2024 06:08:03 +0000
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 40V4COka002195;
+	Wed, 31 Jan 2024 06:08:02 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3vwc5tbw6x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 31 Jan 2024 06:08:02 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 40V67xck25624910
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 31 Jan 2024 06:07:59 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 01ADB2004B;
+	Wed, 31 Jan 2024 06:07:59 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3F4FF20040;
+	Wed, 31 Jan 2024 06:07:57 +0000 (GMT)
+Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.in.ibm.com (unknown [9.109.198.187])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 31 Jan 2024 06:07:57 +0000 (GMT)
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org, gjoyce@linux.ibm.com, nilay@linux.ibm.com
+Subject: [PATCH] nvme-pci: Fix EEH failure on ppc after subsystem reset
+Date: Wed, 31 Jan 2024 11:35:53 +0530
+Message-ID: <20240131060725.740426-1-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.126.230.35]
-X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF00026367:EE_|PH0PR12MB7885:EE_
-X-MS-Office365-Filtering-Correlation-Id: f52ed328-b0f4-4a80-fb16-08dc221f9c70
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pSPwExv38uphgSovc8M9EDnlEvEJJiXpcO3VYvGGZTS6f8JITH6Zse2Efk503CpAa6L97LZPDowG/6Gu0OvgtndmHskWb79eoTl9WLWJmg1b8Q2Z1wqL5LOqBZb5w1Wgx12JTkmCRq+5wdqwrUfbBfbBTH6BSrrCi+Ljywi224vZmCNoPfJDYxfT2MkERu8nZWpceRsupwXpklbM0CPOT3YWsY3X5Me/hXc8KpklmzoAzkuYqo3qfPQKeK5FnYk2HT9wKyiGr+V0dTACsgUB7EQtg6rmwsrSioA3KQZ1vc9vGUrtBobjUKYi18RS4h24FsEi8ezOXvu5Htp0qG+CfgMCjxuzdw7KdVB3tw9wure3pCCCRNjowWfZvtsus/AmQhFVwxzJBIfd5CJSYrT5Rh4spsauqNHYAyrAZUW8LaMpfK+VE+rRkDfi5DAZK8bs3/+GvEQfFgShRD0xEDrlepRaKAwSx+Yq1J/GXDnnEwsHy9t9kjuzltzvyj6t0UiU7dJDI89IJbaFhu5ZCTJHn/4XaHDKdci5WG0Qr959WkvrW0qjilBQD7gyqnOkVKlHdKkn2ONKErFyhlISOHTTiqt+ea1yH3GHUOGFLY9GIWNP+y7/adh93YTihWE/U0CsjnSb5aYZf09o7wm7j8/0If3lGpPgK8QUsbHO6NbUZlaV/vkXHpw2EG6Wkx8Fyw8djr5HmnuE5vXoSihofWHGtFw0hWXkoiZO63s+GeCgc2bmqg6OCbCSv5vwPB1Y//KExDi89qbVMsA1pIlEimMqcXfBvZ+pYY68lH5B8xsNpKk=
-X-Forefront-Antispam-Report: CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230031)(4636009)(136003)(396003)(376002)(346002)(39860400002)(230922051799003)(230273577357003)(230173577357003)(451199024)(1800799012)(82310400011)(186009)(64100799003)(40470700004)(46966006)(36840700001)(83380400001)(41300700001)(47076005)(2616005)(336012)(426003)(16526019)(1076003)(107886003)(26005)(356005)(7636003)(82740400003)(36860700001)(8676002)(8936002)(4326008)(5660300002)(2906002)(478600001)(7696005)(6666004)(54906003)(70206006)(316002)(6916009)(70586007)(36756003)(40480700001)(40460700003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2024 05:43:54.2185
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f52ed328-b0f4-4a80-fb16-08dc221f9c70
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF00026367.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7885
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: MP96xQeHqgzF5D6jxoHZg1Li1r2SsE5V
+X-Proofpoint-GUID: MP96xQeHqgzF5D6jxoHZg1Li1r2SsE5V
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-31_02,2024-01-30_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 bulkscore=0
+ phishscore=0 suspectscore=0 spamscore=0 mlxlogscore=999 mlxscore=0
+ priorityscore=1501 impostorscore=0 lowpriorityscore=0 malwarescore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2401310045
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240130_214402_010163_19699499 
-X-CRM114-Status: UNSURE (   9.53  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240130_220823_613457_54E23CC7 
+X-CRM114-Status: GOOD (  25.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -121,39 +99,97 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add MODULE_DESCRIPTION() in order to remove warnings & get clean build:-
+If the nvme subsyetm reset causes the loss of communication to the nvme
+adapter then EEH could potnetially recover the adapter. The detection of
+comminication loss to the adapter only happens when the nvme driver
+attempts to read an MMIO register.
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/common/nvme-auth.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/common/nvme-keyring.o
+The nvme subsystem reset command writes 0x4E564D65 to NSSR register and
+schedule adapter reset.In the case nvme subsystem reset caused the loss
+of communication to the nvme adapter then either IO timeout event or
+adapter reset handler could detect it. If IO timeout even could detect
+loss of communication then EEH handler is able to recover the
+communication to the adapter. This change was implemented in commit
+651438bb0af5213 ("nvme-pci: Fix EEH failure on ppc"). However if the
+adapter communication loss is detected in nvme reset work handler then
+EEH is unable to successfully finish the adapter recovery.
 
-Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+This patch ensures that,
+- nvme driver reset handler would observer pci channel was offline after
+  a failed MMIO read and avoids marking the controller state to DEAD and
+  thus gives a fair chance to EEH handler to recover the nvme adapter.
+
+- if nvme controller is already in RESETTNG state and pci channel frozen
+  error is detected then  nvme driver pci-error-handler code sends the
+  correct error code (PCI_ERS_RESULT_NEED_RESET) back to the EEH handler
+  so that EEH handler could proceed with the pci slot reset.
+
+[  131.415601] EEH: Recovering PHB#40-PE#10000
+[  131.415619] EEH: PE location: N/A, PHB location: N/A
+[  131.415623] EEH: Frozen PHB#40-PE#10000 detected
+[  131.415627] EEH: Call Trace:
+[  131.415629] EEH: [c000000000051078] __eeh_send_failure_event+0x7c/0x15c
+[  131.415782] EEH: [c000000000049bdc] eeh_dev_check_failure.part.0+0x27c/0x6b0
+[  131.415789] EEH: [c000000000cb665c] nvme_pci_reg_read32+0x78/0x9c
+[  131.415802] EEH: [c000000000ca07f8] nvme_wait_ready+0xa8/0x18c
+[  131.415814] EEH: [c000000000cb7070] nvme_dev_disable+0x368/0x40c
+[  131.415823] EEH: [c000000000cb9970] nvme_reset_work+0x198/0x348
+[  131.415830] EEH: [c00000000017b76c] process_one_work+0x1f0/0x4f4
+[  131.415841] EEH: [c00000000017be2c] worker_thread+0x3bc/0x590
+[  131.415846] EEH: [c00000000018a46c] kthread+0x138/0x140
+[  131.415854] EEH: [c00000000000dd58] start_kernel_thread+0x14/0x18
+[  131.415864] EEH: This PCI device has failed 1 times in the last hour
+[  131.415874] EEH: Notify device drivers to shutdown
+[  131.415882] EEH: Beginning: 'error_detected(IO frozen)'
+[  131.415888] PCI 0040:01:00.0#10000: EEH: Invoking nvme->error_detected
+[  131.415891] nvme nvme1: frozen state error detected, reset controller
+[  131.515358] nvme 0040:01:00.0: enabling device (0000 -> 0002)
+[  131.515778] nvme nvme1: Disabling device after reset failure: -19
+[  131.555336] PCI 0040:01:00.0#10000: EEH: nvme driver reports: 'disconnect'
+[  131.555343] EEH: Finished:'error_detected(IO frozen)'
+[  131.555371] EEH: Unable to recover from failure from PHB#40-PE#10000.
+[  131.555371] Please try reseating or replacing it
+
+Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
 ---
- drivers/nvme/common/auth.c    | 1 +
- drivers/nvme/common/keyring.c | 1 +
- 2 files changed, 2 insertions(+)
+ drivers/nvme/host/pci.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
-index a23ab5c968b9..b707e6b7d263 100644
---- a/drivers/nvme/common/auth.c
-+++ b/drivers/nvme/common/auth.c
-@@ -471,4 +471,5 @@ int nvme_auth_generate_key(u8 *secret, struct nvme_dhchap_key **ret_key)
- }
- EXPORT_SYMBOL_GPL(nvme_auth_generate_key);
- 
-+MODULE_DESCRIPTION("NVMe Authentication framework");
- MODULE_LICENSE("GPL v2");
-diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
-index a5c0431c101c..394c3948e339 100644
---- a/drivers/nvme/common/keyring.c
-+++ b/drivers/nvme/common/keyring.c
-@@ -181,5 +181,6 @@ static void __exit nvme_keyring_exit(void)
- 
- MODULE_LICENSE("GPL v2");
- MODULE_AUTHOR("Hannes Reinecke <hare@suse.de>");
-+MODULE_DESCRIPTION("NVMe TLS Keyring implementation");
- module_init(nvme_keyring_init);
- module_exit(nvme_keyring_exit);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index c1d6357ec98a..a6ba46e727ba 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2776,6 +2776,14 @@ static void nvme_reset_work(struct work_struct *work)
+  out_unlock:
+ 	mutex_unlock(&dev->shutdown_lock);
+  out:
++	/*
++	 * If PCI recovery is ongoing then let it finish first
++	 */
++	if (pci_channel_offline(to_pci_dev(dev->dev))) {
++		dev_warn(dev->ctrl.device, "PCI recovery is ongoing so let it finish\n");
++		return;
++	}
++
+ 	/*
+ 	 * Set state to deleting now to avoid blocking nvme_wait_reset(), which
+ 	 * may be holding this pci_dev's device lock.
+@@ -3295,9 +3303,11 @@ static pci_ers_result_t nvme_error_detected(struct pci_dev *pdev,
+ 	case pci_channel_io_frozen:
+ 		dev_warn(dev->ctrl.device,
+ 			"frozen state error detected, reset controller\n");
+-		if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING)) {
+-			nvme_dev_disable(dev, true);
+-			return PCI_ERS_RESULT_DISCONNECT;
++		if (nvme_ctrl_state(&dev->ctrl) != NVME_CTRL_RESETTING) {
++			if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING)) {
++				nvme_dev_disable(dev, true);
++				return PCI_ERS_RESULT_DISCONNECT;
++			}
+ 		}
+ 		nvme_dev_disable(dev, false);
+ 		return PCI_ERS_RESULT_NEED_RESET;
 -- 
-2.40.0
+2.43.0
 
 
