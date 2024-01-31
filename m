@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37543C47DB3
-	for <linux-nvme@archiver.kernel.org>; Wed, 31 Jan 2024 13:04:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B73E2C47DB3
+	for <linux-nvme@archiver.kernel.org>; Wed, 31 Jan 2024 13:04:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=P7lJeX1MV89nvGvN/Kp1ZllbRc7C3W/7Ktl++U1k1BA=; b=Jh8i0SJ1R9FC11ChFhCvE29n6X
-	3b0vm3QbIXo5hgkJGgRYZ0inoLAday5Gf79DhDCIighvVSC151K0HyKLxSOe4XkCNbvlzuqLrCK6k
-	e4wOOBg6swKRZhXVG7CMaADYIyyGFDFwtgQPz+8XYtAnpQd5t8MyXZJBteWCSSaG3eWDuZ1eAzyCb
-	EWDrD8RUTn9klic/JF1ShvNVHnxfFAtDgGB5usvz4Vntq9LNfV0CBeJnMSdLQgxZvUx3Kl6p17eJJ
-	3NOTPJvMcKu+PUHnbVR6EES9LjfTclqA0gnvZhRzx9d1p8ax2xg50fFNDGRTPBN5EFpw2vwr0FFtD
-	1FPCL7lg==;
+	bh=LZFoBknjyaDiVcyRevDVi5h74a0C6ddm5joTLFDHcus=; b=ZQMc0BIBkaxaTPNUxniHj/Nayr
+	pPpGA4dhb2luT4ne2c02Tap/+kCk1QSnLP67FSBr0skT9mkCDRjhKUCWOjWEs4p/y7y3T6EmagCsm
+	Uzg+adCSNnmOk2ir5hYm0Cqky/G+q2PdK7WJqiAs23woiE+CHkny0NA2xxfLKpOTjvKNFwH2L2orS
+	E15VZfYBG4eMrwkQAYF7GHhN8BeWTQ+D8w9ouHXV2Mv6FAUmcMo55TpFayq7+5NAHvsR8Qjgnrle4
+	Qy5NepHXv1pU+Q67jjMnBobCDfjlzbqG3E+4bm4KJAMBzbJA5zcUk+7oloOUyeMAWv0JGwgH/GPWb
+	dIetng/A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rVAGS-00000003VGN-35xu;
-	Wed, 31 Jan 2024 13:04:28 +0000
+	id 1rVAGb-00000003VP0-2tY5;
+	Wed, 31 Jan 2024 13:04:37 +0000
 Received: from 2a02-8389-2341-5b80-39d3-4735-9a3c-88d8.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:39d3:4735:9a3c:88d8] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rVAGQ-00000003VCv-1pry;
-	Wed, 31 Jan 2024 13:04:27 +0000
+	id 1rVAGT-00000003VFh-3sYR;
+	Wed, 31 Jan 2024 13:04:30 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>,
@@ -40,10 +40,11 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>,
 	linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
 	virtualization@lists.linux.dev,
+	John Garry <john.g.garry@oracle.com>,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 06/14] block: use queue_limits_commit_update in queue_discard_max_store
-Date: Wed, 31 Jan 2024 14:03:52 +0100
-Message-Id: <20240131130400.625836-7-hch@lst.de>
+Subject: [PATCH 07/14] block: pass a queue_limits argument to blk_alloc_queue
+Date: Wed, 31 Jan 2024 14:03:53 +0100
+Message-Id: <20240131130400.625836-8-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240131130400.625836-1-hch@lst.de>
 References: <20240131130400.625836-1-hch@lst.de>
@@ -63,51 +64,138 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Convert queue_discard_max_store to use queue_limits_commit_update to
-check and update the max_discard_sectors limit and freeze the queue
-before doing so to ensure we don't have requests in flight while
-changing the limits.
+Pass a queue_limits to blk_alloc_queue and apply it if non-NULL.  This
+will allow allocating queues with valid queue limits instead of setting
+the values one at a time later.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: John Garry <john.g.garry@oracle.com>
 Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 ---
- block/blk-sysfs.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ block/blk-core.c | 30 ++++++++++++++++++++++--------
+ block/blk-mq.c   |  6 +++---
+ block/blk.h      |  2 +-
+ block/genhd.c    |  4 ++--
+ 4 files changed, 28 insertions(+), 14 deletions(-)
 
-diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
-index 54e10604ddb1dd..8c8f69d8ba48ee 100644
---- a/block/blk-sysfs.c
-+++ b/block/blk-sysfs.c
-@@ -175,7 +175,9 @@ static ssize_t queue_discard_max_store(struct request_queue *q,
- 				       const char *page, size_t count)
+diff --git a/block/blk-core.c b/block/blk-core.c
+index 09f4a44a4aa3cc..26d3be06bcc0fd 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -393,24 +393,38 @@ static void blk_timeout_work(struct work_struct *work)
  {
- 	unsigned long max_discard_bytes;
-+	struct queue_limits lim;
- 	ssize_t ret;
-+	int err;
- 
- 	ret = queue_var_store(&max_discard_bytes, page, count);
- 	if (ret < 0)
-@@ -187,10 +189,14 @@ static ssize_t queue_discard_max_store(struct request_queue *q,
- 	if ((max_discard_bytes >> SECTOR_SHIFT) > UINT_MAX)
- 		return -EINVAL;
- 
--	q->limits.max_user_discard_sectors = max_discard_bytes >> SECTOR_SHIFT;
--	q->limits.max_discard_sectors =
--		min_not_zero(q->limits.max_hw_discard_sectors,
--			     q->limits.max_user_discard_sectors);
-+	blk_mq_freeze_queue(q);
-+	lim = queue_limits_start_update(q);
-+	lim.max_user_discard_sectors = max_discard_bytes >> SECTOR_SHIFT;
-+	err = queue_limits_commit_update(q, &lim);
-+	blk_mq_unfreeze_queue(q);
-+
-+	if (err)
-+		return err;
- 	return ret;
  }
  
+-struct request_queue *blk_alloc_queue(int node_id)
++struct request_queue *blk_alloc_queue(struct queue_limits *lim, int node_id)
+ {
+ 	struct request_queue *q;
++	int error;
+ 
+ 	q = kmem_cache_alloc_node(blk_requestq_cachep, GFP_KERNEL | __GFP_ZERO,
+ 				  node_id);
+ 	if (!q)
+-		return NULL;
++		return ERR_PTR(-ENOMEM);
+ 
+ 	q->last_merge = NULL;
+ 
++	if (lim) {
++		error = blk_validate_limits(lim);
++		if (error)
++			goto fail_q;
++		q->limits = *lim;
++	} else {
++		blk_set_default_limits(&q->limits);
++	}
++
+ 	q->id = ida_alloc(&blk_queue_ida, GFP_KERNEL);
+-	if (q->id < 0)
++	if (q->id < 0) {
++		error = q->id;
+ 		goto fail_q;
++	}
+ 
+ 	q->stats = blk_alloc_queue_stats();
+-	if (!q->stats)
++	if (!q->stats) {
++		error = -ENOMEM;
+ 		goto fail_id;
++	}
+ 
+ 	q->node = node_id;
+ 
+@@ -435,12 +449,12 @@ struct request_queue *blk_alloc_queue(int node_id)
+ 	 * Init percpu_ref in atomic mode so that it's faster to shutdown.
+ 	 * See blk_register_queue() for details.
+ 	 */
+-	if (percpu_ref_init(&q->q_usage_counter,
++	error = percpu_ref_init(&q->q_usage_counter,
+ 				blk_queue_usage_counter_release,
+-				PERCPU_REF_INIT_ATOMIC, GFP_KERNEL))
++				PERCPU_REF_INIT_ATOMIC, GFP_KERNEL);
++	if (error)
+ 		goto fail_stats;
+ 
+-	blk_set_default_limits(&q->limits);
+ 	q->nr_requests = BLKDEV_DEFAULT_RQ;
+ 
+ 	return q;
+@@ -451,7 +465,7 @@ struct request_queue *blk_alloc_queue(int node_id)
+ 	ida_free(&blk_queue_ida, q->id);
+ fail_q:
+ 	kmem_cache_free(blk_requestq_cachep, q);
+-	return NULL;
++	return ERR_PTR(error);
+ }
+ 
+ /**
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index aa87fcfda1ecfc..2ddbefdeae93e4 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -4092,9 +4092,9 @@ static struct request_queue *blk_mq_init_queue_data(struct blk_mq_tag_set *set,
+ 	struct request_queue *q;
+ 	int ret;
+ 
+-	q = blk_alloc_queue(set->numa_node);
+-	if (!q)
+-		return ERR_PTR(-ENOMEM);
++	q = blk_alloc_queue(NULL, set->numa_node);
++	if (IS_ERR(q))
++		return q;
+ 	q->queuedata = queuedata;
+ 	ret = blk_mq_init_allocated_queue(set, q);
+ 	if (ret) {
+diff --git a/block/blk.h b/block/blk.h
+index 58b5dbac2a487d..100c7a02854bfd 100644
+--- a/block/blk.h
++++ b/block/blk.h
+@@ -448,7 +448,7 @@ static inline void bio_release_page(struct bio *bio, struct page *page)
+ }
+ 
+ int blk_validate_limits(struct queue_limits *lim);
+-struct request_queue *blk_alloc_queue(int node_id);
++struct request_queue *blk_alloc_queue(struct queue_limits *lim, int node_id);
+ 
+ int disk_scan_partitions(struct gendisk *disk, blk_mode_t mode);
+ 
+diff --git a/block/genhd.c b/block/genhd.c
+index d74fb5b4ae6818..defcd35b421bdd 100644
+--- a/block/genhd.c
++++ b/block/genhd.c
+@@ -1396,8 +1396,8 @@ struct gendisk *__blk_alloc_disk(int node, struct lock_class_key *lkclass)
+ 	struct request_queue *q;
+ 	struct gendisk *disk;
+ 
+-	q = blk_alloc_queue(node);
+-	if (!q)
++	q = blk_alloc_queue(NULL, node);
++	if (IS_ERR(q))
+ 		return NULL;
+ 
+ 	disk = __alloc_disk_node(q, node, lkclass);
 -- 
 2.39.2
 
