@@ -4,96 +4,123 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2117DC47258
-	for <linux-nvme@archiver.kernel.org>; Wed, 31 Jan 2024 11:31:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1B7A3C47258
+	for <linux-nvme@archiver.kernel.org>; Wed, 31 Jan 2024 12:16:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
-	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Is+qBPwFtOIVWPYNnH2Nd84gzktZD85WZOFWQa8Tkq0=; b=OvasYtXTaEooIZEyrF0JzB8HdQ
-	/OF7uqKD1g8RlGPMD7fu2SN5ysrcIxdi3dYN4Yyy9tI8Fuz2ki3BgKB2BR7wHWAElIQCXviISRdFZ
-	gVPSjPh43ar8WACi9lZqwWjUQfH3QIFUUp5VFzHXWzgsAQLQtNsMn2TVZQu653B8wH8/MfNPO/72A
-	Xx84Zanjy2IY457IfqbvRcNqJVMGN6C9u5D2/xWxmz8AbFnP/BCErvDZJVyD6LH+Rte+rstXytMlT
-	1LSbHzZa4mDGnxF+URh4xD+k4WEWw5XCQo/c7pZqAj/hKoClvfCmM3hFFb9rTsNKq6Vl5zYzZeetd
-	a1BA8tPw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=eaoPZ8PN1/minQk2Jt29Iu1TaNXSJjydOpAcW4JzqvE=; b=MXCBa+doljY5t7d1Ye4Wmoekg+
+	asUfGaw5NHNO1Xl7jQ6LEJ7yHjh4fFOEVkqRyDuhzXHfl7ksKf3+qrQ2kiKPOR40IvwcSY8TiyKd7
+	LftyBWUeyzpEHrg+JUlPkRR48FsH8mNyNWDH8g3qZ5ARI6Ji/lbQo8uCb9VLS3Uq9OCrlLunsqXzI
+	kabk8sJXjoQ6R1JfxhRqGmxYL/e4EQ+BpTuUG2yqhwxDcUfQtmXzwyFqspSTXFqbEkVaGGtfhwmjv
+	se3Z4aGqUur1drnhLccTGLlMfYQi1+ZwnnxNYacmQUxtLVa8Bna4HYdg79pFXfxTIkdY8L3UfvNVg
+	Fr1JCc3g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rV8ot-0000000374n-0FRj;
-	Wed, 31 Jan 2024 11:31:55 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1rV9WE-00000003IbO-1a8s;
+	Wed, 31 Jan 2024 12:16:42 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rV6kD-00000002PFX-3vtX
-	for linux-nvme@bombadil.infradead.org;
-	Wed, 31 Jan 2024 09:18:58 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=MIME-Version:Content-Transfer-Encoding
-	:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=Is+qBPwFtOIVWPYNnH2Nd84gzktZD85WZOFWQa8Tkq0=; b=otFZCKlZBPjs5rnt8JGWRHR4iS
-	Uy6dA5JtyAUlYnbQ4fBlNh5VB8P1vnCS4WueArEy26gzm6XmbmpE4YWD+CPSv56+1EizHKqLs7Nkw
-	7bxQeQzJMpaZdCzunWnhVjmNVYh6IDLuMFq4CmQ3bZFJFYyDeXJEVNSc2JpU7UKj0OaDkUPQMP1xE
-	Kcu8iMSCpVdOde4w9P+Es9tsJ4G3Y2EnsD8eKw8OO6s4EOhZbbjAdTkodvjOlGg+BXElU+dmCKQXV
-	yExUj9eB55ZghNLwcjFGg+fd0OVFptCBRz9m/JfviYNCwGWvNXDNkdeKHxamH3yL/Pl3HHLO1T/e8
-	elSwYt3Q==;
-Received: from mout.gmx.net ([212.227.17.20])
-	by desiato.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rV6k5-00000008uBB-3HGM
+	id 1rV6Ja-00000002F0F-1mpO
 	for linux-nvme@lists.infradead.org;
-	Wed, 31 Jan 2024 09:18:54 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=s31663417; t=1706692718; x=1707297518; i=arthur_mueller@gmx.net;
-	bh=Is+qBPwFtOIVWPYNnH2Nd84gzktZD85WZOFWQa8Tkq0=;
-	h=X-UI-Sender-Class:Subject:From:To:Cc:Date:In-Reply-To:
-	 References;
-	b=kr3ki+VJUFsRE4DWkQlITNS9HCkYHH5CAGHOpGWAJc0M61Q1m/rS6qcaMdyMd7Nq
-	 ymzLE7OvVjtLnYaRwZOnKBRn4fSLtl9Udwa+qShgWxumiyhaxKD/yQARXNL20ZHNc
-	 y+6D0QeP1bZe/uQSc6W2FstGhrIRlZGh0vqLdf/QpUSAh1OTXokFY/aqIlbRKt2BT
-	 ys6i6akNkhRESJMw2rAaE7MoGvuagG4JwIDB+VbIyTisWkyXyC4ImYmzHXbBILJWz
-	 ckDX1+2p4J/7VNxrdCIW36XMBr2HOAy4NVzk1/Q7DhAKLjPRZYQquRFEK7aRewYn+
-	 C8kTrTmLLl7A+JfZ2g==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.178.20] ([82.135.83.88]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MG9kC-1rGq3O2pxs-00GWPl; Wed, 31
- Jan 2024 10:18:38 +0100
-Message-ID: <8a270b75f4ed67e27c2ca3cbb9d1103de6a49b7e.camel@gmx.net>
-Subject: Re: Error when running fio against nvme-of rdma target (mlx5 driver)
-From: Arthur Muller <arthur_mueller@gmx.net>
-To: Martin Oliveira <Martin.Oliveira@eideticom.com>, 
-	"linux-nvme@lists.infradead.org"
-	 <linux-nvme@lists.infradead.org>, iommu@lists.linux.dev, 
-	"linux-rdma@vger.kernel.org"
-	 <linux-rdma@vger.kernel.org>
-Cc: Kelly Ursenbach <Kelly.Ursenbach@eideticom.com>, "Lee, Jason"
-	 <jasonlee@lanl.gov>, Logan Gunthorpe <Logan.Gunthorpe@eideticom.com>
-Date: Wed, 31 Jan 2024 10:18:37 +0100
-In-Reply-To: <MW3PR19MB42505C41C2BA3F425A5CB606E42D9@MW3PR19MB4250.namprd19.prod.outlook.com>
-References: <MW3PR19MB42505C41C2BA3F425A5CB606E42D9@MW3PR19MB4250.namprd19.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	Wed, 31 Jan 2024 08:51:29 +0000
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D91AB1FD09;
+	Wed, 31 Jan 2024 08:51:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1706691083; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eaoPZ8PN1/minQk2Jt29Iu1TaNXSJjydOpAcW4JzqvE=;
+	b=OQ9YaTcAtC4XPZ0NhdTWGIbUhNx8D3WvCiYTAhV5zNl972CH1rVaG+w8JAeBBv4BABBbhM
+	bSbFKRp+cWiq+sIye466zsznkA/CFZPSsBU7Xx2nYZDTjc2gC1kl93b/4EjkF2mHCA+NCV
+	sQyBK0xCT6JQKKF7971n3+4BdvPuHrg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1706691083;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eaoPZ8PN1/minQk2Jt29Iu1TaNXSJjydOpAcW4JzqvE=;
+	b=zNtJa+iwxbA5ZetvDtoKJTrcRY/6fhyBoO8bKTZIP8FHMdlfzSRBvtmFYvY2adQOifaQdt
+	szxZYRpHmIcV5iBw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1706691083; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eaoPZ8PN1/minQk2Jt29Iu1TaNXSJjydOpAcW4JzqvE=;
+	b=OQ9YaTcAtC4XPZ0NhdTWGIbUhNx8D3WvCiYTAhV5zNl972CH1rVaG+w8JAeBBv4BABBbhM
+	bSbFKRp+cWiq+sIye466zsznkA/CFZPSsBU7Xx2nYZDTjc2gC1kl93b/4EjkF2mHCA+NCV
+	sQyBK0xCT6JQKKF7971n3+4BdvPuHrg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1706691083;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eaoPZ8PN1/minQk2Jt29Iu1TaNXSJjydOpAcW4JzqvE=;
+	b=zNtJa+iwxbA5ZetvDtoKJTrcRY/6fhyBoO8bKTZIP8FHMdlfzSRBvtmFYvY2adQOifaQdt
+	szxZYRpHmIcV5iBw==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id C60F1132FA;
+	Wed, 31 Jan 2024 08:51:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id KofxLgsKumWHHAAAn2gu4w
+	(envelope-from <dwagner@suse.de>); Wed, 31 Jan 2024 08:51:23 +0000
+From: Daniel Wagner <dwagner@suse.de>
+To: James Smart <james.smart@broadcom.com>
+Cc: Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Hannes Reinecke <hare@suse.de>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Daniel Wagner <dwagner@suse.de>
+Subject: [PATCH v5 04/12] nvmet-fc: defer cleanup using RCU properly
+Date: Wed, 31 Jan 2024 09:51:04 +0100
+Message-ID: <20240131085112.21668-5-dwagner@suse.de>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240131085112.21668-1-dwagner@suse.de>
+References: <20240131085112.21668-1-dwagner@suse.de>
 MIME-Version: 1.0
-X-Provags-ID: V03:K1:81dOa/Q9nhl7O376VpDWVmdo1q+CKggEqubLkis+LTOtNIQv4uf
- kAe9j1wdadSdmwtsQlWtip6DFE7QyUY1jc2hvcTQyNZO/IkBYUetDwDOmR8sxT1t8s36sX6
- qJTH16L4FnPItBEkw0fIAzz1sMv7PNuf5WxXBH+UM0LWevSMSUJvgYe22Vv8a2W9WBnDtWX
- u1AxCnboo4XDFNhF9Ib4Q==
-UI-OutboundReport: notjunk:1;M01:P0:p9VtA68N3qc=;tKOlhYLaiM7G4hizjRGVx8f2Yw2
- Af1ZABWpqsxm6Ip6x8svOkRx5E7Nyt3FUCr2C7WgxrzbzoiHbJWTIACPXX/AXyL0yPlVJqgID
- TxYpkpY/w+AYaUlbkfS60dkYMw0TXkuIabP2/PTGulw2OfSvriMkK4I5K+rK1jQ/P/TRSSvPV
- 2AwHhT9Y2TrG4naaZHPtUs2czKZt4/AlabbtKLxDoAgU+U1ODr5CSfRqJQA0XPw4Kohx/wnna
- nIU3Bpf/Moq9Yaan1jPlyYOmPo2vY1K5n2UdPNrdRSrtz8OJyry0c4OrCVA3LGaYvbQlTftbV
- MFATkt7cNyCM1Sj1mUVcqiyfWh4XC81mMX/fcc5KgfJsamhA9hQzmifZ3B7C3En023Cw579Op
- xJsleoe1r3AF/WRQH/XME6K3q0rqZqbK5joM7KXlSgyMcDekTXHrDAPbhz+6c8drH/H8+eycp
- iaFCGXQK1w9LB0wbi+N2DsLGHChUaoKXt1ZsRXLmADWotebD3qInmXjOczMPwbgKYkx1xfqN2
- ZzU7AQXDgpMN1zy6kf3e6CsImBsCNMf4w8E2IdIrY6EKrdDuG5VszrN/CZBFhanenya7h0T6v
- lRMps/28Pjj0X0KqKcXdV2NkXALA0km4iJNSOFTHDS3tskQwZKB86TuDF64XyI3OWsiv2Jwcy
- UJkTGmOwh3jL/UJYLB+PKm3IAfz16WrR5QF0ooEIAWOpE8tHKIhFoPxxb8gOGJiZ81aXDpze+
- M6I9r0SuTgmggc9LczAeNIVki6GGO54u6dJOFK6ydb47mmpTtI7UgLSZV+IeB70kOi4H+x0fI
- L6j+GhsRGW/Ctkyt8/HexyAiHB7HOcAxB8wE6fWrkfRMA=
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spamd-Result: default: False [0.70 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 R_MISSING_CHARSET(2.50)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_SEVEN(0.00)[7];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240131_091851_665416_062305A5 
-X-CRM114-Status: GOOD (  23.72  )
+X-CRM114-CacheID: sfid-20240131_005126_689969_706321CA 
+X-CRM114-Status: GOOD (  23.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,239 +135,268 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This is a re-sending of an email due to iommu old list bounce. Now
-including new iommu@lists.linux.dev instead. First message was
-submitted to LORE and is published at:
+When the target executes a disconnect and the host triggers a reconnect
+immediately, the reconnect command still finds an existing association.
 
-https://lore.kernel.org/all/9a40e66eb8ffc48a2e3765cf77f49914d57c55e7.camel@=
-gmx.net/
+The reconnect crashes later on because nvmet_fc_delete_target_assoc
+blindly removes resources while the reconnect code wants to use it.
 
+To address this, nvmet_fc_find_target_assoc should not be able to
+lookup an association which is being removed. The association list
+is already under RCU lifetime management, so let's properly use it
+and remove the association from the list and wait for a grace period
+before cleaning up all. This means we also can drop the RCU management
+on the queues, because this is now handled via the association itself.
 
+A second step split the execution context so that the initial disconnect
+command can complete without running the reconnect code in the same
+context. As usual, this is done by deferring the ->done to a workqueue.
 
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Daniel Wagner <dwagner@suse.de>
+---
+ drivers/nvme/target/fc.c | 83 ++++++++++++++++++----------------------
+ 1 file changed, 37 insertions(+), 46 deletions(-)
 
-Dear all,
-
-We've encountered a similar issue. In our case, we are using the Lustre
-file system instead of NVMe-oF to connect our storage over the network.
-Our setup involves an AMD EPYC 7282 machine paired with Mellanox
-MT28908 cards. Following the guidelines in the Nvidia documentation:
-
-https://docs.nvidia.com/networking/display/mlnxenv584150lts/installing+mlnx=
-_en#src-2477565014_InstallingMLNX_EN-InstallationModes
-
-we compiled the MLNX_EN 5.8 LTS driver using VMA. Additionally, we
-experimented with the latest MLNX_EN 23.10 driver, encountering the
-same issue.=20
-
-We use kernel 5.15.0 now. This problems first appered after upgrading
-our systems from Ubuntu 20.04 LTS to Ubuntu 22.04 LTS and, thus, from
-kernel 5.4 to 5.15. Unfortunately, we are not completely sure about the
-MLNX_EN driver version prior to the upgrade, but strongly assume <=3D
-5.8.
-
-The error process appears to be initiated by the following error
-message:
-
-mlx5_core 0000:63:00.0: AMD-Vi: Event logged [IO_PAGE_FAULT
-domain=3D0x0003 address=3D0x200020f758 flags=3D0x0020]
-
-This error results in timeouts and read operation faults within the
-Lustre file system on both the client and storage ends, potentially
-leading to a complete storage failure.=20
-
-Subsequently, the IO_PAGE_FAULT error is often followed by a "local
-protection error," although this is not consistent. The error tends to
-manifest after a prolonged period of constant network operation,
-typically after approximately one day of continuous read and write
-operations involving a Postgres database on the file system.=20
-
-Regrettably, we have been unable to trigger this error by a manual
-action.
-
-Kind regards,
-Arthur M=C3=BCller
-
-
-On Wed, 2022-02-09 at 02:50 +0000, Martin Oliveira wrote:
-> Hello,
->=20
-> We have been hitting an error when running IO over our nvme-of setup,
-> using the mlx5 driver and we are wondering if anyone has seen
-> anything similar/has any suggestions.
->=20
-> Both initiator and target are AMD EPYC 7502 machines connected over
-> RDMA using a Mellanox MT28908. Target has 12 NVMe SSDs which are
-> exposed as a single NVMe fabrics device, one physical SSD per
-> namespace.
->=20
-> When running an fio job targeting directly the fabrics devices (no
-> filesystem, see script at the end), within a minute or so we start
-> seeing errors like this:
->=20
-> [=C2=A0 408.368677] mlx5_core 0000:c1:00.0: AMD-Vi: Event logged
-> [IO_PAGE_FAULT domain=3D0x002f address=3D0x24d08000 flags=3D0x0000]
-> [=C2=A0 408.372201] infiniband mlx5_0: mlx5_handle_error_cqe:332:(pid 0):
-> WC error: 4, Message: local protection error
-> [=C2=A0 408.380181] infiniband mlx5_0: dump_cqe:272:(pid 0): dump error
-> cqe
-> [=C2=A0 408.380187] 00000000: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0=
-0
-> 00
-> [=C2=A0 408.380189] 00000010: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0=
-0
-> 00
-> [=C2=A0 408.380191] 00000020: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0=
-0
-> 00
-> [=C2=A0 408.380192] 00000030: 00 00 00 00 a9 00 56 04 00 00 01 e9 00 54 e=
-8
-> e2
-> [=C2=A0 408.380230] nvme nvme15: RECV for CQE 0x00000000ce392ed9 failed
-> with status local protection error (4)
-> [=C2=A0 408.380235] nvme nvme15: starting error recovery
-> [=C2=A0 408.380238] nvme_ns_head_submit_bio: 726 callbacks suppressed
-> [=C2=A0 408.380246] block nvme15n2: no usable path - requeuing I/O
-> [=C2=A0 408.380284] block nvme15n5: no usable path - requeuing I/O
-> [=C2=A0 408.380298] block nvme15n1: no usable path - requeuing I/O
-> [=C2=A0 408.380304] block nvme15n11: no usable path - requeuing I/O
-> [=C2=A0 408.380304] block nvme15n11: no usable path - requeuing I/O
-> [=C2=A0 408.380330] block nvme15n1: no usable path - requeuing I/O
-> [=C2=A0 408.380350] block nvme15n2: no usable path - requeuing I/O
-> [=C2=A0 408.380371] block nvme15n6: no usable path - requeuing I/O
-> [=C2=A0 408.380377] block nvme15n6: no usable path - requeuing I/O
-> [=C2=A0 408.380382] block nvme15n4: no usable path - requeuing I/O
-> [=C2=A0 408.380472] mlx5_core 0000:c1:00.0: AMD-Vi: Event logged
-> [IO_PAGE_FAULT domain=3D0x002f address=3D0x24d09000 flags=3D0x0000]
-> [=C2=A0 408.391265] mlx5_core 0000:c1:00.0: AMD-Vi: Event logged
-> [IO_PAGE_FAULT domain=3D0x002f address=3D0x24d0a000 flags=3D0x0000]
-> [=C2=A0 415.125967] nvmet: ctrl 1 keep-alive timer (5 seconds) expired!
-> [=C2=A0 415.131898] nvmet: ctrl 1 fatal error occurred!
->=20
-> Occasionally, we've seen the following stack trace:
->=20
-> [ 1158.152464] kernel BUG at drivers/iommu/amd/io_pgtable.c:485!
-> [ 1158.427696] invalid opcode: 0000 [#1] SMP NOPTI
-> [ 1158.432228] CPU: 51 PID: 796 Comm: kworker/51:1H Tainted:
-> P=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 OE=C2=A0=C2=
-=A0=C2=A0=C2=A0 5.13.0-eid-athena-g6fb4e704d11c-dirty #14
-> [ 1158.443867] Hardware name: GIGABYTE R272-Z32-00/MZ32-AR0-00, BIOS
-> R21 10/08/2020
-> [ 1158.451252] Workqueue: ib-comp-wq ib_cq_poll_work [ib_core]
-> [ 1158.456884] RIP: 0010:iommu_v1_unmap_page+0xed/0x100
-> [ 1158.461849] Code: 48 8b 45 d0 65 48 33 04 25 28 00 00 00 75 1d 48
-> 83 c4 10 4c 89 f0 5b 41 5c 41 5d 41 5e 41 5f 5d c3 49 8d 46 ff 4c 85
-> f0 74 d6 <0f> 0b e8 1c 38 46 00 66 66 2e 0f 1f 84 00 00 00 00 00 90
-> 0f 1f 44
-> [ 1158.480589] RSP: 0018:ffffabb520587bd0 EFLAGS: 00010206
-> [ 1158.485812] RAX: 0001000000061fff RBX: 0000000000100000 RCX:
-> 0000000000000027
-> [ 1158.492938] RDX: 0000000030562000 RSI: ffff000000000000 RDI:
-> 0000000000000000
-> [ 1158.500071] RBP: ffffabb520587c08 R08: ffffabb520587bd0 R09:
-> 0000000000000000
-> [ 1158.507202] R10: 0000000000000001 R11: 000ffffffffff000 R12:
-> ffff9984abd9e318
-> [ 1158.514326] R13: ffff9984abd9e310 R14: 0001000000062000 R15:
-> 0001000000000000
-> [ 1158.521452] FS:=C2=A0 0000000000000000(0000) GS:ffff99a36c8c0000(0000)
-> knlGS:0000000000000000
-> [ 1158.529540] CS:=C2=A0 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [ 1158.535286] CR2: 00007f75b04f1000 CR3: 00000001eddd8000 CR4:
-> 0000000000350ee0
-> [ 1158.542419] Call Trace:
-> [ 1158.544877]=C2=A0 amd_iommu_unmap+0x2c/0x40
-> [ 1158.548653]=C2=A0 __iommu_unmap+0xc4/0x170
-> [ 1158.552344]=C2=A0 iommu_unmap_fast+0xe/0x10
-> [ 1158.556100]=C2=A0 __iommu_dma_unmap+0x85/0x120
-> [ 1158.560115]=C2=A0 iommu_dma_unmap_sg+0x95/0x110
-> [ 1158.564213]=C2=A0 dma_unmap_sg_attrs+0x42/0x50
-> [ 1158.568225]=C2=A0 rdma_rw_ctx_destroy+0x6e/0xc0 [ib_core]
-> [ 1158.573201]=C2=A0 nvmet_rdma_rw_ctx_destroy+0xa7/0xc0 [nvmet_rdma]
-> [ 1158.578944]=C2=A0 nvmet_rdma_read_data_done+0x5c/0xf0 [nvmet_rdma]
-> [ 1158.584683]=C2=A0 __ib_process_cq+0x8e/0x150 [ib_core]
-> [ 1158.589398]=C2=A0 ib_cq_poll_work+0x2b/0x80 [ib_core]
-> [ 1158.594027]=C2=A0 process_one_work+0x220/0x3c0
-> [ 1158.598038]=C2=A0 worker_thread+0x4d/0x3f0
-> [ 1158.601696]=C2=A0 kthread+0x114/0x150
-> [ 1158.604928]=C2=A0 ? process_one_work+0x3c0/0x3c0
-> [ 1158.609114]=C2=A0 ? kthread_park+0x90/0x90
-> [ 1158.612783]=C2=A0 ret_from_fork+0x22/0x30
->=20
-> We first saw this on a 5.13 kernel but could reproduce with 5.17-rc2.
->=20
-> We found a possibly related bug report [1] that suggested disabling
-> the IOMMU could help, but even after I disabled it (amd_iommu=3Doff
-> iommu=3Doff) I still get errors (nvme IO timeouts). Another thread from
-> 2016[2] suggested that disabling some kernel debug options could
-> workaround the "local protection error" but that didn't help either.
->=20
-> As far as I can tell, the disks are fine, as running the same fio job
-> targeting the real physical devices works fine.
->=20
-> Any suggestions are appreciated.
->=20
-> Thanks,
-> Martin
->=20
-> [1]: https://bugzilla.kernel.org/show_bug.cgi?id=3D210177
-> [2]:
-> https://lore.kernel.org/all/6BBFD126-877C-4638-BB91-ABF715E29326@oracle.c=
-om/
->=20
-> fio script:
-> [global]
-> name=3Dfio-seq-write
-> rw=3Dwrite
-> bs=3D1M
-> direct=3D1
-> numjobs=3D32
-> time_based
-> group_reporting=3D1
-> runtime=3D18000
-> end_fsync=3D1
-> size=3D10G
-> ioengine=3Dlibaio
-> iodepth=3D16
->=20
-> [file1]
-> filename=3D/dev/nvme0n1
->=20
-> [file2]
-> filename=3D/dev/nvme0n2
->=20
-> [file3]
-> filename=3D/dev/nvme0n3
->=20
-> [file4]
-> filename=3D/dev/nvme0n4
->=20
-> [file5]
-> filename=3D/dev/nvme0n5
->=20
-> [file6]
-> filename=3D/dev/nvme0n6
->=20
-> [file7]
-> filename=3D/dev/nvme0n7
->=20
-> [file8]
-> filename=3D/dev/nvme0n8
->=20
-> [file9]
-> filename=3D/dev/nvme0n9
->=20
-> [file10]
-> filename=3D/dev/nvme0n10
->=20
-> [file11]
-> filename=3D/dev/nvme0n11
->=20
-> [file12]
-> filename=3D/dev/nvme0n12
-> _______________________________________________
-> iommu mailing list
-> iommu@lists.linux-foundation.org
-> https://lists.linuxfoundation.org/mailman/listinfo/iommu
-
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 3d53d9dc1099..11ecfef41bd1 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -166,7 +166,7 @@ struct nvmet_fc_tgt_assoc {
+ 	struct nvmet_fc_hostport	*hostport;
+ 	struct nvmet_fc_ls_iod		*rcv_disconn;
+ 	struct list_head		a_list;
+-	struct nvmet_fc_tgt_queue __rcu	*queues[NVMET_NR_QUEUES + 1];
++	struct nvmet_fc_tgt_queue 	*queues[NVMET_NR_QUEUES + 1];
+ 	struct kref			ref;
+ 	struct work_struct		del_work;
+ 	struct rcu_head			rcu;
+@@ -803,14 +803,11 @@ nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
+ 	if (!queue)
+ 		return NULL;
+ 
+-	if (!nvmet_fc_tgt_a_get(assoc))
+-		goto out_free_queue;
+-
+ 	queue->work_q = alloc_workqueue("ntfc%d.%d.%d", 0, 0,
+ 				assoc->tgtport->fc_target_port.port_num,
+ 				assoc->a_id, qid);
+ 	if (!queue->work_q)
+-		goto out_a_put;
++		goto out_free_queue;
+ 
+ 	queue->qid = qid;
+ 	queue->sqsize = sqsize;
+@@ -832,15 +829,13 @@ nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
+ 		goto out_fail_iodlist;
+ 
+ 	WARN_ON(assoc->queues[qid]);
+-	rcu_assign_pointer(assoc->queues[qid], queue);
++	assoc->queues[qid] = queue;
+ 
+ 	return queue;
+ 
+ out_fail_iodlist:
+ 	nvmet_fc_destroy_fcp_iodlist(assoc->tgtport, queue);
+ 	destroy_workqueue(queue->work_q);
+-out_a_put:
+-	nvmet_fc_tgt_a_put(assoc);
+ out_free_queue:
+ 	kfree(queue);
+ 	return NULL;
+@@ -853,12 +848,8 @@ nvmet_fc_tgt_queue_free(struct kref *ref)
+ 	struct nvmet_fc_tgt_queue *queue =
+ 		container_of(ref, struct nvmet_fc_tgt_queue, ref);
+ 
+-	rcu_assign_pointer(queue->assoc->queues[queue->qid], NULL);
+-
+ 	nvmet_fc_destroy_fcp_iodlist(queue->assoc->tgtport, queue);
+ 
+-	nvmet_fc_tgt_a_put(queue->assoc);
+-
+ 	destroy_workqueue(queue->work_q);
+ 
+ 	kfree_rcu(queue, rcu);
+@@ -970,7 +961,7 @@ nvmet_fc_find_target_queue(struct nvmet_fc_tgtport *tgtport,
+ 	rcu_read_lock();
+ 	list_for_each_entry_rcu(assoc, &tgtport->assoc_list, a_list) {
+ 		if (association_id == assoc->association_id) {
+-			queue = rcu_dereference(assoc->queues[qid]);
++			queue = assoc->queues[qid];
+ 			if (queue &&
+ 			    (!atomic_read(&queue->connected) ||
+ 			     !nvmet_fc_tgt_q_get(queue)))
+@@ -1173,13 +1164,18 @@ nvmet_fc_target_assoc_free(struct kref *ref)
+ 	struct nvmet_fc_tgtport *tgtport = assoc->tgtport;
+ 	struct nvmet_fc_ls_iod	*oldls;
+ 	unsigned long flags;
++	int i;
++
++	for (i = NVMET_NR_QUEUES; i >= 0; i--) {
++		if (assoc->queues[i])
++			nvmet_fc_delete_target_queue(assoc->queues[i]);
++	}
+ 
+ 	/* Send Disconnect now that all i/o has completed */
+ 	nvmet_fc_xmt_disconnect_assoc(assoc);
+ 
+ 	nvmet_fc_free_hostport(assoc->hostport);
+ 	spin_lock_irqsave(&tgtport->lock, flags);
+-	list_del_rcu(&assoc->a_list);
+ 	oldls = assoc->rcv_disconn;
+ 	spin_unlock_irqrestore(&tgtport->lock, flags);
+ 	/* if pending Rcv Disconnect Association LS, send rsp now */
+@@ -1209,7 +1205,7 @@ static void
+ nvmet_fc_delete_target_assoc(struct nvmet_fc_tgt_assoc *assoc)
+ {
+ 	struct nvmet_fc_tgtport *tgtport = assoc->tgtport;
+-	struct nvmet_fc_tgt_queue *queue;
++	unsigned long flags;
+ 	int i, terminating;
+ 
+ 	terminating = atomic_xchg(&assoc->terminating, 1);
+@@ -1218,29 +1214,21 @@ nvmet_fc_delete_target_assoc(struct nvmet_fc_tgt_assoc *assoc)
+ 	if (terminating)
+ 		return;
+ 
++	spin_lock_irqsave(&tgtport->lock, flags);
++	list_del_rcu(&assoc->a_list);
++	spin_unlock_irqrestore(&tgtport->lock, flags);
+ 
+-	for (i = NVMET_NR_QUEUES; i >= 0; i--) {
+-		rcu_read_lock();
+-		queue = rcu_dereference(assoc->queues[i]);
+-		if (!queue) {
+-			rcu_read_unlock();
+-			continue;
+-		}
++	synchronize_rcu();
+ 
+-		if (!nvmet_fc_tgt_q_get(queue)) {
+-			rcu_read_unlock();
+-			continue;
+-		}
+-		rcu_read_unlock();
+-		nvmet_fc_delete_target_queue(queue);
+-		nvmet_fc_tgt_q_put(queue);
++	/* ensure all in-flight I/Os have been processed */
++	for (i = NVMET_NR_QUEUES; i >= 0; i--) {
++		if (assoc->queues[i])
++			flush_workqueue(assoc->queues[i]->work_q);
+ 	}
+ 
+ 	dev_info(tgtport->dev,
+ 		"{%d:%d} Association deleted\n",
+ 		tgtport->fc_target_port.port_num, assoc->a_id);
+-
+-	nvmet_fc_tgt_a_put(assoc);
+ }
+ 
+ static struct nvmet_fc_tgt_assoc *
+@@ -1493,9 +1481,8 @@ __nvmet_fc_free_assocs(struct nvmet_fc_tgtport *tgtport)
+ 	list_for_each_entry_rcu(assoc, &tgtport->assoc_list, a_list) {
+ 		if (!nvmet_fc_tgt_a_get(assoc))
+ 			continue;
+-		if (!queue_work(nvmet_wq, &assoc->del_work))
+-			/* already deleting - release local reference */
+-			nvmet_fc_tgt_a_put(assoc);
++		queue_work(nvmet_wq, &assoc->del_work);
++		nvmet_fc_tgt_a_put(assoc);
+ 	}
+ 	rcu_read_unlock();
+ }
+@@ -1548,9 +1535,8 @@ nvmet_fc_invalidate_host(struct nvmet_fc_target_port *target_port,
+ 			continue;
+ 		assoc->hostport->invalid = 1;
+ 		noassoc = false;
+-		if (!queue_work(nvmet_wq, &assoc->del_work))
+-			/* already deleting - release local reference */
+-			nvmet_fc_tgt_a_put(assoc);
++		queue_work(nvmet_wq, &assoc->del_work);
++		nvmet_fc_tgt_a_put(assoc);
+ 	}
+ 	spin_unlock_irqrestore(&tgtport->lock, flags);
+ 
+@@ -1582,7 +1568,7 @@ nvmet_fc_delete_ctrl(struct nvmet_ctrl *ctrl)
+ 
+ 		rcu_read_lock();
+ 		list_for_each_entry_rcu(assoc, &tgtport->assoc_list, a_list) {
+-			queue = rcu_dereference(assoc->queues[0]);
++			queue = assoc->queues[0];
+ 			if (queue && queue->nvme_sq.ctrl == ctrl) {
+ 				if (nvmet_fc_tgt_a_get(assoc))
+ 					found_ctrl = true;
+@@ -1594,9 +1580,8 @@ nvmet_fc_delete_ctrl(struct nvmet_ctrl *ctrl)
+ 		nvmet_fc_tgtport_put(tgtport);
+ 
+ 		if (found_ctrl) {
+-			if (!queue_work(nvmet_wq, &assoc->del_work))
+-				/* already deleting - release local reference */
+-				nvmet_fc_tgt_a_put(assoc);
++			queue_work(nvmet_wq, &assoc->del_work);
++			nvmet_fc_tgt_a_put(assoc);
+ 			return;
+ 		}
+ 
+@@ -1626,6 +1611,8 @@ nvmet_fc_unregister_targetport(struct nvmet_fc_target_port *target_port)
+ 	/* terminate any outstanding associations */
+ 	__nvmet_fc_free_assocs(tgtport);
+ 
++	flush_workqueue(nvmet_wq);
++
+ 	/*
+ 	 * should terminate LS's as well. However, LS's will be generated
+ 	 * at the tail end of association termination, so they likely don't
+@@ -1871,9 +1858,6 @@ nvmet_fc_ls_disconnect(struct nvmet_fc_tgtport *tgtport,
+ 				sizeof(struct fcnvme_ls_disconnect_assoc_acc)),
+ 			FCNVME_LS_DISCONNECT_ASSOC);
+ 
+-	/* release get taken in nvmet_fc_find_target_assoc */
+-	nvmet_fc_tgt_a_put(assoc);
+-
+ 	/*
+ 	 * The rules for LS response says the response cannot
+ 	 * go back until ABTS's have been sent for all outstanding
+@@ -1888,8 +1872,6 @@ nvmet_fc_ls_disconnect(struct nvmet_fc_tgtport *tgtport,
+ 	assoc->rcv_disconn = iod;
+ 	spin_unlock_irqrestore(&tgtport->lock, flags);
+ 
+-	nvmet_fc_delete_target_assoc(assoc);
+-
+ 	if (oldls) {
+ 		dev_info(tgtport->dev,
+ 			"{%d:%d} Multiple Disconnect Association LS's "
+@@ -1905,6 +1887,9 @@ nvmet_fc_ls_disconnect(struct nvmet_fc_tgtport *tgtport,
+ 		nvmet_fc_xmt_ls_rsp(tgtport, oldls);
+ 	}
+ 
++	queue_work(nvmet_wq, &assoc->del_work);
++	nvmet_fc_tgt_a_put(assoc);
++
+ 	return false;
+ }
+ 
+@@ -2903,6 +2888,9 @@ nvmet_fc_remove_port(struct nvmet_port *port)
+ 
+ 	nvmet_fc_portentry_unbind(pe);
+ 
++	/* terminate any outstanding associations */
++	__nvmet_fc_free_assocs(pe->tgtport);
++
+ 	kfree(pe);
+ }
+ 
+@@ -2934,6 +2922,9 @@ static int __init nvmet_fc_init_module(void)
+ 
+ static void __exit nvmet_fc_exit_module(void)
+ {
++	/* ensure any shutdown operation, e.g. delete ctrls have finished */
++	flush_workqueue(nvmet_wq);
++
+ 	/* sanity check - all lports should be removed */
+ 	if (!list_empty(&nvmet_fc_target_list))
+ 		pr_warn("%s: targetport list not empty\n", __func__);
+-- 
+2.43.0
 
 
