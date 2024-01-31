@@ -4,136 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3116CC4828D
-	for <linux-nvme@archiver.kernel.org>; Wed, 31 Jan 2024 12:16:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EBD61C47258
+	for <linux-nvme@archiver.kernel.org>; Wed, 31 Jan 2024 12:40:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nL27gd6DGt9Vl4ZzO/TXW5HIdjKpYLX1mMg66OftysM=; b=hZG1z0QDlqUnlEJpFz3Nf/tiVO
-	0U4BeQaIrFiZLMji6aERRafmHqSS4+FZ/qk8Hhmhp+WES7rAO4VB7b6W1THa1zWN9ukHrx95J83CK
-	TMbYsZIVBIbEQijzTg9HPZpGWO7QhsPn0+X27vkXEAd9erQsBL5ZFt/5Ky9mGTJZow2ITV6unUfdf
-	wMunjUWMER6C3qXYwYdmBdfzbVu9DuynB+ZidSeW3IURQWMH7tGwH55X8z24P3NHGAXssDuhDd+ZA
-	lyRw+m3fERgA0iJg6YD7UneCIhKSgkOw/c0S9tQBzINj1i74pYbtUQ4FWIY+0EsxAmqKVG2fFvjmM
-	NuKlmYZA==;
+	bh=fD9PGlR25ihwspdcrfowWodOY4SU/x6nnsgOREPjnfo=; b=G0shfqInazB0OExUC9ALbuO9Ha
+	CtQh36zANe4fkAjaTB/L7szS2U6nBVFYNkEJFb2IP54kRjvVhJytNfBl9DEi7chItCHrEP5at8iqd
+	cv0ZK3j/QkACwUPNKCgqiQUy2fwDABG8d5Uj9y9HKMujQeBnY0ntNPilOJbV1wFsVv+s0uzULe9D3
+	wn+4VOXatr6MST/+954yidmrK74R0aTsRaag5BarzYMqt51bX2AIw00eCklX+q/UeLxp7BQWdgLTk
+	r6sVr1ZqDgOWBQlcaXnZfchy1pij0rf6aKzGy7eeIpx2aI6jg6vu+7gAOaCHHAB5wY97VeocEYwtF
+	OMyxMeGA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rV9WF-00000003Ibl-0QBr;
-	Wed, 31 Jan 2024 12:16:43 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1rV9t1-00000003OfS-2Koj;
+	Wed, 31 Jan 2024 12:40:15 +0000
+Received: from mail-wm1-f53.google.com ([209.85.128.53])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rV6K1-00000002FCX-1FMr
-	for linux-nvme@bombadil.infradead.org;
-	Wed, 31 Jan 2024 08:51:53 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=nL27gd6DGt9Vl4ZzO/TXW5HIdjKpYLX1mMg66OftysM=; b=lSIl3+xNskWc+U+YJMUF7j69jE
-	RBfckPrTw3m6N9ELT76oKx9mXIpUOnCj14KJpI2UcD3lFMVrPqiqw9PYo8nRp52ECR5Y0I2sPRxDj
-	0jbolST93I3BUSMeDRcb8IsCHJuSbqDMsEYXWxejF7bU4Pe1Fjmwa+Mjpaegu/S1Hc6ULhODxHNI0
-	rN8hRdhEkpiHhDiqM44+7clNbIESbe56miqG3NVVjojOs/myVpfLmYysf+VlH1KH2m7QimUn+HsyM
-	1T9K5M8YIjFh+QQfamYnxrhah5Nd+50SIRjJ+hVUoy1vs04k7c+i4PhTKWLitZ/Dyz3X20Vyn75hq
-	Ly8/Xr7Q==;
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
-	by desiato.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rV6Jd-00000008r3Q-2jDP
+	id 1rV9sy-00000003OdI-3vdG
 	for linux-nvme@lists.infradead.org;
-	Wed, 31 Jan 2024 08:51:40 +0000
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9C80721FDD;
-	Wed, 31 Jan 2024 08:51:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706691087; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nL27gd6DGt9Vl4ZzO/TXW5HIdjKpYLX1mMg66OftysM=;
-	b=F4ls8PzsAVqNmD2rN5KZC/qhkGMcj0GmU1/sgf7itY7ojfY9Lq5q/6QglJvwPRKiYm1S7p
-	BDmlB52pJS2/+HiEUArV3KaClZPWHSqd1twClA4RSahSUSD/aqtwC7Tv6n7GJW9rrXRrsz
-	vYnQ8NB942ZyO5YESNXUQY1ZekXrMro=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706691087;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nL27gd6DGt9Vl4ZzO/TXW5HIdjKpYLX1mMg66OftysM=;
-	b=nFBuAX1kzm3wpfeGapQPi6szPKsUDFJpkdD46vsGYhmdOKv9yfxDrEmxeTQdvNJCTnXb7c
-	+VEz0WHk+A+pP2CQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706691087; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nL27gd6DGt9Vl4ZzO/TXW5HIdjKpYLX1mMg66OftysM=;
-	b=F4ls8PzsAVqNmD2rN5KZC/qhkGMcj0GmU1/sgf7itY7ojfY9Lq5q/6QglJvwPRKiYm1S7p
-	BDmlB52pJS2/+HiEUArV3KaClZPWHSqd1twClA4RSahSUSD/aqtwC7Tv6n7GJW9rrXRrsz
-	vYnQ8NB942ZyO5YESNXUQY1ZekXrMro=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706691087;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nL27gd6DGt9Vl4ZzO/TXW5HIdjKpYLX1mMg66OftysM=;
-	b=nFBuAX1kzm3wpfeGapQPi6szPKsUDFJpkdD46vsGYhmdOKv9yfxDrEmxeTQdvNJCTnXb7c
-	+VEz0WHk+A+pP2CQ==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 89A2B132FA;
-	Wed, 31 Jan 2024 08:51:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id Bu0mIA8KumWaHAAAn2gu4w
-	(envelope-from <dwagner@suse.de>); Wed, 31 Jan 2024 08:51:27 +0000
-From: Daniel Wagner <dwagner@suse.de>
-To: James Smart <james.smart@broadcom.com>
-Cc: Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Hannes Reinecke <hare@suse.de>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH v5 10/12] nvmet-fc: avoid deadlock on delete association path
-Date: Wed, 31 Jan 2024 09:51:10 +0100
-Message-ID: <20240131085112.21668-11-dwagner@suse.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240131085112.21668-1-dwagner@suse.de>
-References: <20240131085112.21668-1-dwagner@suse.de>
+	Wed, 31 Jan 2024 12:40:14 +0000
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40f030bf978so2409615e9.0
+        for <linux-nvme@lists.infradead.org>; Wed, 31 Jan 2024 04:40:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706704810; x=1707309610;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fD9PGlR25ihwspdcrfowWodOY4SU/x6nnsgOREPjnfo=;
+        b=GTIqJEd/OIFwIDvX6LTAXcaBmgXmjOE7JHmk4s1m9YjRqWA26CxhwLOBMnrB58D9+4
+         EGdkikqoykCdGQaxMyFd4XrsLyQXvvY77MxEnWuwwVdPgaaZRi/qVkuiIkJsrHTPzAPq
+         uD0AXmhhFGZC8y8LCsAiBOYCeNgerYzvDHKoJylm6s0/mcV2TpuuyD0hunldPqPbHett
+         zN3LbaiRxMasA/jUNQGqPQ/V+SqU4/JxE9c6KCbAuythFlmLY4WwKU3yvmx3+YL8S3f2
+         FnQU3S2IrbpixjlCCGP563gPP2XH9mornTfarEQY6W/81pPI6LHdRDwdP1w/8xTA74I4
+         7lqw==
+X-Gm-Message-State: AOJu0YwDUKI//5Wg53SwDWx37qGziGQrUrUCV2sHu1JVYIJ6VD2XAYgA
+	pvLRhTuv9vOFR240rh7+yYMqfEYOM4hLknmEmHOA81ccbBnQ6Dy1w5ve9jKE
+X-Google-Smtp-Source: AGHT+IGDxaz3LhYQaN6TU5Xv6ECxez6iDgEVUh23W1wTp1peDai7mF6wFZx2AgnuE7HdukqJkhbqQg==
+X-Received: by 2002:a05:600c:4e08:b0:40e:eadb:6c93 with SMTP id b8-20020a05600c4e0800b0040eeadb6c93mr1185845wmq.1.1706704809812;
+        Wed, 31 Jan 2024 04:40:09 -0800 (PST)
+Received: from [192.168.64.172] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id iv18-20020a05600c549200b0040e76b60235sm1516153wmb.8.2024.01.31.04.40.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 31 Jan 2024 04:40:09 -0800 (PST)
+Message-ID: <e1ae39e7-5c82-4cd4-aa7b-eb6718827d67@grimberg.me>
+Date: Wed, 31 Jan 2024 14:40:07 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [3.07 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 R_MISSING_CHARSET(2.50)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCPT_COUNT_SEVEN(0.00)[7];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-1.83)[94.03%]
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/8] nvme: sync the namespace scanning during ctrl start
+Content-Language: en-US
+To: Max Gurtovoy <mgurtovoy@nvidia.com>, Christoph Hellwig <hch@lst.de>
+Cc: kbusch@kernel.org, linux-nvme@lists.infradead.org, oren@nvidia.com,
+ israelr@nvidia.com, dwagner@suse.de, oevron@nvidia.com
+References: <20240122145659.5574-1-mgurtovoy@nvidia.com>
+ <20240122145659.5574-6-mgurtovoy@nvidia.com> <20240123090231.GD30773@lst.de>
+ <f168e3d8-ddec-46cd-a032-2ca771b6cd23@nvidia.com>
+ <20240124094832.GA31289@lst.de>
+ <1315cf2b-038a-4830-87ac-5ac1fbd5a1e9@nvidia.com>
+ <20240125144130.GA18804@lst.de>
+ <d8f4c989-00a2-4545-87de-a70da312beff@nvidia.com>
+ <c7b2670c-416e-4451-9c29-439595df5213@grimberg.me>
+ <8d3c4f09-a1be-45b6-9452-7a14609a62d1@nvidia.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <8d3c4f09-a1be-45b6-9452-7a14609a62d1@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240131_085132_128635_55991A23 
-X-CRM114-Status: GOOD (  12.57  )
+X-CRM114-CacheID: sfid-20240131_044013_011497_AC4B72D1 
+X-CRM114-Status: GOOD (  19.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -148,72 +89,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When deleting an association the shutdown path is deadlocking because we
-try to flush the nvmet_wq nested. Avoid this by deadlock by deferring
-the put work into its own work item.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
----
- drivers/nvme/target/fc.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index c80b8a066fd1..3e0d391e631b 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -111,6 +111,8 @@ struct nvmet_fc_tgtport {
- 	struct nvmet_fc_port_entry	*pe;
- 	struct kref			ref;
- 	u32				max_sg_cnt;
-+
-+	struct work_struct		put_work;
- };
- 
- struct nvmet_fc_port_entry {
-@@ -247,6 +249,13 @@ static int nvmet_fc_tgt_a_get(struct nvmet_fc_tgt_assoc *assoc);
- static void nvmet_fc_tgt_q_put(struct nvmet_fc_tgt_queue *queue);
- static int nvmet_fc_tgt_q_get(struct nvmet_fc_tgt_queue *queue);
- static void nvmet_fc_tgtport_put(struct nvmet_fc_tgtport *tgtport);
-+static void nvmet_fc_put_tgtport_work(struct work_struct *work)
-+{
-+	struct nvmet_fc_tgtport *tgtport =
-+		container_of(work, struct nvmet_fc_tgtport, put_work);
-+
-+	nvmet_fc_tgtport_put(tgtport);
-+}
- static int nvmet_fc_tgtport_get(struct nvmet_fc_tgtport *tgtport);
- static void nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
- 					struct nvmet_fc_fcp_iod *fod);
-@@ -358,7 +367,7 @@ __nvmet_fc_finish_ls_req(struct nvmet_fc_ls_req_op *lsop)
- 
- 	if (!lsop->req_queued) {
- 		spin_unlock_irqrestore(&tgtport->lock, flags);
--		goto out_puttgtport;
-+		goto out_putwork;
- 	}
- 
- 	list_del(&lsop->lsreq_list);
-@@ -371,8 +380,8 @@ __nvmet_fc_finish_ls_req(struct nvmet_fc_ls_req_op *lsop)
- 				  (lsreq->rqstlen + lsreq->rsplen),
- 				  DMA_BIDIRECTIONAL);
- 
--out_puttgtport:
--	nvmet_fc_tgtport_put(tgtport);
-+out_putwork:
-+	queue_work(nvmet_wq, &tgtport->put_work);
- }
- 
- static int
-@@ -1396,6 +1405,7 @@ nvmet_fc_register_targetport(struct nvmet_fc_port_info *pinfo,
- 	kref_init(&newrec->ref);
- 	ida_init(&newrec->assoc_cnt);
- 	newrec->max_sg_cnt = template->max_sgl_segments;
-+	INIT_WORK(&newrec->put_work, nvmet_fc_put_tgtport_work);
- 
- 	ret = nvmet_fc_alloc_ls_iodlist(newrec);
- 	if (ret) {
--- 
-2.43.0
+On 1/29/24 14:37, Max Gurtovoy wrote:
+> 
+> 
+> On 29/01/2024 12:48, Sagi Grimberg wrote:
+>>
+>>>>> Even in this case of re-creation we must sync the namespace 
+>>>>> identification.
+>>>>
+>>>> But a format is not a re-creation.
+>>>>
+>>>
+>>> we currently don't support format in fabrics so maybe I didn't use 
+>>> the correct word during my answer.
+>>>
+>>> because of the dynamic nature of controllers and namespaces we have 
+>>> the identify ctrl/ns commands in the specification and we need to use 
+>>> them.
+>>
+>> ns scanning has been notorious to cause issues when executing with
+>> controller resets. So I don't think it is a good idea to make ctrl start
+>> block until it completes, especially not for an esoteric case that
+>> a ns that suddenly was reformatted between reconnects.
+>>
+> 
+> I think that making sure that the namespace is active and validated is 
+> not esoteric.
 
+The use-case you describe is very niche and esoteric IMO.
+
+> What is the concern ? is it the time it takes to validate a namespace ?
+
+Max, I mentioned that I don't think it is a good idea to change the
+existing behavior, because of time, because its preventing forward
+progress, because it doesn't fix an existing issue, etc.
+I also don't think its needed.
+
+I think the original intent of this as made in discussions in the past 
+was to simply fail upon PI mismatch when nvme_init_ns_head and
+nvme_validate_ns.
+
+> I think that AEN and reset flows are a bit different. The controller is 
+> free to be modified at any time (even when no Admin queue is opened from 
+> the host). It may have out-of-band management interface (for example the 
+> nvmet cli) and may not have any association (AQ) to the host to notify 
+> on changes.
+
+Fundamentally things can change before the host knows about it, hence
+I don't get the claim that somehow the host violates the spec.
+
+Do others think that now namespace scanning should block
+nvme_ctrl_start ? I personally don't but I'm open to justification
+for why it is the right thing to do.
 
