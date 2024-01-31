@@ -4,143 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ADB46C47DB3
-	for <linux-nvme@archiver.kernel.org>; Wed, 31 Jan 2024 11:16:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D1F2CC47DDF
+	for <linux-nvme@archiver.kernel.org>; Wed, 31 Jan 2024 11:31:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rQJ9lL2WhEc3RuAdBkdcgFfyzu0YnSsffpECzX01zqk=; b=ZuQ2uZWNjnrq9A6s3qaGIBXiwr
-	KRsSIyZXFFdXp5HjMh0e8c9uqWj9Lnk2V3GUYp0O7Y9djUN4/n0qZjPgCTCKvYRKJsNMBQE4ppPI1
-	QWj7G7AgaL8dAPlwiCZbVIzfpR+aWpx+zgKQblQsZMoEsf1Ool0KyB8AUS/WKc0Kc55j9VIh4E9tu
-	8z9SnD0LoEGXo7ivo3maci38NOouZflNNmveKxaY4aIcGQo3aepgYvu9tFrZ4wNCG9HqjsKbrUWQI
-	bc2fe/eylPfpxAWkVb+oW1ylB28PzCSDkXt35fNUK+J8YLoSyvOHSfvoKlvmIiPUS/ghH6ZkHN0KC
-	XVuWn6FQ==;
+	bh=j3E+YI20/9FxILYIDuFJMbdKgt/K4xZrFGqP/LjG7SU=; b=nqIpqqetMnDPQ6LTsvuSnG7g9n
+	ySIazsWPLkRQXeXXUq0LwxNYQNCrMyOy3NtUGIEY02iF5jdz/5V0gKA8pDp04RiCo8bdBOPAwTSjh
+	3Cay/+Ti/Sl76bFqebijXxhMh/E66sUCaaGE0T1Nc29oQ1/83keG+NbRZlIJX340PO+v3XB6tuyH+
+	xonji1EhhHb/C4TWSkIsruCv88c70LeBJbGUJTV9kiaf6bz+P91D1+cySanUsGBG8YBIte0lLIGG8
+	dC8biEd/fsr9mPzz36xVEnInia9Or/xsYB+r+UPUFwyl+KIhCygHlBxlf0ZRSMnSMLacwFa6k7641
+	i9VU2upg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rV8aA-000000032JA-0BMD;
-	Wed, 31 Jan 2024 11:16:42 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1rV8oe-000000036rO-3dpc;
+	Wed, 31 Jan 2024 11:31:40 +0000
+Received: from out30-111.freemail.mail.aliyun.com ([115.124.30.111])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rV6KQ-00000002FNf-0sAO
-	for linux-nvme@bombadil.infradead.org;
-	Wed, 31 Jan 2024 08:52:18 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=rQJ9lL2WhEc3RuAdBkdcgFfyzu0YnSsffpECzX01zqk=; b=eqHk1Pt+V0IKDlxJR73ijZVKSQ
-	gj6sU+dTqY+fMNYEUB1gLs/3egHkswFeMh8+B/B2flMhydNIU0dTS/CO8rWrkCAMufUccheP81ri1
-	gYllrkXutmKR05jAoNtSBTvSEbcHmQRFKuoc16KgG+Hojwa9pxYi/+2zYgh+WU0aqFx/jxH8qp1NN
-	MrkCOsWh5N5yvws/LLLbaHqNS6qP3KTrSfnbMxr4j+lRQrMhHF2lWgCr3oa+kES1OpNkRCaZDAW9T
-	oMhpFiyACieL3MwdX/rriON+Z7Mb4j+A5knp8jeaR3sIyO2CpkaNCk+FG05Ad/TChPb9tHAMKLL3K
-	UAMdMxew==;
-Received: from smtp-out1.suse.de ([195.135.223.130])
-	by desiato.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rV6Jc-00000008r36-2Sux
+	id 1rV6eC-00000002MqF-46MS
 	for linux-nvme@lists.infradead.org;
-	Wed, 31 Jan 2024 08:52:01 +0000
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9CB0021FF3;
-	Wed, 31 Jan 2024 08:51:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706691082; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rQJ9lL2WhEc3RuAdBkdcgFfyzu0YnSsffpECzX01zqk=;
-	b=mNq7eH5woEzdrl9tSb5DqovBM2HEebucKDN3oyLHW5Fes6rTWJpY7xMGHPilZ5GK0lN0Vg
-	RkjEBue3y4mEhwifJOM1hRXRsl2Thi4Mpk5s4QPJA8f7cb4J+ItQzOoNMI470+4tDiZ/V0
-	fdYBWqCIbM0wbCJcK9jk59oQVdwOBRg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706691082;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rQJ9lL2WhEc3RuAdBkdcgFfyzu0YnSsffpECzX01zqk=;
-	b=4MgMJ9a8QXT6mxPjReLfaEaAk9nc9npJhmwxMvKb3muKcB70PEnJc1oOL2U/kYTRlZ4sq5
-	MCPOvO4pfkMPmEBg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706691082; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rQJ9lL2WhEc3RuAdBkdcgFfyzu0YnSsffpECzX01zqk=;
-	b=mNq7eH5woEzdrl9tSb5DqovBM2HEebucKDN3oyLHW5Fes6rTWJpY7xMGHPilZ5GK0lN0Vg
-	RkjEBue3y4mEhwifJOM1hRXRsl2Thi4Mpk5s4QPJA8f7cb4J+ItQzOoNMI470+4tDiZ/V0
-	fdYBWqCIbM0wbCJcK9jk59oQVdwOBRg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706691082;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rQJ9lL2WhEc3RuAdBkdcgFfyzu0YnSsffpECzX01zqk=;
-	b=4MgMJ9a8QXT6mxPjReLfaEaAk9nc9npJhmwxMvKb3muKcB70PEnJc1oOL2U/kYTRlZ4sq5
-	MCPOvO4pfkMPmEBg==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 83D04139F5;
-	Wed, 31 Jan 2024 08:51:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id 5/h7HgoKumV+HAAAn2gu4w
-	(envelope-from <dwagner@suse.de>); Wed, 31 Jan 2024 08:51:22 +0000
-From: Daniel Wagner <dwagner@suse.de>
-To: James Smart <james.smart@broadcom.com>
-Cc: Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Hannes Reinecke <hare@suse.de>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH v5 02/12] nvmet-fcloop: swap the list_add_tail arguments
-Date: Wed, 31 Jan 2024 09:51:02 +0100
-Message-ID: <20240131085112.21668-3-dwagner@suse.de>
+	Wed, 31 Jan 2024 09:12:46 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1706692361; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=j3E+YI20/9FxILYIDuFJMbdKgt/K4xZrFGqP/LjG7SU=;
+	b=bBAU9gUw6qrErvAA6W+rZ7tZLEVWJS7h9cFtwL8y6wYwskQ8NsVja56Hkjgr3bxjDRtOC01sEXZYO04uuCWckEmS5pNOitD4GZuu+AKc+4Jtw9zA5RywbUhIdUF19V0NRM5Ul0dcLpPX9hVqCEMXtdKqHNtuyhhNPTBNcnot3uM=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R921e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046050;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0W.iyaJo_1706692356;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W.iyaJo_1706692356)
+          by smtp.aliyun-inc.com;
+          Wed, 31 Jan 2024 17:12:40 +0800
+From: Guixin Liu <kanie@linux.alibaba.com>
+To: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH v2 3/3] nvme: parse format command's lbafu when tracing
+Date: Wed, 31 Jan 2024 17:12:22 +0800
+Message-ID: <20240131091222.116190-4-kanie@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240131085112.21668-1-dwagner@suse.de>
-References: <20240131085112.21668-1-dwagner@suse.de>
+In-Reply-To: <20240131091222.116190-1-kanie@linux.alibaba.com>
+References: <20240131091222.116190-1-kanie@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=mNq7eH5w;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=4MgMJ9a8
-X-Spamd-Result: default: False [-1.78 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 R_MISSING_CHARSET(2.50)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DWL_DNSWL_HI(-3.50)[suse.de:dkim];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_SEVEN(0.00)[7];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-2.97)[99.86%]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 9CB0021FF3
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240131_085140_810230_2498790C 
-X-CRM114-Status: GOOD (  12.43  )
+X-CRM114-CacheID: sfid-20240131_011245_196150_668DD512 
+X-CRM114-Status: GOOD (  10.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -155,47 +67,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The first argument of list_add_tail function is the new element which
-should be added to the list which is the second argument. Swap the
-arguments to allow processing more than one element at a time.
+Add the parse of format command's lbafu to calculate lbaf.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
+Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 ---
- drivers/nvme/target/fcloop.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/nvme/host/trace.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index c1faeb1e9e55..1471af250ea6 100644
---- a/drivers/nvme/target/fcloop.c
-+++ b/drivers/nvme/target/fcloop.c
-@@ -358,7 +358,7 @@ fcloop_h2t_ls_req(struct nvme_fc_local_port *localport,
- 	if (!rport->targetport) {
- 		tls_req->status = -ECONNREFUSED;
- 		spin_lock(&rport->lock);
--		list_add_tail(&rport->ls_list, &tls_req->ls_list);
-+		list_add_tail(&tls_req->ls_list, &rport->ls_list);
- 		spin_unlock(&rport->lock);
- 		queue_work(nvmet_wq, &rport->ls_work);
- 		return ret;
-@@ -391,7 +391,7 @@ fcloop_h2t_xmt_ls_rsp(struct nvmet_fc_target_port *targetport,
- 	if (remoteport) {
- 		rport = remoteport->private;
- 		spin_lock(&rport->lock);
--		list_add_tail(&rport->ls_list, &tls_req->ls_list);
-+		list_add_tail(&tls_req->ls_list, &rport->ls_list);
- 		spin_unlock(&rport->lock);
- 		queue_work(nvmet_wq, &rport->ls_work);
- 	}
-@@ -446,7 +446,7 @@ fcloop_t2h_ls_req(struct nvmet_fc_target_port *targetport, void *hosthandle,
- 	if (!tport->remoteport) {
- 		tls_req->status = -ECONNREFUSED;
- 		spin_lock(&tport->lock);
--		list_add_tail(&tport->ls_list, &tls_req->ls_list);
-+		list_add_tail(&tls_req->ls_list, &tport->ls_list);
- 		spin_unlock(&tport->lock);
- 		queue_work(nvmet_wq, &tport->ls_work);
- 		return ret;
+diff --git a/drivers/nvme/host/trace.c b/drivers/nvme/host/trace.c
+index 4b8924abb4e1..7b752ee47f36 100644
+--- a/drivers/nvme/host/trace.c
++++ b/drivers/nvme/host/trace.c
+@@ -119,7 +119,10 @@ static const char *nvme_trace_get_lba_status(struct trace_seq *p,
+ static const char *nvme_trace_admin_format_nvm(struct trace_seq *p, u8 *cdw10)
+ {
+ 	const char *ret = trace_seq_buffer_ptr(p);
+-	u8 lbaf = cdw10[0] & 0xF;
++	/*
++	 * lbafu(bit 13:12) is already in the upper 4 bits, lbafl: bit 03:00.
++	 */
++	u8 lbaf = (cdw10[1] & 0x30) | (cdw10[0] & 0xF);
+ 	u8 mset = (cdw10[0] >> 4) & 0x1;
+ 	u8 pi = (cdw10[0] >> 5) & 0x7;
+ 	u8 pil = cdw10[1] & 0x1;
 -- 
 2.43.0
 
