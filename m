@@ -4,68 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 944F7C47258
-	for <linux-nvme@archiver.kernel.org>; Thu,  1 Feb 2024 00:36:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2B89C47258
+	for <linux-nvme@archiver.kernel.org>; Thu,  1 Feb 2024 01:09:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=asRrt4K/U1GCRlX6PV7rQpW4mzdpGhQdpcB6mlrvSFc=; b=Mvotau4T2grhTQewH2WqmBJjdp
-	duozhMwigVeO0q9NLl2NSPS3Em41rHFG2b1waIOzEd84HZu0mI5VqmXCWbFi7phfMRk9kCYH4bmxe
-	Vk5YUsJRmAjICI0+6HtSNnSR6SSEqF/rF21gaJ6CoZBGsRI9hHrI0TgEQTaVoHqEhpfNaTIQPojxG
-	KqXm20JoL3KJrkaU6Wm05ybmWwgSwceap6Ev5k3/HelC+AifeAyL7p90RWPIGtmnIA7H5Nz+04ce1
-	ht3bITtHp73zMWe+sDFFRoRznEv3Uzsw/AfgLuACrwXxXWiX/MNSyo0lhYX+TrKt6K+lrwJQRMRf3
-	UZWGYk5w==;
+	bh=7uzPKXvpINXEjjHWrPnGCSGR3BBWk5ExsUKDZXdkRIo=; b=F1Tcp5+L+MNjcspemoU587edbb
+	yBYZ+XmN5rvkAPkWJiCDJ0xrofo0CdL00ttS0+rKPMilbPdA2ch6ImTZf7kctqi0Mlcdq5l8wuSM9
+	Y5jNSkm2LoYo6K2+jLB31gQAlyArg4nZHYum54iCO+9fmeYHnr+f1oVgmn3M5bDhioFwEF/LCzbip
+	I7/XCtp5F0mewQy0bWWQabkw6Zlz+6uVGM6BX+RJoxxGrcstz8mi2GfW/Kd0Ba3C7N9UJGj7jIlGa
+	AU5QQfYpx4c0/62LyckS8hQ2gGuy/9U20c6MjsW7dEJqOumibeZJyJBMrl8LllEyq9+agH5D/cLA7
+	pKjlURhA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rVL45-000000066HE-24pn;
-	Thu, 01 Feb 2024 00:36:25 +0000
+	id 1rVLaA-00000006A7N-0RLm;
+	Thu, 01 Feb 2024 01:09:34 +0000
 Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rVL42-000000066Gn-3APo
+	id 1rVLa7-00000006A5Y-0aKh
 	for linux-nvme@lists.infradead.org;
-	Thu, 01 Feb 2024 00:36:23 +0000
+	Thu, 01 Feb 2024 01:09:32 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id DC30661A7C;
-	Thu,  1 Feb 2024 00:36:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93251C433F1;
-	Thu,  1 Feb 2024 00:36:20 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id CE65461B11;
+	Thu,  1 Feb 2024 01:09:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10042C433F1;
+	Thu,  1 Feb 2024 01:09:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706747781;
-	bh=0JtscoZzimQzp2qkEcWvxbxxzEjKJfAvKpp5ErN+JRw=;
+	s=k20201202; t=1706749769;
+	bh=JQNTFJVRr5bZ6bOX/DRNW551t8GEdXicm8y2FFQtH5o=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Hdj1O3eTlMJ5bNCLIljTMwhz4Ww4bqYUMvrHtpjmot/k5qbNGF93N1onIpUznJnrO
-	 IDiPQsEdl5HfbfFEXnJLRN5YhAYMvgEExsGwNC2xH26C3zwYrnE51VGmkLnZbLkhO6
-	 agMEGfcAZjUvB+EdBye9rmc3W9mTqLPwifIi1FYb5h/Ea/WqpHmSZ1o0FwrZuHMC9w
-	 SXmURZUVXViiBF49/ionbkWJ81ktopVaeqppc3Qh6F/kkGxu9ua8C+nmutT+Gmy7uy
-	 zANJK1OLoEkjbjwuXhnVOMdJATbKPqLFserhHWxntsKFLkWFI5uHhPicWpgTMkCtCg
-	 YBy4P1/MEwX9g==
-Date: Wed, 31 Jan 2024 17:36:18 -0700
+	b=haqwqWVar1zrVQabGf5q0ASaRJ4MwIhylg3U6qEgThlTTMjxRcGMY3M92Fm5e6rBA
+	 N4/aLDb77VRx0P169LDY4JdmnLzeaQgxQ33gEz4FI5obXUnT5SYw92hGxsIpCXs9EV
+	 baJOOIN1W/lGiU6i8ACLcZQvgj+tEOxFGfICxNvnxgpR9ASU1tpAxPFh1EKRXvwRoP
+	 JPRo3nQESoMY1Ke9k7GKmCKv4SWu1x30DAbfoSHJ/rhL2q8aZuzYL3aFaHoZsUdYGB
+	 8/oHsVjktmYtVYtDsebV1kTsJJiMV5xflu9I6xGtknnArzz+UHJRrWaSdD/6WnoRia
+	 4oV0cTBR1aB9g==
+Date: Wed, 31 Jan 2024 18:09:26 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, "Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, virtualization@lists.linux.dev,
-	Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH 05/14] block: add a max_user_discard_sectors queue limit
-Message-ID: <ZbrngpaAisIJGQ0T@kbusch-mbp.dhcp.thefacebook.com>
-References: <20240131130400.625836-1-hch@lst.de>
- <20240131130400.625836-6-hch@lst.de>
+To: Alan Adamson <alan.adamson@oracle.com>
+Cc: linux-nvme@lists.infradead.org, kch@nvidia.com, hch@lst.de,
+	sagi@grimberg.me
+Subject: Re: [PATCH V9 1/1] nvme: allow passthru cmd error logging
+Message-ID: <ZbrvRpfhzyM84Qrp@kbusch-mbp.dhcp.thefacebook.com>
+References: <20240130001938.1103354-1-alan.adamson@oracle.com>
+ <20240130001938.1103354-2-alan.adamson@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240131130400.625836-6-hch@lst.de>
+In-Reply-To: <20240130001938.1103354-2-alan.adamson@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240131_163622_859853_DF2D0F87 
-X-CRM114-Status: GOOD (  13.03  )
+X-CRM114-CacheID: sfid-20240131_170931_249141_08FCE863 
+X-CRM114-Status: GOOD (  10.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,40 +72,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jan 31, 2024 at 02:03:51PM +0100, Christoph Hellwig wrote:
->  static ssize_t queue_discard_max_store(struct request_queue *q,
->  				       const char *page, size_t count)
->  {
-> -	unsigned long max_discard;
-> -	ssize_t ret = queue_var_store(&max_discard, page, count);
-> +	unsigned long max_discard_bytes;
-> +	ssize_t ret;
->  
-> +	ret = queue_var_store(&max_discard_bytes, page, count);
->  	if (ret < 0)
->  		return ret;
->  
-> -	if (max_discard & (q->limits.discard_granularity - 1))
-> +	if (max_discard_bytes & (q->limits.discard_granularity - 1))
->  		return -EINVAL;
->  
-> -	max_discard >>= 9;
-> -	if (max_discard > UINT_MAX)
-> +	if ((max_discard_bytes >> SECTOR_SHIFT) > UINT_MAX)
->  		return -EINVAL;
->  
-> -	if (max_discard > q->limits.max_hw_discard_sectors)
-> -		max_discard = q->limits.max_hw_discard_sectors;
-> -
-> -	q->limits.max_discard_sectors = max_discard;
-> +	q->limits.max_user_discard_sectors = max_discard_bytes >> SECTOR_SHIFT;
-> +	q->limits.max_discard_sectors =
-> +		min_not_zero(q->limits.max_hw_discard_sectors,
-> +			     q->limits.max_user_discard_sectors);
+On Mon, Jan 29, 2024 at 04:19:38PM -0800, Alan Adamson wrote:
+> Commit d7ac8dca938c ("nvme: quiet user passthrough command errors")
+> disabled error logging for user passthrough commands.  This commit
+> adds the ability to opt-in to passthrough admin error logging. IO
+> commands initiated as passthrough will always be logged.
+> 
+> The logging output for passthrough commands (Admin and IO) has been
+> changed to include CDWXX fields.
+> 
+> nvme0n1: Read(0x2), LBA Out of Range (sct 0x0 / sc 0x80) DNR cdw10=0x0 cdw11=0x1
+>         cdw12=0x70000 cdw13=0x0 cdw14=0x0 cdw15=0x0
+> 
+> Add a helper function nvme_log_err_passthru() which allows us to log
+> error for passthru commands by decoding cdw10-cdw15 values of nvme
+> command.
+> 
+> Add a new sysfs attr passthru_err_log_enabled that allows user to conditionally
+> enable passthrough command logging for either passthrough Admin commands sent to
+> the controller or passthrough IO commands sent to a namespace.
 
-s/min_not_zero/min
-
-Otherwise the whole series looks pretty good! And with that:
-
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+Thanks, applied to nvme-6.8 with Chaitanya's suggestion folded in.
 
