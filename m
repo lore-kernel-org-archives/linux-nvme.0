@@ -4,128 +4,120 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D8DFC47DDB
-	for <linux-nvme@archiver.kernel.org>; Thu,  1 Feb 2024 12:43:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 799C5C4828F
+	for <linux-nvme@archiver.kernel.org>; Thu,  1 Feb 2024 13:38:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=U1kNDWukdyI8pp9oNjayP1o3C2QHI4EpojSIoHeSw7I=; b=P3KLU2ol0p9i0Qhtl2k0KwweAJ
-	dkq0lGMHeXpiQ12iGHalfuGKbSQqAgNkSisBQd/iNVVL1maLyOsw9eDdNv3OaWk70ZkFOYG/ZOMQz
-	LtqWoaASSMnIRGAZodYGPmXnyKtpqjGC44e+xijfhm+BFwzLeLf7cDmviJy5S//oa6JzLRUpYf5qg
-	vG84bKSLnyhA+G+g1De1ooT6aX/KTT0983NjrB9m0mkvHoYWgvnAqMMnfp2nj6dm9AthowYE86GkE
-	IS3nzaHzpzvoLi/uuKdJnuay6amMsfo+QHlpJF85BRG6EvgeCtMGuQGIAe+VOYAQZoEcWubSl92gT
-	vrslggfQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=UJSP0vaanNwikG01nXvwMCU7tRROo2e99p0nU1Uum3g=; b=AkiY86vNDo7GCD+tm6X0HSdxHK
+	lzs+y9UXk+Q52N95V5nISyAa9VacRvJY/wfgn/rCbfz+LE448JCV/l5NP67kpQB8E/S/tQ/Lxn/im
+	GaXRy8H8pf5MRxjGGmPokKF+NCuFJ37h3SZZsyAQ+ymS1yZ3tl+GEk7kMVvdo+T0sJ7lk+Cq0BGPe
+	HRTkMq585YSBWZXyN6uNkmU9UEtnAH1r1AVMgf2mtR/IO7rhP3nJEAsTnNL7abwK5VFBUW88M5OBN
+	oEX2tlo+OBDE2tTxUH96LwTMOJEYaRgxFLMtdPn9s5fbD2eY0H/N3xKFDCwA9DhKR6DLzZVnr2o89
+	E02+mhvA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rVWPx-00000007o5u-2rRW;
-	Thu, 01 Feb 2024 12:43:45 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1rVXGj-000000087F1-0Ruk;
+	Thu, 01 Feb 2024 13:38:17 +0000
+Received: from mailout2.samsung.com ([203.254.224.25])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rVWPt-00000007o4s-3hq2
+	id 1rVWo0-00000007uzC-1X3a
 	for linux-nvme@lists.infradead.org;
-	Thu, 01 Feb 2024 12:43:44 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6953F21224;
-	Thu,  1 Feb 2024 12:43:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706791420; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=U1kNDWukdyI8pp9oNjayP1o3C2QHI4EpojSIoHeSw7I=;
-	b=F4cLai+eLndNDqg8YFCVtTP1zL1i34bjMCADck/SiU4rXF8uzBriaHtDCUXi5Ms4z9zMXm
-	bpfCAyNRcLwBRjNOWJgxyog+kkiIZZsyOKCw5Usu1daaQcvlQRjOLoQGMeMdhL5ki62mxv
-	NgJnG+E7hss6hpY41S6PDpcroDC7XcA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706791420;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=U1kNDWukdyI8pp9oNjayP1o3C2QHI4EpojSIoHeSw7I=;
-	b=SKyiwdm27mplhBRTaDbfoJA74KfKPUGFi80nqLEE2z8ZDJjqKVm2Y6jCB+VA9kbgG6RnjL
-	SCDxqYI7cszPo5Dg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1706791420; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=U1kNDWukdyI8pp9oNjayP1o3C2QHI4EpojSIoHeSw7I=;
-	b=F4cLai+eLndNDqg8YFCVtTP1zL1i34bjMCADck/SiU4rXF8uzBriaHtDCUXi5Ms4z9zMXm
-	bpfCAyNRcLwBRjNOWJgxyog+kkiIZZsyOKCw5Usu1daaQcvlQRjOLoQGMeMdhL5ki62mxv
-	NgJnG+E7hss6hpY41S6PDpcroDC7XcA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1706791420;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=U1kNDWukdyI8pp9oNjayP1o3C2QHI4EpojSIoHeSw7I=;
-	b=SKyiwdm27mplhBRTaDbfoJA74KfKPUGFi80nqLEE2z8ZDJjqKVm2Y6jCB+VA9kbgG6RnjL
-	SCDxqYI7cszPo5Dg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C7A60139B1;
-	Thu,  1 Feb 2024 12:43:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kBbBJPqRu2XNOAAAD6G6ig
-	(envelope-from <hare@suse.de>); Thu, 01 Feb 2024 12:43:38 +0000
-Message-ID: <2abd09d9-eb35-413f-9447-5ecb6e9839ba@suse.de>
-Date: Thu, 1 Feb 2024 13:43:38 +0100
+	Thu, 01 Feb 2024 13:08:38 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20240201130831epoutp02be9e1d315be10eff2720d0b37288f8c6~vvxwhGUTv3201232012epoutp02K
+	for <linux-nvme@lists.infradead.org>; Thu,  1 Feb 2024 13:08:31 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20240201130831epoutp02be9e1d315be10eff2720d0b37288f8c6~vvxwhGUTv3201232012epoutp02K
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1706792911;
+	bh=UJSP0vaanNwikG01nXvwMCU7tRROo2e99p0nU1Uum3g=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=BEAW0Q9enyvuc1FFzwcqHPeqWqhrMU/9df2cBrj96E3r67xrHdIy8ZWwX7hcKYcxp
+	 AAadOB+CjmSfCPOyIC2ddPy7woqcdR+5Ci3c3znL0Kwq9kUQql4SxZLMrjEgTpTDe/
+	 F909cHny8lAYfZfow8oI0+AHEixx8aRVo215BDeA=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+	20240201130831epcas5p3aeb0257db71d5dffd692d1a676562770~vvxwOtfKO1587615876epcas5p3x;
+	Thu,  1 Feb 2024 13:08:31 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.177]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4TQfNY1hVNz4x9Pq; Thu,  1 Feb
+	2024 13:08:29 +0000 (GMT)
+Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	91.4E.10009.DC79BB56; Thu,  1 Feb 2024 22:08:29 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20240201130828epcas5p10bd98bcb6b8e9444603e347c2a910c44~vvxuIiYPU2255222552epcas5p13;
+	Thu,  1 Feb 2024 13:08:28 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20240201130828epsmtrp1a7908ec15bd3ab9d4784e44b53e7dd64~vvxuH1G-o2514325143epsmtrp1Q;
+	Thu,  1 Feb 2024 13:08:28 +0000 (GMT)
+X-AuditID: b6c32a4a-ff1ff70000002719-db-65bb97cdd11b
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	1B.2C.08755.CC79BB56; Thu,  1 Feb 2024 22:08:28 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.99.41.245]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20240201130825epsmtip19275d0154f5ec41decaaac9259ea2538~vvxrecTdI2208822088epsmtip1F;
+	Thu,  1 Feb 2024 13:08:25 +0000 (GMT)
+From: Kanchan Joshi <joshi.k@samsung.com>
+To: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de,
+	martin.petersen@oracle.com, sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	gost.dev@samsung.com, Kanchan Joshi <joshi.k@samsung.com>
+Subject: [PATCH v2 0/3] Block integrity with flexible-offset PI
+Date: Thu,  1 Feb 2024 18:31:23 +0530
+Message-Id: <20240201130126.211402-1-joshi.k@samsung.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 04/12] nvmet-fc: defer cleanup using RCU properly
-Content-Language: en-US
-To: Daniel Wagner <dwagner@suse.de>, James Smart <james.smart@broadcom.com>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20240131085112.21668-1-dwagner@suse.de>
- <20240131085112.21668-5-dwagner@suse.de>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20240131085112.21668-5-dwagner@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=F4cLai+e;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SKyiwdm2
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.50 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 XM_UA_NO_VERSION(0.01)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%];
-	 MIME_GOOD(-0.10)[text/plain];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCPT_COUNT_FIVE(0.00)[6];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCVD_TLS_ALL(0.00)[];
-	 MID_RHS_MATCH_FROM(0.00)[]
-X-Rspamd-Queue-Id: 6953F21224
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupmk+LIzCtJLcpLzFFi42LZdlhTU/fs9N2pBl/nc1isvtvPZnHzwE4m
+	i5WrjzJZHP3/ls1i0qFrjBZ7b2lbzF/2lN1i+fF/TBbrXr9nceD0OH9vI4vH5bOlHptWdbJ5
+	bF5S77H7ZgObx8ent1g8+rasYvT4vEkugCMq2yYjNTEltUghNS85PyUzL91WyTs43jne1MzA
+	UNfQ0sJcSSEvMTfVVsnFJ0DXLTMH6DglhbLEnFKgUEBicbGSvp1NUX5pSapCRn5xia1SakFK
+	ToFJgV5xYm5xaV66Xl5qiZWhgYGRKVBhQnbGoblNjAW7uCqOvzvI3sA4gaOLkZNDQsBE4unO
+	fsYuRi4OIYHdjBLHNr5hg3A+MUpMfPoeyvnGKLHhzxRGmJY9M5cxgdhCAnuBEq0WEEWfGSWW
+	PfzH3MXIwcEmoClxYXIpSI2IQJLEx77zYL3MAjUSl++eBusVFrCX2Np8nQ3EZhFQlVj1oAWs
+	hlfAUuLNp8VsELvkJWZe+s4OEReUODnzCQvEHHmJ5q2zmUH2Sgh8ZZfoWvqBGaLBRWL/ofdQ
+	zcISr45vYYewpSRe9rdB2ckSl2aeY4KwSyQe7zkIZdtLtJ7qB7ufGej+9bv0IXbxSfT+fsIE
+	EpYQ4JXoaBOCqFaUuDfpKSuELS7xcMYSKNtDYvrR6+yQ4ImVuLv6KPMERrlZSD6YheSDWQjL
+	FjAyr2KUTC0ozk1PLTYtMMpLLYdHZXJ+7iZGcKrU8trB+PDBB71DjEwcjIcYJTiYlUR4V8rt
+	TBXiTUmsrEotyo8vKs1JLT7EaAoM1onMUqLJ+cBknVcSb2hiaWBiZmZmYmlsZqgkzvu6dW6K
+	kEB6YklqdmpqQWoRTB8TB6dUA1PgxP7V3U8FG+dxX3n0ZWegqv0Wm/WTWPZN8L7LNXHBAZ7D
+	u5+KVv46NiV6/ra4mtI1XRxpnXebkxlbZh56vebdi8POv6NVkxquOGinX1l8psZl3xFzhodL
+	vq5LCJrStvB62D5tf6P0/l2/FzHKzHeMUvXYx7Kn/gnH+se/L/Mv2H5qRfcU4zLRW4GX3igo
+	B03PWvDD3fB0n9DNU43xHI9Tau/NErdS/RQiPeVLFVOySNjjBBduu+p8hlna9ULLfvxtOic0
+	c8EqwbMa7ws9f+5uuNBZMzM4qpr7adqmGR2MNny/s/Lqso2OdmY7Puw6trrHLiV1+6xJiQEe
+	VavXNr+5FsmiUWvUXfPzzFbxY0uVWIozEg21mIuKEwEYjqx/HgQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrKLMWRmVeSWpSXmKPExsWy7bCSnO6Z6btTDd62q1qsvtvPZnHzwE4m
+	i5WrjzJZHP3/ls1i0qFrjBZ7b2lbzF/2lN1i+fF/TBbrXr9nceD0OH9vI4vH5bOlHptWdbJ5
+	bF5S77H7ZgObx8ent1g8+rasYvT4vEkugCOKyyYlNSezLLVI3y6BK+PQ3CbGgl1cFcffHWRv
+	YJzA0cXIySEhYCKxZ+Yypi5GLg4hgd2MEm8fnWKCSIhLNF/7wQ5hC0us/PecHaLoI6PEtt3d
+	QEUcHGwCmhIXJpeC1IgIZEh0/J7BDFLDLNDAKLHu9S6wQcIC9hJbm6+zgdgsAqoSqx60MILY
+	vAKWEm8+LWaDWCAvMfPSd3aIuKDEyZlPWEBsZqB489bZzBMY+WYhSc1CklrAyLSKUTK1oDg3
+	PbfYsMAwL7Vcrzgxt7g0L10vOT93EyM4pLU0dzBuX/VB7xAjEwfjIUYJDmYlEd6VcjtThXhT
+	EiurUovy44tKc1KLDzFKc7AoifOKv+hNERJITyxJzU5NLUgtgskycXBKNTB17hfSUlzsZLcj
+	YKpV34Xl5nNt3FTrnLlZs3da+/6PML1cPPGqm/JJxsl/7zmUPTOyCbc8ninX+L237KRr1erm
+	U5MKDI5mHFnvy1rw4f4/jo0+sZwO3xbtm/l8xSL3XVtjigUbBZM9+KJ63Hh/Zd90PS+ruvPc
+	l4awxJ9tLHoCTxZvfCfdqKaXLnPExCM/InbFqw1hbDM5jJ7fkuy4PaFb5Yl2zMGispybL/8q
+	zky9tvFVduVdJ/aMQwnyDx5emPQj58eTIwvc9rIUe2y91fnrr+Utp6tdB0sNtlmcTu75ssr6
+	c8J5ldhfxbtjJfmiXj67H9C7IiK6eg6j3fppdg3LCnffs9ih48N5y0rtf5USS3FGoqEWc1Fx
+	IgAd4DER2AIAAA==
+X-CMS-MailID: 20240201130828epcas5p10bd98bcb6b8e9444603e347c2a910c44
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240201130828epcas5p10bd98bcb6b8e9444603e347c2a910c44
+References: <CGME20240201130828epcas5p10bd98bcb6b8e9444603e347c2a910c44@epcas5p1.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240201_044342_098680_1BE1CBAD 
-X-CRM114-Status: GOOD (  18.04  )
+X-CRM114-CacheID: sfid-20240201_050837_137902_757BC69E 
+X-CRM114-Status: GOOD (  14.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -140,40 +132,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/31/24 09:51, Daniel Wagner wrote:
-> When the target executes a disconnect and the host triggers a reconnect
-> immediately, the reconnect command still finds an existing association.
-> 
-> The reconnect crashes later on because nvmet_fc_delete_target_assoc
-> blindly removes resources while the reconnect code wants to use it.
-> 
-> To address this, nvmet_fc_find_target_assoc should not be able to
-> lookup an association which is being removed. The association list
-> is already under RCU lifetime management, so let's properly use it
-> and remove the association from the list and wait for a grace period
-> before cleaning up all. This means we also can drop the RCU management
-> on the queues, because this is now handled via the association itself.
-> 
-> A second step split the execution context so that the initial disconnect
-> command can complete without running the reconnect code in the same
-> context. As usual, this is done by deferring the ->done to a workqueue.
-> 
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Daniel Wagner <dwagner@suse.de>
-> ---
->   drivers/nvme/target/fc.c | 83 ++++++++++++++++++----------------------
->   1 file changed, 37 insertions(+), 46 deletions(-)
-> 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+The block integrity subsystem can only work with PI placed in the first
+bytes of the metadata buffer.
 
-Cheers,
+The series makes block-integrity support the flexible placement of PI.
+And changes NVMe driver to make use of the new capability.
 
-Hannes
+This helps to
+(i) enable the more common case for NVMe (PI in last bytes is the norm)
+(ii) reduce nop profile users (tried by Jens recently [1]).
+
+/* For NS 4K+16b, 8b PI, last bytes */
+Before:
+# cat /sys/block/nvme0n1/integrity/format
+nop
+
+After:
+# cat /sys/block/nvme0n1/integrity/format
+T10-DIF-TYPE1-CRC
+
+Changes since v1:
+- Reworded commit messsage in patch 2 and 3 (hch)
+- Variable initialization order change (hch)
+- Collect reviewed-by
+
+[1] https://lore.kernel.org/linux-block/20240111160226.1936351-1-axboe@kernel.dk/
+
+
+
+Kanchan Joshi (3):
+  block: refactor guard helpers
+  block: support PI at non-zero offset within metadata
+  nvme: allow integrity when PI is not in first bytes
+
+ block/bio-integrity.c         |  1 +
+ block/blk-integrity.c         |  1 +
+ block/t10-pi.c                | 72 +++++++++++++++++++++++------------
+ drivers/nvme/host/core.c      |  8 +++-
+ drivers/nvme/host/nvme.h      |  1 +
+ include/linux/blk-integrity.h |  1 +
+ include/linux/blkdev.h        |  1 +
+ 7 files changed, 60 insertions(+), 25 deletions(-)
+
 -- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), GF: Ivo Totev, Andrew McDonald,
-Werner Knoblich
+2.25.1
 
 
