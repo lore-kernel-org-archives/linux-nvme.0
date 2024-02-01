@@ -4,60 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2B89C47258
-	for <linux-nvme@archiver.kernel.org>; Thu,  1 Feb 2024 01:09:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 011A0C47258
+	for <linux-nvme@archiver.kernel.org>; Thu,  1 Feb 2024 02:03:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7uzPKXvpINXEjjHWrPnGCSGR3BBWk5ExsUKDZXdkRIo=; b=F1Tcp5+L+MNjcspemoU587edbb
-	yBYZ+XmN5rvkAPkWJiCDJ0xrofo0CdL00ttS0+rKPMilbPdA2ch6ImTZf7kctqi0Mlcdq5l8wuSM9
-	Y5jNSkm2LoYo6K2+jLB31gQAlyArg4nZHYum54iCO+9fmeYHnr+f1oVgmn3M5bDhioFwEF/LCzbip
-	I7/XCtp5F0mewQy0bWWQabkw6Zlz+6uVGM6BX+RJoxxGrcstz8mi2GfW/Kd0Ba3C7N9UJGj7jIlGa
-	AU5QQfYpx4c0/62LyckS8hQ2gGuy/9U20c6MjsW7dEJqOumibeZJyJBMrl8LllEyq9+agH5D/cLA7
-	pKjlURhA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=EC46KIrzklGtmPx1vm3JpTftmOw1p4urknNLul0fKdc=; b=CtV5dAw2oKTIoL/zwX9aDEnoFb
+	LLC0/onaVNn0Ty5vDJNhScxJRNCxTYty5M1VXA84toPyhdbYM84/AfR1NJummqoZcra1IsvJnbRFh
+	Eho8Bu2koNWVvkTJyL6sQf4N3YC/mlmPjE8zyi4XhyQSYarcAY3DXq3jq526Ig0C8NLfcdz3mxPoS
+	1C3rj7MHzT8U6m5LScnPRVhjm2Q4e8VBhY/ra+TjgjuFK9sKBEQ/dZ0j5Torpr170MhdTaIh/MzRA
+	g7XMisXwgJt91/lnC/R24TvwHdhueiWJzzYKKb6CzD/s6t/ZWuHUjKVOXQt/zMttJ7wZlmKKS0lvy
+	IePWE26Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rVLaA-00000006A7N-0RLm;
-	Thu, 01 Feb 2024 01:09:34 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1rVMQ4-00000006G5W-185A;
+	Thu, 01 Feb 2024 02:03:12 +0000
+Received: from out30-111.freemail.mail.aliyun.com ([115.124.30.111])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rVLa7-00000006A5Y-0aKh
+	id 1rVMQ0-00000006G3z-3RQK
 	for linux-nvme@lists.infradead.org;
-	Thu, 01 Feb 2024 01:09:32 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id CE65461B11;
-	Thu,  1 Feb 2024 01:09:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10042C433F1;
-	Thu,  1 Feb 2024 01:09:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706749769;
-	bh=JQNTFJVRr5bZ6bOX/DRNW551t8GEdXicm8y2FFQtH5o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=haqwqWVar1zrVQabGf5q0ASaRJ4MwIhylg3U6qEgThlTTMjxRcGMY3M92Fm5e6rBA
-	 N4/aLDb77VRx0P169LDY4JdmnLzeaQgxQ33gEz4FI5obXUnT5SYw92hGxsIpCXs9EV
-	 baJOOIN1W/lGiU6i8ACLcZQvgj+tEOxFGfICxNvnxgpR9ASU1tpAxPFh1EKRXvwRoP
-	 JPRo3nQESoMY1Ke9k7GKmCKv4SWu1x30DAbfoSHJ/rhL2q8aZuzYL3aFaHoZsUdYGB
-	 8/oHsVjktmYtVYtDsebV1kTsJJiMV5xflu9I6xGtknnArzz+UHJRrWaSdD/6WnoRia
-	 4oV0cTBR1aB9g==
-Date: Wed, 31 Jan 2024 18:09:26 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Alan Adamson <alan.adamson@oracle.com>
-Cc: linux-nvme@lists.infradead.org, kch@nvidia.com, hch@lst.de,
-	sagi@grimberg.me
-Subject: Re: [PATCH V9 1/1] nvme: allow passthru cmd error logging
-Message-ID: <ZbrvRpfhzyM84Qrp@kbusch-mbp.dhcp.thefacebook.com>
-References: <20240130001938.1103354-1-alan.adamson@oracle.com>
- <20240130001938.1103354-2-alan.adamson@oracle.com>
+	Thu, 01 Feb 2024 02:03:11 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1706752984; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=EC46KIrzklGtmPx1vm3JpTftmOw1p4urknNLul0fKdc=;
+	b=qeuWuzHNWIMYWFXkd+d1+ZAJI9HEi5i1HCrLgzAV9VZ6GeC/P9mFHwOK3NBaSP6qbHD+Gce+uaWt6ra9Togy4q1O0ufN/CqIUmU81mkACpMO51JReQrMDmePHkjp8Xs9SKwzD4y5ZqJqLMEeUTIQj1gc/xI5Y8qeJfp4CBDCHPM=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045176;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0W.l5yIr_1706752982;
+Received: from 30.178.83.62(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W.l5yIr_1706752982)
+          by smtp.aliyun-inc.com;
+          Thu, 01 Feb 2024 10:03:03 +0800
+Message-ID: <e9f1780e-e785-4ed3-b1f1-22302253182b@linux.alibaba.com>
+Date: Thu, 1 Feb 2024 10:03:01 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240130001938.1103354-2-alan.adamson@oracle.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/3] *** nvme: add some commands tracing ***
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "kbusch@kernel.org" <kbusch@kernel.org>, "sagi@grimberg.me"
+ <sagi@grimberg.me>, "axboe@kernel.dk" <axboe@kernel.dk>,
+ "hch@lst.de" <hch@lst.de>
+References: <20240131091222.116190-1-kanie@linux.alibaba.com>
+ <f7eb8e6b-3833-4b68-812a-b533f7931b5c@nvidia.com>
+Content-Language: en-GB
+From: Guixin Liu <kanie@linux.alibaba.com>
+In-Reply-To: <f7eb8e6b-3833-4b68-812a-b533f7931b5c@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240131_170931_249141_08FCE863 
-X-CRM114-Status: GOOD (  10.03  )
+X-CRM114-CacheID: sfid-20240131_180309_405443_3F0FBE60 
+X-CRM114-Status: GOOD (  11.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,25 +70,46 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Jan 29, 2024 at 04:19:38PM -0800, Alan Adamson wrote:
-> Commit d7ac8dca938c ("nvme: quiet user passthrough command errors")
-> disabled error logging for user passthrough commands.  This commit
-> adds the ability to opt-in to passthrough admin error logging. IO
-> commands initiated as passthrough will always be logged.
-> 
-> The logging output for passthrough commands (Admin and IO) has been
-> changed to include CDWXX fields.
-> 
-> nvme0n1: Read(0x2), LBA Out of Range (sct 0x0 / sc 0x80) DNR cdw10=0x0 cdw11=0x1
->         cdw12=0x70000 cdw13=0x0 cdw14=0x0 cdw15=0x0
-> 
-> Add a helper function nvme_log_err_passthru() which allows us to log
-> error for passthru commands by decoding cdw10-cdw15 values of nvme
-> command.
-> 
-> Add a new sysfs attr passthru_err_log_enabled that allows user to conditionally
-> enable passthrough command logging for either passthrough Admin commands sent to
-> the controller or passthrough IO commands sent to a namespace.
 
-Thanks, applied to nvme-6.8 with Chaitanya's suggestion folded in.
+在 2024/2/1 07:08, Chaitanya Kulkarni 写道:
+> Guixin,
+>
+> On 1/31/24 01:12, Guixin Liu wrote:
+>> Hi guys:
+>>       I found that there are no reservation commands tracing and some
+>> commands's parsing aren't fit the newest NVMe spec, and aren't readble.
+>>
+>> Changes from v1 to v2:
+>> - Remove idr and idw parsing of dsm command.
+>>
+>> - Remove lbafl and lbafu variables and add a comment for the lbaf
+>> calculation in nvme_trace_admin_format_nvm().
+>>
+>> Guixin Liu (3):
+>>     nvme: add tracing of reservation commands
+>>     nvme: parse dsm command's attr deallocate when tracing
+>>     nvme: parse format command's lbafu when tracing
+>>
+>>    drivers/nvme/host/trace.c | 73 ++++++++++++++++++++++++++++++++++++---
+>>    1 file changed, 69 insertions(+), 4 deletions(-)
+>>
+> One suggestion can you please not add *** in the subject line ? that
+> is not a common practice on the mailing list.
+>
+> This series addresses the comments posted in the last version.
+> Looks good, for the entire series :-
+>
+> Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+>
+> -ck
+
+Oh, Sorry, I dont notice that, just change the "SUBJECT HERE" of
+
+cover-letter, I will pay attention of that.
+
+Best regards,
+
+Guixin Liu
+
+>
 
