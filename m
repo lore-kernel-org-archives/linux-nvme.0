@@ -4,70 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DB39BC4828F
-	for <linux-nvme@archiver.kernel.org>; Sun,  4 Feb 2024 01:44:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3737EC4828F
+	for <linux-nvme@archiver.kernel.org>; Sun,  4 Feb 2024 10:39:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZXGEyMd1IEA24pbNMSCGDqokCEtRF5iaiBCtfpPJUzQ=; b=xBc+P8jexTtfreoasuIpP/8O5J
-	2NewjYmYtNuZwDSZcZZZR/M1pFZdz5DIaz/PdCzb4NsufU1eYAjfaHjaAIAkFxr59qF8OEA2bfdxV
-	1FApHlHoKUTmVwe8+kwhexjK5HP8yWN7grPQgO+2Sj6qDan8zY9s9+lwEaSsBTbc1biUW2/wb4C5c
-	ypGXgbhDCde3rONvuP7QOBk5I1xfgymCHNk8cX+G4fb3+Tqh7y5L5SK+8HzBPh8EX5gcE1BVvO/aD
-	ziFHYVwi7JK252fGEe/yKeWO3YcLwHLoXuPlYhbvq22q/uR7B2KQrUfpqx66GKlBzyfS1z+IcdOgU
-	RsOuCfBQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=/HNW6CZgXXHsA80ADjLnhidXNGn3Kis5WgWYh/g8/iE=; b=yNjeW62snUQ97iGSHA7+F5R/WQ
+	ghqBlOPytwHKI3HL4j0ibQbPAHfcEf5McPlZ6u8irhey0m2CLPCpi0PqsEOvzK12Rk4vK3d0KWlFL
+	ZJ+ibjuRo64z+6CZOiplbjpyFtuPN9VzlqR19kjOVN2qygIMOboRwvD2zJbGbgZYhFzuQugYbyv9E
+	EaInEBpZWUNBgJDmOQioDF5nduzqAfZo3FpslaCN1OfTATpEbUFej8/s98f4hjJKIt1AyF15DnEai
+	sQf4f72dpTu96Xs653jP1kIfNJ7IYuOctRa/+Ig2PbLmz8eeyk20UiFpx2Fw0PCoElKLFfdP4RAJO
+	FvCbZrKA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rWRYM-0000000HXX4-1fcn;
-	Sun, 04 Feb 2024 01:44:14 +0000
-Received: from mail-pl1-f182.google.com ([209.85.214.182])
+	id 1rWZue-00000000bnw-0mNN;
+	Sun, 04 Feb 2024 10:39:48 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rWRYJ-0000000HXWC-2Rsc
+	id 1rWZuc-00000000bnD-00yp
 	for linux-nvme@lists.infradead.org;
-	Sun, 04 Feb 2024 01:44:12 +0000
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1d99c5f6bfeso2019575ad.1
-        for <linux-nvme@lists.infradead.org>; Sat, 03 Feb 2024 17:44:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707011045; x=1707615845;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZXGEyMd1IEA24pbNMSCGDqokCEtRF5iaiBCtfpPJUzQ=;
-        b=HZH/VRfy5bj3bqLfndeQj5MVEGJnnA9xT2DF5kDrKwYPOZKjoplX1gNlDaPy3JFJJO
-         RjsA0rlekGP/qZKmfDk/MibWn+TLfd/g0yx/ZWNqgYnc5p/QIl5UGKWtMT/J4qd/5Bgu
-         sFCJ9iJ3y+ggahsgyeLrih23D8J8KXp5aLCa3vaEKJcFEQ0RNC0C3MATlV9mrXHjYSYl
-         lq8glm1va1ab5UGfAcahGGthpYAm2/GmH4AcieVC4ON9OwLbMFJcIlGS1kkUlrPzCsKB
-         H+k74eh7G56C20vz/cFo9RXG0yJ5Npr1RwLULKTv8xX33GXguZ6nthBmdvwLYue25LfO
-         g6Qw==
-X-Gm-Message-State: AOJu0YxtbV0vgTJDt2uhb9//B77EeKb9vAI2+SA12SLJLFkAbMuwbkio
-	xcguYwcSylYYdX6d9Bp0kPOjAIL/mUYq02rmdxfk+8G1aff8E84aAFxm+fN/
-X-Google-Smtp-Source: AGHT+IHaxASDXrPhBJzyavNYlYsYKCd4MU/bswyPtbbns+o5UbgnFl3GNhKIpE74Fx1IecDd3LqX4g==
-X-Received: by 2002:a17:903:41cb:b0:1d9:6c71:19aa with SMTP id u11-20020a17090341cb00b001d96c7119aamr3613384ple.13.1707011045316;
-        Sat, 03 Feb 2024 17:44:05 -0800 (PST)
-Received: from ?IPV6:2601:647:4d7e:54f3:667:4981:ffa1:7be1? ([2601:647:4d7e:54f3:667:4981:ffa1:7be1])
-        by smtp.gmail.com with ESMTPSA id u4-20020a170902e20400b001d90a67e10bsm3831305plb.109.2024.02.03.17.44.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 03 Feb 2024 17:44:04 -0800 (PST)
-Message-ID: <ccfbb194-c355-4dd9-8b06-689480f5fb85@acm.org>
-Date: Sat, 3 Feb 2024 17:44:03 -0800
+	Sun, 04 Feb 2024 10:39:47 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 47F29CE0171;
+	Sun,  4 Feb 2024 10:39:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 182E9C433C7;
+	Sun,  4 Feb 2024 10:39:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707043183;
+	bh=iyoxJyYS1ovHgfgZClsPvcow6R3PPCC0we47Uz+xt0M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=R0+vADoNlIEK5wCnNQUPTWplg8vqRoOQ4lErZPgwdFQHb6X028MomFpHeBXXxYqQW
+	 ewbTxmEY40Ffr8SbpyQqvQCmf5eAb9Gbi2qIc0eqUyRdmKwkrS8K+EE12tFZpAgSDb
+	 duK0oUTehJb7GDqCv+SeDW+buwKdH/1sxkFn49uTRHpkxRCJbWYINuL3Z3CeY/46GE
+	 eANkCxw7ZyWaPDphTfuuQ6nme1uck+O3CAxa1n9lCCHqS2YFK309CEOXohK+ggkkZE
+	 dtoZtoe8t+kA8hwH9jeFbG/l3ydjG65LLwk17sCIr5C9D1NAfZf7JwE8mtaSSU2pkO
+	 qBHfhlIXCe33w==
+Date: Sun, 4 Feb 2024 11:39:33 +0100
+From: Mike Rapoport <rppt@kernel.org>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: lsf-pc@lists.linux-foundation.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-block@vger.kernel.org,
+	linux-ide@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-nvme@lists.infradead.org, bpf@vger.kernel.org
+Subject: Re: [LSF/MM/BPF TOPIC] Reclaiming & documenting page flags
+Message-ID: <Zb9pZTmyb0lPMQs8@kernel.org>
+References: <Zbcn-P4QKgBhyxdO@casper.infradead.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: NVMe suspend failure
-Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <294cb317-22b1-4c03-9b12-b19c55ec3163@acm.org>
- <Zb7l5Lk814W4064a@kbusch-mbp.mynextlight.net>
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <Zb7l5Lk814W4064a@kbusch-mbp.mynextlight.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zbcn-P4QKgBhyxdO@casper.infradead.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240203_174411_657396_D0256D48 
-X-CRM114-Status: UNSURE (   5.76  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240204_023946_323089_97EBDB9E 
+X-CRM114-Status: GOOD (  17.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,15 +73,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/3/24 17:18, Keith Busch wrote:
-> And this is happening during a suspend? What kind of suspend? Like an
-> S3/S4, or idle suspend?
+On Mon, Jan 29, 2024 at 04:32:03AM +0000, Matthew Wilcox wrote:
+> Our documentation of the current page flags is ... not great.  I think
+> I can improve it for the page cache side of things; I understand the
+> meanings of locked, writeback, uptodate, dirty, head, waiters, slab,
+> mlocked, mappedtodisk, error, hwpoison, readahead, anon_exclusive,
+> has_hwpoisoned, hugetlb and large_remappable.
+> 
+> Where I'm a lot more shaky is the meaning of the more "real MM" flags,
+> like active, referenced, lru, workingset, reserved, reclaim, swapbacked,
+> unevictable, young, idle, swapcache, isolated, and reported.
+> 
+> Perhaps we could have an MM session where we try to explain slowly and
+> carefully to each other what all these flags actually mean, talk about
+> what combinations of them make sense, how we might eliminate some of
+> them to make more space in the flags word, and what all this looks like
+> in a memdesc world.
+> 
+> And maybe we can get some documentation written about it!  Not trying
+> to nerd snipe Jon into attending this session, but if he did ...
 
-I'm not sure how to determine this? This is what I found in the logs:
+I suspect Jon will be there anyway, but not sure he'd be willing to do the
+writing :)
 
-Feb 03 09:02:20 asus systemd-logind[1208]: The system will suspend now!
-Feb 03 09:02:20 asus systemd-logind[1208]: Unit suspend.target is 
-masked, refusing operation.
+I was going to propose the "mm docs" session again, but this one seems more
+useful than talking yet again about how hard it is to get MM documentation
+done.
 
-Bart.
+And I can take on myself putting the explanations from this session into
+writing.
+ 
+> [thanks to Amir for reminding me that I meant to propose this topic]
+> 
+
+-- 
+Sincerely yours,
+Mike.
 
