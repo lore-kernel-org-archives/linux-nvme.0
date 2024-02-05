@@ -4,118 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7FE99C4828D
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Feb 2024 08:46:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E6E70C4828D
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Feb 2024 09:11:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JM0SxOC/oW6G1Gge+jLLSc2sfD7fZKpYANJjmQXdqHA=; b=BDZIsdvGfQLex1BFdsRync6mmW
-	cHviDo39BeAgZXWxV9qfHZEqQvh3s1t55EjfyNhvGrCtzU6FHPGPybPK0+twF/X3REDjzqo6OAWVH
-	1zfcNn0KkAnFKIDBYy7ZSvCdAON2Wh3ELjEtt4a++Zm4HeEfEQ+t0QZUMyw3IoEhdimgl1c71l4in
-	PPykp5riFFt6Xan2VnpcI2RDtECcNnjiv7v0+s5qRLHLTM0bAWoYSqdrMvKsJN6oLwXC+3KIavKwG
-	6cpsf+J2pKa/7SBgFxVdlk86xI53RshKPYGiSN+UzE0cO4d9HuHk3rihLZLLt6fcupMeGepf3U5cb
-	QV6ZarsQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=tU7gEcO5Zgme5BifBIK2ckMTS7sI+kwhhQ7BvALV+BQ=; b=Bh1+RBqiF8zds2C/biAkf2aCO+
+	F4vmDzvQrpyEedUgnptNXdlAtqW4vQ0EDeu288AjI6mTalESv529pi3Busd8Iyr/KEI+NOPkBmNaj
+	MlolcfQrAwOSzzOZD3oxTGkexYD7Yq0UIw0tmRXmBf6ojzUB5/AOvLq78EKd/UpPk8ehIXX/AzdFy
+	/4hK7QFC8f9jryXpmdwtj5KpLrzZZQHFsgQiQfxLqFXo3wmpcSU8waZ7DSaEr1Xr7x/uo0p4XEsIa
+	PPVALyoEElIJpf7t27/LaFZxRrEjpQBzWxfalBTIAMDvoVpsv3bqV1Wm0LQ38+9nUq/aHtVxMv3dC
+	ZitVdJSg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rWuca-00000002Tdp-1z5I;
-	Mon, 05 Feb 2024 08:46:32 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1rWv16-00000002Ywp-2mVw;
+	Mon, 05 Feb 2024 09:11:52 +0000
+Received: from mail.synergyflux.pl ([51.38.99.212])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rWucX-00000002Td4-1fFr
+	id 1rWv14-00000002Yvg-2sJE
 	for linux-nvme@lists.infradead.org;
-	Mon, 05 Feb 2024 08:46:32 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id EA51E222A1;
-	Mon,  5 Feb 2024 08:46:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707122788; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JM0SxOC/oW6G1Gge+jLLSc2sfD7fZKpYANJjmQXdqHA=;
-	b=z9BolKseWZIrkN+BNGve9jPI4TxX6KiJMtJrpilHbVKLsVBjcx2dKOc6bNXAK+60FHlYpn
-	zUvATWeK29Ja4df58nhm5myOa/NFLKBFgy5dT8vF5ySBMF+gim0yw21qewMxWdUaiLGXHs
-	t34tO+m1E1eqbiPSayZBMa1cyFihh8Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707122788;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JM0SxOC/oW6G1Gge+jLLSc2sfD7fZKpYANJjmQXdqHA=;
-	b=2TWZMepGLQRW4qP3fWpKhYfu4U+LEVg3z1JcE/7/P1wNqzs5TuK3xY9XrapaqhM6AtiTRF
-	/DxPw90L78iPoqCQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707122787; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JM0SxOC/oW6G1Gge+jLLSc2sfD7fZKpYANJjmQXdqHA=;
-	b=aXrJAVwApA1QUIssXvh8g/3VefVLNHSEgiDCbneELy8qLLGxcPu6DNAwPaljNRv7FyQaKL
-	mzTilWrfjXHhe2YDeuk6IQL2tTkVJJlgf40eGTYGZwFdurgXMYSqxBJ3v6cwyueWn5fk6N
-	hx2x46UhVzgXY3D95GPlxKeyvxr9VsM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707122787;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JM0SxOC/oW6G1Gge+jLLSc2sfD7fZKpYANJjmQXdqHA=;
-	b=C8w5LdXZGmoZreC7kY6MjbTHS17OhRsyAnoru7dS2MO7oI0tm6GthfkHMppwIuoLwmOiNr
-	zIHCUHiVCq3I7VDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D7680132DD;
-	Mon,  5 Feb 2024 08:46:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id wttRM2OgwGX9EgAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Mon, 05 Feb 2024 08:46:27 +0000
-Date: Mon, 5 Feb 2024 09:46:27 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Hannes Reinecke <hare@suse.de>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, 
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: Re: race between nvme device creation and discovery?
-Message-ID: <vjwzvc5wt5uhlowgwpw23yb4orgpz7uyahu2kqwofcl2upshfi@jb5onzztznj2>
-References: <i4bmvgd3u7shgizqgtdtssdz5v3wc76l6bcce6fcbvoft32gzk@rztzeut4azvj>
- <e0e89568-d3af-4d4e-9652-59d04f2c1977@suse.de>
- <5pquzxdvemeeahharuoyh72njlx4unrshwxbtkpg63tk3aw2lt@ugv4guf7hkpz>
- <c8b6b6dc-91bb-45b2-a911-e23cbea28a8e@suse.de>
+	Mon, 05 Feb 2024 09:11:51 +0000
+Received: by mail.synergyflux.pl (Postfix, from userid 1002)
+	id 27C0126088; Mon,  5 Feb 2024 09:11:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synergyflux.pl;
+	s=mail; t=1707124309;
+	bh=n9RRp8MlabRDJBtJNro49Rmci90RtotaZYZ8+xo6WI4=;
+	h=Date:From:To:Subject:From;
+	b=a30GqWXIBsip1b/iHEK/cfrz0UVMbQ8UWUug8l00U9457bq0Y5cbSviRy32XLMlgW
+	 2Ao6042uWwmohv3i06SsNmR0azjeJG2EMlg2PAKuL+B4ZS3RUBZpQruxFpbp5Y8xUL
+	 4iHPA8Ne6h1Y8NIPZGtAIPIPF0fTXXM0G+7VhJBv/93wshj0fKU4An9BWDJ0YD9Ewf
+	 M2nMVIpz4mZutVGAwb/J7VTFZ2jAK8nExb8+P+znLP8PCHu08w2l6ZOwlv75RKhVYH
+	 8Brk+ks6drMpGKgCozC+xdKe1Ln9RgDqQng7J/CDkRDnuFQT6p0yfAEE+TarTBPWEc
+	 3qWIZ5YbgW1XQ==
+Received: by mail.synergyflux.pl for <linux-nvme@lists.infradead.org>; Mon,  5 Feb 2024 09:10:51 GMT
+Message-ID: <20240205074500-0.1.9m.1w7aw.0.flv7g7prvg@synergyflux.pl>
+Date: Mon,  5 Feb 2024 09:10:51 GMT
+From: =?UTF-8?Q?"Konrad_Zieli=C5=84ski_"?= <konrad.zielinski@synergyflux.pl>
+To: <linux-nvme@lists.infradead.org>
+Subject: Instalacja pv
+X-Mailer: mail.synergyflux.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c8b6b6dc-91bb-45b2-a911-e23cbea28a8e@suse.de>
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [-4.69 / 50.00];
-	 ARC_NA(0.00)[];
-	 TO_DN_EQ_ADDR_SOME(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 REPLY(-4.00)[];
-	 RCPT_COUNT_FIVE(0.00)[5];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-0.999];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 SUBJECT_ENDS_QUESTION(1.00)[];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.89)[85.87%]
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240205_004629_609955_E5092159 
-X-CRM114-Status: GOOD (  14.95  )
+X-CRM114-CacheID: sfid-20240205_011150_892583_2DE19530 
+X-CRM114-Status: UNSURE (   2.19  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -130,41 +67,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 05, 2024 at 04:57:24PM +0900, Hannes Reinecke wrote:
-> I thought something along these lines:
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 85ab0fcf9e88..3ed706f595fe 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -2845,6 +2845,7 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl,
-> struct nvme_id_ctrl *id)
->                         goto out_put_subsystem;
->                 }
->         } else {
-> +               dev_set_uevent_suppress(&subsys->dev, 1);
->                 ret = device_add(&subsys->dev);
->                 if (ret) {
->                         dev_err(ctrl->device,
-> @@ -2869,6 +2870,10 @@ static int nvme_init_subsystem(struct nvme_ctrl
-> *ctrl, struct nvme_id_ctrl *id)
->         ctrl->subsys = subsys;
->         list_add_tail(&ctrl->subsys_entry, &subsys->ctrls);
->         mutex_unlock(&nvme_subsystems_lock);
-> +       if (!found) {
-> +               dev_set_uevent_suppress(&subsys->dev, 0);
-> +               kobject_uevent(&subsys->dev.kobj, KOBJ_ADD);
-> +       }
->         return 0;
+Dzie=C5=84 dobry,
 
-Unfortunatly, this fixes a different race. Not the one I reported here:
+czy s=C4=85 Pa=C5=84stwo otwarci na niezobowi=C4=85zuj=C4=85c=C4=85 rozmo=
+w=C4=99 na temat fotowoltaiki?
 
-nvme/030 (ensure the discovery generation counter is updated appropriately) [failed]
-    runtime  0.602s  ...  0.542s
-    --- tests/nvme/030.out      2023-08-30 10:39:08.428409596 +0200
-    +++ /home/wagi/work/blktests/results/nodev/nvme/030.out.bad 2024-02-05 09:44:28.768208105 +0100
-    @@ -1,2 +1,3 @@
-     Running nvme/030
-    +failed to lookup subsystem for controller nvme0
-     Test complete
+Jako firma specjalizuj=C4=85ca si=C4=99 w instalacji i serwisie najlepszy=
+ch jako=C5=9Bciowo paneli s=C5=82onecznych na rynku chcia=C5=82bym przeds=
+tawi=C4=87 propozycj=C4=99, jak=C4=85 wsp=C3=B3lnie z zespo=C5=82em przyg=
+otowali=C5=9Bmy dla Pa=C5=84stwa obiektu.
+
+B=C4=99d=C4=99 wdzi=C4=99czny za wiadomo=C5=9B=C4=87 od Pa=C5=84stwa czy =
+mo=C5=BCemy porozmawia=C4=87.
+
+
+Pozdrawiam
+Konrad Zieli=C5=84ski 
 
