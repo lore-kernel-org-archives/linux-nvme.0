@@ -4,89 +4,132 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C843C48291
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Feb 2024 09:21:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8C0DAC48291
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Feb 2024 10:07:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=p9LIYBr/SBBvGlqKN3eoDiC5chZptPGHdLPb7HiYj8w=; b=weX4G7rLi5Zb7kbWKY87r6Mxy2
-	AovWlikYdLBa5SG140W9gL54kfEc4Q5++UJGWqin1g2oe5gG520r3lX+JvEBHpKuFOFgp/t5y9O6L
-	NXWPIQ1jRsNXo11WJofM+gff1Z91S64WD+nSaS5OKgg4wtvSyYORPCiETLFZbN6Mf7W6TkS9M3KB7
-	HYkO0Ywdtl0CyhbiExCeskgy9sOjX+Ikgw5QsVUId3rwq6jp630Y5NuDyvXafrYy/i8UMrxPuJ1AW
-	yhokC1JMXRzAVRCiYonTE0P7+OE8M5gqlH3VCaSV+rDvMa5HC4XBMc2SXQmKX+Qx8pkuue3itxEyD
-	IHvkpd/Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=+zPUVo/07plw306woAQ/KryOhmpb4SWlJ3XIWEizdMA=; b=F6b2grZvyvuvbFLeuSyayFHxfE
+	0xZAucn/FzbJXSf3eZT+yQKUVROu0U+TT6wb70UGOfqhT4TGGGkOcLCmYEdn/pX+EUhR1nS6XeiEJ
+	+3dXfWxMG0aNwAXkrOqAJycKcV8+RDjB4Bt2kRwd8k6nEJ3v54F6sX7+TMBCpgcwkZTF4OkOHEyGe
+	PMB4NJ7zr4TJlQEvsPJDp4mhQDGUXag4IN7Bi4uF4DQxwKz+jEsPuODVPBqvYWuwMTNAAU4dKlJHa
+	B+XM7h2V9+Fb7la8BtjAsgR/TxizhFiu1Vo1aqIgH3MqH6ji80T3U+dbmv8ZSz/FxEw8d6CxrHmsi
+	maDa5nJA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rWvA8-00000002b4C-3lOd;
-	Mon, 05 Feb 2024 09:21:12 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1rWvtK-00000002k4N-1yTy;
+	Mon, 05 Feb 2024 10:07:54 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rWvA6-00000002b27-1bFH
+	id 1rWvtG-00000002k2p-1qeA
 	for linux-nvme@lists.infradead.org;
-	Mon, 05 Feb 2024 09:21:11 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1707124867;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	Mon, 05 Feb 2024 10:07:53 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B28231F8AE;
+	Mon,  5 Feb 2024 10:07:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707127668; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=p9LIYBr/SBBvGlqKN3eoDiC5chZptPGHdLPb7HiYj8w=;
-	b=JSsEf3hXw6rJfnlLC763TeOlIr1f/U15jKqz9ERGBMnRvQep1feYwHTuWBzuU7NXE8/RRZ
-	TWsz1rzJ2h92/f67PA+tawTkys68EOmLPcWOF6HDwVIMcL6qgPDv7CVrJn6Ec7ypmIKHq4
-	EGmcH2MZv5kbPOx1qlrGqiqcheW9xhQ=
-Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
- [209.85.217.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-605-D0gpa2I4PSe_aX7zBlaEqQ-1; Mon, 05 Feb 2024 04:21:06 -0500
-X-MC-Unique: D0gpa2I4PSe_aX7zBlaEqQ-1
-Received: by mail-vs1-f70.google.com with SMTP id ada2fe7eead31-46d31058c80so79496137.1
-        for <linux-nvme@lists.infradead.org>; Mon, 05 Feb 2024 01:21:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707124865; x=1707729665;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=p9LIYBr/SBBvGlqKN3eoDiC5chZptPGHdLPb7HiYj8w=;
-        b=j36ahqaU2tHrmPAZK8x//jZclD45ZG31ZPlYASS1eqbsa21JdK2GBP78Mrc7O8UGqX
-         frQK1jgJ/MGeMLxAXj9XW1VoIBfFZ9Hu1wyrVVCAZelqN3npb3PkfwLQxN9Jycpxcb/0
-         XoE1S6tHzPXYj6wqTj+fx2cTV7ttKtUqYMD6gubQdT2kPLxpLWAhPH1FC5pWYv441kiN
-         41FjhGLMgp7zVQsKi1mtKbEVsQwkxVE4xC0FsE8uu6blN8u+fpfmFJkGmAkixiqvj3tw
-         jihyBPNSuwLnVo4lDNIutjfT/Cz5cUIEVIQqyWst3NjhQYcwhp0VJMJgh/ChSUmPqZVE
-         cAPA==
-X-Gm-Message-State: AOJu0YwDba5xAnV0MD+SviKldapYMtmcxrTXFJDlYE/gQIs97SJnTxFx
-	GhS9PX21o4oqcxGyBNo4EVKGDG0Vb7ZHbyRgaHrXHNJATvoxthfoGKI3vwJ7Q00LcpUw3iq7PWX
-	k1ELyT2kZXGawXUz7M8/1g681lOJedPOdxOWsfk66qf12Flf2bdKYbSPin3DNiycPmhSEnUojMg
-	hWpLnLQr1IZLXxy1ydTILoiNsbkmlOLUMWdbbdt8c=
-X-Received: by 2002:a05:6102:ccd:b0:46d:372b:dfc4 with SMTP id g13-20020a0561020ccd00b0046d372bdfc4mr368966vst.15.1707124865742;
-        Mon, 05 Feb 2024 01:21:05 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEBTOsbyxZEJDQZOip5MJXT/RW4u3aef098QluKKnXQ6jbMHykO/HdLHPU5KOj1aTuZ6/oDEgx9rcnPjG/+aRY=
-X-Received: by 2002:a05:6102:ccd:b0:46d:372b:dfc4 with SMTP id
- g13-20020a0561020ccd00b0046d372bdfc4mr368954vst.15.1707124865521; Mon, 05 Feb
- 2024 01:21:05 -0800 (PST)
-MIME-Version: 1.0
-References: <i4bmvgd3u7shgizqgtdtssdz5v3wc76l6bcce6fcbvoft32gzk@rztzeut4azvj>
- <e0e89568-d3af-4d4e-9652-59d04f2c1977@suse.de> <5pquzxdvemeeahharuoyh72njlx4unrshwxbtkpg63tk3aw2lt@ugv4guf7hkpz>
- <CAFL455kN3Y-ia5twzNRyuT1a+hDWwqS93C2XJDa1+_8nEom0gQ@mail.gmail.com>
-In-Reply-To: <CAFL455kN3Y-ia5twzNRyuT1a+hDWwqS93C2XJDa1+_8nEom0gQ@mail.gmail.com>
-From: Maurizio Lombardi <mlombard@redhat.com>
-Date: Mon, 5 Feb 2024 10:20:54 +0100
-Message-ID: <CAFL455mLZ5j9Jkvo+AqKaAmyjDeTpZgKN2X53uytDD1uQTutHg@mail.gmail.com>
-Subject: Re: Re: race between nvme device creation and discovery?
-To: Daniel Wagner <dwagner@suse.de>
+	bh=+zPUVo/07plw306woAQ/KryOhmpb4SWlJ3XIWEizdMA=;
+	b=lPXtlsKTNnNrovZ4WpvZ9bgrnvkz3onYYAzR3pM3xRFy+1hg6nBa4W+gh7Fkach6929ddF
+	o4og6ai85DGty0Fk/H9oaN5WB8P0vxt9Bb7mmSfFdvcnhtQaDmFZeyC9yDRJp//XZJ0FAk
+	4w0xxOrQAMpt80XUOX3S0SL2GFRuC48=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707127668;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+zPUVo/07plw306woAQ/KryOhmpb4SWlJ3XIWEizdMA=;
+	b=iHsyXdeH/IWHIk9XG3pl4S0upD3M8YFWjQxnPttfIB5ArkAvEDn2d4pnRCn3ze8hnhRzHb
+	MdwGp58U71SYCADA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707127668; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+zPUVo/07plw306woAQ/KryOhmpb4SWlJ3XIWEizdMA=;
+	b=lPXtlsKTNnNrovZ4WpvZ9bgrnvkz3onYYAzR3pM3xRFy+1hg6nBa4W+gh7Fkach6929ddF
+	o4og6ai85DGty0Fk/H9oaN5WB8P0vxt9Bb7mmSfFdvcnhtQaDmFZeyC9yDRJp//XZJ0FAk
+	4w0xxOrQAMpt80XUOX3S0SL2GFRuC48=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707127668;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+zPUVo/07plw306woAQ/KryOhmpb4SWlJ3XIWEizdMA=;
+	b=iHsyXdeH/IWHIk9XG3pl4S0upD3M8YFWjQxnPttfIB5ArkAvEDn2d4pnRCn3ze8hnhRzHb
+	MdwGp58U71SYCADA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9FECC136F5;
+	Mon,  5 Feb 2024 10:07:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id jgVjJXSzwGVrKQAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Mon, 05 Feb 2024 10:07:48 +0000
+Date: Mon, 5 Feb 2024 11:07:48 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: Maurizio Lombardi <mlombard@redhat.com>
 Cc: Hannes Reinecke <hare@suse.de>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Keith Busch <kbusch@kernel.org>, 
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: Re: Re: race between nvme device creation and discovery?
+Message-ID: <p2qty2zv6h5aq7mvbqbg3hbvwe5opuquq2sahcing6s7ezq5fp@dxbadmzjur5g>
+References: <i4bmvgd3u7shgizqgtdtssdz5v3wc76l6bcce6fcbvoft32gzk@rztzeut4azvj>
+ <e0e89568-d3af-4d4e-9652-59d04f2c1977@suse.de>
+ <5pquzxdvemeeahharuoyh72njlx4unrshwxbtkpg63tk3aw2lt@ugv4guf7hkpz>
+ <CAFL455kN3Y-ia5twzNRyuT1a+hDWwqS93C2XJDa1+_8nEom0gQ@mail.gmail.com>
+ <CAFL455mLZ5j9Jkvo+AqKaAmyjDeTpZgKN2X53uytDD1uQTutHg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFL455mLZ5j9Jkvo+AqKaAmyjDeTpZgKN2X53uytDD1uQTutHg@mail.gmail.com>
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lPXtlsKT;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=iHsyXdeH
+X-Spamd-Result: default: False [1.18 / 50.00];
+	 ARC_NA(0.00)[];
+	 TO_DN_EQ_ADDR_SOME(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	 RCPT_COUNT_FIVE(0.00)[6];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 SUBJECT_ENDS_QUESTION(1.00)[];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.01)[50.83%]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: B28231F8AE
+X-Spamd-Bar: +
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240205_012110_514473_D228DE07 
-X-CRM114-Status: UNSURE (   9.36  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240205_020750_655328_077A7421 
+X-CRM114-Status: GOOD (  12.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,16 +144,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-po 5. 2. 2024 v 10:20 odes=C3=ADlatel Maurizio Lombardi <mlombard@redhat.co=
-m> napsal:
->
-> I think I had a similar problem with nvme-stas some time ago, it tried
-> to delete a controller right after it appeared in sysfs, causing race con=
-ditions
-> with the init code path.
+On Mon, Feb 05, 2024 at 10:20:54AM +0100, Maurizio Lombardi wrote:
+> po 5. 2. 2024 v 10:20 odesílatel Maurizio Lombardi <mlombard@redhat.com> napsal:
+> >
+> > I think I had a similar problem with nvme-stas some time ago, it tried
+> > to delete a controller right after it appeared in sysfs, causing race conditions
+> > with the init code path.
+> 
+> This is the problem I was talking about
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=2eb94dd56a4a4e3fe286def3e2ba207804a37345
 
-This is the problem I was talking about
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?=
-id=3D2eb94dd56a4a4e3fe286def3e2ba207804a37345
-
+We have a 'state' attribute in sysfs already, though the
+NVME_CTRL_STARTED_ONCE is modelled as flag. Not sure how this fits
+together yet, so let me play with this.
 
