@@ -4,123 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F2EFC48298
-	for <linux-nvme@archiver.kernel.org>; Mon,  5 Feb 2024 10:17:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8EFA9C48298
+	for <linux-nvme@archiver.kernel.org>; Mon,  5 Feb 2024 12:46:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=64tngT/KzLUjUjw8EFecWr/EJmXYWKeBylH5iyJoI/o=; b=LHuuGHDSDUQ/JZPyusso/Xcvdy
-	1atXW4NRseuzxGPTM1deoAA9Crrxgoqwji7z8qiywO1XB6qGDpYrNiFGR2JIAznV7yM4L15JR+u16
-	5VZR8jPJfOG6bcTzo3Ey+UtOXoSwESbEEDkwBul04D4reN+vRKcUsF2ypfezmT4yPHtp4tYqObM46
-	OnT4T+ttMIqcT4+P6YZZd/UEEw9Z29vfeQCKkidAMUa3n/57nO1LFfB5m4cO9N6greZa6hWw6Rkfu
-	Hw5Rxx81BVlbt6usgpkMiJh6rv3a1KuvY0TZyHF/LPU+ktQQdp/yX7ouqjaGhdKbCWb1mMVIOdrvY
-	BIirtc2g==;
+	bh=LFeLLnJaR3JtjOxpUpdms1bffkbapejcBiKMtBdfGb8=; b=d3iNhME2DJ09yPFVtlxyirhK1E
+	0rNIrEtSR5xptZDER1U42w/PGc+zM3o7zXYeBrw5FwcUzk3qMob79CUWYQaez+fMH4jntBlROHAGk
+	9qiH3TUWd1NqJ2XO1ewKmWwfwthw8J7WuGpvGyfhVu+i6qp/pLAHwkMMiCzMLQUrSDQ2yUXGUSg9M
+	l2Dlv6i99o2h1MTCKcVSxuDytEVdaezGT5lcmFJMIdEkNxbdRfyd+uMCW2ktI9Ixvv+BZGBuxW780
+	M9hstICI8xViMWkYz9xCdpk1Ab98KlxxFPQ/TNcs0CCgGmWxpr7wd/X7gJUNkXUewe5NUmow9Tzg0
+	cNdlG4Wg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rWw2w-00000002m9z-3zO4;
-	Mon, 05 Feb 2024 10:17:50 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1rWyN3-00000003HA8-1fjv;
+	Mon, 05 Feb 2024 12:46:45 +0000
+Received: from szxga04-in.huawei.com ([45.249.212.190])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rWw2t-00000002m7w-09l8
-	for linux-nvme@lists.infradead.org;
-	Mon, 05 Feb 2024 10:17:49 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9CD8722281;
-	Mon,  5 Feb 2024 10:17:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707128264; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=64tngT/KzLUjUjw8EFecWr/EJmXYWKeBylH5iyJoI/o=;
-	b=S4S9eLQk3Lo9nTj02hyVQu1v+whHjwLOB+zXevuybfCoBeWFzw+KzWrvlSQZ/CswXkK5A/
-	w5rah4w/jA+cOO9gLJUKu9jzOpGupOtv4wvLwZDFsxyGy5B7UpUp/rd7v++Iuw74EG9XOJ
-	6BYPpt4WwCBa+JjpPZ/mslk5cEaOFsM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707128264;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=64tngT/KzLUjUjw8EFecWr/EJmXYWKeBylH5iyJoI/o=;
-	b=jLqGNny7OiwQ7I4FIV5JAwAqAEwpJA6YNKf/oWI2Dcz0OCJPok80Ak+CX8VhwunMEf3tQQ
-	0We8bW4u4Xs5h1Bg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707128264; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=64tngT/KzLUjUjw8EFecWr/EJmXYWKeBylH5iyJoI/o=;
-	b=S4S9eLQk3Lo9nTj02hyVQu1v+whHjwLOB+zXevuybfCoBeWFzw+KzWrvlSQZ/CswXkK5A/
-	w5rah4w/jA+cOO9gLJUKu9jzOpGupOtv4wvLwZDFsxyGy5B7UpUp/rd7v++Iuw74EG9XOJ
-	6BYPpt4WwCBa+JjpPZ/mslk5cEaOFsM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707128264;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=64tngT/KzLUjUjw8EFecWr/EJmXYWKeBylH5iyJoI/o=;
-	b=jLqGNny7OiwQ7I4FIV5JAwAqAEwpJA6YNKf/oWI2Dcz0OCJPok80Ak+CX8VhwunMEf3tQQ
-	0We8bW4u4Xs5h1Bg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7BDCC136F5;
-	Mon,  5 Feb 2024 10:17:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 4Ig6Hci1wGW6KwAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Mon, 05 Feb 2024 10:17:44 +0000
-Date: Mon, 5 Feb 2024 11:17:43 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Maurizio Lombardi <mlombard@redhat.com>
-Cc: Hannes Reinecke <hare@suse.de>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: Re: Re: Re: race between nvme device creation and discovery?
-Message-ID: <m4mtj3s5v6wlgvcnir7skajafvekloufkzsodpjpqnzgpv3gfd@mievitjqki5p>
-References: <i4bmvgd3u7shgizqgtdtssdz5v3wc76l6bcce6fcbvoft32gzk@rztzeut4azvj>
- <e0e89568-d3af-4d4e-9652-59d04f2c1977@suse.de>
- <5pquzxdvemeeahharuoyh72njlx4unrshwxbtkpg63tk3aw2lt@ugv4guf7hkpz>
- <CAFL455kN3Y-ia5twzNRyuT1a+hDWwqS93C2XJDa1+_8nEom0gQ@mail.gmail.com>
- <CAFL455mLZ5j9Jkvo+AqKaAmyjDeTpZgKN2X53uytDD1uQTutHg@mail.gmail.com>
- <p2qty2zv6h5aq7mvbqbg3hbvwe5opuquq2sahcing6s7ezq5fp@dxbadmzjur5g>
+	id 1rWyMS-00000003Gbk-0liG;
+	Mon, 05 Feb 2024 12:46:18 +0000
+Received: from mail.maildlp.com (unknown [172.19.163.44])
+	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4TT5gY14XFz1xn3N;
+	Mon,  5 Feb 2024 20:44:57 +0800 (CST)
+Received: from dggpemm500005.china.huawei.com (unknown [7.185.36.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id 95B841400C9;
+	Mon,  5 Feb 2024 20:46:02 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ dggpemm500005.china.huawei.com (7.185.36.74) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 5 Feb 2024 20:46:02 +0800
+From: Yunsheng Lin <linyunsheng@huawei.com>
+To: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>
+CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Yunsheng Lin
+	<linyunsheng@huawei.com>, Jason Wang <jasowang@redhat.com>, Alexander Duyck
+	<alexanderduyck@fb.com>, Jeroen de Borst <jeroendb@google.com>, Praveen
+ Kaligineedi <pkaligineedi@google.com>, Shailend Chand <shailend@google.com>,
+	Eric Dumazet <edumazet@google.com>, Felix Fietkau <nbd@nbd.name>, Sean Wang
+	<sean.wang@mediatek.com>, Mark Lee <Mark-MC.Lee@mediatek.com>, Lorenzo
+ Bianconi <lorenzo@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Keith
+ Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig
+	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
+	<kch@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
+	<linux-nvme@lists.infradead.org>, <linux-mm@kvack.org>
+Subject: [PATCH net-next v5 3/5] net: introduce page_frag_cache_drain()
+Date: Mon, 5 Feb 2024 20:45:03 +0800
+Message-ID: <20240205124506.57670-4-linyunsheng@huawei.com>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20240205124506.57670-1-linyunsheng@huawei.com>
+References: <20240205124506.57670-1-linyunsheng@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <p2qty2zv6h5aq7mvbqbg3hbvwe5opuquq2sahcing6s7ezq5fp@dxbadmzjur5g>
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [1.40 / 50.00];
-	 ARC_NA(0.00)[];
-	 TO_DN_EQ_ADDR_SOME(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 RCPT_COUNT_FIVE(0.00)[6];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 SUBJECT_ENDS_QUESTION(1.00)[];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.00)[17.91%]
+Content-Type: text/plain
+X-Originating-IP: [10.69.192.56]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500005.china.huawei.com (7.185.36.74)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240205_021747_244896_627D967E 
-X-CRM114-Status: GOOD (  17.69  )
+X-CRM114-CacheID: sfid-20240205_044609_367382_F78EA4FC 
+X-CRM114-Status: GOOD (  14.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,23 +80,174 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 05, 2024 at 11:07:48AM +0100, Daniel Wagner wrote:
-> On Mon, Feb 05, 2024 at 10:20:54AM +0100, Maurizio Lombardi wrote:
-> > po 5. 2. 2024 v 10:20 odesílatel Maurizio Lombardi <mlombard@redhat.com> napsal:
-> > >
-> > > I think I had a similar problem with nvme-stas some time ago, it tried
-> > > to delete a controller right after it appeared in sysfs, causing race conditions
-> > > with the init code path.
-> > 
-> > This is the problem I was talking about
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=2eb94dd56a4a4e3fe286def3e2ba207804a37345
-> 
-> We have a 'state' attribute in sysfs already, though the
-> NVME_CTRL_STARTED_ONCE is modelled as flag. Not sure how this fits
-> together yet, so let me play with this.
+When draining a page_frag_cache, most user are doing
+the similar steps, so introduce an API to avoid code
+duplication.
 
-If I got this right, we could just filter out all controllers which are
-in the NEW state, because all transports trigger the connect code right
-after the NEW state. At this point the sysfs should be completely
-populated.
+Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
+Reviewed-by: Alexander Duyck <alexanderduyck@fb.com>
+---
+ drivers/net/ethernet/google/gve/gve_main.c | 11 ++---------
+ drivers/net/ethernet/mediatek/mtk_wed_wo.c | 17 ++---------------
+ drivers/nvme/host/tcp.c                    |  7 +------
+ drivers/nvme/target/tcp.c                  |  4 +---
+ include/linux/gfp.h                        |  1 +
+ mm/page_alloc.c                            | 10 ++++++++++
+ 6 files changed, 17 insertions(+), 33 deletions(-)
+
+diff --git a/drivers/net/ethernet/google/gve/gve_main.c b/drivers/net/ethernet/google/gve/gve_main.c
+index db6d9ae7cd78..dec6458bb8d7 100644
+--- a/drivers/net/ethernet/google/gve/gve_main.c
++++ b/drivers/net/ethernet/google/gve/gve_main.c
+@@ -1276,17 +1276,10 @@ static void gve_unreg_xdp_info(struct gve_priv *priv)
+ 
+ static void gve_drain_page_cache(struct gve_priv *priv)
+ {
+-	struct page_frag_cache *nc;
+ 	int i;
+ 
+-	for (i = 0; i < priv->rx_cfg.num_queues; i++) {
+-		nc = &priv->rx[i].page_cache;
+-		if (nc->va) {
+-			__page_frag_cache_drain(virt_to_page(nc->va),
+-						nc->pagecnt_bias);
+-			nc->va = NULL;
+-		}
+-	}
++	for (i = 0; i < priv->rx_cfg.num_queues; i++)
++		page_frag_cache_drain(&priv->rx[i].page_cache);
+ }
+ 
+ static void gve_qpls_get_curr_alloc_cfg(struct gve_priv *priv,
+diff --git a/drivers/net/ethernet/mediatek/mtk_wed_wo.c b/drivers/net/ethernet/mediatek/mtk_wed_wo.c
+index d58b07e7e123..7063c78bd35f 100644
+--- a/drivers/net/ethernet/mediatek/mtk_wed_wo.c
++++ b/drivers/net/ethernet/mediatek/mtk_wed_wo.c
+@@ -286,7 +286,6 @@ mtk_wed_wo_queue_free(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
+ static void
+ mtk_wed_wo_queue_tx_clean(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
+ {
+-	struct page *page;
+ 	int i;
+ 
+ 	for (i = 0; i < q->n_desc; i++) {
+@@ -301,19 +300,12 @@ mtk_wed_wo_queue_tx_clean(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
+ 		entry->buf = NULL;
+ 	}
+ 
+-	if (!q->cache.va)
+-		return;
+-
+-	page = virt_to_page(q->cache.va);
+-	__page_frag_cache_drain(page, q->cache.pagecnt_bias);
+-	memset(&q->cache, 0, sizeof(q->cache));
++	page_frag_cache_drain(&q->cache);
+ }
+ 
+ static void
+ mtk_wed_wo_queue_rx_clean(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
+ {
+-	struct page *page;
+-
+ 	for (;;) {
+ 		void *buf = mtk_wed_wo_dequeue(wo, q, NULL, true);
+ 
+@@ -323,12 +315,7 @@ mtk_wed_wo_queue_rx_clean(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
+ 		skb_free_frag(buf);
+ 	}
+ 
+-	if (!q->cache.va)
+-		return;
+-
+-	page = virt_to_page(q->cache.va);
+-	__page_frag_cache_drain(page, q->cache.pagecnt_bias);
+-	memset(&q->cache, 0, sizeof(q->cache));
++	page_frag_cache_drain(&q->cache);
+ }
+ 
+ static void
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index d058d990532b..22e1fb9c9c0f 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1344,7 +1344,6 @@ static int nvme_tcp_alloc_async_req(struct nvme_tcp_ctrl *ctrl)
+ 
+ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
+ {
+-	struct page *page;
+ 	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
+ 	struct nvme_tcp_queue *queue = &ctrl->queues[qid];
+ 	unsigned int noreclaim_flag;
+@@ -1355,11 +1354,7 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
+ 	if (queue->hdr_digest || queue->data_digest)
+ 		nvme_tcp_free_crypto(queue);
+ 
+-	if (queue->pf_cache.va) {
+-		page = virt_to_head_page(queue->pf_cache.va);
+-		__page_frag_cache_drain(page, queue->pf_cache.pagecnt_bias);
+-		queue->pf_cache.va = NULL;
+-	}
++	page_frag_cache_drain(&queue->pf_cache);
+ 
+ 	noreclaim_flag = memalloc_noreclaim_save();
+ 	/* ->sock will be released by fput() */
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 6a1e6bb80062..56224dc59f17 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -1591,7 +1591,6 @@ static void nvmet_tcp_free_cmd_data_in_buffers(struct nvmet_tcp_queue *queue)
+ 
+ static void nvmet_tcp_release_queue_work(struct work_struct *w)
+ {
+-	struct page *page;
+ 	struct nvmet_tcp_queue *queue =
+ 		container_of(w, struct nvmet_tcp_queue, release_work);
+ 
+@@ -1615,8 +1614,7 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
+ 	if (queue->hdr_digest || queue->data_digest)
+ 		nvmet_tcp_free_crypto(queue);
+ 	ida_free(&nvmet_tcp_queue_ida, queue->idx);
+-	page = virt_to_head_page(queue->pf_cache.va);
+-	__page_frag_cache_drain(page, queue->pf_cache.pagecnt_bias);
++	page_frag_cache_drain(&queue->pf_cache);
+ 	kfree(queue);
+ }
+ 
+diff --git a/include/linux/gfp.h b/include/linux/gfp.h
+index 28aea17fa59b..6cef1c241180 100644
+--- a/include/linux/gfp.h
++++ b/include/linux/gfp.h
+@@ -311,6 +311,7 @@ extern void __free_pages(struct page *page, unsigned int order);
+ extern void free_pages(unsigned long addr, unsigned int order);
+ 
+ struct page_frag_cache;
++void page_frag_cache_drain(struct page_frag_cache *nc);
+ extern void __page_frag_cache_drain(struct page *page, unsigned int count);
+ void *__page_frag_alloc_align(struct page_frag_cache *nc, unsigned int fragsz,
+ 			      gfp_t gfp_mask, unsigned int align_mask);
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index 636145c29f70..06aa1ebbd21c 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -4699,6 +4699,16 @@ static struct page *__page_frag_cache_refill(struct page_frag_cache *nc,
+ 	return page;
+ }
+ 
++void page_frag_cache_drain(struct page_frag_cache *nc)
++{
++	if (!nc->va)
++		return;
++
++	__page_frag_cache_drain(virt_to_head_page(nc->va), nc->pagecnt_bias);
++	nc->va = NULL;
++}
++EXPORT_SYMBOL(page_frag_cache_drain);
++
+ void __page_frag_cache_drain(struct page *page, unsigned int count)
+ {
+ 	VM_BUG_ON_PAGE(page_ref_count(page) == 0, page);
+-- 
+2.33.0
+
 
