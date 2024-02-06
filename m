@@ -4,67 +4,118 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3BAA3C4828D
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Feb 2024 13:17:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D059CC4829A
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Feb 2024 13:17:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WmECs5WNd174oxqJQ1ksF9zCzrmcp6Shg1Ftf+A+B8A=; b=V5FHx0glsqS80/oGdzMp+3SQJn
-	UY/wkRyrB1/yj9tKEtiXhaEDnxI5UiV/+3retzauvfEOq5/Y1VneByafGkaCLy3nylQVBTLS3GQZs
-	lkPU7Uhxzq4YFonxXVtmjcZsd6Jos+PUuc9lOk8WTU1NEOltmzQsg0rm+WQbxEi8qBX4Mp4yJVklM
-	TvcAebXGyOqGhb8Q1e7z45TyY8F2LPnAGDhnArgVIANjRJE8wbWxSmBTj+MpFZH41e2KRlRINA3xf
-	aS9wVW5s/RpuKz9zFdXAhRn47jIzxTW6StEWZN3tvB0HmL//XFkVsNpB5jGNLaIfeCsKOexavHJBR
-	iCL2bxzA==;
+	bh=iMcT+pci9fKU96u1P4Z6cSU9WUkUsvXausIPa2n6xGI=; b=fOnQgE/9L9iP2FuurxiMoXWIyH
+	60RfRCRgV1VVEQ7N/gdXm/ntGWOzYDcK/cuJctNkqpNtFjKftxpqZyweswiN3nODtyiiDy34wRC+3
+	e54BgEebiCA8KNuirKEXb17VEjCCMrUOz5RcRIWK0xI59IBF46fY+Bz4Nhp+0EUIStdar4usxicf/
+	xpeaBflhPAtdCxMIOblSokn0WKxvc3W7yY0fZtEV5ZU/tLl38AQz8zIc5Jf1hHby6O+driMQCRE5E
+	S3hniFPML2JRLt4vqB4jlOZo8QfFZNR3fvKLXQhrw40m8ujYyf17HJlBoHNJQ5gvHhvl78pQfbsa/
+	E7Rlnhig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXLK9-00000007gom-30Wb;
-	Tue, 06 Feb 2024 13:17:17 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1rXLKB-00000007gqN-1WZL;
+	Tue, 06 Feb 2024 13:17:19 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXLK0-00000007gjB-1T9G
+	id 1rXLJz-00000007gid-247W
 	for linux-nvme@lists.infradead.org;
-	Tue, 06 Feb 2024 13:17:11 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	Tue, 06 Feb 2024 13:17:15 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 19D7A221B2;
-	Tue,  6 Feb 2024 13:17:07 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 380F51F385;
+	Tue,  6 Feb 2024 13:17:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707225425; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iMcT+pci9fKU96u1P4Z6cSU9WUkUsvXausIPa2n6xGI=;
+	b=voXOhrLpyCMvH+katTJ7JXo91KMWauGNPnOmSMaLqsxGFd7pMZrdcDX7LnqF2p5i6jXPwe
+	wOoFPPUPfm2wMJlWxtUa+kfmXwXCR7rvKaic6O1HWnDIcF8mOu3eAENVS70vjjM9OMum1D
+	R8b/r4rCYC0V58d30dDxK8zLH9FB7UQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707225425;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iMcT+pci9fKU96u1P4Z6cSU9WUkUsvXausIPa2n6xGI=;
+	b=/U8FEUylyR/YKVllKObbSeMW1vjM2+ZqrRyI7Ap1cEoRqLf5Cw7Ydssujii55wAoL8sHS5
+	IwdvLU48pTSUw0AQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707225425; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iMcT+pci9fKU96u1P4Z6cSU9WUkUsvXausIPa2n6xGI=;
+	b=voXOhrLpyCMvH+katTJ7JXo91KMWauGNPnOmSMaLqsxGFd7pMZrdcDX7LnqF2p5i6jXPwe
+	wOoFPPUPfm2wMJlWxtUa+kfmXwXCR7rvKaic6O1HWnDIcF8mOu3eAENVS70vjjM9OMum1D
+	R8b/r4rCYC0V58d30dDxK8zLH9FB7UQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707225425;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iMcT+pci9fKU96u1P4Z6cSU9WUkUsvXausIPa2n6xGI=;
+	b=/U8FEUylyR/YKVllKObbSeMW1vjM2+ZqrRyI7Ap1cEoRqLf5Cw7Ydssujii55wAoL8sHS5
+	IwdvLU48pTSUw0AQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 034A4132DD;
-	Tue,  6 Feb 2024 13:17:06 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 18D8E132DD;
+	Tue,  6 Feb 2024 13:17:05 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id XGf+OlIxwmV7OgAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Tue, 06 Feb 2024 13:17:06 +0000
+	id gWZoBFExwmV0OgAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Tue, 06 Feb 2024 13:17:05 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 Cc: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH blktests v1 5/5] nvme/rc: revert nvme-cli context tracking
-Date: Tue,  6 Feb 2024 14:16:55 +0100
-Message-ID: <20240206131655.32050-6-dwagner@suse.de>
+Subject: [PATCH blktests v1 2/5] nvme/rc: filter out errors from cat when reading files
+Date: Tue,  6 Feb 2024 14:16:52 +0100
+Message-ID: <20240206131655.32050-3-dwagner@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240206131655.32050-1-dwagner@suse.de>
 References: <20240206131655.32050-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
+Authentication-Results: smtp-out2.suse.de;
 	none
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	 REPLY(-4.00)[]
-X-Rspamd-Queue-Id: 19D7A221B2
+X-Spamd-Result: default: False [0.87 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 RCPT_COUNT_THREE(0.00)[4];
+	 R_MISSING_CHARSET(2.50)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 REPLY(-4.00)[];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 TO_DN_SOME(0.00)[];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.03)[56.89%]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240206_051708_610579_38D45876 
-X-CRM114-Status: GOOD (  10.08  )
+X-CRM114-CacheID: sfid-20240206_051707_763114_7583D801 
+X-CRM114-Status: GOOD (  12.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,117 +130,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This feature is not needed anymore, after fixing nvmet-fc. The nvmet
-target code is able to handle parallel operations and doesn't crash
-anymore. Furthermore, it can't prevent from discovery controller created
-by the udev rules, so let's rip it out.
+When running the tests with FC as transport and the udev auto connect
+enabled, discovery controllers are created and destroys while the tests
+are running. This races with the cleanup code and also the
+_find_nvme_dev() which iterates over all device entries and tries to
+read the connect of transport and subsysnqn sysfs attributes. Since
+these steps are not locked in anyway, the resources can go away in
+between.
+
+Thus filter out 'cat' reporting non existing subsysnqn or transport
+attributes. The tests will still fail if they can't fine the device etc.
+But without filtering these errors out the tests fail randomly.
 
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 ---
- tests/nvme/rc | 62 ---------------------------------------------------
- 1 file changed, 62 deletions(-)
+ tests/nvme/rc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/tests/nvme/rc b/tests/nvme/rc
-index cdfc738d3aec..dfc4c1ef1975 100644
+index e0461f1cd53a..9cc83afe0668 100644
 --- a/tests/nvme/rc
 +++ b/tests/nvme/rc
-@@ -189,57 +189,6 @@ _nvme_calc_rand_io_size() {
- 	echo "${io_size_kb}k"
- }
+@@ -350,7 +350,7 @@ _cleanup_nvmet() {
  
--_have_nvme_cli_context() {
--	# ignore all non-fc transports for now
--	if [[ "${nvme_trtype}" != "fc" ]] ||
--	   ! nvme connect --help 2>&1 | grep -q -- '--context=<STR>' > /dev/null; then
--		return 1
--	fi
--	return 0
--}
--
--_setup_nvme_cli() {
--	local local_wwnn="${1}"
--	local local_wwpn="${2}"
--	local remote_wwnn="${3}"
--	local remote_wwpn="${4}"
--
--	if ! _have_nvme_cli_context; then
--		return
--	fi
--
--	mkdir -p /run/nvme
--	cat >> /run/nvme/blktests.json <<-EOF
--	[
--	  {
--	    "hostnqn": "${def_hostnqn}",
--	    "hostid": "${def_hostid}",
--	    "subsystems": [
--	      {
--	        "application": "blktests",
--	        "nqn": "blktests-subsystem-1",
--	        "ports": [
--	          {
--	            "transport": "fc",
--	            "traddr": "nn-${remote_wwnn}:pn-${remote_wwpn}",
--	            "host_traddr": "nn-${local_wwnn}:pn-${local_wwpn}"
--	          }
--	        ]
--	      }
--	    ]
--	  }
--	]
--	EOF
--}
--
--_cleanup_nvme_cli() {
--	if ! _have_nvme_cli_context; then
--		return
--	fi
--
--	rm -f /run/nvme/blktests.json
--}
--
- _nvme_fcloop_add_rport() {
- 	local local_wwnn="$1"
- 	local local_wwpn="$2"
-@@ -272,9 +221,6 @@ _setup_fcloop() {
- 	local remote_wwnn="${3:-$def_remote_wwnn}"
- 	local remote_wwpn="${4:-$def_remote_wwpn}"
- 
--	_setup_nvme_cli "${local_wwnn}" "${local_wwpn}" \
--			"${remote_wwnn}" "${remote_wwpn}"
--
- 	_nvme_fcloop_add_tport "${remote_wwnn}" "${remote_wwpn}"
- 	_nvme_fcloop_add_lport "${local_wwnn}" "${local_wwpn}"
- 	_nvme_fcloop_add_rport "${local_wwnn}" "${local_wwpn}" \
-@@ -317,8 +263,6 @@ _cleanup_fcloop() {
- 	_nvme_fcloop_del_lport "${local_wwnn}" "${local_wwpn}"
- 	_nvme_fcloop_del_rport "${local_wwnn}" "${local_wwpn}" \
- 			       "${remote_wwnn}" "${remote_wwpn}"
--
--	_cleanup_nvme_cli
- }
- 
- _cleanup_blkdev() {
-@@ -544,9 +488,6 @@ _nvme_connect_subsys() {
- 	subsysnqn="$2"
- 
- 	ARGS=(-t "${trtype}" -n "${subsysnqn}")
--	if _have_nvme_cli_context; then
--		ARGS+=(--context="blktests")
--	fi
- 	if [[ "${trtype}" == "fc" ]] ; then
- 		ARGS+=(-a "${traddr}" -w "${host_traddr}")
- 	elif [[ "${trtype}" != "loop" ]]; then
-@@ -618,9 +559,6 @@ _nvme_discover() {
- 	ARGS=(-t "${trtype}")
- 	ARGS+=(--hostnqn="${def_hostnqn}")
- 	ARGS+=(--hostid="${def_hostid}")
--	if _have_nvme_cli_context; then
--		ARGS+=(--context="blktests")
--	fi
- 	if [[ "${trtype}" = "fc" ]]; then
- 		ARGS+=(-a "${traddr}" -w "${host_traddr}")
- 	elif [[ "${trtype}" != "loop" ]]; then
+ 	for dev in /sys/class/nvme/nvme*; do
+ 		dev="$(basename "$dev")"
+-		transport="$(cat "/sys/class/nvme/${dev}/transport")"
++		transport="$(cat "/sys/class/nvme/${dev}/transport" 2>/dev/null)"
+ 		if [[ "$transport" == "${nvme_trtype}" ]]; then
+ 			echo "WARNING: Test did not clean up ${nvme_trtype} device: ${dev}"
+ 			_nvme_disconnect_ctrl "${dev}"
+@@ -840,7 +840,7 @@ _find_nvme_dev() {
+ 	for dev in /sys/class/nvme/nvme*; do
+ 		[ -e "$dev" ] || continue
+ 		dev="$(basename "$dev")"
+-		subsysnqn="$(cat "/sys/class/nvme/${dev}/subsysnqn")"
++		subsysnqn="$(cat "/sys/class/nvme/${dev}/subsysnqn" 2>/dev/null)"
+ 		if [[ "$subsysnqn" == "$subsys" ]]; then
+ 			echo "$dev"
+ 		fi
 -- 
 2.43.0
 
