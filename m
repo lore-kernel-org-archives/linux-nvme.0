@@ -4,128 +4,147 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EE929C48286
-	for <linux-nvme@archiver.kernel.org>; Tue,  6 Feb 2024 05:51:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48718C4828D
+	for <linux-nvme@archiver.kernel.org>; Tue,  6 Feb 2024 06:02:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6S6OaTQ90hrwvH+v/ItjXZMzr6AaGm6+jITopHlp8XY=; b=RA+y5UjGhGrIoNTJtbqTHiN0W/
-	zZvPSXxV7xr3DbWE7cVGMBt6gqz0GmwljK6QGU+ZgFoU2ZQwij7Zcfx/u419DNY80XKuRO+bvyDl0
-	Nntly/SuCmX3vE9gkuTK3tkHUdu4uR1/zKdXmDINMmuq6ugH8LaysgkHBaTSV9H7KA5ErHVsQU7gb
-	5lGdKzTIQR/AsF7NTc2/Y+rGPI6MBEkC6Py0/0WNcTFS6kTLyaUE+n745Jw9jtWZ8n+iPq8FzfBzM
-	H3PFJ++0VXAUomBATWDT18+KSUdFB/40Xcaaikkvktgg1Oe1FB6j68qwStUTqgqRftYMRARvfJczT
-	JjTTbrCQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=CKdSckDHC8yyNuxwuCavNQg79ylkDs381g2vPiNq+5E=; b=fZl+MPMAh8XtYm9TienZkjrhTa
+	zwDVlAyW3d9fWMjuCHaj4XQe2j6jkzRdxmafPhngdwCudu9AKBhcOj3an0W6zIwSOWfj6NJJgqlAQ
+	zNNlDsHeBsPWNiKX1D5fGKLxpNQx3v35B4lmqREM4pK11UczAh+4gxK6nevGokTWCS77Y2dcEV1nI
+	8B8d7zpx5x4CFZoC9iNEALcRA1tWxMr+xLgjMmEVHpoxCNiU4p8Gj5/YcZdm/nc/p/4/HeDGSmWnk
+	30uKFkUtC7X2wf2FZGqxavf9cgsroDTeWZ0QRaa3atHAlxi6LxHvFevhlHGA3zdJIHazuzwaht6Y9
+	Da6J8Yiw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXEMq-000000069bX-1xNc;
-	Tue, 06 Feb 2024 05:51:36 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1rXEXX-00000006BEh-28Ab;
+	Tue, 06 Feb 2024 06:02:39 +0000
+Received: from esa2.hgst.iphmx.com ([68.232.143.124])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXEMm-000000069aW-3Is6
+	id 1rXEXU-00000006BBz-2IdM
 	for linux-nvme@lists.infradead.org;
-	Tue, 06 Feb 2024 05:51:35 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id AA8281F896;
-	Tue,  6 Feb 2024 05:51:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707198690; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6S6OaTQ90hrwvH+v/ItjXZMzr6AaGm6+jITopHlp8XY=;
-	b=FigCCNTfoUkjysf0OLwgDlQ0LR+eXaH2WuOxWJRfhTxZNYm1LAST1bQhaeFpnjPni2x6WW
-	PmG9LlZximPRIitvRU0RR3HIxrwK6jy4yKiSwF/1jckkw4ssaN3zkjPhHxRGMMrn/8dcwe
-	o79+fNN6E9Kggh/L0T54asrmnqVrtvo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707198690;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6S6OaTQ90hrwvH+v/ItjXZMzr6AaGm6+jITopHlp8XY=;
-	b=9lMbQusCAO+2V0qa5SBdltKQmDBJOy+PRsYz1kybIUKhBCbjsj93QsGTvql0t5Qc6U0rxw
-	sKuUlbfQhS29GRCQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1707198690; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6S6OaTQ90hrwvH+v/ItjXZMzr6AaGm6+jITopHlp8XY=;
-	b=FigCCNTfoUkjysf0OLwgDlQ0LR+eXaH2WuOxWJRfhTxZNYm1LAST1bQhaeFpnjPni2x6WW
-	PmG9LlZximPRIitvRU0RR3HIxrwK6jy4yKiSwF/1jckkw4ssaN3zkjPhHxRGMMrn/8dcwe
-	o79+fNN6E9Kggh/L0T54asrmnqVrtvo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1707198690;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6S6OaTQ90hrwvH+v/ItjXZMzr6AaGm6+jITopHlp8XY=;
-	b=9lMbQusCAO+2V0qa5SBdltKQmDBJOy+PRsYz1kybIUKhBCbjsj93QsGTvql0t5Qc6U0rxw
-	sKuUlbfQhS29GRCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1EC3213A25;
-	Tue,  6 Feb 2024 05:51:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id cFk3Kt/IwWXiOAAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 06 Feb 2024 05:51:27 +0000
-Message-ID: <b19e0b0f-6b1c-4126-931b-d7b0d01fb3da@suse.de>
-Date: Tue, 6 Feb 2024 14:51:24 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 12/12] nvmet-fc: use RCU list iterator for assoc_list
+	Tue, 06 Feb 2024 06:02:38 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1707199356; x=1738735356;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=H+OH0wuzPcusKxxG1lApy3Lb7P7ngsByx6X21x8Nkm0=;
+  b=mPdQnlxUOpUGQTQWgXb/Y1pOMJawNOiq+aRTREKadz6k4IvHKdtFlPVw
+   BwnQJvGjQ1kjL+a9ACM8WJx2yBLi2A5vb1mI8KsZn0TIJruMPbrbGAzQJ
+   rQWXnRIci2va9pWsFujV1A9iHUZFObdqOHlFyGAT+jf+JaAaJIzgRiY+9
+   8fBD2zfHVFVm2kUl44hm0OTTqXmNvH3DXeEtBDTdd52RQBPRCEuGAOWHZ
+   vEYmNuA3lmGfGZU/7uiKI/xySro8/paohv+P94JIoKIEA2lPULALs9RJl
+   VfIEHE5vtflvIyyFcTD2VPP3HyJwktGZVBzCF12b1sYog70e/+qixLLqr
+   Q==;
+X-CSE-ConnectionGUID: wVO5oXDTRouom3O5tjsOsg==
+X-CSE-MsgGUID: Yc8jRsKLSw6aFBy16Q6nSQ==
+X-IronPort-AV: E=Sophos;i="6.05,246,1701100800"; 
+   d="scan'208";a="8588297"
+Received: from mail-eastus2azlp17012016.outbound.protection.outlook.com (HELO BN1PR04CU002.outbound.protection.outlook.com) ([40.93.12.16])
+  by ob1.hgst.iphmx.com with ESMTP; 06 Feb 2024 14:02:25 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KnV41RP17aO9yAO3VAfbTHJZGRTkLLyfpUrFEeKK5rgEonO4OobjP8f7DSK/FE6ATsybZpKZ1fs7JZC7FcAW/TR42ZVqqRVBIQ1liHploZ6lNWjE+SCELzuDQOQ41TFdvIZ+G42vn8uFak+ythcDlufPHnChDAXQ5DWZGFHSzLjTbwg+tnxpuQuCnIN2h7aXetgJQbkzlgZc48PMklpIq86k8aDJnFcllmuffX6YZepbqz+tUoQ4LCW2UgaymlABmrWcRcmAetDqwZPLIsRX0JJte0+UgG+9cZ1dr1TChzyS7k279xcmpomOU8R7YB/lMJgtyk6UQfLi9XsWKq08ag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CKdSckDHC8yyNuxwuCavNQg79ylkDs381g2vPiNq+5E=;
+ b=A5jzyxTjE16QExVdeDNmhG8iYPGk42jHrPx4WY098iOB/oTOTYud6dJgZXDmA2i/EA2bgeCaWYnzA+eMZTQCK+xQyF9OhFjbjlLIKnw2yupOQhhMu70+mXvHHlpu5cFujgFL1cKV8LDHunPezKOKyhyOSyYan3um3fBtNRgTKw/IM26Uw/Y6YNjzTIvyaabHxm7Pd21YvnstDDbgW3Jc8P2UY9Y8D+o6rODtlH0KXvvI4dxDB/Am/F2WGo4ceqTaQWWVn7AWKw5bDanM+Xkz2ydk2phIwWxYzg9BhlAdjm7V+iJcU5LvA0tSna5pSnYlDe6XBsbnGcnDXsVOXhbXyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CKdSckDHC8yyNuxwuCavNQg79ylkDs381g2vPiNq+5E=;
+ b=xttRudMx8Hst9KxD+c41XeQ8Sf4eZoDEv1gGcBCoJoCVBBy4LqM+9Y76gZV0GfvTogiwlyMAw7jI0EpFjfU2MwM5nkt+JyYtKZEmvjo1f33iLtSEHi2Tdnr4F/+Q2ovte+cH16fa5SXImh+Vs6UgpVnfb7Y9GaP49+w+SFvPjqg=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ DM8PR04MB8103.namprd04.prod.outlook.com (2603:10b6:8:2::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7249.36; Tue, 6 Feb 2024 06:02:24 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::25d0:1445:7392:e814]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::25d0:1445:7392:e814%7]) with mapi id 15.20.7249.035; Tue, 6 Feb 2024
+ 06:02:24 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Keith Busch <kbusch@meta.com>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Keith
+ Busch <kbusch@kernel.org>
+Subject: Re: [PATCH blktests] nvme: test log page offsets
+Thread-Topic: [PATCH blktests] nvme: test log page offsets
+Thread-Index: AQHaWGR/Dr54sNANvUSX5YS80ipQ5LD801GA
+Date: Tue, 6 Feb 2024 06:02:24 +0000
+Message-ID: <mabar2czffh5f7ftappnbtir34vzz65ecxatz7p4xbe6u6ts2s@hwe7yb3pcajx>
+References: <20240205185225.2878642-1-kbusch@meta.com>
+In-Reply-To: <20240205185225.2878642-1-kbusch@meta.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: Daniel Wagner <dwagner@suse.de>, James Smart <james.smart@broadcom.com>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20240131085112.21668-1-dwagner@suse.de>
- <20240131085112.21668-13-dwagner@suse.de>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20240131085112.21668-13-dwagner@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=FigCCNTf;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=9lMbQusC
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.46 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 XM_UA_NO_VERSION(0.01)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%];
-	 MIME_GOOD(-0.10)[text/plain];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCPT_COUNT_FIVE(0.00)[6];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 NEURAL_HAM_SHORT(-0.16)[-0.789];
-	 RCVD_TLS_ALL(0.00)[];
-	 MID_RHS_MATCH_FROM(0.00)[]
-X-Rspamd-Queue-Id: AA8281F896
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|DM8PR04MB8103:EE_
+x-ms-office365-filtering-correlation-id: f031ae3f-6bd9-41bb-8fca-08dc26d9308f
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: D9o17KGNxnRaiYLYkxQw9wnipVReiNbFSwnMUivHZ7H2Fe8Ru7Dw95BOauDAc4stKl0KsNyvVkaimYIQFcfOiXsSlRk7nP/4LV5xqoj7fEzxlfI7BLqFAC9rItyAkAoRm1/mBDa2MINsfPp1q6YPnNKLufxOiYKU6G6LR/p+Q385lqgpuCDIXWYp//tflcXTOHjPmwkSiRp8z5DxholGU7PEZiL/YF+dtCrtSpS7d7tju38I3I0saPiS9Hm/vIsN/hziM/xvgMaMB+uodoXoLwnREFYuLYQnP2uyLiz8PZuD8weHonobOfVmsS7z4Lv8rhujFlIFsRnj7piStgqz2rAFjvkHEN2WtoOvhd0fYBSSFCyd0V3Rf3rqjtfdoJy0Zyf4TE0CNTt7JCOhMlBYqTAxwegVSuxwA9dOSbFw1K7urRcofRpBUwp95p2WnXwjSStqxqgKu71g4E9OJf2gqMEN5zvTjuPDYwt+pnBZsAIbY4G5QLHdG4lp0bty5iR9CAdvEKXkfLxBQiBaR92jyfCJ2Pm3djhY9Ukmkg8J6V6+6Luf6Jac1KB8KjVV/RgE6HlFb7//jCJAwSmA4PpHiOgIsqxrjpxPzdFf0evcUnTFZ3qXRrcQMFwJbFOYfxxf
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(396003)(39860400002)(376002)(346002)(136003)(366004)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(44832011)(5660300002)(2906002)(33716001)(41300700001)(83380400001)(38100700002)(122000001)(82960400001)(86362001)(26005)(6506007)(6512007)(9686003)(66946007)(54906003)(64756008)(66446008)(66476007)(66556008)(6916009)(71200400001)(478600001)(8936002)(6486002)(76116006)(38070700009)(4326008)(8676002)(316002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?z5nTol++sPxbKjF5AY8T/ca2g3UIDrzV3RKgf7X5YjZOhJKhvcLdJfXsErgO?=
+ =?us-ascii?Q?H+xY2IWrs3i1tkNypvYwDFvIYJcF1LYSJOeh/u092AjoqyDBA2ACLmT7f7yO?=
+ =?us-ascii?Q?oOMSQBgcySwuEtJWFAkdqKp564PRF9bzYk+AhWs5iXE/TKjT1njOmbErK4tD?=
+ =?us-ascii?Q?kVU5Qm19yy4jXRgwW0ODXOuA81/4P10Ho8GxUXNFx7baOw14ukr+TWuYHH4+?=
+ =?us-ascii?Q?AXzYavwl8CmZi7bKc8Sdz7Kthl5lZSrVvVF1wFOWighRziH318FIPw12daXE?=
+ =?us-ascii?Q?AY15CneMoYG+lJDX64PShgSjuFzXAR5Ti9KF5qPHKBYFO7CwaOTLG+jbwxH7?=
+ =?us-ascii?Q?E1u/qPG46hFR8mwNJFoFhfEa2WEHysYdnwuwKT71guOnPe2a37+8902H9ZZr?=
+ =?us-ascii?Q?W9M4k6dDRobKCBB0dhUtWn7023bPN/OmwARmpa0PV0tK56ndXhTMdtqzjVBV?=
+ =?us-ascii?Q?uUpaWJ3rW+FK58Rohx6Uyh+H8nkdsSpswvzByOHJb68CCiEjYz+1jtRZO+BV?=
+ =?us-ascii?Q?HEpWmB9D0F/IaF4RxmZn43kf9fzKGnbCVxIY4ua5iaYI2mfpOjbs/qJ7sscm?=
+ =?us-ascii?Q?yNIh/hByJb8M4SFIcBf9Jy1/1XhnXnKw5SDT6Q+Z45NNicn9J0r6ITkEFiRo?=
+ =?us-ascii?Q?Nh/6OQs7d1mCm6S9uKJI7lV1dMQMMczRTSvKsPJRCs+QKDBPDMXVX0zIBkVJ?=
+ =?us-ascii?Q?27iHTLKkExzkEZaPGBGU/6gAHJFxHeIqzz+HL0YW7yIwFRtdbl03katrxRhM?=
+ =?us-ascii?Q?oB6baobvf73VpKkJ1PnXQ/HK8vOcUTF5uI42QXrTI9e0+pRMzDJUzebEvjj1?=
+ =?us-ascii?Q?h1xOpeRLYNK+I64vp57XQqCsuHY7yiGQJ4Gy0YmoF1q67CVWJ4ieiMeKQ/er?=
+ =?us-ascii?Q?BVM/YhEvIj4SFSztFDKbtZsy1MIMJ4gTvWO7F/8mZHmCdEt/hk4VQbCPBSXS?=
+ =?us-ascii?Q?0jphBn/ksKltE45hC0Qhpilgo7gNMWUqQuXJ08tYrATO5HH7uEEMSznZnqlK?=
+ =?us-ascii?Q?drVUUZNqjNMJTy4scaAup4jIaB0bBdVOpn8Q+hvjf0xBls9AEQ9RegXD7k/m?=
+ =?us-ascii?Q?OFH1av72oOXFWqoQFUsZYpjZsLvKPpWc+aCMv2Oj+ezk1D+E5S32u7HUCGeZ?=
+ =?us-ascii?Q?CbCl+XNluR3yTIOh6UHcjbYZQHypIzrQJQoIk3r1q1zqwrejhLUr5N3Vj9YK?=
+ =?us-ascii?Q?OaArlsnaK5vRPB0ufnmFCQ5HIAUT5u9nvz6Sqb6LHA6Y+SBTi25osNViIkOI?=
+ =?us-ascii?Q?YO+A81HYDe0WBDXrrXnonevIQV4eZHc1FZqhcL8D2441OZcS8T3utuuumlhZ?=
+ =?us-ascii?Q?bOti+UZxUBWhPdYxzmOOu/XbcDISpS5GfRgyEb0NiP7xGjQYld7xQLKT4B0S?=
+ =?us-ascii?Q?sCcTmxqXSAjy4N2BuS0ussSjhzRljqlQWAhZs9iUoTUqyEDoihNb9qcAdKXf?=
+ =?us-ascii?Q?Fn4I7Tzx98nIjc4aArq7eokqNpFo6V9XeR9dl4BSeIyfsYjJ9s2l3g7xtLei?=
+ =?us-ascii?Q?zdI7tdJ6SWuOMx0z9hw+dYTSuatgemaGAfH95LKBXHErodZ67yYxO2dAQohD?=
+ =?us-ascii?Q?Y166kc4Ey9v/3oOSgMjmqrEMiapf0GeW3EU/aqF/fw8/Bv4OJI91Ok2AJH3o?=
+ =?us-ascii?Q?+W9eH1o49vn+Rru7OwmFqB0=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <B8932BF7610E2A4F8CE0D66BF66126EB@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: wV5mL2OnrZHe4qn6/n1pLmde7Oq7EytLySCjz5v21mAzEaiRxlxzulF78KwEQE3gcZauog47/WhPYvr+u5yshSeKw9PE6Gkxl3eX9jNRLdkrJZFvHgZcTZ22jA0utLJbl1oG/2GLaVA6lucOn4NrGIo3yFwjCc868meSm3VcBYQmOkofHfv27f/m12jblIPSO5MrunyqGMibCBPh4nlsQLqCRhCaCGNHaQQmFMxyfuIOg2sanuZuACr/lPVQMsfvEZSDDcDz2sjzfurfHNXNmkiehgX4RnEmQzuiTWpSfYjgqcYmiQC3A/TMRcLq3QfxH1lEHlNqVcgUUjN2uBT89VbHjLQ08MHESNFOx7sPCIyvOUzmBawkNHEhZrOzCme/A4mSfkFsVEGi3+HNOyvKYgAb7LLOXO8bq5vBYfY55wofJnCm497TSyezt+glhWOhxLzCsktsOek1I1Z+eHgsjChtID1blz8Qvb7VCjZbj6GXkSlfWObmbdoi+xF65QT34nM9JjZ5f7ly5u1C4N9slTjOkM7hU3kv1WLgBWCMYAjUU3ykmNGiuocVKpIikp2XSOu8/XHdotqZ91ohWtZpOEnAEVJw4jaZ0e1oMfL+b4IoZxd6yX6uvIxXpYn0CRMz
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f031ae3f-6bd9-41bb-8fca-08dc26d9308f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Feb 2024 06:02:24.4134
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: XCNulpInjbjWITh9Oo7fpdXgX6uDEkuMQ1MFBDPKN/YIdILNE2+ycK1oUo+gNPOwPUlBgqPUKZBenph3vMlS+7gZvM7r1bwGzZYwYY5yWOA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR04MB8103
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240205_215133_009139_D6A1AC0D 
-X-CRM114-Status: GOOD (  20.34  )
+X-CRM114-CacheID: sfid-20240205_220236_786640_60C1A74D 
+X-CRM114-Status: GOOD (  14.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -140,92 +159,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/31/24 16:51, Daniel Wagner wrote:
-> The assoc_list is a RCU protected list, thus use the RCU flavor of list
-> functions.
-> 
-> Let's use this opportunity and refactor this code and move the lookup
-> into a helper and give it a descriptive name.
-> 
-> Signed-off-by: Daniel Wagner <dwagner@suse.de>
-> ---
->   drivers/nvme/target/fc.c | 34 ++++++++++++++++++++++------------
->   1 file changed, 22 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-> index 671d096745a5..fd229f310c93 100644
-> --- a/drivers/nvme/target/fc.c
-> +++ b/drivers/nvme/target/fc.c
-> @@ -1114,14 +1114,27 @@ nvmet_fc_schedule_delete_assoc(struct nvmet_fc_tgt_assoc *assoc)
->   	queue_work(nvmet_wq, &assoc->del_work);
->   }
->   
-> +static bool
-> +nvmet_fc_assoc_exits(struct nvmet_fc_tgtport *tgtport, u64 association_id)
-> +{
-> +	struct nvmet_fc_tgt_assoc *a;
-> +
-> +	list_for_each_entry_rcu(a, &tgtport->assoc_list, a_list) {
-> +		if (association_id == a->association_id)
-> +			return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
->   static struct nvmet_fc_tgt_assoc *
->   nvmet_fc_alloc_target_assoc(struct nvmet_fc_tgtport *tgtport, void *hosthandle)
->   {
-> -	struct nvmet_fc_tgt_assoc *assoc, *tmpassoc;
-> +	struct nvmet_fc_tgt_assoc *assoc;
->   	unsigned long flags;
-> +	bool done;
->   	u64 ran;
->   	int idx;
-> -	bool needrandom = true;
->   
->   	if (!tgtport->pe)
->   		return NULL;
-> @@ -1145,24 +1158,21 @@ nvmet_fc_alloc_target_assoc(struct nvmet_fc_tgtport *tgtport, void *hosthandle)
->   	INIT_WORK(&assoc->del_work, nvmet_fc_delete_assoc_work);
->   	atomic_set(&assoc->terminating, 0);
->   
-> -	while (needrandom) {
-> +	done = false;
-> +	do {
->   		get_random_bytes(&ran, sizeof(ran) - BYTES_FOR_QID);
->   		ran = ran << BYTES_FOR_QID_SHIFT;
->   
->   		spin_lock_irqsave(&tgtport->lock, flags);
-> -		needrandom = false;
-> -		list_for_each_entry(tmpassoc, &tgtport->assoc_list, a_list) {
-> -			if (ran == tmpassoc->association_id) {
-> -				needrandom = true;
-> -				break;
-> -			}
-> -		}
-> -		if (!needrandom) {
-> +		rcu_read_lock();
-> +		if (!nvmet_fc_assoc_exits(tgtport, ran)) {
->   			assoc->association_id = ran;
->   			list_add_tail_rcu(&assoc->a_list, &tgtport->assoc_list);
-> +			done = true;
->   		}
-> +		rcu_read_unlock();
->   		spin_unlock_irqrestore(&tgtport->lock, flags);
+Hi Keith, thanks for the patch.
 
-Odd. You already take the tgtport lock, so there really is no point in 
-using rcu_read_lock() here.
-Or does the tgtport lock not protect the assoc_list?
+On Feb 05, 2024 / 10:52, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
+>=20
+> I've encountered a device that fails catastrophically if the host
+> requests to an error log with a non-zero LPO. The fallout has been bad
+> enough to warrant a sanity check against this scenario.
 
-Cheers,
+Question, which part of the kernel code does this test case cover? I'm wond=
+ering
+if this test case might be testing NVMe devices rather than the kernel code=
+.
 
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), GF: Ivo Totev, Andrew McDonald,
-Werner Knoblich
+Also, was there any related kernel code change or discussion? If so, I woul=
+d
+like to leave links to them in the commit message.
 
+I ran this test case on my test system using QEMU NVME device, and saw it f=
+ailed
+with the message below.
+
+nvme/051 =3D> nvme0n1 (Tests device support for log page offsets) [failed]
+    runtime  0.104s  ...  0.126s
+    --- tests/nvme/051.out      2024-02-06 09:46:03.522522896 +0900
+    +++ /home/shin/Blktests/blktests/results/nvme0n1/nvme/051.out.bad   202=
+4-02-06 14:50:57.394105192 +0900
+    @@ -1,2 +1,3 @@
+     Running nvme/051
+    +NVMe status: Invalid Field in Command: A reserved coded value or an un=
+supported value in a defined field(0x4002)
+     Test complete
+
+I took a look in the latest QEMU code, and found it returns "Invalid Field =
+in
+Command" when the specified offset is larger than error log size in QEMU. D=
+o I
+miss anything to make this test case pass?
 
