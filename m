@@ -4,61 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA1AFC4828D
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Feb 2024 22:00:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4E4CFC4828D
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Feb 2024 22:02:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=eVJqSihgt0p7uln1wHBca59d4aGPW0I3w+8cTIVtEJI=; b=Teem0VU5WSaTRI
-	i7vFR2KZXniqqT9nKQzMxq1Wf4UFKugXH4EeaT2w1jlnpkT7wjiuAc2fLxoYfZX891Y2m7z9HnM4m
-	qkM9Z8a85nNPG45FVUZsLbTXp7CtonuB9uvLFat6SYok1lT9+EgLzz8GPTdxdd2ciHNk0Fk9KI/0M
-	3+VNNAtG1BD2YJSWMEm0XyerFlY9M8qre3qAG0CjdVGEVfTkssrjVhxBmonwndfcauuDMGiu6tcTw
-	A3+gFLRv94bUjcqQF2RDBKMcd/KrR1dT4CUneEZGsl6lTeWusrh4yBLdOTMTo5LNtyvhaO2trBVmn
-	PC0/qPSL1ZfNW7lJCltQ==;
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=BC5yrkChWUQbJFGjjzDK0lNh1OmKLWo7WflUpnzTV8U=; b=3T+1NhckOdIl2Ut/QKYYbumYOq
+	jYRm8c49iE1/LYyNolx8BYYHi7HyOIFF9MyowWCZKZ3CIjphxS+c90HEGOv7CpAZnBq3Bvyx6gHmd
+	CDk0T9pEK5Si4/eUNt5zq3CZ41cjxCIN1fXwn21+MPu/jYofkGCAYiM43EOY+d/G28i/DBbx3hKJZ
+	3xLABG6Lp79DGSJfKPt/16Hg+O1Ynzusr4hgB6L7BdnF6A3e0Y0NMVfHm7mBZC9qoWFT607SzEn5B
+	5I6565FO5uPNU+rMKWmZmtiLRg36tBt9PrUxu9NToye0OY55XOceBOz2ZWNavpvwIuRSIVB6LMJ7N
+	x8/bcg1g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXpyQ-0000000C27p-1gsa;
-	Wed, 07 Feb 2024 22:00:54 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1rXq04-0000000C2an-3jyQ;
+	Wed, 07 Feb 2024 22:02:36 +0000
+Received: from hr2.samba.org ([2a01:4f8:192:486::2:0])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXpyN-0000000C26d-2WAC
+	id 1rXq01-0000000C2Z1-44Sg
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 Feb 2024 22:00:52 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 217D361ADD;
-	Wed,  7 Feb 2024 22:00:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 816DBC433C7;
-	Wed,  7 Feb 2024 22:00:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707343250;
-	bh=j0bMR3ry6ouW5L/+7DYxtqo56xcwV6oH779uSyf0cvI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=thPsQdD89+sbH4qKZN8eCgururAEFt45glsLocB1IaGknhysCrMTVV88K38mxI3M/
-	 xanqynJzXK/PI43fPe6U6ccscF27z8+9tH8C5jxFcWJobHQlP3iY+qtj4efnQawoHJ
-	 22/jh2moJwLlWXM77SRjUmkOvosnTEC4jtuvBYnHjIIfQuEKE/w9WQ1ftKjSbcJzmL
-	 cGRhCNZa7wp2D/5nfRKB8bQOJV96dV8gWxQvejUVZRjgrh7uR5wi7y3n9aXdnXJQBV
-	 3sMBCAhHKTmLNspfM0Lt1nbgs695HWaArLMR8Ow1a9gbeb39nm/T6riFgISUN2/R4R
-	 X8mL6S+l9U+gg==
-Date: Wed, 7 Feb 2024 16:00:48 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Jeremy Allison <jallison@ciq.com>
-Cc: jra@samba.org, tansuresh@google.com, hch@lst.de,
+	Wed, 07 Feb 2024 22:02:35 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
+	s=42; h=Message-ID:Cc:To:From:Date;
+	bh=BC5yrkChWUQbJFGjjzDK0lNh1OmKLWo7WflUpnzTV8U=; b=fgFz0NIptrxvgy17mLTwyoYQxG
+	RQMJNK/Mx0uW75eWDynaiYuubTNevA90TQLaq9zs4uE3RoedtBKivZhzDRcJP5GpVRZMrR1DVUenK
+	SkitgHQCencNcEF3jJZ3olUMXVk86a3Q5SGPWiQzbf9zp2+TgalscRvJDTiVH6L5fuq0gYXLxhb7J
+	0Vw2Zbs9FzhHQxTyYXBsQW0lpHTfPm2WdEGCTHeQ4RgoOoXa32Bxu28JRs5w0Br1p8A0QW66IQnQ0
+	buqtvU7Z5iNWSU+KGrbpsi+GisqRuewylMonrVMkwjI+R9E2wWSrK/pLBWj2cT7SaX7lwUa8UM13s
+	Kh/XBE68yWjoBUhPzDw9U1M+cuYtkVpofl0Xo01DLB+Um3gXkbQWH3xfCJN3wq16Ry8FXurIR8OqQ
+	9EWqZwG8+pOc3RdVvSCPUW3Jtlq//5Bi40KothuG+17s0UEnHyG3S3zBacXOuYT3aS5KmliootUXX
+	oOyXfk9oL+PK9F+Q1ddky4FZ;
+Received: from [127.0.0.2] (localhost [127.0.0.1])
+	by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__ECDSA_SECP256R1_SHA256__CHACHA20_POLY1305:256)
+	(Exim)
+	id 1rXpzx-00C1bl-18;
+	Wed, 07 Feb 2024 22:02:29 +0000
+Date: Wed, 7 Feb 2024 14:02:25 -0800
+From: Jeremy Allison <jra@samba.org>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Jeremy Allison <jallison@ciq.com>, tansuresh@google.com, hch@lst.de,
 	gregkh@linuxfoundation.org, rafael@kernel.org, bhelgaas@google.com,
 	sagi@grimberg.me, djeffery@redhat.com,
 	linux-nvme@lists.infradead.org
-Subject: Re: Make NVME shutdown two-pass - Version 6
-Message-ID: <20240207220048.GA919889@bhelgaas>
+Subject: Re: [PATCH 2/5] PCI: Support two-pass shutdown
+Message-ID: <ZcP98d0iDMWlUse7@jeremy-HP-Z840-Workstation>
+References: <20240207214044.2374295-3-jallison@ciq.com>
+ <20240207215950.GA919764@bhelgaas>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20240207214044.2374295-1-jallison@ciq.com>
+In-Reply-To: <20240207215950.GA919764@bhelgaas>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240207_140051_702542_622A0683 
-X-CRM114-Status: UNSURE (   8.94  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240207_140234_033817_677DFBF9 
+X-CRM114-Status: GOOD (  15.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,23 +71,45 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: Jeremy Allison <jra@samba.org>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Feb 07, 2024 at 01:40:39PM -0800, Jeremy Allison wrote:
-> This is version 6 of a patchset originally written by
-> Tanjore Suresh <tansuresh@google.com> to make shutdown
-> of nvme devices two-pass.
-> 
-> Changes from Version 5:
-> 
-> 1). Function nvme_request_shutdown() name changed to
-> nvme_ctrl_shutdown_start() as requested by Sagi Grimberg.
-> 2). Git commit message reformatting to 75 columns
-> as requested by Bjorn Helgaas <bhelgaas@google.com>.
-> 
-> NB. An alternate patchset from David Jeffery <djeffery@redhat.com>
-> has been proposed that covers much of the same ground.
+On Wed, Feb 07, 2024 at 03:59:50PM -0600, Bjorn Helgaas wrote:
+>On Wed, Feb 07, 2024 at 01:40:41PM -0800, Jeremy Allison wrote:
+>> From: Tanjore Suresh <tansuresh@google.com>
+>>
+>> Enhance the base PCI driver to add support for two-pass shutdown. Add
+>> shutdown_wait() method.
+>>
+>> Assume a device takes n secs to shutdown. If a machine has been populated
+>> with M such devices, the total time spent in shutting down all the devices
+>> will be M * n secs if the shutdown is done synchronously. For example, if
+>> NVMe PCI Controllers take 5 secs to shutdown and if there are 16 such NVMe
+>> controllers in a system, system will spend a total of 80 secs to shutdown
+>> all NVMe devices in that system.
+>>
+>> In order to speed up the shutdown time, a two-pass interface to shutdown
+>> has been implemented. The caller calls the shutdown method for each device
+>> in turn to allow a shutdown request to be sent, then the caller walks the
+>> list of devices and calls shutdown_wait() to synchronously wait for the
+>> shutdown to complete.
+>>
+>> In the NVMe case above, all 16 devices will process the shutdown in
+>> parallel taking the total time to shutdown down to the time for one NVMe
+>> PCI Controller to shut down.
+>>
+>> This will significantly reduce the machine reboot time.
+>>
+>> Signed-off-by: Tanjore Suresh <tansuresh@google.com>
+>> Signed-off-by: Jeremy Allison <jallison@ciq.com>
+>
+>I already acked this, so you can include that ack in subsequent
+>revisions unless you make significant changes:
+>https://lore.kernel.org/r/20240130175430.GA527253@bhelgaas
+>
+>Thanks for rewrapping the commit log!
 
-Would be useful to have a link to David's patchset for comparison.
+Thanks, I'm still learning the right conventions. I'll
+add the ack's for the next version.
 
