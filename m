@@ -4,53 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4E530C4828D
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Feb 2024 18:44:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE277C4828F
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Feb 2024 18:44:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CkqM01Ya14Nn8HXhASJf/0/vp8tMuDctYMCTKWoKrUI=; b=pXg3r7mATIgubk1ya3dSYd74Xl
-	MMqqeQB8uQ5I1hW7crvx4sBJialZ6hsooa2dfEtZ89vtrtDaErv3jNz4iNT7mM9MKDdleb8TtSYvc
-	APpZzkbox3sjAnoTNjYT5SfC9Q6rrXo9UI960wURzHg/qzB9p+S2r3h12YL7Ivz3hG9TMBMo+oysM
-	40PFBm10i6V3iQdIaRgMWlagmkskb4vf/QdbAvUDZ9q2Aq8nX4xAKzXn3OeLRtadY43KRPxE6ZLL9
-	xE3VDJn9BSblC006KX65udBrDqbQZRY30RyP7YI2sn9QJ+dXlQ0az6LiX50zq3u5xC9k8MGvgMbpr
-	QN2Q7sYw==;
+	bh=oTFy4nGaIuyAjRSeWWj3icZv9u9DGODaCpUqVFylGh8=; b=uz9Ued7sqhceL64G5yp/5V3dVY
+	OxopRZW+PSgPSaq8gAZ/v6YBxGGZNkc8Wcx/0vMvxyJCEbXjv/s/dNTzbGAsMc4GTvKO9Jvy8xt5Y
+	2zOyLcnk++Cw/RPAleJHkbs7FgC/8Rotqz7+9F5uN7v210wTJYYi95e7ITIrh43RzrZceDJMWJmkl
+	qdXJibsvS3jNKcnk/LEsKUua82xvuCzwpZODN3x1kveoxBmsXXykiLC/8wPrzCM2rDMq0WWaJZG0n
+	/ksCBwCkfj+BOcDQx277RWKo0rJ9j+pGS84EY5dy2PV41iX3mpkY+uaH0Cw00pi47aeMw8eLL6kaa
+	iUF5mdVg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXmtv-0000000BViF-3GTv;
-	Wed, 07 Feb 2024 18:44:03 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1rXmtx-0000000BVkH-3zka;
+	Wed, 07 Feb 2024 18:44:05 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXmtq-0000000BVdM-1Xcd
+	id 1rXmtt-0000000BVgb-3taL
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 Feb 2024 18:44:00 +0000
+	Wed, 07 Feb 2024 18:44:03 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1707331437;
+	s=mimecast20190719; t=1707331441;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CkqM01Ya14Nn8HXhASJf/0/vp8tMuDctYMCTKWoKrUI=;
-	b=UJdifLIn0j25GteXCkLW+XYUbtB80QpdLbsswllaAtGSy07lg++yirplWXRvAjL5EkVn/t
-	YRrXfmJSKhNxaoMn3G1mpnzV2nsAODsYGkmbfwZ2OQWsSHASw1t14hYkMDY8dKrEc3j5aG
-	+j9snZX/kKpkp+Kx+VYlvTV0sUwSBbE=
+	bh=oTFy4nGaIuyAjRSeWWj3icZv9u9DGODaCpUqVFylGh8=;
+	b=Oms3ZB3PXMgLFFg/gJ/w2PJ55zX5e4OjMkwUJJtDogHISNipkyKGGfWiIFiZnKnd357YK2
+	P2W8EB2vT+nJ2PGI6imftzJMLM9R6VYQ176RMj9/682Mm5mQEHMVjOI0mjwCYXQ6kfgmBT
+	l+F07Y4Vl9H1qsb1vgY/zN1KyYPhZiU=
 Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
  by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-180-Nw_CWQa9P_abWidS2p2VLA-1; Wed,
- 07 Feb 2024 13:42:26 -0500
-X-MC-Unique: Nw_CWQa9P_abWidS2p2VLA-1
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-590-K0PNYfJIP2qWNiPNid8kCQ-1; Wed,
+ 07 Feb 2024 13:42:21 -0500
+X-MC-Unique: K0PNYfJIP2qWNiPNid8kCQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7AE253C23FC6;
-	Wed,  7 Feb 2024 18:42:26 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D2C5338212C5;
+	Wed,  7 Feb 2024 18:42:20 +0000 (UTC)
 Received: from fedora-work.redhat.com (unknown [10.22.32.236])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 1127740C9444;
-	Wed,  7 Feb 2024 18:42:26 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 66FB2400D6D2;
+	Wed,  7 Feb 2024 18:42:20 +0000 (UTC)
 From: David Jeffery <djeffery@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-nvme@lists.infradead.org,
@@ -59,17 +59,17 @@ Cc: linux-nvme@lists.infradead.org,
 	"Rafael J . Wysocki" <rafael@kernel.org>,
 	David Jeffery <djeffery@redhat.com>,
 	Laurence Oberman <loberman@redhat.com>
-Subject: [RFC PATCH 5/6] scsi mid layer support for async command submit
-Date: Wed,  7 Feb 2024 13:40:59 -0500
-Message-ID: <20240207184100.18066-6-djeffery@redhat.com>
+Subject: [RFC PATCH 2/6] Improve ability to perform async shutdown in parallel
+Date: Wed,  7 Feb 2024 13:40:56 -0500
+Message-ID: <20240207184100.18066-3-djeffery@redhat.com>
 In-Reply-To: <20240207184100.18066-1-djeffery@redhat.com>
 References: <20240207184100.18066-1-djeffery@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240207_104358_651859_FB46767D 
-X-CRM114-Status: GOOD (  23.91  )
+X-CRM114-CacheID: sfid-20240207_104402_127712_FB7055A9 
+X-CRM114-Status: GOOD (  20.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,239 +84,202 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Create scsi_execute_cmd_nowait to allow asynchronous scsi command submit.
-Parts of the code originally in scsi_execute_cmd are shifted into helper
-functions used by both scsi_execute_cmd and the new scsi_execute_cmd_nowait.
+Expands the async shutdown implementation to allow more cases of parallel
+async shutdown. A field is added so that a device under async shutdown can
+mark its parent as busy due to the async shutdown. A busy parent on reaching
+the head of the shutdown list gets stored and flags its own parent as busy.
 
-The scsi_exec_args struct is expanded to contain the fields needed for
-the completion and callback for the async path.
+Once the async shutdown operations are completed, the stored parents are
+returned to the shutdown list and shut down in an order maintaining their
+parent-child ordering. Unlike the minimal implementation, this allows more
+end nodes of the device tree to be under async shutdown in parallel.
+
+A cap on the number of async shutdown devices is still enforced, though not
+required and could be removed if desired.
 
 Signed-off-by: David Jeffery <djeffery@redhat.com>
 Tested-by:     Laurence Oberman <loberman@redhat.com>
 
 ---
- drivers/scsi/scsi_lib.c    | 138 +++++++++++++++++++++++++++++--------
- include/scsi/scsi_device.h |   8 +++
- 2 files changed, 118 insertions(+), 28 deletions(-)
+ drivers/base/base.h |  1 +
+ drivers/base/core.c | 71 ++++++++++++++++++++++++++++++++-------------
+ 2 files changed, 52 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
-index 1fb80eae9a63..fe35bc2021e3 100644
---- a/drivers/scsi/scsi_lib.c
-+++ b/drivers/scsi/scsi_lib.c
-@@ -185,42 +185,37 @@ void scsi_queue_insert(struct scsi_cmnd *cmd, int reason)
+diff --git a/drivers/base/base.h b/drivers/base/base.h
+index eb4c0ace9242..954008bd39e5 100644
+--- a/drivers/base/base.h
++++ b/drivers/base/base.h
+@@ -116,6 +116,7 @@ struct device_private {
+ 	char *deferred_probe_reason;
+ 	struct device *device;
+ 	u8 dead:1;
++	u8 child_shutdown:1;
+ };
+ #define to_device_private_parent(obj)	\
+ 	container_of(obj, struct device_private, knode_parent)
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 5bc2282c00cd..e88d418bf0fd 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -4720,9 +4720,10 @@ int device_change_owner(struct device *dev, kuid_t kuid, kgid_t kgid)
+ EXPORT_SYMBOL_GPL(device_change_owner);
+ 
+ 
+-#define MAX_ASYNC_SHUTDOWNS 32
++#define MAX_ASYNC_SHUTDOWNS 256
+ static int async_shutdown_count;
+ static LIST_HEAD(async_shutdown_list);
++static LIST_HEAD(async_delayed_list);
+ 
+ /**
+  * If a device has a child busy with an async shutdown or there are too many
+@@ -4730,15 +4731,15 @@ static LIST_HEAD(async_shutdown_list);
+  */
+ static bool may_shutdown_device(struct device *dev)
+ {
+-	struct device *tmp;
+-
+-	if (async_shutdown_count >= MAX_ASYNC_SHUTDOWNS)
++	if (dev->p->child_shutdown) {
++		if (list_empty(&async_shutdown_list)) {
++			dev_err(dev, "child_shutdown set but no children? Clearing\n");
++			dev->p->child_shutdown = 0;
++			return true;
++		}
+ 		return false;
+-
+-	list_for_each_entry(tmp, &async_shutdown_list, kobj.entry) {
+-		if (tmp->parent == dev)
+-			return false;
+ 	}
++
+ 	return true;
+ }
+ 
+@@ -4753,6 +4754,9 @@ static void async_shutdown_start(struct device *dev, void (*callback) (struct de
+ 	(*callback)(dev);
+ 	list_add_tail(&dev->kobj.entry, &async_shutdown_list);
+ 	async_shutdown_count++;
++
++	if (dev->parent)
++		dev->parent->p->child_shutdown = 1;
  }
  
  /**
-- * scsi_execute_cmd - insert request and wait for the result
-+ * scsi_execute_init - helper for setting up a scsi_cmnd in a request
-  * @sdev:	scsi_device
-  * @cmd:	scsi command
-  * @opf:	block layer request cmd_flags
-- * @buffer:	data buffer
-- * @bufflen:	len of buffer
-  * @timeout:	request timeout in HZ
-  * @retries:	number of times to retry request
-- * @args:	Optional args. See struct definition for field descriptions
-+ * @args:	scsi command args
-  *
-- * Returns the scsi_cmnd result field if a command was executed, or a negative
-- * Linux error code if we didn't get that far.
-+ * Returns a request if successful, or an error pointer if there was a failure.
+@@ -4760,7 +4764,7 @@ static void async_shutdown_start(struct device *dev, void (*callback) (struct de
   */
--int scsi_execute_cmd(struct scsi_device *sdev, const unsigned char *cmd,
--		     blk_opf_t opf, void *buffer, unsigned int bufflen,
--		     int timeout, int retries,
--		     const struct scsi_exec_args *args)
-+static struct request *scsi_execute_init(struct scsi_device *sdev,
-+					 const unsigned char *cmd,
-+					 blk_opf_t opf,
-+					 int timeout, int retries,
-+					 struct scsi_exec_args *args)
+ static void wait_for_active_async_shutdown(void)
  {
--	static const struct scsi_exec_args default_args;
- 	struct request *req;
- 	struct scsi_cmnd *scmd;
- 	int ret;
+-	struct device *dev, *parent;
++	struct device *dev, *parent, *tmp;
  
--	if (!args)
--		args = &default_args;
--	else if (WARN_ON_ONCE(args->sense &&
--			      args->sense_len != SCSI_SENSE_BUFFERSIZE))
--		return -EINVAL;
-+	if (WARN_ON_ONCE(args->sense &&
-+			 args->sense_len != SCSI_SENSE_BUFFERSIZE))
-+		return ERR_PTR(-EINVAL);
- 
- 	req = scsi_alloc_request(sdev->request_queue, opf, args->req_flags);
- 	if (IS_ERR(req))
--		return PTR_ERR(req);
-+		return req;
- 
--	if (bufflen) {
--		ret = blk_rq_map_kern(sdev->request_queue, req,
--				      buffer, bufflen, GFP_NOIO);
-+	if (args->bufflen) {
-+		ret = blk_rq_map_kern(sdev->request_queue, req, args->buffer,
-+				      args->bufflen, GFP_NOIO);
- 		if (ret)
- 			goto out;
- 	}
-@@ -232,19 +227,27 @@ int scsi_execute_cmd(struct scsi_device *sdev, const unsigned char *cmd,
- 	req->timeout = timeout;
- 	req->rq_flags |= RQF_QUIET;
- 
--	/*
--	 * head injection *required* here otherwise quiesce won't work
--	 */
--	blk_execute_rq(req, true);
-+	return req;
-+out:
-+	blk_mq_free_request(req);
-+	return ERR_PTR(ret);
-+}
+         while (!list_empty(&async_shutdown_list)) {
+                 dev = list_entry(async_shutdown_list.next, struct device,
+@@ -4787,15 +4791,29 @@ static void wait_for_active_async_shutdown(void)
+ 			dev->driver->async_shutdown_end(dev);
+ 		}
+                 device_unlock(dev);
+-                if (parent)
+-                        device_unlock(parent);
+-
++                if (parent) {
++			tmp = parent;
++			do {
++				tmp->p->child_shutdown = 0;
++				device_unlock(tmp);
 +
-+static int scsi_execute_uninit(struct request *req,
-+				struct scsi_exec_args *args)
-+{
-+	struct scsi_cmnd *scmd;
- 
-+	scmd = blk_mq_rq_to_pdu(req);
- 	/*
- 	 * Some devices (USB mass-storage in particular) may transfer
- 	 * garbage data together with a residue indicating that the data
- 	 * is invalid.  Prevent the garbage from being misinterpreted
- 	 * and prevent security leaks by zeroing out the excess data.
- 	 */
--	if (unlikely(scmd->resid_len > 0 && scmd->resid_len <= bufflen))
--		memset(buffer + bufflen - scmd->resid_len, 0, scmd->resid_len);
-+	if (unlikely(scmd->resid_len > 0 && scmd->resid_len <= args->bufflen))
-+		memset(args->buffer + args->bufflen - scmd->resid_len, 0,
-+		       scmd->resid_len);
- 
- 	if (args->resid)
- 		*args->resid = scmd->resid_len;
-@@ -254,14 +257,93 @@ int scsi_execute_cmd(struct scsi_device *sdev, const unsigned char *cmd,
- 		scsi_normalize_sense(scmd->sense_buffer, scmd->sense_len,
- 				     args->sshdr);
- 
--	ret = scmd->result;
-- out:
-+	args->result = scmd->result;
++				tmp = tmp->parent;
++				if (!tmp || !tmp->p->child_shutdown)
++					break;
++				device_lock(tmp);
++			} while (1);
++		}
+                 put_device(dev);
+                 put_device(parent);
+         }
+ 	if (initcall_debug)
+ 		printk(KERN_INFO "device shutdown: waited for %d async shutdown callbacks\n", async_shutdown_count);
 +
-+	if (args->callback)
-+		args->callback(scmd, args);
+ 	async_shutdown_count = 0;
++	spin_lock(&devices_kset->list_lock);
++	list_splice_tail_init(&async_delayed_list, &devices_kset->list);
++	spin_unlock(&devices_kset->list_lock);
 +
-+	return scmd->result;
-+}
-+
-+/**
-+ * scsi_execute_cmd - insert request and wait for the result
-+ * @sdev:	scsi_device
-+ * @cmd:	scsi command
-+ * @opf:	block layer request cmd_flags
-+ * @buffer:	data buffer
-+ * @bufflen:	len of buffer
-+ * @timeout:	request timeout in HZ
-+ * @retries:	number of times to retry request
-+ * @args:	Optional args. See struct definition for field descriptions
-+ *
-+ * Returns the scsi_cmnd result field if a command was executed, or a negative
-+ * Linux error code if we didn't get that far.
-+ */
-+int scsi_execute_cmd(struct scsi_device *sdev, const unsigned char *cmd,
-+		     blk_opf_t opf, void *buffer, unsigned int bufflen,
-+		     int timeout, int retries,
-+		     const struct scsi_exec_args *const_args)
-+{
-+	struct scsi_exec_args args;
-+	int ret;
-+	struct request *req;
-+
-+	if (!const_args)
-+		memset(&args, 0, sizeof(struct scsi_exec_args));
-+	else
-+		args = *const_args;
-+
-+	args.buffer = buffer;
-+	args.bufflen = bufflen;
-+
-+	req = scsi_execute_init(sdev, cmd, opf, timeout, retries, &args);
-+
-+	if (IS_ERR(req))
-+		return PTR_ERR(req);
-+
-+	/*
-+	 * head injection *required* here otherwise quiesce won't work
-+	 */
-+	blk_execute_rq(req, true);
-+
-+	ret = scsi_execute_uninit(req, &args);
-+
- 	blk_mq_free_request(req);
- 
- 	return ret;
  }
- EXPORT_SYMBOL(scsi_execute_cmd);
  
+ /**
+@@ -4810,7 +4828,7 @@ void device_shutdown(void)
+ 	device_block_probing();
+ 
+ 	cpufreq_suspend();
+-
++restart:
+ 	spin_lock(&devices_kset->list_lock);
+ 	/*
+ 	 * Walk the devices list backward, shutting down each in turn.
+@@ -4832,12 +4850,15 @@ void device_shutdown(void)
+ 		get_device(dev);
+ 
+                 if (!may_shutdown_device(dev)) {
++			list_move(&dev->kobj.entry, &async_delayed_list);
++			if (parent) {
++				device_lock(parent);
++				parent->p->child_shutdown = 1;
++				device_unlock(parent);
++			}
 +
-+static enum rq_end_io_ret scsi_execute_cmd_complete(struct request *req,
-+						    blk_status_t ret)
-+{
-+	struct scsi_exec_args *args = req->end_io_data;
+ 			put_device(dev);
+ 			put_device(parent);
+-
+-			spin_unlock(&devices_kset->list_lock);
+-			wait_for_active_async_shutdown();
+-			spin_lock(&devices_kset->list_lock);
+ 			continue;
+ 		}
+ 
+@@ -4863,14 +4884,16 @@ void device_shutdown(void)
+ 			dev->class->shutdown_pre(dev);
+ 		}
+ 		if (dev->bus && dev->bus->async_shutdown_start) {
+-			async_shutdown_start(dev, dev->bus->async_shutdown_start);
++			async_shutdown_start(dev,
++					     dev->bus->async_shutdown_start);
+ 			async_busy = true;
+ 		} else if (dev->bus && dev->bus->shutdown) {
+ 			if (initcall_debug)
+ 				dev_info(dev, "shutdown\n");
+ 			dev->bus->shutdown(dev);
+ 		} else if (dev->driver && dev->driver->async_shutdown_start) {
+-			async_shutdown_start(dev, dev->driver->async_shutdown_start);
++			async_shutdown_start(dev,
++					     dev->driver->async_shutdown_start);
+ 			async_busy = true;
+ 		} else if (dev->driver && dev->driver->shutdown) {
+ 			if (initcall_debug)
+@@ -4891,14 +4914,22 @@ void device_shutdown(void)
+ 			put_device(parent);
+ 		}
+ 
++		if (async_shutdown_count == MAX_ASYNC_SHUTDOWNS)
++			wait_for_active_async_shutdown();
 +
-+	scsi_execute_uninit(req, args);
-+	return RQ_END_IO_FREE;
-+}
+ 		spin_lock(&devices_kset->list_lock);
+ 	}
+ 	spin_unlock(&devices_kset->list_lock);
+ 	/*
+-	 * Wait for any async shutdown still running.
++	 * Wait for any async shutdown still running, then restart the loop
++	 * if the list is no longer empty from delayed entries returning to
++	 * the list.
+ 	 */
+ 	if (!list_empty(&async_shutdown_list))
+ 		wait_for_active_async_shutdown();
 +
-+int scsi_execute_cmd_nowait(struct scsi_device *sdev, const unsigned char *cmd,
-+			    blk_opf_t opf, int timeout, int retries,
-+			    struct scsi_exec_args *args)
-+{
-+	struct request *req;
-+
-+	req = scsi_execute_init(sdev, cmd, opf, timeout, retries, args);
-+
-+	if (IS_ERR(req))
-+		return PTR_ERR(req);
-+
-+	req->end_io = scsi_execute_cmd_complete;
-+	req->end_io_data = args;
-+
-+	blk_execute_rq_nowait(req, true);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(scsi_execute_cmd_nowait);
-+
++	if(!list_empty(&devices_kset->list))
++		goto restart;
+ }
+ 
  /*
-  * Wake up the error handler if necessary. Avoid as follows that the error
-  * handler is not woken up if host in-flight requests number ==
-diff --git a/include/scsi/scsi_device.h b/include/scsi/scsi_device.h
-index 5ec1e71a09de..c80c98b48bc1 100644
---- a/include/scsi/scsi_device.h
-+++ b/include/scsi/scsi_device.h
-@@ -497,6 +497,10 @@ struct scsi_exec_args {
- 	blk_mq_req_flags_t req_flags;	/* BLK_MQ_REQ flags */
- 	int scmd_flags;			/* SCMD flags */
- 	int *resid;			/* residual length */
-+	void *buffer;			/* data buffer */
-+	unsigned int bufflen;		/* buffer length */
-+	int result;			/* scsi layer result */
-+	void (*callback)(struct scsi_cmnd *scmd, struct scsi_exec_args *args);
- };
- 
- int scsi_execute_cmd(struct scsi_device *sdev, const unsigned char *cmd,
-@@ -504,6 +508,10 @@ int scsi_execute_cmd(struct scsi_device *sdev, const unsigned char *cmd,
- 		     int timeout, int retries,
- 		     const struct scsi_exec_args *args);
- 
-+int scsi_execute_cmd_nowait(struct scsi_device *sdev, const unsigned char *cmd,
-+			    blk_opf_t opf, int timeout, int retries,
-+			    struct scsi_exec_args *args);
-+
- extern void sdev_disable_disk_events(struct scsi_device *sdev);
- extern void sdev_enable_disk_events(struct scsi_device *sdev);
- extern int scsi_vpd_lun_id(struct scsi_device *, char *, size_t);
 -- 
 2.43.0
 
