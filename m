@@ -4,147 +4,118 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C9A09C4828F
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Feb 2024 10:12:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D302CC4828D
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Feb 2024 10:47:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=s6BCJ8VqS2+Hdxf6F/m8tn03aC3pir758gtiQYjnHoo=; b=PF9TP4OX5SZIqJG0g77QFct685
-	PHxetRurIFreESs3LwscJBJVcp/ayjRpWWpmChErD4DlzsHAdERWKglMR7Do5uaWuIzR4eWueypqP
-	MOjSPPa1IOqtAZUquf03Tp7t/Ahqj13EaWXPGO/f70Wakjm/xp7UicDL4tGgjtjOMh5NHx1HBea3s
-	5v+LUSqh4yzOpS5QyAKpO+7DZL0k+h8clgxo88Tjj1KwpnGYZp7pHz1EowQoiZR8Bnx1uTCw0wP5/
-	1n6fOR7wdcfryyJqtAkFwnfbVJCd9UJUDByDS2hzQmzuhQiC0445dbW4se4RQCez8BlvuYYy8aq9J
-	0uVsx38g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Message-Id:Date:Subject:Cc:To:From:Reply-To:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+	List-Owner; bh=CBF3fiPChkqmeKpu1gd1PW+nbHuze8c8+pcqo4NTyaU=; b=fz39sTdJ4p/TBa
+	Gp3Q6BzCeZAus6n0P5ABXXvwbIN7KG67PKOwUVZcrezUfqlICyyNfwWlkyv3m9oGv5sQc36cQ1dSP
+	rcS3iU9Xl1qIhKTfgL8BuR7V1CeTTbEiSn9s04yL7+VcINgWRjnDLgFakbMLVlYZRTV7ZiwPdUCmr
+	bjZ1KeHp/hRTY2GYtAONHeNorruDI+1W8SkuPak8oeAV+LQe2GwyrKkqHHbf50XmAVCmEzet6AKji
+	RUEzhBJoBXFDzE+Cp45H09AnxCStO8t8RRo+Q+OA9dQjS5vDcRXWzzNJ+nEv4C6A3lnASlXfp0EbM
+	0q4zxeeL0XORTF8ow75w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXeuo-0000000AJTt-1q9u;
-	Wed, 07 Feb 2024 10:12:26 +0000
-Received: from esa5.hgst.iphmx.com ([216.71.153.144])
+	id 1rXfT3-0000000AOgE-3w8T;
+	Wed, 07 Feb 2024 10:47:49 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXeum-0000000AJSo-2B7L
+	id 1rXfSz-0000000AOe5-0XuF
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 Feb 2024 10:12:25 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1707300744; x=1738836744;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=s6BCJ8VqS2+Hdxf6F/m8tn03aC3pir758gtiQYjnHoo=;
-  b=MtMZ6dojY1OY0D10y6BTvyfReHIbb+irC2kNXwX41moYP02dz7cwGNie
-   /k+HKio0E1xH3+31vaYmCfV8Dub71HMfYUkwm5+tOFZaY6Z8cQrVRkNY2
-   dQB0VE2tE4QpYslAJVfTKxoat0vrMBr6twUY46vuSLk9LbhMfk01WlDY/
-   llWmEN/wdKXtocn3LjzXeeZdiGVJSqQ4OSWDXdW4BfKUGRh2NfJ3dofX7
-   0kQhSq1V1/yGUlIzmM14sBMVrEXRiy1ep/aSspt8WNfaqvy1676AceyOJ
-   PYA2SlGOIo+Pv8A6eaOxDZ+8L/vfD2zoQd60bNT7WeMLFz/YlEGiiCzlJ
-   g==;
-X-CSE-ConnectionGUID: 2DkD+KswQFqg1eFIiaegcw==
-X-CSE-MsgGUID: xc7UXpyFRC+aNifxed+u1w==
-X-IronPort-AV: E=Sophos;i="6.05,250,1701100800"; 
-   d="scan'208";a="9247332"
-Received: from mail-dm6nam04lp2040.outbound.protection.outlook.com (HELO NAM04-DM6-obe.outbound.protection.outlook.com) ([104.47.73.40])
-  by ob1.hgst.iphmx.com with ESMTP; 07 Feb 2024 18:12:22 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JFiA/BUw7BsuuaH48zvKXW+fMAslaEoChlH9ehnHopucMQ2ftE0K0N2769R+DfQH1hIWMyyv8uVBumlAv3BXtZUhE/H6uBVGUsJ9p2TDqLIBTkKVveMinIBb+59yu6Cm0PJELE9kSMYr8O9zZ2PpYbc3rPWqBbXxvN8+/NgQp30J13Fnrqvy75PBT6Ffmilk2FV3stLnzdkef95LpmkKSjAY8IniACAlFywhQXw30ukbEh6rPmKxSw022bqL6b6lK6s6jvSmQempWHnT1qchzr+uWRtbipSQOxZis/vKUmurGhbbUcFgYeJWfCSXXCd4cBOOwIMrm2ANXDfrwskG8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=s6BCJ8VqS2+Hdxf6F/m8tn03aC3pir758gtiQYjnHoo=;
- b=fK5y8KN3XZ2SaygIiXJI6lmQlVM5MlV9ZcRZHIvca+HcCjMVnyLRb266EXtucKEwPKozR0+MR8zjikhyN3hKWjpRIdpQO/l9zvsI9dxRkPg6AnpnG1EZ1S64QGKCs95rX/8zi2hRam1v4CwAXW4H/yowiUxh44CPpfBm77OYTtVdWgJ3Hb+Ege+vqxf/hF2jeenfYe4ua/e0yqKVEaaO0XJt8NcZDYwAMlOhWUYmf74vOH2e3LTe8PiQvtgvURdo8ItDfZ3m716owJ+YqfDAbJt8aBViKaM2Bwict5xi+6RowdxkzHTW2HMi0eekAhy7B72V7e30VSYD8LnUDBJ8Yw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=s6BCJ8VqS2+Hdxf6F/m8tn03aC3pir758gtiQYjnHoo=;
- b=m7RtIw9TlRAg+N6y9L87Tg3fwDoRS5ITaK664P05gZrNJcef/BlF5mOJrVkI8nHVSOkcVuBKKW9LV+u71ofTjYvw11z113TykFuqDyupoZLAJsoHY0kqaNK+VrttUFgJ3Znj8yI5XSCBFHTsu7hESiLB5ZbIHgRkz25Owz2qN9g=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- DM6PR04MB6636.namprd04.prod.outlook.com (2603:10b6:5:24e::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7249.36; Wed, 7 Feb 2024 10:12:21 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::25d0:1445:7392:e814]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::25d0:1445:7392:e814%7]) with mapi id 15.20.7249.035; Wed, 7 Feb 2024
- 10:12:21 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Daniel Wagner <dwagner@suse.de>
-CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH blktests v1 0/5] fc transport cleanups
-Thread-Topic: [PATCH blktests v1 0/5] fc transport cleanups
-Thread-Index: AQHaWP7PQBYQu0etsUSKalB9FheGYbD+qkcA
-Date: Wed, 7 Feb 2024 10:12:21 +0000
-Message-ID: <45kxzghfpf35wtl5kfes7c5zymio7dyurndabed3bqds7vzxz4@qmm6d4kfsg3i>
-References: <20240206131655.32050-1-dwagner@suse.de>
-In-Reply-To: <20240206131655.32050-1-dwagner@suse.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|DM6PR04MB6636:EE_
-x-ms-office365-filtering-correlation-id: 5a75f7e3-6f1e-40d4-860a-08dc27c545cd
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: lHOIbN0fjNf09AH2Ncr/5EasvmsNASnWUv4GpmNJ/2SVpLD3+YEVBZE1i/nLg6InBetg0vphhZFjaA3EUnsPDjjIrpK1YOHkAo4bOb44dEKfqUxENBwXDNZttEFDFHoTOY6khVjbzurhrI0jLw3aPRrbw4XzRnpFD+FESCYA9FVzk7M7z/9/3Igmy7GC7/8CfP4VrtVJL2V7VvqbpUuY2mKdANI0/ILKt20PEVTckiHAwhYkDOnL7SXXc+/TIexBVDCSqLE3zZ31dN8vhuGb/L6MoewT2h/5Bk2Q8Bs/WrALRpnScm/nidqBFgVA/Q4zO/mN6BrIO/8qmBAx0W8ANGcBq9pY2PPhN7kw+IxRFc6tP+McngdDbXX+554w3F3662HdT8clCIdsBLpQAAs7rGlkds7hQtjZcKG+/U1z+jDxII17nkeFHlhcc5gFGgk84t/Ty67otmrVCBRHnC6qd9mPD9L+yRUD2sV4wpuRQfUSda6GbwuYARgwL2ETk368FtNHBJRJlysn70YMgI2GQtx+T//fUf1XQjm1RH6P2NyIcPKoSe/pmjWY5q2sGcn2dqG0XKJBJ6p7aeWLCH1ZpI9afAIlNp4yy3iLZueVrpe5tUkp1UztX6ZCXERttsdm
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(39860400002)(346002)(366004)(376002)(136003)(396003)(230922051799003)(451199024)(186009)(1800799012)(64100799003)(82960400001)(86362001)(66476007)(76116006)(316002)(66556008)(64756008)(66446008)(6916009)(54906003)(478600001)(8936002)(8676002)(6486002)(4326008)(5660300002)(2906002)(4744005)(26005)(9686003)(38100700002)(6512007)(122000001)(6506007)(71200400001)(83380400001)(66946007)(44832011)(38070700009)(41300700001)(33716001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?KXFRgahgOCqorpWlJQuM3iVANAZvzFabiIVNWDVpOENrNTULSQ6/Xoi4TwbE?=
- =?us-ascii?Q?NLwJHy0lxUs2oZPjRcFcpM3D9mMzd2vQRJT2/v67bf5YTpmcC5OBeNvtIUwX?=
- =?us-ascii?Q?YILgLzOlsrlSF3LvhbUQz3x3mtQUsO4KsfX+pJIiNUZmo+HxStBL3V9P6ugi?=
- =?us-ascii?Q?IByotphm62wcgbzS+BguPi6By9hlbK6jgT6u8lI+beNayDvrtTJ6Ps7LnEUq?=
- =?us-ascii?Q?uWB4cnYSySCFvOloWGYP6Iojvj9J1LaTBCh+AhaGyb25xsLJmkgC80Qc21XH?=
- =?us-ascii?Q?mTKV3FdlrV/wy6pfJBua9s2qAKKfBnsl87fucbJaVSyMrwIj5HeCJDQSJ6O7?=
- =?us-ascii?Q?Hl3OPYSXyrczXmrUaO6oSlT4ftZzg9x/e6KN2sYt7yF4u4E2BAbxGzosHlsv?=
- =?us-ascii?Q?8KnBLmUDELmjbr8ED+VAi+NYE+bA2FNA2oAmBWopbi2EywMIYSD+BUCEXaBg?=
- =?us-ascii?Q?riTzpZwc4xAjmUvlIrMLRuVbi3WXaOJBNWfpFucFoE4frHwMt4cQEgUfd5uz?=
- =?us-ascii?Q?upxfS4By5ECTJn/XEne6PmBhThh2Mv+kzKCQ8OFtlJ1anElL+1E3y/skf9IC?=
- =?us-ascii?Q?VgYC4eY8IVZQWQs64HBDtCpdFmWZe/9uyliefkb3kNAKSpy3AE9i35s9JMCM?=
- =?us-ascii?Q?PjybFF02rYQThdgNPm5G+kb4V1C4jE6Sjyzxz8+q7bweV8U6eebm9F1/RdHC?=
- =?us-ascii?Q?hTtlshFBtiMkvOO+P8fNN6DxzaittEOY2NhsBTh5e4J2GHW4V5mZcK9k98Zf?=
- =?us-ascii?Q?JeJQFpB7n5VHQXmmKPRcBydKLeT8zJbqTNrvl99s5lpFI0Tb+GmC6rOpVDEW?=
- =?us-ascii?Q?d0njzMNcGC253/ZSmr2+uElr/Z0r0l2LFYIRFrbWnzSvwCSlFUoUqlznsQry?=
- =?us-ascii?Q?DIJdycS7x7P6eR4wA8n4jKH2iK4pKBR4tgzMSuxCDc3qqdXZ4/9NTfVdWd0Y?=
- =?us-ascii?Q?RWb7c4tiMGl61ZWmJp4STdblJuHWXbdbfg53xuTpwBtl5pPqFK6N/rv6LRcc?=
- =?us-ascii?Q?R6yObBHRwlvYCR8RG5ICCx1Dbxu71/6wbrVOQOE5Qpdo9JEOumTdG4Vq179T?=
- =?us-ascii?Q?FuE0mlsuldRpxlx7MiEjBBvgSTbXeaXUzZZ8/NBIDOVrQglmb6YK/jfF74bz?=
- =?us-ascii?Q?aY83rmvdhxXa7+1JImhjNyFpbUkEN5gCsK6VVWXNfZ5VzOqi2SrFO/skSg+y?=
- =?us-ascii?Q?dpj+K7A2Hicz/Z20awZQ6YEATJR38s9fuM7hqOSW/126H+4DLKlA4yKpI+j3?=
- =?us-ascii?Q?t/28buPqJDiLuzR0mGUMfyZfMG9A3rlI2kzNxY10CqnnvR0vuVaDWliMGOYL?=
- =?us-ascii?Q?3D8LYNGBtjPCcuVUAnjt34tZMkqU2W9o/Egu9+wge7MMv9l+AOLZMtVoy7hr?=
- =?us-ascii?Q?LyHNo5TgDMFI5ZpdLN/b+rVubw/klteOH6v7DUzNZwFZuihRxiwYsjGUTDWn?=
- =?us-ascii?Q?fmTmDtT4bExzk/dSRlJxb/cZaaIxBuFk/zty8ZqnRT3j6f6QfYM+qZrJjxar?=
- =?us-ascii?Q?/BqyyywbHpb1fPBL9G9X0Amb5258M97aBcQI6vC7tIWg3fGOI6Ten78if0be?=
- =?us-ascii?Q?oyvlWtP5VzTU2MeHSLeWalWhgV8f+g4cB83mQ+DlXiDo6p5648ffxjF8eYl1?=
- =?us-ascii?Q?hMzHn6dGTwOHCgf+w41qBW8=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <DB84404F9AD70344B77173C14DA778A2@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: w8V3eUphsF++hNyjIZPxFo6CUBU7DwsMyCbGD5QSxzevjcKwb12FU3ZgvY0/QxnXFsvp0OMtQPzYuyQhyp6nMigwGLudn7s/iPVXAwInu9/5OPZx4VYiePC7v37gHQKp/4Qq9xDD88QiLlhv5dNY9aFZ23fmG/M4lKqP6xxC3dQekxyjmMrv+C0/cLjziBSebsCJZerdarEX3Fz4tDxGfRkfrDYYDvfWwlfsHkfIfGB1bJllXm4gQYO7zmkGSCKpOHUPsWdFbkqGFqxcN0py5HM9LZlUDdUzD9lS/vBiSr55kMA9N3pfrqUmYSle2LxR0SG0iuifOIcfHu13otrRxvMfBlU1/JGgG2VvFNLG3uZ3xhCrPRQSfpSyR4+rS1JQIUsXw/vcqLHz+SfqEpTW01To1aq2y8Gt2abIC0eg1RuaBD682VcSkqBCKZecVopKGtnFiWCM6lStch7fpeQUm/m5TfEwU9YuH7ewaRrng+F8A8Eyqnl0CbPh3t1wZct0ljHwPb8OwzQPcu27P96BjIg8J36tJv7Kdu/qsdrrCVRx3ni75d+4rzDTCon42l3+P6rZyxcZNgtz44DY038AWtiZ3hM1gV2b8ycIj+8KZRQha4ujIkbU4goU5Aew69UQ
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5a75f7e3-6f1e-40d4-860a-08dc27c545cd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Feb 2024 10:12:21.2565
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RdPaBp77YJsQ+U66vL7yn6AedHyka23vjt/GpXY6p0PhSeTxQyql2uZ26TfhJQYUdHf5pVHCdqn4JK1/oj7ON1f4mg3Fqof/vKFgDuVP00k=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB6636
+	Wed, 07 Feb 2024 10:47:48 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20240207104737epoutp04fcaa32d50f99f90874f07dfcd704abce~xjudFyfwg2868828688epoutp04G
+	for <linux-nvme@lists.infradead.org>; Wed,  7 Feb 2024 10:47:37 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20240207104737epoutp04fcaa32d50f99f90874f07dfcd704abce~xjudFyfwg2868828688epoutp04G
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1707302857;
+	bh=CBF3fiPChkqmeKpu1gd1PW+nbHuze8c8+pcqo4NTyaU=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=VexJema/phsRC4ELO1qteXRGCuD/kG+iBhw6MnzSQElqi0aPAEMQE/J8NsYM5zd+j
+	 eTjbKUQVNEY98DWMyOdHhisXcO1wiFNBYWkNsQyUGliUc7n7tBUN/mxSwulzpPd81f
+	 USa9Oj9hEXa8s2ZIj4h4DX1RwvA2inBcOsWp27sk=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20240207104736epcas5p4f7c93d0b86f6ef0e44d9a2b3dc5a2f6b~xjucIU27A1966319663epcas5p4H;
+	Wed,  7 Feb 2024 10:47:36 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.176]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4TVGzC00Zwz4x9Q2; Wed,  7 Feb
+	2024 10:47:35 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	69.06.09672.6CF53C56; Wed,  7 Feb 2024 19:47:34 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20240207103103epcas5p1b4f57f29cac1387546301ba279ea0f96~xjf-ZdrYS0165001650epcas5p1V;
+	Wed,  7 Feb 2024 10:31:03 +0000 (GMT)
+Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240207103103epsmtrp26bcc3c4349d7fd425535d0fe0474a386~xjf-Y4P4v1048110481epsmtrp2V;
+	Wed,  7 Feb 2024 10:31:03 +0000 (GMT)
+X-AuditID: b6c32a4b-60bfd700000025c8-e9-65c35fc6ca55
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
+	1A.86.18939.7EB53C56; Wed,  7 Feb 2024 19:31:03 +0900 (KST)
+Received: from localhost.sa.corp.samsungelectronics.net (unknown
+	[107.99.41.223]) by epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20240207103102epsmtip1abe644abc78da9d6ed34183f337c1ea2~xjf_FOYsm1597315973epsmtip1K;
+	Wed,  7 Feb 2024 10:31:02 +0000 (GMT)
+From: sathya.m@samsung.com
+To: kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org, d.palani@samsung.com,
+	prakash.bv@samsung.com, anshul@samsung.com, Sathyavathi M
+	<sathya.m@samsung.com>
+Subject: [PATCH 1/1] nvme-pci: Verify the CMB's Controller Base Address.
+Date: Wed,  7 Feb 2024 10:31:38 +0530
+Message-Id: <1707282098-28131-1-git-send-email-sathya.m@samsung.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrIKsWRmVeSWpSXmKPExsWy7bCmhu6x+MOpBsc3WFj8nj6F1eL/nmNs
+	Fm+/PmCzWLn6KJPFpEPXGC3mL3vKbnFvRhe7xbrX71kstl5ewO7A6TGx+R27x/l7G1k8Nq3q
+	ZPPYvKTeY/fNBjaPvi2rGAPYorJtMlITU1KLFFLzkvNTMvPSbZW8g+Od403NDAx1DS0tzJUU
+	8hJzU22VXHwCdN0yc4CuUlIoS8wpBQoFJBYXK+nb2RTll5akKmTkF5fYKqUWpOQUmBToFSfm
+	FpfmpevlpZZYGRoYGJkCFSZkZzxaepWlYAN3xe832xkbGGdzdjFyckgImEhMOvyEEcQWEtjN
+	KHHlk0UXIxeQ/YlR4vqLPqgEkLOq3wimof/UZUaIop2MEncvz2aGcNqYJKac2sEGUsUmICXx
+	tHkyC4gtIuAo8WrFczaQImaBPkaJU+8/gY0VFvCQ+Hl6I5jNIqAqMeNRNzuIzSvgItH76xcz
+	xDoFiSkP34NtkBA4xC6x/cRCVoiEi8Sbfc+gioQlXh3fwg5hS0l8freXDcLOlzgz6QgjhF0i
+	MW9nM1SNvcTFPX+Zuhg5gC7SlFi/Sx8iLCsx9dQ6JhCbWYBPovf3EyaIOK/EjnkwtpLEic9v
+	oWwJiTX797KCjJEA+mVhoxMktGIlmnq/sExglJ2FsGABI+MqRsnUguLc9NRi0wLjvNRyeDwl
+	5+duYgSnNS3vHYyPHnzQO8TIxMF4iFGCg1lJhNdsx4FUId6UxMqq1KL8+KLSnNTiQ4ymwCCb
+	yCwlmpwPTKx5JfGGJpYGJmZmZiaWxmaGSuK8r1vnpggJpCeWpGanphakFsH0MXFwSjUwrUw+
+	NnVl5J8e58UPheaYnrj29xCvCfvVmbluyz+/tm3dUzrFUnqisu7SG99Xf2bi/JNqnaMVWJZX
+	0yG5dOay5T9ZVtz3mRl6Zf/CDX48rSqHbndczVitkbVWsCmzyWfSI95mj0uHT35WYG3d6LdT
+	MScpJHxdWMn2FWx5TV/qpq9PvDI5gfcvV+Sd9ev+34q93Oo22/y04PO2frZg/yPvPyuFi/5d
+	c2jbDtU/C780z9h8maWsZu6G+Mbrvc+PqR/QlWju013lGfcpJFZJ5eLV6SITd+cL2J5VDlf+
+	8e5cgn76h7yZPL7TBBcEb+OpSDnltcUscZNIyBTho6and/88ft/lvaDxcq+bu7OjJSS5Xiux
+	FGckGmoxFxUnAgDCFsGF9AMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupmluLIzCtJLcpLzFFi42LZdlhJTvd59OFUg2Ndmha/p09htfi/5xib
+	xduvD9gsVq4+ymQx6dA1Rov5y56yW9yb0cVuse71exaLrZcXsDtwekxsfsfucf7eRhaPTas6
+	2Tw2L6n32H2zgc2jb8sqxgC2KC6blNSczLLUIn27BK6MR0uvshRs4K74/WY7YwPjbM4uRk4O
+	CQETif5Tlxm7GLk4hAS2M0qsPb6KGSIhIbF79XsWCFtYYuW/5+wQRS1MEn0H5zCBJNgEpCSe
+	Nk8GKxIRcJc4+rKBCaSIWWASo8TEO5vYQRLCAh4SP09vZASxWQRUJWY86gaL8wq4SPT++gW1
+	TUFiysP3zBMYeRYwMqxiFE0tKM5Nz00uMNQrTswtLs1L10vOz93ECA4vraAdjMvW/9U7xMjE
+	wXiIUYKDWUmE12zHgVQh3pTEyqrUovz4otKc1OJDjNIcLErivMo5nSlCAumJJanZqakFqUUw
+	WSYOTqkGJq4W1+ouI0fxVQd4xZ8vMW0J2bbz4B1ZzbfvjDdZ6oi+uVK+SajqItea73JH9/P2
+	sMmlRNftiknd0Bg7uWoZk/5KHhlHeyONpfOjDraUH59xPz96SegXqb1xS6ZZnz4e0fVw7jKR
+	T1dvaltWvlcM4P9nGL/M6ttuAc6S0sKz6/5KWuhrb1F2mhNV7fc8OoWt+Z7Z7Yenk36kO3EY
+	6b16qPe06Mndw+f3ZFzmW/Bo3tqrPgu+szbnXmTN/jVbYs6vkOmTxX6ys+TIfVt6q6y7pWNv
+	a+5uqUUu00ulkpynNr+U2fvy6oqrf0z4z8lP8Xp1uUi+dGHhhs7zi09+/tRZNbVxts+Zzak1
+	NcvO9/3drKLEUpyRaKjFXFScCAAu+kP6ngIAAA==
+X-CMS-MailID: 20240207103103epcas5p1b4f57f29cac1387546301ba279ea0f96
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240207103103epcas5p1b4f57f29cac1387546301ba279ea0f96
+References: <CGME20240207103103epcas5p1b4f57f29cac1387546301ba279ea0f96@epcas5p1.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240207_021224_586836_5F0F3128 
-X-CRM114-Status: GOOD (  15.02  )
+X-CRM114-CacheID: sfid-20240207_024746_653515_0769FC5B 
+X-CRM114-Status: GOOD (  17.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -159,30 +130,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Feb 06, 2024 / 14:16, Daniel Wagner wrote:
-> After the nvmet-fc fixes have been merged into kernel, it's time to get t=
-he
-> tests work smoothly with the fc transport. These fixes here are not neces=
-sary IF
-> the auto connect udev rule is disabled.
-...
-> The auth tests and queue count tests fail and I think from a quick look t=
-hese
-> failures are real. I did run these tests in a loop and didn't see any spo=
-radic
-> failures anymore. So I am confident that we finally have some progress in=
- this
-> area.
+From: Sathyavathi M <sathya.m@samsung.com>
 
-Hi Daniel, this is great progress!
+As per the NVMe Base Specification, CMB should not be enabled if
+the CMB's Controller Base Address(CMBMSC.CBA) is invalid. This patch
+detects if the CMB's Controller Base Address is valid or not.
 
-And thanks for the patches. I ran blktests with them, and got same result a=
-s
-yours. Nice :)
+Signed-off-by: Sathyavathi M <sathya.m@samsung.com>
+---
+ drivers/nvme/host/pci.c | 3 +++
+ include/linux/nvme.h    | 1 +
+ 2 files changed, 4 insertions(+)
 
-I made nit spelling comments in some of the commit messages. From code poin=
-t of
-view, the patches look good to me. Will wait some more days for more review=
-s and
-discussions.
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index e6267a6..6edc442 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1856,6 +1856,9 @@ static void nvme_map_cmb(struct nvme_dev *dev)
+ 		hi_lo_writeq(NVME_CMBMSC_CRE | NVME_CMBMSC_CMSE |
+ 			     (pci_bus_address(pdev, bar) + offset),
+ 			     dev->bar + NVME_REG_CMBMSC);
++		/* Check the status of Controller Memory Buffer */
++		if (readl(dev->bar + NVME_REG_CMBSTS) & 0x1)
++			return;
+ 	}
+ 
+ 	/*
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index bc605ec..0ff925b 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -145,6 +145,7 @@ enum {
+ 	NVME_REG_CMBMSC = 0x0050,	/* Controller Memory Buffer Memory
+ 					 * Space Control
+ 					 */
++	NVME_REG_CMBSTS	= 0x0058,	/* Controller Memory Buffer Status */
+ 	NVME_REG_CRTO	= 0x0068,	/* Controller Ready Timeouts */
+ 	NVME_REG_PMRCAP	= 0x0e00,	/* Persistent Memory Capabilities */
+ 	NVME_REG_PMRCTL	= 0x0e04,	/* Persistent Memory Region Control */
+-- 
+1.8.3.1
+
 
