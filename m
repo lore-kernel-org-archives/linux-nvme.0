@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 74A4CC4828D
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Feb 2024 21:23:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 559ABC4828F
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Feb 2024 21:23:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4NsIYtyGrM3LjYL6DVbpaqC31o7H4rwayYn/82x/otE=; b=zPaZIwWbzSuOiZiQwyaexVYl+O
-	s2GLVjOv8WSR4rxZfUNxsIxPqlE+uzh3R+HkUVJxaQK+D7xijSmyYcWV47UPR6a/vOQUxHBehSXzm
-	2UrL/ZOuDyD/BtJCvMUzQFN9qet5RG0MUUBxyk2CQ+HiK2+8D81t64BIJWuxnd908SNTLWaMIAIxn
-	m3N5cU6SBVaSzG3ePGmWO/U+KkORwZ91A7JS1TcBxA++Ac6YBR+6Pzqar8F1XL5F/o/zjYyZchhPy
-	HPUPnbhjO7cjra6WU3ri0SH2iYJn1jUJY3RMN0ZNyMTU4IQRR6EbxXNq+0Jf9CH9STHliK5BgnFVu
-	hwB2aLAw==;
+	bh=orTHRye1FGp48zMAU9tFde/mGpt15jwyV52xzHcfhsc=; b=n6zBwlgu1Cs/auF6+FWotxhYNU
+	uQI0mO2ASMypOm3hOYEghukLiXbXDo9lzU9GdizQ5btkba7Fkh9WPt/HhRjchyw3lj1UT4f5vyX6G
+	NxTUTDhRbOz4ueZ8SQVquHHJFN5GSWAhKWExs3YdJ2P9Njo4O7eo1Fwzc663yGRguCclquuoFmc7g
+	vckgRpGzW2vSw9hg3vD4YnG+0KGCPhQ7B1JijptfdqVfZRZsj1IlXoYe/9RG9Yb8oKiAsR+FlJGry
+	GWUkilrYmbQLi++qWJ+HRHSjkns5kqibroXOiHvFJtetWmtvMcef5rw35afYNnst/enzR1v3n65l1
+	AyQ5l0rw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXpNu-0000000Bqcd-3y8Q;
-	Wed, 07 Feb 2024 21:23:10 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1rXpNx-0000000BqfB-2aHF;
+	Wed, 07 Feb 2024 21:23:13 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXpNq-0000000BqXu-1aFn
+	id 1rXpNs-0000000BqaR-326t
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 Feb 2024 21:23:07 +0000
+	Wed, 07 Feb 2024 21:23:10 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id B6443CE1B1B;
-	Wed,  7 Feb 2024 21:23:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A3A3C43390;
-	Wed,  7 Feb 2024 21:23:02 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 3A14861AC9;
+	Wed,  7 Feb 2024 21:23:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A60C6C43394;
+	Wed,  7 Feb 2024 21:23:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707340984;
-	bh=4xerkgodNjm+WwzFAZ5Ls578pEsR9iJgsdOpSlK56zw=;
+	s=k20201202; t=1707340988;
+	bh=B51nWLS6ql3SkLV39cOPG21h/rGbV0rMuK6QnA/bR3s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Z6j5fbetExqQ48rkcQMFi4no3o/jdKELIJ1gyhFt2/y/ZvbpawkiH/+ny2wVkyW9B
-	 YVgGaDdGfmz/RAQcHWs/SMWFRK111t8p8+ICXOZU7PCqHacHPEvkoz6XsjvRycd7Z/
-	 fSIMCX+s4khSNcohJQjyBcCc38YCq47+JGOgRMbwkzi4ya4eJgXNZWhWGgp270zfMy
-	 qJXvmo8qRrXkqe4OdUQJe1JI6UhVpszHY6nieDfL56KgogpGsM8fQ/5FY6WXTiMTEA
-	 MaxxFxDUhvvqg+YLIRg/k69QkgcxOBB5vnUAiaHvFvLeo/Rt+PwwXAZFPq9uq+DkO/
-	 F2c35NLxS6GEg==
+	b=bmorfrL/XSrfoil/1vNq1Q8/4olDgiHztjRCWpQ6XsYSSWFhL1GvnaXNFWyZxP9I4
+	 aAIxRsz6kdK3mXIGckWesiUrSDJhSukMjJucXTHxCAkRwUpQw2Kg40kIoEjVr1gCbB
+	 HkxV0PlZ3Hb5IDqL9K4j7EhRMWYOlIqW0xD3LhHLHy5o2T4iiLsWVU/SONGPQJxuc5
+	 kyql4hkw9/LV8vM+ynKp5nL2Pbg/7ChjLogW6SVpzyRL5psGowusW73zRhNesg8rSV
+	 tlnhUKzQucBIK6X4JHe0ikn2pXao2mN+E14aczCaGH857n5D/gwNtWDCuAOBvU4SYU
+	 yTrmAS8Yxrnew==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -54,9 +54,9 @@ Cc: Daniel Wagner <dwagner@suse.de>,
 	sagi@grimberg.me,
 	kch@nvidia.com,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.7 33/44] nvmet-fc: release reference on target port
-Date: Wed,  7 Feb 2024 16:21:00 -0500
-Message-ID: <20240207212142.1399-33-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.7 35/44] nvmet-fc: free queue and assoc directly
+Date: Wed,  7 Feb 2024 16:21:02 -0500
+Message-ID: <20240207212142.1399-35-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240207212142.1399-1-sashal@kernel.org>
 References: <20240207212142.1399-1-sashal@kernel.org>
@@ -66,8 +66,8 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.7.4
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240207_132306_679832_40A755E1 
-X-CRM114-Status: GOOD (  10.76  )
+X-CRM114-CacheID: sfid-20240207_132308_850312_4756A741 
+X-CRM114-Status: GOOD (  11.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,10 +84,11 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Daniel Wagner <dwagner@suse.de>
 
-[ Upstream commit c691e6d7e13dab81ac8c7489c83b5dea972522a5 ]
+[ Upstream commit c5e27b1a779ec25779d04c3af65aebaee6bd4304 ]
 
-In case we return early out of __nvmet_fc_finish_ls_req() we still have
-to release the reference on the target port.
+Neither struct nvmet_fc_tgt_queue nor struct nvmet_fc_tgt_assoc are data
+structure which are used in a RCU context. So there is no reason to
+delay the free operation.
 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
@@ -95,30 +96,48 @@ Signed-off-by: Daniel Wagner <dwagner@suse.de>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/target/fc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/nvme/target/fc.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index bd59990b5250..8cd1ef293769 100644
+index bb0791c9c0e3..5fd37e989106 100644
 --- a/drivers/nvme/target/fc.c
 +++ b/drivers/nvme/target/fc.c
-@@ -360,7 +360,7 @@ __nvmet_fc_finish_ls_req(struct nvmet_fc_ls_req_op *lsop)
+@@ -145,7 +145,6 @@ struct nvmet_fc_tgt_queue {
+ 	struct list_head		avail_defer_list;
+ 	struct workqueue_struct		*work_q;
+ 	struct kref			ref;
+-	struct rcu_head			rcu;
+ 	/* array of fcp_iods */
+ 	struct nvmet_fc_fcp_iod		fod[] __counted_by(sqsize);
+ } __aligned(sizeof(unsigned long long));
+@@ -169,7 +168,6 @@ struct nvmet_fc_tgt_assoc {
+ 	struct nvmet_fc_tgt_queue 	*queues[NVMET_NR_QUEUES + 1];
+ 	struct kref			ref;
+ 	struct work_struct		del_work;
+-	struct rcu_head			rcu;
+ };
  
- 	if (!lsop->req_queued) {
- 		spin_unlock_irqrestore(&tgtport->lock, flags);
--		return;
-+		goto out_puttgtport;
- 	}
  
- 	list_del(&lsop->lsreq_list);
-@@ -373,6 +373,7 @@ __nvmet_fc_finish_ls_req(struct nvmet_fc_ls_req_op *lsop)
- 				  (lsreq->rqstlen + lsreq->rsplen),
- 				  DMA_BIDIRECTIONAL);
+@@ -852,7 +850,7 @@ nvmet_fc_tgt_queue_free(struct kref *ref)
  
-+out_puttgtport:
- 	nvmet_fc_tgtport_put(tgtport);
+ 	destroy_workqueue(queue->work_q);
+ 
+-	kfree_rcu(queue, rcu);
++	kfree(queue);
  }
  
+ static void
+@@ -1185,8 +1183,8 @@ nvmet_fc_target_assoc_free(struct kref *ref)
+ 	dev_info(tgtport->dev,
+ 		"{%d:%d} Association freed\n",
+ 		tgtport->fc_target_port.port_num, assoc->a_id);
+-	kfree_rcu(assoc, rcu);
+ 	nvmet_fc_tgtport_put(tgtport);
++	kfree(assoc);
+ }
+ 
+ static void
 -- 
 2.43.0
 
