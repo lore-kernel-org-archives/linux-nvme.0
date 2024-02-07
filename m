@@ -4,73 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB098C4828D
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Feb 2024 21:26:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40B14C4828F
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Feb 2024 21:26:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8Tnh4Is48iwE9PmrNTFQ6knjrNqoCkeTA5Gd+sna1P8=; b=jngS2RRZlNxE+SnbDe3IE2rIUz
-	Dwfnj6wPyl+raqNnGQp5iscBw7X3Ywz9tsp5fCZ+IWlFvVsLjFShwt2T7SKZRcWHQxZpMVy4VCWNs
-	EfwXWXQKBplNC0XTGmLqkMb5IzgHNPPgLXGtdHVYvuaEejhGaN++fQmlUEQ7/+x4rx8f+vr9dlsa9
-	HAJB2nYF/SUkV6dCnRbAMjthEd8q8cCpwEM48W7WmMPZVeMXczRHBHtfk2/G+vArUoZxR7gha52Ym
-	MvmYqEXN/6jZAhRJ5OUV70Mj03RxoSK7A8za6W+I4dAwz9zNk3sNeMioD72a5abU2vrSWr2ucieBM
-	O33vflgg==;
+	bh=ATfSKbQWwtycORCDCTPWJdllgdbvVHpxZO+FZEeJQ8k=; b=3Ahk5IZSgzSmUWETZ2fYnoFPRq
+	8tIwjJ7rsC+EP1DT62LmgrNhmgdavTOZbAdc81AYNxqQO3bxGIAkugAM3/+8T4NVVBNMu0u7bwpwo
+	GPPSdkfTNfA8TF6LAnT2P+NpYjyhWXimbtIBNRhjqsmatB7KzdbRfknjywMABwNPIZ7bmKUxEhaKn
+	cwkTSgAtBuxrxz+j2kVJ3cGqkWidMYxGcfkwgC/GzzbwLOLwAFAOta+Pv+KwwOmpnfLBjcm9PHBSX
+	QFFLAasWhRBDGikhuObguBBVAsFBVh6SuDE7yxsLGEODp6Qo/qyP+Ptmkledu5VNm2mT3eYzbXIgF
+	GZdNhwIA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXpQn-0000000Bsi2-3gzF;
-	Wed, 07 Feb 2024 21:26:09 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1rXpQt-0000000BskR-0jl0;
+	Wed, 07 Feb 2024 21:26:15 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXpQi-0000000Bsdl-1CDa
-	for linux-nvme@bombadil.infradead.org;
-	Wed, 07 Feb 2024 21:26:04 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=8Tnh4Is48iwE9PmrNTFQ6knjrNqoCkeTA5Gd+sna1P8=; b=CAq6WhsvXolTL20JlaEghO+szT
-	0WOs156gepwEdRvwcfmPGKepQRkvg8suxg/aam0020bHM69UVzhwQ31hsvbqwqRiS++KlyFd4XuHe
-	SM39OeNnj6ueYdg48LKHBaTVlwYBgCru2b4/4yPzl/caQILEnirO9b0Opo+0bH8IOPTViZ1v3h7RQ
-	JXDu5d/Xg8DSXCLQbgAABuPVEcO5XoLQHsUgAfDqWXS27jKn3DhzYuP/mshC350F5nZfVlzNW+7nk
-	yhn1Kdqp4h6uT2HTKn9yHfZtORL5yxklC2Bzv6aAuB3RlYiUTrCXp1MpiV4MeayYc4GRNdx9wvTWG
-	C1BzK0iw==;
-Received: from dfw.source.kernel.org ([139.178.84.217])
-	by desiato.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXpQc-0000000D83q-16yS
+	id 1rXpQR-0000000BsR3-0mjE
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 Feb 2024 21:26:02 +0000
+	Wed, 07 Feb 2024 21:26:04 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id DE59561AC4;
-	Wed,  7 Feb 2024 21:25:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A4DFC43399;
-	Wed,  7 Feb 2024 21:25:55 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 8E04D6181E;
+	Wed,  7 Feb 2024 21:25:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABBADC433C7;
+	Wed,  7 Feb 2024 21:25:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707341156;
-	bh=EVJw3/SXfuBf5v9qJgE4yM7WLbNBIMe7pkiV9lhnVaQ=;
+	s=k20201202; t=1707341146;
+	bh=w1n66yihctU5N7CSUMpRa5jKDOiHFJxcvNhPYkbuZ9E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=K3leUQdqB0Eu0jDo8v6f86rKd8z4N4CDGhwmhkmcSiauifKUZTAP0/jQBm/xEi3w2
-	 lDri0bv/GbmQU7WxI0MIaylOGEGh8xpfSt8rZwSFP9ISZzHSLNuDuQ3Q1DefvD2SbT
-	 Yk8Q6IC3u8NKveFKJSHo+k6eCG6WZLv+ZYKhYEr29SAo41VFxNvBjJCkCEwTfiyLLJ
-	 sLtjbR22lg2XYrNYueKXw/sSezaQCkUz6Ygl1sUXC8F9FhVARQvPrJE64usjj4Cm1j
-	 7Qvm4qAIK5qIY62ASOyjIRbafJkNtKaS6sVH/4fDv3dQEipS54w1X0LIfuIOLNodmY
-	 ma5AJBMU+3uWg==
+	b=ZFpZsEW3uDMiLNEVD4DUTarkEL5LqIvNSRU+TlCBMat7txZVcFniePHAWuQip0UK4
+	 UX5AYHMledUiy2w0MTzhTjqljMeYPhl/UN4MGzWWNhLDseFKd4Di7jewzzho0IHlK0
+	 DJ1xS/RKUtNY0ClALQZ5XdHl3dqyMG3wG9cLZui/fRKgIy8vZn70BxcgKludM45sLH
+	 nJ2kbuyAkd0emOFpRuvZY9BmnWd6vZO+wknDFgKvzJUWPzgJKhv1cRMtKryPHrVU5q
+	 1Y7FarOcS+cz5kcxE4svoxv7ng5UW9cHc1GcGXSEtprO8kO3QYjX2n5gdboq+t0LvL
+	 FG39kcUw6nUGw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Daniel Wagner <dwagner@suse.de>,
 	Christoph Hellwig <hch@lst.de>,
+	Hannes Reinecke <hare@suse.de>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	james.smart@broadcom.com,
 	sagi@grimberg.me,
-	kch@nvidia.com,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.1 25/29] nvmet-fc: avoid deadlock on delete association path
-Date: Wed,  7 Feb 2024 16:24:50 -0500
-Message-ID: <20240207212505.3169-25-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 19/29] nvme-fc: do not wait in vain when unloading module
+Date: Wed,  7 Feb 2024 16:24:44 -0500
+Message-ID: <20240207212505.3169-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240207212505.3169-1-sashal@kernel.org>
 References: <20240207212505.3169-1-sashal@kernel.org>
@@ -80,8 +65,8 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.77
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240207_212559_646426_C4663FFB 
-X-CRM114-Status: GOOD (  12.27  )
+X-CRM114-CacheID: sfid-20240207_132547_733189_E16B1665 
+X-CRM114-Status: GOOD (  16.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,75 +83,141 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Daniel Wagner <dwagner@suse.de>
 
-[ Upstream commit 710c69dbaccdac312e32931abcb8499c1525d397 ]
+[ Upstream commit 70fbfc47a392b98e5f8dba70c6efc6839205c982 ]
 
-When deleting an association the shutdown path is deadlocking because we
-try to flush the nvmet_wq nested. Avoid this by deadlock by deferring
-the put work into its own work item.
+The module exit path has race between deleting all controllers and
+freeing 'left over IDs'. To prevent double free a synchronization
+between nvme_delete_ctrl and ida_destroy has been added by the initial
+commit.
+
+There is some logic around trying to prevent from hanging forever in
+wait_for_completion, though it does not handling all cases. E.g.
+blktests is able to reproduce the situation where the module unload
+hangs forever.
+
+If we completely rely on the cleanup code executed from the
+nvme_delete_ctrl path, all IDs will be freed eventually. This makes
+calling ida_destroy unnecessary. We only have to ensure that all
+nvme_delete_ctrl code has been executed before we leave
+nvme_fc_exit_module. This is done by flushing the nvme_delete_wq
+workqueue.
+
+While at it, remove the unused nvme_fc_wq workqueue too.
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/target/fc.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+ drivers/nvme/host/fc.c | 47 ++++++------------------------------------
+ 1 file changed, 6 insertions(+), 41 deletions(-)
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index b4b2631eb530..36cae038eb04 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -111,6 +111,8 @@ struct nvmet_fc_tgtport {
- 	struct nvmet_fc_port_entry	*pe;
- 	struct kref			ref;
- 	u32				max_sg_cnt;
-+
-+	struct work_struct		put_work;
- };
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 177a365b8ec5..3dbf926fd99f 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -221,11 +221,6 @@ static LIST_HEAD(nvme_fc_lport_list);
+ static DEFINE_IDA(nvme_fc_local_port_cnt);
+ static DEFINE_IDA(nvme_fc_ctrl_cnt);
  
- struct nvmet_fc_port_entry {
-@@ -248,6 +250,13 @@ static int nvmet_fc_tgt_a_get(struct nvmet_fc_tgt_assoc *assoc);
- static void nvmet_fc_tgt_q_put(struct nvmet_fc_tgt_queue *queue);
- static int nvmet_fc_tgt_q_get(struct nvmet_fc_tgt_queue *queue);
- static void nvmet_fc_tgtport_put(struct nvmet_fc_tgtport *tgtport);
-+static void nvmet_fc_put_tgtport_work(struct work_struct *work)
-+{
-+	struct nvmet_fc_tgtport *tgtport =
-+		container_of(work, struct nvmet_fc_tgtport, put_work);
-+
-+	nvmet_fc_tgtport_put(tgtport);
-+}
- static int nvmet_fc_tgtport_get(struct nvmet_fc_tgtport *tgtport);
- static void nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
- 					struct nvmet_fc_fcp_iod *fod);
-@@ -359,7 +368,7 @@ __nvmet_fc_finish_ls_req(struct nvmet_fc_ls_req_op *lsop)
+-static struct workqueue_struct *nvme_fc_wq;
+-
+-static bool nvme_fc_waiting_to_unload;
+-static DECLARE_COMPLETION(nvme_fc_unload_proceed);
+-
+ /*
+  * These items are short-term. They will eventually be moved into
+  * a generic FC class. See comments in module init.
+@@ -255,8 +250,6 @@ nvme_fc_free_lport(struct kref *ref)
+ 	/* remove from transport list */
+ 	spin_lock_irqsave(&nvme_fc_lock, flags);
+ 	list_del(&lport->port_list);
+-	if (nvme_fc_waiting_to_unload && list_empty(&nvme_fc_lport_list))
+-		complete(&nvme_fc_unload_proceed);
+ 	spin_unlock_irqrestore(&nvme_fc_lock, flags);
  
- 	if (!lsop->req_queued) {
- 		spin_unlock_irqrestore(&tgtport->lock, flags);
--		goto out_puttgtport;
-+		goto out_putwork;
+ 	ida_free(&nvme_fc_local_port_cnt, lport->localport.port_num);
+@@ -3869,10 +3862,6 @@ static int __init nvme_fc_init_module(void)
+ {
+ 	int ret;
+ 
+-	nvme_fc_wq = alloc_workqueue("nvme_fc_wq", WQ_MEM_RECLAIM, 0);
+-	if (!nvme_fc_wq)
+-		return -ENOMEM;
+-
+ 	/*
+ 	 * NOTE:
+ 	 * It is expected that in the future the kernel will combine
+@@ -3890,7 +3879,7 @@ static int __init nvme_fc_init_module(void)
+ 	ret = class_register(&fc_class);
+ 	if (ret) {
+ 		pr_err("couldn't register class fc\n");
+-		goto out_destroy_wq;
++		return ret;
  	}
  
- 	list_del(&lsop->lsreq_list);
-@@ -372,8 +381,8 @@ __nvmet_fc_finish_ls_req(struct nvmet_fc_ls_req_op *lsop)
- 				  (lsreq->rqstlen + lsreq->rsplen),
- 				  DMA_BIDIRECTIONAL);
+ 	/*
+@@ -3914,8 +3903,6 @@ static int __init nvme_fc_init_module(void)
+ 	device_destroy(&fc_class, MKDEV(0, 0));
+ out_destroy_class:
+ 	class_unregister(&fc_class);
+-out_destroy_wq:
+-	destroy_workqueue(nvme_fc_wq);
  
--out_puttgtport:
--	nvmet_fc_tgtport_put(tgtport);
-+out_putwork:
-+	queue_work(nvmet_wq, &tgtport->put_work);
+ 	return ret;
+ }
+@@ -3935,45 +3922,23 @@ nvme_fc_delete_controllers(struct nvme_fc_rport *rport)
+ 	spin_unlock(&rport->lock);
  }
  
- static int
-@@ -1404,6 +1413,7 @@ nvmet_fc_register_targetport(struct nvmet_fc_port_info *pinfo,
- 	kref_init(&newrec->ref);
- 	ida_init(&newrec->assoc_cnt);
- 	newrec->max_sg_cnt = template->max_sgl_segments;
-+	INIT_WORK(&newrec->put_work, nvmet_fc_put_tgtport_work);
+-static void
+-nvme_fc_cleanup_for_unload(void)
++static void __exit nvme_fc_exit_module(void)
+ {
+ 	struct nvme_fc_lport *lport;
+ 	struct nvme_fc_rport *rport;
+-
+-	list_for_each_entry(lport, &nvme_fc_lport_list, port_list) {
+-		list_for_each_entry(rport, &lport->endp_list, endp_list) {
+-			nvme_fc_delete_controllers(rport);
+-		}
+-	}
+-}
+-
+-static void __exit nvme_fc_exit_module(void)
+-{
+ 	unsigned long flags;
+-	bool need_cleanup = false;
  
- 	ret = nvmet_fc_alloc_ls_iodlist(newrec);
- 	if (ret) {
+ 	spin_lock_irqsave(&nvme_fc_lock, flags);
+-	nvme_fc_waiting_to_unload = true;
+-	if (!list_empty(&nvme_fc_lport_list)) {
+-		need_cleanup = true;
+-		nvme_fc_cleanup_for_unload();
+-	}
++	list_for_each_entry(lport, &nvme_fc_lport_list, port_list)
++		list_for_each_entry(rport, &lport->endp_list, endp_list)
++			nvme_fc_delete_controllers(rport);
+ 	spin_unlock_irqrestore(&nvme_fc_lock, flags);
+-	if (need_cleanup) {
+-		pr_info("%s: waiting for ctlr deletes\n", __func__);
+-		wait_for_completion(&nvme_fc_unload_proceed);
+-		pr_info("%s: ctrl deletes complete\n", __func__);
+-	}
++	flush_workqueue(nvme_delete_wq);
+ 
+ 	nvmf_unregister_transport(&nvme_fc_transport);
+ 
+-	ida_destroy(&nvme_fc_local_port_cnt);
+-	ida_destroy(&nvme_fc_ctrl_cnt);
+-
+ 	device_destroy(&fc_class, MKDEV(0, 0));
+ 	class_unregister(&fc_class);
+-	destroy_workqueue(nvme_fc_wq);
+ }
+ 
+ module_init(nvme_fc_init_module);
 -- 
 2.43.0
 
