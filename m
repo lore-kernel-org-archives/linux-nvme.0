@@ -4,73 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9299EC4828F
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Feb 2024 21:26:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0AD0C4828D
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Feb 2024 21:26:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jZS1b7N2AC/eY1afimdJJteG1Dx86FD1A3lPTKgQsdI=; b=dpk/x9VutJ8FZo6bpN6MLhb1S9
-	Nr+aCUSEgJ3xnC2AaBe6HYEJPbYNSjgNKJ9/igv+3XhwfmvJA6woWXbu5jHioNjAIZDJxeATMnq7n
-	CeHBLR2wNSTsKsVeW5AYX2jWflONOFw86hu94HxYr+h9KVejPgF1AjGi6lt9TwEchtN/a54CN3mbr
-	i9WfBcjV8UhD+Ne756Vq4PWmEtWIv9PukiUvYikq1EYrAbLQPoI1rawjcew7drIP2PipRBGHsUM4b
-	/a5vOyi+V5LirYSRc5T4VVU1t7665d+77Y/rb/eP1hCxuOwXUfvRJKnFDxAyhAkwcfGKi93cURobB
-	zNeKKWAA==;
+	bh=zKn42MOIbpjQ4WlPQZBek2S0dCM1M+b7qbuDpxzhE+I=; b=rBf8ykRq6s5S4FOze0icCDlhEa
+	RqK5NYFzIwBQiz9zfnYwPX/1cNzT2mwc4sWLCDeM1iCpDz7v1s51dRO52AyYkbTHKPmQ57Ef78IUy
+	up45sWYj95JJInZ7GvqChKzZpwwVbQ8Krh83Nx3sVL5llhPgfxoROKFf3m/1aZr1VgtJyK01nUDSq
+	lRNYClm5wlFu4Ri8kHysz3r5xtD+IE8vjXhVm+7bsJtY8yvFgZPiIebALm2zbNyq156FAtKsKLiRk
+	Ha9d7RqonoON/Xbjuf2LsMXdbE+AdhV16RN10H+ktOl23jLNuM1YyhQG1Kx3wcTOlbAJqCWoVRwDL
+	pSkgTT/g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXpR0-0000000Bsqc-27yZ;
-	Wed, 07 Feb 2024 21:26:22 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1rXpR4-0000000Bsth-30P5;
+	Wed, 07 Feb 2024 21:26:26 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXpQl-0000000BsgB-2dg0
-	for linux-nvme@bombadil.infradead.org;
-	Wed, 07 Feb 2024 21:26:07 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=jZS1b7N2AC/eY1afimdJJteG1Dx86FD1A3lPTKgQsdI=; b=gJZsevJqDced2FJvWHR3dmkOw4
-	WlS+00o+zicVsZxFSzfs1ZrOJv/o5+c1gMcBs49RGZf8NIoDGs5UmIP3mizCkDWam2SnhfoXhQVlj
-	mfnE9iJOTWCF3J/41g5qD4EPB2DVcJ2gdshZEJTRtt/Kyb4wjTIpUo7HXwFv+qqK4cB7yyrShT9Nq
-	ulyZ8N/2gHEUBDS+hKBXSWXDIpwRv7NxB5Mn/6OXIhVMdm2CUQfL8AHvaHuJbYfnEyPCepTJs+jL5
-	cZVSQz/0C3x4rGOJ2UdmdRY5pLJoq4G9x+rbJhXM4GDXYc0V/F9tivVRLWPcRN3CPNM0CIP+fI1Oq
-	bftVxUZw==;
-Received: from sin.source.kernel.org ([145.40.73.55])
-	by desiato.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXpQg-0000000D851-47Y0
+	id 1rXpQY-0000000BsWA-2TDZ
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 Feb 2024 21:26:05 +0000
+	Wed, 07 Feb 2024 21:26:08 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 2A8F4CE1B1D;
-	Wed,  7 Feb 2024 21:25:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20EFEC43394;
-	Wed,  7 Feb 2024 21:25:57 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 28DA4CE1B1B;
+	Wed,  7 Feb 2024 21:25:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B4B5C43399;
+	Wed,  7 Feb 2024 21:25:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707341158;
-	bh=h79hO05xp7Yb1JfaQ+0MRJL26ORufyCzdOf24bZvOpI=;
+	s=k20201202; t=1707341151;
+	bh=i/mbCV0b0uxQRJ+UqETp9tbuXIBupyfw7o85nnlPrWY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nBwVzhTQFeCKgYCLH+yyrT7gVxkSiV9WoFtEzBE0InPNj+ygUmDsOiSFxnRH24frW
-	 mdg+VnVtTOj6n/uxsXk0vwfLTycXEpjz7fPjkOiBQD2Av6U9MrBIzGd2FgjuFwU3V1
-	 4CvQKz+PX/zV+tDm1oSDWwn87HVQzpq11XEf/eeNZ9MBF+RnlwTIgGPnWrxWwQdpoK
-	 5jv9dYBRsMpuzfVkksnw3MQ+hoqihbLXeR6B3REUw3S/LT9jRy/9hmwT9yvkPeeuSO
-	 Ga4VExLFunP2Y6o3e/nPIolzmrh34qkNnIceXK4LS7P14p5g11aYBzPN8Vt8gIkP64
-	 TG88vRFh8wacw==
+	b=MyuBSRD4TqZ9eeIc+yOnuL0cYFiHe8QPiQKdLhow77suif2zPzNeSDsg6QGTra2kK
+	 7FhBcFCYh6BeuVh1Ake1TTNywzow4AfsKhFlnw5Ksavh57ffYeJcnxiOPU3LTHj4oc
+	 2n2tAjCciN3/5qSXMggseekBUV9YpLKowCg6Wg1AhTL1eiYerm3ABx2fTMzdFVyWFp
+	 MdhqaK8eu88yjaOJBUK4iqBt8JzI0nsIiPZdmeb9MAzQ6i4K+YwlKJDRV0sXdPJKTE
+	 HK8RymDRSggh9iIvd9HK45USMNn85h4nFC5H1Mp+3cn9Oq4hghYidIMd92yG5R+LCW
+	 15KZRb8013WNg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Daniel Wagner <dwagner@suse.de>,
 	Christoph Hellwig <hch@lst.de>,
+	Hannes Reinecke <hare@suse.de>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	james.smart@broadcom.com,
 	sagi@grimberg.me,
 	kch@nvidia.com,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.1 26/29] nvmet-fc: take ref count on tgtport before delete assoc
-Date: Wed,  7 Feb 2024 16:24:51 -0500
-Message-ID: <20240207212505.3169-26-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 22/29] nvmet-fc: defer cleanup using RCU properly
+Date: Wed,  7 Feb 2024 16:24:47 -0500
+Message-ID: <20240207212505.3169-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240207212505.3169-1-sashal@kernel.org>
 References: <20240207212505.3169-1-sashal@kernel.org>
@@ -80,8 +66,8 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.77
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240207_212604_001875_DCD592BA 
-X-CRM114-Status: GOOD (  11.53  )
+X-CRM114-CacheID: sfid-20240207_132555_163568_307730F7 
+X-CRM114-Status: GOOD (  22.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,100 +84,272 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Daniel Wagner <dwagner@suse.de>
 
-[ Upstream commit fe506a74589326183297d5abdda02d0c76ae5a8b ]
+[ Upstream commit 4049dc96b8de7aeb3addcea039446e464726a525 ]
 
-We have to ensure that the tgtport is not going away
-before be have remove all the associations.
+When the target executes a disconnect and the host triggers a reconnect
+immediately, the reconnect command still finds an existing association.
+
+The reconnect crashes later on because nvmet_fc_delete_target_assoc
+blindly removes resources while the reconnect code wants to use it.
+
+To address this, nvmet_fc_find_target_assoc should not be able to
+lookup an association which is being removed. The association list
+is already under RCU lifetime management, so let's properly use it
+and remove the association from the list and wait for a grace period
+before cleaning up all. This means we also can drop the RCU management
+on the queues, because this is now handled via the association itself.
+
+A second step split the execution context so that the initial disconnect
+command can complete without running the reconnect code in the same
+context. As usual, this is done by deferring the ->done to a workqueue.
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Daniel Wagner <dwagner@suse.de>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/target/fc.c | 31 +++++++++++++++++++++++--------
- 1 file changed, 23 insertions(+), 8 deletions(-)
+ drivers/nvme/target/fc.c | 83 ++++++++++++++++++----------------------
+ 1 file changed, 37 insertions(+), 46 deletions(-)
 
 diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 36cae038eb04..8a02ed63b156 100644
+index 0075d9636b06..c9ef642313c8 100644
 --- a/drivers/nvme/target/fc.c
 +++ b/drivers/nvme/target/fc.c
-@@ -1092,13 +1092,28 @@ nvmet_fc_alloc_hostport(struct nvmet_fc_tgtport *tgtport, void *hosthandle)
- }
+@@ -165,7 +165,7 @@ struct nvmet_fc_tgt_assoc {
+ 	struct nvmet_fc_hostport	*hostport;
+ 	struct nvmet_fc_ls_iod		*rcv_disconn;
+ 	struct list_head		a_list;
+-	struct nvmet_fc_tgt_queue __rcu	*queues[NVMET_NR_QUEUES + 1];
++	struct nvmet_fc_tgt_queue 	*queues[NVMET_NR_QUEUES + 1];
+ 	struct kref			ref;
+ 	struct work_struct		del_work;
+ 	struct rcu_head			rcu;
+@@ -802,14 +802,11 @@ nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
+ 	if (!queue)
+ 		return NULL;
  
- static void
--nvmet_fc_delete_assoc(struct work_struct *work)
-+nvmet_fc_delete_assoc(struct nvmet_fc_tgt_assoc *assoc)
-+{
-+	nvmet_fc_delete_target_assoc(assoc);
-+	nvmet_fc_tgt_a_put(assoc);
-+}
-+
-+static void
-+nvmet_fc_delete_assoc_work(struct work_struct *work)
- {
- 	struct nvmet_fc_tgt_assoc *assoc =
- 		container_of(work, struct nvmet_fc_tgt_assoc, del_work);
-+	struct nvmet_fc_tgtport *tgtport = assoc->tgtport;
+-	if (!nvmet_fc_tgt_a_get(assoc))
+-		goto out_free_queue;
+-
+ 	queue->work_q = alloc_workqueue("ntfc%d.%d.%d", 0, 0,
+ 				assoc->tgtport->fc_target_port.port_num,
+ 				assoc->a_id, qid);
+ 	if (!queue->work_q)
+-		goto out_a_put;
++		goto out_free_queue;
  
--	nvmet_fc_delete_target_assoc(assoc);
+ 	queue->qid = qid;
+ 	queue->sqsize = sqsize;
+@@ -831,15 +828,13 @@ nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
+ 		goto out_fail_iodlist;
+ 
+ 	WARN_ON(assoc->queues[qid]);
+-	rcu_assign_pointer(assoc->queues[qid], queue);
++	assoc->queues[qid] = queue;
+ 
+ 	return queue;
+ 
+ out_fail_iodlist:
+ 	nvmet_fc_destroy_fcp_iodlist(assoc->tgtport, queue);
+ 	destroy_workqueue(queue->work_q);
+-out_a_put:
 -	nvmet_fc_tgt_a_put(assoc);
-+	nvmet_fc_delete_assoc(assoc);
-+	nvmet_fc_tgtport_put(tgtport);
-+}
+ out_free_queue:
+ 	kfree(queue);
+ 	return NULL;
+@@ -852,12 +847,8 @@ nvmet_fc_tgt_queue_free(struct kref *ref)
+ 	struct nvmet_fc_tgt_queue *queue =
+ 		container_of(ref, struct nvmet_fc_tgt_queue, ref);
+ 
+-	rcu_assign_pointer(queue->assoc->queues[queue->qid], NULL);
+-
+ 	nvmet_fc_destroy_fcp_iodlist(queue->assoc->tgtport, queue);
+ 
+-	nvmet_fc_tgt_a_put(queue->assoc);
+-
+ 	destroy_workqueue(queue->work_q);
+ 
+ 	kfree_rcu(queue, rcu);
+@@ -969,7 +960,7 @@ nvmet_fc_find_target_queue(struct nvmet_fc_tgtport *tgtport,
+ 	rcu_read_lock();
+ 	list_for_each_entry_rcu(assoc, &tgtport->assoc_list, a_list) {
+ 		if (association_id == assoc->association_id) {
+-			queue = rcu_dereference(assoc->queues[qid]);
++			queue = assoc->queues[qid];
+ 			if (queue &&
+ 			    (!atomic_read(&queue->connected) ||
+ 			     !nvmet_fc_tgt_q_get(queue)))
+@@ -1172,13 +1163,18 @@ nvmet_fc_target_assoc_free(struct kref *ref)
+ 	struct nvmet_fc_tgtport *tgtport = assoc->tgtport;
+ 	struct nvmet_fc_ls_iod	*oldls;
+ 	unsigned long flags;
++	int i;
 +
-+static void
-+nvmet_fc_schedule_delete_assoc(struct nvmet_fc_tgt_assoc *assoc)
-+{
-+	nvmet_fc_tgtport_get(assoc->tgtport);
-+	queue_work(nvmet_wq, &assoc->del_work);
++	for (i = NVMET_NR_QUEUES; i >= 0; i--) {
++		if (assoc->queues[i])
++			nvmet_fc_delete_target_queue(assoc->queues[i]);
++	}
+ 
+ 	/* Send Disconnect now that all i/o has completed */
+ 	nvmet_fc_xmt_disconnect_assoc(assoc);
+ 
+ 	nvmet_fc_free_hostport(assoc->hostport);
+ 	spin_lock_irqsave(&tgtport->lock, flags);
+-	list_del_rcu(&assoc->a_list);
+ 	oldls = assoc->rcv_disconn;
+ 	spin_unlock_irqrestore(&tgtport->lock, flags);
+ 	/* if pending Rcv Disconnect Association LS, send rsp now */
+@@ -1208,7 +1204,7 @@ static void
+ nvmet_fc_delete_target_assoc(struct nvmet_fc_tgt_assoc *assoc)
+ {
+ 	struct nvmet_fc_tgtport *tgtport = assoc->tgtport;
+-	struct nvmet_fc_tgt_queue *queue;
++	unsigned long flags;
+ 	int i, terminating;
+ 
+ 	terminating = atomic_xchg(&assoc->terminating, 1);
+@@ -1217,29 +1213,21 @@ nvmet_fc_delete_target_assoc(struct nvmet_fc_tgt_assoc *assoc)
+ 	if (terminating)
+ 		return;
+ 
++	spin_lock_irqsave(&tgtport->lock, flags);
++	list_del_rcu(&assoc->a_list);
++	spin_unlock_irqrestore(&tgtport->lock, flags);
+ 
+-	for (i = NVMET_NR_QUEUES; i >= 0; i--) {
+-		rcu_read_lock();
+-		queue = rcu_dereference(assoc->queues[i]);
+-		if (!queue) {
+-			rcu_read_unlock();
+-			continue;
+-		}
++	synchronize_rcu();
+ 
+-		if (!nvmet_fc_tgt_q_get(queue)) {
+-			rcu_read_unlock();
+-			continue;
+-		}
+-		rcu_read_unlock();
+-		nvmet_fc_delete_target_queue(queue);
+-		nvmet_fc_tgt_q_put(queue);
++	/* ensure all in-flight I/Os have been processed */
++	for (i = NVMET_NR_QUEUES; i >= 0; i--) {
++		if (assoc->queues[i])
++			flush_workqueue(assoc->queues[i]->work_q);
+ 	}
+ 
+ 	dev_info(tgtport->dev,
+ 		"{%d:%d} Association deleted\n",
+ 		tgtport->fc_target_port.port_num, assoc->a_id);
+-
+-	nvmet_fc_tgt_a_put(assoc);
  }
  
  static struct nvmet_fc_tgt_assoc *
-@@ -1132,7 +1147,7 @@ nvmet_fc_alloc_target_assoc(struct nvmet_fc_tgtport *tgtport, void *hosthandle)
- 	assoc->a_id = idx;
- 	INIT_LIST_HEAD(&assoc->a_list);
- 	kref_init(&assoc->ref);
--	INIT_WORK(&assoc->del_work, nvmet_fc_delete_assoc);
-+	INIT_WORK(&assoc->del_work, nvmet_fc_delete_assoc_work);
- 	atomic_set(&assoc->terminating, 0);
- 
- 	while (needrandom) {
-@@ -1491,7 +1506,7 @@ __nvmet_fc_free_assocs(struct nvmet_fc_tgtport *tgtport)
+@@ -1492,9 +1480,8 @@ __nvmet_fc_free_assocs(struct nvmet_fc_tgtport *tgtport)
  	list_for_each_entry_rcu(assoc, &tgtport->assoc_list, a_list) {
  		if (!nvmet_fc_tgt_a_get(assoc))
  			continue;
--		queue_work(nvmet_wq, &assoc->del_work);
-+		nvmet_fc_schedule_delete_assoc(assoc);
- 		nvmet_fc_tgt_a_put(assoc);
+-		if (!queue_work(nvmet_wq, &assoc->del_work))
+-			/* already deleting - release local reference */
+-			nvmet_fc_tgt_a_put(assoc);
++		queue_work(nvmet_wq, &assoc->del_work);
++		nvmet_fc_tgt_a_put(assoc);
  	}
  	rcu_read_unlock();
-@@ -1545,7 +1560,7 @@ nvmet_fc_invalidate_host(struct nvmet_fc_target_port *target_port,
+ }
+@@ -1547,9 +1534,8 @@ nvmet_fc_invalidate_host(struct nvmet_fc_target_port *target_port,
  			continue;
  		assoc->hostport->invalid = 1;
  		noassoc = false;
--		queue_work(nvmet_wq, &assoc->del_work);
-+		nvmet_fc_schedule_delete_assoc(assoc);
- 		nvmet_fc_tgt_a_put(assoc);
+-		if (!queue_work(nvmet_wq, &assoc->del_work))
+-			/* already deleting - release local reference */
+-			nvmet_fc_tgt_a_put(assoc);
++		queue_work(nvmet_wq, &assoc->del_work);
++		nvmet_fc_tgt_a_put(assoc);
  	}
  	spin_unlock_irqrestore(&tgtport->lock, flags);
-@@ -1590,7 +1605,7 @@ nvmet_fc_delete_ctrl(struct nvmet_ctrl *ctrl)
+ 
+@@ -1581,7 +1567,7 @@ nvmet_fc_delete_ctrl(struct nvmet_ctrl *ctrl)
+ 
+ 		rcu_read_lock();
+ 		list_for_each_entry_rcu(assoc, &tgtport->assoc_list, a_list) {
+-			queue = rcu_dereference(assoc->queues[0]);
++			queue = assoc->queues[0];
+ 			if (queue && queue->nvme_sq.ctrl == ctrl) {
+ 				if (nvmet_fc_tgt_a_get(assoc))
+ 					found_ctrl = true;
+@@ -1593,9 +1579,8 @@ nvmet_fc_delete_ctrl(struct nvmet_ctrl *ctrl)
  		nvmet_fc_tgtport_put(tgtport);
  
  		if (found_ctrl) {
--			queue_work(nvmet_wq, &assoc->del_work);
-+			nvmet_fc_schedule_delete_assoc(assoc);
- 			nvmet_fc_tgt_a_put(assoc);
+-			if (!queue_work(nvmet_wq, &assoc->del_work))
+-				/* already deleting - release local reference */
+-				nvmet_fc_tgt_a_put(assoc);
++			queue_work(nvmet_wq, &assoc->del_work);
++			nvmet_fc_tgt_a_put(assoc);
  			return;
  		}
-@@ -1897,7 +1912,7 @@ nvmet_fc_ls_disconnect(struct nvmet_fc_tgtport *tgtport,
+ 
+@@ -1625,6 +1610,8 @@ nvmet_fc_unregister_targetport(struct nvmet_fc_target_port *target_port)
+ 	/* terminate any outstanding associations */
+ 	__nvmet_fc_free_assocs(tgtport);
+ 
++	flush_workqueue(nvmet_wq);
++
+ 	/*
+ 	 * should terminate LS's as well. However, LS's will be generated
+ 	 * at the tail end of association termination, so they likely don't
+@@ -1870,9 +1857,6 @@ nvmet_fc_ls_disconnect(struct nvmet_fc_tgtport *tgtport,
+ 				sizeof(struct fcnvme_ls_disconnect_assoc_acc)),
+ 			FCNVME_LS_DISCONNECT_ASSOC);
+ 
+-	/* release get taken in nvmet_fc_find_target_assoc */
+-	nvmet_fc_tgt_a_put(assoc);
+-
+ 	/*
+ 	 * The rules for LS response says the response cannot
+ 	 * go back until ABTS's have been sent for all outstanding
+@@ -1887,8 +1871,6 @@ nvmet_fc_ls_disconnect(struct nvmet_fc_tgtport *tgtport,
+ 	assoc->rcv_disconn = iod;
+ 	spin_unlock_irqrestore(&tgtport->lock, flags);
+ 
+-	nvmet_fc_delete_target_assoc(assoc);
+-
+ 	if (oldls) {
+ 		dev_info(tgtport->dev,
+ 			"{%d:%d} Multiple Disconnect Association LS's "
+@@ -1904,6 +1886,9 @@ nvmet_fc_ls_disconnect(struct nvmet_fc_tgtport *tgtport,
  		nvmet_fc_xmt_ls_rsp(tgtport, oldls);
  	}
  
--	queue_work(nvmet_wq, &assoc->del_work);
-+	nvmet_fc_schedule_delete_assoc(assoc);
- 	nvmet_fc_tgt_a_put(assoc);
- 
++	queue_work(nvmet_wq, &assoc->del_work);
++	nvmet_fc_tgt_a_put(assoc);
++
  	return false;
+ }
+ 
+@@ -2902,6 +2887,9 @@ nvmet_fc_remove_port(struct nvmet_port *port)
+ 
+ 	nvmet_fc_portentry_unbind(pe);
+ 
++	/* terminate any outstanding associations */
++	__nvmet_fc_free_assocs(pe->tgtport);
++
+ 	kfree(pe);
+ }
+ 
+@@ -2933,6 +2921,9 @@ static int __init nvmet_fc_init_module(void)
+ 
+ static void __exit nvmet_fc_exit_module(void)
+ {
++	/* ensure any shutdown operation, e.g. delete ctrls have finished */
++	flush_workqueue(nvmet_wq);
++
+ 	/* sanity check - all lports should be removed */
+ 	if (!list_empty(&nvmet_fc_target_list))
+ 		pr_warn("%s: targetport list not empty\n", __func__);
 -- 
 2.43.0
 
