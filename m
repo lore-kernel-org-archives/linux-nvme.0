@@ -4,118 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D302CC4828D
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Feb 2024 10:47:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0EAB1C4828F
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Feb 2024 15:52:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:MIME-Version:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=CBF3fiPChkqmeKpu1gd1PW+nbHuze8c8+pcqo4NTyaU=; b=fz39sTdJ4p/TBa
-	Gp3Q6BzCeZAus6n0P5ABXXvwbIN7KG67PKOwUVZcrezUfqlICyyNfwWlkyv3m9oGv5sQc36cQ1dSP
-	rcS3iU9Xl1qIhKTfgL8BuR7V1CeTTbEiSn9s04yL7+VcINgWRjnDLgFakbMLVlYZRTV7ZiwPdUCmr
-	bjZ1KeHp/hRTY2GYtAONHeNorruDI+1W8SkuPak8oeAV+LQe2GwyrKkqHHbf50XmAVCmEzet6AKji
-	RUEzhBJoBXFDzE+Cp45H09AnxCStO8t8RRo+Q+OA9dQjS5vDcRXWzzNJ+nEv4C6A3lnASlXfp0EbM
-	0q4zxeeL0XORTF8ow75w==;
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ZbGDeRJmDQjqTCeYEI4ULf6ULadhlIT0/4yy3wdLoGM=; b=UFJcJ/KWNbTG+w90hxGTL21axX
+	NEVM7vJztaDadb0fhYgqVwIazLcGsdbH5pLVmdfCnpZSn1wXiYa598CE0mKmiRMU0p0t2Zv1q3h6l
+	zmePkAj1c9C3jcMyfPttCATq5ASgx2EqaMa9JIFTaqz8SAZoaGwKgN1IEvC4yHVevJN3SnRGQc52h
+	neeI04WWLEGJAJPNCK720YQ1ZSY2Ww4Nt/19uScJM4HKfnTzB9vVPMpr54Tp3zrfht6wiBnldNgzU
+	A8sygeVmPDqKxR/YyTR4yypXWvG+YWonksiDEd57M+5n/3xanzcs2YGpFrGY8clKGcWrYJpZVFfl8
+	3aalVmAg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXfT3-0000000AOgE-3w8T;
-	Wed, 07 Feb 2024 10:47:49 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1rXkDZ-0000000B8wQ-2PKm;
+	Wed, 07 Feb 2024 15:52:09 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXfSz-0000000AOe5-0XuF
+	id 1rXkDX-0000000B8vg-2YlZ
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 Feb 2024 10:47:48 +0000
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20240207104737epoutp04fcaa32d50f99f90874f07dfcd704abce~xjudFyfwg2868828688epoutp04G
-	for <linux-nvme@lists.infradead.org>; Wed,  7 Feb 2024 10:47:37 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20240207104737epoutp04fcaa32d50f99f90874f07dfcd704abce~xjudFyfwg2868828688epoutp04G
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1707302857;
-	bh=CBF3fiPChkqmeKpu1gd1PW+nbHuze8c8+pcqo4NTyaU=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=VexJema/phsRC4ELO1qteXRGCuD/kG+iBhw6MnzSQElqi0aPAEMQE/J8NsYM5zd+j
-	 eTjbKUQVNEY98DWMyOdHhisXcO1wiFNBYWkNsQyUGliUc7n7tBUN/mxSwulzpPd81f
-	 USa9Oj9hEXa8s2ZIj4h4DX1RwvA2inBcOsWp27sk=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20240207104736epcas5p4f7c93d0b86f6ef0e44d9a2b3dc5a2f6b~xjucIU27A1966319663epcas5p4H;
-	Wed,  7 Feb 2024 10:47:36 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.176]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4TVGzC00Zwz4x9Q2; Wed,  7 Feb
-	2024 10:47:35 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	69.06.09672.6CF53C56; Wed,  7 Feb 2024 19:47:34 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20240207103103epcas5p1b4f57f29cac1387546301ba279ea0f96~xjf-ZdrYS0165001650epcas5p1V;
-	Wed,  7 Feb 2024 10:31:03 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240207103103epsmtrp26bcc3c4349d7fd425535d0fe0474a386~xjf-Y4P4v1048110481epsmtrp2V;
-	Wed,  7 Feb 2024 10:31:03 +0000 (GMT)
-X-AuditID: b6c32a4b-60bfd700000025c8-e9-65c35fc6ca55
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	1A.86.18939.7EB53C56; Wed,  7 Feb 2024 19:31:03 +0900 (KST)
-Received: from localhost.sa.corp.samsungelectronics.net (unknown
-	[107.99.41.223]) by epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20240207103102epsmtip1abe644abc78da9d6ed34183f337c1ea2~xjf_FOYsm1597315973epsmtip1K;
-	Wed,  7 Feb 2024 10:31:02 +0000 (GMT)
-From: sathya.m@samsung.com
-To: kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org, d.palani@samsung.com,
-	prakash.bv@samsung.com, anshul@samsung.com, Sathyavathi M
-	<sathya.m@samsung.com>
-Subject: [PATCH 1/1] nvme-pci: Verify the CMB's Controller Base Address.
-Date: Wed,  7 Feb 2024 10:31:38 +0530
-Message-Id: <1707282098-28131-1-git-send-email-sathya.m@samsung.com>
-X-Mailer: git-send-email 1.8.3.1
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrIKsWRmVeSWpSXmKPExsWy7bCmhu6x+MOpBsc3WFj8nj6F1eL/nmNs
-	Fm+/PmCzWLn6KJPFpEPXGC3mL3vKbnFvRhe7xbrX71kstl5ewO7A6TGx+R27x/l7G1k8Nq3q
-	ZPPYvKTeY/fNBjaPvi2rGAPYorJtMlITU1KLFFLzkvNTMvPSbZW8g+Od403NDAx1DS0tzJUU
-	8hJzU22VXHwCdN0yc4CuUlIoS8wpBQoFJBYXK+nb2RTll5akKmTkF5fYKqUWpOQUmBToFSfm
-	FpfmpevlpZZYGRoYGJkCFSZkZzxaepWlYAN3xe832xkbGGdzdjFyckgImEhMOvyEEcQWEtjN
-	KHHlk0UXIxeQ/YlR4vqLPqgEkLOq3wimof/UZUaIop2MEncvz2aGcNqYJKac2sEGUsUmICXx
-	tHkyC4gtIuAo8WrFczaQImaBPkaJU+8/gY0VFvCQ+Hl6I5jNIqAqMeNRNzuIzSvgItH76xcz
-	xDoFiSkP34NtkBA4xC6x/cRCVoiEi8Sbfc+gioQlXh3fwg5hS0l8freXDcLOlzgz6QgjhF0i
-	MW9nM1SNvcTFPX+Zuhg5gC7SlFi/Sx8iLCsx9dQ6JhCbWYBPovf3EyaIOK/EjnkwtpLEic9v
-	oWwJiTX797KCjJEA+mVhoxMktGIlmnq/sExglJ2FsGABI+MqRsnUguLc9NRi0wLjvNRyeDwl
-	5+duYgSnNS3vHYyPHnzQO8TIxMF4iFGCg1lJhNdsx4FUId6UxMqq1KL8+KLSnNTiQ4ymwCCb
-	yCwlmpwPTKx5JfGGJpYGJmZmZiaWxmaGSuK8r1vnpggJpCeWpGanphakFsH0MXFwSjUwrUw+
-	NnVl5J8e58UPheaYnrj29xCvCfvVmbluyz+/tm3dUzrFUnqisu7SG99Xf2bi/JNqnaMVWJZX
-	0yG5dOay5T9ZVtz3mRl6Zf/CDX48rSqHbndczVitkbVWsCmzyWfSI95mj0uHT35WYG3d6LdT
-	MScpJHxdWMn2FWx5TV/qpq9PvDI5gfcvV+Sd9ev+34q93Oo22/y04PO2frZg/yPvPyuFi/5d
-	c2jbDtU/C780z9h8maWsZu6G+Mbrvc+PqR/QlWju013lGfcpJFZJ5eLV6SITd+cL2J5VDlf+
-	8e5cgn76h7yZPL7TBBcEb+OpSDnltcUscZNIyBTho6and/88ft/lvaDxcq+bu7OjJSS5Xiux
-	FGckGmoxFxUnAgDCFsGF9AMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupmluLIzCtJLcpLzFFi42LZdlhJTvd59OFUg2Ndmha/p09htfi/5xib
-	xduvD9gsVq4+ymQx6dA1Rov5y56yW9yb0cVuse71exaLrZcXsDtwekxsfsfucf7eRhaPTas6
-	2Tw2L6n32H2zgc2jb8sqxgC2KC6blNSczLLUIn27BK6MR0uvshRs4K74/WY7YwPjbM4uRk4O
-	CQETif5Tlxm7GLk4hAS2M0qsPb6KGSIhIbF79XsWCFtYYuW/5+wQRS1MEn0H5zCBJNgEpCSe
-	Nk8GKxIRcJc4+rKBCaSIWWASo8TEO5vYQRLCAh4SP09vZASxWQRUJWY86gaL8wq4SPT++gW1
-	TUFiysP3zBMYeRYwMqxiFE0tKM5Nz00uMNQrTswtLs1L10vOz93ECA4vraAdjMvW/9U7xMjE
-	wXiIUYKDWUmE12zHgVQh3pTEyqrUovz4otKc1OJDjNIcLErivMo5nSlCAumJJanZqakFqUUw
-	WSYOTqkGJq4W1+ouI0fxVQd4xZ8vMW0J2bbz4B1ZzbfvjDdZ6oi+uVK+SajqItea73JH9/P2
-	sMmlRNftiknd0Bg7uWoZk/5KHhlHeyONpfOjDraUH59xPz96SegXqb1xS6ZZnz4e0fVw7jKR
-	T1dvaltWvlcM4P9nGL/M6ttuAc6S0sKz6/5KWuhrb1F2mhNV7fc8OoWt+Z7Z7Yenk36kO3EY
-	6b16qPe06Mndw+f3ZFzmW/Bo3tqrPgu+szbnXmTN/jVbYs6vkOmTxX6ys+TIfVt6q6y7pWNv
-	a+5uqUUu00ulkpynNr+U2fvy6oqrf0z4z8lP8Xp1uUi+dGHhhs7zi09+/tRZNbVxts+Zzak1
-	NcvO9/3drKLEUpyRaKjFXFScCAAu+kP6ngIAAA==
-X-CMS-MailID: 20240207103103epcas5p1b4f57f29cac1387546301ba279ea0f96
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240207103103epcas5p1b4f57f29cac1387546301ba279ea0f96
-References: <CGME20240207103103epcas5p1b4f57f29cac1387546301ba279ea0f96@epcas5p1.samsung.com>
+	Wed, 07 Feb 2024 15:52:09 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id B11B6CE13C7;
+	Wed,  7 Feb 2024 15:52:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D9B4C43394;
+	Wed,  7 Feb 2024 15:52:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707321123;
+	bh=/1x7h2DpHjWcd/k76A8g5THiTurxMbwv+SYlEW+93sc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=S4roDxo8tVqC2GezTlb3cfXFcp6weQcwLaiGZmdf1pdhhuOhtMsuGhDXsDCMV8GbO
+	 RLxAo3vtpqHJdWUBeO1ZdBUc+YJEiBqPKnzeW10gKgdzx5yAj262qNEjatFr2oewA5
+	 U96gkG8+cuJWYr/hLXC31VNHfddrz7/y70HWgLAxw3ppS44aI4YAdO6JffVBmwOlG8
+	 XU9HW6HuV+8zPXv4xQ3gBEg6Ps5noXk7cufMK2v4qV4yePWova47vaD8FNN7s7EdTb
+	 NB9oCYbsmwivsZGgDOIpD/iQoZTqpkGenaDhqgpVnREaQgX0b1oUD9pyX7pTlppedD
+	 uLYLbPbnYYeQg==
+Date: Wed, 7 Feb 2024 17:51:44 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: lsf-pc@lists.linux-foundation.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-block@vger.kernel.org,
+	linux-ide@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-nvme@lists.infradead.org, bpf@vger.kernel.org
+Subject: Re: [LSF/MM/BPF TOPIC] Reclaiming & documenting page flags
+Message-ID: <ZcOnEGyr6y3jei68@kernel.org>
+References: <Zbcn-P4QKgBhyxdO@casper.infradead.org>
+ <Zb9pZTmyb0lPMQs8@kernel.org>
+ <ZcACya-MJr_fNRSH@casper.infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZcACya-MJr_fNRSH@casper.infradead.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240207_024746_653515_0769FC5B 
-X-CRM114-Status: GOOD (  17.18  )
+X-CRM114-CacheID: sfid-20240207_075207_999123_232C09C0 
+X-CRM114-Status: GOOD (  31.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -130,45 +75,84 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Sathyavathi M <sathya.m@samsung.com>
+On Sun, Feb 04, 2024 at 09:34:01PM +0000, Matthew Wilcox wrote:
+> On Sun, Feb 04, 2024 at 11:39:33AM +0100, Mike Rapoport wrote:
+> > On Mon, Jan 29, 2024 at 04:32:03AM +0000, Matthew Wilcox wrote:
+> > > Our documentation of the current page flags is ... not great.  I think
+> > > I can improve it for the page cache side of things; I understand the
+> > > meanings of locked, writeback, uptodate, dirty, head, waiters, slab,
+> > > mlocked, mappedtodisk, error, hwpoison, readahead, anon_exclusive,
+> > > has_hwpoisoned, hugetlb and large_remappable.
+> > > 
+> > > Where I'm a lot more shaky is the meaning of the more "real MM" flags,
+> > > like active, referenced, lru, workingset, reserved, reclaim, swapbacked,
+> > > unevictable, young, idle, swapcache, isolated, and reported.
+> > > 
+> > > Perhaps we could have an MM session where we try to explain slowly and
+> > > carefully to each other what all these flags actually mean, talk about
+> > > what combinations of them make sense, how we might eliminate some of
+> > > them to make more space in the flags word, and what all this looks like
+> > > in a memdesc world.
+> > > 
+> > > And maybe we can get some documentation written about it!  Not trying
+> > > to nerd snipe Jon into attending this session, but if he did ...
+> > 
+> > I suspect Jon will be there anyway, but not sure he'd be willing to do the
+> > writing :)
+> > 
+> > I was going to propose the "mm docs" session again, but this one seems more
+> > useful than talking yet again about how hard it is to get MM documentation
+> > done.
+> 
+> I'm doing my best to write documentation as I go.  I think we're a bit
+> better off than we were last year.  Do we have scripts to tell us which
+> public functions (ie EXPORT_SYMBOL and static inline functions in header
+> files) have kernel-doc?  And could we run them against kernels from, say,
+> April 2023, 2022, 2021, 2020, 2019 (and in two months against April 2024)
+> and see how we're doing in terms of percentage undocumented functions?
 
-As per the NVMe Base Specification, CMB should not be enabled if
-the CMB's Controller Base Address(CMBMSC.CBA) is invalid. This patch
-detects if the CMB's Controller Base Address is valid or not.
+We didn't have such script, but it was easy to compare "grep
+EXPORT_SYMBOL\|static inline" with ".. c:function" in kernel-doc.
+We do improve slowly, but we are still below 50% with kernel-doc for
+EXPORT_SYMBOL functions and slightly above 10% for static inlines.
 
-Signed-off-by: Sathyavathi M <sathya.m@samsung.com>
----
- drivers/nvme/host/pci.c | 3 +++
- include/linux/nvme.h    | 1 +
- 2 files changed, 4 insertions(+)
+Although with static inlines it's quite possible that the percentage of
+actual public API documentation is higher because some of the functions in
+inlcude/linux/ are only used inside mm.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index e6267a6..6edc442 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1856,6 +1856,9 @@ static void nvme_map_cmb(struct nvme_dev *dev)
- 		hi_lo_writeq(NVME_CMBMSC_CRE | NVME_CMBMSC_CMSE |
- 			     (pci_bus_address(pdev, bar) + offset),
- 			     dev->bar + NVME_REG_CMBMSC);
-+		/* Check the status of Controller Memory Buffer */
-+		if (readl(dev->bar + NVME_REG_CMBSTS) & 0x1)
-+			return;
- 	}
+There are also APIs that are not EXPORT_SYMBOL, but I didn't find an easy
+way to check how well there are documented.
+
+EXPORT_SYMBOL
+version     	funcs	docs	percent
+v5.0        	514	177	34
+v5.6        	538	208	38
+v5.12       	550	209	38
+v5.17       	580	228	39
+v6.3        	580	235	40
+v6.8-rc1    	565	238	42
+
+static inline
+version     	funcs	docs	percent
+v5.0        	581	33	5
+v5.6        	596	41	6
+v5.12       	629	42	6
+v5.17       	746	74	9
+v6.3        	867	95	10
+v6.8-rc1    	944	116	12
+
  
- 	/*
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index bc605ec..0ff925b 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -145,6 +145,7 @@ enum {
- 	NVME_REG_CMBMSC = 0x0050,	/* Controller Memory Buffer Memory
- 					 * Space Control
- 					 */
-+	NVME_REG_CMBSTS	= 0x0058,	/* Controller Memory Buffer Status */
- 	NVME_REG_CRTO	= 0x0068,	/* Controller Ready Timeouts */
- 	NVME_REG_PMRCAP	= 0x0e00,	/* Persistent Memory Capabilities */
- 	NVME_REG_PMRCTL	= 0x0e04,	/* Persistent Memory Region Control */
--- 
-1.8.3.1
+> There's also the problem of getting long-form documentation done.
+> But I think that's a different problem from getting kernel-doc written.
+> Looking at the 55 commits in the last year to Documentation/mm, we seems
+> to be doing a pretty good job of keeping the documentation we have up
+> to date.  Just not a great job of adding new documentation.
 
+I agree that long-form documentation is a different problem from getting
+kernel-doc written and we are not doing a great job in writing new
+documentation.
+
+-- 
+Sincerely yours,
+Mike.
 
