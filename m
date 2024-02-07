@@ -4,59 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5E6D3C4828F
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Feb 2024 21:27:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6E30C4828F
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Feb 2024 21:27:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7QqqBvNakcXF84WK0b37SoIyPsLoHKb63qT0o2dVyXU=; b=jJu0+Ek0Vo18aY1G3fnsmnpnHl
-	zhV20CG+SkVBIPASE33EkVKZmkV6ncAyCECQSdtty6axIAFDk14NKmtxu6RJwJiCzReyXbLm+rCTs
-	+lFdrTYh0NPjAYcwQ6r+uIMfxHG5HRpIQeYMFaoVDqSuiuSQlTKL41r6QCTveJ2bM0NJCCxAWxnle
-	HRlqxBieDZnqLRf7hwjsWGFhmMRfOZSLj8O72JRgyaSBJmrm1Cn27YYN+Vej1iIMjEy46Y1C6br/E
-	qHsU/6eZNWWAnaUMCPtKNZfFLA1rp5x/9XwPY/2xYA81QFjGGjXSNrVh1DVwnE0zsxWU39lnr66Pq
-	zZGUxq9w==;
+	bh=6qJFbH1ce0svJGhI+F+YdfAD7zuT3blJAtU4TfY3srU=; b=mGZL/GnOgI//sJgLtYEUap+9i3
+	Q51L277fAquiPLCx9RSL4FXBCRihsFi1/IIvjoeWAcxzP6fD2tYMUTAnmY3JhzBNUyHJdhNZuv+bO
+	NhCy9Xe2jD0CQapwvsOUh8fB48qvJILrgGYTVETUp8w2zVXT6L6oQpysHS+y55NLJGql0nnlCgVmo
+	luO4z/0p6EiOsJnXNoB2PRQVf0p27rqBSz+SR2gkNPjclcXREaOSWh2uQNTnHUlX/F5OoExNa0Ini
+	0ca0U4qJf3ex3x8H5SE8jNvq33Y5ibPUylYtJgfBITMFBVc5CpgxtBr1XzEQ2pAENV0rNewMJMVMu
+	TT+Z/4GA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXpRx-0000000BtXz-07OL;
-	Wed, 07 Feb 2024 21:27:21 +0000
+	id 1rXpSR-0000000Btrn-3ngH;
+	Wed, 07 Feb 2024 21:27:51 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXpRt-0000000BtUE-0Ytq
+	id 1rXpSO-0000000BtpT-3Cdp
 	for linux-nvme@bombadil.infradead.org;
-	Wed, 07 Feb 2024 21:27:17 +0000
+	Wed, 07 Feb 2024 21:27:49 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
 	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=7QqqBvNakcXF84WK0b37SoIyPsLoHKb63qT0o2dVyXU=; b=LSgPZjA61byOx3C0/Q/NDJwPKX
-	23FhvUPZzcbxeJFZyJkTC8botMWh4GN9iQ033EjYqpoenKgBsTTBajWttfSD8G7S8vGH8ORXakqr+
-	/Y7Ig/AP/Sa9sFcc9qy3J+7SuwXit+eOGTifnQcjYfqJuzxRVjP35Qyji4Kgkjks2WQb+dfAeUBzU
-	XS70AxfKVVqRPy9t5zEEIi4JD9oC3XgkDqYSZBfQgSK/xb2Lv6mwZL2V5AU4QiQOaNT0OpzISqfZ1
-	LrjkAE+WO5aChYpWIfiTUxako80jWChoi82h/Cp0dqFWfO02Av4sN1xleOaxoL1FikE+Wt+NbhTPx
-	b8rrYXWw==;
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	bh=6qJFbH1ce0svJGhI+F+YdfAD7zuT3blJAtU4TfY3srU=; b=MyDFkKX8+vuv3aP66RPk0QKWib
+	Dy2YLgArwJj/LdmZIj9Bb0UsoEc0Yjr97euUBAiLaW6RfJ6EkxDJ/pv+CG2VT/kApxOBfID346kUw
+	5/TpENp/bJ2bYXFrgsjzn13YdzKgatfJj4MbnAztAy847csptYmFj3EHP2iINnVDyp8ObqJkIyMdl
+	Dhq5UA6SgDQlEo/Xay93D4CZ+bQwS34b318C2Z5FRGhZicA9rRnnbcakCG5JqxKrMlhzbzFHwMZDB
+	N9RiMDxpuAeMTKQoDqfM8GN2G/1fZXESZm1sSA/pScINrgGmIPA3vCkcqwct7yCwIPRVHU1BnAXe5
+	w9n6zavA==;
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by desiato.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXpRp-0000000D8HT-0xpW
+	id 1rXpSL-0000000D8N0-1DSJ
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 Feb 2024 21:27:15 +0000
+	Wed, 07 Feb 2024 21:27:47 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id C518361AC6;
-	Wed,  7 Feb 2024 21:27:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 275D4C433A6;
-	Wed,  7 Feb 2024 21:27:10 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 8B2EFCE1B1D;
+	Wed,  7 Feb 2024 21:27:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA575C433C7;
+	Wed,  7 Feb 2024 21:27:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707341231;
-	bh=PtluBwb/hTPum/AkxPGIjQDPKHKLJXdNLqHDtulcw1A=;
+	s=k20201202; t=1707341259;
+	bh=vxyIEZwKCT6rz43a/AYtVYVP8Bndf5FuZkBUysk32bU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Esfgsvt47P4fJl4pTFUAfKeDhBRVZuk6+I0kg5LjssptfcRjeeYnazAppcwRCez6v
-	 bmxsks1nnLyJxIB5mght8eZ5rXhNUsf+9mMdE65L+VJrcz85AqZNxco5iDE5JeLAk+
-	 hP4X7kzqIYE28rwVSsRoFM8U5NL96mV0TswAFP4XW73h55kSdV+MBXTX3k6KhxA6gY
-	 Auyt34cQ17/sv647UHsqp8YUAgrX6vYhqlUiEhd9UhOvYZnP9cqclvX1bq8b29QsAj
-	 /ACXsACgYPooTCWauUVXPNbCZE+D/xMmGnQ5G54lJdApsfc5P+t9jk4Klq7ByqW/BD
-	 RVoG9SEr3dvOg==
+	b=hB2ngZyRCWiNLUBaucNS5J/bTKiBOKxOKXM+4Rvh2yBpaHABNq/xRHCxYT7sUiAs+
+	 6OuoBJcIsJbDzuhTK3mC6aPLk7UxcjkZGdGKyUFd6TZUOeiVHoxzgFJMaVvEvG+gTF
+	 kv73ghESdGX5rNhQZaCA7Px/BjJb84bVQA4jD1zsfE1TyA34QiNyIvBGuF7IhP0zyj
+	 L9E0SxuJc2yAHzhqNsFaraa51Ep40D2F86jgR8d1tH5QI8/Emrg8v6hMlVnTEQKfmV
+	 76QGMAz1hDKd2nAz9t5xQiB3JDT1ZC31FqWJ6JCCaPp8aASfxVqjL130ALObkyZrZN
+	 ULOsyyfPoJ36Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -67,19 +67,19 @@ Cc: Guixin Liu <kanie@linux.alibaba.com>,
 	Sasha Levin <sashal@kernel.org>,
 	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.10 06/16] nvmet-tcp: fix nvme tcp ida memory leak
-Date: Wed,  7 Feb 2024 16:26:46 -0500
-Message-ID: <20240207212700.4287-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 4/7] nvmet-tcp: fix nvme tcp ida memory leak
+Date: Wed,  7 Feb 2024 16:27:28 -0500
+Message-ID: <20240207212732.4627-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240207212700.4287-1-sashal@kernel.org>
-References: <20240207212700.4287-1-sashal@kernel.org>
+In-Reply-To: <20240207212732.4627-1-sashal@kernel.org>
+References: <20240207212732.4627-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.209
+X-stable-base: Linux 5.4.268
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240207_212713_957176_C9251FEA 
+X-CRM114-CacheID: sfid-20240207_212745_899640_1D639EA0 
 X-CRM114-Status: UNSURE (   9.58  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -113,10 +113,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 116ae6fd35e2..d70a2fa4ba45 100644
+index be9e97657557..d40bd57537ba 100644
 --- a/drivers/nvme/target/tcp.c
 +++ b/drivers/nvme/target/tcp.c
-@@ -1852,6 +1852,7 @@ static void __exit nvmet_tcp_exit(void)
+@@ -1817,6 +1817,7 @@ static void __exit nvmet_tcp_exit(void)
  	flush_scheduled_work();
  
  	destroy_workqueue(nvmet_tcp_wq);
