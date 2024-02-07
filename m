@@ -4,119 +4,125 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD258C4828D
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Feb 2024 07:04:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9651AC4828F
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Feb 2024 08:20:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Message-Id:Date:Subject:Cc:To:From:Reply-To:MIME-Version:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	List-Owner; bh=AKsKhbuVCSQIt7s6+76HGOSn3pgv2VPuA7mibF/Sj0w=; b=viLrSXQZm92tHT
-	L7aMChqiefjOe0+RlxbnTBWiujynuIS3jvv/2hoa4Z6bHv2zNRmtWwsCnHYOdMgXLgEabvIcTaAIQ
-	HlOm1+pcGqgAC2N2SInNhmjIBMnnwmrMadnTpCu6OyZViM4f2rTI3/Bgk5fRp8NGBdzPWql8FXFWi
-	NUKz5ur5WN3w5tdZuTC8SYgE5O3RA56wtvzt/y2PA3ZbNSbQmc9NZy3FAy9NCXHSCGfUsjAXJEUI2
-	LBfyTdRaFMnguw3Rn7xhalgSLFXQTMkdAiq9WhWu3OFU+Z915wai47Q/V3mfrrY+E75477Ji6Fbqv
-	qPflOcECe0Vog4s4kUKQ==;
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=HswcgD+wF+zsYPW9Tr0zNAl//DMHo/KNPL/L085dsGw=; b=acXWg9RdER4RZDZyw1bWkriJP6
+	baHfAtyK6+OgwXbrSvc0ZKfmF3vPrlK02xKmG8vS7zpp8enUclkThnVmVDhzl/p31g4X4VG6sH8Ut
+	IvRLx2kF6Pr6DLFcmdNGgn12dUuNQqoSqalB134w0V4wumxZZ47bZBOJWMHCa/7rMa47VZpH5T4re
+	w6DBb5gG335Rytd7H3AiRQNt6h5tM7xgE68/uCvesBvtv8qzBIXT8i/AfLFxOkhlGVEgJqaonmNcS
+	YqdmsyQQmtM/5DMTFjgXcPtBBVKHcgJbNmzcQ79MjtDf/PXh+58LtwZxl6m1kreGSrK/7/RD8CXhr
+	a0JScPDQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXbyX-00000009tnW-04XJ;
-	Wed, 07 Feb 2024 07:04:05 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1rXdA5-0000000A1FD-2YDP;
+	Wed, 07 Feb 2024 08:20:05 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXbyQ-00000009tma-2DuS
+	id 1rXd9x-0000000A1CO-1FwJ
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 Feb 2024 07:04:03 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20240207070351epoutp04f32bb3d9195d534cb0314558dc7c8928~xgrEx-bpY1444914449epoutp04X
-	for <linux-nvme@lists.infradead.org>; Wed,  7 Feb 2024 07:03:51 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20240207070351epoutp04f32bb3d9195d534cb0314558dc7c8928~xgrEx-bpY1444914449epoutp04X
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1707289431;
-	bh=AKsKhbuVCSQIt7s6+76HGOSn3pgv2VPuA7mibF/Sj0w=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=sIL/N5KwGS+sYU0qwej+jr5/hH92mO9uNYPCUX2AcHlr5KMXt4c+T5UcWZ6YpDD5s
-	 +Z32fPnUa7D3hE6530hHRRjuM7waQL4NT2ZqZoYd+1K2ElCYw1tW13DlvZSd0KXzP9
-	 XsJfNqDKkrBrgfVTDjXa3LYhWEhYR7/MCm6Q99o8=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20240207070350epcas5p145ef6d5648575c339b2650383c846915~xgrEKZZ2G1947319473epcas5p1E;
-	Wed,  7 Feb 2024 07:03:50 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.174]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4TVB106m1Tz4x9Pt; Wed,  7 Feb
-	2024 07:03:48 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	55.B8.10009.45B23C56; Wed,  7 Feb 2024 16:03:48 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20240207050232epcas5p4f6fcd56e72f6b25fe44123df4597a770~xfBKUuxWv0560405604epcas5p4_;
-	Wed,  7 Feb 2024 05:02:32 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20240207050232epsmtrp1804e66d20051a2a3296a70dfa4824b09~xfBKOLDaa1578315783epsmtrp14;
-	Wed,  7 Feb 2024 05:02:32 +0000 (GMT)
-X-AuditID: b6c32a4a-261fd70000002719-4d-65c32b546cab
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	7E.0D.18939.8EE03C56; Wed,  7 Feb 2024 14:02:32 +0900 (KST)
-Received: from localhost.sa.corp.samsungelectronics.net (unknown
-	[107.99.41.223]) by epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240207050231epsmtip24b52a9f87d6e5b74fcd75d4205531cbb~xfBIwU1oS1803018030epsmtip2H;
-	Wed,  7 Feb 2024 05:02:31 +0000 (GMT)
-From: francis.p@samsung.com
-To: kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org, sathya.m@samsung.com,
-	d.palani@samsung.com, prakash.bv@samsung.com, anshul@samsung.com, Francis
-	Pravin <francis.p@samsung.com>
-Subject: [PATCH] nvme: use ns->head->pi_size instead of t10_pi_tuple
- structure size
-Date: Wed,  7 Feb 2024 05:04:17 +0530
-Message-Id: <1707262457-20904-1-git-send-email-francis.p@samsung.com>
-X-Mailer: git-send-email 1.8.3.1
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrBKsWRmVeSWpSXmKPExsWy7bCmhm6I9uFUg5uTjC1+T5/CavF/zzE2
-	i7dfH7BZHFu0hdli5eqjTBaTDl1jtJi/7Cm7xb0ZXewW616/Z7HYenkBuwOXx8Tmd+we5+9t
-	ZPHYtKqTzWPzknqP3Tcb2Dz6tqxiDGCLyrbJSE1MSS1SSM1Lzk/JzEu3VfIOjneONzUzMNQ1
-	tLQwV1LIS8xNtVVy8QnQdcvMATpNSaEsMacUKBSQWFyspG9nU5RfWpKqkJFfXGKrlFqQklNg
-	UqBXnJhbXJqXrpeXWmJlaGBgZApUmJCdsXldA3vBLvaKz8fPsDUwzmbrYuTkkBAwkTiz7CNT
-	FyMXh5DAbkaJnsONLBDOJ0aJM4+WscM53068AnI4wFoOrPCGiO9klFjd08sG4bQxScxuusgO
-	MpdNQFpi05LPYDtEBBwlXq14DlbELLCMUeLA6StMIAlhgVCJV727wBpYBFQl/vyZwAxi8wq4
-	Sjzq/MMIcaCCxJSH75lBmiUEjrFLPGs9xASRcJHY/Oo7lC0s8er4FnYIW0riZX8blJ0v8Wr3
-	c6iaContu25D2fYSF/f8ZQJ5h1lAU2L9Ln2IsKzE1FPrwEqYBfgken8/gSrnldgxD8ZWltj0
-	ZD0rhC0p0dx4B2qVh8SVOz/BbCGBWIneI01MExhlZyFsWMDIuIpRMrWgODc9tdi0wCgvtRwe
-	U8n5uZsYwUlOy2sH48MHH/QOMTJxMB5ilOBgVhLhNdtxIFWINyWxsiq1KD++qDQntfgQoykw
-	zCYyS4km5wPTbF5JvKGJpYGJmZmZiaWxmaGSOO/r1rkpQgLpiSWp2ampBalFMH1MHJxSDUzO
-	LWt79s66ktP5/n4XY8FZkdpbP+4oPr47sYdTfVFaW2WNYq5jf++l9uO/uq41TQyu130V+UdD
-	q+zRX/nl06UcVq1rVs1pYdpkN3vzt++djWfs5+ov1JGNPckyU4DfMJH5rbCOxPRawbPcx1u8
-	av7dO3fdQNl+c+eWLrHps203HPSUnMn3XcOB3ddx+r/a5T136v0KQw1Xsq+ffVaCa8btNVaz
-	ErXDxYReNfBV/vsw65al2tNlmZNz5R7dXMNzPWmDrqL/u9s3fp/gyn31767svCsZ3OKSgULi
-	fqLN3Pu/s6fcu//344LQGd62vT6snEq3kzrzLhwNbl1edU3m3t0fk+9/3XCMv+OFATfr7j1K
-	LMUZiYZazEXFiQBfuxL2+wMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupnluLIzCtJLcpLzFFi42LZdlhJXvcF3+FUg40v9Cx+T5/CavF/zzE2
-	i7dfH7BZHFu0hdli5eqjTBaTDl1jtJi/7Cm7xb0ZXewW616/Z7HYenkBuwOXx8Tmd+we5+9t
-	ZPHYtKqTzWPzknqP3Tcb2Dz6tqxiDGCL4rJJSc3JLEst0rdL4MrYvK6BvWAXe8Xn42fYGhhn
-	s3UxcnBICJhIHFjh3cXIxSEksJ1RYunSHUBxTqC4pMSxaYvYIWxhiZX/nrNDFLUwSbTe6AMr
-	YhOQlti05DOYLSLgLnH0ZQMTSBGzwBpGib57vWDdwgLBEst/N7CC2CwCqhJ//kxgBrF5BVwl
-	HnX+YYTYoCAx5eF75gmMPAsYGVYxiqYWFOem5yYXGOoVJ+YWl+al6yXn525iBIeZVtAOxmXr
-	/+odYmTiYDzEKMHBrCTCa7bjQKoQb0piZVVqUX58UWlOavEhRmkOFiVxXuWczhQhgfTEktTs
-	1NSC1CKYLBMHp1QD01KxjR/eXUhhYNgkl58Y075hxT6jeUkbbgWv11VJYJHonMe4RUppQWqp
-	m/mEdQvVTzqF5tn58q+0yFtzVG+3pgRLk92co8y7te5d6Z9WHLqsLMvp5Q/b7cu3VeaeDkzv
-	FOievnBRnNSNtVJy080DpoXu8mQ5s9n4X2lpQ0xy4SWO2SmH/JaZvFPyYT77k7XGLaJhcebd
-	poVmD5oaChM8rTnfpDpd2R2blXhfqmSCnp8qp/adcEYpiS06Ri+Pyk312Hlv0/Sf//pN5XJL
-	7vYI/siJerC54vnRB0sv7jjZeXrHs7wmgRlq4UlFEfPnbZ7JnVPpf+bUfyPRTe7L7A6FPr3m
-	ypNvICPf/SmhPO+pEktxRqKhFnNRcSIAnZhWHKICAAA=
-X-CMS-MailID: 20240207050232epcas5p4f6fcd56e72f6b25fe44123df4597a770
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240207050232epcas5p4f6fcd56e72f6b25fe44123df4597a770
-References: <CGME20240207050232epcas5p4f6fcd56e72f6b25fe44123df4597a770@epcas5p4.samsung.com>
+	Wed, 07 Feb 2024 08:20:00 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 496FD1FBAF;
+	Wed,  7 Feb 2024 08:19:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707293994; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HswcgD+wF+zsYPW9Tr0zNAl//DMHo/KNPL/L085dsGw=;
+	b=izgKoDsjz7VZ0Us5vxfjTnNTz5eIMxiy5LUrJSAtNl/vtdAcRJEHRbYgWW6x9E3q8P6PFL
+	Y5DxP9JJzWR9sgpb83vTNbQyo9GjMJqJ5s/e8h9mRsPyrf+OjfjOgJ59l2tzg6CGgoj2TW
+	bCY9jNb/0Jh9Nj2ZvZSgTvUy9grr6M4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707293994;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HswcgD+wF+zsYPW9Tr0zNAl//DMHo/KNPL/L085dsGw=;
+	b=sFc1cyLXrCfG5H2Bm4BEhr7BSBpxYQukJ0XZtSSOpCXw0mjIJ3pbSi/seqnq+YZ/YjZOe6
+	WYh8LzA2jRxud3BQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707293994; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HswcgD+wF+zsYPW9Tr0zNAl//DMHo/KNPL/L085dsGw=;
+	b=izgKoDsjz7VZ0Us5vxfjTnNTz5eIMxiy5LUrJSAtNl/vtdAcRJEHRbYgWW6x9E3q8P6PFL
+	Y5DxP9JJzWR9sgpb83vTNbQyo9GjMJqJ5s/e8h9mRsPyrf+OjfjOgJ59l2tzg6CGgoj2TW
+	bCY9jNb/0Jh9Nj2ZvZSgTvUy9grr6M4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707293994;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HswcgD+wF+zsYPW9Tr0zNAl//DMHo/KNPL/L085dsGw=;
+	b=sFc1cyLXrCfG5H2Bm4BEhr7BSBpxYQukJ0XZtSSOpCXw0mjIJ3pbSi/seqnq+YZ/YjZOe6
+	WYh8LzA2jRxud3BQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3746E13931;
+	Wed,  7 Feb 2024 08:19:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id mNgSDCo9w2WSPQAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Wed, 07 Feb 2024 08:19:54 +0000
+Date: Wed, 7 Feb 2024 09:19:53 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: Re: [PATCH blktests v1 2/5] nvme/rc: filter out errors from cat when
+ reading files
+Message-ID: <v3vntta4ddcecc5oobzq47hy6o5lgsfjxhuxkrakzkmjltxf3j@b56sgoqrory4>
+References: <20240206131655.32050-1-dwagner@suse.de>
+ <20240206131655.32050-3-dwagner@suse.de>
+ <3bac2a80-fb9d-4e79-a2a3-2ecac14812ef@nvidia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3bac2a80-fb9d-4e79-a2a3-2ecac14812ef@nvidia.com>
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=izgKoDsj;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=sFc1cyLX
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.71 / 50.00];
+	 ARC_NA(0.00)[];
+	 TO_DN_EQ_ADDR_SOME(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 RCPT_COUNT_THREE(0.00)[4];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-1.70)[93.13%]
+X-Rspamd-Queue-Id: 496FD1FBAF
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240206_230400_839854_79DCEFE6 
-X-CRM114-Status: GOOD (  16.24  )
+X-CRM114-CacheID: sfid-20240207_001957_511214_6704F601 
+X-CRM114-Status: GOOD (  11.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -131,31 +137,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Francis Pravin <francis.p@samsung.com>
+On Tue, Feb 06, 2024 at 11:07:06PM +0000, Chaitanya Kulkarni wrote:
+> >   	for dev in /sys/class/nvme/nvme*; do
+> >   		dev="$(basename "$dev")"
+> > -		transport="$(cat "/sys/class/nvme/${dev}/transport")"
+> > +		transport="$(cat "/sys/class/nvme/${dev}/transport" 2>/dev/null)"
+> 
+> do we have to do anything if there is in error ?
 
-Currently kernel supports 8 byte and 16 byte protection information.
-So, use ns->head->pi_size instead of sizeof(struct t10_pi_tuple).
+In this case transport will be '' and not match with '${nvme_trtype}'.
+So we already handle this properly.
 
-Signed-off-by: Francis Pravin <francis.p@samsung.com>
-Signed-off-by: Sathyavathi M <sathya.m@samsung.com>
----
- drivers/nvme/host/ioctl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 18f5c1be..3dfd5ae9 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -228,7 +228,7 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- 	length = (io.nblocks + 1) << ns->head->lba_shift;
- 
- 	if ((io.control & NVME_RW_PRINFO_PRACT) &&
--	    ns->head->ms == sizeof(struct t10_pi_tuple)) {
-+	    (ns->head->ms == ns->head->pi_size)) {
- 		/*
- 		 * Protection information is stripped/inserted by the
- 		 * controller.
--- 
-1.8.3.1
-
+> >   		if [[ "$transport" == "${nvme_trtype}" ]]; then
+> >   			echo "WARNING: Test did not clean up ${nvme_trtype} device: ${dev}"
+> >   			_nvme_disconnect_ctrl "${dev}"
+> > @@ -840,7 +840,7 @@ _find_nvme_dev() {
+> >   	for dev in /sys/class/nvme/nvme*; do
+> >   		[ -e "$dev" ] || continue
+> >   		dev="$(basename "$dev")"
+> > -		subsysnqn="$(cat "/sys/class/nvme/${dev}/subsysnqn")"
+> > +		subsysnqn="$(cat "/sys/class/nvme/${dev}/subsysnqn" 2>/dev/null)"
 
