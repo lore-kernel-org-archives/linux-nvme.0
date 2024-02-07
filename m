@@ -4,72 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB9D7C4828D
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Feb 2024 18:48:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5E46C4828F
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Feb 2024 21:22:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wxUXCNijSG3JpoO3vioYJ7kD0cZUoEnLjl7wb2EW6H8=; b=vHvmlmKa1ADGpD4qd6yIov3W1i
-	2ArW9P064UO8+pBMwms60hEbKaRhTf89X9tds99I7oaGRk/XcaJBDvsN5Vqpe0TRflRK81E8o3wD4
-	hjinbkYT4ezkmP0ni/c81m/KN0rQHYoMYPZfsHPctM2IoLif5kvwsnYeEjbpGT7WXZfnWU69Go3vJ
-	3MQT/ujJxzXIpQKZC+oZxhUG0rZmlbJnf/xQnVhpPXxNsoa5JuKjP02YFlVM+nzu2cehz3ell1B4H
-	fH+QEORUvYcaQruhA0pKUEa0RkN5jdngvJGo7FOyyt+ni//NYCHE80Rr+Z71o0+ITPVq8zXVRhgII
-	WIn+HPCw==;
+	bh=yH6gOincvsiKmch9+0hgn1KSeHgofDTqEPYXFfmAqDA=; b=locM9hA9SgdwfYd0AGJTHqrw0m
+	xZBXhY5suViqYj+Q9wE65MRgVpl5GTYee5Xg+6Q/WobhgDYOGU8eB66w7FWJQWaLfR6Do+LA+XfEF
+	ONWzeqV5r/Nv2WcbzMyobG8/rp0ugjnNFjWROgcaoDgqQS7fkw65prQlzwcMPVbK65Vh4DUoyupUj
+	Lw14D0ZpbUMvxOkKgns/K9hwH/lkw2coA0O96E+jGCIJaKC+juXWKua5lWvIPrpfGNpthvbP2167t
+	hpW98LqH4VIgJQIs5WbJOyaQIu8UzsUTuZRvsjruNY2Ly0fnCcLcBOiSp9IVxByfD7QyKxMl9rqae
+	nxTtnclA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXmxo-0000000BXEy-2j78;
-	Wed, 07 Feb 2024 18:48:04 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1rXpMw-0000000BqD0-2Awu;
+	Wed, 07 Feb 2024 21:22:10 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXmxl-0000000BXEP-49FQ
+	id 1rXpMu-0000000BqCN-1jYU
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 Feb 2024 18:48:03 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1707331680;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wxUXCNijSG3JpoO3vioYJ7kD0cZUoEnLjl7wb2EW6H8=;
-	b=cR30dI09DSLemE9XAHfNQrUxqQfNy/V0Medg0zFEZbtznbFcNBA9EU8Pm4DfvWYs6Si8r9
-	fdE4FraqfSPtOVKHcI72WfbyXWQgCn4xIBnSje396SJtpBQhHEeAqlrWjqVe3IaUENOM+7
-	nuwj3365YPE3m9Ehk1pn7I3AW7JMhOU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-376-l26M5vl5PByd4fVcW48V4g-1; Wed, 07 Feb 2024 13:42:20 -0500
-X-MC-Unique: l26M5vl5PByd4fVcW48V4g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2579483B86B;
-	Wed,  7 Feb 2024 18:42:19 +0000 (UTC)
-Received: from fedora-work.redhat.com (unknown [10.22.32.236])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 9C76C4011FF1;
-	Wed,  7 Feb 2024 18:42:18 +0000 (UTC)
-From: David Jeffery <djeffery@redhat.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	David Jeffery <djeffery@redhat.com>,
-	Laurence Oberman <loberman@redhat.com>
-Subject: [RFC PATCH 1/6] minimal async shutdown infrastructure
-Date: Wed,  7 Feb 2024 13:40:55 -0500
-Message-ID: <20240207184100.18066-2-djeffery@redhat.com>
-In-Reply-To: <20240207184100.18066-1-djeffery@redhat.com>
-References: <20240207184100.18066-1-djeffery@redhat.com>
+	Wed, 07 Feb 2024 21:22:09 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id C1BAB61AC6;
+	Wed,  7 Feb 2024 21:22:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B57CC433C7;
+	Wed,  7 Feb 2024 21:22:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707340927;
+	bh=lZyhELCGofUNRqQmKhsc0dA6pzAI1lJzPtX2LcPIwsQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=bWCSPIPGT8knF9Qq0Sy4N71HGH8cCfYhIWbSuNmJOlkOyg27MuNpfuRjyrQzGkZjB
+	 sGDesl5LHwSvM6AJ1pGLLcJuI/bvBHTn1AUCL5GynIbwrAOeR5WDoHrfF2NlaamB6p
+	 1waIcGeA4C4HS74J2SG/9+HKHPQ7iaI/VFKpiNP9WC7ieorPgi92IBh7M4gmKq/78K
+	 QsF4pHE/3dvBMkDKjKcbL0UcJZvd6IkAQcYKZ5KRV5wByppHuSilx6VIT1fi4Tiw6s
+	 5d9guY5h+yTCxdGldq0W2eoCBuj9N9GgnfdY7RnlabeAS5q8pGyVuS/5+udhS4EBlq
+	 b4HvYrs6Apefg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Guixin Liu <kanie@linux.alibaba.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	sagi@grimberg.me,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.7 13/44] nvmet-tcp: fix nvme tcp ida memory leak
+Date: Wed,  7 Feb 2024 16:20:40 -0500
+Message-ID: <20240207212142.1399-13-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240207212142.1399-1-sashal@kernel.org>
+References: <20240207212142.1399-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.7.4
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240207_104802_178853_911AD2D0 
-X-CRM114-Status: GOOD (  24.80  )
+X-CRM114-CacheID: sfid-20240207_132208_517847_F81AB70C 
+X-CRM114-Status: UNSURE (   9.63  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,247 +81,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Adds the async_shutdown_start and async_shutdown_end calls to perform async
-shutdown. Implements a very minimalist method of async shutdown support
-within device_shutdown(). The device at the head of the shutdown list is
-checked against a list of devices under async shutdown. If the head is a
-parent of a device on the async list, all active async shutdown operations
-are completed before the parent's shutdown call is performed.
+From: Guixin Liu <kanie@linux.alibaba.com>
 
-The number of async operations also has a max limit to prevent the list being
-checked for a child from getting overly large.
+[ Upstream commit 47c5dd66c1840524572dcdd956f4af2bdb6fbdff ]
 
-Signed-off-by: David Jeffery <djeffery@redhat.com>
-Tested-by:     Laurence Oberman <loberman@redhat.com>
+The nvmet_tcp_queue_ida should be destroy when the nvmet-tcp module
+exit.
 
+Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/base/core.c           | 116 +++++++++++++++++++++++++++++++++-
- include/linux/device/bus.h    |   8 ++-
- include/linux/device/driver.h |   7 ++
- 3 files changed, 127 insertions(+), 4 deletions(-)
+ drivers/nvme/target/tcp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index 14d46af40f9a..5bc2282c00cd 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -4719,12 +4719,92 @@ int device_change_owner(struct device *dev, kuid_t kuid, kgid_t kgid)
- }
- EXPORT_SYMBOL_GPL(device_change_owner);
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 80db64a4b09f..bb42ae42b1c6 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -2204,6 +2204,7 @@ static void __exit nvmet_tcp_exit(void)
+ 	flush_workqueue(nvmet_wq);
  
-+
-+#define MAX_ASYNC_SHUTDOWNS 32
-+static int async_shutdown_count;
-+static LIST_HEAD(async_shutdown_list);
-+
-+/**
-+ * If a device has a child busy with an async shutdown or there are too many
-+ * async shutdowns active, the device may not be shut down at this time.
-+ */
-+static bool may_shutdown_device(struct device *dev)
-+{
-+	struct device *tmp;
-+
-+	if (async_shutdown_count >= MAX_ASYNC_SHUTDOWNS)
-+		return false;
-+
-+	list_for_each_entry(tmp, &async_shutdown_list, kobj.entry) {
-+		if (tmp->parent == dev)
-+			return false;
-+	}
-+	return true;
-+}
-+
-+/**
-+ * Call and track each async shutdown call
-+ */
-+static void async_shutdown_start(struct device *dev, void (*callback) (struct device *))
-+{
-+	if (initcall_debug)
-+		dev_info(dev, "async_shutdown_start\n");
-+
-+	(*callback)(dev);
-+	list_add_tail(&dev->kobj.entry, &async_shutdown_list);
-+	async_shutdown_count++;
-+}
-+
-+/**
-+ * Wait for all async shutdown operations currently active to complete
-+ */
-+static void wait_for_active_async_shutdown(void)
-+{
-+	struct device *dev, *parent;
-+
-+        while (!list_empty(&async_shutdown_list)) {
-+                dev = list_entry(async_shutdown_list.next, struct device,
-+                                kobj.entry);
-+
-+                parent = dev->parent;
-+
-+                /*
-+                 * Make sure the device is off the list
-+                 */
-+                list_del_init(&dev->kobj.entry);
-+                if (parent)
-+                        device_lock(parent);
-+                device_lock(dev);
-+                if (dev->bus && dev->bus->async_shutdown_end) {
-+                        if (initcall_debug)
-+                                dev_info(dev,
-+                                "async_shutdown_end called\n");
-+                        dev->bus->async_shutdown_end(dev);
-+                } else if (dev->driver && dev->driver->async_shutdown_end) {
-+			if (initcall_debug)
-+				dev_info(dev,
-+				"async_shutdown_end called\n");
-+			dev->driver->async_shutdown_end(dev);
-+		}
-+                device_unlock(dev);
-+                if (parent)
-+                        device_unlock(parent);
-+
-+                put_device(dev);
-+                put_device(parent);
-+        }
-+	if (initcall_debug)
-+		printk(KERN_INFO "device shutdown: waited for %d async shutdown callbacks\n", async_shutdown_count);
-+	async_shutdown_count = 0;
-+}
-+
- /**
-  * device_shutdown - call ->shutdown() on each device to shutdown.
-  */
- void device_shutdown(void)
- {
- 	struct device *dev, *parent;
-+	bool async_busy;
- 
- 	wait_for_device_probe();
- 	device_block_probing();
-@@ -4741,6 +4821,8 @@ void device_shutdown(void)
- 		dev = list_entry(devices_kset->list.prev, struct device,
- 				kobj.entry);
- 
-+		async_busy = false;
-+
- 		/*
- 		 * hold reference count of device's parent to
- 		 * prevent it from being freed because parent's
-@@ -4748,6 +4830,17 @@ void device_shutdown(void)
- 		 */
- 		parent = get_device(dev->parent);
- 		get_device(dev);
-+
-+                if (!may_shutdown_device(dev)) {
-+			put_device(dev);
-+			put_device(parent);
-+
-+			spin_unlock(&devices_kset->list_lock);
-+			wait_for_active_async_shutdown();
-+			spin_lock(&devices_kset->list_lock);
-+			continue;
-+		}
-+
- 		/*
- 		 * Make sure the device is off the kset list, in the
- 		 * event that dev->*->shutdown() doesn't remove it.
-@@ -4769,26 +4862,43 @@ void device_shutdown(void)
- 				dev_info(dev, "shutdown_pre\n");
- 			dev->class->shutdown_pre(dev);
- 		}
--		if (dev->bus && dev->bus->shutdown) {
-+		if (dev->bus && dev->bus->async_shutdown_start) {
-+			async_shutdown_start(dev, dev->bus->async_shutdown_start);
-+			async_busy = true;
-+		} else if (dev->bus && dev->bus->shutdown) {
- 			if (initcall_debug)
- 				dev_info(dev, "shutdown\n");
- 			dev->bus->shutdown(dev);
-+		} else if (dev->driver && dev->driver->async_shutdown_start) {
-+			async_shutdown_start(dev, dev->driver->async_shutdown_start);
-+			async_busy = true;
- 		} else if (dev->driver && dev->driver->shutdown) {
- 			if (initcall_debug)
- 				dev_info(dev, "shutdown\n");
- 			dev->driver->shutdown(dev);
-+		} else {
-+			if (initcall_debug)
-+				dev_info(dev, "no shutdown callback\n");
- 		}
- 
- 		device_unlock(dev);
- 		if (parent)
- 			device_unlock(parent);
- 
--		put_device(dev);
--		put_device(parent);
-+		/* if device has an async shutdown, drop the ref when done */
-+		if (!async_busy) {
-+			put_device(dev);
-+			put_device(parent);
-+		}
- 
- 		spin_lock(&devices_kset->list_lock);
- 	}
- 	spin_unlock(&devices_kset->list_lock);
-+	/*
-+	 * Wait for any async shutdown still running.
-+	 */
-+	if (!list_empty(&async_shutdown_list))
-+		wait_for_active_async_shutdown();
+ 	destroy_workqueue(nvmet_tcp_wq);
++	ida_destroy(&nvmet_tcp_queue_ida);
  }
  
- /*
-diff --git a/include/linux/device/bus.h b/include/linux/device/bus.h
-index 5ef4ec1c36c3..7a4a2ff0bc23 100644
---- a/include/linux/device/bus.h
-+++ b/include/linux/device/bus.h
-@@ -48,7 +48,11 @@ struct fwnode_handle;
-  *		will never get called until they do.
-  * @remove:	Called when a device removed from this bus.
-  * @shutdown:	Called at shut-down time to quiesce the device.
-- *
-+ * @async_shutdown_start:	Optional call to support and begin the shutdown
-+ *				process on the device in an asynchronous manner.
-+ * @async_shutdown_end:	        Optional call to complete an asynchronous
-+ *				shutdown of the device. Must be provided if a
-+ *				sync_shutdown_start call is provided.
-  * @online:	Called to put the device back online (after offlining it).
-  * @offline:	Called to put the device offline for hot-removal. May fail.
-  *
-@@ -87,6 +91,8 @@ struct bus_type {
- 	void (*sync_state)(struct device *dev);
- 	void (*remove)(struct device *dev);
- 	void (*shutdown)(struct device *dev);
-+	void (*async_shutdown_start)(struct device *dev);
-+	void (*async_shutdown_end)(struct device *dev);
- 
- 	int (*online)(struct device *dev);
- 	int (*offline)(struct device *dev);
-diff --git a/include/linux/device/driver.h b/include/linux/device/driver.h
-index 7738f458995f..af0ad2d3687a 100644
---- a/include/linux/device/driver.h
-+++ b/include/linux/device/driver.h
-@@ -71,6 +71,11 @@ enum probe_type {
-  * @remove:	Called when the device is removed from the system to
-  *		unbind a device from this driver.
-  * @shutdown:	Called at shut-down time to quiesce the device.
-+ * @async_shutdown_start:	Optional call to support and begin the shutdown
-+ *				process on the device in an asynchronous manner.
-+ * @async_shutdown_end:		Optional call to complete an asynchronous
-+ *				shutdown of the device. Must be provided if a
-+ *				sync_shutdown_start call is provided.
-  * @suspend:	Called to put the device to sleep mode. Usually to a
-  *		low power state.
-  * @resume:	Called to bring a device from sleep mode.
-@@ -110,6 +115,8 @@ struct device_driver {
- 	void (*sync_state)(struct device *dev);
- 	int (*remove) (struct device *dev);
- 	void (*shutdown) (struct device *dev);
-+	void (*async_shutdown_start) (struct device *dev);
-+	void (*async_shutdown_end) (struct device *dev);
- 	int (*suspend) (struct device *dev, pm_message_t state);
- 	int (*resume) (struct device *dev);
- 	const struct attribute_group **groups;
+ module_init(nvmet_tcp_init);
 -- 
 2.43.0
 
