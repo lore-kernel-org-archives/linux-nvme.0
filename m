@@ -4,69 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3B9EAC4828D
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Feb 2024 21:25:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D52C9C4828D
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Feb 2024 21:25:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jZS1b7N2AC/eY1afimdJJteG1Dx86FD1A3lPTKgQsdI=; b=s8XueA3znztm85P7/4pPA4LZJ5
-	IWiyVJ8ocA1HLbED5I36d9ZLrjJTnItlDrQE8gh6dhYDGXR5o9Sj20NLU9Y0SNNQEByWZXnVN4auF
-	bgUNjRCCWBbHwMj5f4jL+FppXxZFndd6ksNX5bjquCw695FLAk+rqx3Ko8UoBDkl17WUOSb6bwd31
-	7ZZbE1/Vo4HQn7P9hsdhQNdThE822/8DBETmXwaRAtlAc4I4Qp6i8Qno4SOy6FbUjC+czYIQVx4Jk
-	qhYLwx8Et8iZMpvLBEYdFBBhpsFyp6H0gknrmUeyqZH1j8yz2NWymBAqrxjgehIxfvZ0sBaNpGAGY
-	n+sxhrQQ==;
+	bh=h51u08wSB1Zfy9HJuKAmHvblmvuvcP9z+oV2+oz+p/E=; b=St6cbZsxEPkFzvowyn7/d9FNM1
+	JIXeVKxZrTWDoz5dYUFC9OdgsQNoKTc9gnw33EMhhVEcZXbHYQCwUi770jIP3uzibavWNp1jzsTCf
+	s2oift/W4tYne8aM9VVfHfBAvqhQ+S1T7u9CwjDXNy7Ct5q204MF7M0HVuge00LGKM4fxL6nM/Hpj
+	i3Hd7GZpKc9CWTbHYyTMf84Pfp1GDW31uZa+hM1LZ1wT6fnM1ss8nRxBxu206zoKeBOfTq/N8mc9M
+	O73HXSwxOsxsKIQKCiDyouuy30Ex3sdOp+QzzUrzLJrwX88OqqgMmOBQZtDSOX8RIKoDlqcg0eU4T
+	2H0l2SOQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXpPv-0000000Bs4E-0zFX;
-	Wed, 07 Feb 2024 21:25:15 +0000
+	id 1rXpQ8-0000000BsEF-3IXU;
+	Wed, 07 Feb 2024 21:25:28 +0000
 Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXpPT-0000000Brkp-3S6n
+	id 1rXpPz-0000000Bs7i-323k
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 Feb 2024 21:25:04 +0000
+	Wed, 07 Feb 2024 21:25:26 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id D49EA61A30;
-	Wed,  7 Feb 2024 21:24:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FF5CC433F1;
-	Wed,  7 Feb 2024 21:24:45 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id F01F061AC6;
+	Wed,  7 Feb 2024 21:25:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84B92C433C7;
+	Wed,  7 Feb 2024 21:25:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707341086;
-	bh=h79hO05xp7Yb1JfaQ+0MRJL26ORufyCzdOf24bZvOpI=;
+	s=k20201202; t=1707341118;
+	bh=puyYeSo2l4KlFnf4mF8m+ZlwEJOPxG5a5Ms/4Hho2Q4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oexO6ciSc8TWOm2XEq2zVrjAgD1gsi6Sf0CzwLXzJRcQzzcMFyJWRhuaN0jR1Sbq/
-	 I5cubjIxbMhwaSBcqhWviFtxYeElUzOWyT/kfAUYpfhlgjEz0CBiL9exsAK51FxtHA
-	 25sq67GTM3F8fcyvpL7VO+6lsYVREJI3qDWBO0weC/+WcZ8XVeiSHjHJwOLs8GfY2T
-	 4GT5mPpk0jBpKHl/cY+6ztD7yMLtG3WOP40TRB7ACiZg3SiGSnH1+ORkoVHs6tChb6
-	 iXLOq5XAu3LLcpVc5UX5GQU6AVEVBhqECrxewIiJ5PFWjqYBetT8bxMMK4CpHL8f23
-	 YWMhqERwA8OJA==
+	b=cOc+r8aFoEh2xdcecRSDybQz1c2PzM0Fg63cZD6a9YV3sOKkRxYaPh7fHIRluckWi
+	 VUMvw4NQjKVtsGY5sNQGBnPYeq2TXucDQEmsIdgS3aVwaEPW2CSFOcZkK1RzxPcDIJ
+	 RdoPS1S7kP2COGkCDRYM3phShA4aES169nFBAsihAMmVSrJFqnqFMM0uMWcrBqvf7o
+	 mBUQIlVPcFBmM8STwmyuzOqCn7Agi8YtZZRlDuMH2P1DRJhcGNoWl2GAlWbhrYEZSm
+	 mzCGLuSzvAIVulZCCbjo/3fLKooum2VGjBReq7RQ9I2BQ/A/h8bf/K1SV5sfPGsj4G
+	 8WBI3JXgvb7+w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Daniel Wagner <dwagner@suse.de>,
+Cc: Guixin Liu <kanie@linux.alibaba.com>,
 	Christoph Hellwig <hch@lst.de>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	james.smart@broadcom.com,
 	sagi@grimberg.me,
-	kch@nvidia.com,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.6 34/38] nvmet-fc: take ref count on tgtport before delete assoc
-Date: Wed,  7 Feb 2024 16:23:20 -0500
-Message-ID: <20240207212337.2351-34-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 08/29] nvmet-tcp: fix nvme tcp ida memory leak
+Date: Wed,  7 Feb 2024 16:24:33 -0500
+Message-ID: <20240207212505.3169-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240207212337.2351-1-sashal@kernel.org>
-References: <20240207212337.2351-1-sashal@kernel.org>
+In-Reply-To: <20240207212505.3169-1-sashal@kernel.org>
+References: <20240207212505.3169-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.16
+X-stable-base: Linux 6.1.77
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240207_132448_185859_A07E1F67 
-X-CRM114-Status: GOOD (  11.58  )
+X-CRM114-CacheID: sfid-20240207_132520_194611_578DD0DF 
+X-CRM114-Status: UNSURE (   9.63  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,102 +81,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Daniel Wagner <dwagner@suse.de>
+From: Guixin Liu <kanie@linux.alibaba.com>
 
-[ Upstream commit fe506a74589326183297d5abdda02d0c76ae5a8b ]
+[ Upstream commit 47c5dd66c1840524572dcdd956f4af2bdb6fbdff ]
 
-We have to ensure that the tgtport is not going away
-before be have remove all the associations.
+The nvmet_tcp_queue_ida should be destroy when the nvmet-tcp module
+exit.
 
+Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/nvme/target/fc.c | 31 +++++++++++++++++++++++--------
- 1 file changed, 23 insertions(+), 8 deletions(-)
+ drivers/nvme/target/tcp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 36cae038eb04..8a02ed63b156 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -1092,13 +1092,28 @@ nvmet_fc_alloc_hostport(struct nvmet_fc_tgtport *tgtport, void *hosthandle)
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index ce42afe8f64e..348076827469 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -1884,6 +1884,7 @@ static void __exit nvmet_tcp_exit(void)
+ 	flush_workqueue(nvmet_wq);
+ 
+ 	destroy_workqueue(nvmet_tcp_wq);
++	ida_destroy(&nvmet_tcp_queue_ida);
  }
  
- static void
--nvmet_fc_delete_assoc(struct work_struct *work)
-+nvmet_fc_delete_assoc(struct nvmet_fc_tgt_assoc *assoc)
-+{
-+	nvmet_fc_delete_target_assoc(assoc);
-+	nvmet_fc_tgt_a_put(assoc);
-+}
-+
-+static void
-+nvmet_fc_delete_assoc_work(struct work_struct *work)
- {
- 	struct nvmet_fc_tgt_assoc *assoc =
- 		container_of(work, struct nvmet_fc_tgt_assoc, del_work);
-+	struct nvmet_fc_tgtport *tgtport = assoc->tgtport;
- 
--	nvmet_fc_delete_target_assoc(assoc);
--	nvmet_fc_tgt_a_put(assoc);
-+	nvmet_fc_delete_assoc(assoc);
-+	nvmet_fc_tgtport_put(tgtport);
-+}
-+
-+static void
-+nvmet_fc_schedule_delete_assoc(struct nvmet_fc_tgt_assoc *assoc)
-+{
-+	nvmet_fc_tgtport_get(assoc->tgtport);
-+	queue_work(nvmet_wq, &assoc->del_work);
- }
- 
- static struct nvmet_fc_tgt_assoc *
-@@ -1132,7 +1147,7 @@ nvmet_fc_alloc_target_assoc(struct nvmet_fc_tgtport *tgtport, void *hosthandle)
- 	assoc->a_id = idx;
- 	INIT_LIST_HEAD(&assoc->a_list);
- 	kref_init(&assoc->ref);
--	INIT_WORK(&assoc->del_work, nvmet_fc_delete_assoc);
-+	INIT_WORK(&assoc->del_work, nvmet_fc_delete_assoc_work);
- 	atomic_set(&assoc->terminating, 0);
- 
- 	while (needrandom) {
-@@ -1491,7 +1506,7 @@ __nvmet_fc_free_assocs(struct nvmet_fc_tgtport *tgtport)
- 	list_for_each_entry_rcu(assoc, &tgtport->assoc_list, a_list) {
- 		if (!nvmet_fc_tgt_a_get(assoc))
- 			continue;
--		queue_work(nvmet_wq, &assoc->del_work);
-+		nvmet_fc_schedule_delete_assoc(assoc);
- 		nvmet_fc_tgt_a_put(assoc);
- 	}
- 	rcu_read_unlock();
-@@ -1545,7 +1560,7 @@ nvmet_fc_invalidate_host(struct nvmet_fc_target_port *target_port,
- 			continue;
- 		assoc->hostport->invalid = 1;
- 		noassoc = false;
--		queue_work(nvmet_wq, &assoc->del_work);
-+		nvmet_fc_schedule_delete_assoc(assoc);
- 		nvmet_fc_tgt_a_put(assoc);
- 	}
- 	spin_unlock_irqrestore(&tgtport->lock, flags);
-@@ -1590,7 +1605,7 @@ nvmet_fc_delete_ctrl(struct nvmet_ctrl *ctrl)
- 		nvmet_fc_tgtport_put(tgtport);
- 
- 		if (found_ctrl) {
--			queue_work(nvmet_wq, &assoc->del_work);
-+			nvmet_fc_schedule_delete_assoc(assoc);
- 			nvmet_fc_tgt_a_put(assoc);
- 			return;
- 		}
-@@ -1897,7 +1912,7 @@ nvmet_fc_ls_disconnect(struct nvmet_fc_tgtport *tgtport,
- 		nvmet_fc_xmt_ls_rsp(tgtport, oldls);
- 	}
- 
--	queue_work(nvmet_wq, &assoc->del_work);
-+	nvmet_fc_schedule_delete_assoc(assoc);
- 	nvmet_fc_tgt_a_put(assoc);
- 
- 	return false;
+ module_init(nvmet_tcp_init);
 -- 
 2.43.0
 
