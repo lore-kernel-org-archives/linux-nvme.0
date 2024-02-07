@@ -4,53 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 578A5C4828D
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Feb 2024 18:44:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4E530C4828D
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Feb 2024 18:44:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=F7841DLyqRx4+GFENMTDanBPrbVQXHzKvu3LLMhu66w=; b=VthhC8UmcaMwZrT9qEv122qVZ+
-	huBK0a1hf0Ee5MCq6iYeSWwP/fjXIdSU9NeEun+tht/NlPK1oSojARrst98Eio8YWtVaarkoEo4SO
-	0m+upNH1xyBYmuB5bf/WcpwUQ0miy1uc7JqPN5oyFXL9lbpz3aVDh3BzyQgNHG/mOhbMgYq+ZElNA
-	z79AjstxFVpT1QzETmoTcskmzs9uRNEnJPAE6QV8p/jfJd6jGcPOAnqgA0YrY5nbIcygLoKTYAURO
-	uVeYbkG74lOTP1o31ZZClRfB/+MLZ34eT0kqI/GwHMbZWF7Iz8B/IDP27iI7kHkcJEWaY3uCJu8YW
-	QkoWEJUw==;
+	bh=CkqM01Ya14Nn8HXhASJf/0/vp8tMuDctYMCTKWoKrUI=; b=pXg3r7mATIgubk1ya3dSYd74Xl
+	MMqqeQB8uQ5I1hW7crvx4sBJialZ6hsooa2dfEtZ89vtrtDaErv3jNz4iNT7mM9MKDdleb8TtSYvc
+	APpZzkbox3sjAnoTNjYT5SfC9Q6rrXo9UI960wURzHg/qzB9p+S2r3h12YL7Ivz3hG9TMBMo+oysM
+	40PFBm10i6V3iQdIaRgMWlagmkskb4vf/QdbAvUDZ9q2Aq8nX4xAKzXn3OeLRtadY43KRPxE6ZLL9
+	xE3VDJn9BSblC006KX65udBrDqbQZRY30RyP7YI2sn9QJ+dXlQ0az6LiX50zq3u5xC9k8MGvgMbpr
+	QN2Q7sYw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXmts-0000000BVg3-3Sfc;
-	Wed, 07 Feb 2024 18:44:00 +0000
+	id 1rXmtv-0000000BViF-3GTv;
+	Wed, 07 Feb 2024 18:44:03 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rXmto-0000000BVcE-2DJK
+	id 1rXmtq-0000000BVdM-1Xcd
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 Feb 2024 18:43:58 +0000
+	Wed, 07 Feb 2024 18:44:00 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1707331435;
+	s=mimecast20190719; t=1707331437;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=F7841DLyqRx4+GFENMTDanBPrbVQXHzKvu3LLMhu66w=;
-	b=Y+YioLGqoq/52a15lLas7T8suRWf6B/NmdYMAlTLxJHqET2x+u/vxYWvgKop5kuBWgrMOU
-	mn/mFvSJ7X5iUg4PegaCtkInXbn+mEMa0BHZgHVxjU1QCnqXlmyinDVOpiT2uDDADT7vid
-	CoFk6i60ClW6dcYTx9azD4HYiQUDop4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-223-g0k1TawDMgiM8jXxLRJciw-1; Wed, 07 Feb 2024 13:42:22 -0500
-X-MC-Unique: g0k1TawDMgiM8jXxLRJciw-1
+	bh=CkqM01Ya14Nn8HXhASJf/0/vp8tMuDctYMCTKWoKrUI=;
+	b=UJdifLIn0j25GteXCkLW+XYUbtB80QpdLbsswllaAtGSy07lg++yirplWXRvAjL5EkVn/t
+	YRrXfmJSKhNxaoMn3G1mpnzV2nsAODsYGkmbfwZ2OQWsSHASw1t14hYkMDY8dKrEc3j5aG
+	+j9snZX/kKpkp+Kx+VYlvTV0sUwSBbE=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-180-Nw_CWQa9P_abWidS2p2VLA-1; Wed,
+ 07 Feb 2024 13:42:26 -0500
+X-MC-Unique: Nw_CWQa9P_abWidS2p2VLA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 602F2185A780;
-	Wed,  7 Feb 2024 18:42:22 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7AE253C23FC6;
+	Wed,  7 Feb 2024 18:42:26 +0000 (UTC)
 Received: from fedora-work.redhat.com (unknown [10.22.32.236])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id E6DB24011FF1;
-	Wed,  7 Feb 2024 18:42:21 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 1127740C9444;
+	Wed,  7 Feb 2024 18:42:26 +0000 (UTC)
 From: David Jeffery <djeffery@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-nvme@lists.infradead.org,
@@ -59,17 +59,17 @@ Cc: linux-nvme@lists.infradead.org,
 	"Rafael J . Wysocki" <rafael@kernel.org>,
 	David Jeffery <djeffery@redhat.com>,
 	Laurence Oberman <loberman@redhat.com>
-Subject: [RFC PATCH 3/6] pci bus async shutdown support
-Date: Wed,  7 Feb 2024 13:40:57 -0500
-Message-ID: <20240207184100.18066-4-djeffery@redhat.com>
+Subject: [RFC PATCH 5/6] scsi mid layer support for async command submit
+Date: Wed,  7 Feb 2024 13:40:59 -0500
+Message-ID: <20240207184100.18066-6-djeffery@redhat.com>
 In-Reply-To: <20240207184100.18066-1-djeffery@redhat.com>
 References: <20240207184100.18066-1-djeffery@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240207_104356_793534_C40D2684 
-X-CRM114-Status: GOOD (  17.49  )
+X-CRM114-CacheID: sfid-20240207_104358_651859_FB46767D 
+X-CRM114-Status: GOOD (  23.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,97 +84,239 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add async shutdown shutdown fields and Convert pci's shutdown logic into
-async shutdown calls so that individual pci device drivers can implement
-async shutdown.
+Create scsi_execute_cmd_nowait to allow asynchronous scsi command submit.
+Parts of the code originally in scsi_execute_cmd are shifted into helper
+functions used by both scsi_execute_cmd and the new scsi_execute_cmd_nowait.
+
+The scsi_exec_args struct is expanded to contain the fields needed for
+the completion and callback for the async path.
 
 Signed-off-by: David Jeffery <djeffery@redhat.com>
 Tested-by:     Laurence Oberman <loberman@redhat.com>
 
 ---
- drivers/pci/pci-driver.c | 24 ++++++++++++++++++++++--
- include/linux/pci.h      |  4 ++++
- 2 files changed, 26 insertions(+), 2 deletions(-)
+ drivers/scsi/scsi_lib.c    | 138 +++++++++++++++++++++++++++++--------
+ include/scsi/scsi_device.h |   8 +++
+ 2 files changed, 118 insertions(+), 28 deletions(-)
 
-diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
-index 51ec9e7e784f..0ad418905115 100644
---- a/drivers/pci/pci-driver.c
-+++ b/drivers/pci/pci-driver.c
-@@ -502,16 +502,28 @@ static void pci_device_remove(struct device *dev)
- 	pci_dev_put(pci_dev);
+diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
+index 1fb80eae9a63..fe35bc2021e3 100644
+--- a/drivers/scsi/scsi_lib.c
++++ b/drivers/scsi/scsi_lib.c
+@@ -185,42 +185,37 @@ void scsi_queue_insert(struct scsi_cmnd *cmd, int reason)
  }
  
--static void pci_device_shutdown(struct device *dev)
-+static void pci_device_async_shutdown_start(struct device *dev)
+ /**
+- * scsi_execute_cmd - insert request and wait for the result
++ * scsi_execute_init - helper for setting up a scsi_cmnd in a request
+  * @sdev:	scsi_device
+  * @cmd:	scsi command
+  * @opf:	block layer request cmd_flags
+- * @buffer:	data buffer
+- * @bufflen:	len of buffer
+  * @timeout:	request timeout in HZ
+  * @retries:	number of times to retry request
+- * @args:	Optional args. See struct definition for field descriptions
++ * @args:	scsi command args
+  *
+- * Returns the scsi_cmnd result field if a command was executed, or a negative
+- * Linux error code if we didn't get that far.
++ * Returns a request if successful, or an error pointer if there was a failure.
+  */
+-int scsi_execute_cmd(struct scsi_device *sdev, const unsigned char *cmd,
+-		     blk_opf_t opf, void *buffer, unsigned int bufflen,
+-		     int timeout, int retries,
+-		     const struct scsi_exec_args *args)
++static struct request *scsi_execute_init(struct scsi_device *sdev,
++					 const unsigned char *cmd,
++					 blk_opf_t opf,
++					 int timeout, int retries,
++					 struct scsi_exec_args *args)
  {
- 	struct pci_dev *pci_dev = to_pci_dev(dev);
- 	struct pci_driver *drv = pci_dev->driver;
+-	static const struct scsi_exec_args default_args;
+ 	struct request *req;
+ 	struct scsi_cmnd *scmd;
+ 	int ret;
  
- 	pm_runtime_resume(dev);
+-	if (!args)
+-		args = &default_args;
+-	else if (WARN_ON_ONCE(args->sense &&
+-			      args->sense_len != SCSI_SENSE_BUFFERSIZE))
+-		return -EINVAL;
++	if (WARN_ON_ONCE(args->sense &&
++			 args->sense_len != SCSI_SENSE_BUFFERSIZE))
++		return ERR_PTR(-EINVAL);
  
--	if (drv && drv->shutdown)
-+	if (drv && drv->async_shutdown_start)
-+		drv->async_shutdown_start(pci_dev);
-+	else if (drv && drv->shutdown)
- 		drv->shutdown(pci_dev);
+ 	req = scsi_alloc_request(sdev->request_queue, opf, args->req_flags);
+ 	if (IS_ERR(req))
+-		return PTR_ERR(req);
++		return req;
  
+-	if (bufflen) {
+-		ret = blk_rq_map_kern(sdev->request_queue, req,
+-				      buffer, bufflen, GFP_NOIO);
++	if (args->bufflen) {
++		ret = blk_rq_map_kern(sdev->request_queue, req, args->buffer,
++				      args->bufflen, GFP_NOIO);
+ 		if (ret)
+ 			goto out;
+ 	}
+@@ -232,19 +227,27 @@ int scsi_execute_cmd(struct scsi_device *sdev, const unsigned char *cmd,
+ 	req->timeout = timeout;
+ 	req->rq_flags |= RQF_QUIET;
+ 
+-	/*
+-	 * head injection *required* here otherwise quiesce won't work
+-	 */
+-	blk_execute_rq(req, true);
++	return req;
++out:
++	blk_mq_free_request(req);
++	return ERR_PTR(ret);
 +}
 +
-+static void pci_device_async_shutdown_end(struct device *dev)
++static int scsi_execute_uninit(struct request *req,
++				struct scsi_exec_args *args)
 +{
-+	struct pci_dev *pci_dev = to_pci_dev(dev);
-+	struct pci_driver *drv = pci_dev->driver;
-+
-+	if (drv && drv->async_shutdown_end)
-+		drv->async_shutdown_end(pci_dev);
-+
++	struct scsi_cmnd *scmd;
+ 
++	scmd = blk_mq_rq_to_pdu(req);
  	/*
- 	 * If this is a kexec reboot, turn off Bus Master bit on the
- 	 * device to tell it to not continue to do DMA. Don't touch
-@@ -523,6 +535,12 @@ static void pci_device_shutdown(struct device *dev)
- 		pci_clear_master(pci_dev);
- }
+ 	 * Some devices (USB mass-storage in particular) may transfer
+ 	 * garbage data together with a residue indicating that the data
+ 	 * is invalid.  Prevent the garbage from being misinterpreted
+ 	 * and prevent security leaks by zeroing out the excess data.
+ 	 */
+-	if (unlikely(scmd->resid_len > 0 && scmd->resid_len <= bufflen))
+-		memset(buffer + bufflen - scmd->resid_len, 0, scmd->resid_len);
++	if (unlikely(scmd->resid_len > 0 && scmd->resid_len <= args->bufflen))
++		memset(args->buffer + args->bufflen - scmd->resid_len, 0,
++		       scmd->resid_len);
  
-+static void pci_device_shutdown(struct device *dev)
-+{
-+	pci_device_async_shutdown_start(dev);
-+	pci_device_async_shutdown_end(dev);
+ 	if (args->resid)
+ 		*args->resid = scmd->resid_len;
+@@ -254,14 +257,93 @@ int scsi_execute_cmd(struct scsi_device *sdev, const unsigned char *cmd,
+ 		scsi_normalize_sense(scmd->sense_buffer, scmd->sense_len,
+ 				     args->sshdr);
+ 
+-	ret = scmd->result;
+- out:
++	args->result = scmd->result;
++
++	if (args->callback)
++		args->callback(scmd, args);
++
++	return scmd->result;
 +}
 +
- #ifdef CONFIG_PM_SLEEP
++/**
++ * scsi_execute_cmd - insert request and wait for the result
++ * @sdev:	scsi_device
++ * @cmd:	scsi command
++ * @opf:	block layer request cmd_flags
++ * @buffer:	data buffer
++ * @bufflen:	len of buffer
++ * @timeout:	request timeout in HZ
++ * @retries:	number of times to retry request
++ * @args:	Optional args. See struct definition for field descriptions
++ *
++ * Returns the scsi_cmnd result field if a command was executed, or a negative
++ * Linux error code if we didn't get that far.
++ */
++int scsi_execute_cmd(struct scsi_device *sdev, const unsigned char *cmd,
++		     blk_opf_t opf, void *buffer, unsigned int bufflen,
++		     int timeout, int retries,
++		     const struct scsi_exec_args *const_args)
++{
++	struct scsi_exec_args args;
++	int ret;
++	struct request *req;
++
++	if (!const_args)
++		memset(&args, 0, sizeof(struct scsi_exec_args));
++	else
++		args = *const_args;
++
++	args.buffer = buffer;
++	args.bufflen = bufflen;
++
++	req = scsi_execute_init(sdev, cmd, opf, timeout, retries, &args);
++
++	if (IS_ERR(req))
++		return PTR_ERR(req);
++
++	/*
++	 * head injection *required* here otherwise quiesce won't work
++	 */
++	blk_execute_rq(req, true);
++
++	ret = scsi_execute_uninit(req, &args);
++
+ 	blk_mq_free_request(req);
  
- /* Auxiliary functions used for system resume */
-@@ -1682,6 +1700,8 @@ struct bus_type pci_bus_type = {
- 	.probe		= pci_device_probe,
- 	.remove		= pci_device_remove,
- 	.shutdown	= pci_device_shutdown,
-+	.async_shutdown_start	= pci_device_async_shutdown_start,
-+	.async_shutdown_end	= pci_device_async_shutdown_end,
- 	.dev_groups	= pci_dev_groups,
- 	.bus_groups	= pci_bus_groups,
- 	.drv_groups	= pci_drv_groups,
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index add9368e6314..6f61325c956a 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -917,6 +917,8 @@ struct module;
-  *		Useful for enabling wake-on-lan (NIC) or changing
-  *		the power state of a device before reboot.
-  *		e.g. drivers/net/e100.c.
-+ * @async_shutdown_start:	This starts the asynchronous shutdown
-+ * @async_shutdown_end:	This completes the started asynchronous shutdown
-  * @sriov_configure: Optional driver callback to allow configuration of
-  *		number of VFs to enable via sysfs "sriov_numvfs" file.
-  * @sriov_set_msix_vec_count: PF Driver callback to change number of MSI-X
-@@ -947,6 +949,8 @@ struct pci_driver {
- 	int  (*suspend)(struct pci_dev *dev, pm_message_t state);	/* Device suspended */
- 	int  (*resume)(struct pci_dev *dev);	/* Device woken up */
- 	void (*shutdown)(struct pci_dev *dev);
-+	void (*async_shutdown_start)(struct pci_dev *dev);
-+	void (*async_shutdown_end)(struct pci_dev *dev);
- 	int  (*sriov_configure)(struct pci_dev *dev, int num_vfs); /* On PF */
- 	int  (*sriov_set_msix_vec_count)(struct pci_dev *vf, int msix_vec_count); /* On PF */
- 	u32  (*sriov_get_vf_total_msix)(struct pci_dev *pf);
+ 	return ret;
+ }
+ EXPORT_SYMBOL(scsi_execute_cmd);
+ 
++
++static enum rq_end_io_ret scsi_execute_cmd_complete(struct request *req,
++						    blk_status_t ret)
++{
++	struct scsi_exec_args *args = req->end_io_data;
++
++	scsi_execute_uninit(req, args);
++	return RQ_END_IO_FREE;
++}
++
++int scsi_execute_cmd_nowait(struct scsi_device *sdev, const unsigned char *cmd,
++			    blk_opf_t opf, int timeout, int retries,
++			    struct scsi_exec_args *args)
++{
++	struct request *req;
++
++	req = scsi_execute_init(sdev, cmd, opf, timeout, retries, args);
++
++	if (IS_ERR(req))
++		return PTR_ERR(req);
++
++	req->end_io = scsi_execute_cmd_complete;
++	req->end_io_data = args;
++
++	blk_execute_rq_nowait(req, true);
++
++	return 0;
++}
++EXPORT_SYMBOL(scsi_execute_cmd_nowait);
++
+ /*
+  * Wake up the error handler if necessary. Avoid as follows that the error
+  * handler is not woken up if host in-flight requests number ==
+diff --git a/include/scsi/scsi_device.h b/include/scsi/scsi_device.h
+index 5ec1e71a09de..c80c98b48bc1 100644
+--- a/include/scsi/scsi_device.h
++++ b/include/scsi/scsi_device.h
+@@ -497,6 +497,10 @@ struct scsi_exec_args {
+ 	blk_mq_req_flags_t req_flags;	/* BLK_MQ_REQ flags */
+ 	int scmd_flags;			/* SCMD flags */
+ 	int *resid;			/* residual length */
++	void *buffer;			/* data buffer */
++	unsigned int bufflen;		/* buffer length */
++	int result;			/* scsi layer result */
++	void (*callback)(struct scsi_cmnd *scmd, struct scsi_exec_args *args);
+ };
+ 
+ int scsi_execute_cmd(struct scsi_device *sdev, const unsigned char *cmd,
+@@ -504,6 +508,10 @@ int scsi_execute_cmd(struct scsi_device *sdev, const unsigned char *cmd,
+ 		     int timeout, int retries,
+ 		     const struct scsi_exec_args *args);
+ 
++int scsi_execute_cmd_nowait(struct scsi_device *sdev, const unsigned char *cmd,
++			    blk_opf_t opf, int timeout, int retries,
++			    struct scsi_exec_args *args);
++
+ extern void sdev_disable_disk_events(struct scsi_device *sdev);
+ extern void sdev_enable_disk_events(struct scsi_device *sdev);
+ extern int scsi_vpd_lun_id(struct scsi_device *, char *, size_t);
 -- 
 2.43.0
 
