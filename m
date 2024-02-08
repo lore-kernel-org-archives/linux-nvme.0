@@ -4,65 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 642C5C4828F
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Feb 2024 18:29:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 211B6C48260
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Feb 2024 18:29:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HLzK0L1MpTC+gXvMqFR9jksRC9POC9kUt59nZtYp9as=; b=1Mh1KXq+oxxADrLmmBOHuxV830
-	3+piy+fhdoEiBB/1JWWrkepDa8J88CmRx0e5euhHKFxpXg6sUggvX7Iw3YXBS5pXznlNuWFYzEoGp
-	fhYbn14hA/l2jxQ5FqumXlkwzTKrWqQ+zZH6cgdQoHv1ZKWZdD1LRE7AYKAugQl7mKAjj41tenOay
-	uA+RRAyrhIy953dzv+RyAUg7HrdeFT4ZkOan1c17DLaVHho7AU7Rl+zrttuSpFDaSVd7xORYyLXpA
-	1892SEDttHFXkMBfQKfJ62XEHaNEgfpiDfquyvjD+NxMjxohj59uvsDfR4uux2+SMSrXh8uM/n6mI
-	v0TKvPnQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=sdH/0G2IBsoyHFVG72lmJAQbtMWReZVvbZcO5tSlp90=; b=Sa2EcXYHh/lt7rdzwpl85zQ3tK
+	bYnJJsUWfuoJDDe+bbw0AMOdIudtkc3iaZY87rRe1ncV8U5iO/dkIzcTZxzsgtQI+2vh6idN/OaZF
+	lkIPtKaivIL68KxziwRkaF0MyqrX/WzqxDM2O0ABB4TPWnwUh+iSYdrprYoNaWybx+9gGotXfxOK3
+	ghebWs6jmazKUDu989Ze2fG4htZNQclhALfdPkJ9SzBQfgfacNzKxjeRFbV490olwZwWcpqdLFmJo
+	2EiXZub5e+VHR6A9xwh6W9VTiIWMJRH4NsXjFoZ+9Th2fphX044I8PfUecFCtbqMHIhS5TbvXUvw7
+	WePBQIvg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rY98u-0000000EcCi-3Z4W;
-	Thu, 08 Feb 2024 18:29:00 +0000
-Received: from hr2.samba.org ([2a01:4f8:192:486::2:0])
+	id 1rY993-0000000EcEB-3A2T;
+	Thu, 08 Feb 2024 18:29:09 +0000
+Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rY98s-0000000EcCA-0vQN
+	id 1rY990-0000000EcDH-261f
 	for linux-nvme@lists.infradead.org;
-	Thu, 08 Feb 2024 18:28:59 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
-	s=42; h=Message-ID:Cc:To:From:Date;
-	bh=HLzK0L1MpTC+gXvMqFR9jksRC9POC9kUt59nZtYp9as=; b=a6FPepzUpxL2Kda/V0GIXA77jz
-	71I+XZUJZHxz7fN9bWXq3LRyFXa3DJuOfZgHP0Le5zTgLEZUFVDC3VmnCWqIxLLwJU8vCpnFF50KS
-	caerobJjCZVcvijZ1vho0NPdNw2hFPdUPoUaZHLw6JlK6dD2+2y20Q/vCh1LFY8JymAC0rxAArPBZ
-	fJcYNHbAhkAPzef22DUG6PpflilWiJl0+EyjGmxqTEnmFk3YGUjOrTGiWgj1XiFgysMxFfSLU0qkz
-	B1zQbvzil4qtM7FiwCzHVtrWWsjjNH73tejke4DH0ccZJmaEpcQpYkIruJOAbifjRKXAmxAB6y8I1
-	HRuLtum1OvsHjJsGvNyE5Ql8VM2VaFRKiSWDvJI9IO8VLvxYSSeIIbxm3a2aIATR12uDToWoqMEgN
-	tk5IIhbiTlC3dQU2hk8hwSyhdLneD/zFtDoQp6F8a0Wycoa+EgFTIXIJjlVgrtyPNyJIxV2aRJTrY
-	iqllJjki/kapDaR290kHpvms;
-Received: from [127.0.0.2] (localhost [127.0.0.1])
-	by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__ECDSA_SECP256R1_SHA256__CHACHA20_POLY1305:256)
-	(Exim)
-	id 1rY98n-00CAvk-1d;
-	Thu, 08 Feb 2024 18:28:53 +0000
-Date: Thu, 8 Feb 2024 10:28:49 -0800
-From: Jeremy Allison <jra@samba.org>
-To: David Jeffery <djeffery@redhat.com>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, Jeremy Allison <jallison@ciq.com>,
-	tansuresh@google.com, hch@lst.de, gregkh@linuxfoundation.org,
-	rafael@kernel.org, bhelgaas@google.com, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org
-Subject: Re: Make NVME shutdown two-pass - Version 6
-Message-ID: <ZcUdYbqq22r1QgP9@jeremy-HP-Z840-Workstation>
-References: <20240207214044.2374295-1-jallison@ciq.com>
- <20240207220048.GA919889@bhelgaas>
- <ZcP+I1iflY77Sh3W@jeremy-HP-Z840-Workstation>
- <CA+-xHTGZrQhNULHh4aHG=70Led=RL1amZcRcFtmTWZtjKCtvpA@mail.gmail.com>
+	Thu, 08 Feb 2024 18:29:08 +0000
+Received: by mail-io1-xd2f.google.com with SMTP id ca18e2360f4ac-7c427cba7a0so849439f.0
+        for <linux-nvme@lists.infradead.org>; Thu, 08 Feb 2024 10:29:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1707416944; x=1708021744; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sdH/0G2IBsoyHFVG72lmJAQbtMWReZVvbZcO5tSlp90=;
+        b=KKSTqumc/n1oZ9UcTQ1JRqZJrdkuedqUzT7ObglbjEXH6OhVS1vCr7y+0nfUO3Zb7Z
+         89g46fgM0+13DJjhkK4KigYRwBq5yyuakY/xazrPJWyJHEWPRxh9mU6BngVhzZCu8Xwb
+         mPZP8PqJI8wCo79aVsHKslKB0kdDmulckM+vzv5P8aiLKCAMajMnM3U/4VCHMTgT8AXg
+         aWOhCawcYawkxxQkJg0OKQxb6/zCBFoJkRa9pDFliNwcdXmsVH+thAPkJkWTEjWz0SnF
+         nzRTU1FYvhwXvlrPx2i8uWEec8OM8OhK+rW5poiT5aSe0cBgHwnhoCmMECIolxka25tx
+         boFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707416944; x=1708021744;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sdH/0G2IBsoyHFVG72lmJAQbtMWReZVvbZcO5tSlp90=;
+        b=ezO+7b9D1ES50b6nYQzEHr2W3Hvj6xDXCkHIgEAsMjw4yJUrbYudhPKnVnrdc5SqdB
+         /b9CwnpzPjLyZ7IRaPrINFlZHPoszYwNARQUlRrdKmN5OKuon4fF42OiPSDADFNSlNAT
+         5ORuJIfWxMq/2/HG5xOYmMf1T6aUTRPMGBxzJmdkoedKLZlzrtrkZcI8AQqdTQM7ANUw
+         eE2FRQRbj2muliIZjIRW45K3L3tXTkJ0hDw1OVLWt0ai2151MR3R0i+b7Dbib2XqowaB
+         AVXKApEYNCTDEMl+VKfFjox1COq97urfSGgR5eeEYZYg2ospkQykMOxOCgDbwGKCj/Vi
+         nPSg==
+X-Gm-Message-State: AOJu0YzACT8tYUb4VtUYk1YvzVQUWRiCn48aS8S6puloir5kD7ED+WNZ
+	CJAvotpvI2it8ru0Z8WqZ+ylzTzAOG5x2nUhpuaMd/osd/FfzMTOo6BNsw9fqxw=
+X-Google-Smtp-Source: AGHT+IFqbHKf7cPgN0X5em6Y1kLI0jRdWM7LS6AskmauYhPDzg044dyEHURNZu9F1Y7+7Tm9RVMQGw==
+X-Received: by 2002:a05:6e02:1aaa:b0:363:c82e:57d9 with SMTP id l10-20020a056e021aaa00b00363c82e57d9mr400409ilv.3.1707416944662;
+        Thu, 08 Feb 2024 10:29:04 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXzAEdoSY3xPHBtUIFtqk0AMLZNS/0tU/vP7IrLxCoF2IMjRgUWH/yFmcDfQni+nFr/eFuIU5THZwqUdU7TgRKXHPa4agxcOCe6OHMu59HSHyYotixnXTGtVSyzooAQ9IiwBWwiFHMbNIcanB7wUtREgCoWJMROdq9FILPpwnHa7fGaNPx1OXx/kq6YZq+GaWSGBtEQUzZGigGp04JxFy0bFpsKi26UEnYqW8wXAZwBozpiDMVNxBliRd+yXDODJ6kFTcvhS/MGL+UVXejhIwaxv7g/K3jsqBoB0GP/D4B47BcvoY5qOpwc3dMopGaIN3AAjWftPuDgVJYjCauTwR+NKRxy9glzYFl05LYoDNqycUoJAfbfP/uNpwRfv1vz/rT8rEzT8ijbJeWC3IbFBA1xc+nBLyGqwmKdWvg=
+Received: from [192.168.1.116] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id c7-20020a02a607000000b004712aee5509sm976989jam.134.2024.02.08.10.29.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Feb 2024 10:29:04 -0800 (PST)
+Message-ID: <78eae4a6-cec6-43e9-ae91-4bcce3831cbf@kernel.dk>
+Date: Thu, 8 Feb 2024 11:29:02 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CA+-xHTGZrQhNULHh4aHG=70Led=RL1amZcRcFtmTWZtjKCtvpA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: atomic queue limits updates v3
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Damien Le Moal <dlemoal@kernel.org>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, virtualization@lists.linux.dev
+References: <20240131130400.625836-1-hch@lst.de>
+ <20240201071027.GA17571@lst.de>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20240201071027.GA17571@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240208_102858_289551_10F12218 
-X-CRM114-Status: GOOD (  17.46  )
+X-CRM114-CacheID: sfid-20240208_102906_793092_38360681 
+X-CRM114-Status: UNSURE (   9.35  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,56 +98,23 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: Jeremy Allison <jra@samba.org>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Feb 08, 2024 at 01:02:37PM -0500, David Jeffery wrote:
->
->Hi Jeremy,
->
->I'm fine with merging our efforts. From reviewing your patch set, the
->main problem I have is with the core patch compared to my initial 2
->patches. Yours runs shutdown_wait calls after shutdown for all
->devices. This design won't work for example with the scsi system sd
->async shutdown. Scsi HBA shutdown calls may stop the HBA or firmware,
->leaving the async flush for sd in an unknowable state as to if the
->command succeeded or even made it to storage. My patches by ensuring
->all shutdown for child devices is finished before a parent device's
->shutdown may be called allows the ordering to work.
->
->I'm not attached to a particular async API. If nvme and core devs are
->fine with the shutdown_wait api, I can alter my core shutdown and
->scsi/sd patches to match.
->
->David Jeffery
+On 2/1/24 12:10 AM, Christoph Hellwig wrote:
+> I don't want to spam the list with a full resend again, but I've
+> updated the branch here:
+> 
+>    git://git.infradead.org/users/hch/block.git blk-limits-base
+> 
+>    http://git.infradead.org/?p=users/hch/block.git;a=shortlog;h=refs/heads/blk-limits-base
+> 
+> with the bisection hazard found by Keith and the various review tags.
 
-Great point David, thanks ! I wasn't testing with the scsi system
-shutdown, only PCI nvme. I didn't know the scsi system suffered
-=66rom slow shutdown also.
+Can you send a v4 so we can get it applied?
 
-As I've already done the work to get the bus driver and nvme devs
-to agree on the shutdown()/shutdown_wait() two-pass interface
-(and they have already signed off on that), I'd suggest keeping
-that interface.
+-- 
+Jens Axboe
 
-Looks like the key change is the addition of the ability of
-a device to mark its parent as busy to keep the parent-child
-ordering.
 
-If you're willing to merge your patches and required fixes
-for the scsi system on top of the new agreed on API then I'll
-be happy to help review and test any updated patchsets to make
-sure my nvme PCI case gets fixed too. It might be easiest to
-add in the scsi changes needed on top of my existing working
-code for nvme/PCI (I've already had confirmation from an nvme
-list user that my patchset improves his shutdown times
-significantly) but I'll let you make the decisions on that.
-I'm not wedded to any specific code :-).
-
-Thanks for collaborating on this.
-
-Cheers,
-
-	Jeremy.
 
