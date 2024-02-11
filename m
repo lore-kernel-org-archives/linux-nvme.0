@@ -4,106 +4,151 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B588C4829B
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ACF0DC4829D
 	for <linux-nvme@archiver.kernel.org>; Mon, 12 Feb 2024 02:30:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zGpbWcfwQU4LVqL/ANKrblaGXAW8mRNF+7w5voOO+QQ=; b=vdXadgY8bIan7OORzeoGPln4eY
-	aiiLN4a2DuaM3+8CfDkmNLBkEMZWnPcfJCtec9gVZSLW1fxf9aJn941zmzUzsoXmWcL6/tXZPUe7i
-	9cOaUfJ81v/XC8fx3YF7rkIjZSv3hGwsEygGnEwicRXzBwMpRX9pE2t8RFB5pUjKDTCiy++nJmFfF
-	bIUHL0dM1DyuGRSUR4fOmim1C0Rz6zht6AwOMgCz279XjcoCrucsDP1h092UwpHUtPNtRFu9tfgET
-	Ab0FSD5xGQz2XEME97wWh+pf5XusfVkKq7rFBEdtvncmvZcfDIURIfNqU0nrOTajc8UlzsaLZdeZm
-	AvzB2aGg==;
+	bh=cMOeEUKDYkLL09VH6N3hTS0sKUIJ+qca2AvAw95qRkE=; b=sdUWo2qQHYSd3tqS7AYYf+Gc/7
+	eJNtxZ1ToLHF6XTg4OSGQsVM6ZKYZ4cZ7U+uYskGSlK0/5rfUU61XG+A3Ekvi4bU4CgPYehFsG5SV
+	efLwDUwtmkaEgx7NawBvTun0CTNj3bz6tnmJEAC/m1J2PDBEF56dF552Q22vKt6HnJ1n1NMJGoTGX
+	W4tocglMaLIip3Yp8hp4MEFkLcFy2Gq57bhrRcxCXvZMmHWT7OgRLeKcBBVNsc8Zui9ICUEmApeDv
+	z2Dgzo9tRFuXsNGyEoXvXtPJyXyA5LMnxVeggL/SBdfw+QHSYjEruqpnYnRjiSFt+1/cf8+ubx97h
+	fnuCJCZg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rZM5I-000000048wc-2Prz;
-	Mon, 12 Feb 2024 02:30:16 +0000
+	id 1rZM5G-000000048vd-2a1o;
+	Mon, 12 Feb 2024 02:30:14 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rZL02-00000003u0C-2mVr
+	id 1rZJkB-00000003bPT-1Asv
 	for linux-nvme@bombadil.infradead.org;
-	Mon, 12 Feb 2024 01:20:46 +0000
+	Mon, 12 Feb 2024 00:00:19 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=zGpbWcfwQU4LVqL/ANKrblaGXAW8mRNF+7w5voOO+QQ=; b=NgWbB8D6h1D6jTtfRqCqBTQmAA
-	S9O8NWsao+vY+SFzvEwIimiBQEf1wYbjEFdDX86zaA6TRBwhnKEL0orgcINNJxhdtQv0SQoSBO9OU
-	sOPXd2JtsNR5CzWfuM9gFGLBPiYMLjUq0DS0txnbthAeFS+r6LJGX0Ie1L/JlpjS4tetJEN474BF7
-	0rhrmRrxkBD3HXetI649CdHT5QtOVK6DwTZ61XLmMjxMdjgNVqTuAVOH0ICwZtYox4VHzQ+9Bh/0w
-	tB/gCvTpJgpWW3OFvUHqy3DW3RRr450AkXqMIsljjo3VHkaeTdVeJpLVTXvN5Tt1FCptG2YcgLvT3
-	7vkEj8cQ==;
-Received: from mail-oa1-x31.google.com ([2001:4860:4864:20::31])
+	d=infradead.org; s=desiato.20200630; h=MIME-Version:Content-Transfer-Encoding
+	:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To
+	:From:Sender:Reply-To:Content-Description;
+	bh=cMOeEUKDYkLL09VH6N3hTS0sKUIJ+qca2AvAw95qRkE=; b=ZvvoBLRQlf56mEpJh2hRAW4KGX
+	3DODE7jt0qRrgl2zvjh2Bvx16+S/la804n0wngXxIED0wXNgfxejWUpII4c3O53/V80GaBXWc6p+R
+	f4Diae3kMk/Y9OUnYT2i5AzADf9imyN0XtejhQ43x8GjKCHKqSlL4jJ+rJEawvyba/qjO+fh76wNt
+	DMd9xK8epMBT0MxVJjdJ7NhXO5eBkZayubw7zkgFrwpCCdkA1Fmlr/VbpAX6qj3fKQxUYlmNBBA5N
+	wvW6JB4h7rtPbgXmotl8FXk+uPyY3TPgysYKY9EQVa1F5FbaqDOZjTMT/F52/Plck0+ayyXSVRjpa
+	iKgW/pqg==;
+Received: from mail-dm6nam04on20600.outbound.protection.outlook.com ([2a01:111:f403:2409::600] helo=NAM04-DM6-obe.outbound.protection.outlook.com)
 	by desiato.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rZKzz-0000000F3i9-0GE1
+	id 1rZJk6-0000000F1iR-3rw7
 	for linux-nvme@lists.infradead.org;
-	Mon, 12 Feb 2024 01:20:45 +0000
-Received: by mail-oa1-x31.google.com with SMTP id 586e51a60fabf-21920c78c9fso1643476fac.1
-        for <linux-nvme@lists.infradead.org>; Sun, 11 Feb 2024 17:20:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1707700836; x=1708305636; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zGpbWcfwQU4LVqL/ANKrblaGXAW8mRNF+7w5voOO+QQ=;
-        b=t257LjBVPWTviK1V3TMDsrbw1bFfb3KSU7we8SnnP7Y9Py/T6riTwJGQpLOkLDAQcp
-         7SjTZ/7xjTa3nwWaWGnhXiltHe10ZbK3C6LwX2lRXNXvcBvrm/f196E1ZAOcTReUWsqd
-         cdZFMYFPAjXsmMIw9f5guSMlXG7OxsOZQnhBlTlQCppmcdy8SPWhY/pDNgnJ0sNAfyHD
-         QsoQccF1HPG3hUf2Iiv5qL4rvPeCyf3IZpo47fh0CLYn54FoTnZ9o2S6PMQrEzfF75J4
-         QZVig2axB4KH8/Q6cUn4d73DxZnBri4PiAsRQV8IhMcq5AC4od7mwWAoopODmqz+Y2jQ
-         YhMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707700836; x=1708305636;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zGpbWcfwQU4LVqL/ANKrblaGXAW8mRNF+7w5voOO+QQ=;
-        b=ilci2RgkUPRDkuacIdMkOh+euz1rE61arYyVy9nR6Yf7oO5nsdwg2kTPzHHu9i/vSL
-         GvbznUqGmvPnj0Xcme/ztsBTLHX3OLv3B6GVYQMDOHsGTqE51kq5PQ3cMpqwWlmCxSyf
-         nWas4z8TtOmeXTCqrvkh43xyJcTD8dvsgDqjb5bASoZ1t2s01ZtG9wlI5bvmkEcv87h/
-         doRwG5ce0eNLRnz/v+TMDVdALLpOQWYg29JUZO+kK58nprqZp5JJVoTow1D6hn4Ogt5E
-         ua84fgcj1JACAFyXJHEoNlTm6fyEalqj9LUjhPgoX81Kyu6bpPk6M7xGg9D7bbgTCkUr
-         jDQw==
-X-Gm-Message-State: AOJu0Yzzb1HSLh5Txt7f3xipLJ9p3xQ7/OVfY6YV0q9Ckq794M8AYi7H
-	7ewgdae1DBvGvdWcDcCZVwQIkbYJUrB2loTsjHvztRgEkvYNKyquJrX2WpwQIoY=
-X-Google-Smtp-Source: AGHT+IGgzZfJ5MrlRBimvLaq2eWIMRYS7eIl1L8FsxbVpNRlgcJNKvUgAVQugoKnaLI/DUbFaYMsZQ==
-X-Received: by 2002:a05:6870:fba4:b0:219:d60e:92c2 with SMTP id kv36-20020a056870fba400b00219d60e92c2mr7064846oab.34.1707700836697;
-        Sun, 11 Feb 2024 17:20:36 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXZDYUZSbhur42pGyKP46OTNJeg9O4vyN0rt5q6Db4n5o1xjnjmewhgy5pjV8Yka3kQcDvepjkHZ2eUjCzj7I3RwflAA2aA1GqWmpBsTqeQnZY1o7PP8fyNYN0e2tiPlEza3YG2aGjFQs8R+hQWspLhBEtJhRVvjuBw3q08pTUtxMBArQxIYC2gIIH579/1f4YYP3wGpIjGBileEZz2C2Ua2g7XUbnplD7CodPEopniMvSmtGoCnO6Mimpp362/ccVIJBT/u7Zc0nIndQ8kpzwyzbKzmqZYDqnqClLqXU0+/Hexp8cbhuZfHzL0aN+G70o7OdvEAEKw+3iIYBB5jLVfKnecAka+v6fXgzEGxHq4/P09A1UCkIouwY1E+25n139b4SRX4MkLZg==
-Received: from dread.disaster.area (pa49-181-38-249.pa.nsw.optusnet.com.au. [49.181.38.249])
-        by smtp.gmail.com with ESMTPSA id j17-20020a635951000000b005d8b2f04eb7sm5604643pgm.62.2024.02.11.17.20.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Feb 2024 17:20:35 -0800 (PST)
-Received: from dave by dread.disaster.area with local (Exim 4.96)
-	(envelope-from <david@fromorbit.com>)
-	id 1rZKzo-005HoK-1j;
-	Mon, 12 Feb 2024 12:20:32 +1100
-Date: Mon, 12 Feb 2024 12:20:32 +1100
-From: Dave Chinner <david@fromorbit.com>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Michal Hocko <mhocko@suse.com>, Matthew Wilcox <willy@infradead.org>,
-	lsf-pc@lists.linux-foundation.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-block@vger.kernel.org,
-	linux-ide@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	Kent Overstreet <kent.overstreet@gmail.com>
-Subject: Re: [LSF/MM/BPF TOPIC] Removing GFP_NOFS
-Message-ID: <ZclyYBO0vcQHZ5dV@dread.disaster.area>
-References: <ZZcgXI46AinlcBDP@casper.infradead.org>
- <ZZzP6731XwZQnz0o@dread.disaster.area>
- <3ba0dffa-beea-478f-bb6e-777b6304fb69@kernel.org>
- <ZcUQfzfQ9R8X0s47@tiehlicka>
- <3aa399bb-5007-4d12-88ae-ed244e9a653f@kernel.org>
+	Mon, 12 Feb 2024 00:00:17 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YZ7E36o/iXfocs9u0Odwt0GdjucyLJVMyBdCUEcsTpezjaWGPnE1B3aJcQTa4WTjmxzWFO4hrMM7mxTyHhpWiiStRj6zR1UkD2cxjeNyPLEHYR5HNAff3q/dU/dVZ0iB4q03Yvv/LOqWpgvGds7FgXvR2E40gp8MtBpNiYvJ9Ha/c8yOHy+EmV5LFoa7NOddJXM5yj1Nw0o/ObUWXTvRUNGeupWlJpeRH6pWhFSElbzXAT2nZS2NlD2POqVFUJrnbqChy3b7A7NettfZqHu0RglpoNJgFepK0BWcg58aKUYVBjFuLEEJT+n54a2Ea+sNv+NnBeXxY7Iss5PSuUDOFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cMOeEUKDYkLL09VH6N3hTS0sKUIJ+qca2AvAw95qRkE=;
+ b=EogeOvv/iWzK0k7ThZG4WwwX7VJaCtSPLdom2j3C5w8XxHwLCV8uE3AWTkz0gtfqYecRAEfS6j4NqgBJu64L4aoIrFWlPiC5dF8OSur2zHY3GHVVlL1/cW654LAwdPrxij8gNuFMu1H4eFN5f3Uf1KLkclO//Z8yAXl2P0v/zO2rNNwLYG2eUM81lDktOYfWvWC7a/dk+lzG0JIBlODlqDPlBvuFh9xep/PLGO6fJ4Xge4ZWJ01ooaY4tjUMNDEXIpb9JeAHpgvNdjBCXwf+Kp10Csx7R+yuth90WxUB4fZxuOD1g/thelFj8leoxpcyXwz602XlYl/pZ6bQBZ32Rg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cMOeEUKDYkLL09VH6N3hTS0sKUIJ+qca2AvAw95qRkE=;
+ b=nzyl0b4TFCqnLRem3LkNmku717nXfnoZ134XKfBlUD6A8UePNEGmhJZGF9wKLstUjiSZP71kynSctNe7RBgj3Zg4OlkT53A1KUKjIzzy5NCvayKAb7x0Ec8FhroBrB1rZzhhxpjvsN7jFXNRwH1GyHMKEkVCzk4HvlQS4G7PNFXQbQvfVBKdxuI2MInGUC7+FtnXVaRG46PzYrPx22eIsmtK4+KthcvapFXZZosyLh/abfpYyOZ5AdWp7vP14ABFkxalEqEp1azCUtX3TH6f9IGvSJUGeM5OAIjmI1kSdFJ7gCy7aeHqgE8YbEGoeRtFr7nevd7GWuJA33j5/Jz1/A==
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
+ by MW4PR12MB7334.namprd12.prod.outlook.com (2603:10b6:303:219::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.11; Sun, 11 Feb
+ 2024 23:45:19 +0000
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::ffce:bbde:c1ca:39ed]) by LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::ffce:bbde:c1ca:39ed%4]) with mapi id 15.20.7292.017; Sun, 11 Feb 2024
+ 23:45:18 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Nir Rigai <nir.rigai@volumez.com>
+CC: "hch@lst.de" <hch@lst.de>, "hare@suse.com" <hare@suse.com>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: Re: TLS over TCP connection failure
+Thread-Topic: TLS over TCP connection failure
+Thread-Index: AQHaXPu9NkmdQAIoeUevwng0N1SpTbEFzsQA
+Date: Sun, 11 Feb 2024 23:45:18 +0000
+Message-ID: <a69a47dd-bb86-47be-ae74-1d26c64bd409@nvidia.com>
+References: <587CD834-9978-4D44-BA69-4AADE3DE2E06@volumez.com>
+In-Reply-To: <587CD834-9978-4D44-BA69-4AADE3DE2E06@volumez.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|MW4PR12MB7334:EE_
+x-ms-office365-filtering-correlation-id: 1d25d304-5400-4d35-0f84-08dc2b5b812c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: KWh7VS8b1QI7DvJnTe59KePluloQzmHjy3govmWUjgy1khIyz/yGd8JZpOE769h4u5ofVWbmYNogS8xCxbx6/ewjVRRhqEeyL2TIom+4fwwG1++OqIyVSa9/tppjNuLlhQf7omNl8fiL7JYcaYuijXBhV206BlH++5e5Jl4nQYlkxsAgVtC6TRGjVmL7fGpcP7B1oHm6XTE3wqHETcU/ZIpyXOf1cIB2gzkPqrYkXozcwtlSZrRd92+fjpogPKDCY3ESACnWV4ObJK+bTP4R8Z6fvGA95pStNdLX/HYKbjJ3aVjd8kwrFmv/VfHbECXX8JNUcHRpdGA7OdvOjXW9wfwbz+PeWXOZhz7wYCBu2IYcmyFk1J5kTuahWxGSyM/f8IdecEJ/w6pF8c87igQ9797wqes7Cvb44kQCxlAR+dU0e748j5I9JsK+aMGNMGOgKs/d9z4rRLFBliyVkgvRfO24hyrZoRVq60sK3Ktu3LYFn230+ErhuTlynL758S/DRGA4VVR/5n8WYzX52kJi0uo7woSdshn2eiyl62sBgYwmV6pKG0PciK4hSEN5rkOeiaCPIo3vZcWFNh//+/hQ9CjPXhbUP4p+nGmM1BfnlgfXV00XeJssHi4yYn/ApB9gnxmhRC7KbK642I9oOfhs2MS/1u4n06AMQMUnxfG2rHY=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(39860400002)(376002)(346002)(396003)(366004)(230922051799003)(186009)(1800799012)(64100799003)(451199024)(31686004)(316002)(2906002)(5660300002)(66556008)(6916009)(66476007)(66946007)(4326008)(38100700002)(8676002)(66446008)(122000001)(71200400001)(91956017)(54906003)(8936002)(76116006)(6486002)(53546011)(64756008)(966005)(6506007)(6512007)(478600001)(38070700009)(36756003)(2616005)(41300700001)(86362001)(31696002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZTdLM3dmSXQzVlNmNTN2emNtYUZTbFpIUXFDZWJWYmkybnc4Y0lhT24rYUxW?=
+ =?utf-8?B?ay9uU0JNcFk3UFZ5NnRiZWIzMXF2RGsxbzFmVjRvQUpQRmhUb3NGYlVGMGVI?=
+ =?utf-8?B?dGhhemZwa3E1SlBhdjlLUWNEYjI3QysvQW9FcUphdHMreWw2OStWSW9JSlZ3?=
+ =?utf-8?B?SC9IK2M4dnVyMkFOZXN0NE42TFRWemg4ZUZMTWNMMkFZWVVQdTFjUXRFV3ZK?=
+ =?utf-8?B?ZXBoMXB0VHZPWlZRM1VVQ0FoY2hnZ1pXWnY4dFNTdTY3aU01S0p4Z1Y0a2xC?=
+ =?utf-8?B?WjROMGFmRTdaWExPWnVZM1E2aW8ySklLM2Y0OGplSXZlUWZHZ0NGQ3A1UGN6?=
+ =?utf-8?B?TXBDcjg2Rk8wK1pSN1hmcUtidEwzN0VHQnhkQmRab1FiSk9xOFRyN2szN3BS?=
+ =?utf-8?B?ZVFKZlVtMklyS0M3N3VyTGI4SUJNdUNFYzllQzBESitrWVg2VS9KcnBCSnFL?=
+ =?utf-8?B?YVZYZnl3c3VxQjdVV2F1Y0pxZU83RzF5RnNBbjJ1OWxicUJ1RThmRE9DTXJJ?=
+ =?utf-8?B?T0RuWVlYMDVPajh1S1VKZ2thSEwvZ25UOEtwakpsTDNXcE5KNzJPdXhJTFZP?=
+ =?utf-8?B?TitjN3lyWGROMlVKMWRIVldnS1FZbXJJQzFaV09RUHF0TXZ1YU1VSjBWMkVa?=
+ =?utf-8?B?TGxtWDhkbEkveEtIS3VxSjN4ZzV2SWUyajhwTzRPblA0QWdBanJDOEhKOGxC?=
+ =?utf-8?B?c1lqandwOFMzeTI3OU5XQ0lDRUxKUm5XUmlmMDRITGhuTlZGeE5LbnhkWm53?=
+ =?utf-8?B?T2VHQVRkYWZaZ09Qc3liQXRzZVdadHN4UWs4QnVzajJQQXdZb1RteDFJL09M?=
+ =?utf-8?B?TXozMjkzVzdQT0NqdkdXR2ZZVjBxak9kbk4yeE13ZTlhVm1TMmt1eXdkWGly?=
+ =?utf-8?B?LzVRaWpabjVhQUZjd3lpOThWQ3V5ZllZcmtaRWNVNVZYeStDelJJV0F4UkVk?=
+ =?utf-8?B?V1ZadHdlL05lS0t3L1NUbEZCdjNaYm5YRmlXcmtoUHh0cS9uYWl6b1ZPTkVB?=
+ =?utf-8?B?NG9DWEVxMFQzVEZFSCtEUmhlek9vM2RWOVVrQ3RNV0RmaklTMUFtMHUrY1ZB?=
+ =?utf-8?B?U1p3V1FSeWdjNjVwcThtVndjNVN1aGxJOEVtaStpeEwwNFNTbU42cjk1V1RZ?=
+ =?utf-8?B?TDltYS9sZXQ2UVRtNGxRdDloVVB5cVE5eTA4OERvaUl0bmdyeFRhcTRtUjI3?=
+ =?utf-8?B?RkJ4OVhMTWMxN21ISGVLa01paEVScEZ6cFAxTUNrbFNGbGtVVTZ1bEhmQUYv?=
+ =?utf-8?B?T0grUkowbkRub1gzMDQ3WHcxZ09rSDZxd3JDMFduMjZVUUMzbkp0QUI1NVRV?=
+ =?utf-8?B?bXduZ2tGWHVSQUdlVWExQTR1TWlsNVFCVGwra3JjSWk4VjY4bkZLaGFLdzgy?=
+ =?utf-8?B?a1hSUitnaENNNWlad25PcDgzS2NSQThvUXg0QzM2ajBTVFJjUHQvZUszYWo4?=
+ =?utf-8?B?Y1RSWWNVQy9RVVVySXBwc2xyN0kyRHNNb1pydk01TUxQQ2o3c3E4TXgydnhJ?=
+ =?utf-8?B?Q2pDNTNvK1FxRC9zVTVpbURtaXFaMGs4RTNaZ0M1MXh5Skhsb2Z4MUJuTjdZ?=
+ =?utf-8?B?dE4yeU5HeXhxcFVTVTdUdVBwejNaMjFqZVlydmlTZ0FlRnRQc2FTenRHa2dV?=
+ =?utf-8?B?VXUrbjh6MTZjR1NyaEdFUEl4N1R4RFM0dlhtS1d2L0xreWNLZEpEeWFqbWFI?=
+ =?utf-8?B?VXI0NTQ2QXhKeUFwTEFUaVZ6ZlJBTVBSYzdBNmxzTWtHUmJnZW1aOXR4RDVJ?=
+ =?utf-8?B?dGdUSkR4K08yaXYvbVgzb3lOQ20xamdMVzZUYklLT2tKOTROaW1QbnQ3ZEpS?=
+ =?utf-8?B?U1BWUHduVGtBZkROcHFRUnlpbXFPL0o4NHVBMWRUaVBtTklVMnRpU0dCc0Jt?=
+ =?utf-8?B?eElMcEdUNStIMGhaenlGd2ROMUNKb3dBWlltS04zREQ2dzdoTHE5NEdMWkpy?=
+ =?utf-8?B?UWJNRmJXa3Q2SlRWWERuMEp6SkFJY09RN1NHQTJYeFI0TzVsTEk0SEdUZmdG?=
+ =?utf-8?B?WXFZTXdXK1RqVTBuWktSQUhPK2xVNkhhaGpRSEIxZ0JqUmJrWHhrUy9tUWdv?=
+ =?utf-8?B?alh3QUh1ajlOSmxHSHVmaFo0aG5uYjZUQmN2QUtOaUtoRDY2eXN5bDhySk9N?=
+ =?utf-8?B?UW9FMUh2R25DSHF6cXZsNGN0bE95d0tqakhGbnNOZUsxSnlqdnV4VGp4VjNk?=
+ =?utf-8?Q?cCa3ENCCP+vBvoCf4cnSDXhpJKqXqVHkV9ZEn4pe8dOl?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <D8FDD7CDCE1A224BBC90E9FFBDFC51CC@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3aa399bb-5007-4d12-88ae-ed244e9a653f@kernel.org>
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d25d304-5400-4d35-0f84-08dc2b5b812c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Feb 2024 23:45:18.8391
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Zy1Oe+2q/OyNTtu5vagQfKTzPNK9e0knERs0rV26CVZt9sxsBOr7+FqfvJpxHBaNV7V1y+ZiQJ1Ssv5DYu6akg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7334
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240212_012043_476480_36234F07 
-X-CRM114-Status: GOOD (  35.08  )
+X-CRM114-CacheID: sfid-20240212_000015_222441_10D8CCCE 
+X-CRM114-Status: GOOD (  10.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -118,106 +163,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Feb 08, 2024 at 08:55:05PM +0100, Vlastimil Babka (SUSE) wrote:
-> On 2/8/24 18:33, Michal Hocko wrote:
-> > On Thu 08-02-24 17:02:07, Vlastimil Babka (SUSE) wrote:
-> >> On 1/9/24 05:47, Dave Chinner wrote:
-> >> > On Thu, Jan 04, 2024 at 09:17:16PM +0000, Matthew Wilcox wrote:
-> >> 
-> >> Your points and Kent's proposal of scoped GFP_NOWAIT [1] suggests to me this
-> >> is no longer FS-only topic as this isn't just about converting to the scoped
-> >> apis, but also how they should be improved.
-> > 
-> > Scoped GFP_NOFAIL context is slightly easier from the semantic POV than
-> > scoped GFP_NOWAIT as it doesn't add a potentially unexpected failure
-> > mode. It is still tricky to deal with GFP_NOWAIT requests inside the
-> > NOFAIL scope because that makes it a non failing busy wait for an
-> > allocation if we need to insist on scope NOFAIL semantic. 
-> > 
-> > On the other hand we can define the behavior similar to what you
-> > propose with RETRY_MAYFAIL resp. NORETRY. Existing NOWAIT users should
-> > better handle allocation failures regardless of the external allocation
-> > scope.
-> > 
-> > Overriding that scoped NOFAIL semantic with RETRY_MAYFAIL or NORETRY
-> > resembles the existing PF_MEMALLOC and GFP_NOMEMALLOC semantic and I do
-> > not see an immediate problem with that.
-> > 
-> > Having more NOFAIL allocations is not great but if you need to
-> > emulate those by implementing the nofail semantic outside of the
-> > allocator then it is better to have those retries inside the allocator
-> > IMO.
-> 
-> I see potential issues in scoping both the NOWAIT and NOFAIL
-> 
-> - NOFAIL - I'm assuming Dave is adding __GFP_NOFAIL to xfs allocations or
-> adjacent layers where he knows they must not fail for his transaction. But
-> could the scope affect also something else underneath that could fail
-> without the failure propagating in a way that it affects xfs?
-
-Memory allocaiton failures below the filesystem (i.e. in the IO
-path) will fail the IO, and if that happens for a read IO within
-a transaction then it will have the same effect as XFS failing a
-memory allocation. i.e. it will shut down the filesystem.
-
-The key point here is the moment we go below the filesystem we enter
-into a new scoped allocation context with a guaranteed method of
-returning errors: NOIO and bio errors.
-
-Once we cross an allocation scope boundary, NOFAIL is no
-longer relevant to the code that is being run because there are
-other errors that can occur that the filesysetm must handle
-that. Hence memory allocation errors just don't matter at this
-point, and the NOFAIL constraint is no longer relevant.
-
-Hence we really need to conside NOFAIL differently to NOFS/NOIO.
-NOFS/NOIO are about avoiding reclaim recursion deadlocks, so are
-relevant all the way down the stack. NOFAIL is only relevant to a
-specific subsystem to prevent subsystem allocations from failing,
-but as soon as we cross into another subsystem that can (and does)
-return errors for memory allocation failures, the NOFAIL context is
-no longer relevant.
-
-i.e NOFAIL scopes are not relevant outside the subsystem that sets
-it.  Hence we likely need helpers to clear and restore NOFAIL when
-we cross an allocation context boundaries. e.g. as we cross from
-filesystem to block layer in the IO stack via submit_bio(). Maybe
-they should be doing something like:
-
-	nofail_flags = memalloc_nofail_clear();
-	noio_flags = memalloc_noio_save();
-
-	....
-
-	memalloc_noio_restore(noio_flags);
-	memalloc_nofail_reinstate(nofail_flags);
-
-> Maybe it's a
-> high-order allocation with a low-order fallback that really should not be
-> __GFP_NOFAIL? We would need to hope it has something like RETRY_MAYFAIL or
-> NORETRY already. But maybe it just relies on >costly order being more likely
-> to fail implicitly, and those costly orders should be kept excluded from the
-> scoped NOFAIL? Maybe __GFP_NOWARN should also override the scoped nofail?
-
-We definitely need NORETRY/RETRY_MAYFAIL to override scoped NOFAIL
-at the filesystem layer (e.g. for readahead buffer allocations,
-xlog_kvmalloc(), etc to correctly fail fast within XFS
-transactions), but I don't think we should force every subsystem to
-have to do this just in case a higher level subsystem had a scoped
-NOFAIL set for it to work correctly.
-
-> - NOWAIT - as said already, we need to make sure we're not turning an
-> allocation that relied on too-small-to-fail into a null pointer exception or
-> BUG_ON(!page).
-
-Agreed. NOWAIT is removing allocation failure constraints and I
-don't think that can be made to work reliably. Error injection
-cannot prove the absence of errors  and so we can never be certain
-the code will always operate correctly and not crash when an
-unexepected allocation failure occurs.
-
--Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+T24gMi8xMS8yNCAwNzowNSwgTmlyIFJpZ2FpIHdyb3RlOg0KPiBIaSBhbGwsDQo+DQo+IFdlIGZh
+aWxlZCB0byBlbmFibGUgVExTIG92ZXIgVENQIHdpdGggdGhlIGxhdGVzdCA2LjgtcmMzIGZyb20g
+dXBzdHJlYW0uDQo+IFdlIGhhdmUgZm9sbG93ZWQgdGhlIGd1aWRlbGluZXMgb3V0bGluZWQgaW4g
+aHR0cHM6Ly9sd24ubmV0L0FydGljbGVzLzk0MTEzOS8uDQo+IFRoZSBOVk1lIGNvbm5lY3Rpb24g
+ZmFpbGVkIHBvc3QtYXV0aGVudGljYXRpb24NCj4NCj4gVGhlIHN0ZXBzIGFuZCB0aGUgb3V0cHV0
+cyBmcm9tIHRoZSBwcm9jZXNzOg0KPiAjIFRhcmdldCBjcmVhdGlvbg0KPiBtb2Rwcm9iZSBudm1l
+dC10Y3ANCj4gbWtkaXIgL3N5cy9rZXJuZWwvY29uZmlnL252bWV0L3BvcnRzLzEwDQo+IGVjaG8g
+LW4gIjEyNy4wLjAuMSIgPiAvc3lzL2tlcm5lbC9jb25maWcvbnZtZXQvcG9ydHMvMTAvYWRkcl90
+cmFkZHINCj4gZWNobyAtbiBpcHY0ID4gL3N5cy9rZXJuZWwvY29uZmlnL252bWV0L3BvcnRzLzEw
+L2FkZHJfYWRyZmFtDQo+IGVjaG8gLW4gdGNwID4gL3N5cy9rZXJuZWwvY29uZmlnL252bWV0L3Bv
+cnRzLzEwL2FkZHJfdHJ0eXBlDQo+IGVjaG8gLW4gNDQyMCA+IC9zeXMva2VybmVsL2NvbmZpZy9u
+dm1ldC9wb3J0cy8xMC9hZGRyX3Ryc3ZjaWQNCj4gZWNobyB0bHMxLjMgPiAvc3lzL2tlcm5lbC9j
+b25maWcvbnZtZXQvcG9ydHMvMTAvYWRkcl90c2FzDQo+IG1rZGlyIC9zeXMva2VybmVsL2NvbmZp
+Zy9udm1ldC9zdWJzeXN0ZW1zL25xbi50ZXN0DQo+IGVjaG8gMSA+IC9zeXMva2VybmVsL2NvbmZp
+Zy9udm1ldC9zdWJzeXN0ZW1zL25xbi50ZXN0L2F0dHJfYWxsb3dfYW55X2hvc3QNCj4gbWtkaXIg
+L3N5cy9rZXJuZWwvY29uZmlnL252bWV0L3N1YnN5c3RlbXMvbnFuLnRlc3QvbmFtZXNwYWNlcy8x
+DQo+IGVjaG8gIi9kZXYvbnZtZTFuMSIgPiAvc3lzL2tlcm5lbC9jb25maWcvbnZtZXQvc3Vic3lz
+dGVtcy9ucW4udGVzdC9uYW1lc3BhY2VzLzEvZGV2aWNlX3BhdGgNCj4gZWNobyAxID4gL3N5cy9r
+ZXJuZWwvY29uZmlnL252bWV0L3N1YnN5c3RlbXMvbnFuLnRlc3QvbmFtZXNwYWNlcy8xL2VuYWJs
+ZQ0KPiBsbiAtcyAvc3lzL2tlcm5lbC9jb25maWcvbnZtZXQvc3Vic3lzdGVtcy9ucW4udGVzdCAv
+c3lzL2tlcm5lbC9jb25maWcvbnZtZXQvcG9ydHMvMTAvc3Vic3lzdGVtcy8NCj4gICAgIyBDcmVh
+dGUga2V5cyBhbmQgc3RhcnQgdGhlIHRsc2hkIHNlcnZpY2U6DQo+IG1vZHByb2JlIG52bWUtdGNw
+DQo+IG52bWUgZ2VuLXRscy1rZXkgLS1zdWJzeXNucW49bnFuLnRlc3QgLWkNCj4gbnZtZSBnZW4t
+dGxzLWtleSAtLXN1YnN5c25xbj1ucW4uMjAxNC0wOC5vcmcubnZtZXhwcmVzcy5kaXNjb3Zlcnkg
+LWkNCj4gI3Rsc2hkIC1jIC9ldGMvdGxzaGQuY29uZg0KPiBzeXN0ZW1jdGwgc3RhcnQgdGxzaGQu
+c2VydmljZQ0KPiBudm1lIGNvbm5lY3QgLXQgdGNwIC1hIDEyNy4wLjAuMSAtcyA0NDIwIC1uIG5x
+bi50ZXN0IC0tdGxzDQo+DQoNCmNhbiB5b3UgcGxlYXNlIHN1Ym1pdCB0aGUgYmxrdGVzdHMgZm9y
+IHRoaXMgaWYgaXQgaXMgbm90IHRoZXJlIGluIG52bWUgDQpjYXRlZ29yeSA/DQppdCB3aWxsIGhl
+bHAgdGhpcyB0byBnZXQgcmVndWxhcmx5IHRlc3RlZCBhbmQgZXN0YWJsaXNoIHN0YWJpbGl0eSAu
+Li4NCg0KcGxlYXNlIENDIFNoaW5pY2hpcm8gKENDJ2QgaGVyZSkgYW5kIG1lIG9uIHRoYXQNCg0K
+aHR0cHM6Ly9naXRodWIuY29tL29zYW5kb3YvYmxrdGVzdHMNCg0KLWNrDQoNCg0K
 
