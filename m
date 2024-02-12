@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6EDDC4829F
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D136C4829B
 	for <linux-nvme@archiver.kernel.org>; Mon, 12 Feb 2024 06:46:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=g6JRqS5R4ls1B5jV11JJE5qFl6eiNaPJumzazh62Tbs=; b=jpIza/9fb03M5d79D7lKWepVHg
-	W1SvA90Jh7knYr9yq5qJC9++rfA5YI7rABacNyFpkRYUx74JimQiR1VxUe8uV00Aj+YkjgwRTs7kp
-	feD+jyLUhyyICfvclhNZLDit5xRAE5yQhN/ItigrexroVJ74ywzVxSg03BmqciDGev6qrwabmXjcs
-	/hcYGxqr4wIpWDcbcNMhtysGQ3tBWD0UKg0krLfAfTleXtIuSD0VvMT9z19Pnhhc5swEkQaCSUARC
-	dEPhiu83vpP95Asvy3/s3sUX6cSeF5Aev3QrovVDNMPYdJfYwN8qFXxtsYrMzcupFk7z9oKrigRJX
-	yziimjSQ==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=FdBZZfIe4Gg0+XVL+ZZDzEMtykzHbZrexnu46bVVgBY=; b=1ibp1xDAeTPYzfX4NCUef5dCZR
+	nbyGRI/BQWcR3HpjtVNglOeRnyBkFOTPT4VDlBn3KKEC+2Svc902LfbnAvB0ncahvUlZFHlx1Up+7
+	s44j7ELYY+0Wk+rs2DzbrT7UZ7oGGTOya7OL+t1ybLWWO9KUC+G1cMJ/+Bv9L0Z63uONSj7AYo0MD
+	QgEut6Cld1HDvTt+1GOHMFwtgkHBb0VuaAK0COz0RhNMMoIKzleU/4HRQCWiiosFzk5nuwNJft+uC
+	+z3P70ek5fsHFbaIaEJCVsBP2kJIdguU/WeL8tdqq2j4PYV0ClZnsY7/KNIYFeSSmQaJMGLDb9Y/E
+	93PDELNA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rZQ5C-00000004PaG-208h;
-	Mon, 12 Feb 2024 06:46:26 +0000
+	id 1rZQ5D-00000004PaU-17ey;
+	Mon, 12 Feb 2024 06:46:27 +0000
 Received: from [2001:4bb8:190:6eab:75e9:7295:a6e3:c35d] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rZQ54-00000004PYq-0oZe;
-	Mon, 12 Feb 2024 06:46:18 +0000
+	id 1rZQ59-00000004PZd-37UC;
+	Mon, 12 Feb 2024 06:46:24 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>,
@@ -39,11 +39,16 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
-	virtualization@lists.linux.dev
-Subject: atomic queue limits updates v4
-Date: Mon, 12 Feb 2024 07:45:54 +0100
-Message-Id: <20240212064609.1327143-1-hch@lst.de>
+	virtualization@lists.linux.dev,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Ming Lei <ming.lei@redhat.com>,
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH 02/15] block: refactor disk_update_readahead
+Date: Mon, 12 Feb 2024 07:45:56 +0100
+Message-Id: <20240212064609.1327143-3-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240212064609.1327143-1-hch@lst.de>
+References: <20240212064609.1327143-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -60,89 +65,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Jens,
+Factor out a blk_apply_bdi_limits limits helper that can be used with
+an explicit queue_limits argument, which will be useful later.
 
-currently queue limits updates are a mess in that they are updated one
-limit at a time, which makes both cross-checking them against other
-limits hard, and also makes it hard to provide atomicy.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+Reviewed-by: Ming Lei <ming.lei@redhat.com>
+Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
+Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+---
+ block/blk-settings.c | 21 ++++++++++++---------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
 
-This series tries to change this by updating the whole set of queue
-limits atomically.   This in done in two ways:
+diff --git a/block/blk-settings.c b/block/blk-settings.c
+index 06ea91e51b8b2e..f16d3fec6658e5 100644
+--- a/block/blk-settings.c
++++ b/block/blk-settings.c
+@@ -85,6 +85,17 @@ void blk_set_stacking_limits(struct queue_limits *lim)
+ }
+ EXPORT_SYMBOL(blk_set_stacking_limits);
+ 
++static void blk_apply_bdi_limits(struct backing_dev_info *bdi,
++		struct queue_limits *lim)
++{
++	/*
++	 * For read-ahead of large files to be effective, we need to read ahead
++	 * at least twice the optimal I/O size.
++	 */
++	bdi->ra_pages = max(lim->io_opt * 2 / PAGE_SIZE, VM_READAHEAD_PAGES);
++	bdi->io_pages = lim->max_sectors >> PAGE_SECTORS_SHIFT;
++}
++
+ /**
+  * blk_queue_bounce_limit - set bounce buffer limit for queue
+  * @q: the request queue for the device
+@@ -393,15 +404,7 @@ EXPORT_SYMBOL(blk_queue_alignment_offset);
+ 
+ void disk_update_readahead(struct gendisk *disk)
+ {
+-	struct request_queue *q = disk->queue;
+-
+-	/*
+-	 * For read-ahead of large files to be effective, we need to read ahead
+-	 * at least twice the optimal I/O size.
+-	 */
+-	disk->bdi->ra_pages =
+-		max(queue_io_opt(q) * 2 / PAGE_SIZE, VM_READAHEAD_PAGES);
+-	disk->bdi->io_pages = queue_max_sectors(q) >> (PAGE_SHIFT - 9);
++	blk_apply_bdi_limits(disk->bdi, &disk->queue->limits);
+ }
+ EXPORT_SYMBOL_GPL(disk_update_readahead);
+ 
+-- 
+2.39.2
 
- - for the initial setup the queue_limits structure is simply passed to
-   the queue/disk allocation helpers and applies there after validation.
- - for the (relatively few) cases that update limits at runtime a pair
-   of helpers to take a snapshot of the current limits and to commit it
-   after picking up the callers changes are provided.
-
-As the series is big enough it only converts two drivers - virtio_blk as
-a heavily used driver in virtualized setups, and loop as one that actually
-does runtime updates while being fairly simple.  I plan to update most
-drivers for this merge window, although SCSI will probably have to wait
-for the next one given that it will need extensive API changes in the
-LLDD and ULD interfaces.
-
-Chances since v3:
- - fix a max_user_discard_sectors bisection hazard
- - fix the max_user_discard_sectors initialization for the new API.
-   This led to some major refactoring, so there is a new patch and
-   I've dropped the reviews for two existing ones that have major
-   modifications
-
-Chances since v2:
- - fix the physical block size default
- - use PAGE_SECTORS_SHIFT more 
-
-Chances since v1:
- - remove a spurious NULL return in blk_alloc_queue
- - keep the existing max_discard_sectors == 0 behavior
- - drop the patch nvme discard limit update hack - it will go into
-   the series updating nvme instead
- - drop a chunk_sector check
- - use PAGE_SECTORS in a few places
- - document the checks and defaults in blk_validate_limits
- - various spelling fixes
-
-Diffstat:
- arch/um/drivers/ubd_kern.c          |    2 
- block/blk-core.c                    |   27 ++-
- block/blk-mq.c                      |   27 +--
- block/blk-settings.c                |  276 +++++++++++++++++++++++++++------
- block/blk-sysfs.c                   |   59 +++----
- block/blk.h                         |    4 
- block/bsg-lib.c                     |    2 
- block/genhd.c                       |    5 
- drivers/block/amiflop.c             |    2 
- drivers/block/aoe/aoeblk.c          |    2 
- drivers/block/ataflop.c             |    2 
- drivers/block/floppy.c              |    2 
- drivers/block/loop.c                |   75 ++++-----
- drivers/block/mtip32xx/mtip32xx.c   |    2 
- drivers/block/nbd.c                 |    2 
- drivers/block/null_blk/main.c       |    2 
- drivers/block/ps3disk.c             |    2 
- drivers/block/rbd.c                 |    2 
- drivers/block/rnbd/rnbd-clt.c       |    2 
- drivers/block/sunvdc.c              |    2 
- drivers/block/swim.c                |    2 
- drivers/block/swim3.c               |    2 
- drivers/block/ublk_drv.c            |    2 
- drivers/block/virtio_blk.c          |  299 ++++++++++++++++++------------------
- drivers/block/xen-blkfront.c        |    2 
- drivers/block/z2ram.c               |    2 
- drivers/cdrom/gdrom.c               |    2 
- drivers/memstick/core/ms_block.c    |    2 
- drivers/memstick/core/mspro_block.c |    2 
- drivers/mmc/core/queue.c            |    2 
- drivers/mtd/mtd_blkdevs.c           |    2 
- drivers/mtd/ubi/block.c             |    2 
- drivers/nvme/host/apple.c           |    2 
- drivers/nvme/host/core.c            |    8 
- drivers/s390/block/dasd_genhd.c     |    2 
- drivers/s390/block/scm_blk.c        |    2 
- drivers/scsi/scsi_scan.c            |    2 
- drivers/ufs/core/ufshcd.c           |    2 
- include/linux/blk-mq.h              |   10 -
- include/linux/blkdev.h              |   36 +++-
- 40 files changed, 547 insertions(+), 337 deletions(-)
 
