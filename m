@@ -4,49 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3B380C48260
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Feb 2024 07:16:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CBC3FC4829A
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Feb 2024 07:34:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jND7F25IE4z/a9Sp3v0wX1T0s93hpHYhO5IHNdK0n2k=; b=Ix/P2Aftj87T+3oh89uBij8B4e
-	w4cVpmOU048umxZmH8bemttg5CfCq1qAJI+/PXGq0ntov5e4UtHbZwQbSyhy9uAMAOVBywBCCkQrL
-	X2UQZTGcqXttI02KkfD0p1raLBWs1B+FztE6pk3ze8ooDK7YeRlHx0kncLj1C+TyUfRUVtTzquzYx
-	72z6MewDrj+2tMxjSjUnZRed5Yfqp5509bGLIeYAMe4wAJoItNEFgcYNjHmDOr/VVjf55eb5u8GPj
-	KdrCGl16Fwe2rOX39X+kfvXSaFiduPYgpo4iNAXJXd3PjP82yMran/0Bo16P3fnFk8+GGC9HQSswf
-	7z4A5NKw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=+iEKU64k/Wy9pGmHH/amHKNHnYWdcEjBLzza3jjQ5fI=; b=VkT6axXFtHXufUpW/vzByTA+ex
+	P855ew6aZ3BbkbHlI0iqvpOxNDEk4DiPUlzpbSG0EwEMnnTbbZ8fnsFsEk0mJ0GIdi4uS5fsM+Kzu
+	IR60PQ4avBCRkZ4r4FHR0BR5+6HMB1dm2WSOMUB2betUPJKyY96uCAjo4bzMP9FW/Ls7wDapLycEQ
+	PMNnDPw3qmHuTIDAwEu/YJRnmFRCBrEBI3Aqegn0CKLaFwsykX47UbJGMQWj8hrZJphHJ46k/751f
+	af/KLfDZsIlRkggb0lYkjx3+hdnzRkUJRooMYdhurTqjZQPjuZgRSlyiRQhBagw84FS1TFZvb0u5Q
+	OdrXAo3g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rZn1h-00000008Dui-0pg7;
-	Tue, 13 Feb 2024 07:16:21 +0000
-Received: from verein.lst.de ([213.95.11.211])
-	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rZn1d-00000008Dt5-2L8w
-	for linux-nvme@lists.infradead.org;
-	Tue, 13 Feb 2024 07:16:18 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 06923227A87; Tue, 13 Feb 2024 08:16:03 +0100 (CET)
-Date: Tue, 13 Feb 2024 08:16:03 +0100
+	id 1rZnJS-00000008G84-0gl4;
+	Tue, 13 Feb 2024 07:34:42 +0000
+Received: from [2001:4bb8:190:6eab:b680:8f97:4b38:866d] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rZnJO-00000008G7g-07Zh;
+	Tue, 13 Feb 2024 07:34:38 +0000
 From: Christoph Hellwig <hch@lst.de>
-To: Israel Rukshin <israelr@nvidia.com>
-Cc: Christoph Hellwig <hch@lst.de>, Daniel Wagner <dwagner@suse.de>,
-	Max Gurtovoy <mgurtovoy@nvidia.com>, kbusch@kernel.org,
-	sagi@grimberg.me, linux-nvme@lists.infradead.org, oren@nvidia.com,
-	oevron@nvidia.com
-Subject: Re: [PATCH 7/8] nvme-fabrics: add option to disallow T10-PI offload
-Message-ID: <20240213071603.GA24160@lst.de>
-References: <20240122145659.5574-1-mgurtovoy@nvidia.com> <20240122145659.5574-8-mgurtovoy@nvidia.com> <6gx7xdmm54po74oihiazqsdk4sln4h7754f5qx5lc7rxdhy4of@wip6kfi7yktr> <a4a17b72-84a7-4ace-ad15-5c7b3a54929e@nvidia.com> <acr7me2i63tk33ljxst55ifobw6vqnp7mtnsiuv5fszwimrcyj@lnmydpvawzfu> <juclu4662fnok7u6bh5hnekm7ggqly523nnh5mfbzf2nyompjr@ykwshckwj32s> <20240123090413.GF30773@lst.de> <fdd1c81f-caf3-4f34-96e8-f4d8ffc26203@nvidia.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	virtualization@lists.linux.dev
+Subject: atomic queue limits updates v5
+Date: Tue, 13 Feb 2024 08:34:10 +0100
+Message-Id: <20240213073425.1621680-1-hch@lst.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fdd1c81f-caf3-4f34-96e8-f4d8ffc26203@nvidia.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240212_231617_761547_F7567BB6 
-X-CRM114-Status: GOOD (  16.46  )
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,21 +60,94 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Feb 01, 2024 at 10:28:50AM +0200, Israel Rukshin wrote:
-> Do you mean to do something like the bellow diff?
+Hi Jens,
 
-Yes.
+currently queue limits updates are a mess in that they are updated one
+limit at a time, which makes both cross-checking them against other
+limits hard, and also makes it hard to provide atomicy.
 
-> Regarding extending the existing boolean flags, are you talking about 
-> hdr_digest, disable_sqflow, data_digest, discovery, duplicate_connect and 
-> tls flags?
->
-> I will try to do it without breaking the existing nvmecli, but I am not 
-> sure if it is possible.
+This series tries to change this by updating the whole set of queue
+limits atomically.   This in done in two ways:
 
-I'm pretty sure we have a bunch of fs mount options that allow a version
-with paramters and without.  dax is an example, but you might have to
-look at older kernels as the dax-supporting file systems got converted
-to the new mount API in the meantime.
+ - for the initial setup the queue_limits structure is simply passed to
+   the queue/disk allocation helpers and applies there after validation.
+ - for the (relatively few) cases that update limits at runtime a pair
+   of helpers to take a snapshot of the current limits and to commit it
+   after picking up the callers changes are provided.
 
+As the series is big enough it only converts two drivers - virtio_blk as
+a heavily used driver in virtualized setups, and loop as one that actually
+does runtime updates while being fairly simple.  I plan to update most
+drivers for this merge window, although SCSI will probably have to wait
+for the next one given that it will need extensive API changes in the
+LLDD and ULD interfaces.
+
+Chances since v4:
+ - fix a newly added bisection hazard
+ - fix a comment
+ - moar SECTOR_SIZE
+
+Chances since v3:
+ - fix a max_user_discard_sectors bisection hazard
+ - fix the max_user_discard_sectors initialization for the new API.
+   This led to some major refactoring, so there is a new patch and
+   I've dropped the reviews for two existing ones that have major
+   modifications
+
+Chances since v2:
+ - fix the physical block size default
+ - use PAGE_SECTORS_SHIFT more 
+
+Chances since v1:
+ - remove a spurious NULL return in blk_alloc_queue
+ - keep the existing max_discard_sectors == 0 behavior
+ - drop the patch nvme discard limit update hack - it will go into
+   the series updating nvme instead
+ - drop a chunk_sector check
+ - use PAGE_SECTORS in a few places
+ - document the checks and defaults in blk_validate_limits
+ - various spelling fixes
+
+Diffstat:
+ arch/um/drivers/ubd_kern.c          |    2 
+ block/blk-core.c                    |   27 ++-
+ block/blk-mq.c                      |   27 +--
+ block/blk-settings.c                |  276 +++++++++++++++++++++++++++------
+ block/blk-sysfs.c                   |   59 +++----
+ block/blk.h                         |    4 
+ block/bsg-lib.c                     |    2 
+ block/genhd.c                       |    5 
+ drivers/block/amiflop.c             |    2 
+ drivers/block/aoe/aoeblk.c          |    2 
+ drivers/block/ataflop.c             |    2 
+ drivers/block/floppy.c              |    2 
+ drivers/block/loop.c                |   75 ++++-----
+ drivers/block/mtip32xx/mtip32xx.c   |    2 
+ drivers/block/nbd.c                 |    2 
+ drivers/block/null_blk/main.c       |    2 
+ drivers/block/ps3disk.c             |    2 
+ drivers/block/rbd.c                 |    2 
+ drivers/block/rnbd/rnbd-clt.c       |    2 
+ drivers/block/sunvdc.c              |    2 
+ drivers/block/swim.c                |    2 
+ drivers/block/swim3.c               |    2 
+ drivers/block/ublk_drv.c            |    2 
+ drivers/block/virtio_blk.c          |  299 ++++++++++++++++++------------------
+ drivers/block/xen-blkfront.c        |    2 
+ drivers/block/z2ram.c               |    2 
+ drivers/cdrom/gdrom.c               |    2 
+ drivers/memstick/core/ms_block.c    |    2 
+ drivers/memstick/core/mspro_block.c |    2 
+ drivers/mmc/core/queue.c            |    2 
+ drivers/mtd/mtd_blkdevs.c           |    2 
+ drivers/mtd/ubi/block.c             |    2 
+ drivers/nvme/host/apple.c           |    2 
+ drivers/nvme/host/core.c            |    8 
+ drivers/s390/block/dasd_genhd.c     |    2 
+ drivers/s390/block/scm_blk.c        |    2 
+ drivers/scsi/scsi_scan.c            |    2 
+ drivers/ufs/core/ufshcd.c           |    2 
+ include/linux/blk-mq.h              |   10 -
+ include/linux/blkdev.h              |   36 +++-
+ 40 files changed, 547 insertions(+), 337 deletions(-)
 
