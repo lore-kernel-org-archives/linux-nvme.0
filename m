@@ -4,55 +4,108 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D1C0FC48BC3
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Feb 2024 06:42:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 399DEC4829A
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Feb 2024 06:53:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yzRf3zSMtMKlamKnucudV7BBOqyL2MYCKd1TAXnUS68=; b=ektOLizKYtaOirXV4JR+crNvXS
-	l4bfSeI0doSo3leHc7KO1FQFQU5NSY0bBQJm4y1D1UMSa3DQIFVakmPaoZ8HUmWxMXNLHLCYZ6sRT
-	KarmYoF6WwPr9QFvsM/8/ZL9rzG6r9M8Dl6pQFnqac4ebOaoyNJGsnIbHCgcMFCIcel82R84Dv8n7
-	gie0yIq4aKBBcxAitCezEeRF4rUc8aTCdIaZb6D3ThUiBHSrbk1hn87lR1/UNzI3LbnrEkG5js/JP
-	wZrQQVxf7Q3nDJcVuoJYxuYkzI7ojK/cc+iVuxPcMS+qGPJT3AVN6VjLNOuIu/J9mG2/pJtK4kuyN
-	u3SiFFJQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=4NKSIh+Fr8WTVMUu4ha6UjzCuFYZLVL2fWiORrY97GU=; b=dequGd3MUNA2pQ4U20EvbrjhHC
+	4OXVdo6qrH8lQ3DBKBxhlaaXWqyjP3kQlvF3lOphsQpvBLY9FGPGO/OKi1x3OFUyqsLmdv8HBvLeR
+	WJk5MHRlvUwoALJWq7LYGL5VINsfXQcwBDyIFcwfFCcplILIcpWiIUe4LKb29oMd3v2Kf3FqrihKL
+	rMIttpAcjD4B+jAUgUWAu6ohhApQ+yWOcCbJPfHy1DZiXZ5r07YH9KXGwEXBChGU0nndUGNLHOdpL
+	Kr7gjlmH94HAOWnEf8s97Yt3UTKEVrLiiZOUKGDsYM1rkPuQ6OuBxOdYMdIToyOUNQlrfbSdl6l16
+	ncrOBXgg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rZmVE-00000008ATe-1JE6;
-	Tue, 13 Feb 2024 06:42:48 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1rZmfT-00000008BSM-1mG9;
+	Tue, 13 Feb 2024 06:53:23 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rZmVB-00000008ASK-05Ds
+	id 1rZmfP-00000008BS0-44jF
 	for linux-nvme@lists.infradead.org;
-	Tue, 13 Feb 2024 06:42:46 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 3643D227A87; Tue, 13 Feb 2024 07:42:42 +0100 (CET)
-Date: Tue, 13 Feb 2024 07:42:41 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: John Garry <john.g.garry@oracle.com>
-Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-	jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
-	jack@suse.cz, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	tytso@mit.edu, jbongio@google.com, linux-scsi@vger.kernel.org,
-	ming.lei@redhat.com, ojaswin@linux.ibm.com, bvanassche@acm.org,
-	Alan Adamson <alan.adamson@oracle.com>
-Subject: Re: [PATCH v3 15/15] nvme: Ensure atomic writes will be executed
- atomically
-Message-ID: <20240213064241.GC23305@lst.de>
-References: <20240124113841.31824-1-john.g.garry@oracle.com> <20240124113841.31824-16-john.g.garry@oracle.com>
+	Tue, 13 Feb 2024 06:53:21 +0000
+Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 41D6HNoH025985;
+	Tue, 13 Feb 2024 06:53:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=4NKSIh+Fr8WTVMUu4ha6UjzCuFYZLVL2fWiORrY97GU=;
+ b=S74kmW2d80x+hFC5/TxZKlmfG7tAde7IhH4F71YI8/UuQkebWKd9W11mUixEgpj+hZz5
+ rNwjYSo88ST8ocy8BvYsXIdlHNzir5YFMf5Ijoc5WN9qTQHySxNMSaQgaHGg17hMiMBy
+ 3pSOyxlvTyjFdtVEfWw++ykuJTJk6WBKGO8z2YDjhg8Gm1H2PVCwJbD9XGvNth8AvHoG
+ m/WWtf2uTePFI+T8Uoax2DWsf0RmwXHBqhAdc7audRu16xyIHw+IlcrShp2JM9x9qX8t
+ P3FH8W23S6CE5Vtr2tdA/112ljGvHXNfzF+/H8wS/bMXfjbC8y9mThYUom0VcULqYbAM ng== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3w83160nae-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 13 Feb 2024 06:53:01 +0000
+Received: from m0353726.ppops.net (m0353726.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 41D6k86N003140;
+	Tue, 13 Feb 2024 06:53:01 GMT
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3w83160n9y-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 13 Feb 2024 06:53:01 +0000
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 41D63fs3010083;
+	Tue, 13 Feb 2024 06:53:00 GMT
+Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3w6npkndw9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 13 Feb 2024 06:53:00 +0000
+Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com [10.39.53.232])
+	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 41D6quVH22872716
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 13 Feb 2024 06:52:58 GMT
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id BEBD458063;
+	Tue, 13 Feb 2024 06:52:56 +0000 (GMT)
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4EFEA5805D;
+	Tue, 13 Feb 2024 06:52:50 +0000 (GMT)
+Received: from [9.109.198.187] (unknown [9.109.198.187])
+	by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 13 Feb 2024 06:52:49 +0000 (GMT)
+Message-ID: <8ce0068d-aaff-46e0-9fec-f09206938106@linux.ibm.com>
+Date: Tue, 13 Feb 2024 12:22:48 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240124113841.31824-16-john.g.garry@oracle.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 09/15] block: Add checks to merging of atomic writes
+Content-Language: en-US
+To: John Garry <john.g.garry@oracle.com>
+Cc: axboe@kernel.dk, brauner@kernel.org, bvanassche@acm.org,
+        dchinner@redhat.com, djwong@kernel.org, hch@lst.de, jack@suse.cz,
+        jbongio@google.com, jejb@linux.ibm.com, kbusch@kernel.org,
+        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+        linux-scsi@vger.kernel.org, linux-xfs@vger.kernel.org,
+        martin.petersen@oracle.com, ming.lei@redhat.com, ojaswin@linux.ibm.com,
+        sagi@grimberg.me, tytso@mit.edu, viro@zeniv.linux.org.uk
+References: <20240124113841.31824-10-john.g.garry@oracle.com>
+ <20240212105444.43262-1-nilay@linux.ibm.com>
+ <b3ce860d-4a1e-4980-97d9-0e8ad381c689@oracle.com>
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <b3ce860d-4a1e-4980-97d9-0e8ad381c689@oracle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: NEMKpa3nLFWJoO5v4hM9IsmvrbmlpotD
+X-Proofpoint-GUID: PrYV3wPBZoaTkpgDGCYdZ-6A1zflaRBR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-13_03,2024-02-12_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ impostorscore=0 malwarescore=0 bulkscore=0 adultscore=0 suspectscore=0
+ mlxlogscore=999 clxscore=1015 phishscore=0 mlxscore=0 spamscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2402130051
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240212_224245_223826_7AB87D04 
-X-CRM114-Status: GOOD (  12.96  )
+X-CRM114-CacheID: sfid-20240212_225320_157704_FF302BCD 
+X-CRM114-Status: GOOD (  19.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,17 +120,86 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-If we don't end up doing the checks in the block layer:
 
-> +	/*
-> +	 * Ensure that nothing has been sent which cannot be executed
-> +	 * atomically.
-> +	 */
-> +	if (req->cmd_flags & REQ_ATOMIC) {
-> +		struct nvme_ns_head *head = ns->head;
-> +		u32 boundary_bytes = head->atomic_boundary;
 
-... please split the checks into a helper.  And merge them into the
-previous patch.
+On 2/12/24 17:39, John Garry wrote:
+> On 12/02/2024 10:54, Nilay Shroff wrote:
+>>
+>> Shall we ensure here that we don't cross max limit of atomic write supported by
+>>
+>> device? It seems that if the boundary size is not advertized by the device
+>>
+>> (in fact, I have one NVMe drive which has boundary size zero i.e. nabo/nabspf/
+>>
+>> nawupf are all zero but awupf is non-zero) then we (unconditionally) allow
+>>
+>> merging.
+> 
+> BTW, if you don't mind, can you share awupf value and device model? I have been on the search for NVMe devices which support atomic writes (with non-zero PF reported value). All I have is a M.2 card which has a 4KB PF atomic write value.
+> 
+> But if this is private info, then ok.
+> 
+> Thanks,
+> John
 
+Yeah sure. Below are the details about NVMe:
+
+# lspci 
+0040:01:00.0 Non-Volatile memory controller: KIOXIA Corporation Device 0025 (rev 01)
+
+# nvme id-ctrl /dev/nvme0 -H 
+NVME Identify Controller:
+vid       : 0x1e0f
+ssvid     : 0x1014
+sn        : Z130A00LTGZ8        
+mn        : 800GB NVMe Gen4 U.2 SSD                 
+fr        : REV.C9S2
+[...]
+awun      : 65535
+awupf     : 63
+[...]
+
+# nvme id-ns /dev/nvme0n1 -H 
+NVME Identify Namespace 1:
+nsze    : 0x18ffff3
+ncap    : 0x18ffff3
+nuse    : 0
+nsfeat  : 0x14
+  [4:4] : 0x1	NPWG, NPWA, NPDG, NPDA, and NOWS are Supported
+  [3:3] : 0	NGUID and EUI64 fields if non-zero, Reused
+  [2:2] : 0x1	Deallocated or Unwritten Logical Block error Supported
+  [1:1] : 0	Namespace uses AWUN, AWUPF, and ACWU
+  [0:0] : 0	Thin Provisioning Not Supported
+
+[...]
+
+nawun   : 0
+nawupf  : 0
+nacwu   : 0
+nabsn   : 0
+nabo    : 0
+nabspf  : 0
+
+[...]
+
+LBA Format  0 : Metadata Size: 0   bytes - Data Size: 4096 bytes - Relative Performance: 0 Best (in use)
+LBA Format  1 : Metadata Size: 8   bytes - Data Size: 4096 bytes - Relative Performance: 0 Best 
+LBA Format  2 : Metadata Size: 0   bytes - Data Size: 512 bytes - Relative Performance: 0 Best 
+LBA Format  3 : Metadata Size: 8   bytes - Data Size: 512 bytes - Relative Performance: 0 Best 
+LBA Format  4 : Metadata Size: 64  bytes - Data Size: 4096 bytes - Relative Performance: 0 Best 
+LBA Format  5 : Metadata Size: 8   bytes - Data Size: 512 bytes - Relative Performance: 0 Best 
+
+
+As shown above, I am using KIOXIA NVMe. This NVMe has one namespace created(nvme0n1). 
+The nsfeat reports that this namespace uses AWUN, AWUPF, and ACWU.The awupf for this NVMe is 63. 
+As awupf is 0's based value, it's actually 64. The configured LBA for the namespace (in use) is 4096 
+bytes and so that means that this NVMe supports writing 262144 (64*4096) bytes of data atomically 
+during power failure. Further, please note that on this NVMe we have nawupf/nabspf/nabo all set
+to zero. 
+
+Let me know if you need any other details. And BTW, if you want I could help you with anything 
+you'd like to test on this NVMe. 
+
+Thanks,
+--Nilay
 
