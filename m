@@ -4,112 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77CCEC4829A
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Feb 2024 21:54:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7E6EFC48260
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Feb 2024 23:31:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Z8afUVDl1rcB4DggJtL7Tcs05elmC4von+4AUycjYwc=; b=C44wiTbrwBIj+ff+5/VN4uZmpG
-	JGf6gMfwQn1zaCVZctPCcScIoOc7MaetWxW+xsrPqz1SJPNMUsGBOAZtDamDKdwS+3bC4dRIO1Hfq
-	9udK5bx6qUTei38dVKn5XcQk5GHmXD3fx9l2cLp9ZBHvAbNkGtkfM89dJc2WwlTdcg4RkpSezl8Y0
-	TrHYESFIWLgN2QCJUtzOg+KOqP/WHJY/og4NILxMd2eohzTOwVJR7nfj4od7z2W7nD4+2lcj17dwK
-	L258z7pUmXBrOZ3m2D3YhJ6gVg34sG3GjpLd5bMQKPt06mNlhfcObZKLNugkrHWWySNPCM5g6ryQS
-	aLuxwRfA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Al0q0uimyLX0AHAwflhCX/ownoDnvBB+e7WXRUT8iRY=; b=xDs9729tOvntNpievxazyOnSUQ
+	m0mNbJhkP+nM9KJwIaOKY9mfVUMVl0VxAeXUjgcJArnGOo3tyzS/xs2tAvz6i79Tw/4YBmtqsg5Yk
+	OJS5g87EQGddDeIE0wQ3vRBqxCaGEbfwlN6crBeXkPqRFLi1okaifYoPnFiayWbIwpx1dOU7GAeGk
+	ZKxV9/56oUzYOg4cqltS4dkWe9sXxhLs725+dEUIXMeLvgRrh+iiP1TF9RM926BdIoqEjrCoHTji4
+	Pdoh5V4w6srtnYZKmX1xtHoJU2JwQRexl8gXdWhSuWv/yiOvHL5CkuxjsSVjmteje4d6Idyag6yMd
+	ELfEmmQA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ra0jS-0000000AuuW-1R7y;
-	Tue, 13 Feb 2024 21:54:26 +0000
-Received: from mail-bn8nam12on20600.outbound.protection.outlook.com ([2a01:111:f403:2418::600] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+	id 1ra2F6-0000000BG1Q-1JCm;
+	Tue, 13 Feb 2024 23:31:12 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ra0jP-0000000AutC-46NB
+	id 1ra2F3-0000000BG0h-0QQR
 	for linux-nvme@lists.infradead.org;
-	Tue, 13 Feb 2024 21:54:25 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MJO+1e8doX8ftrl6RbzHaUOguz+jLnScK1FbxAGfKi/nlodNYtl2Wybj3OwjXEzX0GgwguHEKEKebOKLCr9jdQz1W3MkcLlXOrQXiYpJj2hFgR2qUEJYqGCf8P/IeXQYMJFC8F+8QNPf4FOSdDsVCtBVb3gm+MThibQFZMUXeaQmY5Ekvgk3d7IKuDVGaPmhX2mB6MJqjyDF+7AYDfg2fTs1yObahVZQVwbF6xl/kmJbaoFcVeEF2XwLdg8eSZfzGhg6gfP/HW2KTGmBa6Sd3JgWDO+CMFMSpzjz8qkGVCNKewhvninE+PD5dauljROcyZs6dHvnvd92Xtjv8GxJaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Z8afUVDl1rcB4DggJtL7Tcs05elmC4von+4AUycjYwc=;
- b=jzOEO597+7XI3G+wWtHHv6ku3w+NqJjM5W0+/LT4bYLAr3WUK6/oZwaiBhVARnZWYeCz9UrfSBhytgaqy3DC1NUqtisY/0J/9hpwLOBCGK3ZFTSJKsJ1UEz/Osoahp+A726Vvs8JvusSQnOHOTyQt7qaVBfQ5gadFpCzBjxC1HceHAI9wT6pMGCEcNfqhWLLbZkvq3rqdgI6pbAJKYi94HDT12i55oWQYg8Xtgm6byPWlHN377dcq/9zU2NJJ2QK+h5tNyKMN4Nn9+NaQaTY0tpCd9SYYWLAR0F2YMp6+7K+xiHA0WYaOSsMouaazZtYPVLxy63C9VOKuriAHnxjFg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=grimberg.me smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z8afUVDl1rcB4DggJtL7Tcs05elmC4von+4AUycjYwc=;
- b=UUvSM5RVCZLs4j7zt0Rj447HpkhVszPl1RzFCSM+c23K5rCFIXB4tXHz8PdaSdeHS0c29qmgXiu0uOJjpRjWQNRNYGenlL8nInfRR1ILpl7g+Vhtpl8F2kpeA7PhnqYTbwnkCYgKezLwraV4XPRs8M5MUZk73o6HQuXFmfUUmrAmgXLJrJJd4uQkW9QPBEqoHIZuwlNW7iuiiLjv+lTp0WF4A74rnCKuADvD017cpEXDW0emdWPBXju3QWw8duMX8iKiu51yL8sjqZNwTr1JERDu+wI79QUcoubPGsGP2vnzWKmXUa/QKvhPltBT+AXX+XUsvQB5+QeUTzFQuNLYrA==
-Received: from DS7PR05CA0011.namprd05.prod.outlook.com (2603:10b6:5:3b9::16)
- by LV8PR12MB9333.namprd12.prod.outlook.com (2603:10b6:408:1fa::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.25; Tue, 13 Feb
- 2024 21:54:11 +0000
-Received: from CY4PEPF0000FCBF.namprd03.prod.outlook.com
- (2603:10b6:5:3b9:cafe::1e) by DS7PR05CA0011.outlook.office365.com
- (2603:10b6:5:3b9::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.24 via Frontend
- Transport; Tue, 13 Feb 2024 21:54:11 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- CY4PEPF0000FCBF.mail.protection.outlook.com (10.167.242.101) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7292.25 via Frontend Transport; Tue, 13 Feb 2024 21:54:11 +0000
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Tue, 13 Feb
- 2024 13:54:01 -0800
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail204.nvidia.com
- (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Tue, 13 Feb
- 2024 13:54:01 -0800
-Received: from Asurada-Nvidia.nvidia.com (10.127.8.10) by mail.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server id 15.2.1258.12 via Frontend
- Transport; Tue, 13 Feb 2024 13:54:00 -0800
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: <sagi@grimberg.me>, <hch@lst.de>, <axboe@kernel.dk>, <kbusch@kernel.org>,
-	<will@kernel.org>, <joro@8bytes.org>, <robin.murphy@arm.com>
-CC: <jgg@nvidia.com>, <linux-nvme@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <iommu@lists.linux.dev>, <murphyt7@tcd.ie>,
-	<baolu.lu@linux.intel.com>
-Subject: [PATCH v1 0/2] nvme-pci: Fix dma-iommu mapping failures when PAGE_SIZE=64KB
-Date: Tue, 13 Feb 2024 13:53:55 -0800
-Message-ID: <cover.1707851466.git.nicolinc@nvidia.com>
-X-Mailer: git-send-email 2.43.0
+	Tue, 13 Feb 2024 23:31:10 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 75D986175C;
+	Tue, 13 Feb 2024 23:31:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC4B0C433C7;
+	Tue, 13 Feb 2024 23:31:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707867068;
+	bh=+1XO1udNmWXaAaAH+rF9p1f8AZwXVEeDmta7ROf/3XY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=s9YUNyUn0t7j5CNHgYBkSAnYHa0C6gVdTD9py7ZxdxGyeK94mU494TH7GrLxx2swf
+	 gTg+oaApSBgHuPbZ3VQVQ2fJwsGShy/HHQD8LGP/dy4NdeVnuRwY3X18ntO8FIuJ3L
+	 sOAh3UAefrnDqRzqD0z3kZNtZpOrFUjv4k+0i4jkdSi97N/lceDsj7Z2h2ECR0wLQ9
+	 9kyJRk81RrB5Wtxm8qVAxGiqYYCrz5WspPCBZp8RhTcCeR5D5y1PiqSgPj50z5pRvQ
+	 3VNuJHmd0KXNJyID1bcgSGNftoRjUkrMPcyBrZ09dxUJDXgvny61k2fTM5z751JJGy
+	 eEietQT1NiWtA==
+Date: Tue, 13 Feb 2024 16:31:04 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: sagi@grimberg.me, hch@lst.de, axboe@kernel.dk, will@kernel.org,
+	joro@8bytes.org, robin.murphy@arm.com, jgg@nvidia.com,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	iommu@lists.linux.dev, murphyt7@tcd.ie, baolu.lu@linux.intel.com
+Subject: Re: [PATCH v1 2/2] nvme-pci: Fix iommu map (via swiotlb) failures
+ when PAGE_SIZE=64KB
+Message-ID: <Zcv7uI6VrMc2EuGT@kbusch-mbp>
+References: <cover.1707851466.git.nicolinc@nvidia.com>
+ <60bdcc29a2bcf12c6ab95cf0ea480d67c41c51e7.1707851466.git.nicolinc@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000FCBF:EE_|LV8PR12MB9333:EE_
-X-MS-Office365-Filtering-Correlation-Id: 64456894-769f-4e65-0897-08dc2cde4fc5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yU2wNLu5DYnzYHMfWi5NQ9B2pN0xTTJvM7mO4ZizxjsmPkf0/F79lWmYm+1RoIDZx20rP1aG2LA478Xk7AapyIi49nsERz0KbI/s/Ba78Jh02PV/G+3X4mKSbqE7qSCUN9KIvpvEsjQkekx+LairJ/HCFD9J41Q5ulVKq90g7v+/5KyNcggYEQc1z8zQgfbrWlbQHrA89DeuBISHpgmcTQ+ZvnyEQ7OJVC9nHhfS5BygBacBgc7ZOrTRZ5JdmvYabM+Owz2LuFbtt6u0hY4a27TTvLzL98vUQtvPiB4V1UlTK75B5zBBeDGQWLC5lN3SN0VEanqFeVr3c5ualkQLFR+wPospgB9eRKEKdQaqyVH6/i6WAPeH6Xl15u5EL1dZko1AmbnyRbwdyQ9PJhxGdKY5WvdNanABgD7kY3JAoEVX3fxwYUEyStgcAv5z8FdD+IFrp5A+zYNQc3NJKr5qvKYGe1G+MJRoskZvsob4LxFZRh+QTWumYiOD3b/jwgEXt0RqN+ak3iVII5bGSGHiVf9yQ6i82ejbG90vK6W783GriqOFdVY/Q+1VCf79nnpX5eOcthOPq3rLvctYgmqo845JFR/9ff2XEUmiMD44m0Y=
-X-Forefront-Antispam-Report: CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230031)(4636009)(376002)(346002)(396003)(136003)(39860400002)(230922051799003)(186009)(82310400011)(1800799012)(451199024)(64100799003)(46966006)(36840700001)(40470700004)(41300700001)(2616005)(26005)(336012)(426003)(2906002)(4326008)(70586007)(70206006)(8936002)(7416002)(8676002)(5660300002)(316002)(478600001)(54906003)(6666004)(7696005)(86362001)(7636003)(356005)(83380400001)(82740400003)(110136005)(36756003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2024 21:54:11.1348
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 64456894-769f-4e65-0897-08dc2cde4fc5
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000FCBF.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9333
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <60bdcc29a2bcf12c6ab95cf0ea480d67c41c51e7.1707851466.git.nicolinc@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240213_135424_066318_4A97115A 
-X-CRM114-Status: GOOD (  10.36  )
+X-CRM114-CacheID: sfid-20240213_153109_206378_AE93E37B 
+X-CRM114-Status: UNSURE (   7.36  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -124,49 +76,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-It's observed that an NVME device is causing timeouts when Ubuntu boots
-with a kernel configured with PAGE_SIZE=64KB due to failures in swiotlb:
-    systemd[1]: Started Journal Service.
- => nvme 0000:00:01.0: swiotlb buffer is full (sz: 327680 bytes), total 32768 (slots), used 32 (slots)
-    note: journal-offline[392] exited with irqs disabled
-    note: journal-offline[392] exited with preempt_count 1
+On Tue, Feb 13, 2024 at 01:53:57PM -0800, Nicolin Chen wrote:
+> @@ -2967,7 +2967,7 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
+>  		dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(48));
+>  	else
+>  		dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+> -	dma_set_min_align_mask(&pdev->dev, NVME_CTRL_PAGE_SIZE - 1);
+> +	dma_set_min_align_mask(&pdev->dev, PAGE_SIZE - 1);
+>  	dma_set_max_seg_size(&pdev->dev, 0xffffffff);
 
-An NVME device under a PCIe bus can be behind an IOMMU, so dma mappings
-going through dma-iommu might be also redirected to swiotlb allocations.
-Similar to dma_direct_max_mapping_size(), dma-iommu should implement its
-dma_map_ops->max_mapping_size to return swiotlb_max_mapping_size() too.
-
-Though an iommu_dma_max_mapping_size() is a must, it alone can't fix the
-issue. The swiotlb_max_mapping_size() returns 252KB, calculated from the
-default pool 256KB subtracted by min_align_mask NVME_CTRL_PAGE_SIZE=4KB,
-while dma-iommu can roundup a 252KB mapping to 256KB at its "alloc_size"
-when PAGE_SIZE=64KB via iova->granule that is often set to PAGE_SIZE. So
-this mismatch between NVME_CTRL_PAGE_SIZE=4KB and PAGE_SIZE=64KB results
-in a similar failure, though its signature has a fixed size "256KB":
-    systemd[1]: Started Journal Service.
- => nvme 0000:00:01.0: swiotlb buffer is full (sz: 262144 bytes), total 32768 (slots), used 128 (slots)
-    note: journal-offline[392] exited with irqs disabled
-    note: journal-offline[392] exited with preempt_count 1
-
-Both failures above occur to NVME behind IOMMU when PAGE_SIZE=64KB. They
-were likely introduced for the security feature by:
-commit 82612d66d51d ("iommu: Allow the dma-iommu api to use bounce buffers"),
-
-So, this series bundles two fixes together against that. They should be
-taken at the same time to entirely fix the mapping failures.
-
-Thanks
-Nicolin
-
-Nicolin Chen (2):
-  iommu/dma: Force swiotlb_max_mapping_size on an untrusted device
-  nvme-pci: Fix iommu map (via swiotlb) failures when PAGE_SIZE=64KB
-
- drivers/iommu/dma-iommu.c | 8 ++++++++
- drivers/nvme/host/pci.c   | 2 +-
- 2 files changed, 9 insertions(+), 1 deletion(-)
-
--- 
-2.43.0
-
+I recall we had to do this for POWER because they have 64k pages, but
+page aligned addresses IOMMU map to 4k, so we needed to allow the lower
+dma alignment to efficiently use it.
 
