@@ -4,67 +4,117 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8CEE6C48BC3
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 Feb 2024 18:06:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6E138C48BC1
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Feb 2024 19:58:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Mu0Kym0Oi7LEYF48myyJYSQij1kB8m9R8ARQcQmMbpc=; b=XsM9ny5x4VrNZtzIAoMFD3/EmE
-	NM1oYmtgiA2WZ1TjoB+38Q5EJEMuw7OE9s3eKAFJO76G9HtT8rwJQHjJi17izyjeXmZ/W8I6B6yOk
-	dTzHIjWDKY5nB72jF/NhP6qDyuFB6Q08p9DkrR7jZRDuEo5xU0FEN8GnOeqFYzqnYgIkIwjRzsj0I
-	I2uiaWlUIGr0aSER1d1IH3x1n6diN08tvTd9zl6fvWJ60fghqtadILo6MIoRPuuxGysYzY83MK0Ic
-	NvjzkMZaz7v+Sor6PB1Oxjm9H8mKDvgdZ61agifX8uRpNyLpmweiRUquLhzVXFs0ddJ+iZyXAaTsg
-	nCGeyD1g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:CC:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=7f9gxrETEuRfaZrn83Vw971b9MljLgOHwCVrmXxxwKU=; b=28iotJBxqTNWeXqhtVLrjuwifs
+	wzPZNsU69jRMBGQJqjCub0brDNv/fyO2esPn2cwHYvJh5wvovBUOyLbVs9VQkDPd9U8ZyYUXsRzLV
+	jjwZ3ykF5TMIH7ZEYzyTB4WSgPGlAU0N3tbf4SQSiCF6uTjq4HMAzz0hbJ5UJQ8/mLR36wtE6+I5F
+	NFHY6W3fWid/zK+FOeZ86oL/rl7H2UGDzDZt+HRwtrdXUjMFJnBA37/EuUGDEAB0B90awmNenloAk
+	nxzgjqpwfCA1ft/icFT/qXLP0897EUdx+sl0/JVIZIdiDRol+UbFzPSgoRmeyYpgKlvW+kM1Br5JV
+	sEEopChQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1raJeV-0000000Drjx-42Et;
-	Wed, 14 Feb 2024 18:06:35 +0000
-Received: from mgamail.intel.com ([192.198.163.7])
+	id 1raLOJ-0000000E7tr-32ka;
+	Wed, 14 Feb 2024 19:57:59 +0000
+Received: from mail-dm6nam04on20601.outbound.protection.outlook.com ([2a01:111:f403:2409::601] helo=NAM04-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1raJeT-0000000Driw-3Fsn
+	id 1raLOG-0000000E7sJ-2WVv
 	for linux-nvme@lists.infradead.org;
-	Wed, 14 Feb 2024 18:06:35 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707933993; x=1739469993;
-  h=date:from:to:cc:subject:message-id;
-  bh=YG1yehU2ghWikDSjnYMZEFP0p5F07syZfs3YbAICspU=;
-  b=Nbfr32zh4I/BpCq1Y6chIifmD6hBrVbvUIAbMPvaPTmcACwi6ea9Fu7G
-   1nVCjU+sxneFw9MYl5dHKexrkjlSnuOgqXuY5TZL5OnsaG8nUk/zK28hM
-   Hcqz7SPH1/gEeO7lnLRpoduzANqfEYuUmLlt6mQZqf1/3N0nm2elJIMMH
-   /Q1MbsuPNazWNbpVxQmcb3TLx95ABuN83PKXhpfo/IffeyALyQ2oEGCVD
-   4UzxFlXUTy0rXpThkf/TS01xrbcN+dPdILPeS5qyhBJlrbVvntDD6LfpP
-   uSsCzCvo30rO2qHql3wIxhlS5IxlmdcvEd9ilz8BgBLrjnKMtRJurRZs2
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="27444988"
-X-IronPort-AV: E=Sophos;i="6.06,160,1705392000"; 
-   d="scan'208";a="27444988"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 10:06:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,160,1705392000"; 
-   d="scan'208";a="3436941"
-Received: from lkp-server01.sh.intel.com (HELO 323e10984596) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 14 Feb 2024 10:06:31 -0800
-Received: from kbuild by 323e10984596 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1raJeP-00007K-1u;
-	Wed, 14 Feb 2024 18:06:29 +0000
-Date: Thu, 15 Feb 2024 02:06:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.9] BUILD SUCCESS
- 473516b361936cbc27d7728df649a5b3094b6170
-Message-ID: <202402150213.rrGw5hZY-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Wed, 14 Feb 2024 19:57:58 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=APyLxyxkr0JSLT6erWJoXKUEmAUzkpgjIibo1q7YOIxfToAXk2dE8kq92rfnYvCK71U9uGU2oDOkYJ3VeXmsWzGXn2GtZlo71AYwtanr/gurofatjh48LR5EM8TxErh2/2FIuYfw0n5xasdGAnBefXVSGY2BqmDETeSHD0dcmYNNdt4p8FrAfY+vQipgvEAXx5HC29PYofsEoRmklGusqB8cFzGYRUWzKZwf9kP9iFDfz+oDffOzTDqoklhGGv4sinXJkUx8kUpnnqFyVSJZvGK7KITCdOZBaDaNmXYfvMi93eWPTwwuvdcfBIdhVOzOeg+8xxiGcrQiYCycc5lIIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7f9gxrETEuRfaZrn83Vw971b9MljLgOHwCVrmXxxwKU=;
+ b=gMgxdJPTQWcqCLvU2vcHT5lzguJgxK/CPR4SShhnnoAfcpsi+O4vAFQdOvc4zwyF/v0a70z6HqHXzUP/jW86j+Sv4rg5ycY1oQiDTQnPQEFoauZMEvHMwH6Bm7NAa1yF2YG+Mx6/XKhyis4jjdr0+r0HE8z+ATizoP+qHZWBJsCwJvAQGEklx1Zs8Ek9eUxNAhAtWzSfb94/dZb1gROcyRnBVe484kNAJseJgmk4WShA8P4nk4FXnZWMlezmHsNlY4W5lNwOiLuNzZUcMnsmpscITXBVS+vKV/QbqbRfuxfYvaCrKXn6j3iHnTYPg1RuaEWKvKg4rFsc3B5tnWiPWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.232) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7f9gxrETEuRfaZrn83Vw971b9MljLgOHwCVrmXxxwKU=;
+ b=d2TlUizf8bCsO3+LLr7vv25aCaXbaMV7l4lmie8f/lvOUVVo8n6urdfUglzho6qWB4AS/Jrkz0rwmcy4EpfEJXQVEIQFsklGm7IGDCqpP++B0YGgttAEwjik/XtaY9mTXlUJA52IO5CVfVPnI7m273Y6QDWb7J5cISogeqC0bNbQvDxznZKxdYixD39Re6p2CbHgX3fp89pfa/voBhCttdcwBctT1XhT7RpCGpnJhSr4MC0nRGssjy/JuACPW7BDb9b958PkfdB7Y1QJk948cmyXc2mdZHCuCnr15tJb3vVzna9/SuSvwHgqdkzQXsucuYUQmHxL3arAJHA6KVXkSw==
+Received: from CH0PR03CA0360.namprd03.prod.outlook.com (2603:10b6:610:11a::11)
+ by SJ2PR12MB8035.namprd12.prod.outlook.com (2603:10b6:a03:4d3::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.24; Wed, 14 Feb
+ 2024 19:57:47 +0000
+Received: from CH2PEPF0000009F.namprd02.prod.outlook.com
+ (2603:10b6:610:11a:cafe::88) by CH0PR03CA0360.outlook.office365.com
+ (2603:10b6:610:11a::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.26 via Frontend
+ Transport; Wed, 14 Feb 2024 19:57:46 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.232) by
+ CH2PEPF0000009F.mail.protection.outlook.com (10.167.244.21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7292.25 via Frontend Transport; Wed, 14 Feb 2024 19:57:46 +0000
+Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
+ (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Wed, 14 Feb
+ 2024 11:57:34 -0800
+Received: from drhqmail203.nvidia.com (10.126.190.182) by
+ drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.12; Wed, 14 Feb 2024 11:57:34 -0800
+Received: from Asurada-Nvidia (10.127.8.10) by mail.nvidia.com
+ (10.126.190.182) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12 via Frontend
+ Transport; Wed, 14 Feb 2024 11:57:33 -0800
+Date: Wed, 14 Feb 2024 11:57:32 -0800
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Will Deacon <will@kernel.org>
+CC: <sagi@grimberg.me>, <hch@lst.de>, <axboe@kernel.dk>, <kbusch@kernel.org>,
+	<joro@8bytes.org>, <robin.murphy@arm.com>, <jgg@nvidia.com>,
+	<linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<iommu@lists.linux.dev>, <murphyt7@tcd.ie>, <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH v1 0/2] nvme-pci: Fix dma-iommu mapping failures when
+ PAGE_SIZE=64KB
+Message-ID: <Zc0bLAIXSAqsQJJv@Asurada-Nvidia>
+References: <cover.1707851466.git.nicolinc@nvidia.com>
+ <20240214164138.GA31927@willie-the-truck>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240214164138.GA31927@willie-the-truck>
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PEPF0000009F:EE_|SJ2PR12MB8035:EE_
+X-MS-Office365-Filtering-Correlation-Id: 016addfe-ff54-4ebe-7b13-08dc2d973732
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: qXrZAmJ9AYHHTEZNGrDOlQdvxJyajZGPAC8xYENKvtPDRfXvDN3B0RFP/RCcjH+m8O1ome8EVS2KsJItLNXJZ1JWRMDShZnLoVQgIilezkI2VXc8VDA/Dq9mDKHkxsnmJh1T+dN/th4WSGwD3gV8sG9rhm8mGxdvI4QSceBYYKSo7+kMVmhhCuQGiJVaeDk93L/v2Sr7W5uVZtQ5NjPsY5O9SiNTvpzMGok0ZC5uUfcFI3h4LoRD96Sjwd+6d/liGZCSKrK2lywzTPGrmlmEamh4i29gX8C5vFvwIbKgp6cYPuPuErj6zsj+hB1YPTR1izRgWKjjGWSiAmjuH3ks14EWneWJ7FyoKERy2PrvfAFuZ2cPMBvjULnzONC6T6/PnZGsQxn12O7wFJVzDdJNs7S8owD8xV1vyUzeDljub2LpF0UZg6NsEapO9jXEhwXEEBOofwUwEJbFdUZQLgpP/+9CWRyRXNPCPzHIB4ZrAirBAAEaHqJtAJg7RG7iTwdlFlglFVYw6eOaPqz30LOhM9I5fAtZzFi3ywx2v0lZmUu+GViSb+VpuYst5mtQjn+q1/+Gg7QcEC0ZgVqDTu310JY+7CLJI2ptYahalD2pB+HNM2nnwGo+xpdxQ5DLJNsDBBppPEa+bWJsMDfu0XFM3w==
+X-Forefront-Antispam-Report: CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230031)(4636009)(396003)(39860400002)(346002)(136003)(376002)(230273577357003)(230922051799003)(451199024)(1800799012)(64100799003)(82310400011)(186009)(46966006)(36840700001)(40470700004)(6916009)(26005)(478600001)(70586007)(7416002)(426003)(336012)(41300700001)(83380400001)(8936002)(8676002)(70206006)(5660300002)(9686003)(4326008)(54906003)(966005)(316002)(86362001)(82740400003)(356005)(7636003)(55016003)(33716001)(2906002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2024 19:57:46.7572
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 016addfe-ff54-4ebe-7b13-08dc2d973732
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CH2PEPF0000009F.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8035
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240214_100633_860895_070422B4 
-X-CRM114-Status: UNSURE (   5.22  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240214_115756_747643_D50C50CF 
+X-CRM114-Status: GOOD (  23.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,204 +129,81 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.9
-branch HEAD: 473516b361936cbc27d7728df649a5b3094b6170  loop: use the atomic queue limits update API
+Hi Will,
 
-elapsed time: 1450m
+On Wed, Feb 14, 2024 at 04:41:38PM +0000, Will Deacon wrote:
+> Hi Nicolin,
+> 
+> On Tue, Feb 13, 2024 at 01:53:55PM -0800, Nicolin Chen wrote:
+> > It's observed that an NVME device is causing timeouts when Ubuntu boots
+> > with a kernel configured with PAGE_SIZE=64KB due to failures in swiotlb:
+> >     systemd[1]: Started Journal Service.
+> >  => nvme 0000:00:01.0: swiotlb buffer is full (sz: 327680 bytes), total 32768 (slots), used 32 (slots)
+> >     note: journal-offline[392] exited with irqs disabled
+> >     note: journal-offline[392] exited with preempt_count 1
+> >
+> > An NVME device under a PCIe bus can be behind an IOMMU, so dma mappings
+> > going through dma-iommu might be also redirected to swiotlb allocations.
+> > Similar to dma_direct_max_mapping_size(), dma-iommu should implement its
+> > dma_map_ops->max_mapping_size to return swiotlb_max_mapping_size() too.
+> >
+> > Though an iommu_dma_max_mapping_size() is a must, it alone can't fix the
+> > issue. The swiotlb_max_mapping_size() returns 252KB, calculated from the
+> > default pool 256KB subtracted by min_align_mask NVME_CTRL_PAGE_SIZE=4KB,
+> > while dma-iommu can roundup a 252KB mapping to 256KB at its "alloc_size"
+> > when PAGE_SIZE=64KB via iova->granule that is often set to PAGE_SIZE. So
+> > this mismatch between NVME_CTRL_PAGE_SIZE=4KB and PAGE_SIZE=64KB results
+> > in a similar failure, though its signature has a fixed size "256KB":
+> >     systemd[1]: Started Journal Service.
+> >  => nvme 0000:00:01.0: swiotlb buffer is full (sz: 262144 bytes), total 32768 (slots), used 128 (slots)
+> >     note: journal-offline[392] exited with irqs disabled
+> >     note: journal-offline[392] exited with preempt_count 1
+> >
+> > Both failures above occur to NVME behind IOMMU when PAGE_SIZE=64KB. They
+> > were likely introduced for the security feature by:
+> > commit 82612d66d51d ("iommu: Allow the dma-iommu api to use bounce buffers"),
+> >
+> > So, this series bundles two fixes together against that. They should be
+> > taken at the same time to entirely fix the mapping failures.
+> 
+> It's a bit of a shot in the dark, but I've got a pending fix to some of
+> the alignment handling in swiotlb. It would be interesting to know if
+> patch 1 has any impact at all on your NVME allocations:
+> 
+> https://lore.kernel.org/r/20240205190127.20685-1-will@kernel.org
 
-configs tested: 184
-configs skipped: 3
+I applied these three patches locally for a test.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Though I am building with a v6.6 kernel, I see some warnings:
+                 from kernel/dma/swiotlb.c:26:
+kernel/dma/swiotlb.c: In function ‘swiotlb_area_find_slots’:
+./include/linux/minmax.h:21:35: warning: comparison of distinct pointer types lacks a cast
+   21 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+      |                                   ^~
+./include/linux/minmax.h:27:18: note: in expansion of macro ‘__typecheck’
+   27 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+      |                  ^~~~~~~~~~~
+./include/linux/minmax.h:37:31: note: in expansion of macro ‘__safe_cmp’
+   37 |         __builtin_choose_expr(__safe_cmp(x, y), \
+      |                               ^~~~~~~~~~
+./include/linux/minmax.h:75:25: note: in expansion of macro ‘__careful_cmp’
+   75 | #define max(x, y)       __careful_cmp(x, y, >)
+      |                         ^~~~~~~~~~~~~
+kernel/dma/swiotlb.c:1007:26: note: in expansion of macro ‘max’
+ 1007 |                 stride = max(stride, PAGE_SHIFT - IO_TLB_SHIFT + 1);
+      |                          ^~~
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                     nsimosci_hs_defconfig   gcc  
-arc                   randconfig-001-20240214   gcc  
-arc                   randconfig-002-20240214   gcc  
-arc                    vdk_hs38_smp_defconfig   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   clang
-arm                              allyesconfig   gcc  
-arm                     am200epdkit_defconfig   gcc  
-arm                                 defconfig   clang
-arm                        keystone_defconfig   gcc  
-arm                   randconfig-001-20240214   clang
-arm                   randconfig-002-20240214   gcc  
-arm                   randconfig-003-20240214   clang
-arm                   randconfig-004-20240214   clang
-arm                           sunxi_defconfig   gcc  
-arm                    vt8500_v6_v7_defconfig   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20240214   clang
-arm64                 randconfig-002-20240214   clang
-arm64                 randconfig-003-20240214   gcc  
-arm64                 randconfig-004-20240214   clang
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240214   gcc  
-csky                  randconfig-002-20240214   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20240214   clang
-hexagon               randconfig-002-20240214   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20240214   clang
-i386         buildonly-randconfig-002-20240214   clang
-i386         buildonly-randconfig-003-20240214   clang
-i386         buildonly-randconfig-004-20240214   gcc  
-i386         buildonly-randconfig-005-20240214   gcc  
-i386         buildonly-randconfig-006-20240214   clang
-i386                                defconfig   clang
-i386                  randconfig-001-20240214   clang
-i386                  randconfig-002-20240214   clang
-i386                  randconfig-003-20240214   clang
-i386                  randconfig-004-20240214   gcc  
-i386                  randconfig-005-20240214   clang
-i386                  randconfig-006-20240214   gcc  
-i386                  randconfig-011-20240214   clang
-i386                  randconfig-012-20240214   gcc  
-i386                  randconfig-013-20240214   gcc  
-i386                  randconfig-014-20240214   gcc  
-i386                  randconfig-015-20240214   clang
-i386                  randconfig-016-20240214   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240214   gcc  
-loongarch             randconfig-002-20240214   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                        m5272c3_defconfig   gcc  
-m68k                       m5275evb_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                         bigsur_defconfig   gcc  
-mips                  decstation_64_defconfig   gcc  
-mips                 decstation_r4k_defconfig   gcc  
-mips                      pic32mzda_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240214   gcc  
-nios2                 randconfig-002-20240214   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20240214   gcc  
-parisc                randconfig-002-20240214   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                        icon_defconfig   gcc  
-powerpc                 mpc8313_rdb_defconfig   gcc  
-powerpc               randconfig-001-20240214   clang
-powerpc               randconfig-002-20240214   clang
-powerpc               randconfig-003-20240214   clang
-powerpc                      walnut_defconfig   gcc  
-powerpc                        warp_defconfig   gcc  
-powerpc                         wii_defconfig   gcc  
-powerpc64             randconfig-001-20240214   clang
-powerpc64             randconfig-002-20240214   clang
-powerpc64             randconfig-003-20240214   clang
-riscv                            allmodconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   clang
-riscv                               defconfig   clang
-riscv                 randconfig-001-20240214   clang
-riscv                 randconfig-002-20240214   clang
-s390                             allmodconfig   clang
-s390                              allnoconfig   clang
-s390                             allyesconfig   gcc  
-s390                                defconfig   clang
-s390                  randconfig-001-20240214   clang
-s390                  randconfig-002-20240214   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                        dreamcast_defconfig   gcc  
-sh                ecovec24-romimage_defconfig   gcc  
-sh                         ecovec24_defconfig   gcc  
-sh                          landisk_defconfig   gcc  
-sh                    randconfig-001-20240214   gcc  
-sh                    randconfig-002-20240214   gcc  
-sh                          rsk7203_defconfig   gcc  
-sh                          sdk7780_defconfig   gcc  
-sh                           se7705_defconfig   gcc  
-sh                           se7722_defconfig   gcc  
-sh                           se7724_defconfig   gcc  
-sh                     sh7710voipgw_defconfig   gcc  
-sh                            shmin_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240214   gcc  
-sparc64               randconfig-002-20240214   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                    randconfig-001-20240214   clang
-um                    randconfig-002-20240214   gcc  
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20240214   gcc  
-x86_64       buildonly-randconfig-003-20240214   gcc  
-x86_64       buildonly-randconfig-004-20240214   gcc  
-x86_64       buildonly-randconfig-005-20240214   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-002-20240214   gcc  
-x86_64                randconfig-004-20240214   gcc  
-x86_64                randconfig-013-20240214   gcc  
-x86_64                randconfig-014-20240214   gcc  
-x86_64                randconfig-071-20240214   gcc  
-x86_64                randconfig-073-20240214   gcc  
-x86_64                randconfig-076-20240214   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                           allyesconfig   gcc  
-xtensa                randconfig-001-20240214   gcc  
-xtensa                randconfig-002-20240214   gcc  
-xtensa                         virt_defconfig   gcc  
+Replacing with a max_t() can fix these.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+And it seems to get worse, as even a 64KB mapping is failing:
+[    0.239821] nvme 0000:00:01.0: swiotlb buffer is full (sz: 65536 bytes), total 32768 (slots), used 0 (slots)
+
+With a printk, I found the iotlb_align_mask isn't correct:
+   swiotlb_area_find_slots:alloc_align_mask 0xffff, iotlb_align_mask 0x800
+
+But fixing the iotlb_align_mask to 0x7ff still fails the 64KB
+mapping..
+
+Thanks
+Nicolin
 
