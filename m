@@ -4,76 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0CFB6C48BC3
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 Feb 2024 13:04:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DDF60C48BC3
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Feb 2024 16:41:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EUpvZ7ImcN6iRBfQR5QrQA+ZGjPdmy3aiW0Hd3hcrnQ=; b=vNxit+9Fwu0BmBpqrF31ljmgLO
-	b8cXKHqvZuMmI5725G9uWPtkjws2RNWY8xwuAQrcqNy3vkeq+c3fQ2aFj9E3Gq9wy1wbJ3Be7+9fP
-	22wMZeQIsLecEZY2teMcoA7eiSiicD4G/DBp3nOpDjvt8txMdHeDUuAX6aVgJnBY/1wXw0RdVGr8c
-	DZjrQA8CPA7kEaOSNmevYlz2uJPw4HM1qe1Jr9M0lvpsbw3YRJ6EPt7GNqXtsDDh1JhnHjZuP7H2N
-	0a7GtPmor5JZ2bmTqTl10+EfEDpSzAsNPTDVoF+ibHFegK7AKxv8vuJBUqGY5Sb1iEzZpXifrFRIQ
-	OyASKbqg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=R0ADXAcnx55rHzVKxCSUweqUJ0IxcRwiblhtNC8mXI8=; b=KP+uqj1SyNkpfKVdztRfxgth4s
+	Xhd1C+MDx6lXiKDwGEsFwzWxxNjDwwmS/bH6vug6zT5z98J7hfwT5rHs/STLIwwHHWgdMacDn42bk
+	uC9A/K8v+TFohD1iUzKXGa0w1H2j3/Socm2j0ODwg0BRoEoPZyNP1dCfJGRXrpwOrjb3kLUC7l7SZ
+	Lk+QIBwEPVHDeg2lvqBX7Wm4UHOeCrqpS7LgVBFaFUHGPPsA2mNJo9mIzBV8yfgeS206lwR4JN3x6
+	fv3OGlGWio/gBoNIEACky0LrKVYupzGMil3EEqc/JehtAP9ZzwKxy575to72Z9LgFt858RseGS6A8
+	kTacnGWQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1raEwc-0000000Cvjh-2uvu;
-	Wed, 14 Feb 2024 13:04:58 +0000
-Received: from www62.your-server.de ([213.133.104.62])
+	id 1raIKU-0000000DZYe-3LWv;
+	Wed, 14 Feb 2024 16:41:50 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1raEvT-0000000CvYI-1wZf
+	id 1raIKP-0000000DZXz-3EzN
 	for linux-nvme@lists.infradead.org;
-	Wed, 14 Feb 2024 13:03:49 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=iogearbox.net; s=default2302; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=EUpvZ7ImcN6iRBfQR5QrQA+ZGjPdmy3aiW0Hd3hcrnQ=; b=MwpGtHQUzHdeNgQIAJKrYkQir0
-	wL3rGSdwthLpVi6rJBVqink5DidYuAH714ElJOQB18JgkPnzLzshB5K6MexPqnWaCceoLwBQSt5NU
-	Obd5t8XnCd90jFPygROaIlqcGcdFbE3Mbvu/awSVtILfJgE8HCc68BYxaKlyUXOvisb2VlJKcpe3y
-	SjKwhh0tbhX+Mzh8RWpVKaG0NxFwqkMfX99jwZFtevDK1yU+y2ux93FizBw04G1QuR/gS5DsbGljX
-	89R7B1iYhmLU1ogaxm3nfe0mawbV8xNQfC2r08dtHxNkCtRQ1masq6dNVYtlENtrfxgx2niHI31jf
-	qdYN+lqQ==;
-Received: from sslproxy03.your-server.de ([88.198.220.132])
-	by www62.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <daniel@iogearbox.net>)
-	id 1raEvF-000AMv-Dv; Wed, 14 Feb 2024 14:03:33 +0100
-Received: from [85.1.206.226] (helo=linux.home)
-	by sslproxy03.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <daniel@iogearbox.net>)
-	id 1raEvE-000MWP-Sy; Wed, 14 Feb 2024 14:03:32 +0100
-Subject: LSF/MM/BPF: 2024: Call for Proposals [Final Reminder]
-To: lsf-pc@lists.linuxfoundation.org
-Cc: linux-scsi@vger.kernel.org, linux-ide@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org
-References: <7970ad75-ca6a-34b9-43ea-c6f67fe6eae6@iogearbox.net>
- <4343d07b-b1b2-d43b-c201-a48e89145e5c@iogearbox.net>
- <c91530f0-2688-647d-2603-a7b1673f8e42@iogearbox.net>
-From: Daniel Borkmann <daniel@iogearbox.net>
-Message-ID: <013f8741-4468-b1a4-0569-aee5e1d6b1a8@iogearbox.net>
-Date: Wed, 14 Feb 2024 14:03:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+	Wed, 14 Feb 2024 16:41:47 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id D5D1761B0E;
+	Wed, 14 Feb 2024 16:41:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14B19C433F1;
+	Wed, 14 Feb 2024 16:41:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707928904;
+	bh=rtzaQewjWyFqgXvX8Cpq/QwLjOpb1280iFp5zLTTWx8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oP/9iHXzZ4W3ZkEIKY9irpzbod0eFARuDjHbe93lj1nSEHbUYvXg3uHTnMtH9Jkmt
+	 SuqEPiKzPsRKrc5m74cY32AfDw/qAVaFGETVY32JqsFWgRSR5RvlcF0t1HdI+GtK3f
+	 x7Ye1fDwGN5Zfei+HU++QCasgmImmcKpwQHy6MC660hAUJZxnILvlV4RFM0QLgt23B
+	 7/MSUOriFsS4NiTahlVGWkpfjqfgxTAnimulbm1unYOY2l/Zum4l+1qVgQG/9qVV6w
+	 y1Iu8twIAaK4onCIbUsBWRJCER2TwLsWCJSJCFsh8Bk0OtJHI7HhALtsWjs3Dx7xQN
+	 XKys4GJgd5Tmw==
+Date: Wed, 14 Feb 2024 16:41:38 +0000
+From: Will Deacon <will@kernel.org>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: sagi@grimberg.me, hch@lst.de, axboe@kernel.dk, kbusch@kernel.org,
+	joro@8bytes.org, robin.murphy@arm.com, jgg@nvidia.com,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	iommu@lists.linux.dev, murphyt7@tcd.ie, baolu.lu@linux.intel.com
+Subject: Re: [PATCH v1 0/2] nvme-pci: Fix dma-iommu mapping failures when
+ PAGE_SIZE=64KB
+Message-ID: <20240214164138.GA31927@willie-the-truck>
+References: <cover.1707851466.git.nicolinc@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <c91530f0-2688-647d-2603-a7b1673f8e42@iogearbox.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 0.103.10/27185/Wed Feb 14 10:22:57 2024)
-X-Bad-Reply: References and In-Reply-To but no 'Re:' in Subject.
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1707851466.git.nicolinc@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240214_050347_845467_A2AC2CAB 
-X-CRM114-Status: GOOD (  18.89  )
-X-Mailman-Approved-At: Wed, 14 Feb 2024 05:04:57 -0800
+X-CRM114-CacheID: sfid-20240214_084145_875466_26F90760 
+X-CRM114-Status: GOOD (  16.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,119 +75,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The annual Linux Storage, Filesystem, Memory Management, and BPF
-(LSF/MM/BPF) Summit for 2024 will be held from May 13 to May 15
-at the Hilton Salt Lake City Center in Salt Lake City, Utah, USA.
+Hi Nicolin,
 
-LSF/MM/BPF is an invitation-only technical workshop to map out
-improvements to the Linux storage, filesystem, BPF, and memory
-management subsystems that will make their way into the mainline
-kernel within the coming years.
+On Tue, Feb 13, 2024 at 01:53:55PM -0800, Nicolin Chen wrote:
+> It's observed that an NVME device is causing timeouts when Ubuntu boots
+> with a kernel configured with PAGE_SIZE=64KB due to failures in swiotlb:
+>     systemd[1]: Started Journal Service.
+>  => nvme 0000:00:01.0: swiotlb buffer is full (sz: 327680 bytes), total 32768 (slots), used 32 (slots)
+>     note: journal-offline[392] exited with irqs disabled
+>     note: journal-offline[392] exited with preempt_count 1
+> 
+> An NVME device under a PCIe bus can be behind an IOMMU, so dma mappings
+> going through dma-iommu might be also redirected to swiotlb allocations.
+> Similar to dma_direct_max_mapping_size(), dma-iommu should implement its
+> dma_map_ops->max_mapping_size to return swiotlb_max_mapping_size() too.
+> 
+> Though an iommu_dma_max_mapping_size() is a must, it alone can't fix the
+> issue. The swiotlb_max_mapping_size() returns 252KB, calculated from the
+> default pool 256KB subtracted by min_align_mask NVME_CTRL_PAGE_SIZE=4KB,
+> while dma-iommu can roundup a 252KB mapping to 256KB at its "alloc_size"
+> when PAGE_SIZE=64KB via iova->granule that is often set to PAGE_SIZE. So
+> this mismatch between NVME_CTRL_PAGE_SIZE=4KB and PAGE_SIZE=64KB results
+> in a similar failure, though its signature has a fixed size "256KB":
+>     systemd[1]: Started Journal Service.
+>  => nvme 0000:00:01.0: swiotlb buffer is full (sz: 262144 bytes), total 32768 (slots), used 128 (slots)
+>     note: journal-offline[392] exited with irqs disabled
+>     note: journal-offline[392] exited with preempt_count 1
+> 
+> Both failures above occur to NVME behind IOMMU when PAGE_SIZE=64KB. They
+> were likely introduced for the security feature by:
+> commit 82612d66d51d ("iommu: Allow the dma-iommu api to use bounce buffers"),
+> 
+> So, this series bundles two fixes together against that. They should be
+> taken at the same time to entirely fix the mapping failures.
 
-LSF/MM/BPF 2024 will be a three day, stand-alone conference with
-four subsystem-specific tracks, cross-track discussions, as well
-as BoF and hacking sessions:
+It's a bit of a shot in the dark, but I've got a pending fix to some of
+the alignment handling in swiotlb. It would be interesting to know if
+patch 1 has any impact at all on your NVME allocations:
 
-          https://events.linuxfoundation.org/lsfmmbpf/
+https://lore.kernel.org/r/20240205190127.20685-1-will@kernel.org
 
-On behalf of the committee I am issuing a call for agenda proposals
-that are suitable for cross-track discussion as well as technical
-subjects for the breakout sessions.
+Cheers,
 
-If advance notice is required for visa applications then please
-point that out in your proposal or request to attend, and submit
-the topic as soon as possible.
-
-We are asking that you please let us know you want to be invited
-by March 1, 2024. We realize that travel is an ever changing target,
-but it helps us to get an idea of possible attendance numbers.
-Clearly things can and will change, so consider the request to
-attend deadline more about planning and less about concrete plans.
-
-1) Fill out the following Google form to request attendance and
-suggest any topics for discussion:
-
-          https://forms.gle/TGCgBDH1x5pXiWFo7
-
-In previous years we have accidentally missed people's attendance
-requests because they either did not Cc lsf-pc@ or we simply missed
-them in the flurry of emails we get. Our community is large and our
-volunteers are busy, filling this out will help us to make sure we
-do not miss anybody.
-
-2) Proposals for agenda topics should ideally still be sent to the
-following lists to allow for discussion among your peers. This will
-help us figure out which topics are important for the agenda:
-
-          lsf-pc@lists.linux-foundation.org
-
-... and Cc the mailing lists that are relevant for the topic in
-question:
-
-          FS:     linux-fsdevel@vger.kernel.org
-          MM:     linux-mm@kvack.org
-          Block:  linux-block@vger.kernel.org
-          ATA:    linux-ide@vger.kernel.org
-          SCSI:   linux-scsi@vger.kernel.org
-          NVMe:   linux-nvme@lists.infradead.org
-          BPF:    bpf@vger.kernel.org
-
-Please tag your proposal with [LSF/MM/BPF TOPIC] to make it easier
-to track. In addition, please make sure to start a new thread for
-each topic rather than following up to an existing one. Agenda
-topics and attendees will be selected by the program committee,
-but the final agenda will be formed by consensus of the attendees
-on the day.
-
-3) This year we would also like to try and make sure we are
-including new members in the community that the program committee
-may not be familiar with. The Google form has an area for people to
-add required/optional attendees. Please encourage new members of the
-community to submit a request for an invite as well, but additionally
-if maintainers or long term community members could add nominees to
-the form it would help us make sure that new members get the proper
-consideration.
-
-For discussion leaders, slides and visualizations are encouraged to
-outline the subject matter and focus the discussions. Please refrain
-from lengthy presentations and talks in order for sessions to be
-productive; the sessions are supposed to be interactive, inclusive
-discussions.
-
-We are still looking into the virtual component. We will likely run
-something similar to what we did last year, but details on that will
-be forthcoming.
-
-2023: https://lwn.net/Articles/lsfmmbpf2023/
-
-2022: https://lwn.net/Articles/lsfmm2022/
-
-2019: https://lwn.net/Articles/lsfmm2019/
-
-2018: https://lwn.net/Articles/lsfmm2018/
-
-2017: https://lwn.net/Articles/lsfmm2017/
-
-2016: https://lwn.net/Articles/lsfmm2016/
-
-2015: https://lwn.net/Articles/lsfmm2015/
-
-2014: http://lwn.net/Articles/LSFMM2014/
-
-4) If you have feedback on last year's meeting that we can use to
-improve this year's, please also send that to:
-
-          lsf-pc@lists.linux-foundation.org
-
-Thank you on behalf of the program committee:
-
-          Amir Goldstein (Filesystems)
-          Jan Kara (Filesystems)
-          Martin K. Petersen (Storage)
-          Javier González (Storage)
-          Michal Hocko (MM)
-          Dan Williams (MM)
-          Daniel Borkmann (BPF)
-          Martin KaFai Lau (BPF)
-
+Will
 
