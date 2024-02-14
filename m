@@ -4,109 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B39FC48BC1
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 Feb 2024 16:46:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8CEE6C48BC3
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Feb 2024 18:06:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CnFd8ajdxH/cc7VfH42WSgZbWCF+UOq3S7aRofknueM=; b=pzqm6VdXa9oVYXl7S7zj1y+SfI
-	tpxuTvJGvjft/DNUvsG/BEkIRUakhxkwQHMh+dzajPB7sfb7shbx6xO483z+u+nF7fh8LwyoZlOaM
-	montvFJiZBvWIEtYbQVE8dRygQAM0mk4JKlUqEcNo3m4bMvleUOa/AtKfIO0jO8+g9Uey4Bsw804p
-	GFS9j4cl4nyrIt0SmfoELDCQH4GQET1IIf+VNYILfPXzy9so2UkpvQYH1iY48iH9qCbFLXH3usGLu
-	NfxAca24jwum7qZz/BWewr0uAMzA+TWUiCYHE9TFYS5ku29IZ4b84qN75BIn6kCc6AA/C2LxsBuxr
-	af+lnYgw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Mu0Kym0Oi7LEYF48myyJYSQij1kB8m9R8ARQcQmMbpc=; b=XsM9ny5x4VrNZtzIAoMFD3/EmE
+	NM1oYmtgiA2WZ1TjoB+38Q5EJEMuw7OE9s3eKAFJO76G9HtT8rwJQHjJi17izyjeXmZ/W8I6B6yOk
+	dTzHIjWDKY5nB72jF/NhP6qDyuFB6Q08p9DkrR7jZRDuEo5xU0FEN8GnOeqFYzqnYgIkIwjRzsj0I
+	I2uiaWlUIGr0aSER1d1IH3x1n6diN08tvTd9zl6fvWJ60fghqtadILo6MIoRPuuxGysYzY83MK0Ic
+	NvjzkMZaz7v+Sor6PB1Oxjm9H8mKDvgdZ61agifX8uRpNyLpmweiRUquLhzVXFs0ddJ+iZyXAaTsg
+	nCGeyD1g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1raIOy-0000000DaY6-0Ep4;
-	Wed, 14 Feb 2024 16:46:28 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1raJeV-0000000Drjx-42Et;
+	Wed, 14 Feb 2024 18:06:35 +0000
+Received: from mgamail.intel.com ([192.198.163.7])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1raIOu-0000000DaWf-3klt
+	id 1raJeT-0000000Driw-3Fsn
 	for linux-nvme@lists.infradead.org;
-	Wed, 14 Feb 2024 16:46:26 +0000
-Received: from pps.filterd (m0353723.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 41EGHqX8020289;
-	Wed, 14 Feb 2024 16:46:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=CnFd8ajdxH/cc7VfH42WSgZbWCF+UOq3S7aRofknueM=;
- b=PgkUDikRjBI7x1XiMVyE0fJUYWDpQqAWw6+G4Pyiqbl2T2I1RZ86XjhckO6udra17/M/
- xO6IN7AaFdVFfYDaD3qsrszVlpVR/aziLc5CaLvEERwTPALyRVkd9nVcorjDUXbt8hic
- 7mpJuJLmIXxNZfDufey4LX1BFiPGUpQ85e4c+oQUr257ca3vtBjXxjNZ7bzDOPneA7Vc
- GJS8TwZ/4AxlNh+LWmx2BgZSXyiv9+HVpQ0Q+MY8moz6+xX7KENbXsR252mx9jP33rh8
- BqACwl6rJ1QuUcogFxmLXF7onc+wibvex1Zq1CvzKCWTn7P+iNymsZbuB2qFLibyMzsa eg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3w90wp0t8d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 14 Feb 2024 16:46:05 +0000
-Received: from m0353723.ppops.net (m0353723.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 41EGJgtK025776;
-	Wed, 14 Feb 2024 16:46:04 GMT
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3w90wp0t7p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 14 Feb 2024 16:46:04 +0000
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 41EFVq07032572;
-	Wed, 14 Feb 2024 16:46:03 GMT
-Received: from smtprelay06.dal12v.mail.ibm.com ([172.16.1.8])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3w6kftq9yq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 14 Feb 2024 16:46:03 +0000
-Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
-	by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 41EGk0Oh5047142
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 14 Feb 2024 16:46:02 GMT
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 568CF58068;
-	Wed, 14 Feb 2024 16:46:00 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8692558059;
-	Wed, 14 Feb 2024 16:45:52 +0000 (GMT)
-Received: from [9.171.46.73] (unknown [9.171.46.73])
-	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 14 Feb 2024 16:45:52 +0000 (GMT)
-Message-ID: <1b4d5860-8044-4a1f-a801-1c69327076c1@linux.ibm.com>
-Date: Wed, 14 Feb 2024 22:15:50 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 14/15] nvme: Support atomic writes
-Content-Language: en-US
-To: John Garry <john.g.garry@oracle.com>
-Cc: alan.adamson@oracle.com, axboe@kernel.dk, brauner@kernel.org,
-        bvanassche@acm.org, dchinner@redhat.com, djwong@kernel.org, hch@lst.de,
-        jack@suse.cz, jbongio@google.com, jejb@linux.ibm.com,
-        kbusch@kernel.org, linux-block@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
-        linux-xfs@vger.kernel.org, martin.petersen@oracle.com,
-        ming.lei@redhat.com, ojaswin@linux.ibm.com, sagi@grimberg.me,
-        tytso@mit.edu, viro@zeniv.linux.org.uk
-References: <20240124113841.31824-15-john.g.garry@oracle.com>
- <20240214122719.184946-1-nilay@linux.ibm.com>
- <8332ea29-ac17-4b1a-8ed9-e566d03fd220@oracle.com>
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <8332ea29-ac17-4b1a-8ed9-e566d03fd220@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: xU5wfFpy2PP06fiDP3H7bm7SCO6PKL-V
-X-Proofpoint-ORIG-GUID: BUhw35l4XwdwCK0voJZlxVR65GvJzXIC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-14_09,2024-02-14_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 spamscore=0
- lowpriorityscore=0 malwarescore=0 mlxscore=0 clxscore=1015 suspectscore=0
- mlxlogscore=999 impostorscore=0 priorityscore=1501 adultscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311290000 definitions=main-2402140130
+	Wed, 14 Feb 2024 18:06:35 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707933993; x=1739469993;
+  h=date:from:to:cc:subject:message-id;
+  bh=YG1yehU2ghWikDSjnYMZEFP0p5F07syZfs3YbAICspU=;
+  b=Nbfr32zh4I/BpCq1Y6chIifmD6hBrVbvUIAbMPvaPTmcACwi6ea9Fu7G
+   1nVCjU+sxneFw9MYl5dHKexrkjlSnuOgqXuY5TZL5OnsaG8nUk/zK28hM
+   Hcqz7SPH1/gEeO7lnLRpoduzANqfEYuUmLlt6mQZqf1/3N0nm2elJIMMH
+   /Q1MbsuPNazWNbpVxQmcb3TLx95ABuN83PKXhpfo/IffeyALyQ2oEGCVD
+   4UzxFlXUTy0rXpThkf/TS01xrbcN+dPdILPeS5qyhBJlrbVvntDD6LfpP
+   uSsCzCvo30rO2qHql3wIxhlS5IxlmdcvEd9ilz8BgBLrjnKMtRJurRZs2
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="27444988"
+X-IronPort-AV: E=Sophos;i="6.06,160,1705392000"; 
+   d="scan'208";a="27444988"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 10:06:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,160,1705392000"; 
+   d="scan'208";a="3436941"
+Received: from lkp-server01.sh.intel.com (HELO 323e10984596) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 14 Feb 2024 10:06:31 -0800
+Received: from kbuild by 323e10984596 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1raJeP-00007K-1u;
+	Wed, 14 Feb 2024 18:06:29 +0000
+Date: Thu, 15 Feb 2024 02:06:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.9] BUILD SUCCESS
+ 473516b361936cbc27d7728df649a5b3094b6170
+Message-ID: <202402150213.rrGw5hZY-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240214_084625_074409_CFC7D83D 
-X-CRM114-Status: GOOD (  23.00  )
+X-CRM114-CacheID: sfid-20240214_100633_860895_070422B4 
+X-CRM114-Status: UNSURE (   5.22  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -121,77 +79,204 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+tree/branch: git://git.infradead.org/nvme.git nvme-6.9
+branch HEAD: 473516b361936cbc27d7728df649a5b3094b6170  loop: use the atomic queue limits update API
 
+elapsed time: 1450m
 
-On 2/14/24 18:32, John Garry wrote:
-> On 14/02/2024 12:27, Nilay Shroff wrote:
->>
->>
->>
->>> Use following method to calculate limits:
->>
->>> atomic_write_max_bytes = flp2(NAWUPF ?: AWUPF)
->>
-> 
-> You still need to fix that mail client to not add extra blank lines.
-Yes, I am working on it. I hope it's solved now. 
-> 
->>> atomic_write_unit_min = logical_block_size
->>
->>> atomic_write_unit_max = flp2(NAWUPF ?: AWUPF)
->>
->>> atomic_write_boundary = NABSPF
->>
->>
->>
->> In case the device doesn't support namespace atomic boundary size (i.e. NABSPF
->>
->> is zero) then while merging atomic block-IO we should allow merge.
->>
->>  
->> For example, while front/back merging the atomic block IO, we check whether
->>
->> boundary is defined or not. In case if boundary is not-defined (i.e. it's zero)
->>
->> then we simply reject merging ateempt (as implemented in
->>
->> rq_straddles_atomic_write_boundary()).
-> 
-> Are you sure about that? In rq_straddles_atomic_write_boundary(), if boundary == 0, then we return false, i.e. there is no boundary, so we can never be crossing it.
-> 
-> static bool rq_straddles_atomic_write_boundary(struct request *rq,
-> unsigned int front,
-> unsigned int back)
-> {
->     unsigned int boundary = queue_atomic_write_boundary_bytes(rq->q);
->     unsigned int mask, imask;
->     loff_t start, end;
-> 
->     if (!boundary)
->         return false;
-> 
->     ...
-> }
-> 
-> And then will not reject a merge for that reason, like:
-> 
-> int ll_back_merge_fn(struct request *req, struct bio *bio, unsigned int nr_segs)
-> {
->     ...
-> 
->     if (req->cmd_flags & REQ_ATOMIC) {
->         if (rq_straddles_atomic_write_boundary(req,
->             0, bio->bi_iter.bi_size)) {
->             return 0;
->         }
->     }
-> 
->     return ll_new_hw_segment(req, bio, nr_segs);
-> }
-> 
-> 
-Aargh, you are right. I see that if rq_straddles_atomic_write_boundary() returns true then we avoid merge otherwise the merge is attempted. My bad...
+configs tested: 184
+configs skipped: 3
 
-Thanks,
---Nilay
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                     nsimosci_hs_defconfig   gcc  
+arc                   randconfig-001-20240214   gcc  
+arc                   randconfig-002-20240214   gcc  
+arc                    vdk_hs38_smp_defconfig   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                     am200epdkit_defconfig   gcc  
+arm                                 defconfig   clang
+arm                        keystone_defconfig   gcc  
+arm                   randconfig-001-20240214   clang
+arm                   randconfig-002-20240214   gcc  
+arm                   randconfig-003-20240214   clang
+arm                   randconfig-004-20240214   clang
+arm                           sunxi_defconfig   gcc  
+arm                    vt8500_v6_v7_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240214   clang
+arm64                 randconfig-002-20240214   clang
+arm64                 randconfig-003-20240214   gcc  
+arm64                 randconfig-004-20240214   clang
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240214   gcc  
+csky                  randconfig-002-20240214   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240214   clang
+hexagon               randconfig-002-20240214   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240214   clang
+i386         buildonly-randconfig-002-20240214   clang
+i386         buildonly-randconfig-003-20240214   clang
+i386         buildonly-randconfig-004-20240214   gcc  
+i386         buildonly-randconfig-005-20240214   gcc  
+i386         buildonly-randconfig-006-20240214   clang
+i386                                defconfig   clang
+i386                  randconfig-001-20240214   clang
+i386                  randconfig-002-20240214   clang
+i386                  randconfig-003-20240214   clang
+i386                  randconfig-004-20240214   gcc  
+i386                  randconfig-005-20240214   clang
+i386                  randconfig-006-20240214   gcc  
+i386                  randconfig-011-20240214   clang
+i386                  randconfig-012-20240214   gcc  
+i386                  randconfig-013-20240214   gcc  
+i386                  randconfig-014-20240214   gcc  
+i386                  randconfig-015-20240214   clang
+i386                  randconfig-016-20240214   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240214   gcc  
+loongarch             randconfig-002-20240214   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                        m5272c3_defconfig   gcc  
+m68k                       m5275evb_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                         bigsur_defconfig   gcc  
+mips                  decstation_64_defconfig   gcc  
+mips                 decstation_r4k_defconfig   gcc  
+mips                      pic32mzda_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240214   gcc  
+nios2                 randconfig-002-20240214   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240214   gcc  
+parisc                randconfig-002-20240214   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                        icon_defconfig   gcc  
+powerpc                 mpc8313_rdb_defconfig   gcc  
+powerpc               randconfig-001-20240214   clang
+powerpc               randconfig-002-20240214   clang
+powerpc               randconfig-003-20240214   clang
+powerpc                      walnut_defconfig   gcc  
+powerpc                        warp_defconfig   gcc  
+powerpc                         wii_defconfig   gcc  
+powerpc64             randconfig-001-20240214   clang
+powerpc64             randconfig-002-20240214   clang
+powerpc64             randconfig-003-20240214   clang
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+riscv                 randconfig-001-20240214   clang
+riscv                 randconfig-002-20240214   clang
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+s390                  randconfig-001-20240214   clang
+s390                  randconfig-002-20240214   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                        dreamcast_defconfig   gcc  
+sh                ecovec24-romimage_defconfig   gcc  
+sh                         ecovec24_defconfig   gcc  
+sh                          landisk_defconfig   gcc  
+sh                    randconfig-001-20240214   gcc  
+sh                    randconfig-002-20240214   gcc  
+sh                          rsk7203_defconfig   gcc  
+sh                          sdk7780_defconfig   gcc  
+sh                           se7705_defconfig   gcc  
+sh                           se7722_defconfig   gcc  
+sh                           se7724_defconfig   gcc  
+sh                     sh7710voipgw_defconfig   gcc  
+sh                            shmin_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240214   gcc  
+sparc64               randconfig-002-20240214   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                    randconfig-001-20240214   clang
+um                    randconfig-002-20240214   gcc  
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240214   gcc  
+x86_64       buildonly-randconfig-003-20240214   gcc  
+x86_64       buildonly-randconfig-004-20240214   gcc  
+x86_64       buildonly-randconfig-005-20240214   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-002-20240214   gcc  
+x86_64                randconfig-004-20240214   gcc  
+x86_64                randconfig-013-20240214   gcc  
+x86_64                randconfig-014-20240214   gcc  
+x86_64                randconfig-071-20240214   gcc  
+x86_64                randconfig-073-20240214   gcc  
+x86_64                randconfig-076-20240214   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                           allyesconfig   gcc  
+xtensa                randconfig-001-20240214   gcc  
+xtensa                randconfig-002-20240214   gcc  
+xtensa                         virt_defconfig   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
