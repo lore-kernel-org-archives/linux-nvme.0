@@ -4,63 +4,109 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DDF60C48BC3
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 Feb 2024 16:41:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B39FC48BC1
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Feb 2024 16:46:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=R0ADXAcnx55rHzVKxCSUweqUJ0IxcRwiblhtNC8mXI8=; b=KP+uqj1SyNkpfKVdztRfxgth4s
-	Xhd1C+MDx6lXiKDwGEsFwzWxxNjDwwmS/bH6vug6zT5z98J7hfwT5rHs/STLIwwHHWgdMacDn42bk
-	uC9A/K8v+TFohD1iUzKXGa0w1H2j3/Socm2j0ODwg0BRoEoPZyNP1dCfJGRXrpwOrjb3kLUC7l7SZ
-	Lk+QIBwEPVHDeg2lvqBX7Wm4UHOeCrqpS7LgVBFaFUHGPPsA2mNJo9mIzBV8yfgeS206lwR4JN3x6
-	fv3OGlGWio/gBoNIEACky0LrKVYupzGMil3EEqc/JehtAP9ZzwKxy575to72Z9LgFt858RseGS6A8
-	kTacnGWQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=CnFd8ajdxH/cc7VfH42WSgZbWCF+UOq3S7aRofknueM=; b=pzqm6VdXa9oVYXl7S7zj1y+SfI
+	tpxuTvJGvjft/DNUvsG/BEkIRUakhxkwQHMh+dzajPB7sfb7shbx6xO483z+u+nF7fh8LwyoZlOaM
+	montvFJiZBvWIEtYbQVE8dRygQAM0mk4JKlUqEcNo3m4bMvleUOa/AtKfIO0jO8+g9Uey4Bsw804p
+	GFS9j4cl4nyrIt0SmfoELDCQH4GQET1IIf+VNYILfPXzy9so2UkpvQYH1iY48iH9qCbFLXH3usGLu
+	NfxAca24jwum7qZz/BWewr0uAMzA+TWUiCYHE9TFYS5ku29IZ4b84qN75BIn6kCc6AA/C2LxsBuxr
+	af+lnYgw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1raIKU-0000000DZYe-3LWv;
-	Wed, 14 Feb 2024 16:41:50 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1raIOy-0000000DaY6-0Ep4;
+	Wed, 14 Feb 2024 16:46:28 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1raIKP-0000000DZXz-3EzN
+	id 1raIOu-0000000DaWf-3klt
 	for linux-nvme@lists.infradead.org;
-	Wed, 14 Feb 2024 16:41:47 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id D5D1761B0E;
-	Wed, 14 Feb 2024 16:41:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14B19C433F1;
-	Wed, 14 Feb 2024 16:41:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707928904;
-	bh=rtzaQewjWyFqgXvX8Cpq/QwLjOpb1280iFp5zLTTWx8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oP/9iHXzZ4W3ZkEIKY9irpzbod0eFARuDjHbe93lj1nSEHbUYvXg3uHTnMtH9Jkmt
-	 SuqEPiKzPsRKrc5m74cY32AfDw/qAVaFGETVY32JqsFWgRSR5RvlcF0t1HdI+GtK3f
-	 x7Ye1fDwGN5Zfei+HU++QCasgmImmcKpwQHy6MC660hAUJZxnILvlV4RFM0QLgt23B
-	 7/MSUOriFsS4NiTahlVGWkpfjqfgxTAnimulbm1unYOY2l/Zum4l+1qVgQG/9qVV6w
-	 y1Iu8twIAaK4onCIbUsBWRJCER2TwLsWCJSJCFsh8Bk0OtJHI7HhALtsWjs3Dx7xQN
-	 XKys4GJgd5Tmw==
-Date: Wed, 14 Feb 2024 16:41:38 +0000
-From: Will Deacon <will@kernel.org>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: sagi@grimberg.me, hch@lst.de, axboe@kernel.dk, kbusch@kernel.org,
-	joro@8bytes.org, robin.murphy@arm.com, jgg@nvidia.com,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	iommu@lists.linux.dev, murphyt7@tcd.ie, baolu.lu@linux.intel.com
-Subject: Re: [PATCH v1 0/2] nvme-pci: Fix dma-iommu mapping failures when
- PAGE_SIZE=64KB
-Message-ID: <20240214164138.GA31927@willie-the-truck>
-References: <cover.1707851466.git.nicolinc@nvidia.com>
+	Wed, 14 Feb 2024 16:46:26 +0000
+Received: from pps.filterd (m0353723.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 41EGHqX8020289;
+	Wed, 14 Feb 2024 16:46:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=CnFd8ajdxH/cc7VfH42WSgZbWCF+UOq3S7aRofknueM=;
+ b=PgkUDikRjBI7x1XiMVyE0fJUYWDpQqAWw6+G4Pyiqbl2T2I1RZ86XjhckO6udra17/M/
+ xO6IN7AaFdVFfYDaD3qsrszVlpVR/aziLc5CaLvEERwTPALyRVkd9nVcorjDUXbt8hic
+ 7mpJuJLmIXxNZfDufey4LX1BFiPGUpQ85e4c+oQUr257ca3vtBjXxjNZ7bzDOPneA7Vc
+ GJS8TwZ/4AxlNh+LWmx2BgZSXyiv9+HVpQ0Q+MY8moz6+xX7KENbXsR252mx9jP33rh8
+ BqACwl6rJ1QuUcogFxmLXF7onc+wibvex1Zq1CvzKCWTn7P+iNymsZbuB2qFLibyMzsa eg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3w90wp0t8d-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 Feb 2024 16:46:05 +0000
+Received: from m0353723.ppops.net (m0353723.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 41EGJgtK025776;
+	Wed, 14 Feb 2024 16:46:04 GMT
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3w90wp0t7p-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 Feb 2024 16:46:04 +0000
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 41EFVq07032572;
+	Wed, 14 Feb 2024 16:46:03 GMT
+Received: from smtprelay06.dal12v.mail.ibm.com ([172.16.1.8])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3w6kftq9yq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 Feb 2024 16:46:03 +0000
+Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
+	by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 41EGk0Oh5047142
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 14 Feb 2024 16:46:02 GMT
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 568CF58068;
+	Wed, 14 Feb 2024 16:46:00 +0000 (GMT)
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8692558059;
+	Wed, 14 Feb 2024 16:45:52 +0000 (GMT)
+Received: from [9.171.46.73] (unknown [9.171.46.73])
+	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 14 Feb 2024 16:45:52 +0000 (GMT)
+Message-ID: <1b4d5860-8044-4a1f-a801-1c69327076c1@linux.ibm.com>
+Date: Wed, 14 Feb 2024 22:15:50 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1707851466.git.nicolinc@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 14/15] nvme: Support atomic writes
+Content-Language: en-US
+To: John Garry <john.g.garry@oracle.com>
+Cc: alan.adamson@oracle.com, axboe@kernel.dk, brauner@kernel.org,
+        bvanassche@acm.org, dchinner@redhat.com, djwong@kernel.org, hch@lst.de,
+        jack@suse.cz, jbongio@google.com, jejb@linux.ibm.com,
+        kbusch@kernel.org, linux-block@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+        linux-xfs@vger.kernel.org, martin.petersen@oracle.com,
+        ming.lei@redhat.com, ojaswin@linux.ibm.com, sagi@grimberg.me,
+        tytso@mit.edu, viro@zeniv.linux.org.uk
+References: <20240124113841.31824-15-john.g.garry@oracle.com>
+ <20240214122719.184946-1-nilay@linux.ibm.com>
+ <8332ea29-ac17-4b1a-8ed9-e566d03fd220@oracle.com>
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <8332ea29-ac17-4b1a-8ed9-e566d03fd220@oracle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: xU5wfFpy2PP06fiDP3H7bm7SCO6PKL-V
+X-Proofpoint-ORIG-GUID: BUhw35l4XwdwCK0voJZlxVR65GvJzXIC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-14_09,2024-02-14_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 spamscore=0
+ lowpriorityscore=0 malwarescore=0 mlxscore=0 clxscore=1015 suspectscore=0
+ mlxlogscore=999 impostorscore=0 priorityscore=1501 adultscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2402140130
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240214_084145_875466_26F90760 
-X-CRM114-Status: GOOD (  16.99  )
+X-CRM114-CacheID: sfid-20240214_084625_074409_CFC7D83D 
+X-CRM114-Status: GOOD (  23.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,47 +121,77 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Nicolin,
 
-On Tue, Feb 13, 2024 at 01:53:55PM -0800, Nicolin Chen wrote:
-> It's observed that an NVME device is causing timeouts when Ubuntu boots
-> with a kernel configured with PAGE_SIZE=64KB due to failures in swiotlb:
->     systemd[1]: Started Journal Service.
->  => nvme 0000:00:01.0: swiotlb buffer is full (sz: 327680 bytes), total 32768 (slots), used 32 (slots)
->     note: journal-offline[392] exited with irqs disabled
->     note: journal-offline[392] exited with preempt_count 1
+
+On 2/14/24 18:32, John Garry wrote:
+> On 14/02/2024 12:27, Nilay Shroff wrote:
+>>
+>>
+>>
+>>> Use following method to calculate limits:
+>>
+>>> atomic_write_max_bytes = flp2(NAWUPF ?: AWUPF)
+>>
 > 
-> An NVME device under a PCIe bus can be behind an IOMMU, so dma mappings
-> going through dma-iommu might be also redirected to swiotlb allocations.
-> Similar to dma_direct_max_mapping_size(), dma-iommu should implement its
-> dma_map_ops->max_mapping_size to return swiotlb_max_mapping_size() too.
+> You still need to fix that mail client to not add extra blank lines.
+Yes, I am working on it. I hope it's solved now. 
 > 
-> Though an iommu_dma_max_mapping_size() is a must, it alone can't fix the
-> issue. The swiotlb_max_mapping_size() returns 252KB, calculated from the
-> default pool 256KB subtracted by min_align_mask NVME_CTRL_PAGE_SIZE=4KB,
-> while dma-iommu can roundup a 252KB mapping to 256KB at its "alloc_size"
-> when PAGE_SIZE=64KB via iova->granule that is often set to PAGE_SIZE. So
-> this mismatch between NVME_CTRL_PAGE_SIZE=4KB and PAGE_SIZE=64KB results
-> in a similar failure, though its signature has a fixed size "256KB":
->     systemd[1]: Started Journal Service.
->  => nvme 0000:00:01.0: swiotlb buffer is full (sz: 262144 bytes), total 32768 (slots), used 128 (slots)
->     note: journal-offline[392] exited with irqs disabled
->     note: journal-offline[392] exited with preempt_count 1
+>>> atomic_write_unit_min = logical_block_size
+>>
+>>> atomic_write_unit_max = flp2(NAWUPF ?: AWUPF)
+>>
+>>> atomic_write_boundary = NABSPF
+>>
+>>
+>>
+>> In case the device doesn't support namespace atomic boundary size (i.e. NABSPF
+>>
+>> is zero) then while merging atomic block-IO we should allow merge.
+>>
+>>  
+>> For example, while front/back merging the atomic block IO, we check whether
+>>
+>> boundary is defined or not. In case if boundary is not-defined (i.e. it's zero)
+>>
+>> then we simply reject merging ateempt (as implemented in
+>>
+>> rq_straddles_atomic_write_boundary()).
 > 
-> Both failures above occur to NVME behind IOMMU when PAGE_SIZE=64KB. They
-> were likely introduced for the security feature by:
-> commit 82612d66d51d ("iommu: Allow the dma-iommu api to use bounce buffers"),
+> Are you sure about that? In rq_straddles_atomic_write_boundary(), if boundary == 0, then we return false, i.e. there is no boundary, so we can never be crossing it.
 > 
-> So, this series bundles two fixes together against that. They should be
-> taken at the same time to entirely fix the mapping failures.
+> static bool rq_straddles_atomic_write_boundary(struct request *rq,
+> unsigned int front,
+> unsigned int back)
+> {
+>     unsigned int boundary = queue_atomic_write_boundary_bytes(rq->q);
+>     unsigned int mask, imask;
+>     loff_t start, end;
+> 
+>     if (!boundary)
+>         return false;
+> 
+>     ...
+> }
+> 
+> And then will not reject a merge for that reason, like:
+> 
+> int ll_back_merge_fn(struct request *req, struct bio *bio, unsigned int nr_segs)
+> {
+>     ...
+> 
+>     if (req->cmd_flags & REQ_ATOMIC) {
+>         if (rq_straddles_atomic_write_boundary(req,
+>             0, bio->bi_iter.bi_size)) {
+>             return 0;
+>         }
+>     }
+> 
+>     return ll_new_hw_segment(req, bio, nr_segs);
+> }
+> 
+> 
+Aargh, you are right. I see that if rq_straddles_atomic_write_boundary() returns true then we avoid merge otherwise the merge is attempted. My bad...
 
-It's a bit of a shot in the dark, but I've got a pending fix to some of
-the alignment handling in swiotlb. It would be interesting to know if
-patch 1 has any impact at all on your NVME allocations:
-
-https://lore.kernel.org/r/20240205190127.20685-1-will@kernel.org
-
-Cheers,
-
-Will
+Thanks,
+--Nilay
 
