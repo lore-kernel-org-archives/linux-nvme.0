@@ -4,138 +4,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93022C48260
-	for <linux-nvme@archiver.kernel.org>; Sat, 17 Feb 2024 00:50:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26737C48BF6
+	for <linux-nvme@archiver.kernel.org>; Sat, 17 Feb 2024 05:20:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:CC:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YCa8Zez/pMSQkNUXbeBYL20cKWzhOyA5lI98hzJBbJM=; b=F5+V1qeYi87ahJ8Jw1LaJebTZZ
-	RBk+90LT7Grr10Ej01IGXzZH/kSypSxB+0KXdhNMI8gInz5DIJlmI8sww7ZF50ahLqNT+Jyr7VSAo
-	p/95eHqumSwYTsmWySgtFyKd/doIieSWXOu0tGsRZ/oNOY4OnGDZgxrpRWlh3//uOpiQw1qP6RERz
-	FNhQKeu2bVyNCIP1TGuLGiERYpO0V9NogGzvtXOezSwsR7HQ9VTYRGDOrFRfNdA1iS2JEUnUqSFY7
-	e3qfKbOKTM8gxj/b0mx67PRP4Vpr2tuBF/4R5BH8ucTX0s/tZVsI46xLEQ4c5Y6Mc3KDxKkADfScl
-	HuC9ieyw==;
+	bh=Ync0L8Wo4W0zR4gp834MGlYuV3DQN7eagJtxvoQzt4Q=; b=IhM/GQHQ+7bpu+SFh+jEvxUABt
+	91H++G40vBQkXCVBPLN1NaPbopT1fvdoAkfi99PArLOBl6l2yWbplGZ3/uPGuvUTBrsWgBmPvRkH+
+	08oOMqRNXjgyycy6zOm4siH/m0YMdK9VjLifi+O0vcvz6hDT9Ao4STBjA4R2nK6NLrVbgXABiZzyx
+	PTFKSdGpauLpnK1y4iYdosIkQxg+2WJD7tEZGfMjMjCxxp0oCMq6BAYkWlTfTMqAEiryf5+bNKF3T
+	JDKuudLBZ1miL5toGW2zNR+UDv4vrwjRtoENOZQU8AHstdz6uapixv15tpy4KDI4nCvpSbegVkv3w
+	MCmxPSOQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rb8uK-00000004H5C-1fd1;
-	Sat, 17 Feb 2024 00:50:20 +0000
-Received: from mail-bn8nam04on20600.outbound.protection.outlook.com ([2a01:111:f403:2408::600] helo=NAM04-BN8-obe.outbound.protection.outlook.com)
+	id 1rbD7b-00000004fc2-2K3k;
+	Sat, 17 Feb 2024 05:20:19 +0000
+Received: from mail-dm6nam10on2062a.outbound.protection.outlook.com ([2a01:111:f400:7e88::62a] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rb8uH-00000004H4I-3Hov
+	id 1rbD7X-00000004fZR-1E92
 	for linux-nvme@lists.infradead.org;
-	Sat, 17 Feb 2024 00:50:19 +0000
+	Sat, 17 Feb 2024 05:20:17 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NMPPUrpv/wYDin01DVFYixsLmDjvJn/IDGMdeX8GSCKreGOHPny7fZED2kvii1yNso4fqLAOfktlBuGMGA0NkGvRtC+JpnXVvbZKkkbjCjXuuvMC/svs+7XtZ8NvFQUoxNl8uap8GJV1CWdV6GTZSD4m3Ig+5YsNDYhO6xI6g1rV4pFEdE/uB42BDrmn69NawYiipk7oIPs+mhzC5lhSlbkIXvppJXdswUsWtrZylxv9sx1Y9yrFQjzYBLaHjqTyfMrywzuk7VBkcHuNdrG1BFgT958Xpz5AGX1bCNoIjT8ZmKtiyWCAe4SkpcgbYUU+YpVkB0BxpZAzkTN6E6HVfw==
+ b=gD80Mq0UC13neH+ZFephEB7Efveo3xrkqYX5oWGEoDXzAknVvkS3EZMjS4tmiDF+WuZNRoel/SG3C0z/XrkN2ma0DzDDcbVNRiFdb1Lm6r/VAbgvlhDyCm6KdGlq6jSlw+M9eGICGi0wHLGzDOx8yJqf2eE4l2Ke89aKp1dhma7oGuGBQtwYoOoLJkFIp/6xGde7oVONQxx3+zcZjsLbvH8nSDFk/p6lUc97xina8jvHjaS/YDg7ZTmvcGqX10lUzZFf8vhZkdFCTzlbOogtBL3a4SmeqifkUdpiXlLDWPTTRffv7t4N1CL8jkTzJcGvAoyomoAvFSuSUQzXSHiVbQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YCa8Zez/pMSQkNUXbeBYL20cKWzhOyA5lI98hzJBbJM=;
- b=lKQ9YwKsrYFXnid1OGpyLeXJLMmF62KB95IWwFVorQkF9TAbKBjahyAb1ffQZJ9iRp84PvomdnePtD0PTunhHEyl3b18iLhWuncmD+YFggE+hCTOQE+pAKu0e524XIEH9B3Mhj3R8UXTW+Y9qf7gRdMPScQH6dtQj6dflGWR+wRbBOpvEePEZ2xPFpQcM3JJgZrXbm3aHGrtz+IoEVyQVXpYa+pdgKqo6MQY/NBoylXyi3oMXXM7z+gggQrmndnunfHvXZbJdt/0oqPZxqCm1PJ2grb4dcciKLZxdZ0wRmfq8KaYCMEJ2zdSV7YIO+SjA1J9OYQEabW+Ifr896N1WQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
+ bh=Ync0L8Wo4W0zR4gp834MGlYuV3DQN7eagJtxvoQzt4Q=;
+ b=aRXtx8lLAuA2v8yZ0kCHWxZVnGePfzRzvyqK6//+qkYLv0LJhy2IwrTfXwRNWo6vEvdM1IOvLa9JGSRABLJi78WhTtXji2AX2iTQ6vI3rw1qZ+QsPdwpbHYbZtSuRsKeY6wjUloB/NUppt4A55rklmx+LnPDByV9dU7Zk8Bg8C6TTgasPFUCdWQdGfP63b81mk26Oe+S8AbI/DJ/ufL3JNf3P6+NQeMRYu3THrNk3P8pE4lgjVTZITsRpR0vrONSxhSz+LXjdBZTd+SZhrA/AFdLYUjwlKnl+TCOfMU7RJ0R3T4NsdO78mDw/PqJBjZomW4TV+Q6pbrUDxr4sC8MSg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YCa8Zez/pMSQkNUXbeBYL20cKWzhOyA5lI98hzJBbJM=;
- b=l5kFfY9xapGz2MC8vQs4/Ph4gDEQo02ttPkPel/RcbFqV6xDYZcut6p42LTHjuT67uGExP/HhM44M0xOa7YBD4jNQ7U8hGEBsqmEGh8FIBc52ZMlSR0R5o1PAwQJGHiNLP2t9k6J7jYShRG47JjQz1V07sn4qICWtcAQdUeJEFppk9H35qqSRiAL9NaYHo3nrQMr0/NXyutFCrI1HEFlFh9TBkEB4YI/8/BQaEB2znJe51B0RiuskiiUq2rlwXq5zXBmdWlqtPpanhiF36B8JKk/9fwZZX+vttAtI4DCwTN+nELNxgsvE+1C7/wutsZZbM3jc6T/4hzub+Lae39F2Q==
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
- by PH0PR12MB8008.namprd12.prod.outlook.com (2603:10b6:510:26f::11) with
+ bh=Ync0L8Wo4W0zR4gp834MGlYuV3DQN7eagJtxvoQzt4Q=;
+ b=Fhjmwjq3EG44OD1ZVHhIwJbP11+8ooEVn77mBzaRUQfnRhRUA8fRldy/oAPVYWXFY/7mYReP9yDo+7H5/aOr1CkjIao78WaBn4TdvfPCTaRAEHm/n1f27y+eFK7ZTrf+aKRFgP/WWUSAOf2HkuKjWbxZx71csI5RMHgVheB8JB72nfO+4xLoHf9XNLShlxLCo3YYLgckL9WW6eafQuPm9qKNsVxF17Y7A2XWSnl3oqy5mn1kpGk8KFv6Y1FsD0PhsTB1l118dEc2QAJ2/2CR3xurW18YYSQ5zcU6PlbGKmRN+034iggh2ct36q7BqNFajCqSZyuAVvV2KihMBpmQgA==
+Received: from CY5PR15CA0254.namprd15.prod.outlook.com (2603:10b6:930:66::28)
+ by DM3PR12MB9413.namprd12.prod.outlook.com (2603:10b6:8:1af::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.26; Sat, 17 Feb
- 2024 00:50:11 +0000
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::ffce:bbde:c1ca:39ed]) by LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::ffce:bbde:c1ca:39ed%4]) with mapi id 15.20.7316.012; Sat, 17 Feb 2024
- 00:50:10 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Alan Adamson <alan.adamson@oracle.com>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>
-CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"shinichiro.kawasaki@wdc.com" <shinichiro.kawasaki@wdc.com>
-Subject: Re: [PATCH blktests] nvme: Add passthru error logging tests to
- nvme/039
-Thread-Topic: [PATCH blktests] nvme: Add passthru error logging tests to
- nvme/039
-Thread-Index: AQHaYTAAxfZTTebJg0eC4C2wspnvNbENtCKA
-Date: Sat, 17 Feb 2024 00:50:10 +0000
-Message-ID: <2d2da03e-da35-418a-be85-b11f57bbd374@nvidia.com>
-References: <20240216233053.2795930-1-alan.adamson@oracle.com>
-In-Reply-To: <20240216233053.2795930-1-alan.adamson@oracle.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|PH0PR12MB8008:EE_
-x-ms-office365-filtering-correlation-id: 29ae217c-caaf-494b-30c2-08dc2f5264b2
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Gl2BRLRQRncnHfY0lW1USJpwH3fqa7/jHeurw1xOwv1iBfQdGbZSjmtoBgU3x8ZfqBx8QPqWnrLfXqm6Y7Tu96mziKqOhVXxU+58XN9FlPBO7jy/YevEQId8c3Q4vrQjyblH8TxMgt0paOmxnnwRfn7YF7QTp22OWpXSnqQ+j/u9awK1HZVQ6mhO/WZOvzZJwZ/BoKciA9bCRZjo5kLWccXsYN9GtO5l1fkkMN2SEoSunZsS9Q5fJ4013LOiPVBl+0Oe+SCGLmg84qiGEYhhHQ1/boFx2mB1ciXyBQBY0uJt0UccVYt5xMxPFUgxeBEcyrK2I2HTfnoOGOQmrKhJiO0mR2jgdGLtQ5m871nLybs5dv8KCkDngh28eUxo1XiNXIh1PZ+hlW8Fm9I/hgpQOgK6xCRtPOVSGVv12p2/m3w1271IKkxdzY3/gUBwIlo7F2+ga19UFml/JaCpwW2XneArNgqLcE77oa/2LIi+JrEWyvAbFq57KghfMl3X+aB3C/YkiMqHcceB2gWbQhbY6ZEzhMgV1XuIE4r7Pm7HYBh9ZDVrmrSiysCiQ0PyR7vzMPrtyz/4CBJTF50S7G+0Wgteqk3vh5ptlc2DXJErNG3DmHx2ZdbvP3bUlMI/8zfP
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(366004)(346002)(376002)(396003)(39860400002)(230922051799003)(451199024)(64100799003)(186009)(1800799012)(110136005)(83380400001)(76116006)(31696002)(86362001)(66946007)(38100700002)(71200400001)(316002)(6486002)(478600001)(6506007)(91956017)(6512007)(122000001)(2616005)(54906003)(36756003)(38070700009)(8936002)(66556008)(64756008)(5660300002)(66476007)(31686004)(41300700001)(4326008)(2906002)(8676002)(66446008);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?by9SSm16YUdUYjdEeTUxcHkzZ1htSmhWNEtLUHNqRXg4bHpZaVd2NGtHUnVs?=
- =?utf-8?B?SUFSenAxUlQ3L2pOTGhsSy95RjlFUC93T0pBZnhESWNqQnZ5SzBrOC9ZMEFH?=
- =?utf-8?B?SlhhUExoV1JibFlvMTRBbWYyYlZObVNWUEZWbGl2Y2w3YnRzc2dDRmp0ckxk?=
- =?utf-8?B?R2VUcVA4OVcrWHhaVWVZL0xEbWxHOGVtTU5SSmw3Z0t1SFo1SHdkNEFoMFZ2?=
- =?utf-8?B?Qjd6RDNDdkVnL2J6dFFCcXRiN1AzNW9FaHNIL2FhMmd0NWtsdTBUcDlocnNS?=
- =?utf-8?B?YWJQMzAzM3pHeE9VVjNSbWR1aW55MlNjMXQvOGQxS1RnYUdhM2paekNhTFFt?=
- =?utf-8?B?djhCakkybUxLblAwMWs5bC93bWNtM1dBdGVaUFdGV1gweHBYRjRhQUVTMHJz?=
- =?utf-8?B?RUczYTk3MFZtQzYreERhRExzNlBBcEFvK0U2bTRpbWJpOFJZUW96QmdEa0sr?=
- =?utf-8?B?VlhyeUlyU1FuN01yNTN3eTBjM0o2TGZubUpKWHdFeCthMFJyUWozMzIxakZp?=
- =?utf-8?B?Z1hqVFo3MFhPR3dnaEFMUDY2QzhCV29XZmlhMGZQejFJdHVpY01YeWN5alN2?=
- =?utf-8?B?MmQ1dnJuM20ra0dLd0hkNW1tS3FLUEpYaHcyR1p6YzVVOEhTTjRRQXdBVmEr?=
- =?utf-8?B?U1JCVng4VVQ5U0FqYmFzcFpDNHlDVmtvenlOZFMva0FzVnF6Q3p5bmE0b2ZY?=
- =?utf-8?B?MU9uNVJET2pFV0tiWGRYdW51ZTh6Uk5EMlpvMVlSaXAxNVJTM21Gd2MvWW9a?=
- =?utf-8?B?L0JXN25GdUxLc0o1cnFwOE9ySGZvTXFHU2RjNUY5Mm1Vb2pTK256OHZjeEV0?=
- =?utf-8?B?aFRWRzN4eEpVbW9GVEdLS2pDWGJxQWgxUWFkT25Zdkt0QVplOVFMckROYnV0?=
- =?utf-8?B?c0QyS2ozNms2ZC9QRS90c1RFQ3FrcUpHREtOTzE5SFEzS3g4NDVLQTZqbll5?=
- =?utf-8?B?MGFOYzlISVVTNDd3ZkZnRlVIUTFkN08vZW4wKy9GRkdmeHNIRWIxdGNiak5t?=
- =?utf-8?B?Wkl3WmRiYkw3RHRmS0l3UVJtSVdpSmZUblBxeUhZbUpyOGY4aGRrd05IcG41?=
- =?utf-8?B?YlFKY0tKQnFCRWtJcE0xcWowRTJ5M1NOZkNJV1lUSStjK1M1S3RYMTZ0dzY3?=
- =?utf-8?B?Tk9OYjkvMDg0Q3hVeWdqa0FOUGp3QkYwUG9XVWxYTVhUaHpya09pNTZPZnJh?=
- =?utf-8?B?RTRaOUw4THZ0YU1EY0sxbEh6QzFOQjM0OEJBWkVXdlRnaTVkZ2s3YmZERkkw?=
- =?utf-8?B?SzBvcmpWODhpYnhZcHdzQW4vWkMyYlJqZzIzbzRTazd4UmFVc0FiSWJnMnRT?=
- =?utf-8?B?YkJ0d2ZIN1NWQW81RTl6MEc3dU1uZWVrVUYycmpJSXlEcERmZTJPeHgxeWoy?=
- =?utf-8?B?WXUwN1BLMDVKMjJlU1ZwQ3B6Q0RmT3djVTMwSWRGSDl1dG5tRE9lWSs2WjdY?=
- =?utf-8?B?WHRua29CdmpqYVA1N2Vhd2c5b0IxbWNubHh2ZkgxUFVSSFRSWkRYcFhieWJU?=
- =?utf-8?B?YkFZMnQ0T2tUSXBEYWVsR2lrMjh0MXIxZG5mVnBHK0NPNlNTTHArR25CWlRh?=
- =?utf-8?B?NHJTc2ZvVUE0MVVuQklzVGJxTytWUUh3MGJ2c2JHakgxT3lyY3R2Mmo5a2xi?=
- =?utf-8?B?Z0wwckVFVEV2VjkyWjB0WmNKWkU3bzFEZGt0Y2NqSVJOZktuSWs3T3Rvd2Jp?=
- =?utf-8?B?UVA1TldLcVJnVUMxTVg3WldydDdZczR1WFNZcENMMWxyeGk4R1p6UnJRS0VM?=
- =?utf-8?B?UGpQTVNYTTJxeEI4L2dFUkp1NGs2LzlJd2cvdGtkUUNGM1owWmRoS3B5Rmxh?=
- =?utf-8?B?NTdLNGkwSzRWYWw4MmpoRjlHY2xXTVhNN0FkdmlKMG5vWEE3WGgvUTJMTUZI?=
- =?utf-8?B?VGlrYTRiemdlQUFzNVdhcjAzMjNoVGVvS2FkL09mUm4vY25SeHNNNGNXdlVD?=
- =?utf-8?B?Nm5zUjNSVlJJQ2FwZEc3SjJSSGsrV0phQWJvTW92N2hzQVFJbzBrVXd3QlpW?=
- =?utf-8?B?SHcyMTRjQnJ2by9zS3grNkNFemhFNU5jVHVOb0ZaQUxmNmlEckkzbCsvb0g4?=
- =?utf-8?B?cjN4R2lwTERUc2xxSE1oWk5pUk53UDRqRGRDV2tJb1Q4UGk0V1ZlK2djVFVn?=
- =?utf-8?B?cDVqTXNXS2ZIb3Z6bW56andHNHN1UUU5RzRTRWdPL1hxREhhVmRPR2pWN2hN?=
- =?utf-8?Q?e15Eu47NtnYsBu8GF7m+BDOztnCvFt3JzF/Pyv8Ae12H?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <6D01E3139FC16044AF13CF9E0A3FF019@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.12; Sat, 17 Feb
+ 2024 05:19:58 +0000
+Received: from CY4PEPF0000EE39.namprd03.prod.outlook.com
+ (2603:10b6:930:66:cafe::77) by CY5PR15CA0254.outlook.office365.com
+ (2603:10b6:930:66::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.26 via Frontend
+ Transport; Sat, 17 Feb 2024 05:19:58 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ CY4PEPF0000EE39.mail.protection.outlook.com (10.167.242.13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7249.19 via Frontend Transport; Sat, 17 Feb 2024 05:19:58 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Fri, 16 Feb
+ 2024 21:19:46 -0800
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Fri, 16 Feb
+ 2024 21:19:46 -0800
+Received: from Asurada-Nvidia (10.127.8.9) by mail.nvidia.com (10.129.68.10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12 via Frontend
+ Transport; Fri, 16 Feb 2024 21:19:45 -0800
+Date: Fri, 16 Feb 2024 21:19:44 -0800
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Will Deacon <will@kernel.org>
+CC: <sagi@grimberg.me>, <hch@lst.de>, <axboe@kernel.dk>, <kbusch@kernel.org>,
+	<joro@8bytes.org>, <robin.murphy@arm.com>, <jgg@nvidia.com>,
+	<linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<iommu@lists.linux.dev>, <murphyt7@tcd.ie>, <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH v1 0/2] nvme-pci: Fix dma-iommu mapping failures when
+ PAGE_SIZE=64KB
+Message-ID: <ZdBB8BYsK6WvwTYC@Asurada-Nvidia>
+References: <cover.1707851466.git.nicolinc@nvidia.com>
+ <20240214164138.GA31927@willie-the-truck>
+ <Zc0bLAIXSAqsQJJv@Asurada-Nvidia>
+ <20240215142208.GA753@willie-the-truck>
+ <20240215163544.GA821@willie-the-truck>
+ <Zc6rr/LleQ2krkyg@Asurada-Nvidia>
+ <20240216161312.GA2203@willie-the-truck>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240216161312.GA2203@willie-the-truck>
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE39:EE_|DM3PR12MB9413:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7e6443f3-0ad0-499c-18c1-08dc2f78159a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: NN4qgR9ylHpFArZWokZvWHdLEsr2ZHMBc2kzKVVWVzfJTG3fFYmayIu+mhkNUbX/MEft08/3sEQHpA/NgiXzxUohSalip8fIBJU90tRCB4afXh8zqYu4qKZ7BKcfRAmVYmrJagYPIY4ojjqxRAFgucnk9RwnJzx02YYO/LD/Cwy6mKyCb8HPzlDgoE1Jyr558HV9ZkP4zI2jdogo2h4pozaNsu3PAeEhJ7F+QBrpqfYMm/bLk3GuN3ndc2bBdYwac4Gx/k7NoAS4Z/Gd6+GqeASmunhP1FT9SLKOCvCjnnv+NjBvIfRypC1XQW0DYsakz4LlDUMdfQVxYzPCqQhVyADjPpWSothH01l4MmGkM/qRfALjWuscxVxYPkPNTGfognPtPmbILK5m6xpJMJ1jIV3cfYC3CEAnBUIm3/lVviKTFhMxkP+DjlBbn+rB8FFKuCxriDUxDNYHrHdc9AALRx7ZAJ6ZoOhz7HZcA80KMOblQ4gStpgntOekwFjQtsrd1D8ThDx7tK2Q1pgCgwecFkaSXFqqnZY818BXGt0mqPyqc1DYW+TeLaq/UWhbZlYK16w3Nh3h8IrfvcVGcFmZyUqkWzwRpmXb8bEtX3kNIjEswGNPtC4ErlngNuEvYW+jlcxewPNbWITMSVMUpEBzmuSHbSh4iaftEiThD204SzQ=
+X-Forefront-Antispam-Report: CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230031)(4636009)(136003)(396003)(39850400004)(376002)(346002)(230922051799003)(451199024)(82310400011)(1800799012)(186009)(64100799003)(36860700004)(40470700004)(46966006)(356005)(86362001)(7636003)(33716001)(82740400003)(55016003)(83380400001)(8676002)(5660300002)(7416002)(2906002)(70586007)(70206006)(316002)(8936002)(6916009)(4326008)(9686003)(41300700001)(478600001)(336012)(426003)(54906003)(26005);DIR:OUT;SFP:1101;
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 29ae217c-caaf-494b-30c2-08dc2f5264b2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Feb 2024 00:50:10.2395
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2024 05:19:58.3831
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: r9VjziwQ5Cc47yrsf8JVqoTcfYI/dysmkrW5tq1rdrzBdcApGSNcjQm8UWJ4yQbvC2s6rMzFmEsfICrjCrQv6Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8008
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e6443f3-0ad0-499c-18c1-08dc2f78159a
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000EE39.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9413
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240216_165017_850815_945CA4D3 
-X-CRM114-Status: GOOD (  10.08  )
+X-CRM114-CacheID: sfid-20240216_212015_380793_53D8DC58 
+X-CRM114-Status: GOOD (  35.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,31 +133,109 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-PiArX252bWVfcGFzc3RocnVfbG9nZ2luZ19zZXR1cCgpDQo+ICt7DQo+ICsJY3RybF9kZXZfcGFz
-c3RocnVfbG9nZ2luZz0kKGNhdCAvc3lzL2NsYXNzL252bWUvIiQyIi9wYXNzdGhydV9lcnJfbG9n
-X2VuYWJsZWQpDQo+ICsJbnNfZGV2X3Bhc3N0aHJ1X2xvZ2dpbmc9JChjYXQgL3N5cy9jbGFzcy9u
-dm1lLyIkMiIvIiQxIi9wYXNzdGhydV9lcnJfbG9nX2VuYWJsZWQpDQo+ICsNCj4gKwlfbnZtZV9k
-aXNhYmxlX3Bhc3N0aHJ1X2FkbWluX2Vycm9yX2xvZ2dpbmcgIiQyIg0KPiArCV9udm1lX2Rpc2Fi
-bGVfcGFzc3RocnVfaW9fZXJyb3JfbG9nZ2luZyAiJDEiICIkMiINCj4gK30NCj4gKw0KPiArX252
-bWVfcGFzc3RocnVfbG9nZ2luZ19jbGVhbnVwKCkNCj4gK3sNCj4gKwllY2hvICRjdHJsX2Rldl9w
-YXNzdGhydV9sb2dnaW5nID4gL3N5cy9jbGFzcy9udm1lLyIkMiIvcGFzc3RocnVfZXJyX2xvZ19l
-bmFibGVkDQo+ICsJZWNobyAkbnNfZGV2X3Bhc3N0aHJ1X2xvZ2dpbmcgPiAvc3lzL2NsYXNzL252
-bWUvIiQyIi8iJDEiL3Bhc3N0aHJ1X2Vycl9sb2dfZW5hYmxlZA0KPiArfQ0KPiAgIA0KPiAgIF9u
-dm1lX2Vycl9pbmplY3Rfc2V0dXAoKQ0KPiAgIHsNCj4gQEAgLTk4NSw2ICsxMDAyLDI2IEBAIF9u
-dm1lX2Rpc2FibGVfZXJyX2luamVjdCgpDQo+ICAgICAgICAgICBlY2hvIDAgPiAvc3lzL2tlcm5l
-bC9kZWJ1Zy8iJDEiL2ZhdWx0X2luamVjdC90aW1lcw0KPiAgIH0NCj4gICANCj4gK19udm1lX2Vu
-YWJsZV9wYXNzdGhydV9hZG1pbl9lcnJvcl9sb2dnaW5nKCkNCj4gK3sNCj4gKwllY2hvIG9uID4g
-L3N5cy9jbGFzcy9udm1lLyIkMSIvcGFzc3RocnVfZXJyX2xvZ19lbmFibGVkDQo+ICt9DQo+ICsN
-Cj4gK19udm1lX2VuYWJsZV9wYXNzdGhydV9pb19lcnJvcl9sb2dnaW5nKCkNCj4gK3sNCj4gKwll
-Y2hvIG9uID4gL3N5cy9jbGFzcy9udm1lLyIkMiIvIiQxIi9wYXNzdGhydV9lcnJfbG9nX2VuYWJs
-ZWQNCj4gK30NCj4gKw0KPiArX252bWVfZGlzYWJsZV9wYXNzdGhydV9hZG1pbl9lcnJvcl9sb2dn
-aW5nKCkNCj4gK3sNCj4gKwllY2hvIG9mZiA+IC9zeXMvY2xhc3MvbnZtZS8iJDEiL3Bhc3N0aHJ1
-X2Vycl9sb2dfZW5hYmxlZA0KPiArfQ0KPiArDQo+ICtfbnZtZV9kaXNhYmxlX3Bhc3N0aHJ1X2lv
-X2Vycm9yX2xvZ2dpbmcoKQ0KPiArew0KPiArCWVjaG8gb2ZmID4gL3N5cy9jbGFzcy9udm1lLyIk
-MiIvIiQxIi9wYXNzdGhydV9lcnJfbG9nX2VuYWJsZWQNCj4gK30NCj4gKw0KPg0KDQpUaGFua3Mg
-Zm9yIHRoZSB0ZXN0LCBsZXQncyBtb3ZlIHRoZXNlIGhlbHBlciB0ZXN0Y2FzZSBpdHNlbGYgaWYg
-d2UgZ2V0DQpzZWNvbmQgdGVzdGNhc2UgPyBJJ2Qgbm90IGJsb2F0IG52bWUgcmMgZmlsZSB1bmxl
-c3Mgd2UgaGF2ZSBhbm90aGVyDQp1c2VyIGZvciB0aGVzZSBmdW5jdGlvbiwgYWxzbyBpZiB5b3Ug
-bW92ZSB0aGVzZSB0byB0ZXN0Y2FzZSBpdHNlbGYNCnRoZW4geW91IGRvbid0IHJlYWxseSBuZWVk
-IHRvIG1ha2UgdGhlc2UgYXMgYSBmdW5jdGlvbiAuLi4NCg0KLWNrDQoNCg0K
+Hi Will,
+
+On Fri, Feb 16, 2024 at 04:13:12PM +0000, Will Deacon wrote:
+> On Thu, Feb 15, 2024 at 04:26:23PM -0800, Nicolin Chen wrote:
+> > On Thu, Feb 15, 2024 at 04:35:45PM +0000, Will Deacon wrote:
+> > > On Thu, Feb 15, 2024 at 02:22:09PM +0000, Will Deacon wrote:
+> > > > On Wed, Feb 14, 2024 at 11:57:32AM -0800, Nicolin Chen wrote:
+> > > > > On Wed, Feb 14, 2024 at 04:41:38PM +0000, Will Deacon wrote:
+> > > > > > On Tue, Feb 13, 2024 at 01:53:55PM -0800, Nicolin Chen wrote:
+> > > > > And it seems to get worse, as even a 64KB mapping is failing:
+> > > > > [    0.239821] nvme 0000:00:01.0: swiotlb buffer is full (sz: 65536 bytes), total 32768 (slots), used 0 (slots)
+> > > > >
+> > > > > With a printk, I found the iotlb_align_mask isn't correct:
+> > > > >    swiotlb_area_find_slots:alloc_align_mask 0xffff, iotlb_align_mask 0x800
+> > > > >
+> > > > > But fixing the iotlb_align_mask to 0x7ff still fails the 64KB
+> > > > > mapping..
+> > > >
+> > > > Hmm. A mask of 0x7ff doesn't make a lot of sense given that the slabs
+> > > > are 2KiB aligned. I'll try plugging in some of the constants you have
+> > > > here, as something definitely isn't right...
+> > >
+> > > Sorry, another ask: please can you print 'orig_addr' in the case of the
+> > > failing allocation?
+> >
+> > I added nvme_print_sgl() in the nvme-pci driver before its
+> > dma_map_sgtable() call, so the orig_addr isn't aligned with
+> > PAGE_SIZE=64K or NVME_CTRL_PAGE_SIZE=4K:
+> >  sg[0] phys_addr:0x0000000105774600 offset:17920 length:512 dma_address:0x0000000000000000 dma_length:0
+> >
+> > Also attaching some verbose logs, in case you'd like to check:
+> >    nvme 0000:00:01.0: swiotlb_area_find_slots: dma_get_min_align_mask 0xfff, IO_TLB_SIZE 0xfffff7ff
+> >    nvme 0000:00:01.0: swiotlb_area_find_slots: alloc_align_mask 0xffff, iotlb_align_mask 0x7ff
+> >    nvme 0000:00:01.0: swiotlb_area_find_slots: stride 0x20, max 0xffff
+> >    nvme 0000:00:01.0: swiotlb_area_find_slots: tlb_addr=0xbd830000, iotlb_align_mask=0x7ff, alloc_align_mask=0xffff
+> > => nvme 0000:00:01.0: swiotlb_area_find_slots: orig_addr=0x105774600, iotlb_align_mask=0x7ff
+> 
+> With my patches, I think 'iotlb_align_mask' will be 0x800 here, so this
+
+Oops, my bad. I forgot to revert the part that I mentioned in
+my previous reply.
+
+> particular allocation might be alright, however I think I'm starting to
+> see the wider problem. The IOMMU code is asking for a 64k-aligned
+> allocation so that it can map it safely, but at the same time
+> dma_get_min_align_mask() is asking for congruence in the 4k NVME page
+> offset. Now, because we're going to allocate a 64k-aligned mapping and
+> offset it, I think the NVME alignment will just fall out in the wash and
+> checking the 'orig_addr' (which includes the offset) is wrong.
+> 
+> So perhaps this diff (which I'm sadly not able to test) will help? You'll
+> want to apply it on top of my other patches. The idea is to ignore the
+> bits of 'orig_addr' which will be aligned automatically by offseting from
+> the aligned allocation. I fixed the max() thing too, although that's only
+> an issue for older kernels.
+ 
+Yea, I tested all 4 patches. They still failed at some large
+mapping, until I added on top of them my PATCH-1 implementing
+the max_mapping_size op. IOW, with your patches it looks like
+252KB max_mapping_size is working :)
+
+Though we seem to have a solution now, I hope we can make it
+applicable to older kernels too. The mapping failure on arm64
+with PAGE_SIZE=64KB looks like a regression to me, since dma-
+iommu started to use swiotlb bounce buffer.
+
+Thanks
+Nicolin
+
+> --->8
+> 
+> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+> index 283eea33dd22..4a000d97f568 100644
+> --- a/kernel/dma/swiotlb.c
+> +++ b/kernel/dma/swiotlb.c
+> @@ -981,8 +981,7 @@ static int swiotlb_search_pool_area(struct device *dev, struct io_tlb_pool *pool
+>         dma_addr_t tbl_dma_addr =
+>                 phys_to_dma_unencrypted(dev, pool->start) & boundary_mask;
+>         unsigned long max_slots = get_max_slots(boundary_mask);
+> -       unsigned int iotlb_align_mask =
+> -               dma_get_min_align_mask(dev) & ~(IO_TLB_SIZE - 1);
+> +       unsigned int iotlb_align_mask = dma_get_min_align_mask(dev);
+>         unsigned int nslots = nr_slots(alloc_size), stride;
+>         unsigned int offset = swiotlb_align_offset(dev, orig_addr);
+>         unsigned int index, slots_checked, count = 0, i;
+> @@ -993,6 +992,9 @@ static int swiotlb_search_pool_area(struct device *dev, struct io_tlb_pool *pool
+>         BUG_ON(!nslots);
+>         BUG_ON(area_index >= pool->nareas);
+> 
+> +       alloc_align_mask |= (IO_TLB_SIZE - 1);
+> +       iotlb_align_mask &= ~alloc_align_mask;
+> +
+>         /*
+>          * For mappings with an alignment requirement don't bother looping to
+>          * unaligned slots once we found an aligned one.
+> @@ -1004,7 +1006,7 @@ static int swiotlb_search_pool_area(struct device *dev, struct io_tlb_pool *pool
+>          * allocations.
+>          */
+>         if (alloc_size >= PAGE_SIZE)
+> -               stride = max(stride, PAGE_SHIFT - IO_TLB_SHIFT + 1);
+> +               stride = umax(stride, PAGE_SHIFT - IO_TLB_SHIFT + 1);
+> 
+>         spin_lock_irqsave(&area->lock, flags);
+>         if (unlikely(nslots > pool->area_nslabs - area->used))
+> 
 
