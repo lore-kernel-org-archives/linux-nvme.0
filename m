@@ -4,79 +4,138 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7DB16C48260
-	for <linux-nvme@archiver.kernel.org>; Fri, 16 Feb 2024 23:29:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93022C48260
+	for <linux-nvme@archiver.kernel.org>; Sat, 17 Feb 2024 00:50:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=KWRxmexjxRAwEdHggpUpLdmDcN6dwwiaTa/57ju/x7I=; b=YyPU6LY/wFU/nKGdA3JeKfdvja
-	vgEM8bdm+j8Zs819pi+BdAiFPkhgXSncvYEDjzh+6PkT+ShIZ4UNjQUHi6yX+4BfWQFEwkP2vvIL/
-	8StN4db64Fy+GcwvHj4ZvGr44fP2EhWpKDn3cbvAu4x7Esbx+k8kXr9FHqVn30Ay36nDGO4TuXlb1
-	3xDLoHLc/N0D/OSRyd1XVcgtK2TV8yGnSP5iMdOlzh9XPxXZNcO1uZWjy6er5lTSMcl3r6FilXZ3s
-	lN4bUyf8AB0Ox/Ej2l3EPr7azT9SFKVSaTMEYQotOBczJfC0i8pJIUQ0wzs4weTeBTKsLvLDH/CRQ
-	MchmUq/w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=YCa8Zez/pMSQkNUXbeBYL20cKWzhOyA5lI98hzJBbJM=; b=F5+V1qeYi87ahJ8Jw1LaJebTZZ
+	RBk+90LT7Grr10Ej01IGXzZH/kSypSxB+0KXdhNMI8gInz5DIJlmI8sww7ZF50ahLqNT+Jyr7VSAo
+	p/95eHqumSwYTsmWySgtFyKd/doIieSWXOu0tGsRZ/oNOY4OnGDZgxrpRWlh3//uOpiQw1qP6RERz
+	FNhQKeu2bVyNCIP1TGuLGiERYpO0V9NogGzvtXOezSwsR7HQ9VTYRGDOrFRfNdA1iS2JEUnUqSFY7
+	e3qfKbOKTM8gxj/b0mx67PRP4Vpr2tuBF/4R5BH8ucTX0s/tZVsI46xLEQ4c5Y6Mc3KDxKkADfScl
+	HuC9ieyw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rb7eA-000000045c0-1fgA;
-	Fri, 16 Feb 2024 23:29:34 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1rb8uK-00000004H5C-1fd1;
+	Sat, 17 Feb 2024 00:50:20 +0000
+Received: from mail-bn8nam04on20600.outbound.protection.outlook.com ([2a01:111:f403:2408::600] helo=NAM04-BN8-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rb7e7-000000045aZ-06vy
+	id 1rb8uH-00000004H4I-3Hov
 	for linux-nvme@lists.infradead.org;
-	Fri, 16 Feb 2024 23:29:32 +0000
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 41GKEGPG009241;
-	Fri, 16 Feb 2024 23:29:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2023-11-20; bh=KWRxmexjxRAwEdHggpUpLdmDcN6dwwiaTa/57ju/x7I=;
- b=c+uij9WvdluU/1tApg5U6V62mKlbhPOnQ5Hbwx25rY1/sItuGKgwiqcQVmTlhgNDQs24
- PJA+oQHiieLv92fonLVS0KbjT9765g4/FcjF0rdd06xN5PahigSJ0fp99Dwyn7uJzx4q
- 3C+fl9Pf/dj+pKStBISbDOA9c6VL1nxPgG6YbJqeCKoJokR7XUvxmB5wyPEUyPyOlqrC
- sRoWIrS/LzNmwNLtbX9acr0HElkHmw39MiMetqMZ6a0N3xmNv7pSbr0hk4KS5BeEBzHT
- +jpN0tqzCH4L8v1Z7VK1894DtWf95bwd+8AJt2TSaAZxEChHeyNsCvitHaefZO7s8z1J zw== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3w92j0pe85-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 16 Feb 2024 23:29:27 +0000
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 41GMtFjh024016;
-	Fri, 16 Feb 2024 23:29:27 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3w5ykk52ae-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 16 Feb 2024 23:29:27 +0000
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 41GNTQ6Y011465;
-	Fri, 16 Feb 2024 23:29:26 GMT
-Received: from ca-dev94.us.oracle.com (ca-dev94.us.oracle.com [10.129.136.30])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3w5ykk529s-1;
-	Fri, 16 Feb 2024 23:29:26 +0000
-From: Alan Adamson <alan.adamson@oracle.com>
-To: linux-block@vger.kernel.org
-Cc: alan.adamson@oracle.com, chaitanyak@nvidia.com,
-        linux-nvme@lists.infradead.org, shinichiro.kawasaki@wdc.com
-Subject: [PATCH blktests] nvme: Add passthru error logging tests to nvme/039
-Date: Fri, 16 Feb 2024 15:30:53 -0800
-Message-Id: <20240216233053.2795930-1-alan.adamson@oracle.com>
-X-Mailer: git-send-email 2.39.3
+	Sat, 17 Feb 2024 00:50:19 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NMPPUrpv/wYDin01DVFYixsLmDjvJn/IDGMdeX8GSCKreGOHPny7fZED2kvii1yNso4fqLAOfktlBuGMGA0NkGvRtC+JpnXVvbZKkkbjCjXuuvMC/svs+7XtZ8NvFQUoxNl8uap8GJV1CWdV6GTZSD4m3Ig+5YsNDYhO6xI6g1rV4pFEdE/uB42BDrmn69NawYiipk7oIPs+mhzC5lhSlbkIXvppJXdswUsWtrZylxv9sx1Y9yrFQjzYBLaHjqTyfMrywzuk7VBkcHuNdrG1BFgT958Xpz5AGX1bCNoIjT8ZmKtiyWCAe4SkpcgbYUU+YpVkB0BxpZAzkTN6E6HVfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YCa8Zez/pMSQkNUXbeBYL20cKWzhOyA5lI98hzJBbJM=;
+ b=lKQ9YwKsrYFXnid1OGpyLeXJLMmF62KB95IWwFVorQkF9TAbKBjahyAb1ffQZJ9iRp84PvomdnePtD0PTunhHEyl3b18iLhWuncmD+YFggE+hCTOQE+pAKu0e524XIEH9B3Mhj3R8UXTW+Y9qf7gRdMPScQH6dtQj6dflGWR+wRbBOpvEePEZ2xPFpQcM3JJgZrXbm3aHGrtz+IoEVyQVXpYa+pdgKqo6MQY/NBoylXyi3oMXXM7z+gggQrmndnunfHvXZbJdt/0oqPZxqCm1PJ2grb4dcciKLZxdZ0wRmfq8KaYCMEJ2zdSV7YIO+SjA1J9OYQEabW+Ifr896N1WQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YCa8Zez/pMSQkNUXbeBYL20cKWzhOyA5lI98hzJBbJM=;
+ b=l5kFfY9xapGz2MC8vQs4/Ph4gDEQo02ttPkPel/RcbFqV6xDYZcut6p42LTHjuT67uGExP/HhM44M0xOa7YBD4jNQ7U8hGEBsqmEGh8FIBc52ZMlSR0R5o1PAwQJGHiNLP2t9k6J7jYShRG47JjQz1V07sn4qICWtcAQdUeJEFppk9H35qqSRiAL9NaYHo3nrQMr0/NXyutFCrI1HEFlFh9TBkEB4YI/8/BQaEB2znJe51B0RiuskiiUq2rlwXq5zXBmdWlqtPpanhiF36B8JKk/9fwZZX+vttAtI4DCwTN+nELNxgsvE+1C7/wutsZZbM3jc6T/4hzub+Lae39F2Q==
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
+ by PH0PR12MB8008.namprd12.prod.outlook.com (2603:10b6:510:26f::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.26; Sat, 17 Feb
+ 2024 00:50:11 +0000
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::ffce:bbde:c1ca:39ed]) by LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::ffce:bbde:c1ca:39ed%4]) with mapi id 15.20.7316.012; Sat, 17 Feb 2024
+ 00:50:10 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Alan Adamson <alan.adamson@oracle.com>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"shinichiro.kawasaki@wdc.com" <shinichiro.kawasaki@wdc.com>
+Subject: Re: [PATCH blktests] nvme: Add passthru error logging tests to
+ nvme/039
+Thread-Topic: [PATCH blktests] nvme: Add passthru error logging tests to
+ nvme/039
+Thread-Index: AQHaYTAAxfZTTebJg0eC4C2wspnvNbENtCKA
+Date: Sat, 17 Feb 2024 00:50:10 +0000
+Message-ID: <2d2da03e-da35-418a-be85-b11f57bbd374@nvidia.com>
+References: <20240216233053.2795930-1-alan.adamson@oracle.com>
+In-Reply-To: <20240216233053.2795930-1-alan.adamson@oracle.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|PH0PR12MB8008:EE_
+x-ms-office365-filtering-correlation-id: 29ae217c-caaf-494b-30c2-08dc2f5264b2
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Gl2BRLRQRncnHfY0lW1USJpwH3fqa7/jHeurw1xOwv1iBfQdGbZSjmtoBgU3x8ZfqBx8QPqWnrLfXqm6Y7Tu96mziKqOhVXxU+58XN9FlPBO7jy/YevEQId8c3Q4vrQjyblH8TxMgt0paOmxnnwRfn7YF7QTp22OWpXSnqQ+j/u9awK1HZVQ6mhO/WZOvzZJwZ/BoKciA9bCRZjo5kLWccXsYN9GtO5l1fkkMN2SEoSunZsS9Q5fJ4013LOiPVBl+0Oe+SCGLmg84qiGEYhhHQ1/boFx2mB1ciXyBQBY0uJt0UccVYt5xMxPFUgxeBEcyrK2I2HTfnoOGOQmrKhJiO0mR2jgdGLtQ5m871nLybs5dv8KCkDngh28eUxo1XiNXIh1PZ+hlW8Fm9I/hgpQOgK6xCRtPOVSGVv12p2/m3w1271IKkxdzY3/gUBwIlo7F2+ga19UFml/JaCpwW2XneArNgqLcE77oa/2LIi+JrEWyvAbFq57KghfMl3X+aB3C/YkiMqHcceB2gWbQhbY6ZEzhMgV1XuIE4r7Pm7HYBh9ZDVrmrSiysCiQ0PyR7vzMPrtyz/4CBJTF50S7G+0Wgteqk3vh5ptlc2DXJErNG3DmHx2ZdbvP3bUlMI/8zfP
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(366004)(346002)(376002)(396003)(39860400002)(230922051799003)(451199024)(64100799003)(186009)(1800799012)(110136005)(83380400001)(76116006)(31696002)(86362001)(66946007)(38100700002)(71200400001)(316002)(6486002)(478600001)(6506007)(91956017)(6512007)(122000001)(2616005)(54906003)(36756003)(38070700009)(8936002)(66556008)(64756008)(5660300002)(66476007)(31686004)(41300700001)(4326008)(2906002)(8676002)(66446008);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?by9SSm16YUdUYjdEeTUxcHkzZ1htSmhWNEtLUHNqRXg4bHpZaVd2NGtHUnVs?=
+ =?utf-8?B?SUFSenAxUlQ3L2pOTGhsSy95RjlFUC93T0pBZnhESWNqQnZ5SzBrOC9ZMEFH?=
+ =?utf-8?B?SlhhUExoV1JibFlvMTRBbWYyYlZObVNWUEZWbGl2Y2w3YnRzc2dDRmp0ckxk?=
+ =?utf-8?B?R2VUcVA4OVcrWHhaVWVZL0xEbWxHOGVtTU5SSmw3Z0t1SFo1SHdkNEFoMFZ2?=
+ =?utf-8?B?Qjd6RDNDdkVnL2J6dFFCcXRiN1AzNW9FaHNIL2FhMmd0NWtsdTBUcDlocnNS?=
+ =?utf-8?B?YWJQMzAzM3pHeE9VVjNSbWR1aW55MlNjMXQvOGQxS1RnYUdhM2paekNhTFFt?=
+ =?utf-8?B?djhCakkybUxLblAwMWs5bC93bWNtM1dBdGVaUFdGV1gweHBYRjRhQUVTMHJz?=
+ =?utf-8?B?RUczYTk3MFZtQzYreERhRExzNlBBcEFvK0U2bTRpbWJpOFJZUW96QmdEa0sr?=
+ =?utf-8?B?VlhyeUlyU1FuN01yNTN3eTBjM0o2TGZubUpKWHdFeCthMFJyUWozMzIxakZp?=
+ =?utf-8?B?Z1hqVFo3MFhPR3dnaEFMUDY2QzhCV29XZmlhMGZQejFJdHVpY01YeWN5alN2?=
+ =?utf-8?B?MmQ1dnJuM20ra0dLd0hkNW1tS3FLUEpYaHcyR1p6YzVVOEhTTjRRQXdBVmEr?=
+ =?utf-8?B?U1JCVng4VVQ5U0FqYmFzcFpDNHlDVmtvenlOZFMva0FzVnF6Q3p5bmE0b2ZY?=
+ =?utf-8?B?MU9uNVJET2pFV0tiWGRYdW51ZTh6Uk5EMlpvMVlSaXAxNVJTM21Gd2MvWW9a?=
+ =?utf-8?B?L0JXN25GdUxLc0o1cnFwOE9ySGZvTXFHU2RjNUY5Mm1Vb2pTK256OHZjeEV0?=
+ =?utf-8?B?aFRWRzN4eEpVbW9GVEdLS2pDWGJxQWgxUWFkT25Zdkt0QVplOVFMckROYnV0?=
+ =?utf-8?B?c0QyS2ozNms2ZC9QRS90c1RFQ3FrcUpHREtOTzE5SFEzS3g4NDVLQTZqbll5?=
+ =?utf-8?B?MGFOYzlISVVTNDd3ZkZnRlVIUTFkN08vZW4wKy9GRkdmeHNIRWIxdGNiak5t?=
+ =?utf-8?B?Wkl3WmRiYkw3RHRmS0l3UVJtSVdpSmZUblBxeUhZbUpyOGY4aGRrd05IcG41?=
+ =?utf-8?B?YlFKY0tKQnFCRWtJcE0xcWowRTJ5M1NOZkNJV1lUSStjK1M1S3RYMTZ0dzY3?=
+ =?utf-8?B?Tk9OYjkvMDg0Q3hVeWdqa0FOUGp3QkYwUG9XVWxYTVhUaHpya09pNTZPZnJh?=
+ =?utf-8?B?RTRaOUw4THZ0YU1EY0sxbEh6QzFOQjM0OEJBWkVXdlRnaTVkZ2s3YmZERkkw?=
+ =?utf-8?B?SzBvcmpWODhpYnhZcHdzQW4vWkMyYlJqZzIzbzRTazd4UmFVc0FiSWJnMnRT?=
+ =?utf-8?B?YkJ0d2ZIN1NWQW81RTl6MEc3dU1uZWVrVUYycmpJSXlEcERmZTJPeHgxeWoy?=
+ =?utf-8?B?WXUwN1BLMDVKMjJlU1ZwQ3B6Q0RmT3djVTMwSWRGSDl1dG5tRE9lWSs2WjdY?=
+ =?utf-8?B?WHRua29CdmpqYVA1N2Vhd2c5b0IxbWNubHh2ZkgxUFVSSFRSWkRYcFhieWJU?=
+ =?utf-8?B?YkFZMnQ0T2tUSXBEYWVsR2lrMjh0MXIxZG5mVnBHK0NPNlNTTHArR25CWlRh?=
+ =?utf-8?B?NHJTc2ZvVUE0MVVuQklzVGJxTytWUUh3MGJ2c2JHakgxT3lyY3R2Mmo5a2xi?=
+ =?utf-8?B?Z0wwckVFVEV2VjkyWjB0WmNKWkU3bzFEZGt0Y2NqSVJOZktuSWs3T3Rvd2Jp?=
+ =?utf-8?B?UVA1TldLcVJnVUMxTVg3WldydDdZczR1WFNZcENMMWxyeGk4R1p6UnJRS0VM?=
+ =?utf-8?B?UGpQTVNYTTJxeEI4L2dFUkp1NGs2LzlJd2cvdGtkUUNGM1owWmRoS3B5Rmxh?=
+ =?utf-8?B?NTdLNGkwSzRWYWw4MmpoRjlHY2xXTVhNN0FkdmlKMG5vWEE3WGgvUTJMTUZI?=
+ =?utf-8?B?VGlrYTRiemdlQUFzNVdhcjAzMjNoVGVvS2FkL09mUm4vY25SeHNNNGNXdlVD?=
+ =?utf-8?B?Nm5zUjNSVlJJQ2FwZEc3SjJSSGsrV0phQWJvTW92N2hzQVFJbzBrVXd3QlpW?=
+ =?utf-8?B?SHcyMTRjQnJ2by9zS3grNkNFemhFNU5jVHVOb0ZaQUxmNmlEckkzbCsvb0g4?=
+ =?utf-8?B?cjN4R2lwTERUc2xxSE1oWk5pUk53UDRqRGRDV2tJb1Q4UGk0V1ZlK2djVFVn?=
+ =?utf-8?B?cDVqTXNXS2ZIb3Z6bW56andHNHN1UUU5RzRTRWdPL1hxREhhVmRPR2pWN2hN?=
+ =?utf-8?Q?e15Eu47NtnYsBu8GF7m+BDOztnCvFt3JzF/Pyv8Ae12H?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <6D01E3139FC16044AF13CF9E0A3FF019@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-16_23,2024-02-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0
- mlxlogscore=999 malwarescore=0 mlxscore=0 spamscore=0 suspectscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311290000 definitions=main-2402160184
-X-Proofpoint-GUID: vRaHQTal2QzNdadErdDkTDQ2zp1kpugm
-X-Proofpoint-ORIG-GUID: vRaHQTal2QzNdadErdDkTDQ2zp1kpugm
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 29ae217c-caaf-494b-30c2-08dc2f5264b2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Feb 2024 00:50:10.2395
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: r9VjziwQ5Cc47yrsf8JVqoTcfYI/dysmkrW5tq1rdrzBdcApGSNcjQm8UWJ4yQbvC2s6rMzFmEsfICrjCrQv6Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8008
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240216_152931_223704_878F2520 
-X-CRM114-Status: GOOD (  15.91  )
+X-CRM114-CacheID: sfid-20240216_165017_850815_945CA4D3 
+X-CRM114-Status: GOOD (  10.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,149 +150,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Tests the ability to enable and disable error logging for passthru admin commands issued to
-the controller and passthru IO commands issued to a namespace.
-
-Signed-off-by: Alan Adamson <alan.adamson@oracle.com>
----
- tests/nvme/039     | 41 +++++++++++++++++++++++++++++++++++++++++
- tests/nvme/039.out |  2 ++
- tests/nvme/rc      | 37 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 80 insertions(+)
-
-diff --git a/tests/nvme/039 b/tests/nvme/039
-index 73b53d0b949c..7cf7638ed4c8 100755
---- a/tests/nvme/039
-+++ b/tests/nvme/039
-@@ -130,6 +130,33 @@ inject_invalid_admin_cmd()
- 	fi
- }
- 
-+inject_invalid_io_cmd_passthru()
-+{
-+	local ns_dev
-+	local ctrl_dev
-+	local ns
-+
-+	ns_dev="$1"
-+	ctrl_dev=${ns_dev%n*}
-+	ns=$(echo "$ns_dev" |  cut -d "n" -f3)
-+
-+	# Inject a 'Invalid Command Opcode' (0x1) on a read (0x02)
-+	_nvme_enable_err_inject "$ns_dev" 0 100 1 0x1 1
-+
-+	nvme io-passthru /dev/"$ctrl_dev" --opcode=0x02 --namespace-id="$ns" \
-+		--data-len=512 --read --cdw10=0 --cdw11=0 --cdw12="$2" 2> /dev/null 1>&2
-+
-+	_nvme_disable_err_inject "$1"
-+	if ${nvme_verbose_errors}; then
-+		last_dmesg 2 | grep "Invalid Command Opcode (" | \
-+		    sed 's/nvme.*://g'
-+	else
-+		last_dmesg 2 | grep "Cmd(0x2" | sed 's/I\/O Cmd/Read/g' | \
-+		    sed 's/I\/O Error/Invalid Command Opcode/g' | \
-+		    sed 's/nvme.*://g'
-+	fi
-+}
-+
- test_device() {
- 	echo "Running ${TEST_NAME}"
- 
-@@ -147,6 +174,7 @@ test_device() {
- 	ctrl_dev=${ns_dev%n*}
- 
- 	_nvme_err_inject_setup "${ns_dev}" "${ctrl_dev}"
-+	_nvme_passthru_logging_setup "${ns_dev}" "${ctrl_dev}"
- 
- 	# wait DEFAULT_RATELIMIT_INTERVAL=5 seconds to ensure errors are printed
- 	sleep 5
-@@ -155,6 +183,19 @@ test_device() {
- 	inject_invalid_status_on_read "${ns_dev}"
- 	inject_write_fault_on_write "${ns_dev}"
- 
-+	# Test Pass Thru Admin Logging
-+	_nvme_disable_passthru_admin_error_logging "${ctrl_dev}"
-+	inject_invalid_admin_cmd "${ctrl_dev}"
-+	_nvme_enable_passthru_admin_error_logging "${ctrl_dev}"
-+	inject_access_denied_on_identify "${ctrl_dev}"
-+
-+	# Test Pass Thru IO Logging
-+	_nvme_disable_passthru_io_error_logging "${ns_dev}" "${ctrl_dev}"
-+	inject_invalid_io_cmd_passthru "${ns_dev}" 0
-+	_nvme_enable_passthru_io_error_logging "${ns_dev}" "${ctrl_dev}"
-+	inject_invalid_io_cmd_passthru "${ns_dev}" 1
-+
-+	_nvme_passthru_logging_cleanup "${ns_dev}" "${ctrl_dev}"
- 	_nvme_err_inject_cleanup "${ns_dev}" "${ctrl_dev}"
- 
- 	echo "Test complete"
-diff --git a/tests/nvme/039.out b/tests/nvme/039.out
-index 139070d22240..fea76cfd1245 100644
---- a/tests/nvme/039.out
-+++ b/tests/nvme/039.out
-@@ -2,4 +2,6 @@ Running nvme/039
-  Read(0x2) @ LBA 0, 1 blocks, Unrecovered Read Error (sct 0x2 / sc 0x81) DNR 
-  Read(0x2) @ LBA 0, 1 blocks, Unknown (sct 0x3 / sc 0x75) DNR 
-  Write(0x1) @ LBA 0, 1 blocks, Write Fault (sct 0x2 / sc 0x80) DNR 
-+ Identify(0x6), Access Denied (sct 0x2 / sc 0x86) DNR cdw10=0x1 cdw11=0x0 cdw12=0x0 cdw13=0x0 cdw14=0x0 cdw15=0x0
-+ Read(0x2), Invalid Command Opcode (sct 0x0 / sc 0x1) DNR cdw10=0x0 cdw11=0x0 cdw12=0x1 cdw13=0x0 cdw14=0x0 cdw15=0x0
- Test complete
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index dfc4c1ef1975..2d6ebeab2f6f 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -943,6 +943,23 @@ _check_uuid() {
- 
- declare -A NS_DEV_FAULT_INJECT_SAVE
- declare -A CTRL_DEV_FAULT_INJECT_SAVE
-+ns_dev_passthru_logging=off
-+ctrl_dev_passthru_logging=off
-+
-+_nvme_passthru_logging_setup()
-+{
-+	ctrl_dev_passthru_logging=$(cat /sys/class/nvme/"$2"/passthru_err_log_enabled)
-+	ns_dev_passthru_logging=$(cat /sys/class/nvme/"$2"/"$1"/passthru_err_log_enabled)
-+
-+	_nvme_disable_passthru_admin_error_logging "$2"
-+	_nvme_disable_passthru_io_error_logging "$1" "$2"
-+}
-+
-+_nvme_passthru_logging_cleanup()
-+{
-+	echo $ctrl_dev_passthru_logging > /sys/class/nvme/"$2"/passthru_err_log_enabled
-+	echo $ns_dev_passthru_logging > /sys/class/nvme/"$2"/"$1"/passthru_err_log_enabled
-+}
- 
- _nvme_err_inject_setup()
- {
-@@ -985,6 +1002,26 @@ _nvme_disable_err_inject()
-         echo 0 > /sys/kernel/debug/"$1"/fault_inject/times
- }
- 
-+_nvme_enable_passthru_admin_error_logging()
-+{
-+	echo on > /sys/class/nvme/"$1"/passthru_err_log_enabled
-+}
-+
-+_nvme_enable_passthru_io_error_logging()
-+{
-+	echo on > /sys/class/nvme/"$2"/"$1"/passthru_err_log_enabled
-+}
-+
-+_nvme_disable_passthru_admin_error_logging()
-+{
-+	echo off > /sys/class/nvme/"$1"/passthru_err_log_enabled
-+}
-+
-+_nvme_disable_passthru_io_error_logging()
-+{
-+	echo off > /sys/class/nvme/"$2"/"$1"/passthru_err_log_enabled
-+}
-+
- _nvme_reset_ctrl() {
- 	echo 1 > /sys/class/nvme/"$1"/reset_controller
- }
--- 
-2.39.3
-
+PiArX252bWVfcGFzc3RocnVfbG9nZ2luZ19zZXR1cCgpDQo+ICt7DQo+ICsJY3RybF9kZXZfcGFz
+c3RocnVfbG9nZ2luZz0kKGNhdCAvc3lzL2NsYXNzL252bWUvIiQyIi9wYXNzdGhydV9lcnJfbG9n
+X2VuYWJsZWQpDQo+ICsJbnNfZGV2X3Bhc3N0aHJ1X2xvZ2dpbmc9JChjYXQgL3N5cy9jbGFzcy9u
+dm1lLyIkMiIvIiQxIi9wYXNzdGhydV9lcnJfbG9nX2VuYWJsZWQpDQo+ICsNCj4gKwlfbnZtZV9k
+aXNhYmxlX3Bhc3N0aHJ1X2FkbWluX2Vycm9yX2xvZ2dpbmcgIiQyIg0KPiArCV9udm1lX2Rpc2Fi
+bGVfcGFzc3RocnVfaW9fZXJyb3JfbG9nZ2luZyAiJDEiICIkMiINCj4gK30NCj4gKw0KPiArX252
+bWVfcGFzc3RocnVfbG9nZ2luZ19jbGVhbnVwKCkNCj4gK3sNCj4gKwllY2hvICRjdHJsX2Rldl9w
+YXNzdGhydV9sb2dnaW5nID4gL3N5cy9jbGFzcy9udm1lLyIkMiIvcGFzc3RocnVfZXJyX2xvZ19l
+bmFibGVkDQo+ICsJZWNobyAkbnNfZGV2X3Bhc3N0aHJ1X2xvZ2dpbmcgPiAvc3lzL2NsYXNzL252
+bWUvIiQyIi8iJDEiL3Bhc3N0aHJ1X2Vycl9sb2dfZW5hYmxlZA0KPiArfQ0KPiAgIA0KPiAgIF9u
+dm1lX2Vycl9pbmplY3Rfc2V0dXAoKQ0KPiAgIHsNCj4gQEAgLTk4NSw2ICsxMDAyLDI2IEBAIF9u
+dm1lX2Rpc2FibGVfZXJyX2luamVjdCgpDQo+ICAgICAgICAgICBlY2hvIDAgPiAvc3lzL2tlcm5l
+bC9kZWJ1Zy8iJDEiL2ZhdWx0X2luamVjdC90aW1lcw0KPiAgIH0NCj4gICANCj4gK19udm1lX2Vu
+YWJsZV9wYXNzdGhydV9hZG1pbl9lcnJvcl9sb2dnaW5nKCkNCj4gK3sNCj4gKwllY2hvIG9uID4g
+L3N5cy9jbGFzcy9udm1lLyIkMSIvcGFzc3RocnVfZXJyX2xvZ19lbmFibGVkDQo+ICt9DQo+ICsN
+Cj4gK19udm1lX2VuYWJsZV9wYXNzdGhydV9pb19lcnJvcl9sb2dnaW5nKCkNCj4gK3sNCj4gKwll
+Y2hvIG9uID4gL3N5cy9jbGFzcy9udm1lLyIkMiIvIiQxIi9wYXNzdGhydV9lcnJfbG9nX2VuYWJs
+ZWQNCj4gK30NCj4gKw0KPiArX252bWVfZGlzYWJsZV9wYXNzdGhydV9hZG1pbl9lcnJvcl9sb2dn
+aW5nKCkNCj4gK3sNCj4gKwllY2hvIG9mZiA+IC9zeXMvY2xhc3MvbnZtZS8iJDEiL3Bhc3N0aHJ1
+X2Vycl9sb2dfZW5hYmxlZA0KPiArfQ0KPiArDQo+ICtfbnZtZV9kaXNhYmxlX3Bhc3N0aHJ1X2lv
+X2Vycm9yX2xvZ2dpbmcoKQ0KPiArew0KPiArCWVjaG8gb2ZmID4gL3N5cy9jbGFzcy9udm1lLyIk
+MiIvIiQxIi9wYXNzdGhydV9lcnJfbG9nX2VuYWJsZWQNCj4gK30NCj4gKw0KPg0KDQpUaGFua3Mg
+Zm9yIHRoZSB0ZXN0LCBsZXQncyBtb3ZlIHRoZXNlIGhlbHBlciB0ZXN0Y2FzZSBpdHNlbGYgaWYg
+d2UgZ2V0DQpzZWNvbmQgdGVzdGNhc2UgPyBJJ2Qgbm90IGJsb2F0IG52bWUgcmMgZmlsZSB1bmxl
+c3Mgd2UgaGF2ZSBhbm90aGVyDQp1c2VyIGZvciB0aGVzZSBmdW5jdGlvbiwgYWxzbyBpZiB5b3Ug
+bW92ZSB0aGVzZSB0byB0ZXN0Y2FzZSBpdHNlbGYNCnRoZW4geW91IGRvbid0IHJlYWxseSBuZWVk
+IHRvIG1ha2UgdGhlc2UgYXMgYSBmdW5jdGlvbiAuLi4NCg0KLWNrDQoNCg0K
 
