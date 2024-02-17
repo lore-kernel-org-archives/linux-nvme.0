@@ -4,121 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26737C48BF6
-	for <linux-nvme@archiver.kernel.org>; Sat, 17 Feb 2024 05:20:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4173AC48BC4
+	for <linux-nvme@archiver.kernel.org>; Sat, 17 Feb 2024 11:57:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:CC:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:
+	Subject:Message-ID:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ync0L8Wo4W0zR4gp834MGlYuV3DQN7eagJtxvoQzt4Q=; b=IhM/GQHQ+7bpu+SFh+jEvxUABt
-	91H++G40vBQkXCVBPLN1NaPbopT1fvdoAkfi99PArLOBl6l2yWbplGZ3/uPGuvUTBrsWgBmPvRkH+
-	08oOMqRNXjgyycy6zOm4siH/m0YMdK9VjLifi+O0vcvz6hDT9Ao4STBjA4R2nK6NLrVbgXABiZzyx
-	PTFKSdGpauLpnK1y4iYdosIkQxg+2WJD7tEZGfMjMjCxxp0oCMq6BAYkWlTfTMqAEiryf5+bNKF3T
-	JDKuudLBZ1miL5toGW2zNR+UDv4vrwjRtoENOZQU8AHstdz6uapixv15tpy4KDI4nCvpSbegVkv3w
-	MCmxPSOQ==;
+	bh=vUsOgHzp8r6kWIn49FLfR/dfD+6UhIXiD2CyZpx4J48=; b=pu9mZKuCshxCWwor5zMXNaoAMS
+	HSEMDB1u9rdSzGI48AB+z1J50Tm5Uv7qLcSHOw0augtpx89y0UtwIXzlfeoKFoLxHQtUI7q9+3/q4
+	v/ePdamZBHIajGfLke9sSEmvy6T4G01RcRWzHmIOlSjiYRbEDTS7sjiRCJJQtEPxB3jbjCc4Ag/xY
+	hDaHE5QXc+EWh11mpcG/Df33cVFIqRjEKZnys5r++DsgTwLGWhd4+gILLiy0+HBcAwPDxSLHZuW2M
+	3D/0Mgr+kZcmemHhxgfwVAbPtbRqWC9ySNGH2H525pYbYjQDE1XQWcxqoH/pVXPmpWxU5Ort83V3c
+	YqoIfmXw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rbD7b-00000004fc2-2K3k;
-	Sat, 17 Feb 2024 05:20:19 +0000
-Received: from mail-dm6nam10on2062a.outbound.protection.outlook.com ([2a01:111:f400:7e88::62a] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+	id 1rbJK8-00000005bmZ-2qFN;
+	Sat, 17 Feb 2024 11:57:40 +0000
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rbD7X-00000004fZR-1E92
+	id 1rbJK0-00000005bkq-11Rn
 	for linux-nvme@lists.infradead.org;
-	Sat, 17 Feb 2024 05:20:17 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gD80Mq0UC13neH+ZFephEB7Efveo3xrkqYX5oWGEoDXzAknVvkS3EZMjS4tmiDF+WuZNRoel/SG3C0z/XrkN2ma0DzDDcbVNRiFdb1Lm6r/VAbgvlhDyCm6KdGlq6jSlw+M9eGICGi0wHLGzDOx8yJqf2eE4l2Ke89aKp1dhma7oGuGBQtwYoOoLJkFIp/6xGde7oVONQxx3+zcZjsLbvH8nSDFk/p6lUc97xina8jvHjaS/YDg7ZTmvcGqX10lUzZFf8vhZkdFCTzlbOogtBL3a4SmeqifkUdpiXlLDWPTTRffv7t4N1CL8jkTzJcGvAoyomoAvFSuSUQzXSHiVbQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ync0L8Wo4W0zR4gp834MGlYuV3DQN7eagJtxvoQzt4Q=;
- b=aRXtx8lLAuA2v8yZ0kCHWxZVnGePfzRzvyqK6//+qkYLv0LJhy2IwrTfXwRNWo6vEvdM1IOvLa9JGSRABLJi78WhTtXji2AX2iTQ6vI3rw1qZ+QsPdwpbHYbZtSuRsKeY6wjUloB/NUppt4A55rklmx+LnPDByV9dU7Zk8Bg8C6TTgasPFUCdWQdGfP63b81mk26Oe+S8AbI/DJ/ufL3JNf3P6+NQeMRYu3THrNk3P8pE4lgjVTZITsRpR0vrONSxhSz+LXjdBZTd+SZhrA/AFdLYUjwlKnl+TCOfMU7RJ0R3T4NsdO78mDw/PqJBjZomW4TV+Q6pbrUDxr4sC8MSg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ync0L8Wo4W0zR4gp834MGlYuV3DQN7eagJtxvoQzt4Q=;
- b=Fhjmwjq3EG44OD1ZVHhIwJbP11+8ooEVn77mBzaRUQfnRhRUA8fRldy/oAPVYWXFY/7mYReP9yDo+7H5/aOr1CkjIao78WaBn4TdvfPCTaRAEHm/n1f27y+eFK7ZTrf+aKRFgP/WWUSAOf2HkuKjWbxZx71csI5RMHgVheB8JB72nfO+4xLoHf9XNLShlxLCo3YYLgckL9WW6eafQuPm9qKNsVxF17Y7A2XWSnl3oqy5mn1kpGk8KFv6Y1FsD0PhsTB1l118dEc2QAJ2/2CR3xurW18YYSQ5zcU6PlbGKmRN+034iggh2ct36q7BqNFajCqSZyuAVvV2KihMBpmQgA==
-Received: from CY5PR15CA0254.namprd15.prod.outlook.com (2603:10b6:930:66::28)
- by DM3PR12MB9413.namprd12.prod.outlook.com (2603:10b6:8:1af::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.12; Sat, 17 Feb
- 2024 05:19:58 +0000
-Received: from CY4PEPF0000EE39.namprd03.prod.outlook.com
- (2603:10b6:930:66:cafe::77) by CY5PR15CA0254.outlook.office365.com
- (2603:10b6:930:66::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.26 via Frontend
- Transport; Sat, 17 Feb 2024 05:19:58 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- CY4PEPF0000EE39.mail.protection.outlook.com (10.167.242.13) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7249.19 via Frontend Transport; Sat, 17 Feb 2024 05:19:58 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Fri, 16 Feb
- 2024 21:19:46 -0800
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Fri, 16 Feb
- 2024 21:19:46 -0800
-Received: from Asurada-Nvidia (10.127.8.9) by mail.nvidia.com (10.129.68.10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12 via Frontend
- Transport; Fri, 16 Feb 2024 21:19:45 -0800
-Date: Fri, 16 Feb 2024 21:19:44 -0800
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Will Deacon <will@kernel.org>
-CC: <sagi@grimberg.me>, <hch@lst.de>, <axboe@kernel.dk>, <kbusch@kernel.org>,
-	<joro@8bytes.org>, <robin.murphy@arm.com>, <jgg@nvidia.com>,
-	<linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<iommu@lists.linux.dev>, <murphyt7@tcd.ie>, <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH v1 0/2] nvme-pci: Fix dma-iommu mapping failures when
- PAGE_SIZE=64KB
-Message-ID: <ZdBB8BYsK6WvwTYC@Asurada-Nvidia>
-References: <cover.1707851466.git.nicolinc@nvidia.com>
- <20240214164138.GA31927@willie-the-truck>
- <Zc0bLAIXSAqsQJJv@Asurada-Nvidia>
- <20240215142208.GA753@willie-the-truck>
- <20240215163544.GA821@willie-the-truck>
- <Zc6rr/LleQ2krkyg@Asurada-Nvidia>
- <20240216161312.GA2203@willie-the-truck>
+	Sat, 17 Feb 2024 11:57:33 +0000
+Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-41258904302so3829855e9.3
+        for <linux-nvme@lists.infradead.org>; Sat, 17 Feb 2024 03:57:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708171050; x=1708775850; darn=lists.infradead.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:subject:message-id:from:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=vUsOgHzp8r6kWIn49FLfR/dfD+6UhIXiD2CyZpx4J48=;
+        b=AQjhIb3aVsBVW8LwS2JS3z75KWM5YOf/SxzZLrt0Mxpg9kHf7XIGqqGVWURn1Q5MZb
+         Aa9ykXAX3e2nej193FEFe9gD9GmADe7cg3aTTpETClJj/v/QEL+pjXMGkgTVd6gF2QF7
+         d8ebpZM1Osmvkla0VycB4uX/020FrV8BxYj+ipPozu/FaNgHeP1KrWfQ7jWjq/mEs6dW
+         mVPpcuSRqjuQzqXGauQNHIwBBFaEuC+M1DNVxJgWLapqGTGrm3TZEPMr9U1TS0KnZEJh
+         8Q4x18vTmWyF1JortgeHDKaae9wLkF+d1MOZBHdoh0M5rf+myBwDagOs6tgY2Ep1KaBu
+         bNAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708171050; x=1708775850;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:subject:message-id:from:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vUsOgHzp8r6kWIn49FLfR/dfD+6UhIXiD2CyZpx4J48=;
+        b=N2N+y5VFMBHlAUNsExpQh+N3XS2ItzuoZNWxF4kRgBwawHyZXYo6KGpybMiEpdxpf3
+         VeW0IibJK00A1lnLbdNBurccrCsjaQ1pG4MuQ9WdMlSH1Um7KyrmlX4A3yLdO0gQ0Bnb
+         rO4p4/H0FtQO3ZAY6/38fVg/auCrJi/jKbB9/bOf4xBRKwBMKsYTsB4fNRwmEmbTf5Dx
+         cu4B9efo6jEX1PJM5JCQ+AcEHidtxye8q8068PBa2ikAAJz5LJ6YxiWYsTItMM47Pama
+         usWlehvhe2mg9vw+FM9nM+IwAqYYZsTkhm7Gu7RLyLMlmh1rm21TW7KMdJQiaLxpn47E
+         O7GA==
+X-Forwarded-Encrypted: i=1; AJvYcCX6772UWtTzae3hoaiDX2eZOUGjIeBV66JPpogjv+UjHwGy06JfvdBrC2Aod7DkxRfu4PG/qQC+lxnCM1+7kiv6TfLO4N7j6WhrTmXQKvs=
+X-Gm-Message-State: AOJu0YyMnwmyKybRuSG4znK305gPLES/UoJTVTBeLxoBYE5MbT01vMjl
+	dZW/GEgWXsNieXoJIOadd8TPX0hIaicXKayRs80hIWHJzKJ2EkQQU+eBRI0rvvg=
+X-Google-Smtp-Source: AGHT+IEgt4lASuS58P85SkCYtQ+4L6sOssHAkGTZm9qejp+87GdqbxGLue1Q9HifEME4xc7jobqShQ==
+X-Received: by 2002:a05:600c:3ba6:b0:411:d89d:d7ba with SMTP id n38-20020a05600c3ba600b00411d89dd7bamr6456069wms.7.1708171049914;
+        Sat, 17 Feb 2024 03:57:29 -0800 (PST)
+Received: from 192.168.10.34 ([39.45.172.107])
+        by smtp.gmail.com with ESMTPSA id je11-20020a05600c1f8b00b0040fdf5e6d40sm5096840wmb.20.2024.02.17.03.57.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Feb 2024 03:57:29 -0800 (PST)
+From: Muhammad Usama Anjum <musamaanjum@gmail.com>
+X-Google-Original-From: Muhammad Usama Anjum <MUsamaAnjum@gmail.com>
+Message-ID: <0e96289fdbda200b9608284c7d5fb72546ce4267.camel@gmail.com>
+Subject: Re: [LSF/MM/BPF TOPIC] Reclaiming & documenting page flags
+To: Matthew Wilcox <willy@infradead.org>, lsf-pc@lists.linux-foundation.org
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-block@vger.kernel.org, linux-ide@vger.kernel.org, 
+ linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org,
+ bpf@vger.kernel.org
+Date: Sat, 17 Feb 2024 16:57:51 +0500
+In-Reply-To: <Zbcn-P4QKgBhyxdO@casper.infradead.org>
+References: <Zbcn-P4QKgBhyxdO@casper.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240216161312.GA2203@willie-the-truck>
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE39:EE_|DM3PR12MB9413:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7e6443f3-0ad0-499c-18c1-08dc2f78159a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: NN4qgR9ylHpFArZWokZvWHdLEsr2ZHMBc2kzKVVWVzfJTG3fFYmayIu+mhkNUbX/MEft08/3sEQHpA/NgiXzxUohSalip8fIBJU90tRCB4afXh8zqYu4qKZ7BKcfRAmVYmrJagYPIY4ojjqxRAFgucnk9RwnJzx02YYO/LD/Cwy6mKyCb8HPzlDgoE1Jyr558HV9ZkP4zI2jdogo2h4pozaNsu3PAeEhJ7F+QBrpqfYMm/bLk3GuN3ndc2bBdYwac4Gx/k7NoAS4Z/Gd6+GqeASmunhP1FT9SLKOCvCjnnv+NjBvIfRypC1XQW0DYsakz4LlDUMdfQVxYzPCqQhVyADjPpWSothH01l4MmGkM/qRfALjWuscxVxYPkPNTGfognPtPmbILK5m6xpJMJ1jIV3cfYC3CEAnBUIm3/lVviKTFhMxkP+DjlBbn+rB8FFKuCxriDUxDNYHrHdc9AALRx7ZAJ6ZoOhz7HZcA80KMOblQ4gStpgntOekwFjQtsrd1D8ThDx7tK2Q1pgCgwecFkaSXFqqnZY818BXGt0mqPyqc1DYW+TeLaq/UWhbZlYK16w3Nh3h8IrfvcVGcFmZyUqkWzwRpmXb8bEtX3kNIjEswGNPtC4ErlngNuEvYW+jlcxewPNbWITMSVMUpEBzmuSHbSh4iaftEiThD204SzQ=
-X-Forefront-Antispam-Report: CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230031)(4636009)(136003)(396003)(39850400004)(376002)(346002)(230922051799003)(451199024)(82310400011)(1800799012)(186009)(64100799003)(36860700004)(40470700004)(46966006)(356005)(86362001)(7636003)(33716001)(82740400003)(55016003)(83380400001)(8676002)(5660300002)(7416002)(2906002)(70586007)(70206006)(316002)(8936002)(6916009)(4326008)(9686003)(41300700001)(478600001)(336012)(426003)(54906003)(26005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2024 05:19:58.3831
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7e6443f3-0ad0-499c-18c1-08dc2f78159a
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000EE39.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9413
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240216_212015_380793_53D8DC58 
-X-CRM114-Status: GOOD (  35.92  )
+X-CRM114-CacheID: sfid-20240217_035732_311132_68F28E24 
+X-CRM114-Status: GOOD (  14.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,109 +96,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Will,
+On Mon, 2024-01-29 at 04:32 +0000, Matthew Wilcox wrote:
+> Our documentation of the current page flags is ... not great.  I think
+> I can improve it for the page cache side of things; I understand the
+> meanings of locked, writeback, uptodate, dirty, head, waiters, slab,
+> mlocked, mappedtodisk, error, hwpoison, readahead, anon_exclusive,
+> has_hwpoisoned, hugetlb and large_remappable.
+>=20
+> Where I'm a lot more shaky is the meaning of the more "real MM" flags,
+> like active, referenced, lru, workingset, reserved, reclaim, swapbacked,
+> unevictable, young, idle, swapcache, isolated, and reported.
+>=20
+> Perhaps we could have an MM session where we try to explain slowly and
+> carefully to each other what all these flags actually mean, talk about
+> what combinations of them make sense, how we might eliminate some of
+> them to make more space in the flags word, and what all this looks like
+> in a memdesc world.
+>=20
+> And maybe we can get some documentation written about it!  Not trying
+> to nerd snipe Jon into attending this session, but if he did ...
+This is great idea. Instead of having a session to write
+documentation, we can have a session which would be documentation
+itself even if nobody translates it to text.
 
-On Fri, Feb 16, 2024 at 04:13:12PM +0000, Will Deacon wrote:
-> On Thu, Feb 15, 2024 at 04:26:23PM -0800, Nicolin Chen wrote:
-> > On Thu, Feb 15, 2024 at 04:35:45PM +0000, Will Deacon wrote:
-> > > On Thu, Feb 15, 2024 at 02:22:09PM +0000, Will Deacon wrote:
-> > > > On Wed, Feb 14, 2024 at 11:57:32AM -0800, Nicolin Chen wrote:
-> > > > > On Wed, Feb 14, 2024 at 04:41:38PM +0000, Will Deacon wrote:
-> > > > > > On Tue, Feb 13, 2024 at 01:53:55PM -0800, Nicolin Chen wrote:
-> > > > > And it seems to get worse, as even a 64KB mapping is failing:
-> > > > > [    0.239821] nvme 0000:00:01.0: swiotlb buffer is full (sz: 65536 bytes), total 32768 (slots), used 0 (slots)
-> > > > >
-> > > > > With a printk, I found the iotlb_align_mask isn't correct:
-> > > > >    swiotlb_area_find_slots:alloc_align_mask 0xffff, iotlb_align_mask 0x800
-> > > > >
-> > > > > But fixing the iotlb_align_mask to 0x7ff still fails the 64KB
-> > > > > mapping..
-> > > >
-> > > > Hmm. A mask of 0x7ff doesn't make a lot of sense given that the slabs
-> > > > are 2KiB aligned. I'll try plugging in some of the constants you have
-> > > > here, as something definitely isn't right...
-> > >
-> > > Sorry, another ask: please can you print 'orig_addr' in the case of the
-> > > failing allocation?
-> >
-> > I added nvme_print_sgl() in the nvme-pci driver before its
-> > dma_map_sgtable() call, so the orig_addr isn't aligned with
-> > PAGE_SIZE=64K or NVME_CTRL_PAGE_SIZE=4K:
-> >  sg[0] phys_addr:0x0000000105774600 offset:17920 length:512 dma_address:0x0000000000000000 dma_length:0
-> >
-> > Also attaching some verbose logs, in case you'd like to check:
-> >    nvme 0000:00:01.0: swiotlb_area_find_slots: dma_get_min_align_mask 0xfff, IO_TLB_SIZE 0xfffff7ff
-> >    nvme 0000:00:01.0: swiotlb_area_find_slots: alloc_align_mask 0xffff, iotlb_align_mask 0x7ff
-> >    nvme 0000:00:01.0: swiotlb_area_find_slots: stride 0x20, max 0xffff
-> >    nvme 0000:00:01.0: swiotlb_area_find_slots: tlb_addr=0xbd830000, iotlb_align_mask=0x7ff, alloc_align_mask=0xffff
-> > => nvme 0000:00:01.0: swiotlb_area_find_slots: orig_addr=0x105774600, iotlb_align_mask=0x7ff
-> 
-> With my patches, I think 'iotlb_align_mask' will be 0x800 here, so this
+>=20
+> [thanks to Amir for reminding me that I meant to propose this topic]
+>=20
 
-Oops, my bad. I forgot to revert the part that I mentioned in
-my previous reply.
-
-> particular allocation might be alright, however I think I'm starting to
-> see the wider problem. The IOMMU code is asking for a 64k-aligned
-> allocation so that it can map it safely, but at the same time
-> dma_get_min_align_mask() is asking for congruence in the 4k NVME page
-> offset. Now, because we're going to allocate a 64k-aligned mapping and
-> offset it, I think the NVME alignment will just fall out in the wash and
-> checking the 'orig_addr' (which includes the offset) is wrong.
-> 
-> So perhaps this diff (which I'm sadly not able to test) will help? You'll
-> want to apply it on top of my other patches. The idea is to ignore the
-> bits of 'orig_addr' which will be aligned automatically by offseting from
-> the aligned allocation. I fixed the max() thing too, although that's only
-> an issue for older kernels.
- 
-Yea, I tested all 4 patches. They still failed at some large
-mapping, until I added on top of them my PATCH-1 implementing
-the max_mapping_size op. IOW, with your patches it looks like
-252KB max_mapping_size is working :)
-
-Though we seem to have a solution now, I hope we can make it
-applicable to older kernels too. The mapping failure on arm64
-with PAGE_SIZE=64KB looks like a regression to me, since dma-
-iommu started to use swiotlb bounce buffer.
-
-Thanks
-Nicolin
-
-> --->8
-> 
-> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-> index 283eea33dd22..4a000d97f568 100644
-> --- a/kernel/dma/swiotlb.c
-> +++ b/kernel/dma/swiotlb.c
-> @@ -981,8 +981,7 @@ static int swiotlb_search_pool_area(struct device *dev, struct io_tlb_pool *pool
->         dma_addr_t tbl_dma_addr =
->                 phys_to_dma_unencrypted(dev, pool->start) & boundary_mask;
->         unsigned long max_slots = get_max_slots(boundary_mask);
-> -       unsigned int iotlb_align_mask =
-> -               dma_get_min_align_mask(dev) & ~(IO_TLB_SIZE - 1);
-> +       unsigned int iotlb_align_mask = dma_get_min_align_mask(dev);
->         unsigned int nslots = nr_slots(alloc_size), stride;
->         unsigned int offset = swiotlb_align_offset(dev, orig_addr);
->         unsigned int index, slots_checked, count = 0, i;
-> @@ -993,6 +992,9 @@ static int swiotlb_search_pool_area(struct device *dev, struct io_tlb_pool *pool
->         BUG_ON(!nslots);
->         BUG_ON(area_index >= pool->nareas);
-> 
-> +       alloc_align_mask |= (IO_TLB_SIZE - 1);
-> +       iotlb_align_mask &= ~alloc_align_mask;
-> +
->         /*
->          * For mappings with an alignment requirement don't bother looping to
->          * unaligned slots once we found an aligned one.
-> @@ -1004,7 +1006,7 @@ static int swiotlb_search_pool_area(struct device *dev, struct io_tlb_pool *pool
->          * allocations.
->          */
->         if (alloc_size >= PAGE_SIZE)
-> -               stride = max(stride, PAGE_SHIFT - IO_TLB_SHIFT + 1);
-> +               stride = umax(stride, PAGE_SHIFT - IO_TLB_SHIFT + 1);
-> 
->         spin_lock_irqsave(&area->lock, flags);
->         if (unlikely(nslots > pool->area_nslabs - area->used))
-> 
 
