@@ -4,126 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA6D2C48BC3
-	for <linux-nvme@archiver.kernel.org>; Sat, 17 Feb 2024 16:28:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47FC0C48BC3
+	for <linux-nvme@archiver.kernel.org>; Sun, 18 Feb 2024 02:12:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TJxXm93B4TylDx6ccg8wI9mx1ojU/+4+CK/noqwvyTw=; b=h/VEZf9hU71Yvp+pKKi80gCfCk
-	lPkG6JK49Wkf1QJtclsSTnu/BvDASJ596t4zRv6PXelKLg1qYKlaOlufZ4b8PeQ7QnArj59ej0vEH
-	tTQs1y024RTGhCtEJdFkxDP3sF4cO1vk3SnnaJYzl2s8wWwJf/OV7J6RtdWW0kFIdmslM/E3lMTMx
-	XYBHkl9V4aiFbSTSfix2dma2NCWsnXgJovxzeN6W6VhJ/220JbvZKlG23VPZBYR5IZzg8oeYnZwaa
-	U40Rfk+SJmyob2JphU9jJWuHHTpHQ3cvVEcl6dUPs3CaxVIPg2CXwrJTFBuACzSp6SdB4CXgI50NH
-	NYDvnePw==;
+	bh=8DTp2I+hfK1xgHVv2dZoEaXsmy3pCLUHgfP51PVdxgs=; b=HRbieRVtIoqitWj17G543Lgih4
+	7vBgY1mMmY6Ygk7ROa8/iJhWCTIs7xNyvSVrHPK76Qtgha3KeiqHAJ2uuvZguG6RsVYsNT49zJ6SP
+	1JhUEkwWN/PJqqQ89MRaut9Ix2sNI5S7cLzrgGukcN85rRbmU/myg7WosWcxi09VkrSSVqsKAoYeB
+	v9fwkyYaThCMQUkfhuB811wbWb6uqHIodGfmWE57Haoul0o9aF6atYSBnqc3brcBoFoljrNEVt54X
+	QCv71/nxu5H/fwwI1HjSUdDxogr4RdPHDszYVbCN9o+3Y72LgpozZfSJtbL+b0sam8ScyRvIWy4z+
+	54m/+JOw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rbNXr-000000060NI-1Go9;
-	Sat, 17 Feb 2024 16:28:07 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1rbWfZ-00000006myY-31Nl;
+	Sun, 18 Feb 2024 02:12:41 +0000
+Received: from out30-111.freemail.mail.aliyun.com ([115.124.30.111])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rbNXg-000000060L0-41Uw
+	id 1rbWfT-00000006mxa-0Dl4
 	for linux-nvme@lists.infradead.org;
-	Sat, 17 Feb 2024 16:28:01 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DF20921D9E;
-	Sat, 17 Feb 2024 16:27:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708187273; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TJxXm93B4TylDx6ccg8wI9mx1ojU/+4+CK/noqwvyTw=;
-	b=rRlVwqaUCpU+ro9h2l8ZGWIcI72iQu6hS2ZFe6EU6kXOorHlgo+1a3n9gV+shkBwkE3/oG
-	D1BaSyQYDVMFaMTGKbozuI1OPqKpJRQ8EbvSTLGVIP7hW6Z8RDWS3DDNSg9O4MBiLR8r8h
-	mK2O1D/BBqbDxPFrgewJCthYLPBTxsE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708187273;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TJxXm93B4TylDx6ccg8wI9mx1ojU/+4+CK/noqwvyTw=;
-	b=kX+pPaL+NON4+xQUmqJhAderwQMAMvd8v8d4ZgHn46ktmS/OsXs1x4hQcowzBVw4JVO3Vw
-	EpKzQxRUM8JAz+Aw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708187272; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TJxXm93B4TylDx6ccg8wI9mx1ojU/+4+CK/noqwvyTw=;
-	b=TB9IPE0woCndtgdcaIgUMPb78NFMvXm9rCbFVWXDFIDkGjHcAFYeVlBSJnK51OLbEHgXf4
-	RHUvqTLZN+zrwvqsqRgracW1TDluP9S0t8BmJHZ6B4Erq1VkwreTDr6vbNfktrffw61D+s
-	1NNjGa8HZ6HZpgUIfg8/p4VUEOD0dn8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708187272;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TJxXm93B4TylDx6ccg8wI9mx1ojU/+4+CK/noqwvyTw=;
-	b=n1CWji/rQ3qGCxxuz1PyppZv4vgwptF7gknFMs8RycqEz1lkyZC2pXVHRfpLxRbLtEi8p4
-	pEhX5LYCKsuWaiCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8E00A1370C;
-	Sat, 17 Feb 2024 16:27:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id veJLHIje0GVDYwAAD6G6ig
-	(envelope-from <hare@suse.de>); Sat, 17 Feb 2024 16:27:52 +0000
-Message-ID: <0bd86557-c2da-42d0-9ad8-021c3f4fbd8f@suse.de>
-Date: Sat, 17 Feb 2024 17:27:51 +0100
+	Sun, 18 Feb 2024 02:12:38 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1708222347; h=Message-ID:Date:MIME-Version:Subject:From:To:Content-Type;
+	bh=8DTp2I+hfK1xgHVv2dZoEaXsmy3pCLUHgfP51PVdxgs=;
+	b=X0QtmkgrYxK71b4FAxzDa8xe7GHKb+BEUK+IJpjweIp7YIYzx4pDSJKZHm4vwMwGGsXsRWaP5yeG9UG9qLP6oHV7LBmAzP4pMgbBSHMvicjlAGVh3vSCazmPhsyCaPqTarOBRTneLSpYXSQXXx777QBHcSA9ozsTiLVepDjy/Mg=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R211e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046051;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0W0kJBqG_1708222343;
+Received: from 30.178.83.160(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W0kJBqG_1708222343)
+          by smtp.aliyun-inc.com;
+          Sun, 18 Feb 2024 10:12:24 +0800
+Message-ID: <af0c5068-fec7-453a-a1e2-b5c0d7e8e308@linux.alibaba.com>
+Date: Sun, 18 Feb 2024 10:12:23 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v0 1/6] nvme-fabrics: introduce connect_sync option
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, Daniel Wagner <dwagner@suse.de>
-Cc: James Smart <james.smart@broadcom.com>, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20240216084526.14133-1-dwagner@suse.de>
- <20240216084526.14133-2-dwagner@suse.de> <20240216094909.GA19961@lst.de>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20240216094909.GA19961@lst.de>
+Subject: Re: [PATCH v7 0/1] Implement the NVMe reservation feature
+From: Guixin Liu <kanie@linux.alibaba.com>
+To: sagi@grimberg.me, hch@lst.de, kch@nvidia.com
+Cc: linux-nvme@lists.infradead.org
+References: <20240201023207.112007-1-kanie@linux.alibaba.com>
+Content-Language: en-GB
+In-Reply-To: <20240201023207.112007-1-kanie@linux.alibaba.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TB9IPE0w;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="n1CWji/r"
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 XM_UA_NO_VERSION(0.01)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_SEVEN(0.00)[7];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 MID_RHS_MATCH_FROM(0.00)[]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: DF20921D9E
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240217_082757_308840_2A05AF9F 
-X-CRM114-Status: GOOD (  18.13  )
+X-CRM114-CacheID: sfid-20240217_181235_984167_E42CAC3E 
+X-CRM114-Status: GOOD (  29.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -138,43 +66,156 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/16/24 10:49, Christoph Hellwig wrote:
-> On Fri, Feb 16, 2024 at 09:45:21AM +0100, Daniel Wagner wrote:
->> The TCP and RDMA transport are doing a synchronous connect, meaning the
->> syscal returns with the final result, that is. it either failed or
->> succeeded.
->>
->> This isn't the case for FC. This transport just setups and triggers
->> the connect and returns without waiting on the result.
-> 
-> That's really weird and unexpected.  James, can you explain the reason
-> behind this?
-> 
-Reason is that the initial connect attempt might fail with an temporary 
-failure, and will need to be retried. And rather than implementing two 
-methods for handling this (one for the initial connect, and another one
-for reconnect where one _has_ to use a workqueue) as eg TCP and RDMA
-has implemented it FC is using a single code path for handling both.
+Hi,
 
-Temporary failure on initial connect is far more likely on FC than on
-other transports due to the way how FC-NVMe is modelled; essentially
-one has to log into the remote port for each protocol. So if you run
-in a dual fabric (with both FCP and NVMe) you'll need to log into the
-same remote port twice. Depending on the implementation the target might 
-only be capable of handling one port login at the same time, so the
-other one will be failed with a temporary error.
-That's why it's a common issue with FC. It _might_ happen with TCP, too,
-but apparently not regularly otherwise we would have seen quite some
-failures here; TCP can't really handle temporary failures for the
-initial connect.
+     Gentle ping...
 
-Cheers,
+Best regards.
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Guixin Liu
 
+在 2024/2/1 10:32, Guixin Liu 写道:
+> Hi guys,
+>      I've implemented the NVMe reservation feature. Please review it, all
+> comments are welcome as usual.
+>
+> Changes from v6 to v7:
+> - Handle "reservation notification mask" feature command to mask reservation
+> log.
+>
+> - Add all the registrants that need to be freed to a temporary list fist,
+> and then after calling synchronize_rcu(), release all the registrants on the
+> temporary list.
+>
+> - Fix the resv log page is random when there is no resv log page.
+>
+> - Change nvmet_is_host_still_connected() to nvmet_is_host_connected().
+>
+> - Remove nvmet_pr_set_rtype_and_holder() and change nvmet_pr_create_new_resv()
+> to nvmet_pr_create_new_reservation().
+>
+> - Change nvmet_pr_find_registrant_by_hostid() to nvmet_pr_find_registrant().
+>
+> - Change nvmet_pr_send_resv_released() to nvmet_pr_resv_released().
+>
+> - Change __nvmet_pr_unregister_one() to nvmet_pr_unregister_one().
+>
+> - In nvmet_pr_unreg_by_prkey(), nvmet_pr_unreg_by_prkey_except_hostid() and
+> nvmet_pr_unreg_except_hostid(), first do unregistering and then do event sending.
+>
+>
+> Changes from v5 to v6:
+> - Use synchronize_rcu() and kfree() to free registrant instead of kfree_rcu().
+>
+> - Remove nvmet_pr_register_check_rkey(), put the check into pr_lock warp.
+> And refactor the nvmet_pr_register().
+>
+> - Add the print fmt to the head.
+>
+> - Add lockdep_is_held(&pr->pr_lock) condition to list_for_each_entry_rcu.
+>
+> - Fix the bug in nvmet_pr_update_reg_attr(), when the change_attr hook
+> return fail, we should not replace the holder.
+>
+> Changes from v4 to v5:
+>
+> - Use rculist macros to handle registration_list instead of list macros
+> regardless of in mutex lock or not.
+>
+> - Use goto statement instead of return in nvmet_is_host_still_connected
+> and __nvmet_pr_unregister_one.
+>
+> - Add lockdep_assert_held and rcu_read_lock_held assert to many functions,
+> if it's necessary.
+>
+> - Add a comment to nvmet_execute_get_log_page_resv to explain how lost_count
+> works.
+>
+> - In nvmet_pr_clear, we should set holder to NULL first, I fixed this.
+>
+> - Unify nvmet_pr_update_holder_rtype and __nvmet_pr_do_replace to
+> nvmet_pr_update_reg_attr.
+>
+> - Fix wrong nr_pages in nvmet_execute_get_log_page_resv.
+>
+> - Fix the deadlock issue of nvmet_pr_exit_ns, put it out of the subsys lock.
+>
+>
+> Changes from v3 to v4:
+> - Use kfifo to handle resv log page instead of list, and also limit the
+> resv log queue to 64.
+>
+> - Change the function calling alignment style to:
+>      nvmet_pr_send_event_by_hostid(pr, hostid,
+>              NVME_PR_LOG_RESERVATOPM_PREEMPTED);
+>
+> - Put kmalloc out of rcu_read_lock in nvmet_execute_pr_report().
+>
+> - Remove the goto in __nvmet_pr_unregister_one().
+>
+> - Change generation to atomic_t, and remove nvmet_pr_inc_generation().
+>
+> - In addtion, the number2 patch "nvmet: unify aer type enum" is not
+> relate with this patch, so I will send it separately.
+>
+>
+> Changes from v2 to v3:
+> - Use rcu instead of rwlock to make IO path run faster, and put the rtype
+> into the struct nvmet_pr_registrant.
+>
+> - Limit the resv_log_list to 128.
+>
+> - Change generation to atomic64.
+>
+> - Put register rkey check to a warpper.
+>
+> - Change nr_avl_pages to nr_pages.
+>
+> - Use NVME_SC_SUCCESS instead of 0.
+>
+> - Change kmalloc param to let it not sleep in mutex lock.
+>
+>
+> Changes from v1 to v2:
+> - Implement the reservation notification report, includes registration
+> preempted, reservation released and reservation preempted.
+>    And also handle the reservation log page available event and send get
+> reservation log page command to clear log page at host.
+>
+> - Put the reservation check access after validate opcode. And remove
+> opcodes which nvmet not implement yet check.
+>    Now there is no admin opcode nvmet implemented needs reservation check,
+> so I dont add reservation check to admin command path.
+>    Next we need to do reservation check includes the situation of nsid is
+> 0xffffffff at each admin command path, if it is needed.
+>
+> - Add reservation commands support in nvmet_get_cmd_effects_nvm().
+>
+> - From Chaitanya, change the local variable tree style to make it cleaner,
+> and add some comments about NVMe spec.
+>    And also change others advice from chaitanya.
+>
+> - Put the nvmet_pr_check_cmd_access and nvmet_parse_pr_cmd into reservation
+> enable check warp.
+>
+> - Remove kmem_cache instead to use kmalloc and kfree.
+>
+> - Change others advice from Sagi.
+>
+> - Add a blktest test case, this patch will be sent before these series of
+> patches.
+>
+> Guixin Liu (1):
+>    nvmet: support reservation feature
+>
+>   drivers/nvme/target/Makefile    |    2 +-
+>   drivers/nvme/target/admin-cmd.c |   20 +-
+>   drivers/nvme/target/configfs.c  |   27 +
+>   drivers/nvme/target/core.c      |   51 +-
+>   drivers/nvme/target/nvmet.h     |   36 ++
+>   drivers/nvme/target/pr.c        | 1041 +++++++++++++++++++++++++++++++
+>   include/linux/nvme.h            |   54 ++
+>   7 files changed, 1224 insertions(+), 7 deletions(-)
+>   create mode 100644 drivers/nvme/target/pr.c
+>
 
