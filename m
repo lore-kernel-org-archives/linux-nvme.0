@@ -4,91 +4,141 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DBF2BC48BF8
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Feb 2024 19:04:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B1A78C48BC3
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Feb 2024 19:17:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Message-ID:Subject:Cc:To:From:Date:MIME-Version:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=+2njaI7YfBJdIG3TbNZpw59bNGttFUJUPUr7o7GinPw=; b=KIV1uShgWC+q2QQljymHSzM/Su
-	p0PfXv0T+8HEkdPcO4iJaTKBro93ELzu/S5b74mdUOISwOHRJL5OUPZSRBBEIfG6gMQRyNpSmCy2I
-	XIbL+AgbazuXVzk5GaqwfbbJZ7XcCP3VT9LJt4FBO75ersHW8Adl5LwptbRM8Wr+ot9QYaHU9h8I4
-	KIkvUcND/+Eu6JqmiQAok6yZccxrcag2Elqa9CYhYd1FQ95IaoHRbSgu8gPHescqDkL8RE+ozPh8B
-	rN6KnITPno13XvRSbIQQ2nqlrZGpJ72kivOixmk7bwQwS/6wNeSdARn5eOzHCQDs1VOVM/xP7OTNY
-	7f515T3A==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=hP0JzOSxa8Ak34PkLlYrH+BW+BeCI1kfUuoJPW8HusA=; b=Vha05tzCdMMwg+MKgFiP8lBRRl
+	Gq7LciyLZH1E+MVe6FQzYFzSoegA10BCSb1gioqqgfu4jg4WGHHczZM1PiBI6sceYXSGaR+NCWp2K
+	lK05sCYHD3EDaVnAPgfBVXvNYgyY/I74ltBYrIyoj7z7jQETRaXWlBfOBXXopX42I41vfEK24Q8N/
+	WGDDd6pDPvNeAQyMTfXBRTUKqxkr7A24OwsJYodPQFyYd7CrYy0WRIst7SbITYKEd5CmQV+QuKV7Z
+	Q8B7WzFW6X76+W9ddCoB8yQ/unTzYVmc6nGza+3azdsDzZwvYg9UxGIreBt3L3g6oLpZuY0sbl5g6
+	BNjDkT1Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rc8vn-0000000BpSI-31rj;
-	Mon, 19 Feb 2024 19:03:59 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1rc98p-0000000BrOI-1a9u;
+	Mon, 19 Feb 2024 19:17:27 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rc8vl-0000000BpPo-1HA9
+	id 1rc98l-0000000BrMM-0gaP
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Feb 2024 19:03:58 +0000
-Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 41JIuWKd025532;
-	Mon, 19 Feb 2024 19:03:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=mime-version : date :
- from : to : cc : subject : message-id : content-type :
- content-transfer-encoding; s=pp1;
- bh=+2njaI7YfBJdIG3TbNZpw59bNGttFUJUPUr7o7GinPw=;
- b=VUhR8sY3uu8p0WohobB91erxaaqkGxD/CgHPUTKWgdLeZMgK5Lr3nOAXy5yZElEOwxWR
- oOsWzCepr17ye6+TZFFvBAitteQ3IrcudzB0waFu3rNyIYAz1f4antbToIhlCygtJW54
- XmPejCQlq8HZlW0OxonfVTQJZqxTnRGlebW41ZDWSuSnVCuXQ9paP1HtNN0EmEmrfo48
- bAcvGpFszr6g/5MInYfLejJXEVswOC8g+DLRAa3c52tDfHowlw879UeO5izglneGbMM8
- bO/QvutNsXnDqQtrYZ+GZpi1Sh2Ll6RKXD0iPYtvXJz2L4Aa2kThQWpkqgOxXoCyODhh /Q== 
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wca0w4e8h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 19 Feb 2024 19:03:52 +0000
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 41JIdicB014347;
-	Mon, 19 Feb 2024 19:03:51 GMT
-Received: from smtprelay06.dal12v.mail.ibm.com ([172.16.1.8])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 3wb9u2ans5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 19 Feb 2024 19:03:51 +0000
-Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com [10.241.53.101])
-	by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 41JJ3nWS4064142
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 19 Feb 2024 19:03:51 GMT
-Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 69CD658065;
-	Mon, 19 Feb 2024 19:03:49 +0000 (GMT)
-Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2BF8358051;
-	Mon, 19 Feb 2024 19:03:49 +0000 (GMT)
-Received: from ltc.linux.ibm.com (unknown [9.5.196.140])
-	by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 19 Feb 2024 19:03:49 +0000 (GMT)
+	Mon, 19 Feb 2024 19:17:25 +0000
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 345AF21CDF;
+	Mon, 19 Feb 2024 19:17:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1708370239;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hP0JzOSxa8Ak34PkLlYrH+BW+BeCI1kfUuoJPW8HusA=;
+	b=L+vMdNx52tHJkwchBcBa001qK+SZbtkZ0/HROkYFTpK0Mp6T669V9VwOkeXDQTpQ2fHujp
+	itj6yObR2GSzdmVyzY6nN++Gzw11Xb9rJnuhobwQBRoOg7xeCeTWPpEjTMyFFVrVdH1zO/
+	QWJf0rogCt/jib7V0aowiiggrz/iFOo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1708370239;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hP0JzOSxa8Ak34PkLlYrH+BW+BeCI1kfUuoJPW8HusA=;
+	b=s7FAO35emUqsBT78ndugZlEtb/uTp91WcAJqAHeiXy2r8Or+q1xNYrwiD46+AOf7djzZ9L
+	PZKkia9ha8+FKbAg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1708370239;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hP0JzOSxa8Ak34PkLlYrH+BW+BeCI1kfUuoJPW8HusA=;
+	b=L+vMdNx52tHJkwchBcBa001qK+SZbtkZ0/HROkYFTpK0Mp6T669V9VwOkeXDQTpQ2fHujp
+	itj6yObR2GSzdmVyzY6nN++Gzw11Xb9rJnuhobwQBRoOg7xeCeTWPpEjTMyFFVrVdH1zO/
+	QWJf0rogCt/jib7V0aowiiggrz/iFOo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1708370239;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hP0JzOSxa8Ak34PkLlYrH+BW+BeCI1kfUuoJPW8HusA=;
+	b=s7FAO35emUqsBT78ndugZlEtb/uTp91WcAJqAHeiXy2r8Or+q1xNYrwiD46+AOf7djzZ9L
+	PZKkia9ha8+FKbAg==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 0B3F5139C6;
+	Mon, 19 Feb 2024 19:17:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id ciGVAj+p02UMUgAAn2gu4w
+	(envelope-from <dsterba@suse.cz>); Mon, 19 Feb 2024 19:17:19 +0000
+Date: Mon, 19 Feb 2024 20:16:34 +0100
+From: David Sterba <dsterba@suse.cz>
+To: John Garry <john.g.garry@oracle.com>
+Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+	jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
+	jack@suse.cz, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
+	linux-scsi@vger.kernel.org, ojaswin@linux.ibm.com,
+	linux-aio@kvack.org, linux-btrfs@vger.kernel.org,
+	io-uring@vger.kernel.org, nilay@linux.ibm.com,
+	ritesh.list@gmail.com,
+	Prasad Singamsetty <prasad.singamsetty@oracle.com>
+Subject: Re: [PATCH v4 03/11] fs: Initial atomic write support
+Message-ID: <20240219191634.GY355@twin.jikos.cz>
+References: <20240219130109.341523-1-john.g.garry@oracle.com>
+ <20240219130109.341523-4-john.g.garry@oracle.com>
 MIME-Version: 1.0
-Date: Mon, 19 Feb 2024 13:03:48 -0600
-From: Wen Xiong <wenxiong@linux.ibm.com>
-To: linux-nvme@lists.infradead.org
-Cc: Wenxiong <wenxiong@us.ibm.com>, Christoph Hellwig <hch@infradead.org>,
-        Keith Busch <kbusch@kernel.org>
-Subject: nvme native multipath question with two physical paths
-Message-ID: <f5c8d980ffd12601d258c510b879f4d9@linux.ibm.com>
-X-Sender: wenxiong@linux.ibm.com
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: OUPWqWheMJFCoye2if4HoP1h5_2dQU2T
-X-Proofpoint-GUID: OUPWqWheMJFCoye2if4HoP1h5_2dQU2T
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-19_17,2024-02-19_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- impostorscore=0 mlxscore=0 malwarescore=0 clxscore=1011 bulkscore=0
- spamscore=0 mlxlogscore=408 suspectscore=0 phishscore=0 priorityscore=1501
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311290000 definitions=main-2402190143
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240219130109.341523-4-john.g.garry@oracle.com>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Spamd-Bar: /
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=L+vMdNx5;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=s7FAO35e
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-0.26 / 50.00];
+	 HAS_REPLYTO(0.30)[dsterba@suse.cz];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+	 TO_DN_SOME(0.00)[];
+	 REPLYTO_ADDR_EQ_FROM(0.00)[];
+	 R_RATELIMIT(0.00)[to_ip_from(RLpoxz4e4fx16srn3jiqdcgp9j)];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_TRACE(0.00)[suse.cz:+];
+	 MX_GOOD(-0.01)[];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 BAYES_HAM(-0.55)[80.88%];
+	 ARC_NA(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 FROM_HAS_DN(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 RCPT_COUNT_TWELVE(0.00)[26];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[oracle.com:email,suse.cz:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FREEMAIL_CC(0.00)[kernel.dk,kernel.org,lst.de,grimberg.me,linux.ibm.com,oracle.com,zeniv.linux.org.uk,redhat.com,suse.cz,vger.kernel.org,lists.infradead.org,mit.edu,google.com,kvack.org,gmail.com];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Rspamd-Queue-Id: 345AF21CDF
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240219_110357_355793_5D165573 
-X-CRM114-Status: GOOD (  12.75  )
+X-CRM114-CacheID: sfid-20240219_111723_371184_EB67A96E 
+X-CRM114-Status: UNSURE (   9.39  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,56 +150,20 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: dsterba@suse.cz
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi All,
+On Mon, Feb 19, 2024 at 01:01:01PM +0000, John Garry wrote:
+> From: Prasad Singamsetty <prasad.singamsetty@oracle.com>
+> --- a/include/uapi/linux/fs.h
+> +++ b/include/uapi/linux/fs.h
+> @@ -301,9 +301,12 @@ typedef int __bitwise __kernel_rwf_t;
+>  /* per-IO O_APPEND */
+>  #define RWF_APPEND	((__force __kernel_rwf_t)0x00000010)
+>  
+> +/* Atomic Write */
+> +#define RWF_ATOMIC	((__force __kernel_rwf_t)0x00000040)
 
-In our nvme native multipath support drawer, each nvme has two physical 
-paths/two controllers.
-We created a shared namespace on it.
-
-# nvme list-ns /dev/nvme2
-[   0]:0x1
-# nvme list-ns /dev/nvme6
-[   0]:0x1
-
-# ls -l /dev/nvme2*
-crw-------. 1 root root 240, 2 Feb 18 18:05 /dev/nvme2
-brw-rw----. 1 root disk 259, 4 Feb 18 18:14 /dev/nvme2n1
-# ls -l /dev/nvme6*
-crw-------. 1 root root 240, 6 Feb 18 18:05 /dev/nvme6
-
-nvme-subsys2 - NQN=nqn.1994-11.com.samsung:nvme:PM1735a:2.5-inch:
-\
-+- nvme2 pcie 052f:80:00.0 live
-+- nvme6 pcie 058f:80:00.0 live
-
-#nvme list
-/dev/nvme2n1          /dev/ng2n1
-
-
-Run stress io test over nvme2n1, we hot unplug nvme2(052f:80:00), 
-/dev/nvme2 controller is gone.
-/dev/nvme2n1 still existed and io still running over nvme2n1 without 
-error. Looks io test still
-running over another path(nvme6)bbut we didn’t see /dev/nvme6n1 in /dev 
-dir.
-
-# ls -l /dev/nvme2*
-brw-rw----. 1 root disk 259, 4 Feb 18 18:22 /dev/nvme2n1
-# ls -l /dev/nvme6*
-crw-------. 1 root root 240, 6 Feb 18 18:05 /dev/nvme6
-
-With nvme native mpath enable,
-- What multipath disk name we should use for ANA nvme multipath?
-- Why IO still running over nvme2n1 without error even nvme2 controller 
-already unplug?
-- Shared namespace is still existed since shared namespace  has another 
-controller on it?
-- How can let nvme6n1 showing up after nvme2 controller gone.
-
-Thanks for your help!
-Wendy
-
+Should this be 0x20 so it's the next bit after RWF_APPEND?
 
