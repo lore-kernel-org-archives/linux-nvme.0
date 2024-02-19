@@ -4,61 +4,162 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CA3B7C48260
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Feb 2024 08:59:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6FA3C48BC3
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Feb 2024 13:02:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=BvdOkroGr4sQvnOmhbRvo59aBl0mKcYdBOOsZ79+VJI=; b=23ZdcJ1mpPcJORUj19FGEpToLF
-	MoUKocdIo54ToewrDVFu2bYO8q7+VQoR+bogIj6PvpiTVTWAoErcaeRcWgR/Qd+nB3ZIQgCMrTQjh
-	De90GXqnjZqxTr1E7pzFoQHnBfjsmYEStOOgMPpu9+EYruFff6zlXj3KYhVeDF79SH3moxlifY3BJ
-	b6H7zGABNIds3Gov+p8DI1PGZlWK3HgMzI8/USO4xUF3f0pRgLaZJ5QUaM31bYmYgZbSsiqSxK4jO
-	EMSbYOuC/xx3L+83f63VLxEdfGdGQIHKmEG7QxGJkQCZzutKNUtvcXqM5txV4odKgyUL6YyWNH756
-	Knd9IQxw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=o6NhbSPXUpYU4XkkJ4URgK1dyYmTzpwsYZQlwgir4Gc=; b=Mg9P6bAhqUgJgdS3PE0y1PI30R
+	45A+ReCW/tUZfmlt+nKlxBcboPejZ53yqUB3a/09psjDCs3Jxe/SEG5Uvqq0nFiJd4F1+H5wveekg
+	Kxm+6GgZTrW2lUZBwuTG6h1iCKEwh4EoIj78lL1FKipNkEOze0oQMDSASvTL+SOZZHiSyDUtyv6sk
+	3IWBw11cMuhKy32w1FA4tZX2ji2dPYirD8yW5UI2eIfxCwrwC1Cex8t8BNOszgIv6NYpZiu/SHJty
+	OtgqFy5TdrV7cEQL7jLkA0wIWn1bR3DOdB7DstEnapUQtBxMmh+/OVJ6sWFcfJYVZz5uQCq/ZOmDm
+	LbZGwzJw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rbzV3-00000009hYr-2tAy;
-	Mon, 19 Feb 2024 08:59:45 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1rc3Hk-0000000AVoo-0g1I;
+	Mon, 19 Feb 2024 13:02:16 +0000
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rbzV1-00000009hXg-2UJ9
+	id 1rc3Hh-0000000AVl8-09tZ
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Feb 2024 08:59:44 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 72D1260B71;
-	Mon, 19 Feb 2024 08:59:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 784DFC43394;
-	Mon, 19 Feb 2024 08:59:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708333178;
-	bh=ikmZhADSrUsDZIz7zPd91If5CKDROuuLkYgqZftl+Z8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=PskdjkVhi/MSQtL5FTwMmmU3O0gotS5+k7/zcxSICuexhEPH6cG43hET/oBBZscUf
-	 sJQKhysuj0vJ3F7HrlDHsIYCXIZlgoi4Tym8gJaaJzZhs4qTi7ESaKbrHDafMxsTjP
-	 opbsU395VYCTCGnds0vaj7G6mHf2dFQAoa3pAySfFFDiKmuBpkgdg7TFwhGlY7t6MN
-	 Z6VWdMcBDYmEFTUhzA5mzW5+IKtqHNAxFjZJJf635BzDGTzbHCOllbLSh4BpFt3050
-	 QeDGEVTp4IBtc53px3vDYwH1xyg4ULnpM3Uriv/2aG5E96C/ki3Cb6X2U79mOxmmbH
-	 GGLB5ZTtusm4A==
-From: hare@kernel.org
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	James Smart <james.smart@broadcom.com>,
-	linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH RFC] nvme-fc: FPIN link integrity handling
-Date: Mon, 19 Feb 2024 09:59:29 +0100
-Message-Id: <20240219085929.31255-1-hare@kernel.org>
-X-Mailer: git-send-email 2.35.3
-MIME-Version: 1.0
+	Mon, 19 Feb 2024 13:02:14 +0000
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 41J8ODLG003525;
+	Mon, 19 Feb 2024 13:01:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references :
+ content-transfer-encoding : content-type : mime-version;
+ s=corp-2023-11-20; bh=o6NhbSPXUpYU4XkkJ4URgK1dyYmTzpwsYZQlwgir4Gc=;
+ b=ZDemIUuI+xTpVfcavTWgeyOaK3CIv342PeJhnE2eKBKqWokORa3KO9AnIu2CIK5/0us8
+ lAHPyLLSNKhy6D5FvhfNvUd0tQuE1MLsTEHqsOVuQh2fhTdYrst+dWZEX5m3JodJmI4z
+ KoHX6GOJubfEN4pYyiTlmpR4Cg0a1B9+08HM6QSt5/CmMiKlQcy9RCcPMpFvsOblHKvi
+ YbbfYtX2oPDdgnOFGN9ETbJ8Hy8SiyDw66CyVz95bFBoGWJoIykXY+jVZ7eg/XcR5LlL
+ ++2RQU2Yyt9466h7uMkuoIW8Sv56WEBQHxP6wKXiLdY36cYre1OBAkCCXoAJq3i5TUSI pQ== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3wamucv3yw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 19 Feb 2024 13:01:37 +0000
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 41JCP5Mb039639;
+	Mon, 19 Feb 2024 13:01:37 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2168.outbound.protection.outlook.com [104.47.57.168])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3wak85w570-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 19 Feb 2024 13:01:37 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NuVHZDppRyyck7UvbIqUhOd2AtwzkJI+G/CmMFTdQ3+sfnDb9biHxgH92LmfgHhy7K6pc9U7bqa7S9rKbWbwD1ICItFQTIrDVvAIqNouZ+++iljeIt5UuYL/qm1qJmBDv3aDbD31+9lI9qy6rPczwKGcz0r9sRg2yp8gWj/8yxdg3eyTORgI7l9vh7XkCG+whp0PVujVUOvCynYRJcNebL391glvqMxOdkvevhdH3Dj4iXuKNyAi02eoQGuCdEYJDA1me5VqCfXCvbT6XJ1JG+weh0oP/VDmSpWvY2LIwAJElcGZ0D/dNmMeqZ9+sm1DjufXaizZK2Pb7sZHcuczVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=o6NhbSPXUpYU4XkkJ4URgK1dyYmTzpwsYZQlwgir4Gc=;
+ b=Ga9ggAlt+cR1dfJLxGAZ+uSZ6ta2MydAhnXbqel/MNV5+GZrCqXuVEWgO/4NNKnX2/YFD0FKfxWNDgeZ2dGPaZxXqOcCugunV78Wb4YyYc2YGVNQAwM0ejpItOABfwDNF9o352Eq/kO9K5YoJhTIAv3kr0ypzepVBqJoMheP1HyLkaOcbPAMF3YZOh8mveJ8Aq9XXVNhmJlFPaYSgiABC9Rx4qFl79Xs6b4sdtBa3FSUcDZfd4fusmz1TouQqzW7KrhBCU53inqTQg2QS/PTW2KLDkdtX8ITX3050HKTEPRBy1n97qKeCCDzaaTICZ0hlfVkD/aaDT9pzBiozq4MBw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=o6NhbSPXUpYU4XkkJ4URgK1dyYmTzpwsYZQlwgir4Gc=;
+ b=w6Z0+fjya33hxk07xzD/IPN/o/wv52p5MQdimtrQGVTPzBRC2OBcubtmdPGg4rIto5CBnFPDvfYiYCuaCROJKiK5NDIPE4iVtP13QeEdlOpXzKF4DU94G/bZWPMxTvE346k35OAaOsMK3+6LcTJpXXWov/3gSACuvUFt8GfgfOo=
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com (2603:10b6:5:212::20)
+ by DS0PR10MB6894.namprd10.prod.outlook.com (2603:10b6:8:134::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.38; Mon, 19 Feb
+ 2024 13:01:34 +0000
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::56f9:2210:db18:61c4]) by DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::56f9:2210:db18:61c4%4]) with mapi id 15.20.7292.036; Mon, 19 Feb 2024
+ 13:01:34 +0000
+From: John Garry <john.g.garry@oracle.com>
+To: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+        jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
+        viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
+        jack@suse.cz
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+        tytso@mit.edu, jbongio@google.com, linux-scsi@vger.kernel.org,
+        ojaswin@linux.ibm.com, linux-aio@kvack.org,
+        linux-btrfs@vger.kernel.org, io-uring@vger.kernel.org,
+        nilay@linux.ibm.com, ritesh.list@gmail.com,
+        John Garry <john.g.garry@oracle.com>
+Subject: [PATCH v4 01/11] block: Pass blk_queue_get_max_sectors() a request pointer
+Date: Mon, 19 Feb 2024 13:00:59 +0000
+Message-Id: <20240219130109.341523-2-john.g.garry@oracle.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20240219130109.341523-1-john.g.garry@oracle.com>
+References: <20240219130109.341523-1-john.g.garry@oracle.com>
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BY3PR10CA0007.namprd10.prod.outlook.com
+ (2603:10b6:a03:255::12) To DM6PR10MB4313.namprd10.prod.outlook.com
+ (2603:10b6:5:212::20)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR10MB4313:EE_|DS0PR10MB6894:EE_
+X-MS-Office365-Filtering-Correlation-Id: a95746ba-ea73-4d5b-27d6-08dc314ae648
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: RMuRcod/vGEE5VQEAH+YryFzxYttZd5HAf8kG0LBAQwLMFYuTVeAPlcI3A2C8VLKAgLjhSkJvO/7T3u7wEgj+M5CTNlcsDWn33H7qWToOy7dL11/MFw2gadVqIQsjw9cVPboRQkvo9IBRif1ImfCZ61MJS6mI4mwygZLTMdcPJ9PI5nrMWtfqTX9PZGCklV2RSIlhwNzWwFmjBilMxjU4amnUcQu3BblwDHtkL/9Xi3iE7Vsw1lmLFtraX23qxPwlfMZUD64vM0KGS0ggE+8M7QbGkFCSWYq+ZTeZeE3cLKXiZIMDoVUsd5dJwcMGGf73wb+fK8lUWPOBPjcitEaPoN5xmS3o/2sMQ2xphnBbE6Cwl9AqmnK8S17UyB2Fd5ZedVpUPni/Cfq3Z9k54zRWq/8J0/17cDNIl33+1l1cRj3To3Yp29ia0j8m2q/1sfDV+2/8LzptSIacvHeN2xJn94o6P2pTcpWd1SYraUGcLXhQJjgQOWb4CSeffnSXZyeCdIfy3edGIAhP2y3iilca8Wc/IkE3GzugE5ZhpeiYeveXvKUQhcB1esRYMOkNumTJ91SKVCJfp3LTOK7rDkxoiMyn4eYFRUjJzqDuL2KuoY=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4313.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(921011);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PbphVVvFbrEgaGLOr3N8hye2OweAlS7usPsmMIRR6ONHfxHIOSR8l20LlXmS?=
+ =?us-ascii?Q?lFblGkewy5mCsJbZuWzgbVCX69o9NtNKy9D8ubzfF3l4wnUXUX27xcK6pU8I?=
+ =?us-ascii?Q?7bpYR1ftv3Fan0iXWfgMwvAz7fhrjXsSHDg9NBeDAH311nM0GEvQoAbHF/Zd?=
+ =?us-ascii?Q?DVSG7dxtF5aG6YVECW+naQch3QOzb8SE60n/HD4cuRrDh6d7cII4vbxxOORz?=
+ =?us-ascii?Q?LCGzQDXnYDqAYsa9pDtrspSU6gH8rh7PpI42Wo689hEekdqL59xErdVVIfeA?=
+ =?us-ascii?Q?Svr0ZTGuWeEa6/l1b+xAXtZwu2QUv9Lf06mPAJPCdioKOU2JzbpW+mlUx+lg?=
+ =?us-ascii?Q?FZyrXzJmecm2sr8uqWCn5PqZdTdHKqeh4NPnIqMVox6oO2Uc+7XX4jXgagPN?=
+ =?us-ascii?Q?pD6/SxqUrSIzx6GZqn/+zg1q0YEvdLfitSS68RP52IQaggtoztbmHR+hNs6C?=
+ =?us-ascii?Q?WnETE+ImBteyHtrFkzCH4VUjERINrcxLaC9rRuDBVHJjnM0X/6b3MaZxXavv?=
+ =?us-ascii?Q?aWvmEvAMqVfobPnNmirfZtxbTtDUITIE8rcEA2Ga0IptNNo1rNRqC8YQ6U20?=
+ =?us-ascii?Q?zh+xfKbLrGF6iQ52yW0Sq30Qja4nRhx+Y1ThiaTqmgU1j68XAo53NTvGGAql?=
+ =?us-ascii?Q?aozNYhA7xMOa7I/pVpw/uG8QU2bU7/yZV88xahSEIuPzBilMAG3DNi4GYHX2?=
+ =?us-ascii?Q?iMOxLwSPmbU3zhEyZH5yRnGlU1lXSQEbQSJEFsag/KfRHcFA7fHWoNoS8Lak?=
+ =?us-ascii?Q?AryvTTVQmSsMOGVWr93qkHo2pvj3JIELfX8yYw4HZ7L5Gh8IkQtnOydczWjH?=
+ =?us-ascii?Q?zSufainL7uUjVPZbJEinaktp6wXst8r96Jz1FN0TqHjz7AwcGnUOTb6vbxbZ?=
+ =?us-ascii?Q?TqH44cAYofSrWzUahiXpNmY+dmMTKOeOH3FWxDJQyVmwYy3/cAtttzmC4UAV?=
+ =?us-ascii?Q?v6bzON+GUmhXWcJewxZuwk6ER+p2EOOJq5JvHs7TbnDwxELINqvsVXmLS4iZ?=
+ =?us-ascii?Q?NguxTuWQq1FBOmkEZT4sRcwj61A+Oeqytd12Qm7NfhFAe+bZkSKBBmxDYFuY?=
+ =?us-ascii?Q?bjwGHQ9LztyY9Yj2inruPWxhHhlCijcD1Cqd1xZTvv6MQqnYrfx1RB1K00FD?=
+ =?us-ascii?Q?TpKr4usligcGAg2uCRCaK4mIiSVtzwg7kz/UmhJTewOWC6pq+52RVCNwxRjp?=
+ =?us-ascii?Q?KOx3Sr1XOLhhUkzZFHBTL8252bRTlaYawMlN/bFWRA3P6YOwb+GLk413Px0y?=
+ =?us-ascii?Q?IMJi2BjNesJzW35s+H0ebEfYP591JVT2+dhIFk2EwKnG802DQfCwlygHRVeb?=
+ =?us-ascii?Q?VZ8N7UkydD41bL1/dg9IVc3ipNfzSLY5MmSWTkEdWkw3kv8ShZIyZkpyQrqm?=
+ =?us-ascii?Q?2QUgy5DZ6o/j3G8E+YZY5Jep5fye3iUO+6mZ79lyZwT+vJHIgY+ljcoMpPXf?=
+ =?us-ascii?Q?vVyj/FNsH8VSPdWuKyJjpXhl2vBwq2F9bIHC0PZYshy82s76HNHF3AzNSBG5?=
+ =?us-ascii?Q?Oj6T4RBjizJqf9LcDh2QdP1qH4VYzio+IUKxrt1pT4K/qF4UKhcTk+f5RMOV?=
+ =?us-ascii?Q?bJCq9AwJEzeVGMZovMQdwmUuX78LeXP+tfLD0p08SjgjONzF/iFha+UvPfyK?=
+ =?us-ascii?Q?1w=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 3uUizWB1+fLTcdZg21xgGuy7lmNfjaq15HIPD+QinP8HiA+Qm+9gvEZcIbTz/0cCes3lUsqwpDnBrfECe7lrAO0Wd4jLDvas0mJo9BE2q6i5oBwxOqI9nVxWRRZo9AN2Myde6sSHUik7/H0al5Av232ysPHJcUgmBr5yADNEYxQXm8v4UwRCfzqTIXOaGZSySIvaFgNSYLK7aLSje7Z+khJ8gL+xbTmV+Xce1oXPtTpeZJNSPNGrGI51o3gTyJdjALEhzsbpJTEt78GigWDch3cYy3/0cK0KRZXTssNuX6ENbLN/oXhlBpuHu2tCpjYdyn6CK7K+a9ZXNdUzw8SSU7uZxavDgb4rE1y9kkcKG+yvQBDSnx9ChjwN//H+pWyYNTf9NuZ3+ogDvDRZfDb0WYyQbACUlew3TbeDa2cS7GfL2wwv0yfbyQFTfnjAB974YOzqDhi7KTB4cgm/stNgM5qnu6MmpMDye4yewVaBx8ElB23PS6LMcCl39h7LfzKS33LCC0kMoPorgOSrx94tdRnjimg2FwYE8s7pJc/kE2x3GZl2iFCV5WHc90HdeNTIyklPDt3ZMHmkmMtwcDVx1owvKs+wy4ukBaqu+XN7GE8=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a95746ba-ea73-4d5b-27d6-08dc314ae648
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4313.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2024 13:01:34.1817
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yBuOVX4t3PSoQvqgJx0VHa5whmkVvd/j96fcts0CLoc4CGk1Zi4dxXHrwCiN9EL1rf+RJBHC1opWv70aa14xrg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB6894
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-19_09,2024-02-19_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 phishscore=0
+ suspectscore=0 mlxscore=0 bulkscore=0 spamscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2402190096
+X-Proofpoint-GUID: 1kxUw0izmszh1idV_FVXpG3gSi8AhgJs
+X-Proofpoint-ORIG-GUID: 1kxUw0izmszh1idV_FVXpG3gSi8AhgJs
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240219_005943_752328_E2B2AC4F 
-X-CRM114-Status: GOOD (  24.79  )
+X-CRM114-CacheID: sfid-20240219_050213_220797_026EA8F4 
+X-CRM114-Status: GOOD (  19.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,263 +174,66 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Hannes Reinecke <hare@suse.de>
+Currently blk_queue_get_max_sectors() is passed a enum req_op. In future
+the value returned from blk_queue_get_max_sectors() may depend on certain
+request flags, so pass a request pointer.
 
-FPIN LI (link integrity) messages are received when the attached
-fabric detects hardware errors. In response to these messages the
-affected ports should not be used for I/O, and only put back into
-service once the ports had been reset as then the hardware might
-have been replaced.
-This patch adds a new controller flag 'NVME_CTRL_TRANSPORT_BLOCKED'
-which will be checked during multipath path selection, causing the
-path to be skipped.
+Also use rq->cmd_flags instead of rq->bio->bi_opf when possible.
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
+Signed-off-by: John Garry <john.g.garry@oracle.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/core.c       |  13 ++--
- drivers/nvme/host/fc.c         | 108 +++++++++++++++++++++++++++++++++
- drivers/nvme/host/multipath.c  |   2 +
- drivers/nvme/host/nvme.h       |   1 +
- drivers/scsi/lpfc/lpfc_els.c   |   6 +-
- drivers/scsi/qla2xxx/qla_isr.c |   1 +
- include/linux/nvme-fc-driver.h |   3 +
- 7 files changed, 129 insertions(+), 5 deletions(-)
+ block/blk-merge.c | 3 ++-
+ block/blk-mq.c    | 2 +-
+ block/blk.h       | 6 ++++--
+ 3 files changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index eed3e22e24d9..5e9a0cf43636 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -750,10 +750,14 @@ blk_status_t nvme_fail_nonready_command(struct nvme_ctrl *ctrl,
+diff --git a/block/blk-merge.c b/block/blk-merge.c
+index 2d470cf2173e..74e9e775f13d 100644
+--- a/block/blk-merge.c
++++ b/block/blk-merge.c
+@@ -592,7 +592,8 @@ static inline unsigned int blk_rq_get_max_sectors(struct request *rq,
+ 	if (blk_rq_is_passthrough(rq))
+ 		return q->limits.max_hw_sectors;
  
- 	if (state != NVME_CTRL_DELETING_NOIO &&
- 	    state != NVME_CTRL_DELETING &&
--	    state != NVME_CTRL_DEAD &&
--	    !test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags) &&
--	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
--		return BLK_STS_RESOURCE;
-+	    state != NVME_CTRL_DEAD) {
-+		if (!test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags) &&
-+		    !blk_noretry_request(rq) &&
-+		    !(rq->cmd_flags & REQ_NVME_MPATH))
-+			return BLK_STS_RESOURCE;
-+		if (test_bit(NVME_CTRL_TRANSPORT_BLOCKED, &ctrl->flags))
-+			return BLK_STS_TRANSPORT;
-+	}
- 	return nvme_host_path_error(rq);
- }
- EXPORT_SYMBOL_GPL(nvme_fail_nonready_command);
-@@ -4575,6 +4579,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	WRITE_ONCE(ctrl->state, NVME_CTRL_NEW);
- 	ctrl->passthru_err_log_enabled = false;
- 	clear_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
-+	clear_bit(NVME_CTRL_TRANSPORT_BLOCKED, &ctrl->flags);
- 	spin_lock_init(&ctrl->lock);
- 	mutex_init(&ctrl->scan_lock);
- 	INIT_LIST_HEAD(&ctrl->namespaces);
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 5e226728c822..fdf77f5cb944 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -787,6 +787,9 @@ nvme_fc_ctrl_connectivity_loss(struct nvme_fc_ctrl *ctrl)
- 		"NVME-FC{%d}: controller connectivity lost. Awaiting "
- 		"Reconnect", ctrl->cnum);
+-	max_sectors = blk_queue_get_max_sectors(q, req_op(rq));
++	max_sectors = blk_queue_get_max_sectors(rq);
++
+ 	if (!q->limits.chunk_sectors ||
+ 	    req_op(rq) == REQ_OP_DISCARD ||
+ 	    req_op(rq) == REQ_OP_SECURE_ERASE)
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 2dc01551e27c..0855f75bcad7 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -3046,7 +3046,7 @@ void blk_mq_submit_bio(struct bio *bio)
+ blk_status_t blk_insert_cloned_request(struct request *rq)
+ {
+ 	struct request_queue *q = rq->q;
+-	unsigned int max_sectors = blk_queue_get_max_sectors(q, req_op(rq));
++	unsigned int max_sectors = blk_queue_get_max_sectors(rq);
+ 	unsigned int max_segments = blk_rq_get_max_segments(rq);
+ 	blk_status_t ret;
  
-+	/* clear 'transport blocked' flag as controller will be reset */
-+	clear_bit(NVME_CTRL_TRANSPORT_BLOCKED, &ctrl->flags);
-+
- 	switch (nvme_ctrl_state(&ctrl->ctrl)) {
- 	case NVME_CTRL_NEW:
- 	case NVME_CTRL_LIVE:
-@@ -3741,6 +3744,111 @@ static struct nvmf_transport_ops nvme_fc_transport = {
- 	.create_ctrl	= nvme_fc_create_ctrl,
- };
- 
-+static struct nvme_fc_rport *nvme_fc_rport_from_wwpn(struct nvme_fc_lport *lport,
-+						     u64 rport_wwpn)
-+{
-+	struct nvme_fc_rport *rport;
-+
-+	list_for_each_entry(rport, &lport->endp_list, endp_list) {
-+		if (!nvme_fc_rport_get(rport))
-+			continue;
-+		if (rport->remoteport.port_name == rport_wwpn &&
-+		    rport->remoteport.port_role & FC_PORT_ROLE_NVME_TARGET)
-+			return rport;
-+		nvme_fc_rport_put(rport);
-+	}
-+	return NULL;
-+}
-+
-+/*
-+ * nvme_fc_fpin_li_lport_update - routine to update Link Integrity
-+ * event statistics.
-+ * @lport:		local port the FPIN was received on
-+ * @tlv:		pointer to link integrity descriptor
-+ *
-+ */
-+static void
-+nvme_fc_fpin_li_lport_update(struct nvme_fc_lport *lport, struct fc_tlv_desc *tlv)
-+{
-+	unsigned int i, pname_count;
-+	struct nvme_fc_rport *attached_rport;
-+	struct fc_fn_li_desc *li_desc = (struct fc_fn_li_desc *)tlv;
-+	u64 wwpn;
-+
-+	wwpn = be64_to_cpu(li_desc->attached_wwpn);
-+	attached_rport = nvme_fc_rport_from_wwpn(lport, wwpn);
-+	pname_count = be32_to_cpu(li_desc->pname_count);
-+
-+	for (i = 0; pname_count; i++) {
-+		struct nvme_fc_rport *rport;
-+
-+		wwpn = be64_to_cpu(li_desc->pname_list[i]);
-+		rport = nvme_fc_rport_from_wwpn(lport, wwpn);
-+		if (!rport)
-+			continue;
-+		if (rport != attached_rport) {
-+			struct nvme_fc_ctrl *ctrl;
-+
-+			spin_lock_irq(&rport->lock);
-+			list_for_each_entry(ctrl, &rport->ctrl_list, ctrl_list)
-+				set_bit(NVME_CTRL_TRANSPORT_BLOCKED, &ctrl->ctrl.flags);
-+			spin_unlock_irq(&rport->lock);
-+		}
-+		nvme_fc_rport_put(rport);
-+	}
-+	if (attached_rport) {
-+		struct nvme_fc_ctrl *ctrl;
-+
-+		spin_lock_irq(&attached_rport->lock);
-+		list_for_each_entry(ctrl, &attached_rport->ctrl_list, ctrl_list)
-+			set_bit(NVME_CTRL_TRANSPORT_BLOCKED, &ctrl->ctrl.flags);
-+		spin_unlock_irq(&attached_rport->lock);
-+		nvme_fc_rport_put(attached_rport);
-+	}
-+}
-+
-+/**
-+ * fc_host_fpin_rcv - routine to process a received FPIN.
-+ * @localport:		local port the FPIN was received on
-+ * @fpin_len:		length of FPIN payload, in bytes
-+ * @fpin_buf:		pointer to FPIN payload
-+ * Notes:
-+ *	This routine assumes no locks are held on entry.
-+ */
-+void
-+nvme_fc_fpin_rcv(struct nvme_fc_local_port *localport,
-+		 u32 fpin_len, char *fpin_buf)
-+{
-+	struct nvme_fc_lport *lport;
-+	struct fc_els_fpin *fpin = (struct fc_els_fpin *)fpin_buf;
-+	struct fc_tlv_desc *tlv;
-+	u32 bytes_remain;
-+	u32 dtag;
-+
-+	if (!localport)
-+		return;
-+	lport = localport_to_lport(localport);
-+	tlv = (struct fc_tlv_desc *)&fpin->fpin_desc[0];
-+	bytes_remain = fpin_len - offsetof(struct fc_els_fpin, fpin_desc);
-+	bytes_remain = min_t(u32, bytes_remain, be32_to_cpu(fpin->desc_len));
-+
-+	while (bytes_remain >= FC_TLV_DESC_HDR_SZ &&
-+	       bytes_remain >= FC_TLV_DESC_SZ_FROM_LENGTH(tlv)) {
-+		dtag = be32_to_cpu(tlv->desc_tag);
-+		switch (dtag) {
-+		case ELS_DTAG_LNK_INTEGRITY:
-+			nvme_fc_fpin_li_lport_update(lport, tlv);
-+			break;
-+		default:
-+			break;
-+		}
-+
-+		bytes_remain -= FC_TLV_DESC_SZ_FROM_LENGTH(tlv);
-+		tlv = fc_tlv_next_desc(tlv);
-+	}
-+}
-+EXPORT_SYMBOL(nvme_fc_fpin_rcv);
-+
- /* Arbitrary successive failures max. With lots of subsystems could be high */
- #define DISCOVERY_MAX_FAIL	20
- 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 4a90dad43303..e0dcfe9edb89 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -235,6 +235,8 @@ static bool nvme_path_is_disabled(struct nvme_ns *ns)
- 	 */
- 	if (state != NVME_CTRL_LIVE && state != NVME_CTRL_DELETING)
- 		return true;
-+	if (test_bit(NVME_CTRL_TRANSPORT_BLOCKED, &ns->ctrl->flags))
-+		return true;
- 	if (test_bit(NVME_NS_ANA_PENDING, &ns->flags) ||
- 	    !test_bit(NVME_NS_READY, &ns->flags))
- 		return true;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index ee30bb63e36b..6ed2ca6b35e4 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -258,6 +258,7 @@ enum nvme_ctrl_flags {
- 	NVME_CTRL_SKIP_ID_CNS_CS	= 4,
- 	NVME_CTRL_DIRTY_CAPABILITY	= 5,
- 	NVME_CTRL_FROZEN		= 6,
-+	NVME_CTRL_TRANSPORT_BLOCKED	= 7,
- };
- 
- struct nvme_ctrl {
-diff --git a/drivers/scsi/lpfc/lpfc_els.c b/drivers/scsi/lpfc/lpfc_els.c
-index 4d723200690a..ecfe6bc8ab63 100644
---- a/drivers/scsi/lpfc/lpfc_els.c
-+++ b/drivers/scsi/lpfc/lpfc_els.c
-@@ -33,6 +33,7 @@
- #include <scsi/scsi_transport_fc.h>
- #include <uapi/scsi/fc/fc_fs.h>
- #include <uapi/scsi/fc/fc_els.h>
-+#include <linux/nvme-fc-driver.h>
- 
- #include "lpfc_hw4.h"
- #include "lpfc_hw.h"
-@@ -10343,9 +10344,12 @@ lpfc_els_rcv_fpin(struct lpfc_vport *vport, void *p, u32 fpin_length)
- 		fpin_length += sizeof(struct fc_els_fpin); /* the entire FPIN */
- 
- 		/* Send every descriptor individually to the upper layer */
--		if (deliver)
-+		if (deliver) {
- 			fc_host_fpin_rcv(lpfc_shost_from_vport(vport),
- 					 fpin_length, (char *)fpin, 0);
-+			nvme_fc_fpin_rcv(vport->localport,
-+					 fpin_length, (char *)fpin);
-+		}
- 		desc_cnt++;
- 	}
- }
-diff --git a/drivers/scsi/qla2xxx/qla_isr.c b/drivers/scsi/qla2xxx/qla_isr.c
-index d48007e18288..b180e10053c5 100644
---- a/drivers/scsi/qla2xxx/qla_isr.c
-+++ b/drivers/scsi/qla2xxx/qla_isr.c
-@@ -46,6 +46,7 @@ qla27xx_process_purex_fpin(struct scsi_qla_host *vha, struct purex_item *item)
- 		       pkt, pkt_size);
- 
- 	fc_host_fpin_rcv(vha->host, pkt_size, (char *)pkt, 0);
-+	nvme_fc_fpin_rcv(vha->nvme_local_port, pkt_size, (char *)pkt);
+diff --git a/block/blk.h b/block/blk.h
+index 1ef920f72e0f..050696131329 100644
+--- a/block/blk.h
++++ b/block/blk.h
+@@ -166,9 +166,11 @@ static inline unsigned int blk_rq_get_max_segments(struct request *rq)
+ 	return queue_max_segments(rq->q);
  }
  
- const char *const port_state_str[] = {
-diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
-index 4109f1bd6128..994bc459e6dd 100644
---- a/include/linux/nvme-fc-driver.h
-+++ b/include/linux/nvme-fc-driver.h
-@@ -536,6 +536,9 @@ void nvme_fc_rescan_remoteport(struct nvme_fc_remote_port *remoteport);
- int nvme_fc_set_remoteport_devloss(struct nvme_fc_remote_port *remoteport,
- 			u32 dev_loss_tmo);
- 
-+void nvme_fc_fpin_rcv(struct nvme_fc_local_port *localport,
-+		      u32 fpin_len, char *fpin_buf);
+-static inline unsigned int blk_queue_get_max_sectors(struct request_queue *q,
+-						     enum req_op op)
++static inline unsigned int blk_queue_get_max_sectors(struct request *rq)
+ {
++	struct request_queue *q = rq->q;
++	enum req_op op = req_op(rq);
 +
- /*
-  * Routine called to pass a NVME-FC LS request, received by the lldd,
-  * to the nvme-fc transport.
+ 	if (unlikely(op == REQ_OP_DISCARD || op == REQ_OP_SECURE_ERASE))
+ 		return min(q->limits.max_discard_sectors,
+ 			   UINT_MAX >> SECTOR_SHIFT);
 -- 
-2.35.3
+2.31.1
 
 
