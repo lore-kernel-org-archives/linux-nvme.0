@@ -4,94 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0A544C48BF8
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Feb 2024 21:55:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 34AB5C48BF8
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Feb 2024 22:28:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Message-ID:References:In-Reply-To:Subject:Cc:To:From:Date:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=F5MVs6oDUSRUAjgY4MiYH0TKMZs7mAVrQjBY9/ETDT8=; b=jOjmfJEYMTk1oSiz7oaliiM0ur
-	pd1IdrfZGQp6V/UZkcvJAy7dUMYaxdh6gfshagv9JemNWbPW4iBQTHpnKmNBL6x6P5wSdr2nzQtAX
-	B095QIgRhttL6M/szDdTwrTu/t22yKrRZNYGfm2LKxjWFMLRZ7LTypJqpBQ4JrpR3m5kQ0hlLIihN
-	KNnlUJQ25151t1dz0bzi8Bf6kxQZNPyPLFR139Nzq71VQpvnXgjSKANz8/XlMRPieT5HBgR9rLYu0
-	LIUPQQmmxFolUTwcxrBz9e6KWZHvbLIhyDNpmarPoqKCBt9TIVTVO+VtyLRubUEjZUMvTWPlrlLq5
-	b3ZRDz9Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=bl5GKAX3dlaK9635suuwAaWFkidsg1LZ0Wt1MsG+2JM=; b=NQcOiFRdDf0lsC6rYEeqvXcwKr
+	LKVIZ/D5Kj2K0/T2EaaMgCVgu9IEezVwTVS8BZyWhUwUMcdk0HGYys8XIW4DZfWjJHV7bKBL4BS4A
+	6reD9ugTBOSQ9tUxDk2gyGXfTRF1RsY3/+j9zDQncsnuk0ni2smvcF+lHeN+uYiipQA6xsY22g1Qt
+	uz92YPSOnSlnr+7dV+eyUn97SZOKqu8yc3qobkVdqlnsRgiVt17WZGaSvTwBR/88x9s0+q9rt2s6e
+	l1NfQApLrJaRWvvbt1EeTeX6x47HOYtC8wvdZWpNfTT0AXungxt29/55X7P7KT9vC/ab6I+efRvs4
+	b8AocFxA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rcBbn-0000000CJGh-1KPJ;
-	Mon, 19 Feb 2024 21:55:31 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1rcC83-0000000CNoy-1FRu;
+	Mon, 19 Feb 2024 22:28:51 +0000
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rcBbj-0000000CJFI-42kS
+	id 1rcC80-0000000CNjr-1EV3
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Feb 2024 21:55:29 +0000
-Received: from pps.filterd (m0353723.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 41JLp205028931;
-	Mon, 19 Feb 2024 21:55:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=mime-version : date :
- from : to : cc : subject : in-reply-to : references : message-id :
- content-type : content-transfer-encoding; s=pp1;
- bh=F5MVs6oDUSRUAjgY4MiYH0TKMZs7mAVrQjBY9/ETDT8=;
- b=qAHMplMsD17V+PhWCznRBxJIcMl9qPJxo8ggRFVpOg9FyP3z51Bfm5EXKjvLnQtfRuHu
- XX4+gtiqjLJNK56hCoFs9//JINYN/zmZenYs5lBEZFxh9wwX2leUAYP+pym4cH8dd4de
- Tg5pQazX+mNE3rm4K05ScRM6hN4yoPdcux17rm+5DcJnaUAUYO2HctlM57mTHzw5ejsk
- OjxKcDGMiVGeZQadNZGSn3zfU8xB542w+uzBuarETQWWUAyrX3KxHN1PrM41qV99gRGS
- lmdin7+fHE+rmHnKf8Xl4WsqtU096/mnC2YgCFATk/TtVVQdYv9hMkuSpnfHIoNtZ5XM CA== 
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wcepurnt3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 19 Feb 2024 21:55:20 +0000
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 41JJbrYw009551;
-	Mon, 19 Feb 2024 21:55:19 GMT
-Received: from smtprelay03.dal12v.mail.ibm.com ([172.16.1.5])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3wb84p46gm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 19 Feb 2024 21:55:19 +0000
-Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
-	by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 41JLtHop18809556
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 19 Feb 2024 21:55:19 GMT
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1B1ED5805D;
-	Mon, 19 Feb 2024 21:55:17 +0000 (GMT)
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DCF0758056;
-	Mon, 19 Feb 2024 21:55:16 +0000 (GMT)
-Received: from ltc.linux.ibm.com (unknown [9.5.196.140])
-	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 19 Feb 2024 21:55:16 +0000 (GMT)
+	Mon, 19 Feb 2024 22:28:49 +0000
+Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1d746856d85so28280525ad.0
+        for <linux-nvme@lists.infradead.org>; Mon, 19 Feb 2024 14:28:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1708381727; x=1708986527; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bl5GKAX3dlaK9635suuwAaWFkidsg1LZ0Wt1MsG+2JM=;
+        b=wILdl9v8Xr89c/EVsdgBA3Dsx5pHTU39kxFSXm0gWMT9F/TEA72Cfb+NMsnyfWEYfD
+         BEBoYlJ9yLwZwyT4BkzHA7n+MRvdwRKEHOoxvidmPpDn9WCcW5qNn2OXf2/LNibCuhsE
+         0WmeAFsTc56NeymDRaBtdGfe3ELNgl2B2iZfucMQ3Fz6B/3AJ22rBqQ6jyeScAbvOj61
+         LgJiIi8bgUzA7KsjgPFulOKNqw6kgovCEQOkUB23xqS09Te9jKh7BnACYNy4HxClPYCY
+         ruwuVMsKno3Wr0FPKUvyOU8nJcv7G+PQTB0mI/Iy+DQXu6TmVicFVnSeF3fyjPQ2HH7E
+         CRgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708381727; x=1708986527;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bl5GKAX3dlaK9635suuwAaWFkidsg1LZ0Wt1MsG+2JM=;
+        b=wjlV7HHMJBWJ6pW8cd9Gh98yC0WbyXtXsWwPEgDJsuK3PKRhpxke7UOBqGvcSoiSju
+         jBelcbJTPE5OLjmhKy0UIkzGEsM7jog3ibrxUVYFa4bH/ZbE+wQ7xxz2McpmFS8tIzLG
+         mKBo5y0LnUM+tNx3xEGjmaJTQC2QoWBWeaCu/HXkpZ6iG2ntHJiyNBtM3dZq/0u6+OvG
+         tQ0WSHUk7L4oBk3aJuW5Wt0RgajX07i03yWzIpBne6B/73r90+bLhjh8/jqE1jJYQ8QY
+         FJgXY19+orVLr1Zbi6xiNcTxeEGq472rY+xiB15pRtlqvEhv9Lfmi3dJLIr7r0ox1Jk8
+         12pA==
+X-Forwarded-Encrypted: i=1; AJvYcCXcMrG8eWJVu6ugfsd72Yg/JA8bc+ipZHUblKM/TdkZybEpHPNRSHdN22dEsBMnfTKZUeczuzoiTymvQsQwXO7eL3RGE1fFmsYWW7WjldM=
+X-Gm-Message-State: AOJu0YwYam39kNSHVZqEIvfmUy70D3sVh+zZQbKVPA2nZtLTArCAYZzG
+	GRWbl1+kdJnJR6Oa4mDnBR2RHV01xJGFDkgAQw63HdX1uCLD8e+Xe2cPf3dDbUY=
+X-Google-Smtp-Source: AGHT+IHlEqzTbeqGZugXvJDuwYCJATCsRA1NiGwC9reCuuiCgxtV1VeURbikH3d/YTo82RrU7aljog==
+X-Received: by 2002:a17:902:cecf:b0:1db:d66e:cd15 with SMTP id d15-20020a170902cecf00b001dbd66ecd15mr6464817plg.59.1708381727050;
+        Mon, 19 Feb 2024 14:28:47 -0800 (PST)
+Received: from dread.disaster.area (pa49-181-247-196.pa.nsw.optusnet.com.au. [49.181.247.196])
+        by smtp.gmail.com with ESMTPSA id l4-20020a170902d04400b001d949e663d5sm4933240pll.31.2024.02.19.14.28.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Feb 2024 14:28:46 -0800 (PST)
+Received: from dave by dread.disaster.area with local (Exim 4.96)
+	(envelope-from <david@fromorbit.com>)
+	id 1rcC7v-008o4I-26;
+	Tue, 20 Feb 2024 09:28:43 +1100
+Date: Tue, 20 Feb 2024 09:28:43 +1100
+From: Dave Chinner <david@fromorbit.com>
+To: John Garry <john.g.garry@oracle.com>
+Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+	jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
+	jack@suse.cz, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
+	linux-scsi@vger.kernel.org, ojaswin@linux.ibm.com,
+	linux-aio@kvack.org, linux-btrfs@vger.kernel.org,
+	io-uring@vger.kernel.org, nilay@linux.ibm.com,
+	ritesh.list@gmail.com,
+	Prasad Singamsetty <prasad.singamsetty@oracle.com>
+Subject: Re: [PATCH v4 04/11] fs: Add initial atomic write support info to
+ statx
+Message-ID: <ZdPWGwntYMvstbpc@dread.disaster.area>
+References: <20240219130109.341523-1-john.g.garry@oracle.com>
+ <20240219130109.341523-5-john.g.garry@oracle.com>
 MIME-Version: 1.0
-Date: Mon, 19 Feb 2024 15:55:16 -0600
-From: Wen Xiong <wenxiong@linux.ibm.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org, Wenxiong <wenxiong@us.ibm.com>,
-        Christoph Hellwig <hch@infradead.org>
-Subject: Re: nvme native multipath question with two physical paths
-In-Reply-To: <ZdOrzKNn-ryJ8v-i@kbusch-mbp>
-References: <f5c8d980ffd12601d258c510b879f4d9@linux.ibm.com>
- <ZdOrzKNn-ryJ8v-i@kbusch-mbp>
-Message-ID: <03df8d694cd982973c7c2c08f1d4379a@linux.ibm.com>
-X-Sender: wenxiong@linux.ibm.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: Kauz6cB0HLIJslmKSkCjKPC4I9CNazXa
-X-Proofpoint-GUID: Kauz6cB0HLIJslmKSkCjKPC4I9CNazXa
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-19_20,2024-02-19_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
- malwarescore=0 priorityscore=1501 suspectscore=0 lowpriorityscore=0
- phishscore=0 bulkscore=0 mlxlogscore=817 mlxscore=0 spamscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311290000 definitions=main-2402190164
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240219130109.341523-5-john.g.garry@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240219_135528_128484_077BCE32 
-X-CRM114-Status: GOOD (  19.79  )
+X-CRM114-CacheID: sfid-20240219_142848_585716_8138C5DE 
+X-CRM114-Status: GOOD (  23.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,24 +106,69 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2024-02-19 13:28, Keith Busch wrote:
-
-> Nor should you see a /dev/nvme6n1 in this scenario. The mulitpath 
-> device
-> doesn't change names. It assumes the identifier from the subsystem. In
-> your example, it uses subsystem '2' and will continue to use it no
-> matter which controller instances are attach to it. This feature is why
-> applications that have opened the /dev/nvme2n1 handle  don't need to do
-> anything if the kernel experiences a path failover condition.
+On Mon, Feb 19, 2024 at 01:01:02PM +0000, John Garry wrote:
+> From: Prasad Singamsetty <prasad.singamsetty@oracle.com>
 > 
-> You should see the different paths in the hidden block hierarchy, which
-> you can find in the sysfs directory. There should be an entry in your
-> example at /sys/block/nvme2c6n1/. I am pretty sure  programs like
-> 'iostat' can show how IO is distributed among all the paths of an nvme
-> mulitpath device.
+> Extend statx system call to return additional info for atomic write support
+> support for a file.
+> 
+> Helper function generic_fill_statx_atomic_writes() can be used by FSes to
+> fill in the relevant statx fields.
+> 
+> Signed-off-by: Prasad Singamsetty <prasad.singamsetty@oracle.com>
+> #jpg: relocate bdev support to another patch
+> Signed-off-by: John Garry <john.g.garry@oracle.com>
+> ---
+>  fs/stat.c                 | 34 ++++++++++++++++++++++++++++++++++
+>  include/linux/fs.h        |  3 +++
+>  include/linux/stat.h      |  3 +++
+>  include/uapi/linux/stat.h |  9 ++++++++-
+>  4 files changed, 48 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/stat.c b/fs/stat.c
+> index 77cdc69eb422..522787a4ab6a 100644
+> --- a/fs/stat.c
+> +++ b/fs/stat.c
+> @@ -89,6 +89,37 @@ void generic_fill_statx_attr(struct inode *inode, struct kstat *stat)
+>  }
+>  EXPORT_SYMBOL(generic_fill_statx_attr);
+>  
+> +/**
+> + * generic_fill_statx_atomic_writes - Fill in the atomic writes statx attributes
+> + * @stat:	Where to fill in the attribute flags
+> + * @unit_min:	Minimum supported atomic write length
+> + * @unit_max:	Maximum supported atomic write length
+> + *
+> + * Fill in the STATX{_ATTR}_WRITE_ATOMIC flags in the kstat structure from
+> + * atomic write unit_min and unit_max values.
+> + */
+> +void generic_fill_statx_atomic_writes(struct kstat *stat,
+> +				      unsigned int unit_min,
+> +				      unsigned int unit_max)
+> +{
+> +	/* Confirm that the request type is known */
+> +	stat->result_mask |= STATX_WRITE_ATOMIC;
+> +
+> +	/* Confirm that the file attribute type is known */
+> +	stat->attributes_mask |= STATX_ATTR_WRITE_ATOMIC;
+> +
+> +	if (unit_min) {
+> +		stat->atomic_write_unit_min = unit_min;
+> +		stat->atomic_write_unit_max = unit_max;
+> +		/* Initially only allow 1x segment */
+> +		stat->atomic_write_segments_max = 1;
+> +
+> +		/* Confirm atomic writes are actually supported */
+> +		stat->attributes |= STATX_ATTR_WRITE_ATOMIC;
+> +	}
+> +}
+> +EXPORT_SYMBOL(generic_fill_statx_atomic_writes);
 
-Hi Ketith,
+What units are these in? Nothing in the patch or commit description
+tells us....
 
-Thanks for your detail explanation!
-Wendy
+-Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
 
