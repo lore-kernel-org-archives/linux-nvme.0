@@ -4,68 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C9F7EC48BF8
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Feb 2024 19:21:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CB1FAC48BC3
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Feb 2024 19:28:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UxfTKIn6yWDwNX7YKV5wOrfYSX0mIP6ZZ57MU6OWuxQ=; b=Cu3gOGj7f4bwxD+Q4Q/4V4pgln
-	poxSiKMoT9Im/IkBF0zDJsLTNxuyGn1ENq6om7S/IdSGde5xwbkq2zDC2R/LxprJT7qc9EzUas3Yn
-	p9Ix/VvURRj/JeET9sNSdeMMmDSTVv7MYcxDk73gFr1PIs03o0a4GXRfkgJlO22Q2W3JKiQ9PsX0x
-	hRnxLJpZ9SkMRzdog8zTJCWHq1ubRkFSg+1znmC9RplnA+VGQt7ZsI/yqpaiBtLItQitw+PECPuNk
-	dbWCgwJSTgeTAM+QbSFKwl49Q3o4vGbEQdaQhFfH7rZOaS7YbeyUIXopRIZ6iTwNrYCOrwlGp9bXC
-	sKR1leOg==;
+	bh=xgotc1+VSor6bAo+JwXaTs/pMZhfIcGSVcptkJgYAY8=; b=vZsLnDaOWCO7oAEVkSbT4XQduB
+	FxRUCQ93mNzm3zgdzY+bE8/a/C4CTFtRNKi1XxifdO3UCReLEl6btdh0+XXvSagLQnOdqDpwJQj/W
+	P8YkNdaGpk7ZkwHZxQu36VOgEbK/FmMTR8Eh5vZ6F/cmPsMd0Rm5f0P8iBC0il8LVre3XxnCZ/QkG
+	OY7eYzQv9e6GFY5AsSAJ7g3oNdazGhZnug0MjhH4+1riPHRV9ro5OKZWTlq4X/zu1L7AeGn7VNIfT
+	8O6mn8Q3XV1IBqWjwYcuGHuRpAkLAFg07CzBks8oOUssT3QKpLzdnMB6fTWXWo3jZzWCbm/pqCJcs
+	vsTODydg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rc9Cc-0000000BsDe-0vym;
-	Mon, 19 Feb 2024 19:21:22 +0000
+	id 1rc9JK-0000000BtZb-1hzk;
+	Mon, 19 Feb 2024 19:28:18 +0000
 Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rc9CZ-0000000BsD5-1gET
+	id 1rc9JH-0000000BtYe-310L
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Feb 2024 19:21:20 +0000
+	Mon, 19 Feb 2024 19:28:17 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id AF5C860DCA;
-	Mon, 19 Feb 2024 19:21:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5BB4C433F1;
-	Mon, 19 Feb 2024 19:21:16 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id B1C0560ECA;
+	Mon, 19 Feb 2024 19:28:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B195C433F1;
+	Mon, 19 Feb 2024 19:28:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708370478;
-	bh=BU7vmtS91LW14umqdRks1US1wmoCN7BfyNRskJ+lpzg=;
+	s=k20201202; t=1708370894;
+	bh=28e3XCodLQ2kZ4Xosvb9pK1FTKEHovYXa6YEWzOkzuI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rDI2Tw7lYr17vYfRVT31/CFWOTvQvw8vu8Kd10WZDkZAfAUrzH8Df4KP6kxyUwmrK
-	 rGFpMcWC60IsJ/xONKcoIBQHrAldlZdG91Eo5stQQ7g0kxVAFfd9FHlI499h6X/V9X
-	 uV3aNuG/f+xnORzGFBi12Jq9+lalxrUM0mCfg2eSqcmNxdvWWWj0HLY4KndwAixZ5R
-	 QrIt0Synm8G4YerLcrr4Ta1M2jUeYFvwJyqYGsqzjANrsTGlgG6z54InG3nSN7NzBy
-	 lWYK1LwZxKgM45/cm2HfebVej40pz17i5AFt4n/v5CPx9+emInzhElr3yhPEDIr6p7
-	 ynArQJ8jnkTMw==
-Date: Mon, 19 Feb 2024 12:21:14 -0700
+	b=EEoR69Bjvz+8j2TNlS/qWjdYuSeSjnz1GljWI6JBJd9AGH9j+HjkiJi/mlUwUwvd+
+	 iegb2ZvBuh6G2OEJ04LTG3XQARgP17d7Pnm7Q3yQPBzwgY+JFBIxg7grbJW3VIqET5
+	 VAn8sFRkgws05PsO5Nat07mF6rxxaX/OoKlyVaRnfOOKVfA82v0p3/mZKZ/iInp4hQ
+	 dr51CXK8jSPO2FBtXj+wXZAoIK/X5qQ9+jf7VaPfTBvXMMSPh0YgXLfJ4fCoZp6nra
+	 uAJNNp1uYOfs8UK+D+nOVj+Ct9AhtuF/TxorRjWlgmIq9NFQUhCPjyf7hgvfg9jn+A
+	 w5od3BVpXv9gQ==
+Date: Mon, 19 Feb 2024 12:28:12 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: John Garry <john.g.garry@oracle.com>
-Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, jejb@linux.ibm.com,
-	martin.petersen@oracle.com, djwong@kernel.org,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
-	jack@suse.cz, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
-	linux-scsi@vger.kernel.org, ojaswin@linux.ibm.com,
-	linux-aio@kvack.org, linux-btrfs@vger.kernel.org,
-	io-uring@vger.kernel.org, nilay@linux.ibm.com,
-	ritesh.list@gmail.com, Alan Adamson <alan.adamson@oracle.com>
-Subject: Re: [PATCH v4 10/11] nvme: Atomic write support
-Message-ID: <ZdOqKr6Js_nlobh5@kbusch-mbp>
-References: <20240219130109.341523-1-john.g.garry@oracle.com>
- <20240219130109.341523-11-john.g.garry@oracle.com>
+To: Wen Xiong <wenxiong@linux.ibm.com>
+Cc: linux-nvme@lists.infradead.org, Wenxiong <wenxiong@us.ibm.com>,
+	Christoph Hellwig <hch@infradead.org>
+Subject: Re: nvme native multipath question with two physical paths
+Message-ID: <ZdOrzKNn-ryJ8v-i@kbusch-mbp>
+References: <f5c8d980ffd12601d258c510b879f4d9@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240219130109.341523-11-john.g.garry@oracle.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f5c8d980ffd12601d258c510b879f4d9@linux.ibm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240219_112119_572960_FCFAB3D1 
-X-CRM114-Status: GOOD (  22.77  )
+X-CRM114-CacheID: sfid-20240219_112815_847251_19D5D512 
+X-CRM114-Status: GOOD (  12.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,68 +72,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 19, 2024 at 01:01:08PM +0000, John Garry wrote:
-> From: Alan Adamson <alan.adamson@oracle.com>
+On Mon, Feb 19, 2024 at 01:03:48PM -0600, Wen Xiong wrote:
+> Hi All,
 > 
-> Add support to set block layer request_queue atomic write limits. The
-> limits will be derived from either the namespace or controller atomic
-> parameters.
+> In our nvme native multipath support drawer, each nvme has two physical
+> paths/two controllers.
+> We created a shared namespace on it.
 > 
-> NVMe atomic-related parameters are grouped into "normal" and "power-fail"
-> (or PF) class of parameter. For atomic write support, only PF parameters
-> are of interest. The "normal" parameters are concerned with racing reads
-> and writes (which also applies to PF). See NVM Command Set Specification
-> Revision 1.0d section 2.1.4 for reference.
+> # nvme list-ns /dev/nvme2
+> [   0]:0x1
+> # nvme list-ns /dev/nvme6
+> [   0]:0x1
 > 
-> Whether to use per namespace or controller atomic parameters is decided by
-> NSFEAT bit 1 - see Figure 97: Identify - Identify Namespace Data Structure,
-> #NVM Command Set.
+> # ls -l /dev/nvme2*
+> crw-------. 1 root root 240, 2 Feb 18 18:05 /dev/nvme2
+> brw-rw----. 1 root disk 259, 4 Feb 18 18:14 /dev/nvme2n1
+> # ls -l /dev/nvme6*
+> crw-------. 1 root root 240, 6 Feb 18 18:05 /dev/nvme6
 > 
-> NVMe namespaces may define an atomic boundary, whereby no atomic guarantees
-> are provided for a write which straddles this per-lba space boundary. The
-> block layer merging policy is such that no merges may occur in which the
-> resultant request would straddle such a boundary.
+> nvme-subsys2 - NQN=nqn.1994-11.com.samsung:nvme:PM1735a:2.5-inch:
+> \
+> +- nvme2 pcie 052f:80:00.0 live
+> +- nvme6 pcie 058f:80:00.0 live
 > 
-> Unlike SCSI, NVMe specifies no granularity or alignment rules. In addition,
-> again unlike SCSI, there is no dedicated atomic write command - a write
-> which adheres to the atomic size limit and boundary is implicitly atomic.
+> #nvme list
+> /dev/nvme2n1          /dev/ng2n1
 > 
-> If NSFEAT bit 1 is set, the following parameters are of interest:
-> - NAWUPF (Namespace Atomic Write Unit Power Fail)
-> - NABSPF (Namespace Atomic Boundary Size Power Fail)
-> - NABO (Namespace Atomic Boundary Offset)
 > 
-> and we set request_queue limits as follows:
-> - atomic_write_unit_max = rounddown_pow_of_two(NAWUPF)
-> - atomic_write_max_bytes = NAWUPF
-> - atomic_write_boundary = NABSPF
-> 
-> If in the unlikely scenario that NABO is non-zero, then atomic writes will
-> not be supported at all as dealing with this adds extra complexity. This
-> policy may change in future.
-> 
-> In all cases, atomic_write_unit_min is set to the logical block size.
-> 
-> If NSFEAT bit 1 is unset, the following parameter is of interest:
-> - AWUPF (Atomic Write Unit Power Fail)
-> 
-> and we set request_queue limits as follows:
-> - atomic_write_unit_max = rounddown_pow_of_two(AWUPF)
-> - atomic_write_max_bytes = AWUPF
-> - atomic_write_boundary = 0
-> 
-> The block layer requires that the atomic_write_boundary value is a
-> power-of-2. However, it is really only required that atomic_write_boundary
-> be a multiple of atomic_write_unit_max. As such, if NABSPF were not a
-> power-of-2, atomic_write_unit_max could be reduced such that it was
-> divisible into NABSPF. However, this complexity will not be yet supported.
-> 
-> A helper function, nvme_valid_atomic_write(), is also added for the
-> submission path to verify that a request has been submitted to the driver
-> will actually be executed atomically.
+> Run stress io test over nvme2n1, we hot unplug nvme2(052f:80:00), /dev/nvme2
+> controller is gone.
+> /dev/nvme2n1 still existed and io still running over nvme2n1 without error.
+> Looks io test still
+> running over another path(nvme6)bbut we didn´t see /dev/nvme6n1 in /dev dir.
 
-Maybe patch 11 should be folded into this one. No bigged, the series as
-a whole looks good.
+Nor should you see a /dev/nvme6n1 in this scenario. The mulitpath device
+doesn't change names. It assumes the identifier from the subsystem. In
+your example, it uses subsystem '2' and will continue to use it no
+matter which controller instances are attach to it. This feature is why
+applications that have opened the /dev/nvme2n1 handle  don't need to do
+anything if the kernel experiences a path failover condition.
 
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+You should see the different paths in the hidden block hierarchy, which
+you can find in the sysfs directory. There should be an entry in your
+example at /sys/block/nvme2c6n1/. I am pretty sure  programs like
+'iostat' can show how IO is distributed among all the paths of an nvme
+mulitpath device.
 
