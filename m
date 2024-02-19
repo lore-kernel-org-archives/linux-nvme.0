@@ -4,124 +4,152 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7D8F6C48260
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Feb 2024 04:05:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D76ECC48260
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Feb 2024 06:44:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=J39Dnd2MumH5J/SmDawaxEGDem4hRti0qdi0FdqQSJU=; b=1nJ1E2Cm840RTvKW18oQrOmjCR
-	Qo8sAtc189EKyvlCheGVEYCdK6F4AHJ/ygagGiYTETXlydleAJAZvlOJRYRhSpbfUYrJVAQ3uiA96
-	a0aJUSCEhA0RefWpIeQwwP2pNz399HqKGHBDnHRzw7w9qicAe9f2o7J+ghTgQ1q0WPlwcAFlqKl+f
-	arDgCKAuqrNesmJsuAgMVosOWyJkVlpV8NHZNvsToFwRCrDFxkQTJq0GUPGLYt0FA154Lb1MgOQJG
-	/WQpFQkPqfSzp6gWFv+vQ5XuFRSNXg4npsYrKTjIOTwsAXNVpJFhD5RKKAuRXHMrTp55zj0m6rfaU
-	BGn4E26g==;
+	bh=OJYAtMymD9Um3QNqKW8eBv72JF18AkGrTYQZBixOmzE=; b=UTtJdqBVtJZA7TcFy6teyMnyBv
+	RVUhslsLk9WR+IL1l9Dlpj07Qco83g2Y3Sxrdbz24tpXTgR0xJg7pkT/ebroKGD5XMItMgFQ+ye8A
+	17C23enPzPPNseErlaJiDM78EJJM9TA+zvqFuJNo8Hpkg5lEru7l2NnS655Oby1H3Wk4Q84yv7qtQ
+	Vl1ubOEaFXy1ZBDGFejdj+jgf59q6mp1rqLCxL1g8f3ilwD/5R92r6RcmEwiVBcQStJJQgOCBbg1h
+	qZbsyrV64cQ1k7IJLkUinBhL/4hqhCcwmJWNCVfoZVg03Pn4c7+3ftLn0oJ72So0AVINz5B9yvXgY
+	FaB0VSnQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rbuuT-0000000914U-0tRh;
-	Mon, 19 Feb 2024 04:05:41 +0000
-Received: from mail-bn8nam11olkn20801.outbound.protection.outlook.com ([2a01:111:f403:2c14::801] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+	id 1rbxOR-00000009HuY-46Kp;
+	Mon, 19 Feb 2024 06:44:47 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rbuuO-0000000912V-0Q7Y
+	id 1rbxOO-00000009Hu4-49mP
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Feb 2024 04:05:37 +0000
+	Mon, 19 Feb 2024 06:44:46 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1708325084; x=1739861084;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=FpQySVfj8uTaiSKxQuWwXJ+mg/rRpljvvm0fAjYwMbg=;
+  b=knLYyfVAnSuqUY4ZqmO6K4IzWbi5T0rliTLSJvdLlCxOOId5QADX3ZXu
+   YxurxamZvqsJ85N6X6ZqA+pUg4CNw8heKXwM5sOQf+fTmdwvetclJN7nL
+   naFMo+mwfmtIvG07lsvsvZNHiMinw65Bu1mxrWGrM7F8JxYO8DWTuORHd
+   zgadFax4VQi6iGG6BSGgt4D1B2Kk1uTMXU7OouMSknBpn28MqSCh+RMvE
+   RAYNUp4Qm/sU2PKlrPdkMAGnYL1AN0VdEVRNBP1vLx9Dvw8otHViQbBOA
+   RxZVS5oPnxY+7Ayyp/cj+kQHWGEWgQo1/XEX+cwpy1r4TBG8T7P0MHSQN
+   Q==;
+X-CSE-ConnectionGUID: mfukURp3SUeMRF/A3q1/vg==
+X-CSE-MsgGUID: PmrMKHFOQJW8hFKJELCtGw==
+X-IronPort-AV: E=Sophos;i="6.06,170,1705334400"; 
+   d="scan'208";a="9640032"
+Received: from mail-mw2nam10lp2101.outbound.protection.outlook.com (HELO NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.101])
+  by ob1.hgst.iphmx.com with ESMTP; 19 Feb 2024 14:44:41 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZJWUUCu9V//Hz20RbQEBCZDsdd1cVdAoLaE76HqqfxH1bO7UkrWK3kZ0YLiZqRpyl6Ij4gIH6szzasgdm1ZB/Hl5k4/7YFO0KJVQbYQjsS2ze7mr9e4nO8S9l2SZ0nBoLg4JP/3KgmioTbXgCQHfVGasof5vubyH1b3WKjtsLZ+IaA1Nm6ZtX2pLnSywyxVLPz0QQ5sKdjZS8AVgJSsoowP+lnQ+rklONS5l7G0UAEyi7thYUH2p9kAd/E1ttfaRd3EdWvSJ/ZT9WpcxrCalTBYIut0J0SHO/Y9c3ZsIFs9G6OQDFNwmCRj6TRK+VPdNvzisDNg4n/KC53l4oNPfOg==
+ b=hzEvej57B7p0PkyIfkP6kagWEfo33yWLtjRf3uTPlAOykJvXixR4ROjakS/xY9cQ9CGyftg/Vy3NZnz2UdDZI7rcDxYs33ouKOQrr9ASlYQryAYXSfvpWT67v8bQA2sPzcUAE1QDTPWL6dEuiDQpnNthqsyEbgY96ZI9V6AvjG/1mculpmIBluwG9WYX3nax9lIHKf92sQcEJzIRgiqxEfS9o5ZNnxjCcvP64DxUvRPISucu89h0uaukwusbjkL5P9cNV6/2KrVeeaCBDpsc05qcXOMC4xTtbRB0l/qgzljc4DhEBoAyJ0E15n/dStbvzcBpmz8sCAmqkT/VMKtPTQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=J39Dnd2MumH5J/SmDawaxEGDem4hRti0qdi0FdqQSJU=;
- b=ER7WoHvBmEhuq79tb821iOX4iw4BUb23gB/HQaMSxr4e7m81e3oVzDhh1AkTR7dbdAGaU5/ES/+o2YWoAGwDdhSFhN+bP6kwxJP/uxrX6oY5HGdM2hj1hPDOrJBa6piNmx3Qdkb/5iunslF5GuCvsd3Hf31cZnKLrKfT/b+qernBN4AnorWi1yWrUNi/QcWr309zdtROOyclDKGLe906OC1iMM2vfkyUJ4s8QQDlKfDbXpxZcIz00I2OsnGFCCn2jYHEEStbaCkZVdu8hIGD42dvILksv3+zBJbCLEJhBMQDvHJuSVSUIamdV1zvHsr/y2ROsgFzr2Z+F7OG6tUyKw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
+ bh=OJYAtMymD9Um3QNqKW8eBv72JF18AkGrTYQZBixOmzE=;
+ b=PTg7//3CrFuAnz9rsdJKg1nzPXopj3tQOSWairQoyI0ZBcn5TqHzQFAfZDEgW5QPyZXvcDnZXkZLFwOOUh9eKugq5NsoI4IhhORRrB68Gwm6gZO0RbA4S0KOEYRl4ADrO9ZhB9XheYell8IQAIT1eUaCnN7+44WoZTvjAMseBK43HqPSEHvYX9/V3FAQSwRFR+68E+W70NN+WQecF8eZRWD16bCvCKCsYOMYmLavWuGZOFyKjBc/ZGcgEaTfDYtK+j+SVxjF0FAKkEse1Up17V7Ywb3vtY8u6/uVhx/gbqY4i2u01XPts29lsG24+gMEz8Cepq7VXm5mcEtYJ8r3uQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J39Dnd2MumH5J/SmDawaxEGDem4hRti0qdi0FdqQSJU=;
- b=J7U+Li3rhvIf1dHmojmKQwxXfLmNWX6qUy4uH/tHlxQEy2nF6V8VffUbrjlFd0SThXPOlYnC5PiOe2nb4Z3zgCA6lEeCJuFmDmQrDGu/LZ5mK8CGD6BKMsnq6Em9bTEKxtsxZzNaunAJRNAYIwYjj/l2Nqf4yN16g9JuepV5BUVJXg7ZrimKr/+cOyxh0uszKF78U/KQbEFEPiL8VYy5wGVy4DsIwgfkHEi/WX7EEc12KmeV2Lbk1bPS1rnpjQmmI4klTtQd0q4XFhW+wpniIbdbUj5CSSmqNE8VJ4dtRL3wMbY+PznSMH6H/UjIm9nHbkFzG2c8wsj/QmVkime4cA==
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
- by PH0PR02MB9306.namprd02.prod.outlook.com (2603:10b6:510:287::11) with
+ bh=OJYAtMymD9Um3QNqKW8eBv72JF18AkGrTYQZBixOmzE=;
+ b=ICzuYI+C7UqzzkZtax0/ngQY6fsHCYwYt3eLeOjD3z2qr10ah88IXUgaQbo4k/ZqyojO0MPjFW4d/K474Uagupo09Z2k403tiebYj2NjaYg57/sGaPaHODALfD7rxKLdeCbS+RasIFC7TPOt9ZpKPep7RO4Qre6U4vdhc/iIv2Y=
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
+ SN4PR04MB8432.namprd04.prod.outlook.com (2603:10b6:806:207::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.38; Mon, 19 Feb
- 2024 04:05:21 +0000
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::67a9:f3c0:f57b:86dd]) by SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::67a9:f3c0:f57b:86dd%5]) with mapi id 15.20.7292.029; Mon, 19 Feb 2024
- 04:05:21 +0000
-From: Michael Kelley <mhklinux@outlook.com>
-To: Nicolin Chen <nicolinc@nvidia.com>, Will Deacon <will@kernel.org>
-CC: "sagi@grimberg.me" <sagi@grimberg.me>, "hch@lst.de" <hch@lst.de>,
-	"axboe@kernel.dk" <axboe@kernel.dk>, "kbusch@kernel.org" <kbusch@kernel.org>,
-	"joro@8bytes.org" <joro@8bytes.org>, "robin.murphy@arm.com"
-	<robin.murphy@arm.com>, "jgg@nvidia.com" <jgg@nvidia.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"iommu@lists.linux.dev" <iommu@lists.linux.dev>, "murphyt7@tcd.ie"
-	<murphyt7@tcd.ie>, "baolu.lu@linux.intel.com" <baolu.lu@linux.intel.com>
-Subject: RE: [PATCH v1 0/2] nvme-pci: Fix dma-iommu mapping failures when
- PAGE_SIZE=64KB
-Thread-Topic: [PATCH v1 0/2] nvme-pci: Fix dma-iommu mapping failures when
- PAGE_SIZE=64KB
-Thread-Index: AQHaXsdY2hY8FHuVH0OgB2HEIx34KrEMIFuIgAHkEM6AAv1hkA==
-Date: Mon, 19 Feb 2024 04:05:21 +0000
-Message-ID: <SN6PR02MB415727E61B5295C259CCB268D4512@SN6PR02MB4157.namprd02.prod.outlook.com>
-References: <cover.1707851466.git.nicolinc@nvidia.com>
- <20240214164138.GA31927@willie-the-truck> <Zc0bLAIXSAqsQJJv@Asurada-Nvidia>
- <20240215142208.GA753@willie-the-truck>
- <20240215163544.GA821@willie-the-truck> <Zc6rr/LleQ2krkyg@Asurada-Nvidia>
- <20240216161312.GA2203@willie-the-truck> <ZdBB8BYsK6WvwTYC@Asurada-Nvidia>
-In-Reply-To: <ZdBB8BYsK6WvwTYC@Asurada-Nvidia>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.39; Mon, 19 Feb
+ 2024 06:44:40 +0000
+Received: from DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::c9e3:b196:e5ea:909b]) by DM8PR04MB8037.namprd04.prod.outlook.com
+ ([fe80::c9e3:b196:e5ea:909b%4]) with mapi id 15.20.7292.036; Mon, 19 Feb 2024
+ 06:44:40 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+CC: Alan Adamson <alan.adamson@oracle.com>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH blktests] nvme: Add passthru error logging tests to
+ nvme/039
+Thread-Topic: [PATCH blktests] nvme: Add passthru error logging tests to
+ nvme/039
+Thread-Index: AQHaYTAENfBlt+01bEabu428v7dj57ENtCQAgAOHtIA=
+Date: Mon, 19 Feb 2024 06:44:40 +0000
+Message-ID: <l4fccsfnizagtkzf6cukj55dzpymmznkoc5e6ewt3yz3mpzvtq@5lragxv3fwau>
+References: <20240216233053.2795930-1-alan.adamson@oracle.com>
+ <2d2da03e-da35-418a-be85-b11f57bbd374@nvidia.com>
+In-Reply-To: <2d2da03e-da35-418a-be85-b11f57bbd374@nvidia.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-tmn: [TrVk5r2PbCrpjitjJwjY2FvI0idzTKcH]
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|PH0PR02MB9306:EE_
-x-ms-office365-filtering-correlation-id: 31361407-6fdd-4705-1f14-08dc30fffde6
+x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|SN4PR04MB8432:EE_
+x-ms-office365-filtering-correlation-id: a1c05720-ff55-4d0b-aa23-08dc31163f68
+wdcipoutbound: EOP-TRUE
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: WFa386AK9sjyx8EPlLNLBLH7dwgVcNR929zzvye+0rA1dKir0WIRsOpLl9tkTyAk+2PFOtyU2S3XjASLgK9ezvA15YHCZSJj5VrGE/l40YEpBnbNVynes496EzF2JuJTYztj7VG6idS/HJ17mLtwhbV2xoVUe81E96u06zh1gFuxDk/D6myaJYEDh1POGXbO7cOHD12JPyUEIHgADwTBk+RJLXq557royNxL9erzs3iPDAGCo8PtdLFw4KvqQjo7VzO6cTqvPSsya0r1dNA2JpEAJuDNbdlwfgeM2Cvx6UpPWS/wEZnHEFcoVzL+mcsr+AdyWfYHjC8cN+KX9jmkT+7bLqJxFNe1VvTznqjRufIIV7xzarBgqQxFiG9yzcgEtXtFJ4FLv4nleC67kQ5XOanMSDffo3BYZ11DbTO1yuuAqra8u7Zbg/Zwx/cqSW7C3B5CoyAyuMMzsadU9CJ+SNBSl0GoqrRKW7JL6nWZT9RLduLqVfocH5XFPj+N/G+XkVjTO+FKED/xb7VPnrTYeB+xFJK2x+jfN4mTVEHXdw4igOet85mErwG8izpX2TT0
+x-microsoft-antispam-message-info: R6WFO23gk68RckBKNdbZPm6U/xzY6qRORHGXwveuLeGIpo8mz4xLFsD7cOWlaDTjuBTzW6CyR/aaLb7RNG5hlfUNjUJg04M8VqfioFYmwpR1nqBU98uFbCoLxqEv4QfHKA1UpwlXE52DTU3hBTGZKcEMPVIaJUdvmpMgmNH8rfQ74IIlDGLU6z3j/lxQWQI9QjhgPVC+SLlcnvgrymit4SkPgRu9Ga0eAOcnpOuuBqhTF1by7D9yDCTtW3Dk1Q84K1siYvo0wWcs7VALVhUnnucgv4syi6ifWohCOqs/86z+cJwDR295ztFfWQn1Ursz3XTNzXcXkwZUEHKhqxKsCO3yn9nVQGJc0z9FR2J3Casmsz0Bmjo7NT5O54hDKY3kLHcjFVjR5hSeXenRpzEfaUPbb9c4JlakySB/YC288xnxQSFRZMIAc6eujsFJNaFS2z8tdIVOZpytyXAvJATm0TUEyoL6WYvAZbpnS4/S6mujdoh2RJlpGbreJPhV2bVcgSX4bA8jtHbD8mPLhsgisXZa8+DbSq2W6wZjFt6Dj3+QeAvHEFuwDkXWBWYNf98JzdglhleHs8A+OaxuYUg/lcfMI3CBcQ6ONcyvTYFE4dc=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(39860400002)(346002)(396003)(136003)(366004)(376002)(230922051799003)(64100799003)(1800799012)(186009)(451199024)(33716001)(41300700001)(71200400001)(4326008)(2906002)(8676002)(8936002)(64756008)(66446008)(66476007)(66556008)(76116006)(66946007)(6916009)(38100700002)(5660300002)(86362001)(44832011)(6512007)(6486002)(122000001)(54906003)(966005)(6506007)(316002)(9686003)(38070700009)(478600001)(26005)(82960400001)(83380400001);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?spgFDXiPBJ10uCECrW9KqMSXuU3pbwim5MsjP10nKuaLBall/+0pn/tXr5cR?=
- =?us-ascii?Q?8QhWdXgsn+FmqBENdTqw+Df81qUdkAbZYGxs83EfUtwQj6hVScX3vkTJa/m1?=
- =?us-ascii?Q?jRK0J564d3ckFHcacQdgRLlIxO0QC+72KRkAXy5joGhnssmESfaCmGVq79AG?=
- =?us-ascii?Q?fhqeY2CeneDVzelxYaVQb1LTVT6JIX4NSYZ5NG2eCWbKYNFQCe1P3iU6v3zA?=
- =?us-ascii?Q?rWRmqoUbwYkUGBrGy4sN+wTROCC7HcnbYymQzeaDIjFIWGYDFwZ9sfezneRg?=
- =?us-ascii?Q?DcY3YCTQNslhd5M0VakkD/icVT9FcJ3XkTr2FxjjzI6vHg6XJ3UukSKb1FwS?=
- =?us-ascii?Q?Cr2zs+QjnonlBtyyrOlIKLFg7OVUi7NyYbvSRNsnFVRcwTMX/rRIpyCbJx49?=
- =?us-ascii?Q?844iCBfCWEn6G9f/eEjTA+rHNrGoGOSU+NZLjEcbY0LWPhvF+G1/geQAaj03?=
- =?us-ascii?Q?5beDXh3c1xHIOtEVmVVmD2I+DqEOSNaB1juKSglgPX2MqlBs9LQA3L03mY9R?=
- =?us-ascii?Q?M2gmJJ4IGBsNOM64HJMwQVpNfVYMqv8e6k8ddCN8s34/6dhVOb89gxQPelMS?=
- =?us-ascii?Q?ubvx5jE+UfF6Zlp5DYEJyAjRful26Pkwdh3eIgn3+BtSTeHoJch9sYPkxtlz?=
- =?us-ascii?Q?1xcF54es7Q/Cy0lcRKnGCjSFtGErbefLqmboDSvnn2mQXQcbNwr2D+g9dLJV?=
- =?us-ascii?Q?DyzkvvFifPwWpeYrfjZTXz61YRoxq4hSbxOvUGDGDB59aURD/a6y55E3k6dT?=
- =?us-ascii?Q?Tn12zfvgg6ptiCKhqDg5ESBCXLJNIj15Xnc1GfXMi+PacpEstI5fYuwOCcZG?=
- =?us-ascii?Q?lkWhSKksZshDHbtGvWGBdf+NK0dQr4S9Zl/cw5YpkB8/Jq8YFiBpwIMJQ/kQ?=
- =?us-ascii?Q?i0T6TyGMKjBdQ8vLAkYTUTNVSWEbYtw3DJSP4g9EAGt4AGz72sAsYdyRpTUW?=
- =?us-ascii?Q?s80buZAGRHQ7UmOVvm6/G55MhgQ4ua/bilUwAZdNmKbMZsrsRbbLf4G2VjYJ?=
- =?us-ascii?Q?pvWcblwTKnoNG5bF29a2OvgDYjsCWJHO+YGUoJz0Kx37MYhCLSxP2BcwwxL3?=
- =?us-ascii?Q?n9/CI5ovJoRISYVg8Xjq0SvkXDvIDitcaV5mpIG222xiCm+/boXGrj3X9Mvc?=
- =?us-ascii?Q?SO3SZjgzq3M11YUmyhWArgRR0xS9moxscd7jDeNXpPNxaqD+qGwoIRHe5It8?=
- =?us-ascii?Q?6W35xOezKql+yehozTjY4L3AYvMuPAiVywTCkQ=3D=3D?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?E22SXO902nIo4+R5KwNq7VbChqE/kU5OHy/3WtaMBSZW60e7Rt8mA4GWmrBX?=
+ =?us-ascii?Q?R0JDKss0g0erxEbDEHt+DNxrv3Pku7Xpda9B1VSKbS/mAHRf3SB8X7vPBHV5?=
+ =?us-ascii?Q?oIbfjW5uP74QRQllgwMNmnJDHsGFktiMD5aTywDReooMe1p1PEWKJqsMlThp?=
+ =?us-ascii?Q?AXs/EmGmV2FTwJGBjm7Ym2hEY1hD75G5/bugIEhGCLTGro4o5GsEAO3caiJx?=
+ =?us-ascii?Q?LUnmK/cFsybsfIvA7QuuOTSsRxGVV+4f8wWULJz78cQUYY8fGvWj5YUZHCWX?=
+ =?us-ascii?Q?f5zs1M1t23RITfhuVT8Vwgg5zCufUAG49TbcC8CQlu8bpvLj/+CNzPp3yyYH?=
+ =?us-ascii?Q?THy44AhP/bI7ce8vTa2RzY+tvdsseHvwowwZSk3EfgdDOAbNs22x6vqB3hcx?=
+ =?us-ascii?Q?wcFvKf1RDuIlMOKIxKhlQjNJ6X3N58jcYX1qTot5UlaI0rvOnWfBjF0LzIgV?=
+ =?us-ascii?Q?IuxOllaEeetWN4jovGCKyK/qzkyGF3weIcrq7l2R03dJtoBxUJoKtszQ1zuW?=
+ =?us-ascii?Q?euR6mjDQSc2hJT3F56CWmZzFVoQb0Qdg/h7LNEKqkrFnJpJz6lCWVBtPQgAC?=
+ =?us-ascii?Q?cefIk0T91kuHYbgaqQGBoL9t+2kxOEOqI0tFyDCxCrocAhCcY/h9V1b5XT53?=
+ =?us-ascii?Q?7vGV9FzxV22GTM52gJQgpRIyuYDVzJexLTk8VexhiFzfys+caqzfAMd5x/mI?=
+ =?us-ascii?Q?T3Gcws1w02pQ4WJ95I1yjP6CLbgOrk/UkSa8t0P3ffZXC6yPD8feRi7cYAJE?=
+ =?us-ascii?Q?s8Q3STScNOsl8Bxun8I5gATRLHDa30ZpvDDIAM8RVQxo5Z/MwkgtVkKwucQh?=
+ =?us-ascii?Q?s3fFbTT/risW6NeHF7fSe0LLZMHGcmw/ECDeqaLdt2D5g9L9zNjDOYd2AWZX?=
+ =?us-ascii?Q?MWhiEmhDHz6A9d2ifrqCwOGIVr1ucAbsLqUdna8Vc4CJPMGsHnaPCH4VDGf6?=
+ =?us-ascii?Q?QmBt6QUZsEyxFhlB8K2sRfo9xhbQI2qvK47MXVhKKuKbSUACcs1wop50Bhxl?=
+ =?us-ascii?Q?RyghF4kyh4r0iQOvs7Wb8nxfvkHjawGKqbFJwbiOByffWni3+MZ46W9zB4tA?=
+ =?us-ascii?Q?ME4ivhLkXtrcnzB7LbqfDA2sO0GDTDBQ3M+847WuEibLxCiTcke58BLb5/v4?=
+ =?us-ascii?Q?7suCVklP7wgTamBvbf4mpxMbymlbaeLPSZNhCU7obdC6/doqR4ALBfJAc+D/?=
+ =?us-ascii?Q?dVD/TnsJR5NLM4uIM9XxOoR8+PwKcg5SkVjco8h+NGCSe2wxl1/NOQcawIpu?=
+ =?us-ascii?Q?9V7HkFTueahEUV9hUEW7lWx+qnIYS8AU/urFXWh7XfiMkQAOJMjtXXjszvug?=
+ =?us-ascii?Q?ugmB0sy8nJX2Wr0wDB0RxmRmUEmOewV4sWbN8+0yZ0MFKXBpoPKeZlVzzKLq?=
+ =?us-ascii?Q?Lq1JSIxdGTPUJZTtfqxglWPdC2jkwLzYh8BHu34/tdUsShQ2GrwRwvK8gbi6?=
+ =?us-ascii?Q?zZo9KL6g3zOBFYAWUSf9YeZPKfofv79F6OtEdC73Puj2PSMM8Qowhcg/IV7w?=
+ =?us-ascii?Q?k0lkeR3aAKfRyIX7rmNJPBPWl8nRI7ftuKcnsaRANiF6vAGpfmV92wqtgKgT?=
+ =?us-ascii?Q?maCXr/peTrXG+SA7dHqHGsbCy/NYw2wFF39fdKdXYUE9AJDM8xNalYAMFd6z?=
+ =?us-ascii?Q?fGh/MALu8cMQiB3oLOE1juc=3D?=
 Content-Type: text/plain; charset="us-ascii"
+Content-ID: <CE35C8A1C5FBAC46B482A0B28B1A0287@namprd04.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: VvrWirCvzmpkhUiX0g2bMYnNKWqexGrnr4tiUoFHe2r2CPZQr2zoEArXKdC8cVoJ8vOKRjmJFxSXUivLD+/uN1zjFcFzlZnzye3MtZr7ZDFFHHpq7Y4aqwa8Vlw6QYuZsZDpmZepNKKLsx9q5s4oLLx8yvx8VFNNIv3OXn0tskhVeBMC6djaT/EZMW1xVY7UNhjhLc4BFYI/mmbpR3WL6EJw8PiELl2O9nu6/sAuMWk0jx2KVBlefiiQ+zAIXFvbWqyq2m69PfHijLEdx2FaN1rSghL0cjBbcD/xWJIhCVQowi3Sm46rhCDMHjBYBmlRuRE9L7On/ObbS9DT76j5jo8SGDT3jxAfucyfVsaJoqTOQfrntGjbYv/w3USrzlmwfKse6jYMi0Cbd3yBUJTqVduNYWOU2ffcTERGCPlYBMf+41wjJwepOAjieGgVkxSzwsGoDsimEH3WHAy5Jwg1FM0XlYw0qBMFc1T8zK1yI63toONEQFsyaDzAdFg+bD/GKxoUMVvY2CkldC04VO+PxK42OPWk5zufniqBQeU9erd1Bm6Ft7tEBRGAtsijNOEl1K4B94CWRGhYfAXChmJO1KpsfRn3KMTmpE9lTPtCbGS/BONweBXtgUHhZgYBO/ZY
+X-OriginatorOrg: wdc.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 31361407-6fdd-4705-1f14-08dc30fffde6
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Feb 2024 04:05:21.3988
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a1c05720-ff55-4d0b-aa23-08dc31163f68
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Feb 2024 06:44:40.2502
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR02MB9306
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: uSXrU1a1UxgtR1iqcPCeoyjakH1f12stkQtk10NlTGRTju+H8M32Zd2MO+ku6LY4YaZxpLHBj1ZG3D1qKOcfutVwZsZgu29yUCDoJwpFEvU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR04MB8432
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240218_200536_262742_F1458661 
-X-CRM114-Status: GOOD (  48.79  )
+X-CRM114-CacheID: sfid-20240218_224445_133052_709D4301 
+X-CRM114-Status: GOOD (  18.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,210 +164,74 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Nicolin Chen <nicolinc@nvidia.com> Sent: Friday, February 16, 2024 9:=
-20 PM
->=20
-> Hi Will,
->=20
-> On Fri, Feb 16, 2024 at 04:13:12PM +0000, Will Deacon wrote:
-> > On Thu, Feb 15, 2024 at 04:26:23PM -0800, Nicolin Chen wrote:
-> > > On Thu, Feb 15, 2024 at 04:35:45PM +0000, Will Deacon wrote:
-> > > > On Thu, Feb 15, 2024 at 02:22:09PM +0000, Will Deacon wrote:
-> > > > > On Wed, Feb 14, 2024 at 11:57:32AM -0800, Nicolin Chen wrote:
-> > > > > > On Wed, Feb 14, 2024 at 04:41:38PM +0000, Will Deacon wrote:
-> > > > > > > On Tue, Feb 13, 2024 at 01:53:55PM -0800, Nicolin Chen wrote:
-> > > > > > And it seems to get worse, as even a 64KB mapping is failing:
-> > > > > > [    0.239821] nvme 0000:00:01.0: swiotlb buffer is full (sz: 6=
-5536 bytes), total 32768 (slots), used 0 (slots)
-> > > > > >
-> > > > > > With a printk, I found the iotlb_align_mask isn't correct:
-> > > > > >    swiotlb_area_find_slots:alloc_align_mask 0xffff, iotlb_align=
-_mask 0x800
-> > > > > >
-> > > > > > But fixing the iotlb_align_mask to 0x7ff still fails the 64KB
-> > > > > > mapping..
-> > > > >
-> > > > > Hmm. A mask of 0x7ff doesn't make a lot of sense given that the s=
-labs
-> > > > > are 2KiB aligned. I'll try plugging in some of the constants you =
-have
-> > > > > here, as something definitely isn't right...
-> > > >
-> > > > Sorry, another ask: please can you print 'orig_addr' in the case of=
- the
-> > > > failing allocation?
-> > >
-> > > I added nvme_print_sgl() in the nvme-pci driver before its
-> > > dma_map_sgtable() call, so the orig_addr isn't aligned with
-> > > PAGE_SIZE=3D64K or NVME_CTRL_PAGE_SIZE=3D4K:
-> > >  sg[0] phys_addr:0x0000000105774600 offset:17920 length:512 dma_addre=
-ss:0x0000000000000000 dma_length:0
-> > >
-> > > Also attaching some verbose logs, in case you'd like to check:
-> > >    nvme 0000:00:01.0: swiotlb_area_find_slots: dma_get_min_align_mask=
- 0xfff, IO_TLB_SIZE 0xfffff7ff
-> > >    nvme 0000:00:01.0: swiotlb_area_find_slots: alloc_align_mask 0xfff=
-f, iotlb_align_mask 0x7ff
-> > >    nvme 0000:00:01.0: swiotlb_area_find_slots: stride 0x20, max 0xfff=
-f
-> > >    nvme 0000:00:01.0: swiotlb_area_find_slots: tlb_addr=3D0xbd830000,=
- iotlb_align_mask=3D0x7ff, alloc_align_mask=3D0xffff
-> > > =3D> nvme 0000:00:01.0: swiotlb_area_find_slots: orig_addr=3D0x105774=
-600, iotlb_align_mask=3D0x7ff
-> >
-> > With my patches, I think 'iotlb_align_mask' will be 0x800 here, so this
->=20
-> Oops, my bad. I forgot to revert the part that I mentioned in
-> my previous reply.
->=20
-> > particular allocation might be alright, however I think I'm starting to
-> > see the wider problem. The IOMMU code is asking for a 64k-aligned
-> > allocation so that it can map it safely, but at the same time
-> > dma_get_min_align_mask() is asking for congruence in the 4k NVME page
-> > offset. Now, because we're going to allocate a 64k-aligned mapping and
-> > offset it, I think the NVME alignment will just fall out in the wash an=
-d
-> > checking the 'orig_addr' (which includes the offset) is wrong.
-> >
-> > So perhaps this diff (which I'm sadly not able to test) will help? You'=
-ll
-> > want to apply it on top of my other patches. The idea is to ignore the
-> > bits of 'orig_addr' which will be aligned automatically by offseting fr=
-om
-> > the aligned allocation. I fixed the max() thing too, although that's on=
-ly
-> > an issue for older kernels.
->=20
-> Yea, I tested all 4 patches. They still failed at some large
-> mapping, until I added on top of them my PATCH-1 implementing
-> the max_mapping_size op. IOW, with your patches it looks like
-> 252KB max_mapping_size is working :)
->=20
-> Though we seem to have a solution now, I hope we can make it
-> applicable to older kernels too. The mapping failure on arm64
-> with PAGE_SIZE=3D64KB looks like a regression to me, since dma-
-> iommu started to use swiotlb bounce buffer.
->=20
-> Thanks
-> Nicolin
->=20
-> > --->8
-> >
-> > diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-> > index 283eea33dd22..4a000d97f568 100644
-> > --- a/kernel/dma/swiotlb.c
-> > +++ b/kernel/dma/swiotlb.c
-> > @@ -981,8 +981,7 @@ static int swiotlb_search_pool_area(struct device *=
-dev, struct io_tlb_pool *pool
-> >         dma_addr_t tbl_dma_addr =3D
-> >                 phys_to_dma_unencrypted(dev, pool->start) & boundary_ma=
-sk;
-> >         unsigned long max_slots =3D get_max_slots(boundary_mask);
-> > -       unsigned int iotlb_align_mask =3D
-> > -               dma_get_min_align_mask(dev) & ~(IO_TLB_SIZE - 1);
-> > +       unsigned int iotlb_align_mask =3D dma_get_min_align_mask(dev);
-> >         unsigned int nslots =3D nr_slots(alloc_size), stride;
-> >         unsigned int offset =3D swiotlb_align_offset(dev, orig_addr);
-> >         unsigned int index, slots_checked, count =3D 0, i;
-> > @@ -993,6 +992,9 @@ static int swiotlb_search_pool_area(struct device *=
-dev, struct io_tlb_pool *pool
-> >         BUG_ON(!nslots);
-> >         BUG_ON(area_index >=3D pool->nareas);
-> >
-> > +       alloc_align_mask |=3D (IO_TLB_SIZE - 1);
-> > +       iotlb_align_mask &=3D ~alloc_align_mask;
+On Feb 17, 2024 / 00:50, Chaitanya Kulkarni wrote:
+> > +_nvme_passthru_logging_setup()
+> > +{
+> > +	ctrl_dev_passthru_logging=3D$(cat /sys/class/nvme/"$2"/passthru_err_l=
+og_enabled)
+> > +	ns_dev_passthru_logging=3D$(cat /sys/class/nvme/"$2"/"$1"/passthru_er=
+r_log_enabled)
 > > +
-> >         /*
-> >          * For mappings with an alignment requirement don't bother loop=
-ing to
-> >          * unaligned slots once we found an aligned one.
-> > @@ -1004,7 +1006,7 @@ static int swiotlb_search_pool_area(struct device=
- *dev, struct io_tlb_pool *pool
-> >          * allocations.
-> >          */
-> >         if (alloc_size >=3D PAGE_SIZE)
-> > -               stride =3D max(stride, PAGE_SHIFT - IO_TLB_SHIFT + 1);
-> > +               stride =3D umax(stride, PAGE_SHIFT - IO_TLB_SHIFT + 1);
+> > +	_nvme_disable_passthru_admin_error_logging "$2"
+> > +	_nvme_disable_passthru_io_error_logging "$1" "$2"
+> > +}
+> > +
+> > +_nvme_passthru_logging_cleanup()
+> > +{
+> > +	echo $ctrl_dev_passthru_logging > /sys/class/nvme/"$2"/passthru_err_l=
+og_enabled
+> > +	echo $ns_dev_passthru_logging > /sys/class/nvme/"$2"/"$1"/passthru_er=
+r_log_enabled
+> > +}
+> >  =20
+> >   _nvme_err_inject_setup()
+> >   {
+> > @@ -985,6 +1002,26 @@ _nvme_disable_err_inject()
+> >           echo 0 > /sys/kernel/debug/"$1"/fault_inject/times
+> >   }
+> >  =20
+> > +_nvme_enable_passthru_admin_error_logging()
+> > +{
+> > +	echo on > /sys/class/nvme/"$1"/passthru_err_log_enabled
+> > +}
+> > +
+> > +_nvme_enable_passthru_io_error_logging()
+> > +{
+> > +	echo on > /sys/class/nvme/"$2"/"$1"/passthru_err_log_enabled
+> > +}
+> > +
+> > +_nvme_disable_passthru_admin_error_logging()
+> > +{
+> > +	echo off > /sys/class/nvme/"$1"/passthru_err_log_enabled
+> > +}
+> > +
+> > +_nvme_disable_passthru_io_error_logging()
+> > +{
+> > +	echo off > /sys/class/nvme/"$2"/"$1"/passthru_err_log_enabled
+> > +}
+> > +
 > >
-> >         spin_lock_irqsave(&area->lock, flags);
-> >         if (unlikely(nslots > pool->area_nslabs - area->used))
-> >
+>=20
+> Thanks for the test, let's move these helper testcase itself if we get
+> second testcase ? I'd not bloat nvme rc file unless we have another
+> user for these function, also if you move these to testcase itself
+> then you don't really need to make these as a function ...
 
-This thread prompted me to test another scenario similar to Nicolin's, and
-on the DMA direct map path I saw failures like Nicolin's.  Will's Patch 1/3
-fixes my scenario, though I'm still looking at the details to convince myse=
-lf
-that it is fully correct, even with the above tweak.
+FYI, we already have similar helper functions in nvme/rc:
 
-Here's my scenario:
-* ARM64 VM with 8 vCPUs running in the Azure public cloud
-* Linux 6.8-rc4 kernel built with 64 Kbyte pages
-* Using the Azure/Hyper-V synthetic storage driver (drivers/scsi/storvsc_dr=
-v.c).
-   This driver sets dma_min_align_mask to 4 Kbytes, because the DMA
-   descriptors sent to the Hyper-V host are always in 4K units, regardless =
-of
-   the guest page size.
-* Running with the standard 64 Mbytes swiotlb size.  Added swiotlb=3Dforce
-   on the kernel boot line, to see if it could handle the scenario.  This
-   simulates what CoCo VMs do on the x86 side.  We don't have arm64
-   CoCo VMs, so the scenario is artificial for the moment.  But it ought
-   to work.
-* There's no vIOMMU in the VM, so all DMA requests go through the
-   DMA direct map path, not the IOMMU path (which is Nicolin's scenario)
+  _nvme_err_inject_setup()
+  _nvme_err_inject_cleanup()
+  _nvme_enable_err_inject()
+  _nvme_disable_err_inject()
 
-In my scenario, the block layer generates I/O requests up to 252 Kbytes in
-size.   But with the unmodified 6.8-rc4 code, these requests fail to be map=
-ped
-in the swiotlb even though there's plenty of space available.  Here's why:
+In the past, it was discussed where to place these functions and we conclud=
+ed to
+place them in nvme/rc rather than nvme/039, so that they can be used in oth=
+er
+test cases [1]. I guess Alan placed the new helper functions in nvme/rc to =
+be
+consistent with the existing functions.
 
-The 252 Kbyte request size is determined by the block layer, ultimately
-based on the value returned by swiotlb_max_mapping_size(), which is
-based on the dma_min_align_mask, which is 4K in my scenario.  But the
-current upstream code in swiotlb_search_pool_area() adds ~PAGE_MASK
-into the iotlb_align_mask, which increases the alignment requirement.
-With the increased alignment, the offset in orig_addr is likely larger than
-4 Kbytes, and that offset plus 252 Kbytes no longer fits in the 256 Kbyte
-swiotlb limit.  swiotlb_search_pool_area() can never find a slot with
-enough space.  (We could easily add a WARN_ON in
-swiotlb_search_pool_area() to catch such an occurrence.)
-
-Will's Patch 1/3 fixes this problem by using PAGE_SIZE/PAGE_SHIFT
-only to compute the stride, and does not add ~PAGE_MASK into
-iotlb_align_mask.  In my scenario with Will's patch, iotlb_align_mask
-expresses a 4 Kbyte alignment requirement, and
-swiotlb_search_pool_area() succeeds for a 252 Kbyte request.
-
-But what about the alloc_align_mask argument to
-swiotlb_search_pool_area()?  If it increases the alignment beyond
-what swiotlb_max_mapping_size() is based on, the same problem
-will occur.  This is what happens in Nicolin's scenario when the
-NVMe driver sets dma_min_align_mask to 4K, but the dma-iommu
-code passes a larger value in alloc_align_mask.  The later version of
-Nicolin's Patch 1/2 that uses iovad.granule in
-iommu_dma_max_mapping_size() solves the immediate problem.
-But something still seems messed up, because the value from
-iommu_dma_max_mapping_size() must be coordinated with the
-value passed as the alloc_align_mask argument.
-
-Will's 3-patch series is based on a different scenario -- the
-swiotlb_alloc() case.  Patch 3 of his series also uses the
-alloc_align_mask argument, and I haven't thought through
-all the implications.
-
-Finally, there's this comment in swiotlb_search_pool_area():
-
-        /*
-         * For allocations of PAGE_SIZE or larger only look for page aligne=
-d
-         * allocations.
-         */
-
-The comment has been around for a while, and it confused me.
-It seems to apply only for the swiotlb_alloc() case when
-orig_addr is zero. From what I can tell, allocations for DMA
-mapping purposes don't do such alignment.  Or is there some
-other meaning to that comment that I'm missing?
-
-Michael
+[1] https://lore.kernel.org/linux-block/20220512115457.hoa6lhk4as63xrq3@shi=
+ndev/
 
