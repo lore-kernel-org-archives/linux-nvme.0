@@ -4,120 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CE0B0C48BC3
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Feb 2024 22:45:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 01F44C48BC3
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Feb 2024 22:49:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-id:Date:References:
-	In-reply-to:Subject:Cc:To:From:MIME-Version:Content-Transfer-Encoding:
-	Content-Type:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jhVHfbYrXzhfXFBgvCaTvPo61AcJ2SJpQ0r3nOcOMWo=; b=4OEa3wx+6JOCVIRI39pGRg79XV
-	tATlodxCiYcFYYSgcj8JACV86N6LQ3v6dZGwn5MU/+6waNcJS9RfpbbEA7ijC0b70lYrZKCXg+mVY
-	yH/fj/CeI/VTcUJI015JCRRFYr2epkr1jd+/truty45TjRBrDfkfbiP9muWVzTPT2zcAWI9jYjbZd
-	0pf8IHbj+PC2hwd6UYBlYX4u4+n3B0h6yijWmxE029IvrjZid1/qW09mgfVjICpJpCxDDR2pfd+Gw
-	4btGHnshXqbgIK4tZE9kP8PLvddGTCJT3dvjKb2ht7ZXWioSRwDHsrF2NKtOYRBCwDYsMI5WeIslE
-	D4EGLSDA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Message-ID:Subject:Cc:To:From:Date:MIME-Version:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=M1rHOdneW9D+Tz5IrbTVq64K4dn+honZfX+WmbPAO44=; b=XcSdRDuzHTQYk+63ru0UhNmoM4
+	qk7D2PeB9/S3cm6/pTh4QcozLCax3JObVKwdSrD8rDE980vMaWTOGnctNlkBPBkW/2lrbxzKELg9+
+	1EFODYlx3UnHZuMLul0r3l6+nNBSCIMedGy8D4N0or2DXgOVeACysAny5nphImi4O2baQATTcg+at
+	nPCsMkWvd+dyOUhHVMdqfs7JMD/wvJUtkpUCN6fY4T4SBfCsTMCe3HU740Ky4GMZlWSNiLQQwGAQK
+	aTWLU9SpZI7IWoSgd53bfS6RMQTYu4Yp4xJtQTAYDwcL63z32fNpxXnu6hmvwE+FYQGuqelbH9rIm
+	wkHpZYWQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rcCOY-0000000CTLT-1LIa;
-	Mon, 19 Feb 2024 22:45:54 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1rcCRt-0000000CUTI-29Ts;
+	Mon, 19 Feb 2024 22:49:21 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rcCOQ-0000000CTGH-0tbb
+	id 1rcCRq-0000000CUQ2-18Lu
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Feb 2024 22:45:51 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B8E85220C1;
-	Mon, 19 Feb 2024 22:45:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708382742; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jhVHfbYrXzhfXFBgvCaTvPo61AcJ2SJpQ0r3nOcOMWo=;
-	b=ffBLsxdkxs2Vl2iAehHqNwc/J/goXUBfsvO3BNlP2NGTF1DhODsMjvGv1o/JZf/aFhBx7k
-	jsDKJmnyATkUa2KxIqRua8yDpw/ferwWezTZN1hzjjbcnHgUbPW4jmp9J4fypF+b/rRs6/
-	w1WN/hkgkKf3ys8LyQqTkzAanKcx7HU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708382742;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jhVHfbYrXzhfXFBgvCaTvPo61AcJ2SJpQ0r3nOcOMWo=;
-	b=qSDppZHj9xv7ph4gNovDdeF0vGhlKJd4Cwy3Dz0LIkby7qqEPkEO+ZjfJ1aqKVFqPl7cCc
-	zcV8tkGZfhuNHcDg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708382742; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jhVHfbYrXzhfXFBgvCaTvPo61AcJ2SJpQ0r3nOcOMWo=;
-	b=ffBLsxdkxs2Vl2iAehHqNwc/J/goXUBfsvO3BNlP2NGTF1DhODsMjvGv1o/JZf/aFhBx7k
-	jsDKJmnyATkUa2KxIqRua8yDpw/ferwWezTZN1hzjjbcnHgUbPW4jmp9J4fypF+b/rRs6/
-	w1WN/hkgkKf3ys8LyQqTkzAanKcx7HU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708382742;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jhVHfbYrXzhfXFBgvCaTvPo61AcJ2SJpQ0r3nOcOMWo=;
-	b=qSDppZHj9xv7ph4gNovDdeF0vGhlKJd4Cwy3Dz0LIkby7qqEPkEO+ZjfJ1aqKVFqPl7cCc
-	zcV8tkGZfhuNHcDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 784A8139D0;
-	Mon, 19 Feb 2024 22:45:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id khfXCxPa02ULVQAAD6G6ig
-	(envelope-from <neilb@suse.de>); Mon, 19 Feb 2024 22:45:39 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	Mon, 19 Feb 2024 22:49:19 +0000
+Received: from pps.filterd (m0353723.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 41JLCdlB003161;
+	Mon, 19 Feb 2024 22:49:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=mime-version : date :
+ from : to : cc : subject : message-id : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=M1rHOdneW9D+Tz5IrbTVq64K4dn+honZfX+WmbPAO44=;
+ b=Wc8Znwai8lTlPN4RmTZwx8u7/X/XuXQvDvmcmx9SOIqbolrG07QiycAtxEiel3YYiON9
+ 4IBd4odaLMQCTRaazt6a0mlWdb2jD01VoN74Am/Ozs42rDS19xtBLsmX0HM/XeqeqUKv
+ TCSpQGeQz1MZVH3QvnJwRdRjDIAaTyAz9S0pTp02qStS30ePDpZ8OpPzRsS3QtNGzDsE
+ IsojsEHZiraU+BVKuXaJxUFxR98hHUF2nodv5xs7z0TacdxZb/FGUySDrSUUb8mqCdi8
+ cH05C6blfQLMCHSxRY/Kbn4f9t58DlKQXdtOidKphKUS7QBVGUtyaGIkXQFnNfpYm84A Kg== 
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wcepuskcj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 19 Feb 2024 22:49:09 +0000
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 41JMawn8017265;
+	Mon, 19 Feb 2024 22:49:09 GMT
+Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3wb8mm49pn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 19 Feb 2024 22:49:09 +0000
+Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com [10.241.53.101])
+	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 41JMn6PM2949738
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 19 Feb 2024 22:49:09 GMT
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A2F315805C;
+	Mon, 19 Feb 2024 22:49:06 +0000 (GMT)
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 68A985805A;
+	Mon, 19 Feb 2024 22:49:06 +0000 (GMT)
+Received: from ltc.linux.ibm.com (unknown [9.5.196.140])
+	by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 19 Feb 2024 22:49:06 +0000 (GMT)
 MIME-Version: 1.0
-From: "NeilBrown" <neilb@suse.de>
-To: "Matthew Wilcox" <willy@infradead.org>
-Cc: "Mike Rapoport" <rppt@kernel.org>, lsf-pc@lists.linux-foundation.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org,
- bpf@vger.kernel.org
-Subject: Re: [LSF/MM/BPF TOPIC] Reclaiming & documenting page flags
-In-reply-to: <ZdO2eABfGoPNnR07@casper.infradead.org>
-References: <Zbcn-P4QKgBhyxdO@casper.infradead.org>,
- <Zb9pZTmyb0lPMQs8@kernel.org>, <ZcACya-MJr_fNRSH@casper.infradead.org>,
- <ZcOnEGyr6y3jei68@kernel.org>, <ZdO2eABfGoPNnR07@casper.infradead.org>
-Date: Tue, 20 Feb 2024 09:45:36 +1100
-Message-id: <170838273655.1530.946393725104206593@noble.neil.brown.name>
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 NEURAL_HAM_SHORT(-0.20)[-0.998];
-	 RCPT_COUNT_SEVEN(0.00)[10];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 BAYES_HAM(-3.00)[100.00%];
-	 ARC_NA(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 RCVD_TLS_ALL(0.00)[]
+Date: Mon, 19 Feb 2024 16:49:06 -0600
+From: Wen Xiong <wenxiong@linux.ibm.com>
+To: linux-nvme@lists.infradead.org
+Cc: Christoph Hellwig <hch@infradead.org>, Keith Busch <kbusch@kernel.org>,
+        Wenxiong <wenxiong@us.ibm.com>
+Subject: re attach-ns causing IO errors
+Message-ID: <75700e85137a40305238c74cf03bb677@linux.ibm.com>
+X-Sender: wenxiong@linux.ibm.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: qRWGx7GvwzcS-7gXB3yA6IjKqd2kRHkr
+X-Proofpoint-GUID: qRWGx7GvwzcS-7gXB3yA6IjKqd2kRHkr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-19_20,2024-02-19_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
+ malwarescore=0 priorityscore=1501 suspectscore=0 lowpriorityscore=0
+ phishscore=0 bulkscore=0 mlxlogscore=881 mlxscore=0 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2402190171
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240219_144546_433127_A3BD1494 
-X-CRM114-Status: GOOD (  21.45  )
+X-CRM114-CacheID: sfid-20240219_144918_436029_0C37AA5E 
+X-CRM114-Status: GOOD (  14.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -132,40 +103,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, 20 Feb 2024, Matthew Wilcox wrote:
-> On Wed, Feb 07, 2024 at 05:51:44PM +0200, Mike Rapoport wrote:
-> > On Sun, Feb 04, 2024 at 09:34:01PM +0000, Matthew Wilcox wrote:
-> > > I'm doing my best to write documentation as I go.  I think we're a bit
-> > > better off than we were last year.  Do we have scripts to tell us which
-> > > public functions (ie EXPORT_SYMBOL and static inline functions in header
-> > > files) have kernel-doc?  And could we run them against kernels from, sa=
-y,
-> > > April 2023, 2022, 2021, 2020, 2019 (and in two months against April 202=
-4)
-> > > and see how we're doing in terms of percentage undocumented functions?
-> >=20
-> > We didn't have such script, but it was easy to compare "grep
-> > EXPORT_SYMBOL\|static inline" with ".. c:function" in kernel-doc.
-> > We do improve slowly, but we are still below 50% with kernel-doc for
-> > EXPORT_SYMBOL functions and slightly above 10% for static inlines.
->=20
-> Thanks for doing this!  Data is good ;-)
->=20
-> I just came across an interesting example of a function which I believe
-> should NOT have kernel-doc.  But it should have documentation for why it
-> doesn't have kernel-doc!  Any thoughts about how we might accomplish that?
->=20
-> The example is filemap_range_has_writeback().  It's EXPORT_SYMBOL_GPL()
-> and it's a helper function for filemap_range_needs_writeback().
-> filemap_range_needs_writeback() has kernel-doc, but nobody should be
-> calling filemap_range_has_writeback() directly, so it shouldn't even
-> exist in the htmldocs.  But we should have a comment on it saying
-> "Use filemap_range_needs_writeback(), don't use this", in case anyone
-> discovers it.  And the existance of that comment should be enough to
-> tell our tools to not flag this as a function that needs kernel-doc.
->=20
+Hi All,
 
-Don't we use a __prefix for internal stuff that shouldn't be used?
+We discussed this at the beginning of November last year.
+Test team with extra ns-rescan, get new namespace back last year.
+But they still ask if there is way not doing extra ns-rescan.
 
-NeilBrown
+Consider this scenario with nguid changes:
+
+# nvme list-subsys
+nvme-subsys0 - 
+NQN=nqn.1994-11.com.samsung:nvme:PM1743:2.5-inch:S7DDNG0X100093
+\
++- nvme0 pcie 052a:58:00.0 live
++- nvme1 pcie 058a:58:00.0 live
+
+After system boots up:
+Nvme-subsys0  -> ns_head(NSID1/NGUID1)
+/dev/nvme0n1 -> ns_head(NSID1/NGUID1) ->ns(NSID1/NGUID1)
+/dev/nvme1     -> ns_head(NSID1/NGUID1) ->ns(NSID1/NGUID1)
+
+After delete-ns /dev/nvme0 -n 1 -c 0x82:
+Nvme-subsy0 -> no more ns_head(EMPTY)
+/dev/nvme0  -> no ns(EMPTY)
+/dev/nvme1 -> no ns(EMPTY)
+
+create-ns /dev/nvme0 -s 0x5000000 -c 0x5000000 -f 0 -d 0  -m 1:
+
+After attach-ns /dev/nvme0 -n 1 -c 0x82: I saw calling 
+nvme_scan_ns_list() twice.
+
+1st scan: nvme_queue_scan() -> nvme_scan_ns_list(), we got:
+Nvme-subsy0 -> ns_head(NSID1/NGUID1)   -------> Note: this is old NGUID1
+/dev/nvme0 -> ns_head(NSID1/NGUID1) ->ns(NSID1/NGUID1)  ----> Note: this 
+is old NGUID1
+
+2nd scan: scan_work()  -> nvme_scan_ns_list, we got:
+Nvme-subsys0 ->ns_head(NSID1/NGUID1) ----> created this ns_head in 1st 
+scan.
+/dev/nvme0n1  -> ns_head(NSID1/NGUID1) -> ns(NSID1/NGUID2)
+Then saw: nvme nvme0: identifiers changed for nsid 1  ---> because of 
+NGUID changed to NGUID2
+                    block nvme0n1: no available path - failing I/O
+                    block nvme0n1: no available path - failing I/O
+
+My question is:
+- Looks only scan once during system boot up.
+- Why scan twice when did delete-ns/create-ns/attach operation? 1st 
+scan: Nvme_queue_scan is called from user space or udev?
+- 1st scan, NGUID1 is old one, 2nd scan, NGUID2 is new one?
+
+Thanks for your help!
+Wendy
 
