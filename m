@@ -4,93 +4,120 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54150C48BC3
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Feb 2024 22:44:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CE0B0C48BC3
+	for <linux-nvme@archiver.kernel.org>; Mon, 19 Feb 2024 22:45:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=A9Ts2f1R3ZP5ehz4Ryw7qzx5Hb49U9Z/fGb1ezuOXHs=; b=BEsZXtEAOaxiECPFbsPqUM0erH
-	udzB/0waom40cSGjkiIMED5Aw/maeqTMaXPoYuDYQWSfxfKlcaL9uhHMg7vjaJtNAby3JZDOSRlCC
-	FuHpuWewZXKV00N68aKIXmnsd5+145yTpUmzh2QC6eDK9rcZX6x5sdF1r21ZMcQeVVf5d4/OiHqbI
-	H4QA0NuORq0erGTxorIP6B1Yw1AaMeWuzd8OtvN9htYAvztkzg00/2++i/yomujAfjwjQeAjLp9MN
-	wZ+QsN3eS0wj/uq+Oxu+nCu0wrveDb4WB3vOtXQtlPHNgu8aDKWeRsJl3JNnCjZvzC46EyHfD9VAO
-	udDpKvFA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-id:Date:References:
+	In-reply-to:Subject:Cc:To:From:MIME-Version:Content-Transfer-Encoding:
+	Content-Type:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=jhVHfbYrXzhfXFBgvCaTvPo61AcJ2SJpQ0r3nOcOMWo=; b=4OEa3wx+6JOCVIRI39pGRg79XV
+	tATlodxCiYcFYYSgcj8JACV86N6LQ3v6dZGwn5MU/+6waNcJS9RfpbbEA7ijC0b70lYrZKCXg+mVY
+	yH/fj/CeI/VTcUJI015JCRRFYr2epkr1jd+/truty45TjRBrDfkfbiP9muWVzTPT2zcAWI9jYjbZd
+	0pf8IHbj+PC2hwd6UYBlYX4u4+n3B0h6yijWmxE029IvrjZid1/qW09mgfVjICpJpCxDDR2pfd+Gw
+	4btGHnshXqbgIK4tZE9kP8PLvddGTCJT3dvjKb2ht7ZXWioSRwDHsrF2NKtOYRBCwDYsMI5WeIslE
+	D4EGLSDA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rcCN3-0000000CSxr-49Pm;
-	Mon, 19 Feb 2024 22:44:21 +0000
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+	id 1rcCOY-0000000CTLT-1LIa;
+	Mon, 19 Feb 2024 22:45:54 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rcCN1-0000000CSxH-12MT
+	id 1rcCOQ-0000000CTGH-0tbb
 	for linux-nvme@lists.infradead.org;
-	Mon, 19 Feb 2024 22:44:20 +0000
-Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1d73066880eso46781585ad.3
-        for <linux-nvme@lists.infradead.org>; Mon, 19 Feb 2024 14:44:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1708382657; x=1708987457; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=A9Ts2f1R3ZP5ehz4Ryw7qzx5Hb49U9Z/fGb1ezuOXHs=;
-        b=R1kD92pdB9C0DuQYwGVK+xbo+8IZmm4X7DkvxBNBnw+wgdIEVlkAQe/bUgMW0bf9bM
-         CRDsAYuD87DPgV8HPGBr+HZCLe/LmhriYGdJQIs3OkImNLnlDu/fniNXEnG/MmE9KIty
-         tLKyenzfj7RxUwkQBasJc1BpjwProwwQb5Hb2xg74vEv2cYtlCaLUeOJNVaKtobdUt69
-         syM74m3D8QEGwFjz0B/Y4XRsXUQNFStzTkUbwsE+TEnxRzp4+4ziTKNZucCVYiTLDG1s
-         S4My3vHI8fnF5MouKqh95BwtQupJ3O18TJnyz0GO4yUoUeZ3EUPQWSZ2hLTItZm+Uq0i
-         6W3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708382657; x=1708987457;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=A9Ts2f1R3ZP5ehz4Ryw7qzx5Hb49U9Z/fGb1ezuOXHs=;
-        b=Te6KAhw5d+6jLToACQOpdYdu2alEzr3CtJkTlzFXWQiI+4RCY6FxUhl+RdusxvoGEB
-         LP1JpBS0QePuSGpun9oQrMHgPbfFEwHQa/Vr5hArsU3bGLmXyzK1ljGi+LJhXE0Etu1K
-         xMYWG7QS9q7ygxEkT3S3KQYuYW2e3U+isBKOrllbNo34Zgi7O/Hq9Vpyeqeatv85EPfM
-         KOPNq+RaSMi1jnc9vxPcxw3BYs499bNLzq6x2gCOUCghqB1b24JiSKuOLz3H7MkmpE9d
-         aJ1z+o/ik5sOo7evJEjB2PpFrLA1yVqJsAyUo7EuYQqHUY3oYNkXlfl8mxDW4tSCe55k
-         Ejxg==
-X-Forwarded-Encrypted: i=1; AJvYcCVNLSXS7aMkR21OagEqwVDuMcY2Q+5EAVws6QPED63JlJqIesU1NAgVhJWz1J6t/2S30zWQiWbDwk/hn1keudDy+5+x1yYvZk/T+G3uwxM=
-X-Gm-Message-State: AOJu0YwuI5nUs1Ei10WxU8Anbx3+2qn9kh87SvSZmwFO72mDbwfhL4bs
-	75ym4NyVq6fdI99QS5XbPNOMB9BVwgyVFd2cvQ3Xrjvi25HNUPewfdbHXcRg0m8=
-X-Google-Smtp-Source: AGHT+IHtkpRXt4t+i6SxwRLeZE82T0JiGotni2ywqDT8XTyF+HxlsLNBTl8TRCMTJinSK3yziLiesQ==
-X-Received: by 2002:a17:903:1211:b0:1d9:a609:dd7e with SMTP id l17-20020a170903121100b001d9a609dd7emr16096638plh.55.1708382657159;
-        Mon, 19 Feb 2024 14:44:17 -0800 (PST)
-Received: from dread.disaster.area (pa49-181-247-196.pa.nsw.optusnet.com.au. [49.181.247.196])
-        by smtp.gmail.com with ESMTPSA id lw15-20020a1709032acf00b001dbb6fef41asm4880249plb.272.2024.02.19.14.44.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Feb 2024 14:44:16 -0800 (PST)
-Received: from dave by dread.disaster.area with local (Exim 4.96)
-	(envelope-from <david@fromorbit.com>)
-	id 1rcCMw-008oFa-1W;
-	Tue, 20 Feb 2024 09:44:14 +1100
-Date: Tue, 20 Feb 2024 09:44:14 +1100
-From: Dave Chinner <david@fromorbit.com>
-To: John Garry <john.g.garry@oracle.com>
-Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-	jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
-	jack@suse.cz, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
-	linux-scsi@vger.kernel.org, ojaswin@linux.ibm.com,
-	linux-aio@kvack.org, linux-btrfs@vger.kernel.org,
-	io-uring@vger.kernel.org, nilay@linux.ibm.com,
-	ritesh.list@gmail.com,
-	Prasad Singamsetty <prasad.singamsetty@oracle.com>
-Subject: Re: [PATCH v4 03/11] fs: Initial atomic write support
-Message-ID: <ZdPZvqLgwWSP1ppv@dread.disaster.area>
-References: <20240219130109.341523-1-john.g.garry@oracle.com>
- <20240219130109.341523-4-john.g.garry@oracle.com>
+	Mon, 19 Feb 2024 22:45:51 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B8E85220C1;
+	Mon, 19 Feb 2024 22:45:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1708382742; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jhVHfbYrXzhfXFBgvCaTvPo61AcJ2SJpQ0r3nOcOMWo=;
+	b=ffBLsxdkxs2Vl2iAehHqNwc/J/goXUBfsvO3BNlP2NGTF1DhODsMjvGv1o/JZf/aFhBx7k
+	jsDKJmnyATkUa2KxIqRua8yDpw/ferwWezTZN1hzjjbcnHgUbPW4jmp9J4fypF+b/rRs6/
+	w1WN/hkgkKf3ys8LyQqTkzAanKcx7HU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1708382742;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jhVHfbYrXzhfXFBgvCaTvPo61AcJ2SJpQ0r3nOcOMWo=;
+	b=qSDppZHj9xv7ph4gNovDdeF0vGhlKJd4Cwy3Dz0LIkby7qqEPkEO+ZjfJ1aqKVFqPl7cCc
+	zcV8tkGZfhuNHcDg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1708382742; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jhVHfbYrXzhfXFBgvCaTvPo61AcJ2SJpQ0r3nOcOMWo=;
+	b=ffBLsxdkxs2Vl2iAehHqNwc/J/goXUBfsvO3BNlP2NGTF1DhODsMjvGv1o/JZf/aFhBx7k
+	jsDKJmnyATkUa2KxIqRua8yDpw/ferwWezTZN1hzjjbcnHgUbPW4jmp9J4fypF+b/rRs6/
+	w1WN/hkgkKf3ys8LyQqTkzAanKcx7HU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1708382742;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jhVHfbYrXzhfXFBgvCaTvPo61AcJ2SJpQ0r3nOcOMWo=;
+	b=qSDppZHj9xv7ph4gNovDdeF0vGhlKJd4Cwy3Dz0LIkby7qqEPkEO+ZjfJ1aqKVFqPl7cCc
+	zcV8tkGZfhuNHcDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 784A8139D0;
+	Mon, 19 Feb 2024 22:45:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id khfXCxPa02ULVQAAD6G6ig
+	(envelope-from <neilb@suse.de>); Mon, 19 Feb 2024 22:45:39 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240219130109.341523-4-john.g.garry@oracle.com>
+From: "NeilBrown" <neilb@suse.de>
+To: "Matthew Wilcox" <willy@infradead.org>
+Cc: "Mike Rapoport" <rppt@kernel.org>, lsf-pc@lists.linux-foundation.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org,
+ bpf@vger.kernel.org
+Subject: Re: [LSF/MM/BPF TOPIC] Reclaiming & documenting page flags
+In-reply-to: <ZdO2eABfGoPNnR07@casper.infradead.org>
+References: <Zbcn-P4QKgBhyxdO@casper.infradead.org>,
+ <Zb9pZTmyb0lPMQs8@kernel.org>, <ZcACya-MJr_fNRSH@casper.infradead.org>,
+ <ZcOnEGyr6y3jei68@kernel.org>, <ZdO2eABfGoPNnR07@casper.infradead.org>
+Date: Tue, 20 Feb 2024 09:45:36 +1100
+Message-id: <170838273655.1530.946393725104206593@noble.neil.brown.name>
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 NEURAL_HAM_SHORT(-0.20)[-0.998];
+	 RCPT_COUNT_SEVEN(0.00)[10];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 BAYES_HAM(-3.00)[100.00%];
+	 ARC_NA(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 RCVD_TLS_ALL(0.00)[]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240219_144419_305891_E30A2A80 
-X-CRM114-Status: GOOD (  14.56  )
+X-CRM114-CacheID: sfid-20240219_144546_433127_A3BD1494 
+X-CRM114-Status: GOOD (  21.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,48 +132,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 19, 2024 at 01:01:01PM +0000, John Garry wrote:
-> @@ -3523,4 +3535,26 @@ extern int vfs_fadvise(struct file *file, loff_t offset, loff_t len,
->  extern int generic_fadvise(struct file *file, loff_t offset, loff_t len,
->  			   int advice);
->  
-> +static inline bool atomic_write_valid(loff_t pos, struct iov_iter *iter,
-> +			   unsigned int unit_min, unsigned int unit_max)
-> +{
-> +	size_t len = iov_iter_count(iter);
-> +
-> +	if (!iter_is_ubuf(iter))
-> +		return false;
-> +
-> +	if (len == unit_min || len == unit_max) {
-> +		/* ok if exactly min or max */
-> +	} else if (len < unit_min || len > unit_max) {
-> +		return false;
-> +	} else if (!is_power_of_2(len)) {
-> +		return false;
-> +	}
+On Tue, 20 Feb 2024, Matthew Wilcox wrote:
+> On Wed, Feb 07, 2024 at 05:51:44PM +0200, Mike Rapoport wrote:
+> > On Sun, Feb 04, 2024 at 09:34:01PM +0000, Matthew Wilcox wrote:
+> > > I'm doing my best to write documentation as I go.  I think we're a bit
+> > > better off than we were last year.  Do we have scripts to tell us which
+> > > public functions (ie EXPORT_SYMBOL and static inline functions in header
+> > > files) have kernel-doc?  And could we run them against kernels from, sa=
+y,
+> > > April 2023, 2022, 2021, 2020, 2019 (and in two months against April 202=
+4)
+> > > and see how we're doing in terms of percentage undocumented functions?
+> >=20
+> > We didn't have such script, but it was easy to compare "grep
+> > EXPORT_SYMBOL\|static inline" with ".. c:function" in kernel-doc.
+> > We do improve slowly, but we are still below 50% with kernel-doc for
+> > EXPORT_SYMBOL functions and slightly above 10% for static inlines.
+>=20
+> Thanks for doing this!  Data is good ;-)
+>=20
+> I just came across an interesting example of a function which I believe
+> should NOT have kernel-doc.  But it should have documentation for why it
+> doesn't have kernel-doc!  Any thoughts about how we might accomplish that?
+>=20
+> The example is filemap_range_has_writeback().  It's EXPORT_SYMBOL_GPL()
+> and it's a helper function for filemap_range_needs_writeback().
+> filemap_range_needs_writeback() has kernel-doc, but nobody should be
+> calling filemap_range_has_writeback() directly, so it shouldn't even
+> exist in the htmldocs.  But we should have a comment on it saying
+> "Use filemap_range_needs_writeback(), don't use this", in case anyone
+> discovers it.  And the existance of that comment should be enough to
+> tell our tools to not flag this as a function that needs kernel-doc.
+>=20
 
-This doesn't need if else if else if and it doesn't need to check
-for exact unit min/max matches. The exact matches require the
-length to be a power of 2, so the checks are simply:
+Don't we use a __prefix for internal stuff that shouldn't be used?
 
-	if (len < unit_min || len > unit_max)
-		return false;
-	if (!is_power_of_2(len))
-		return false;
-
-> +	if (pos & (len - 1))
-> +		return false;
-
-This has typing issues - 64 bit value, 32 bit mask. probably should
-use:
-
-	if (!IS_ALIGNED(pos, len))
-		return false;
-
--Dave.
-
--- 
-Dave Chinner
-david@fromorbit.com
+NeilBrown
 
