@@ -4,62 +4,130 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 39ED2C48BF8
-	for <linux-nvme@archiver.kernel.org>; Mon, 19 Feb 2024 23:29:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7325C48BC3
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Feb 2024 00:22:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pQGcN+Uz6HGYsAB8kabCZ8iJcwMmaEqSe4r7SLZ/ErI=; b=F75+KtVT97FsxwTIWathCLmo5w
-	YYdr7sPFtTVSlKiOh+2i3WSVoPZXaMDpSZdHd7dIJ6g+VokZqxTkj3Y7dzMNpuiYe7ilGwRt0WpGv
-	4lCKEvoW7Z2ighJdQ+NtDKe2oin/DxfHKabICEVhCvBUDLzwf7PGxxlcHJ3vDwJxSe4KRxalBn0KO
-	x7g5Z5qWh/mq1CmHbt1W78I15M6fVCQYCd6A8ErshWjUaN+HYMjatLCyJHyHo86SYJWj/3sl2uD8A
-	5GszwxKCuO1548eZc8LCvH+qGcHHVUepZeY0zhc9UBAN/Dv7yelKHZqnS92cXOMUoAVv5Ga/fPpjN
-	E6ge2Byw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-id:Date:References:
+	In-reply-to:Subject:Cc:To:From:MIME-Version:Content-Transfer-Encoding:
+	Content-Type:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=aCStDtcRffeU4jURBHp/euC2Vn/pS2u4zscwEUzLt+k=; b=AVjJIx1jySWIrAPKV+vliwbF+t
+	V3TWIfw5dpFzYbifh4yq+JN1A3zPpjC1izCtbXiTFBzsIpEovnwKwDlZVE17rWyoHu+eMZuaJBtdY
+	gUz//tbq6GY4Fkrf06N4ZNXf8ADbzxosDxtiPH7OVVZ8U0/qP1lkunSc5E4d11iY0chTbmfhwKF53
+	f6LZGg9Ija3CLNw+s1TaMvXWKOeJ71nWd5KQg2qdgUSIM5V7iok+v4by0IPqMVz4P8y6okoWAhN73
+	I6Nb81pAwOX14PQBdfNbWl+IF2Qiqo8LBrnOR3JwKJm7PKUmVYKa0+oX6DOM0He8Cdo/HAlB8Kaja
+	s31po/Tw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rcD4o-0000000CYpZ-3Dbt;
-	Mon, 19 Feb 2024 23:29:34 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1rcDtU-0000000CccO-49Fi;
+	Tue, 20 Feb 2024 00:21:56 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rcD4n-0000000CYpQ-11ap
-	for linux-nvme@bombadil.infradead.org;
-	Mon, 19 Feb 2024 23:29:33 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=pQGcN+Uz6HGYsAB8kabCZ8iJcwMmaEqSe4r7SLZ/ErI=; b=wG7Mlzlg3GG4pOArHBeQiF0qRp
-	CJovwrEayzlRV4lzGLLQadsbwB/kmJ88QPBmEQG2TY7Uvhqrk1u/HenW4d/pIoNPFmwLIyzTrDjRr
-	0q8MOyaBQJAlpKxZ7lYNkm2XNtm3RZDLL+zHL72r3bU1a9uYB3ahJWxrKTjlU1R9bGIcVr07A2VBI
-	vl5Onpp8nMtIl5Fs2XEzbFKdKZOHAywXXG+3CPBGq/C6n+vUSdnV5J4QIys6OUlG3NzWI+qR4i5T8
-	qlZL4lr7UW1K5D0w7Pqh3RQV0J448ka6hiaKyc/SgSZplrLT2FoOllvgM8GiWxjOOiTlbHEGyItyq
-	+ApEy5sQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rcD4k-0000000E4PZ-2NTx;
-	Mon, 19 Feb 2024 23:29:30 +0000
-Date: Mon, 19 Feb 2024 23:29:30 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: NeilBrown <neilb@suse.de>
-Cc: Mike Rapoport <rppt@kernel.org>, lsf-pc@lists.linux-foundation.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org,
-	bpf@vger.kernel.org
-Subject: Re: [LSF/MM/BPF TOPIC] Reclaiming & documenting page flags
-Message-ID: <ZdPkWsxKZN8CvQTN@casper.infradead.org>
-References: <Zbcn-P4QKgBhyxdO@casper.infradead.org>
- <Zb9pZTmyb0lPMQs8@kernel.org>
- <ZcACya-MJr_fNRSH@casper.infradead.org>
- <ZcOnEGyr6y3jei68@kernel.org>
- <ZdO2eABfGoPNnR07@casper.infradead.org>
- <170838273655.1530.946393725104206593@noble.neil.brown.name>
+	id 1rcDtO-0000000CcZH-43Yd
+	for linux-nvme@lists.infradead.org;
+	Tue, 20 Feb 2024 00:21:55 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A9F2121EAD;
+	Tue, 20 Feb 2024 00:21:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1708388501; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aCStDtcRffeU4jURBHp/euC2Vn/pS2u4zscwEUzLt+k=;
+	b=eHEgPEMAEvAjhowMWVtD1L45v2+oTmGs40a7GZOJ1Ov9Jb9s5RNEuhdI/LqkTAnSckTKAJ
+	xfUbQrIRGupq65EmcwwUqT+dl/wp3Vn/I5B1feDMhJv4MQfRlAcEH77ONSSW6Ocsj9HK2+
+	lGA0/CFkumnx/sZEaFmPNPhFZu0ydRY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1708388501;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aCStDtcRffeU4jURBHp/euC2Vn/pS2u4zscwEUzLt+k=;
+	b=AqAbl95uLUKL7GTueZQ3qWuww7EqxAm3/78Jlrz4vkGAoFUdNbY3/TvYsv215SIX5ySpk0
+	4UPPxuSKOkij04Dw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1708388501; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aCStDtcRffeU4jURBHp/euC2Vn/pS2u4zscwEUzLt+k=;
+	b=eHEgPEMAEvAjhowMWVtD1L45v2+oTmGs40a7GZOJ1Ov9Jb9s5RNEuhdI/LqkTAnSckTKAJ
+	xfUbQrIRGupq65EmcwwUqT+dl/wp3Vn/I5B1feDMhJv4MQfRlAcEH77ONSSW6Ocsj9HK2+
+	lGA0/CFkumnx/sZEaFmPNPhFZu0ydRY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1708388501;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aCStDtcRffeU4jURBHp/euC2Vn/pS2u4zscwEUzLt+k=;
+	b=AqAbl95uLUKL7GTueZQ3qWuww7EqxAm3/78Jlrz4vkGAoFUdNbY3/TvYsv215SIX5ySpk0
+	4UPPxuSKOkij04Dw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 657EF139D0;
+	Tue, 20 Feb 2024 00:21:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id KtjvBpLw02UVagAAD6G6ig
+	(envelope-from <neilb@suse.de>); Tue, 20 Feb 2024 00:21:38 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <170838273655.1530.946393725104206593@noble.neil.brown.name>
+From: "NeilBrown" <neilb@suse.de>
+To: "Matthew Wilcox" <willy@infradead.org>
+Cc: "Mike Rapoport" <rppt@kernel.org>, lsf-pc@lists.linux-foundation.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org,
+ bpf@vger.kernel.org
+Subject: Re: [LSF/MM/BPF TOPIC] Reclaiming & documenting page flags
+In-reply-to: <ZdPkWsxKZN8CvQTN@casper.infradead.org>
+References: <Zbcn-P4QKgBhyxdO@casper.infradead.org>,
+ <Zb9pZTmyb0lPMQs8@kernel.org>, <ZcACya-MJr_fNRSH@casper.infradead.org>,
+ <ZcOnEGyr6y3jei68@kernel.org>, <ZdO2eABfGoPNnR07@casper.infradead.org>,
+ <170838273655.1530.946393725104206593@noble.neil.brown.name>,
+ <ZdPkWsxKZN8CvQTN@casper.infradead.org>
+Date: Tue, 20 Feb 2024 11:21:35 +1100
+Message-id: <170838849545.1530.13553329646368488958@noble.neil.brown.name>
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=eHEgPEMA;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=AqAbl95u
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-1.43 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_SEVEN(0.00)[10];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 NEURAL_HAM_SHORT(-0.10)[-0.487];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.02)[54.65%]
+X-Rspamd-Queue-Id: A9F2121EAD
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20240219_162151_205484_980644FB 
+X-CRM114-Status: GOOD (  25.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,43 +142,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Feb 20, 2024 at 09:45:36AM +1100, NeilBrown wrote:
-> On Tue, 20 Feb 2024, Matthew Wilcox wrote:
-> > The example is filemap_range_has_writeback().  It's EXPORT_SYMBOL_GPL()
-> > and it's a helper function for filemap_range_needs_writeback().
-> > filemap_range_needs_writeback() has kernel-doc, but nobody should be
-> > calling filemap_range_has_writeback() directly, so it shouldn't even
-> > exist in the htmldocs.  But we should have a comment on it saying
-> > "Use filemap_range_needs_writeback(), don't use this", in case anyone
-> > discovers it.  And the existance of that comment should be enough to
-> > tell our tools to not flag this as a function that needs kernel-doc.
+On Tue, 20 Feb 2024, Matthew Wilcox wrote:
+> On Tue, Feb 20, 2024 at 09:45:36AM +1100, NeilBrown wrote:
+> > On Tue, 20 Feb 2024, Matthew Wilcox wrote:
+> > > The example is filemap_range_has_writeback().  It's EXPORT_SYMBOL_GPL()
+> > > and it's a helper function for filemap_range_needs_writeback().
+> > > filemap_range_needs_writeback() has kernel-doc, but nobody should be
+> > > calling filemap_range_has_writeback() directly, so it shouldn't even
+> > > exist in the htmldocs.  But we should have a comment on it saying
+> > > "Use filemap_range_needs_writeback(), don't use this", in case anyone
+> > > discovers it.  And the existance of that comment should be enough to
+> > > tell our tools to not flag this as a function that needs kernel-doc.
+> > > 
 > > 
+> > Don't we use a __prefix for internal stuff that shouldn't be used?
 > 
-> Don't we use a __prefix for internal stuff that shouldn't be used?
+> No?  Or if we do, we are inconsistent with that convention.  Let's
+> consider some examples.
+> 
+> __SetPageReferenced -- non-atomic version of SetPageReferenced.
+> Akin to __set_bit.
+> 
+> __filemap_fdatawrite_range() -- like filemap_fdatawrite_range but
+> allows the specification of sync_mode
+> 
+> __page_cache_alloc() -- like page_cache_alloc() but takes the gfp mask
+> directly instead of inferring it from mapping_gfp_mask()
+> 
+> __folio_lock() -- This does fit the "don't call this pattern"!
+> 
+> __set_page_dirty() -- Like set_page_dirty() but allows warn to be
+> specified.
+> 
+> __filemap_remove_folio() -- Like filemap_remove_folio() but allows it
+> to be replaced with a shadow entry.
+> 
+> __readahead_folio() -- Another internal one
+> 
+> I mostly confined myself to pagemap.h for this survey, but if you've
+> conducted a different survey that shows your assertion is generally true
+> and I've hit on the exceptions to the rule ... ?
+> 
 
-No?  Or if we do, we are inconsistent with that convention.  Let's
-consider some examples.
+Yes, __ is used for other things too.
+It would be nice to have some consistency with naming, but probably
+impossible.
 
-__SetPageReferenced -- non-atomic version of SetPageReferenced.
-Akin to __set_bit.
+And with 1074 functions named __foo having kernel doc already, it is too
+late to close that gate.
+:-(
 
-__filemap_fdatawrite_range() -- like filemap_fdatawrite_range but
-allows the specification of sync_mode
-
-__page_cache_alloc() -- like page_cache_alloc() but takes the gfp mask
-directly instead of inferring it from mapping_gfp_mask()
-
-__folio_lock() -- This does fit the "don't call this pattern"!
-
-__set_page_dirty() -- Like set_page_dirty() but allows warn to be
-specified.
-
-__filemap_remove_folio() -- Like filemap_remove_folio() but allows it
-to be replaced with a shadow entry.
-
-__readahead_folio() -- Another internal one
-
-I mostly confined myself to pagemap.h for this survey, but if you've
-conducted a different survey that shows your assertion is generally true
-and I've hit on the exceptions to the rule ... ?
+Thanks,
+NeilBrown
 
