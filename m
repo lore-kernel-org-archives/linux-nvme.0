@@ -4,130 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7325C48BC3
-	for <linux-nvme@archiver.kernel.org>; Tue, 20 Feb 2024 00:22:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5376FC48BF8
+	for <linux-nvme@archiver.kernel.org>; Tue, 20 Feb 2024 01:28:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-id:Date:References:
-	In-reply-to:Subject:Cc:To:From:MIME-Version:Content-Transfer-Encoding:
-	Content-Type:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aCStDtcRffeU4jURBHp/euC2Vn/pS2u4zscwEUzLt+k=; b=AVjJIx1jySWIrAPKV+vliwbF+t
-	V3TWIfw5dpFzYbifh4yq+JN1A3zPpjC1izCtbXiTFBzsIpEovnwKwDlZVE17rWyoHu+eMZuaJBtdY
-	gUz//tbq6GY4Fkrf06N4ZNXf8ADbzxosDxtiPH7OVVZ8U0/qP1lkunSc5E4d11iY0chTbmfhwKF53
-	f6LZGg9Ija3CLNw+s1TaMvXWKOeJ71nWd5KQg2qdgUSIM5V7iok+v4by0IPqMVz4P8y6okoWAhN73
-	I6Nb81pAwOX14PQBdfNbWl+IF2Qiqo8LBrnOR3JwKJm7PKUmVYKa0+oX6DOM0He8Cdo/HAlB8Kaja
-	s31po/Tw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=iCmBf4dmplbsn+zPr/zttUGkD4SGaLhapeNh3147XPc=; b=0PPnYyXZztX60BP1jrR0C029pL
+	DwFI9uCiQ6vjLLnhrC0AOfw5XE3Kt+tfqpkWzMMYSYx5w9rZi5kRCCmNp3NNMTsCA1WGrl7K3GsaU
+	sstblLl+6EEk3Ohf4xphs7URrEoBMWne920kMbAqABCXvdGAeTBs4HJR7EhEV8dgBnInEgzGYsz+3
+	GRXF/21pmPiAq5t0Qw5SYYuwFsF2eqA7bWBgZbqO2LMuaRP7wtCwQE/Rm1HxaXFyMkcl0LcM8paps
+	Zloxu3Q7pdnSSjdLmnioDOgYc+74LF0SKASGuFsuCD6Pow052rQXbetxn+AfaN+AQuA8YSxQAVTl3
+	cNpLdbKA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rcDtU-0000000CccO-49Fi;
-	Tue, 20 Feb 2024 00:21:56 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1rcEw8-0000000ClJI-1svB;
+	Tue, 20 Feb 2024 01:28:44 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rcDtO-0000000CcZH-43Yd
+	id 1rcEw5-0000000ClIg-23tP
 	for linux-nvme@lists.infradead.org;
-	Tue, 20 Feb 2024 00:21:55 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A9F2121EAD;
-	Tue, 20 Feb 2024 00:21:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708388501; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aCStDtcRffeU4jURBHp/euC2Vn/pS2u4zscwEUzLt+k=;
-	b=eHEgPEMAEvAjhowMWVtD1L45v2+oTmGs40a7GZOJ1Ov9Jb9s5RNEuhdI/LqkTAnSckTKAJ
-	xfUbQrIRGupq65EmcwwUqT+dl/wp3Vn/I5B1feDMhJv4MQfRlAcEH77ONSSW6Ocsj9HK2+
-	lGA0/CFkumnx/sZEaFmPNPhFZu0ydRY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708388501;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aCStDtcRffeU4jURBHp/euC2Vn/pS2u4zscwEUzLt+k=;
-	b=AqAbl95uLUKL7GTueZQ3qWuww7EqxAm3/78Jlrz4vkGAoFUdNbY3/TvYsv215SIX5ySpk0
-	4UPPxuSKOkij04Dw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708388501; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aCStDtcRffeU4jURBHp/euC2Vn/pS2u4zscwEUzLt+k=;
-	b=eHEgPEMAEvAjhowMWVtD1L45v2+oTmGs40a7GZOJ1Ov9Jb9s5RNEuhdI/LqkTAnSckTKAJ
-	xfUbQrIRGupq65EmcwwUqT+dl/wp3Vn/I5B1feDMhJv4MQfRlAcEH77ONSSW6Ocsj9HK2+
-	lGA0/CFkumnx/sZEaFmPNPhFZu0ydRY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708388501;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aCStDtcRffeU4jURBHp/euC2Vn/pS2u4zscwEUzLt+k=;
-	b=AqAbl95uLUKL7GTueZQ3qWuww7EqxAm3/78Jlrz4vkGAoFUdNbY3/TvYsv215SIX5ySpk0
-	4UPPxuSKOkij04Dw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 657EF139D0;
-	Tue, 20 Feb 2024 00:21:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id KtjvBpLw02UVagAAD6G6ig
-	(envelope-from <neilb@suse.de>); Tue, 20 Feb 2024 00:21:38 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	Tue, 20 Feb 2024 01:28:42 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 6A17960FF5;
+	Tue, 20 Feb 2024 01:28:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D881C433C7;
+	Tue, 20 Feb 2024 01:28:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708392519;
+	bh=U/OzMP41UIGNGjFQJcOxOiN+HvJ7Vk2QT4oFCERWQS8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SmXKvVZTg6JWE9s4m6+eBQVl2PQv1p1z32TS85zBFdDIr17rrMaGcPUD7Say8jznH
+	 5gAj+VRoNXeeaBTGNhizHmC7a9LRdIe78dRAxV+vwXd7Z7wNZblnV06isLfXAJ216o
+	 iSBYFwtxftX90pOA0abvcYIk+Kqwb7UAxxCbRg6GrfpTntjzOaTs2OdXc69jSIPGv2
+	 Ns3NLtVLxMhpuasbijAUCSj8NfLR6Sj6r+wLMjF2WybGrlgjc35jZ+suL7+38j9Fl4
+	 Yds3bLW6mgfcAo4zmZ420doehQ0CeiJeAKHKUAJuUKAqz819iM9XNdfIxesve4/yjH
+	 Ec30eswj9H4Vg==
+Date: Mon, 19 Feb 2024 18:28:37 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Wen Xiong <wenxiong@linux.ibm.com>
+Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@infradead.org>,
+	Wenxiong <wenxiong@us.ibm.com>
+Subject: Re: re attach-ns causing IO errors
+Message-ID: <ZdQARSrV-HXWf6rc@kbusch-mbp>
+References: <75700e85137a40305238c74cf03bb677@linux.ibm.com>
 MIME-Version: 1.0
-From: "NeilBrown" <neilb@suse.de>
-To: "Matthew Wilcox" <willy@infradead.org>
-Cc: "Mike Rapoport" <rppt@kernel.org>, lsf-pc@lists.linux-foundation.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org,
- bpf@vger.kernel.org
-Subject: Re: [LSF/MM/BPF TOPIC] Reclaiming & documenting page flags
-In-reply-to: <ZdPkWsxKZN8CvQTN@casper.infradead.org>
-References: <Zbcn-P4QKgBhyxdO@casper.infradead.org>,
- <Zb9pZTmyb0lPMQs8@kernel.org>, <ZcACya-MJr_fNRSH@casper.infradead.org>,
- <ZcOnEGyr6y3jei68@kernel.org>, <ZdO2eABfGoPNnR07@casper.infradead.org>,
- <170838273655.1530.946393725104206593@noble.neil.brown.name>,
- <ZdPkWsxKZN8CvQTN@casper.infradead.org>
-Date: Tue, 20 Feb 2024 11:21:35 +1100
-Message-id: <170838849545.1530.13553329646368488958@noble.neil.brown.name>
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=eHEgPEMA;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=AqAbl95u
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-1.43 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_SEVEN(0.00)[10];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 NEURAL_HAM_SHORT(-0.10)[-0.487];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.02)[54.65%]
-X-Rspamd-Queue-Id: A9F2121EAD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <75700e85137a40305238c74cf03bb677@linux.ibm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240219_162151_205484_980644FB 
-X-CRM114-Status: GOOD (  25.42  )
+X-CRM114-CacheID: sfid-20240219_172841_588549_FD1FACFA 
+X-CRM114-Status: GOOD (  14.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -142,56 +71,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, 20 Feb 2024, Matthew Wilcox wrote:
-> On Tue, Feb 20, 2024 at 09:45:36AM +1100, NeilBrown wrote:
-> > On Tue, 20 Feb 2024, Matthew Wilcox wrote:
-> > > The example is filemap_range_has_writeback().  It's EXPORT_SYMBOL_GPL()
-> > > and it's a helper function for filemap_range_needs_writeback().
-> > > filemap_range_needs_writeback() has kernel-doc, but nobody should be
-> > > calling filemap_range_has_writeback() directly, so it shouldn't even
-> > > exist in the htmldocs.  But we should have a comment on it saying
-> > > "Use filemap_range_needs_writeback(), don't use this", in case anyone
-> > > discovers it.  And the existance of that comment should be enough to
-> > > tell our tools to not flag this as a function that needs kernel-doc.
-> > > 
-> > 
-> > Don't we use a __prefix for internal stuff that shouldn't be used?
+On Mon, Feb 19, 2024 at 04:49:06PM -0600, Wen Xiong wrote:
+> Hi All,
 > 
-> No?  Or if we do, we are inconsistent with that convention.  Let's
-> consider some examples.
+> We discussed this at the beginning of November last year.
+> Test team with extra ns-rescan, get new namespace back last year.
+> But they still ask if there is way not doing extra ns-rescan.
 > 
-> __SetPageReferenced -- non-atomic version of SetPageReferenced.
-> Akin to __set_bit.
+> Consider this scenario with nguid changes:
 > 
-> __filemap_fdatawrite_range() -- like filemap_fdatawrite_range but
-> allows the specification of sync_mode
+> # nvme list-subsys
+> nvme-subsys0 -
+> NQN=nqn.1994-11.com.samsung:nvme:PM1743:2.5-inch:S7DDNG0X100093
+> \
+> +- nvme0 pcie 052a:58:00.0 live
+> +- nvme1 pcie 058a:58:00.0 live
 > 
-> __page_cache_alloc() -- like page_cache_alloc() but takes the gfp mask
-> directly instead of inferring it from mapping_gfp_mask()
+> After system boots up:
+> Nvme-subsys0  -> ns_head(NSID1/NGUID1)
+> /dev/nvme0n1 -> ns_head(NSID1/NGUID1) ->ns(NSID1/NGUID1)
+> /dev/nvme1     -> ns_head(NSID1/NGUID1) ->ns(NSID1/NGUID1)
 > 
-> __folio_lock() -- This does fit the "don't call this pattern"!
+> After delete-ns /dev/nvme0 -n 1 -c 0x82:
+> Nvme-subsy0 -> no more ns_head(EMPTY)
+> /dev/nvme0  -> no ns(EMPTY)
+> /dev/nvme1 -> no ns(EMPTY)
 > 
-> __set_page_dirty() -- Like set_page_dirty() but allows warn to be
-> specified.
+> create-ns /dev/nvme0 -s 0x5000000 -c 0x5000000 -f 0 -d 0  -m 1:
 > 
-> __filemap_remove_folio() -- Like filemap_remove_folio() but allows it
-> to be replaced with a shadow entry.
+> After attach-ns /dev/nvme0 -n 1 -c 0x82: I saw calling nvme_scan_ns_list()
+> twice.
 > 
-> __readahead_folio() -- Another internal one
+> 1st scan: nvme_queue_scan() -> nvme_scan_ns_list(), we got:
+> Nvme-subsy0 -> ns_head(NSID1/NGUID1)   -------> Note: this is old NGUID1
+> /dev/nvme0 -> ns_head(NSID1/NGUID1) ->ns(NSID1/NGUID1)  ----> Note: this is
+> old NGUID1
 > 
-> I mostly confined myself to pagemap.h for this survey, but if you've
-> conducted a different survey that shows your assertion is generally true
-> and I've hit on the exceptions to the rule ... ?
+> 2nd scan: scan_work()  -> nvme_scan_ns_list, we got:
+> Nvme-subsys0 ->ns_head(NSID1/NGUID1) ----> created this ns_head in 1st scan.
+> /dev/nvme0n1  -> ns_head(NSID1/NGUID1) -> ns(NSID1/NGUID2)
+> Then saw: nvme nvme0: identifiers changed for nsid 1  ---> because of NGUID
+> changed to NGUID2
+>                    block nvme0n1: no available path - failing I/O
+>                    block nvme0n1: no available path - failing I/O
 > 
+> My question is:
+> - Looks only scan once during system boot up.
+> - Why scan twice when did delete-ns/create-ns/attach operation? 1st scan:
+> Nvme_queue_scan is called from user space or udev?
+> - 1st scan, NGUID1 is old one, 2nd scan, NGUID2 is new one?
 
-Yes, __ is used for other things too.
-It would be nice to have some consistency with naming, but probably
-impossible.
-
-And with 1074 functions named __foo having kernel doc already, it is too
-late to close that gate.
-:-(
-
-Thanks,
-NeilBrown
+The driver will automatically rescan based on command effects. It's also
+possible the device completes an AEN for the Namespace List change
+event, which would trigger a 2nd namespace scan. We use effects in the
+driver on admin passthrough commands because a user can always mask an
+AEN to be off with a 'set-feature' command, so we can't rely on it.
 
