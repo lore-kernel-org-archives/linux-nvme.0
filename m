@@ -4,124 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A342BC48BF6
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Feb 2024 13:24:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5E20EC48BC3
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Feb 2024 13:45:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=G2YZihmyeQWmTmVd8ag5SGtgD78nBWToo7HK+nc/Wtk=; b=oHI6uitNRfnSrnEVO5aqtqVr2S
-	3ZgpUmGoTJUonHh8gE1jEJHeDL3+UxqpR80lo6R2UI1rHu8yiXiJjBQgu+oSqlj4XF/YZSxGfkR8F
-	7c21oXxiQi3FMWCiM2Yh0+rriCYHNivc6CGRgv7jsYKhlPVtLgDoV+id7SIa6KoJE97NhEfTPhXGi
-	Nm7NfsDVZP3bJXbsAy3nwGxHjFJuRWlaGwTjsu/7XzrlUqROfK1qYzwgAix9+GAa3CYuBvM9EHKXs
-	rt2PIpw/uETFISduUGmRdy2BxN7v0J47JQCgIeDRtyNkJvkwnBdRs4+LnJZs9E8coNzZ6eEqXv5FG
-	XO1NFTXg==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=DqR3+6slpixhWh4ZHGVcP6uKtjnqXJdu0TiKbRrlzt4=; b=3A+yr53qUURYMrAWX8xVgpodNt
+	2CaVbbqIFHDTvtwRGZZdxkbYT7uaBBDYiwFtkX2vx8h4tJ27I3Fa9IRrCbiL0OvhpdU4VxRBma+WO
+	CihV0EoOLwI5VXl50OoJyyfFjdCKuXHcKQ4nOKeGFhKMR2bbje6kHHsgnPgQ79xPuIgJVuaD3uQH9
+	bn45GalIFsd79N3PWZ634Tz5hahNgo1msAVy9Br/NSLWzbgiuAPXMrGC00afamto28DldHQHrssGX
+	dyQLqWbKYFWZjNyTqJnndL4Yhxx1vt6qC5m/OfNwpisgtPn5dmC1oyo5uE896RR498oUvSQ70P2mL
+	M0mAnaJw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rcmaS-000000011WL-0ENt;
-	Wed, 21 Feb 2024 13:24:36 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1rcmuo-000000017y1-3uFg;
+	Wed, 21 Feb 2024 13:45:38 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rcmaB-000000011NI-1ukT
+	id 1rcmum-000000017vf-1MpS
 	for linux-nvme@lists.infradead.org;
-	Wed, 21 Feb 2024 13:24:33 +0000
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B32601FB64;
-	Wed, 21 Feb 2024 13:24:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708521855; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=G2YZihmyeQWmTmVd8ag5SGtgD78nBWToo7HK+nc/Wtk=;
-	b=W8WiOI7WAvoVgR4rmwzpFEmp515BbaPgQQUIBzTps4bbE4sv7N3Rmlpk7INcJ/q6hUmt9H
-	cNIHihqRdmsTpgc9RrMtUulrZEnmThIE4NfyAQXBP6HemhFx+3fIUzxa2lgptF2HiJkzgO
-	HuarIaN5tIAv0mXj+vbhxb5L8qhBA7k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708521855;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=G2YZihmyeQWmTmVd8ag5SGtgD78nBWToo7HK+nc/Wtk=;
-	b=8hIIRDykijJV2kXhxsIBcOdZ7rEUYk9m3DI2tm/L6kK2WcJPq1iH404Y7GL+G57Ux9q7n1
-	mqcI5yf4IDQiCUBA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708521855; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=G2YZihmyeQWmTmVd8ag5SGtgD78nBWToo7HK+nc/Wtk=;
-	b=W8WiOI7WAvoVgR4rmwzpFEmp515BbaPgQQUIBzTps4bbE4sv7N3Rmlpk7INcJ/q6hUmt9H
-	cNIHihqRdmsTpgc9RrMtUulrZEnmThIE4NfyAQXBP6HemhFx+3fIUzxa2lgptF2HiJkzgO
-	HuarIaN5tIAv0mXj+vbhxb5L8qhBA7k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708521855;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=G2YZihmyeQWmTmVd8ag5SGtgD78nBWToo7HK+nc/Wtk=;
-	b=8hIIRDykijJV2kXhxsIBcOdZ7rEUYk9m3DI2tm/L6kK2WcJPq1iH404Y7GL+G57Ux9q7n1
-	mqcI5yf4IDQiCUBA==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 9EDE913A25;
-	Wed, 21 Feb 2024 13:24:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id ct9BJX/51WUfPQAAn2gu4w
-	(envelope-from <dwagner@suse.de>); Wed, 21 Feb 2024 13:24:15 +0000
-From: Daniel Wagner <dwagner@suse.de>
-To: James Smart <james.smart@broadcom.com>
+	Wed, 21 Feb 2024 13:45:37 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 7FD8661508;
+	Wed, 21 Feb 2024 13:45:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDFCFC43330;
+	Wed, 21 Feb 2024 13:45:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708523135;
+	bh=aeFRmDbYQ8dPzg4bgbVbGPMHInRjxo98+1PIL2OZUWU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=nvZcxjE3hZQCvOjEp5os68iv4ZylJs1IKjPkXKbLIVhUJJOb8rdiA3L1tMk6xwjQ+
+	 fQ0gE8zp6fMq24xPDApUQwUP97ZYz3Wse4Vs59t/2lTFldxIYux1s5gBGYV/R8SCBB
+	 0mafKjrnmV1h6u3OsRvmCg71XU7rmbErwNcu7CtCrwPVh6dn+TUaI0HK4AWSk7amGV
+	 k8E4MenAyYGcsiN42tzMdBIFxCsLKnxR4im8Vi1ricUnZefqSW0kj4zy2hQ4+FoBcC
+	 p2uA9LW7EscqxJDet7oH21O7NQKKf81Pxa0CkSMYj+8NsIrLRKHSBcHkDR9y0XltF1
+	 ODAsAIe1Re+xw==
+From: hare@kernel.org
+To: Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
-	Hannes Reinecke <hare@suse.de>,
 	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Daniel Wagner <dwagner@suse.de>
-Subject: [PATCH v2 5/5] nvme-fc: wait for initial connect attempt to finish
-Date: Wed, 21 Feb 2024 14:24:04 +0100
-Message-ID: <20240221132404.6311-6-dwagner@suse.de>
-X-Mailer: git-send-email 2.43.1
-In-Reply-To: <20240221132404.6311-1-dwagner@suse.de>
-References: <20240221132404.6311-1-dwagner@suse.de>
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH] nvme-fabrics: typo in nvmf_parse_key()
+Date: Wed, 21 Feb 2024 14:45:30 +0100
+Message-Id: <20240221134530.142842-1-hare@kernel.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spamd-Result: default: False [0.70 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 R_MISSING_CHARSET(2.50)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_SEVEN(0.00)[8];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240221_052419_923071_CDECED51 
-X-CRM114-Status: GOOD (  20.39  )
+X-CRM114-CacheID: sfid-20240221_054536_437065_1005BFB0 
+X-CRM114-Status: GOOD (  11.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,205 +71,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The TCP and RDMA transport are doing a synchronous connects, that is the
-syscal returns with the final result. The operation either fails or
-succeeds. The FC transport offloads the connect attempt to a workqueue
-and thus it's an asynchronous operation.
+From: Hannes Reinecke <hare@suse.de>
 
-This async connect feature was introduced to mitigate problems with
-transient connect errors and the task to coordinate retries with
-userspace (nvme-cli).
+Of course we should use the key if there is no error ...
 
-Unfortunately, this makes the transports behave differently on the
-initial attempt. Streamline nvme-fc to wait for the initial connection
-attempt to succeed or fail.
-
-In order to support also the async connection attempt introduce a new
-flag for userspace. The default is a synchronous initial connect
-attempt.
-
-Link: https://lore.kernel.org/linux-nvme/0605ac36-16d5-2026-d3c6-62d346db6dfb@gmail.com/
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
+Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/host/fabrics.c | 17 ++++++++++++++++-
- drivers/nvme/host/fabrics.h |  3 +++
- drivers/nvme/host/fc.c      | 26 +++++++++++++++++++++++++-
- 3 files changed, 44 insertions(+), 2 deletions(-)
+ drivers/nvme/host/fabrics.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 888285fe2289..52c95259debd 100644
+index 3499acbf6a82..ab5ac219b70a 100644
 --- a/drivers/nvme/host/fabrics.c
 +++ b/drivers/nvme/host/fabrics.c
-@@ -678,6 +678,7 @@ static const match_table_t opt_tokens = {
- #ifdef CONFIG_NVME_TCP_TLS
- 	{ NVMF_OPT_TLS,			"tls"			},
- #endif
-+	{ NVMF_OPT_CONNECT_ASYNC,	"connect_async=%d"	},
- 	{ NVMF_OPT_ERR,			NULL			}
- };
- 
-@@ -706,6 +707,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 	opts->tls = false;
- 	opts->tls_key = NULL;
- 	opts->keyring = NULL;
-+	opts->connect_async = false;
- 
- 	options = o = kstrdup(buf, GFP_KERNEL);
- 	if (!options)
-@@ -1024,6 +1026,19 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 			}
- 			opts->tls = true;
- 			break;
-+		case NVMF_OPT_CONNECT_ASYNC:
-+			if (match_int(args, &token)) {
-+				ret = -EINVAL;
-+				goto out;
-+			}
-+			if (token < 0 || token > 1) {
-+				pr_err("Invalid connect_async %d value\n",
-+				       token);
-+				ret = -EINVAL;
-+				goto out;
-+			}
-+			opts->connect_async = token;
-+			break;
- 		default:
- 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
- 				p);
-@@ -1259,7 +1274,7 @@ EXPORT_SYMBOL_GPL(nvmf_ctrl_options_put);
- 				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT |\
- 				 NVMF_OPT_DISABLE_SQFLOW | NVMF_OPT_DISCOVERY |\
- 				 NVMF_OPT_FAIL_FAST_TMO | NVMF_OPT_DHCHAP_SECRET |\
--				 NVMF_OPT_DHCHAP_CTRL_SECRET)
-+				 NVMF_OPT_DHCHAP_CTRL_SECRET | NVMF_OPT_CONNECT_ASYNC)
- 
- static struct nvme_ctrl *
- nvmf_create_ctrl(struct device *dev, const char *buf)
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index 8436533aed16..75bc61401e1b 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -73,6 +73,7 @@ enum {
- 	NVMF_OPT_TLS		= 1 << 25,
- 	NVMF_OPT_KEYRING	= 1 << 26,
- 	NVMF_OPT_TLS_KEY	= 1 << 27,
-+	NVMF_OPT_CONNECT_ASYNC	= 1 << 28,
- };
- 
- /**
-@@ -116,6 +117,7 @@ enum {
-  * @nr_poll_queues: number of queues for polling I/O
-  * @tos: type of service
-  * @fast_io_fail_tmo: Fast I/O fail timeout in seconds
-+ * @connect_async: Don't wait for the intial connect attempt to succeed or fail
-  */
- struct nvmf_ctrl_options {
- 	struct kref		ref;
-@@ -146,6 +148,7 @@ struct nvmf_ctrl_options {
- 	unsigned int		nr_poll_queues;
- 	int			tos;
- 	int			fast_io_fail_tmo;
-+	bool			connect_async;
- };
- 
- int nvmf_ctrl_options_get(struct nvmf_ctrl_options *opts);
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 7627d10a5812..ebc4ff6b3343 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -169,6 +169,7 @@ struct nvme_fc_ctrl {
- 
- 	struct work_struct	ioerr_work;
- 	struct delayed_work	connect_work;
-+	struct completion	connect_completion;
- 
- 	struct kref		ref;
- 	unsigned long		flags;
-@@ -803,6 +804,7 @@ nvme_fc_ctrl_connectivity_loss(struct nvme_fc_ctrl *ctrl)
- 			dev_warn(ctrl->ctrl.device,
- 				"NVME-FC{%d}: Couldn't schedule reset.\n",
- 				ctrl->cnum);
-+			complete(&ctrl->connect_completion);
- 			nvme_fc_ctrl_put(ctrl);
- 		}
- 		break;
-@@ -871,6 +873,7 @@ nvme_fc_unregister_remoteport(struct nvme_fc_remote_port *portptr)
- 			dev_warn(ctrl->ctrl.device,
- 				"NVME-FC{%d}: controller connectivity lost.\n",
- 				ctrl->cnum);
-+			complete(&ctrl->connect_completion);
- 			nvme_fc_ctrl_put(ctrl);
- 		} else
- 			nvme_fc_ctrl_connectivity_loss(ctrl);
-@@ -3326,6 +3329,7 @@ nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl *ctrl, int status)
- 				ctrl->cnum, min_t(int, portptr->dev_loss_tmo,
- 					(ctrl->ctrl.opts->max_reconnects *
- 					 ctrl->ctrl.opts->reconnect_delay)));
-+		complete(&ctrl->connect_completion);
- 		nvme_fc_ctrl_put(ctrl);
+@@ -637,7 +637,7 @@ static struct key *nvmf_parse_key(int key_id)
  	}
- }
-@@ -3385,10 +3389,12 @@ nvme_fc_connect_ctrl_work(struct work_struct *work)
- 	ret = nvme_fc_create_association(ctrl);
- 	if (ret)
- 		nvme_fc_reconnect_or_delete(ctrl, ret);
--	else
-+	else {
- 		dev_info(ctrl->ctrl.device,
- 			"NVME-FC{%d}: controller connect complete\n",
- 			ctrl->cnum);
-+		complete(&ctrl->connect_completion);
-+	}
- }
  
- 
-@@ -3494,6 +3500,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 
- 	INIT_WORK(&ctrl->ctrl.reset_work, nvme_fc_reset_ctrl_work);
- 	INIT_DELAYED_WORK(&ctrl->connect_work, nvme_fc_connect_ctrl_work);
-+	init_completion(&ctrl->connect_completion);
- 	INIT_WORK(&ctrl->ioerr_work, nvme_fc_ctrl_ioerr_work);
- 	spin_lock_init(&ctrl->lock);
- 
-@@ -3541,6 +3548,9 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 	list_add_tail(&ctrl->ctrl_list, &rport->ctrl_list);
- 	spin_unlock_irqrestore(&rport->lock, flags);
- 
-+	if (!opts->connect_async)
-+		nvme_fc_ctrl_get(ctrl);
-+
- 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESETTING) ||
- 	    !nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING)) {
- 		dev_err(ctrl->ctrl.device,
-@@ -3557,6 +3567,19 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 
- 	flush_delayed_work(&ctrl->connect_work);
- 
-+	if (!opts->connect_async) {
-+		enum nvme_ctrl_state state;
-+
-+		wait_for_completion(&ctrl->connect_completion);
-+		state = nvme_ctrl_state(&ctrl->ctrl);
-+		nvme_fc_ctrl_put(ctrl);
-+
-+		if (state != NVME_CTRL_LIVE) {
-+			/* Cleanup is handled by the connect state machine */
-+			return ERR_PTR(-EIO);
-+		}
-+	}
-+
- 	dev_info(ctrl->ctrl.device,
- 		"NVME-FC{%d}: new ctrl: NQN \"%s\", hostnqn: %s\n",
- 		ctrl->cnum, nvmf_ctrl_subsysnqn(&ctrl->ctrl), opts->host->nqn);
-@@ -3913,6 +3936,7 @@ nvme_fc_delete_controllers(struct nvme_fc_rport *rport)
- 		dev_warn(ctrl->ctrl.device,
- 			"NVME-FC{%d}: transport unloading: deleting ctrl\n",
- 			ctrl->cnum);
-+		complete(&ctrl->connect_completion);
- 		nvme_fc_ctrl_put(ctrl);
- 	}
- 	spin_unlock(&rport->lock);
+ 	key = key_lookup(key_id);
+-	if (!IS_ERR(key))
++	if (IS_ERR(key))
+ 		pr_err("key id %08x not found\n", key_id);
+ 	else
+ 		pr_debug("Using key id %08x\n", key_id);
 -- 
-2.43.1
+2.35.3
 
 
