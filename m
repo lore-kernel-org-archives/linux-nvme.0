@@ -4,140 +4,107 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D714AC48BF6
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Feb 2024 08:16:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 98BEEC48BC3
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Feb 2024 08:51:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=N55QZPWhT/Cimh0fasP3prHSxTPpUc5DZgpSghW9wmk=; b=OV1DzEgbbxY3C9Wm/LT4+1/IJI
-	6LfN6P+rgy0TrFge4BwOEn/ur/EP/R5mUFZhkEMQPSogE2h2ep2BKobXsjLD9ySh3toJAVl6rq3Vk
-	ckjSyWAltIrgp9hsFDD6u5CPHubzhynKsqv6oqmm2wGTi/JYzqu+wuO/+2orFszAn1qQP/2gsm/dH
-	lt+HVUU/NFuPKzh34F+kDna9ydCk635cmAl4Q8Wgn3qxVEtEq87EMEXzfgsAS+95MdT8W0OJGEAiT
-	bIxJsGaeFDcPqINI86MCip0K08cHE8wugvkYh3L2f5p8kmhxeygQz7oQFNBo5LrQOr79NyV7dsadu
-	aOU9idWQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=y1LQMnu9gKPOePMRs4RqBVRFPb7b9WV0gK0+KDUa6t0=; b=XcvQUNPBZNFxhl+jxwwWg7BOxe
+	jvzdN8DbRRLfElH4pbMo5AA5/vQ+5boirnNysPpNjAsWMJu+Ctca9UQ8gu3JJ21dvZjn6gqRwesxQ
+	LQiBfi6IjFtIg3lf30DfiXlzpVgCXSj7zBFdjzANjCg3oLD4SaLpGzEXyWgCPd4cUEfBo8J6TPFCP
+	nwUoG7Y5raWNCaLh3klgwr/QvJdxZ5J4AZv/c1sad9CRb5ApeDJpypAEesuhhXazafZUYKEHmWBTc
+	sgZfRryYkiTbCGIA6H9AUNwDwdBATK5gPHWF4KkFbbhaUKcOD+8AM96AoegwxYpMD7j7tLoTVU0N2
+	QtzHZd9A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rchmK-000000001ws-0zG1;
-	Wed, 21 Feb 2024 08:16:32 +0000
-Received: from mail-bn8nam04on20600.outbound.protection.outlook.com ([2a01:111:f403:2408::600] helo=NAM04-BN8-obe.outbound.protection.outlook.com)
+	id 1rciK0-000000008JT-1sVr;
+	Wed, 21 Feb 2024 08:51:20 +0000
+Received: from mail-dm6nam10on2060f.outbound.protection.outlook.com ([2a01:111:f400:7e88::60f] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rchmI-000000001w0-137H
+	id 1rciJy-000000008IW-0sPr
 	for linux-nvme@lists.infradead.org;
-	Wed, 21 Feb 2024 08:16:31 +0000
+	Wed, 21 Feb 2024 08:51:19 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Dm/sBO+wHjT+7h4OH40UwQqiUNFiJNmHDr30w3uT7az2axp/7cSQQ+cnxppdfflALzFh1tvfM0kAQVl4F8ysXM3KcXt8cxJxdgtGwElHXAnAwThECYuOXPmeVBlLPVpzU/8yhr/tbkHMylVe5+mhjiF+m4WWxUBnQnxhSO8NX/MeDY6T+mm1734kNIyca1ffWbD3QKkhn746hRU2rG2OGNZ/ZqI+qL+QLCWFhrdRrYq0cqdTacinLukBiESY12nGrgKCCyWheR/hI4cyB65wu+F7DL6fPFQZTr+Sm21p3AECK/Lq6idmWVafCfRJiEga8UzZXZGJ/J/cPxf5vcmSEQ==
+ b=CuXu7Yhovee/1f/JcXc7XJ/eRG5lLcEoKc0RZh4Xa5/nv4XiGPexHp2/uEvb3ekkYCjizoB+PJ+jSW0QMdRZCmsB7n5005tdXBV+nQQicvsuvVGj+rJyXSt1PgKYgCiW6QC0v20I8Aud6CDHwe/Psa+vsj3H6UbVetuIt/S60uJn6Hh6FjKrfpHym8W9MQOWRF2+STuBCl6kf+ylSWDWxbdXK1DHMj9TJ56ujhHSsv6kCf1PhwIg8BuuXlq8uKT++YWXzhr5SwA1d85n/gt8ohixuXM8eGzDxOPf2RLzIOr2TKbUeaYcFgcM64W1oHwCo8RTqUDiw/+sj6368nwJnA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=N55QZPWhT/Cimh0fasP3prHSxTPpUc5DZgpSghW9wmk=;
- b=kuX3b3TQkO9AyoXmxYrrgBkSK+dta/jBd9d4i6Coe1Av0c+vvFrnLmLUQr30lWjG+wdHMSEP/7BhzHqcQhKO9BN8YkpakP5t+MF5wBtNqZxQoAL+mnP9FvE6TRgjygsxNj9dN9K2wtGszla1cDhq801KtTNVnrVNqprQuXRySpNvSVR7A1O235xlHZinmEaMck9bHuuFTXGN1QqDeZd0ipTWQa42tPnGR8QRdleQhtrDcoJeJBbT8IlzM3P7wTAeFuuafYxAH3Gswec5sxsXjBI2wRPov7Rmi8wFu2Ll4e4n5/ZbfvclZ4UxnBAWfXzZHRTEzMBMLXr1MjoNxwX+1Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=y1LQMnu9gKPOePMRs4RqBVRFPb7b9WV0gK0+KDUa6t0=;
+ b=Jvn2+Cf0ALDhmsE/XspPyojJnZja7qiiUISvBMmKjELJ9uNMA2ZWB7W6jP6Fe6CUzO9yA8+JWKOPCuJU8Mngyb+O75dWhAxYkcrTiGFg/lOQwKRJS2R1R6kUN6F7Pyg9NvuzEZG4M5Jlq2E+GpYtjUgA3FIs/e0E6C8luK1Ox7QPrSxUVePqW+Ub4wE40MkxcNJTAeIPFHuyoGY9DBhSs78+j2sTSP0/i4ETIaaUpigiiuf9NEnUCL2J0yQcHss56F+8oFPcRETSYrfz/6TOkYrp+n7vDQ94JMl4Oixo1GinqgM/KdwnmIc+QPgMPXEM1F0VXbM6D72ywRxboWhftQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 20.80.128.242) smtp.rcpttodomain=lists.infradead.org
+ smtp.mailfrom=solidigm.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
+ action=none header.from=solidigm.com; dkim=none (message not signed);
+ arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=solidigm.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N55QZPWhT/Cimh0fasP3prHSxTPpUc5DZgpSghW9wmk=;
- b=UtETK/C0B7unmq7B8dsUw3Stb+fHzl+XQPGnv2Iwob7zuiQYT2+w555tz0y957LhO11opCIuYtt8SJENvqBrfSKfViuFEAG29LanScbABYIVMVZm6Ba8Q7OwtU2Pj+olmduJBvR2bwsT/+Hy/eed4WmGHJX+VTmp/x4ddIOA2I+drHpN+jYUAt9kqFD15F+DNmjgOn826GWUEX660gc7G1PwBHwCbUj5YKXM10vMdxfgn7ox2iX08WTxfHBFfHsdtEqD5iRmhCD1j99VmNyrQ48BjJh2sSqpTbWlDEsuJiOFOK7QQT7B5UPcuno1QEjC7AniQ8W6mc8PWdonaSA3Ew==
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
- by SA3PR12MB7784.namprd12.prod.outlook.com (2603:10b6:806:317::20) with
+ bh=y1LQMnu9gKPOePMRs4RqBVRFPb7b9WV0gK0+KDUa6t0=;
+ b=vIh/IFnnSrUofEMdLVpvwiCaiPgneV1HNEShDZl8Ti+SL0ReFYkwkR++p3DhpQlYWD2ydp/vH44C2KTEC3OrPgIWWv9zwF9DVLNCndqztVMotrYocG1LzeWvNoXovLnR2iRAzbz8rNlQvo1GgfBcSZ74j1aMXWbBH8daEpTQNqunEjWWd4au/iUwLJglNDaRWQ9kkuZJAMHeig5Wr5CwktWwb2xg9Nf1RpvtHUbtyBPVynrSB+OzdHAin7CLEjORegjs7BeYxMa2SgG8xxwyIk5t9F/6Wz1jkBQJWv35hTlOS5UV/NJ5yIn6DihlX0yWWa0A+tv9dCHSJRD/in4kcw==
+Received: from DS7PR05CA0023.namprd05.prod.outlook.com (2603:10b6:5:3b9::28)
+ by BN0PR10MB4981.namprd10.prod.outlook.com (2603:10b6:408:12d::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.20; Wed, 21 Feb
- 2024 08:16:18 +0000
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::ffce:bbde:c1ca:39ed]) by LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::ffce:bbde:c1ca:39ed%4]) with mapi id 15.20.7316.018; Wed, 21 Feb 2024
- 08:16:17 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Daniel Wagner <dwagner@suse.de>, Shinichiro Kawasaki
-	<shinichiro.kawasaki@wdc.com>
-CC: Keith Busch <kbusch@kernel.org>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, Yi Zhang <yi.zhang@redhat.com>
-Subject: Re: [PATCH blktests v1] nvme/029: reserve hugepages for lager
- allocations
-Thread-Topic: [PATCH blktests v1] nvme/029: reserve hugepages for lager
- allocations
-Thread-Index: AQHaZJm9GZ2RGRfz+0qZ/jqNNwcUjrEUc0iA
-Date: Wed, 21 Feb 2024 08:16:17 +0000
-Message-ID: <e17f9433-8814-4a01-8532-59384d949279@nvidia.com>
-References: <20240221074353.27646-1-dwagner@suse.de>
-In-Reply-To: <20240221074353.27646-1-dwagner@suse.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|SA3PR12MB7784:EE_
-x-ms-office365-filtering-correlation-id: 7cc2af33-954e-4596-a4ca-08dc32b5611e
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: LRln8J65QgW9bfaur9BVdrSjANrz0+H9VTD1B1Yck9wTA/UWRFAG2s/3K6OIRbcAB2gjIoDeT3Cye6VhRJpbbP1d2rftXFN+IIILcxMjFNFli2etQjXcOJk1YHR0iEQntFYFiSAi7FseFBb5GPjaquyBHAzxSpOCslTzItoSBI5H9zBJ3yLakH8gc7SkvxRVd31+iu0AqJyjTkGou9v0vVWu1hBoqCmdiTpkE/ptfNBRXxgO1p4wklAuhZq8/GPnWBuvIhHdqVdtgCc9Li5JYuzei16FM5VqvskmVQOCWPrwQmkoc65IXQ70kJqwybHMZz3MUDsfMZgIIaghDTlLrrjzCN6SPJPcC9S4lXgCoiKJWp1c3ZFPj+o9pEVW7FBknbH8I8twT3mwiq24m0cUcwk+q4Ac8NCwvH1hzYVABc2ge6/iVJaS7BFRaHeTWH0oI123Pr17/dByXFrmDNqzL8wt5z/GgupBOxgTWaG18zRmqCXu4yLEZQa/mNM+b1Wpc4ajepGLMAHavXtTAVlTTSHK4CUgRcVMSo8s9P8y4ffNr2KGutoCNE8Mze72pCXCtV+Ny3l6m5YT3zeQxk7oiMI/Zm69Pa151l0/sIugKFRvZ1+NKJmtszrLz+L8b2qyquOEfP/GSZNP0duFS3j9yQFQEuiiuQxN870eXdA5Wx0=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?c1ZiV3RiMzlGRTFPejZFd3pZSDJIbVRPRUt4bGVGSTFCQmJtTHcwYUtwYkw5?=
- =?utf-8?B?V2FPT25yRWl6cjZnaTFYQ1lFTVJsRHRqc09mVHNNbzNzdlVjeVNrdkRmRGxy?=
- =?utf-8?B?ZkVwR1VXUVdoUjI1ZHdOM3R1ZndCNzlGNFd0V2NqOXZpcDUrMDFmRDhmeVJI?=
- =?utf-8?B?TGQ4SVliUUFJV2Jiei9Kc1ZkTS9VVEtEQXo4YVJXZElScTdkQnkxZU9Rb1l5?=
- =?utf-8?B?Q1dYNjZoVXJOTzdYY2tvdFFVbjNqdmVxMEltQytLWkxDQlZBd3dObzhUdGZ4?=
- =?utf-8?B?dFE4Vkw1VjNyeFdSSlp6TmJhVER3MER1QjZUZ01yRkI0WFlIOVVndlc1RUpi?=
- =?utf-8?B?TmNVT2J6cnpiY3BvampSbGdDYlJ1QVF2eTA5MTlieXBOMzgwTHAzMlNYQjJP?=
- =?utf-8?B?RHNVSHE3bmtCb3Z4Q1VzMTgxK3dkc1ZJU2tyL2pldHM0WERURHp3b3NIUmdQ?=
- =?utf-8?B?VytjR3Bxd0pIcHNJbDBGRXlEdXZOUVIzdlpadzN5c1FPVEtPVlZXZW9rREVa?=
- =?utf-8?B?UVEvUTVpVWorWC9sblFSMENvcnk1RVhQZUZ6SW15YTI5SkhUZW1aeVdBY3NH?=
- =?utf-8?B?NE5GbnJJMmNteU0xMTNsNDUwckRGN2UvZGJZNStsTlk4SEQ4VGpCY1FvNnBq?=
- =?utf-8?B?d2xyUHJWTXdBY3hnbGtBeFpMN3dVREpIN3NIc09zTVllV3Qxa3BSTllKbUIx?=
- =?utf-8?B?TDJNRzQ0aFVnRC9KR1hyREJhaStINkVRNmtxZk5UbytmQmsrZ1krNlhTbnNB?=
- =?utf-8?B?TEVnU0xqTnd6VXlMdzY5UFZnSGdaNVhSVjdPK2R2ZU9jWEF6emFkcmx1TGRl?=
- =?utf-8?B?U3hUc2oydHl3ZHlzeDNoYzExQ1pWM1JwSmRrSm80K0hueUl5akxHYSt6Yy9x?=
- =?utf-8?B?YW8yK0xxb1RBeHJveW9jKzhaSzFZbFhHdThMVnlnTEM5SVIzUDBlOHFXQ0w4?=
- =?utf-8?B?bUUzYi8xeWtMUGsrRjAvRGpXblFYcHVhQjQ0T1ZmQkpaMTVyeHZBY1JYeHd6?=
- =?utf-8?B?KzlWZW1tMHp4dkpFMnhPR2xTREt2TndoWHk5cHlYUVkrcFlZdzkzb0xIY2R4?=
- =?utf-8?B?Y3k5TlBLYWJnZVJlQ2EwZUh4MlpoZjJUdS9pc1pORUtod3BJK2ppcThMNWRs?=
- =?utf-8?B?QWFLd2k5TzdsaXNTWitWeGQybXU4VUw4UUdOK0ZtWGcxdTBSc3QwWHJ3VUNy?=
- =?utf-8?B?RTF3VzljSzY5cHlKVFV0emh1bzlNVS90ekZwR2czbFJQU2dNbG5FZUdpZFRM?=
- =?utf-8?B?YVhlcGV4WVZrU0dFSHdIYW5wYjlGbExaRzlPaytRQjFmamVQaU5OS3FBZ3lz?=
- =?utf-8?B?RHZ3QXBXY1BhODRXUDM2N0psMDVzRG1JbkR5VERQZDl2YktuS0xkeEl2aXBo?=
- =?utf-8?B?RmZlSXI2dmZIRHpydXdzTmpOU3IwSnplc0Zhc3lSRWdYbFNySElnb2M5ZTRF?=
- =?utf-8?B?MG1ORGg4RUcwME9tRjk3UG1IbEc1NWpaV2kxNGNmd2k4OC81YnMrT0hTeHhy?=
- =?utf-8?B?SjdicUtFWlpNRElpMlRlM0JhcEx3MDRxZ3NJZ1ZNRjAzZFJZUzBCTkJyUUs4?=
- =?utf-8?B?ekVKdnRVU0I4cUxGbnJMeTZKZE1lTm40SDU4ZU1iVUhselE3L1hWcDV2M1N4?=
- =?utf-8?B?S1gyemdlYXFPMEhSYTA0d2NtUFZQYmk0bDNDa0ZCSXJTVTcwM0JoZDVvNFhi?=
- =?utf-8?B?VENKdnFucjd0WlZOTVdCZmQzZ284azdIN2RZNGFzeEt4Q0UzM0hQNTdlSFJP?=
- =?utf-8?B?ZkhwMk9ZVldEM29PZEcyNEpCdUR1V1pNVzlkTSsrNFBsU1RicW5tMm9UWDND?=
- =?utf-8?B?UGlDZkJYNS9rODRVUHZXUUdiT1VsbmI0ZVVLdjZ4azNhYm9YaERxL0pkNkdp?=
- =?utf-8?B?RUcyeVp1RWVTSTV1Yy9iaDZzeWpoOW12bklFQlZ6Wi8xMnVwd0dzYmhuc09F?=
- =?utf-8?B?OUxSV09EWlZJRUhzdHdDUTJqZFo0YnNqdGo2TVR3WE1yNlVYaytnRk11V043?=
- =?utf-8?B?UTBhMmpUNnlpK21uVkRLY3Y3a2tqK3R2RFlYYUIyQytET29jRUZkNnRIY3gv?=
- =?utf-8?B?bUtXSFFhLzRTbW1GQkkrbXZFQ1lIcE11YnBFYVV6c1hZYVA3Uk82NlZBcThC?=
- =?utf-8?B?bXFibTZ6cmxQK3AwTDBEUms0TWxGdkhBZzhqaDF4andMV3hJZmQ2bzBSZFVt?=
- =?utf-8?Q?OEwmjRjEpXbQlirpTQX2CEt2Ba2GWENEEPBqd8K9S8xy?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <3684A88F52C2FA4AB494DFAF52C4E76C@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.21; Wed, 21 Feb
+ 2024 08:51:04 +0000
+Received: from DS1PEPF0001709B.namprd05.prod.outlook.com
+ (2603:10b6:5:3b9:cafe::5a) by DS7PR05CA0023.outlook.office365.com
+ (2603:10b6:5:3b9::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.15 via Frontend
+ Transport; Wed, 21 Feb 2024 08:51:04 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 20.80.128.242)
+ smtp.mailfrom=solidigm.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=solidigm.com;
+Received-SPF: Pass (protection.outlook.com: domain of solidigm.com designates
+ 20.80.128.242 as permitted sender) receiver=protection.outlook.com;
+ client-ip=20.80.128.242; helo=sd-SMTP2-Intel.corp.nandps.com; pr=C
+Received: from sd-SMTP2-Intel.corp.nandps.com (20.80.128.242) by
+ DS1PEPF0001709B.mail.protection.outlook.com (10.167.18.105) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7292.25 via Frontend Transport; Wed, 21 Feb 2024 08:51:04 +0000
+Received: from sd-SMTP1-Intel.corp.nandps.com (10.249.4.7) by
+ sd-SMTP2-Intel.corp.nandps.com (10.249.4.8) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Wed, 21 Feb 2024 08:48:15 +0000
+Received: from remlabumq.elements.local (10.74.96.33) by relay.solidigm.com
+ (10.249.4.7) with Microsoft SMTP Server id 15.2.1118.40 via Frontend
+ Transport; Wed, 21 Feb 2024 08:48:15 +0000
+From: Michael Kropaczek <michael.kropaczek@solidigm.com>
+To: <linux-nvme@lists.infradead.org>
+CC: Michael Kropaczek <michael.kropaczek@solidigm.com>, Keith Busch
+	<kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, Christoph Hellwig
+	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Subject: [PATCH v1 0/1] nvme: Fix problem when booting from NVMe drive was leading to a hang.
+Date: Wed, 21 Feb 2024 00:43:40 -0800
+Message-ID: <20240221084340.825068-1-michael.kropaczek@solidigm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7cc2af33-954e-4596-a4ca-08dc32b5611e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Feb 2024 08:16:17.9222
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS1PEPF0001709B:EE_|BN0PR10MB4981:EE_
+X-MS-Office365-Filtering-Correlation-Id: 98df1358-ccca-43d7-a166-08dc32ba3c94
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: jnqHmnBgctUsNMg71G1D1A4CaUZ54cUPOgcah1SGpypfRNaaVr/5dzN3y0W9Ac5qBqvVbhQ4HrFnOBILr9yhxCrSaHSbgqjehjsM0HoxLOZB0unH8r/NQqpeYVe4m0KpF52p5BoyPbCCCxVzyp2a2L9XNABrMujJeD7geGVC7qqyRTSdcEcbfjcOmmvTZ5YVxwgQHfJ2xxAflkaIcWafCNc5f+DNRJaLeJWTFgAXkL6vDDJV1FTGgNB+hZuv7nMs/VygmXMnVDM8URITNmOn31UUPRyEDxC135plyJNasd16kuhqt6zOD3b2490hE+uxAC5Qz9iNWgTR/Bc1tAJtRxS/lhdX4Kx95U30w2+zIoVDDV6gDdkmUxzawnX2Zny4gF8dlfUlPGHzeIbZmH08EH1xf5xMSyUhlqTilQi2Z7BYeCno/kHRTB2au1PxKjTxZ3Ec2nO2K0UMK5Ks26VJNiQAOKnTz5wm++d1/0iCq0HgzJwkfmH3AHiHLTWVBOelpijGjpQFheVJq6DnL74cG6/hHvzF7/nXex5pOIAXvaMEDFgewdn0D+LXhZiXEBTSUfjy5CptM01OFCpJIu9E9hLgyUEVCb43RKKB7PdGbNVae18npZC3IQLRXHoi8sja3tDPVcNHi/Lpy+fVk3JrMhhFK+jd4dugVdXUwbW5b5U=
+X-Forefront-Antispam-Report: CIP:20.80.128.242;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:sd-SMTP2-Intel.corp.nandps.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(36860700004)(46966006)(40470700004);DIR:OUT;SFP:1101;
+X-OriginatorOrg: solidigm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2024 08:51:04.0041
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fWBTRS0PCkzriN02UMzFKE3k6Rn+LX3lUYmwV8iPn6C9umEonL0rhJyzHu/7nRORe+069lJhBylzh99LaoHjaA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7784
+X-MS-Exchange-CrossTenant-Network-Message-Id: 98df1358-ccca-43d7-a166-08dc32ba3c94
+X-MS-Exchange-CrossTenant-Id: 4bb44aac-867a-4be0-aa34-30794e8470dd
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=4bb44aac-867a-4be0-aa34-30794e8470dd;Ip=[20.80.128.242];Helo=[sd-SMTP2-Intel.corp.nandps.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0001709B.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB4981
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240221_001630_297903_FFE027DA 
-X-CRM114-Status: UNSURE (   9.91  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240221_005118_351725_ECCC66CC 
+X-CRM114-Status: GOOD (  13.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -152,16 +119,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMi8yMC8yNCAyMzo0MywgRGFuaWVsIFdhZ25lciB3cm90ZToNCj4gVGhlIHRlc3QgaXMgaXNz
-dWluZyBsYXJnZXIgSU8gd29ya2xvYWQuIFRoaXMgZGVwZW5kcyBvbiBiZWluZyBhYmxlIHRvDQo+
-IGFsbG9jYXRlIGxhcmdlciBjaHVua3Mgb2YgbGluZWFyIG1lbW9yeS4gbnZtZS1jbGkgdXNlZCB0
-byB1c2UgbGliaHVnZXRsYg0KPiB0byBhdXRvbWF0aWNhbGx5IGFsbG9jYXRlIHRoZSBIdWdlVExC
-IHBvb2wuIFRob3VnaCBudm1lLWNsaSBkcm9wcGVkIHRoZQ0KPiBkZXBlbmRlbmN5IG9uIHRoZSBs
-aWJyYXJ5LCB0aHVzIHRoZSB0ZXN0IHNob3VsZCB0cnkgdG8gcHJvdmlzaW9uIHRoZQ0KPiBzeXN0
-ZW0gYWNjb3JkaW5nbHkuDQo+DQo+IExpbms6IGh0dHBzOi8vZ2l0aHViLmNvbS9saW51eC1udm1l
-L252bWUtY2xpL2lzc3Vlcy8yMjE4DQo+IFJlcG9ydGVkLWJ5OiBZaSBaaGFuZyA8eWkuemhhbmdA
-cmVkaGF0LmNvbT4NCj4gVGVzdGVkLWJ5OiBZaSBaaGFuZyA8eWkuemhhbmdAcmVkaGF0LmNvbT4N
-Cj4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFdhZ25lciA8ZHdhZ25lckBzdXNlLmRlPg0KPiAtLS0N
-Cj4gICANCg0KDQpMb29rcyBnb29kLg0KDQpSZXZpZXdlZC1ieTogQ2hhaXRhbnlhIEt1bGthcm5p
-IDxrY2hAbnZpZGlhLmNvbT4NCg0KLWNrDQoNCg0K
+Description:
+
+During endurance test, when a system was rebooted from NVMe drive, boot
+process hung occasionally. The number of reboot cycles was set to 1000,
+with interval of 120s. Hang occurred after ~300 reboot cycles.
+After investigating the cause, it was established that NVMe driver
+did not disable host memory during shutdown leaving NVMe controller
+in a state preventing proper initialization in BIOS pre-boot stage.
+Adding of the nvme_free_host_mem(dev) call fixed the issue.
+
+Michael Kropaczek (1):
+  nvme: Fix problem when booting from NVMe drive was leading to a hang.
+
+ drivers/nvme/host/pci.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+
+base-commit: 8d30528a170905ede9ab6ab81f229e441808590b
+-- 
+2.34.1
+
+From 1506c5099def8ecdd489d681033230492fa65bb2 Mon Sep 17 00:00:00 2001
+From: Michael Kropaczek <michael.kropaczek@solidigm.com>
+Date: Tue, 20 Feb 2024 23:40:36 -0800
+Subject: [PATCH v1 1/1] nvme: Fix problem when booting from NVMe drive was
+ leading to a hang.
+To: linux-nvme@lists.infradead.org
+Cc: Keith Busch <kbusch@kernel.org>,
+    Jens Axboe <axboe@fb.com>,
+    Christoph Hellwig <hch@lst.de>,
+    Sagi Grimberg <sagi@grimberg.me>,
+    Michael Kropaczek <michael.kropaczek@solidigm.com>
+
+On certain host architectures/HW, DRAM was keeping memory contents over reboot
+cycles. Certain NVMe controllers were accessing host memory after startup which
+led to undefined state, preventing proper initialization in BIOS boot stage.
+Freeing host memory during host's shutdown prevents the problem from occurring.
+
+Signed-off-by: Michael Kropaczek <michael.kropaczek@solidigm.com>
+---
+ drivers/nvme/host/pci.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index e6267a6aa380..ccddb7c379e3 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2593,6 +2593,16 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
+ 	}
+ 
++	/*
++	 * On certain host architectures/HW, DRAM was keeping memory contents over reboot-cycles.
++	 * It was observed that certain controllers were accessing host memory after
++	 * resetting which led to undefined state preventing proper initialization.
++	 */
++	if (dev->hmb)
++		nvme_set_host_mem(dev, 0);
++
++	nvme_free_host_mem(dev);
++
+ 	nvme_quiesce_io_queues(&dev->ctrl);
+ 
+ 	if (!dead && dev->ctrl.queue_count > 0) {
+-- 
+2.34.1
+
 
