@@ -4,59 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BDE14C5478A
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Feb 2024 18:08:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8478C48BEB
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Feb 2024 18:32:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2ibMi011Q0EQJ9o5N8+D6BIUHCeYNiiNeqUGcZf3ooA=; b=KBnWVbEYSCeq5Ql+uhEl6ZuzR0
-	4EOVK/kXEi25qZ0BdJjVNwwfXjgHJYwUmP16Xh2FAjkiaqfMTNor6ffhcM9+iPs/pcvvVf9UKprPS
-	Tf30ILm9Agb91TpUMzYXnNcHZQY0EsPOWYa6kWmo5w1/mJHu1TQ8XO48fuT7o6CCcOK6ioLfOgn2N
-	+fFzPfh3XACP7Kr6OfCDB6KOdmFEDiTK4VFhf+dR0Sbvo2X6TpEHUMWeze2+J/qqFkiE3Ba+6pEBM
-	Duh9ogzaCYs0otdO6U5Pi0aetaP5WJQLTDCZr9NYBxpl9fov5EyAUselVQJO2yy/D1LSCXEMUv4pS
-	qeYUJjkw==;
+	bh=BCKZ1UBP4Wj/w6fEAFQYv1+qM8ci73Vx/Xa7GoifUw8=; b=0e5SNiHVUUzMC3yKJiOaZZPeR3
+	NN3j+H9M1gDY7g2ea11xYXr4xRbUhzFjc1roXa8B7oY9zQekXLNXFlb57x7e9dlcrxK+GIrGzKpgM
+	EPJSGD2p7/hcHMB8QDGgm03A0DzF2BZJu93PBFi4xHdfgVgL0s/uKlDgYbb+FsvMauHAKoFijF8CO
+	eEojbC7czk4cj1rByCk9479+Lum1ZTEEMj1MYyxcfHLteKlB64dhVfpz9Lunk3mrzYrbPvW250z4Y
+	//r5LY29EnCAlEI8DUIIFLiRxbN2+An3wSom+0C/SGBDvS8eS+RXLX2bq7hnA6m80O/791GKR60F9
+	SMSblOhw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rcr1P-000000021Rh-1Vfk;
-	Wed, 21 Feb 2024 18:08:43 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
-	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rcr1N-000000021Qk-0jTO
-	for linux-nvme@lists.infradead.org;
-	Wed, 21 Feb 2024 18:08:42 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 70EECCE1E67;
-	Wed, 21 Feb 2024 18:08:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52DC9C433F1;
-	Wed, 21 Feb 2024 18:08:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708538918;
-	bh=ZdzfCl7xfQ11ruU8SKUsvaXH4I+/m1mTExj7GwXWwU0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kLNO8sIIUfSoRUZMnnU0uoP+z27gNOK+Knmi2TGLB8R3sXDzQIpjpzgL40zhPJstC
-	 p7TupIwnFdhHM8xXE0kOLyk0ySaAbADhPMf+XqxKWfPTexUCXiwYodTTzt8nWeg9H+
-	 UU9y789rdZLj23eejqG/4lHIF55ZYocW8rauUrrYwT/QnEu6WpEn0puELih+2uGiEh
-	 dxAhiem5uKKbbTa06xyT6A9beCwSYfEEIlPj6ochmcoAmpQDErrQLbttvsxrDoHGgM
-	 NaSdzd4kk1xNave0ECzf+5RjrMKkA08/EYIbEhK3uY3+3Dfvc3ZaTktcfxvN7s2e6v
-	 BR5dKgAcRmggA==
-Date: Wed, 21 Feb 2024 11:08:36 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: hare@kernel.org
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH] nvme-fabrics: typo in nvmf_parse_key()
-Message-ID: <ZdY8JAl921AnBWqi@kbusch-mbp>
-References: <20240221134530.142842-1-hare@kernel.org>
+	id 1rcrOR-000000027Ef-3S8P;
+	Wed, 21 Feb 2024 18:32:31 +0000
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rcrO1-000000027Ck-1ypC;
+	Wed, 21 Feb 2024 18:32:05 +0000
+Date: Wed, 21 Feb 2024 10:32:05 -0800
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Daniel Wagner <dwagner@suse.de>
+Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	"lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
+	"linux-fsdevel@vger.kernel.org >> linux-fsdevel" <linux-fsdevel@vger.kernel.org>,
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, Bart Van Assche <bvanassche@acm.org>,
+	"josef@toxicpanda.com" <josef@toxicpanda.com>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier@javigon.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	Hannes Reinecke <hare@suse.de>,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+	"shinichiro.kawasaki@wdc.com" <shinichiro.kawasaki@wdc.com>,
+	Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
+	"jack@suse.com" <jack@suse.com>, Ming Lei <ming.lei@redhat.com>,
+	Sagi Grimberg <sagi@grimberg.me>, Theodore Ts'o <tytso@mit.edu>,
+	"daniel@iogearbox.net" <daniel@iogearbox.net>
+Subject: Re: Re: [LSF/MM/BPF ATTEND][LSF/MM/BPF TOPIC] : blktests: status,
+ expansion plan for the storage stack test framework
+Message-ID: <ZdZBpb4vMMVoLfhs@bombadil.infradead.org>
+References: <e5d8cd68-b3f2-4d7b-b323-b13d18199256@nvidia.com>
+ <bh5s6a4fhhlje42bzj2t22k3jpmruzkx234ks4ytuhd62tonzj@zn6h5foaqrof>
+ <jfydrbb277d7ad2ypu5dottiqh4rtzm5ipf72wcjo34mmpvnl7@mjlqomulsq3q>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240221134530.142842-1-hare@kernel.org>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240221_100841_409009_F602D9B4 
-X-CRM114-Status: GOOD (  17.27  )
+In-Reply-To: <jfydrbb277d7ad2ypu5dottiqh4rtzm5ipf72wcjo34mmpvnl7@mjlqomulsq3q>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,35 +71,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Feb 21, 2024 at 02:45:30PM +0100, hare@kernel.org wrote:
-> From: Hannes Reinecke <hare@suse.de>
+On Tue, Jan 23, 2024 at 04:07:48PM +0100, Daniel Wagner wrote:
+> On Wed, Jan 17, 2024 at 09:50:50AM +0100, Daniel Wagner wrote:
+> > On Tue, Jan 09, 2024 at 06:30:46AM +0000, Chaitanya Kulkarni wrote:
+> > > For storage track, I would like to propose a session dedicated to
+> > > blktests. It is a great opportunity for the storage developers to gather
+> > > and have a discussion about:-
+> > > 
+> > > 1. Current status of the blktests framework.
+> > > 2. Any new/missing features that we want to add in the blktests.
+> > > 3. Any new kernel features that could be used to make testing easier?
+> > > 4. DM/MD Testcases.
+> > > 5. Potentially adding VM support in the blktests.
+> > 
+> > I am interested in such a session.
 > 
-> Of course we should use the key if there is no error ...
+> One discussion point I'd like to add is
+> 
+>   - running blktest against real hardare/target
 
-Fortunately the part that mattered handles the error correctly, but
-printing the wrong message is confusing.
+We've resolved this in fstests with canonicalizing device symlinks, and
+through kdevops its possible to even use PCIe passthrough onto a guest
+using dynamic kconfig (ie, specific to the host).
 
-Applied to nvme-6.8, thanks!
- 
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> ---
->  drivers/nvme/host/fabrics.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-> index 3499acbf6a82..ab5ac219b70a 100644
-> --- a/drivers/nvme/host/fabrics.c
-> +++ b/drivers/nvme/host/fabrics.c
-> @@ -637,7 +637,7 @@ static struct key *nvmf_parse_key(int key_id)
->  	}
->  
->  	key = key_lookup(key_id);
-> -	if (!IS_ERR(key))
-> +	if (IS_ERR(key))
->  		pr_err("key id %08x not found\n", key_id);
->  	else
->  		pr_debug("Using key id %08x\n", key_id);
-> -- 
-> 2.35.3
-> 
+It should be possible to do that in blktests too, but the dynamic
+kconfig thing is outside of scope, but this is a long winded way of
+suggestin that if we extend blktests to add a canonon-similar device
+function, then since kdevops supports blktests you get that pcie
+passthrough for free too.
+
+  Luis
 
