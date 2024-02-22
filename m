@@ -4,129 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4DEFC48BF8
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Feb 2024 17:02:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8CEC6C48BF8
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Feb 2024 18:45:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HLucWJAnSoNf82M7QH7aDsfl6ohwEWpNqi7zovHhgTk=; b=bPCk0Qu6DFxqg9a9pUsbwqDWr0
-	CaHTmzrhFX/2FfBi8P1KDOaZrnROk6dVSnenoB4iKnXyj+56yCvgCYdI2qklm5JPOQXzX4Zp/MZng
-	SXKSQRIk69cQ3eEuJ2mKzWkx8JPg2k9Y0RFJEKTVUYJ3sHY+vOcGuSNNo5NglTSF8ddclPCmzkrKA
-	kqnPqW8XCEiji3CcwiA61GMr1Zb92dpTTqW4PPA7jU8sS6ruV7UGU1F5BeN9hlixJ9AOdJkrp7uI7
-	rDoCAssQaEP56toUT6CV5tKJdEAQ5m5U1m6IdbuqttWHWdfL8lESbrMDVBHVwwNHjxuCQKoVN8qJo
-	aBtj1lJg==;
+	bh=yOb/RuraypnITZK8K9KciUvMA2gEcSTBZFoeNPrttlI=; b=YqzRmrs7x6KykOQBzxecwTqkkX
+	wTM/8wZlVvoHGuj711lpmfq+SxB6fUHOsxaWjagxIij2lAYvubsUKthnZ23whGOohmkZV6XtQEdl+
+	9ES3Pw0IdGRM/axwvrTPj9o1hSLT7UQYrbaufAzqsGFtqPmhl6v6Bd9aZFdUItDyM7hrk9fpw9yGZ
+	rSj4ynbtDNZDddolIEzA1j7P6AC3bhY9nkJjkOyMusX5C+YCgTqm6fw2b4112+zcAraS7JzeixKX6
+	clqROXgqAA1dzoUoPeRLzfMQ3mi4hUXB73USAoD8QXZGs3U0NtHyruspkjjt2jw2rwkBPAq3mFI4Q
+	zCaexF1w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rdCSo-00000005hqh-00HC;
-	Thu, 22 Feb 2024 17:02:26 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
-	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rdCSf-00000005hpG-0FFw
-	for linux-nvme@lists.infradead.org;
-	Thu, 22 Feb 2024 17:02:19 +0000
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0876E22040;
-	Thu, 22 Feb 2024 17:02:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708621335; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HLucWJAnSoNf82M7QH7aDsfl6ohwEWpNqi7zovHhgTk=;
-	b=q2QzjfdHd5YffiUmCT5S74RFu/H3Wl8qNGgac1dXuh76sRccZS+SHdnQYIN+HBgi7fjLvn
-	YwMiJXnBPogtzlYtvTccsbUqVl7uzyxnmfhvT0x58Uak4CF6vZ0LS6TevsnDxJAWEwiAkf
-	ZdbyK9LBKukLWcRLqavsewlhLR8y3E8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708621335;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HLucWJAnSoNf82M7QH7aDsfl6ohwEWpNqi7zovHhgTk=;
-	b=zyQ3FrwwpKxW+a2lRJUo42X3qXwU971H7n9y+5ymLLEsE2QSSaWnVDGJEEPkWvRzJij2EO
-	jC6SxQ7cJQ9qYGBw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1708621335; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HLucWJAnSoNf82M7QH7aDsfl6ohwEWpNqi7zovHhgTk=;
-	b=q2QzjfdHd5YffiUmCT5S74RFu/H3Wl8qNGgac1dXuh76sRccZS+SHdnQYIN+HBgi7fjLvn
-	YwMiJXnBPogtzlYtvTccsbUqVl7uzyxnmfhvT0x58Uak4CF6vZ0LS6TevsnDxJAWEwiAkf
-	ZdbyK9LBKukLWcRLqavsewlhLR8y3E8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1708621335;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HLucWJAnSoNf82M7QH7aDsfl6ohwEWpNqi7zovHhgTk=;
-	b=zyQ3FrwwpKxW+a2lRJUo42X3qXwU971H7n9y+5ymLLEsE2QSSaWnVDGJEEPkWvRzJij2EO
-	jC6SxQ7cJQ9qYGBw==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id E93FD13419;
-	Thu, 22 Feb 2024 17:02:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id Fot9NxZ+12XJBwAAn2gu4w
-	(envelope-from <dwagner@suse.de>); Thu, 22 Feb 2024 17:02:14 +0000
-Date: Thu, 22 Feb 2024 18:02:09 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Hannes Reinecke <hare@suse.de>
-Cc: James Smart <james.smart@broadcom.com>, 
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/5] nvme-fc: do not retry when auth fails or
- connection is refused
-Message-ID: <hxr2hztb64dank3jvbnrlciaebo4k2qkkrg3brhrppizeyelpo@ewupxurl7iqm>
-References: <20240221132404.6311-1-dwagner@suse.de>
- <20240221132404.6311-3-dwagner@suse.de>
- <d5b3d5b2-ec27-4057-aa76-63fe17066cfc@suse.de>
- <sqmla42yoidail73xukhxb6uoyayo66pxpdlrhns3v533wm7wy@ppyr7t5gk3u3>
- <609e0031-e97c-466b-8cbd-47755374b117@suse.de>
- <3xhhdconprn3vvkky4yj4iazku4eiqxl6l6rw6z5tivvdjwaby@ts7satqbih7w>
+	id 1rdE4Z-00000006BUj-2Buf;
+	Thu, 22 Feb 2024 18:45:31 +0000
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rdE4T-00000006BTO-2hLZ;
+	Thu, 22 Feb 2024 18:45:25 +0000
+Date: Thu, 22 Feb 2024 10:45:25 -0800
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Matthew Wilcox <willy@infradead.org>,
+	Daniel Gomez <da.gomez@samsung.com>,
+	Pankaj Raghav <p.raghav@samsung.com>,
+	Dave Chinner <david@fromorbit.com>, Jan Kara <jack@suse.cz>
+Cc: Bart Van Assche <bvanassche@acm.org>,
+	Christoph Hellwig <hch@infradead.org>,
+	Hannes Reinecke <hare@suse.de>, lsf-pc@lists.linuxfoundation.org,
+	linux-mm@kvack.org, linux-block@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: [LSF/MM/BPF TOPIC] Large block for I/O
+Message-ID: <ZdeWRaGQo1IX18pL@bombadil.infradead.org>
+References: <7970ad75-ca6a-34b9-43ea-c6f67fe6eae6@iogearbox.net>
+ <4343d07b-b1b2-d43b-c201-a48e89145e5c@iogearbox.net>
+ <03ebbc5f-2ff5-4f3c-8c5b-544413c55257@suse.de>
+ <5c356222-fe9e-41b0-b7fe-218fbcde4573@acm.org>
+ <ZYUbB3brQ0K3rP97@casper.infradead.org>
+ <ZYUgo0a51nCgjLNZ@infradead.org>
+ <9b46c48f-d7c4-4ed3-a644-fba90850eab8@acm.org>
+ <ZZxOdWoHrKH4ImL7@casper.infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3xhhdconprn3vvkky4yj4iazku4eiqxl6l6rw6z5tivvdjwaby@ts7satqbih7w>
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=q2QzjfdH;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=zyQ3Frww
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-5.51 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_DKIM_ARC_DNSWL_HI(-1.00)[];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_SEVEN(0.00)[7];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 RCVD_IN_DNSWL_HI(-0.50)[2a07:de40:b281:104:10:150:64:98:from];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
-X-Rspamd-Queue-Id: 0876E22040
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240222_090217_273658_B6A18A31 
-X-CRM114-Status: GOOD (  21.92  )
+In-Reply-To: <ZZxOdWoHrKH4ImL7@casper.infradead.org>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -141,68 +65,103 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Feb 22, 2024 at 08:45:04AM +0100, Daniel Wagner wrote:
-> On Thu, Feb 22, 2024 at 07:46:12AM +0100, Hannes Reinecke wrote:
-> > On 2/21/24 17:37, Daniel Wagner wrote:
-> > > On Wed, Feb 21, 2024 at 04:53:44PM +0100, Hannes Reinecke wrote:
-> > > In this case yes, I've tested on top of this patch. This breaks the loop
-> > > where the provided key is invalid or is missing. The loop would happy
-> > > retry until reaching max of retries.
+On Mon, Jan 08, 2024 at 07:35:17PM +0000, Matthew Wilcox wrote:
+> On Mon, Jan 08, 2024 at 11:30:10AM -0800, Bart Van Assche wrote:
+> > On 12/21/23 21:37, Christoph Hellwig wrote:
+> > > On Fri, Dec 22, 2023 at 05:13:43AM +0000, Matthew Wilcox wrote:
+> > > > It clearly solves a problem (and the one I think it's solving is the
+> > > > size of the FTL map).  But I can't see why we should stop working on it,
+> > > > just because not all drive manufacturers want to support it.
+> > > 
+> > > I don't think it is drive vendors.  It is is the SSD divisions which
+> > > all pretty much love it (for certain use cases) vs the UFS/eMMC
+> > > divisions which tends to often be fearful and less knowledgeable (to
+> > > say it nicely) no matter what vendor you're talking to.
 > > 
-> > But that's to be expected, no?
+> > Hi Christoph,
+> > 
+> > If there is a significant number of 4 KiB writes in a workload (e.g.
+> > filesystem metadata writes), and the logical block size is increased from
+> > 4 KiB to 16 KiB, this will increase write amplification no matter how the
+> > SSD storage controller has been designed, isn't it? Is there perhaps
+> > something that I'm misunderstanding?
 > 
-> Why? If the key is wrong/missing it will be likely wrong/missing the
-> next retry again. So what's the point in retrying?
-> 
-> > After all, that's _precisely_ what
-> > NVME_SC_DNR is for;
-> > if you shouldn't retry, that bit is set.
-> > If it's not set, you should.
-> 
-> Okay, in this case there is a bug in the auth code somewhere.
+> You're misunderstanding that it's the _drive_ which gets to decide the
+> logical block size. Filesystems literally can't do 4kB writes to these
+> drives; you can't do a write smaller than a block.  If your clients
+> don't think it's a good tradeoff for them, they won't tell Linux that
+> the minimum IO size is 16kB.
 
-With the change below nvme/041 also passes:
+Yes, but its perhaps good to review how flexible this might be or not.
+I can at least mention what I know of for NVMe. Getting a lay of the
+land of this for other storage media would be good.
 
-modified   drivers/nvme/host/fabrics.c
-@@ -467,7 +467,7 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
- 		if (result & NVME_CONNECT_AUTHREQ_ASCR) {
- 			dev_warn(ctrl->device,
- 				 "qid 0: secure concatenation is not supported\n");
--			ret = NVME_SC_AUTH_REQUIRED;
-+			ret = NVME_SC_AUTH_REQUIRED | NVME_SC_DNR;
- 			goto out_free_data;
- 		}
- 		/* Authentication required */
-@@ -475,7 +475,7 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
- 		if (ret) {
- 			dev_warn(ctrl->device,
- 				 "qid 0: authentication setup failed\n");
--			ret = NVME_SC_AUTH_REQUIRED;
-+			ret = NVME_SC_AUTH_REQUIRED | NVME_SC_DNR;
- 			goto out_free_data;
- 		}
- 		ret = nvme_auth_wait(ctrl, 0);
-@@ -540,8 +540,9 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
- 		/* Secure concatenation is not implemented */
- 		if (result & NVME_CONNECT_AUTHREQ_ASCR) {
- 			dev_warn(ctrl->device,
--				 "qid 0: secure concatenation is not supported\n");
--			ret = NVME_SC_AUTH_REQUIRED;
-+				 "qid %d: secure concatenation is not supported\n",
-+				 qid);
-+			ret = NVME_SC_AUTH_REQUIRED | NVME_SC_DNR;
- 			goto out_free_data;
- 		}
- 		/* Authentication required */
-@@ -549,7 +550,7 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
- 		if (ret) {
- 			dev_warn(ctrl->device,
- 				 "qid %d: authentication setup failed\n", qid);
--			ret = NVME_SC_AUTH_REQUIRED;
-+			ret = NVME_SC_AUTH_REQUIRED | NVME_SC_DNR;
- 		} else {
- 			ret = nvme_auth_wait(ctrl, qid);
- 			if (ret)
+Some of the large capacity NVMe drives have NPWG as 16k, that just means
+the Indirection Unit is 16k, the mapping table, so the drive is hinting
+*we prefer 16k* but you can still do 4k writes, it just means for all
+these drives that a 4k write will be a RMW.
 
-Is this what you had in mind?
+Users who *want* to help avoid RMWs on these drives and want to increase the
+writes to be at least 16k can enable a 16k or larger block size so to
+align the writes. The experimentation we have done using Daniel Gomez's
+eBPF blkalgn tool [0] reveal (as discussed at last year's Plumbers) that
+there were still some 4k writes, this was in turn determined to be due
+to XFS's buffer cache usage for metadata. Dave recently posted patches to allow
+to use large folios on the xfs buffer cache [1], and Daniel has started making
+further observations on this which he'll be revealing soon.
+
+[0] https://github.com/dagmcr/bcc/tree/blkalgn-dump
+[1] https://lore.kernel.org/all/20240118222216.4131379-1-david@fromorbit.com/
+
+For large capacity NVMe drives with large atomics (NAUWPF), the
+nvme block driver will allow for the physical block size to be 16k too,
+thus allowing the sector size to be set to 16k when creating the
+filesystem, that would *optionally* allow for users to force the
+filesystem to not allow *any* writes to the device to be 4k. Note
+then that there are two ways to be able to use a sector size of 16k
+for NVMe today then, one is if your drive supported 16 LBA format and
+another is with these two parameters set to 16k. The later allows you
+to stick with 512 byte or 4k LBA format and still use a 16k sector size.
+That allows you to remain backward compatible.
+
+Jan Kara's patches "block: Add config option to not allow writing to
+mounted devices" [2] should allow us to remove the set_blocksize() call
+in xfs_setsize_buftarg() since XFS does not use the block device cache
+at all, and his pathces ensure once a filesystem is mounted userspace
+won't muck with the block device directly.
+
+As for the impact of this for 4k writes, if you create the filesystem
+with a 16 sector size then we're strict, and it means at minimum 16k is
+needed. It is no different than what is done for 4k where the logical
+block size is 512 bytes and we use a 4k sector size as the physical
+block size is 4k. If using buffered IO then we can leverage the page
+cache for modifications. Either way, you should do your WAF homework
+too. Even if you *do* have 4k workloads, underneath the hood you may see
+that as of matter of fact the number of IOs which are 4k are very likely
+small in count. In so far as WAF is concerned, the *IO volume* is what
+matters.  Luca Bert has a great write up on his team's findings when
+evaluating some real world workload's WAF estimates when considering
+IO volume [3].
+
+[2] https://lkml.kernel.org/r/20231101173542.23597-1-jack@suse.cz
+[3] https://www.micron.com/about/blog/2023/october/real-life-workloads-allow-more-efficient-data-granularity-and-enable-very-large-ssd-capacities
+
+We were not aware of public open source tools to do what they did,
+so we worked on a tool that allows just that. You can measure your
+workload WAF using Daniel Gomez's WAF tool for NVMe [4] and decide if
+the tradeoffs are acceptable. It would be good for us to automate
+generic workloads, slap it on kdevops, and compute WAF, for instance.
+
+[4] https://github.com/dagmcr/bcc/tree/nvmeiuwaf
+
+> Some workloads are better with a 4kB block size, no doubt.  Others are
+> better with a 512 byte block size.  That doesn't prevent vendors from
+> offering 4kB LBA size drives.
+
+Indeed, using large block sizes by no not meant for all workloads. But
+it's a good time to also remind folks that larger IOs tend to just be
+good for flash storage in general too. So if your WAF measurements check
+out, using large block sizes is something to evaluate.
+
+ Luis
 
