@@ -4,63 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 706E6C48BF8
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Feb 2024 20:36:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BF830C48BF8
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Feb 2024 21:02:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=k+/GlGXnRcFXsy3LEgIo9ZI58ADiQz752Ul04hDyrK4=; b=kyI3Zh/JphXuYKdGqFTJVfaaRa
-	6pdPlpo9SShxxQu2HGZZQQc+8GHwld1zqRp0C+PFUXRKE8Ue+0CTCOhik22liD1WauabUTm7UGChv
-	H6b2O170j8bNmbCGhG8dTjlHW7WByClQacy7kdfiGfg2HXyq3K0z3183DPXWzWMvUQlSL85GO6SnZ
-	zsNMYpBS9QA5wFysQTT1Bztxt3AUoVKIV9Tu7mT/WXcfuQmqjG/VedGMn06QMXAUc2D6plQJB6F1z
-	GKzZ0LboFoQJSzy90jqWAuRJc+FL5mECZdVhq5GmoAfCsxtJbYrtbdQZFpH63m+4cCIkVOWuQ4WKG
-	4CneHhgg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
+	Content-Transfer-Encoding:Mime-Version:Content-Type:References:In-Reply-To:
+	Date:Cc:To:From:Subject:Message-ID:Content-ID:Content-Description:Resent-Date
+	:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=iHmgRUT9SX+zZV5/hhMnuKRLOmXEIyuIC4dh2jZnQF0=; b=wpT32GZmo7+h3ybJdAWlNOuym1
+	8P8/5plBxb+BlAWkMro9Wn9YTrhZcMZ7lSqOv02ZN+g3nOOWZku4xLMiOwjbJVYHl17o0j2dm0oFO
+	u5CllnpQeuEhO7LGa2Rv2Va29fKdcM5FeWwrDvnObx49JeXjx8YG0swX7nWGJ/JeG5tND8sFsAqId
+	0+E1tN9y6T3xp24dSa7lwxQSZrbYTW4m9Vu7psA8oQyUPNDjazg2SceAFZrPZZ30o+qqIKvOsVdP/
+	EVhssZXE4O7b4Fr0qX7QtMBVwal5X/NJhaGFjYTmkeYgj16eEGJXKD+vMCT7A5iG3MLEBC+JocoEA
+	EfQkYZPQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rdFo9-00000006WZ4-2rCh;
-	Thu, 22 Feb 2024 20:36:41 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1rdGCn-00000006aYl-3Wbg;
+	Thu, 22 Feb 2024 21:02:09 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rdFo3-00000006WYi-1xNa
+	id 1rdGCh-00000006aYR-3Eu9
 	for linux-nvme@lists.infradead.org;
-	Thu, 22 Feb 2024 20:36:36 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id D3DE063323;
-	Thu, 22 Feb 2024 20:36:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AA81C433C7;
-	Thu, 22 Feb 2024 20:36:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708634194;
-	bh=JiKEJMqBMWf0r59f8rIUNxIE63i+W+PGvBWycBv+roE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dGpFPsh8jEH0DKn47mjVCA8Y5hPjLzw2sgOfVy+XmGBBBOwsJaGEHgD5P/XbcF3+c
-	 hDx3trVAiy8+bS+CmiF6yR5QsOvUICeUnolcDcKuUrsNFvZFYmnHKTdjFw2iN6yg6V
-	 +Z7fYCeJnorqCzbJB53uKZq6hdRwT6fLe2uWJRvp0lhRSlojyHCPTIAsSclZJxRnTY
-	 /csQdGnOfqPEXiAkR2V73jjCdZ2ypKbWgHwVTVk2OpA+asRcnhb+hAARrlg5AWVkaM
-	 YikwTI74/xQkk5O8p8A7paezm5Qq1ujAbwMqxuSJqHHijKvHyEsAohowp9taV0ZQh5
-	 gq+J2tektcUew==
-Date: Thu, 22 Feb 2024 13:36:31 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Michael Kropaczek <Michael.Kropaczek@solidigm.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH v1 0/1] nvme: Fix problem when booting from NVMe drive
- was leading to a hang.
-Message-ID: <ZdewTyX522lO3pTP@kbusch-mbp>
-References: <20240221084340.825068-1-michael.kropaczek@solidigm.com>
- <Zdd2BOp6DEC6N51V@kbusch-mbp>
- <PH0PR10MB541949F6392DE75106A93A0192562@PH0PR10MB5419.namprd10.prod.outlook.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PH0PR10MB541949F6392DE75106A93A0192562@PH0PR10MB5419.namprd10.prod.outlook.com>
+	Thu, 22 Feb 2024 21:02:05 +0000
+Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 41MKpRXP031444;
+	Thu, 22 Feb 2024 21:00:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : reply-to : to : cc : date : in-reply-to : references : content-type
+ : mime-version : content-transfer-encoding; s=pp1;
+ bh=iHmgRUT9SX+zZV5/hhMnuKRLOmXEIyuIC4dh2jZnQF0=;
+ b=DDCTiXDJdjokUhXZNQt5vpF9Gf7uwiI8+5bmVNBnGHjWkKMpopfNw4HslrueKXiny4gG
+ xZbDUEDPAsajTSwAkifkevcW2zD1JQXm5td8wfbnfXrmIv6dIC1nRXCECIAjfw6Cw8nu
+ ve9q2slU39TKW6NHn4lo1XMi8KyfnErYoUTZyH5SaYp2b1aCL6pk+v6FtJOZWWnJBG6d
+ NPHZ0Hfgmk7ochLWjOGNfca0uYEYaeso8FC2symwWuCDtZIQFX+YF1g7OLE7rAvxzDqZ
+ b8LwENNgioAaNKFQjjzjEcuXBvYN6e0Vhd9n1f5pC+eG8LWLL4kuaOrvTc4qYXOk3FJp Qw== 
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wedcx8k56-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 22 Feb 2024 21:00:20 +0000
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 41MKB72o017265;
+	Thu, 22 Feb 2024 21:00:15 GMT
+Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3wb8mmrrjp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 22 Feb 2024 21:00:15 +0000
+Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com [10.39.53.232])
+	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 41ML0BQE29622738
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 22 Feb 2024 21:00:13 GMT
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A44BF5809B;
+	Thu, 22 Feb 2024 21:00:09 +0000 (GMT)
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 374C458065;
+	Thu, 22 Feb 2024 21:00:09 +0000 (GMT)
+Received: from rhel-laptop.ibm.com (unknown [9.61.141.127])
+	by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 22 Feb 2024 21:00:09 +0000 (GMT)
+Message-ID: <14c739bedccbf5a4cf21cf3fec724bc17fa265b6.camel@linux.ibm.com>
+Subject: Re: [PATCH RESEND] nvme-pci: Fix EEH failure on ppc after subsystem
+ reset
+From: Greg Joyce <gjoyce@linux.ibm.com>
+To: Nilay Shroff <nilay@linux.ibm.com>, kbusch@kernel.org, axboe@fb.com,
+        hch@lst.de, sagi@grimberg.me, hare@suse.de, dwagner@suse.de,
+        Wendy Xiong
+	 <wenxiong@linux.ibm.com>
+Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org
+Date: Thu, 22 Feb 2024 15:00:08 -0600
+In-Reply-To: <20240209050342.406184-1-nilay@linux.ibm.com>
+References: <20240209050342.406184-1-nilay@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-22.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: rkaLANrPWZs_7kUFTmK9QCt-7wfu_52Z
+X-Proofpoint-ORIG-GUID: rkaLANrPWZs_7kUFTmK9QCt-7wfu_52Z
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-22_15,2024-02-22_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 phishscore=0
+ priorityscore=1501 lowpriorityscore=0 adultscore=0 mlxscore=0 spamscore=0
+ suspectscore=0 bulkscore=0 impostorscore=0 clxscore=1011 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2402220164
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240222_123635_578313_1C4728DC 
-X-CRM114-Status: GOOD (  15.26  )
+X-CRM114-CacheID: sfid-20240222_130204_087373_B5328588 
+X-CRM114-Status: GOOD (  39.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,29 +104,155 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: gjoyce@linux.ibm.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Feb 22, 2024 at 08:02:52PM +0000, Michael Kropaczek wrote:
-> The function nvme_dev_disable() changed here is called from the nvme_shutdown() subsequently through nvme_disable_prepare_reset() with the flag shutdown being set as true.
+On Fri, 2024-02-09 at 10:32 +0530, Nilay Shroff wrote:
+> If the nvme subsyetm reset causes the loss of communication to the
+> nvme
+> adapter then EEH could potnetially recover the adapter. The detection
+> of
+> comminication loss to the adapter only happens when the nvme driver
+> attempts to read an MMIO register.
 > 
-> Considering the re-usability of the code, would it be correct to wrap up the change into if(shutdown) statement?
+> The nvme subsystem reset command writes 0x4E564D65 to NSSR register
+> and
+> schedule adapter reset.In the case nvme subsystem reset caused the
+> loss
+> of communication to the nvme adapter then either IO timeout event or
+> adapter reset handler could detect it. If IO timeout even could
+> detect
+> loss of communication then EEH handler is able to recover the
+> communication to the adapter. This change was implemented in
+> 651438bb0af5
+> (nvme-pci: Fix EEH failure on ppc). However if the adapter
+> communication
+> loss is detected in nvme reset work handler then EEH is unable to
+> successfully finish the adapter recovery.
 > 
-> The reason for asking is that disabling of host memory should follow other calls as well and placing it within the body of nvme_shutdown() would require more adjustments.
+> This patch ensures that,
+> - nvme driver reset handler would observer pci channel was offline
+> after
+>   a failed MMIO read and avoids marking the controller state to DEAD
+> and
+>   thus gives a fair chance to EEH handler to recover the nvme
+> adapter.
 > 
-> The call to nvme_disable_prepare_reset() with the flag shutdown set as true is made whenever the NVMe controller should be shut down anyway.
+> - if nvme controller is already in RESETTNG state and pci channel
+> frozen
+>   error is detected then  nvme driver pci-error-handler code sends
+> the
+>   correct error code (PCI_ERS_RESULT_NEED_RESET) back to the EEH
+> handler
+>   so that EEH handler could proceed with the pci slot reset.
+> 
+> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
 
-Just calling nvme_set_host_mem() should be sufficient; no need to free
-the memory here as we may just be giving it back to the device on the
-reset or resume side.
+Note that while in this case the issue was discovered via the Power EEH
+handler, this is not a Power specific issue. The problem and fix is
+applicable to all architectures.
+ 
 
-And per spec, the device is supposed to automatically clear its host
-memory enabling on a reset or shutdown, so this shouldn't be necessary.
-Sounds like something isn't spec complaint in your environment.
+> 
+> [  131.415601] EEH: Recovering PHB#40-PE#10000
+> [  131.415619] EEH: PE location: N/A, PHB location: N/A
+> [  131.415623] EEH: Frozen PHB#40-PE#10000 detected
+> [  131.415627] EEH: Call Trace:
+> [  131.415629] EEH: [c000000000051078]
+> __eeh_send_failure_event+0x7c/0x15c
+> [  131.415782] EEH: [c000000000049bdc]
+> eeh_dev_check_failure.part.0+0x27c/0x6b0
+> [  131.415789] EEH: [c000000000cb665c] nvme_pci_reg_read32+0x78/0x9c
+> [  131.415802] EEH: [c000000000ca07f8] nvme_wait_ready+0xa8/0x18c
+> [  131.415814] EEH: [c000000000cb7070] nvme_dev_disable+0x368/0x40c
+> [  131.415823] EEH: [c000000000cb9970] nvme_reset_work+0x198/0x348
+> [  131.415830] EEH: [c00000000017b76c] process_one_work+0x1f0/0x4f4
+> [  131.415841] EEH: [c00000000017be2c] worker_thread+0x3bc/0x590
+> [  131.415846] EEH: [c00000000018a46c] kthread+0x138/0x140
+> [  131.415854] EEH: [c00000000000dd58] start_kernel_thread+0x14/0x18
+> [  131.415864] EEH: This PCI device has failed 1 times in the last
+> hour and will be permanently disabled after 5 failures.
+> [  131.415874] EEH: Notify device drivers to shutdown
+> [  131.415882] EEH: Beginning: 'error_detected(IO frozen)'
+> [  131.415888] PCI 0040:01:00.0#10000: EEH: Invoking nvme-
+> >error_detected(IO frozen)
+> [  131.415891] nvme nvme1: frozen state error detected, reset
+> controller
+> [  131.515358] nvme 0040:01:00.0: enabling device (0000 -> 0002)
+> [  131.515778] nvme nvme1: Disabling device after reset failure: -19
+> [  131.555336] PCI 0040:01:00.0#10000: EEH: nvme driver reports:
+> 'disconnect'
+> [  131.555343] EEH: Finished:'error_detected(IO frozen)' with
+> aggregate recovery state:'disconnect'
+> [  131.555371] EEH: Unable to recover from failure from PHB#40-
+> PE#10000.
+> [  131.555371] Please try reseating or replacing it
+> [  131.556296] EEH: of node=0040:01:00.0
+> [  131.556351] EEH: PCI device/vendor: 00251e0f
+> [  131.556421] EEH: PCI cmd/status register: 00100142
+> [  131.556428] EEH: PCI-E capabilities and status follow:
+> [  131.556678] EEH: PCI-E 00: 0002b010 10008fe3 00002910 00436044
+> [  131.556859] EEH: PCI-E 10: 10440000 00000000 00000000 00000000
+> [  131.556869] EEH: PCI-E 20: 00000000
+> [  131.556875] EEH: PCI-E AER capability register set follows:
+> [  131.557115] EEH: PCI-E AER 00: 14820001 00000000 00400000 00462030
+> [  131.557294] EEH: PCI-E AER 10: 00000000 0000e000 000002a0 00000000
+> [  131.557469] EEH: PCI-E AER 20: 00000000 00000000 00000000 00000000
+> [  131.557523] EEH: PCI-E AER 30: 00000000 00000000
+> [  131.558807] EEH: Beginning: 'error_detected(permanent failure)'
+> [  131.558815] PCI 0040:01:00.0#10000: EEH: Invoking nvme-
+> >error_detected(permanent failure)
+> [  131.558818] nvme nvme1: failure state error detected, request
+> disconnect
+> [  131.558839] PCI 0040:01:00.0#10000: EEH: nvme driver reports:
+> 'disconnect'
+> ---
+>  drivers/nvme/host/pci.c | 16 +++++++++++++---
+>  1 file changed, 13 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index c1d6357ec98a..a6ba46e727ba 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2776,6 +2776,14 @@ static void nvme_reset_work(struct work_struct
+> *work)
+>   out_unlock:
+>  	mutex_unlock(&dev->shutdown_lock);
+>   out:
+> +	/*
+> +	 * If PCI recovery is ongoing then let it finish first
+> +	 */
+> +	if (pci_channel_offline(to_pci_dev(dev->dev))) {
+> +		dev_warn(dev->ctrl.device, "PCI recovery is ongoing so
+> let it finish\n");
+> +		return;
+> +	}
+> +
+>  	/*
+>  	 * Set state to deleting now to avoid blocking
+> nvme_wait_reset(), which
+>  	 * may be holding this pci_dev's device lock.
+> @@ -3295,9 +3303,11 @@ static pci_ers_result_t
+> nvme_error_detected(struct pci_dev *pdev,
+>  	case pci_channel_io_frozen:
+>  		dev_warn(dev->ctrl.device,
+>  			"frozen state error detected, reset
+> controller\n");
+> -		if (!nvme_change_ctrl_state(&dev->ctrl,
+> NVME_CTRL_RESETTING)) {
+> -			nvme_dev_disable(dev, true);
+> -			return PCI_ERS_RESULT_DISCONNECT;
+> +		if (nvme_ctrl_state(&dev->ctrl) != NVME_CTRL_RESETTING)
+> {
+> +			if (!nvme_change_ctrl_state(&dev->ctrl,
+> NVME_CTRL_RESETTING)) {
+> +				nvme_dev_disable(dev, true);
+> +				return PCI_ERS_RESULT_DISCONNECT;
+> +			}
+>  		}
+>  		nvme_dev_disable(dev, false);
+>  		return PCI_ERS_RESULT_NEED_RESET;
 
-Going through the git histroy, we use to disable host mem here, but
-timeout handling doesn't work within nvme_dev_disable(). All the
-operations done from here need to guarantee forward progress, and this
-set function command doesn't do that. The only example of admin commands
-that handle their own timeout is the queue deletion sequence.
+
 
