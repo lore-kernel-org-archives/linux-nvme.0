@@ -4,60 +4,129 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 627A1C54791
-	for <linux-nvme@archiver.kernel.org>; Thu, 22 Feb 2024 16:28:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4DEFC48BF8
+	for <linux-nvme@archiver.kernel.org>; Thu, 22 Feb 2024 17:02:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fD6Y3WWRlgHe31yUQSDQTmgDQznQJe7GST1C9nx2ML4=; b=zv/0p7r4t+urQI4OLM45J4+Miw
-	36sjM+v2APM8YdQhzhGCGNBsQF+wg8jOsV9O6FHailofJVJ3a6MYr9dCWfffnaxFl+SqXxI5sQ6kT
-	F4/dqSeBivyn7JwptX00/NxYRdlFjGdOlE4ZBuyC//YwYRpnxCGRv+ysEUO1YdLSFbRUyqfRA9OxM
-	U1PCP0sZlViasf5mWJRz/vNvJgFykX4URQ3W3FDUVEy8QutUgMO1TB6tOW/uwmyNdzV3VxwA8BoUL
-	qJ32vGLgLrs31ZcaNFRlNr/K+oNcnWz8NqrCP+pHtCyoQokaF94FRvZ8W/BobuSnyCXskiLS1nZFQ
-	Jxbm4PhA==;
+	bh=HLucWJAnSoNf82M7QH7aDsfl6ohwEWpNqi7zovHhgTk=; b=bPCk0Qu6DFxqg9a9pUsbwqDWr0
+	CaHTmzrhFX/2FfBi8P1KDOaZrnROk6dVSnenoB4iKnXyj+56yCvgCYdI2qklm5JPOQXzX4Zp/MZng
+	SXKSQRIk69cQ3eEuJ2mKzWkx8JPg2k9Y0RFJEKTVUYJ3sHY+vOcGuSNNo5NglTSF8ddclPCmzkrKA
+	kqnPqW8XCEiji3CcwiA61GMr1Zb92dpTTqW4PPA7jU8sS6ruV7UGU1F5BeN9hlixJ9AOdJkrp7uI7
+	rDoCAssQaEP56toUT6CV5tKJdEAQ5m5U1m6IdbuqttWHWdfL8lESbrMDVBHVwwNHjxuCQKoVN8qJo
+	aBtj1lJg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rdBvU-00000005bmG-20LJ;
-	Thu, 22 Feb 2024 16:28:00 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1rdCSo-00000005hqh-00HC;
+	Thu, 22 Feb 2024 17:02:26 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rdBvO-00000005bli-1SLB
+	id 1rdCSf-00000005hpG-0FFw
 	for linux-nvme@lists.infradead.org;
-	Thu, 22 Feb 2024 16:27:55 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id AEA3DCE283E;
-	Thu, 22 Feb 2024 16:27:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90BD6C433F1;
-	Thu, 22 Feb 2024 16:27:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708619272;
-	bh=vAJ0nO2/pejmhpbS96r/dW5f4kuCmrY3lVoP8HNinBs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HMSZgEb3jONrzhQ+rXaBtlgdUGiyuN6XHscgnuu666P4TUHH/YivP2AU7PoOGZtdv
-	 ZS0+E7nYvrAgrQXj5/Qj0whPxMT9yn7OuPl6TZFuB0ZDnL39BVOyBURR4BwCPb5Y+f
-	 GhVjljOofLIvtONpOPM0IK0a6VJ2afdklapS1YWh/7RuNA42QlCoSKwwcGMfetw2lW
-	 O6ytlYiXPfvj10lNHb5WkJE1aR1r/ei1N114B+98lMJ0TIHGqdld/eMx4ZNS9eEKTn
-	 rfoTXMd7tJsTlEUd2Ac7eqrA04BJXR+J750LlOojzFMY9k1shZwnz7v9IM71KyFgFV
-	 Ts2FG2WPEG5Dw==
-Date: Thu, 22 Feb 2024 09:27:48 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Michael Kropaczek <michael.kropaczek@solidigm.com>
-Cc: linux-nvme@lists.infradead.org, Jens Axboe <axboe@fb.com>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH v1 0/1] nvme: Fix problem when booting from NVMe drive
- was leading to a hang.
-Message-ID: <Zdd2BOp6DEC6N51V@kbusch-mbp>
-References: <20240221084340.825068-1-michael.kropaczek@solidigm.com>
+	Thu, 22 Feb 2024 17:02:19 +0000
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0876E22040;
+	Thu, 22 Feb 2024 17:02:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1708621335; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HLucWJAnSoNf82M7QH7aDsfl6ohwEWpNqi7zovHhgTk=;
+	b=q2QzjfdHd5YffiUmCT5S74RFu/H3Wl8qNGgac1dXuh76sRccZS+SHdnQYIN+HBgi7fjLvn
+	YwMiJXnBPogtzlYtvTccsbUqVl7uzyxnmfhvT0x58Uak4CF6vZ0LS6TevsnDxJAWEwiAkf
+	ZdbyK9LBKukLWcRLqavsewlhLR8y3E8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1708621335;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HLucWJAnSoNf82M7QH7aDsfl6ohwEWpNqi7zovHhgTk=;
+	b=zyQ3FrwwpKxW+a2lRJUo42X3qXwU971H7n9y+5ymLLEsE2QSSaWnVDGJEEPkWvRzJij2EO
+	jC6SxQ7cJQ9qYGBw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1708621335; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HLucWJAnSoNf82M7QH7aDsfl6ohwEWpNqi7zovHhgTk=;
+	b=q2QzjfdHd5YffiUmCT5S74RFu/H3Wl8qNGgac1dXuh76sRccZS+SHdnQYIN+HBgi7fjLvn
+	YwMiJXnBPogtzlYtvTccsbUqVl7uzyxnmfhvT0x58Uak4CF6vZ0LS6TevsnDxJAWEwiAkf
+	ZdbyK9LBKukLWcRLqavsewlhLR8y3E8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1708621335;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HLucWJAnSoNf82M7QH7aDsfl6ohwEWpNqi7zovHhgTk=;
+	b=zyQ3FrwwpKxW+a2lRJUo42X3qXwU971H7n9y+5ymLLEsE2QSSaWnVDGJEEPkWvRzJij2EO
+	jC6SxQ7cJQ9qYGBw==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id E93FD13419;
+	Thu, 22 Feb 2024 17:02:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id Fot9NxZ+12XJBwAAn2gu4w
+	(envelope-from <dwagner@suse.de>); Thu, 22 Feb 2024 17:02:14 +0000
+Date: Thu, 22 Feb 2024 18:02:09 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: Hannes Reinecke <hare@suse.de>
+Cc: James Smart <james.smart@broadcom.com>, 
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/5] nvme-fc: do not retry when auth fails or
+ connection is refused
+Message-ID: <hxr2hztb64dank3jvbnrlciaebo4k2qkkrg3brhrppizeyelpo@ewupxurl7iqm>
+References: <20240221132404.6311-1-dwagner@suse.de>
+ <20240221132404.6311-3-dwagner@suse.de>
+ <d5b3d5b2-ec27-4057-aa76-63fe17066cfc@suse.de>
+ <sqmla42yoidail73xukhxb6uoyayo66pxpdlrhns3v533wm7wy@ppyr7t5gk3u3>
+ <609e0031-e97c-466b-8cbd-47755374b117@suse.de>
+ <3xhhdconprn3vvkky4yj4iazku4eiqxl6l6rw6z5tivvdjwaby@ts7satqbih7w>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240221084340.825068-1-michael.kropaczek@solidigm.com>
+In-Reply-To: <3xhhdconprn3vvkky4yj4iazku4eiqxl6l6rw6z5tivvdjwaby@ts7satqbih7w>
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=q2QzjfdH;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=zyQ3Frww
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-5.51 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCVD_DKIM_ARC_DNSWL_HI(-1.00)[];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_SEVEN(0.00)[7];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 RCVD_IN_DNSWL_HI(-0.50)[2a07:de40:b281:104:10:150:64:98:from];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%]
+X-Rspamd-Queue-Id: 0876E22040
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240222_082754_585144_4FEDD214 
-X-CRM114-Status: GOOD (  12.06  )
+X-CRM114-CacheID: sfid-20240222_090217_273658_B6A18A31 
+X-CRM114-Status: GOOD (  21.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,22 +141,68 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Feb 21, 2024 at 12:43:40AM -0800, Michael Kropaczek wrote:
-> @@ -2593,6 +2593,16 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
->  			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
->  	}
->  
-> +	/*
-> +	 * On certain host architectures/HW, DRAM was keeping memory contents over reboot-cycles.
-> +	 * It was observed that certain controllers were accessing host memory after
-> +	 * resetting which led to undefined state preventing proper initialization.
-> +	 */
-> +	if (dev->hmb)
-> +		nvme_set_host_mem(dev, 0);
-> +
-> +	nvme_free_host_mem(dev);
-> +
+On Thu, Feb 22, 2024 at 08:45:04AM +0100, Daniel Wagner wrote:
+> On Thu, Feb 22, 2024 at 07:46:12AM +0100, Hannes Reinecke wrote:
+> > On 2/21/24 17:37, Daniel Wagner wrote:
+> > > On Wed, Feb 21, 2024 at 04:53:44PM +0100, Hannes Reinecke wrote:
+> > > In this case yes, I've tested on top of this patch. This breaks the loop
+> > > where the provided key is invalid or is missing. The loop would happy
+> > > retry until reaching max of retries.
+> > 
+> > But that's to be expected, no?
+> 
+> Why? If the key is wrong/missing it will be likely wrong/missing the
+> next retry again. So what's the point in retrying?
+> 
+> > After all, that's _precisely_ what
+> > NVME_SC_DNR is for;
+> > if you shouldn't retry, that bit is set.
+> > If it's not set, you should.
+> 
+> Okay, in this case there is a bug in the auth code somewhere.
 
-Shouldn't this go in nvme_shutdown() instead? I don't think we want to
-tear down the controller's host memory on every controller reset.
+With the change below nvme/041 also passes:
+
+modified   drivers/nvme/host/fabrics.c
+@@ -467,7 +467,7 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
+ 		if (result & NVME_CONNECT_AUTHREQ_ASCR) {
+ 			dev_warn(ctrl->device,
+ 				 "qid 0: secure concatenation is not supported\n");
+-			ret = NVME_SC_AUTH_REQUIRED;
++			ret = NVME_SC_AUTH_REQUIRED | NVME_SC_DNR;
+ 			goto out_free_data;
+ 		}
+ 		/* Authentication required */
+@@ -475,7 +475,7 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
+ 		if (ret) {
+ 			dev_warn(ctrl->device,
+ 				 "qid 0: authentication setup failed\n");
+-			ret = NVME_SC_AUTH_REQUIRED;
++			ret = NVME_SC_AUTH_REQUIRED | NVME_SC_DNR;
+ 			goto out_free_data;
+ 		}
+ 		ret = nvme_auth_wait(ctrl, 0);
+@@ -540,8 +540,9 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
+ 		/* Secure concatenation is not implemented */
+ 		if (result & NVME_CONNECT_AUTHREQ_ASCR) {
+ 			dev_warn(ctrl->device,
+-				 "qid 0: secure concatenation is not supported\n");
+-			ret = NVME_SC_AUTH_REQUIRED;
++				 "qid %d: secure concatenation is not supported\n",
++				 qid);
++			ret = NVME_SC_AUTH_REQUIRED | NVME_SC_DNR;
+ 			goto out_free_data;
+ 		}
+ 		/* Authentication required */
+@@ -549,7 +550,7 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
+ 		if (ret) {
+ 			dev_warn(ctrl->device,
+ 				 "qid %d: authentication setup failed\n", qid);
+-			ret = NVME_SC_AUTH_REQUIRED;
++			ret = NVME_SC_AUTH_REQUIRED | NVME_SC_DNR;
+ 		} else {
+ 			ret = nvme_auth_wait(ctrl, qid);
+ 			if (ret)
+
+Is this what you had in mind?
 
