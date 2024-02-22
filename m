@@ -4,67 +4,128 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BC834C54798
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Feb 2024 18:04:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E8A7C48BF6
+	for <linux-nvme@archiver.kernel.org>; Sat, 24 Feb 2024 18:10:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=0xnPvB7GN9OwPk0leuG+l4hNaiye9RLmCEi14e/fhF8=; b=Z5L0PjkVP3R//UMZWq95zFPCVb
-	gYrUB14dULsurlbcBaOLYFkH6yyruYbtynpnKIXtjYS8XACL7Jr/WX6U71wzOlEu6xSEaH4er1KNr
-	TByra/DR9eTpQ+Ew5leegSnfKs/JO3ncb0xxKi/e2e1+8NwaN3jJBvAbiue6+HtgUDOAD60Qv2P10
-	Ro+pth3GtO4Vl9k6tfkB7S+hIdTT9gqTvrATnejSfJ5yXuLCKLCjjdHPrIALv/sovwDUjR0nOROme
-	YSmWXOZWX4R0KXqHUNPtdS1lIUKX4aVQ2GLzKKPbsmJm0exJkVZcfciI+raL1yUwz38D3bu0AR93i
-	PI1QGlNQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:Cc:To:Subject:From:MIME-Version:Date:Message-ID:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=Aw0IMN9Y7pRYo0SHD+2VVrkD9QVYuIV0fmU55u7YJW8=; b=vGXJGIUfpZcijPFzyoqUkZZgvi
+	XnLNLKRGZXYoXrB7dyQBugYvgp9d2Q8FLWrEyq2h16k5nvZKCSMPsLMtcXYZxo8QgHEmsG3f0Ti7M
+	CcMY9/MtqAxkS6rLhJLHIIFiVzbTMR/gk6s5UQ61PvdhHrm1eg4XiSNNZgvnkuuuneojULpzWFG+l
+	M8Dg5j/M+Wwm/1CX+2kcUOT7bdAO/phSrcHr657HMBAWpaC9KH2S+1JJ7tQ2dX3RYxfpnduiU50sJ
+	jUFgcC0jwivJJkk5+xkjzhkSFUdQPkyRxW9Z4LbtYIAXDpHWP9VwiuZS1BBJpeV1JY1duSxVmHAkA
+	CpMxYKUw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rdZu8-0000000Ajbb-0Cle;
-	Fri, 23 Feb 2024 18:04:12 +0000
-Received: from mgamail.intel.com ([192.198.163.11])
+	id 1rdwTl-0000000DOkZ-3qo2;
+	Sat, 24 Feb 2024 18:10:29 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rdZtw-0000000AjUL-1OOd
+	id 1rdEoi-00000006LAs-1XgS
 	for linux-nvme@lists.infradead.org;
-	Fri, 23 Feb 2024 18:04:02 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708711440; x=1740247440;
-  h=date:from:to:cc:subject:message-id;
-  bh=MIX+RY8mDeI9DKyIBKJTTghcD6WTJKwrq55DONy6k/Y=;
-  b=c9/Qa8n5unjCQ9BJ9zBGCWbmSKKiLYod15Rp3ITScex3StjOYaeeV/BZ
-   Nus5Hju8j5F8TBbofv1ZemJDl9pz6u0e+iM+98yflw9/UdsGCnLqsSrWl
-   ZvDOYEdaoQYrqTIt1fq1H4JC9ieM//IKlHUwNXUvYI0A/IEY1TTGCS7UJ
-   f7/bGaVgvQ9Jm6U54thFirdtvLzel6c/ulArP82wsvWVjuONOe9aFmTdm
-   xPbm94vooTyPIN9M9F0anJE0MAKa9mNUAG9xp323MhbrI8Wbakj983D6J
-   pcOoJ3NPK4R+pjvztUkhHxP9iM08/oFMqsvvtp1ICtliX6ud+PVqvhorY
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="13683733"
-X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
-   d="scan'208";a="13683733"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 10:03:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
-   d="scan'208";a="10680554"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 23 Feb 2024 10:03:45 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rdZtf-0007jk-01;
-	Fri, 23 Feb 2024 18:03:43 +0000
-Date: Sat, 24 Feb 2024 02:02:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.9] BUILD SUCCESS
- 0f225f87873ee95dd4cf94dfc6a3249d4289e4ea
-Message-ID: <202402240250.rlvk4quB-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Thu, 22 Feb 2024 19:33:15 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20240222193306epoutp03234bf501fc046f764ba1fecd2219b7a5~2RkigqXfp1736917369epoutp03k
+	for <linux-nvme@lists.infradead.org>; Thu, 22 Feb 2024 19:33:06 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20240222193306epoutp03234bf501fc046f764ba1fecd2219b7a5~2RkigqXfp1736917369epoutp03k
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1708630386;
+	bh=Aw0IMN9Y7pRYo0SHD+2VVrkD9QVYuIV0fmU55u7YJW8=;
+	h=Date:From:Subject:To:Cc:References:From;
+	b=HuVnE2RXGIl94gGbSgJDqFy7aRTz19YcHesp479Slg9iUL9SqVulUenVIxhqYNwJ1
+	 jCjM6+fkR2l4PLlUwnVQDw+JM1Ce3uPpRnP4MurosB8+DdEkbqETX1630mgq3fywNH
+	 bRNkBtTw5xfDBGhZeMqQuKt2YTPCQ7kv7UZV/5vc=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+	20240222193306epcas5p38944d24b27616360f9254edac8265e4d~2RkiQp2Zo2280222802epcas5p3j;
+	Thu, 22 Feb 2024 19:33:06 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.181]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4Tgjwc3864z4x9Pp; Thu, 22 Feb
+	2024 19:33:04 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	B2.C8.09634.071A7D56; Fri, 23 Feb 2024 04:33:04 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20240222193304epcas5p318426c5267ee520e6b5710164c533b7d~2Rkgafdyu2224022240epcas5p3x;
+	Thu, 22 Feb 2024 19:33:04 +0000 (GMT)
+Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240222193304epsmtrp2d5f711e63645fc3832984ffd1f5e3a18~2RkgZyPyc0855908559epsmtrp2C;
+	Thu, 22 Feb 2024 19:33:04 +0000 (GMT)
+X-AuditID: b6c32a49-159fd700000025a2-37-65d7a1706e98
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	A9.E5.07368.F61A7D56; Fri, 23 Feb 2024 04:33:03 +0900 (KST)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20240222193302epsmtip2f9f507d5b8b30595c8713be2ad9bfa8a~2Rkek6Tnc3199931999epsmtip2P;
+	Thu, 22 Feb 2024 19:33:02 +0000 (GMT)
+Message-ID: <aca1e970-9785-5ff4-807b-9f892af71741@samsung.com>
+Date: Fri, 23 Feb 2024 01:03:01 +0530
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+	Gecko/20100101 Thunderbird/91.8.1
+Content-Language: en-US
+From: Kanchan Joshi <joshi.k@samsung.com>
+Subject: [LSF/MM/BPF ATTEND][LSF/MM/BPF TOPIC] Meta/Integrity/PI
+ improvements
+To: lsf-pc@lists.linux-foundation.org, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>, Linux FS Devel
+	<linux-fsdevel@vger.kernel.org>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>, "kbusch@kernel.org"
+	<kbusch@kernel.org>, "axboe@kernel.dk" <axboe@kernel.dk>,
+	josef@toxicpanda.com, Christoph Hellwig <hch@lst.de>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrCJsWRmVeSWpSXmKPExsWy7bCmum7BwuupBsceiFqsvtvPZrFy9VEm
+	iz8PDS0mHbrGaLH3lrbFnr0nWSzmL3vKbrHv9V5mi+XH/zE5cHpcPlvqsWlVJ5vH5iX1HpNv
+	LGf02H2zgc3j49NbLB4TNm9k9fi8SS6AIyrbJiM1MSW1SCE1Lzk/JTMv3VbJOzjeOd7UzMBQ
+	19DSwlxJIS8xN9VWycUnQNctMwfoNiWFssScUqBQQGJxsZK+nU1RfmlJqkJGfnGJrVJqQUpO
+	gUmBXnFibnFpXrpeXmqJlaGBgZEpUGFCdkbH8s9sBZf5KzZ23WBqYLzC08XIySEhYCLRcvg9
+	axcjF4eQwG5GiR1HOlkgnE+MEree3oTKfGOUmPh+FhNMy5XGTYwQib2MEju3dkJVvWWUmN17
+	nQ2kilfATuLi804wm0VAVeLIwsWsEHFBiZMzn7CA2KICSRK/rs5hBLGZBcQlbj2ZD7SBg4NN
+	QFPiwuRSkLCwgL/Ei4l9TCDzRQRuM0pMfT8BbDMzyOa+DT1QzfIS29/OYYY4byKHRNsWaQjb
+	RWLjl+ssELawxKvjW9ghbCmJz+/2skHYyRKXZp6Deq1E4vGeg1C2vUTrqX5mkIOYgQ5av0sf
+	YhWfRO/vJ2B3SgjwSnS0CUFUK0rcm/SUFcIWl3g4YwmU7SHx4/IJsE1CArESu+atZJ3AKD8L
+	KSRmIfl+FpJnZiEsXsDIsopRMrWgODc9tdi0wDAvtRweycn5uZsYwclVy3MH490HH/QOMTJx
+	MB5ilOBgVhLhZSm/kirEm5JYWZValB9fVJqTWnyI0RQYJROZpUST84HpPa8k3tDE0sDEzMzM
+	xNLYzFBJnPd169wUIYH0xJLU7NTUgtQimD4mDk6pBqZ5awzPH5Jr600PqYpbt/jM5jVmbkr6
+	IhaGz1K9W58vFTu5+0DIWj9XcYvN6Rc/eU3jsQsynrzhY17QZE9tQ3nWVQeTvqZ8u7Om94gI
+	b+YUdkFlOz5DgX03pCK3Mt6TXem6PPqi1FyR5b+LS+/t/1kqdjbQXKRz7YtrcQ2mvrO3i+z/
+	kCWgV/3z9n4+YZGVhbHsCc/DYtbdNFd6+y3q9u2TmVWaeQV/5ZT2Wkzd/sEgZc6duJOmpc8j
+	PLma/rLdyQy71Ss+8VnGew0lzVmBVz5Z7vtokZz8LFvVc/mnzPt5axx2RWbHhZ/45BF4LrM+
+	YNaWIMuT+ueFJJbdtmyKNI7VPtdrev9y9zVRqdP/+ZVYijMSDbWYi4oTAW9lYek3BAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrCLMWRmVeSWpSXmKPExsWy7bCSvG7BwuupBv8CLFbf7WezWLn6KJPF
+	n4eGFpMOXWO02HtL22LP3pMsFvOXPWW32Pd6L7PF8uP/mBw4PS6fLfXYtKqTzWPzknqPyTeW
+	M3rsvtnA5vHx6S0WjwmbN7J6fN4kF8ARxWWTkpqTWZZapG+XwJXRsfwzW8Fl/oqNXTeYGhiv
+	8HQxcnJICJhIXGncxNjFyMUhJLCbUeLa8YXMEAlxieZrP9ghbGGJlf+es0MUvWaU2LjtFCtI
+	glfATuLi8042EJtFQFXiyMLFUHFBiZMzn7CA2KICSRJ77jcygdjMQENvPZkPZHNwsAloSlyY
+	XAoSFhbwlehu3wJ2hIjAbUaJPRsvgDnMAnsZJbrWP2SEaDaT6NraBWXLS2x/O4d5AqPALCT7
+	ZiHZMQtJyywkLQsYWVYxSqYWFOem5yYbFhjmpZbrFSfmFpfmpesl5+duYgRHjJbGDsZ78//p
+	HWJk4mA8xCjBwawkwstSfiVViDclsbIqtSg/vqg0J7X4EKM0B4uSOK/hjNkpQgLpiSWp2amp
+	BalFMFkmDk6pBqbZL9Ujfm3YFenw8+r2zfPvihyt2uh8PNRkIc927ZAXLaZPepSjP0kXz5Pj
+	W9FWIjBnyyvlIz/iVW2aZCekS/P2OyoJROp9Xue2Z6Jqr71Ec0POMdH7IRMSnhl4zuC+Z5+0
+	q6/lTfGEZIVDBgfSex8eELf8cWCm7MRTERrznt8Sr5IRW2m+ZGZlzTIh3/vnryTxcWev3n03
+	TvLm6ulylwRfBFj9ONKSuNbI06p9WvKZZOEylnMOuXnrDNy+rT639MZC79I3B1xLZs5MjPw0
+	ZfsjpzTmyR3f8xceM3kSKNv0Z5F5zse1FTPj162rMnA6U8q069fyIyHLV22/c0cntfLhCb7c
+	iMhvh3lWxG4r7VmsxFKckWioxVxUnAgAH+X/XwcDAAA=
+X-CMS-MailID: 20240222193304epcas5p318426c5267ee520e6b5710164c533b7d
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240222193304epcas5p318426c5267ee520e6b5710164c533b7d
+References: <CGME20240222193304epcas5p318426c5267ee520e6b5710164c533b7d@epcas5p3.samsung.com>
+X-Bad-Reply: References but no 'Re:' in Subject.
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240223_100400_615616_D41C1E53 
-X-CRM114-Status: UNSURE (   4.75  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240222_113313_069485_EBA3952F 
+X-CRM114-Status: GOOD (  16.62  )
+X-Mailman-Approved-At: Sat, 24 Feb 2024 10:10:24 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,189 +140,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.9
-branch HEAD: 0f225f87873ee95dd4cf94dfc6a3249d4289e4ea  null_blk: Delete nullb.{queue_depth, nr_queues}
+With respect to the current state of Meta/Block-integrity, there are
+some missing pieces.
+I can improve some of it. But not sure if I am up to speed on the
+history behind the status quo.
 
-elapsed time: 1465m
+Hence, this proposal to discuss the pieces.
 
-configs tested: 169
-configs skipped: 3
+Maybe people would like to discuss other points too, but I have the 
+following:
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+- Generic user interface that user-space can use to exchange meta. A
+new io_uring opcode IORING_OP_READ/WRITE_META - seems feasible for
+direct IO. Buffered IO seems non-trivial as a relatively smaller meta
+needs to be written into/read from the page cache. The related
+metadata must also be written during the writeback (of data).
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                          axs101_defconfig   gcc  
-arc                                 defconfig   gcc  
-arc                     haps_hs_smp_defconfig   gcc  
-arc                   randconfig-001-20240223   gcc  
-arc                   randconfig-002-20240223   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   clang
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm                          moxart_defconfig   gcc  
-arm                             pxa_defconfig   gcc  
-arm                   randconfig-001-20240223   gcc  
-arm                   randconfig-004-20240223   gcc  
-arm                           stm32_defconfig   gcc  
-arm                         wpcm450_defconfig   gcc  
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-002-20240223   gcc  
-arm64                 randconfig-004-20240223   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240223   gcc  
-csky                  randconfig-002-20240223   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-006-20240223   clang
-i386                                defconfig   clang
-i386                  randconfig-001-20240223   clang
-i386                  randconfig-006-20240223   clang
-i386                  randconfig-013-20240223   clang
-i386                  randconfig-014-20240223   clang
-i386                  randconfig-015-20240223   clang
-i386                  randconfig-016-20240223   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240223   gcc  
-loongarch             randconfig-002-20240223   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                          amiga_defconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                        mvme147_defconfig   gcc  
-m68k                        mvme16x_defconfig   gcc  
-m68k                           sun3_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240223   gcc  
-nios2                 randconfig-002-20240223   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           alldefconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20240223   gcc  
-parisc                randconfig-002-20240223   gcc  
-parisc64                            defconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                     ep8248e_defconfig   gcc  
-powerpc                 mpc8313_rdb_defconfig   gcc  
-powerpc                      ppc6xx_defconfig   gcc  
-powerpc                     tqm5200_defconfig   gcc  
-powerpc                 xes_mpc85xx_defconfig   gcc  
-powerpc64             randconfig-001-20240223   gcc  
-powerpc64             randconfig-002-20240223   gcc  
-powerpc64             randconfig-003-20240223   gcc  
-riscv                            allmodconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   clang
-riscv                               defconfig   clang
-riscv                 randconfig-001-20240223   gcc  
-riscv                 randconfig-002-20240223   gcc  
-s390                             allmodconfig   clang
-s390                              allnoconfig   clang
-s390                             allyesconfig   gcc  
-s390                                defconfig   clang
-s390                  randconfig-001-20240223   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                            hp6xx_defconfig   gcc  
-sh                            migor_defconfig   gcc  
-sh                          r7780mp_defconfig   gcc  
-sh                    randconfig-001-20240223   gcc  
-sh                    randconfig-002-20240223   gcc  
-sh                           se7619_defconfig   gcc  
-sh                           se7705_defconfig   gcc  
-sh                        sh7763rdp_defconfig   gcc  
-sh                             shx3_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240223   gcc  
-sparc64               randconfig-002-20240223   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                             i386_defconfig   gcc  
-um                    randconfig-002-20240223   gcc  
-um                           x86_64_defconfig   clang
-x86_64                           alldefconfig   gcc  
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20240223   gcc  
-x86_64       buildonly-randconfig-002-20240223   gcc  
-x86_64       buildonly-randconfig-003-20240223   clang
-x86_64       buildonly-randconfig-004-20240223   clang
-x86_64       buildonly-randconfig-005-20240223   gcc  
-x86_64       buildonly-randconfig-006-20240223   clang
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20240223   gcc  
-x86_64                randconfig-002-20240223   clang
-x86_64                randconfig-003-20240223   gcc  
-x86_64                randconfig-004-20240223   gcc  
-x86_64                randconfig-005-20240223   clang
-x86_64                randconfig-006-20240223   gcc  
-x86_64                randconfig-011-20240223   gcc  
-x86_64                randconfig-012-20240223   gcc  
-x86_64                randconfig-013-20240223   clang
-x86_64                randconfig-014-20240223   gcc  
-x86_64                randconfig-015-20240223   clang
-x86_64                randconfig-016-20240223   clang
-x86_64                randconfig-071-20240223   gcc  
-x86_64                randconfig-072-20240223   gcc  
-x86_64                randconfig-073-20240223   gcc  
-x86_64                randconfig-074-20240223   clang
-x86_64                randconfig-075-20240223   gcc  
-x86_64                randconfig-076-20240223   clang
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                           allyesconfig   gcc  
-xtensa                randconfig-001-20240223   gcc  
-xtensa                randconfig-002-20240223   gcc  
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+- Is there interest in filesystem leveraging the integrity capabilities 
+that almost every enterprise SSD has.
+Filesystems lacking checksumming abilities can still ask the SSD to do
+it and be more robust.
+And for BTRFS - there may be value in offloading the checksum to SSD.
+Either to save the host CPU or to get more usable space (by not
+writing the checksum tree). The mount option 'nodatasum' can turn off
+the data checksumming, but more needs to be done to make the offload
+work.
+
+NVMe SSD can do the offload when the host sends the PRACT bit. But in
+the driver, this is tied to global integrity disablement using
+CONFIG_BLK_DEV_INTEGRITY.
+So, the idea is to introduce a bio flag REQ_INTEGRITY_OFFLOAD
+that the filesystem can send. The block-integrity and NVMe driver do
+the rest to make the offload work.
+
+- Currently, block integrity uses guard and ref tags but not application 
+tags.
+As per Martin's paper [*]:
+
+"Work is in progress to implement support for the data
+integrity extensions in btrfs, enabling the filesystem
+to use the application tag."
+
+I could not figure out more about the above effort. It will be good to
+understand the progress/problems.
+
+I hope to have the RFC (on the first two items) for better discussion.
+
+[*] https://www.landley.net/kdocs/ols/2008/ols2008v2-pages-151-156.pdf
 
