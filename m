@@ -4,76 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 94CA6C5478C
-	for <linux-nvme@archiver.kernel.org>; Fri, 23 Feb 2024 05:46:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 418C6C48BC4
+	for <linux-nvme@archiver.kernel.org>; Fri, 23 Feb 2024 06:49:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
 	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Jv0hmkXz1dJ+3iS2KwSVorg76TeTkDy/ve4BbP186JM=; b=ED9q1QGEc5Mat0hQ1a69FfBFfx
-	pYQpQLcP53MWmAUAjZpL5AMTpbUGrvKyFOxY+LbiG78aknUoNXIJS9ne/ZFPz6spgKd4ZZ3IqNh8D
-	/Cwy+kWtxVdcBRMzYuRQGFmqxA8FfE+Hx30h/PQLpMiuJCOksGXgVIt5otyi4Ye/ovAeFNIFpvLNo
-	hiRn25FK9DK1swx2ryo+BF4HDRVp7mXkrPD04eRJDMuT8WQjkTC7VlkWSHFhHGN3ll3ylYfNaXnG1
-	yVRlIVsIuNCukvDbQuIsxP1kSmL3dC6UMezWHxFSt8PdzTtq1cSYH4cB8LosA7qZzug74igv2q1BU
-	VI6NZCXA==;
+	bh=+EMzYo1BO0r2RRBivUJGcUDKfwUztImznrl1tit1yF0=; b=vP/5JPMbC9D+0m5lUMxVGfNK8D
+	FzIOY1CF7EyJihbZVxoTnQGhiQDc0KvEQ/EcxayrqFbXl1Si/Tfl5kmJuGDkRpbXOSkIZYZYFpchb
+	YAsNHJz7/jdMa8AaiFkN+h+lAyM5Q5gl5fsF+wC+d0hWG/GZM3Zml6G8GHbNTjXtgd/DYqKssnd8O
+	LYDS453t9p2U0u4xI12ipImsTtpNCKBtPSkUGn+8A4sZVIqK2I2/MjRnS9FtMdkvEuf0+rsTWuxSU
+	G24nF3E7kWf1oPAKik8i23zr20zqNrcIKGcrMNZ06KkJRlfgrZCTypdkSMkSQHfVSlbPSHiAWSq0e
+	L/iJLauA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rdOOB-000000083H9-3UoO;
-	Fri, 23 Feb 2024 05:46:31 +0000
-Received: from mail-lj1-x229.google.com ([2a00:1450:4864:20::229])
+	id 1rdPNE-00000008DWm-3PZ0;
+	Fri, 23 Feb 2024 06:49:32 +0000
+Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rdONe-000000083Dv-2je9
+	id 1rdOH0-000000081iI-2ueP
 	for linux-nvme@lists.infradead.org;
-	Fri, 23 Feb 2024 05:46:07 +0000
-Received: by mail-lj1-x229.google.com with SMTP id 38308e7fff4ca-2d23a22233fso6355611fa.2
-        for <linux-nvme@lists.infradead.org>; Thu, 22 Feb 2024 21:45:54 -0800 (PST)
+	Fri, 23 Feb 2024 05:39:09 +0000
+Received: by mail-lf1-x132.google.com with SMTP id 2adb3069b0e04-512dfa097b1so666592e87.1
+        for <linux-nvme@lists.infradead.org>; Thu, 22 Feb 2024 21:38:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708667152; x=1709271952; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1708666722; x=1709271522; darn=lists.infradead.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Jv0hmkXz1dJ+3iS2KwSVorg76TeTkDy/ve4BbP186JM=;
-        b=aQkgmK4vSeHUJtbGqabxUXNA67i+Tm7MFyh0h0W2rrVNRObHYsQA2FECKreHD3fiPf
-         jRA6VMZw3rPzfkpgXwDxMdoZWa/uyYWYYH0zhxH4PjcgLo1Q0DsBVcFHfQU0gaXkCUzC
-         sIOeRg/uJHGjMUmQkHY0VdAkyrW+9zVPgdbthM4u2YsYMX2bj1bHH8wxIq9ADomaMXWw
-         QEwlsHItfOixnfrpU19EPZ50jc2viYHNyk3b5xbgqqL4PpSg8vQIipm4ErwrFGXTyuJP
-         4mQdnCVQyOGxHTkopkLa2NpcvvLDN7bzp6ZcxmR+eUdvNPLXm7QYiiI3PucSHotkXy62
-         jkwQ==
+        bh=+EMzYo1BO0r2RRBivUJGcUDKfwUztImznrl1tit1yF0=;
+        b=MBV+jsoeLIhsov2Or/2jDf0zx39qcc/CaFY2tCNlSbq7aqQ11jWMqx1XuPAOODih/k
+         14C4qTQStjlEvnSsEi/szichviWR/2+5DyDz3d300nFtjKQKa76vcLfFAsOA0Ijxs7KZ
+         RXyiz6aeyp/7VeGAwoA6zE3N8ajYWh06U1kg2HPlJdSUTCvYVChdoCfMo6+4076bebpx
+         has/ynjsofCxvJOSjlYZo8beZ8olUFqr9ka/5dzou72ZQXYfZ+jJDphyKKgcV1f4a0L9
+         bhEjjFRDacZwA8UyV1zy2pxxFJs+vJK7oYv0ElJoAcAsjZyxs3ZDpw5RTG7u8r5+ctCT
+         yGxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708667152; x=1709271952;
+        d=1e100.net; s=20230601; t=1708666722; x=1709271522;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Jv0hmkXz1dJ+3iS2KwSVorg76TeTkDy/ve4BbP186JM=;
-        b=la0K/y4/HIs2zJIsGVWpLNtpMJMw3rKEmVG/VM1Q0KNQSFY6wWgViryN/FdknKS7J2
-         Kq9ZmVhpN1J4exefVSbA/G/DeLxaySI3qRcKj9GlGx6fKgcDxuTtFtwuQ0ZYjLcRFa/l
-         dPA8lBZm0A2E7Pj1l1BWD0//+HRcaLr0DQuFBmYhQMEt09QzbuckxUT6ZyOztQ9kl7QK
-         KObcsR90nwoih3qkt2Whz2fevMmxB/KBBbWQYp9ZFyp236ND4ztYyvHri7Ff4cCzbaS3
-         nVsVhupk0FBkbcCUrCAKVlLOPiUBd8+shQSvDhM8H/FuQ7A/4d78vxYpikAioB8DpVvl
-         MjtQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWCVOGh/U0uFU6xKjcc3YlhSydK4I9baBnhd192DEnPCebM1QzKujZnAEuWvhUeAZXjRPbOGNIO/1CBFBjHU4fZI3BNA3NfG7lOCTc1MVU=
-X-Gm-Message-State: AOJu0YzTM/cwu7lesd+4f81N8y+UPS61jSIcKE6t4LwktzOIQzJzjLsd
-	taFXIz+jQrCxRUvpSm6Uz7wuqk6DHIZvfqTeD/qPj+ffKXzvD8VBAEsSXWhCtpOQs0oblVYubH2
-	4/avwQ/ZivAK4Z0OzPmR1fiV70dZjt5eL+aA=
-X-Google-Smtp-Source: AGHT+IF0Gvi8T/+r11y07LKIgVhuhvMLQTzT01KI5hPXgmELdMq4XI2PllqsLqMHZzNe7K0l33fydqf6rnwtcaDddm0=
-X-Received: by 2002:a05:651c:b1e:b0:2d2:4a87:f1e6 with SMTP id
- b30-20020a05651c0b1e00b002d24a87f1e6mr728701ljr.36.1708667152498; Thu, 22 Feb
- 2024 21:45:52 -0800 (PST)
+        bh=+EMzYo1BO0r2RRBivUJGcUDKfwUztImznrl1tit1yF0=;
+        b=hVu0QbmcorTvjpdoIMgVsP+DQgw361z9n4nZY7mtaYSEYPeG2GANa9qnN1gSyYPU6V
+         7HsLmR5gVgLM6J3iraUvGqR/PzXNqpHJnyg+sbNvitv84nLg/n2RAz1zz4q2eN6NnrBH
+         Es6jyFYvWWk2oh0Rp7SlPbZMaFL0IRDUmGsKqO+5iknDkJap8+9O6vN/iX8Hv27lp9fj
+         RERfIk68r1I7k4tnxPQG2Lw6CkBceyyrDnZr/SFCjUEGFA6zNUAclJp6LQVS+nO7PHce
+         mcbzv9t7ozSTWBL9u4wTbGIUuTmNV+ytLGHhUpirTjjgyhf8lyPgA7ibmoMTjZH5v18T
+         ZpzA==
+X-Forwarded-Encrypted: i=1; AJvYcCXi9oOxmLOQ+mpoyFCc/zx5/iHfjEWksow3S0aL9BkulgzyZQI5ydUe7A02MZnIPaklVq7fU3+VnwcAfh0KgdihXp2+doaCvJDMVrDKjZ4=
+X-Gm-Message-State: AOJu0Yx6b8D647mvLuhOV9iKFUunBo1ma2w5q4rdWFb78S2dzvR1t3Zj
+	1MYnYlaPlvrTyPelM3DlapTYdeCjroPEEYE5R03lJVARmolEeN9RRIP5AMlfChp/bPwRJtIc9Qq
+	RP0cTG2LWXZV2yKDIb7VGG422QIhZQxRJaSM=
+X-Google-Smtp-Source: AGHT+IFGHfyJI1sBt/b15+tGlqfwTBtPNLLcqirGAZK55Mb2nyasjg/jaJknpyFltfazJfHmiiCWepGt+aSLFzMGNbU=
+X-Received: by 2002:a19:6556:0:b0:512:b25a:dfdb with SMTP id
+ c22-20020a196556000000b00512b25adfdbmr653779lfj.27.1708666722362; Thu, 22 Feb
+ 2024 21:38:42 -0800 (PST)
 MIME-Version: 1.0
 References: <CABj8AyhLjBkQUhp4CFY+xV4_GwDAyzU251St+BMoYUKCjj7M9Q@mail.gmail.com>
- <ZddusYydcaBkY24T@kbusch-mbp>
-In-Reply-To: <ZddusYydcaBkY24T@kbusch-mbp>
+ <53d746b8-a24e-45ac-ab70-c0a0cae6f4eb@kernel.org>
+In-Reply-To: <53d746b8-a24e-45ac-ab70-c0a0cae6f4eb@kernel.org>
 From: Jaehoon Shim <jmattshim@gmail.com>
-Date: Fri, 23 Feb 2024 14:45:41 +0900
-Message-ID: <CABj8AygtU5-8Gdh0576QgZ7B7jc_ChgV=iEogj=pYYmrGPiWxw@mail.gmail.com>
+Date: Fri, 23 Feb 2024 14:38:30 +0900
+Message-ID: <CABj8Ayh4Wmkv2t=+sBhu_L9UVkZzBGY_RE-1J5y-e7jTXkwV=g@mail.gmail.com>
 Subject: Re: [LSF/MM/BPF TOPIC] Adding NVMeVirt to Kernel mainline
-To: Keith Busch <kbusch@kernel.org>
+To: Damien Le Moal <dlemoal@kernel.org>
 Cc: lsf-pc@lists.linux-foundation.org, linux-nvme@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240222_214601_617719_D4293529 
-X-CRM114-Status: GOOD (  13.62  )
+X-CRM114-CacheID: sfid-20240222_213908_176708_8EC93949 
+X-CRM114-Status: GOOD (  21.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,9 +88,9 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, 23 Feb 2024 at 00:56, Keith Busch <kbusch@kernel.org> wrote:
+On Thu, 22 Feb 2024 at 16:10, Damien Le Moal <dlemoal@kernel.org> wrote:
 >
-> On Thu, Feb 22, 2024 at 10:38:03AM +0900, Jaehoon Shim wrote:
+> On 2/22/24 10:38, Jaehoon Shim wrote:
 > > Hi all,
 > >
 > > My research group has recently introduced NVMeVirt, a software-defined
@@ -103,17 +103,53 @@ On Fri, 23 Feb 2024 at 00:56, Keith Busch <kbusch@kernel.org> wrote:
 > > Advantages of NVMeVirt are:
 > > - Deployable in real environments (not virtual)
 > > - PCI peer-to-peer DMA support
+> > - Low-latency device support
+> > - Multiple namespace support (each namespace can support different command sets)
+> > - Multiple device support
+> > - Various command set support (currently supporting ZNS and KV)
+> > - Accurate performance emulation
+> >
+> > What if we can simplify NVMeVirt and add it to the Kernel mainline
+> > just like the scsi_debug in the SCSI driver? This would offer an
+> > accessible tool for developers, especially when NVMe devices with
+> > specific spec are unavailable, to develop and debug the NVMe driver
+> > functionalities.
 >
-> It looks like your module creates a single nvme device. How are you
-> testing P2P with just one device?
+> Qemu emulates nvme devices fairly well already.
+>
+> What is the backing store for you kernel module nvme emulation ? Memory only ?
+> files or block device ? If it is the latter, how can you do "Accurate
+> performance emulation". And what does "Accurate performance emulation" mean
+> anyway ? Different NVMe drives from the same or different vendors have different
+> performance characteristics. So what exactly are you emulating here ?
+>
+> >
+> > Best regards,
+> > Jaehoon
+> >
+>
+> --
+> Damien Le Moal
+> Western Digital Research
+>
 
-We have recently developed functionality for multi-device support,
-which will soon be merged into the main branch of our GitHub
-repository.
-One possible way of making multiple nvme devices using current
-NVMeVirt code is making two nvmevirt modules with different names and
-loading them.
+During our evaluation, we have found out it is hard to emulate
+low-latency SSDs using FEMU due to virtualization overhead.
+Also, it is hard for FEMU to communicate with other real PCIe devices
+(e.g., FPGA, GPU, NIC) on the host system.
 
-During our research, we have used GPUDirect Storage to test the P2P
-capabilities between NVMeVirt and an actual NVIDIA GPU.
+NVMeVirt's backing store is kernel memory similar to SCSI_DEBUG.
+A physical memory range needs to be reserved for NVMeVirt.
+
+The accurate performance emulation means that current NVMeVirt
+supports NAND flash SSD FTL performance model just like FEMU. It has a
+page-mapping based FTL inside.
+However, we support much more features of real SSD FTLs that other
+emulators doesn't, such as write buffer, one-shot programing, multiple
+FTL instances, etc.
+
+In our research, we have emulated Samsung 970 Pro and Intel Optane SSDs.
+
+We believe that NVMeVirt can open more opportunities to developers
+regarding such advantages.
 
