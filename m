@@ -4,128 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E8A7C48BF6
-	for <linux-nvme@archiver.kernel.org>; Sat, 24 Feb 2024 18:10:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 39D09C48BF6
+	for <linux-nvme@archiver.kernel.org>; Sat, 24 Feb 2024 18:16:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:Cc:To:Subject:From:MIME-Version:Date:Message-ID:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	bh=Aw0IMN9Y7pRYo0SHD+2VVrkD9QVYuIV0fmU55u7YJW8=; b=vGXJGIUfpZcijPFzyoqUkZZgvi
-	XnLNLKRGZXYoXrB7dyQBugYvgp9d2Q8FLWrEyq2h16k5nvZKCSMPsLMtcXYZxo8QgHEmsG3f0Ti7M
-	CcMY9/MtqAxkS6rLhJLHIIFiVzbTMR/gk6s5UQ61PvdhHrm1eg4XiSNNZgvnkuuuneojULpzWFG+l
-	M8Dg5j/M+Wwm/1CX+2kcUOT7bdAO/phSrcHr657HMBAWpaC9KH2S+1JJ7tQ2dX3RYxfpnduiU50sJ
-	jUFgcC0jwivJJkk5+xkjzhkSFUdQPkyRxW9Z4LbtYIAXDpHWP9VwiuZS1BBJpeV1JY1duSxVmHAkA
-	CpMxYKUw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Subject:Cc:To:
+	From:Message-Id:Date:Reply-To:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=wnu+Meyv/9BP7YNzzpJcTuolqRDU8rmnNUjfmWPj+9A=; b=aFP1hM6VgyYxyw
+	BiCEENL6ocJgzfPftkHDbCAQH+i+/D4G9UIRuTh5DI0MqLnUpe+jNpvQBPO2yLa1ElAxmYa3S4TVH
+	xspKjkagITPnutqGMTGg+zFyuro5pwuncOV2Dxw1q3cTR8OT5a0y5MD1UtSClaTnRjIEDPirBNiJh
+	4DdGWfKpRab+nvAiOedFDHH4/15aZ8W7WKEY3aYesOoJ8/Z6x9zpOHf7ss3oIlwxpFETRxQCBN3IM
+	F+dQcmxE/EyUB0I6QOZeO6NN2qxV0cc8qyof9ywnBTb/c4hmFWsBy7zSDFgbmcg53n56uiXFdocZu
+	6bn6j5dDN12nbTSmeDHw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rdwTl-0000000DOkZ-3qo2;
-	Sat, 24 Feb 2024 18:10:29 +0000
-Received: from mailout3.samsung.com ([203.254.224.33])
+	id 1rdwZf-0000000DPQh-0J6o;
+	Sat, 24 Feb 2024 18:16:35 +0000
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rdEoi-00000006LAs-1XgS
+	id 1rdwZc-0000000DPQ1-0RqT
 	for linux-nvme@lists.infradead.org;
-	Thu, 22 Feb 2024 19:33:15 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20240222193306epoutp03234bf501fc046f764ba1fecd2219b7a5~2RkigqXfp1736917369epoutp03k
-	for <linux-nvme@lists.infradead.org>; Thu, 22 Feb 2024 19:33:06 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20240222193306epoutp03234bf501fc046f764ba1fecd2219b7a5~2RkigqXfp1736917369epoutp03k
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1708630386;
-	bh=Aw0IMN9Y7pRYo0SHD+2VVrkD9QVYuIV0fmU55u7YJW8=;
-	h=Date:From:Subject:To:Cc:References:From;
-	b=HuVnE2RXGIl94gGbSgJDqFy7aRTz19YcHesp479Slg9iUL9SqVulUenVIxhqYNwJ1
-	 jCjM6+fkR2l4PLlUwnVQDw+JM1Ce3uPpRnP4MurosB8+DdEkbqETX1630mgq3fywNH
-	 bRNkBtTw5xfDBGhZeMqQuKt2YTPCQ7kv7UZV/5vc=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20240222193306epcas5p38944d24b27616360f9254edac8265e4d~2RkiQp2Zo2280222802epcas5p3j;
-	Thu, 22 Feb 2024 19:33:06 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.181]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4Tgjwc3864z4x9Pp; Thu, 22 Feb
-	2024 19:33:04 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	B2.C8.09634.071A7D56; Fri, 23 Feb 2024 04:33:04 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20240222193304epcas5p318426c5267ee520e6b5710164c533b7d~2Rkgafdyu2224022240epcas5p3x;
-	Thu, 22 Feb 2024 19:33:04 +0000 (GMT)
-Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240222193304epsmtrp2d5f711e63645fc3832984ffd1f5e3a18~2RkgZyPyc0855908559epsmtrp2C;
-	Thu, 22 Feb 2024 19:33:04 +0000 (GMT)
-X-AuditID: b6c32a49-159fd700000025a2-37-65d7a1706e98
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	A9.E5.07368.F61A7D56; Fri, 23 Feb 2024 04:33:03 +0900 (KST)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240222193302epsmtip2f9f507d5b8b30595c8713be2ad9bfa8a~2Rkek6Tnc3199931999epsmtip2P;
-	Thu, 22 Feb 2024 19:33:02 +0000 (GMT)
-Message-ID: <aca1e970-9785-5ff4-807b-9f892af71741@samsung.com>
-Date: Fri, 23 Feb 2024 01:03:01 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
-	Gecko/20100101 Thunderbird/91.8.1
-Content-Language: en-US
-From: Kanchan Joshi <joshi.k@samsung.com>
-Subject: [LSF/MM/BPF ATTEND][LSF/MM/BPF TOPIC] Meta/Integrity/PI
- improvements
-To: lsf-pc@lists.linux-foundation.org, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>, Linux FS Devel
-	<linux-fsdevel@vger.kernel.org>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>
-Cc: "Martin K. Petersen" <martin.petersen@oracle.com>, "kbusch@kernel.org"
-	<kbusch@kernel.org>, "axboe@kernel.dk" <axboe@kernel.dk>,
-	josef@toxicpanda.com, Christoph Hellwig <hch@lst.de>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrCJsWRmVeSWpSXmKPExsWy7bCmum7BwuupBsceiFqsvtvPZrFy9VEm
-	iz8PDS0mHbrGaLH3lrbFnr0nWSzmL3vKbrHv9V5mi+XH/zE5cHpcPlvqsWlVJ5vH5iX1HpNv
-	LGf02H2zgc3j49NbLB4TNm9k9fi8SS6AIyrbJiM1MSW1SCE1Lzk/JTMv3VbJOzjeOd7UzMBQ
-	19DSwlxJIS8xN9VWycUnQNctMwfoNiWFssScUqBQQGJxsZK+nU1RfmlJqkJGfnGJrVJqQUpO
-	gUmBXnFibnFpXrpeXmqJlaGBgZEpUGFCdkbH8s9sBZf5KzZ23WBqYLzC08XIySEhYCLRcvg9
-	axcjF4eQwG5GiR1HOlkgnE+MEree3oTKfGOUmPh+FhNMy5XGTYwQib2MEju3dkJVvWWUmN17
-	nQ2kilfATuLi804wm0VAVeLIwsWsEHFBiZMzn7CA2KICSRK/rs5hBLGZBcQlbj2ZD7SBg4NN
-	QFPiwuRSkLCwgL/Ei4l9TCDzRQRuM0pMfT8BbDMzyOa+DT1QzfIS29/OYYY4byKHRNsWaQjb
-	RWLjl+ssELawxKvjW9ghbCmJz+/2skHYyRKXZp6Deq1E4vGeg1C2vUTrqX5mkIOYgQ5av0sf
-	YhWfRO/vJ2B3SgjwSnS0CUFUK0rcm/SUFcIWl3g4YwmU7SHx4/IJsE1CArESu+atZJ3AKD8L
-	KSRmIfl+FpJnZiEsXsDIsopRMrWgODc9tdi0wDAvtRweycn5uZsYwclVy3MH490HH/QOMTJx
-	MB5ilOBgVhLhZSm/kirEm5JYWZValB9fVJqTWnyI0RQYJROZpUST84HpPa8k3tDE0sDEzMzM
-	xNLYzFBJnPd169wUIYH0xJLU7NTUgtQimD4mDk6pBqZ5awzPH5Jr600PqYpbt/jM5jVmbkr6
-	IhaGz1K9W58vFTu5+0DIWj9XcYvN6Rc/eU3jsQsynrzhY17QZE9tQ3nWVQeTvqZ8u7Om94gI
-	b+YUdkFlOz5DgX03pCK3Mt6TXem6PPqi1FyR5b+LS+/t/1kqdjbQXKRz7YtrcQ2mvrO3i+z/
-	kCWgV/3z9n4+YZGVhbHsCc/DYtbdNFd6+y3q9u2TmVWaeQV/5ZT2Wkzd/sEgZc6duJOmpc8j
-	PLma/rLdyQy71Ss+8VnGew0lzVmBVz5Z7vtokZz8LFvVc/mnzPt5axx2RWbHhZ/45BF4LrM+
-	YNaWIMuT+ueFJJbdtmyKNI7VPtdrev9y9zVRqdP/+ZVYijMSDbWYi4oTAW9lYek3BAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrCLMWRmVeSWpSXmKPExsWy7bCSvG7BwuupBv8CLFbf7WezWLn6KJPF
-	n4eGFpMOXWO02HtL22LP3pMsFvOXPWW32Pd6L7PF8uP/mBw4PS6fLfXYtKqTzWPzknqPyTeW
-	M3rsvtnA5vHx6S0WjwmbN7J6fN4kF8ARxWWTkpqTWZZapG+XwJXRsfwzW8Fl/oqNXTeYGhiv
-	8HQxcnJICJhIXGncxNjFyMUhJLCbUeLa8YXMEAlxieZrP9ghbGGJlf+es0MUvWaU2LjtFCtI
-	glfATuLi8042EJtFQFXiyMLFUHFBiZMzn7CA2KICSRJ77jcygdjMQENvPZkPZHNwsAloSlyY
-	XAoSFhbwlehu3wJ2hIjAbUaJPRsvgDnMAnsZJbrWP2SEaDaT6NraBWXLS2x/O4d5AqPALCT7
-	ZiHZMQtJyywkLQsYWVYxSqYWFOem5yYbFhjmpZbrFSfmFpfmpesl5+duYgRHjJbGDsZ78//p
-	HWJk4mA8xCjBwawkwstSfiVViDclsbIqtSg/vqg0J7X4EKM0B4uSOK/hjNkpQgLpiSWp2amp
-	BalFMFkmDk6pBqbZL9Ujfm3YFenw8+r2zfPvihyt2uh8PNRkIc927ZAXLaZPepSjP0kXz5Pj
-	W9FWIjBnyyvlIz/iVW2aZCekS/P2OyoJROp9Xue2Z6Jqr71Ec0POMdH7IRMSnhl4zuC+Z5+0
-	q6/lTfGEZIVDBgfSex8eELf8cWCm7MRTERrznt8Sr5IRW2m+ZGZlzTIh3/vnryTxcWev3n03
-	TvLm6ulylwRfBFj9ONKSuNbI06p9WvKZZOEylnMOuXnrDNy+rT639MZC79I3B1xLZs5MjPw0
-	ZfsjpzTmyR3f8xceM3kSKNv0Z5F5zse1FTPj162rMnA6U8q069fyIyHLV22/c0cntfLhCb7c
-	iMhvh3lWxG4r7VmsxFKckWioxVxUnAgAH+X/XwcDAAA=
-X-CMS-MailID: 20240222193304epcas5p318426c5267ee520e6b5710164c533b7d
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240222193304epcas5p318426c5267ee520e6b5710164c533b7d
-References: <CGME20240222193304epcas5p318426c5267ee520e6b5710164c533b7d@epcas5p3.samsung.com>
-X-Bad-Reply: References but no 'Re:' in Subject.
+	Sat, 24 Feb 2024 18:16:33 +0000
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1d911c2103aso8764305ad.0
+        for <linux-nvme@lists.infradead.org>; Sat, 24 Feb 2024 10:16:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708798589; x=1709403389; darn=lists.infradead.org;
+        h=in-reply-to:subject:cc:to:from:message-id:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=wnu+Meyv/9BP7YNzzpJcTuolqRDU8rmnNUjfmWPj+9A=;
+        b=b/EU91eMyc2dTeHciweobzLJaEZeEaVMMzy319/NpiizAEDDH12FLv0Zl9LhRES46N
+         fk+V6V6N45K49fWvTvVPV5OEUJrSghbFZl4lBPpWx/FXWQIhLieR7zI48zOHIaLFo87z
+         8AhLoTGX+xoHR1siZ0rcRDtCqTOAL/5iqTg14IeMHI3CpQ+0gHl6fXejqOaXSKlzTkWs
+         I9HqowwTKLJ3FFEt2Eau720ADyOWvaNZrKzg0DvdpABHYZSLrwv4MnSzm+Tc8RitZ8LJ
+         V4tnlC8GzgCepJm74+oJdtARSLuI3U0i8knRSkiDxmlR4EvqmB6C7rt3ibabbVfXndH0
+         DJAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708798589; x=1709403389;
+        h=in-reply-to:subject:cc:to:from:message-id:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wnu+Meyv/9BP7YNzzpJcTuolqRDU8rmnNUjfmWPj+9A=;
+        b=Y5UbAh4c67HB1HRwJRw3Pp7mM/zMOmE3czayrq677Z08ivailFvhnk9lh5cXqjGGVV
+         RvAtQVX4xAzFzTBS3KqRhvIRJVO6OzXCt9YsEr5D1Zk2VaxiDNtCYW4HKdim9JngHswL
+         DAnYcOCw/LlQH3JQC9UMCi6fLOJgyvKJi6QaZa19mpKo7YLx2ZdVKqACLGI0H3lrgwaj
+         EL93PNyrcwpLr3L7kA/9mFKidrCZjDV7wPE7BAC0h/TxgvuEpjK1T0D7HvSAuHiaMuaK
+         xdXUb9D9TJjzTiX9DOuhqNKMK+Tvt9/R+aw3NEWlKKSVnMH9motT+YmmNAB/d18t6hld
+         koRA==
+X-Forwarded-Encrypted: i=1; AJvYcCXubZotdfXVrJTUEYZXvu99165oAQ/7iHvoZJcIS8Rz5h85hLsFRf2JsUJR43TnlIW1nxHHSGrWcDj/cBhuEW4zeYFsb60vVV5DycG82EM=
+X-Gm-Message-State: AOJu0YwW75WYgRgPZNgbxZVdt7kE7E2TE4TdvOt+rSRR6rMyq6eHDJ58
+	hWr5Za1spCpxZ8HI5kigGtuNgHXu1t6vQ3M01NUeatOlq7sKRfDN
+X-Google-Smtp-Source: AGHT+IEhIRn378wt+gFfTyZVVHdy0OnAOhjAUqJcKoAdAEpOzjhracPgpW4cwIY9SoPSruGG3Ym2nQ==
+X-Received: by 2002:a17:902:d891:b0:1dc:6fec:15d8 with SMTP id b17-20020a170902d89100b001dc6fec15d8mr2875267plz.47.1708798589107;
+        Sat, 24 Feb 2024 10:16:29 -0800 (PST)
+Received: from dw-tp ([171.76.80.106])
+        by smtp.gmail.com with ESMTPSA id ci7-20020a17090afc8700b0029996fd70e2sm1511031pjb.45.2024.02.24.10.16.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 24 Feb 2024 10:16:28 -0800 (PST)
+Date: Sat, 24 Feb 2024 23:46:19 +0530
+Message-Id: <87v86d20ek.fsf@doe.com>
+From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
+To: John Garry <john.g.garry@oracle.com>, axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com, jack@suse.cz
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com, linux-scsi@vger.kernel.org, ojaswin@linux.ibm.com, linux-aio@kvack.org, linux-btrfs@vger.kernel.org, io-uring@vger.kernel.org, nilay@linux.ibm.com, Prasad Singamsetty <prasad.singamsetty@oracle.com>, John Garry <john.g.garry@oracle.com>
+Subject: Re: [PATCH v4 03/11] fs: Initial atomic write support
+In-Reply-To: <20240219130109.341523-4-john.g.garry@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240222_113313_069485_EBA3952F 
-X-CRM114-Status: GOOD (  16.62  )
-X-Mailman-Approved-At: Sat, 24 Feb 2024 10:10:24 -0800
+X-CRM114-CacheID: sfid-20240224_101632_178318_2C9A4631 
+X-CRM114-Status: GOOD (  38.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -140,52 +85,272 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-With respect to the current state of Meta/Block-integrity, there are
-some missing pieces.
-I can improve some of it. But not sure if I am up to speed on the
-history behind the status quo.
+John Garry <john.g.garry@oracle.com> writes:
 
-Hence, this proposal to discuss the pieces.
+> From: Prasad Singamsetty <prasad.singamsetty@oracle.com>
+>
+> An atomic write is a write issued with torn-write protection, meaning
+> that for a power failure or any other hardware failure, all or none of the
+> data from the write will be stored, but never a mix of old and new data.
+>
+> Userspace may add flag RWF_ATOMIC to pwritev2() to indicate that the
+> write is to be issued with torn-write prevention, according to special
+> alignment and length rules.
+>
+> For any syscall interface utilizing struct iocb, add IOCB_ATOMIC for
+> iocb->ki_flags field to indicate the same.
+>
+> A call to statx will give the relevant atomic write info for a file:
+> - atomic_write_unit_min
+> - atomic_write_unit_max
+> - atomic_write_segments_max
+>
+> Both min and max values must be a power-of-2.
+>
+> Applications can avail of atomic write feature by ensuring that the total
+> length of a write is a power-of-2 in size and also sized between
+> atomic_write_unit_min and atomic_write_unit_max, inclusive. Applications
+> must ensure that the write is at a naturally-aligned offset in the file
+> wrt the total write length. The value in atomic_write_segments_max
+> indicates the upper limit for IOV_ITER iovcnt.
+>
+> Add file mode flag FMODE_CAN_ATOMIC_WRITE, so files which do not have the
+> flag set will have RWF_ATOMIC rejected and not just ignored.
+>
+> Add a type argument to kiocb_set_rw_flags() to allows reads which have
+> RWF_ATOMIC set to be rejected.
+>
+> Helper function atomic_write_valid() can be used by FSes to verify
+> compliant writes.
+>
+> Signed-off-by: Prasad Singamsetty <prasad.singamsetty@oracle.com>
+> #jpg: merge into single patch and much rewrite
 
-Maybe people would like to discuss other points too, but I have the 
-following:
+^^^ this might be a miss I guess.
 
-- Generic user interface that user-space can use to exchange meta. A
-new io_uring opcode IORING_OP_READ/WRITE_META - seems feasible for
-direct IO. Buffered IO seems non-trivial as a relatively smaller meta
-needs to be written into/read from the page cache. The related
-metadata must also be written during the writeback (of data).
+> Signed-off-by: John Garry <john.g.garry@oracle.com>
+> ---
+>  fs/aio.c                |  8 ++++----
+>  fs/btrfs/ioctl.c        |  2 +-
+>  fs/read_write.c         |  2 +-
+>  include/linux/fs.h      | 36 +++++++++++++++++++++++++++++++++++-
+>  include/uapi/linux/fs.h |  5 ++++-
+>  io_uring/rw.c           |  4 ++--
+>  6 files changed, 47 insertions(+), 10 deletions(-)
+>
+> diff --git a/fs/aio.c b/fs/aio.c
+> index bb2ff48991f3..21bcbc076fd0 100644
+> --- a/fs/aio.c
+> +++ b/fs/aio.c
+> @@ -1502,7 +1502,7 @@ static void aio_complete_rw(struct kiocb *kiocb, long res)
+>  	iocb_put(iocb);
+>  }
+>  
+> -static int aio_prep_rw(struct kiocb *req, const struct iocb *iocb)
+> +static int aio_prep_rw(struct kiocb *req, const struct iocb *iocb, int type)
+
+maybe rw_type?
+
+>  {
+>  	int ret;
+>  
+> @@ -1528,7 +1528,7 @@ static int aio_prep_rw(struct kiocb *req, const struct iocb *iocb)
+>  	} else
+>  		req->ki_ioprio = get_current_ioprio();
+>  
+> -	ret = kiocb_set_rw_flags(req, iocb->aio_rw_flags);
+> +	ret = kiocb_set_rw_flags(req, iocb->aio_rw_flags, type);
+>  	if (unlikely(ret))
+>  		return ret;
+>  
+> @@ -1580,7 +1580,7 @@ static int aio_read(struct kiocb *req, const struct iocb *iocb,
+>  	struct file *file;
+>  	int ret;
+>  
+> -	ret = aio_prep_rw(req, iocb);
+> +	ret = aio_prep_rw(req, iocb, READ);
+>  	if (ret)
+>  		return ret;
+>  	file = req->ki_filp;
+> @@ -1607,7 +1607,7 @@ static int aio_write(struct kiocb *req, const struct iocb *iocb,
+>  	struct file *file;
+>  	int ret;
+>  
+> -	ret = aio_prep_rw(req, iocb);
+> +	ret = aio_prep_rw(req, iocb, WRITE);
+>  	if (ret)
+>  		return ret;
+>  	file = req->ki_filp;
+> diff --git a/fs/btrfs/ioctl.c b/fs/btrfs/ioctl.c
+> index ac3316e0d11c..455f06d94b11 100644
+> --- a/fs/btrfs/ioctl.c
+> +++ b/fs/btrfs/ioctl.c
+> @@ -4555,7 +4555,7 @@ static int btrfs_ioctl_encoded_write(struct file *file, void __user *argp, bool
+>  		goto out_iov;
+>  
+>  	init_sync_kiocb(&kiocb, file);
+> -	ret = kiocb_set_rw_flags(&kiocb, 0);
+> +	ret = kiocb_set_rw_flags(&kiocb, 0, WRITE);
+>  	if (ret)
+>  		goto out_iov;
+>  	kiocb.ki_pos = pos;
+> diff --git a/fs/read_write.c b/fs/read_write.c
+> index d4c036e82b6c..a7dc1819192d 100644
+> --- a/fs/read_write.c
+> +++ b/fs/read_write.c
+> @@ -730,7 +730,7 @@ static ssize_t do_iter_readv_writev(struct file *filp, struct iov_iter *iter,
+>  	ssize_t ret;
+>  
+>  	init_sync_kiocb(&kiocb, filp);
+> -	ret = kiocb_set_rw_flags(&kiocb, flags);
+> +	ret = kiocb_set_rw_flags(&kiocb, flags, type);
+>  	if (ret)
+>  		return ret;
+>  	kiocb.ki_pos = (ppos ? *ppos : 0);
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index 023f37c60709..7271640fd600 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -43,6 +43,7 @@
+>  #include <linux/cred.h>
+>  #include <linux/mnt_idmapping.h>
+>  #include <linux/slab.h>
+> +#include <linux/uio.h>
+>  
+>  #include <asm/byteorder.h>
+>  #include <uapi/linux/fs.h>
+> @@ -119,6 +120,10 @@ typedef int (dio_iodone_t)(struct kiocb *iocb, loff_t offset,
+>  #define FMODE_PWRITE		((__force fmode_t)0x10)
+>  /* File is opened for execution with sys_execve / sys_uselib */
+>  #define FMODE_EXEC		((__force fmode_t)0x20)
+> +
+> +/* File supports atomic writes */
+> +#define FMODE_CAN_ATOMIC_WRITE	((__force fmode_t)0x40)
+> +
+>  /* 32bit hashes as llseek() offset (for directories) */
+>  #define FMODE_32BITHASH         ((__force fmode_t)0x200)
+>  /* 64bit hashes as llseek() offset (for directories) */
+> @@ -328,6 +333,7 @@ enum rw_hint {
+>  #define IOCB_SYNC		(__force int) RWF_SYNC
+>  #define IOCB_NOWAIT		(__force int) RWF_NOWAIT
+>  #define IOCB_APPEND		(__force int) RWF_APPEND
+> +#define IOCB_ATOMIC		(__force int) RWF_ATOMIC
+>  
+
+You might also want to add this definition in here too
+
+#define TRACE_IOCB_STRINGS \
+<...>
+<...>
+{ IOCB_ATOMIC, "ATOMIC" }
 
 
-- Is there interest in filesystem leveraging the integrity capabilities 
-that almost every enterprise SSD has.
-Filesystems lacking checksumming abilities can still ask the SSD to do
-it and be more robust.
-And for BTRFS - there may be value in offloading the checksum to SSD.
-Either to save the host CPU or to get more usable space (by not
-writing the checksum tree). The mount option 'nodatasum' can turn off
-the data checksumming, but more needs to be done to make the offload
-work.
+>  /* non-RWF related bits - start at 16 */
+>  #define IOCB_EVENTFD		(1 << 16)
+> @@ -3321,7 +3327,7 @@ static inline int iocb_flags(struct file *file)
+>  	return res;
+>  }
+>  
+> -static inline int kiocb_set_rw_flags(struct kiocb *ki, rwf_t flags)
+> +static inline int kiocb_set_rw_flags(struct kiocb *ki, rwf_t flags, int type)
 
-NVMe SSD can do the offload when the host sends the PRACT bit. But in
-the driver, this is tied to global integrity disablement using
-CONFIG_BLK_DEV_INTEGRITY.
-So, the idea is to introduce a bio flag REQ_INTEGRITY_OFFLOAD
-that the filesystem can send. The block-integrity and NVMe driver do
-the rest to make the offload work.
+maybe rw_type? 
 
-- Currently, block integrity uses guard and ref tags but not application 
-tags.
-As per Martin's paper [*]:
+>  {
+>  	int kiocb_flags = 0;
+>  
+> @@ -3338,6 +3344,12 @@ static inline int kiocb_set_rw_flags(struct kiocb *ki, rwf_t flags)
+>  			return -EOPNOTSUPP;
+>  		kiocb_flags |= IOCB_NOIO;
+>  	}
+> +	if (flags & RWF_ATOMIC) {
+> +		if (type == READ)
+> +			return -EOPNOTSUPP;
+> +		if (!(ki->ki_filp->f_mode & FMODE_CAN_ATOMIC_WRITE))
+> +			return -EOPNOTSUPP;
+> +	}
+>  	kiocb_flags |= (__force int) (flags & RWF_SUPPORTED);
+>  	if (flags & RWF_SYNC)
+>  		kiocb_flags |= IOCB_DSYNC;
+> @@ -3523,4 +3535,26 @@ extern int vfs_fadvise(struct file *file, loff_t offset, loff_t len,
+>  extern int generic_fadvise(struct file *file, loff_t offset, loff_t len,
+>  			   int advice);
+>  
+> +static inline bool atomic_write_valid(loff_t pos, struct iov_iter *iter,
+> +			   unsigned int unit_min, unsigned int unit_max)
+> +{
+> +	size_t len = iov_iter_count(iter);
+> +
+> +	if (!iter_is_ubuf(iter))
+> +		return false;
 
-"Work is in progress to implement support for the data
-integrity extensions in btrfs, enabling the filesystem
-to use the application tag."
+There is no mention about this limitation in the commit message of this
+patch. Maybe it will be good to capture why this limitation to only
+support ubuf and/or any plans to lift this restriction in future
+in the commit message?
 
-I could not figure out more about the above effort. It will be good to
-understand the progress/problems.
 
-I hope to have the RFC (on the first two items) for better discussion.
+> +
+> +	if (len == unit_min || len == unit_max) {
+> +		/* ok if exactly min or max */
+> +	} else if (len < unit_min || len > unit_max) {
+> +		return false;
+> +	} else if (!is_power_of_2(len)) {
+> +		return false;
+> +	}
 
-[*] https://www.landley.net/kdocs/ols/2008/ols2008v2-pages-151-156.pdf
+Checking for len == unit_min || len == unit_max is redundant when
+unit_min and unit_max are already power of 2.
+
+
+> +
+> +	if (pos & (len - 1))
+> +		return false;
+> +
+> +	return true;
+> +}
+> +
+>  #endif /* _LINUX_FS_H */
+> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+> index 48ad69f7722e..a0975ae81e64 100644
+> --- a/include/uapi/linux/fs.h
+> +++ b/include/uapi/linux/fs.h
+> @@ -301,9 +301,12 @@ typedef int __bitwise __kernel_rwf_t;
+>  /* per-IO O_APPEND */
+>  #define RWF_APPEND	((__force __kernel_rwf_t)0x00000010)
+>  
+> +/* Atomic Write */
+> +#define RWF_ATOMIC	((__force __kernel_rwf_t)0x00000040)
+> +
+>  /* mask of flags supported by the kernel */
+>  #define RWF_SUPPORTED	(RWF_HIPRI | RWF_DSYNC | RWF_SYNC | RWF_NOWAIT |\
+> -			 RWF_APPEND)
+> +			 RWF_APPEND | RWF_ATOMIC)
+>  
+>  /* Pagemap ioctl */
+>  #define PAGEMAP_SCAN	_IOWR('f', 16, struct pm_scan_arg)
+> diff --git a/io_uring/rw.c b/io_uring/rw.c
+> index d5e79d9bdc71..f8c022301cf4 100644
+> --- a/io_uring/rw.c
+> +++ b/io_uring/rw.c
+> @@ -719,7 +719,7 @@ static int io_rw_init_file(struct io_kiocb *req, fmode_t mode)
+>  	struct kiocb *kiocb = &rw->kiocb;
+>  	struct io_ring_ctx *ctx = req->ctx;
+>  	struct file *file = req->file;
+> -	int ret;
+> +	int ret, type = (mode == FMODE_WRITE) ? WRITE : READ;
+>  
+>  	if (unlikely(!file || !(file->f_mode & mode)))
+>  		return -EBADF;
+> @@ -728,7 +728,7 @@ static int io_rw_init_file(struct io_kiocb *req, fmode_t mode)
+>  		req->flags |= io_file_get_flags(file);
+>  
+>  	kiocb->ki_flags = file->f_iocb_flags;
+> -	ret = kiocb_set_rw_flags(kiocb, rw->flags);
+> +	ret = kiocb_set_rw_flags(kiocb, rw->flags, type);
+>  	if (unlikely(ret))
+>  		return ret;
+>  	kiocb->ki_flags |= IOCB_ALLOC_CACHE;
+> -- 
+> 2.31.1
 
