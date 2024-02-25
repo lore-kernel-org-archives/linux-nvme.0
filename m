@@ -4,73 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31EB9C47DD9
-	for <linux-nvme@archiver.kernel.org>; Sun, 25 Feb 2024 12:21:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9DBD1C47DD9
+	for <linux-nvme@archiver.kernel.org>; Sun, 25 Feb 2024 14:20:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Subject:Cc:To:
 	From:Message-Id:Date:Reply-To:MIME-Version:Content-Type:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=1VsrEW364NLFbMOpVdWrVpVClR5o3UGDnlsGXHcP8Ms=; b=A/GStPpgFfaEqI
-	pqqraYQsn0nWw9SkGs5c6ahjfmrv5ZCXn0TF9YVn0INPefBRL3fb+AfcrtVpIMzv7h/io4Oet+DvV
-	sdMdmMxw/kqmDuKj1kWoyUb1mZw19zhIefNmcKvteofLSwxUT+7OH1WGH9PwfUYUqDW6a7wiz2B2E
-	PzlRB2VRrl5YK2mjczfy3p4ex46HoGz1dvWcN8Z/WyD2yuo/w7gfh4qfxw+AiC8851ZPoruL2woeX
-	BMNyGDk3jyTjDjbv9l6yKAjOHK/nJMWMDiOXMyhvd/1sTWoGehd+iJ8iZB34vGGpXVeOOvFQPf5om
-	3NvWOcx1hmbiHofW2R3Q==;
+	List-Owner; bh=dYKBi+Kx0kph0B/S8oQqjrPvt1FVU1da3rN7thqVsdg=; b=pnqBeAVCGR9K+x
+	rfKStVLILwQRrc+9/UxDbnTXpaES41y96tk5PUXfG6OSZS1tHZiRg2dE1ti003UaQt3fenejND0zk
+	H4wYiEcWNw/6bDYUGOgLskSS8/4y1hkf7uh42UB3FxKZ+OHkyRXEcYqI9xdYMaPFRP1AXbzO8C53J
+	7Og9p1TZbSCIOr/syidg8GpROw+Y7f/0W7Ca1l6bEs+7MJ83lg1W3K2eBz3IAKkeLvPep1BzY+gB8
+	+w16SchEji9415avCaM0dnltWnQ/mIcHxcSdy5O/s+F/HXN7vJy5xZd0y0ZwDMXqkAOAveERgbFj3
+	ia4t7D40FxmJt/aW5pJg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1reDVs-0000000EuQW-1tpn;
-	Sun, 25 Feb 2024 12:21:48 +0000
-Received: from mail-oo1-xc32.google.com ([2607:f8b0:4864:20::c32])
+	id 1reFMb-0000000F3pa-1G0j;
+	Sun, 25 Feb 2024 14:20:21 +0000
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1reDVp-0000000EuPr-2b6m
+	id 1reFMY-0000000F3o9-1XT6
 	for linux-nvme@lists.infradead.org;
-	Sun, 25 Feb 2024 12:21:47 +0000
-Received: by mail-oo1-xc32.google.com with SMTP id 006d021491bc7-59fc4d05861so1290054eaf.2
-        for <linux-nvme@lists.infradead.org>; Sun, 25 Feb 2024 04:21:44 -0800 (PST)
+	Sun, 25 Feb 2024 14:20:19 +0000
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1dc5d0162bcso18734665ad.0
+        for <linux-nvme@lists.infradead.org>; Sun, 25 Feb 2024 06:20:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708863703; x=1709468503; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1708870814; x=1709475614; darn=lists.infradead.org;
         h=in-reply-to:subject:cc:to:from:message-id:date:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=1VsrEW364NLFbMOpVdWrVpVClR5o3UGDnlsGXHcP8Ms=;
-        b=eoUSV5C29PVg0P/MP8NZZnDSijqQ2bbQJrjwshzeYPzq+/JWT5fab+f+PHirO5ddS2
-         q8cDKVo6mQhv4mMKLAScUPj7oAeRPTvPPP66Ra+d3hI4DYonSxUYK0yzDQls9IVtIs9Q
-         Uhe3gnOMcGf4gj7ggYaHoZfNR91qjfLSToTrpLCBvnYNBhMhUMm5+URgREUFhUboxMNU
-         yZhAVg6NHkVa6+R7pHpl4QS/rAdNj14tFBpENNLDg0/vYrQMlYX0tAxl6TcNHosejfow
-         YHXdMRbqh5nt0jTowUMMFc0UKPJG4tTPupdpVW75jeGrlLGBA11URnRROjmxUUp9oSZI
-         eWJA==
+        bh=dYKBi+Kx0kph0B/S8oQqjrPvt1FVU1da3rN7thqVsdg=;
+        b=gyUdhVVxJ91DXv0ZFEFfnS+Sgprfw6ZkUAbUG6Ip7fMifPbJ9n7+3GPcGcnlzbVVx3
+         nzV2O5GFXDTIBuqea8aETzBXUnQu5d9il/IvkX4WCLUU12ChB5B5f55dGQH1A2T85GAG
+         gRG9b0qPr4LIhsXGOA5upIXUvn871uLBoirSoYdnhYWW044607KxvnFITeyXt05uVIOW
+         OBvLO9HanKZzHW2B0gQzNnsRF87VbJM4eVpWbJJuzGK7l5RiugjvRahKtPTSzhLe5AsO
+         6YisJWChzLPea+7oqUVClW97wjTSkIAAsaofTcgnLR+CnOsPfvuDn5YWrGU0XAMciMnd
+         FLxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708863703; x=1709468503;
+        d=1e100.net; s=20230601; t=1708870814; x=1709475614;
         h=in-reply-to:subject:cc:to:from:message-id:date:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=1VsrEW364NLFbMOpVdWrVpVClR5o3UGDnlsGXHcP8Ms=;
-        b=hyJK+jw14kSekK06oP7TuM118Q9ct1XwnMF7IT1oL94qcs/svU5UPotPfqBNVSXFVc
-         KeLGyFiCjKh3ooQJ0qBZm7FHbytC+y7uofK9xjW/lCokh3uBu8mvwZOMx8FRCZ6V9TKU
-         eoHD+k8MILFI3X5RHlWTbv0SDAWCqQocryW0LkqyYLOHDo0bod6JaewNV0QJOcBYr9Bq
-         NT0lC1U36hWHWkvgMd2x7LwMSH+XQ77EDU/fHGzJTMX89KWqz+FO6XzREej/fg8Kczg2
-         JDHbjrgt57XlXqmfhgcdEK/o5bIRSwaPY5e4oH13p115Ggm9RXMsbY/ZsraV3xdegPhP
-         v2Mw==
-X-Forwarded-Encrypted: i=1; AJvYcCXsV/5IkrNhpWrNd4RuuX0BSuvCIXWpzqyZK4U2NALQ3Vrj3ZFfpdAvnCl66wjm3pPMO0gUORH+TkJMmSZDWc/Zxrs81XFfxyRHSOPF3Kg=
-X-Gm-Message-State: AOJu0YxrbbLMW+ZNgqTZTYnxYdP4WRrI4qeyd7j5HZAeQJ0Hqek9JwhM
-	q+l7eF8K3WO8DCJfykRr/z/qIMRE6dR4AQCYfi5byiHu4hJ1d5GQ
-X-Google-Smtp-Source: AGHT+IHCCjz5G11xwMXvR57ze0SaNofitVx3jUtjCSoTmI46aCxCdio39YUhl9mRABM4LyLCND/KWQ==
-X-Received: by 2002:a05:6358:5413:b0:17b:79ee:f9dc with SMTP id u19-20020a056358541300b0017b79eef9dcmr6073415rwe.3.1708863703133;
-        Sun, 25 Feb 2024 04:21:43 -0800 (PST)
+        bh=dYKBi+Kx0kph0B/S8oQqjrPvt1FVU1da3rN7thqVsdg=;
+        b=aGmlUyHZOlT26bb/pSIVlkLquJubeZoTiS1xjslUl2dd58hOacHfskMLeea2EMzHx7
+         LtGPVQtcFqrhUHDr9uEtayFyNzTirRplnkK8MMvOsaLgyJVLKkTc3qplj91TlfB4pKyZ
+         twPvrYFzskz5adi9lWnjoPbX8SE+UxG6vYasrk/vpJD5dpCjsaxq9LPtSQNpyR2+PObe
+         vIAiQWNwOfszw9xZUbtY5gD0Fx0RvMfF1kl/FeNVdWgpfPCQ8NJFjhxipoL3RFnT9V6p
+         dOW1tWkTuhCDlwLr2yLgEd0hrrTPBmSr5XL05EFg2vNWbmcx3fW2jDj297bPK3vTCeYG
+         6cZg==
+X-Forwarded-Encrypted: i=1; AJvYcCVVfmR2lKKEmuk89C2rgiraygtZUcXbhiMJq7WmkezkO3yi1lV2wRlpblVVEEZIW4d50C7/GbSELjw2UsEc6hbwCGNI662tlcpOcnNP96s=
+X-Gm-Message-State: AOJu0YxSvP5CtalNCvyFnSJYZORVX70mZwGfTzJpeoCVYLHnkDwWwJSY
+	OcaTUTO0lMTfl1/TCV6yba274b6NTX3M0yIQDfd0kyr3Gz7tlBVz
+X-Google-Smtp-Source: AGHT+IEXYxsOr0QSU3u6gD+WhXD9eZzTG9jlMHzB6YlRK1F6+maANbBs6nKGmmS0D2Yf2XVZrvmbdA==
+X-Received: by 2002:a17:902:6506:b0:1dc:8fb0:2b9e with SMTP id b6-20020a170902650600b001dc8fb02b9emr1407177plk.34.1708870814349;
+        Sun, 25 Feb 2024 06:20:14 -0800 (PST)
 Received: from dw-tp ([171.76.80.106])
-        by smtp.gmail.com with ESMTPSA id t124-20020a628182000000b006e43b99a6c6sm2395792pfd.118.2024.02.25.04.21.36
+        by smtp.gmail.com with ESMTPSA id x6-20020a170902a38600b001d7252fef6bsm2357872pla.299.2024.02.25.06.20.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Feb 2024 04:21:42 -0800 (PST)
-Date: Sun, 25 Feb 2024 17:51:34 +0530
-Message-Id: <87il2c20q9.fsf@doe.com>
+        Sun, 25 Feb 2024 06:20:13 -0800 (PST)
+Date: Sun, 25 Feb 2024 19:50:06 +0530
+Message-Id: <87frxg1v8p.fsf@doe.com>
 From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
 To: John Garry <john.g.garry@oracle.com>, axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com, jack@suse.cz
-Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com, linux-scsi@vger.kernel.org, ojaswin@linux.ibm.com, linux-aio@kvack.org, linux-btrfs@vger.kernel.org, io-uring@vger.kernel.org, nilay@linux.ibm.com, John Garry <john.g.garry@oracle.com>
-Subject: Re: [PATCH v4 05/11] block: Add core atomic write support
-In-Reply-To: <87le7821ad.fsf@doe.com>
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com, linux-scsi@vger.kernel.org, ojaswin@linux.ibm.com, linux-aio@kvack.org, linux-btrfs@vger.kernel.org, io-uring@vger.kernel.org, nilay@linux.ibm.com, Prasad Singamsetty <prasad.singamsetty@oracle.com>, John Garry <john.g.garry@oracle.com>
+Subject: Re: [PATCH v4 06/11] block: Add atomic write support for statx
+In-Reply-To: <20240219130109.341523-7-john.g.garry@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240225_042145_678683_74494BCD 
-X-CRM114-Status: GOOD (  13.03  )
+X-CRM114-CacheID: sfid-20240225_062018_434308_8701991C 
+X-CRM114-Status: GOOD (  25.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,63 +85,129 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Ritesh Harjani (IBM) <ritesh.list@gmail.com> writes:
+John Garry <john.g.garry@oracle.com> writes:
 
-> John Garry <john.g.garry@oracle.com> writes:
+> From: Prasad Singamsetty <prasad.singamsetty@oracle.com>
 >
->> +
->> +	mask = boundary - 1;
->> +
->> +	/* start/end are boundary-aligned, so cannot be crossing */
->> +	if (!(start & mask) || !(end & mask))
->> +		return false;
->> +
->> +	imask = ~mask;
->> +
->> +	/* Top bits are different, so crossed a boundary */
->> +	if ((start & imask) != (end & imask))
->> +		return true;
+> Extend statx system call to return additional info for atomic write support
+> support if the specified file is a block device.
 >
-> The last condition looks wrong. Shouldn't it be end - 1?
+> Signed-off-by: Prasad Singamsetty <prasad.singamsetty@oracle.com>
+> Signed-off-by: John Garry <john.g.garry@oracle.com>
+> ---
+>  block/bdev.c           | 37 +++++++++++++++++++++++++++----------
+>  fs/stat.c              | 13 ++++++-------
+>  include/linux/blkdev.h |  5 +++--
+>  3 files changed, 36 insertions(+), 19 deletions(-)
 >
->> +
->> +	return false;
->> +}
->
-> Can we do something like this?
->
-> static bool rq_straddles_atomic_write_boundary(struct request *rq,
-> 					       unsigned int start_adjust,
-> 					       unsigned int end_adjust)
-> {
-> 	unsigned int boundary = queue_atomic_write_boundary_bytes(rq->q);
-> 	unsigned long boundary_mask;
-> 	unsigned long start_rq_pos, end_rq_pos;
->
-> 	if (!boundary)
-> 		return false;
->
-> 	start_rq_pos = blk_rq_pos(rq) << SECTOR_SHIFT;
-> 	end_rq_pos = start_rq_pos + blk_rq_bytes(rq);
+> diff --git a/block/bdev.c b/block/bdev.c
+> index e9f1b12bd75c..0dada9902bd4 100644
+> --- a/block/bdev.c
+> +++ b/block/bdev.c
+> @@ -1116,24 +1116,41 @@ void sync_bdevs(bool wait)
+>  	iput(old_inode);
+>  }
+>  
+> +#define BDEV_STATX_SUPPORTED_MASK (STATX_DIOALIGN | STATX_WRITE_ATOMIC)
+> +
+>  /*
+> - * Handle STATX_DIOALIGN for block devices.
+> - *
+> - * Note that the inode passed to this is the inode of a block device node file,
+> - * not the block device's internal inode.  Therefore it is *not* valid to use
+> - * I_BDEV() here; the block device has to be looked up by i_rdev instead.
+> + * Handle STATX_{DIOALIGN, WRITE_ATOMIC} for block devices.
+>   */
+> -void bdev_statx_dioalign(struct inode *inode, struct kstat *stat)
+> +void bdev_statx(struct dentry *dentry, struct kstat *stat, u32 request_mask)
 
-my bad. I meant this...
-
-   end_rq_pos = start_rq_pos + blk_rq_bytes(rq) - 1;
->
-> 	start_rq_pos -= start_adjust;
-> 	end_rq_pos += end_adjust;
->
-> 	boundary_mask = boundary - 1;
->
-> 	if ((start_rq_pos | boundary_mask) != (end_rq_pos | boundary_mask))
-> 		return true;
->
-> 	return false;
-> }
->
-> I was thinking this check should cover all cases? Thoughts?
->
->
+why change this to dentry? Why not keep it as inode itself?
 
 -ritesh
+
+>  {
+>  	struct block_device *bdev;
+>  
+> -	bdev = blkdev_get_no_open(inode->i_rdev);
+> +	if (!(request_mask & BDEV_STATX_SUPPORTED_MASK))
+> +		return;
+> +
+> +	/*
+> +	 * Note that d_backing_inode() returns the inode of a block device node
+> +	 * file, not the block device's internal inode.  Therefore it is *not*
+> +	 * valid to use I_BDEV() here; the block device has to be looked up by
+> +	 * i_rdev instead.
+> +	 */
+> +	bdev = blkdev_get_no_open(d_backing_inode(dentry)->i_rdev);
+>  	if (!bdev)
+>  		return;
+>  
+> -	stat->dio_mem_align = bdev_dma_alignment(bdev) + 1;
+> -	stat->dio_offset_align = bdev_logical_block_size(bdev);
+> -	stat->result_mask |= STATX_DIOALIGN;
+> +	if (request_mask & STATX_DIOALIGN) {
+> +		stat->dio_mem_align = bdev_dma_alignment(bdev) + 1;
+> +		stat->dio_offset_align = bdev_logical_block_size(bdev);
+> +		stat->result_mask |= STATX_DIOALIGN;
+> +	}
+> +
+> +	if (request_mask & STATX_WRITE_ATOMIC && bdev_can_atomic_write(bdev)) {
+> +		struct request_queue *bd_queue = bdev->bd_queue;
+> +
+> +		generic_fill_statx_atomic_writes(stat,
+> +			queue_atomic_write_unit_min_bytes(bd_queue),
+> +			queue_atomic_write_unit_max_bytes(bd_queue));
+> +	}
+>  
+>  	blkdev_put_no_open(bdev);
+>  }
+> diff --git a/fs/stat.c b/fs/stat.c
+> index 522787a4ab6a..bd0618477702 100644
+> --- a/fs/stat.c
+> +++ b/fs/stat.c
+> @@ -290,13 +290,12 @@ static int vfs_statx(int dfd, struct filename *filename, int flags,
+>  		stat->attributes |= STATX_ATTR_MOUNT_ROOT;
+>  	stat->attributes_mask |= STATX_ATTR_MOUNT_ROOT;
+>  
+> -	/* Handle STATX_DIOALIGN for block devices. */
+> -	if (request_mask & STATX_DIOALIGN) {
+> -		struct inode *inode = d_backing_inode(path.dentry);
+> -
+> -		if (S_ISBLK(inode->i_mode))
+> -			bdev_statx_dioalign(inode, stat);
+> -	}
+> +	/* If this is a block device inode, override the filesystem
+> +	 * attributes with the block device specific parameters
+> +	 * that need to be obtained from the bdev backing inode
+> +	 */
+> +	if (S_ISBLK(d_backing_inode(path.dentry)->i_mode))
+> +		bdev_statx(path.dentry, stat, request_mask);
+>  
+>  	path_put(&path);
+>  	if (retry_estale(error, lookup_flags)) {
+> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> index 40ed56ef4937..4f04456f1250 100644
+> --- a/include/linux/blkdev.h
+> +++ b/include/linux/blkdev.h
+> @@ -1541,7 +1541,7 @@ int sync_blockdev(struct block_device *bdev);
+>  int sync_blockdev_range(struct block_device *bdev, loff_t lstart, loff_t lend);
+>  int sync_blockdev_nowait(struct block_device *bdev);
+>  void sync_bdevs(bool wait);
+> -void bdev_statx_dioalign(struct inode *inode, struct kstat *stat);
+> +void bdev_statx(struct dentry *dentry, struct kstat *stat, u32 request_mask);
+>  void printk_all_partitions(void);
+>  int __init early_lookup_bdev(const char *pathname, dev_t *dev);
+>  #else
+> @@ -1559,7 +1559,8 @@ static inline int sync_blockdev_nowait(struct block_device *bdev)
+>  static inline void sync_bdevs(bool wait)
+>  {
+>  }
+> -static inline void bdev_statx_dioalign(struct inode *inode, struct kstat *stat)
+> +static inline void bdev_statx(struct dentry *dentry, struct kstat *stat,
+> +				u32 request_mask)
+>  {
+>  }
+>  static inline void printk_all_partitions(void)
+> -- 
+> 2.31.1
 
