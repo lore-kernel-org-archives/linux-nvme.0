@@ -4,55 +4,137 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5CA0EC5478C
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Feb 2024 06:34:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4570C48BF6
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Feb 2024 06:43:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qzWSI3KEn4dMZlJsuXgH/jhYr/e/WR3s0JV34dnQAQQ=; b=ZHk+3Jh+89ksKHK9Frd0m1Bzip
-	crOHxB6Ct9rsDN4rVkQbUNbOkthc6MqjGkdmPSHvlIKoM+Lj3KCMfFdfpE2nkjUpjY0H0fD5JX4/k
-	Iz+nOs233dBH/aoYgBce7rtDa9eJZIswMdoQynZ6yBjoVWvJkSij97BfsDZK4/HZ8V6XGHXgjz2cT
-	r/Jan0Z/OGv5lHZlNHki3jwpP8DIEQjGN2e4t/6zCej9RTBmobBlFlQnvCOz+uKDYxmQ2ZorC11bh
-	wun0ZB27JGvokNAd4Tguo5hvQD1hiXvngIKJlVXbWvq3mEPDTfVZnT43TL1YKbZ6tv2pQohGVEY5k
-	uHIgpPfw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=lKtYnx2D4uVj+j2VMqvFn0Cd8uZjeUxklB6TEzLdOdQ=; b=q0nE5wmpxM3i0/RoPMz2juAd/+
+	0IYl/KHdruqMeoNu6z5dDgDWoc7FxFtQFLQRTsfAQJKUMY7mQI/lQ+iu+ycZzyTKhzHrTNiJy5hes
+	sqc833nEcXWiFT06OQKaoUnh0x5s4BhWrB+Otj8xqcjM0CElQPloRaLHb1qUC3NmX5pgBTvgWzg9j
+	PwHYgFs3+r5jBYZpOFxoAXiKaRjM83zHVegwh9an3+vANIUFUYBhG1PvmgX/TI20s3BCsPTvDSUyY
+	iIXvJqAviM8IIwnJaYGFLGzGP515sz7CUcBGbNcFjBJjIFk1oyFMC5bKV6DCgTUn+VKA7rKcxCbgH
+	eZf2KP6g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1reUYp-0000000GfR8-0xSd;
-	Mon, 26 Feb 2024 06:33:59 +0000
-Received: from out30-111.freemail.mail.aliyun.com ([115.124.30.111])
+	id 1reUhr-0000000GgWN-3UAp;
+	Mon, 26 Feb 2024 06:43:19 +0000
+Received: from mail-bn7nam10on20600.outbound.protection.outlook.com ([2a01:111:f403:2009::600] helo=NAM10-BN7-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1reUYm-0000000GfPz-14z0
+	id 1reUho-0000000GgVX-2hcv
 	for linux-nvme@lists.infradead.org;
-	Mon, 26 Feb 2024 06:33:58 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1708929230; h=Message-ID:Date:MIME-Version:Subject:From:To:Content-Type;
-	bh=qzWSI3KEn4dMZlJsuXgH/jhYr/e/WR3s0JV34dnQAQQ=;
-	b=TwfvYcpFYXNJQIwaJpJ577GaMemXa9wx7qXkkQpgBl5Uomrc2A2GXZKvbx0dt5iTev6Cd5XVMOKYk50jGjWJZZUzeeAXMdwYxYMGqJyZbsMzJKnVZD/m4r5Sa7afYDaOTOhkWJi1S8YXD+zGCDgyNQNGwU7f3gxOQn/8Diwp3oo=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R481e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045168;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0W1CUIKC_1708929227;
-Received: from 30.178.84.43(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W1CUIKC_1708929227)
-          by smtp.aliyun-inc.com;
-          Mon, 26 Feb 2024 14:33:49 +0800
-Message-ID: <b7f4e68f-bf9b-4d77-acd9-c9bb7570a614@linux.alibaba.com>
-Date: Mon, 26 Feb 2024 14:33:47 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+	Mon, 26 Feb 2024 06:43:18 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=e/LDl2Nr3m9eUJQZDqZjGJkIJveujtTil9lws3/iJiGG1sjuTKxvIXR0Xqae0OWCirRfA2aabnLwbOLpdfV2bOa5rejGW1PuMRZroL9N9yX1qcQexpJuEM41wqgLiKLQYhIjdqa+G+yBBLWf3+E7pyktmm1BzEVM/yjLv3hVkeYU2C8liLLxrpmUKv/w+PcNY+Em12q5RqucbAgnZvh3Kxmf9h5ng5yzCUaHVdMsyuklkWFUVqL0REhr4De//+jO12ElUrr1PNM2MZ5P+YWylUgiY1sXXtfHpfirPmIoDgQUwudrhplF5QZXAfulbtHkcHXogV5M+bk+9/TJsGM3dg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lKtYnx2D4uVj+j2VMqvFn0Cd8uZjeUxklB6TEzLdOdQ=;
+ b=Sqlf4A64tCI/r4SZX2MAZtPNt8iusBxHimMIgglZ/3IyKIhClU+oD/38/bI9Dh3x9vIlN8wFdY7XL2q3k/tntu2Eeg/l3nmBu6VxW8bUyftAWF0PqdEHD+nTjuCwjTtYPBwN0aoTp32U+20jQhd+3CtxMasIFwKXFk5FmMJ+iPMeCwjvG4GLsqy9eVtDJvjeh+NvUVGIpynFUw5ho5yVDHEhzAbkVqi5z2IUyr3ZVWGHVsiH8CrWbdA5VJgJ/07cFvCFj/v/0VoRRo+WsrbtKrbelz2thg0vPLCvGhXUPtD3UmV8bCZJkeTrgqyF72ZIKWlYwWI6gYtvYQ09Wds+Ng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lKtYnx2D4uVj+j2VMqvFn0Cd8uZjeUxklB6TEzLdOdQ=;
+ b=Goz1u/xxzWw9dxHGOUg6yZvu+j8+D8ZX01g2jbpyX/GkTEWwqGEqzBgrqwpMEHyL0kgKMDuAGvvl5Dc7c99N9EEBF/mKtkjJpSQE+mvk/ZAThD96SF2wuOS7Wh9osUe3LLR7mrDuHssUYn8CWjWieMOSntl4p+Lj1p79wy1vJiGQdvufCtpNWPutg9pnTeQxmPxElRit+wZqq5OrDp89CuE5WnwKWtpJ3nl24dKEAAEHPGCTOxec+x1mgXLyZTSDTT4CDR6OPS9XsFKZMiUGpt+wZ6fW7iiSbxerTbIXK6YK/Y0iiWR4e2kgdPAaMczSUGxyE3ECxudNwFFg1AyVQg==
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
+ by IA0PR12MB7507.namprd12.prod.outlook.com (2603:10b6:208:441::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.33; Mon, 26 Feb
+ 2024 06:43:08 +0000
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::ffce:bbde:c1ca:39ed]) by LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::ffce:bbde:c1ca:39ed%4]) with mapi id 15.20.7316.034; Mon, 26 Feb 2024
+ 06:43:08 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Guixin Liu <kanie@linux.alibaba.com>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>, "sagi@grimberg.me"
+	<sagi@grimberg.me>, "hch@lst.de" <hch@lst.de>
 Subject: Re: [PATCH v7 0/1] Implement the NVMe reservation feature
-From: Guixin Liu <kanie@linux.alibaba.com>
-To: sagi@grimberg.me, hch@lst.de, kch@nvidia.com
-Cc: linux-nvme@lists.infradead.org
+Thread-Topic: [PATCH v7 0/1] Implement the NVMe reservation feature
+Thread-Index: AQHaVLbf3S2JbeZAh0WgbRnHFKhmzbEPdmOAgAzbsICAAAKbgA==
+Date: Mon, 26 Feb 2024 06:43:08 +0000
+Message-ID: <8cc26612-bd2d-4e2f-a3de-06ca6d7e477a@nvidia.com>
 References: <20240201023207.112007-1-kanie@linux.alibaba.com>
  <af0c5068-fec7-453a-a1e2-b5c0d7e8e308@linux.alibaba.com>
-Content-Language: en-GB
-In-Reply-To: <af0c5068-fec7-453a-a1e2-b5c0d7e8e308@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ <b7f4e68f-bf9b-4d77-acd9-c9bb7570a614@linux.alibaba.com>
+In-Reply-To: <b7f4e68f-bf9b-4d77-acd9-c9bb7570a614@linux.alibaba.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|IA0PR12MB7507:EE_
+x-ms-office365-filtering-correlation-id: ec6f27b2-e92c-4f52-4d5d-08dc36963155
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ffK12AbZcKRjYy/f7Mhi1dDxaBRXQc6HaNCmJATlynrYt6lqHmdKhREMNX2GWRLW6624HbBOZgQm15ZF677s1dcM+2IJ3ljH1R3Azz+akC9mQcsgOOZtOzLguXYmiGWpVcikUzf/1rDl2dXP97nk3ZPM1waqQp2QLzYpz+Kf6CwNGjHlx4N/VW6kg0gy6CVzV6q+RYPVThfUeT593Zv0PJyPmj7lIz0iXla1OJn+d0IuxApbLXcJCNnvDG1mkHMMpqBNoRjwdSzz6wADYB7zvENZT8Efvxdyv1DaGP80Dfg/HYz/m4II6JY5LmAjNOxosCwwn9TC2Nb1+wXXzd9LanHTITyaeSW1Nw2XmFBwZh3Kzizk/TzIVXBci/j5AsSbP/2mABfLosKXBpqrGA/H2z9vY5o9u+gwLUh8ZTfMUy8XCZRqI3tk1oLWayhrjCmy9qulOXzIi9hBNPPjWQuCu8cqvIGdbkkrczdC4ZAeaYUYg8yvaKvaZg/JyEdHUr0J49XB/5INMuiFEkM+XOBMHWp/a87b7JyYxtzJBeHIyp/Th1HX3IMrjKmvRoAM8ts71xuGbMBaerWsvn9q9D6wmZsLI+W394YFUGoQfIFLOPFQfCuyZernP2fVrEs5tVNdZ7HfovX8EXQYbeGhhedaI4CumtpevOQStXmWnojTCVpVnWBKPr47r2sX34BP4acigCrl6Wi41wWehXAN+wcVn33vnklOfIfRJcivX9NmQG4=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cGp2blBMUjNlRlV4akhDczhSdFBGWVVyMnc3eGxtOFRULzNIb2xqSTM2YmRZ?=
+ =?utf-8?B?ZkNsRDJNNndTb2JhTGtYTldhbUVmT1c3aGtSK2lreldibHNPSjlMNmtqcVlh?=
+ =?utf-8?B?Z0NnUUl5emZGZkI5YlZ5M2RPbzgwVkpWa0pYRlpxVHBYaHdKZnRvbnpmZE9B?=
+ =?utf-8?B?Yy9mMFAzS2dNb0VGcFdNUjZvblNhdFo4U253WUlrdTBxMzl4bXZzeS96MmNv?=
+ =?utf-8?B?L29QMXBtSXFCSllvdFJxc2M3ZGZmVTJ2UWdZTk1hZ015TGxoWFA4VXZVSUp2?=
+ =?utf-8?B?dENOMElQTlRsZjJpNTQxV1VKak51Q3B0amZDVU5mdVdKS1U3TlhYRFRJZjB4?=
+ =?utf-8?B?NzVzcjREQ20yNnBTY09FU1FXbi9FQm5KY1ZpQjFmVWg1RXNab2k2ak55MUR0?=
+ =?utf-8?B?MmJ2R1N6U1pmTnFUdSt1akRqcUVUTEhxeDBoR1hkQys3bUY0YzhjL1FUbGhV?=
+ =?utf-8?B?dE5oUC9Yd0JaNHQzbWs3RHFMRlhTb3JsMG5BVi9yd0hoNFcxQ2tJdTlrTVZt?=
+ =?utf-8?B?Z0QzcWlwbUVWVTZ3SDJFWmtMblRmVWNYYjVMTUxGbStBWVdHNEZFaUZ2dWdn?=
+ =?utf-8?B?N2lYU0ZUNXE5aHovbUFUQkhuaFFLVlQ1VnNJSXNHb3hsQUhKenhpNFRtajE1?=
+ =?utf-8?B?RXFoK0dxcjRqOWJvYzZIU3pkYnlnYjAzNThIeXBOOUIyR0ZNdFFxOGlpdkNk?=
+ =?utf-8?B?aGE4TDVLWjV3WDlwaWI2dWZHV2F6N005TEV5ZzdnMSt2UmdEeG0yNm8yaERH?=
+ =?utf-8?B?dWhmTjRnSi9IeUpJRHR6RHJaWjdFTmhvcCt2TlM2RzUrRUVqUmJiblIxcXFG?=
+ =?utf-8?B?Y1dzbDJFR3hpSmpha1ltWDI1VTNTNS9INUFUbDNmU1dzMGtCVkppWWhjK1Vy?=
+ =?utf-8?B?aFcxQnhuQVBBNFlJa3A3Z1huZUhlNVNJaHcrSnZyb2l5RkVYWVZZY0lBQSth?=
+ =?utf-8?B?NjlUVHljMkREcXAzV0FBcHdyTEZ6WC9OaWNkTG83UGtoK2lxcnU0M1c5eDlH?=
+ =?utf-8?B?aGYwdXNJTUs3YVpwTGxrb2o2eWdpMDJDdEd3RjRsUGdET0Q2ekMyYXFpOTBF?=
+ =?utf-8?B?bjRtaWd1MU9RbGlJZzBnZzIzTmV3dFVTZEpDbU9UREp1OUZOSHA2TlJTY3Bp?=
+ =?utf-8?B?NE5TMU51TDBUSVpwN1RiZTZJdjgvaHJtMU5yT2h0UE0xdHF3dDZ2czhZVWVx?=
+ =?utf-8?B?MHBiS3dsaVVoVlBpR0xTVFBwTUd4Q3hNVjQzcHFnSjFFS2tRWWZ1UVJTOVdB?=
+ =?utf-8?B?ZzZLMndkWFkxNkZiL05wbHJXSmMzMUFDK3pSOVoxNWxxZDNPMWQwK1U4TG5n?=
+ =?utf-8?B?K0ZFV2FxLzR5R0I4N1plcm5OUnU2SmpXaTlkdU5CVUo1a0tpU21HcXI1N2ZS?=
+ =?utf-8?B?d3cxUDgxQXpuZ09ScnhhM0ZGeDVxbFpvOU1pUE80ODVINUlDWi9RQy9ocXlO?=
+ =?utf-8?B?NjVYOWtOMDJqcFh5Yy9qSjk0cjhSdzhrTFg0WXFwR0NycTh2V1lPb1F6ckpi?=
+ =?utf-8?B?NkR4bDR0dlh1U0xOZGtnNEkvcThyeHIxeGVaRmN4dXhKUHFxM3h1c3MzTVNB?=
+ =?utf-8?B?alVRMnA5SytUMDF5dkRBYU5Udk1aNm91bEYxa0p5clV2WjBZTkNWUEczK1VC?=
+ =?utf-8?B?SjQySFBOM0FZSjBDRGJiZ0d6QUNuSStqN3hJVXZ2dVRXaU9JODhVV3hUTE9F?=
+ =?utf-8?B?WU5NdkRoUTArVVRsODZURVRVOW1NUnBTZXFrQm5kSWNuZDdycXYxeFNNNGlH?=
+ =?utf-8?B?RjRFYnI2WHhzcm01U2VreHNHY1pnVXgrbGRBaXJvNU9IRWFENHhTczE5d052?=
+ =?utf-8?B?NjFpZC9wdlNUN1NhS21XQWxEZzZrRkk0aDY4Ym9aZzk3aXE1djRkYUF1bVlm?=
+ =?utf-8?B?aDZKc0FBMjJFeFhGd3dDU09WbU5FM0Y2QThuTHZ5a1NtRmVTNWJPQW5oV1hp?=
+ =?utf-8?B?eGVacUFkZkg4dVUxNUtMdTlLUVBhQTg3Zm9wQmtmTnJZcnZCRUZlQWNCVm1X?=
+ =?utf-8?B?OTVabm5tb2djb1dSMm5BaWVxZHlDdE1hTGo4RkM1TzZGVDhHSU1PQjZIR3lq?=
+ =?utf-8?B?emE4ekh1Sml4eFlpVVZEa3Q5RElkZWk2Y2RkdGxhMmtsUlFpQjVBSHBWR1Zr?=
+ =?utf-8?Q?P+3hz+JgudlnyPKGiFuvZo96E?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <F7AC4612B2F67E41A6E80C0E2B7B8172@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec6f27b2-e92c-4f52-4d5d-08dc36963155
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Feb 2024 06:43:08.0201
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Y5AnDspoWgHvdRt4prd9WH2SP8gC1bRUsoC1BSgkBsUnRT5/f9uwzylLZnSN7Q02HZihiR9EboFsn5niRHYiyw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7507
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240225_223356_840426_8E082781 
-X-CRM114-Status: GOOD (  23.10  )
+X-CRM114-CacheID: sfid-20240225_224316_752614_635A316F 
+X-CRM114-Status: GOOD (  10.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,187 +149,10 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Christoph and Chaitanya,
-
-     I noticed that Sagi hasn't replied to any emails for a month, could
-
-you please review this patch?
-
-Best Regards,
-
-Guixin Liu
-
-在 2024/2/18 10:12, Guixin Liu 写道:
-> Hi,
->
->     Gentle ping...
->
-> Best regards.
->
-> Guixin Liu
->
-> 在 2024/2/1 10:32, Guixin Liu 写道:
->> Hi guys,
->>      I've implemented the NVMe reservation feature. Please review it, 
->> all
->> comments are welcome as usual.
->>
->> Changes from v6 to v7:
->> - Handle "reservation notification mask" feature command to mask 
->> reservation
->> log.
->>
->> - Add all the registrants that need to be freed to a temporary list 
->> fist,
->> and then after calling synchronize_rcu(), release all the registrants 
->> on the
->> temporary list.
->>
->> - Fix the resv log page is random when there is no resv log page.
->>
->> - Change nvmet_is_host_still_connected() to nvmet_is_host_connected().
->>
->> - Remove nvmet_pr_set_rtype_and_holder() and change 
->> nvmet_pr_create_new_resv()
->> to nvmet_pr_create_new_reservation().
->>
->> - Change nvmet_pr_find_registrant_by_hostid() to 
->> nvmet_pr_find_registrant().
->>
->> - Change nvmet_pr_send_resv_released() to nvmet_pr_resv_released().
->>
->> - Change __nvmet_pr_unregister_one() to nvmet_pr_unregister_one().
->>
->> - In nvmet_pr_unreg_by_prkey(), 
->> nvmet_pr_unreg_by_prkey_except_hostid() and
->> nvmet_pr_unreg_except_hostid(), first do unregistering and then do 
->> event sending.
->>
->>
->> Changes from v5 to v6:
->> - Use synchronize_rcu() and kfree() to free registrant instead of 
->> kfree_rcu().
->>
->> - Remove nvmet_pr_register_check_rkey(), put the check into pr_lock 
->> warp.
->> And refactor the nvmet_pr_register().
->>
->> - Add the print fmt to the head.
->>
->> - Add lockdep_is_held(&pr->pr_lock) condition to 
->> list_for_each_entry_rcu.
->>
->> - Fix the bug in nvmet_pr_update_reg_attr(), when the change_attr hook
->> return fail, we should not replace the holder.
->>
->> Changes from v4 to v5:
->>
->> - Use rculist macros to handle registration_list instead of list macros
->> regardless of in mutex lock or not.
->>
->> - Use goto statement instead of return in nvmet_is_host_still_connected
->> and __nvmet_pr_unregister_one.
->>
->> - Add lockdep_assert_held and rcu_read_lock_held assert to many 
->> functions,
->> if it's necessary.
->>
->> - Add a comment to nvmet_execute_get_log_page_resv to explain how 
->> lost_count
->> works.
->>
->> - In nvmet_pr_clear, we should set holder to NULL first, I fixed this.
->>
->> - Unify nvmet_pr_update_holder_rtype and __nvmet_pr_do_replace to
->> nvmet_pr_update_reg_attr.
->>
->> - Fix wrong nr_pages in nvmet_execute_get_log_page_resv.
->>
->> - Fix the deadlock issue of nvmet_pr_exit_ns, put it out of the 
->> subsys lock.
->>
->>
->> Changes from v3 to v4:
->> - Use kfifo to handle resv log page instead of list, and also limit the
->> resv log queue to 64.
->>
->> - Change the function calling alignment style to:
->>      nvmet_pr_send_event_by_hostid(pr, hostid,
->>              NVME_PR_LOG_RESERVATOPM_PREEMPTED);
->>
->> - Put kmalloc out of rcu_read_lock in nvmet_execute_pr_report().
->>
->> - Remove the goto in __nvmet_pr_unregister_one().
->>
->> - Change generation to atomic_t, and remove nvmet_pr_inc_generation().
->>
->> - In addtion, the number2 patch "nvmet: unify aer type enum" is not
->> relate with this patch, so I will send it separately.
->>
->>
->> Changes from v2 to v3:
->> - Use rcu instead of rwlock to make IO path run faster, and put the 
->> rtype
->> into the struct nvmet_pr_registrant.
->>
->> - Limit the resv_log_list to 128.
->>
->> - Change generation to atomic64.
->>
->> - Put register rkey check to a warpper.
->>
->> - Change nr_avl_pages to nr_pages.
->>
->> - Use NVME_SC_SUCCESS instead of 0.
->>
->> - Change kmalloc param to let it not sleep in mutex lock.
->>
->>
->> Changes from v1 to v2:
->> - Implement the reservation notification report, includes registration
->> preempted, reservation released and reservation preempted.
->>    And also handle the reservation log page available event and send get
->> reservation log page command to clear log page at host.
->>
->> - Put the reservation check access after validate opcode. And remove
->> opcodes which nvmet not implement yet check.
->>    Now there is no admin opcode nvmet implemented needs reservation 
->> check,
->> so I dont add reservation check to admin command path.
->>    Next we need to do reservation check includes the situation of 
->> nsid is
->> 0xffffffff at each admin command path, if it is needed.
->>
->> - Add reservation commands support in nvmet_get_cmd_effects_nvm().
->>
->> - From Chaitanya, change the local variable tree style to make it 
->> cleaner,
->> and add some comments about NVMe spec.
->>    And also change others advice from chaitanya.
->>
->> - Put the nvmet_pr_check_cmd_access and nvmet_parse_pr_cmd into 
->> reservation
->> enable check warp.
->>
->> - Remove kmem_cache instead to use kmalloc and kfree.
->>
->> - Change others advice from Sagi.
->>
->> - Add a blktest test case, this patch will be sent before these 
->> series of
->> patches.
->>
->> Guixin Liu (1):
->>    nvmet: support reservation feature
->>
->>   drivers/nvme/target/Makefile    |    2 +-
->>   drivers/nvme/target/admin-cmd.c |   20 +-
->>   drivers/nvme/target/configfs.c  |   27 +
->>   drivers/nvme/target/core.c      |   51 +-
->>   drivers/nvme/target/nvmet.h     |   36 ++
->>   drivers/nvme/target/pr.c        | 1041 +++++++++++++++++++++++++++++++
->>   include/linux/nvme.h            |   54 ++
->>   7 files changed, 1224 insertions(+), 7 deletions(-)
->>   create mode 100644 drivers/nvme/target/pr.c
->>
+T24gMi8yNS8yNCAyMjozMywgR3VpeGluIExpdSB3cm90ZToNCj4gSGkgQ2hyaXN0b3BoIGFuZCBD
+aGFpdGFueWEsDQo+DQo+IMKgwqDCoCBJIG5vdGljZWQgdGhhdCBTYWdpIGhhc24ndCByZXBsaWVk
+IHRvIGFueSBlbWFpbHMgZm9yIGEgbW9udGgsIGNvdWxkDQo+DQo+IHlvdSBwbGVhc2UgcmV2aWV3
+IHRoaXMgcGF0Y2g/DQo+DQo+IEJlc3QgUmVnYXJkcywNCj4NCj4gR3VpeGluIExpdQ0KPg0KDQpI
+aSwNCg0KWW91IHdpbGwgaGF2ZSBteSByZXZpZXcgYnkgZW5kIG9mIHRoaXMgd2VlayB3b3JzdCBj
+YXNlIG9uIHdlZWtlbmQuDQoNCi1jaw0KDQoNCg==
 
