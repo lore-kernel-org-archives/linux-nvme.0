@@ -4,98 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C21E6C47DD9
-	for <linux-nvme@archiver.kernel.org>; Sun, 25 Feb 2024 23:09:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5CA0EC5478C
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Feb 2024 06:34:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=l7a9pYx80wW5C+0OOLf7V/OKZTSHuwOcmWS8SrHVorg=; b=Koyp5a9Of96uZQ0iAA2bswzvur
-	oVdnE5dFW3CbyJOoRPcjuzZmOIEE6aWJT+LHkJ98NCiL0Ou5LK5bWU3bo/TGDsGC4wEH+Kum9ROAj
-	d2OTunSDPXzpO+F+0awruWEAdCNvdlliTSFkwvw5ga7Y8vPXCVZDEW0wESd3yAgk1HHNz2xXtH5pY
-	i1yh4B2eeYzm0JI7SKftNzfIBaYc2WDCmepENWk81nKZh+R+M+GAKgzDXAjQQ7eSBMvVT2jPFQPw+
-	2UhXCdajxZyLRZ+na24xcucfeCiJyO6sBMIr9CKrRls4EvfLaYXAtWCMG5d4r3FM65sujOLjDAhDI
-	kCWI+eVw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=qzWSI3KEn4dMZlJsuXgH/jhYr/e/WR3s0JV34dnQAQQ=; b=ZHk+3Jh+89ksKHK9Frd0m1Bzip
+	crOHxB6Ct9rsDN4rVkQbUNbOkthc6MqjGkdmPSHvlIKoM+Lj3KCMfFdfpE2nkjUpjY0H0fD5JX4/k
+	Iz+nOs233dBH/aoYgBce7rtDa9eJZIswMdoQynZ6yBjoVWvJkSij97BfsDZK4/HZ8V6XGHXgjz2cT
+	r/Jan0Z/OGv5lHZlNHki3jwpP8DIEQjGN2e4t/6zCej9RTBmobBlFlQnvCOz+uKDYxmQ2ZorC11bh
+	wun0ZB27JGvokNAd4Tguo5hvQD1hiXvngIKJlVXbWvq3mEPDTfVZnT43TL1YKbZ6tv2pQohGVEY5k
+	uHIgpPfw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1reNcW-0000000FuYR-24QC;
-	Sun, 25 Feb 2024 23:09:20 +0000
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536])
+	id 1reUYp-0000000GfR8-0xSd;
+	Mon, 26 Feb 2024 06:33:59 +0000
+Received: from out30-111.freemail.mail.aliyun.com ([115.124.30.111])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1reNcQ-0000000FuXJ-47KG
+	id 1reUYm-0000000GfPz-14z0
 	for linux-nvme@lists.infradead.org;
-	Sun, 25 Feb 2024 23:09:16 +0000
-Received: by mail-pg1-x536.google.com with SMTP id 41be03b00d2f7-517ab9a4a13so2275080a12.1
-        for <linux-nvme@lists.infradead.org>; Sun, 25 Feb 2024 15:09:13 -0800 (PST)
+	Mon, 26 Feb 2024 06:33:58 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1708902552; x=1709507352; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=l7a9pYx80wW5C+0OOLf7V/OKZTSHuwOcmWS8SrHVorg=;
-        b=b+6Skt5M0aoHcBo5UyrWyt5Se/qH/6jvx6POJgBrVAKmeDXo9TlNrSG+Nq2G6SPwNP
-         zTh8Kc17XN9mrsNtpWRpEYYRJdoriyFOvA79SxXFCmSj4AwWETi1VpVSiYWbCI7wAJFB
-         PR1cV3O0KzMRLxj57i2ylgv7jQowkkbfHeDmfyoywLR/2Aqd/NZRdXd+FJvfkqIJMeBS
-         cvdrgI2glq2gsorK0MoHBJFdiBRoYGOgCPvEmUUsa6dxy9FiVNk21oaeUYgZRuiAWy0C
-         +G891uKl2dX7RavTgMO7VcpM+dvfh0mrejgreufpGVazNJ/xLoqwTPdLpknYXYMEqHRH
-         daSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708902552; x=1709507352;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l7a9pYx80wW5C+0OOLf7V/OKZTSHuwOcmWS8SrHVorg=;
-        b=rQdnsopo1Z7BHeXiGacIjgKv6NR5ZHcfoJfDbjbNY+bQ0jJ4Ai42YifIIa0E2Rv8KB
-         oP9THdL8hjmNJaCBQSXrHAe2+AtCccpRJzq5I/rjP8bNOInRBzr9kKRAdHlc9bGmCaj2
-         pqxODOAUIJsuvdrtVNrR70rN2zFohkmlgvNoIxGJDKED5QDcYBXetUkbzNa6j1zpFJVJ
-         MjYeybVhDXXCWWRV6zNad5/2U5Yb59dqMUzyG1XXviaMrq2JrZecBFIQrlnFlpIaIPe4
-         2t4qPSlcwz3Upnd5J5sE+8nTG7EhqP70k8YIF+Z1D7ox1opq5x/ix0/pcv9tC1pFsRBW
-         z2og==
-X-Forwarded-Encrypted: i=1; AJvYcCVK2a7HEXzeneBQhdNJb4dgmmtoK+fqsD4TGIBbT+kMF7fluQ8OtNKAB/m5zCg9IP3PZW2dVxYm4rvIlCPFGApk0ab6iz/r4t5NEHYDPwk=
-X-Gm-Message-State: AOJu0YxKJrPqrHd4Tvuh3hjA3q71h+2cORR7+R9I1KgoMzWihQAtzGW9
-	K7AHFTQCC0U5vYETzHjODGuEhs7kkz284McxQCZzR4IYDlQHgzhYZMf/GM48i60=
-X-Google-Smtp-Source: AGHT+IF7Q1OsYYh07q3WF9Mui45ZkhG22+fhtpowOBILiP+qRKRpg66hFJe8Zc3/frwdBVhcPIiQGA==
-X-Received: by 2002:a17:902:dac9:b0:1dc:623d:1c3f with SMTP id q9-20020a170902dac900b001dc623d1c3fmr8618092plx.6.1708902552513;
-        Sun, 25 Feb 2024 15:09:12 -0800 (PST)
-Received: from dread.disaster.area (pa49-181-247-196.pa.nsw.optusnet.com.au. [49.181.247.196])
-        by smtp.gmail.com with ESMTPSA id jj5-20020a170903048500b001dca9316374sm26662plb.147.2024.02.25.15.09.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Feb 2024 15:09:11 -0800 (PST)
-Received: from dave by dread.disaster.area with local (Exim 4.96)
-	(envelope-from <david@fromorbit.com>)
-	id 1reNcK-00BVIu-0x;
-	Mon, 26 Feb 2024 10:09:08 +1100
-Date: Mon, 26 Feb 2024 10:09:08 +1100
-From: Dave Chinner <david@fromorbit.com>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: Matthew Wilcox <willy@infradead.org>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Pankaj Raghav <p.raghav@samsung.com>, Jan Kara <jack@suse.cz>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Christoph Hellwig <hch@infradead.org>,
-	Hannes Reinecke <hare@suse.de>, lsf-pc@lists.linuxfoundation.org,
-	linux-mm@kvack.org, linux-block@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [LSF/MM/BPF TOPIC] Large block for I/O
-Message-ID: <ZdvIlLbhtb7+1CTx@dread.disaster.area>
-References: <7970ad75-ca6a-34b9-43ea-c6f67fe6eae6@iogearbox.net>
- <4343d07b-b1b2-d43b-c201-a48e89145e5c@iogearbox.net>
- <03ebbc5f-2ff5-4f3c-8c5b-544413c55257@suse.de>
- <5c356222-fe9e-41b0-b7fe-218fbcde4573@acm.org>
- <ZYUbB3brQ0K3rP97@casper.infradead.org>
- <ZYUgo0a51nCgjLNZ@infradead.org>
- <9b46c48f-d7c4-4ed3-a644-fba90850eab8@acm.org>
- <ZZxOdWoHrKH4ImL7@casper.infradead.org>
- <ZdeWRaGQo1IX18pL@bombadil.infradead.org>
+	d=linux.alibaba.com; s=default;
+	t=1708929230; h=Message-ID:Date:MIME-Version:Subject:From:To:Content-Type;
+	bh=qzWSI3KEn4dMZlJsuXgH/jhYr/e/WR3s0JV34dnQAQQ=;
+	b=TwfvYcpFYXNJQIwaJpJ577GaMemXa9wx7qXkkQpgBl5Uomrc2A2GXZKvbx0dt5iTev6Cd5XVMOKYk50jGjWJZZUzeeAXMdwYxYMGqJyZbsMzJKnVZD/m4r5Sa7afYDaOTOhkWJi1S8YXD+zGCDgyNQNGwU7f3gxOQn/8Diwp3oo=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R481e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045168;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0W1CUIKC_1708929227;
+Received: from 30.178.84.43(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W1CUIKC_1708929227)
+          by smtp.aliyun-inc.com;
+          Mon, 26 Feb 2024 14:33:49 +0800
+Message-ID: <b7f4e68f-bf9b-4d77-acd9-c9bb7570a614@linux.alibaba.com>
+Date: Mon, 26 Feb 2024 14:33:47 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZdeWRaGQo1IX18pL@bombadil.infradead.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 0/1] Implement the NVMe reservation feature
+From: Guixin Liu <kanie@linux.alibaba.com>
+To: sagi@grimberg.me, hch@lst.de, kch@nvidia.com
+Cc: linux-nvme@lists.infradead.org
+References: <20240201023207.112007-1-kanie@linux.alibaba.com>
+ <af0c5068-fec7-453a-a1e2-b5c0d7e8e308@linux.alibaba.com>
+Content-Language: en-GB
+In-Reply-To: <af0c5068-fec7-453a-a1e2-b5c0d7e8e308@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240225_150915_282963_7342E87C 
-X-CRM114-Status: GOOD (  50.85  )
+X-CRM114-CacheID: sfid-20240225_223356_840426_8E082781 
+X-CRM114-Status: GOOD (  23.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,123 +67,187 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Feb 22, 2024 at 10:45:25AM -0800, Luis Chamberlain wrote:
-> On Mon, Jan 08, 2024 at 07:35:17PM +0000, Matthew Wilcox wrote:
-> > On Mon, Jan 08, 2024 at 11:30:10AM -0800, Bart Van Assche wrote:
-> > > On 12/21/23 21:37, Christoph Hellwig wrote:
-> > > > On Fri, Dec 22, 2023 at 05:13:43AM +0000, Matthew Wilcox wrote:
-> > > > > It clearly solves a problem (and the one I think it's solving is the
-> > > > > size of the FTL map).  But I can't see why we should stop working on it,
-> > > > > just because not all drive manufacturers want to support it.
-> > > > 
-> > > > I don't think it is drive vendors.  It is is the SSD divisions which
-> > > > all pretty much love it (for certain use cases) vs the UFS/eMMC
-> > > > divisions which tends to often be fearful and less knowledgeable (to
-> > > > say it nicely) no matter what vendor you're talking to.
-> > > 
-> > > Hi Christoph,
-> > > 
-> > > If there is a significant number of 4 KiB writes in a workload (e.g.
-> > > filesystem metadata writes), and the logical block size is increased from
-> > > 4 KiB to 16 KiB, this will increase write amplification no matter how the
-> > > SSD storage controller has been designed, isn't it? Is there perhaps
-> > > something that I'm misunderstanding?
-> > 
-> > You're misunderstanding that it's the _drive_ which gets to decide the
-> > logical block size. Filesystems literally can't do 4kB writes to these
-> > drives; you can't do a write smaller than a block.  If your clients
-> > don't think it's a good tradeoff for them, they won't tell Linux that
-> > the minimum IO size is 16kB.
-> 
-> Yes, but its perhaps good to review how flexible this might be or not.
-> I can at least mention what I know of for NVMe. Getting a lay of the
-> land of this for other storage media would be good.
-> 
-> Some of the large capacity NVMe drives have NPWG as 16k, that just means
-> the Indirection Unit is 16k, the mapping table, so the drive is hinting
-> *we prefer 16k* but you can still do 4k writes, it just means for all
-> these drives that a 4k write will be a RMW.
+Hi Christoph and Chaitanya,
 
-That's just a 4kb logical sector, 16kB physical sector block device,
-yes?
+     I noticed that Sagi hasn't replied to any emails for a month, could
 
-Maybe I'm missing something, but we already handle cases like that
-just fine thanks to all the work that went into supporting 512e
-devices...
+you please review this patch?
 
-> Users who *want* to help avoid RMWs on these drives and want to increase the
-> writes to be at least 16k can enable a 16k or larger block size so to
-> align the writes. The experimentation we have done using Daniel Gomez's
-> eBPF blkalgn tool [0] reveal (as discussed at last year's Plumbers) that
-> there were still some 4k writes, this was in turn determined to be due
-> to XFS's buffer cache usage for metadata.
+Best Regards,
 
-As I've explained several times, XFS AG headers are sector sized
-metadata. If you are exposing a 4kB logical sector size on a 16kB
-physical sector device, this is what you'll get. It's been that way
-with 512e devices for a long time, yes?
+Guixin Liu
 
-Also, direct IO will allow sector sized user data IOs, too, so it's
-not just XFS metadata that will be issuing 4kB IO in this case...
-
-> Dave recently posted patches to allow
-> to use large folios on the xfs buffer cache [1],
-
-This has nothing to do with supporting large block sizes - it's
-purely an internal optimisation to reduce the amount of vmap
-(vmalloc) work we have to do for buffers that are larger than
-PAGE_SIZE on 4kB block size filesystems.
-
-> For large capacity NVMe drives with large atomics (NAUWPF), the
-> nvme block driver will allow for the physical block size to be 16k too,
-> thus allowing the sector size to be set to 16k when creating the
-> filesystem, that would *optionally* allow for users to force the
-> filesystem to not allow *any* writes to the device to be 4k.
-
-Just present it as a 16kB logical/physical sector block device. Then
-userspace and the filesystem will magically just do the right thing.
-
-We've already solved these problems, yes?
-
-> Note
-> then that there are two ways to be able to use a sector size of 16k
-> for NVMe today then, one is if your drive supported 16 LBA format and
-> another is with these two parameters set to 16k. The later allows you
-> to stick with 512 byte or 4k LBA format and still use a 16k sector size.
-> That allows you to remain backward compatible.
-
-Yes, that's an emulated small logical sector size block device.
-We've been supporting this for years - how are these NVMe drives in
-any way different? Configure the drive this way, it presents as a
-512e or 4096e device, not a 16kB sector size device, yes?
-
-> Jan Kara's patches "block: Add config option to not allow writing to
-> mounted devices" [2] should allow us to remove the set_blocksize() call
-> in xfs_setsize_buftarg() since XFS does not use the block device cache
-> at all, and his pathces ensure once a filesystem is mounted userspace
-> won't muck with the block device directly.
-
-That patch is completely irrelevant to how the block device presents
-sector sizes to userspace and the filesystem. It's also completely
-irrelevant to large block size support in filesystems. Why do you
-think it is relevant at all?
-
-<snip irrelevant WAF stuff that we already know all about>
-
-I'm not sure exactly what is being argued about here, but if the
-large sector size support requires filesystem utilities to treat
-4096e NVMe devices differently to existing 512e devices then the
-large sector size support stuff has gone completely off the rails.
-
-We already have all the mechanisms needed for optimising layouts for
-large physical sector sizes w/ small emulated sector sizes and we
-have widespread userspace support for that. If this new large block
-device sector stuff doesn't work the same way, then you need to go
-back to the drawing board and make it work transparently with all
-the existing userspace infrastructure....
-
--Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+在 2024/2/18 10:12, Guixin Liu 写道:
+> Hi,
+>
+>     Gentle ping...
+>
+> Best regards.
+>
+> Guixin Liu
+>
+> 在 2024/2/1 10:32, Guixin Liu 写道:
+>> Hi guys,
+>>      I've implemented the NVMe reservation feature. Please review it, 
+>> all
+>> comments are welcome as usual.
+>>
+>> Changes from v6 to v7:
+>> - Handle "reservation notification mask" feature command to mask 
+>> reservation
+>> log.
+>>
+>> - Add all the registrants that need to be freed to a temporary list 
+>> fist,
+>> and then after calling synchronize_rcu(), release all the registrants 
+>> on the
+>> temporary list.
+>>
+>> - Fix the resv log page is random when there is no resv log page.
+>>
+>> - Change nvmet_is_host_still_connected() to nvmet_is_host_connected().
+>>
+>> - Remove nvmet_pr_set_rtype_and_holder() and change 
+>> nvmet_pr_create_new_resv()
+>> to nvmet_pr_create_new_reservation().
+>>
+>> - Change nvmet_pr_find_registrant_by_hostid() to 
+>> nvmet_pr_find_registrant().
+>>
+>> - Change nvmet_pr_send_resv_released() to nvmet_pr_resv_released().
+>>
+>> - Change __nvmet_pr_unregister_one() to nvmet_pr_unregister_one().
+>>
+>> - In nvmet_pr_unreg_by_prkey(), 
+>> nvmet_pr_unreg_by_prkey_except_hostid() and
+>> nvmet_pr_unreg_except_hostid(), first do unregistering and then do 
+>> event sending.
+>>
+>>
+>> Changes from v5 to v6:
+>> - Use synchronize_rcu() and kfree() to free registrant instead of 
+>> kfree_rcu().
+>>
+>> - Remove nvmet_pr_register_check_rkey(), put the check into pr_lock 
+>> warp.
+>> And refactor the nvmet_pr_register().
+>>
+>> - Add the print fmt to the head.
+>>
+>> - Add lockdep_is_held(&pr->pr_lock) condition to 
+>> list_for_each_entry_rcu.
+>>
+>> - Fix the bug in nvmet_pr_update_reg_attr(), when the change_attr hook
+>> return fail, we should not replace the holder.
+>>
+>> Changes from v4 to v5:
+>>
+>> - Use rculist macros to handle registration_list instead of list macros
+>> regardless of in mutex lock or not.
+>>
+>> - Use goto statement instead of return in nvmet_is_host_still_connected
+>> and __nvmet_pr_unregister_one.
+>>
+>> - Add lockdep_assert_held and rcu_read_lock_held assert to many 
+>> functions,
+>> if it's necessary.
+>>
+>> - Add a comment to nvmet_execute_get_log_page_resv to explain how 
+>> lost_count
+>> works.
+>>
+>> - In nvmet_pr_clear, we should set holder to NULL first, I fixed this.
+>>
+>> - Unify nvmet_pr_update_holder_rtype and __nvmet_pr_do_replace to
+>> nvmet_pr_update_reg_attr.
+>>
+>> - Fix wrong nr_pages in nvmet_execute_get_log_page_resv.
+>>
+>> - Fix the deadlock issue of nvmet_pr_exit_ns, put it out of the 
+>> subsys lock.
+>>
+>>
+>> Changes from v3 to v4:
+>> - Use kfifo to handle resv log page instead of list, and also limit the
+>> resv log queue to 64.
+>>
+>> - Change the function calling alignment style to:
+>>      nvmet_pr_send_event_by_hostid(pr, hostid,
+>>              NVME_PR_LOG_RESERVATOPM_PREEMPTED);
+>>
+>> - Put kmalloc out of rcu_read_lock in nvmet_execute_pr_report().
+>>
+>> - Remove the goto in __nvmet_pr_unregister_one().
+>>
+>> - Change generation to atomic_t, and remove nvmet_pr_inc_generation().
+>>
+>> - In addtion, the number2 patch "nvmet: unify aer type enum" is not
+>> relate with this patch, so I will send it separately.
+>>
+>>
+>> Changes from v2 to v3:
+>> - Use rcu instead of rwlock to make IO path run faster, and put the 
+>> rtype
+>> into the struct nvmet_pr_registrant.
+>>
+>> - Limit the resv_log_list to 128.
+>>
+>> - Change generation to atomic64.
+>>
+>> - Put register rkey check to a warpper.
+>>
+>> - Change nr_avl_pages to nr_pages.
+>>
+>> - Use NVME_SC_SUCCESS instead of 0.
+>>
+>> - Change kmalloc param to let it not sleep in mutex lock.
+>>
+>>
+>> Changes from v1 to v2:
+>> - Implement the reservation notification report, includes registration
+>> preempted, reservation released and reservation preempted.
+>>    And also handle the reservation log page available event and send get
+>> reservation log page command to clear log page at host.
+>>
+>> - Put the reservation check access after validate opcode. And remove
+>> opcodes which nvmet not implement yet check.
+>>    Now there is no admin opcode nvmet implemented needs reservation 
+>> check,
+>> so I dont add reservation check to admin command path.
+>>    Next we need to do reservation check includes the situation of 
+>> nsid is
+>> 0xffffffff at each admin command path, if it is needed.
+>>
+>> - Add reservation commands support in nvmet_get_cmd_effects_nvm().
+>>
+>> - From Chaitanya, change the local variable tree style to make it 
+>> cleaner,
+>> and add some comments about NVMe spec.
+>>    And also change others advice from chaitanya.
+>>
+>> - Put the nvmet_pr_check_cmd_access and nvmet_parse_pr_cmd into 
+>> reservation
+>> enable check warp.
+>>
+>> - Remove kmem_cache instead to use kmalloc and kfree.
+>>
+>> - Change others advice from Sagi.
+>>
+>> - Add a blktest test case, this patch will be sent before these 
+>> series of
+>> patches.
+>>
+>> Guixin Liu (1):
+>>    nvmet: support reservation feature
+>>
+>>   drivers/nvme/target/Makefile    |    2 +-
+>>   drivers/nvme/target/admin-cmd.c |   20 +-
+>>   drivers/nvme/target/configfs.c  |   27 +
+>>   drivers/nvme/target/core.c      |   51 +-
+>>   drivers/nvme/target/nvmet.h     |   36 ++
+>>   drivers/nvme/target/pr.c        | 1041 +++++++++++++++++++++++++++++++
+>>   include/linux/nvme.h            |   54 ++
+>>   7 files changed, 1224 insertions(+), 7 deletions(-)
+>>   create mode 100644 drivers/nvme/target/pr.c
+>>
 
