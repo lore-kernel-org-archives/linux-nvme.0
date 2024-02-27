@@ -4,112 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E8E57C5478C
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Feb 2024 08:51:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4231CC5478C
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Feb 2024 08:54:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WAOKOJaWvb7gDT+W1eg0JnHFNkR17d+Zuegi6ACctSo=; b=Dc/vOlhFnLSfuru6LHa+MkduSV
-	xZ5iKR51uNsunBwJ2xEh0hv0FhftpTuyswPLxvLpIRp1ujmRIUoEqVJ7jSLN8CcsAEiJuf4j+9wkL
-	6iit0p8Yck7xdzosbvQ0F66mIJs9VT8bDAHFCwW8EFfZkI2v/vYx5zb+yyqANhSU2SXfRIzlOiTkR
-	xmu6uuXIrLTaB1ZUX+C//MIlMuFHAqcRves8IagZJCjIAIxJdcgY4kcc8bhqW7kWdXzhtOA4R4wme
-	pCurF0YPhL6F2CXr2lm2Mq/ewPsiBheh58MRjAORAyuaIE/+8o2FOjVONPp7aqdhooVMLCF1b3Jof
-	W8YmohUA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=rnzdMRi0C+5Y9siAeTodJDt7LI8OnhWnGKbTD2qlu0o=; b=nI3bmrvNhrrF4Dty60HJEO9TT7
+	bfyPHWoCWuFgL68s0ervAhEyk3YIwIbLhSV7pQC4sk75R+ObS2DGNYzLhek3P7SAl2+LtiHon5L66
+	T3qGda3oUfAZryYhome5IhxKcfNLlzNkuencUiylwPhqiYbiVCae/rdzrOwNNukpWpYvPJnDCl4sj
+	pjFgqWKskBsP42lISY3QPRxoa1c7N+zJI6NaQVsSyLRreDRkWqHZsbUC4whTA1Nv7Jq09e0USwf9G
+	+Ebzoj/8famIMiA5y1MD1npfVakhE7tvCFhEACNH4eMj/R8PfWk7JPhCkF7Lum3PzHlC+HyA0VvPJ
+	ixTxmGYA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1retBf-00000004Ofx-1Gru;
-	Tue, 27 Feb 2024 08:51:43 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1retEJ-00000004PCq-2opP;
+	Tue, 27 Feb 2024 08:54:27 +0000
+Received: from out30-100.freemail.mail.aliyun.com ([115.124.30.100])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1retBL-00000004OVR-2qGU
+	id 1retEE-00000004P9v-34Su
 	for linux-nvme@lists.infradead.org;
-	Tue, 27 Feb 2024 08:51:42 +0000
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 74D371F449;
-	Tue, 27 Feb 2024 08:51:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1709023877; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WAOKOJaWvb7gDT+W1eg0JnHFNkR17d+Zuegi6ACctSo=;
-	b=PdaEOUDeIv8c1E1K3sRkDj8gieBTgxz0Sqo3TvBjEqP/k+c+KgWWJ04c2OOwV4m0BK9XzU
-	BM+W/uSHYq1382CwFRTWCwN9bTivQ3y7SOnFrkjiLoqLJ0G0Cqei4DW4a4hMHFNcXLTP91
-	xanTjJ7XjzmmCC7nJuuJjbfA6A+zK8I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1709023877;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WAOKOJaWvb7gDT+W1eg0JnHFNkR17d+Zuegi6ACctSo=;
-	b=K51PmJJ4ubRPx6UqxEuOJpeQU0skdLc6EytwXE/oD+F8psb5OzvcfHZ9QgsDT7KlE/Y9T7
-	AtOvZIQ8xIvlsACg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1709023877; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WAOKOJaWvb7gDT+W1eg0JnHFNkR17d+Zuegi6ACctSo=;
-	b=PdaEOUDeIv8c1E1K3sRkDj8gieBTgxz0Sqo3TvBjEqP/k+c+KgWWJ04c2OOwV4m0BK9XzU
-	BM+W/uSHYq1382CwFRTWCwN9bTivQ3y7SOnFrkjiLoqLJ0G0Cqei4DW4a4hMHFNcXLTP91
-	xanTjJ7XjzmmCC7nJuuJjbfA6A+zK8I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1709023877;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WAOKOJaWvb7gDT+W1eg0JnHFNkR17d+Zuegi6ACctSo=;
-	b=K51PmJJ4ubRPx6UqxEuOJpeQU0skdLc6EytwXE/oD+F8psb5OzvcfHZ9QgsDT7KlE/Y9T7
-	AtOvZIQ8xIvlsACg==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 5B0BC13419;
-	Tue, 27 Feb 2024 08:51:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id EWg8FYWi3WUDKQAAn2gu4w
-	(envelope-from <dwagner@suse.de>); Tue, 27 Feb 2024 08:51:17 +0000
-Date: Tue, 27 Feb 2024 09:49:03 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCHv3] nvme: authentication error are always non-retryable
-Message-ID: <pk2oeie4d5blevrkljm6fro5fvuiqtlwvm4ldingh2bmgutxoh@5dshhbsxoy7i>
-References: <20240226143013.39119-1-hare@kernel.org>
- <qdv47uxmz4n5vvsxyzh56iexjlznnvovilp2tvhwiqfvqcblqw@43x77wt3yxgq>
- <c5513762-1759-4cd3-8933-7d77fdf4d2ba@suse.de>
+	Tue, 27 Feb 2024 08:54:25 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1709024056; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=rnzdMRi0C+5Y9siAeTodJDt7LI8OnhWnGKbTD2qlu0o=;
+	b=TjI/8pSc+Rjy+zG3JYa+nDWloKCLgC8LHf81E+HQF/W0dIXp0vRBGTeaC1y2Dn0lVQyz8XfrK52qqtiaCLH4XM/KW7A5oBGd0Or/jMBkmpiH+1RphgQH2ZTe1Q5B7gk61lycJVJEWF+iXKs5KYqz3MnHfmwiU5zN+L9Ke/VpmZo=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R321e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045176;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0W1MCVI2_1709024048;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W1MCVI2_1709024048)
+          by smtp.aliyun-inc.com;
+          Tue, 27 Feb 2024 16:54:15 +0800
+From: Guixin Liu <kanie@linux.alibaba.com>
+To: hch@lst.de,
+	sagi@grimberg.me,
+	kch@nvidia.com
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH 0/3] nvmet: add some commands tracing
+Date: Tue, 27 Feb 2024 16:54:05 +0800
+Message-ID: <20240227085408.130161-1-kanie@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c5513762-1759-4cd3-8933-7d77fdf4d2ba@suse.de>
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spamd-Result: default: False [-3.97 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 REPLY(-4.00)[];
-	 RCPT_COUNT_FIVE(0.00)[6];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.37)[77.00%]
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240227_005123_960092_2DA12958 
-X-CRM114-Status: UNSURE (   9.22  )
+X-CRM114-CacheID: sfid-20240227_005423_305846_348C22BD 
+X-CRM114-Status: UNSURE (   6.89  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -125,11 +65,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Feb 27, 2024 at 08:54:32AM +0100, Hannes Reinecke wrote:
-> Ouch.
-> 
-> Does this help?
+Hi all,
+	This series of patches adds tracing support for ZNS commands and
+authentication commands to the NVMe target module, as well as updates the
+tracing of DSM commands to be more readable.
 
-Yes, this helps. I am running the whole test suite for all transport a
-few times just a few times now. Just to make sure.
+Guixin Liu (3):
+  nvmet: parse dsm command's attr deallocate when tracing
+  nvmet: add tracing of zns commands
+  nvmet: add tracing of authentication commands
+
+ drivers/nvme/target/trace.c | 72 +++++++++++++++++++++++++++++++++++--
+ 1 file changed, 69 insertions(+), 3 deletions(-)
+
+-- 
+2.43.0
+
 
