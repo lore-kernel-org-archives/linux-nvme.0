@@ -4,54 +4,128 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6D3DBC5478C
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Feb 2024 06:06:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BEBAFC5478C
+	for <linux-nvme@archiver.kernel.org>; Tue, 27 Feb 2024 07:09:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/aIAMlfaDyaVqt5JwBM3CoOUNpAdEfGAQzRyppdxX5k=; b=MM1d/Rk5uZgpm0LIyx4OlY6YMZ
-	GwrqiZmlpkzNkD1uJh6iwXKusITzzWHrKSfBgRqkoUWoMUzcVuqmxlHFb8+wDjOYqRqVFVZK1r3e9
-	GnpSGDG5///tteSNm7WgEEs0DCquRRt9EY+X/aIG8tOUX7FY74QUmTg1vM9me3aX2UFcp3ZBW2+sg
-	AtYtupevMBuk8Zuyqm3siPsoNP7hcrsD7Hdx8JeGiybxFOJarXPbKkZUQtg4iCxOJ+5O8uuY3za6x
-	1afZyGwSCOTgRzy0ssgDM0k6QfW3XMEPBw4OwrTT3xt78dKNFLs56GjRNzfqiS01iB4eHz4r6GAhb
-	xGuPFPNw==;
+	bh=Di0G+eNBOUrl9euKBJZEFFRUrJ4VbLQs5XifOW3ylY4=; b=zkJBvDReNKmKV6f1ZZtrgaJGS6
+	1cD/LacYfp4HNw3pg3tToLD40nw36Q6BCqBF2+uEfKzQc84H8h1P3dGrtJoXAZPM3X+wUTmwF2F7U
+	qxElovKNG62IPn6O7uoKT+FnA3FXwKza+AHqNaTaCgd7zMKRAgUs1Y/DiDrO6Ylh78DB2xqCeYRvu
+	WXN0Ymzjbr1ulGXMnSDIBG8xmm78TyQX/asROPQHbCtgVqkaOIBzJzr9a/gTORdceBw0VcW2hcSaQ
+	mEcIbADZtHy0nbZBuRMwv0qteT0ZPFKbH3LwhbYjNECEuWgvImtLcvsIGobYc4cGq9kgtT5ybbtrS
+	no9a5a4Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1reqbL-00000003wCn-4BhE;
-	Tue, 27 Feb 2024 06:06:04 +0000
-Received: from out30-98.freemail.mail.aliyun.com ([115.124.30.98])
+	id 1rerb9-000000044hd-33H0;
+	Tue, 27 Feb 2024 07:09:55 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1reqbJ-00000003wC3-20vc
+	id 1rerb4-000000044eu-0X9e
 	for linux-nvme@lists.infradead.org;
-	Tue, 27 Feb 2024 06:06:02 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1709013958; h=Message-ID:Date:MIME-Version:Subject:From:To:Content-Type;
-	bh=/aIAMlfaDyaVqt5JwBM3CoOUNpAdEfGAQzRyppdxX5k=;
-	b=HPqFQnuGoMce3P93GTqYHPvP59JpCWTbHagKc4UqffLaj0KIINLDkgzThR1HwkKpUsG95A+zspKYHbWDKwAETXaSZZ8IDS+Njv+6uEPH1ggGcRAuyPxB3T18DE7ghC8XPJb26CYFHSPPgpBDGevmi3FgBcVmXZn6ucKvP9khTGU=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046059;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0W1LdhCY_1709013943;
-Received: from 30.178.84.101(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W1LdhCY_1709013943)
-          by smtp.aliyun-inc.com;
-          Tue, 27 Feb 2024 14:05:57 +0800
-Message-ID: <d245791b-a0ec-47fd-9dee-ef1eef622bf7@linux.alibaba.com>
-Date: Tue, 27 Feb 2024 14:05:56 +0800
+	Tue, 27 Feb 2024 07:09:54 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B8B7B1F399;
+	Tue, 27 Feb 2024 07:09:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1709017782; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Di0G+eNBOUrl9euKBJZEFFRUrJ4VbLQs5XifOW3ylY4=;
+	b=j16i/GcQobXjaIKBWo7Q/QUEPP3aLKCmY8dYWyf9vvluwYnJy22G3+HPzLqO1dBrmEjoc2
+	5XgyfVj+LIin1q1XTlVkhiEf9Bb8RdzWISDgLxGiAEFmFbGuzLag7QHe06BuIfaQ6NO76H
+	dBzyJhNFr2esk6TJW+/b+PUESYmX6N8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1709017782;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Di0G+eNBOUrl9euKBJZEFFRUrJ4VbLQs5XifOW3ylY4=;
+	b=P6ESdJ68c2HLPBmUwAenm2Q9uyTjHgOYXXJkWraxbDhAz5Bm4rfI64QW8lyfvoadwW8+Hj
+	mtO7pqZAphZR3kCw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1709017782; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Di0G+eNBOUrl9euKBJZEFFRUrJ4VbLQs5XifOW3ylY4=;
+	b=j16i/GcQobXjaIKBWo7Q/QUEPP3aLKCmY8dYWyf9vvluwYnJy22G3+HPzLqO1dBrmEjoc2
+	5XgyfVj+LIin1q1XTlVkhiEf9Bb8RdzWISDgLxGiAEFmFbGuzLag7QHe06BuIfaQ6NO76H
+	dBzyJhNFr2esk6TJW+/b+PUESYmX6N8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1709017782;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Di0G+eNBOUrl9euKBJZEFFRUrJ4VbLQs5XifOW3ylY4=;
+	b=P6ESdJ68c2HLPBmUwAenm2Q9uyTjHgOYXXJkWraxbDhAz5Bm4rfI64QW8lyfvoadwW8+Hj
+	mtO7pqZAphZR3kCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5F44A13A58;
+	Tue, 27 Feb 2024 07:09:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id UWBZFLaK3WWuUQAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 27 Feb 2024 07:09:42 +0000
+Message-ID: <ac55b96c-243c-416e-8d96-79b71088da8d@suse.de>
+Date: Tue, 27 Feb 2024 08:09:41 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme-fabrics: check max outstanding commands
-Content-Language: en-GB
-From: Guixin Liu <kanie@linux.alibaba.com>
-To: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org
-References: <20240223033004.55756-1-kanie@linux.alibaba.com>
-In-Reply-To: <20240223033004.55756-1-kanie@linux.alibaba.com>
+Subject: Re: [PATCH] nvme: add 'static' suffix for user-specified TLS keys
+To: Daniel Wagner <dwagner@suse.de>, Hannes Reinecke <hare@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20240226122449.46976-1-hare@kernel.org>
+ <hm7yy2s6z4thaoytpwz6hx3gp7hvpdur4bhglyrnf7khqxqjpq@3n36hpna2265>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <hm7yy2s6z4thaoytpwz6hx3gp7hvpdur4bhglyrnf7khqxqjpq@3n36hpna2265>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="j16i/GcQ";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=P6ESdJ68
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.06 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 XM_UA_NO_VERSION(0.01)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 BAYES_HAM(-0.56)[81.02%];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	 RCPT_COUNT_FIVE(0.00)[6];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 NEURAL_HAM_SHORT(-0.20)[-0.996];
+	 RCVD_TLS_ALL(0.00)[];
+	 MID_RHS_MATCH_FROM(0.00)[]
+X-Rspamd-Queue-Id: B8B7B1F399
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240226_220601_697812_8D3F1E99 
-X-CRM114-Status: GOOD (  14.60  )
+X-CRM114-CacheID: sfid-20240226_230950_348760_5F4BEF87 
+X-CRM114-Status: GOOD (  11.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,60 +140,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+On 2/26/24 17:35, Daniel Wagner wrote:
+> On Mon, Feb 26, 2024 at 01:24:49PM +0100, Hannes Reinecke wrote:
+>> From: Hannes Reinecke <hare@suse.de>
+>>
+>> If the user specifies a specific TLS key via the '--tls_key'
+>> option to nvme-cli we should be adding a ';static' suffix
+>> to the 'tls_key' sysfs attribute to signal that this is a
+>> user-specific key, and not one auto-selected during TLS
+>> protocol negotiation.
+> 
+> Isn't this conflicting the one value per sysfs entry rule?
+Yeah, you are right.
 
-     Gentle ping...
+I'll be sending a new patch introducing a separate attribute.
 
-Best Regards,
+Cheers,
 
-Guixin Liu
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
-在 2024/2/23 11:30, Guixin Liu 写道:
-> Maxcmd is mandatory for fabrics, check it early to identify the root
-> cause instead of waiting for it to propagate to "sqsize" and "allocing
-> queue".
->
-> By the way, change nvme_check_ctrl_fabric_info() to
-> nvmf_validate_identify_ctrl().
->
-> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
-> ---
->   drivers/nvme/host/core.c | 10 ++++++++--
->   1 file changed, 8 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 0a96362912ce..5cdd22f591f9 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -3084,7 +3084,8 @@ static int nvme_init_effects(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
->   	return 0;
->   }
->   
-> -static int nvme_check_ctrl_fabric_info(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
-> +static int nvmf_validate_identify_ctrl(struct nvme_ctrl *ctrl,
-> +				       struct nvme_id_ctrl *id)
->   {
->   	/*
->   	 * In fabrics we need to verify the cntlid matches the
-> @@ -3117,6 +3118,11 @@ static int nvme_check_ctrl_fabric_info(struct nvme_ctrl *ctrl, struct nvme_id_ct
->   		return -EINVAL;
->   	}
->   
-> +	if (!ctrl->maxcmd) {
-> +		dev_err(ctrl->device, "Maximum outstanding commands is 0\n");
-> +		return -EINVAL;
-> +	}
-> +
->   	return 0;
->   }
->   
-> @@ -3232,7 +3238,7 @@ static int nvme_init_identify(struct nvme_ctrl *ctrl)
->   		ctrl->iorcsz = le32_to_cpu(id->iorcsz);
->   		ctrl->maxcmd = le16_to_cpu(id->maxcmd);
->   
-> -		ret = nvme_check_ctrl_fabric_info(ctrl, id);
-> +		ret = nvmf_validate_identify_ctrl(ctrl, id);
->   		if (ret)
->   			goto out_free;
->   	} else {
 
