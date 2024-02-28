@@ -4,68 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C523AC54E4A
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Feb 2024 09:32:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A75D4C47DD9
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Feb 2024 09:54:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gHFfDnJk45UEHuXmxXtzvJNbjxSIT6xCDWqw9xVfWpM=; b=LqaVMWAoqmPZdC/tO7pqXJd80M
-	vQrofxnKOelLtPM91um2BXE+0aG4gmxYqwgFyTn2j25woVWgEqa9BPXiFffaNcGrKVVgorNCtRE6X
-	GKmuswu5SIOhNKGWrrkZIEeCMr5nc/9Q9sjemaRPfTZRAItnie23cxpZlTYROlssEfO+lVxgJZZfX
-	hbMxNX4ezRhjUq+cipHxvvC7G9hWRhmVibShkOtUKP3MRKcSd87frylnLINcG0JirMPBttkGp5/s7
-	T0MlxKPqqDQ7oeF9FwXnJtZl13ZgpUbeEnpQfBK7HRVzCKqTR/RpZhZb7WkcASmXoUfN+LgouHLRP
-	DRX/0JHQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=yXS80hvWDXpsMqofoMG6r1QJDyzVHQQ6NsQ4NXgxP50=; b=UTYkhJRHVPYLulkUlD9rSWAvot
+	3bx7Ym5LZK9b+YUHXAniCvlViF2p8iCovD0VaZWDYMn5/0ktrKsea/XprEiQ5mP6t8oyXU9HrX/2N
+	TIKdKUnVHrTUtPS2fh5A6qm89FmDFvrGwPc7SUhb+nFvuiBQX0GkvTXij3CRnKZ9MO/wHagS03FwZ
+	n3Mx1hyQyytiSFPFb6IrixWPvw1TVZBLT8xKTIw8mRO1mtef7OcP104IEQ3arTKlt8dnUU2RTA5GZ
+	Fpau4uZoDNueSOUEAKFEFP/in8osJjM8k43EHRH6buw1iWM2+vZtTX080RnfIBPRA2ChLCNGE8ui9
+	shPPYDkg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rfGIV-00000008gAU-3RFO;
-	Wed, 28 Feb 2024 09:32:19 +0000
-Received: from szxga06-in.huawei.com ([45.249.212.32])
+	id 1rfGeO-00000008kTz-05ee;
+	Wed, 28 Feb 2024 09:54:56 +0000
+Received: from out30-100.freemail.mail.aliyun.com ([115.124.30.100])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rfGIP-00000008g66-345g;
-	Wed, 28 Feb 2024 09:32:15 +0000
-Received: from mail.maildlp.com (unknown [172.19.163.44])
-	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Tl8Hc5Rb5zqhtb;
-	Wed, 28 Feb 2024 17:31:24 +0800 (CST)
-Received: from dggpemm500005.china.huawei.com (unknown [7.185.36.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id E74F71402CC;
-	Wed, 28 Feb 2024 17:32:01 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- dggpemm500005.china.huawei.com (7.185.36.74) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Wed, 28 Feb 2024 17:32:01 +0800
-From: Yunsheng Lin <linyunsheng@huawei.com>
-To: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Yunsheng Lin
-	<linyunsheng@huawei.com>, Jason Wang <jasowang@redhat.com>, Alexander Duyck
-	<alexanderduyck@fb.com>, Jeroen de Borst <jeroendb@google.com>, Praveen
- Kaligineedi <pkaligineedi@google.com>, Shailend Chand <shailend@google.com>,
-	Eric Dumazet <edumazet@google.com>, Felix Fietkau <nbd@nbd.name>, Sean Wang
-	<sean.wang@mediatek.com>, Mark Lee <Mark-MC.Lee@mediatek.com>, Lorenzo
- Bianconi <lorenzo@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Keith
- Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig
-	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
-	<kch@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
-	<linux-nvme@lists.infradead.org>, <linux-mm@kvack.org>
-Subject: [PATCH net-next v6 3/5] net: introduce page_frag_cache_drain()
-Date: Wed, 28 Feb 2024 17:30:10 +0800
-Message-ID: <20240228093013.8263-4-linyunsheng@huawei.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20240228093013.8263-1-linyunsheng@huawei.com>
-References: <20240228093013.8263-1-linyunsheng@huawei.com>
+	id 1rfGeK-00000008kTY-35PZ
+	for linux-nvme@lists.infradead.org;
+	Wed, 28 Feb 2024 09:54:54 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1709114087; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=yXS80hvWDXpsMqofoMG6r1QJDyzVHQQ6NsQ4NXgxP50=;
+	b=FsSWGu0omIl4MDqDcTdMLPhyd12vFQpvjl8mZZILmZU0KKLlqBIHFckiF2F115KdkODhMbz0tc+6fuF814Gwo+2b24c9dFNGrI02Wltr/Z1VZUguaUNQgoc+WNOODWZ1TdtasgtQU2yiRRZwA5Gr74GPfGeEkjsSXjoyfPogVrI=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R451e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046049;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0W1PWkwI_1709114082;
+Received: from 30.178.83.72(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W1PWkwI_1709114082)
+          by smtp.aliyun-inc.com;
+          Wed, 28 Feb 2024 17:54:43 +0800
+Message-ID: <bc414f6c-55f7-4fda-b095-8d4a15028eac@linux.alibaba.com>
+Date: Wed, 28 Feb 2024 17:54:41 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme-fabrics: check max outstanding commands
+Content-Language: en-GB
+To: Daniel Wagner <dwagner@suse.de>
+Cc: Keith Busch <kbusch@kernel.org>, axboe@kernel.dk, hch@lst.de,
+ sagi@grimberg.me, linux-nvme@lists.infradead.org
+References: <20240223033004.55756-1-kanie@linux.alibaba.com>
+ <Zd4f4PaoOM6WSF4u@kbusch-mbp>
+ <89bcff20-e07c-4f62-9ef8-36cbbc3d6def@linux.alibaba.com>
+ <73uh4vwpacq22ttzlbrouvtpwysbcy246d2ejgpobsrtb2chaw@rlbdjiqzbdsa>
+From: Guixin Liu <kanie@linux.alibaba.com>
+In-Reply-To: <73uh4vwpacq22ttzlbrouvtpwysbcy246d2ejgpobsrtb2chaw@rlbdjiqzbdsa>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.69.192.56]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm500005.china.huawei.com (7.185.36.74)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240228_013214_175070_10E67B45 
-X-CRM114-Status: GOOD (  14.99  )
+X-CRM114-CacheID: sfid-20240228_015453_309759_B2C4CE0D 
+X-CRM114-Status: UNSURE (   6.45  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,174 +71,116 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When draining a page_frag_cache, most user are doing
-the similar steps, so introduce an API to avoid code
-duplication.
 
-Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
-Reviewed-by: Alexander Duyck <alexanderduyck@fb.com>
----
- drivers/net/ethernet/google/gve/gve_main.c | 11 ++---------
- drivers/net/ethernet/mediatek/mtk_wed_wo.c | 17 ++---------------
- drivers/nvme/host/tcp.c                    |  7 +------
- drivers/nvme/target/tcp.c                  |  4 +---
- include/linux/gfp.h                        |  1 +
- mm/page_alloc.c                            | 10 ++++++++++
- 6 files changed, 17 insertions(+), 33 deletions(-)
+> And please run blktests with it. Last time, we had some fallouts when a
+> new check was added. Thanks.
 
-diff --git a/drivers/net/ethernet/google/gve/gve_main.c b/drivers/net/ethernet/google/gve/gve_main.c
-index db6d9ae7cd78..dec6458bb8d7 100644
---- a/drivers/net/ethernet/google/gve/gve_main.c
-+++ b/drivers/net/ethernet/google/gve/gve_main.c
-@@ -1276,17 +1276,10 @@ static void gve_unreg_xdp_info(struct gve_priv *priv)
- 
- static void gve_drain_page_cache(struct gve_priv *priv)
- {
--	struct page_frag_cache *nc;
- 	int i;
- 
--	for (i = 0; i < priv->rx_cfg.num_queues; i++) {
--		nc = &priv->rx[i].page_cache;
--		if (nc->va) {
--			__page_frag_cache_drain(virt_to_page(nc->va),
--						nc->pagecnt_bias);
--			nc->va = NULL;
--		}
--	}
-+	for (i = 0; i < priv->rx_cfg.num_queues; i++)
-+		page_frag_cache_drain(&priv->rx[i].page_cache);
- }
- 
- static void gve_qpls_get_curr_alloc_cfg(struct gve_priv *priv,
-diff --git a/drivers/net/ethernet/mediatek/mtk_wed_wo.c b/drivers/net/ethernet/mediatek/mtk_wed_wo.c
-index d58b07e7e123..7063c78bd35f 100644
---- a/drivers/net/ethernet/mediatek/mtk_wed_wo.c
-+++ b/drivers/net/ethernet/mediatek/mtk_wed_wo.c
-@@ -286,7 +286,6 @@ mtk_wed_wo_queue_free(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
- static void
- mtk_wed_wo_queue_tx_clean(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
- {
--	struct page *page;
- 	int i;
- 
- 	for (i = 0; i < q->n_desc; i++) {
-@@ -301,19 +300,12 @@ mtk_wed_wo_queue_tx_clean(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
- 		entry->buf = NULL;
- 	}
- 
--	if (!q->cache.va)
--		return;
--
--	page = virt_to_page(q->cache.va);
--	__page_frag_cache_drain(page, q->cache.pagecnt_bias);
--	memset(&q->cache, 0, sizeof(q->cache));
-+	page_frag_cache_drain(&q->cache);
- }
- 
- static void
- mtk_wed_wo_queue_rx_clean(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
- {
--	struct page *page;
--
- 	for (;;) {
- 		void *buf = mtk_wed_wo_dequeue(wo, q, NULL, true);
- 
-@@ -323,12 +315,7 @@ mtk_wed_wo_queue_rx_clean(struct mtk_wed_wo *wo, struct mtk_wed_wo_queue *q)
- 		skb_free_frag(buf);
- 	}
- 
--	if (!q->cache.va)
--		return;
--
--	page = virt_to_page(q->cache.va);
--	__page_frag_cache_drain(page, q->cache.pagecnt_bias);
--	memset(&q->cache, 0, sizeof(q->cache));
-+	page_frag_cache_drain(&q->cache);
- }
- 
- static void
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index a6d596e05602..3692b56cb58d 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1344,7 +1344,6 @@ static int nvme_tcp_alloc_async_req(struct nvme_tcp_ctrl *ctrl)
- 
- static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
- {
--	struct page *page;
- 	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
- 	struct nvme_tcp_queue *queue = &ctrl->queues[qid];
- 	unsigned int noreclaim_flag;
-@@ -1355,11 +1354,7 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
- 	if (queue->hdr_digest || queue->data_digest)
- 		nvme_tcp_free_crypto(queue);
- 
--	if (queue->pf_cache.va) {
--		page = virt_to_head_page(queue->pf_cache.va);
--		__page_frag_cache_drain(page, queue->pf_cache.pagecnt_bias);
--		queue->pf_cache.va = NULL;
--	}
-+	page_frag_cache_drain(&queue->pf_cache);
- 
- 	noreclaim_flag = memalloc_noreclaim_save();
- 	/* ->sock will be released by fput() */
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index c8655fc5aa5b..2aa5762e9f50 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -1591,7 +1591,6 @@ static void nvmet_tcp_free_cmd_data_in_buffers(struct nvmet_tcp_queue *queue)
- 
- static void nvmet_tcp_release_queue_work(struct work_struct *w)
- {
--	struct page *page;
- 	struct nvmet_tcp_queue *queue =
- 		container_of(w, struct nvmet_tcp_queue, release_work);
- 
-@@ -1615,8 +1614,7 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
- 	if (queue->hdr_digest || queue->data_digest)
- 		nvmet_tcp_free_crypto(queue);
- 	ida_free(&nvmet_tcp_queue_ida, queue->idx);
--	page = virt_to_head_page(queue->pf_cache.va);
--	__page_frag_cache_drain(page, queue->pf_cache.pagecnt_bias);
-+	page_frag_cache_drain(&queue->pf_cache);
- 	kfree(queue);
- }
- 
-diff --git a/include/linux/gfp.h b/include/linux/gfp.h
-index 28aea17fa59b..6cef1c241180 100644
---- a/include/linux/gfp.h
-+++ b/include/linux/gfp.h
-@@ -311,6 +311,7 @@ extern void __free_pages(struct page *page, unsigned int order);
- extern void free_pages(unsigned long addr, unsigned int order);
- 
- struct page_frag_cache;
-+void page_frag_cache_drain(struct page_frag_cache *nc);
- extern void __page_frag_cache_drain(struct page *page, unsigned int count);
- void *__page_frag_alloc_align(struct page_frag_cache *nc, unsigned int fragsz,
- 			      gfp_t gfp_mask, unsigned int align_mask);
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 636145c29f70..06aa1ebbd21c 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -4699,6 +4699,16 @@ static struct page *__page_frag_cache_refill(struct page_frag_cache *nc,
- 	return page;
- }
- 
-+void page_frag_cache_drain(struct page_frag_cache *nc)
-+{
-+	if (!nc->va)
-+		return;
-+
-+	__page_frag_cache_drain(virt_to_head_page(nc->va), nc->pagecnt_bias);
-+	nc->va = NULL;
-+}
-+EXPORT_SYMBOL(page_frag_cache_drain);
-+
- void __page_frag_cache_drain(struct page *page, unsigned int count)
- {
- 	VM_BUG_ON_PAGE(page_ref_count(page) == 0, page);
--- 
-2.33.0
+I am sorry for the last time's mistake, I've already run the blktests 
+this time,
+
+the maxcmd is mandatory for all controllers.
+
+Best Regards,
+
+Guixin Liu
+
+
+Blktests log:
+
+nvme/002 (create many subsystems and test discovery)         [passed]
+     runtime  16.481s  ...  16.716s
+nvme/003 (test if we're sending keep-alives to a discovery controller) 
+[passed]
+     runtime  11.130s  ...  11.160s
+nvme/004 (test nvme and nvmet UUID NS descriptors) [passed]
+     runtime  0.535s  ...  0.615s
+nvme/005 (reset local loopback target) [passed]
+     runtime  0.969s  ...  0.973s
+nvme/006 (create an NVMeOF target with a block device-backed ns) [passed]
+     runtime  0.046s  ...  0.046s
+nvme/007 (create an NVMeOF target with a file-backed ns) [passed]
+     runtime  0.029s  ...  0.028s
+nvme/008 (create an NVMeOF host with a block device-backed ns) [passed]
+     runtime  0.540s  ...  0.519s
+nvme/009 (create an NVMeOF host with a file-backed ns) [passed]
+     runtime  0.539s  ...  0.536s
+nvme/010 (run data verification fio job on NVMeOF block device-backed 
+ns) [passed]
+     runtime  3.388s  ...  3.356s
+nvme/011 (run data verification fio job on NVMeOF file-backed ns) [passed]
+     runtime  259.255s  ...  265.053s
+nvme/012 (run mkfs and data verification fio job on NVMeOF block 
+device-backed ns) [passed]
+     runtime  11.734s  ...  11.623s
+nvme/013 (run mkfs and data verification fio job on NVMeOF file-backed 
+ns) [passed]
+     runtime  228.180s  ...  231.981s
+nvme/014 (flush a NVMeOF block device-backed ns) [passed]
+     runtime  12.468s  ...  14.417s
+nvme/015 (unit test for NVMe flush for file backed ns) [passed]
+     runtime  11.854s  ...  11.849s
+nvme/016 (create/delete many NVMeOF block device-backed ns and test 
+discovery) [passed]
+     runtime  8.017s  ...  8.201s
+nvme/017 (create/delete many file-ns and test discovery) [passed]
+     runtime  8.419s  ...  8.596s
+nvme/018 (unit test NVMe-oF out of range access on a file backend) [passed]
+     runtime  0.511s  ...  0.529s
+nvme/019 (test NVMe DSM Discard command on NVMeOF block-device ns) [passed]
+     runtime  0.535s  ...  0.547s
+nvme/020 (test NVMe DSM Discard command on NVMeOF file-backed ns) [passed]
+     runtime  0.529s  ...  0.526s
+nvme/021 (test NVMe list command on NVMeOF file-backed ns) [passed]
+     runtime  0.529s  ...  0.525s
+nvme/022 (test NVMe reset command on NVMeOF file-backed ns) [passed]
+     runtime  0.949s  ...  0.951s
+nvme/023 (test NVMe smart-log command on NVMeOF block-device ns) [passed]
+     runtime  0.527s  ...  0.557s
+nvme/024 (test NVMe smart-log command on NVMeOF file-backed ns) [passed]
+     runtime  0.526s  ...  0.523s
+nvme/025 (test NVMe effects-log command on NVMeOF file-backed ns) [passed]
+     runtime  0.539s  ...  0.526s
+nvme/026 (test NVMe ns-descs command on NVMeOF file-backed ns) [passed]
+     runtime  0.531s  ...  0.544s
+nvme/027 (test NVMe ns-rescan command on NVMeOF file-backed ns) [passed]
+     runtime  0.529s  ...  0.512s
+nvme/028 (test NVMe list-subsys command on NVMeOF file-backed ns) [passed]
+     runtime  0.520s  ...  0.523s
+nvme/029 (test userspace IO via nvme-cli read/write interface) [passed]
+     runtime  0.600s  ...  0.595s
+nvme/030 (ensure the discovery generation counter is updated 
+appropriately) [passed]
+     runtime  0.183s  ...  0.160s
+nvme/031 (test deletion of NVMeOF controllers immediately after setup) 
+[passed]
+     runtime  5.149s  ...  4.988s
+nvme/038 (test deletion of NVMeOF subsystem without enabling) [passed]
+     runtime  0.006s  ...  0.006s
+nvme/040 (test nvme fabrics controller reset/disconnect operation during 
+I/O) [passed]
+     runtime  7.054s  ...  7.077s
+nvme/041 (Create authenticated connections)                  [not run]
+     kernel 6.8.0-rc5+ config not found
+     kernel 6.8.0-rc5+ config not found
+nvme/042 (Test dhchap key types for authenticated connections) [not run]
+     kernel 6.8.0-rc5+ config not found
+     kernel 6.8.0-rc5+ config not found
+nvme/043 (Test hash and DH group variations for authenticated 
+connections) [not run]
+     kernel 6.8.0-rc5+ config not found
+     kernel 6.8.0-rc5+ config not found
+nvme/044 (Test bi-directional authentication)                [not run]
+     kernel 6.8.0-rc5+ config not found
+     kernel 6.8.0-rc5+ config not found
+nvme/045 (Test re-authentication)                            [not run]
+     kernel 6.8.0-rc5+ config not found
+     kernel 6.8.0-rc5+ config not found
+nvme/047 (test different queue types for fabric transports)  [not run]
+     runtime  2.730s  ...
+     nvme_trtype=loop is not supported in this test
+nvme/048 (Test queue count changes on reconnect)             [not run]
+     runtime  7.073s  ...
+     nvme_trtype=loop is not supported in this test
+
 
 
