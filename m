@@ -4,54 +4,136 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 57B7DC47DD9
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Feb 2024 08:38:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A26CC47DD9
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Feb 2024 09:03:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OYy70I6PufCUUuTetR5ugq893/W+TKCjqMalhSchIEE=; b=JEf2PFDjmu4/52spTQAhom8EQR
-	2UeuSDDP6rFi15P3YSAgASX00j4itbBmxNLcOO/Z0YTSyMeYW45nvwzS0giDY3hkWX0eqhR0n+v6S
-	TrmREUGNSZ7iwQCSrRphNyVhkkZ4W5+fPwNOo515D6PYbcpXJYEWeaDLkMAlzCH2k+V8dehKm+Exy
-	mOz3l5AzTisozfI7UMXSNu4wmOcjNXRLy/1LOSh1uqc5Tt1439mAPB74CnpUJLoX4I3AeFIMjEvci
-	zXelCMce8bt/8L8whbz/FVbZiHwa1isb/dKg8bhLNeHjVmiMkRQJauowaH6Oe34NgfX3OheAnAtfC
-	CfY4Am2g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ZdlyfiTj7uOjEqCuYbPSVSTzdP6OXVS1hl3H46xro4s=; b=liRq8mHfSf7mxteJ5o8R/r6bnm
+	JDeY64zJ64AQ8httpZr5cfqN+zl4aO5SkqKDGh6U8zqbKhgNaH5klkpLApMCFkSjq3x8HGpl6mtdj
+	NqnRJ31izZzF56dfiNKM7xrYOcrX7tM9Ie7KJ7riIjYmDJy7z4WOppmuYzcSxEytoiU7ifa4nY/pG
+	+Ep5iQm0kGEb6xn9rnTlP+xCrp/s0jC+jiPAS9uSIzhKHH/BCWxeTfcI+DaiVnSCcM2eAgVBCIvUt
+	CWP5wHMN7GAzkrv6QrsWij/mKm1sfY3f/Vu/rT5Vnpm5WFnnHtxI7ZOcbVmTRF3c8fWq22FBa/c2k
+	JyRr6H1g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rfFSB-00000008VYq-3tUn;
-	Wed, 28 Feb 2024 08:38:15 +0000
-Received: from out30-98.freemail.mail.aliyun.com ([115.124.30.98])
+	id 1rfFqp-00000008afu-2bbr;
+	Wed, 28 Feb 2024 09:03:43 +0000
+Received: from mail-sn1nam02on2061b.outbound.protection.outlook.com ([2a01:111:f400:7ea9::61b] helo=NAM02-SN1-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rfFS9-00000008VWZ-1VID
+	id 1rfFqm-00000008acb-1d4U
 	for linux-nvme@lists.infradead.org;
-	Wed, 28 Feb 2024 08:38:14 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1709109491; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=OYy70I6PufCUUuTetR5ugq893/W+TKCjqMalhSchIEE=;
-	b=QCPLANBE9OYsuOvijUY/+5IHuEjQnSadJjep2fjCuTp5/9+W68sMgkfKUce1OHeGizqs+Yell7TxYpuqcNtFSkx6GjN5VHYzQPGWNcSUKy5/INtrP4NQHuBp2IzFXPDvY444E9nDGAYZs08JX7GPoBROgILXHudV7gwD96nSwok=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046051;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0W1PJiQh_1709109486;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W1PJiQh_1709109486)
-          by smtp.aliyun-inc.com;
-          Wed, 28 Feb 2024 16:38:10 +0800
-From: Guixin Liu <kanie@linux.alibaba.com>
-To: hch@lst.de,
-	sagi@grimberg.me,
-	kch@nvidia.com
-Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH v3 2/2] nvmet: add tracing of zns commands
-Date: Wed, 28 Feb 2024 16:37:55 +0800
-Message-ID: <20240228083755.125259-3-kanie@linux.alibaba.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240228083755.125259-1-kanie@linux.alibaba.com>
+	Wed, 28 Feb 2024 09:03:41 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=APEgQVEki1dukw3ejQNoDH1Ty5VjguD2+5EXuX2LqxiqfWEAnHbdtpA3VQatwV2BES6cZPKRxlkDdmH3mcz2nLdnDVBRqWlpoeUYJbt8dnuNDpKIJchtFVGETPpHV+cf758IGkMpKhgKeDB8GCIZIUNra08+XkLKD7IlpxSwm4RnbhK2Akiu4tLD/XZCmEFNtktuD0f3PzQeoO2UOXlAjgEhfaos614cHUP/4DQoL2Mhg/qDFOwS9UDlS9V9Xnds0bZKrkTba/0hpZSWdJQaX6+yn05yP6ZoDAYeex2oQ/2F/uV+JCwBrEXz0km57B18H1TcK65NZD4xhpKW/GroaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZdlyfiTj7uOjEqCuYbPSVSTzdP6OXVS1hl3H46xro4s=;
+ b=cUnaairsu8oHiQ51EjLwavLanFKqdwiaruuxUyx6/LUjCDMpbk14YwuaJl92AjqBh/2hbhqEDO9N8VsCEIgyQm8fyAQY/eil2o2416oq1tFzeroqAvXhA/fsqA5Z7JfW2hJ+ubsArq4PRB1iq4EG/zJQjYYwvm7IPNvgMIid8UXQ5aXJ+Sb5e+qA9iX2lqzZ3X31EM4gag2PjtrVRwg+OUFOQZuzBRyD7H4CCLnssQR2iS0BHxtyiJqRo3jcbd5cW8FLeb0Ihvo6emZJ8F/88UUMstJSTvhn6N3Ce8EnFd8f3LX+pT2IDWtVlgtDhiNo3dmu1woxmu1xVyB9vEaHgg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZdlyfiTj7uOjEqCuYbPSVSTzdP6OXVS1hl3H46xro4s=;
+ b=T362FpQ1z2g+dH6jOFbawtngDlhNYAEYrRNPW+vi2Xft0UG32bP3X/1IZbAz+T1qnQHW6EoEysZX9IjVt4ZT08lDy6gg0wvfQ/L+03xSBRd+C8Ok/h0YJqL93aO1K8JjTP2VLomzNSmmVgmmFtuDmd1Ne/mUfPAarmKsemG7IWdjMEWv5BkeKbw8DFE2x70Tc6N/hvWbNKwGQP/PLx+PLL8/QIYF8/jMrI+2ceSKkEBlmCNkfeAdOGZ7oiqaC+60NnU8Gd7BkirYNSd5Vz7j5LoSnP8p/t1Rv8qIv36vWZwdl7eoBjEyNLWWFwXKwN1RAeDLeioBWYOPEYX7ivOToA==
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
+ by MW6PR12MB8758.namprd12.prod.outlook.com (2603:10b6:303:23d::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.39; Wed, 28 Feb
+ 2024 09:03:31 +0000
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::ffce:bbde:c1ca:39ed]) by LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::ffce:bbde:c1ca:39ed%4]) with mapi id 15.20.7316.034; Wed, 28 Feb 2024
+ 09:03:30 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Guixin Liu <kanie@linux.alibaba.com>, "hch@lst.de" <hch@lst.de>,
+	"sagi@grimberg.me" <sagi@grimberg.me>, Chaitanya Kulkarni
+	<chaitanyak@nvidia.com>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH v3 2/2] nvmet: add tracing of zns commands
+Thread-Topic: [PATCH v3 2/2] nvmet: add tracing of zns commands
+Thread-Index: AQHaaiF5ndCSQXvKBkCGN34W4yqeOLEfdbuA
+Date: Wed, 28 Feb 2024 09:03:30 +0000
+Message-ID: <fdc99871-82ad-4ac1-90f1-754d9b65a000@nvidia.com>
 References: <20240228083755.125259-1-kanie@linux.alibaba.com>
+ <20240228083755.125259-3-kanie@linux.alibaba.com>
+In-Reply-To: <20240228083755.125259-3-kanie@linux.alibaba.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|MW6PR12MB8758:EE_
+x-ms-office365-filtering-correlation-id: 1c0a0a74-7ef1-45f6-e8a5-08dc383c2253
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: WZf9PB9lX3XyRM2evwJWEOJPNI2XeYo0qkVsuvHKd7eDlgwWCYWVDljRa9EaAEoPKOh+tUncCgiRz/jg1X8jjyM/pNtSll8p2h/805u95S6ohSvs9OZiryTLIXAjqaNYQU6eYCKiUC5+18A4E/JbkxvICDLY5bXRlmCyYCMUZD8VxzrFeXnYeHS69jdzq8FVARlWnr4ZnYIhfOEGR1yk5d3Q2rlu9wJI93TKR7pTzcUvU6M/OxomlAvui2RVoXmK1cPm8nIiBYKq1JMNs1/j6KGMTfF6/wZsEa5FmQXuxTlwfi+4RV7OmD9Xt86ykvyTI5z0NBJEu06KfHpWLfgqiBbOlBk6DkLWX4kkAAvNRZYqNObKLpmx7ma3Ha5rQQRtSIu0VpGupNkpWK6Kq8KBsE5G8vEEA2j5tEN3Zhrii4Z5XUT2GyBbj/2DppDm5sBu/ABcr8VmRL4w+BK2iYnXAqvWCY4YLqokycf3mkz4AKW4ZrwMWLpkHHO+hDTStSpbsKlc++egwvJt2hfMmuL4/eY+N05lZOgd5Y7dgVjyG3QjUT/ulfAcoLzBpe53U1lJ6wMIPnmLM0DunPScNRUFHYdRlilZg8IGTDyusDweSrE1mIJLAG1IbbRxyB26yyMqBy5hnVdBcn4xnZrb2rKsWhjBMMOl+MFgO4hvBUEVj+INCG+/T3Djad4hkfPoksWCK6+vjdUtTjosB0X/vCDCQg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?eldBTDlFMG5QVURXK2dFdE1CcmxjTW9KUVh2T2xUMmp6M0hLSTNrckhzVkxH?=
+ =?utf-8?B?aDUwV2ZzQ3RiWWdYQ0M5di9aWXpuZWR0QWEzenhtOFV3YitSUU1xdXppbUhY?=
+ =?utf-8?B?MzYxRGo4VVBFVDlwUHhWczFSS2VSZzRlNFE2Ty92NVJRR011RGhSVVFqR2k3?=
+ =?utf-8?B?VFV3bkFJZzY3UWFjc3c4NHplUnBNVXBubldmV291OXcxVERQbXZMNWZ4ekZ2?=
+ =?utf-8?B?RU5vRGYweHRyL1REaGpNS3Y4eVhpcldnWW1hdlkweGFSL0lVZUFtT25hUFhB?=
+ =?utf-8?B?RElZdVZOYzRSVnIzY1NMY3gyZzQzVkRrWGR5djIyMTNSbmJHVnFhNEpKWklY?=
+ =?utf-8?B?WmVGZVRBSTdQbXFhSkYvMlFzQzhPdGhBV0o2b1RjRGJLYk80cHNNRTBvVk1j?=
+ =?utf-8?B?bWRGWUVtbVduNnFuNnU4SGhuS0UxNXQycUNxRlpWbGJqUE9VemQwSVhpNVc4?=
+ =?utf-8?B?K2ZqZ3p3UlNCS3k1VDc2RDFlZkJFZlp5QzBMNnNNUTZsZEQyMVdFTXVZNUx0?=
+ =?utf-8?B?c21uNGRXejc4REVHc3lQQ2FHZkc2Y00rUzVUSHNmM2JjTk9zKzVhcEFwaFZl?=
+ =?utf-8?B?c1FCOGoxWHB0cGsvRnB3NmMrWmhLbDZ0aWlNZVVNVUpOS3YxZllKOUhMcmRP?=
+ =?utf-8?B?MTR0T3MxNmNHbWFGdnIzQ0htNmJFZjRVL1ViWXRZaU1vU0FVTlpQTjJGSjJp?=
+ =?utf-8?B?QTRhUS83MVBvOHJGcWR1N3ArVmw3eGw0YysyMFRtM3dPWU5UQVBDaytzU2FG?=
+ =?utf-8?B?Q01DUmxJZWVTQ04xa1FYQ3diUENrbUozL2xJMk55K3FQSldrbmdDZjM2TDFG?=
+ =?utf-8?B?Yi9qVGN1enNpYVdQdHFhRjFES2hrUVFLV09DVGx5dVBRM0NTWTVncU5CU1Vp?=
+ =?utf-8?B?SU5jTWtRbTdsS0dQbXpGSFZDK2VwTXBHNEdwNmJrM2xMaWZOZFpubTIxL0tW?=
+ =?utf-8?B?d3RnZ1Y0V0dONFVWTkpEZmtSSjNpTlRKd0lPT0V1bFNCSW0zM0ZoWFdWS1o1?=
+ =?utf-8?B?dWFDRFptV3k5TExPZHhDNXNKWXR3RDZZdkIzTHdocVNWem1rZ0NDZm01TXpL?=
+ =?utf-8?B?SW9WVGlsdjluN294M0FTNHg1dFVxVDVFVmY5OTdlWlpOTHY1L3JhSnlWdE5L?=
+ =?utf-8?B?WkNyb2JjeHNGK0RHa0tJRXV4SFRVKzVvSTR5UkNtYytISDUvdTJremxjQkRr?=
+ =?utf-8?B?b2JvSWliUGxIcm9DUXBnRSs3MHFuVXBNdmJrT3VmelBHVWRDSmtjNXhRcSs5?=
+ =?utf-8?B?b0FobVJUZWE4b3ZOYVlacDltMHVEQmRtSzFhLy9BR29XNW1RRjhSTldQR1hh?=
+ =?utf-8?B?MktYMWNqMHU5bFhaV3VTMXBOTzRXOXJHY0d4MTVSL3laNGx6ejVHY2VtcmJm?=
+ =?utf-8?B?c0VaWFdUVlNWQm1leTJJRXhTMlZGSWswbUFxYWNwcUZZQUZkSUVnaDAyWG9M?=
+ =?utf-8?B?MjZjRkFxRUZLTFRUNVpVQWEyMnFXVEF3citHWW5uSzlxZFY5eWNLN1ROMFlw?=
+ =?utf-8?B?YmVWY2E0dnEwd3FPSUNYNDhvVVdqcXlxejBWWW1RQkZ6SmNOMzZiZGJ6V3pT?=
+ =?utf-8?B?cFZTZFRKWnpobG5uYWozdnJwOGhJaDd6L2twa1RKTFlXWTZyaThzY0wyNjVY?=
+ =?utf-8?B?RzU0QVB3K0R2ZWZXR1c0V1poNkpFZDh0T2VLd0ZrY1pHRkhhT2RpQnlBN0ZL?=
+ =?utf-8?B?QnIzTXdPVkI0cW1wL0o0Smk2V1RiZ1RhWkJqVEdkVEpnSFNjN2plZjgxVW9t?=
+ =?utf-8?B?MkxaUU1qN0R5eElxUDJTWjRHTDQ2aUYybVc4K0NUZWdPT1F5a29sbHpYbG1K?=
+ =?utf-8?B?c0t6VG9TV0J3SDFiMnVkTnhvYmxlL1FZa3VJMTJUV211cVZSMFZDa2FzQnFs?=
+ =?utf-8?B?am4vOUZVckRkN1JlWC95b0I0S0RBWFNCV1FhTXBQKzFJVzhjSEI3YXF3cUxa?=
+ =?utf-8?B?NGVZRW5KYXN1MmxWbVhaQUdYVmdUK3hwS1NoNE9rMFdKUDRlV3RpK1BEaG5o?=
+ =?utf-8?B?aGZuRkZFMmJvL0ppdlpsK1pqdnB2UDNUQ2pITDZWTFNQTlUyY1FFNXE2QnJw?=
+ =?utf-8?B?Z05hSnNRZFJzeFpqNlhyam82S1gzSlI5QmllUUVZRWc5YTN2ZFdGekhsWjJr?=
+ =?utf-8?Q?aVnjB7J+WVqqeuhd7ntWPMzUj?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <CB26FCB391D7DB4AB6E461D865CE4722@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1c0a0a74-7ef1-45f6-e8a5-08dc383c2253
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Feb 2024 09:03:30.4526
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: gg9bA1gS0fkKPilK5xHHATMgMT60ASUudQpaYKg4mTM26ILoptH7oq1zcSLXLoe3DO0hTdwCRhpYuXhgnOm+0g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8758
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240228_003813_715298_73AFD2E4 
-X-CRM114-Status: UNSURE (   8.10  )
+X-CRM114-CacheID: sfid-20240228_010340_452475_2E7BE455 
+X-CRM114-Status: UNSURE (   7.45  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -67,102 +149,10 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add nvme_cmd_zone_append, nvme_cmd_zone_mgmt_send and
-nvme_cmd_zone_mgmt_recv parse to nvme target tracing.
-
-Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
----
- drivers/nvme/target/trace.c | 66 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 66 insertions(+)
-
-diff --git a/drivers/nvme/target/trace.c b/drivers/nvme/target/trace.c
-index ca537fae3730..8d1806a82887 100644
---- a/drivers/nvme/target/trace.c
-+++ b/drivers/nvme/target/trace.c
-@@ -119,6 +119,67 @@ const char *nvmet_trace_parse_admin_cmd(struct trace_seq *p,
- 	}
- }
- 
-+static const char *nvmet_trace_zone_mgmt_send(struct trace_seq *p, u8 *cdw10)
-+{
-+	static const char * const zsa_strs[] = {
-+		[0x01] = "close zone",
-+		[0x02] = "finish zone",
-+		[0x03] = "open zone",
-+		[0x04] = "reset zone",
-+		[0x05] = "offline zone",
-+		[0x10] = "set zone descriptor extension"
-+	};
-+	const char *ret = trace_seq_buffer_ptr(p);
-+	u64 slba = get_unaligned_le64(cdw10);
-+	const char *zsa_str;
-+	u8 zsa = cdw10[12];
-+	u8 all = cdw10[13];
-+
-+	if (zsa < ARRAY_SIZE(zsa_strs) && zsa_strs[zsa])
-+		zsa_str = zsa_strs[zsa];
-+	else
-+		zsa_str = "reserved";
-+
-+	trace_seq_printf(p, "slba=%llu, zsa=%u:%s, all=%u",
-+		slba, zsa, zsa_str, all);
-+	trace_seq_putc(p, 0);
-+
-+	return ret;
-+}
-+
-+static const char *nvmet_trace_zone_mgmt_recv(struct trace_seq *p, u8 *cdw10)
-+{
-+	static const char * const zrasf_strs[] = {
-+		[0x00] = "list all zones",
-+		[0x01] = "list the zones in the ZSE: Empty state",
-+		[0x02] = "list the zones in the ZSIO: Implicitly Opened state",
-+		[0x03] = "list the zones in the ZSEO: Explicitly Opened state",
-+		[0x04] = "list the zones in the ZSC: Closed state",
-+		[0x05] = "list the zones in the ZSF: Full state",
-+		[0x06] = "list the zones in the ZSRO: Read Only state",
-+		[0x07] = "list the zones in the ZSO: Offline state",
-+		[0x09] = "list the zones that have the zone attribute"
-+	};
-+	const char *ret = trace_seq_buffer_ptr(p);
-+	u64 slba = get_unaligned_le64(cdw10);
-+	u32 numd = get_unaligned_le32(&cdw10[8]);
-+	u8 zra = cdw10[12];
-+	u8 zrasf = cdw10[13];
-+	const char *zrasf_str;
-+	u8 pr = cdw10[14];
-+
-+	if (zrasf < ARRAY_SIZE(zrasf_strs) && zrasf_strs[zrasf])
-+		zrasf_str = zrasf_strs[zrasf];
-+	else
-+		zrasf_str = "reserved";
-+
-+	trace_seq_printf(p, "slba=%llu, numd=%u, zra=%u, zrasf=%u:%s, pr=%u",
-+		slba, numd, zra, zrasf, zrasf_str, pr);
-+	trace_seq_putc(p, 0);
-+
-+	return ret;
-+}
-+
- const char *nvmet_trace_parse_nvm_cmd(struct trace_seq *p,
- 		u8 opcode, u8 *cdw10)
- {
-@@ -126,9 +187,14 @@ const char *nvmet_trace_parse_nvm_cmd(struct trace_seq *p,
- 	case nvme_cmd_read:
- 	case nvme_cmd_write:
- 	case nvme_cmd_write_zeroes:
-+	case nvme_cmd_zone_append:
- 		return nvmet_trace_read_write(p, cdw10);
- 	case nvme_cmd_dsm:
- 		return nvmet_trace_dsm(p, cdw10);
-+	case nvme_cmd_zone_mgmt_send:
-+		return nvmet_trace_zone_mgmt_send(p, cdw10);
-+	case nvme_cmd_zone_mgmt_recv:
-+		return nvmet_trace_zone_mgmt_recv(p, cdw10);
- 	default:
- 		return nvmet_trace_common(p, cdw10);
- 	}
--- 
-2.43.0
-
+T24gMi8yOC8yNCAwMDozNywgR3VpeGluIExpdSB3cm90ZToNCj4gQWRkIG52bWVfY21kX3pvbmVf
+YXBwZW5kLCBudm1lX2NtZF96b25lX21nbXRfc2VuZCBhbmQNCj4gbnZtZV9jbWRfem9uZV9tZ210
+X3JlY3YgcGFyc2UgdG8gbnZtZSB0YXJnZXQgdHJhY2luZy4NCj4NCj4gU2lnbmVkLW9mZi1ieTog
+R3VpeGluIExpdSA8a2FuaWVAbGludXguYWxpYmFiYS5jb20+DQo+IC0tLQ0KPg0KDQpMb29rcyBn
+b29kLg0KDQpSZXZpZXdlZC1ieTogQ2hhaXRhbnlhIEt1bGthcm5pIDxrY2hAbnZpZGlhLmNvbT4N
+Cg0KLWNrDQoNCg0K
 
