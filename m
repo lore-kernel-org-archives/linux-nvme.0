@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D9EA9C47DD9
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Feb 2024 18:12:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12FD6C5478C
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Feb 2024 18:13:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=W1u9QV5OL/xXoZkSISwcKCUoB5a/StW+iEME5VTNJUo=; b=fZyhDSIr2vkN9MM0xxwZcvMDww
-	+qhzoB7mv7iw2nDJGdWbUnS12jYnQxiYG3O470dB92G8B6TwejAh5+2v50fp9UFRbXj6DxkoX9NHh
-	12WwlloxdiTNESVGnH4eEEsjU8/DeeGZVoztEpei68p2/5FInqUyLky8an+yrxarAv5gIc27IWSW1
-	Wyp6191t4tBTb272XbOx3mwliC+z725N+t8/p4a9TbNnboBQ5/k8YDFGWqQFUkH4hpJIzVG24AQCm
-	GeZIqpboXsX3FNkInMF3iGeycXiZZ+v7sJz+bvlGftxrHe3Up64tZbMoyrhegZpskUEdCkTw/i2z9
-	ZWzqOcCg==;
+	bh=bP1BMOdz5eRXCtql9e1ghRRopFUjHFxglKPL1jDlH0I=; b=A8cwNNie6Ow7povwlGn6yC306d
+	1ZMV07mbVzY0Q//IVBV6yLgyTFwOz/ASdxEAI3DYrSmQdWqYdCBe130ZSUmUYZGd8Qw6a28h1J8KP
+	qfWXTGwLQXY02NaY4nKZeBBssTaHWpA2+5BekP1OIPfABQld4096fD8KQa2kfS5v/IZ9zAZ0V5CD3
+	WUrqA7TJUkh6YPo2KkzbIZjMvEg1alBmSEuDNEv9DJUOtj2By2wgFbkSvQEZ+AXkWixVRCfVHcqja
+	Z31jb7CPuZ+OfXJiqm4EOp3NoLdkNwLMjqPb2SGgl38nhSN5YaSYEjWGDXV6vy3oSBieBsjdfXGWf
+	WBuZ9phQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rfOQN-0000000ARgb-0zzE;
-	Wed, 28 Feb 2024 18:12:59 +0000
+	id 1rfOQQ-0000000ARjW-1Uov;
+	Wed, 28 Feb 2024 18:13:02 +0000
 Received: from [4.28.11.157] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rfOPo-0000000ARHe-2Kxh;
-	Wed, 28 Feb 2024 18:12:24 +0000
+	id 1rfOPp-0000000ARI3-1j3V;
+	Wed, 28 Feb 2024 18:12:25 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
@@ -36,9 +36,9 @@ To: Hector Martin <marcan@marcan.st>,
 Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	asahi@lists.linux.dev,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH 15/21] nvme: cleanup nvme_configure_metadata
-Date: Wed, 28 Feb 2024 10:12:09 -0800
-Message-Id: <20240228181215.873854-16-hch@lst.de>
+Subject: [PATCH 17/21] nvme-loop: initialize max_hw_sectors earlier
+Date: Wed, 28 Feb 2024 10:12:11 -0800
+Message-Id: <20240228181215.873854-18-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240228181215.873854-1-hch@lst.de>
 References: <20240228181215.873854-1-hch@lst.de>
@@ -58,94 +58,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Fold nvme_init_ms into nvme_configure_metadata after splitting up
-a little helper to deal with the extended LBA formats.
+Initialize max_hw_sectors a little earlier so that
+nvme_alloc_admin_tag_set can rely on it to set the initial queue limits.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/core.c | 47 ++++++++++++++++------------------------
- 1 file changed, 19 insertions(+), 28 deletions(-)
+ drivers/nvme/target/loop.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 531230ccd12210..f4ec8683b3b725 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1855,26 +1855,14 @@ static int nvme_identify_ns_nvm(struct nvme_ctrl *ctrl, unsigned int nsid,
- 	return ret;
- }
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index e589915ddef85c..d8e33427a921bb 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -351,6 +351,8 @@ static int nvme_loop_configure_admin_queue(struct nvme_loop_ctrl *ctrl)
+ 	if (error)
+ 		return error;
+ 	ctrl->ctrl.queue_count = 1;
++	ctrl->ctrl.max_hw_sectors =
++		(NVME_LOOP_MAX_SEGMENTS - 1) << PAGE_SECTORS_SHIFT;
  
--static void nvme_init_ms(struct nvme_ctrl *ctrl, struct nvme_ns_head *head,
-+static void nvme_configure_pi_elbas(struct nvme_ns_head *head,
- 		struct nvme_id_ns *id, struct nvme_id_ns_nvm *nvm)
- {
--	bool first = id->dps & NVME_NS_DPS_PI_FIRST;
--	unsigned lbaf = nvme_lbaf_index(id->flbas);
--	u32 elbaf;
--
--	head->pi_size = 0;
--	head->ms = le16_to_cpu(id->lbaf[lbaf].ms);
--	if (!nvm || !(ctrl->ctratt & NVME_CTRL_ATTR_ELBAS)) {
--		head->pi_size = sizeof(struct t10_pi_tuple);
--		head->guard_type = NVME_NVM_NS_16B_GUARD;
--		goto set_pi;
--	}
--
--	elbaf = le32_to_cpu(nvm->elbaf[lbaf]);
-+	u32 elbaf = le32_to_cpu(nvm->elbaf[nvme_lbaf_index(id->flbas)]);
+ 	error = nvme_alloc_admin_tag_set(&ctrl->ctrl, &ctrl->admin_tag_set,
+ 			&nvme_loop_admin_mq_ops,
+@@ -372,9 +374,6 @@ static int nvme_loop_configure_admin_queue(struct nvme_loop_ctrl *ctrl)
+ 	if (error)
+ 		goto out_cleanup_tagset;
  
- 	/* no support for storage tag formats right now */
- 	if (nvme_elbaf_sts(elbaf))
--		goto set_pi;
-+		return;
- 
- 	head->guard_type = nvme_elbaf_guard_type(elbaf);
- 	switch (head->guard_type) {
-@@ -1887,29 +1875,32 @@ static void nvme_init_ms(struct nvme_ctrl *ctrl, struct nvme_ns_head *head,
- 	default:
- 		break;
- 	}
+-	ctrl->ctrl.max_hw_sectors =
+-		(NVME_LOOP_MAX_SEGMENTS - 1) << PAGE_SECTORS_SHIFT;
 -
--set_pi:
--	if (head->pi_size && head->ms >= head->pi_size)
--		head->pi_type = id->dps & NVME_NS_DPS_PI_MASK;
--	else
--		head->pi_type = 0;
--
--	if (first)
--		head->pi_offset = 0;
--	else
--		head->pi_offset = head->ms - head->pi_size;
- }
+ 	nvme_unquiesce_admin_queue(&ctrl->ctrl);
  
- static void nvme_configure_metadata(struct nvme_ctrl *ctrl,
- 		struct nvme_ns_head *head, struct nvme_id_ns *id,
- 		struct nvme_id_ns_nvm *nvm)
- {
--	nvme_init_ms(ctrl, head, id, nvm);
--
- 	head->features &= ~(NVME_NS_METADATA_SUPPORTED | NVME_NS_EXT_LBAS);
-+	head->pi_type = 0;
-+	head->pi_size = 0;
-+	head->pi_offset = 0;
-+	head->ms = le16_to_cpu(id->lbaf[nvme_lbaf_index(id->flbas)].ms);
- 	if (!head->ms || !(ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
- 		return;
- 
-+	if (nvm && (ctrl->ctratt & NVME_CTRL_ATTR_ELBAS)) {
-+		nvme_configure_pi_elbas(head, id, nvm);
-+	} else {
-+		head->pi_size = sizeof(struct t10_pi_tuple);
-+		head->guard_type = NVME_NVM_NS_16B_GUARD;
-+	}
-+
-+	if (head->pi_size && head->ms >= head->pi_size)
-+		head->pi_type = id->dps & NVME_NS_DPS_PI_MASK;
-+	if (!(id->dps & NVME_NS_DPS_PI_FIRST))
-+		head->pi_offset = head->ms - head->pi_size;
-+
- 	if (ctrl->ops->flags & NVME_F_FABRICS) {
- 		/*
- 		 * The NVMe over Fabrics specification only supports metadata as
+ 	error = nvme_init_ctrl_finish(&ctrl->ctrl, false);
 -- 
 2.39.2
 
