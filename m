@@ -4,96 +4,141 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9FCDCC54E41
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Feb 2024 11:20:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2AA6FC47DD9
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Feb 2024 12:58:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LbC6SRU4uCRRnksGzrXKfhWWPyPIfWqw4ijilPNIA5I=; b=V1mODf3ng3cJeXdJ01UQY2z/0T
-	ddYSpXIZkY9AA0Np9ZXJ5Y6KgDclJV5d85/ai27JQr8ZCGhMopgpXoSOPaq1vqH3JrWcE70O0N4JA
-	BCzFk0Bz+VW5I7FtKVJNCqNPMXUxbuNMC1UsIH7O1T2a3IXBBFGNMP9/cB9vM7ua9JlE0JeXtxZr+
-	GBZtp9IHs8CR/Qh74lAGWqngE/lwRdFZ3aVDJhwS3/M6Da8s9QibJEBniWXZlEzW7YfOaAhjL82xV
-	LDcsyfA5oUkGnFzFXX5PDl/faSPeIHZNW7e2RQdQsugQBkOl4R+OcmxRFvd54okDeCflpSxIWpf6h
-	6MzERuCg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=cMxtiLrmjf1oiGBnupVrNp1rHrg/HEIlqBcOpJrmS1s=; b=X2bWv6j36sdQ/nwLED8BSOp+GU
+	mPV6nPipa5s3W3G72XeEmeRbpfbQuVleQ3qBAXFQq+9V/bzj5y/PfbyJKs6rJ12mnITmoj6R2m03q
+	YPfIFucz2wmLwQCNY+moF6lP1PAhhHdoa6qKkIK3uf/SQuO7/b99NPneVUpX/syb5828jfhH8sFU9
+	bHc5MneW3PkWSpKVIOHFe118dfSFqfWggb8VBj4Qmq0flAKy8rtCYP60RrP2/pwwbRZmECyAYRpT4
+	kFgI6YO1XFs6vbYhK73Ny9QWrWvOCJpBaozpF5oiO3HIzPvkfMYFLn01aVpMEElKIIVU3XCNpSvxB
+	HnIVisww==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rfHyr-00000008wyN-0Brm;
-	Wed, 28 Feb 2024 11:20:09 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1rfJVg-00000009Klw-0Gkk;
+	Wed, 28 Feb 2024 12:58:08 +0000
+Received: from mail-sn1nam02on20615.outbound.protection.outlook.com ([2a01:111:f400:7ea9::615] helo=NAM02-SN1-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rfHyn-00000008wxh-2X2L
+	id 1rfJVc-00000009Kib-1Iqz
 	for linux-nvme@lists.infradead.org;
-	Wed, 28 Feb 2024 11:20:07 +0000
-Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 41SALsbK004130;
-	Wed, 28 Feb 2024 11:19:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=LbC6SRU4uCRRnksGzrXKfhWWPyPIfWqw4ijilPNIA5I=;
- b=FXg2Jo6AxZiFPAPhrmWkaq4/PN80ZzPpbwuACAwPfRU39zNq7V1d34jYUsuDAjm2HMu1
- jOaPwcJhknNPp0mz/1Br4pjt7akFsU9BKpbzN/a0qpJfDZM/iK8OqVjvHTTxv1DelM1M
- XotXDeXIeW0HSAL3Gq7jRtPCgZqcQxZVQZCG+JPYX6soIfpoAdGX0uuBYm2i9FJfBKSX
- H7P5ilhgEtQ6CO389mwYPRW5D+7Z2YG86c/uCmnNFm1+esunhxOnzVVi/QpInpUS/0jz
- DzbYf7IXcNnByfy5hDgoRhVPfx3MXgCOSFahmdF8pObZNcrlsOJ/T2omOAEzdrhOFr7n +w== 
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wj30w1k45-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 28 Feb 2024 11:19:58 +0000
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 41SA50lM012371;
-	Wed, 28 Feb 2024 11:19:57 GMT
-Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 3wfwg2desd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 28 Feb 2024 11:19:57 +0000
-Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
-	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 41SBJt1D33947986
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 28 Feb 2024 11:19:57 GMT
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2FF0658055;
-	Wed, 28 Feb 2024 11:19:55 +0000 (GMT)
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5E10F5804B;
-	Wed, 28 Feb 2024 11:19:52 +0000 (GMT)
-Received: from [9.109.198.202] (unknown [9.109.198.202])
-	by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 28 Feb 2024 11:19:52 +0000 (GMT)
-Message-ID: <07b92c25-d0dd-455c-8fb9-a4f2709677ba@linux.ibm.com>
-Date: Wed, 28 Feb 2024 16:49:50 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND] nvme-pci: Fix EEH failure on ppc after subsystem
- reset
-Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>
-Cc: axboe@fb.com, hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org,
-        linux-block@vger.kernel.org, gjoyce@linux.ibm.com
-References: <20240209050342.406184-1-nilay@linux.ibm.com>
- <Zd4p_E8cPFpr1M--@kbusch-mbp>
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <Zd4p_E8cPFpr1M--@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: rXZZebUGSjYOaPnZWxjcF7M1IGvkYdz6
-X-Proofpoint-GUID: rXZZebUGSjYOaPnZWxjcF7M1IGvkYdz6
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	Wed, 28 Feb 2024 12:58:07 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NW3GYhctfHh58OXbvbR6uj5T7Qz7wLWk7DzgcDZOSXDgyE15oaVSLIxEOU6921Aw1Ho2a3JYsoeAZDmaUQohPlt7y3Ln0DfuUgUMorms6rPCK1iFbQDM0FqLb+uC7s2tVYpx46K/XuHJ+rZjKESKI/DbdLVaDTJMFYQsdO/3gnM9fvXoG8JOIBS8yS5ZLuwcb+Dr7afqqUe27r5gjuX2PdIYpGXKFjlSLzRzjFsVN5D6a6BpnYDkx0BJliXnQkCO+zDiaIotm40czuq1aQZV8qvS42OxWWeTrghmcnj8QNPdF1soExI2Ouf+cY7s8Eg5ecFaw/cOZW8yiFcg1icUrw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cMxtiLrmjf1oiGBnupVrNp1rHrg/HEIlqBcOpJrmS1s=;
+ b=B41QSI8L2+RfEmAxls8Mz8N8mv0t+SIyHXXlp7u9RFrDGNq5R4QNLoa+a/pjN1gnP59TdSzjcHJfCw/Mh2w5NcqcJCrpwpXkD9ICC7nIMP84Qr0BqAeu5oQolFy6wT/AgOi/aLSqJwVyuOj5JyxAYu0E05FROG2fEb14faJ/lMb72tI+I4kN+MLUsCRzWffWFdjG/l9nfGoX8ev2yrnpk+DndA5JyW1RC4vemMqKpMnDA34Wii3GWp9thFOujI4nga75wdWK6ieM7DPkhTOGa1Q8OaQhu9uKyp8WgEua/a6DMLgM+JSNyzYi2TiJCQGJyDbpdOrMg3fo1tpsUhAZeQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cMxtiLrmjf1oiGBnupVrNp1rHrg/HEIlqBcOpJrmS1s=;
+ b=UKPfWv/KaADRH4YgtPW4CW+vJjLFBZ9NnhKYmuRMT0w3kFTJYjFDw7TJYjxlgrYQw0ocQ/zqWSalL0JnhxXEWmohN4YV66uTtpNO/ZzVy8Gx58cN1y3RT/ifegjQU73HVWeVGzhAxWLNVlE86VvxmFuL5nveIeBX13/b9paBTaHfbHVlJs/wKxAB+3lOhlDEBPeW1Lt7qhiJgTRlsUAr4XmG6HH+XqSAmgBXgwjc4/aUb0wp3I8eZgBy4dOV4FA5f8m/znVDZcdKLWBAatbZQNpVJPMmGlZUJoCSnzRClia0tc5pn7KHKMdTPNcj+3pB3xef+p3IkuTai3fx7DRjMA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
+ by SA1PR12MB8841.namprd12.prod.outlook.com (2603:10b6:806:376::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.34; Wed, 28 Feb
+ 2024 12:57:57 +0000
+Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
+ ([fe80::aa05:b8a0:7d5:b463]) by SJ1PR12MB6075.namprd12.prod.outlook.com
+ ([fe80::aa05:b8a0:7d5:b463%3]) with mapi id 15.20.7316.032; Wed, 28 Feb 2024
+ 12:57:57 +0000
+From: Aurelien Aptel <aaptel@nvidia.com>
+To: linux-nvme@lists.infradead.org,
+	netdev@vger.kernel.org,
+	sagi@grimberg.me,
+	hch@lst.de,
+	kbusch@kernel.org,
+	axboe@fb.com,
+	chaitanyak@nvidia.com,
+	davem@davemloft.net,
+	kuba@kernel.org
+Cc: Boris Pismenny <borisp@nvidia.com>,
+	aaptel@nvidia.com,
+	aurelien.aptel@gmail.com,
+	smalin@nvidia.com,
+	malin1024@gmail.com,
+	ogerlitz@nvidia.com,
+	yorayz@nvidia.com,
+	galshalom@nvidia.com,
+	mgurtovoy@nvidia.com,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	dsahern@kernel.org,
+	ast@kernel.org,
+	jacob.e.keller@intel.com
+Subject: [PATCH v23 01/20] net: Introduce direct data placement tcp offload
+Date: Wed, 28 Feb 2024 12:57:14 +0000
+Message-Id: <20240228125733.299384-2-aaptel@nvidia.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240228125733.299384-1-aaptel@nvidia.com>
+References: <20240228125733.299384-1-aaptel@nvidia.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: FR4P281CA0264.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:e8::18) To SJ1PR12MB6075.namprd12.prod.outlook.com
+ (2603:10b6:a03:45e::8)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-28_04,2024-02-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- priorityscore=1501 impostorscore=0 mlxscore=0 spamscore=0 adultscore=0
- bulkscore=0 lowpriorityscore=0 clxscore=1015 mlxlogscore=999 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311290000 definitions=main-2402280089
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|SA1PR12MB8841:EE_
+X-MS-Office365-Filtering-Correlation-Id: 83cd5ff9-7968-4b58-fc5a-08dc385ce2af
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ECna/DghPCALhEp7YGogtAf+fKu46Vm8Ee3X1+twRqrTbsG+/21O7Cm38YidfTfJP6rAm4v0Cg3QfmjrCppHQXktaylt1xGHg39Bb0xE2NBntBHynRow/TDgIyVWmkPYPJrCZllYcaESmQFOFDHE8AwaRTs7EBD8vynL4MwuUXS40boXyaBc8KT36CWFEp2SVu3+VpVioY60M8ZZ3GdJ5Dfb6n61GZcCzi+BYMub3hm0deRMbl2Wt81efTh8Vop0hifD1CaQ/C246d6z9oRFcUVnnwJVoRBgq9AJtARePDocpzALd+AyA+BtambAZXDuXO/MCRILbcdP+3g53xCjBYE6qd5LjxYcNWfmLPDWmax3KSFKdakRLEOSMrPL458jd+tX0Q2NrPnD0D6sNVj84s39sw9oMLetvUCCPfZ8+Gx5/gWABs0i11XbzMWV/ctajT0/8I6J2QylMm3q7Vst3KOxdknHvT0j8AuU3EYesdUjoEPI3RncmwaFGMutOZ+4uT7bgugZcmKdxhYkq4BlXuEbfHPUyFQOPEUH+sGy8wxuPrAfE3LEo0cK1vlBPoNacr1dUFoUaV1iOyEvxfyAU8kcfPb6mIdOGD20ya5ZCzDVAJkEIn2EX11IQ6U2lC3Z
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?75vWRmNNrw5mBdGOTTc4s9siorkR7z5r1iuWSZfjnK7xas2ajdjcG7D3Zrz4?=
+ =?us-ascii?Q?oQFlepX6X7k+g9xa6sOAIZPgCRoqnVCYqAHcUT7Z7Ubrmv+0EQJTeCQlI8eP?=
+ =?us-ascii?Q?ddJ/3Im+TX02JxSXcXzHz5TEW+7q+ZP7TTIMGs29/jDcaYSkA3+VjYriMfJf?=
+ =?us-ascii?Q?wkV/DGgDWFf9Z+15h5ObcPau4GBzwE7f7ATa4WBd+QrJZHRVK2KQP5ScH3jo?=
+ =?us-ascii?Q?aGoCAae/DJ17cWuZYqcwu/NHE0zBpfSzrWlcUieLRlAw1bzSAWKetCJeZij2?=
+ =?us-ascii?Q?X2KUHen27hxxHHIQY7sSjYyqwAvNZkbXojxebmU25jNoRihpSrKQhOkgXBGa?=
+ =?us-ascii?Q?nJEf1WdG1lkACJvNSE3F4IDH7E5KZICreSurDYYMrsYcLkTVcZaZHgkzsE/q?=
+ =?us-ascii?Q?sW1TLbNGiWUwv+0xS7XIssp3s4CQIDjWdh3n/W6/zd99m4oQDb7ggvTAh9uD?=
+ =?us-ascii?Q?4AHdIdcyVkMoBZlj476eVl7byN5/q4DUTNIi54/Z0rhsoBX4F6wfdevsb8C8?=
+ =?us-ascii?Q?vBgI/EIg8cqeY0zX7QuovqBhIg1vFBLkIGnNXDoNTJ2ROoca/3lH2TFc9sdI?=
+ =?us-ascii?Q?WNkFhfpGcGp2TCiOdO8uFUNYfuDQCzzymlk4QVK1VzXV2v3nMJw9xPU44hB3?=
+ =?us-ascii?Q?13OIHnEUVo7a2261b6qT/IEs2ZrC6Q81E41pvMEFgRf+1cEru0JsF9cnQZ0V?=
+ =?us-ascii?Q?vFng8qH22FKJK44DWm8eCefBDu4ZGRAUx9yAUdbZyR0qae3XyIym6IYgW6Ca?=
+ =?us-ascii?Q?SOh9Z6DJCq3mAACbjsBLz7UmEaXUvT3DviydXkigVB6MDaYb8C4UWdj6QdAD?=
+ =?us-ascii?Q?ucPSdTWp/UpNLvKum/ZcVskhaWt0opPqM6XnD0oyGRoIo8f4R2tt+gExAxLX?=
+ =?us-ascii?Q?BWsHsmEG7xKaps5MZWBmt8YiiIqumQu6HHuPPUIiWUjwRvGHwnRRh+BifHdW?=
+ =?us-ascii?Q?DBgQkzSJ39X6Y9CWmz9jz+MepbQk91vwVH79R89RJjpH6ldacxDPqvnxyurB?=
+ =?us-ascii?Q?d9PPlp72twiWP4lFiZzBmwD5koiD5QBpwWsXJVEx8AHp0prZmtGWwiKp6J2S?=
+ =?us-ascii?Q?NoHyvRpO2gWdLbTdL0jXA4zIvL6DQ+9ZLMHphsnn8w2wYTLGKbh4d5eAeJD0?=
+ =?us-ascii?Q?VKr8hnrxFmqblauWiFZfPJPSrSxUNx87fKND7b9Cr+uqwbzbqKAzTb4gRdAw?=
+ =?us-ascii?Q?CO14Syj/kydwDtKswBOzsPlfO6+3FVNpCL1Z/tJsF7psJ6hG1psbqORjbWpl?=
+ =?us-ascii?Q?CLs5+W1Au3mu+b9k46pr8dsbSFwcCLKjizPBq/hBtD2QFU30Tx2MjRuoDHgl?=
+ =?us-ascii?Q?7xHIUVsa77CQmlbCd5DVDspmqDDyVY2/QSzlqfQt9SChu0o2kBFPXFkrwm3T?=
+ =?us-ascii?Q?9ZniWtdHf/1GcvpoahHuGsw3XuTp+iFC9IOrVQGL/zT6ZaJ8nOGJR3wOqXIj?=
+ =?us-ascii?Q?I2Nqmb4ZqEKnmhMOhQMXBgct/BEpOz9jnjNnzCucxPGoEeHRhawmEwh46DJC?=
+ =?us-ascii?Q?esPa2vsyU7WO/p61tYBJ2+ZMdotZtIU49NEtMOrkLrKhGkba1pMEwabjj2Pd?=
+ =?us-ascii?Q?uQ1fu0Ej5fTJsCuZH5kcJjmgXHg1jkyumWghz49w?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 83cd5ff9-7968-4b58-fc5a-08dc385ce2af
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2024 12:57:57.3917
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MRHTi3MkAhd4EvGykqAuelUuKV8HKsHIN93cPqH+9e4SmZTcygO+XbnB2rMGfVc+gOflVckfCDPOMrqPAv94fg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8841
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240228_032005_711229_3B9FD1B2 
-X-CRM114-Status: GOOD (  30.16  )
+X-CRM114-CacheID: sfid-20240228_045804_449867_77FADF30 
+X-CRM114-Status: GOOD (  26.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,154 +153,691 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+From: Boris Pismenny <borisp@nvidia.com>
 
+This commit introduces direct data placement (DDP) offload for TCP.
 
-On 2/27/24 23:59, Keith Busch wrote:
-> On Fri, Feb 09, 2024 at 10:32:16AM +0530, Nilay Shroff wrote:
->> If the nvme subsyetm reset causes the loss of communication to the nvme
->> adapter then EEH could potnetially recover the adapter. The detection of
->> comminication loss to the adapter only happens when the nvme driver
->> attempts to read an MMIO register.
->>
->> The nvme subsystem reset command writes 0x4E564D65 to NSSR register and
->> schedule adapter reset.In the case nvme subsystem reset caused the loss
->> of communication to the nvme adapter then either IO timeout event or
->> adapter reset handler could detect it. If IO timeout even could detect
->> loss of communication then EEH handler is able to recover the
->> communication to the adapter. This change was implemented in 651438bb0af5
->> (nvme-pci: Fix EEH failure on ppc). However if the adapter communication
->> loss is detected in nvme reset work handler then EEH is unable to
->> successfully finish the adapter recovery.
->>
->> This patch ensures that,
->> - nvme driver reset handler would observer pci channel was offline after
->>   a failed MMIO read and avoids marking the controller state to DEAD and
->>   thus gives a fair chance to EEH handler to recover the nvme adapter.
->>
->> - if nvme controller is already in RESETTNG state and pci channel frozen
->>   error is detected then  nvme driver pci-error-handler code sends the
->>   correct error code (PCI_ERS_RESULT_NEED_RESET) back to the EEH handler
->>   so that EEH handler could proceed with the pci slot reset.
-> 
-> A subsystem reset takes the link down. I'm pretty sure the proper way to
-> recover from it requires pcie hotplug support.
-> 
-Yes you're correct. We require pcie hotplugging to recover. However powerpc EEH 
-handler could able to recover the pcie adapter without physically removing and 
-re-inserting the adapter or in another words, it could reset adapter without 
-hotplug activity. In fact, powerpc EEH could isolate pcie slot and resets it 
-(i.e. resetting the PCI device holding the PCI #RST line high for two seconds), 
-followed by setting up the device config space (the base address registers 
-(BAR's), latency timer, cache line size, interrupt line, and so on). 
+The motivation is saving compute resources/cycles that are spent
+to copy data from SKBs to the block layer buffers and CRC
+calculation/verification for received PDUs (Protocol Data Units).
 
-You may find more information about EEH recovery here: 
-https://www.kernel.org/doc/Documentation/powerpc/eeh-pci-error-recovery.txt
+The DDP capability is accompanied by new net_device operations that
+configure hardware contexts.
 
-Typically when pcie error is detected and the EEH is able to recover the device, 
-the EEH handler code goes through below sequence (assuming driver is EEH aware):
+There is a context per socket, and a context per DDP operation.
+Additionally, a resynchronization routine is used to assist
+hardware handle TCP OOO, and continue the offload. Furthermore,
+we let the offloading driver advertise what is the max hw
+sectors/segments.
 
-eeh_handle_normal_event()
-  eeh_set_channel_state()-> set state to pci_channel_io_frozen 
-     eeh_report_error() 
-       nvme_error_detected() -> channel state "pci_channel_io_frozen"; returns PCI_ERS_RESULT_NEED_RESET
-         eeh_slot_reset() -> recovery successful 
-           nvme_slot_reset() -> returns PCI_ERS_RESULT_RECOVERED
-             eeh_set_channel_state()-> set state to pci_channel_io_normal
-               nvme_error_resume()
+The interface includes the following net-device ddp operations:
 
-In case pcie erorr is detected and the EEH is unable to recover the device,
-the EEH handler code goes through the below sequence:
+ 1. sk_add - add offload for the queue represented by socket+config pair
+ 2. sk_del - remove the offload for the socket/queue
+ 3. ddp_setup - request copy offload for buffers associated with an IO
+ 4. ddp_teardown - release offload resources for that IO
+ 5. limits - query NIC driver for quirks and limitations (e.g.
+             max number of scatter gather entries per IO)
+ 6. set_caps - request ULP DDP capabilities enablement
+ 7. get_caps - request current ULP DDP capabilities
+ 8. get_stats - query NIC driver for ULP DDP stats
 
-eeh_handle_normal_event()
-  eeh_set_channel_state()-> set state to pci_channel_io_frozen
-    eeh_report_error()
-      nvme_error_detected() -> channel state pci_channel_io_frozen; returns PCI_ERS_RESULT_NEED_RESET
-        eeh_slot_reset() -> recovery failed
-          eeh_report_failure()
-            nvme_error_detected()-> channel state pci_channel_io_perm_failure; returns PCI_ERS_RESULT_DISCONNECT
-              eeh_set_channel_state()-> set state to pci_channel_io_perm_failure
-                nvme_remove()
+Using this interface, the NIC hardware will scatter TCP payload
+directly to the BIO pages according to the command_id.
 
-                                           
-If we execute the command "nvme subsystem-reset ..." and adapter communication is
-lost then in the current code (under nvme_reset_work()) we simply disable the device
- and mark the controller DEAD. However we may have a chance to recover the controller 
-if driver is EEH aware and EEH recovery is underway. We already handle one such case 
-in nvme_timeout(). So this patch ensures that if we fall through nvme_reset_work() 
-post subsystem-reset and the EEH recovery is in progress then we give a chance to the
-EEH mechanism to recover the adapter. If in case the EEH recovery is unsuccessful then
-we'd anyway fall through code path I mentioned above where we invoke nvme_remove() at 
-the end and delete the erring controller.
+To maintain the correctness of the network stack, the driver is
+expected to construct SKBs that point to the BIO pages.
 
-With the proposed patch, we find that EEH recovery is successful post subsystem-reset. 
-Please find below the relevant output:
-# lspci 
-0524:28:00.0 Non-Volatile memory controller: KIOXIA Corporation NVMe SSD Controller CM7 2.5" (rev 01)
+The SKB passed to the network stack from the driver represents
+data as it is on the wire, while it is pointing directly to data
+in destination buffers.
 
-# nvme list-subsys
-nvme-subsys0 - NQN=nqn.2019-10.com.kioxia:KCM7DRUG1T92:7DQ0A01206N3
-               hostnqn=nqn.2014-08.org.nvmexpress:uuid:41528538-e8ad-4eaf-84a7-9c552917d988
-               iopolicy=numa
-\
- +- nvme0 pcie 0524:28:00.0 live
+As a result, data from page frags should not be copied out to
+the linear part. To avoid needless copies, such as when using
+skb_condense, we mark the skb->no_condense bit.
+In addition, the skb->ulp_crc will be used by the upper layers to
+determine if CRC re-calculation is required. The two separated skb
+indications are needed to avoid false positives GRO flushing events.
 
-# nvme subsystem-reset /dev/nvme0
+Follow-up patches will use this interface for DDP in NVMe-TCP.
 
-# nvme list-subsys
-nvme-subsys0 - NQN=nqn.2019-10.com.kioxia:KCM7DRUG1T92:7DQ0A01206N3
-               hostnqn=nqn.2014-08.org.nvmexpress:uuid:41528538-e8ad-4eaf-84a7-9c552917d988
-               iopolicy=numa
-\
- +- nvme0 pcie 0524:28:00.0 resetting
+Capability bits stored in net_device allow drivers to report which
+ULP DDP capabilities a device supports. Control over these
+capabilities will be exposed to userspace in later patches.
 
-[10556.034082] EEH: Recovering PHB#524-PE#280000
-[10556.034108] EEH: PE location: N/A, PHB location: N/A
-[10556.034112] EEH: Frozen PHB#524-PE#280000 detected
-[10556.034115] EEH: Call Trace:
-[10556.034117] EEH: [c000000000051068] __eeh_send_failure_event+0x7c/0x15c
-[10556.034304] EEH: [c000000000049bcc] eeh_dev_check_failure.part.0+0x27c/0x6b0
-[10556.034310] EEH: [c008000004753d3c] nvme_pci_reg_read32+0x80/0xac [nvme]
-[10556.034319] EEH: [c0080000045f365c] nvme_wait_ready+0xa4/0x18c [nvme_core]
-[10556.034333] EEH: [c008000004754750] nvme_dev_disable+0x370/0x41c [nvme]
-[10556.034338] EEH: [c008000004757184] nvme_reset_work+0x1f4/0x3cc [nvme]
-[10556.034344] EEH: [c00000000017bb8c] process_one_work+0x1f0/0x4f4
-[10556.034350] EEH: [c00000000017c24c] worker_thread+0x3bc/0x590
-[10556.034355] EEH: [c00000000018a87c] kthread+0x138/0x140
-[10556.034358] EEH: [c00000000000dd58] start_kernel_thread+0x14/0x18
-[10556.034363] EEH: This PCI device has failed 1 times in the last hour and will be permanently disabled after 5 failures.
-[10556.034368] EEH: Notify device drivers to shutdown
-[10556.034371] EEH: Beginning: 'error_detected(IO frozen)'
-[10556.034376] PCI 0524:28:00.0#280000: EEH: Invoking nvme->error_detected(IO frozen)
-[10556.034379] nvme nvme0: frozen state error detected, reset controller
-[10556.102654] nvme 0524:28:00.0: enabling device (0000 -> 0002)
-[10556.103171] nvme nvme0: PCI recovery is ongoing so let it finish
-[10556.142532] PCI 0524:28:00.0#280000: EEH: nvme driver reports: 'need reset'
-[10556.142535] EEH: Finished:'error_detected(IO frozen)' with aggregate recovery state:'need reset'
-[...]
-[...]
-[10556.148172] EEH: Reset without hotplug activity
-[10558.298672] EEH: Beginning: 'slot_reset'
-[10558.298692] PCI 0524:28:00.0#280000: EEH: Invoking nvme->slot_reset()
-[10558.298696] nvme nvme0: restart after slot reset
-[10558.301925] PCI 0524:28:00.0#280000: EEH: nvme driver reports: 'recovered'
-[10558.301928] EEH: Finished:'slot_reset' with aggregate recovery state:'recovered'
-[10558.301939] EEH: Notify device driver to resume
-[10558.301944] EEH: Beginning: 'resume'
-[10558.301947] PCI 0524:28:00.0#280000: EEH: Invoking nvme->resume()
-[10558.331051] nvme nvme0: Shutdown timeout set to 10 seconds
-[10558.356679] nvme nvme0: 16/0/0 default/read/poll queues
-[10558.357026] PCI 0524:28:00.0#280000: EEH: nvme driver reports: 'none'
-[10558.357028] EEH: Finished:'resume'
-[10558.357035] EEH: Recovery successful.
+Signed-off-by: Boris Pismenny <borisp@nvidia.com>
+Signed-off-by: Ben Ben-Ishay <benishay@nvidia.com>
+Signed-off-by: Or Gerlitz <ogerlitz@nvidia.com>
+Signed-off-by: Yoray Zack <yorayz@nvidia.com>
+Signed-off-by: Shai Malin <smalin@nvidia.com>
+Signed-off-by: Aurelien Aptel <aaptel@nvidia.com>
+---
+ include/linux/netdevice.h          |   5 +
+ include/linux/skbuff.h             |  25 ++-
+ include/net/inet_connection_sock.h |   6 +
+ include/net/ulp_ddp.h              | 322 +++++++++++++++++++++++++++++
+ net/Kconfig                        |  20 ++
+ net/core/Makefile                  |   1 +
+ net/core/skbuff.c                  |   3 +-
+ net/core/ulp_ddp.c                 |  52 +++++
+ net/ipv4/tcp_input.c               |  13 +-
+ net/ipv4/tcp_ipv4.c                |   3 +
+ net/ipv4/tcp_offload.c             |   3 +
+ 11 files changed, 450 insertions(+), 3 deletions(-)
+ create mode 100644 include/net/ulp_ddp.h
+ create mode 100644 net/core/ulp_ddp.c
 
-# nvme list-subsys
-nvme-subsys0 - NQN=nqn.2019-10.com.kioxia:KCM7DRUG1T92:7DQ0A01206N3
-               hostnqn=nqn.2014-08.org.nvmexpress:uuid:41528538-e8ad-4eaf-84a7-9c552917d988
-               iopolicy=numa
-\
- +- nvme0 pcie 0524:28:00.0 live
+diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+index f07c8374f29c..610d0530c9f9 100644
+--- a/include/linux/netdevice.h
++++ b/include/linux/netdevice.h
+@@ -1435,6 +1435,8 @@ struct netdev_net_notifier {
+  *			   struct kernel_hwtstamp_config *kernel_config,
+  *			   struct netlink_ext_ack *extack);
+  *	Change the hardware timestamping parameters for NIC device.
++ * struct ulp_ddp_dev_ops *ulp_ddp_ops;
++ *	ULP DDP operations (see include/net/ulp_ddp.h)
+  */
+ struct net_device_ops {
+ 	int			(*ndo_init)(struct net_device *dev);
+@@ -1679,6 +1681,9 @@ struct net_device_ops {
+ 	int			(*ndo_hwtstamp_set)(struct net_device *dev,
+ 						    struct kernel_hwtstamp_config *kernel_config,
+ 						    struct netlink_ext_ack *extack);
++#if IS_ENABLED(CONFIG_ULP_DDP)
++	const struct ulp_ddp_dev_ops	*ulp_ddp_ops;
++#endif
+ };
+ 
+ /**
+diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
+index 696e7680656f..3695697cc6e5 100644
+--- a/include/linux/skbuff.h
++++ b/include/linux/skbuff.h
+@@ -820,6 +820,8 @@ typedef unsigned char *sk_buff_data_t;
+  *		delivery_time in mono clock base (i.e. EDT).  Otherwise, the
+  *		skb->tstamp has the (rcv) timestamp at ingress and
+  *		delivery_time at egress.
++ *	@no_condense: When set, don't condense fragments (DDP offloaded)
++ *	@ulp_crc: CRC offloaded
+  *	@napi_id: id of the NAPI struct this skb came from
+  *	@sender_cpu: (aka @napi_id) source CPU in XPS
+  *	@alloc_cpu: CPU which did the skb allocation.
+@@ -999,7 +1001,10 @@ struct sk_buff {
+ #if IS_ENABLED(CONFIG_IP_SCTP)
+ 	__u8			csum_not_inet:1;
+ #endif
+-
++#ifdef CONFIG_ULP_DDP
++	__u8                    no_condense:1;
++	__u8			ulp_crc:1;
++#endif
+ #if defined(CONFIG_NET_SCHED) || defined(CONFIG_NET_XGRESS)
+ 	__u16			tc_index;	/* traffic control index */
+ #endif
+@@ -5084,5 +5089,23 @@ static inline void skb_mark_for_recycle(struct sk_buff *skb)
+ ssize_t skb_splice_from_iter(struct sk_buff *skb, struct iov_iter *iter,
+ 			     ssize_t maxsize, gfp_t gfp);
+ 
++static inline bool skb_is_no_condense(const struct sk_buff *skb)
++{
++#ifdef CONFIG_ULP_DDP
++	return skb->no_condense;
++#else
++	return 0;
++#endif
++}
++
++static inline bool skb_is_ulp_crc(const struct sk_buff *skb)
++{
++#ifdef CONFIG_ULP_DDP
++	return skb->ulp_crc;
++#else
++	return 0;
++#endif
++}
++
+ #endif	/* __KERNEL__ */
+ #endif	/* _LINUX_SKBUFF_H */
+diff --git a/include/net/inet_connection_sock.h b/include/net/inet_connection_sock.h
+index 9ab4bf704e86..0ce01192e985 100644
+--- a/include/net/inet_connection_sock.h
++++ b/include/net/inet_connection_sock.h
+@@ -67,6 +67,8 @@ struct inet_connection_sock_af_ops {
+  * @icsk_ulp_ops	   Pluggable ULP control hook
+  * @icsk_ulp_data	   ULP private data
+  * @icsk_clean_acked	   Clean acked data hook
++ * @icsk_ulp_ddp_ops	   Pluggable ULP direct data placement control hook
++ * @icsk_ulp_ddp_data	   ULP direct data placement private data
+  * @icsk_ca_state:	   Congestion control state
+  * @icsk_retransmits:	   Number of unrecovered [RTO] timeouts
+  * @icsk_pending:	   Scheduled timer event
+@@ -97,6 +99,10 @@ struct inet_connection_sock {
+ 	const struct tcp_ulp_ops  *icsk_ulp_ops;
+ 	void __rcu		  *icsk_ulp_data;
+ 	void (*icsk_clean_acked)(struct sock *sk, u32 acked_seq);
++#ifdef CONFIG_ULP_DDP
++	const struct ulp_ddp_ulp_ops  *icsk_ulp_ddp_ops;
++	void __rcu		  *icsk_ulp_ddp_data;
++#endif
+ 	unsigned int		  (*icsk_sync_mss)(struct sock *sk, u32 pmtu);
+ 	__u8			  icsk_ca_state:5,
+ 				  icsk_ca_initialized:1,
+diff --git a/include/net/ulp_ddp.h b/include/net/ulp_ddp.h
+new file mode 100644
+index 000000000000..5be527332799
+--- /dev/null
++++ b/include/net/ulp_ddp.h
+@@ -0,0 +1,322 @@
++/* SPDX-License-Identifier: GPL-2.0
++ *
++ * ulp_ddp.h
++ *   Author:	Boris Pismenny <borisp@nvidia.com>
++ *   Copyright (c) 2023, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
++ */
++#ifndef _ULP_DDP_H
++#define _ULP_DDP_H
++
++#include <linux/netdevice.h>
++#include <net/inet_connection_sock.h>
++#include <net/sock.h>
++
++enum ulp_ddp_type {
++	ULP_DDP_NVME = 1,
++};
++
++/**
++ * struct nvme_tcp_ddp_limits - nvme tcp driver limitations
++ *
++ * @full_ccid_range:	true if the driver supports the full CID range
++ */
++struct nvme_tcp_ddp_limits {
++	bool			full_ccid_range;
++};
++
++/**
++ * struct ulp_ddp_limits - Generic ulp ddp limits: tcp ddp
++ * protocol limits.
++ * Add new instances of ulp_ddp_limits in the union below (nvme-tcp, etc.).
++ *
++ * @type:		type of this limits struct
++ * @max_ddp_sgl_len:	maximum sgl size supported (zero means no limit)
++ * @io_threshold:	minimum payload size required to offload
++ * @tls:		support for ULP over TLS
++ * @nvmeotcp:		NVMe-TCP specific limits
++ */
++struct ulp_ddp_limits {
++	enum ulp_ddp_type	type;
++	int			max_ddp_sgl_len;
++	int			io_threshold;
++	bool			tls:1;
++	union {
++		struct nvme_tcp_ddp_limits nvmeotcp;
++	};
++};
++
++/**
++ * struct nvme_tcp_ddp_config - nvme tcp ddp configuration for an IO queue
++ *
++ * @pfv:	pdu version (e.g., NVME_TCP_PFV_1_0)
++ * @cpda:	controller pdu data alignment (dwords, 0's based)
++ * @dgst:	digest types enabled (header or data, see
++ *		enum nvme_tcp_digest_option).
++ *		The netdev will offload crc if it is supported.
++ * @queue_size: number of nvme-tcp IO queue elements
++ * @queue_id:	queue identifier
++ */
++struct nvme_tcp_ddp_config {
++	u16			pfv;
++	u8			cpda;
++	u8			dgst;
++	int			queue_size;
++	int			queue_id;
++};
++
++/**
++ * struct ulp_ddp_config - Generic ulp ddp configuration
++ * Add new instances of ulp_ddp_config in the union below (nvme-tcp, etc.).
++ *
++ * @type:	type of this config struct
++ * @nvmeotcp:	NVMe-TCP specific config
++ * @io_cpu:	cpu core running the IO thread for this socket
++ */
++struct ulp_ddp_config {
++	enum ulp_ddp_type    type;
++	int		     io_cpu;
++	union {
++		struct nvme_tcp_ddp_config nvmeotcp;
++	};
++};
++
++/**
++ * struct ulp_ddp_io - ulp ddp configuration for an IO request.
++ *
++ * @command_id: identifier on the wire associated with these buffers
++ * @nents:	number of entries in the sg_table
++ * @sg_table:	describing the buffers for this IO request
++ * @first_sgl:	first SGL in sg_table
++ */
++struct ulp_ddp_io {
++	u32			command_id;
++	int			nents;
++	struct sg_table		sg_table;
++	struct scatterlist	first_sgl[SG_CHUNK_SIZE];
++};
++
++/**
++ * struct ulp_ddp_stats - ULP DDP offload statistics
++ * @rx_nvmeotcp_sk_add: number of sockets successfully prepared for offloading.
++ * @rx_nvmeotcp_sk_add_fail: number of sockets that failed to be prepared
++ *                           for offloading.
++ * @rx_nvmeotcp_sk_del: number of sockets where offloading has been removed.
++ * @rx_nvmeotcp_ddp_setup: number of NVMeTCP PDU successfully prepared for
++ *                         Direct Data Placement.
++ * @rx_nvmeotcp_ddp_setup_fail: number of PDUs that failed DDP preparation.
++ * @rx_nvmeotcp_ddp_teardown: number of PDUs done with DDP.
++ * @rx_nvmeotcp_drop: number of PDUs dropped.
++ * @rx_nvmeotcp_resync: number of resync.
++ * @rx_nvmeotcp_packets: number of offloaded PDUs.
++ * @rx_nvmeotcp_bytes: number of offloaded bytes.
++ */
++struct ulp_ddp_stats {
++	u64 rx_nvmeotcp_sk_add;
++	u64 rx_nvmeotcp_sk_add_fail;
++	u64 rx_nvmeotcp_sk_del;
++	u64 rx_nvmeotcp_ddp_setup;
++	u64 rx_nvmeotcp_ddp_setup_fail;
++	u64 rx_nvmeotcp_ddp_teardown;
++	u64 rx_nvmeotcp_drop;
++	u64 rx_nvmeotcp_resync;
++	u64 rx_nvmeotcp_packets;
++	u64 rx_nvmeotcp_bytes;
++
++	/*
++	 * add new stats at the end and keep in sync with
++	 * Documentation/netlink/specs/ulp_ddp.yaml
++	 */
++};
++
++#define ULP_DDP_CAP_COUNT 1
++
++struct ulp_ddp_dev_caps {
++	DECLARE_BITMAP(active, ULP_DDP_CAP_COUNT);
++	DECLARE_BITMAP(hw, ULP_DDP_CAP_COUNT);
++};
++
++struct netlink_ext_ack;
++
++/**
++ * struct ulp_ddp_dev_ops - operations used by an upper layer protocol
++ *                          to configure ddp offload
++ *
++ * @limits:    query ulp driver limitations and quirks.
++ * @sk_add:    add offload for the queue represented by socket+config
++ *             pair. this function is used to configure either copy, crc
++ *             or both offloads.
++ * @sk_del:    remove offload from the socket, and release any device
++ *             related resources.
++ * @setup:     request copy offload for buffers associated with a
++ *             command_id in ulp_ddp_io.
++ * @teardown:  release offload resources association between buffers
++ *             and command_id in ulp_ddp_io.
++ * @resync:    respond to the driver's resync_request. Called only if
++ *             resync is successful.
++ * @set_caps:  set device ULP DDP capabilities.
++ *	       returns a negative error code or zero.
++ * @get_caps:  get device ULP DDP capabilities.
++ * @get_stats: query ULP DDP statistics.
++ */
++struct ulp_ddp_dev_ops {
++	int (*limits)(struct net_device *netdev,
++		      struct ulp_ddp_limits *limits);
++	int (*sk_add)(struct net_device *netdev,
++		      struct sock *sk,
++		      struct ulp_ddp_config *config);
++	void (*sk_del)(struct net_device *netdev,
++		       struct sock *sk);
++	int (*setup)(struct net_device *netdev,
++		     struct sock *sk,
++		     struct ulp_ddp_io *io);
++	void (*teardown)(struct net_device *netdev,
++			 struct sock *sk,
++			 struct ulp_ddp_io *io,
++			 void *ddp_ctx);
++	void (*resync)(struct net_device *netdev,
++		       struct sock *sk, u32 seq);
++	int (*set_caps)(struct net_device *dev, unsigned long *bits,
++			struct netlink_ext_ack *extack);
++	void (*get_caps)(struct net_device *dev,
++			 struct ulp_ddp_dev_caps *caps);
++	int (*get_stats)(struct net_device *dev,
++			 struct ulp_ddp_stats *stats);
++};
++
++#define ULP_DDP_RESYNC_PENDING BIT(0)
++
++/**
++ * struct ulp_ddp_ulp_ops - Interface to register upper layer
++ *                          Direct Data Placement (DDP) TCP offload.
++ * @resync_request:         NIC requests ulp to indicate if @seq is the start
++ *                          of a message.
++ * @ddp_teardown_done:      NIC driver informs the ulp that teardown is done,
++ *                          used for async completions.
++ */
++struct ulp_ddp_ulp_ops {
++	bool (*resync_request)(struct sock *sk, u32 seq, u32 flags);
++	void (*ddp_teardown_done)(void *ddp_ctx);
++};
++
++/**
++ * struct ulp_ddp_ctx - Generic ulp ddp context
++ *
++ * @type:	type of this context struct
++ * @buf:	protocol-specific context struct
++ */
++struct ulp_ddp_ctx {
++	enum ulp_ddp_type	type;
++	unsigned char		buf[];
++};
++
++static inline struct ulp_ddp_ctx *ulp_ddp_get_ctx(const struct sock *sk)
++{
++#ifdef CONFIG_ULP_DDP
++	struct inet_connection_sock *icsk = inet_csk(sk);
++
++	return (__force struct ulp_ddp_ctx *)icsk->icsk_ulp_ddp_data;
++#else
++	return NULL;
++#endif
++}
++
++static inline void ulp_ddp_set_ctx(struct sock *sk, void *ctx)
++{
++#ifdef CONFIG_ULP_DDP
++	struct inet_connection_sock *icsk = inet_csk(sk);
++
++	rcu_assign_pointer(icsk->icsk_ulp_ddp_data, ctx);
++#endif
++}
++
++static inline int ulp_ddp_setup(struct net_device *netdev,
++				struct sock *sk,
++				struct ulp_ddp_io *io)
++{
++#ifdef CONFIG_ULP_DDP
++	return netdev->netdev_ops->ulp_ddp_ops->setup(netdev, sk, io);
++#else
++	return -EOPNOTSUPP;
++#endif
++}
++
++static inline void ulp_ddp_teardown(struct net_device *netdev,
++				    struct sock *sk,
++				    struct ulp_ddp_io *io,
++				    void *ddp_ctx)
++{
++#ifdef CONFIG_ULP_DDP
++	netdev->netdev_ops->ulp_ddp_ops->teardown(netdev, sk, io, ddp_ctx);
++#endif
++}
++
++static inline void ulp_ddp_resync(struct net_device *netdev,
++				  struct sock *sk,
++				  u32 seq)
++{
++#ifdef CONFIG_ULP_DDP
++	netdev->netdev_ops->ulp_ddp_ops->resync(netdev, sk, seq);
++#endif
++}
++
++static inline int ulp_ddp_get_limits(struct net_device *netdev,
++				     struct ulp_ddp_limits *limits,
++				     enum ulp_ddp_type type)
++{
++#ifdef CONFIG_ULP_DDP
++	limits->type = type;
++	return netdev->netdev_ops->ulp_ddp_ops->limits(netdev, limits);
++#else
++	return -EOPNOTSUPP;
++#endif
++}
++
++static inline bool ulp_ddp_cap_turned_on(unsigned long *old,
++					 unsigned long *new,
++					 int bit_nr)
++{
++	return !test_bit(bit_nr, old) && test_bit(bit_nr, new);
++}
++
++static inline bool ulp_ddp_cap_turned_off(unsigned long *old,
++					  unsigned long *new,
++					  int bit_nr)
++{
++	return test_bit(bit_nr, old) && !test_bit(bit_nr, new);
++}
++
++#ifdef CONFIG_ULP_DDP
++
++int ulp_ddp_sk_add(struct net_device *netdev,
++		   struct sock *sk,
++		   struct ulp_ddp_config *config,
++		   const struct ulp_ddp_ulp_ops *ops);
++
++void ulp_ddp_sk_del(struct net_device *netdev,
++		    struct sock *sk);
++
++bool ulp_ddp_is_cap_active(struct net_device *netdev, int cap_bit_nr);
++
++#else
++
++static inline int ulp_ddp_sk_add(struct net_device *netdev,
++				 struct sock *sk,
++				 struct ulp_ddp_config *config,
++				 const struct ulp_ddp_ulp_ops *ops)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline void ulp_ddp_sk_del(struct net_device *netdev,
++				  struct sock *sk)
++{}
++
++static inline bool ulp_ddp_is_cap_active(struct net_device *netdev,
++					 int cap_bit_nr)
++{
++	return false;
++}
++
++#endif
++
++#endif	/* _ULP_DDP_H */
+diff --git a/net/Kconfig b/net/Kconfig
+index 4adc47d0c9c2..858987ee2c65 100644
+--- a/net/Kconfig
++++ b/net/Kconfig
+@@ -515,4 +515,24 @@ config NET_TEST
+ 
+ 	  If unsure, say N.
+ 
++config ULP_DDP
++	bool "ULP direct data placement offload"
++	help
++	  This feature provides a generic infrastructure for Direct
++	  Data Placement (DDP) offload for Upper Layer Protocols (ULP,
++	  such as NVMe-TCP).
++
++	  If the ULP and NIC driver supports it, the ULP code can
++	  request the NIC to place ULP response data directly
++	  into application memory, avoiding a costly copy.
++
++	  This infrastructure also allows for offloading the ULP data
++	  integrity checks (e.g. data digest) that would otherwise
++	  require another costly pass on the data we managed to avoid
++	  copying.
++
++	  For more information, see
++	  <file:Documentation/networking/ulp-ddp-offload.rst>.
++
++
+ endif   # if NET
+diff --git a/net/core/Makefile b/net/core/Makefile
+index 821aec06abf1..c135195005f5 100644
+--- a/net/core/Makefile
++++ b/net/core/Makefile
+@@ -18,6 +18,7 @@ obj-y		     += dev.o dev_addr_lists.o dst.o netevent.o \
+ obj-$(CONFIG_NETDEV_ADDR_LIST_TEST) += dev_addr_lists_test.o
+ 
+ obj-y += net-sysfs.o
++obj-$(CONFIG_ULP_DDP) += ulp_ddp.o
+ obj-$(CONFIG_PAGE_POOL) += page_pool.o page_pool_user.o
+ obj-$(CONFIG_PROC_FS) += net-procfs.o
+ obj-$(CONFIG_NET_PKTGEN) += pktgen.o
+diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+index 0d9a489e6ae1..c57a505bef4b 100644
+--- a/net/core/skbuff.c
++++ b/net/core/skbuff.c
+@@ -76,6 +76,7 @@
+ #include <net/mctp.h>
+ #include <net/page_pool/helpers.h>
+ #include <net/dropreason.h>
++#include <net/ulp_ddp.h>
+ 
+ #include <linux/uaccess.h>
+ #include <trace/events/skb.h>
+@@ -6762,7 +6763,7 @@ void skb_condense(struct sk_buff *skb)
+ {
+ 	if (skb->data_len) {
+ 		if (skb->data_len > skb->end - skb->tail ||
+-		    skb_cloned(skb))
++		    skb_cloned(skb) || skb_is_no_condense(skb))
+ 			return;
+ 
+ 		/* Nice, we can free page frag(s) right now */
+diff --git a/net/core/ulp_ddp.c b/net/core/ulp_ddp.c
+new file mode 100644
+index 000000000000..658e67620c0f
+--- /dev/null
++++ b/net/core/ulp_ddp.c
+@@ -0,0 +1,52 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ *
++ * ulp_ddp.c
++ *   Author:	Aurelien Aptel <aaptel@nvidia.com>
++ *   Copyright (c) 2023, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
++ */
++
++#include <net/ulp_ddp.h>
++
++int ulp_ddp_sk_add(struct net_device *netdev,
++		   struct sock *sk,
++		   struct ulp_ddp_config *config,
++		   const struct ulp_ddp_ulp_ops *ops)
++{
++	int ret;
++
++	/* put in ulp_ddp_sk_del() */
++	dev_hold(netdev);
++
++	config->io_cpu = sk->sk_incoming_cpu;
++	ret = netdev->netdev_ops->ulp_ddp_ops->sk_add(netdev, sk, config);
++	if (ret) {
++		dev_put(netdev);
++		return ret;
++	}
++
++	inet_csk(sk)->icsk_ulp_ddp_ops = ops;
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(ulp_ddp_sk_add);
++
++void ulp_ddp_sk_del(struct net_device *netdev,
++		    struct sock *sk)
++{
++	netdev->netdev_ops->ulp_ddp_ops->sk_del(netdev, sk);
++	inet_csk(sk)->icsk_ulp_ddp_ops = NULL;
++	dev_put(netdev);
++}
++EXPORT_SYMBOL_GPL(ulp_ddp_sk_del);
++
++bool ulp_ddp_is_cap_active(struct net_device *netdev, int cap_bit_nr)
++{
++	struct ulp_ddp_dev_caps caps;
++
++	if (!netdev->netdev_ops->ulp_ddp_ops->get_caps)
++		return false;
++	netdev->netdev_ops->ulp_ddp_ops->get_caps(netdev, &caps);
++	return test_bit(cap_bit_nr, caps.active);
++}
++EXPORT_SYMBOL_GPL(ulp_ddp_is_cap_active);
+diff --git a/net/ipv4/tcp_input.c b/net/ipv4/tcp_input.c
+index b1c4462a0798..ad2a1dd5af6e 100644
+--- a/net/ipv4/tcp_input.c
++++ b/net/ipv4/tcp_input.c
+@@ -4807,7 +4807,10 @@ static bool tcp_try_coalesce(struct sock *sk,
+ 	if (from->decrypted != to->decrypted)
+ 		return false;
+ #endif
+-
++#ifdef CONFIG_ULP_DDP
++	if (skb_is_ulp_crc(from) != skb_is_ulp_crc(to))
++		return false;
++#endif
+ 	if (!skb_try_coalesce(to, from, fragstolen, &delta))
+ 		return false;
+ 
+@@ -5377,6 +5380,10 @@ tcp_collapse(struct sock *sk, struct sk_buff_head *list, struct rb_root *root,
+ 		memcpy(nskb->cb, skb->cb, sizeof(skb->cb));
+ #ifdef CONFIG_TLS_DEVICE
+ 		nskb->decrypted = skb->decrypted;
++#endif
++#ifdef CONFIG_ULP_DDP
++		nskb->no_condense = skb->no_condense;
++		nskb->ulp_crc = skb->ulp_crc;
+ #endif
+ 		TCP_SKB_CB(nskb)->seq = TCP_SKB_CB(nskb)->end_seq = start;
+ 		if (list)
+@@ -5410,6 +5417,10 @@ tcp_collapse(struct sock *sk, struct sk_buff_head *list, struct rb_root *root,
+ #ifdef CONFIG_TLS_DEVICE
+ 				if (skb->decrypted != nskb->decrypted)
+ 					goto end;
++#endif
++#ifdef CONFIG_ULP_DDP
++				if (skb_is_ulp_crc(skb) != skb_is_ulp_crc(nskb))
++					goto end;
+ #endif
+ 			}
+ 		}
+diff --git a/net/ipv4/tcp_ipv4.c b/net/ipv4/tcp_ipv4.c
+index 0c50c5a32b84..cec2eb5b68f6 100644
+--- a/net/ipv4/tcp_ipv4.c
++++ b/net/ipv4/tcp_ipv4.c
+@@ -2048,6 +2048,9 @@ bool tcp_add_backlog(struct sock *sk, struct sk_buff *skb,
+ 	    tail->decrypted != skb->decrypted ||
+ #endif
+ 	    !mptcp_skb_can_collapse(tail, skb) ||
++#ifdef CONFIG_ULP_DDP
++	    skb_is_ulp_crc(tail) != skb_is_ulp_crc(skb) ||
++#endif
+ 	    thtail->doff != th->doff ||
+ 	    memcmp(thtail + 1, th + 1, hdrlen - sizeof(*th)))
+ 		goto no_coalesce;
+diff --git a/net/ipv4/tcp_offload.c b/net/ipv4/tcp_offload.c
+index 8311c38267b5..56705fbe6ce4 100644
+--- a/net/ipv4/tcp_offload.c
++++ b/net/ipv4/tcp_offload.c
+@@ -268,6 +268,9 @@ struct sk_buff *tcp_gro_receive(struct list_head *head, struct sk_buff *skb)
+ #ifdef CONFIG_TLS_DEVICE
+ 	flush |= p->decrypted ^ skb->decrypted;
+ #endif
++#ifdef CONFIG_ULP_DDP
++	flush |= skb_is_ulp_crc(p) ^ skb_is_ulp_crc(skb);
++#endif
+ 
+ 	if (flush || skb_gro_receive(p, skb)) {
+ 		mss = 1;
+-- 
+2.34.1
 
-
-Thanks,
---Nilay
 
