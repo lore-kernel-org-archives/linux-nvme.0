@@ -4,27 +4,27 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 680C2C47DD9
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Feb 2024 18:12:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC456C5478C
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Feb 2024 18:12:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1dZtXajpuKMdF1sDdjnE03FH/3FGPZJEuDV9A08Ydro=; b=W8O/HKS7RRcHOMs+TmGhNpyw+q
-	JFufI49JvwSuBK5hIX+CebH7C0RVj0jdybvdCAjCX4QcuST+WvH9DT4gA5EUyX2hjC8xtcCK7t9rB
-	srTYTJjOhYTN35Exa5o6i6xf3KpHc0qrWCqAIrHxHgjoMujUCz7n6U5bu6fpzCsVn+YOXUqAwQCxy
-	uiqIxmWsjKrG16OxZAj5wsJm6DphyGJGOholDY0E4/dJuL87KR3rc2g+v2FtXtWQr/GscqhCAzcac
-	rvKYAzP41fxgvTJ+vnmRbWU6e/vvRmkiTSQrNgase8TD4Tcjffd0Ej6pJTFtp+VcMsOJdvDodLIh1
-	27zgAp5g==;
+	bh=jJIG5/x6zL5P7G24W7g6yicPEwlqXXMnHroF2LLRUzA=; b=2XARFOiPpf0zNRGwHaTYXZVxqj
+	DVFdYFcrg2WGGQ874L646h65Ce7FAFhPcStinmdnT+u6Kfd1kcIgqfC0aIeURRkFkBT4sDHy0CbsP
+	OWfc+Iff2sN396pB3fySjRCPPTgHfsVESSBcMyxwI4bh/alBkb0e323WL4551uM0M40dqKS7W6jqX
+	aIgUIzelt+AVpLgfuXfdO43MRzcuOZz5Nvm6VsASlBZzBVHvjDVKzz6R1+ezbFWQWeFvLWOHL4Ufe
+	FNUX05mSt+7cbn+ORwZTlni1PMIWKlr5k4wyild4pa+7/6cqT+Dwkgy5tBjCG1hZ2aPhQNcd9X3+8
+	ScO9HzXw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rfOPt-0000000ARKd-3McK;
-	Wed, 28 Feb 2024 18:12:29 +0000
+	id 1rfOPv-0000000ARLu-1U7U;
+	Wed, 28 Feb 2024 18:12:31 +0000
 Received: from [4.28.11.157] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rfOPj-0000000ARDI-17cG;
+	id 1rfOPj-0000000ARDU-3GLl;
 	Wed, 28 Feb 2024 18:12:19 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Hector Martin <marcan@marcan.st>,
@@ -36,9 +36,9 @@ To: Hector Martin <marcan@marcan.st>,
 Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	asahi@lists.linux.dev,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH 04/21] nvme: move NVME_QUIRK_DEALLOCATE_ZEROES out of nvme_config_discard
-Date: Wed, 28 Feb 2024 10:11:58 -0800
-Message-Id: <20240228181215.873854-5-hch@lst.de>
+Subject: [PATCH 05/21] nvme: remove nvme_revalidate_zones
+Date: Wed, 28 Feb 2024 10:11:59 -0800
+Message-Id: <20240228181215.873854-6-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240228181215.873854-1-hch@lst.de>
 References: <20240228181215.873854-1-hch@lst.de>
@@ -58,44 +58,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Move the handling of the NVME_QUIRK_DEALLOCATE_ZEROES quirk out of
-nvme_config_discard so that it is combined with the normal write_zeroes
-limit handling.
+Handle setting the zone size / chunk_sectors and max_append_sectors
+limits together with the other ZNS limits, and just open code the
+call to blk_revalidate_zones in the current place.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/core.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ drivers/nvme/host/core.c |  2 +-
+ drivers/nvme/host/nvme.h |  1 -
+ drivers/nvme/host/zns.c  | 12 ++----------
+ 3 files changed, 3 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 74cd384ca5fc73..ee1e13a658c314 100644
+index ee1e13a658c314..4a05045e409904 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1816,9 +1816,6 @@ static void nvme_config_discard(struct nvme_ctrl *ctrl, struct gendisk *disk,
- 	else
- 		blk_queue_max_discard_segments(queue, NVME_DSM_MAX_RANGES);
- 	queue->limits.discard_granularity = queue_logical_block_size(queue);
+@@ -2154,7 +2154,7 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 	blk_mq_unfreeze_queue(ns->disk->queue);
+ 
+ 	if (blk_queue_is_zoned(ns->queue)) {
+-		ret = nvme_revalidate_zones(ns);
++		ret = blk_revalidate_disk_zones(ns->disk, NULL);
+ 		if (ret && !nvme_first_scan(ns->disk))
+ 			goto out;
+ 	}
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 4a484fc8a073c8..01e8bae7886584 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -1036,7 +1036,6 @@ static inline bool nvme_disk_is_ns_head(struct gendisk *disk)
+ }
+ #endif /* CONFIG_NVME_MULTIPATH */
+ 
+-int nvme_revalidate_zones(struct nvme_ns *ns);
+ int nvme_ns_report_zones(struct nvme_ns *ns, sector_t sector,
+ 		unsigned int nr_zones, report_zones_cb cb, void *data);
+ #ifdef CONFIG_BLK_DEV_ZONED
+diff --git a/drivers/nvme/host/zns.c b/drivers/nvme/host/zns.c
+index 499bbb0eee8d09..852261d7891362 100644
+--- a/drivers/nvme/host/zns.c
++++ b/drivers/nvme/host/zns.c
+@@ -7,16 +7,6 @@
+ #include <linux/vmalloc.h>
+ #include "nvme.h"
+ 
+-int nvme_revalidate_zones(struct nvme_ns *ns)
+-{
+-	struct request_queue *q = ns->queue;
 -
--	if (ctrl->quirks & NVME_QUIRK_DEALLOCATE_ZEROES)
--		blk_queue_max_write_zeroes_sectors(queue, UINT_MAX);
- }
- 
- static bool nvme_ns_ids_equal(struct nvme_ns_ids *a, struct nvme_ns_ids *b)
-@@ -2029,8 +2026,12 @@ static void nvme_update_disk_info(struct nvme_ctrl *ctrl, struct gendisk *disk,
- 	set_capacity_and_notify(disk, capacity);
- 
- 	nvme_config_discard(ctrl, disk, head);
--	blk_queue_max_write_zeroes_sectors(disk->queue,
--					   ctrl->max_zeroes_sectors);
-+
-+	if (ctrl->quirks & NVME_QUIRK_DEALLOCATE_ZEROES)
-+		blk_queue_max_write_zeroes_sectors(disk->queue, UINT_MAX);
-+	else
-+		blk_queue_max_write_zeroes_sectors(disk->queue,
-+				ctrl->max_zeroes_sectors);
- }
- 
- static bool nvme_ns_is_readonly(struct nvme_ns *ns, struct nvme_ns_info *info)
+-	blk_queue_chunk_sectors(q, ns->head->zsze);
+-	blk_queue_max_zone_append_sectors(q, ns->ctrl->max_zone_append);
+-
+-	return blk_revalidate_disk_zones(ns->disk, NULL);
+-}
+-
+ static int nvme_set_max_append(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_command c = { };
+@@ -113,6 +103,8 @@ int nvme_update_zone_info(struct nvme_ns *ns, unsigned lbaf)
+ 	blk_queue_flag_set(QUEUE_FLAG_ZONE_RESETALL, q);
+ 	disk_set_max_open_zones(ns->disk, le32_to_cpu(id->mor) + 1);
+ 	disk_set_max_active_zones(ns->disk, le32_to_cpu(id->mar) + 1);
++	blk_queue_chunk_sectors(ns->queue, ns->head->zsze);
++	blk_queue_max_zone_append_sectors(ns->queue, ns->ctrl->max_zone_append);
+ free_data:
+ 	kfree(id);
+ 	return status;
 -- 
 2.39.2
 
