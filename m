@@ -4,61 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BCBF6C54798
-	for <linux-nvme@archiver.kernel.org>; Tue, 27 Feb 2024 18:29:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0CECBC5478C
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Feb 2024 01:46:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kwq2Y80R0MTXyLkuo/lA99aUCVCPWrQAMq7jiLb7niA=; b=yNVv69pUPg9KV3waq5z+YOHG7W
-	xsMR5L847LMBIjQli9TkBjQ18ePoILNUnqu8Y4qA5vmcJqVzjx5P1qOpIj7txqK7hodPIcdNu4q5E
-	M91zmu7UeWFWaOAdNs8DJoWj/DhdvLuRwsD0eJVOWlYe4Wa3e5BZky5OAdxATzTzACZAwqk04bHVb
-	AUmWMpYeZcmhdnVyX0PoFSdSf6dfefcdoWmyPlHizINcspGkZPcZpRTf3s+sUIIdQXNA14wCkteZm
-	s/WLrLnFeYo65PtwTBHj1uj4bdwccvKAPQ4ZfJN4rUjC65E2JbyOoKus7w1NdaefLjplMDErJR982
-	wxFMu6fA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=hkcLQkbySrTdbjhxHQrPUETIcbjp7Rn1tSQdXwrRRyw=; b=UILgC8JBkgdmHMsr+13n/d3ir+
+	E6IXyVK7i/BW8NgYIeVchsgkdbE+trJT2H+HmRaqDzugfic45WRnJN2/vJymdhC7UvyvLtQPK+nZX
+	Fnfge+MxrK5Uw+CLZ2QimiK1GfA7iFsJYZ1omKVyeC3SG+SpSnqvMPAYY0Pat1YxPz0vCFI21XM98
+	yp5gsWGK+rV++fV7T0xESZIRgJuxw8qBScxzKSV6y0ZkEtBfn5eDFqkn+0kvLeIYXdhzyshORiRFr
+	Sk39yR8VFHcfpvLj5AhBZRxb4Xu3j7foEG6mzpVAMJNxnyE+x7POqcfmtkQ8VjB6t0Ek8Whi3iElt
+	ApMlm7UA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rf2Ch-00000006Roj-1T9Q;
-	Tue, 27 Feb 2024 18:29:23 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1rf91u-00000007b0A-3dtY;
+	Wed, 28 Feb 2024 01:46:42 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rf2Ce-00000006Ro5-28mH
+	id 1rf80F-00000007QOf-3M8x
+	for linux-nvme@bombadil.infradead.org;
+	Wed, 28 Feb 2024 00:40:55 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=hkcLQkbySrTdbjhxHQrPUETIcbjp7Rn1tSQdXwrRRyw=; b=LJhdp6+/vOiPmowtjg2EZllT+S
+	nPzP/+dn7aE2hj4f4jEv/T1Z2xXoDRykaEJjz/WfYSz8vzFvxNhrzUwoI6xnXvrswESkzztPFjZne
+	6M0rRX/EQV4JSU991p+rMAtgkqGdCkNapavjKy0PL0jFafCEmCecSUpWpGVJGv8FmEbidtwbVD6Q4
+	dtWoxBjpX9BsTKcPPokSMTqC5suIkhiTaWs8JvIhNrzIIS9QHPaC0tuiH3KyyHbOMBzbDAICEdqtW
+	HhnHFnr4guU5jcBfh5i0HxveQtVm8HWM0R23u3n0Ix9JUGAu8WdN99aqXyCf2taShVuiLYTu+Ok3y
+	MA3LXi4w==;
+Received: from mail-pg1-f169.google.com ([209.85.215.169])
+	by desiato.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rf80B-000000022fj-2Nz2
 	for linux-nvme@lists.infradead.org;
-	Tue, 27 Feb 2024 18:29:21 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id BC1AE61451;
-	Tue, 27 Feb 2024 18:29:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAC00C433C7;
-	Tue, 27 Feb 2024 18:29:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709058559;
-	bh=3XymNxDkFbhY5R7fE/z627+i0nNxZtlgL9dicFODkrw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rYLSD8obQjna/PAKYYmJFEHZXq6ST52AA7uANdkzub7wB1op0KcR3W+HP8Wp9VeEp
-	 JcIjL3mZIbMBec9zvJ5RbQXQidAz9gkgbZBfgOKmhS5514bb+QFzGEOr2X+G/UrzSy
-	 kW86NCGY6N5N8DjOt2NT+4vD2SXQLFKZz9eEmUL5xZxLcH9EDONg5ox40LhpoMV6Ji
-	 TD6NsV6aVgoTnonAM21lPPUU7nPuVGZlIfciH2jHBbQUcEeeo0Dikd85rQ5gt8vNCl
-	 +Kf+3liEJlv/r2Sl+nxc2L6mwPUKbiAQYiXEuXF5DB0oZGjOZLwF1w81ksg08UySVt
-	 I85zq1SrsvJYg==
-Date: Tue, 27 Feb 2024 11:29:16 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: axboe@fb.com, hch@lst.de, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	gjoyce@linux.ibm.com
-Subject: Re: [PATCH RESEND] nvme-pci: Fix EEH failure on ppc after subsystem
- reset
-Message-ID: <Zd4p_E8cPFpr1M--@kbusch-mbp>
-References: <20240209050342.406184-1-nilay@linux.ibm.com>
+	Wed, 28 Feb 2024 00:40:53 +0000
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-58962bf3f89so1699689a12.0
+        for <linux-nvme@lists.infradead.org>; Tue, 27 Feb 2024 16:40:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709080846; x=1709685646;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hkcLQkbySrTdbjhxHQrPUETIcbjp7Rn1tSQdXwrRRyw=;
+        b=vlvUnupk1AIvYIV7zgl/QxAUDu545gkLw4RRm4pP5QV6ybMPXznlewdACg6Rs/vI2p
+         +OqaXRzsNx3DMW5GqAs+S7JYfivU5GW+hRG4y1TwqJ1Nrr3If6SekVYRcd298JEeKsb7
+         QEmFDwqHWGGrpOAl8pfzu7Q3akO7a2LsnQsc0A2LPASgcXDeMWVvWmyOII3lO+DeqerX
+         2ToAeJBmYRYS+pxYFm2uhuqdJP2WuLLuu0J8fSx1u3WyUZX3rKG5O+pqcuC3e9qDUe2F
+         RkTafp2WG/sJAnU0prnNSG3Z/hOMoLYcbTok23LMf+7QXnaJ1PjxyheLi0RIroguUMtG
+         DgMQ==
+X-Gm-Message-State: AOJu0YwcpjGGFy+nWTfxNQqJlDUK1xbGjg//lrub5+OGL+SCEhjAb5dl
+	tiKZxkaiKGPS/C+zgFOTeH4EZrUuJCZ6yADMP1pCo/kTGN0RVkDw
+X-Google-Smtp-Source: AGHT+IG52ZPcuyxzp3rHlixzf4dPpVgcWYKGbWfEuG63x9S3JUJG0LEvHNP1aU1EVrvNho+zk+myCw==
+X-Received: by 2002:a05:6a20:1595:b0:1a1:3e2:dcc5 with SMTP id h21-20020a056a20159500b001a103e2dcc5mr6026155pzj.6.1709080845921;
+        Tue, 27 Feb 2024 16:40:45 -0800 (PST)
+Received: from [172.16.72.75] ([64.114.255.114])
+        by smtp.gmail.com with ESMTPSA id i2-20020a1709026ac200b001db66f3748fsm2102992plt.182.2024.02.27.16.40.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Feb 2024 16:40:45 -0800 (PST)
+Message-ID: <ee516418-d072-4506-acba-d02f22cc4476@grimberg.me>
+Date: Wed, 28 Feb 2024 02:40:44 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240209050342.406184-1-nilay@linux.ibm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/1] nvmet: support reservation feature
+To: Guixin Liu <kanie@linux.alibaba.com>, hch@lst.de, kch@nvidia.com
+Cc: linux-nvme@lists.infradead.org
+References: <20240201023207.112007-1-kanie@linux.alibaba.com>
+ <20240201023207.112007-2-kanie@linux.alibaba.com>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20240201023207.112007-2-kanie@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240227_102920_625087_49919F27 
-X-CRM114-Status: GOOD (  17.59  )
+X-CRM114-CacheID: sfid-20240228_004051_874511_8F9E1031 
+X-CRM114-Status: UNSURE (   8.03  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,32 +97,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Feb 09, 2024 at 10:32:16AM +0530, Nilay Shroff wrote:
-> If the nvme subsyetm reset causes the loss of communication to the nvme
-> adapter then EEH could potnetially recover the adapter. The detection of
-> comminication loss to the adapter only happens when the nvme driver
-> attempts to read an MMIO register.
-> 
-> The nvme subsystem reset command writes 0x4E564D65 to NSSR register and
-> schedule adapter reset.In the case nvme subsystem reset caused the loss
-> of communication to the nvme adapter then either IO timeout event or
-> adapter reset handler could detect it. If IO timeout even could detect
-> loss of communication then EEH handler is able to recover the
-> communication to the adapter. This change was implemented in 651438bb0af5
-> (nvme-pci: Fix EEH failure on ppc). However if the adapter communication
-> loss is detected in nvme reset work handler then EEH is unable to
-> successfully finish the adapter recovery.
-> 
-> This patch ensures that,
-> - nvme driver reset handler would observer pci channel was offline after
->   a failed MMIO read and avoids marking the controller state to DEAD and
->   thus gives a fair chance to EEH handler to recover the nvme adapter.
-> 
-> - if nvme controller is already in RESETTNG state and pci channel frozen
->   error is detected then  nvme driver pci-error-handler code sends the
->   correct error code (PCI_ERS_RESULT_NEED_RESET) back to the EEH handler
->   so that EEH handler could proceed with the pci slot reset.
+Hey Guixin,
 
-A subsystem reset takes the link down. I'm pretty sure the proper way to
-recover from it requires pcie hotplug support.
+On 01/02/2024 4:32, Guixin Liu wrote:
+> This patch implements the reservation feature, includes:
+> 1. reservation register(register, unregister and replace).
+> 2. reservation acquire(acquire, preempt, preempt and abort).
+
+
+Overall patchset looks in decent shape to me now.
+
+I do have one more question though.
+
+You say that this patchset implements preempt and abort, however I don't 
+see how this is actually implemented or even how can it be implemented 
+at all at this point.
+
 
