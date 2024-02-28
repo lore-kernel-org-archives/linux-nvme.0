@@ -4,56 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 98E37C5478C
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Feb 2024 02:24:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B425C5478C
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Feb 2024 02:31:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BoL5jmKtVR7u5l8CO4w0qoRdlvm3BVZvcZqSbJdyanw=; b=2+tTYMQMajCfd0nIZm0IfybtsQ
-	uAEHFPDygLbwOoXp3M5sJkpfvQOS+iuZVA6c5zb7qDCupf+FLIKHOk3TRv4ZFr3LUSA7OHFmNU53j
-	+0JgRXjPgRMqWGMxOZHyfT/8OccWN7rsj+n+eIehBjPqBKIKv6sFAorMQ/lgFHn76fx4xUYz8beBt
-	L8k3VT/Yk+U0ae1pFD2ONaNC6x81d5FjA+NUmtVtv7Ia8fXkW9g/CvtXMX+szNVr1ltx7T22GMVgp
-	qB2MAuUQ+8vot7Qvp9avGcN9ZVNWDPdGBG2OA+sFdHPqNX1Fe9uNt1+YqmQ/83CvGKh07UCv//mIm
-	eZf4dPtA==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=x425UDdGUcCTm66eoNkqKsvt1C4sqfGaUNSsnqHbMD4=; b=DCWVmLDlpauotOII48q6ZHudsG
+	kZS2E0Bke38i6viD0h21aMTacpzWCSXJq4Q8CWjf0+3KZBeFWAk+s3IRlOSmRrPMiZocICfGUrZjh
+	DPTdr15rEC8bUDDWifGXpYulAHlts+iGivUiO5z0gf2h/1yFcn6YVWEUTr5+aE0ukx1ks2502EWVj
+	oSHZTw2VW1vfqpAu9NMtAKKy6SjcLkzmyakmTUX4DHIOrvGeIqBURqzDYscHfU97nysN7fnQN0hwj
+	g2974JqALVFJLlmn5yekDIaR8Rbt9Lg/LGYnvwxFNhC+ckNktGGPVuMrpXhvbovDfOGaFuWILaWc/
+	+tyfk9hQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rf9cP-00000007hkr-0yx9;
-	Wed, 28 Feb 2024 02:24:25 +0000
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131])
+	id 1rf9jH-00000007iXQ-0feA;
+	Wed, 28 Feb 2024 02:31:31 +0000
+Received: from out30-101.freemail.mail.aliyun.com ([115.124.30.101])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rf9cN-00000007hjq-161q
+	id 1rf9jE-00000007iW9-1XhY
 	for linux-nvme@lists.infradead.org;
-	Wed, 28 Feb 2024 02:24:24 +0000
+	Wed, 28 Feb 2024 02:31:30 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1709087060; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=BoL5jmKtVR7u5l8CO4w0qoRdlvm3BVZvcZqSbJdyanw=;
-	b=TgN8yyiz4PkOygxhgTQUIdw6/upiSk7HyuVvzmkNr1t+YwWPgE913X3KssbY1qtIY4UckNNZtp2jwk5n8Ujj3RyRkInrEUM0DVbV0A8QtvI3aYH59eSShaNu6WnjAWgTPyh6DzreL7EzoBr2hb+t5DDF985KZDjU+uxC7hhnnuc=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046056;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0W1O7y5C_1709087005;
-Received: from 30.178.83.72(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W1O7y5C_1709087005)
+	t=1709087485; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=x425UDdGUcCTm66eoNkqKsvt1C4sqfGaUNSsnqHbMD4=;
+	b=pB0Dn7kNhyX0dXW/7Ft/0IFcBHmlePOBoW1HDCosiGULL/eFgbnuoABjP0QJ64EPXyBqneI/433RcG73cWPm5EO+mNxK+3JzHN7isyjaAoUucCNh2qqeeVqPJSb7cwqFnBIBPpPShpYNI55dBVmcrVTyWPlYil1EJoIXVwguG+8=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045176;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0W1OJ2pi_1709087478;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W1OJ2pi_1709087478)
           by smtp.aliyun-inc.com;
-          Wed, 28 Feb 2024 10:24:19 +0800
-Message-ID: <da0ef60e-88b4-4856-a5a5-787aa0e30d5f@linux.alibaba.com>
-Date: Wed, 28 Feb 2024 10:24:19 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] nvmet: add some commands tracing
-Content-Language: en-GB
-To: Keith Busch <kbusch@kernel.org>
-Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
- linux-nvme@lists.infradead.org
-References: <20240227085408.130161-1-kanie@linux.alibaba.com>
- <Zd4P4xru8zcFUlBb@kbusch-mbp>
+          Wed, 28 Feb 2024 10:31:24 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <Zd4P4xru8zcFUlBb@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: hch@lst.de,
+	sagi@grimberg.me,
+	kch@nvidia.com
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH v2 0/2] nvmet: add some commands tracing
+Date: Wed, 28 Feb 2024 10:31:16 +0800
+Message-ID: <20240228023118.84959-1-kanie@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240227_182423_466342_25F2F97B 
-X-CRM114-Status: UNSURE (   8.43  )
+X-CRM114-CacheID: sfid-20240227_183128_814274_8E1CC456 
+X-CRM114-Status: UNSURE (   7.05  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -69,20 +65,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi all,
+	This series of patches adds tracing support for ZNS commands and
+authentication commands to the NVMe target module.
 
-在 2024/2/28 00:37, Keith Busch 写道:
-> On Tue, Feb 27, 2024 at 04:54:05PM +0800, Guixin Liu wrote:
->> Hi all,
->> 	This series of patches adds tracing support for ZNS commands and
->> authentication commands to the NVMe target module, as well as updates the
->> tracing of DSM commands to be more readable.
-> Patches 2 and 3 seem fine. I don't care for patch 1 since that makes it
-> impossible to see if anyone is sending unusual attributes.
+Changes from v1 to v2:
+- Remove patch 1, "nvmet: parse dsm command's attr deallocate when tracing".
 
-The patch 1 will be removed in v2.
+Guixin Liu (2):
+  nvmet: add tracing of zns commands
+  nvmet: add tracing of authentication commands
 
-Best Regards,
+ drivers/nvme/target/trace.c | 66 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 66 insertions(+)
 
-Guixin Liu
+-- 
+2.43.0
 
 
