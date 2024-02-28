@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1100AC5478C
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Feb 2024 18:12:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31F9DC5478C
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Feb 2024 18:12:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=s+ZDBtM70flLl3jdqad9hc3RHistL9TiWhNzGy9uyPY=; b=GHMMFRlyIrAnykJy07V+nmnN1Z
-	C7DZxsbtLq87wzw3el6SFgO3yKhLkhVvEVK4W67I88eEzjOhyoqNlPkIY3aF91Z6mUt8PKzvX+SFm
-	bu/N5ORVM4ClWhNsRBMvkttP7QmGH2DEhv8afvU+D7567uVRsxAb5F3eDpn5PDSC3CduVYn56cAZ0
-	Qxbw0QR9IN7KQQy5LVmUb6ddNMWatYxIrpOnwIBIC6uZHiBUO70KezOkmN4G9y0/ZrlrFzZIafFSb
-	Z7SjUqZpVa3edP/fMYAb6kG6wO+Y1DkJoWTAFiGc9C4hS/AR2qPMR9KQMoOM/UnQJDeehU7jUNbRq
-	j9hHtOnw==;
+	bh=g1hf0PV9tDActAZ78IxZXAhJOYzxZnd6FmjGsbrzvYk=; b=S24kzDXp4Q6OVG4YQFtS5AZY9U
+	GfHwRqVpqNsTD2vXWT1YES6VQKIxDUSugCiFMOT+CIfU79aqCJRSCH2CXDGrj1wZ1u3FglBP/t9oc
+	uCnu2UVHO4j0mWUBcoD6ITtpsr9Y+lpSuG9O3XmARSEBvmK9MWnEmD1m7jV0qvtIvCoPH0JofPPbK
+	fqF/gnVd4RFhE4pB5xl6UXvCD6aetqrXmMv6HHiGq1KIle7sgbyIOfijQtEcr+AZbNQZjzNWg4c6R
+	1w0U7TCEFzz5S9X3zspEXLpxF/WR7+TMJGXYCuFeGr2TaQmSnRx3J+nIMBc+cYOitXZGfgNSwfjeP
+	A5aLGDEw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rfOQC-0000000ARXa-1XGo;
-	Wed, 28 Feb 2024 18:12:48 +0000
+	id 1rfOQE-0000000ARYq-215l;
+	Wed, 28 Feb 2024 18:12:50 +0000
 Received: from [4.28.11.157] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rfOPl-0000000AREj-1oJR;
-	Wed, 28 Feb 2024 18:12:21 +0000
+	id 1rfOPm-0000000ARFq-0839;
+	Wed, 28 Feb 2024 18:12:22 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
@@ -36,9 +36,9 @@ To: Hector Martin <marcan@marcan.st>,
 Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	asahi@lists.linux.dev,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH 10/21] nvme: move a few things out of nvme_update_disk_info
-Date: Wed, 28 Feb 2024 10:12:04 -0800
-Message-Id: <20240228181215.873854-11-hch@lst.de>
+Subject: [PATCH 11/21] nvme: move setting the write cache flags out of nvme_set_queue_limits
+Date: Wed, 28 Feb 2024 10:12:05 -0800
+Message-Id: <20240228181215.873854-12-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240228181215.873854-1-hch@lst.de>
 References: <20240228181215.873854-1-hch@lst.de>
@@ -58,122 +58,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Move setting up the integrity profile and setting the disk capacity out
-of nvme_update_disk_info to get nvme_update_disk_info into a shape where
-it just sets queue_limits eventually.
+nvme_set_queue_limits is used on the admin queue and all gendisks
+including hidden ones that don't support block I/O.  The write cache
+setting on the other hand only makes sense for block I/O.  Move the
+blk_queue_write_cache call to nvme_update_ns_info_block instead.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/core.c | 46 +++++++++++++++++++++++-----------------
- 1 file changed, 26 insertions(+), 20 deletions(-)
+ drivers/nvme/host/core.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 0bf30580f29d5b..3d839945edd85d 100644
+index 3d839945edd85d..dcb8d0590ed0f3 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1965,12 +1965,13 @@ static void nvme_set_queue_limits(struct nvme_ctrl *ctrl,
- 	blk_queue_write_cache(q, vwc, vwc);
- }
- 
--static void nvme_update_disk_info(struct nvme_ctrl *ctrl, struct gendisk *disk,
--		struct nvme_ns_head *head, struct nvme_id_ns *id)
-+static bool nvme_update_disk_info(struct nvme_ns *ns, struct nvme_id_ns *id)
+@@ -1954,15 +1954,12 @@ static u32 nvme_max_drv_segments(struct nvme_ctrl *ctrl)
+ static void nvme_set_queue_limits(struct nvme_ctrl *ctrl,
+ 		struct request_queue *q)
  {
--	sector_t capacity = nvme_lba_to_sect(head, le64_to_cpu(id->nsze));
-+	struct gendisk *disk = ns->disk;
-+	struct nvme_ns_head *head = ns->head;
- 	u32 bs = 1U << head->lba_shift;
- 	u32 atomic_bs, phys_bs, io_opt = 0;
-+	bool valid = true;
- 
- 	/*
- 	 * The block layer can't support LBA sizes larger than the page size
-@@ -1978,8 +1979,8 @@ static void nvme_update_disk_info(struct nvme_ctrl *ctrl, struct gendisk *disk,
- 	 * allow block I/O.
- 	 */
- 	if (head->lba_shift > PAGE_SHIFT || head->lba_shift < SECTOR_SHIFT) {
--		capacity = 0;
- 		bs = (1 << 9);
-+		valid = false;
- 	}
- 
- 	atomic_bs = phys_bs = bs;
-@@ -1992,7 +1993,7 @@ static void nvme_update_disk_info(struct nvme_ctrl *ctrl, struct gendisk *disk,
- 		if (id->nsfeat & NVME_NS_FEAT_ATOMICS && id->nawupf)
- 			atomic_bs = (1 + le16_to_cpu(id->nawupf)) * bs;
- 		else
--			atomic_bs = (1 + ctrl->subsys->awupf) * bs;
-+			atomic_bs = (1 + ns->ctrl->subsys->awupf) * bs;
- 	}
- 
- 	if (id->nsfeat & NVME_NS_FEAT_IO_OPT) {
-@@ -2012,24 +2013,14 @@ static void nvme_update_disk_info(struct nvme_ctrl *ctrl, struct gendisk *disk,
- 	blk_queue_io_min(disk->queue, phys_bs);
- 	blk_queue_io_opt(disk->queue, io_opt);
- 
--	/*
--	 * Register a metadata profile for PI, or the plain non-integrity NVMe
--	 * metadata masquerading as Type 0 if supported, otherwise reject block
--	 * I/O to namespaces with metadata except when the namespace supports
--	 * PI, as it can strip/insert in that case.
--	 */
--	if (!nvme_init_integrity(disk, head))
--		capacity = 0;
+-	bool vwc = ctrl->vwc & NVME_CTRL_VWC_PRESENT;
 -
--	set_capacity_and_notify(disk, capacity);
--
--	nvme_config_discard(ctrl, disk, head);
-+	nvme_config_discard(ns->ctrl, disk, head);
- 
--	if (ctrl->quirks & NVME_QUIRK_DEALLOCATE_ZEROES)
-+	if (ns->ctrl->quirks & NVME_QUIRK_DEALLOCATE_ZEROES)
- 		blk_queue_max_write_zeroes_sectors(disk->queue, UINT_MAX);
- 	else
- 		blk_queue_max_write_zeroes_sectors(disk->queue,
--				ctrl->max_zeroes_sectors);
-+				ns->ctrl->max_zeroes_sectors);
-+	return valid;
+ 	blk_queue_max_hw_sectors(q, ctrl->max_hw_sectors);
+ 	blk_queue_max_segments(q, min_t(u32, USHRT_MAX,
+ 		min_not_zero(nvme_max_drv_segments(ctrl), ctrl->max_segments)));
+ 	blk_queue_max_integrity_segments(q, ctrl->max_integrity_segments);
+ 	blk_queue_virt_boundary(q, NVME_CTRL_PAGE_SIZE - 1);
+ 	blk_queue_dma_alignment(q, 3);
+-	blk_queue_write_cache(q, vwc, vwc);
  }
  
- static bool nvme_ns_is_readonly(struct nvme_ns *ns, struct nvme_ns_info *info)
-@@ -2103,6 +2094,7 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ static bool nvme_update_disk_info(struct nvme_ns *ns, struct nvme_id_ns *id)
+@@ -2093,6 +2090,7 @@ static int nvme_update_ns_info_generic(struct nvme_ns *ns,
+ static int nvme_update_ns_info_block(struct nvme_ns *ns,
  		struct nvme_ns_info *info)
  {
++	bool vwc = ns->ctrl->vwc & NVME_CTRL_VWC_PRESENT;
  	struct nvme_id_ns *id;
-+	sector_t capacity;
+ 	sector_t capacity;
  	unsigned lbaf;
- 	int ret;
+@@ -2154,6 +2152,7 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 	if ((id->dlfeat & 0x7) == 0x1 && (id->dlfeat & (1 << 3)))
+ 		ns->head->features |= NVME_NS_DEAC;
+ 	set_disk_ro(ns->disk, nvme_ns_is_readonly(ns, info));
++	blk_queue_write_cache(ns->disk->queue, vwc, vwc);
+ 	set_bit(NVME_NS_READY, &ns->flags);
+ 	blk_mq_unfreeze_queue(ns->disk->queue);
  
-@@ -2121,6 +2113,8 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
- 	lbaf = nvme_lbaf_index(id->flbas);
- 	ns->head->lba_shift = id->lbaf[lbaf].ds;
- 	ns->head->nuse = le64_to_cpu(id->nuse);
-+	capacity = nvme_lba_to_sect(ns->head, le64_to_cpu(id->nsze));
-+
- 	nvme_set_queue_limits(ns->ctrl, ns->queue);
- 
- 	ret = nvme_configure_metadata(ns->ctrl, ns->head, id);
-@@ -2129,7 +2123,19 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
- 		goto out;
- 	}
- 	nvme_set_chunk_sectors(ns, id);
--	nvme_update_disk_info(ns->ctrl, ns->disk, ns->head, id);
-+	if (!nvme_update_disk_info(ns, id))
-+		capacity = 0;
-+
-+	/*
-+	 * Register a metadata profile for PI, or the plain non-integrity NVMe
-+	 * metadata masquerading as Type 0 if supported, otherwise reject block
-+	 * I/O to namespaces with metadata except when the namespace supports
-+	 * PI, as it can strip/insert in that case.
-+	 */
-+	if (!nvme_init_integrity(ns->disk, ns->head))
-+		capacity = 0;
-+
-+	set_capacity_and_notify(ns->disk, capacity);
- 
- 	if (ns->head->ids.csi == NVME_CSI_ZNS) {
- 		ret = nvme_update_zone_info(ns, lbaf);
 -- 
 2.39.2
 
