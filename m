@@ -4,60 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19163C48BF6
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Feb 2024 10:48:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 09CECC54E41
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Feb 2024 10:59:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
 	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
 	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xmOFprUJuU+BX9AHpd2WQveZSGRRS/bNk3pYU6iMHUk=; b=I6SzoQsAt8xnjkCDVi3sjKkVCP
-	m5ObdeE0iD951nvkgYM1EIxacpjTRY3dyMKSoLO6rnB2uqeIC/+TkuVOHJZUeWgocwObSlsb2EXHT
-	JvaaoEYYMOnSn7Cm9S22pfLgglxAHPkvqMVeETCcXafYu0riRHJh8Zi3fYpv9nsFdaj+c99gxnmkD
-	ake0SiQWibsWNsL+8FlWV3EuXrHOfMwLYfwMDQixYCCqWmkZlr3eZgtFB1QQUxVikQCAZghXPWkIT
-	vlu/c4AYa6Ih7hRAh8h5Wf7rBkTi5JWbCZeSRsmFiwshjrpos9q5TDlaHLU7jy7COpB+0iqtSViW8
-	7dc5c0Fw==;
+	bh=/rV/Hfn4TP2PkoyfbPVeiGJ+rnyl+mZfoVJlkJoDOOE=; b=zpNDOWNRbSLWCb2ZQrRhlpEdAZ
+	EAJ4fvQCJXE/Fu/DGgUTQEdYfxW9/F0YctRoLQ/oc3JurWkfU9FjB/JGn9zHrNHjQvli4qvVDrnpf
+	gp6fwx9qRThuZacyYOTI6mXqy2j4KGF+/LkKT5oyHIHRW7HQXuxBguQ/9QrDaZxHW6MEtUV55xnDL
+	U9JH/iMpnuTlKkQTJgzhJdgpiqxVmHXH4ap7h/ytyDY2TPxWqWwoCkggXDB+Z7BiN4Yr32PeKK6Yy
+	9LcQBzP0aEvgzAlWgsUABqrKY84f3oRu3BGzeGIFEyIq+P1kclnNMDVMIjY8XBYWuK2Xnp8xGJJI+
+	YhtcoFmA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rfdy6-0000000DE5l-1pKl;
-	Thu, 29 Feb 2024 10:48:50 +0000
-Received: from mail-bn8nam11on20601.outbound.protection.outlook.com ([2a01:111:f403:2414::601] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+	id 1rfe7t-0000000DGMP-42QH;
+	Thu, 29 Feb 2024 10:58:57 +0000
+Received: from mail-dm6nam04on20601.outbound.protection.outlook.com ([2a01:111:f403:2409::601] helo=NAM04-DM6-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rfdy3-0000000DE5J-1tmS
+	id 1rfe7r-0000000DGL6-0Xjy
 	for linux-nvme@lists.infradead.org;
-	Thu, 29 Feb 2024 10:48:48 +0000
+	Thu, 29 Feb 2024 10:58:56 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MflH3XgoGtVghsbUn4liwxGb01bANvHJvx244F61s/iLlLn1gBtwqasglNjQgoAVXUaEKwlU+lKNMdOPm7dDAVUHFedBdEAx4rUizNhNY+K++xIyl9xwnmgpZS+iOP6VZEr7STBH1EARKeNvRDx7s380AYtsHXyIsJtwLjGpodXKQGckqZ82OMq1fKsCSvHSRvfkCIRa2Cwpp9pdStxq67ikcqyncWk8Bug+PdUU4rR34wIsAzYtfhYHRi72KnKDiYVfVBKo8xJ2aPMjTY0534wkH2SU7t+A61cVtQQwQ80cVxnC6shLfF1bo3HJ5XvfXk8ojY87dhF+ZIhTIGMO8w==
+ b=if2L4Lw+XKV3B2NUvfArKO7XAyWSYwHHcoF21VoEicoeKn1AQWCppAPfZW7FAZWiE7qNaonF8IYw7sOB6bF9o3Lh+CXfHz7fJY1L1x/3t98EK10OA8eURbfNhvZjl8k4+sLpdgrW7B21aDgAjjGHuopWfv5GoWqVsjXVRdh0KqaCQfnmr1nkhHEiw3Wu3MYvkMIbvaXC7dOVmXOhe9JUC16whppuABydo5VB0/4BbgKHRnhgXg28ARXBRWrLz5GS4r+6yszt8/QX+lqn2i8fzVUs7CxwQVyEnvTC04hxq1XHmseJC2mzFBQ69vu/d0EHUlFgctIrDdXNJrhY1oSMEw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xmOFprUJuU+BX9AHpd2WQveZSGRRS/bNk3pYU6iMHUk=;
- b=KtnmHp61osgb+IQgGB29kBCalpoDoDPubXms5tbc45Iy7Odikt4YR1s7qBR6ow6sClJ+bfZbU5AuZgjowxfNV5kwEsZKdWOFc36UUY8He9r/w9nSWMn+NM0Z/E2zMDvkLH/DuvXnJznoHZUCy/LR8oZXUexGePBbq3xpG9Dc5CzQ5ShQwBkBQdZMfgMXdDPQt1yfkbvxZv5qVlkTgsy/kvD+JR+/Or2ygWmYpA7zKFEq0WlcYW5MINjkTadanlk6Rv11ouFSuXzkh500zPVI787GAE/lmuQBsVXVT8zCRsFPRw7Hb/vERu0N/bRt1DjvnCcGXNqLuuqedAnW7ZMzXA==
+ bh=/rV/Hfn4TP2PkoyfbPVeiGJ+rnyl+mZfoVJlkJoDOOE=;
+ b=ge4MU4J7ke9y59cyFTmREt81ByYqZpI8nOqbacvwCli45Pry8ktr4aLz1zjIQsz+f/oIyWpbf497marGrj4cahHgePys6qISoqbQ64xv/h+fRlofiE0/BArFuugZw1Rut+ovurDCgBPDVBpkhS+XSD7EERNrZb9iSh853WcG8c+hGbxbAPhiOPEDkMgtO7OQljGWYK/Ras3XpQiW96M9hlx1rUcjeT5ZdFnihhjSk1m4x9kEKZ+sRDdYVUKq51vYQX2lApp90nEh3AKgwkd4XoMmqPhq4BqlYimkFG131tNB8VBikfTmy1Eb0vAlB7zzYsYzbyHn59XVCFPrnYwiSg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xmOFprUJuU+BX9AHpd2WQveZSGRRS/bNk3pYU6iMHUk=;
- b=IRKKaCVf5oSDHZi4EmD8ceKiRLa/SiBLykOk50rS4EJoZITAuKtJtG5kapsoa331wkRo+D6q0od8nlD9dlvTW5DX/7JpIcp3wPUj3TQL5jLxGhR3fkFwTawTod0491UG1ersO7yEKgZtnH7n/OKEoBLvL10fOVruzwZ12wMILyXCYQ3DOIkspEPr/b37TJxe9xMbUf5PciGSshNZdJh9x/IvAv3WqHVI7ZSYlwgCXYdeTqFWIyHyhMSMZDvZpRePWsbdy/xrHEHvSSU6xYdDs4uQvPesw9QwcPiHqQoNXhrTCunVZgucbEnJyb9gKCuNr7ThhzJM++G37FqgyE2kCQ==
+ bh=/rV/Hfn4TP2PkoyfbPVeiGJ+rnyl+mZfoVJlkJoDOOE=;
+ b=khpj4MD8s3DVhldtIHvtq6wrWFx59qq6x0eIuvD33NjhfkXolm/kRc8fz9hWafNsqMJ0XYUQYrIPgNc8yhTClsQ/mbgOBX050EebZR5bppqVj27hQDbv4H4PBV8oc/bpzytI5kB/O5Ev/85M5W3Q5b7W4fBdJOTWtVT15N5yExfXZO6rEVFetEI9HkYiYfptBrQwQ3jqTBeQZEH+zYNGCGFjWNhpO/3N1l4Leg7lZqPpzPlfusafI3l9dNqGoHB+wTJHxqnpkMeBSGmMWJqwHR8VNXfbG0PWxJd4zrUx4Vj8EZV+kTLN0i4bzuEEVM+wABga0s82mAD5u9HY7U7Qkg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
- by SJ0PR12MB6805.namprd12.prod.outlook.com (2603:10b6:a03:44f::5) with
+ by MW5PR12MB5649.namprd12.prod.outlook.com (2603:10b6:303:19d::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.39; Thu, 29 Feb
- 2024 10:48:41 +0000
+ 2024 10:58:49 +0000
 Received: from DM4PR12MB5040.namprd12.prod.outlook.com
  ([fe80::50af:9438:576b:51a1]) by DM4PR12MB5040.namprd12.prod.outlook.com
  ([fe80::50af:9438:576b:51a1%3]) with mapi id 15.20.7316.039; Thu, 29 Feb 2024
- 10:48:41 +0000
-Message-ID: <70dd2ff7-6ef3-490b-be43-b2fff5d6cf3b@nvidia.com>
-Date: Thu, 29 Feb 2024 12:48:34 +0200
+ 10:58:49 +0000
+Message-ID: <97703d0e-9fd6-49f5-bbbf-4ee50cc8cb46@nvidia.com>
+Date: Thu, 29 Feb 2024 12:58:41 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/21] nvme: move NVME_QUIRK_DEALLOCATE_ZEROES out of
- nvme_config_discard
+Subject: Re: [PATCH 06/21] nvme: move max_integrity_segments handling out of
+ nvme_init_integrity
 Content-Language: en-US
 To: Christoph Hellwig <hch@lst.de>, Hector Martin <marcan@marcan.st>,
  Sven Peter <sven@svenpeter.dev>, Keith Busch <kbusch@kernel.org>,
@@ -66,75 +66,75 @@ To: Christoph Hellwig <hch@lst.de>, Hector Martin <marcan@marcan.st>,
 Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
  linux-nvme@lists.infradead.org
 References: <20240228181215.873854-1-hch@lst.de>
- <20240228181215.873854-5-hch@lst.de>
+ <20240228181215.873854-7-hch@lst.de>
 From: Max Gurtovoy <mgurtovoy@nvidia.com>
-In-Reply-To: <20240228181215.873854-5-hch@lst.de>
+In-Reply-To: <20240228181215.873854-7-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0320.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:197::19) To DM4PR12MB5040.namprd12.prod.outlook.com
+X-ClientProxiedBy: FR4P281CA0230.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:e9::20) To DM4PR12MB5040.namprd12.prod.outlook.com
  (2603:10b6:5:38b::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5040:EE_|SJ0PR12MB6805:EE_
-X-MS-Office365-Filtering-Correlation-Id: a44c040c-a451-4c97-3e88-08dc3913fdfa
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5040:EE_|MW5PR12MB5649:EE_
+X-MS-Office365-Filtering-Correlation-Id: 26075e2e-f99d-44e6-c14f-08dc39156855
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7BIsTWR4XDhzKYkD3alWnjIOvp+aqZ/6CaUXc28TgP5r2I40Up2eQM+A0oeHgyXD5iVfYiJvgYU++aainaJtoqFBh/3ZMLn4e8Gu1cXSv0uayhegfLSY9Lr/hKlYH+EY4JqhkHdwFfRsPPiGaIUlhg/APQzrLmK2vK4zquKRkehDMRZKbIDmj3Pnhk3biv6rIgESg+pV+9G/iF0H7RSJipPhs71oejcZG86v24NEIPy/vdgl322gEuabZB1lfrUYPDEIbGtQNmRYXKk2FKoD5rH0C7DMeZ7dZt9uDVdo2tYFM+IUjyJAOLzBtLn9K9RQCi4OfZ9DhG8TToH6w2LjejAbm7YvyRp6PQwXoLXjfTIghJiOMISPyIfrsO9DBJRQwMUzas2z4b8T4IdyHF+ZLum/8ybM1DdNiUKoYN6rqvB0kTphvPLY4zbnyWGQFugUvhrGfCKG/4/tZttCrIq7f+5xS9f6S2obLwhzES6q6+B/hDHUJIRJPlA5VIfGy5+ZBgFlk3xv9g10qWZL7Qmj41nmrPhDlD5Mm6sgDDzXDilVOw8yVc5jrMImZHzKBaKEkus3uSmzL9nPAIAX6My/1FMMzvapvvGq2bXLYxVuwkr30eeTey9z8albgpXHTXWot58GRLwyf+5c+q/k/yG9Ig==
+X-Microsoft-Antispam-Message-Info: siFR0TGQkG3rtqsCZSYK6hw8CxX9vAp4VzButcDraqIn0gfGdlsJGfx+0wVshgjhBUGkZMotucWpYO8abKL6oThiMT3hLDLxOOZQQ92DgDGoDa3iGlr66SQAuWvJ7O+yCrm8r1Aw5XwbQLkySXEqlQbNqvwyN8qy6bZOreakDZ/AKwzy9tf4Wj6r9/PLq2aDSLWrQofSG/xX8CyMoUmA4nLxDqGcF2/5L6F6Wo+vVAnls94QAfAqqZ70W5g9qhEY5MrwhRJH94FfzBe2E98o1If0VVzcffPwPyVW9F8x0XpyJn194zrvTDrpgjblYQsDGhF9VHfG4QGu01iBENKKin1IrBca46QFCoxV6cU0TsOhLD/uCCz0NAZy0j4WT/SVM/KQvuQmMZWG9ZqckBONskTbetBnR6bfTW6iFbXbOIafp76UpYHZUS+WGbWDzDXvAICwIoI4HXnK7HeIZt8cemxZC/RXTfrpaHB/svcsaz5HOcpEPHlCJ1dA6uGe5BKkfD5+D2sxm3l1zvFjZbS8/s91JxcNp87d4OL1xCnLaRoQorVs13UJqDKnwOa7lRUrHyy1O/aGg+bcbquw8z9fWuziyp0u2tsXj68bsw6LqF21+1HW97IhTcynKUxu21zivsBpW8e0Sc8+cHkOQG5AOQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Nzk4ci93akdzcGsxWndGeGZaRDBrNHUxZ1BXdkpEQUJZOFMraHg2OEI3Q2Qw?=
- =?utf-8?B?Y3lHdUJXcEJoMy9mcWFyeHM5WlB5eU9rQnQzUmpreVE3RWdlKzJoQ3lrL0lv?=
- =?utf-8?B?WFkwSHQ5bWhPNkdtYmJNVVMwQXhSRGJZMHh4QUxTaUcyb0RPNzlzR2Fkcmlt?=
- =?utf-8?B?ei95Ni9acjlLeXhpM2h6T0ZtNS96YlZqVmRCVVluZXp5Rm8vNS9sbGQvbGN1?=
- =?utf-8?B?TU5DUVBuZUc0QW9vQlJKTzhJektzZ3NxZXZ4WE5pUnZ1OCsyNXpOTjJrQTdR?=
- =?utf-8?B?Ukx2N2g1Y0x0V2xsZXB3N3VQaTI3cE9ONUQrWXMvK3hyR3lTK2VqRk9ocGt6?=
- =?utf-8?B?L00vbjl6YmxyRmRTNHozbnZJcTZVK2V1Qm1rRDJOckpIUWJjL2FtUWR2WlZz?=
- =?utf-8?B?N1krUWFJNnlybUdoMlZIZkxwck1qNnZWRFZ6THIyb05CNys5VTE1Qlp4Z3Fk?=
- =?utf-8?B?R1ltUGJmdHZTb1JFTTdZR2J5L1FjTTdpZGVLaWhmOS9QZ1R0ZW1vVCtmQUtt?=
- =?utf-8?B?b0pCbWI2aEQ2dGJoRlAxV0xqamVqTWplWmt6NUJ3SHZMaWZLbi9CT2sydWkx?=
- =?utf-8?B?NXg0eUxZSThFT2ZaUzdmUWI1NDJvOXprUGowcHgzWTdyRDBMUWxYem03cGxp?=
- =?utf-8?B?TzIzV3Bad3JUNkJQbUZmKzZLb0hwQndXRzc1eGNSbFRHMEhZUmhoZjZNRWEr?=
- =?utf-8?B?akNvazRzUWZCR2JpRURKUG9xWlBidDU2OXRxYkRVYksvazZqeElnK0FKdWx1?=
- =?utf-8?B?TURDVjhiSm1LUFpVK2RaclRLV3RLT1VaeUxFYVI0QWlFbC9neHdNT3FMR2pn?=
- =?utf-8?B?bTNuaGFpRTBtTmZMbFhrdEI0dmRaRXl6MWNvUTV4eDdpOUtXdVJ4czduSmps?=
- =?utf-8?B?Rjh2QTJ0T0lGL0NOWUp2bWVXVnh5dGZKcnp4OXZLS3kzZ0RxWGNMZ3dqU1g0?=
- =?utf-8?B?a1RhK0lvdExvYlhFZXlEYmk0QUtvaDJwN21UWGU3ZHhBQjZiSXo4Ym5YU0hu?=
- =?utf-8?B?UCtQY3U5MTJ3Nm5vTzF2UU1pb2pYaTFLL1M4UEQ4SDkwV0NrdkY5WHIxMGFa?=
- =?utf-8?B?WVZrM3dPK1plK3VvcVcyY2xWd2wyTEVldGovNnI4VmY2c1I3MDRVcFhwVVph?=
- =?utf-8?B?K0gxMTBBQjltdTRSWGhCSmxaY2p5NE1XSUlDU1VMelAxdUlXTnZMRms5Rmpk?=
- =?utf-8?B?NlhEclhsRGs5NTJjb1VaV0hzUmhXWFM1YVFMK2pHazk0YlVabVEzWHk5N3Yz?=
- =?utf-8?B?Y0NqWm5nUzE4bXZvNkxQR21ING1uMXJ1czRRMkt4RG91QjJBVmU2dXNEdGdz?=
- =?utf-8?B?cG9UckM5dkE2TG83ZWNXKzFYejN6TDBVNG45R1V2WEFNa055cS94MmNsTFVi?=
- =?utf-8?B?L0w0dEczWko3eUhjZ0E0N3NGSyt6TUpNNFVNRm1CQm55VkdYQXRLSFg2VzJU?=
- =?utf-8?B?eEZYU3F1SlljeXpnMkNNT2NQb3pCNHEzQkJaRXN2WmhDY3RtdkFsNzJnTm94?=
- =?utf-8?B?RnJBbHRNQWxUMWFJYnJNSFFKSk5ZbXh5K250SDRDNkd6cXhGb1ZFRkZhdjNp?=
- =?utf-8?B?OHYrdFF0MVJmdHBMOVl5ck1nTEdsV2NvSHBza2cxMjhRV3JYOXB0ek9FREM3?=
- =?utf-8?B?TVVKQ0FNeS9ucWo5OXVra2xjSnRnaHYzUzNBNGE1c2RiNXRDVUhHV0hEbDYx?=
- =?utf-8?B?SElVSGs5L1IyTGg0UVlUd0lja0czVk9lZUZqVHZiSlBEMGppRDYzWjc4cTQy?=
- =?utf-8?B?TnAzVXdDeDhJR1BCbXYwbFdSdFkwSEhCRnNSQklLWGUvaGY5Nlo3ODU3SmhZ?=
- =?utf-8?B?cXBDNVpGbGhFOU1ZOGR4YnZ5OHNkY2YyNkxESnJUUDZEZWJSem03NUkzTS9r?=
- =?utf-8?B?RXczVjV1OVF3c3JNNjBQRjROajRBNEhwSzRJNjJXNmFlbzY0dGhpWThkZG43?=
- =?utf-8?B?c1NlK3B2TjdrTi9BM0xnM0I4K2dsQ0VHK25ydmtFUEN1VHV6VjU4TWR4WDJk?=
- =?utf-8?B?VGRHcXlSQm1xUElWRE5CUnlMaXJNZFJzazhVeXR1UXNqaVNXeXJRRmlFVWQw?=
- =?utf-8?B?aGJmdHVCWm1JVFJaNXFrakpSWFJuWFd0Z3FCRE92WDdiNkppYXYxL3VpcVJq?=
- =?utf-8?B?R3EreDdZVzJyR1JwelZid1k0cVVBRjI2ZVBJWWhJTTFxZ21Sb0Y1MElFZzAv?=
- =?utf-8?B?aHc9PQ==?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SDRqV0pueFpFcEszUnJuaFlTYlEvRkkwZGZQNmc4SkdNbXgwYlJGWjhsaVVK?=
+ =?utf-8?B?OU5MbnZVY2RWd3BJQmtoL3R4ZTlBVlE2VTJzVE9tY2pjYTBkZ2ZUNVJOWm5u?=
+ =?utf-8?B?VjMveC9LVnBJNkI5ZUpaQzR1TWlwTncrejBQRzhReDJNbjBHMDFSLzRVQ1ox?=
+ =?utf-8?B?a2d0cmhBUi9CeDNSL25vVGI3RlBjNm15eHdSVTNGZmhyWVN6ZEN3R3B4Rm5p?=
+ =?utf-8?B?QXE5Q0xmOCtNVlZJdmpXdm9nR2Q5VmgrYk4reXM3Qk9QUFJZZEZHREFITWFn?=
+ =?utf-8?B?L2NGdHBDV2NDQWtUbkw0SVZ6cUdhOW9SMXVQVE0vRk5ZblVUZFZ3bnpMbUJ2?=
+ =?utf-8?B?TmVZUU82cjAxcnRYenI5TWpvaXFNeXA5THpJZlJVckI5bWdZMnJvUEl0RHkx?=
+ =?utf-8?B?Y1JnWTJ1UEh5QnFZK1RJTFZIMWYzOFFpdXlaVlBTN25WT1d4OG5nMDBDL2VP?=
+ =?utf-8?B?STh3K1ROTkN3eXFXZzcwbDh5VTRVa1ZLR0dhakFLQnBrTDFwRGl0VTh2emtO?=
+ =?utf-8?B?YzRkcmh2RmJDRVVHeTVRWXU2UXROYldWY21lMFVRb0pRNGRSbGU3RFp2QkVC?=
+ =?utf-8?B?ZGZpY0NUR3craDhnTzhUc1ptTkd0Q3pQQm9VWFRLNXJZc0VkTlRpZEtKQnE2?=
+ =?utf-8?B?eFVIR1BMWWJ2S053M3Q1NFVVdGJvdUFLSVRKWGdWNzJLNXUxSzNGdzVyTlht?=
+ =?utf-8?B?TmZpV2lsZVBPY0phckdLdU9rOS9ubDZUa202ckhoV2J1MDhIdUN3dHNFTUhG?=
+ =?utf-8?B?MFlScUhsRytOZ2paK2ZUa3VmUkEyUFdUOFpPdndsWlN3U1MwSUR3a0FQRlo4?=
+ =?utf-8?B?K0J5V0RNZEIxQ2RWUUZ5dmczRjBnUDdOb1ZvMll4VSttWlpHMDMxVEZQNTYw?=
+ =?utf-8?B?dEVNbW5nTmxTZU8rY1UxOFBxV3RxQjQveW5PYUV3M2pLYlVUMnVITlVVWFg2?=
+ =?utf-8?B?eVdiM3liM2JOMFV1ZjI4bitlMSszM2lsZXFEMVZmMmgvbHUrRnJuVmdJcEsv?=
+ =?utf-8?B?dzdFZTMvRzJDUWk0N050UGhRbzB5aEtoQUFFa2FaTnRINENhV1lBbHZOOWRk?=
+ =?utf-8?B?WGJiQXJUbW8yNUZNQmJ1UTJBdTlCZmV4SUR4QnZ0bGRBbWN4SlhMUVJCNStv?=
+ =?utf-8?B?aTI3eFF3SGg1WTFFdGp0K0hwUmx0cjgvTVJyZjc3ZlJNTm5PazVkdG0vcWI2?=
+ =?utf-8?B?eHJkakJ3dDZic1dvdXZKNEJMMU5tNDNZZjQxbjZpVWQyMHlsY2t3SGEyemFE?=
+ =?utf-8?B?WGRtckdRWmMyZmUvYnBjZlRxcStLYW9zRzRTMFVFQ1hCZXdoSm5SdWEvaWRM?=
+ =?utf-8?B?VnBLaGRrcTlpeEIvdW4zNWlaeXhESTVINzZTWlhCUGd3QXphb2RnZlRaeUxu?=
+ =?utf-8?B?MGJFdlVXenVnNGNINXd0MWNwUThMSWhBdlFCU3NHKzk3NnlURGNQS0tFd0Fp?=
+ =?utf-8?B?YTR5Zk5oRXB1K2JjaDhlTHprUzB3cjNyV3JJMDdYdmd1eVlUM01DM1RuRldV?=
+ =?utf-8?B?aVlJYWszMzB0U05tMTdTYUxLbGo1Rk1wOXZlQ2d2MDNRS1E3VThtdXpuQUFZ?=
+ =?utf-8?B?WXBNQzVpenowMmlkNThmRGNFS0NnTHUxV1lhV21maldDc0k4dmFtRzN6Q2ln?=
+ =?utf-8?B?bTkyWXV3V0dCZGVlMmJQWFRQZkl6ZTRpVjZMRWxLWE5xNkNZTDRPVWhFd0R5?=
+ =?utf-8?B?b3BGN0U2aFpDbDVYU0ZyaDkrdEdVQnowWThhNVRPbCtQUTcxcktQNTZUSXI1?=
+ =?utf-8?B?VmErQ1hqdkhKSzdpOERKaVk0SVE0RU9hODFNL1daRnNnaFZwbEMwbzhBM3I3?=
+ =?utf-8?B?YVVlYThZeHA0Z3JyeittSEdndmFwb1cxVXEwYjAyaWFGVjlUYmRsVG41K1JB?=
+ =?utf-8?B?Y00xRS9XVms2Y2UvOTR1RS9ESFNqbCtSeU56YU12d0FxVmRzNmg5cWRxNm0y?=
+ =?utf-8?B?cTFkR2tuWldPak96QmhvaThXMWFNMkFTdXdHRlRhUE8wZjc0OEJLcG9nTUhB?=
+ =?utf-8?B?Sk1nTXg0TTNHYnlzQkpWSTJTbTN6Q1hkYWJ5TU5qMGQySmFRakNoVVU4SGFL?=
+ =?utf-8?B?QVdWeWNNdlBLRURiUzhVaWdyampvbGI4bWtQSk1FbTlqbW1OSFVlZGZNYzN0?=
+ =?utf-8?B?MDBvbkQyd1Q4Qkd3ZDBOV1JGMVhjTWd1S2x6QTRndllETi9zVkxoNDhRRDUr?=
+ =?utf-8?B?Nmc9PQ==?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a44c040c-a451-4c97-3e88-08dc3913fdfa
+X-MS-Exchange-CrossTenant-Network-Message-Id: 26075e2e-f99d-44e6-c14f-08dc39156855
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Feb 2024 10:48:41.0099
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Feb 2024 10:58:48.9443
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xjFDiaVLZ5rLj5NNgTMH5fRvv4Nx1htOzpG/01BS64MAgLO5QE9+xWo8BuLleDRrFGyfl7FgSKaZC7I3tcJ7CQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6805
+X-MS-Exchange-CrossTenant-UserPrincipalName: PW3jcAtJTvFUvit46Mo6Uhr0SyWiC2OQebAV4WhP73wJ09MDVoaHBACgvooEp2eGsC1PLh2CjU5KGFy+8o1XIQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR12MB5649
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240229_024847_537418_8732A781 
-X-CRM114-Status: GOOD (  16.07  )
+X-CRM114-CacheID: sfid-20240229_025855_206822_A2F47A7A 
+X-CRM114-Status: GOOD (  17.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -151,46 +151,62 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 28/02/2024 20:11, Christoph Hellwig wrote:
-> Move the handling of the NVME_QUIRK_DEALLOCATE_ZEROES quirk out of
-> nvme_config_discard so that it is combined with the normal write_zeroes
-> limit handling.
+On 28/02/2024 20:12, Christoph Hellwig wrote:
+> max_integrity_segments is just a hardware limit and doesn't need to be
+> in nvme_init_integrity with the PI setup.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->   drivers/nvme/host/core.c | 11 ++++++-----
->   1 file changed, 6 insertions(+), 5 deletions(-)
+>   drivers/nvme/host/core.c | 11 ++++-------
+>   1 file changed, 4 insertions(+), 7 deletions(-)
 > 
 > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 74cd384ca5fc73..ee1e13a658c314 100644
+> index 4a05045e409904..94d835f9dc90e9 100644
 > --- a/drivers/nvme/host/core.c
 > +++ b/drivers/nvme/host/core.c
-> @@ -1816,9 +1816,6 @@ static void nvme_config_discard(struct nvme_ctrl *ctrl, struct gendisk *disk,
->   	else
->   		blk_queue_max_discard_segments(queue, NVME_DSM_MAX_RANGES);
->   	queue->limits.discard_granularity = queue_logical_block_size(queue);
-> -
-> -	if (ctrl->quirks & NVME_QUIRK_DEALLOCATE_ZEROES)
-> -		blk_queue_max_write_zeroes_sectors(queue, UINT_MAX);
+> @@ -1724,8 +1724,7 @@ int nvme_getgeo(struct block_device *bdev, struct hd_geometry *geo)
 >   }
 >   
->   static bool nvme_ns_ids_equal(struct nvme_ns_ids *a, struct nvme_ns_ids *b)
-> @@ -2029,8 +2026,12 @@ static void nvme_update_disk_info(struct nvme_ctrl *ctrl, struct gendisk *disk,
->   	set_capacity_and_notify(disk, capacity);
+>   #ifdef CONFIG_BLK_DEV_INTEGRITY
+> -static void nvme_init_integrity(struct gendisk *disk,
+> -		struct nvme_ns_head *head, u32 max_integrity_segments)
+> +static void nvme_init_integrity(struct gendisk *disk, struct nvme_ns_head *head)
+>   {
+>   	struct blk_integrity integrity = { };
 >   
->   	nvme_config_discard(ctrl, disk, head);
-> -	blk_queue_max_write_zeroes_sectors(disk->queue,
-> -					   ctrl->max_zeroes_sectors);
-> +
-> +	if (ctrl->quirks & NVME_QUIRK_DEALLOCATE_ZEROES)
-> +		blk_queue_max_write_zeroes_sectors(disk->queue, UINT_MAX);
-> +	else
-> +		blk_queue_max_write_zeroes_sectors(disk->queue,
-> +				ctrl->max_zeroes_sectors);
+> @@ -1773,11 +1772,9 @@ static void nvme_init_integrity(struct gendisk *disk,
+>   	integrity.tuple_size = head->ms;
+>   	integrity.pi_offset = head->pi_offset;
+>   	blk_integrity_register(disk, &integrity);
+> -	blk_queue_max_integrity_segments(disk->queue, max_integrity_segments);
 >   }
->   
->   static bool nvme_ns_is_readonly(struct nvme_ns *ns, struct nvme_ns_info *info)
+>   #else
+> -static void nvme_init_integrity(struct gendisk *disk,
+> -		struct nvme_ns_head *head, u32 max_integrity_segments)
+> +static void nvme_init_integrity(struct gendisk *disk, struct nvme_ns_head *head)
+>   {
+>   }
+>   #endif /* CONFIG_BLK_DEV_INTEGRITY */
+> @@ -1954,6 +1951,7 @@ static void nvme_set_queue_limits(struct nvme_ctrl *ctrl,
+>   	blk_queue_max_hw_sectors(q, ctrl->max_hw_sectors);
+>   	blk_queue_max_segments(q, min_t(u32, USHRT_MAX,
+>   		min_not_zero(nvme_max_drv_segments(ctrl), ctrl->max_segments)));
+> +	blk_queue_max_integrity_segments(q, ctrl->max_integrity_segments);
+>   	blk_queue_virt_boundary(q, NVME_CTRL_PAGE_SIZE - 1);
+>   	blk_queue_dma_alignment(q, 3);
+>   	blk_queue_write_cache(q, vwc, vwc);
+> @@ -2017,8 +2015,7 @@ static void nvme_update_disk_info(struct nvme_ctrl *ctrl, struct gendisk *disk,
+>   	if (head->ms) {
+>   		if (IS_ENABLED(CONFIG_BLK_DEV_INTEGRITY) &&
+>   		    (head->features & NVME_NS_METADATA_SUPPORTED))
+> -			nvme_init_integrity(disk, head,
+> -					    ctrl->max_integrity_segments);
+> +			nvme_init_integrity(disk, head);
+>   		else if (!nvme_ns_has_pi(head))
+>   			capacity = 0;
+>   	}
 
 Looks good,
 Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
+
 
