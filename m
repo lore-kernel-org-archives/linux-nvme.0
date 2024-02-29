@@ -4,67 +4,135 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9BD4BC48BF6
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Feb 2024 10:22:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 68CD3C54798
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Feb 2024 10:46:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Yeclnd6XMcu500fh8aEHZJp8PVOMwEL0dRVhQM4c+hE=; b=uYejKSAG5Heac9ZuQcCFyhTCEa
-	FBDyr2qiK4Z6hbmJntPFge4tZwFu+F94l1etn1Eeu2noZSGzDILlWJ8/sApnKEfzGGd5yi/eIZQNE
-	ilC8NrC0Ua8gvqqwHboGP70xFMzsbyEcrQAaO64T5CK6uiwbFMp4IPQJxZ2qNHkVhi/UmnSmdBzhF
-	MJqufHVI660z86DlC1fVastG15cU4OSUn2vmw6o5h1zskhwB7obsQuVS98LGh1z5f5UFGL2ENyNoF
-	G0vkhiyUUHYzpV5g7xrjoeQteS0v5mGKbzTslq6WX3zKxhvLeON11Vxcn2oNPPosyg2w1EL31bDO5
-	jLw9n2wg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=79o0n6ebw/SuQzen/nUdHSpN21/3nZm/cshpYJElqTE=; b=xPRSyfSVlJjdbyfDhBObepOjmH
+	8Dm1pXfeVVyOXgyzxTV4/wgwBoi5mjKbQRZql0+6fdPhNLzDK7enEaattNXPGx0i4C859m+cJJ8oj
+	lqBCoeOABB0HzuHwkO+Jn6nHeCcCvHrTNWb/2Yg+VgQCqeOFwS7RW9AqOxRoV0QS9qGHBiuVhYyeI
+	gTciA8adSoEc7D3/Ti1i6ltOjCEN7S/w+7ubYmhq3PM309cVeH8KDHug07qU/smTfMgM76fPkCzrt
+	sPdvsNXRsyJXJFtamUjDi1619DacesCmjgB8oLRe7/mi3km05K/6tYP4sY3qubpTNrloflSLGyXhN
+	YDBSwYRQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rfdYL-0000000D7rp-2jJg;
-	Thu, 29 Feb 2024 10:22:13 +0000
-Received: from mgamail.intel.com ([198.175.65.21])
+	id 1rfdw8-0000000DDe1-3xta;
+	Thu, 29 Feb 2024 10:46:48 +0000
+Received: from mail-bn8nam11on20600.outbound.protection.outlook.com ([2a01:111:f403:2414::600] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rfdYJ-0000000D7r8-14Y4
+	id 1rfdw5-0000000DDc2-2IBc
 	for linux-nvme@lists.infradead.org;
-	Thu, 29 Feb 2024 10:22:12 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709202131; x=1740738131;
-  h=date:from:to:cc:subject:message-id;
-  bh=4WRb5/Bf4YBrjkYAh+B52LKDb5MEaMhmPGsOfTgNC8E=;
-  b=XghQkY0xq6pUlAyqkoPcLjyJQYYfQdT2qS2KbhUjUOm3bJVUgOpyef/l
-   0gWHKtflFzHW/nYWFkGrRYHNj2+6p3RAgEDfxIotkXz3Na/leCSPsJRjB
-   lmklkT2b3tSg+A1be0BLAnAL+8HpERDopO5nf6S2en/ej0ZXLbXS+d9RX
-   vy5CN9ouUsE6wwX5SfEJzAjlZi4kgbALn9BDKkIryT7KQvqzGMkUfyazD
-   0j59dT5ViQ0HQsPPoX+XOB6Dc8pWOWiwd9342FITLYAcelPQd+hzfDYo6
-   eaWrC+KhZDDvf+BAOxjB04/dFhosNf9HH7x1HEHD/+1CGPIeO3RP9FrC0
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="3587019"
-X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="3587019"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 02:22:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="7700220"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 29 Feb 2024 02:22:09 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rfdXa-000CrL-1K;
-	Thu, 29 Feb 2024 10:21:51 +0000
-Date: Thu, 29 Feb 2024 18:19:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.9] BUILD SUCCESS
- 48afc451f339744debf24bdb21a7a0b496e5a1be
-Message-ID: <202402291830.77hHKOjW-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Thu, 29 Feb 2024 10:46:47 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ecsPHR03ijiktYEo7csc81E+lhw68EQzvC6CBDtH2uUCq/IY5FfXsDzd3eqBBnvRojOekcJD+ZwF/Ph/1inqBEv41yldN26fimnzmoyttC4OHNv9ym43yETglJ7Y0oWNY8mkmYIqD3WJYV2Pci0o1LB8UtnziXkgia2FCWptaZu1+dvufa1p+oiW1mSmzFPq2yluNpk6G0uSw9wkXkhU+tZrZZFoWz0pPd/I1kINXWsdkKne7f2HmrZvVodLZzc3uEXP1TXzmgtFegzcQv0ZvaKCcjv5ltmXqXioY25cB1odUByHZWlKj7q1WMq93ar6OPm2/jrLI5bUbgYaqnmZSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=79o0n6ebw/SuQzen/nUdHSpN21/3nZm/cshpYJElqTE=;
+ b=EuXwAQWYXqS/wnpOX6l+Qnk8iUQRcRKceO8f1QicZeX7qIs7G0VzaeNDnx6Mxld7gnLpdZVYhHycGySMgsvUWByFWaclUjN6cbGPdFV2Ay6ygoA5W4jCiR9AhekMm5gJUqNIdGwrPIUbS3bxt9ANj2u5VrsXajoWAmcNT40Cqb6RNCiMWso75ePjGIxvKpamFCEN/bI3mrVzQeQbZ1rSv6M1oRPgblq4VKSVXeaau1aHY6SaMRrvRGWPG0hLGuwuQygeXj4hBE2lsgOJ9cRp/5Ialoyi4dFDsZFOD9sCCxjRRI0W173wyq49vJ4JXLomQwcc7kCU8AwqqYdA/xPGOQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=79o0n6ebw/SuQzen/nUdHSpN21/3nZm/cshpYJElqTE=;
+ b=NimPqId7t+/tuWECbDmvV9mE4u0+mnqFjlLkGMkQUFD3ZT+L9gSPH/yFZ29e2oRVv+88eeqnN0S2EE8ZfrStx8ODPaPJA14YP0hQBFepLM2WjoyD74/4WoIJuIL/c9drNPG1Mp9J4gRmAhqUdwvplBEAOO4M0OuWKe7O/1BufYYvF4btJD9Ulj/+Iov7A+6aFjyDa+u8pvs5BXftSRkUoQ1fruYKBtc0wjrqy5cKHU9Slp2lVsrufmXHhprTIJsxaBOHUBLrd2ue5gVgf4hSOGEbMhza7poeuN7gZsYKRc7PvC5uUYRF6H6OF92liOoYQBce6KVcDvWxYXl6aC4KzA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
+ by DS0PR12MB6485.namprd12.prod.outlook.com (2603:10b6:8:c6::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7316.36; Thu, 29 Feb 2024 10:46:38 +0000
+Received: from DM4PR12MB5040.namprd12.prod.outlook.com
+ ([fe80::50af:9438:576b:51a1]) by DM4PR12MB5040.namprd12.prod.outlook.com
+ ([fe80::50af:9438:576b:51a1%3]) with mapi id 15.20.7316.039; Thu, 29 Feb 2024
+ 10:46:38 +0000
+Message-ID: <ccd5efc1-c06a-4971-8efa-e7d59b859966@nvidia.com>
+Date: Thu, 29 Feb 2024 12:46:31 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 03/21] nvme: set max_hw_sectors unconditionally
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>, Hector Martin <marcan@marcan.st>,
+ Sven Peter <sven@svenpeter.dev>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, James Smart <james.smart@broadcom.com>,
+ Chaitanya Kulkarni <kch@nvidia.com>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+ linux-nvme@lists.infradead.org
+References: <20240228181215.873854-1-hch@lst.de>
+ <20240228181215.873854-4-hch@lst.de>
+From: Max Gurtovoy <mgurtovoy@nvidia.com>
+In-Reply-To: <20240228181215.873854-4-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0180.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b7::13) To DM4PR12MB5040.namprd12.prod.outlook.com
+ (2603:10b6:5:38b::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5040:EE_|DS0PR12MB6485:EE_
+X-MS-Office365-Filtering-Correlation-Id: 77e92ad6-f9e2-4b6f-53e0-08dc3913b4be
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: j6M2FuOYaOBW22fGQvgeF5pgOF7N55T9abICXTcaxSa4zka1Mm98glSZD3bDX7bHeKYgEQN4ZaBpnk5z1q6n3+HiHsGIGpMi3MM/uQJuQa5Tx01mZTz80oFGvJ930Fi44WPI3ZxkwpdNkTPpGh8IFOZx/5Bc8HE33a4s+/XpxSHJ+ceM+R89X/HHOQnEUi2L7nuQjahcglGN1eUDDQpo75C0UfGji2qLtdicqz52W3BRl80LFPAQzwHmI+3sI8yA1dVo6jYUjVQbstN5uA3OjmG3nmE0HzwhOnzK9MKHu4EQwNrnPK3qZb6vb47BcYnzmgs/zDwOb4RNLyVqzecPgBgmH0P5Sry05vT0MLqTLjfK6ci/N770Lkpn0WycJrIg5fYqRrK1U7WjAfN4gPsYdSQNNf/gJGOqpFCrNbfrAS+iiBF6aYTBe62+o3ia9Xi3i1DorRXXXReub+cna2rodP7IqSLjdcBjd0cUa6xSjuce7Lkz2foT2jb41qwAEN4TEAk4GCkvMNElZ6yYeK1JEhYXyHfTZOTDPPQrIskAcvfgSNcyUjglK+QT4NFZrZ9kQT29UZXSnUQrWUw07bhOQzjZ0J2ZAsBV2awA6zpvGYylagtZOV1tUna96t7Zr8u619FZz30t6G29xIVHgnbi/A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?LzVQbXkwMjYyVGxWbmlkUkhZSnFKejB2T1V4UE5FSjhxWDhvTGp3ZGF1Rndp?=
+ =?utf-8?B?YkQ4elcxMlNSQUVvMUdFYmprOFhuT05reVF5V0JpanAxWjlFZDZ0V2pyUTVJ?=
+ =?utf-8?B?Zk9vdGRDRExlQ3RSOEpWL3pNckE3WGxULzFFTlZ1VllXMEhBSFdnZEt4YTRs?=
+ =?utf-8?B?VmZScTdiYXRGanR2ZHhDSUhvbWFuRXVYdkx1cEFUblh0bGdjMGQvNE8rdjNv?=
+ =?utf-8?B?V013ck91U1pueUZ0VmhYemxwSTZvY25oQnZPeVF6QWd6SDZRS0p0OXNLUUJi?=
+ =?utf-8?B?MW9ZVXdNTWtDZkZ1OVZuQmFHWEVDQ2toMG9mQmxyR1NwUG81Tkg2dUhhcDlH?=
+ =?utf-8?B?UDZreTZ6T1hkRkhMbXlEK1d6dS9JeGFDUHNLMFI3S1NXcTAyV1hBQi95cXdz?=
+ =?utf-8?B?TkJIdy9tdC9EUUZSTnoxNEIxNisyUFZMNC9GdnI0eVRqandBNlllcC9lL0ZC?=
+ =?utf-8?B?cjVOTGpnL0xpcFdsWSs0YWFQaUZncnRYWEVoUHkyWmZ3alBwOEthdGYwZ0hO?=
+ =?utf-8?B?SXc2dmZ5dThpRmpGUmlsd25JYkM4Wi9ubHF1U3d6QnFNM2Q2OEJNbklIczA5?=
+ =?utf-8?B?ekZXTGxWY204aHIxbHBJallFRXRVT3UwRlh1VDd0YUVCdXJWbkZwckk3eFM4?=
+ =?utf-8?B?ZjdDUkhGZnVZN040TDNpMFJuaklZdkZBa29STlVmVUVxRmUrN1pVanFUMThq?=
+ =?utf-8?B?YWhyeGpPVGRRdFU3SVJCRDBNc25KT2k1NHhleXpadlZ4aWl4Q3IzSzVKZ1R2?=
+ =?utf-8?B?VndqVWc5TTlGV1llbFlPejFna3RMc3orSE5oSXpIQlZPWklxenlseVJIR0Zp?=
+ =?utf-8?B?NnBBZkI1cEFKZ2JPSGxiTHBGYWdWZFdxY0g2WTdUL013bU9QYlRjR2FkNlg0?=
+ =?utf-8?B?UWFhUDJtMFEwT2x4bG96ZzB1RjJnZDJPd25kRXM5SkRkSmpIWjdQK3dLL3VU?=
+ =?utf-8?B?NGNKRi9XQjgrUDQ4YkZPLysxSVVVNFRtWWFlekRPMXhrWUJFVjB5amk2ajJK?=
+ =?utf-8?B?WVhpbDNtN2t4NWV4eVJ2SXc0V3NEc2VTYTJoUWx6U0NhdnBHN2I1Mk5qNnZU?=
+ =?utf-8?B?UGFlSmg5bWVFYTFOS1F0S0hLbktqa3JNWUJSUjRLenVBdlRhTFNzMTlYbm5V?=
+ =?utf-8?B?RUdXVHc2Q1pGZ2pFWXVsbWxXV05BeUg3WlhKTW0xLzF5cXArSGJYc2VsSWQx?=
+ =?utf-8?B?NEY0bm5UYnltVHdMcThGN1NyaDZaYVNNWTVsNEJLMm5rVkY0eFNYa2ZuVnFF?=
+ =?utf-8?B?OHFndlNVM3ptYTZEcnJXOVhFUlJyNUcrbDZzQmZiaE1xLy9xQWZXYlRoWHBh?=
+ =?utf-8?B?MHdxNUdUQTUra1NWZXlmRWVRb2pEaXk5NzZTZXNPL0ZzSWFhaXhidUlibzZy?=
+ =?utf-8?B?WElRZnZpL0RueGRnc3l2YmpjelY5dlZiV1R0K0Zuc2xVRkd5ZE5OeVF6UXpq?=
+ =?utf-8?B?R0k1UEU2Wk50bTBWS0JXWFhJN2hIb3Nya1pQajJFV0FkbEhDYkFPVXAxbm5w?=
+ =?utf-8?B?U1Z6TmkyRzY2V0N0akdzS0I5U0VERWR6OGoza1lRTUFPRHA3eStkcmRQdXNq?=
+ =?utf-8?B?MVM3UW8yelFyOS8xazZxRkFxZHdYWXFCNmZzNDRNRVZsUjdFQ0I2UHRTR2ZZ?=
+ =?utf-8?B?S1FVMDV4OTJUVllpU1RYLy9DTmlPZ1Vnc3VDaFd1WEFieHBCVW1la3IvSTV1?=
+ =?utf-8?B?RkEvWDIvR2hoZTlqYWhNTGlCb1IwR0xPMHBYdGg0V2MvNERQYVZuZWRUWnJV?=
+ =?utf-8?B?eGhBdEtnY1loblVIRFNuNE9BWmVjN1BKTHRvZTFGTHlVRkZFWmUyU2FmZUtw?=
+ =?utf-8?B?dEF1cWE0NElmM2srdWxQdmNqUkpVVXE3U0RWMk1NWDFsajZ6RHRVYitMK2VJ?=
+ =?utf-8?B?V2hVM0VDWmtsbUtKb1lIOG9pSlVJbk0wNDNkR2JZTlUzQjVGY0xxbVgvMWpw?=
+ =?utf-8?B?dFJFemh4WW83ajkzTnpmdU1ORURVQUN0dUZ1bHhkeUE0RFU2dmM3dlJGSy9z?=
+ =?utf-8?B?N1FBcTkvVERTbTVMQS9jNnJYNDJRVENrY0xJYTcwVzNRbWFCeUxNZExtY1hK?=
+ =?utf-8?B?TjJkdVdlay9RM3ltREdwK0FONjBsRU9zaU4wOFhxM3pQRDFWOG1wRUNnRWhh?=
+ =?utf-8?B?blFTaDkxbkJxUHlGb2p2dCtkMGR6THdKOTJwSVlvcWQ5cmZ0VGoveldsWWl2?=
+ =?utf-8?B?bnc9PQ==?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77e92ad6-f9e2-4b6f-53e0-08dc3913b4be
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Feb 2024 10:46:38.1532
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YumvZ4NzvVqJHEARG+caCiciP6dEAlrw+EmG23EcRER2R2C2u9NVqGVqWcsieIYMcVih4ithFMJfCiniOY3wCw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6485
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240229_022211_362952_495987F4 
-X-CRM114-Status: UNSURE (   5.64  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240229_024645_642783_D8796020 
+X-CRM114-Status: GOOD (  17.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,163 +147,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.9
-branch HEAD: 48afc451f339744debf24bdb21a7a0b496e5a1be  nvme-fabrics: check max outstanding commands
 
-elapsed time: 1035m
 
-configs tested: 143
-configs skipped: 4
+On 28/02/2024 20:11, Christoph Hellwig wrote:
+> All transports set a max_hw_sectors value in the nvme_ctrl, so make
+> the code using it unconditional and clean it up using a little helper.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>   drivers/nvme/host/core.c | 16 ++++++++--------
+>   1 file changed, 8 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index eed3e22e24d913..74cd384ca5fc73 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -1944,19 +1944,19 @@ static int nvme_configure_metadata(struct nvme_ctrl *ctrl,
+>   	return 0;
+>   }
+>   
+> +static u32 nvme_max_drv_segments(struct nvme_ctrl *ctrl)
+> +{
+> +	return ctrl->max_hw_sectors / (NVME_CTRL_PAGE_SIZE >> SECTOR_SHIFT) + 1;
+> +}
+> +
+>   static void nvme_set_queue_limits(struct nvme_ctrl *ctrl,
+>   		struct request_queue *q)
+>   {
+>   	bool vwc = ctrl->vwc & NVME_CTRL_VWC_PRESENT;
+>   
+> -	if (ctrl->max_hw_sectors) {
+> -		u32 max_segments =
+> -			(ctrl->max_hw_sectors / (NVME_CTRL_PAGE_SIZE >> 9)) + 1;
+> -
+> -		max_segments = min_not_zero(max_segments, ctrl->max_segments);
+> -		blk_queue_max_hw_sectors(q, ctrl->max_hw_sectors);
+> -		blk_queue_max_segments(q, min_t(u32, max_segments, USHRT_MAX));
+> -	}
+> +	blk_queue_max_hw_sectors(q, ctrl->max_hw_sectors);
+> +	blk_queue_max_segments(q, min_t(u32, USHRT_MAX,
+> +		min_not_zero(nvme_max_drv_segments(ctrl), ctrl->max_segments)));
+>   	blk_queue_virt_boundary(q, NVME_CTRL_PAGE_SIZE - 1);
+>   	blk_queue_dma_alignment(q, 3);
+>   	blk_queue_write_cache(q, vwc, vwc);
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Looks good,
+Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                      axs103_smp_defconfig   gcc  
-arc                                 defconfig   gcc  
-arc                        nsimosci_defconfig   gcc  
-arc                   randconfig-001-20240229   gcc  
-arc                   randconfig-002-20240229   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   clang
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm                            dove_defconfig   gcc  
-arm                   randconfig-001-20240229   gcc  
-arm                   randconfig-002-20240229   gcc  
-arm                   randconfig-004-20240229   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-002-20240229   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240229   gcc  
-csky                  randconfig-002-20240229   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20240229   clang
-i386         buildonly-randconfig-004-20240229   clang
-i386                                defconfig   clang
-i386                  randconfig-001-20240229   clang
-i386                  randconfig-003-20240229   clang
-i386                  randconfig-013-20240229   clang
-i386                  randconfig-014-20240229   clang
-i386                  randconfig-015-20240229   clang
-i386                  randconfig-016-20240229   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240229   gcc  
-loongarch             randconfig-002-20240229   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                           virt_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                  cavium_octeon_defconfig   gcc  
-mips                malta_qemu_32r6_defconfig   gcc  
-mips                       rbtx49xx_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240229   gcc  
-nios2                 randconfig-002-20240229   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20240229   gcc  
-parisc                randconfig-002-20240229   gcc  
-parisc64                            defconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc               randconfig-002-20240229   gcc  
-powerpc64             randconfig-001-20240229   gcc  
-riscv                            allmodconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   clang
-riscv                               defconfig   clang
-s390                             allmodconfig   clang
-s390                              allnoconfig   clang
-s390                             allyesconfig   gcc  
-s390                                defconfig   clang
-s390                  randconfig-002-20240229   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                          kfr2r09_defconfig   gcc  
-sh                    randconfig-001-20240229   gcc  
-sh                    randconfig-002-20240229   gcc  
-sh                           se7705_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                       sparc32_defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240229   gcc  
-sparc64               randconfig-002-20240229   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20240229   gcc  
-um                    randconfig-002-20240229   gcc  
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-002-20240229   clang
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20240229   clang
-x86_64                randconfig-002-20240229   clang
-x86_64                randconfig-003-20240229   clang
-x86_64                randconfig-004-20240229   clang
-x86_64                randconfig-005-20240229   clang
-x86_64                randconfig-006-20240229   clang
-x86_64                randconfig-071-20240229   clang
-x86_64                randconfig-072-20240229   clang
-x86_64                randconfig-073-20240229   clang
-x86_64                randconfig-074-20240229   clang
-x86_64                randconfig-076-20240229   clang
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                           allyesconfig   gcc  
-xtensa                randconfig-001-20240229   gcc  
-xtensa                randconfig-002-20240229   gcc  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
