@@ -4,63 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0CBEC5478C
-	for <linux-nvme@archiver.kernel.org>; Fri,  1 Mar 2024 16:20:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC162C5478C
+	for <linux-nvme@archiver.kernel.org>; Fri,  1 Mar 2024 17:03:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mzQuRnvFegCz6n9ZTptM5GqU+gNy5W7lbD5tBaPg1NU=; b=jKn1+tImAZDHtbHDNrizfD9H29
-	Emj2hNOijzx6TDsvt8wp0DR8sxyFySZtvACh/kulgPxXH/wy00FhtI0zOW4/DlZ8Nax96fpA5AqYz
-	zWfocsQ5ensRQn6TZ8jY/NvYJDeYs6ul4cb8w5vet3dvYH/s3G/N5LB3HV638kUtdVDHT3WbCAd78
-	Ksf6iGeYO+QxIIVzdhpIYjrku6NS+ngsAy6ItrkyuV2qCboM5boMAD3j8X9Dl5ymxDMrJckSBiA+P
-	iUzUSJD6pJx6l6TzXMoPG+64k8ManMTjdnEkYMhNNO/6HzTUdxdXoH5uYPU2R1XxOGN2xfVFelhmX
-	4cxF4MWQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=vaCI6AV8Lak3qhdvwoBflxxoyDmXc+I7w5TAWB/IFGo=; b=z+B/X+D56U+4M+4xJgFi1aUoGc
+	d+cWgjNKiam73csRrdFeVntPrm1wl64vZiQanRwzVjIK3yM3vEm94rpeqOL9BmqMTW7aLSGdOjcVu
+	hexYQbPk1hxCK33qLkqnsszjOFHpJhCxpOa5V1n7Gc6OGPsbdL04fuN5IowozMQy3XmSXIHZGP+Ww
+	mSfDUMRgxRvtJp4H7yR1Hq/IiiSxvLuJDTL/Ne2NDo56Xh5lAHU0k9FJ8iyTCzAmbWXl2ygUma5u8
+	Od6IbFgts6jPJCwHsPwubkEeE9+1kHkIbNaY8y9yqU17Rrd7XyJsoqxS/6jZDklWxE9KU4/O2IG/Y
+	U6TrUhKA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rg5cm-00000001458-1Hm0;
-	Fri, 01 Mar 2024 16:20:40 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1rg6Hv-00000001FZM-2Wg9;
+	Fri, 01 Mar 2024 17:03:11 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rg5cj-0000000144W-2hXA
+	id 1rg6Ht-00000001FX9-067z
 	for linux-nvme@lists.infradead.org;
-	Fri, 01 Mar 2024 16:20:38 +0000
+	Fri, 01 Mar 2024 17:03:10 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 91BBACE08BE;
-	Fri,  1 Mar 2024 16:20:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 387BAC433F1;
-	Fri,  1 Mar 2024 16:20:34 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 5EF2BCE2600;
+	Fri,  1 Mar 2024 17:03:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 127ADC433F1;
+	Fri,  1 Mar 2024 17:03:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709310034;
-	bh=Q/6VTHUKNf9I9FR2ySABVg9EyTZVleFCvryEkQoiKKE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ppqohgi3b4Z5DCU8Ta0SyRg9u6t5r4/HdbdcfJPZ54w/JS2bRcH/hsEEHBhfmfnBm
-	 mZvZPjP4Ru6eAQeL4VRWjgLPZ7jvzPJjMItuZI+DDu8x1dUp7lBwEOoIFxu0+nwwWN
-	 p8bz9SGCJbVhiMajfgwmVfyPGbq6XXGxxPxBfjOdBjN5RUwX1CckMkJQ8EK+Z8Z7Q2
-	 Rt407m0SnOA2251ur2MjHeRGkaw/NHTXGlxElGixKkTDFkxbSPFF+PWL4OvbBbs56d
-	 fBVutx11VumgV4ZlEJVwCPjo0G6YmO5JCDsjWj2Jho04QPgO7mcejFGAfwHqd8JUek
-	 gV3B89gdT3IMg==
-Date: Fri, 1 Mar 2024 09:20:31 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	James Smart <james.smart@broadcom.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
-	linux-nvme@lists.infradead.org
-Subject: Re: convert nvme to atomic queue limits updates
-Message-ID: <ZeIAT5uY36cLkVpJ@kbusch-mbp.mynextlight.net>
-References: <20240228181215.873854-1-hch@lst.de>
+	s=k20201202; t=1709312585;
+	bh=vaCI6AV8Lak3qhdvwoBflxxoyDmXc+I7w5TAWB/IFGo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=NOwBAKSNqfkOIltQyi4HntKRYTLS8J3BvZ6GXN9J0wV/C9LeZQlSdYHwKyb8o2Os+
+	 MXYZDR1K8TSGjlCOMNPSnbUB0B3ZDAmUT+Vyweyp7ZWCvgOQxyGKg7HKtOAAmNPrZG
+	 gfSnZScW6+lj5EpDLGmG0l4s250y5LZlUZMUSQyIOT846GpH2+aglL5iIY57njrl74
+	 ff8YM+Ws4UguqU76gY7rS3WGWtYJtdsIe7gXk4UUG+Djef/zvRhs4DD1Z3BHWJlo4b
+	 P34R74KLUd5UU6Z9ugxko14VBNUY+llqrBZIOo6kAoDXLnEQYhI7nFTieHKawI6p6r
+	 al2G2TXLtnM+A==
+Date: Fri, 1 Mar 2024 09:03:04 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Aurelien Aptel <aaptel@nvidia.com>
+Cc: linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
+ sagi@grimberg.me, hch@lst.de, kbusch@kernel.org, axboe@fb.com,
+ chaitanyak@nvidia.com, davem@davemloft.net, aurelien.aptel@gmail.com,
+ smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
+ yorayz@nvidia.com, borisp@nvidia.com, galshalom@nvidia.com,
+ mgurtovoy@nvidia.com, edumazet@google.com
+Subject: Re: [PATCH v23 00/20] nvme-tcp receive offloads
+Message-ID: <20240301090304.6eaa3407@kernel.org>
+In-Reply-To: <25334ta5f36.fsf@mtr-vdi-124.i-did-not-set--mail-host-address--so-tickle-me>
+References: <20240228125733.299384-1-aaptel@nvidia.com>
+	<20240229093219.66d69339@kernel.org>
+	<25334ta5f36.fsf@mtr-vdi-124.i-did-not-set--mail-host-address--so-tickle-me>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240228181215.873854-1-hch@lst.de>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240301_082037_883792_9B02FE25 
-X-CRM114-Status: GOOD (  11.37  )
+X-CRM114-CacheID: sfid-20240301_090309_325043_BA298B9B 
+X-CRM114-Status: UNSURE (   5.68  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,15 +78,10 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Feb 28, 2024 at 10:11:54AM -0800, Christoph Hellwig wrote:
-> Hi all,
-> 
-> this series converts nvme to the new atomic queue limit updates, and
-> as part of that refactors a lot of the setup code.  The first two
-> patches are block layer patches already sent out as part of the md
-> queue limits conversion and will hopefully get merged into Jens' tree
-> soon.
+On Fri, 01 Mar 2024 14:09:01 +0200 Aurelien Aptel wrote:
+> Out of curiousity, what tool is generating these warnings?
+> I don't see them on patchwork nor in our local CI (running sparse, smatch,
+> checkpatch, clang...).
 
-The whole series looks good. I see Jens has got the first two patches,
-so I'll rebase nvme-6.9 to that and apply the rest of the nvme patches.
+make coccicheck
 
