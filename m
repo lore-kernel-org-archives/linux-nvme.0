@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D863C48BF6
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Mar 2024 14:05:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 747A0C48BF6
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Mar 2024 14:05:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IZDtqgT9p9ajBIoxW04+0P0yCN1vWbQv9MJZOYsDvTM=; b=oV4XEcX5J1YeGmTlgwIgErcafD
-	kV49NbjMZrJYGNC5Au2orE7PMlIpAIZ2GRK8JDXBIaW7miyaaZVqyhI0iD8ueQGepL6rOpy8fgAvj
-	ivmMbFfZclcxmSwYGs9qgGF/5hk0bjo4a1DKOYALRr1Wsw2pV+7ZlOKn8eduncOaTfzlik/6OvmdZ
-	w4HZQGwBgCJ+OOlTrdmNSuS/yHoEqA5FxqRNshcqB29qKn+RmIIDeS5bTfLT9RsWkMNDkXxNInXoV
-	yrgRsJDYRmdJmPvugOVoMHjfjerR5s47X8L77C7fVT83lh7jg9ywl0EdLbTz52lLRxymNB3Mw+Tx2
-	dNcTwPpQ==;
+	bh=CdAdTrJK0mHHqv53cYp5SY8i6/LmLTzTv4WzZNNbBWo=; b=SQXHT1tUcaqn/IgG+7mIfBfwAX
+	AJEa2lAPlqhBc+HS/uyacHSK1cn+ZmmE/aTjIs8iYi05xkbxF7dIzCgcQx6L6RfJi4Qws8OF+vVHs
+	ocIjoJ5VrQpjt9LYqcJJneySwIBOohFHn3nHJbaxbDwFqKqvDBpCAZv0GAFYUDgVSUAAiUucG5sbj
+	5WaM0h2Ml5Een51sc3ezQY+7Tv85AzJ7RhIVPPChblj+okmNcSS0h5QAia+uudZ14Dd3KHSLq7Cvc
+	rYtFpF9juCrEPdrOm57AeoieP4zPYNtcTmfBsvcKCbcDgwxNBxMoSzUTN7mL54qFUct5aBoX5GgNb
+	2r6Oljow==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rh8wj-00000009HpO-2ruv;
-	Mon, 04 Mar 2024 14:05:37 +0000
+	id 1rh8wo-00000009Hs4-3tKT;
+	Mon, 04 Mar 2024 14:05:42 +0000
 Received: from [206.0.71.24] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rh8wg-00000009Hm5-2W0Q;
-	Mon, 04 Mar 2024 14:05:35 +0000
+	id 1rh8wl-00000009Hp6-2QEI;
+	Mon, 04 Mar 2024 14:05:40 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
@@ -37,9 +37,9 @@ Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	asahi@lists.linux.dev,
 	linux-nvme@lists.infradead.org,
 	Max Gurtovoy <mgurtovoy@nvidia.com>
-Subject: [PATCH 05/16] nvme: cleanup the nvme_init_integrity calling conventions
-Date: Mon,  4 Mar 2024 07:04:49 -0700
-Message-Id: <20240304140500.78583-6-hch@lst.de>
+Subject: [PATCH 06/16] nvme: move blk_integrity_unregister into nvme_init_integrity
+Date: Mon,  4 Mar 2024 07:04:50 -0700
+Message-Id: <20240304140500.78583-7-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240304140500.78583-1-hch@lst.de>
 References: <20240304140500.78583-1-hch@lst.de>
@@ -59,74 +59,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Handle the no metadata support case in nvme_init_integrity as well to
-simplify the calling convention and prepare for future changes in the
-area.
+Move uneregistering the existing integrity profile into the helper
+dealing with all the other integrity / metadata setup.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
 ---
- drivers/nvme/host/core.c | 29 +++++++++++++++--------------
- 1 file changed, 15 insertions(+), 14 deletions(-)
+ drivers/nvme/host/core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index c4a268d91796f2..1ecddb6f5ad9eb 100644
+index 1ecddb6f5ad9eb..40fab7c47eae24 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1723,11 +1723,21 @@ int nvme_getgeo(struct block_device *bdev, struct hd_geometry *geo)
- 	return 0;
- }
- 
--#ifdef CONFIG_BLK_DEV_INTEGRITY
--static void nvme_init_integrity(struct gendisk *disk, struct nvme_ns_head *head)
-+static bool nvme_init_integrity(struct gendisk *disk, struct nvme_ns_head *head)
+@@ -1727,6 +1727,8 @@ static bool nvme_init_integrity(struct gendisk *disk, struct nvme_ns_head *head)
  {
  	struct blk_integrity integrity = { };
  
-+	if (!head->ms)
-+		return true;
++	blk_integrity_unregister(disk);
 +
-+	/*
-+	 * PI can always be supported as we can ask the controller to simply
-+	 * insert/strip it, which is not possible for other kinds of metadata.
-+	 */
-+	if (!IS_ENABLED(CONFIG_BLK_DEV_INTEGRITY) ||
-+	    !(head->features & NVME_NS_METADATA_SUPPORTED))
-+		return nvme_ns_has_pi(head);
-+
- 	switch (head->pi_type) {
- 	case NVME_NS_DPS_PI_TYPE3:
- 		switch (head->guard_type) {
-@@ -1772,12 +1782,8 @@ static void nvme_init_integrity(struct gendisk *disk, struct nvme_ns_head *head)
- 	integrity.tuple_size = head->ms;
- 	integrity.pi_offset = head->pi_offset;
- 	blk_integrity_register(disk, &integrity);
-+	return true;
- }
--#else
--static void nvme_init_integrity(struct gendisk *disk, struct nvme_ns_head *head)
--{
--}
--#endif /* CONFIG_BLK_DEV_INTEGRITY */
+ 	if (!head->ms)
+ 		return true;
  
- static void nvme_config_discard(struct nvme_ctrl *ctrl, struct gendisk *disk,
- 		struct nvme_ns_head *head)
-@@ -2012,13 +2018,8 @@ static void nvme_update_disk_info(struct nvme_ctrl *ctrl, struct gendisk *disk,
- 	 * I/O to namespaces with metadata except when the namespace supports
- 	 * PI, as it can strip/insert in that case.
- 	 */
--	if (head->ms) {
--		if (IS_ENABLED(CONFIG_BLK_DEV_INTEGRITY) &&
--		    (head->features & NVME_NS_METADATA_SUPPORTED))
--			nvme_init_integrity(disk, head);
--		else if (!nvme_ns_has_pi(head))
--			capacity = 0;
--	}
-+	if (!nvme_init_integrity(disk, head))
-+		capacity = 0;
+@@ -1980,8 +1982,6 @@ static void nvme_update_disk_info(struct nvme_ctrl *ctrl, struct gendisk *disk,
+ 		bs = (1 << 9);
+ 	}
  
- 	set_capacity_and_notify(disk, capacity);
- 
+-	blk_integrity_unregister(disk);
+-
+ 	atomic_bs = phys_bs = bs;
+ 	if (id->nabo == 0) {
+ 		/*
 -- 
 2.39.2
 
