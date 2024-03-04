@@ -4,75 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9C349C54E49
-	for <linux-nvme@archiver.kernel.org>; Sun,  3 Mar 2024 16:43:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 666A1C5475B
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Mar 2024 02:28:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ikfe6o+inj4dMrhzQCM91BE0ram1wt5jM+ElrBh+ocw=; b=egVjLk0x4VwwapXigPfgyhNjFD
-	Zn6UrAuN6IWnobipd2uaLJEhoswg9j3lWAQRaOCpjRrvGj06jqs6FABT2EHCNyddvr6l2OFBbgUhw
-	zgb4nu3+0hbqfEo463FLzpIeb2pFIrbBV7bazvClIg2/LOGCZsLZ8iYZfxvx+E5SrAP2nSTdOMhpw
-	q+bTf6MTlVf9bGCONIIf1S/jA7VKawiA3F7UgVTQrU0AC+Nizh7kKJCKvACKIN+Fd2fQZg3A/D6Tp
-	JuNXxvW+UZH8CX0DZixKTCHH1JGAqgoPntJmeyYRH9ThLpCpVjdZczu1hwhsRmlxEh68wfT9SguPA
-	KvsRHOew==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=AwmaRBK9f4xeTr2KKIZaEkYuoxsnConkJ3QY8WkxaG4=; b=YNpOFD9/ivXKICKsimDOLn2Ib5
+	KuAwY+C5GBmdzaVUmHP5km3PA/yGmexhKucUNsn1Bt6Ojh+cBsJfFWWVezuXIlri0vPiVncGaVxUe
+	sWFhZUvVoojNBj7i9n/qgqcUSQFLnlJdxvPbyMHVTqqBlqN7lkqZPHy16Y1FWvjtucBdQTGI62vwC
+	rb8aP+/Of384PYdcEO1hC4VtgjKmH+RkUiV26DvWQbMV1UTNWXWNAo0x2qcvsVlBqwceDYhywhZ0G
+	LG59X4jZ/qIdSwkaddL6J12NLrXR8FiGug/IM8/VLPSeHkdB8AmLwsUCBBwBPBtkWMhjsnZAzRolo
+	XeEgHKsg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rgowJ-00000006JEg-3Zzc;
-	Sun, 03 Mar 2024 16:43:51 +0000
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+	id 1rgy3o-00000007Jkk-05yT;
+	Mon, 04 Mar 2024 02:28:12 +0000
+Received: from out-182.mta1.migadu.com ([2001:41d0:203:375::b6])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rgowD-00000006JDd-41sP
+	id 1rgy3j-00000007Jir-1a8K
 	for linux-nvme@lists.infradead.org;
-	Sun, 03 Mar 2024 16:43:47 +0000
-Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-33e162b1b71so2710438f8f.1
-        for <linux-nvme@lists.infradead.org>; Sun, 03 Mar 2024 08:43:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709484224; x=1710089024; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ikfe6o+inj4dMrhzQCM91BE0ram1wt5jM+ElrBh+ocw=;
-        b=lpcsDk+pihwdHugKp5uKXgGlL8qjXI9AbrED5NXriyaa5AP6eaBPVg6fd0jKodjvtl
-         Zv/inzSvcQl+pgSF+PVw/1IdTgErb7+wJAwAZmxAnzVzhRQH0M1EyLamXuuHk+/hZVsR
-         Jrh+ErqZBDkscrgMXJD3995m57lwdgWsFQNm4XNgYUiDsqjYQ4QRWfe7GK9czVY6nBZf
-         jAXxSmPxNNbduTECkvkYF2t0kurnQ7gTb1kytPvKqlyEkyVxXP0TGj2SHi5oJ/X0KL7Y
-         6q9VSCOkfQph4p1pvSYT433Rr1eTIsLs0kHo/PH4+CW315gvS6yK+Dj8LER7pxsOHSsq
-         k96g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709484224; x=1710089024;
-        h=content-transfer-encoding:in-reply-to:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ikfe6o+inj4dMrhzQCM91BE0ram1wt5jM+ElrBh+ocw=;
-        b=NNBlVhjVjbmMXAqQxffoui1VZNzQgcMiLERlLhJOm24VzZsmHYZYyqYA7r1/khbmBv
-         ngXi5AWWrSQHwN8yvqhtE8zEXp6W3b1E4JTyb9pjmkii4L/HxxtpF/oQqF3SotK6YojG
-         wyqcTMI3YIH5JV4t20xVER6zJ59wfLMUFXK73Qb+2WBeI2LvEBKTk/K8oDWSZ6rDtjwJ
-         myhAu35pbxSzZL+3397ETZ0+GPmvEF/enHV5o0HMOISDM+73FpwYfWfD4rzoFPARE8uq
-         QQpwNGfztJ5OmxyjzQd9HHElftVPIPROOwx7WC7wU0oRrs4jcaWXb2I0LgUXHiwcJ9G5
-         9kuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWKTqtHA21wsga65MkLxMvaF5gAHBG/jesJd3tAce1NaMpDtN91oxIbaFlv74HwIMBTw6lwZ0L9XObb8/4JhkKfCDt9YxDF6yPAVXs1cqs=
-X-Gm-Message-State: AOJu0Yz+VJ4qFsPad36ejaPdGCuDgnS3ImbigQDneVb/ugiTCRPr8p5n
-	jz7lnKaXngqx/I0k7JL0n6BP/13CIiE31w8zcdK/LSbdwCGdr0ep
-X-Google-Smtp-Source: AGHT+IEan7Mnlup0Dsmz/hl+Nfxoss34Q+iDIhW40VewxV5OR6PZ3luhS7QypruxneaihlG33uJrxQ==
-X-Received: by 2002:a05:6000:12c8:b0:33d:747a:1e94 with SMTP id l8-20020a05600012c800b0033d747a1e94mr4376321wrx.41.1709484223538;
-        Sun, 03 Mar 2024 08:43:43 -0800 (PST)
-Received: from [10.8.18.71] ([62.214.99.74])
-        by smtp.gmail.com with ESMTPSA id cr14-20020a05600004ee00b0033dd06e628asm9995441wrb.27.2024.03.03.08.43.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 03 Mar 2024 08:43:42 -0800 (PST)
-From: Zhu Yanjun <zyjzyj2000@gmail.com>
-X-Google-Original-From: Zhu Yanjun <yanjun.zhu@linux.dev>
-Message-ID: <be75fe5b-9901-425c-8dbb-771dcb084e2e@linux.dev>
-Date: Sun, 3 Mar 2024 17:43:41 +0100
+	Mon, 04 Mar 2024 02:28:09 +0000
+Message-ID: <22df55f8-cf64-4aa8-8c0b-b556c867b926@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1709519282;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AwmaRBK9f4xeTr2KKIZaEkYuoxsnConkJ3QY8WkxaG4=;
+	b=GFbyjr7FhhwloIRGYJbvYR2kjPjcVdcWEeIEFJysy6dwcV7/jHlDBt/GAmHusvPsiaRlNZ
+	UB7rrqP99IQeHRy17j5j5Kx45ucggNjfStR4c5A4+uGW1Gcy07R2jku2TzogQkWFWGB+PJ
+	j/QAT+SkCeRTAFVbxsPeNebm/D8kfjk=
+Date: Mon, 4 Mar 2024 03:27:52 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
 Subject: Re: [LSF/MM/BPF TOPIC] [LSF/MM/BPF ATTEND] : Two stage IOMMU DMA
  mapping operations
-Content-Language: en-US
-To: Leon Romanovsky <leon@kernel.org>,
+To: Zhu Yanjun <zyjzyj2000@gmail.com>, Leon Romanovsky <leon@kernel.org>,
  Chaitanya Kulkarni <chaitanyak@nvidia.com>
 Cc: "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
  "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
@@ -91,12 +61,16 @@ Cc: "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
  Chuck Lever <chuck.lever@oracle.com>
 References: <97f385db-42c9-4c04-8fba-9b1ba8ffc525@nvidia.com>
  <20240227113007.GD1842804@unreal>
-In-Reply-To: <20240227113007.GD1842804@unreal>
+ <be75fe5b-9901-425c-8dbb-771dcb084e2e@linux.dev>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Zhu Yanjun <yanjun.zhu@linux.dev>
+In-Reply-To: <be75fe5b-9901-425c-8dbb-771dcb084e2e@linux.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240303_084346_058736_5E4B23A6 
-X-CRM114-Status: GOOD (  12.42  )
+X-CRM114-CacheID: sfid-20240303_182807_886092_8729450A 
+X-CRM114-Status: GOOD (  11.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,44 +85,73 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 27.02.24 12:30, Leon Romanovsky wrote:
-> On Tue, Feb 27, 2024 at 08:17:27AM +0000, Chaitanya Kulkarni wrote:
->> Hi,
+在 2024/3/3 17:43, Zhu Yanjun 写道:
+> On 27.02.24 12:30, Leon Romanovsky wrote:
+>> On Tue, Feb 27, 2024 at 08:17:27AM +0000, Chaitanya Kulkarni wrote:
+>>> Hi,
+>>
+>> <...>
+>>
+>>> In order to create a good platform for a concrete and meaningful
+>>> discussion at LSFMM 24, we plan to post an RFC within the next two 
+>>> weeks.
+>>
+>> The code can be found here 
+>> https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/log/?h=dma-split
 > 
-> <...>
-> 
->> In order to create a good platform for a concrete and meaningful
->> discussion at LSFMM 24, we plan to post an RFC within the next two weeks.
-> 
-> The code can be found here https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/log/?h=dma-split
+> Thanks a lot. I will delve into it. An interesting topic.
 
-Thanks a lot. I will delve into it. An interesting topic.
+The commits should be the followings. I am interested in them.
+
+5d8f8f35859c (HEAD -> dma-split, origin/dma-split) cover-letter: Split 
+IOMMU DMA mapping operation to two steps
+3beffcde0c12 vfio/mlx5: Convert vfio to use DMA link API
+acdfef1ccbcb vfio/mlx5: Explicitly store page list
+f16314362e66 vfio/mlx5: Rewrite create mkey flow to allow better code reuse
+763e753cd6ed vfio/mlx5: Explicitly use number of pages instead of 
+allocated length
+7f58ebf0cfc4 RDMA/umem: Prevent UMEM ODP creation with SWIOTLB
+f1c687fde096 RDMA/core: Separate DMA mapping to caching IOVA and page 
+linkage
+ffc81619c60d RDMA/umem: Store ODP access mask information in PFN
+67038d9e24fd RDMA/umem: Preallocate and cache IOVA for UMEM ODP
+ce141bccd409 iommu/dma: Implement link/unlink page callbacks
+1dd12d4a44d1 iommu/dma: Prepare map/unmap page functions to receive IOVA
+b9714667f54f iommu/dma: Provide an interface to allow preallocate IOVA
+21dbfc7fc2f1 dma-mapping: provide callbacks to link/unlink pages to 
+specific IOVA
+52689a26b87a dma-mapping: provide an interface to allocate IOVA
+34f8a8baecaa mm/hmm: let users to tag specific PFNs
 
 Zhu Yanjun
 
 > 
-> Thanks
+> Zhu Yanjun
 > 
 >>
->> Required Attendees list :-
+>> Thanks
 >>
->> Christoph Hellwig
->> Jason Gunthorpe
->> Jens Axboe
->> Chuck Lever
->> David Howells
->> Keith Busch
->> Bart Van Assche
->> Damien Le Moal
->> Martin Petersen
->>
->> -ck
->>
->> [1]
->> https://lore.kernel.org/all/169772852492.5232.17148564580779995849.stgit@klimt.1015granger.net
->> [2] https://lore.kernel.org/linux-iommu/20200708065014.GA5694@lst.de/
->>
->>
->>
+>>>
+>>> Required Attendees list :-
+>>>
+>>> Christoph Hellwig
+>>> Jason Gunthorpe
+>>> Jens Axboe
+>>> Chuck Lever
+>>> David Howells
+>>> Keith Busch
+>>> Bart Van Assche
+>>> Damien Le Moal
+>>> Martin Petersen
+>>>
+>>> -ck
+>>>
+>>> [1]
+>>> https://lore.kernel.org/all/169772852492.5232.17148564580779995849.stgit@klimt.1015granger.net
+>>> [2] https://lore.kernel.org/linux-iommu/20200708065014.GA5694@lst.de/
+>>>
+>>>
+>>>
+> 
 
 
