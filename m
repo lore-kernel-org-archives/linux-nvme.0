@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8E1F7C48BF6
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 Mar 2024 14:06:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0AEA4C5478C
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 Mar 2024 15:20:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fAfN2af5jtAk4J06WzedZD1OoJhGAyL9gXSoILZXeJ0=; b=mwXmY3K0O128aRwWbvF7+0lh5c
-	RQyqIZQByl8v7y1PY+apPzkF1kMdDOK19GkyScTig3p9kMue/CV4tlYqUiEQy8FzDqUC74HQxjCTA
-	/rrMnP3E39aQmk5MN4sNUWzEugQDEkowA9uyp/zHhD2OcC6ujuzVkgP3sWt/X/QD8S4I8JXs8U1cx
-	y8BBY9Ucv09T1AbZZL374AcyYc0FOSg7E7Oc1c0rXm+SbtZMmJX4UufjHNqGwJM2gL3Wr6DJbBNU0
-	CTaSTs7t0TzAW6RRf26L89amLIoih52ffQoCcdngtFYzPRMK397F2kOxlDFbWL3HmH8rXrnHD54fw
-	aRpKoFwQ==;
+	bh=1iq0SDNjuAqju+qMj4DRxcdeQAcFblUDGrqSJeOZj5c=; b=MRAXiIwtNIQ3AUAVvjAZTWuv/X
+	Oz5eEJHLWdDq1+uLzCJAvI9NaYSpWVVqycwHyBM28kIdoD5LcMB0JBrKKkRmQP9MTgaafmVyAQeIk
+	klHhqURvQ1PGrwJCG5qUQDzwZHC8tLfloGWS+c5kcynTSXSKN8L7ZwG/mSz6hl4e7zkIyBk0FMbcz
+	0uHzw4tOswMk30elV0e8CIdY6eiBFV3eJFTq6fsCHprYm4/auZOK5ySbGOg0hnOGZY2xXlRzPxawJ
+	uNqCPQT3HXPYEoxywo+d9WIkVzPlhmbIcMG/Y+iOR1mP3ubxsr61Cl2bCD82cD5f+9GnYIB2EVRoK
+	s8wARFxA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rh8xt-00000009Iav-0JcY;
-	Mon, 04 Mar 2024 14:06:49 +0000
+	id 1rhA6t-00000009YpV-360E;
+	Mon, 04 Mar 2024 15:20:11 +0000
 Received: from [206.0.71.24] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rh8xh-00000009ISB-1a0j;
-	Mon, 04 Mar 2024 14:06:39 +0000
+	id 1rh8xG-00000009I5q-0oCL;
+	Mon, 04 Mar 2024 14:06:11 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
@@ -35,10 +35,11 @@ To: Hector Martin <marcan@marcan.st>,
 	Chaitanya Kulkarni <kch@nvidia.com>
 Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	asahi@lists.linux.dev,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH 16/16] nvme-multipath: use atomic queue limits API for stacking limits
-Date: Mon,  4 Mar 2024 07:05:00 -0700
-Message-Id: <20240304140500.78583-17-hch@lst.de>
+	linux-nvme@lists.infradead.org,
+	Max Gurtovoy <mgurtovoy@nvidia.com>
+Subject: [PATCH 11/16] nvme: split out a nvme_identify_ns_nvm helper
+Date: Mon,  4 Mar 2024 07:04:55 -0700
+Message-Id: <20240304140500.78583-12-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240304140500.78583-1-hch@lst.de>
 References: <20240304140500.78583-1-hch@lst.de>
@@ -58,41 +59,76 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Switch to the queue_limits_* helpers to stack the bdev limits, which also
-includes updating the readahead settings.
+Split the logic to query the Identify Namespace Data Structure, NVM
+Command Set into a separate helper.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
 ---
- drivers/nvme/host/core.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/nvme/host/core.c | 38 ++++++++++++++++++++++++++------------
+ 1 file changed, 26 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 6413ce24fb4b1c..3f985b93a19f98 100644
+index f0686a872d0e30..9abcc389f0f3ae 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -2188,6 +2188,8 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_ns_info *info)
- 	}
+@@ -1831,12 +1831,35 @@ static bool nvme_ns_ids_equal(struct nvme_ns_ids *a, struct nvme_ns_ids *b)
+ 		a->csi == b->csi;
+ }
  
- 	if (!ret && nvme_ns_head_multipath(ns->head)) {
-+		struct queue_limits lim;
++static int nvme_identify_ns_nvm(struct nvme_ctrl *ctrl, unsigned int nsid,
++		struct nvme_id_ns_nvm **nvmp)
++{
++	struct nvme_command c = {
++		.identify.opcode	= nvme_admin_identify,
++		.identify.nsid		= cpu_to_le32(nsid),
++		.identify.cns		= NVME_ID_CNS_CS_NS,
++		.identify.csi		= NVME_CSI_NVM,
++	};
++	struct nvme_id_ns_nvm *nvm;
++	int ret;
 +
- 		blk_mq_freeze_queue(ns->head->disk->queue);
- 		if (unsupported)
- 			ns->head->disk->flags |= GENHD_FL_HIDDEN;
-@@ -2196,10 +2198,11 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_ns_info *info)
- 		set_capacity_and_notify(ns->head->disk, get_capacity(ns->disk));
- 		set_disk_ro(ns->head->disk, nvme_ns_is_readonly(ns, info));
- 		nvme_mpath_revalidate_paths(ns);
--		blk_stack_limits(&ns->head->disk->queue->limits,
--				 &ns->queue->limits, 0);
- 
--		disk_update_readahead(ns->head->disk);
-+		lim = queue_limits_start_update(ns->head->disk->queue);
-+		queue_limits_stack_bdev(&lim, ns->disk->part0, 0,
-+					ns->head->disk->disk_name);
-+		ret = queue_limits_commit_update(ns->head->disk->queue, &lim);
- 		blk_mq_unfreeze_queue(ns->head->disk->queue);
++	nvm = kzalloc(sizeof(*nvm), GFP_KERNEL);
++	if (!nvm)
++		return -ENOMEM;
++
++	ret = nvme_submit_sync_cmd(ctrl->admin_q, &c, nvm, sizeof(*nvm));
++	if (ret)
++		kfree(nvm);
++	else
++		*nvmp = nvm;
++	return ret;
++}
++
+ static int nvme_init_ms(struct nvme_ctrl *ctrl, struct nvme_ns_head *head,
+ 		struct nvme_id_ns *id)
+ {
+ 	bool first = id->dps & NVME_NS_DPS_PI_FIRST;
+ 	unsigned lbaf = nvme_lbaf_index(id->flbas);
+-	struct nvme_command c = { };
+ 	struct nvme_id_ns_nvm *nvm;
+ 	int ret = 0;
+ 	u32 elbaf;
+@@ -1849,18 +1872,9 @@ static int nvme_init_ms(struct nvme_ctrl *ctrl, struct nvme_ns_head *head,
+ 		goto set_pi;
  	}
+ 
+-	nvm = kzalloc(sizeof(*nvm), GFP_KERNEL);
+-	if (!nvm)
+-		return -ENOMEM;
+-
+-	c.identify.opcode = nvme_admin_identify;
+-	c.identify.nsid = cpu_to_le32(head->ns_id);
+-	c.identify.cns = NVME_ID_CNS_CS_NS;
+-	c.identify.csi = NVME_CSI_NVM;
+-
+-	ret = nvme_submit_sync_cmd(ctrl->admin_q, &c, nvm, sizeof(*nvm));
++	ret = nvme_identify_ns_nvm(ctrl, head->ns_id, &nvm);
+ 	if (ret)
+-		goto free_data;
++		goto set_pi;
+ 
+ 	elbaf = le32_to_cpu(nvm->elbaf[lbaf]);
  
 -- 
 2.39.2
