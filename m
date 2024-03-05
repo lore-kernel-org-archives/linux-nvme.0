@@ -4,73 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C6336C54798
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Mar 2024 13:16:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5FE4BC54E41
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Mar 2024 13:16:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=09m5+SBfJc6gX7T4nbwPoMZXriAQEu+6FlQsl0sanWI=; b=Hyxw2wm8n1p6H7827nG/zfgygT
-	Geg0k4z1gHKPkt3sAv1SWIIA7UpAUzcAuQZOTFYlYxM+t42bbB9yn6WejjjSPuG/4PqD2KASSA1ZW
-	NFwbdZlbCB97eTf0nqZhifGdncr8pe+JkIsrTwLMuRrCKA1CD6SWjw0w62n+bmTnTCl30f/vLudkW
-	mFyEjvshoDaHO1cw8NZrizwtt1uCitbgFcAu+dz4HuoZi7ngwtOi7XTjHdePWy32t7JMx602Rb46D
-	N8VQzU3u0bDhbO/mgZFgLIO91t9twDcykleXffsfagfxIyD+2sU8FOSSyrhfzpbcPZPHh3ms1Wrq5
-	laY13C+A==;
+	bh=gadEZlo5HX6ZvCpKvvvFLxpx/LQrgu8T3YbMhZTBo7E=; b=AYV83MlPsLiFtdB9azEO7jMTBU
+	g151qf/57PlShZOLtB+jHYc2WnirJUEhGue6I3vLaIab5tkavrk2DmjbGMlO8WnGaO1NCXomIKcMf
+	Nd45VkoKdb1CkiIw8SEObvIgyO1/lbo2SxUxic7jimk5HpHuwsKPw9tWdYpNWQY82jp8QfWNRfwof
+	j6AUNNvnK7nvIk0ey/KWh96IXI1DVjS1h3gSseralGI33wIxs1zVa3FYjVjSZzOnN0pc70AzGeFos
+	NKFirgZSeSb2kvrd2HCNuGgwf9zHteBVnc6sBvwm/0y2unxuWPeAAtr5L02RtQwQ2it/J5Y9v9foA
+	gNuz3Zvg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhUeU-0000000DhUa-3Nn3;
-	Tue, 05 Mar 2024 13:16:14 +0000
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
+	id 1rhUeX-0000000DhWr-3mbY;
+	Tue, 05 Mar 2024 13:16:17 +0000
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhUeR-0000000DhTB-3qT3
+	id 1rhUeV-0000000DhUW-1zEz
 	for linux-nvme@lists.infradead.org;
-	Tue, 05 Mar 2024 13:16:13 +0000
-Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-6e558a67f70so5023544b3a.0
-        for <linux-nvme@lists.infradead.org>; Tue, 05 Mar 2024 05:16:11 -0800 (PST)
+	Tue, 05 Mar 2024 13:16:16 +0000
+Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1dc0d11d1b7so45980645ad.2
+        for <linux-nvme@lists.infradead.org>; Tue, 05 Mar 2024 05:16:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709644571; x=1710249371;
+        d=1e100.net; s=20230601; t=1709644574; x=1710249374;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:dkim-signature:from:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=09m5+SBfJc6gX7T4nbwPoMZXriAQEu+6FlQsl0sanWI=;
-        b=axf0dIMbS2qd/a4tG6rg1tEn+mg7R1u7+j7TxGeg0H76Ier4+PK3H+kmO4+An9Kpiv
-         /8EAF9Sbfkca190YT5sliIBuFWEBqnXsHttsCklD22/w5/NhlKokfvNwgbgPhAV0ouaA
-         Vf6nHjgCk/GBwNRXsMuPsTYcuAtC3OracakEB23l3L5oCBoGfWwZ7EDnLrsCDrn7EwXI
-         gjx88cNYbSo2fpR5JPlC4lYvRIv/zy8NQ0R3nHWfkTMJvb1sNMDDCPbwWdGKvnBNRYBN
-         EfDSzvTH1J9qsfG0gB14CTjCAKNqn/4evJYDduFNmGgaBE+qBBybjIWbq49jb88QdC6G
-         GsgQ==
-X-Gm-Message-State: AOJu0YxkUVpEzLlTJRBtYfg0lrpBI3VJSIMkpUldauQD/pHUR9HKQGND
-	7VeBLWTYzlq18zmmwqbKQpd2hWSeoe4hZmTiAbJ0BBW7kQeUEpMU
-X-Google-Smtp-Source: AGHT+IEeC1ChjkRaiz7c+VB8f3cr0pptDOo5y15zzCK+P8Uc/lkjf/BcXyQejrRAR+y/zgOz6btJXQ==
-X-Received: by 2002:a05:6a20:8f0c:b0:1a1:4cd2:4398 with SMTP id b12-20020a056a208f0c00b001a14cd24398mr1743647pzk.8.1709644570566;
-        Tue, 05 Mar 2024 05:16:10 -0800 (PST)
+        bh=gadEZlo5HX6ZvCpKvvvFLxpx/LQrgu8T3YbMhZTBo7E=;
+        b=Uh26Cy8SDivkdyo9NhGfk0SWRnheKTMZVV+fAwMqierPETHfNls79idc+3wscLG5/P
+         jTBR8OvTzdcnbR/Qbz3KfQi9XrdWm01syq30bDXtilu9fS3oKcId3zLk33jevzPshRez
+         Y4IJZfECV5LJXG7Q6j36xgr/7Bv4PNKUosH2j8NeA8TLrEgzdsAZSiJ7bHAA68Nk/DXn
+         WxCrtXX4CjV/+d6Bx3GRKl0E9WKRoibu83pDTK7sI+mlXdy/dxZjjp7fFEQewrfsNK/R
+         eB1FerfAqsgFsOYFGwdM5o8QFwuT5fkRk1exLfFVSASS6tQJPqb8RYW1b6K6g4QkReRF
+         I5qg==
+X-Gm-Message-State: AOJu0YyaHRv6xax+8e36TrR69+xWAL4kwyE3ltNLvu4PjWb2+a0BrWE9
+	T8dbGLsW253FsPW4jEJLl8eYrAsxu/pXw+5mmctt6MM/9hcEQc4k
+X-Google-Smtp-Source: AGHT+IFxlioFA+0snm0cpY62UqyNrvze7kGIh/a9o4bx+H+50s4b27RXJpgKgrdJBQz1ek0gYH4x2w==
+X-Received: by 2002:a17:902:e74b:b0:1da:22d9:e7fd with SMTP id p11-20020a170902e74b00b001da22d9e7fdmr1972561plf.20.1709644574032;
+        Tue, 05 Mar 2024 05:16:14 -0800 (PST)
 Received: from mail.marliere.net ([24.199.118.162])
-        by smtp.gmail.com with ESMTPSA id m19-20020aa78a13000000b006e509762bc2sm8948560pfa.26.2024.03.05.05.16.09
+        by smtp.gmail.com with ESMTPSA id l15-20020a170902f68f00b001dc96b19616sm10493335plg.66.2024.03.05.05.16.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Mar 2024 05:16:10 -0800 (PST)
+        Tue, 05 Mar 2024 05:16:13 -0800 (PST)
 From: "Ricardo B. Marliere" <ricardo@marliere.net>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
-	s=2024; t=1709644569;
+	s=2024; t=1709644572;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=09m5+SBfJc6gX7T4nbwPoMZXriAQEu+6FlQsl0sanWI=;
-	b=cKFrfHDg4W23mqvrUZ0nGbHiVnX0hmV+shCzba6XDCQjiiMQlkV2J7Ml2bvrvTyUZ65wHv
-	Q0IPP5SxrqylsP49H9OkuHcoRVnzJ9RhPzAWw/8fqW5W8UuteBcYOlmzRfNQvfze7KNmrq
-	ZfTsIotK43wZ38CHui4I6bwK428aEcfKeU7kSh1BJ0ddgAE02P7AlGgtTeDvO0Wtn2xEAb
-	Q3AalaM8mhaDYZZQV8z3Mu8623dr790ndU26llwaFsnxRwFYJ86BBMBUFewPI5nQJRtgeT
-	8UdfoaS7bgQOdmY+FcH26jXFrE8qLwnOIbLvhoVmbeR+4ydUV9UaMAnyCXzgLQ==
+	bh=gadEZlo5HX6ZvCpKvvvFLxpx/LQrgu8T3YbMhZTBo7E=;
+	b=qwGPOhIu1JrBU+Ku4MfcnysPIzAdIiHZA4ojvs5dgJoNaxxRzWfO0isA4s23FJ2AvErtvL
+	uMhE6ciJtGgSJaUpjJmegQIqKOMWpsa3Ig4dthh+kNATuAPUly6Pf0xMssF83j4w95mHk2
+	hdpNwolcz+WnZW3dnZwP8AQxczG8LM00nspFDceybthbEd6XloCup/DnGYhglIB85oIJMN
+	AlX2O54usTDfubIpGeSVQB51ZY8yMIxwEO1/bKdCD+6TfjHKJSXHy/i17GPLBQJbClMv6/
+	mpsR89ucZhVRjY6+F0xvC9CDjfnnTmh2OcjncrKSYpzBnYo3UowfWvMXyVdfHg==
 Authentication-Results: ORIGINATING;
 	auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
-Date: Tue, 05 Mar 2024 10:15:56 -0300
-Subject: [PATCH 1/3] nvme: core: constify struct class usage
+Date: Tue, 05 Mar 2024 10:15:57 -0300
+Subject: [PATCH 2/3] nvme: fabrics: make nvmf_class constant
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240305-class_cleanup-nvme-v1-1-c707fc997774@marliere.net>
+Message-Id: <20240305-class_cleanup-nvme-v1-2-c707fc997774@marliere.net>
 References: <20240305-class_cleanup-nvme-v1-0-c707fc997774@marliere.net>
 In-Reply-To: <20240305-class_cleanup-nvme-v1-0-c707fc997774@marliere.net>
 To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
@@ -79,25 +79,25 @@ To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
 Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  "Ricardo B. Marliere" <ricardo@marliere.net>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4952; i=ricardo@marliere.net;
- h=from:subject:message-id; bh=N127LXZt4grt1w/gMcszgp3Y6dKY6UU9hI85A/v/RiU=;
- b=owEBbQKS/ZANAwAKAckLinxjhlimAcsmYgBl5xsRAgbkZFHltPBoK7XwGNvlCzRSGVI2XEudk
- eoKO0P71o2JAjMEAAEKAB0WIQQDCo6eQk7jwGVXh+HJC4p8Y4ZYpgUCZecbEQAKCRDJC4p8Y4ZY
- psf7D/9xaaHQVVjmQLJ/6qwlPxjZZAPXOIVGYtTc3mGa3fmormjDdsvtxJVYybF5kToAel1CP5/
- W9Ri0Gf6QPj/SxaXuwO+LCnm/3uJ2LtWklaYyzeRTbmNzJ80FTh9MntPLp6WsdPh9DBXjot5EuQ
- E4PC4uOS4TdQfmjW/UcL2CI+vZDajsdKna59Bo6/nTCSeg8Sch4K3Q+13bQHu/C+UXzqeS9yixG
- Z0vipWjThk8JfnD/mBS6q8OEVF1glL8Bly1iOiY0hY+AjcX5sfPaIGA/uRYPSEiAQzOARm5DRl+
- R+L2jnIbv4TzSdDnh4rcgU7HdTLnLxIjoSXT6Vdi8erj4SyIRsydehuEYdjo8mssp6VeTTPnGCI
- aUK7/l0bd+IPX2dHzjzA1cdmMAAo2G/Jp1oPuaxzlR0xBzny/x+na8akub5vWP1KYk+L257VFwK
- w1WC4KBJylzDuj2FziuLC6Kvf3HkEkz/PDVV+7jXJwXVtpDMEeAQ24UFdZ6ZQh9P7b9egRux3Lx
- BgV9iRwFbwMwDK9jYVjgSVLumG9kxSj2JhhqdWBq3x7NxD3o+4MjdLLKdi7oj3GHEw8FF2l0iG5
- UxSvnti//gh9MSnzaHvwTx9TwEkwPI/zmuP7Zb3DE91Lu2kLegsWQAbtX4t7tPUjZeKMF0jYtUY
- oWueNeX8ZVsbpmQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2439; i=ricardo@marliere.net;
+ h=from:subject:message-id; bh=+dZdFqYSeTBhHCI/BvnkTnL3SyFJABSSpjeS4o55OME=;
+ b=owEBbQKS/ZANAwAKAckLinxjhlimAcsmYgBl5xsRk7shI3nEmZOyWDcbHBkqIDALjOp8rSwRS
+ PW9luUHba6JAjMEAAEKAB0WIQQDCo6eQk7jwGVXh+HJC4p8Y4ZYpgUCZecbEQAKCRDJC4p8Y4ZY
+ pokLEAChkBvAmbdjHqdx0mLrG/G/zqnAQyWG16mp9+F/bfOltpDc+KHT6w8q9AlAcWuDi+A0quH
+ Aqb8pXZ1LLW2ljEQ79Uyc2GUZ1RBY+POjejYCmNW5B2yqFb07gbpV4hTbAwIiCIe1CvhiV4BdUt
+ hyZDu0RypQUJKvMmF3yq6KpWnJkHzxJja2OEYWtLg0w+ekav60KkFSiC2AT/hg71jd+LWnYlXAc
+ MUxDRpSjUSwsnUSG8yg/CVdHpxTg4ICOEb2oqEH7vFLUGLK3VkaAUWrxs1pmFVqnCqnJswhWjXT
+ u78DPjsdkeJY2INFFkYoJVsxYgKZjgY2S0ja7YBY/j7ynwpMJE95fU91qgFgtFRpble9PmOtNqH
+ +veGO4HF8hR8Hz+IpCiNQshdJEpb0jCuih1Adnwu3n/3VPDUsUHMfGULc961qqkhGcEws92j9OT
+ B0K5wiox5D5bvBtKGYhUMOFnftMYvB6D0gC/4rYtzlZYb2eKhm6Z2jB4rK5dzL0FfGPAh2R1n6Q
+ Nof4Oyx5x2CNKa0TppQ7zY4GYed6Ltf9tDnNrbgAwT1ZLekAAocUIYQL2UgzYXr3hCmTnlP/xHt
+ d0jhQaiSufymo8Xf7iQJODbUl6YuyeHRQS+Vy48BC2xPqwOhU3JRn8RRwjrmlNZClBpErCZvF8o
+ 8Ad9eeLbDqms8Eg==
 X-Developer-Key: i=ricardo@marliere.net; a=openpgp;
  fpr=030A8E9E424EE3C0655787E1C90B8A7C638658A6
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240305_051611_999918_1B00940A 
-X-CRM114-Status: GOOD (  16.53  )
+X-CRM114-CacheID: sfid-20240305_051615_577104_D2CE7521 
+X-CRM114-Status: GOOD (  16.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,139 +114,75 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 Since commit 43a7206b0963 ("driver core: class: make class_register() take
 a const *"), the driver core allows for struct class to be in read-only
-memory, so move the structures nvme_class, nvme_subsys_class and
-nvme_ns_chr_class to be declared at build time placing them into read-only
-memory, instead of having to be dynamically allocated at boot time.
+memory, so move the nvmf_class structure to be declared at build time
+placing it into read-only memory, instead of having to be dynamically
+allocated at boot time.
 
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
 ---
- drivers/nvme/host/core.c | 53 +++++++++++++++++++++++++-----------------------
- 1 file changed, 28 insertions(+), 25 deletions(-)
+ drivers/nvme/host/fabrics.c | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 60537c9224bf..fdddf2b17519 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -114,12 +114,21 @@ static DEFINE_MUTEX(nvme_subsystems_lock);
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 3499acbf6a82..94e0911c43bc 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -1318,7 +1318,10 @@ nvmf_create_ctrl(struct device *dev, const char *buf)
+ 	return ERR_PTR(ret);
+ }
  
- static DEFINE_IDA(nvme_instance_ida);
- static dev_t nvme_ctrl_base_chr_devt;
--static struct class *nvme_class;
--static struct class *nvme_subsys_class;
-+static int nvme_class_uevent(const struct device *dev, struct kobj_uevent_env *env);
-+static const struct class nvme_class = {
-+	.name = "nvme",
-+	.dev_uevent = nvme_class_uevent,
+-static struct class *nvmf_class;
++static const struct class nvmf_class = {
++	.name = "nvme-fabrics",
 +};
 +
-+static const struct class nvme_subsys_class = {
-+	.name = "nvme-subsystem",
-+};
+ static struct device *nvmf_device;
+ static DEFINE_MUTEX(nvmf_dev_mutex);
  
- static DEFINE_IDA(nvme_ns_chr_minor_ida);
- static dev_t nvme_ns_chr_devt;
--static struct class *nvme_ns_chr_class;
-+static const struct class nvme_ns_chr_class = {
-+	.name = "nvme-generic",
-+};
+@@ -1438,15 +1441,14 @@ static int __init nvmf_init(void)
+ 	if (!nvmf_default_host)
+ 		return -ENOMEM;
  
- static void nvme_put_subsystem(struct nvme_subsystem *subsys);
- static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
-@@ -2873,7 +2882,7 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- 	subsys->awupf = le16_to_cpu(id->awupf);
- 	nvme_mpath_default_iopolicy(subsys);
+-	nvmf_class = class_create("nvme-fabrics");
+-	if (IS_ERR(nvmf_class)) {
++	ret = class_register(&nvmf_class);
++	if (ret) {
+ 		pr_err("couldn't register class nvme-fabrics\n");
+-		ret = PTR_ERR(nvmf_class);
+ 		goto out_free_host;
+ 	}
  
--	subsys->dev.class = nvme_subsys_class;
-+	subsys->dev.class = &nvme_subsys_class;
- 	subsys->dev.release = nvme_release_subsystem;
- 	subsys->dev.groups = nvme_subsys_attrs_groups;
- 	dev_set_name(&subsys->dev, "nvme-subsys%d", ctrl->instance);
-@@ -3416,7 +3425,7 @@ int nvme_cdev_add(struct cdev *cdev, struct device *cdev_device,
- 	if (minor < 0)
- 		return minor;
- 	cdev_device->devt = MKDEV(MAJOR(nvme_ns_chr_devt), minor);
--	cdev_device->class = nvme_ns_chr_class;
-+	cdev_device->class = &nvme_ns_chr_class;
- 	cdev_device->release = nvme_cdev_rel;
- 	device_initialize(cdev_device);
- 	cdev_init(cdev, fops);
-@@ -4609,7 +4618,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	ctrl->device = &ctrl->ctrl_device;
- 	ctrl->device->devt = MKDEV(MAJOR(nvme_ctrl_base_chr_devt),
- 			ctrl->instance);
--	ctrl->device->class = nvme_class;
-+	ctrl->device->class = &nvme_class;
- 	ctrl->device->parent = ctrl->dev;
- 	if (ops->dev_attr_groups)
- 		ctrl->device->groups = ops->dev_attr_groups;
-@@ -4842,42 +4851,36 @@ static int __init nvme_core_init(void)
- 	if (result < 0)
- 		goto destroy_delete_wq;
- 
--	nvme_class = class_create("nvme");
--	if (IS_ERR(nvme_class)) {
--		result = PTR_ERR(nvme_class);
-+	result = class_register(&nvme_class);
-+	if (result)
- 		goto unregister_chrdev;
--	}
--	nvme_class->dev_uevent = nvme_class_uevent;
- 
--	nvme_subsys_class = class_create("nvme-subsystem");
--	if (IS_ERR(nvme_subsys_class)) {
--		result = PTR_ERR(nvme_subsys_class);
-+	result = class_register(&nvme_subsys_class);
-+	if (result)
- 		goto destroy_class;
--	}
- 
- 	result = alloc_chrdev_region(&nvme_ns_chr_devt, 0, NVME_MINORS,
- 				     "nvme-generic");
- 	if (result < 0)
- 		goto destroy_subsys_class;
- 
--	nvme_ns_chr_class = class_create("nvme-generic");
--	if (IS_ERR(nvme_ns_chr_class)) {
--		result = PTR_ERR(nvme_ns_chr_class);
-+	result = class_register(&nvme_ns_chr_class);
-+	if (result)
- 		goto unregister_generic_ns;
--	}
-+
- 	result = nvme_init_auth();
- 	if (result)
- 		goto destroy_ns_chr;
+ 	nvmf_device =
+-		device_create(nvmf_class, NULL, MKDEV(0, 0), NULL, "ctl");
++		device_create(&nvmf_class, NULL, MKDEV(0, 0), NULL, "ctl");
+ 	if (IS_ERR(nvmf_device)) {
+ 		pr_err("couldn't create nvme-fabrics device!\n");
+ 		ret = PTR_ERR(nvmf_device);
+@@ -1462,9 +1464,9 @@ static int __init nvmf_init(void)
  	return 0;
  
- destroy_ns_chr:
--	class_destroy(nvme_ns_chr_class);
-+	class_unregister(&nvme_ns_chr_class);
- unregister_generic_ns:
- 	unregister_chrdev_region(nvme_ns_chr_devt, NVME_MINORS);
- destroy_subsys_class:
--	class_destroy(nvme_subsys_class);
-+	class_unregister(&nvme_subsys_class);
- destroy_class:
--	class_destroy(nvme_class);
-+	class_unregister(&nvme_class);
- unregister_chrdev:
- 	unregister_chrdev_region(nvme_ctrl_base_chr_devt, NVME_MINORS);
- destroy_delete_wq:
-@@ -4893,9 +4896,9 @@ static int __init nvme_core_init(void)
- static void __exit nvme_core_exit(void)
+ out_destroy_device:
+-	device_destroy(nvmf_class, MKDEV(0, 0));
++	device_destroy(&nvmf_class, MKDEV(0, 0));
+ out_destroy_class:
+-	class_destroy(nvmf_class);
++	class_unregister(&nvmf_class);
+ out_free_host:
+ 	nvmf_host_put(nvmf_default_host);
+ 	return ret;
+@@ -1473,8 +1475,8 @@ static int __init nvmf_init(void)
+ static void __exit nvmf_exit(void)
  {
- 	nvme_exit_auth();
--	class_destroy(nvme_ns_chr_class);
--	class_destroy(nvme_subsys_class);
--	class_destroy(nvme_class);
-+	class_unregister(&nvme_ns_chr_class);
-+	class_unregister(&nvme_subsys_class);
-+	class_unregister(&nvme_class);
- 	unregister_chrdev_region(nvme_ns_chr_devt, NVME_MINORS);
- 	unregister_chrdev_region(nvme_ctrl_base_chr_devt, NVME_MINORS);
- 	destroy_workqueue(nvme_delete_wq);
+ 	misc_deregister(&nvmf_misc);
+-	device_destroy(nvmf_class, MKDEV(0, 0));
+-	class_destroy(nvmf_class);
++	device_destroy(&nvmf_class, MKDEV(0, 0));
++	class_unregister(&nvmf_class);
+ 	nvmf_host_put(nvmf_default_host);
+ 
+ 	BUILD_BUG_ON(sizeof(struct nvmf_common_command) != 64);
 
 -- 
 2.43.0
