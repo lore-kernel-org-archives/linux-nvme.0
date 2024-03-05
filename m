@@ -4,71 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A8AAC54798
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Mar 2024 13:37:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A48B1C54E41
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Mar 2024 13:37:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qz+nVanLpL+n9z9iwjMPgdzjVfAYTSIqRoaTaCVsNO8=; b=UijZMYZzVav0UNY2/nlU/PQsA9
-	eDKshee7F2aRDADpE414cbwa+6lf63iDHojnzXSE3qU28STHqTB7ebc9NNP1HpX/+ydnCWJH4WGCj
-	UQoApex9Zl2UjUxzIevOhrUYa0kJihuVqhU/ukDiTH43tEoixoBNG0FSX7YPfQ0ADP8jsKR/Q+yze
-	A/ADlQq1BnYC92QETI8Zt9ZblRBf67xDEXkWRYabOTJNiNUCx/QyRUnbD5x3ztlI150wHzCeKVKTv
-	gpt4xbcp+YW2xc67NDZNhTrLgnXTCQ3yBf8M07C92xeK+/S691zMb7nW8hLWOW+cA0aWXGDrhU5Fb
-	ZmVxeQLA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=aJ5iE+LWxcrer1v/M54isoTyRWcTu5SpNDLz6j/UZx0=; b=uiqrtNMwVOrdQIxbRx1ogT1xZ3
+	3jcZqLtedzMZWiYEFL+cmP9aXJMEZAROtH0SMC1X7PFbmSETqnjWUGXFnNvK8ACoc4JneDeVR/Bav
+	lHviKyZSqops8IK7lUdZbt5CtW5LeUx99yHID7/hrdJHEF3ZM9oEP7XHam8IepRcKuaqOGulEyLP0
+	E1+cT8Nj7vjSpnC9qFA1/XzOnNBmAmulLTph14m8QpU0i5xURLRAyXi5e9QUdd/wVGuA133qsuBp/
+	4agFssDb7sEy0mdpR7wpVW+rOwcol2NZToiw3pQ9cU56Hujf43FEeDpMYGDCtOjTdwT3DEaDTceXe
+	/O3/fmzQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhUzO-0000000DpEM-3COK;
-	Tue, 05 Mar 2024 13:37:50 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1rhUzV-0000000DpIl-0ptT;
+	Tue, 05 Mar 2024 13:37:57 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhSpv-0000000DJ2a-0Hfi
+	id 1rhTvS-0000000DZtK-3DqB
 	for linux-nvme@lists.infradead.org;
-	Tue, 05 Mar 2024 11:19:57 +0000
+	Tue, 05 Mar 2024 12:29:44 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 6BC84CE0A54;
-	Tue,  5 Mar 2024 11:19:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A093C433C7;
-	Tue,  5 Mar 2024 11:19:52 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 0E94BCE02BD;
+	Tue,  5 Mar 2024 12:29:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AE6CC43394;
+	Tue,  5 Mar 2024 12:29:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709637592;
-	bh=LoE4Mk2h+x4QygNOYAaQkErlcP1J9OkI1WKvPNtdRq4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sE3ROVKUx5nlUBmQ1UDC4LListp7vH8VXfLmm9fyCvv8NB4GmDIxkbggaQ4SxXnE0
-	 mvNE5IdOjICDtawe/pkNhuWfWOzOpUOcrElvhYVanrDlwvm48luEZXTHbEFagcL5V6
-	 9PIU6O93gbKt9Az+UNSvmMcWTf09Bbhsp9Guzd3l+1YIn/eXnyBzk37vfgDnODIwcO
-	 eQmXyU8tgclJJntRDMkAHcYVxrMFajV5C64PY/XvgQvQ8LDiJIYbBQ0z5sgP59/5jf
-	 U1XvMP/wgNcsfu1tDnnqWg7VxucsOm+cnxMiVPHer4OWILzUKVQBtCzGMihNBlkVJx
-	 GRjraaS+NWUHA==
+	s=k20201202; t=1709641780;
+	bh=P93hlccw+xdxdbFmx+6Lr6WNHOyANq8FCYqtCUP40hE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=edE9W4exQ/mLyQoFZ0ecW6HlLDr9Z099WMeUuaFujQg2FZTZLAQnGDjK498JWa0ni
+	 hqFMO5hIGroOgoA/TTNGplduxItE+LvgFwOBWjD33xVKfmTFkJ5U+9CtOOpdfL7udr
+	 qhAc/itUetIkKuPj6Jv0+bNurWlOja/yk+vF05wSc8ytz4RcHmc2Kw2jU+9t5qdqtK
+	 2MmLJphfTq56uO+Iq2YwNgSXMY5Hs5aBypVWlDYoEFPocQlvJgPL/m9HUD+GamQVTE
+	 DFv6scJ4w1oMC0aHDm5eYXuKeZW4m+eUbOnkHeJ/XxbIduCTrPWiF//VLFhaMH4KXv
+	 NmAjytaBBw2hw==
+Date: Tue, 5 Mar 2024 14:29:35 +0200
 From: Leon Romanovsky <leon@kernel.org>
-To: Christoph Hellwig <hch@lst.de>,
-	Robin Murphy <robin.murphy@arm.com>,
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: Christoph Hellwig <hch@lst.de>,
 	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
 	Jason Gunthorpe <jgg@ziepe.ca>,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: Chaitanya Kulkarni <kch@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
 	Yishai Hadas <yishaih@nvidia.com>,
 	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
 	Kevin Tian <kevin.tian@intel.com>,
 	Alex Williamson <alex.williamson@redhat.com>,
-	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org,
-	kvm@vger.kernel.org,
-	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org,
 	Bart Van Assche <bvanassche@acm.org>,
 	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
 	Amir Goldstein <amir73il@gmail.com>,
@@ -76,20 +69,18 @@ Cc: Chaitanya Kulkarni <kch@nvidia.com>,
 	"Martin K. Petersen" <martin.petersen@oracle.com>,
 	"daniel@iogearbox.net" <daniel@iogearbox.net>,
 	Dan Williams <dan.j.williams@intel.com>,
-	"jack@suse.com" <jack@suse.com>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	Zhu Yanjun <zyjzyj2000@gmail.com>
-Subject: [RFC RESEND 15/16] block: add dma_link_range() based API
-Date: Tue,  5 Mar 2024 13:18:46 +0200
-Message-ID: <1e52aa392b9c434f55203c9d630dd06fcdb75c32.1709635535.git.leon@kernel.org>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <cover.1709635535.git.leon@kernel.org>
+	"jack@suse.com" <jack@suse.com>, Zhu Yanjun <zyjzyj2000@gmail.com>
+Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two steps
+Message-ID: <20240305122935.GB36868@unreal>
 References: <cover.1709635535.git.leon@kernel.org>
+ <47afacda-3023-4eb7-b227-5f725c3187c2@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <47afacda-3023-4eb7-b227-5f725c3187c2@arm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240305_031955_465546_9CC3E101 
-X-CRM114-Status: GOOD (  25.66  )
+X-CRM114-CacheID: sfid-20240305_042943_185252_FCA2E249 
+X-CRM114-Status: GOOD (  42.75  )
 X-Mailman-Approved-At: Tue, 05 Mar 2024 05:32:59 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -105,242 +96,146 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Chaitanya Kulkarni <kch@nvidia.com>
+On Tue, Mar 05, 2024 at 12:05:23PM +0000, Robin Murphy wrote:
+> On 2024-03-05 11:18 am, Leon Romanovsky wrote:
+> > This is complimentary part to the proposed LSF/MM topic.
+> > https://lore.kernel.org/linux-rdma/22df55f8-cf64-4aa8-8c0b-b556c867b926@linux.dev/T/#m85672c860539fdbbc8fe0f5ccabdc05b40269057
+> > 
+> > This is posted as RFC to get a feedback on proposed split, but RDMA, VFIO and
+> > DMA patches are ready for review and inclusion, the NVMe patches are still in
+> > progress as they require agreement on API first.
+> > 
+> > Thanks
+> > 
+> > -------------------------------------------------------------------------------
+> > The DMA mapping operation performs two steps at one same time: allocates
+> > IOVA space and actually maps DMA pages to that space. This one shot
+> > operation works perfectly for non-complex scenarios, where callers use
+> > that DMA API in control path when they setup hardware.
+> > 
+> > However in more complex scenarios, when DMA mapping is needed in data
+> > path and especially when some sort of specific datatype is involved,
+> > such one shot approach has its drawbacks.
+> > 
+> > That approach pushes developers to introduce new DMA APIs for specific
+> > datatype. For example existing scatter-gather mapping functions, or
+> > latest Chuck's RFC series to add biovec related DMA mapping [1] and
+> > probably struct folio will need it too.
+> > 
+> > These advanced DMA mapping APIs are needed to calculate IOVA size to
+> > allocate it as one chunk and some sort of offset calculations to know
+> > which part of IOVA to map.
+> 
+> I don't follow this part at all - at *some* point, something must know a
+> range of memory addresses involved in a DMA transfer, so that's where it
+> should map that range for DMA. 
 
-Add two helper functions that are needed to calculate the total DMA
-length of the request blk_rq_get_dma_length() and to create DMA
-mapping blk_rq_dma_map().
+In all presented cases in this series, the overall DMA size is known in
+advance. In RDMA case, it is known when user registers the memory, in
+VFIO, when live migration is happening and in NVMe, when BIO is created.
 
-blk_rq_get_dma_length() is used to get the total length of the request,
-when driver is allocating IOVA space for this request with the call to
-dma_alloc_iova(). This length is then initialized to the iova->size and
-passed to allocate iova call chain :-
-dma_map_ops->allov_iova()
-        iommu_dma_alloc_iova()
-                alloc_iova_fast()
-                        iova_rcache_get()
-                                OR
-                        alloc_iova()
+So once we allocated IOVA, we will need to link ranges, which si the
+same as map but without IOVA allocation.
 
-blk_rq_dma_map() iterates through bvec list and creates DMA mapping
-for each page using iova parameter with the help of dma_link_range().
-Note that @iova is allocated & pre-initialized using dma_alloc_iova()
-by the caller. After creating a mapping for each page, call into the
-callback function @cb provided by the drive with a mapped DMA address
-for this page, offset into the iova space (needed at the time of
-unlink), length of the mapped page, and page number that is mapped in
-this request. Driver is responsible for using this DMA address to
-complete the mapping of underlying protocol-specific data structures,
-such as NVMe PRPs or NVMe SGLs. This callback approach allows us to
-iterate bvec list only once to create bvec to DMA mapping and use that
-DMA address in driver to build the protocol-specific data structure,
-essentially mapping one bvec page at a time to DMA address and using
-that DMA address to create underlying protocol-specific data structures.
-Finally, returning the number of linked count.
+> Even in a badly-designed system where the
+> point it's most practical to make the mapping is further out and only knows
+> that DMA will touch some subset of a buffer, but doesn't know exactly what
+> subset yet, you'd usually just map the whole buffer. I don't see why the DMA
+> API would ever need to know about anything other than pages/PFNs and
+> dma_addr_ts (yes, it does also accept them being wrapped together in
+> scatterlists; yes, scatterlists are awful and it would be nice to replace
+> them with a better general DMA descriptor; that is a whole other subject of
+> its own).
 
-Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- block/blk-merge.c      | 156 +++++++++++++++++++++++++++++++++++++++++
- include/linux/blk-mq.h |   9 +++
- 2 files changed, 165 insertions(+)
+This is exactly what was done here, we got rid of scatterlists.
 
-diff --git a/block/blk-merge.c b/block/blk-merge.c
-index 2d470cf2173e..63effc8ac1db 100644
---- a/block/blk-merge.c
-+++ b/block/blk-merge.c
-@@ -583,6 +583,162 @@ int __blk_rq_map_sg(struct request_queue *q, struct request *rq,
- }
- EXPORT_SYMBOL(__blk_rq_map_sg);
- 
-+static dma_addr_t blk_dma_link_page(struct page *page, unsigned int page_offset,
-+				    struct dma_iova_attrs *iova,
-+				    dma_addr_t dma_offset)
-+{
-+	dma_addr_t dma_addr;
-+	int ret;
-+
-+	dma_addr = dma_link_range(page, page_offset, iova, dma_offset);
-+	ret = dma_mapping_error(iova->dev, dma_addr);
-+	if (ret) {
-+		pr_err("dma_mapping_err %d dma_addr 0x%llx dma_offset %llu\n",
-+			ret, dma_addr, dma_offset);
-+		/* better way ? */
-+		dma_addr = 0;
-+	}
-+	return dma_addr;
-+}
-+
-+/**
-+ * blk_rq_dma_map: block layer request to DMA mapping helper.
-+ *
-+ * @req         : [in] request to be mapped
-+ * @cb          : [in] callback to be called for each bvec mapped bvec into
-+ *                     underlaying driver.
-+ * @cb_data     : [in] callback data to be passed, privete to the underlaying
-+ *                     driver.
-+ * @iova        : [in] iova to be used to create DMA mapping for this request's
-+ *                     bvecs.
-+ * Description:
-+ * Iterates through bvec list and create dma mapping between each bvec page
-+ * using @iova with dma_link_range(). Note that @iova needs to be allocated and
-+ * pre-initialized using dma_alloc_iova() by the caller. After creating
-+ * a mapping for each page, call into the callback function @cb provided by
-+ * driver with mapped dma address for this bvec, offset into iova space, length
-+ * of the mapped page, and bvec number that is mapped in this requets. Driver is
-+ * responsible for using this dma address to complete the mapping of underlaying
-+ * protocol specific data structure, such as NVMe PRPs or NVMe SGLs. This
-+ * callback approach allows us to iterate bvec list only once to create bvec to
-+ * DMA mapping & use that dma address in the driver to build the protocol
-+ * specific data structure, essentially mapping one bvec page at a time to DMA
-+ * address and use that DMA address to create underlaying protocol specific
-+ * data structure.
-+ *
-+ * Caller needs to ensure @iova is initialized & allovated with using
-+ * dma_alloc_iova().
-+ */
-+int blk_rq_dma_map(struct request *req, driver_map_cb cb, void *cb_data,
-+		   struct dma_iova_attrs *iova)
-+{
-+	dma_addr_t curr_dma_offset = 0;
-+	dma_addr_t prev_dma_addr = 0;
-+	dma_addr_t dma_addr;
-+	size_t prev_dma_len = 0;
-+	struct req_iterator iter;
-+	struct bio_vec bv;
-+	int linked_cnt = 0;
-+
-+	rq_for_each_bvec(bv, req, iter) {
-+		if (bv.bv_offset + bv.bv_len <= PAGE_SIZE) {
-+			curr_dma_offset = prev_dma_addr + prev_dma_len;
-+
-+			dma_addr = blk_dma_link_page(bv.bv_page, bv.bv_offset,
-+						     iova, curr_dma_offset);
-+			if (!dma_addr)
-+				break;
-+
-+			cb(cb_data, linked_cnt, dma_addr, curr_dma_offset,
-+			   bv.bv_len);
-+
-+			prev_dma_len = bv.bv_len;
-+			prev_dma_addr = dma_addr;
-+			linked_cnt++;
-+		} else {
-+			unsigned nbytes = bv.bv_len;
-+			unsigned total = 0;
-+			unsigned offset, len;
-+
-+			while (nbytes > 0) {
-+				struct page *page = bv.bv_page;
-+
-+				offset = bv.bv_offset + total;
-+				len = min(get_max_segment_size(&req->q->limits,
-+							       page, offset),
-+							       nbytes);
-+
-+				page += (offset >> PAGE_SHIFT);
-+				offset &= ~PAGE_MASK;
-+
-+				curr_dma_offset = prev_dma_addr + prev_dma_len;
-+
-+				dma_addr = blk_dma_link_page(page, offset,
-+							     iova,
-+							     curr_dma_offset);
-+				if (!dma_addr)
-+					break;
-+
-+				cb(cb_data, linked_cnt, dma_addr,
-+				   curr_dma_offset, len);
-+
-+				total += len;
-+				nbytes -= len;
-+
-+				prev_dma_len = len;
-+				prev_dma_addr = dma_addr;
-+				linked_cnt++;
-+			}
-+		}
-+	}
-+	return linked_cnt;
-+}
-+EXPORT_SYMBOL_GPL(blk_rq_dma_map);
-+
-+/*
-+ * Calculate total DMA length needed to satisfy this request.
-+ */
-+size_t blk_rq_get_dma_length(struct request *rq)
-+{
-+	struct request_queue *q = rq->q;
-+	struct bio *bio = rq->bio;
-+	unsigned int offset, len;
-+	struct bvec_iter iter;
-+	size_t dma_length = 0;
-+	struct bio_vec bvec;
-+
-+	if (rq->rq_flags & RQF_SPECIAL_PAYLOAD)
-+		return rq->special_vec.bv_len;
-+
-+	if (!rq->bio)
-+		return 0;
-+
-+	for_each_bio(bio) {
-+		bio_for_each_bvec(bvec, bio, iter) {
-+			unsigned int nbytes = bvec.bv_len;
-+			unsigned int total = 0;
-+
-+			if (bvec.bv_offset + bvec.bv_len <= PAGE_SIZE) {
-+				dma_length += bvec.bv_len;
-+				continue;
-+			}
-+
-+			while (nbytes > 0) {
-+				offset = bvec.bv_offset + total;
-+				len = min(get_max_segment_size(&q->limits,
-+							       bvec.bv_page,
-+							       offset), nbytes);
-+				total += len;
-+				nbytes -= len;
-+				dma_length += len;
-+			}
-+		}
-+	}
-+
-+	return dma_length;
-+}
-+EXPORT_SYMBOL(blk_rq_get_dma_length);
-+
- static inline unsigned int blk_rq_get_max_sectors(struct request *rq,
- 						  sector_t offset)
- {
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 7a8150a5f051..80b9c7f2c3a0 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -8,6 +8,7 @@
- #include <linux/scatterlist.h>
- #include <linux/prefetch.h>
- #include <linux/srcu.h>
-+#include <linux/dma-mapping.h>
- 
- struct blk_mq_tags;
- struct blk_flush_queue;
-@@ -1144,7 +1145,15 @@ static inline int blk_rq_map_sg(struct request_queue *q, struct request *rq,
- 
- 	return __blk_rq_map_sg(q, rq, sglist, &last_sg);
- }
-+
-+typedef void (*driver_map_cb)(void *cb_data, u32 cnt, dma_addr_t dma_addr,
-+			      dma_addr_t offset, u32 len);
-+
-+int blk_rq_dma_map(struct request *req, driver_map_cb cb, void *cb_data,
-+		   struct dma_iova_attrs *iova);
-+
- void blk_dump_rq_flags(struct request *, char *);
-+size_t blk_rq_get_dma_length(struct request *rq);
- 
- #ifdef CONFIG_BLK_DEV_ZONED
- static inline unsigned int blk_rq_zone_no(struct request *rq)
--- 
-2.44.0
+> 
+> > Instead of teaching DMA to know these specific datatypes, let's separate
+> > existing DMA mapping routine to two steps and give an option to advanced
+> > callers (subsystems) perform all calculations internally in advance and
+> > map pages later when it is needed.
+> 
+> From a brief look, this is clearly an awkward reinvention of the IOMMU API.
+> If IOMMU-aware drivers/subsystems want to explicitly manage IOMMU address
+> spaces then they can and should use the IOMMU API. Perhaps there's room for
+> some quality-of-life additions to the IOMMU API to help with common usage
+> patterns, but the generic DMA mapping API is absolutely not the place for
+> it.
 
+DMA mapping gives nice abstraction from IOMMU, and allows us to have
+same flow for IOMMU and non-IOMMU flows without duplicating code, while
+you suggest to teach almost every part in the kernel to know about IOMMU.
+
+In this series, we changed RDMA, VFIO and NVMe, and in all cases we
+removed more code than added. From what I saw, VDPA and virito-blk will
+benefit from proposed API too.
+
+Even in this RFC, where Chaitanya did partial job and didn't convert
+whole driver, the gain is pretty obvious:
+https://lore.kernel.org/linux-rdma/016fc02cbfa9be3c156a6f74df38def1e09c08f1.1709635535.git.leon@kernel.org/T/#u
+
+ drivers/nvme/host/pci.c | 220 ++++++++++++++++++++++++++++++++++++++++++++++----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 1 file changed, 49 insertions(+), 171 deletions(-)
+
+
+Thanks
+
+> 
+> Thanks,
+> Robin.
+> 
+> > In this series, three users are converted and each of such conversion
+> > presents different positive gain:
+> > 1. RDMA simplifies and speeds up its pagefault handling for
+> >     on-demand-paging (ODP) mode.
+> > 2. VFIO PCI live migration code saves huge chunk of memory.
+> > 3. NVMe PCI avoids intermediate SG table manipulation and operates
+> >     directly on BIOs.
+> > 
+> > Thanks
+> > 
+> > [1] https://lore.kernel.org/all/169772852492.5232.17148564580779995849.stgit@klimt.1015granger.net
+> > 
+> > Chaitanya Kulkarni (2):
+> >    block: add dma_link_range() based API
+> >    nvme-pci: use blk_rq_dma_map() for NVMe SGL
+> > 
+> > Leon Romanovsky (14):
+> >    mm/hmm: let users to tag specific PFNs
+> >    dma-mapping: provide an interface to allocate IOVA
+> >    dma-mapping: provide callbacks to link/unlink pages to specific IOVA
+> >    iommu/dma: Provide an interface to allow preallocate IOVA
+> >    iommu/dma: Prepare map/unmap page functions to receive IOVA
+> >    iommu/dma: Implement link/unlink page callbacks
+> >    RDMA/umem: Preallocate and cache IOVA for UMEM ODP
+> >    RDMA/umem: Store ODP access mask information in PFN
+> >    RDMA/core: Separate DMA mapping to caching IOVA and page linkage
+> >    RDMA/umem: Prevent UMEM ODP creation with SWIOTLB
+> >    vfio/mlx5: Explicitly use number of pages instead of allocated length
+> >    vfio/mlx5: Rewrite create mkey flow to allow better code reuse
+> >    vfio/mlx5: Explicitly store page list
+> >    vfio/mlx5: Convert vfio to use DMA link API
+> > 
+> >   Documentation/core-api/dma-attributes.rst |   7 +
+> >   block/blk-merge.c                         | 156 ++++++++++++++
+> >   drivers/infiniband/core/umem_odp.c        | 219 +++++++------------
+> >   drivers/infiniband/hw/mlx5/mlx5_ib.h      |   1 +
+> >   drivers/infiniband/hw/mlx5/odp.c          |  59 +++--
+> >   drivers/iommu/dma-iommu.c                 | 129 ++++++++---
+> >   drivers/nvme/host/pci.c                   | 220 +++++--------------
+> >   drivers/vfio/pci/mlx5/cmd.c               | 252 ++++++++++++----------
+> >   drivers/vfio/pci/mlx5/cmd.h               |  22 +-
+> >   drivers/vfio/pci/mlx5/main.c              | 136 +++++-------
+> >   include/linux/blk-mq.h                    |   9 +
+> >   include/linux/dma-map-ops.h               |  13 ++
+> >   include/linux/dma-mapping.h               |  39 ++++
+> >   include/linux/hmm.h                       |   3 +
+> >   include/rdma/ib_umem_odp.h                |  22 +-
+> >   include/rdma/ib_verbs.h                   |  54 +++++
+> >   kernel/dma/debug.h                        |   2 +
+> >   kernel/dma/direct.h                       |   7 +-
+> >   kernel/dma/mapping.c                      |  91 ++++++++
+> >   mm/hmm.c                                  |  34 +--
+> >   20 files changed, 870 insertions(+), 605 deletions(-)
+> > 
 
