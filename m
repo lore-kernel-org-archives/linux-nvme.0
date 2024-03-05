@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C0FABC54798
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Mar 2024 13:34:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F63EC54798
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Mar 2024 13:35:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=H9MuA0krlFy3lQiwWj2HqWERSYJGSqT7XtPlY8u0Lgc=; b=XiLuoukFzjOr/7ztIO+gKO5oSs
-	JBws5jqYV2yJ0SE8asdVls8Pua2mRQGUlwxFd5N1k4UUu7W0cOLA7J/W6l2X1xNDNKsTFzvimdqYX
-	/WfO84Cvix/afGUZddBG8P2lUTADe5p2G95/QpvfxGpCxhuFMoxks8OdoqjLtZvQc3fJr9EhbUiSG
-	CaJJYScTLb05WoEZhdRbIfQ/h33Tj+LajhNBwYUxHCYIb0K/GWNpmXvtE7vKzkECkeMhGutLpUsDM
-	aKFIS4QA5kMEySXca3BoyOSL16+Zdb7MTSQwzem2Qs33XrNq+dhxiPvbVmxmsG0VOfAgyN81gLKg9
-	llj2FlKA==;
+	bh=kP6IjCrCtQDnpe3Kioc5v3kxzu1trppQiw50mdHvFFY=; b=QeAHUeAQ/jtsKEQB6ITEUZUfjZ
+	+LQk0ty8m00y0xqjlYr4maSD7hNGFET3t29UNOszxngAWmTuH2gbFxftP1jyBRqX6GuBs4Dbei+o9
+	3DvZpguQf+1b2bbmlN2Wesp1wPCwdgleNowNZ0OYcm6L7G6VK3OrSFhxYIFZ1bHDPDPfLX3Wpbwoh
+	2335FZAFvYK2JhlGQOb7urnn59B58aIy4aksFsp2sHZnEv2PyDvpwnadqEkyn0lFacoEyrphZM6ob
+	01Qho8fd1C+i1xN0lxgzgfaVJ9ZqK7x2RXBSga/5RqMY5v1C7glLnVgYYinSCKp5FNgwApN/Uq51l
+	X3KI7xHQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhUwW-0000000DnIr-0lIF;
-	Tue, 05 Mar 2024 13:34:52 +0000
+	id 1rhUwr-0000000DnZ8-2H1p;
+	Tue, 05 Mar 2024 13:35:13 +0000
 Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhRqP-0000000Cxoc-3Rt0
+	id 1rhRqc-0000000Cy04-3X6h
 	for linux-nvme@lists.infradead.org;
-	Tue, 05 Mar 2024 10:16:23 +0000
+	Tue, 05 Mar 2024 10:16:37 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 0B553CE19B2;
-	Tue,  5 Mar 2024 10:16:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AE5DC433C7;
-	Tue,  5 Mar 2024 10:16:18 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id B490ECE19AA;
+	Tue,  5 Mar 2024 10:16:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AD3FC43390;
+	Tue,  5 Mar 2024 10:16:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709633779;
-	bh=utZ3KdFtdsQAESX2EpyzMrGiuaExMhARHy+JfNBKyD0=;
+	s=k20201202; t=1709633792;
+	bh=4IocgUHLj9eV065W5P3anYxI4nhTW2naxln23AtMtis=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=L2QU2W8hopktnjqtLh1dUA+1NmamN3jO2hagY+NwOntBW3lcniRVvhjZhygSySvOU
-	 zmT1qrJchWcoqJ2R8mvRPMDLWCJ3zSLtuMGhw4NQgQMYE8T+IPVf6ITidiC1VwGRir
-	 gtTb1oFKQVhxzVAOxoUh7eF6aVHsgij8QiaxeWlZYGmhQGHOcBXawhmIlI8lY89hFI
-	 r3LrJVTUJ9WGUE1lZOaEerkHmLwDIG0ZpwWAZk8UiAYs18llZFSY7SCbVioinjMAVf
-	 lBBpzlWMXaUIBxBZqwoyXLVY13am2lZaFJpc9bCZSCgoFvDIi5G4lUMLgNXKm0lxt6
-	 HypLpEtFTk/XQ==
+	b=ME6sTK286uwoXoz+IpcdDC5iiCveCz60c3QC6e2Qoo6RT1vn1QMiK79xbl2Z0iJEQ
+	 lF+WIuufy46vobE2X5BkxN4zFsuEFfqCY7nNLgqtqaGEzXhdvxV79SceqYL9IBcm1m
+	 TvpaFHgFXCBfyApy9K0LVj6Gp960SddtGc3bQwTBI9C4yeb0N89NQ9nYnZIjPV3lud
+	 HWI1R9l5KpNKb/eOURGHv33QqpDtRBoDV6zIP7rZo4UIRb0nFH+r1oENLRXAryoJBH
+	 l4+GOIMyR7QDazy9mrVtajxBlb0ezE2lg1MG7ckSp0k65UFJTLImRNCeq2jbANxI8Z
+	 7hpa9NbeUdkHw==
 From: Leon Romanovsky <leon@kernel.org>
 To: Christoph Hellwig <hch@lst.de>,
 	Robin Murphy <robin.murphy@arm.com>,
@@ -78,17 +78,17 @@ Cc: Leon Romanovsky <leonro@nvidia.com>,
 	Dan Williams <dan.j.williams@intel.com>,
 	"jack@suse.com" <jack@suse.com>,
 	Zhu Yanjun <zyjzyj2000@gmail.com>
-Subject: [RFC 11/16] vfio/mlx5: Explicitly use number of pages instead of allocated length
-Date: Tue,  5 Mar 2024 12:15:21 +0200
-Message-ID: <01606f62be051034035ef1501b7c721b8a319dcc.1709631413.git.leon@kernel.org>
+Subject: [RFC 14/16] vfio/mlx5: Convert vfio to use DMA link API
+Date: Tue,  5 Mar 2024 12:15:24 +0200
+Message-ID: <e42ea94ec4de8569f5a4c418b6f44c2a8730ceda.1709631413.git.leon@kernel.org>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <a77609c9c9a09214e38b04133e44eee67fe50ab0.1709631413.git.leon@kernel.org>
 References: <a77609c9c9a09214e38b04133e44eee67fe50ab0.1709631413.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240305_021622_255097_8B917174 
-X-CRM114-Status: GOOD (  24.49  )
+X-CRM114-CacheID: sfid-20240305_021635_925102_7841A8F2 
+X-CRM114-Status: GOOD (  24.10  )
 X-Mailman-Approved-At: Tue, 05 Mar 2024 05:32:59 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -106,326 +106,425 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-allocated_length is a multiple of page size and number of pages, so let's
-change the functions to accept number of pages. It opens us a venue to
-combine receive and send paths together with code readability
-improvement.
+Remove intermediate scatter-gather table as it is not needed
+if DMA link API is used. This conversion reduces drastically
+the memory used to manage that table.
 
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/vfio/pci/mlx5/cmd.c  | 31 ++++++++---------
- drivers/vfio/pci/mlx5/cmd.h  | 10 +++---
- drivers/vfio/pci/mlx5/main.c | 65 +++++++++++++++++++++++-------------
- 3 files changed, 62 insertions(+), 44 deletions(-)
+ drivers/vfio/pci/mlx5/cmd.c  | 177 ++++++++++++++++-------------------
+ drivers/vfio/pci/mlx5/cmd.h  |   8 +-
+ drivers/vfio/pci/mlx5/main.c |  50 ++--------
+ 3 files changed, 91 insertions(+), 144 deletions(-)
 
 diff --git a/drivers/vfio/pci/mlx5/cmd.c b/drivers/vfio/pci/mlx5/cmd.c
-index efd1d252cdc9..45104e47b7b2 100644
+index 5e2103042d9b..cfae03f7b7da 100644
 --- a/drivers/vfio/pci/mlx5/cmd.c
 +++ b/drivers/vfio/pci/mlx5/cmd.c
-@@ -305,8 +305,7 @@ static int _create_mkey(struct mlx5_core_dev *mdev, u32 pdn,
- 			struct mlx5_vhca_recv_buf *recv_buf,
- 			u32 *mkey)
- {
--	size_t npages = buf ? DIV_ROUND_UP(buf->allocated_length, PAGE_SIZE) :
--				recv_buf->npages;
-+	size_t npages = buf ? buf->npages : recv_buf->npages;
- 	int err = 0, inlen;
- 	__be64 *mtt;
- 	void *mkc;
-@@ -362,7 +361,7 @@ static int mlx5vf_dma_data_buffer(struct mlx5_vhca_data_buffer *buf)
- 	if (mvdev->mdev_detach)
- 		return -ENOTCONN;
+@@ -332,26 +332,60 @@ static u32 *alloc_mkey_in(u32 npages, u32 pdn)
+ 	return in;
+ }
  
--	if (buf->dmaed || !buf->allocated_length)
-+	if (buf->dmaed || !buf->npages)
+-static int create_mkey(struct mlx5_core_dev *mdev, u32 npages,
+-		       struct mlx5_vhca_data_buffer *buf, u32 *mkey_in,
++static int create_mkey(struct mlx5_core_dev *mdev, u32 npages, u32 *mkey_in,
+ 		       u32 *mkey)
+ {
++	int inlen = MLX5_ST_SZ_BYTES(create_mkey_in) +
++		    sizeof(__be64) * round_up(npages, 2);
++
++	return mlx5_core_create_mkey(mdev, mkey, mkey_in, inlen);
++}
++
++static void unregister_dma_pages(struct mlx5_core_dev *mdev, u32 npages,
++				 u32 *mkey_in, struct dma_iova_attrs *iova)
++{
++	dma_addr_t addr;
+ 	__be64 *mtt;
+-	int inlen;
++	int i;
+ 
+ 	mtt = (__be64 *)MLX5_ADDR_OF(create_mkey_in, mkey_in, klm_pas_mtt);
+ 
+-	if (buf) {
+-		struct sg_dma_page_iter dma_iter;
++	for (i = npages - 1; i >= 0; i--) {
++		addr = be64_to_cpu(mtt[i]);
++		dma_unlink_range(iova, addr);
++	}
++	dma_free_iova(iova);
++}
++
++static int register_dma_pages(struct mlx5_core_dev *mdev, u32 npages,
++			      struct page **page_list, u32 *mkey_in,
++			      struct dma_iova_attrs *iova)
++{
++	dma_addr_t addr;
++	__be64 *mtt;
++	int i, err;
++
++	iova->dev = mdev->device;
++	iova->size = npages * PAGE_SIZE;
++	err = dma_alloc_iova(iova);
++	if (err)
++		return err;
++
++	mtt = (__be64 *)MLX5_ADDR_OF(create_mkey_in, mkey_in, klm_pas_mtt);
++
++	for (i = 0; i < npages; i++) {
++		addr = dma_link_range(page_list[i], 0, iova, i * PAGE_SIZE);
++		if (dma_mapping_error(mdev->device, addr))
++			goto error;
+ 
+-		for_each_sgtable_dma_page(&buf->table.sgt, &dma_iter, 0)
+-			*mtt++ = cpu_to_be64(sg_page_iter_dma_address(&dma_iter));
++		*mtt++ = cpu_to_be64(addr);
+ 	}
+ 
+-	inlen = MLX5_ST_SZ_BYTES(create_mkey_in) +
+-		sizeof(__be64) * round_up(npages, 2);
++	return 0;
+ 
+-	return mlx5_core_create_mkey(mdev, mkey, mkey_in, inlen);
++error:
++	unregister_dma_pages(mdev, i, mkey_in, iova);
++	return -ENOMEM;
+ }
+ 
+ static int mlx5vf_dma_data_buffer(struct mlx5_vhca_data_buffer *buf)
+@@ -367,17 +401,16 @@ static int mlx5vf_dma_data_buffer(struct mlx5_vhca_data_buffer *buf)
+ 	if (buf->dmaed || !buf->npages)
  		return -EINVAL;
  
- 	ret = dma_map_sgtable(mdev->device, &buf->table.sgt, buf->dma_dir, 0);
-@@ -403,8 +402,7 @@ void mlx5vf_free_data_buffer(struct mlx5_vhca_data_buffer *buf)
- }
- 
- struct mlx5_vhca_data_buffer *
--mlx5vf_alloc_data_buffer(struct mlx5_vf_migration_file *migf,
--			 size_t length,
-+mlx5vf_alloc_data_buffer(struct mlx5_vf_migration_file *migf, u32 npages,
- 			 enum dma_data_direction dma_dir)
- {
- 	struct mlx5_vhca_data_buffer *buf;
-@@ -416,9 +414,8 @@ mlx5vf_alloc_data_buffer(struct mlx5_vf_migration_file *migf,
- 
- 	buf->dma_dir = dma_dir;
- 	buf->migf = migf;
--	if (length) {
--		ret = mlx5vf_add_migration_pages(buf,
--				DIV_ROUND_UP_ULL(length, PAGE_SIZE));
-+	if (npages) {
-+		ret = mlx5vf_add_migration_pages(buf, npages);
- 		if (ret)
- 			goto end;
- 
-@@ -444,8 +441,8 @@ void mlx5vf_put_data_buffer(struct mlx5_vhca_data_buffer *buf)
- }
- 
- struct mlx5_vhca_data_buffer *
--mlx5vf_get_data_buffer(struct mlx5_vf_migration_file *migf,
--		       size_t length, enum dma_data_direction dma_dir)
-+mlx5vf_get_data_buffer(struct mlx5_vf_migration_file *migf, u32 npages,
-+		       enum dma_data_direction dma_dir)
- {
- 	struct mlx5_vhca_data_buffer *buf, *temp_buf;
- 	struct list_head free_list;
-@@ -460,7 +457,7 @@ mlx5vf_get_data_buffer(struct mlx5_vf_migration_file *migf,
- 	list_for_each_entry_safe(buf, temp_buf, &migf->avail_list, buf_elm) {
- 		if (buf->dma_dir == dma_dir) {
- 			list_del_init(&buf->buf_elm);
--			if (buf->allocated_length >= length) {
-+			if (buf->npages >= npages) {
- 				spin_unlock_irq(&migf->list_lock);
- 				goto found;
- 			}
-@@ -474,7 +471,7 @@ mlx5vf_get_data_buffer(struct mlx5_vf_migration_file *migf,
- 		}
- 	}
- 	spin_unlock_irq(&migf->list_lock);
--	buf = mlx5vf_alloc_data_buffer(migf, length, dma_dir);
-+	buf = mlx5vf_alloc_data_buffer(migf, npages, dma_dir);
- 
- found:
- 	while ((temp_buf = list_first_entry_or_null(&free_list,
-@@ -645,7 +642,7 @@ int mlx5vf_cmd_save_vhca_state(struct mlx5vf_pci_core_device *mvdev,
- 	MLX5_SET(save_vhca_state_in, in, op_mod, 0);
- 	MLX5_SET(save_vhca_state_in, in, vhca_id, mvdev->vhca_id);
- 	MLX5_SET(save_vhca_state_in, in, mkey, buf->mkey);
--	MLX5_SET(save_vhca_state_in, in, size, buf->allocated_length);
-+	MLX5_SET(save_vhca_state_in, in, size, buf->npages * PAGE_SIZE);
- 	MLX5_SET(save_vhca_state_in, in, incremental, inc);
- 	MLX5_SET(save_vhca_state_in, in, set_track, track);
- 
-@@ -668,8 +665,12 @@ int mlx5vf_cmd_save_vhca_state(struct mlx5vf_pci_core_device *mvdev,
- 		}
- 
- 		if (!header_buf) {
--			header_buf = mlx5vf_get_data_buffer(migf,
--				sizeof(struct mlx5_vf_migration_header), DMA_NONE);
-+			u32 npages = DIV_ROUND_UP(
-+				sizeof(struct mlx5_vf_migration_header),
-+				PAGE_SIZE);
+-	ret = dma_map_sgtable(mdev->device, &buf->table.sgt, buf->dma_dir, 0);
+-	if (ret)
+-		return ret;
+-
+ 	buf->mkey_in = alloc_mkey_in(buf->npages, buf->migf->pdn);
+-	if (!buf->mkey_in) {
+-		ret = -ENOMEM;
+-		goto err;
+-	}
++	if (!buf->mkey_in)
++		return -ENOMEM;
 +
-+			header_buf =
-+				mlx5vf_get_data_buffer(migf, npages, DMA_NONE);
- 			if (IS_ERR(header_buf)) {
- 				err = PTR_ERR(header_buf);
- 				goto err_free;
++	ret = register_dma_pages(mdev, buf->npages, buf->page_list,
++				 buf->mkey_in, &buf->iova);
++	if (ret)
++		goto err_register_dma;
+ 
+-	ret = create_mkey(mdev, buf->npages, buf, buf->mkey_in, &buf->mkey);
++	ret = create_mkey(mdev, buf->npages, buf->mkey_in, &buf->mkey);
+ 	if (ret)
+ 		goto err_create_mkey;
+ 
+@@ -386,32 +419,39 @@ static int mlx5vf_dma_data_buffer(struct mlx5_vhca_data_buffer *buf)
+ 	return 0;
+ 
+ err_create_mkey:
++	unregister_dma_pages(mdev, buf->npages, buf->mkey_in, &buf->iova);
++err_register_dma:
+ 	kvfree(buf->mkey_in);
+-err:
+-	dma_unmap_sgtable(mdev->device, &buf->table.sgt, buf->dma_dir, 0);
+ 	return ret;
+ }
+ 
++static void free_page_list(u32 npages, struct page **page_list)
++{
++	int i;
++
++	/* Undo alloc_pages_bulk_array() */
++	for (i = npages - 1; i >= 0; i--)
++		__free_page(page_list[i]);
++
++	kvfree(page_list);
++}
++
+ void mlx5vf_free_data_buffer(struct mlx5_vhca_data_buffer *buf)
+ {
+-	struct mlx5_vf_migration_file *migf = buf->migf;
+-	struct sg_page_iter sg_iter;
++	struct mlx5vf_pci_core_device *mvdev = buf->migf->mvdev;
++	struct mlx5_core_dev *mdev = mvdev->mdev;
+ 
+-	lockdep_assert_held(&migf->mvdev->state_mutex);
+-	WARN_ON(migf->mvdev->mdev_detach);
++	lockdep_assert_held(&mvdev->state_mutex);
++	WARN_ON(mvdev->mdev_detach);
+ 
+ 	if (buf->dmaed) {
+-		mlx5_core_destroy_mkey(migf->mvdev->mdev, buf->mkey);
++		mlx5_core_destroy_mkey(mdev, buf->mkey);
++		unregister_dma_pages(mdev, buf->npages, buf->mkey_in,
++				     &buf->iova);
+ 		kvfree(buf->mkey_in);
+-		dma_unmap_sgtable(migf->mvdev->mdev->device, &buf->table.sgt,
+-				  buf->dma_dir, 0);
+ 	}
+ 
+-	/* Undo alloc_pages_bulk_array() */
+-	for_each_sgtable_page(&buf->table.sgt, &sg_iter, 0)
+-		__free_page(sg_page_iter_page(&sg_iter));
+-	sg_free_append_table(&buf->table);
+-	kvfree(buf->page_list);
++	free_page_list(buf->npages, buf->page_list);
+ 	kfree(buf);
+ }
+ 
+@@ -426,7 +466,7 @@ mlx5vf_alloc_data_buffer(struct mlx5_vf_migration_file *migf, u32 npages,
+ 	if (!buf)
+ 		return ERR_PTR(-ENOMEM);
+ 
+-	buf->dma_dir = dma_dir;
++	buf->iova.dir = dma_dir;
+ 	buf->migf = migf;
+ 	if (npages) {
+ 		ret = mlx5vf_add_migration_pages(buf, npages);
+@@ -469,7 +509,7 @@ mlx5vf_get_data_buffer(struct mlx5_vf_migration_file *migf, u32 npages,
+ 
+ 	spin_lock_irq(&migf->list_lock);
+ 	list_for_each_entry_safe(buf, temp_buf, &migf->avail_list, buf_elm) {
+-		if (buf->dma_dir == dma_dir) {
++		if (buf->iova.dir == dma_dir) {
+ 			list_del_init(&buf->buf_elm);
+ 			if (buf->npages >= npages) {
+ 				spin_unlock_irq(&migf->list_lock);
+@@ -1253,17 +1293,6 @@ static void mlx5vf_destroy_qp(struct mlx5_core_dev *mdev,
+ 	kfree(qp);
+ }
+ 
+-static void free_recv_pages(struct mlx5_vhca_recv_buf *recv_buf)
+-{
+-	int i;
+-
+-	/* Undo alloc_pages_bulk_array() */
+-	for (i = 0; i < recv_buf->npages; i++)
+-		__free_page(recv_buf->page_list[i]);
+-
+-	kvfree(recv_buf->page_list);
+-}
+-
+ static int alloc_recv_pages(struct mlx5_vhca_recv_buf *recv_buf,
+ 			    unsigned int npages)
+ {
+@@ -1300,56 +1329,16 @@ static int alloc_recv_pages(struct mlx5_vhca_recv_buf *recv_buf,
+ 	return -ENOMEM;
+ }
+ 
+-static void unregister_dma_pages(struct mlx5_core_dev *mdev, u32 npages,
+-				 u32 *mkey_in)
+-{
+-	dma_addr_t addr;
+-	__be64 *mtt;
+-	int i;
+-
+-	mtt = (__be64 *)MLX5_ADDR_OF(create_mkey_in, mkey_in, klm_pas_mtt);
+-
+-	for (i = npages - 1; i >= 0; i--) {
+-		addr = be64_to_cpu(mtt[i]);
+-		dma_unmap_single(mdev->device, addr, PAGE_SIZE,
+-				 DMA_FROM_DEVICE);
+-	}
+-}
+-
+-static int register_dma_pages(struct mlx5_core_dev *mdev, u32 npages,
+-			      struct page **page_list, u32 *mkey_in)
+-{
+-	dma_addr_t addr;
+-	__be64 *mtt;
+-	int i;
+-
+-	mtt = (__be64 *)MLX5_ADDR_OF(create_mkey_in, mkey_in, klm_pas_mtt);
+-
+-	for (i = 0; i < npages; i++) {
+-		addr = dma_map_page(mdev->device, page_list[i], 0, PAGE_SIZE,
+-				    DMA_FROM_DEVICE);
+-		if (dma_mapping_error(mdev->device, addr))
+-			goto error;
+-
+-		*mtt++ = cpu_to_be64(addr);
+-	}
+-
+-	return 0;
+-
+-error:
+-	unregister_dma_pages(mdev, i, mkey_in);
+-	return -ENOMEM;
+-}
+-
+ static void mlx5vf_free_qp_recv_resources(struct mlx5_core_dev *mdev,
+ 					  struct mlx5_vhca_qp *qp)
+ {
+ 	struct mlx5_vhca_recv_buf *recv_buf = &qp->recv_buf;
+ 
+ 	mlx5_core_destroy_mkey(mdev, recv_buf->mkey);
+-	unregister_dma_pages(mdev, recv_buf->npages, recv_buf->mkey_in);
++	unregister_dma_pages(mdev, recv_buf->npages, recv_buf->mkey_in,
++			     &recv_buf->iova);
+ 	kvfree(recv_buf->mkey_in);
+-	free_recv_pages(&qp->recv_buf);
++	free_page_list(recv_buf->npages, recv_buf->page_list);
+ }
+ 
+ static int mlx5vf_alloc_qp_recv_resources(struct mlx5_core_dev *mdev,
+@@ -1370,24 +1359,24 @@ static int mlx5vf_alloc_qp_recv_resources(struct mlx5_core_dev *mdev,
+ 		goto end;
+ 	}
+ 
++	recv_buf->iova.dir = DMA_FROM_DEVICE;
+ 	err = register_dma_pages(mdev, npages, recv_buf->page_list,
+-				 recv_buf->mkey_in);
++				 recv_buf->mkey_in, &recv_buf->iova);
+ 	if (err)
+ 		goto err_register_dma;
+ 
+-	err = create_mkey(mdev, npages, NULL, recv_buf->mkey_in,
+-			  &recv_buf->mkey);
++	err = create_mkey(mdev, npages, recv_buf->mkey_in, &recv_buf->mkey);
+ 	if (err)
+ 		goto err_create_mkey;
+ 
+ 	return 0;
+ 
+ err_create_mkey:
+-	unregister_dma_pages(mdev, npages, recv_buf->mkey_in);
++	unregister_dma_pages(mdev, npages, recv_buf->mkey_in, &recv_buf->iova);
+ err_register_dma:
+ 	kvfree(recv_buf->mkey_in);
+ end:
+-	free_recv_pages(recv_buf);
++	free_page_list(npages, recv_buf->page_list);
+ 	return err;
+ }
+ 
 diff --git a/drivers/vfio/pci/mlx5/cmd.h b/drivers/vfio/pci/mlx5/cmd.h
-index f2c7227fa683..887267ebbd8a 100644
+index 815fcb54494d..3a046166d9f2 100644
 --- a/drivers/vfio/pci/mlx5/cmd.h
 +++ b/drivers/vfio/pci/mlx5/cmd.h
-@@ -60,7 +60,7 @@ struct mlx5_vhca_data_buffer {
- 	struct sg_append_table table;
+@@ -57,22 +57,17 @@ struct mlx5_vf_migration_header {
+ };
+ 
+ struct mlx5_vhca_data_buffer {
++	struct dma_iova_attrs iova;
+ 	struct page **page_list;
+-	struct sg_append_table table;
  	loff_t start_pos;
  	u64 length;
--	u64 allocated_length;
-+	u32 npages;
+ 	u32 npages;
  	u32 mkey;
- 	enum dma_data_direction dma_dir;
+ 	u32 *mkey_in;
+-	enum dma_data_direction dma_dir;
  	u8 dmaed:1;
-@@ -219,12 +219,12 @@ int mlx5vf_cmd_alloc_pd(struct mlx5_vf_migration_file *migf);
- void mlx5vf_cmd_dealloc_pd(struct mlx5_vf_migration_file *migf);
- void mlx5fv_cmd_clean_migf_resources(struct mlx5_vf_migration_file *migf);
- struct mlx5_vhca_data_buffer *
--mlx5vf_alloc_data_buffer(struct mlx5_vf_migration_file *migf,
--			 size_t length, enum dma_data_direction dma_dir);
-+mlx5vf_alloc_data_buffer(struct mlx5_vf_migration_file *migf, u32 npages,
-+			 enum dma_data_direction dma_dir);
- void mlx5vf_free_data_buffer(struct mlx5_vhca_data_buffer *buf);
- struct mlx5_vhca_data_buffer *
--mlx5vf_get_data_buffer(struct mlx5_vf_migration_file *migf,
--		       size_t length, enum dma_data_direction dma_dir);
-+mlx5vf_get_data_buffer(struct mlx5_vf_migration_file *migf, u32 npages,
-+		       enum dma_data_direction dma_dir);
- void mlx5vf_put_data_buffer(struct mlx5_vhca_data_buffer *buf);
- int mlx5vf_add_migration_pages(struct mlx5_vhca_data_buffer *buf,
- 			       unsigned int npages);
+ 	u8 stop_copy_chunk_num;
+ 	struct list_head buf_elm;
+ 	struct mlx5_vf_migration_file *migf;
+-	/* Optimize mlx5vf_get_migration_page() for sequential access */
+-	struct scatterlist *last_offset_sg;
+-	unsigned int sg_last_entry;
+-	unsigned long last_offset;
+ };
+ 
+ struct mlx5vf_async_data {
+@@ -137,6 +132,7 @@ struct mlx5_vhca_cq {
+ };
+ 
+ struct mlx5_vhca_recv_buf {
++	struct dma_iova_attrs iova;
+ 	u32 npages;
+ 	struct page **page_list;
+ 	u32 next_rq_offset;
 diff --git a/drivers/vfio/pci/mlx5/main.c b/drivers/vfio/pci/mlx5/main.c
-index fe09a8c8af95..b11b1c27d284 100644
+index 7ffe24693a55..668c28bc429c 100644
 --- a/drivers/vfio/pci/mlx5/main.c
 +++ b/drivers/vfio/pci/mlx5/main.c
-@@ -94,7 +94,7 @@ int mlx5vf_add_migration_pages(struct mlx5_vhca_data_buffer *buf,
+@@ -34,35 +34,10 @@ static struct mlx5vf_pci_core_device *mlx5vf_drvdata(struct pci_dev *pdev)
+ 			    core_device);
+ }
  
- 		if (ret)
- 			goto err;
--		buf->allocated_length += filled * PAGE_SIZE;
-+		buf->npages += filled;
- 		/* clean input for another bulk allocation */
- 		memset(page_list, 0, filled * sizeof(*page_list));
- 		to_fill = min_t(unsigned int, to_alloc,
-@@ -352,6 +352,7 @@ static struct mlx5_vhca_data_buffer *
- mlx5vf_mig_file_get_stop_copy_buf(struct mlx5_vf_migration_file *migf,
- 				  u8 index, size_t required_length)
+-struct page *
+-mlx5vf_get_migration_page(struct mlx5_vhca_data_buffer *buf,
+-			  unsigned long offset)
++struct page *mlx5vf_get_migration_page(struct mlx5_vhca_data_buffer *buf,
++				       unsigned long offset)
  {
-+	u32 npages = DIV_ROUND_UP(required_length, PAGE_SIZE);
- 	struct mlx5_vhca_data_buffer *buf = migf->buf[index];
- 	u8 chunk_num;
+-	unsigned long cur_offset = 0;
+-	struct scatterlist *sg;
+-	unsigned int i;
+-
+-	/* All accesses are sequential */
+-	if (offset < buf->last_offset || !buf->last_offset_sg) {
+-		buf->last_offset = 0;
+-		buf->last_offset_sg = buf->table.sgt.sgl;
+-		buf->sg_last_entry = 0;
+-	}
+-
+-	cur_offset = buf->last_offset;
+-
+-	for_each_sg(buf->last_offset_sg, sg,
+-			buf->table.sgt.orig_nents - buf->sg_last_entry, i) {
+-		if (offset < sg->length + cur_offset) {
+-			buf->last_offset_sg = sg;
+-			buf->sg_last_entry += i;
+-			buf->last_offset = cur_offset;
+-			return nth_page(sg_page(sg),
+-					(offset - cur_offset) / PAGE_SIZE);
+-		}
+-		cur_offset += sg->length;
+-	}
+-	return NULL;
++	return buf->page_list[offset / PAGE_SIZE];
+ }
  
-@@ -359,12 +360,11 @@ mlx5vf_mig_file_get_stop_copy_buf(struct mlx5_vf_migration_file *migf,
- 	chunk_num = buf->stop_copy_chunk_num;
- 	buf->migf->buf[index] = NULL;
- 	/* Checking whether the pre-allocated buffer can fit */
--	if (buf->allocated_length >= required_length)
-+	if (buf->npages >= npages)
- 		return buf;
+ int mlx5vf_add_migration_pages(struct mlx5_vhca_data_buffer *buf,
+@@ -72,13 +47,9 @@ int mlx5vf_add_migration_pages(struct mlx5_vhca_data_buffer *buf,
+ 	size_t old_size, new_size;
+ 	struct page **page_list;
+ 	unsigned long filled;
+-	unsigned int to_fill;
+-	int ret;
  
- 	mlx5vf_put_data_buffer(buf);
--	buf = mlx5vf_get_data_buffer(buf->migf, required_length,
--				     DMA_FROM_DEVICE);
-+	buf = mlx5vf_get_data_buffer(buf->migf, npages, DMA_FROM_DEVICE);
- 	if (IS_ERR(buf))
- 		return buf;
+-	to_fill = min_t(unsigned int, npages,
+-			PAGE_SIZE / sizeof(*buf->page_list));
+ 	old_size = buf->npages * sizeof(*buf->page_list);
+-	new_size = old_size + to_fill * sizeof(*buf->page_list);
++	new_size = old_size + to_alloc * sizeof(*buf->page_list);
+ 	page_list = kvrealloc(buf->page_list, old_size, new_size,
+ 			      GFP_KERNEL_ACCOUNT | __GFP_ZERO);
+ 	if (!page_list)
+@@ -87,22 +58,13 @@ int mlx5vf_add_migration_pages(struct mlx5_vhca_data_buffer *buf,
+ 	buf->page_list = page_list;
  
-@@ -417,7 +417,9 @@ static int mlx5vf_add_stop_copy_header(struct mlx5_vf_migration_file *migf,
- 	u8 *to_buff;
- 	int ret;
+ 	do {
+-		filled = alloc_pages_bulk_array(GFP_KERNEL_ACCOUNT, to_fill,
++		filled = alloc_pages_bulk_array(GFP_KERNEL_ACCOUNT, to_alloc,
+ 						buf->page_list + buf->npages);
+ 		if (!filled)
+ 			return -ENOMEM;
  
--	header_buf = mlx5vf_get_data_buffer(migf, size, DMA_NONE);
-+	BUILD_BUG_ON(size > PAGE_SIZE);
-+	header_buf = mlx5vf_get_data_buffer(migf, DIV_ROUND_UP(size, PAGE_SIZE),
-+					    DMA_NONE);
- 	if (IS_ERR(header_buf))
- 		return PTR_ERR(header_buf);
+ 		to_alloc -= filled;
+-		ret = sg_alloc_append_table_from_pages(
+-			&buf->table, buf->page_list + buf->npages, filled, 0,
+-			filled << PAGE_SHIFT, UINT_MAX, SG_MAX_SINGLE_ALLOC,
+-			GFP_KERNEL_ACCOUNT);
+-		if (ret)
+-			return ret;
+-
+ 		buf->npages += filled;
+-		to_fill = min_t(unsigned int, to_alloc,
+-				PAGE_SIZE / sizeof(*buf->page_list));
+ 	} while (to_alloc > 0);
  
-@@ -432,7 +434,7 @@ static int mlx5vf_add_stop_copy_header(struct mlx5_vf_migration_file *migf,
- 	to_buff = kmap_local_page(page);
- 	memcpy(to_buff, &header, sizeof(header));
- 	header_buf->length = sizeof(header);
--	data.stop_copy_size = cpu_to_le64(migf->buf[0]->allocated_length);
-+	data.stop_copy_size = cpu_to_le64(migf->buf[0]->npages * PAGE_SIZE);
- 	memcpy(to_buff + sizeof(header), &data, sizeof(data));
- 	header_buf->length += sizeof(data);
- 	kunmap_local(to_buff);
-@@ -481,15 +483,22 @@ static int mlx5vf_prep_stop_copy(struct mlx5vf_pci_core_device *mvdev,
+ 	return 0;
+@@ -164,7 +126,7 @@ static void mlx5vf_buf_read_done(struct mlx5_vhca_data_buffer *vhca_buf)
+ 	struct mlx5_vf_migration_file *migf = vhca_buf->migf;
  
- 	num_chunks = mvdev->chunk_mode ? MAX_NUM_CHUNKS : 1;
- 	for (i = 0; i < num_chunks; i++) {
--		buf = mlx5vf_get_data_buffer(migf, inc_state_size, DMA_FROM_DEVICE);
-+		buf = mlx5vf_get_data_buffer(
-+			migf, DIV_ROUND_UP(inc_state_size, PAGE_SIZE),
-+			DMA_FROM_DEVICE);
- 		if (IS_ERR(buf)) {
- 			ret = PTR_ERR(buf);
- 			goto err;
- 		}
+ 	if (vhca_buf->stop_copy_chunk_num) {
+-		bool is_header = vhca_buf->dma_dir == DMA_NONE;
++		bool is_header = vhca_buf->iova.dir == DMA_NONE;
+ 		u8 chunk_num = vhca_buf->stop_copy_chunk_num;
+ 		size_t next_required_umem_size = 0;
  
-+		BUILD_BUG_ON(sizeof(struct mlx5_vf_migration_header) >
-+			     PAGE_SIZE);
- 		migf->buf[i] = buf;
--		buf = mlx5vf_get_data_buffer(migf,
--				sizeof(struct mlx5_vf_migration_header), DMA_NONE);
-+		buf = mlx5vf_get_data_buffer(
-+			migf,
-+			DIV_ROUND_UP(sizeof(struct mlx5_vf_migration_header),
-+				     PAGE_SIZE),
-+			DMA_NONE);
- 		if (IS_ERR(buf)) {
- 			ret = PTR_ERR(buf);
- 			goto err;
-@@ -597,7 +606,8 @@ static long mlx5vf_precopy_ioctl(struct file *filp, unsigned int cmd,
- 	 * We finished transferring the current state and the device has a
- 	 * dirty state, save a new state to be ready for.
- 	 */
--	buf = mlx5vf_get_data_buffer(migf, inc_length, DMA_FROM_DEVICE);
-+	buf = mlx5vf_get_data_buffer(migf, DIV_ROUND_UP(inc_length, PAGE_SIZE),
-+				     DMA_FROM_DEVICE);
- 	if (IS_ERR(buf)) {
- 		ret = PTR_ERR(buf);
- 		mlx5vf_mark_err(migf);
-@@ -718,8 +728,8 @@ mlx5vf_pci_save_device_data(struct mlx5vf_pci_core_device *mvdev, bool track)
- 
- 	if (track) {
- 		/* leave the allocated buffer ready for the stop-copy phase */
--		buf = mlx5vf_alloc_data_buffer(migf,
--			migf->buf[0]->allocated_length, DMA_FROM_DEVICE);
-+		buf = mlx5vf_alloc_data_buffer(migf, migf->buf[0]->npages,
-+					       DMA_FROM_DEVICE);
- 		if (IS_ERR(buf)) {
- 			ret = PTR_ERR(buf);
- 			goto out_pd;
-@@ -783,16 +793,15 @@ mlx5vf_resume_read_image_no_header(struct mlx5_vhca_data_buffer *vhca_buf,
- 				   const char __user **buf, size_t *len,
- 				   loff_t *pos, ssize_t *done)
- {
-+	u32 npages = DIV_ROUND_UP(requested_length, PAGE_SIZE);
- 	int ret;
- 
- 	if (requested_length > MAX_LOAD_SIZE)
- 		return -ENOMEM;
- 
--	if (vhca_buf->allocated_length < requested_length) {
--		ret = mlx5vf_add_migration_pages(
--			vhca_buf,
--			DIV_ROUND_UP(requested_length - vhca_buf->allocated_length,
--				     PAGE_SIZE));
-+	if (vhca_buf->npages < npages) {
-+		ret = mlx5vf_add_migration_pages(vhca_buf,
-+						 npages - vhca_buf->npages);
- 		if (ret)
- 			return ret;
- 	}
-@@ -992,11 +1001,14 @@ static ssize_t mlx5vf_resume_write(struct file *filp, const char __user *buf,
- 				goto out_unlock;
- 			break;
- 		case MLX5_VF_LOAD_STATE_PREP_HEADER_DATA:
--			if (vhca_buf_header->allocated_length < migf->record_size) {
-+		{
-+			u32 npages = DIV_ROUND_UP(migf->record_size, PAGE_SIZE);
-+
-+			if (vhca_buf_header->npages < npages) {
- 				mlx5vf_free_data_buffer(vhca_buf_header);
- 
--				migf->buf_header[0] = mlx5vf_alloc_data_buffer(migf,
--						migf->record_size, DMA_NONE);
-+				migf->buf_header[0] = mlx5vf_alloc_data_buffer(
-+					migf, npages, DMA_NONE);
- 				if (IS_ERR(migf->buf_header[0])) {
- 					ret = PTR_ERR(migf->buf_header[0]);
- 					migf->buf_header[0] = NULL;
-@@ -1009,6 +1021,7 @@ static ssize_t mlx5vf_resume_write(struct file *filp, const char __user *buf,
- 			vhca_buf_header->start_pos = migf->max_pos;
- 			migf->load_state = MLX5_VF_LOAD_STATE_READ_HEADER_DATA;
- 			break;
-+		}
- 		case MLX5_VF_LOAD_STATE_READ_HEADER_DATA:
- 			ret = mlx5vf_resume_read_header_data(migf, vhca_buf_header,
- 							&buf, &len, pos, &done);
-@@ -1019,12 +1032,13 @@ static ssize_t mlx5vf_resume_write(struct file *filp, const char __user *buf,
- 		{
- 			u64 size = max(migf->record_size,
- 				       migf->stop_copy_prep_size);
-+			u32 npages = DIV_ROUND_UP(size, PAGE_SIZE);
- 
--			if (vhca_buf->allocated_length < size) {
-+			if (vhca_buf->npages < npages) {
- 				mlx5vf_free_data_buffer(vhca_buf);
- 
- 				migf->buf[0] = mlx5vf_alloc_data_buffer(migf,
--							size, DMA_TO_DEVICE);
-+							npages, DMA_TO_DEVICE);
- 				if (IS_ERR(migf->buf[0])) {
- 					ret = PTR_ERR(migf->buf[0]);
- 					migf->buf[0] = NULL;
-@@ -1115,8 +1129,11 @@ mlx5vf_pci_resume_device_data(struct mlx5vf_pci_core_device *mvdev)
- 
- 	migf->buf[0] = buf;
- 	if (MLX5VF_PRE_COPY_SUPP(mvdev)) {
--		buf = mlx5vf_alloc_data_buffer(migf,
--			sizeof(struct mlx5_vf_migration_header), DMA_NONE);
-+		buf = mlx5vf_alloc_data_buffer(
-+			migf,
-+			DIV_ROUND_UP(sizeof(struct mlx5_vf_migration_header),
-+				     PAGE_SIZE),
-+			DMA_NONE);
- 		if (IS_ERR(buf)) {
- 			ret = PTR_ERR(buf);
- 			goto out_buf;
 -- 
 2.44.0
 
