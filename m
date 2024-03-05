@@ -4,116 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47A69C5478C
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Mar 2024 07:21:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A1718C54798
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Mar 2024 08:00:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JKIngBWAuNVnuWkFr7r0tsnBVdmK8D3E8dK1xd7Ori8=; b=ediYVKS1bTvmQ2i93fM1vYAGDf
-	Gc2zHm3nz+Qw6wcHWn6t5wOrS6UWpWgXj+xXS/HUWmCfTo0zFFx3ueDrUP/FgO8hVHHkdMcx2TMQW
-	WbxqlgCkhSI/VVADETG5e9oTSJSRwn3O4YyTe1ocZ0//GyVxwpf5QKCk1IvSGlh30dEV/mDS+6csy
-	zIvs+ZUHNeavdaLLuen9NVFccpVk7OFEbwEFMG0VGTOfHxXlDBfhxK9aStA8pxpdg2V3IwilrU42Y
-	oZFqsHUy5NGG3IIRFlLpUbhb0MKkEpEjr+pn1RQCQAMbsPXhs+JDjZquqAvhdru1Z8rXkPDutKLIl
-	IW+nDrpQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=4UvsGLk8b6qDgUt88sZXK3lmITZIAGLFxi1Lnbm2V6E=; b=QTyc3QbHret3aqUUaoTs72UcPj
+	SqK2KApsrMU6oTIUVUePA1E5Mz5pgVdTOX3k7NIsNIFBXlGrF2Ma+HoudzkwlAB6ZpbVOjI0V2ICM
+	BmFVtDeb2VvKd8jVOquZnNxqnAWBrUgFP9siPm6cp2VfkXR9FHljj/5GdNij/+vvx31+sXdAGPUKV
+	4srih09N8497GONIiVmHPfqGXfvDdSVexBDoRORguvyyX6zP3p4g2JpEWBvC7TRMTtO+6lVNnNO0C
+	/YplFOWPWH8ShQ8nhfZaA1tZoDrQijthJ8y+bE9/kbGf13obSlWfqQIJtGEUX2vDQuddho5M9qreb
+	TZqDSB1A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhP7Z-0000000CKit-37cU;
-	Tue, 05 Mar 2024 07:21:53 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1rhPih-0000000CUQt-1D8U;
+	Tue, 05 Mar 2024 08:00:15 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhP7V-0000000CKhd-1Bl6
+	id 1rhPie-0000000CUP4-2TQ4
 	for linux-nvme@lists.infradead.org;
-	Tue, 05 Mar 2024 07:21:52 +0000
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+	Tue, 05 Mar 2024 08:00:14 +0000
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7DD414EDA1;
-	Tue,  5 Mar 2024 07:21:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1709623307; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JKIngBWAuNVnuWkFr7r0tsnBVdmK8D3E8dK1xd7Ori8=;
-	b=mcCiQMcNhrVYJcnVTcsqySrWaG3raZmWG5+/UEjdR5mX0F2rE2wXukMPd9DdFTHDQFhKP3
-	qKsMeKkYOv8IBo8bOdfrqbpQnC6MDFjb+nyTcqGJ3xz3G++wIjahgYvV58lSTeMdSL5Q2k
-	tOHPwiKEvXDf37lFRmp1GzsrRo5zsyE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1709623307;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JKIngBWAuNVnuWkFr7r0tsnBVdmK8D3E8dK1xd7Ori8=;
-	b=MUgZErAb2ovKm/gYWC9KzoqELJwYlBkC9IeBwVJf4ut5QKqlfxsXFE0kRpPyBXWK7raDkr
-	h5ZrsXUy/6TKwUDQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1709623307; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JKIngBWAuNVnuWkFr7r0tsnBVdmK8D3E8dK1xd7Ori8=;
-	b=mcCiQMcNhrVYJcnVTcsqySrWaG3raZmWG5+/UEjdR5mX0F2rE2wXukMPd9DdFTHDQFhKP3
-	qKsMeKkYOv8IBo8bOdfrqbpQnC6MDFjb+nyTcqGJ3xz3G++wIjahgYvV58lSTeMdSL5Q2k
-	tOHPwiKEvXDf37lFRmp1GzsrRo5zsyE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1709623307;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JKIngBWAuNVnuWkFr7r0tsnBVdmK8D3E8dK1xd7Ori8=;
-	b=MUgZErAb2ovKm/gYWC9KzoqELJwYlBkC9IeBwVJf4ut5QKqlfxsXFE0kRpPyBXWK7raDkr
-	h5ZrsXUy/6TKwUDQ==
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 082D068351;
+	Tue,  5 Mar 2024 08:00:10 +0000 (UTC)
 Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 6B5E813466;
-	Tue,  5 Mar 2024 07:21:47 +0000 (UTC)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id E937C13A5D;
+	Tue,  5 Mar 2024 08:00:09 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id AmfAGAvI5mUASgAAn2gu4w
-	(envelope-from <dwagner@suse.de>); Tue, 05 Mar 2024 07:21:47 +0000
-Date: Tue, 5 Mar 2024 08:21:47 +0100
+	id 3AxINwnR5mW9UQAAn2gu4w
+	(envelope-from <dwagner@suse.de>); Tue, 05 Mar 2024 08:00:09 +0000
 From: Daniel Wagner <dwagner@suse.de>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org, 
-	James Smart <jsmart2021@gmail.com>, Chao Leng <lengchao@huawei.com>
-Subject: Re: Re: [PATCH v2 0/2] nvme-fabrics: short-circuit connect retries
-Message-ID: <egdy2bnrot3d25bhljhdpitqumxdy4sdledlcgjgupku6cv7jp@skwlwojhdzct>
-References: <20240304161006.19328-1-dwagner@suse.de>
- <ZeX3jMpzFjjjjIKV@kbusch-mbp.mynextlight.net>
+To: James Smart <james.smart@broadcom.com>
+Cc: Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Hannes Reinecke <hare@suse.de>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Daniel Wagner <dwagner@suse.de>
+Subject: [PATCH v3 1/2] nvme-tcp: short-circuit reconnect retries
+Date: Tue,  5 Mar 2024 09:00:04 +0100
+Message-ID: <20240305080005.3638-2-dwagner@suse.de>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240305080005.3638-1-dwagner@suse.de>
+References: <20240305080005.3638-1-dwagner@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZeX3jMpzFjjjjIKV@kbusch-mbp.mynextlight.net>
-Authentication-Results: smtp-out1.suse.de;
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out2.suse.de;
 	none
-X-Spamd-Result: default: False [-1.54 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_SEVEN(0.00)[7];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 BAYES_HAM(-0.74)[83.96%];
-	 ARC_NA(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 FREEMAIL_CC(0.00)[lst.de,grimberg.me,suse.de,lists.infradead.org,gmail.com,huawei.com];
-	 RCVD_TLS_ALL(0.00)[]
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	 REPLY(-4.00)[]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 082D068351
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240304_232149_501972_DE66B768 
-X-CRM114-Status: GOOD (  15.55  )
+X-CRM114-CacheID: sfid-20240305_000012_882340_6741A071 
+X-CRM114-Status: GOOD (  15.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -128,16 +83,114 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Mar 04, 2024 at 09:32:12AM -0700, Keith Busch wrote:
-> On Mon, Mar 04, 2024 at 05:10:04PM +0100, Daniel Wagner wrote:
-> > I've picked up Hannes' DNR patches. In short the make the transports behave the
-> > same way when the DNR bit set on a re-connect attempt. We had a discussion this
-> > topic in the past and if I got this right we all agreed is that the host should
-> > honor the DNR bit on a connect attempt [1]
-> 
-> These look good to me. I think, though, if you're submitting a patch on
-> behalf of another, you should append your 'Signed-off-by' tag after the
-> author's.
+From: Hannes Reinecke <hare@suse.de>
 
-Will do. Yesterday was not my best git day for a while...
+Returning an nvme status from nvme_tcp_setup_ctrl() indicates
+that the association was established and we have received a status
+from the controller; consequently we should honour the DNR bit.
+If not any future reconnect attempts will just return the same error, so
+we can short-circuit the reconnect attempts and fail the connection
+directly.
+
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+Signed-off-by: Daniel Wagner <dwagner@suse.de>
+---
+ drivers/nvme/host/tcp.c | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 3b20c5ed033f..f9ad5904ed62 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -2149,9 +2149,11 @@ static void nvme_tcp_teardown_io_queues(struct nvme_ctrl *ctrl,
+ 	nvme_tcp_destroy_io_queues(ctrl, remove);
+ }
+ 
+-static void nvme_tcp_reconnect_or_remove(struct nvme_ctrl *ctrl)
++static void nvme_tcp_reconnect_or_remove(struct nvme_ctrl *ctrl,
++		int status)
+ {
+ 	enum nvme_ctrl_state state = nvme_ctrl_state(ctrl);
++	bool recon = status > 0 && (status & NVME_SC_DNR) ? false : true;
+ 
+ 	/* If we are resetting/deleting then do nothing */
+ 	if (state != NVME_CTRL_CONNECTING) {
+@@ -2159,13 +2161,14 @@ static void nvme_tcp_reconnect_or_remove(struct nvme_ctrl *ctrl)
+ 		return;
+ 	}
+ 
+-	if (nvmf_should_reconnect(ctrl)) {
++	if (recon && nvmf_should_reconnect(ctrl)) {
+ 		dev_info(ctrl->device, "Reconnecting in %d seconds...\n",
+ 			ctrl->opts->reconnect_delay);
+ 		queue_delayed_work(nvme_wq, &to_tcp_ctrl(ctrl)->connect_work,
+ 				ctrl->opts->reconnect_delay * HZ);
+ 	} else {
+-		dev_info(ctrl->device, "Removing controller...\n");
++		dev_info(ctrl->device, "Removing controller (%d)...\n",
++			 status);
+ 		nvme_delete_ctrl(ctrl);
+ 	}
+ }
+@@ -2246,10 +2249,12 @@ static void nvme_tcp_reconnect_ctrl_work(struct work_struct *work)
+ 	struct nvme_tcp_ctrl *tcp_ctrl = container_of(to_delayed_work(work),
+ 			struct nvme_tcp_ctrl, connect_work);
+ 	struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
++	int ret;
+ 
+ 	++ctrl->nr_reconnects;
+ 
+-	if (nvme_tcp_setup_ctrl(ctrl, false))
++	ret = nvme_tcp_setup_ctrl(ctrl, false);
++	if (ret)
+ 		goto requeue;
+ 
+ 	dev_info(ctrl->device, "Successfully reconnected (%d attempt)\n",
+@@ -2262,7 +2267,7 @@ static void nvme_tcp_reconnect_ctrl_work(struct work_struct *work)
+ requeue:
+ 	dev_info(ctrl->device, "Failed reconnect attempt %d\n",
+ 			ctrl->nr_reconnects);
+-	nvme_tcp_reconnect_or_remove(ctrl);
++	nvme_tcp_reconnect_or_remove(ctrl, ret);
+ }
+ 
+ static void nvme_tcp_error_recovery_work(struct work_struct *work)
+@@ -2289,7 +2294,7 @@ static void nvme_tcp_error_recovery_work(struct work_struct *work)
+ 		return;
+ 	}
+ 
+-	nvme_tcp_reconnect_or_remove(ctrl);
++	nvme_tcp_reconnect_or_remove(ctrl, -ENOTCONN);
+ }
+ 
+ static void nvme_tcp_teardown_ctrl(struct nvme_ctrl *ctrl, bool shutdown)
+@@ -2309,6 +2314,7 @@ static void nvme_reset_ctrl_work(struct work_struct *work)
+ {
+ 	struct nvme_ctrl *ctrl =
+ 		container_of(work, struct nvme_ctrl, reset_work);
++	int ret;
+ 
+ 	nvme_stop_ctrl(ctrl);
+ 	nvme_tcp_teardown_ctrl(ctrl, false);
+@@ -2322,14 +2328,15 @@ static void nvme_reset_ctrl_work(struct work_struct *work)
+ 		return;
+ 	}
+ 
+-	if (nvme_tcp_setup_ctrl(ctrl, false))
++	ret = nvme_tcp_setup_ctrl(ctrl, false);
++	if (ret)
+ 		goto out_fail;
+ 
+ 	return;
+ 
+ out_fail:
+ 	++ctrl->nr_reconnects;
+-	nvme_tcp_reconnect_or_remove(ctrl);
++	nvme_tcp_reconnect_or_remove(ctrl, ret);
+ }
+ 
+ static void nvme_tcp_stop_ctrl(struct nvme_ctrl *ctrl)
+-- 
+2.44.0
+
 
