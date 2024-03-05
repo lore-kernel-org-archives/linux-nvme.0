@@ -4,127 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7CB7CC54E49
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Mar 2024 14:51:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 952EFC54E41
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Mar 2024 14:51:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:CC:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cKDrPIO/QWk9rI2EOx2e+ni1hyhZbNDxAOjlD7faWi0=; b=oEyOfWep/D7xI3mKOGoLxT+Hwc
-	rdtv0illBnomllJnVGlULRSfOMU7OG6+pfrW2/75G4KyvylgcS6E95O+Cn4sYrT//iy1h027Cdw36
-	26ohUMQ0jMyWUiPRZI1kl/K+knwBw0FcaWEgEomsYaIQW0+U26BvIFxJkBNmAgwxryJL458ok9i8R
-	V/VXNUp2/Ob+NALk2UxEmS64fZ8C9rx2Vx7yACDlZtcqs5MmIbDBwcacd8RnUMgZB+u+ph4VaMaUM
-	62qnul9tbA1p+J+w+vGVe0bQhu8lk8mCJupVwOPE37aoHpuicvzPXrauZ3lWIbujIu5OOYwwk6Ekw
-	XveTwyOw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=VGKYLFPfUGJHtT00zVJnn7onAYX1D5CI2UtbLSnte14=; b=Tm2so0rw2XyHOY+P+Rl2S5kelJ
+	cpWWGe/gXTl/SG5xhdQczqbM9v5Z2DcBUy8alU8zHUPirv8ObNFWEybqDR49Cq7NUb7IzQksdA2pe
+	QjefQWXKVIHIK3zxOoLV9uoEEXVvvqG6mCOtQ42Tt9huZomZxqAHoPAPTnJNepidKp0BJ4+6776FI
+	OzgJquNyKs2gSlIxzVWOJMoqU328OVq0rvordO0vD/A1ccsmPpuOvmsAVLjQlUVZgyDISFfC/MffY
+	InX8g9HHQqXfimxh1wRYK05ERepSWt+7wcKNmhEM6s6QGzr8PS/Y7HZN6Y/+BHVBSMVTTu47J2UwX
+	hSYPe29Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhW8R-0000000E7ad-1b77;
-	Tue, 05 Mar 2024 14:51:15 +0000
-Received: from mail-dm6nam11on20600.outbound.protection.outlook.com ([2a01:111:f403:2415::600] helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+	id 1rhW8U-0000000E7ce-1GCz;
+	Tue, 05 Mar 2024 14:51:18 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhRy9-0000000D1gH-2zCz
+	id 1rhSp1-0000000DISF-2AJU
 	for linux-nvme@lists.infradead.org;
-	Tue, 05 Mar 2024 10:24:23 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LBSAcJCoyX0HLwY4Y7eqLEMwjKKR/Ay8mzXXxTEBQuNzR+M5DHzVoZ0MGfgCjx/r80cf9u0Vgi67xMdL6mPL5j1/BDtP3zR0F4bBU+YteJ/EpZ6SY8eAvmzkX1mJ748KcHtRKj37zL2R54uhYo1CESLHz4m9BYVi5iM29IV8gRdJaGcuJrgoh7qPO9U83ferXXib9clvMFDe7WvYRO3Y4e/urlElPbqdtpUIgHa2eMIpFFWdePn6joMt1FSGQZoPHizFvUAhoE6yyZ0bXd9T38nKhGoeDp/0oUjh2jfaMbLfdUcrWk8JVLYD4HNqFD8IlIqxpG9iI4yq573GYmfA4w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cKDrPIO/QWk9rI2EOx2e+ni1hyhZbNDxAOjlD7faWi0=;
- b=fTWu02YTt/g6UDhyF2wNwVyxBH2SesEo72/OOJHgtlw85jkTZ1NqDrqix7FgGXogcbFkBSt0RyR5yrn3VbZBjc9yGqcoJzSTfoUnkJay/UMkXoeNp86IDAng7P3fQkH2jiGglXnY+ImYRq9KFGO4gIWH+RCCctzhZG03Z5nWWuAGtPByq2ntnENS84be4wxtLtu0pA2imSK+0J5E6MIgaMg8nb0b0xqXPT6smQZDxEt4tkzEPLtqbLW3hBmuNEM2BlM1xA5A9W+SBD/OGmdeOIydXRJzlzeNKZOyzniJChP/3D8cG4ynIO9PwbLmJTcri96CCKPyvC3cjdivQsLxhg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=lst.de smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cKDrPIO/QWk9rI2EOx2e+ni1hyhZbNDxAOjlD7faWi0=;
- b=p0ODYWU/87Mkkbz50iYHTOxd5M6/hR47RIWkLWkEodmNbp5OcfXVpX39HTaeaiXqoosNkVy3B3tejiGRqTEDqF7lPmQQec4w9w7jioX7xAbxT2Zzj1tiuBE4UAuwPYqufbTEqYdKsmA0/NnmLujFx7B/FiH+XUEXI//TLXo1Ppa8UCe3uxxZErdajeGVMTI0mWOMIMM1M4Ylp6GdgS+hCde6ju8lQSoGPkKRI0FHTe4Vk0MhqE7vT0ycf4YzjauGGXMqfuD6gzSZYbjncq4YPL+fNTAK7lgLXVUrc1RE2L9iNUWHQ2ZfU2NZeQ9qyVfaBUN1Je/ShhUTQNAe86fLLQ==
-Received: from BN0PR04CA0011.namprd04.prod.outlook.com (2603:10b6:408:ee::16)
- by SA0PR12MB4399.namprd12.prod.outlook.com (2603:10b6:806:98::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.39; Tue, 5 Mar
- 2024 10:24:11 +0000
-Received: from BN1PEPF00004680.namprd03.prod.outlook.com
- (2603:10b6:408:ee:cafe::af) by BN0PR04CA0011.outlook.office365.com
- (2603:10b6:408:ee::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.39 via Frontend
- Transport; Tue, 5 Mar 2024 10:24:11 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- BN1PEPF00004680.mail.protection.outlook.com (10.167.243.85) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7362.11 via Frontend Transport; Tue, 5 Mar 2024 10:24:10 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Tue, 5 Mar 2024
- 02:23:56 -0800
-Received: from localhost (10.126.231.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Tue, 5 Mar
- 2024 02:23:55 -0800
-Date: Tue, 5 Mar 2024 12:23:52 +0200
-From: Leon Romanovsky <leonro@nvidia.com>
-To: Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>,
-	"Marek Szyprowski" <m.szyprowski@samsung.com>, Joerg Roedel
-	<joro@8bytes.org>, "Will Deacon" <will@kernel.org>, Jason Gunthorpe
-	<jgg@ziepe.ca>, Chaitanya Kulkarni <chaitanyak@nvidia.com>
-CC: Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>, "Keith
- Busch" <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Yishai Hadas
-	<yishaih@nvidia.com>, Shameer Kolothum
-	<shameerali.kolothum.thodi@huawei.com>, Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>, "=?iso-8859-1?B?Suly9G1l?=
- Glisse" <jglisse@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-block@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-	<iommu@lists.linux.dev>, <linux-nvme@lists.infradead.org>,
-	<kvm@vger.kernel.org>, <linux-mm@kvack.org>, Bart Van Assche
-	<bvanassche@acm.org>, Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	"Amir Goldstein" <amir73il@gmail.com>, "josef@toxicpanda.com"
-	<josef@toxicpanda.com>, "Martin K. Petersen" <martin.petersen@oracle.com>,
-	"daniel@iogearbox.net" <daniel@iogearbox.net>, Dan Williams
-	<dan.j.williams@intel.com>, "jack@suse.com" <jack@suse.com>, Zhu Yanjun
-	<zyjzyj2000@gmail.com>
-Subject: Re: [RFC 00/16] Split IOMMU DMA mapping operation to two steps
-Message-ID: <20240305102352.GA36868@unreal>
-References: <cover.1709631800.git.leon@kernel.org>
+	Tue, 05 Mar 2024 11:19:01 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id B32A861320;
+	Tue,  5 Mar 2024 11:18:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A2EEC43390;
+	Tue,  5 Mar 2024 11:18:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709637538;
+	bh=EE9BRQu4WZxxi1OZrE2CKyiBDx8STpwb4qcA00ZbW2s=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=oDVDa6DQwNTcv3NwnWsgiiMKOIV7/K6NDlVTdgGBiYwnB7EisVZPVobiznADeFy7f
+	 ZNkpViGakTvQNDN5lcqWymg90055eoDxJGkjcEo0SLPgVGObALAW8gzuwJbHHbIrnQ
+	 GzaG57EN9Qa1s6MgxTTglPO3tlZGinvm+yuj5Uw6p0CXEuATlMU768QtIgpbaacA4s
+	 QEjkVrnPb4cNOVhk/MGHgtTp878F1cJdcZAkgg9j458WXiok8jtBXFcnRaKQl71Tny
+	 m6tk3S6ClgeMTJJuB+n/Eg16neudzyOU+cRnBAYeXVb8c2Fit16B8JJyUe8jG5cqdP
+	 Ikg+UfLv0Xv6A==
+From: Leon Romanovsky <leon@kernel.org>
+To: Christoph Hellwig <hch@lst.de>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: Leon Romanovsky <leonro@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jens Axboe <axboe@kernel.dk>,
+	Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	kvm@vger.kernel.org,
+	linux-mm@kvack.org,
+	Bart Van Assche <bvanassche@acm.org>,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+	Amir Goldstein <amir73il@gmail.com>,
+	"josef@toxicpanda.com" <josef@toxicpanda.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	"daniel@iogearbox.net" <daniel@iogearbox.net>,
+	Dan Williams <dan.j.williams@intel.com>,
+	"jack@suse.com" <jack@suse.com>,
+	Zhu Yanjun <zyjzyj2000@gmail.com>
+Subject: [RFC RESEND 01/16] mm/hmm: let users to tag specific PFNs
+Date: Tue,  5 Mar 2024 13:18:32 +0200
+Message-ID: <a77609c9c9a09214e38b04133e44eee67fe50ab0.1709635535.git.leon@kernel.org>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <cover.1709635535.git.leon@kernel.org>
+References: <cover.1709635535.git.leon@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <cover.1709631800.git.leon@kernel.org>
-X-Originating-IP: [10.126.231.35]
-X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00004680:EE_|SA0PR12MB4399:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0d8c86ec-271c-4d49-a081-08dc3cfe65ec
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BBIKQi3XwMpwRZW4ws4G0X7csKdJp8PjgE8LcABnBH9f9odwT/jBocsHq95hFFZKTwnBJc3m3SpgzMoffHPT12fgW40PukCC0IttAzgf53Lw3DyJ0zZc3bRl9fTr1bzeOtd8ifH4QDvZJiiHbEUbZo0Z9vFL8kaqbTmLouxu5Kv9MMJcEy2LRwMohZEEKmf0wlsSBzrbAeQt6L7lT2NT/fvvAL4rPDmF0AlnKKdqtuYF+aPDk4Tm2JqHcZ1SNVsdlVOLkNN6aPxaI6vCWo5RkS9AKE1nO9Wjxh4RxcJn8+hyj5LyNMlt56Qu0/8cWG3G56HcxBiw5pPjimsdZSsx21NysqQrq5B/AD5vlgw4sPSUDPTjUSLkcTpBrv3OD7riiME3lXv35NoUqy4AEop5xurJcfFEbUgLvAuFtr4A4CYgdIDF2HgsDRX2IKJoMiCq5Y4hHCzEolrllwd/n4wcCUHesmyToe0vgsLGyNSenqeFq3j1FN8qmT9y4ut636pPgihTaRq4e1r9/35Y027ELem4OfoHKCBeiFF069qHxuJonAdrTMROouAoYyxG+xiVUVbovQvn4se/pgGCyb1N5VjMAff9VcsE3mCdtJZuprb+uvWgqJjKYwyga0aebvHb6DfRtx32+675JmQYzLGUX80ygJHZNC/NcunyKg/GvAJFjieeYwK5WxGFBD+j2sQ1XiYyZjGilY8XgYcl0IWQMriwDOT93sjGlkfSfUGvrMkBgO+y1gcJ4XcLkQqBB6/J
-X-Forefront-Antispam-Report: CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230031)(82310400014)(36860700004)(376005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2024 10:24:10.7415
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0d8c86ec-271c-4d49-a081-08dc3cfe65ec
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN1PEPF00004680.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4399
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240305_022421_801538_8039055C 
-X-CRM114-Status: GOOD (  12.84  )
+X-CRM114-CacheID: sfid-20240305_031859_705712_D832E9DB 
+X-CRM114-Status: GOOD (  18.22  )
 X-Mailman-Approved-At: Tue, 05 Mar 2024 05:32:59 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -140,18 +104,136 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 05, 2024 at 12:15:10PM +0200, Leon Romanovsky wrote:
-> This is complimentary part to the proposed LSF/MM topic.
-> https://lore.kernel.org/linux-rdma/22df55f8-cf64-4aa8-8c0b-b556c867b926@linux.dev/T/#m85672c860539fdbbc8fe0f5ccabdc05b40269057
-> 
-> This is posted as RFC to get a feedback on proposed split, but RDMA, VFIO and
-> DMA patches are ready for review and inclusion, the NVMe patches are still in
-> progress as they require agreement on API first.
-> 
-> Thanks
+From: Leon Romanovsky <leonro@nvidia.com>
 
-Please ignore this cover letter as it came disconnected from the series
-https://lore.kernel.org/all/a77609c9c9a09214e38b04133e44eee67fe50ab0.1709631413.git.leon@kernel.org
+Introduce new sticky flag, which isn't overwritten by HMM range fault.
+Such flag allows users to tag specific PFNs with extra data in addition
+to already filled by HMM.
 
-Thanks
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+---
+ include/linux/hmm.h |  3 +++
+ mm/hmm.c            | 34 +++++++++++++++++++++-------------
+ 2 files changed, 24 insertions(+), 13 deletions(-)
+
+diff --git a/include/linux/hmm.h b/include/linux/hmm.h
+index 126a36571667..b90902baa593 100644
+--- a/include/linux/hmm.h
++++ b/include/linux/hmm.h
+@@ -23,6 +23,7 @@ struct mmu_interval_notifier;
+  * HMM_PFN_WRITE - if the page memory can be written to (requires HMM_PFN_VALID)
+  * HMM_PFN_ERROR - accessing the pfn is impossible and the device should
+  *                 fail. ie poisoned memory, special pages, no vma, etc
++ * HMM_PFN_STICKY - Flag preserved on input-to-output transformation
+  *
+  * On input:
+  * 0                 - Return the current state of the page, do not fault it.
+@@ -36,6 +37,8 @@ enum hmm_pfn_flags {
+ 	HMM_PFN_VALID = 1UL << (BITS_PER_LONG - 1),
+ 	HMM_PFN_WRITE = 1UL << (BITS_PER_LONG - 2),
+ 	HMM_PFN_ERROR = 1UL << (BITS_PER_LONG - 3),
++	/* Sticky lag, carried from Input to Output */
++	HMM_PFN_STICKY = 1UL << (BITS_PER_LONG - 7),
+ 	HMM_PFN_ORDER_SHIFT = (BITS_PER_LONG - 8),
+ 
+ 	/* Input flags */
+diff --git a/mm/hmm.c b/mm/hmm.c
+index 277ddcab4947..9645a72beec0 100644
+--- a/mm/hmm.c
++++ b/mm/hmm.c
+@@ -44,8 +44,10 @@ static int hmm_pfns_fill(unsigned long addr, unsigned long end,
+ {
+ 	unsigned long i = (addr - range->start) >> PAGE_SHIFT;
+ 
+-	for (; addr < end; addr += PAGE_SIZE, i++)
+-		range->hmm_pfns[i] = cpu_flags;
++	for (; addr < end; addr += PAGE_SIZE, i++) {
++		range->hmm_pfns[i] &= HMM_PFN_STICKY;
++		range->hmm_pfns[i] |= cpu_flags;
++	}
+ 	return 0;
+ }
+ 
+@@ -202,8 +204,10 @@ static int hmm_vma_handle_pmd(struct mm_walk *walk, unsigned long addr,
+ 		return hmm_vma_fault(addr, end, required_fault, walk);
+ 
+ 	pfn = pmd_pfn(pmd) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
+-	for (i = 0; addr < end; addr += PAGE_SIZE, i++, pfn++)
+-		hmm_pfns[i] = pfn | cpu_flags;
++	for (i = 0; addr < end; addr += PAGE_SIZE, i++, pfn++) {
++		hmm_pfns[i] &= HMM_PFN_STICKY;
++		hmm_pfns[i] |= pfn | cpu_flags;
++	}
+ 	return 0;
+ }
+ #else /* CONFIG_TRANSPARENT_HUGEPAGE */
+@@ -236,7 +240,7 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
+ 			hmm_pte_need_fault(hmm_vma_walk, pfn_req_flags, 0);
+ 		if (required_fault)
+ 			goto fault;
+-		*hmm_pfn = 0;
++		*hmm_pfn = *hmm_pfn & HMM_PFN_STICKY;
+ 		return 0;
+ 	}
+ 
+@@ -253,14 +257,14 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
+ 			cpu_flags = HMM_PFN_VALID;
+ 			if (is_writable_device_private_entry(entry))
+ 				cpu_flags |= HMM_PFN_WRITE;
+-			*hmm_pfn = swp_offset_pfn(entry) | cpu_flags;
++			*hmm_pfn = (*hmm_pfn & HMM_PFN_STICKY) | swp_offset_pfn(entry) | cpu_flags;
+ 			return 0;
+ 		}
+ 
+ 		required_fault =
+ 			hmm_pte_need_fault(hmm_vma_walk, pfn_req_flags, 0);
+ 		if (!required_fault) {
+-			*hmm_pfn = 0;
++			*hmm_pfn = *hmm_pfn & HMM_PFN_STICKY;
+ 			return 0;
+ 		}
+ 
+@@ -304,11 +308,11 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
+ 			pte_unmap(ptep);
+ 			return -EFAULT;
+ 		}
+-		*hmm_pfn = HMM_PFN_ERROR;
++		*hmm_pfn = (*hmm_pfn & HMM_PFN_STICKY) | HMM_PFN_ERROR;
+ 		return 0;
+ 	}
+ 
+-	*hmm_pfn = pte_pfn(pte) | cpu_flags;
++	*hmm_pfn = (*hmm_pfn & HMM_PFN_STICKY) | pte_pfn(pte) | cpu_flags;
+ 	return 0;
+ 
+ fault:
+@@ -453,8 +457,10 @@ static int hmm_vma_walk_pud(pud_t *pudp, unsigned long start, unsigned long end,
+ 		}
+ 
+ 		pfn = pud_pfn(pud) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
+-		for (i = 0; i < npages; ++i, ++pfn)
+-			hmm_pfns[i] = pfn | cpu_flags;
++		for (i = 0; i < npages; ++i, ++pfn) {
++			hmm_pfns[i] &= HMM_PFN_STICKY;
++			hmm_pfns[i] |= pfn | cpu_flags;
++		}
+ 		goto out_unlock;
+ 	}
+ 
+@@ -512,8 +518,10 @@ static int hmm_vma_walk_hugetlb_entry(pte_t *pte, unsigned long hmask,
+ 	}
+ 
+ 	pfn = pte_pfn(entry) + ((start & ~hmask) >> PAGE_SHIFT);
+-	for (; addr < end; addr += PAGE_SIZE, i++, pfn++)
+-		range->hmm_pfns[i] = pfn | cpu_flags;
++	for (; addr < end; addr += PAGE_SIZE, i++, pfn++) {
++		range->hmm_pfns[i] &= HMM_PFN_STICKY;
++		range->hmm_pfns[i] |= pfn | cpu_flags;
++	}
+ 
+ 	spin_unlock(ptl);
+ 	return 0;
+-- 
+2.44.0
+
 
