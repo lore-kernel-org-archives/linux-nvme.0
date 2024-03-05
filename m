@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 497B8C54798
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Mar 2024 14:51:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 718EBC54E41
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Mar 2024 14:51:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZV22DEkctZnBDhVO2mpwxlurhUyOLjlkYP+TkKjvMOA=; b=NlAVJnSNpR7UIfz+cMOm/plZji
-	VdIpcqdWWUSbKCjVmrZ6JM7/52JNjINRhz5alE0PHMcWm1Z6angXODHbYfPjQy0TA3rizqVQNF3Oa
-	Wshb3KV/8mPLL7Low7EnLddv8SFjuJ6C5r2pB9DyLVVt53WYT4v6KPKCFudWDpGXyC2PV99w0vOVf
-	UUiYtOFZErrNichZTbW1l1BWWkeJZbO4dqHw09vDYv/PVCevGZ9NLRYoAv3MXDUVdsxrJ429pYvGn
-	IIog8kmAr1A/3Wv69b5iiW8VQqz0yRZ5C6KI0C7ad+hLapA4jeZ+iNRtTVn6oR3sjDrwXqb5nUOFd
-	xbE0AsFQ==;
+	bh=qYb+zBT+l4bRumlZjw61WjNIKyLOpqGiPdeR0ak+ylo=; b=uEmTsLz4pWOA/p8uar8bjxFGTk
+	LH9nmPWroWB+a9zJ+/NIDlH9MN0SeJNEjNXZ6Pzhni1y846s7M+KUU1lSt3EdzvGFUSmLJMlikv+Q
+	A2lavUDHJtXmu7lTTmcyiCiEoVALFiD3A41z1jxsrfaAipHuaIRirY2p1Vzrjj/u0P6BXWjuRf9uI
+	EP4osXsRv0PcRwvf8RK8l9RtrgjwY2mvNTThkCpzce7zga6wI+ZSmt77JMLl9VHXIuGBR/cBUwO84
+	gok5wjdQB7IVzdw9ttPvAgK7mFsUBl94uGgr8FASjJIcoeLJoDJ27C9dlx7nzYZet2K/BLAHMnkSD
+	bBrjXi/Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhW8W-0000000E7dk-26UP;
-	Tue, 05 Mar 2024 14:51:20 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1rhW8O-0000000E7Z7-3NVq;
+	Tue, 05 Mar 2024 14:51:12 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhSp7-0000000DIVy-2vMs
+	id 1rhRwz-0000000D1A5-2ycN
 	for linux-nvme@lists.infradead.org;
-	Tue, 05 Mar 2024 11:19:07 +0000
+	Tue, 05 Mar 2024 10:23:11 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 95634CE1870;
-	Tue,  5 Mar 2024 11:19:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 337BFC43399;
-	Tue,  5 Mar 2024 11:19:02 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id E834ECE19E6;
+	Tue,  5 Mar 2024 10:23:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78BA0C433F1;
+	Tue,  5 Mar 2024 10:23:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709637542;
-	bh=XGhek5Egl9EZN5GDA4K/P4lgi/cIEFOzTc1LzkqAZ+k=;
+	s=k20201202; t=1709634187;
+	bh=inT0MN5YzB4Hs5AmOhFFcCz6zSy1Lq0FeGslm64Slg8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ExrnqGWc0DJr7OpJKj54LQl6f6CrjIMS2nso33ODtmHYOG4xoeRiikz9mKhHtlevS
-	 OW18Yww55g/DlhzTuNXVBVpBGGcPumW3WdmaZ+BSIXs71LW5gBPDeb7bGZAQYLyvPv
-	 eofh7gi2/b9TS7bAWiucQd7AmGomodjGllpcXaLcXsgET3VyyxDkx+LqTWXrUBpjFt
-	 XZlLtS7lCvQofgbhGV6A2fJWURQN6Cq8QMD8H14fX9kTepqWmYZdq08iM8zY8rsSnt
-	 iAcZ0j9KR8OSybyHpCjS9/R4re/Fny883NywNVBcPJBPDkiabjHWIsmcoJpY3J4vjr
-	 YJS7GIjPXBQ2A==
+	b=LsJGaL+DkLkgIabckqVwTeJY8qVb0nl4GLcoHjh2QNL068AmjRXCZbXFPHPdFWhVt
+	 hoeI9wrJ7TmgpbCIKQsrK2uuQqzsUHmUqkVdg+8SbVuLVrbKxQN7wSwpBVdP9t4q44
+	 fuo8iovWqqqpsJIzPT+ZmvEzOVuGSJVw+Hw0aNtMbA5cl6E8hMaycw1RO84Ss7julD
+	 eB8htXDX67+eUjMzdzkmX9r5+VqzTUzavlw9fOUgqWqhn6hK74sWzHVzEDPcRL5C3v
+	 eyRVlLdBQ3UtZskG9J0Qkq1Bzb+4c24rjSsXmZ8jyBX7vd/ZjMN0TLRuTpZXPU8dTq
+	 L8RXY7cRhg3HA==
 From: Leon Romanovsky <leon@kernel.org>
 To: Christoph Hellwig <hch@lst.de>,
 	Robin Murphy <robin.murphy@arm.com>,
@@ -78,17 +78,17 @@ Cc: Leon Romanovsky <leonro@nvidia.com>,
 	Dan Williams <dan.j.williams@intel.com>,
 	"jack@suse.com" <jack@suse.com>,
 	Zhu Yanjun <zyjzyj2000@gmail.com>
-Subject: [RFC RESEND 02/16] dma-mapping: provide an interface to allocate IOVA
-Date: Tue,  5 Mar 2024 13:18:33 +0200
-Message-ID: <54a3554639bfb963c9919c5d7c1f449021bebdb3.1709635535.git.leon@kernel.org>
+Subject: [RFC 10/16] RDMA/umem: Prevent UMEM ODP creation with SWIOTLB
+Date: Tue,  5 Mar 2024 12:22:11 +0200
+Message-ID: <8c6d5e7db2d1a01888cc7b9b9850b05e19c75c64.1709631413.git.leon@kernel.org>
 X-Mailer: git-send-email 2.44.0
-In-Reply-To: <cover.1709635535.git.leon@kernel.org>
-References: <cover.1709635535.git.leon@kernel.org>
+In-Reply-To: <cover.1709631800.git.leon@kernel.org>
+References: <cover.1709631800.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240305_031906_188784_146E151C 
-X-CRM114-Status: GOOD (  17.87  )
+X-CRM114-CacheID: sfid-20240305_022310_250919_35300E88 
+X-CRM114-Status: GOOD (  23.61  )
 X-Mailman-Approved-At: Tue, 05 Mar 2024 05:32:59 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -103,128 +103,189 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
+Message-ID: <20240305102211.AxI-X1f48D5o0l2vCLbDjRIDM-FVcdt3YNXBZoe-Dhg@z>
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-Existing .map_page() callback provides two things at the same time:
-allocates IOVA and links DMA pages. That combination works great for
-most of the callers who use it in control paths, but less effective
-in fast paths.
+RDMA UMEM never supported DMA addresses returned from SWIOTLB, as these
+addresses should be programmed to the hardware which is not aware that
+it is bounce buffers and not real ones.
 
-These advanced callers already manage their data in some sort of
-database and can perform IOVA allocation in advance, leaving range
-linkage operation to be in fast path.
-
-Provide an interface to allocate/deallocate IOVA and next patch
-link/unlink DMA ranges to that specific IOVA.
+Instead of silently leave broken system for the users who didn't
+know it, let's be explicit and return an error to them.
 
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- include/linux/dma-map-ops.h |  3 +++
- include/linux/dma-mapping.h | 20 ++++++++++++++++++++
- kernel/dma/mapping.c        | 30 ++++++++++++++++++++++++++++++
- 3 files changed, 53 insertions(+)
+ Documentation/core-api/dma-attributes.rst |  7 +++
+ drivers/infiniband/core/umem_odp.c        | 77 +++++++++++------------
+ include/linux/dma-mapping.h               |  6 ++
+ kernel/dma/direct.h                       |  4 +-
+ kernel/dma/mapping.c                      |  4 ++
+ 5 files changed, 58 insertions(+), 40 deletions(-)
 
-diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
-index 4abc60f04209..bd605b44bb57 100644
---- a/include/linux/dma-map-ops.h
-+++ b/include/linux/dma-map-ops.h
-@@ -83,6 +83,9 @@ struct dma_map_ops {
- 	size_t (*max_mapping_size)(struct device *dev);
- 	size_t (*opt_mapping_size)(void);
- 	unsigned long (*get_merge_boundary)(struct device *dev);
+diff --git a/Documentation/core-api/dma-attributes.rst b/Documentation/core-api/dma-attributes.rst
+index 1887d92e8e92..b337ec65d506 100644
+--- a/Documentation/core-api/dma-attributes.rst
++++ b/Documentation/core-api/dma-attributes.rst
+@@ -130,3 +130,10 @@ accesses to DMA buffers in both privileged "supervisor" and unprivileged
+ subsystem that the buffer is fully accessible at the elevated privilege
+ level (and ideally inaccessible or at least read-only at the
+ lesser-privileged levels).
 +
-+	dma_addr_t (*alloc_iova)(struct device *dev, size_t size);
-+	void (*free_iova)(struct device *dev, dma_addr_t dma_addr, size_t size);
- };
- 
- #ifdef CONFIG_DMA_OPS
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index 4a658de44ee9..176fb8a86d63 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -91,6 +91,16 @@ static inline void debug_dma_map_single(struct device *dev, const void *addr,
- }
- #endif /* CONFIG_DMA_API_DEBUG */
- 
-+struct dma_iova_attrs {
-+	/* OUT field */
-+	dma_addr_t addr;
-+	/* IN fields */
-+	struct device *dev;
-+	size_t size;
-+	enum dma_data_direction dir;
-+	unsigned long attrs;
-+};
++DMA_ATTR_NO_TRANSLATION
++-----------------------
 +
- #ifdef CONFIG_HAS_DMA
- static inline int dma_mapping_error(struct device *dev, dma_addr_t dma_addr)
++This attribute is used to indicate to the DMA-mapping subsystem that the
++buffer is not subject to any address translation.  This is used for devices
++that doesn't need buffer bouncing or fixing DMA addresses.
+diff --git a/drivers/infiniband/core/umem_odp.c b/drivers/infiniband/core/umem_odp.c
+index 1301009a6b78..57c56000f60e 100644
+--- a/drivers/infiniband/core/umem_odp.c
++++ b/drivers/infiniband/core/umem_odp.c
+@@ -50,51 +50,50 @@
+ static inline int ib_init_umem_odp(struct ib_umem_odp *umem_odp,
+ 				   const struct mmu_interval_notifier_ops *ops)
  {
-@@ -101,6 +111,9 @@ static inline int dma_mapping_error(struct device *dev, dma_addr_t dma_addr)
- 	return 0;
- }
++	size_t page_size = 1UL << umem_odp->page_shift;
+ 	struct ib_device *dev = umem_odp->umem.ibdev;
++	size_t ndmas, npfns;
++	unsigned long start;
++	unsigned long end;
+ 	int ret;
  
-+int dma_alloc_iova(struct dma_iova_attrs *iova);
-+void dma_free_iova(struct dma_iova_attrs *iova);
-+
- dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
- 		size_t offset, size_t size, enum dma_data_direction dir,
- 		unsigned long attrs);
-@@ -159,6 +172,13 @@ void dma_vunmap_noncontiguous(struct device *dev, void *vaddr);
- int dma_mmap_noncontiguous(struct device *dev, struct vm_area_struct *vma,
- 		size_t size, struct sg_table *sgt);
- #else /* CONFIG_HAS_DMA */
-+static inline int dma_alloc_iova(struct dma_iova_attrs *iova)
-+{
-+	return -EOPNOTSUPP;
-+}
-+static inline void dma_free_iova(struct dma_iova_attrs *iova)
-+{
-+}
- static inline dma_addr_t dma_map_page_attrs(struct device *dev,
- 		struct page *page, size_t offset, size_t size,
- 		enum dma_data_direction dir, unsigned long attrs)
-diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index 58db8fd70471..b6b27bab90f3 100644
---- a/kernel/dma/mapping.c
-+++ b/kernel/dma/mapping.c
-@@ -183,6 +183,36 @@ void dma_unmap_page_attrs(struct device *dev, dma_addr_t addr, size_t size,
- }
- EXPORT_SYMBOL(dma_unmap_page_attrs);
+ 	umem_odp->umem.is_odp = 1;
+ 	mutex_init(&umem_odp->umem_mutex);
  
-+int dma_alloc_iova(struct dma_iova_attrs *iova)
-+{
-+	struct device *dev = iova->dev;
-+	const struct dma_map_ops *ops = get_dma_ops(dev);
-+
-+	if (dma_map_direct(dev, ops) || !ops->alloc_iova) {
-+		iova->addr = 0;
+-	if (!umem_odp->is_implicit_odp) {
+-		size_t page_size = 1UL << umem_odp->page_shift;
+-		unsigned long start;
+-		unsigned long end;
+-		size_t ndmas, npfns;
+-
+-		start = ALIGN_DOWN(umem_odp->umem.address, page_size);
+-		if (check_add_overflow(umem_odp->umem.address,
+-				       (unsigned long)umem_odp->umem.length,
+-				       &end))
+-			return -EOVERFLOW;
+-		end = ALIGN(end, page_size);
+-		if (unlikely(end < page_size))
+-			return -EOVERFLOW;
+-
+-		ndmas = (end - start) >> umem_odp->page_shift;
+-		if (!ndmas)
+-			return -EINVAL;
+-
+-		npfns = (end - start) >> PAGE_SHIFT;
+-		umem_odp->pfn_list = kvcalloc(
+-			npfns, sizeof(*umem_odp->pfn_list), GFP_KERNEL);
+-		if (!umem_odp->pfn_list)
+-			return -ENOMEM;
+-
+-
+-		umem_odp->iova.dev = dev->dma_device;
+-		umem_odp->iova.size = end - start;
+-		umem_odp->iova.dir = DMA_BIDIRECTIONAL;
+-		ret = ib_dma_alloc_iova(dev, &umem_odp->iova);
+-		if (ret)
+-			goto out_pfn_list;
+-
+-		ret = mmu_interval_notifier_insert(&umem_odp->notifier,
+-						   umem_odp->umem.owning_mm,
+-						   start, end - start, ops);
+-		if (ret)
+-			goto out_free_iova;
+-	}
++	if (umem_odp->is_implicit_odp)
 +		return 0;
-+	}
 +
-+	iova->addr = ops->alloc_iova(dev, iova->size);
-+	if (dma_mapping_error(dev, iova->addr))
++	start = ALIGN_DOWN(umem_odp->umem.address, page_size);
++	if (check_add_overflow(umem_odp->umem.address,
++			       (unsigned long)umem_odp->umem.length, &end))
++		return -EOVERFLOW;
++	end = ALIGN(end, page_size);
++	if (unlikely(end < page_size))
++		return -EOVERFLOW;
++
++	ndmas = (end - start) >> umem_odp->page_shift;
++	if (!ndmas)
++		return -EINVAL;
++
++	npfns = (end - start) >> PAGE_SHIFT;
++	umem_odp->pfn_list =
++		kvcalloc(npfns, sizeof(*umem_odp->pfn_list), GFP_KERNEL);
++	if (!umem_odp->pfn_list)
 +		return -ENOMEM;
 +
-+	return 0;
-+}
-+EXPORT_SYMBOL(dma_alloc_iova);
++	umem_odp->iova.dev = dev->dma_device;
++	umem_odp->iova.size = end - start;
++	umem_odp->iova.dir = DMA_BIDIRECTIONAL;
++	umem_odp->iova.attrs = DMA_ATTR_NO_TRANSLATION;
++	ret = ib_dma_alloc_iova(dev, &umem_odp->iova);
++	if (ret)
++		goto out_pfn_list;
 +
-+void dma_free_iova(struct dma_iova_attrs *iova)
-+{
-+	struct device *dev = iova->dev;
-+	const struct dma_map_ops *ops = get_dma_ops(dev);
++	ret = mmu_interval_notifier_insert(&umem_odp->notifier,
++					   umem_odp->umem.owning_mm, start,
++					   end - start, ops);
++	if (ret)
++		goto out_free_iova;
+ 
+ 	return 0;
+ 
+diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+index 91cc084adb53..89945e707a9b 100644
+--- a/include/linux/dma-mapping.h
++++ b/include/linux/dma-mapping.h
+@@ -62,6 +62,12 @@
+  */
+ #define DMA_ATTR_PRIVILEGED		(1UL << 9)
+ 
++/*
++ * DMA_ATTR_NO_TRANSLATION: used to indicate that the buffer should not be mapped
++ * through address translation.
++ */
++#define DMA_ATTR_NO_TRANSLATION		(1UL << 10)
 +
-+	if (dma_map_direct(dev, ops) || !ops->free_iova)
-+		return;
+ /*
+  * A dma_addr_t can hold any valid DMA or bus address for the platform.  It can
+  * be given to a device to use as a DMA source or target.  It is specific to a
+diff --git a/kernel/dma/direct.h b/kernel/dma/direct.h
+index 1c30e1cd607a..1c9ec204c999 100644
+--- a/kernel/dma/direct.h
++++ b/kernel/dma/direct.h
+@@ -92,6 +92,8 @@ static inline dma_addr_t dma_direct_map_page(struct device *dev,
+ 	if (is_swiotlb_force_bounce(dev)) {
+ 		if (is_pci_p2pdma_page(page))
+ 			return DMA_MAPPING_ERROR;
++		if (attrs & DMA_ATTR_NO_TRANSLATION)
++			return DMA_MAPPING_ERROR;
+ 		return swiotlb_map(dev, phys, size, dir, attrs);
+ 	}
+ 
+@@ -99,7 +101,7 @@ static inline dma_addr_t dma_direct_map_page(struct device *dev,
+ 	    dma_kmalloc_needs_bounce(dev, size, dir)) {
+ 		if (is_pci_p2pdma_page(page))
+ 			return DMA_MAPPING_ERROR;
+-		if (is_swiotlb_active(dev))
++		if (is_swiotlb_active(dev) && !(attrs & DMA_ATTR_NO_TRANSLATION))
+ 			return swiotlb_map(dev, phys, size, dir, attrs);
+ 
+ 		dev_WARN_ONCE(dev, 1,
+diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+index f989c64622c2..49b1fde510c5 100644
+--- a/kernel/dma/mapping.c
++++ b/kernel/dma/mapping.c
+@@ -188,6 +188,10 @@ int dma_alloc_iova(struct dma_iova_attrs *iova)
+ 	struct device *dev = iova->dev;
+ 	const struct dma_map_ops *ops = get_dma_ops(dev);
+ 
++	if (dma_map_direct(dev, ops) && is_swiotlb_force_bounce(dev) &&
++	    iova->attrs & DMA_ATTR_NO_TRANSLATION)
++		return -EOPNOTSUPP;
 +
-+	ops->free_iova(dev, iova->addr, iova->size);
-+}
-+EXPORT_SYMBOL(dma_free_iova);
-+
- static int __dma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
- 	 int nents, enum dma_data_direction dir, unsigned long attrs)
- {
+ 	if (dma_map_direct(dev, ops) || !ops->alloc_iova) {
+ 		iova->addr = 0;
+ 		return 0;
 -- 
 2.44.0
 
