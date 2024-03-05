@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3E169C54E41
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Mar 2024 14:51:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CE42DC54E5C
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 Mar 2024 14:51:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=69+6sE92dSIPG3r1ibrFiQOVqsokM2kHpVwxvHVdtK4=; b=xr/3Z/s+udpENqugC93+1MFcdu
-	61onCDT2Wd4iHjT2vCD9OB1qy7JfZpdJnUTSrAk6oPpzRooJhrp41SmstPvGjuVwbSUAqNUV+q71g
-	JTZCrv5tgIoKw0Qna8zTM9h4rSMP1rpwBAtvNYwgsqAlYHBSq43CB7jSecRn6q5nV3TiQzgg69bJE
-	MGJHGTY9WGEfh1MF0wMYEgM2QeZeDrnsJnpNGw8CMe3IcBA5g5Xj9/eBPatfwBUiwOakvR78V4h5S
-	rm/MMbqTOx6Dc32TJR1CPaV85cH0sr8KccpHhYrtjvzEcFPcjQCDcUpBkMGenhRD0Jq1MPRWnwtVv
-	BFW2KXhw==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=HKiBA5pChvNa/3Hb57ymTpQo3knVfTVpUxU8WZumb7Y=; b=SR2lyOMU5n7aW+He8zKY7iZ1zt
+	W+VCL7ORlmzg26VGGcHXrYQi1kqG4vOyDWIfz6CRBhq4OtmITEfs4HbhcgrCfiLbfPzRacW3z2acv
+	ULCyio9x/5WHB4x2IPuvR2IYt8vg90r/JUEFrybrHTZDK2B3rOYZ3nKruxJgd0uRk1srVg+AUg5in
+	BZ15Km0KtkYb0r/YFaA5mJb1sc+1wlmgqnBNYGwdKQsr6N3DhgRympAJ2lzHHusLVmrplnUej4Jt1
+	jaINgCXadTOwgTFqUCJTDbXH/u0Ro6G1QOtfarGjhRUOq3u/xeRjtTEKSc2pf5Uod/g2/5RqwLvCU
+	+M4afo5g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhW8P-0000000E7ZR-29Xg;
-	Tue, 05 Mar 2024 14:51:13 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1rhW8S-0000000E7bQ-217Q;
+	Tue, 05 Mar 2024 14:51:16 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhRxI-0000000D1L5-3zXN
+	id 1rhSoy-0000000DIR7-45U2
 	for linux-nvme@lists.infradead.org;
-	Tue, 05 Mar 2024 10:23:30 +0000
+	Tue, 05 Mar 2024 11:18:58 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id E920FCE19DC;
-	Tue,  5 Mar 2024 10:23:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8375BC433F1;
-	Tue,  5 Mar 2024 10:23:25 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 99B7161335;
+	Tue,  5 Mar 2024 11:18:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 531A2C433F1;
+	Tue,  5 Mar 2024 11:18:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709634206;
-	bh=POBXmxmfWLR3OdaBK59TZEAySmTXPtp10vl7hcXrrqE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JfOhzVZU+PbAcYQ1NVtZEVt8RuGzFpDwvJhc8ZmNR/MQVL5rFEvZdI69ZI/CfRn/9
-	 lDgTnl3e4vosZKaNqjHmg2gD0OzDdqkJbEILuC92XRwFJP0oBxZbFVGeaBD7BIEEcz
-	 /gPzVTSeBDKGQSe2wWMvfIiFkByrXNbsadAf08OawLxQBl8iQ1z3LeH/j4eWcLP0bv
-	 Om5VKAISLfH8L+ZLD4Ctsjw+8zkFVTnaS/Sk8mAS2fAh6CnbKFtI06ECPVUFOxQa/J
-	 zriDWTohGgJ3TPzImH+yT9rlBAUvo/wPEFost8Rs0sPhO279SVYIuUWU7IFsKaHp+s
-	 s/6ryTSTZ4GSA==
+	s=k20201202; t=1709637534;
+	bh=NxhQVbYsKSwyvGgGk5qfaF5a/Y1wAzitab7stbdLKEk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=r002UdI01gg2rXuVaeOK/D1fhwvZco1HuVKXX0raiRp4PUfsfXV1wc5RAqWyZvJGK
+	 mRH29l4+teuQlcz7MYEH/XOhAk5fjO/D/+ObXI96O5zHSMTDzcXW1equc4uEnI9Kre
+	 2BcxvXeVYU69p4m+lD0jFj6BxZAVk5SYUzkfEQXMq9ZQADbWBmK/mOgQSEndSNXrmU
+	 N0zqFP6N8iRdWJolF3xUwGboWwTM+WK03mm/r/4T6jt0HRL4N+JZfELJzmdMuRU5c2
+	 3ntsHZLDUHj1RvDsUQibOL0qdzbtw4jvy9b1b8vryqWssRm+htmwj9BHKQEKphbBXH
+	 1E2fwP28bIgFw==
 From: Leon Romanovsky <leon@kernel.org>
 To: Christoph Hellwig <hch@lst.de>,
 	Robin Murphy <robin.murphy@arm.com>,
@@ -50,8 +50,7 @@ To: Christoph Hellwig <hch@lst.de>,
 	Will Deacon <will@kernel.org>,
 	Jason Gunthorpe <jgg@ziepe.ca>,
 	Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: Chaitanya Kulkarni <kch@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>,
+Cc: Jonathan Corbet <corbet@lwn.net>,
 	Jens Axboe <axboe@kernel.dk>,
 	Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>,
@@ -79,17 +78,15 @@ Cc: Chaitanya Kulkarni <kch@nvidia.com>,
 	"jack@suse.com" <jack@suse.com>,
 	Leon Romanovsky <leonro@nvidia.com>,
 	Zhu Yanjun <zyjzyj2000@gmail.com>
-Subject: [RFC 16/16] nvme-pci: use blk_rq_dma_map() for NVMe SGL
-Date: Tue,  5 Mar 2024 12:22:17 +0200
-Message-ID: <016fc02cbfa9be3c156a6f74df38def1e09c08f1.1709631413.git.leon@kernel.org>
+Subject: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two steps
+Date: Tue,  5 Mar 2024 13:18:31 +0200
+Message-ID: <cover.1709635535.git.leon@kernel.org>
 X-Mailer: git-send-email 2.44.0
-In-Reply-To: <cover.1709631800.git.leon@kernel.org>
-References: <cover.1709631800.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240305_022329_353183_52C2231F 
-X-CRM114-Status: GOOD (  25.45  )
+X-CRM114-CacheID: sfid-20240305_031857_422114_5B7AF9D8 
+X-CRM114-Status: GOOD (  16.23  )
 X-Mailman-Approved-At: Tue, 05 Mar 2024 05:32:59 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -104,394 +101,94 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
-Message-ID: <20240305102217.TjXa7ztHGPAo4-eVNTVhmZRHK4PgaXunOrqIFjZzGAQ@z>
 
-From: Chaitanya Kulkarni <kch@nvidia.com>
+This is complimentary part to the proposed LSF/MM topic.
+https://lore.kernel.org/linux-rdma/22df55f8-cf64-4aa8-8c0b-b556c867b926@linux.dev/T/#m85672c860539fdbbc8fe0f5ccabdc05b40269057
 
-Update nvme_iod structure to hold iova, list of DMA linked addresses and
-total linked count, first one is needed in the request submission path
-to create a request to DMA mapping and last two are needed in the
-request completion path to remove the DMA mapping. In nvme_map_data()
-initialize iova with device, direction, and iova dma length with the
-help of blk_rq_get_dma_length(). Allocate iova using dma_alloc_iova().
-and call in nvme_pci_setup_sgls().
+This is posted as RFC to get a feedback on proposed split, but RDMA, VFIO and
+DMA patches are ready for review and inclusion, the NVMe patches are still in
+progress as they require agreement on API first.
 
-Call newly added blk_rq_dma_map() to create request to DMA mapping and
-provide a callback function nvme_pci_sgl_map(). In the callback
-function initialize NVMe SGL dma addresses.
+Thanks
 
-Finally in nvme_unmap_data() unlink the dma address and free iova.
+-------------------------------------------------------------------------------
+The DMA mapping operation performs two steps at one same time: allocates
+IOVA space and actually maps DMA pages to that space. This one shot
+operation works perfectly for non-complex scenarios, where callers use
+that DMA API in control path when they setup hardware.
 
-Full disclosure:-
------------------
+However in more complex scenarios, when DMA mapping is needed in data
+path and especially when some sort of specific datatype is involved,
+such one shot approach has its drawbacks.
 
-This is an RFC to demonstrate the newly added DMA APIs can be used to
-map/unmap bvecs without the use of sg list, hence I've modified the pci
-code to only handle SGLs for now. Once we have some agreement on the
-structure of new DMA API I'll add support for PRPs along with all the
-optimization that I've removed from the code for this RFC for NVMe SGLs
-and PRPs.
+That approach pushes developers to introduce new DMA APIs for specific
+datatype. For example existing scatter-gather mapping functions, or
+latest Chuck's RFC series to add biovec related DMA mapping [1] and
+probably struct folio will need it too.
 
-I was able to run fio verification job successfully :-
+These advanced DMA mapping APIs are needed to calculate IOVA size to
+allocate it as one chunk and some sort of offset calculations to know
+which part of IOVA to map.
 
-$ fio fio/verify.fio --ioengine=io_uring --filename=/dev/nvme0n1
-                     --loops=10
-write-and-verify: (g=0): rw=randwrite, bs=(R) 8192B-8192B, (W) 8192B-8192B,
-	(T) 8192B-8192B, ioengine=io_uring, iodepth=16
-fio-3.36
-Starting 1 process
-Jobs: 1 (f=1): [V(1)][81.6%][r=12.2MiB/s][r=1559 IOPS][eta 03m:00s]
-write-and-verify: (groupid=0, jobs=1): err= 0: pid=4435: Mon Mar  4 20:54:48 2024
-  read: IOPS=2789, BW=21.8MiB/s (22.9MB/s)(6473MiB/297008msec)
-    slat (usec): min=4, max=5124, avg=356.51, stdev=604.30
-    clat (nsec): min=1593, max=23376k, avg=5377076.99, stdev=2039189.93
-     lat (usec): min=493, max=23407, avg=5733.58, stdev=2103.22
-    clat percentiles (usec):
-     |  1.00th=[ 1172],  5.00th=[ 2114], 10.00th=[ 2835], 20.00th=[ 3654],
-     | 30.00th=[ 4228], 40.00th=[ 4752], 50.00th=[ 5276], 60.00th=[ 5800],
-     | 70.00th=[ 6325], 80.00th=[ 7046], 90.00th=[ 8094], 95.00th=[ 8979],
-     | 99.00th=[10421], 99.50th=[11076], 99.90th=[12780], 99.95th=[14222],
-     | 99.99th=[16909]
-  write: IOPS=2608, BW=20.4MiB/s (21.4MB/s)(10.0GiB/502571msec); 0 zone resets
-    slat (usec): min=4, max=5787, avg=382.68, stdev=649.01
-    clat (nsec): min=521, max=23650k, avg=5751363.17, stdev=2676065.35
-     lat (usec): min=95, max=23674, avg=6134.04, stdev=2813.48
-    clat percentiles (usec):
-     |  1.00th=[  709],  5.00th=[ 1270], 10.00th=[ 1958], 20.00th=[ 3261],
-     | 30.00th=[ 4228], 40.00th=[ 5014], 50.00th=[ 5800], 60.00th=[ 6521],
-     | 70.00th=[ 7373], 80.00th=[ 8225], 90.00th=[ 9241], 95.00th=[ 9896],
-     | 99.00th=[11469], 99.50th=[11863], 99.90th=[13960], 99.95th=[15270],
-     | 99.99th=[17695]
-   bw (  KiB/s): min= 1440, max=132496, per=99.28%, avg=20715.88, stdev=13123.13, samples=1013
-   iops        : min=  180, max=16562, avg=2589.34, stdev=1640.39, samples=1013
-  lat (nsec)   : 750=0.01%
-  lat (usec)   : 2=0.01%, 4=0.01%, 100=0.01%, 250=0.01%, 500=0.07%
-  lat (usec)   : 750=0.79%, 1000=1.22%
-  lat (msec)   : 2=5.94%, 4=18.87%, 10=69.53%, 20=3.58%, 50=0.01%
-  cpu          : usr=1.01%, sys=98.95%, ctx=1591, majf=0, minf=2286
-  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=100.0%, 32=0.0%, >=64=0.0%
-     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
-     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.1%, 32=0.0%, 64=0.0%, >=64=0.0%
-     issued rwts: total=828524,1310720,0,0 short=0,0,0,0 dropped=0,0,0,0
-     latency   : target=0, window=0, percentile=100.00%, depth=16
+Instead of teaching DMA to know these specific datatypes, let's separate
+existing DMA mapping routine to two steps and give an option to advanced
+callers (subsystems) perform all calculations internally in advance and
+map pages later when it is needed.
 
-Run status group 0 (all jobs):
-   READ: bw=21.8MiB/s (22.9MB/s), 21.8MiB/s-21.8MiB/s (22.9MB/s-22.9MB/s),
-	io=6473MiB (6787MB), run=297008-297008msec
-  WRITE: bw=20.4MiB/s (21.4MB/s), 20.4MiB/s-20.4MiB/s (21.4MB/s-21.4MB/s),
-	io=10.0GiB (10.7GB), run=502571-502571msec
+In this series, three users are converted and each of such conversion
+presents different positive gain:
+1. RDMA simplifies and speeds up its pagefault handling for
+   on-demand-paging (ODP) mode.
+2. VFIO PCI live migration code saves huge chunk of memory.
+3. NVMe PCI avoids intermediate SG table manipulation and operates
+   directly on BIOs.
 
-Disk stats (read/write):
-  nvme0n1: ios=829189/1310720, sectors=13293416/20971520, merge=0/0,
-	ticks=836561/1340351, in_queue=2176913, util=99.30%
+Thanks
 
-Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- drivers/nvme/host/pci.c | 220 +++++++++-------------------------------
- 1 file changed, 49 insertions(+), 171 deletions(-)
+[1] https://lore.kernel.org/all/169772852492.5232.17148564580779995849.stgit@klimt.1015granger.net
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index e6267a6aa380..140939228409 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -236,7 +236,9 @@ struct nvme_iod {
- 	unsigned int dma_len;	/* length of single DMA segment mapping */
- 	dma_addr_t first_dma;
- 	dma_addr_t meta_dma;
--	struct sg_table sgt;
-+	struct dma_iova_attrs iova;
-+	dma_addr_t dma_link_address[128];
-+	u16 nr_dma_link_address;
- 	union nvme_descriptor list[NVME_MAX_NR_ALLOCATIONS];
- };
- 
-@@ -521,25 +523,10 @@ static inline bool nvme_pci_use_sgls(struct nvme_dev *dev, struct request *req,
- 	return true;
- }
- 
--static void nvme_free_prps(struct nvme_dev *dev, struct request *req)
--{
--	const int last_prp = NVME_CTRL_PAGE_SIZE / sizeof(__le64) - 1;
--	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
--	dma_addr_t dma_addr = iod->first_dma;
--	int i;
--
--	for (i = 0; i < iod->nr_allocations; i++) {
--		__le64 *prp_list = iod->list[i].prp_list;
--		dma_addr_t next_dma_addr = le64_to_cpu(prp_list[last_prp]);
--
--		dma_pool_free(dev->prp_page_pool, prp_list, dma_addr);
--		dma_addr = next_dma_addr;
--	}
--}
--
- static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
- {
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-+	u16 i;
- 
- 	if (iod->dma_len) {
- 		dma_unmap_page(dev->dev, iod->first_dma, iod->dma_len,
-@@ -547,9 +534,8 @@ static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
- 		return;
- 	}
- 
--	WARN_ON_ONCE(!iod->sgt.nents);
--
--	dma_unmap_sgtable(dev->dev, &iod->sgt, rq_dma_dir(req), 0);
-+	for (i = 0; i < iod->nr_dma_link_address; i++)
-+		dma_unlink_range(&iod->iova, iod->dma_link_address[i]);
- 
- 	if (iod->nr_allocations == 0)
- 		dma_pool_free(dev->prp_small_pool, iod->list[0].sg_list,
-@@ -557,120 +543,15 @@ static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
- 	else if (iod->nr_allocations == 1)
- 		dma_pool_free(dev->prp_page_pool, iod->list[0].sg_list,
- 			      iod->first_dma);
--	else
--		nvme_free_prps(dev, req);
--	mempool_free(iod->sgt.sgl, dev->iod_mempool);
--}
--
--static void nvme_print_sgl(struct scatterlist *sgl, int nents)
--{
--	int i;
--	struct scatterlist *sg;
--
--	for_each_sg(sgl, sg, nents, i) {
--		dma_addr_t phys = sg_phys(sg);
--		pr_warn("sg[%d] phys_addr:%pad offset:%d length:%d "
--			"dma_address:%pad dma_length:%d\n",
--			i, &phys, sg->offset, sg->length, &sg_dma_address(sg),
--			sg_dma_len(sg));
--	}
--}
--
--static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
--		struct request *req, struct nvme_rw_command *cmnd)
--{
--	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
--	struct dma_pool *pool;
--	int length = blk_rq_payload_bytes(req);
--	struct scatterlist *sg = iod->sgt.sgl;
--	int dma_len = sg_dma_len(sg);
--	u64 dma_addr = sg_dma_address(sg);
--	int offset = dma_addr & (NVME_CTRL_PAGE_SIZE - 1);
--	__le64 *prp_list;
--	dma_addr_t prp_dma;
--	int nprps, i;
--
--	length -= (NVME_CTRL_PAGE_SIZE - offset);
--	if (length <= 0) {
--		iod->first_dma = 0;
--		goto done;
--	}
--
--	dma_len -= (NVME_CTRL_PAGE_SIZE - offset);
--	if (dma_len) {
--		dma_addr += (NVME_CTRL_PAGE_SIZE - offset);
--	} else {
--		sg = sg_next(sg);
--		dma_addr = sg_dma_address(sg);
--		dma_len = sg_dma_len(sg);
--	}
--
--	if (length <= NVME_CTRL_PAGE_SIZE) {
--		iod->first_dma = dma_addr;
--		goto done;
--	}
--
--	nprps = DIV_ROUND_UP(length, NVME_CTRL_PAGE_SIZE);
--	if (nprps <= (256 / 8)) {
--		pool = dev->prp_small_pool;
--		iod->nr_allocations = 0;
--	} else {
--		pool = dev->prp_page_pool;
--		iod->nr_allocations = 1;
--	}
--
--	prp_list = dma_pool_alloc(pool, GFP_ATOMIC, &prp_dma);
--	if (!prp_list) {
--		iod->nr_allocations = -1;
--		return BLK_STS_RESOURCE;
--	}
--	iod->list[0].prp_list = prp_list;
--	iod->first_dma = prp_dma;
--	i = 0;
--	for (;;) {
--		if (i == NVME_CTRL_PAGE_SIZE >> 3) {
--			__le64 *old_prp_list = prp_list;
--			prp_list = dma_pool_alloc(pool, GFP_ATOMIC, &prp_dma);
--			if (!prp_list)
--				goto free_prps;
--			iod->list[iod->nr_allocations++].prp_list = prp_list;
--			prp_list[0] = old_prp_list[i - 1];
--			old_prp_list[i - 1] = cpu_to_le64(prp_dma);
--			i = 1;
--		}
--		prp_list[i++] = cpu_to_le64(dma_addr);
--		dma_len -= NVME_CTRL_PAGE_SIZE;
--		dma_addr += NVME_CTRL_PAGE_SIZE;
--		length -= NVME_CTRL_PAGE_SIZE;
--		if (length <= 0)
--			break;
--		if (dma_len > 0)
--			continue;
--		if (unlikely(dma_len < 0))
--			goto bad_sgl;
--		sg = sg_next(sg);
--		dma_addr = sg_dma_address(sg);
--		dma_len = sg_dma_len(sg);
--	}
--done:
--	cmnd->dptr.prp1 = cpu_to_le64(sg_dma_address(iod->sgt.sgl));
--	cmnd->dptr.prp2 = cpu_to_le64(iod->first_dma);
--	return BLK_STS_OK;
--free_prps:
--	nvme_free_prps(dev, req);
--	return BLK_STS_RESOURCE;
--bad_sgl:
--	WARN(DO_ONCE(nvme_print_sgl, iod->sgt.sgl, iod->sgt.nents),
--			"Invalid SGL for payload:%d nents:%d\n",
--			blk_rq_payload_bytes(req), iod->sgt.nents);
--	return BLK_STS_IOERR;
-+	dma_free_iova(&iod->iova);
- }
- 
- static void nvme_pci_sgl_set_data(struct nvme_sgl_desc *sge,
--		struct scatterlist *sg)
-+				 dma_addr_t dma_addr,
-+				 unsigned int dma_len)
- {
--	sge->addr = cpu_to_le64(sg_dma_address(sg));
--	sge->length = cpu_to_le32(sg_dma_len(sg));
-+	sge->addr = cpu_to_le64(dma_addr);
-+	sge->length = cpu_to_le32(dma_len);
- 	sge->type = NVME_SGL_FMT_DATA_DESC << 4;
- }
- 
-@@ -682,25 +563,37 @@ static void nvme_pci_sgl_set_seg(struct nvme_sgl_desc *sge,
- 	sge->type = NVME_SGL_FMT_LAST_SEG_DESC << 4;
- }
- 
-+struct nvme_pci_sgl_map_data {
-+	struct nvme_iod *iod;
-+	struct nvme_sgl_desc *sgl_list;
-+};
-+
-+static void nvme_pci_sgl_map(void *data, u32 cnt, dma_addr_t dma_addr,
-+			    dma_addr_t offset, u32 len)
-+{
-+	struct nvme_pci_sgl_map_data *d = data;
-+	struct nvme_sgl_desc *sgl_list = d->sgl_list;
-+	struct nvme_iod *iod = d->iod;
-+
-+	nvme_pci_sgl_set_data(&sgl_list[cnt], dma_addr, len);
-+	iod->dma_link_address[cnt] = offset;
-+	iod->nr_dma_link_address++;
-+}
-+
- static blk_status_t nvme_pci_setup_sgls(struct nvme_dev *dev,
- 		struct request *req, struct nvme_rw_command *cmd)
- {
-+	unsigned int entries = blk_rq_nr_phys_segments(req);
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
--	struct dma_pool *pool;
- 	struct nvme_sgl_desc *sg_list;
--	struct scatterlist *sg = iod->sgt.sgl;
--	unsigned int entries = iod->sgt.nents;
-+	struct dma_pool *pool;
- 	dma_addr_t sgl_dma;
--	int i = 0;
-+	int linked_count;
-+	struct nvme_pci_sgl_map_data data;
- 
- 	/* setting the transfer type as SGL */
- 	cmd->flags = NVME_CMD_SGL_METABUF;
- 
--	if (entries == 1) {
--		nvme_pci_sgl_set_data(&cmd->dptr.sgl, sg);
--		return BLK_STS_OK;
--	}
--
- 	if (entries <= (256 / sizeof(struct nvme_sgl_desc))) {
- 		pool = dev->prp_small_pool;
- 		iod->nr_allocations = 0;
-@@ -718,11 +611,13 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme_dev *dev,
- 	iod->list[0].sg_list = sg_list;
- 	iod->first_dma = sgl_dma;
- 
--	nvme_pci_sgl_set_seg(&cmd->dptr.sgl, sgl_dma, entries);
--	do {
--		nvme_pci_sgl_set_data(&sg_list[i++], sg);
--		sg = sg_next(sg);
--	} while (--entries > 0);
-+	data.iod = iod;
-+	data.sgl_list = sg_list;
-+
-+	linked_count = blk_rq_dma_map(req, nvme_pci_sgl_map, &data,
-+				       &iod->iova);
-+
-+	nvme_pci_sgl_set_seg(&cmd->dptr.sgl, sgl_dma, linked_count);
- 
- 	return BLK_STS_OK;
- }
-@@ -788,36 +683,20 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
- 							     &cmnd->rw, &bv);
- 		}
- 	}
--
--	iod->dma_len = 0;
--	iod->sgt.sgl = mempool_alloc(dev->iod_mempool, GFP_ATOMIC);
--	if (!iod->sgt.sgl)
-+	iod->iova.dev = dev->dev;
-+	iod->iova.dir = rq_dma_dir(req);
-+	iod->iova.attrs = DMA_ATTR_NO_WARN;
-+	iod->iova.size = blk_rq_get_dma_length(req);
-+	if (!iod->iova.size)
- 		return BLK_STS_RESOURCE;
--	sg_init_table(iod->sgt.sgl, blk_rq_nr_phys_segments(req));
--	iod->sgt.orig_nents = blk_rq_map_sg(req->q, req, iod->sgt.sgl);
--	if (!iod->sgt.orig_nents)
--		goto out_free_sg;
- 
--	rc = dma_map_sgtable(dev->dev, &iod->sgt, rq_dma_dir(req),
--			     DMA_ATTR_NO_WARN);
--	if (rc) {
--		if (rc == -EREMOTEIO)
--			ret = BLK_STS_TARGET;
--		goto out_free_sg;
--	}
-+	rc = dma_alloc_iova(&iod->iova);
-+	if (rc)
-+		return BLK_STS_RESOURCE;
- 
--	if (nvme_pci_use_sgls(dev, req, iod->sgt.nents))
--		ret = nvme_pci_setup_sgls(dev, req, &cmnd->rw);
--	else
--		ret = nvme_pci_setup_prps(dev, req, &cmnd->rw);
--	if (ret != BLK_STS_OK)
--		goto out_unmap_sg;
--	return BLK_STS_OK;
-+	iod->dma_len = 0;
- 
--out_unmap_sg:
--	dma_unmap_sgtable(dev->dev, &iod->sgt, rq_dma_dir(req), 0);
--out_free_sg:
--	mempool_free(iod->sgt.sgl, dev->iod_mempool);
-+	ret = nvme_pci_setup_sgls(dev, req, &cmnd->rw);
- 	return ret;
- }
- 
-@@ -841,7 +720,6 @@ static blk_status_t nvme_prep_rq(struct nvme_dev *dev, struct request *req)
- 
- 	iod->aborted = false;
- 	iod->nr_allocations = -1;
--	iod->sgt.nents = 0;
- 
- 	ret = nvme_setup_cmd(req->q->queuedata, req);
- 	if (ret)
+Chaitanya Kulkarni (2):
+  block: add dma_link_range() based API
+  nvme-pci: use blk_rq_dma_map() for NVMe SGL
+
+Leon Romanovsky (14):
+  mm/hmm: let users to tag specific PFNs
+  dma-mapping: provide an interface to allocate IOVA
+  dma-mapping: provide callbacks to link/unlink pages to specific IOVA
+  iommu/dma: Provide an interface to allow preallocate IOVA
+  iommu/dma: Prepare map/unmap page functions to receive IOVA
+  iommu/dma: Implement link/unlink page callbacks
+  RDMA/umem: Preallocate and cache IOVA for UMEM ODP
+  RDMA/umem: Store ODP access mask information in PFN
+  RDMA/core: Separate DMA mapping to caching IOVA and page linkage
+  RDMA/umem: Prevent UMEM ODP creation with SWIOTLB
+  vfio/mlx5: Explicitly use number of pages instead of allocated length
+  vfio/mlx5: Rewrite create mkey flow to allow better code reuse
+  vfio/mlx5: Explicitly store page list
+  vfio/mlx5: Convert vfio to use DMA link API
+
+ Documentation/core-api/dma-attributes.rst |   7 +
+ block/blk-merge.c                         | 156 ++++++++++++++
+ drivers/infiniband/core/umem_odp.c        | 219 +++++++------------
+ drivers/infiniband/hw/mlx5/mlx5_ib.h      |   1 +
+ drivers/infiniband/hw/mlx5/odp.c          |  59 +++--
+ drivers/iommu/dma-iommu.c                 | 129 ++++++++---
+ drivers/nvme/host/pci.c                   | 220 +++++--------------
+ drivers/vfio/pci/mlx5/cmd.c               | 252 ++++++++++++----------
+ drivers/vfio/pci/mlx5/cmd.h               |  22 +-
+ drivers/vfio/pci/mlx5/main.c              | 136 +++++-------
+ include/linux/blk-mq.h                    |   9 +
+ include/linux/dma-map-ops.h               |  13 ++
+ include/linux/dma-mapping.h               |  39 ++++
+ include/linux/hmm.h                       |   3 +
+ include/rdma/ib_umem_odp.h                |  22 +-
+ include/rdma/ib_verbs.h                   |  54 +++++
+ kernel/dma/debug.h                        |   2 +
+ kernel/dma/direct.h                       |   7 +-
+ kernel/dma/mapping.c                      |  91 ++++++++
+ mm/hmm.c                                  |  34 +--
+ 20 files changed, 870 insertions(+), 605 deletions(-)
+
 -- 
 2.44.0
 
