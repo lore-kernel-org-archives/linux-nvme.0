@@ -4,62 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C3E0C54798
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 Mar 2024 23:10:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9FC92C5475B
+	for <linux-nvme@archiver.kernel.org>; Wed,  6 Mar 2024 04:51:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AzfcVf2MD8/p0Amw/4NcH7l9FF7lH9l9bZ/XM70hcPY=; b=GY4XvgX1IcPBw7e06UL2iUy0OB
-	41l1zAeQVzNv0qBw1agtIvbIJfFoTThMpNcequ0kNTzCQ8KQ7xlH8lOk33XsnvbmVaWeep2/BNaqK
-	WuMTrk1HNrnWGUJIaYOpnwhzLzloiepZiAvUUMqoJx/ajrGPh+h1Zb6Nw+boXEAoNxzP9AnP9OCVS
-	0F474QAjoFCi32/0u1yDl9NBB1YS+X6JUR88zpwAe9Wxeph9L8aQ2QBbcS3fqTKOZ2h18J2NMfJCg
-	oFCWkyfSkrMs7wI31DB8CgxdSM7XfeLZGCK7GZErY9kLhl5Nk131wdHcjZh3oDWVypZ/7491dhfX/
-	dbzwvPTA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ZKcVETtMR/YH3xsz+MMaTkP28duAbRYB2LR8yF3IU68=; b=gaitsEc7CXx/7+MTmcpyQ1sb4q
+	7hQEkix3oMv2uFQ9OEuAa7SylRK4Ph92VXL5bTZ41+ehbu/a0IblNNRweKHE7knLptvHs5rNaM++j
+	obSq4Uo9K+OcetVkOn07vHr6XtodUDc45YVee1hI57LKBokxYO/GUJP8wdQU3jzzj3n3f/U0zEO7b
+	THFqu217f+c1hl2Fjw2nIll79Ealrg/O66mkcyBOWmphADmysB203UjJpwdgCIlwr8eNLl5C7xV/z
+	2XQeFrqGo61NMOWiQsiDniyjMwv1tjKsQ9Mcv8OKh4cQc1tK2iy2TOcEMs4N/9rXv/41kOnuTDRdR
+	sQInpbSA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhdvt-0000000FYp1-3DQ7;
-	Tue, 05 Mar 2024 23:10:49 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1rhjFb-0000000GJ12-2XBx;
+	Wed, 06 Mar 2024 04:51:31 +0000
+Received: from esa4.hgst.iphmx.com ([216.71.154.42])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhdvo-0000000FYoI-3vS1
-	for linux-nvme@bombadil.infradead.org;
-	Tue, 05 Mar 2024 23:10:44 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=AzfcVf2MD8/p0Amw/4NcH7l9FF7lH9l9bZ/XM70hcPY=; b=ALzypJ1YFStiacKMqydGBmTVlP
-	YTUVF1xHkoLghzjq7E/lbRgZid3uLJgiw49Sp1jQSAbYyCKb/gHZMWM7rMZZ/ONKXA2F5NEYs1r5D
-	8rRucP/IpKNjKJvvm/ETL/0cyT38RtE/zLgQMIkzWtVsfvdDVbGQOR6RbD6iml2tFlK5drIE+zn3u
-	HDMMCHitk0ECIe6gGAct543Vsjs58lZLCwbCkHGfUwjkxVC8Llrg7L34j7VDvW8OtAtTaNNVNAALm
-	vAUi8qtmJCzc4FlJFblT4FQx2Ur6z8c4WsYyG0tZ8NsFvpA010d5uBs3He6ENJnN7GLLTUPdpFV0N
-	hTuYo/4w==;
-Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhdvh-00000005Saj-2rlV;
-	Tue, 05 Mar 2024 23:10:37 +0000
-Date: Tue, 5 Mar 2024 23:10:37 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: John Garry <john.g.garry@oracle.com>
-Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-	jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
-	jack@suse.cz, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
-	linux-scsi@vger.kernel.org, ojaswin@linux.ibm.com,
-	linux-aio@kvack.org, linux-btrfs@vger.kernel.org,
-	io-uring@vger.kernel.org, nilay@linux.ibm.com,
-	ritesh.list@gmail.com
-Subject: Re: [PATCH v5 00/10] block atomic writes
-Message-ID: <ZeembVG-ygFal6Eb@casper.infradead.org>
-References: <20240226173612.1478858-1-john.g.garry@oracle.com>
+	id 1rhjFW-0000000GIzb-1ADH
+	for linux-nvme@lists.infradead.org;
+	Wed, 06 Mar 2024 04:51:29 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1709700686; x=1741236686;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=3hCeWuYQFqJ6USAChZfUqKryRkSPuJRCcVGLOJi7m7c=;
+  b=XqcUYpAYWyYr95PXlQOsSZAQ5zXTYEQFekGd6HKjOB5v6NR2hQ3mVroj
+   VK4QAZTrbBI+Opj2KfOqgNygDWu+vLd5X7PAoyoGXxaTlbTRehcfH4YSy
+   Lmubd7SfTrSjKN93UWJ77zh8aVLaQsyF5UwnVM7nml6+dwHW85Ss8HLe7
+   hwwARYMdhdY40aEBVB+0yX8gcN1o96cC5mMQsrv+R9foYQgVoE9sjI8qn
+   1xs3QG+HY0abOFojk7FCD0Nh8Bd3bVrvp+830kWYII8cvqq3j1ih8PiX4
+   fm8LCurgiXe7gYfFvEfxzxkaJjUnpFHZUdi6xxVo+7ZVWVXP2EsQmPvZl
+   g==;
+X-CSE-ConnectionGUID: mkscF3M6Sv+6avS6da4lag==
+X-CSE-MsgGUID: tqcDja6yQOSPeWLBpZokow==
+X-IronPort-AV: E=Sophos;i="6.06,207,1705334400"; 
+   d="scan'208";a="10451670"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 06 Mar 2024 12:51:22 +0800
+IronPort-SDR: 4Rar1085jzllHcy5faLyGF+DlqrHF3dVb3ll2RBIvW2wH40y78uAf9sDA0LAmZAHOWvD7EIejz
+ DiYgWV136W8w==
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 05 Mar 2024 19:54:52 -0800
+IronPort-SDR: WJBBOnn/XHjWFNfNmi/NZhW0ugZ3+OuLeH3s0Q8fmXAQj92AcCWa0Ise6RfykhKHA7VOceT7k4
+ e/DKN/8SS3lQ==
+WDCIronportException: Internal
+Received: from unknown (HELO shindev.ssa.fujisawa.hgst.com) ([10.149.66.30])
+  by uls-op-cesaip02.wdc.com with ESMTP; 05 Mar 2024 20:51:21 -0800
+From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: linux-nvme@lists.infradead.org
+Cc: Daniel Wagner <dwagner@suse.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@infradead.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Hannes Reinecke <hare@suse.de>,
+	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Subject: [PATCH] nvme: host: fix double-free of struct nvme_id_ns in ns_update_nuse()
+Date: Wed,  6 Mar 2024 13:51:20 +0900
+Message-ID: <20240306045120.2605223-1-shinichiro.kawasaki@wdc.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240226173612.1478858-1-john.g.garry@oracle.com>
+Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20240305_205126_441539_9F5C7A86 
+X-CRM114-Status: GOOD (  13.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,22 +87,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 26, 2024 at 05:36:02PM +0000, John Garry wrote:
-> This series introduces a proposal to implementing atomic writes in the
-> kernel for torn-write protection.
+When nvme_identify_ns() fails, it frees the pointer to the struct
+nvme_id_ns before it returns. However, ns_update_nuse() calls kfree()
+for the pointer even when nvme_identify_ns() fails. This results in
+KASAN double-free, which was observed with blktests nvme/045 with
+proposed patches [1] on the kernel v6.8-rc7. Fix the double-free by
+skipping kfree() when nvme_identify_ns() fails.
 
-The API as documented will be unnecessarily complicated to implement
-for buffered writes, I believe.  What I would prefer is a chattr (or, I
-guess, setxattr these days) that sets the tearing boundary for the file.
-The page cache can absorb writes of arbitrary size and alignment, but
-will be able to guarantee that (if the storage supports it), the only
-write tearing will happen on the specified boundary.
+Link: https://lore.kernel.org/linux-block/20240304161303.19681-1-dwagner@suse.de/ [1]
+Fixes: a1a825ab6a60 ("nvme: add csi, ms and nuse to sysfs")
+Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+---
+ drivers/nvme/host/sysfs.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-We _can_ support arbitrary power-of-two write sizes to the page cache,
-but if the requirement is no tearing inside a single write, then we
-will have to do a lot of work to make that true.  It isn't clear to me
-that anybody is asking for this; the databases I'm aware of are willing
-to submit 128kB writes and accept that there may be tearing at 16kB
-boundaries (or whatever).
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+index f2832f70e7e0..f31674d23397 100644
+--- a/drivers/nvme/host/sysfs.c
++++ b/drivers/nvme/host/sysfs.c
+@@ -221,13 +221,12 @@ static int ns_update_nuse(struct nvme_ns *ns)
+ 
+ 	ret = nvme_identify_ns(ns->ctrl, ns->head->ns_id, &id);
+ 	if (ret)
+-		goto out_free_id;
++		goto out;
+ 
+ 	ns->head->nuse = le64_to_cpu(id->nuse);
+-
+-out_free_id:
+ 	kfree(id);
+ 
++out:
+ 	return ret;
+ }
+ 
+-- 
+2.43.0
 
 
