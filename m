@@ -4,153 +4,173 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30DD4C54E5D
-	for <linux-nvme@archiver.kernel.org>; Wed,  6 Mar 2024 08:44:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 988B7C5475B
+	for <linux-nvme@archiver.kernel.org>; Wed,  6 Mar 2024 09:16:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=j166oG5u1UgAFrjzuXPyBNPdNen6bawnPPNDPKTCRSk=; b=usGxtbBm9uNO8m1hJ3/IIrvv+E
-	7ol4+3+MxpyWXt36vvh9vZKRSZZdw9JoSOc0IPoSp0azUN5c38X9K53BOwrwoM8KXZWoDt9P+FHXj
-	mG6BDhCwoWZQ8fxCsuSDWhdR9k9Aiw4IpiqtUstO70d521OLLwepIIdvnRkNqGcIybKR4Xa1Kx65L
-	TfTr6J8KpSrBh8ZiDHn7whq7f8Z1n3o+7eZeUExZS5gLAezSI+YKM2im7y8e9dUWnIEwDaSo5OgzL
-	FmoQ4fxD2aiJZ6gCKEQHLLTyIIMUcPBRycAEsGsKQUF6QaqPkxncAemvWUTXhSDb5l6vHjcqYsG3L
-	m6UOK1tg==;
+	bh=EwV82vKzbsAhGhF1myvwkhJf+Ss/oCAQ2BE/lCmCRQo=; b=fU6DnNi5JLDJgfRhATMbjrbdXS
+	Fl97cN9mf1vFg7UbNGBmDDkzxkyiLtgvd9Ja1ThJ927qR4lVD4uB+ESQSc25dSNnmNpK3EAHmYbFw
+	BKP6JnkpICVE5PLs6szSIGtLsEVwRIBOQR8pY4dN3Pbgp/xzS+eGraZ8zs2vSuElScSLekvlMHAaN
+	9xENZ5P3MA1G2D4ZhYeaoj5omYtlyC3HhQXk5G5Wb4HFZ0W/FxOiuGvBnBPkS5x2PguKJdy4skRg1
+	rcTlslwort1H8wvCyqtTNLJzIF80p2wSFukYnrz8UtsS6rPxODgffEcridc3KdHRyENrxioNwUJYv
+	ijhk5L0Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhmtU-0000000GxXj-0Jlf;
-	Wed, 06 Mar 2024 08:44:56 +0000
-Received: from esa5.hgst.iphmx.com ([216.71.153.144])
+	id 1rhnNW-0000000H74q-1rWn;
+	Wed, 06 Mar 2024 09:15:58 +0000
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhmtQ-0000000GxWu-2aRg
+	id 1rhnNS-0000000H74M-3z1e
 	for linux-nvme@lists.infradead.org;
-	Wed, 06 Mar 2024 08:44:54 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1709714692; x=1741250692;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=tJaeCNId6ucTWrqdVjyK9iAPZr/Hk7ImgatXsRi/YbI=;
-  b=T6EwYYlFazNrO2sMqZpTBbMId7T86Gwlv2KQJfwirKzUT+ElhycZpzJ3
-   bI4Imk3K4nF8vlRhSDxNE2FDqtrr8/dfIDq7Kn6SmypYUaKGENtns3LpE
-   12qLPjagWpkl3hBRmg4pfGVtfltZZkC64ldulqOq+2/rFWgUanR7hVJnT
-   mcNRnMUxsVQbq9CoV/hf8LWXZ/AKXN7pyuTrWUKQOQzlbsYz2mb/yHUAV
-   zxivj7h/FLqjfN12JRaepnuPxVwNcNnwAQSjpz7n9WWzZEVXYjYWPykVB
-   fku3Fc4R/VXQ318+WLfknP2Akt31PTudnQM/ml970J9HICQA5bmP6hzOe
-   Q==;
-X-CSE-ConnectionGUID: /DH2JBceTWSuQfarzYCpPA==
-X-CSE-MsgGUID: vlefZfETTjyLnsLlpcAtwA==
-X-IronPort-AV: E=Sophos;i="6.06,207,1705334400"; 
-   d="scan'208";a="11520299"
-Received: from mail-bn8nam12lp2168.outbound.protection.outlook.com (HELO NAM12-BN8-obe.outbound.protection.outlook.com) ([104.47.55.168])
-  by ob1.hgst.iphmx.com with ESMTP; 06 Mar 2024 16:44:50 +0800
+	Wed, 06 Mar 2024 09:15:56 +0000
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 4261ECHE027636;
+	Wed, 6 Mar 2024 09:06:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2023-11-20;
+ bh=EwV82vKzbsAhGhF1myvwkhJf+Ss/oCAQ2BE/lCmCRQo=;
+ b=MT5owcNKbiykRzBJc3tjAFVTs85c+NBS9ofUUD/uSY0NhgJ+ncdzXXjjWThi+CWd0AMm
+ PU2sPhR8Z4PKF0KWwOO7/PnJrhSgJLnDJlkUVnhFgaFr1yCnXY6/bCV6Fpcj/lqS4xFL
+ nFSCMN5CT+13WK2A8AC5apBkkXButnd6tU0WLMUL95qTu5A01n6Am/6lcCNg20Ut3crw
+ ZO2z5vWqd+xhZZK+Y44To0QNPekierW/PhXwY9+61s0oiwKSDV2sbGXjZNng7UJt5Y3l
+ 5HUGbWJuMa8AQUB7VlIPmp+FLuIb6qOzYhMwKa8gaUKgnDUBfJTehykT64kDFjMgsl3Z 5w== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3wktw48ch8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 06 Mar 2024 09:06:04 +0000
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 4268ckTn040825;
+	Wed, 6 Mar 2024 09:06:03 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2101.outbound.protection.outlook.com [104.47.70.101])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3wktjf0ept-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 06 Mar 2024 09:06:03 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bmxCbnsl6E2b8TB0DxVWib/6hhY+fShGQ3sGiWmMgWZTY7IIFEUTtUfRcBDb0OYiKw/L4Uz84sR8pnVtmOikxkoT4Oza2xAbYqDi7dsW6WTrhL0op/yT7vEYRWr4tPqsANC4icozrsqVwsTAuSUrayAkdDgK0Kpy1u7jAiBoYtvtXXgft55EQpvOwm8Z7UiPRyaNbJhIjmyS6TEwCHnJ52pFuj8NWduJJBI8s3xIcFKv1XWvWoybUDhcuW2KIGzlpMWu0YKT1BxQLiTOSukLd5wcbYP1x0bs398+h5HL8tM2zpZLeyroxy8TNblPVtVLKlUgQN9qU8fETcoivf8CCw==
+ b=bbd/j59VW+5rqJ5ZbqgA6ejdz7sjlqGXzHHeK/v8qnmJ18f5Hm4vrOnvVhuGT3yJP+JQeMEH1BPj5LdxisDLp+jyGtdYIA0DYTouTr2ChG2P2biDeMTvOnj0uPsOluMCqMzcr8KwewE4D+Rfuo0np1EaqZFNhoxU9BhbpfHip5jC/U2YdoO4GMcBHbRuzBpqILHCCG5oJ+yno+GnANQBa3copm9D6PPnz0hdgi8dpbT281B6C9LN+olJD6x/nEtO+/rdHNJzSfuWYvabTZYkv3nQU+jXBTu4Sd+U2RR/fU3IouICXGc6vzPIq8S8bxRrgkYBLHF4xbp9UIFu8lAF4g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j166oG5u1UgAFrjzuXPyBNPdNen6bawnPPNDPKTCRSk=;
- b=gm5GroGUru4eeWbZzUfY5y0nWyH8HO6aGh0QAqSBmqNuxMY+kTvXKnbk2Xy/RF1iu4HEU6r3GCJHx3cxfLSxi0GSigLqZKMKMcgLMh4D3l1i9LGKli0K12p9rYPjgOLI2Vy5szShre5vswiA3btbvaNhXYu5sHymf+vhSxUPNiD+il6+9sCYepox0POht9hV0NedbfZZ7CS2zTt5wJDZ43fy127XKIXSzjjYzAXMcikBPpcCdt6edYtLS8AASpqUKxcI5gKVmG4o/1Pm+HfWIxPi6UK9QYlrGKaYiVSi8a/7KsuhDbBAN5n3HRgrDCr+sWkxSa3Zad0NSvgI/iunNw==
+ bh=EwV82vKzbsAhGhF1myvwkhJf+Ss/oCAQ2BE/lCmCRQo=;
+ b=Gs4ZTZrlLLK9vGrxalNEUezvM41+ps7fSagXPuwJKsIgsy3GEesiwl9ext4+nU7heOxlK9CZ0lyGYYcwD2P8tk+KpCXEcP8FcfffbJP88JQZ+dcStyogH1aYE/sMhk29cayaPrUB3U9LnnRe+BrxhAy8O1lSAQFstOTqOfRNjFiE0xycPmbjjAEZahngtH35wdiBuEsEdYRlZzuYoFR7rttPxt/ivtBA69a4Xp0roJ/fh/YrqvPPAWlkaE85fLkKV740qxBFdEI7sUtUwxqd4CGC0V8TTFiwVF7y/IG/v4MpNQbMEtHVT4xmbLhLsvC+qNcALevZuR3xu4puOa5Q+g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j166oG5u1UgAFrjzuXPyBNPdNen6bawnPPNDPKTCRSk=;
- b=WPBxrm8jGztJnr8kT1dxvoN4F8/5YrpeXaf98GNWkT1j0JZV2YfuImiwc6zPl/Zj3UcMdCgSxivFJ/SsxZMZQOwRsUJULAswOe12BqQm6Zi2tAteKq4x6yln8FnoRisu/Ke2iiqub+mnRV00ajdTaTo2jOH4yOA+5b+2P3p49qI=
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com (2603:10b6:8:f::6) by
- CH2PR04MB7094.namprd04.prod.outlook.com (2603:10b6:610:98::10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7362.24; Wed, 6 Mar 2024 08:44:48 +0000
-Received: from DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::c9e3:b196:e5ea:909b]) by DM8PR04MB8037.namprd04.prod.outlook.com
- ([fe80::c9e3:b196:e5ea:909b%4]) with mapi id 15.20.7362.019; Wed, 6 Mar 2024
- 08:44:48 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Daniel Wagner <dwagner@suse.de>
-CC: Chaitanya Kulkarni <chaitanyak@nvidia.com>, Keith Busch
-	<kbusch@kernel.org>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH blktests v1 0/2] extend nvme/045 to reconnect with invalid
- key
-Thread-Topic: [PATCH blktests v1 0/2] extend nvme/045 to reconnect with
- invalid key
-Thread-Index: AQHabk7cqNwSTpUn+k6UjReb5QwC+7Eo5uSAgAAaOQCAAWdbgA==
-Date: Wed, 6 Mar 2024 08:44:48 +0000
-Message-ID: <bax2kpeovgvf63rrtycsgpbi7wmvjhpmcbfcpoznldkowczom4@czjddqccdsba>
-References: <20240304161303.19681-1-dwagner@suse.de>
- <2ya2o6s6lyiezbjoqbr33oiae2l65e2nrc75g3c47maisbifyv@4kpdmolhkiwx>
- <p5xkwz6i2lfy2a65pbpq3en6wh57y75qcoz3y3eio3ze5b7cm3@zgfn5so4yuig>
-In-Reply-To: <p5xkwz6i2lfy2a65pbpq3en6wh57y75qcoz3y3eio3ze5b7cm3@zgfn5so4yuig>
-Accept-Language: en-US
+ bh=EwV82vKzbsAhGhF1myvwkhJf+Ss/oCAQ2BE/lCmCRQo=;
+ b=nF2mSqwikw95P8kmRmyxI7xcB/wl+xQOq2ISsTO9tS5973jauw+eBRBG8gBGqbXXNzSH9zKFNXMOr1i47OP1Q3r5C6wWD5MmRFOa9UM8xjIuRo0CC9in8r/d3SWHt5Dgw/ZINar660QbN+m1Amb762jZV1gfm8mbqdoOfhWxJA8=
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com (2603:10b6:5:212::20)
+ by CH0PR10MB7535.namprd10.prod.outlook.com (2603:10b6:610:187::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.39; Wed, 6 Mar
+ 2024 09:06:01 +0000
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::ae68:7d51:133f:324]) by DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::ae68:7d51:133f:324%4]) with mapi id 15.20.7362.019; Wed, 6 Mar 2024
+ 09:06:01 +0000
+Message-ID: <47d264c2-bc97-4313-bce0-737557312106@oracle.com>
+Date: Wed, 6 Mar 2024 09:05:55 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 00/10] block atomic writes
+To: Matthew Wilcox <willy@infradead.org>
+Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+        jejb@linux.ibm.com, martin.petersen@oracle.com, djwong@kernel.org,
+        viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
+        jack@suse.cz, linux-block@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, tytso@mit.edu, jbongio@google.com,
+        linux-scsi@vger.kernel.org, ojaswin@linux.ibm.com, linux-aio@kvack.org,
+        linux-btrfs@vger.kernel.org, io-uring@vger.kernel.org,
+        nilay@linux.ibm.com, ritesh.list@gmail.com
+References: <20240226173612.1478858-1-john.g.garry@oracle.com>
+ <ZeembVG-ygFal6Eb@casper.infradead.org>
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR04MB8037:EE_|CH2PR04MB7094:EE_
-x-ms-office365-filtering-correlation-id: a5d29a8c-2bd2-4ca7-11eb-08dc3db9ae61
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: mBUN7MoldoP2XFgtMjyNpBvx4ddeXJu7Io9pfPqlZ05u2Cqlg0RPLKpooDDXQ4ONdZTpH9jpGWnXsvdSF4G8O5XnvWepJOoqbBMLL6RhH1VGH1X9wX2bhBH9g1wdk27OXbdQdrWgjJtbGc+ERis/31X0Tjbv//WyXOvaTAXY3q6ralz7B6HNMugeRPU5U9LhgmAfgI4Ly0h4Ew2dd/+qDAEf564L0KOpukFL7CTs5hFv1vnKJEyfnpYv+LK/QQHKE39zzoaItpwBGw/rw7UI7qkXbfFCOQfrv/gbax+h1X0I1fnnqNqwPWNEsQzRopjhKdSmsodGEwlPWVpOMDxg5Ik25YhUtGY9IrdiSCiguRDSvxMrA5YiMvlf3clxSuUe3TsZJLX7qVLzHQ4mXqG0DK//2bcKFPHuYpIT7hEW+Bs4q3WVdfqUPb60EAzTEUwM4Hcz8r9gkao3U73LtKXQHO4iBJ3JsLQNwIJpMu5Yzr5PByRosgeAq82lh/DVTFEnr1SfHB8kpvdxHz4vM5NO2MH0VSrMmHrRQ6rTG+fB3NRg6iwl0TQDA2fWXDLLJyTTCLi0hHui+8M4+Cc5gqRhwCT1CgHiMaSS7Nb5peO6OlfFe9LVD1zfhXOzwj4jLPdhmxPVEX9oOLVPWXdaTkSOrCLTnhrJS5M08hv+UG8CGSFyhx4+zgmYPWFJtQ4YSs/T
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR04MB8037.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(38070700009)(27256008);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?cgFBUCto+6m7BVEVpDzJPoLPSju/KiCBWtWnEkv4tx7Czz48DG2+RAx6MRFG?=
- =?us-ascii?Q?uUXvF+7/jA5lQH2G7bWsYCy3pyLNSMXyalxF+tF/uK+Kv5RFOckr1GpT+xv5?=
- =?us-ascii?Q?+KOPX+aPsS36sutlfz0efdIzzVvSAQtiXOuM5xlRjebsD3FSdcIGhAVdsA0W?=
- =?us-ascii?Q?2SB/a1OKzpM9b98EY0yAz7kdOROOs3zHjUQyVFx2V8UKgmtJ8ok2KCTurUuN?=
- =?us-ascii?Q?4BdyRLfaaRIdhB5od0iPrw3wt1acw0xT+YBZljBxUOcB1Ogg2bCag8r00iNP?=
- =?us-ascii?Q?MEU7B7SY2Slh7YpfiV0kFjie7vQckDOZ5jdW1M8EC7RwPMerXjV6UcGcECKU?=
- =?us-ascii?Q?LcrgqjQnXuF8RrA/EivC6B7bv+nbUtCP2T+TB42EIO4EnbfYUG+x0P17wN8p?=
- =?us-ascii?Q?W4x6ut6r6xD05j4P23c0cVUWPbHnHUkoTyfBe0QEMVBuc3raypv05amHM3b3?=
- =?us-ascii?Q?qbU+DnjnWXjQewlj+qGZpNbTlc0/Ipg1bOgbZtnk2/YLUfYh8Ogt3YiyPg0W?=
- =?us-ascii?Q?MH3SKNPaGR00uYgEnNT+nF/pTndxXEykN893xGqFO6J6BNw3KtTUzZDJDO6n?=
- =?us-ascii?Q?n7dd+mTRZ8s9aBgT0HeDZKS96q7kDyjfk8MnnAQxAIGrvhZQZJQle2tOrRX7?=
- =?us-ascii?Q?jNdU9g4bjf1TlAAL+0di16GRu6jBwGZi06smoLonLOQ73iSDkj2Y60gUdv0J?=
- =?us-ascii?Q?MKnvffJxE5U91rrl4bO5Lzg49JjD6vBMOKnJoMHazc3ON5o/AHf0tYUgDPuI?=
- =?us-ascii?Q?2zYfuSDVGMQ5VCk9pWAEpp/Umli5T8m97deSsOjveVwoueUcvfnxpLvbJ9Zj?=
- =?us-ascii?Q?y/b7E1Ri+E/tnuEduQ6pYpOZvBIRskwbvXjHd2nudyEgmM0TIY23bx4eLCc7?=
- =?us-ascii?Q?rgBAIrpqLVGP6L8kKUCDp0xaw3X4NOjkRiYdzPaQufEYnF6cYpN5hsjKzknS?=
- =?us-ascii?Q?QzB1QSZkeaIYWY5RqQk5YiqepP6OcMNDWIqWDY6TzWD7BpLVfdLtDyhM7hCK?=
- =?us-ascii?Q?LDUvohtkzIPIROugNLjH3wiguEiJy0Ur0p98ceoT6e6s5LXL+H3fw0m2GwhE?=
- =?us-ascii?Q?PP9i4VVhGsX4dbBgSvezsqpuJHVmBRUcEl5JMKRyMdUtnW0Gt5L090SMyCEk?=
- =?us-ascii?Q?WVD5Z6l88JWWS7VhQq4E/24kBX0XRd/UaANBV7y4a+mdrnHRgm9xVvzFDjfL?=
- =?us-ascii?Q?j4p3v5AYDFgR8Cu3LO2XUdG0QU/Qoa+itbJUO4gCm4ZBmgW9QIre7ULQI18T?=
- =?us-ascii?Q?4Befdtcp2R+mG3amzdqXxNbvrIw830uwS1UhPOQsCoX0eof96WCh6Tw8or+n?=
- =?us-ascii?Q?5bAr6j3I3fXZtr+qOcRmgrM481omZWOV2eDw1lq3FO4Bu8OhYmTK+YJYbW52?=
- =?us-ascii?Q?MonLgHuOZQhv8d6VigabzWEtEL/2hhQBh/db5aMUgKkC2OePmj4Rp1EBEM3F?=
- =?us-ascii?Q?+/pT6lR9fnQ0O3b32r8vQVnZiUi0FhM79CUgIyM16ggKGbjZJF+j2x0yUXw6?=
- =?us-ascii?Q?b95Jgfw2993zsktxxvSux5Sg5HVhdA6g6C+t/xJjUBnzWyk9bN4bc4lOq5Fv?=
- =?us-ascii?Q?pvyiDZHRT2Pa68HGPY3i3JYndpu7IGGt17SvisORodZ25PYGxh1+nOVDmKCc?=
- =?us-ascii?Q?JAu7QyGyXMuTfEAs2eNPmaU=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <2E246DA9529D8048B69C0AAA77DFA5A7@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+From: John Garry <john.g.garry@oracle.com>
+Organization: Oracle Corporation
+In-Reply-To: <ZeembVG-ygFal6Eb@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO3P123CA0019.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:388::15) To DM6PR10MB4313.namprd10.prod.outlook.com
+ (2603:10b6:5:212::20)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR10MB4313:EE_|CH0PR10MB7535:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8b0f1dd1-ed52-4cd0-a6fe-08dc3dbca51c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: T9q/BLUFo2HIJ3boF6enuNFNosW+UV9xxhtsgP36iYXt03YzVgGTN8rULrP/7hfG8CZeBXJ+jnWtWZumaT0kxsCucBaMZb66wrscLYoIVOWaqKPxpmXWW4DGfuKuz5cNNgsZX4iw5dPP7OfFAZcRaEOyVdZ+FzsK+Kw8h5QFvB46fNaofbkTktBpPoJZnmNCBBEotISlZ0Kmddeq0Lw6iPuIP9mOHEjcR0UR1d78B5f0S12Rx2S5hZF3l/lq3YX32JA4E17SYEyM/t9t85h32gLFZu0YSOrcycYMPaFRt6F9EiIiQv1emFxOrHH4GS6ZLSw437J68Lc9e5NjGEpHeQklDzpCAvBDV28q5BnqyPj9d0zFIp2b5s6jlPyvLfEemiLPOcWrRoXAcJLAg1ETPUxPCeltdQRSvOAWYwGmPSZK2WvIdRPm7Fpfbe7934X/v7O81XMh2EJiL0wjibjKzwDQvSqnmojKUy4jJRW12vLeId9FyHQr6EVe0lcMrCOKgnU5vj908kfPO7MKxSpssDXxDMuSZwFymPyHz7ejO/TqnjiSdeDcWf8gRUo1fqoYgRtK998ZJXTBU/fOHLJ5ghn726uR0DgBXs7WWXMt8XxsdT92nIcQkVWq9Luefbjei9H+CGCsylXWEL52OmhpE6f0NYu0DcnMbPl6b3Vg3ng=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4313.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Yk5xeXB3TnFML1VReVFzMzhZZVNWTmtwcnZBYkY2ZzVBYXJmeGF3THFpR1lT?=
+ =?utf-8?B?Mm9HeUxwcDRpR21lcXpnMXdRQUZRdFJKVmxVTllvaERYTmFXQ3hMQmNJZmh0?=
+ =?utf-8?B?U2lZc2Z3U0JpOWd5UE5GVlc0Qml1aTVtaUE3Yi92MnM0UXM0dDJqWkk0b0VZ?=
+ =?utf-8?B?TkFTN0VrSWc5a0NBSWNKSDJLbForejN1RkJyK0FqSjNQQ1l2VTJXWDNkcFZz?=
+ =?utf-8?B?cldGd3k1Qm00cnNNVG1NNTNocDdjMnhpN0FGaGlaeHc0OCtObXMrVGc3am5E?=
+ =?utf-8?B?THY2R2FIYjQvR3RDQUVRdFFXSkkwNU5VZVBUUjRtTncxV1F0c2pLTTFsWVVO?=
+ =?utf-8?B?YWdONGpIc3dIVkM5SmUycXdxQWFwclc0N3BSTkNxOGFnWHhSZjBLdWZGTW05?=
+ =?utf-8?B?ZGpFUmErUjQ2NzB4ZDlxaGlJUWlibUtKQ3RXMGc5bnQ1OVdlcWo3K3pmaGUr?=
+ =?utf-8?B?TEhrcy9DcDVNTHJjMmVKZVp4QXlaQTZIVHZ0bXFReDVlczRQRk5jckNKVFpN?=
+ =?utf-8?B?dlpyOWZ0WFJVR2xBYlZPVUs1TzN1ZjJwQ0QrcFpwaFRsWTJ3QzJzdDdTVWtP?=
+ =?utf-8?B?dStQdmNEMGkvVWFzM3FKZ25IbkNaUlU0VERuQ283S2tVWDR1MFhnZlEyQjE2?=
+ =?utf-8?B?a0RwY05meXphcGIxQ0I1ZWlnN1ZIaW1pTHNDdWNDRy9GcXl1Mm43cVpidm1D?=
+ =?utf-8?B?Rm5Icy9Kd1R4YU9jNzE2RHBRelE3bnFFZ2ZlbnlOSTl6K09paUtrTCtaVzlt?=
+ =?utf-8?B?VldjaVFITkpjS3VSbDdTLzN5eUJpV2FVMkRDeWpNczVJS2hNY21LbVZJLzdH?=
+ =?utf-8?B?M2d6Q3FiL3hNVjNKdUw5NE1vNUdlWnZHNGlBSGdNTzRpZDhrUHk0K0pYMGMw?=
+ =?utf-8?B?WWlGbjUzNzBOaGNtLzZuUnNEMmJnY3IzcCtkTmFrQkxPeDhwTHRXUDdyc3lt?=
+ =?utf-8?B?WEU0TlY2OWxBRGErMFlOM0xhd25YdEdXak4rRlg0bEVURmQ1NFN2TisrblBq?=
+ =?utf-8?B?OWI4UVJjemlRZVpRVDhKclMyWjFULzBqM0w4N29FQmNaN2U2WWMwOUh3SmVR?=
+ =?utf-8?B?dnI0b1RLWXltVTc1bWhsUUk5WmRtRGJOMGFPRW5YbE8zZ3Y3T2ZweCtFemIw?=
+ =?utf-8?B?blcwa1ZDcmhPcTg3Mkh6d2R4bjZIaFBoNWFzQ3FJZWoxSzB4aFdqVWxyTVBF?=
+ =?utf-8?B?ai9QVWtaUjdMa2Z1MUZ4aFVNcU4vcm1TSVNlYTFxZFFySldZemVIZ3ZxdEFJ?=
+ =?utf-8?B?Y2hqWWJ5dkN2dlZxWXJaUXRoUDZCVEFzS3F3bk5uZHRnN0VRVVRrR0hSZjdt?=
+ =?utf-8?B?c2NLcEgxOUk4U3J4U0hLeG5pL3VTWTFhUUJDdVlVSk5WN254SUVpWE5NOFA3?=
+ =?utf-8?B?ZmNwOWZFTlVKRnl5MmpXZlJvUVcvcmdFNFg0KzRndXlxcGVqTTBLODQ3a1Vx?=
+ =?utf-8?B?RW9wN2M1M2ZlZ0NsQjd3UWsvRUd2dDJrZU9NL1BhRi9nVjRvamdTUWtqRXFp?=
+ =?utf-8?B?TzY5NWJRem5mS1hjak92M1Blc0VxZm1NVnJmSGRQZnZPT2JRMklodGQrYkx0?=
+ =?utf-8?B?R2E3eVlzRWNQTXZtOE5senlWZzNOMWM4dVdITnZkQnV0T2VOZGR1T0VhUHFx?=
+ =?utf-8?B?d0ZaNDdHZGlpdTZBZUpmVWZ2aFFuVFk5YUtlREM3RHR3YWZzaFZEcmtsZmVP?=
+ =?utf-8?B?M1dDSWFLdXg1NHRtSkFlanFpenllZkZrOW9HNCt5dDJlTWwzbHlrUFNsY2lS?=
+ =?utf-8?B?ejdrZTlaNERGb2J1NmZsblM2cXplNEVGNkZGL3N1ZG5PSmdJTUNJNklGdE5h?=
+ =?utf-8?B?VTZJSk1ab2xWY1VwY0dWV1pNZ1dtay83V3JTdGc5Y0VFS2k2aVZzTHNrNWFV?=
+ =?utf-8?B?M0dtZFFLYkR3YTlPR0laSVoyK0lHUElKSWtmODhhNkFPWkM0REc4ci9MeHlS?=
+ =?utf-8?B?NDk2NXZ5SHpyTTdwckZPOWZhS0lqdDY3THZ0WEtMY3hUczZybXZRalJPeWhO?=
+ =?utf-8?B?UHVSOUNWMW0wSCtzdnV0aGVObkRBTGtmSVcreUM3cGhzeWdTUkdpdm82K2ky?=
+ =?utf-8?B?S3BwTkV6VU5oMHBwY3F4eXRkY0dpbzE0ZDliVkhjaFc1ODkvSDRYYmlrUExL?=
+ =?utf-8?B?aHp4RTBhalNSV1ZVaXJ6SHFSajdDaDc3cFU2cHpkTGhGRWJaKzBXREFhMTJk?=
+ =?utf-8?B?UHc9PQ==?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: Om3C5k6RiFV81GpzKcqAtAQQjYViLViovfNKpXOCr9Oy6v22G98EHVy4SIMi2ojlmDTvMpziK6xYiCA4s4vcXqldGRCEDu90Y2GV0Ok3w4EfXWb+sa5ReB+ZENT8zYatftkZxBBmgkgV3R8kwHaTnCcOtkQsJon4KxcMZ3qRmBY48d/CtHWuw240Q/L/zyw+wm+dRCBhxcuML38MzE1Qb1UrjPLf535ikukHzglAToOB1UGW6av/wwE+tnd1/GI2reTJmOO6kIE7csQl62o68R2QdWtiHq1d446U0LM4C6TPQTXzbPSpRIVRGILz5iQIJgLoEUdUxTqieXOF/zRv4yu9vDmdbK3Ci4ozjFLfThHe6t9YYF9NNZOgojdSwgiBNM+ZMVSxvuO6LGO1ukVbrlfqbXTIv0RY2QcgssZxo7rUyKpXtgATk2QsmhSInCqt+fTdU8FUllM/lrw/KzkYNjXlbVLdF4VyYBmHfccq4iq4Ex9MTd9iqJjn6KXep+QnyGQt9Ncgn3BtOxMQsenwLu9gNrem4sU8oL/WAC4v6ki8F98U2EjBf8oq/WZUDKKXLb1Oht8nKykXklSo2hKoOidI9ka/jzfWFiwfuqV8Ngs+JyEBTnOCd/84Rzo5gCtC
-X-OriginatorOrg: wdc.com
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: gi0Duaej+reInOOWKPFDJwz1/dGT6wT67UmFD2I2MVyYF5E9JBExkRjbjw1LoCE1rVzBEaul/FuK6o7+4AkWc5LylebV/nCcLFDO9rY3iUrRuedPRAzAJ0ykgRoTOWKPEhq43U68hTanqFeVnr2EF+I2PbjQ7HHnqmAq+WiGraUFpAYMyKRp6PFPPcaDiM9ca47DDf7I4EVdI0iFX89c+bRtGfwSoEtNrPo0MNXUyaMPBuguyDITIXDMfxN9iGyDQYFrsrtmhYXNspz7syUWFRfUM+ULnZDiS2KfCQLV1luh/b4qQbcx1+Fe3wQNwRUWuMt5c/nCwnA4mJ1Aq9006W1JL9UUP2hvwC+LBed6kp4xHwQo9GRGt/04GMdgqQas5qm0DecwjjoLamoGM3axXtyR2wS8qqcJrkKE8E7dQdN+B+D/kF+DG7jo8xLlIVIq0t2XfGAkgoxdk+P8fZTrV04+WLZWaKseThdAwJtXKioHKjrGhXrXQU8EpmDe9e/9ico/5yWJm6ZWSaCRyJVbH/rpAYiR9nLYxmK4iU/l0yFbi4f1ecC1uogcxdBnTbiysQIqpxY8TpdNww0eJ9XXWRXLnflrDj0/yS3LrqJpmVM=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8b0f1dd1-ed52-4cd0-a6fe-08dc3dbca51c
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4313.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8037.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a5d29a8c-2bd2-4ca7-11eb-08dc3db9ae61
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Mar 2024 08:44:48.3146
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2024 09:06:01.5335
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: eiBF07buldAl28qOn6PXZSBUypAUg7OrmGXH4tLGQWBnxrgBJfbTr5TTjAJjk4crQ2Iu1dcX6ay0+5hQ46Wm5MIhit4yvDDXrKKaQK5ZajE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR04MB7094
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WZengsZalc3F6NEVNX3o413pOcRg/Z71uaK6nfgTcBc4FDN6oaGVCz4pBOO5wnsONGbRmebBWHmQ0/V1FaO1Vg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR10MB7535
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-06_04,2024-03-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxlogscore=999
+ adultscore=0 phishscore=0 spamscore=0 mlxscore=0 bulkscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2403060071
+X-Proofpoint-ORIG-GUID: PRoDzoCJsEyr8tsjjGxG8rn2LGpD2SBi
+X-Proofpoint-GUID: PRoDzoCJsEyr8tsjjGxG8rn2LGpD2SBi
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240306_004452_780972_EB5573C3 
-X-CRM114-Status: GOOD (  36.34  )
+X-CRM114-CacheID: sfid-20240306_011555_221062_696F8063 
+X-CRM114-Status: GOOD (  26.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -165,197 +185,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mar 05, 2024 / 12:18, Daniel Wagner wrote:
-> On Tue, Mar 05, 2024 at 09:44:45AM +0000, Shinichiro Kawasaki wrote:
-> > On Mar 04, 2024 / 17:13, Daniel Wagner wrote:
-> > > The is the test case for
-> > >=20
-> > > https://lore.kernel.org/linux-nvme/20240304161006.19328-1-dwagner@sus=
-e.de/
-> > >
-> > >=20
-> > > Daniel Wagner (2):
-> > >   nvme/rc: add reconnect-delay argument only for fabrics transports
-> > >   nvme/048: add reconnect after ctrl key change
-> >=20
-> > I apply the kernel patches in the link above to v6.8-rc7, then ran nvme=
-/045
-> > with the blktests patches in the series. And I observed failure of the =
-test
-> > case with various transports [1]. Is this failure expected?
->=20
-> If you have these patches applied, the test should pass. But we might
-> have still some more stuff to unify between the transports. The nvme/045
-> test passes in my setup. Though I have seen runs which were hang for
-> some reason. Haven't figured out yet what's happening there. But I
-> haven't seen failures, IIRC.
->=20
-> I am not really surprised we seeing some fallouts though. We start to
-> test the error code paths with this test extension.
->=20
-> > Also, I observed KASAN double-free [2]. Do you observe it in your envir=
-onment?
-> > I created a quick fix [3], and it looks resolving the double-free.
->=20
-> No, I haven't seen this.
->=20
-> > sudo ./check nvme/045
-> > nvme/045 (Test re-authentication)                            [failed]
-> >     runtime  8.069s  ...  7.639s
-> >     --- tests/nvme/045.out      2024-03-05 18:09:07.267668493 +0900
-> >     +++ /home/shin/Blktests/blktests/results/nodev/nvme/045.out.bad    =
- 2024-03-05 18:10:07.735494384 +0900
-> >     @@ -9,5 +9,6 @@
-> >      Change hash to hmac(sha512)
-> >      Re-authenticate with changed hash
-> >      Renew host key on the controller and force reconnect
-> >     -disconnected 0 controller(s)
-> >     +controller "nvme1" not deleted within 5 seconds
-> >     +disconnected 1 controller(s)
-> >      Test complete
->=20
-> That means the host either successfully reconnected or never
-> disconnected. We have another test case just for the disconnect test
-> (number of queue changes), so if this test passes, it must be the
-> former... Shouldn't really happen, this would mean the auth code has bug.
+On 05/03/2024 23:10, Matthew Wilcox wrote:
+> On Mon, Feb 26, 2024 at 05:36:02PM +0000, John Garry wrote:
+>> This series introduces a proposal to implementing atomic writes in the
+>> kernel for torn-write protection.
+> 
+> The API as documented will be unnecessarily complicated to implement
+> for buffered writes, I believe.  What I would prefer is a chattr (or, I
+> guess, setxattr these days) that sets the tearing boundary for the file.
+> The page cache can absorb writes of arbitrary size and alignment, but
+> will be able to guarantee that (if the storage supports it), the only
+> write tearing will happen on the specified boundary.
 
-The test case nvme/048 passes, so this looks a bug.
+In the "block atomic writes for XFS" series which I sent on Monday, we 
+do use setxattr to set the extent alignment for an inode. It is not a 
+tearing boundary, but just rather effectively sets the max atomic write 
+size for the inode. This extent size must be a power-of-2. From this we 
+can support atomic write sizes of [FS block size, extent size] for 
+direct IO.
 
->=20
-> > diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-> > index f2832f70e7e0..4e161d3cd840 100644
-> > --- a/drivers/nvme/host/sysfs.c
-> > +++ b/drivers/nvme/host/sysfs.c
-> > @@ -221,14 +221,10 @@ static int ns_update_nuse(struct nvme_ns *ns)
-> > =20
-> >  	ret =3D nvme_identify_ns(ns->ctrl, ns->head->ns_id, &id);
-> >  	if (ret)
-> > -		goto out_free_id;
-> > +		return ret;
->=20
-> Yes, this is correct.
-> > =20
-> >  	ns->head->nuse =3D le64_to_cpu(id->nuse);
-> > -
-> > -out_free_id:
-> > -	kfree(id);
-> > -
-> > -	return ret;
-> > +	return 0;
-> >  }
-> >
->=20
-> I think you still need to free the 'id' on the normal exit path though
+For bdev file operations atomic write support in this series for direct 
+IO, atomic write size is limited by the HW support only.
 
-Thanks, I posted the patch with the fix.
+> 
+> We _can_ support arbitrary power-of-two write sizes to the page cache,
+> but if the requirement is no tearing inside a single write, then we
+> will have to do a lot of work to make that true.  It isn't clear to me
+> that anybody is asking for this; the databases I'm aware of are willing
+> to submit 128kB writes and accept that there may be tearing at 16kB
+> boundaries (or whatever).
 
->=20
-> If you have these patches applied, the test should pass. But we might
-> have still some more stuff to unify between the transports. The nvme/045
-> test passes in my setup. Though I have seen runs which were hang for
-> some reason. Haven't figured out yet what's happening there. But I
-> haven't seen failures.
+In this case, I would expect the DB to submit 8x separate 16KB writes. 
+However if we advertise a range of supported sizes, userspace is 
+entitled to use that, i.e. they could submit a single 128kB write, if 
+supported.
 
-Still with the fix of the double-free, I observe the nvme/045 failure for r=
-dma,
-tcp and fc transports. I wonder where the difference between your system an=
-d
-mine comes from.
+As for supporting buffered atomic writes, the very simplest solution for 
+regular FS files is to fix the atomic write min and max size at the 
+extent size, above. Indeed, that might solve most or even all usecases. 
+This is effectively same as your idea to set a boundary size, except 
+that userspace must submit individual 16KB writes for the above example. 
+As for bdev file operations, extent sizes is not a thing, so that is 
+still a problem.
 
-FYI, here I share the kernel messages for rdma transport. It shows that
-nvme_rdma_reconnect_or_remove() was called repeatedly and it tried to recon=
-nect.
-The status argument is -111 or 880, so I think the recon flag is always tru=
-e
-and no effect. I'm interested in the status values in your environment.
+Having said all this, from discussion "[LSF/MM/BPF TOPIC] untorn 
+buffered writes", I was hearing that can use a high-order for RWF_ATOMIC 
+data and it would be just a matter of implementing support in the page 
+cache, like dealing with already-present overlapping smaller folios - is 
+implementing this now the concern?
+
+Thanks,
+John
 
 
-[   59.117607] run blktests nvme/045 at 2024-03-06 17:05:55
-[   59.198629] (null): rxe_set_mtu: Set mtu to 1024
-[   59.211185] PCLMULQDQ-NI instructions are not detected.
-[   59.362952] infiniband ens3_rxe: set active
-[   59.363765] infiniband ens3_rxe: added ens3
-[   59.540499] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-[   59.560541] nvmet_rdma: enabling port 0 (10.0.2.15:4420)
-[   59.688866] nvmet: creating nvm controller 1 for subsystem blktests-subs=
-ystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e=
-60b8de349 with DH-HMAC-CHAP.
-[   59.701114] nvme nvme1: qid 0: authenticated with hash hmac(sha256) dhgr=
-oup ffdhe2048
-[   59.702195] nvme nvme1: qid 0: controller authenticated
-[   59.703310] nvme nvme1: qid 0: authenticated
-[   59.707478] nvme nvme1: Please enable CONFIG_NVME_MULTIPATH for full sup=
-port of multi-port devices.
-[   59.709883] nvme nvme1: creating 4 I/O queues.
-[   59.745087] nvme nvme1: mapped 4/0/0 default/read/poll queues.
-[   59.786869] nvme nvme1: new ctrl: NQN "blktests-subsystem-1", addr 10.0.=
-2.15:4420, hostnqn: nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3=
--51e60b8de349
-[   59.999761] nvme nvme1: re-authenticating controller
-[   60.010902] nvme nvme1: qid 0: authenticated with hash hmac(sha256) dhgr=
-oup ffdhe2048
-[   60.011640] nvme nvme1: qid 0: controller authenticated
-[   60.025652] nvme nvme1: re-authenticating controller
-[   60.035349] nvme nvme1: qid 0: authenticated with hash hmac(sha256) dhgr=
-oup ffdhe2048
-[   60.036375] nvme nvme1: qid 0: controller authenticated
-[   60.050449] nvme nvme1: re-authenticating controller
-[   60.060757] nvme nvme1: qid 0: authenticated with hash hmac(sha256) dhgr=
-oup ffdhe2048
-[   60.061460] nvme nvme1: qid 0: controller authenticated
-[   62.662430] nvme nvme1: re-authenticating controller
-[   62.859510] nvme nvme1: qid 0: authenticated with hash hmac(sha512) dhgr=
-oup ffdhe8192
-[   62.860502] nvme nvme1: qid 0: controller authenticated
-[   63.029182] nvme nvme1: re-authenticating controller
-[   63.192844] nvme nvme1: qid 0: authenticated with hash hmac(sha512) dhgr=
-oup ffdhe8192
-[   63.193900] nvme nvme1: qid 0: controller authenticated
-[   63.608561] nvme nvme1: starting error recovery
-[   63.653699] nvme nvme1: Reconnecting in 1 seconds...
-[   64.712627] nvmet: creating nvm controller 1 for subsystem blktests-subs=
-ystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e=
-60b8de349 with DH-HMAC-CHAP.
-[   64.868896] nvmet: ctrl 1 qid 0 host response mismatch
-[   64.870065] nvmet: ctrl 1 qid 0 failure1 (1)
-[   64.871152] nvmet: ctrl 1 fatal error occurred!
-[   64.871519] nvme nvme1: qid 0: authentication failed
-[   64.874330] nvme nvme1: failed to connect queue: 0 ret=3D-111
-[   64.878612] nvme nvme1: Failed reconnect attempt 1
-[   64.880472] nvme nvme1: Reconnecting in 1 seconds...
-[   66.040957] nvmet: creating nvm controller 1 for subsystem blktests-subs=
-ystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e=
-60b8de349 with DH-HMAC-CHAP.
-[   66.200862] nvmet: ctrl 1 qid 0 host response mismatch
-[   66.203005] nvmet: ctrl 1 qid 0 failure1 (1)
-[   66.204873] nvmet: ctrl 1 fatal error occurred!
-[   66.205148] nvme nvme1: qid 0: authentication failed
-[   66.208609] nvme nvme1: failed to connect queue: 0 ret=3D-111
-[   66.212033] nvme nvme1: Failed reconnect attempt 2
-[   66.213837] nvme nvme1: Reconnecting in 1 seconds...
-[   67.327576] nvmet: creating nvm controller 1 for subsystem blktests-subs=
-ystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e=
-60b8de349 with DH-HMAC-CHAP.
-[   67.485392] nvmet: ctrl 1 qid 0 host response mismatch
-[   67.487440] nvmet: ctrl 1 qid 0 failure1 (1)
-[   67.489403] nvmet: ctrl 1 fatal error occurred!
-[   67.489565] nvme nvme1: qid 0: authentication failed
-[   67.493015] nvme nvme1: failed to connect queue: 0 ret=3D-111
-[   67.496909] nvme nvme1: Failed reconnect attempt 3
-[   67.498692] nvme nvme1: Reconnecting in 1 seconds...
-[   68.610640] nvmet: creating nvm controller 1 for subsystem blktests-subs=
-ystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e=
-60b8de349 with DH-HMAC-CHAP.
-[   68.739298] nvme nvme1: Identify namespace failed (880)
-[   68.742833] nvme nvme1: Removing ctrl: NQN "blktests-subsystem-1"
-[   68.774125] nvmet: ctrl 1 qid 0 host response mismatch
-[   68.776440] nvme nvme1: qid 0 auth_send failed with status 880
-[   68.778133] nvme nvme1: qid 0 failed to receive success1, nvme status 88=
-0
-[   68.780300] nvme nvme1: qid 0: authentication failed
-[   68.782490] nvme nvme1: failed to connect queue: 0 ret=3D880
-[   68.785335] nvme nvme1: Failed reconnect attempt 4
-[   68.829188] nvme nvme1: Property Set error: 880, offset 0x14
-[   69.634482] rdma_rxe: unloaded
+
+
 
 
