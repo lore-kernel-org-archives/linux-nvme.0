@@ -4,46 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0387C54E41
-	for <linux-nvme@archiver.kernel.org>; Wed,  6 Mar 2024 16:06:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9BC54C5475B
+	for <linux-nvme@archiver.kernel.org>; Wed,  6 Mar 2024 16:06:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ubmPeJg46t3K7leg5ZeQN7O0CINWlIT7YUSXrdtujmc=; b=WJK45HGLlVnx7EtTtqMgxz4lar
-	2GRDjJvqvJRxruqCP8BtI9XlT/P1C+gsEdq++KBrtLawEB8VqVzTPxCWjzWrzvXMNuIy29f3e/dnr
-	5ErCF4ZhWs7ELNSpVrhw9bh1Gm09eqyNqrTeMuav1XeVeCkCjOtyg2aCPxQsSh5Ab0m2QJqH2/DYS
-	y73twxEsP20UBVXlGQjrLrCGO+cQaMyrQP5nRmhcsvsjtKuKk3SMzjNXSRDGD9QMTGR62jfBkNCRw
-	FKTUMJS0pd+WX8l/xuJyxnt6O7RazHZzLLX0/lxgkV34Eq4zEAfXFSU70317FVOPOwRUd6oFWAOOw
-	zTkYtSEA==;
+	bh=3q6XaWzdNlm5rZVTCa+MalaN5VSyURFchooXo3LCyRw=; b=eQri6WKlOc0dUhrFDBBjII/CzZ
+	7bf2K1xb15r9Ix6Db8GeLvnK/26ODpcVytg0JrSHQV1V1a33K74NstGZ5lg84mc4TEOOYL1m+glwt
+	cNRMG2GvfabZ9LHoG21YEGR7oKlYH0MBdTKmCOAgJVKGhG/+X/EXFqLaJICs6ggCR04auFgZbmeHx
+	wy1bWZzarvHug0XPrLYYA3pGi4D1DL7dmp49/mkXsE08HX4dEoka4BrV3b1XLKRvSW13xn1PvQTn2
+	vMYDQ5TJIJz64JioSQMQ+zqYYSH8rn2ssPiqKhOpSuuXjFt5QSm85be4EsYvFLtn2d8zD6CJQQfDI
+	SGjb3jAA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhtnC-00000000uoz-0znh;
-	Wed, 06 Mar 2024 16:06:54 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1rhtnD-00000000upa-0n78;
+	Wed, 06 Mar 2024 16:06:55 +0000
+Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhsVL-00000000dBU-2XmD
+	id 1rhspf-00000000hW9-30RY
 	for linux-nvme@lists.infradead.org;
-	Wed, 06 Mar 2024 14:44:25 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 6727E68C4E; Wed,  6 Mar 2024 15:44:17 +0100 (CET)
-Date: Wed, 6 Mar 2024 15:44:16 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+	Wed, 06 Mar 2024 15:05:25 +0000
+Received: by mail-qt1-x82f.google.com with SMTP id d75a77b69052e-42eff08e3f8so8053751cf.1
+        for <linux-nvme@lists.infradead.org>; Wed, 06 Mar 2024 07:05:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1709737521; x=1710342321; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3q6XaWzdNlm5rZVTCa+MalaN5VSyURFchooXo3LCyRw=;
+        b=QxbS/7TZkHOBUglkXsxYIy/HUyu7gesLq2NJUgnGsLPMoXNb0RflgDIwkb3gSSuJ20
+         IPlGOQQmXkw+gE3ASuvXPPiEEF1XGkC7kv/aEQJWEHe07QZsaSzWLi5W+I8zyzan1OcM
+         /iRMEuMw9l/ecz5ChoV1Wg11gk4Zs5MSQXGAjzgPEu2t1g7wEr682Pl+Lz5oghrl29A5
+         DcH0Ikxo4+3mA18+Lk6fpjpyjbTN6YFfEXY8xRci0c/V/cEX4ER/pZcSXbdcg23Q0i2t
+         llbBYtl5CkAi8YRctX4zVQBGdpawqchRiTzFYYRR5UdM0nkR/qk2KJr/KCv/wlW8z0yS
+         odzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709737521; x=1710342321;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3q6XaWzdNlm5rZVTCa+MalaN5VSyURFchooXo3LCyRw=;
+        b=MD/V/Zu1RbKwaLDt8hVoj2bldPLH4fWDL7BLOP4dajXzy/boM/kjFu+Wjw8q5fBhZX
+         efHA6RHqk3jrzk2QhN6+ugLzUf3xkAAL5/YGVpXX1sZ4ObP67u+r8soVVosG9VROA5sZ
+         eJM5rxhdU/VNgwRWG7y+rZsi8Ih/wW3BFgGqp4FnstvqeJnsFd4/H9DkJ8eJcCIwbI6J
+         DyO5DuE+cysfmyv4fpj4FC+Y/GxA93fEWvba/bTnvZnu85QBPsBCjPUjlSBC5nvwC45B
+         Sf78Y+h0KRgdpH4qKqLx9odeUfr8YVpwxt5YmQaHRQPHiEnyWlEJJQ9Gz26Cxn+2yNnA
+         y5OQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXmmi6x/0zfV26Zr8/tHxgR3r/AonskHK44xM97K1Vh9Ns1erpSxiZaZtBch2oaM8ox88WJs0KtDmrPbFMgKBQTO7Q+cnjStkYpvm5Z8cc=
+X-Gm-Message-State: AOJu0Yw36ZaJrF/8r0og6nKAz/zU5EZFIfrapdQ2YXEZMnB0sRYQ+QZD
+	by4jJIpGy/DV/o4mohvegQSeks4j2JGqccHq/eRB6FffcpxYqOtZDhAxtjr6irE=
+X-Google-Smtp-Source: AGHT+IF3DD5YVqRayIYcxbWGOreOFw/mqikGG0c1CCT98Poz3twNOMiPHe1g+1Vg/YON1gYeWp1F9Q==
+X-Received: by 2002:a05:622a:1743:b0:42e:bcc4:2959 with SMTP id l3-20020a05622a174300b0042ebcc42959mr5571780qtk.4.1709737520530;
+        Wed, 06 Mar 2024 07:05:20 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-68-80-239.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.80.239])
+        by smtp.gmail.com with ESMTPSA id f5-20020a05622a1a0500b0042f01390d5csm1686793qtb.30.2024.03.06.07.05.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Mar 2024 07:05:19 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1rhspa-001WNB-Tx;
+	Wed, 06 Mar 2024 11:05:18 -0400
+Date: Wed, 6 Mar 2024 11:05:18 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, Leon Romanovsky <leon@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
 	Marek Szyprowski <m.szyprowski@samsung.com>,
 	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
 	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
 	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Yishai Hadas <yishaih@nvidia.com>,
+	Sagi Grimberg <sagi@grimberg.me>, Yishai Hadas <yishaih@nvidia.com>,
 	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
 	Kevin Tian <kevin.tian@intel.com>,
 	Alex Williamson <alex.williamson@redhat.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
@@ -56,19 +93,22 @@ Cc: Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
 	"Martin K. Petersen" <martin.petersen@oracle.com>,
 	"daniel@iogearbox.net" <daniel@iogearbox.net>,
 	Dan Williams <dan.j.williams@intel.com>,
-	"jack@suse.com" <jack@suse.com>, Zhu Yanjun <zyjzyj2000@gmail.com>
-Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two
- steps
-Message-ID: <20240306144416.GB19711@lst.de>
-References: <cover.1709635535.git.leon@kernel.org> <47afacda-3023-4eb7-b227-5f725c3187c2@arm.com> <20240305122935.GB36868@unreal>
+	"jack@suse.com" <jack@suse.com>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	Zhu Yanjun <zyjzyj2000@gmail.com>
+Subject: Re: [RFC RESEND 16/16] nvme-pci: use blk_rq_dma_map() for NVMe SGL
+Message-ID: <20240306150518.GL9225@ziepe.ca>
+References: <cover.1709635535.git.leon@kernel.org>
+ <016fc02cbfa9be3c156a6f74df38def1e09c08f1.1709635535.git.leon@kernel.org>
+ <Zec_nAQn1Ft_ZTHH@kbusch-mbp.dhcp.thefacebook.com>
+ <20240306143321.GA19711@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240305122935.GB36868@unreal>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20240306143321.GA19711@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240306_064423_967731_D4F4784D 
-X-CRM114-Status: GOOD (  36.76  )
+X-CRM114-CacheID: sfid-20240306_070524_042023_8AA4CD6E 
+X-CRM114-Status: GOOD (  22.35  )
 X-Mailman-Approved-At: Wed, 06 Mar 2024 08:06:47 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -84,77 +124,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 05, 2024 at 02:29:35PM +0200, Leon Romanovsky wrote:
-> > > These advanced DMA mapping APIs are needed to calculate IOVA size to
-> > > allocate it as one chunk and some sort of offset calculations to know
-> > > which part of IOVA to map.
+On Wed, Mar 06, 2024 at 03:33:21PM +0100, Christoph Hellwig wrote:
+> On Tue, Mar 05, 2024 at 08:51:56AM -0700, Keith Busch wrote:
+> > On Tue, Mar 05, 2024 at 01:18:47PM +0200, Leon Romanovsky wrote:
+> > > @@ -236,7 +236,9 @@ struct nvme_iod {
+> > >  	unsigned int dma_len;	/* length of single DMA segment mapping */
+> > >  	dma_addr_t first_dma;
+> > >  	dma_addr_t meta_dma;
+> > > -	struct sg_table sgt;
+> > > +	struct dma_iova_attrs iova;
+> > > +	dma_addr_t dma_link_address[128];
+> > > +	u16 nr_dma_link_address;
+> > >  	union nvme_descriptor list[NVME_MAX_NR_ALLOCATIONS];
+> > >  };
 > > 
-> > I don't follow this part at all - at *some* point, something must know a
-> > range of memory addresses involved in a DMA transfer, so that's where it
-> > should map that range for DMA. 
+> > That's quite a lot of space to add to the iod. We preallocate one for
+> > every request, and there could be millions of them. 
 > 
-> In all presented cases in this series, the overall DMA size is known in
-> advance. In RDMA case, it is known when user registers the memory, in
-> VFIO, when live migration is happening and in NVMe, when BIO is created.
-> 
-> So once we allocated IOVA, we will need to link ranges, which si the
-> same as map but without IOVA allocation.
+> Yes.  And this whole proposal also seems clearly confused (not just
+> because of the gazillion reposts) but because it mixes up the case
+> where we can coalesce CPU regions into a single dma_addr_t range
+> (iommu and maybe in the future swiotlb) and one where we need a
 
-But above you say:
+I had the broad expectation that the DMA API user would already be
+providing a place to store the dma_addr_t as it has to feed that into
+the HW. That memory should simply last up until we do dma unmap and
+the cases that need dma_addr_t during unmap can go get it from there.
 
-"These advanced DMA mapping APIs are needed to calculate IOVA size to
-allocate it as one chunk and some sort of offset calculations to know
-which part of IOVA to map."
+If that is how things are organized, is there another reason to lean
+further into single-range case optimization?
 
-this suggests you need helpers to calculate the len and offset.  I
-can't see where that would ever make sense.  The total transfer
-size should just be passed in by the callers and be known, and
-there should be no offset.
+We can't do much on the map side as single range doesn't imply
+contiguous range, P2P and alignment create discontinuities in the
+dma_addr_t that still have to be delt with.
 
-> > > Instead of teaching DMA to know these specific datatypes, let's separate
-> > > existing DMA mapping routine to two steps and give an option to advanced
-> > > callers (subsystems) perform all calculations internally in advance and
-> > > map pages later when it is needed.
-> > 
-> > From a brief look, this is clearly an awkward reinvention of the IOMMU API.
-> > If IOMMU-aware drivers/subsystems want to explicitly manage IOMMU address
-> > spaces then they can and should use the IOMMU API. Perhaps there's room for
-> > some quality-of-life additions to the IOMMU API to help with common usage
-> > patterns, but the generic DMA mapping API is absolutely not the place for
-> > it.
-> 
-> DMA mapping gives nice abstraction from IOMMU, and allows us to have
-> same flow for IOMMU and non-IOMMU flows without duplicating code, while
-> you suggest to teach almost every part in the kernel to know about IOMMU.
-
-Except that the flows are fundamentally different for the "can coalesce"
-vs "can't coalesce" case.  In the former we have one dma_addr_t range,
-and in the latter as many as there are input vectors (this is ignoring
-the weird iommu merging case where we we coalesce some but not all
-segments, but I'd rather not have that in a new API).
-
-So if we want to efficiently be able to handle these cases we need
-two APIs in the driver and a good framework to switch between them.
-Robins makes a point here that the iommu API handles the can coalesce
-case and he has a point as that's exactly how the IOMMU API works.
-I'd still prefer to wrap it with dma callers to handle things like
-swiotlb and maybe Xen grant tables and to avoid the type confusion
-between dma_addr_t and then untyped iova in the iommu layer, but
-having this layer or not is probably worth a discussion.
-
-> 
-> In this series, we changed RDMA, VFIO and NVMe, and in all cases we
-> removed more code than added. From what I saw, VDPA and virito-blk will
-> benefit from proposed API too.
-> 
-> Even in this RFC, where Chaitanya did partial job and didn't convert
-> whole driver, the gain is pretty obvious:
-> https://lore.kernel.org/linux-rdma/016fc02cbfa9be3c156a6f74df38def1e09c08f1.1709635535.git.leon@kernel.org/T/#u
-> 
-
-I have no idea how that nvme patch is even supposed to work.  It removes
-the PRP path in nvme-pci, which not only is the most common I/O path
-but actually required for the admin queue as NVMe doesn't support
-SGLs for the admin queue.
-
+Jason
 
