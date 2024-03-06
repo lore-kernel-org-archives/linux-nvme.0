@@ -4,127 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D634EC54E41
-	for <linux-nvme@archiver.kernel.org>; Wed,  6 Mar 2024 09:36:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EFAD0C54E41
+	for <linux-nvme@archiver.kernel.org>; Wed,  6 Mar 2024 11:20:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DLms4auAU45PX1X3XPBSWFef66gtdpKqJoNdZubfYDE=; b=Sx630OxrKn78N7E9hrQbmvtnq7
-	ZBD1V9U6TVv2WMRPVUeQgf9C62xpI1pSn65e/jjkl4CyI5ET9iStmuJxQMc4M5nG9MFFhmXF2LT37
-	3Ic/Sp/Gi5jXpDeEZfjGwopr3bRuA2xMFqK+ee3U0Wuq9Vh1jLU7JFyjI4liV/0G0BZrqduj6Ydc+
-	HY7pMaBXeCmKUjC0CF9oq7L3IdEMkqpJiFCkEEcsOCQRCgg9PNBmjhLz4VWTLxl54vfANtIen/+U1
-	FbkNFfGWWcD8k/rBjq9q11UXONa3Rx9FU9V00ig0lXwUizNYq8u0h0/TWi3shVtcZaJ5M11V8f4qV
-	6syVTilg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ohhH0YuYyOrzNA74fqYS5iToaSblsSUwwc4UbEvZvPg=; b=kOgb/n5NfELMHGZB0SxM0pSxYJ
+	rDBkGZ+pMrjTHJ1AimNmLZrpd4+SXOUeTKFvB8LEnWg9xtu9JUygiUFwf5ScfykU+CjzIIv+6h/L2
+	pNuwUn3rTvFAiqwZHMy72xqfs0YZIO1Gho4WD5tVMK+9Wl5aT3YjPPtFpI+5oTxMZllJSF3NCjD5/
+	0yjUHNQftdXcfykVGLuYywBA7qHCykMXbWA14dwSePHcKw321k1GUbb9ybc8XiJ+hoavvKObvRpBV
+	DtRSxCSJMlSGIrcS95DPzq+8KZn+ic01nxslpRZqny+KgcUK/TtUQRz8KJ5WA49wzmVWjhu8KRDDL
+	e4EAmzxA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhnhW-0000000HBhh-0sPV;
-	Wed, 06 Mar 2024 09:36:38 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1rhpK7-000000000OR-3D2l;
+	Wed, 06 Mar 2024 11:20:35 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhnhQ-0000000HBfn-42mL
+	id 1rhpK3-000000000Mp-35TW
 	for linux-nvme@lists.infradead.org;
-	Wed, 06 Mar 2024 09:36:35 +0000
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7FDC73EF5B;
-	Wed,  6 Mar 2024 09:36:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1709717790; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DLms4auAU45PX1X3XPBSWFef66gtdpKqJoNdZubfYDE=;
-	b=cYwlMk8xsl1gu327VtdWWsgXsr05QBBdYvYn6j9gxqSWqmgM+8+RAXEfjM6Gjz4c/6IvYG
-	c5tA8Zvp8rj2Y7gT+xYRcBrzMvj+WZOaBnxRAq+4dV7zmRqkTKEjGxoCrXUnlRIxZCztR+
-	7mvjZ+J9x+lf2dShiubKB1iWP4MP2DI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1709717790;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DLms4auAU45PX1X3XPBSWFef66gtdpKqJoNdZubfYDE=;
-	b=jatOgBnI7zimlt9WI27NEmicsiL/2FdwOEOniFwaHClw4yCP0PLItQPNs+xMd2WbNT31qb
-	pz6rMgX9Avo+A6Bw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1709717790; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DLms4auAU45PX1X3XPBSWFef66gtdpKqJoNdZubfYDE=;
-	b=cYwlMk8xsl1gu327VtdWWsgXsr05QBBdYvYn6j9gxqSWqmgM+8+RAXEfjM6Gjz4c/6IvYG
-	c5tA8Zvp8rj2Y7gT+xYRcBrzMvj+WZOaBnxRAq+4dV7zmRqkTKEjGxoCrXUnlRIxZCztR+
-	7mvjZ+J9x+lf2dShiubKB1iWP4MP2DI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1709717790;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DLms4auAU45PX1X3XPBSWFef66gtdpKqJoNdZubfYDE=;
-	b=jatOgBnI7zimlt9WI27NEmicsiL/2FdwOEOniFwaHClw4yCP0PLItQPNs+xMd2WbNT31qb
-	pz6rMgX9Avo+A6Bw==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 6DEEF13A79;
-	Wed,  6 Mar 2024 09:36:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id tVpkGR456GUcJwAAn2gu4w
-	(envelope-from <dwagner@suse.de>); Wed, 06 Mar 2024 09:36:30 +0000
-Date: Wed, 6 Mar 2024 10:36:29 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>, 
-	Keith Busch <kbusch@kernel.org>, "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH blktests v1 0/2] extend nvme/045 to reconnect with
- invalid key
-Message-ID: <aaak4yvzeewwhaepcrqk35et6qxkicg3jxvwijavbujisse2h4@36dsv5gl6id4>
-References: <20240304161303.19681-1-dwagner@suse.de>
- <2ya2o6s6lyiezbjoqbr33oiae2l65e2nrc75g3c47maisbifyv@4kpdmolhkiwx>
- <p5xkwz6i2lfy2a65pbpq3en6wh57y75qcoz3y3eio3ze5b7cm3@zgfn5so4yuig>
- <bax2kpeovgvf63rrtycsgpbi7wmvjhpmcbfcpoznldkowczom4@czjddqccdsba>
+	Wed, 06 Mar 2024 11:20:33 +0000
+Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 426AQEpn012686;
+	Wed, 6 Mar 2024 11:20:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=ohhH0YuYyOrzNA74fqYS5iToaSblsSUwwc4UbEvZvPg=;
+ b=k673XBmLcxgR7wxYfIPi2k/5GuV4TdUX9X8piH9ooC0H5EnMHhtenQOk3pOpnmVDD1se
+ mUJEQwogmUYbi1D7foHxzEf7A/H6h6jkmJ1WlHslajC4LyXzgbLgIm1wm0+icbPvFyqh
+ HhUuppMiNU4dXUCZ20tn25d7JytfXX/ttkbp49iqx0agFZZN2yiqDfFxKfiabWHrABAt
+ jCIvOGUcAfZmMK7VH3P99AK0G16EUOAdBQEJBCke6BRvcrBpvxVOwo+9ApGaSkdTpBXv
+ W4n6E380xWDlWDCEfGq7ZE+fPPKIt1JniXmIe3eNkrPsByzzsMS00JR1aMuQNKKwPkL8 UA== 
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wppa89xuv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 06 Mar 2024 11:20:20 +0000
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 426A2BKj025396;
+	Wed, 6 Mar 2024 11:20:19 GMT
+Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3wmetypebp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 06 Mar 2024 11:20:19 +0000
+Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
+	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 426BKHmJ17170944
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 6 Mar 2024 11:20:19 GMT
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id AFD5458054;
+	Wed,  6 Mar 2024 11:20:15 +0000 (GMT)
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7B46258075;
+	Wed,  6 Mar 2024 11:20:12 +0000 (GMT)
+Received: from [9.109.198.202] (unknown [9.109.198.202])
+	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Wed,  6 Mar 2024 11:20:12 +0000 (GMT)
+Message-ID: <4bc44911-afc2-4886-86cc-e0adb6be4457@linux.ibm.com>
+Date: Wed, 6 Mar 2024 16:50:10 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bax2kpeovgvf63rrtycsgpbi7wmvjhpmcbfcpoznldkowczom4@czjddqccdsba>
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=cYwlMk8x;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=jatOgBnI
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-5.01 / 50.00];
-	 ARC_NA(0.00)[];
-	 TO_DN_EQ_ADDR_SOME(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
-	 RCPT_COUNT_FIVE(0.00)[5];
-	 DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-3.00)[100.00%]
-X-Rspamd-Queue-Id: 7FDC73EF5B
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND] nvme-pci: Fix EEH failure on ppc after subsystem
+ reset
+Content-Language: en-US
+To: Keith Busch <kbusch@kernel.org>, hch@lst.de
+Cc: axboe@fb.com, sagi@grimberg.me, linux-nvme@lists.infradead.org,
+        linux-block@vger.kernel.org, gjoyce@linux.ibm.com
+References: <20240209050342.406184-1-nilay@linux.ibm.com>
+ <Zd4p_E8cPFpr1M--@kbusch-mbp>
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <Zd4p_E8cPFpr1M--@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: X99vli0cNQibgqXpN6lw8phQZCoaJ_Ga
+X-Proofpoint-GUID: X99vli0cNQibgqXpN6lw8phQZCoaJ_Ga
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-06_06,2024-03-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
+ lowpriorityscore=0 mlxlogscore=999 phishscore=0 adultscore=0 clxscore=1015
+ priorityscore=1501 bulkscore=0 malwarescore=0 suspectscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2403060090
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240306_013633_183074_7E4D90CE 
-X-CRM114-Status: GOOD (  25.12  )
+X-CRM114-CacheID: sfid-20240306_032032_051179_9A671E6A 
+X-CRM114-Status: GOOD (  25.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -139,92 +107,163 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 06, 2024 at 08:44:48AM +0000, Shinichiro Kawasaki wrote:
- > > sudo ./check nvme/045
-> > > nvme/045 (Test re-authentication)                            [failed]
-> > >     runtime  8.069s  ...  7.639s
-> > >     --- tests/nvme/045.out      2024-03-05 18:09:07.267668493 +0900
-> > >     +++ /home/shin/Blktests/blktests/results/nodev/nvme/045.out.bad     2024-03-05 18:10:07.735494384 +0900
-> > >     @@ -9,5 +9,6 @@
-> > >      Change hash to hmac(sha512)
-> > >      Re-authenticate with changed hash
-> > >      Renew host key on the controller and force reconnect
-> > >     -disconnected 0 controller(s)
-> > >     +controller "nvme1" not deleted within 5 seconds
-> > >     +disconnected 1 controller(s)
-> > >      Test complete
-> > 
-> > That means the host either successfully reconnected or never
-> > disconnected. We have another test case just for the disconnect test
-> > (number of queue changes), so if this test passes, it must be the
-> > former... Shouldn't really happen, this would mean the auth code has bug.
+Hi Keith and Christoph,
+
+On 2/27/24 23:59, Keith Busch wrote:
+> On Fri, Feb 09, 2024 at 10:32:16AM +0530, Nilay Shroff wrote:
+>> If the nvme subsyetm reset causes the loss of communication to the nvme
+>> adapter then EEH could potnetially recover the adapter. The detection of
+>> comminication loss to the adapter only happens when the nvme driver
+>> attempts to read an MMIO register.
+>>
+>> The nvme subsystem reset command writes 0x4E564D65 to NSSR register and
+>> schedule adapter reset.In the case nvme subsystem reset caused the loss
+>> of communication to the nvme adapter then either IO timeout event or
+>> adapter reset handler could detect it. If IO timeout even could detect
+>> loss of communication then EEH handler is able to recover the
+>> communication to the adapter. This change was implemented in 651438bb0af5
+>> (nvme-pci: Fix EEH failure on ppc). However if the adapter communication
+>> loss is detected in nvme reset work handler then EEH is unable to
+>> successfully finish the adapter recovery.
+>>
+>> This patch ensures that,
+>> - nvme driver reset handler would observer pci channel was offline after
+>>   a failed MMIO read and avoids marking the controller state to DEAD and
+>>   thus gives a fair chance to EEH handler to recover the nvme adapter.
+>>
+>> - if nvme controller is already in RESETTNG state and pci channel frozen
+>>   error is detected then  nvme driver pci-error-handler code sends the
+>>   correct error code (PCI_ERS_RESULT_NEED_RESET) back to the EEH handler
+>>   so that EEH handler could proceed with the pci slot reset.
 > 
-> The test case nvme/048 passes, so this looks a bug.
+> A subsystem reset takes the link down. I'm pretty sure the proper way to
+> recover from it requires pcie hotplug support.
 
-I'll try to recreate it.
+This was working earlier in kernel version 6.0.0. We were able to recover the
+NVMe pcie adapater on powerpc after nvme subsystem reset assuming some IO were
+in flight when subsysetem reset happens. However starting kernel version 6.1.0 
+this is broken. 
+I 've found the offending commit 1e866afd4bcd(nvme: ensure subsystem reset is 
+single threaded) causing this issue on kernel version 6.1.0 and above. So this
+seems to be a regression and the proposed patch help fix this bug.
 
-> > If you have these patches applied, the test should pass. But we might
-> > have still some more stuff to unify between the transports. The nvme/045
-> > test passes in my setup. Though I have seen runs which were hang for
-> > some reason. Haven't figured out yet what's happening there. But I
-> > haven't seen failures.
-> 
-> Still with the fix of the double-free, I observe the nvme/045 failure for rdma,
-> tcp and fc transports. I wonder where the difference between your system and
-> mine comes from.
-> 
-> FYI, here I share the kernel messages for rdma transport. It shows that
-> nvme_rdma_reconnect_or_remove() was called repeatedly and it tried to reconnect.
-> The status argument is -111 or 880, so I think the recon flag is always true
-> and no effect. I'm interested in the status values in your environment.
+Please find below logs captured for both working and non-working cases:
 
-Do you have these patches applied:
+Working case (kernel version 6.0.0):
+-----------------------------------
+# uname -r
+6.0.0
 
-https://lore.kernel.org/linux-nvme/20240305080005.3638-1-dwagner@suse.de/
+# nvme list-subsys
+nvme-subsys0 - NQN=nqn.1994-11.com.samsung:nvme:PM1735:2.5-inch:S6EUNA0R500358
+               hostnqn=nqn.2014-08.org.nvmexpress:uuid:12b49f6e-0276-4746-b10c-56815b7e6dc2
+               iopolicy=numa
+\
+ +- nvme0 pcie 0018:01:00.0 live
 
-?
+# nvme subsystem-reset /dev/nvme0
 
-> [   59.117607] run blktests nvme/045 at 2024-03-06 17:05:55
-> [   59.198629] (null): rxe_set_mtu: Set mtu to 1024
-> [   59.211185] PCLMULQDQ-NI instructions are not detected.
-> [   59.362952] infiniband ens3_rxe: set active
-> [   59.363765] infiniband ens3_rxe: added ens3
-> [   59.540499] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-> [   59.560541] nvmet_rdma: enabling port 0 (10.0.2.15:4420)
-> [   59.688866] nvmet: creating nvm controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349 with DH-HMAC-CHAP.
-> [   59.701114] nvme nvme1: qid 0: authenticated with hash hmac(sha256) dhgroup ffdhe2048
-> [   59.702195] nvme nvme1: qid 0: controller authenticated
-> [   59.703310] nvme nvme1: qid 0: authenticated
-> [   59.707478] nvme nvme1: Please enable CONFIG_NVME_MULTIPATH for full support of multi-port devices.
-> [   59.709883] nvme nvme1: creating 4 I/O queues.
-> [   59.745087] nvme nvme1: mapped 4/0/0 default/read/poll queues.
-> [   59.786869] nvme nvme1: new ctrl: NQN "blktests-subsystem-1", addr 10.0.2.15:4420, hostnqn: nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
-> [   59.999761] nvme nvme1: re-authenticating controller
-> [   60.010902] nvme nvme1: qid 0: authenticated with hash hmac(sha256) dhgroup ffdhe2048
-> [   60.011640] nvme nvme1: qid 0: controller authenticated
-> [   60.025652] nvme nvme1: re-authenticating controller
-> [   60.035349] nvme nvme1: qid 0: authenticated with hash hmac(sha256) dhgroup ffdhe2048
-> [   60.036375] nvme nvme1: qid 0: controller authenticated
-> [   60.050449] nvme nvme1: re-authenticating controller
-> [   60.060757] nvme nvme1: qid 0: authenticated with hash hmac(sha256) dhgroup ffdhe2048
-> [   60.061460] nvme nvme1: qid 0: controller authenticated
-> [   62.662430] nvme nvme1: re-authenticating controller
-> [   62.859510] nvme nvme1: qid 0: authenticated with hash hmac(sha512) dhgroup ffdhe8192
-> [   62.860502] nvme nvme1: qid 0: controller authenticated
-> [   63.029182] nvme nvme1: re-authenticating controller
-> [   63.192844] nvme nvme1: qid 0: authenticated with hash hmac(sha512) dhgroup ffdhe8192
-> [   63.193900] nvme nvme1: qid 0: controller authenticated
-> [   63.608561] nvme nvme1: starting error recovery
-> [   63.653699] nvme nvme1: Reconnecting in 1 seconds...
-> [   64.712627] nvmet: creating nvm controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349 with DH-HMAC-CHAP.
-> [   64.868896] nvmet: ctrl 1 qid 0 host response mismatch
-> [   64.870065] nvmet: ctrl 1 qid 0 failure1 (1)
-> [   64.871152] nvmet: ctrl 1 fatal error occurred!
-> [   64.871519] nvme nvme1: qid 0: authentication failed
-> [   64.874330] nvme nvme1: failed to connect queue: 0 ret=-111
-> [   64.878612] nvme nvme1: Failed reconnect attempt 1
-> [   64.880472] nvme nvme1: Reconnecting in 1 seconds...
+# dmesg
+<snip>
+<snip>
 
-This looks like the DNR bit is not considered in the reconnect_or_delete
-function.
+[ 3215.658378] EEH: Recovering PHB#18-PE#10000
+[ 3215.658401] EEH: PE location: N/A, PHB location: N/A
+[ 3215.658406] EEH: Frozen PHB#18-PE#10000 detected
+[ 3215.658409] EEH: Call Trace:
+[ 3215.658411] EEH: [c00000000005130c] __eeh_send_failure_event+0x7c/0x160
+[ 3215.658577] EEH: [c00000000004a104] eeh_dev_check_failure.part.0+0x254/0x670
+[ 3215.658583] EEH: [c0080000044e61bc] nvme_timeout+0x254/0x4f0 [nvme]
+[ 3215.658591] EEH: [c00000000078d840] blk_mq_check_expired+0xa0/0x130
+[ 3215.658602] EEH: [c00000000079a118] bt_iter+0xf8/0x140
+[ 3215.658609] EEH: [c00000000079b29c] blk_mq_queue_tag_busy_iter+0x3cc/0x720
+[ 3215.658620] EEH: [c00000000078fe74] blk_mq_timeout_work+0x84/0x1c0
+[ 3215.658633] EEH: [c000000000173b08] process_one_work+0x2a8/0x570
+[ 3215.658644] EEH: [c000000000173e68] worker_thread+0x98/0x5e0
+[ 3215.658655] EEH: [c000000000181504] kthread+0x124/0x130
+[ 3215.658666] EEH: [c00000000000cbd4] ret_from_kernel_thread+0x5c/0x64
+[ 3215.658672] EEH: This PCI device has failed 5 times in the last hour and will be permanently disabled after 5 failures.
+[ 3215.658677] EEH: Notify device drivers to shutdown
+[ 3215.658681] EEH: Beginning: 'error_detected(IO frozen)'
+[ 3215.658688] PCI 0018:01:00.0#10000: EEH: Invoking nvme->error_detected(IO frozen)
+[ 3215.658692] nvme nvme0: frozen state error detected, reset controller
+[ 3215.788089] PCI 0018:01:00.0#10000: EEH: nvme driver reports: 'need reset'
+[ 3215.788092] EEH: Finished:'error_detected(IO frozen)' with aggregate recovery state:'need reset'
+<snip>
+<snip>
+[ 3215.790666] EEH: Reset without hotplug activity
+[ 3218.078715] EEH: Beginning: 'slot_reset'
+[ 3218.078729] PCI 0018:01:00.0#10000: EEH: Invoking nvme->slot_reset()
+[ 3218.078734] nvme nvme0: restart after slot reset
+[ 3218.081088] PCI 0018:01:00.0#10000: EEH: nvme driver reports: 'recovered'
+[ 3218.081090] EEH: Finished:'slot_reset' with aggregate recovery state:'recovered'
+[ 3218.081099] EEH: Notify device driver to resume
+[ 3218.081101] EEH: Beginning: 'resume'
+<snip>
+[ 3218.161027] EEH: Finished:'resume'
+[ 3218.161038] EEH: Recovery successful.
+
+# nvme list-subsys
+nvme-subsys0 - NQN=nqn.1994-11.com.samsung:nvme:PM1735:2.5-inch:S6EUNA0R500358
+               hostnqn=nqn.2014-08.org.nvmexpress:uuid:12b49f6e-0276-4746-b10c-56815b7e6dc2
+               iopolicy=numa
+\
+ +- nvme0 pcie 0018:01:00.0 live
+
+Non-working case (kernel verion 6.1):
+------------------------------------
+# uname -r
+6.1.0
+
+# nvme list-subsys
+nvme-subsys0 - NQN=nqn.1994-11.com.samsung:nvme:PM1735:2.5-inch:S6EUNA0R500358
+               hostnqn=nqn.2014-08.org.nvmexpress:uuid:12b49f6e-0276-4746-b10c-56815b7e6dc2
+               iopolicy=numa
+\
+ +- nvme0 pcie 0018:01:00.0 live
+
+# nvme subsystem-reset /dev/nvme0
+
+#dmesg
+[  177.578828] EEH: Recovering PHB#18-PE#10000
+[  177.578852] EEH: PE location: N/A, PHB location: N/A
+[  177.578858] EEH: Frozen PHB#18-PE#10000 detected
+[  177.578869] EEH: Call Trace:
+[  177.578872] EEH: [c0000000000510bc] __eeh_send_failure_event+0x7c/0x160
+[  177.579206] EEH: [c000000000049eb4] eeh_dev_check_failure.part.0+0x254/0x670
+[  177.579212] EEH: [c008000004c261cc] nvme_timeout+0x254/0x4e0 [nvme]
+[  177.579221] EEH: [c00000000079cb00] blk_mq_check_expired+0xa0/0x130
+[  177.579226] EEH: [c0000000007a9628] bt_iter+0xf8/0x140
+[  177.579231] EEH: [c0000000007aa79c] blk_mq_queue_tag_busy_iter+0x3bc/0x6e0
+[  177.579237] EEH: [c00000000079f324] blk_mq_timeout_work+0x84/0x1c0
+[  177.579241] EEH: [c000000000174a28] process_one_work+0x2a8/0x570
+[  177.579247] EEH: [c000000000174d88] worker_thread+0x98/0x5e0
+[  177.579253] EEH: [c000000000182454] kthread+0x124/0x130
+[  177.579257] EEH: [c00000000000cddc] ret_from_kernel_thread+0x5c/0x64
+[  177.579263] EEH: This PCI device has failed 1 times in the last hour and will be permanently disabled after 5 failures.
+[  177.579269] EEH: Notify device drivers to shutdown
+[  177.579272] EEH: Beginning: 'error_detected(IO frozen)'
+[  177.579276] PCI 0018:01:00.0#10000: EEH: Invoking nvme->error_detected(IO frozen)
+[  177.579279] nvme nvme0: frozen state error detected, reset controller
+[  177.658746] nvme 0018:01:00.0: enabling device (0000 -> 0002)
+[  177.658967] nvme 0018:01:00.0: iommu: 64-bit OK but direct DMA is limited by 800000800000000
+[  177.658982] nvme 0018:01:00.0: iommu: 64-bit OK but direct DMA is limited by 800000800000000
+[  177.659059] nvme nvme0: Removing after probe failure status: -19
+[  177.698719] PCI 0018:01:00.0#10000: EEH: nvme driver reports: 'need reset'
+[  177.698723] EEH: Finished:'error_detected(IO frozen)' with aggregate recovery state:'need reset'
+<snip>
+<snip>
+[  179.999828] EEH: Beginning: 'slot_reset'
+[  179.999840] PCI 0018:01:00.0#10000: EEH: no driver
+[  179.999842] EEH: Finished:'slot_reset' with aggregate recovery state:'none'
+[  179.999848] EEH: Notify device driver to resume
+[  179.999850] EEH: Beginning: 'resume'
+[  179.999853] PCI 0018:01:00.0#10000: EEH: no driver
+<snip>
+
+# nvme list-subsys
+<empty>
+
+Thanks,
+--Nilay
 
