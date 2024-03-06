@@ -4,45 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C7A2C54E41
-	for <linux-nvme@archiver.kernel.org>; Wed,  6 Mar 2024 14:19:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 550C1C54E41
+	for <linux-nvme@archiver.kernel.org>; Wed,  6 Mar 2024 14:25:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1RC4vZC02eJo4W0ZdjjuZDGKQO5AW85qq/pWj2c4GTk=; b=Ef7O0gL/uEIOxHLAnF29/WgqoH
-	uCU5mp8D+jDEtQeRQJSjgozgQ94xxvGd9CKc3ACeL9A/T2n7NHXwIShFSVDUUEb7i6oieVXB4Sm2W
-	JxG+GlhdBkVsUSdb61mh4l45T5jRicXmkQUfYxumqcINs5txZ+2gctI3Sy8lVunJXg2wpOqfN+UTd
-	tTbwjtmlCwbAt5i00pouTOU4CLMOke2KYYHT4ZXLam7XNx6D/lQ9uSS2aD/uXgNdbqEszzMfTNMDd
-	kCs5rFWRRFgVM0k2HYnA1WUTqGGgNzmRa0H2NYJZR6VgAmi/5D7HYcev4B1WiI7TMv3WIlsEbmTl8
-	TFYV+JQQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=wsZU1colcU8zKU07BYfpdG3aGjtjr1iWQbZBq/u/k8Q=; b=wMyfVMfkwpbTSuDRuMAn+wQjXy
+	2DEAfCZAbnC4clmP3GGNgnqYpWOb2x3fACaqrAjxcoc4XYqt/Lgkl7Ga0ZBT+tp36LvG2MOnrXtpR
+	DCFEVKRk1azCx0eYosMZfunXXlYpsDCr1lUgtm3X5FQ0t1VzVcI2qk/kLhHWbZoQz3oJWpsQUGnZj
+	kNYCU0ykgAwTGPFpqK2I4+ztq0fHe8i4eTLfNRcu6PlxSOddsjfgU5h9TfFbKxbyGg9Ru6XVXKB1X
+	xSZyGWu8Tc3S8MKzSBHnJbsCD09SKJxyZ5gBKwwVFxBR/RjVNeC6Ahh1cHqxxpZAHui34Uhr0eWwD
+	srBXqReQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhs6f-00000000Xjb-045J;
-	Wed, 06 Mar 2024 14:18:53 +0000
-Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhs6d-00000000Xiz-0e4M;
-	Wed, 06 Mar 2024 14:18:51 +0000
-Date: Wed, 6 Mar 2024 06:18:51 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
-	linux-nvme@lists.infradead.org, Daniel Wagner <dwagner@suse.de>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@infradead.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH v2] nvme: host: fix double-free of struct nvme_id_ns in
- ns_update_nuse()
-Message-ID: <Zeh7S3WLjRvlutc-@infradead.org>
-References: <20240306060303.2615950-1-shinichiro.kawasaki@wdc.com>
- <Zeh3E0qz2BE16yKP@kbusch-mbp>
+	id 1rhsDB-00000000Yz4-49WC;
+	Wed, 06 Mar 2024 14:25:37 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rhsD9-00000000Ywe-0OzR
+	for linux-nvme@lists.infradead.org;
+	Wed, 06 Mar 2024 14:25:36 +0000
+Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 426DRH4J028471
+	for <linux-nvme@lists.infradead.org>; Wed, 6 Mar 2024 06:25:32 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=s2048-2021-q4;
+ bh=wsZU1colcU8zKU07BYfpdG3aGjtjr1iWQbZBq/u/k8Q=;
+ b=lS+MLI6jCgcSw4XdcSU+hfeBkLYPAt4E2B2hl7Miz6FnzX8z7U7kbMA3rFoSww1FdV4y
+ Iv632gDz9DHYs8A/rvDMrLW5dt0gqMBVk4RcfsZcN9QQzHRJkudjhMiFlRI60FSvXbuR
+ OiiGtg+VK6PFw0V1Phvv0PaimMD3JGgSZg2jNu0h6CZ9/vQYhBAbP5+VyoZRwjS1+gnw
+ 3dt5rnumFXmAdldE0KHll700K4OgkPtQ38e8GuUEalsE2UvFosw2XfwLMIwUXagCoOF6
+ R6kKN28bL5e2CF7M1SlCPYbu2QRWTcBvOC/uMNhCtu9xwky5C27sojJq+F+8uMdbi74Z 6A== 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3wpg79jnq2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Wed, 06 Mar 2024 06:25:32 -0800
+Received: from twshared11801.09.ash9.facebook.com (2620:10d:c0a8:1b::2d) by
+ mail.thefacebook.com (2620:10d:c0a8:83::8) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 6 Mar 2024 06:25:30 -0800
+Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
+	id 3D4F225DE9171; Wed,  6 Mar 2024 06:25:23 -0800 (PST)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-nvme@lists.infradead.org>
+CC: <hch@lst.de>, <shinichiro.kawasaki@wdc.com>,
+        Keith Busch
+	<kbusch@kernel.org>
+Subject: [PATCH] nvme: clear caller pointer on identify failure
+Date: Wed, 6 Mar 2024 06:25:19 -0800
+Message-ID: <20240306142519.1213814-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Zeh3E0qz2BE16yKP@kbusch-mbp>
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: 0zTAOadXMkg5x2c2cgt0bcn-bZpsal1d
+X-Proofpoint-ORIG-GUID: 0zTAOadXMkg5x2c2cgt0bcn-bZpsal1d
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-06_09,2024-03-05_01,2023-05-22_02
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20240306_062535_262405_0A0C73C5 
+X-CRM114-Status: GOOD (  15.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -57,23 +84,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 06, 2024 at 07:00:51AM -0700, Keith Busch wrote:
-> On Wed, Mar 06, 2024 at 03:03:03PM +0900, Shin'ichiro Kawasaki wrote:
-> > When nvme_identify_ns() fails, it frees the pointer to the struct
-> > nvme_id_ns before it returns. However, ns_update_nuse() calls kfree()
-> > for the pointer even when nvme_identify_ns() fails. This results in
-> > KASAN double-free, which was observed with blktests nvme/045 with
-> > proposed patches [1] on the kernel v6.8-rc7. Fix the double-free by
-> > skipping kfree() when nvme_identify_ns() fails.
-> 
-> Your patch is good and applied for nvme-6.9. I just want to mention we
-> have a bit of an inconsistency in how the driver handles this pattern:
-> nvme_identify_ns_nvm() only sets the caller's pointer on success, but
-> nvme_identify_ns() and nvme_identify_ctrl() set it all the time. If we'd
-> only set it on success, then this problem wouldn't happen, so a possible
-> follow up suggestion to prevent the caller from having a pointer to
-> freed memory:
+From: Keith Busch <kbusch@kernel.org>
 
-This looks like a good idea to me.
+The memory allocated for the identifification is freed on failure. Set
+it to NULL so the caller doesn't have a pointer to that freed address.
+
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/core.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index c4d928585ce35..2baf5786a92fe 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1403,8 +1403,10 @@ static int nvme_identify_ctrl(struct nvme_ctrl *de=
+v, struct nvme_id_ctrl **id)
+=20
+ 	error =3D nvme_submit_sync_cmd(dev->admin_q, &c, *id,
+ 			sizeof(struct nvme_id_ctrl));
+-	if (error)
++	if (error) {
+ 		kfree(*id);
++		*id =3D NULL;
++	}
+ 	return error;
+ }
+=20
+@@ -1533,6 +1535,7 @@ int nvme_identify_ns(struct nvme_ctrl *ctrl, unsign=
+ed nsid,
+ 	if (error) {
+ 		dev_warn(ctrl->device, "Identify namespace failed (%d)\n", error);
+ 		kfree(*id);
++		*id =3D NULL;
+ 	}
+ 	return error;
+ }
+--=20
+2.34.1
 
 
