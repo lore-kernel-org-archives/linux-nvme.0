@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59B56C5475B
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA9A9C54E4A
 	for <linux-nvme@archiver.kernel.org>; Wed,  6 Mar 2024 16:06:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,40 +12,28 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=c5ZIjtn84+RGrKPpS181y3wEWWbDN+8mLamK+w2N/o4=; b=xNeSkORcWilZWjnKSad/eg306A
-	loVBgaboshVUG0PMTsf/skekbuDUKV3majR8+ypeshLwo9Q1WHeiRwx2DqSJC6EODBWNA5tVII4Um
-	qcguoups96910PSr7+05u11mXSey8cDlLmMzwIwKBK6gBDy6ey8zTXg0Vrjwhy1WK37hHq5QMNnj8
-	04fYQxSgbh/bhwYns8u7T9a+1XBtQ2tLEs9sED1ZTUiuJ/jifks5HwqtzN8B9kvYCEzu2el64ek3n
-	POTSgR2mLNk34btzS4OU6daHOeEX9sxLY5sbo8u1ES0MejR13CgzC/2CiR5bjJV3NnbAQk9cTB8s/
-	A7Hx6tAw==;
+	bh=TPfk3/rg5x7LQCu6CiycFoix8G7EBd+0lpqcx+Dlhh0=; b=k3Yu6pc/PYc4vwdtozNwgi/0i1
+	y06WNxR83qmLHryJm/nchvI48Jxvsb2MclJw2XMl/iUE5FdaxXpLPbuYBkaVlEAK+quuPP0xu9z8N
+	eU9GmYF9tcexfqg9XnT4UbmA+6jAuGFd98PYNzb2r9OIqR7PW9gRIaM2W+yy68EVZJcshzb5WmRXq
+	iNUURoAawajfJObGnDa6MLNMniOJJsAvGAfhJYBXi/BfsdWotaeSPsG6Chki9So9CLjBdaXgXn5KE
+	8IrFT6ByIitLhTGNiWUCC4er7ZvUwDbCIcaGjXHVCjZa6kLxBtLvAIozTL0DE26qFU5JcFA83ibWa
+	WPXS8IgA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhtn7-00000000umL-2EN8;
-	Wed, 06 Mar 2024 16:06:49 +0000
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
+	id 1rhtnB-00000000uoU-1rzR;
+	Wed, 06 Mar 2024 16:06:53 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rhX5I-0000000ELN8-1PFW
+	id 1rhsKm-00000000aql-1vBp
 	for linux-nvme@lists.infradead.org;
-	Tue, 05 Mar 2024 15:52:16 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 1B95DCE1877;
-	Tue,  5 Mar 2024 15:52:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DB4CC433C7;
-	Tue,  5 Mar 2024 15:51:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709653921;
-	bh=pSqyVUiOhZxz9FIInEYMAmoXZWKPhnt0IQNLfQGtXOo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fBoFlOhlhaEkFpkwIhtzKscT84AMxoyIqH1ke1DoX3oTGvoYraBWWNLX9PB1wDsDX
-	 8/jrkloUt7VxJU24ln5/zi811lztKw0pkpRiqC5TgWE3Z3l2yBlrPTsMwI7n+JTnPL
-	 cIBn53riFq9sACKU+PDs51snnPNJif2TZriANWE8lPNacPlZ3ZEjjBSL+Ajm8tvqj0
-	 Xh39F7UKx8jqNW9DJE3CBRQ781zgONKaHkjALazRttLlPWK1iLUFRVRnO9bb0lDH+E
-	 AJgD1u7Xsepu7WvnlIDZLfAruLkrmiYG+GBGJiaH7MHjj517QXOLR7xfuwktrP6dWh
-	 5IQc8QXtatQIw==
-Date: Tue, 5 Mar 2024 08:51:56 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>,
+	Wed, 06 Mar 2024 14:33:29 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 378F068C4E; Wed,  6 Mar 2024 15:33:22 +0100 (CET)
+Date: Wed, 6 Mar 2024 15:33:21 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Leon Romanovsky <leon@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Robin Murphy <robin.murphy@arm.com>,
 	Marek Szyprowski <m.szyprowski@samsung.com>,
 	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
 	Jason Gunthorpe <jgg@ziepe.ca>,
@@ -73,16 +61,16 @@ Cc: Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>,
 	Leon Romanovsky <leonro@nvidia.com>,
 	Zhu Yanjun <zyjzyj2000@gmail.com>
 Subject: Re: [RFC RESEND 16/16] nvme-pci: use blk_rq_dma_map() for NVMe SGL
-Message-ID: <Zec_nAQn1Ft_ZTHH@kbusch-mbp.dhcp.thefacebook.com>
-References: <cover.1709635535.git.leon@kernel.org>
- <016fc02cbfa9be3c156a6f74df38def1e09c08f1.1709635535.git.leon@kernel.org>
+Message-ID: <20240306143321.GA19711@lst.de>
+References: <cover.1709635535.git.leon@kernel.org> <016fc02cbfa9be3c156a6f74df38def1e09c08f1.1709635535.git.leon@kernel.org> <Zec_nAQn1Ft_ZTHH@kbusch-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <016fc02cbfa9be3c156a6f74df38def1e09c08f1.1709635535.git.leon@kernel.org>
+In-Reply-To: <Zec_nAQn1Ft_ZTHH@kbusch-mbp.dhcp.thefacebook.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240305_075204_737363_1ABB27C6 
-X-CRM114-Status: GOOD (  11.18  )
+X-CRM114-CacheID: sfid-20240306_063328_738518_D06E9AFB 
+X-CRM114-Status: GOOD (  16.90  )
 X-Mailman-Approved-At: Wed, 06 Mar 2024 08:06:47 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -98,18 +86,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 05, 2024 at 01:18:47PM +0200, Leon Romanovsky wrote:
-> @@ -236,7 +236,9 @@ struct nvme_iod {
->  	unsigned int dma_len;	/* length of single DMA segment mapping */
->  	dma_addr_t first_dma;
->  	dma_addr_t meta_dma;
-> -	struct sg_table sgt;
-> +	struct dma_iova_attrs iova;
-> +	dma_addr_t dma_link_address[128];
-> +	u16 nr_dma_link_address;
->  	union nvme_descriptor list[NVME_MAX_NR_ALLOCATIONS];
->  };
+On Tue, Mar 05, 2024 at 08:51:56AM -0700, Keith Busch wrote:
+> On Tue, Mar 05, 2024 at 01:18:47PM +0200, Leon Romanovsky wrote:
+> > @@ -236,7 +236,9 @@ struct nvme_iod {
+> >  	unsigned int dma_len;	/* length of single DMA segment mapping */
+> >  	dma_addr_t first_dma;
+> >  	dma_addr_t meta_dma;
+> > -	struct sg_table sgt;
+> > +	struct dma_iova_attrs iova;
+> > +	dma_addr_t dma_link_address[128];
+> > +	u16 nr_dma_link_address;
+> >  	union nvme_descriptor list[NVME_MAX_NR_ALLOCATIONS];
+> >  };
+> 
+> That's quite a lot of space to add to the iod. We preallocate one for
+> every request, and there could be millions of them. 
 
-That's quite a lot of space to add to the iod. We preallocate one for
-every request, and there could be millions of them. 
+Yes.  And this whole proposal also seems clearly confused (not just
+because of the gazillion reposts) but because it mixes up the case
+where we can coalesce CPU regions into a single dma_addr_t range
+(iommu and maybe in the future swiotlb) and one where we need a
+dma_addr_t range per cpu range (direct misc cruft).
 
