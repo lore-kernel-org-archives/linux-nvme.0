@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7CD57C54798
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Mar 2024 15:12:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA46CC48BF6
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Mar 2024 15:12:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0jRMO28hlSvt3zadSNwOLNWqxW82YvXZ34Ykj2ec+Tw=; b=oqkPGfuP+l06QF7f7aPL3ohhKg
-	pNvTJpiUSVutPAiSGErysjJ1JoYkOJ4WfmxQrlLqKN7ixd1OjTxygNx13YrCcPBk32lk0YvVxj9Jv
-	m7ahYrpTi1i7364jI8uY3IDb8UpuHU2zAAyfJO+04l56cYod4LTs2S5H4hsqGipjzmOi5KCwZEBug
-	BXYZRIsIpwqA+j6J8qxkftrQRxK6iAb0xFjKeYz5vD0qGduj+sqMpMzZCdUklJoKQxdw6rSf/kizV
-	3oYAoJHf/BgzcSqP5Tcjw0M+jHbooD7Z0P4Jv9Uuda2HeSNmeODCKMAGeccviAu6r+zokEnG6wXp0
-	WmwwIlyw==;
+	bh=Ve/vSVtU1ouGfANFy/XRVyCgEc2TdovLRI20CqB7Pzs=; b=BU4QT1Qwte2/0xtrc8jRfLwtYK
+	QV6/3iOaeFRxMKMOy/gDIHDGcxhj9x5bLAm7bEW+hwfgM62by57kwyV08dfgsVOmja/wKjPMic8LD
+	A4UcG/B2NXStJ+lyo6MIgWdRDw2Dkd1JuNtQruv1+PbvPg86xFKhW+X1rc/6Mes8r+oSlptp+y8vg
+	p5WmwngTRXovEzKSRcut2427Mwzi47r3RgTr3slmncImNcJyXTnZbVgOa1Z5eCGdss/NS0P1LxruF
+	0/BMy3jz6HriSjuE08B0h419XXJeg/lFF4GQJuK+oLjm4LULgC8E6AUZqCD/+MV/lpsAlp+qzoJnE
+	2EwjVlDw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riFPu-00000005DKF-2yje;
-	Thu, 07 Mar 2024 15:12:19 +0000
+	id 1riFPx-00000005DMz-1C8R;
+	Thu, 07 Mar 2024 15:12:21 +0000
 Received: from [66.60.99.14] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riFPj-00000005DAn-1aQv;
-	Thu, 07 Mar 2024 15:12:07 +0000
+	id 1riFPk-00000005DB9-0889;
+	Thu, 07 Mar 2024 15:12:08 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>,
 	Chandan Babu R <chandanbabu@kernel.org>,
@@ -33,9 +33,9 @@ To: Jens Axboe <axboe@kernel.dk>,
 Cc: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
 	linux-xfs@vger.kernel.org
-Subject: [PATCH 08/10] md: switch to using blk_next_discard_bio directly
-Date: Thu,  7 Mar 2024 08:11:55 -0700
-Message-Id: <20240307151157.466013-9-hch@lst.de>
+Subject: [PATCH 09/10] dm-thin: switch to using blk_next_discard_bio directly
+Date: Thu,  7 Mar 2024 08:11:56 -0700
+Message-Id: <20240307151157.466013-10-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240307151157.466013-1-hch@lst.de>
 References: <20240307151157.466013-1-hch@lst.de>
@@ -60,26 +60,28 @@ chain and removes the need to handle synchronous errors.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/md/md.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/md/dm-thin.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/md/md.c b/drivers/md/md.c
-index 7d7b982e369c11..5803a298dd40f9 100644
---- a/drivers/md/md.c
-+++ b/drivers/md/md.c
-@@ -8722,8 +8722,10 @@ void md_submit_discard_bio(struct mddev *mddev, struct md_rdev *rdev,
+diff --git a/drivers/md/dm-thin.c b/drivers/md/dm-thin.c
+index 07c7f9795b107b..becf1b66262d34 100644
+--- a/drivers/md/dm-thin.c
++++ b/drivers/md/dm-thin.c
+@@ -398,10 +398,13 @@ static void begin_discard(struct discard_op *op, struct thin_c *tc, struct bio *
+ static int issue_discard(struct discard_op *op, dm_block_t data_b, dm_block_t data_e)
  {
- 	struct bio *discard_bio = NULL;
+ 	struct thin_c *tc = op->tc;
++	struct block_device *bdev = tc->pool_dev->bdev;
+ 	sector_t s = block_to_sectors(tc->pool, data_b);
+ 	sector_t len = block_to_sectors(tc->pool, data_e - data_b);
  
--	if (__blkdev_issue_discard(rdev->bdev, start, size, GFP_NOIO,
--			&discard_bio) || !discard_bio)
-+	while (blk_next_discard_bio(rdev->bdev, &discard_bio, &start, &size,
-+			GFP_NOIO))
+-	return __blkdev_issue_discard(tc->pool_dev->bdev, s, len, GFP_NOIO, &op->bio);
++	while (blk_next_discard_bio(bdev, &op->bio, &s, &len, GFP_NOIO))
 +		;
-+	if (!discard_bio)
- 		return;
++	return 0;
+ }
  
- 	bio_chain(discard_bio, bio);
+ static void end_discard(struct discard_op *op, int r)
 -- 
 2.39.2
 
