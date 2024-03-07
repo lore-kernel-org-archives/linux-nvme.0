@@ -4,73 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2594DC54E55
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Mar 2024 11:30:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B88A8C48BF6
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Mar 2024 11:37:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ApptroHB6/NmBRK02Xfs7tuTGYgteOdPDSgkfdE6Ajw=; b=0wy67Z0UjkIP7sKxJyNaVZGOlG
-	uFEEB9Y/FHBmJxxB3cXWMrIKLJstGAZVi7K94nDPN6d0AkHzbmkks0qxG0iI2ZWwAeDWGuZqv93zn
-	RA+DnquR1NUiH1PlFDXl9wMKgi1R0jn01PIXqwME1taYLZGVrbduu25eBofrw8WJ4ME8vxP5V6hok
-	HnoULGvRatEOViovvQ9D0UaKqHoby805oFHqIA5zDc+kRYMeFSdmFv/i7LcXt6kksPrjKNtyTQd/X
-	AOMPWGlVadadbub8gQ0cML9NTWszKnon/sZg9fVb3MoD5sCawxR73+hIRVc2//hR3zVke+nTqW3+9
-	HBHYP4dQ==;
+	bh=oTq1KgURHV+q4hY8Ae/XNyf3vJBG5CKfTP/jocrgNTU=; b=u4LZH1qo024QQWHwc/dnj2CDwU
+	NBLrtOeapekJDECIXM3afTS3heYQEItQ3570kPhpF8QFrweceLg/n69afHMB1PnKw5RRnTSxE08Co
+	4Bka9cFOifPDtoiRi0unNauDr+TsBG10nNyboI2wPkkSdIaSVKEdpOEq11hjDsPA8DD3Qs7DJZ/91
+	i4C9CxhNszu/lva5QMEG2Cj9NQQWi2QUKOD8xdOK9CiNRm4VRBcSBHqIYz57DU8cA1jh+lrBcE6LM
+	ZNf7fJ1Gl2DB47I+nlF+onvnoTZV3aJ3/szXxlqzX7Lifg3+iAVJI3njDnOac/Yq/RS/3SPDmcWFe
+	szN/eOww==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riBwt-00000004J3a-1YRj;
-	Thu, 07 Mar 2024 11:30:07 +0000
-Received: from mail-wr1-f42.google.com ([209.85.221.42])
+	id 1riC3r-00000004KVQ-2fJJ;
+	Thu, 07 Mar 2024 11:37:19 +0000
+Received: from mail-wm1-f41.google.com ([209.85.128.41])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riBwp-00000004J2N-3dZy
+	id 1riC3n-00000004KUk-3qtd
 	for linux-nvme@lists.infradead.org;
-	Thu, 07 Mar 2024 11:30:05 +0000
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-33df8203a08so127631f8f.0
-        for <linux-nvme@lists.infradead.org>; Thu, 07 Mar 2024 03:30:03 -0800 (PST)
+	Thu, 07 Mar 2024 11:37:17 +0000
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-412e41cab5aso342845e9.1
+        for <linux-nvme@lists.infradead.org>; Thu, 07 Mar 2024 03:37:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709811002; x=1710415802;
+        d=1e100.net; s=20230601; t=1709811434; x=1710416234;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ApptroHB6/NmBRK02Xfs7tuTGYgteOdPDSgkfdE6Ajw=;
-        b=IXxGLNCwtDDh0zQ2B90+k9hTlTXKimFDQx3TvlbM3WWuijOD4E341A/cKJLahQZ9fg
-         3J/mgciAD2zX59zwmWTuxX6d2dL9G9COm/eeHDl6c0bRJhaa99htWNux7h4w1VyeB6xv
-         8ePe62/1er1pdmHvMJIse7sBHGiOFIciCAB3DtQvvIMceCMD0c3ao+6e+LC2vVXcs0Ek
-         GKIQ3lvtMYqjS/tDMNzUafK1lUFFNjGQ+l/78OKKbAdpyzdpcIl18Ml95s+W0zzjhLH4
-         5qydvzG928WL/tObwv0rIDsd1M44LVXK3TxE0Y260Wtj1bpdcUQtEbaOIBuoAPuwjS6N
-         Hn0g==
-X-Forwarded-Encrypted: i=1; AJvYcCX4OFE4JFynGWuZrNb/xWC2Tu/EOxlWCjfhC4C24UWifL1aOqPKATuJte3xqBkuuvjrNgrjF/rJwA6zl9AAvOBJgUIlHvyKoLaY3WgcXjA=
-X-Gm-Message-State: AOJu0Ywpg1T6fyWTAxSiV0GpjSemzMXAA8ElKOvtnTGB8rOfCtqmF/qb
-	gOTlZRd6NShT1XU8nnA1sGbg54a35+qz8I1jYSLQEAJoKS73zvpv
-X-Google-Smtp-Source: AGHT+IFNm9w8o7TxExzzs96NaUE2Q1A6pBh5XH6Al+ROud3wF0x/jdcnGm4etOlec9sJlkqBayUa4A==
-X-Received: by 2002:a5d:5447:0:b0:33d:568f:8986 with SMTP id w7-20020a5d5447000000b0033d568f8986mr1097620wrv.2.1709811001971;
-        Thu, 07 Mar 2024 03:30:01 -0800 (PST)
+        bh=oTq1KgURHV+q4hY8Ae/XNyf3vJBG5CKfTP/jocrgNTU=;
+        b=TYEeIR2ItP3rIcui+rEaw36ErZDIktUZA4xM5s0l5kZ4UJqRVqNl7Mr1/bqVWi7rk4
+         yIPfCyWOLxKe3CeTyqKFC81aKMLnm1vufrUqf0TcB0D6zGbrzEGU/OImOOdRSrpGN8XG
+         mx9ndzWMkTG1xRwfotEp1wUw/ZsRzNwSfm4OwTczMunBWJQfuJbST01e3LOaM1C8ng9L
+         H2Gd2+NgyjPSYkwbnPG0IXUw3i9veIssjit/Vgc7AUWcTO3O7hVg1xB7BeZfyRyss6w1
+         4VEiKkE+9k8J2Vt1IrS+cSTQx9pG1MPoYAEwgGbD5wZ3/4sZSXRb8v6/bdJSF8g8+0TD
+         9wRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWxVdP7EVSE/VqEztNdVS35hkcrFE4kbf2CYZQd4mb5bkdYuqGjP6nhWnzuJt1siFm8eH9yZfrBeQL59mThD+cr38kUypzJAHIJ/OOOLC0=
+X-Gm-Message-State: AOJu0YyOQCY2pbJKZms6Yyn27Bn76X28VDlkqZWUPsecfYpAJfkOtLYI
+	SkztSGUXFc3gI8MRDOC7uZwGZRck6CA6x3whQ6IDbpD6kFhitU7B
+X-Google-Smtp-Source: AGHT+IHW96IB4T8Osp08eF7rg3w7ozk0B+apG708Mr1x/hrQcXeb6O6k3br0YCG2xrhN5Vh26/2G7g==
+X-Received: by 2002:a05:600c:3ba8:b0:412:eb6e:2171 with SMTP id n40-20020a05600c3ba800b00412eb6e2171mr1235043wms.1.1709811433883;
+        Thu, 07 Mar 2024 03:37:13 -0800 (PST)
 Received: from [10.100.102.74] (46-117-80-176.bb.netvision.net.il. [46.117.80.176])
-        by smtp.gmail.com with ESMTPSA id u2-20020adfeb42000000b0033b483d1abcsm19934771wrn.53.2024.03.07.03.30.01
+        by smtp.gmail.com with ESMTPSA id fl9-20020a05600c0b8900b00412eff2eb5bsm2461721wmb.13.2024.03.07.03.37.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Mar 2024 03:30:01 -0800 (PST)
-Message-ID: <432a39d5-6d08-4d38-a357-7c8d9123189a@grimberg.me>
-Date: Thu, 7 Mar 2024 13:30:00 +0200
+        Thu, 07 Mar 2024 03:37:13 -0800 (PST)
+Message-ID: <629656d5-2967-467b-8b80-759f4fccdfeb@grimberg.me>
+Date: Thu, 7 Mar 2024 13:37:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/2] nvme-fabrics: short-circuit connect retries
+Subject: Re: [PATCH 1/4] nvme: authentication error are always non-retryable
 Content-Language: he-IL, en-US
-To: Hannes Reinecke <hare@suse.de>, Daniel Wagner <dwagner@suse.de>,
- James Smart <james.smart@broadcom.com>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20240305080005.3638-1-dwagner@suse.de>
- <22b01fb4-b543-43b2-949c-1873105dc343@grimberg.me>
- <72c1d3a8-14ad-43e8-a68a-25be903698c4@suse.de>
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>,
+ Hannes Reinecke <hare@kernel.org>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20240301112823.132570-1-hare@kernel.org>
+ <20240301112823.132570-2-hare@kernel.org> <20240301131208.GA3586@lst.de>
+ <f511975a-822e-470a-a3a2-d7ed652e3cfc@suse.de>
+ <868727ce-5970-4296-9fc7-a431dccc8a63@grimberg.me>
+ <20531716-b18d-4ab6-91e8-2ac0ea745343@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <72c1d3a8-14ad-43e8-a68a-25be903698c4@suse.de>
+In-Reply-To: <20531716-b18d-4ab6-91e8-2ac0ea745343@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240307_033003_978794_830714F9 
-X-CRM114-Status: GOOD (  16.45  )
+X-CRM114-CacheID: sfid-20240307_033715_984657_E219DA1C 
+X-CRM114-Status: GOOD (  26.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,41 +88,110 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 07/03/2024 12:37, Hannes Reinecke wrote:
-> On 3/7/24 09:00, Sagi Grimberg wrote:
+On 07/03/2024 12:32, Hannes Reinecke wrote:
+> On 3/7/24 09:51, Sagi Grimberg wrote:
 >>
->> On 05/03/2024 10:00, Daniel Wagner wrote:
->>> I've picked up Hannes' DNR patches. In short the make the transports 
->>> behave the same way when the DNR bit set on a re-connect attempt. We
->>> had a discussion this
->>> topic in the past and if I got this right we all agreed is that the 
->>> host should honor the DNR bit on a connect attempt [1]
->> Umm, I don't recall this being conclusive though. The spec ought to 
->> be clearer here I think.
+>>
+>> On 01/03/2024 17:26, Hannes Reinecke wrote:
+>>> On 3/1/24 14:12, Christoph Hellwig wrote:
+>>>>> -    if ((nvme_req(req)->status & 0x7ff) == NVME_SC_AUTH_REQUIRED)
+>>>>> -        return AUTHENTICATE;
+>>>>> -
+>>>>>       if (blk_noretry_request(req) ||
+>>>>>           (nvme_req(req)->status & NVME_SC_DNR) ||
+>>>>>           nvme_req(req)->retries >= nvme_max_retries)
+>>>>>           return COMPLETE;
+>>>>>   +    if ((nvme_req(req)->status & 0x7ff) == NVME_SC_AUTH_REQUIRED)
+>>>>> +        return AUTHENTICATE;
+>>>>
+>>>> This part looks fine (although I'd word the commit message
+>>>> differently for it).
+>>>>
+>>>>> @@ -467,7 +467,7 @@ int nvmf_connect_admin_queue(struct nvme_ctrl 
+>>>>> *ctrl)
+>>>>>           if (result & NVME_CONNECT_AUTHREQ_ASCR) {
+>>>>>               dev_warn(ctrl->device,
+>>>>>                    "qid 0: secure concatenation is not supported\n");
+>>>>> -            ret = NVME_SC_AUTH_REQUIRED;
+>>>>> +            ret = NVME_SC_AUTH_REQUIRED | NVME_SC_DNR;
+>>>>>               goto out_free_data;
+>>>>>           }
+>>>>>           /* Authentication required */
+>>>>> @@ -475,14 +475,16 @@ int nvmf_connect_admin_queue(struct 
+>>>>> nvme_ctrl *ctrl)
+>>>>>           if (ret) {
+>>>>>               dev_warn(ctrl->device,
+>>>>>                    "qid 0: authentication setup failed\n");
+>>>>> -            ret = NVME_SC_AUTH_REQUIRED;
+>>>>> +            ret = NVME_SC_AUTH_REQUIRED | NVME_SC_DNR;
+>>>>
+>>>>
+>>>> .. but the others should never use nvme status codes as they never
+>>>> go out onto the wire.
+>>>>
+>>> Would love to, but to my knowledge we have the convention that NVMe 
+>>> status codes less than 0 should _not_ be retried.
+>>
+>> What nvme status code is less than zero?
+>>
+> Not the NVMe status, but the 'ret' value containing either a 
+> (positive) NVMe status or a (negative) errno.
 >
-> I've asked the NVMexpress fmds group, and the response was pretty 
-> unanimous that the DNR bit on connect should be evaluated.
-
-OK.
-
->
+>>> NVMe transport errors,
+>>> OTOH, _should_ be retried.
+>> Yes.
+>>> 'connect_admin_queue' and 'connect_io_queue' now straddles the 
+>>> boundary: technically it's an NVMe command, but in
+>>> practice it's a transport command as there are quite a lot of steps
+>>> before we even can send the 'connect' command.
 >>>
->>> The nvme/045 test case (authentication tests) in blktests is a good 
->>> test case for this after extending it slightly. TCP and RDMA try to
->>> reconnect with an
->>> invalid key over and over again, while loop and FC stop after the 
->>> first fail.
+>>> So, how do we handle the return codes from 'connect_admin_queue' ?
+>>> The NVMe core style (with not retrying negative errors) or the NVMe
+>>> transport style (with always retrying until we run out of retries)?
 >>
->> Who says that invalid key is a permanent failure though?
->>
-> See the response to the other patchset.
-> 'Invalid key' in this context means that the _client_ evaluated the 
-> key as invalid, ie the key is unusable for the client.
-> As the key is passed in via the commandline there is no way the client
-> can ever change the value here, and no amount of retry will change 
-> things here. That's what we try to fix.
+>> Not exactly sure what is the question here. I am still going over 
+>> emails so there
+>> may be some discussion around this, but it is unclear from the patch 
+>> description what is the issue this is solving.
+>
+> The question is what to do if nvmf_connect_admin_queue() returns with 
+> a status with the DNR status set.
+> In TCP the status is carried back to the return value of 
+> nvme_tcp_setup_ctrl(), which is called during reset, reconnect, and 
+> initialisation.
+> For the first two the status is simply ignored, and always retried
+> (ie every error is treated as retryable). For the latter, we will 
+> always abort the initialisation (ie every error is non-retryable).
+> Either way, we're completely ignoring the DNR bit in the NVMe status.
 
-Where is this retried today, I don't see where connect failure is 
-retried, outside of a periodic reconnect.
-Maybe I'm missing where what is the actual failure here.
+IMO We should always fail initial connect, for whatever reason. 
+userspace can take care
+of it if it wants to reconnect. If we managed to ever connect to a 
+controller, we will retry
+once we lose the connection.
+
+>
+> Daniel has sent two patches on my behalf, trying to evaluate the DNR
+> status during reconnect and reset.
+
+Didn't get to those yet.
+
+> With them it suddenly matters how
+> the return value from nvmf_connect_admin_queue() is to be interpreted.
+
+OK, The spec should probably be clear about it.
+
+> With my original idea of retrying authentication errors we will keep
+> on retrying, even though the authentication settings won't change,
+> and consequently each retry will fail. So in effect we go through
+> pointless retries, and only abort the test case once the retries
+> are exhausted. By making authentication errors non-retryable we
+> can terminate the testcase directly.
+> The only way I could think of to signal a non-retryable error
+> is to return an NVMe status with the DNR bit set; every other error
+> will cause a retry. But this will require us to fabricate an NVMe
+> status code, which Christoph objects to.
+
+Can we start with defining what is a retry-able authentication error and 
+what isn't?
 
