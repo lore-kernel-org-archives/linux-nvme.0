@@ -4,43 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1BF5CC54E49
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Mar 2024 15:12:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21EEFC54798
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Mar 2024 15:17:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jU4QlnWtPYtUMHg2kw7ZYLYWKsDbWmqawf6KHDiM9lA=; b=ZdYsEpLVCke9l22H3pWAS1+7o4
-	sGii3X6Eah/AHCfmgOyCRm/zkxzbUriG/iAi/3EMCDErj04JgS6+dseJyho+9sAMmH7bqwXl56kSh
-	rq2XQW5vjxbHtHXxdjO+K1JJQgj0ikcGK0A5pJj+V9Y4RscFMzKm/k4XsbAjfoZRoK0/iiYnlExbj
-	eXvfJ/KIdypdbQl6oCLEzdoh7bZwSuo6BL6q3UbuCMPgln4vJ1hE9IFCpBxn8kQZDU6qCd0m+4YBz
-	1WJbmpJa55pdfpIOjmWmfN46X1sl/tPWCMvi/pMeeNVEReFIpal/ozG516yHm4qonW86SdaEnDMC0
-	Getc4ZMg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=EhAddCueojHrL7qPHkN1/TxTPP5rdVIyKbedjhNztC0=; b=etnYZrZ2ZsYH+VJpO0PbdTrkBj
+	PBRSXcWIY77pxtrYUCFtyEOw5KP77Nh7nhqVAE3PMmVjGmZ0hkj1MUN7w3s6xpxgpG43+jPy4BapL
+	sLcbiAueCDtZlQYBJuX/9z+YQquFzOlG40/KMp6ymxeU/pu6vlZJSwwBTgwhFjxSernd7O5ShZanz
+	f/XkkD3QmG7axZfJAYnkAQ9jjgBRr9sn2AZRk9h1kTan/Ehyq3syZ/KLJG7Y+hAYZE4DnxuvzcoSy
+	7tvQeLefL6w7+oYrXwbRJll8nvDzWAOSTSCKWteXfO2FfpWZ2t5mY0HuY2X3ro7OMUbVrhdnFrrpy
+	JZzDkSdw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riFPy-00000005DO9-2b5U;
-	Thu, 07 Mar 2024 15:12:22 +0000
-Received: from [66.60.99.14] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riFPk-00000005DBr-3wFH;
-	Thu, 07 Mar 2024 15:12:09 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>,
-	Chandan Babu R <chandanbabu@kernel.org>,
-	Keith Busch <kbusch@kernel.org>
-Cc: linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	linux-xfs@vger.kernel.org
-Subject: [PATCH 10/10] block: remove __blkdev_issue_discard
-Date: Thu,  7 Mar 2024 08:11:57 -0700
-Message-Id: <20240307151157.466013-11-hch@lst.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240307151157.466013-1-hch@lst.de>
-References: <20240307151157.466013-1-hch@lst.de>
+	id 1riFUh-00000005FCK-3M2D;
+	Thu, 07 Mar 2024 15:17:15 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1riFUd-00000005FBC-0fE0
+	for linux-nvme@lists.infradead.org;
+	Thu, 07 Mar 2024 15:17:14 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id D296D61C3D;
+	Thu,  7 Mar 2024 15:17:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07169C433F1;
+	Thu,  7 Mar 2024 15:17:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709824628;
+	bh=bcLaWbBdhUfJxU9PF6Qxo7YRYTZ8kvqVGWXXOykqSHU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=J6BX5Gb8dHBGAgqEHmtm/z5NoMyr0XGC4ohF8EapfRMPzoiaWvmVpWGF7/Whk2sVN
+	 HJ8zaCB8Z5cx6V1j/pscPkfgQUZ2Df9XtiOkN1DnVlp+jzaNbEwluCRCPKZqOVihHy
+	 VedeRFyzlUGBaPnJ/S2fcv3zLjDMJ2X6fatx+5hXLfH1qp5K3UhPa5vt12cMPMUlbn
+	 JLFsQqxrAnchzuptZNZn6rIqrLjm+7boixC4PZXRtm2lL/DCAakRZp1j7jrIT+ciER
+	 izIff1KnKPMZLJ01HVlb1v8i1PiTF12yEvdQ2+GLGKTLT+JA6rSK/JjX43Y3LEDelr
+	 kwd/aUvRCDN3A==
+Date: Thu, 7 Mar 2024 08:17:05 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Len Brown <lenb@kernel.org>
+Cc: Max Gurtovoy <mgurtovoy@nvidia.com>, linux-nvme@lists.infradead.org,
+	maxg@mellanox.com, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+	linux-kernel@vger.kernel.org, Len Brown <len.brown@intel.com>
+Subject: Re: [PATCH 1/1] nvme: Use pr_dbg, not pr_info, when setting shutdown
+ timeout
+Message-ID: <ZenacXkUAh4I1gkK@kbusch-mbp>
+References: <49a7c0b667abe23d95d67cf0cf7ea7e193d9f2a1.1709773065.git.len.brown@intel.com>
+ <dc6c4d98-e56a-448d-b372-38ce0cd927e9@nvidia.com>
+ <CAJvTdK=Fbo0in7diYv_4Zk_-zrOPP4skDgpTMOYw-UM8=3R29Q@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJvTdK=Fbo0in7diYv_4Zk_-zrOPP4skDgpTMOYw-UM8=3R29Q@mail.gmail.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20240307_071711_332476_7D00FCF6 
+X-CRM114-Status: GOOD (  24.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -55,83 +76,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Fold what is left of __blkdev_issue_discard into blkdev_issue_discard and
-simplify the error handling.
+On Thu, Mar 07, 2024 at 09:27:21AM -0500, Len Brown wrote:
+> On Thu, Mar 7, 2024 at 4:29 AM Max Gurtovoy <mgurtovoy@nvidia.com> wrote:
+> 
+> > > Some words are alarming in routine kernel messages.
+> > > "timeout" is one of them...
+>
+> > > Here NVME is routinely setting a timeout value,
+> > > rather than reporting that a timeout has occurred.
+> >
+> > No.
+> > see the original commit message
+> >
+> > "When an NVMe controller reports RTD3 Entry Latency larger than the
+> > value of shutdown_timeout module parameter, we update the
+> > shutdown_timeout accordingly to honor RTD3 Entry Latency. Use an
+> > informational debug level instead of a warning level for it."
+> >
+> > So this is not a routine flow. This informs users about using a
+> > different value than the module param they set.
+> 
+> I have machines in automated testing.
+> Those machines have zero module params.
+> This message appears in their dmesg 100% of the time,
+> and our dmesg scanner complains about them 100% of the time.
+> 
+> Is this a bug in the NVME hardware or software?
+> 
+> If yes, I'll be happy to help  debug it.
+> 
+> If no, then exactly what action is the informed user supposed to take
+> upon seeing this message?
+> 
+> If none, then the message serves no purpose and should be deleted entirely.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- block/blk-lib.c        | 29 +++++++++--------------------
- include/linux/blkdev.h |  2 --
- 2 files changed, 9 insertions(+), 22 deletions(-)
+It lets you know that your device takes longer to safely power off than
+the module's default tolerance. System low power transitions may take a
+long time, and at one point, people wanted to know about that since it
+may affect their power management decisions.
 
-diff --git a/block/blk-lib.c b/block/blk-lib.c
-index 4f2d52210b129c..39e6e21eb2982d 100644
---- a/block/blk-lib.c
-+++ b/block/blk-lib.c
-@@ -78,23 +78,6 @@ bool blk_next_discard_bio(struct block_device *bdev, struct bio **biop,
- }
- EXPORT_SYMBOL_GPL(blk_next_discard_bio);
- 
--int __blkdev_issue_discard(struct block_device *bdev, sector_t sector,
--		sector_t nr_sects, gfp_t gfp_mask, struct bio **biop)
--{
--	struct bio *bio = *biop;
--
--	while (blk_next_discard_bio(bdev, &bio, &sector, &nr_sects, gfp_mask)) {
--		if (fatal_signal_pending(current)) {
--			await_bio_chain(bio);
--			return -EINTR;
--		}
--	}
--
--	*biop = bio;
--	return 0;
--}
--EXPORT_SYMBOL(__blkdev_issue_discard);
--
- /**
-  * blkdev_issue_discard - queue a discard
-  * @bdev:	blockdev to issue discard for
-@@ -113,16 +96,22 @@ int blkdev_issue_discard(struct block_device *bdev, sector_t sector,
- 	int ret;
- 
- 	blk_start_plug(&plug);
--	ret = __blkdev_issue_discard(bdev, sector, nr_sects, gfp_mask, &bio);
--	if (!ret && bio) {
-+	while (blk_next_discard_bio(bdev, &bio, &sector, &nr_sects, gfp_mask))
-+		if (fatal_signal_pending(current))
-+			goto fatal_signal;
-+	if (bio) {
- 		ret = submit_bio_wait(bio);
- 		if (ret == -EOPNOTSUPP)
- 			ret = 0;
- 		bio_put(bio);
- 	}
- 	blk_finish_plug(&plug);
--
- 	return ret;
-+
-+fatal_signal:
-+	blk_finish_plug(&plug);
-+	await_bio_chain(bio);
-+	return -EINTR;
- }
- EXPORT_SYMBOL(blkdev_issue_discard);
- 
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index b87cd889008291..a1e638fb90fa77 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -1057,8 +1057,6 @@ extern void blk_io_schedule(void);
- 
- int blkdev_issue_discard(struct block_device *bdev, sector_t sector,
- 		sector_t nr_sects, gfp_t gfp_mask);
--int __blkdev_issue_discard(struct block_device *bdev, sector_t sector,
--		sector_t nr_sects, gfp_t gfp_mask, struct bio **biop);
- bool blk_next_discard_bio(struct block_device *bdev, struct bio **biop,
- 		sector_t *sector, sector_t *nr_sects, gfp_t gfp_mask);
- int blkdev_issue_secure_erase(struct block_device *bdev, sector_t sector,
--- 
-2.39.2
+This print was partly from when NVMe protocol did not provide a way to
+advertise an appropriate shutdown time, and we had no idea what devices
+in the wild actually needed. We often just get a dmesg with bug reports,
+and knowing device's shutdown timings was helpful at one point with
+suspend and power off issues.
 
+You can make the print go away by adding param
+
+  nvme_core.shutdown_timeout=<Largest Observed Value>
+
+But personally, I don't find this print very useful anymore, so I don't
+care if it gets removed.
 
