@@ -4,68 +4,130 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21589C54798
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Mar 2024 14:27:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 63D09C48BF6
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Mar 2024 14:53:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zz2eNH3ByABvVgHFT0hkzZRhLZmSUzNFJzczzdfYHaw=; b=mPPJ/YWZ1MI2FBzgFqLmX+nCNt
-	lbD2YsXvE+f/FZ56Ty++aoJbY7AWQZfHjrpr4BQU4vnWS4+fmBe8ecqnTOMPGuV1AxZcDbSAGGDWt
-	U5BiMpRPFyGNgUBYhVfV1OzNMNyjE7XX4KRCrFkFp7czlDMWPScsocuTrHPH/5UpfHk9xSslNRyei
-	q9KcXQgvFa4Zd2ejQiFR2ZpdH7Hl3dOIEDYtqYzwpAnwDdiJwJW34blqjwXEsmGwDXQXD05iKtEDB
-	sihR1OnN3mAuSLb1x7+D5Tg5/k4oqbII7JEBtpzV4SXk9OI0JIB6TnnisWR5gTTRGUK5kkUnu7SP9
-	4OWRGxjg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=xFSrhPAhdeU+042oYvavyOjg/sVd7TdbAFR+fQA1Bpc=; b=wifUlzbKEmRAk3RHokGb1NC932
+	kJ5qUXKruue5RL8Zox73Lq09neSI/+PKtcEobJ5kYp/ygHAPxRzLE4cgc/9AZu9Cv/5K/0+Fgss+y
+	pfc1YlWW1hmiydmGetoPEQGqfJxx3R4o8kPagQQacVMs7uTjKYcqHJ4kGAH51eU9buEPeMpPOgU06
+	H5NgCeTo+9kVoL4BLGsTEk+z4o2ahQcj7de9hz2M8LcRCFBXccnW1ym4Jyhb8wutX2sL140Rgi6yW
+	K0bjr6IWiiA2T4bcdGVR6corjBJFryS21E8qd5Up+V2+6XgVfEFIK16oxlEIrnbWr+yQaTwFBY7Me
+	G+oc7pxw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riEig-000000053HH-2XPG;
-	Thu, 07 Mar 2024 14:27:38 +0000
-Received: from mail-oa1-f53.google.com ([209.85.160.53])
+	id 1riF7o-0000000597l-1ta7;
+	Thu, 07 Mar 2024 14:53:36 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riEic-000000053Fj-2CLG
+	id 1riF7i-00000005950-2P7h
 	for linux-nvme@lists.infradead.org;
-	Thu, 07 Mar 2024 14:27:36 +0000
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-22187576d54so154611fac.1
-        for <linux-nvme@lists.infradead.org>; Thu, 07 Mar 2024 06:27:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709821653; x=1710426453;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zz2eNH3ByABvVgHFT0hkzZRhLZmSUzNFJzczzdfYHaw=;
-        b=smb0avmxx8olE7paPKTOb4BIK/KXoG//yLPL3nHyiBMLlBM37DE2Q+QtNLAg2OWjMr
-         HHp06VQLgpu2gudVJiZeyWcyX3413/Y45RKAMnpB/alPZUhPcnI+DRo3wfBwCTKlxQ3f
-         0Vs41caEQTBe7UEiyyxYvIRPxqRy840OLA4ol9i4fJbeNSP97SmOvjoYinPoZYoAbj8a
-         H47vuHXqUTkUipt2GJ/s6kHnALAP7uzKLc6z+1uxB1beP53sLhsLmK9azZgAMN3AdyvK
-         Im+YT/9fkhlYHLrsp+BhIllohRM133mH/2s9eqvL7lvxJ1Iu1j0wjzyTKLp2SR2QMR+k
-         j63Q==
-X-Forwarded-Encrypted: i=1; AJvYcCX9LmbBNmmdzaKd1eqhPRF4RsVM8q8guVQqHpoirtr/8tZQr8YkyVZH8CdbVzpQTrfEDTbg68YcV1KI3RvuURh84U4IQyizGG+bY5vG4iI=
-X-Gm-Message-State: AOJu0YyyPZokkOvy/HyRS8IlhuIS0J4UtMQ+vCsmwIH/N+6YwsWFvKmF
-	84GTfHqLCgd2oTDZSZaT7KGNaglGX3SUBJhjOI1/badCKPQtxSAuKdHjQSDuV7RxT9SLmwVFsBD
-	sI35I3+ERPK5qqHbFbIqNp+41vHw=
-X-Google-Smtp-Source: AGHT+IGqfSUTe7mCD0pnZ/JliykSKoembhWqBxpNjNgmBqhFl8UiprBe2mqJOT+9O7kdEW/FaIX7LFRTHGa5Bc1mBEU=
-X-Received: by 2002:a05:6870:3123:b0:21f:d2e1:c93c with SMTP id
- v35-20020a056870312300b0021fd2e1c93cmr8436495oaa.45.1709821653127; Thu, 07
- Mar 2024 06:27:33 -0800 (PST)
+	Thu, 07 Mar 2024 14:53:34 +0000
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 906A925B68;
+	Thu,  7 Mar 2024 12:43:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1709815415; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xFSrhPAhdeU+042oYvavyOjg/sVd7TdbAFR+fQA1Bpc=;
+	b=ttccUmx1QeU+BppR9JgrXCg9E9b7S7d/IVMycDyD0IYMF/srVgCssFrEyZKN+rEwkpmD2O
+	CYugHIodpUJYPr4jQGjf+0kGfvaQxs+FQEQGLumK0g5A9Xt9cKAp+IQH4UonxuVZfYDmuN
+	ms8BGU6kmjBl8D17nVD8TP5D9YZYPNM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1709815415;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xFSrhPAhdeU+042oYvavyOjg/sVd7TdbAFR+fQA1Bpc=;
+	b=pqxNk3pzkXGBijZ0OTzkrXQGf/dILR6pSr8Q0sAfGmWzSN/YtK399b/p1hksivbcSMtFHo
+	8pzU8CtDYHZ9eVDA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1709815415; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xFSrhPAhdeU+042oYvavyOjg/sVd7TdbAFR+fQA1Bpc=;
+	b=ttccUmx1QeU+BppR9JgrXCg9E9b7S7d/IVMycDyD0IYMF/srVgCssFrEyZKN+rEwkpmD2O
+	CYugHIodpUJYPr4jQGjf+0kGfvaQxs+FQEQGLumK0g5A9Xt9cKAp+IQH4UonxuVZfYDmuN
+	ms8BGU6kmjBl8D17nVD8TP5D9YZYPNM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1709815415;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xFSrhPAhdeU+042oYvavyOjg/sVd7TdbAFR+fQA1Bpc=;
+	b=pqxNk3pzkXGBijZ0OTzkrXQGf/dILR6pSr8Q0sAfGmWzSN/YtK399b/p1hksivbcSMtFHo
+	8pzU8CtDYHZ9eVDA==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 7E86B13997;
+	Thu,  7 Mar 2024 12:43:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id i7HVHXa26WXGRwAAn2gu4w
+	(envelope-from <dwagner@suse.de>); Thu, 07 Mar 2024 12:43:34 +0000
+Date: Thu, 7 Mar 2024 13:43:33 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: Hannes Reinecke <hare@suse.de>, James Smart <james.smart@broadcom.com>, 
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/5] nvme-fc: do not retry when auth fails or
+ connection is refused
+Message-ID: <qbzzr6waj23q6rxrueevwoteg5i4ogr7hr45ckseu7ekdcc7sb@xgyvtkp27w5i>
+References: <20240221132404.6311-1-dwagner@suse.de>
+ <20240221132404.6311-3-dwagner@suse.de>
+ <d5b3d5b2-ec27-4057-aa76-63fe17066cfc@suse.de>
+ <sqmla42yoidail73xukhxb6uoyayo66pxpdlrhns3v533wm7wy@ppyr7t5gk3u3>
+ <609e0031-e97c-466b-8cbd-47755374b117@suse.de>
+ <3xhhdconprn3vvkky4yj4iazku4eiqxl6l6rw6z5tivvdjwaby@ts7satqbih7w>
+ <hxr2hztb64dank3jvbnrlciaebo4k2qkkrg3brhrppizeyelpo@ewupxurl7iqm>
+ <5d67a55e-e979-4c3c-8dcc-597cb13c7c9d@suse.de>
+ <83bca01f-fc34-405b-9f2e-8079130400ce@grimberg.me>
 MIME-Version: 1.0
-References: <49a7c0b667abe23d95d67cf0cf7ea7e193d9f2a1.1709773065.git.len.brown@intel.com>
- <dc6c4d98-e56a-448d-b372-38ce0cd927e9@nvidia.com>
-In-Reply-To: <dc6c4d98-e56a-448d-b372-38ce0cd927e9@nvidia.com>
-From: Len Brown <lenb@kernel.org>
-Date: Thu, 7 Mar 2024 09:27:21 -0500
-Message-ID: <CAJvTdK=Fbo0in7diYv_4Zk_-zrOPP4skDgpTMOYw-UM8=3R29Q@mail.gmail.com>
-Subject: Re: [PATCH 1/1] nvme: Use pr_dbg, not pr_info, when setting shutdown timeout
-To: Max Gurtovoy <mgurtovoy@nvidia.com>
-Cc: kbusch@kernel.org, linux-nvme@lists.infradead.org, maxg@mellanox.com, 
-	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, linux-kernel@vger.kernel.org, 
-	Len Brown <len.brown@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <83bca01f-fc34-405b-9f2e-8079130400ce@grimberg.me>
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ttccUmx1;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=pqxNk3pz
+X-Spamd-Result: default: False [-4.42 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 URIBL_BLOCKED(0.00)[suse.de:dkim];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DWL_DNSWL_HI(-3.50)[suse.de:dkim];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_SEVEN(0.00)[7];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-1.11)[88.35%];
+	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:98:from]
+X-Rspamd-Queue-Id: 906A925B68
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240307_062734_593511_039B0D7F 
-X-CRM114-Status: GOOD (  15.83  )
+X-CRM114-CacheID: sfid-20240307_065330_799460_407A53AD 
+X-CRM114-Status: GOOD (  15.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,41 +142,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Mar 7, 2024 at 4:29=E2=80=AFAM Max Gurtovoy <mgurtovoy@nvidia.com> =
-wrote:
+On Thu, Mar 07, 2024 at 12:25:16PM +0200, Sagi Grimberg wrote:
+ > > Is this what you had in mind?
+> > 
+> > Which, incidentally, is basically the patch I just posted.
+> 
+> Reading this, the patchset from Hannes now is clearer.
+> Isn't the main issue is that nvme-fc tries to periodicly reconnect
+> when failing the first connect? This is exactly what the test expects
+> it to do right?
 
-> > Some words are alarming in routine kernel messages.
-> > "timeout" is one of them...
-> >
-> > Here NVME is routinely setting a timeout value,
-> > rather than reporting that a timeout has occurred.
->
-> No.
-> see the original commit message
->
-> "When an NVMe controller reports RTD3 Entry Latency larger than the
-> value of shutdown_timeout module parameter, we update the
-> shutdown_timeout accordingly to honor RTD3 Entry Latency. Use an
-> informational debug level instead of a warning level for it."
->
-> So this is not a routine flow. This informs users about using a
-> different value than the module param they set.
+Yes, the test expects that the initial connect attempt fails. nvme-fc is
+using one connect path and doesn't distinguish between the initial
+connect attempt and a reconnect.
 
-I have machines in automated testing.
-Those machines have zero module params.
-This message appears in their dmesg 100% of the time,
-and our dmesg scanner complains about them 100% of the time.
-
-Is this a bug in the NVME hardware or software?
-
-If yes, I'll be happy to help  debug it.
-
-If no, then exactly what action is the informed user supposed to take
-upon seeing this message?
-
-If none, then the message serves no purpose and should be deleted entirely.
-
-thank you,
-
-Len Brown, Intel
+All fabric transport share the same problem when the connection has been
+established and later one a connection drop happens and a reconnnect is
+executed. The blktest nvme/048 case extension I've posted tests the
+reconnect attempt after the controller key has changed. In this
+scenario, nvme-tcp, nvme-rdma will also do a reconnect attempt although
+DNR is set.
 
