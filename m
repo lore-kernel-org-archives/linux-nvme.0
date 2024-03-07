@@ -4,58 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F482C48BF6
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Mar 2024 07:29:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4730C48BF6
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Mar 2024 07:40:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5zuLqYXEcrU0IPXnJfRZey6qQ6C1CibUgZYtXv3ee+4=; b=PN5UYBJFaBsz9/SLnYJahPT5t0
-	XTtINUDi4eNFTcgnqpzNk2mqdAe6rTh/4NhU9+ysk5lNF2jHfnSRMJAsREGxoyPvFTyNmaH9NyCPl
-	3LopLerqO0EjBVY9CqTLLu6p+KJM1hX6k5GRodiOzo7cGIqV6znnZGomkrwLDgC61ukCb787Eq5Mz
-	8Ybx63zR13XPtI/8kEmMEs3rySIzLncNmRV3u2ie8Yx6jqbC4qC7jB11oOqKsblbqfnj7m1HXQmQO
-	pfeb+Q1v/ceddRRcU8NU0gO76IhXLRNTzTqr2nd9RzY+FlRIy0hDPu1/XhOCjgzF5aM3dVXAvnOc9
-	EwdLolEw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=taIqa6ZUwxcQAEJXQl8Mt62Wxo
+	gdQKa6cOBYsUIqYg8P4T5QpCjJWSA+PVQoVDeR7Vc3bVO8A4HRNvMt1kuQtABDoxbxoXSwp6O0fP1
+	wMCUXi2/5OR82QHK/22hcLkRZi58W2Iz5vE1dg+IhIFXWYvDnqCnbMgu7y6MGFJnx3Y9CCp1e69WR
+	UHJjrQKwmjSI1oMiYO36rIoqtJ6/Z2BOFAHGt113cOnINUVRmAR9LIi7VOSO/NIuB15GvDj8/l2vU
+	/I+ZvsEVp098NI1rARIIos2WQ3UYNOGGSab53oraGD/3A4EzxeY9uuNLqP3yFNvS+eZ67Iydm2OcQ
+	YKZLKWvA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ri8C9-00000003QnS-1inm;
-	Thu, 07 Mar 2024 07:29:37 +0000
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ri8C6-00000003Qme-3F6u;
-	Thu, 07 Mar 2024 07:29:34 +0000
-Date: Wed, 6 Mar 2024 23:29:34 -0800
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: Dave Chinner <david@fromorbit.com>
-Cc: "kbus @pop.gmail.com>> Keith Busch" <kbusch@kernel.org>,
-	NeilBrown <neilb@suse.de>, Tso Ted <tytso@mit.edu>,
-	Matthew Wilcox <willy@infradead.org>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Pankaj Raghav <p.raghav@samsung.com>, Jan Kara <jack@suse.cz>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Christoph Hellwig <hch@infradead.org>,
-	Hannes Reinecke <hare@suse.de>,
-	Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier.gonz@samsung.com>,
-	lsf-pc@lists.linuxfoundation.org, linux-mm@kvack.org,
-	linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [LSF/MM/BPF TOPIC] Large block for I/O
-Message-ID: <Zels3qAHksXonaAs@bombadil.infradead.org>
-References: <5c356222-fe9e-41b0-b7fe-218fbcde4573@acm.org>
- <ZYUbB3brQ0K3rP97@casper.infradead.org>
- <ZYUgo0a51nCgjLNZ@infradead.org>
- <9b46c48f-d7c4-4ed3-a644-fba90850eab8@acm.org>
- <ZZxOdWoHrKH4ImL7@casper.infradead.org>
- <ZdeWRaGQo1IX18pL@bombadil.infradead.org>
- <ZdvIlLbhtb7+1CTx@dread.disaster.area>
- <ZdytYs8W9o0CIu_C@bombadil.infradead.org>
- <ZekfZdchUnRZoebo@bombadil.infradead.org>
- <ZelRRFTBvpyXeVGD@dread.disaster.area>
+	id 1ri8MB-00000003T0s-3Wxi;
+	Thu, 07 Mar 2024 07:39:59 +0000
+Received: from mail-wr1-f52.google.com ([209.85.221.52])
+	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1ri8M8-00000003T04-13yC
+	for linux-nvme@lists.infradead.org;
+	Thu, 07 Mar 2024 07:39:58 +0000
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-33d855caf7dso136967f8f.0
+        for <linux-nvme@lists.infradead.org>; Wed, 06 Mar 2024 23:39:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709797194; x=1710401994;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+        b=I1zcrCb8vVIk4AorkTotHduA6O4aWU+JKLzceHb8Byo7xyOVHu/19tgQIWuVgaeygS
+         3Wa0RWVZc4D0ad77ZE16+8brkNSjzKLizEWQij7xA4/oKo38xT4L/5fRgVE14Gr9obfj
+         All5XUUS2j2Kezh+WXOxcMhEO69pcI+YHDGbSUZsiuRQa1fE0PYWfeYtRl9kVlakpVvK
+         sEYXAxZ62FGJFAgs6Gwn7hhDGW3b+kp6CNAPb+p044K4TTgKDSCGBt/8IgNF1YzRf8lj
+         XnXgX2pVSN6LMrvU8duDIHhNnTyVVOb0/aoUopgxQTkxt8vL3X1QiITJEijVJCdVqQ9l
+         n/4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWlU4Po/kEV/q31NDjOUGp7fpCPLwxK6v7/4zunSheMtQE5wk0ipSZLUDvdqWd9KHmvD8oc9WLmRpSXUZOlyXToeVMXz8489Fgp0mZLVm4=
+X-Gm-Message-State: AOJu0Ywiz+QINB9+qt0eJGRF5ygC/o7c4oGNOz6GXHPvWxp6n0gQjzcU
+	v3hHxqsoVm2qEq7VHv+H/kdf2vNQyO9pG4N8uo+4z8ftao4mnkF5
+X-Google-Smtp-Source: AGHT+IHHA6QKnLsezv1ouyL4F6PQAR02XSpxiQiCnDoo76btFiTKNzBGsZ1UC4cGPITyjK4VMXd2Ig==
+X-Received: by 2002:a05:600c:444c:b0:412:eee0:a5e4 with SMTP id v12-20020a05600c444c00b00412eee0a5e4mr829823wmn.1.1709797193445;
+        Wed, 06 Mar 2024 23:39:53 -0800 (PST)
+Received: from [10.100.102.74] (46-117-80-176.bb.netvision.net.il. [46.117.80.176])
+        by smtp.gmail.com with ESMTPSA id je13-20020a05600c1f8d00b00412fb4f5756sm1696207wmb.27.2024.03.06.23.39.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Mar 2024 23:39:53 -0800 (PST)
+Message-ID: <91726839-6c3c-4b22-adf4-380239e45fa3@grimberg.me>
+Date: Thu, 7 Mar 2024 09:39:51 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZelRRFTBvpyXeVGD@dread.disaster.area>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] nvme: Use pr_dbg, not pr_info, when setting shutdown
+ timeout
+Content-Language: en-US
+To: Len Brown <lenb@kernel.org>, kbusch@kernel.org,
+ linux-nvme@lists.infradead.org
+Cc: maxg@mellanox.com, axboe@kernel.dk, hch@lst.de,
+ linux-kernel@vger.kernel.org, Len Brown <len.brown@intel.com>
+References: <49a7c0b667abe23d95d67cf0cf7ea7e193d9f2a1.1709773065.git.len.brown@intel.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <49a7c0b667abe23d95d67cf0cf7ea7e193d9f2a1.1709773065.git.len.brown@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20240306_233956_374089_2AA920DB 
+X-CRM114-Status: UNSURE (   5.03  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,36 +85,6 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Then it does seem we have everything we need already, and no changes
-are needed. Because these drives *do* support the logical block size
-advertised, it's just not optimal.
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
-On Thu, Mar 07, 2024 at 04:31:48PM +1100, Dave Chinner wrote:
-> Sure, doing 512 byte aligned/sized IO to a 4kB sector sizer device
-> is not optimal. IO will to the file will be completely serialised
-> because they are sub-fs-block DIO writes, but it does work because
-> the underlying device allows it. Nobody wanting a performant
-> application will want to do this,
-
-It's a good time to ask though if there may be users who want to opt-in to
-promote this sort of situation so that the logical block size is lifted
-to prevent any IOs. For NVMe drives it could be where the atomic >= Indirection
-Unit (IU). This is applicable even today on a 4k IU drive with 4k atomic
-support. Who would want this? Since any IO issued to a drive which is
-smaller than the IU implicates a RMW, it means your if you restrict the
-drive to only IOs matching the IU could in theory improve endurance.
-
-> but there are cases where this case fulfils important functional requirements.
-
-Sure.
-
-> e.g. fs tools and loop devices that use direct IO to access file
-> based filesystem images that have 512 byte sector size will just
-> work on such a fs and storage setup, even though the host filesystem
-> isn't configured to use 512 byte sector alignment directly
-> itself....
-
-It would seem like quite a bit of things. This is useful, thanks.
-
-  Luis
 
