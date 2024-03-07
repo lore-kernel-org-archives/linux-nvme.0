@@ -4,74 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13B16C48BF6
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Mar 2024 10:37:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83C58C54E49
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Mar 2024 10:43:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8BATSlZ0bJzguOF/jrgBg/zqvJooUIPN3PqVoY63y+A=; b=rVeAzITkvGDMxUBC4Dx+6XH/YU
-	894k+ZRhzhe+ldNSDIKUo16M7QKMi9S//ArXv2DxdhbQK4n0P47V2N887ifiBZ4ZABPYX+OF9Cjc+
-	AexgbQPEjVXmf8u3dYusXr5xs1GcNdX450jhNc/9kJSERxjy+8nu0JW3xxDrdmn7t1WZt9aKxM8KL
-	EuM8Hrg6jDv2w+4JQORZodkDIQFj4WC+GQKH/5U2HHA5pqafTWSazrypvq4sFTSbYzoxS3FkDg50f
-	YGezMt8p6lwQxfcnB8i8AFQcn7dFJtF6KFhQg+m06tQYo/49KOXaHYeIy1IOC5Cw30xBAsqI245k1
-	335wQ9ZA==;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=J2iXG+1eQl2bZqc3SnW1yKPtkr
+	hKPfITx+uhNqH/DrItpsoa9XmOHRcJoENrL4Lja3xXPwfmgbFopiCtEbIpMF/rg4okgxM2FqXuBW1
+	OIpDsvkaHV84/0ouweKD18megw8ZqB5KCJMlRApTNqEpJTKssEKzeGkQ4h/b0Aqk9k7KCfg9vVpQ2
+	eAMVJ5lyhSzR/bWU+jgz+GrHCH5J+o4cJT3G3cMEia7SHUdRWPfVo4YQ1WcDppnn3kU/NuQYYiflZ
+	xhGchjVMICb3WDsrWOUQPhWTosKWkI3ggl0W6Mk4yP8Hcmhd7ZARH0P/Z24l9XtBBVy5y0kw4hDfJ
+	yB3HKJjA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riB7s-000000047nP-0ACZ;
-	Thu, 07 Mar 2024 10:37:24 +0000
-Received: from mail-wm1-f46.google.com ([209.85.128.46])
+	id 1riBDN-000000048Sq-2aBj;
+	Thu, 07 Mar 2024 10:43:05 +0000
+Received: from mail-wr1-f47.google.com ([209.85.221.47])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riB7p-000000047mv-2auy
+	id 1riBDK-000000048RS-1mHP
 	for linux-nvme@lists.infradead.org;
-	Thu, 07 Mar 2024 10:37:22 +0000
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-412b30be60dso443935e9.0
-        for <linux-nvme@lists.infradead.org>; Thu, 07 Mar 2024 02:37:21 -0800 (PST)
+	Thu, 07 Mar 2024 10:43:04 +0000
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-33d855caf7dso178043f8f.0
+        for <linux-nvme@lists.infradead.org>; Thu, 07 Mar 2024 02:43:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709807840; x=1710412640;
+        d=1e100.net; s=20230601; t=1709808180; x=1710412980;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8BATSlZ0bJzguOF/jrgBg/zqvJooUIPN3PqVoY63y+A=;
-        b=czHt2WMTdX8x8unZLMPxN/LC16+NhUKeI26Tspx68000+o+1JIIcD46KCMsX0W0v6Z
-         27WaYYVT702J7OZQFMSLfC3K09oMu5hfSx6traNFYHjepIlj433ajVFD4ZdFjHKdHbEj
-         kLvw4QRlzP9PnVuU0O1XdH6NP/3lI+7Smt2d8mN0BF+ys/ajbpqiRRLI1HYINK3IKSJo
-         T0f9KipfmZ/tsGNxspxLVAY7RvLAVNpu6VJ6vEBQ2wMJZGPl+RX8u+qaxiNZdiYNT87Z
-         vrjN3BcTYrQ5jtqGWHY57ZeM0EuoFg0n2pGEAxSyspfA5ew+6l+ql5qAe0y52JlUtk9+
-         AL8A==
-X-Forwarded-Encrypted: i=1; AJvYcCX3HBoyvbGLo6MSVwKjSqNiTl6hajTSTo4zCvfOKYCa9/KZ6f+GSJS60mhSCKfbjot5PZpXoa979d6Lj1NvRVdCHx3VVM/RvooHSAh1WJo=
-X-Gm-Message-State: AOJu0YzpUnTGMbXZmlw+Bu6PM7g54nR+S4YYntxO55iPf0KGkGMVCuNN
-	fxHKHK28Uyq1vAHOKl9giyxA4OwBcXXgwCEk65h3t20sCZmUpjBp
-X-Google-Smtp-Source: AGHT+IFrdq6EjlPGOqtsmivLBKMRpL4WVIFnlojV12Ix1xajxOU0/7FtuZOEnedgb4LMsXdLoJF7/w==
-X-Received: by 2002:adf:fb06:0:b0:33d:b387:88df with SMTP id c6-20020adffb06000000b0033db38788dfmr1066821wrr.7.1709807839805;
-        Thu, 07 Mar 2024 02:37:19 -0800 (PST)
+        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+        b=r6h8oEMtsrJHWq2f3PmmQPOMpcic3mcVgc9M32bZgALlFirJkkvzZ4OONfNY72s3MV
+         t7hm651hSXiGB68EeOTD9JReBNhvnfTflajhSBu4FKPggEglLJLxOa8h/Cmz0Q8q4Uvo
+         2eq5ILqe49o9c/YroIQBEtOxqyi3br45Hl+0BQeKxVwCC3cYnu6pRLdl7Hf8Or22/DOo
+         BTqu5lCDpYVKpy+UuNiorzO9Rm6L310rx4vntbR4l+UuQsQ2BikNaGg3hl8huoSVwQq1
+         eueVmpPEDODeiS263jK0MAM/8W4M3L+nmXarmoxmvpwQcnAxpLK9zcrAwy7cV4Ibt+rY
+         qF5A==
+X-Forwarded-Encrypted: i=1; AJvYcCX+VLIfMxA+f3F4Meek6ITo4taw3C5QGDrPBjbaA6kd7SOom1uIef4/4mw8qzNLaNezQUlb+qn+7jPIDqNvqRwaRul8A7Km1abYhY8G3pU=
+X-Gm-Message-State: AOJu0YxOk91UFVnJcTUl7Rb8yccVXVkcSb9QegzX1rnxzapTSKJ0taBv
+	S607IDjXrM8qG7aPBrhy/MJoTAUoIcDkQGxklGddvIMXDdv2Qyx5t5NArR3V
+X-Google-Smtp-Source: AGHT+IEBS9GUlyOMEKGLijKjkYCUaBKZYJoOHIHjlmDlYA7IWWdnKDPIqSYtn08GWyGo+9tGYYW81A==
+X-Received: by 2002:a05:600c:1d0f:b0:412:f82b:9cb8 with SMTP id l15-20020a05600c1d0f00b00412f82b9cb8mr1153988wms.4.1709808179748;
+        Thu, 07 Mar 2024 02:42:59 -0800 (PST)
 Received: from [10.100.102.74] (46-117-80-176.bb.netvision.net.il. [46.117.80.176])
-        by smtp.gmail.com with ESMTPSA id v7-20020a5d59c7000000b0033e475940fasm7594638wry.66.2024.03.07.02.37.18
+        by smtp.gmail.com with ESMTPSA id p20-20020a05600c359400b0041308e57a28sm2264467wmq.23.2024.03.07.02.42.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Mar 2024 02:37:19 -0800 (PST)
-Message-ID: <01935bbe-02c1-413d-aef2-a228af5cdcbb@grimberg.me>
-Date: Thu, 7 Mar 2024 12:37:18 +0200
+        Thu, 07 Mar 2024 02:42:59 -0800 (PST)
+Message-ID: <c320f946-29e8-402d-8936-aa685a66b1e0@grimberg.me>
+Date: Thu, 7 Mar 2024 12:42:58 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv2] nvme: authentication error are always non-retryable
+Subject: Re: [PATCH 02/13] nvme: add nvme_auth_generate_psk()
 Content-Language: en-US
-To: Daniel Wagner <dwagner@suse.de>, Hannes Reinecke <hare@suse.de>
-Cc: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20240226080628.21220-1-hare@kernel.org>
- <g3rnirwykldnoved2rojfkf3xrhkv4hai46m3b45kt4tzxpvyx@gqhr3v2l33ea>
- <dx2l57pk5mncqduqu7l36grz4uwlu4k6wcb6gfwaiqxt66itja@rl7kb3ittvb4>
- <99094fa7-35d4-4ae4-bf36-f3c4a346dc61@suse.de>
- <22csajx7e5g6rwwhzsn5a5sq566jsigp2oqpqb7yewkqgemshu@4nnt2lt4277x>
+To: hare@kernel.org, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Hannes Reinecke <hare@suse.de>
+References: <20240127093058.15699-1-hare@kernel.org>
+ <20240127093058.15699-3-hare@kernel.org>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <22csajx7e5g6rwwhzsn5a5sq566jsigp2oqpqb7yewkqgemshu@4nnt2lt4277x>
+In-Reply-To: <20240127093058.15699-3-hare@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240307_023721_691323_8573C9C1 
-X-CRM114-Status: GOOD (  13.20  )
+X-CRM114-CacheID: sfid-20240307_024302_474397_474E1064 
+X-CRM114-Status: UNSURE (   5.39  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,23 +84,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 26/02/2024 16:01, Daniel Wagner wrote:
-> On Mon, Feb 26, 2024 at 11:54:13AM +0100, Hannes Reinecke wrote:
->> Maybe this?
-> nvme_uninit_ctrl already puts the ref, thus the nvme_put_ctrl in
-> nvme_loop_create_crtl is one too much:
->
-> diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-> index de2ff7ed0657..bcda781e52f2 100644
-> --- a/drivers/nvme/target/loop.c
-> +++ b/drivers/nvme/target/loop.c
-> @@ -615,7 +615,6 @@ static struct nvme_ctrl *nvme_loop_create_ctrl(struct device *dev,
->          kfree(ctrl->queues);
->   out_uninit_ctrl:
->          nvme_uninit_ctrl(&ctrl->ctrl);
-> -       nvme_put_ctrl(&ctrl->ctrl);
-
-Are you sure this does not cause a leak in some cases?
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
