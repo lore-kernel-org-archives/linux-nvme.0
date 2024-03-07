@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3BAC7C54798
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Mar 2024 15:12:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 61E34C54798
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Mar 2024 15:12:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pWLnUFlzUEJhnbTRDkaJ8/zvGbZPOXeOdQeHsZIHfXk=; b=qYyMLu02RxF1XWAgw0FN7qY229
-	m8EKtmIRIu2QMwrJm4eEgN46DJGZRRtPyVCTt/bARMRdXuu4Gss1FC0AEiOw6oH+Pejv7mybcgo02
-	fbPda5dEebFYpJhtf3t0xYKqLZTm7QwIMcLhsPcgEd5wfAscouhr1TDRjoWj5WlndaKz5RY2THdx0
-	KBVwXAnt+LA6C4ABsFUciMNaJzIcltgI6WdyoIWgomRvNHJ9EUWUjSx7k8DNR49VUD+Yd10GxJndV
-	IOODqo6gp3m3IZBhX7t5C+BMboOhuutu1f8nWda+hfOtCq6IIFeamTqv/Hpo9p5QRBtb/wgupEMZA
-	IJsM3bfw==;
+	bh=K6dAOpH3HfvroaSB45ET9VQSXQtJU2v4720kk0k4xZk=; b=4FTJCYsJxyO2ASmOABc+A+BQX5
+	gXdl4ofzXLeQfYlZvIbiwh8TKA16XmvGCPGfZ75pXDYToR+YsPstY+6o7Un/SPmE3nMjYo2yXUFsk
+	sTwtI1thp2B0CGlwlP/lPogcr5wE+bdggmM0LwVXKmCQrIUNyrxd0mgomgxvGFsUx7BTB0fnfNX0k
+	irCU3JEDgMbo/vLRgIPFDOLsG2DmgMX26O59UPZ3VBREzFUOS6FMevK+tGtP11PM9ffKJsh902QpH
+	3FlVi9k6ayvcIMpkF+tjoDYMPml/xDKmYbtqSpukOw6xuNnqvAn18VZnR4sXPZMXSHOKHrNlPclyC
+	TsmEquQQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riFPq-00000005DGN-24QS;
-	Thu, 07 Mar 2024 15:12:14 +0000
+	id 1riFPs-00000005DIx-2Ufm;
+	Thu, 07 Mar 2024 15:12:16 +0000
 Received: from [66.60.99.14] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riFPh-00000005D9c-2TVa;
-	Thu, 07 Mar 2024 15:12:05 +0000
+	id 1riFPi-00000005DA8-0s2Q;
+	Thu, 07 Mar 2024 15:12:06 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>,
 	Chandan Babu R <chandanbabu@kernel.org>,
@@ -33,9 +33,9 @@ To: Jens Axboe <axboe@kernel.dk>,
 Cc: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
 	linux-xfs@vger.kernel.org
-Subject: [PATCH 06/10] ext4: switch to using blk_next_discard_bio directly
-Date: Thu,  7 Mar 2024 08:11:53 -0700
-Message-Id: <20240307151157.466013-7-hch@lst.de>
+Subject: [PATCH 07/10] nvmet: switch to using blk_next_discard_bio directly
+Date: Thu,  7 Mar 2024 08:11:54 -0700
+Message-Id: <20240307151157.466013-8-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240307151157.466013-1-hch@lst.de>
 References: <20240307151157.466013-1-hch@lst.de>
@@ -60,36 +60,37 @@ chain and removes the need to handle synchronous errors.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/ext4/mballoc.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ drivers/nvme/target/io-cmd-bdev.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
-diff --git a/fs/ext4/mballoc.c b/fs/ext4/mballoc.c
-index e4f7cf9d89c45a..73437510bde26c 100644
---- a/fs/ext4/mballoc.c
-+++ b/fs/ext4/mballoc.c
-@@ -3840,12 +3840,16 @@ static inline int ext4_issue_discard(struct super_block *sb,
- 	trace_ext4_discard_blocks(sb,
- 			(unsigned long long) discard_block, count);
- 	if (biop) {
--		return __blkdev_issue_discard(sb->s_bdev,
--			(sector_t)discard_block << (sb->s_blocksize_bits - 9),
--			(sector_t)count << (sb->s_blocksize_bits - 9),
--			GFP_NOFS, biop);
--	} else
--		return sb_issue_discard(sb, discard_block, count, GFP_NOFS, 0);
-+		unsigned int sshift = (sb->s_blocksize_bits - SECTOR_SHIFT);
-+		sector_t sector = (sector_t)discard_block << sshift;
-+		sector_t nr_sects = (sector_t)count << sshift;
-+
-+		while (blk_next_discard_bio(sb->s_bdev, biop, &sector,
-+				&nr_sects, GFP_NOFS))
-+			;
-+		return 0;
-+	}
-+	return sb_issue_discard(sb, discard_block, count, GFP_NOFS, 0);
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index f11400a908f269..c1345aaf837d93 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -363,17 +363,13 @@ u16 nvmet_bdev_flush(struct nvmet_req *req)
+ static u16 nvmet_bdev_discard_range(struct nvmet_req *req,
+ 		struct nvme_dsm_range *range, struct bio **bio)
+ {
+-	struct nvmet_ns *ns = req->ns;
+-	int ret;
++	sector_t sector = nvmet_lba_to_sect(req->ns, range->slba);
++	sector_t nr_sects = le32_to_cpu(range->nlb) <<
++		(req->ns->blksize_shift - SECTOR_SHIFT);
+ 
+-	ret = __blkdev_issue_discard(ns->bdev,
+-			nvmet_lba_to_sect(ns, range->slba),
+-			le32_to_cpu(range->nlb) << (ns->blksize_shift - 9),
+-			GFP_KERNEL, bio);
+-	if (ret && ret != -EOPNOTSUPP) {
+-		req->error_slba = le64_to_cpu(range->slba);
+-		return errno_to_nvme_status(req, ret);
+-	}
++	while (blk_next_discard_bio(req->ns->bdev, bio, &sector, &nr_sects,
++			GFP_KERNEL))
++		;
+ 	return NVME_SC_SUCCESS;
  }
  
- static void ext4_free_data_in_buddy(struct super_block *sb,
 -- 
 2.39.2
 
