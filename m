@@ -4,73 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B45B1C48BF6
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Mar 2024 12:01:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 64DCBC54798
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Mar 2024 12:03:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=oF6KmtBzNdpCIaFyLBmiCqb1PMnj7ILp5AYIpT88ggk=; b=l1yyzXD2oXl64J2rwYcwrG1uNr
-	N3ZbITBCT4dn428H+5zsfiXLcwDJEB3Z7u3sBpvnt5E6aytX3nWjNi5VBfjtjzIDbDyw8hYA+YMth
-	6mFgiPL2Yus0V/yXgS1YNwWJR+oTipeNg2+AaKNKWSpoZSvxj/FZCQ9Rar/kKK2aEXW8ofUJL1I1Q
-	mgXUhkNnI+jgplwbRzMWUZ10t1v4OC4zfvwz7sjg7QG20tsL9wDYAwCQj4YuR7uHQPdf1iqGlFwY9
-	83JAw1cuZ0xreXhG8PbpbesU92CdqW39E2W6bvBAPrxB53IOJhpgYyaC6JPspI69aCQ38lL9+IRSs
-	3B+dWASw==;
+	bh=ppDSbdzrH/zrYwV5YVqxaBw09z7ks8avz/iELkEb5fA=; b=TvcXyWmtDbltb9j6J9i0D1eNP1
+	AxXXys8U4W2xbIcTKEoOGtfCHKc2blTJrhuz0Z7rJsdwMLrfbD2c9P96XUKTPxHQOeO7mqleQndC+
+	faSh5Fy1hcih7QgL4eN0RHJp+QEWZiDE/Lp5V80cTqQ+Mct7Vr8WbdcNdaXUzZ9YBr94CwPyAyJMW
+	HEgUTSeRkNYO+KlJor2LqPSGsfQlZ5lPkVNEBaIvaqvE/5r0KShZlCD/MWIO302wgXu2w3GYl/APn
+	+TeXGvksfr1Ap/YCfjIRWuaX6BnlI0zUMfL1c7aob0WQzKoY12tzVraac3elEBpo+RkbloZ75BYiN
+	g2ZtgZIw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riCRG-00000004TRr-0fui;
-	Thu, 07 Mar 2024 12:01:30 +0000
-Received: from mail-wr1-f52.google.com ([209.85.221.52])
+	id 1riCTY-00000004TqE-2YWU;
+	Thu, 07 Mar 2024 12:03:52 +0000
+Received: from mail-wm1-f52.google.com ([209.85.128.52])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riCRC-00000004TR0-1o7M
+	id 1riCTW-00000004Tpn-1WaA
 	for linux-nvme@lists.infradead.org;
-	Thu, 07 Mar 2024 12:01:28 +0000
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-33e12bcf6adso261540f8f.1
-        for <linux-nvme@lists.infradead.org>; Thu, 07 Mar 2024 04:01:24 -0800 (PST)
+	Thu, 07 Mar 2024 12:03:51 +0000
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-412e41cab5aso377945e9.1
+        for <linux-nvme@lists.infradead.org>; Thu, 07 Mar 2024 04:03:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709812883; x=1710417683;
+        d=1e100.net; s=20230601; t=1709813028; x=1710417828;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oF6KmtBzNdpCIaFyLBmiCqb1PMnj7ILp5AYIpT88ggk=;
-        b=frjI2Wob0Uja03lLFRu7T+bQlnvKjwmi5JxNZUNWG2iwV/BtFEquR0hf9MrtZHBuoM
-         hmx9Gd/DZtP1GqeL/rxwNLRQ3O/CND5e96DPSjnBm6i26AeiPW6dvn90rWYBzsbHqFqs
-         o+Ku5KXCm0TiPE0wC8smMBzM6GeicmektvKNrkGI1SVYdHFmpR2vGuMokz1bWAMbHa7h
-         42rtwGaOirRRneP+/ocm+BbDvp33LA38TIRJHtaNq2Rx8zdULg1LisTejiiZygzjVU0g
-         NQT0gxZO97BuTe0byW3+W3cmew8LusITWJM3WEnCAXjhfuKjgF++aQ/cYHfL6hbqeHka
-         jU5g==
-X-Forwarded-Encrypted: i=1; AJvYcCXldLMdcNVrUnuCC8gR9ZrdX5ltyrMs2e3/0a9tGKBOfU+iLmxtLLGnT+vt5aGEHF9gkNqpmQ7HSAFXRv7808/6LhMZxE/htYTwX0xOwtE=
-X-Gm-Message-State: AOJu0Yz+XXiElD5tgJGJ437wpNc+zn0yNofZo5GzYue8Dv3QbrTULgec
-	gp2cckDOF1VBXfawF4PVg6orqHOGr2feQz7GpAnKsu8PcdMq/sCT
-X-Google-Smtp-Source: AGHT+IE8EIJv4HKsw1/7TPhcT7wGmEYZ7Bg11FYc3xz7mIiR/pat54vciH562myB00TqCIW4zTWYkw==
-X-Received: by 2002:adf:dd87:0:b0:33e:4503:3ba4 with SMTP id x7-20020adfdd87000000b0033e45033ba4mr3637618wrl.7.1709812883215;
-        Thu, 07 Mar 2024 04:01:23 -0800 (PST)
+        bh=ppDSbdzrH/zrYwV5YVqxaBw09z7ks8avz/iELkEb5fA=;
+        b=PDQpd84aFWw+5BRnSlOBIY46OEbtMxKnP24RPNtqyBkdFKBXhl68u8HQlTxVxoqpRO
+         B10gFpRdjmN6HVrNwUJ9NdNM2j9kjv1M13W2VwyxwBiiY2pUNiXuF3KnIpVa4MNOQAhG
+         TJyJFl8EiP6lLZY/YENVoyLhzFffKTXpCEDoFx9iCiep4bu4vWvbMr25v7EugoEFGjIP
+         w1BUQzTZWlD/Jw1Z1HA2fEMEswbFqwgmc6dsr1H5UhDo6nmBbp15GpvNRqPXauDnBPQv
+         uiMOZyIwFoxFmG7ibclj/RJAcLJQeTFtuoDDmxz3nf7oe/+aUl9Ck2MQrZdZq0F7shO0
+         zdfw==
+X-Forwarded-Encrypted: i=1; AJvYcCVCMmAm8AlUHjFtVM4Ajx8CBqJbiMg/9EuMa2jpsyVZ4BnDDT8Jvds1RsjGipffHIK1G81dM7uFPE4g6HMXkr4qGy5ttIcFCUOupcz/Hbs=
+X-Gm-Message-State: AOJu0Yy09wHzEIOYm3Gry0xr4dTBSnjONog9y8E/C9QO7db7Q4xP9fte
+	SjjpL0tkEQlz3NdwfIWzTgh/CWTyI03fN5/Z8XYVk1CDsB4U6vug
+X-Google-Smtp-Source: AGHT+IHcp/bEwcbctPAJiXrGKFOy5qd+hq3jcqOReGa6G2XPpyrrgK414zbF2V71JFVOtuqBRi0daw==
+X-Received: by 2002:a05:600c:3ba8:b0:412:eb6e:2171 with SMTP id n40-20020a05600c3ba800b00412eb6e2171mr1281123wms.1.1709813028406;
+        Thu, 07 Mar 2024 04:03:48 -0800 (PST)
 Received: from [10.100.102.74] (46-117-80-176.bb.netvision.net.il. [46.117.80.176])
-        by smtp.gmail.com with ESMTPSA id j16-20020a5d6190000000b0033e0019b814sm20008084wru.34.2024.03.07.04.01.22
+        by smtp.gmail.com with ESMTPSA id q8-20020a05600c46c800b00412d60cb914sm2514816wmo.5.2024.03.07.04.03.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Mar 2024 04:01:22 -0800 (PST)
-Message-ID: <7ff7c9cc-6b02-4adc-9b78-8bab26341049@grimberg.me>
-Date: Thu, 7 Mar 2024 14:01:21 +0200
+        Thu, 07 Mar 2024 04:03:48 -0800 (PST)
+Message-ID: <66a4f2b8-9e2b-4734-b1a1-083bd69411c7@grimberg.me>
+Date: Thu, 7 Mar 2024 14:03:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] nvme-fc: FPIN link integrity handling
+Subject: Re: [PATCH 3/4] nvmet: return DHCHAP status codes from
+ nvmet_setup_auth()
 Content-Language: he-IL, en-US
-To: Hannes Reinecke <hare@suse.de>, hare@kernel.org,
+To: Hannes Reinecke <hare@suse.de>, Hannes Reinecke <hare@kernel.org>,
  Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, James Smart <james.smart@broadcom.com>,
- linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org
-References: <20240219085929.31255-1-hare@kernel.org>
- <1dfa9a4e-e4a2-4d48-b569-85e48ce4311c@grimberg.me>
- <1c3eea31-b80f-4b95-ab15-ac42f7c45c16@suse.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20240301112823.132570-1-hare@kernel.org>
+ <20240301112823.132570-4-hare@kernel.org>
+ <38d98acc-4042-4fef-af1d-cee2eccc98d8@grimberg.me>
+ <90c1e888-af15-4c89-9839-68d128d963d6@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <1c3eea31-b80f-4b95-ab15-ac42f7c45c16@suse.de>
+In-Reply-To: <90c1e888-af15-4c89-9839-68d128d963d6@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240307_040126_557605_8D835B87 
-X-CRM114-Status: GOOD (  26.57  )
+X-CRM114-CacheID: sfid-20240307_040350_441280_E125BBBF 
+X-CRM114-Status: GOOD (  12.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,66 +88,25 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 07/03/2024 13:29, Hannes Reinecke wrote:
-> On 3/7/24 11:10, Sagi Grimberg wrote:
+On 07/03/2024 13:19, Hannes Reinecke wrote:
+> On 3/7/24 09:56, Sagi Grimberg wrote:
 >>
 >>
->> On 19/02/2024 10:59, hare@kernel.org wrote:
->>> From: Hannes Reinecke <hare@suse.de>
->>>
->>> FPIN LI (link integrity) messages are received when the attached
->>> fabric detects hardware errors. In response to these messages the
->>> affected ports should not be used for I/O, and only put back into
->>> service once the ports had been reset as then the hardware might
->>> have been replaced.
+>> On 01/03/2024 13:28, Hannes Reinecke wrote:
+>>> A failure in nvmet_setup_auth() does not mean that the NVMe
+>>> authentication command failed, so we should rather return a
+>>> protocol error with a 'failure1' response than an NVMe status.
 >>
->> Does this mean it cannot service any type of communication over
->> the wire?
->>
-> It means that the service is impacted, and communication cannot be 
-> guaranteed (CRC errors, packet loss, you name it).
-> So the link should be taken out of service until it's been (manually)
-> replaced.
-
-OK, that's what I assumed.
-
+>> Shouldn't nvmet reply NVME_SC_INTERNAL like in other similar
+>> cases?
 >
->>> This patch adds a new controller flag 'NVME_CTRL_TRANSPORT_BLOCKED'
->>> which will be checked during multipath path selection, causing the
->>> path to be skipped.
->>
->> While this looks sensible to me, it also looks like this introduces a 
->> ctrl state
->> outside of ctrl->state... Wouldn't it make sense to move the 
->> controller to
->> NVME_CTRL_DEAD ? or is it not a terminal state?
->>
-> Actually, I was trying to model it alongside the 
-> 'devloss_tmo'/'fast_io_fail' mechanism we have in SCSI.
-> Technically the controller is still present, it's just that we shouldn't
-> send I/O to it.
+> No. NVME_SC_INTERNAL will be converted into a status code for the 
+> authentication _command_, indicating that the authentication
+> _command_ encountered an error.
+> But authentication _command_ is fine (ie it got send and received
+> okay). It's the authentication itself which failed, so we need to
+> return an authentication protocol failure state.
 
-Sounds like a dead controller to me.
-
-> And I'd rather not disconnect here as we're trying to
-> do an autoconnect on FC, so manually disconnect would interfere with
-> that and we probably end in a death spiral doing disconnect/reconnect.
-
-I suggested just transitioning the state to DEAD... Not sure how keep-alives
-behave though...
-
->
-> We could 'elevate' it to a new controller state, but wasn't sure how big
-> an appetite there is. And we already have flags like 'stopped' which
-> seem to fall into the same category.
-
-stopped is different because it is not used to determine if it is capable
-for IO (admin or io queues). Hence it is ok to be a flag.
-
->
-> So I'd rather not touch the state machine.
-
-I'm just trying to understand if it falls into one of the existing 
-states that
-we have today. Because it sounds awfully like DEAD to me.
+Yes, I guess I was specifically asking about the failure to setup_auth 
+in the re-auth case...
 
