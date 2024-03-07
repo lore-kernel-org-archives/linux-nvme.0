@@ -4,81 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E1055C54E49
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Mar 2024 16:57:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B91D7C54798
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Mar 2024 17:00:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cQxEvRem4MCjLjmNRZYfQipiZ65wMk+OZ1LYktPKLRA=; b=U070gQzb/a8Rts1EPOkXCIA4MT
-	bGwM/WdFth4y6o/3U0j/Jh2RML7N7yNa8i0cZ8kjaXmmfNDNrGPi1ul/Zg4IxgdWb1FJTb5aVxaq1
-	cxhXeGc6qEOqU/y+RrrWo2XQ33jrRQVBNqhaIDXEpqA/rZ12BIC/Tpst22JbvJBg72cQm6eXlojqt
-	tAEqB1LjxtL52iRQdXkclVFj7qqkuT0ahHZFku9V24lLbasyMgc3WuWri6rgMMB4orR7sQ5bjMSf6
-	i4VYaZVuZyA+3C4k/b8P2lsFjL7BkqNb5S9zc6BwCn75X3tDTnBHnpkKlPulIZqrQIpRzhPeB+47S
-	SNkqTtzw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=OpppoTIfiy5Z0s220a5sjniA5+/+HwLWPMJkVmLp0yU=; b=D09jktUkATRTP1Mj/p1FodGF/M
+	pSXjM15GOZ43HI6daHU9Yxld/wXklcna3XVWWIzkEoh0SHLco5jyAray99l+kIowqxqIHLccFs9ER
+	WlpmlkcnoigY0VLIgj1b3avAnCTiJqohHci3qx89UZ50Cmh6KwiiVoTVEBxvl25yCSKBK7NqGQqW7
+	6dfmo0Ew4bL5xKbKwXwdhHmtjo84hAt/GrvSlwWRNf0QT4xzN+Js6BJ95Y6eiTyePx3QDskALHPMe
+	9utdbk4HktY4u8TXI/F87+iSHRCrYeqXQqLqpMlxPB9dGkcOSVX6VVDukqb52ZUF83fZIKvzy6Hdk
+	82JzXJXg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riH49-00000005ahe-2X4M;
-	Thu, 07 Mar 2024 16:57:57 +0000
-Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35])
+	id 1riH6N-00000005b32-16fl;
+	Thu, 07 Mar 2024 17:00:15 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riH46-00000005agN-1fbo
+	id 1riH6J-00000005b1z-3x5z
 	for linux-nvme@lists.infradead.org;
-	Thu, 07 Mar 2024 16:57:56 +0000
-Received: by mail-io1-xd35.google.com with SMTP id ca18e2360f4ac-7c86e6f649aso897739f.0
-        for <linux-nvme@lists.infradead.org>; Thu, 07 Mar 2024 08:57:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1709830673; x=1710435473; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cQxEvRem4MCjLjmNRZYfQipiZ65wMk+OZ1LYktPKLRA=;
-        b=OfBihwt/zil92uj5YMcy9jNy9W22/7e1Si8z+KrO+SnbFG+xKGkA/fiLzubF43R18e
-         q+UwkV+/StrDYTVDFEH98EM5PmY1Y4WspHhX4/oLgbjfVAjyzH5h7/zTMzDlWwNUP4qH
-         9IzXVQb1/cfoLHm3UTuTMAZYmeZP9qbUCvZSo0zapas+zOrfqyCjhD9gt2woTjjstHic
-         X/kV9KPkzGBtwQ8ctwQ3YYH2c0YwfItl6+8+Me1NlZKhwjnRG2cyjXrjCJXPcwhmMFSV
-         S4NoZTtw31We+AcbjzbepAFDp217PDZ7Hq/QZzL1h2/fNH0RBlI1sCRJyHS3sfiuUpGL
-         qETg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709830673; x=1710435473;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cQxEvRem4MCjLjmNRZYfQipiZ65wMk+OZ1LYktPKLRA=;
-        b=iIxJw5wO82lJfNdOQq8r/QkYGNbOzgIBReWjKrP0NhL23nkb2kVIEZQxuMeRMD3HcV
-         QkzLye2CuGWAppcAwGlQi/bUpA+0S7YRfwyqgmZ6yXoFOxH+tO2NFgSlULj2Bajwratb
-         8sRYTg2YcYFrpdXOu1vnLI97DdpFZYBOcMIDiJuO1d4J09XvQmQBWbhgMaAJ+9DPaI2K
-         RO1V5uXu0T+vMOuRfCksQI61dcBsc+1UtOkYdzbngNKp+am7schQSMrYEZnwePd+YzyC
-         9lYAf1vufnVqyeTaCkK2wsAn58IGE8wF65JawtTILj9hzXqnmy/M8ivHbGRVlX9uGu/P
-         UvVg==
-X-Forwarded-Encrypted: i=1; AJvYcCUK0TqDglqaw8W4x7t+Ys1CqE+azac6vdtfV9LGm/E9Rl1CA8Unp++oCvCRJQ3Zzd3AlvrNJd1+gPU5yTJmhZcP73I2YRs5haOdsqiuvA4=
-X-Gm-Message-State: AOJu0Yz8WwNI8Qtzja27WWWgcfY6DzQnZCjOy6P9ffOKfotItQWJ7YYV
-	/8Mn9yIhlr2nf+FLY2BYaoZ1PkxoPyxkmCBTVMJY4kiS0SNzYfH40zVPQLHgL/0=
-X-Google-Smtp-Source: AGHT+IGhmhAP0I1PU2oEgm/01jWd4i6QNZBikqI4jo2bTh4C7EBbuMUrtk1OcNT09WhWAuN6h3TDpQ==
-X-Received: by 2002:a5e:890d:0:b0:7c8:7126:a44b with SMTP id k13-20020a5e890d000000b007c87126a44bmr2792285ioj.2.1709830673074;
-        Thu, 07 Mar 2024 08:57:53 -0800 (PST)
-Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id gs17-20020a0566024fd100b007c8197e8473sm1731021iob.5.2024.03.07.08.57.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Mar 2024 08:57:52 -0800 (PST)
-Message-ID: <f11b5b7f-584e-40b4-8421-f729c3958095@kernel.dk>
-Date: Thu, 7 Mar 2024 09:57:51 -0700
+	Thu, 07 Mar 2024 17:00:13 +0000
+Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 427EAmrs023260
+	for <linux-nvme@lists.infradead.org>; Thu, 7 Mar 2024 09:00:10 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=s2048-2021-q4;
+ bh=OpppoTIfiy5Z0s220a5sjniA5+/+HwLWPMJkVmLp0yU=;
+ b=dxEsJQCldQmeuO7Nrf/OA7GOMEMDz1u8nU2TSqnjVi1k5vl8KoxCqVv7+qDsudhoMZos
+ xd6aIICjsbFed0OflVryT/aN71RwkkG8Skstk3w1IJ2pRmJhn0DM2aMojPCyhmD63cbO
+ NIObz/04AtITTK4iR9T7xki8odj5LMpi8XFzcLaoJiPzyjcMEadARIGffGINVajGj+6M
+ IorUpMSryJ8XgOWc75R1TMoVvsDKe6bMFFtOHj16AoP2RliuuBDz62IlNJJBCeuAkMQk
+ /0QJ2RfiG9GEVBuN/yKoeSdHck61L95oIFacYgo0vfhDmN56PqeSajsUhQABvv+y7srS Zw== 
+Received: from mail.thefacebook.com ([163.114.132.120])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3wqf419rym-8
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Thu, 07 Mar 2024 09:00:07 -0800
+Received: from twshared9865.07.ash9.facebook.com (2620:10d:c085:208::f) by
+ mail.thefacebook.com (2620:10d:c085:11d::8) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 7 Mar 2024 08:59:41 -0800
+Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
+	id 6A73F25E883BE; Thu,  7 Mar 2024 08:59:34 -0800 (PST)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-nvme@lists.infradead.org>
+CC: <hch@lst.de>, <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+        Len
+ Brown <lenb@kernel.org>
+Subject: [PATCH] nvme: change shutdown timeout setting message
+Date: Thu, 7 Mar 2024 08:59:33 -0800
+Message-ID: <20240307165933.3718589-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL] nvme updates for Linux 6.9
-Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>
-Cc: hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org
-References: <Zenidge11HKo4JXr@kbusch-mbp>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <Zenidge11HKo4JXr@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: ZtSgK_VFc8zz4F5On15p2iP0f5BHtnss
+X-Proofpoint-ORIG-GUID: ZtSgK_VFc8zz4F5On15p2iP0f5BHtnss
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-07_13,2024-03-06_01,2023-05-22_02
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240307_085754_686293_C0B4E167 
-X-CRM114-Status: GOOD (  12.14  )
+X-CRM114-CacheID: sfid-20240307_090012_165360_78B8B34D 
+X-CRM114-Status: GOOD (  15.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,36 +84,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/7/24 8:51 AM, Keith Busch wrote:
-> [resending; first one did not CC the list]
-> 
-> This is our first nvme pull request for the upcoming 6.9 merge window.
-> 
-> The following changes since commit 268283244c0f018dec8bf4a9c69ce50684561f46:
-> 
->   nbd: use the atomic queue limits API in nbd_set_size (2024-03-01 09:08:22 -0700)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git tags/nvme-6.9-2024-03-07
-> 
-> for you to fetch changes up to 7e80eb792bd7377a20f204943ac31c77d859be89:
-> 
->   nvme: clear caller pointer on identify failure (2024-03-06 06:29:01 -0800)
-> 
-> ----------------------------------------------------------------
-> nvme updates for Linux 6.9
-> 
->  - RDMA target enhancements (Max)
->  - Fabrics fixes (Max, Guixin, Hannes)
->  - Atomic queue_limits usage (Christoph)
->  - Const use for class_register (Ricardo)
->  - Identification error handling fixes (Shin'ichiro, Keith)
+From: Keith Busch <kbusch@kernel.org>
 
-Pulled, thanks.
+User visible messages containing the word "timeout" can be alarming.
+This one nvme is just reporting a potentially informative device
+configuration, and everything is working as designed. Change the text to
+report the less concerning "D3 entry latency", which is where this value
+comes from anyway.
 
--- 
-Jens Axboe
+Reported-by: Len Brown <lenb@kernel.org>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 2baf5786a92fe..0dcaf3973dc49 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3233,7 +3233,7 @@ static int nvme_init_identify(struct nvme_ctrl *ctr=
+l)
+=20
+ 		if (ctrl->shutdown_timeout !=3D shutdown_timeout)
+ 			dev_info(ctrl->device,
+-				 "Shutdown timeout set to %u seconds\n",
++				 "D3 entry latency set to %u seconds\n",
+ 				 ctrl->shutdown_timeout);
+ 	} else
+ 		ctrl->shutdown_timeout =3D shutdown_timeout;
+--=20
+2.34.1
 
 
