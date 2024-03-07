@@ -4,82 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8519AC54E41
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Mar 2024 01:06:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2194CC5475B
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Mar 2024 01:59:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=eye52Nq6DzbsyvcGLe6F9NZyI7E9KumQ8b0lW6PgSb0=; b=meJ/04Mf4uihqsf5THkVLwYNdF
-	XFXjKgAllezAGQLDlpoFnOu4TjAfqFNUFOI4lVYRBGY/qBfuaDgEVDwQ2/VjU61whqtLGgieu2/Si
-	hd0pH5gKfce+xvJq/4/tlq5aHrCMbblJ4bT6X4CTVZ9a+Fb5dbiEC6GVp2WUfXdv5ImOTAuJEN/qy
-	NKDUlwVQYpF/kheQF141zWHXArfdkh5tbEs48wnl7wB/C3Dp2nK3g7c0paCy4E18/xgFPDxFDn3um
-	+XVUAB21o8QwpQMcw2mj1oS5NGS0d+rD2T7EjOH7riNilLQqYBl1cgnW3+oPbYrKr7yKXUkYMOhSY
-	1Fh0q8hw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=2LrjpQ6/KtNA+kwv00MlTGCntAINDPjFBfmLOW4/G3E=; b=pD0HAcNW+Zq/KhVb6dmF3yvAD8
+	wjnf99wiD/X5ppra5YhGLXQA9Ms00deBPCSEs7Q5G3XENsOt0578YsP1MjflZ9SRZUMvMhoox4QPq
+	8RuAQzw3/4Xh7LymMBCU0OwcutnpocOJmOWK6R+UDYgH03iAbLqaVLMunt5LSY4teiFQKypmNRJS9
+	GvvWQzV1Rl9H5A2ksExoDSiLHcaC0GFJE+3KgUTBCXo3PMkcGFujYNnByLcbGu4dH8SUREf4xxZ8d
+	uVTYWqQUIGIRXuMRrF43FzcfHqJHWJd5mO4IW7Yw9t98CDxoqFzR9XIolRk05u8y6OToegqjN1GAO
+	N1zhHwHg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ri2Cv-00000002TM1-0Gz4;
-	Thu, 07 Mar 2024 01:06:01 +0000
-Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729])
-	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ri2Cp-00000002TLS-3P1I
-	for linux-nvme@lists.infradead.org;
-	Thu, 07 Mar 2024 01:05:57 +0000
-Received: by mail-qk1-x729.google.com with SMTP id af79cd13be357-78845b93490so18012685a.0
-        for <linux-nvme@lists.infradead.org>; Wed, 06 Mar 2024 17:05:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709773551; x=1710378351; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=eye52Nq6DzbsyvcGLe6F9NZyI7E9KumQ8b0lW6PgSb0=;
-        b=L1gNJs7h3R07YD0zukvLYFWHrQPNGqEGG5uN6DeZW8NGlhMdVEVsCXu5E4Yo7lSZ04
-         DRIpUqSjme12yaeQwDP4i711RaDdUeUNUgX4Kb9dAdCpUoGd2E+1gQqyL75U7237ZTHV
-         puZBPpJXXObBgSJdhQ0Ru1Bk9nr0Z9WiiuzFXVQnuQn/CCXiwuzOYeTvDBv94dCJLHDP
-         nN7I9K3IJ9P3OrX++O0E8oCr1SbHFFtxYeI/BIIye7gxth90hF01FpAOvR1BwoRA0tuB
-         LoV/BT7ypaka3b32z/pj2kNjK54XLe6W/X1BlnjGOEDGRdwNkOUk6D9u275pdgOt3Wfp
-         Z5QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709773551; x=1710378351;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eye52Nq6DzbsyvcGLe6F9NZyI7E9KumQ8b0lW6PgSb0=;
-        b=UQ86UIHBjOOZi6dl7adGQX9WmmdDyynBj5kPjjjQLgHjvvcCci/F89CfzBgEQOMEzW
-         IpTBk7TrLV9Q6g8XifE2OviwTGNNP2koGf2oEdz9AigMR+OUB4wSsxxhA+h51b4CspQ6
-         I8LvEe70cvB7u5cYQ+JMZo0lHOOVG4q1cIbxB6arxfFmcsKRVB7ANs39w2wPOMRC7U2j
-         et2tM6eP1uaKTzDJxHNiBsjMmlfgL8BVConpKjLyprKd6090E4cNM+ptN/1WYwYB3KHE
-         qFYqCzQ/EM/xNgCs1hTl7dJ46j0SwKnzRzfX98Cxa6qWgrhdU7CYA5bW4d3OO+MU6rv/
-         IAsg==
-X-Forwarded-Encrypted: i=1; AJvYcCWVpIrjYs4mjIjaKVgogEmKNGqr9qyxZ+SrNlKegPj0eTD/DNdeeeEqnrgeV7Dqvwk4v136v09WmCCjQfw5QRXEee4NQncw9HJtNLpZmiI=
-X-Gm-Message-State: AOJu0Yya24LSgV/VFdBPbr9x5LQfrKOS0CDBnh9dMSq4va1L+fTPZJLj
-	DKs3L5Emg1yK4uPaP1bibg/UEskeA8pZRsjLgF3Ex1Cl1G4cTIga
-X-Google-Smtp-Source: AGHT+IGyve37Ve4gfumbpnNvgXbbOC150hHHz+8iZyxrlteaRw4CD9TaTx4Kw/5ypIPliQjHE2M9fA==
-X-Received: by 2002:a05:620a:5627:b0:788:2715:8074 with SMTP id vv7-20020a05620a562700b0078827158074mr7093388qkn.27.1709773550898;
-        Wed, 06 Mar 2024 17:05:50 -0800 (PST)
-Received: from lenb-Intel-NUC8i7HVKVA.intel.com (2603-9000-9f01-67cf-d46e-8590-8b01-6ff9.inf6.spectrum.com. [2603:9000:9f01:67cf:d46e:8590:8b01:6ff9])
-        by smtp.gmail.com with ESMTPSA id vq5-20020a05620a558500b00788242166dbsm4256558qkn.133.2024.03.06.17.05.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Mar 2024 17:05:50 -0800 (PST)
-From: Len Brown <lenb@kernel.org>
-To: kbusch@kernel.org,
-	linux-nvme@lists.infradead.org
-Cc: maxg@mellanox.com,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me,
-	linux-kernel@vger.kernel.org,
-	Len Brown <len.brown@intel.com>
-Subject: [PATCH 1/1] nvme: Use pr_dbg, not pr_info, when setting shutdown timeout
-Date: Wed,  6 Mar 2024 20:05:41 -0500
-Message-Id: <49a7c0b667abe23d95d67cf0cf7ea7e193d9f2a1.1709773065.git.len.brown@intel.com>
-X-Mailer: git-send-email 2.40.1
+	id 1ri32G-00000002aSA-2jBz;
+	Thu, 07 Mar 2024 01:59:04 +0000
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1ri32D-00000002aQi-20ZG;
+	Thu, 07 Mar 2024 01:59:01 +0000
+Date: Wed, 6 Mar 2024 17:59:01 -0800
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Dave Chinner <david@fromorbit.com>,
+	"kbus >> Keith Busch" <kbusch@kernel.org>,
+	NeilBrown <neilb@suse.de>, Tso Ted <tytso@mit.edu>
+Cc: Matthew Wilcox <willy@infradead.org>,
+	Daniel Gomez <da.gomez@samsung.com>,
+	Pankaj Raghav <p.raghav@samsung.com>, Jan Kara <jack@suse.cz>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Christoph Hellwig <hch@infradead.org>,
+	Hannes Reinecke <hare@suse.de>,
+	Javier =?iso-8859-1?Q?Gonz=E1lez?= <javier.gonz@samsung.com>,
+	lsf-pc@lists.linuxfoundation.org, linux-mm@kvack.org,
+	linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: [LSF/MM/BPF TOPIC] Large block for I/O
+Message-ID: <ZekfZdchUnRZoebo@bombadil.infradead.org>
+References: <4343d07b-b1b2-d43b-c201-a48e89145e5c@iogearbox.net>
+ <03ebbc5f-2ff5-4f3c-8c5b-544413c55257@suse.de>
+ <5c356222-fe9e-41b0-b7fe-218fbcde4573@acm.org>
+ <ZYUbB3brQ0K3rP97@casper.infradead.org>
+ <ZYUgo0a51nCgjLNZ@infradead.org>
+ <9b46c48f-d7c4-4ed3-a644-fba90850eab8@acm.org>
+ <ZZxOdWoHrKH4ImL7@casper.infradead.org>
+ <ZdeWRaGQo1IX18pL@bombadil.infradead.org>
+ <ZdvIlLbhtb7+1CTx@dread.disaster.area>
+ <ZdytYs8W9o0CIu_C@bombadil.infradead.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240306_170555_882906_ED22D416 
-X-CRM114-Status: GOOD (  12.33  )
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZdytYs8W9o0CIu_C@bombadil.infradead.org>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,38 +70,138 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Len Brown <len.brown@intel.com>
+On Mon, Feb 26, 2024 at 07:25:23AM -0800, Luis Chamberlain wrote:
+> The only thing left worth discussing I think is if we want to let users to
+> opt-in to 4k sector size on a drive which allows 16k atomics and
+> prefers 16k for instance...
 
-Some words are alarming in routine kernel messages.
-"timeout" is one of them...
+Thinking about this again, I get a sense things are OK as-is but
+let's review. I'd also like to clarify that these drives keep a 4k
+LBA format. The only thing that changes is an increased is the the IU
+and large atomic. The nvme driver today sets the physical block size
+to the min of both.
 
-Here NVME is routinely setting a timeout value,
-rather than reporting that a timeout has occurred.
+It is similar to a drive today with a logical block size of 512 but a
+physical block size of 4k. That allows you to specify a larger sector
+size to create the filesystem.
 
-Assuming this message is actually useful to somebody somewhere,
-let's make it DEBUG level...
+After reviewing again our current language for syfs parameters in
+Documentation/ABI/stable/sysfs-block for logical and physical block size
+and how nvme_update_disk_info() deals with NPWG (the IU used), NAWUPF
+(namespace atomic) and NOWS (optimal write size), we seem to be using
+it aready appropriately. However, I think the language used in the
+original commit c72758f33784e ("block: Export I/O topology for block
+devices and partitions") on May 22, 2009, which clearly outlined
+the implications of a read-modify-write makes it even clearer.
+A later commit 7e5f5fb09e6fc ("block: Update topology documentation") 3
+months later updates the documentation to remove the read-modify-write
+language in favor of "atomic".
 
-Fixes: 1a3838d732ea ("nvme: modify the debug level for setting shutdown timeout")
+Even though we'd like to believe that userspace is doing the right thing
+today, I think it would be good to review this today and ensure we're
+doing the right thing to make things transparent.
 
-Signed-off-by: Len Brown <len.brown@intel.com>
----
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+We have two types large capacity NVMe drives to consider. As far as I
+can tell all drives will always supporting 512 or 4k LBA format which
+controls the logical block size, so they always remain backward
+compatible. It would be up to users to format the drives to 512 or 4k.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 0a96362912ce..e361af1953a4 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3205,7 +3205,7 @@ static int nvme_init_identify(struct nvme_ctrl *ctrl)
- 						 shutdown_timeout, 60);
- 
- 		if (ctrl->shutdown_timeout != shutdown_timeout)
--			dev_info(ctrl->device,
-+			dev_dbg(ctrl->device,
- 				 "Shutdown timeout set to %u seconds\n",
- 				 ctrl->shutdown_timeout);
- 	} else
--- 
-2.40.1
+One type of drive is without the large NAWUPF (atomic), and another with it.
+Both will have a large NPWG (the IU). The NPWG is used to set minimum_io_size,
+and so, using the original commit's langauge for minimum_io_size, direct IO
+would benefit best to rely on that as a minimum.
 
+At least Red Hat's documentation [0] about this suggests that minimum_io_size
+will be read by userspace but at least for direct IO it suggests that
+direct IO must be aligned to *mutiples of the logical block size*.
+That does not clarify to me however if the minimum IO used in userspace
+today for direct IO will rely on minimum_io_size. If it is, then things
+will work optimally for these drives already.
+
+When a large atomic is supported (NAWUPF) the physical block size will be
+lifted, and users can use that to create a filesystem with a larger
+sector size than 4k. That certainly would help ensure at least the
+filesystem aligns all metadata and data to the large IU. After Jan
+Kara's patches which prevent writes to the block device once a
+filesystem is mounted, userspace would not be allowed to be mucking
+around with the block device, so userspace IO using the raw block device 
+with, say a smaller logical sector size would not be allowed. Since,
+in these cases the sector size is set to a larger value for the filesystem,
+direct IO on the filesystem should respect that preferred larger sector size.
+
+If userspace is indeed already relying on minimum_io_size correctly I am
+not sure if we need to do any change. Drives with a large NPWG would get
+minimum_io_size set for them already. And a large atomic would just lift
+the physical block size. So I don't think we need to force the logical
+block size to be 16k of both NPWG and NAWUPF are 16k. *Iff* however, we
+feel we may want to help userspace further, I wonder if having the option to
+lift the logical block size to the NPWG is desriable.
+
+I did some testing with fio against a 4k physical virtio drive with a
+512 byte logical block size and creating a 4k block size XFS filesystem
+with a 4k sector size. fio seems to chug along happy if you issue writes
+with -bs=512 and even -blockalign=512.
+
+Using Daniel Gomez's ./tools/blkalgn.py tool I still see 512 IO commands
+issued, and I don't think they failed. But this was against a virtio
+drive for convenience. QEMU in NVMe today doesn't let you have a
+different logical block size than physical, so you'd need to do some
+odd hacks to test something similar to emulate a large atomic.
+
+root@frag ~/bcc (git::blkalgn)# cat
+/sys/block/vdh/queue/physical_block_size 
+4096
+root@frag ~/bcc (git::blkalgn)# cat
+/sys/block/vdh/queue/logical_block_size 
+512
+
+mkfs.xfs -f -b size=4k -s size=4k /dev/vdh
+
+fio -name=ten-1g-per-thread --nrfiles=10 -bs=512 -ioengine=io_uring \
+-direct=1 \
+-blockalign=512 \
+--group_reporting=1 --alloc-size=1048576 --filesize=8KiB \
+--readwrite=write --fallocate=none --numjobs=$(nproc) --create_on_open=1 \
+--directory=/mnt
+
+root@frag ~/bcc (git::blkalgn)# ./tools/blkalgn.py -d vdh
+
+     Block size          : count     distribution
+         0 -> 1          : 4        |                                        |
+         2 -> 3          : 0        |                                        |
+         4 -> 7          : 0        |                                        |
+         8 -> 15         : 0        |                                        |
+        16 -> 31         : 0        |                                        |
+        32 -> 63         : 0        |                                        |
+        64 -> 127        : 0        |                                        |
+       128 -> 255        : 0        |                                        |
+       256 -> 511        : 0        |                                        |
+       512 -> 1023       : 79       |****                                    |
+      1024 -> 2047       : 320      |********************                    |
+      2048 -> 4095       : 638      |****************************************|
+      4096 -> 8191       : 161      |**********                              |
+      8192 -> 16383      : 0        |                                        |
+     16384 -> 32767      : 1        |                                        |
+
+     Algn size           : count     distribution
+         0 -> 1          : 0        |                                        |
+         2 -> 3          : 0        |                                        |
+         4 -> 7          : 0        |                                        |
+         8 -> 15         : 0        |                                        |
+        16 -> 31         : 0        |                                        |
+        32 -> 63         : 0        |                                        |
+        64 -> 127        : 0        |                                        |
+       128 -> 255        : 0        |                                        |
+       256 -> 511        : 0        |                                        |
+       512 -> 1023       : 0        |                                        |
+      1024 -> 2047       : 0        |                                        |
+      2048 -> 4095       : 0        |                                        |
+      4096 -> 8191       : 1196     |****************************************|
+
+Userspace can still be do silly things, but I expected in the above that
+512 IOs would not be issued.
+
+[0] https://access.redhat.com/articles/3911611
+
+  Luis
 
