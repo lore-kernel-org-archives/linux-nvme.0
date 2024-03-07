@@ -4,72 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1FC5FC54E49
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Mar 2024 08:51:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0308DC48BF6
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Mar 2024 08:53:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ud7CuoW6+QsWOOtRaJYd/+AdHfLj70+eGfxI3TXyUdY=; b=yPxKl1Aq2+GxrIxtQjkFE22Y6f
-	VL/4gSQUIJaDMR0oB5WAGet1MZwU41Y3HYh6JscMUJEnaU2FrQTNImKae04Nyy292miCEYePzhB28
-	EJsGLcdYpx3JwYUcn2w25UnW1VaWnEmPCIpGgZW5yu14n4g3SCPSE/xxkkjjbExA5Lsqbgj3HJ9D1
-	SrUhFQPu+AIaPGGUXpR/GXL4aosudi+hXZLhvL45cP4+aXJirVDvTIGCRPFWWLY1WK4m19Ws/SQlX
-	/Rud2pFpswt8Ah3KA1Ws4G68c1B+qMr77CUJ94jcK0+HBqNKR9oiN/7A5dEhvLVHR5iCYAqSYqCCH
-	A6F4Wveg==;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=Gm6vgFiSHbeCK3Rlp1FfsCPW2r
+	LHy/W26QR4E6aEXpQcjNde5QTEZnA41uhYd/9WKdo+wLKMeXiryllPJezwFUU0wWnnyR1DXe2lIq5
+	XgjqlNDIHpLyue+TwZpWozC42G2Lxe1Jsx99Vc9VGA3SLoKz2jBhXFL5BGvJ95D1TyjSLO0oeDmeY
+	O4F2BfTXIRsMsvt49yUvvhY2stixKnGpQS4c+hmmVRCBJHlbdznqS1kuLpvGnC+HqcMsJvy0xvCKq
+	5t4f/mLgAHts4cvQGSaansm06vmNv+RaItFGkPrn2zPHyVsCdk0Wj2Pm/6ljIN1LBsHvajWAE12cQ
+	yreCP7Sw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ri9Ti-00000003iOj-1ycn;
-	Thu, 07 Mar 2024 08:51:50 +0000
-Received: from mail-wm1-f52.google.com ([209.85.128.52])
+	id 1ri9VW-00000003icK-05Nx;
+	Thu, 07 Mar 2024 08:53:42 +0000
+Received: from mail-wr1-f46.google.com ([209.85.221.46])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ri9Tf-00000003iOG-0wGh
+	id 1ri9VS-00000003ibq-23bD
 	for linux-nvme@lists.infradead.org;
-	Thu, 07 Mar 2024 08:51:48 +0000
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-412bcca7c56so184785e9.0
-        for <linux-nvme@lists.infradead.org>; Thu, 07 Mar 2024 00:51:46 -0800 (PST)
+	Thu, 07 Mar 2024 08:53:39 +0000
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-33e4ff2e95fso108665f8f.0
+        for <linux-nvme@lists.infradead.org>; Thu, 07 Mar 2024 00:53:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709801505; x=1710406305;
+        d=1e100.net; s=20230601; t=1709801616; x=1710406416;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ud7CuoW6+QsWOOtRaJYd/+AdHfLj70+eGfxI3TXyUdY=;
-        b=TajU3TSeUAn6o+MQNTWjgmf5XMABhivjZQbNtqLNSLLN9vrBw2Lk1qJWqrUN7Oxp9z
-         grIIsvwfrfAuULPMbsBJWvYsKtNqJY3ULBkIqFGeUcqds9P8aVDpbElTNvKMszVC8EoG
-         iSW6Zy3jK8fQPprIW9vJUEJe8moPJQUmaTOTf429AOkAm2JQFz18yeI2eAcMWCa+XLW5
-         HKv4Ne/EGZfku1++XJM2OYJKriX5Si7gbQ3FUWq2DyOBTykLUM9Uo5L9nT8jSwstpEVR
-         y3+GpGfSNO9iPoFDv5qos3Z16dOEVjatylGiC9L3m8DiDiT944BaGprMvsHmNU0h9bbF
-         EH6A==
-X-Forwarded-Encrypted: i=1; AJvYcCXj90KLluP20q3FRKIZln2ceA2tg/3brR7TeSxvxngFXKBrkVPK2QaYWcWK8MBbJd9WNXBWHPpbBBHbHRx1wf+bUvh4O+X+qxvclSX4mHg=
-X-Gm-Message-State: AOJu0Ywmzs3muNkQle5pq6eyNAEPdwvP2xy24UFAcJRxZE1/RL/FF+p4
-	Hh+c65e6VAle2b/yPnmK8/+RSc42rpMtFNLH43FTjOxQT/sJQO2JwazgXn+h
-X-Google-Smtp-Source: AGHT+IF/UkfdAyYdORNPUsJcOqrI8bYE+l/NRfh9EFWToYYnkEhd0JLTlYmw0QEQnOfqai0ZAogm5w==
-X-Received: by 2002:a05:600c:1c1b:b0:412:b2af:2632 with SMTP id j27-20020a05600c1c1b00b00412b2af2632mr972540wms.0.1709801505098;
-        Thu, 07 Mar 2024 00:51:45 -0800 (PST)
+        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+        b=KR4u26iU8tqrJHWW53Bz8zkqjBleL0tqz0B9aYnWYJp92Q5pJ0hKj1MwnfTO8B4IWv
+         Mq64k8CUs6e73sHW0glSMGjbuT5pbajZsR8GrI/Zs29l+vgnMMLwYB7XqgdWSReVxUyy
+         t7t+XZI/B54CP70LTOKqdewWq7QIop6euVsoGzj3ymapZOpx5dipt+EPb7pz+53/+LRX
+         8jTJquMuzq7Qwlx4BTjGN1cv6BovWloYbY5qbdr+bLQUQsYVWI3NMbQH+6UT1rOFcU7Z
+         D11iCaJe7xO/dIcjUjsn5Rnpk7iSSolxgQK6hZdBWamj4Qf5y7QhwDy/wbzC7qIi/KiD
+         4yww==
+X-Forwarded-Encrypted: i=1; AJvYcCXwJZhFTwySUn91MZ7F+s4/p7U8LKZSQfJjlx+C4HZpfAdvUDJzbIto1fkMwd3Xrbw2uV1ruAF78dOzLELHJtGHYr905cldRDx+PdP38KQ=
+X-Gm-Message-State: AOJu0Yx/x58OKvclIAyVOoF0FWx8oMrP6wTkqEjNzIZyqZ/Rr3fqrGOc
+	1Goc2z6LLpmyR1VjEWewmtdDaDKCifo/XK4j721SvT64ABfUjeIlwQ0biteg
+X-Google-Smtp-Source: AGHT+IEJg5tH49GX+YFcGyRLqxftiDlrnPuCl0ZC5zJaSXVyN6Mb/tOgkq2Zw27KNnH5Fe6pzmUrzQ==
+X-Received: by 2002:adf:dd87:0:b0:33e:4503:3ba4 with SMTP id x7-20020adfdd87000000b0033e45033ba4mr3329880wrl.7.1709801616156;
+        Thu, 07 Mar 2024 00:53:36 -0800 (PST)
 Received: from [10.100.102.74] (46-117-80-176.bb.netvision.net.il. [46.117.80.176])
-        by smtp.gmail.com with ESMTPSA id bj25-20020a0560001e1900b0033e49aebafasm6731969wrb.3.2024.03.07.00.51.44
+        by smtp.gmail.com with ESMTPSA id h12-20020adf9ccc000000b0033e03a6b1ecsm19613536wre.18.2024.03.07.00.53.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Mar 2024 00:51:44 -0800 (PST)
-Message-ID: <868727ce-5970-4296-9fc7-a431dccc8a63@grimberg.me>
-Date: Thu, 7 Mar 2024 10:51:44 +0200
+        Thu, 07 Mar 2024 00:53:35 -0800 (PST)
+Message-ID: <4e11e781-195a-4d52-8804-04bc79d3b4f1@grimberg.me>
+Date: Thu, 7 Mar 2024 10:53:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] nvme: authentication error are always non-retryable
+Subject: Re: [PATCH 2/4] nvmet: lock config semaphore when accessing
+ DH-HMAC-CHAP key
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>,
- Hannes Reinecke <hare@kernel.org>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+To: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Hannes Reinecke <hare@suse.de>
 References: <20240301112823.132570-1-hare@kernel.org>
- <20240301112823.132570-2-hare@kernel.org> <20240301131208.GA3586@lst.de>
- <f511975a-822e-470a-a3a2-d7ed652e3cfc@suse.de>
+ <20240301112823.132570-3-hare@kernel.org>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <f511975a-822e-470a-a3a2-d7ed652e3cfc@suse.de>
+In-Reply-To: <20240301112823.132570-3-hare@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240307_005147_365146_017BF8E3 
-X-CRM114-Status: GOOD (  17.27  )
+X-CRM114-CacheID: sfid-20240307_005338_554242_36195604 
+X-CRM114-Status: UNSURE (   5.30  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,65 +85,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 01/03/2024 17:26, Hannes Reinecke wrote:
-> On 3/1/24 14:12, Christoph Hellwig wrote:
->>> -    if ((nvme_req(req)->status & 0x7ff) == NVME_SC_AUTH_REQUIRED)
->>> -        return AUTHENTICATE;
->>> -
->>>       if (blk_noretry_request(req) ||
->>>           (nvme_req(req)->status & NVME_SC_DNR) ||
->>>           nvme_req(req)->retries >= nvme_max_retries)
->>>           return COMPLETE;
->>>   +    if ((nvme_req(req)->status & 0x7ff) == NVME_SC_AUTH_REQUIRED)
->>> +        return AUTHENTICATE;
->>
->> This part looks fine (although I'd word the commit message
->> differently for it).
->>
->>> @@ -467,7 +467,7 @@ int nvmf_connect_admin_queue(struct nvme_ctrl 
->>> *ctrl)
->>>           if (result & NVME_CONNECT_AUTHREQ_ASCR) {
->>>               dev_warn(ctrl->device,
->>>                    "qid 0: secure concatenation is not supported\n");
->>> -            ret = NVME_SC_AUTH_REQUIRED;
->>> +            ret = NVME_SC_AUTH_REQUIRED | NVME_SC_DNR;
->>>               goto out_free_data;
->>>           }
->>>           /* Authentication required */
->>> @@ -475,14 +475,16 @@ int nvmf_connect_admin_queue(struct nvme_ctrl 
->>> *ctrl)
->>>           if (ret) {
->>>               dev_warn(ctrl->device,
->>>                    "qid 0: authentication setup failed\n");
->>> -            ret = NVME_SC_AUTH_REQUIRED;
->>> +            ret = NVME_SC_AUTH_REQUIRED | NVME_SC_DNR;
->>
->>
->> .. but the others should never use nvme status codes as they never
->> go out onto the wire.
->>
-> Would love to, but to my knowledge we have the convention that NVMe 
-> status codes less than 0 should _not_ be retried.
-
-What nvme status code is less than zero?
-
-> NVMe transport errors,
-> OTOH, _should_ be retried.
-Yes.
-> 'connect_admin_queue' and 'connect_io_queue' now straddles the 
-> boundary: technically it's an NVMe command, but in
-> practice it's a transport command as there are quite a lot of steps
-> before we even can send the 'connect' command.
->
-> So, how do we handle the return codes from 'connect_admin_queue' ?
-> The NVMe core style (with not retrying negative errors) or the NVMe
-> transport style (with always retrying until we run out of retries)?
-
-Not exactly sure what is the question here. I am still going over emails 
-so there
-may be some discussion around this, but it is unclear from the patch 
-description
-what is the issue this is solving.
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
