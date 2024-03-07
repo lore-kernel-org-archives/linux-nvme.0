@@ -4,73 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78D1FC54E49
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 Mar 2024 10:33:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 80012C48BF6
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 Mar 2024 10:35:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=G5SEuU829SBeN9Z+FExisYI5Ruv+jv1Pb0lU4z6MqnQ=; b=mWpAbFa+ZGvYKvpkXht6l5LiVR
-	wIOFuzsfLGhDSDpJoUb7bsLT2KdrU8fsQa8IrSiig372o/2vAOkBALBiv/BOQqpDcbgU+iX4L1cH7
-	HqAbqMoQ8GmxLABJx4Xxfil5L7nIF6SHVRVYpe7r/4Y3Sm8UuEFRM0dXLJx3p32hGrpj+e4jlsArK
-	aLLfwKnZAwMNhYu54OG03yqXb2TERpT3hF5k+o94/RwNbOc7KhkHTLOOxjct7KEBcmwWnUgjl4z8o
-	hOKwJ4BKvCVbhC6N2TlvB9P/6juiaM5p+b5tADlSVytKegBSdFd/PXgtcOQHnVeJ2zQVvCAEvMCE4
-	v8E6PB5Q==;
+	bh=ZverQupovyQBVLcCaMqXYvLWmkxxy059MNcR8Yf1dCQ=; b=dt1Y9iE72SvDBA0R5EW+/ctv39
+	Xc3OK6SrCUUyA/NRpgDRTO+5Tmngtmi64oRK+fakQtvJu83326Hcj5dAbbEKenb8dHhSbryNUUPbb
+	6IKD0IrtxmWA7LN5TRJoqVt1V7nvCnv99ebBrjK29ZojBDMJQoC6SaE5aUjCy76fDmZo8ZTa3J54d
+	emsM71kfRPitjvCHp38rZvAgm+XN9/8jS3jgMFcegZmJrLzJcj+eqlZC8JvCnKVrO48qDYDETy3R/
+	xOSiu1H12x3r2FurlQ2aILBD8PONxUZxlm9+y/dzYQZmdtWJdk/RLgYkuy+WNlGWGIYAU3U2Gt/HC
+	9PGgFqoQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riB3z-000000046Oi-0q4W;
-	Thu, 07 Mar 2024 10:33:23 +0000
+	id 1riB5o-000000047BP-0ZtZ;
+	Thu, 07 Mar 2024 10:35:16 +0000
 Received: from mail-wr1-f43.google.com ([209.85.221.43])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riB3p-000000046Gd-1h33
+	id 1riB5m-000000047Ai-0iRy
 	for linux-nvme@lists.infradead.org;
-	Thu, 07 Mar 2024 10:33:15 +0000
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-33dc6df042aso170448f8f.1
-        for <linux-nvme@lists.infradead.org>; Thu, 07 Mar 2024 02:33:12 -0800 (PST)
+	Thu, 07 Mar 2024 10:35:15 +0000
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-33dc6df042aso171142f8f.1
+        for <linux-nvme@lists.infradead.org>; Thu, 07 Mar 2024 02:35:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709807591; x=1710412391;
+        d=1e100.net; s=20230601; t=1709807713; x=1710412513;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=G5SEuU829SBeN9Z+FExisYI5Ruv+jv1Pb0lU4z6MqnQ=;
-        b=poo+C2JZDMzAGvw4NlpC+kH94+UJzCKhTs14VcO9e7jepZWxvPtQqk1asNwP9WdPGD
-         M6Rzua9bazGHmGnJqgi1tZXV6vQWp90wxnNr7eY4BrS/zjOE3CsMIDrCD87h5amBZyYd
-         nfHWDrADrjMbK4D3Fmin80RBD0JwjUfhEcPnr0k66i6LflQx3T2KdKZN8aqWRgl0hTr3
-         LRZXHdIXc968O/b7cHG7Z9QVhbMqHIXzbiw/VcQXMiLb5Hl7MfWfUjubAok3nUxAzBGl
-         usts7S69SOL2NyfWw8V4f4EomW3ZYGaliJREZJUN6yVv8477XjQisqrdLt1LwXqpQkff
-         vzXA==
-X-Forwarded-Encrypted: i=1; AJvYcCWGcdTT6TtgI9dgB7KmbDsbzcENYnmxVTMAfBgwP/UKHAfFYP7yniFuznzaDPNy9euyROqhkbXCzZ2T1H8zeh22OuOJhpP3fWrTq2+8aBQ=
-X-Gm-Message-State: AOJu0YwTf2Jtc2VflfLr6D025kLKjHLzyti2VN/rwWAaw1iF8cCjJytO
-	uiBGJUw3rHy2a4QDms8I5qskOs/ZAHHcDWUKuYzb2ETrfaDOP4mt
-X-Google-Smtp-Source: AGHT+IHff/zjCAil3urGqIuISab9jNt7BVFuGYd3uE0CYWRalE1TN/cSle17tWJkT33DYNV96GXQFA==
-X-Received: by 2002:a5d:5447:0:b0:33d:9ee1:48db with SMTP id w7-20020a5d5447000000b0033d9ee148dbmr992972wrv.2.1709807591497;
-        Thu, 07 Mar 2024 02:33:11 -0800 (PST)
+        bh=ZverQupovyQBVLcCaMqXYvLWmkxxy059MNcR8Yf1dCQ=;
+        b=tF4ZQd+vPeTRej/xxGzmBGaREDFrYFdARCYypDA6HbVbe2B6UBP/MqTMm62YLpPxrA
+         cytns8h5peQwF1NsweFDOXXEh10a3itPtD753o9XCFNriVLkqMu+Apqt68bw+zAiXEX6
+         cuX6A+NY1G31MS88J5ylus+vc3AzP0JDhqNulBjVA8QkVd/7aM0Hwz4b9Qf+C5J9pDk+
+         GNtZx7D3WeEYOwrnAbxLaxZdzf5P7f9jFWUMxmCQT4nqikbTyVyHHHaODMmrhpySvdpK
+         FbkqjkhCyVLxI/XHatc98RD+kHnWj4L6lWdr/QUfGa+VxqArTlQQNLp+rL6YBP+J5nAi
+         nxsw==
+X-Forwarded-Encrypted: i=1; AJvYcCXrhOcq+T8go2jeT9dX1NEGio0wp7JuXVAEvNImCyMXI3KPxhcCmakNv7hXVvGrj3R/4iPM02/C12K1QQK6NZBPFllQdPyngQf7KtvqJn0=
+X-Gm-Message-State: AOJu0YyJY1bDmbZG+U7G/pxY0DPZbh2+71cSDgOXGrRqMtdLzOmiaCDB
+	+ZQ+F50oldu4wX2KSRpwY7T263aU6j1A4YssoHE5e/0U5Qa6Xaeq
+X-Google-Smtp-Source: AGHT+IEIJZQhQs2F+Rri5mKflCqfzveuIo65qwHrUcNVvg6olRch2xhCYoB66Z5E4FBZIkiVUnZLMA==
+X-Received: by 2002:a05:600c:4711:b0:412:f3f0:d8af with SMTP id v17-20020a05600c471100b00412f3f0d8afmr1136723wmo.0.1709807712697;
+        Thu, 07 Mar 2024 02:35:12 -0800 (PST)
 Received: from [10.100.102.74] (46-117-80-176.bb.netvision.net.il. [46.117.80.176])
-        by smtp.gmail.com with ESMTPSA id u20-20020adfcb14000000b0033b7ce8b496sm19788995wrh.108.2024.03.07.02.33.10
+        by smtp.gmail.com with ESMTPSA id gw6-20020a05600c850600b0041273fc463csm2210845wmb.17.2024.03.07.02.35.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Mar 2024 02:33:11 -0800 (PST)
-Message-ID: <6811acef-143d-4104-a814-d3cb0811192b@grimberg.me>
-Date: Thu, 7 Mar 2024 12:33:09 +0200
+        Thu, 07 Mar 2024 02:35:12 -0800 (PST)
+Message-ID: <5a6ceb89-c242-4e76-b6f3-91c83099794a@grimberg.me>
+Date: Thu, 7 Mar 2024 12:35:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/5] nvme-fc: wait for initial connect attempt to
- finish
+Subject: Re: [PATCH] nvme: fix reconnection fail due to reserved tag
+ allocation
 Content-Language: en-US
-To: Daniel Wagner <dwagner@suse.de>, James Smart <james.smart@broadcom.com>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20240221132404.6311-1-dwagner@suse.de>
- <20240221132404.6311-6-dwagner@suse.de>
+To: =?UTF-8?B?6K645pil5YWJ?= <brookxu.cn@gmail.com>
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20240228091417.40110-1-brookxu.cn@gmail.com>
+ <6eae3879-f9d2-4fe3-96b1-c9e2aa939264@grimberg.me>
+ <CADtkEeeiNDO87L9MwC392gEp7YhhGGxojRu8nW_epkTe-jxcyg@mail.gmail.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20240221132404.6311-6-dwagner@suse.de>
+In-Reply-To: <CADtkEeeiNDO87L9MwC392gEp7YhhGGxojRu8nW_epkTe-jxcyg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240307_023313_597488_D6EA9BE9 
-X-CRM114-Status: GOOD (  10.77  )
+X-CRM114-CacheID: sfid-20240307_023514_236371_3C4CB734 
+X-CRM114-Status: GOOD (  12.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,18 +87,47 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 21/02/2024 15:24, Daniel Wagner wrote:
-> The TCP and RDMA transport are doing a synchronous connects, that is the
-> syscal returns with the final result. The operation either fails or
-> succeeds. The FC transport offloads the connect attempt to a workqueue
-> and thus it's an asynchronous operation.
+On 07/03/2024 12:32, 许春光 wrote:
+> Thanks for review, seems that we should revert this patch
+> ed01fee283a0, ed01fee283a0 seems just a alone 'optimization'.  If no
+> double, I will send another patch.
+
+Not a revert, but a fix with a Fixes tag. Just use 
+NVMF_ADMIN_RESERVED_TAGS and NVMF_IO_RESERVED_TAGS.
+
+
 >
-> This async connect feature was introduced to mitigate problems with
-> transient connect errors and the task to coordinate retries with
-> userspace (nvme-cli).
-Maybe it is a better idea to let userspace handle this? the whole async 
-connect (and reconnect)
-just seems it is causing more issues than solving... I may have missed 
-some conversations
-about this one...
+> Thanks
+>
+> Sagi Grimberg <sagi@grimberg.me> 于2024年3月7日周四 17:36写道：
+>>
+>>
+>> On 28/02/2024 11:14, brookxu.cn wrote:
+>>> From: Chunguang Xu <chunguang.xu@shopee.com>
+>>>
+>>> We found a issue on production environment while using NVMe
+>>> over RDMA, admin_q reconnect failed forever while remote
+>>> target and network is ok. After dig into it, we found it
+>>> may caused by a ABBA deadlock due to tag allocation. In my
+>>> case, the tag was hold by a keep alive request waiting
+>>> inside admin_q, as we quiesced admin_q while reset ctrl,
+>>> so the request maked as idle and will not process before
+>>> reset success. As fabric_q shares tagset with admin_q,
+>>> while reconnect remote target, we need a tag for connect
+>>> command, but the only one reserved tag was held by keep
+>>> alive command which waiting inside admin_q. As a result,
+>>> we failed to reconnect admin_q forever.
+>>>
+>>> In order to workaround this issue, I think we should not
+>>> retry keep alive request while controller reconnecting,
+>>> as we have stopped keep alive while resetting controller,
+>>> and will start it again while init finish, so it maybe ok
+>>> to drop it.
+>> This is the wrong fix.
+>> First we should note that this is a regression caused by:
+>> ed01fee283a0 ("nvme-fabrics: only reserve a single tag")
+>>
+>> Then, you need to restore reserving two tags for the admin
+>> tagset.
+
 
