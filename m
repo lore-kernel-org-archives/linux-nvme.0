@@ -4,138 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77757C54798
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Mar 2024 00:20:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C2D3C54798
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Mar 2024 01:54:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=T6MjpMLRM6MwWRFav9K4L2sThYh3H9DFSK9oFQ3Ki1Q=; b=FsebhsbQpfjO4IySswo3viDgnc
-	ROIgooee3iRTXYR5mRuchtmqzpnSB0M1dsarBOFjoa+MRfoPIzgCpeB5lc3MviSSjJF8GxoDztMJQ
-	LopAfj6B4PoxMGLkrDYhqsSh5DyZTHZXBV26K7yVAZ9BZ6AqaHYC2d6kn6pexlOB86AW8V1Iec30Z
-	XXFw5sk+gxVMpe3DvQxvPegRWunbThaGrb6ut3gILC0tKpBx4pMpPmuAkKknKKFjVcWYdJzFQr8No
-	LSFI61MHU258mXgifn5DtOXqp6R+b6jIIX/uipEdkQ7nBzAevf5FrMw4ooRVRoTgJlCSo07GIYubt
-	osRl5YIg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=T0VmI7cjh01bWA9ccp2UxVbT9UK8V+NJKMSbB8EgOiM=; b=VKXSViiHoVlIQwDn1gYvBQ+1vr
+	bJJSRY/K6cX/OIt/dVw/8Eth9FIJnQjUf9vi/QMs8WDktcLiql3WK5YJV547sdB/5ak4XP6gleYHn
+	oj9OVmFAGiA1x1Iv5E80+uEklNVJjjP42xGhWFVrr5fDAEDjnBEUgvku/TlBdATCgL2lcYWr23SIs
+	jIB7S61T7+4DhSkWgl8dns8UnGwNyOvyJJMUr07K76yQXSftvMdp8s1OMUkRCV3OmOAZZJcfz4lEW
+	KT7XZwbI2j9uJh7HQPh+04wFNxtmi9sk4z4LFW4UEMvXSYKpJPH2pLzUQ/71ExmV2LlKBpj/XgpQs
+	R69MxuLg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riNxt-00000006xtv-3w54;
-	Fri, 08 Mar 2024 00:19:57 +0000
-Received: from mail-dm6nam12on20601.outbound.protection.outlook.com ([2a01:111:f403:2417::601] helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+	id 1riPRa-00000007FO3-188B;
+	Fri, 08 Mar 2024 01:54:42 +0000
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riNxq-00000006xsR-1A4a
+	id 1riPRU-00000007FNG-2Ruc
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Mar 2024 00:19:55 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Nee/saftt8o94OLqKSQgE1HLty6vEkRUdKzjmuW5ux3GdDvbDxscQTnZ2i/7fnBL0+bqhxngUCY4/AQwvpp+gZ8EW5gBOPrdjJa/oVXjgCOcTs2YuzIvaGdhAQqCa5ohoWmoKnNqvQo6wHWuJu6bSSPz5hqLDJcvp0WgTS0OHOauihlVot5gRpGewH5NjGx31lnlZdIb+vz7jrDX21SiaMDnVZjrL2YU6fk46lriIZI6JPaFdYfUXsYAo90VfwPj3BddC/34d5TkwvMrxxer16BK1dMTVlJRs8zzqmAzUyyCZTMmj/7/uCNjBqvxL4/97udKGH+cKa1mLFaf3gXVMg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=T6MjpMLRM6MwWRFav9K4L2sThYh3H9DFSK9oFQ3Ki1Q=;
- b=J17e6G00k3NReZJj9+30gqSeU89TfaLhmzBVWZ9WlJZic/6wgXq53zTXdQUQTX0jfu1GkV8aGw3qmn8oWMItMGCUXaGVQSxmekqPzmbE3zczx7PXvjV60Ecu7uiJNMii5wj5fsZBXhEJkDEA87EqLj0CQMJUGeqXpN6QDuDDwJHkCgm8omUHiCaomuVfox5xplvs8Ufi96sNNjPz0I0D9xpCXLlE1gvHOW7Z6QjyXU+Xg+WxYGZOqCO75u4UFidhwTg9ZruPh6ThF40T8e4Lmgq7GszgCvZNpceKsodsB4yciDFC1C80/7XXw1YKkrSEYSq9B6PbuArSA4ZmL/XTuQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T6MjpMLRM6MwWRFav9K4L2sThYh3H9DFSK9oFQ3Ki1Q=;
- b=KWOz0KtZEVZwixt8qPTgqCYhtrqu/5oJ14hVUSjoW/7yayFSuzodJh2LJW+OFYlRlr7Nc5sSwcODkVV99o6Jxo0GXJyjAvzgVwd8FvhnhCu51U/q6Jx7x0DyAKjCEvFwRzuakZEsesRJ2/1DDMoOz9ZvJ01xff4tlppwVq6wDs9rI/nG+i+bO8IwxVae3AQn8p7l0V5DsH8NEa6exfL1DSlEvzzjEGFTD/OdVCJwEvUOtx7rPXCwuiBCajG1ZHqsHxUKkayv1heRLYLbBrZof3kVGycAh4XJqm6N9cgd4YghpKwI3v/z7035uu/DJ/AXcCV5UB81Xq3pG4JAx5vlZA==
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
- by CH3PR12MB8971.namprd12.prod.outlook.com (2603:10b6:610:177::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.39; Fri, 8 Mar
- 2024 00:19:47 +0000
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::a1:5ecd:3681:16f2]) by LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::a1:5ecd:3681:16f2%7]) with mapi id 15.20.7362.024; Fri, 8 Mar 2024
- 00:19:47 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: brookxu.cn <brookxu.cn@gmail.com>, "kbusch@kernel.org"
-	<kbusch@kernel.org>, "axboe@kernel.dk" <axboe@kernel.dk>, "hch@lst.de"
-	<hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>
-CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] nvme: fix reconnection fail due to reserved tag
- allocation
-Thread-Topic: [PATCH v2] nvme: fix reconnection fail due to reserved tag
- allocation
-Thread-Index: AQHacH+m6pRhTd4pC0OJQhd+KkMjTLEs+6iA
-Date: Fri, 8 Mar 2024 00:19:47 +0000
-Message-ID: <800a2a54-9156-482f-9bc7-e99eea7dad5a@nvidia.com>
-References: <20240307110657.252120-1-brookxu.cn@gmail.com>
-In-Reply-To: <20240307110657.252120-1-brookxu.cn@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|CH3PR12MB8971:EE_
-x-ms-office365-filtering-correlation-id: 745eaf0b-a970-4ffd-dd38-08dc3f05766f
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: fGPfvSPu6ngfwQOBqz0dDAHqgEZwyicxrVYIfAdhZ0Q1ypo+VWELZ6W4B2QOfsOvdqo4N7i21L3GgrLs2nBee4Z+8lFSTW7sNvm7bK8Xtf77BQU7QgtHvrygXkzQfSWlW5745bYSvtVXHEDQ+Aq+1VCN3GeJ+Sk7BtuWnXdXYbZGQp+mBJg3o8PBbPaOxOFf3x8yLkVwyDMD7c7nQIxITOkFp4zAgW9xYIMbP3beUUF/CQHFWEjPbQVBVhdfO0ckvHsJMVjQLn+wPdGv789Xc4d/Vmn1mMwDOYsymo9nlUSWmZleRo7aOT4Xima3IKtrR+rCJcviXnOP+oexmXKjm3oenHN3+6txysY5pVAshUb2dPufi9CXIYH+KnKtEhb5BwEyxp3nPY1EMS5MX0wjaT7XmLe50Ve9eDfr2slLuQ4Z9MW/TSgYhN/MoDjjEnP0P3UhYTUuy0I+UdDDhtTVxC8I2N352ryNH64XsbV5G8+P3QsyAi6Axuzhm713wdNIgGlLv+qHrxjD+qziPs8eOlyQuhU+ZgJOPnixpq+4kv3UI7ZHSzzA47t97qiPupBAlU1Orsnxr6AcMMnh49aDRAZoLqrAFRukEzI5Z/KCuFwoGyUUTYgghHb/g32SCbTxtf9IHBOpkMtUjD5KCyYo8JIHfZ7F8PlNKT/d4l+DfjyanAQcUQCggkdwFwnRB/1Mjg+194Tv7YsLsHBPqS0naDv6yrvonYtu3Wm2w7WtyJo=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RTZ2WnNXRmJMWVhFa0x5OUpINTNhemlGQ2JaSDViQW5RNW1PV293c01weUY0?=
- =?utf-8?B?WkZtNXplWlFRcWpUbmtrbmhRL2RKanZUKy9tRHExZllndEQ2WDVQUmVQU2ly?=
- =?utf-8?B?UFVocjF6MytDUGZPM0ovQ0JYRDFpSFhYOFRKQWZyRFlqVUFubXp3aWthRVpJ?=
- =?utf-8?B?Zk1iOTdMNXZBUnpnR1JiMWdNVjh2cG04VjhGWFdGVTFZWGR5OUgvOW9aMHRS?=
- =?utf-8?B?dVpIVnJ3cEFWRElVLzB1TXkzcXVIWHlXMzNxaUJVNHpZMkVhL1lZTHZCb0th?=
- =?utf-8?B?SmJVRTdSdSsxMDRndjEzc1V3ak5TQVZnblY1S3RjeW9tdFFzbTRLNmVxQWFr?=
- =?utf-8?B?blErb1B1RW51c0FQZExQbGdlaC9EYlRHaERsdTN5TnF3andVSEJXV2dOZldq?=
- =?utf-8?B?WStqN2haYnQyd2dzVzh6eVAvakdFZE1qRHpaNzJjaWluV0ZWL2YxZFB2RG9Z?=
- =?utf-8?B?ZnNqeXJxZ09XK09BM0VpQ2F2YVU5VVpwVERnb1p3UWU2bXl2OG12cy8wLzIx?=
- =?utf-8?B?R3V3TGtTUnBkV3FXK0tsa3hkQ0pYN0RIQ29MZlNzNDhuUmVKUW1jTzhTL0Vz?=
- =?utf-8?B?M1N1YStXTzNiakxwWnVnd29LMG9pczIyL3phcUptZVo2aDE0U0pOdGZ1cTRi?=
- =?utf-8?B?ZjhpZVVIdG1ZUkhyV3NnQjhKc0R2dG1INVF6UXYrTDN5ZFV2OWdPQWtjbEpj?=
- =?utf-8?B?c0NaN2FrdUNZOGlkYSt4RHovMVFidWJONDlXTmRkQkZxUkJlMjBlSWovMHhy?=
- =?utf-8?B?a3FhK1ppS0RNaXAvVmpsQy82QXd0ODFGc1VZb0R0aVhGN1NldUlSQnhzT2dV?=
- =?utf-8?B?a1NLVDJjcy8zRFFJTDRwODB1Y29EOXNEV0ZkZ1FwaEtVVXhIR2E3YWt0Mmdx?=
- =?utf-8?B?dWVCZGJ1azN5Qkd4L3BCbU4xMXJqQjRrKzc1aHhhQUx0TCtvNDZ4WndxYTBj?=
- =?utf-8?B?N2MrMWdZUkM3d0hyV3ZYc2ppam9RUDlSeUZCcHcrbnEzTTFUcnBQdnhVdUx0?=
- =?utf-8?B?YW1GYkRNT2VoNWpuMjdTZlRjdUx2ZmpibDAyblQ3UkJMWjY1UVF5K2JBTmt1?=
- =?utf-8?B?MzYxOXhHdE8xVmRqTW5XN0RiVEpuVzJxVnBMRWZCelFFWjVuWC9XSUVpMjc4?=
- =?utf-8?B?R3JtRFpBSEU2ZHF3RDE1bmJhalJlWk42dy85K0tzbHRzOHd6WEplL3N6aFpy?=
- =?utf-8?B?L0oyWU1XdUZjay9SMUFkbU1DV2ZQQjVRaTN1M0h6alBWd1J4cDZuMHdCTXg0?=
- =?utf-8?B?VjRYTmVoWm9WNjlWdk5oSk9QZk9vNXVWYmxDUVlvUFBXWWlQZUFzNXZYUnk5?=
- =?utf-8?B?eVFyNVFTQWNuZkI1UDNBYis3cGkzanl1dGhoQnNFRStRN2JSSTFXbjBXV1dJ?=
- =?utf-8?B?VHpmbHJ0aHhyQ0lwdzBuS2dveXUwNUNyUUpnV1hiTTc3Y3ZkSkhEdEZ5b0dW?=
- =?utf-8?B?TCttMk81RE05N2t3WUV1QlNUME5tT2V1K1RjSkRvYTZRbnIrY1lJYys0RTZO?=
- =?utf-8?B?Q280OWcwdWJqaGdvVW1BMjFKcGo5RmI3a1hqb3R3U1BBZFBta3pKUm9vaklH?=
- =?utf-8?B?UEwzWTRWUnp0WmZ6dXZxV3Rhb2FPSkl1ZnlVWDhMSDN3UHpHcWVhaWVqZEt3?=
- =?utf-8?B?am1Oa2pBbmp0UkRSdVRxR2hzZGNERUtSU1NRSDdER0tZMnVUbW1FMEszZXVL?=
- =?utf-8?B?UDNZelBrQWRReE1sQmpmQ201d2d3SWo3dFlxek8zaysvMlZtaWU2U2xBeURF?=
- =?utf-8?B?eGhENHJxQUpjWituS2YzZTViSm5SNlFwRklwSVhNZXovN2c2NVJaYkNhelln?=
- =?utf-8?B?RGlsa0lWVklDcWIvVnlkRVBkTjhZUHA1WmtHWFVoMGRKbUM4RFFFcTJRR21U?=
- =?utf-8?B?aDNrbEZkY3RQVmVSaWRRb3NhNWhjRW1JS2hhSzUxT3VnbVdCKzZncDNXRDJ2?=
- =?utf-8?B?NHFzcEprdmMvTnVsNFdaSzdtMHNyRlJaTEY5L0VsN3E2ZG16L0MxWFBjTE5k?=
- =?utf-8?B?RlVhSXFUYVJ5cDJrVk16Qzg5OSs1UUVCVkNZd0E4SWdhNWp3N3F3ZUtkU3ZC?=
- =?utf-8?B?eVBTUzZ5TVVnSWhYWVl4eUdkZmljT1pUMVRZcXhyL1hXemVBWWVpYUJxcUpy?=
- =?utf-8?Q?ySC5h63gjxzVQMufG9AHudzl1?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <8C94C2EB9990A141A91646793E481719@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	Fri, 08 Mar 2024 01:54:38 +0000
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1dd611d5645so6739695ad.1
+        for <linux-nvme@lists.infradead.org>; Thu, 07 Mar 2024 17:54:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709862876; x=1710467676; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=T0VmI7cjh01bWA9ccp2UxVbT9UK8V+NJKMSbB8EgOiM=;
+        b=mxa3BfoGS74BIU9tuG9wXP6zf+sHyW1y5R2erfPneMEzKG96kzwO+uBtAAYomI2q7P
+         19IUDEAnmVj59kKhi5f0nz6ml63oAhqZy5eHpxITsXG3i9H7TBPMxlMYqYlgexGm4GE/
+         wRO4e1JIyHBq5ONPm8KhKOGHfhvD5dp7McDEMHowXtVkDs12lE22zUWR9ZV5vUhVx8Zg
+         siju95vlYCaowSzHsfiV6+i52Ba46c1i3eeVi4cQ1TCxOf8wBGCyCDHMzJHwnZKNHXfS
+         WMa24xZv2ZiXLB9ls3JJf/d9dMK+XL6Ipo9+Y0cIkz81sNcyPxahy6+5HSedyFzpUAuf
+         l3hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709862876; x=1710467676;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=T0VmI7cjh01bWA9ccp2UxVbT9UK8V+NJKMSbB8EgOiM=;
+        b=lJGbVOArU3+epbadnTdxweW+Jl4mr6y5AwrQG6d9iCk2vDYT2o39DfwyWqhY26p8rx
+         eYAWb5LYqaVzVmoOk9XES9QY4W6j7P3YUA9iy29Gw8QbjbX2xIT5YiodQcvpnEXm9oEe
+         9lZUBhX1Rb4JGnOGEos7ZetLllPsVu3pifnmgNN1Ob+RXsel9jfRJNslvuzj2ONzVQjU
+         UDF9Qb1U6X3nMo5wss9Um9X6wbo4g2sRW9YD4AXllo24exYBHdHPiyvJYpXc0udmw0TV
+         TWaETt7vqU2RhL23Ely4c/jDupbpp+2+B8FsaTJc4FO4QBH30NMl1dn0bZMHmHjLxz3s
+         YE3A==
+X-Gm-Message-State: AOJu0Yw3x2ys2xI3RdpuBM3vhCvzrJBqvotJupkmXMPYXGpK+waLZHVW
+	FWerxvDiBpZTyyKhtkg+oMYIvmXszW7HCSChLKAUZi7YGcr2JIAlGQbnkUYUUG+2Vw==
+X-Google-Smtp-Source: AGHT+IG8Ki4U/HJqYPtsOy4+8fzlsGDeLJ+EjEnwZUwHoLxUKzC6D0RgqFcow4Z6uSVDQALjxcmYmQ==
+X-Received: by 2002:a17:903:187:b0:1dd:6997:c96f with SMTP id z7-20020a170903018700b001dd6997c96fmr465916plg.18.1709862875858;
+        Thu, 07 Mar 2024 17:54:35 -0800 (PST)
+Received: from localhost.localdomain ([143.92.64.20])
+        by smtp.gmail.com with ESMTPSA id lb12-20020a170902fa4c00b001dd675cb6fbsm317845plb.298.2024.03.07.17.54.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Mar 2024 17:54:35 -0800 (PST)
+From: "brookxu.cn" <brookxu.cn@gmail.com>
+To: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] nvme: fix reconnection fail due to reserved tag allocation
+Date: Fri,  8 Mar 2024 09:54:35 +0800
+Message-Id: <20240308015435.100968-1-brookxu.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 745eaf0b-a970-4ffd-dd38-08dc3f05766f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Mar 2024 00:19:47.3676
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QdyuovpRVJ8ehf3g6X5fgc2HL3uzrzFqX4Ulwd5GqS712hUlmkvDmPGBkf+01fEKaMT6fEYtx0/dSBPnL/Ec0A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8971
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240307_161954_341921_17523A14 
-X-CRM114-Status: GOOD (  13.67  )
+X-CRM114-CacheID: sfid-20240307_175436_666314_EB335273 
+X-CRM114-Status: GOOD (  16.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,37 +91,76 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMy83LzI0IDAzOjA2LCBicm9va3h1LmNuIHdyb3RlOg0KPiBGcm9tOiBDaHVuZ3VhbmcgWHUg
-PGNodW5ndWFuZy54dUBzaG9wZWUuY29tPg0KPg0KPiBXZSBmb3VuZCBhIGlzc3VlIG9uIHByb2R1
-Y3Rpb24gZW52aXJvbm1lbnQgd2hpbGUgdXNpbmcgTlZNZQ0KPiBvdmVyIFJETUEsIGFkbWluX3Eg
-cmVjb25uZWN0IGZhaWxlZCBmb3JldmVyIHdoaWxlIHJlbW90ZQ0KPiB0YXJnZXQgYW5kIG5ldHdv
-cmsgaXMgb2suIEFmdGVyIGRpZyBpbnRvIGl0LCB3ZSBmb3VuZCBpdA0KPiBtYXkgY2F1c2VkIGJ5
-IGEgQUJCQSBkZWFkbG9jayBkdWUgdG8gdGFnIGFsbG9jYXRpb24uIEluIG15DQo+IGNhc2UsIHRo
-ZSB0YWcgd2FzIGhvbGQgYnkgYSBrZWVwIGFsaXZlIHJlcXVlc3Qgd2FpdGluZw0KPiBpbnNpZGUg
-YWRtaW5fcSwgYXMgd2UgcXVpZXNjZWQgYWRtaW5fcSB3aGlsZSByZXNldCBjdHJsLA0KPiBzbyB0
-aGUgcmVxdWVzdCBtYWtlZCBhcyBpZGxlIGFuZCB3aWxsIG5vdCBwcm9jZXNzIGJlZm9yZQ0KPiBy
-ZXNldCBzdWNjZXNzLiBBcyBmYWJyaWNfcSBzaGFyZXMgdGFnc2V0IHdpdGggYWRtaW5fcSwNCj4g
-d2hpbGUgcmVjb25uZWN0IHJlbW90ZSB0YXJnZXQsIHdlIG5lZWQgYSB0YWcgZm9yIGNvbm5lY3QN
-Cj4gY29tbWFuZCwgYnV0IHRoZSBvbmx5IG9uZSByZXNlcnZlZCB0YWcgd2FzIGhlbGQgYnkga2Vl
-cA0KPiBhbGl2ZSBjb21tYW5kIHdoaWNoIHdhaXRpbmcgaW5zaWRlIGFkbWluX3EuIEFzIGEgcmVz
-dWx0LA0KPiB3ZSBmYWlsZWQgdG8gcmVjb25uZWN0IGFkbWluX3EgZm9yZXZlci4gSW4gb3JkZXIg
-dG8gZml4DQo+IHRoaXMgaXNzdWUsIEkgdGhpbmsgd2Ugc2hvdWxkIGtlZXAgdHdvIHJlc2VydmVk
-IHRhZ3MgZm9yDQo+IGFkbWluIHF1ZXVlLg0KDQpwbHogY29uc2lkZXIgcmVhcnJhbmdlZCBsaW5l
-IGxlbmd0aCwgbm8gY2hhbmdlIGluIHdvcmRpbmcgdG8gdXNlIHRoZQ0KZnVsbCBsZW5ndGggOi0N
-Cg0KV2UgZm91bmQgYSBpc3N1ZSBvbiBwcm9kdWN0aW9uIGVudmlyb25tZW50IHdoaWxlIHVzaW5n
-IE5WTWUgb3ZlciBSRE1BLA0KYWRtaW5fcSByZWNvbm5lY3QgZmFpbGVkIGZvcmV2ZXIgd2hpbGUg
-cmVtb3RlIHRhcmdldCBhbmQgbmV0d29yayBpcyBvay4NCkFmdGVyIGRpZyBpbnRvIGl0LCB3ZSBm
-b3VuZCBpdCBtYXkgY2F1c2VkIGJ5IGEgQUJCQSBkZWFkbG9jayBkdWUgdG8gdGFnDQphbGxvY2F0
-aW9uLiBJbiBteSBjYXNlLCB0aGUgdGFnIHdhcyBob2xkIGJ5IGEga2VlcCBhbGl2ZSByZXF1ZXN0
-DQp3YWl0aW5nIGluc2lkZSBhZG1pbl9xLCBhcyB3ZSBxdWllc2NlZCBhZG1pbl9xIHdoaWxlIHJl
-c2V0IGN0cmwsIHNvIHRoZQ0KcmVxdWVzdCBtYWtlZCBhcyBpZGxlIGFuZCB3aWxsIG5vdCBwcm9j
-ZXNzIGJlZm9yZSByZXNldCBzdWNjZXNzLiBBcw0KZmFicmljX3Egc2hhcmVzIHRhZ3NldCB3aXRo
-IGFkbWluX3EsIHdoaWxlIHJlY29ubmVjdCByZW1vdGUgdGFyZ2V0LCB3ZQ0KbmVlZCBhIHRhZyBm
-b3IgY29ubmVjdCBjb21tYW5kLCBidXQgdGhlIG9ubHkgb25lIHJlc2VydmVkIHRhZyB3YXMgaGVs
-ZA0KYnkga2VlcCBhbGl2ZSBjb21tYW5kIHdoaWNoIHdhaXRpbmcgaW5zaWRlIGFkbWluX3EuIEFz
-IGEgcmVzdWx0LCB3ZQ0KZmFpbGVkIHRvIHJlY29ubmVjdCBhZG1pbl9xIGZvcmV2ZXIuIEluIG9y
-ZGVyIHRvIGZpeCB0aGlzIGlzc3VlLCBJIHRoaW5rDQp3ZSBzaG91bGQga2VlcCB0d28gcmVzZXJ2
-ZWQgdGFncyBmb3IgYWRtaW4gcXVldWUuDQoNClJlc3Qgb2YgdGhlIHBhdGNoIGxvb2tzIGdvb2Qg
-YW5kIGZvbGxvd3MgdGhlIGRpc2N1c3Npb24gb24gVjEuDQoNClJldmlld2VkLWJ5OiBDaGFpdGFu
-eWEgS3Vsa2FybmkgPGtjaEBudmlkaWEuY29tPg0KDQotY2sNCg0KDQo=
+From: Chunguang Xu <chunguang.xu@shopee.com>
+
+We found a issue on production environment while using NVMe over RDMA,
+admin_q reconnect failed forever while remote target and network is ok.
+After dig into it, we found it may caused by a ABBA deadlock due to tag
+allocation. In my case, the tag was hold by a keep alive request
+waiting inside admin_q, as we quiesced admin_q while reset ctrl, so the
+request maked as idle and will not process before reset success. As
+fabric_q shares tagset with admin_q, while reconnect remote target, we
+need a tag for connect command, but the only one reserved tag was held
+by keep alive command which waiting inside admin_q. As a result, we
+failed to reconnect admin_q forever. In order to fix this issue, I
+think we should keep two reserved tags for admin queue.
+
+Fixes: ed01fee283a0 ("nvme-fabrics: only reserve a single tag")
+Signed-off-by: Chunguang Xu <chunguang.xu@shopee.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+---
+v3: rearrange commit log, no code change
+v2: keep two reserved tags for admin_q instead of drop keep alive request
+
+ drivers/nvme/host/core.c    |  4 ++--
+ drivers/nvme/host/fabrics.h | 10 ++++------
+ 2 files changed, 6 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 0a96362912ce..3d394a075d20 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4359,7 +4359,7 @@ int nvme_alloc_admin_tag_set(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set,
+ 	set->ops = ops;
+ 	set->queue_depth = NVME_AQ_MQ_TAG_DEPTH;
+ 	if (ctrl->ops->flags & NVME_F_FABRICS)
+-		set->reserved_tags = NVMF_RESERVED_TAGS;
++		set->reserved_tags = NVMF_ADMIN_RESERVED_TAGS;
+ 	set->numa_node = ctrl->numa_node;
+ 	set->flags = BLK_MQ_F_NO_SCHED;
+ 	if (ctrl->ops->flags & NVME_F_BLOCKING)
+@@ -4428,7 +4428,7 @@ int nvme_alloc_io_tag_set(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set,
+ 	if (ctrl->quirks & NVME_QUIRK_SHARED_TAGS)
+ 		set->reserved_tags = NVME_AQ_DEPTH;
+ 	else if (ctrl->ops->flags & NVME_F_FABRICS)
+-		set->reserved_tags = NVMF_RESERVED_TAGS;
++		set->reserved_tags = NVMF_IO_RESERVED_TAGS;
+ 	set->numa_node = ctrl->numa_node;
+ 	set->flags = BLK_MQ_F_SHOULD_MERGE;
+ 	if (ctrl->ops->flags & NVME_F_BLOCKING)
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index 06cc54851b1b..a4def76a182d 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -18,12 +18,10 @@
+ /* default is -1: the fail fast mechanism is disabled  */
+ #define NVMF_DEF_FAIL_FAST_TMO		-1
+ 
+-/*
+- * Reserved one command for internal usage.  This command is used for sending
+- * the connect command, as well as for the keep alive command on the admin
+- * queue once live.
+- */
+-#define NVMF_RESERVED_TAGS	1
++/* Reserved for connect */
++#define NVMF_IO_RESERVED_TAGS		1
++/* Reserved for connect and keep alive */
++#define NVMF_ADMIN_RESERVED_TAGS	2
+ 
+ /*
+  * Define a host as seen by the target.  We allocate one at boot, but also
+-- 
+2.25.1
+
 
