@@ -4,67 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2757BC54E4A
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Mar 2024 17:18:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2971FC54E58
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Mar 2024 17:37:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OzUtklwPlJOuPJluAgACqxyTfZzplj9AthRwSYyjjp8=; b=rUor37qbPzI3IJC2Zt9cRCzmFR
-	/ifbT8Wln+uHhx1S4205d5g/7Xu606zGATYZzvsHq+0XeLeBLzul7v4/xOCIQ7/4psvPRSiJ2Ut/3
-	u3qiJJBhSNUFfoDNLnu29rFa18cG+tGmS+kLTdPkJXyDdiDOAEojAMSM1HzZlPINYUWRBuW4paKS4
-	dYIeRIpU4iirE+Qs1s+OmRbKLI2DmH+DudOD8RpUHdIDaQlJaaVF8egf9B+BQSxAf+dyTY1J5t0uz
-	eKaR6EBky0qxeF8wI1LPPXi+3coBHNdTmM8nOsNbFKLRbxu7IBeFgL0Le1IT7fRqoHh7XwNgltyi2
-	grtcFhRg==;
+	bh=eVfdzVKpWpFj9kbUNOF1nqFeLYyQI1R525d/19YRQ4U=; b=aZv/Fc3P9yTG37bFghM7Heee4c
+	BKZIhnaCEJZiTrr3DCoAdVK9pU4JNPIKoL+Wlbpp24EfL+uiE/o8RWeb6kvsjui23FLIxYfUwEOEb
+	jihS4sLNTFbO35M7lEExUmAsvrSfXKYu7nTqgfgBC3KOz2kcHlR6YgUzPzTRAEBxAh2s4dL+NuE67
+	DISSpFD7glr9GxTBxAbWv0qP1A/O0hKo1RhSj0GJs7U1zb1uSXYZDGjzFEiScpZOw4iMQb8IrfM6+
+	b5hqPje/A9rW98JrBEXTf22l0E9SXibReimy6RI75fxhPM28gI5ZP2NMlNgYNsjooBgFU96WzQ5gn
+	QlThsTOg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ridrK-0000000AS1j-2p4X;
-	Fri, 08 Mar 2024 17:18:14 +0000
-Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c])
+	id 1rie9Q-0000000AYRH-0cb6;
+	Fri, 08 Mar 2024 17:36:56 +0000
+Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ridrG-0000000ARxp-1peF
+	id 1ridB4-0000000ADSi-0qHV
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Mar 2024 17:18:12 +0000
-Received: by mail-il1-x12c.google.com with SMTP id e9e14a558f8ab-365b5050622so1911105ab.0
-        for <linux-nvme@lists.infradead.org>; Fri, 08 Mar 2024 09:18:09 -0800 (PST)
+	Fri, 08 Mar 2024 16:34:35 +0000
+Received: by mail-io1-xd2e.google.com with SMTP id ca18e2360f4ac-7c7ee5e2f59so13491039f.1
+        for <linux-nvme@lists.infradead.org>; Fri, 08 Mar 2024 08:34:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1709918288; x=1710523088; darn=lists.infradead.org;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1709915670; x=1710520470; darn=lists.infradead.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=OzUtklwPlJOuPJluAgACqxyTfZzplj9AthRwSYyjjp8=;
-        b=R6RR3HPem73sTuioKFspuUIsdlFCvWz33GAm4n6ZIFpZsu5VGLDkOKD12sByOg9lhm
-         6K4Y7AXNPDn+6Mm0p9qSYMIqvqbJd7ifoof7beg/uE1OaseTJmKstgxyRTll5s5Xja0u
-         mRU9xZsYoCC8QoYlRBLWlwwBJxQuR3x+iRcuk1bu1UVe2h4QmPbXcmZsfsVQVscgYCaD
-         +HROB5pvaF2Ei7opG0+hmG4y+t5o3tsB2J3FWICBYDhKtGiFRydiUcE9Wn0y3vvcLzH5
-         Rvg6rZynl9hk0Zwy4HRpFmz4Qx2bfRIKC+rI2h4ix4PIKrzZehoiv6UtKRoo+opm9YQ4
-         LeqA==
+        bh=eVfdzVKpWpFj9kbUNOF1nqFeLYyQI1R525d/19YRQ4U=;
+        b=XG3zxIusl9oeaCwhagRzlCop9lwIraeztdJiFSPNq4u3JWSIOI4IrjC/LUJmH1D9Nb
+         Tkzhi3fhRbaWkPAqkcUNyvb5jQOQ3HZSiu+7uGlAJaaDj+jhfL4f/0RdfvEsD4R/vHQ7
+         dEO4UmiozUs9aR+AIfbdRupMcXRU19EdSGbNVJmmr3sq9O1f6qTPZSQaeglH1Pi4Tu91
+         Rxe9XP7gxvmbfMaTFJD29YKHM4p2cSdFzrf47HaGKNRaQifVsCeKtFWjBg8/nXhsar7/
+         MnuJEmcq8cCFiQPUqVv3KLdzVWQksef/MjeTh6ebAbyRqibAbM6RXNywsIUVPiECJA/S
+         QBsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709918288; x=1710523088;
+        d=1e100.net; s=20230601; t=1709915670; x=1710520470;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OzUtklwPlJOuPJluAgACqxyTfZzplj9AthRwSYyjjp8=;
-        b=muuauRAanFqOmt3kUB7Ju+nPsihltRuYqz7Cus8PbsC8rvO3SO7Lw/OIr0Tdjw38mi
-         R5Pl+1qO5oESqRDDAG08kWJ/VWX4UTxyYfH92y3EaaaQLaKvqAFoL7+8bRd5dbvQoWfz
-         1unXtvFxSAJ5A9wM9klIIM9VyY6znD3ZXHI8vSB9ssj7yCLRb4EqKGE/SgUufXYbPZvG
-         8PrdxJzEXNKkE5GhDC98l6rMyEWmJUG7hYwZnCTVJPtxOZsyqcHqr7RWIFUsgA/vKVB8
-         rSFA7F5xbj+WP/l46fwnxY0Y01myZ8i51+jp0iQp1auZj8EmrcGlBl0FJFTYJP0ceDsj
-         uRxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXGnYALmXap6D3Wc3/pFiwtrenGrRWAJ8RW45SYSgAxiES+Z9gyfT/irg/CWb2me2MKQ69dWxYU4TJuozF4EH0x5/tmOGFMIfn0BHcK6FQ=
-X-Gm-Message-State: AOJu0YxVnYldR3/TPTHFthY0E2wcsAI+BBq9m9DWInudv+rmcz0otuhk
-	jbszRF4wCVwv5LcGdTj1Ifl7/n4p+yj1SnKdjS2LyNhIyquWdz3eg13wZqUdpMQ=
-X-Google-Smtp-Source: AGHT+IHxACDHwXpB1DRHc3vyvQVo+hhXIx+dv77eD2O+Lwu72LmdLkTlNoD1vGHkQjkQPAl9xihoxQ==
-X-Received: by 2002:a6b:7709:0:b0:7c8:7471:2f59 with SMTP id n9-20020a6b7709000000b007c874712f59mr2596113iom.0.1709918288476;
-        Fri, 08 Mar 2024 09:18:08 -0800 (PST)
+        bh=eVfdzVKpWpFj9kbUNOF1nqFeLYyQI1R525d/19YRQ4U=;
+        b=nRMdfhLvwvTDPT0cfrmSxEI5vEYV4bAArBQntInLUgNnv8NPqDz59T1w94cwVnnxRS
+         DBrUWWPISHhesEKFdifCKr53/HqFtWjDqdCYWF7r/6XVQVa4bKGcmzQB62almFFW4L/U
+         es2G1iTPWxt6h8AD9Vf/UdXwjvbStK1SQqUkBlYr93rsRD13moKZbbpt9IDgnl4bnO5J
+         ChxMnP60uyOAk3JNZu5v4tvDGv7W8Rh9yCh+SBzPcjQQ9gK1DQCSWGPuvUw7qFFK7z1+
+         cGJMbIHBf1cPumi+lkF6XzbWqMtsaRtcK26G4KcP5EG9pJI1N33Zt+dy/48mo7pgmUdd
+         LOcA==
+X-Forwarded-Encrypted: i=1; AJvYcCVVBFlndGv7lo7zcCFvbptTQzSuPehIHT2+Sw4Ob56AQ06T3UMidnlDSHTJHePvIpX+OevJqpbBIHsvW+7Ez2ZDMZ7otA2b8aG424MAi4M=
+X-Gm-Message-State: AOJu0Yw8UmsS3fCozkXaa5PXn1wSnzDNzWI1wG+atC5AUmkFxxsXhva/
+	XA159TLU6nPZdBtTTloaUNTUzdHXn1A1GvdgrkaKQcQcmpH6JHPUon0RhW9iAwg=
+X-Google-Smtp-Source: AGHT+IGHrfD8uH6blQDQ3mMFkxIIRnaWM2NuWN/1meHvgLTE8CRbEPUrNlq2AATapXrEb2fcNbN9CA==
+X-Received: by 2002:a6b:ee16:0:b0:7c8:718b:cff5 with SMTP id i22-20020a6bee16000000b007c8718bcff5mr2506789ioh.2.1709915670463;
+        Fri, 08 Mar 2024 08:34:30 -0800 (PST)
 Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id do32-20020a0566384ca000b004743bc59379sm4533416jab.59.2024.03.08.09.18.07
+        by smtp.gmail.com with ESMTPSA id b5-20020a029a05000000b00474dad114a6sm3654084jal.80.2024.03.08.08.34.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Mar 2024 09:18:08 -0800 (PST)
-Message-ID: <30c3773b-4db3-4278-a127-df8c075e8109@kernel.dk>
-Date: Fri, 8 Mar 2024 10:18:06 -0700
+        Fri, 08 Mar 2024 08:34:29 -0800 (PST)
+Message-ID: <1f68ab8c-e8c2-4669-a59a-65a645e568a3@kernel.dk>
+Date: Fri, 8 Mar 2024 09:34:28 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v5 03/10] fs: Initial atomic write support
@@ -81,17 +81,13 @@ Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
  Prasad Singamsetty <prasad.singamsetty@oracle.com>
 References: <20240226173612.1478858-1-john.g.garry@oracle.com>
  <20240226173612.1478858-4-john.g.garry@oracle.com>
- <1f68ab8c-e8c2-4669-a59a-65a645e568a3@kernel.dk>
- <67aa0476-e449-414c-8953-a5d3d0fe6857@oracle.com>
- <eef12540-84b6-4591-a797-6cfea7b28d48@kernel.dk>
- <8fde7b95-fed0-4cfd-a47e-455cccf1a190@oracle.com>
 From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <8fde7b95-fed0-4cfd-a47e-455cccf1a190@oracle.com>
+In-Reply-To: <20240226173612.1478858-4-john.g.garry@oracle.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240308_091810_600974_16C904F5 
-X-CRM114-Status: GOOD (  10.28  )
+X-CRM114-CacheID: sfid-20240308_083434_323650_762ADE35 
+X-CRM114-Status: GOOD (  11.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,21 +102,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/8/24 10:15 AM, John Garry wrote:
-> On 08/03/2024 17:05, Jens Axboe wrote:
->>> And the callers can hardcode rw_type?
->> Yep, basically making the change identical to the aio one. Not sure why
->> you did it differently in those two spots.
-> 
-> In the aio code, rw_type was readily available. For io_uring it was
-> not, and I chose to derive from something locally available. But
-> that's a bit awkward and is not good for performance, so I'll follow
-> your suggestion.
+On 2/26/24 10:36 AM, John Garry wrote:
+> diff --git a/io_uring/rw.c b/io_uring/rw.c
+> index d5e79d9bdc71..099dda3ff151 100644
+> --- a/io_uring/rw.c
+> +++ b/io_uring/rw.c
+> @@ -719,7 +719,7 @@ static int io_rw_init_file(struct io_kiocb *req, fmode_t mode)
+>  	struct kiocb *kiocb = &rw->kiocb;
+>  	struct io_ring_ctx *ctx = req->ctx;
+>  	struct file *file = req->file;
+> -	int ret;
+> +	int ret, rw_type = (mode == FMODE_WRITE) ? WRITE : READ;
+>  
+>  	if (unlikely(!file || !(file->f_mode & mode)))
+>  		return -EBADF;
+> @@ -728,7 +728,7 @@ static int io_rw_init_file(struct io_kiocb *req, fmode_t mode)
+>  		req->flags |= io_file_get_flags(file);
+>  
+>  	kiocb->ki_flags = file->f_iocb_flags;
+> -	ret = kiocb_set_rw_flags(kiocb, rw->flags);
+> +	ret = kiocb_set_rw_flags(kiocb, rw->flags, rw_type);
+>  	if (unlikely(ret))
+>  		return ret;
+>  	kiocb->ki_flags |= IOCB_ALLOC_CACHE;
 
-It's literally just one caller back, it's not like you had to look hard
-to spot this. Don't take lazy shortcuts -  it's not very confidence
-inspiring if this is the level of attention to detail that went into
-this patchset.
+Not sure why you took the lazy way out here rather than just pass it in,
+now there's another branhc in the hot path. NAK.
 
 -- 
 Jens Axboe
