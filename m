@@ -4,71 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97671C54E5C
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Mar 2024 09:57:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7D129C54E4A
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Mar 2024 10:08:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=XxBRbxPFMvMsQjje3u7kVaMU+G
-	bjpExdLkloyJSANOzmuD/1ZHH8fb1J0qm45tHJdpElPrIeAj7lUCr2KUAfNukL3djMm+pGVzjmVPI
-	iJjtntXXZ0BxUOQXjAv7YN7xTBQCjXpsKOuvW6WOQebwPuHV1S0vxhFWLQWFePo3hb+NT+PxIsoRr
-	OG3hseMLDJKWI8RoW9LIcSAaCo+LOG4qYB9apErobjVrWjcvcWFH5VfLeLMx0XmyCrFXWa4jHKedt
-	NU3p5ImYjgk4OqrNvWmsTTvdMJLN7FcqMxkPA7hABsDcxyBCcXwHpUC2T4vrvAL9GhV+SCjUj7A1o
-	r7D66j/w==;
+	bh=wxfHcY1pOTCPS1MeaDBnQh2Hmf8LizWSClrR0oEQfT0=; b=lzX9ZMFtFqV2QkDc7n6ylk2eyo
+	TmGE72ETKjgZzhePCXjTuCOwuzBI4JR8UdFUl4/7V2/4ICm5j49doLhYnv7wj29OeWCkFC6PyT/ay
+	gpiUqpDPy6whefLbnnA1s419ZMtpNX9dani6VsPEr1vBeWW8i7B7kL5f5jzuRiwrqJ7qDWqDja+la
+	qpcX4m3Kd6KeMecPhZbLMj/1qXEpxK1pjssMHXAwdIpxG0emyRYCd+JyB4NMjHBtcmNpislPvzIpQ
+	LSNDTWNGX9FdZRLRwrKKD4cvzK5ISLzTnVIhlXmQ77sP4sxzNCv7r/rQ9jmQzlYKDTbGe6ddQJ4hS
+	tw9Uv0aA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riWyp-00000008f1S-34HB;
-	Fri, 08 Mar 2024 09:57:31 +0000
-Received: from mail-qv1-f45.google.com ([209.85.219.45])
+	id 1riX8x-00000008gP8-1Q4r;
+	Fri, 08 Mar 2024 10:07:59 +0000
+Received: from mail-wr1-f52.google.com ([209.85.221.52])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riWyn-00000008f0o-0BMj
+	id 1riX8v-00000008gNA-1esR
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Mar 2024 09:57:30 +0000
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-690b5be8caeso1125316d6.1
-        for <linux-nvme@lists.infradead.org>; Fri, 08 Mar 2024 01:57:27 -0800 (PST)
+	Fri, 08 Mar 2024 10:07:58 +0000
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-33e12bcf6adso629042f8f.1
+        for <linux-nvme@lists.infradead.org>; Fri, 08 Mar 2024 02:07:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709891847; x=1710496647;
+        d=1e100.net; s=20230601; t=1709892474; x=1710497274;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=Z8++iOnqZ9gupzDTC7kG/wp6WUQXxbifxoC998RJINWNV9wIyzLJrJbSKwHbusQhji
-         6s72DdK8fSIQePJ3wptkpYXuLyCMjOoGR6mWlzLFow/k++OsCuw4DOeGGhXHy/fuE6Dt
-         F4D8qLcBWHCL4RbHmN2WsPvhzXLD8DyTPYUIuQWvvfcCVA+q+nfd8uD2WvQjosR5yhKS
-         vTcSQDanlEX3yoh4QzGFpUdKLRf0N5/j0L1fEitfy0cEwCTDrmgy/gg9UfptAgsEItzQ
-         7dgacK93srVc1eKRAl9/h6W0j+SQnOlThuKK9YtOEkp1tjajh9gIeolppONbtey1zoLa
-         fhHA==
-X-Forwarded-Encrypted: i=1; AJvYcCX/O6JXoDg1I5KNb7WSSPTFKLeoL7rW75/PGoGmlkwwe9jUey2d9eEL1ehERZ5Ol1dUbU4ZXH0tasrnNbLsZVWPGFk5vjvixEBm10x30Dc=
-X-Gm-Message-State: AOJu0YzZ8+LCKiYXLEKA55YZNv/iz3L7whHub5XOfKM0HzkF1iGa9cDE
-	WFnvY25Xz+buflGm8vSHEYgYFIGyY37uPElR/aAs5n3F4Vz4bCB0
-X-Google-Smtp-Source: AGHT+IElTbGiqk2sdhbtmg1jdyyGhYGQY+l2z37bbahalfnz8aLO7medvjupOLDYHfRCb8LL+E4QMQ==
-X-Received: by 2002:a05:620a:2456:b0:788:497d:ddb1 with SMTP id h22-20020a05620a245600b00788497dddb1mr1782012qkn.7.1709891846942;
-        Fri, 08 Mar 2024 01:57:26 -0800 (PST)
+        bh=wxfHcY1pOTCPS1MeaDBnQh2Hmf8LizWSClrR0oEQfT0=;
+        b=QlFLuJ6aPy78Mm5Osf5Wjxu53XyF5zh0Wt2PLKiT+EOJuIKhhDIt0JlM5XlUzQJkXQ
+         0LpmYSzPP7Ht6XIj8sNCLay14ET3w/RpggCfJc7at+Ru/Fsvb8XNSIDQIIsiIODRCC+M
+         fadEB1oFwstVDSiskUkAbYxcZut9qGZFFZcSdZBT8ezlvIcVsgEGn0e2BQ5rQOPQmay8
+         q16PxaeTG80+G5/eRBnTEB9vhLtcHZBYMHOY/11F1HQfLgNkDUxNBuucnNgXqx6yoOUx
+         LhNLUEJx3Z8LEiAfGwAlxRlASLvKV+c8ZjQdGU1YC7NlGsgAvYgcYPvtQC1bGIGzU9zE
+         CDbg==
+X-Forwarded-Encrypted: i=1; AJvYcCVldlferht9L0meyT4GilI13klSJwxjkdgKRMRZKQSxibdykIJucsaZ4Ap3oLJOUJ1uaGRjWAeqy4pP+zv5b8i8kOwZscfDEwtfw9ttPlo=
+X-Gm-Message-State: AOJu0YxqcafbDdSPBL1pCeopMEXYlYX/vpkIZRsGDqT0WEyDHZhHmXWE
+	BzHozk16bmkddq8wuXK3cpkkNSpAGqXK5JrutyCR/RWY1zAHUCmo
+X-Google-Smtp-Source: AGHT+IE7fWdp7E/WunqzOXM48JPLVuFBsvpVcscPa1rCjr957g/P3espLhhGA71FVhcKqlIcVpRbNA==
+X-Received: by 2002:a5d:6e04:0:b0:33e:6a7d:41b8 with SMTP id h4-20020a5d6e04000000b0033e6a7d41b8mr1069422wrz.5.1709892473918;
+        Fri, 08 Mar 2024 02:07:53 -0800 (PST)
 Received: from [10.100.102.74] (46-117-80-176.bb.netvision.net.il. [46.117.80.176])
-        by smtp.gmail.com with ESMTPSA id g5-20020a05620a13c500b007883ec38bb9sm2697746qkl.81.2024.03.08.01.57.25
+        by smtp.gmail.com with ESMTPSA id ba27-20020a0560001c1b00b0033e68338fbasm3537593wrb.81.2024.03.08.02.07.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Mar 2024 01:57:26 -0800 (PST)
-Message-ID: <98ffad59-ea38-4a1c-b969-b2e8909ebbe4@grimberg.me>
-Date: Fri, 8 Mar 2024 11:57:23 +0200
+        Fri, 08 Mar 2024 02:07:53 -0800 (PST)
+Message-ID: <d6073345-ceef-49b2-834e-618bbbb78de3@grimberg.me>
+Date: Fri, 8 Mar 2024 12:07:52 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvmet-tcp: do not continue for invalid icreq
+Subject: Re: [PATCH v7 1/1] nvmet: support reservation feature
 Content-Language: he-IL, en-US
-To: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Hannes Reinecke <hare@suse.de>
-References: <20240308071105.6175-1-hare@kernel.org>
+To: Guixin Liu <kanie@linux.alibaba.com>, Keith Busch <kbusch@kernel.org>
+Cc: hch@lst.de, kch@nvidia.com, linux-nvme@lists.infradead.org
+References: <20240201023207.112007-1-kanie@linux.alibaba.com>
+ <20240201023207.112007-2-kanie@linux.alibaba.com>
+ <ee516418-d072-4506-acba-d02f22cc4476@grimberg.me>
+ <0c74a2c2-c9d9-4b0c-9deb-bdc3caf72005@linux.alibaba.com>
+ <Zd6msstIWsNQMPfK@kbusch-mbp>
+ <727aabbc-1464-48d6-9915-a1c22343c2b2@linux.alibaba.com>
+ <6e34a652-da40-46f2-8a43-b45b08682e41@grimberg.me>
+ <0c33b803-baff-45af-90bb-623822f756b8@linux.alibaba.com>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20240308071105.6175-1-hare@kernel.org>
+In-Reply-To: <0c33b803-baff-45af-90bb-623822f756b8@linux.alibaba.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240308_015729_292478_2AE78287 
-X-CRM114-Status: UNSURE (   5.50  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240308_020757_470627_8E5EF3D8 
+X-CRM114-Status: GOOD (  22.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,5 +88,66 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+
+
+On 08/03/2024 11:15, Guixin Liu wrote:
+>
+>> unlike abort, preempt-and-abort needs a semantic guarantee because 
+>> the consumer
+>> may rely on this for fencing purposes. So it cannot be supported in 
+>> "best effort" I think.
+>>
+>> A possible implementation would be not to abort as there is no such 
+>> interface, but
+>> nvmet may wait for all pending ns IO to complete and disallowing new 
+>> IO to come in
+>> (using percpu_ref_kill and percpu_ref_resurrect on ns->ref). This 
+>> won't work very efficiently
+>> withALL_REGS reservations though.
+>
+> Hi Sagi,
+>
+> I found that if we return an error when the call to 
+> percpu_ref_tryget_live(&ns->ref) fails,
+>
+> it might cause hosts that still have permissions to interrupt their 
+> IO. Additionally,
+>
+> preempt_and_abort itself holds an ns->ref, we cannot wait the ref to 
+> become to zero.
+>
+> The solution I can think of is to add a "per-namespace" percpu_ref to 
+> the controller for
+>
+> counting IO issued to a particular namespace by that controller. Then, 
+> during the execution
+>
+> of preempt_and_abort, we wait for the count of those preempted and 
+> unregistered controllers
+>
+> to drop to zero.
+
+Yes, that is what I had in mind as well. Obviously the ns->ref cannot be 
+used for this purpose.
+
+>
+> The nsid is user-specified, so we can not use array to store the 
+> per-namespace percpu_ref,
+>
+> this will increase lookup overhead if we use xarray.
+
+Yes, that is tricky to get right.
+
+>
+> What do you think Sagi? Or may be we can declare that 
+> preempt_and_abort is not supported, just
+>
+> like SPDK does.
+
+It can definitely come incrementally, but at the very least it should be 
+incorrectly supported.
+
+Out of curiosity, doesn't your use-case need a fencing protection 
+against inflight I/Os reordering during
+preemption?
 
