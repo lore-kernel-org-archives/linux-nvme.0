@@ -4,61 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83250C5475B
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Mar 2024 15:41:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F1984C54E4A
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Mar 2024 15:51:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CXAB6e985i8rWZdCNlTwweEPS4KgxQODiAoYz9x9TRQ=; b=WR0/gd+h4G2urmUGF8m1WTuBob
-	gs9g9uuuzsocOMBdvIC5fPFT1u3XdoyxYUwhI+ckktXeZXkwlOBbtkQyW0UhZeaXgk9ZOEvvsuNWQ
-	68gURqCUqh4NGHu4+YqfA3W0BT5gYTq/KWysjbNfJQI4MOrS1mkg8FWVANYFYwIIGt/1c8Ob5YPS0
-	2gr+T//f+uNnDFNO46QBjGP4yQnxl5mmMpepuVuifbr0+sICVVz7dez2Cph5JTIgW7EB58iYB8OnC
-	YLwKhBJQVBtiIWkTuc0Xprp+580F50RKKSmJ8rtvfGyx3r7q6UVUkSVuWkGhqZ908ZPJKvL4TnolX
-	gzylfWXw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=RNyhKX+44etDaPeXvf805XOJQOz+KJlCk+saU/ThMG8=; b=hHwdJAGBzq8xfPFSi1bPv34zFv
+	T1NONKxp6XT+Xe1gTB8vYiB7BRq6/v9w4eKTXNvHdmxDJ788KzY/MmbR6bvxrbJx7u67bAuW2hTig
+	3xRZfDZaPG3uBSnH/32pbEKqMpKhMhInyuCC81a5JGDhVCMueIAMvsDknxhEDUm2UF5iV+tlkKcB0
+	NntIMj8gwAowVxpoasghbpO2dQhCofcIuW72Oh1FFSsNqAeH7CwftWX9o5jay42kyx6MO85xPGINw
+	WAYNG7QBsRtXFHiTUdvJcD1TwKosFbmRxiA9SUzHQzT5BshyBylyj/+GiF3vwQvuy08TbTnPbE4jU
+	ZsAnguaw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ricM0-00000009wTn-1gnj;
-	Fri, 08 Mar 2024 15:41:50 +0000
-Received: from sin.source.kernel.org ([145.40.73.55])
+	id 1ricVn-00000009zv4-0Uap;
+	Fri, 08 Mar 2024 15:51:55 +0000
+Received: from mail-lf1-f54.google.com ([209.85.167.54])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ricLt-00000009wQe-1NnY
+	id 1ribSN-00000009dki-1paF
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Mar 2024 15:41:43 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 7B19ECE28E9;
-	Fri,  8 Mar 2024 15:41:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 450B0C433F1;
-	Fri,  8 Mar 2024 15:41:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709912494;
-	bh=qgXTjEzUbSTzezT+CcIL+WmyphEt5BFFhf/YzdxcgqE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hfHAwg2yH4N32Qj5Q2F+aPCXZiWcHTF46B79a6q9Yls/qI7a/I9caKdDaXn/ZomIO
-	 n2iKAnFhXOYVOkhBktvLEw3eJ8MLa2DwOkFnHrY58IwJYIEqdZ5v6hlLaaiea0BN/9
-	 yhDv3u0oSDKC2shoIyBKfTc2widgw5dLha7Bzzs1xaEyxleQk27aQilV2Uc/MKMipR
-	 8mmaJ7Sswjj2oqiSWPXrp7MQITjI1cwsOq76eIF4liF3u/P0tDe9vM9guYASI7t0fh
-	 JsoeNPtHgnTisBa6KGL9Ht9AZf0tkCWSoQwkKQ+lBe6BFDXhRrHY1W5r+0SeHtffM+
-	 5DC+wCSGNoR9A==
-Date: Fri, 8 Mar 2024 08:41:31 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: axboe@fb.com, hch@lst.de, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	gjoyce@linux.ibm.com
-Subject: Re: [PATCH RESEND] nvme-pci: Fix EEH failure on ppc after subsystem
- reset
-Message-ID: <Zesxq81eJTnOGniB@kbusch-mbp>
-References: <20240209050342.406184-1-nilay@linux.ibm.com>
+	Fri, 08 Mar 2024 14:44:20 +0000
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-513830f18d9so251198e87.1
+        for <linux-nvme@lists.infradead.org>; Fri, 08 Mar 2024 06:44:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709909057; x=1710513857;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RNyhKX+44etDaPeXvf805XOJQOz+KJlCk+saU/ThMG8=;
+        b=D6d6o5qLyI5DGdYE4VAy6I4Rfj56zghTvDy78Tpo/Vv+sNVR0Mm8hqD3GKYcKSuU+e
+         3T9mVrhI2KCh8UCQyf9seiCFst+wuPToTbegv7j5rNJyKpXItT88Ol7A3mLOXS4FlZG6
+         QStETz545heMmLZXq+Scb8sdg66GGaGImmUMiNWFKFSDD4ZvDklsyZWE6z6S38yQ71Zr
+         cZt/Czg0uCd8+vXSf3WUHGk5Yxin7+DU0fHCWqZb5vQk2AdPrmpSVIWEy0Dpj2LaJKW3
+         dYxWcNehLx0/k0lpnMireTgvRQM6z4NAjL6swaFpmiwCRnw8iW8XYjBP07bjCdfJymue
+         jrtw==
+X-Forwarded-Encrypted: i=1; AJvYcCX83mOIzGFKRqeA5DdJGQZcibRjaNHZIA6EtC4orGDN0dfAF6UTqLaA0WkYTPZ8/ZOcVChbYxFA+618WLA15HceXJ6t1/HSO+DNvINV1Os=
+X-Gm-Message-State: AOJu0YwX0m9+dLF3LxxxtZsTQ0D+kSptk643f10HX561ivMJNwPDm1lJ
+	e3rxCLABSk9KQDyXt3vmuxzRX8x93UhhBp9AOAnJnhSQ2KXZ9q8g
+X-Google-Smtp-Source: AGHT+IHldJgJc2ijuaJnS0hYUOmRB065SGk6SQ22acfoGc6EFB7sbKNUttdDPGioyr9l3pSSKrtFXQ==
+X-Received: by 2002:a05:6512:206:b0:513:4b49:e1e5 with SMTP id a6-20020a056512020600b005134b49e1e5mr1402433lfo.1.1709909056630;
+        Fri, 08 Mar 2024 06:44:16 -0800 (PST)
+Received: from [10.100.102.74] (46-117-80-176.bb.netvision.net.il. [46.117.80.176])
+        by smtp.gmail.com with ESMTPSA id j18-20020a05600c191200b0041316e696besm2740963wmq.13.2024.03.08.06.44.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 Mar 2024 06:44:16 -0800 (PST)
+Message-ID: <c895887c-7b5d-4254-9a91-76fb31e661f1@grimberg.me>
+Date: Fri, 8 Mar 2024 16:44:15 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240209050342.406184-1-nilay@linux.ibm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] nvme: fix reconnection fail due to reserved tag
+ allocation
+Content-Language: he-IL, en-US
+To: Christoph Hellwig <hch@lst.de>, "brookxu.cn" <brookxu.cn@gmail.com>
+Cc: kbusch@kernel.org, axboe@kernel.dk, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20240308015435.100968-1-brookxu.cn@gmail.com>
+ <20240308144208.GA9194@lst.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20240308144208.GA9194@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240308_074141_832528_DDFBAC56 
-X-CRM114-Status: GOOD (  19.84  )
+X-CRM114-CacheID: sfid-20240308_064419_521363_5D029BB4 
+X-CRM114-Status: UNSURE (   9.62  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,64 +85,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Feb 09, 2024 at 10:32:16AM +0530, Nilay Shroff wrote:
-> @@ -2776,6 +2776,14 @@ static void nvme_reset_work(struct work_struct *work)
->   out_unlock:
->  	mutex_unlock(&dev->shutdown_lock);
->   out:
-> +	/*
-> +	 * If PCI recovery is ongoing then let it finish first
-> +	 */
-> +	if (pci_channel_offline(to_pci_dev(dev->dev))) {
-> +		dev_warn(dev->ctrl.device, "PCI recovery is ongoing so let it finish\n");
-> +		return;
-> +	}
-> +
->  	/*
->  	 * Set state to deleting now to avoid blocking nvme_wait_reset(), which
->  	 * may be holding this pci_dev's device lock.
-> @@ -3295,9 +3303,11 @@ static pci_ers_result_t nvme_error_detected(struct pci_dev *pdev,
->  	case pci_channel_io_frozen:
->  		dev_warn(dev->ctrl.device,
->  			"frozen state error detected, reset controller\n");
-> -		if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING)) {
-> -			nvme_dev_disable(dev, true);
-> -			return PCI_ERS_RESULT_DISCONNECT;
-> +		if (nvme_ctrl_state(&dev->ctrl) != NVME_CTRL_RESETTING) {
-> +			if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING)) {
-> +				nvme_dev_disable(dev, true);
-> +				return PCI_ERS_RESULT_DISCONNECT;
-> +			}
->  		}
->  		nvme_dev_disable(dev, false);
->  		return PCI_ERS_RESULT_NEED_RESET;
 
-I get what you're trying to do, but it looks racy. The reset_work may
-finish before pci sets channel offline, or the error handling work
-happens to see RESETTING state, but then transitions to CONNECTING state
-after and deadlocks on the '.resume()' side. You are counting on a very
-specific sequence tied to the PCIe error handling module, and maybe you
-are able to count on that sequence for your platform in this unique
-scenario, but these link errors could happen anytime.
 
-And nvme subsystem reset is just odd, it's not clear how it was intended
-to be handled. It takes the links down so seems like it requires
-re-enumeration from a pcie hotplug driver, and that's kind of how it was
-expected to work here, but your platform has a special way to contain
-the link event and bring things back up the way they were before. And
-the fact you *require* IO to be in flight just so the timeout handler
-can dispatch a non-posted transaction 30 seconds later to trigger EEH is
-also odd. Why can't EEH just detect the link down event directly?
+On 08/03/2024 16:42, Christoph Hellwig wrote:
+> The fix looks good:
+>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+>
+> But given that's we consolidate to a single place each for setting
+> up the tagsets for admin and I/O queues, what about just killing
+> the symbolic name and moving the assignments and comments directly
+> into the only users?
+>
 
-This driver unfortunately doesn't handle errors during a reset well.
-Trying to handle that has been problematic, so the driver just bails if
-anything goes wrong at this critical initialization point. Maybe we need
-to address the reset/initialization failure handling more generically
-and delegate the teardown or retry decision to something else. Messing
-with that is pretty fragile right now, though.
-
-Or you could just re-enumerate the slot.
-
-I don't know, sorry my message is not really helping much to get this
-fixed.
+That works too
 
