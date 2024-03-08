@@ -4,60 +4,131 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 50B9AC54E4A
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Mar 2024 12:10:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3CC8CC54E4A
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Mar 2024 12:11:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=kTobbwbzd5l0XzRr1tNO8J9zMISk5cBVcimvAFhl+No=; b=ZW2I+Cf8Ua57RyqdpDTf6p2h8r
-	HZ7AVEq2hrVafC0deGYw0FVE5px7014ZACLtdPzLWvjxCsTv5yqcJulnnvz/S3ZT0rjZv+FB7CRYK
-	XLVSm3Bc1crEAogzn3gEVoE9adAzn1BCbLVMsZLb6z8I0GATU4aEXUad9lT6XBZJLdkS9gtOfMz8D
-	z3Y7/mO/hwv2h4QeIOnaDVnB4nEPE57iGR2cduORm6qJn3+iOUIo8fFRrPI5ayxuq/E9DyV+vEscQ
-	PgKX8YlChLaM/erAg/7SIPoPQhyYfnhAnz21biER0PAzn/6UPwOalO/Iad+jUaEiaF6KzUdL3uxKV
-	m4PuavXA==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ra6HRx10KH3OuXXKhjRvnQ0Xf+TI0fkuDWv4rdUeJyU=; b=lYePHQ0pG8wPptuqP0EIpNOZd9
+	dJQDolubEL41IFDRohS0D1q2Bpk2jpExbNq5ImJzg3rD/dr/oIZUa+GAHirIsMvuqLNYmn62NrZlW
+	CWd22my7hy4fQ4QXGt1IAmfVP+C8P4jXVMQCmN0XNjZ/nIRvVqBEpNPkWq/zsZhb3ZFcI3LioTif9
+	r8RwrtO4KyqMPnYzvOL91hVdtG/VDlGBjj0wfRuI3MDfuedr18e+f7NynY9kr8ghYp6OElfsAfupK
+	UHvupKzKIFu5ocHwT3eeMTiGzKr4N7yvOTo4CE1xKOXT8MYSMlbxMsGp3dEMTDOLV8El9tdwOEdSo
+	lUoaUnrg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riZ3M-000000094eq-3WnC;
-	Fri, 08 Mar 2024 12:10:20 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1riZ4M-000000094w0-2sBk;
+	Fri, 08 Mar 2024 12:11:22 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riZ3J-000000094dP-0cmI
+	id 1riZ4H-000000094su-1W8v
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Mar 2024 12:10:18 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id A7E0061714;
-	Fri,  8 Mar 2024 12:10:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBC72C433C7;
-	Fri,  8 Mar 2024 12:10:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709899816;
-	bh=2O61q7ghaWyZOOYNWSTL/h4+x3MNwmEzDbKyfghwVyY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=TUAy9Pxds//IJFkqgS4Qs0LL/DhgATtTRZvdBI7RK50G7ZnONbU+sijkIzP7NwA1U
-	 tReia/gsfw8yzeBgUg/1f/+rFHdt+I+Ah9pVKdY3f3PrcAYJI9/AsOPXILU9avmLFV
-	 oHyrAysndF3AUASW37EyHtbZyWxUxPb5gI3OTz5k2klYkS1cHuTSzDnrs4U1G4JF9g
-	 ADPCLIf7HYzsCJ2i5lBgMmNIl+wNeQcpFOQLdQ+G9n9NQngYjQHgXGWo0Z0S23SsBA
-	 7ro79+ZRA9fq22xnYq48k1rC2YELTN4UhtaRUlV6w6Hh4pHML3l/fOqnQm+7OkfXgf
-	 JR/6D6KshBbGA==
-From: Hannes Reinecke <hare@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@kernel.org>,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH] nvme: add sysfs attribute 'tls_keyring'
-Date: Fri,  8 Mar 2024 13:10:06 +0100
-Message-Id: <20240308121006.69442-1-hare@kernel.org>
-X-Mailer: git-send-email 2.35.3
+	Fri, 08 Mar 2024 12:11:21 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CF8B520FA1;
+	Fri,  8 Mar 2024 12:11:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1709899863; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ra6HRx10KH3OuXXKhjRvnQ0Xf+TI0fkuDWv4rdUeJyU=;
+	b=OmE28UyMIf1ns8h7R2jyTkZ6y45vvcTyprIEpDwkhcQaigwqN9kXEvq7XnlWV+dtuwn48x
+	U3Y9hxHiRyMoTmNRs+naWe7HAyNp4chYT7gUw8hp1Q/+pxEZGj4asSNFb4b6XgMCWMFG8a
+	rUyhybE0fcln1t1MwlSC64866af4J00=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1709899863;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ra6HRx10KH3OuXXKhjRvnQ0Xf+TI0fkuDWv4rdUeJyU=;
+	b=nURl1D5UG4CkD02zyVSa4S+fK0ti8A0q2RnYrRz/U/Vtla8oAfKn29lLABhlMQDbsGRZFr
+	gV7axfDQMrTXZVBQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1709899863; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ra6HRx10KH3OuXXKhjRvnQ0Xf+TI0fkuDWv4rdUeJyU=;
+	b=OmE28UyMIf1ns8h7R2jyTkZ6y45vvcTyprIEpDwkhcQaigwqN9kXEvq7XnlWV+dtuwn48x
+	U3Y9hxHiRyMoTmNRs+naWe7HAyNp4chYT7gUw8hp1Q/+pxEZGj4asSNFb4b6XgMCWMFG8a
+	rUyhybE0fcln1t1MwlSC64866af4J00=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1709899863;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ra6HRx10KH3OuXXKhjRvnQ0Xf+TI0fkuDWv4rdUeJyU=;
+	b=nURl1D5UG4CkD02zyVSa4S+fK0ti8A0q2RnYrRz/U/Vtla8oAfKn29lLABhlMQDbsGRZFr
+	gV7axfDQMrTXZVBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7EEDA13310;
+	Fri,  8 Mar 2024 12:11:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id g4+IHlcA62VQCgAAD6G6ig
+	(envelope-from <hare@suse.de>); Fri, 08 Mar 2024 12:11:03 +0000
+Message-ID: <a566dfe2-0664-4734-8a72-89c053a603e6@suse.de>
+Date: Fri, 8 Mar 2024 13:11:03 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme: add 'static' suffix for user-specified TLS keys
+Content-Language: en-US
+To: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@kernel.org>,
+ Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+References: <20240226122449.46976-1-hare@kernel.org>
+ <1aee2876-15dd-48dd-a6b1-76ac1ebfc682@grimberg.me>
+ <bf86f3ec-738f-49e5-ad54-c817f9d9542d@suse.de>
+ <e7d8627d-d6a2-429c-bf1d-6e995c0ca5a5@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <e7d8627d-d6a2-429c-bf1d-6e995c0ca5a5@grimberg.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=OmE28UyM;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=nURl1D5U
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-6.50 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 XM_UA_NO_VERSION(0.01)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%];
+	 MIME_GOOD(-0.10)[text/plain];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	 RCPT_COUNT_FIVE(0.00)[5];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCVD_TLS_ALL(0.00)[];
+	 MID_RHS_MATCH_FROM(0.00)[]
+X-Rspamd-Queue-Id: CF8B520FA1
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240308_041017_288334_FD1D5997 
-X-CRM114-Status: GOOD (  15.33  )
+X-CRM114-CacheID: sfid-20240308_041117_675978_CD276E63 
+X-CRM114-Status: GOOD (  20.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,108 +143,73 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a sysfs attribute 'tls_keyring' to hold the contents for the
-'keyring' fabrics option. This option is only meaningful if the
-'tls' option has been specified; if the 'tls_key' option is specified
-the key is looked up directly and the keyring setting is ignored.
-So blank out the keyring value when 'tls_key' is specified.
+On 3/8/24 11:42, Sagi Grimberg wrote:
+> 
+> 
+> On 07/03/2024 12:47, Hannes Reinecke wrote:
+>> On 3/7/24 10:45, Sagi Grimberg wrote:
+>>>
+>>>
+>>> On 26/02/2024 14:24, Hannes Reinecke wrote:
+>>>> From: Hannes Reinecke <hare@suse.de>
+>>>>
+>>>> If the user specifies a specific TLS key via the '--tls_key'
+>>>> option to nvme-cli we should be adding a ';static' suffix
+>>>> to the 'tls_key' sysfs attribute to signal that this is a
+>>>> user-specific key, and not one auto-selected during TLS
+>>>> protocol negotiation.
+>>>
+>>> Static is not the best wording. Doesn't the user already
+>>> know what it provided? How is this indication useful?
+>>
+>> What I'm trying to achieve here is to differentiate between
+>>
+>> nvme connect --tls
+>>
+>> and
+>>
+>> nvme connect --tls_key=<key_id>
+>>
+>> both calls will result in key serial number in the
+>> 'tls_key' attribute, so if we try to generate the json
+>> configuration file from an existing connection we
+>> have no idea which of the arguments the admin has
+>> used. Problem is that first invocation will auto-select
+>> the TLS key, and hence we can do a key rotation.
+>> The second invocation will always refer to a specific
+>> key, and hence we cannot do a key rotation.
+>>
+>> So we'll need an additional setting allowing us
+>> to differentate here.
+>>
+>> I do agree that adding a field to an existing
+>> attribute is probably suboptimal, so I guess
+>> I'll retract this patch and send another introducing
+>> a new sysfs attribute ('tls_provisioning' ?)
+> 
+> What are the outputs for this new attributes?
+> 
+I've just sent a patch for this.
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
----
- drivers/nvme/host/sysfs.c | 55 +++++++++++++++++++++++++++++++++++++--
- 1 file changed, 53 insertions(+), 2 deletions(-)
+>>
+>> The alternative would be to add a new attribute for
+>> the keyring (ie introduce a 'tls_keyring' attribute).
+>> That would be empty for a pre-configured key (as we
+>> are looking up the key by serial, and don't care on
+>> which keyring the key is in), and contain the keyring
+>> name otherwise.
+>>
+>> Hmm. I guess I like this better, as then we would
+>> also be able to display the 'keyring' setting which
+>> currently is also not present in sysfs.
+> 
+> Agree that displaying the keyring in sysfs is useful to
+> have.
 
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index 6c7f1d5c056f..7b65ff7426c9 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -5,11 +5,12 @@
-  * Copyright (c) 2011-2014, Intel Corporation.
-  */
- 
--#include <linux/nvme-auth.h>
--
- #include "nvme.h"
- #include "fabrics.h"
- 
-+#include <linux/nvme-auth.h>
-+#include <linux/nvme-keyring.h>
-+
- static ssize_t nvme_sysfs_reset(struct device *dev,
- 				struct device_attribute *attr, const char *buf,
- 				size_t count)
-@@ -677,6 +678,52 @@ static ssize_t tls_key_show(struct device *dev,
- 	return sysfs_emit(buf, "%08x", key_serial(ctrl->tls_key));
- }
- static DEVICE_ATTR_RO(tls_key);
-+
-+static ssize_t tls_keyring_show(struct device *dev,
-+				struct device_attribute *attr, char *buf)
-+{
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-+	struct key *keyring;
-+
-+	if (!ctrl->tls_key)
-+		return 0;
-+	/* Do not display the keyring for user-selected keys */
-+	if (ctrl->opts->tls_key)
-+		return 0;
-+	keyring = ctrl->opts->keyring;
-+	if (!keyring) {
-+		keyring = key_lookup(nvme_keyring_id());
-+		if (!keyring)
-+			return -EINVAL;
-+	}
-+	return sysfs_emit(buf, "%s", keyring->description);
-+}
-+
-+static ssize_t tls_keyring_store(struct device *dev,
-+		struct device_attribute *attr, const char *buf, size_t count)
-+{
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-+	int err;
-+	u32 key_id;
-+	struct key *keyring;
-+
-+	if (!strlen(buf))
-+		return -EINVAL;
-+	err = kstrtou32(buf, 0, &key_id);
-+	if (err)
-+		return err;
-+	keyring = key_lookup(key_id);
-+	if (IS_ERR(keyring)) {
-+		pr_err("key %08x not found\n", key_id);
-+		return -EINVAL;
-+	}
-+	if (ctrl->opts->keyring)
-+		key_put(ctrl->opts->keyring);
-+	ctrl->opts->keyring = keyring;
-+	return 0;
-+}
-+static DEVICE_ATTR(tls_keyring, S_IRUGO | S_IWUSR,
-+		tls_keyring_show, tls_keyring_store);
- #endif
- 
- static struct attribute *nvme_dev_attrs[] = {
-@@ -708,6 +755,7 @@ static struct attribute *nvme_dev_attrs[] = {
- #endif
- #ifdef CONFIG_NVME_TCP_TLS
- 	&dev_attr_tls_key.attr,
-+	&dev_attr_tls_keyring.attr,
- #endif
- 	&dev_attr_adm_passthru_err_log_enabled.attr,
- 	NULL
-@@ -743,6 +791,9 @@ static umode_t nvme_dev_attrs_are_visible(struct kobject *kobj,
- 	if (a == &dev_attr_tls_key.attr &&
- 	    (!ctrl->opts || strcmp(ctrl->opts->transport, "tcp")))
- 		return 0;
-+	if (a == &dev_attr_tls_keyring.attr &&
-+	    (!ctrl->opts || strcmp(ctrl->opts->transport, "tcp")))
-+		return 0;
- #endif
- 
- 	return a->mode;
--- 
-2.35.3
+Indeed.
+
+Cheers,
+
+Hannes
 
 
