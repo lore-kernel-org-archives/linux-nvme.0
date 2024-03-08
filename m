@@ -4,77 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 762A1C5475B
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Mar 2024 10:21:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 03808C54E4A
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Mar 2024 10:38:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nOyJ0vXvYfxQRLj0ZrdvSqI4qJstkPbTgrDZPnLnrv4=; b=s8H2OsLgC3jxtHBLB+rMCBJdDp
-	QrqBYq+oT0uaoAGOaOMNiaa/Uvlf1vyNGXW9HSsBCNLBtLe+8UR1MHEKqiXsd07qII8B5WtuFVttt
-	XAC/exjPEp6ChIAa5Cdz2VcZgTwImyd3joabqmsip2BiRYLToFlsrtCQ48wt+qDQqNMgUO15tkSaV
-	woQbG30TPh1jHJI/WWacEwOL8WgrJGYtKjM+By4hMqbdx+HvOKX6Nv1YDthj0NuSHZSGkxQfBLWUk
-	4m613S9/LGFUalL8fQkGZOojjIWlRG2HUg9UD5PVkT81OpiyhvQRtnEHxpCVE2a2vhS23IWuym74p
-	2CbbjzMA==;
+	bh=I9DdaLlqFZ5Pr37b+RVdD4qdIRmEBx2b/qz7J0papOo=; b=Vc3qX6FHaeDapkVprS8lGEwa3G
+	sGsevZse1/nYDlOLfZeKyHdf7HMdD8fyD6egdk2tOHtpcb50/Jtv+AeWNPvId54uVU7VG/Q/QKt+n
+	r2APc0PYGDRLhvqK6Yj62gfDSBeN48gMfbq2jRAWYh9v7i3tdoYwew6YD9GIvCZ0T6HJEWKpi0jkS
+	s0IxiaEWr5bJHk0WnsbqYjQMFx9PQ48LBYHEK+5WqKQy+NecI97XH88VS0Y2EyDuQS+IGhdJGOdL7
+	/ZT+EWvU1XOJ+wRY4BX7b3G5aGkU+WKXJL53fv6HtvmX2DkehrqMqDTHT0r6MAaiSCSy/40IH3iQm
+	W0JSmAYA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riXMK-00000008kCG-49cE;
-	Fri, 08 Mar 2024 10:21:48 +0000
-Received: from mail-lf1-f50.google.com ([209.85.167.50])
+	id 1riXcp-00000008oOp-3yV3;
+	Fri, 08 Mar 2024 10:38:51 +0000
+Received: from mail-wr1-f44.google.com ([209.85.221.44])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riXMH-00000008kAU-0HsE
+	id 1riXcm-00000008oN2-1Z5t
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Mar 2024 10:21:46 +0000
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-513830f18d9so195597e87.1
-        for <linux-nvme@lists.infradead.org>; Fri, 08 Mar 2024 02:21:44 -0800 (PST)
+	Fri, 08 Mar 2024 10:38:50 +0000
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-33db19538d0so457573f8f.1
+        for <linux-nvme@lists.infradead.org>; Fri, 08 Mar 2024 02:38:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709893303; x=1710498103;
+        d=1e100.net; s=20230601; t=1709894327; x=1710499127;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nOyJ0vXvYfxQRLj0ZrdvSqI4qJstkPbTgrDZPnLnrv4=;
-        b=D6hqMf1YrziZztoKvlACTmNAN/KucXG+SRNB6ARP+/r4P7BdrAZ5LYCG3ldb+8giGJ
-         nwBapgg5GFfI0/fZQF8dZElLR8LgoTH9h1s2AignT5spZAe2327GUqhc9i0uFXZS5iHv
-         KV7hqXteGNSI0pv3995OAzYEJKDHFRG4QU6lknkDOax+7Ld7mExFgrWiIkbzMX/7hXf0
-         A99nyWfXJXqfej5wA2nO3w10ppXEv0q7eZIry2MSws67zClhuE4SLCwPMSN5KKvyqkU2
-         9ScKBZf+tZHoXdaEjrQeUeqE/K5b7yB7F2PpnI0XWJ6w6M5ieC4nLIUQGuAKgEnZm9+R
-         Bgog==
-X-Forwarded-Encrypted: i=1; AJvYcCWbC4dBUCjAU52CIE+//vNf7T7jf1rpiNax/nqGXDIAoABvx3RGd63iR3wkyqrExlLVYTnQ2lUwDRhP1Moc98uNBkydWiDYGY+LP0zz6LE=
-X-Gm-Message-State: AOJu0YydDGp3nQFxXfE2i2UrMnyt91TAYVl9cFxfh5akG4/z8FXTERPa
-	iewUVM3DV9h6ROjd1Ri1yZkyBC1GlszDaA5m5eKCRCg3rTUKAV0m
-X-Google-Smtp-Source: AGHT+IEg7otObSNvAQkRZFRGAB1RYZTFwqMGbwMIpvLuU2IT7sSktAUSbK5hI7G9hD5ARZBuyLu+aA==
-X-Received: by 2002:ac2:48ae:0:b0:513:4467:523c with SMTP id u14-20020ac248ae000000b005134467523cmr891239lfg.3.1709893302423;
-        Fri, 08 Mar 2024 02:21:42 -0800 (PST)
+        bh=I9DdaLlqFZ5Pr37b+RVdD4qdIRmEBx2b/qz7J0papOo=;
+        b=eDEmDiVRWX+MJb3CKssNfh1EuAWHyVzSIhBPovJPhQIvQG0YFX5OHeAqp6Z6wMiXRi
+         JTWEztaQnPfiiQxAYhFhBFe7eflyhnDaKMk0WsBoIsDglLfKgaRqklMHRt5fb+OS8H8g
+         MxlxfBsIGjWtXKaw6aqS5TQUIp4iJP9X1lrG0C62ZnOwrS15G14ZkjOpAuZG4P4SpWZI
+         vLdcQA/lmjyjnnIiz8zAyEHMlsRIkv24dFaU+RfBd0R/WJPUUx7lyKhSOpJfjeg6/b/G
+         ulxgGfcghTtngR8Tlob8FHgN91/e1jNwOBrgQ8N0ixMdfvAweDHoUWIKRgQXlDdIsqcT
+         mWCw==
+X-Forwarded-Encrypted: i=1; AJvYcCXfXKVZ2hzVYqnGaTcGqoOJUpPpzghAjwM42hzo6TmZNC1ZomROVY6Mffqbd7EXBx5/nYZum3BMfsk9pJPV8KtJ1sJwPGC7C1hU3EXc+6E=
+X-Gm-Message-State: AOJu0YzS0/kQZMf7X+DL5lbnRQngnMmcO3BTO5U1C7i3j6eXwYs+I6tU
+	/ZTWxz+RBntiGa4W2Wmk3l54fO6BFpsMj1afdojjBlcvkkAFEb8wqpdOmv6M
+X-Google-Smtp-Source: AGHT+IHqoDhk7C8TgEawgARK+27E9PwUyHJu3u3cDnCr70B3ZfQ1u0Thi05yFIXcF58HnCS1NxRhIw==
+X-Received: by 2002:a05:6000:11:b0:33e:70a0:40e6 with SMTP id h17-20020a056000001100b0033e70a040e6mr1141532wrx.6.1709894326664;
+        Fri, 08 Mar 2024 02:38:46 -0800 (PST)
 Received: from [10.100.102.74] (46-117-80-176.bb.netvision.net.il. [46.117.80.176])
-        by smtp.gmail.com with ESMTPSA id jh3-20020a05600ca08300b0041304100fa9sm5430817wmb.45.2024.03.08.02.21.41
+        by smtp.gmail.com with ESMTPSA id d30-20020adfa35e000000b0033e79d81b7asm410593wrb.62.2024.03.08.02.38.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Mar 2024 02:21:42 -0800 (PST)
-Message-ID: <2cda7c9a-a460-4bb4-95f7-ab44f8f1007c@grimberg.me>
-Date: Fri, 8 Mar 2024 12:21:40 +0200
+        Fri, 08 Mar 2024 02:38:46 -0800 (PST)
+Message-ID: <2b0bdbfb-1bff-405a-8f95-163a99022d94@grimberg.me>
+Date: Fri, 8 Mar 2024 12:38:44 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/2] nvme-fabrics: short-circuit connect retries
+Subject: Re: [PATCH RFC] nvme-fc: FPIN link integrity handling
 Content-Language: he-IL, en-US
-To: Hannes Reinecke <hare@suse.de>, Daniel Wagner <dwagner@suse.de>,
- James Smart <james.smart@broadcom.com>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20240305080005.3638-1-dwagner@suse.de>
- <22b01fb4-b543-43b2-949c-1873105dc343@grimberg.me>
- <72c1d3a8-14ad-43e8-a68a-25be903698c4@suse.de>
- <432a39d5-6d08-4d38-a357-7c8d9123189a@grimberg.me>
- <08f3d804-f94b-4a2f-897b-7fee3411e6fc@suse.de>
- <b02588cb-6fbc-4116-86d6-173c115f50c5@grimberg.me>
- <b23a5c7c-a877-4cde-acd4-50c21c3ef1fc@suse.de>
+To: Hannes Reinecke <hare@suse.de>, hare@kernel.org,
+ Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, James Smart <james.smart@broadcom.com>,
+ linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org
+References: <20240219085929.31255-1-hare@kernel.org>
+ <1dfa9a4e-e4a2-4d48-b569-85e48ce4311c@grimberg.me>
+ <1c3eea31-b80f-4b95-ab15-ac42f7c45c16@suse.de>
+ <7ff7c9cc-6b02-4adc-9b78-8bab26341049@grimberg.me>
+ <0b18f1f9-5011-46f4-a0a1-a69cd54bfc88@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <b23a5c7c-a877-4cde-acd4-50c21c3ef1fc@suse.de>
+In-Reply-To: <0b18f1f9-5011-46f4-a0a1-a69cd54bfc88@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240308_022145_136148_0BBEF4D6 
-X-CRM114-Status: GOOD (  31.26  )
+X-CRM114-CacheID: sfid-20240308_023848_492933_819273A8 
+X-CRM114-Status: GOOD (  28.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,111 +89,94 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 07/03/2024 14:52, Hannes Reinecke wrote:
-> On 3/7/24 13:14, Sagi Grimberg wrote:
+On 07/03/2024 14:13, Hannes Reinecke wrote:
+> On 3/7/24 13:01, Sagi Grimberg wrote:
 >>
 >>
->> On 07/03/2024 13:45, Hannes Reinecke wrote:
->>> On 3/7/24 12:30, Sagi Grimberg wrote:
+>> On 07/03/2024 13:29, Hannes Reinecke wrote:
+>>> On 3/7/24 11:10, Sagi Grimberg wrote:
 >>>>
-> [ .. ]
 >>>>
->>>> Where is this retried today, I don't see where connect failure is 
->>>> retried, outside of a periodic reconnect.
->>>> Maybe I'm missing where what is the actual failure here.
->>>
->>> static void nvme_tcp_reconnect_ctrl_work(struct work_struct *work)
->>> {
->>>         struct nvme_tcp_ctrl *tcp_ctrl =
->>>                         container_of(to_delayed_work(work),
->>>                         struct nvme_tcp_ctrl, connect_work);
->>>         struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
->>>
->>>         ++ctrl->nr_reconnects;
->>>
->>>         if (nvme_tcp_setup_ctrl(ctrl, false))
->>>                 goto requeue;
->>>
->>>         dev_info(ctrl->device, "Successfully reconnected (%d 
->>> attempt)\n",
->>>                         ctrl->nr_reconnects);
->>>
->>>         ctrl->nr_reconnects = 0;
->>>
->>>         return;
->>>
->>> requeue:
->>>         dev_info(ctrl->device, "Failed reconnect attempt %d\n",
->>>
->>> and nvme_tcp_setup_ctrl() returns either a negative errno or an NVMe 
->>> status code (which might include the DNR bit).
+>>>> On 19/02/2024 10:59, hare@kernel.org wrote:
+>>>>> From: Hannes Reinecke <hare@suse.de>
+>>>>>
+>>>>> FPIN LI (link integrity) messages are received when the attached
+>>>>> fabric detects hardware errors. In response to these messages the
+>>>>> affected ports should not be used for I/O, and only put back into
+>>>>> service once the ports had been reset as then the hardware might
+>>>>> have been replaced.
+>>>>
+>>>> Does this mean it cannot service any type of communication over
+>>>> the wire?
+>>>>
+>>> It means that the service is impacted, and communication cannot be 
+>>> guaranteed (CRC errors, packet loss, you name it).
+>>> So the link should be taken out of service until it's been (manually)
+>>> replaced.
 >>
->> I thought this is about the initialization. yes today we ignore the 
->> status in re-connection assuming that whatever
->> happened, may (or may not) resolve itself. The basis for this 
->> assumption is that if we managed to connect the first
->> time there is no reason to assume that connecting again should fail 
->> persistently.
+>> OK, that's what I assumed.
 >>
-> And that is another issue where I'm not really comfortable with.
-> While it would make sense to have the connect functionality to be
-> one-shot, and let userspace retry if needed, the problem is that we
-> don't have a means of transporting that information to userspace.
-> The only thing which we can transport is an error number, which
-> could be anything and mean anything.
+>>>
+>>>>> This patch adds a new controller flag 'NVME_CTRL_TRANSPORT_BLOCKED'
+>>>>> which will be checked during multipath path selection, causing the
+>>>>> path to be skipped.
+>>>>
+>>>> While this looks sensible to me, it also looks like this introduces 
+>>>> a ctrl state
+>>>> outside of ctrl->state... Wouldn't it make sense to move the 
+>>>> controller to
+>>>> NVME_CTRL_DEAD ? or is it not a terminal state?
+>>>>
+>>> Actually, I was trying to model it alongside the 
+>>> 'devloss_tmo'/'fast_io_fail' mechanism we have in SCSI.
+>>> Technically the controller is still present, it's just that we 
+>>> shouldn't
+>>> send I/O to it.
+>>
+>> Sounds like a dead controller to me.
+>>
+> Sort of, yes.
+>
+>>> And I'd rather not disconnect here as we're trying to
+>>> do an autoconnect on FC, so manually disconnect would interfere with
+>>> that and we probably end in a death spiral doing disconnect/reconnect.
+>>
+>> I suggested just transitioning the state to DEAD... Not sure how 
+>> keep-alives behave though...
+>>
+> Hmm. The state machine has the transition LIVE->DELETING->DEAD,
+> ie a dead controller is on the way out, with all resources being
+> reclaimed.
+>
+> A direct transition would pretty much violate that.
+> If we were going that way I'd prefer to have another state
+> ('IMPACTED' ? 'LIVE_NOIO' ?) with the transitions
+> LIVE->IMPACTED->DELETING->DEAD
+>
+>>>
+>>> We could 'elevate' it to a new controller state, but wasn't sure how 
+>>> big
+>>> an appetite there is. And we already have flags like 'stopped' which
+>>> seem to fall into the same category.
+>>
+>> stopped is different because it is not used to determine if it is 
+>> capable
+>> for IO (admin or io queues). Hence it is ok to be a flag.
+>>
+> Okay.
+>
+> So yeah, we could introduce a new state, but I guess a direct transition
+> to 'DEAD' is not really a good idea.
 
-Not necessarily. error codes semantics exists for a reason.
-I just really don't think that doing reconnects on a user-driven 
-initialization is a good idea at all
-unlike the case where the controller was connected and got disrupted, 
-this is not user driven and
-hence makes sense.
+How common do you think this state would be? On the one hand, having a 
+generic
+state that the transport is kept a live but simply refuses to accept I/O 
+sounds like
+a generic state, but I can't think of an equivalent in the other transports.
 
-> If we had a defined way stating: 'This is a retryable, retry with the 
-> same options.' vs 'This is retryable error, retry with modified 
-> options.' vs 'This a non-retryable error, don't bother.' I'd be
-> fine with delegating retries to userspace.
-> But currently we don't.
-
-Well, TBH I don't know if userspace even needs it. Most likely what a 
-user would want is to define
-a number of retries and give up if they expire. Adding the intelligence 
-for what connect is retry-able or
-not does not seem all that useful to me.
-
->
->> If there is a consensus that we should not assume it, its a valid 
->> argument. I didn't see where this happens with respect
->> to authentication though.
->
-> nvmf_connect_admin_queue():
->
->             /* Authentication required */
->             ret = nvme_auth_negotiate(ctrl, 0);
->             if (ret) {
->                     dev_warn(ctrl->device,
->                              "qid 0: authentication setup failed\n");
->                     ret = NVME_SC_AUTH_REQUIRED;
->                     goto out_free_data;
->             }
->             ret = nvme_auth_wait(ctrl, 0);
->             if (ret)
->                     dev_warn(ctrl->device,
->                              "qid 0: authentication failed\n");
->             else
->                     dev_info(ctrl->device,
->                              "qid 0: authenticated\n");
->
-> The first call to 'nvme_auth_negotiate()' is just for setting up
-> the negotiation context and start the protocol. So if we get
-> an error here it's pretty much non-retryable as it's completely
-> controlled by the fabrics options.
-> nvme_auth_wait(), OTOH, contains the actual result from the negotiation,
-> so there we might or might not retry, depending on the value of 'ret'.
->
-> Cheers,
->
-> Hannes
->
-
+If this is something that is private to FC, perhaps the right way is to 
+add a flag
+for it that only fc sets, and when a second usage of it appears, we 
+promote it
+to a proper controller state. Thoughts?
 
