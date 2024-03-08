@@ -4,49 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3D1DC54E4A
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 Mar 2024 14:42:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0CBBFC5475B
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 Mar 2024 14:42:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EwxiSaQ3mxim1g4ESG20w5W3vrSpmDdurPH4l285wYo=; b=2l5IuSaCEstoqAf7k0dvrYyJvs
-	zGsqNNFeH8YpJxE/b7tVymnAXVA5Ou2dF7kFF/MbAbjjTCbg6PzZbnOaUKL2jYArzlZPX2ZQ+XKhj
-	GaziXGM5MODMCn9z35n4PnWWphRG+nxd4iCq7CBepSAbwEswDk08ZUnO7EP0/2xA4uR9XhxKXm4eg
-	9tBsNrlmy1bdrS+GEzSjmR+0AFtYmTFIx/IRKxDnkF+MioKRAyEXKI+NzKSk3EFcO97tM7y/a8o/V
-	Tb9U0nqexggo6hwI9sbd73Uz97GWfgbnZ1q+VDXrLoeNM835WZD6BaaHRG31X+6Ei6mTgeDMf5VPT
-	rMCw1k+A==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=0u/jVoOUSROTe5halROk4cD48e
+	LY4vnH54zxe3sULMdNEckooEXrXR7UXYPI4WLaX3ZDPtFQrbcnVj1DZUGR2jejMdLfNiuv9urHO+z
+	kk1VrQtaCfLayOAciCR25dRTRG6Lb79l5EF6Em0qckrR4f+Px2z5cd7JA6v5hV+9hX1z2ytETJ8Qa
+	R786ooyXgWfUTivogPqJBeCHGKGNt3gjEzj6v9We4jcPPRgbq/P0cbT9/L10fm45jlYNS1fHoc6/6
+	3lMGsgPmfFyd79MJfw33QNiuKjId0kymMetqNO+dJ/S6WFUXTksuRkGCKXz7ZtajqRAIgnep79VOG
+	lQXiXvww==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ribQQ-00000009cxu-3rEe;
-	Fri, 08 Mar 2024 14:42:18 +0000
+	id 1ribQo-00000009d6k-2cz2;
+	Fri, 08 Mar 2024 14:42:42 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ribQN-00000009cvy-1TDW
+	id 1ribQm-00000009d5d-0oxj
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Mar 2024 14:42:17 +0000
+	Fri, 08 Mar 2024 14:42:41 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 6BC4D68BEB; Fri,  8 Mar 2024 15:42:08 +0100 (CET)
-Date: Fri, 8 Mar 2024 15:42:08 +0100
+	id A3C6668BEB; Fri,  8 Mar 2024 15:42:36 +0100 (CET)
+Date: Fri, 8 Mar 2024 15:42:36 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: "brookxu.cn" <brookxu.cn@gmail.com>
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] nvme: fix reconnection fail due to reserved tag
- allocation
-Message-ID: <20240308144208.GA9194@lst.de>
-References: <20240308015435.100968-1-brookxu.cn@gmail.com>
+To: Hannes Reinecke <hare@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH] nvmet-tcp: do not continue for invalid icreq
+Message-ID: <20240308144236.GB9194@lst.de>
+References: <20240308071105.6175-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240308015435.100968-1-brookxu.cn@gmail.com>
+In-Reply-To: <20240308071105.6175-1-hare@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240308_064215_568343_BA8778BD 
-X-CRM114-Status: UNSURE (   9.50  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240308_064240_404433_DD867B7C 
+X-CRM114-Status: GOOD (  10.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,13 +60,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The fix looks good:
+Looks good:
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
-
-But given that's we consolidate to a single place each for setting
-up the tagsets for admin and I/O queues, what about just killing
-the symbolic name and moving the assignments and comments directly
-into the only users?
 
 
