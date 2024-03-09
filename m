@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2652C54E4A
-	for <linux-nvme@archiver.kernel.org>; Sat,  9 Mar 2024 16:01:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9666EC54798
+	for <linux-nvme@archiver.kernel.org>; Sat,  9 Mar 2024 16:20:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FJdRNrfaUk+clLIWSPTwanrknh7+Ussqz1t90RvWT2o=; b=tsIxFsRJVd0z7sVhEQRtyrsCIM
-	ex4iGuKFHL5h1ukykGSk7bA9KtoqZRkMkndqW9efHQjbTTX/b/C3ZTrQMzGFMDoDff9e+7MSZlzqw
-	lUI2RatmxSLVa7P3CD9lMQJ0PwfwcPp+gq6r0+R3L4U89PwndtwGPaYy5ewq+L7eEO0NZLPfoJgx8
-	kW0q0vx17cUrGKFejsJoB3+3BdRjMq4tOKqszYIzBWONEkCkEQQ5kJ2aqNiY1UmSjjxuYp/8YxA/b
-	MIM+7CMNTo617AdT3eb5gCbK5jWiUFBbKxbLSoSQhdGOL5sKJtAGwhG9McOT1ZcASkj1WLEin8zRW
-	UYIybKvg==;
+	bh=Si0PLbiZYN5lbylf8hrTMmvO0jMokuoB/IgowEDnsXY=; b=lY10U3LYoIhq2xXu8qgnwAgcvK
+	2OB13M8GoN+Ug3+yDYAXy4aPidoilU2HnaIumRnLfAS6DtKGLcWoUT9NBtkBGuvZlwWnhJ7LbP7+h
+	L/bPhuDngWyyDEq8DRmHFqtCwxBK8uT7nsIQ4/tXGXeIEN7gSeWCKq8ITEaTHm5lvILMADsX9RANl
+	+n0XO9Xr+LKkEiv2GDUIjHoC9+/yd3TkZzxi2WBk2AfwUF8GSgbV0HgIr3wb0ZRadn17XGW07k6xO
+	pOiErc8V4leBMfliEvVMlv4vSiN33VUg6Rf6x3bvX5iFl7xvnZCNMY85vbn+dlzWvnaQLvw1hpPWU
+	KMkOB/7A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1riz8W-0000000DhNf-1XEK;
-	Sat, 09 Mar 2024 16:01:24 +0000
+	id 1rizR5-0000000Djd1-3Y8T;
+	Sat, 09 Mar 2024 16:20:35 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ridPS-0000000AI54-3Sa5
+	id 1rizL9-0000000Dj4J-12KC
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 Mar 2024 16:49:28 +0000
+	Sat, 09 Mar 2024 16:14:28 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id E414168BEB; Fri,  8 Mar 2024 17:49:20 +0100 (CET)
-Date: Fri, 8 Mar 2024 17:49:20 +0100
+	id B0C9D68BFE; Sat,  9 Mar 2024 17:14:18 +0100 (CET)
+Date: Sat, 9 Mar 2024 17:14:18 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Jason Gunthorpe <jgg@ziepe.ca>
 Cc: Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leon@kernel.org>,
@@ -59,17 +59,17 @@ Cc: Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leon@kernel.org>,
 	"jack@suse.com" <jack@suse.com>, Zhu Yanjun <zyjzyj2000@gmail.com>
 Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two
  steps
-Message-ID: <20240308164920.GA17991@lst.de>
-References: <47afacda-3023-4eb7-b227-5f725c3187c2@arm.com> <20240305122935.GB36868@unreal> <20240306144416.GB19711@lst.de> <20240306154328.GM9225@ziepe.ca> <20240306162022.GB28427@lst.de> <20240306174456.GO9225@ziepe.ca> <20240306221400.GA8663@lst.de> <20240307000036.GP9225@ziepe.ca> <20240307150505.GA28978@lst.de> <20240307210116.GQ9225@ziepe.ca>
+Message-ID: <20240309161418.GA27113@lst.de>
+References: <20240306144416.GB19711@lst.de> <20240306154328.GM9225@ziepe.ca> <20240306162022.GB28427@lst.de> <20240306174456.GO9225@ziepe.ca> <20240306221400.GA8663@lst.de> <20240307000036.GP9225@ziepe.ca> <20240307150505.GA28978@lst.de> <20240307210116.GQ9225@ziepe.ca> <20240308164920.GA17991@lst.de> <20240308202342.GZ9225@ziepe.ca>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240307210116.GQ9225@ziepe.ca>
+In-Reply-To: <20240308202342.GZ9225@ziepe.ca>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240308_084927_511165_B446AC96 
-X-CRM114-Status: GOOD (  39.63  )
-X-Mailman-Approved-At: Sat, 09 Mar 2024 08:01:22 -0800
+X-CRM114-CacheID: sfid-20240309_081427_461662_AFA19F24 
+X-CRM114-Status: GOOD (  21.34  )
+X-Mailman-Approved-At: Sat, 09 Mar 2024 08:20:33 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,80 +84,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Mar 07, 2024 at 05:01:16PM -0400, Jason Gunthorpe wrote:
-> > 
-> > It's just kinda hard to do.  For aligned IOMMU mapping you'd only
-> > have one dma_addr_t mappings (or maybe a few if P2P regions are
-> > involved), so this probably doesn't matter.  For direct mappings
-> > you'd have a few, but maybe the better answer is to use THP
-> > more aggressively and reduce the number of segments.
+On Fri, Mar 08, 2024 at 04:23:42PM -0400, Jason Gunthorpe wrote:
+> > The DMA API callers really need to know what is P2P or not for
+> > various reasons.  And they should generally have that information
+> > available, either from pin_user_pages that needs to special case
+> > it or from the in-kernel I/O submitter that build it from P2P and
+> > normal memory.
 > 
-> Right, those things have all been done. 100GB of huge pages is still
-> using a fair amount of memory for storing dma_addr_t's.
-> 
-> It is hard to do perfectly, but I think it is not so bad if we focus
-> on the direct only case and simple systems that can exclude swiotlb
-> early on.
+> I think that is a BIO thing. RDMA just calls with FOLL_PCI_P2PDMA and
+> shoves the resulting page list into in a scattertable. It never checks
+> if any returned page is P2P - it has no reason to care. dma_map_sg()
+> does all the work.
 
-Even with direct mappings only we still need to take care of
-cache synchronization.
-
-> > If all flows includes multiple non-coalesced regions that just makes
-> > things very complicated, and that's exactly what I'd want to avoid.
-> 
-> I don't see how to avoid it unless we say RDMA shouldn't use this API,
-> which is kind of the whole point from my perspective..
-
-The DMA API callers really need to know what is P2P or not for
-various reasons.  And they should generally have that information
-available, either from pin_user_pages that needs to special case
-it or from the in-kernel I/O submitter that build it from P2P and
-normal memory.
-
-> Sure, 3 SGL entries is fine, that isn't what I'm pointing at
-> 
-> I'm saying that today if you give such a scatterlist to dma_map_sg()
-> it scans it and computes the IOVA space need, allocates one IOVA
-> space, then subdivides that single space up into the 3 HW SGLs you
-> show.
-> 
-> If you don't preserve that then we are calling, 4k at a time, a
-> dma_map_page() which is not anywhere close to the same outcome as what
-> dma_map_sg did. I may not get contiguous IOVA, I may not get 3 SGLs,
-> and we call into the IOVA allocator a huge number of times.
-
-Again, your callers must know what is a P2P region and what is not.
-I don't think it is a hard burdern to do mappings at that granularity,
-and we can encapsulate this in nice helpes for say the block layer
-and pin_user_pages callers to start.
-
-> 
-> It needs to work following the same basic structure of dma_map_sg,
-> unfolding that logic into helpers so that the driver can provide
-> the data structure:
-> 
->  - Scan the io ranges and figure out how much IOVA needed
->    (dma_io_summarize_range)
-
-That is in general a function of the upper layer and not the DMA code.
-
->  - Allocate the IOVA (dma_init_io)
-
-And this step is only needed for the iommu case.
-
-> > That's why I really just want 2 cases.  If the caller guarantees the
-> > range is coalescable and there is an IOMMU use the iommu-API like
-> > API, else just iter over map_single/page.
-> 
-> But how does the caller even know if it is coalescable? Other than the
-> trivial case of a single CPU range, that is a complicated detail based
-> on what pages are inside the range combined with the capability of the
-> device doing DMA. I don't see a simple way for the caller to figure
-> this out. You need to sweep every page and collect some information on
-> it. The above is to abstract that detail.
-
-dma_get_merge_boundary already provides this information in terms
-of the device capabilities.  And given that the callers knows what
-is P2P and what is not we have all the information that is needed.
-
+Right now it does, but that's not really a good interface.  If we have
+a pin_user_pages variant that only pins until the next relevant P2P
+boundary and tells you about we can significantly simplify the overall
+interface.
 
