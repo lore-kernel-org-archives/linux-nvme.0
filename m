@@ -4,63 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0FD15C54E58
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 Mar 2024 11:20:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C21BC54E58
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 Mar 2024 12:58:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hyQUr8jGn3hIN05OzMWDA66EXbEY31C85c4ZhIxNXkc=; b=vWwP8LgW0xvRLrhO+0hJYCrpGo
-	sa1AFJTAkfxMUFNTS9W/tk7sdKf4z9glaZ53IhzfUVQz9/RfO43cBnTEV5Iurk4q6lHUulCZzpJ02
-	pW1EB2HRsn9e+kv0NuDCPG0OuKqLPjL9H7wUGndiIZXw5FYKAcajFgPsMnyrphRtoMQzFDkknRPLy
-	mM8ag/s89ub43pHWAZ9CfJeSb+PqYyeZMD2ufp3qW/sVUJua+aGJrJoFeutZcO4gC+V//QBdTyGLv
-	R6+FYmxARQGb9WvMd0KPsu0aBUeIzMB9/k3Qas8W5i45MWVOZ9tCHwhYA5Er+BNlC0YCheVqf7Z6F
-	EjP30fFg==;
+	bh=ykVk8jWxGNEVliddlfYJYX7F0Y13BvDCU0/OONaHdVo=; b=3M58bgh+soVQX/Zu8B6w9N2loN
+	kwS4tiEjLRV6IiLedduvGXXTWWGh3DvThxgXng+mznbQsb/nRpTp2NLmvu+18k4xvD16QykeoYC1u
+	8RNanz3pPHF5u1ZTHFi6wwRyi4zzDw0oVYbeZ03Qz9IClvJtcpOz8pRHm6K5e7+KcRg8REWvTU0k1
+	xpntIb+qLGb0Qpl3XmRjEmnM3E5VxzAvQpbpeoLor9mEvC/ojgFd1WCpuSRxBv3ffGIwc9Symk9Bn
+	xP81hSPyiI0NhYSBwxqQO0JJTodz58nxYahI/9NbQ2FjwAkWa5ZJ0Zqeu9aZMpkQIHI6CPNv9VW5+
+	a+xXpyjg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rjdha-00000001FW7-1Uma;
-	Mon, 11 Mar 2024 11:20:18 +0000
-Received: from out30-124.freemail.mail.aliyun.com ([115.124.30.124])
+	id 1rjfEr-00000001X0H-1rLZ;
+	Mon, 11 Mar 2024 12:58:45 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rjdhV-00000001FTD-1UwE
+	id 1rjfEn-00000001WzO-3iPB
 	for linux-nvme@lists.infradead.org;
-	Mon, 11 Mar 2024 11:20:16 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1710156001; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=hyQUr8jGn3hIN05OzMWDA66EXbEY31C85c4ZhIxNXkc=;
-	b=AWTPahNrRFKpB4mVnYcVT7vMhK+7mw70lWVykG9qCM1aUA2R8ax5WFzZk3RsQhBHtAIbdUaJWvC+sTj/KVL8AwcO5VYe3kv+nDCN9X/wzWWLBZ9E/wQyqv1lCFhoDxwrSf+TftFLapP7dUeKBfEEC6wM0gubZEfFqAUiie1lPSo=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R671e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045170;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0W2FpFbA_1710155997;
-Received: from 30.178.90.245(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W2FpFbA_1710155997)
-          by smtp.aliyun-inc.com;
-          Mon, 11 Mar 2024 19:19:58 +0800
-Message-ID: <8fccdd92-9055-45ba-8edb-8b2b647343b3@linux.alibaba.com>
-Date: Mon, 11 Mar 2024 19:19:56 +0800
+	Mon, 11 Mar 2024 12:58:44 +0000
+Received: from pps.filterd (m0353724.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 42BCXKR0021390;
+	Mon, 11 Mar 2024 12:58:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=ykVk8jWxGNEVliddlfYJYX7F0Y13BvDCU0/OONaHdVo=;
+ b=ouzmJKo59OGUi3R668mRnQivRzkrOLFk4IVXA8ZVCCrGJW/Vu8K9ZwtL1sbgm/Aan6Au
+ TS4jz7b6XBPT4hw2QKCkDyM1QBgb86yQFJq/i1ahBP2gTumBkP56/LmhQ2E6k3JNDZlh
+ MRhcFAG92rlnZw1nBHxjUzKYLyVamI2TkUaYA/1zWdVfE0rdqMfpICbg5EFX4MmKktD6
+ MocQP34bZKw9J01TSukM1mPlYV1WvOssnuz6OeOkW4gtnaRaOP2075pO9pPAEYzJGFG0
+ +Jhzb6BA/tT3EzS861R1OqsMz7YNndGYRte7Ap+U/tFUbcFVuUC48mP27Hz3iTeME9RC LQ== 
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wt2290drb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 11 Mar 2024 12:58:28 +0000
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 42B9jeha015501;
+	Mon, 11 Mar 2024 12:58:27 GMT
+Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3ws2fygqwj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 11 Mar 2024 12:58:27 +0000
+Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
+	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 42BCwPKp20709918
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 11 Mar 2024 12:58:27 GMT
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0E6F35805D;
+	Mon, 11 Mar 2024 12:58:25 +0000 (GMT)
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id AB95558059;
+	Mon, 11 Mar 2024 12:58:22 +0000 (GMT)
+Received: from [9.109.198.202] (unknown [9.109.198.202])
+	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 11 Mar 2024 12:58:22 +0000 (GMT)
+Message-ID: <ac294adc-a7be-49af-88cd-e3aabd9f7c3f@linux.ibm.com>
+Date: Mon, 11 Mar 2024 18:28:21 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/1] nvmet: support reservation feature
-Content-Language: en-GB
-To: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>
-Cc: hch@lst.de, kch@nvidia.com, linux-nvme@lists.infradead.org
-References: <20240201023207.112007-1-kanie@linux.alibaba.com>
- <20240201023207.112007-2-kanie@linux.alibaba.com>
- <ee516418-d072-4506-acba-d02f22cc4476@grimberg.me>
- <0c74a2c2-c9d9-4b0c-9deb-bdc3caf72005@linux.alibaba.com>
- <Zd6msstIWsNQMPfK@kbusch-mbp>
- <727aabbc-1464-48d6-9915-a1c22343c2b2@linux.alibaba.com>
- <6e34a652-da40-46f2-8a43-b45b08682e41@grimberg.me>
- <0c33b803-baff-45af-90bb-623822f756b8@linux.alibaba.com>
- <d6073345-ceef-49b2-834e-618bbbb78de3@grimberg.me>
-From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <d6073345-ceef-49b2-834e-618bbbb78de3@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH RESEND] nvme-pci: Fix EEH failure on ppc after subsystem
+ reset
+Content-Language: en-US
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me,
+        linux-block@vger.kernel.org, gjoyce@linux.ibm.com
+References: <20240209050342.406184-1-nilay@linux.ibm.com>
+ <Zesxq81eJTnOGniB@kbusch-mbp>
+ <039541c8-2e13-442e-bd5b-90a799a9851a@linux.ibm.com>
+ <ZeyD6xh0LGZyRBfO@kbusch-mbp>
+ <301b8f41-a146-497a-916f-97d91829d28c@linux.ibm.com>
+ <Ze6LglWPqkHVFh-P@kbusch-mbp.mynextlight.net>
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <Ze6LglWPqkHVFh-P@kbusch-mbp.mynextlight.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Z6AxxUxm8uiCZtocNblHIn06_I2JK3RM
+X-Proofpoint-ORIG-GUID: Z6AxxUxm8uiCZtocNblHIn06_I2JK3RM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-11_08,2024-03-06_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 clxscore=1015
+ lowpriorityscore=0 impostorscore=0 suspectscore=0 bulkscore=0
+ mlxlogscore=999 phishscore=0 malwarescore=0 priorityscore=1501 spamscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2403110097
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240311_042013_928958_7ACDEAD6 
-X-CRM114-Status: UNSURE (   7.31  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240311_055842_233744_F1CE31B1 
+X-CRM114-Status: GOOD (  29.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,37 +111,104 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
->>
->> What do you think Sagi? Or may be we can declare that 
->> preempt_and_abort is not supported, just
->>
->> like SPDK does.
->
-> It can definitely come incrementally, but at the very least it should 
-> be incorrectly supported.
->
-> Out of curiosity, doesn't your use-case need a fencing protection 
-> against inflight I/Os reordering during
-> preemption?
 
-The cluster use stonith(shoot the other node in the head) to protect 
-sources,
 
-and the backend storage(our storage system goes like this, so does disk 
-firmware I think.)
+On 3/11/24 10:11, Keith Busch wrote:
+> On Sun, Mar 10, 2024 at 12:35:06AM +0530, Nilay Shroff wrote:
+>> On 3/9/24 21:14, Keith Busch wrote:
+>>> Your patch may observe a ctrl in "RESETTING" state from
+>>> error_detected(), then disable the controller, which quiesces the admin
+>>> queue. Meanwhile, reset_work may proceed to CONNECTING state and try
+>>> nvme_submit_sync_cmd(), which blocks forever because no one is going to
+>>> unquiesce that admin queue.
+>>>
+>> OK I think I got your point. However, it seems that even without my patch
+>> the above mentioned deadlock could still be possible. 
+> 
+> I sure hope not. The current design should guarnatee forward progress on
+> initialization failed devices.
+> 
+>> Without my patch, if error_detcted() observe a ctrl in "RESETTING" state then 
+>> it still invokes nvme_dev_disable(). The only difference with my patch is that 
+>> error_detected() returns the PCI_ERS_RESULT_NEED_RESET instead of PCI_ERS_RESULT_DISCONNECT.
+> 
+> There's one more subtle difference: that condition disables with the
+> 'shutdown' parameter set to 'true' which accomplishes a couple things:
+> all entered requests are flushed to their demise via the final
+> unquiesce, and all request_queue's are killed which forces error returns
+> for all new request allocations. No thread will be left waiting for
+> something that won't happen.
+> 
+Aaargh, I didn't notice that subtle difference. I got your all points..
+After thinking for a while (as you suggested) it seems that we potentially
+require to contain the race between reset_work and error_detected code path
+as both could run in parallel on different cpu when pci recovery initiates. 
+So I'm thinking that if we can hold on the error_detected() code path to proceed
+until reset_work is finished ? Particularly, in error_detcted() function if 
+we fall through the pci_channel_io_frozen case and the ctrl state is already
+RESETTING (so that means that reset_work shall be running) then hold on 
+invoking nvme_dev_diable(dev, false) until reset_work is finished. The changes
+should be something as below:
 
-can process write I/O operations on a first-come,first-served basis if 
-the range of
+@@ -3295,10 +3304,13 @@ static pci_ers_result_t nvme_error_detected(struct pci_dev *pdev,
+        case pci_channel_io_frozen:
+                dev_warn(dev->ctrl.device,
+                        "frozen state error detected, reset controller\n");
+-               if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING)) {
+-                       nvme_dev_disable(dev, true);
+-                       return PCI_ERS_RESULT_DISCONNECT;
++               if (nvme_ctrl_state(&dev->ctrl) != NVME_CTRL_RESETTING) {
++                       if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING)) {
++                               nvme_dev_disable(dev, true);
++                               return PCI_ERS_RESULT_DISCONNECT;
++                       }
+                }
++               flush_work(&dev->ctrl.reset_work);
+                nvme_dev_disable(dev, false);
+                return PCI_ERS_RESULT_NEED_RESET;
+        case pci_channel_io_perm_failure:
 
-data accessed by two I/O operation overlaps, for example, hostB preempt 
-and abort
+The flush_work() would ensure that we don't disable the ctrl if reset_work 
+is running. If the rest_work is *not* running currently then flush_work() should
+return immediately. Moreover, if reset_work is scheduled or start running after
+flush_work() returns then reset_work should not be able to get upto the CONNECTING
+state because pci recovery is in progress and so it should fail early.
 
-hostA, then host B send I/Os, the backend storage will handle hostA's 
-I/O first(by the timestamp).
+On the reset_work side other than detecting pci error recovery, I think we also 
+need one another change where in case the ctrl state is set to CONNECTING and we 
+detect the pci error recovery in progress then before returning from the reset_work
+we set the ctrl state to RESETTING so that error_detected() could forward progress.
+The changes should be something as below:
 
-Best regards,
+@@ -2776,6 +2776,16 @@ static void nvme_reset_work(struct work_struct *work)
+  out_unlock:
+        mutex_unlock(&dev->shutdown_lock);
+  out:
++       /*
++        * If PCI recovery is ongoing then let it finish first
++        */
++       if (pci_channel_offline(to_pci_dev(dev->dev))) {
++               dev_warn(dev->ctrl.device, "PCI recovery is ongoing so let it finish\n");
++               if (nvme_ctrl_state(&dev->ctrl) != NVME_CTRL_RESETTING)
++                       WRITE_ONCE(dev->ctrl.state, NVME_CTRL_RESETTING);
++               return;
++       }
++
+        /*
+         * Set state to deleting now to avoid blocking nvme_wait_reset(), which
+         * may be holding this pci_dev's device lock.
 
-Guixin Liu
+Please let me know if you find anything not good with the above changes.
+
+Thanks,
+--Nilay
+
+
+
+
+
+
+
 
 
 
