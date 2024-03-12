@@ -4,56 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 384EFC54E58
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Mar 2024 12:48:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38DB4C54E58
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Mar 2024 14:30:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6EKyatxka4pjvrsEq8Wkbemxd2Mu8P3I0xSINcxMmCk=; b=h0Xk3Gs2O8qIpEiR7BbswOl4rv
-	5alJixQ8ejz5EZq0Okr3anON60RxyTyQD+TEFdDgQyJNqUalDdKV+Wnble8zqaZHndC+Y5/wkoteW
-	99TuCR/ua3LmTC/kxiMnb+YurddQFrUTEpEPomlGbYCRWNUnLlk+L5uPMAGcPAf/Vg4OlnOXt/Gn8
-	ckkjxjLfKNAfScyYpZoWHEeaL0q6hc6PLJzWZOy1Pgr8IrgwKbylD2VnfGmF9p5UlwFwQgEpGZVBv
-	ck9l+ypZURAfJ0CPE5XUn20Rn5osXM4kKsY7JZxs28WlmYs662PCECRwM6CaMSLHfrY84Bn6xXbLO
-	fC9ugXaw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=A1wroYe6vs9yOLhgjBeWQhTGD8bBqaiy7yvVumdXAYk=; b=DUXECl+ezIUv4Kx3LhHcAuvvxm
+	5ec18zt1vPeymgIle4d9ndi3AAWnB/BMVVNs3Ew+LXWbnbxNFUnZeC6PwSXlSUal5qFlZM5xBwOF8
+	7ojLcHvZv4epErRb0MeTE+qMcGJFfS6gFcZxtpS+ICLkTQplTmedAtEcmJzL9zAUp8o7Ylwv7WXns
+	i7/lp35MxmpUUHiFSl9NIpEPY5dmUxXrAev1DzzBJlI3/jL/13A068+0jWeE9B1B7liSKCxJAX+mP
+	YgL+I3ifZ8RnEZK+4TmymLyYwFAxcETV+iSB7Qx5Ah2ELHr6RcN/B7aKTxFBWoI2FCkfhYxULDFSn
+	PBtQPfhA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rk1Y2-00000005oWu-1k8g;
-	Tue, 12 Mar 2024 12:48:02 +0000
-Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130])
+	id 1rk394-00000006860-1BAn;
+	Tue, 12 Mar 2024 14:30:22 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rk1Xx-00000005oUe-2jHb
+	id 1rk390-00000006843-3Ns3
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 Mar 2024 12:48:00 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1710247670; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=6EKyatxka4pjvrsEq8Wkbemxd2Mu8P3I0xSINcxMmCk=;
-	b=eu3S2IJNGgqbjEYmoKm1lJmsdcMTDWNHMesO7twKdtU9qzJiqUfx1CMICwRigNUmFQlFXydKHrVA5yLhOIlziEixk4xnvC+pOyeV1PAc3O8pe4QoN8P/V+sZoKO93Qgz+/zpFWPhOxKNoV//aLVLksJr9BZinCee0JI7F6lqz4U=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046049;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0W2LwW6f_1710247668;
-Received: from 30.178.91.50(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W2LwW6f_1710247668)
-          by smtp.aliyun-inc.com;
-          Tue, 12 Mar 2024 20:47:49 +0800
-Message-ID: <a57b4b6d-baef-48fb-8a10-89985c4d5fc0@linux.alibaba.com>
-Date: Tue, 12 Mar 2024 20:47:47 +0800
+	Tue, 12 Mar 2024 14:30:20 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id F1E0FCE180A;
+	Tue, 12 Mar 2024 14:30:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8CE9C3278E;
+	Tue, 12 Mar 2024 14:30:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710253810;
+	bh=5ZRONL4SZlpcFHCp/QRQUWuu5UjWMRjepJDC44EFnbY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eqQT4erY+VvgRNM7cLdPyPLVPIdW53p7E0r6LGAoI2TN7EXUPWurLD8t9zkoHd742
+	 yympcqKkyuiDC+ssxuOTX69i4v2QVB5Bfxh1tzh6kzFznyRLMT/gvHyqy9FGNtfs8y
+	 QV57LBq5RW2uiQYMOd46qyK810vZVZJBVhqLlMk/2Qqef244ua2IKZq2SwuGkvUFKO
+	 Es20B4F3XXxAh0hjNY/xSz7JOREqZfDF0J70YLmF9XA/eu+TUgQDnhcvOLq+d78P9K
+	 YYdVmxe6MnNpR8T1dD0Ya1Nv7K6TM0e3cHtsBoQ2hDS9YjiYwz2GQPzPl/S8iyhVgS
+	 zO7UVlRvcOyQA==
+Date: Tue, 12 Mar 2024 08:30:07 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: linux-nvme@lists.infradead.org, axboe@fb.com, hch@lst.de,
+	sagi@grimberg.me, linux-block@vger.kernel.org, gjoyce@linux.ibm.com
+Subject: Re: [PATCH RESEND] nvme-pci: Fix EEH failure on ppc after subsystem
+ reset
+Message-ID: <ZfBm72xPozFN99GA@kbusch-mbp.mynextlight.net>
+References: <20240209050342.406184-1-nilay@linux.ibm.com>
+ <Zesxq81eJTnOGniB@kbusch-mbp>
+ <039541c8-2e13-442e-bd5b-90a799a9851a@linux.ibm.com>
+ <ZeyD6xh0LGZyRBfO@kbusch-mbp>
+ <301b8f41-a146-497a-916f-97d91829d28c@linux.ibm.com>
+ <Ze6LglWPqkHVFh-P@kbusch-mbp.mynextlight.net>
+ <ac294adc-a7be-49af-88cd-e3aabd9f7c3f@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme: use nvme_disk_is_ns_head helper
-Content-Language: en-GB
-To: Christoph Hellwig <hch@lst.de>
-Cc: kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me,
- linux-nvme@lists.infradead.org
-References: <20240312075310.92594-1-kanie@linux.alibaba.com>
- <20240312123211.GB26641@lst.de>
-From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <20240312123211.GB26641@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ac294adc-a7be-49af-88cd-e3aabd9f7c3f@linux.ibm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240312_054758_098113_7079679E 
-X-CRM114-Status: GOOD (  11.18  )
+X-CRM114-CacheID: sfid-20240312_073019_328900_26BA5E24 
+X-CRM114-Status: GOOD (  21.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,34 +78,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Mon, Mar 11, 2024 at 06:28:21PM +0530, Nilay Shroff wrote:
+> @@ -3295,10 +3304,13 @@ static pci_ers_result_t nvme_error_detected(struct pci_dev *pdev,
+>         case pci_channel_io_frozen:
+>                 dev_warn(dev->ctrl.device,
+>                         "frozen state error detected, reset controller\n");
+> -               if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING)) {
+> -                       nvme_dev_disable(dev, true);
+> -                       return PCI_ERS_RESULT_DISCONNECT;
+> +               if (nvme_ctrl_state(&dev->ctrl) != NVME_CTRL_RESETTING) {
+> +                       if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING)) {
+> +                               nvme_dev_disable(dev, true);
+> +                               return PCI_ERS_RESULT_DISCONNECT;
+> +                       }
+>                 }
+> +               flush_work(&dev->ctrl.reset_work);
 
-在 2024/3/12 20:32, Christoph Hellwig 写道:
-> On Tue, Mar 12, 2024 at 03:53:10PM +0800, Guixin Liu wrote:
->> Use nvme_disk_is_ns_head helper instead of check
->> fops directly.
->>
->> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
->> ---
->>   drivers/nvme/host/sysfs.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
->> index f2832f70e7e0..ac8d622b5fc0 100644
->> --- a/drivers/nvme/host/sysfs.c
->> +++ b/drivers/nvme/host/sysfs.c
->> @@ -240,7 +240,7 @@ static ssize_t nuse_show(struct device *dev, struct device_attribute *attr,
->>   	int ret;
->>   
->>   	if (IS_ENABLED(CONFIG_NVME_MULTIPATH) &&
->> -	    bdev->bd_disk->fops == &nvme_ns_head_ops)
->> +	    nvme_disk_is_ns_head(bdev->bd_disk))
-> When using nvme_disk_is_ns_head we should also be able to drop the
-> IS_ENABLED(CONFIG_NVME_MULTIPATH) check.
-It will be changed in v2, and I will also remove
+I was messing with a similar idea. I wasn't sure if EEH calls the error
+handler inline with the error, in which case this would try to flush the
+work within the same work, which obviously doesn't work. As long as its
+called from a different thread, then this should be fine.
 
-IS_ENABLED(CONFIG_NVME_MULTIPATH) check in nvme_send_pr_command().
+>                 nvme_dev_disable(dev, false);
+>                 return PCI_ERS_RESULT_NEED_RESET;
+>         case pci_channel_io_perm_failure:
+> 
+> The flush_work() would ensure that we don't disable the ctrl if reset_work 
+> is running. If the rest_work is *not* running currently then flush_work() should
+> return immediately. Moreover, if reset_work is scheduled or start running after
+> flush_work() returns then reset_work should not be able to get upto the CONNECTING
+> state because pci recovery is in progress and so it should fail early.
+> 
+> On the reset_work side other than detecting pci error recovery, I think we also 
+> need one another change where in case the ctrl state is set to CONNECTING and we 
+> detect the pci error recovery in progress then before returning from the reset_work
+> we set the ctrl state to RESETTING so that error_detected() could forward progress.
+> The changes should be something as below:
+> 
+> @@ -2776,6 +2776,16 @@ static void nvme_reset_work(struct work_struct *work)
+>   out_unlock:
+>         mutex_unlock(&dev->shutdown_lock);
+>   out:
+> +       /*
+> +        * If PCI recovery is ongoing then let it finish first
+> +        */
+> +       if (pci_channel_offline(to_pci_dev(dev->dev))) {
+> +               dev_warn(dev->ctrl.device, "PCI recovery is ongoing so let it finish\n");
+> +               if (nvme_ctrl_state(&dev->ctrl) != NVME_CTRL_RESETTING)
+> +                       WRITE_ONCE(dev->ctrl.state, NVME_CTRL_RESETTING);
 
-Best regards,
-Guixin Liu
+This may break the state machine, like if the device was hot removed
+during all this error handling. This will force the state back to
+RESETTING when it should be DEAD.
 
+I think what you need is just allow a controller to reset from a
+connecting state. Have to be careful that wouldn't break any other
+expectations, though.
 
