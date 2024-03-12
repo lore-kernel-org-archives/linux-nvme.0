@@ -4,43 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8537C54E5D
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Mar 2024 14:48:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 39277C54E58
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Mar 2024 14:51:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YKaX8ERHDTkcm1Gf7rZWF74jjMOwqQulL6zhqTnYplQ=; b=mnLOj18MCu5ud7V5Uyqzs4uni5
-	vsjRoABK1LYi95BHeVBXeg7errhQbN4a8rHHi1/6NVnYk4xBgMrQ+EHLNQkfBKypN21yy2aALgj9L
-	ecS2qLw9xTh+O60DXFav+/66xLoGzUyvTQFtEXjxM+A4DKUuHoVTzyCUZNRlJXbCDWyYntn6M4IGw
-	fjX7x4zqyYsyCgTuB9nfsEyqsv7DdQnikf834ey4eqLZNDhouJrcBY+d/v54xzOQGgjwNB8ylH7o2
-	G1mBzpZCfbHKrd3GkHon9NNOBrRevGaHpP0sgrs7Cqe6tckGEAg6tSJkp6YZXgKYhExvLfPlA3EE8
-	eDyj4zLw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=LxefT6WnEEQJVl/KbV2+9X+VpTvqc9bIIRFfXtqPbTA=; b=IuY+iRQcRlJJcXlvZFwUEFhOVU
+	V2/5BGg8KquCzvDw1c5qbFv7x/tYhElgqBl1V/Mu416x1T2FywXqLaiT356xtQoGbQuM1DzzqKtk3
+	LKO5krTpjrwonSqx52VUY5VBfrKW7Q9esi67xtDKzVuvTyaORLMjrIpInDqXvoOK86L7Bi5xSrLpj
+	LUpCY34lF5x6v4ZobY/56Ynw0WJdKy8NKwc9BH3v8OhpILWsXqIvAwdP1l64IFFi0sxj+1S6GyS8l
+	FfgMdNebHrWGLYu4fCDmmmlkDaXQz3O55befnlM3mFeuXp7GTFL3ZTNEyUK0+Dyn+IPkUqLbViQ0f
+	kWr/ZoTw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rk3Qi-00000006DCC-0mle;
-	Tue, 12 Mar 2024 14:48:36 +0000
-Received: from [50.226.187.238] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rk3Qd-00000006D8j-1sNb;
-	Tue, 12 Mar 2024 14:48:31 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>,
-	Chandan Babu R <chandanbabu@kernel.org>,
-	Keith Busch <kbusch@kernel.org>
-Cc: linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
+	id 1rk3Tk-00000006EeR-0XxQ;
+	Tue, 12 Mar 2024 14:51:44 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
+	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rk3Tg-00000006Ech-3inx
+	for linux-nvme@lists.infradead.org;
+	Tue, 12 Mar 2024 14:51:43 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 4372CCE17FD;
+	Tue, 12 Mar 2024 14:51:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09A58C433C7;
+	Tue, 12 Mar 2024 14:51:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710255098;
+	bh=n0TYN4RvuzeQqnNR/vv0ZdbV8Ix0JgbwOfvQ3mcDu7Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=S8u0Ho8AbaZNPjM11cS15TedAW9WeOIWLQgS0Rb87I5ZdB6vFzp7l9USSdrSULAee
+	 kLz9TXFZvZqTkLA8ovfQ2O0rNApC392+3lv1BNxNIoxxsLX2ULaRDeF2r5UPsjNEIg
+	 dsaBrBAIl92m4d69nKNt4+9EDmqc1UQ3cPGCj//NTrWwljiEPfaGHIJlXjXtK/E6T+
+	 PCitxrxv4VWFaKe1SEeGWUrG1X3EDKcR+jBrdZ8lTPfNUQmLyI9oOj4Hvx1U6LbV5J
+	 Cmc1qtgCIFWWop9ZMdO4sl1UxcW7hhDaL5/HFHOO8lBXWXzOFTeYNSN5PQjEaNjquy
+	 D4l3wRVTtHm4A==
+Date: Tue, 12 Mar 2024 08:51:35 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Chandan Babu R <chandanbabu@kernel.org>,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
 	linux-xfs@vger.kernel.org
-Subject: [PATCH 5/5] block: don't allow fatal signals to interrupt (__)blkdev_issue_discard
-Date: Tue, 12 Mar 2024 08:48:26 -0600
-Message-Id: <20240312144826.1045212-6-hch@lst.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240312144826.1045212-1-hch@lst.de>
-References: <20240312144826.1045212-1-hch@lst.de>
+Subject: Re: [PATCH 2/5] block: add a bio_chain_and_submit helper
+Message-ID: <ZfBr91m4oQS_VYFg@kbusch-mbp.mynextlight.net>
+References: <20240312144532.1044427-1-hch@lst.de>
+ <20240312144532.1044427-3-hch@lst.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240312144532.1044427-3-hch@lst.de>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20240312_075141_279008_81826031 
+X-CRM114-Status: GOOD (  13.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -55,88 +73,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-File system won't to handle fatal signals themselves and are generally
-not prepared for EINTR errors from (__)blkdev_issue_discard.  Remove
-the logic from the generic helpers and instead open code the discard
-bio submission in the ioctl handler that wants it.
+On Tue, Mar 12, 2024 at 08:45:28AM -0600, Christoph Hellwig wrote:
+> +struct bio *bio_chain_and_submit(struct bio *prev, struct bio *new)
+>  {
+> -	struct bio *new = bio_alloc(bdev, nr_pages, opf, gfp);
+> -
+> -	if (bio) {
+> -		bio_chain(bio, new);
+> -		submit_bio(bio);
+> +	if (prev) {
+> +		bio_chain(prev, new);
+> +		submit_bio(prev);
+>  	}
+> -
+>  	return new;
+>  }
+> +EXPORT_SYMBOL_GPL(bio_chain_and_submit);
+> +
+> +struct bio *blk_next_bio(struct bio *bio, struct block_device *bdev,
+> +		unsigned int nr_pages, blk_opf_t opf, gfp_t gfp)
+> +{
+> +	return bio_chain_and_submit(bio, bio_alloc(bdev, nr_pages, opf, gfp));
+> +}
 
-Fixes: 8a08c5fd89b4 ("blk-lib: check for kill signal")
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- block/blk-lib.c | 12 +++---------
- block/ioctl.c   | 24 ++++++++++++++++++++++--
- 2 files changed, 25 insertions(+), 11 deletions(-)
-
-diff --git a/block/blk-lib.c b/block/blk-lib.c
-index 8021bc3831d56a..90b75605299b9c 100644
---- a/block/blk-lib.c
-+++ b/block/blk-lib.c
-@@ -65,16 +65,10 @@ int __blkdev_issue_discard(struct block_device *bdev, sector_t sector,
- {
- 	struct bio *bio;
- 
--	while (!fatal_signal_pending(current)) {
--		bio = blk_alloc_discard_bio(bdev, &sector, &nr_sects, gfp_mask);
--		if (!bio)
--			return 0;
-+	while ((bio = blk_alloc_discard_bio(bdev, &sector, &nr_sects,
-+			gfp_mask)))
- 		*biop = bio_chain_and_submit(*biop, bio);
--	}
--
--	if (*biop)
--		bio_await_chain(*biop);
--	return -EINTR;
-+	return 0;
- }
- EXPORT_SYMBOL(__blkdev_issue_discard);
- 
-diff --git a/block/ioctl.c b/block/ioctl.c
-index 57c8171fda93c5..32bbdba77d6941 100644
---- a/block/ioctl.c
-+++ b/block/ioctl.c
-@@ -96,10 +96,12 @@ static int blk_ioctl_discard(struct block_device *bdev, blk_mode_t mode,
- 		unsigned long arg)
- {
- 	sector_t bs_mask = (bdev_logical_block_size(bdev) >> SECTOR_SHIFT) - 1;
-+	struct inode *inode = bdev->bd_inode;
- 	sector_t sector, nr_sects;
-+	struct bio *bio = NULL, *new;
-+	struct blk_plug plug;
- 	uint64_t range[2];
- 	uint64_t start, len;
--	struct inode *inode = bdev->bd_inode;
- 	int err;
- 
- 	if (!(mode & BLK_OPEN_WRITE))
-@@ -129,7 +131,25 @@ static int blk_ioctl_discard(struct block_device *bdev, blk_mode_t mode,
- 	err = truncate_bdev_range(bdev, mode, start, start + len - 1);
- 	if (err)
- 		goto fail;
--	err = blkdev_issue_discard(bdev, sector, nr_sects, GFP_KERNEL);
-+	blk_start_plug(&plug);
-+	while (!fatal_signal_pending(current)) {
-+		new = blk_alloc_discard_bio(bdev, &sector, &nr_sects,
-+				GFP_KERNEL);
-+		if (!new)
-+			break;
-+		bio = bio_chain_and_submit(bio, new);
-+	}
-+	if (fatal_signal_pending(current)) {
-+		if (bio)
-+			bio_await_chain(bio);
-+		err = -EINTR;
-+	} else if (bio) {
-+		err = submit_bio_wait(bio);
-+		if (err == -EOPNOTSUPP)
-+			err = 0;
-+		bio_put(bio);
-+	}
-+	blk_finish_plug(&plug);
- fail:
- 	filemap_invalidate_unlock(inode->i_mapping);
- 	return err;
--- 
-2.39.2
-
+I realize you're not changing any behavior here, but I want to ask, is
+bio_alloc() always guaranteed to return a valid bio? It sure looks like
+it can return NULL under some uncommon conditions, but I can't find
+anyone checking the result. So I guess it's safe?
 
