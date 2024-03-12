@@ -4,60 +4,41 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4467DC54E58
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Mar 2024 14:39:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BDF5FC54E5D
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Mar 2024 14:45:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=abbBUKTHI4gf/jsRFQPIzMQswVaBhj9YHTPYRdp2ZK8=; b=C6B9dmAVKdwBto78smewFE5Qcw
-	O5L0dgJoV9NAl0fTUIVuxXAuMC6HQA1uKuA84CzjG0O76tjk/YlnYRsIeTyVqHiGzY0PMJS0UMHcj
-	BuSBv8d8ESl8+XuXjuxu2vrDisWmcxEF1mtgAZ38rldqOPdE68pxDHf8CAnAQJs9y4owpSvpINxIj
-	w2P/dvSjZZPnRJGp6MAMmY2mE472aGcp13MVuglDllpSVY6/G0uTxARC5AiQQC8htqZlKw/ZgrNI5
-	0NZipTmTKreNSqvNN+qTAOtdYQpt2eMylf142bgTS7mRPY+OYb6PjOD2Gm4fl9gq/YCbO89sX8jG3
-	ZV2GYhXQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=dVupA3BPIwip8256Nu1sv4B40R2NvuXz2V9DyL9nojE=; b=TLgRc4yMxxP/B09Xtn62rUOWZe
+	8Po+HCnARTWJQKlD2NNiUFrtCXTcPIw1LxZ5cldJ5aG2GEcQPqQzW/Lu7oJP1ArvJWghd8lersSrR
+	4q2Cs8xHRerbO6aZZMIoSNA7nRlc/eN0YPrpWZ3QNDR9x+BmC2eXBpphthIZ20xbMs/8Etuaqca3J
+	WVk2nYxJmC6piXCquYk8O1I5sS3rE39g00Y1xSC4Ce8ULDtlI5YpBJ2sFrRnZa2dSBwrwdCGIzaGT
+	f67XkYmsIQhXCbu8DMUFW9pTclssFdZT0iyCUb9p93Iehyx+DT1whtre8HoIxk5szmnzJadTEDiem
+	61rwtg3A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rk3HV-00000006AIQ-3YFL;
-	Tue, 12 Mar 2024 14:39:05 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
-	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rk3HS-00000006AHP-3JMP
-	for linux-nvme@lists.infradead.org;
-	Tue, 12 Mar 2024 14:39:04 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 1E29961158;
-	Tue, 12 Mar 2024 14:39:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6559CC433F1;
-	Tue, 12 Mar 2024 14:39:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710254341;
-	bh=0qo9EfHDEZ8iSvosOjDDAIpyZc4u2I/thDSO0I2SpiU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=g066vWwCbLg7B2oJBSVCGIvXST4RgYqDD/q2vOyOUgwtDixw1Ku2TAQBm2p1TItLc
-	 qEYLSKT49FeODILlplrGZMMxy9j4aArsUYzv2vlYNxFPQ4EpbpFKxPAOKRPSkcgl8Z
-	 dxQTD6DA2VAru368rNgMc4k4zipw5hK+6NQHNAyDx/Ikz/FOmZ403VAbljquUiSBkA
-	 Cb6Vo+yUsywtzbRDFs0M2NhNwPK0+0Tiqm1RYFZTbIS08HY4mf4R79EQhVHmLTwj4U
-	 qG+XQWZvnb8KzOyC1yW1vTP5ErDZvV4zC545vG7Wur6mnBrMFn8+caiHeZp7HWcPqA
-	 hMURjJ+s8oVgQ==
-Date: Tue, 12 Mar 2024 08:38:59 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Michael Kropaczek <michael.kropaczek@solidigm.com>
-Cc: linux-nvme@lists.infradead.org, Jens Axboe <axboe@fb.com>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH v3 0/1] nvme: Fix problem when booting from NVMe drive
- was leading to a hang.
-Message-ID: <ZfBpAw_4e-xfAHW8@kbusch-mbp.mynextlight.net>
-References: <20240311220811.3011800-1-michael.kropaczek@solidigm.com>
+	id 1rk3Nt-00000006C75-3H5E;
+	Tue, 12 Mar 2024 14:45:41 +0000
+Received: from [50.226.187.238] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rk3Nr-00000006C6J-3a9y;
+	Tue, 12 Mar 2024 14:45:39 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>,
+	Chandan Babu R <chandanbabu@kernel.org>,
+	Keith Busch <kbusch@kernel.org>
+Cc: linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	linux-xfs@vger.kernel.org
+Subject: RFCv2: fix fatal signal handling in __blkdev_issue_discard
+Date: Tue, 12 Mar 2024 08:45:26 -0600
+Message-Id: <20240312144532.1044427-1-hch@lst.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240311220811.3011800-1-michael.kropaczek@solidigm.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240312_073903_063575_5BB4DA5E 
-X-CRM114-Status: GOOD (  12.94  )
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,25 +53,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Mar 11, 2024 at 03:08:11PM -0700, Michael Kropaczek wrote:
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index e6267a6aa380..bda7cf5ff674 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -2593,6 +2593,9 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
->  			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
->  	}
->  
-> +	if (shutdown && dev->hmb)
-> +		nvme_set_host_mem(dev, 0);
-> +
+Hi all,
 
-As I said last time, this deadlocks if the controller doesn't respond to
-the command. While that shouldn't happen with a properly functioning
-controller, we can't count on that to prevent a deadlock.
+this tries to address the block for-next oops Chandan reported on XFS.
+I can't actually reproduce it unfortunately, but this series should
+sort it out by movign the fatal_signal_pending check out of all but
+the ioctl path.  The write_zeroes and secure_erase path will need
+similar treatment eventually.
 
->  	nvme_quiesce_io_queues(&dev->ctrl);
->  
->  	if (!dead && dev->ctrl.queue_count > 0) {
-> -- 
+Tested with blktests and the xfstests discard group for xfs only.
+
+Changes since v1:
+ - open code the fatal signal logic in the ioctl handler
+ - better bio-level helpers
+ - drop the file system cleanups for now
+
+Diffstat:
+ block/bio.c         |   48 +++++++++++++++++++++++----
+ block/blk-lib.c     |   90 +++++++++++++++-------------------------------------
+ block/blk.h         |    1 
+ block/ioctl.c       |   35 +++++++++++++++++---
+ include/linux/bio.h |    4 ++
+ 5 files changed, 102 insertions(+), 76 deletions(-)
 
