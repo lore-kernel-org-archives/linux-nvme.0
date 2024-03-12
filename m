@@ -4,61 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C61F8C54E5D
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 Mar 2024 22:13:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58FC7C54E58
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 Mar 2024 22:31:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=t5Y0ZkpL8pv5ND+BwhLtUg1FuCHMS8Wb8W4WSKhEpJ4=; b=gp2wKFNzZ3LDajbIOXegS04HvT
-	5qpzGL1+PmKYGYAOQ5WtVoCmtvSS45Wd1qxRaIHZXkriIv80ojAoq2chYLZsTm0TT9uXpbEwhkIAT
-	kl3lSSkrc3Gvy/cb/HOhbNTKpOAufmPtjG4lC+Xuk3QHJmlrVnLkjt6sfBxa8TmRGf8Ox98qXJ68c
-	Vzio4NPkbir8f67ZGHYT7LdN58JkllJMjEBpIL0Om0PdPFJZ4XfYfdii8LTnZ+jtAPRZWF+srfmA3
-	F20KG33g/fNLki9H0FBgl8uaGru1x3aU60lNmTn6z0Vvfh1sftvPlh+R8dQdXHdTqJMzz7mwwx6ei
-	14072QEw==;
+	bh=A78VhxPJyB+LkADGfQuQSz0pi6yfAcwi1eR7ydqDjhs=; b=uLk5kRNE6YgyV6ps+DglrTNoc6
+	YUnwGFJ1ifQgWQ3Dti/S1OaAZCIY/2/yCjrfziV25m+wfnPwxg9fw73N90dH0B/8+Vt+L3DOIN85h
+	ycRnqqn6dcKI6H8p19/LFe1U2Bti7oKrn+pb4TF8p66QUNsgrJifjw9Ml0nmGMOfv7mm4kLpHluRU
+	UmlczsipdJuYJsQZ5N4EehsQ4gpM7xniDCEQu6x1GDIuNLdza3kb5F018UKkK7U7CjwFGfSUBqQ/Q
+	K9Pqqo2bcB5kYKKg57ljYqkN9KOaGKVmWrX9mUwNFiiZHfIEPPPISHWru9OQfVs7/Y6QT941NUqRR
+	qAu5oUIA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rkAMp-00000007l0W-13lM;
-	Tue, 12 Mar 2024 22:13:03 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1rkAf6-00000007qpd-3o1z;
+	Tue, 12 Mar 2024 22:31:56 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rkAMk-00000007kzT-3kUd
+	id 1rkAes-00000007qjT-2hGB
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 Mar 2024 22:13:00 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 1DDF261329;
-	Tue, 12 Mar 2024 22:12:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 549ACC433F1;
-	Tue, 12 Mar 2024 22:12:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710281577;
-	bh=9uq/j3Hgz3Vttrm8luZzODCRNkQqejQaOuzuZQeBZnc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nT2NL4iyCmA0WNjwMrhLBIK3E4V5hxU/npyfBL3ZpzgemrK+gfAzrwixATP1A9cMm
-	 lqfxnfHWZwbnKIE+e9ZzN5u34fAjg1bicAZ4fok8DUBLlUzRN04UQDVR9ydFeJVfQI
-	 R2/+op6Tldx3OO5Y+weXXltAsTS1Nsv7mZJ7ARSQ4ZlRUqFj+y2HNovyoChWMprOmw
-	 kZBTB4viIZakkq9mCZyoNIFXAFOrrkf7e7OPa4kaEWeMhnTWRry91/oGDEi1dVdUON
-	 qpDdN8FWb9ma7yVsUTnESw4SoCeFknMHGAKsRyc2GeCYJteWUSqv4l0shIlmUnt2qw
-	 zrfRatW5y/H2g==
-Date: Tue, 12 Mar 2024 16:12:54 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Chandan Babu R <chandanbabu@kernel.org>,
+	Tue, 12 Mar 2024 22:31:52 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 6AFB668C4E; Tue, 12 Mar 2024 23:31:32 +0100 (CET)
+Date: Tue, 12 Mar 2024 23:31:31 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Chandan Babu R <chandanbabu@kernel.org>,
 	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
 	linux-xfs@vger.kernel.org
 Subject: Re: [PATCH 1/5] block: move discard checks into the ioctl handler
-Message-ID: <ZfDTZpuumZSn6oPp@kbusch-mbp.mynextlight.net>
-References: <20240312144532.1044427-1-hch@lst.de>
- <20240312144532.1044427-2-hch@lst.de>
+Message-ID: <20240312223131.GA8115@lst.de>
+References: <20240312144532.1044427-1-hch@lst.de> <20240312144532.1044427-2-hch@lst.de> <ZfDTZpuumZSn6oPp@kbusch-mbp.mynextlight.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240312144532.1044427-2-hch@lst.de>
+In-Reply-To: <ZfDTZpuumZSn6oPp@kbusch-mbp.mynextlight.net>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240312_151259_278737_C9A35BB6 
-X-CRM114-Status: GOOD (  13.01  )
+X-CRM114-CacheID: sfid-20240312_153142_946756_C5744551 
+X-CRM114-Status: GOOD (  14.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,43 +61,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 12, 2024 at 08:45:27AM -0600, Christoph Hellwig wrote:
-> @@ -95,6 +95,8 @@ static int compat_blkpg_ioctl(struct block_device *bdev,
->  static int blk_ioctl_discard(struct block_device *bdev, blk_mode_t mode,
->  		unsigned long arg)
->  {
-> +	sector_t bs_mask = (bdev_logical_block_size(bdev) >> SECTOR_SHIFT) - 1;
-> +	sector_t sector, nr_sects;
->  	uint64_t range[2];
->  	uint64_t start, len;
->  	struct inode *inode = bdev->bd_inode;
-> @@ -105,18 +107,21 @@ static int blk_ioctl_discard(struct block_device *bdev, blk_mode_t mode,
->  
->  	if (!bdev_max_discard_sectors(bdev))
->  		return -EOPNOTSUPP;
-> +	if (bdev_read_only(bdev))
-> +		return -EPERM;
->  
->  	if (copy_from_user(range, (void __user *)arg, sizeof(range)))
->  		return -EFAULT;
->  
->  	start = range[0];
->  	len = range[1];
-> +	sector = start >> SECTOR_SHIFT;
-> +	nr_sects = len >> SECTOR_SHIFT;
->  
-> -	if (start & 511)
-> +	if (!nr_sects)
->  		return -EINVAL;
-> -	if (len & 511)
-> +	if ((sector | nr_sects) & bs_mask)
->  		return -EINVAL;
-> -
->  	if (start + len > bdev_nr_bytes(bdev))
->  		return -EINVAL;
+On Tue, Mar 12, 2024 at 04:12:54PM -0600, Keith Busch wrote:
+> > +	if (!nr_sects)
+> >  		return -EINVAL;
+> > +	if ((sector | nr_sects) & bs_mask)
+> >  		return -EINVAL;
+> > -
+> >  	if (start + len > bdev_nr_bytes(bdev))
+> >  		return -EINVAL;
+> 
+> Maybe you want to shift lower bytes out of consideration, but it is
+> different, right? For example, if I call this ioctl with start=5 and
+> len=555, it would return EINVAL, but your change would let it succeed
+> the same as if start=0, len=512.
 
-Maybe you want to shift lower bytes out of consideration, but it is
-different, right? For example, if I call this ioctl with start=5 and
-len=555, it would return EINVAL, but your change would let it succeed
-the same as if start=0, len=512.
+We did the same before, just down in __blkdev_issue_discard instead of
+in the ioctl handler.
 
