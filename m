@@ -4,54 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 684FEC54E5D
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Mar 2024 02:29:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7CF36C54791
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Mar 2024 03:42:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=MgEbCHjZK3L2DwZkuhUGorM2I8BESR5U9QO85yYYE0Q=; b=M7lfyI6ImhD7Pi69EPJPsILCdz
-	QHjaZQCKcvEH4syjdselIK6WIdIs6KzIY4FroYG5bBA7KWOfEDXTsUYv9Uj3apaeoNthQkzatJxAG
-	mCWwsaf4CChIhIuvZrHpHAP7E9vEQTNf0uNykAw4pAspquD4SLGaE2hH5xr5PB1TPHKgQgBHmN2AT
-	395tnta1PFFbP2+8i+mJsNBGLDyhBG19Zqsc3idum8jLYKiTyngQ2WNqWd6+fIhreSCZKxbULDYIu
-	eXYpotzWWiF6bfPNGzGJ97lgCyX0Bk3k0dH+akIPQUQxDJMJD80IZ/RihrCucFfdoqhVV7wWXmnt4
-	Epgvv8og==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=GIDlLOFJi6T+rPBcuwsgRQ9FQT6cCUu3t6MYnaeK/Jo=; b=KzNN3e+BeaN7sEo2QC997piYLZ
+	ctlfl0555xN7KKg17fq/hWQ42TOS3wb9J8TlCcliaq+WA5jjXE/rqyfqY9rP3KhEcWOqe9R46Anh/
+	Nm0FaSFGayivDFcMtAur4wOhawob5hW1CviqNlphqxRJXpIvilsJXmnznHXWEy6R5060ltEWSfvuD
+	Aeh5tjrPuQIeSIruHsnSZN9qRwhHeURcHJyAj6FKdJGfOhEkNYmB84B8yiVX0734OaidNnJ9rEjqx
+	8lfd5/E+7YZbpuqXGa9gg5cpoZFhBfZpcxV+zHPt/AF+MCSTu0pxngLpMpYde0SnEUI6g9yQEWAi1
+	d5H5CncA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rkEMq-00000008Y7j-3QoG;
-	Wed, 13 Mar 2024 02:29:20 +0000
-Received: from out30-112.freemail.mail.aliyun.com ([115.124.30.112])
+	id 1rkFVd-00000008fz3-1CZ3;
+	Wed, 13 Mar 2024 03:42:29 +0000
+Received: from out30-113.freemail.mail.aliyun.com ([115.124.30.113])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rkEMm-00000008Y6V-3FAP
+	id 1rkFVW-00000008fy0-1CzF
 	for linux-nvme@lists.infradead.org;
-	Wed, 13 Mar 2024 02:29:19 +0000
+	Wed, 13 Mar 2024 03:42:24 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1710296952; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=MgEbCHjZK3L2DwZkuhUGorM2I8BESR5U9QO85yYYE0Q=;
-	b=GV0cQXutOgClRf3uThmCnBgDyFdnAVbpKAUOL4fyCAkwzCHUJ11SnxXMouBe9DFKOvv+1qsvcroFMfRSmGCg0PK8jxYritVTeA0890wAKNeM0XpCpFNzJ5tb5gDRNcQwl9tbLMVFkH98yaiD+BwvJ/Ep9eagBxhTQBqwnmzdESU=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045170;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0W2NKxJb_1710296946;
-Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W2NKxJb_1710296946)
+	t=1710301336; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=GIDlLOFJi6T+rPBcuwsgRQ9FQT6cCUu3t6MYnaeK/Jo=;
+	b=LDzAtvoePzXiaQ64zoW5uPk4vFLHikt7fQpRdP69TtRjcnT45seCwHcwIxLN6BIsrnq6P5V/w9jQciLEQ8jyxaEvVNkFb28GJo6TcJ2kuSObx9cCTbYBYxDYm4sySJJ5d62ppE6BYloDvNsDnAW0x/4A1+/RMuzEdfyRArAKdQw=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046051;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0W2NrvtP_1710301333;
+Received: from 30.178.91.12(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W2NrvtP_1710301333)
           by smtp.aliyun-inc.com;
-          Wed, 13 Mar 2024 10:29:11 +0800
-From: Guixin Liu <kanie@linux.alibaba.com>
-To: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org
-Subject: [PATCH v2] nvme: use nvme_disk_is_ns_head helper
-Date: Wed, 13 Mar 2024 10:29:05 +0800
-Message-ID: <20240313022905.104092-1-kanie@linux.alibaba.com>
-X-Mailer: git-send-email 2.43.0
+          Wed, 13 Mar 2024 11:42:15 +0800
+Message-ID: <2eb0672e-1073-497b-94ce-f3c356b7580e@linux.alibaba.com>
+Date: Wed, 13 Mar 2024 11:42:12 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/1] nvmet: support reservation feature
+Content-Language: en-GB
+To: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>
+Cc: hch@lst.de, kch@nvidia.com, linux-nvme@lists.infradead.org
+References: <20240201023207.112007-1-kanie@linux.alibaba.com>
+ <20240201023207.112007-2-kanie@linux.alibaba.com>
+ <ee516418-d072-4506-acba-d02f22cc4476@grimberg.me>
+ <0c74a2c2-c9d9-4b0c-9deb-bdc3caf72005@linux.alibaba.com>
+ <Zd6msstIWsNQMPfK@kbusch-mbp>
+ <727aabbc-1464-48d6-9915-a1c22343c2b2@linux.alibaba.com>
+ <6e34a652-da40-46f2-8a43-b45b08682e41@grimberg.me>
+ <0c33b803-baff-45af-90bb-623822f756b8@linux.alibaba.com>
+ <d6073345-ceef-49b2-834e-618bbbb78de3@grimberg.me>
+ <8fccdd92-9055-45ba-8edb-8b2b647343b3@linux.alibaba.com>
+ <47f18beb-3647-4464-9f2c-b75e10ec346b@grimberg.me>
+From: Guixin Liu <kanie@linux.alibaba.com>
+In-Reply-To: <47f18beb-3647-4464-9f2c-b75e10ec346b@grimberg.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240312_192917_357264_B389D0D0 
-X-CRM114-Status: UNSURE (   9.21  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240312_204222_980332_D3E69FFF 
+X-CRM114-Status: GOOD (  10.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,47 +76,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Use nvme_disk_is_ns_head helper instead of check fops directly,
-and also drop CONFIG_NVME_MULTIPATH check.
 
-Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
----
-Changes from v1 to v2:
-- Drop CONFIG_NVME_MULTIPATH check.
+在 2024/3/13 05:31, Sagi Grimberg 写道:
+> So I understand from you that there is out-of-band mechanism for fence 
+> guarantee?
+>
+> In any event, Christoph reminded me that preempt and abort is 
+> mandatory, so we cannot
+> get away without doing it.
+>
+Agree.
+> I suggest to introduce a per-ns-per-controller percpuref, with an 
+> xarray that is rcu protected.
 
- drivers/nvme/host/pr.c    | 3 +--
- drivers/nvme/host/sysfs.c | 3 +--
- 2 files changed, 2 insertions(+), 4 deletions(-)
+I will implement it in v9, and I also think that we should a 
+time-limited wait.
 
-diff --git a/drivers/nvme/host/pr.c b/drivers/nvme/host/pr.c
-index fc3eed00f9ff..e05571b2a1b0 100644
---- a/drivers/nvme/host/pr.c
-+++ b/drivers/nvme/host/pr.c
-@@ -97,8 +97,7 @@ static int nvme_sc_to_pr_err(int nvme_sc)
- static int nvme_send_pr_command(struct block_device *bdev,
- 		struct nvme_command *c, void *data, unsigned int data_len)
- {
--	if (IS_ENABLED(CONFIG_NVME_MULTIPATH) &&
--	    nvme_disk_is_ns_head(bdev->bd_disk))
-+	if (nvme_disk_is_ns_head(bdev->bd_disk))
- 		return nvme_send_ns_head_pr_command(bdev, c, data, data_len);
- 
- 	return nvme_send_ns_pr_command(bdev->bd_disk->private_data, c, data,
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index f2832f70e7e0..8b7bf9d943af 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -239,8 +239,7 @@ static ssize_t nuse_show(struct device *dev, struct device_attribute *attr,
- 	struct block_device *bdev = disk->part0;
- 	int ret;
- 
--	if (IS_ENABLED(CONFIG_NVME_MULTIPATH) &&
--	    bdev->bd_disk->fops == &nvme_ns_head_ops)
-+	if (nvme_disk_is_ns_head(bdev->bd_disk))
- 		ret = ns_head_update_nuse(head);
- 	else
- 		ret = ns_update_nuse(bdev->bd_disk->private_data);
--- 
-2.43.0
+>
+> btw, I also think that reservations on nsid=0xffffffff should also 
+> work. IIRC there were at least
+> two use-cases that would have benefited from reservations on all 
+> subsystem namespaces.
+> It can also be a lot more lightweight to implement that (outside of 
+> conflicting reservations checks). 
+
+You mean one host can reserve all of namespaces by sending one 
+reservation command?
+
+Well, Could you please tell me which two use-cases?
+
+I think this will make the target code too complicated, because the 
+reservation situation on each
+
+namespace may different, we should handle it one-by-one, and if failed 
+in middle, we should revert
+
+the handled namespaces.
+
+Best regards,
+
+Guixin Liu
 
 
