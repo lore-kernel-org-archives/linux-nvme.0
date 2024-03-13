@@ -4,64 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7CF36C54791
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Mar 2024 03:42:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58111C54791
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Mar 2024 03:52:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GIDlLOFJi6T+rPBcuwsgRQ9FQT6cCUu3t6MYnaeK/Jo=; b=KzNN3e+BeaN7sEo2QC997piYLZ
-	ctlfl0555xN7KKg17fq/hWQ42TOS3wb9J8TlCcliaq+WA5jjXE/rqyfqY9rP3KhEcWOqe9R46Anh/
-	Nm0FaSFGayivDFcMtAur4wOhawob5hW1CviqNlphqxRJXpIvilsJXmnznHXWEy6R5060ltEWSfvuD
-	Aeh5tjrPuQIeSIruHsnSZN9qRwhHeURcHJyAj6FKdJGfOhEkNYmB84B8yiVX0734OaidNnJ9rEjqx
-	8lfd5/E+7YZbpuqXGa9gg5cpoZFhBfZpcxV+zHPt/AF+MCSTu0pxngLpMpYde0SnEUI6g9yQEWAi1
-	d5H5CncA==;
+	bh=H5ovShcTBKHX2BVU6KMLazqD/3y5PNtydNZFt92WEu0=; b=kW3IqZx/vrSbwpTg5tGhp8JFMg
+	u8k9rKx+AbXbKPIrix9JEBMkmjFNvf12Tj88jJQOs3spXpXnXi+821NrFbFaE9ScPttIhp/Qnqvv+
+	eWRBBmR7JRqQYWdrpHAdteYmBxo+57wdivz1u1PqzL/uMzLgVlhfl1I4/yPsCqfceFbkXBRHB9j2J
+	5ybD/utHm6ko/n2YylTAAGNCmYDgkKNKuaaiGn0vOQRlbfz4UtA8wlzY96PM7ALjmZWT4OPmLXOMY
+	MKyZ0yIecHPQrT9K8AZq/eIbzELqOrRjzWGyzM40p4EwfGMDstYG5TEEJsNqgH/DSEofO5NdJ9s0g
+	uUTNjBhg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rkFVd-00000008fz3-1CZ3;
-	Wed, 13 Mar 2024 03:42:29 +0000
-Received: from out30-113.freemail.mail.aliyun.com ([115.124.30.113])
+	id 1rkFep-00000008hHX-1LaQ;
+	Wed, 13 Mar 2024 03:51:59 +0000
+Received: from out30-110.freemail.mail.aliyun.com ([115.124.30.110])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rkFVW-00000008fy0-1CzF
+	id 1rkFem-00000008hGQ-105U
 	for linux-nvme@lists.infradead.org;
-	Wed, 13 Mar 2024 03:42:24 +0000
+	Wed, 13 Mar 2024 03:51:58 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1710301336; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=GIDlLOFJi6T+rPBcuwsgRQ9FQT6cCUu3t6MYnaeK/Jo=;
-	b=LDzAtvoePzXiaQ64zoW5uPk4vFLHikt7fQpRdP69TtRjcnT45seCwHcwIxLN6BIsrnq6P5V/w9jQciLEQ8jyxaEvVNkFb28GJo6TcJ2kuSObx9cCTbYBYxDYm4sySJJ5d62ppE6BYloDvNsDnAW0x/4A1+/RMuzEdfyRArAKdQw=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046051;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0W2NrvtP_1710301333;
-Received: from 30.178.91.12(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W2NrvtP_1710301333)
+	t=1710301913; h=Message-ID:Date:MIME-Version:Subject:From:To:Content-Type;
+	bh=H5ovShcTBKHX2BVU6KMLazqD/3y5PNtydNZFt92WEu0=;
+	b=T/r5I02+zKe8QUo2d+17M1WT7e9XUbJkaC80h7sheA9rjTgXRBlBLv3JBzmQzIcVHK5zwqbgsl49zYUKRXxAEndmBk4MQLp3qULQEq/3eOledx/x3XpXObDuCbteF/pfs6F80gmWNZ/lNZlEMdbjjej0OG/L2dJqHWiS6VbFs+I=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045170;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0W2Nn4YJ_1710301910;
+Received: from 30.178.91.12(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W2Nn4YJ_1710301910)
           by smtp.aliyun-inc.com;
-          Wed, 13 Mar 2024 11:42:15 +0800
-Message-ID: <2eb0672e-1073-497b-94ce-f3c356b7580e@linux.alibaba.com>
-Date: Wed, 13 Mar 2024 11:42:12 +0800
+          Wed, 13 Mar 2024 11:51:51 +0800
+Message-ID: <559d9283-449c-4135-b4ca-168417e56ee1@linux.alibaba.com>
+Date: Wed, 13 Mar 2024 11:51:49 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/1] nvmet: support reservation feature
+Subject: Re: [PATCH v2 0/3] *** nvme: add some commands tracing ***
 Content-Language: en-GB
-To: Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>
-Cc: hch@lst.de, kch@nvidia.com, linux-nvme@lists.infradead.org
-References: <20240201023207.112007-1-kanie@linux.alibaba.com>
- <20240201023207.112007-2-kanie@linux.alibaba.com>
- <ee516418-d072-4506-acba-d02f22cc4476@grimberg.me>
- <0c74a2c2-c9d9-4b0c-9deb-bdc3caf72005@linux.alibaba.com>
- <Zd6msstIWsNQMPfK@kbusch-mbp>
- <727aabbc-1464-48d6-9915-a1c22343c2b2@linux.alibaba.com>
- <6e34a652-da40-46f2-8a43-b45b08682e41@grimberg.me>
- <0c33b803-baff-45af-90bb-623822f756b8@linux.alibaba.com>
- <d6073345-ceef-49b2-834e-618bbbb78de3@grimberg.me>
- <8fccdd92-9055-45ba-8edb-8b2b647343b3@linux.alibaba.com>
- <47f18beb-3647-4464-9f2c-b75e10ec346b@grimberg.me>
 From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <47f18beb-3647-4464-9f2c-b75e10ec346b@grimberg.me>
+To: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org
+References: <20240131091222.116190-1-kanie@linux.alibaba.com>
+In-Reply-To: <20240131091222.116190-1-kanie@linux.alibaba.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240312_204222_980332_D3E69FFF 
-X-CRM114-Status: GOOD (  10.93  )
+X-CRM114-CacheID: sfid-20240312_205156_839029_D1073484 
+X-CRM114-Status: GOOD (  10.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,45 +66,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi Keith,
 
-在 2024/3/13 05:31, Sagi Grimberg 写道:
-> So I understand from you that there is out-of-band mechanism for fence 
-> guarantee?
->
-> In any event, Christoph reminded me that preempt and abort is 
-> mandatory, so we cannot
-> get away without doing it.
->
-Agree.
-> I suggest to introduce a per-ns-per-controller percpuref, with an 
-> xarray that is rcu protected.
+This series of patches has not been combined yet, could you please
 
-I will implement it in v9, and I also think that we should a 
-time-limited wait.
-
->
-> btw, I also think that reservations on nsid=0xffffffff should also 
-> work. IIRC there were at least
-> two use-cases that would have benefited from reservations on all 
-> subsystem namespaces.
-> It can also be a lot more lightweight to implement that (outside of 
-> conflicting reservations checks). 
-
-You mean one host can reserve all of namespaces by sending one 
-reservation command?
-
-Well, Could you please tell me which two use-cases?
-
-I think this will make the target code too complicated, because the 
-reservation situation on each
-
-namespace may different, we should handle it one-by-one, and if failed 
-in middle, we should revert
-
-the handled namespaces.
+take a look?
 
 Best regards,
 
 Guixin Liu
 
+在 2024/1/31 17:12, Guixin Liu 写道:
+> Hi guys:
+>      I found that there are no reservation commands tracing and some
+> commands's parsing aren't fit the newest NVMe spec, and aren't readble.
+>
+> Changes from v1 to v2:
+> - Remove idr and idw parsing of dsm command.
+>
+> - Remove lbafl and lbafu variables and add a comment for the lbaf
+> calculation in nvme_trace_admin_format_nvm().
+>
+> Guixin Liu (3):
+>    nvme: add tracing of reservation commands
+>    nvme: parse dsm command's attr deallocate when tracing
+>    nvme: parse format command's lbafu when tracing
+>
+>   drivers/nvme/host/trace.c | 73 ++++++++++++++++++++++++++++++++++++---
+>   1 file changed, 69 insertions(+), 4 deletions(-)
+>
 
