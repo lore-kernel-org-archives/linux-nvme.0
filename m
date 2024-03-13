@@ -4,82 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ADDC9C54791
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Mar 2024 12:36:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 98F32C54791
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Mar 2024 12:39:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4Fl29a1HKwHzq3oTHp8XbgixDXjDszlPDA3ON3F5+sc=; b=HledH5FWWpyXf/tWMeqPwGau6D
-	ufX/4F2Ugml8cn6j/krDidtRXyiCJkzmmuYeJCbJMpFBlS0HzRxD51ZC+IdOHP2vOSdz23M8kuN4z
-	13QPjuWfbzrCGeeW9kDEBrLPJ2t1BP2gOVdY2wQix3j2pn0bn/IMk10n2OE0cSPYNr89dAqeqaGjn
-	nYsgjhT+M2Ymodb8Gj6mLMknAboAgPBb4YzRTAsvsVEKJpeNnS4+XS6s/rcjNfk/DCpATa5Anb1jj
-	+Dpj6Fus+Tjdc2RT1AHAvRznsqFLQqXYj9KiMxLZBRMA1Nix5pZGVRXY5INDO7sFtuRPRp3FlXqga
-	6MSge+6g==;
+	bh=p793P1BTk7k277weTIdJuZGu4hnig42k4ieb9wGqdXY=; b=AKrqLsvP483wuHeXVB0Dm7EbRB
+	Lnk95ic78Fr4FX9aM2CvC22r3PAMoPHN7nS/+g/yhXMfP49PHWsltHPCMXULXYU3ZKdxqdVsI9afA
+	wVDafePS7ImhQ5Wx+vQWDAxMchWzKcGtReM4vpKohx4nKOlPswYQLEqRZRpH1zAhMXGgOCp0m/S3x
+	D4rEG3Rpkf3dW86xkdJsw3GJ382OAQriKh58RGRLyjGsT9s49evDY9jB7fke+SgceF9IpcFfNIFdg
+	mw4kOwIZ0pN/Dkb/oV6NlJjTou50Q5rc13ZeTlm1N/o+ZTJxVp1GGAeeJ+VIQihk351CA3r46JyOO
+	Vniz3OwQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rkNqp-0000000A5Wa-0SpJ;
-	Wed, 13 Mar 2024 12:36:55 +0000
-Received: from mail-wr1-f48.google.com ([209.85.221.48])
+	id 1rkNt1-0000000A5xM-0A2q;
+	Wed, 13 Mar 2024 12:39:11 +0000
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rkNql-0000000A5Vd-3mu2
+	id 1rkNsx-0000000A5wQ-45NL
 	for linux-nvme@lists.infradead.org;
-	Wed, 13 Mar 2024 12:36:53 +0000
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-33e972c8b67so749352f8f.1
-        for <linux-nvme@lists.infradead.org>; Wed, 13 Mar 2024 05:36:51 -0700 (PDT)
+	Wed, 13 Mar 2024 12:39:09 +0000
+Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-1ddcfe064faso3887855ad.3
+        for <linux-nvme@lists.infradead.org>; Wed, 13 Mar 2024 05:39:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smartx-com.20230601.gappssmtp.com; s=20230601; t=1710333546; x=1710938346; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p793P1BTk7k277weTIdJuZGu4hnig42k4ieb9wGqdXY=;
+        b=2tjvI9LYucKhuvD8Szn3ZogYzJZhFNrs0QKMTGxB82/cRDLH5qtl8wiSnrIG2F5BQ1
+         PrssovUVgsHLhY6FUJ1cliVghKg8va01Pnb87+4BTyIdHqA2tCP30Oyw8CPnvWjUY1UC
+         8ZMRVV41RywdfGS7RkowcJPXPrDNaBNBBESCQ3TfuoltCeSTOCiEweMf3ylfE2U6B5SE
+         hAv1CxBngAkr2F022SJeeCPSigveSWmi/9DW+QH05yxC6Y91/X9Jb0HGemZgzoiMWb5t
+         9GolxEwZhWp2sHG5X1wTgzwQcvSuhY+i9QaoJZ0I+Y6TC6ZFPBrTKtpTFIhaT3uV6dup
+         fs3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710333410; x=1710938210;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4Fl29a1HKwHzq3oTHp8XbgixDXjDszlPDA3ON3F5+sc=;
-        b=aklg1w1X3JCZj5eMwCQ6l/Qs4YcXcLfmgJK3CJj3OYRWs2yis/IKD3LzhAvwd/rCRN
-         GcX/EM+hhJ56tH8HQn5pUEUiIFnrx1xAsqIhoDMsjdKBXcqIveGt/vF8ZGYqCz4ad3YB
-         owWKDfQelM2lVvVBOeXm2ok9X6laiL3hs3//q3/jXIl2R1S7bxi5rKDkuFuRROaC3Ek4
-         XkLkE+QdjMW4YsIT/IHYg+bsMCVEK7AseKiYe6zDCkTc7BS5JB+7RTKy0n/L0kUfX0S0
-         YdKaO+7chhophK47xGk66aihd9gdqHqncYkYpUuaqXY7AaJc/4VxIlORFZ0WGD+mi8mz
-         AWPg==
-X-Forwarded-Encrypted: i=1; AJvYcCXhO7YgBWTcvvAQ6UT1eoeF3l6JIt7GhIEIsbV7D5nQaVDdJ6+5lk3BQQJnhl957T/m7JRe9qZdUTDmjTlibW7gTo3d6IS+6XN3FzW8qiU=
-X-Gm-Message-State: AOJu0Yxbdo0RAXc4uz4FdUSL9OSPoq03/PcLcPvDGs8az591RHeeISBJ
-	cpxIteO2muasgWhe/TzY29BHKRXbE6DMkfBA/DUWHtkqrSLtu8j1
-X-Google-Smtp-Source: AGHT+IFDVdk5x9LF2Q1xC8miKtPibYFnVEs3bbOM53h6Smwex1DGfwOighwI0fMEPvNGX0e9HwYfFw==
-X-Received: by 2002:a5d:5545:0:b0:33d:b387:88df with SMTP id g5-20020a5d5545000000b0033db38788dfmr8296324wrw.7.1710333409559;
-        Wed, 13 Mar 2024 05:36:49 -0700 (PDT)
-Received: from [10.50.4.153] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id q25-20020adfab19000000b0033e45930f35sm11787592wrc.6.2024.03.13.05.36.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Mar 2024 05:36:49 -0700 (PDT)
-Message-ID: <99f5f33b-2c68-4c93-ad4d-333a05cb4d09@grimberg.me>
-Date: Wed, 13 Mar 2024 14:36:48 +0200
+        d=1e100.net; s=20230601; t=1710333546; x=1710938346;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=p793P1BTk7k277weTIdJuZGu4hnig42k4ieb9wGqdXY=;
+        b=poKOklLSYY4xMta/85pnUO9OSq7faqS+vClZu99DPgrCZOS4L7SX+qzqq27J0CQTCt
+         a83lwNfKrTwS3zgME5UtMr4WxM/GFkSmqxctViHml4i4yyOILAC0SAmNsE8hkHvyYnxz
+         5pklhRspA1CArB2yeX+K48fixKID9ZLq+f2IOnGRsxhWSis0BrwxRtgH6MMgg1aK63k3
+         CHdESF/ckvOEvfFQvZ8/Bd/TPVtbEqrNuE4cFllUH7ZFa71wRCM/mgFmcSY9pWslYmLR
+         oPpto/NaE65fUaJd8qG6FQR8aPFD4gW19oK0G1G8pbOtlUnyLDOLi5X7aGrWVP4g/TSZ
+         OLkg==
+X-Forwarded-Encrypted: i=1; AJvYcCXFVXhX98BDRp7Ga6jUFYpIU0ZmjAR3NZNpUH6k/yLGeF3NhYN1p9/ykI2/xOwdIw8oK3WJVeZHtj3pEH0m6TNIfgDbVfpYTvQQ85WwFPw=
+X-Gm-Message-State: AOJu0Yy7fT1moQcHvGkHyNMkZ5vWCsSBIsVn1Looc/S55x2sBIyfJvpp
+	Fywd/tYRhQrBbkwvLuKP42+Ny0nBVM14b/m0oVefZwjTRirMNvvtMZwKYdymW0Q=
+X-Google-Smtp-Source: AGHT+IHSR4NZqEKpPRGEz1h9gCqyf3I7QrJuUdWoD2pI+Gb4mE8YekSGojr4q+MbQUi3dR12PXz0YQ==
+X-Received: by 2002:a17:903:22c8:b0:1dd:72cd:9442 with SMTP id y8-20020a17090322c800b001dd72cd9442mr3612081plg.30.1710333546263;
+        Wed, 13 Mar 2024 05:39:06 -0700 (PDT)
+Received: from localhost.localdomain.cc ([2407:cdc0:ab48:2284:ee43:5c89:b26a:f291])
+        by smtp.gmail.com with ESMTPSA id w17-20020a170902e89100b001dd95b5dd0fsm6440696plg.69.2024.03.13.05.39.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Mar 2024 05:39:05 -0700 (PDT)
+From: Li Feng <fengli@smartx.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org (open list:NVM EXPRESS DRIVER),
+	linux-kernel@vger.kernel.org (open list)
+Cc: Anton.Gavriliuk@hpe.ua,
+	Li Feng <fengli@smartx.com>
+Subject: [PATCH v2 2/2] nvme/tcp: Add wq_unbound modparam for nvme_tcp_wq
+Date: Wed, 13 Mar 2024 20:38:10 +0800
+Message-ID: <20240313123816.625115-2-fengli@smartx.com>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240313123816.625115-1-fengli@smartx.com>
+References: <20240313123816.625115-1-fengli@smartx.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/1] nvmet: support reservation feature
-Content-Language: he-IL, en-US
-To: Guixin Liu <kanie@linux.alibaba.com>, Keith Busch <kbusch@kernel.org>
-Cc: hch@lst.de, kch@nvidia.com, linux-nvme@lists.infradead.org
-References: <20240201023207.112007-1-kanie@linux.alibaba.com>
- <20240201023207.112007-2-kanie@linux.alibaba.com>
- <ee516418-d072-4506-acba-d02f22cc4476@grimberg.me>
- <0c74a2c2-c9d9-4b0c-9deb-bdc3caf72005@linux.alibaba.com>
- <Zd6msstIWsNQMPfK@kbusch-mbp>
- <727aabbc-1464-48d6-9915-a1c22343c2b2@linux.alibaba.com>
- <6e34a652-da40-46f2-8a43-b45b08682e41@grimberg.me>
- <0c33b803-baff-45af-90bb-623822f756b8@linux.alibaba.com>
- <d6073345-ceef-49b2-834e-618bbbb78de3@grimberg.me>
- <8fccdd92-9055-45ba-8edb-8b2b647343b3@linux.alibaba.com>
- <47f18beb-3647-4464-9f2c-b75e10ec346b@grimberg.me>
- <2eb0672e-1073-497b-94ce-f3c356b7580e@linux.alibaba.com>
- <9983f5a2-6abb-41c8-89a7-aad32e247500@grimberg.me>
- <8d157341-0f64-4c91-b3d0-d3d5669c9e20@linux.alibaba.com>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <8d157341-0f64-4c91-b3d0-d3d5669c9e20@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240313_053651_974248_D93E79B2 
-X-CRM114-Status: GOOD (  19.04  )
+X-CRM114-CacheID: sfid-20240313_053908_032484_83A58FFA 
+X-CRM114-Status: GOOD (  15.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,83 +97,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+The default nvme_tcp_wq will use all CPUs to process tasks. Sometimes it is
+necessary to set CPU affinity to improve performance.
 
+A new module parameter wq_unbound is added here. If set to true, users can
+configure cpu affinity through
+/sys/devices/virtual/workqueue/nvme_tcp_wq/cpumask.
 
-On 13/03/2024 13:56, Guixin Liu wrote:
->
-> 在 2024/3/13 17:54, Sagi Grimberg 写道:
->>
->>
->> On 13/03/2024 5:42, Guixin Liu wrote:
->>>
->>> 在 2024/3/13 05:31, Sagi Grimberg 写道:
->>>> So I understand from you that there is out-of-band mechanism for 
->>>> fence guarantee?
->>>>
->>>> In any event, Christoph reminded me that preempt and abort is 
->>>> mandatory, so we cannot
->>>> get away without doing it.
->>>>
->>> Agree.
->>>> I suggest to introduce a per-ns-per-controller percpuref, with an 
->>>> xarray that is rcu protected.
->>>
->>> I will implement it in v9, and I also think that we should a 
->>> time-limited wait.
->>
->> If it is time-limited, and you didn't manage to wait, so you need to 
->> fail the preempt and abort
->> action (without DNR set so the reservation holder can retry if it 
->> chooses to).
->>
-> It can wait.
->>>
->>>>
->>>> btw, I also think that reservations on nsid=0xffffffff should also 
->>>> work. IIRC there were at least
->>>> two use-cases that would have benefited from reservations on all 
->>>> subsystem namespaces.
->>>> It can also be a lot more lightweight to implement that (outside of 
->>>> conflicting reservations checks). 
->>>
->>> You mean one host can reserve all of namespaces by sending one 
->>> reservation command?
->>
->> Yes. The use-case is to have the reservation in the subsystem level.
->> The spec seems to imply that this is a valid reservation request.
->>
->>>
->>> Well, Could you please tell me which two use-cases?
->>
->> Don't remember for sure, but IIRC I've seen people run oracle rac 
->> with all namespaces in the
->> nvmet subsystem is exposed to DB hosts, and there were many namespaces.
->>
->>>
->>> I think this will make the target code too complicated, because the 
->>> reservation situation on each
->>>
->>> namespace may different, we should handle it one-by-one, and if 
->>> failed in middle, we should revert
->>>
->>> the handled namespaces.
->>
->> Not sure why you'd assume that, this would be a subsystem-wide 
->> reservation, which should simply
->> cross-check individual namespace reservations for conflicts. Sure it 
->> adds complication, but I think implementing
->> it on every individual namespace is a naive implementation.
->
-> Well, this is strange, a few years ago, when I tested SCSI 
-> reservations with Oracle RAC,
->
-> I did not observe any "all LUN" reservation commands being issued.
->
-> I also researched LIO and SPDK, and found that neither supports "all 
-> LUN/NS" reservation commands.
->
-> When a host issued a reservation command without carrying a specific 
-> LUN or NS ID, both returned an error.
+Signed-off-by: Li Feng <fengli@smartx.com>
+---
+ drivers/nvme/host/tcp.c | 21 ++++++++++++++++++---
+ 1 file changed, 18 insertions(+), 3 deletions(-)
 
-Didn't say this is actually in use, but a use-case that would benefit.
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 2ec1186db0a3..34a882b2ec53 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -36,6 +36,14 @@ static int so_priority;
+ module_param(so_priority, int, 0644);
+ MODULE_PARM_DESC(so_priority, "nvme tcp socket optimize priority");
+ 
++/*
++ * Use the unbound workqueue for nvme_tcp_wq, then we can set the cpu affinity
++ * from sysfs.
++ */
++static bool wq_unbound;
++module_param(wq_unbound, bool, 0644);
++MODULE_PARM_DESC(wq_unbound, "Use unbound workqueue for nvme-tcp IO context (default false)");
++
+ /*
+  * TLS handshake timeout
+  */
+@@ -1551,7 +1559,10 @@ static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
+ 	else if (nvme_tcp_poll_queue(queue))
+ 		n = qid - ctrl->io_queues[HCTX_TYPE_DEFAULT] -
+ 				ctrl->io_queues[HCTX_TYPE_READ] - 1;
+-	queue->io_cpu = cpumask_next_wrap(n - 1, cpu_online_mask, -1, false);
++	if (wq_unbound)
++		queue->io_cpu = WORK_CPU_UNBOUND;
++	else
++		queue->io_cpu = cpumask_next_wrap(n - 1, cpu_online_mask, -1, false);
+ }
+ 
+ static void nvme_tcp_tls_done(void *data, int status, key_serial_t pskid)
+@@ -2790,6 +2801,8 @@ static struct nvmf_transport_ops nvme_tcp_transport = {
+ 
+ static int __init nvme_tcp_init_module(void)
+ {
++	unsigned int wq_flags = WQ_MEM_RECLAIM | WQ_HIGHPRI | WQ_SYSFS;
++
+ 	BUILD_BUG_ON(sizeof(struct nvme_tcp_hdr) != 8);
+ 	BUILD_BUG_ON(sizeof(struct nvme_tcp_cmd_pdu) != 72);
+ 	BUILD_BUG_ON(sizeof(struct nvme_tcp_data_pdu) != 24);
+@@ -2799,8 +2812,10 @@ static int __init nvme_tcp_init_module(void)
+ 	BUILD_BUG_ON(sizeof(struct nvme_tcp_icresp_pdu) != 128);
+ 	BUILD_BUG_ON(sizeof(struct nvme_tcp_term_pdu) != 24);
+ 
+-	nvme_tcp_wq = alloc_workqueue("nvme_tcp_wq",
+-			WQ_MEM_RECLAIM | WQ_HIGHPRI | WQ_SYSFS, 0);
++	if (wq_unbound)
++		wq_flags |= WQ_UNBOUND;
++
++	nvme_tcp_wq = alloc_workqueue("nvme_tcp_wq", wq_flags, 0);
+ 	if (!nvme_tcp_wq)
+ 		return -ENOMEM;
+ 
+-- 
+2.44.0
+
 
