@@ -4,63 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 435B4C54E5D
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Mar 2024 01:22:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 684FEC54E5D
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Mar 2024 02:29:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=msH99KHnrGGRnCg7x/xKd8C4oxm+N2Q+gzl5ZkadI78=; b=IpD33KnSDUCq2AyxDILRQhi7Gw
-	W32qnNZV8VXcrIwGwxK+Nn4GHtZy8UEmRlbuNJHpAjJRUXHkM9PrC9kiB+pG6OpyP/+VRE8Sd4hfZ
-	QG8tjPsv/v3klXc8n9IKjl6x9Xwn4Wr0Lm6+AEnilQSTpJ4CkH6C2Ah/lvTUXX3MWvwioj4gn1cXm
-	PEpta1b0YR/w0Scj2RhF2WbK9OxXr4oblSmsk+NnvwQ8NHGt1vMEJXzPxlGhr48/sLsd2tGhSdkKP
-	J82m2N91j2fkTGWxg9wQeB31Pf3KPbdC23Z0iKkayVN7gT3ulVH+yi0UIecLjG+7l9czf7lCL1CDD
-	xZAW6dBQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=MgEbCHjZK3L2DwZkuhUGorM2I8BESR5U9QO85yYYE0Q=; b=M7lfyI6ImhD7Pi69EPJPsILCdz
+	QHjaZQCKcvEH4syjdselIK6WIdIs6KzIY4FroYG5bBA7KWOfEDXTsUYv9Uj3apaeoNthQkzatJxAG
+	mCWwsaf4CChIhIuvZrHpHAP7E9vEQTNf0uNykAw4pAspquD4SLGaE2hH5xr5PB1TPHKgQgBHmN2AT
+	395tnta1PFFbP2+8i+mJsNBGLDyhBG19Zqsc3idum8jLYKiTyngQ2WNqWd6+fIhreSCZKxbULDYIu
+	eXYpotzWWiF6bfPNGzGJ97lgCyX0Bk3k0dH+akIPQUQxDJMJD80IZ/RihrCucFfdoqhVV7wWXmnt4
+	Epgvv8og==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rkDK9-00000008PLq-3YRn;
-	Wed, 13 Mar 2024 01:22:29 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1rkEMq-00000008Y7j-3QoG;
+	Wed, 13 Mar 2024 02:29:20 +0000
+Received: from out30-112.freemail.mail.aliyun.com ([115.124.30.112])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rkDK5-00000008PIf-1B49
+	id 1rkEMm-00000008Y6V-3FAP
 	for linux-nvme@lists.infradead.org;
-	Wed, 13 Mar 2024 01:22:27 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 978A861351;
-	Wed, 13 Mar 2024 01:22:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8AAFC433F1;
-	Wed, 13 Mar 2024 01:22:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710292944;
-	bh=JlmuhNeUDrHfxxJ1OWk+7v8iRRq4ZgLmMbMW8wQDwGc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RgjPCThQBRw8D1yCqIGRLyzTEY0qtxOVaN23a52vZpgnpW9cQgYp+02mKnNcV94zO
-	 InJNw3M4fZL688D0Y1Em0+it2SU0Ky+kUayWvy/XYLVW6EIL9ZNL9GKiOLdYAVItHe
-	 orztd9HGwO0U5c95EeEC5Wm+gq1hl4d6nqOjEkOTfyZ+11+yi1Sqp6uexNPcyRwoyY
-	 Yuo2AAEubMIxeyjSWrsqNiLp9EEBLJCWnKxjgYtjsWbUbUW0znRvuN9kz56xwLWfAM
-	 /mDdkwos+OZbRHBvmHLU9ELNNvfD/DfwZFRrs1qcPEURJWxT+a4OaFY2rfVH2iLeCP
-	 uOM2dUqiyCgjg==
-Date: Tue, 12 Mar 2024 19:22:21 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Chandan Babu R <chandanbabu@kernel.org>,
-	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-xfs@vger.kernel.org
-Subject: Re: [PATCH 1/5] block: move discard checks into the ioctl handler
-Message-ID: <ZfD_zdhQpctxbGeg@kbusch-mbp>
-References: <20240312144532.1044427-1-hch@lst.de>
- <20240312144532.1044427-2-hch@lst.de>
- <ZfDTZpuumZSn6oPp@kbusch-mbp.mynextlight.net>
- <20240312223131.GA8115@lst.de>
+	Wed, 13 Mar 2024 02:29:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1710296952; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=MgEbCHjZK3L2DwZkuhUGorM2I8BESR5U9QO85yYYE0Q=;
+	b=GV0cQXutOgClRf3uThmCnBgDyFdnAVbpKAUOL4fyCAkwzCHUJ11SnxXMouBe9DFKOvv+1qsvcroFMfRSmGCg0PK8jxYritVTeA0890wAKNeM0XpCpFNzJ5tb5gDRNcQwl9tbLMVFkH98yaiD+BwvJ/Ep9eagBxhTQBqwnmzdESU=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045170;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0W2NKxJb_1710296946;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W2NKxJb_1710296946)
+          by smtp.aliyun-inc.com;
+          Wed, 13 Mar 2024 10:29:11 +0800
+From: Guixin Liu <kanie@linux.alibaba.com>
+To: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH v2] nvme: use nvme_disk_is_ns_head helper
+Date: Wed, 13 Mar 2024 10:29:05 +0800
+Message-ID: <20240313022905.104092-1-kanie@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240312223131.GA8115@lst.de>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240312_182225_497256_0C9FB53C 
-X-CRM114-Status: GOOD (  15.39  )
+X-CRM114-CacheID: sfid-20240312_192917_357264_B389D0D0 
+X-CRM114-Status: UNSURE (   9.21  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,62 +66,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 12, 2024 at 11:31:31PM +0100, Christoph Hellwig wrote:
-> On Tue, Mar 12, 2024 at 04:12:54PM -0600, Keith Busch wrote:
-> > > +	if (!nr_sects)
-> > >  		return -EINVAL;
-> > > +	if ((sector | nr_sects) & bs_mask)
-> > >  		return -EINVAL;
-> > > -
-> > >  	if (start + len > bdev_nr_bytes(bdev))
-> > >  		return -EINVAL;
-> > 
-> > Maybe you want to shift lower bytes out of consideration, but it is
-> > different, right? For example, if I call this ioctl with start=5 and
-> > len=555, it would return EINVAL, but your change would let it succeed
-> > the same as if start=0, len=512.
-> 
-> We did the same before, just down in __blkdev_issue_discard instead of
-> in the ioctl handler.
+Use nvme_disk_is_ns_head helper instead of check fops directly,
+and also drop CONFIG_NVME_MULTIPATH check.
 
-Here's an example program demonstrating the difference:
-
-discard-test.c:
+Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
 ---
-#include <stdio.h>
-#include <stdint.h>
-#include <fcntl.h>
-#include <linux/fs.h>
-#include <sys/ioctl.h>
+Changes from v1 to v2:
+- Drop CONFIG_NVME_MULTIPATH check.
 
-int main(int argc, char **argv)
-{
-	uint64_t range[2];
-	int fd;
+ drivers/nvme/host/pr.c    | 3 +--
+ drivers/nvme/host/sysfs.c | 3 +--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-	if (argc < 2)
-	        return -1;
+diff --git a/drivers/nvme/host/pr.c b/drivers/nvme/host/pr.c
+index fc3eed00f9ff..e05571b2a1b0 100644
+--- a/drivers/nvme/host/pr.c
++++ b/drivers/nvme/host/pr.c
+@@ -97,8 +97,7 @@ static int nvme_sc_to_pr_err(int nvme_sc)
+ static int nvme_send_pr_command(struct block_device *bdev,
+ 		struct nvme_command *c, void *data, unsigned int data_len)
+ {
+-	if (IS_ENABLED(CONFIG_NVME_MULTIPATH) &&
+-	    nvme_disk_is_ns_head(bdev->bd_disk))
++	if (nvme_disk_is_ns_head(bdev->bd_disk))
+ 		return nvme_send_ns_head_pr_command(bdev, c, data, data_len);
+ 
+ 	return nvme_send_ns_pr_command(bdev->bd_disk->private_data, c, data,
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+index f2832f70e7e0..8b7bf9d943af 100644
+--- a/drivers/nvme/host/sysfs.c
++++ b/drivers/nvme/host/sysfs.c
+@@ -239,8 +239,7 @@ static ssize_t nuse_show(struct device *dev, struct device_attribute *attr,
+ 	struct block_device *bdev = disk->part0;
+ 	int ret;
+ 
+-	if (IS_ENABLED(CONFIG_NVME_MULTIPATH) &&
+-	    bdev->bd_disk->fops == &nvme_ns_head_ops)
++	if (nvme_disk_is_ns_head(bdev->bd_disk))
+ 		ret = ns_head_update_nuse(head);
+ 	else
+ 		ret = ns_update_nuse(bdev->bd_disk->private_data);
+-- 
+2.43.0
 
-	fd = open(argv[1], O_RDWR);
-	if (fd < 0)
-	        return fd;
-
-	range[0] = 5;
-	range[1] = 555;
-	ioctl(fd, BLKDISCARD, &range);
-	perror("BLKDISCARD");
-
-	return 0;
-}
---
-
-Before:
-
- # ./discard-test /dev/nvme0n1
- BLKDISCARD: Invalid argument
-
-After:
-
- # ./discard-test /dev/nvme0n1
- BLKDISCARD: Success
 
