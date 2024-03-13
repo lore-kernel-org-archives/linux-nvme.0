@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A1ACC54E66
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D01FC54E68
 	for <linux-nvme@archiver.kernel.org>; Wed, 13 Mar 2024 15:18:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,28 +12,40 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wiCWw23sXo5OHy4nFV8xWRwqKKDyYeDuYL5LUB9v2K0=; b=X+/LVvLwGx97X47F1YnN3N4iZW
-	WeuZGPw/3Rb7h3zMDdzTgJ0CDRxzs7fd61cnJQ8kwL1Iyn9Ch0vKqaM6klG2lTnH9w5BMseSzWP+k
-	TFgHJN8sLPPgFKeYUcnKUuCoMjH6YsnmYce0ooZxXdhyZ59bbjiDHCs5aLBb+gEyWg+E3+bCB0biF
-	ZkuJMmhOQuMZAtpoymF/ass3tQVe3nbX2YtrWXd5DUDvI6oJHj7QA+i9QdF2RkMirMyzQAJoV+s0P
-	Arr4tFYsh/R8BNHc2f0PnWkOK4FJAJuDzWW1odvpcBBdurXfFT+nmdeLnSbIATf2mH31nykFryqxp
-	2rt7umBQ==;
+	bh=oFPojxUGJwzVDoSGUKb9k5Rr3J1glGg6PTtT6ACJHaM=; b=HCu075YZVfDimsTn4B4tl8+b83
+	MQkEICS9EJAtUIYIF6hUqU88zNiFh7nU9nvYPDcbGWHH+wzw0kye8FNGaZ+K0dKugXLoegfpc6bde
+	VtGVZHeza7RpR1N5Lc+wNV01UDE5zicafiZW/w3EJnxU+vFS06sQuHu65qKlbNM+K8CET4b0YHKeF
+	HSZlSU1IZeT/bz1mOqUbwEeQPeVSs0gBcVy5P90OSwG19YHRa9AAQRP5hZTv20KMFDdqmXe2QmhjE
+	Qp8Zrh0ObBG9873v5OJz7zk6uVjs0n5ET8M/vH/0B4gR95J5SBtfShOw78NTLx/Olz7YfkUgOV+fM
+	TCHAQe7Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rkQMr-0000000Aa5U-0a42;
+	id 1rkQMr-0000000Aa5b-3cur;
 	Wed, 13 Mar 2024 15:18:09 +0000
-Received: from verein.lst.de ([213.95.11.211])
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rk9g5-00000007bUk-1nvF
+	id 1rkJJz-00000009Elq-1Afh
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 Mar 2024 21:28:55 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 514BE68BFE; Tue, 12 Mar 2024 22:28:45 +0100 (CET)
-Date: Tue, 12 Mar 2024 22:28:44 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Robin Murphy <robin.murphy@arm.com>,
+	Wed, 13 Mar 2024 07:46:45 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id AAFA16138B;
+	Wed, 13 Mar 2024 07:46:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0F8EC433C7;
+	Wed, 13 Mar 2024 07:46:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710316001;
+	bh=Kr6b9zwRiK0qe/FQtkWwwcr3AdM/iJQ3Tm5R/ItJ+kI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LhEelchk241d2G+Q3NZ+eugtycNa64C11tlGZNDKxCvzTX75Q00BDeucxxI33dSuA
+	 4+eCRt8kMMEc5PKj3RKm6EMledYaAfqv5JZuQB7Y+lqGf4dv4bsr9x0TpKJG1q4wXj
+	 5wL8HqXvVMagJHMFg5lnkHWIqzUSGVvjZwviYWQ8IepvQMcWBnKkAG8KoyC2Qj/Dk9
+	 zhjs+9wAPOXEebb1i/MdTgpoDqE40AetcQZI0F5BBxVL9DwWbmHiXrd3y6wILhONqN
+	 9PPx8kGlpLaHCN3ApgnEaZsraA27U8tPpWQjwzmxyOAzAxTPkrSjUTlSjBaxCZCGej
+	 iazuJwD6oD4iQ==
+Date: Wed, 13 Mar 2024 09:46:36 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Robin Murphy <robin.murphy@arm.com>,
 	Marek Szyprowski <m.szyprowski@samsung.com>,
 	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
 	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
@@ -57,19 +69,26 @@ Cc: Christoph Hellwig <hch@lst.de>, Jason Gunthorpe <jgg@ziepe.ca>,
 	"daniel@iogearbox.net" <daniel@iogearbox.net>,
 	Dan Williams <dan.j.williams@intel.com>,
 	"jack@suse.com" <jack@suse.com>, Zhu Yanjun <zyjzyj2000@gmail.com>
-Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two
- steps
-Message-ID: <20240312212844.GA3018@lst.de>
-References: <20240306162022.GB28427@lst.de> <20240306174456.GO9225@ziepe.ca> <20240306221400.GA8663@lst.de> <20240307000036.GP9225@ziepe.ca> <20240307150505.GA28978@lst.de> <20240307210116.GQ9225@ziepe.ca> <20240308164920.GA17991@lst.de> <20240308202342.GZ9225@ziepe.ca> <20240309161418.GA27113@lst.de> <20240310093513.GB12921@unreal>
+Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two steps
+Message-ID: <20240313074636.GV12921@unreal>
+References: <20240306174456.GO9225@ziepe.ca>
+ <20240306221400.GA8663@lst.de>
+ <20240307000036.GP9225@ziepe.ca>
+ <20240307150505.GA28978@lst.de>
+ <20240307210116.GQ9225@ziepe.ca>
+ <20240308164920.GA17991@lst.de>
+ <20240308202342.GZ9225@ziepe.ca>
+ <20240309161418.GA27113@lst.de>
+ <20240310093513.GB12921@unreal>
+ <20240312212844.GA3018@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240310093513.GB12921@unreal>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20240312212844.GA3018@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240312_142853_650798_D074171B 
-X-CRM114-Status: GOOD (  13.48  )
-X-Mailman-Approved-At: Wed, 13 Mar 2024 08:18:06 -0700
+X-CRM114-CacheID: sfid-20240313_004643_384715_10A043CD 
+X-CRM114-Status: GOOD (  14.94  )
+X-Mailman-Approved-At: Wed, 13 Mar 2024 08:18:07 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,15 +103,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Mar 10, 2024 at 11:35:13AM +0200, Leon Romanovsky wrote:
-> And you will need to have a way to instruct that pin_user_pages() variant
-> to continue anyway, because you asked for FOLL_PCI_P2PDMA. Without that
-> force, you will have !FOLL_PCI_P2PDMA behaviour.
+On Tue, Mar 12, 2024 at 10:28:44PM +0100, Christoph Hellwig wrote:
+> On Sun, Mar 10, 2024 at 11:35:13AM +0200, Leon Romanovsky wrote:
+> > And you will need to have a way to instruct that pin_user_pages() variant
+> > to continue anyway, because you asked for FOLL_PCI_P2PDMA. Without that
+> > force, you will have !FOLL_PCI_P2PDMA behaviour.
+> 
+> I don't understand what you mean.
 
-I don't understand what you mean.
+Jason talked about the need to call to pin_user_pages(..., gup_flags | FOLL_PCI_P2PDMA, ...),
+but in your proposal this call won't be possible anymore.
 
-> When you say "simplify the overall interface", which interface do you mean?
+> 
+> > When you say "simplify the overall interface", which interface do you mean?
+> 
+> Primarily the dma mapping interface.  Secondarily also everything around
+> it.
 
-Primarily the dma mapping interface.  Secondarily also everything around
-it.
+OK, thanks
 
