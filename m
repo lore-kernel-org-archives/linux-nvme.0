@@ -4,101 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 03C69C54791
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 Mar 2024 11:59:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ADDC9C54791
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 Mar 2024 12:36:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Tr6PJcYjFadw1eIBRwVRlMYUQn0uuS83HA+kDqe8X8w=; b=1oC3iyu3ml2ub9L87azsFKa28k
-	qhdq6KQuYYMqIUI/mem8THTb2vQFd3C5YaVtVBiqnNIkmooDb1bf7C07bo2wn0pr3O5FPmvl398tW
-	7cW1svWMQBUvB00oBdRkUz3X+YiSa5jh2u7S9tFTOhrhoQCZnFpvB1et8OlO/qOUANmSPGjSJteV3
-	Vb1WJKUZJRlxk1GK5cQSU29KrB7T7J9czmF9bk+jzRuJXFA2piEAvs3EWVXFqg37FGFBGPrfHv3/x
-	O0Q2iClKjv5CH9EINVtITh6z3LX5+bUcyYLRSc281FGzmpNouPryz4VX2ei+HD3rzQ/sIKZ3pXE16
-	ryMQSrJw==;
+	bh=4Fl29a1HKwHzq3oTHp8XbgixDXjDszlPDA3ON3F5+sc=; b=HledH5FWWpyXf/tWMeqPwGau6D
+	ufX/4F2Ugml8cn6j/krDidtRXyiCJkzmmuYeJCbJMpFBlS0HzRxD51ZC+IdOHP2vOSdz23M8kuN4z
+	13QPjuWfbzrCGeeW9kDEBrLPJ2t1BP2gOVdY2wQix3j2pn0bn/IMk10n2OE0cSPYNr89dAqeqaGjn
+	nYsgjhT+M2Ymodb8Gj6mLMknAboAgPBb4YzRTAsvsVEKJpeNnS4+XS6s/rcjNfk/DCpATa5Anb1jj
+	+Dpj6Fus+Tjdc2RT1AHAvRznsqFLQqXYj9KiMxLZBRMA1Nix5pZGVRXY5INDO7sFtuRPRp3FlXqga
+	6MSge+6g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rkNH3-00000009zOo-0tKb;
-	Wed, 13 Mar 2024 11:59:57 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1rkNqp-0000000A5Wa-0SpJ;
+	Wed, 13 Mar 2024 12:36:55 +0000
+Received: from mail-wr1-f48.google.com ([209.85.221.48])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rkNGz-00000009zO2-0cGG
+	id 1rkNql-0000000A5Vd-3mu2
 	for linux-nvme@lists.infradead.org;
-	Wed, 13 Mar 2024 11:59:54 +0000
-Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 42DBbpc7016657;
-	Wed, 13 Mar 2024 11:59:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=Tr6PJcYjFadw1eIBRwVRlMYUQn0uuS83HA+kDqe8X8w=;
- b=HUZgd5yFz3GFX4cXCxD1+nMjFA2b5PyN3FhETsyMKW+X15upof0YEs68ftmwVtSKij4+
- hi6kPH3b3AwmIK337ZLZqDJrOifpjnNimXwIsm1xIgD/LcvoJBIW4dri7GYpR+5xQrFo
- 2SHraxhZF3xsAwsmswquTHtbyyIXPXsRaFpYcUithK+H2f+UPI8uJ9KCJypCmDE2NUaj
- 5b1Jio20Dksf/qa5KhNrRFFZWcMgLvfz2DmQ5Dtq6EImWhtYBxeIqs8CudvRy3r1EXpR
- jocxZbqHa237JgYyzcaePC6bDwB43BNaALkBkXiedv0MQSGtroYAYrOZEBE/ppTDyjfb 9g== 
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wube6gay0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 13 Mar 2024 11:59:43 +0000
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 42DAR3oe020436;
-	Wed, 13 Mar 2024 11:59:42 GMT
-Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3ws3km5fv3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 13 Mar 2024 11:59:42 +0000
-Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
-	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 42DBxdOE51708388
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 13 Mar 2024 11:59:42 GMT
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D51B258057;
-	Wed, 13 Mar 2024 11:59:39 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5B43858062;
-	Wed, 13 Mar 2024 11:59:37 +0000 (GMT)
-Received: from [9.109.198.202] (unknown [9.109.198.202])
-	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 13 Mar 2024 11:59:37 +0000 (GMT)
-Message-ID: <af991867-02a3-4ff9-94fc-50955913f227@linux.ibm.com>
-Date: Wed, 13 Mar 2024 17:29:35 +0530
+	Wed, 13 Mar 2024 12:36:53 +0000
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-33e972c8b67so749352f8f.1
+        for <linux-nvme@lists.infradead.org>; Wed, 13 Mar 2024 05:36:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710333410; x=1710938210;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4Fl29a1HKwHzq3oTHp8XbgixDXjDszlPDA3ON3F5+sc=;
+        b=aklg1w1X3JCZj5eMwCQ6l/Qs4YcXcLfmgJK3CJj3OYRWs2yis/IKD3LzhAvwd/rCRN
+         GcX/EM+hhJ56tH8HQn5pUEUiIFnrx1xAsqIhoDMsjdKBXcqIveGt/vF8ZGYqCz4ad3YB
+         owWKDfQelM2lVvVBOeXm2ok9X6laiL3hs3//q3/jXIl2R1S7bxi5rKDkuFuRROaC3Ek4
+         XkLkE+QdjMW4YsIT/IHYg+bsMCVEK7AseKiYe6zDCkTc7BS5JB+7RTKy0n/L0kUfX0S0
+         YdKaO+7chhophK47xGk66aihd9gdqHqncYkYpUuaqXY7AaJc/4VxIlORFZ0WGD+mi8mz
+         AWPg==
+X-Forwarded-Encrypted: i=1; AJvYcCXhO7YgBWTcvvAQ6UT1eoeF3l6JIt7GhIEIsbV7D5nQaVDdJ6+5lk3BQQJnhl957T/m7JRe9qZdUTDmjTlibW7gTo3d6IS+6XN3FzW8qiU=
+X-Gm-Message-State: AOJu0Yxbdo0RAXc4uz4FdUSL9OSPoq03/PcLcPvDGs8az591RHeeISBJ
+	cpxIteO2muasgWhe/TzY29BHKRXbE6DMkfBA/DUWHtkqrSLtu8j1
+X-Google-Smtp-Source: AGHT+IFDVdk5x9LF2Q1xC8miKtPibYFnVEs3bbOM53h6Smwex1DGfwOighwI0fMEPvNGX0e9HwYfFw==
+X-Received: by 2002:a5d:5545:0:b0:33d:b387:88df with SMTP id g5-20020a5d5545000000b0033db38788dfmr8296324wrw.7.1710333409559;
+        Wed, 13 Mar 2024 05:36:49 -0700 (PDT)
+Received: from [10.50.4.153] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id q25-20020adfab19000000b0033e45930f35sm11787592wrc.6.2024.03.13.05.36.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Mar 2024 05:36:49 -0700 (PDT)
+Message-ID: <99f5f33b-2c68-4c93-ad4d-333a05cb4d09@grimberg.me>
+Date: Wed, 13 Mar 2024 14:36:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND] nvme-pci: Fix EEH failure on ppc after subsystem
- reset
-Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me,
-        linux-block@vger.kernel.org, gjoyce@linux.ibm.com
-References: <20240209050342.406184-1-nilay@linux.ibm.com>
- <Zesxq81eJTnOGniB@kbusch-mbp>
- <039541c8-2e13-442e-bd5b-90a799a9851a@linux.ibm.com>
- <ZeyD6xh0LGZyRBfO@kbusch-mbp>
- <301b8f41-a146-497a-916f-97d91829d28c@linux.ibm.com>
- <Ze6LglWPqkHVFh-P@kbusch-mbp.mynextlight.net>
- <ac294adc-a7be-49af-88cd-e3aabd9f7c3f@linux.ibm.com>
- <ZfBm72xPozFN99GA@kbusch-mbp.mynextlight.net>
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <ZfBm72xPozFN99GA@kbusch-mbp.mynextlight.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: SHICZkNxk0Hq4WiTRiv7FSRd9KagCRI0
-X-Proofpoint-ORIG-GUID: SHICZkNxk0Hq4WiTRiv7FSRd9KagCRI0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-13_07,2024-03-12_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
- spamscore=0 priorityscore=1501 malwarescore=0 clxscore=1015 adultscore=0
- mlxlogscore=999 bulkscore=0 impostorscore=0 lowpriorityscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311290000 definitions=main-2403130089
+Subject: Re: [PATCH v7 1/1] nvmet: support reservation feature
+Content-Language: he-IL, en-US
+To: Guixin Liu <kanie@linux.alibaba.com>, Keith Busch <kbusch@kernel.org>
+Cc: hch@lst.de, kch@nvidia.com, linux-nvme@lists.infradead.org
+References: <20240201023207.112007-1-kanie@linux.alibaba.com>
+ <20240201023207.112007-2-kanie@linux.alibaba.com>
+ <ee516418-d072-4506-acba-d02f22cc4476@grimberg.me>
+ <0c74a2c2-c9d9-4b0c-9deb-bdc3caf72005@linux.alibaba.com>
+ <Zd6msstIWsNQMPfK@kbusch-mbp>
+ <727aabbc-1464-48d6-9915-a1c22343c2b2@linux.alibaba.com>
+ <6e34a652-da40-46f2-8a43-b45b08682e41@grimberg.me>
+ <0c33b803-baff-45af-90bb-623822f756b8@linux.alibaba.com>
+ <d6073345-ceef-49b2-834e-618bbbb78de3@grimberg.me>
+ <8fccdd92-9055-45ba-8edb-8b2b647343b3@linux.alibaba.com>
+ <47f18beb-3647-4464-9f2c-b75e10ec346b@grimberg.me>
+ <2eb0672e-1073-497b-94ce-f3c356b7580e@linux.alibaba.com>
+ <9983f5a2-6abb-41c8-89a7-aad32e247500@grimberg.me>
+ <8d157341-0f64-4c91-b3d0-d3d5669c9e20@linux.alibaba.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <8d157341-0f64-4c91-b3d0-d3d5669c9e20@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240313_045953_374503_6F9A195E 
-X-CRM114-Status: GOOD (  32.01  )
+X-CRM114-CacheID: sfid-20240313_053651_974248_D93E79B2 
+X-CRM114-Status: GOOD (  19.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,190 +96,81 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 3/12/24 20:00, Keith Busch wrote:
-> On Mon, Mar 11, 2024 at 06:28:21PM +0530, Nilay Shroff wrote:
->> @@ -3295,10 +3304,13 @@ static pci_ers_result_t nvme_error_detected(struct pci_dev *pdev,
->>         case pci_channel_io_frozen:
->>                 dev_warn(dev->ctrl.device,
->>                         "frozen state error detected, reset controller\n");
->> -               if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING)) {
->> -                       nvme_dev_disable(dev, true);
->> -                       return PCI_ERS_RESULT_DISCONNECT;
->> +               if (nvme_ctrl_state(&dev->ctrl) != NVME_CTRL_RESETTING) {
->> +                       if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING)) {
->> +                               nvme_dev_disable(dev, true);
->> +                               return PCI_ERS_RESULT_DISCONNECT;
->> +                       }
->>                 }
->> +               flush_work(&dev->ctrl.reset_work);
-> 
-> I was messing with a similar idea. I wasn't sure if EEH calls the error
-> handler inline with the error, in which case this would try to flush the
-> work within the same work, which obviously doesn't work. As long as its
-> called from a different thread, then this should be fine.
-The EEH recovery happens from different thread and so flush work should 
-work here as expected.
+On 13/03/2024 13:56, Guixin Liu wrote:
+>
+> 在 2024/3/13 17:54, Sagi Grimberg 写道:
+>>
+>>
+>> On 13/03/2024 5:42, Guixin Liu wrote:
+>>>
+>>> 在 2024/3/13 05:31, Sagi Grimberg 写道:
+>>>> So I understand from you that there is out-of-band mechanism for 
+>>>> fence guarantee?
+>>>>
+>>>> In any event, Christoph reminded me that preempt and abort is 
+>>>> mandatory, so we cannot
+>>>> get away without doing it.
+>>>>
+>>> Agree.
+>>>> I suggest to introduce a per-ns-per-controller percpuref, with an 
+>>>> xarray that is rcu protected.
+>>>
+>>> I will implement it in v9, and I also think that we should a 
+>>> time-limited wait.
+>>
+>> If it is time-limited, and you didn't manage to wait, so you need to 
+>> fail the preempt and abort
+>> action (without DNR set so the reservation holder can retry if it 
+>> chooses to).
+>>
+> It can wait.
+>>>
+>>>>
+>>>> btw, I also think that reservations on nsid=0xffffffff should also 
+>>>> work. IIRC there were at least
+>>>> two use-cases that would have benefited from reservations on all 
+>>>> subsystem namespaces.
+>>>> It can also be a lot more lightweight to implement that (outside of 
+>>>> conflicting reservations checks). 
+>>>
+>>> You mean one host can reserve all of namespaces by sending one 
+>>> reservation command?
+>>
+>> Yes. The use-case is to have the reservation in the subsystem level.
+>> The spec seems to imply that this is a valid reservation request.
+>>
+>>>
+>>> Well, Could you please tell me which two use-cases?
+>>
+>> Don't remember for sure, but IIRC I've seen people run oracle rac 
+>> with all namespaces in the
+>> nvmet subsystem is exposed to DB hosts, and there were many namespaces.
+>>
+>>>
+>>> I think this will make the target code too complicated, because the 
+>>> reservation situation on each
+>>>
+>>> namespace may different, we should handle it one-by-one, and if 
+>>> failed in middle, we should revert
+>>>
+>>> the handled namespaces.
+>>
+>> Not sure why you'd assume that, this would be a subsystem-wide 
+>> reservation, which should simply
+>> cross-check individual namespace reservations for conflicts. Sure it 
+>> adds complication, but I think implementing
+>> it on every individual namespace is a naive implementation.
+>
+> Well, this is strange, a few years ago, when I tested SCSI 
+> reservations with Oracle RAC,
+>
+> I did not observe any "all LUN" reservation commands being issued.
+>
+> I also researched LIO and SPDK, and found that neither supports "all 
+> LUN/NS" reservation commands.
+>
+> When a host issued a reservation command without carrying a specific 
+> LUN or NS ID, both returned an error.
 
->> @@ -2776,6 +2776,16 @@ static void nvme_reset_work(struct work_struct *work)
->>   out_unlock:
->>         mutex_unlock(&dev->shutdown_lock);
->>   out:
->> +       /*
->> +        * If PCI recovery is ongoing then let it finish first
->> +        */
->> +       if (pci_channel_offline(to_pci_dev(dev->dev))) {
->> +               dev_warn(dev->ctrl.device, "PCI recovery is ongoing so let it finish\n");
->> +               if (nvme_ctrl_state(&dev->ctrl) != NVME_CTRL_RESETTING)
->> +                       WRITE_ONCE(dev->ctrl.state, NVME_CTRL_RESETTING);
-> 
-> This may break the state machine, like if the device was hot removed
-> during all this error handling. This will force the state back to
-> RESETTING when it should be DEAD.
-Agreed, we shouldn't force reset state to RESETTING here.
-> 
-> I think what you need is just allow a controller to reset from a
-> connecting state. Have to be careful that wouldn't break any other
-> expectations, though.
-Yeah ok got your point, so I have reworked the ctrl state machine as you 
-suggested and tested the changes. The updated state machine code is shown
-below:
-
-@@ -546,10 +546,11 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
-                break;
-        case NVME_CTRL_RESETTING:
-                switch (old_state) {
-                case NVME_CTRL_NEW:
-                case NVME_CTRL_LIVE:
-+               case NVME_CTRL_CONNECTING:
-                        changed = true;
-                        fallthrough;
-                default:
-                        break;
-                }
-
-And accordingly updated reset_work function is show below. Here we ensure that
-even though the pci error recovery is in progress, if we couldn't move ctrl state
-to RESETTING then we would let rest_work forward progress and set the ctrl state
-to DEAD.
-
-@@ -2774,10 +2774,19 @@ static void nvme_reset_work(struct work_struct *work)
-        return;
- 
-  out_unlock:
-        mutex_unlock(&dev->shutdown_lock);
-  out:
-+       /*
-+        * If PCI recovery is ongoing then let it finish first
-+        */
-+       if (pci_channel_offline(to_pci_dev(dev->dev))) {
-+               if (nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING)) {
-+                       dev_warn(dev->ctrl.device, "PCI recovery is ongoing, let it finish\n");
-+                       return;
-+               }
-+       }
-        /*
-         * Set state to deleting now to avoid blocking nvme_wait_reset(), which
-         * may be holding this pci_dev's device lock.
-         */
-        dev_warn(dev->ctrl.device, "Disabling device after reset failure: %d\n",
-
-
-Now I have also included in my test the hot removal of NVMe adapter while EEH recovery
-is in progress. And the  EEH recovery code handles this case well : When EEH recovery 
-is in progress and if we hot removes the adapter (which is being recovered) then EEH
-handler would stop the recovery, set the PCI channel state to "pci_channel_io_perm_failure".
-
-
-Collected the logs of this case, (shown below):
------------------------------------------------
-# nvme list-subsys 
-nvme-subsys0 - NQN=nqn.1994-11.com.samsung:nvme:PM1735:2.5-inch:S6EUNA0R500358
-               hostnqn=nqn.2014-08.org.nvmexpress:uuid:12b49f6e-0276-4746-b10c-56815b7e6dc2
-               iopolicy=numa
-
-# lspci 
-0018:01:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe SSD Controller PM173X
-
-# dmesg
-[  561.639102] EEH: Recovering PHB#18-PE#10000
-[  561.639120] EEH: PE location: N/A, PHB location: N/A
-[  561.639128] EEH: Frozen PHB#18-PE#10000 detected
-<snip>
-<snip>
-[  561.639428] EEH: This PCI device has failed 2 times in the last hour and will be permanently disabled after 5 failures.
-[  561.639441] EEH: Notify device drivers to shutdown
-[  561.639450] EEH: Beginning: 'error_detected(IO frozen)'
-[  561.639458] PCI 0018:01:00.0#10000: EEH: Invoking nvme->error_detected(IO frozen)
-[  561.639462] nvme nvme0: frozen state error detected, reset controller
-[  561.719078] nvme 0018:01:00.0: enabling device (0000 -> 0002)
-[  561.719318] nvme nvme0: PCI recovery is ongoing so let it finish
-
-<!!!! WHILE EEH RECOVERY IS IN PROGRESS WE HOT REMOVE THE NVMe ADAPTER !!!!>
-
-[  563.850328] rpaphp: RPA HOT Plug PCI Controller Driver version: 0.1
-<snip>
-[  571.879092] PCI 0018:01:00.0#10000: EEH: nvme driver reports: 'need reset'
-[  571.879097] EEH: Finished:'error_detected(IO frozen)' with aggregate recovery state:'need reset'
-<snip>
-<snip>
-[  571.881761] EEH: Reset without hotplug activity
-[  574.039807] EEH: PHB#18-PE#10000: Slot inactive after reset: 0x2 (attempt 1)
-[  574.309091] EEH: Failure 2 resetting PHB#18-PE#10000 (attempt 2)
-[  574.309091] 
-[  574.579094] EEH: Failure 2 resetting PHB#18-PE#10000 (attempt 3)
-[  574.579094] 
-[  574.579101] eeh_handle_normal_event: Cannot reset, err=-5
-[  574.579104] EEH: Unable to recover from failure from PHB#18-PE#10000.
-[  574.579104] Please try reseating or replacing it
-<snip>
-<snip>
-[  574.581314] EEH: Beginning: 'error_detected(permanent failure)'
-[  574.581320] PCI 0018:01:00.0#10000: EEH: no device
-
-# lspci
-<empty>
-
-# nvme list-subsys
-<empty>
-
-
-Another case tested, when the reset_work is ongoing post subsystem-reset command
-and if user immediately hot removes the NVMe adapter then EEH recovery is *not* 
-triggered and ctrl forward progress to the "DEAD" state.
-
-Collected the logs of this case, (shown below):
------------------------------------------------
-# nvme list-subsys 
-nvme-subsys0 - NQN=nqn.1994-11.com.samsung:nvme:PM1735:2.5-inch:S6EUNA0R500358
-               hostnqn=nqn.2014-08.org.nvmexpress:uuid:12b49f6e-0276-4746-b10c-56815b7e6dc2
-               iopolicy=numa
-
-# lspci 
-0018:01:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe SSD Controller PM173X
-
-# nvme subsystem-reset /dev/nvme0
-
-<!!!! HOT REMOVE THE NVMe ADAPTER !!!!>
-
-# dmesg
-[ 9967.143886] eeh_handle_normal_event: Cannot find PCI bus for PHB#18-PE#10000
-[ 9967.224078] eeh_handle_normal_event: Cannot find PCI bus for PHB#18-PE#10000
-<snip>
-[ 9967.223858] nvme 0018:01:00.0: enabling device (0000 -> 0002)
-[ 9967.224140] nvme nvme0: Disabling device after reset failure: -19
-
-# lspci
-<empty>
-
-# nvme list-subsys
-<empty>
-
-
-Please let me know if the above changes look good to you. If it looks good then 
-I would spin a new version of the patch and send for a review.
-
-Thanks,
---Nilay
-
-
+Didn't say this is actually in use, but a use-case that would benefit.
 
