@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7CC54CD11C2
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4902C54E58
 	for <linux-nvme@archiver.kernel.org>; Thu, 21 Mar 2024 08:03:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,40 +12,28 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yKjwKhClGK3A3LPUulyg650CjegYjnMBkeAhpXXug5c=; b=DPlt6uznr/C3T8M6GN96RKccbt
-	AaDCZeee14iZugo8tXITY5yBUNwTp5HcXkYxPKGd4aaSD75X//m71v7Wmk0XvROlCtmFTAgi6DWb7
-	kT8Gd49Xx4Gekkh8HxNTtb/hHH4+Lc+6O/B6JbVCzNkErZp2NYAhkDIHVRGLwHWMiNJlNRu7v6y1D
-	t596T0UK8XJeTQxuTtbWtkPfLMDIm5ntCMlxXvwpiLeb8PzNFhje9qUJ/8byjvqXokpzMsb762spW
-	a7QBa3RlbD2naAvrMff2Oyq46Q33RSdUSDKM/APXmm9qrf+ik3xYgQ4J9hy5ZNgrTKL5x7Ck21uzq
-	KApqHJ5w==;
+	bh=4FQ4qNojKHxYbM+mjcMGc+v03sD6jBJ9rR92BjQFE/k=; b=WCZUDEkdXaByhHq4LPJ8Yj4/5t
+	3a/Ur8FR+on0NZBsTKZdc5vj4HfEKxnis8Dq6xMfE0Va9xyTirNGT9Cbjb8edWYlHo+xnL44mrR8T
+	Jg56HTCUwR3XNtoznMyumleA23ivZqlyKUMRSzH7Koi3FDEEIkGEJr/3UPzJKU1D5EykhX8/vcA7O
+	EEdy46FKbOJeDWZWL8lAMN6cnb531U3f6/OtTcmYukhJXZmmFBuUQ3WH25TfBrwouahfsDkfmPP7a
+	79JWtSf/eXMPRxeUS18c13UgNNmdN+pliMO7e0yIYHs5js0SUO6OREEyWH+W4o7lkxwFXkN21UcCN
+	1oQzIDSw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rnDOk-00000002EYL-3grS;
-	Thu, 21 Mar 2024 08:03:38 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1rnDOj-00000002EY0-1S9i;
+	Thu, 21 Mar 2024 08:03:37 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmrjc-0000000GJrA-0bwL
+	id 1rkWOd-0000000ByVc-3dIs
 	for linux-nvme@lists.infradead.org;
-	Wed, 20 Mar 2024 08:55:45 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 6F08360F91;
-	Wed, 20 Mar 2024 08:55:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66867C433C7;
-	Wed, 20 Mar 2024 08:55:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710924941;
-	bh=gdJJxHO47QTHX7IJIQn/yNoS/qXqccMa+6/0bsPpjEQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=k/LiyTzXOZm/bpwg/R7K7z83777XKyGQEoOkmI0+JirTc+A3Irgqqlo/MTqIaHAuT
-	 LaDz5/N89UQYLdibXxPlCFj22TikvtLMQmCsrzfiu9c8ExWvxD7lgnlxbCUAnPTxSu
-	 ovGWRjpBoZtNhTrQF2nDJYdWAWTZvyEET/dz7cc/V7Of5+KdYPv3eTw24b9yYI6Vth
-	 LvOmZtFkDBkj+IBOqsu96vPj5qqCbR/FSCbJ8WT6U9SUo/vlTPTqZ2qWSWdndiAJJg
-	 HA55nQnMV03il6CwCvqo9aY5LSDVcJcESBRt/qQPtJTao2MeNigIFRqvGlKDldCtwy
-	 dX0egkjrYM2eg==
-Date: Wed, 20 Mar 2024 10:55:36 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Jason Gunthorpe <jgg@ziepe.ca>, Christoph Hellwig <hch@lst.de>
-Cc: Robin Murphy <robin.murphy@arm.com>,
+	Wed, 13 Mar 2024 21:44:25 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 8161568BFE; Wed, 13 Mar 2024 22:44:18 +0100 (CET)
+Date: Wed, 13 Mar 2024 22:44:18 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Robin Murphy <robin.murphy@arm.com>,
 	Marek Szyprowski <m.szyprowski@samsung.com>,
 	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
 	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
@@ -69,25 +57,18 @@ Cc: Robin Murphy <robin.murphy@arm.com>,
 	"daniel@iogearbox.net" <daniel@iogearbox.net>,
 	Dan Williams <dan.j.williams@intel.com>,
 	"jack@suse.com" <jack@suse.com>, Zhu Yanjun <zyjzyj2000@gmail.com>
-Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two steps
-Message-ID: <20240320085536.GA14887@unreal>
-References: <20240306162022.GB28427@lst.de>
- <20240306174456.GO9225@ziepe.ca>
- <20240306221400.GA8663@lst.de>
- <20240307000036.GP9225@ziepe.ca>
- <20240307150505.GA28978@lst.de>
- <20240307210116.GQ9225@ziepe.ca>
- <20240308164920.GA17991@lst.de>
- <20240308202342.GZ9225@ziepe.ca>
- <20240309161418.GA27113@lst.de>
- <20240319153620.GB66976@ziepe.ca>
+Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two
+ steps
+Message-ID: <20240313214418.GA9129@lst.de>
+References: <20240306221400.GA8663@lst.de> <20240307000036.GP9225@ziepe.ca> <20240307150505.GA28978@lst.de> <20240307210116.GQ9225@ziepe.ca> <20240308164920.GA17991@lst.de> <20240308202342.GZ9225@ziepe.ca> <20240309161418.GA27113@lst.de> <20240310093513.GB12921@unreal> <20240312212844.GA3018@lst.de> <20240313074636.GV12921@unreal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240319153620.GB66976@ziepe.ca>
+In-Reply-To: <20240313074636.GV12921@unreal>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240320_015544_336811_EEDC8E46 
-X-CRM114-Status: GOOD (  40.59  )
+X-CRM114-CacheID: sfid-20240313_144424_197473_BE40E6F1 
+X-CRM114-Status: GOOD (  18.52  )
 X-Mailman-Approved-At: Thu, 21 Mar 2024 01:03:35 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -103,167 +84,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 19, 2024 at 12:36:20PM -0300, Jason Gunthorpe wrote:
-> On Sat, Mar 09, 2024 at 05:14:18PM +0100, Christoph Hellwig wrote:
-> > On Fri, Mar 08, 2024 at 04:23:42PM -0400, Jason Gunthorpe wrote:
-> > > > The DMA API callers really need to know what is P2P or not for
-> > > > various reasons.  And they should generally have that information
-> > > > available, either from pin_user_pages that needs to special case
-> > > > it or from the in-kernel I/O submitter that build it from P2P and
-> > > > normal memory.
-> > > 
-> > > I think that is a BIO thing. RDMA just calls with FOLL_PCI_P2PDMA and
-> > > shoves the resulting page list into in a scattertable. It never checks
-> > > if any returned page is P2P - it has no reason to care. dma_map_sg()
-> > > does all the work.
+On Wed, Mar 13, 2024 at 09:46:36AM +0200, Leon Romanovsky wrote:
+> On Tue, Mar 12, 2024 at 10:28:44PM +0100, Christoph Hellwig wrote:
+> > On Sun, Mar 10, 2024 at 11:35:13AM +0200, Leon Romanovsky wrote:
+> > > And you will need to have a way to instruct that pin_user_pages() variant
+> > > to continue anyway, because you asked for FOLL_PCI_P2PDMA. Without that
+> > > force, you will have !FOLL_PCI_P2PDMA behaviour.
 > > 
-> > Right now it does, but that's not really a good interface.  If we have
-> > a pin_user_pages variant that only pins until the next relevant P2P
-> > boundary and tells you about we can significantly simplify the overall
-> > interface.
+> > I don't understand what you mean.
 > 
-> Sorry for the delay, I was away..
+> Jason talked about the need to call to pin_user_pages(..., gup_flags | FOLL_PCI_P2PDMA, ...),
+> but in your proposal this call won't be possible anymore.
 
-<...>
+Why?
 
-> Can we tweak what Leon has done to keep the hmm_range_fault support
-> and non-uniformity for RDMA but add a uniformity optimized flow for
-> BIO?
-
-Something like this will do the trick.
-
-From 45e739e7073fb04bc168624f77320130bb3f9267 Mon Sep 17 00:00:00 2001
-Message-ID: <45e739e7073fb04bc168624f77320130bb3f9267.1710924764.git.leonro@nvidia.com>
-From: Leon Romanovsky <leonro@nvidia.com>
-Date: Mon, 18 Mar 2024 11:16:41 +0200
-Subject: [PATCH] mm/gup: add strict interface to pin user pages according to
- FOLL flag
-
-All pin_user_pages*() and get_user_pages*() callbacks allocate user
-pages by partially taking into account their p2p vs. non-p2p properties.
-
-In case, user sets FOLL_PCI_P2PDMA flag, the allocated pages will include
-both p2p and "regular" pages, while if FOLL_PCI_P2PDMA flag is not provided,
-only regular pages are returned.
-
-In order to make sure that with FOLL_PCI_P2PDMA flag, only p2p pages are
-returned, let's introduce new internal FOLL_STRICT flag and provide special
-pin_user_pages_fast_strict() API call.
-
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- include/linux/mm.h |  3 +++
- mm/gup.c           | 36 +++++++++++++++++++++++++++++++++++-
- mm/internal.h      |  4 +++-
- 3 files changed, 41 insertions(+), 2 deletions(-)
-
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index f5a97dec5169..910b65dde24a 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2491,6 +2491,9 @@ int pin_user_pages_fast(unsigned long start, int nr_pages,
- 			unsigned int gup_flags, struct page **pages);
- void folio_add_pin(struct folio *folio);
- 
-+int pin_user_pages_fast_strict(unsigned long start, int nr_pages,
-+			       unsigned int gup_flags, struct page **pages);
-+
- int account_locked_vm(struct mm_struct *mm, unsigned long pages, bool inc);
- int __account_locked_vm(struct mm_struct *mm, unsigned long pages, bool inc,
- 			struct task_struct *task, bool bypass_rlim);
-diff --git a/mm/gup.c b/mm/gup.c
-index df83182ec72d..11b5c626a4ab 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -133,6 +133,10 @@ struct folio *try_grab_folio(struct page *page, int refs, unsigned int flags)
- 	if (unlikely(!(flags & FOLL_PCI_P2PDMA) && is_pci_p2pdma_page(page)))
- 		return NULL;
- 
-+	if (flags & FOLL_STRICT)
-+		if (flags & FOLL_PCI_P2PDMA && !is_pci_p2pdma_page(page))
-+			return NULL;
-+
- 	if (flags & FOLL_GET)
- 		return try_get_folio(page, refs);
- 
-@@ -232,6 +236,10 @@ int __must_check try_grab_page(struct page *page, unsigned int flags)
- 	if (unlikely(!(flags & FOLL_PCI_P2PDMA) && is_pci_p2pdma_page(page)))
- 		return -EREMOTEIO;
- 
-+	if (flags & FOLL_STRICT)
-+		if (flags & FOLL_PCI_P2PDMA && !is_pci_p2pdma_page(page))
-+			return -EREMOTEIO;
-+
- 	if (flags & FOLL_GET)
- 		folio_ref_inc(folio);
- 	else if (flags & FOLL_PIN) {
-@@ -2243,6 +2251,8 @@ static bool is_valid_gup_args(struct page **pages, int *locked,
- 	 * - FOLL_TOUCH/FOLL_PIN/FOLL_TRIED/FOLL_FAST_ONLY are internal only
- 	 * - FOLL_REMOTE is internal only and used on follow_page()
- 	 * - FOLL_UNLOCKABLE is internal only and used if locked is !NULL
-+	 * - FOLL_STRICT is internal only and used to distinguish between p2p
-+	 *   and "regular" pages.
- 	 */
- 	if (WARN_ON_ONCE(gup_flags & INTERNAL_GUP_FLAGS))
- 		return false;
-@@ -3187,7 +3197,8 @@ static int internal_get_user_pages_fast(unsigned long start,
- 	if (WARN_ON_ONCE(gup_flags & ~(FOLL_WRITE | FOLL_LONGTERM |
- 				       FOLL_FORCE | FOLL_PIN | FOLL_GET |
- 				       FOLL_FAST_ONLY | FOLL_NOFAULT |
--				       FOLL_PCI_P2PDMA | FOLL_HONOR_NUMA_FAULT)))
-+				       FOLL_PCI_P2PDMA | FOLL_HONOR_NUMA_FAULT |
-+				       FOLL_STRICT)))
- 		return -EINVAL;
- 
- 	if (gup_flags & FOLL_PIN)
-@@ -3322,6 +3333,29 @@ int pin_user_pages_fast(unsigned long start, int nr_pages,
- }
- EXPORT_SYMBOL_GPL(pin_user_pages_fast);
- 
-+/**
-+ * pin_user_pages_fast_strict() - this is pin_user_pages_fast() variant, which
-+ * makes sure that only pages with same properties are pinned.
-+ *
-+ * @start:      starting user address
-+ * @nr_pages:   number of pages from start to pin
-+ * @gup_flags:  flags modifying pin behaviour
-+ * @pages:      array that receives pointers to the pages pinned.
-+ *              Should be at least nr_pages long.
-+ *
-+ * Nearly the same as pin_user_pages_fastt(), except that FOLL_STRICT is set.
-+ *
-+ * FOLL_STRICT means that the pages are allocated with specific FOLL_* properties.
-+ */
-+int pin_user_pages_fast_strict(unsigned long start, int nr_pages,
-+			       unsigned int gup_flags, struct page **pages)
-+{
-+	if (!is_valid_gup_args(pages, NULL, &gup_flags, FOLL_PIN | FOLL_STRICT))
-+		return -EINVAL;
-+	return internal_get_user_pages_fast(start, nr_pages, gup_flags, pages);
-+}
-+EXPORT_SYMBOL_GPL(pin_user_pages_fast_strict);
-+
- /**
-  * pin_user_pages_remote() - pin pages of a remote process
-  *
-diff --git a/mm/internal.h b/mm/internal.h
-index f309a010d50f..7578837a0444 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -1031,10 +1031,12 @@ enum {
- 	FOLL_FAST_ONLY = 1 << 20,
- 	/* allow unlocking the mmap lock */
- 	FOLL_UNLOCKABLE = 1 << 21,
-+	/* don't mix pages with different properties, e.g. p2p with "regular" ones */
-+	FOLL_STRICT = 1 << 22,
- };
- 
- #define INTERNAL_GUP_FLAGS (FOLL_TOUCH | FOLL_TRIED | FOLL_REMOTE | FOLL_PIN | \
--			    FOLL_FAST_ONLY | FOLL_UNLOCKABLE)
-+			    FOLL_FAST_ONLY | FOLL_UNLOCKABLE | FOLL_STRICT)
- 
- /*
-  * Indicates for which pages that are write-protected in the page table,
--- 
-2.44.0
 
