@@ -4,60 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A0EDC54E60
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 Mar 2024 18:42:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ECDD1C54E60
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 Mar 2024 18:42:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=srLPANAbs/p/0UF95xTt1D5vuAaV/msB8JnZJ+offmY=; b=ogPLvLFuiJUrhrQoOn4tSjkSeT
-	3RDO9DbvY7K6+oO3UHF2Z+eSh+p58SIth1u/PQ0SQrlegyP/lHejs67NBOENKYpX5DhevQxfs/jVx
-	7SzoJVFmQOb/wsl/KysJewX6SdSNAsoSu3lL6wiELRmulWMLdD0kfHstz0/aSVD7SCUEo3wlQb8gP
-	GEgFU8IYFPBj2iOV4sj3+TFuy8FOJwg0z6gsSEksPYtxz5exvqDZ1RhnAN0YA7YBLvdkDP0NKYOL/
-	YYKjQT0fbwSfLlL1HCWEPMzt5aXbwFgHAm8wlAt4iQ/Lw1W2WwruHrbP01Pl1nmvyzD8OqmwgwhIf
-	o3ClBW8g==;
+	bh=LpfTV5XjBJ9sHwYJz26O9mfseXwEJhoub09jqnezpfU=; b=cTHvCPcv4pCVSNZrqmgyZia+Ok
+	mqZ3pvsS+sVs1D2YiJV4jxW9n/HKUKix+9irREPQaBO33l416BhKZ+h+Tr4MCTIjTptMKJu+3bskX
+	0Ctcgm013ExVJYRTL1ExpmwrIB+Jq/6WBcdyJHEUV27dMjE8TwCpYpNMXaBSLWfTOxKSxyD+1ZIbO
+	JYXgB274OhfH1x13Gmv0g07NGZWN3AU/5oaEXB0N5/R/2z4SGaobY1AtpBKjppM6lH1eV1RRsLN8G
+	0a20C6bgNc8P/HzUq0sgfcGtK342x/aIxYt3BblHEzDdDuRwpjTOmaDoLXWNK/VuPLQdWfxJLiJV6
+	NRix31Uw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rkq1m-0000000FLI1-3rdY;
-	Thu, 14 Mar 2024 18:42:06 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1rkq2F-0000000FLMH-2IsX;
+	Thu, 14 Mar 2024 18:42:35 +0000
+Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rkq1j-0000000FLH4-2GHW
+	id 1rkq2C-0000000FLLZ-1I5k
 	for linux-nvme@lists.infradead.org;
-	Thu, 14 Mar 2024 18:42:04 +0000
+	Thu, 14 Mar 2024 18:42:33 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 71CF26152F;
-	Thu, 14 Mar 2024 18:42:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1DC9C433C7;
-	Thu, 14 Mar 2024 18:42:01 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 94DCCCE1E13;
+	Thu, 14 Mar 2024 18:42:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 413FAC433F1;
+	Thu, 14 Mar 2024 18:42:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710441722;
-	bh=r8X+a8VjCDwCFNK/1/Fik/WAJH8MZUF5GNOlx/xr1pY=;
+	s=k20201202; t=1710441748;
+	bh=LpfTV5XjBJ9sHwYJz26O9mfseXwEJhoub09jqnezpfU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vAs6ih/jwZG3omUuI8MSuo/Pr1i6aE+qvUzZfis2mZDB1TRgDEqIp8Vmj+qwv27Y2
-	 nWqFTrdxTkLcDisHjQIrhuU2+WHPhm+TvOkhCrvTHFFFYQI0OjEH8KmUdBKMpeuadw
-	 0/mwa1OzZsPrqOyuD+naHrZNWU1i8sT8hSBNwPWuwnwB3/yD7JyBblaZUni0nPLceN
-	 E1yx9jJP0eQOr33LG3VI/5EqJAsGUvK4SVfjm6gSf1agD4ZQujY4so89mTQgU/r0T5
-	 48usk+qXHyigFcW2VK6H6CP2KYNOQiDobNw0AP05XmXIb2RVV2lAet2GvUefMeNTuH
-	 WDaVmC0AEurow==
-Date: Thu, 14 Mar 2024 12:41:59 -0600
+	b=j+9AzhMGcaS24aNopJoJlsfbdwwg44ev1LpYW/Lx5T8jPjFS9zRDXRpEMWpr4SWsZ
+	 MXupfq18PfGPsut0SzMOUFFmENeLtIfPJGA2FDk7RSHPMGUM93orOg6Ez1dJ/dv5w7
+	 Q5AmK4wfhdfdYaIAfpyMEBCBrcYYA1z8Lxd+1cpn1QlQ6Bmy8q6t85pQl7jdpHBVBv
+	 AonSTTX2wzmqzcJEGAHqj5Q0eLWpH5uDRuCBDNu2qCRiHbTXtx0agGIx6dfpAD6AN+
+	 hNmj+nnomBMAMiPEUOejQL4oFPQegzpk96Ho71Qp3St2OzNcXj01PIoNXwninOE/WW
+	 aCAdoH/QSNPuA==
+Date: Thu, 14 Mar 2024 12:42:26 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Guixin Liu <kanie@linux.alibaba.com>
-Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v2 0/3] *** nvme: add some commands tracing ***
-Message-ID: <ZfNE9nRxAlqFICs_@kbusch-mbp>
-References: <20240131091222.116190-1-kanie@linux.alibaba.com>
- <559d9283-449c-4135-b4ca-168417e56ee1@linux.alibaba.com>
+To: "brookxu.cn" <brookxu.cn@gmail.com>
+Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] nvme: fix reconnection fail due to reserved tag
+ allocation
+Message-ID: <ZfNFEjPgL2udEEE6@kbusch-mbp>
+References: <20240311020927.85482-1-brookxu.cn@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <559d9283-449c-4135-b4ca-168417e56ee1@linux.alibaba.com>
+In-Reply-To: <20240311020927.85482-1-brookxu.cn@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240314_114203_639069_9FD7B3C0 
-X-CRM114-Status: UNSURE (   8.62  )
+X-CRM114-CacheID: sfid-20240314_114232_553728_CCF81E28 
+X-CRM114-Status: UNSURE (   4.60  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -73,12 +73,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 13, 2024 at 11:51:49AM +0800, Guixin Liu wrote:
-> Hi Keith,
-> 
-> This series of patches has not been combined yet, could you please
-> 
-> take a look?
-
-Added to nvme-6.9, thanks.
+I've replaced your v3 with this one in nvme-6.9. Thanks.
 
