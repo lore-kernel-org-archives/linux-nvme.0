@@ -4,160 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 20680C54E66
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Mar 2024 08:21:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 68076C54E58
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 Mar 2024 14:36:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:Message-ID:Subject:CC:To:From:Date:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=A/eNFVfQcsTOLgChvISKunC51Ni7v6tXX7pK0Z4bCfc=; b=pWIj45MF5D+uMqcnf6Pu3OTncl
-	keqWmy9/nwiftgrFui09h1+0m80JLnP55F+VzrWchjKt1cYu/IpuRdJKR1uPp/i0dEi14dF83ZrI3
-	nI3VSaAT/Y8/4C4rOBV82YL/uYgEa8fVGaeIDKnf6zajVC9cmSCxnBxGVaAqvSwTReodO5KQLR6ga
-	v57f7W7PoPWGY/VamD+nZhZWdP5X6AwkbIruQZC/LJj5jR+VC4x/L4Qg9eFS7ag7Wn3Q1dGN/xVYZ
-	LOHZDRaWwIteUVYM7VVshmZ2xJxHMgUm0A5gyGZzTqbd87aftM68eA9zjUuzRwnlTsg74QVFGV/3h
-	hd2xW9vA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:From:MIME-Version:Date:Message-ID:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=MRVQlCXViPyrX4Q0CMrvYnoBhqqbGH6iOcEOvhPSl38=; b=KVxfwe+A0lIqyPlnMvvObQf4zS
+	WctdJZyPgLvplgSjr9dM8wsp2K8QPf9bIbzJWgxVYEntkJDchKjWsgneolZMnOdXKJB1EKlOvJXCB
+	5d6mZX+ogz9htBGLP4tKrj2AQE5rxQWOUNj0Rwr5+hqjH7xyb7cui6fS5qvef2EUMV6BcLy/S84xC
+	I+FnQosuYRqR2QPyV9N++cxzxGWQrDGXcAm45byuT2sb4AfpsszzbBCq+oV4pDdtYOyCX+hXeKRsf
+	LSyB1mb7zEkSviAip0233CjNCLZvgPSpMnUIzKSN6r4afsspEd80wWT9Z55UE0tdeZ+SGsTq0nJOd
+	QlTEs6GQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rl2ok-0000000H8gZ-0jJD;
-	Fri, 15 Mar 2024 08:21:30 +0000
-Received: from mgamail.intel.com ([192.198.163.11])
+	id 1rl8fH-00000000Vvc-2aNQ;
+	Fri, 15 Mar 2024 14:36:07 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rl2og-0000000H8g3-3kpW
+	id 1rl8fE-00000000Vrj-3B7w
 	for linux-nvme@lists.infradead.org;
-	Fri, 15 Mar 2024 08:21:28 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710490886; x=1742026886;
-  h=date:from:to:cc:subject:message-id:
-   content-transfer-encoding:mime-version;
-  bh=J2iA8uLOmQJlFJiOqTO+y3ZUKbbJFit7u3yoDLQEjeY=;
-  b=Im70ZKi+8T4HWUIQcmnvYeI1Y09oZD1b08xitiPOkiSSlsm8ArRDSWFO
-   ijHEYBB5BmhH9riwGY6FRak8zBQBZgCPEsut1NF0tCJugRNEMjRmWaC62
-   BQYGo5aRqp9V4R81dcijtmFUJCa2hVGi2aBHFoTwwqoQkfPQbinRuAnWd
-   96wo8afw9/FuxCFWTLGCrNrzp9TW6KinvonS76LBzi4DkU8cI1PtRlg77
-   1Ui9L++DlKTp+GG+yiLz6C050EiZIdn5di5Ri/q4cmUuWRecl00Wzc83Y
-   LXbKeryZDXhcf8+1PFkF+8UVWa+L5OduLn/B3ouKX0Y/Pc8pOx0oWY4lQ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="15992416"
-X-IronPort-AV: E=Sophos;i="6.07,127,1708416000"; 
-   d="scan'208";a="15992416"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 01:21:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,127,1708416000"; 
-   d="scan'208";a="12632799"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orviesa009.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 15 Mar 2024 01:21:25 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 15 Mar 2024 01:21:25 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 15 Mar 2024 01:21:24 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Fri, 15 Mar 2024 01:21:24 -0700
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.169)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 15 Mar 2024 01:21:24 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gFnYWKa46GdyI/uw2pg+BceXQQP7gicU+4ruZE4WJsZv1r+OtsPOvjUaTh/C1HQb5cQV+LsiPK+lrMEyoXYWKH2nAjEDxR5NHqpNFh5RW6U4+w6MCu8F3QwHJjT8U+6isLIxXAdeq6D2Bln44xIOo5P0ocZgYVd+QXI1F/62MG4OY08LNixKIznyWo+reuhSrb6RX4JBfUC3Ua+8uKp0mNakqyLZZOXs9kJOeKDgyWD2IfNvvstq7g4brnwRW3q1w0J5ZP0PEtS2KEpGnYWoRgqHrXr5/ulPFlafxFEQ5FePkzyvgtEuNA1CDYFfAyb77GJRwjzvmHM/yzvGM3jsXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G4+l9iWMQYIQXsEikV94HHdUs0wBPnTP18+rSbpO5w4=;
- b=VKFEt5Je1DOebCE358WHFaA7ig0sbX46vcKMDU/tFzcA+MZMBpe0/SKpvoJ58gjjydKQXwcniOfGeL3AY4Nx+AFYOHuYJXx0340fQZRa3UkfxJE3ajOBykG/pYXLf+vFmfwKu8bpZ7Mm+ySzoZENO7VFc62y008AnyJwGHvgZjAcIcx0PZBN7GoSz1AJr9CHyLaN3dIBoDJEoQ96dKg8rvC6kvKCWF3Fay0BsjwqUUE9EkbQCVSf9PRwVdv7I/P1sxML+yvsowECzazNkhsIDJrT8xrOXwkvdidQ4tx7+7CnIluVvUy3GxqptlfxPxbZV1FqPsCF4RNUsts8Dds9Yw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
- by CY8PR11MB7875.namprd11.prod.outlook.com (2603:10b6:930:6c::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.20; Fri, 15 Mar
- 2024 08:21:22 +0000
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::58dd:99ca:74a6:2e3e]) by LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::58dd:99ca:74a6:2e3e%3]) with mapi id 15.20.7386.017; Fri, 15 Mar 2024
- 08:21:22 +0000
-Date: Fri, 15 Mar 2024 16:21:13 +0800
-From: kernel test robot <oliver.sang@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>, <linux-kernel@vger.kernel.org>,
-	Keith Busch <kbusch@kernel.org>, Max Gurtovoy <mgurtovoy@nvidia.com>,
-	<linux-nvme@lists.infradead.org>, <ying.huang@intel.com>,
-	<feng.tang@intel.com>, <fengwei.yin@intel.com>, <oliver.sang@intel.com>
-Subject: [linus:master] [nvme]  63dfa10043:  fsmark.files_per_sec 6.4%
- improvement
-Message-ID: <202403151552.e3809b61-oliver.sang@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SI1PR02CA0019.apcprd02.prod.outlook.com
- (2603:1096:4:1f4::15) To LV3PR11MB8603.namprd11.prod.outlook.com
- (2603:10b6:408:1b6::9)
+	Fri, 15 Mar 2024 14:36:06 +0000
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 42FE6lJL014114;
+	Fri, 15 Mar 2024 14:35:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : from : subject : to : cc : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=MRVQlCXViPyrX4Q0CMrvYnoBhqqbGH6iOcEOvhPSl38=;
+ b=Kr0EeGjwnBfuMSWNK9FdJQxNtnekY/4/jjZBO/Cf79CLM7LboOxybggDc82v34jwvUXZ
+ WqGJR1ryVFOs2+lHaOHnv5yuNBiScsJ2wu7corjc+sJAHUjJZHRkTDdAvBZd7idCA5e6
+ EMVCh0IRQFNYjeNWnU1D0CBjVGPHcqiZaqpS4FA/vOSnkNIsXRF9iN4HKUGVLXeK06r0
+ o4z+LCTLYawdklro53STw9GaqipsgL4NqjLaMr04Ntdi2zyksyEjRXgwSD183JLlopZg
+ iJy08K14CJRtxxMRIntiiEcj3EHIK3InDXs74BArfW5FYRrO8u4IGdRel97wNRK4xJnh BA== 
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wvqnargmd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 15 Mar 2024 14:35:52 +0000
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 42FCvZLt018134;
+	Fri, 15 Mar 2024 14:31:40 GMT
+Received: from smtprelay06.dal12v.mail.ibm.com ([172.16.1.8])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3ws23tvjdn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 15 Mar 2024 14:31:40 +0000
+Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
+	by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 42FEVbvA11338358
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 15 Mar 2024 14:31:39 GMT
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 63FF058054;
+	Fri, 15 Mar 2024 14:31:37 +0000 (GMT)
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 44B8058062;
+	Fri, 15 Mar 2024 14:31:35 +0000 (GMT)
+Received: from [9.109.198.202] (unknown [9.109.198.202])
+	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 15 Mar 2024 14:31:34 +0000 (GMT)
+Message-ID: <7a3b35dd-7365-4427-95a0-929b28c64e73@linux.ibm.com>
+Date: Fri, 15 Mar 2024 20:01:33 +0530
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|CY8PR11MB7875:EE_
-X-MS-Office365-Filtering-Correlation-Id: 42764ad6-b8a4-4b5b-92ab-08dc44c8e5ea
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: j2KRSxd1i1L58jzYVI6+MjejP6xWUwQcP/4V3wgRaCBu57YTIN8yxv7FORd+Y/2dfsvNhwKPeRn5MoiIZv/n4U7UwvHMQo6m+WizDomAMq5tSBnbRjP92HhQ+IRjUCqXmOKDDu5m0kq+eC669Bs1/PGt2a1APOa7brH3kVB6IMRUcgjM8bUj85Y4g9ngPRVqOWj6n4d5aHkw1m0On/krCw8RPBmk3ikAnfUn3QreWCe22eJoTZYuIRttxVE3q4P8Iv+mK+ri9IS96uZjp/NRFJTieu2pWaOaN+/+oGCNrLjre/L0fPvlUkYaXEM0Gn/uzbNY0OxrLf18Rl9h1vp3RFZR4jXZso3XCC9WGMpDBA/nf8V0qMmh0sf3rsXIQqOFm3F2Q0JHWwtqiVbRPk3tik6CCr99U1BsSP1+9yF9OwqTJWOEyzWMz9LkTW2z8yyVlsICzhQAL9GdFiz3QtA0LC4ApG141ZuSffmH3YIZxct7e81ZrqpyBkY9xuZTQLmCgJ2psqpADHTZu50NFs/pp3J6uottxFa1gvfLhLmPvQbYwh5DrA2mOuZzY7qHEbJDzQ/bPo0ZLbRp3zty008DBC6u95a9Hd8OG4hmghoyIHPUDCV6qs3XSveC6++wtMpz
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?29VOB02kYUZwAU4Ap0vPsZkYiV/RoOn+7DToyAbxYOU7LqTtpgm53H6coX?=
- =?iso-8859-1?Q?p2fV1sxKowCnm2+nJDNIfMxbOiVQMaWDt+/rlQQqJo+JXOYs45qcW2bcdC?=
- =?iso-8859-1?Q?j1WFtt89s4aSsP3CptLZ5XhmBSDq3j16aj+okeA9QYyVKo9PMBjH/tDOGl?=
- =?iso-8859-1?Q?Cma5PrFg7FpdRQC6b8ZusZv5vde86Zsdub3m8h4FpczCGHESmWcEvf55+8?=
- =?iso-8859-1?Q?PAqNn7gIFmDvwes843RTd1HoC+6x1dT9pXCoEpHQ8h81IIAZnGYsYJs+jL?=
- =?iso-8859-1?Q?O6ZbakCjMAoIHgUHSJM3S1WdZYNe5ZdKHkuiAAnFA5ucSGkoe0acUxSbPn?=
- =?iso-8859-1?Q?c6VWAyBVlHgfnxC+0KZEdlL8xa4maIsakj82Sb0uOcr8Xwg8rV5rnx3zH0?=
- =?iso-8859-1?Q?nF0/o7R5I3VhbQ+F3fuya8dpcKKvuIWdovcgclpDfGVb1G/K8vkF6UWkbX?=
- =?iso-8859-1?Q?RmrGazxwKE9K7lxJUIazNqKFBcKGd6a9yQxztZGeXmVdK9YnIM8V70zE+O?=
- =?iso-8859-1?Q?xeO+40ZdksnJE8ec/riT48HyEbYeNeqwBDpFMYnA+jzEAwmiPREj8xKx1Y?=
- =?iso-8859-1?Q?dRwboYNdi4q1wYUx63y1MfAqYVbCI3kOmlmbmGOdUwOtzWJ86a57L2kaaf?=
- =?iso-8859-1?Q?IJOSMKdefjpTI1F/zTEKGE2ZfXcZazjte5BuBCoi3pcRShq/xagpzMfHu0?=
- =?iso-8859-1?Q?TdLuevSW0zdFywmjIZUpCbNkN67qyFqMvpvWq1ELhpJW01YdjeU4UK3mDS?=
- =?iso-8859-1?Q?vPIRJGX/+i2RaTff+SsDMfbMKpAugO40Azd7Uxj90UjBek+c/wm1BB4KGs?=
- =?iso-8859-1?Q?Ep4mv5+DMV/kTTnuGY3kK38BaiaaxKaeEiTVVlAVWQR/rWEeJFL4FrEmpY?=
- =?iso-8859-1?Q?32G2B1yPA1w0XzUcWymJ8fXEbNNT/eTVs/NgHcXdrCP7pLgDMthjDYIIhE?=
- =?iso-8859-1?Q?+mMZsmsURryTW9luy6dXk45BS+t/VXSkffLRPrffb9KH/7T/+GApJ+iWUH?=
- =?iso-8859-1?Q?vTf1l9vMYex6yO/ta68IDG5z7IXDkTWFxrCF4RWKfWkXvGK+RoO/MG08UL?=
- =?iso-8859-1?Q?IEZ1P8EVYD565A6ZZxaBWAZ5jv5LpA0jvH2opQVm+urv1np7ifqf5qBrQ3?=
- =?iso-8859-1?Q?/3HnCi2KL+QWCWZnqOibsXl0iYJHOgZZ549cA11eRMt1MpSJSviqt3guS6?=
- =?iso-8859-1?Q?aP/AFQB/5jUEzL3uueA73wUejBNUxymuqeqXDXMsxt7F4NP7CiPlBU1DPK?=
- =?iso-8859-1?Q?F7TZplyPJ6zaRfBgTSBRA4vKwOOiwSa61B9+BRle1bhHS8EAZUl8g/J/DA?=
- =?iso-8859-1?Q?zOu0joGKaSbw5Uz/hSCI3An/rio5dTdk4XgfUQKEKKLY4+xq81o29zKg/D?=
- =?iso-8859-1?Q?Ns7cB93jdYuPbiqi5lkUmYD22Q0iev7e/XfAgP13nJbxKkRJowTDF7fybu?=
- =?iso-8859-1?Q?dlgVgMKR3MxbBszqwvlrRWNqvRK/pm5m2vLrorXi6aKWO1Avqi+5T18lQX?=
- =?iso-8859-1?Q?VFDhznwhxHeh35ZStYdVgs3n8wR2FGxnzCPxrDUljk/W38TZinVL36N735?=
- =?iso-8859-1?Q?Mi0fqv7l+aXT0fmpCEQjIId3yWw5KB60EkLg2xt0euaqJYKoku414NP3IL?=
- =?iso-8859-1?Q?Hmvt30JYxWtE8iYhGf8dbTU1JLd0XtQFBF1d5AAMypYyAAaWVmNB2e4A?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 42764ad6-b8a4-4b5b-92ab-08dc44c8e5ea
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2024 08:21:22.4554
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vmkLB8BanRG80jX2DvLPMcRVcN5mQ8VIBu7FeUQ+DkzwU/ng99xvlLgG7QunKKIGM06rZUWxMHfu1zj02f9v8A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7875
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+Subject: [Bug Report] nvme-cli fails re-formatting NVMe namespace
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Keith Busch <kbusch@kernel.org>, axboe@fb.com, linux-block@vger.kernel.org,
+        linux-nvme@lists.infradead.org, Gregory Joyce <gjoyce@ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: IvRHsfAaputHNMRkgiJf2wN2ihAG3Z8b
+X-Proofpoint-ORIG-GUID: IvRHsfAaputHNMRkgiJf2wN2ihAG3Z8b
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-15_01,2024-03-13_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
+ bulkscore=0 spamscore=0 lowpriorityscore=0 priorityscore=1501 phishscore=0
+ impostorscore=0 mlxscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2403150116
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240315_012126_982804_62CB56DE 
-X-CRM114-Status: UNSURE (   7.06  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240315_073604_946819_F2778FAF 
+X-CRM114-Status: GOOD (  26.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -172,104 +103,158 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi,
+
+We found that "nvme format ..." command fails to format nvme disk with block-size set to 512.
+
+Notes and observations:
+====================== 
+This is observed on the latest linus kernel tree. This was working well on kernel v6.8.
+
+Test details:
+=============
+At system boot or when nvme is hot plugin, the nvme block size is 4096 and later if we try format
+it with the block-size of 512 (lbaf=2) then it fails. Interestingly, if we start with the nvme block
+size of 512 and later if we try format it with block-size of 4096 (lbaf=0) then it doesn't fail. 
+Please note that CONFIG_NVME_MULTIPATH is enabled.
+ 
+Please find below further details:
+
+# lspci 
+0018:01:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe SSD Controller PM173X
+
+# nvme list 
+Node                  Generic               SN                   Model                                    Namespace  Usage                      Format           FW Rev  
+--------------------- --------------------- -------------------- ---------------------------------------- ---------- -------------------------- ---------------- --------
+/dev/nvme0n1          /dev/ng0n1            S6EUNA0R500358       1.6TB NVMe Gen4 U.2 SSD                  0x1          1.60  TB /   1.60  TB    512   B +  0 B   REV.SN49
+
+# nvme id-ns /dev/nvme0n1 -H 
+NVME Identify Namespace 1:
+nsze    : 0xba4d4ab0
+ncap    : 0xba4d4ab0
+nuse    : 0xba4d4ab0
+
+<snip>
+<snip>
+
+nlbaf   : 4
+flbas   : 0
+  [6:5] : 0	Most significant 2 bits of Current LBA Format Selected
+  [4:4] : 0	Metadata Transferred in Separate Contiguous Buffer
+  [3:0] : 0	Least significant 4 bits of Current LBA Format Selected
+  
+<snip>
+<snip>  
+
+LBA Format  0 : Metadata Size: 0   bytes - Data Size: 4096 bytes - Relative Performance: 0 Best (in use)
+LBA Format  1 : Metadata Size: 8   bytes - Data Size: 4096 bytes - Relative Performance: 0x2 Good 
+LBA Format  2 : Metadata Size: 0   bytes - Data Size: 512 bytes - Relative Performance: 0x1 Better 
+LBA Format  3 : Metadata Size: 8   bytes - Data Size: 512 bytes - Relative Performance: 0x3 Degraded 
+LBA Format  4 : Metadata Size: 64  bytes - Data Size: 4096 bytes - Relative Performance: 0x3 Degraded 
+
+# lsblk -t /dev/nvme0n1 
+NAME    ALIGNMENT MIN-IO OPT-IO PHY-SEC LOG-SEC ROTA SCHED RQ-SIZE  RA WSAME
+nvme0n1         0   4096      0    4096    4096    0               128    0B
+                                   ^^^     ^^^ 	
+
+!!!! FAILING TO FORMAT with 512 bytes of block size !!!!
+
+# nvme format /dev/nvme0n1 --lbaf=2 --pil=0 --ms=0 --pi=0 -f 
+Success formatting namespace:1
+failed to set block size to 512
+^^^
+
+# lsblk -t /dev/nvme0n1 
+NAME    ALIGNMENT MIN-IO OPT-IO PHY-SEC LOG-SEC ROTA SCHED RQ-SIZE  RA WSAME
+nvme0n1         0   4096      0    4096    4096    0               128    0B
+                                   ^^^     ^^^
+# cat /sys/block/nvme0n1/queue/logical_block_size:4096
+# cat /sys/block/nvme0n1/queue/physical_block_size:4096
+
+# cat /sys/block/nvme0c0n1/queue/logical_block_size:512
+# cat /sys/block/nvme0c0n1/queue/physical_block_size:512
 
 
-Hello,
+# nvme id-ns /dev/nvme0n1 -H 
+NVME Identify Namespace 1:
+nsze    : 0xba4d4ab0
+ncap    : 0xba4d4ab0
+nuse    : 0xba4d4ab0
+<snip>
+<snip>
+nlbaf   : 4
+flbas   : 0x2
+  [6:5] : 0	Most significant 2 bits of Current LBA Format Selected
+  [4:4] : 0	Metadata Transferred in Separate Contiguous Buffer
+  [3:0] : 0x2	Least significant 4 bits of Current LBA Format Selected
+<snip>
+<snip>
 
-kernel test robot noticed a 6.4% improvement of fsmark.files_per_sec on:
-
-
-commit: 63dfa1004322d596417f23da43cdc43cf6298c71 ("nvme: move NVME_QUIRK_DEALLOCATE_ZEROES out of nvme_config_discard")
-https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git master
-
-testcase: fsmark
-test machine: 96 threads 2 sockets Intel(R) Xeon(R) Platinum 8260L CPU @ 2.40GHz (Cascade Lake) with 128G memory
-parameters:
-
-	iterations: 8
-	disk: 1SSD
-	nr_threads: 16
-	fs: ext4
-	filesize: 8K
-	test_size: 75G
-	sync_method: fsyncBeforeClose
-	nr_directories: 16d
-	nr_files_per_directory: 256fpd
-	cpufreq_governor: performance
+LBA Format  0 : Metadata Size: 0   bytes - Data Size: 4096 bytes - Relative Performance: 0 Best 
+LBA Format  1 : Metadata Size: 8   bytes - Data Size: 4096 bytes - Relative Performance: 0x2 Good 
+LBA Format  2 : Metadata Size: 0   bytes - Data Size: 512 bytes - Relative Performance: 0x1 Better (in use)
+LBA Format  3 : Metadata Size: 8   bytes - Data Size: 512 bytes - Relative Performance: 0x3 Degraded 
+LBA Format  4 : Metadata Size: 64  bytes - Data Size: 4096 bytes - Relative Performance: 0x3 Degraded 
 
 
+Note : We could see above that the NVMe is indeed formatted with lbaf 2(block size 512). However,
+the block queue limits are not correctly updated.
+
+Git bisect:
+==========
+Git bisect reveals the following commit as bad commit:
+
+8f03cfa117e06bd2d3ba7ed8bba70a3dda310cae is the first bad commit
+commit 8f03cfa117e06bd2d3ba7ed8bba70a3dda310cae
+Author: Christoph Hellwig <hch@lst.de>
+Date:   Mon Mar 4 07:04:51 2024 -0700
+
+    nvme: don't use nvme_update_disk_info for the multipath disk
+    
+    Currently nvme_update_ns_info_block calls nvme_update_disk_info both for
+    the namespace attached disk, and the multipath one (if it exists).  This
+    is very different from how other stacking drivers work, and leads to
+    a lot of complexity.
+    
+    Switch to setting the disk capacity and initializing the integrity
+    profile, and let blk_stack_limits which already is called just below
+    deal with updating the other limits.
+    
+    Signed-off-by: Christoph Hellwig <hch@lst.de>
+    Signed-off-by: Keith Busch <kbusch@kernel.org>
+
+ drivers/nvme/host/core.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 
+The above commit is part of the new atomic queue limit updates patch series. For 
+NVMe device if multipath config is enabled then we rely on blk_stack_limits to 
+update the queue limits for the stacked device. For updating the logical/physical
+queue limit of the top (nvme%dn%d) device, the blk_stack_limits() uses the max of 
+top and bottom limit:
 
+	t->logical_block_size = max(t->logical_block_size,
+				    b->logical_block_size);
 
-Details are as below:
--------------------------------------------------------------------------------------------------->
+	t->physical_block_size = max(t->physical_block_size,
+				     b->physical_block_size);
 
+When we try formatting the nvme disk with block-size of 512, the value of 
+t->logical_block_size would be 4096 (as this is the initial block-size) however the
+value of b->logical_block_size would be 512 (the block size of the bottom device is first 
+updated in nvme_update_ns_info_block()).
 
-The kernel config and materials to reproduce are available at:
-https://download.01.org/0day-ci/archive/20240315/202403151552.e3809b61-oliver.sang@intel.com
+I think we may want to update the queue limits of both top and bottom devices in the
+nvme_update_ns_info_block(). Or if there's some other way?
 
-=========================================================================================
-compiler/cpufreq_governor/disk/filesize/fs/iterations/kconfig/nr_directories/nr_files_per_directory/nr_threads/rootfs/sync_method/tbox_group/test_size/testcase:
-  gcc-12/performance/1SSD/8K/ext4/8/x86_64-rhel-8.3/16d/256fpd/16/debian-12-x86_64-20240206.cgz/fsyncBeforeClose/lkp-csl-2sp3/75G/fsmark
+Let me know if you need any further information.
 
-commit: 
-  152694c829 ("nvme: set max_hw_sectors unconditionally")
-  63dfa10043 ("nvme: move NVME_QUIRK_DEALLOCATE_ZEROES out of nvme_config_discard")
-
-152694c82950a093 63dfa1004322d596417f23da43c 
----------------- --------------------------- 
-         %stddev     %change         %stddev
-             \          |                \  
-    492322 ±  8%     +15.1%     566574 ±  2%  meminfo.Active(anon)
-    501325 ±  8%     +15.0%     576573 ±  2%  meminfo.Shmem
-    458144 ± 18%     +22.6%     561659 ±  2%  numa-meminfo.node1.Active(anon)
-    462634 ± 18%     +22.6%     567357 ±  2%  numa-meminfo.node1.Shmem
-    114517 ± 18%     +22.6%     140395 ±  2%  numa-vmstat.node1.nr_active_anon
-    115654 ± 18%     +22.6%     141838 ±  2%  numa-vmstat.node1.nr_shmem
-    114517 ± 18%     +22.6%     140395 ±  2%  numa-vmstat.node1.nr_zone_active_anon
-    396.50          +745.6%       3353 ±181%  vmstat.memory.buff
-    201414            +6.0%     213473        vmstat.system.cs
-     57760            +5.4%      60879        vmstat.system.in
-     22022 ±  2%      +6.4%      23432        fsmark.files_per_sec
-    502.56            -5.9%     472.94        fsmark.time.elapsed_time
-    502.56            -5.9%     472.94        fsmark.time.elapsed_time.max
-    243.62 ±  2%      +5.0%     255.75        fsmark.time.percent_of_cpu_this_job_got
-    123079 ±  8%     +15.1%     141624 ±  2%  proc-vmstat.nr_active_anon
-      8462            +2.1%       8637        proc-vmstat.nr_mapped
-    125342 ±  8%     +15.0%     144138 ±  2%  proc-vmstat.nr_shmem
-    123079 ±  8%     +15.1%     141624 ±  2%  proc-vmstat.nr_zone_active_anon
-    140970 ±  7%     +14.1%     160889 ±  2%  proc-vmstat.pgactivate
- 3.617e+08            -3.7%  3.483e+08        proc-vmstat.pgpgout
-      2.10 ±  9%      -0.2        1.85 ±  3%  perf-profile.calltrace.cycles-pp.__sysvec_apic_timer_interrupt.sysvec_apic_timer_interrupt.asm_sysvec_apic_timer_interrupt.cpuidle_enter_state.cpuidle_enter
-      2.08 ±  9%      -0.2        1.84 ±  3%  perf-profile.calltrace.cycles-pp.hrtimer_interrupt.__sysvec_apic_timer_interrupt.sysvec_apic_timer_interrupt.asm_sysvec_apic_timer_interrupt.cpuidle_enter_state
-      0.99 ± 20%      +0.4        1.37 ± 11%  perf-profile.calltrace.cycles-pp.jbd2__journal_start.ext4_do_writepages.ext4_writepages.do_writepages.filemap_fdatawrite_wbc
-      0.50 ± 60%      +0.4        0.89 ± 14%  perf-profile.calltrace.cycles-pp.add_transaction_credits.start_this_handle.jbd2__journal_start.ext4_do_writepages.ext4_writepages
-      2.50 ± 10%      -0.3        2.20 ±  3%  perf-profile.children.cycles-pp.__sysvec_apic_timer_interrupt
-      2.48 ± 10%      -0.3        2.19 ±  3%  perf-profile.children.cycles-pp.hrtimer_interrupt
-      0.24 ±  6%      +0.0        0.27 ±  6%  perf-profile.children.cycles-pp.ext4_dirty_inode
-      0.19 ± 11%      +0.1        0.24 ±  6%  perf-profile.children.cycles-pp.ext4_block_bitmap_csum_set
- 1.107e+09            +6.6%   1.18e+09        perf-stat.i.branch-instructions
-    202521            +6.1%     214902        perf-stat.i.context-switches
- 1.322e+10 ±  2%      +6.7%   1.41e+10        perf-stat.i.cpu-cycles
-  5.46e+09            +6.6%  5.818e+09        perf-stat.i.instructions
-      2.11            +6.2%       2.24        perf-stat.i.metric.K/sec
- 1.105e+09            +6.6%  1.178e+09        perf-stat.ps.branch-instructions
-    202013            +6.1%     214333        perf-stat.ps.context-switches
- 1.319e+10 ±  2%      +6.7%  1.407e+10        perf-stat.ps.cpu-cycles
- 5.448e+09            +6.5%  5.805e+09        perf-stat.ps.instructions
+Thanks,
+--Nilay
 
 
 
 
-Disclaimer:
-Results have been estimated based on internal Intel analysis and are provided
-for informational purposes only. Any difference in system hardware or software
-design or configuration may affect actual performance.
 
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
 
