@@ -4,48 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 46F67C54E67
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 Mar 2024 20:01:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9136C54E60
+	for <linux-nvme@archiver.kernel.org>; Sun, 17 Mar 2024 07:31:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=o8Cl5OjCtIa/qmgmTBdm2TERBTpHQ0f90CB5e2hENKQ=; b=M7Ih5qBVSsKTozmvfzWH06vUnH
-	VHpHWslWD4JIrS80qkAZsbbZFjFAlyf06fsB0MfSwRwJRcDOcjuNLAqQwNLvwkHhVvI/Oqv2bQuce
-	G5td0BlQdhBYHc8b0jYXh+16nlGMYzPqqISLhv7dyaG5g7CiqSrhTW7FCC9eILZPz7Mv4uq79w9EU
-	NXBMut977wCYoW9S7W+sa2EzhM4ksGFs/isG/YYNcREEuzKRuhkPb3i2F24MvUf5N6XGq90jYI9G6
-	8Rg9H0ToUzV+giNeE8uq4G7l/wRRGSZSXSxEEh+Gu6UieaGKA+/6OvnZL3st8Ayc2lYt9dyLhC/gy
-	0mdBWrBw==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=rpe25KsIELbEqwYV4ahINKVll5
+	BRUniFosijgQV5hFQd1MZE7hV1JDmYBFPFWqouBjmy8YVqHSkuxI1xz8ETNNBgc4QVlHeq38SzVU9
+	WJlznb2HlWLr4Ob53FeEPhcke5c6Ev8f5VjNqYYc5IUpwp0874M9Ze94BBM6x2T6GHhBCW7OwxDSQ
+	G7sinePtyO3EYII7F/rqV48B38zbr59KVqU6MS12xFFc3Gajijhq4dkY++XObJ/LQp/DO6a0HIjpI
+	WPRt13rcFvRjcsSDS0cpq3Vc08GH8bZYfLMq9+gG2/D9m3IFC6CpCzhtq2i+bNQOEOi4GUo5RjWSd
+	v0oNVdfA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rlDje-00000001N8S-21JB;
-	Fri, 15 Mar 2024 20:00:58 +0000
-Received: from [202.38.75.2] (helo=rosemary.ibugone.net)
+	id 1rlkyw-00000004fWt-1Wwc;
+	Sun, 17 Mar 2024 07:30:58 +0000
+Received: from mail-wr1-f47.google.com ([209.85.221.47])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rlDjb-00000001N83-1V2H
+	id 1rlkyr-00000004fWB-16kQ
 	for linux-nvme@lists.infradead.org;
-	Fri, 15 Mar 2024 20:00:56 +0000
-Received: by rosemary.ibugone.net (Postfix, from userid 1000)
-	id 4D2CE7A56F4; Sat, 16 Mar 2024 03:32:09 +0800 (CST)
-From: iBug <i@ibugone.com>
-To: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me,
-	linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org,
-	"Jiawei Fu (iBug)" <i@ibugone.com>
-Subject: [PATCH] drivers/nvme: Add quirks for device 126f:2262
-Date: Sat, 16 Mar 2024 03:27:49 +0800
-Message-ID: <20240315192747.1749119-3-i@ibugone.com>
-X-Mailer: git-send-email 2.43.2
+	Sun, 17 Mar 2024 07:30:54 +0000
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-33ecdffd9e7so670244f8f.0
+        for <linux-nvme@lists.infradead.org>; Sun, 17 Mar 2024 00:30:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710660650; x=1711265450;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+        b=CpgCivZiS18ynhFbcEFLmC3kQPHCTZK5n92mhy+8tE+K1GFD/9oLmbQa9To7Vl0mc4
+         SyqVefeD+vrpt2Ni/XKO/dOvDHuVMYxRdkk3ynW5WPpNFuag9uQA0LRegfY5qTzArTVj
+         3M/zJ2dUBnizhrgM38ecWaxlB15a3T2t3DjI9U1lnnJu4tzO9d2D+x1RNmg88pVDwvFZ
+         iDJJOREinx1sLJr0uoebNgrp+RrDFnwZXBHMSRnI2id1RvR3nCgrUf+DRfnoEkpsKSe9
+         U9nKoAPGdLjQ3Y2fMIXFnc1pJQQu+s3gVdjICvEDEREzA8T80GuFytKs8sHbs/KF4sfb
+         6V1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU6hd0dMuKyALsRVvI/Gqwqxn7DQwQYyp1PLute0YXYdRAjgSs96teJSA2oz5+YlOC7VgUZ7MvvHD5d41bvVD57vaR0Aj73wRMP4hhbWgY=
+X-Gm-Message-State: AOJu0YxVUiDlw3u8AzcEC8BSXbTbSfzA8mpKuQ33KQLLkbP/hOOYZDAh
+	moomIGJHU62FIC20LuW3Oea1svuWhCgietghds0FGukjmGgXbBbU
+X-Google-Smtp-Source: AGHT+IE1YedpIs5EDAiT+16B5tDyqlOASHCmlbPIoQt7Cazm2Aoe41mMn1s1CeLOEg0pVl+ZlOw3GA==
+X-Received: by 2002:a05:600c:1c17:b0:414:225:3699 with SMTP id j23-20020a05600c1c1700b0041402253699mr4358587wms.1.1710660649695;
+        Sun, 17 Mar 2024 00:30:49 -0700 (PDT)
+Received: from [10.50.4.153] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id r11-20020a05600c35cb00b00414038162e1sm6341183wmq.23.2024.03.17.00.30.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 17 Mar 2024 00:30:49 -0700 (PDT)
+Message-ID: <44dfdeea-973f-4bfe-b72a-96513f447b5e@grimberg.me>
+Date: Sun, 17 Mar 2024 09:30:48 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] nvme-tcp: Export the nvme_tcp_wq to sysfs
+Content-Language: he-IL, en-US
+To: Li Feng <fengli@smartx.com>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
+ open list <linux-kernel@vger.kernel.org>
+Cc: Anton.Gavriliuk@hpe.ua
+References: <20240313123816.625115-1-fengli@smartx.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20240313123816.625115-1-fengli@smartx.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240315_130055_620357_3787CAC5 
-X-CRM114-Status: UNSURE (   9.61  )
+X-CRM114-CacheID: sfid-20240317_003053_331180_AA4647B2 
+X-CRM114-Status: UNSURE (   5.72  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -61,45 +85,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: "Jiawei Fu (iBug)" <i@ibugone.com>
-
-This commit adds NVME_QUIRK_NO_DEEPEST_PS and NVME_QUIRK_BOGUS_NID for
-device [126f:2262], which appears to be a generic VID:PID pair used for
-many SSDs based on the Silicon Motion SM2262/SM2262EN controller.
-
-Two of my SSDs with this VID:PID pair exhibit the same behavior:
-
-  * They frequently have trouble exiting the deepest power state (5),
-    resulting in the entire disk unresponsive.
-    Verified by setting nvme_core.default_ps_max_latency_us=10000 and
-    observing them behaving normally.
-  * They produce all-zero nguid and eui64 with `nvme id-ns` command.
-
-The offending products are:
-
-  * HP SSD EX950 1TB
-  * HIKVISION C2000Pro 2TB
-
-Signed-off-by: Jiawei Fu <i@ibugone.com>
----
- drivers/nvme/host/pci.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index e6267a6aa380..8e0bb9692685 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3363,6 +3363,9 @@ static const struct pci_device_id nvme_id_table[] = {
- 				NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_VDEVICE(REDHAT, 0x0010),	/* Qemu emulated controller */
- 		.driver_data = NVME_QUIRK_BOGUS_NID, },
-+	{ PCI_DEVICE(0x126f, 0x2262),	/* Silicon Motion generic */
-+		.driver_data = NVME_QUIRK_NO_DEEPEST_PS |
-+				NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_DEVICE(0x126f, 0x2263),	/* Silicon Motion unidentified */
- 		.driver_data = NVME_QUIRK_NO_NS_DESC_LIST |
- 				NVME_QUIRK_BOGUS_NID, },
--- 
-2.43.2
-
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
