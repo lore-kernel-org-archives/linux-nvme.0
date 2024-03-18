@@ -4,61 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E21E6C54E6A
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Mar 2024 15:03:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 56F44C54E58
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Mar 2024 15:03:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ESLQfwqbIQpBuRsUm79Uv/QgTzX8Ugdd5tWbZF62818=; b=NuZCTg1vUN9Rb6EUYlxQlZd9yf
-	O+XaSKPxj/6WxgSy78JLYzLA3TAy9or5zpr4sNpknuWbAAi6rBdwU3abHITTz506W9K7KYnz1vh6t
-	RoH8NXGtY/m0YG1cZEMHQO67Ls1k1wtdM96qYQvmWegjWJpmcP/++Q5+KwbQ+O08gxBdEVyo3oSJQ
-	oKFsocbBxtyETR7woPjyB3Ni0X4JRRr7SPOR7SbpbKZzGfgFYEm6eCh1OxnYMkkyCbwQePsR3DR+i
-	NfyUqBuxKCXeH/SXKR+q2KTu5ltiMdILqyRWh4dATXUa/WLHiZi6WypUCtMxapHBdBT2i+q2ujjim
-	YGc3pQzA==;
+	bh=W4aKjiMy4yH0Gq6ujoe+UJb8DXbOCWyspMOXeJEwEC4=; b=rc/suD/zmLi3rqkzXGViQdYPQ3
+	zSgeVmqJb98mlhKd57J3QmbPmw1DF4LKFo1Bo8y7BBVgi2+gESLIso98gGhodA38UpGcpgrEywuoG
+	Ah2ska4Bv34ZY6uTGlGVMnAVrsptUlx7HPNm3aCmaPcvo3NWcbaRSeAbD0ryFBLLbiUUMiQ/7ayw5
+	Xwza9HjZo7+LmfqUTwzSIYsXgKSR15lFPSK/rZavWZmi4PTf5wutT0g0GMhleW4YcZxXAod08pWgF
+	9NhERQYCqrRXwFRThpa7TdJ0MxG1LEFFUYq6cY5l+JpFT7AFUqCbmHhPAWvWEsxDgnxPEo77IT7rm
+	w0JHT6Zg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmEWc-00000008uIB-455B;
-	Mon, 18 Mar 2024 15:03:43 +0000
+	id 1rmEWe-00000008uJV-3Nbs;
+	Mon, 18 Mar 2024 15:03:44 +0000
 Received: from sin.source.kernel.org ([145.40.73.55])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmEWX-00000008uEW-2wHX
+	id 1rmEWX-00000008uEX-2wZ5
 	for linux-nvme@lists.infradead.org;
-	Mon, 18 Mar 2024 15:03:39 +0000
+	Mon, 18 Mar 2024 15:03:40 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 09E0ECE0A29;
-	Mon, 18 Mar 2024 15:03:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0604DC433F1;
-	Mon, 18 Mar 2024 15:03:31 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id C56F0CE0AB2;
+	Mon, 18 Mar 2024 15:03:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEC6AC433C7;
+	Mon, 18 Mar 2024 15:03:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710774213;
-	bh=iFuRsmzzbtAtQToko9U/QSPCVNm334E5Bse0iMPyq+Q=;
+	s=k20201202; t=1710774215;
+	bh=1QaYUgcV8pLM2RbzdradMF0LiD0hvoqIns3KGs3Vo+4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CsLw3fO/c+2yuMUrwvgqTZpl8p/zGzNz9aU3Au5h+KDi5yU3JiXZmGcWOGWh+WSek
-	 UXVxevOPi5C6YD1/cWQD+5OFbfAYmcakBFdGiC29Ko12MbwX7sDwQW0zkYMAaik0at
-	 08XLYFL6iBNLWoErqTmnNcnh4cs65Vw8T4ce0j7tvyA4rD1SHZMr8TUcVE44t6W+ww
-	 acOXYKqHC7t4F5fdihQYIgONmUF2VZ2sdOQD69JH3LNHp0pp4+/T1ZDB/c/wg5hy8a
-	 AuBhV6l0WzYG8mg5zJ4wv77C1u2cUgvyny5CQ+6wpGUFFowV0hTt2NJi2sSi4+fjF/
-	 Ml1Chi6MFkm9Q==
+	b=K/a1AOoGjNTlzRSDhM2CZR/xH9NEPW8C31X1TH9k2zrtMEI1OMbXq+AKokY9q48UL
+	 RC+KX9p04E5gpuk7eweYFa80ioj/2QLukVNx/Qbwu895Cw9S9Yt5BUXkEc/ABWv9SL
+	 KSrZsDhVXxLZTGIR5XbU6W2WrmsPmzl6IO3EBb8eaadYwvy5IBD/U6Ywm7D0J59ktK
+	 k2YnSQgKDB6AWF0ig9buujY90F3yDe1pDjYWLu9zgI0jIyFjjMHSNh9gdofLYQ9hW7
+	 VNJTTR5f+KkyeDAnMbJyvXWRL0NG+u3eJ8RYsiSiN4v7LOneSJtKop8BnT7ZaLfBiA
+	 42W7oZXM7bPNA==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 02/17] nvme-tcp: check for invalidated or revoked key
-Date: Mon, 18 Mar 2024 16:03:01 +0100
-Message-Id: <20240318150316.138501-3-hare@kernel.org>
+Subject: [PATCH 03/17] crypto,fs: Separate out hkdf_extract() and hkdf_expand()
+Date: Mon, 18 Mar 2024 16:03:02 +0100
+Message-Id: <20240318150316.138501-4-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240318150316.138501-1-hare@kernel.org>
 References: <20240318150316.138501-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240318_080338_060221_7C385134 
-X-CRM114-Status: GOOD (  14.01  )
+X-CRM114-CacheID: sfid-20240318_080338_181999_D62540B8 
+X-CRM114-Status: GOOD (  22.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,77 +75,276 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Hannes Reinecke <hare@suse.de>
 
-key_lookup() will always return a key, even if that key is revoked
-or invalidated. So check for invalid keys before continuing.
+Separate out the HKDF functions into a separate file to make them
+available to other callers.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/host/fabrics.c | 7 ++++++-
- drivers/nvme/host/sysfs.c   | 9 +++++++--
- drivers/nvme/host/tcp.c     | 8 +++++++-
- 3 files changed, 20 insertions(+), 4 deletions(-)
+ crypto/Makefile       |   1 +
+ crypto/hkdf.c         | 112 ++++++++++++++++++++++++++++++++++++++++++
+ fs/crypto/hkdf.c      |  68 ++++---------------------
+ include/crypto/hkdf.h |  18 +++++++
+ 4 files changed, 140 insertions(+), 59 deletions(-)
+ create mode 100644 crypto/hkdf.c
+ create mode 100644 include/crypto/hkdf.h
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 0141c0a6942f..75aa69457353 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -639,7 +639,12 @@ static struct key *nvmf_parse_key(int key_id)
- 	key = key_lookup(key_id);
- 	if (IS_ERR(key))
- 		pr_err("key id %08x not found\n", key_id);
--	else
-+	else if (test_bit(KEY_FLAG_REVOKED, &key->flags) ||
-+		 test_bit(KEY_FLAG_INVALIDATED, &key->flags)) {
-+		pr_err("key id %08x invalid\n", key_id);
-+		key_put(key);
-+		key = ERR_PTR(-EKEYREVOKED);
-+	} else
- 		pr_debug("Using key id %08x\n", key_id);
- 	return key;
- }
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index 6c7f1d5c056f..ec581608f16c 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -671,10 +671,15 @@ static ssize_t tls_key_show(struct device *dev,
- 			    struct device_attribute *attr, char *buf)
- {
- 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-+	struct key *key = ctrl->tls_key;
+diff --git a/crypto/Makefile b/crypto/Makefile
+index 408f0a1f9ab9..3c0e1916de7c 100644
+--- a/crypto/Makefile
++++ b/crypto/Makefile
+@@ -26,6 +26,7 @@ obj-$(CONFIG_CRYPTO_ECHAINIV) += echainiv.o
  
--	if (!ctrl->tls_key)
-+	if (!key)
- 		return 0;
--	return sysfs_emit(buf, "%08x", key_serial(ctrl->tls_key));
-+	if (test_bit(KEY_FLAG_REVOKED, &key->flags) ||
-+	    test_bit(KEY_FLAG_INVALIDATED, &key->flags))
-+		return -EKEYREVOKED;
+ crypto_hash-y += ahash.o
+ crypto_hash-y += shash.o
++crypto_hash-y += hkdf.o
+ obj-$(CONFIG_CRYPTO_HASH2) += crypto_hash.o
+ 
+ obj-$(CONFIG_CRYPTO_AKCIPHER2) += akcipher.o
+diff --git a/crypto/hkdf.c b/crypto/hkdf.c
+new file mode 100644
+index 000000000000..22e343851c0b
+--- /dev/null
++++ b/crypto/hkdf.c
+@@ -0,0 +1,112 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Implementation of HKDF ("HMAC-based Extract-and-Expand Key Derivation
++ * Function"), aka RFC 5869.  See also the original paper (Krawczyk 2010):
++ * "Cryptographic Extraction and Key Derivation: The HKDF Scheme".
++ *
++ * This is used to derive keys from the fscrypt master keys.
++ *
++ * Copyright 2019 Google LLC
++ */
 +
-+	return sysfs_emit(buf, "%08x", key_serial(key));
- }
- static DEVICE_ATTR_RO(tls_key);
- #endif
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index a6d596e05602..4a58886e1354 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1571,9 +1571,15 @@ static void nvme_tcp_tls_done(void *data, int status, key_serial_t pskid)
++#include <crypto/hash.h>
++#include <crypto/sha2.h>
++#include <crypto/hkdf.h>
++
++/*
++ * HKDF consists of two steps:
++ *
++ * 1. HKDF-Extract: extract a pseudorandom key of length HKDF_HASHLEN bytes from
++ *    the input keying material and optional salt.
++ * 2. HKDF-Expand: expand the pseudorandom key into output keying material of
++ *    any length, parameterized by an application-specific info string.
++ *
++ */
++
++/* HKDF-Extract (RFC 5869 section 2.2), unsalted */
++int hkdf_extract(struct crypto_shash *hmac_tfm, const u8 *ikm,
++		 unsigned int ikmlen, u8 *prk)
++{
++	unsigned int prklen = crypto_shash_digestsize(hmac_tfm);
++	u8 *default_salt;
++	int err;
++
++	default_salt = kzalloc(prklen, GFP_KERNEL);
++	if (!default_salt)
++		return -ENOMEM;
++	err = crypto_shash_setkey(hmac_tfm, default_salt, prklen);
++	if (!err)
++		err = crypto_shash_tfm_digest(hmac_tfm, ikm, ikmlen, prk);
++
++	kfree(default_salt);
++	return err;
++}
++EXPORT_SYMBOL_GPL(hkdf_extract);
++
++/*
++ * HKDF-Expand (RFC 5869 section 2.3).
++ * This expands the pseudorandom key, which was already keyed into @hmac_tfm,
++ * into @okmlen bytes of output keying material parameterized by the
++ * application-specific @info of length @infolen bytes.
++ * This is thread-safe and may be called by multiple threads in parallel.
++ */
++int hkdf_expand(struct crypto_shash *hmac_tfm,
++		const u8 *info, unsigned int infolen,
++		u8 *okm, unsigned int okmlen)
++{
++	SHASH_DESC_ON_STACK(desc, hmac_tfm);
++	unsigned int i, hashlen = crypto_shash_digestsize(hmac_tfm);
++	int err;
++	const u8 *prev = NULL;
++	u8 counter = 1;
++	u8 *tmp;
++
++	if (WARN_ON(okmlen > 255 * hashlen))
++		return -EINVAL;
++
++	tmp = kzalloc(hashlen, GFP_KERNEL);
++	if (!tmp)
++		return -ENOMEM;
++
++	desc->tfm = hmac_tfm;
++
++	for (i = 0; i < okmlen; i += hashlen) {
++
++		err = crypto_shash_init(desc);
++		if (err)
++			goto out;
++
++		if (prev) {
++			err = crypto_shash_update(desc, prev, hashlen);
++			if (err)
++				goto out;
++		}
++
++		err = crypto_shash_update(desc, info, infolen);
++		if (err)
++			goto out;
++
++		BUILD_BUG_ON(sizeof(counter) != 1);
++		if (okmlen - i < hashlen) {
++			err = crypto_shash_finup(desc, &counter, 1, tmp);
++			if (err)
++				goto out;
++			memcpy(&okm[i], tmp, okmlen - i);
++			memzero_explicit(tmp, sizeof(tmp));
++		} else {
++			err = crypto_shash_finup(desc, &counter, 1, &okm[i]);
++			if (err)
++				goto out;
++		}
++		counter++;
++		prev = &okm[i];
++	}
++	err = 0;
++out:
++	if (unlikely(err))
++		memzero_explicit(okm, okmlen); /* so caller doesn't need to */
++	shash_desc_zero(desc);
++	kfree(tmp);
++	return err;
++}
++EXPORT_SYMBOL_GPL(hkdf_expand);
+diff --git a/fs/crypto/hkdf.c b/fs/crypto/hkdf.c
+index 5a384dad2c72..9c2f9aca9412 100644
+--- a/fs/crypto/hkdf.c
++++ b/fs/crypto/hkdf.c
+@@ -11,6 +11,7 @@
  
- 	tls_key = key_lookup(pskid);
- 	if (IS_ERR(tls_key)) {
--		dev_warn(ctrl->ctrl.device, "queue %d: Invalid key %x\n",
-+		dev_warn(ctrl->ctrl.device, "queue %d: key %08x not found\n",
- 			 qid, pskid);
- 		queue->tls_err = -ENOKEY;
-+	} else if (test_bit(KEY_FLAG_REVOKED, &tls_key->flags) ||
-+		   test_bit(KEY_FLAG_INVALIDATED, &tls_key->flags)) {
-+		dev_warn(ctrl->ctrl.device, "queue %d: key %08x invalid\n",
-+			 qid, pskid);
-+		key_put(tls_key);
-+		queue->tls_err = -EKEYREVOKED;
- 	} else {
- 		ctrl->ctrl.tls_key = tls_key;
- 		queue->tls_err = 0;
+ #include <crypto/hash.h>
+ #include <crypto/sha2.h>
++#include <crypto/hkdf.h>
+ 
+ #include "fscrypt_private.h"
+ 
+@@ -44,20 +45,6 @@
+  * there's no way to persist a random salt per master key from kernel mode.
+  */
+ 
+-/* HKDF-Extract (RFC 5869 section 2.2), unsalted */
+-static int hkdf_extract(struct crypto_shash *hmac_tfm, const u8 *ikm,
+-			unsigned int ikmlen, u8 prk[HKDF_HASHLEN])
+-{
+-	static const u8 default_salt[HKDF_HASHLEN];
+-	int err;
+-
+-	err = crypto_shash_setkey(hmac_tfm, default_salt, HKDF_HASHLEN);
+-	if (err)
+-		return err;
+-
+-	return crypto_shash_tfm_digest(hmac_tfm, ikm, ikmlen, prk);
+-}
+-
+ /*
+  * Compute HKDF-Extract using the given master key as the input keying material,
+  * and prepare an HMAC transform object keyed by the resulting pseudorandom key.
+@@ -118,61 +105,24 @@ int fscrypt_hkdf_expand(const struct fscrypt_hkdf *hkdf, u8 context,
+ 			u8 *okm, unsigned int okmlen)
+ {
+ 	SHASH_DESC_ON_STACK(desc, hkdf->hmac_tfm);
+-	u8 prefix[9];
+-	unsigned int i;
++	u8 *prefix;
+ 	int err;
+-	const u8 *prev = NULL;
+-	u8 counter = 1;
+-	u8 tmp[HKDF_HASHLEN];
+ 
+ 	if (WARN_ON_ONCE(okmlen > 255 * HKDF_HASHLEN))
+ 		return -EINVAL;
+ 
++	prefix = kzalloc(okmlen + 9, GFP_KERNEL);
++	if (!prefix)
++		return -ENOMEM;
+ 	desc->tfm = hkdf->hmac_tfm;
+ 
+ 	memcpy(prefix, "fscrypt\0", 8);
+ 	prefix[8] = context;
++	memcpy(prefix + 9, info, infolen);
+ 
+-	for (i = 0; i < okmlen; i += HKDF_HASHLEN) {
+-
+-		err = crypto_shash_init(desc);
+-		if (err)
+-			goto out;
+-
+-		if (prev) {
+-			err = crypto_shash_update(desc, prev, HKDF_HASHLEN);
+-			if (err)
+-				goto out;
+-		}
+-
+-		err = crypto_shash_update(desc, prefix, sizeof(prefix));
+-		if (err)
+-			goto out;
+-
+-		err = crypto_shash_update(desc, info, infolen);
+-		if (err)
+-			goto out;
+-
+-		BUILD_BUG_ON(sizeof(counter) != 1);
+-		if (okmlen - i < HKDF_HASHLEN) {
+-			err = crypto_shash_finup(desc, &counter, 1, tmp);
+-			if (err)
+-				goto out;
+-			memcpy(&okm[i], tmp, okmlen - i);
+-			memzero_explicit(tmp, sizeof(tmp));
+-		} else {
+-			err = crypto_shash_finup(desc, &counter, 1, &okm[i]);
+-			if (err)
+-				goto out;
+-		}
+-		counter++;
+-		prev = &okm[i];
+-	}
+-	err = 0;
+-out:
+-	if (unlikely(err))
+-		memzero_explicit(okm, okmlen); /* so caller doesn't need to */
+-	shash_desc_zero(desc);
++	err = hkdf_expand(hkdf->hmac_tfm, prefix, infolen + 8,
++			  okm, okmlen);
++	kfree(prefix);
+ 	return err;
+ }
+ 
+diff --git a/include/crypto/hkdf.h b/include/crypto/hkdf.h
+new file mode 100644
+index 000000000000..bf06c080d7ed
+--- /dev/null
++++ b/include/crypto/hkdf.h
+@@ -0,0 +1,18 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * HKDF: HMAC-based Key Derivation Function (HKDF), RFC 5869
++ *
++ * Extracted from fs/crypto/hkdf.c, which has
++ * Copyright 2019 Google LLC
++ */
++
++#ifndef _CRYPTO_HKDF_H
++#define _CRYPTO_HKDF_H
++
++int hkdf_extract(struct crypto_shash *hmac_tfm, const u8 *ikm,
++		 unsigned int ikmlen, u8 *prk);
++int hkdf_expand(struct crypto_shash *hmac_tfm,
++		const u8 *info, unsigned int infolen,
++		u8 *okm, unsigned int okmlen);
++
++#endif
 -- 
 2.35.3
 
