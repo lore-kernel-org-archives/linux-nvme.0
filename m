@@ -4,61 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3501C54E58
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Mar 2024 20:42:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7ABAC54E5D
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Mar 2024 20:45:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=i8zyFMvCnYgGOTIy4IrS6KUCSjwtDMvOAJkGI6lyBMI=; b=LyZT6qQ4+GL+OC9D1Cm/Z2ti8K
-	XBhrkTt89YmlcXzvU5eMdbQaPZ/yeg1NnAnTZ4+k+WhuV0JOEZTir6tH7foyJoG9u63FI+ePBcXCJ
-	i2XLq4IfDnp2Ej86VuvA0PtMZNB6frmzc7rfI6MX60ZD7SAJkMwGEXXnygmqDRldWY7aLHmyVRvwg
-	4txI6OcQBBMpmBUmHkKHJEZOXpouJBvQVrA0aMaEG0L2/rh+apoyIDOYAE5GVUHYLZrzDcUzLGnsE
-	eTnFt8lDGkVHxcqHkZ9SedB3jX6qwddoIcq+oZ/2tD5vBZI2Are8R4ZDN6Jmm+6GDW+ZiPfYfW6QU
-	V3ldND+A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
+	:Date:Message-Id:From:Subject:Content-Transfer-Encoding:MIME-Version:
+	Content-Type:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Q13nBugoKjyr9ZoypFV3Yjm3Mx3CjOgHidwT5pFaw/A=; b=3INP7jpnena0vs2nqpKUiX0bY0
+	eg/FPM/Kn5JrFhi01NdcYPEP4A2Xa5l3/25eEHBaX65J2O0IYx0PFVhQyuVgH73jqcdD+AS8O0E6U
+	1NhMngMl10G0ldp2iPBs3aRRf7qnc912tVZPVE1W2zkmmxPpjOotsGdFyvoP/ilv3FpUVfv6dXIxT
+	1j0Hw0+xLKtiuUM6CHy+GGLEc0ABocOuppJxUV2HasEyuk+JyISRWAXwdaV4bXg48oVSh66CukUm5
+	Uyygte3hgvYG9xY0X7UJwPr10zpq+ewII1O/smFjXcVry/mbk7q9rL4YTVStVRFEMbYSyOnUllse3
+	wARcpZTg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmJo1-0000000A3sd-0aE9;
-	Mon, 18 Mar 2024 20:42:01 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1rmJrf-0000000A4ek-0h3M;
+	Mon, 18 Mar 2024 20:45:47 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmJny-0000000A3s3-0GN4
+	id 1rmJrT-0000000A4V6-2deL
 	for linux-nvme@lists.infradead.org;
-	Mon, 18 Mar 2024 20:41:59 +0000
+	Mon, 18 Mar 2024 20:45:37 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 82A0C60B59;
-	Mon, 18 Mar 2024 20:41:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5425C433C7;
-	Mon, 18 Mar 2024 20:41:56 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id D810060CF4;
+	Mon, 18 Mar 2024 20:45:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 48E0AC43390;
+	Mon, 18 Mar 2024 20:45:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710794517;
-	bh=i8zyFMvCnYgGOTIy4IrS6KUCSjwtDMvOAJkGI6lyBMI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=R9PjmDhnioupQKC+rvXxiTc4XhjHet6SqaNDiFrRo+tqu0LfV3X8wdlAc8Nq6RixM
-	 ZMFctKRYfgSDJeAYdiQ7PAt/CeIN19BydQAMH3GPt70WpQ+NX9+t5I9M6kK9qAuM77
-	 4pxMyATUavAzE3Kpay9VF15E8Gj2O9NbaONzagGhjofsBa6kn6SUTQtQJrjbSDBDLm
-	 69NOgMNeRlMPMjrtp7tFq0eIePU9SdBEtdbxNy7MD4abOQmwpvOqWmBuTL3Ifd1+hF
-	 pIti83zeXaM1OoKRkyy9R2shr4WUZArR/2YAlTcj1wMJ2p5Tl7bjjzP9LySINGEn9s
-	 8OTSxSRVAGlZQ==
-Date: Mon, 18 Mar 2024 14:41:54 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Li Feng <fengli@smartx.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
-	open list <linux-kernel@vger.kernel.org>, Anton.Gavriliuk@hpe.ua
-Subject: Re: [PATCH v2 1/2] nvme-tcp: Export the nvme_tcp_wq to sysfs
-Message-ID: <ZfinEuOTyMPaAX5B@kbusch-mbp.dhcp.thefacebook.com>
-References: <20240313123816.625115-1-fengli@smartx.com>
+	s=k20201202; t=1710794733;
+	bh=RA7YG9SxvBNH0HzRjB4rflPOx+FpSXM4xEmiICNLvcY=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=KyFjlQSNxf74Oqy7Vk41Z9wIUXqjnooZpsxTmo8JSxgThzYTCwHWls0FF4kzamlkc
+	 BlUnEdjGJSg5ibhkZUC8lt2Xeel4gl61vL89noc5We60f9m4H0aWRCbEggOM63FrzT
+	 U1A8ZyDACddoeXAkXK1+9VK8ib5U8ZT0jbstEuF+R64RXuhWsc0+MKGFuei8pq2JaP
+	 ExIXX0oF28y6mNxHposHwr0sC7JB71EKrozyr3MdNIBhBxgYeeV4gsGh6iS4aQxzwL
+	 2hQ0TTKB2vLUf8IIclhWDz0+927nPTxLVGQ3oVViWPszlA80Fb4s07T232h/EFw9uT
+	 NK7/pbaFd1cZw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 2AE0D174C8D6;
+	Mon, 18 Mar 2024 20:45:33 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240313123816.625115-1-fengli@smartx.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [f2fs-dev] [PATCH v3 0/5] block: remove gfp_mask for
+ blkdev_zone_mgmt()
+From: patchwork-bot+f2fs@kernel.org
+Message-Id: <171079473317.25373.4387818669796784248.git-patchwork-notify@kernel.org>
+Date: Mon, 18 Mar 2024 20:45:33 +0000
+References: <20240128-zonefs_nofs-v3-0-ae3b7c8def61@wdc.com>
+In-Reply-To: <20240128-zonefs_nofs-v3-0-ae3b7c8def61@wdc.com>
+To: Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Cc: dlemoal@kernel.org, naohiro.aota@wdc.com, jth@kernel.org, agk@redhat.com,
+ snitzer@kernel.org, mpatocka@redhat.com, dm-devel@lists.linux.dev,
+ clm@fb.com, josef@toxicpanda.com, dsterba@suse.com, jaegeuk@kernel.org,
+ chao@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+ kch@nvidia.com, linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-f2fs-devel@lists.sourceforge.net, linux-block@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240318_134158_174220_E014E430 
-X-CRM114-Status: UNSURE (   8.45  )
+X-CRM114-CacheID: sfid-20240318_134535_797881_B87C5038 
+X-CRM114-Status: UNSURE (   9.06  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -74,8 +81,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 13, 2024 at 08:38:09PM +0800, Li Feng wrote:
-> Make the workqueue userspace visible for easy viewing and configuration.
+Hello:
 
-Thanks, applied to nvme-6.9.
+This series was applied to jaegeuk/f2fs.git (dev)
+by Jens Axboe <axboe@kernel.dk>:
+
+On Sun, 28 Jan 2024 23:52:15 -0800 you wrote:
+> Fueled by the LSFMM discussion on removing GFP_NOFS initiated by Willy,
+> I've looked into the sole GFP_NOFS allocation in zonefs. As it turned out,
+> it is only done for zone management commands and can be removed.
+> 
+> After digging into more callers of blkdev_zone_mgmt() I came to the
+> conclusion that the gfp_mask parameter can be removed alltogether.
+> 
+> [...]
+
+Here is the summary with links:
+  - [f2fs-dev,v3,1/5] zonefs: pass GFP_KERNEL to blkdev_zone_mgmt() call
+    https://git.kernel.org/jaegeuk/f2fs/c/9105ce591b42
+  - [f2fs-dev,v3,2/5] dm: dm-zoned: guard blkdev_zone_mgmt with noio scope
+    https://git.kernel.org/jaegeuk/f2fs/c/218082010ace
+  - [f2fs-dev,v3,3/5] btrfs: zoned: call blkdev_zone_mgmt in nofs scope
+    https://git.kernel.org/jaegeuk/f2fs/c/d9d556755f16
+  - [f2fs-dev,v3,4/5] f2fs: guard blkdev_zone_mgmt with nofs scope
+    https://git.kernel.org/jaegeuk/f2fs/c/147ec1c60e32
+  - [f2fs-dev,v3,5/5] block: remove gfp_flags from blkdev_zone_mgmt
+    https://git.kernel.org/jaegeuk/f2fs/c/71f4ecdbb42a
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
 
