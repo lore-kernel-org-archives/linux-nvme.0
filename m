@@ -4,81 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0146FC54E69
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Mar 2024 09:39:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19A4DC54E58
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Mar 2024 09:39:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=H4PSsr4X2cIGMy5fwcBg3lof96My0QkkEzHK6F7hK6w=; b=FaP1Qnhq7mBPXQZN/8EfcFtOds
-	TS1ArDlz1EZ4CuidwG9jTXVGa1bRkd0A5NV9cDlkloV/orhkuNYZ1u9G6zf0tz3SQT7TKrjX4c5ws
-	QSmhd+xOZqIluyOiNt1KbAkhVHQeI0l866+XfsQdXwJYJ3fXybygs5/YOWQ3gEmiwrBFwnKhK7ePM
-	eXGppcD+llfmYCBqVSmxvYjAJUOYUbk7rildW5uShT4kHlJGfQoKLx1lFc5uSwM/ThZ27mXtZmV5O
-	LGH3t+hlUuHwHxJ0SegTHS2mSys/S+VMBrXZX48roWWG9euVMwlIYajt8+UC9p8NtnmamngxMnEXl
-	t6rCy3zA==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=KVrZpy0RdPySj2UWsz+rM5mkyWuU4qpCsSQWAOcV+VY=; b=jdh45zuutW/AiXhjbhc/GG/9mk
+	ogQJAse4AthP5TzEPK9gzEY5sLO9Dh4UaUF9PU7tQ7BUDXUUuiVafoZqVrp7vS353/xsFlnelhj15
+	rsb6BnRdW46vrtHDpxomDjitN9zYXTWk0frOWDniZH3kYYZSeOFPeaM3ht+PFI1yjLv50YmaFYjIl
+	Q3XJ/9r7NveCpt92f99kh/aJYa4b5JFBuolLViFX25lwxgZWK9SInVHkcn4+9FnuKRicppKC53Eki
+	ragcwKJECsl3glthreRkDSWFLKtudkuOzOaqNs/bQmTjWCcvY+2Z3q+gM/59IokvERJ6BYcCNyDTv
+	2TL+7jKQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rm9Sq-00000007xOa-1GF4;
-	Mon, 18 Mar 2024 09:39:28 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1rm9St-00000007xQh-0Wk3;
+	Mon, 18 Mar 2024 09:39:31 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rm9SX-00000007xEZ-2AqO
+	id 1rm9SW-00000007xDO-3oWK
 	for linux-nvme@lists.infradead.org;
 	Mon, 18 Mar 2024 09:39:23 +0000
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2EEA55C33B;
-	Mon, 18 Mar 2024 09:39:08 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 551213487B;
+	Mon, 18 Mar 2024 09:39:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1710754748; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H4PSsr4X2cIGMy5fwcBg3lof96My0QkkEzHK6F7hK6w=;
-	b=DfoZ1ZogbBk/d2ycutjx7n+5axl1h0k2u2pHtUDAd4fn6j0T+Jsy1KzoogsYLNtvsWBl0G
-	FnK4VuxbwbmkhdsXnKLESWkmqOEgMxFWL6g2CddnKIHov0Ru6wfaxmA2XFAHHpoJv+IAKM
-	eJTE8/521riXhEmSc4oXSm22qzcsh9w=
+	t=1710754744; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=KVrZpy0RdPySj2UWsz+rM5mkyWuU4qpCsSQWAOcV+VY=;
+	b=GgrcPP5rLPv2ZncXo87JpVWBFz7GgFMwAbBUmozYIsDbzTp/pAE9PgY9zu5+s5IeZRQ8h8
+	QKX3QDsjza0J11WqkLqeTZ/dtm8gDNCsuKNl/tHvNc4o6ea1y+x6CAMdWMw3dX0QrXtxOv
+	BLKWO//9qwC6neNmdsQe3fAOwzZXYS4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1710754748;
+	s=susede2_ed25519; t=1710754744;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H4PSsr4X2cIGMy5fwcBg3lof96My0QkkEzHK6F7hK6w=;
-	b=n2WDy+rIPic1RQJmjNx3B7FPb1ovPOLuDZaUoWDfSI0GFkGIAzrVpISG/RKGWDef3FlThf
-	A6JCZRDp/GvxbeCQ==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=KVrZpy0RdPySj2UWsz+rM5mkyWuU4qpCsSQWAOcV+VY=;
+	b=H71aLf99mx3pjWZB0F6R/GogGn4JS0zNpGimNKCIvCMDR2sBKE+FP1kmZXMHyziTZGBdGg
+	Bpl/q+TJ7z3rjqCA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1710754748; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H4PSsr4X2cIGMy5fwcBg3lof96My0QkkEzHK6F7hK6w=;
-	b=DfoZ1ZogbBk/d2ycutjx7n+5axl1h0k2u2pHtUDAd4fn6j0T+Jsy1KzoogsYLNtvsWBl0G
-	FnK4VuxbwbmkhdsXnKLESWkmqOEgMxFWL6g2CddnKIHov0Ru6wfaxmA2XFAHHpoJv+IAKM
-	eJTE8/521riXhEmSc4oXSm22qzcsh9w=
+	t=1710754744; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=KVrZpy0RdPySj2UWsz+rM5mkyWuU4qpCsSQWAOcV+VY=;
+	b=GgrcPP5rLPv2ZncXo87JpVWBFz7GgFMwAbBUmozYIsDbzTp/pAE9PgY9zu5+s5IeZRQ8h8
+	QKX3QDsjza0J11WqkLqeTZ/dtm8gDNCsuKNl/tHvNc4o6ea1y+x6CAMdWMw3dX0QrXtxOv
+	BLKWO//9qwC6neNmdsQe3fAOwzZXYS4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1710754748;
+	s=susede2_ed25519; t=1710754744;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H4PSsr4X2cIGMy5fwcBg3lof96My0QkkEzHK6F7hK6w=;
-	b=n2WDy+rIPic1RQJmjNx3B7FPb1ovPOLuDZaUoWDfSI0GFkGIAzrVpISG/RKGWDef3FlThf
-	A6JCZRDp/GvxbeCQ==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=KVrZpy0RdPySj2UWsz+rM5mkyWuU4qpCsSQWAOcV+VY=;
+	b=H71aLf99mx3pjWZB0F6R/GogGn4JS0zNpGimNKCIvCMDR2sBKE+FP1kmZXMHyziTZGBdGg
+	Bpl/q+TJ7z3rjqCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1CBF91349D;
-	Mon, 18 Mar 2024 09:39:08 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 421271349D;
+	Mon, 18 Mar 2024 09:39:04 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id vHqSBbwL+GW6UAAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Mon, 18 Mar 2024 09:39:08 +0000
+	id F7WsDrgL+GWhUAAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Mon, 18 Mar 2024 09:39:04 +0000
 From: Daniel Wagner <dwagner@suse.de>
 To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 Cc: linux-block@vger.kernel.org,
@@ -86,17 +78,15 @@ Cc: linux-block@vger.kernel.org,
 	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
 	Hannes Reinecke <hare@suse.de>,
 	Daniel Wagner <dwagner@suse.de>
-Subject: [RFC blktests v1 06/10] nvme/rc: remove unused connect options
-Date: Mon, 18 Mar 2024 10:38:51 +0100
-Message-ID: <20240318093856.22307-7-dwagner@suse.de>
+Subject: [RFC blktests v1 00/10] Add support to run against real target
+Date: Mon, 18 Mar 2024 10:38:45 +0100
+Message-ID: <20240318093856.22307-1-dwagner@suse.de>
 X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240318093856.22307-1-dwagner@suse.de>
-References: <20240318093856.22307-1-dwagner@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
+Authentication-Results: smtp-out1.suse.de;
 	none
-X-Spamd-Result: default: False [-0.29 / 50.00];
+X-Spamd-Result: default: False [0.71 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
 	 FROM_HAS_DN(0.00)[];
@@ -104,22 +94,21 @@ X-Spamd-Result: default: False [-0.29 / 50.00];
 	 R_MISSING_CHARSET(2.50)[];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
 	 MIME_GOOD(-0.10)[text/plain];
-	 REPLY(-4.00)[];
 	 BROKEN_CONTENT_TYPE(1.50)[];
 	 RCPT_COUNT_FIVE(0.00)[6];
-	 NEURAL_HAM_LONG(-1.00)[-0.998];
+	 NEURAL_HAM_LONG(-1.00)[-0.997];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-0.979];
+	 NEURAL_HAM_SHORT(-0.20)[-0.984];
 	 MID_CONTAINS_FROM(1.00)[];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[]
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240318_023909_786720_0B17C71F 
-X-CRM114-Status: UNSURE (   8.52  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240318_023909_255957_DBDC7960 
+X-CRM114-Status: GOOD (  15.65  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,58 +123,141 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-These options are not used, thus remove them.
+As preperation for the planed discussion during LSFMM on
 
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
----
- tests/nvme/rc | 19 ++-----------------
- 1 file changed, 2 insertions(+), 17 deletions(-)
+ - running blktest against real hardare/target[1]
 
-diff --git a/tests/nvme/rc b/tests/nvme/rc
-index c23f6fe09b6a..af48593e2cb7 100644
---- a/tests/nvme/rc
-+++ b/tests/nvme/rc
-@@ -422,9 +422,6 @@ _nvme_connect_subsys() {
- 	local positional_args=()
- 	local trtype=""
- 	local subsysnqn=""
--	local traddr="$def_traddr"
--	local host_traddr="$def_host_traddr"
--	local trsvcid="$def_trsvcid"
- 	local hostnqn="$def_hostnqn"
- 	local hostid="$def_hostid"
- 	local hostkey=""
-@@ -440,18 +437,6 @@ _nvme_connect_subsys() {
- 
- 	while [[ $# -gt 0 ]]; do
- 		case $1 in
--			--traddr)
--				traddr="$2"
--				shift 2
--				;;
--			--host-traddr)
--				host_traddr="$2"
--				shift 2
--				;;
--			--trsvcid)
--				trsvcid="$2"
--				shift 2
--				;;
- 			--hostnqn)
- 				hostnqn="$2"
- 				shift 2
-@@ -510,9 +495,9 @@ _nvme_connect_subsys() {
- 
- 	ARGS=(--transport "${trtype}" --nqn "${subsysnqn}")
- 	if [[ "${trtype}" == "fc" ]] ; then
--		ARGS+=(--traddr "${traddr}" --host-traddr "${host_traddr}")
-+		ARGS+=(--traddr "${def_traddr}" --host-traddr "${def_host_traddr}")
- 	elif [[ "${trtype}" != "loop" ]]; then
--		ARGS+=(--traddr "${traddr}" --trsvcid "${trsvcid}")
-+		ARGS+=(--traddr "${def_traddr}" --trsvcid "${def_trsvcid}")
- 	fi
- 	ARGS+=(--hostnqn="${hostnqn}")
- 	ARGS+=(--hostid="${hostid}")
+I've played a bit around with this idea. It was fairly simple to get it going,
+because all the NVMEeoF tests use the common setup/cleanup helpers and allow an
+external script to run instead. I've wrote a simple Python script, which then
+forwards the setup/cleanup requests to nvmetcli with Hannes' rpc changes [2].
+
+Thus, I still run blktests against a Linux soft target over TCP. This already
+uncovered an issue with xfs formatted disk. The test passes if the disk
+formatted with btrfs. It seems worthwhile to extend these tests, as it is able
+detect new problems:
+
+  Running nvme/012
+  umount: /mnt/blktests: not mounted.
+  meta-data=/dev/nvme0n1           isize=512    agcount=4, agsize=327680 blks
+           =                       sectsz=512   attr=2, projid32bit=1
+           =                       crc=1        finobt=1, sparse=1, rmapbt=1
+           =                       reflink=1    bigtime=1 inobtcount=1 nrext64=1
+  data     =                       bsize=4096   blocks=1310720, imaxpct=25
+           =                       sunit=0      swidth=0 blks
+  naming   =version 2              bsize=4096   ascii-ci=0, ftype=1
+  log      =internal log           bsize=4096   blocks=16384, version=2
+           =                       sectsz=512   sunit=0 blks, lazy-count=1
+  realtime =none                   extsz=4096   blocks=0, rtextents=0
+  Discarding blocks...Done.
+  mount: /mnt/blktests: mount(2) system call failed: Structure needs cleaning.
+         dmesg(1) may have more information after failed mount system call.
+  
+With btrfs:
+
+  Running nvme/012
+  umount: /mnt/blktests: not mounted.
+  btrfs-progs v6.7
+  See https://btrfs.readthedocs.io for more information.
+  
+  Performing full device TRIM /dev/nvme0n1 (5.00GiB) ...
+  NOTE: several default settings have changed in version 5.15, please make sure
+        this does not affect your deployments:
+        - DUP for metadata (-m dup)
+        - enabled no-holes (-O no-holes)
+        - enabled free-space-tree (-R free-space-tree)
+  
+  Label:              (null)
+  UUID:               7f0e210f-907b-4b87-9a98-fab0d9d60c56
+  Node size:          16384
+  Sector size:        4096
+  Filesystem size:    5.00GiB
+  Block group profiles:
+    Data:             single            8.00MiB
+    Metadata:         DUP             256.00MiB
+    System:           DUP               8.00MiB
+  SSD detected:       yes
+  Zoned device:       no
+  Incompat features:  extref, skinny-metadata, no-holes, free-space-tree
+  Runtime features:   free-space-tree
+  Checksum:           crc32c
+  Number of devices:  1
+  Devices:
+     ID        SIZE  PATH
+      1     5.00GiB  /dev/nvme0n1
+  
+
+I am still running a bit older verion of the kernel (v6.8-rc3); this might
+be fixed already.
+
+
+  nvme/002 (create many subsystems and test discovery)         [not run]
+      nvme_trtype=tcp is not supported in this test
+  nvme/003 (test if we're sending keep-alives to a discovery controller) [passed]
+      runtime  12.696s  ...  12.943s
+  nvme/004 (test nvme and nvmet UUID NS descriptors)           [passed]
+      runtime  2.895s  ...  2.765s
+  nvme/005 (reset local loopback target)                       [passed]
+      runtime  2.961s  ...  2.929s
+  nvme/006 (create an NVMeOF target with a block device-backed ns) [passed]
+      runtime  1.389s  ...  1.324s
+  nvme/007 (create an NVMeOF target with a file-backed ns)     [passed]
+      runtime  1.338s  ...  1.337s
+  nvme/008 (create an NVMeOF host with a block device-backed ns) [passed]
+      runtime  2.797s  ...  2.764s
+  nvme/009 (create an NVMeOF host with a file-backed ns)       [passed]
+      runtime  2.804s  ...  2.775s
+  nvme/010 (run data verification fio job on NVMeOF block device-backed ns) [passed]
+      runtime  21.120s  ...  40.042s
+  nvme/011 (run data verification fio job on NVMeOF file-backed ns) [passed]
+      runtime  39.702s  ...  40.838s
+  nvme/012 (run mkfs and data verification fio job on NVMeOF block device-backed ns) [failed]
+      runtime  157.538s  ...  3.170s
+      --- tests/nvme/012.out      2023-11-28 12:59:52.704838920 +0100
+      +++ /home/wagi/work/blktests/results/nodev/nvme/012.out.bad 2024-03-18 10:04:38.572222634 +0100
+      @@ -1,3 +1,4 @@
+       Running nvme/012
+      +FAIL: fio verify failed
+       disconnected 1 controller(s)
+       Test complete
+  [...]
+  
+  
+[1] https://lore.kernel.org/linux-nvme/23fhu43orn5yyi6jytsyez3f3d7liocp4cat5gfswtan33m3au@iyxhcwee6wvk/
+[2] https://github.com/hreinecke/nvmetcli/tree/rpc
+
+Daniel Wagner (10):
+  common/xfs: propagate errors from _xfs_run_fio_verify_io
+  nvme/{012,013,035}: check return value of _xfs_run_fio_verify_io
+  nvme/rc: use long command line option for nvme
+  nvme/{014,015,018,019,020,023,024,026,045,046}: use long command line
+    option for nvme
+  nvme/rc: connect subsys only support long options
+  nvme/rc: remove unused connect options
+  nvme/rc: add nqn/uuid args to target setup/cleanup helper
+  nvme/031: do not open code target setup/cleanup
+  nvme/rc: introduce remote target support
+  nvme/030: only run against kernel soft target
+
+ common/xfs     |   9 +++-
+ tests/nvme/012 |   4 +-
+ tests/nvme/013 |   4 +-
+ tests/nvme/014 |   2 +-
+ tests/nvme/015 |   2 +-
+ tests/nvme/018 |   3 +-
+ tests/nvme/019 |   3 +-
+ tests/nvme/020 |   3 +-
+ tests/nvme/023 |   3 +-
+ tests/nvme/024 |   3 +-
+ tests/nvme/026 |   3 +-
+ tests/nvme/030 |   1 +
+ tests/nvme/031 |  10 ++--
+ tests/nvme/035 |   4 +-
+ tests/nvme/045 |   6 +--
+ tests/nvme/046 |   7 +--
+ tests/nvme/rc  | 142 ++++++++++++++++++++++++++++++++++---------------
+ 17 files changed, 141 insertions(+), 68 deletions(-)
+
 -- 
 2.44.0
 
