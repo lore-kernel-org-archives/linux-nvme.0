@@ -4,50 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BE651C54E60
-	for <linux-nvme@archiver.kernel.org>; Sun, 17 Mar 2024 20:36:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2F60C54E60
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Mar 2024 02:18:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WpM7APihcKQtMvzuapLZyOp2x53r3GT9Tq6/HjpPAeA=; b=ZBLgWqs5PDcxkWI2YR7fNRhNPB
-	J2WRPwIaJWRnbCe5inkXYXRYK33iCm4/9mwZc8yKTHofI4kN0MrvCOEBwm7RoTJBQY4C3JS4v8uYj
-	XxPHk+w5p3KLtEGs2tfnhgZYuAtt1GZWNg5SQVD6bqTrfFx/5e6IkwXAMEEabb4x6BWv1kgeXhaTl
-	yjVk5mXWL2zgRw50JvWB4aiH0Yz2ZMSwVDaljiFtBBMeIWxByyn07om32aR5aWVp/Ky5PwecyQ/wb
-	STeLcIBcstzkMsRPMRJkrgdl71VNu4+uu1VOewpIWCT/I8PQnG3qWw4pSHacW1lQDopbizjsJFhw0
-	j267p4bg==;
+	bh=Ie9Ap0Vg8rzZC4lIOYHUtldkDGU569+6gIelLh9GLyA=; b=cdENoKSSLIilZlNg9JikbIn2u2
+	k3cPxd+ffT4S4xJhCyQDrMcEasRMp4vmC4mnHfoI49RpgkSIPaQfnbVXvLeNa8WgQwYHHb+4rjbQ5
+	6w6CqioNQgSZ6DKEmMXH2zw+M57DCHxAGQx0iX1UwC84YRScNNlZixoiijhdE8S7Xp2cj4IAosjvT
+	+ChPMRq5WZzUAzfRh5nIjK3F5fmaiG6A86G3SkLUvljlL3IBRGp4rBPqOHWJ+9KMG6UQ+YcC79kXH
+	QKRtyGrwblyYR+cpXJctlG2/e6AMuxdNHXSwXQWJN+TwvxdYf67zudX+eW/sYRKMyFaZKPzxkW0lm
+	eUDEq7kQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rlxFU-00000006NEy-04I9;
-	Sun, 17 Mar 2024 20:36:52 +0000
-Received: from verein.lst.de ([213.95.11.211])
-	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rlxFR-00000006NEL-2SKQ
-	for linux-nvme@lists.infradead.org;
-	Sun, 17 Mar 2024 20:36:51 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id A530668C7B; Sun, 17 Mar 2024 21:36:45 +0100 (CET)
-Date: Sun, 17 Mar 2024 21:36:45 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: kernel test robot <oliver.sang@intel.com>
-Cc: Christoph Hellwig <hch@lst.de>, oe-lkp@lists.linux.dev, lkp@intel.com,
-	linux-kernel@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
-	Max Gurtovoy <mgurtovoy@nvidia.com>, linux-nvme@lists.infradead.org,
-	ying.huang@intel.com, feng.tang@intel.com, fengwei.yin@intel.com
-Subject: Re: [linus:master] [nvme]  63dfa10043:  fsmark.files_per_sec 6.4%
- improvement
-Message-ID: <20240317203645.GB5975@lst.de>
-References: <202403151552.e3809b61-oliver.sang@intel.com>
+	id 1rm2a0-000000071ON-2SiR;
+	Mon, 18 Mar 2024 02:18:24 +0000
+Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rm2Zx-000000071NT-3n7C;
+	Mon, 18 Mar 2024 02:18:21 +0000
+Date: Sun, 17 Mar 2024 19:18:21 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: Christoph Hellwig <hch@infradead.org>, Keith Busch <kbusch@kernel.org>,
+	axboe@fb.com, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, Gregory Joyce <gjoyce@ibm.com>
+Subject: Re: [Bug Report] nvme-cli fails re-formatting NVMe namespace
+Message-ID: <Zfekbf0V5Dpsk_nf@infradead.org>
+References: <7a3b35dd-7365-4427-95a0-929b28c64e73@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202403151552.e3809b61-oliver.sang@intel.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240317_133649_808282_38273317 
-X-CRM114-Status: GOOD (  10.54  )
+In-Reply-To: <7a3b35dd-7365-4427-95a0-929b28c64e73@linux.ibm.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,22 +52,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Mar 15, 2024 at 04:21:13PM +0800, kernel test robot wrote:
-> 
-> 
-> Hello,
-> 
-> kernel test robot noticed a 6.4% improvement of fsmark.files_per_sec on:
-> 
-> 
-> commit: 63dfa1004322d596417f23da43cdc43cf6298c71 ("nvme: move NVME_QUIRK_DEALLOCATE_ZEROES out of nvme_config_discard")
-> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git master
-> 
-> testcase: fsmark
-> test machine: 96 threads 2 sockets Intel(R) Xeon(R) Platinum 8260L CPU @ 2.40GHz (Cascade Lake) with 128G memory
-> parameters:
+Hi Nilay,
 
-That is kinda odd and unexpected.  Is this system using one of the old
-Intel SSDs that this quirk is actually used for?
+thanks for the report!
 
+I'm currently travelling without easy hardware access, but can you try
+the patch below?  This simply rebuilds the limits from scratch.  It
+probably wants a bit of a cleanup if it works, but this should be
+fine for testing:
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 00864a63447099..9ef41e65fc83bd 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2215,10 +2215,13 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_ns_info *info)
+ 		set_disk_ro(ns->head->disk, nvme_ns_is_readonly(ns, info));
+ 		nvme_mpath_revalidate_paths(ns);
+ 
+-		lim = queue_limits_start_update(ns->head->disk->queue);
++		blk_set_stacking_limits(&lim);
++		lim.dma_alignment = 3;
++		if (info->ids.csi != NVME_CSI_ZNS)
++			lim.max_zone_append_sectors = 0;
+ 		queue_limits_stack_bdev(&lim, ns->disk->part0, 0,
+ 					ns->head->disk->disk_name);
+-		ret = queue_limits_commit_update(ns->head->disk->queue, &lim);
++		ret = queue_limits_set(ns->head->disk->queue, &lim);
+ 		blk_mq_unfreeze_queue(ns->head->disk->queue);
+ 	}
+ 
 
