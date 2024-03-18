@@ -4,123 +4,112 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C79D0C54E58
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Mar 2024 10:46:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 842B0C54E58
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Mar 2024 11:22:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vyzDDp3p3lrp1DsUfN/vs/oKyxmll6oQP8NBXF15qX8=; b=NKZskQBu5QwqpZTaMDqqFNYBv5
-	5NKifqc3p7c8o/5k/CIm0oXWciC9EY4wvZ4k8/tpKSRHGKm6MltMSRfCjZ61sFpecoBkkqLBKrdwA
-	XaUZjQUq4ADtxILPF3ASOEtKvjiAif8kF5cqqb3gcr2VJGiCfoGBPbVWiJCoBnHsoF4FZ5nBgUy+T
-	YbWRkXGOsIOo6YyjYntyVQWHjLDLOTDkNdAykVLRobfdwVyBsByZBBhTN5VZ7oE0QdELDbubB7Ro2
-	ETD/BMpDK89oqDPEf8Ks2TeBHh8QRAfV1gQhR6jii8JlAZzkvlamS4nP2TUP7x8fBN/+fqnrWmuYN
-	5NwottnA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=xyDiAoO1HQWO4tJreiq3N0r6YS1UZX2dwO6bh5L6qhY=; b=3COqgnbzuY5CX9GFS6kuyzUZ38
+	WzPw0uZ6PDWKq0bhLKz1IK4UHFlAf8YSa2+lRWJbafvtkTVpdXDaOmR6Llv3CBSIR04QSweWeUM6R
+	eQXYne8RsrgIzsfhtnfMR1j89ch73Gi0048MVBOvW5waWlMCHjah2Yhoz1BayeV9kCH0QCnWp6w2I
+	L3C79biBMcqytnWaU6bxmQObI0q0JyPIuzazTY9B5ux1zmB1N9NnqwL7ptpzBcTYbBpoZ4MwVdAgN
+	ESvJtxN7kqobx+jlhxLLKZ3QTkU0uwAibmUhmOPU4qbu+teCfBsFG50h9f++w6lsfN80ibzfihLOo
+	l2HHXB2Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmAVX-00000008Cn5-1Kdn;
-	Mon, 18 Mar 2024 10:46:19 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1rmB4G-00000008L2z-2lly;
+	Mon, 18 Mar 2024 11:22:12 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rm9SZ-00000007xGV-1dHd
+	id 1rmB44-00000008L1G-1RHi
 	for linux-nvme@lists.infradead.org;
-	Mon, 18 Mar 2024 09:39:50 +0000
+	Mon, 18 Mar 2024 11:22:11 +0000
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 033F634880;
-	Mon, 18 Mar 2024 09:39:10 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id F34055C45E;
+	Mon, 18 Mar 2024 11:21:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1710754750; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	t=1710760918; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vyzDDp3p3lrp1DsUfN/vs/oKyxmll6oQP8NBXF15qX8=;
-	b=NlJr2Qf3YeogvOMi8IwuzUlxL2PU9NpdK6h7jBMaDbN0/kqxADEdi0AMH34C7bJJIBLsKh
-	rcfgM+8G6FruR0pjbPK1L4UKJu/jUBHb8i6eF5d8aLKYWMBRwLin9wztmZ9JWWdKGCRAhq
-	x4hr9wc5k7bf2DIOe/CJTbta/jJkZRs=
+	bh=xyDiAoO1HQWO4tJreiq3N0r6YS1UZX2dwO6bh5L6qhY=;
+	b=Olz9khKrXFnF9txCih6MQ95RWJzqLlYSK+ZcOI8SPlZBZLX5etRL4C39D70rV/kIOFnvcx
+	/FBuqej3G1EMsxWdnHsQDpb7V46V9NmfOEwHxvT4XE1kJR1WDxaVe+mWApvOHAAp4QEbYe
+	JECp8PI1dyEuf/BKrpdkYYvmklfaAss=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1710754750;
+	s=susede2_ed25519; t=1710760918;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vyzDDp3p3lrp1DsUfN/vs/oKyxmll6oQP8NBXF15qX8=;
-	b=iGBZS/B5BPrEVXUMCQAl9gpZm/zSorlXZh1gt259ZP428ocuDK2HjJl6ITH9O2XTsPPLMQ
-	TySliGGt+Uza9QCw==
+	bh=xyDiAoO1HQWO4tJreiq3N0r6YS1UZX2dwO6bh5L6qhY=;
+	b=MN9oiW/+FDRFZACWRmG8yJ67lVFwqibh4jCa50abYV0OPESR0+gbmXLiKKu59Luwdbthph
+	xWw8IXGEGgyp6iBg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1710754750; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	t=1710760918; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vyzDDp3p3lrp1DsUfN/vs/oKyxmll6oQP8NBXF15qX8=;
-	b=NlJr2Qf3YeogvOMi8IwuzUlxL2PU9NpdK6h7jBMaDbN0/kqxADEdi0AMH34C7bJJIBLsKh
-	rcfgM+8G6FruR0pjbPK1L4UKJu/jUBHb8i6eF5d8aLKYWMBRwLin9wztmZ9JWWdKGCRAhq
-	x4hr9wc5k7bf2DIOe/CJTbta/jJkZRs=
+	bh=xyDiAoO1HQWO4tJreiq3N0r6YS1UZX2dwO6bh5L6qhY=;
+	b=Olz9khKrXFnF9txCih6MQ95RWJzqLlYSK+ZcOI8SPlZBZLX5etRL4C39D70rV/kIOFnvcx
+	/FBuqej3G1EMsxWdnHsQDpb7V46V9NmfOEwHxvT4XE1kJR1WDxaVe+mWApvOHAAp4QEbYe
+	JECp8PI1dyEuf/BKrpdkYYvmklfaAss=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1710754750;
+	s=susede2_ed25519; t=1710760918;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vyzDDp3p3lrp1DsUfN/vs/oKyxmll6oQP8NBXF15qX8=;
-	b=iGBZS/B5BPrEVXUMCQAl9gpZm/zSorlXZh1gt259ZP428ocuDK2HjJl6ITH9O2XTsPPLMQ
-	TySliGGt+Uza9QCw==
+	bh=xyDiAoO1HQWO4tJreiq3N0r6YS1UZX2dwO6bh5L6qhY=;
+	b=MN9oiW/+FDRFZACWRmG8yJ67lVFwqibh4jCa50abYV0OPESR0+gbmXLiKKu59Luwdbthph
+	xWw8IXGEGgyp6iBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E57651349D;
-	Mon, 18 Mar 2024 09:39:09 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A92061349D;
+	Mon, 18 Mar 2024 11:21:57 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id a052Nr0L+GXCUAAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Mon, 18 Mar 2024 09:39:09 +0000
+	id VwTgJ9Uj+GWkdAAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Mon, 18 Mar 2024 11:21:57 +0000
+Date: Mon, 18 Mar 2024 12:21:57 +0100
 From: Daniel Wagner <dwagner@suse.de>
 To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	Hannes Reinecke <hare@suse.de>,
-	Daniel Wagner <dwagner@suse.de>
-Subject: [RFC blktests v1 08/10] nvme/031: do not open code target setup/cleanup
-Date: Mon, 18 Mar 2024 10:38:54 +0100
-Message-ID: <20240318093856.22307-10-dwagner@suse.de>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240318093856.22307-1-dwagner@suse.de>
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>, Hannes Reinecke <hare@suse.de>
+Subject: Re: [RFC blktests v1 00/10] Add support to run against real target
+Message-ID: <bve2fx5ywd2efqgakhgtzhyc6tbthfoiqjcsgurdoapv6qisgr@5r4bus3ipqnh>
 References: <20240318093856.22307-1-dwagner@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spamd-Result: default: False [-1.38 / 50.00];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240318093856.22307-1-dwagner@suse.de>
+X-Spamd-Result: default: False [5.92 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
 	 FROM_HAS_DN(0.00)[];
 	 TO_DN_SOME(0.00)[];
-	 R_MISSING_CHARSET(2.50)[];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_SPAM_SHORT(3.00)[0.999];
 	 MIME_GOOD(-0.10)[text/plain];
-	 REPLY(-4.00)[];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 RCPT_COUNT_FIVE(0.00)[6];
-	 NEURAL_HAM_LONG(-1.00)[-0.998];
-	 R_RATELIMIT(0.00)[to_ip_from(RLm9s6cmri9k4spo5w97m8fq33)];
+	 RCPT_COUNT_FIVE(0.00)[5];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-0.979];
-	 MID_CONTAINS_FROM(1.00)[];
+	 NEURAL_SPAM_LONG(3.50)[1.000];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
 	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-1.09)[88.09%]
+	 BAYES_HAM(-0.97)[86.87%]
+Authentication-Results: smtp-out2.suse.de;
+	none
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240318_023911_793045_C46F14FA 
-X-CRM114-Status: UNSURE (   9.68  )
+X-CRM114-CacheID: sfid-20240318_042200_568226_0C0B29B6 
+X-CRM114-Status: UNSURE (   7.20  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -136,38 +125,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-No need to open code the target setup and cleanup step. Just use the
-common helper to setup and cleanup the target.
+On Mon, Mar 18, 2024 at 10:38:45AM +0100, Daniel Wagner wrote:
+> [1] https://lore.kernel.org/linux-nvme/23fhu43orn5yyi6jytsyez3f3d7liocp4cat5gfswtan33m3au@iyxhcwee6wvk/
+> [2] https://github.com/hreinecke/nvmetcli/tree/rpc
 
-Signed-off-by: Daniel Wagner <dwagner@suse.de>
----
- tests/nvme/031 | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+The series is also available here:
 
-diff --git a/tests/nvme/031 b/tests/nvme/031
-index ed5f19668674..892a52170ce9 100755
---- a/tests/nvme/031
-+++ b/tests/nvme/031
-@@ -40,14 +40,12 @@ test() {
- 	port="$(_create_nvmet_port "${nvme_trtype}")"
- 
- 	for ((i = 0; i < iterations; i++)); do
--		_create_nvmet_subsystem "${subsys}$i" "${loop_dev}"
--		_add_nvmet_subsys_to_port "${port}" "${subsys}$i"
--		_create_nvmet_host "${subsys}$i" "${def_hostnqn}"
-+		_nvmet_target_setup --subsysnqn "${subsys}$i" --blkdev "${loop_dev}"
-+
- 		_nvme_connect_subsys "${nvme_trtype}" "${subsys}$i"
- 		_nvme_disconnect_subsys "${subsys}$i" >> "${FULL}" 2>&1
--		_remove_nvmet_subsystem_from_port "${port}" "${subsys}$i"
--		_remove_nvmet_subsystem "${subsys}$i"
--		_remove_nvmet_host "${def_hostnqn}"
-+
-+		_nvmet_target_cleanup --subsysnqn "${subsys}$i"
- 	done
- 
- 	_remove_nvmet_port "${port}"
--- 
-2.44.0
+https://github.com/igaw/blktests/commits/ext-hw/
 
+which includes the mentioned Python script. As indicated it's just a WIP:
+
+https://github.com/igaw/blktests/commit/ca1fe59b5ed67198228bcc017cfbbd25b797b868
 
