@@ -4,89 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F1ACEC54E5D
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Mar 2024 08:56:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DF0B3C54E5D
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Mar 2024 09:39:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:To:References:Message-Id:
-	Content-Transfer-Encoding:Cc:Date:In-Reply-To:From:Subject:Mime-Version:
-	Content-Type:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yNVmnw5toWb8ERcsPGfVr3oGNxB/ZS9svnfOKz1b0WI=; b=2XcCnzb9Uyh1Iwuvh8FZ/Y2e/A
-	alhmRQJqlyunhKNJOiF5i1L1fqaLoaL7IWHVjIRMXPTqlP2dDUfATH4XSxLqaX8HzVLatK0LI5Hnm
-	Om/Db/WJt5VUZCAHvxHPNcVmdRB5ep3FJCcf95bSxnL+HUzrlBTynm0vf5pR+epKOya5Ae2NOG7QL
-	rFlZxIKfyys9AXPMkgULD2iYzc1fJljQqcXmiG4sj+Gtb+mbWWYTx/gAO+0Bw2DwhJarnxOtw0Fu0
-	igsD9cXZ0XcsB/2kzgDF1StNXncfCzvwNqsOGsvQ1+rz2ADXD8OaWkdzb1J/i9csE4Pm3U3KxwANU
-	OE13iGWQ==;
+	bh=YI2CBx8BIa8CSsKBnOyhZ/dTKMZfvGnVLkV71KB7Krk=; b=MdNgNCkMvyEGQPXrmVRveiROLm
+	ukrRa1ImKgcZUsWIZFrBIMZJYN//20KINIMFhf7VDtmeqw7O8morL3gVL3kGSP2keH8wDZ+XWW/LL
+	6zjpU82cAnKKlVVIRfTdCMuSJDsmL4QQt4zYj9IeobeeBwXFNJbvMKBTRKHOoKIkNIkfbEzhzwfoh
+	u/m6WjYmlRg9NFF2bDiRvlG4gN775L02S2QxWmzKQWr+c9Hgt/fGLnJuWTmGbeBlTTjaTwoKWhNmw
+	y5HDOLapgF8fuNrWODUox4ChEmm8wzQttEAT8tDOp1CpUlBeDYmWI44sqC0LY0oyY/zEWWR1q5dAU
+	6jj9vyCw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rm8nP-00000007pNZ-2RRk;
-	Mon, 18 Mar 2024 08:56:39 +0000
-Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335])
+	id 1rm9Sa-00000007xH9-23bk;
+	Mon, 18 Mar 2024 09:39:12 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rm8nJ-00000007pMo-0hYw
+	id 1rm9SW-00000007xDP-3lyK
 	for linux-nvme@lists.infradead.org;
-	Mon, 18 Mar 2024 08:56:35 +0000
-Received: by mail-ot1-x335.google.com with SMTP id 46e09a7af769-6e682dbd84bso994536a34.0
-        for <linux-nvme@lists.infradead.org>; Mon, 18 Mar 2024 01:56:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smartx-com.20230601.gappssmtp.com; s=20230601; t=1710752190; x=1711356990; darn=lists.infradead.org;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yNVmnw5toWb8ERcsPGfVr3oGNxB/ZS9svnfOKz1b0WI=;
-        b=wETw0vRfryD9HHbf/dacrEruMsyMal3BsJvwFNhoWSBblWov2e9uC34OR+YnM4BvZK
-         wNNoNXgUEdD9p8xH5C3S6+Irs9e03jNGCASb6igLVifQYX/0aAlCZNRxI23XVGQLeVwd
-         No1J97URMY1n48xjaM8iMFI5mee9jC8tSxGUMY9V0F/fBf5VcdF8pACHieizXEwOWIM9
-         MMCoe4Xuc3KKZLkD9OmBQgslENTDimp3AQ50200vpDuce1uyvRCql1G1voVtviAe5724
-         xpfVCZumiSilRFS5hlrztxWjuHz5MKzvBJRtxGaJHRD7MoOpISxHmPPQWOeLu2c7v4A5
-         9xpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710752190; x=1711356990;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yNVmnw5toWb8ERcsPGfVr3oGNxB/ZS9svnfOKz1b0WI=;
-        b=FWLGQIKSGHAQeeyVPZZqxbyoTNs9ArPveRXs916KuCSkQh/OchzIQY6RQRJ8XGLcBQ
-         PiNix3A19zbQd67idFmyFB7WvlZdKWjn3nUT/9IklSZW3U7/ap+NHVAZ7b80LriWte12
-         LjmhvJP2gYH+iG4Ey8Mf8oEyblyC2wfZZDfsSdgFooECQVHrOBzFIy2zhQBqeyNVbDVt
-         k/gTM+P+Ld+otqXkYiWR0mPg339TyE0qeMnHEkhBUabg7aj77hRY2H9HcYQ8dNaqZlCQ
-         KBBZSXoBlUdZFUfbPumjeYqWpk1ZQkyqz7hmoKIzSkS2gv/tJEAH4lh8i3e1ZWRJgt33
-         VttA==
-X-Forwarded-Encrypted: i=1; AJvYcCUzzTTOT2bp/VqdpPfOLTstFC9IQodj3H98/P+Kc9Kuf90CrrXKkhu6HhZqn/JeM4aDFq0LuJaGIdOkDFv9qkzN69SuzVXhKuVmaEwMVek=
-X-Gm-Message-State: AOJu0YwdvHDJWU94UQ/fM6txQo2gdp3Fm+tNttFuwapnSoXuIS7rZt7l
-	0t1ci6ZRAYSBdh+c1buo2EQNuWqrwOdAojFsx/5s+XA9CxgcqbJTEP2H8bmoUgh9QvOKKbdugDd
-	U/2BnfA==
-X-Google-Smtp-Source: AGHT+IEdO/tHuBAkjt3y9oKQtxXQsLM0K+r5V5CdjrWyRPB3aidDD7XCyC+3s4Gpea/J8A7N65zmIQ==
-X-Received: by 2002:a05:6830:168d:b0:6e5:390:5b44 with SMTP id k13-20020a056830168d00b006e503905b44mr13391333otr.30.1710752189570;
-        Mon, 18 Mar 2024 01:56:29 -0700 (PDT)
-Received: from smtpclient.apple ([8.210.91.195])
-        by smtp.gmail.com with ESMTPSA id d15-20020a631d0f000000b005e4666261besm6667101pgd.50.2024.03.18.01.56.27
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 18 Mar 2024 01:56:29 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.100.2.1.4\))
-Subject: Re: [PATCH v2 2/2] nvme/tcp: Add wq_unbound modparam for nvme_tcp_wq
-From: Li Feng <fengli@smartx.com>
-In-Reply-To: <096362ad-174e-4939-8296-e0d11f83a120@grimberg.me>
-Date: Mon, 18 Mar 2024 16:56:35 +0800
-Cc: Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>,
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Anton Gavriliuk <Anton.Gavriliuk@hpe.ua>
-Content-Transfer-Encoding: 7bit
-Message-Id: <9E577C75-AEF2-4C22-8B85-4BCE8E2B65A5@smartx.com>
-References: <20240313123816.625115-1-fengli@smartx.com>
- <20240313123816.625115-2-fengli@smartx.com>
- <096362ad-174e-4939-8296-e0d11f83a120@grimberg.me>
-To: Sagi Grimberg <sagi@grimberg.me>
-X-Mailer: Apple Mail (2.3774.100.2.1.4)
+	Mon, 18 Mar 2024 09:39:10 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id ED0C25C336;
+	Mon, 18 Mar 2024 09:39:04 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DB2431349D;
+	Mon, 18 Mar 2024 09:39:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id oOoPNLgL+GWlUAAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Mon, 18 Mar 2024 09:39:04 +0000
+From: Daniel Wagner <dwagner@suse.de>
+To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	Hannes Reinecke <hare@suse.de>,
+	Daniel Wagner <dwagner@suse.de>
+Subject: [RFC blktests v1 01/10] common/xfs: propagate errors from _xfs_run_fio_verify_io
+Date: Mon, 18 Mar 2024 10:38:46 +0100
+Message-ID: <20240318093856.22307-2-dwagner@suse.de>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240318093856.22307-1-dwagner@suse.de>
+References: <20240318093856.22307-1-dwagner@suse.de>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	 REPLY(-4.00)[]
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Rspamd-Queue-Id: ED0C25C336
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240318_015633_369371_BFEA5311 
-X-CRM114-Status: GOOD (  10.88  )
+X-CRM114-CacheID: sfid-20240318_023909_184633_A9BCC780 
+X-CRM114-Status: UNSURE (   9.74  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,14 +82,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+If _xfs_mkfs_and_mount fails _xfs_run_fio_verify_io will continue to
+execute and fio will run against the local file system instead against
+the block device.
 
+Propagate all errors back to the caller.
 
-> On Mar 17, 2024, at 15:31, Sagi Grimberg <sagi@grimberg.me> wrote:
-> 
-> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-> 
-> Does this get you the functionality you want Li?
+Signed-off-by: Daniel Wagner <dwagner@suse.de>
+---
+ common/xfs | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-Yes, it meets my performance needs.
+diff --git a/common/xfs b/common/xfs
+index 37ce85878df2..569770fecd53 100644
+--- a/common/xfs
++++ b/common/xfs
+@@ -16,7 +16,7 @@ _xfs_mkfs_and_mount() {
+ 
+ 	mkdir -p "${mount_dir}"
+ 	umount "${mount_dir}"
+-	mkfs.xfs -l size=64m -f "${bdev}"
++	mkfs.xfs -l size=64m -f "${bdev}" || return $?
+ 	mount "${bdev}" "${mount_dir}"
+ }
+ 
+@@ -27,8 +27,10 @@ _xfs_run_fio_verify_io() {
+ 	local sz_mb
+ 	local avail
+ 	local avail_mb
++	local rc
+ 
+-	_xfs_mkfs_and_mount "${bdev}" "${mount_dir}" >> "${FULL}" 2>&1
++	_xfs_mkfs_and_mount "${bdev}" "${mount_dir}" \
++		>>"${FULL}" 2>&1 || return $?
+ 
+ 	avail="$(df --output=avail "${mount_dir}" | tail -1)"
+ 	avail_mb="$((avail / 1024))"
+@@ -43,7 +45,10 @@ _xfs_run_fio_verify_io() {
+ 	fi
+ 
+ 	_run_fio_verify_io --size="${sz_mb}m" --directory="${mount_dir}/"
++	rc=$?
+ 
+ 	umount "${mount_dir}" >> "${FULL}" 2>&1
+ 	rm -fr "${mount_dir}"
++
++	return "${rc}"
+ }
+-- 
+2.44.0
 
 
