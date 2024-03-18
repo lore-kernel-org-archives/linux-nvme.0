@@ -4,114 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D8FEC54E5D
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 Mar 2024 13:40:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 88CFDC54E58
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 Mar 2024 15:03:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Subject:From:To:MIME-Version:Date:Message-ID:Reply-To:Cc:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=6oXFvS9610RzB0va1HdQyUtjbXD54ats5fKJEVvh3i0=; b=MVabkO6njgBDWdNDOF+ylnwX2t
-	9NV/eFZ2t8n/4N6H8YHsjjULRIhmJYp59dAD/lnrzwJLxl0ueim8AWh1afJBs2oXKYN5Sdl6m8FvE
-	MvN+rsOZ1vKv/3+zda7nGDx1sl3Q45sdAA4yxNjaBAWknqo4/c4HgYh3Gs27IqSGDrVYDn8FJbFQM
-	BjK00LZ5twIt8enJnj851rUJMGN3uOsSR1oZkjHPfL3WHItunFQngqu4Y5uYVon/QJj7IGKk0ItHx
-	eF+rCjGHRkrRnSv8rghunGv14BQGeEtbLJ11h3moAzl9FFG0/LyukFvJuVA3TK1db7FKHwb/KSDjE
-	+lTpruIg==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Jtr+9Y8ROMUdpKWPnjKANyOam/EHL6pREUmS/AWnCbY=; b=kUGIdsx+keP78Copg4IXzJ1voM
+	EnKlkNTv3BOmDvFsfATQZwmysJcAXWwtbQUPmZk3wGma3/dIme7Q7/7pq8f4N7RJpABlqPXBLv0oR
+	iJy06mATcIGL14IbrIAIHVD8mkiAPcBpvcvuyxLiPWnwfOp+Sdz+X+euaU/vaDhtO/koK2vWKSBP5
+	2kHol1vQ4WCirBEO3x18ITgOjPaD4JTJj96YKgZWJhj0lx2mlmVHlTEoTRU3FYHlD/N5XZbG8wha2
+	rPCDgpoBzmRb2WkwIUYAFDWc1+86uivD/nOvg87By0zygvnvpu3qMwBRtXDQE8yPhZapvJ2BhJLqp
+	VQUQVyUg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmDDv-00000008h88-3MaH;
-	Mon, 18 Mar 2024 13:40:19 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1rmEWZ-00000008uFg-07AK;
+	Mon, 18 Mar 2024 15:03:39 +0000
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmDDr-00000008h6G-1utk
+	id 1rmEWV-00000008uDc-3qQA
 	for linux-nvme@lists.infradead.org;
-	Mon, 18 Mar 2024 13:40:18 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E41EC5C58D;
-	Mon, 18 Mar 2024 13:40:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1710769211; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=6oXFvS9610RzB0va1HdQyUtjbXD54ats5fKJEVvh3i0=;
-	b=15mS08Z7ta9s5zzJPYvKpJAUmRU2NyOgNXh7iOMzq1G7P1A7C3d0iYyO6tNz4czFeLYnkU
-	zWwTb0tisYHrumpOQTitzzAG2Lh4zPOcaIB+smv0Me9RAcK8rxTBCcfbBYlAKQX4f5aOs6
-	vBbtIlqpO/GRbGuncnJOsd+cXV1BSTM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1710769211;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=6oXFvS9610RzB0va1HdQyUtjbXD54ats5fKJEVvh3i0=;
-	b=ffvyZFPXBijH68uAeXemhM/35J4LsMgyZ9Ab8gNVwKGMr7LGbphM93qNH8wWS+zUg1uXJw
-	1uyezBRsZwYpDrBA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1710769211; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=6oXFvS9610RzB0va1HdQyUtjbXD54ats5fKJEVvh3i0=;
-	b=15mS08Z7ta9s5zzJPYvKpJAUmRU2NyOgNXh7iOMzq1G7P1A7C3d0iYyO6tNz4czFeLYnkU
-	zWwTb0tisYHrumpOQTitzzAG2Lh4zPOcaIB+smv0Me9RAcK8rxTBCcfbBYlAKQX4f5aOs6
-	vBbtIlqpO/GRbGuncnJOsd+cXV1BSTM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1710769211;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=6oXFvS9610RzB0va1HdQyUtjbXD54ats5fKJEVvh3i0=;
-	b=ffvyZFPXBijH68uAeXemhM/35J4LsMgyZ9Ab8gNVwKGMr7LGbphM93qNH8wWS+zUg1uXJw
-	1uyezBRsZwYpDrBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D08011349D;
-	Mon, 18 Mar 2024 13:40:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id OyZ0MjtE+GVgKAAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 18 Mar 2024 13:40:11 +0000
-Message-ID: <bf1201db-a2fb-4ced-ac62-36315bbdf4a6@suse.de>
-Date: Mon, 18 Mar 2024 14:40:11 +0100
+	Mon, 18 Mar 2024 15:03:37 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 48456CE0A3C;
+	Mon, 18 Mar 2024 15:03:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41A43C43394;
+	Mon, 18 Mar 2024 15:03:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710774211;
+	bh=MrqVKVgC3eAH1AinVcVev0XUyD7okPyJQj3a0RlmNN8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=aVL/bU7YZxeUHfueT3dkg+vae9gJ/W+GZOZdAmBYfGzoqLWJ0ngy7WNVdMYyltkqz
+	 4MTO6YY3SdQvt++Je0dnhwlKdgwglOYqmpVyoXnnRvwukoacSOBHQ40A0X4UtkHETx
+	 M1CWenSXGRW30W1f60qY+TVzcw32S09UnavvLr1LZg7NFPmwOdcygj4vqEeBWss9ni
+	 29fhxruAZlv2u44mt/ng68nGe4/CK/OjshB7yC3DL0TRC4rbDREp9AzTgYUbwGwh1r
+	 C4Zfkj4uh7Gk9tmULPvrk+uB6FzH4G0OG9H7BzmiSj/S2+TTUGNT4CQEzR0QOVH8SI
+	 F2XmDvBwzFFOg==
+From: Hannes Reinecke <hare@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH 01/17] nvme-keyring: restrict match length for version '1' identifiers
+Date: Mon, 18 Mar 2024 16:03:00 +0100
+Message-Id: <20240318150316.138501-2-hare@kernel.org>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20240318150316.138501-1-hare@kernel.org>
+References: <20240318150316.138501-1-hare@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-From: Hannes Reinecke <hare@suse.de>
-Subject: Connection reset in nvme-cli?
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.27 / 50.00];
-	 TO_DN_EQ_ADDR_SOME(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 XM_UA_NO_VERSION(0.01)[];
-	 TO_DN_SOME(0.00)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_TWO(0.00)[2];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 SUBJECT_ENDS_QUESTION(1.00)[];
-	 MID_RHS_MATCH_FROM(0.00)[];
-	 BAYES_HAM(-0.01)[46.85%];
-	 ARC_NA(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-0.98)[-0.976];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 RCVD_TLS_ALL(0.00)[]
-Authentication-Results: smtp-out2.suse.de;
-	none
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240318_064015_682788_E58675CD 
-X-CRM114-Status: GOOD (  12.35  )
+X-CRM114-CacheID: sfid-20240318_080336_393194_63791FBE 
+X-CRM114-Status: GOOD (  14.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -126,41 +73,115 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hey Sagi,
+From: Hannes Reinecke <hare@suse.de>
 
-the secure-concatenation stuff is nearing completion, but there is just
-one snag: After DH-CHAP negotiation the connection has to be reset to
-start over with a TLS-encrypted connection.
+TP8018 changed the TLS PSK identifiers to append a PSK hash value,
+so to lookup any version '1' identifiers we need to restrict the
+match length to exclude the PSK hash value (which we don't have
+when looking up keys).
 
-IE currently I have to do:
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ drivers/nvme/common/keyring.c | 34 ++++++++++++++++++++++++++--------
+ 1 file changed, 26 insertions(+), 8 deletions(-)
 
-nvme connect ...
-echo 1 > /sys/class/nvme/nvmeX/reset_controller
+diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
+index 6f7e7a8fa5ae..2beac89b2246 100644
+--- a/drivers/nvme/common/keyring.c
++++ b/drivers/nvme/common/keyring.c
+@@ -36,14 +36,12 @@ static bool nvme_tls_psk_match(const struct key *key,
+ 		pr_debug("%s: no key description\n", __func__);
+ 		return false;
+ 	}
+-	match_len = strlen(key->description);
+-	pr_debug("%s: id %s len %zd\n", __func__, key->description, match_len);
+-
+ 	if (!match_data->raw_data) {
+ 		pr_debug("%s: no match data\n", __func__);
+ 		return false;
+ 	}
+ 	match_id = match_data->raw_data;
++	match_len = strlen(match_id);
+ 	pr_debug("%s: match '%s' '%s' len %zd\n",
+ 		 __func__, match_id, key->description, match_len);
+ 	return !memcmp(key->description, match_id, match_len);
+@@ -71,7 +69,7 @@ static struct key_type nvme_tls_psk_key_type = {
+ 
+ static struct key *nvme_tls_psk_lookup(struct key *keyring,
+ 		const char *hostnqn, const char *subnqn,
+-		int hmac, bool generated)
++		u8 hmac, u8 psk_ver, bool generated)
+ {
+ 	char *identity;
+ 	size_t identity_len = (NVMF_NQN_SIZE) * 2 + 11;
+@@ -79,11 +77,11 @@ static struct key *nvme_tls_psk_lookup(struct key *keyring,
+ 	key_serial_t keyring_id;
+ 
+ 	identity = kzalloc(identity_len, GFP_KERNEL);
+-	if (!identity)
++	if (WARN_ON(!identity))
+ 		return ERR_PTR(-ENOMEM);
+ 
+-	snprintf(identity, identity_len, "NVMe0%c%02d %s %s",
+-		 generated ? 'G' : 'R', hmac, hostnqn, subnqn);
++	snprintf(identity, identity_len, "NVMe%u%c%02u %s %s",
++		 psk_ver, generated ? 'G' : 'R', hmac, hostnqn, subnqn);
+ 
+ 	if (!keyring)
+ 		keyring = nvme_keyring;
+@@ -109,19 +107,38 @@ static struct key *nvme_tls_psk_lookup(struct key *keyring,
+  *
+  * 'Retained' PSKs (ie 'generated == false')
+  * should be preferred to 'generated' PSKs,
++ * PSKs with hash (psk_ver 1) should be
++ * preferred to PSKs without (psk_ver 0),
+  * and SHA-384 should be preferred to SHA-256.
+  */
+ static struct nvme_tls_psk_priority_list {
+ 	bool generated;
++	u8 psk_ver;
+ 	enum nvme_tcp_tls_cipher cipher;
+ } nvme_tls_psk_prio[] = {
+ 	{ .generated = false,
++	  .psk_ver = 1,
++	  .cipher = NVME_TCP_TLS_CIPHER_SHA384, },
++	{ .generated = false,
++	  .psk_ver = 1,
++	  .cipher = NVME_TCP_TLS_CIPHER_SHA256, },
++	{ .generated = false,
++	  .psk_ver = 0,
+ 	  .cipher = NVME_TCP_TLS_CIPHER_SHA384, },
+ 	{ .generated = false,
++	  .psk_ver = 0,
++	  .cipher = NVME_TCP_TLS_CIPHER_SHA256, },
++	{ .generated = true,
++	  .psk_ver = 1,
++	  .cipher = NVME_TCP_TLS_CIPHER_SHA384, },
++	{ .generated = true,
++	  .psk_ver = 1,
+ 	  .cipher = NVME_TCP_TLS_CIPHER_SHA256, },
+ 	{ .generated = true,
++	  .psk_ver = 0,
+ 	  .cipher = NVME_TCP_TLS_CIPHER_SHA384, },
+ 	{ .generated = true,
++	  .psk_ver = 0,
+ 	  .cipher = NVME_TCP_TLS_CIPHER_SHA256, },
+ };
+ 
+@@ -137,10 +154,11 @@ key_serial_t nvme_tls_psk_default(struct key *keyring,
+ 
+ 	for (prio = 0; prio < ARRAY_SIZE(nvme_tls_psk_prio); prio++) {
+ 		bool generated = nvme_tls_psk_prio[prio].generated;
++		u8 ver = nvme_tls_psk_prio[prio].psk_ver;
+ 		enum nvme_tcp_tls_cipher cipher = nvme_tls_psk_prio[prio].cipher;
+ 
+ 		tls_key = nvme_tls_psk_lookup(keyring, hostnqn, subnqn,
+-					      cipher, generated);
++					      cipher, ver, generated);
+ 		if (!IS_ERR(tls_key)) {
+ 			tls_key_id = tls_key->serial;
+ 			key_put(tls_key);
+-- 
+2.35.3
 
-which is clearly unsatisfactory.
-
-So now I have two options:
-1) reset the controller after the call to ->create_ctrl()
-    in drivers/nvme/host/fabrics.c
-2) reset the controller from nvme-cli after the connection
-    was established.
-The really awkward thing is that resetting the connection works
-when run from the error recovery; it's just the initial connect
-for which I need to do something 'special'.
-
-Personally, I'm not a big fan of option 2), as it means that we
-have to do a 'blind' reset, ie we have to assume that upon reset
-we'll pick up the correct key. If someone slips in a new key
-after the initial connect and the reset call the connection will
-fail as we won't be able to pick up the correct key.
-Option 1) doesn't have this problem (as the 'options' structure
-is carried over across resets, and the generated key is stored
-in there). But then the intention seems to be to move error handling
-/ retries from the initial connect over to userspace.
-
-So, which way do you prefer?
-
-Cheers,
-
-Hannes
 
