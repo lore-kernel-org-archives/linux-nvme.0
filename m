@@ -4,112 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 80506C54E67
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Mar 2024 07:16:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95F2CC54E67
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 Mar 2024 08:51:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Igq7nAhmQn9eZ8xJCENwSnbrfhfka/XTrd5l9aGUgbI=; b=JPY2yAjgiW45HfdbtimCuHtI4I
-	eyboLTlSYEnfuCxSpsSs+lbL9B7jSiAZyQCuFinBmof23iubzdoHDU1XK1y2OWdhRVjMQ2IAZOjn7
-	Ssg+Umiqfls6vUWmakJYIu7u5Tpx9mRKFFzkEgcqS+ngNe9xGPa/cdrGqpb2m1UoUsflpkP030SdD
-	XJb/UqEYlbfQ0cEMjed8tzO3HDCpYL93RBaiuLHwBdap8fk57guglAEoKt6KeijHseV4pkmF3i9Ix
-	rtKNaJ72TLdlf1e3sIEL2KA/nWEG752w4RsA+kLAcUK/F4Zzz1qClVEnI85uOfzJthjlcGKWGL/Gq
-	t0TuPrUQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=vJNTc0JpEuIjCT0YU5iYMSiG3l/DVEvQGufEpeq9RVI=; b=F2rq9TqttdABEo6Z5SmTBPrHmL
+	dfwk7ZzMLHNGX2CT/Zkl/wj0aMVcTrgXogTA9wFuMd+ogePLq9T0SkHZ5HCUDLyvMYVKDXUt1LEKd
+	df2z36wK9Zv7F/dA1jPDzIoWAAmp0JzLW8UNjqXDDwkg1wCqESjZC9noIrWd3Z2bUyxwmTI5aKqFM
+	oqCCQ0ykAdh7d77NaFsTixQPM2eGraONxaMOu+GBg+UrkZpInlR6RZCE2Cy3RmVzkhD+Wzh+bkFGC
+	tFTg9Y0RQZNpSfpTfLkvCiysi2GLtM/AXUaXGf3uh9XjjW9XhNOErDOSKj9hS08LNQAw12sG1qk8Y
+	2sID+cTQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmqBp-0000000FsZw-3F5U;
-	Wed, 20 Mar 2024 07:16:45 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1rmrff-0000000GIcg-1KfF;
+	Wed, 20 Mar 2024 08:51:39 +0000
+Received: from mail-ej1-f43.google.com ([209.85.218.43])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmqBW-0000000FsWb-18Q3
+	id 1rmrfZ-0000000GIYB-28n4
 	for linux-nvme@lists.infradead.org;
-	Wed, 20 Mar 2024 07:16:44 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8EF2520993;
-	Wed, 20 Mar 2024 07:16:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1710918982; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Igq7nAhmQn9eZ8xJCENwSnbrfhfka/XTrd5l9aGUgbI=;
-	b=LzsMPorDMSUQgclkpuUUZMYE8EW+Yo2qIGXHa3qxAusrl73FzWDGxa7FFPZ9KdSeowPEEZ
-	EnwdFk/EZQmXa2E0OJvxGXM2o3yFmWsL/8Bqzx2JjZnsGuWbdD2M2aWQ9XOaNbx1SEdhTl
-	NhjHu5qMN8U+kyJy1snCtSO1Z0dY70Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1710918982;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Igq7nAhmQn9eZ8xJCENwSnbrfhfka/XTrd5l9aGUgbI=;
-	b=MpgkWrnbxD0kjRT9o1NQFeoSmwq4l/mc2SKMo6pcptcNH/fkVKUbZAGZAs1/wZbmIBVAxf
-	uhgSSpCbCpBRHNBg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1710918982; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Igq7nAhmQn9eZ8xJCENwSnbrfhfka/XTrd5l9aGUgbI=;
-	b=LzsMPorDMSUQgclkpuUUZMYE8EW+Yo2qIGXHa3qxAusrl73FzWDGxa7FFPZ9KdSeowPEEZ
-	EnwdFk/EZQmXa2E0OJvxGXM2o3yFmWsL/8Bqzx2JjZnsGuWbdD2M2aWQ9XOaNbx1SEdhTl
-	NhjHu5qMN8U+kyJy1snCtSO1Z0dY70Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1710918982;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Igq7nAhmQn9eZ8xJCENwSnbrfhfka/XTrd5l9aGUgbI=;
-	b=MpgkWrnbxD0kjRT9o1NQFeoSmwq4l/mc2SKMo6pcptcNH/fkVKUbZAGZAs1/wZbmIBVAxf
-	uhgSSpCbCpBRHNBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7ACE0136CD;
-	Wed, 20 Mar 2024 07:16:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Sa5JHEaN+mW7KAAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Wed, 20 Mar 2024 07:16:22 +0000
-Date: Wed, 20 Mar 2024 08:16:21 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, gjoyce@ibm.com
-Subject: Re: [PATCH nvme-cli] nvme : Don't seg fault if given device is not
- char/block device
-Message-ID: <doqj5ci7aokhxugwu5jul7h6scnl4dt5cukq3gkj7tput5fn5o@f72afjmdejx4>
-References: <20240317113758.3055071-1-nilay@linux.ibm.com>
+	Wed, 20 Mar 2024 08:51:35 +0000
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a28cfca3c45so175213966b.1
+        for <linux-nvme@lists.infradead.org>; Wed, 20 Mar 2024 01:51:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710924686; x=1711529486;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vJNTc0JpEuIjCT0YU5iYMSiG3l/DVEvQGufEpeq9RVI=;
+        b=jcJb0p5qKt4Nq/MaVu//SD01hHT3Df8h2NTOUG54/2oBsK26OBvs27Y8K3II02BklM
+         OmWuA0X/+fx/8gdAQ7NG9EILnuszwg51cNc4doZy9mAheb3W6vj5ie53tv02HAzYejSa
+         7jTncFqu0/YWT/hHw3r+mWnJwhgjF9dP+TZ395eu0ULD1znK6DKRnfU5TOPN9PNwfzmp
+         gNCggkdMMdFKuhq0pYH7AR8XxOcWB5bL6sizRnFNsxQGIWR68Wb7Ue0X+XeKGfpJoL7C
+         gU3NtTIuII/T3ocufpshxzy0NMCOyFmlDLfKLKrIJPEqD9oGjXtYNaz1NYCq5neO+zDu
+         Eh3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVAIFsJADxuUF+gy78wF5IFO2TRrFjFTlKI41T2esHYBP4oUgBmFQ0tv5jJX2A9KVJU4VtWhsx41erA0GxhVR8F+1iVMjKE7XyBQVLuVxM=
+X-Gm-Message-State: AOJu0Yz1kQUr9CO/lTcItRuQr/WU3bioTMXh07B7Vi97z85Lf8qYtpI+
+	QWx4BFUZYA+olHe03TxxIZ3hOMMdU9rpc57xpz0nlVCPBxcbPF2/
+X-Google-Smtp-Source: AGHT+IGfiM7OXvkfM1mMzVAbAj35GAy6tJnCyJV5b69pQjRTTKdruBGZlNdSoiX/VdR7cq0exj+jlA==
+X-Received: by 2002:a17:907:7d86:b0:a46:fdcb:eaec with SMTP id oz6-20020a1709077d8600b00a46fdcbeaecmr148962ejc.6.1710924685474;
+        Wed, 20 Mar 2024 01:51:25 -0700 (PDT)
+Received: from [10.50.4.153] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id hk22-20020a170906c9d600b00a46fbff47a6sm190439ejb.168.2024.03.20.01.51.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Mar 2024 01:51:25 -0700 (PDT)
+Message-ID: <68f99d6e-b79f-42a9-bb19-ece27d35dfa6@grimberg.me>
+Date: Wed, 20 Mar 2024 10:51:23 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240317113758.3055071-1-nilay@linux.ibm.com>
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spamd-Result: default: False [-0.80 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 RCPT_COUNT_THREE(0.00)[4];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.00)[42.88%]
+User-Agent: Mozilla Thunderbird
+Subject: Re: Should NVME_SC_INVALID_NS be translated to BLK_STS_IOERR instead
+ of BLK_STS_NOTSUPP so that multipath(both native and dm) can failover on the
+ failure?
+Content-Language: he-IL, en-US
+To: Jirong Feng <jirong.feng@easystack.cn>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ linux-nvme@lists.infradead.org, peng.xiao@easystack.cn,
+ Christoph Hellwig <hch@lst.de>
+References: <a99971dc-9157-4a0f-8fb7-5fa495434b99@grimberg.me>
+ <b8cd8de7-9167-4b8f-b255-c022376a7c9d@easystack.cn>
+ <dda859d1-41f5-423c-a9e2-900a1573c3a9@easystack.cn>
+ <ae40ced9-9f30-4e93-813c-5b94d0667d66@grimberg.me>
+ <e27ef3fd-d43c-4dc2-8969-4a0f86d9c64c@easystack.cn>
+ <a688834a-99b1-4dd2-b698-c9e54070f78f@grimberg.me>
+ <89b542d3-dedb-4d5c-ad7a-279467d28e51@easystack.cn>
+ <53b68337-8370-4deb-9a90-bf5dbb7d6d33@grimberg.me>
+ <6b345b99-3dd3-4c96-8644-e9b40d387b58@easystack.cn>
+ <b3821176-b6f6-4617-92c9-ce8ad9f1118e@grimberg.me>
+ <20240131062526.GA16177@lst.de>
+ <08b936ff-10d0-48d8-aacd-6ae1e2659600@easystack.cn>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <08b936ff-10d0-48d8-aacd-6ae1e2659600@easystack.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240320_001626_496872_622349F6 
-X-CRM114-Status: GOOD (  10.09  )
+X-CRM114-CacheID: sfid-20240320_015133_980767_E1C52782 
+X-CRM114-Status: UNSURE (   7.82  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -124,16 +97,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Mar 17, 2024 at 05:06:22PM +0530, Nilay Shroff wrote:
-> If the given device name is not char/block device then in
-> open_dev_direct() set errno to ENODEV and err to -1 before
-> returning to the dev_fd(). This would then ensure that in
-> case of error, dev_fd() returns the corerct negative error
-> code back to its callers. So now the callers of dev_fd()
-> would handle the error appropriately instead of try
-> accessing the nvme_dev which would be NULL.
-> 
-> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
 
-Patch applied. Thanks.
+
+On 20/03/2024 5:17, Jirong Feng wrote:
+> hi,
+>
+> just kindly ask, how about the previous patch? will it be merged?
+>
+
+Hey Jirong,
+
+We do not yet understand if this works for Linux nvme-mpath (which iirc 
+requires a suggested host-side patch).
+Once we understand that we can take the changes to mainline.
 
