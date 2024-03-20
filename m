@@ -4,56 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6DC89C54E67
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Mar 2024 10:57:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 412EFC54E58
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 Mar 2024 11:08:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YY6rtv+Dl0d3knW6Fl3yRPOdwl93r2CHnCxiAmWkthM=; b=ORwmfPDwS3iE1eNYCyHbsB12vE
-	qJcSxmvOqZdsGNZu+YRT3/4mw44oY5291a2tJGoWRZg+6D4XqcVmiQz1eDRqmxL+JFnfACTdXnmyK
-	jN2rKFeYIN6SJ9H+qrjwPHe6Dl9VIVw4fmD3jtO/0V9XQ7K9MWyPSwxsp+skNnA430mqCt4nLqVz9
-	LaHnPtify2mIsDhgOQ1NSn83V8IKRT9A8ptVYI2EX0YLrl9xySqYd2M2IBE8Jchmh+SYEi8WTTcH4
-	xa4GAU6WOGUvgtveVmnNFI5Iq3hd/XnCzqgsjw2aOlLWLUXohPFMvRkrcS7hUMSHtrBx/vvm849LI
-	8mLQf+tg==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=kME1Ajn+X78iUrEXOAZxLCnlJuObW4wno7FTTSviGrY=; b=mGqCpWDxz4laxUje4L427AtniJ
+	O7ACMI0X1j78qC+AK7DvxR/k7o6G7Mg3unArpfShlxv3knV9yIq0oKKgn0mGnere1HNoLAgR8Wvh3
+	ykQ8IlDsURRKsbZlBxBNiFjgVHAPb7royGRqBADvRKels15gFkhjOJVjQ5jmogkbFH/jP8NwJ3/yt
+	fU5Oes2qEYIq8kbHjW+FFjgSc1BglR8kad+zX9qpKsOa/TvJb+34BiP8tzMVbTTGDJS97Qs+9zCvJ
+	2d7fg+iOGluHiGGwzrXt1fNhDMWy4Lgfjiv1x++474OIOIqCNxUkHqiADIXZkGK8txWmmxbik2MkV
+	aD3gApOA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmtd1-0000000GrOG-2ujX;
-	Wed, 20 Mar 2024 10:57:03 +0000
-Received: from out30-113.freemail.mail.aliyun.com ([115.124.30.113])
+	id 1rmtoB-0000000GtMN-3wzh;
+	Wed, 20 Mar 2024 11:08:35 +0000
+Received: from out30-100.freemail.mail.aliyun.com ([115.124.30.100])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmtcx-0000000GrNk-2vRm
+	id 1rmto7-0000000GtKd-3wb3
 	for linux-nvme@lists.infradead.org;
-	Wed, 20 Mar 2024 10:57:01 +0000
+	Wed, 20 Mar 2024 11:08:34 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1710932215; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=YY6rtv+Dl0d3knW6Fl3yRPOdwl93r2CHnCxiAmWkthM=;
-	b=vhYFLL5O/lCRLI0ytX0I2+rCnm4sjMmXJPvM/DIs2PHd0PHjsw7ohDn69jFnVg98TuJ1ix0YkCBW7Wvr2OUM720myFQfk23LYnIIhqxlMTeC1DlgKd4pHWl4cLBAKOS3PgsU09jwcSMHcpj1I43XGB9t9CmdzE8EfMnCxv/KE+Y=
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R331e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046050;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0W2x9uLK_1710932211;
-Received: from 30.178.90.240(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W2x9uLK_1710932211)
+	t=1710932907; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=kME1Ajn+X78iUrEXOAZxLCnlJuObW4wno7FTTSviGrY=;
+	b=SY+zVGt01ed040GyUOwHVpZve7TcVXo3IMIQHK0RRURAHntrYSvIqxCc6krSaQyp9+lAzUGCLNfsbfEAbzksS6r9azUQbgDvZpaqDLiiEcT9erQPVVfc/xKNxDHmbJMRh1mWK+AniF0i5PzsMw/QlW0eb8oz/ZFiOc0WySVJ+8w=
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045192;MF=kanie@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0W2xB0U3_1710932902;
+Received: from localhost(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0W2xB0U3_1710932902)
           by smtp.aliyun-inc.com;
-          Wed, 20 Mar 2024 18:56:52 +0800
-Message-ID: <3bf83a58-25f3-4e2f-93c4-3c1e94ec6e0b@linux.alibaba.com>
-Date: Wed, 20 Mar 2024 18:56:48 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvmet-rdma: remove NVMET_RDMA_REQ_INVALIDATE_RKEY flag
-Content-Language: en-GB
-To: Sagi Grimberg <sagi@grimberg.me>, hch@lst.de, kch@nvidia.com
-Cc: linux-nvme@lists.infradead.org
-References: <20240320092035.22546-1-kanie@linux.alibaba.com>
- <bca94901-3d77-4779-851f-d121efff3fbf@grimberg.me>
+          Wed, 20 Mar 2024 19:08:26 +0800
 From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <bca94901-3d77-4779-851f-d121efff3fbf@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: hch@lst.de,
+	sagi@grimberg.me,
+	kch@nvidia.com
+Cc: linux-nvme@lists.infradead.org
+Subject: [PATCH v2] nvmet-rdma: remove NVMET_RDMA_REQ_INVALIDATE_RKEY flag
+Date: Wed, 20 Mar 2024 19:08:21 +0800
+Message-ID: <20240320110821.60775-1-kanie@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240320_035700_253410_57EFCFD8 
-X-CRM114-Status: UNSURE (   3.42  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20240320_040832_482468_5C120331 
+X-CRM114-Status: GOOD (  11.29  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,15 +64,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+We can simply use invalidate_rkey to check instead of adding a flag.
 
->
-> Who clears invalidate_rkey between executions?
-> I think you need to clear right after nvmet_rdma_get_rsp()
+Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+---
+Changes from v1 to v2:
+- Clear invalidate_rkey to 0 after nvmet_rdma_get_rsp().
 
-You are right, I need clear invalidate_rkey to 0 after nvmet_rdma_get_rsp().
+ drivers/nvme/target/rdma.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-Thanks,
-
-Guixin Liu
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index f2bb9d95ecf4..5b8c63e74639 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -53,7 +53,6 @@ struct nvmet_rdma_cmd {
+ 
+ enum {
+ 	NVMET_RDMA_REQ_INLINE_DATA	= (1 << 0),
+-	NVMET_RDMA_REQ_INVALIDATE_RKEY	= (1 << 1),
+ };
+ 
+ struct nvmet_rdma_rsp {
+@@ -722,7 +721,7 @@ static void nvmet_rdma_queue_response(struct nvmet_req *req)
+ 	struct rdma_cm_id *cm_id = rsp->queue->cm_id;
+ 	struct ib_send_wr *first_wr;
+ 
+-	if (rsp->flags & NVMET_RDMA_REQ_INVALIDATE_RKEY) {
++	if (rsp->invalidate_rkey) {
+ 		rsp->send_wr.opcode = IB_WR_SEND_WITH_INV;
+ 		rsp->send_wr.ex.invalidate_rkey = rsp->invalidate_rkey;
+ 	} else {
+@@ -905,10 +904,8 @@ static u16 nvmet_rdma_map_sgl_keyed(struct nvmet_rdma_rsp *rsp,
+ 		goto error_out;
+ 	rsp->n_rdma += ret;
+ 
+-	if (invalidate) {
++	if (invalidate)
+ 		rsp->invalidate_rkey = key;
+-		rsp->flags |= NVMET_RDMA_REQ_INVALIDATE_RKEY;
+-	}
+ 
+ 	return 0;
+ 
+@@ -1047,6 +1044,7 @@ static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc)
+ 	rsp->req.cmd = cmd->nvme_cmd;
+ 	rsp->req.port = queue->port;
+ 	rsp->n_rdma = 0;
++	rsp->invalidate_rkey = 0;
+ 
+ 	if (unlikely(queue->state != NVMET_RDMA_Q_LIVE)) {
+ 		unsigned long flags;
+-- 
+2.43.0
 
 
