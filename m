@@ -4,63 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D313C6FD1F
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Mar 2024 14:40:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AFFC5C54E58
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 Mar 2024 14:40:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=B2/0bjmCJHg8AZcZvT5Tt6sBtj4G/srHq1GswL1wvNI=; b=2aNY+Ctyzr1YnrCS5XBVwQxMep
-	9umK7U+XUHVFDNU6Vov1k5d8HuHKgpK04inJ/jTU8hATAjEiecqmkU1szSO41x5jjM77JVPRDuIYV
-	kTmgEikorFgxHD4XPj7Xf+6e5+5EcIznOK5qyXa9irMovbEqZgd+GmhqJOTiGJm6pHuQ+dQpWPJnX
-	WnqaEvqEBYIi7ic7X8BLCp60F21rLvm6DiPxGIh9QS/BlB+mCsJYvonCWcJP7KR2X3mWTNSAs13oz
-	zjvEzmtL+q61UBO65Ia2BP90XtEJaWbmB1wHqvnhYUOonC51pllAJve3xELe3sdejvQXQ1waU8Ngj
-	DeC0j3eQ==;
+	bh=j8qS6j5uGJa41ygAn4T0PXn60uHEf5MUJMRnPU+9Pa8=; b=px1ReRHX1RqNEYnjPscL/lRMC3
+	ojVUgzLmOb5+uHcuT5IOZSjgct9CYwZ1NnQhwsFgbxvpgLG2PKlvISnLeaExZ3je/yzz3NYEMzf6J
+	JjI5VYWyVDt9p6JlDa/5voFCglKmYSxK/XwdVqp6lsAsDzvZaksFtx03sjhv3fvZLg/jIRrEcqdvM
+	1+xKzZLDWn1UPDc+LUyhk4rZS5fttxVlM7k39OsGMPMhKzGgIzb3s9wHTzPQ18ZWrXgqErMYwx9SF
+	fMmmXS8mA+N96RlDVp9+G72GRCsawUwLOGwESNPcrB9XonYb+5d2khKjYFAPdKOx+RgLUkUf8fRm9
+	75Q0crDg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmx7J-0000000HTnu-2Xzr;
-	Wed, 20 Mar 2024 14:40:33 +0000
+	id 1rmx7M-0000000HTpQ-03M6;
+	Wed, 20 Mar 2024 14:40:36 +0000
 Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
 	by bombadil.infradead.org with esmtps (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmx7F-0000000HTlp-3wUK
+	id 1rmx7H-0000000HTm9-26r5
 	for linux-nvme@lists.infradead.org;
-	Wed, 20 Mar 2024 14:40:31 +0000
+	Wed, 20 Mar 2024 14:40:33 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id E6DC5CE1042;
+	by sin.source.kernel.org (Postfix) with ESMTP id DCDB2CE114E;
+	Wed, 20 Mar 2024 14:40:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C161C43390;
 	Wed, 20 Mar 2024 14:40:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77F56C433F1;
-	Wed, 20 Mar 2024 14:40:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710945627;
-	bh=6o67OHix5HM2CnYPO5ZtXwWyaSp54O2mNnfed1MeAeQ=;
+	s=k20201202; t=1710945629;
+	bh=2/ugjOhPU3pL+XPJHtxNIBd7386fF/JI+aMtkI7ZF0o=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=b4CnPqcu2IcB6w5DisUvmuT0ieVnJ2j+N7UPahvClYVx9AET3khKZ9Et3ovY9yhNy
-	 GSzn1Gtcn0fxBk+M1W9677/RjIqSvwGdD6O0FI3Eq1e6MM55dCWHVPapLJsXcZjaSi
-	 TWGWx8QH0SdMapLWTOKW9CzZ7NbDgjx8F8O2Py/2G3+m+qUeKY6hy9RJP/NGegiRlS
-	 vknaKqpv4TjTiGIzVTOlCMp8f+KYzlU/8Hw1wxmaWiNgeJkJxGAGHxYD+WJu6qr5wa
-	 fu+sJc2SDJvsD3TSrI9TYDrzZ5GTlO2KBPfsBAu46fbGYAEd1DdMWyObccYsbT2uhf
-	 3kg7iJhGx/TiA==
+	b=hBOtNThRsQ5337irG1S5UH8bNPJnmFI4LITzNw/Fps9J9xnL1qBP25hlOcZPbw0MR
+	 mK8YPvpSu5wrG2ASxtVkzHT7vBnh80RcMVoz3wv1FufDSHfuSSfTFp6mETzw0yWoHh
+	 9hEf9XRSs43c2B2J+lvXXghjqLRUYjpkSY94ldJ3v27yTzQcP8FxYaTMD4rsiJJrC/
+	 0GWr6+NMP6fxTOGDRyrxLZ51IT5aIhGRkeWM1cvupd0BDGoe5dhl0b1LpFePWpHJyw
+	 5ugDPknrek2/9/cc/eWepSUGNxBhIcEMVlbEMLbNz+obBh74BIpCtTsi6hsFz+df1b
+	 iQqaZ1DoNcFEg==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	James Smart <james.smart@broadcom.com>,
 	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@kernel.org>,
-	Redouane BOUFENGHOUR <redouane.boufenghour@shadow.tech>
-Subject: [PATCH 1/7] nvmet: add debugfs support
-Date: Wed, 20 Mar 2024 15:40:11 +0100
-Message-Id: <20240320144017.106283-2-hare@kernel.org>
+	Hannes Reinecke <hare@kernel.org>
+Subject: [PATCH 2/7] nvmet: add debugfs support for queues
+Date: Wed, 20 Mar 2024 15:40:12 +0100
+Message-Id: <20240320144017.106283-3-hare@kernel.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20240320144017.106283-1-hare@kernel.org>
 References: <20240320144017.106283-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20240320_074030_377563_3FBEFFF8 
-X-CRM114-Status: GOOD (  27.18  )
+X-CRM114-CacheID: sfid-20240320_074031_957709_BB473F50 
+X-CRM114-Status: GOOD (  15.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,403 +74,176 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a debugfs hierarchy to display the configured subsystems
-and the controllers attached to the subsystems.
+Add debugfs entries to display the status of the controller
+queues.
 
-Suggested-by: Redouane BOUFENGHOUR <redouane.boufenghour@shadow.tech>
 Signed-off-by: Hannes Reinecke <hare@kernel.org>
 ---
- drivers/nvme/target/Kconfig   |   9 ++
- drivers/nvme/target/Makefile  |   1 +
- drivers/nvme/target/core.c    |  22 +++-
- drivers/nvme/target/debugfs.c | 182 ++++++++++++++++++++++++++++++++++
- drivers/nvme/target/debugfs.h |  48 +++++++++
- drivers/nvme/target/nvmet.h   |   8 +-
- 6 files changed, 267 insertions(+), 3 deletions(-)
- create mode 100644 drivers/nvme/target/debugfs.c
- create mode 100644 drivers/nvme/target/debugfs.h
+ drivers/nvme/target/core.c    | 10 ++++++
+ drivers/nvme/target/debugfs.c | 68 +++++++++++++++++++++++++++++++++++
+ drivers/nvme/target/debugfs.h |  2 ++
+ drivers/nvme/target/nvmet.h   |  7 ++++
+ 4 files changed, 87 insertions(+)
 
-diff --git a/drivers/nvme/target/Kconfig b/drivers/nvme/target/Kconfig
-index 872dd1a0acd8..5740893ace6d 100644
---- a/drivers/nvme/target/Kconfig
-+++ b/drivers/nvme/target/Kconfig
-@@ -18,6 +18,15 @@ config NVME_TARGET
- 	  To configure the NVMe target you probably want to use the nvmetcli
- 	  tool from http://git.infradead.org/users/hch/nvmetcli.git.
- 
-+config NVME_TARGET_DEBUGFS
-+        bool "NVMe Target debugfs support"
-+	depends on NVME_TARGET
-+	help
-+	  This enables debugfs support to display the connected controllers
-+	  to each subsystem
-+
-+	  If unsure, say N.
-+
- config NVME_TARGET_PASSTHRU
- 	bool "NVMe Target Passthrough support"
- 	depends on NVME_TARGET
-diff --git a/drivers/nvme/target/Makefile b/drivers/nvme/target/Makefile
-index c66820102493..c402c44350b2 100644
---- a/drivers/nvme/target/Makefile
-+++ b/drivers/nvme/target/Makefile
-@@ -11,6 +11,7 @@ obj-$(CONFIG_NVME_TARGET_TCP)		+= nvmet-tcp.o
- 
- nvmet-y		+= core.o configfs.o admin-cmd.o fabrics-cmd.o \
- 			discovery.o io-cmd-file.o io-cmd-bdev.o
-+nvmet-$(CONFIG_NVME_TARGET_DEBUGFS)	+= debugfs.o
- nvmet-$(CONFIG_NVME_TARGET_PASSTHRU)	+= passthru.o
- nvmet-$(CONFIG_BLK_DEV_ZONED)		+= zns.o
- nvmet-$(CONFIG_NVME_TARGET_AUTH)	+= fabrics-cmd-auth.o auth.o
 diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 1d1a7026e817..6cd1b92fc500 100644
+index 6cd1b92fc500..66c31ff04ce5 100644
 --- a/drivers/nvme/target/core.c
 +++ b/drivers/nvme/target/core.c
-@@ -16,6 +16,7 @@
- #include "trace.h"
+@@ -791,6 +791,7 @@ void nvmet_sq_setup(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq,
+ 	sq->size = size;
  
- #include "nvmet.h"
-+#include "debugfs.h"
+ 	ctrl->sqs[qid] = sq;
++	nvmet_debugfs_queue_setup(ctrl, sq);
+ }
  
- struct kmem_cache *nvmet_bvec_cache;
- struct workqueue_struct *buffered_io_wq;
-@@ -1463,6 +1464,7 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
- 	mutex_lock(&subsys->lock);
- 	list_add_tail(&ctrl->subsys_entry, &subsys->ctrls);
- 	nvmet_setup_p2p_ns_map(ctrl, req);
-+	nvmet_debugfs_ctrl_setup(ctrl);
- 	mutex_unlock(&subsys->lock);
+ static void nvmet_confirm_sq(struct percpu_ref *ref)
+@@ -815,6 +816,7 @@ void nvmet_sq_destroy(struct nvmet_sq *sq)
+ 	wait_for_completion(&sq->free_done);
+ 	percpu_ref_exit(&sq->ref);
+ 	nvmet_auth_sq_free(sq);
++	nvmet_debugfs_queue_free(sq);
  
- 	*ctrlp = ctrl;
-@@ -1497,6 +1499,8 @@ static void nvmet_ctrl_free(struct kref *ref)
+ 	if (ctrl) {
+ 		/*
+@@ -855,6 +857,14 @@ int nvmet_sq_init(struct nvmet_sq *sq)
+ }
+ EXPORT_SYMBOL_GPL(nvmet_sq_init);
  
- 	nvmet_destroy_auth(ctrl);
- 
-+	nvmet_debugfs_ctrl_free(ctrl);
++ssize_t nvmet_sq_peeraddr(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq,
++		char *traddr, size_t traddr_len)
++{
++	if (!ctrl->ops->queue_peertraddr)
++		return -EOPNOTSUPP;
++	return ctrl->ops->queue_peertraddr(ctrl, sq, traddr, traddr_len);
++}
 +
- 	ida_free(&cntlid_ida, ctrl->cntlid);
- 
- 	nvmet_async_events_free(ctrl);
-@@ -1610,8 +1614,14 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
- 	INIT_LIST_HEAD(&subsys->ctrls);
- 	INIT_LIST_HEAD(&subsys->hosts);
- 
-+	ret = nvmet_debugfs_subsys_setup(subsys);
-+	if (ret)
-+		goto free_subsysnqn;
-+
- 	return subsys;
- 
-+free_subsysnqn:
-+	kfree(subsys->subsysnqn);
- free_fr:
- 	kfree(subsys->firmware_rev);
- free_mn:
-@@ -1628,6 +1638,8 @@ static void nvmet_subsys_free(struct kref *ref)
- 
- 	WARN_ON_ONCE(!xa_empty(&subsys->namespaces));
- 
-+	nvmet_debugfs_subsys_free(subsys);
-+
- 	xa_destroy(&subsys->namespaces);
- 	nvmet_passthru_subsys_free(subsys);
- 
-@@ -1681,11 +1693,18 @@ static int __init nvmet_init(void)
- 	if (error)
- 		goto out_free_nvmet_work_queue;
- 
--	error = nvmet_init_configfs();
-+	error = nvmet_init_debugfs();
- 	if (error)
- 		goto out_exit_discovery;
-+
-+	error = nvmet_init_configfs();
-+	if (error)
-+		goto out_exit_debugfs;
-+
- 	return 0;
- 
-+out_exit_debugfs:
-+	nvmet_exit_debugfs();
- out_exit_discovery:
- 	nvmet_exit_discovery();
- out_free_nvmet_work_queue:
-@@ -1702,6 +1721,7 @@ static int __init nvmet_init(void)
- static void __exit nvmet_exit(void)
+ static inline u16 nvmet_check_ana_state(struct nvmet_port *port,
+ 		struct nvmet_ns *ns)
  {
- 	nvmet_exit_configfs();
-+	nvmet_exit_debugfs();
- 	nvmet_exit_discovery();
- 	ida_destroy(&cntlid_ida);
- 	destroy_workqueue(nvmet_wq);
 diff --git a/drivers/nvme/target/debugfs.c b/drivers/nvme/target/debugfs.c
-new file mode 100644
-index 000000000000..4b9451ad0db9
---- /dev/null
+index 4b9451ad0db9..0c72dc631cd9 100644
+--- a/drivers/nvme/target/debugfs.c
 +++ b/drivers/nvme/target/debugfs.c
-@@ -0,0 +1,182 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * DebugFS interface for the NVMe target.
-+ * Copyright (c) 2022-2024 Shadow
-+ */
-+
-+#include <linux/debugfs.h>
-+#include <linux/fs.h>
-+#include <linux/init.h>
-+#include <linux/kernel.h>
-+
-+#include "nvmet.h"
-+#include "debugfs.h"
-+
-+struct dentry *nvmet_debugfs;
-+
-+#define NVMET_DEBUGFS_ATTR(field) \
-+	static int field##_open(struct inode *inode, struct file *file) \
-+	{ return single_open(file, field##_show, inode->i_private); } \
-+	\
-+	static const struct file_operations field##_fops = { \
-+		.open = field##_open, \
-+		.read = seq_read, \
-+		.release = single_release, \
-+	}
-+
-+#define NVMET_DEBUGFS_RW_ATTR(field) \
-+	static int field##_open(struct inode *inode, struct file *file) \
-+	{ return single_open(file, field##_show, inode->i_private); } \
-+	\
-+	static const struct file_operations field##_fops = { \
-+		.open = field##_open, \
-+		.read = seq_read, \
-+		.write = field##_write, \
-+		.release = single_release, \
-+	}
-+
-+static int nvmet_ctrl_hostnqn_show(struct seq_file *m, void *p)
+@@ -35,6 +35,74 @@ struct dentry *nvmet_debugfs;
+ 		.release = single_release, \
+ 	}
+ 
++static int nvmet_queue_sqsize_show(struct seq_file *m, void *p)
 +{
-+	struct nvmet_ctrl *ctrl = (struct nvmet_ctrl *)m->private;
++	struct nvmet_sq *sq = (struct nvmet_sq *)m->private;
 +
-+	seq_printf(m, "%s\n", ctrl->hostnqn);
++	seq_printf(m, "%d\n", sq->size);
 +	return 0;
 +}
-+NVMET_DEBUGFS_ATTR(nvmet_ctrl_hostnqn);
++NVMET_DEBUGFS_ATTR(nvmet_queue_sqsize);
 +
-+static int nvmet_ctrl_kato_show(struct seq_file *m, void *p)
++static int nvmet_queue_sqhead_show(struct seq_file *m, void *p)
 +{
-+	struct nvmet_ctrl *ctrl = (struct nvmet_ctrl *)m->private;
++	struct nvmet_sq *sq = (struct nvmet_sq *)m->private;
++	u32 sqhd = READ_ONCE(sq->sqhd);
 +
-+	seq_printf(m, "%d\n", ctrl->kato);
-+	return 0;
-+}
-+NVMET_DEBUGFS_ATTR(nvmet_ctrl_kato);
-+
-+static int nvmet_ctrl_port_show(struct seq_file *m, void *p)
-+{
-+	struct nvmet_ctrl *ctrl = (struct nvmet_ctrl *)m->private;
-+
-+	seq_printf(m, "%d\n", le16_to_cpu(ctrl->port->disc_addr.portid));
-+	return 0;
-+}
-+NVMET_DEBUGFS_ATTR(nvmet_ctrl_port);
-+
-+static const char *const csts_state_names[] = {
-+	[NVME_CSTS_RDY] = "ready",
-+	[NVME_CSTS_CFS] = "fatal",
-+	[NVME_CSTS_NSSRO] = "reset",
-+	[NVME_CSTS_SHST_OCCUR] = "shutdown",
-+	[NVME_CSTS_SHST_CMPLT] = "completed",
-+	[NVME_CSTS_PP] = "paused",
-+};
-+
-+static int nvmet_ctrl_state_show(struct seq_file *m, void *p)
-+{
-+	struct nvmet_ctrl *ctrl = (struct nvmet_ctrl *)m->private;
-+	bool sep = false;
-+	int i;
-+
-+	for (i = 0; i < 7; i++) {
-+		int state = BIT(i);
-+
-+		if (!(ctrl->csts & state))
-+			continue;
-+		if (sep)
-+			seq_puts(m, "|");
-+		sep = true;
-+		if (csts_state_names[state])
-+			seq_puts(m, csts_state_names[state]);
-+		else
-+			seq_printf(m, "%d", state);
-+	}
-+	if (sep)
-+		seq_printf(m, "\n");
-+	return 0;
-+}
-+
-+static ssize_t nvmet_ctrl_state_write(struct file *file, const char __user *buf,
-+				      size_t count, loff_t *ppos)
-+{
-+	struct seq_file *m = file->private_data;
-+	struct nvmet_ctrl *ctrl = m->private;
-+	char reset[16];
-+
-+	if (count >= sizeof(reset))
-+		return -EINVAL;
-+	if (copy_from_user(reset, buf, count))
-+		return -EFAULT;
-+	if (!memcmp(reset, "fatal", 5))
-+		nvmet_ctrl_fatal_error(ctrl);
++	if (sq->sqhd_disabled)
++		seq_puts(m, "disabled\n");
 +	else
-+		return -EINVAL;
-+	return count;
++		seq_printf(m, "%u\n", sqhd & 0x0000FFFF);
++	return 0;
 +}
-+NVMET_DEBUGFS_RW_ATTR(nvmet_ctrl_state);
++NVMET_DEBUGFS_ATTR(nvmet_queue_sqhead);
 +
-+int nvmet_debugfs_ctrl_setup(struct nvmet_ctrl *ctrl)
++static int nvmet_queue_peer_traddr_show(struct seq_file *m, void *p)
++{
++	struct nvmet_sq *sq = (struct nvmet_sq *)m->private;
++	ssize_t size;
++	char buf[NVMF_TRADDR_SIZE + 1];
++
++	size = nvmet_sq_peeraddr(sq->ctrl, sq, buf, NVMF_TRADDR_SIZE);
++	if (size < 0) {
++		buf[0] = '\0';
++		size = 0;
++	}
++	buf[size] = '\0';
++	seq_printf(m, "%s\n", buf);
++	return 0;
++}
++NVMET_DEBUGFS_ATTR(nvmet_queue_peer_traddr);
++
++int nvmet_debugfs_queue_setup(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq)
 +{
 +	char name[32];
-+	struct dentry *parent = ctrl->subsys->debugfs_dir;
-+	int ret;
++	struct dentry *parent = ctrl->debugfs_dir, *queue_dir;
 +
 +	if (!parent)
 +		return -ENODEV;
-+	snprintf(name, sizeof(name), "ctrl%d", ctrl->cntlid);
-+	ctrl->debugfs_dir = debugfs_create_dir(name, parent);
-+	if (IS_ERR(ctrl->debugfs_dir)) {
-+		ret = PTR_ERR(ctrl->debugfs_dir);
-+		ctrl->debugfs_dir = NULL;
-+		return ret;
-+	}
-+	debugfs_create_file("port", S_IRUSR, ctrl->debugfs_dir, ctrl,
-+			    &nvmet_ctrl_port_fops);
-+	debugfs_create_file("hostnqn", S_IRUSR, ctrl->debugfs_dir, ctrl,
-+			    &nvmet_ctrl_hostnqn_fops);
-+	debugfs_create_file("kato", S_IRUSR, ctrl->debugfs_dir, ctrl,
-+			    &nvmet_ctrl_kato_fops);
-+	debugfs_create_file("state", S_IRUSR | S_IWUSR, ctrl->debugfs_dir, ctrl,
-+			    &nvmet_ctrl_state_fops);
++	if (!sq)
++		return -EINVAL;
++	snprintf(name, sizeof(name), "queue%d", sq->qid);
++	queue_dir = debugfs_create_dir(name, parent);
++	if (IS_ERR(queue_dir))
++		return PTR_ERR(queue_dir);
++	sq->debugfs_dir = queue_dir;
++	debugfs_create_file("host_traddr", S_IRUSR, queue_dir,
++			    sq, &nvmet_queue_peer_traddr_fops);
++	debugfs_create_file("sqsize", S_IRUSR, queue_dir,
++			    sq, &nvmet_queue_sqsize_fops);
++	debugfs_create_file("sqhead", S_IRUSR, queue_dir,
++			    sq, &nvmet_queue_sqhead_fops);
 +	return 0;
 +}
 +
-+void nvmet_debugfs_ctrl_free(struct nvmet_ctrl *ctrl)
++void nvmet_debugfs_queue_free(struct nvmet_sq *sq)
 +{
-+	debugfs_remove_recursive(ctrl->debugfs_dir);
++	debugfs_remove_recursive(sq->debugfs_dir);
++	sq->debugfs_dir = NULL;
 +}
 +
-+int nvmet_debugfs_subsys_setup(struct nvmet_subsys *subsys)
-+{
-+	int ret = 0;
-+
-+	subsys->debugfs_dir = debugfs_create_dir(subsys->subsysnqn,
-+						 nvmet_debugfs);
-+	if (IS_ERR(subsys->debugfs_dir)) {
-+		ret = PTR_ERR(subsys->debugfs_dir);
-+		subsys->debugfs_dir = NULL;
-+	}
-+	return ret;
-+}
-+
-+void nvmet_debugfs_subsys_free(struct nvmet_subsys *subsys)
-+{
-+	debugfs_remove_recursive(subsys->debugfs_dir);
-+}
-+
-+int __init nvmet_init_debugfs(void)
-+{
-+	struct dentry *parent;
-+
-+	parent = debugfs_create_dir("nvmet", NULL);
-+	if (IS_ERR(parent)) {
-+		pr_warn("%s: failed to create debugfs directory\n", "nvmet");
-+		return PTR_ERR(parent);
-+	}
-+	nvmet_debugfs = parent;
-+	return 0;
-+}
-+
-+void nvmet_exit_debugfs(void)
-+{
-+	debugfs_remove_recursive(nvmet_debugfs);
-+}
+ static int nvmet_ctrl_hostnqn_show(struct seq_file *m, void *p)
+ {
+ 	struct nvmet_ctrl *ctrl = (struct nvmet_ctrl *)m->private;
 diff --git a/drivers/nvme/target/debugfs.h b/drivers/nvme/target/debugfs.h
-new file mode 100644
-index 000000000000..a2c6a949ff0f
---- /dev/null
+index a2c6a949ff0f..5192f8012b79 100644
+--- a/drivers/nvme/target/debugfs.h
 +++ b/drivers/nvme/target/debugfs.h
-@@ -0,0 +1,48 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * DebugFS interface for the NVMe target.
-+ * Copyright (c) 2022-2024 Shadow
-+ * Copyright (c) 2024 SUSE LLC
-+ */
-+#ifndef NVMET_DEBUGFS_H
-+#define NVMET_DEBUGFS_H
-+
-+#include <linux/types.h>
-+
-+#ifdef CONFIG_NVME_TARGET_DEBUGFS
-+int nvmet_debugfs_subsys_setup(struct nvmet_subsys *subsys);
-+void nvmet_debugfs_subsys_free(struct nvmet_subsys *subsys);
-+int nvmet_debugfs_ctrl_setup(struct nvmet_ctrl *ctrl);
-+void nvmet_debugfs_ctrl_free(struct nvmet_ctrl *ctrl);
-+
-+int __init nvmet_init_debugfs(void);
-+void nvmet_exit_debugfs(void);
-+#else
-+static inline int nvmet_debugfs_subsys_setup(struct nvmet_subsys *subsys)
-+{
-+	return 0;
-+}
-+static inline void nvmet_debugfs_subsys_free(struct nvmet_subsys *subsys){}
-+
-+static inline int nvmet_debugfs_ctrl_setup(struct nvmet_ctrl *ctrl)
-+{
-+	return 0;
-+}
-+static inline void nvmet_debugfs_ctrl_free(struct nvmet_ctrl *ctrl) {}
-+
-+static inline int nvmet_debugfs_sq_setup(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq)
-+{
-+	return 0;
-+}
-+static inline void nvmet_debugfs_sq_free(struct nvmet_sq *sq) {}
-+
-+static inline int __init nvmet_init_debugfs(void)
-+{
-+    return 0;
-+}
-+
-+static inline void nvmet_exit_debugfs(void) {}
-+
-+#endif
-+
-+#endif // NVMET_DEBUGFS_H
+@@ -14,6 +14,8 @@ int nvmet_debugfs_subsys_setup(struct nvmet_subsys *subsys);
+ void nvmet_debugfs_subsys_free(struct nvmet_subsys *subsys);
+ int nvmet_debugfs_ctrl_setup(struct nvmet_ctrl *ctrl);
+ void nvmet_debugfs_ctrl_free(struct nvmet_ctrl *ctrl);
++int nvmet_debugfs_queue_setup(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq);
++void nvmet_debugfs_queue_free(struct nvmet_sq *sq);
+ 
+ int __init nvmet_init_debugfs(void);
+ void nvmet_exit_debugfs(void);
 diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 765da2b932c5..f0371163cb26 100644
+index f0371163cb26..fae6493fd87a 100644
 --- a/drivers/nvme/target/nvmet.h
 +++ b/drivers/nvme/target/nvmet.h
-@@ -233,7 +233,9 @@ struct nvmet_ctrl {
- 
- 	struct device		*p2p_client;
- 	struct radix_tree_root	p2p_ns_map;
--
+@@ -109,6 +109,9 @@ struct nvmet_sq {
+ 	u16			size;
+ 	u32			sqhd;
+ 	bool			sqhd_disabled;
 +#ifdef CONFIG_NVME_TARGET_DEBUGFS
 +	struct dentry		*debugfs_dir;
 +#endif
- 	spinlock_t		error_lock;
- 	u64			err_counter;
- 	struct nvme_error_slot	slots[NVMET_ERROR_LOG_SLOTS];
-@@ -269,7 +271,9 @@ struct nvmet_subsys {
+ #ifdef CONFIG_NVME_TARGET_AUTH
+ 	bool			authenticated;
+ 	struct delayed_work	auth_expired_work;
+@@ -365,6 +368,8 @@ struct nvmet_fabrics_ops {
+ 	void (*discovery_chg)(struct nvmet_port *port);
+ 	u8 (*get_mdts)(const struct nvmet_ctrl *ctrl);
+ 	u16 (*get_max_queue_size)(const struct nvmet_ctrl *ctrl);
++	ssize_t (*queue_peertraddr)(struct nvmet_ctrl *ctrl,
++			struct nvmet_sq *sq, char *traddr, size_t traddr_len);
+ };
  
- 	struct list_head	hosts;
- 	bool			allow_any_host;
--
-+#ifdef CONFIG_NVME_TARGET_DEBUGFS
-+	struct dentry		*debugfs_dir;
-+#endif
- 	u16			max_qid;
+ #define NVMET_MAX_INLINE_BIOVEC	8
+@@ -498,6 +503,8 @@ void nvmet_sq_setup(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq, u16 qid,
+ 		u16 size);
+ void nvmet_sq_destroy(struct nvmet_sq *sq);
+ int nvmet_sq_init(struct nvmet_sq *sq);
++ssize_t nvmet_sq_peeraddr(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq,
++		char *traddr, size_t traddr_len);
  
- 	u64			ver;
+ void nvmet_ctrl_fatal_error(struct nvmet_ctrl *ctrl);
+ 
 -- 
 2.35.3
 
